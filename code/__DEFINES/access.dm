@@ -70,6 +70,8 @@
 #define ACCESS_FL 73 //NSV13 - FL tagged decorated fighter
 #define ACCESS_MINING_ENGINEERING 74
 #define ACCESS_MINING_BRIDGE 75
+#define ACCESS_ENTER_GENPOP 76 //NSV13 - Access to enter genpop
+#define ACCESS_LEAVE_GENPOP 77 //NSV13 - Access to leave genpop
 
 	//BEGIN CENTCOM ACCESS
 	/*Should leave plenty of room if we need to add more access levels.
