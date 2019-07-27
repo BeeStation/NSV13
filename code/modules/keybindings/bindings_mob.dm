@@ -3,7 +3,10 @@
 // Or we can have NPC's send actual keypresses and detect that by seeing no client
 
 /mob/key_down(_key, client/user)
-	switch(_key)
+	if(overmap_ship)//Sephora start - Overmap hotkeys
+		if(overmap_ship.handle_hotkeys(_key))
+			return //Early return. Intercepts a keypress for overmap hotkeys
+	switch(_key) //Sephora end
 		if("Delete", "H")
 			if(!pulling)
 				to_chat(src, "<span class='warning'>You are not pulling anything!</span>")
