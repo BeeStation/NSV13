@@ -29,7 +29,7 @@
 		if(pipe)
 			var/obj/structure/disposalholder/destination = new(pipe) //For future reference, the disposal holder is the thing that carries mobs
 			destination.init(pipe) //This instantiates it
-			destination.merge(H)/ //This takes the contents of H (Our disposal holder that's travelling into us)
+			destination.merge(H) //This takes the contents of H (Our disposal holder that's travelling into us)
 			destination.active = TRUE //Active allows it to process and move
 			destination.setDir(DOWN) //This tells the trunk above us NOT to loop it back down to us, or else you get an infinite loop
 			destination.move()
