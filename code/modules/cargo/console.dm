@@ -6,8 +6,8 @@
 	var/requestonly = FALSE
 	var/contraband = FALSE
 	var/safety_warning = "For safety reasons, the automated supply shuttle \
-		cannot transport live organisms, human remains, classified nuclear weaponry \
-		or homing beacons."
+		cannot transport live organisms, human remains, classified nuclear weaponry, \
+		homing beacons or machinery housing any form of artificial intelligence."
 	var/blockade_warning = "Bluespace instability detected. Shuttle movement impossible."
 
 	light_color = "#E2853D"//orange
@@ -87,7 +87,9 @@
 			"name" = P.name,
 			"cost" = P.cost,
 			"id" = pack,
-			"desc" = P.desc || P.name // If there is a description, use it. Otherwise use the pack's name.
+			"desc" = P.desc || P.name, // If there is a description, use it. Otherwise use the pack's name.
+			"small_item" = P.small_item,
+			"access" = P.access
 		))
 
 	data["cart"] = list()

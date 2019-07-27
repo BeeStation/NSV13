@@ -272,7 +272,7 @@
 /mob/proc/canUnEquip(obj/item/I, force)
 	if(!I)
 		return TRUE
-	if(I.has_trait(TRAIT_NODROP) && !force)
+	if(HAS_TRAIT(I, TRAIT_NODROP) && !force)
 		return FALSE
 	return TRUE
 
@@ -289,10 +289,17 @@
 
 //The following functions are the same save for one small difference
 
-//for when you want the item to end up on the ground
-//will force move the item to the ground and call the turf's Entered
+/**
+  * Used to drop an item (if it exists) to the ground.
+  * * Will pass as TRUE is successfully dropped, or if there is no item to drop.
+  * * Will pass FALSE if the item can not be dropped due to TRAIT_NODROP via doUnEquip()
+  * If the item can be dropped, it will be forceMove()'d to the ground and the turf's Entered() will be called.
+*/
 /mob/proc/dropItemToGround(obj/item/I, force = FALSE)
-	return doUnEquip(I, force, drop_location(), FALSE)
+	. = doUnEquip(I, force, drop_location(), FALSE)
+	if(. && I) //ensure the item exists and that it was dropped properly.
+		I.pixel_x = rand(-6,6)
+		I.pixel_y = rand(-6,6)
 
 //for when the item will be immediately placed in a loc other than the ground
 /mob/proc/transferItemToLoc(obj/item/I, newloc = null, force = FALSE)
@@ -312,7 +319,7 @@
 	if(!I) //If there's nothing to drop, the drop is automatically succesfull. If(unEquip) should generally be used to check for TRAIT_NODROP.
 		return TRUE
 
-	if(I.has_trait(TRAIT_NODROP) && !force)
+	if(HAS_TRAIT(I, TRAIT_NODROP) && !force)
 		return FALSE
 
 	var/hand_index = get_held_index_of_item(I)

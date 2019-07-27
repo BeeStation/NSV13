@@ -8,6 +8,17 @@
 	armor = list("melee" = 10, "bullet" = 0, "laser" = 0,"energy" = 0, "bomb" = 0, "bio" = 0, "rad" = 0, "fire" = 50, "acid" = 40)
 	alt_covers_chest = TRUE
 
+/obj/item/clothing/under/syndicate/skirt
+	name = "tactical skirtleneck"
+	desc = "A non-descript and slightly suspicious looking skirtleneck."
+	icon_state = "syndicate_skirt"
+	item_state = "bl_suit"
+	item_color = "syndicate_skirt"
+	has_sensor = NO_SENSORS
+	armor = list("melee" = 10, "bullet" = 0, "laser" = 0,"energy" = 0, "bomb" = 0, "bio" = 0, "rad" = 0, "fire" = 50, "acid" = 40)
+	alt_covers_chest = TRUE
+	fitted = FEMALE_UNIFORM_TOP
+
 /obj/item/clothing/under/syndicate/tacticool
 	name = "tacticool turtleneck"
 	desc = "Just looking at it makes you want to buy an SKS, go into the woods, and -operate-."
@@ -15,6 +26,15 @@
 	item_state = "bl_suit"
 	item_color = "tactifool"
 	armor = list("melee" = 0, "bullet" = 0, "laser" = 0,"energy" = 0, "bomb" = 0, "bio" = 0, "rad" = 0, "fire" = 50, "acid" = 40)
+
+/obj/item/clothing/under/syndicate/tacticool/skirt
+	name = "tacticool skirtleneck"
+	desc = "Just looking at it makes you want to buy an SKS, go into the woods, and -operate-."
+	icon_state = "tactifool_skirt"
+	item_state = "bl_suit"
+	item_color = "tactifool_skirt"
+	armor = list("melee" = 0, "bullet" = 0, "laser" = 0,"energy" = 0, "bomb" = 0, "bio" = 0, "rad" = 0, "fire" = 50, "acid" = 40)
+	fitted = FEMALE_UNIFORM_TOP
 
 /obj/item/clothing/under/syndicate/sniper
 	name = "Tactical turtleneck suit"
@@ -47,3 +67,12 @@
 	icon_state = "syndicate_combat"
 	item_color = "syndicate_combat"
 	can_adjust = FALSE
+
+/obj/item/clothing/under/syndicate/rus_army
+	name = "advanced military tracksuit"
+	desc = "Military grade tracksuits for frontline squatting."
+	icon_state = "rus_under"
+	item_color = "rus_under"
+	can_adjust = FALSE
+	armor = list("melee" = 5, "bullet" = 0, "laser" = 0,"energy" = 0, "bomb" = 0, "bio" = 0, "rad" = 0, "fire" = 0, "acid" = 0)
+	resistance_flags = NONE
