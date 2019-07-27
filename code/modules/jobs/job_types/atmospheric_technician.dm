@@ -28,6 +28,9 @@
 	l_pocket = /obj/item/pda/atmos
 	ears = /obj/item/radio/headset/headset_eng
 	uniform = /obj/item/clothing/under/rank/atmospheric_technician
+	shoes = /obj/item/clothing/shoes/workboots
+	suit = /obj/item/clothing/suit/ship/engineer
+	head = /obj/item/clothing/head/beret/ship/engineer
 	r_pocket = /obj/item/analyzer
 
 	backpack = /obj/item/storage/backpack/industrial
