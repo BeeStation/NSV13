@@ -1,0 +1,1 @@
+/datum/config_entry/flag/widescreen
