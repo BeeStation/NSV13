@@ -1,6 +1,6 @@
 /obj/machinery/power/deck_relay //This bridges powernets
 	name = "Multi-deck power adapter"
-	desc = "This impressive machine uses plasma based power transmission technology to supply power to alternate decks. It requires a steady power source. Click it with a multitool to see its stats and reacquire connections."
+	desc = "A huge bundle of double insulated cabling which seems to run up into the ceiling."
 	icon = 'sephora/icons/obj/power.dmi'
 	icon_state = "cablerelay-off"
 	var/obj/machinery/power/deck_relay/below
