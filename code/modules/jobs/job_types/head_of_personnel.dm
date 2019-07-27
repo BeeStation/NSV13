@@ -1,5 +1,5 @@
 /datum/job/hop
-	title = "Head of Personnel"
+	title = "Executive Officer"
 	flag = HOP
 	auto_deadmin_role_flags = DEADMIN_POSITION_HEAD
 	department_head = list("Captain")
@@ -38,22 +38,17 @@
 	display_order = JOB_DISPLAY_ORDER_HEAD_OF_PERSONNEL
 
 /datum/outfit/job/hop
-	name = "Head of Personnel"
+	name = "Executive Officer"
 	jobtype = /datum/job/hop
 
 	id = /obj/item/card/id/silver
 	belt = /obj/item/pda/heads/hop
 	ears = /obj/item/radio/headset/heads/hop
-	uniform = /obj/item/clothing/under/rank/head_of_personnel
-	shoes = /obj/item/clothing/shoes/sneakers/brown
-	head = /obj/item/clothing/head/hopcap
+	uniform = /obj/item/clothing/under/ship/officer
+	shoes = /obj/item/clothing/shoes/jackboots
+	suit = /obj/item/clothing/suit/ship/officer
+	head = /obj/item/clothing/head/beret/ship/xo
 	backpack_contents = list(/obj/item/storage/box/ids=1,\
 		/obj/item/melee/classic_baton/telescopic=1, /obj/item/modular_computer/tablet/preset/advanced = 1)
 
 	chameleon_extras = list(/obj/item/gun/energy/e_gun, /obj/item/stamp/hop)
-
-/datum/outfit/job/hop/pre_equip(mob/living/carbon/human/H)
-	..()
-	if(locate(/datum/holiday/ianbirthday) in SSevents.holidays)
-		undershirt = /datum/sprite_accessory/undershirt/ian
-

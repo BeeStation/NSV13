@@ -29,9 +29,10 @@
 	belt = /obj/item/storage/belt/utility/full/engi
 	l_pocket = /obj/item/pda/engineering
 	ears = /obj/item/radio/headset/headset_eng
-	uniform = /obj/item/clothing/under/rank/engineer
+	uniform = /obj/item/clothing/under/ship/engineer
 	shoes = /obj/item/clothing/shoes/workboots
-	head = /obj/item/clothing/head/hardhat
+	suit = /obj/item/clothing/suit/ship/engineer
+	head = /obj/item/clothing/head/beret/ship/engineer
 	r_pocket = /obj/item/t_scanner
 
 	backpack = /obj/item/storage/backpack/industrial

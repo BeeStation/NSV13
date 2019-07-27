@@ -42,10 +42,10 @@
 	glasses = /obj/item/clothing/glasses/sunglasses
 	ears = /obj/item/radio/headset/heads/captain/alt
 	gloves = /obj/item/clothing/gloves/color/captain
-	uniform =  /obj/item/clothing/under/rank/captain
-	suit = /obj/item/clothing/suit/armor/vest/capcarapace
-	shoes = /obj/item/clothing/shoes/sneakers/brown
-	head = /obj/item/clothing/head/caphat
+	uniform = /obj/item/clothing/under/ship/officer
+	shoes = /obj/item/clothing/shoes/jackboots
+	suit = /obj/item/clothing/suit/ship/officer
+	head = /obj/item/clothing/head/beret/ship/captain
 	backpack_contents = list(/obj/item/melee/classic_baton/telescopic=1, /obj/item/station_charter=1)
 
 	backpack = /obj/item/storage/backpack/captain

@@ -869,6 +869,6 @@
 	if(user && user.client)
 		user.regenerate_icons()
 		var/client/C = user.client
-		C.change_view(CONFIG_GET(string/default_view))
+		C.check_view()
 		user.client.pixel_x = 0
 		user.client.pixel_y = 0
