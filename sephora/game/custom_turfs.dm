@@ -21,7 +21,17 @@
 	desc = "A padded piece of hull plating which can make a space based installation feel more homely."
 	icon = 'sephora/icons/turf/dark_carpet.dmi'
 	icon_state = "dark_carpet"
+	floor_tile = /obj/item/stack/tile/carpet/ship
 	canSmoothWith = list(/turf/open/floor/carpet/ship)
+
+/obj/item/stack/tile/carpet/ship
+	name = "nanoweave carpet tile"
+	singular_name = "nanoweave carpet tile"
+	desc = "A regular nanoweave carpet tile"
+	icon = 'sephora/icons/turf/dark_carpet.dmi'
+	icon_state = "dark_carpet_tile"
+	resistance_flags = FLAMMABLE
+	turf_type = /turf/open/floor/carpet/ship
 
 /obj/structure/window/reinforced/fulltile/ship
 	name = "Nanocarbon reinforced window"
@@ -43,19 +53,63 @@
 	name = "durasteel hull plating"
 	icon = 'sephora/icons/turf/floors.dmi'
 	icon_state = "durasteel"
+	floor_tile = /obj/item/stack/tile/plasteel/ship
+
+/obj/item/stack/tile/plasteel/ship
+	name = "durasteel hull plating tile"
+	singular_name = "durasteel hull plating tile"
+	desc = "A regular durasteel hull plating tile"
+	icon = 'sephora/icons/turf/floors.dmi'
+	icon_state = "durasteel_tile"
+	turf_type = /turf/open/floor/plasteel/ship
 
 /turf/open/floor/plasteel/ship/riveted
 	name = "riveted steel hull plating"
 	icon_state = "riveted"
+	floor_tile = /obj/item/stack/tile/plasteel/ship/riveted
+
+/obj/item/stack/tile/plasteel/ship/riveted
+	name = "riiveted steel hull plating tile"
+	singular_name = "riveted steel hull plating tile"
+	desc = "A regular riveted steel hull plating tile"
+	icon_state = "riveted_tile"
+	turf_type = /turf/open/floor/plasteel/ship/riveted
 
 /turf/open/floor/plasteel/ship/padded
 	name = "padded steel hull plating"
 	icon_state = "padded"
+	floor_tile = /obj/item/stack/tile/plasteel/padded
+
+/obj/item/stack/tile/plasteel/padded
+	name = "padded steel hull plating tile"
+	singular_name = "padded steel hull plating tile"
+	desc = "A regular padded steel hull plating tile"
+	icon = 'sephora/icons/turf/floors.dmi'
+	icon_state = "padded_tile"
+	turf_type = /turf/open/floor/plasteel/ship/padded
 
 /turf/open/floor/plasteel/ship/techfloor //Ported from eris
 	name = "embossed hull plating"
 	icon_state = "eris_techfloor"
+	floor_tile = /obj/item/stack/tile/plasteel/ship/techfloor
+
+/obj/item/stack/tile/plasteel/ship/techfloor
+	name = "embossed hull plating tile"
+	singular_name = "embossed hull plating tile"
+	desc = "A regular embossed hull plating tile"
+	icon = 'sephora/icons/turf/floors.dmi'
+	icon_state = "eris_techfloor_tile"
+	turf_type = /turf/open/floor/plasteel/ship/techfloor
 
 /turf/open/floor/plasteel/ship/techfloor/alt
 	name = "embossed hull plating"
 	icon_state = "eris_techfloor_alt"
+	floor_tile = /obj/item/stack/tile/plasteel/ship/techfloor/alt
+
+/obj/item/stack/tile/plasteel/ship/techfloor/alt
+	name = "embossed hull plating tile"
+	singular_name = "embossed hull plating tile"
+	desc = "A regular embossed hull plating tile"
+	icon = 'sephora/icons/turf/floors.dmi'
+	icon_state = "eris_techfloor_alt_tile"
+	turf_type = /turf/open/floor/plasteel/ship/techfloor/alt
