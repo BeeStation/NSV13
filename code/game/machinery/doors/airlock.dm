@@ -1192,7 +1192,7 @@
 	if(airlock_material == "glass")
 		optionlist = list("Standard", "Public", "Engineering", "Atmospherics", "Security", "Command", "Medical", "Research", "Science", "Virology", "Mining", "Maintenance", "External", "External Maintenance")
 	else
-		optionlist = list("Standard", "Public", "Engineering", "Atmospherics", "Security", "Command", "Medical", "Research", "Freezer", "Science", "Virology", "Mining", "Maintenance", "External", "External Maintenance")
+		optionlist = list("Standard", "Public", "Engineering", "Atmospherics", "Security", "Command", "Medical", "Research", "Freezer", "Science", "Virology", "Mining", "Maintenance", "External", "External Maintenance", "Ship")
 
 	var/paintjob = input(user, "Please select a paintjob for this airlock.") in optionlist
 	if((!in_range(src, usr) && loc != usr) || !W.use_paint(user))
@@ -1258,6 +1258,10 @@
 			icon = 'icons/obj/doors/airlocks/station/maintenanceexternal.dmi'
 			overlays_file = 'icons/obj/doors/airlocks/station/overlays.dmi'
 			assemblytype = /obj/structure/door_assembly/door_assembly_extmai
+		if("Ship")
+			icon = 'sephora/icons/obj/machinery/doors/standard.dmi'
+			overlays_file = null
+			assemblytype = /obj/machinery/door/airlock/ship
 	update_icon()
 
 /obj/machinery/door/airlock/CanAStarPass(obj/item/card/id/ID)
