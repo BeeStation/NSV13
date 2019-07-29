@@ -5,6 +5,46 @@
 	legacy_smooth = TRUE //Override /tg/ iconsmooths
 	smooth = TRUE
 	canSmoothWith = list(/turf/closed/wall/ship,/obj/machinery/door,/obj/structure/window,/turf/closed/wall/r_wall/ship)
+	sheet_type = /obj/item/stack/sheet/duranium
+
+/obj/structure/girder/attackby(obj/item/W, mob/user, params) //Time to add support for our walls..
+	var/obj/item/stack/sheet/S = W
+	if(istype(W, /obj/item/stack/sheet/duranium))
+		if(S.get_amount() < 2)
+			to_chat(user, "<span class='warning'>You need two sheets of [W] to finish a wall!</span>")
+			return
+		if(!S.turf_type)
+			to_chat(user, "<span class='warning'>You can't build anything with [W].</span>")
+			return
+		if (do_after(user, 40, target = src))
+			if(S.get_amount() < 2)
+				return
+			S.use(2)
+			to_chat(user, "<span class='notice'>You add the hull plating.</span>")
+			var/turf/T = get_turf(src)
+			T.PlaceOnTop(S.turf_type)
+			transfer_fingerprints_to(T)
+			qdel(src)
+			return
+	. = ..()
+	if(istype(W, /obj/item/stack/sheet/durasteel))
+		if(S.get_amount() < 2)
+			to_chat(user, "<span class='warning'>You need two sheets of [W] to finish a wall!</span>")
+			return
+		if(!S.turf_type)
+			to_chat(user, "<span class='warning'>You can't build anything with [W].</span>")
+			return
+		if (do_after(user, 40, target = src))
+			if(S.get_amount() < 2)
+				return
+			S.use(2)
+			to_chat(user, "<span class='notice'>You add the hull plating.</span>")
+			var/turf/T = get_turf(src)
+			T.PlaceOnTop(S.turf_type)
+			transfer_fingerprints_to(T)
+			qdel(src)
+			return
+	. = ..()
 
 /obj/machinery/door/airlock/ship
 	name = "Airtight hatch"
