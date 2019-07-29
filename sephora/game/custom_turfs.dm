@@ -78,6 +78,7 @@
 	desc = "A heavyset window reinforced with tiny carbon structures which is designed to take a beating."
 	icon = 'sephora/icons/obj/structures/windows.dmi'
 	icon_state = "rwindow"
+	glass_type = /obj/item/stack/sheet/nanocarbon_glass
 	legacy_smooth = TRUE //Override /tg/ iconsmooths
 	smooth = TRUE
 	canSmoothWith = list(/obj/structure/window/reinforced/fulltile/ship,/turf/closed/wall/ship,/turf/closed/wall/r_wall/ship)
