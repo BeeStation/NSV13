@@ -37,6 +37,13 @@
 	item_state = "bl_suit"
 	can_adjust = TRUE
 
+/obj/item/clothing/under/ship/medical
+	name = "Doctor's jumpsuit"
+	desc = "A durable jumpsuit made of hydrophobic materials which should help keep the blood off."
+	icon_state = "medical"
+	item_color = "medical"
+	item_state = "bl_suit"
+
 /obj/item/clothing/suit/ship
 	name = "Placeholder"
 	icon = 'sephora/icons/obj/clothing/suits.dmi' //Placeholder subtype for our own iconsets
