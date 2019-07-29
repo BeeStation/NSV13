@@ -1258,7 +1258,7 @@
 			icon = 'icons/obj/doors/airlocks/station/maintenanceexternal.dmi'
 			overlays_file = 'icons/obj/doors/airlocks/station/overlays.dmi'
 			assemblytype = /obj/structure/door_assembly/door_assembly_extmai
-		if("Ship")
+		if("Ship") //Sephora Ship Stuff
 			icon = 'sephora/icons/obj/machinery/doors/standard.dmi'
 			overlays_file = null
 			assemblytype = /obj/machinery/door/airlock/ship
