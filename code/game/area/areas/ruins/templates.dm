@@ -10,3 +10,9 @@
 /area/ruin/powered/shuttle/medium_3
 
 /area/ruin/powered/shuttle/medium_4
+
+/area/ruin/powered/NSV13/prisonship
+
+/area/ruin/powered/NSV13/trooptransport
+
+/area/ruin/powered/NSV13/gunship
