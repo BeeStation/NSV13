@@ -6,16 +6,6 @@
 	smooth = TRUE
 	canSmoothWith = list(/turf/closed/wall/ship,/obj/machinery/door,/obj/structure/window,/turf/closed/wall/r_wall/ship)
 
-/obj/machinery/door/airlock/ship
-	name = "Airtight hatch"
-	icon = 'sephora/icons/obj/machinery/doors/standard.dmi'
-	desc = "A durasteel bulkhead which opens and closes. Hope you're good at hatch hopping"
-	icon_state = "closed"
-	overlays_file = null
-//	doorOpen = 'DS13/sound/effects/tng_airlock.ogg'
-//	doorClose = 'DS13/sound/effects/tng_airlock.ogg'
-//	doorDeni = 'DS13/sound/effects/denybeep.ogg'
-
 /turf/open/floor/carpet/ship
 	name = "nanoweave carpet"
 	desc = "A padded piece of hull plating which can make a space based installation feel more homely."
