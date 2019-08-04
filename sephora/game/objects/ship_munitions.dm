@@ -13,6 +13,11 @@
 	desc = "Test trolley for moving test munitions"
 	anchored = FALSE
 	density = TRUE
+	var/capacity = 0
+	//pull_force something something 1000 default - set to something else when loaded ie capacity >0
+	//gotta increment capacity when a munition is loaded
+	//need to actually load and unload that munition
+	//also extend examine for when theres munition(s) on the trolley
 
 /obj/structure/munitions_trolley/Moved()
 	. = ..()
@@ -34,18 +39,21 @@
 	if(anchored)
 		. += "<span class='notice'>[src]'s brakes are enabled!</span>"
 
-/obj/structure/munitions_trolley/proc/load_trolley(atom/A, atom/user)
+/obj/structure/munitions_trolley/proc/load_trolley(atom/A, mob/user)
 	if(!user.transferItemToLoc(A, src))
+
 		return
 	to_chat(user, "<span class='notice'>You load [A] onto [src].</span>")
 	return
 
-/obj/structure/munitions_trolley/MouseDrop_T(atom/A, atom/user)
-	if(!istype(A, /obj/structure/munition))
-		return
-	else
-		load_trolley(A, atom/user)
+/obj/structure/munitions_trolley/MouseDrop_T(obj/structure/A, mob/user)
+	if(istype(A, /obj/structure/munition) && capacity < 1)
+		load_trolley(A, src)
 		update_icon()
+	else if(istype(A, /obj/structure/munition))
+		to_chat(user, "<span class='warning'>[src] is fully loaded!</span>")
+	else
+		return
 
 /obj/structure/munitions_trolley/update_icon()
 	cut_overlays()
