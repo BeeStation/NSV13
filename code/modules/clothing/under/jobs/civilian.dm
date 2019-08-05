@@ -184,16 +184,16 @@
 	AddComponent(/datum/component/squeak, list('sound/items/bikehorn.ogg'=1), 50)
 
 /obj/item/clothing/under/rank/head_of_personnel
-	desc = "It's a jumpsuit worn by someone who works in the position of \"Head of Personnel\"."
-	name = "head of personnel's jumpsuit"
+	desc = "It's a jumpsuit worn by someone who works in the position of \"Executive Officer\"."
+	name = "Executive Officer's jumpsuit"
 	icon_state = "hop"
 	item_state = "b_suit"
 	item_color = "hop"
 	can_adjust = FALSE
 
 /obj/item/clothing/under/rank/head_of_personnel/skirt
-	name = "head of personnel's jumpskirt"
-	desc = "It's a jumpskirt worn by someone who works in the position of \"Head of Personnel\"."
+	name = "Executive Officer's jumpskirt"
+	desc = "It's a jumpskirt worn by someone who works in the position of \"Executive Officer\"."
 	icon_state = "hop_skirt"
 	item_state = "b_suit"
 	item_color = "hop_skirt"

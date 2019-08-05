@@ -1,12 +1,12 @@
 /datum/job/janitor
 	title = "Janitor"
 	flag = JANITOR
-	department_head = list("Head of Personnel")
+	department_head = list("Executive Officer")
 	department_flag = CIVILIAN
 	faction = "Station"
 	total_positions = 2
 	spawn_positions = 1
-	supervisors = "the head of personnel"
+	supervisors = "the Executive Officer"
 	selection_color = "#bbe291"
 	var/global/janitors = 0
 
