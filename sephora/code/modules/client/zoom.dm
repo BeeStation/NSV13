@@ -16,7 +16,7 @@
 			if(current_view_size >= 40) //Any further than this, and byond start to lag.
 				current_view_size = 40
 	if(current_view_size > 15) //Bigger than default
-		if(prefs.toggles & WIDESCREEN && CONFIG_GET(flag/widescreen))
+		if(prefs.toggles & WIDESCREEN_TOGGLE_PREF && CONFIG_GET(flag/widescreen))
 			change_view("[current_view_size+21]x[current_view_size+9]") //Widescreen aspect ratio is 21:9. So we just make every ratio 21:9 so that you dont get C I N E M A T I C black bars whenever you zoom out.
 		else
 			change_view("[current_view_size]x[current_view_size]") //if theyre not a widescreen user, it's a simple case of just zooming them out
