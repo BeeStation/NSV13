@@ -1682,9 +1682,8 @@
 /turf/open/floor/plating,
 /area/engine/atmos)
 "dP" = (
-/obj/structure/lattice/catwalk,
-/turf/open/space/basic,
-/area/space)
+/turf/closed/wall/r_wall/ship,
+/area/space/nearstation)
 "dQ" = (
 /obj/machinery/light{
 	dir = 1
@@ -3161,7 +3160,7 @@
 /area/science)
 "hk" = (
 /turf/open/floor/plating,
-/area/space)
+/area/space/nearstation)
 "hl" = (
 /obj/effect/turf_decal/tile/bar,
 /obj/effect/turf_decal/tile/bar{
@@ -6940,13 +6939,8 @@
 /area/hallway/secondary/command)
 "oH" = (
 /obj/structure/lattice/catwalk,
-/obj/machinery/camera{
-	c_tag = "Medbay Sleepers";
-	dir = 4;
-	network = list("ss13","medbay")
-	},
 /turf/open/space/basic,
-/area/space)
+/area/space/nearstation)
 "oI" = (
 /obj/machinery/camera,
 /turf/open/floor/plasteel/ship/techfloor/alt,
@@ -7213,30 +7207,13 @@
 /turf/closed/wall/r_wall/ship,
 /area/bridge)
 "po" = (
-/turf/closed/wall/r_wall/ship,
-/area/crew_quarters/heads/captain/private{
-	name = "Briefing room"
-	})
+/obj/structure/lattice,
+/turf/open/space/basic,
+/area/space/nearstation)
 "pp" = (
-/obj/machinery/door/airlock/ship/command{
-	dir = 4;
-	name = "Briefing room"
-	},
-/obj/structure/cable,
-/obj/structure/sign/nanotrasen{
-	pixel_y = 26
-	},
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
-	icon_state = "pipe11-1";
-	dir = 4
-	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
-	dir = 4
-	},
-/turf/open/floor/plasteel/ship/padded,
-/area/crew_quarters/heads/captain/private{
-	name = "Briefing room"
-	})
+/obj/machinery/atmospherics/components/unary/vent_pump/high_volume/on/layer1,
+/turf/open/floor/plasteel/ship/techfloor/alt,
+/area/hallway/secondary/command)
 "pq" = (
 /obj/structure/filingcabinet,
 /obj/item/folder/documents,
@@ -7402,18 +7379,13 @@
 	},
 /area/ai_monitored/nuke_storage)
 "pC" = (
-/obj/structure/cable,
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
-	icon_state = "pipe11-1";
-	dir = 4
+/obj/machinery/camera,
+/obj/structure/sign/nanotrasen{
+	pixel_y = 26
 	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
-	dir = 4
-	},
-/turf/open/floor/plasteel/ship/padded,
-/area/crew_quarters/heads/captain/private{
-	name = "Briefing room"
-	})
+/obj/machinery/atmospherics/components/unary/vent_pump/high_volume/on/layer1,
+/turf/open/floor/plasteel/ship/techfloor/alt,
+/area/hallway/secondary/command)
 "pD" = (
 /obj/effect/turf_decal/tile/neutral{
 	dir = 1
@@ -7429,45 +7401,34 @@
 /turf/open/floor/plasteel/dark,
 /area/ai_monitored/security/armory)
 "pE" = (
-/obj/structure/cable,
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
-	icon_state = "pipe11-1";
-	dir = 4
+/obj/structure/lattice/catwalk,
+/obj/machinery/camera{
+	c_tag = "Medbay Sleepers";
+	dir = 4;
+	network = list("ss13","medbay")
 	},
-/turf/open/floor/plasteel/ship/padded,
-/area/crew_quarters/heads/captain/private{
-	name = "Briefing room"
-	})
+/turf/open/space/basic,
+/area/space/nearstation)
 "pF" = (
 /obj/structure/cable,
-/obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1{
-	icon_state = "manifold-1";
-	dir = 1
-	},
-/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden{
-	dir = 1
-	},
 /turf/open/floor/plasteel/ship/padded,
-/area/crew_quarters/heads/captain/private{
-	name = "Briefing room"
-	})
+/area/hallway/secondary/command)
 "pG" = (
 /obj/structure/window/reinforced/fulltile/ship,
 /obj/structure/curtain/obscuring/grey,
 /turf/open/floor/plasteel/dark,
 /area/security/detectives_office)
 "pH" = (
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
-	icon_state = "pipe11-1";
-	dir = 4
+/obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1{
+	icon_state = "manifold-1";
+	dir = 8
 	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
-	dir = 4
+	dir = 6
 	},
+/obj/structure/cable,
 /turf/open/floor/plasteel/ship/padded,
-/area/crew_quarters/heads/captain/private{
-	name = "Briefing room"
-	})
+/area/hallway/secondary/command)
 "pI" = (
 /obj/machinery/light{
 	dir = 8
@@ -7673,60 +7634,50 @@
 /turf/open/floor/plasteel,
 /area/quartermaster/storage)
 "qf" = (
-/obj/machinery/camera{
-	c_tag = "Bridge - Central"
+/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden{
+	dir = 1
 	},
-/obj/machinery/atmospherics/components/binary/dp_vent_pump/on/layer1{
-	icon_state = "dpvent_map_on-1";
-	dir = 4
-	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
-	dir = 4
-	},
+/obj/structure/cable,
+/obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1,
 /turf/open/floor/plasteel/ship/padded,
-/area/crew_quarters/heads/captain/private{
-	name = "Briefing room"
-	})
+/area/hallway/secondary/command)
 "qg" = (
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
-	icon_state = "pipe11-1";
-	dir = 4
+/obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1{
+	icon_state = "manifold-1";
+	dir = 1
 	},
 /obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden{
 	dir = 1
 	},
+/obj/structure/cable,
 /turf/open/floor/plasteel/ship/padded,
-/area/crew_quarters/heads/captain/private{
-	name = "Briefing room"
-	})
+/area/hallway/secondary/command)
 "qh" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	icon_state = "pipe11-1";
-	dir = 10
+	dir = 4
 	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
 	dir = 4
 	},
+/obj/structure/cable,
 /turf/open/floor/plasteel/ship/padded,
-/area/crew_quarters/heads/captain/private{
-	name = "Briefing room"
-	})
+/area/hallway/secondary/command)
 "qi" = (
-/obj/machinery/atmospherics/components/unary/vent_scrubber/on{
-	dir = 8
-	},
-/turf/open/floor/plasteel/ship/padded,
-/area/crew_quarters/heads/captain/private{
-	name = "Briefing room"
-	})
-"qj" = (
-/obj/machinery/atmospherics/components/unary/vent_scrubber/on{
+/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden{
 	dir = 1
 	},
+/obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1,
 /turf/open/floor/plasteel/ship/padded,
-/area/crew_quarters/heads/captain/private{
-	name = "Briefing room"
-	})
+/area/hallway/secondary/command)
+"qj" = (
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	icon_state = "pipe11-1";
+	dir = 6
+	},
+/obj/structure/cable,
+/turf/open/floor/plasteel/ship/padded,
+/area/hallway/secondary/command)
 "qk" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/on{
 	dir = 8
@@ -8060,46 +8011,43 @@
 /turf/open/floor/plasteel/dark,
 /area/crew_quarters/fitness/recreation)
 "qQ" = (
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
 /obj/structure/cable,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
-/turf/open/floor/plasteel/ship/padded,
-/area/crew_quarters/heads/captain/private{
-	name = "Briefing room"
-	})
+/turf/open/floor/plasteel/ship/techfloor/alt,
+/area/hallway/secondary/command)
 "qR" = (
-/obj/machinery/light,
-/obj/structure/cable,
-/turf/open/floor/plasteel/ship/padded,
-/area/crew_quarters/heads/captain/private{
-	name = "Briefing room"
-	})
+/obj/structure/lattice/catwalk,
+/obj/machinery/light{
+	dir = 8
+	},
+/turf/open/space/basic,
+/area/space/nearstation)
 "qS" = (
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /obj/structure/cable,
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
 /turf/open/floor/plasteel/ship/padded,
-/area/crew_quarters/heads/captain/private{
-	name = "Briefing room"
-	})
+/area/hallway/secondary/command)
 "qT" = (
-/obj/machinery/light,
+/obj/machinery/door/airlock/ship{
+	name = "Briefing room"
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
+/obj/structure/cable,
 /turf/open/floor/plasteel/ship/padded,
 /area/crew_quarters/heads/captain/private{
 	name = "Briefing room"
 	})
 "qU" = (
-/obj/machinery/atmospherics/components/unary/vent_scrubber/on,
-/turf/open/floor/plasteel/ship/padded,
+/obj/structure/window/reinforced/fulltile/ship,
+/turf/open/floor/plating,
 /area/crew_quarters/heads/captain/private{
 	name = "Briefing room"
 	})
 "qV" = (
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
-/turf/open/floor/plasteel/ship/padded,
-/area/crew_quarters/heads/captain/private{
-	name = "Briefing room"
-	})
+/turf/closed/wall/ship,
+/area/bridge)
 "qW" = (
 /turf/closed/wall/r_wall/ship,
 /area/crew_quarters/heads/captain)
@@ -8304,13 +8252,16 @@
 /turf/open/floor/plasteel,
 /area/science/robotics)
 "rv" = (
-/obj/structure/window/reinforced/fulltile/ship,
-/obj/machinery/door/poddoor/ship/preopen{
-	id = "bridge_blast";
-	name = "CIC blast doors"
+/obj/structure/cable,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	icon_state = "pipe11-1";
+	dir = 5
 	},
-/turf/open/floor/plasteel/dark,
-/area/bridge)
+/turf/open/floor/plasteel/ship/padded,
+/area/crew_quarters/heads/captain/private{
+	name = "Briefing room"
+	})
 "rw" = (
 /obj/structure/cable,
 /turf/open/floor/plating,
@@ -8424,13 +8375,19 @@
 /turf/open/floor/plasteel,
 /area/quartermaster/warehouse)
 "rM" = (
-/obj/structure/window/reinforced/fulltile/ship,
-/obj/machinery/door/poddoor/ship/preopen{
-	dir = 5;
-	id = "bridge_blast";
-	name = "CIC blast doors"
+/obj/structure/cable,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	icon_state = "pipe11-1";
+	dir = 4
 	},
-/turf/open/floor/plasteel/dark,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
+	dir = 4
+	},
+/obj/machinery/door/airlock/ship/command{
+	dir = 4;
+	name = "Briefing room"
+	},
+/turf/open/floor/plasteel/ship/padded,
 /area/bridge)
 "rN" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
@@ -9678,15 +9635,16 @@
 	name = "Deck 3 Maintenance"
 	})
 "uE" = (
-/obj/machinery/door/airlock/ship/command{
-	dir = 4;
-	name = "Briefing room"
-	},
 /obj/structure/cable,
-/turf/open/floor/plasteel/dark,
-/area/crew_quarters/heads/captain/private{
-	name = "Briefing room"
-	})
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	icon_state = "pipe11-1";
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
+	dir = 4
+	},
+/turf/open/floor/plasteel/ship/padded,
+/area/bridge)
 "uF" = (
 /obj/structure/rack,
 /obj/item/gun/energy/laser{
@@ -9712,20 +9670,16 @@
 /turf/open/floor/plasteel/dark,
 /area/ai_monitored/security/armory)
 "uG" = (
-/obj/effect/turf_decal/tile/blue{
-	dir = 4
-	},
-/obj/effect/turf_decal/tile/blue{
+/obj/structure/cable,
+/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden{
 	dir = 1
 	},
-/obj/effect/turf_decal/tile/blue{
-	dir = 8
+/obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1{
+	icon_state = "manifold-1";
+	dir = 1
 	},
-/obj/structure/cable,
-/turf/open/floor/plasteel/dark,
-/area/crew_quarters/heads/captain/private{
-	name = "Briefing room"
-	})
+/turf/open/floor/plasteel/ship/padded,
+/area/bridge)
 "uH" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
 	dir = 4
@@ -9857,34 +9811,41 @@
 /turf/closed/wall/ship,
 /area/bridge/meeting_room)
 "uU" = (
-/obj/effect/turf_decal/tile/blue{
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
 	dir = 4
 	},
-/obj/effect/turf_decal/tile/blue{
-	dir = 1
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	icon_state = "pipe11-1";
+	dir = 4
 	},
 /obj/structure/cable,
-/turf/open/floor/plasteel/dark,
-/area/crew_quarters/heads/captain/private{
-	name = "Briefing room"
-	})
+/turf/open/floor/plasteel/ship/padded,
+/area/bridge)
 "uV" = (
-/obj/machinery/ticket_machine{
-	pixel_y = 32
-	},
-/obj/effect/turf_decal/loading_area{
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	icon_state = "pipe11-1";
 	dir = 4
 	},
-/turf/open/floor/plasteel,
-/area/crew_quarters/heads/hop{
-	name = "Executive officer's office"
-	})
+/obj/structure/cable,
+/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden{
+	dir = 1
+	},
+/turf/open/floor/plasteel/ship/padded,
+/area/bridge)
 "uW" = (
-/obj/effect/turf_decal/bot,
-/turf/open/floor/plasteel,
-/area/crew_quarters/heads/hop{
-	name = "Executive officer's office"
-	})
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	icon_state = "pipe11-1";
+	dir = 4
+	},
+/obj/structure/cable,
+/obj/machinery/airalarm{
+	pixel_y = 24
+	},
+/turf/open/floor/plasteel/ship/padded,
+/area/bridge)
 "uX" = (
 /obj/machinery/camera,
 /turf/open/floor/plasteel/ship/techfloor/alt,
@@ -10099,12 +10060,16 @@
 /turf/open/floor/plating,
 /area/engine/atmos)
 "vr" = (
-/obj/machinery/camera,
-/obj/structure/sign/nanotrasen{
-	pixel_y = 26
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
+	dir = 4
 	},
-/turf/open/floor/plasteel/ship/techfloor/alt,
-/area/hallway/secondary/command)
+/obj/structure/cable,
+/obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1{
+	icon_state = "manifold-1";
+	dir = 1
+	},
+/turf/open/floor/plasteel/ship/padded,
+/area/bridge)
 "vs" = (
 /obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden{
 	dir = 8
@@ -10317,20 +10282,23 @@
 	name = "Deck 3 hallway"
 	})
 "vL" = (
-/obj/effect/turf_decal/tile/blue{
-	dir = 4
-	},
-/obj/effect/turf_decal/tile/blue{
-	dir = 1
-	},
-/obj/machinery/light{
-	dir = 1
+/obj/machinery/door/airlock/ship/command{
+	dir = 4;
+	name = "Briefing room"
 	},
 /obj/structure/cable,
-/turf/open/floor/plasteel/dark,
-/area/crew_quarters/heads/captain/private{
-	name = "Briefing room"
-	})
+/obj/structure/sign/nanotrasen{
+	pixel_y = 26
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	icon_state = "pipe11-1";
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
+	dir = 4
+	},
+/turf/open/floor/plasteel/ship/padded,
+/area/bridge)
 "vM" = (
 /obj/machinery/light{
 	dir = 1
@@ -10819,11 +10787,13 @@
 /turf/open/floor/carpet/ship,
 /area/library)
 "wP" = (
-/obj/structure/window/reinforced/fulltile/ship,
+/obj/structure/cable,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	icon_state = "pipe11-1";
+	dir = 4
+	},
 /turf/open/floor/plasteel/ship/padded,
-/area/crew_quarters/heads/captain/private{
-	name = "Briefing room"
-	})
+/area/bridge)
 "wQ" = (
 /obj/effect/turf_decal/tile/red{
 	dir = 1
@@ -11095,21 +11065,16 @@
 	name = "Infirmary"
 	})
 "xr" = (
-/obj/effect/turf_decal/tile/blue{
-	dir = 4
-	},
-/obj/effect/turf_decal/tile/blue{
+/obj/structure/cable,
+/obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1{
+	icon_state = "manifold-1";
 	dir = 1
 	},
-/obj/structure/cable,
-/obj/machinery/atmospherics/components/unary/vent_pump/high_volume/on/layer1{
-	icon_state = "vent_map_on-1";
-	dir = 4
+/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden{
+	dir = 1
 	},
-/turf/open/floor/plasteel/dark,
-/area/crew_quarters/heads/captain/private{
-	name = "Briefing room"
-	})
+/turf/open/floor/plasteel/ship/padded,
+/area/bridge)
 "xs" = (
 /obj/machinery/door/airlock/ship{
 	name = "Briefing room"
@@ -11143,16 +11108,15 @@
 /turf/open/floor/plasteel/dark,
 /area/bridge)
 "xv" = (
-/obj/structure/cable,
-/obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1,
-/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden{
-	icon_state = "manifold-2";
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	icon_state = "pipe11-1";
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
 	dir = 4
 	},
 /turf/open/floor/plasteel/ship/padded,
-/area/crew_quarters/heads/captain/private{
-	name = "Briefing room"
-	})
+/area/bridge)
 "xw" = (
 /obj/machinery/status_display/evac{
 	pixel_y = 27
@@ -11173,21 +11137,18 @@
 	name = "Briefing room"
 	})
 "xy" = (
-/obj/effect/turf_decal/tile/blue{
+/obj/machinery/camera{
+	c_tag = "Bridge - Central"
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
 	dir = 4
 	},
-/obj/effect/turf_decal/tile/blue{
+/obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1{
+	icon_state = "manifold-1";
 	dir = 1
 	},
-/obj/structure/cable,
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
-	icon_state = "pipe11-1";
-	dir = 4
-	},
-/turf/open/floor/plasteel/dark,
-/area/crew_quarters/heads/captain/private{
-	name = "Briefing room"
-	})
+/turf/open/floor/plasteel/ship/padded,
+/area/bridge)
 "xz" = (
 /obj/machinery/suit_storage_unit/standard_unit,
 /turf/open/floor/plasteel/ship/padded,
@@ -11213,12 +11174,18 @@
 /turf/open/floor/plasteel/dark,
 /area/bridge)
 "xC" = (
-/obj/structure/lattice/catwalk,
-/obj/machinery/light{
-	dir = 8
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	icon_state = "pipe11-1";
+	dir = 4
 	},
-/turf/open/space/basic,
-/area/space)
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
+	dir = 4
+	},
+/obj/machinery/airalarm{
+	pixel_y = 24
+	},
+/turf/open/floor/plasteel/ship/padded,
+/area/bridge)
 "xD" = (
 /obj/effect/turf_decal/tile/neutral{
 	dir = 8
@@ -11287,6 +11254,16 @@
 	},
 /turf/open/floor/plasteel,
 /area/quartermaster/storage)
+"xI" = (
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	icon_state = "pipe11-1";
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden{
+	dir = 1
+	},
+/turf/open/floor/plasteel/ship/padded,
+/area/bridge)
 "xJ" = (
 /obj/effect/turf_decal/delivery,
 /turf/open/floor/plasteel/cafeteria{
@@ -11347,6 +11324,22 @@
 	},
 /turf/open/floor/plasteel,
 /area/quartermaster/storage)
+"xO" = (
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	icon_state = "pipe11-1";
+	dir = 10
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
+	dir = 4
+	},
+/turf/open/floor/plasteel/ship/padded,
+/area/bridge)
+"xP" = (
+/obj/machinery/atmospherics/components/unary/vent_scrubber/on{
+	dir = 8
+	},
+/turf/open/floor/plasteel/ship/padded,
+/area/bridge)
 "xQ" = (
 /obj/machinery/camera/autoname,
 /turf/open/floor/plasteel/ship/padded,
@@ -11474,6 +11467,9 @@
 	},
 /turf/open/floor/plasteel,
 /area/crew_quarters/bar)
+"yc" = (
+/turf/open/floor/plasteel/ship/padded,
+/area/bridge)
 "yd" = (
 /obj/machinery/light/small,
 /turf/open/floor/plating,
@@ -12277,11 +12273,11 @@
 /turf/open/floor/carpet/ship,
 /area/crew_quarters/heads/hos)
 "zP" = (
-/obj/structure/closet/secure_closet/hop,
-/turf/open/floor/carpet/ship,
-/area/crew_quarters/heads/hop{
-	name = "Executive officer's office"
-	})
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/obj/structure/cable,
+/turf/open/floor/plasteel/ship/padded,
+/area/bridge)
 "zQ" = (
 /obj/structure/cable,
 /turf/closed/wall/ship,
@@ -12810,8 +12806,11 @@
 /turf/open/floor/plasteel/ship/padded,
 /area/hallway/secondary/command)
 "AO" = (
+/obj/machinery/atmospherics/components/unary/vent_scrubber/on{
+	dir = 1
+	},
 /turf/open/floor/plasteel/ship/padded,
-/area/hallway/secondary/command)
+/area/bridge)
 "AP" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
@@ -12819,81 +12818,31 @@
 /turf/open/floor/plasteel,
 /area/hallway/secondary/exit)
 "AQ" = (
-/obj/effect/turf_decal/tile/blue{
-	dir = 4
-	},
-/obj/effect/turf_decal/tile/blue{
+/obj/machinery/atmospherics/components/unary/vent_pump/high_volume/on/layer1{
+	icon_state = "vent_map_on-1";
 	dir = 1
 	},
-/obj/structure/cable,
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
-	icon_state = "pipe11-1";
-	dir = 4
-	},
-/obj/machinery/atmospherics/components/unary/vent_scrubber/on{
-	dir = 4
-	},
-/turf/open/floor/plasteel/dark,
-/area/crew_quarters/heads/captain/private{
-	name = "Briefing room"
-	})
+/turf/open/floor/plasteel/ship/padded,
+/area/bridge)
 "AR" = (
-/obj/effect/turf_decal/tile/blue{
-	dir = 4
-	},
-/obj/effect/turf_decal/tile/blue{
-	dir = 1
-	},
 /obj/structure/cable,
-/obj/machinery/atmospherics/components/binary/dp_vent_pump/on/layer1{
-	icon_state = "dpvent_map_on-1";
-	dir = 4
-	},
-/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden{
-	dir = 1
-	},
-/turf/open/floor/plasteel/dark,
-/area/crew_quarters/heads/captain/private{
-	name = "Briefing room"
-	})
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
+/turf/open/floor/plasteel/ship/padded,
+/area/bridge)
 "AS" = (
-/obj/effect/turf_decal/tile/blue{
-	dir = 4
-	},
-/obj/effect/turf_decal/tile/blue{
-	dir = 1
-	},
 /obj/structure/cable,
-/obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1{
-	icon_state = "manifold-1";
-	dir = 1
-	},
-/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden{
-	dir = 1
-	},
-/turf/open/floor/plasteel/dark,
-/area/crew_quarters/heads/captain/private{
-	name = "Briefing room"
-	})
+/turf/open/floor/plasteel/ship/padded,
+/area/bridge)
 "AT" = (
-/obj/effect/turf_decal/tile/blue{
-	dir = 4
-	},
-/obj/effect/turf_decal/tile/blue{
-	dir = 1
-	},
-/obj/machinery/light{
-	dir = 1
-	},
+/obj/machinery/light,
 /obj/structure/cable,
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
-	icon_state = "pipe11-1";
-	dir = 4
+/obj/machinery/atmospherics/components/unary/vent_pump/high_volume/on/layer1{
+	icon_state = "vent_map_on-1";
+	dir = 1
 	},
-/turf/open/floor/plasteel/dark,
-/area/crew_quarters/heads/captain/private{
-	name = "Briefing room"
-	})
+/turf/open/floor/plasteel/ship/padded,
+/area/bridge)
 "AU" = (
 /obj/effect/turf_decal/tile/brown,
 /obj/effect/turf_decal/tile/brown{
@@ -12913,22 +12862,10 @@
 /turf/open/floor/plasteel,
 /area/quartermaster/storage)
 "AW" = (
-/obj/effect/turf_decal/tile/blue{
-	dir = 4
-	},
-/obj/effect/turf_decal/tile/blue{
-	dir = 1
-	},
-/obj/effect/turf_decal/tile/blue,
 /obj/structure/cable,
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
-	icon_state = "pipe11-1";
-	dir = 4
-	},
-/turf/open/floor/plasteel/dark,
-/area/crew_quarters/heads/captain/private{
-	name = "Briefing room"
-	})
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
+/turf/open/floor/plasteel/ship/padded,
+/area/bridge)
 "AX" = (
 /obj/machinery/camera{
 	c_tag = "Council Chamber"
@@ -12939,19 +12876,13 @@
 /turf/open/floor/plasteel/dark,
 /area/bridge/meeting_room)
 "AY" = (
-/obj/structure/cable,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
-/turf/open/floor/plasteel/dark,
-/area/bridge/meeting_room)
+/turf/open/floor/plasteel/ship/padded,
+/area/bridge)
 "AZ" = (
-/obj/machinery/camera{
-	c_tag = "Head of Personnel's Office";
-	dir = 2
-	},
-/turf/open/floor/carpet/ship,
-/area/crew_quarters/heads/hop{
-	name = "Executive officer's office"
-	})
+/obj/machinery/light,
+/turf/open/floor/plasteel/ship/padded,
+/area/bridge)
 "Ba" = (
 /obj/structure/cable,
 /obj/machinery/power/apc/auto_name/north,
@@ -12962,8 +12893,10 @@
 /turf/open/floor/plasteel/dark,
 /area/bridge/meeting_room)
 "Bc" = (
-/obj/structure/bookcase,
+/obj/machinery/door/airlock/ship/command,
 /obj/structure/cable,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
 /turf/open/floor/plasteel/dark,
 /area/bridge/meeting_room)
 "Bd" = (
@@ -13008,15 +12941,22 @@
 /turf/open/floor/plasteel,
 /area/quartermaster/storage)
 "Bh" = (
-/obj/structure/chair/comfy,
-/obj/effect/landmark/start/head_of_personnel,
-/turf/open/floor/carpet/ship,
-/area/bridge/meeting_room)
+/obj/structure/window/reinforced/fulltile/ship,
+/obj/machinery/door/poddoor/ship/preopen{
+	id = "bridge_blast";
+	name = "CIC blast doors"
+	},
+/turf/open/floor/plating,
+/area/bridge)
 "Bi" = (
-/obj/structure/cable,
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
-/turf/open/floor/carpet/ship,
-/area/bridge/meeting_room)
+/obj/structure/window/reinforced/fulltile/ship,
+/obj/machinery/door/poddoor/ship/preopen{
+	dir = 5;
+	id = "bridge_blast";
+	name = "CIC blast doors"
+	},
+/turf/open/floor/plating,
+/area/bridge)
 "Bj" = (
 /obj/machinery/camera{
 	c_tag = "Bridge - Central"
@@ -13039,16 +12979,13 @@
 	name = "Briefing room"
 	})
 "Bm" = (
-/obj/structure/cable,
-/obj/machinery/power/apc/auto_name/north,
-/obj/item/twohanded/required/kirbyplants{
-	icon_state = "plant-21";
-	pixel_x = -3;
-	pixel_y = 3
+/obj/machinery/atmospherics/components/unary/vent_pump/high_volume/on/layer1{
+	icon_state = "vent_map_on-1";
+	dir = 1
 	},
-/turf/open/floor/carpet/ship,
-/area/crew_quarters/heads/hop{
-	name = "Executive officer's office"
+/turf/open/floor/plasteel/ship/padded,
+/area/crew_quarters/heads/captain/private{
+	name = "Briefing room"
 	})
 "Bn" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
@@ -13191,22 +13128,11 @@
 /turf/open/floor/carpet/ship,
 /area/lawoffice)
 "Bx" = (
-/obj/machinery/door/airlock/ship/command{
-	dir = 4;
-	name = "Briefing room"
-	},
-/obj/structure/cable,
-/obj/structure/sign/nanotrasen{
-	pixel_y = 26
-	},
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
-	icon_state = "pipe11-1";
-	dir = 4
+/obj/machinery/airalarm{
+	pixel_y = 24
 	},
 /turf/open/floor/plasteel/dark,
-/area/crew_quarters/heads/captain/private{
-	name = "Briefing room"
-	})
+/area/bridge/meeting_room)
 "By" = (
 /obj/structure/cable,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
@@ -13238,14 +13164,11 @@
 /turf/open/floor/carpet/ship,
 /area/crew_quarters/heads/captain)
 "BC" = (
-/obj/structure/window/reinforced/fulltile/ship,
-/obj/machinery/door/poddoor/ship/preopen{
-	dir = 4;
-	id = "bridge_blast";
-	name = "CIC blast doors"
-	},
+/obj/structure/cable,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
 /turf/open/floor/plasteel/dark,
-/area/bridge)
+/area/bridge/meeting_room)
 "BD" = (
 /obj/structure/cable,
 /turf/open/floor/plasteel,
@@ -13795,15 +13718,12 @@
 /turf/open/floor/plasteel/dark,
 /area/security/brig)
 "CE" = (
-/obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1{
-	icon_state = "manifold-1";
-	dir = 8
-	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
-	dir = 6
-	},
-/turf/open/floor/plasteel/ship/padded,
-/area/hallway/secondary/command)
+/obj/structure/table/glass,
+/obj/machinery/chem_dispenser/drinks,
+/turf/open/floor/carpet/ship,
+/area/crew_quarters/heads/hop{
+	name = "Executive officer's office"
+	})
 "CF" = (
 /obj/effect/turf_decal/tile/blue{
 	dir = 4
@@ -14531,10 +14451,15 @@
 /turf/open/floor/plasteel/showroomfloor,
 /area/security/brig)
 "DQ" = (
-/obj/structure/bed,
-/obj/item/bedsheet/captain,
+/obj/item/radio/intercom{
+	pixel_y = 21
+	},
+/obj/structure/table/glass,
+/obj/machinery/chem_dispenser/drinks/beer,
 /turf/open/floor/carpet/ship,
-/area/crew_quarters/heads/captain)
+/area/crew_quarters/heads/hop{
+	name = "Executive officer's office"
+	})
 "DR" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
 /turf/open/floor/plasteel/showroomfloor,
@@ -14954,9 +14879,14 @@
 /turf/open/floor/plasteel,
 /area/security/brig)
 "EE" = (
-/obj/structure/filingcabinet/chestdrawer{
-	pixel_y = 2
+/obj/machinery/light{
+	dir = 1
 	},
+/obj/machinery/computer/security/telescreen/entertainment{
+	pixel_y = 32
+	},
+/obj/structure/table/glass,
+/obj/item/modular_computer/laptop/preset/civillian,
 /turf/open/floor/carpet/ship,
 /area/crew_quarters/heads/hop{
 	name = "Executive officer's office"
@@ -16052,27 +15982,24 @@
 	name = "Deck 2 primary hallway"
 	})
 "GG" = (
-/obj/machinery/pdapainter{
-	pixel_y = 2
-	},
 /obj/machinery/camera{
 	c_tag = "Head of Personnel's Office";
 	dir = 2
+	},
+/obj/structure/filingcabinet/chestdrawer{
+	pixel_y = 2
 	},
 /turf/open/floor/carpet/ship,
 /area/crew_quarters/heads/hop{
 	name = "Executive officer's office"
 	})
 "GH" = (
-/obj/machinery/atmospherics/components/binary/dp_vent_pump/on/layer1{
-	icon_state = "dpvent_map_on-1";
-	dir = 4
-	},
-/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden{
-	dir = 1
-	},
-/turf/open/floor/plasteel/ship/padded,
-/area/hallway/secondary/command)
+/obj/structure/bed,
+/obj/item/bedsheet/ian,
+/turf/open/floor/carpet/ship,
+/area/crew_quarters/heads/hop{
+	name = "Executive officer's office"
+	})
 "GI" = (
 /obj/structure/cable,
 /turf/open/floor/plating,
@@ -16080,16 +16007,20 @@
 	name = "Deck 1 maintenance"
 	})
 "GJ" = (
-/obj/effect/turf_decal/tile/blue,
-/obj/effect/turf_decal/tile/blue{
-	dir = 8
+/obj/structure/table/glass,
+/obj/item/flashlight/lamp/green{
+	pixel_x = 1;
+	pixel_y = 5
 	},
-/obj/effect/turf_decal/tile/blue{
-	dir = 1
+/obj/machinery/button/door{
+	id = "xo";
+	name = "Privacy Shutters Control";
+	pixel_y = 25;
+	req_access_txt = "28"
 	},
-/turf/open/floor/plasteel/dark,
-/area/crew_quarters/heads/captain/private{
-	name = "Briefing room"
+/turf/open/floor/carpet/ship,
+/area/crew_quarters/heads/hop{
+	name = "Executive officer's office"
 	})
 "GK" = (
 /obj/machinery/computer/crew{
@@ -16200,6 +16131,19 @@
 "GT" = (
 /turf/open/floor/plasteel/white,
 /area/hallway/secondary/entry)
+"GU" = (
+/obj/structure/table/glass,
+/obj/machinery/computer/security/telescreen/vault{
+	pixel_y = 30
+	},
+/obj/item/storage/secure/briefcase,
+/obj/item/folder/blue,
+/obj/item/storage/secure/briefcase,
+/obj/item/assembly/flash/handheld,
+/turf/open/floor/carpet/ship,
+/area/crew_quarters/heads/hop{
+	name = "Executive officer's office"
+	})
 "GV" = (
 /obj/structure/sign/nanotrasen{
 	pixel_y = 26
@@ -16622,33 +16566,41 @@
 	name = "Deck 2 primary hallway"
 	})
 "HJ" = (
-/obj/structure/bed/dogbed/ian,
-/obj/machinery/status_display/evac{
-	pixel_y = 27
+/obj/structure/table/glass,
+/obj/item/storage/secure/safe{
+	pixel_x = 34
 	},
-/mob/living/simple_animal/pet/dog/corgi/Ian,
+/obj/machinery/recharger,
+/obj/item/radio/intercom{
+	pixel_y = 21
+	},
 /turf/open/floor/carpet/ship,
 /area/crew_quarters/heads/hop{
 	name = "Executive officer's office"
 	})
 "HK" = (
-/obj/structure/window/reinforced/fulltile/ship,
-/turf/open/floor/plasteel/ship/padded,
-/area/crew_quarters/heads/hop{
-	name = "Executive officer's office"
-	})
+/obj/structure/bed,
+/obj/item/bedsheet/captain,
+/obj/effect/landmark/start/captain,
+/turf/open/floor/carpet/ship,
+/area/crew_quarters/heads/captain)
 "HL" = (
 /obj/structure/window/reinforced/fulltile/ship,
-/obj/structure/curtain/obscuring/grey,
-/turf/open/floor/carpet/ship,
-/area/crew_quarters/heads/hop{
-	name = "Executive officer's office"
-	})
+/obj/machinery/door/poddoor/ship/preopen{
+	dir = 4;
+	id = "bridge_blast";
+	name = "CIC blast doors"
+	},
+/turf/open/floor/plating,
+/area/bridge)
 "HM" = (
-/obj/machinery/disposal/bin,
-/turf/open/floor/carpet/ship,
-/area/crew_quarters/heads/hop{
-	name = "Executive officer's office"
+/obj/structure/chair{
+	dir = 4;
+	name = "non enlisted"
+	},
+/turf/open/floor/plasteel/dark,
+/area/crew_quarters/heads/captain/private{
+	name = "Briefing room"
 	})
 "HN" = (
 /turf/open/floor/carpet/ship,
@@ -16662,22 +16614,19 @@
 	name = "Executive officer's office"
 	})
 "HP" = (
-/obj/structure/table/glass,
-/obj/structure/window/reinforced,
-/obj/item/modular_computer/laptop/preset/civillian,
-/turf/open/floor/carpet/ship,
-/area/crew_quarters/heads/hop{
-	name = "Executive officer's office"
+/obj/structure/chair{
+	dir = 4;
+	name = "non enlisted"
+	},
+/obj/structure/cable,
+/turf/open/floor/plasteel/dark,
+/area/crew_quarters/heads/captain/private{
+	name = "Briefing room"
 	})
 "HQ" = (
-/obj/structure/chair/office{
-	dir = 8
-	},
-/obj/machinery/atmospherics/components/unary/vent_scrubber/on,
+/obj/structure/chair/comfy,
 /turf/open/floor/carpet/ship,
-/area/crew_quarters/heads/hop{
-	name = "Executive officer's office"
-	})
+/area/bridge/meeting_room)
 "HR" = (
 /obj/structure/railing{
 	icon_state = "railing0";
@@ -16698,91 +16647,83 @@
 /turf/open/floor/plasteel/dark,
 /area/crew_quarters/dorms)
 "HS" = (
-/obj/machinery/computer/secure_data{
-	dir = 4
-	},
+/obj/structure/cable,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
 /turf/open/floor/carpet/ship,
-/area/crew_quarters/heads/hop{
-	name = "Executive officer's office"
-	})
+/area/bridge/meeting_room)
 "HT" = (
-/obj/machinery/atmospherics/components/unary/vent_scrubber/on{
-	dir = 4
+/obj/machinery/light_switch{
+	pixel_x = -25;
+	pixel_y = 5
+	},
+/obj/machinery/button/door{
+	id = "hop";
+	name = "Privacy Shutters Control";
+	pixel_x = -24;
+	pixel_y = -6;
+	req_access_txt = "28"
 	},
 /turf/open/floor/carpet/ship,
 /area/crew_quarters/heads/hop{
 	name = "Executive officer's office"
 	})
 "HU" = (
-/obj/structure/cable,
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
-	dir = 4
-	},
+/obj/machinery/atmospherics/components/unary/vent_pump/high_volume/on/layer1,
 /turf/open/floor/carpet/ship,
 /area/crew_quarters/heads/hop{
 	name = "Executive officer's office"
 	})
 "HV" = (
-/obj/machinery/door/airlock/ship/command{
-	dir = 8;
-	icon_state = "closed";
-	name = "Executive officer";
-	req_one_access_txt = "57"
+/obj/structure/chair/office{
+	dir = 1
 	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
-	dir = 4
-	},
+/obj/effect/landmark/start/head_of_personnel,
 /turf/open/floor/carpet/ship,
 /area/crew_quarters/heads/hop{
 	name = "Executive officer's office"
 	})
 "HW" = (
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
-	dir = 4
-	},
+/obj/machinery/atmospherics/components/unary/vent_scrubber/on,
 /turf/open/floor/carpet/ship,
 /area/crew_quarters/heads/hop{
 	name = "Executive officer's office"
 	})
 "HX" = (
-/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden,
+/obj/machinery/airalarm{
+	dir = 8;
+	pixel_x = 24
+	},
 /turf/open/floor/carpet/ship,
 /area/crew_quarters/heads/hop{
 	name = "Executive officer's office"
 	})
 "HY" = (
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
-	icon_state = "pipe11-1";
-	dir = 6
-	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
+/obj/machinery/computer/bounty{
 	dir = 4
+	},
+/obj/machinery/light{
+	dir = 8
 	},
 /turf/open/floor/carpet/ship,
 /area/crew_quarters/heads/hop{
 	name = "Executive officer's office"
 	})
 "HZ" = (
-/obj/machinery/door/airlock/ship/command{
-	dir = 8;
-	icon_state = "closed";
-	name = "Executive officer";
-	req_one_access_txt = "57"
+/obj/structure/chair/office{
+	dir = 8
 	},
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
-	icon_state = "pipe11-1";
-	dir = 4
-	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
-	dir = 4
-	},
+/obj/effect/landmark/start/head_of_personnel,
 /turf/open/floor/carpet/ship,
 /area/crew_quarters/heads/hop{
 	name = "Executive officer's office"
 	})
 "Ia" = (
-/obj/machinery/vending/cart{
-	req_access_txt = "57"
+/obj/machinery/newscaster/security_unit{
+	pixel_x = 32
+	},
+/obj/machinery/computer/security/mining{
+	dir = 8
 	},
 /turf/open/floor/carpet/ship,
 /area/crew_quarters/heads/hop{
@@ -16840,33 +16781,25 @@
 	name = "Briefing room"
 	})
 "If" = (
-/obj/structure/table/reinforced,
-/obj/item/folder/white,
-/obj/item/pen,
-/obj/structure/cable,
-/obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1{
-	icon_state = "manifold-1";
-	dir = 4
+/obj/machinery/airalarm{
+	dir = 8;
+	pixel_x = 24
 	},
-/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden{
-	icon_state = "manifold-2";
-	dir = 4
-	},
-/turf/open/floor/light,
-/area/bridge/meeting_room)
+/turf/open/floor/carpet/ship,
+/area/crew_quarters/heads/captain)
 "Ig" = (
 /obj/structure/table/reinforced,
 /obj/item/paper,
 /turf/open/floor/light,
 /area/bridge/meeting_room)
 "Ih" = (
-/obj/structure/chair/comfy{
-	icon_state = "comfychair";
-	dir = 8
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/obj/machinery/atmospherics/components/unary/vent_scrubber/on{
+	dir = 4
 	},
-/obj/effect/landmark/start/research_director,
-/turf/open/floor/carpet/ship,
-/area/bridge/meeting_room)
+/obj/structure/cable,
+/turf/open/floor/plasteel/ship/padded,
+/area/hallway/secondary/command)
 "Ii" = (
 /obj/machinery/door/airlock/ship/command{
 	dir = 4;
@@ -16884,13 +16817,11 @@
 /turf/open/floor/carpet/ship,
 /area/crew_quarters/dorms)
 "Ik" = (
-/obj/machinery/atmospherics/components/unary/vent_pump/high_volume/on/layer1{
-	icon_state = "vent_map_on-1";
-	dir = 4
-	},
+/obj/structure/table/reinforced,
+/obj/item/flashlight/lamp/green,
 /turf/open/floor/carpet/ship,
-/area/crew_quarters/heads/hop{
-	name = "Executive officer's office"
+/area/crew_quarters/heads/captain/private{
+	name = "Briefing room"
 	})
 "Il" = (
 /obj/machinery/light{
@@ -16904,17 +16835,12 @@
 /turf/open/floor/carpet/ship,
 /area/bridge/meeting_room)
 "In" = (
-/obj/machinery/light{
-	dir = 4
-	},
-/obj/structure/cable,
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
-	icon_state = "pipe11-1";
-	dir = 4
+/obj/structure/chair/office{
+	dir = 1
 	},
 /turf/open/floor/carpet/ship,
-/area/crew_quarters/heads/hop{
-	name = "Executive officer's office"
+/area/crew_quarters/heads/captain/private{
+	name = "Briefing room"
 	})
 "Io" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
@@ -16936,16 +16862,16 @@
 	name = "Deck 2 primary hallway"
 	})
 "Iq" = (
-/obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1{
-	icon_state = "manifold-1";
+/obj/structure/chair/office{
 	dir = 1
 	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
-	dir = 4
+	dir = 6
 	},
-/obj/structure/cable,
-/turf/open/floor/plasteel/ship/padded,
-/area/hallway/secondary/command)
+/turf/open/floor/carpet/ship,
+/area/crew_quarters/heads/captain/private{
+	name = "Briefing room"
+	})
 "Ir" = (
 /obj/effect/turf_decal/tile/yellow{
 	dir = 8
@@ -17075,166 +17001,44 @@
 	name = "Briefing room"
 	})
 "ID" = (
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
-/turf/open/floor/plasteel/ship/padded,
+/obj/structure/chair/office{
+	dir = 1
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	icon_state = "pipe11-1";
+	dir = 6
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
+	dir = 4
+	},
+/turf/open/floor/carpet/ship,
 /area/crew_quarters/heads/captain/private{
 	name = "Briefing room"
 	})
 "IE" = (
-/obj/structure/window/reinforced/fulltile/ship,
-/turf/open/floor/carpet/ship,
-/area/crew_quarters/heads/captain/private{
-	name = "Briefing room"
-	})
-"IF" = (
-/obj/effect/turf_decal/tile/neutral{
-	dir = 8
-	},
-/obj/effect/turf_decal/tile/neutral{
-	dir = 1
-	},
-/obj/effect/turf_decal/tile/neutral{
-	dir = 4
-	},
-/obj/structure/chair{
-	dir = 8;
-	name = "non enlisted"
-	},
-/turf/open/floor/plasteel/dark,
-/area/crew_quarters/heads/captain/private{
-	name = "Briefing room"
-	})
-"IG" = (
-/obj/effect/turf_decal/tile/neutral{
-	dir = 1
-	},
-/obj/effect/turf_decal/tile/neutral{
-	dir = 4
-	},
-/obj/structure/chair{
-	dir = 8;
-	name = "non enlisted"
-	},
-/turf/open/floor/plasteel/dark,
-/area/crew_quarters/heads/captain/private{
-	name = "Briefing room"
-	})
-"IH" = (
-/obj/effect/turf_decal/tile/neutral,
-/obj/effect/turf_decal/tile/neutral{
-	dir = 1
-	},
-/obj/effect/turf_decal/tile/neutral{
-	dir = 4
-	},
-/obj/structure/chair{
-	dir = 8;
-	name = "non enlisted"
-	},
-/turf/open/floor/plasteel/dark,
-/area/crew_quarters/heads/captain/private{
-	name = "Briefing room"
-	})
-"II" = (
-/obj/structure/chair/office{
-	dir = 1
-	},
-/obj/structure/cable,
-/turf/open/floor/carpet/ship,
-/area/crew_quarters/heads/captain/private{
-	name = "Briefing room"
-	})
-"IJ" = (
 /obj/structure/table/reinforced,
-/obj/item/flashlight/lamp/green,
+/obj/item/folder/white,
+/obj/item/pen,
 /obj/structure/cable,
-/turf/open/floor/carpet/ship,
-/area/crew_quarters/heads/captain/private{
-	name = "Briefing room"
-	})
-"IK" = (
-/obj/structure/window/reinforced/fulltile/ship,
-/obj/structure/cable,
-/turf/open/floor/carpet/ship,
-/area/crew_quarters/heads/captain/private{
-	name = "Briefing room"
-	})
-"IL" = (
-/obj/effect/turf_decal/tile/neutral{
+/obj/machinery/atmospherics/pipe/manifold4w/scrubbers/hidden,
+/obj/machinery/atmospherics/pipe/manifold4w/supplymain/hidden/layer1,
+/turf/open/floor/light,
+/area/bridge/meeting_room)
+"IF" = (
+/obj/structure/table/reinforced,
+/obj/item/paper,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	icon_state = "pipe11-1";
+	dir = 4
+	},
+/turf/open/floor/light,
+/area/bridge/meeting_room)
+"IG" = (
+/obj/structure/chair/comfy{
+	icon_state = "comfychair";
 	dir = 8
 	},
-/obj/effect/turf_decal/tile/neutral{
-	dir = 1
-	},
-/obj/structure/chair{
-	dir = 8;
-	name = "non enlisted"
-	},
-/turf/open/floor/plasteel/dark,
-/area/crew_quarters/heads/captain/private{
-	name = "Briefing room"
-	})
-"IM" = (
-/obj/structure/chair{
-	dir = 8;
-	name = "non enlisted"
-	},
-/turf/open/floor/plasteel/dark,
-/area/crew_quarters/heads/captain/private{
-	name = "Briefing room"
-	})
-"IN" = (
-/obj/effect/turf_decal/tile/neutral,
-/obj/effect/turf_decal/tile/neutral{
-	dir = 4
-	},
-/obj/structure/chair{
-	dir = 8;
-	name = "non enlisted"
-	},
-/turf/open/floor/plasteel/dark,
-/area/crew_quarters/heads/captain/private{
-	name = "Briefing room"
-	})
-"IO" = (
-/obj/machinery/light{
-	dir = 8
-	},
-/turf/open/floor/carpet/ship,
-/area/crew_quarters/heads/captain/private{
-	name = "Briefing room"
-	})
-"IP" = (
-/obj/machinery/atmospherics/components/unary/vent_pump/high_volume/on/layer1,
-/turf/open/floor/carpet/ship,
-/area/crew_quarters/heads/captain/private{
-	name = "Briefing room"
-	})
-"IQ" = (
-/obj/machinery/atmospherics/components/unary/vent_scrubber/on,
-/turf/open/floor/carpet/ship,
-/area/crew_quarters/heads/captain/private{
-	name = "Briefing room"
-	})
-"IR" = (
-/obj/structure/chair/comfy/black{
-	dir = 4
-	},
-/turf/open/floor/carpet/ship,
-/area/crew_quarters/heads/captain/private{
-	name = "Briefing room"
-	})
-"IS" = (
-/obj/machinery/light{
-	dir = 4
-	},
-/obj/machinery/atmospherics/components/binary/dp_vent_pump/on/layer1,
-/turf/open/floor/plasteel/ship/padded,
-/area/crew_quarters/heads/captain/private{
-	name = "Briefing room"
-	})
-"IT" = (
-/obj/structure/chair/office,
+/obj/effect/landmark/start/research_director,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	icon_state = "pipe11-1";
 	dir = 4
@@ -17242,27 +17046,156 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
 	dir = 4
 	},
+/turf/open/floor/carpet/ship,
+/area/bridge/meeting_room)
+"IH" = (
+/obj/structure/cable,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	icon_state = "pipe11-1";
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
+	dir = 4
+	},
+/turf/open/floor/plasteel/dark,
+/area/bridge/meeting_room)
+"II" = (
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	icon_state = "pipe11-1";
+	dir = 4
+	},
+/obj/structure/cable,
+/obj/machinery/door/airlock/ship/command{
+	dir = 8;
+	icon_state = "closed";
+	name = "Executive officer";
+	req_one_access_txt = "57"
+	},
+/turf/open/floor/plasteel/dark,
+/area/crew_quarters/heads/hop{
+	name = "Executive officer's office"
+	})
+"IJ" = (
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	icon_state = "pipe11-1";
+	dir = 4
+	},
+/obj/structure/cable,
+/turf/open/floor/carpet/ship,
+/area/crew_quarters/heads/hop{
+	name = "Executive officer's office"
+	})
+"IK" = (
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1,
+/obj/structure/cable,
+/turf/open/floor/carpet/ship,
+/area/crew_quarters/heads/hop{
+	name = "Executive officer's office"
+	})
+"IL" = (
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	icon_state = "pipe11-1";
+	dir = 10
+	},
+/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden{
+	dir = 4
+	},
+/obj/structure/cable,
+/turf/open/floor/carpet/ship,
+/area/crew_quarters/heads/hop{
+	name = "Executive officer's office"
+	})
+"IM" = (
+/obj/structure/window/reinforced,
+/obj/structure/table/glass,
+/turf/open/floor/carpet/ship,
+/area/crew_quarters/heads/hop{
+	name = "Executive officer's office"
+	})
+"IN" = (
+/obj/structure/window/reinforced,
+/obj/machinery/computer/cargo/request{
+	dir = 8
+	},
+/turf/open/floor/carpet/ship,
+/area/crew_quarters/heads/hop{
+	name = "Executive officer's office"
+	})
+"IO" = (
+/obj/effect/turf_decal/tile/blue{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/blue{
+	dir = 8
+	},
+/obj/machinery/airalarm{
+	dir = 4;
+	pixel_x = -23
+	},
+/turf/open/floor/plasteel/dark,
+/area/bridge)
+"IP" = (
+/obj/structure/cable,
+/obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1{
+	icon_state = "manifold-1";
+	dir = 8
+	},
+/turf/open/floor/plasteel/ship/padded,
+/area/hallway/secondary/command)
+"IQ" = (
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
+/obj/machinery/atmospherics/components/unary/vent_pump/high_volume/on/layer1{
+	icon_state = "vent_map_on-1";
+	dir = 8
+	},
+/turf/open/floor/plasteel/ship/techfloor/alt,
+/area/hallway/secondary/command)
+"IR" = (
+/obj/machinery/airalarm{
+	dir = 4;
+	pixel_x = -23
+	},
+/turf/open/floor/plasteel/ship/padded,
+/area/crew_quarters/heads/captain/private{
+	name = "Briefing room"
+	})
+"IS" = (
+/obj/structure/chair/comfy/black{
+	dir = 8
+	},
+/turf/open/floor/carpet/ship,
+/area/crew_quarters/heads/captain/private{
+	name = "Briefing room"
+	})
+"IT" = (
 /turf/open/floor/carpet/ship,
 /area/crew_quarters/heads/captain/private{
 	name = "Briefing room"
 	})
 "IU" = (
-/obj/structure/chair/office,
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
-	icon_state = "pipe11-1";
-	dir = 9
-	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
-	dir = 4
+/obj/machinery/atmospherics/components/unary/vent_scrubber/on{
+	dir = 1
 	},
 /turf/open/floor/carpet/ship,
 /area/crew_quarters/heads/captain/private{
 	name = "Briefing room"
 	})
 "IV" = (
-/obj/structure/chair/office,
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
-	dir = 9
+/obj/machinery/light{
+	dir = 4
+	},
+/obj/machinery/atmospherics/components/unary/vent_pump/high_volume/on/layer1{
+	icon_state = "vent_map_on-1";
+	dir = 1
 	},
 /turf/open/floor/carpet/ship,
 /area/crew_quarters/heads/captain/private{
@@ -17276,30 +17209,19 @@
 	name = "Briefing room"
 	})
 "IX" = (
-/obj/effect/turf_decal/tile/neutral,
-/obj/effect/turf_decal/tile/neutral{
-	dir = 8
-	},
-/obj/effect/turf_decal/tile/neutral{
-	dir = 1
-	},
-/obj/structure/chair{
-	dir = 8;
-	name = "non enlisted"
-	},
-/turf/open/floor/plasteel/dark,
-/area/crew_quarters/heads/captain/private{
-	name = "Briefing room"
-	})
+/obj/structure/window/reinforced/fulltile/ship,
+/obj/structure/curtain/obscuring/grey,
+/obj/structure/cable,
+/turf/open/floor/plating,
+/area/bridge/meeting_room)
 "IY" = (
-/obj/effect/turf_decal/tile/blue,
-/obj/effect/turf_decal/tile/blue{
-	dir = 8
-	},
-/turf/open/floor/plasteel/dark,
-/area/crew_quarters/heads/captain/private{
-	name = "Briefing room"
-	})
+/obj/structure/table/reinforced,
+/obj/item/flashlight/lamp/green,
+/obj/structure/cable,
+/obj/machinery/atmospherics/components/binary/dp_vent_pump/on/layer1,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
+/turf/open/floor/light,
+/area/bridge/meeting_room)
 "IZ" = (
 /obj/structure/table/reinforced,
 /obj/item/folder/yellow,
@@ -17308,40 +17230,39 @@
 /turf/open/floor/light,
 /area/bridge/meeting_room)
 "Ja" = (
-/obj/effect/turf_decal/tile/blue,
-/obj/effect/turf_decal/tile/blue{
-	dir = 8
+/obj/machinery/door/airlock/ship/command{
+	dir = 2;
+	icon_state = "closed";
+	name = "Executive officer";
+	req_one_access_txt = "57"
 	},
-/obj/structure/cable,
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
-/turf/open/floor/plasteel/dark,
-/area/crew_quarters/heads/captain/private{
-	name = "Briefing room"
-	})
-"Jb" = (
-/obj/effect/turf_decal/tile/blue,
-/obj/effect/turf_decal/tile/blue{
-	dir = 4
-	},
-/obj/effect/turf_decal/tile/blue{
-	dir = 8
-	},
-/turf/open/floor/plasteel/dark,
-/area/crew_quarters/heads/captain/private{
-	name = "Briefing room"
-	})
-"Jc" = (
-/obj/machinery/door/airlock/ship/command,
-/obj/structure/cable,
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
-/turf/open/floor/plasteel/dark,
-/area/bridge/meeting_room)
-"Jd" = (
-/obj/machinery/door/airlock/ship/command,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
-/turf/open/floor/plasteel/dark,
-/area/bridge/meeting_room)
+/obj/structure/cable,
+/turf/open/floor/carpet/ship,
+/area/crew_quarters/heads/hop{
+	name = "Executive officer's office"
+	})
+"Jb" = (
+/obj/structure/window/reinforced/fulltile/ship,
+/obj/structure/curtain/obscuring/grey,
+/turf/closed/wall/ship,
+/area/crew_quarters/heads/hop{
+	name = "Executive officer's office"
+	})
+"Jc" = (
+/obj/machinery/photocopier,
+/turf/open/floor/carpet/ship,
+/area/crew_quarters/heads/hop{
+	name = "Executive officer's office"
+	})
+"Jd" = (
+/obj/structure/bed/dogbed/ian,
+/obj/effect/mapping_helpers/ianbirthday,
+/turf/open/floor/carpet/ship,
+/area/crew_quarters/heads/hop{
+	name = "Executive officer's office"
+	})
 "Je" = (
 /obj/machinery/light/small,
 /turf/open/floor/engine/air,
@@ -17356,12 +17277,16 @@
 /turf/open/floor/plating,
 /area/engine/atmos)
 "Jh" = (
-/obj/structure/table/reinforced,
-/obj/item/flashlight/lamp/green,
-/obj/structure/cable,
+/obj/machinery/light{
+	dir = 4
+	},
 /obj/machinery/atmospherics/components/binary/dp_vent_pump/on/layer1,
-/turf/open/floor/light,
-/area/bridge/meeting_room)
+/obj/machinery/airalarm{
+	dir = 8;
+	pixel_x = 24
+	},
+/turf/open/floor/carpet/ship,
+/area/crew_quarters/heads/captain)
 "Ji" = (
 /turf/open/floor/carpet/ship,
 /area/crew_quarters/heads/captain)
@@ -17421,16 +17346,10 @@
 /turf/open/floor/carpet/ship,
 /area/crew_quarters/heads/captain)
 "Jt" = (
-/obj/structure/window/reinforced/fulltile/ship,
-/obj/structure/curtain/obscuring/grey,
-/obj/structure/cable,
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
-	icon_state = "pipe11-1";
-	dir = 4
-	},
+/obj/structure/chair/office,
 /turf/open/floor/carpet/ship,
-/area/crew_quarters/heads/hop{
-	name = "Executive officer's office"
+/area/crew_quarters/heads/captain/private{
+	name = "Briefing room"
 	})
 "Ju" = (
 /obj/machinery/computer/card{
@@ -17464,12 +17383,14 @@
 /turf/open/floor/plating,
 /area/engine/atmos)
 "Jy" = (
-/obj/machinery/light{
-	dir = 4
-	},
-/obj/machinery/atmospherics/components/binary/dp_vent_pump/on/layer1,
-/turf/open/floor/carpet/ship,
-/area/crew_quarters/heads/captain)
+/obj/structure/table/reinforced,
+/obj/item/folder/red,
+/obj/item/pen,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/obj/structure/cable,
+/turf/open/floor/light,
+/area/bridge/meeting_room)
 "Jz" = (
 /obj/machinery/vending/wardrobe/atmos_wardrobe,
 /turf/open/floor/plating,
@@ -20284,18 +20205,12 @@
 /turf/open/floor/plasteel/dark,
 /area/hallway/secondary/command)
 "OT" = (
-/obj/effect/turf_decal/tile/neutral,
-/obj/effect/turf_decal/tile/neutral{
+/obj/structure/chair/comfy{
+	icon_state = "comfychair";
 	dir = 8
 	},
-/obj/structure/chair{
-	dir = 8;
-	name = "non enlisted"
-	},
-/turf/open/floor/plasteel/dark,
-/area/crew_quarters/heads/captain/private{
-	name = "Briefing room"
-	})
+/turf/open/floor/carpet/ship,
+/area/bridge/meeting_room)
 "OU" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /turf/open/floor/plasteel/dark,
@@ -20307,12 +20222,13 @@
 /turf/open/floor/plasteel/dark,
 /area/bridge)
 "OW" = (
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
-	icon_state = "pipe11-1";
-	dir = 6
+/obj/machinery/pdapainter{
+	pixel_y = 2
 	},
-/turf/open/floor/plasteel/ship/padded,
-/area/hallway/secondary/command)
+/turf/open/floor/carpet/ship,
+/area/crew_quarters/heads/hop{
+	name = "Executive officer's office"
+	})
 "OX" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	icon_state = "pipe11-1";
@@ -20352,54 +20268,52 @@
 /turf/open/floor/plasteel/dark,
 /area/bridge)
 "Pa" = (
-/obj/effect/turf_decal/tile/neutral,
-/obj/effect/turf_decal/tile/neutral{
-	dir = 8
+/obj/machinery/vending/cart{
+	req_access_txt = "57"
 	},
-/obj/effect/turf_decal/tile/neutral{
-	dir = 4
+/obj/item/radio/intercom{
+	pixel_y = 21
 	},
-/obj/structure/chair{
-	dir = 8;
-	name = "non enlisted"
+/obj/machinery/camera{
+	c_tag = "Head of Personnel's Office";
+	dir = 2
 	},
-/turf/open/floor/plasteel/dark,
-/area/crew_quarters/heads/captain/private{
-	name = "Briefing room"
+/turf/open/floor/carpet/ship,
+/area/crew_quarters/heads/hop{
+	name = "Executive officer's office"
 	})
 "Pb" = (
-/obj/effect/turf_decal/tile/blue{
-	dir = 4
-	},
-/obj/effect/turf_decal/tile/blue{
+/obj/machinery/light{
 	dir = 1
 	},
-/obj/effect/turf_decal/tile/blue{
-	dir = 8
+/obj/machinery/requests_console{
+	announcementConsole = 1;
+	department = "Head of Personnel's Desk";
+	departmentType = 5;
+	name = "Head of Personnel RC";
+	pixel_y = 30
 	},
-/turf/open/floor/plasteel/dark,
-/area/crew_quarters/heads/captain/private{
-	name = "Briefing room"
+/obj/structure/filingcabinet/employment,
+/turf/open/floor/carpet/ship,
+/area/crew_quarters/heads/hop{
+	name = "Executive officer's office"
 	})
 "Pc" = (
-/obj/effect/turf_decal/tile/blue{
-	dir = 4
-	},
-/obj/effect/turf_decal/tile/blue{
-	dir = 1
-	},
-/turf/open/floor/plasteel/dark,
-/area/crew_quarters/heads/captain/private{
-	name = "Briefing room"
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
+/obj/structure/cable,
+/turf/open/floor/carpet/ship,
+/area/crew_quarters/heads/hop{
+	name = "Executive officer's office"
 	})
 "Pd" = (
-/obj/machinery/light{
-	dir = 8
+/obj/machinery/airalarm{
+	pixel_y = 24
 	},
-/obj/structure/cable,
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
-	icon_state = "pipe11-1";
-	dir = 4
+/obj/item/twohanded/required/kirbyplants{
+	icon_state = "plant-21";
+	pixel_x = -3;
+	pixel_y = 3
 	},
 /turf/open/floor/carpet/ship,
 /area/crew_quarters/heads/hop{
@@ -20434,11 +20348,7 @@
 /turf/open/floor/plasteel/dark,
 /area/bridge)
 "Pi" = (
-/obj/structure/cable,
-/obj/machinery/atmospherics/components/binary/dp_vent_pump/on/layer1{
-	icon_state = "dpvent_map_on-1";
-	dir = 4
-	},
+/mob/living/simple_animal/pet/dog/corgi/Ian,
 /turf/open/floor/carpet/ship,
 /area/crew_quarters/heads/hop{
 	name = "Executive officer's office"
@@ -20451,30 +20361,25 @@
 /turf/open/floor/carpet/ship,
 /area/bridge/meeting_room)
 "Pk" = (
-/obj/effect/turf_decal/tile/blue{
-	dir = 4
+/obj/machinery/camera{
+	c_tag = "Head of Personnel's Office";
+	dir = 8
 	},
-/obj/effect/turf_decal/tile/blue{
-	dir = 1
-	},
-/obj/structure/sign/nanotrasen{
-	pixel_y = 26
-	},
-/turf/open/floor/plasteel/dark,
-/area/crew_quarters/heads/captain/private{
-	name = "Briefing room"
+/turf/open/floor/carpet/ship,
+/area/crew_quarters/heads/hop{
+	name = "Executive officer's office"
 	})
 "Pl" = (
 /obj/machinery/light,
 /turf/open/floor/plasteel/ship/techfloor/alt,
 /area/hallway/secondary/command)
 "Pm" = (
-/obj/machinery/light,
-/obj/machinery/atmospherics/components/unary/vent_scrubber/on{
-	dir = 1
-	},
-/turf/open/floor/plasteel/ship/techfloor/alt,
-/area/hallway/secondary/command)
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
+/obj/machinery/holopad,
+/obj/structure/cable,
+/turf/open/floor/carpet/ship,
+/area/bridge/meeting_room)
 "Pn" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
@@ -20539,79 +20444,62 @@
 	name = "Briefing room"
 	})
 "Pt" = (
-/obj/effect/turf_decal/tile/blue{
-	dir = 4
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	icon_state = "pipe11-1";
+	dir = 5
 	},
-/obj/effect/turf_decal/tile/blue{
+/obj/machinery/atmospherics/components/unary/vent_scrubber/on{
 	dir = 1
 	},
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
-/turf/open/floor/plasteel/dark,
-/area/crew_quarters/heads/captain/private{
-	name = "Briefing room"
+/obj/structure/cable,
+/turf/open/floor/carpet/ship,
+/area/crew_quarters/heads/hop{
+	name = "Executive officer's office"
 	})
 "Pu" = (
-/obj/effect/turf_decal/tile/blue{
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	icon_state = "pipe11-1";
 	dir = 4
 	},
-/obj/effect/turf_decal/tile/blue{
-	dir = 1
-	},
-/obj/effect/turf_decal/tile/blue,
-/turf/open/floor/plasteel/dark,
-/area/crew_quarters/heads/captain/private{
-	name = "Briefing room"
+/turf/open/floor/carpet/ship,
+/area/crew_quarters/heads/hop{
+	name = "Executive officer's office"
 	})
 "Pv" = (
-/obj/machinery/door/airlock/ship/command{
-	dir = 4;
-	name = "Briefing room"
-	},
-/turf/open/floor/plasteel/dark,
-/area/crew_quarters/heads/captain/private{
-	name = "Briefing room"
-	})
-"Pw" = (
-/obj/effect/turf_decal/tile/blue,
-/obj/effect/turf_decal/tile/blue{
+/obj/machinery/atmospherics/components/unary/vent_pump/high_volume/on/layer1{
+	icon_state = "vent_map_on-1";
 	dir = 8
 	},
-/obj/machinery/light,
-/turf/open/floor/plasteel/dark,
-/area/crew_quarters/heads/captain/private{
-	name = "Briefing room"
+/turf/open/floor/carpet/ship,
+/area/crew_quarters/heads/hop{
+	name = "Executive officer's office"
 	})
+"Pw" = (
+/obj/structure/table/glass,
+/obj/item/folder/blue,
+/obj/item/stamp/captain,
+/obj/machinery/airalarm{
+	dir = 8;
+	pixel_x = 24
+	},
+/turf/open/floor/carpet/ship,
+/area/crew_quarters/heads/captain)
 "Px" = (
 /obj/machinery/atmospherics/components/binary/dp_vent_pump/on/layer1,
 /turf/open/floor/plasteel/dark,
 /area/bridge)
 "Py" = (
-/obj/effect/turf_decal/tile/blue,
-/obj/effect/turf_decal/tile/blue{
-	dir = 8
-	},
-/obj/machinery/atmospherics/components/unary/vent_pump/high_volume/on/layer1{
-	icon_state = "vent_map_on-1";
-	dir = 4
-	},
-/turf/open/floor/plasteel/dark,
+/obj/machinery/atmospherics/components/unary/vent_pump/high_volume/on/layer1,
+/turf/open/floor/plasteel/ship/padded,
 /area/crew_quarters/heads/captain/private{
 	name = "Briefing room"
 	})
 "Pz" = (
-/obj/effect/turf_decal/tile/blue,
-/obj/effect/turf_decal/tile/blue{
-	dir = 8
-	},
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
-	icon_state = "pipe11-1";
-	dir = 4
-	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
+/obj/structure/cable,
 /turf/open/floor/plasteel/dark,
-/area/crew_quarters/heads/captain/private{
-	name = "Briefing room"
-	})
+/area/bridge/meeting_room)
 "PA" = (
 /turf/closed/wall/ship,
 /area/crew_quarters/heads/captain)
@@ -20708,22 +20596,11 @@
 	name = "Briefing room"
 	})
 "PM" = (
-/obj/effect/turf_decal/tile/purple{
-	dir = 8
-	},
-/obj/effect/turf_decal/tile/purple{
-	dir = 4
-	},
-/obj/effect/turf_decal/tile/purple{
-	dir = 1
-	},
-/obj/structure/chair{
-	dir = 1;
-	name = "research department"
-	},
-/turf/open/floor/plasteel/dark,
-/area/crew_quarters/heads/captain/private{
-	name = "Briefing room"
+/obj/machinery/power/apc/auto_name/east,
+/obj/structure/cable,
+/turf/open/floor/carpet/ship,
+/area/crew_quarters/heads/hop{
+	name = "Executive officer's office"
 	})
 "PN" = (
 /obj/effect/turf_decal/tile/purple{
@@ -20741,32 +20618,32 @@
 	name = "Briefing room"
 	})
 "PO" = (
-/obj/effect/turf_decal/tile/blue,
-/obj/effect/turf_decal/tile/blue{
-	dir = 8
-	},
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
-	icon_state = "pipe11-1";
+/obj/machinery/light/small{
 	dir = 4
 	},
-/obj/machinery/atmospherics/components/unary/vent_scrubber/on{
-	dir = 4
+/obj/machinery/door/window/northleft{
+	name = "Executive Shower"
 	},
-/turf/open/floor/plasteel/dark,
-/area/crew_quarters/heads/captain/private{
-	name = "Briefing room"
+/turf/open/floor/plasteel/freezer,
+/area/crew_quarters/heads/hop{
+	name = "Executive officer's office"
 	})
 "PP" = (
-/obj/effect/turf_decal/tile/blue,
-/obj/effect/turf_decal/tile/blue{
+/obj/effect/turf_decal/tile/purple{
 	dir = 8
 	},
-/obj/machinery/atmospherics/components/binary/dp_vent_pump/on/layer1{
-	icon_state = "dpvent_map_on-1";
+/obj/effect/turf_decal/tile/purple{
 	dir = 4
 	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
-	dir = 4
+/obj/effect/turf_decal/tile/purple{
+	dir = 1
+	},
+/obj/structure/chair{
+	dir = 1;
+	name = "research department"
+	},
+/obj/machinery/light{
+	dir = 8
 	},
 /turf/open/floor/plasteel/dark,
 /area/crew_quarters/heads/captain/private{
@@ -20789,77 +20666,72 @@
 	name = "Briefing room"
 	})
 "PR" = (
-/obj/structure/table/reinforced,
-/obj/item/folder/red,
-/obj/item/pen,
-/obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1{
-	icon_state = "manifold-1";
-	dir = 8
-	},
-/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden{
-	dir = 8
-	},
-/turf/open/floor/light,
+/obj/machinery/door/airlock/ship/command,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
+/obj/structure/cable,
+/turf/open/floor/plasteel/dark,
 /area/bridge/meeting_room)
 "PS" = (
-/obj/structure/cable,
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
-	icon_state = "pipe11-1";
-	dir = 9
-	},
+/obj/structure/closet/secure_closet/hop,
+/obj/item/reagent_containers/food/drinks/shaker,
 /turf/open/floor/carpet/ship,
 /area/crew_quarters/heads/hop{
 	name = "Executive officer's office"
 	})
 "PT" = (
-/obj/structure/window/reinforced/fulltile/ship,
-/obj/structure/curtain/obscuring/grey,
-/obj/structure/cable,
+/obj/structure/table/glass,
+/obj/item/storage/box/PDAs{
+	pixel_x = 4;
+	pixel_y = 4
+	},
+/obj/item/storage/box/silver_ids,
+/obj/item/storage/box/ids,
 /turf/open/floor/carpet/ship,
 /area/crew_quarters/heads/hop{
 	name = "Executive officer's office"
 	})
 "PU" = (
 /obj/structure/table/glass,
-/obj/item/paper_bin{
-	pixel_x = -2;
-	pixel_y = 4
-	},
-/obj/item/stamp/hop{
-	pixel_x = -4;
-	pixel_y = 4
-	},
-/obj/machinery/button/ticket_machine{
-	pixel_x = -18
-	},
 /turf/open/floor/carpet/ship,
 /area/crew_quarters/heads/hop{
 	name = "Executive officer's office"
 	})
 "PV" = (
-/obj/machinery/door/airlock/ship/command{
-	dir = 8;
-	icon_state = "closed";
-	name = "Executive officer";
-	req_one_access_txt = "57"
+/obj/machinery/computer/secure_data{
+	dir = 1
 	},
 /turf/open/floor/carpet/ship,
 /area/crew_quarters/heads/hop{
 	name = "Executive officer's office"
 	})
 "PW" = (
-/obj/structure/table/reinforced,
-/obj/machinery/door/window/northleft{
-	dir = 8;
-	name = "Reception Window"
+/obj/structure/chair/office,
+/obj/machinery/light_switch{
+	pixel_x = 38;
+	pixel_y = -35
 	},
-/obj/machinery/door/window/brigdoor{
-	base_state = "rightsecure";
-	dir = 4;
-	icon_state = "rightsecure";
-	name = "Head of Personnel's Desk";
-	req_access_txt = "57"
+/obj/machinery/button/door{
+	id = "xoqueue";
+	name = "Queue Shutters Control";
+	pixel_x = 25;
+	pixel_y = -36;
+	req_access_txt = "28"
 	},
+/obj/machinery/button/door{
+	id = "xo";
+	name = "Privacy Shutters Control";
+	pixel_x = 25;
+	pixel_y = -26;
+	req_access_txt = "28"
+	},
+/obj/machinery/button/flasher{
+	id = "hopflash";
+	pixel_x = 38;
+	pixel_y = -25
+	},
+/obj/effect/landmark/start/head_of_personnel,
+/obj/structure/cable,
 /turf/open/floor/carpet/ship,
 /area/crew_quarters/heads/hop{
 	name = "Executive officer's office"
@@ -20880,9 +20752,22 @@
 /turf/open/floor/carpet/ship,
 /area/crew_quarters/heads/captain)
 "PZ" = (
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
-/turf/open/floor/plasteel/ship/padded,
-/area/hallway/secondary/command)
+/obj/structure/table/glass,
+/obj/item/paper_bin{
+	pixel_x = -2;
+	pixel_y = 4
+	},
+/obj/item/stamp/hop{
+	pixel_x = -4;
+	pixel_y = 4
+	},
+/obj/machinery/button/ticket_machine{
+	pixel_x = 32
+	},
+/turf/open/floor/carpet/ship,
+/area/crew_quarters/heads/hop{
+	name = "Executive officer's office"
+	})
 "Qa" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
 /turf/open/floor/plasteel/ship/techfloor/alt,
@@ -20897,49 +20782,40 @@
 	name = "Deck 1 maintenance"
 	})
 "Qc" = (
-/obj/effect/turf_decal/tile/red,
-/obj/effect/turf_decal/tile/red{
+/obj/machinery/shower{
+	dir = 4
+	},
+/obj/item/bikehorn/rubberducky,
+/turf/open/floor/plasteel/freezer,
+/area/crew_quarters/heads/hop{
+	name = "Executive officer's office"
+	})
+"Qd" = (
+/obj/structure/window/reinforced/fulltile/ship,
+/obj/machinery/door/poddoor/ship/preopen{
+	dir = 6;
+	id = "bridge_blast";
+	name = "CIC blast doors"
+	},
+/turf/open/floor/plating,
+/area/bridge)
+"Qe" = (
+/obj/effect/turf_decal/tile/purple,
+/obj/effect/turf_decal/tile/purple{
 	dir = 8
 	},
-/obj/effect/turf_decal/tile/red{
+/obj/effect/turf_decal/tile/purple{
 	dir = 1
 	},
 /obj/structure/chair{
 	dir = 1;
-	name = "security department"
+	name = "research department"
 	},
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on,
 /turf/open/floor/plasteel/dark,
 /area/crew_quarters/heads/captain/private{
 	name = "Briefing room"
 	})
-"Qd" = (
-/obj/effect/turf_decal/tile/red,
-/obj/effect/turf_decal/tile/red{
-	dir = 8
-	},
-/obj/structure/chair{
-	dir = 1;
-	name = "security department"
-	},
-/turf/open/floor/plasteel/dark,
-/area/crew_quarters/heads/captain/private{
-	name = "Briefing room"
-	})
-"Qe" = (
-/obj/structure/chair/comfy{
-	icon_state = "comfychair";
-	dir = 8
-	},
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
-	icon_state = "pipe11-1";
-	dir = 4
-	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
-	dir = 4
-	},
-/turf/open/floor/carpet/ship,
-/area/bridge/meeting_room)
 "Qf" = (
 /obj/machinery/door/airlock/ship/command{
 	dir = 4;
@@ -20955,29 +20831,33 @@
 /turf/open/floor/plasteel/dark,
 /area/bridge/meeting_room)
 "Qg" = (
-/obj/effect/turf_decal/tile/blue,
-/obj/effect/turf_decal/tile/blue{
+/obj/effect/turf_decal/tile/red,
+/obj/effect/turf_decal/tile/red{
 	dir = 8
 	},
-/obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1,
-/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden,
+/obj/effect/turf_decal/tile/red{
+	dir = 1
+	},
+/obj/structure/chair{
+	dir = 1;
+	name = "security department"
+	},
+/obj/machinery/atmospherics/components/unary/vent_scrubber/on,
+/obj/structure/cable,
 /turf/open/floor/plasteel/dark,
 /area/crew_quarters/heads/captain/private{
 	name = "Briefing room"
 	})
 "Qh" = (
-/obj/effect/turf_decal/tile/blue,
-/obj/effect/turf_decal/tile/blue{
+/obj/effect/turf_decal/tile/red,
+/obj/effect/turf_decal/tile/red{
 	dir = 8
 	},
-/obj/machinery/light,
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
-	icon_state = "pipe11-1";
-	dir = 4
+/obj/structure/chair{
+	dir = 1;
+	name = "security department"
 	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
-	dir = 4
-	},
+/obj/structure/cable,
 /turf/open/floor/plasteel/dark,
 /area/crew_quarters/heads/captain/private{
 	name = "Briefing room"
@@ -20997,13 +20877,6 @@
 /turf/open/floor/plasteel/ship/techfloor/alt,
 /area/hallway/secondary/command)
 "Ql" = (
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
-/obj/machinery/atmospherics/components/unary/vent_scrubber/on{
-	dir = 4
-	},
-/turf/open/floor/plasteel/ship/padded,
-/area/hallway/secondary/command)
-"Qm" = (
 /obj/effect/turf_decal/tile/red,
 /obj/effect/turf_decal/tile/red{
 	dir = 8
@@ -21015,26 +20888,24 @@
 	dir = 1;
 	name = "security department"
 	},
+/obj/structure/cable,
 /turf/open/floor/plasteel/dark,
 /area/crew_quarters/heads/captain/private{
 	name = "Briefing room"
 	})
+"Qm" = (
+/obj/machinery/vending/cigarette{
+	name = "Adama's Finest Cigars";
+	pixel_x = 0
+	},
+/turf/open/floor/plasteel/dark,
+/area/bridge/meeting_room)
 "Qn" = (
-/obj/effect/turf_decal/tile/purple,
-/obj/effect/turf_decal/tile/purple{
-	dir = 8
-	},
-/obj/effect/turf_decal/tile/purple{
-	dir = 1
-	},
-/obj/structure/chair{
-	dir = 1;
-	name = "research department"
+/obj/machinery/vending/coffee{
+	pixel_x = 0
 	},
 /turf/open/floor/plasteel/dark,
-/area/crew_quarters/heads/captain/private{
-	name = "Briefing room"
-	})
+/area/bridge/meeting_room)
 "Qo" = (
 /obj/effect/turf_decal/tile/purple,
 /obj/effect/turf_decal/tile/purple{
@@ -21072,18 +20943,15 @@
 /turf/open/floor/plasteel/ship/techfloor/alt,
 /area/hallway/secondary/command)
 "Qr" = (
-/obj/machinery/atmospherics/components/binary/dp_vent_pump/on/layer1,
-/turf/open/floor/plasteel/ship/padded,
-/area/hallway/secondary/command)
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/obj/structure/cable,
+/turf/open/floor/plasteel/dark,
+/area/bridge/meeting_room)
 "Qs" = (
-/obj/effect/turf_decal/bot,
-/obj/machinery/light{
-	dir = 4
-	},
-/turf/open/floor/plasteel,
-/area/crew_quarters/heads/hop{
-	name = "Executive officer's office"
-	})
+/obj/structure/table/glass,
+/turf/open/floor/plasteel/dark,
+/area/bridge/meeting_room)
 "Qt" = (
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on,
 /turf/open/floor/plasteel/ship/techfloor/alt,
@@ -21206,13 +21074,14 @@
 /area/bridge)
 "QJ" = (
 /obj/structure/window/reinforced/fulltile/ship,
-/obj/machinery/door/poddoor/ship/preopen{
-	dir = 6;
-	id = "bridge_blast";
-	name = "CIC blast doors"
+/obj/machinery/door/poddoor/preopen{
+	id = "xo";
+	name = "privacy shutters"
 	},
-/turf/open/floor/plasteel/dark,
-/area/bridge)
+/turf/open/floor/plating,
+/area/crew_quarters/heads/hop{
+	name = "Executive officer's office"
+	})
 "QK" = (
 /obj/machinery/computer/card{
 	dir = 4
@@ -21224,78 +21093,55 @@
 /turf/open/floor/carpet/ship,
 /area/crew_quarters/heads/captain)
 "QM" = (
-/obj/effect/turf_decal/tile/blue,
-/obj/effect/turf_decal/tile/blue{
-	dir = 8
+/obj/structure/table/reinforced,
+/obj/machinery/door/window/brigdoor{
+	base_state = "rightsecure";
+	dir = 1;
+	icon_state = "rightsecure";
+	name = "Head of Personnel's Desk";
+	req_access_txt = "57"
 	},
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
-	icon_state = "pipe11-1";
-	dir = 4
+/obj/machinery/door/window/northleft{
+	dir = 2;
+	name = "Reception Window"
 	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
-	dir = 4
+/obj/machinery/door/poddoor/preopen{
+	id = "xo";
+	name = "privacy shutters"
 	},
-/turf/open/floor/plasteel/dark,
-/area/crew_quarters/heads/captain/private{
-	name = "Briefing room"
+/obj/structure/cable,
+/turf/open/floor/plating,
+/area/crew_quarters/heads/hop{
+	name = "Executive officer's office"
 	})
 "QN" = (
-/obj/effect/turf_decal/tile/blue,
-/obj/effect/turf_decal/tile/blue{
+/obj/machinery/shower{
 	dir = 4
 	},
-/obj/effect/turf_decal/tile/blue{
-	dir = 8
-	},
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
-	icon_state = "pipe11-1";
-	dir = 4
-	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
-	dir = 4
-	},
-/turf/open/floor/plasteel/dark,
-/area/crew_quarters/heads/captain/private{
-	name = "Briefing room"
-	})
+/turf/open/floor/plasteel/freezer,
+/area/bridge)
 "QO" = (
-/obj/structure/chair/office{
+/obj/machinery/shower{
 	dir = 8
 	},
-/turf/open/floor/carpet/ship,
-/area/crew_quarters/heads/hop{
-	name = "Executive officer's office"
-	})
+/turf/open/floor/plasteel/freezer,
+/area/bridge)
 "QP" = (
-/obj/structure/table/glass,
-/obj/structure/window/reinforced{
-	dir = 1;
-	layer = 2.9
-	},
-/turf/open/floor/carpet/ship,
-/area/crew_quarters/heads/hop{
-	name = "Executive officer's office"
-	})
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
+/turf/open/floor/plasteel/ship/padded,
+/area/bridge)
 "QQ" = (
-/obj/machinery/computer/security/mining{
-	dir = 8
+/obj/machinery/light{
+	dir = 1
 	},
-/obj/structure/window/reinforced{
-	dir = 1;
-	layer = 2.9
-	},
-/turf/open/floor/carpet/ship,
-/area/crew_quarters/heads/hop{
-	name = "Executive officer's office"
-	})
+/obj/machinery/atmospherics/components/unary/vent_pump/high_volume/on/layer1,
+/turf/open/floor/plasteel/ship/padded,
+/area/bridge)
 "QR" = (
-/obj/effect/turf_decal/loading_area{
-	dir = 8
-	},
-/turf/open/floor/plasteel,
-/area/crew_quarters/heads/hop{
-	name = "Executive officer's office"
-	})
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
+/turf/open/floor/plasteel/ship/padded,
+/area/bridge)
 "QS" = (
 /obj/machinery/computer/card{
 	dir = 4
@@ -21315,20 +21161,6 @@
 	name = "Executive officer's office"
 	})
 "QU" = (
-/obj/machinery/light{
-	dir = 1
-	},
-/turf/open/floor/plasteel/ship/padded,
-/area/crew_quarters/heads/captain/private{
-	name = "Briefing room"
-	})
-"QV" = (
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
-/turf/open/floor/plasteel/ship/padded,
-/area/crew_quarters/heads/captain/private{
-	name = "Briefing room"
-	})
-"QW" = (
 /obj/machinery/status_display/evac{
 	pixel_y = 27
 	},
@@ -21336,78 +21168,78 @@
 	dir = 1
 	},
 /turf/open/floor/plasteel/ship/padded,
+/area/bridge)
+"QV" = (
+/obj/structure/sign/nanotrasen{
+	pixel_y = 26
+	},
+/turf/open/floor/plasteel/ship/padded,
+/area/bridge)
+"QW" = (
+/obj/structure/cable,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	icon_state = "pipe11-1";
+	dir = 6
+	},
+/turf/open/floor/plasteel/ship/padded,
 /area/crew_quarters/heads/captain/private{
 	name = "Briefing room"
 	})
 "QX" = (
-/obj/structure/sign/nanotrasen{
-	pixel_y = 26
+/obj/machinery/atmospherics/components/unary/vent_pump/high_volume/on/layer1{
+	icon_state = "vent_map_on-1";
+	dir = 8
 	},
+/obj/structure/cable,
 /turf/open/floor/plasteel/ship/padded,
 /area/crew_quarters/heads/captain/private{
 	name = "Briefing room"
 	})
 "QY" = (
-/obj/machinery/door/airlock/ship/command{
-	dir = 4;
-	name = "Briefing room"
+/obj/machinery/camera{
+	c_tag = "Bridge - Central";
+	dir = 1
 	},
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
-	icon_state = "pipe11-1";
-	dir = 4
-	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
-	dir = 4
-	},
+/obj/structure/cable,
 /turf/open/floor/plasteel/ship/padded,
 /area/crew_quarters/heads/captain/private{
 	name = "Briefing room"
 	})
 "QZ" = (
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
-	icon_state = "pipe11-1";
-	dir = 4
-	},
-/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/obj/structure/cable,
 /turf/open/floor/plasteel/ship/padded,
 /area/crew_quarters/heads/captain/private{
 	name = "Briefing room"
 	})
 "Ra" = (
-/obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1,
-/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden,
-/turf/open/floor/plasteel/ship/padded,
-/area/crew_quarters/heads/captain/private{
+/obj/structure/cable,
+/obj/machinery/door/airlock/ship/command{
+	dir = 4;
 	name = "Briefing room"
-	})
+	},
+/turf/open/floor/plasteel/ship/padded,
+/area/bridge/meeting_room)
 "Rb" = (
-/obj/machinery/camera{
-	c_tag = "Bridge - Central";
-	dir = 1
-	},
-/obj/machinery/atmospherics/components/binary/dp_vent_pump/on/layer1{
-	icon_state = "dpvent_map_on-1";
+/obj/structure/cable,
+/obj/machinery/atmospherics/components/unary/vent_scrubber/on{
 	dir = 4
 	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
-	dir = 4
-	},
-/turf/open/floor/plasteel/ship/padded,
-/area/crew_quarters/heads/captain/private{
-	name = "Briefing room"
-	})
+/turf/open/floor/plasteel/dark,
+/area/bridge/meeting_room)
 "Rc" = (
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
-	icon_state = "pipe11-1";
-	dir = 9
+/obj/structure/cable,
+/obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1{
+	icon_state = "manifold-1";
+	dir = 8
 	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
+/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden{
 	dir = 4
 	},
-/turf/open/floor/plasteel/ship/padded,
-/area/crew_quarters/heads/captain/private{
-	name = "Briefing room"
-	})
+/turf/open/floor/plasteel/dark,
+/area/bridge/meeting_room)
 "Rd" = (
 /obj/structure/cable,
 /obj/machinery/atmospherics/pipe/layer_manifold,
@@ -21424,11 +21256,12 @@
 	name = "Deck 1 maintenance"
 	})
 "Rf" = (
-/obj/structure/table/glass,
-/obj/item/folder/blue,
-/obj/item/stamp/captain,
-/turf/open/floor/carpet/ship,
-/area/crew_quarters/heads/captain)
+/obj/machinery/atmospherics/components/unary/vent_pump/high_volume/on/layer1{
+	icon_state = "vent_map_on-1";
+	dir = 8
+	},
+/turf/open/floor/plasteel/dark,
+/area/bridge/meeting_room)
 "Rg" = (
 /obj/item/twohanded/required/kirbyplants{
 	icon_state = "plant-21";
@@ -21494,83 +21327,88 @@
 	name = "Briefing room"
 	})
 "Ro" = (
-/obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1{
-	icon_state = "manifold-1";
-	dir = 1
-	},
-/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden{
-	icon_state = "manifold-2";
-	dir = 4
-	},
-/turf/open/floor/plasteel/ship/padded,
-/area/crew_quarters/heads/captain/private{
-	name = "Briefing room"
-	})
+/obj/effect/turf_decal/bot,
+/turf/open/floor/plasteel,
+/area/hallway/secondary/command)
 "Rp" = (
+/obj/effect/turf_decal/bot,
+/obj/structure/cable,
+/turf/open/floor/plasteel,
+/area/hallway/secondary/command)
+"Rq" = (
+/obj/structure/table,
+/obj/item/paper_bin{
+	pixel_x = -2;
+	pixel_y = 4
+	},
+/obj/item/pen,
+/obj/effect/turf_decal/delivery,
+/turf/open/floor/plasteel,
+/area/hallway/secondary/command)
+"Rr" = (
+/obj/item/claymore/weak/ceremonial,
+/obj/item/clothing/under/kilt,
+/obj/item/clothing/head/beret,
+/obj/item/clothing/shoes/laceup,
+/turf/open/floor/plating,
+/area/hallway/secondary/command)
+"Rs" = (
+/obj/structure/sink{
+	dir = 8;
+	pixel_x = -12
+	},
 /obj/machinery/atmospherics/components/unary/vent_pump/high_volume/on/layer1{
 	icon_state = "vent_map_on-1";
-	dir = 8
+	dir = 4
 	},
+/obj/machinery/airalarm{
+	dir = 1;
+	pixel_y = -22
+	},
+/turf/open/floor/plasteel/freezer,
+/area/bridge)
+"Rt" = (
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	icon_state = "pipe11-1";
+	dir = 4
+	},
+/obj/machinery/atmospherics/components/unary/vent_scrubber/on{
+	dir = 4
+	},
+/obj/machinery/light,
+/turf/open/floor/plasteel/freezer,
+/area/bridge)
+"Ru" = (
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	icon_state = "pipe11-1";
+	dir = 4
+	},
+/obj/machinery/door/airlock/ship/command{
+	dir = 4;
+	name = "Command Shower"
+	},
+/turf/open/floor/plasteel/freezer,
+/area/bridge)
+"Rv" = (
+/obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1,
+/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden,
 /turf/open/floor/plasteel/ship/padded,
-/area/crew_quarters/heads/captain/private{
-	name = "Briefing room"
-	})
-"Rq" = (
+/area/bridge)
+"Rw" = (
 /obj/machinery/camera{
 	c_tag = "Bridge - Central";
 	dir = 1
 	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1,
 /turf/open/floor/plasteel/ship/padded,
-/area/crew_quarters/heads/captain/private{
-	name = "Briefing room"
-	})
-"Rr" = (
-/obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1{
-	icon_state = "manifold-1";
-	dir = 8
-	},
-/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden{
-	dir = 8
-	},
-/turf/open/floor/plasteel/ship/padded,
-/area/crew_quarters/heads/captain/private{
-	name = "Briefing room"
-	})
-"Rs" = (
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
-/obj/machinery/holopad,
-/turf/open/floor/carpet/ship,
-/area/bridge/meeting_room)
-"Rt" = (
-/obj/machinery/vending/coffee{
-	pixel_x = -3
-	},
-/turf/open/floor/plasteel/dark,
-/area/bridge/meeting_room)
-"Ru" = (
-/obj/machinery/camera{
-	c_tag = "Council Chamber";
-	dir = 1
-	},
-/turf/open/floor/plasteel/dark,
-/area/bridge/meeting_room)
-"Rv" = (
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
-/turf/open/floor/plasteel/dark,
-/area/bridge/meeting_room)
-"Rw" = (
-/obj/machinery/vending/cigarette{
-	name = "Adama's finest cigars"
-	},
-/turf/open/floor/plasteel/dark,
-/area/bridge/meeting_room)
+/area/bridge)
 "Rx" = (
-/obj/machinery/door/airlock/ship/command{
-	dir = 4;
-	name = "Briefing room"
-	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	icon_state = "pipe11-1";
 	dir = 4
@@ -21578,26 +21416,30 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
 	dir = 4
 	},
-/turf/open/floor/plasteel/dark,
-/area/crew_quarters/heads/captain/private{
-	name = "Briefing room"
-	})
+/obj/machinery/airalarm{
+	dir = 1;
+	pixel_y = -22
+	},
+/turf/open/floor/plasteel/ship/padded,
+/area/bridge)
 "Ry" = (
-/obj/machinery/computer/bounty{
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	icon_state = "pipe11-1";
 	dir = 4
 	},
-/turf/open/floor/carpet/ship,
-/area/crew_quarters/heads/hop{
-	name = "Executive officer's office"
-	})
+/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden,
+/turf/open/floor/plasteel/ship/padded,
+/area/bridge)
 "Rz" = (
-/obj/machinery/computer/cargo/request{
-	dir = 8
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	icon_state = "pipe11-1";
+	dir = 9
 	},
-/turf/open/floor/carpet/ship,
-/area/crew_quarters/heads/hop{
-	name = "Executive officer's office"
-	})
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
+	dir = 4
+	},
+/turf/open/floor/plasteel/ship/padded,
+/area/bridge)
 "RA" = (
 /obj/structure/sign/nanotrasen{
 	pixel_y = 26
@@ -21611,12 +21453,17 @@
 /turf/open/floor/plasteel/ship/techfloor/alt,
 /area/hallway/secondary/command)
 "RC" = (
-/obj/machinery/light{
-	dir = 1
+/obj/machinery/door/airlock/ship{
+	name = "Briefing room"
 	},
-/obj/machinery/atmospherics/components/unary/vent_scrubber/on,
-/turf/open/floor/plasteel/ship/techfloor/alt,
-/area/hallway/secondary/command)
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
+/obj/structure/cable,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/turf/open/floor/plasteel/ship/padded,
+/area/crew_quarters/heads/captain/private{
+	name = "Briefing room"
+	})
 "RD" = (
 /obj/structure/tank_dispenser/oxygen{
 	pixel_x = -1;
@@ -21628,34 +21475,35 @@
 /turf/open/floor/plasteel/ship/padded,
 /area/hallway/secondary/command)
 "RE" = (
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
-	icon_state = "pipe11-1";
-	dir = 5
-	},
-/turf/open/floor/plasteel/ship/padded,
-/area/hallway/secondary/command)
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/obj/structure/cable,
+/obj/machinery/door/airlock/ship/command,
+/turf/open/floor/plasteel/dark,
+/area/bridge/meeting_room)
 "RF" = (
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
-	icon_state = "pipe11-1";
-	dir = 4
+/obj/effect/turf_decal/loading_area{
+	icon_state = "loadingarea";
+	dir = 1
 	},
-/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden{
-	dir = 8
+/obj/machinery/door/poddoor/shutters/preopen{
+	id = "xoqueue";
+	name = "XO Queue Shutters"
 	},
-/turf/open/floor/plasteel/ship/padded,
+/turf/open/floor/plasteel,
 /area/hallway/secondary/command)
 "RG" = (
-/obj/machinery/atmospherics/components/binary/dp_vent_pump/on/layer1{
-	icon_state = "dpvent_map_on-1";
-	dir = 4
-	},
-/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden,
-/turf/open/floor/plasteel/ship/padded,
+/obj/structure/window/reinforced/fulltile/ship,
+/turf/open/floor/plating,
 /area/hallway/secondary/command)
 "RH" = (
-/obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1,
-/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden,
-/turf/open/floor/plasteel/ship/padded,
+/obj/effect/turf_decal/loading_area,
+/obj/machinery/door/poddoor/shutters/preopen{
+	id = "xoqueue";
+	name = "XO Queue Shutters"
+	},
+/obj/structure/cable,
+/turf/open/floor/plasteel,
 /area/hallway/secondary/command)
 "RI" = (
 /obj/machinery/camera{
@@ -21680,20 +21528,17 @@
 	name = "Deck 1 maintenance"
 	})
 "RL" = (
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /obj/structure/cable,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /turf/open/floor/plasteel/ship/techfloor/alt,
 /area/hallway/secondary/command)
 "RM" = (
-/obj/machinery/door/airlock/ship{
-	name = "Briefing room"
-	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
 /obj/structure/cable,
-/turf/open/floor/plasteel/ship/padded,
-/area/crew_quarters/heads/captain/private{
-	name = "Briefing room"
-	})
+/turf/open/floor/plasteel/ship/techfloor/alt,
+/area/hallway/secondary/command)
 "RN" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /obj/machinery/door/airlock/ship/maintenance,
@@ -23254,10 +23099,11 @@
 /turf/open/floor/plasteel,
 /area/hydroponics)
 "US" = (
-/obj/structure/chair/comfy,
-/obj/effect/landmark/start/captain,
-/turf/open/floor/carpet/ship,
-/area/bridge/meeting_room)
+/obj/machinery/ticket_machine{
+	pixel_y = 32
+	},
+/turf/open/floor/plasteel/ship/techfloor/alt,
+/area/hallway/secondary/command)
 "UT" = (
 /obj/structure/chair/office{
 	dir = 8
@@ -23310,6 +23156,34 @@
 /area/medical{
 	name = "Infirmary"
 	})
+"Va" = (
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	icon_state = "pipe11-1";
+	dir = 5
+	},
+/obj/structure/cable,
+/turf/open/floor/plasteel/ship/padded,
+/area/hallway/secondary/command)
+"Vb" = (
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	icon_state = "pipe11-1";
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden{
+	dir = 8
+	},
+/obj/structure/cable,
+/turf/open/floor/plasteel/ship/padded,
+/area/hallway/secondary/command)
+"Vc" = (
+/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden,
+/obj/structure/cable,
+/obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1{
+	icon_state = "manifold-1";
+	dir = 1
+	},
+/turf/open/floor/plasteel/ship/padded,
+/area/hallway/secondary/command)
 "Vd" = (
 /obj/effect/landmark/start/medical_doctor,
 /turf/open/floor/plasteel/white,
@@ -23422,6 +23296,40 @@
 /area/maintenance/aft/secondary{
 	name = "Deck 3 Maintenance"
 	})
+"Vs" = (
+/obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1,
+/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden,
+/obj/structure/cable,
+/turf/open/floor/plasteel/ship/padded,
+/area/hallway/secondary/command)
+"Vt" = (
+/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden,
+/obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1{
+	icon_state = "manifold-1";
+	dir = 1
+	},
+/obj/structure/cable,
+/turf/open/floor/plasteel/ship/padded,
+/area/hallway/secondary/command)
+"Vu" = (
+/obj/machinery/atmospherics/components/unary/vent_pump/high_volume/on/layer1{
+	icon_state = "vent_map_on-1";
+	dir = 1
+	},
+/turf/open/floor/plasteel/ship/techfloor/alt,
+/area/hallway/secondary/command)
+"Vv" = (
+/obj/machinery/camera{
+	c_tag = "AI Chamber - Aft";
+	dir = 1;
+	network = list("aicore")
+	},
+/obj/machinery/atmospherics/components/unary/vent_pump/high_volume/on/layer1{
+	icon_state = "vent_map_on-1";
+	dir = 1
+	},
+/turf/open/floor/plasteel/ship/techfloor/alt,
+/area/hallway/secondary/command)
 "Vw" = (
 /obj/machinery/atmospherics/pipe/simple/multiz,
 /turf/open/floor/plating,
@@ -175044,25 +174952,25 @@ dx
 GI
 RK
 pP
-AO
-OW
-PZ
+pF
+qj
+qS
 Qj
-PZ
-PZ
-PZ
-PZ
-Ql
-Qr
-Ql
-PZ
-PZ
-PZ
-PZ
-PZ
-PZ
-PZ
-RE
+qS
+qS
+qS
+qS
+Ih
+IP
+Ih
+qS
+qS
+qS
+qS
+qS
+qS
+qS
+Va
 pP
 RK
 pJ
@@ -175301,7 +175209,7 @@ or
 Rd
 RN
 rN
-CE
+pH
 OX
 Qa
 Qk
@@ -175310,7 +175218,7 @@ Qa
 Qa
 Qa
 Qq
-Qa
+IQ
 Qq
 Qa
 Qa
@@ -175319,7 +175227,7 @@ Qa
 Qa
 Qa
 Qa
-RF
+Vb
 Qa
 RS
 Re
@@ -175557,27 +175465,27 @@ dx
 pJ
 RK
 op
-pP
-GH
+pp
+qf
 OY
 vU
-uE
 vU
-uM
-uV
-HK
-HK
-HK
-HK
-HK
-QR
-uM
 vU
-Pv
+vU
+vU
+vU
+vU
+vU
+vU
+vU
+vU
+vU
+vU
+vU
 vU
 Qt
-RG
-pP
+Vc
+Vu
 RK
 RK
 pJ
@@ -175815,25 +175723,25 @@ pJ
 RK
 oC
 pP
-GL
-pP
-vU
-uG
-GJ
-uM
-uW
-uW
-uW
-Qs
-uW
-uW
-uW
-uM
-Pb
-GJ
-vU
-pP
-GL
+qg
+qQ
+qT
+rv
+Bt
+Ir
+Bk
+Bk
+Bk
+IR
+Bk
+Bk
+Bk
+PP
+Qe
+QW
+RC
+RL
+Vs
 pP
 oC
 RK
@@ -176072,25 +175980,25 @@ pJ
 RK
 oG
 pP
-GL
+qh
 pP
 vU
-uU
-IY
-uM
-uM
-HL
-uM
-uM
-uM
-PW
-uM
-uM
-Pc
-IY
+xw
+Bu
+Is
+Bk
+HM
+HM
+HM
+HM
+HM
+Bk
+PN
+Qo
+QX
 vU
 pP
-GL
+qh
 pP
 oG
 RK
@@ -176329,25 +176237,25 @@ AM
 RK
 RK
 uX
-GL
+qh
 Pl
-vU
-vL
-IY
-uM
-zP
+qU
+xx
+Bu
+Is
+Bk
 HM
-HS
-Ia
-PU
-QO
-QS
-uM
-Pc
-Pw
-vU
+HM
+HM
+HM
+HM
+Bk
+PN
+Qo
+xx
+qU
 Qu
-GL
+qh
 RI
 RK
 RK
@@ -176586,25 +176494,25 @@ pJ
 pJ
 RK
 pP
-GL
+qh
 pP
-vU
-xr
-IY
-uM
-AZ
-HN
-HT
-Ik
-HN
-HN
-HN
-uM
-Pc
-Py
-vU
+qU
+xx
+Bu
+Is
+Bk
+HM
+HM
+HM
+HM
+HM
+Bk
+PN
+Qo
+xx
+qU
 pP
-GL
+qh
 pP
 RK
 pJ
@@ -176843,25 +176751,25 @@ dx
 pJ
 RK
 pP
-GL
+qh
 pP
-vU
-xy
-IY
-uM
-Bm
-HO
-HU
-In
-HN
-HN
-QT
-uM
-Pc
-Pz
-vU
+qU
+xx
+Bv
+It
+Bk
+HM
+HM
+HM
+HM
+HM
+Bk
+PQ
+Qp
+xx
+qU
 pP
-GL
+qh
 pP
 RK
 pJ
@@ -177100,25 +177008,25 @@ dx
 pJ
 RK
 pP
-GL
+qh
 pP
-vU
-xy
-IY
-uM
-uM
-uM
-HV
-Jt
-PV
-uM
-uM
-uM
-Pc
-Pz
-vU
+qU
+Bj
+xx
+xx
+xx
+HP
+HP
+HP
+HP
+HP
+xx
+xx
+xx
+QY
+qU
 pP
-GL
+qh
 pP
 RK
 pJ
@@ -177357,25 +177265,25 @@ dx
 pJ
 RK
 pP
-GL
+qh
 pP
-vU
-xy
-IY
-uM
-EE
-HP
-HW
-Pd
-HN
-QP
-Ry
-uM
-Pc
-Pz
-vU
+qU
+Bk
+CF
+Iv
+Bk
+Bk
+Bk
+Bk
+Bk
+Bk
+Bk
+Ps
+Qg
+Bk
+qU
 pP
-GL
+qh
 pP
 RK
 pJ
@@ -177614,25 +177522,25 @@ dx
 pJ
 RK
 pP
-GL
+qh
 pP
-vU
-xy
-IY
-uM
-GG
-HQ
-HX
-Pi
-HN
-HN
-QO
-uM
-Pc
-Pz
-vU
+qU
+Bk
+EH
+Iw
+Bk
+qU
+qU
+qU
+qU
+qU
+Bk
+PJ
+Qh
+Bk
+qU
 pP
-GL
+qh
 pP
 RK
 pJ
@@ -177871,25 +177779,25 @@ dx
 pJ
 RK
 pP
-GL
+qh
 pP
-vU
-xy
-IY
-uM
-HJ
-HN
-HY
-PS
-HN
-QQ
-Rz
-uM
-Pc
-Pz
-vU
+qU
+Bk
+EH
+Iw
+Bk
+qU
+Ik
+IS
+IW
+qU
+Bk
+PJ
+Qh
+Bk
+qU
 pP
-GL
+qh
 pP
 RK
 pJ
@@ -178128,25 +178036,25 @@ dx
 pJ
 RK
 pP
-GL
+qh
 pP
-vU
-xy
-IY
-uM
-uM
-uM
-HZ
-PT
-PV
-uM
-uM
-uM
-Pc
-Pz
-vU
+qU
+Bk
+EH
+Iw
+Bk
+qU
+In
+IT
+Jt
+qU
+Bk
+PJ
+Qh
+Bk
+qU
 pP
-GL
+qh
 pP
 RK
 pJ
@@ -178385,25 +178293,25 @@ dx
 pJ
 RK
 pP
-GL
+qh
 pP
 vU
-xy
-IY
-uT
-zx
-Ac
-Bn
-Il
-Ac
-Ac
-Rt
-uT
-Pc
-Pz
+Bl
+Ie
+Iy
+Bk
+qU
+Iq
+IU
+Jt
+qU
+Bk
+PL
+Ql
+xx
 vU
 pP
-GL
+qh
 pP
 RK
 pJ
@@ -178642,25 +178550,25 @@ dx
 pJ
 RK
 pP
-GL
-pP
-vU
-AQ
-IY
-uT
-Ac
-Bd
-CR
-Im
-Pj
-Bd
-Ac
-uT
-Pc
-PO
-vU
-pP
-GL
+OH
+Pn
+xs
+Bo
+Io
+IC
+Bm
+qU
+ID
+IV
+Jt
+qU
+Py
+IC
+Rn
+QZ
+xs
+Pn
+Vs
 pP
 RK
 pJ
@@ -178898,27 +178806,27 @@ aa
 dx
 AM
 RK
-vr
-GH
+pC
+qf
 OY
-vU
-AR
-IY
+qV
+rM
+qV
 uT
-AX
-US
-Id
-IZ
-PK
-UV
-Ru
 uT
-Pk
-PP
-vU
+uT
+Qf
+IX
+Ii
+uT
+uT
+uT
+uT
+Ra
+uT
 Qt
-RG
-RI
+Vc
+Vv
 RK
 RV
 dx
@@ -179156,25 +179064,25 @@ dx
 pJ
 RK
 pP
-GL
+qh
 pP
-vU
-AS
-Ja
-Jc
-AY
-Bi
-If
-Jh
-PR
-Rs
-Rv
-Jd
-Pt
-Qg
-vU
+qV
+uE
+yc
+uT
+zx
+Ac
+Bn
+Il
+Ac
+Ac
+Ac
+uT
+Qm
+Bb
+uT
 pP
-GL
+qh
 pP
 RK
 pJ
@@ -179413,25 +179321,25 @@ dx
 pJ
 RK
 pP
-GL
+qh
 Pl
-vU
-AT
-IY
+qV
+uE
+yc
 uT
-Ba
-Bh
-Ig
-Pe
-Id
-QC
+Bx
+Bd
+CR
+Im
+Pj
+Bd
 Ac
 uT
-Pc
-Qh
-vU
+Qn
+Bb
+uT
 Qu
-GL
+qh
 pP
 RK
 pJ
@@ -179670,25 +179578,25 @@ dx
 pJ
 RK
 pP
-GL
+qh
 pP
-vU
-xy
-IY
+qV
+uE
+yc
 uT
-Bb
-Bd
-Ih
-Im
-Qe
-Bd
+AX
+HQ
+Id
+IZ
+PK
+UV
 Ac
 uT
-Pc
-QM
-vU
+Bx
+Rb
+uT
 pP
-GL
+qh
 pP
 RK
 pJ
@@ -179927,25 +179835,25 @@ dx
 pJ
 RK
 pP
-GL
+qh
 pP
-vU
-AW
-Jb
-uT
+qV
+uG
+zP
 Bc
-Bb
-Bb
-Pf
-Bn
-Ac
-Rw
-uT
-Pu
-QN
-vU
-pP
-GL
+BC
+HS
+IE
+IY
+Jy
+Pm
+Pz
+PR
+Qr
+Rc
+RE
+RM
+Vs
 pP
 RK
 pJ
@@ -180184,25 +180092,25 @@ dx
 pJ
 RK
 pP
-GL
+qh
 pP
-vU
-Bx
-vU
+qV
+uU
+yc
 uT
+Ba
+HQ
+IF
+Pe
+Ig
+QC
+Ac
 uT
+Ac
+Rf
 uT
-Ii
-uT
-Qf
-uT
-uT
-uT
-vU
-Rx
-vU
 RA
-GL
+qh
 pP
 RK
 pJ
@@ -180441,25 +180349,25 @@ dx
 pJ
 RK
 vA
-Iq
-RL
-RM
-xv
-Bt
-Ir
-Bk
-IE
-II
-IO
-IT
-IE
-Bk
-Ps
-Qc
-Ro
-xs
-Pn
-RH
+qh
+pP
+qV
+uU
+yc
+uT
+Ac
+Bd
+IG
+Im
+OT
+Bd
+Ac
+uT
+Ac
+Ac
+uT
+pP
+qh
 pP
 RK
 pJ
@@ -180700,23 +180608,23 @@ RK
 pP
 GL
 pP
-vU
-xw
-Bu
-Is
-Bk
-IE
-II
-IP
-IU
-IE
-Bk
-PJ
-Qd
-Rp
-vU
+qV
+uV
+AO
+uT
+zx
+Ac
+IH
+Pf
+Ac
+Ac
+Ac
+uT
+Qs
+Qs
+uT
 RB
-GL
+qh
 pP
 RK
 pJ
@@ -180945,45 +180853,45 @@ aa
 aa
 aa
 aa
-ae
-ae
-ae
-ae
-ae
-ae
+dP
+dP
+dP
+dP
+dP
+dP
 dx
 pJ
 RK
 pP
 GL
 pP
-wP
-xx
-Bu
-Is
-Bk
-IE
+qV
+uU
+yc
+uM
+uM
+uM
 II
-IQ
-IV
-IE
-Bk
-PJ
-Qd
-Bk
-wP
-pP
-GL
+uM
+uT
+uT
+uT
+uT
+uT
+uT
+uT
+US
+qh
 pP
 RK
 pJ
 dx
-ae
-ae
-ae
-ae
-ae
-ae
+dP
+dP
+dP
+dP
+dP
+dP
 aa
 aa
 aa
@@ -181201,8 +181109,8 @@ aa
 aa
 aa
 aa
-ae
-ae
+dP
+dP
 hk
 hk
 hk
@@ -181214,23 +181122,23 @@ RK
 pP
 GL
 pP
-wP
-xx
-Bu
-Is
-Bk
-IE
+qV
+uW
+yc
+uM
+CE
+HT
 IJ
-IR
-IW
-IE
-Bk
-PJ
-Qd
-Bk
-wP
+uM
+OW
+HN
+HN
+PS
+QJ
+Ro
+RF
 pP
-GL
+qh
 pP
 RK
 pJ
@@ -181240,8 +181148,8 @@ hk
 hk
 hk
 hk
-ae
-ae
+dP
+dP
 aa
 aa
 aa
@@ -181458,47 +181366,47 @@ aa
 aa
 aa
 aa
-ae
+dP
 hk
 hk
-ae
-ae
-ae
-ae
+dP
+dP
+dP
+dP
 dx
 pJ
 RK
 pP
 GL
 pP
-wP
-xx
-Bv
-It
-Bk
-IE
+qV
+uU
+yc
+uM
+DQ
+HU
 IK
-IE
-IE
-IE
-Bk
-PL
-Qm
-Bk
-wP
+uM
+Pa
+HN
+HN
+PT
+QJ
+Ro
+RG
 pP
-GL
+qh
 pP
 RK
 pJ
 dx
-ae
-ae
-ae
-ae
+dP
+dP
+dP
+dP
 hk
 hk
-ae
+dP
 aa
 aa
 aa
@@ -181715,47 +181623,47 @@ aa
 aa
 aa
 aa
-ae
+dP
 hk
 hk
-ae
+dP
 hk
 hk
 hk
 dx
 AM
 RK
-vr
-GH
-Pm
-wP
-Bj
-xx
-xx
-xx
-xx
-xx
-Bk
-Bk
-Bk
-Bk
-Bk
-Bk
-Rq
-wP
-RC
+pC
+qi
+OY
+qV
+uU
+yc
+uM
+EE
+HV
+IJ
+uM
+Pb
+HN
+HN
+PU
+QJ
+Ro
 RG
-RI
+Qt
+Vt
+Vv
 RK
 RV
 dx
 hk
 hk
 hk
-ae
+dP
 hk
 hk
-ae
+dP
 aa
 aa
 aa
@@ -181972,47 +181880,47 @@ aa
 aa
 aa
 aa
-ae
+dP
 hk
 hk
-ae
-ae
-ae
-ae
+dP
+dP
+dP
+dP
 dx
 pJ
 RK
 pP
 GL
-pP
-wP
-Bk
-CF
-Iv
-Bk
-IF
+Pl
+qV
+uU
+yc
+uM
+GG
+HW
 IL
-IL
-IL
-IX
-Bk
-PM
-Qn
-Bk
-wP
-pP
-GL
+Ja
+Pc
+Pt
+HO
+PV
+QJ
+Ro
+RG
+Qu
+qh
 pP
 RK
 pJ
 dx
-ae
-ae
-ae
-ae
+dP
+dP
+dP
+dP
 hk
 hk
-ae
+dP
 aa
 aa
 aa
@@ -182229,8 +182137,8 @@ aa
 aa
 aa
 aa
-ae
-ae
+dP
+dP
 hk
 hk
 hk
@@ -182242,23 +182150,23 @@ RK
 pP
 GL
 pP
-wP
-Bk
-EH
-Iw
-Bk
-IG
-IM
-IM
-IM
-OT
-Bk
-PN
-Qo
-Bk
-wP
+qV
+uU
+yc
+uM
+GH
+HX
+QT
+Jb
+HN
+Pu
+HO
+QS
+QJ
+Ro
+RG
 pP
-GL
+qh
 pP
 RK
 pJ
@@ -182268,8 +182176,8 @@ hk
 hk
 hk
 hk
-ae
-ae
+dP
+dP
 aa
 aa
 aa
@@ -182487,45 +182395,45 @@ aa
 aa
 aa
 aa
-ae
-ae
-ae
-ae
-ae
-ae
+dP
+dP
+dP
+dP
+dP
+dP
 dx
 pJ
 RK
 pP
 GL
 pP
-wP
-Bk
-EH
-Iw
-Bk
-IG
-IM
-IM
-IM
-OT
-Bk
-PN
-Qo
-Bk
-wP
-pP
-GL
+qV
+vr
+AQ
+uM
+uM
+uM
+uM
+uM
+Pd
+Pu
+HO
+PW
+QM
+Rp
+RH
+Qi
+qh
 pP
 RK
 pJ
 dx
-ae
-ae
-ae
-ae
-ae
-ae
+dP
+dP
+dP
+dP
+dP
+dP
 aa
 aa
 aa
@@ -182756,21 +182664,21 @@ RK
 pP
 GL
 pP
-wP
-Bk
-EH
-Iw
-Bk
-IG
+qV
+uU
+yc
+uM
+GJ
+HY
 IM
-IM
-IM
-OT
-Bk
-PN
-Qo
-Bk
-wP
+Jc
+HN
+Pu
+PM
+PZ
+uM
+Rq
+op
 pP
 GL
 pP
@@ -183013,21 +182921,21 @@ RK
 pP
 GL
 pP
-vU
-Bl
-Ie
-Iy
-Bk
-IH
-IN
-IN
-IN
-Pa
-Bk
-PQ
-Qp
-Bk
-vU
+qV
+uU
+yc
+uM
+GU
+HZ
+HN
+HN
+Pi
+Pv
+uM
+uM
+uM
+op
+op
 RB
 GL
 pP
@@ -183268,25 +183176,25 @@ dx
 pJ
 RO
 pP
-OH
-Pn
-xs
-Bo
-Io
-IC
-ID
-ID
-ID
-IS
-ID
-ID
-ID
-IC
-Rn
+GL
+pP
+qV
+uU
+yc
+uM
+HJ
+Ia
+IN
+Jd
+Pk
+HN
+PO
+Qc
+uM
 Rr
-xs
-Pn
-RH
+op
+pP
+GL
 pP
 RO
 pJ
@@ -183527,9 +183435,9 @@ RK
 pP
 GL
 pP
-po
-pp
-po
+pn
+vL
+pn
 qW
 qW
 qW
@@ -183539,9 +183447,9 @@ qW
 qW
 qW
 qW
-po
-QY
-po
+pn
+pn
+pn
 RA
 GL
 pP
@@ -183784,9 +183692,9 @@ RK
 op
 OI
 op
-po
-pC
-Bk
+pn
+uE
+yc
 qW
 xo
 Ji
@@ -183796,9 +183704,9 @@ Jl
 Ji
 Rg
 qW
-Bk
-pH
-po
+QN
+Rs
+pn
 op
 OI
 op
@@ -184041,9 +183949,9 @@ RK
 xz
 OP
 Po
-po
-pE
-qj
+pn
+wP
+AO
 qW
 zv
 Ji
@@ -184053,9 +183961,9 @@ PB
 QD
 Rh
 qW
-qU
-QZ
-po
+QO
+Rt
+pn
 Po
 OP
 xz
@@ -184298,9 +184206,9 @@ RK
 AN
 OQ
 Pp
-po
-pC
-Bk
+pn
+uE
+yc
 qW
 AH
 Ji
@@ -184310,9 +184218,9 @@ Jo
 Ji
 Ji
 qW
-Bk
-pH
-po
+qV
+Ru
+pn
 RD
 OQ
 RJ
@@ -184555,21 +184463,21 @@ RK
 xz
 OR
 Pq
-po
-pF
-qQ
+pn
+xr
+AR
 xl
 By
 Jj
 Jp
-Jy
+Jh
 Jr
 QH
 Ri
 Rm
-qV
-Ra
-po
+QP
+Rv
+pn
 Pq
 OR
 xz
@@ -184812,9 +184720,9 @@ RK
 op
 OS
 op
-po
-pH
-xx
+pn
+xv
+AS
 qW
 qW
 qW
@@ -184824,9 +184732,9 @@ PC
 PC
 Rj
 qW
-Bk
-pH
-po
+yc
+xv
+pn
 op
 OS
 op
@@ -185065,13 +184973,13 @@ aa
 aa
 aa
 aa
-dP
 oH
-dP
-xC
-po
-pH
-xx
+pE
+oH
+qR
+pn
+xv
+AS
 qW
 Bz
 Ji
@@ -185081,13 +184989,13 @@ PX
 QK
 Rk
 qW
-Bk
-pH
-po
-xC
-dP
+yc
+xv
+pn
+qR
 oH
-dP
+pE
+oH
 aa
 aa
 aa
@@ -185322,13 +185230,13 @@ aa
 aa
 aa
 aa
-hp
-hp
-hp
-dP
 po
-qf
-qR
+po
+po
+oH
+pn
+xy
+AT
 qW
 BB
 Jk
@@ -185338,13 +185246,13 @@ Jr
 QL
 Rl
 qW
-QU
-Rb
+QQ
+Rw
+pn
+oH
 po
-dP
-hp
-hp
-hp
+po
+po
 aa
 aa
 aa
@@ -185580,27 +185488,27 @@ aa
 aa
 aa
 aa
-hp
-hp
-dP
 po
-pH
-xx
+po
+oH
+pn
+xv
+AS
 qW
-DQ
-Ji
+HK
+If
 Js
 PA
 PY
-Rf
+Pw
 Ji
 qW
-Bk
-pH
+yc
+xv
+pn
+oH
 po
-dP
-hp
-hp
+po
 aa
 aa
 aa
@@ -185838,11 +185746,11 @@ aa
 aa
 aa
 aa
-hp
-dP
 po
-pH
-xx
+oH
+pn
+xC
+AS
 qW
 qW
 qW
@@ -185852,11 +185760,11 @@ qW
 qW
 qW
 qW
-Bk
-pH
+yc
+Rx
+pn
+oH
 po
-dP
-hp
 aa
 aa
 aa
@@ -186093,29 +186001,29 @@ aa
 aa
 aa
 aa
-hp
-hp
-hp
-dP
 po
-pH
-xx
+po
+po
+oH
+pn
+xv
+AS
 pn
 sb
 BW
-BW
+IO
 OZ
 BW
 BW
 Qy
 pn
-Bk
-pH
+yc
+xv
+pn
+oH
 po
-dP
-hp
-hp
-hp
+po
+po
 aa
 aa
 aa
@@ -186351,12 +186259,12 @@ aa
 aa
 aa
 aa
-hp
-aa
-dP
 po
-qg
-qS
+aa
+oH
+pn
+xI
+AW
 rq
 sc
 Cd
@@ -186366,12 +186274,12 @@ PI
 Qw
 Qz
 QI
-QV
-QZ
-po
-dP
+QR
+Ry
+pn
+oH
 aa
-hp
+po
 aa
 aa
 aa
@@ -186608,12 +186516,12 @@ aa
 aa
 aa
 aa
-hp
-aa
-dP
 po
-qh
-ID
+aa
+oH
+pn
+xO
+AY
 rr
 sd
 Cg
@@ -186623,12 +186531,12 @@ OU
 Cg
 QA
 rr
-ID
-Rc
-po
-dP
+AY
+Rz
+pn
+oH
 aa
-hp
+po
 aa
 aa
 aa
@@ -186865,12 +186773,12 @@ aa
 aa
 aa
 aa
-hp
-aa
-dP
 po
-qi
-qT
+aa
+oH
+pn
+xP
+AZ
 pn
 sv
 GK
@@ -186880,12 +186788,12 @@ GW
 Qx
 QB
 pn
-QW
-qi
-po
-dP
+QU
+xP
+pn
+oH
 aa
-hp
+po
 aa
 aa
 aa
@@ -187121,13 +187029,13 @@ aa
 aa
 aa
 aa
-hp
-hp
-hp
-dP
 po
-Bk
-Bk
+po
+po
+oH
+pn
+yc
+yc
 pn
 vz
 GW
@@ -187137,13 +187045,13 @@ GW
 GW
 QE
 pn
-QX
-Bk
+QV
+yc
+pn
+oH
 po
-dP
-hp
-hp
-hp
+po
+po
 aa
 aa
 aa
@@ -187381,10 +187289,10 @@ aa
 aa
 aa
 aa
-dP
-po
-Bk
-Bk
+oH
+pn
+yc
+yc
 rt
 xm
 GX
@@ -187394,10 +187302,10 @@ GW
 GX
 QF
 rt
-Bk
-Bk
-po
-dP
+yc
+yc
+pn
+oH
 aa
 aa
 aa
@@ -187638,10 +187546,10 @@ aa
 aa
 aa
 aa
-dP
-po
-po
-po
+oH
+pn
+pn
+pn
 pn
 xu
 GY
@@ -187651,10 +187559,10 @@ GW
 GY
 QF
 pn
-po
-po
-po
-dP
+pn
+pn
+pn
+oH
 aa
 aa
 aa
@@ -187899,7 +187807,7 @@ aa
 aa
 aa
 aa
-rv
+Bh
 xm
 GZ
 OV
@@ -187907,7 +187815,7 @@ PG
 Qv
 GZ
 QF
-rv
+Bh
 aa
 aa
 aa
@@ -188156,7 +188064,7 @@ aa
 aa
 aa
 aa
-rv
+Bh
 xB
 Ha
 Ha
@@ -188164,7 +188072,7 @@ PH
 Ha
 Ha
 QG
-rv
+Bh
 aa
 aa
 aa
@@ -188413,15 +188321,15 @@ aa
 aa
 aa
 aa
-rM
-BC
-BC
-BC
-BC
-BC
-BC
-BC
-QJ
+Bi
+HL
+HL
+HL
+HL
+HL
+HL
+HL
+Qd
 aa
 aa
 aa
