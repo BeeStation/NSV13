@@ -3,7 +3,6 @@
 	icon = 'sephora/icons/obj/machinery/doors/standard.dmi'
 	desc = "A durasteel bulkhead which opens and closes. Hope you're good at hatch hopping"
 	icon_state = "closed"
-	overlays_file = null
 //	doorOpen = 'DS13/sound/effects/tng_airlock.ogg'
 //	doorClose = 'DS13/sound/effects/tng_airlock.ogg'
 //	doorDeni = 'DS13/sound/effects/denybeep.ogg'
