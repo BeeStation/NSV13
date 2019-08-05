@@ -20,7 +20,7 @@
 	icon_state = "rwindow"
 	legacy_smooth = TRUE //Override /tg/ iconsmooths
 	smooth = TRUE
-	canSmoothWith = list(/obj/structure/window/reinforced/fulltile/ship,/turf/closed/wall/ship,/turf/closed/wall/r_wall/ship)
+	canSmoothWith = list(/obj/structure/window/reinforced/fulltile/ship,/turf/closed/wall/ship,/turf/closed/wall/r_wall/ship,/obj/machinery/door/airlock/ship)
 
 /obj/structure/fluff/support_beam
 	name = "Support beam"

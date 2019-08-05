@@ -32,6 +32,8 @@
 		var/obj/structure/stairs/target = locate(/obj/structure/stairs) in(T)
 		if(!target)
 			icon_state = "[initial(icon_state)]_top"
+	else
+		icon_state = "[initial(icon_state)]_top"
 
 /obj/structure/stairs/active //The stairs that actually move us up..
 	icon_state = "stairs_up"
@@ -58,12 +60,14 @@
 			var/obj/structure/stairs/target = locate(/obj/structure/stairs) in(T)
 			if(!target)
 				return //nothing below
-			if(target.master) //We do this shitcode so you dont infinitely go up stairs :)
-				AM.forceMove(get_turf(target.master))
-			if(isliving(AM))
-				var/mob/living/L = AM
-				if(L.pulling)
-					L.pulling.forceMove(get_turf(AM))
+			to_chat(AM, "<span class='notice'>You start descending [src]...</span>")
+			if (do_after(AM,20, target = src))
+				if(target.master) //We do this shitcode so you dont infinitely go up stairs :)
+					AM.forceMove(get_turf(target.master))
+				if(isliving(AM))
+					var/mob/living/L = AM
+					if(L.pulling)
+						L.pulling.forceMove(get_turf(AM))
 	if(AM.dir != dir) //they arent facing us, so they cant move up.
 		return
 	else
@@ -74,8 +78,10 @@
 		if(!target)
 			return //nothing below
 		if(target.linked) //We do this shitcode so you dont infinitely go up stairs :)
-			AM.forceMove(get_turf(target.linked))
-			if(isliving(AM))
-				var/mob/living/L = AM
-				if(L.pulling)
-					L.pulling.forceMove(get_turf(AM))
+			to_chat(AM, "<span class='notice'>You start ascending [src]...</span>")
+			if (do_after(AM,20, target = src))
+				AM.forceMove(get_turf(target.linked))
+				if(isliving(AM))
+					var/mob/living/L = AM
+					if(L.pulling)
+						L.pulling.forceMove(get_turf(AM))
