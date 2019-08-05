@@ -14,11 +14,6 @@
 	anchored = FALSE
 	density = TRUE
 	var/capacity = 0
-	//pull_force something something 1000 default - set to something else when loaded ie capacity >0
-	//pixel_y shift still outstanding
-	//can only currently unload all the munitions at once
-	//there is no 'doing a thing' timer on loading and unloading
-	//i'd like a heaver sfx for the rolling trolley
 
 /obj/structure/munitions_trolley/Moved()
 	. = ..()
