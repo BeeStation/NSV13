@@ -8,16 +8,17 @@
 
 /obj/structure/munitions_trolley
 	name = "test munitions trolley"
-	icon = 'icons/obj/janitor.dmi'
-	icon_state = "cart"
+	icon = 'icons/obj/structures.dmi'
+	icon_state = "table"
 	desc = "Test trolley for moving test munitions"
 	anchored = FALSE
 	density = TRUE
 	var/capacity = 0
 	//pull_force something something 1000 default - set to something else when loaded ie capacity >0
-	//gotta increment capacity when a munition is loaded
-	//need to actually load and unload that munition
-	//also extend examine for when theres munition(s) on the trolley
+	//pixel_y shift still outstanding
+	//can only currently unload all the munitions at once
+	//there is no 'doing a thing' timer on loading and unloading
+	//i'd like a heaver sfx for the rolling trolley
 
 /obj/structure/munitions_trolley/Moved()
 	. = ..()
@@ -39,22 +40,44 @@
 	if(anchored)
 		. += "<span class='notice'>[src]'s brakes are enabled!</span>"
 
-/obj/structure/munitions_trolley/proc/load_trolley(atom/A, mob/user)
-	if(!user.transferItemToLoc(A, src))
-
+/obj/structure/munitions_trolley/proc/load_trolley(atom/movable/A, mob/user)
+	if(istype(A, /obj/item))
+		if(!user.transferItemToLoc(A, src))
+			return
+	if(istype(A, /obj/structure/munition))
+		A.forceMove(src)
+		vis_contents += A
+		capacity = capacity + 1
 		return
-	to_chat(user, "<span class='notice'>You load [A] onto [src].</span>")
-	return
 
 /obj/structure/munitions_trolley/MouseDrop_T(obj/structure/A, mob/user)
-	if(istype(A, /obj/structure/munition) && capacity < 1)
+	if(istype(A, /obj/structure/munition) && capacity < 3)
 		load_trolley(A, src)
-		update_icon()
+		to_chat(user, "<span class='notice'>You load [A] onto [src].</span>")
 	else if(istype(A, /obj/structure/munition))
 		to_chat(user, "<span class='warning'>[src] is fully loaded!</span>")
 	else
 		return
 
-/obj/structure/munitions_trolley/update_icon()
-	cut_overlays()
-	add_overlay("cart_mop")
+/obj/structure/munitions_trolley/attack_hand(mob/user)
+	. = ..()
+	if(.)
+		return
+	user.set_machine(src)
+	var/dat
+	if(capacity >0)
+		dat += "<a href='?src=[REF(src)];unloadall=1'>Unload All</a>"
+	var/datum/browser/popup = new(user, "munitions trolley", name, 300, 200)
+	popup.set_content(dat)
+	popup.open()
+
+/obj/structure/munitions_trolley/Topic(href, href_list)
+	if(!in_range(src, usr))
+		return
+	if(href_list["unloadall"])
+		var/turf/T = get_turf(src.loc)
+		for(var/atom/movable/A in src)
+			vis_contents -= A
+			A.forceMove(T)
+			capacity = capacity - 1
+			to_chat(usr, "<span class='notice'>You unload [A] from [src].</span>")
