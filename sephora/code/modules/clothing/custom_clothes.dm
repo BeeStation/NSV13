@@ -71,6 +71,13 @@
 	item_state = "peacekeeper_jacket"
 	desc = "A comfortable grey leather jacket. Despite its heavy armour, it's still extremely comfortable to wear."
 
+/obj/item/clothing/suit/ship/peacekeeper/marine
+	name = "NT-4 Marine vest"
+	icon_state = "marine"
+	item_state = "marine"
+	desc = "A bulky vest worn by the colonial peacekeepers. Its nanocarbon mesh fabrics are sure to stop almost any projectile."
+	armor = list("melee" = 30, "bullet" = 45, "laser" = 10, "energy" = 10, "bomb" = 25, "bio" = 0, "rad" = 0, "fire" = 50, "acid" = 60)
+
 /obj/item/clothing/suit/ship/officer
 	name = "Officer's dress jacket"
 	desc = "A rather heavy jacket of a reasonable quality. It's not the most comfortable thing you could wear, but it's remained part of an officer's uniform for quite some time."
@@ -81,6 +88,22 @@
 	desc = "A basic storage vest which allows you to store a few small tools"
 	icon_state = "engineer_vest"
 	allowed = list(/obj/item/wrench, /obj/item/weldingtool, /obj/item/wirecutters, /obj/item/screwdriver, /obj/item/extinguisher, /obj/item/crowbar, /obj/item/analyzer, /obj/item/multitool, /obj/item/modular_computer/tablet)
+
+/obj/item/clothing/head/ship
+	name = "placeholder"
+	icon = 'sephora/icons/obj/clothing/hats.dmi' //Placeholder subtype for our own iconsets
+	alternate_worn_icon = 'sephora/icons/mob/head.dmi'
+	icon_state = "beret"
+	item_color = null
+
+/obj/item/clothing/head/ship/marine
+	name = "Nt-4 Marine helmet"
+	desc = "A large helmet made out of damage resistant materials."
+	icon = 'sephora/icons/obj/clothing/hats.dmi' //Placeholder subtype for our own iconsets
+	alternate_worn_icon = 'sephora/icons/mob/head.dmi'
+	icon_state = "marine"
+	item_color = null
+	armor = list("melee" = 20, "bullet" = 20, "laser" = 10,"energy" = 5, "bomb" = 25, "bio" = 0, "rad" = 0, "fire" = 50, "acid" = 50)
 
 /obj/item/clothing/head/beret/ship
 	name = "beret"
