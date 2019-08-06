@@ -6,14 +6,11 @@
 /turf/closed/wall/ship,
 /area/centcom)
 "ac" = (
-/turf/open/floor/plasteel/ship/techfloor,
-/area/centcom)
+/turf/closed/wall/ship,
+/area/ai_monitored/turret_protected/ai)
 "ad" = (
-/obj/machinery/light{
-	dir = 1
-	},
 /turf/open/floor/plasteel/ship/techfloor,
-/area/centcom)
+/area/ai_monitored/turret_protected/ai)
 "ae" = (
 /obj/machinery/door/airlock/ship,
 /turf/open/floor/plasteel/ship/padded,
@@ -82,22 +79,34 @@
 /turf/open/floor/carpet/ship,
 /area/centcom)
 "as" = (
-/obj/structure/chair/stool,
+/obj/structure/cable,
+/obj/machinery/light,
+/obj/effect/landmark/start/head_of_personnel,
 /turf/open/floor/carpet/ship,
-/area/centcom)
+/area/bridge)
 "at" = (
-/obj/structure/chair,
-/turf/open/floor/carpet/ship,
-/area/centcom)
-"au" = (
-/turf/open/floor/pod,
-/area/centcom)
-"av" = (
-/obj/machinery/light{
+/obj/structure/chair/comfy{
 	dir = 1
 	},
-/turf/open/floor/pod,
-/area/centcom)
+/obj/structure/cable,
+/obj/effect/landmark/start/captain,
+/turf/open/floor/carpet/ship,
+/area/bridge)
+"au" = (
+/turf/closed/wall/ship,
+/area/medical)
+"av" = (
+/obj/machinery/sleeper{
+	dir = 4
+	},
+/obj/effect/turf_decal/tile/blue{
+	dir = 4
+	},
+/obj/effect/turf_decal/tile/blue{
+	dir = 1
+	},
+/turf/open/floor/plasteel/white,
+/area/medical)
 "aw" = (
 /turf/open/floor/plasteel/ship/techfloor/alt,
 /area/centcom)
@@ -108,27 +117,25 @@
 /turf/open/floor/plasteel/ship/techfloor/alt,
 /area/centcom)
 "ay" = (
-/obj/structure/chair{
-	dir = 4
-	},
+/obj/structure/chair,
+/obj/effect/landmark/start/cargo_technician,
 /turf/open/floor/carpet/ship,
 /area/centcom)
 "az" = (
-/obj/structure/chair{
-	dir = 8
-	},
+/obj/structure/chair/stool,
+/obj/effect/landmark/start/cook,
 /turf/open/floor/carpet/ship,
 /area/centcom)
 "aA" = (
-/obj/machinery/door/airlock/ship{
-	icon_state = "closed";
-	dir = 8
-	},
-/turf/open/floor/plasteel/ship/padded,
-/area/centcom)
+/obj/machinery/power/apc/auto_name/north,
+/obj/structure/frame/computer,
+/obj/structure/cable,
+/turf/open/floor/carpet/ship,
+/area/bridge)
 "aB" = (
 /obj/structure/chair/stool,
 /obj/structure/disposalpipe/segment,
+/obj/effect/landmark/start/quartermaster,
 /turf/open/floor/carpet/ship,
 /area/centcom)
 "aC" = (
@@ -138,15 +145,14 @@
 /turf/open/floor/plating,
 /area/centcom)
 "aD" = (
-/obj/structure/chair{
-	dir = 1
-	},
+/obj/structure/chair,
+/obj/structure/cable,
+/obj/effect/landmark/start/chaplain,
 /turf/open/floor/carpet/ship,
 /area/centcom)
 "aE" = (
-/obj/machinery/light,
-/turf/open/floor/pod,
-/area/centcom)
+/turf/open/floor/plasteel/white,
+/area/medical)
 "aF" = (
 /obj/machinery/light,
 /turf/open/floor/carpet/ship,
@@ -168,6 +174,13 @@
 /obj/effect/turf_decal/stripes/line{
 	dir = 1
 	},
+/obj/structure/cable,
+/obj/machinery/power/port_gen/pacman,
+/obj/item/stack/sheet/mineral/plasma,
+/obj/item/stack/sheet/mineral/plasma,
+/obj/item/stack/sheet/mineral/plasma,
+/obj/item/stack/sheet/mineral/plasma,
+/obj/item/stack/sheet/mineral/plasma,
 /turf/open/floor/plasteel/ship/riveted,
 /area/centcom)
 "aK" = (
@@ -193,20 +206,21 @@
 /turf/open/floor/plasteel/ship/riveted,
 /area/centcom)
 "aN" = (
-/obj/effect/turf_decal/stripes/line{
-	dir = 5
+/obj/machinery/camera{
+	icon_state = "camera";
+	dir = 10
 	},
-/turf/open/floor/plasteel/ship/riveted,
+/turf/open/floor/carpet/black,
 /area/centcom)
 "aO" = (
-/obj/structure/fluff/support_beam,
-/turf/open/floor/pod,
-/area/centcom)
+/turf/closed/wall/ship,
+/area/bridge)
 "aP" = (
 /obj/machinery/power/smes/magical,
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
 	},
+/obj/structure/cable,
 /turf/open/floor/plasteel/ship/riveted,
 /area/centcom)
 "aQ" = (
@@ -236,17 +250,12 @@
 /turf/open/floor/plasteel/ship/riveted,
 /area/centcom)
 "aV" = (
-/obj/machinery/light{
-	dir = 8
-	},
-/turf/open/floor/pod,
-/area/centcom)
+/obj/item/aicard,
+/turf/open/floor/plasteel/ship/techfloor,
+/area/ai_monitored/turret_protected/ai)
 "aW" = (
-/obj/machinery/light{
-	dir = 4
-	},
-/turf/open/floor/pod,
-/area/centcom)
+/turf/closed/wall/ship,
+/area/space)
 "aX" = (
 /obj/structure/disposalpipe/trunk,
 /obj/machinery/disposal/bin,
@@ -267,25 +276,29 @@
 /turf/open/floor/plasteel/ship/riveted,
 /area/centcom)
 "bb" = (
-/obj/machinery/door/airlock/ship,
-/turf/open/floor/plasteel/ship,
-/area/centcom)
+/obj/structure/cable,
+/turf/open/floor/carpet/ship,
+/area/bridge)
 "bc" = (
-/turf/open/floor/plasteel/ship,
+/obj/machinery/door/airlock/ship,
+/obj/structure/cable,
+/turf/open/floor/plasteel/ship/padded,
 /area/centcom)
 "bd" = (
-/obj/structure/fluff/support_beam,
-/turf/open/floor/plasteel/ship,
+/obj/structure/cable,
+/turf/open/floor/plasteel/ship/techfloor/alt,
 /area/centcom)
 "be" = (
-/obj/machinery/light{
-	dir = 4
+/obj/structure/disposalpipe/segment{
+	icon_state = "pipe";
+	dir = 9
 	},
-/turf/open/floor/plasteel/ship,
+/obj/structure/cable,
+/turf/open/floor/carpet/ship,
 /area/centcom)
 "bf" = (
 /turf/closed/wall/r_wall/ship,
-/area/space)
+/area/maintenance/fore)
 "bg" = (
 /obj/structure/disposalpipe/trunk/multiz,
 /turf/open/floor/plating,
@@ -351,6 +364,10 @@
 	dir = 4;
 	id = "garbage"
 	},
+/obj/machinery/camera{
+	icon_state = "camera";
+	dir = 10
+	},
 /turf/open/floor/plating,
 /area/centcom)
 "bq" = (
@@ -384,6 +401,7 @@
 	icon_state = "pipe";
 	dir = 5
 	},
+/obj/effect/landmark/start/mime,
 /turf/open/floor/plating,
 /area/centcom)
 "bu" = (
@@ -406,6 +424,8 @@
 	dir = 1
 	},
 /obj/structure/cable,
+/obj/structure/disposalpipe/segment,
+/obj/effect/landmark/start/lawyer,
 /turf/open/floor/carpet/ship,
 /area/centcom)
 "by" = (
@@ -477,13 +497,8 @@
 /turf/open/floor/carpet/ship,
 /area/centcom)
 "bI" = (
-/obj/structure/chair{
-	dir = 4
-	},
-/obj/structure/disposalpipe/segment{
-	icon_state = "pipe";
-	dir = 8
-	},
+/obj/structure/chair,
+/obj/effect/landmark/start/chemist,
 /turf/open/floor/carpet/ship,
 /area/centcom)
 "bJ" = (
@@ -495,30 +510,21 @@
 /turf/open/floor/carpet/ship,
 /area/centcom)
 "bK" = (
-/obj/structure/table/reinforced,
-/obj/effect/landmark/observer_start,
-/obj/structure/disposalpipe/segment{
-	icon_state = "pipe";
-	dir = 8
-	},
-/turf/open/floor/carpet/ship,
-/area/centcom)
+/obj/machinery/power/apc/auto_name/north,
+/obj/structure/cable,
+/turf/open/floor/plasteel/ship/techfloor,
+/area/ai_monitored/turret_protected/ai)
 "bL" = (
-/obj/structure/chair{
-	dir = 8
-	},
-/obj/structure/disposalpipe/segment{
-	icon_state = "pipe";
-	dir = 8
-	},
-/turf/open/floor/carpet/ship,
-/area/centcom)
+/obj/effect/landmark/start/geneticist,
+/turf/open/floor/plasteel/white,
+/area/medical)
 "bM" = (
-/obj/structure/disposalpipe/segment{
-	icon_state = "pipe";
-	dir = 9
+/obj/machinery/door/airlock/ship{
+	icon_state = "closed";
+	dir = 8
 	},
-/turf/open/floor/carpet/ship,
+/obj/structure/cable,
+/turf/open/floor/plasteel/ship/padded,
 /area/centcom)
 "bN" = (
 /obj/structure/disposalpipe/segment{
@@ -568,9 +574,13 @@
 /turf/open/floor/plasteel/ship/riveted,
 /area/centcom)
 "bU" = (
-/obj/structure/disposalpipe/segment,
-/turf/open/floor/plasteel/ship/riveted,
-/area/centcom)
+/obj/machinery/light{
+	dir = 1
+	},
+/obj/machinery/power/apc/auto_name/north,
+/obj/structure/cable,
+/turf/open/floor/plating,
+/area/maintenance/fore)
 "bV" = (
 /obj/effect/turf_decal/stripes/line,
 /obj/structure/disposalpipe/segment{
@@ -580,16 +590,11 @@
 /turf/open/floor/plasteel/ship/riveted,
 /area/centcom)
 "bW" = (
-/obj/effect/turf_decal/stripes/corner,
-/obj/effect/turf_decal/stripes/corner{
-	dir = 8
+/obj/machinery/light{
+	dir = 1
 	},
-/obj/structure/disposalpipe/segment{
-	icon_state = "pipe";
-	dir = 9
-	},
-/turf/open/floor/plasteel/ship/riveted,
-/area/centcom)
+/turf/open/floor/plating,
+/area/maintenance/fore)
 "bX" = (
 /obj/structure/cable,
 /obj/machinery/computer/monitor,
@@ -646,10 +651,7 @@
 /obj/structure/chair{
 	dir = 4
 	},
-/obj/structure/disposalpipe/segment{
-	icon_state = "pipe";
-	dir = 4
-	},
+/obj/effect/landmark/start/bartender,
 /turf/open/floor/carpet/ship,
 /area/centcom)
 "cg" = (
@@ -661,18 +663,15 @@
 /turf/open/floor/carpet/ship,
 /area/centcom)
 "ch" = (
-/obj/structure/table/reinforced,
-/obj/structure/disposalpipe/segment{
-	icon_state = "pipe";
-	dir = 10
-	},
-/turf/open/floor/carpet/ship,
-/area/centcom)
+/obj/structure/cable,
+/turf/open/floor/plasteel/ship/techfloor,
+/area/ai_monitored/turret_protected/ai)
 "ci" = (
 /obj/structure/disposalpipe/junction{
 	icon_state = "pipe-j1";
 	dir = 1
 	},
+/obj/effect/landmark/start/clown,
 /turf/open/floor/plating,
 /area/centcom)
 "cj" = (
@@ -680,7 +679,7 @@
 	dir = 1
 	},
 /obj/structure/cable,
-/obj/structure/disposalpipe/segment,
+/obj/effect/landmark/start/librarian,
 /turf/open/floor/carpet/ship,
 /area/centcom)
 "ck" = (
@@ -691,6 +690,566 @@
 /obj/structure/ladder,
 /turf/open/floor/plasteel/ship/padded,
 /area/centcom)
+"cm" = (
+/obj/machinery/light{
+	dir = 1
+	},
+/turf/open/floor/plasteel/ship/techfloor,
+/area/ai_monitored/turret_protected/ai)
+"cn" = (
+/obj/machinery/door/airlock/ship,
+/obj/structure/cable,
+/turf/open/floor/plasteel/ship/padded,
+/area/ai_monitored/turret_protected/ai)
+"co" = (
+/obj/structure/fluff/support_beam,
+/obj/structure/cable,
+/turf/open/floor/plating,
+/area/maintenance/fore)
+"cp" = (
+/obj/structure/fluff/support_beam,
+/turf/open/floor/plating,
+/area/maintenance/fore)
+"cq" = (
+/obj/structure/cable,
+/turf/open/floor/plating,
+/area/maintenance/fore)
+"cr" = (
+/turf/open/floor/plating,
+/area/maintenance/fore)
+"cs" = (
+/obj/machinery/light{
+	dir = 8
+	},
+/obj/structure/cable,
+/turf/open/floor/plating,
+/area/maintenance/fore)
+"ct" = (
+/obj/machinery/light{
+	dir = 4
+	},
+/turf/open/floor/plating,
+/area/maintenance/fore)
+"cu" = (
+/obj/structure/chair{
+	dir = 8
+	},
+/obj/effect/landmark/start/chief_engineer,
+/turf/open/floor/carpet/ship,
+/area/centcom)
+"cv" = (
+/turf/open/floor/carpet/ship,
+/area/bridge)
+"cw" = (
+/obj/structure/disposalpipe/segment,
+/obj/structure/cable,
+/turf/open/floor/plasteel/ship/riveted,
+/area/centcom)
+"cx" = (
+/obj/effect/turf_decal/tile/blue{
+	dir = 4
+	},
+/obj/effect/turf_decal/tile/blue{
+	dir = 1
+	},
+/turf/open/floor/plasteel/white,
+/area/medical)
+"cy" = (
+/obj/machinery/light{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/blue{
+	dir = 4
+	},
+/obj/effect/turf_decal/tile/blue{
+	dir = 1
+	},
+/turf/open/floor/plasteel/white,
+/area/medical)
+"cz" = (
+/obj/structure/cable,
+/turf/open/floor/plasteel/white,
+/area/medical)
+"cA" = (
+/obj/effect/turf_decal/stripes/corner,
+/obj/effect/turf_decal/stripes/corner{
+	dir = 8
+	},
+/obj/structure/disposalpipe/segment{
+	icon_state = "pipe";
+	dir = 9
+	},
+/obj/structure/cable,
+/turf/open/floor/plasteel/ship/riveted,
+/area/centcom)
+"cB" = (
+/obj/structure/window/reinforced/fulltile/ship,
+/turf/open/floor/carpet/ship,
+/area/bridge)
+"cC" = (
+/obj/machinery/door/airlock/ship,
+/obj/structure/cable,
+/turf/open/floor/plating,
+/area/centcom)
+"cD" = (
+/obj/structure/fluff/support_beam,
+/obj/structure/cable,
+/turf/open/floor/plating,
+/area/centcom)
+"cE" = (
+/obj/machinery/light{
+	dir = 4
+	},
+/obj/structure/cable,
+/turf/open/floor/plating,
+/area/centcom)
+"cF" = (
+/obj/machinery/door/airlock/ship,
+/obj/structure/cable,
+/turf/open/floor/plating,
+/area/maintenance/fore)
+"cG" = (
+/obj/structure/cable,
+/obj/machinery/light{
+	dir = 8
+	},
+/turf/open/floor/plating,
+/area/maintenance/fore)
+"cH" = (
+/obj/machinery/door/airlock/ship,
+/obj/structure/cable,
+/turf/open/floor/plating,
+/area/engine/gravity_generator)
+"cI" = (
+/obj/structure/table/reinforced,
+/obj/structure/cable,
+/turf/open/floor/carpet/ship,
+/area/centcom)
+"cJ" = (
+/obj/structure/table/reinforced,
+/obj/effect/landmark/observer_start,
+/obj/structure/disposalpipe/segment{
+	icon_state = "pipe";
+	dir = 8
+	},
+/obj/structure/cable,
+/turf/open/floor/carpet/ship,
+/area/centcom)
+"cK" = (
+/obj/structure/table/reinforced,
+/obj/structure/disposalpipe/segment{
+	icon_state = "pipe";
+	dir = 10
+	},
+/obj/structure/cable,
+/turf/open/floor/carpet/ship,
+/area/centcom)
+"cL" = (
+/obj/machinery/door/airlock/ship{
+	icon_state = "closed";
+	dir = 8
+	},
+/obj/structure/cable,
+/turf/open/floor/plasteel/ship/padded,
+/area/medical)
+"cM" = (
+/obj/machinery/power/apc/auto_name/north,
+/obj/structure/cable,
+/obj/effect/turf_decal/tile/blue{
+	dir = 4
+	},
+/obj/effect/turf_decal/tile/blue{
+	dir = 1
+	},
+/turf/open/floor/plasteel/white,
+/area/medical)
+"cN" = (
+/obj/structure/sign/nanotrasen,
+/turf/closed/wall/ship,
+/area/centcom)
+"cO" = (
+/obj/effect/turf_decal/tile/blue{
+	dir = 4
+	},
+/obj/effect/turf_decal/tile/blue,
+/obj/effect/turf_decal/tile/blue{
+	dir = 1
+	},
+/obj/structure/table/reinforced,
+/obj/item/storage/firstaid/brute,
+/turf/open/floor/plasteel/white,
+/area/medical)
+"cP" = (
+/obj/machinery/sleeper{
+	dir = 4
+	},
+/obj/effect/turf_decal/tile/blue{
+	dir = 1
+	},
+/turf/open/floor/plasteel/white,
+/area/medical)
+"cQ" = (
+/obj/effect/turf_decal/tile/blue{
+	dir = 4
+	},
+/obj/effect/turf_decal/tile/blue,
+/obj/structure/table/reinforced,
+/obj/item/storage/firstaid/brute,
+/obj/item/storage/firstaid/fire,
+/turf/open/floor/plasteel/white,
+/area/medical)
+"cR" = (
+/obj/structure/cable,
+/obj/effect/turf_decal/tile/blue{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/blue{
+	dir = 8
+	},
+/turf/open/floor/plasteel/white,
+/area/medical)
+"cS" = (
+/obj/machinery/sleeper{
+	dir = 4
+	},
+/obj/effect/turf_decal/tile/blue{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/blue,
+/turf/open/floor/plasteel/white,
+/area/medical)
+"cT" = (
+/obj/effect/turf_decal/tile/blue,
+/obj/effect/turf_decal/tile/blue{
+	dir = 8
+	},
+/turf/open/floor/plasteel/white,
+/area/medical)
+"cU" = (
+/obj/machinery/light,
+/obj/effect/turf_decal/tile/blue,
+/obj/effect/turf_decal/tile/blue{
+	dir = 8
+	},
+/turf/open/floor/plasteel/white,
+/area/medical)
+"cV" = (
+/obj/effect/turf_decal/tile/blue{
+	dir = 4
+	},
+/obj/effect/turf_decal/tile/blue,
+/obj/structure/table/reinforced,
+/obj/item/storage/firstaid/fire,
+/obj/item/storage/firstaid/o2,
+/turf/open/floor/plasteel/white,
+/area/medical)
+"cW" = (
+/obj/structure/window/reinforced/fulltile/ship,
+/turf/open/floor/plasteel/white,
+/area/medical)
+"cX" = (
+/obj/effect/turf_decal/stripes/line{
+	dir = 8
+	},
+/obj/structure/cable,
+/turf/open/floor/plasteel/ship/riveted,
+/area/centcom)
+"cY" = (
+/obj/structure/disposalpipe/segment{
+	icon_state = "pipe";
+	dir = 8
+	},
+/obj/effect/landmark/start/cyborg,
+/turf/open/floor/plating,
+/area/centcom)
+"cZ" = (
+/obj/structure/overmap/nanotrasen/patrol_cruiser/starter,
+/turf/open/space/basic,
+/area/space)
+"da" = (
+/obj/structure/chair{
+	dir = 4
+	},
+/obj/structure/disposalpipe/segment{
+	icon_state = "pipe";
+	dir = 8
+	},
+/obj/effect/landmark/start/assistant,
+/turf/open/floor/carpet/ship,
+/area/centcom)
+"db" = (
+/obj/structure/chair{
+	dir = 4
+	},
+/obj/structure/disposalpipe/segment{
+	icon_state = "pipe";
+	dir = 4
+	},
+/obj/effect/landmark/start/botanist,
+/turf/open/floor/carpet/ship,
+/area/centcom)
+"dc" = (
+/obj/effect/turf_decal/stripes/line{
+	dir = 4
+	},
+/obj/effect/landmark/start/atmospheric_technician,
+/turf/open/floor/plasteel/ship/riveted,
+/area/centcom)
+"dd" = (
+/obj/structure/cable,
+/obj/effect/landmark/start/chief_medical_officer,
+/turf/open/floor/plasteel/white,
+/area/medical)
+"de" = (
+/obj/structure/chair{
+	dir = 8
+	},
+/obj/structure/disposalpipe/segment{
+	icon_state = "pipe";
+	dir = 8
+	},
+/obj/effect/landmark/start/detective,
+/turf/open/floor/carpet/ship,
+/area/centcom)
+"df" = (
+/obj/structure/chair{
+	dir = 8
+	},
+/obj/effect/landmark/start/head_of_security,
+/turf/open/floor/carpet/ship,
+/area/centcom)
+"dg" = (
+/obj/structure/chair{
+	dir = 1
+	},
+/obj/structure/cable,
+/obj/effect/landmark/start/janitor,
+/turf/open/floor/carpet/ship,
+/area/centcom)
+"dh" = (
+/obj/effect/landmark/start/medical_doctor,
+/turf/open/floor/plasteel/white,
+/area/medical)
+"di" = (
+/obj/effect/landmark/start/research_director,
+/turf/open/floor/carpet/ship,
+/area/centcom)
+"dj" = (
+/obj/effect/landmark/start/scientist,
+/turf/open/floor/carpet/ship,
+/area/centcom)
+"dk" = (
+/obj/effect/landmark/start/security_officer,
+/turf/open/floor/carpet/ship,
+/area/centcom)
+"dl" = (
+/obj/effect/landmark/start/roboticist,
+/turf/open/floor/carpet/ship,
+/area/centcom)
+"dm" = (
+/obj/structure/cable,
+/obj/effect/landmark/start/virologist,
+/obj/structure/chair/stool,
+/turf/open/floor/plasteel/white,
+/area/medical)
+"dn" = (
+/obj/effect/landmark/start/shaft_miner,
+/turf/open/floor/carpet/ship,
+/area/centcom)
+"do" = (
+/obj/effect/turf_decal/stripes/line{
+	dir = 4
+	},
+/obj/effect/landmark/start/station_engineer,
+/turf/open/floor/plasteel/ship/riveted,
+/area/centcom)
+"dp" = (
+/obj/effect/landmark/start/warden,
+/turf/open/floor/carpet/ship,
+/area/centcom)
+"dq" = (
+/obj/structure/disposalpipe/segment{
+	icon_state = "pipe";
+	dir = 4
+	},
+/obj/machinery/light,
+/turf/open/floor/plasteel/ship/techfloor/alt,
+/area/centcom)
+"dr" = (
+/turf/open/floor/plasteel/dark,
+/area/engine/gravity_generator)
+"ds" = (
+/obj/structure/cable,
+/turf/open/floor/pod,
+/area/engine/gravity_generator)
+"dt" = (
+/obj/machinery/power/apc/auto_name/north,
+/obj/structure/cable,
+/turf/open/floor/pod,
+/area/engine/gravity_generator)
+"du" = (
+/obj/structure/disposalpipe/segment{
+	icon_state = "pipe";
+	dir = 4
+	},
+/obj/machinery/camera{
+	icon_state = "camera";
+	dir = 10
+	},
+/turf/open/floor/plasteel/ship/techfloor/alt,
+/area/centcom)
+"dv" = (
+/obj/machinery/camera{
+	icon_state = "camera";
+	dir = 10
+	},
+/turf/open/floor/plasteel/ship/techfloor/alt,
+/area/centcom)
+"dw" = (
+/obj/machinery/camera{
+	icon_state = "camera";
+	dir = 10
+	},
+/turf/open/floor/plating,
+/area/centcom)
+"dx" = (
+/obj/effect/turf_decal/tile/blue,
+/obj/effect/turf_decal/tile/blue{
+	dir = 8
+	},
+/obj/machinery/camera{
+	icon_state = "camera";
+	dir = 10
+	},
+/turf/open/floor/plasteel/white,
+/area/medical)
+"dy" = (
+/obj/structure/fluff/support_beam{
+	icon_state = "support_beam";
+	dir = 1
+	},
+/obj/machinery/camera,
+/turf/open/floor/plasteel/ship/techfloor/alt,
+/area/centcom)
+"dz" = (
+/obj/effect/turf_decal/stripes/line{
+	dir = 5
+	},
+/obj/machinery/camera,
+/turf/open/floor/plasteel/ship/riveted,
+/area/centcom)
+"dA" = (
+/obj/machinery/camera,
+/turf/open/floor/pod,
+/area/engine/gravity_generator)
+"dB" = (
+/obj/machinery/camera{
+	icon_state = "camera";
+	dir = 10
+	},
+/turf/open/floor/plasteel/ship/padded,
+/area/centcom)
+"dC" = (
+/obj/machinery/camera,
+/turf/open/floor/plasteel/ship/techfloor,
+/area/ai_monitored/turret_protected/ai)
+"dD" = (
+/obj/machinery/camera,
+/turf/open/floor/carpet/ship,
+/area/bridge)
+"dE" = (
+/obj/effect/turf_decal/tile/blue{
+	dir = 4
+	},
+/obj/effect/turf_decal/tile/blue,
+/obj/structure/table/reinforced,
+/obj/item/storage/firstaid/o2,
+/obj/item/storage/firstaid/regular,
+/turf/open/floor/plasteel/white,
+/area/medical)
+"dF" = (
+/obj/effect/turf_decal/tile/blue{
+	dir = 4
+	},
+/obj/effect/turf_decal/tile/blue,
+/obj/effect/turf_decal/tile/blue{
+	dir = 8
+	},
+/obj/structure/table/reinforced,
+/obj/item/storage/firstaid/toxin,
+/turf/open/floor/plasteel/white,
+/area/medical)
+"dH" = (
+/obj/machinery/light,
+/turf/open/floor/pod,
+/area/engine/gravity_generator)
+"ee" = (
+/turf/closed/wall/r_wall/ship,
+/area/engine/gravity_generator)
+"el" = (
+/obj/effect/turf_decal/bot_white/right,
+/obj/effect/turf_decal/tile/neutral{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/neutral,
+/obj/effect/turf_decal/tile/neutral{
+	dir = 4
+	},
+/obj/effect/turf_decal/tile/neutral{
+	dir = 8
+	},
+/turf/open/floor/plasteel/dark,
+/area/engine/gravity_generator)
+"em" = (
+/obj/effect/turf_decal/bot_white,
+/obj/effect/turf_decal/tile/neutral{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/neutral,
+/obj/effect/turf_decal/tile/neutral{
+	dir = 4
+	},
+/obj/effect/turf_decal/tile/neutral{
+	dir = 8
+	},
+/turf/open/floor/plasteel/dark,
+/area/engine/gravity_generator)
+"en" = (
+/obj/effect/turf_decal/bot_white/left,
+/obj/effect/turf_decal/tile/neutral{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/neutral,
+/obj/effect/turf_decal/tile/neutral{
+	dir = 4
+	},
+/obj/effect/turf_decal/tile/neutral{
+	dir = 8
+	},
+/turf/open/floor/plasteel/dark,
+/area/engine/gravity_generator)
+"eo" = (
+/obj/machinery/gravity_generator/main/station,
+/obj/effect/turf_decal/bot_white,
+/obj/effect/turf_decal/tile/neutral{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/neutral,
+/obj/effect/turf_decal/tile/neutral{
+	dir = 4
+	},
+/obj/effect/turf_decal/tile/neutral{
+	dir = 8
+	},
+/turf/open/floor/plasteel/dark,
+/area/engine/gravity_generator)
+"ep" = (
+/turf/open/floor/pod,
+/area/engine/gravity_generator)
+"eq" = (
+/obj/structure/closet/radiation,
+/turf/open/floor/pod,
+/area/engine/gravity_generator)
 
 (1,1,1) = {"
 aa
@@ -21647,7 +22206,7 @@ aa
 ab
 aC
 aq
-bu
+cY
 bN
 bA
 ab
@@ -21906,7 +22465,7 @@ ck
 aq
 bu
 bN
-aq
+dw
 ab
 aa
 aa
@@ -22676,7 +23235,7 @@ ap
 ab
 aw
 bE
-cc
+du
 ab
 bB
 ap
@@ -23186,14 +23745,14 @@ aa
 aa
 ab
 bF
-ap
+aN
 ab
 aw
 bE
-cc
+dq
 ab
 bF
-ap
+aN
 ab
 aa
 aa
@@ -23454,20 +24013,20 @@ ab
 ab
 aa
 aa
-aG
-aG
-aG
-aG
-aG
-aG
-aG
-aG
-aG
-aG
-aG
-aG
-aG
-aG
+bf
+bf
+bf
+bf
+bf
+bf
+bf
+bf
+bf
+bf
+bf
+bf
+bf
+bf
 aa
 aa
 aa
@@ -23706,25 +24265,25 @@ an
 bG
 cd
 an
-an
+dn
 ak
 aa
 aa
 aa
-aG
-av
-aO
-au
-aV
-au
-au
-aO
-aV
-au
-au
-aO
-au
-aG
+bf
+bU
+co
+cq
+cs
+cq
+cq
+co
+cq
+cq
+cG
+co
+cq
+bf
 aa
 aa
 aa
@@ -23958,30 +24517,30 @@ aa
 aa
 ak
 am
-as
+az
 an
 bG
 ce
 bw
-an
+di
 ak
 aa
 aa
 aa
-aG
-aG
-aG
-aG
-aG
-aG
-aG
-aG
-aG
-aG
-aG
-aG
-au
-aG
+bf
+bf
+bf
+bf
+bf
+bf
+bf
+bf
+bf
+bf
+bf
+bf
+cq
+bf
 aa
 aa
 aa
@@ -24205,11 +24764,11 @@ aa
 aa
 aa
 aa
-ab
-ab
-ab
-ab
-ab
+ac
+ac
+ac
+ac
+ac
 aa
 aa
 aa
@@ -24220,7 +24779,7 @@ an
 bH
 cd
 bw
-an
+dj
 ak
 aa
 aa
@@ -24228,7 +24787,7 @@ aa
 aG
 aI
 aP
-aU
+cX
 aP
 aU
 bl
@@ -24237,14 +24796,14 @@ aa
 aa
 aa
 bf
-av
-aG
-aa
-aa
-aa
-aa
-aa
-aa
+cq
+bf
+ee
+ee
+ee
+ee
+ee
+ee
 aa
 aa
 aa
@@ -24462,20 +25021,20 @@ aa
 aa
 aa
 aa
-ab
 ac
+ad
+ad
+ad
 ac
-ac
-ab
 ab
 ab
 ab
 ab
 ao
 an
-ay
-bI
 cf
+da
+db
 bw
 aF
 ab
@@ -24485,8 +25044,8 @@ ab
 aG
 aJ
 aQ
+aR
 aS
-aQ
 aS
 bV
 aG
@@ -24494,14 +25053,14 @@ aa
 aa
 aa
 bf
-au
-aG
-aa
-aa
-aa
-aa
-aa
-aa
+cq
+bf
+eq
+ep
+ep
+ep
+eq
+ee
 aa
 aa
 aa
@@ -24719,46 +25278,46 @@ aa
 aa
 aa
 aa
-ab
 ac
+bK
+ch
+ch
 ac
-ac
-ab
-af
+dy
 ai
 af
-ab
+cN
 an
-at
+ay
 al
 bJ
 cg
-bx
+dg
 an
 ab
-af
+dy
 ai
 af
 aH
 aK
-aR
 aS
 aR
+aS
 aS
 bV
 aG
 aG
 aG
 aG
-aG
-au
-aG
-aa
-aa
-aa
-aa
-aa
-aa
+bf
+cq
+bf
+dA
+el
+em
+en
+ep
+ee
 aa
 aa
 aa
@@ -24976,21 +25535,21 @@ aa
 aa
 aa
 aa
-ab
-ad
 ac
-ac
-ae
-ag
-ag
-ag
-ae
-an
-at
-al
-bK
+cm
+aV
 ch
-cj
+cn
+bv
+bv
+bv
+bc
+bw
+aD
+cI
+cJ
+cK
+bx
 bP
 bQ
 bR
@@ -25001,21 +25560,21 @@ bS
 bT
 bT
 bT
-bU
-bW
-bb
-bc
-bd
-be
-bb
-au
-aG
-aa
-aa
-aa
-aa
-aa
-aa
+cw
+cA
+cC
+bn
+cD
+cE
+cF
+cq
+cH
+ds
+em
+dr
+eo
+dH
+ee
 aa
 aa
 aa
@@ -25233,21 +25792,21 @@ aa
 aa
 aa
 aa
-ab
 ac
+dC
+ad
+ad
 ac
-ac
-ab
 ah
 aj
 ah
-ab
+cN
 an
-at
+bI
 al
 bJ
 al
-aD
+cj
 an
 ab
 ah
@@ -25264,15 +25823,15 @@ aG
 aG
 aG
 aG
-aG
-au
-aG
-aa
-aa
-aa
-aa
-aa
-aa
+bf
+cr
+bf
+dt
+en
+em
+el
+ep
+ee
 aa
 aa
 aa
@@ -25490,21 +26049,21 @@ aa
 aa
 aa
 aa
-ab
 ac
+ad
+ad
+ad
 ac
-ac
-ab
 ab
 ab
 ab
 ab
 ao
 an
-az
-bL
-az
-an
+cu
+de
+df
+bw
 aF
 ab
 ab
@@ -25522,14 +26081,14 @@ aa
 aa
 aa
 bf
-au
-aG
-aa
-aa
-aa
-aa
-aa
-aa
+cr
+bf
+ep
+ep
+ep
+ep
+ep
+ee
 aa
 aa
 aa
@@ -25747,11 +26306,11 @@ aa
 aa
 aa
 aa
-ab
-ab
-ab
-ab
-ab
+ac
+ac
+ac
+ac
+ac
 aa
 aa
 aa
@@ -25761,17 +26320,17 @@ an
 an
 bH
 an
-an
-an
+bw
+dk
 ak
 aa
 aa
 aa
 aG
-aN
+dz
+do
 aT
-aT
-aT
+dc
 aT
 ba
 aG
@@ -25779,14 +26338,14 @@ aa
 aa
 aa
 bf
-av
-aG
-aa
-aa
-aa
-aa
-aa
-aa
+cr
+bf
+ee
+ee
+ee
+ee
+ee
+ee
 aa
 aa
 aa
@@ -26016,28 +26575,28 @@ ak
 aX
 aB
 aZ
-bM
-an
-an
-an
+be
+bw
+bw
+dl
 ak
 aa
 aa
 aa
-aG
-aG
-aG
-aG
-aG
-aG
-aG
-aG
-aG
-aG
-aG
-aG
-au
-aG
+bf
+bf
+bf
+bf
+bf
+bf
+bf
+bf
+bf
+bf
+bf
+bf
+cr
+bf
 aa
 aa
 aa
@@ -26273,28 +26832,28 @@ ak
 al
 al
 an
+bw
 an
 an
-an
-an
+dp
 ak
 aa
 aa
 aa
-aG
-av
-aO
-au
-aW
-au
-au
-aO
-aW
-au
-au
-aO
-au
-aG
+bf
+bW
+cp
+cr
+ct
+cr
+cr
+cp
+cr
+cr
+ct
+cp
+cr
+bf
 aa
 aa
 aa
@@ -26524,34 +27083,34 @@ aa
 aa
 aa
 aa
+aO
+aO
+ab
+ab
+ab
+ab
+bM
+ab
+ab
+ab
+ab
 aa
 aa
-ab
-ab
-ab
-ab
-aA
-ab
-ab
-ab
-ab
 aa
-aa
-aa
-aG
-aG
-aG
-aG
-aG
-aG
-aG
-aG
-aG
-aG
-aG
-aG
-aG
-aG
+bf
+bf
+bf
+bf
+bf
+bf
+bf
+bf
+bf
+bf
+bf
+bf
+bf
+bf
 aa
 aa
 aa
@@ -26781,13 +27340,13 @@ aa
 aa
 aa
 aa
-aa
-aa
-aa
-aa
-ab
-aw
-ag
+cB
+dD
+cv
+bb
+bc
+bd
+bv
 aw
 ab
 aa
@@ -27030,6 +27589,7 @@ aa
 aa
 aa
 aa
+cZ
 aa
 aa
 aa
@@ -27037,15 +27597,14 @@ aa
 aa
 aa
 aa
-aa
-aa
-aa
-aa
-aa
-ab
+aO
+aA
+at
+as
+cN
 ax
-ag
-aw
+bv
+dv
 ab
 aa
 aa
@@ -27295,13 +27854,13 @@ aa
 aa
 aa
 aa
-aa
-aa
-aa
-aa
-ab
+cB
+cv
+cv
+cv
+ae
 aw
-ag
+bv
 aw
 ab
 aa
@@ -27552,16 +28111,16 @@ aa
 aa
 aa
 aa
-aa
-aa
-aa
-ab
-ab
-ab
-aA
-ab
-ab
-ab
+aO
+aO
+aW
+au
+au
+au
+cL
+au
+au
+au
 aa
 aa
 aa
@@ -27812,13 +28371,13 @@ aa
 aa
 aa
 aa
-ab
 au
+av
+cP
+cR
+cP
+cS
 au
-au
-au
-au
-ab
 aa
 aa
 aa
@@ -28069,13 +28628,13 @@ aa
 aa
 aa
 aa
-ab
 au
+cx
+aE
+cz
+aE
+cT
 au
-au
-au
-au
-ab
 aa
 aa
 aa
@@ -28326,13 +28885,13 @@ aa
 aa
 aa
 aa
-ab
-av
 au
+cy
+bL
+dd
+dh
+cU
 au
-au
-aE
-ab
 aa
 aa
 aa
@@ -28583,13 +29142,13 @@ aa
 aa
 aa
 aa
-ab
 au
+cM
+cz
+dm
+aE
+dx
 au
-au
-au
-au
-ab
 aa
 aa
 aa
@@ -28840,13 +29399,13 @@ aa
 aa
 aa
 aa
-ab
 au
+cO
+cQ
+cV
+dE
+dF
 au
-au
-au
-au
-ab
 aa
 aa
 aa
@@ -29097,13 +29656,13 @@ aa
 aa
 aa
 aa
-ab
-ab
-ab
-ab
-ab
-ab
-ab
+au
+au
+cW
+cW
+cW
+au
+au
 aa
 aa
 aa
@@ -86927,7 +87486,7 @@ ab
 ag
 bh
 bj
-ag
+dB
 ab
 aa
 aa

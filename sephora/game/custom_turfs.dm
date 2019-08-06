@@ -28,16 +28,6 @@
 			return
 	. = ..()
 
-/obj/machinery/door/airlock/ship
-	name = "Airtight hatch"
-	icon = 'sephora/icons/obj/machinery/doors/standard.dmi'
-	desc = "A durasteel bulkhead which opens and closes. Hope you're good at hatch hopping"
-	icon_state = "closed"
-	overlays_file = null
-//	doorOpen = 'DS13/sound/effects/tng_airlock.ogg'
-//	doorClose = 'DS13/sound/effects/tng_airlock.ogg'
-//	doorDeni = 'DS13/sound/effects/denybeep.ogg'
-
 /turf/open/floor/carpet/ship
 	name = "nanoweave carpet"
 	desc = "A padded piece of hull plating which can make a space based installation feel more homely."
@@ -63,7 +53,7 @@
 	glass_type = /obj/item/stack/sheet/nanocarbon_glass
 	legacy_smooth = TRUE //Override /tg/ iconsmooths
 	smooth = TRUE
-	canSmoothWith = list(/obj/structure/window/reinforced/fulltile/ship,/turf/closed/wall/ship,/turf/closed/wall/r_wall/ship)
+	canSmoothWith = list(/obj/structure/window/reinforced/fulltile/ship,/turf/closed/wall/ship,/turf/closed/wall/r_wall/ship,/obj/machinery/door/airlock/ship)
 
 /obj/structure/fluff/support_beam
 	name = "Support beam"

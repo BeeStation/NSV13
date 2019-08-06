@@ -31,6 +31,9 @@
 	max_integrity = 1500 //Max health
 	integrity_failure = 1500
 
+/obj/structure/overmap/nanotrasen/patrol_cruiser/starter
+	main_overmap = TRUE //Player controlled variant
+
 /obj/structure/overmap/nanotrasen/patrol_cruiser/ai
 	ai_controlled = TRUE
 	ai_behaviour = AI_AGGRESSIVE

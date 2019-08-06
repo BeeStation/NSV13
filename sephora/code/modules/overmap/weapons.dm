@@ -46,8 +46,6 @@
 /obj/item/projectile/bullet/torpedo/on_hit(atom/target, blocked = 0)
 	if(isovermap(target))
 		var/obj/structure/overmap/OM = target
-		var/sound/chosen = pick('sephora/sound/effects/ship/torpedo_detonate.ogg','sephora/sound/effects/ship/freespace2/impacts/boom_2.wav','sephora/sound/effects/ship/freespace2/impacts/boom_3.wav','sephora/sound/effects/ship/freespace2/impacts/subhit.wav','sephora/sound/effects/ship/freespace2/impacts/subhit2.wav','sephora/sound/effects/ship/freespace2/impacts/m_hit.wav','sephora/sound/effects/ship/freespace2/impacts/hit_1.wav')
-		OM.relay_to_nearby(chosen)
 		OM.torpedoes_to_target -= src
 	return ..()
 

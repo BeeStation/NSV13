@@ -26,7 +26,7 @@
 		"Assistant",
 		"Cyborg",
 		"Captain",
-		"Head of Personnel",
+		"Executive Officer",
 		"Head of Security",
 		"Chief Engineer",
 		"Research Director",
@@ -454,7 +454,7 @@
 					if((ACCESS_HOP in auth_card.access) && ((target_dept==1) || !target_dept))
 						region_access |= 1
 						region_access |= 6
-						get_subordinates("Head of Personnel")
+						get_subordinates("Executive Officer")
 					if((ACCESS_HOS in auth_card.access) && ((target_dept==2) || !target_dept))
 						region_access |= 2
 						get_subordinates("Head of Security")
