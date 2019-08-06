@@ -44,9 +44,9 @@
 	dog_fashion = null
 
 
-//Head of Personnel
+//Executive Officer
 /obj/item/clothing/head/hopcap
-	name = "head of personnel's cap"
+	name = "Executive Officer's cap"
 	icon_state = "hopcap"
 	desc = "The symbol of true bureaucratic micromanagement."
 	armor = list("melee" = 25, "bullet" = 15, "laser" = 25, "energy" = 10, "bomb" = 25, "bio" = 0, "rad" = 0, "fire" = 50, "acid" = 50)

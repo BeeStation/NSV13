@@ -132,8 +132,8 @@ INITIALIZE_IMMEDIATE(/obj/effect/landmark)
 	icon_state = "Chief Engineer"
 
 /obj/effect/landmark/start/head_of_personnel
-	name = "Head of Personnel"
-	icon_state = "Head of Personnel"
+	name = "Executive Officer"
+	icon_state = "Executive Officer"
 
 /obj/effect/landmark/start/librarian
 	name = "Curator"
@@ -303,7 +303,7 @@ INITIALIZE_IMMEDIATE(/obj/effect/landmark/start/new_player)
 	GLOB.xeno_spawn += loc
 	return INITIALIZE_HINT_QDEL
 
-//objects with the stationloving component (nuke disk) respawn here. 
+//objects with the stationloving component (nuke disk) respawn here.
 //also blobs that have their spawn forcemoved (running out of time when picking their spawn spot), santa and respawning devils
 /obj/effect/landmark/blobstart
 	name = "blobstart"

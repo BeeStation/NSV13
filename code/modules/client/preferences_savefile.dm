@@ -181,7 +181,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	buttons_locked	= sanitize_integer(buttons_locked, 0, 1, initial(buttons_locked))
 	windowflashing	= sanitize_integer(windowflashing, 0, 1, initial(windowflashing))
 	default_slot	= sanitize_integer(default_slot, 1, max_save_slots, initial(default_slot))
-	toggles			= sanitize_integer(toggles, 0, 65535, initial(toggles))
+	toggles			= sanitize_integer(toggles, 0, 105164000, initial(toggles)) //Sephora - PREFERENCES IMPORTANT! When you add a new toggle, you have to double this number. Thank you byond, VERY cool.
 	clientfps		= sanitize_integer(clientfps, 0, 1000, 0)
 	parallax		= sanitize_integer(parallax, PARALLAX_INSANE, PARALLAX_DISABLE, null)
 	ambientocclusion	= sanitize_integer(ambientocclusion, 0, 1, initial(ambientocclusion))

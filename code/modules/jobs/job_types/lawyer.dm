@@ -1,12 +1,12 @@
 /datum/job/lawyer
 	title = "Lawyer"
 	flag = LAWYER
-	department_head = list("Head of Personnel")
+	department_head = list("Executive Officer")
 	department_flag = CIVILIAN
 	faction = "Station"
 	total_positions = 2
 	spawn_positions = 2
-	supervisors = "the head of personnel"
+	supervisors = "the Executive Officer"
 	selection_color = "#dddddd"
 	var/lawyers = 0 //Counts lawyer amount
 
@@ -26,9 +26,9 @@
 
 	belt = /obj/item/pda/lawyer
 	ears = /obj/item/radio/headset/headset_srvsec
-	uniform = /obj/item/clothing/under/lawyer/bluesuit
-	suit = /obj/item/clothing/suit/toggle/lawyer
-	shoes = /obj/item/clothing/shoes/laceup
+	uniform = /obj/item/clothing/under/ship/officer
+	shoes = /obj/item/clothing/shoes/jackboots
+	head = /obj/item/clothing/head/beret/durathread
 	l_hand = /obj/item/storage/briefcase/lawyer
 	l_pocket = /obj/item/laser_pointer
 	r_pocket = /obj/item/clothing/accessory/lawyers_badge
