@@ -15,6 +15,7 @@
 	legacy_smooth = TRUE //Override /tg/ iconsmooths
 	smooth = TRUE
 	canSmoothWith = list(/turf/closed/wall/ship,/turf/closed/wall/r_wall/ship,/obj/machinery/door,/obj/structure/window)
+	sheet_type = /obj/item/stack/sheet/durasteel
 	var/connect_universally = TRUE //Connect to every subtype of the walls?
 
 /turf/closed/wall/ship/Initialize()
