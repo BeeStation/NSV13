@@ -11,7 +11,7 @@
 
 /area/ruin/powered/shuttle/medium_4
 
-/area/ruin/powered/NSV13/prisonship
+/area/ruin/powered/nsv13/prisonship
 
 /area/ruin/powered/NSV13/trooptransport
 
