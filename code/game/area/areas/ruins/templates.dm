@@ -13,6 +13,6 @@
 
 /area/ruin/powered/nsv13/prisonship
 
-/area/ruin/powered/NSV13/trooptransport
+/area/ruin/powered/nsv13/trooptransport
 
-/area/ruin/powered/NSV13/gunship
+/area/ruin/powered/nsv13/gunship
