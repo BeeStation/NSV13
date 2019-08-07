@@ -100,14 +100,6 @@
 				return FALSE
 		return TRUE
 
-	if(istype(mover, /obj/vehicle))
-		var/obj/vehicle/roadtrafficaccident = mover
-		if(!roadtrafficaccident.demolish_on_ram)
-			return
-		visible_message("<span class='danger'>[mover] drives over and destroys [src]!</span>")
-		destroy_structure(0)
-		return FALSE
-
 	var/obj/structure/S = locate(/obj/structure) in get_turf(mover)
 	if(S && S.climbable && !(S.flags_atom & ON_BORDER) && climbable && isliving(mover)) //Climbable objects allow you to universally climb over others
 		return TRUE
@@ -122,7 +114,7 @@
 
 /obj/structure/barricade/attack_alien(mob/living/carbon/xenomorph/M)
 	M.do_attack_animation(src)
-	obj_integrity -= rand(M.xeno_caste.melee_damage_lower, M.xeno_caste.melee_damage_upper)
+	obj_integrity -= rand(M.melee_damage_lower, M.melee_damage_upper)
 	if(barricade_hitsound)
 		playsound(src, barricade_hitsound, 25, 1)
 	if(obj_integrity <= 0)
@@ -678,7 +670,6 @@
 	desc = "A very sturdy barricade made out of plasteel panels, the pinnacle of strongpoints. Use a blowtorch to repair. Can be flipped down to create a path."
 	icon_state = "plasteel_closed_0"
 	max_integrity = 600
-	crusher_resistant = TRUE
 	barricade_resistance = 20
 	stack_type = /obj/item/stack/sheet/plasteel
 	stack_amount = 5
@@ -902,79 +893,4 @@
 		obj_integrity -= 50
 
 	update_health()
-	return TRUE
-
-/*----------------------*/
-// SANDBAGS
-/*----------------------*/
-
-/obj/structure/barricade/sandbags
-	name = "sandbag barricade"
-	desc = "A bunch of bags filled with sand, stacked into a small wall. Surprisingly sturdy, albeit labour intensive to set up. Trusted to do the job since 1914."
-	icon_state = "sandbag_0"
-	barricade_resistance = 15
-	max_integrity = 400
-	stack_type = /obj/item/stack/sandbags
-	barricade_hitsound = "sound/weapons/genhit.ogg"
-	barricade_type = "sandbag"
-	can_wire = TRUE
-
-/obj/structure/barricade/sandbags/update_icon()
-	. = ..()
-	if(dir == SOUTH)
-		pixel_y = -7
-	else if(dir == NORTH)
-		pixel_y = 7
-	else
-		pixel_y = 0
-
-
-/obj/structure/barricade/sandbags/attackby(obj/item/I, mob/user, params)
-	. = ..()
-
-	for(var/obj/effect/xenomorph/acid/A in loc)
-		if(A.acid_t == src)
-			to_chat(user, "You can't get near that, it's melting!")
-			return
-
-	if(istype(I, /obj/item/tool/shovel) && user.a_intent != INTENT_HARM)
-		var/obj/item/tool/shovel/ET = I
-		if(!ET.folded)
-			user.visible_message("<span class='notice'>[user] starts disassembling [src].</span>",
-			"<span class='notice'>You start disassembling [src].</span>")
-			if(do_after(user, ET.shovelspeed, TRUE, src, BUSY_ICON_BUILD))
-				user.visible_message("<span class='notice'>[user] disassembles [src].</span>",
-				"<span class='notice'>You disassemble [src].</span>")
-				destroy_structure(TRUE)
-		return TRUE
-
-	if(istype(I, /obj/item/stack/sandbags) )
-		if(obj_integrity == max_integrity)
-			to_chat(user, "<span class='warning'>[src] isn't in need of repairs!</span>")
-			return
-		var/obj/item/stack/sandbags/D = I
-		if(D.get_amount() < 1)
-			to_chat(user, "<span class='warning'>You need a sandbag to repair [src].</span>")
-			return
-		visible_message("<span class='notice'>[user] begins to replace [src]'s damaged sandbags...</span>")
-
-		if(!do_after(user, 30, TRUE, src, BUSY_ICON_BUILD) || obj_integrity >= max_integrity)
-			return
-
-		if(!D.use(1))
-			return
-
-		obj_integrity = min(obj_integrity + (max_integrity * 0.2), max_integrity) //Each sandbag restores 20% of max health as 5 sandbags = 1 sandbag barricade.
-		user.visible_message("<span class='notice'>[user] replaces a damaged sandbag, repairing [src].</span>",
-		"<span class='notice'>You replace a damaged sandbag, repairing it [src].</span>")
-
-/obj/structure/barricade/sandbags/bullet_act(obj/item/projectile/P)
-	bullet_ping(P)
-	obj_integrity -= round(P.damage/10)
-
-	if(istype(P.ammo, /datum/ammo/xeno/boiler_gas))
-		obj_integrity -= 50
-
-	update_health()
-
 	return TRUE
