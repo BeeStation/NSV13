@@ -19,7 +19,7 @@
 
 /obj/item/melee/classic_baton/telescopic/stunsword/Initialize()
 	. = ..()
-	serial_number = rand(1-max_serial_number)
+	serial_number = rand(1,max_serial_number)
 
 /obj/item/melee/classic_baton/telescopic/stunsword/examine(mob/user)
 	. = ..()
