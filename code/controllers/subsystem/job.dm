@@ -444,7 +444,6 @@ SUBSYSTEM_DEF(job)
 				N.new_character = H
 			else
 				M = H
-
 		SSpersistence.antag_rep_change[M.client.ckey] += job.GetAntagRep()
 
 		if(M.client.holder)
