@@ -16,3 +16,5 @@
 /area/ruin/powered/nsv13/trooptransport
 
 /area/ruin/powered/nsv13/gunship
+
+/area/ruin/powered/nsv13/yacht
