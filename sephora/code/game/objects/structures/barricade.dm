@@ -51,10 +51,12 @@
 	closed = TRUE
 	can_wire = TRUE
 
-/obj/structure/peacekeeper_barricade/metal/plasteel/preclosed
+/obj/structure/peacekeeper_barricade/metal/plasteel/deployable //Preset one that starts unanchored and placed down.
 	icon_state = "plasteel_0"
 	closed = FALSE
 	density = TRUE
+	anchored = FALSE
+	build_state = 0
 
 /obj/structure/peacekeeper_barricade/do_climb(var/mob/living/user)
 	if(is_wired) //Ohhh boy this is gonna hurt...
@@ -119,7 +121,7 @@
 	..()
 
 /obj/structure/peacekeeper_barricade/CheckExit(atom/movable/O, turf/target)
-	if(closed)
+	if(closed || !anchored)
 		return TRUE
 	if(istype(O, /obj/item/projectile))
 		var/obj/item/projectile/S = O
