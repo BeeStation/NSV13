@@ -110,7 +110,7 @@
 		if(2) . += "<span class='warning'>It's quite beat up, but it's holding together.</span>"
 		if(3) . += "<span class='warning'>It's crumbling apart, just a few more blows will tear it apart.</span>"
 
-/obj/structure/peacekeeper_barricade/hitby(atom/movable/AM)
+/obj/structure/peacekeeper_barricade/hitby(atom/movable/AM, skipcatch, hitpush, blocked, datum/thrownthing/throwingdatum)
 	if(AM.throwing && is_wired)
 		if(iscarbon(AM))
 			var/mob/living/carbon/C = AM
