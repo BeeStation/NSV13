@@ -115,7 +115,8 @@
 "au" = (
 /obj/machinery/door/airlock/ship/security{
 	dir = 2;
-	id_tag = "innerbrig"
+	id_tag = "innerbrig";
+	req_one_access_txt = "150"
 	},
 /obj/structure/cable,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
@@ -132,7 +133,8 @@
 /obj/machinery/door/airlock/ship/engineering{
 	dir = 8;
 	icon_state = "closed";
-	name = "Gravity generator"
+	name = "Gravity generator";
+	req_one_access_txt = "150"
 	},
 /obj/structure/cable,
 /turf/open/floor/plasteel/dark,
@@ -312,7 +314,8 @@
 /obj/machinery/door/airlock/ship/medical{
 	dir = 2;
 	icon_state = "closed";
-	id_tag = "MedbayFoyer"
+	id_tag = "MedbayFoyer";
+	req_one_access_txt = "150"
 	},
 /obj/structure/cable,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
@@ -353,7 +356,6 @@
 	dir = 9
 	},
 /obj/structure/cable,
-/obj/machinery/power/apc/auto_name/south,
 /turf/open/floor/plasteel/dark/airless,
 /area/ruin/powered/nsv13/yacht)
 "aS" = (
@@ -531,7 +533,7 @@
 /turf/open/floor/plasteel/dark,
 /area/ruin/powered/nsv13/yacht)
 "bl" = (
-/obj/machinery/suit_storage_unit/atmos,
+/obj/machinery/suit_storage_unit,
 /turf/open/floor/plasteel/dark,
 /area/ruin/powered/nsv13/yacht)
 "bm" = (
@@ -862,8 +864,9 @@
 /area/ruin/powered/nsv13/yacht)
 "bX" = (
 /obj/machinery/door/airlock/ship/engineering{
+	dir = 8;
 	icon_state = "closed";
-	dir = 8
+	req_one_access_txt = "150"
 	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/visible{
 	dir = 4
@@ -929,15 +932,7 @@
 	dir = 10
 	},
 /obj/structure/cable,
-/obj/machinery/power/apc/auto_name/north,
 /turf/open/floor/plasteel/dark/airless,
-/area/ruin/powered/nsv13/yacht)
-"ch" = (
-/obj/machinery/suit_storage_unit/engine,
-/obj/machinery/light{
-	dir = 8
-	},
-/turf/open/floor/plasteel/dark,
 /area/ruin/powered/nsv13/yacht)
 "ci" = (
 /obj/structure/closet/secure_closet/engineering_electrical,
@@ -953,10 +948,6 @@
 	dir = 8;
 	pixel_x = 24
 	},
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/nsv13/yacht)
-"cl" = (
-/obj/structure/closet/secure_closet/atmospherics,
 /turf/open/floor/plasteel/dark,
 /area/ruin/powered/nsv13/yacht)
 "cm" = (
@@ -1153,8 +1144,9 @@
 /area/ruin/powered/nsv13/yacht)
 "cH" = (
 /obj/machinery/door/airlock/ship/engineering{
+	dir = 8;
 	icon_state = "closed";
-	dir = 8
+	req_one_access_txt = "150"
 	},
 /obj/structure/cable,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
@@ -1378,7 +1370,6 @@
 /obj/item/storage/firstaid/fire,
 /obj/item/storage/firstaid/toxin,
 /obj/item/storage/firstaid/toxin,
-/obj/machinery/power/apc/auto_name/north,
 /turf/open/floor/plasteel/dark,
 /area/ruin/powered/nsv13/yacht)
 "dm" = (
@@ -1397,7 +1388,6 @@
 /turf/open/floor/plasteel/dark,
 /area/ruin/powered/nsv13/yacht)
 "dp" = (
-/obj/structure/closet/secure_closet/RD,
 /obj/structure/window/reinforced{
 	dir = 4
 	},
@@ -1411,7 +1401,6 @@
 /turf/open/floor/plasteel/dark,
 /area/ruin/powered/nsv13/yacht)
 "ez" = (
-/obj/structure/closet/secure_closet/CMO,
 /obj/structure/window/reinforced{
 	dir = 4
 	},
@@ -1476,12 +1465,6 @@
 	},
 /turf/open/floor/plasteel/dark,
 /area/ruin/powered/nsv13/yacht)
-"hG" = (
-/obj/machinery/computer/rdconsole{
-	dir = 8
-	},
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/nsv13/yacht)
 "hR" = (
 /obj/machinery/atmospherics/pipe/simple/green/visible,
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer1{
@@ -1511,8 +1494,11 @@
 	},
 /turf/open/floor/plasteel/dark,
 /area/ruin/powered/nsv13/yacht)
-"iZ" = (
-/obj/machinery/rnd/production/circuit_imprinter,
+"iR" = (
+/obj/machinery/light{
+	dir = 1
+	},
+/obj/structure/cable,
 /turf/open/floor/plasteel/dark,
 /area/ruin/powered/nsv13/yacht)
 "jS" = (
@@ -1522,6 +1508,11 @@
 	dir = 1;
 	pixel_y = -22
 	},
+/turf/open/floor/plasteel/dark,
+/area/ruin/powered/nsv13/yacht)
+"kC" = (
+/obj/machinery/atmospherics/components/unary/vent_scrubber/on,
+/obj/structure/cable,
 /turf/open/floor/plasteel/dark,
 /area/ruin/powered/nsv13/yacht)
 "kJ" = (
@@ -1571,10 +1562,6 @@
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer1,
 /turf/open/floor/plasteel/dark,
 /area/ruin/powered/nsv13/yacht)
-"mY" = (
-/obj/machinery/rnd/production/techfab/department/engineering,
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/nsv13/yacht)
 "nl" = (
 /obj/structure/window/reinforced,
 /obj/machinery/door/window/brigdoor/security/cell{
@@ -1582,12 +1569,11 @@
 	id = "Cell 2";
 	name = "Cell 2"
 	},
-/obj/effect/landmark/start/security_officer,
+/obj/effect/mob_spawn/human/sephora/nt_prisoner,
 /turf/open/floor/plasteel/dark,
 /area/ruin/powered/nsv13/yacht)
 "nq" = (
 /obj/structure/cable,
-/obj/machinery/power/apc/auto_name/west,
 /obj/machinery/computer/cargo,
 /turf/open/floor/plasteel/dark,
 /area/ruin/powered/nsv13/yacht)
@@ -1640,7 +1626,6 @@
 /turf/open/floor/plasteel/dark,
 /area/ruin/powered/nsv13/yacht)
 "oU" = (
-/obj/structure/closet/secure_closet/warden,
 /obj/structure/window/reinforced{
 	dir = 4
 	},
@@ -1681,12 +1666,17 @@
 /obj/item/ammo_box/magazine/m10mm/hp,
 /turf/open/floor/plasteel/dark,
 /area/ruin/powered/nsv13/yacht)
+"qy" = (
+/obj/structure/grille,
+/obj/structure/window/reinforced/fulltile/ship,
+/obj/structure/cable,
+/turf/open/floor/plasteel/dark,
+/area/ruin/powered/nsv13/yacht)
 "qI" = (
 /obj/machinery/atmospherics/components/binary/pump,
 /turf/open/floor/plasteel/dark,
 /area/ruin/powered/nsv13/yacht)
 "rf" = (
-/obj/structure/closet/secure_closet/engineering_chief,
 /obj/structure/window/reinforced{
 	dir = 8
 	},
@@ -1698,7 +1688,6 @@
 /turf/open/floor/plasteel/dark,
 /area/ruin/powered/nsv13/yacht)
 "rv" = (
-/obj/structure/closet/secure_closet/hos,
 /obj/structure/window/reinforced{
 	dir = 4
 	},
@@ -1707,18 +1696,6 @@
 	req_one_access_txt = "58"
 	},
 /obj/item/bedsheet/hos,
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/nsv13/yacht)
-"rL" = (
-/obj/structure/cable,
-/obj/machinery/power/apc/auto_name/south,
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
-	icon_state = "pipe11-1";
-	dir = 4
-	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
-	dir = 4
-	},
 /turf/open/floor/plasteel/dark,
 /area/ruin/powered/nsv13/yacht)
 "si" = (
@@ -1754,7 +1731,6 @@
 /turf/open/floor/plasteel/dark,
 /area/ruin/powered/nsv13/yacht)
 "ta" = (
-/obj/structure/closet/secure_closet/quartermaster,
 /obj/structure/window/reinforced{
 	dir = 8
 	},
@@ -1809,6 +1785,7 @@
 	dir = 4
 	},
 /obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden,
+/mob/living/simple_animal/hostile/syndicate/ranged,
 /turf/open/floor/plasteel/dark,
 /area/ruin/powered/nsv13/yacht)
 "vg" = (
@@ -1819,8 +1796,9 @@
 /area/ruin/powered/nsv13/yacht)
 "vu" = (
 /obj/machinery/door/airlock/ship/engineering{
+	dir = 8;
 	icon_state = "closed";
-	dir = 8
+	req_one_access_txt = "150"
 	},
 /obj/structure/cable,
 /obj/machinery/atmospherics/components/binary/pump/layer1{
@@ -1829,6 +1807,10 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
 	dir = 4
 	},
+/turf/open/floor/plasteel/dark,
+/area/ruin/powered/nsv13/yacht)
+"vI" = (
+/mob/living/simple_animal/hostile/syndicate/ranged/space,
 /turf/open/floor/plasteel/dark,
 /area/ruin/powered/nsv13/yacht)
 "wd" = (
@@ -1931,7 +1913,6 @@
 /obj/structure/table/wood,
 /obj/item/paper_bin,
 /obj/item/pen,
-/obj/item/card/id/captains_spare,
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on{
 	dir = 1
 	},
@@ -1964,13 +1945,6 @@
 	},
 /turf/open/floor/plasteel/dark,
 /area/ruin/powered/nsv13/yacht)
-"BL" = (
-/obj/structure/cable,
-/obj/machinery/power/apc/auto_name/east,
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/nsv13/yacht)
 "Ct" = (
 /obj/structure/cable,
 /turf/open/floor/plasteel/dark,
@@ -1995,6 +1969,13 @@
 /obj/structure/closet/secure_closet/engineering_welding,
 /turf/open/floor/plasteel/dark,
 /area/ruin/powered/nsv13/yacht)
+"Do" = (
+/obj/structure/fans/tiny,
+/obj/machinery/door/airlock/ship/external{
+	req_one_access_txt = "150"
+	},
+/turf/open/floor/plasteel/dark,
+/area/ruin/powered/nsv13/yacht)
 "DF" = (
 /obj/structure/table/reinforced,
 /obj/item/storage/belt/utility/full,
@@ -2004,6 +1985,11 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
 	dir = 4
 	},
+/turf/open/floor/plasteel/dark,
+/area/ruin/powered/nsv13/yacht)
+"Eq" = (
+/obj/machinery/atmospherics/components/unary/vent_scrubber/on,
+/mob/living/simple_animal/hostile/syndicate/ranged/space,
 /turf/open/floor/plasteel/dark,
 /area/ruin/powered/nsv13/yacht)
 "ED" = (
@@ -2066,6 +2052,10 @@
 	},
 /turf/open/floor/plasteel/dark,
 /area/ruin/powered/nsv13/yacht)
+"IB" = (
+/mob/living/simple_animal/hostile/syndicate/ranged,
+/turf/open/floor/plasteel/dark,
+/area/ruin/powered/nsv13/yacht)
 "IU" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer1{
 	dir = 8
@@ -2101,10 +2091,6 @@
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on{
 	dir = 1
 	},
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/nsv13/yacht)
-"JV" = (
-/obj/structure/closet/secure_closet/hop,
 /turf/open/floor/plasteel/dark,
 /area/ruin/powered/nsv13/yacht)
 "Kh" = (
@@ -2157,7 +2143,7 @@
 	id = "Cell 1";
 	name = "Cell 1"
 	},
-/obj/effect/landmark/start/security_officer,
+/obj/effect/mob_spawn/human/sephora/nt_prisoner,
 /turf/open/floor/plasteel/dark,
 /area/ruin/powered/nsv13/yacht)
 "Lu" = (
@@ -2198,12 +2184,7 @@
 /obj/item/gun/energy/e_gun/advtaser,
 /turf/open/floor/plasteel/dark,
 /area/ruin/powered/nsv13/yacht)
-"My" = (
-/obj/machinery/suit_storage_unit/engine,
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/nsv13/yacht)
 "MH" = (
-/obj/structure/closet/secure_closet/atmospherics,
 /obj/machinery/airalarm{
 	dir = 8;
 	pixel_x = 24
@@ -2299,32 +2280,8 @@
 /obj/machinery/deepfryer,
 /turf/open/floor/plasteel/dark,
 /area/ruin/powered/nsv13/yacht)
-"Qv" = (
-/obj/structure/cable,
-/obj/machinery/power/apc/auto_name/east,
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/nsv13/yacht)
-"QD" = (
-/obj/structure/closet/secure_closet/engineering_electrical,
-/obj/structure/cable,
-/obj/machinery/power/apc/auto_name/north,
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/nsv13/yacht)
 "QK" = (
 /obj/structure/chair/comfy/black,
-/obj/effect/landmark/start/head_of_personnel,
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/nsv13/yacht)
-"QS" = (
-/obj/structure/cable,
-/obj/effect/landmark/observer_start,
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
-	icon_state = "pipe11-1";
-	dir = 4
-	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
-	dir = 4
-	},
 /turf/open/floor/plasteel/dark,
 /area/ruin/powered/nsv13/yacht)
 "QT" = (
@@ -2338,22 +2295,17 @@
 /obj/machinery/recharge_station,
 /turf/open/floor/mineral/titanium/airless,
 /area/ruin/powered/nsv13/yacht)
-"Rz" = (
-/obj/structure/cable,
-/obj/machinery/power/apc/auto_name/north,
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/nsv13/yacht)
 "So" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	icon_state = "pipe11-1";
 	dir = 10
 	},
+/mob/living/simple_animal/hostile/syndicate/ranged,
 /turf/open/floor/plasteel/dark,
 /area/ruin/powered/nsv13/yacht)
 "Ss" = (
 /obj/machinery/computer/warrant,
 /obj/structure/cable,
-/obj/machinery/power/apc/auto_name/east,
 /turf/open/floor/plasteel/dark,
 /area/ruin/powered/nsv13/yacht)
 "Su" = (
@@ -2371,10 +2323,6 @@
 	},
 /obj/structure/lattice,
 /turf/open/space/basic,
-/area/ruin/powered/nsv13/yacht)
-"SR" = (
-/obj/structure/closet/secure_closet/captains,
-/turf/open/floor/plasteel/dark,
 /area/ruin/powered/nsv13/yacht)
 "Tb" = (
 /obj/structure/cable,
@@ -2407,10 +2355,10 @@
 /turf/open/floor/plasteel/dark,
 /area/ruin/powered/nsv13/yacht)
 "TD" = (
-/obj/machinery/suit_storage_unit/atmos,
 /obj/machinery/light{
 	dir = 8
 	},
+/obj/machinery/suit_storage_unit,
 /turf/open/floor/plasteel/dark,
 /area/ruin/powered/nsv13/yacht)
 "TM" = (
@@ -2473,13 +2421,21 @@
 	id = "Cell 3";
 	name = "Cell 3"
 	},
-/obj/effect/landmark/start/security_officer,
+/obj/effect/mob_spawn/human/sephora/nt_prisoner,
 /turf/open/floor/plasteel/dark,
 /area/ruin/powered/nsv13/yacht)
 "Wr" = (
 /obj/structure/chair/comfy/shuttle{
 	dir = 4
 	},
+/mob/living/simple_animal/hostile/syndicate/ranged,
+/turf/open/floor/plasteel/dark,
+/area/ruin/powered/nsv13/yacht)
+"Wx" = (
+/obj/structure/cable,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
+/mob/living/simple_animal/hostile/syndicate/ranged,
 /turf/open/floor/plasteel/dark,
 /area/ruin/powered/nsv13/yacht)
 "WI" = (
@@ -2516,15 +2472,6 @@
 	},
 /turf/open/floor/plasteel/dark,
 /area/ruin/powered/nsv13/yacht)
-"Yi" = (
-/obj/structure/cable,
-/obj/machinery/power/apc/auto_name/south,
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/nsv13/yacht)
-"Yj" = (
-/obj/machinery/rnd/production/protolathe,
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/nsv13/yacht)
 "YI" = (
 /obj/machinery/atmospherics/pipe/heat_exchanging/simple{
 	dir = 4
@@ -2557,7 +2504,6 @@
 /area/ruin/powered/nsv13/yacht)
 "YS" = (
 /obj/structure/cable,
-/obj/machinery/power/apc/auto_name/north,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	icon_state = "pipe11-1";
 	dir = 4
@@ -3869,15 +3815,15 @@ AC
 aF
 aK
 co
-co
+gg
 aX
 AC
-Rz
+Ct
 Ct
 Kj
 AC
 LJ
-co
+gg
 co
 aO
 bn
@@ -4482,10 +4428,10 @@ aa
 aa
 aa
 AC
-cl
-cl
+Kj
+Kj
 MH
-Qv
+Ct
 bU
 Kj
 Kj
@@ -4644,8 +4590,8 @@ bU
 bl
 TD
 an
-ch
-My
+TD
+bl
 Tf
 cm
 AC
@@ -4716,7 +4662,7 @@ aa
 ap
 Zr
 AC
-QD
+Ct
 bU
 KB
 Ct
@@ -4798,7 +4744,7 @@ cb
 DF
 aZ
 av
-mY
+Kj
 mW
 HN
 Kj
@@ -5104,7 +5050,7 @@ Pi
 Kj
 Kj
 WI
-Rz
+Ct
 Tf
 Kj
 WI
@@ -5187,7 +5133,7 @@ XV
 aN
 XV
 JE
-Kj
+IB
 Ia
 AC
 da
@@ -5332,8 +5278,8 @@ NL
 dc
 Vm
 Kj
-iZ
-Yj
+Kj
+Kj
 sO
 WS
 YT
@@ -5341,7 +5287,7 @@ vg
 cV
 cK
 cN
-Kj
+IB
 cU
 sO
 aa
@@ -5487,7 +5433,7 @@ ED
 LP
 nD
 CU
-hG
+Kj
 sO
 Kj
 Tf
@@ -5637,7 +5583,7 @@ aa
 aa
 aa
 aa
-ax
+Do
 as
 dg
 AS
@@ -5651,7 +5597,7 @@ WS
 zJ
 di
 as
-ax
+Do
 aa
 aa
 aa
@@ -5719,12 +5665,12 @@ df
 dh
 cI
 XV
-XV
+Wx
 XV
 Tb
 XV
 XV
-BL
+XV
 cI
 dj
 Jc
@@ -5871,7 +5817,7 @@ aa
 AC
 Ok
 Kj
-rL
+Tf
 WI
 Kj
 Kj
@@ -6101,12 +6047,12 @@ aa
 aa
 sO
 XK
-Kj
+vI
 Kj
 TM
 CN
 Kj
-QS
+Tf
 Kj
 sO
 Kj
@@ -6490,7 +6436,7 @@ pS
 Tn
 EK
 AC
-Rz
+Ct
 Tf
 Kj
 AC
@@ -6561,13 +6507,13 @@ aa
 aa
 aa
 aa
-sO
+qy
 wW
 Lb
 Wo
 oq
 AC
-WS
+Eq
 YT
 vg
 AC
@@ -6638,10 +6584,10 @@ aa
 aa
 aa
 aa
-sO
-No
-Kj
-WS
+qy
+iR
+Ct
+kC
 Fa
 au
 XV
@@ -6725,7 +6671,7 @@ Kj
 Tf
 AB
 AC
-Rz
+Ct
 PH
 Kj
 Kj
@@ -7025,7 +6971,7 @@ aa
 aa
 sO
 No
-JV
+Kj
 Kj
 AC
 oU
@@ -7035,7 +6981,7 @@ Kj
 dp
 AC
 Kj
-SR
+Kj
 AB
 sO
 aa
@@ -7180,7 +7126,7 @@ aa
 sO
 or
 mB
-Yi
+Ct
 AC
 rf
 Tf
@@ -7188,7 +7134,7 @@ IU
 Kj
 ta
 AC
-Rz
+Ct
 AI
 or
 sO
