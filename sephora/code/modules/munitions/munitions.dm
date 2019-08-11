@@ -61,6 +61,7 @@
 	layer = 3
 	var/capacity = 0 //Current number of munitions we have loaded
 	var/max_capacity = 3//Maximum number of munitions we can load at once
+	var/loading = FALSE //stop you loading the same torp over and over
 
 /obj/structure/munitions_trolley/Moved()
 	. = ..()
@@ -85,11 +86,16 @@
 /obj/structure/munitions_trolley/MouseDrop_T(obj/structure/A, mob/user)
 	. = ..()
 	if(istype(A, /obj/structure/munition))
+		if(loading)
+			to_chat(user, "<span class='notice'>You're already loading something onto [src]!.</span>")
 		if(capacity < max_capacity)
 			to_chat(user, "<span class='notice'>You start to load [A] onto [src]...</span>")
+			loading = TRUE
 			if(do_after(user,20, target = src))
 				load_trolley(A, src)
 				to_chat(user, "<span class='notice'>You load [A] onto [src].</span>")
+				loading = FALSE
+			loading = FALSE
 		else
 			to_chat(user, "<span class='warning'>[src] is fully loaded!</span>")
 
@@ -127,7 +133,7 @@
 	if(!in_range(src, usr))
 		return
 	var/atom/whattoremove = locate(href_list["removeitem"])
-	if(whattoremove)
+	if(whattoremove && whattoremove.loc == src)
 		unload_munition(whattoremove)
 	if(href_list["unloadall"])
 		for(var/atom/movable/A in src)
@@ -142,7 +148,9 @@
 	if(istype(A, /obj/structure/munition)) //If a munition, allow them to load other munitions onto us.
 		capacity --
 	if(contents.len)
+		var/count = capacity
 		for(var/X in contents)
 			var/atom/movable/AM = X
 			if(istype(AM, /obj/structure/munition))
-				AM.pixel_y = 10+(capacity*10)
+				AM.pixel_y = count*10
+				count --
