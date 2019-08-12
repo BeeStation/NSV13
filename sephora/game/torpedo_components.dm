@@ -7,10 +7,10 @@
 	density = TRUE
 	climbable = TRUE
 	var/state = 0
-	var/wh = null
-	var/gs = null
-	var/ps = null
-	var/iff = null
+	var/obj/item/torpedo/warhead/wh = null
+	var/obj/item/torpedo/guidance_system/gs = null
+	var/obj/item/torpedo/propulsion_system/ps = null
+	var/obj/item/torpedo/iff_card/iff = null
 
 /obj/structure/munition/torpedo_casing/examine(mob/user) //No better guide than an in-game play-by-play guide
 	. = ..()
@@ -18,78 +18,83 @@
 		if(0)
 			. += "<span class='notice'>The casing is empty, awaiting the installation of a propulsion system.</span>"
 		if(1)
-			. += "<span class='notice'>The propulsion system is sitting loose the casing. *wrench action*</span>"
+			. += "<span class='notice'>The propulsion system is sitting loose the casing. There are bolts to secure it.</span>"
 		if(2)
 			. += "<span class='notice'>The propulsion system is secured in the tail half of the casing, now for the guidance system.</span>"
 		if(3)
-			. += "<span class='notice'>The guidance system is sitting loose in the casing next to the propulsion system. *screwdriver action*</span>"
+			. += "<span class='notice'>The guidance system is sitting loose in the casing next to the propulsion system. There are places for screws to secure the guidance system to the casing. </span>"
 		if(4)
-			. += "<span class='notice'>The propulsion and guidance systems are secured in the casing. Better install the IFF chip.</span>"
+			. += "<span class='notice'>The propulsion and guidance systems are secured in the casing. The guidance system has a currently empty slot for an IFF card.</span>"
 		if(5)
-			. += "<span class='notice'>The IFF chip is sitting loose in its slot in the guidance system. *screwdriver action*</span>"
+			. += "<span class='notice'>The IFF card is sitting loose in its slot in the guidance system. There are holes for screws in each corner of the slot.</span>"
 		if(6)
-			. += "<span class='notice'>The propulsion system, guidance system and IFF chip are all secured. There is a space at the nose end for a warhead.</span>"
+			. += "<span class='notice'>The propulsion system, guidance system and IFF card are all secured. There is space at the nose end for a warhead.</span>"
 		if(7)
-			. += "<span class='notice'>The warhead is loose at the nose end of the casing. *wrench action*</span>"
+			. += "<span class='notice'>The warhead is sitting snug at the nose end of the casing. The bolts could be tighter.</span>"
 		if(8)
-			. += "<span class='notice'>The casing contains the warhead, an IFF chip, guidance and propulsion systems. They are not yet wired together. *wire action*</span>"
+			. += "<span class='notice'>The casing contains the warhead, an IFF chip, guidance and propulsion systems. They are not yet wired together.</span>"
 		if(9)
-			. += "<span class='notice'>The casing has the following components installed: [wh.name], [iff.name], [gs.name], [ps.name]. It looks ready to close and seal. *wrench action*</span>"
+			. += "<span class='notice'>The casing has the following components installed: [wh.name], [iff.name], [gs.name], [ps.name]. It looks ready to close and bolt shut. </span>"
 		if(10)
-			. += "<span class='notice'>The casing has been closed and bolted shut. It only requires sealing to be ready for action. *weld action*</span>"
+			. += "<span class='notice'>The casing has been closed and bolted shut. It only requires sealing to be ready for action.</span>"
 
 /obj/structure/munition/torpedo_casing/attackby(obj/item/W, mob/user, params)
 	add_fingerprint(user)
 	if(istype(W, /obj/item/torpedo/warhead))
 		if(state == 6)
 			to_chat(user, "<span class='notice'>You start adding [W] to [src]...</span>")
-			W.use(1)
+			do_after(user, 2 SECONDS, target=src)
 			to_chat(user, "<span class='notice'>You add [W] to [src].</span>")
 			wh = W
 			state = 7
 			update_icon()
+			qdel(W)
 		return
 	else if(istype(W, /obj/item/torpedo/guidance_system))
 		if(state == 2)
 			to_chat(user, "<span class='notice'>You start adding [W] to [src]...</span>")
-			W.use(1)
+			do_after(user, 2 SECONDS, target=src)
 			to_chat(user, "<span class='notice'>You add [W] to [src].</span>")
 			gs = W
 			state = 3
 			update_icon()
+			qdel(W)
 		return
 	else if(istype(W, /obj/item/torpedo/propulsion_system))
 		if(state == 0)
 			to_chat(user, "<span class='notice'>You start adding [W] to [src]...</span>")
-			W.use(1)
+			do_after(user, 2 SECONDS, target=src)
 			to_chat(user, "<span class='notice'>You add [W] to [src].</span>")
 			ps = W
 			state = 1
 			update_icon()
+			qdel(W)
 		return
-	else if(istype(W, /obj/item/torpedo/iff_chip))
+	else if(istype(W, /obj/item/torpedo/iff_card))
 		if(state == 4)
 			to_chat(user, "<span class='notice'>You start adding [W] to [src]...</span>")
-			W.use(1)
+			do_after(user, 2 SECONDS, target=src)
 			to_chat(user, "<span class='notice'>You add [W] to [src].</span>")
 			iff = W
 			state = 5
 			update_icon()
+			qdel(W)
 		return
 	else if(istype(W, /obj/item/stack/cable_coil))
 		var/obj/item/stack/cable_coil/C = W
 		if(state == 8)
 			if(C.get_amount() < 3)
-				to_chat(user, "<span class='notice'>You need at least three cable pieces to wire [src]!</span>") //for 'realistic' wire spaghetti'
+				to_chat(user, "<span class='notice'>You need at least three cable pieces to wire [src]!</span>") //for 'realistic' wire spaghetti
 				return
 			to_chat(user, "<span class='notice'>You start wiring [src]...</span>")
+			do_after(user, 2 SECONDS, target=src)
 			W.use(3)
 			to_chat(user, "<span class='notice'>You wire [src].</span>")
 			state = 9
 			update_icon()
 		return
 
-/obj/structure/munition/torpedo_casing/wrench_act(mob/user, /obj/item/tool)
+/obj/structure/munition/torpedo_casing/wrench_act(mob/user, obj/item/tool)
 	. = FALSE
 	switch(state)
 		if(1)
@@ -135,7 +140,7 @@
 				update_icon()
 			return TRUE
 
-/obj/structure/munition/torpedo_casing/screwdriver_act(mob/user, /obj/item/tool)
+/obj/structure/munition/torpedo_casing/screwdriver_act(mob/user, obj/item/tool)
 	. = FALSE
 	switch(state)
 		if(3)
@@ -167,7 +172,7 @@
 				update_icon()
 			return TRUE
 
-/obj/structure/munition/torpedo_casing/wirecutter_act(mob/user, /obj/item/tool)
+/obj/structure/munition/torpedo_casing/wirecutter_act(mob/user, obj/item/tool)
 	. = ..()
 	if(state == 9)
 		to_chat(user, "<span class='notice'>You start cutting the wiring in [src]...</span>")
@@ -179,7 +184,7 @@
 			update_icon()
 		return TRUE
 
-/obj/structure/munition/torpedo_casing/welder_act(mob/user, /obj/item/tool)
+/obj/structure/munition/torpedo_casing/welder_act(mob/user, obj/item/tool)
 	. = FALSE
 	switch(state)
 		if(0)
@@ -194,18 +199,18 @@
 			to_chat(user, "<span class='notice'>You start sealing the casing on [src]...</span>")
 			if(tool.use_tool(src, user, 40, volume=100))
 				to_chat(user, "<span class='notice'You seal the casing on [src].</span>")
-				//new_torpedo(wh, gs, ps, iff)
+				new_torpedo(wh, gs, ps, iff)
+				qdel(src)
 			return TRUE
 
-/obj/structure/munition/torpedo_casing/crowbar_act(mob/user, /obj/item/tool)
+/obj/structure/munition/torpedo_casing/crowbar_act(mob/user, obj/item/tool)
 	. = FALSE
 	switch(state)
 		if(1)
 			to_chat(user, "<span class='notice'>You start removing [ps.name] from [src]...</span>")
 			if(tool.use_tool(src, user, 40, volume=100))
 				to_chat(user, "<span class='notice'>You remove [ps.name] from [src].</span>")
-				var/obj/item/torpedo/propulsion_system/I = new (loc, 1)
-				I.add_fingerprint(user)
+				ps = new (loc, 1)
 				ps = null
 				state = 0
 				update_icon()
@@ -214,8 +219,7 @@
 			to_chat(user, "<span class='notice'>You start removing [gs.name] from [src]...</span>")
 			if(tool.use_tool(src, user, 40, volume=100))
 				to_chat(user, "<span class='notice'>You remove [gs.name] from [src].</span>")
-				var/obj/item/torpedo/guidance_system/I = new (loc, 1)
-				I.add_fingerprint(user)
+				gs = new (loc, 1)
 				gs = null
 				state = 2
 				update_icon()
@@ -224,8 +228,7 @@
 			to_chat(user, "<span class='notice'>You start removing [iff.name] from [src]...</span>")
 			if(tool.use_tool(src, user, 40, volume=100))
 				to_chat(user, "<span class='notice'>You remove [iff.name] from [src].</span>")
-				var/obj/item/torpedo/iff_chip/I = new (loc, 1)
-				I.add_fingerprint(user)
+				iff = new (loc, 1)
 				iff = null
 				state = 4
 				update_icon()
@@ -234,8 +237,7 @@
 			to_chat(user, "<span class='notice'>You start removing [wh.name] from [src]...</span>")
 			if(tool.use_tool(src, user, 40, volume=100))
 				to_chat(user, "<span class='notice'>You remove [wh.name] from [src].</span>")
-				var/obj/item/torpedo/warhead/I = new (loc, 1)
-				I.add_fingerprint(user)
+				wh = new (loc, 1)
 				wh = null
 				state = 6
 				update_icon()
@@ -265,39 +267,94 @@
 		if(10)
 			add_overlay("fancy_table")
 
+/obj/structure/munition/torpedo_casing/proc/new_torpedo(obj/item/torpedo/warhead, obj/item/torpedo/guidance_system, obj/item/torpedo/propulsion_system, obj/item/torpedo/iff_card)
+
 /obj/item/torpedo/warhead
 	name = "torpedo warhead"
 	icon = 'icons/obj/janitor.dmi'
 	icon_state = "mop"
 	desc = "a torpedo warhead"
+	w_class = WEIGHT_CLASS_HUGE
 	var/payload = null
 
 /obj/item/torpedo/guidance_system
-	name = "guidance system"
+	name = "torpedo guidance system"
 	icon = 'icons/obj/janitor.dmi'
 	icon_state = "advmop"
 	desc = "a torpedo guidance system"
+	w_class = WEIGHT_CLASS_NORMAL
 	var/accuracy = null
 
 /obj/item/torpedo/propulsion_system
-	name = "propulsion system"
+	name = "torpedo propulsion system"
 	icon = 'icons/obj/janitor.dmi'
 	icon_state = "smmop"
 	desc = "a torpedo propulsion system"
+	w_class = WEIGHT_CLASS_BULKY
 	var/burntime = null
 	var/turnrate = null
 
-/obj/item/torpedo/iff_chip //use multitool to calibrate IFF? This should be abuseable via emag
-	name = "IFF chip"
+/obj/item/torpedo/iff_card //use multitool to calibrate IFF? This should be abuseable via emag
+	name = "torpedo IFF card"
 	icon = 'icons/obj/janitor.dmi'
 	icon_state = "adv_smmop"
 	desc = "a torpedo IFF chip"
+	w_class = WEIGHT_CLASS_SMALL
 	var/calibrated = FALSE
 
-/obj/item/torpedo/iff_chip/emag_act(mob/user)
+/obj/item/torpedo/iff_card/emag_act(mob/user)
 	if(obj_flags & EMAGGED)
 		return
 	obj_flags |= EMAGGED
 	user.visible_message("<span class='warning'>[user] shorts out [src]!</span>",
 						"<span class='notice'>You short out the IFF protocols on [src].</span>",
 						"Bzzzt.")
+
+/datum/techweb_node/basic_torpedo_components
+	id = "basic_torpedo_components"
+	display_name = "Basic Torpedo Components"
+	description = "A how-to guide of fabricating torpedos while out in the depths of space."
+	prereq_ids = list("explosive_weapons")
+	design_ids = list("warhead", "guidance_system", "propulsion_system", "iff_card")
+	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 2500)
+	export_price = 5000
+
+/datum/design/warhead
+	name = "Torpedo Warhead"
+	desc = "The stock standard warhead design for torpedos"
+	id = "warhead"
+	build_type = PROTOLATHE
+	materials = list(/datum/material/iron = 20000, /datum/material/plasma = 5000)
+	build_path = /obj/item/torpedo/warhead
+	category = list("Advanced Munitions")
+	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+
+/datum/design/guidance_system
+	name = "Torpedo Guidance System"
+	desc = "The stock standard guidance system design for torpedos"
+	id = "guidance_system"
+	build_type = PROTOLATHE
+	materials = list(/datum/material/iron = 20000, /datum/material/plasma = 5000)
+	build_path = /obj/item/torpedo/guidance_system
+	category = list("Advanced Munitions")
+	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+
+/datum/design/propulsion_system
+	name = "Torpedo Propulsion System"
+	desc = "The stock standard propulsion system design for torpedos"
+	id = "propulsion_system"
+	build_type = PROTOLATHE
+	materials = list(/datum/material/iron = 20000, /datum/material/plasma = 5000)
+	build_path = /obj/item/torpedo/propulsion_system
+	category = list("Advanced Munitions")
+	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+
+/datum/design/iff_card
+	name = "Torpedo IFF Card"
+	desc = "The stock standard IFF card design for torpedos"
+	id = "iff_card"
+	build_type = IMPRINTER
+	materials = list(/datum/material/iron = 20000, /datum/material/plasma = 5000)
+	build_path = /obj/item/torpedo/iff_card
+	category = list("Advanced Munitions")
+	departmental_flags = DEPARTMENTAL_FLAG_CARGO
