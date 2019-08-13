@@ -519,6 +519,14 @@ NOTE: there are two lists of areas in the end of this file: centcom and station 
 	name = "Transit Tube"
 	icon_state = "transit_tube"
 
+/area/engine/port_turbine
+	name = "Port Turbine Room"
+	icon_state = "atmos_engine"
+
+/area/engine/sarboard_turbine
+	name = "Starboard Turbine Room"
+	icon_state = "atmos_engine"
+
 
 //Solars
 
