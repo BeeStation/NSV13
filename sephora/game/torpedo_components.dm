@@ -1,7 +1,7 @@
 /obj/structure/munition/torpedo_casing
 	name = "torpedo casing"
 	icon = 'icons/obj/structures.dmi'
-	icon_state = "table"
+	icon_state = "case"
 	desc = "The outer casing of a 30mm torpedo."
 	anchored = TRUE
 	density = TRUE
@@ -247,40 +247,56 @@
 	cut_overlays()
 	switch(state)
 		if(1)
-			add_overlay("speaking_tile")
+			add_overlay("case_prop")
 		if(2)
-			add_overlay("")
+			add_overlay("case_prop_bolt")
 		if(3)
-			add_overlay("")
+			add_overlay("case_guide")
 		if(4)
-			add_overlay("")
+			add_overlay("case_guide_screw")
 		if(5)
-			add_overlay("")
+			add_overlay("case_iff")
 		if(6)
-			add_overlay("")
+			add_overlay("case_iff_screw")
 		if(7)
-			add_overlay("")
+			add_overlay("case_warhead")
 		if(8)
-			add_overlay("")
+			add_overlay("case_warhead_screw")
 		if(9)
-			add_overlay("")
+			add_overlay("case_warhead_wired")
 		if(10)
-			add_overlay("fancy_table")
+			add_overlay("case_warhead_complete")
 
 /obj/structure/munition/torpedo_casing/proc/new_torpedo(obj/item/torpedo/warhead, obj/item/torpedo/guidance_system, obj/item/torpedo/propulsion_system, obj/item/torpedo/iff_card)
 
 /obj/item/torpedo/warhead
 	name = "torpedo warhead"
 	icon = 'icons/obj/janitor.dmi'
-	icon_state = "mop"
+	icon_state = "warhead"
 	desc = "a torpedo warhead"
 	w_class = WEIGHT_CLASS_HUGE
 	var/payload = null
 
+/obj/item/torpedo/warhead/bunker_buster
+	name = "bunker buster torpedo warhead"
+	desc = "a bunker buster torpedo warhead"
+
+/obj/item/torpedo/warhead/lightweight
+	name = "lightweight torpedo warhead"
+	desc = "a lightweight torpedo warhead"
+
+/obj/item/torpedo/warhead/decoy
+	name = "decoy torpedo warhead"
+	desc = "a decoy torpedo warhead"
+
+/obj/item/torpedo/warhead/nuclear
+	name = "nuclear torpedo warhead"
+	desc = "a nuclear torpedo warhead"
+
 /obj/item/torpedo/guidance_system
 	name = "torpedo guidance system"
 	icon = 'icons/obj/janitor.dmi'
-	icon_state = "advmop"
+	icon_state = "guidance"
 	desc = "a torpedo guidance system"
 	w_class = WEIGHT_CLASS_NORMAL
 	var/accuracy = null
@@ -288,16 +304,16 @@
 /obj/item/torpedo/propulsion_system
 	name = "torpedo propulsion system"
 	icon = 'icons/obj/janitor.dmi'
-	icon_state = "smmop"
+	icon_state = "propulsion"
 	desc = "a torpedo propulsion system"
 	w_class = WEIGHT_CLASS_BULKY
 	var/burntime = null
 	var/turnrate = null
 
-/obj/item/torpedo/iff_card //use multitool to calibrate IFF? This should be abuseable via emag
+/obj/item/torpedo/iff_card //This should be abuseable via emag
 	name = "torpedo IFF card"
 	icon = 'icons/obj/janitor.dmi'
-	icon_state = "adv_smmop"
+	icon_state = "iff"
 	desc = "a torpedo IFF chip"
 	w_class = WEIGHT_CLASS_SMALL
 	var/calibrated = FALSE
@@ -315,7 +331,7 @@
 	display_name = "Basic Torpedo Components"
 	description = "A how-to guide of fabricating torpedos while out in the depths of space."
 	prereq_ids = list("explosive_weapons")
-	design_ids = list("warhead", "guidance_system", "propulsion_system", "iff_card")
+	design_ids = list("warhead", "bb_warhead", "lw_warhead", "decoy_warhead", "nuke_warhead", "guidance_system", "propulsion_system", "iff_card")
 	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 2500)
 	export_price = 5000
 
@@ -324,8 +340,48 @@
 	desc = "The stock standard warhead design for torpedos"
 	id = "warhead"
 	build_type = PROTOLATHE
-	materials = list(/datum/material/iron = 20000, /datum/material/plasma = 5000)
+	materials = list(/datum/material/iron = 20000, /datum/material/glass = 5000)
 	build_path = /obj/item/torpedo/warhead
+	category = list("Advanced Munitions")
+	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+
+/datum/design/bb_warhead
+	name = "Bunker Buster Torpedo Warhead"
+	desc = "A bunker buster warhead design for torpedos"
+	id = "bb_warhead"
+	build_type = PROTOLATHE
+	materials = list(/datum/material/iron = 15000, /datum/material/plasma = 5000, /datum/material/glass = 5000)
+	build_path = /obj/item/torpedo/warhead/bunker_buster
+	category = list("Advanced Munitions")
+	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+
+/datum/design/lw_warhead
+	name = "Lightweight Torpedo Warhead"
+	desc = "A lightweight warhead design for torpedos"
+	id = "lw_warhead"
+	build_type = PROTOLATHE
+	materials = list(/datum/material/iron = 10000, /datum/material/glass = 2500)
+	build_path = /obj/item/torpedo/warhead/lightweight
+	category = list("Advanced Munitions")
+	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+
+/datum/design/decoy_warhead
+	name = "Decoy Torpedo Warhead"
+	desc = "A decoy warhead design for torpedos"
+	id = "decoy_warhead"
+	build_type = PROTOLATHE
+	materials = list(/datum/material/iron = 5000)
+	build_path = /obj/item/torpedo/warhead/decoy
+	category = list("Advanced Munitions")
+	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+
+/datum/design/nuclear_warhead
+	name = "Nuclear Torpedo Warhead"
+	desc = "A nuclear warhead design for torpedos"
+	id = "nuke_warhead"
+	build_type = PROTOLATHE
+	materials = list(/datum/material/iron = 20000, /datum/material/plasma = 10000, /datum/material/uranium = 5000)
+	build_path = /obj/item/torpedo/warhead/nuclear
 	category = list("Advanced Munitions")
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO
 
@@ -334,7 +390,7 @@
 	desc = "The stock standard guidance system design for torpedos"
 	id = "guidance_system"
 	build_type = PROTOLATHE
-	materials = list(/datum/material/iron = 20000, /datum/material/plasma = 5000)
+	materials = list(/datum/material/iron = 10000, /datum/material/glass = 5000)
 	build_path = /obj/item/torpedo/guidance_system
 	category = list("Advanced Munitions")
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO
@@ -344,7 +400,7 @@
 	desc = "The stock standard propulsion system design for torpedos"
 	id = "propulsion_system"
 	build_type = PROTOLATHE
-	materials = list(/datum/material/iron = 20000, /datum/material/plasma = 5000)
+	materials = list(/datum/material/iron = 10000, /datum/material/glass = 5000)
 	build_path = /obj/item/torpedo/propulsion_system
 	category = list("Advanced Munitions")
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO
@@ -354,7 +410,7 @@
 	desc = "The stock standard IFF card design for torpedos"
 	id = "iff_card"
 	build_type = IMPRINTER
-	materials = list(/datum/material/iron = 20000, /datum/material/plasma = 5000)
+	materials = list(/datum/material/glass = 20000, /datum/material/iron = 5000)
 	build_path = /obj/item/torpedo/iff_card
 	category = list("Advanced Munitions")
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO
