@@ -19,6 +19,7 @@
 	mind_traits = list(TRAIT_LAW_ENFORCEMENT_METABOLISM)
 
 	display_order = JOB_DISPLAY_ORDER_LAWYER
+	display_rank = "CRW" //Sephora - Displays the player's actual rank alongside their name, such as GSGT Sergei Koralev
 
 /datum/outfit/job/lawyer
 	name = "Lawyer"
@@ -34,7 +35,6 @@
 	r_pocket = /obj/item/clothing/accessory/lawyers_badge
 
 	chameleon_extras = /obj/item/stamp/law
-
 
 /datum/outfit/job/lawyer/pre_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
 	..()

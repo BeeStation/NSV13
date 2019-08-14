@@ -19,6 +19,7 @@
 	paycheck_department = ACCOUNT_MED
 
 	display_order = JOB_DISPLAY_ORDER_CHEMIST
+	display_rank = "LCPL" //Sephora - Displays the player's actual rank alongside their name, such as GSGT Sergei Koralev
 
 /datum/outfit/job/chemist
 	name = "Chemist"
