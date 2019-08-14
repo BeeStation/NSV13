@@ -62,12 +62,19 @@
 				return //nothing below
 			to_chat(AM, "<span class='notice'>You start descending [src]...</span>")
 			if (do_after(AM,20, target = src))
-				if(target.master) //We do this shitcode so you dont infinitely go up stairs :)
-					AM.forceMove(get_turf(target.master))
 				if(isliving(AM))
 					var/mob/living/L = AM
+					var/atom/movable/pulled
 					if(L.pulling)
-						L.pulling.forceMove(get_turf(AM))
+						pulled = L.pulling
+					if(target.master) //We do this shitcode so you dont infinitely go up stairs :)
+						AM.forceMove(get_turf(target.master))
+					if(pulled)
+						pulled.forceMove(get_turf(AM))
+						L.start_pulling(pulled)
+				else
+					if(target.master) //We do this shitcode so you dont infinitely go up stairs :)
+						AM.forceMove(get_turf(target.master))
 	if(AM.dir != dir) //they arent facing us, so they cant move up.
 		return
 	else
@@ -80,8 +87,16 @@
 		if(target.linked) //We do this shitcode so you dont infinitely go up stairs :)
 			to_chat(AM, "<span class='notice'>You start ascending [src]...</span>")
 			if (do_after(AM,20, target = src))
-				AM.forceMove(get_turf(target.linked))
 				if(isliving(AM))
 					var/mob/living/L = AM
+					var/atom/movable/pulled
 					if(L.pulling)
-						L.pulling.forceMove(get_turf(AM))
+						pulled = L.pulling
+					if(target.linked)
+						AM.forceMove(get_turf(target.linked))
+					if(pulled)
+						pulled.forceMove(get_turf(AM))
+						L.start_pulling(pulled)
+				else
+					if(target.linked)
+						AM.forceMove(get_turf(target.linked))

@@ -36,18 +36,20 @@
 	paycheck_department = ACCOUNT_SRV
 
 	display_order = JOB_DISPLAY_ORDER_HEAD_OF_PERSONNEL
+	display_rank = "LT" //Sephora - Displays the player's actual rank alongside their name, such as GSGT Sergei Koralev
 
 /datum/outfit/job/hop
 	name = "Executive Officer"
 	jobtype = /datum/job/hop
 
 	id = /obj/item/card/id/silver
-	belt = /obj/item/pda/heads/hop
+	belt = /obj/item/melee/classic_baton/telescopic/stunsword
 	ears = /obj/item/radio/headset/heads/hop
 	uniform = /obj/item/clothing/under/ship/officer
 	shoes = /obj/item/clothing/shoes/jackboots
 	suit = /obj/item/clothing/suit/ship/officer
 	head = /obj/item/clothing/head/beret/ship/xo
+	l_pocket = /obj/item/pda/heads/hop
 	backpack_contents = list(/obj/item/storage/box/ids=1,\
 		/obj/item/melee/classic_baton/telescopic=1, /obj/item/modular_computer/tablet/preset/advanced = 1)
 

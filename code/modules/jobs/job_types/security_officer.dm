@@ -22,6 +22,7 @@
 	mind_traits = list(TRAIT_LAW_ENFORCEMENT_METABOLISM)
 
 	display_order = JOB_DISPLAY_ORDER_SECURITY_OFFICER
+	display_rank = "LCPL" //Sephora - Displays the player's actual rank alongside their name, such as GSGT Sergei Koralev
 
 /datum/job/officer/get_access()
 	var/list/L = list()
