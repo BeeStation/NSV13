@@ -192,7 +192,7 @@
 	keyword = "whoIs"
 
 /datum/world_topic/whois/Run(list/input)
-	/var/list/s = list()
+	s = list()
 	s["players"] = GLOB.clients
 
 	return list2params(s)
@@ -201,7 +201,7 @@
 	keyword = "getAdmins"
 
 /datum/world_topic/getadmins/Run(list/input)
-	var/list/s = list()
+	s = list()
 	var/list/adm = get_admin_counts()
 	var/list/presentmins = adm["present"]
 	var/list/afkmins = adm["afk"]
