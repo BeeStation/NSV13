@@ -9,7 +9,7 @@
 
 /area/maintenance
 	looping_ambience = 'sephora/sound/ambience/maintenance.ogg'
-	ambientsounds = list('sephora/sound/ambience/leit_motif.ogg')
+	ambientsounds = list('sephora/sound/ambience/leit_motif.ogg','sephora/sound/ambience/wind.ogg','sephora/sound/ambience/wind2.ogg','sephora/sound/ambience/wind3.ogg','sephora/sound/ambience/wind4.ogg','sephora/sound/ambience/wind5.ogg','sephora/sound/ambience/wind6.ogg')
 
 /area/medical
 	looping_ambience = 'sephora/sound/ambience/medbay.ogg'

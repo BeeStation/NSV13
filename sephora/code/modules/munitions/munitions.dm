@@ -88,6 +88,7 @@
 	if(istype(A, /obj/structure/munition))
 		if(loading)
 			to_chat(user, "<span class='notice'>You're already loading something onto [src]!.</span>")
+			return
 		if(capacity < max_capacity)
 			to_chat(user, "<span class='notice'>You start to load [A] onto [src]...</span>")
 			loading = TRUE
@@ -106,7 +107,7 @@
 	playsound(src, 'sephora/sound/effects/ship/mac_load.ogg', 100, 1)
 	if(istype(A, /obj/structure/munition))
 		A.forceMove(src)
-		A.pixel_y += 10+(capacity*10)
+		A.pixel_y = 10+(capacity*10)
 		vis_contents += A
 		capacity ++
 		A.layer = ABOVE_MOB_LAYER
@@ -156,8 +157,8 @@
 				count --
 
 /obj/structure/ship_weapon //CREDIT TO CM FOR THE SPRITES!
-	name = "NT-STC4 Ship mounted railgun chamber"
-	desc = "A powerful ship-to-ship weapon which uses a localized magnetic field accelerate a projectile through a spinally mounted railgun with a 360 degree rotation axis. This particular model has an effective range of 20,000KM."
+	name = "A ship weapon"
+	desc = "Don't use this, use the subtypes"
 	icon = 'sephora/icons/obj/railgun.dmi'
 	icon_state = "OBC"
 	density = TRUE
@@ -166,12 +167,26 @@
 	bound_height = 64
 	pixel_y = -64
 	layer = BELOW_OBJ_LAYER
+	var/fire_sound = 'sephora/sound/effects/ship/mac_fire.ogg'
+	var/load_sound = 'sephora/sound/effects/ship/reload.ogg'
 	var/safety = TRUE //Can only fire when safeties are off
 	var/loading = FALSE
 	var/obj/structure/munition/preload = null
 	var/obj/structure/munition/loaded = null
 	var/obj/structure/munition/chambered = null
 	var/firing = FALSE //If firing, disallow unloading.
+
+/obj/structure/ship_weapon/torpedo_launcher //heavily modified CM sprite
+	name = "M4-B Torpedo tube"
+	desc = "A weapon system that's employed by nigh on all modern ships. It's capable of delivering a self-propelling warhead with pinpoint accuracy to utterly annihilate a target."
+	icon = 'sephora/icons/obj/railgun.dmi'
+	icon_state = "torpedo"
+	bound_height = 32
+	bound_width = 96
+	pixel_y = -72
+	pixel_x = -32
+	fire_sound = 'sephora/sound/effects/ship/plasma.ogg'
+	load_sound = 'sephora/sound/effects/ship/freespace2/m_load.wav'
 
 /obj/structure/ship_weapon_computer
 	name = "munitions control computer"
@@ -255,7 +270,7 @@
 	var/atom/movable/temp = preload
 	preload = null
 	sleep(20)
-	playsound(src, 'sephora/sound/effects/ship/reload.ogg', 100, 1)
+	playsound(src, load_sound, 100, 1)
 	icon_state = "[initial(icon_state)]_loaded"
 	loaded = temp
 
@@ -279,13 +294,14 @@
 	flick("[initial(icon_state)]_chambering",src)
 	sleep(10)
 	icon_state = "[initial(icon_state)]_chambered"
+	playsound(src, 'sephora/sound/weapons/railgun/ready.ogg', 100, 1)
 
 /obj/structure/ship_weapon/proc/fire()
 	if(!chambered || safety)
 		return
 	firing = TRUE
 	flick("[initial(icon_state)]_firing",src)
-	playsound(src, 'sephora/sound/effects/ship/mac_fire.ogg', 100, 1)
+	playsound(src, fire_sound, 100, 1)
 	for(var/mob/living/M in get_hearers_in_view(10, get_turf(src))) //Burst unprotected eardrums
 		if(M.stat == DEAD || !isliving(M))
 			continue
@@ -299,5 +315,40 @@
 	loaded = null
 	firing = FALSE
 
-/obj/structure/ship_weapon/torpedo_launcher
-	name = "Torpedo tube"
+/obj/structure/ship_weapon/railgun
+	name = "NT-STC4 Ship mounted railgun chamber"
+	desc = "A powerful ship-to-ship weapon which uses a localized magnetic field accelerate a projectile through a spinally mounted railgun with a 360 degree rotation axis. This particular model has an effective range of 20,000KM."
+	icon = 'sephora/icons/obj/railgun.dmi'
+	icon_state = "OBC"
+
+/obj/structure/ship_weapon/railgun/MouseDrop_T(obj/structure/A, mob/user)
+	return
+
+/obj/item/twohanded/required/railgun_ammo //The big slugs that you load into the railgun. These are able to be carried...one at a time
+	name = "M4 NTRS '30mm' teflon coated tungsten round"
+	desc = "A gigantic slug that's designed to be fired out of a railgun. It's extremely heavy, but doesn't actually contain any volatile components, so it's safe to manhandle."
+	icon_state = "railgun_ammo"
+	lefthand_file = 'sephora/icons/mob/inhands/weapons/bombs_lefthand.dmi'
+	righthand_file = 'sephora/icons/mob/inhands/weapons/bombs_righthand.dmi'
+	icon = 'sephora/icons/obj/munitions.dmi'
+	w_class = 4
+
+/obj/structure/ship_weapon/railgun/attackby(obj/item/I, mob/user)
+	if(istype(I, /obj/item/twohanded/required/railgun_ammo))
+		if(loading)
+			to_chat(user, "<span class='notice'>You're already loading a round into [src]!.</span>")
+			return
+		if(!preload && !loaded && !chambered)
+			to_chat(user, "<span class='notice'>You start to load [I] into [src]...</span>")
+			loading = TRUE
+			if(do_after(user,20, target = src))
+				to_chat(user, "<span class='notice'>You load [I] into [src].</span>")
+				loading = FALSE
+				I.forceMove(src)
+				playsound(src, 'sephora/sound/effects/ship/mac_load.ogg', 100, 1)
+				preload = I
+				return FALSE
+			loading = FALSE
+		else
+			to_chat(user, "<span class='warning'>[src] already has a round loaded!</span>")
+	. = ..()
