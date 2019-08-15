@@ -31,7 +31,7 @@
 	if(!T)
 		vis_contents.len = 0
 		if(prune_on_fail)
-			ChangeTurf(/turf/open/floor/plating)
+			ChangeTurf(/turf/open/space) //Sephora - Multiz explosions
 		return FALSE
 	if(init)
 		vis_contents += T
