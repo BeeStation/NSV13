@@ -2,7 +2,7 @@
 	name = "torpedo casing"
 	icon = 'icons/obj/structures.dmi'
 	icon_state = "case"
-	desc = "The outer casing of a 70cm torpedo."
+	desc = "The outer casing of a 750mm torpedo."
 	anchored = TRUE
 	density = TRUE
 	climbable = TRUE
