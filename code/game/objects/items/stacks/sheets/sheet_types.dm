@@ -15,6 +15,7 @@
 /*
  * Metal
  */
+ //Sephora - Torpedo Casing added to the end of this list
 GLOBAL_LIST_INIT(metal_recipes, list ( \
 	new/datum/stack_recipe("stool", /obj/structure/chair/stool, one_per_turf = TRUE, on_floor = TRUE), \
 	new/datum/stack_recipe("bar stool", /obj/structure/chair/stool/bar, one_per_turf = TRUE, on_floor = TRUE), \
@@ -92,6 +93,8 @@ GLOBAL_LIST_INIT(metal_recipes, list ( \
 	null, \
 	new/datum/stack_recipe("iron door", /obj/structure/mineral_door/iron, 20, one_per_turf = TRUE, on_floor = TRUE), \
 	new/datum/stack_recipe("floodlight frame", /obj/structure/floodlight_frame, 5, one_per_turf = TRUE, on_floor = TRUE), \
+	null, \
+	new/datum/stack_recipe("torpedo casing", /obj/structure/munition/torpedo_casing, 15, one_per_turf = TRUE, on_floor = TRUE), \
 ))
 
 /obj/item/stack/sheet/metal
