@@ -247,25 +247,25 @@
 	cut_overlays()
 	switch(state)
 		if(1)
-			add_overlay("case_prop")
+			icon_state = "case_prop"
 		if(2)
-			add_overlay("case_prop_bolt")
+			icon_state = "case_prop_bolt"
 		if(3)
-			add_overlay("case_guide")
+			icon_state = "case_guide"
 		if(4)
-			add_overlay("case_guide_screw")
+			icon_state = "case_guide_screw"
 		if(5)
-			add_overlay("case_iff")
+			icon_state = "case_iff"
 		if(6)
-			add_overlay("case_iff_screw")
+			icon_state = "case_iff_screw"
 		if(7)
-			add_overlay("case_warhead")
+			icon_state = "case_warhead"
 		if(8)
-			add_overlay("case_warhead_screw")
+			icon_state = "case_warhead_screw"
 		if(9)
-			add_overlay("case_warhead_wired")
+			icon_state = "case_warhead_wired"
 		if(10)
-			add_overlay("case_warhead_complete")
+			icon_state = "case_warhead_complete"
 
 /obj/structure/munition/torpedo_casing/proc/new_torpedo(obj/item/torpedo/warhead, obj/item/torpedo/guidance_system, obj/item/torpedo/propulsion_system, obj/item/torpedo/iff_card)
 
