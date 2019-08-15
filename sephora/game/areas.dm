@@ -27,6 +27,24 @@
 	looping_ambience = 'sephora/sound/ambience/computer_core.ogg'
 	ambientsounds = list()
 
+/area/crew_quarters/dorms/nsv/dorms_1
+	name = "Deck 2 Fore Quarters"
+	icon_state = "Sleep"
+	safe = TRUE
+
+/area/crew_quarters/dorms/nsv/dorms_2
+	name = "Deck 2 Aft Quarters"
+	icon_state = "Sleep"
+	safe = TRUE
+
+/area/medical/nsv/clinic
+	name = "Deck 2 Medical Clinic"
+	icon_state = "medbay"
+
+/area/maintenance/nsv/deck2/frame1/port
+	name = "Deck 2 Frame 1 Port Maintinence"
+	icon_state = "pmaint"
+
 /area/Entered(atom/movable/M)
 	// Ambience goes down here -- make sure to list each area separately for ease of adding things in later, thanks! Note: areas adjacent to each other should have the same sounds to prevent cutoff when possible.- LastyScratch
 	set waitfor = FALSE
