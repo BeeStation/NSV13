@@ -59,11 +59,14 @@
 	var/list/mind_traits // Traits added to the mind of the mob assigned this job
 
 	var/display_order = JOB_DISPLAY_ORDER_DEFAULT
+	var/display_rank = "PVT" //Sephora - Displays the player's actual rank alongside their name, such as GSGT Sergei Koralev
 
 //Only override this proc
 //H is usually a human unless an /equip override transformed it
 /datum/job/proc/after_spawn(mob/living/H, mob/M, latejoin = FALSE)
 	//do actions on H but send messages to M as the key may not have been transferred_yet
+	if(ishuman(H)) //Don't give AIs a rank
+		H.fully_replace_character_name(H.real_name, "[display_rank] [H.real_name]") //Sephora - Visibly display player ranks with their names.
 	if(mind_traits)
 		for(var/t in mind_traits)
 			ADD_TRAIT(H.mind, t, JOB_TRAIT)
