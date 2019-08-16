@@ -21,6 +21,10 @@
 	icon_state = "impact_torpedo"
 	duration = 10
 
+/obj/effect/temp_visual/impact_effect/torpedo/nuke
+	icon_state = "explosion"
+	duration = 10
+
 /obj/item/projectile/bullet/torpedo/Crossed(atom/movable/AM) //Here, we check if the bullet that hit us is from a friendly ship. If it's from an enemy ship, we explode as we've been flak'd down.
 	. = ..()
 	if(istype(AM, /obj/item/projectile))

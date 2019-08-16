@@ -304,7 +304,7 @@
 		if(isovermap(target) && explosive) //If we're firing a torpedo, the enemy's PDCs need to worry about it.
 			var/obj/structure/overmap/OM = target
 			OM.torpedoes_to_target += proj //We're firing a torpedo, their PDCs will need to shoot it down, so notify them of its existence
-		if(homing)
+		if(homing && !istype(proj_type, /obj/item/projectile/bullet/torpedo/dud))
 			proj.set_homing_target(target)
 		spawn()
 			proj.fire(angle)

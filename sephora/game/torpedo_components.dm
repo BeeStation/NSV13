@@ -1,6 +1,5 @@
 /obj/structure/munition/torpedo_casing
-	name = "torpedo casing"
-	icon = 'icons/obj/structures.dmi'
+	name = "NTB-M4A1-IB prebuilt torpedo-casing"
 	icon_state = "case"
 	desc = "The outer casing of a 30mm torpedo."
 	anchored = TRUE
@@ -11,6 +10,7 @@
 	var/obj/item/torpedo/guidance_system/gs = null
 	var/obj/item/torpedo/propulsion_system/ps = null
 	var/obj/item/torpedo/iff_card/iff = null
+	torpedo_type = /obj/item/projectile/bullet/torpedo/dud //Forget to finish your torpedo? You get a dud torpedo that doesn't do anything
 
 /obj/structure/munition/torpedo_casing/examine(mob/user) //No better guide than an in-game play-by-play guide
 	. = ..()
@@ -34,9 +34,9 @@
 		if(8)
 			. += "<span class='notice'>The casing contains the warhead, an IFF chip, guidance and propulsion systems. They are not yet wired together.</span>"
 		if(9)
-			. += "<span class='notice'>The casing has the following components installed: [wh.name], [iff.name], [gs.name], [ps.name]. It looks ready to close and bolt shut. </span>"
+			. += "<span class='notice'>The casing has the following components installed: [wh?.name], [iff?.name], [gs?.name], [ps?.name]. It looks ready to close and bolt shut. </span>"
 		if(10)
-			. += "<span class='notice'>The casing has been closed and bolted shut. It only requires sealing to be ready for action.</span>"
+			. += "<span class='notice'>The casing has been closed and bolted shut. It only requires sealing with a welding tool to be ready for action.</span>"
 
 /obj/structure/munition/torpedo_casing/attackby(obj/item/W, mob/user, params)
 	add_fingerprint(user)
@@ -199,7 +199,8 @@
 			to_chat(user, "<span class='notice'>You start sealing the casing on [src]...</span>")
 			if(tool.use_tool(src, user, 40, volume=100))
 				to_chat(user, "<span class='notice'You seal the casing on [src].</span>")
-				new_torpedo(wh, gs, ps, iff)
+				var/obj/structure/munition/bomb = new_torpedo(wh, gs, ps, iff)
+				bomb.speed = ps.speed //Placeholder, but allows for faster torps if we ever add that
 				qdel(src)
 			return TRUE
 
@@ -268,53 +269,72 @@
 			icon_state = "case_warhead_complete"
 
 /obj/structure/munition/torpedo_casing/proc/new_torpedo(obj/item/torpedo/warhead, obj/item/torpedo/guidance_system, obj/item/torpedo/propulsion_system, obj/item/torpedo/iff_card)
+	if(istype(warhead, /obj/item/torpedo/warhead))
+		switch(warhead.type)
+			if(/obj/item/torpedo/warhead)
+				return new /obj/structure/munition(get_turf(src))
+			if(/obj/item/torpedo/warhead/bunker_buster)
+				return new /obj/structure/munition/hull_shredder(get_turf(src))
+			if(/obj/item/torpedo/warhead/lightweight)
+				return new /obj/structure/munition/fast(get_turf(src))
+			if(/obj/item/torpedo/warhead/decoy)
+				return new /obj/structure/munition/decoy(get_turf(src))
+			if(/obj/item/torpedo/warhead/nuclear)
+				return new /obj/structure/munition/nuke(get_turf(src))
 
 /obj/item/torpedo/warhead
-	name = "torpedo warhead"
-	icon = 'icons/obj/janitor.dmi'
+	name = "NTP-2 standard torpedo warhead"
+	icon = 'sephora/icons/obj/munitions.dmi'
 	icon_state = "warhead"
-	desc = "a torpedo warhead"
+	desc = "A heavy warhead designed to be fitted to a torpedo. It's currently inert."
 	w_class = WEIGHT_CLASS_HUGE
 	var/payload = null
 
 /obj/item/torpedo/warhead/bunker_buster
-	name = "bunker buster torpedo warhead"
+	name = "NTP-4 'BNKR' torpedo warhead"
 	desc = "a bunker buster torpedo warhead"
+	icon_state = "warhead_shredder"
+	desc = "An extremely heavy warhead designed to be fitted to a torpedo. This one has an inbuilt plasma charge to amplify its damage."
 
 /obj/item/torpedo/warhead/lightweight
-	name = "lightweight torpedo warhead"
+	name = "NTP-1 'SPD' lightweight torpedo warhead"
 	desc = "a lightweight torpedo warhead"
+	icon_state = "warhead_highvelocity"
+	desc = "A stripped down warhead designed to be fitted to a torpedo. Due to its reduced weight, torpedoes with these equipped will travel more quickly."
 
 /obj/item/torpedo/warhead/decoy
-	name = "decoy torpedo warhead"
+	name = "NTP-0x 'DCY' electronic countermeasure torpedo payload"
 	desc = "a decoy torpedo warhead"
+	icon_state = "warhead_decoy"
+	desc = "A simple electronic countermeasure wrapped in a metal casing. While these form inert torpedoes, they can be used to distract enemy PDC emplacements to divert their flak away from other targets."
 
 /obj/item/torpedo/warhead/nuclear
 	name = "nuclear torpedo warhead"
 	desc = "a nuclear torpedo warhead"
+	icon_state = "warhead_nuclear"
+	desc = "An advanced warhead which carries a nuclear fission explosive. Torpedoes equipped with these can quickly annihilate targets with extreme prejudice, however they are extremely costly to produce."
 
 /obj/item/torpedo/guidance_system
 	name = "torpedo guidance system"
-	icon = 'icons/obj/janitor.dmi'
+	icon = 'sephora/icons/obj/munitions.dmi'
 	icon_state = "guidance"
-	desc = "a torpedo guidance system"
+	desc = "A guidance module for a torpedo which allows them to lock onto a target inside their operational range. The microcomputer inside it is capable of performing thousands of calculations a second."
 	w_class = WEIGHT_CLASS_NORMAL
 	var/accuracy = null
 
 /obj/item/torpedo/propulsion_system
 	name = "torpedo propulsion system"
-	icon = 'icons/obj/janitor.dmi'
+	icon = 'sephora/icons/obj/munitions.dmi'
 	icon_state = "propulsion"
-	desc = "a torpedo propulsion system"
+	desc = "A gimballed thruster with an attachment nozzle, designed to be mounted in torpedoes."
 	w_class = WEIGHT_CLASS_BULKY
-	var/burntime = null
-	var/turnrate = null
+	var/speed = 1
 
 /obj/item/torpedo/iff_card //This should be abuseable via emag
 	name = "torpedo IFF card"
-	icon = 'icons/obj/janitor.dmi'
+	icon = 'sephora/icons/obj/munitions.dmi'
 	icon_state = "iff"
-	desc = "a torpedo IFF chip"
+	desc = "An IFF chip which allows a torpedo to distinguish friend from foe. The electronics contained herein are relatively simple, but they form a crucial part of any good torpedo."
 	w_class = WEIGHT_CLASS_SMALL
 	var/calibrated = FALSE
 
