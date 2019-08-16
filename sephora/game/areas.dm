@@ -45,6 +45,10 @@
 	name = "Deck 2 Frame 1 Port Maintinence"
 	icon_state = "pmaint"
 
+/area/maintenance/nsv/deck2/frame1/starboard
+	name = "Deck 2 Frame 1 Starboard Maintinence"
+	icon_state = "pmaint"
+
 /area/Entered(atom/movable/M)
 	// Ambience goes down here -- make sure to list each area separately for ease of adding things in later, thanks! Note: areas adjacent to each other should have the same sounds to prevent cutoff when possible.- LastyScratch
 	set waitfor = FALSE
