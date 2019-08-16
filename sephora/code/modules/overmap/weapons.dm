@@ -144,7 +144,7 @@
 	set name = "Switch firemode"
 	set category = "Ship"
 	set src = usr.loc
-	if(!verb_check())
+	if(usr != gunner)
 		return
 	fire_mode ++
 	if(fire_mode > FIRE_MODE_TORPEDO)

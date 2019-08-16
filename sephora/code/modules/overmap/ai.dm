@@ -22,6 +22,7 @@
 		pilot.mouse_opacity = FALSE
 		pilot.alpha = FALSE
 		pilot.forceMove(src)
+		gunner = pilot
 	user_thrust_dir = 1
 	if(last_target) //Have we got a target?
 		if(get_dist(last_target, src) > max_range) //Out of range - Give up the chase
