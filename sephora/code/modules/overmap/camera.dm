@@ -33,7 +33,11 @@
 		M.click_intercept = null
 	if(M == pilot)
 		pilot = null
+		if(helm)
+			playsound(helm, 'sephora/sound/effects/computer/hum.ogg', 100, 1)
 	if(M == gunner)
+		if(tactical)
+			playsound(tactical, 'sephora/sound/effects/computer/hum.ogg', 100, 1)
 		gunner = null
 	if(M.client)
 		M.client.check_view()

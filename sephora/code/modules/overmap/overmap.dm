@@ -82,6 +82,8 @@
 	var/impact_sound_cooldown = FALSE //Avoids infinite spamming of the ship taking damage.
 	var/mob/living/gunner //The person who fires the guns.
 	var/list/operators = list() //Everyone who needs their client updating when we move.
+	var/obj/machinery/computer/ship/helm //Relay beeping noises when we act
+	var/obj/machinery/computer/ship/tactical
 
 
 /obj/railgun_overlay //Railgun sits on top of the ship and swivels to face its target
@@ -145,6 +147,9 @@
 	var/list/params_list = params2list(params)
 	if(target == src || istype(target, /obj/screen) || (target && (target in user.GetAllContents())) || user != gunner || params_list["shift"] || params_list["alt"] || params_list["ctrl"])
 		return FALSE
+	if(tactical && prob(80))
+		var/sound = pick(GLOB.computer_beeps)
+		playsound(tactical, sound, 100, 1)
 	fire(target)
 	return TRUE
 
@@ -286,14 +291,23 @@
 		if("Space")
 			if(user == pilot)
 				toggle_move_mode()
+			if(helm && prob(80))
+				var/sound = pick(GLOB.computer_beeps)
+				playsound(helm, sound, 100, 1)
 			return TRUE
 		if("Alt")
 			if(user == pilot)
 				toggle_brakes()
+			if(helm && prob(80))
+				var/sound = pick(GLOB.computer_beeps)
+				playsound(helm, sound, 100, 1)
 			return TRUE
 		if("Ctrl")
 			if(user == gunner)
 				cycle_firemode()
+			if(tactical && prob(80))
+				var/sound = pick(GLOB.computer_beeps)
+				playsound(tactical, sound, 100, 1)
 			return TRUE
 	return FALSE
 

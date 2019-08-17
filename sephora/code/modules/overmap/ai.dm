@@ -57,5 +57,12 @@
 	last_target = target
 
 /obj/structure/overmap/proc/add_enemy(atom/target)
+	if(!istype(target, /obj/structure/overmap)) //Don't know why it wouldn't be..but yeah
+		return
+	var/obj/structure/overmap/OM = target
+	if(OM.tactical)
+		var/sound = pick('sephora/sound/effects/computer/alarm.ogg','sephora/sound/effects/computer/alarm_3.ogg','sephora/sound/effects/computer/alarm_4.ogg')
+		var/message = "<span class='warning'>DANGER: [src] is now targeting [OM].</span>"
+		OM.tactical.relay_sound(sound, message)
 	if(!target in enemies)
 		enemies += target

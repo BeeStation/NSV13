@@ -56,7 +56,7 @@
 		if(progress <= 50)
 			var/list/creaks = list('sephora/sound/ambience/ship_damage/creak1.ogg','sephora/sound/ambience/ship_damage/creak2.ogg','sephora/sound/ambience/ship_damage/creak3.ogg','sephora/sound/ambience/ship_damage/creak4.ogg','sephora/sound/ambience/ship_damage/creak5.ogg','sephora/sound/ambience/ship_damage/creak6.ogg','sephora/sound/ambience/ship_damage/creak7.ogg')
 			var/creak = pick(creaks)
-			SEND_SOUND(L, sound(creak, repeat = 0, wait = 0, volume = 70, channel = CHANNEL_AMBIENCE))
+			SEND_SOUND(L, sound(creak, repeat = 0, wait = 0, volume = 100, channel = CHANNEL_AMBIENCE))
 			L.client.played = TRUE
 			addtimer(CALLBACK(L.client, /client/proc/ResetAmbiencePlayed), 300)
 			return
