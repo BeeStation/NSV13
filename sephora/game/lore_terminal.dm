@@ -67,8 +67,11 @@ GLOBAL_DATUM_INIT(lore_terminal_controller, /datum/lore_controller, new)
 	\
 	<body onload='typeWriter()'>\
 	\
-	<h2>ACCESS FILE: C:/entries/local/[content.name]</h2>\
+	<h4>ACCESS FILE: C:/entries/local/[content.name]</h4>\
+	<h3><i>Classification: [content.classified]</i></h3>\
 	<h6>- © Seegson systems inc, 2257</h6>\
+	<hr style='border-top: dotted 1px;' />\
+	<h2>[content.title]</h2>\
 	\
 	<p id='demo'></p>\
 	\
@@ -156,6 +159,8 @@ GLOBAL_DATUM_INIT(lore_terminal_controller, /datum/lore_controller, new)
 
 /datum/lore_entry
 	var/name = "Loredoc.txt" //"File display name" that the term shows (C://blah/yourfile.bmp)
+	var/title = null //What it's all about
+	var/classified = "Declassified" //Fluff, is this a restricted file or not?
 	var/content = null //You may choose to set this here, or via a .txt. file if it's long. Newlines / Enters will break it!
 	var/path = null //The location at which we're stored. If you don't have this, you don't get content
 	var/access_tag = "placeholder" //Set this to match the terminals that you want to be able to access it. EG "ntcommon" for declassified shit.
@@ -167,18 +172,22 @@ GLOBAL_DATUM_INIT(lore_terminal_controller, /datum/lore_controller, new)
 
 /datum/lore_entry/nt
 	name = "new_employees_memo.ntdoc"
+	title = "Intercepted message"
 	path = "sephora/lore_entries/welcome.txt"
 	access_tag = "ntcommon"
 
 /datum/lore_entry/nt/ragnarok
 	name = "ragnarok_class.ntdoc"
+	title = "Ragnarok Class Specifications"
 	path = "sephora/lore_entries/ragnarok.txt"
 
 /datum/lore_entry/nt/firing_proceedure
 	name = "firing_proceedure.ntdoc"
+	title = "Ship-to-ship munitions"
 	path = "sephora/lore_entries/firing_proceedure.txt"
 
 /datum/lore_entry/away_example
+	title = "Intercepted log file"
 	access_tag = "awayexample"
 
 /datum/lore_entry/away_example/pilot_log
