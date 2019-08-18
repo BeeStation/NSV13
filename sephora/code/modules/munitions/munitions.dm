@@ -78,7 +78,7 @@
 	density = TRUE
 	layer = 3
 	var/capacity = 0 //Current number of munitions we have loaded
-	var/max_capacity = 3//Maximum number of munitions we can load at once
+	var/max_capacity = 4//Maximum number of munitions we can load at once
 	var/loading = FALSE //stop you loading the same torp over and over
 
 /obj/structure/munitions_trolley/Moved()
@@ -157,6 +157,7 @@
 	if(href_list["unloadall"])
 		for(var/atom/movable/A in src)
 			unload_munition(A)
+	attack_hand(usr)
 
 /obj/structure/munitions_trolley/proc/unload_munition(atom/movable/A)
 	vis_contents -= A
@@ -192,7 +193,27 @@
 	var/obj/structure/munition/preload = null
 	var/obj/structure/munition/loaded = null
 	var/obj/structure/munition/chambered = null
+	var/obj/structure/overmap/linked = null
 	var/firing = FALSE //If firing, disallow unloading.
+
+/obj/structure/ship_weapon/Initialize()
+	. = ..()
+	get_ship()
+
+/obj/structure/ship_weapon/proc/get_ship()
+	var/area/AR = get_area(src)
+	if(AR.linked_overmap)
+		linked = AR.linked_overmap
+		set_position(linked)
+
+/obj/structure/ship_weapon/proc/set_position(obj/structure/overmap/OM) //Use this to tell your ship what weapon category this belongs in
+	return
+
+/obj/structure/ship_weapon/railgun/set_position(obj/structure/overmap/OM)
+	OM.railguns += src
+
+/obj/structure/ship_weapon/torpedo_launcher/set_position(obj/structure/overmap/OM)
+	OM.torpedo_tubes += src
 
 /obj/structure/ship_weapon/torpedo_launcher //heavily modified CM sprite
 	name = "M4-B Torpedo tube"
@@ -224,6 +245,8 @@
 	. = ..()
 	if(!railgun)
 		return
+	if(!railgun.linked)
+		railgun.get_ship()
 	var/dat
 	dat += "<h2> Tray: </h2>"
 	if(!railgun.loaded)
@@ -315,8 +338,14 @@
 	playsound(src, 'sephora/sound/weapons/railgun/ready.ogg', 100, 1)
 
 /obj/structure/ship_weapon/proc/fire()
-	if(!chambered || safety)
+	if(!chambered || safety || firing)
 		return
+	var/proj_type
+	if(istype(chambered, /obj/structure/munition))
+		proj_type = chambered.torpedo_type
+	if(istype(chambered, /obj/item/twohanded/required/railgun_ammo))
+		var/obj/item/twohanded/required/railgun_ammo/RA = chambered
+		proj_type = RA.proj_type
 	firing = TRUE
 	flick("[initial(icon_state)]_firing",src)
 	playsound(src, fire_sound, 100, 1)
@@ -324,7 +353,6 @@
 		if(M.stat == DEAD || !isliving(M))
 			continue
 		M.soundbang_act(1,200,10,15)
-	sleep(5)
 	flick("[initial(icon_state)]_unloading",src)
 	sleep(5)
 	icon_state = initial(icon_state)
@@ -332,6 +360,8 @@
 	chambered = null
 	loaded = null
 	firing = FALSE
+	if(proj_type) //Looks like we were able to fire a projectile, let's tell the ship what kind of bullet to shoot.
+		return proj_type
 
 /obj/structure/ship_weapon/railgun
 	name = "NT-STC4 Ship mounted railgun chamber"
@@ -350,6 +380,7 @@
 	righthand_file = 'sephora/icons/mob/inhands/weapons/bombs_righthand.dmi'
 	icon = 'sephora/icons/obj/munitions.dmi'
 	w_class = 4
+	var/proj_type = /obj/item/projectile/bullet/railgun_slug
 
 /obj/structure/ship_weapon/railgun/attackby(obj/item/I, mob/user)
 	if(istype(I, /obj/item/twohanded/required/railgun_ammo))

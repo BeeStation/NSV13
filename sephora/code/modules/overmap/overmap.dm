@@ -71,7 +71,7 @@
 	var/faction = null //Used for target acquisition by AIs
 	var/sprite_size = 64 //Pixels. This represents 64x64 and allows for the bullets that you fire to align properly.
 	var/torpedoes = 15 //Prevent infinite torp spam
-	var/pdc_miss_chance = 30 //In %, how often do PDCs fire inaccurately when aiming at missiles. This is ignored for ships as theyre bigger targets.
+	var/pdc_miss_chance = 20 //In %, how often do PDCs fire inaccurately when aiming at missiles. This is ignored for ships as theyre bigger targets.
 	var/list/dent_decals = list() //Ships get visibly damaged as they get shot
 	var/damage_states = FALSE //Did you sprite damage states for this ship? If yes, set this to true
 	var/list/torpedoes_to_target = list() //Torpedoes that have been fired explicitly at us, and that the PDCs need to worry about.
@@ -84,6 +84,8 @@
 	var/list/operators = list() //Everyone who needs their client updating when we move.
 	var/obj/machinery/computer/ship/helm //Relay beeping noises when we act
 	var/obj/machinery/computer/ship/tactical
+	var/list/railguns = list() //Every railgun present on the ship
+	var/list/torpedo_tubes = list() //every torpedo tube present on the ship.
 
 
 /obj/railgun_overlay //Railgun sits on top of the ship and swivels to face its target
