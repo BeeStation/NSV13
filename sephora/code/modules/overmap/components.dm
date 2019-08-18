@@ -70,3 +70,25 @@ GLOBAL_LIST_INIT(computer_beeps, list('sephora/sound/effects/computer/beep.ogg',
 /obj/machinery/computer/ship/tactical/set_position(obj/structure/overmap/OM)
 	OM.tactical = src
 	return
+
+/obj/machinery/computer/ship/viewscreen
+	name = "Seegson model M viewscreen"
+	desc = "A large CRT monitor which shows an exterior view of the ship."
+	icon = 'sephora/icons/obj/computers.dmi'
+	icon_state = "viewscreen"
+	mouse_over_pointer = MOUSE_HAND_POINTER
+	pixel_y = 26
+
+/obj/machinery/computer/ship/viewscreen/examine(mob/user)
+	. = ..()
+	if(!has_overmap())
+		return
+	playsound(src, 'sephora/sound/effects/computer/hum.ogg', 100, 1)
+	linked.start_piloting(user, "observer")
+
+/obj/machinery/computer/ship/viewscreen/attack_hand(mob/user)
+	. = ..()
+	if(!has_overmap())
+		return
+	playsound(src, 'sephora/sound/effects/computer/hum.ogg', 100, 1)
+	linked.start_piloting(user, "observer")

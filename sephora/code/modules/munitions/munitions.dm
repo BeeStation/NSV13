@@ -348,6 +348,7 @@
 		proj_type = RA.proj_type
 	firing = TRUE
 	flick("[initial(icon_state)]_firing",src)
+	sleep(5)
 	playsound(src, fire_sound, 100, 1)
 	for(var/mob/living/M in get_hearers_in_view(10, get_turf(src))) //Burst unprotected eardrums
 		if(M.stat == DEAD || !isliving(M))
