@@ -61,6 +61,22 @@
 	name = "Deck 2 Frame 3 Starboard Maintenance"
 	icon_state = "smaint"
 
+/area/maintenance/nsv/deck2/frame4/port
+	name = "Deck 2 Frame 4 Port Maintenance"
+	icon_state = "pmaint"
+
+/area/maintenance/nsv/deck2/frame4/starboard
+	name = "Deck 2 Frame 4 Starboard Maintenance"
+	icon_state = "smaint"
+
+/area/maintenance/nsv/deck2/frame5/port
+	name = "Deck 2 Frame 5 Port Maintenance"
+	icon_state = "pmaint"
+
+/area/maintenance/nsv/deck2/frame5/starboard
+	name = "Deck 2 Frame 5 Starboard Maintenance"
+	icon_state = "smaint"
+
 /area/hallway/nsv/deck2/frame1/port
 	name = "Deck 2 Frame 1 Port Hallway"
 	icon_state = "hallF"
@@ -83,6 +99,30 @@
 
 /area/hallway/nsv/deck2/frame3/starboard
 	name = "Deck 2 Frame 3 Starboard Hallway"
+	icon_state = "hallC"
+
+/area/hallway/nsv/deck2/frame4/port
+	name = "Deck 2 Frame 4 Port Hallway"
+	icon_state = "hallP"
+
+/area/hallway/nsv/deck2/frame4/starboard
+	name = "Deck 2 Frame 4 Starboard Hallway"
+	icon_state = "hallS"
+
+/area/hallway/nsv/deck2/frame4/central
+	name = "Deck 2 Frame 4 Central Hallway"
+	icon_state = "hallC"
+
+/area/hallway/nsv/deck2/frame5/port
+	name = "Deck 2 Frame 5 Port Hallway"
+	icon_state = "hallP"
+
+/area/hallway/nsv/deck2/frame5/starboard
+	name = "Deck 2 Frame 5 Starboard Hallway"
+	icon_state = "hallS"
+
+/area/hallway/nsv/deck2/frame5/central
+	name = "Deck 2 Frame 5 Central Hallway"
 	icon_state = "hallC"
 
 /area/Entered(atom/movable/M)

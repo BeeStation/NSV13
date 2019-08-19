@@ -42,7 +42,7 @@
 /area/crew_quarters/kitchen)
 "aj" = (
 /turf/open/floor/carpet,
-/area/space)
+/area/crew_quarters/dorms/nsv/dorms_2)
 "ak" = (
 /turf/closed/wall/mineral/titanium,
 /area/space)
@@ -227,7 +227,7 @@
 /obj/structure/grille,
 /obj/structure/window/reinforced/fulltile/ship,
 /turf/open/floor/plating,
-/area/space)
+/area/hallway/nsv/deck2/frame4/port)
 "aP" = (
 /turf/open/floor/engine/co2,
 /area/space)
@@ -257,8 +257,9 @@
 	dir = 4;
 	icon_state = "stairs_down"
 	},
+/obj/structure/cable,
 /turf/open/floor/plasteel/ship/padded,
-/area/space)
+/area/hallway/nsv/deck2/frame5/central)
 "aY" = (
 /obj/structure/stairs{
 	dir = 4;
@@ -278,8 +279,9 @@
 	dir = 4;
 	icon_state = "stairs_up"
 	},
+/obj/structure/cable,
 /turf/open/floor/plasteel/ship/padded,
-/area/space)
+/area/hallway/nsv/deck2/frame5/central)
 "bc" = (
 /obj/structure/cable,
 /turf/open/floor/plasteel/dark,
@@ -323,10 +325,25 @@
 /obj/effect/spawner/lootdrop/maintenance/three,
 /turf/open/floor/plasteel/dark,
 /area/security/brig)
+"bt" = (
+/obj/machinery/door/firedoor/border_only{
+	dir = 1
+	},
+/turf/open/floor/plasteel/ship/techfloor/alt,
+/area/hallway/nsv/deck2/frame5/central)
 "by" = (
 /obj/machinery/door/firedoor/border_only,
 /turf/open/floor/plasteel/ship/techfloor/alt,
 /area/hallway/nsv/deck2/frame3/port)
+"bz" = (
+/obj/structure/cable,
+/obj/machinery/door/airlock/ship/command{
+	dir = 2;
+	name = "R&D Server";
+	req_one_access_txt = "30"
+	},
+/turf/open/floor/plating,
+/area/maintenance/department/science)
 "bB" = (
 /turf/open/floor/plasteel/dark,
 /area/security/brig)
@@ -334,6 +351,32 @@
 /obj/structure/cable,
 /turf/open/floor/plasteel/ship/padded,
 /area/hallway/nsv/deck2/frame3/port)
+"bD" = (
+/obj/structure/table,
+/obj/machinery/door/window{
+	dir = 4
+	},
+/obj/machinery/door/window{
+	dir = 8;
+	name = "Science Windoor";
+	req_one_access_txt = "47"
+	},
+/obj/machinery/door/firedoor,
+/turf/open/floor/plasteel,
+/area/science/robotics/lab)
+"bF" = (
+/obj/structure/rack,
+/obj/item/mmi,
+/obj/item/mmi,
+/turf/open/floor/plasteel,
+/area/science/robotics/lab)
+"bH" = (
+/obj/structure/extinguisher_cabinet{
+	pixel_x = 25
+	},
+/obj/machinery/door/firedoor/border_only,
+/turf/open/floor/plasteel/ship/techfloor/alt,
+/area/hallway/nsv/deck2/frame5/port)
 "bP" = (
 /obj/machinery/light{
 	dir = 4
@@ -354,12 +397,18 @@
 	name = "Research wing";
 	req_one_access_txt = "47"
 	},
+/obj/effect/mapping_helpers/airlock/cyclelink_helper{
+	dir = 8
+	},
 /turf/open/floor/plasteel/ship/padded,
-/area/space)
+/area/science)
 "cb" = (
 /obj/structure/table,
 /obj/machinery/light{
 	dir = 8
+	},
+/obj/structure/extinguisher_cabinet{
+	pixel_x = -25
 	},
 /turf/open/floor/plasteel/cafeteria,
 /area/crew_quarters/kitchen)
@@ -368,7 +417,7 @@
 	dir = 8
 	},
 /turf/open/floor/plasteel,
-/area/space)
+/area/science)
 "cl" = (
 /obj/structure/chair/wood/wings{
 	dir = 1
@@ -407,6 +456,13 @@
 /obj/machinery/recharger,
 /turf/open/floor/plasteel/dark,
 /area/security/warden)
+"ct" = (
+/obj/effect/turf_decal/stripes{
+	icon_state = "warningline";
+	dir = 4
+	},
+/turf/open/floor/plasteel,
+/area/science/robotics/lab)
 "cu" = (
 /obj/structure/cable,
 /obj/machinery/door/airlock/ship{
@@ -416,6 +472,13 @@
 	},
 /turf/open/floor/plasteel/ship/padded,
 /area/hallway/nsv/deck2/frame1/starboard)
+"cw" = (
+/obj/machinery/door/airlock/ship/command{
+	name = "Research director";
+	req_one_access_txt = "30"
+	},
+/turf/open/floor/plasteel,
+/area/crew_quarters/heads/hor)
 "cx" = (
 /obj/machinery/power/apc/auto_name/south,
 /obj/structure/cable,
@@ -450,6 +513,50 @@
 /obj/structure/cable,
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/frame1/port)
+"cT" = (
+/obj/structure/extinguisher_cabinet{
+	pixel_x = -25
+	},
+/obj/machinery/door/firedoor/border_only{
+	dir = 1
+	},
+/turf/open/floor/plasteel/ship/techfloor/alt,
+/area/hallway/nsv/deck2/frame5/central)
+"cV" = (
+/obj/machinery/power/apc/auto_name/south,
+/obj/structure/cable,
+/turf/open/floor/plasteel/ship/techfloor/alt,
+/area/hallway/nsv/deck2/frame4/port)
+"cW" = (
+/obj/structure/extinguisher_cabinet{
+	pixel_y = 30
+	},
+/turf/open/floor/plasteel/ship/techfloor/alt,
+/area/hallway/nsv/deck2/frame3/port)
+"cZ" = (
+/obj/structure/table,
+/turf/open/floor/plasteel/white,
+/area/science/explab)
+"db" = (
+/obj/machinery/computer/rdconsole/robotics{
+	dir = 1
+	},
+/turf/open/floor/plasteel,
+/area/science/robotics/lab)
+"dc" = (
+/obj/item/stack/sheet/glass/fifty{
+	pixel_x = 3;
+	pixel_y = 3
+	},
+/obj/item/stack/sheet/metal/fifty,
+/obj/item/clothing/glasses/welding,
+/obj/item/storage/toolbox/mechanical{
+	pixel_x = -2;
+	pixel_y = -1
+	},
+/obj/structure/table/glass,
+/turf/open/floor/plasteel/white,
+/area/science/explab)
 "dk" = (
 /obj/structure/grille,
 /obj/structure/window/reinforced/fulltile/ship,
@@ -468,6 +575,9 @@
 /obj/machinery/vending/cigarette,
 /turf/open/floor/plasteel/ship/padded,
 /area/hallway/secondary/entry)
+"du" = (
+/turf/closed/wall/ship,
+/area/science/lab)
 "dv" = (
 /obj/structure/rack,
 /obj/effect/turf_decal/tile/neutral{
@@ -516,6 +626,27 @@
 /obj/structure/cable,
 /turf/open/floor/plasteel/ship/techfloor/alt,
 /area/hallway/nsv/deck2/frame3/starboard)
+"ee" = (
+/obj/structure/table/glass,
+/turf/open/floor/plasteel/white,
+/area/science/explab)
+"ef" = (
+/obj/structure/bed,
+/obj/item/bedsheet/rd/royal_cape,
+/turf/open/floor/plasteel,
+/area/crew_quarters/heads/hor)
+"ei" = (
+/obj/structure/cable,
+/obj/machinery/power/apc/auto_name/south,
+/turf/open/floor/plasteel/ship/techfloor/alt,
+/area/hallway/nsv/deck2/frame5/port)
+"em" = (
+/obj/machinery/computer/mech_bay_power_console{
+	dir = 1
+	},
+/obj/machinery/light,
+/turf/open/floor/plasteel,
+/area/science/robotics/lab)
 "ep" = (
 /turf/open/floor/plasteel,
 /area/crew_quarters/cafeteria)
@@ -563,6 +694,17 @@
 "eI" = (
 /turf/closed/wall/ship,
 /area/lawoffice)
+"eJ" = (
+/obj/machinery/door/firedoor/border_only,
+/turf/open/floor/plasteel/ship/techfloor/alt,
+/area/hallway/nsv/deck2/frame5/port)
+"eN" = (
+/obj/machinery/airalarm{
+	dir = 4;
+	pixel_x = -23
+	},
+/turf/open/floor/plasteel,
+/area/science)
 "eR" = (
 /obj/machinery/light{
 	dir = 4
@@ -579,6 +721,13 @@
 /obj/structure/cable,
 /turf/open/floor/plating,
 /area/janitor)
+"fb" = (
+/obj/machinery/airalarm{
+	dir = 1;
+	pixel_y = -22
+	},
+/turf/open/floor/plasteel/ship/techfloor/alt,
+/area/hallway/nsv/deck2/frame4/starboard)
 "fd" = (
 /turf/closed/wall/ship,
 /area/crew_quarters/dorms/nsv/dorms_1)
@@ -615,10 +764,33 @@
 /obj/machinery/door/firedoor/border_only,
 /turf/open/floor/plasteel/ship/padded,
 /area/hallway/nsv/deck2/frame2/port)
+"fv" = (
+/obj/structure/cable,
+/turf/open/floor/plasteel,
+/area/science)
+"fw" = (
+/obj/machinery/light{
+	dir = 4
+	},
+/turf/open/floor/plasteel,
+/area/crew_quarters/heads/hor)
+"fA" = (
+/obj/structure/cable,
+/turf/open/floor/plasteel/ship/techfloor/alt,
+/area/hallway/nsv/deck2/frame5/central)
+"fC" = (
+/turf/closed/wall/r_wall/ship,
+/area/science/server)
 "fD" = (
 /obj/machinery/computer/security/hos,
 /turf/open/floor/plasteel/dark,
 /area/crew_quarters/heads/hos)
+"fG" = (
+/obj/structure/extinguisher_cabinet{
+	pixel_y = 30
+	},
+/turf/open/floor/plasteel/ship/techfloor/alt,
+/area/hallway/nsv/deck2/frame4/port)
 "fH" = (
 /obj/structure/closet/secure_closet/warden,
 /obj/structure/reagent_dispensers/peppertank{
@@ -629,6 +801,10 @@
 "fN" = (
 /turf/open/floor/plasteel/ship/techfloor/alt,
 /area/hallway/secondary/entry)
+"fR" = (
+/obj/machinery/rnd/production/circuit_imprinter/department/science,
+/turf/open/floor/plasteel,
+/area/science/robotics/lab)
 "fY" = (
 /obj/structure/chair{
 	dir = 4
@@ -662,6 +838,16 @@
 /obj/structure/closet/chefcloset,
 /turf/open/floor/plasteel/cafeteria,
 /area/crew_quarters/kitchen)
+"gu" = (
+/obj/machinery/mech_bay_recharge_port,
+/turf/open/floor/plasteel,
+/area/science/robotics/lab)
+"gv" = (
+/obj/structure/extinguisher_cabinet{
+	pixel_x = 25
+	},
+/turf/open/floor/plasteel/dark,
+/area/security/brig)
 "gy" = (
 /obj/effect/turf_decal/tile/neutral{
 	dir = 1
@@ -695,6 +881,17 @@
 /obj/item/restraints/legcuffs,
 /turf/open/floor/plasteel/dark,
 /area/security)
+"gS" = (
+/obj/structure/extinguisher_cabinet{
+	pixel_x = -25
+	},
+/turf/open/floor/plasteel/ship/techfloor/alt,
+/area/hallway/nsv/deck2/frame5/central)
+"gW" = (
+/obj/structure/table,
+/obj/item/storage/box/disks_nanite,
+/turf/open/floor/plasteel/dark,
+/area/science)
 "gY" = (
 /obj/structure/chair/office,
 /obj/structure/reagent_dispensers/peppertank{
@@ -725,6 +922,13 @@
 	},
 /turf/open/floor/plasteel,
 /area/crew_quarters/cafeteria)
+"hf" = (
+/obj/structure/extinguisher_cabinet{
+	pixel_x = -25
+	},
+/obj/machinery/door/firedoor/border_only,
+/turf/open/floor/plasteel/ship/techfloor/alt,
+/area/hallway/nsv/deck2/frame5/central)
 "hh" = (
 /obj/structure/stairs{
 	dir = 8;
@@ -743,14 +947,41 @@
 /obj/machinery/computer/prisoner,
 /turf/open/floor/plasteel/dark,
 /area/security/brig)
+"hw" = (
+/obj/structure/table/wood,
+/obj/item/flashlight/lamp/green,
+/turf/open/floor/plasteel,
+/area/crew_quarters/heads/hor)
 "hz" = (
 /turf/closed/wall/ship,
 /area/maintenance/nsv/deck2/frame3/starboard)
+"hG" = (
+/obj/item/stack/sheet/glass,
+/obj/structure/table/glass,
+/obj/item/stack/sheet/glass,
+/obj/item/stack/sheet/glass,
+/obj/item/stock_parts/matter_bin,
+/obj/item/stock_parts/matter_bin,
+/obj/item/stock_parts/scanning_module{
+	pixel_x = 2;
+	pixel_y = 3
+	},
+/obj/item/stock_parts/scanning_module,
+/obj/structure/cable,
+/turf/open/floor/plasteel/white,
+/area/science/explab)
+"hH" = (
+/obj/machinery/computer/operating{
+	dir = 1;
+	name = "Robotics Operating Computer"
+	},
+/turf/open/floor/plasteel,
+/area/science)
 "hL" = (
 /obj/structure/grille,
 /obj/structure/window/reinforced/fulltile,
 /turf/open/floor/plating,
-/area/space)
+/area/crew_quarters/heads/hor)
 "hS" = (
 /obj/machinery/light{
 	dir = 1
@@ -786,6 +1017,16 @@
 /obj/structure/cable,
 /turf/open/floor/plasteel/dark,
 /area/security/brig)
+"il" = (
+/obj/machinery/light{
+	dir = 8
+	},
+/turf/open/floor/plasteel,
+/area/science)
+"im" = (
+/obj/structure/cable,
+/turf/open/floor/plasteel/ship/techfloor,
+/area/hallway/nsv/deck2/frame5/starboard)
 "in" = (
 /obj/structure/table/wood,
 /obj/machinery/airalarm{
@@ -793,7 +1034,7 @@
 	pixel_x = 24
 	},
 /turf/open/floor/carpet,
-/area/space)
+/area/crew_quarters/dorms/nsv/dorms_2)
 "ir" = (
 /obj/machinery/airalarm{
 	dir = 8;
@@ -802,6 +1043,19 @@
 /obj/structure/table,
 /turf/open/floor/plasteel,
 /area/hydroponics)
+"iv" = (
+/obj/structure/chair/office{
+	dir = 8
+	},
+/turf/open/floor/plasteel,
+/area/science/robotics/lab)
+"iC" = (
+/obj/machinery/firealarm{
+	dir = 8;
+	pixel_x = 24
+	},
+/turf/open/floor/plasteel/ship/techfloor/alt,
+/area/hallway/nsv/deck2/frame5/central)
 "iI" = (
 /obj/structure/cable,
 /obj/machinery/door/airlock/ship/public{
@@ -814,6 +1068,12 @@
 /obj/item/storage/belt/security/full,
 /turf/open/floor/plasteel/ship/techfloor/alt,
 /area/security/brig)
+"iU" = (
+/obj/structure/chair{
+	dir = 8
+	},
+/turf/open/floor/plasteel,
+/area/science)
 "iW" = (
 /obj/machinery/door/window/brigdoor/security/cell{
 	dir = 1;
@@ -826,6 +1086,14 @@
 /obj/structure/cable,
 /turf/open/floor/plasteel/dark,
 /area/security/brig)
+"iY" = (
+/obj/machinery/vending/wardrobe/sec_wardrobe,
+/turf/open/floor/plasteel/dark,
+/area/security)
+"ja" = (
+/obj/machinery/light,
+/turf/open/floor/plasteel/ship/techfloor/alt,
+/area/hallway/nsv/deck2/frame4/port)
 "jb" = (
 /obj/structure/cable,
 /obj/machinery/power/apc/auto_name/north,
@@ -845,10 +1113,22 @@
 	req_one_access_txt = "47"
 	},
 /turf/open/floor/plasteel,
-/area/space)
+/area/science/explab)
 "jj" = (
 /turf/open/floor/plasteel,
 /area/hydroponics)
+"jl" = (
+/turf/open/floor/plasteel/white,
+/area/science/explab)
+"jt" = (
+/obj/structure/extinguisher_cabinet{
+	pixel_y = 30
+	},
+/turf/open/floor/plasteel/ship/techfloor,
+/area/hallway/nsv/deck2/frame2/port)
+"ju" = (
+/turf/closed/wall/ship,
+/area/science/explab)
 "jB" = (
 /turf/open/floor/plasteel/ship/techfloor,
 /area/hallway/nsv/deck2/frame2/port)
@@ -860,7 +1140,18 @@
 	req_one_access_txt = "47"
 	},
 /turf/open/floor/plasteel,
-/area/space)
+/area/science/robotics/lab)
+"jL" = (
+/obj/structure/cable,
+/obj/structure/extinguisher_cabinet{
+	pixel_x = -25
+	},
+/turf/open/floor/plasteel,
+/area/science/lab)
+"jP" = (
+/obj/machinery/door/firedoor/border_only,
+/turf/open/floor/plasteel/ship/techfloor/alt,
+/area/hallway/nsv/deck2/frame4/port)
 "jW" = (
 /obj/structure/cable,
 /obj/machinery/power/apc/auto_name/north,
@@ -890,7 +1181,17 @@
 "ko" = (
 /obj/structure/cable,
 /turf/open/floor/plasteel/ship/riveted,
-/area/space)
+/area/maintenance/nsv/deck2/frame4/starboard)
+"kp" = (
+/obj/effect/turf_decal/bot,
+/obj/machinery/computer/nanite_chamber_control{
+	dir = 4
+	},
+/obj/structure/extinguisher_cabinet{
+	pixel_x = -25
+	},
+/turf/open/floor/plasteel/dark,
+/area/science)
 "kw" = (
 /obj/structure/janitorialcart,
 /turf/open/floor/plating,
@@ -930,7 +1231,13 @@
 	},
 /obj/structure/curtain,
 /turf/open/floor/plasteel/showroomfloor,
-/area/space)
+/area/crew_quarters/dorms/nsv/dorms_2)
+"kS" = (
+/obj/structure/extinguisher_cabinet{
+	pixel_x = -25
+	},
+/turf/open/floor/plasteel/white,
+/area/science/explab)
 "kW" = (
 /obj/machinery/flasher{
 	id = "Cell 1";
@@ -940,6 +1247,27 @@
 /obj/structure/cable,
 /turf/open/floor/plasteel/dark,
 /area/security/brig)
+"kY" = (
+/obj/machinery/rnd/server,
+/turf/open/floor/plasteel/dark,
+/area/science/server)
+"lb" = (
+/obj/machinery/computer/rdservercontrol{
+	dir = 4
+	},
+/turf/open/floor/plasteel/dark,
+/area/science/server)
+"ld" = (
+/obj/machinery/airalarm{
+	dir = 1;
+	pixel_y = -22
+	},
+/turf/open/floor/plasteel/ship/techfloor,
+/area/hallway/nsv/deck2/frame4/starboard)
+"li" = (
+/obj/structure/cable,
+/turf/open/floor/plasteel,
+/area/crew_quarters/heads/hor)
 "ll" = (
 /obj/structure/sink{
 	dir = 8;
@@ -986,12 +1314,12 @@
 	req_one_access_txt = "47"
 	},
 /turf/open/floor/plasteel,
-/area/space)
+/area/science/robotics/lab)
 "lx" = (
 /obj/machinery/door/airlock/ship/maintenance,
 /obj/structure/cable,
 /turf/open/floor/plasteel/ship/riveted,
-/area/space)
+/area/maintenance/nsv/deck2/frame4/starboard)
 "lz" = (
 /obj/structure/window/reinforced,
 /obj/structure/closet/secure_closet/brig{
@@ -1022,6 +1350,12 @@
 /obj/structure/cable,
 /turf/open/floor/plasteel/dark,
 /area/security/brig)
+"lH" = (
+/obj/machinery/light{
+	dir = 4
+	},
+/turf/open/floor/plasteel/dark,
+/area/science/server)
 "lK" = (
 /obj/structure/cable,
 /obj/machinery/power/apc/auto_name/south,
@@ -1058,6 +1392,11 @@
 /obj/machinery/vending/cigarette,
 /turf/open/floor/plasteel/dark,
 /area/security)
+"mc" = (
+/obj/structure/cable,
+/obj/machinery/power/apc/auto_name/south,
+/turf/open/floor/plasteel/white,
+/area/science/explab)
 "mf" = (
 /obj/structure/table/wood,
 /obj/machinery/firealarm{
@@ -1066,6 +1405,12 @@
 	},
 /turf/open/floor/plasteel,
 /area/crew_quarters/bar)
+"mi" = (
+/obj/structure/extinguisher_cabinet{
+	pixel_y = 30
+	},
+/turf/open/floor/plasteel/dark,
+/area/science/server)
 "mm" = (
 /obj/structure/table,
 /obj/machinery/door/window{
@@ -1092,18 +1437,25 @@
 	},
 /turf/open/floor/plasteel,
 /area/medical/nsv/clinic)
+"mo" = (
+/obj/structure/cable,
+/obj/structure/extinguisher_cabinet{
+	pixel_x = -25
+	},
+/turf/open/floor/plasteel,
+/area/crew_quarters/cafeteria)
 "mp" = (
 /obj/structure/bed,
 /obj/item/bedsheet/black,
 /turf/open/floor/carpet,
-/area/space)
+/area/crew_quarters/dorms/nsv/dorms_2)
 "mr" = (
 /obj/structure/grille,
 /obj/structure/window/reinforced/fulltile,
 /obj/structure/cable,
 /obj/machinery/door/firedoor,
 /turf/open/floor/plating,
-/area/space)
+/area/science/lab)
 "ms" = (
 /obj/machinery/telecomms/hub/preset,
 /obj/machinery/light,
@@ -1128,6 +1480,10 @@
 "mD" = (
 /turf/closed/wall/r_wall/ship,
 /area/hallway/secondary/entry)
+"mF" = (
+/obj/effect/turf_decal/bot,
+/turf/open/floor/plasteel,
+/area/science/robotics/lab)
 "mH" = (
 /obj/structure/chair/comfy{
 	dir = 1
@@ -1145,6 +1501,12 @@
 	},
 /turf/open/floor/carpet,
 /area/crew_quarters/dorms/nsv/dorms_1)
+"mJ" = (
+/obj/machinery/firealarm{
+	pixel_y = 25
+	},
+/turf/open/floor/plasteel/ship/techfloor/alt,
+/area/hallway/nsv/deck2/frame5/port)
 "mM" = (
 /obj/machinery/door/airlock/ship/public{
 	name = "Forward Crew Quarters"
@@ -1153,6 +1515,9 @@
 /obj/machinery/door/firedoor,
 /turf/open/floor/plasteel/ship/padded,
 /area/crew_quarters/dorms/nsv/dorms_1)
+"mO" = (
+/turf/closed/wall/ship,
+/area/maintenance/nsv/deck2/frame4/port)
 "mW" = (
 /obj/structure/rack,
 /obj/item/clothing/suit/armor/bulletproof,
@@ -1173,6 +1538,14 @@
 	},
 /turf/open/floor/plasteel/dark,
 /area/security/warden)
+"na" = (
+/turf/open/floor/plasteel,
+/area/science/robotics/lab)
+"nb" = (
+/obj/structure/cable,
+/obj/machinery/door/firedoor/border_only,
+/turf/open/floor/plasteel/ship/padded,
+/area/hallway/nsv/deck2/frame4/central)
 "nc" = (
 /obj/machinery/door/airlock/titanium{
 	name = "Supply Shuttle Airlock";
@@ -1190,6 +1563,13 @@
 /obj/structure/cable,
 /turf/open/floor/plasteel/dark,
 /area/security/brig)
+"nf" = (
+/obj/structure/reagent_dispensers/fueltank,
+/obj/machinery/light{
+	dir = 1
+	},
+/turf/open/floor/plasteel,
+/area/science/robotics/lab)
 "ng" = (
 /obj/machinery/airalarm{
 	dir = 1;
@@ -1197,6 +1577,11 @@
 	},
 /turf/open/floor/plasteel/ship/techfloor/alt,
 /area/hallway/nsv/deck2/frame2/starboard)
+"nh" = (
+/obj/structure/cable,
+/obj/machinery/power/apc/auto_name/east,
+/turf/open/floor/plating,
+/area/maintenance/nsv/deck2/frame5/port)
 "nl" = (
 /obj/machinery/flasher{
 	id = "Cell 5";
@@ -1217,6 +1602,9 @@
 /obj/machinery/vending/wardrobe,
 /turf/open/floor/plasteel/ship/padded,
 /area/hallway/secondary/entry)
+"nt" = (
+/turf/closed/wall/ship,
+/area/maintenance/nsv/deck2/frame4/starboard)
 "nF" = (
 /obj/machinery/power/apc/auto_name/south,
 /obj/structure/cable,
@@ -1233,6 +1621,16 @@
 /obj/item/pen,
 /turf/open/floor/plasteel/dark,
 /area/lawoffice)
+"nP" = (
+/obj/machinery/door/airlock/ship/public{
+	dir = 2;
+	icon_state = "closed";
+	id_tag = "Cabin2";
+	name = "Standard quarters"
+	},
+/obj/structure/cable,
+/turf/open/floor/plasteel/ship/padded,
+/area/crew_quarters/dorms/nsv/dorms_2)
 "nT" = (
 /obj/machinery/door/firedoor/border_only{
 	dir = 1
@@ -1263,6 +1661,9 @@
 /obj/structure/chair/stool/bar,
 /turf/open/floor/plasteel,
 /area/crew_quarters/bar)
+"oe" = (
+/turf/closed/wall/r_wall/ship,
+/area/maintenance/nsv/deck2/frame4/port)
 "of" = (
 /turf/closed/wall/r_wall/ship,
 /area/hallway/nsv/deck2/frame2/port)
@@ -1283,6 +1684,9 @@
 /obj/structure/closet/secure_closet/personal,
 /turf/open/floor/carpet,
 /area/crew_quarters/dorms/nsv/dorms_1)
+"om" = (
+/turf/open/floor/plasteel/ship/techfloor,
+/area/hallway/nsv/deck2/frame4/starboard)
 "oq" = (
 /turf/open/floor/plasteel/ship/techfloor/alt,
 /area/hallway/nsv/deck2/frame2/port)
@@ -1344,6 +1748,15 @@
 /obj/structure/shuttle/engine/heater,
 /turf/open/floor/plating/airless,
 /area/space)
+"pb" = (
+/obj/structure/table,
+/obj/machinery/cell_charger,
+/obj/item/reagent_containers/spray/cleaner,
+/obj/structure/extinguisher_cabinet{
+	pixel_y = 30
+	},
+/turf/open/floor/plasteel,
+/area/science/robotics/lab)
 "pg" = (
 /obj/structure/table/wood,
 /obj/machinery/recharger,
@@ -1352,6 +1765,12 @@
 "ph" = (
 /turf/closed/wall/ship,
 /area/maintenance/nsv/deck2/frame1/central)
+"pl" = (
+/obj/structure/extinguisher_cabinet{
+	pixel_y = -30
+	},
+/turf/open/floor/plasteel/dark,
+/area/security)
 "pm" = (
 /obj/structure/filingcabinet/employment,
 /obj/machinery/light{
@@ -1365,6 +1784,9 @@
 	},
 /turf/open/floor/plasteel/ship/techfloor/alt,
 /area/hallway/nsv/deck2/frame2/port)
+"ps" = (
+/turf/closed/wall/r_wall/ship,
+/area/maintenance/department/science)
 "pt" = (
 /obj/structure/table,
 /obj/structure/window/reinforced,
@@ -1417,6 +1839,13 @@
 /obj/machinery/power/apc/auto_name/west,
 /turf/open/floor/plasteel/dark,
 /area/security/brig)
+"pK" = (
+/turf/open/floor/plasteel/ship/techfloor/alt,
+/area/hallway/nsv/deck2/frame5/starboard)
+"pN" = (
+/obj/structure/cable,
+/turf/open/floor/plasteel,
+/area/science/lab)
 "pP" = (
 /obj/machinery/airalarm{
 	pixel_y = 22
@@ -1450,6 +1879,12 @@
 /obj/machinery/light,
 /turf/open/floor/plasteel/ship/padded,
 /area/hallway/secondary/entry)
+"ql" = (
+/obj/structure/extinguisher_cabinet{
+	pixel_y = 30
+	},
+/turf/open/floor/plasteel/ship/techfloor/alt,
+/area/hallway/nsv/deck2/frame2/port)
 "qr" = (
 /obj/machinery/light,
 /turf/open/floor/plasteel/ship/techfloor,
@@ -1458,6 +1893,24 @@
 /obj/machinery/telecomms/server/presets/security,
 /turf/open/floor/circuit/telecomms/mainframe,
 /area/space)
+"qw" = (
+/obj/machinery/airalarm{
+	dir = 8;
+	pixel_x = 24
+	},
+/turf/open/floor/plasteel,
+/area/science/robotics/lab)
+"qz" = (
+/obj/structure/extinguisher_cabinet{
+	pixel_x = -25
+	},
+/turf/open/floor/plasteel,
+/area/science)
+"qE" = (
+/obj/structure/cable,
+/obj/machinery/power/apc/auto_name/west,
+/turf/open/floor/plating,
+/area/maintenance/department/science)
 "qF" = (
 /obj/machinery/light{
 	dir = 1
@@ -1467,6 +1920,9 @@
 "qI" = (
 /turf/open/floor/plasteel/dark,
 /area/security/warden)
+"qL" = (
+/turf/closed/wall/r_wall/ship,
+/area/hallway/nsv/deck2/frame5/port)
 "qQ" = (
 /obj/machinery/vending/hydroseeds,
 /turf/open/floor/plasteel,
@@ -1485,6 +1941,12 @@
 	},
 /turf/open/floor/plasteel/ship/techfloor/alt,
 /area/crew_quarters/dorms/nsv/dorms_1)
+"rb" = (
+/obj/machinery/computer/robotics{
+	dir = 4
+	},
+/turf/open/floor/plasteel,
+/area/crew_quarters/heads/hor)
 "re" = (
 /obj/structure/table,
 /obj/structure/cable,
@@ -1505,6 +1967,19 @@
 /obj/structure/curtain,
 /turf/open/floor/plasteel/showroomfloor,
 /area/crew_quarters/dorms/nsv/dorms_1)
+"rl" = (
+/obj/machinery/recharge_station,
+/turf/open/floor/plasteel,
+/area/science/robotics/lab)
+"rm" = (
+/turf/closed/wall/ship,
+/area/crew_quarters/heads/hor)
+"rq" = (
+/obj/machinery/light{
+	dir = 1
+	},
+/turf/open/floor/plasteel/white,
+/area/science/explab)
 "rz" = (
 /obj/machinery/button/door{
 	id = "QMLoaddoor2";
@@ -1525,8 +2000,20 @@
 /area/space)
 "rC" = (
 /obj/structure/cable,
+/obj/machinery/power/apc/auto_name/east,
 /turf/open/floor/plasteel/ship/techfloor/alt,
-/area/space)
+/area/hallway/nsv/deck2/frame4/central)
+"rD" = (
+/obj/structure/cable,
+/turf/open/floor/plasteel/ship/padded,
+/area/hallway/nsv/deck2/frame5/port)
+"rE" = (
+/obj/machinery/airalarm{
+	dir = 4;
+	pixel_x = -23
+	},
+/turf/open/floor/plating,
+/area/maintenance/department/science)
 "rI" = (
 /obj/machinery/computer/security{
 	dir = 1
@@ -1540,6 +2027,18 @@
 	},
 /turf/open/floor/plasteel,
 /area/crew_quarters/cafeteria)
+"rK" = (
+/obj/structure/cable,
+/obj/machinery/door/firedoor/border_only,
+/turf/open/floor/plasteel/ship/padded,
+/area/hallway/nsv/deck2/frame5/central)
+"rM" = (
+/obj/machinery/mecha_part_fabricator,
+/obj/machinery/light{
+	dir = 1
+	},
+/turf/open/floor/plasteel,
+/area/science/robotics/lab)
 "rN" = (
 /obj/structure/table/wood,
 /obj/item/book/manual/wiki/tcomms,
@@ -1554,6 +2053,13 @@
 /obj/machinery/telecomms/bus/preset_three,
 /turf/open/floor/circuit/green,
 /area/space)
+"rU" = (
+/obj/machinery/firealarm{
+	dir = 4;
+	pixel_x = -24
+	},
+/turf/open/floor/plasteel/ship/techfloor/alt,
+/area/hallway/nsv/deck2/frame4/central)
 "rX" = (
 /obj/machinery/portable_atmospherics/canister/water_vapor,
 /turf/open/floor/plating,
@@ -1609,6 +2115,9 @@
 	},
 /turf/open/floor/plasteel/dark,
 /area/security/warden)
+"sH" = (
+/turf/closed/wall/r_wall/ship,
+/area/maintenance/nsv/deck2/frame4/starboard)
 "sL" = (
 /turf/open/floor/plasteel/ship/techfloor,
 /area/maintenance/nsv/deck2/frame1/port)
@@ -1634,6 +2143,15 @@
 /obj/item/flashlight/lamp/green,
 /turf/open/floor/plasteel/dark,
 /area/crew_quarters/heads/hos)
+"tk" = (
+/turf/closed/wall/ship,
+/area/crew_quarters/dorms/nsv/dorms_2)
+"tq" = (
+/obj/machinery/computer/aifixer{
+	dir = 4
+	},
+/turf/open/floor/plasteel,
+/area/crew_quarters/heads/hor)
 "tr" = (
 /obj/machinery/door/airlock/ship/security{
 	dir = 4;
@@ -1643,6 +2161,13 @@
 /obj/structure/fans/tiny,
 /turf/open/floor/plating,
 /area/security/brig)
+"tt" = (
+/obj/machinery/airalarm{
+	pixel_y = 22
+	},
+/obj/machinery/rnd/production/protolathe/department/science,
+/turf/open/floor/plasteel,
+/area/science/lab)
 "tz" = (
 /obj/structure/cable,
 /obj/machinery/door/airlock/ship/security,
@@ -1661,6 +2186,23 @@
 /obj/structure/cable,
 /turf/open/floor/plasteel/dark,
 /area/security/brig)
+"tC" = (
+/obj/structure/table,
+/obj/item/storage/backpack/duffelbag/med/surgery,
+/obj/item/reagent_containers/spray/cleaner,
+/obj/structure/extinguisher_cabinet{
+	pixel_y = -30
+	},
+/turf/open/floor/plasteel,
+/area/science)
+"tD" = (
+/obj/machinery/atmospherics/components/unary/vent_pump/siphon/on{
+	dir = 1;
+	external_pressure_bound = 120;
+	name = "server vent"
+	},
+/turf/open/floor/plasteel/dark,
+/area/science/server)
 "tE" = (
 /turf/closed/wall/r_wall/ship,
 /area/security/warden)
@@ -1669,13 +2211,23 @@
 	dir = 1
 	},
 /turf/open/floor/carpet,
-/area/space)
+/area/crew_quarters/dorms/nsv/dorms_2)
 "tN" = (
 /obj/machinery/firealarm{
 	pixel_y = 25
 	},
 /turf/open/floor/plasteel/ship/techfloor,
 /area/hallway/nsv/deck2/frame2/port)
+"tR" = (
+/obj/structure/cable,
+/obj/machinery/door/airlock/ship{
+	dir = 4;
+	icon_state = "closed";
+	name = "Robotics Surgery";
+	req_one_access_txt = "47"
+	},
+/turf/open/floor/plasteel,
+/area/science)
 "tV" = (
 /turf/closed/wall/r_wall/ship,
 /area/security)
@@ -1691,12 +2243,28 @@
 /obj/structure/table/wood,
 /turf/open/floor/plasteel,
 /area/crew_quarters/bar)
+"uh" = (
+/obj/structure/grille,
+/obj/structure/window/reinforced/fulltile/ship,
+/turf/open/floor/plating,
+/area/hallway/nsv/deck2/frame4/starboard)
+"uj" = (
+/turf/open/floor/plasteel,
+/area/science/lab)
 "um" = (
 /obj/machinery/light{
 	dir = 1
 	},
 /turf/open/floor/plasteel/ship/techfloor/alt,
 /area/crew_quarters/dorms/nsv/dorms_1)
+"uo" = (
+/obj/structure/cable,
+/obj/effect/turf_decal/stripes{
+	icon_state = "warningline";
+	dir = 4
+	},
+/turf/open/floor/plasteel,
+/area/science/robotics/lab)
 "up" = (
 /obj/machinery/door_timer{
 	id = "Cell 8";
@@ -1706,6 +2274,14 @@
 /obj/structure/cable,
 /turf/open/floor/plasteel/dark,
 /area/security/brig)
+"uq" = (
+/obj/structure/table,
+/obj/machinery/light,
+/turf/open/floor/plasteel,
+/area/science)
+"ut" = (
+/turf/closed/wall/r_wall/ship,
+/area/hallway/nsv/deck2/frame4/starboard)
 "uu" = (
 /obj/machinery/telecomms/server/presets/supply,
 /turf/open/floor/circuit,
@@ -1713,6 +2289,9 @@
 "uv" = (
 /obj/machinery/computer/card/minor/hos{
 	dir = 1
+	},
+/obj/structure/extinguisher_cabinet{
+	pixel_x = 25
 	},
 /turf/open/floor/plasteel/dark,
 /area/crew_quarters/heads/hos)
@@ -1734,6 +2313,9 @@
 /area/security/brig)
 "uF" = (
 /obj/structure/filingcabinet/security,
+/obj/structure/extinguisher_cabinet{
+	pixel_x = 25
+	},
 /turf/open/floor/plasteel/dark,
 /area/security/warden)
 "uJ" = (
@@ -1757,6 +2339,13 @@
 	},
 /turf/open/floor/plasteel/ship/techfloor/alt,
 /area/hallway/nsv/deck2/frame1/starboard)
+"va" = (
+/turf/open/floor/plasteel/dark,
+/area/science/server)
+"vb" = (
+/obj/machinery/rnd/destructive_analyzer,
+/turf/open/floor/plasteel/white,
+/area/science/explab)
 "ve" = (
 /obj/structure/cable,
 /obj/machinery/firealarm{
@@ -1771,10 +2360,17 @@
 	},
 /turf/open/floor/mineral/titanium/blue,
 /area/space)
+"vn" = (
+/obj/machinery/autolathe,
+/turf/open/floor/plasteel,
+/area/science/robotics/lab)
 "vr" = (
 /obj/structure/closet/secure_closet/personal,
 /turf/open/floor/carpet,
-/area/space)
+/area/crew_quarters/dorms/nsv/dorms_2)
+"vA" = (
+/turf/open/floor/plating,
+/area/maintenance/department/science)
 "vB" = (
 /obj/structure/table/wood,
 /obj/machinery/door/firedoor,
@@ -1789,6 +2385,25 @@
 /obj/structure/closet/secure_closet/armory3,
 /turf/open/floor/plasteel/dark,
 /area/security/warden)
+"vG" = (
+/turf/open/floor/plasteel/ship/techfloor/alt,
+/area/hallway/nsv/deck2/frame4/starboard)
+"vR" = (
+/obj/structure/table/glass,
+/obj/item/stock_parts/manipulator,
+/obj/item/stock_parts/capacitor,
+/obj/item/stock_parts/capacitor,
+/obj/item/stock_parts/manipulator,
+/obj/item/stock_parts/micro_laser,
+/obj/item/stock_parts/micro_laser,
+/obj/item/stack/cable_coil{
+	pixel_x = 3;
+	pixel_y = 3
+	},
+/obj/item/stack/cable_coil,
+/obj/structure/cable,
+/turf/open/floor/plasteel/white,
+/area/science/explab)
 "vS" = (
 /obj/structure/table,
 /obj/machinery/plantgenes,
@@ -1817,7 +2432,7 @@
 	},
 /obj/machinery/door/firedoor,
 /turf/open/floor/plasteel,
-/area/space)
+/area/science/lab)
 "wj" = (
 /obj/structure/table/reinforced,
 /obj/item/paper_bin,
@@ -1858,16 +2473,41 @@
 	},
 /turf/open/floor/plasteel/dark,
 /area/crew_quarters/heads/hos)
+"wz" = (
+/obj/structure/cable,
+/obj/structure/grille,
+/obj/structure/window/reinforced/fulltile,
+/turf/open/floor/plating,
+/area/science/server)
+"wC" = (
+/turf/open/floor/plasteel/ship/techfloor,
+/area/hallway/nsv/deck2/frame5/starboard)
 "wI" = (
 /obj/machinery/door/airlock/ship/maintenance,
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/frame1/starboard)
+"wL" = (
+/obj/item/banner/science,
+/turf/open/floor/plasteel,
+/area/science)
 "wQ" = (
 /obj/structure/window/reinforced{
 	dir = 4
 	},
 /turf/open/floor/plating,
 /area/space)
+"wU" = (
+/obj/structure/extinguisher_cabinet{
+	pixel_y = 30
+	},
+/turf/open/floor/plasteel/dark,
+/area/lawoffice)
+"wV" = (
+/obj/structure/extinguisher_cabinet{
+	pixel_y = 30
+	},
+/turf/open/floor/plasteel/ship/techfloor,
+/area/hallway/nsv/deck2/frame4/port)
 "xb" = (
 /obj/structure/chair/comfy{
 	dir = 1
@@ -1900,6 +2540,12 @@
 /obj/effect/mapping_helpers/airlock/cyclelink_helper,
 /turf/open/floor/plasteel/ship/padded,
 /area/security/brig)
+"xp" = (
+/turf/closed/wall/ship,
+/area/hallway/nsv/deck2/frame4/starboard)
+"xq" = (
+/turf/open/floor/plasteel/ship/techfloor/alt,
+/area/hallway/nsv/deck2/frame4/port)
 "xr" = (
 /obj/structure/chair/wood/wings,
 /obj/machinery/firealarm{
@@ -1908,6 +2554,15 @@
 	},
 /turf/open/floor/carpet,
 /area/crew_quarters/dorms/nsv/dorms_1)
+"xt" = (
+/obj/machinery/airalarm{
+	pixel_y = 22
+	},
+/turf/open/floor/plasteel/ship/techfloor,
+/area/hallway/nsv/deck2/frame4/port)
+"xw" = (
+/turf/closed/wall/ship,
+/area/hallway/nsv/deck2/frame4/port)
 "xD" = (
 /obj/machinery/door/firedoor/border_only,
 /turf/open/floor/plasteel/ship/techfloor/alt,
@@ -1927,6 +2582,12 @@
 	},
 /turf/open/floor/plasteel/ship/techfloor/alt,
 /area/hallway/nsv/deck2/frame2/starboard)
+"xI" = (
+/obj/machinery/firealarm{
+	pixel_y = 25
+	},
+/turf/open/floor/plasteel/ship/techfloor,
+/area/hallway/nsv/deck2/frame4/port)
 "xU" = (
 /obj/structure/chair{
 	dir = 1
@@ -1941,7 +2602,10 @@
 	dir = 4
 	},
 /turf/open/floor/plasteel,
-/area/space)
+/area/science)
+"yb" = (
+/turf/open/floor/plasteel/ship/techfloor,
+/area/hallway/nsv/deck2/frame5/port)
 "yc" = (
 /obj/machinery/conveyor{
 	dir = 4;
@@ -1953,6 +2617,12 @@
 	},
 /turf/open/floor/plating,
 /area/space)
+"yd" = (
+/obj/structure/table,
+/obj/machinery/cell_charger,
+/obj/item/reagent_containers/spray/cleaner,
+/turf/open/floor/plasteel,
+/area/science/robotics/lab)
 "yf" = (
 /obj/machinery/door/firedoor,
 /obj/machinery/door/airlock/ship/public{
@@ -1965,6 +2635,13 @@
 "yi" = (
 /turf/open/floor/plasteel/ship/padded,
 /area/hallway/nsv/deck2/frame1/starboard)
+"yl" = (
+/obj/machinery/firealarm{
+	dir = 1;
+	pixel_y = -24
+	},
+/turf/open/floor/plasteel/ship/techfloor,
+/area/hallway/nsv/deck2/frame4/starboard)
 "ym" = (
 /obj/structure/table,
 /obj/machinery/computer/med_data/laptop,
@@ -1990,7 +2667,7 @@
 	pixel_x = -11
 	},
 /turf/open/floor/carpet,
-/area/space)
+/area/crew_quarters/dorms/nsv/dorms_2)
 "yw" = (
 /obj/machinery/door_timer{
 	id = "Cell 2";
@@ -2010,12 +2687,26 @@
 /obj/item/restraints/legcuffs,
 /turf/open/floor/plasteel/dark,
 /area/security)
+"yy" = (
+/obj/machinery/rnd/production/protolathe,
+/turf/open/floor/plasteel/white,
+/area/science/explab)
 "yA" = (
 /obj/machinery/door/firedoor/border_only{
 	dir = 1
 	},
 /turf/open/floor/plasteel/ship/techfloor/alt,
 /area/hallway/nsv/deck2/frame2/starboard)
+"yB" = (
+/obj/structure/cable,
+/turf/open/floor/plasteel/ship/padded,
+/area/hallway/nsv/deck2/frame5/starboard)
+"yC" = (
+/obj/structure/cable,
+/obj/machinery/power/apc/auto_name/south,
+/obj/structure/table/optable,
+/turf/open/floor/plasteel,
+/area/science)
 "yD" = (
 /obj/effect/turf_decal/tile/neutral{
 	dir = 1
@@ -2063,14 +2754,37 @@
 /obj/machinery/power/apc/auto_name/north,
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/frame3/starboard)
+"zk" = (
+/obj/structure/table/wood,
+/obj/item/paper_bin,
+/obj/item/pen,
+/turf/open/floor/plasteel,
+/area/crew_quarters/heads/hor)
+"zl" = (
+/obj/structure/cable,
+/obj/effect/turf_decal/bot,
+/turf/open/floor/plasteel,
+/area/science/robotics/lab)
 "zu" = (
 /obj/structure/cable,
 /turf/open/floor/plasteel/ship/padded,
 /area/space)
+"zv" = (
+/turf/open/floor/plasteel/ship/riveted,
+/area/maintenance/nsv/deck2/frame4/starboard)
 "zx" = (
 /obj/machinery/hydroponics/constructable,
 /turf/open/floor/plasteel,
 /area/hydroponics)
+"zz" = (
+/obj/structure/cable,
+/turf/open/floor/plasteel/ship/techfloor/alt,
+/area/hallway/nsv/deck2/frame5/port)
+"zA" = (
+/obj/structure/cable,
+/obj/machinery/door/firedoor/border_only,
+/turf/open/floor/plasteel/ship/padded,
+/area/hallway/nsv/deck2/frame5/port)
 "zB" = (
 /obj/structure/cable,
 /obj/machinery/light/small{
@@ -2082,6 +2796,11 @@
 /obj/structure/filingcabinet/employment,
 /turf/open/floor/plasteel/dark,
 /area/lawoffice)
+"zG" = (
+/obj/structure/cable,
+/obj/machinery/power/apc/auto_name/north,
+/turf/open/floor/plasteel/ship/techfloor/alt,
+/area/hallway/nsv/deck2/frame5/starboard)
 "zH" = (
 /obj/structure/sink{
 	dir = 8;
@@ -2098,6 +2817,15 @@
 /obj/structure/cable,
 /turf/open/floor/plasteel/dark,
 /area/security/brig)
+"zR" = (
+/obj/structure/extinguisher_cabinet{
+	pixel_x = 25
+	},
+/obj/machinery/door/firedoor/border_only{
+	dir = 1
+	},
+/turf/open/floor/plasteel/ship/techfloor/alt,
+/area/hallway/nsv/deck2/frame5/starboard)
 "zV" = (
 /obj/machinery/door_timer{
 	id = "Cell 3";
@@ -2107,6 +2835,9 @@
 /obj/structure/cable,
 /turf/open/floor/plasteel/dark,
 /area/security/brig)
+"zW" = (
+/turf/closed/wall/ship,
+/area/maintenance/department/science)
 "zX" = (
 /obj/structure/table/wood,
 /turf/open/floor/plasteel/dark,
@@ -2122,7 +2853,14 @@
 	},
 /obj/structure/curtain,
 /turf/open/floor/plasteel/showroomfloor,
-/area/space)
+/area/crew_quarters/dorms/nsv/dorms_2)
+"zZ" = (
+/obj/machinery/airalarm{
+	dir = 4;
+	pixel_x = -23
+	},
+/turf/open/floor/plasteel,
+/area/science/robotics/lab)
 "Ac" = (
 /obj/machinery/telecomms/receiver/preset_left,
 /turf/open/floor/circuit/green,
@@ -2135,6 +2873,12 @@
 	},
 /turf/open/floor/plasteel/ship/padded,
 /area/security/brig)
+"Ak" = (
+/obj/machinery/door/firedoor/border_only{
+	dir = 1
+	},
+/turf/open/floor/plasteel/ship/techfloor/alt,
+/area/hallway/nsv/deck2/frame4/starboard)
 "Al" = (
 /obj/structure/cable,
 /obj/machinery/door/firedoor/border_only{
@@ -2147,6 +2891,16 @@
 /obj/machinery/light,
 /turf/open/floor/carpet,
 /area/crew_quarters/dorms/nsv/dorms_1)
+"Ap" = (
+/obj/structure/cable,
+/turf/open/floor/plasteel/ship/padded,
+/area/hallway/nsv/deck2/frame4/central)
+"As" = (
+/obj/structure/chair{
+	dir = 1
+	},
+/turf/open/floor/plasteel,
+/area/science)
 "Ay" = (
 /turf/closed/wall/ship,
 /area/hallway/nsv/deck2/frame3/port)
@@ -2186,13 +2940,32 @@
 	name = "Standard quarters"
 	},
 /turf/open/floor/plasteel/ship/padded,
-/area/space)
+/area/crew_quarters/dorms/nsv/dorms_2)
 "AP" = (
 /obj/machinery/door/firedoor/border_only{
 	dir = 8
 	},
 /turf/open/floor/plasteel/ship/techfloor/alt,
 /area/hallway/nsv/deck2/frame2/starboard)
+"AQ" = (
+/obj/machinery/airalarm{
+	dir = 1;
+	pixel_y = -22
+	},
+/turf/open/floor/plasteel,
+/area/science)
+"AR" = (
+/obj/machinery/light,
+/turf/open/floor/plasteel/white,
+/area/science/explab)
+"AT" = (
+/obj/machinery/door/firedoor/border_only,
+/turf/open/floor/plasteel/ship/techfloor/alt,
+/area/hallway/nsv/deck2/frame5/central)
+"AU" = (
+/obj/structure/table,
+/turf/open/floor/plasteel,
+/area/science)
 "AV" = (
 /obj/structure/chair/comfy{
 	dir = 1
@@ -2213,6 +2986,12 @@
 	},
 /turf/open/floor/plasteel/dark,
 /area/security/warden)
+"Be" = (
+/obj/structure/chair/office{
+	dir = 4
+	},
+/turf/open/floor/plasteel,
+/area/science/lab)
 "Bh" = (
 /obj/machinery/door/window/brigdoor/security/cell{
 	dir = 1;
@@ -2225,6 +3004,13 @@
 /obj/structure/cable,
 /turf/open/floor/plasteel/dark,
 /area/security/brig)
+"Bp" = (
+/obj/structure/bed,
+/obj/item/bedsheet/black,
+/obj/machinery/power/apc/auto_name/north,
+/obj/structure/cable,
+/turf/open/floor/carpet,
+/area/crew_quarters/dorms/nsv/dorms_2)
 "Bq" = (
 /obj/machinery/telecomms/server/presets/command,
 /turf/open/floor/circuit/telecomms/mainframe,
@@ -2244,17 +3030,26 @@
 /obj/machinery/light{
 	dir = 8
 	},
+/obj/structure/extinguisher_cabinet{
+	pixel_x = -25
+	},
 /turf/open/floor/plasteel,
 /area/crew_quarters/bar)
 "By" = (
 /obj/structure/cable,
 /obj/machinery/power/apc/auto_name/north,
 /turf/open/floor/plasteel/ship/riveted,
-/area/space)
+/area/maintenance/nsv/deck2/frame4/starboard)
 "BA" = (
 /obj/structure/cable,
 /turf/open/floor/plasteel/ship/techfloor/alt,
 /area/hallway/nsv/deck2/frame1/starboard)
+"BB" = (
+/obj/machinery/computer/mecha{
+	dir = 4
+	},
+/turf/open/floor/plasteel,
+/area/crew_quarters/heads/hor)
 "BF" = (
 /obj/structure/chair{
 	dir = 8
@@ -2283,6 +3078,12 @@
 	},
 /turf/open/floor/plasteel/ship/padded,
 /area/space)
+"BY" = (
+/obj/structure/extinguisher_cabinet{
+	pixel_y = -30
+	},
+/turf/open/floor/plasteel/ship/techfloor/alt,
+/area/hallway/nsv/deck2/frame4/starboard)
 "Cb" = (
 /turf/open/floor/plasteel,
 /area/medical/nsv/clinic)
@@ -2297,14 +3098,32 @@
 /obj/machinery/light,
 /turf/open/floor/circuit/green,
 /area/space)
+"Ce" = (
+/turf/open/floor/plasteel,
+/area/science)
 "Ci" = (
 /obj/machinery/telecomms/server/presets/common,
 /turf/open/floor/circuit,
 /area/space)
+"Cj" = (
+/obj/machinery/airalarm{
+	pixel_y = 22
+	},
+/obj/structure/table,
+/turf/open/floor/plasteel/white,
+/area/science/explab)
+"Ck" = (
+/obj/structure/cable,
+/turf/open/floor/plasteel/ship/techfloor/alt,
+/area/hallway/nsv/deck2/frame5/starboard)
+"Cl" = (
+/obj/structure/cable,
+/turf/open/floor/carpet,
+/area/crew_quarters/dorms/nsv/dorms_2)
 "Cz" = (
 /obj/structure/chair/wood/wings,
 /turf/open/floor/carpet,
-/area/space)
+/area/crew_quarters/dorms/nsv/dorms_2)
 "CD" = (
 /obj/machinery/airalarm{
 	dir = 1;
@@ -2312,6 +3131,12 @@
 	},
 /turf/open/floor/plasteel/dark,
 /area/security/brig)
+"CE" = (
+/obj/structure/cable,
+/obj/machinery/mecha_part_fabricator,
+/obj/machinery/power/apc/auto_name/north,
+/turf/open/floor/plasteel,
+/area/science/robotics/lab)
 "CG" = (
 /obj/structure/table/reinforced,
 /obj/structure/cable,
@@ -2328,10 +3153,30 @@
 	},
 /turf/open/floor/plasteel/ship/techfloor,
 /area/hallway/nsv/deck2/frame1/starboard)
+"CO" = (
+/obj/structure/window/reinforced{
+	dir = 1;
+	pixel_y = 1
+	},
+/obj/machinery/atmospherics/pipe/simple/general/hidden{
+	dir = 10
+	},
+/turf/open/floor/plasteel/dark,
+/area/science/server)
+"CP" = (
+/obj/machinery/airalarm{
+	pixel_y = 22
+	},
+/turf/open/floor/plasteel,
+/area/science)
 "CQ" = (
 /obj/machinery/vending/security,
 /turf/open/floor/plasteel/dark,
 /area/security)
+"CX" = (
+/obj/structure/cable,
+/turf/open/floor/plasteel/ship/padded,
+/area/hallway/nsv/deck2/frame4/starboard)
 "CZ" = (
 /obj/machinery/door/firedoor,
 /obj/machinery/door/airlock/ship/public{
@@ -2371,7 +3216,13 @@
 	req_one_access_txt = "47"
 	},
 /turf/open/floor/plasteel,
-/area/space)
+/area/science/explab)
+"Df" = (
+/obj/machinery/firealarm{
+	pixel_y = 25
+	},
+/turf/open/floor/plasteel/ship/techfloor/alt,
+/area/hallway/nsv/deck2/frame4/port)
 "Dk" = (
 /obj/structure/window/reinforced{
 	dir = 1
@@ -2402,7 +3253,7 @@
 "Dy" = (
 /obj/structure/cable,
 /turf/open/floor/plating,
-/area/space)
+/area/maintenance/department/science)
 "DD" = (
 /obj/structure/window/reinforced,
 /obj/structure/closet/secure_closet/brig{
@@ -2430,6 +3281,16 @@
 /obj/machinery/power/apc/auto_name/north,
 /turf/open/floor/plasteel/ship/padded,
 /area/hallway/secondary/entry)
+"DV" = (
+/obj/machinery/rnd/production/circuit_imprinter,
+/turf/open/floor/plasteel/white,
+/area/science/explab)
+"DW" = (
+/obj/structure/extinguisher_cabinet{
+	pixel_x = 25
+	},
+/turf/open/floor/plasteel/ship/techfloor/alt,
+/area/hallway/nsv/deck2/frame5/central)
 "DX" = (
 /obj/structure/chair{
 	dir = 4
@@ -2437,6 +3298,12 @@
 /obj/structure/cable,
 /turf/open/floor/plasteel,
 /area/crew_quarters/cafeteria)
+"DY" = (
+/obj/machinery/door/firedoor/border_only{
+	dir = 1
+	},
+/turf/open/floor/plasteel/ship/techfloor/alt,
+/area/hallway/nsv/deck2/frame4/central)
 "DZ" = (
 /obj/structure/rack,
 /obj/item/storage/box/firingpins{
@@ -2449,8 +3316,9 @@
 /area/security/warden)
 "Ec" = (
 /obj/machinery/door/airlock/ship/maintenance,
+/obj/structure/cable,
 /turf/open/floor/plating,
-/area/space)
+/area/maintenance/nsv/deck2/frame5/port)
 "Ee" = (
 /obj/machinery/telecomms/broadcaster/preset_right,
 /turf/open/floor/circuit/green,
@@ -2464,6 +3332,11 @@
 	},
 /turf/open/floor/plasteel/dark,
 /area/security/brig)
+"El" = (
+/obj/machinery/nanite_programmer,
+/obj/effect/turf_decal/bot,
+/turf/open/floor/plasteel/dark,
+/area/science)
 "Em" = (
 /obj/structure/chair/office{
 	dir = 1
@@ -2507,6 +3380,23 @@
 /obj/structure/filingcabinet/medical,
 /turf/open/floor/plasteel/dark,
 /area/lawoffice)
+"EE" = (
+/obj/structure/table/wood,
+/obj/structure/extinguisher_cabinet{
+	pixel_y = -30
+	},
+/turf/open/floor/plasteel,
+/area/crew_quarters/heads/hor)
+"EI" = (
+/obj/machinery/computer/card/minor/rd{
+	dir = 4
+	},
+/obj/machinery/airalarm{
+	dir = 4;
+	pixel_x = -23
+	},
+/turf/open/floor/plasteel,
+/area/crew_quarters/heads/hor)
 "EM" = (
 /obj/structure/window/reinforced{
 	dir = 1
@@ -2548,6 +3438,14 @@
 	},
 /turf/open/floor/plasteel/ship/techfloor/alt,
 /area/hallway/nsv/deck2/frame3/port)
+"Fk" = (
+/obj/machinery/light/small{
+	brightness = 3;
+	dir = 8
+	},
+/obj/structure/cable,
+/turf/open/floor/plating,
+/area/maintenance/nsv/deck2/frame5/starboard)
 "Fl" = (
 /obj/machinery/firealarm{
 	dir = 4;
@@ -2566,6 +3464,11 @@
 /obj/structure/cable,
 /turf/open/floor/plasteel/ship/padded,
 /area/security/brig)
+"FA" = (
+/obj/structure/cable,
+/obj/machinery/power/apc/auto_name/west,
+/turf/open/floor/plasteel/dark,
+/area/science/server)
 "FB" = (
 /obj/machinery/power/apc/auto_name/east,
 /obj/structure/cable,
@@ -2589,6 +3492,12 @@
 	},
 /turf/open/floor/plasteel,
 /area/hydroponics)
+"FR" = (
+/obj/structure/cable,
+/obj/machinery/power/apc/auto_name/south,
+/obj/machinery/vending/wardrobe/science_wardrobe,
+/turf/open/floor/plasteel,
+/area/science/lab)
 "FT" = (
 /obj/structure/window/reinforced{
 	dir = 1
@@ -2597,6 +3506,10 @@
 /obj/effect/spawner/lootdrop/maintenance/three,
 /turf/open/floor/plasteel/dark,
 /area/security/brig)
+"FV" = (
+/obj/machinery/rnd/production/techfab,
+/turf/open/floor/plasteel/white,
+/area/science/explab)
 "Gc" = (
 /obj/machinery/door_timer{
 	id = "Cell 5";
@@ -2610,6 +3523,9 @@
 /obj/structure/cable,
 /turf/open/floor/plasteel/ship/padded,
 /area/crew_quarters/dorms/nsv/dorms_1)
+"Gj" = (
+/turf/closed/wall/r_wall/ship,
+/area/science)
 "Gl" = (
 /obj/structure/chair,
 /turf/open/floor/plasteel,
@@ -2622,6 +3538,9 @@
 	},
 /turf/open/floor/plasteel/cafeteria,
 /area/crew_quarters/kitchen)
+"Go" = (
+/turf/open/floor/plating,
+/area/science)
 "Gq" = (
 /obj/machinery/firealarm{
 	dir = 1;
@@ -2663,6 +3582,12 @@
 	},
 /turf/open/floor/plasteel,
 /area/crew_quarters/cafeteria)
+"GM" = (
+/obj/structure/cable,
+/obj/structure/grille,
+/obj/structure/window/reinforced/fulltile,
+/turf/open/floor/plating,
+/area/science/robotics/lab)
 "GO" = (
 /obj/structure/table,
 /obj/item/book/manual/chef_recipes,
@@ -2713,12 +3638,28 @@
 /obj/structure/cable,
 /turf/open/floor/plasteel/dark,
 /area/security/warden)
+"Hh" = (
+/turf/open/floor/plasteel/ship/techfloor,
+/area/maintenance/nsv/deck2/frame4/port)
+"Hm" = (
+/obj/structure/cable,
+/turf/open/floor/plasteel/ship/techfloor/alt,
+/area/hallway/nsv/deck2/frame4/starboard)
 "Ho" = (
 /obj/structure/grille,
 /obj/structure/window/reinforced/fulltile,
 /obj/machinery/door/firedoor,
 /turf/open/floor/plating,
 /area/crew_quarters/cafeteria)
+"Hp" = (
+/obj/machinery/door/firedoor,
+/obj/machinery/door/poddoor/ship{
+	dir = 4;
+	id = "robo";
+	name = "Robotics loading door"
+	},
+/turf/open/floor/plasteel,
+/area/science/robotics/lab)
 "Hq" = (
 /obj/machinery/light{
 	dir = 4
@@ -2731,6 +3672,12 @@
 /obj/machinery/power/apc/auto_name/north,
 /turf/open/floor/plasteel/dark,
 /area/crew_quarters/heads/hos)
+"Hy" = (
+/obj/structure/extinguisher_cabinet{
+	pixel_y = 30
+	},
+/turf/open/floor/plasteel/ship/techfloor/alt,
+/area/hallway/nsv/deck2/frame1/port)
 "Hz" = (
 /obj/structure/cable,
 /turf/open/floor/plasteel/ship/padded,
@@ -2739,6 +3686,9 @@
 /obj/structure/cable,
 /turf/open/floor/plasteel,
 /area/medical/nsv/clinic)
+"HG" = (
+/turf/open/floor/plasteel/ship/techfloor/alt,
+/area/hallway/nsv/deck2/frame5/port)
 "HJ" = (
 /obj/structure/cable,
 /turf/open/floor/plasteel/ship/techfloor/alt,
@@ -2747,6 +3697,11 @@
 /obj/structure/closet/secure_closet/freezer/kitchen,
 /turf/open/floor/plasteel/freezer,
 /area/crew_quarters/kitchen)
+"HS" = (
+/obj/structure/cable,
+/obj/machinery/power/apc/auto_name/north,
+/turf/open/floor/plasteel,
+/area/crew_quarters/heads/hor)
 "HV" = (
 /obj/machinery/light{
 	dir = 1
@@ -2759,6 +3714,11 @@
 "HX" = (
 /turf/closed/wall/r_wall/ship,
 /area/crew_quarters/heads/hos)
+"HY" = (
+/obj/structure/cable,
+/obj/machinery/door/firedoor/border_only,
+/turf/open/floor/plasteel/ship/padded,
+/area/hallway/nsv/deck2/frame4/port)
 "HZ" = (
 /obj/structure/chair/comfy,
 /obj/machinery/firealarm{
@@ -2770,6 +3730,16 @@
 /obj/machinery/computer/security,
 /turf/open/floor/plasteel/dark,
 /area/security/brig)
+"Ie" = (
+/obj/machinery/firealarm{
+	dir = 1;
+	pixel_y = -24
+	},
+/turf/open/floor/plasteel/ship/techfloor/alt,
+/area/hallway/nsv/deck2/frame3/starboard)
+"Ih" = (
+/turf/closed/wall/ship,
+/area/maintenance/nsv/deck2/frame5/starboard)
 "In" = (
 /obj/machinery/airalarm{
 	dir = 8;
@@ -2794,6 +3764,23 @@
 /obj/machinery/door/firedoor,
 /turf/open/floor/plasteel/dark,
 /area/security/warden)
+"Ix" = (
+/obj/machinery/computer/rdconsole/core,
+/turf/open/floor/plasteel,
+/area/science/lab)
+"IA" = (
+/obj/structure/bodycontainer/morgue{
+	dir = 2;
+	icon_state = "morgue1"
+	},
+/turf/open/floor/plasteel,
+/area/science)
+"IC" = (
+/obj/structure/extinguisher_cabinet{
+	pixel_y = -30
+	},
+/turf/open/floor/plasteel/ship/techfloor/alt,
+/area/hallway/nsv/deck2/frame1/starboard)
 "IF" = (
 /obj/structure/grille,
 /obj/structure/window/reinforced/fulltile,
@@ -2825,6 +3812,10 @@
 	},
 /turf/open/floor/plasteel/ship/techfloor/alt,
 /area/hallway/nsv/deck2/frame3/starboard)
+"IX" = (
+/obj/structure/chair,
+/turf/open/floor/plasteel,
+/area/science)
 "IY" = (
 /obj/structure/grille,
 /obj/structure/window/reinforced/fulltile/ship,
@@ -2868,6 +3859,11 @@
 	},
 /turf/open/floor/plating,
 /area/janitor)
+"Jx" = (
+/obj/structure/cable,
+/obj/machinery/power/apc/auto_name/east,
+/turf/open/floor/plating,
+/area/maintenance/nsv/deck2/frame5/starboard)
 "Jy" = (
 /obj/machinery/power/apc/auto_name/south,
 /obj/structure/cable,
@@ -2889,6 +3885,10 @@
 	},
 /turf/open/floor/plasteel/dark,
 /area/space)
+"JG" = (
+/obj/machinery/door/firedoor/border_only,
+/turf/open/floor/plasteel/ship/techfloor/alt,
+/area/hallway/nsv/deck2/frame4/central)
 "JL" = (
 /obj/structure/window/reinforced,
 /turf/open/floor/plating,
@@ -2909,6 +3909,16 @@
 "JN" = (
 /turf/open/floor/plasteel/dark,
 /area/security)
+"JO" = (
+/obj/machinery/airalarm{
+	dir = 4;
+	pixel_x = -23
+	},
+/turf/open/floor/plasteel/dark,
+/area/science/server)
+"JR" = (
+/turf/open/floor/mech_bay_recharge_floor,
+/area/science/robotics/lab)
 "JS" = (
 /obj/machinery/door/airlock/ship{
 	dir = 8;
@@ -2917,7 +3927,7 @@
 	req_one_access_txt = "47"
 	},
 /turf/open/floor/plasteel,
-/area/space)
+/area/science/lab)
 "JW" = (
 /obj/structure/cable,
 /obj/machinery/door/firedoor/border_only{
@@ -2925,12 +3935,20 @@
 	},
 /turf/open/floor/plasteel/ship/techfloor/alt,
 /area/hallway/nsv/deck2/frame2/starboard)
+"JX" = (
+/obj/structure/reagent_dispensers/fueltank,
+/turf/open/floor/plasteel,
+/area/science/robotics/lab)
 "Ka" = (
 /obj/structure/chair/comfy{
 	dir = 4
 	},
 /turf/open/floor/plasteel,
 /area/crew_quarters/bar)
+"Kd" = (
+/obj/machinery/light,
+/turf/open/floor/plasteel,
+/area/science)
 "Kf" = (
 /turf/closed/wall/ship,
 /area/janitor)
@@ -2972,6 +3990,10 @@
 /obj/structure/cable,
 /turf/open/floor/plasteel,
 /area/crew_quarters/bar)
+"Kt" = (
+/obj/structure/cable,
+/turf/open/floor/plasteel/ship/techfloor,
+/area/hallway/nsv/deck2/frame5/port)
 "Kx" = (
 /obj/structure/cable,
 /obj/machinery/door/airlock/ship{
@@ -2980,13 +4002,42 @@
 	name = "Research wing";
 	req_one_access_txt = "47"
 	},
+/obj/effect/mapping_helpers/airlock/cyclelink_helper{
+	dir = 4
+	},
 /turf/open/floor/plasteel,
-/area/space)
+/area/science)
+"KB" = (
+/obj/structure/extinguisher_cabinet{
+	pixel_y = -30
+	},
+/turf/open/floor/plasteel/ship/techfloor,
+/area/hallway/nsv/deck2/frame2/starboard)
+"KF" = (
+/obj/structure/cable,
+/obj/machinery/door/firedoor/border_only{
+	dir = 1
+	},
+/turf/open/floor/plasteel/ship/padded,
+/area/hallway/nsv/deck2/frame5/starboard)
+"KH" = (
+/turf/open/floor/plasteel/ship/techfloor,
+/area/hallway/nsv/deck2/frame4/port)
 "KI" = (
 /obj/structure/cable,
 /obj/machinery/power/apc/auto_name/north,
 /turf/open/floor/plasteel/dark,
 /area/security)
+"KW" = (
+/obj/structure/window/reinforced{
+	dir = 1;
+	pixel_y = 1
+	},
+/obj/machinery/atmospherics/pipe/simple/general/hidden{
+	dir = 4
+	},
+/turf/open/floor/plasteel/dark,
+/area/science/server)
 "KX" = (
 /obj/machinery/light{
 	dir = 1
@@ -3034,11 +4085,27 @@
 /area/space)
 "Lz" = (
 /obj/structure/closet/crate/secure/hydroponics,
+/obj/structure/extinguisher_cabinet{
+	pixel_x = 25
+	},
 /turf/open/floor/plasteel,
 /area/hydroponics)
 "LA" = (
 /turf/open/floor/plasteel/ship/techfloor,
 /area/hallway/nsv/deck2/frame2/starboard)
+"LC" = (
+/obj/structure/window/reinforced,
+/obj/machinery/atmospherics/components/unary/thermomachine/freezer/on/coldroom{
+	dir = 4
+	},
+/obj/machinery/light{
+	dir = 8
+	},
+/turf/open/floor/plasteel/dark,
+/area/science/server)
+"LE" = (
+/turf/closed/wall/ship,
+/area/science/server)
 "LH" = (
 /obj/machinery/computer/security{
 	dir = 4
@@ -3054,6 +4121,9 @@
 /obj/structure/cable,
 /turf/open/floor/plasteel/ship/padded,
 /area/hallway/nsv/deck2/frame2/port)
+"LT" = (
+/turf/closed/wall/r_wall/ship,
+/area/hallway/nsv/deck2/frame4/port)
 "Ma" = (
 /turf/closed/wall/r_wall/ship,
 /area/crew_quarters/kitchen)
@@ -3102,6 +4172,13 @@
 "Mw" = (
 /turf/closed/wall/ship,
 /area/medical/nsv/clinic)
+"My" = (
+/obj/machinery/firealarm{
+	dir = 1;
+	pixel_y = -24
+	},
+/turf/open/floor/plasteel/ship/techfloor/alt,
+/area/hallway/nsv/deck2/frame5/starboard)
 "MB" = (
 /turf/open/floor/plasteel/ship/techfloor/alt,
 /area/hallway/nsv/deck2/frame3/port)
@@ -3109,6 +4186,30 @@
 /obj/machinery/computer/secure_data,
 /turf/open/floor/plasteel/dark,
 /area/crew_quarters/heads/hos)
+"ME" = (
+/obj/machinery/firealarm{
+	dir = 4;
+	pixel_x = -24
+	},
+/turf/open/floor/plasteel/ship/techfloor/alt,
+/area/hallway/nsv/deck2/frame5/central)
+"MF" = (
+/obj/structure/grille,
+/obj/structure/window/reinforced/fulltile,
+/turf/open/floor/plating,
+/area/science/server)
+"MN" = (
+/obj/machinery/droneDispenser,
+/turf/open/floor/plasteel,
+/area/science/robotics/lab)
+"MO" = (
+/obj/structure/cable,
+/obj/machinery/light{
+	dir = 8
+	},
+/obj/machinery/vending/wardrobe,
+/turf/open/floor/plasteel,
+/area/science/lab)
 "MS" = (
 /obj/machinery/light,
 /turf/open/floor/plasteel,
@@ -3152,11 +4253,34 @@
 	},
 /turf/open/floor/plasteel/dark,
 /area/security/warden)
+"Nf" = (
+/obj/machinery/vending/robotics,
+/turf/open/floor/plasteel,
+/area/science/robotics/lab)
 "Nh" = (
 /obj/structure/grille,
 /obj/structure/window/reinforced/fulltile,
 /turf/open/floor/plating,
 /area/lawoffice)
+"Ni" = (
+/obj/structure/chair{
+	dir = 4
+	},
+/turf/open/floor/plasteel,
+/area/science)
+"Nk" = (
+/turf/open/floor/plasteel/ship/techfloor/alt,
+/area/hallway/nsv/deck2/frame4/central)
+"Nl" = (
+/obj/machinery/airalarm{
+	pixel_y = 22
+	},
+/turf/open/floor/plasteel/ship/techfloor/alt,
+/area/hallway/nsv/deck2/frame4/port)
+"Nm" = (
+/obj/structure/closet/secure_closet/RD,
+/turf/open/floor/plasteel,
+/area/crew_quarters/heads/hor)
 "Nn" = (
 /turf/closed/wall/ship,
 /area/crew_quarters/kitchen)
@@ -3168,6 +4292,14 @@
 /obj/structure/cable,
 /turf/open/floor/plasteel/dark,
 /area/security/brig)
+"Nw" = (
+/turf/open/floor/plating,
+/area/maintenance/nsv/deck2/frame4/port)
+"Nx" = (
+/obj/machinery/nanite_chamber,
+/obj/effect/turf_decal/bot,
+/turf/open/floor/plasteel/dark,
+/area/science)
 "NK" = (
 /obj/structure/table,
 /obj/machinery/door/firedoor,
@@ -3187,6 +4319,33 @@
 "NM" = (
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/frame1/starboard)
+"NQ" = (
+/obj/machinery/light{
+	dir = 1
+	},
+/turf/open/floor/plasteel/ship/techfloor/alt,
+/area/hallway/nsv/deck2/frame4/starboard)
+"NZ" = (
+/obj/structure/cable,
+/obj/machinery/atmospherics/components/unary/vent_pump/on{
+	dir = 1;
+	external_pressure_bound = 140;
+	name = "server vent";
+	pressure_checks = 0
+	},
+/turf/open/floor/plasteel/dark,
+/area/science/server)
+"Ob" = (
+/turf/closed/wall/r_wall/ship,
+/area/hallway/nsv/deck2/frame5/starboard)
+"Od" = (
+/obj/machinery/vending/snack/random,
+/turf/open/floor/plasteel,
+/area/science)
+"Ol" = (
+/obj/structure/cable,
+/turf/open/floor/plasteel/ship/padded,
+/area/hallway/nsv/deck2/frame5/central)
 "Oo" = (
 /obj/machinery/light,
 /turf/open/floor/plasteel,
@@ -3218,10 +4377,22 @@
 /obj/machinery/vending/boozeomat,
 /turf/open/floor/plasteel,
 /area/crew_quarters/bar)
+"OF" = (
+/turf/open/floor/plasteel/ship/techfloor/alt,
+/area/hallway/nsv/deck2/frame5/central)
 "OH" = (
 /obj/machinery/vending/cola/random,
 /turf/open/floor/plasteel/ship/padded,
 /area/hallway/secondary/entry)
+"OJ" = (
+/obj/structure/cable,
+/obj/machinery/door/airlock/ship{
+	dir = 8;
+	icon_state = "closed";
+	name = "Frame 4"
+	},
+/turf/open/floor/plasteel/ship/padded,
+/area/hallway/nsv/deck2/frame4/port)
 "OL" = (
 /obj/structure/cable,
 /obj/machinery/power/apc/auto_name/south,
@@ -3244,6 +4415,13 @@
 	},
 /turf/open/floor/plasteel/ship/padded,
 /area/crew_quarters/dorms/nsv/dorms_1)
+"OZ" = (
+/obj/machinery/light{
+	dir = 1
+	},
+/obj/structure/cable,
+/turf/open/floor/carpet,
+/area/crew_quarters/dorms/nsv/dorms_2)
 "Pc" = (
 /obj/structure/closet/secure_closet/armory1,
 /turf/open/floor/plasteel/dark,
@@ -3256,6 +4434,14 @@
 /obj/structure/cable,
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/frame1/port)
+"Px" = (
+/obj/structure/cable,
+/turf/open/floor/plasteel,
+/area/science/robotics/lab)
+"Pz" = (
+/obj/structure/cable,
+/turf/open/floor/plasteel/dark,
+/area/science/server)
 "PA" = (
 /turf/open/floor/plasteel/dark,
 /area/lawoffice)
@@ -3268,7 +4454,15 @@
 	req_one_access_txt = "47"
 	},
 /turf/open/floor/plasteel,
-/area/space)
+/area/science/lab)
+"PG" = (
+/obj/structure/cable,
+/turf/open/floor/plating,
+/area/maintenance/nsv/deck2/frame5/port)
+"PH" = (
+/obj/structure/cable,
+/turf/open/floor/plating,
+/area/maintenance/nsv/deck2/frame5/starboard)
 "PK" = (
 /obj/structure/shuttle/engine/propulsion/burst/left,
 /turf/open/floor/plating/airless,
@@ -3277,6 +4471,12 @@
 /obj/structure/cable,
 /turf/open/floor/plasteel/dark,
 /area/crew_quarters/heads/hos)
+"PX" = (
+/obj/structure/extinguisher_cabinet{
+	pixel_y = -30
+	},
+/turf/open/floor/plasteel/ship/techfloor/alt,
+/area/hallway/nsv/deck2/frame2/starboard)
 "Qb" = (
 /obj/item/banner/security,
 /turf/open/floor/plasteel/dark,
@@ -3297,6 +4497,18 @@
 	},
 /turf/open/floor/carpet,
 /area/crew_quarters/dorms/nsv/dorms_1)
+"Ql" = (
+/turf/closed/wall/ship,
+/area/science/robotics/lab)
+"Qo" = (
+/turf/closed/wall/ship,
+/area/science)
+"Qp" = (
+/obj/machinery/light{
+	dir = 4
+	},
+/turf/open/floor/plasteel/ship/techfloor/alt,
+/area/hallway/nsv/deck2/frame4/central)
 "Qx" = (
 /turf/open/floor/plasteel/ship/padded,
 /area/security/brig)
@@ -3311,6 +4523,15 @@
 /obj/structure/filingcabinet/security,
 /turf/open/floor/plasteel/dark,
 /area/lawoffice)
+"QE" = (
+/obj/structure/cable,
+/obj/machinery/door/airlock/ship/command{
+	dir = 4;
+	name = "R&D Server";
+	req_one_access_txt = "30"
+	},
+/turf/open/floor/plasteel/dark,
+/area/science/server)
 "QL" = (
 /turf/closed/wall/r_wall/ship,
 /area/hallway/nsv/deck2/frame2/starboard)
@@ -3325,10 +4546,30 @@
 	req_one_access_txt = "47, 12"
 	},
 /turf/open/floor/plating,
-/area/space)
+/area/maintenance/department/science)
 "QY" = (
 /turf/closed/wall/r_wall/ship,
 /area/hallway/nsv/deck2/frame1/starboard)
+"Re" = (
+/obj/structure/table,
+/obj/item/storage/toolbox/electrical{
+	pixel_x = 1;
+	pixel_y = 6
+	},
+/obj/item/clothing/head/welding{
+	pixel_x = -3;
+	pixel_y = 5
+	},
+/obj/item/clothing/glasses/welding,
+/obj/item/multitool{
+	pixel_x = 3
+	},
+/obj/item/mmi/posibrain,
+/obj/structure/extinguisher_cabinet{
+	pixel_x = -25
+	},
+/turf/open/floor/plasteel,
+/area/science/robotics/lab)
 "Rl" = (
 /obj/structure/cable,
 /turf/open/floor/plasteel/ship/padded,
@@ -3362,6 +4603,24 @@
 /obj/effect/spawner/lootdrop/armory_contraband/metastation,
 /turf/open/floor/plasteel/dark,
 /area/security/warden)
+"Rz" = (
+/obj/structure/cable,
+/obj/structure/bodycontainer/morgue{
+	dir = 2;
+	icon_state = "morgue1"
+	},
+/turf/open/floor/plasteel,
+/area/science)
+"RB" = (
+/obj/machinery/camera{
+	c_tag = "Nanite Lab";
+	dir = 4;
+	network = list("ss13","rd")
+	},
+/obj/machinery/computer/nanite_cloud_controller,
+/obj/effect/turf_decal/bot,
+/turf/open/floor/plasteel/dark,
+/area/science)
 "RF" = (
 /obj/structure/grille,
 /obj/structure/window/reinforced/fulltile,
@@ -3377,8 +4636,16 @@
 	brightness = 3;
 	dir = 8
 	},
+/obj/structure/cable,
 /turf/open/floor/plating,
-/area/space)
+/area/maintenance/nsv/deck2/frame5/port)
+"RM" = (
+/obj/structure/cable,
+/obj/machinery/door/firedoor/border_only{
+	dir = 1
+	},
+/turf/open/floor/plasteel/ship/padded,
+/area/hallway/nsv/deck2/frame4/starboard)
 "RU" = (
 /obj/machinery/announcement_system,
 /turf/open/floor/circuit/green,
@@ -3388,6 +4655,23 @@
 /obj/structure/cable,
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/frame1/central)
+"RY" = (
+/obj/machinery/button/door{
+	id = "robo";
+	pixel_x = 25
+	},
+/obj/structure/chair/office{
+	dir = 8
+	},
+/turf/open/floor/plasteel,
+/area/science/robotics/lab)
+"Se" = (
+/obj/structure/cable,
+/obj/machinery/door/firedoor/border_only{
+	dir = 1
+	},
+/turf/open/floor/plasteel/ship/padded,
+/area/hallway/nsv/deck2/frame4/central)
 "Sh" = (
 /obj/machinery/door/window/brigdoor/westleft{
 	dir = 4;
@@ -3395,6 +4679,25 @@
 	},
 /turf/open/floor/plasteel/dark,
 /area/security/brig)
+"So" = (
+/obj/structure/extinguisher_cabinet{
+	pixel_y = -30
+	},
+/turf/open/floor/plasteel/ship/techfloor,
+/area/hallway/nsv/deck2/frame4/starboard)
+"Sq" = (
+/obj/structure/table,
+/obj/item/storage/belt/utility,
+/obj/item/stack/sheet/metal/fifty,
+/obj/item/stack/sheet/metal/fifty,
+/obj/item/stack/sheet/metal/fifty,
+/obj/item/stack/sheet/glass{
+	amount = 20;
+	pixel_x = -3;
+	pixel_y = 6
+	},
+/turf/open/floor/plasteel,
+/area/science/robotics/lab)
 "Sr" = (
 /obj/structure/rack,
 /obj/item/storage/box/rubbershot,
@@ -3451,22 +4754,44 @@
 /obj/structure/cable,
 /turf/open/floor/plasteel/dark,
 /area/security/brig)
+"Sy" = (
+/obj/machinery/door/firedoor{
+	step_x = 1
+	},
+/obj/machinery/door/poddoor/ship{
+	dir = 4;
+	id = "robo";
+	name = "Robotics loading door"
+	},
+/turf/open/floor/plasteel,
+/area/science/robotics/lab)
 "SB" = (
 /obj/structure/cable,
 /obj/machinery/door/firedoor/border_only,
 /turf/open/floor/plasteel/ship/techfloor/alt,
 /area/hallway/nsv/deck2/frame2/port)
+"SD" = (
+/obj/structure/cable,
+/obj/machinery/power/apc/auto_name/north,
+/turf/open/floor/plasteel/ship/techfloor/alt,
+/area/hallway/nsv/deck2/frame5/central)
 "SJ" = (
 /obj/machinery/telecomms/processor/preset_two,
 /turf/open/floor/circuit/telecomms/mainframe,
 /area/space)
+"SL" = (
+/obj/structure/extinguisher_cabinet{
+	pixel_y = -30
+	},
+/turf/open/floor/plasteel/ship/techfloor/alt,
+/area/hallway/nsv/deck2/frame3/starboard)
 "SN" = (
 /obj/structure/cable,
 /obj/machinery/door/firedoor/border_only{
 	dir = 8
 	},
 /turf/open/floor/plasteel/ship/padded,
-/area/space)
+/area/hallway/nsv/deck2/frame4/central)
 "SR" = (
 /obj/machinery/vending/coffee,
 /turf/open/floor/plasteel/ship/padded,
@@ -3480,12 +4805,24 @@
 	},
 /turf/open/floor/plasteel/ship/padded,
 /area/hallway/nsv/deck2/frame2/port)
+"SW" = (
+/obj/machinery/light{
+	dir = 8
+	},
+/turf/open/floor/plasteel,
+/area/science/lab)
+"Tb" = (
+/obj/machinery/light{
+	dir = 1
+	},
+/turf/open/floor/plasteel,
+/area/science)
 "Tc" = (
 /obj/structure/chair/wood/wings{
 	dir = 1
 	},
 /turf/open/floor/carpet,
-/area/space)
+/area/crew_quarters/dorms/nsv/dorms_2)
 "Td" = (
 /obj/machinery/telecomms/processor/preset_one,
 /obj/machinery/camera{
@@ -3511,7 +4848,24 @@
 "Tn" = (
 /obj/machinery/light,
 /turf/open/floor/carpet,
-/area/space)
+/area/crew_quarters/dorms/nsv/dorms_2)
+"Tr" = (
+/obj/structure/table,
+/obj/structure/extinguisher_cabinet{
+	pixel_x = -25
+	},
+/turf/open/floor/plasteel,
+/area/hydroponics)
+"Tt" = (
+/obj/machinery/rnd/production/circuit_imprinter/department/science,
+/turf/open/floor/plasteel,
+/area/science/lab)
+"Tw" = (
+/obj/structure/extinguisher_cabinet{
+	pixel_x = -25
+	},
+/turf/open/floor/plasteel/dark,
+/area/security/warden)
 "TC" = (
 /obj/structure/table/reinforced,
 /obj/machinery/computer/secure_data/laptop,
@@ -3575,6 +4929,9 @@
 /obj/machinery/door/airlock/ship/maintenance,
 /turf/open/floor/plasteel/ship/techfloor,
 /area/maintenance/nsv/deck2/frame1/port)
+"TY" = (
+/turf/open/floor/plasteel,
+/area/crew_quarters/heads/hor)
 "Uc" = (
 /obj/structure/table,
 /obj/item/kitchen/knife,
@@ -3620,6 +4977,12 @@
 /obj/structure/cable,
 /turf/open/floor/plasteel,
 /area/crew_quarters/cafeteria)
+"UA" = (
+/obj/machinery/light/small{
+	dir = 8
+	},
+/turf/open/floor/plating,
+/area/maintenance/department/science)
 "UB" = (
 /obj/machinery/airalarm{
 	pixel_y = 22
@@ -3634,6 +4997,15 @@
 	},
 /turf/open/floor/carpet,
 /area/crew_quarters/dorms/nsv/dorms_1)
+"UI" = (
+/obj/structure/cable,
+/obj/machinery/door/airlock/ship{
+	dir = 8;
+	icon_state = "closed";
+	name = "Frame 4"
+	},
+/turf/open/floor/plasteel/ship/padded,
+/area/hallway/nsv/deck2/frame4/starboard)
 "UK" = (
 /obj/machinery/computer/warrant{
 	dir = 1
@@ -3646,6 +5018,13 @@
 	},
 /turf/open/floor/carpet,
 /area/crew_quarters/dorms/nsv/dorms_1)
+"UV" = (
+/obj/machinery/button/door{
+	id = "robo";
+	pixel_x = -25
+	},
+/turf/open/floor/plasteel/ship/techfloor/alt,
+/area/hallway/nsv/deck2/frame4/central)
 "UX" = (
 /obj/structure/table/wood,
 /obj/machinery/door/firedoor,
@@ -3655,19 +5034,60 @@
 /obj/structure/closet/jcloset,
 /turf/open/floor/plating,
 /area/janitor)
+"Ve" = (
+/obj/structure/extinguisher_cabinet{
+	pixel_y = 30
+	},
+/turf/open/floor/plasteel/ship/techfloor/alt,
+/area/crew_quarters/dorms/nsv/dorms_1)
+"Vf" = (
+/obj/structure/table,
+/obj/item/storage/toolbox/mechanical{
+	pixel_x = -2;
+	pixel_y = -1
+	},
+/obj/item/clothing/head/welding{
+	pixel_x = -3;
+	pixel_y = 5
+	},
+/obj/item/clothing/glasses/welding,
+/obj/item/multitool{
+	pixel_x = 3
+	},
+/turf/open/floor/plasteel,
+/area/science/robotics/lab)
+"Vj" = (
+/obj/machinery/power/apc/auto_name/north,
+/obj/structure/cable,
+/turf/open/floor/plasteel/ship/techfloor/alt,
+/area/hallway/nsv/deck2/frame4/starboard)
 "Vm" = (
 /obj/structure/cable,
 /turf/open/floor/plasteel,
 /area/crew_quarters/cafeteria)
+"VD" = (
+/turf/closed/wall/r_wall/ship,
+/area/crew_quarters/heads/hor)
 "VE" = (
 /obj/machinery/power/apc/auto_name/east,
 /obj/structure/cable,
 /obj/structure/table,
 /turf/open/floor/plasteel,
 /area/hydroponics)
+"VH" = (
+/obj/structure/cable,
+/obj/structure/table,
+/turf/open/floor/plasteel,
+/area/science/lab)
 "VJ" = (
 /turf/closed/wall/ship,
 /area/maintenance/nsv/deck2/frame1/starboard)
+"Wa" = (
+/obj/machinery/door/firedoor/border_only{
+	dir = 1
+	},
+/turf/open/floor/plasteel/ship/techfloor/alt,
+/area/hallway/nsv/deck2/frame5/starboard)
 "Wh" = (
 /obj/structure/table/reinforced,
 /obj/machinery/recharger,
@@ -3690,6 +5110,16 @@
 	},
 /turf/open/floor/plasteel/ship/techfloor,
 /area/hallway/nsv/deck2/frame1/starboard)
+"Ws" = (
+/obj/machinery/computer/rdconsole/core{
+	dir = 1
+	},
+/turf/open/floor/plasteel/white,
+/area/science/explab)
+"Wx" = (
+/obj/structure/cable,
+/turf/open/floor/plasteel/ship/padded,
+/area/hallway/nsv/deck2/frame4/port)
 "Wz" = (
 /obj/machinery/door/airlock/ship/security,
 /obj/effect/mapping_helpers/airlock/cyclelink_helper,
@@ -3712,6 +5142,11 @@
 /obj/machinery/door/firedoor/border_only,
 /turf/open/floor/plasteel/ship/techfloor/alt,
 /area/hallway/nsv/deck2/frame2/port)
+"WJ" = (
+/obj/machinery/door/airlock/ship/maintenance,
+/obj/structure/cable,
+/turf/open/floor/plating,
+/area/maintenance/nsv/deck2/frame5/starboard)
 "WP" = (
 /obj/machinery/airalarm{
 	pixel_y = 22
@@ -3724,6 +5159,9 @@
 "WW" = (
 /obj/structure/chair/office{
 	dir = 4
+	},
+/obj/structure/extinguisher_cabinet{
+	pixel_y = 30
 	},
 /turf/open/floor/plasteel,
 /area/medical/nsv/clinic)
@@ -3746,13 +5184,16 @@
 /area/crew_quarters/dorms/nsv/dorms_1)
 "Xj" = (
 /obj/structure/cable,
-/obj/machinery/door/airlock/ship/maintenance{
-	dir = 2;
-	name = "Science Maintenance";
-	req_one_access_txt = "47, 12"
+/obj/machinery/door/airlock/ship/command{
+	name = "Research director";
+	req_one_access_txt = "30"
 	},
 /turf/open/floor/plating,
-/area/space)
+/area/maintenance/department/science)
+"Xm" = (
+/obj/machinery/vending/wardrobe/robo_wardrobe,
+/turf/open/floor/plasteel,
+/area/science/robotics/lab)
 "Xr" = (
 /turf/open/floor/plasteel/ship/techfloor,
 /area/crew_quarters/dorms/nsv/dorms_1)
@@ -3762,6 +5203,19 @@
 /obj/item/pen,
 /turf/open/floor/plasteel/dark,
 /area/crew_quarters/heads/hos)
+"XA" = (
+/obj/structure/table/glass,
+/obj/item/reagent_containers/glass/beaker/large{
+	pixel_x = -3;
+	pixel_y = 3
+	},
+/obj/item/reagent_containers/glass/beaker{
+	pixel_x = 8;
+	pixel_y = 2
+	},
+/obj/item/reagent_containers/dropper,
+/turf/open/floor/plasteel/white,
+/area/science/explab)
 "XB" = (
 /obj/structure/sink{
 	dir = 8;
@@ -3804,6 +5258,13 @@
 	},
 /turf/open/floor/plasteel/ship/techfloor/alt,
 /area/hallway/nsv/deck2/frame2/port)
+"XR" = (
+/obj/structure/chair/office,
+/turf/open/floor/plasteel/white,
+/area/science/explab)
+"XS" = (
+/turf/closed/wall/ship,
+/area/maintenance/nsv/deck2/frame5/port)
 "XT" = (
 /obj/structure/cable,
 /obj/machinery/door/airlock/ship{
@@ -3818,7 +5279,7 @@
 /obj/structure/grille,
 /obj/structure/window/reinforced/fulltile,
 /turf/open/floor/plating,
-/area/space)
+/area/science/explab)
 "XX" = (
 /turf/closed/wall/ship,
 /area/maintenance/nsv/deck2/frame1/port)
@@ -3839,6 +5300,10 @@
 /obj/structure/cable,
 /turf/open/floor/plasteel/ship/padded,
 /area/hallway/nsv/deck2/frame1/starboard)
+"Yg" = (
+/obj/structure/cable,
+/turf/open/floor/plasteel/white,
+/area/science/explab)
 "Yj" = (
 /turf/open/floor/plasteel/ship,
 /area/hallway/secondary/entry)
@@ -3895,6 +5360,17 @@
 	},
 /turf/open/floor/plasteel/ship/padded,
 /area/hallway/secondary/entry)
+"YF" = (
+/obj/machinery/firealarm{
+	dir = 1;
+	pixel_y = -24
+	},
+/turf/open/floor/plasteel/ship/techfloor/alt,
+/area/hallway/nsv/deck2/frame4/starboard)
+"YI" = (
+/obj/structure/table,
+/turf/open/floor/plasteel,
+/area/science/lab)
 "YJ" = (
 /turf/open/floor/plasteel/ship/padded,
 /area/hallway/nsv/deck2/frame1/port)
@@ -3960,6 +5436,20 @@
 	},
 /turf/open/floor/plasteel,
 /area/hydroponics)
+"Zn" = (
+/obj/structure/cable,
+/obj/structure/window/reinforced{
+	dir = 1;
+	pixel_y = 1
+	},
+/obj/structure/window/reinforced{
+	dir = 8
+	},
+/obj/machinery/atmospherics/pipe/manifold{
+	dir = 1
+	},
+/turf/open/floor/plasteel/dark,
+/area/science/server)
 "Zp" = (
 /obj/structure/cable,
 /obj/machinery/door/airlock/ship/security{
@@ -3992,6 +5482,13 @@
 /obj/structure/cable,
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/frame3/starboard)
+"ZB" = (
+/obj/structure/cable,
+/obj/machinery/door/firedoor/border_only{
+	dir = 1
+	},
+/turf/open/floor/plasteel/ship/padded,
+/area/hallway/nsv/deck2/frame5/central)
 "ZC" = (
 /obj/structure/cable,
 /turf/open/floor/plasteel/dark,
@@ -3999,7 +5496,7 @@
 "ZE" = (
 /obj/machinery/door/airlock/ship/maintenance,
 /turf/open/floor/plasteel/ship/riveted,
-/area/space)
+/area/maintenance/nsv/deck2/frame4/starboard)
 "ZJ" = (
 /turf/closed/wall/r_wall/ship,
 /area/hallway/nsv/deck2/frame1/port)
@@ -4026,6 +5523,10 @@
 "ZS" = (
 /turf/open/floor/plasteel/ship/padded,
 /area/crew_quarters/dorms/nsv/dorms_1)
+"ZW" = (
+/obj/item/banner/science,
+/turf/open/floor/plasteel,
+/area/crew_quarters/heads/hor)
 
 (1,1,1) = {"
 aa
@@ -84586,21 +86087,7 @@ aT
 aT
 ae
 ac
-ac
-ac
-ac
-ac
-ac
-ae
-ac
-ac
-ac
-ac
-ac
-ac
-ac
-ac
-ac
+ZK
 ac
 ac
 ac
@@ -84611,6 +86098,20 @@ ac
 ac
 ac
 ac
+ac
+ac
+ac
+ac
+ac
+ac
+ac
+ac
+ae
+ac
+ac
+ac
+ac
+ZK
 ac
 ae
 aT
@@ -84843,7 +86344,7 @@ ae
 ae
 ae
 ae
-aH
+zu
 ae
 ae
 ae
@@ -84867,7 +86368,7 @@ ae
 ae
 ae
 ae
-aH
+zu
 ae
 ae
 ae
@@ -85098,35 +86599,35 @@ aT
 aT
 ae
 aa
-ae
-aI
-aH
-aI
-aI
-aI
-aI
-aI
-aI
-aI
-aI
-aI
-aI
-aI
-aI
-aI
-aI
-aI
-aI
-aI
-aI
-aI
-aI
-aI
-aI
-aI
-aH
-aI
-ae
+qL
+HG
+rD
+eJ
+cT
+OF
+OF
+OF
+OF
+OF
+OF
+OF
+OF
+OF
+gS
+OF
+OF
+OF
+OF
+OF
+OF
+OF
+OF
+OF
+hf
+Wa
+yB
+pK
+Ob
 aa
 ae
 aT
@@ -85355,35 +86856,35 @@ aT
 aT
 ae
 aa
-ae
-aI
-aH
-aH
-aH
-aH
-aH
-aH
-aH
-aH
-aH
-aH
-aH
-aH
-aH
-aH
-aH
-aH
-aH
-aH
-aH
-aH
-aH
-aH
-aH
-aH
-aH
-aI
-ae
+qL
+HG
+rD
+zA
+ZB
+Ol
+Ol
+Ol
+Ol
+Ol
+Ol
+Ol
+Ol
+Ol
+Ol
+Ol
+Ol
+Ol
+Ol
+Ol
+Ol
+Ol
+Ol
+Ol
+rK
+KF
+yB
+pK
+Ob
 aa
 ae
 aT
@@ -85612,35 +87113,35 @@ aT
 ae
 ae
 aa
-ae
-aI
-aH
-aI
-aI
-aI
-aI
-aI
-aI
-aI
-aI
-aI
-aI
-aI
-aH
-aI
-aI
-aI
-aI
-aI
-aI
-aI
-aI
-aI
-aI
-aI
-aH
-aI
-ae
+qL
+HG
+rD
+eJ
+bt
+OF
+OF
+OF
+iC
+OF
+OF
+OF
+OF
+OF
+Ol
+OF
+OF
+OF
+OF
+OF
+iC
+OF
+OF
+OF
+AT
+Wa
+yB
+pK
+Ob
 aa
 ae
 ae
@@ -85869,35 +87370,35 @@ aT
 ae
 aa
 aa
-ae
-aI
-aH
-aI
-aG
-aG
-aG
-aG
-aG
-aG
-aG
-aG
-aG
-aI
-aH
-aI
-aG
-aG
-aG
-aG
-aG
-aG
-aG
-aG
-aG
-aI
-aH
-aI
-ae
+qL
+mJ
+rD
+HG
+tk
+tk
+tk
+tk
+tk
+tk
+tk
+tk
+tk
+OF
+Ol
+OF
+tk
+tk
+tk
+tk
+tk
+tk
+tk
+tk
+tk
+pK
+yB
+My
+Ob
 aa
 aa
 ae
@@ -86126,35 +87627,35 @@ aT
 ae
 aa
 aa
-ae
-aI
-aH
-aI
-aG
+qL
+HG
+rD
+HG
+tk
 vr
 yt
 kL
-aG
+tk
 zY
 yt
 vr
-aG
-aI
+tk
+OF
 aX
-aI
-aG
+OF
+tk
 vr
 yt
 kL
-aG
+tk
 zY
 yt
 vr
-aG
-aI
-aH
-aI
-ae
+tk
+pK
+yB
+pK
+Ob
 aa
 aa
 ae
@@ -86383,35 +87884,35 @@ ae
 ae
 aa
 aa
-ae
-aI
-aH
-aI
+qL
+HG
+rD
+HG
 AN
 aj
 aj
 Tn
-aG
+tk
 tL
 aj
 aj
 AN
-aI
+OF
 ba
-aI
+OF
 AN
 aj
 aj
 Tn
-aG
+tk
 tL
 aj
 aj
 AN
-aI
-aH
-aI
-ae
+pK
+yB
+pK
+Ob
 aa
 aa
 ae
@@ -86640,35 +88141,35 @@ ae
 aa
 aa
 aa
-ae
-aI
-aH
-aI
-aG
+qL
+HG
+rD
+HG
+tk
 in
 Tc
 mp
-aG
+tk
 mp
 Cz
 in
-aG
-aI
-aH
-aI
-aG
+tk
+OF
+Ol
+OF
+tk
 in
 Tc
 mp
-aG
+tk
 mp
 Cz
 in
-aG
-aI
-aH
-aI
-ae
+tk
+pK
+yB
+pK
+Ob
 aa
 aa
 aa
@@ -86897,35 +88398,35 @@ ae
 aa
 aa
 aa
-ae
-aI
-aH
-aI
-aG
-aG
-aG
-aG
-aG
-aG
-aG
-aG
-aG
-aI
-aH
-aI
-aG
-aG
-aG
-aG
-aG
-aG
-aG
-aG
-aG
-aI
-aH
-aI
-ae
+qL
+HG
+rD
+HG
+tk
+tk
+tk
+tk
+tk
+tk
+tk
+tk
+tk
+OF
+Ol
+OF
+tk
+tk
+tk
+tk
+tk
+tk
+tk
+tk
+tk
+pK
+yB
+pK
+Ob
 aa
 aa
 aa
@@ -87154,35 +88655,35 @@ ae
 aa
 aa
 aa
-ae
-aI
-aH
-aI
-aG
+qL
+HG
+rD
+HG
+tk
 vr
 yt
 kL
-aG
+tk
 zY
 yt
 vr
-aG
-aI
-aH
-aI
-aG
+tk
+OF
+Ol
+OF
+tk
 vr
 yt
 kL
-aG
+tk
 zY
 yt
 vr
-aG
-aI
-aH
-aI
-ae
+tk
+pK
+yB
+pK
+Ob
 aa
 aa
 aa
@@ -87411,35 +88912,35 @@ aa
 aa
 aa
 aa
-ae
-aI
-aH
-aI
+qL
+HG
+rD
+HG
 AN
 aj
 aj
 Tn
-aG
-tL
-aj
-aj
-AN
-aI
-aH
-aI
+tk
+OZ
+Cl
+Cl
+nP
+fA
+Ol
+OF
 AN
 aj
 aj
 Tn
-aG
+tk
 tL
 aj
 aj
 AN
-aI
-aH
-aI
-ae
+pK
+yB
+pK
+Ob
 aa
 aa
 aa
@@ -87668,35 +89169,35 @@ aa
 aa
 aa
 aa
-ae
-aI
-aH
-aI
-aG
+qL
+HG
+rD
+HG
+tk
 in
 Tc
 mp
-aG
-mp
+tk
+Bp
 Cz
 in
-aG
-aI
-aH
-aI
-aG
+tk
+OF
+Ol
+OF
+tk
 in
 Tc
 mp
-aG
+tk
 mp
 Cz
 in
-aG
-aI
-aH
-aI
-ae
+tk
+pK
+yB
+pK
+Ob
 aa
 aa
 aa
@@ -87925,35 +89426,35 @@ aa
 aa
 aa
 aa
-ae
-aI
-aH
-aI
-aG
-aG
-aG
-aG
-aG
-aG
-aG
-aG
-aG
-aI
-aH
-aI
-aG
-aG
-aG
-aG
-aG
-aG
-aG
-aG
-aG
-aI
-aH
-aI
-ae
+qL
+HG
+rD
+ei
+tk
+tk
+tk
+tk
+tk
+tk
+tk
+tk
+tk
+SD
+Ol
+OF
+tk
+tk
+tk
+tk
+tk
+tk
+tk
+tk
+tk
+zG
+yB
+pK
+Ob
 aa
 aa
 aa
@@ -88182,35 +89683,35 @@ aa
 aa
 aa
 aa
-ae
-aI
-aH
-aI
-aG
+qL
+HG
+rD
+HG
+tk
 vr
 yt
 kL
-aG
+tk
 zY
 yt
 vr
-aG
-aI
-aH
-aI
-aG
+tk
+OF
+Ol
+OF
+tk
 vr
 yt
 kL
-aG
+tk
 zY
 yt
 vr
-aG
-aI
-aH
-aI
-ae
+tk
+pK
+yB
+pK
+Ob
 aa
 aa
 aa
@@ -88439,35 +89940,35 @@ aa
 aa
 aa
 aa
-ae
-aI
-aH
-aI
+qL
+HG
+rD
+HG
 AN
 aj
 aj
 Tn
-aG
+tk
 tL
 aj
 aj
 AN
-aI
-aH
-aI
+OF
+Ol
+OF
 AN
 aj
 aj
 Tn
-aG
+tk
 tL
 aj
 aj
 AN
-aI
-aH
-aI
-ae
+pK
+yB
+pK
+Ob
 aa
 aa
 aa
@@ -88696,35 +90197,35 @@ aa
 aa
 aa
 aa
-ae
-aI
-aH
-aI
-aG
+qL
+HG
+rD
+HG
+tk
 in
 Tc
 mp
-aG
+tk
 mp
 Cz
 in
-aG
-aI
-aH
-aI
-aG
+tk
+OF
+Ol
+OF
+tk
 in
 Tc
 mp
-aG
+tk
 mp
 Cz
 in
-aG
-aI
-aH
-aI
-ae
+tk
+pK
+yB
+pK
+Ob
 aa
 aa
 aa
@@ -88952,37 +90453,37 @@ aa
 aa
 aa
 aa
-ae
-ae
-aI
-aH
-aI
-aG
-aG
-aG
-aG
-aG
-aG
-aG
-aG
-aG
-aI
-aH
-aI
-aG
-aG
-aG
-aG
-aG
-aG
-aG
-aG
-aG
-aI
-aH
-aI
-ae
-ae
+qL
+qL
+HG
+rD
+HG
+tk
+tk
+tk
+tk
+tk
+tk
+tk
+tk
+tk
+OF
+Ol
+OF
+tk
+tk
+tk
+tk
+tk
+tk
+tk
+tk
+tk
+pK
+yB
+pK
+Ob
+Ob
 aa
 aa
 aa
@@ -89209,37 +90710,37 @@ aa
 aa
 aa
 aa
-ae
-aI
-aI
-aH
-aI
-aG
+qL
+HG
+HG
+rD
+HG
+tk
 vr
 yt
 kL
-aG
+tk
 zY
 yt
 vr
-aG
-aI
-aH
-aI
-aG
+tk
+OF
+Ol
+OF
+tk
 vr
 yt
 kL
-aG
+tk
 zY
 yt
 vr
-aG
-aI
-aH
-aI
-aI
-ae
+tk
+pK
+yB
+pK
+pK
+Ob
 aa
 aa
 aa
@@ -89466,37 +90967,37 @@ aa
 aa
 aa
 aa
-ae
-aI
-aH
-aH
-aI
+qL
+HG
+rD
+rD
+HG
 AN
 aj
 aj
 Tn
-aG
+tk
 tL
 aj
 aj
 AN
-aI
-aH
-aI
+OF
+Ol
+OF
 AN
 aj
 aj
 Tn
-aG
+tk
 tL
 aj
 aj
 AN
-aI
-aH
-aH
-aI
-ae
+pK
+yB
+yB
+pK
+Ob
 aa
 aa
 aa
@@ -89723,37 +91224,37 @@ aa
 aa
 aa
 aa
-ae
-aI
-aH
-aI
-aI
-aG
+qL
+HG
+rD
+HG
+HG
+tk
 in
 Tc
 mp
-aG
+tk
 mp
 Cz
 in
-aG
-aI
-aH
-aI
-aG
+tk
+OF
+Ol
+OF
+tk
 in
 Tc
 mp
-aG
+tk
 mp
 Cz
 in
-aG
-aI
-aI
-aH
-aI
-ae
+tk
+pK
+pK
+yB
+pK
+Ob
 aa
 aa
 aa
@@ -89980,37 +91481,37 @@ aa
 aa
 aa
 aa
-ae
-aI
-aH
-aI
-ag
-aG
-aG
-aG
-aG
-aG
-aG
-aG
-aG
-aG
-aI
-aH
-aI
-aG
-aG
-aG
-aG
-aG
-aG
-aG
-aG
-aG
-ag
-aI
-aH
-aI
-ae
+qL
+HG
+rD
+HG
+yb
+XS
+XS
+XS
+XS
+XS
+XS
+XS
+XS
+XS
+OF
+Ol
+OF
+Ih
+Ih
+Ih
+Ih
+Ih
+Ih
+Ih
+Ih
+Ih
+wC
+pK
+yB
+pK
+Ob
 aa
 aa
 aa
@@ -90237,37 +91738,37 @@ aa
 aa
 aa
 aa
-ae
-aI
-aH
-aI
-ag
+qL
+mJ
+rD
+zz
+Kt
 Ec
-ab
+PG
 RL
-ab
-ab
-ab
+PG
+PG
+nh
 RL
-ab
+PG
 Ec
-aI
-aH
-aI
-Ec
-ab
-RL
-ab
-ab
-ab
-RL
-ab
-Ec
-ag
-aI
-aH
-aI
-ae
+fA
+Ol
+fA
+WJ
+PH
+Fk
+Jx
+PH
+PH
+Fk
+PH
+WJ
+im
+Ck
+yB
+My
+Ob
 aa
 aa
 aa
@@ -90494,37 +91995,37 @@ aa
 aa
 aa
 aa
-ae
-aI
-aH
-aI
-ag
-aG
-aG
-aG
-aG
-aG
-aG
-aG
-aG
-aG
-aI
-aH
-aI
-aG
-aG
-aG
-aG
-aG
-aG
-aG
-aG
-aG
-ag
-aI
-aH
-aI
-ae
+qL
+HG
+rD
+HG
+yb
+XS
+XS
+XS
+XS
+XS
+XS
+XS
+XS
+XS
+OF
+Ol
+OF
+Ih
+Ih
+Ih
+Ih
+Ih
+Ih
+Ih
+Ih
+Ih
+wC
+pK
+yB
+pK
+Ob
 aa
 aa
 aa
@@ -90751,37 +92252,37 @@ aa
 aa
 aa
 aa
-ae
-aI
-aH
-aI
-aI
-aI
-aI
-aI
-aI
-aI
-aI
-aI
-aI
-aI
-aI
-aH
-aI
-aI
-aI
-aI
-aI
-aI
-aI
-aI
-aI
-aI
-aI
-aI
-aH
-aI
-ae
+qL
+HG
+rD
+HG
+eJ
+bt
+OF
+OF
+OF
+ME
+OF
+OF
+OF
+OF
+OF
+Ol
+OF
+OF
+OF
+OF
+OF
+ME
+OF
+OF
+OF
+AT
+Wa
+pK
+yB
+pK
+Ob
 aa
 aa
 aa
@@ -91008,37 +92509,37 @@ aa
 aa
 aa
 aa
-ae
-aI
-aH
-aH
-aH
-aH
-aH
-aH
-aH
-aH
-aH
-aH
-aH
-aH
-aH
-aH
-aH
-aH
-aH
-aH
-aH
-aH
-aH
-aH
-aH
-aH
-aH
-aH
-aH
-aI
-ae
+qL
+HG
+rD
+rD
+zA
+ZB
+Ol
+Ol
+Ol
+Ol
+Ol
+Ol
+Ol
+Ol
+Ol
+Ol
+Ol
+Ol
+Ol
+Ol
+Ol
+Ol
+Ol
+Ol
+Ol
+rK
+KF
+yB
+yB
+pK
+Ob
 aa
 aa
 aa
@@ -91265,37 +92766,37 @@ aa
 aa
 aa
 aa
-ae
-aI
-aH
-aI
-aI
-aI
-aI
-aI
-aI
-aI
-aI
-aI
-aI
-aI
-aI
-aI
-aI
-aI
-aI
-aI
-aI
-aI
-aI
-aI
-aI
-aI
-aI
-aI
-aH
-aI
-ae
+qL
+HG
+rD
+HG
+bH
+bt
+OF
+OF
+OF
+OF
+OF
+OF
+OF
+OF
+OF
+DW
+OF
+OF
+OF
+OF
+OF
+OF
+OF
+OF
+OF
+AT
+zR
+pK
+yB
+pK
+Ob
 aa
 aa
 aa
@@ -91521,39 +93022,39 @@ aa
 aa
 aa
 aa
-ae
-ae
-ae
-aH
-ae
-ae
-ae
-ae
-ae
-ae
-ae
-ae
-ae
-ae
-ae
-ae
-ae
-ae
-ae
-ae
-ae
-ae
-ae
-ae
-ae
-ae
-ae
-ae
-ae
-aH
-ae
-ae
-ae
+LT
+LT
+LT
+OJ
+LT
+VD
+VD
+VD
+VD
+VD
+ps
+ps
+ps
+ps
+ps
+ps
+ps
+fC
+fC
+fC
+fC
+fC
+fC
+Gj
+Gj
+Gj
+Gj
+Gj
+ut
+UI
+ut
+ut
+ut
 aa
 aa
 aa
@@ -91777,41 +93278,41 @@ aa
 aa
 aa
 aa
-ae
-ae
-ag
-aI
-aH
-aI
-aG
-ac
-ac
-ac
-ac
-aG
-ab
-Dy
-ab
-ab
-ab
-aG
-ac
-ac
-ac
-ac
-ac
-ae
-ac
-ac
-ac
-ac
-ae
-aI
-aH
-aI
-ag
-ae
-ae
+oe
+LT
+KH
+xq
+Wx
+xq
+rm
+tq
+rb
+BB
+EI
+zW
+vA
+qE
+rE
+UA
+vA
+zW
+lb
+FA
+JO
+LC
+kY
+fC
+IA
+eN
+Ce
+hH
+Gj
+vG
+CX
+vG
+om
+ut
+ut
 aa
 aa
 aa
@@ -92034,41 +93535,41 @@ aa
 aa
 aa
 aa
-ae
-aI
-aI
-aI
-aH
-aI
-aG
-ZK
-ZK
-ZK
-ZK
+oe
+xq
+xq
+xq
+Wx
+ja
+rm
+HS
+li
+li
+li
 Xj
 Dy
 Dy
 Dy
 Dy
 Dy
-Xj
-ZK
-ZK
-ZK
-ZK
-ZK
-Dy
-ZK
-ZK
-ZK
-ZK
-ae
-aI
-aH
-aI
-aI
-aI
-ae
+bz
+Pz
+Pz
+Pz
+Zn
+NZ
+wz
+Rz
+fv
+fv
+yC
+Gj
+NQ
+CX
+vG
+vG
+vG
+ut
 aa
 aa
 aa
@@ -92290,43 +93791,43 @@ aa
 aa
 aa
 aa
-ae
-ae
-aI
-aH
-aH
-aH
-aI
-aG
-ac
-ac
-ac
-ac
-aG
-aG
+oe
+oe
+xq
+Wx
+Wx
+Wx
+xq
+rm
+TY
+hw
+zk
+EE
+zW
+zW
 QU
-aG
-aG
-aG
-aG
-ac
-ac
-ZK
-ac
-ac
-ab
-ac
-ZK
-ac
-ac
-ae
-aI
-aH
-aH
-aH
-aI
-ae
-ae
+zW
+zW
+zW
+zW
+mi
+va
+Pz
+KW
+kY
+MF
+IA
+fv
+Ce
+tC
+Gj
+vG
+CX
+CX
+CX
+vG
+ut
+ut
 aa
 aa
 aa
@@ -92547,43 +94048,43 @@ aa
 aa
 aa
 aa
-ae
-ag
-aI
-aH
-aI
-aI
-aI
-aG
-ac
-ac
-ac
-ac
-ac
-ac
-ZK
-ac
-ac
-ac
-aG
-ac
-ac
-ZK
-ac
-ac
-ab
-ac
-ZK
-ac
-ac
-ae
-aI
-aI
-aI
-aH
-aI
-ag
-ae
+oe
+Hh
+xq
+Wx
+xq
+xq
+xq
+rm
+TY
+TY
+TY
+TY
+cw
+Ce
+fv
+Ce
+Od
+Od
+LE
+lH
+va
+Pz
+CO
+tD
+MF
+IA
+fv
+Ce
+uq
+Gj
+vG
+vG
+vG
+CX
+vG
+om
+ut
 aa
 aa
 aa
@@ -92803,45 +94304,45 @@ aa
 aa
 aa
 aa
-ae
-ae
-aG
-aI
-aH
-aI
-aG
-aG
-aG
-ac
-ac
-ac
-ac
+oe
+oe
+mO
+fG
+Wx
+xq
+Qo
+Qo
+rm
+TY
+TY
+TY
+TY
 hL
-ac
-ZK
-ac
-ac
-ac
-aG
-aG
-aG
-ZK
-aG
-aG
-ae
-ae
-ZK
-ae
-ae
-ae
-aG
-aG
-aI
-aH
-aI
-aG
-ae
-ae
+Ce
+fv
+Ce
+Ni
+Ce
+LE
+LE
+LE
+QE
+LE
+LE
+fC
+Gj
+tR
+Gj
+Gj
+Gj
+Qo
+Qo
+vG
+CX
+BY
+nt
+sH
+sH
 aa
 aa
 aa
@@ -93060,45 +94561,45 @@ aa
 aa
 aa
 aa
-ae
-ab
-aG
-aI
-aH
-aI
-aG
-ab
-aG
-ac
-ac
-ac
-ac
-aG
-ac
-ZK
-ac
-ac
-ac
-ac
-ac
-ac
-ZK
-ac
-ac
-ac
-ac
-ZK
-ac
-ac
-ac
-ac
-aG
-aI
-aH
-aI
-aG
-aJ
-ae
+oe
+Nw
+mO
+Nl
+Wx
+xq
+Qo
+Go
+rm
+ZW
+fw
+ef
+Nm
+rm
+CP
+fv
+IX
+AU
+As
+il
+eN
+Ce
+fv
+Ce
+Ce
+Ce
+il
+fv
+Ce
+eN
+qz
+Ce
+Qo
+vG
+CX
+fb
+nt
+zv
+sH
 aa
 aa
 aa
@@ -93316,47 +94817,47 @@ aa
 aa
 aa
 aa
-ae
-ae
-aG
-aG
-aI
-aH
-aI
-aG
-aG
-aG
-aG
-aG
-aG
-aG
-aG
-ac
-ZK
-ac
-ac
-ac
-ac
-ac
-ac
-ZK
-ac
-ac
-ac
-ac
-ZK
-ac
-ac
-ac
-ac
-aG
-aI
-aH
-aI
-aG
-aG
-ae
-ae
+oe
+oe
+mO
+mO
+Df
+Wx
+ja
+Qo
+Qo
+rm
+rm
+rm
+rm
+rm
+rm
+Ce
+fv
+Ce
+iU
+Ce
+Ce
+Ce
+Ce
+fv
+Ce
+Ce
+Ce
+Ce
+fv
+Ce
+Ce
+Ce
+Ce
+Qo
+NQ
+CX
+YF
+nt
+nt
+sH
+sH
 aa
 aa
 aa
@@ -93573,47 +95074,47 @@ aa
 aa
 aa
 aa
-ae
-ab
-ab
-aG
-aI
-aH
-aI
-aG
-ac
-ac
-ac
-ac
-ac
-ac
-ac
-ac
-ZK
-ac
-ac
-ac
-ac
-ac
-ac
-ZK
-ac
-ac
-ac
-ac
-ZK
-ac
-ac
-ac
-ac
-aG
-aI
-aH
-aI
-aG
-aJ
-aJ
-ae
+oe
+Nw
+Nw
+mO
+xq
+Wx
+xq
+Qo
+Nx
+kp
+gW
+El
+RB
+Ce
+il
+Ce
+fv
+Ce
+Ce
+Ce
+Ce
+Ce
+Ce
+fv
+Ce
+Ce
+Ce
+Ce
+fv
+Ce
+Ce
+Ce
+Ce
+Qo
+vG
+CX
+vG
+nt
+zv
+zv
+sH
 aa
 aa
 aa
@@ -93829,49 +95330,49 @@ aa
 aa
 aa
 aa
-ae
-ae
-ab
-ab
-aG
-aI
-aH
-aI
-aG
-ac
-ac
-ac
-ac
-ac
-ac
-ac
-ac
-ZK
-ac
-ac
-ac
-ac
-ac
-ac
-ZK
-ac
-ac
-ac
-ac
-ZK
-ac
-ac
-ac
-ac
-aG
-aI
-aH
-aI
+oe
+oe
+Nw
+Nw
+mO
+xq
+Wx
+xq
+Qo
+Tb
+Ce
+Ce
+Ce
+Ce
+Ce
+Ce
+Ce
+fv
+Ce
+Ce
+Ce
+Ce
+Ce
+Ce
+fv
+Ce
+Ce
+Ce
+Ce
+fv
+Ce
+Ce
+Ce
+Kd
+Qo
+vG
+CX
+vG
 ZE
-aJ
-aJ
-ae
-ae
+zv
+zv
+sH
+sH
 aa
 aa
 aa
@@ -94085,51 +95586,51 @@ ae
 aa
 aa
 aa
-ae
-ae
-ab
-ab
-ab
-aG
-aI
-aH
-aI
-aG
-ac
-ZK
-ZK
-ZK
-ZK
-ZK
-ZK
-ZK
-ZK
-ZK
-ZK
-ZK
-ZK
-ZK
-ZK
-ZK
-ZK
-ZK
-ZK
-ZK
-ZK
-ZK
-ZK
-ZK
-ac
-aG
-aI
-zu
-rC
+oe
+oe
+Nw
+Nw
+Nw
+mO
+xq
+Wx
+xq
+Qo
+Ce
+fv
+fv
+fv
+fv
+fv
+fv
+fv
+fv
+fv
+fv
+fv
+fv
+fv
+fv
+fv
+fv
+fv
+fv
+fv
+fv
+fv
+fv
+fv
+Ce
+Qo
+vG
+CX
+Hm
 lx
 ko
 ko
 ko
-ae
-ae
+sH
+sH
 aa
 aa
 aa
@@ -94342,51 +95843,51 @@ ae
 aa
 aa
 aa
-ae
-ab
-ab
-ab
-ab
-aG
-aI
-aH
-aI
-aG
-ac
-ZK
-ac
-aG
-aG
+oe
+Nw
+Nw
+Nw
+Nw
+mO
+xq
+Wx
+xq
+Qo
+Ce
+fv
+Ce
+ju
+ju
 XU
-aG
+ju
 ji
 De
-aG
+ju
 XU
-aG
-aG
-aG
-XU
-aG
+ju
+ju
+Ql
+GM
+Ql
 lt
 jE
-aG
-XU
-aG
-aG
-ac
-ZK
-ac
-aG
-aI
-zu
-aI
-aG
-aJ
-aJ
+Ql
+GM
+Ql
+Ql
+Ce
+fv
+Ce
+Qo
+vG
+CX
+vG
+nt
+zv
+zv
 ko
 ko
-ae
+sH
 aa
 aa
 aa
@@ -94598,53 +96099,53 @@ ab
 ae
 aa
 aa
-ae
-ae
-ab
-aG
-aG
-aG
-aG
-aI
-aH
-aI
-aG
-ac
-ZK
-ac
-aG
-ac
-ac
-ac
-ac
-ZK
-ac
-ac
-ac
-aG
-ac
-ac
-ac
-ZK
-ac
-ac
-ac
-ac
-aG
-ac
-ZK
-ac
-aG
-aI
-zu
-aI
-aG
-aG
-aG
-aG
+oe
+oe
+Nw
+mO
+mO
+xw
+xw
+xq
+Wx
+cV
+Qo
+CP
+fv
+Ce
+ju
+cZ
+cZ
+cZ
+jl
+Yg
+kS
+jl
+jl
+ju
+bF
+Sq
+Re
+Px
+na
+zZ
+Xm
+gu
+Ql
+Ce
+fv
+AQ
+Qo
+Vj
+CX
+vG
+nt
+nt
+nt
+nt
 ko
-ae
-ae
+sH
+sH
 aa
 aa
 ae
@@ -94855,53 +96356,53 @@ ab
 ae
 aa
 aa
-ae
-ab
-ab
-aG
+oe
+Nw
+Nw
+mO
 aa
-aG
-ag
-aI
-aH
-aI
-aG
-ac
-ZK
-ac
-aG
-ac
-ac
-ac
-ac
-ZK
-ac
-ac
-ac
-aG
-ac
-ac
-ac
-ZK
-ac
-ac
-ac
-ac
-aG
-ac
-ZK
-ac
-aG
-aI
-zu
-aI
-ag
-aG
+xw
+KH
+xq
+Wx
+ja
+Qo
+Ce
+fv
+Ce
+ju
+rq
+jl
+jl
+jl
+Yg
+jl
+dc
+AR
+ju
+vn
+na
+mF
+Px
+na
+na
+na
+JR
+Ql
+Ce
+fv
+Ce
+Qo
+NQ
+CX
+vG
+om
+xp
 aa
-aG
+nt
 By
 ko
-ae
+sH
 aa
 aa
 ae
@@ -95111,55 +96612,55 @@ ab
 ab
 ae
 aa
-ae
-ae
-ab
-aG
-aG
+oe
+oe
+Nw
+mO
+mO
 aa
 aO
-ag
-aI
-aH
-aI
-aG
-ac
-ZK
-ac
-aG
-ac
-ac
-ac
-ac
-ZK
-ac
-ac
-ac
-aG
-ac
-ac
-ac
-ZK
-ac
-ac
-ac
-ac
-aG
-ac
-ZK
-ac
-aG
-aI
-zu
-aI
-ag
-aO
+KH
+xq
+Wx
+xq
+Qo
+Ce
+fv
+Ce
+ju
+FV
+jl
+yy
+jl
+Yg
+jl
+hG
+jl
+ju
+rM
+na
+mF
+Px
+na
+na
+na
+em
+Ql
+Ce
+fv
+Ce
+Qo
+vG
+CX
+vG
+om
+uh
 aa
-aG
-aG
+nt
+nt
 ko
-ae
-ae
+sH
+sH
 aa
 ae
 aI
@@ -95366,59 +96867,59 @@ ab
 ab
 ab
 ab
-ae
-ae
-ae
-ab
-ab
-aG
+oe
+oe
+oe
+Nw
+Nw
+mO
 aa
 aa
 aO
-ag
-aI
-aH
-aI
-aG
-ac
-ZK
-ac
-aG
-ac
-ac
-ac
-ac
-ZK
-ac
-ac
-ac
-aG
-ac
-ac
-ac
-ZK
-ac
-ac
-ac
-ac
-aG
-ac
-ZK
-ac
-aG
-aI
-zu
-aI
-ag
-aO
+KH
+xq
+Wx
+xq
+Qo
+Ce
+fv
+Ce
+ju
+Cj
+XR
+Ws
+jl
+Yg
+Yg
+vR
+mc
+ju
+JX
+na
+na
+Px
+na
+na
+na
+rl
+Ql
+Ce
+fv
+Ce
+Qo
+vG
+CX
+vG
+om
+uh
 aa
 aa
-aG
+nt
 ko
 ko
-ae
-ae
-ae
+sH
+sH
+sH
 aI
 aJ
 aJ
@@ -95623,59 +97124,59 @@ ab
 ab
 ab
 ab
-aG
-ab
-ab
-ab
-aG
-aG
+mO
+Nw
+Nw
+Nw
+mO
+mO
 aa
 aa
 aO
-ag
-aI
-aH
-aI
-aG
-ac
-ZK
-ac
-aG
-ac
-ac
-ac
-ac
-ZK
-ac
-ac
-ac
-aG
-ac
-ac
-ac
-ZK
-ac
-ac
-ac
-ac
-aG
-ac
-ZK
-ac
-aG
-aI
-zu
-aI
-ag
-aO
+KH
+xq
+Wx
+xq
+Qo
+Ce
+fv
+Kd
+ju
+vb
+jl
+DV
+jl
+Yg
+jl
+XA
+jl
+ju
+yd
+iv
+na
+Px
+na
+na
+na
+rl
+Ql
+Tb
+fv
+Ce
+Qo
+vG
+CX
+vG
+om
+uh
 aa
 aa
-aG
-aG
+nt
+nt
 ko
-aJ
-aJ
-ae
+zv
+zv
+sH
 aI
 aJ
 aJ
@@ -95880,55 +97381,55 @@ ab
 ab
 ab
 ab
-aG
-ab
-ab
-ab
-aG
+mO
+Nw
+Nw
+Nw
+mO
 aa
 aa
 aa
-aG
-ag
-aI
-aH
-aI
-aG
-ac
-ZK
-ac
-aG
-ac
-ac
-ac
-ac
-ZK
-ac
-ac
-ac
-aG
-ac
-ac
-ac
-ZK
-ac
-ac
-ac
-ac
-aG
-ac
-ZK
-ac
-aG
-aI
-zu
-aI
-ag
-aG
+xw
+KH
+xq
+Wx
+xq
+Qo
+Ce
+fv
+Ce
+ju
+rq
+jl
+jl
+jl
+Yg
+jl
+ee
+AR
+ju
+Nf
+MN
+na
+Px
+na
+na
+na
+na
+Ql
+Ce
+fv
+Ce
+Qo
+vG
+CX
+vG
+om
+xp
 aa
 aa
 aa
-aG
+nt
 ko
 ko
 ko
@@ -96137,58 +97638,58 @@ ab
 ab
 ab
 ab
-aG
-ab
-ab
-aG
-aG
+mO
+Nw
+Nw
+mO
+mO
 aa
 aa
 aa
-aG
-ag
-aI
-aH
-aI
-aG
-ac
-ZK
-ac
-aG
-ac
-ac
-ac
-ac
-ZK
-ac
-ac
-ac
-aG
-ac
-ac
-ac
-ZK
-ac
-ac
-ac
-ac
-aG
-ac
-ZK
-ac
-aG
-aI
-zu
-aI
-ag
-aG
+xw
+wV
+xq
+Wx
+xq
+Qo
+wL
+fv
+wL
+ju
+cZ
+cZ
+cZ
+jl
+Yg
+jl
+jl
+jl
+ju
+bF
+Vf
+Sq
+Px
+na
+na
+na
+gu
+Ql
+wL
+fv
+wL
+Qo
+vG
+CX
+vG
+So
+xp
 aa
 aa
 aa
-aG
-aG
-aJ
-aJ
+nt
+nt
+zv
+zv
 ZE
 aJ
 aJ
@@ -96394,59 +97895,59 @@ ab
 ab
 ab
 ab
-aG
-ab
-ab
-aG
+mO
+Nw
+Nw
+mO
 aa
 aa
 aa
 aa
 aO
-ag
-aI
-aH
-aI
-aG
-aG
+KH
+xq
+Wx
+xq
+Qo
+Qo
 Kx
-aG
-aG
-aG
-aG
-aG
+Qo
+du
+du
+du
+du
 JS
 PF
-aG
-aG
-aG
-aG
-aG
-aG
-aG
-lt
-jE
-aG
-aG
-aG
-aG
-aG
+du
+du
+du
+du
+vn
+na
+mF
+Px
+na
+na
+na
+JR
+Ql
+Qo
 Kx
-aG
-aG
-aI
-zu
-aI
-ag
-aO
+Qo
+Qo
+vG
+CX
+vG
+om
+uh
 aa
 aa
 aa
 aa
-aG
-aJ
-aJ
-aG
+nt
+zv
+zv
+nt
 aI
 aJ
 aJ
@@ -96651,59 +98152,59 @@ ab
 ab
 ab
 ab
-aG
-aG
-aG
-aG
+mO
+mO
+mO
+mO
 aa
 aa
 aa
 aa
 aO
-ag
-aI
-aH
-aI
-aG
+KH
+xq
+Wx
+xq
+Qo
 xY
-ZK
+fv
 xY
-aG
-ac
-ac
-ac
-ac
-ZK
-ZK
-ZK
-ZK
-aG
-ZK
-ZK
-ZK
-ZK
-ac
-ac
-ac
-ac
-aG
+du
+Tt
+SW
+uj
+uj
+pN
+jL
+MO
+FR
+du
+CE
+Px
+zl
+Px
+na
+na
+na
+em
+Ql
 xY
-ZK
+fv
 xY
-aG
-aI
-zu
-aI
-ag
-aO
+Qo
+vG
+CX
+vG
+om
+uh
 aa
 aa
 aa
 aa
-aG
-aG
-aG
-aG
+nt
+nt
+nt
+nt
 aI
 aJ
 aJ
@@ -96916,43 +98417,43 @@ aa
 aa
 aa
 aa
-aG
-ag
-aI
-aH
-aI
-aG
-ac
-ZK
-ac
-aG
-ac
-ac
-ac
-ac
-ZK
-ac
-ac
-ac
-aG
-ac
-ac
-ac
-ZK
-ac
-ac
-ac
-ac
-aG
-ac
-ZK
-ac
-aG
-aI
-zu
-aI
-ag
-aG
+xw
+xI
+xq
+Wx
+ja
+Qo
+CP
+fv
+Ce
+du
+tt
+uj
+uj
+uj
+pN
+uj
+uj
+uj
+du
+nf
+na
+na
+Px
+na
+na
+na
+db
+Ql
+Tb
+fv
+AQ
+Qo
+NQ
+CX
+vG
+yl
+xp
 aa
 aa
 aa
@@ -97173,43 +98674,43 @@ aa
 aa
 aa
 aa
-aG
-ag
-aI
-aH
-aI
-aG
+xw
+xt
+xq
+Wx
+xq
+Qo
 cf
-ZK
+fv
 cf
-aG
-ac
-ac
-ac
-ac
-ZK
-ac
-ac
-ac
-aG
-ac
-ac
-ac
-ZK
-ac
-ac
-ac
-ac
-aG
+du
+Ix
+Be
+YI
+YI
+VH
+YI
+YI
+YI
+du
+pb
+RY
+ct
+uo
+ct
+qw
+na
+fR
+Ql
 cf
-ZK
+fv
 cf
-aG
-aI
-zu
-aI
-ag
-aG
+Qo
+vG
+CX
+vG
+ld
+xp
 aa
 aa
 aa
@@ -97431,42 +98932,42 @@ aa
 aa
 aa
 aO
-ag
-aI
-aH
-aI
-aG
-aG
+KH
+xq
+Wx
+xq
+Qo
+Qo
 bZ
-aG
-aG
-aG
+Qo
+du
+du
 we
-aG
+du
 mr
 mr
 mr
-aG
-aG
-aG
-aG
-aG
-mr
-mr
-mr
-aG
-we
-aG
-aG
-aG
+du
+du
+du
+Ql
+Ql
+Hp
+Sy
+Hp
+Ql
+bD
+Ql
+Ql
+Qo
 bZ
-aG
-aG
-aI
-zu
-aI
-ag
-aO
+Qo
+Qo
+vG
+CX
+vG
+om
+uh
 aa
 aa
 aa
@@ -97688,42 +99189,42 @@ aa
 aa
 aa
 aO
-ag
-aI
-aH
-aI
-aI
-aI
+KH
+xq
+Wx
+jP
+DY
+Nk
 SN
-aI
-aI
-aI
-aI
-aI
-aI
-aI
-aI
-aI
-aI
-aI
-aI
-aI
-aI
-aI
-aI
-aI
-aI
-aI
-aI
-aI
+Nk
+rU
+Nk
+Nk
+Nk
+Nk
+Nk
+Nk
+Nk
+Nk
+rU
+Nk
+UV
+Nk
+Nk
+Nk
+Nk
+Nk
+Nk
+rU
+Nk
 SN
-aI
-aI
-aI
-zu
-aI
-ag
-aO
+Nk
+JG
+Ak
+CX
+vG
+om
+uh
 aa
 aa
 aa
@@ -97945,42 +99446,42 @@ aa
 aa
 aa
 aO
-ag
-aI
-zu
-zu
-zu
-zu
-zu
-zu
-zu
-zu
-zu
-zu
-zu
-zu
-zu
-zu
-zu
-zu
-zu
-zu
-zu
-zu
-zu
-zu
-zu
-zu
-zu
-zu
-zu
-zu
-zu
-zu
-zu
-aI
-ag
-aO
+KH
+xq
+Wx
+HY
+Se
+Ap
+Ap
+Ap
+Ap
+Ap
+Ap
+Ap
+Ap
+Ap
+Ap
+Ap
+Ap
+Ap
+Ap
+Ap
+Ap
+Ap
+Ap
+Ap
+Ap
+Ap
+Ap
+Ap
+Ap
+Ap
+nb
+RM
+CX
+vG
+om
+uh
 aa
 aa
 aa
@@ -98201,43 +99702,43 @@ aa
 aa
 aa
 aa
-aG
-ag
-aI
-zu
-aI
-aI
-aI
-aI
-aI
-aI
-aI
-aI
-aI
-aI
-aI
-aI
-aI
-aI
+xw
+KH
+xq
+Wx
+jP
+DY
+Nk
+Qp
+Nk
+Nk
+Nk
+Nk
+Qp
+Nk
+Nk
+Nk
+Nk
+Qp
 rC
-aI
-aI
-aI
-aI
-aI
-aI
-aI
-aI
-aI
-aI
-aI
-aI
-aI
-aI
-zu
-aI
-ag
-aG
+Qp
+Nk
+Nk
+Nk
+Nk
+Qp
+Nk
+Nk
+Nk
+Nk
+Qp
+Nk
+JG
+Ak
+CX
+vG
+om
+xp
 aa
 aa
 aa
@@ -99488,7 +100989,7 @@ aG
 ab
 ab
 Ay
-MB
+cW
 bC
 lK
 uE
@@ -99520,7 +101021,7 @@ yG
 uE
 jb
 Rl
-DL
+SL
 hz
 WZ
 WZ
@@ -100034,7 +101535,7 @@ uE
 uE
 DL
 Rl
-DL
+Ie
 sb
 sb
 Mh
@@ -101042,6 +102543,7 @@ bB
 bB
 bB
 bB
+gv
 bB
 bB
 bB
@@ -101049,8 +102551,7 @@ bB
 bB
 bB
 bB
-bB
-bB
+gv
 bB
 bB
 bB
@@ -102604,7 +104105,7 @@ tV
 uE
 DL
 Rl
-DL
+Ie
 sb
 DU
 sl
@@ -102844,7 +104345,7 @@ Qb
 tE
 Nc
 qI
-qI
+Tw
 gc
 qI
 qI
@@ -102856,7 +104357,7 @@ lX
 yx
 gM
 Ug
-GA
+iY
 tV
 DL
 DL
@@ -103086,7 +104587,7 @@ ab
 ab
 ab
 Ay
-MB
+cW
 bC
 MB
 by
@@ -103118,7 +104619,7 @@ tV
 DL
 DL
 Rl
-DL
+SL
 sb
 TH
 BF
@@ -103370,7 +104871,7 @@ eb
 Lb
 Wh
 uw
-JN
+pl
 tV
 IV
 Rl
@@ -104629,7 +106130,7 @@ aa
 aa
 aa
 of
-oq
+ql
 LN
 WH
 Nh
@@ -104659,7 +106160,7 @@ Cb
 oO
 yA
 Gw
-EB
+PX
 QL
 aa
 aa
@@ -104890,7 +106391,7 @@ kn
 LN
 WH
 eI
-PA
+wU
 zX
 nN
 aF
@@ -105671,7 +107172,7 @@ lq
 zH
 ok
 fd
-xW
+Ve
 ZS
 xW
 fd
@@ -106693,7 +108194,7 @@ of
 jB
 oq
 LN
-WH
+oq
 fd
 xW
 xW
@@ -106707,7 +108208,7 @@ xW
 xW
 xW
 fd
-yA
+EB
 Gw
 EB
 LA
@@ -106947,7 +108448,7 @@ aa
 aa
 aa
 of
-jB
+jt
 oq
 LN
 ft
@@ -106967,7 +108468,7 @@ mM
 Al
 Gw
 EB
-LA
+KB
 QL
 aa
 aa
@@ -107207,7 +108708,7 @@ of
 jB
 oq
 LN
-WH
+oq
 fd
 xW
 DG
@@ -107221,7 +108722,7 @@ xW
 DG
 xW
 fd
-yA
+EB
 Gw
 EB
 LA
@@ -107727,7 +109228,7 @@ qQ
 FQ
 cz
 sp
-sp
+Tr
 vS
 sp
 sp
@@ -108746,7 +110247,7 @@ aa
 aa
 aa
 of
-jB
+jt
 oq
 LN
 SB
@@ -108766,7 +110267,7 @@ lV
 JW
 Gw
 EB
-LA
+KB
 QL
 aa
 aa
@@ -111060,7 +112561,7 @@ Kf
 Kf
 Kf
 Kf
-GG
+Hy
 Hz
 nr
 Nn
@@ -111078,7 +112579,7 @@ NK
 Nn
 bi
 Yf
-Ou
+IC
 VJ
 VJ
 VJ
@@ -111328,7 +112829,7 @@ Vm
 Uy
 Uy
 Uy
-Vm
+mo
 Uy
 Uy
 Uy
@@ -114658,7 +116159,7 @@ Pv
 XX
 sL
 XX
-GG
+Hy
 Hz
 GG
 WR
@@ -114676,7 +116177,7 @@ FD
 WR
 Ou
 Yf
-Ou
+IC
 VJ
 Gs
 VJ
