@@ -86,8 +86,11 @@
 			if(!QDELETED(ship) && isovermap(ship))
 				fire_pdcs(ship, lateral=TRUE)
 
-/obj/structure/overmap/proc/fire_pdcs(atom/target, lateral=FALSE) //"Lateral" means that your ship doesnt have to face the target
+/obj/structure/overmap/proc/fire_pdcs(atom/target, lateral=TRUE) //"Lateral" means that your ship doesnt have to face the target
 	var/shots_per = 3
+	if(!can_fire_pdcs(shots_per))
+		to_chat(gunner, "<span class='warning'>DANGER: Point defense emplacements are unable to fire due to lack of ammunition.</span>")
+		return
 	var/sound/chosen = pick('sephora/sound/effects/ship/pdc.ogg','sephora/sound/effects/ship/pdc2.ogg','sephora/sound/effects/ship/pdc3.ogg')
 	relay_to_nearby(chosen)
 	for(var/i = 0, i < shots_per, i++)
@@ -96,6 +99,17 @@
 			fire_lateral_projectile(/obj/item/projectile/bullet/pdc_round, target)
 		else
 			fire_projectiles(/obj/item/projectile/bullet/pdc_round, target)
+
+/obj/structure/overmap/proc/can_fire_pdcs(shots) //Trigger the PDCs to fire
+	if(ai_controlled) //We need AIs to be able to use PDCs
+		return TRUE
+	if(!pdcs.len)
+		return FALSE
+	for(var/X in pdcs)
+		var/obj/structure/pdc_mount/pdc = X
+		if(pdc.fire(shots))
+			return TRUE
+	return FALSE
 
 /obj/structure/overmap/proc/fire(atom/target)
 	if(ai_controlled) //Let the AI switch weapons according to range

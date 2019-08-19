@@ -86,6 +86,7 @@
 	var/obj/machinery/computer/ship/tactical
 	var/list/railguns = list() //Every railgun present on the ship
 	var/list/torpedo_tubes = list() //every torpedo tube present on the ship.
+	var/list/pdcs = list() //Every PDC ammo rack that we have.
 
 
 /obj/railgun_overlay //Railgun sits on top of the ship and swivels to face its target

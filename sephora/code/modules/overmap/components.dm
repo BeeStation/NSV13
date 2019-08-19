@@ -78,6 +78,8 @@ GLOBAL_LIST_INIT(computer_beeps, list('sephora/sound/effects/computer/beep.ogg',
 	icon_state = "viewscreen"
 	mouse_over_pointer = MOUSE_HAND_POINTER
 	pixel_y = 26
+	density = FALSE
+	anchored = TRUE
 
 /obj/machinery/computer/ship/viewscreen/examine(mob/user)
 	. = ..()
