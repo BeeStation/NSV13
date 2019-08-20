@@ -159,4 +159,4 @@
 					/obj/item/ammo_box/magazine/peacekeeper/lethal,
 					/obj/item/ammo_box/magazine/peacekeeper/lethal,
 					/obj/item/ammo_box/magazine/peacekeeper/lethal)
-	crate_name = "M2A45 pulse rifle ammunition (nonlethal)"
+	crate_name = "M2A45 pulse rifle ammunition (lethal)"
