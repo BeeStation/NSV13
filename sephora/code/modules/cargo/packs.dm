@@ -127,3 +127,36 @@
 					/obj/item/torpedo/warhead/bunker_buster,
 					/obj/item/torpedo/warhead/bunker_buster)
 	crate_name = "Decoy torpedo warheads"
+
+/datum/supply_pack/munitions/peacekeeper_rifles
+	name = "M2A45 pulse rifles (x5)"
+	desc = "A pack of 5 M2A45 pulse rifles, preloaded with nonlethal stun slugs."
+	cost = 2000
+	contains = list(/obj/item/gun/ballistic/automatic/peacekeeper,
+					/obj/item/gun/ballistic/automatic/peacekeeper,
+					/obj/item/gun/ballistic/automatic/peacekeeper,
+					/obj/item/gun/ballistic/automatic/peacekeeper,
+					/obj/item/gun/ballistic/automatic/peacekeeper)
+	crate_name = "M2A45 pulse rifles"
+
+/datum/supply_pack/munitions/peacekeeper_ammo
+	name = "M2A45 pulse rifle ammo (nonlethal)"
+	desc = "5 magazines of nonlethal ammo for peacekeeper rifles."
+	cost = 500
+	contains = list(/obj/item/ammo_box/magazine/peacekeeper,
+					/obj/item/ammo_box/magazine/peacekeeper,
+					/obj/item/ammo_box/magazine/peacekeeper,
+					/obj/item/ammo_box/magazine/peacekeeper,
+					/obj/item/ammo_box/magazine/peacekeeper)
+	crate_name = "M2A45 pulse rifle ammunition (nonlethal)"
+
+/datum/supply_pack/munitions/peacekeeper_ammo_lethal
+	name = "M2A45 pulse rifle ammo (lethal)"
+	desc = "5 magazines of lethal ammunition for peacekeeper rifles."
+	cost = 800
+	contains = list(/obj/item/ammo_box/magazine/peacekeeper/lethal,
+					/obj/item/ammo_box/magazine/peacekeeper/lethal,
+					/obj/item/ammo_box/magazine/peacekeeper/lethal,
+					/obj/item/ammo_box/magazine/peacekeeper/lethal,
+					/obj/item/ammo_box/magazine/peacekeeper/lethal)
+	crate_name = "M2A45 pulse rifle ammunition (nonlethal)"
