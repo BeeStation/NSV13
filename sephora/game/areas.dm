@@ -125,6 +125,30 @@
 	name = "Deck 2 Frame 5 Central Hallway"
 	icon_state = "hallC"
 
+/area/hallway/nsv/deck3/frame1/port
+	name = "Deck 3 Frame 1 Port Hallway"
+	icon_state = "hallP"
+
+/area/hallway/nsv/deck3/frame1/starboard
+	name = "Deck 3 Frame 1 Starboard Hallway"
+	icon_state = "hallS"
+
+/area/hallway/nsv/deck3/frame1/central
+	name = "Deck 3 Frame 1 Central Hallway"
+	icon_state = "hallC"
+
+/area/hallway/nsv/deck3/frame2/port
+	name = "Deck 2 Frame 2 Port Hallway"
+	icon_state = "hallP"
+
+/area/hallway/nsv/deck3/frame2/starboard
+	name = "Deck 2 Frame 2 Starboard Hallway"
+	icon_state = "hallS"
+
+/area/crew_quarters/nsv/observation
+	name = "Observation Lounge"
+	icon_state = "sleep"
+
 /area/Entered(atom/movable/M)
 	// Ambience goes down here -- make sure to list each area separately for ease of adding things in later, thanks! Note: areas adjacent to each other should have the same sounds to prevent cutoff when possible.- LastyScratch
 	set waitfor = FALSE
