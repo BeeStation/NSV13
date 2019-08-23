@@ -77,6 +77,18 @@
 	name = "Deck 2 Frame 5 Starboard Maintenance"
 	icon_state = "smaint"
 
+/area/maintenance/nsv/deck3/frame3/port
+	name = "Deck 3 Frame 3 Port Maintenence"
+	icon_state = "pmaint"
+
+/area/maintenance/nsv/deck3/frame3/starboard
+	name = "Deck 3 Frame 3 Starboard Maintenence"
+	icon_state = "smaint"
+
+/area/maintenance/nsv/deck3/frame3/central
+	name = "Deck 3 Frame 3 Central Maintenance"
+	icon_state = "maintcentral"
+
 /area/hallway/nsv/deck2/frame1/port
 	name = "Deck 2 Frame 1 Port Hallway"
 	icon_state = "hallF"
@@ -144,6 +156,18 @@
 /area/hallway/nsv/deck3/frame2/starboard
 	name = "Deck 2 Frame 2 Starboard Hallway"
 	icon_state = "hallS"
+
+/area/hallway/nsv/deck3/frame3/port
+	name = "Deck 3 Frame 3 Port Hallway"
+	icon_state = "hallP"
+
+/area/hallway/nsv/deck3/frame3/starboard
+	name = "Deck 3 Frame 3 Starboard Hallway"
+	icon_state = "hallS"
+
+/area/hallway/nsv/deck3/frame3/central
+	name = "Deck 3 Frame 3 Central Hallway"
+	icon_state = "hallC"
 
 /area/crew_quarters/nsv/observation
 	name = "Observation Lounge"
