@@ -89,6 +89,10 @@
 	name = "Deck 3 Frame 3 Central Maintenance"
 	icon_state = "maintcentral"
 
+/area/maintenance/nsv/deck3/frame4/central
+	name = "Deck 3 Frame 4 Central Maintenance"
+	icon_state = "maintcentral"
+
 /area/hallway/nsv/deck2/frame1/port
 	name = "Deck 2 Frame 1 Port Hallway"
 	icon_state = "hallF"
@@ -168,6 +172,15 @@
 /area/hallway/nsv/deck3/frame3/central
 	name = "Deck 3 Frame 3 Central Hallway"
 	icon_state = "hallC"
+
+/area/hallway/nsv/deck3/frame4/port
+	name = "Deck 3 Frame 4 Port Hallway"
+	icon_state = "hallP"
+
+/area/hallway/nsv/deck3/frame4/starboard
+	name = "Deck 3 Frame 4 Starboard Hallway"
+	icon_state = "hallS"
+
 
 /area/crew_quarters/nsv/observation
 	name = "Observation Lounge"
