@@ -207,7 +207,7 @@
 		railgun_overlay.transform = final
 	else
 		railgun_overlay.transform = mat_to
-	for(var/mob/living/M in contents)
+	for(var/mob/living/M in operators)
 		var/client/C = M.client
 		if(!C)
 			continue
@@ -295,8 +295,8 @@
 			continue
 		var/obj/item/projectile/proj = new proj_type(T)
 		proj.starting = T
-		if(pilot)
-			proj.firer = pilot
+		if(gunner)
+			proj.firer = gunner
 		proj.def_zone = "chest"
 		proj.original = target
 		proj.pixel_x = round(this_x)
@@ -339,8 +339,8 @@
 			continue
 		var/obj/item/projectile/proj = new proj_type(T)
 		proj.starting = T
-		if(pilot)
-			proj.firer = pilot
+		if(gunner)
+			proj.firer = gunner
 		proj.def_zone = "chest"
 		proj.original = target
 		proj.pixel_x = round(this_x)
@@ -352,8 +352,8 @@
 	var/turf/T = get_turf(src)
 	var/obj/item/projectile/proj = new proj_type(T)
 	proj.starting = T
-	if(pilot)
-		proj.firer = pilot
+	if(gunner)
+		proj.firer = gunner
 	proj.def_zone = "chest"
 	proj.original = target
 	proj.pixel_x = round(pixel_x)
