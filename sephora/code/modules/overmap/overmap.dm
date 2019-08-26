@@ -264,12 +264,12 @@
 	progress = round(((progress / goal) * 100), 25)//Round it down to 20%. We now apply visual damage
 	icon_state = "[initial(icon_state)]-[progress]"
 
-/obj/structure/overmap/proc/relay(var/sound, var/message=null) //Sends a sound + text message to the crew of a ship
+/obj/structure/overmap/proc/relay(var/sound, var/message=null, loop = FALSE, channel = CHANNEL_SHIP_ALERT) //Sends a sound + text message to the crew of a ship
 	for(var/X in mobs_in_ship)
 		if(ismob(X))
 			var/mob/mob = X
 			if(sound)
-				SEND_SOUND(mob, sound)
+				SEND_SOUND(mob, sound(sound, repeat = loop, wait = 0, volume = 100, channel = channel))
 			if(message)
 				to_chat(mob, message)
 

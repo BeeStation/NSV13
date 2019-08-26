@@ -130,3 +130,14 @@
 	desc = "In parts a fashion statement and a hard hat, this beret has been specially reinforced to protect its wearer against workplace accidents."
 	icon_state = "engineer"
 	armor = list("melee" = 15, "bullet" = 0, "laser" = 0, "energy" = 5, "bomb" = 10, "bio" = 0, "rad" = 5, "fire" = 30, "acid" = 5)
+
+/obj/item/clothing/head/radiation
+	name = "hazmat hood"
+	desc = "A lead lined hood which is guaranteed to keep you safe from harmful nuclear emissions. Recommended by 9/10 nuclear engineers."
+	icon = 'sephora/icons/obj/clothing/hats.dmi' //Placeholder subtype for our own iconsets
+	alternate_worn_icon = 'sephora/icons/mob/head.dmi'
+
+/obj/item/clothing/suit/radiation
+	name = "hazmat suit"
+	icon = 'sephora/icons/obj/clothing/suits.dmi' //Placeholder subtype for our own iconsets
+	alternate_worn_icon = 'sephora/icons/mob/suit.dmi'
