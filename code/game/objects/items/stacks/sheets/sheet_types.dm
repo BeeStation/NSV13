@@ -95,6 +95,8 @@ GLOBAL_LIST_INIT(metal_recipes, list ( \
 	new/datum/stack_recipe("floodlight frame", /obj/structure/floodlight_frame, 5, one_per_turf = TRUE, on_floor = TRUE), \
 	null, \
 	new/datum/stack_recipe("torpedo casing", /obj/structure/munition/torpedo_casing, 15, one_per_turf = TRUE, on_floor = TRUE), \
+	null, \
+	new/datum/stack_recipe("plasma constrictor", /obj/machinery/power/magnetic_constrictor, 15, one_per_turf = TRUE, on_floor = TRUE), \
 ))
 
 /obj/item/stack/sheet/metal
