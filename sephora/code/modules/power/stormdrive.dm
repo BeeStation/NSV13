@@ -46,6 +46,10 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 #define RODS_HALFLOWERED 3
 #define RODS_LOWERED 4
 
+#define WARNING_STATE_NONE 0
+#define WARNING_STATE_OVERHEAT 1
+#define WARNING_STATE_MELTDOWN 2
+
 //Constrictor construction steps
 
 #define CONSTRICTOR_NOTBUILT 0
@@ -71,12 +75,17 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 	var/cooling_power = 10 //How much heat we can drain per tick. Matches up with target_heat
 	var/control_rod_state = 3 //Rods start out to raise the heat. Position 1 is considered DANGEROUS, 2 is OK, 3 is safe, 4 is if you want to shut it off.
 	var/heat_gain = 5
-	var/warning_state = 0 //Are we warning people about a meltdown already? If we are, don't spam them with sounds. Also works for when it's actually exploding
+	var/warning_state = WARNING_STATE_NONE //Are we warning people about a meltdown already? If we are, don't spam them with sounds. Also works for when it's actually exploding
 	var/reaction_rate = 5 //5 constricted plasma / tick to keep the reaction going, if you shut this off, the reactor will cool.
 	var/power_loss = 2 //For subtypes, if you want a less efficient reactor
 	var/input_power_modifier = 1
 	var/state = REACTOR_STATE_IDLE
 	var/rod_integrity = 100 //Control rods take damage over time
+	var/obj/item/radio/radio //For engineering alerts.
+	var/radio_key = /obj/item/encryptionkey/headset_eng
+	var/engineering_channel = "Engineering"
+	var/can_alert = TRUE //Prevents spamming up the radio channels.
+	var/alert_cooldown = 20 SECONDS
 
 /obj/machinery/power/stormdrive_reactor/proc/engage_maintenance()
 	if(state == REACTOR_STATE_IDLE)
@@ -90,6 +99,7 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 		icon_state = initial(icon_state)
 
 /obj/machinery/power/stormdrive_reactor/proc/deactivate()
+	send_alert("Fission reaction terminated. Reactor now off-line.")
 	icon_state = initial(icon_state)
 	heat = 0
 	state = REACTOR_STATE_IDLE //Force reactor restart.
@@ -130,9 +140,21 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 	else
 		dat += "<A href='?src=\ref[src];maintenance=1'>AZ-4: Disengage reactor maintenance protocols</font></A><BR>"
 	dat += "<A href='?src=\ref[src];rods_4=1'>AZ-5: Initiate controlled reactor shutdown (SCRAM)</font></A><BR>" //AZ5 machine broke
+	if(reactor.pipe?.on == TRUE)
+		dat += "<A href='?src=\ref[src];pipe=1'>AZ-6: Close emergency release valve</font></A><BR>"
+	if(reactor.pipe?.on == FALSE)
+		dat += "<A href='?src=\ref[src];pipe=1'>AZ-6: Open emergency release valve</font></A><BR>"
 	dat += "<h2> ---Statistics:--- </h2>"
 	dat += "<A href='?src=\ref[src];reactorplaceholder=1'> Last recorded temperature: [reactor?.heat] (°C)</A><BR>"
-	dat += "<A href='?src=\ref[src];reactorplaceholder=1'> Reported control rod health: [reactor?.rod_integrity] %</A>"
+	dat += "<A href='?src=\ref[src];reactorplaceholder=1'> Reported control rod health: [reactor?.rod_integrity] %</A><BR>"
+	if(reactor.pipe)
+		var/datum/gas_mixture/air1 = reactor.pipe.airs[1]
+		var/list/cached_gases = air1.gases
+		if(cached_gases[/datum/gas/constricted_plasma])
+			var/moles = cached_gases[/datum/gas/constricted_plasma][MOLES]
+			dat += "<A href='?src=\ref[src];reactorplaceholder=1'> Fuel level (moles): [moles]</A><BR>"
+
+
 	var/datum/browser/popup = new(user, "Reactor control systems", name, 400, 500)
 	popup.set_content(dat)
 	popup.open()
@@ -142,6 +164,7 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 		return
 	if(href_list["rods_1"])
 		reactor?.control_rod_state = RODS_RAISED
+		message_admins("[key_name(usr)] has fully raised reactor control rods in [get_area(usr)] [ADMIN_JMP(usr)]")
 		reactor?.update_icon()
 	if(href_list["rods_2"])
 		reactor?.control_rod_state = RODS_HALFRAISED
@@ -156,14 +179,39 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 		if(reactor.state == REACTOR_STATE_MAINTENANCE)
 			reactor.disengage_maintenance()
 			to_chat(usr, "<span class='danger'>Maintenance protocols disengaged.</span>")
+			attack_hand(usr)
 			return
 		if(reactor.state == REACTOR_STATE_IDLE)
 			reactor.engage_maintenance()
 			to_chat(usr, "<span class='danger'>Maintenance protocols engaged.</span>")
+			attack_hand(usr)
 			return
 		else
 			to_chat(usr, "<span class='danger'>DANGER! Maintenance protocols cannot be initiated while the reactor is active</span>")
+	if(href_list["pipe"])
+		if(reactor.pipe?.on)
+			reactor.pipe?.on = FALSE
+			reactor.pipe?.target_pressure = ONE_ATMOSPHERE
+			reactor.pipe?.update_icon()
+			to_chat(usr, "<span class='notice'>Reactor outlet gate disengaged.</span>")
+			attack_hand(usr)
+			return
+		else
+			reactor.pipe?.on = TRUE
+			reactor.pipe?.target_pressure = MAX_OUTPUT_PRESSURE
+			reactor.pipe?.update_icon()
+			to_chat(usr, "<span class='notice'>Reactor outlet gate engaged.</span>")
+			attack_hand(usr)
+			return
+
 	attack_hand(usr)
+
+/obj/machinery/power/stormdrive_reactor/Initialize()
+	. = ..()
+	radio = new(src)
+	radio.keyslot = new radio_key
+	radio.listening = 0
+	radio.recalculateChannels()
 
 /obj/machinery/power/stormdrive_reactor/proc/try_start()
 	if(!pipe)
@@ -185,6 +233,7 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 			set_light(5)
 			var/startup_sound = pick('sephora/sound/effects/ship/reactor/startup.ogg', 'sephora/sound/effects/ship/reactor/startup2.ogg')
 			playsound(loc, startup_sound, 100)
+			send_alert("Fission reaction initiated. Reactor now on-line.", override=TRUE)
 			return TRUE
 	return FALSE
 
@@ -192,13 +241,15 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 	pipe = locate(/obj/machinery/atmospherics/components/binary/pump) in get_turf(src)
 
 /obj/machinery/power/stormdrive_reactor/proc/check_meltdown_warning()
-	if(warning_state >= 1)
+	if(warning_state >= WARNING_STATE_OVERHEAT)
 		if(heat <= REACTOR_HEAT_VERYHOT) //This implies that we've now stopped melting down.
 			get_overmap()?.stop_relay(CHANNEL_REACTOR_ALERT)
 			warning_state = 0
+			send_alert("Nuclear meltdown averted. Manual reactor inspection is strongly advised", override=TRUE)
 		return FALSE
 	if(heat >= REACTOR_HEAT_VERYHOT)
-		warning_state = 1
+		send_alert("DANGER: Reactor core overheating. Nuclear meltdown imminent", override=TRUE)
+		warning_state = WARNING_STATE_OVERHEAT
 		var/sound = 'sephora/sound/effects/ship/reactor/core_overheating.ogg'
 		get_overmap()?.relay(sound, null, loop=TRUE, channel = CHANNEL_REACTOR_ALERT)
 		return TRUE
@@ -213,9 +264,11 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 	try_start()
 
 /obj/machinery/power/stormdrive_reactor/proc/start_meltdown()
-	if(warning_state >= 2)
+	if(warning_state >= WARNING_STATE_MELTDOWN)
 		return
-	warning_state = 2
+	rod_integrity = 0 //Burn through the control rods if we haven't already.
+	send_alert("ERROR IN MODULE FISSREAC0 AT ADDRESS 0x12DF. CONTROL RODS HAVE FAILED. IMMEDIATE INTERVENTION REQUIRED.", override=TRUE)
+	warning_state = WARNING_STATE_MELTDOWN
 	var/sound = 'sephora/sound/effects/ship/reactor/meltdown.ogg'
 	addtimer(CALLBACK(src, .proc/meltdown), 18 SECONDS)
 	get_overmap()?.relay(sound, null, loop=FALSE, channel = CHANNEL_REACTOR_ALERT)
@@ -231,7 +284,7 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 		sleep(10)
 		icon_state = "broken"
 	else
-		warning_state = 0
+		warning_state = WARNING_STATE_NONE
 
 /obj/machinery/power/stormdrive_reactor/proc/do_meltdown_effects()
 	explosion(get_turf(src), 5, 10, 19, 10, TRUE, TRUE)
@@ -253,7 +306,8 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 		icon_state = "broken"
 		return
 	cut_overlays()
-	add_overlay("rods_[control_rod_state]")
+	if(can_cool()) //If control rods aren't destroyed.
+		add_overlay("rods_[control_rod_state]")
 	if(state == REACTOR_STATE_MAINTENANCE)
 		icon_state = "reactor_maintenance" //If we're in maint, don't make it appear hot.
 		return
@@ -302,7 +356,18 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 	radiation_pulse(src, heat, 2)
 
 /obj/machinery/power/stormdrive_reactor/proc/can_cool()
-	return TRUE //TODO: Check control rod health
+	if(heat > REACTOR_HEAT_NORMAL+10) //Only start melting the rods if theyre running it hot. We have a "safe" mode which doesn't need you to check in on the reactor at all.
+		rod_integrity -= input_power_modifier/120 //Assuming youre running it at hot, rods will melt every 30 minutes.
+		if(rod_integrity < 0)
+			rod_integrity = 0
+			send_alert("DANGER: Primary control rods have failed!")
+			return FALSE
+		if(rod_integrity <= 10 && warning_state <= WARNING_STATE_NONE) //If there isn't a more important thing to notify them about, engineers should be told that their rods are failing.
+			send_alert("WARNING: Reactor control rods failing at [rod_integrity]% integrity, intervention required to avoid possible meltdown.")
+	if(rod_integrity > 0)
+		return TRUE //TODO: Check control rod health
+	else
+		return FALSE
 
 /obj/machinery/power/stormdrive_reactor/proc/handle_heat()
 	heat += heat_gain
@@ -318,6 +383,14 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 	if(heat > target_heat+(cooling_power-heat_gain)) //If it's hotter than the desired temperature, + our cooling power, we need to cool it off.
 		if(can_cool())
 			heat -= cooling_power
+
+/obj/machinery/power/stormdrive_reactor/proc/send_alert(message, override=FALSE)
+	if(!message)
+		return
+	if(can_alert || override) //We have an override to ignore continuous alerts like control rod reports in favour of screaming that the reactor is about to go nuclear.
+		can_alert = FALSE
+		radio.talk_into(src, message, engineering_channel)
+		addtimer(VARSET_CALLBACK(src, can_alert, TRUE), alert_cooldown)
 
 /obj/machinery/power/magnetic_constrictor //This heats the plasma up to acceptable levels for use in the reactor.
 	name = "magnetic constrictor"
@@ -509,6 +582,16 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 		playsound(loc, 'sound/effects/gib_step.ogg', HAS_TRAIT(L, TRAIT_LIGHT_STEP) ? 20 : 50, 1)
 	radiation_pulse(src, 500, 5) //MORE RADS
 
+/obj/effect/decal/nuclear_waste/attackby(obj/item/tool, mob/user)
+	if(tool.tool_behaviour == TOOL_SHOVEL)
+		radiation_pulse(src, 1000, 5) //MORE RADS
+		to_chat(user, "<span class='notice'>You start to clear [src]...</span>")
+		if(tool.use_tool(src, user, 50, volume=100))
+			to_chat(user, "<span class='notice'>You clear [src]. </span>")
+			qdel(src)
+			return
+	. = ..()
+
 /datum/weather/nuclear_fallout
 	name = "nuclear fallout"
 	desc = "Irradiated dust falls down everywhere."
@@ -574,3 +657,6 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 #undef RODS_HALFRAISED
 #undef RODS_HALFLOWERED
 #undef RODS_LOWERED
+#undef WARNING_STATE_NONE
+#undef WARNING_STATE_OVERHEAT
+#undef WARNING_STATE_MELTDOWN
