@@ -24,7 +24,7 @@
 	bound_width = 128 //Change this on a per ship basis
 	bound_height = 256
 	mass = MASS_LARGE
-	sprite_size = 256
+	sprite_size = 48
 	damage_states = TRUE
 	pixel_z = -96
 	pixel_w = -96
@@ -46,7 +46,7 @@
 	bound_width = 96 //Change this on a per ship basis
 	bound_height = 96
 	mass = MASS_MEDIUM
-	sprite_size = 96
+	sprite_size = 48
 	damage_states = TRUE
 
 //Syndicate ships

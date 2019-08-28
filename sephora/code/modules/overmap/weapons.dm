@@ -21,6 +21,10 @@
 	icon_state = "impact_torpedo"
 	duration = 10
 
+/obj/effect/temp_visual/impact_effect/torpedo/nuke
+	icon_state = "explosion"
+	duration = 10
+
 /obj/item/projectile/bullet/torpedo/Crossed(atom/movable/AM) //Here, we check if the bullet that hit us is from a friendly ship. If it's from an enemy ship, we explode as we've been flak'd down.
 	. = ..()
 	if(istype(AM, /obj/item/projectile))
@@ -82,8 +86,11 @@
 			if(!QDELETED(ship) && isovermap(ship))
 				fire_pdcs(ship, lateral=TRUE)
 
-/obj/structure/overmap/proc/fire_pdcs(atom/target, lateral=FALSE) //"Lateral" means that your ship doesnt have to face the target
+/obj/structure/overmap/proc/fire_pdcs(atom/target, lateral=TRUE) //"Lateral" means that your ship doesnt have to face the target
 	var/shots_per = 3
+	if(!can_fire_pdcs(shots_per))
+		to_chat(gunner, "<span class='warning'>DANGER: Point defense emplacements are unable to fire due to lack of ammunition.</span>")
+		return
 	var/sound/chosen = pick('sephora/sound/effects/ship/pdc.ogg','sephora/sound/effects/ship/pdc2.ogg','sephora/sound/effects/ship/pdc3.ogg')
 	relay_to_nearby(chosen)
 	for(var/i = 0, i < shots_per, i++)
@@ -92,6 +99,17 @@
 			fire_lateral_projectile(/obj/item/projectile/bullet/pdc_round, target)
 		else
 			fire_projectiles(/obj/item/projectile/bullet/pdc_round, target)
+
+/obj/structure/overmap/proc/can_fire_pdcs(shots) //Trigger the PDCs to fire
+	if(ai_controlled) //We need AIs to be able to use PDCs
+		return TRUE
+	if(!pdcs.len)
+		return FALSE
+	for(var/X in pdcs)
+		var/obj/structure/pdc_mount/pdc = X
+		if(pdc.fire(shots))
+			return TRUE
+	return FALSE
 
 /obj/structure/overmap/proc/fire(atom/target)
 	if(ai_controlled) //Let the AI switch weapons according to range
@@ -130,17 +148,13 @@
 			var/sound/chosen = pick('sephora/sound/effects/ship/railgun.ogg','sephora/sound/effects/ship/railgun2.ogg')
 			relay_to_nearby(chosen)
 		if(FIRE_MODE_TORPEDO) //In case of bugs.
-			if(torpedoes > 0)
-				var/sound/chosen = pick('sephora/sound/effects/ship/torpedo.ogg','sephora/sound/effects/ship/freespace2/m_shrike.wav','sephora/sound/effects/ship/freespace2/m_stiletto.wav','sephora/sound/effects/ship/freespace2/m_tsunami.wav','sephora/sound/effects/ship/freespace2/m_wasp.wav')
-				relay_to_nearby(chosen)
-				fire_projectile(/obj/item/projectile/bullet/torpedo, target, homing = TRUE, speed=1, explosive = TRUE)
-				torpedoes --
+			fire_torpedo(target)
 
 /obj/structure/overmap/verb/cycle_firemode()
 	set name = "Switch firemode"
 	set category = "Ship"
 	set src = usr.loc
-	if(!verb_check())
+	if(usr != gunner)
 		return
 	fire_mode ++
 	if(fire_mode > FIRE_MODE_TORPEDO)
@@ -175,4 +189,41 @@
 			fire_mode = FIRE_MODE_TORPEDO
 
 /obj/structure/overmap/proc/fire_railgun(atom/target)
-	fire_lateral_projectile(/obj/item/projectile/bullet/railgun_slug, target, 10)
+	if(ai_controlled) //AI ships don't have interiors
+		fire_lateral_projectile(/obj/item/projectile/bullet/railgun_slug, target, 10)
+		return
+	var/proj_type = null //If this is true, we've got a railgun shipside that's been able to fire.
+	for(var/X in railguns)
+		if(istype(X, /obj/structure/ship_weapon/railgun))
+			var/obj/structure/ship_weapon/railgun/RG = X
+			proj_type = RG.fire()
+			if(!proj_type)
+				continue
+	if(proj_type)
+		fire_lateral_projectile(proj_type, target, 10)
+	else
+		to_chat(gunner, "<span class='warning'>DANGER: Launch failure! Railgun systems are not loaded.</span>")
+
+/obj/structure/overmap/proc/fire_torpedo(atom/target)
+	if(ai_controlled) //AI ships don't have interiors
+		if(torpedoes <= 0)
+			return
+		fire_projectile(/obj/item/projectile/bullet/torpedo, target, homing = TRUE, speed=1, explosive = TRUE)
+		torpedoes --
+		return
+	var/proj_type = null //If this is true, we've got a launcher shipside that's been able to fire.
+	for(var/X in torpedo_tubes)
+		if(istype(X, /obj/structure/ship_weapon/torpedo_launcher))
+			var/obj/structure/ship_weapon/torpedo_launcher/TL = X
+			proj_type = TL.fire()
+			if(proj_type) //Found a gun and fired it. No need to fire all the guns at once
+				break
+	if(proj_type)
+		var/sound/chosen = pick('sephora/sound/effects/ship/torpedo.ogg','sephora/sound/effects/ship/freespace2/m_shrike.wav','sephora/sound/effects/ship/freespace2/m_stiletto.wav','sephora/sound/effects/ship/freespace2/m_tsunami.wav','sephora/sound/effects/ship/freespace2/m_wasp.wav')
+		relay_to_nearby(chosen)
+		if(proj_type == /obj/item/projectile/bullet/torpedo/dud) //Some brainlet MAA loaded an incomplete torp
+			fire_projectile(proj_type, target, homing = FALSE, speed=1, explosive = TRUE)
+		else
+			fire_projectile(proj_type, target, homing = TRUE, speed=1, explosive = TRUE)
+	else
+		to_chat(gunner, "<span class='warning'>DANGER: Launch failure! Torpedo tubes are not loaded.</span>")

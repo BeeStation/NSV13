@@ -235,6 +235,21 @@
 			return TRUE
 	if(firer && !ignore_source_check)
 		var/mob/checking = firer
+		if(istype(A, /obj/structure/overmap))
+			var/obj/structure/overmap/ship_target = A
+			if(checking.overmap_ship)
+				if(checking.overmap_ship.faction == ship_target.faction)
+					trajectory_ignore_forcemove = TRUE
+					//Sephora start - multitile objects
+					var/turf/TT = trajectory.return_turf()
+					if(!istype(TT))
+						qdel(src)
+						return
+					if(TT != loc)
+						forceMove(get_step_towards(src, TT))
+					//Sephora end
+					trajectory_ignore_forcemove = FALSE
+					return FALSE
 		if((A == firer) || (((A in firer.buckled_mobs) || (istype(checking) && (A == checking.buckled))) && (A != original)) || (A == firer.loc && (ismecha(A) || istype(A, /obj/structure/overmap)))) //cannot shoot yourself or your mech //Sephora - or your ship
 			trajectory_ignore_forcemove = TRUE
 			//Sephora start - multitile objects

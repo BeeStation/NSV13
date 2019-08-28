@@ -22,6 +22,7 @@
 		pilot.mouse_opacity = FALSE
 		pilot.alpha = FALSE
 		pilot.forceMove(src)
+		gunner = pilot
 	user_thrust_dir = 1
 	if(last_target) //Have we got a target?
 		if(get_dist(last_target, src) > max_range) //Out of range - Give up the chase
@@ -56,5 +57,14 @@
 	last_target = target
 
 /obj/structure/overmap/proc/add_enemy(atom/target)
-	if(!target in enemies)
-		enemies += target
+	if(!istype(target, /obj/structure/overmap)) //Don't know why it wouldn't be..but yeah
+		return
+	var/obj/structure/overmap/OM = target
+	for(var/X in enemies) //If target's in enemies, return
+		if(target == X)
+			return
+	enemies += target
+	if(OM.tactical)
+		var/sound = pick('sephora/sound/effects/computer/alarm.ogg','sephora/sound/effects/computer/alarm_3.ogg','sephora/sound/effects/computer/alarm_4.ogg')
+		var/message = "<span class='warning'>DANGER: [src] is now targeting [OM].</span>"
+		OM.tactical.relay_sound(sound, message)

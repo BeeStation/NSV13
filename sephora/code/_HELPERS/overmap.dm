@@ -4,3 +4,11 @@
 		return AR.linked_overmap
 	else
 		return FALSE
+
+/proc/shares_overmap(atom/source, atom/target)
+	var/obj/structure/overmap/OM = source.get_overmap()
+	var/obj/structure/overmap/S = target.get_overmap()
+	if(OM == S)
+		return TRUE
+	else
+		return FALSE
