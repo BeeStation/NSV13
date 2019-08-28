@@ -96,12 +96,14 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 	set_light(0)
 
 /obj/structure/reactor_control_computer
-	name = "reactor control console"
+	name = "Seegson model RBMK reactor control console"
+	desc = "A state of the art terminal which is linked to a nuclear storm drive reactor. It has several buttons labelled 'AZ' on the keyboard."
 	icon = 'sephora/icons/obj/machinery/reactor_parts.dmi'
 	icon_state = "rodconsole"
 	density = TRUE
 	anchored = TRUE
 	var/obj/machinery/power/stormdrive_reactor/reactor //Our parent reactor
+	req_access = list(ACCESS_ENGINE_EQUIP)
 
 /obj/structure/reactor_control_computer/Initialize()
 	. = ..()
@@ -112,6 +114,11 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 /obj/structure/reactor_control_computer/attack_hand(mob/user)
 	. = ..()
 	if(!reactor)
+		return
+	if(!allowed(user))
+		var/sound = pick('sephora/sound/effects/computer/error.ogg','sephora/sound/effects/computer/error2.ogg','sephora/sound/effects/computer/error3.ogg')
+		playsound(src, sound, 100, 1)
+		to_chat(user, "<span class='warning'>Access denied</span>")
 		return
 	var/dat
 	dat += "<h2> ---Available reactor operations:--- </h2>"
@@ -238,7 +245,7 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 					WS.fire()
 	for(var/a in GLOB.apcs_list)
 		var/obj/machinery/power/apc/A = a
-		if(shares_overmap(src, a) && prob(50)) //Are they on our ship?
+		if(shares_overmap(src, a) && prob(70)) //Are they on our ship?
 			A.overload_lighting()
 
 /obj/machinery/power/stormdrive_reactor/update_icon()
@@ -322,7 +329,6 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 	var/obj/machinery/atmospherics/components/binary/pump/inlet
 	var/state = CONSTRICTOR_NOTBUILT
 	var/on = FALSE //Active?
-
 
 /obj/machinery/power/magnetic_constrictor/attack_hand(mob/user)
 	. = ..()
