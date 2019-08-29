@@ -6,11 +6,12 @@ HOW 2 stormdrive?!
 
 1: Open valves from atmos -> magnetic constrictor.
 2: Activate constrictor
-3: Allow stormdrive chamber to fill with at least 100 mol of constricted plasma (absolute minimum)
-3a: DO NOT LET THE REACTOR OVERFILL. It cannot start if it's loaded with more than 200 mol, meaning you have to drain it and start again.
+3: Turn on all the pumps
 4: When reactor is filled, activate the particle accelerator to kickstart the storm
-5: (Optional) Set up rad collectors to get even more power
-6: Once the reactor starts to glow, quickly shut off the injector to prevent power waste, and let the heat rise a bit.
+5: Open reactor release valve via the reactor console
+5a: (Optional) Set up rad collectors to get even more power
+6: Once the reactor starts to glow, quickly shut off the PA to prevent power waste. Alternatively, use the PA to micromanage power production but I won't tell you how to do that here :^)
+7: Set the rods to position 2 if you want optimal power, but you can leave them on default if you don't want to swap out the rods at all.
 Key: Blue = Safe, but not as many rads and less plasma is outputted
 Orange = Moderate. Heat is staying steady, but producing a shitload of plasma which is ultra hot.
 
@@ -69,14 +70,14 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 	resistance_flags = INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | UNACIDABLE | ACID_PROOF | FREEZE_PROOF
 	light_color = LIGHT_COLOR_CYAN
 	var/obj/machinery/atmospherics/components/binary/pump/pipe
-	var/start_threshold = 40 //N mol of constricted plasma to fire it up. N heat to start it up
+	var/start_threshold = 20 //N mol of constricted plasma to fire it up. N heat to start it up
 	var/heat = 0 //How hot are we?
 	var/target_heat = REACTOR_HEAT_NORMAL //For control rods. How hot do we want the reactor to get? We'll attempt to cool the reactor to this temperature.
 	var/cooling_power = 10 //How much heat we can drain per tick. Matches up with target_heat
 	var/control_rod_state = 3 //Rods start out to raise the heat. Position 1 is considered DANGEROUS, 2 is OK, 3 is safe, 4 is if you want to shut it off.
 	var/heat_gain = 5
 	var/warning_state = WARNING_STATE_NONE //Are we warning people about a meltdown already? If we are, don't spam them with sounds. Also works for when it's actually exploding
-	var/reaction_rate = 5 //5 constricted plasma / tick to keep the reaction going, if you shut this off, the reactor will cool.
+	var/reaction_rate = 1 //N mol of constricted plasma / tick to keep the reaction going, if you shut this off, the reactor will cool.
 	var/power_loss = 2 //For subtypes, if you want a less efficient reactor
 	var/input_power_modifier = 1
 	var/state = REACTOR_STATE_IDLE
@@ -86,6 +87,38 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 	var/engineering_channel = "Engineering"
 	var/can_alert = TRUE //Prevents spamming up the radio channels.
 	var/alert_cooldown = 20 SECONDS
+
+
+/obj/machinery/power/stormdrive_reactor/attackby(obj/item/I, mob/user)
+	if(istype(I, /obj/item/stack/sheet/plasteel))
+		if(state != REACTOR_STATE_MAINTENANCE)
+			to_chat(user, "<span class='danger'>[src] is not in maintenance mode! opening the lid on an active nuclear reaction would probably be fatal...</span>")
+			return FALSE
+		var/obj/item/stack/sheet/S = I
+		var/repair_power = 10 //10 rod integrity per 1 sheet of plasteel.
+		if(rod_integrity >= 100)
+			to_chat(user, "<span class='notice'>[src]'s control rods wouldn't benefit from any additional lining right now.</span>")
+			return FALSE
+		var/sheets_required = 10
+		switch(rod_integrity)
+			if(0 to 20)
+				sheets_required = 25
+			if(20 to 40)
+				sheets_required = 20
+			if(40 to 60)
+				sheets_required = 15
+		to_chat(user, "<span class='notice'>You start to line [src]'s control rods with a reinforced plasteel sheathe...</span>")
+		if(do_after(user,50, target = src))
+			if(S.use(sheets_required))
+				to_chat(user, "<span class='notice'>You reinforce [src]'s control rods.</span>")
+				rod_integrity += sheets_required*repair_power
+				if(rod_integrity > 100)
+					rod_integrity = 100
+				return TRUE
+			else
+				to_chat(user, "<span class='warning'>You need [sheets_required-S.amount] more sheets of plasteel to re-line [src]'s control rods!</span>")
+		return FALSE
+	. = ..()
 
 /obj/machinery/power/stormdrive_reactor/proc/engage_maintenance()
 	if(state == REACTOR_STATE_IDLE)
@@ -99,11 +132,14 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 		icon_state = initial(icon_state)
 
 /obj/machinery/power/stormdrive_reactor/proc/deactivate()
-	send_alert("Fission reaction terminated. Reactor now off-line.")
+	if(state == REACTOR_STATE_RUNNING)
+		send_alert("Fission reaction terminated. Reactor now off-line.")
 	icon_state = initial(icon_state)
 	heat = 0
 	state = REACTOR_STATE_IDLE //Force reactor restart.
 	set_light(0)
+	var/area/AR = get_area(src)
+	AR.looping_ambience = 'sephora/sound/ambience/shipambience.ogg'
 
 /obj/structure/reactor_control_computer
 	name = "Seegson model RBMK reactor control console"
@@ -133,7 +169,7 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 	var/dat
 	dat += "<h2> ---Available reactor operations:--- </h2>"
 	dat += "<A href='?src=\ref[src];rods_1=1'>AZ-1: Fully raise control rods</font></A><BR>"
-	dat += "<A href='?src=\ref[src];rods_2=1'>AZ-2 Raise control rods to position 2</font></A><BR>"
+	dat += "<A href='?src=\ref[src];rods_2=1'>AZ-2  Raise control rods to position 2</font></A><BR>"
 	dat += "<A href='?src=\ref[src];rods_3=1'>AZ-3: Lower control rods to position 3</font></A><BR>"
 	if(reactor.state != REACTOR_STATE_MAINTENANCE)
 		dat += "<A href='?src=\ref[src];maintenance=1'>AZ-4: Initiate reactor maintenance protocols</font></A><BR>"
@@ -141,9 +177,9 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 		dat += "<A href='?src=\ref[src];maintenance=1'>AZ-4: Disengage reactor maintenance protocols</font></A><BR>"
 	dat += "<A href='?src=\ref[src];rods_4=1'>AZ-5: Initiate controlled reactor shutdown (SCRAM)</font></A><BR>" //AZ5 machine broke
 	if(reactor.pipe?.on == TRUE)
-		dat += "<A href='?src=\ref[src];pipe=1'>AZ-6: Close emergency release valve</font></A><BR>"
+		dat += "<A href='?src=\ref[src];pipe=1'>AZ-6: Close release valve</font></A><BR>"
 	if(reactor.pipe?.on == FALSE)
-		dat += "<A href='?src=\ref[src];pipe=1'>AZ-6: Open emergency release valve</font></A><BR>"
+		dat += "<A href='?src=\ref[src];pipe=1'>AZ-6: Open release valve</font></A><BR>"
 	dat += "<h2> ---Statistics:--- </h2>"
 	dat += "<A href='?src=\ref[src];reactorplaceholder=1'> Last recorded temperature: [reactor?.heat] (°C)</A><BR>"
 	dat += "<A href='?src=\ref[src];reactorplaceholder=1'> Reported control rod health: [reactor?.rod_integrity] %</A><BR>"
@@ -188,6 +224,8 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 			return
 		else
 			to_chat(usr, "<span class='danger'>DANGER! Maintenance protocols cannot be initiated while the reactor is active</span>")
+	if(!reactor.pipe)
+		reactor.find_pipe()
 	if(href_list["pipe"])
 		if(reactor.pipe?.on)
 			reactor.pipe?.on = FALSE
@@ -212,6 +250,7 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 	radio.keyslot = new radio_key
 	radio.listening = 0
 	radio.recalculateChannels()
+	find_pipe()
 
 /obj/machinery/power/stormdrive_reactor/proc/try_start()
 	if(!pipe)
@@ -234,6 +273,8 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 			var/startup_sound = pick('sephora/sound/effects/ship/reactor/startup.ogg', 'sephora/sound/effects/ship/reactor/startup2.ogg')
 			playsound(loc, startup_sound, 100)
 			send_alert("Fission reaction initiated. Reactor now on-line.", override=TRUE)
+			var/area/AR = get_area(src)
+			AR.looping_ambience = 'sephora/sound/ambience/engineering.ogg'
 			return TRUE
 	return FALSE
 
@@ -318,14 +359,21 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 			if(0 to REACTOR_HEAT_NORMAL)
 				icon_state = "reactor_on"
 				light_color = LIGHT_COLOR_CYAN
+				set_light(5)
+				reaction_rate = initial(reaction_rate)
 			if(REACTOR_HEAT_NORMAL+10 to REACTOR_HEAT_VERYHOT)
 				icon_state = "reactor_hot"
+				reaction_rate = initial(reaction_rate)+1
 			if(REACTOR_HEAT_VERYHOT to REACTOR_HEAT_MELTDOWN) //Final warning
 				icon_state = "reactor_overheat"
 				light_color = LIGHT_COLOR_RED
+				set_light(5)
+				reaction_rate = initial(reaction_rate)+2
 			if(REACTOR_HEAT_MELTDOWN to INFINITY)
 				icon_state = "reactor_overheat"
 				light_color = LIGHT_COLOR_RED
+				set_light(5)
+				reaction_rate = initial(reaction_rate)+3
 				start_meltdown() //you're gigafucked
 
 /obj/machinery/power/stormdrive_reactor/process()
@@ -340,11 +388,17 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 		return
 	var/datum/gas_mixture/air1 = pipe.airs[1]
 	var/list/cached_gases = air1.gases
+	if(cached_gases[/datum/gas/plasma] && heat >= REACTOR_HEAT_HOT)
+		cached_gases[/datum/gas/plasma][MOLES] -= reaction_rate*2 //If there's any plasma in the reactor, burn it off if theyre running the reactor hot. If it's too cold, the reaction gets poisoned by the plasma as constricted plasma can't fill up the chamber.
+		air1.garbage_collect()
 	if(cached_gases[/datum/gas/constricted_plasma])
 		var/moles = cached_gases[/datum/gas/constricted_plasma][MOLES]
 		if(moles >= reaction_rate)
 			cached_gases[/datum/gas/constricted_plasma][MOLES] -= reaction_rate //Here, we subtract the plasma
 			heat_gain = reaction_rate
+			air1.assert_gas(/datum/gas/water_vapor) //Boil some water because of the heat.
+			air1.gases[/datum/gas/water_vapor][MOLES] += reaction_rate
+			air1.garbage_collect()
 		else
 			heat_gain = -5 //No plasma to react, so the reaction slowly dies off.
 	input_power_modifier = heat/100 //"Safe" mode gives a power mod of "1". Run it hotter for more power and stop being such a bitch.
@@ -449,6 +503,18 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 	dangerous = TRUE
 	rarity = 1000
 
+/obj/machinery/atmospherics/components/trinary/filter/atmos/constricted_plasma
+	name = "constricted plasma filter"
+	filter_type = "constricted_plasma"
+
+/obj/machinery/atmospherics/components/trinary/filter/atmos/constricted_plasma/flipped
+	icon_state = "filter_on_f"
+	flipped = TRUE
+
+/obj/machinery/atmospherics/components/trinary/filter/atmos/plasma/flipped
+	icon_state = "filter_on_f"
+	flipped = TRUE
+
 /obj/machinery/portable_atmospherics/canister/constricted_plasma
 	name = "constricted plasma canister"
 	desc = "Highly volatile plasma which has been magnetically constricted. The fuel which nuclear storm drives run off of."
@@ -528,6 +594,12 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 				state = CONSTRICTOR_SCREWED
 				update_icon()
 			return TRUE
+
+/obj/machinery/power/magnetic_constrictor/proc/finish() //Admin only for lazy people who want their shit to instantly complete.
+	anchored = TRUE
+	state = CONSTRICTOR_WELDED
+	update_icon()
+	START_PROCESSING(SSmachines,src)
 
 /obj/machinery/power/magnetic_constrictor/update_icon()
 	cut_overlays()
