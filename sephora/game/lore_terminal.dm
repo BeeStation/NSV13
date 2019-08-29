@@ -11,6 +11,7 @@ GLOBAL_DATUM_INIT(lore_terminal_controller, /datum/lore_controller, new)
 	var/access_tag = "ntcommon"  //Every subtype of this type will be readable by this console. Use this for away terms as seen here \/
 	var/list/entries = list() //Every entry that we've got.
 	var/in_use = FALSE //Stops sound spam
+	var/datum/looping_sound/computer_click/soundloop
 
 /obj/machinery/computer/lore_terminal/command //Put sensitive information on this one
 	access_tag = "ntcommand"
@@ -22,6 +23,12 @@ GLOBAL_DATUM_INIT(lore_terminal_controller, /datum/lore_controller, new)
 /obj/machinery/computer/lore_terminal/Initialize()
 	. = ..()
 	get_entries()
+	soundloop = new(list(src), FALSE)
+
+/datum/looping_sound/computer_click
+	mid_sounds = list('sephora/sound/effects/computer/scroll1.ogg','sephora/sound/effects/computer/scroll2.ogg','sephora/sound/effects/computer/scroll3.ogg','sephora/sound/effects/computer/scroll5.ogg')
+	mid_length = 0.8 SECONDS
+	volume = 30
 
 /obj/machinery/computer/lore_terminal/proc/get_entries()
 	for(var/X in GLOB.lore_terminal_controller.entries)
@@ -82,7 +89,13 @@ GLOBAL_DATUM_INIT(lore_terminal_controller, /datum/lore_controller, new)
 	\
 	function typeWriter() {\
 	  if (i < txt.length) {\
-	    document.getElementById('demo').innerHTML += txt.charAt(i);\
+	    var char = txt.charAt(i);\
+	    if (char == '`') {\
+	      document.getElementById('demo').innerHTML += '<br>';\
+	    }\
+	    else {\
+	      document.getElementById('demo').innerHTML += txt.charAt(i);\
+	    }\
 	    i++;\
 	    setTimeout(typeWriter, speed);\
 	  }\
@@ -132,15 +145,16 @@ GLOBAL_DATUM_INIT(lore_terminal_controller, /datum/lore_controller, new)
 	</html>"
 	usr << browse(dat, "window=lore_console[content.name];size=600x600")
 	playsound(src, pick('sephora/sound/effects/computer/buzz.ogg','sephora/sound/effects/computer/buzz2.ogg'), 100, TRUE)
-	var/sound = 'sephora/sound/effects/computer/scroll_short.ogg'
 	in_use = TRUE //Stops you from crashing the server with infinite sounds
 	icon_state = "terminal_scroll"
-	clicks = clicks/3 //Account for spaces
-	var/i = 0
-	while(i < clicks)
-		playsound(src, sound, 20, TRUE)
-		i ++
-		stoplag()
+	clicks = clicks/3
+	var/loops = clicks/3 //Each click sound has 4 clicks in it, so we only need to click 1/4th of the time per character yeet.
+	addtimer(CALLBACK(src, .proc/stop_clicking), loops)
+	soundloop?.start()
+
+
+/obj/machinery/computer/lore_terminal/proc/stop_clicking()
+	soundloop?.stop()
 	icon_state = "terminal"
 	in_use = FALSE
 
@@ -170,8 +184,19 @@ GLOBAL_DATUM_INIT(lore_terminal_controller, /datum/lore_controller, new)
 	if(path)
 		content = file2text("[path]")
 
+/*
+
+TO GET THE COOL TYPEWRITER EFFECT, I HAD TO STRIP OUT THE HTML FORMATTING STUFF.
+SPECIAL KEYS RESPOND AS FOLLOWS:
+
+` = newline (br) (AKA when you press enter)
+~ = horizontal line (hr)
+° = bullet point
+
+*/
+
 /datum/lore_entry/nt
-	name = "new_employees_memo.ntdoc"
+	name = "new_employees_memo.ntmail"
 	title = "Intercepted message"
 	path = "sephora/lore_entries/welcome.txt"
 	access_tag = "ntcommon"
@@ -185,6 +210,18 @@ GLOBAL_DATUM_INIT(lore_terminal_controller, /datum/lore_controller, new)
 	name = "firing_proceedure.ntdoc"
 	title = "Ship-to-ship munitions"
 	path = "sephora/lore_entries/firing_proceedure.txt"
+
+/datum/lore_entry/nt/stormdrive_operation
+	name = "stormdrive_operation.ntdoc"
+	title = "Setting up power"
+	path = null
+	content = "-Assemble constrictors with a wrench, screwdriver, and welder ` -Activate constrictors with an open hand ` -Open 'plasma input' valves to constrictors and set their pressure to 'MAX' ` -Assemble particle accelerator with a wrench, coil of wire and screwdriver. ` -Open reactor inlet valves and set their pressure to 'MAX'` -Use the reactor control console and open the release valve. `-Use the particle accelerator control console, set the setting to '2' and toggle its power `-When you have successfully started the reactor, it will begin ionising the air around it, giving off a 'blue glow'. When the reactor is activated, turn off the particle accelerator to prevent power waste. `-It is recommended that engineers use control rod setting '2' for optimal power generation, however the control rods are not rated to withstand temperatures of over 200 degrees for long, and will thus require reinforcement with sheets of plasteel."
+
+/datum/lore_entry/nt/meltdown_proceedures
+	name = "meltdown_proceedures.ntmail"
+	title = "Emergency proceedures regarding nuclear meltdowns:"
+	path = null
+	content = "SYSADMIN -> Allcrew@seegnet.nt. RE: Emergency Meltdown proceedures. ` The nuclear storm drive is an inherently safe engine, however this does not mean it is foolproof. Dilligence will mean the difference between having a safe, reliable power output which can last for decades, and a nuclear hellfire which can destroy the entire ship. `What to do during a meltdown: `-A reactor will melt down when the fission inside it produces an uncontrollable amount of heat (in excess of 300 degrees celsius). If this ever happens, a shipwide alarm will sound. If you hear this alarm, you must act quickly and calmly, as you will have approximately 1 - 2 minutes before the reactor explodes. `-To avert meltdown, simply locate the control console, and choose the 'SCRAM' setting (the button labelled AZ-5). This will immediately lower all control rods and attempt to cool the reactor. `-In the event of damaged control rods, IMMEDIATELY shut off all plasma constrictors, supply pumps and filters and evacuate the engineering section IMMEDIATELY to prevent unecessary loss of life. `-As a meltdown occurs, nuclear fuel is deposited all over the ship, and must be cleaned up with a shovel. This spent fuel is HIGHLY radioactive, and must be handled with extreme care. If the unthinkable comes to pass, instruct crew to seek shelter in maintenance and proceed to immediately evacuate the ship. To avoid complications, it is recommended that engineers equip radiation proof suits and gas masks, and proceed to clear a path to the evacuation arm with shovels. Remember: Stay safe through vigilance!"
 
 /datum/lore_entry/away_example
 	title = "Intercepted log file"
