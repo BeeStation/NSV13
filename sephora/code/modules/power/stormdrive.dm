@@ -284,7 +284,8 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 /obj/machinery/power/stormdrive_reactor/proc/check_meltdown_warning()
 	if(warning_state >= WARNING_STATE_OVERHEAT)
 		if(heat <= REACTOR_HEAT_VERYHOT) //This implies that we've now stopped melting down.
-			get_overmap()?.stop_relay(CHANNEL_REACTOR_ALERT)
+			var/obj/structure/overmap/OM = get_overmap()
+			OM?.stop_relay(CHANNEL_REACTOR_ALERT)
 			warning_state = 0
 			send_alert("Nuclear meltdown averted. Manual reactor inspection is strongly advised", override=TRUE)
 		return FALSE
@@ -292,7 +293,8 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 		send_alert("DANGER: Reactor core overheating. Nuclear meltdown imminent", override=TRUE)
 		warning_state = WARNING_STATE_OVERHEAT
 		var/sound = 'sephora/sound/effects/ship/reactor/core_overheating.ogg'
-		get_overmap()?.relay(sound, null, loop=TRUE, channel = CHANNEL_REACTOR_ALERT)
+		var/obj/structure/overmap/OM = get_overmap()
+		OM?.relay(sound, null, loop=TRUE, channel = CHANNEL_REACTOR_ALERT)
 		return TRUE
 
 /obj/machinery/power/stormdrive_reactor/proc/lazy_startup() //Admin only command to instantly start a reactor
@@ -312,13 +314,15 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 	warning_state = WARNING_STATE_MELTDOWN
 	var/sound = 'sephora/sound/effects/ship/reactor/meltdown.ogg'
 	addtimer(CALLBACK(src, .proc/meltdown), 18 SECONDS)
-	get_overmap()?.relay(sound, null, loop=FALSE, channel = CHANNEL_REACTOR_ALERT)
+	var/obj/structure/overmap/OM = get_overmap()
+	OM?.relay(sound, null, loop=FALSE, channel = CHANNEL_REACTOR_ALERT)
 
 /obj/machinery/power/stormdrive_reactor/proc/meltdown()
 	if(heat >= REACTOR_HEAT_MELTDOWN)
 		state = REACTOR_STATE_MELTDOWN
 		var/sound = 'sephora/sound/effects/ship/reactor/explode.ogg'
-		get_overmap()?.relay(sound, null, loop=FALSE, channel = CHANNEL_REACTOR_ALERT)
+		var/obj/structure/overmap/OM = get_overmap()
+		OM?.relay(sound, null, loop=FALSE, channel = CHANNEL_REACTOR_ALERT)
 		cut_overlays()
 		flick("meltdown", src)
 		do_meltdown_effects()
@@ -329,7 +333,8 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 
 /obj/machinery/power/stormdrive_reactor/proc/do_meltdown_effects()
 	explosion(get_turf(src), 5, 10, 19, 10, TRUE, TRUE)
-	if(get_overmap().main_overmap) //Irradiate the shit out of the player ship
+	var/obj/structure/overmap/OM = get_overmap()
+	if(OM?.main_overmap) //Irradiate the shit out of the player ship
 		SSweather.run_weather("nuclear fallout")
 	for(var/X in GLOB.landmarks_list)
 		if(istype(X, /obj/effect/landmark/nuclear_waste_spawner))
