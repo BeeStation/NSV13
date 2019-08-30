@@ -30,7 +30,7 @@
 	paycheck_department = ACCOUNT_ENG
 
 	display_order = JOB_DISPLAY_ORDER_CHIEF_ENGINEER
-	display_rank = "WO" //Sephora - Displays the player's actual rank alongside their name, such as GSGT Sergei Koralev
+	display_rank = "WO" //nsv13 - Displays the player's actual rank alongside their name, such as GSGT Sergei Koralev
 
 /datum/outfit/job/ce
 	name = "Chief Engineer"

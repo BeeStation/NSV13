@@ -362,7 +362,7 @@ GLOBAL_LIST_EMPTY(gravity_generators) // We will keep track of this by adding ne
 	var/sound/alert_sound = sound('sound/effects/alert.ogg')
 	for(var/i in GLOB.mob_list)
 		var/mob/M = i
-		if(M.z != z && !is_station_level(T.z)) //Sephora - Multiz gravgen. Continue if theyre not on our Z AND we're not the main gravgen for the primary ship.
+		if(M.z != z && !is_station_level(T.z)) //nsv13 - Multiz gravgen. Continue if theyre not on our Z AND we're not the main gravgen for the primary ship.
 			continue
 		M.update_gravity(M.mob_has_gravity())
 		if(M.client)
@@ -379,7 +379,7 @@ GLOBAL_LIST_EMPTY(gravity_generators) // We will keep track of this by adding ne
 
 /obj/machinery/gravity_generator/main/proc/update_list()
 	var/turf/T = get_turf(src)
-	if(is_station_level(T.z)) //Sephora - Multi-z gravity generators.
+	if(is_station_level(T.z)) //nsv13 - Multi-z gravity generators.
 		for(var/z = 0 to world.maxz) //Loop through every Z level. If it's a station level (set by JSON file) then gravity it up.
 			if(!GLOB.gravity_generators["[z]"])
 				GLOB.gravity_generators["[z]"] = list()

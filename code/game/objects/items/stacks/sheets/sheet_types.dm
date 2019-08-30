@@ -15,7 +15,7 @@
 /*
  * Metal
  */
- //Sephora - Torpedo Casing added to the end of this list
+ //nsv13 - Torpedo Casing added to the end of this list
 GLOBAL_LIST_INIT(metal_recipes, list ( \
 	new/datum/stack_recipe("stool", /obj/structure/chair/stool, one_per_turf = TRUE, on_floor = TRUE), \
 	new/datum/stack_recipe("bar stool", /obj/structure/chair/stool/bar, one_per_turf = TRUE, on_floor = TRUE), \
