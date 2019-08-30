@@ -4,7 +4,7 @@
 
 /mob/key_down(_key, client/user)
 	if(overmap_ship)//Sephora start - Overmap hotkeys
-		if(overmap_ship.handle_hotkeys(_key))
+		if(overmap_ship.handle_hotkeys(_key, user))
 			return //Early return. Intercepts a keypress for overmap hotkeys
 	switch(_key) //Sephora end
 		if("Delete", "H")
