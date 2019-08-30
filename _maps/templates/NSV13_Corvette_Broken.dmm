@@ -3,88 +3,57 @@
 /turf/template_noop,
 /area/template_noop)
 "ab" = (
-/obj/structure/fluff/broken_flooring{
-	icon_state = "singular"
-	},
-/turf/template_noop,
-/area/ruin/powered/nsv13/gunship)
-"ac" = (
 /obj/structure/shuttle/engine/propulsion/left{
 	dir = 1
 	},
 /turf/open/floor/plating/airless,
-/area/ruin/powered/nsv13/gunship)
+/area/ruin/powered/nsv13/trooptransport)
+"ac" = (
+/turf/closed/wall/ship,
+/area/ruin/powered/nsv13/trooptransport)
 "ad" = (
-/obj/machinery/door/airlock/ship/external,
+/obj/machinery/door/airlock/external{
+	name = "external airlock 150";
+	req_one_access_txt = "150"
+	},
 /turf/open/floor/plating,
 /area/ruin/powered/nsv13/gunship)
 "ae" = (
 /obj/structure/cable,
 /obj/structure/grille,
 /obj/structure/window/reinforced/fulltile/ship,
-/obj/machinery/door/poddoor/ship{
-	dir = 4;
-	id = "nope"
-	},
 /turf/open/floor/plating,
 /area/ruin/powered/nsv13/gunship)
 "af" = (
-/obj/structure/window/plasma/reinforced{
-	dir = 4
-	},
-/obj/machinery/atmospherics/components/unary/outlet_injector/on{
-	dir = 4
+/obj/machinery/door/poddoor{
+	id = "syndi-turbine";
+	name = "turbine blast door"
 	},
 /turf/open/floor/engine/airless,
-/area/ruin/powered/nsv13/gunship)
+/area/ruin/powered/nsv13/trooptransport)
 "ag" = (
-/obj/structure/cable,
-/obj/machinery/door/poddoor/ship{
-	id = "nope"
+/obj/effect/turf_decal/tile/yellow{
+	dir = 4
 	},
-/obj/structure/grille/broken,
-/turf/open/floor/plating,
-/area/ruin/powered/nsv13/gunship)
+/obj/effect/turf_decal/tile/yellow{
+	dir = 1
+	},
+/turf/open/floor/plasteel/dark,
+/area/ruin/powered/nsv13/trooptransport)
 "ah" = (
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
-/obj/machinery/computer/ship/viewscreen,
-/obj/effect/turf_decal/stripes{
-	icon_state = "warningline";
-	dir = 8
-	},
-/turf/open/floor/plating,
-/area/ruin/powered/nsv13/gunship)
-"ai" = (
-/obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1{
-	dir = 4
-	},
-/obj/structure/ship_weapon/railgun{
-	icon_state = "OBC";
-	dir = 4
-	},
-<<<<<<< refs/remotes/origin/master:_maps/templates/Corvette.dmm
-/obj/effect/turf_decal/stripes{
-	icon_state = "warningline";
-	dir = 8
-	},
-/turf/open/floor/plating,
-/area/ruin/powered/nsv13/gunship)
-"aj" = (
-=======
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/nsv13/trooptransport)
-"ai" = (
 /obj/effect/turf_decal/tile/yellow,
->>>>>>> more requests:_maps/templates/NSV13_Corvette.dmm
 /obj/effect/turf_decal/tile/yellow{
 	dir = 4
 	},
 /obj/effect/turf_decal/tile/yellow{
 	dir = 1
 	},
-<<<<<<< refs/remotes/origin/master:_maps/templates/Corvette.dmm
-/obj/machinery/atmospherics/pipe/simple/general/visible{
-=======
+/turf/open/floor/plasteel/dark,
+/area/ruin/powered/nsv13/trooptransport)
+"ai" = (
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
 /turf/open/floor/plasteel/dark,
 /area/ruin/powered/nsv13/trooptransport)
 "aj" = (
@@ -92,25 +61,23 @@
 	dir = 1
 	},
 /obj/effect/turf_decal/tile/red{
->>>>>>> more requests:_maps/templates/NSV13_Corvette.dmm
 	dir = 4
 	},
-/turf/open/floor/plasteel/dark/airless,
-/area/ruin/powered/nsv13/gunship)
-"ak" = (
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
-/obj/effect/turf_decal/stripes{
-	icon_state = "warningline";
+/obj/effect/turf_decal/tile/red{
 	dir = 8
 	},
-/turf/open/floor/plating,
+/turf/open/floor/plasteel/dark,
 /area/ruin/powered/nsv13/gunship)
-<<<<<<< refs/remotes/origin/master:_maps/templates/Corvette.dmm
-=======
 "ak" = (
+/obj/effect/turf_decal/tile/yellow,
+/obj/effect/turf_decal/tile/yellow{
+	dir = 4
+	},
+/obj/structure/cable{
+	icon_state = "2-8"
+	},
 /turf/open/floor/plasteel/dark,
 /area/ruin/powered/nsv13/trooptransport)
->>>>>>> more requests:_maps/templates/NSV13_Corvette.dmm
 "al" = (
 /obj/effect/turf_decal/tile/red{
 	dir = 4
@@ -207,72 +174,44 @@
 /turf/open/floor/plasteel/dark,
 /area/ruin/powered/nsv13/gunship)
 "ax" = (
-/obj/effect/turf_decal/tile/yellow{
-	dir = 4
+/obj/machinery/power/turbine{
+	dir = 8
 	},
-/obj/effect/turf_decal/tile/yellow{
-	dir = 1
-	},
-/obj/machinery/atmospherics/components/trinary/mixer/flipped{
-	dir = 4;
-	node1_concentration = 0.3;
-	node2_concentration = 0.7
-	},
-/turf/open/floor/plasteel/dark/airless,
-/area/ruin/powered/nsv13/gunship)
+/turf/open/floor/engine/airless,
+/area/ruin/powered/nsv13/trooptransport)
 "ay" = (
-/obj/effect/turf_decal/tile/yellow{
-	dir = 4
-	},
-<<<<<<< refs/remotes/origin/master:_maps/templates/Corvette.dmm
-=======
-/obj/effect/turf_decal/tile/yellow,
 /turf/open/floor/plasteel/dark,
 /area/ruin/powered/nsv13/trooptransport)
 "az" = (
->>>>>>> more requests:_maps/templates/NSV13_Corvette.dmm
 /obj/effect/turf_decal/tile/yellow{
-	dir = 1
+	dir = 8
 	},
 /obj/machinery/atmospherics/pipe/simple/general/visible{
-	dir = 10
+	dir = 6
 	},
-/obj/structure/window/plasma/reinforced{
-	dir = 4
+/obj/structure/cable{
+	icon_state = "4-8"
 	},
 /turf/open/floor/plasteel/dark/airless,
-/area/ruin/powered/nsv13/gunship)
-"az" = (
+/area/ruin/powered/nsv13/trooptransport)
+"aA" = (
+/obj/effect/turf_decal/tile/yellow,
 /obj/effect/turf_decal/tile/yellow{
 	dir = 4
 	},
-<<<<<<< refs/remotes/origin/master:_maps/templates/Corvette.dmm
-/obj/effect/turf_decal/tile/yellow{
-=======
 /obj/structure/cable{
-	icon_state = "2-8"
+	icon_state = "1-2"
 	},
 /turf/open/floor/plasteel/dark,
 /area/ruin/powered/nsv13/trooptransport)
 "aB" = (
 /obj/effect/turf_decal/tile/red{
->>>>>>> more requests:_maps/templates/NSV13_Corvette.dmm
 	dir = 1
 	},
-/turf/open/floor/plasteel/airless/dark,
-/area/ruin/powered/nsv13/gunship)
-"aA" = (
-/obj/structure/lattice,
-/obj/structure/fluff/broken_flooring{
-	dir = 4;
-	icon_state = "plating"
+/obj/effect/turf_decal/tile/red{
+	dir = 8
 	},
-/turf/template_noop,
-/area/ruin/powered/nsv13/gunship)
-"aB" = (
-/obj/structure/lattice,
-/obj/structure/fluff/broken_flooring,
-/turf/template_noop,
+/turf/open/floor/plasteel/dark,
 /area/ruin/powered/nsv13/gunship)
 "aC" = (
 /obj/effect/turf_decal/tile/red{
@@ -321,24 +260,32 @@
 /turf/open/floor/plasteel/dark,
 /area/ruin/powered/nsv13/gunship)
 "aH" = (
-/obj/effect/turf_decal/tile/yellow,
 /obj/effect/turf_decal/tile/yellow{
-	dir = 4
+	dir = 8
 	},
 /obj/effect/turf_decal/tile/yellow{
 	dir = 1
 	},
-/turf/open/floor/plasteel/airless/dark,
-/area/ruin/powered/nsv13/gunship)
+/obj/machinery/atmospherics/pipe/simple/general/visible,
+/obj/structure/lattice/catwalk,
+/obj/machinery/button/door{
+	id = "syndi-turbine";
+	name = "Turbine vent control";
+	pixel_x = -25
+	},
+/turf/open/space/basic,
+/area/ruin/powered/nsv13/trooptransport)
 "aI" = (
 /obj/effect/turf_decal/tile/red{
 	dir = 1
 	},
 /obj/effect/turf_decal/tile/red{
-	dir = 4
-	},
-/obj/effect/turf_decal/tile/red{
 	dir = 8
+	},
+/obj/machinery/airalarm/syndicate{
+	dir = 4;
+	pixel_x = -25;
+	pixel_y = 0
 	},
 /turf/open/floor/plasteel/dark,
 /area/ruin/powered/nsv13/gunship)
@@ -424,18 +371,11 @@
 /turf/open/floor/plasteel/dark,
 /area/ruin/powered/nsv13/gunship)
 "aV" = (
-/obj/machinery/door/poddoor{
-	id = "syndi-turbine";
-	name = "turbine blast door"
-	},
-/turf/open/floor/engine/airless,
-/area/ruin/powered/nsv13/gunship)
+/turf/open/floor/plating/airless,
+/area/ruin/powered/nsv13/trooptransport)
 "aW" = (
-/obj/machinery/power/turbine{
-	dir = 8
-	},
-/turf/open/floor/engine/airless,
-/area/ruin/powered/nsv13/gunship)
+/turf/closed/wall,
+/area/ruin/powered/nsv13/trooptransport)
 "aX" = (
 /obj/machinery/airalarm/syndicate{
 	dir = 1;
@@ -444,55 +384,25 @@
 /turf/open/floor/plasteel/dark,
 /area/ruin/powered/nsv13/gunship)
 "aY" = (
-<<<<<<< refs/remotes/origin/master:_maps/templates/Corvette.dmm
-=======
-/obj/effect/turf_decal/stripes/line{
-	dir = 4
+/obj/machinery/door/window{
+	dir = 1
 	},
-/obj/machinery/atmospherics/pipe/simple/general/visible{
-	dir = 4
-	},
-/turf/open/floor/engine,
+/turf/open/floor/plasteel/dark,
+/area/ruin/powered/nsv13/trooptransport)
+"aZ" = (
+/obj/structure/particle_accelerator/end_cap,
+/turf/open/floor/plasteel/dark,
 /area/ruin/powered/nsv13/trooptransport)
 "ba" = (
->>>>>>> more requests:_maps/templates/NSV13_Corvette.dmm
 /obj/effect/turf_decal/tile/red{
 	dir = 1
 	},
 /obj/effect/turf_decal/tile/red{
 	dir = 4
 	},
-/obj/structure/cable{
-	icon_state = "4-8"
-	},
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
-	dir = 4
-	},
-/obj/structure/peacekeeper_barricade/metal{
-	icon_state = "metal_0";
-	dir = 4
-	},
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/nsv13/gunship)
-"aZ" = (
 /obj/effect/turf_decal/tile/red,
-/obj/effect/turf_decal/tile/red{
-	dir = 8
-	},
-/obj/machinery/airalarm/syndicate{
-	dir = 1;
-	pixel_y = -25
-	},
-/obj/structure/peacekeeper_barricade/metal{
-	icon_state = "metal_0";
-	dir = 4
-	},
 /turf/open/floor/plasteel/dark,
 /area/ruin/powered/nsv13/gunship)
-"ba" = (
-/obj/item/stack/rods,
-/turf/template_noop,
-/area/template_noop)
 "bb" = (
 /obj/machinery/door/airlock/highsecurity{
 	name = "Munitions Airlock";
@@ -511,12 +421,11 @@
 /turf/open/floor/plasteel/dark,
 /area/ruin/powered/nsv13/gunship)
 "bd" = (
-/obj/machinery/power/compressor{
+/obj/structure/shuttle/engine/large{
 	dir = 8
 	},
-/obj/structure/cable,
-/turf/open/floor/engine/airless,
-/area/ruin/powered/nsv13/gunship)
+/turf/open/floor/plating/airless,
+/area/ruin/powered/nsv13/trooptransport)
 "be" = (
 /obj/machinery/light,
 /turf/open/floor/plasteel/dark,
@@ -546,26 +455,22 @@
 /turf/open/floor/plasteel/dark,
 /area/ruin/powered/nsv13/gunship)
 "bh" = (
-/obj/machinery/igniter/on,
 /obj/structure/window/plasma/reinforced{
 	dir = 4
 	},
-/obj/structure/cable{
-	icon_state = "4-8"
-	},
-/turf/open/floor/engine/airless,
-/area/ruin/powered/nsv13/gunship)
+/turf/open/floor/engine/o2,
+/area/ruin/powered/nsv13/trooptransport)
 "bi" = (
-/obj/effect/turf_decal/tile/yellow{
+/obj/effect/turf_decal/tile/red{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/red{
 	dir = 8
 	},
-/obj/machinery/atmospherics/pipe/simple/general/visible{
-	dir = 6
-	},
 /obj/structure/cable{
 	icon_state = "4-8"
 	},
-/turf/open/floor/plasteel/dark/airless,
+/turf/open/floor/plasteel/dark,
 /area/ruin/powered/nsv13/gunship)
 "bj" = (
 /obj/structure/cable{
@@ -680,18 +585,13 @@
 /turf/open/floor/plasteel/dark,
 /area/ruin/powered/nsv13/gunship)
 "bs" = (
+/obj/effect/turf_decal/tile/red,
 /obj/effect/turf_decal/tile/red{
-	dir = 1
-	},
-/obj/effect/turf_decal/tile/red{
-	dir = 4
+	dir = 8
 	},
 /obj/machinery/airalarm/syndicate{
-	pixel_y = 25
-	},
-/obj/structure/peacekeeper_barricade/metal{
-	icon_state = "metal_0";
-	dir = 4
+	dir = 1;
+	pixel_y = -25
 	},
 /turf/open/floor/plasteel/dark,
 /area/ruin/powered/nsv13/gunship)
@@ -716,8 +616,11 @@
 /obj/structure/cable{
 	icon_state = "1-2"
 	},
+/obj/machinery/door/airlock/medical{
+	name = "Medical Airlock";
+	req_one_access_txt = "150"
+	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
-/obj/machinery/door/airlock/ship/medical,
 /turf/open/floor/plasteel/dark,
 /area/ruin/powered/nsv13/gunship)
 "bw" = (
@@ -728,22 +631,9 @@
 /turf/open/floor/plasteel/dark,
 /area/ruin/powered/nsv13/gunship)
 "bx" = (
-/obj/effect/turf_decal/tile/red,
-/obj/effect/turf_decal/tile/red{
-	dir = 8
-	},
-/obj/structure/cable{
-	icon_state = "4-8"
-	},
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
-	dir = 4
-	},
-/obj/structure/peacekeeper_barricade/metal{
-	icon_state = "metal_0";
-	dir = 4
-	},
+/obj/machinery/particle_accelerator/control_box,
 /turf/open/floor/plasteel/dark,
-/area/ruin/powered/nsv13/gunship)
+/area/ruin/powered/nsv13/trooptransport)
 "by" = (
 /turf/closed/wall/r_wall/ship,
 /area/ruin/powered/nsv13/gunship)
@@ -781,9 +671,17 @@
 /turf/open/floor/plasteel/dark,
 /area/ruin/powered/nsv13/gunship)
 "bC" = (
-/obj/machinery/door/airlock/ship/security{
-	dir = 4;
-	id_tag = "outerbrig"
+/obj/effect/turf_decal/tile/blue{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/blue{
+	dir = 4
+	},
+/obj/structure/chair/comfy/shuttle{
+	dir = 8
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	dir = 4
 	},
 /turf/open/floor/plasteel/dark,
 /area/ruin/powered/nsv13/gunship)
@@ -839,12 +737,11 @@
 /obj/structure/cable{
 	icon_state = "4-8"
 	},
+/obj/machinery/door/airlock/command{
+	req_one_access_txt = "150"
+	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	dir = 4
-	},
-/obj/machinery/door/airlock/ship/command{
-	dir = 4;
-	name = "Bridge"
 	},
 /turf/open/floor/plasteel/dark,
 /area/ruin/powered/nsv13/gunship)
@@ -893,44 +790,20 @@
 /turf/open/floor/plasteel/dark,
 /area/ruin/powered/nsv13/gunship)
 "bJ" = (
-/obj/effect/turf_decal/tile/yellow{
-	dir = 1
-	},
-/obj/effect/turf_decal/tile/yellow{
-	dir = 4
-	},
-/obj/effect/turf_decal/tile/yellow{
-	dir = 8
+/obj/machinery/airalarm/syndicate{
+	pixel_y = 25
 	},
 /turf/open/floor/plasteel/dark,
 /area/ruin/powered/nsv13/gunship)
 "bK" = (
-/obj/structure/munition,
-/obj/structure/munition{
-	pixel_y = 8
-	},
-/obj/effect/turf_decal/tile/yellow{
-	dir = 1
-	},
-/obj/effect/turf_decal/tile/yellow{
-	dir = 4
-	},
-/obj/effect/turf_decal/tile/yellow{
+/obj/machinery/light{
 	dir = 8
 	},
 /turf/open/floor/plasteel/dark,
 /area/ruin/powered/nsv13/gunship)
 "bL" = (
-/obj/structure/cable{
-	icon_state = "4-8"
-	},
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+/obj/machinery/light{
 	dir = 4
-	},
-/obj/effect/mapping_helpers/airlock/locked,
-/obj/machinery/door/airlock/ship/command{
-	dir = 4;
-	name = "Bridge"
 	},
 /turf/open/floor/plasteel/dark,
 /area/ruin/powered/nsv13/gunship)
@@ -959,10 +832,6 @@
 	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	dir = 9
-	},
-/obj/structure/peacekeeper_barricade/metal/plasteel/deployable{
-	icon_state = "plasteel_0";
-	dir = 8
 	},
 /turf/open/floor/plasteel/dark,
 /area/ruin/powered/nsv13/gunship)
@@ -1015,14 +884,11 @@
 /turf/open/floor/plasteel/dark,
 /area/ruin/powered/nsv13/gunship)
 "bS" = (
-/obj/machinery/atmospherics/pipe/simple/general/visible{
-	dir = 9
+/obj/structure/shuttle/engine/huge{
+	dir = 8
 	},
-/obj/structure/cable{
-	icon_state = "4-8"
-	},
-/turf/open/floor/plasteel/dark/airless,
-/area/ruin/powered/nsv13/gunship)
+/turf/open/floor/plating/airless,
+/area/ruin/powered/nsv13/trooptransport)
 "bT" = (
 /obj/effect/turf_decal/tile/blue{
 	dir = 8
@@ -1071,9 +937,8 @@
 /obj/structure/cable{
 	icon_state = "4-8"
 	},
-/obj/machinery/door/airlock/ship/command{
-	dir = 4;
-	name = "Bridge"
+/obj/machinery/door/airlock/command{
+	req_one_access_txt = "150"
 	},
 /turf/open/floor/plasteel/dark,
 /area/ruin/powered/nsv13/gunship)
@@ -1115,26 +980,25 @@
 /area/ruin/powered/nsv13/gunship)
 "ca" = (
 /obj/effect/turf_decal/tile/red{
-	dir = 1
+	dir = 8
 	},
-/obj/effect/turf_decal/tile/red{
-	dir = 4
+/obj/effect/turf_decal/tile/red,
+/obj/machinery/door/airlock/security/glass{
+	req_one_access_txt = "150"
 	},
-/obj/machinery/door/airlock/ship/security{
-	dir = 4;
-	id_tag = "outerbrig"
-	},
-/obj/effect/mapping_helpers/airlock/locked,
 /turf/open/floor/plasteel/dark,
 /area/ruin/powered/nsv13/gunship)
 "cb" = (
-/obj/structure/cable{
-	icon_state = "4-8"
-	},
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+/obj/effect/turf_decal/tile/red{
 	dir = 4
 	},
-/turf/closed/wall/ship,
+/obj/effect/turf_decal/tile/red{
+	dir = 1
+	},
+/obj/machinery/door/airlock/security/glass{
+	req_one_access_txt = "150"
+	},
+/turf/open/floor/plasteel/dark,
 /area/ruin/powered/nsv13/gunship)
 "cc" = (
 /obj/effect/turf_decal/tile/red{
@@ -1143,14 +1007,16 @@
 /turf/open/floor/plasteel/dark,
 /area/ruin/powered/nsv13/gunship)
 "cd" = (
-/obj/machinery/atmospherics/pipe/simple/general/visible,
-/obj/structure/window/plasma/reinforced{
+/obj/effect/turf_decal/tile/red{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/red{
 	dir = 4
 	},
-/obj/structure/cable{
-	icon_state = "4-8"
+/obj/machinery/airalarm/syndicate{
+	pixel_y = 25
 	},
-/turf/open/floor/plasteel/dark/airless,
+/turf/open/floor/plasteel/dark,
 /area/ruin/powered/nsv13/gunship)
 "ce" = (
 /obj/effect/turf_decal/tile/red{
@@ -1171,11 +1037,15 @@
 /turf/open/floor/plasteel/dark,
 /area/ruin/powered/nsv13/gunship)
 "cg" = (
-/obj/structure/cable{
-	icon_state = "1-2"
+/obj/effect/turf_decal/tile/red{
+	dir = 1
 	},
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
-/obj/machinery/door/airlock/ship/engineering,
+/obj/effect/turf_decal/tile/red{
+	dir = 4
+	},
+/obj/machinery/door/airlock/security/glass{
+	req_one_access_txt = "150"
+	},
 /turf/open/floor/plasteel/dark,
 /area/ruin/powered/nsv13/gunship)
 "ch" = (
@@ -1184,6 +1054,9 @@
 	},
 /obj/effect/turf_decal/tile/red{
 	dir = 1
+	},
+/obj/structure/closet/syndicate{
+	anchored = 1
 	},
 /turf/open/floor/plasteel/dark,
 /area/ruin/powered/nsv13/gunship)
@@ -1222,21 +1095,19 @@
 /turf/open/floor/plasteel/dark,
 /area/ruin/powered/nsv13/gunship)
 "cl" = (
-/obj/structure/cable{
-	icon_state = "1-2"
-	},
-/obj/machinery/atmospherics/components/binary/pump/on/layer1{
+/obj/structure/particle_accelerator/power_box,
+/turf/open/floor/plasteel/dark,
+/area/ruin/powered/nsv13/trooptransport)
+"cm" = (
+/obj/effect/turf_decal/tile/yellow{
 	dir = 1
 	},
-/obj/machinery/door/airlock/ship/engineering,
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/nsv13/gunship)
-"cm" = (
-/obj/structure/cable{
-	icon_state = "4-8"
+/obj/machinery/atmospherics/pipe/simple/general/visible,
+/obj/structure/window/plasma/reinforced{
+	dir = 4
 	},
-/turf/open/floor/plasteel/airless/dark,
-/area/ruin/powered/nsv13/gunship)
+/turf/open/floor/plasteel/dark/airless,
+/area/ruin/powered/nsv13/trooptransport)
 "cn" = (
 /obj/structure/cable{
 	icon_state = "4-8"
@@ -1293,16 +1164,14 @@
 /turf/open/floor/plasteel/dark,
 /area/ruin/powered/nsv13/gunship)
 "cs" = (
-/obj/effect/turf_decal/tile/red{
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/obj/machinery/door/airlock/security/glass{
+	req_one_access_txt = "150"
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	dir = 4
-	},
-/obj/effect/turf_decal/tile/red{
-	dir = 1
-	},
-/obj/machinery/door/airlock/ship/security{
-	dir = 4;
-	name = "Weapons locker";
-	req_one_access_txt = "3"
 	},
 /turf/open/floor/plasteel/dark,
 /area/ruin/powered/nsv13/gunship)
@@ -1317,17 +1186,9 @@
 /turf/open/floor/plasteel/dark,
 /area/ruin/powered/nsv13/gunship)
 "cu" = (
-/obj/effect/turf_decal/tile/red,
-/obj/effect/turf_decal/tile/red{
-	dir = 8
-	},
-/obj/machinery/door/airlock/ship/security{
-	dir = 4;
-	name = "Weapons locker";
-	req_one_access_txt = "3"
-	},
+/obj/structure/particle_accelerator/fuel_chamber,
 /turf/open/floor/plasteel/dark,
-/area/ruin/powered/nsv13/gunship)
+/area/ruin/powered/nsv13/trooptransport)
 "cv" = (
 /obj/effect/turf_decal/tile/red,
 /obj/effect/turf_decal/tile/red{
@@ -1368,23 +1229,19 @@
 	dir = 4
 	},
 /obj/structure/cable{
-	icon_state = "2-8"
+	icon_state = "1-4"
 	},
-/turf/open/floor/plasteel/airless/dark,
-/area/ruin/powered/nsv13/gunship)
-"cA" = (
-/obj/effect/turf_decal/tile/red{
-	dir = 1
-	},
-/obj/effect/turf_decal/tile/red{
-	dir = 8
-	},
-/obj/structure/peacekeeper_barricade/metal{
-	icon_state = "metal_0";
-	dir = 1
+/obj/structure/cable{
+	icon_state = "1-2"
 	},
 /turf/open/floor/plasteel/dark,
-/area/ruin/powered/nsv13/gunship)
+/area/ruin/powered/nsv13/trooptransport)
+"cA" = (
+/obj/machinery/atmospherics/pipe/simple/general/visible{
+	dir = 6
+	},
+/turf/open/floor/plasteel/dark,
+/area/ruin/powered/nsv13/trooptransport)
 "cB" = (
 /obj/structure/window/reinforced,
 /obj/structure/window/reinforced{
@@ -1412,20 +1269,16 @@
 /turf/open/floor/plasteel/dark,
 /area/ruin/powered/nsv13/gunship)
 "cE" = (
-/obj/effect/turf_decal/tile/yellow{
-	dir = 8
+/obj/structure/cable{
+	icon_state = "1-2"
 	},
-/obj/effect/turf_decal/tile/yellow{
+/obj/machinery/door/airlock/engineering/glass{
+	req_one_access_txt = "150"
+	},
+/obj/machinery/atmospherics/components/binary/pump/on/layer1{
 	dir = 1
 	},
-/obj/machinery/atmospherics/pipe/simple/general/visible,
-/obj/structure/lattice/catwalk,
-/obj/machinery/button/door{
-	id = "syndi-turbine";
-	name = "Turbine vent control";
-	pixel_x = -25
-	},
-/turf/open/space/basic,
+/turf/open/floor/plasteel/dark,
 /area/ruin/powered/nsv13/gunship)
 "cF" = (
 /obj/machinery/computer/atmos_control/tank/air_tank{
@@ -1477,22 +1330,8 @@
 /turf/open/floor/plasteel/shuttle/red/syndicate,
 /area/ruin/powered/nsv13/gunship)
 "cN" = (
-/obj/structure/table/reinforced,
-/obj/item/stack/sheet/metal/twenty,
-/obj/item/torpedo/propulsion_system,
-/obj/item/torpedo/propulsion_system,
-/obj/item/torpedo/propulsion_system,
-/obj/item/torpedo/propulsion_system,
-/obj/item/torpedo/warhead,
-/obj/item/torpedo/warhead,
-/obj/item/torpedo/warhead/decoy,
-/obj/item/torpedo/warhead/decoy,
-/obj/item/torpedo/warhead/decoy,
-/obj/item/torpedo/warhead/lightweight,
-/obj/structure/sign/warning/explosives/alt{
-	pixel_y = 26
-	},
-/turf/open/floor/plating,
+/obj/structure/shuttle/engine/propulsion/right,
+/turf/open/floor/plating/airless,
 /area/ruin/powered/nsv13/gunship)
 "cO" = (
 /obj/structure/window/reinforced,
@@ -1590,29 +1429,21 @@
 /turf/open/floor/plasteel/dark,
 /area/ruin/powered/nsv13/gunship)
 "cZ" = (
-/obj/effect/turf_decal/stripes{
-	icon_state = "warningline";
-	dir = 8
-	},
-<<<<<<< refs/remotes/origin/master:_maps/templates/Corvette.dmm
-/obj/structure/munition/torpedo_casing,
-/turf/open/floor/plating,
-/area/ruin/powered/nsv13/gunship)
-=======
-/obj/effect/turf_decal/tile/yellow{
+/obj/structure/particle_accelerator/particle_emitter/center,
+/obj/machinery/atmospherics/pipe/simple/general/visible{
 	dir = 4
 	},
 /turf/open/floor/plasteel/dark,
 /area/ruin/powered/nsv13/trooptransport)
->>>>>>> more requests:_maps/templates/NSV13_Corvette.dmm
 "da" = (
-/obj/machinery/atmospherics/pipe/simple/general/visible{
-	dir = 6
+/obj/effect/turf_decal/tile/red{
+	dir = 1
 	},
-/obj/structure/window/plasma/reinforced{
-	dir = 4
+/obj/effect/turf_decal/tile/red{
+	dir = 8
 	},
-/turf/open/floor/plasteel/dark/airless,
+/obj/effect/turf_decal/tile/red,
+/turf/open/floor/plasteel/dark,
 /area/ruin/powered/nsv13/gunship)
 "db" = (
 /obj/effect/turf_decal/tile/red{
@@ -1679,18 +1510,9 @@
 /turf/open/floor/plasteel/shuttle/red/syndicate,
 /area/ruin/powered/nsv13/gunship)
 "dj" = (
-/obj/machinery/atmospherics/pipe/simple/general/visible{
-	dir = 9
-	},
-/obj/structure/window/plasma/reinforced{
-	dir = 4
-	},
-/obj/structure/fans/tiny/invisible,
-/obj/machinery/door/window{
-	dir = 1
-	},
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/nsv13/gunship)
+/obj/structure/shuttle/engine/propulsion/right,
+/turf/open/floor/plating/airless,
+/area/ruin/powered/nsv13/trooptransport)
 "dk" = (
 /obj/machinery/atmospherics/components/unary/portables_connector{
 	dir = 1
@@ -1719,29 +1541,31 @@
 /turf/open/floor/plasteel/dark,
 /area/ruin/powered/nsv13/gunship)
 "dn" = (
-/obj/machinery/door/poddoor/ship{
-	id = "nope"
+/obj/machinery/door/airlock/external{
+	name = "external airlock 150";
+	req_one_access_txt = "150"
 	},
-/obj/machinery/door/airlock/ship/external,
 /turf/open/floor/plasteel/dark,
 /area/ruin/powered/nsv13/gunship)
 "do" = (
 /obj/structure/cable{
 	icon_state = "1-2"
 	},
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
-/obj/machinery/door/airlock/ship/public{
-	name = "Crew quarters"
+/obj/machinery/door/airlock{
+	req_one_access_txt = "150"
 	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /turf/open/floor/plasteel/dark,
 /area/ruin/powered/nsv13/gunship)
 "dp" = (
-/obj/effect/turf_decal/tile/yellow{
-	dir = 1
+/obj/structure/cable{
+	icon_state = "1-2"
 	},
-/obj/effect/turf_decal/tile/yellow{
-	dir = 4
+/obj/machinery/door/airlock/medical{
+	name = "Cloning Airlock";
+	req_one_access_txt = "150"
 	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /turf/open/floor/plasteel/dark,
 /area/ruin/powered/nsv13/gunship)
 "dq" = (
@@ -1756,12 +1580,12 @@
 /turf/open/floor/plasteel/dark,
 /area/ruin/powered/nsv13/gunship)
 "dr" = (
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
-/obj/effect/turf_decal/tile/yellow{
-	dir = 1
+/obj/effect/turf_decal/tile/red,
+/obj/effect/turf_decal/tile/red{
+	dir = 8
 	},
-/obj/effect/turf_decal/tile/yellow{
-	dir = 4
+/obj/machinery/door/airlock/security/glass{
+	req_one_access_txt = "150"
 	},
 /turf/open/floor/plasteel/dark,
 /area/ruin/powered/nsv13/gunship)
@@ -1769,21 +1593,17 @@
 /obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1{
 	dir = 8
 	},
-/mob/living/simple_animal/hostile/syndicate/ranged,
 /turf/open/floor/plasteel/dark,
 /area/ruin/powered/nsv13/gunship)
 "dt" = (
-/obj/machinery/airalarm/syndicate{
-	pixel_y = 25
+/obj/structure/cable{
+	icon_state = "4-8"
 	},
-/obj/effect/turf_decal/tile/yellow{
-	dir = 1
-	},
-/obj/effect/turf_decal/tile/yellow{
-	dir = 4
+/obj/machinery/door/airlock/engineering{
+	req_one_access_txt = "150"
 	},
 /turf/open/floor/plasteel/dark,
-/area/ruin/powered/nsv13/trooptransport)
+/area/ruin/powered/nsv13/gunship)
 "du" = (
 /obj/structure/window/reinforced,
 /obj/structure/window/reinforced{
@@ -1863,21 +1683,18 @@
 /turf/open/floor/plasteel/dark,
 /area/ruin/powered/nsv13/gunship)
 "dB" = (
-/obj/structure/peacekeeper_barricade/metal{
-	icon_state = "metal_0";
-	dir = 8
+/obj/structure/cable{
+	icon_state = "1-2"
 	},
-/obj/effect/turf_decal/tile/yellow{
-	dir = 1
+/obj/machinery/door/airlock/engineering/glass{
+	req_one_access_txt = "150"
 	},
-/obj/effect/turf_decal/tile/yellow{
-	dir = 4
-	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /turf/open/floor/plasteel/dark,
 /area/ruin/powered/nsv13/gunship)
 "dC" = (
-/obj/machinery/atmospherics/components/unary/vent_pump/on/layer1{
-	dir = 8
+/obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1{
+	dir = 4
 	},
 /turf/open/floor/plasteel/dark,
 /area/ruin/powered/nsv13/gunship)
@@ -1982,11 +1799,8 @@
 /turf/open/floor/plasteel/dark,
 /area/ruin/powered/nsv13/gunship)
 "dO" = (
-/obj/effect/turf_decal/tile/yellow{
-	dir = 1
-	},
-/obj/effect/turf_decal/tile/yellow{
-	dir = 8
+/obj/machinery/atmospherics/components/unary/vent_pump/on/layer1{
+	dir = 4
 	},
 /turf/open/floor/plasteel/dark,
 /area/ruin/powered/nsv13/gunship)
@@ -2027,9 +1841,8 @@
 /turf/open/floor/plasteel/dark,
 /area/ruin/powered/nsv13/gunship)
 "dS" = (
-/obj/machinery/door/airlock/highsecurity{
-	name = "Munitions Airlock";
-	req_one_access_txt = "150"
+/obj/machinery/atmospherics/components/unary/vent_pump/on/layer1{
+	dir = 8
 	},
 /turf/open/floor/plasteel/dark,
 /area/ruin/powered/nsv13/gunship)
@@ -2085,12 +1898,11 @@
 /turf/open/floor/plasteel/dark,
 /area/ruin/powered/nsv13/gunship)
 "dY" = (
-/turf/open/floor/plasteel/airless/dark,
+/obj/machinery/atmospherics/components/unary/vent_pump/on/layer1,
+/turf/open/floor/plasteel/dark,
 /area/ruin/powered/nsv13/gunship)
 "dZ" = (
-/obj/machinery/atmospherics/components/unary/vent_pump/on/layer1,
-/obj/structure/peacekeeper_barricade/metal{
-	icon_state = "metal_0";
+/obj/machinery/atmospherics/components/unary/vent_pump/on/layer1{
 	dir = 1
 	},
 /turf/open/floor/plasteel/dark,
@@ -2138,161 +1950,57 @@
 /turf/open/floor/plasteel/shuttle/red/syndicate,
 /area/ruin/powered/nsv13/gunship)
 "ef" = (
-/obj/effect/turf_decal/tile/yellow{
-	dir = 1
-	},
-/obj/effect/turf_decal/tile/yellow{
+/obj/structure/particle_accelerator/particle_emitter/left,
+/obj/structure/cable,
+/obj/machinery/atmospherics/pipe/simple/general/visible{
 	dir = 4
 	},
-/obj/effect/turf_decal/tile/yellow,
 /turf/open/floor/plasteel/dark,
-/area/ruin/powered/nsv13/gunship)
+/area/ruin/powered/nsv13/trooptransport)
 "eg" = (
-/obj/machinery/light{
-	dir = 8
-	},
-/obj/effect/turf_decal/tile/yellow{
-	dir = 1
-	},
-/obj/effect/turf_decal/tile/yellow{
-	dir = 8
-	},
-/obj/structure/munition/decoy,
-/obj/structure/munition/hull_shredder{
-	pixel_y = 8
+/obj/structure/particle_accelerator/particle_emitter/right,
+/obj/structure/cable,
+/obj/machinery/atmospherics/pipe/simple/general/visible{
+	dir = 4
 	},
 /turf/open/floor/plasteel/dark,
-/area/ruin/powered/nsv13/gunship)
+/area/ruin/powered/nsv13/trooptransport)
 "eh" = (
-/obj/effect/turf_decal/tile/yellow,
-/obj/effect/turf_decal/tile/yellow{
+/obj/structure/cable,
+/obj/machinery/atmospherics/pipe/simple/general/visible{
 	dir = 4
 	},
 /turf/open/floor/plasteel/dark,
-/area/ruin/powered/nsv13/gunship)
+/area/ruin/powered/nsv13/trooptransport)
 "ei" = (
-/obj/item/stack/sheet/metal,
-/turf/template_noop,
-/area/ruin/powered/nsv13/gunship)
+/obj/effect/turf_decal/tile/yellow,
+/obj/effect/turf_decal/tile/yellow{
+	dir = 4
+	},
+/obj/structure/cable,
+/obj/machinery/atmospherics/pipe/simple/general/visible{
+	dir = 10
+	},
+/turf/open/floor/plasteel/dark,
+/area/ruin/powered/nsv13/trooptransport)
 "ej" = (
-/obj/item/shard,
-/turf/template_noop,
-/area/ruin/powered/nsv13/gunship)
+/obj/structure/grille,
+/obj/structure/window/reinforced/fulltile/ship,
+/obj/machinery/atmospherics/pipe/simple/general/visible,
+/turf/open/floor/plasteel/dark,
+/area/ruin/powered/nsv13/trooptransport)
 "ek" = (
-/obj/structure/munition,
-/obj/structure/munition{
-	pixel_y = 8
-	},
-/obj/effect/turf_decal/tile/yellow{
-	dir = 1
-	},
-/obj/effect/turf_decal/tile/yellow{
-	dir = 8
-	},
-/obj/effect/turf_decal/tile/yellow,
+/obj/structure/grille,
+/obj/structure/window/reinforced/fulltile/ship,
 /turf/open/floor/plasteel/dark,
-/area/ruin/powered/nsv13/gunship)
+/area/ruin/powered/nsv13/trooptransport)
 "el" = (
-/obj/effect/turf_decal/tile/yellow{
-	dir = 8
-	},
-/obj/effect/turf_decal/tile/yellow,
+/obj/structure/grille,
+/obj/structure/window/reinforced/fulltile/ship,
+/obj/structure/cable,
 /turf/open/floor/plasteel/dark,
-/area/ruin/powered/nsv13/gunship)
+/area/ruin/powered/nsv13/trooptransport)
 "em" = (
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
-/obj/effect/turf_decal/tile/yellow{
-	dir = 8
-	},
-/obj/effect/turf_decal/tile/yellow,
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/nsv13/gunship)
-"en" = (
-/obj/machinery/light,
-/obj/effect/turf_decal/tile/yellow{
-	dir = 8
-	},
-/obj/effect/turf_decal/tile/yellow,
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/nsv13/gunship)
-"eo" = (
-/obj/structure/peacekeeper_barricade/metal{
-	icon_state = "metal_0";
-	dir = 8
-	},
-/obj/effect/turf_decal/tile/yellow{
-	dir = 8
-	},
-/obj/effect/turf_decal/tile/yellow,
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/nsv13/gunship)
-"ep" = (
-/obj/effect/turf_decal/tile/yellow{
-	dir = 8
-	},
-/obj/effect/turf_decal/tile/yellow,
-/obj/effect/turf_decal/tile/yellow{
-	dir = 4
-	},
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/nsv13/gunship)
-"eq" = (
-/obj/machinery/atmospherics/components/unary/vent_pump/on/layer1{
-	dir = 4
-	},
-/obj/effect/turf_decal/tile/yellow{
-	dir = 4
-	},
-/obj/effect/turf_decal/tile/yellow,
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/nsv13/gunship)
-"er" = (
-/obj/effect/turf_decal/tile/yellow,
-/obj/effect/turf_decal/tile/yellow{
-	dir = 1
-	},
-/obj/effect/turf_decal/tile/yellow{
-	dir = 8
-	},
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/nsv13/gunship)
-"es" = (
-/obj/effect/turf_decal/tile/yellow,
-/obj/effect/turf_decal/tile/yellow{
-	dir = 8
-	},
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/nsv13/gunship)
-"et" = (
-/obj/machinery/light,
-/obj/effect/turf_decal/tile/yellow,
-/obj/effect/turf_decal/tile/yellow{
-	dir = 8
-	},
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/nsv13/gunship)
-"eu" = (
-/obj/effect/turf_decal/tile/yellow,
-/obj/effect/turf_decal/tile/yellow{
-	dir = 4
-	},
-/obj/effect/turf_decal/tile/yellow{
-	dir = 8
-	},
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/nsv13/gunship)
-"ev" = (
-/obj/item/stack/rods,
-/turf/template_noop,
-/area/ruin/powered/nsv13/gunship)
-"ew" = (
-/obj/structure/fluff/broken_flooring{
-	dir = 4;
-	icon_state = "pile"
-	},
-/turf/template_noop,
-/area/ruin/powered/nsv13/gunship)
-"ex" = (
 /obj/effect/turf_decal/tile/yellow,
 /obj/effect/turf_decal/tile/yellow{
 	dir = 4
@@ -2300,202 +2008,73 @@
 /obj/structure/cable{
 	icon_state = "1-2"
 	},
-/turf/open/floor/plasteel/airless/dark,
-/area/ruin/powered/nsv13/gunship)
-"ey" = (
-/obj/effect/turf_decal/tile/red{
-	dir = 1
-	},
-/obj/effect/turf_decal/tile/red{
-	dir = 8
-	},
-/obj/machinery/airalarm/syndicate{
-	dir = 4;
-	pixel_x = -25;
-	pixel_y = 0
-	},
+/obj/machinery/atmospherics/pipe/simple/general/visible,
 /turf/open/floor/plasteel/dark,
-/area/ruin/powered/nsv13/gunship)
-"ez" = (
-/obj/effect/turf_decal/tile/yellow{
-	dir = 8
-	},
-/obj/effect/turf_decal/tile/yellow{
-	dir = 1
-	},
+/area/ruin/powered/nsv13/trooptransport)
+"en" = (
 /obj/machinery/atmospherics/pipe/simple/general/visible,
-/turf/open/floor/plasteel/dark/airless,
-/area/ruin/powered/nsv13/gunship)
-"eA" = (
-/obj/machinery/atmospherics/pipe/simple/general/visible,
-/obj/structure/window/plasma/reinforced{
-	dir = 4
-	},
-/turf/open/floor/plasteel/dark/airless,
-<<<<<<< refs/remotes/origin/master:_maps/templates/Corvette.dmm
-/area/ruin/powered/nsv13/gunship)
-"eB" = (
-/obj/machinery/door/window{
-	dir = 1
-	},
+/turf/open/floor/plasteel/dark,
+/area/ruin/powered/nsv13/trooptransport)
+"eo" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 9
 	},
-/turf/open/floor/plasteel/airless/dark,
-/area/ruin/powered/nsv13/gunship)
-"eC" = (
-/obj/effect/turf_decal/tile/red{
+/turf/open/floor/engine,
+/area/ruin/powered/nsv13/trooptransport)
+"ep" = (
+/obj/effect/turf_decal/stripes/line{
 	dir = 1
 	},
-/obj/effect/turf_decal/tile/red{
-	dir = 8
+/obj/structure/cable,
+/turf/open/floor/engine,
+/area/ruin/powered/nsv13/trooptransport)
+"eq" = (
+/obj/effect/turf_decal/stripes/line{
+	dir = 5
 	},
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/nsv13/gunship)
-"eD" = (
-/turf/open/floor/plating/airless,
-/area/ruin/powered/nsv13/gunship)
-"eE" = (
-/obj/structure/grille,
-/obj/structure/shuttle/engine/heater{
-	icon_state = "heater";
-	dir = 8
-	},
-/turf/open/floor/plasteel/airless/dark,
-/area/ruin/powered/nsv13/gunship)
-"eF" = (
-/obj/structure/shuttle/engine/router,
-/turf/closed/wall/ship,
-/area/ruin/powered/nsv13/gunship)
-"eG" = (
-/obj/structure/window/plasma/reinforced{
-	dir = 4
-	},
-/obj/structure/window/plasma/reinforced{
-	dir = 1
-	},
-/obj/machinery/atmospherics/components/unary/vent_pump/siphon/on{
-	dir = 1
-	},
-/turf/open/floor/engine/o2,
-/area/ruin/powered/nsv13/gunship)
-"eH" = (
+/turf/open/floor/engine,
+/area/ruin/powered/nsv13/trooptransport)
+"er" = (
+/obj/structure/window/reinforced/fulltile/ship,
+/turf/open/floor/plating,
+/area/ruin/powered/nsv13/trooptransport)
+"es" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
 	},
-/turf/open/floor/plasteel/airless/dark,
-/area/ruin/powered/nsv13/gunship)
-"eI" = (
-/obj/structure/barricade/sandbags,
-/turf/open/floor/plasteel/airless/dark,
-/area/ruin/powered/nsv13/gunship)
-"eJ" = (
-/obj/effect/decal/cleanable/dirt,
-/obj/structure/barricade/sandbags,
-/turf/open/floor/plasteel/airless/dark,
-/area/ruin/powered/nsv13/gunship)
-"eK" = (
-/obj/structure/shuttle/engine/large{
-	dir = 8
-	},
-/turf/open/floor/plating/airless,
-/area/ruin/powered/nsv13/gunship)
-"eL" = (
-/obj/structure/window/plasma/reinforced{
-	dir = 4
-	},
-/turf/open/floor/engine/o2,
-/area/ruin/powered/nsv13/gunship)
-"eM" = (
-/obj/effect/turf_decal/tile/yellow{
-	dir = 8
-	},
-/obj/machinery/atmospherics/pipe/simple/general/visible,
-/obj/structure/window/plasma/reinforced{
-	dir = 4
-	},
-/turf/open/floor/plasteel/dark/airless,
-/area/ruin/powered/nsv13/gunship)
-"eN" = (
-/obj/effect/decal/cleanable/dirt,
-/obj/effect/turf_decal/box/white/corners{
-	dir = 1
-	},
-/turf/open/floor/plasteel/airless/dark,
-/area/ruin/powered/nsv13/gunship)
-"eO" = (
-/obj/effect/turf_decal/box/white/corners{
-	dir = 4
-	},
-/turf/open/floor/plasteel/airless/dark,
-/area/ruin/powered/nsv13/gunship)
-"eP" = (
 /obj/effect/turf_decal/tile/yellow,
 /obj/effect/turf_decal/tile/yellow{
 	dir = 4
 	},
-/obj/structure/cable{
-	icon_state = "1-4"
-	},
-/obj/structure/cable{
-	icon_state = "1-2"
-	},
-/turf/open/floor/plasteel/airless/dark,
-/area/ruin/powered/nsv13/gunship)
-"eQ" = (
-/obj/structure/cable{
-	icon_state = "4-8"
-	},
-/obj/machinery/door/airlock/ship/engineering{
-	dir = 8;
-	icon_state = "closed";
-	req_one_access_txt = "150"
-	},
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/nsv13/gunship)
-"eR" = (
-/obj/effect/turf_decal/tile/red{
-	dir = 1
-	},
-/obj/effect/turf_decal/tile/red{
-	dir = 8
-	},
-/obj/structure/cable{
-	icon_state = "4-8"
-	},
-/obj/machinery/atmospherics/components/unary/vent_pump/on/layer1{
-	dir = 4
-	},
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/nsv13/gunship)
-"eS" = (
-/obj/effect/turf_decal/tile/yellow{
-	dir = 8
-	},
-/obj/effect/turf_decal/tile/yellow{
-	dir = 1
-	},
+/obj/structure/cable,
 /obj/machinery/atmospherics/pipe/simple/general/visible,
+/turf/open/floor/plasteel/dark,
+/area/ruin/powered/nsv13/trooptransport)
+"et" = (
 /obj/structure/window/plasma/reinforced{
 	dir = 4
 	},
-/turf/open/floor/plasteel/dark/airless,
-/area/ruin/powered/nsv13/gunship)
-"eT" = (
-/obj/effect/decal/cleanable/dirt,
-/obj/effect/turf_decal/bot_white,
-/turf/open/floor/plasteel/airless,
-/area/ruin/powered/nsv13/gunship)
-"eU" = (
-/obj/effect/turf_decal/bot_white,
-/turf/open/floor/plasteel/airless,
-/area/ruin/powered/nsv13/gunship)
-"eV" = (
-/turf/open/floor/plasteel/airless,
-/area/ruin/powered/nsv13/gunship)
-=======
+/obj/machinery/atmospherics/components/unary/outlet_injector/on{
+	dir = 4
+	},
+/turf/open/floor/engine/plasma,
 /area/ruin/powered/nsv13/trooptransport)
-"eR" = (
+"eu" = (
+/obj/machinery/atmospherics/pipe/simple/general/visible{
+	dir = 9
+	},
+/turf/open/floor/plasteel/dark,
+/area/ruin/powered/nsv13/trooptransport)
+"ev" = (
+/obj/effect/turf_decal/stripes/line{
+	dir = 8
+	},
+/obj/machinery/atmospherics/pipe/simple/general/visible{
+	dir = 6
+	},
+/turf/open/floor/engine,
+/area/ruin/powered/nsv13/trooptransport)
+"ew" = (
 /obj/machinery/power/stormdrive_reactor,
 /obj/structure/cable,
 /obj/machinery/atmospherics/components/binary/pump{
@@ -2504,292 +2083,7 @@
 	},
 /turf/open/floor/engine,
 /area/ruin/powered/nsv13/trooptransport)
->>>>>>> more requests:_maps/templates/NSV13_Corvette.dmm
-"eW" = (
-/mob/living/simple_animal/hostile/syndicate/space,
-/turf/open/floor/plasteel/airless/dark,
-/area/ruin/powered/nsv13/gunship)
-"eX" = (
-/obj/structure/window/plasma/reinforced{
-	dir = 4
-	},
-/obj/structure/window/plasma/reinforced{
-	dir = 1
-	},
-/obj/machinery/atmospherics/components/unary/vent_pump/siphon/on{
-	dir = 1
-	},
-/turf/open/floor/engine/plasma,
-/area/ruin/powered/nsv13/gunship)
-"eY" = (
-/obj/machinery/power/smes,
-/turf/open/floor/plasteel/airless,
-/area/ruin/powered/nsv13/gunship)
-"eZ" = (
-/obj/effect/decal/cleanable/dirt,
-/turf/open/floor/plasteel/airless/dark,
-/area/ruin/powered/nsv13/gunship)
-"fa" = (
-/obj/structure/shuttle/engine/heater{
-	icon_state = "heater";
-	dir = 8
-	},
-/turf/open/floor/plating/airless,
-/area/ruin/powered/nsv13/gunship)
-"fb" = (
-/obj/structure/window/plasma/reinforced{
-	dir = 4
-	},
-/turf/open/floor/engine/plasma,
-/area/ruin/powered/nsv13/gunship)
-"fc" = (
-/obj/effect/decal/cleanable/dirt,
-/obj/effect/turf_decal/stripes/line{
-	dir = 8
-	},
-/turf/open/floor/plasteel/airless/dark,
-/area/ruin/powered/nsv13/gunship)
-"fd" = (
-/obj/structure/shuttle/engine/huge{
-	dir = 8
-	},
-/turf/open/floor/plating/airless,
-/area/ruin/powered/nsv13/gunship)
-"fe" = (
-/obj/structure/window/plasma/reinforced{
-	dir = 4
-	},
-/obj/structure/window/plasma/reinforced,
-/obj/machinery/atmospherics/components/unary/vent_pump/siphon/on,
-/turf/open/floor/engine/plasma,
-/area/ruin/powered/nsv13/gunship)
-"ff" = (
-/obj/effect/decal/cleanable/dirt,
-/mob/living/simple_animal/hostile/syndicate/space,
-/turf/open/floor/plasteel/airless/dark,
-/area/ruin/powered/nsv13/gunship)
-"fg" = (
-/obj/effect/decal/cleanable/dirt,
-/obj/effect/decal/cleanable/dirt,
-/turf/open/floor/plasteel/airless/dark,
-/area/ruin/powered/nsv13/gunship)
-"fh" = (
-/obj/effect/decal/cleanable/dirt,
-/obj/effect/turf_decal/box/white/corners{
-	dir = 8
-	},
-/turf/open/floor/plasteel/airless/dark,
-/area/ruin/powered/nsv13/gunship)
-"fi" = (
-/obj/effect/turf_decal/box/white/corners,
-/turf/open/floor/plasteel/airless/dark,
-/area/ruin/powered/nsv13/gunship)
-"fj" = (
-/obj/structure/lattice,
-/obj/structure/fluff/broken_flooring{
-	icon_state = "plating"
-	},
-/turf/template_noop,
-/area/ruin/powered/nsv13/gunship)
-"fk" = (
-/obj/effect/turf_decal/tile/yellow{
-	dir = 1
-	},
-/obj/machinery/atmospherics/pipe/simple/general/visible,
-/obj/structure/window/plasma/reinforced{
-	dir = 4
-	},
-/turf/open/floor/plasteel/dark/airless,
-/area/ruin/powered/nsv13/gunship)
-"fl" = (
-/obj/effect/turf_decal/tile/yellow,
-/obj/effect/turf_decal/tile/yellow{
-	dir = 4
-	},
-/obj/structure/cable{
-	icon_state = "2-4"
-	},
-/obj/structure/cable{
-	icon_state = "1-2"
-	},
-/turf/open/floor/plasteel/airless/dark,
-/area/ruin/powered/nsv13/gunship)
-"fm" = (
-/obj/structure/window/plasma/reinforced{
-	dir = 4
-	},
-/obj/structure/window/plasma/reinforced,
-/obj/machinery/atmospherics/components/unary/vent_pump/siphon/on,
-/turf/open/floor/engine/o2,
-/area/ruin/powered/nsv13/gunship)
-"fn" = (
-/obj/machinery/door/window,
-/obj/effect/turf_decal/stripes/line{
-	dir = 10
-	},
-/turf/open/floor/plasteel/airless/dark,
-/area/ruin/powered/nsv13/gunship)
-"fo" = (
-/obj/machinery/atmospherics/pipe/simple/general/visible{
-	dir = 5
-	},
-/obj/structure/window/plasma/reinforced{
-	dir = 4
-	},
-/turf/open/floor/plasteel/dark/airless,
-/area/ruin/powered/nsv13/gunship)
-"fp" = (
-/obj/machinery/atmospherics/pipe/simple/general/visible{
-	dir = 10
-	},
-/obj/structure/window/plasma/reinforced{
-	dir = 4
-	},
-/obj/structure/fans/tiny/invisible,
-/obj/machinery/door/window,
-/turf/open/floor/plasteel/dark,
-<<<<<<< refs/remotes/origin/master:_maps/templates/Corvette.dmm
-/area/ruin/powered/nsv13/gunship)
-"fq" = (
-/obj/item/crowbar,
-/turf/open/floor/plasteel/airless/dark,
-/area/ruin/powered/nsv13/gunship)
-"fr" = (
-/obj/structure/girder,
-/turf/template_noop,
-/area/ruin/powered/nsv13/gunship)
-"fs" = (
-/turf/template_noop,
-/area/ruin/powered/nsv13/gunship)
-"ft" = (
-/obj/structure/fluff/broken_flooring{
-	dir = 4;
-	icon_state = "plating"
-	},
-/obj/structure/lattice,
-/turf/template_noop,
-/area/ruin/powered/nsv13/gunship)
-"fu" = (
-/obj/structure/lattice,
-/obj/structure/shuttle/engine/propulsion/left,
-/turf/template_noop,
-/area/ruin/powered/nsv13/gunship)
-"fv" = (
-/obj/structure/fluff/broken_flooring{
-	icon_state = "plating"
-	},
-/obj/structure/lattice,
-/turf/template_noop,
-/area/ruin/powered/nsv13/gunship)
-"fw" = (
-/obj/effect/turf_decal/tile/yellow{
-	dir = 1
-	},
-/obj/machinery/atmospherics/pipe/simple/general/visible{
-	dir = 5
-=======
-/area/ruin/powered/nsv13/trooptransport)
-"gD" = (
-/obj/structure/particle_accelerator/particle_emitter/left,
-/obj/structure/cable,
-/obj/machinery/atmospherics/pipe/simple/general/visible{
-	dir = 4
-	},
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/nsv13/trooptransport)
-"gR" = (
-/obj/machinery/power/compressor{
-	dir = 8
->>>>>>> more requests:_maps/templates/NSV13_Corvette.dmm
-	},
-/obj/structure/cable{
-	icon_state = "4-8"
-	},
-/turf/open/floor/plasteel/dark/airless,
-/area/ruin/powered/nsv13/gunship)
-"fx" = (
-/obj/machinery/atmospherics/pipe/simple/general/visible{
-	dir = 10
-	},
-/obj/structure/cable{
-	icon_state = "4-8"
-	},
-/turf/open/floor/plasteel/dark/airless,
-/area/ruin/powered/nsv13/gunship)
-"fy" = (
-/obj/structure/cable{
-	icon_state = "4-8"
-	},
-/turf/open/floor/plasteel/airless{
-	icon_state = "damaged2"
-	},
-/area/ruin/powered/nsv13/gunship)
-"fz" = (
-/obj/structure/cable{
-	icon_state = "4-8"
-	},
-/turf/open/floor/plasteel/airless{
-	icon_state = "damaged3"
-	},
-/area/ruin/powered/nsv13/gunship)
-"fA" = (
-/obj/effect/turf_decal/tile/yellow,
-/obj/effect/turf_decal/tile/yellow{
-	dir = 4
-	},
-/obj/structure/cable{
-	icon_state = "1-8"
-	},
-/turf/open/floor/plasteel/airless{
-	icon_state = "damaged3"
-	},
-/area/ruin/powered/nsv13/gunship)
-"fB" = (
-/obj/effect/turf_decal/tile/red{
-	dir = 1
-	},
-<<<<<<< refs/remotes/origin/master:_maps/templates/Corvette.dmm
-/obj/effect/turf_decal/tile/red{
-	dir = 8
-	},
-/obj/structure/peacekeeper_barricade/metal,
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/nsv13/gunship)
-"fC" = (
-/obj/effect/turf_decal/tile/yellow{
-	dir = 8
-	},
-/obj/effect/turf_decal/tile/yellow,
-/obj/machinery/atmospherics/pipe/simple/general/visible{
-=======
-/turf/open/floor/engine/o2,
-/area/ruin/powered/nsv13/trooptransport)
-"jw" = (
-/obj/structure/grille,
-/obj/structure/window/reinforced/fulltile/ship,
-/obj/structure/cable,
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/nsv13/trooptransport)
-"jB" = (
-/obj/structure/window/plasma/reinforced{
->>>>>>> more requests:_maps/templates/NSV13_Corvette.dmm
-	dir = 4
-	},
-/turf/open/floor/plasteel/dark/airless,
-/area/ruin/powered/nsv13/gunship)
-"fD" = (
-/obj/effect/turf_decal/tile/yellow{
-	dir = 8
-	},
-/obj/effect/turf_decal/tile/yellow,
-/obj/machinery/atmospherics/components/trinary/mixer{
-	dir = 8;
-	node1_concentration = 0.3;
-	node2_concentration = 0.7
-	},
-/turf/open/floor/plasteel/dark/airless,
-/area/ruin/powered/nsv13/gunship)
-"fE" = (
+"ex" = (
 /obj/effect/turf_decal/tile/yellow{
 	dir = 8
 	},
@@ -2801,146 +2095,41 @@
 	dir = 4
 	},
 /turf/open/floor/plasteel/dark/airless,
-/area/ruin/powered/nsv13/gunship)
-"fF" = (
-/turf/open/floor/plasteel/airless{
-	icon_state = "damaged3"
-	},
-/area/ruin/powered/nsv13/gunship)
-"fG" = (
-/obj/structure/fluff/broken_flooring,
-/turf/template_noop,
-/area/ruin/powered/nsv13/gunship)
-"fH" = (
-/obj/effect/turf_decal/tile/red{
-	dir = 1
-	},
-/obj/effect/turf_decal/tile/red{
-	dir = 8
-	},
-/obj/effect/turf_decal/tile/red,
-/turf/open/floor/plasteel/dark,
-<<<<<<< refs/remotes/origin/master:_maps/templates/Corvette.dmm
-/area/ruin/powered/nsv13/gunship)
-"fI" = (
-/obj/structure/shuttle/engine/propulsion/right,
-/turf/open/floor/plating/airless,
-/area/ruin/powered/nsv13/gunship)
-"fJ" = (
-/obj/structure/fluff/broken_flooring{
-	dir = 4;
-	icon_state = "singular"
-	},
-/turf/template_noop,
-/area/ruin/powered/nsv13/gunship)
-"fK" = (
-/obj/structure/fluff/broken_flooring{
-	icon_state = "pile"
-	},
-/turf/template_noop,
-/area/ruin/powered/nsv13/gunship)
-"fL" = (
-/obj/structure/fluff/broken_flooring{
-	dir = 8;
-	icon_state = "pile"
-	},
-/obj/structure/lattice,
-/turf/template_noop,
-/area/ruin/powered/nsv13/gunship)
-"fR" = (
-/obj/structure/closet/crate/secure/weapon,
-/obj/effect/turf_decal/tile/red{
-=======
 /area/ruin/powered/nsv13/trooptransport)
-"li" = (
-/obj/machinery/atmospherics/pipe/simple/general/visible{
-	dir = 6
-	},
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/nsv13/trooptransport)
-"lo" = (
+"ey" = (
 /obj/effect/turf_decal/stripes/line{
-	dir = 9
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/general/visible{
+	dir = 4
 	},
 /turf/open/floor/engine,
 /area/ruin/powered/nsv13/trooptransport)
-"lt" = (
-/obj/machinery/igniter/on,
-/obj/structure/window/plasma/reinforced{
->>>>>>> more requests:_maps/templates/NSV13_Corvette.dmm
-	dir = 4
+"ez" = (
+/obj/machinery/atmospherics/components/trinary/filter/atmos/constricted_plasma/flipped,
+/obj/effect/turf_decal/stripes/line{
+	dir = 8
 	},
-/obj/effect/turf_decal/tile/red{
-	dir = 1
-	},
-<<<<<<< refs/remotes/origin/master:_maps/templates/Corvette.dmm
-/obj/item/gun/ballistic/shotgun/sc_pump,
-/obj/item/gun/ballistic/shotgun/sc_pump,
-/obj/item/storage/box/rubbershot,
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/nsv13/gunship)
-"fS" = (
-/obj/effect/turf_decal/tile/red{
-=======
-/turf/open/floor/engine/airless,
-/area/ruin/powered/nsv13/trooptransport)
-"nh" = (
-/obj/structure/cable,
-/obj/machinery/atmospherics/pipe/simple/general/visible{
-	dir = 4
-	},
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/nsv13/trooptransport)
-"nE" = (
+/obj/effect/turf_decal/tile/yellow,
 /obj/effect/turf_decal/tile/yellow{
->>>>>>> more requests:_maps/templates/NSV13_Corvette.dmm
 	dir = 4
 	},
-/obj/effect/turf_decal/tile/red,
-/obj/structure/peacekeeper_barricade/metal{
-	icon_state = "metal_0";
-	dir = 1
-	},
+/obj/structure/cable,
 /turf/open/floor/plasteel/dark,
-/area/ruin/powered/nsv13/gunship)
-"gc" = (
-/obj/machinery/atmospherics/components/unary/vent_pump/on/layer1{
-	dir = 1
-	},
-/obj/structure/peacekeeper_barricade/metal,
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/nsv13/gunship)
-"gd" = (
-/obj/effect/turf_decal/tile/red{
-	dir = 4
-	},
-<<<<<<< refs/remotes/origin/master:_maps/templates/Corvette.dmm
-/obj/effect/turf_decal/tile/red,
-/obj/structure/peacekeeper_barricade/metal,
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/nsv13/gunship)
-"ge" = (
-/obj/structure/girder,
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/nsv13/gunship)
-"gf" = (
-/obj/effect/turf_decal/tile/red{
-	dir = 1
-	},
-/obj/effect/turf_decal/tile/red{
-	dir = 4
-	},
-=======
-/turf/open/floor/plasteel/dark/airless,
 /area/ruin/powered/nsv13/trooptransport)
-"os" = (
-/obj/structure/particle_accelerator/particle_emitter/center,
+"eA" = (
 /obj/machinery/atmospherics/pipe/simple/general/visible{
+	dir = 6
+	},
+/turf/closed/wall/ship,
+/area/ruin/powered/nsv13/trooptransport)
+"eB" = (
+/obj/machinery/atmospherics/pipe/layer_manifold{
 	dir = 4
 	},
-/turf/open/floor/plasteel/dark,
+/turf/closed/wall/ship,
 /area/ruin/powered/nsv13/trooptransport)
-"ow" = (
+"eC" = (
 /obj/structure/window/plasma/reinforced{
 	dir = 4
 	},
@@ -2951,244 +2140,39 @@
 	},
 /turf/open/floor/engine/plasma,
 /area/ruin/powered/nsv13/trooptransport)
-"pZ" = (
-/obj/structure/particle_accelerator/end_cap,
+"eD" = (
+/obj/machinery/atmospherics/pipe/layer_manifold{
+	dir = 4
+	},
 /turf/open/floor/plasteel/dark,
 /area/ruin/powered/nsv13/trooptransport)
-"ql" = (
->>>>>>> more requests:_maps/templates/NSV13_Corvette.dmm
-/obj/structure/cable{
-	icon_state = "4-8"
-	},
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
-	dir = 4
-	},
-/obj/structure/fluff/broken_flooring{
-	dir = 4;
-	icon_state = "pile"
-	},
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/nsv13/gunship)
-<<<<<<< refs/remotes/origin/master:_maps/templates/Corvette.dmm
-"gg" = (
-/obj/effect/turf_decal/tile/red,
-/obj/effect/turf_decal/tile/red{
-	dir = 8
-	},
-/obj/structure/fluff/broken_flooring{
-	icon_state = "singular"
-	},
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/nsv13/gunship)
-"gh" = (
-/obj/effect/turf_decal/tile/red{
-	dir = 1
-	},
-/obj/effect/turf_decal/tile/red{
-	dir = 4
-	},
-=======
-"qA" = (
-/turf/open/floor/plating,
-/area/template_noop)
-"rh" = (
->>>>>>> boarding arm to mission ships:_maps/templates/NSV13_Corvette.dmm
-/obj/structure/cable{
-	icon_state = "4-8"
-	},
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
-	dir = 4
-	},
-/obj/item/stack/sheet/metal,
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/nsv13/gunship)
-<<<<<<< refs/remotes/origin/master:_maps/templates/Corvette.dmm
-<<<<<<< refs/remotes/origin/master:_maps/templates/Corvette.dmm
-"gi" = (
-/obj/effect/turf_decal/tile/red,
-/obj/effect/turf_decal/tile/red{
-=======
-=======
-"rk" = (
-/obj/structure/window/reinforced/fulltile/ship,
-/turf/open/floor/plating,
-/area/ruin/powered/nsv13/trooptransport)
->>>>>>> more requests:_maps/templates/NSV13_Corvette.dmm
-"sJ" = (
-/obj/machinery/door/airlock/ship/external,
-/turf/open/floor/plating,
-/area/template_noop)
-"ti" = (
-/obj/effect/turf_decal/tile/yellow{
->>>>>>> boarding arm to mission ships:_maps/templates/NSV13_Corvette.dmm
-	dir = 8
-	},
-/obj/item/stack/sheet/metal,
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/nsv13/gunship)
-"gj" = (
-/obj/structure/peacekeeper_barricade/metal{
-	icon_state = "metal_0";
-	dir = 8
-	},
-<<<<<<< refs/remotes/origin/master:_maps/templates/Corvette.dmm
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/nsv13/gunship)
-"gk" = (
-/turf/open/floor/plating,
-/area/ruin/powered/nsv13/gunship)
-"gl" = (
-/obj/effect/turf_decal/stripes{
-	icon_state = "warningline";
-	dir = 8
-	},
-/turf/open/floor/plating,
-/area/ruin/powered/nsv13/gunship)
-"gm" = (
-/obj/machinery/porta_turret/syndicate,
-/turf/open/floor/plating,
-/area/ruin/powered/nsv13/gunship)
-"gn" = (
-/obj/item/twohanded/required/railgun_ammo,
-/obj/item/twohanded/required/railgun_ammo{
-	pixel_y = 8
-	},
-/obj/item/twohanded/required/railgun_ammo{
-	pixel_y = -8
-	},
-/obj/structure/rack,
-/turf/open/floor/plating,
-/area/ruin/powered/nsv13/gunship)
-"go" = (
-/obj/effect/turf_decal/stripes{
-	icon_state = "warningline";
-	dir = 4
-	},
-/turf/open/floor/plating,
-/area/ruin/powered/nsv13/gunship)
-"gp" = (
-/obj/structure/table/reinforced,
-/obj/item/stack/cable_coil,
-/obj/machinery/light{
-	dir = 1
-	},
-/obj/item/torpedo/guidance_system,
-/obj/item/torpedo/guidance_system,
-/obj/item/torpedo/guidance_system,
-/obj/item/torpedo/guidance_system,
-/obj/item/torpedo/iff_card,
-/obj/item/torpedo/iff_card,
-/obj/item/torpedo/iff_card,
-/obj/item/torpedo/iff_card,
-/turf/open/floor/plating,
-/area/ruin/powered/nsv13/gunship)
-"gq" = (
-/obj/structure/lattice,
-/turf/template_noop,
-/area/ruin/powered/nsv13/gunship)
-"gr" = (
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
-/mob/living/simple_animal/hostile/syndicate/ranged,
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/nsv13/gunship)
-"gs" = (
-/obj/effect/turf_decal/tile/red{
-	dir = 1
-=======
-/obj/machinery/atmospherics/pipe/simple/general/visible,
-/turf/open/floor/plasteel/dark/airless,
-/area/ruin/powered/nsv13/trooptransport)
-"ug" = (
+"eE" = (
 /obj/effect/turf_decal/stripes/line{
-	dir = 8
+	dir = 10
 	},
-/obj/effect/turf_decal/tile/yellow,
-/obj/effect/turf_decal/tile/yellow{
-	dir = 4
-	},
-/obj/structure/cable,
-/obj/machinery/atmospherics/pipe/simple/general/visible,
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/nsv13/trooptransport)
-"vy" = (
-/obj/structure/window/plasma/reinforced{
-	dir = 4
-	},
-/obj/machinery/atmospherics/components/unary/outlet_injector/on{
-	dir = 4
-	},
-/turf/open/floor/engine/plasma,
-/area/ruin/powered/nsv13/trooptransport)
-"wa" = (
-/obj/effect/turf_decal/stripes/line{
-	dir = 5
-	},
-/turf/open/floor/engine,
-/area/ruin/powered/nsv13/trooptransport)
-"ye" = (
-/obj/structure/particle_accelerator/power_box,
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/nsv13/trooptransport)
-"yU" = (
-/mob/living/simple_animal/hostile/syndicate/ranged,
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/nsv13/gunship)
-"zq" = (
-/obj/machinery/atmospherics/pipe/simple/general/visible{
-	dir = 6
-	},
-/turf/closed/wall/ship,
-/area/ruin/powered/nsv13/trooptransport)
-"Ab" = (
-/obj/structure/cable,
-/obj/machinery/atmospherics/pipe/simple/general/visible{
-	dir = 4
-	},
-/obj/machinery/power/magnetic_constrictor,
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/nsv13/trooptransport)
-"AC" = (
-/obj/machinery/atmospherics/pipe/simple/general/visible{
-	dir = 6
->>>>>>> more requests:_maps/templates/NSV13_Corvette.dmm
-	},
-/obj/effect/turf_decal/tile/red{
-	dir = 4
-	},
-<<<<<<< refs/remotes/origin/master:_maps/templates/Corvette.dmm
-/obj/structure/cable{
-	icon_state = "4-8"
-	},
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
-	dir = 4
-	},
-/obj/structure/peacekeeper_barricade/metal{
-	icon_state = "metal_0";
-	dir = 8
-	},
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/nsv13/gunship)
-"gt" = (
-/obj/effect/turf_decal/tile/red,
-/obj/effect/turf_decal/tile/red{
-=======
-/turf/open/floor/plasteel/dark/airless,
-/area/ruin/powered/nsv13/trooptransport)
-"BM" = (
-/obj/structure/grille,
-/obj/structure/window/reinforced/fulltile/ship,
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/nsv13/trooptransport)
-"BR" = (
 /obj/machinery/atmospherics/pipe/simple/general/visible{
 	dir = 9
 	},
-/obj/structure/cable{
-	icon_state = "4-8"
-	},
-/turf/open/floor/plasteel/dark/airless,
+/turf/open/floor/engine,
 /area/ruin/powered/nsv13/trooptransport)
-"BT" = (
+"eF" = (
+/obj/effect/turf_decal/stripes/line,
+/obj/structure/cable,
+/turf/open/floor/engine,
+/area/ruin/powered/nsv13/trooptransport)
+"eG" = (
+/obj/effect/turf_decal/stripes/line{
+	dir = 6
+	},
+/turf/open/floor/engine,
+/area/ruin/powered/nsv13/trooptransport)
+"eH" = (
+/obj/machinery/atmospherics/components/unary/outlet_injector/on{
+	dir = 1
+	},
+/turf/template_noop,
+/area/ruin/powered/nsv13/trooptransport)
+"eI" = (
 /obj/effect/turf_decal/tile/yellow{
 	dir = 8
 	},
@@ -3203,233 +2187,27 @@
 	},
 /turf/open/floor/plasteel/dark/airless,
 /area/ruin/powered/nsv13/trooptransport)
-"Ca" = (
-/obj/machinery/atmospherics/components/unary/outlet_injector/on{
-	dir = 1
-	},
-/turf/template_noop,
-/area/ruin/powered/nsv13/trooptransport)
-"Ci" = (
-/obj/machinery/door/window{
-	dir = 1
+"eJ" = (
+/obj/machinery/atmospherics/components/binary/pump{
+	dir = 4
 	},
 /turf/open/floor/plasteel/dark,
 /area/ruin/powered/nsv13/trooptransport)
-"CL" = (
-/obj/effect/turf_decal/tile/yellow{
->>>>>>> more requests:_maps/templates/NSV13_Corvette.dmm
-	dir = 8
-	},
-/obj/machinery/airalarm/syndicate{
-	dir = 1;
-	pixel_y = -25
-	},
-<<<<<<< refs/remotes/origin/master:_maps/templates/Corvette.dmm
-/obj/structure/peacekeeper_barricade/metal{
-	icon_state = "metal_0";
-=======
-/turf/open/floor/plasteel/dark/airless,
-/area/ruin/powered/nsv13/trooptransport)
-"CO" = (
-/obj/effect/turf_decal/stripes/line,
-/obj/structure/cable,
-/turf/open/floor/engine,
-/area/ruin/powered/nsv13/trooptransport)
-"Em" = (
-/obj/effect/turf_decal/tile/yellow,
-/obj/effect/turf_decal/tile/yellow{
+"eK" = (
+/obj/machinery/atmospherics/pipe/simple/general/visible{
 	dir = 4
 	},
+/turf/open/floor/plasteel/dark,
+/area/ruin/powered/nsv13/trooptransport)
+"eL" = (
 /obj/structure/cable,
 /obj/machinery/atmospherics/pipe/simple/general/visible{
-	dir = 10
+	dir = 4
 	},
+/obj/machinery/power/magnetic_constrictor,
 /turf/open/floor/plasteel/dark,
 /area/ruin/powered/nsv13/trooptransport)
-"Eq" = (
-/obj/machinery/door/airlock/ship/external{
-	dir = 4
-	},
-/turf/open/floor/plating,
-/area/template_noop)
-"Fn" = (
-/turf/closed/wall,
-/area/ruin/powered/nsv13/gunship)
-"FN" = (
-/obj/effect/turf_decal/tile/yellow{
->>>>>>> boarding arm to mission ships:_maps/templates/NSV13_Corvette.dmm
-	dir = 8
-	},
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/nsv13/gunship)
-"gu" = (
-/obj/effect/turf_decal/tile/red{
-	dir = 1
-	},
-/obj/effect/turf_decal/tile/red{
-	dir = 4
-	},
-<<<<<<< refs/remotes/origin/master:_maps/templates/Corvette.dmm
-/obj/machinery/airalarm/syndicate{
-	pixel_y = 25
-	},
-/obj/structure/peacekeeper_barricade/metal{
-	icon_state = "metal_0";
-	dir = 8
-	},
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/nsv13/gunship)
-"gv" = (
-/obj/effect/turf_decal/tile/red,
-/obj/effect/turf_decal/tile/red{
-	dir = 8
-=======
-/turf/open/floor/plasteel/dark/airless,
-/area/ruin/powered/nsv13/trooptransport)
-"FV" = (
-/obj/effect/turf_decal/stripes/line{
-	dir = 10
-	},
-/obj/machinery/atmospherics/pipe/simple/general/visible{
-	dir = 9
-	},
-/turf/open/floor/engine,
-/area/ruin/powered/nsv13/trooptransport)
-"FX" = (
-/obj/machinery/atmospherics/pipe/simple/general/visible,
-/obj/structure/window/plasma/reinforced{
-	dir = 4
->>>>>>> more requests:_maps/templates/NSV13_Corvette.dmm
-	},
-/obj/structure/cable{
-	icon_state = "4-8"
-	},
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
-	dir = 4
-	},
-<<<<<<< refs/remotes/origin/master:_maps/templates/Corvette.dmm
-/obj/structure/peacekeeper_barricade/metal{
-	icon_state = "metal_0";
-	dir = 8
-=======
-/obj/structure/cable{
-	icon_state = "1-2"
-	},
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/nsv13/trooptransport)
-"GR" = (
-/obj/structure/shuttle/engine/propulsion/left{
-	dir = 1
->>>>>>> more requests:_maps/templates/NSV13_Corvette.dmm
-	},
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/nsv13/gunship)
-"ht" = (
-/obj/machinery/light{
-	dir = 4
-	},
-/turf/open/floor/plating,
-/area/ruin/powered/nsv13/gunship)
-"hu" = (
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
-/turf/closed/wall/r_wall/ship,
-/area/ruin/powered/nsv13/gunship)
-"hx" = (
-/obj/machinery/light{
-	dir = 8
-	},
-/turf/open/floor/plating,
-/area/ruin/powered/nsv13/gunship)
-"hy" = (
-/obj/item/ammo_box/magazine/pdc{
-	pixel_y = 8
-	},
-<<<<<<< refs/remotes/origin/master:_maps/templates/Corvette.dmm
-/obj/item/ammo_box/magazine/pdc,
-/turf/open/floor/plating,
-/area/ruin/powered/nsv13/gunship)
-"hz" = (
-/obj/structure/sign/warning/explosives/alt{
-	pixel_y = 26
-=======
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/nsv13/trooptransport)
-"Ji" = (
-/obj/structure/window/plasma/reinforced{
-	dir = 4
->>>>>>> more requests:_maps/templates/NSV13_Corvette.dmm
-	},
-/turf/open/floor/plating,
-/area/ruin/powered/nsv13/gunship)
-"hA" = (
-/obj/effect/turf_decal/tile/blue{
-	dir = 1
-	},
-/obj/effect/turf_decal/tile/blue{
-	dir = 4
-	},
-<<<<<<< refs/remotes/origin/master:_maps/templates/Corvette.dmm
-/obj/structure/chair/comfy/shuttle{
-	dir = 8
-=======
-/turf/open/floor/engine/plasma,
-/area/ruin/powered/nsv13/trooptransport)
-"KJ" = (
-/obj/machinery/door/window,
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/nsv13/trooptransport)
-"LB" = (
-/obj/effect/turf_decal/tile/yellow{
-	dir = 1
->>>>>>> more requests:_maps/templates/NSV13_Corvette.dmm
-	},
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
-	dir = 4
-	},
-/obj/machinery/computer/ship/viewscreen,
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/nsv13/gunship)
-"hE" = (
-/obj/structure/cable,
-/obj/structure/grille,
-/obj/structure/window/reinforced/fulltile/ship,
-/obj/machinery/door/poddoor/ship{
-	id = "nope"
-	},
-/turf/open/floor/plating,
-/area/ruin/powered/nsv13/gunship)
-"hF" = (
-/obj/machinery/door/airlock/ship/external,
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/nsv13/gunship)
-"rh" = (
-/obj/structure/cable{
-	icon_state = "4-8"
-	},
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
-	dir = 4
-	},
-/mob/living/simple_animal/hostile/syndicate/space,
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/nsv13/gunship)
-"yU" = (
-/mob/living/simple_animal/hostile/syndicate/ranged,
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/nsv13/gunship)
-"Fn" = (
-/turf/closed/wall,
-/area/ruin/powered/nsv13/gunship)
-"LG" = (
-/obj/effect/turf_decal/tile/red{
-	dir = 1
-	},
-/obj/effect/turf_decal/tile/red{
-	dir = 4
-	},
-/mob/living/simple_animal/hostile/syndicate/melee,
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/nsv13/gunship)
-"Mj" = (
+"eM" = (
 /obj/effect/turf_decal/tile/yellow,
 /obj/effect/turf_decal/tile/yellow{
 	dir = 4
@@ -3440,26 +2218,7 @@
 	},
 /turf/open/floor/plasteel/dark,
 /area/ruin/powered/nsv13/trooptransport)
-"Mn" = (
-/obj/machinery/atmospherics/pipe/simple/general/visible,
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/nsv13/trooptransport)
-"Mq" = (
-/obj/machinery/atmospherics/pipe/simple/general/visible{
-	dir = 4
-	},
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/nsv13/trooptransport)
-"Mt" = (
-/mob/living/simple_animal/hostile/syndicate/civilian,
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/nsv13/gunship)
-<<<<<<< refs/remotes/origin/master:_maps/templates/Corvette.dmm
-=======
-"MD" = (
-/turf/closed/wall/ship,
-/area/template_noop)
-"MK" = (
+"eN" = (
 /obj/effect/turf_decal/tile/yellow,
 /obj/effect/turf_decal/tile/yellow{
 	dir = 4
@@ -3472,46 +2231,286 @@
 	},
 /turf/open/floor/plasteel/dark,
 /area/ruin/powered/nsv13/trooptransport)
-"MY" = (
-/obj/effect/turf_decal/stripes/line{
-	dir = 1
-	},
-/obj/structure/cable,
-/turf/open/floor/engine,
+"eO" = (
+/obj/machinery/door/window,
+/turf/open/floor/plasteel/dark,
 /area/ruin/powered/nsv13/trooptransport)
-"Os" = (
-/obj/machinery/atmospherics/components/binary/pump{
+"eP" = (
+/obj/effect/turf_decal/tile/yellow,
+/obj/effect/turf_decal/tile/yellow{
+	dir = 4
+	},
+/obj/structure/cable{
+	icon_state = "1-8"
+	},
+/turf/open/floor/plasteel/dark,
+/area/ruin/powered/nsv13/trooptransport)
+"eQ" = (
+/obj/effect/turf_decal/tile/yellow{
+	dir = 8
+	},
+/obj/effect/turf_decal/tile/yellow,
+/turf/open/floor/plasteel/dark,
+/area/ruin/powered/nsv13/trooptransport)
+"eR" = (
+/obj/effect/turf_decal/tile/yellow,
+/obj/effect/turf_decal/tile/yellow{
+	dir = 8
+	},
+/obj/effect/turf_decal/tile/yellow{
 	dir = 4
 	},
 /turf/open/floor/plasteel/dark,
 /area/ruin/powered/nsv13/trooptransport)
-"Ox" = (
+"eW" = (
+/obj/structure/window/plasma/reinforced{
+	dir = 4
+	},
+/obj/machinery/atmospherics/components/unary/outlet_injector/on{
+	dir = 4
+	},
+/turf/open/floor/engine/airless,
+/area/ruin/powered/nsv13/trooptransport)
+"fl" = (
+/obj/machinery/atmospherics/pipe/simple/general/visible{
+	dir = 10
+	},
+/obj/structure/window/plasma/reinforced{
+	dir = 4
+	},
+/obj/structure/fans/tiny/invisible,
+/obj/machinery/door/window,
+/turf/open/floor/plasteel/dark,
+/area/ruin/powered/nsv13/trooptransport)
+"gR" = (
+/obj/machinery/power/compressor{
+	dir = 8
+	},
+/obj/structure/cable,
+/turf/open/floor/engine/airless,
+/area/ruin/powered/nsv13/trooptransport)
+"jb" = (
+/obj/machinery/atmospherics/pipe/simple/general/visible{
+	dir = 10
+	},
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/turf/open/floor/plasteel/dark/airless,
+/area/ruin/powered/nsv13/trooptransport)
+"jl" = (
+/obj/structure/window/plasma/reinforced{
+	dir = 4
+	},
+/obj/structure/window/plasma/reinforced{
+	dir = 1
+	},
+/obj/machinery/atmospherics/components/unary/vent_pump/siphon/on{
+	dir = 1
+	},
+/turf/open/floor/engine/o2,
+/area/ruin/powered/nsv13/trooptransport)
+"jB" = (
+/obj/structure/window/plasma/reinforced{
+	dir = 4
+	},
+/obj/structure/window/plasma/reinforced,
+/obj/machinery/atmospherics/components/unary/vent_pump/siphon/on,
+/turf/open/floor/engine/o2,
+/area/ruin/powered/nsv13/trooptransport)
+"jZ" = (
+/obj/machinery/atmospherics/pipe/simple/general/visible{
+	dir = 9
+	},
+/obj/structure/window/plasma/reinforced{
+	dir = 4
+	},
+/obj/structure/fans/tiny/invisible,
+/obj/machinery/door/window{
+	dir = 1
+	},
+/turf/open/floor/plasteel/dark,
+/area/ruin/powered/nsv13/trooptransport)
+"lt" = (
+/obj/machinery/igniter/on,
+/obj/structure/window/plasma/reinforced{
+	dir = 4
+	},
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/turf/open/floor/engine/airless,
+/area/ruin/powered/nsv13/trooptransport)
+"nE" = (
+/obj/effect/turf_decal/tile/yellow{
+	dir = 4
+	},
+/obj/effect/turf_decal/tile/yellow{
+	dir = 1
+	},
+/obj/machinery/atmospherics/pipe/simple/general/visible{
+	dir = 4
+	},
+/turf/open/floor/plasteel/dark/airless,
+/area/ruin/powered/nsv13/trooptransport)
+"ql" = (
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	dir = 4
+	},
+/obj/machinery/door/airlock/command{
+	req_one_access_txt = "150"
+	},
+/turf/open/floor/plasteel/dark,
+/area/ruin/powered/nsv13/gunship)
+"qA" = (
+/turf/open/floor/plating,
+/area/template_noop)
+"rh" = (
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	dir = 4
+	},
+/mob/living/simple_animal/hostile/syndicate/space,
+/turf/open/floor/plasteel/dark,
+/area/ruin/powered/nsv13/gunship)
+"sJ" = (
+/obj/machinery/door/airlock/ship/external,
+/turf/open/floor/plating,
+/area/template_noop)
+"ti" = (
+/obj/effect/turf_decal/tile/yellow{
+	dir = 8
+	},
+/obj/effect/turf_decal/tile/yellow{
+	dir = 1
+	},
+/obj/machinery/atmospherics/pipe/simple/general/visible,
+/turf/open/floor/plasteel/dark/airless,
+/area/ruin/powered/nsv13/trooptransport)
+"yU" = (
+/mob/living/simple_animal/hostile/syndicate/ranged,
+/turf/open/floor/plasteel/dark,
+/area/ruin/powered/nsv13/gunship)
+"AC" = (
+/obj/machinery/atmospherics/pipe/simple/general/visible{
+	dir = 6
+	},
+/obj/structure/window/plasma/reinforced{
+	dir = 4
+	},
+/turf/open/floor/plasteel/dark/airless,
+/area/ruin/powered/nsv13/trooptransport)
+"BR" = (
+/obj/machinery/atmospherics/pipe/simple/general/visible{
+	dir = 9
+	},
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/turf/open/floor/plasteel/dark/airless,
+/area/ruin/powered/nsv13/trooptransport)
+"CL" = (
+/obj/effect/turf_decal/tile/yellow{
+	dir = 8
+	},
+/obj/effect/turf_decal/tile/yellow,
+/obj/machinery/atmospherics/components/trinary/mixer{
+	dir = 8;
+	node1_concentration = 0.3;
+	node2_concentration = 0.7
+	},
+/turf/open/floor/plasteel/dark/airless,
+/area/ruin/powered/nsv13/trooptransport)
+"Eq" = (
+/obj/machinery/door/airlock/ship/external{
+	dir = 4
+	},
+/turf/open/floor/plating,
+/area/template_noop)
+"Fn" = (
+/turf/closed/wall,
+/area/ruin/powered/nsv13/gunship)
+"FN" = (
+/obj/effect/turf_decal/tile/yellow{
+	dir = 8
+	},
+/obj/effect/turf_decal/tile/yellow{
+	dir = 1
+	},
 /obj/machinery/atmospherics/pipe/simple/general/visible,
 /obj/structure/window/plasma/reinforced{
 	dir = 4
 	},
 /turf/open/floor/plasteel/dark/airless,
 /area/ruin/powered/nsv13/trooptransport)
-"OA" = (
-/obj/effect/turf_decal/stripes/line{
-	dir = 8
-	},
-/obj/machinery/atmospherics/pipe/simple/general/visible{
-	dir = 6
-	},
-/turf/open/floor/engine,
-/area/ruin/powered/nsv13/trooptransport)
-"OF" = (
-/obj/machinery/atmospherics/components/trinary/filter/atmos/constricted_plasma/flipped,
-/obj/effect/turf_decal/stripes/line{
-	dir = 8
-	},
-/obj/effect/turf_decal/tile/yellow,
-/obj/effect/turf_decal/tile/yellow{
+"FX" = (
+/obj/machinery/atmospherics/pipe/simple/general/visible,
+/obj/structure/window/plasma/reinforced{
 	dir = 4
 	},
-/obj/structure/cable,
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/turf/open/floor/plasteel/dark/airless,
+/area/ruin/powered/nsv13/trooptransport)
+"GR" = (
+/obj/structure/shuttle/engine/propulsion/left{
+	dir = 1
+	},
+/turf/open/floor/plating/airless,
+/area/ruin/powered/nsv13/gunship)
+"Ji" = (
+/obj/structure/window/plasma/reinforced{
+	dir = 4
+	},
+/obj/structure/window/plasma/reinforced{
+	dir = 1
+	},
+/obj/machinery/atmospherics/components/unary/vent_pump/siphon/on{
+	dir = 1
+	},
+/turf/open/floor/engine/plasma,
+/area/ruin/powered/nsv13/trooptransport)
+"LB" = (
+/obj/effect/turf_decal/tile/yellow{
+	dir = 1
+	},
+/obj/machinery/atmospherics/pipe/simple/general/visible{
+	dir = 5
+	},
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/turf/open/floor/plasteel/dark/airless,
+/area/ruin/powered/nsv13/trooptransport)
+"LG" = (
+/obj/effect/turf_decal/tile/red{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/red{
+	dir = 4
+	},
+/mob/living/simple_animal/hostile/syndicate/melee,
 /turf/open/floor/plasteel/dark,
+/area/ruin/powered/nsv13/gunship)
+"Mt" = (
+/mob/living/simple_animal/hostile/syndicate/civilian,
+/turf/open/floor/plasteel/dark,
+/area/ruin/powered/nsv13/gunship)
+"MD" = (
+/turf/closed/wall/ship,
+/area/template_noop)
+"Ox" = (
+/obj/machinery/atmospherics/pipe/simple/general/visible,
+/obj/structure/window/plasma/reinforced{
+	dir = 4
+	},
+/turf/open/floor/plasteel/dark/airless,
 /area/ruin/powered/nsv13/trooptransport)
 "OL" = (
 /obj/effect/turf_decal/tile/yellow{
@@ -3528,24 +2527,6 @@
 	},
 /turf/open/floor/plasteel/dark/airless,
 /area/ruin/powered/nsv13/trooptransport)
-"PR" = (
-/obj/structure/particle_accelerator/particle_emitter/right,
-/obj/structure/cable,
-/obj/machinery/atmospherics/pipe/simple/general/visible{
-	dir = 4
-	},
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/nsv13/trooptransport)
-"Qx" = (
-/obj/effect/turf_decal/tile/yellow,
-/obj/effect/turf_decal/tile/yellow{
-	dir = 4
-	},
-/obj/structure/cable{
-	icon_state = "1-8"
-	},
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/nsv13/trooptransport)
 "QN" = (
 /obj/effect/turf_decal/tile/yellow{
 	dir = 8
@@ -3556,7 +2537,6 @@
 	},
 /turf/open/floor/plasteel/dark/airless,
 /area/ruin/powered/nsv13/trooptransport)
->>>>>>> boarding arm to mission ships:_maps/templates/NSV13_Corvette.dmm
 "Re" = (
 /obj/structure/cable{
 	icon_state = "1-2"
@@ -3564,26 +2544,23 @@
 /mob/living/simple_animal/hostile/syndicate/civilian,
 /turf/open/floor/plasteel/dark,
 /area/ruin/powered/nsv13/gunship)
+"SC" = (
+/obj/effect/turf_decal/tile/yellow{
+	dir = 4
+	},
+/obj/effect/turf_decal/tile/yellow{
+	dir = 1
+	},
+/obj/machinery/atmospherics/components/trinary/mixer/flipped{
+	dir = 4;
+	node1_concentration = 0.3;
+	node2_concentration = 0.7
+	},
+/turf/open/floor/plasteel/dark/airless,
+/area/ruin/powered/nsv13/trooptransport)
 "Ta" = (
 /turf/closed/wall/ship,
 /area/ruin/powered/nsv13/gunship)
-<<<<<<< refs/remotes/origin/master:_maps/templates/Corvette.dmm
-"VF" = (
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/nsv13/gunship)
-=======
-"Th" = (
-/obj/machinery/atmospherics/pipe/layer_manifold{
-	dir = 4
-	},
-/turf/closed/wall/ship,
-/area/ruin/powered/nsv13/trooptransport)
-"UI" = (
-/obj/machinery/atmospherics/pipe/simple/general/visible{
-	dir = 9
-	},
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/nsv13/trooptransport)
 "Vv" = (
 /obj/effect/turf_decal/tile/yellow{
 	dir = 8
@@ -3594,25 +2571,9 @@
 	},
 /turf/open/floor/plasteel/dark/airless,
 /area/ruin/powered/nsv13/trooptransport)
-"VE" = (
-/obj/structure/particle_accelerator/fuel_chamber,
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/nsv13/trooptransport)
 "VF" = (
 /turf/open/floor/plasteel/dark,
 /area/ruin/powered/nsv13/gunship)
-"WE" = (
-/obj/structure/cable{
-	icon_state = "4-8"
-	},
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/nsv13/trooptransport)
-"WS" = (
-/obj/machinery/atmospherics/pipe/layer_manifold{
-	dir = 4
-	},
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/nsv13/trooptransport)
 "XE" = (
 /obj/machinery/atmospherics/pipe/simple/general/visible{
 	dir = 5
@@ -3622,34 +2583,6 @@
 	},
 /turf/open/floor/plasteel/dark/airless,
 /area/ruin/powered/nsv13/trooptransport)
-"Yi" = (
-/obj/effect/turf_decal/stripes/line{
-	dir = 6
-	},
-/turf/open/floor/engine,
-/area/ruin/powered/nsv13/trooptransport)
-"Yq" = (
-/obj/structure/grille,
-/obj/structure/window/reinforced/fulltile/ship,
-/obj/machinery/atmospherics/pipe/simple/general/visible,
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/nsv13/trooptransport)
-"YZ" = (
-/obj/machinery/particle_accelerator/control_box,
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/nsv13/trooptransport)
-"Zz" = (
-/obj/effect/turf_decal/tile/yellow,
-/obj/effect/turf_decal/tile/yellow{
-	dir = 4
-	},
-/obj/structure/cable{
-	icon_state = "1-2"
-	},
-/obj/machinery/atmospherics/pipe/simple/general/visible,
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/nsv13/trooptransport)
->>>>>>> more requests:_maps/templates/NSV13_Corvette.dmm
 "ZP" = (
 /obj/effect/turf_decal/tile/red,
 /obj/effect/turf_decal/tile/red{
@@ -4047,29 +2980,29 @@ aa
 aa
 aa
 aa
-gq
+aa
+ab
 ac
-Ta
+af
+ac
+aa
 aV
-Ta
-fs
-eD
-eK
-eD
-eK
-eD
-eD
-fd
-eD
-eK
-eD
-eK
-fs
-Ta
+bd
 aV
-Ta
-fI
-gq
+bd
+aV
+aV
+bS
+aV
+bd
+aV
+bd
+aa
+ac
+af
+ac
+dj
+aa
 aa
 aa
 aa
@@ -4089,29 +3022,29 @@ aa
 aa
 aa
 aa
-gq
+aa
+ab
 ac
-Ta
+ax
+ac
+aa
 aW
-Ta
-fs
-Fn
-Fn
-Fn
-Fn
-eD
-eD
-eD
-Fn
-Fn
-Fn
-Fn
-fs
-Ta
 aW
-Ta
-fI
-gq
+aW
+aW
+aV
+aV
+aV
+aW
+aW
+aW
+aW
+aa
+ac
+ax
+ac
+dj
+aa
 aa
 aa
 aa
@@ -4131,29 +3064,29 @@ aa
 aa
 aa
 aa
-gq
-Ta
-Ta
-bd
-Ta
-fs
-eE
-eE
-eE
-fs
-Fn
-eD
-Fn
-fs
-eE
-eE
-eE
-fs
-Ta
-bd
-Ta
-Ta
-gq
+aa
+ac
+ac
+gR
+ac
+aa
+aa
+aa
+aa
+aa
+aW
+aV
+aW
+aa
+aa
+aa
+aa
+aa
+ac
+gR
+ac
+ac
+aa
 aa
 aa
 aa
@@ -4173,27 +3106,6 @@ aa
 aa
 aa
 aa
-<<<<<<< refs/remotes/origin/master:_maps/templates/Corvette.dmm
-gq
-Ta
-af
-bh
-Ta
-Ta
-eF
-eF
-eF
-fs
-Ta
-fa
-Ta
-fs
-eF
-eF
-eF
-Ta
-Ta
-=======
 aa
 ac
 eW
@@ -4206,8 +3118,8 @@ ac
 aa
 ac
 aV
-zq
-Ca
+eA
+eH
 ac
 ac
 ac
@@ -4248,80 +3160,17 @@ ac
 ac
 ac
 ac
-Th
+eB
 ac
 ac
->>>>>>> more requests:_maps/templates/NSV13_Corvette.dmm
 bh
-af
-Ta
-gq
-aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
-"}
-(14,1,1) = {"
-aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
-<<<<<<< refs/remotes/origin/master:_maps/templates/Corvette.dmm
-=======
+jB
+ti
+aH
+LB
+Vv
 ac
-SC
-BR
-AC
-Ox
-Ox
-QN
-FN
-FN
-Ji
-vy
-ow
-FN
-BT
-cm
-Ox
-Ox
-XE
-jb
-CL
-ac
->>>>>>> more requests:_maps/templates/NSV13_Corvette.dmm
 aa
-gq
-Ta
-aj
-bi
-cE
-ez
-eG
-eL
-Ta
-Ta
-Ta
-eF
-Ta
-Ta
-Ta
-eL
-fm
-ez
-cE
-fw
-fC
-Ta
-gq
 aa
 aa
 aa
@@ -4340,54 +3189,30 @@ aa
 aa
 aa
 aa
-<<<<<<< refs/remotes/origin/master:_maps/templates/Corvette.dmm
-=======
-ac
-OL
-FX
-jZ
-Ci
-ak
-ak
-li
-Yq
-Mn
-UI
-WS
-BM
-Os
-ak
-ak
-KJ
-fl
-FX
-ex
-ac
->>>>>>> more requests:_maps/templates/NSV13_Corvette.dmm
 aa
-gq
-Ta
-ax
-bS
-da
-eA
-eA
-eM
-eS
-eS
-eX
-fb
-fe
-eS
-eS
-fk
-eA
-eA
-fo
-fx
-fD
-Ta
-gq
+aa
+ac
+SC
+BR
+AC
+Ox
+Ox
+QN
+FN
+FN
+Ji
+et
+eC
+FN
+eI
+cm
+Ox
+Ox
+XE
+jb
+CL
+ac
+aa
 aa
 aa
 aa
@@ -4407,51 +3232,29 @@ aa
 aa
 aa
 aa
-<<<<<<< refs/remotes/origin/master:_maps/templates/Corvette.dmm
-gq
-Ta
-=======
+aa
 ac
-ah
-WE
-ak
-ak
-YZ
-ak
-os
-BM
-lo
-OA
-FV
-BM
-Mq
-ak
-ak
-ak
-ak
-WE
->>>>>>> more requests:_maps/templates/NSV13_Corvette.dmm
+OL
+FX
+jZ
+aY
 ay
-cd
-dj
-eB
-eH
-eH
-eH
-eH
-eH
-fc
-eH
-eH
-eH
-eH
-eH
-fn
-fp
-cd
-fE
-Ta
-gq
+ay
+cA
+ej
+en
+eu
+eD
+ek
+eJ
+ay
+ay
+eO
+fl
+FX
+ex
+ac
+aa
 aa
 aa
 aa
@@ -4470,62 +3273,38 @@ aa
 aa
 aa
 aa
-<<<<<<< refs/remotes/origin/master:_maps/templates/Corvette.dmm
-=======
+aa
+aa
 ac
-ah
-WE
-ak
-pZ
-ye
-VE
-gD
-jw
-MY
-eR
-CO
-jw
-Ab
-ak
-ak
-ak
-ak
-WE
+ag
+ai
 ay
+ay
+bx
+ay
+cZ
+ek
+eo
+ev
+eE
+ek
+eK
+ay
+ay
+ay
+ay
+ai
+eQ
 ac
->>>>>>> more requests:_maps/templates/NSV13_Corvette.dmm
-aa
-gq
-Ta
-az
-cm
-dY
-dY
-eI
-eN
-dY
-eU
-eU
-eT
-eU
-dY
-fh
-eI
-dY
-dY
-dY
-fy
-fF
-Ta
-gq
 aa
 aa
 aa
-MD
-MD
-MD
-MD
-MD
+aa
+aa
+aa
+aa
+aa
+aa
 "}
 (18,1,1) = {"
 aa
@@ -4536,73 +3315,75 @@ aa
 aa
 aa
 aa
-ew
-fs
-gq
-az
-cm
-dY
-dY
-eI
-dY
-eT
-eV
-eY
-eY
-eV
-eT
-dY
-eI
-dY
-dY
-fq
-fz
-ft
-Ta
-gq
-fJ
 aa
 aa
-<<<<<<< refs/remotes/origin/master:_maps/templates/Corvette.dmm
-=======
 ac
-ah
-WE
-ak
-ak
-ak
-ak
-PR
-BM
-wa
-aY
-Yi
-BM
-nh
-ak
-ak
-ak
-ak
-WE
+ag
+ai
 ay
+aZ
+cl
+cu
+ef
+el
+ep
+ew
+eF
+el
+eL
+ay
+ay
+ay
+ay
+ai
+eQ
 ac
->>>>>>> more requests:_maps/templates/NSV13_Corvette.dmm
-aa
-gq
 aa
 aa
 aa
-<<<<<<< refs/remotes/origin/master:_maps/templates/Corvette.dmm
+aa
+MD
+MD
+MD
+MD
+MD
 "}
 (19,1,1) = {"
 aa
 aa
-ab
-aa
-ba
 aa
 aa
-=======
+aa
+aa
+aa
+aa
+aa
+aa
+ac
+ag
+ai
+ay
+ay
+ay
+ay
+eg
+ek
+eq
+ey
+eG
+ek
+eh
+ay
+ay
+ay
+ay
+ai
+eQ
+ac
+aa
+aa
+aa
+aa
 MD
 qA
 qA
@@ -4610,32 +3391,6 @@ qA
 sJ
 "}
 (20,1,1) = {"
->>>>>>> boarding arm to mission ships:_maps/templates/NSV13_Corvette.dmm
-aa
-aa
-ab
-fs
-aA
-cm
-dY
-dY
-eJ
-eO
-dY
-eU
-eU
-eU
-eU
-fg
-fi
-eI
-dY
-dY
-dY
-cm
-fs
-fs
-fs
 aa
 aa
 aa
@@ -4644,140 +3399,72 @@ aa
 aa
 aa
 aa
-<<<<<<< refs/remotes/origin/master:_maps/templates/Corvette.dmm
+aa
+aa
+ac
+ag
+ai
+ay
+ay
+ay
+ay
+eh
+ek
+er
+er
+er
+ek
+eL
+ay
+ay
+ay
+ay
+ai
+eQ
+ac
+aa
+aa
+aa
+aa
+MD
+qA
+qA
+qA
+MD
 "}
-(20,1,1) = {"
-=======
+(21,1,1) = {"
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
 ac
 ah
-WE
 ak
-ak
-ak
-ak
-nh
-BM
-rk
-rk
-rk
-BM
-Ab
-ak
-ak
-ak
-ak
-WE
-ay
-ac
->>>>>>> more requests:_maps/templates/NSV13_Corvette.dmm
-aa
-aa
-aa
-aa
-ej
-aa
-<<<<<<< refs/remotes/origin/master:_maps/templates/Corvette.dmm
-aa
-aa
-gq
-fs
-fs
-aB
-cm
-dY
-dY
-dY
-dY
-dY
-eW
-eZ
-dY
-ff
-dY
-eZ
-dY
-dY
-dY
-dY
-fy
-fs
-fK
-fs
-aa
-gq
-aa
-aa
-=======
-MD
-qA
-qA
-qA
-MD
-"}
-(21,1,1) = {"
->>>>>>> boarding arm to mission ships:_maps/templates/NSV13_Corvette.dmm
-aa
-aa
-aa
-aa
-"}
-(21,1,1) = {"
-aa
-ei
-aa
-aa
-aa
-aa
-aa
-<<<<<<< refs/remotes/origin/master:_maps/templates/Corvette.dmm
-gq
-=======
-ac
-ai
 aA
-GC
-GC
-GC
-Hc
-Em
-Zz
-ug
-OF
-ug
-Zz
-Mj
-MK
-GC
-GC
-GC
-Qx
-cZ
-ac
->>>>>>> more requests:_maps/templates/NSV13_Corvette.dmm
-aa
-fs
-Ta
-aH
+aA
+aA
 cz
-ex
-ex
-ex
+ei
+em
+es
+ez
+es
+em
+eM
+eN
+aA
+aA
+aA
 eP
-ex
-ex
-ex
-ex
-ex
-ex
-ex
-fl
-ex
-ex
-ex
-fA
-fG
-fs
-fs
+eR
+ac
+aa
 aa
 aa
 aa
@@ -4797,64 +3484,30 @@ aa
 aa
 aa
 aa
-<<<<<<< refs/remotes/origin/master:_maps/templates/Corvette.dmm
-gq
-Ta
-Ta
-Ta
-Ta
-Ta
-Ta
-eQ
-Ta
-Ta
-Ta
-Ta
-Ta
-Ta
-Ta
-eQ
-Ta
-Ta
-Ta
-Ta
-Ta
-Ta
-fL
 aa
-aa
-<<<<<<< refs/remotes/origin/master:_maps/templates/Corvette.dmm
-gq
-=======
-aa
-ac
-ac
-ac
-ac
-ac
-ac
+Ta
+Ta
+Ta
+Ta
+Ta
+Ta
 dt
-ac
-ac
-ac
-ac
-ac
-ac
-ac
+Ta
+Ta
+Ta
+Ta
+Ta
+Ta
+Ta
 dt
-ac
-ac
-ac
-ac
-ac
-ac
->>>>>>> more requests:_maps/templates/NSV13_Corvette.dmm
+Ta
+Ta
+Ta
+Ta
+Ta
+Ta
 aa
 aa
-aa
-aa
-aa
-=======
 MD
 MD
 MD
@@ -4862,7 +3515,6 @@ Eq
 MD
 Eq
 MD
->>>>>>> boarding arm to mission ships:_maps/templates/NSV13_Corvette.dmm
 "}
 (23,1,1) = {"
 aa
@@ -4874,29 +3526,29 @@ aa
 aa
 aa
 aa
-gq
+aa
 Ta
+aj
+aB
 aI
-cA
-ey
-eC
-eC
-eR
-eC
-eC
-eC
-ey
-eC
-eC
-eC
-eR
-eC
-eC
-ey
-fB
-fH
+aB
+aB
+bi
+aB
+aB
+aB
+aI
+aB
+aB
+aB
+bi
+aB
+aB
+aI
+aB
+da
 Ta
-gq
+aa
 aa
 sJ
 qA
@@ -4916,12 +3568,12 @@ aa
 aa
 aa
 aa
-gq
+aa
 ad
 VF
-dZ
+dY
 dF
-gr
+dF
 dF
 bj
 dD
@@ -4933,12 +3585,12 @@ dG
 dD
 cn
 dF
-gr
 dF
-gc
+dF
+dZ
 VF
 ad
-gq
+aa
 aa
 MD
 qA
@@ -4958,10 +3610,10 @@ aa
 aa
 aa
 aa
-gq
+aa
 Ta
 al
-fS
+aC
 aJ
 aC
 aC
@@ -4977,10 +3629,10 @@ co
 aC
 aC
 aJ
-gd
+aC
 db
 Ta
-gq
+aa
 aa
 sJ
 qA
@@ -5000,29 +3652,29 @@ aa
 aa
 aa
 aa
-gq
+aa
 Ta
 Ta
 Ta
 Ta
 Ta
 Ta
-gs
-gt
+bl
+bs
 by
 by
 by
 by
 by
-gu
-gv
+cd
+dx
 Ta
 Ta
 Ta
 Ta
 Ta
 Ta
-gq
+aa
 aa
 MD
 MD
@@ -5042,19 +3694,19 @@ aa
 aa
 aa
 aa
-gq
+aa
 Ta
 VF
 VF
 VF
 aM
-ge
+Ta
 bl
 bt
 by
+VF
 bK
-eg
-ek
+VF
 by
 ce
 dx
@@ -5064,7 +3716,7 @@ cR
 cO
 dc
 Ta
-gq
+aa
 aa
 aa
 aa
@@ -5081,10 +3733,10 @@ aa
 aa
 aa
 aa
-ev
 aa
 aa
-gq
+aa
+aa
 Ta
 VF
 yU
@@ -5094,9 +3746,9 @@ Ta
 bl
 bt
 by
-dp
 VF
-el
+VF
+VF
 by
 ce
 dx
@@ -5106,7 +3758,7 @@ dv
 cP
 dc
 Ta
-gq
+aa
 aa
 aa
 aa
@@ -5126,8 +3778,8 @@ aa
 aa
 aa
 aa
-gq
-ag
+aa
+ae
 am
 VF
 VF
@@ -5136,9 +3788,9 @@ Ta
 bl
 bt
 by
-dp
 VF
-el
+VF
+VF
 by
 ce
 dx
@@ -5147,8 +3799,8 @@ dw
 dz
 cV
 dd
-hE
-gq
+ae
+aa
 aa
 aa
 aa
@@ -5166,31 +3818,31 @@ aa
 aa
 aa
 aa
-ej
 aa
-gq
-hE
+aa
+aa
+ae
 an
 aE
 dW
 dG
-cg
+dB
 bm
 dH
 bb
-dr
+dF
 ds
-em
+dF
 bb
 dJ
 cq
-cl
+cE
 cW
 ea
 ed
 de
-hE
-gq
+ae
+aa
 aa
 aa
 aa
@@ -5210,8 +3862,8 @@ aa
 aa
 aa
 aa
-gq
-hE
+aa
+ae
 ao
 VF
 VF
@@ -5220,9 +3872,9 @@ Ta
 bn
 dQ
 by
-dp
-dC
-el
+VF
+dS
+VF
 by
 dU
 dy
@@ -5231,8 +3883,8 @@ cF
 eb
 dA
 df
-hE
-gq
+ae
+aa
 aa
 aa
 aa
@@ -5252,19 +3904,19 @@ aa
 aa
 aa
 aa
-gq
+aa
 Ta
 VF
 VF
 VF
 aM
-ge
-gf
+Ta
+bl
 bt
 by
-dt
+bJ
 VF
-en
+be
 by
 ce
 dx
@@ -5274,7 +3926,7 @@ dv
 cS
 ec
 Ta
-gq
+aa
 aa
 aa
 aa
@@ -5294,19 +3946,19 @@ aa
 aa
 aa
 aa
-gq
+aa
 Ta
 VF
 VF
 VF
 aM
-ge
+Ta
 bl
-gi
+bt
 by
-dB
-gj
-eo
+VF
+VF
+VF
 by
 ce
 dx
@@ -5316,7 +3968,7 @@ du
 cT
 dg
 Ta
-gq
+aa
 aa
 aa
 aa
@@ -5336,19 +3988,19 @@ aa
 aa
 aa
 aa
-gq
+aa
 Ta
 Ta
 Ta
 Ta
 Ta
 Ta
-gh
-gg
+bl
+bt
 by
-ef
-eh
-ep
+VF
+VF
+VF
 by
 LG
 dx
@@ -5358,7 +4010,7 @@ Ta
 Ta
 Ta
 Ta
-gq
+aa
 aa
 aa
 aa
@@ -5378,7 +4030,7 @@ aa
 aa
 aa
 aa
-gq
+aa
 Ta
 ap
 VF
@@ -5388,9 +4040,9 @@ Ta
 bl
 bt
 by
-cZ
-gl
-cZ
+VF
+VF
+VF
 by
 ce
 dx
@@ -5400,7 +4052,7 @@ cU
 cX
 dh
 Ta
-gq
+aa
 aa
 aa
 aa
@@ -5420,7 +4072,7 @@ aa
 aa
 aa
 aa
-gq
+aa
 Ta
 VF
 VF
@@ -5430,9 +4082,9 @@ Ta
 bl
 bt
 by
-cN
-gm
-hy
+VF
+VF
+VF
 by
 ce
 dx
@@ -5442,7 +4094,7 @@ VF
 cY
 dk
 Ta
-gq
+aa
 aa
 aa
 aa
@@ -5462,8 +4114,8 @@ aa
 aa
 aa
 aa
-gq
-hE
+aa
+ae
 aq
 VF
 Mt
@@ -5472,9 +4124,9 @@ Ta
 bl
 bt
 by
-gp
-ht
-hy
+VF
+bL
+VF
 by
 ce
 dx
@@ -5483,8 +4135,8 @@ cK
 VF
 VF
 dd
-hE
-gq
+ae
+aa
 aa
 aa
 aa
@@ -5504,8 +4156,8 @@ aa
 aa
 aa
 aa
-gq
-hE
+aa
+ae
 ar
 Re
 dW
@@ -5520,13 +4172,13 @@ by
 by
 dV
 cq
-bv
+dp
 dG
 dX
 Re
 dl
-hE
-gq
+ae
+aa
 aa
 aa
 aa
@@ -5546,8 +4198,8 @@ aa
 aa
 aa
 aa
-gq
-hE
+aa
+ae
 as
 VF
 VF
@@ -5556,9 +4208,9 @@ Ta
 bn
 bt
 by
-gn
-hx
-gn
+VF
+bK
+VF
 by
 ce
 dy
@@ -5567,8 +4219,8 @@ cL
 Mt
 VF
 dm
-hE
-gq
+ae
+aa
 aa
 aa
 aa
@@ -5588,7 +4240,7 @@ aa
 aa
 aa
 aa
-gq
+aa
 Ta
 VF
 VF
@@ -5598,9 +4250,9 @@ Ta
 bl
 ZP
 by
-hz
-gm
-gk
+VF
+VF
+VF
 by
 ce
 dx
@@ -5610,7 +4262,7 @@ VF
 VF
 VF
 Ta
-gq
+aa
 aa
 aa
 aa
@@ -5630,7 +4282,7 @@ aa
 aa
 aa
 aa
-gq
+aa
 Ta
 at
 VF
@@ -5640,9 +4292,9 @@ Ta
 bl
 bt
 by
-go
-go
-go
+VF
+VF
+VF
 by
 ce
 dx
@@ -5652,7 +4304,7 @@ cQ
 cQ
 cQ
 Ta
-gq
+aa
 aa
 aa
 aa
@@ -5672,7 +4324,7 @@ aa
 aa
 aa
 aa
-gq
+aa
 Ta
 Ta
 Ta
@@ -5682,9 +4334,9 @@ Ta
 bl
 bt
 by
-bJ
-dO
-er
+VF
+VF
+VF
 by
 ce
 dx
@@ -5694,7 +4346,7 @@ Ta
 Ta
 Ta
 Ta
-gq
+aa
 aa
 aa
 aa
@@ -5714,7 +4366,7 @@ aa
 aa
 aa
 aa
-gq
+aa
 Ta
 au
 aF
@@ -5723,20 +4375,20 @@ aF
 Ta
 bl
 bt
-dS
-dp
-yU
-es
-dS
+by
+VF
+VF
+VF
+by
 ce
 dx
 Ta
-fs
-fs
-fs
-fs
-fs
-fs
+aa
+aa
+aa
+aa
+aa
+aa
 aa
 aa
 aa
@@ -5756,7 +4408,7 @@ aa
 aa
 aa
 aa
-gq
+aa
 Ta
 VF
 VF
@@ -5766,19 +4418,19 @@ Ta
 bl
 bt
 by
-dt
+bJ
 VF
-et
+be
 by
 ce
 dx
 dn
-fs
-fs
-fs
-fs
-fs
-fs
+aa
+aa
+aa
+aa
+aa
+aa
 aa
 aa
 aa
@@ -5798,8 +4450,8 @@ aa
 aa
 aa
 aa
-gq
-hE
+aa
+ae
 av
 aF
 VF
@@ -5808,19 +4460,19 @@ Ta
 bl
 bu
 by
-ef
-eq
-eu
+VF
+dO
+VF
 by
 dP
 dx
 Ta
-fs
-fs
-fs
-fs
-fs
-fs
+aa
+aa
+aa
+aa
+aa
+aa
 aa
 aa
 aa
@@ -5840,8 +4492,8 @@ aa
 aa
 aa
 aa
-gq
-hE
+aa
+ae
 ar
 aE
 dW
@@ -5849,11 +4501,11 @@ dG
 do
 bm
 dI
-hu
-ah
-ai
-ak
-hu
+bb
+dF
+dC
+dF
+bb
 dK
 dq
 Ta
@@ -5862,7 +4514,7 @@ Ta
 Ta
 Ta
 Ta
-fs
+aa
 aa
 aa
 aa
@@ -5882,8 +4534,8 @@ aa
 aa
 aa
 aa
-gq
-hE
+aa
+ae
 aw
 aF
 Mt
@@ -5892,9 +4544,9 @@ Ta
 bn
 bt
 by
-gk
-gk
-gk
+VF
+VF
+VF
 by
 LG
 dy
@@ -5904,7 +4556,7 @@ cI
 cI
 cI
 cI
-fs
+aa
 aa
 aa
 aa
@@ -5924,7 +4576,7 @@ aa
 aa
 aa
 aa
-gq
+aa
 Ta
 VF
 VF
@@ -5934,19 +4586,19 @@ Ta
 bl
 bt
 by
-gk
-gk
-gk
+VF
+VF
+VF
 by
 ce
 dx
-hF
+dn
 cJ
 cM
 cM
 ee
 di
-fs
+aa
 aa
 aa
 aa
@@ -5966,7 +4618,7 @@ aa
 aa
 aa
 aa
-gq
+aa
 Ta
 au
 aF
@@ -5976,9 +4628,9 @@ Ta
 bl
 bt
 by
-gk
-ht
-gk
+VF
+bL
+VF
 by
 ce
 dx
@@ -5988,7 +4640,7 @@ cI
 cI
 cI
 cI
-fs
+aa
 aa
 aa
 aa
@@ -6008,29 +4660,29 @@ aa
 aa
 aa
 aa
-gq
+aa
 Ta
 Ta
 Ta
 Ta
 Ta
 Ta
-aY
-aZ
-by
-by
-by
-by
-by
+bl
 bs
-bx
+by
+by
+by
+by
+by
+cd
+dx
 Ta
 Ta
 Ta
 Ta
 Ta
 Ta
-fs
+aa
 aa
 aa
 aa
@@ -6050,11 +4702,11 @@ aa
 aa
 aa
 aa
-gq
-gq
-gq
-gq
-gq
+aa
+aa
+aa
+aa
+aa
 Ta
 aD
 bo
@@ -6068,11 +4720,11 @@ dL
 cp
 cv
 Ta
-gq
-gq
-gq
-gq
-gq
+aa
+aa
+aa
+aa
+aa
 aa
 aa
 aa
@@ -6096,7 +4748,7 @@ aa
 aa
 aa
 aa
-gq
+aa
 Ta
 ce
 bp
@@ -6110,7 +4762,7 @@ dE
 ct
 bt
 Ta
-gq
+aa
 aa
 aa
 aa
@@ -6138,7 +4790,7 @@ aa
 aa
 aa
 aa
-gq
+aa
 Ta
 aG
 cr
@@ -6152,7 +4804,7 @@ cc
 cr
 cw
 Ta
-gq
+aa
 aa
 aa
 aa
@@ -6180,21 +4832,21 @@ aa
 aa
 aa
 aa
-gq
+aa
 Ta
-ca
-cb
-bC
-by
-by
-bL
-by
-by
+cg
 cs
+ca
+by
+by
+ql
+by
+by
 cb
-cu
+cs
+dr
 Ta
-gq
+aa
 aa
 aa
 aa
@@ -6222,11 +4874,11 @@ aa
 aa
 aa
 aa
-gq
-fr
+aa
+Ta
 ce
 cr
-fv
+bw
 by
 bg
 bN
@@ -6236,7 +4888,7 @@ ch
 cr
 bt
 Ta
-gq
+aa
 aa
 aa
 aa
@@ -6264,21 +4916,21 @@ aa
 aa
 aa
 aa
-gq
-fr
+aa
+Ta
 ce
 cr
 bw
 by
-hA
+bC
 bf
 bU
 by
-fR
+ch
 rh
 bt
 Ta
-gq
+aa
 aa
 aa
 aa
@@ -6306,8 +4958,8 @@ aa
 aa
 aa
 aa
-gq
-gq
+aa
+Ta
 ce
 dM
 bw
@@ -6320,7 +4972,7 @@ ci
 dM
 bt
 Ta
-gq
+aa
 aa
 aa
 aa
@@ -6348,7 +5000,7 @@ aa
 aa
 aa
 aa
-ac
+GR
 Ta
 ce
 bf
@@ -6362,7 +5014,7 @@ cj
 bf
 bt
 Ta
-fu
+cN
 aa
 aa
 aa
@@ -6390,9 +5042,9 @@ aa
 aa
 aa
 aa
-ac
+GR
 Ta
-ft
+ba
 bq
 bA
 by
@@ -6404,9 +5056,9 @@ ck
 aJ
 cD
 Ta
-gq
+cN
 aa
-ew
+aa
 aa
 aa
 aa
@@ -6432,11 +5084,11 @@ aa
 aa
 aa
 aa
-gq
+aa
 Ta
-fs
 Ta
-fr
+Ta
+Ta
 by
 bG
 Fn
@@ -6446,7 +5098,7 @@ Ta
 Ta
 Ta
 Ta
-gq
+aa
 aa
 aa
 aa
@@ -6474,25 +5126,25 @@ aa
 aa
 aa
 aa
-gq
-gq
-gq
-gq
-gq
-hE
+aa
+aa
+aa
+aa
+aa
+ae
 bH
 bQ
 bY
-hE
-fj
-gq
-gq
-gq
-gq
+ae
 aa
 aa
 aa
-ba
+aa
+aa
+aa
+aa
+aa
+aa
 aa
 aa
 aa
@@ -6521,11 +5173,11 @@ aa
 aa
 aa
 aa
-hE
+ae
 bI
 bR
 bZ
-hE
+ae
 aa
 aa
 aa
@@ -6601,9 +5253,9 @@ aa
 aa
 aa
 aa
-ab
 aa
-ei
+aa
+aa
 aa
 aa
 aa
