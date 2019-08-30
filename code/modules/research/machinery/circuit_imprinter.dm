@@ -19,7 +19,7 @@
 								)
 	production_animation = "circuit_imprinter_ani"
 	allowed_buildtypes = IMPRINTER
-//sephora added Advanced Munitions list above
+//nsv13 added Advanced Munitions list above
 
 /obj/machinery/rnd/production/circuit_imprinter/disconnect_console()
 	linked_console.linked_imprinter = null

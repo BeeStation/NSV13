@@ -11,7 +11,7 @@
 	name = "plating"
 	icon_state = "plating"
 	intact = FALSE
-	baseturfs = /turf/open/openspace //Sephora - Multiz explosions
+	baseturfs = /turf/open/openspace //nsv13 - Multiz explosions
 	footstep = FOOTSTEP_PLATING
 	barefootstep = FOOTSTEP_HARD_BAREFOOT
 	clawfootstep = FOOTSTEP_HARD_CLAW
