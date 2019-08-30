@@ -213,10 +213,6 @@ This is good:
 ````
 This prevents nesting levels from getting deeper then they need to be.
 
-### Project Naming
-
-Public-facing references to the server should be `NSV13`, However, CODE references, such as inline downstream edits, MUST refer to the internal name `sephora`. This is to prevent undue work changing this name.
-
 ### Develop Secure Code
 
 * Player input must always be escaped safely, we recommend you use stripped_input in all cases where you would use input. Essentially, just always treat input from players as inherently malicious and design with that use case in mind
