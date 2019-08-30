@@ -37,7 +37,7 @@
 	var/syndie = FALSE  // If true, hears all well-known channels automatically, and can say/hear on the Syndicate channel.
 	var/list/channels = list()  // Map from name (see communications.dm) to on/off. First entry is current department (:h).
 	var/list/secure_radio_connections
-	var/list/radio_sounds = list('sephora/sound/effects/radio1.ogg','sephora/sound/effects/radio2.ogg') //Sephora - Radios make small static noises now
+	var/list/radio_sounds = list('nsv13/sound/effects/radio1.ogg','nsv13/sound/effects/radio2.ogg') //nsv13 - Radios make small static noises now
 
 	var/const/FREQ_LISTENING = 1
 	//FREQ_BROADCASTING = 2
@@ -205,7 +205,7 @@
 		return
 	if(!M.IsVocal())
 		return
-	if(radio_sounds.len) //Sephora - Radios make small static sounds now.
+	if(radio_sounds.len) //nsv13 - Radios make small static sounds now.
 		var/sound/radio_sound = pick(radio_sounds)
 		playsound(M.loc, radio_sound, 50, 1)
 

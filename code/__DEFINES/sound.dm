@@ -8,8 +8,8 @@
 #define CHANNEL_AMBIENCE 1018
 #define CHANNEL_BUZZ 1017
 #define CHANNEL_BICYCLE 1016
-#define CHANNEL_SHIP_ALERT 1015 //Sephora - sound channel for looping ship alerts, EG general quarters
-#define CHANNEL_REACTOR_ALERT 1014 //Sephora - sound channel for the nuclear storm drive meltdown sfx.
+#define CHANNEL_SHIP_ALERT 1015 //nsv13 - sound channel for looping ship alerts, EG general quarters
+#define CHANNEL_REACTOR_ALERT 1014 //nsv13 - sound channel for the nuclear storm drive meltdown sfx.
 
 //THIS SHOULD ALWAYS BE THE LOWEST ONE!
 //KEEP IT UPDATED

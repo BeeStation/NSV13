@@ -17,7 +17,7 @@
 	paycheck_department = ACCOUNT_SRV
 
 	display_order = JOB_DISPLAY_ORDER_CLOWN
-	display_rank = "CRW" //Sephora - Displays the player's actual rank alongside their name, such as GSGT Sergei Koralev
+	display_rank = "CRW" //nsv13 - Displays the player's actual rank alongside their name, such as GSGT Sergei Koralev
 
 
 /datum/job/clown/after_spawn(mob/living/carbon/human/H, mob/M)
