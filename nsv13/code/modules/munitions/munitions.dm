@@ -693,7 +693,7 @@
 			if(tool.use_tool(src, user, 40, volume=100))
 				to_chat(user, "<span class='notice'You seal the casing on [src].</span>")
 				var/obj/structure/munition/bomb = new_torpedo(wh, gs, ps, iff)
-				bomb.speed = ps.speed //Placeholder, but allows for faster torps if we ever add that
+				bomb.speed = ps?.speed //Placeholder, but allows for faster torps if we ever add that
 				qdel(src)
 			return TRUE
 

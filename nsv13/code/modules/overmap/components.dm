@@ -85,12 +85,20 @@ GLOBAL_LIST_INIT(computer_beeps, list('nsv13/sound/effects/computer/beep.ogg','n
 	. = ..()
 	if(!has_overmap())
 		return
+	if(isobserver(user))
+		var/mob/dead/observer/O = user
+		O.ManualFollow(linked)
+		return
 	playsound(src, 'nsv13/sound/effects/computer/hum.ogg', 100, 1)
 	linked.start_piloting(user, "observer")
 
 /obj/machinery/computer/ship/viewscreen/attack_hand(mob/user)
 	. = ..()
 	if(!has_overmap())
+		return
+	if(isobserver(user))
+		var/mob/dead/observer/O = user
+		O.ManualFollow(linked)
 		return
 	playsound(src, 'nsv13/sound/effects/computer/hum.ogg', 100, 1)
 	linked.start_piloting(user, "observer")

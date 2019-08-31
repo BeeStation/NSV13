@@ -25,6 +25,16 @@
 	icon_state = "explosion"
 	duration = 10
 
+/obj/effect/temp_visual/overmap_explosion
+	icon = 'nsv13/goonstation/icons/hugeexplosion.dmi'
+	icon_state = "explosion"
+	duration = 10
+
+/obj/effect/temp_visual/overmap_explosion/alt
+	icon = 'nsv13/goonstation/icons/hugeexplosion2.dmi'
+	icon_state = "explosion"
+	duration = 10
+
 /obj/item/projectile/bullet/torpedo/Crossed(atom/movable/AM) //Here, we check if the bullet that hit us is from a friendly ship. If it's from an enemy ship, we explode as we've been flak'd down.
 	. = ..()
 	if(istype(AM, /obj/item/projectile))
@@ -78,7 +88,7 @@
 			if(!istype(X, /obj/structure/overmap))
 				continue
 			var/obj/structure/overmap/ship = X
-			if(ship == src || ship.faction == faction) //No friendly fire
+			if(ship == src || ship.faction == faction || ship.wrecked) //No friendly fire, don't blow up wrecks that the crew may wish to loot.
 				continue
 			var/target_range = get_dist(ship,src)
 			if(target_range > initial(weapon_range)) //If the target is out of PDC range, don't shoot. This prevents OP shit like spamming torps AND PDC flak all over a target.
