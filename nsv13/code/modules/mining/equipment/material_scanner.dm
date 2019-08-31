@@ -48,15 +48,12 @@ obj/item/material_scanner/attackby(obj/item/I, mob/user, params)
 	if(istype(A, /turf/closed/mineral/dense))
 		var/turf/closed/mineral/dense/T = A
 		scanned_materials = T.composition
-	else if(isitem(A))
-		var/obj/item/I = A
-		scanned_materials = I.custom_materials
 	else
-		scanned_materials = custom_materials
+		scanned_materials = A.custom_materials
 	if(scanned_materials?.len)
 		send_scan_message(user, A, scanned_materials)
 	else
-		to_chat(user, "<span class='notice'>No metological traces detected.</span>")
+		to_chat(user, "<span class='notice'>No distinct materfial traces detected.</span>")
 
 ///Send a message to the player showing the makeup of the thing they're scanning
 /obj/item/material_scanner/proc/send_scan_message(mob/living/user, atom/A, var/list/scanned_materials)
