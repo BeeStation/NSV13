@@ -1,4 +1,4 @@
-/**********************Mining Scanners**********************/
+/**********************Mining Scanners********************** Nsv13 - Mining rework. Replaced by our override file.
 /obj/item/mining_scanner
 	desc = "A scanner that checks surrounding rock for useful minerals; it can also be used to stop gibtonite detonations."
 	name = "manual mining scanner"
@@ -84,3 +84,4 @@
 /obj/effect/temp_visual/mining_overlay/Initialize()
 	. = ..()
 	animate(src, alpha = 0, time = duration, easing = EASE_IN)
+*/

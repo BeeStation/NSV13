@@ -142,29 +142,5 @@
 	drill_level = DRILL_HARDENED
 	force = 15
 
-
-/obj/item/mecha_parts/mecha_equipment/mining_scanner
-	name = "exosuit mining scanner"
-	desc = "Equipment for engineering and combat exosuits. It will automatically check surrounding rock for useful minerals."
-	icon_state = "mecha_analyzer"
-	selectable = 0
-	equip_cooldown = 15
-	var/scanning_time = 0
-
-/obj/item/mecha_parts/mecha_equipment/mining_scanner/Initialize()
-	. = ..()
-	START_PROCESSING(SSfastprocess, src)
-
-/obj/item/mecha_parts/mecha_equipment/mining_scanner/process()
-	if(!loc)
-		STOP_PROCESSING(SSfastprocess, src)
-		qdel(src)
-	if(istype(loc, /obj/mecha/working) && scanning_time <= world.time)
-		var/obj/mecha/working/mecha = loc
-		if(!mecha.occupant)
-			return
-		scanning_time = world.time + equip_cooldown
-		mineral_scan_pulse(get_turf(src))
-
 #undef DRILL_BASIC
 #undef DRILL_HARDENED

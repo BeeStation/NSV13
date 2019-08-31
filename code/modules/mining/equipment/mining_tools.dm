@@ -16,6 +16,15 @@
 	toolspeed = 1
 	usesound = list('sound/effects/picaxe1.ogg', 'sound/effects/picaxe2.ogg', 'sound/effects/picaxe3.ogg')
 	attack_verb = list("hit", "pierced", "sliced", "attacked")
+	var/tunnel_mining = FALSE
+
+/obj/item/pickaxe/attack_self(mob/user)
+	. = ..()
+	if(tunnel_mining)
+		to_chat(user, "<span class='notice'>You stop tunnel mining with [src].</span>")
+	else
+		to_chat(user, "<span class='notice'>You start tunnel mining with [src].</span>")
+	tunnel_mining = !tunnel_mining
 
 /obj/item/pickaxe/suicide_act(mob/living/user)
 	user.visible_message("<span class='suicide'>[user] begins digging into [user.p_their()] chest!  It looks like [user.p_theyre()] trying to commit suicide!</span>")
@@ -55,7 +64,7 @@
 	icon_state = "handdrill"
 	item_state = "jackhammer"
 	slot_flags = ITEM_SLOT_BELT
-	toolspeed = 0.6 //available from roundstart, faster than a pickaxe.
+	toolspeed = 0.8 //available from roundstart, faster than a pickaxe.
 	usesound = 'sound/weapons/drill.ogg'
 	hitsound = 'sound/weapons/drill.ogg'
 	desc = "An electric mining drill for the especially scrawny."
@@ -72,19 +81,19 @@
 /obj/item/pickaxe/drill/diamonddrill
 	name = "diamond-tipped mining drill"
 	icon_state = "diamonddrill"
-	toolspeed = 0.2
+	toolspeed = 0.6
 	desc = "Yours is the drill that will pierce the heavens!"
 
 /obj/item/pickaxe/drill/cyborg/diamond //This is the BORG version!
 	name = "diamond-tipped cyborg mining drill" //To inherit the NODROP_1 flag, and easier to change borg specific drill mechanics.
 	icon_state = "diamonddrill"
-	toolspeed = 0.2
+	toolspeed = 0.4
 
 /obj/item/pickaxe/drill/jackhammer
 	name = "sonic jackhammer"
 	icon_state = "jackhammer"
 	item_state = "jackhammer"
-	toolspeed = 0.1 //the epitome of powertools. extremely fast mining, laughs at puny walls
+	toolspeed = 0.2 //the epitome of powertools. extremely fast mining, laughs at puny walls
 	w_class = WEIGHT_CLASS_HUGE //the epitome of power(gamer)tools is CHUNCKY
 	usesound = 'sound/weapons/sonic_jackhammer.ogg'
 	hitsound = 'sound/weapons/sonic_jackhammer.ogg'

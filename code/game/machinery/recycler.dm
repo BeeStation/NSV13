@@ -131,7 +131,10 @@
 		playsound(src, item_recycle_sound, 50, 1)
 
 /obj/machinery/recycler/proc/recycle_item(obj/item/I)
-
+	if(!I.can_recycle) //nsv13 - Mining rework
+		playsound(src, 'sound/machines/buzz-sigh.ogg', 50, 0)
+		I.forceMove(loc)
+		return //nsv13 end
 	I.forceMove(loc)
 	var/obj/item/grown/log/L = I
 	if(istype(L))

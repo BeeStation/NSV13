@@ -250,7 +250,6 @@
 		/obj/item/stack/tile/plasteel/cyborg,
 		/obj/item/extinguisher,
 		/obj/item/pickaxe,
-		/obj/item/t_scanner/adv_mining_scanner,
 		/obj/item/restraints/handcuffs/cable/zipties,
 		/obj/item/soap/nanotrasen,
 		/obj/item/borg/cyborghug)
@@ -544,7 +543,7 @@
 	cyborg_base_icon = "miner"
 	moduleselect_icon = "miner"
 	hat_offset = 0
-	var/obj/item/t_scanner/adv_mining_scanner/cyborg/mining_scanner //built in memes.
+	var/obj/item/material_scanner/mining_scanner //Nsv13 - Mining rework. built in memes.
 
 /obj/item/robot_module/miner/rebuild_modules()
 	. = ..()

@@ -30,7 +30,7 @@
 		new /datum/data/mining_equipment("Jaunter",						/obj/item/wormhole_jaunter,											750),
 		new /datum/data/mining_equipment("Kinetic Crusher",				/obj/item/twohanded/kinetic_crusher,								750),
 		new /datum/data/mining_equipment("Kinetic Accelerator",			/obj/item/gun/energy/kinetic_accelerator,							750),
-		new /datum/data/mining_equipment("Advanced Scanner",			/obj/item/t_scanner/adv_mining_scanner,								800),
+		new /datum/data/mining_equipment("Material Scanner",			/obj/item/material_scanner,											800),
 		new /datum/data/mining_equipment("Resonator",					/obj/item/resonator,												800),
 		new /datum/data/mining_equipment("Fulton Pack",					/obj/item/extraction_pack,											1000),
 		new /datum/data/mining_equipment("Lazarus Injector",			/obj/item/lazarus_injector,											1000),
@@ -256,7 +256,7 @@
 
 /obj/item/storage/backpack/duffelbag/mining_conscript/PopulateContents()
 	new /obj/item/clothing/glasses/meson(src)
-	new /obj/item/t_scanner/adv_mining_scanner/lesser(src)
+	new /obj/item/material_scanner(src)
 	new /obj/item/storage/bag/ore(src)
 	new /obj/item/clothing/suit/hooded/explorer(src)
 	new /obj/item/encryptionkey/headset_mining(src)

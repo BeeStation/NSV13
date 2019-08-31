@@ -1,6 +1,6 @@
 /*! Material datum
 
-Simple datum which is instanced once per type and is used for every object of said material. It has a variety of variables that define behavior. Subtyping from this makes it easier to create your own materials. 
+Simple datum which is instanced once per type and is used for every object of said material. It has a variety of variables that define behavior. Subtyping from this makes it easier to create your own materials.
 
 */
 
@@ -16,10 +16,12 @@ Simple datum which is instanced once per type and is used for every object of sa
 	var/alpha
 	///Materials "Traits". its a map of key = category | Value = Bool. Used to define what it can be used for.gold
 	var/list/categories = list()
-	///The type of sheet this material creates. This should be replaced as soon as possible by greyscale sheets.
+	///The type of refined sheet this material creates. This should be replaced as soon as possible by greyscale sheets.
 	var/sheet_type
 	///The type of coin this material spawns. This should be replaced as soon as possible by greyscale coins.
 	var/coin_type
+	///Nsv13 - Mining rework. The type of ore this material spawns. This should become greyscale ore for non-specific materials.
+	var/ore_type
 	///This is a modifier for force, and resembles the strength of the material
 	var/strength_modifier = 1
 	///This is a modifier for integrity, and resembles the strength of the material
@@ -52,7 +54,7 @@ Simple datum which is instanced once per type and is used for every object of sa
 		if(color)
 			source.remove_atom_colour(FIXED_COLOUR_PRIORITY, color)
 		source.alpha = initial(source.alpha)
-	
+
 	if(istype(source, /obj)) //objs
 		on_removed_obj(source, material_flags)
 

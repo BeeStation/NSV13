@@ -503,15 +503,6 @@
 	construction_time = 100
 	category = list("Exosuit Equipment")
 
-/datum/design/mech_mining_scanner
-	name = "Exosuit Engineering Equipment (Mining Scanner)"
-	id = "mech_mscanner"
-	build_type = MECHFAB
-	build_path = /obj/item/mecha_parts/mecha_equipment/mining_scanner
-	materials = list(/datum/material/iron=5000,/datum/material/glass = 2500)
-	construction_time = 50
-	category = list("Exosuit Equipment")
-
 /datum/design/mech_extinguisher
 	name = "Exosuit Engineering Equipment (Extinguisher)"
 	id = "mech_extinguisher"

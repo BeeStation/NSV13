@@ -100,10 +100,6 @@
 		to_chat(user, "<span class='info'>You repair some of the armor on [src].</span>")
 
 /mob/living/simple_animal/hostile/mining_drone/attackby(obj/item/I, mob/user, params)
-	if(istype(I, /obj/item/mining_scanner) || istype(I, /obj/item/t_scanner/adv_mining_scanner))
-		to_chat(user, "<span class='info'>You instruct [src] to drop any collected ore.</span>")
-		DropOre()
-		return
 	if(I.tool_behaviour == TOOL_CROWBAR || istype(I, /obj/item/borg/upgrade/modkit))
 		I.melee_attack_chain(user, stored_gun, params)
 		return

@@ -160,7 +160,7 @@
 
 		custom_materials = null //Null the list to prepare for applying the materials properly
 		set_custom_materials(temp_list)
-		
+
 
 	ComponentInitialize()
 
@@ -464,7 +464,7 @@
 	if(desc)
 		. += desc
 
-	if(custom_materials)
+	if(custom_materials && !(material_flags & MATERIAL_NO_DESC)) //Nsv13 - Mining rework
 		for(var/i in custom_materials)
 			var/datum/material/M = i
 			. += "<u>It is made out of [M.name]</u>."
@@ -1110,6 +1110,9 @@
 
 	for(var/x in materials)
 		var/datum/material/custom_material = x
+
+		if(materials[custom_material] <= 0) //Nsv13 - Mining rework. Can't have 0 or less of something.
+			continue
 
 		custom_material.on_applied(src, materials[custom_material] * multiplier, material_flags)
 		custom_materials[custom_material] += materials[custom_material] * multiplier
