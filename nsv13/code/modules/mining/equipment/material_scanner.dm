@@ -38,10 +38,11 @@ obj/item/material_scanner/attackby(obj/item/I, mob/user, params)
 
 
 ///Scan an atom to find out what its made out of
-obj/item/material_scanner/proc/scan(mob/living/user, atom/A)
+/obj/item/material_scanner/proc/scan(mob/living/user, atom/A)
 	var/list/scanned_materials
 
 	if(current_cooldown > world.time)
+		to_chat(user, "<span class='notice'>Sensors recharging. Please wait.</span>")
 		return
 	current_cooldown = world.time + cooldown
 	if(istype(A, /turf/closed/mineral/dense))
@@ -54,9 +55,11 @@ obj/item/material_scanner/proc/scan(mob/living/user, atom/A)
 		scanned_materials = custom_materials
 	if(scanned_materials?.len)
 		send_scan_message(user, A, scanned_materials)
+	else
+		to_chat(user, "<span class='notice'>No metological traces detected.</span>")
 
 ///Send a message to the player showing the makeup of the thing they're scanning
-obj/item/material_scanner/proc/send_scan_message(mob/living/user, atom/A, var/list/scanned_materials)
+/obj/item/material_scanner/proc/send_scan_message(mob/living/user, atom/A, var/list/scanned_materials)
 	var/message
 	message += "<span class='notice'>You scan [A]'s materials:</span><br>"
 
