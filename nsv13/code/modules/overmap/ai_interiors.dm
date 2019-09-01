@@ -1,26 +1,39 @@
 /obj/structure/overmap
-	var/interior_maps = null //Set this for AI ships. This allows them to be boarded. A random interior is picked on a per-ship basis.
+	var/list/interior_maps = list() //Set this for AI ships. This allows them to be boarded. A random interior is picked on a per-ship basis.
 	var/wrecked = FALSE //This tells you whether an AI controlled ship has been defeated, and is in the process of exploding.
 
 /obj/effect/landmark/ship_interior_spawn
 	name = "Ship interior spawn"
 	desc = "A spawner which will spawn a ship on demand. Use with caution."
 	var/interior_map = null
+	var/used = FALSE //Are we available to spawn with?
 
 /obj/effect/landmark/ship_interior_spawn/proc/load(templatename)
+	if(used)
+		return
 	var/datum/map_template/template = SSmapping.map_templates[templatename]
 	if(template?.load(get_turf(src), centered = FALSE))
+		used = TRUE
 		return TRUE
 	else
 		return FALSE
 
 /datum/map_template/corvette
 	name = "Corvette"
-	mappath = "_maps/templates/sephora/Corvette.dmm"
+	mappath = "_maps/templates/Corvette.dmm"
+
+/obj/structure/overmap/proc/load_interior()
+	if(!interior_maps?.len)
+		return FALSE
+	var/interior_map = pick(interior_maps)
+	for(var/obj/effect/landmark/ship_interior_spawn/SI in GLOB.landmarks_list)
+		if(!SI.used)
+			if(SI.load(interior_map))
+				return TRUE
 
 /obj/structure/overmap/Destroy()
 	relay('nsv13/sound/effects/ship/damage/ship_explode.ogg')
-	animate(src, alpha = 0,time = 20)
+	animate(src, alpha = 0,time = 20) //Ship fades to black
 	if(prob(50))
 		new /obj/effect/temp_visual/overmap_explosion(get_turf(src)) //Draw an explosion. Picks between two types.
 	else

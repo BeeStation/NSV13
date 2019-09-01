@@ -175,7 +175,7 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 		dat += "<A href='?src=\ref[src];maintenance=1'>AZ-4: Initiate reactor maintenance protocols</font></A><BR>"
 	else
 		dat += "<A href='?src=\ref[src];maintenance=1'>AZ-4: Disengage reactor maintenance protocols</font></A><BR>"
-	dat += "<A href='?src=\ref[src];rods_4=1'>AZ-5: Initiate controlled reactor shutdown (SCRAM)</font></A><BR>" //AZ5 machine broke
+	dat += "<A href='?src=\ref[src];rods_4=1'>AZ-5: Attempt immediate reactor shutdown (SCRAM)</font></A><BR>" //AZ5 machine broke
 	if(reactor.pipe?.on == TRUE)
 		dat += "<A href='?src=\ref[src];pipe=1'>AZ-6: Close release valve</font></A><BR>"
 	if(reactor.pipe?.on == FALSE)
@@ -628,6 +628,12 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 	icon = 'nsv13/icons/obj/machinery/reactor_parts.dmi'
 	icon_state = "nuclearwaste"
 	alpha = 150
+	light_color = LIGHT_COLOR_CYAN
+	color = "#ff9eff"
+
+/obj/effect/decal/nuclear_waste/Initialize()
+	. = ..()
+	set_light(3)
 
 /obj/effect/decal/nuclear_waste/epicenter //The one that actually does the irradiating. This is to avoid every bit of sludge PROCESSING
 	name = "Dense nuclear sludge"
@@ -642,10 +648,10 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 /obj/effect/landmark/nuclear_waste_spawner/proc/fire()
 	playsound(loc, 'sound/effects/gib_step.ogg', 100)
 	new /obj/effect/decal/nuclear_waste/epicenter(get_turf(src))
-	for(var/X in orange(range, get_turf(src)))
-		if(istype(X, /turf/open/floor))
-			var/turf/T = X
-			new /obj/effect/decal/nuclear_waste (get_turf(T))
+	for(var/turf/open/floor in orange(range, get_turf(src)))
+		if(prob(35)) //Scatter the sludge, don't smear it everywhere
+			new /obj/effect/decal/nuclear_waste (floor)
+			floor.acid_act(200, 100)
 	qdel(src)
 
 /obj/effect/decal/nuclear_waste/epicenter/Initialize()

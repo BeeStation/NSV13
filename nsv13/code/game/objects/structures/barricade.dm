@@ -127,7 +127,18 @@
 		var/obj/item/projectile/S = O
 		if(get_turf(S.firer) == get_turf(src)) //This is a pretty safe bet to say that they're allowed to shoot through us.
 			return TRUE
-		if(get_dir(S.starting, target) == dir) //In other words, theyre shooting the way that we're facing. So that means theyre behind us, and are allowed.
+		var/edir = get_dir(S.starting,target)
+		if(!(edir in GLOB.cardinals)) //Sometimes shit can come in from odd angles, so we need to strip out diagonals
+			switch(edir)
+				if(NORTHEAST)
+					edir = EAST
+				if(NORTHWEST)
+					edir = WEST
+				if(SOUTHEAST)
+					edir = EAST
+				if(SOUTHWEST)
+					edir = WEST
+		if(edir == dir) //In other words, theyre shooting the way that we're facing. So that means theyre behind us, and are allowed.
 			return TRUE
 		else
 			return FALSE
