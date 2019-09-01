@@ -120,13 +120,12 @@
 /turf/closed/mineral/dense
 	environment_type = "basalt"
 	hardness = ROCK_HARDNESS_NORMAL
-	turf_type = /turf/open/floor/plating/asteroid/basalt/lava_land_surface
-	baseturfs = /turf/open/floor/plating/asteroid/basalt/lava_land_surface
-	initial_gas_mix = OPENTURF_DEFAULT_ATMOS
+	turf_type = /turf/open/floor/plating/asteroid
+	baseturfs = /turf/open/floor/plating/asteroid
 	defer_change = 1
-	var/composition = list()
+	var/list/composition = list()
+	var/can_become_vein = TRUE
 
-/// Takes a map of /datum/material references || percentage, which should come out to a 100% in total, otherwise generates its own composition (Which is usually low in yield)
 /turf/closed/mineral/dense/Initialize(mapload)
 	. = ..()
 	generate_random_composition()
@@ -169,7 +168,7 @@
 	temp_composition[getmaterialref(/datum/material/sand)] = basalt_amount //sediment amount
 	total_amount -= basalt_amount
 
-	var/other_material_count = rand(1, 3)
+	var/other_material_count = rand(1, 5)
 
 	for(var/i in 1 to other_material_count)
 		var/material = getmaterialref(pickweight(MINERAL_RARITY_LIST)) //Pick the material to use and get the ref
@@ -177,30 +176,67 @@
 		temp_composition[material] += mat_amount
 	composition = temp_composition
 
-/turf/closed/mineral/dense/vein_core
-	var/datum/material/core_mineral
+/turf/closed/mineral/dense/vein
+	name = "Vein Rock"
+	var/list/core_minerals = list(/datum/material/plasma = 25, /datum/material/titanium = 3) //Default
+	var/base_spread = 0.7 //50% chance at first spread.
+	var/base_spread_loss = 2 //Division per spread
+	can_become_vein = FALSE
 
-/turf/closed/mineral/dense/vein_core/generate_random_composition()
+/turf/closed/mineral/dense/vein/Initialize(mapload)
+	. = ..()
+	var/activated_overlay = mutable_appearance('icons/turf/smoothrocks.dmi', "vein_overlay", ON_EDGED_TURF_LAYER)
+	add_overlay(activated_overlay)
+
+/turf/closed/mineral/dense/vein/generate_random_composition() //We're not as random as other rocks.
+	return FALSE
+
+/turf/closed/mineral/dense/vein/proc/setup_composition(var/list/core_composition)
+	if(core_composition)
+		core_minerals = core_composition
+
 	var/list/temp_composition = list()
 	var/total_amount = MINERAL_TURF_AMOUNT
 
 	var/basalt_amount = total_amount * (rand(10, 25) / 100) //How much sand will this rock consist of
-
 	temp_composition[getmaterialref(/datum/material/sand)] = basalt_amount //sediment amount
+
 	total_amount -= basalt_amount
 
-	temp_composition[core_mineral] += total_amount
+	var/core_material_count = rand(1, 15)
+
+	for(var/i in 1 to core_material_count)
+		var/material = getmaterialref(pickweight(core_minerals)) //Pick the material to use and get the ref
+		var/mat_amount = total_amount / core_material_count // Replace this to make the distribution look more smooth later
+		temp_composition[material] += mat_amount
 
 	composition = temp_composition
 
-/turf/closed/mineral/dense/vein_core/proc/generate_vein(var/datum/material/M)
-	core_mineral = M
-	generate_random_composition()
+/turf/closed/mineral/dense/vein/proc/create_vein() //Create vein, which encircles the turf selected with veins and then slowly creeps out
 	for(var/dir in GLOB.cardinals)
 		var/turf/T = get_step(src, dir)
-		if(istype(T, /turf/closed/mineral/dense))
-			var/turf/closed/mineral/dense/vein_core/V = T.ChangeTurf(type)
-			V.composition = composition
+		if(!istype(T, /turf/closed/mineral/dense))
+			continue
+		var/turf/closed/mineral/dense/D = T
+		if(!D.can_become_vein)
+			continue
+		var/turf/closed/mineral/dense/vein/V = D.ChangeTurf(type)
+		V.setup_composition(core_minerals)
+		V.spread_vein(base_spread)
+
+/turf/closed/mineral/dense/vein/proc/spread_vein(spread_chance)
+	for(var/dir in GLOB.cardinals)
+		var/turf/T = get_step(src, dir)
+		if(!istype(T, /turf/closed/mineral/dense))
+			continue
+		var/turf/closed/mineral/dense/D = T
+		if(!D.can_become_vein)
+			continue
+		if(!prob(spread_chance))
+			continue
+		var/turf/closed/mineral/dense/vein/V = T.ChangeTurf(type)
+		V.setup_composition(core_minerals)
+		V.spread_vein(spread_chance / base_spread_loss) //Less efficient than creation
 
 /turf/closed/mineral/random/volcanic/Initialize()
 	. = ..()

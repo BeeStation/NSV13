@@ -3,6 +3,7 @@
 	desc = "Burns rocks with high temperature flames."
 	icon = 'icons/obj/watercloset.dmi'
 	icon_state = "rock_cleaner"
+	layer = ABOVE_MOB_LAYER
 	var/process_flag = MINING_PROCESSOR_BURNING
 	var/signal_to_send = COMSIG_COMPONENT_BURNPROCESS
 	var/ore_coefficients = list(/datum/material/iron = 1, /datum/material/sand = 1, /datum/material/plasma = 1, /datum/material/silver = 1, /datum/material/gold = 1, /datum/material/uranium = 1,\

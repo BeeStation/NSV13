@@ -4,6 +4,8 @@
 	icon = 'icons/obj/machines/mining_machines.dmi'
 	icon_state = "furnace"
 	density = TRUE
+	input_dir = SOUTH
+	output_dir = NORTH
 	var/obj/item/ore_filtration_mesh/ore_filtration_mesh
 
 ///Adds the material container to the filter
