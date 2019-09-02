@@ -22,4 +22,4 @@
 /obj/machinery/rock_processor/purifier/refine_rock(var/obj/item/rock/R)
 	. = ..()
 	var/turf/our_turf = get_turf(src)
-	our_turf.atmos_spawn_air("miasma=50")
+	our_turf.atmos_spawn_air("miasma=500")

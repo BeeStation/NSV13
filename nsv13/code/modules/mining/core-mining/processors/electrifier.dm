@@ -18,7 +18,7 @@
 		icon_state = "rock_cleaner"
 	
 ///Tesla zap if theres titanium in the rock
-/obj/machinery/rock_processor/purifier/refine_rock(var/obj/item/rock/R)
+/obj/machinery/rock_processor/electrifier/refine_rock(var/obj/item/rock/R)
 	. = ..()
 	if(!R.has_material(/datum/material/titanium))
 		return
