@@ -261,7 +261,7 @@
 	progress = round(((progress / goal) * 100), 25)//Round it down to 20%. We now apply visual damage
 	icon_state = "[initial(icon_state)]-[progress]"
 
-/obj/structure/overmap/proc/relay(var/sound, var/message=null, loop = FALSE, channel = CHANNEL_SHIP_ALERT) //Sends a sound + text message to the crew of a ship
+/obj/structure/overmap/proc/relay(var/sound, var/message=null, loop = FALSE, channel = CHANNEL_SHIP_FX) //Sends a sound + text message to the crew of a ship
 	for(var/X in mobs_in_ship)
 		if(ismob(X))
 			var/mob/mob = X
@@ -276,17 +276,16 @@
 			var/mob/mob = X
 			mob.stop_sound_channel(channel)
 
-
-/obj/structure/overmap/proc/relay_to_nearby(var/sound, var/message=null) //Sends a sound + text message to nearby ships
-	for(var/X in GLOB.overmap_objects)
-		if(!istype(X, /obj/structure/overmap))
-			continue
-		var/obj/structure/overmap/ship = X
-		if(get_dist(src, X) <= 20) //Sound doesnt really travel in space, but space combat with no kaboom is LAME
+/obj/structure/overmap/proc/relay_to_nearby(sound, message, ignore_self=FALSE) //Sends a sound + text message to nearby ships
+	for(var/obj/structure/overmap/ship in GLOB.overmap_objects)
+		if(ignore_self)
+			if(ship == src)
+				continue
+		if(get_dist(src, ship) <= 20) //Sound doesnt really travel in space, but space combat with no kaboom is LAME
 			ship.relay(sound,message)
 	for(var/Y in GLOB.dead_mob_list)
 		var/mob/dead/M = Y
-		if(get_dist(src, M) <= 20) //Ghosts get to hear explosions too for clout.
+		if(M.z == z) //Ghosts get to hear explosions too for clout.
 			SEND_SOUND(M,sound)
 
 /obj/structure/overmap/proc/verb_check(require_pilot = TRUE, mob/user = null)

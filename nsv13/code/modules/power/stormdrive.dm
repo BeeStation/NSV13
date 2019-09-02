@@ -196,21 +196,21 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 	popup.open()
 
 /obj/structure/reactor_control_computer/Topic(href, href_list)
-	if(!in_range(src, usr))
+	if(!in_range(src, usr) || !reactor)
 		return
 	if(href_list["rods_1"])
-		reactor?.control_rod_state = RODS_RAISED
+		reactor.control_rod_state = RODS_RAISED
 		message_admins("[key_name(usr)] has fully raised reactor control rods in [get_area(usr)] [ADMIN_JMP(usr)]")
-		reactor?.update_icon()
+		reactor.update_icon()
 	if(href_list["rods_2"])
-		reactor?.control_rod_state = RODS_HALFRAISED
-		reactor?.update_icon()
+		reactor.control_rod_state = RODS_HALFRAISED
+		reactor.update_icon()
 	if(href_list["rods_3"])
-		reactor?.control_rod_state = RODS_HALFLOWERED
-		reactor?.update_icon()
+		reactor.control_rod_state = RODS_HALFLOWERED
+		reactor.update_icon()
 	if(href_list["rods_4"])
-		reactor?.control_rod_state = RODS_LOWERED
-		reactor?.update_icon()
+		reactor.control_rod_state = RODS_LOWERED
+		reactor.update_icon()
 	if(href_list["maintenance"])
 		if(reactor.state == REACTOR_STATE_MAINTENANCE)
 			reactor.disengage_maintenance()
