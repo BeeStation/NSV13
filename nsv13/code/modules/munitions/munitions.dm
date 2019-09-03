@@ -195,10 +195,15 @@
 	var/obj/structure/munition/chambered = null
 	var/obj/structure/overmap/linked = null
 	var/firing = FALSE //If firing, disallow unloading.
+	var/maint_state = 0 //For when the maint panel is open 1 to 3, 0 for closed
+	var/maint_req = null //Countdown to 0
+	var/malfunction = FALSE
 
 /obj/structure/ship_weapon/Initialize()
 	. = ..()
 	get_ship()
+	maint_req = rand(15,25)
+	create_reagents(50)
 
 /obj/structure/ship_weapon/proc/get_ship()
 	var/area/AR = get_area(src)
@@ -248,6 +253,8 @@
 	if(!railgun.linked)
 		railgun.get_ship()
 	var/dat
+	if(railgun.malfunction)
+		dat += "<p><b><font color='#FF0000'>MALFUNCTION DETECTED!</font></p>"
 	dat += "<h2> Tray: </h2>"
 	if(!railgun.loaded)
 		dat += "<A href='?src=\ref[src];load_tray=1'>Load Tray</font></A><BR>" //STEP 1: Move the tray into the railgun
@@ -346,6 +353,9 @@
 	if(istype(chambered, /obj/item/twohanded/required/railgun_ammo))
 		var/obj/item/twohanded/required/railgun_ammo/RA = chambered
 		proj_type = RA.proj_type
+	if(maint_req == 0)
+		weapon_malfunction()
+		return
 	firing = TRUE
 	flick("[initial(icon_state)]_firing",src)
 	sleep(5)
@@ -361,8 +371,21 @@
 	chambered = null
 	loaded = null
 	firing = FALSE
+	maint_req = maint_req --
 	if(proj_type) //Looks like we were able to fire a projectile, let's tell the ship what kind of bullet to shoot.
 		return proj_type
+
+/obj/structure/ship_weapon/proc/weapon_malfunction()
+	malfunction = TRUE
+	playsound(src, 'sound/effects/alert.ogg', 100, 1) //replace this with appropriate sound
+	visible_message("<span class=userdanger>Malfunction detected in [src]! Firing sequence aborted!</span>") //perhaps additional flavour text of a non angry red kind?
+	for(var/mob/living/M in range(10, get_turf(src)))
+		shake_camera(M, 2, 1)
+	var/datum/effect_system/spark_spread/s = new /datum/effect_system/spark_spread
+	s.set_up(6, 0, src)
+	s.start()
+	light_color = LIGHT_COLOR_RED
+	set_light(3)
 
 /obj/structure/ship_weapon/railgun
 	name = "NT-STC4 Ship mounted railgun chamber"
@@ -388,6 +411,8 @@
 		if(loading)
 			to_chat(user, "<span class='notice'>You're already loading a round into [src]!.</span>")
 			return
+		if(maint_state != 0)
+			to_chat(user, "<span class='notice'>You can't load a round into [src] while the maintenance panel is open!.</span>")
 		if(!preload && !loaded && !chambered)
 			to_chat(user, "<span class='notice'>You start to load [I] into [src]...</span>")
 			loading = TRUE
@@ -402,6 +427,100 @@
 		else
 			to_chat(user, "<span class='warning'>[src] already has a round loaded!</span>")
 	. = ..()
+
+// Ship Weapon Maintenance
+/obj/structure/ship_weapon/screwdriver_act(mob/user, obj/item/tool)
+	. = FALSE
+	if(loaded && maint_state == 0)
+		to_chat(user, "<span class='warning'>You cannot open the maintence panel while [src] is loaded!</span>")
+		return TRUE
+	else if(!loaded && maint_state == 0)
+		to_chat(user, "<span class='notice'>You begin unfastening the maintenance panel on [src]...</span>")
+		if(tool.use_tool(src, user, 40, volume=100))
+			to_chat(user, "<span class='notice'> You unfasten the maintenance panel on [src].</span>")
+			maint_state = 1
+			update_overlay()
+			return TRUE
+	else if(maint_state == 1)
+		to_chat(user, "<span class='notice'>You begin fastening the maintenance panel on [src]...</span>")
+		if(tool.use_tool(src, user, 40, volume=100))
+			to_chat(user, "<span class='notice'> You fasten the maintenance panel on [src].</span>")
+			maint_state = 0
+			update_overlay()
+			return TRUE
+
+/obj/structure/ship_weapon/wrench_act(mob/user, obj/item/tool)
+	. = FALSE
+	if(maint_state == 1)
+		to_chat(user, "<span class='notice'>You begin unfastening the inner casing bolts on [src]...</span>")
+		if(tool.use_tool(src, user, 40, volume=100))
+			to_chat(user, "<span class='notice'>You unfasten the inner case bolts on [src].</span>")
+			maint_state = 2
+			update_overlay()
+			return TRUE
+	else if(maint_state == 2)
+		to_chat(user, "<span class='notice'>You begin fastening the inner casing bolts on [src]...</span>")
+		if(tool.use_tool(src, user, 40, volume=100))
+			to_chat(user, "<span class='notice'>You fasten the inner case bolts on [src].</span>")
+			maint_state = 1
+			update_overlay()
+			return TRUE
+
+/obj/structure/ship_weapon/crowbar_act(mob/user, obj/item/tool)
+	. = FALSE
+	if(maint_state == 2)
+		to_chat(user, "<span class='notice'>You begin prying the inner casing off [src]...</span>")
+		if(tool.use_tool(src, user, 40, volume=100))
+			to_chat(user, "<span class='notice'>You pry the inner casing off [src].</span>")
+			maint_state = 3
+			update_overlay()
+			if(prob(50))
+				to_chat(user, "<span class='warning'>Oil spurts out of the exposed machinery!</span>")
+				new /obj/effect/decal/cleanable/oil(user.loc)
+				reagents.clear_reagents()
+			return TRUE
+	if(maint_state == 3)
+		to_chat(user, "<span class='notice'>You begin slotting the inner casing back in [src]...</span>")
+		if(tool.use_tool(src, user, 40, volume=100))
+			to_chat(user, "<span class='notice'>You slot the inner casing back in [src].</span>")
+			maint_state = 2
+			update_overlay()
+			return TRUE
+
+/obj/structure/ship_weapon/attackby(obj/item/I, mob/user)
+	if(istype(I, /obj/item/reagent_containers))
+		if(maint_state != 3)
+			to_chat(user, "<span class='notice'>You require access to the inner workings of [src].</span>")
+			return
+		else if(maint_state == 3)
+			if(I.reagents.has_reagent(/datum/reagent/oil, 10))
+				to_chat(user, "<span class='notice'>You start lubricating the inner workings of [src]...</span>")
+				do_after(user, 2 SECONDS, target=src)
+				to_chat(user, "<span class='notice'>You lubricate the inner workings of [src].</span>")
+				malfunction = FALSE
+				visible_message("<span class='notice'>The red warning lights on [src] fade away.</span>")
+				set_light(0)
+				maint_req = rand(15,25)
+				reagents.clear_reagents()
+				return
+			else if(!I.reagents.has_reagent(/datum/reagent/oil))
+				visible_message("<span class=warning>Warning: Contaminants detected, flushing systems.</span>")
+				new /obj/effect/decal/cleanable/oil(user.loc)
+				reagents.clear_reagents()
+				return
+
+/obj/structure/ship_weapon/proc/update_overlay()
+	cut_overlays()
+	switch(maint_state)
+		if(1)
+			add_overlay("[initial(icon_state)]_screwdriver")
+		if(2)
+			add_overlay("[initial(icon_state)]_wrench")
+		if(3)
+			add_overlay("[initial(icon_state)]_crowbar")
+
+
+//PDCs
 
 /obj/structure/pdc_mount
 	name = "PDC loading rack"
