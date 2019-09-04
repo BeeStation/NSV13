@@ -69,3 +69,4 @@
 	mass = MASS_MEDIUM
 	sprite_size = 96
 	damage_states = TRUE
+	area_type = /area/ruin/powered/nsv13/gunship
