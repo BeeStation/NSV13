@@ -502,7 +502,8 @@
 					visible_message("<span class='notice'>The red warning lights on [src] fade away.</span>")
 					set_light(0)
 				maint_req = rand(15,25)
-				I.reagents.clear_reagents()
+				I.reagents.trans_to(src, 10)
+				reagents.clear_reagents()
 				return
 			else if(I.reagents.has_reagent(/datum/reagent/oil))
 				to_chat(user, "<span class='notice'>You need at least 10 units of oil to lubricate [src]!</span>")
@@ -510,7 +511,8 @@
 			else if(!I.reagents.has_reagent(/datum/reagent/oil))
 				visible_message("<span class=warning>Warning: Contaminants detected, flushing systems.</span>")
 				new /obj/effect/decal/cleanable/oil(user.loc)
-				I.reagents.clear_reagents()
+				I.reagents.trans_to(src, 10)
+				reagents.clear_reagents()
 				return
 
 /obj/structure/ship_weapon/proc/update_overlay()
