@@ -201,13 +201,13 @@
 	var/obj/structure/overmap/linked = null
 	var/firing = FALSE //If firing, disallow unloading.
 	var/maint_state = mstate_closed
-	var/maint_req = null //Countdown to 0
+	var/maint_req = 0 //Number of times a weapon can fire until a maintenance cycle is required. This will countdown to 0.
 	var/malfunction = FALSE
 
 /obj/structure/ship_weapon/Initialize()
 	. = ..()
 	get_ship()
-	maint_req = rand(15,25)
+	maint_req = rand(15,25) //Setting initial number of cycles until maintenance is required
 	create_reagents(50)
 
 /obj/structure/ship_weapon/proc/get_ship()
@@ -500,7 +500,8 @@
 		else if(maint_state == mstate_priedout)
 			if(I.reagents.has_reagent(/datum/reagent/oil, 10))
 				to_chat(user, "<span class='notice'>You start lubricating the inner workings of [src]...</span>")
-				do_after(user, 2 SECONDS, target=src)
+				if(!do_after(user, 2 SECONDS, target=src))
+					return
 				to_chat(user, "<span class='notice'>You lubricate the inner workings of [src].</span>")
 				if(malfunction)
 					malfunction = FALSE
@@ -666,7 +667,8 @@
 	if(istype(W, /obj/item/torpedo/warhead))
 		if(state == 6)
 			to_chat(user, "<span class='notice'>You start adding [W] to [src]...</span>")
-			do_after(user, 2 SECONDS, target=src)
+			if(!do_after(user, 2 SECONDS, target=src))
+				return
 			to_chat(user, "<span class='notice'>You add [W] to [src].</span>")
 			wh = W
 			state = 7
@@ -676,7 +678,8 @@
 	else if(istype(W, /obj/item/torpedo/guidance_system))
 		if(state == 2)
 			to_chat(user, "<span class='notice'>You start adding [W] to [src]...</span>")
-			do_after(user, 2 SECONDS, target=src)
+			if(!do_after(user, 2 SECONDS, target=src))
+				return
 			to_chat(user, "<span class='notice'>You add [W] to [src].</span>")
 			gs = W
 			state = 3
@@ -686,7 +689,8 @@
 	else if(istype(W, /obj/item/torpedo/propulsion_system))
 		if(state == 0)
 			to_chat(user, "<span class='notice'>You start adding [W] to [src]...</span>")
-			do_after(user, 2 SECONDS, target=src)
+			if(!do_after(user, 2 SECONDS, target=src))
+				return
 			to_chat(user, "<span class='notice'>You add [W] to [src].</span>")
 			ps = W
 			state = 1
@@ -696,7 +700,8 @@
 	else if(istype(W, /obj/item/torpedo/iff_card))
 		if(state == 4)
 			to_chat(user, "<span class='notice'>You start adding [W] to [src]...</span>")
-			do_after(user, 2 SECONDS, target=src)
+			if(!do_after(user, 2 SECONDS, target=src))
+				return
 			to_chat(user, "<span class='notice'>You add [W] to [src].</span>")
 			iff = W
 			state = 5
@@ -710,7 +715,8 @@
 				to_chat(user, "<span class='notice'>You need at least three cable pieces to wire [src]!</span>") //for 'realistic' wire spaghetti
 				return
 			to_chat(user, "<span class='notice'>You start wiring [src]...</span>")
-			do_after(user, 2 SECONDS, target=src)
+			if(!do_after(user, 2 SECONDS, target=src))
+				return
 			W.use(3)
 			to_chat(user, "<span class='notice'>You wire [src].</span>")
 			state = 9
