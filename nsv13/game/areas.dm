@@ -186,6 +186,38 @@
 	name = "Observation Lounge"
 	icon_state = "sleep"
 
+/area/nsv/hanger/deck3/starboard
+	name = "Deck Three Starboard Hanger Bay"
+	icon_state = "hallS"
+
+/area/nsv/hanger/deck2/port
+	name = "Deck Two Port Hanger Bay"
+	icon_state = "hallP"
+
+/area/nsv/hanger/deck2/starboard
+	name = "Deck Two Starboard Hanger Bay"
+	icon_state = "hallS"
+
+/area/nsv/weapons/port
+	name = "Port Weapons Bay"
+	icon_state = "hallP"
+
+/area/nsv/weapons/starboard
+	name = "Starboard Weapons Bay"
+	icon_state = "hallS"
+
+/area/nsv/magazine/port
+	name = "Port Magazine"
+	icon_state = "hallP"
+
+/area/nsv/magazine/starboard
+	name = "Starboard Magazine"
+	icon_state = "hallS"
+
+/area/nsv/briefingroom
+	name = "Briefing Room"
+	icon_state = "hallP"
+
 /area/Entered(atom/movable/M)
 	// Ambience goes down here -- make sure to list each area separately for ease of adding things in later, thanks! Note: areas adjacent to each other should have the same sounds to prevent cutoff when possible.- LastyScratch
 	set waitfor = FALSE
