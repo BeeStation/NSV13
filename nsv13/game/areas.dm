@@ -181,10 +181,17 @@
 	name = "Deck 3 Frame 4 Starboard Hallway"
 	icon_state = "hallS"
 
+/area/hallway/nsv/deck1/hallway
+	name = "Deck 1 Primary Hallway"
+	icon_state = "hallC"
 
 /area/crew_quarters/nsv/observation
 	name = "Observation Lounge"
-	icon_state = "sleep"
+	icon_state = "Sleep"
+
+/area/crew_quarters/nsv/officerquarters
+	name = "Bridge Officer's Quarters"
+	icon_state = "Sleep"
 
 /area/nsv/hanger/deck3/starboard
 	name = "Deck Three Starboard Hanger Bay"
