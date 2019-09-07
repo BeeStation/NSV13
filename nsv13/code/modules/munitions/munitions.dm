@@ -376,7 +376,7 @@
 	chambered = null
 	loaded = null
 	firing = FALSE
-	maint_req = maint_req --
+	maint_req --
 	if(proj_type) //Looks like we were able to fire a projectile, let's tell the ship what kind of bullet to shoot.
 		return proj_type
 
