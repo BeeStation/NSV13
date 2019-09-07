@@ -382,7 +382,7 @@
 
 /obj/structure/ship_weapon/proc/weapon_malfunction()
 	malfunction = TRUE
-	playsound(src, 'sound/effects/alert.ogg', 100, 1) //replace this with appropriate sound
+	playsound(src, 'sound/effects/alert.ogg', 100, TRUE) //replace this with appropriate sound
 	visible_message("<span class=userdanger>Malfunction detected in [src]! Firing sequence aborted!</span>") //perhaps additional flavour text of a non angry red kind?
 	for(var/mob/living/M in range(10, get_turf(src)))
 		shake_camera(M, 2, 1)
