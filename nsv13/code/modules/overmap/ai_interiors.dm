@@ -32,7 +32,7 @@
 	for(var/obj/effect/landmark/ship_interior_spawn/SI in GLOB.landmarks_list)
 		if(!SI.used)
 			if(SI.load(interior_map, src))
-				priority_announce("Salvage armatures have pulled [src] to a stable nearside position of: [SI.name].","ASTRAEUS subsystem") //TEMP! Remove this shit when we move ruin spawns off-z
+				priority_announce("Salvage armatures have pulled [src] to a stable nearside position of: [SI.name].","Automated announcement") //TEMP! Remove this shit when we move ruin spawns off-z
 				find_area()
 				return TRUE
 

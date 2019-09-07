@@ -87,6 +87,7 @@
 	var/list/railguns = list() //Every railgun present on the ship
 	var/list/torpedo_tubes = list() //every torpedo tube present on the ship.
 	var/list/pdcs = list() //Every PDC ammo rack that we have.
+	var/datum/starsystem/current_system //What starsystem are we currently in? Used for parallax.
 
 
 /obj/railgun_overlay //Railgun sits on top of the ship and swivels to face its target

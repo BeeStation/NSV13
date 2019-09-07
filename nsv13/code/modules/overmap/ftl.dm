@@ -1,9 +1,65 @@
-/obj/structure/overmap/proc/begin_jump()
+GLOBAL_DATUM_INIT(starsystem_controller, /datum/starsystem_controller, new)
+
+/datum/starsystem_controller
+	var/name = "Star system controller"
+	var/list/systems = list()
+	var/datum/starsystem/hyperspace //The transit level for ships.
+
+/datum/starsystem_controller/proc/find_system(obj/structure/overmap/OM) //Used to determine what system a ship is currently in. Famously used to determine the starter system that you've put the ship in.
+	var/datum/starsystem/found
+	for(var/datum/starsystem/S in systems)
+		for(var/thez in SSmapping.levels_by_trait(S.level_trait))
+			if(thez == OM.z)
+				found = S
+				break
+	return found
+
+/datum/starsystem_controller/New()
+	. = ..()
+	instantiate_systems()
+
+/datum/starsystem_controller/proc/instantiate_systems()
+	var/datum/starsystem/SS = new
+	hyperspace = SS //First system defaults to "hyperspace" AKA transit.
+	for(var/instance in subtypesof(/datum/starsystem))
+		var/datum/starsystem/S = new instance
+		systems += S
+
+/datum/starsystem
+	var/name = "Hyperspace"
+	var/parallax_property = null //If you want things to appear in the background when you jump to this system, do this.
+	var/level_trait = ZTRAIT_HYPERSPACE //The Ztrait of the zlevel that this system leads to
+	var/visitable = FALSE //Can you directly travel to this system?
+
+/datum/starsystem/astraeus
+	name = "Astraeus"
+	parallax_property = null //If you want things to appear in the background when you jump to this system, do this.
+	level_trait = ZTRAIT_ASTRAEUS //The Ztrait of the zlevel that this system leads to
+	visitable = TRUE
+
+/datum/starsystem/corvi
+	name = "Corvi"
+	parallax_property = "gas"
+	level_trait = ZTRAIT_CORVI
+	visitable = TRUE
+
+/datum/starsystem/proc/transfer_ship(obj/structure/overmap/OM)
+	var/turf/destination
+	for(var/z in SSmapping.levels_by_trait(level_trait))
+		destination = get_turf(locate(round(world.maxx * 0.5, 1), round(world.maxy * 0.5, 1), z)) //Plop them bang in the center of the system.
+	if(!destination)
+		message_admins("WARNING: The [name] system has no exit point for ships! You probably forgot to set the [level_trait]:1 setting for that Z in your map's JSON file.")
+		return
+	OM.forceMove(destination)
+	OM.current_system = src
+
+/obj/structure/overmap/proc/begin_jump(datum/starsystem/target_system)
 	relay_to_nearby('nsv13/sound/effects/ship/FTL.ogg', null, ignore_self=TRUE)//Ships just hear a small "crack" when another one jumps
 	relay('nsv13/sound/effects/ship/FTL_long.ogg')
-	addtimer(CALLBACK(src, .proc/jump, TRUE), 30 SECONDS)
+	desired_angle = 90 //90 degrees AKA face EAST to match the FTL parallax.
+	addtimer(CALLBACK(src, .proc/jump, target_system, TRUE), 30 SECONDS)
 
-/obj/structure/overmap/proc/jump(ftl_start) //FTL start IE, are we beginning a jump? Or ending one?
+/obj/structure/overmap/proc/jump(datum/starsystem/target_system, ftl_start) //FTL start IE, are we beginning a jump? Or ending one?
 	if(main_overmap)
 		var/list/areas = list()
 		areas = GLOB.teleportlocs.Copy()
@@ -26,6 +82,7 @@
 		if(iscarbon(M))
 			var/mob/living/carbon/L = M
 			if(HAS_TRAIT(L, TRAIT_SEASICK))
+				to_chat(L, "<span class='warning'>You can feel your head start to swim...</span>")
 				if(prob(40)) //Take a roll! First option makes you puke and feel terrible. Second one makes you feel iffy.
 					L.adjust_disgust(60)
 				else
@@ -33,9 +90,11 @@
 		shake_camera(M, 4, 1)
 	if(ftl_start)
 		relay('nsv13/sound/effects/ship/FTL_loop.ogg', "<span class='warning'>You feel the ship lurch forward</span>", loop=TRUE, channel = CHANNEL_SHIP_ALERT)
-		addtimer(CALLBACK(src, .proc/jump, FALSE), 2 MINUTES)
+		addtimer(CALLBACK(src, .proc/jump, target_system, FALSE), 2 MINUTES)
+		GLOB.starsystem_controller?.hyperspace?.transfer_ship(src) //Get the system to transfer us to its location.
 	else
 		relay('nsv13/sound/effects/ship/freespace2/warp_close.wav', "<span class='warning'>You feel the ship lurch to a halt</span>", loop=FALSE, channel = CHANNEL_SHIP_ALERT)
+		target_system.transfer_ship(src) //Get the system to transfer us to its location.
 
 #define FTL_STATE_IDLE 1
 #define FTL_STATE_SPOOLING 2
@@ -43,7 +102,7 @@
 
 /obj/machinery/computer/ship/ftl_computer
 	name = "Seegson FTL navigation computer"
-	desc = "A supercomputer which is capable of calculating exhorbitantly complex vectors which are interpreted into a simplified 4-dimensional course through which ships are able to travel. It takes some time to spool up between uses"
+	desc = "A supercomputer which is capable of calculating incalculably complex vectors which are interpreted into a simplified 4-dimensional course through which ships are able to travel. It takes some time to spool up between uses"
 	icon = 'nsv13/goonstation/icons/ftlcomp.dmi'
 	icon_state = "ftl_off"
 	bound_height = 96
@@ -85,19 +144,29 @@
 /obj/machinery/computer/ship/ftl_computer/proc/show_destinations(mob/user)
 	if(state != FTL_STATE_READY)
 		return
+	if(!linked)
+		return
+	linked.current_system = GLOB.starsystem_controller.find_system(linked)
 	var/dat = ""
 	dat += "<h2> Calculated FTL vectors: </h2><br>"
+	dat += "<h3> Current system: [linked.current_system.name] </h3>"
 	dat += "-----------------------------------<br>"
-	dat += "<A href='?src=\ref[src];jump=1'>'Corvi' - Vector #[rand(0, 9999)] carom [rand(0, 20)].</A><BR>" //Placeholder. There isnt actually anywhere you can jump just yet.
+	for(var/datum/starsystem/S in GLOB.starsystem_controller.systems)
+		if(S.visitable && S != linked.current_system)
+			dat += "<A href='?src=\ref[src];jump=\ref[S]'>'[S.name]' - Vector #[rand(0, 9999)] carom [rand(0, 20)]. ETA: 2 min.</A><BR>"
 	var/datum/browser/popup = new(user, "Available bluespace vectors", name, 400, 500)
 	popup.set_content(dat)
 	popup.open()
 
-/obj/machinery/computer/ship/ftl_computer/proc/jump()
-	linked?.begin_jump()
+/obj/machinery/computer/ship/ftl_computer/proc/jump(datum/starsystem/target_system)
+	if(!target_system)
+		radio.talk_into(src, "ERROR. Specified starsystem no longer exists.", engineering_channel)
+		return
+	linked?.begin_jump(target_system)
 	radio.talk_into(src, "Initiating FTL jump.", engineering_channel)
 	playsound(src, 'nsv13/sound/effects/ship/freespace2/computer/escape.wav', 100, 1)
 	visible_message("<span class='notice'>Initiating FTL jump.</span>")
+	priority_announce("Attention: All hands brace for FTL translation. Destination: [target_system]. Projected ETA: 2:45 minutes","Automated announcement") //TEMP! Remove this shit when we move ruin spawns off-z
 	depower()
 
 /obj/machinery/computer/ship/ftl_computer/proc/ready_ftl()
@@ -110,12 +179,13 @@
 		return
 	if(!has_overmap())
 		return
+	var/datum/starsystem/target_system = locate(href_list["jump"])
+	if(target_system)
+		jump(target_system)
 	if(href_list["spoolup"])
 		spoolup()
 	if(href_list["jumpmenu"])
 		show_destinations(usr)
-	if(href_list["jump"])
-		jump()
 	if(href_list["depower"])
 		depower()
 	playsound(src, 'nsv13/sound/effects/computer/scroll1.ogg', 100, 1)
