@@ -1,3 +1,8 @@
+#define MSTATE_CLOSED 0
+#define MSTATE_UNSCREWED 1
+#define MSTATE_UNBOLTED 2
+#define MSTATE_PRIEDOUT 3
+
 /obj/structure/munition //CREDIT TO CM FOR THIS SPRITE
 	name = "NTP-2 530mm torpedo"
 	icon = 'nsv13/icons/obj/munition_types.dmi'
@@ -195,10 +200,15 @@
 	var/obj/structure/munition/chambered = null
 	var/obj/structure/overmap/linked = null
 	var/firing = FALSE //If firing, disallow unloading.
+	var/maint_state = MSTATE_CLOSED
+	var/maint_req = 0 //Number of times a weapon can fire until a maintenance cycle is required. This will countdown to 0.
+	var/malfunction = FALSE
 
 /obj/structure/ship_weapon/Initialize()
 	. = ..()
 	get_ship()
+	maint_req = rand(15,25) //Setting initial number of cycles until maintenance is required
+	create_reagents(50)
 
 /obj/structure/ship_weapon/proc/get_ship()
 	var/area/AR = get_area(src)
@@ -248,6 +258,8 @@
 	if(!railgun.linked)
 		railgun.get_ship()
 	var/dat
+	if(railgun.malfunction)
+		dat += "<p><b><font color='#FF0000'>MALFUNCTION DETECTED!</font></p>"
 	dat += "<h2> Tray: </h2>"
 	if(!railgun.loaded)
 		dat += "<A href='?src=\ref[src];load_tray=1'>Load Tray</font></A><BR>" //STEP 1: Move the tray into the railgun
@@ -346,6 +358,9 @@
 	if(istype(chambered, /obj/item/twohanded/required/railgun_ammo))
 		var/obj/item/twohanded/required/railgun_ammo/RA = chambered
 		proj_type = RA.proj_type
+	if(maint_req <= 0)
+		weapon_malfunction()
+		return
 	firing = TRUE
 	flick("[initial(icon_state)]_firing",src)
 	sleep(5)
@@ -361,8 +376,21 @@
 	chambered = null
 	loaded = null
 	firing = FALSE
+	maint_req --
 	if(proj_type) //Looks like we were able to fire a projectile, let's tell the ship what kind of bullet to shoot.
 		return proj_type
+
+/obj/structure/ship_weapon/proc/weapon_malfunction()
+	malfunction = TRUE
+	playsound(src, 'sound/effects/alert.ogg', 100, TRUE) //replace this with appropriate sound
+	visible_message("<span class=userdanger>Malfunction detected in [src]! Firing sequence aborted!</span>") //perhaps additional flavour text of a non angry red kind?
+	for(var/mob/living/M in range(10, get_turf(src)))
+		shake_camera(M, 2, 1)
+	var/datum/effect_system/spark_spread/s = new /datum/effect_system/spark_spread
+	s.set_up(6, 0, src)
+	s.start()
+	light_color = LIGHT_COLOR_RED
+	set_light(3)
 
 /obj/structure/ship_weapon/railgun
 	name = "NT-STC4 Ship mounted railgun chamber"
@@ -388,6 +416,8 @@
 		if(loading)
 			to_chat(user, "<span class='notice'>You're already loading a round into [src]!.</span>")
 			return
+		if(maint_state != MSTATE_CLOSED)
+			to_chat(user, "<span class='notice'>You can't load a round into [src] while the maintenance panel is open!.</span>")
 		if(!preload && !loaded && !chambered)
 			to_chat(user, "<span class='notice'>You start to load [I] into [src]...</span>")
 			loading = TRUE
@@ -402,6 +432,107 @@
 		else
 			to_chat(user, "<span class='warning'>[src] already has a round loaded!</span>")
 	. = ..()
+
+// Ship Weapon Maintenance
+/obj/structure/ship_weapon/screwdriver_act(mob/user, obj/item/tool)
+	. = FALSE
+	if(loaded && maint_state == MSTATE_CLOSED)
+		to_chat(user, "<span class='warning'>You cannot open the maintence panel while [src] is loaded!</span>")
+		return TRUE
+	else if(!loaded && maint_state == MSTATE_CLOSED)
+		to_chat(user, "<span class='notice'>You begin unfastening the maintenance panel on [src]...</span>")
+		if(tool.use_tool(src, user, 40, volume=100))
+			to_chat(user, "<span class='notice'> You unfasten the maintenance panel on [src].</span>")
+			maint_state = MSTATE_UNSCREWED
+			update_overlay()
+			return TRUE
+	else if(maint_state == MSTATE_UNSCREWED)
+		to_chat(user, "<span class='notice'>You begin fastening the maintenance panel on [src]...</span>")
+		if(tool.use_tool(src, user, 40, volume=100))
+			to_chat(user, "<span class='notice'> You fasten the maintenance panel on [src].</span>")
+			maint_state = MSTATE_CLOSED
+			update_overlay()
+			return TRUE
+
+/obj/structure/ship_weapon/wrench_act(mob/user, obj/item/tool)
+	. = FALSE
+	if(maint_state == MSTATE_UNSCREWED)
+		to_chat(user, "<span class='notice'>You begin unfastening the inner casing bolts on [src]...</span>")
+		if(tool.use_tool(src, user, 40, volume=100))
+			to_chat(user, "<span class='notice'>You unfasten the inner case bolts on [src].</span>")
+			maint_state = MSTATE_UNBOLTED
+			update_overlay()
+			return TRUE
+	else if(maint_state == MSTATE_UNBOLTED)
+		to_chat(user, "<span class='notice'>You begin fastening the inner casing bolts on [src]...</span>")
+		if(tool.use_tool(src, user, 40, volume=100))
+			to_chat(user, "<span class='notice'>You fasten the inner case bolts on [src].</span>")
+			maint_state = MSTATE_UNSCREWED
+			update_overlay()
+			return TRUE
+
+/obj/structure/ship_weapon/crowbar_act(mob/user, obj/item/tool)
+	. = FALSE
+	if(maint_state == MSTATE_UNBOLTED)
+		to_chat(user, "<span class='notice'>You begin prying the inner casing off [src]...</span>")
+		if(tool.use_tool(src, user, 40, volume=100))
+			to_chat(user, "<span class='notice'>You pry the inner casing off [src].</span>")
+			maint_state = MSTATE_PRIEDOUT
+			update_overlay()
+			if(prob(50))
+				to_chat(user, "<span class='warning'>Oil spurts out of the exposed machinery!</span>")
+				new /obj/effect/decal/cleanable/oil(user.loc)
+				reagents.clear_reagents()
+			return TRUE
+	if(maint_state == MSTATE_PRIEDOUT)
+		to_chat(user, "<span class='notice'>You begin slotting the inner casing back in [src]...</span>")
+		if(tool.use_tool(src, user, 40, volume=100))
+			to_chat(user, "<span class='notice'>You slot the inner casing back in [src].</span>")
+			maint_state = MSTATE_UNBOLTED
+			update_overlay()
+			return TRUE
+
+/obj/structure/ship_weapon/attackby(obj/item/I, mob/user)
+	if(istype(I, /obj/item/reagent_containers))
+		if(maint_state != MSTATE_PRIEDOUT)
+			to_chat(user, "<span class='notice'>You require access to the inner workings of [src].</span>")
+			return
+		else if(maint_state == MSTATE_PRIEDOUT)
+			if(I.reagents.has_reagent(/datum/reagent/oil, 10))
+				to_chat(user, "<span class='notice'>You start lubricating the inner workings of [src]...</span>")
+				if(!do_after(user, 2 SECONDS, target=src))
+					return
+				to_chat(user, "<span class='notice'>You lubricate the inner workings of [src].</span>")
+				if(malfunction)
+					malfunction = FALSE
+					visible_message("<span class='notice'>The red warning lights on [src] fade away.</span>")
+					set_light(0)
+				maint_req = rand(15,25)
+				I.reagents.trans_to(src, 10)
+				reagents.clear_reagents()
+				return
+			else if(I.reagents.has_reagent(/datum/reagent/oil))
+				to_chat(user, "<span class='notice'>You need at least 10 units of oil to lubricate [src]!</span>")
+				return
+			else if(!I.reagents.has_reagent(/datum/reagent/oil))
+				visible_message("<span class=warning>Warning: Contaminants detected, flushing systems.</span>")
+				new /obj/effect/decal/cleanable/oil(user.loc)
+				I.reagents.trans_to(src, 10)
+				reagents.clear_reagents()
+				return
+
+/obj/structure/ship_weapon/proc/update_overlay()
+	cut_overlays()
+	switch(maint_state)
+		if(MSTATE_UNSCREWED)
+			add_overlay("[initial(icon_state)]_screwdriver")
+		if(MSTATE_UNBOLTED)
+			add_overlay("[initial(icon_state)]_wrench")
+		if(MSTATE_PRIEDOUT)
+			add_overlay("[initial(icon_state)]_crowbar")
+
+
+//PDCs
 
 /obj/structure/pdc_mount
 	name = "PDC loading rack"
@@ -536,7 +667,8 @@
 	if(istype(W, /obj/item/torpedo/warhead))
 		if(state == 6)
 			to_chat(user, "<span class='notice'>You start adding [W] to [src]...</span>")
-			do_after(user, 2 SECONDS, target=src)
+			if(!do_after(user, 2 SECONDS, target=src))
+				return
 			to_chat(user, "<span class='notice'>You add [W] to [src].</span>")
 			wh = W
 			state = 7
@@ -546,7 +678,8 @@
 	else if(istype(W, /obj/item/torpedo/guidance_system))
 		if(state == 2)
 			to_chat(user, "<span class='notice'>You start adding [W] to [src]...</span>")
-			do_after(user, 2 SECONDS, target=src)
+			if(!do_after(user, 2 SECONDS, target=src))
+				return
 			to_chat(user, "<span class='notice'>You add [W] to [src].</span>")
 			gs = W
 			state = 3
@@ -556,7 +689,8 @@
 	else if(istype(W, /obj/item/torpedo/propulsion_system))
 		if(state == 0)
 			to_chat(user, "<span class='notice'>You start adding [W] to [src]...</span>")
-			do_after(user, 2 SECONDS, target=src)
+			if(!do_after(user, 2 SECONDS, target=src))
+				return
 			to_chat(user, "<span class='notice'>You add [W] to [src].</span>")
 			ps = W
 			state = 1
@@ -566,7 +700,8 @@
 	else if(istype(W, /obj/item/torpedo/iff_card))
 		if(state == 4)
 			to_chat(user, "<span class='notice'>You start adding [W] to [src]...</span>")
-			do_after(user, 2 SECONDS, target=src)
+			if(!do_after(user, 2 SECONDS, target=src))
+				return
 			to_chat(user, "<span class='notice'>You add [W] to [src].</span>")
 			iff = W
 			state = 5
@@ -580,7 +715,8 @@
 				to_chat(user, "<span class='notice'>You need at least three cable pieces to wire [src]!</span>") //for 'realistic' wire spaghetti
 				return
 			to_chat(user, "<span class='notice'>You start wiring [src]...</span>")
-			do_after(user, 2 SECONDS, target=src)
+			if(!do_after(user, 2 SECONDS, target=src))
+				return
 			W.use(3)
 			to_chat(user, "<span class='notice'>You wire [src].</span>")
 			state = 9
@@ -927,3 +1063,8 @@
 	build_path = /obj/item/torpedo/iff_card
 	category = list("Advanced Munitions")
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+
+#undef MSTATE_CLOSED
+#undef MSTATE_UNSCREWED
+#undef MSTATE_UNBOLTED
+#undef MSTATE_PRIEDOUT
