@@ -480,22 +480,16 @@
 	name = "Deck 3 hallway"
 	})
 "abi" = (
-/obj/structure/stairs/active{
-	icon_state = "stairs_up";
-	dir = 8
-	},
+/obj/structure/ladder,
 /turf/open/floor/plasteel/ship/techfloor/alt,
 /area/hallway/primary/port{
 	name = "Deck 3 hallway"
 	})
 "abj" = (
-/obj/structure/stairs{
-	icon_state = "stairs_down";
-	dir = 8
-	},
+/obj/structure/ladder,
 /turf/open/floor/plasteel/ship/techfloor/alt,
-/area/hallway/primary/port{
-	name = "Deck 3 hallway"
+/area/hallway/primary/central{
+	name = "Deck 2 primary hallway"
 	})
 "abk" = (
 /turf/open/floor/plasteel/ship/techfloor/alt,
@@ -1689,14 +1683,9 @@
 /turf/open/floor/plasteel/white,
 /area/science)
 "adI" = (
-/obj/structure/stairs/active{
-	icon_state = "stairs_up";
-	dir = 8
-	},
+/obj/structure/ladder,
 /turf/open/floor/plasteel/ship/techfloor/alt,
-/area/hallway/primary/central{
-	name = "Deck 2 primary hallway"
-	})
+/area/hallway/secondary/command)
 "adJ" = (
 /obj/machinery/light/small{
 	dir = 1
@@ -1993,15 +1982,6 @@
 	},
 /turf/open/floor/plasteel/freezer,
 /area/crew_quarters/dorms)
-"aet" = (
-/obj/structure/stairs{
-	icon_state = "stairs_down";
-	dir = 8
-	},
-/turf/open/floor/plasteel/ship/techfloor/alt,
-/area/hallway/primary/central{
-	name = "Deck 2 primary hallway"
-	})
 "aeu" = (
 /obj/machinery/telecomms/processor/preset_one,
 /obj/machinery/camera{
@@ -2942,12 +2922,13 @@
 /turf/open/floor/wood,
 /area/crew_quarters/bar)
 "agC" = (
+/obj/structure/cable,
 /obj/machinery/door/airlock/ship/public{
 	dir = 4;
 	icon_state = "closed";
-	name = "Bar"
+	name = "Bar";
+	req_access_txt = "25"
 	},
-/obj/structure/cable,
 /turf/open/floor/wood,
 /area/crew_quarters/bar)
 "agD" = (
@@ -3109,17 +3090,18 @@
 /turf/open/floor/wood,
 /area/crew_quarters/bar)
 "agV" = (
-/obj/machinery/door/airlock/ship/public{
-	dir = 4;
-	icon_state = "closed";
-	name = "Bar"
-	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	icon_state = "pipe11-1";
 	dir = 4
 	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
 	dir = 4
+	},
+/obj/machinery/door/airlock/ship/public{
+	dir = 4;
+	icon_state = "closed";
+	name = "Bar";
+	req_access_txt = "25"
 	},
 /turf/open/floor/wood,
 /area/crew_quarters/bar)
@@ -3184,14 +3166,15 @@
 /turf/open/floor/plasteel,
 /area/crew_quarters/bar)
 "ahb" = (
-/obj/machinery/door/airlock/ship/public{
-	dir = 4;
-	icon_state = "closed";
-	name = "Bar"
-	},
 /obj/structure/cable,
 /obj/structure/disposalpipe/segment{
 	dir = 4
+	},
+/obj/machinery/door/airlock/ship/public{
+	dir = 4;
+	icon_state = "closed";
+	name = "Bar";
+	req_access_txt = "25"
 	},
 /turf/open/floor/plasteel,
 /area/crew_quarters/bar)
@@ -3541,12 +3524,6 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
 /turf/closed/wall/ship,
 /area/hallway/secondary/entry)
-"ahR" = (
-/obj/structure/stairs,
-/turf/open/floor/plasteel/ship/techfloor/alt,
-/area/hallway/primary/port{
-	name = "Deck 3 hallway"
-	})
 "ahS" = (
 /obj/effect/turf_decal/stripes/corner{
 	dir = 4
@@ -5739,6 +5716,12 @@
 /obj/machinery/atmospherics/pipe/simple/orange/hidden,
 /turf/open/floor/plasteel/dark,
 /area/engine/engineering)
+"amk" = (
+/obj/effect/landmark/ship_interior_spawn{
+	name = "Deck 3 (north)"
+	},
+/turf/open/space/basic,
+/area/space)
 "aml" = (
 /obj/machinery/particle_accelerator/control_box,
 /turf/open/floor/plasteel/dark,
@@ -6493,6 +6476,12 @@
 /obj/machinery/atmospherics/pipe/simple/orange/hidden,
 /turf/open/floor/plasteel/dark,
 /area/engine/engineering)
+"anE" = (
+/obj/effect/landmark/ship_interior_spawn{
+	name = "Deck 3 (south)"
+	},
+/turf/open/space/basic,
+/area/space)
 "anG" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 4
@@ -6885,12 +6874,6 @@
 /area/maintenance/department/bridge{
 	name = "Deck 1 maintenance"
 	})
-"aos" = (
-/obj/structure/stairs,
-/turf/open/floor/plasteel/ship/techfloor/alt,
-/area/hallway/primary/central{
-	name = "Deck 2 primary hallway"
-	})
 "aot" = (
 /obj/machinery/atmospherics/components/trinary/filter/atmos/plasma{
 	icon_state = "filter_on";
@@ -6962,13 +6945,6 @@
 /area/maintenance/aft{
 	name = "Deck 2 maintenance"
 	})
-"aoC" = (
-/obj/structure/stairs/active{
-	icon_state = "stairs_up";
-	dir = 8
-	},
-/turf/open/floor/plasteel/ship/techfloor/alt,
-/area/hallway/secondary/command)
 "aoD" = (
 /obj/machinery/atmospherics/components/binary/pump{
 	dir = 2;
@@ -6992,13 +6968,6 @@
 	},
 /turf/open/floor/plating,
 /area/engine/atmos)
-"aoG" = (
-/obj/structure/stairs{
-	icon_state = "stairs_down";
-	dir = 8
-	},
-/turf/open/floor/plasteel/ship/techfloor/alt,
-/area/hallway/secondary/command)
 "aoH" = (
 /obj/structure/lattice/catwalk,
 /obj/machinery/camera{
@@ -7826,15 +7795,6 @@
 /turf/open/floor/plasteel,
 /area/medical{
 	name = "Infirmary"
-	})
-"aqr" = (
-/obj/structure/stairs,
-/obj/structure/sign/nanotrasen{
-	pixel_y = 26
-	},
-/turf/open/floor/plasteel/ship/techfloor/alt,
-/area/hallway/primary/central{
-	name = "Deck 2 primary hallway"
 	})
 "aqs" = (
 /obj/structure/closet/secure_closet/personal/patient,
@@ -8828,12 +8788,6 @@
 	},
 /turf/open/floor/plasteel,
 /area/hallway/secondary/exit)
-"asy" = (
-/obj/structure/stairs/active,
-/turf/open/floor/plasteel/ship/techfloor/alt,
-/area/hallway/primary/port{
-	name = "Deck 3 hallway"
-	})
 "asz" = (
 /obj/machinery/atmospherics/pipe/manifold/purple/visible,
 /obj/machinery/meter,
@@ -12276,12 +12230,6 @@
 /turf/closed/wall/ship,
 /area/maintenance/aft{
 	name = "Deck 2 maintenance"
-	})
-"azF" = (
-/obj/structure/stairs/active,
-/turf/open/floor/plasteel/ship/techfloor/alt,
-/area/hallway/primary/central{
-	name = "Deck 2 primary hallway"
 	})
 "azG" = (
 /obj/effect/turf_decal/tile/green{
@@ -19959,15 +19907,6 @@
 /area/hallway/primary/central{
 	name = "Deck 2 primary hallway"
 	})
-"aNC" = (
-/obj/structure/stairs/active{
-	icon_state = "stairs_up";
-	dir = 1
-	},
-/turf/open/floor/plasteel/ship/techfloor/alt,
-/area/hallway/primary/central{
-	name = "Deck 2 primary hallway"
-	})
 "aND" = (
 /obj/machinery/status_display/evac{
 	pixel_y = -36
@@ -19991,15 +19930,6 @@
 	network = list("aicore")
 	},
 /turf/open/floor/plasteel/ship/padded,
-/area/hallway/primary/central{
-	name = "Deck 2 primary hallway"
-	})
-"aNF" = (
-/obj/structure/stairs{
-	icon_state = "stairs_down";
-	dir = 1
-	},
-/turf/open/floor/plasteel/ship/techfloor/alt,
 /area/hallway/primary/central{
 	name = "Deck 2 primary hallway"
 	})
@@ -24697,15 +24627,6 @@
 /area/hallway/primary/port{
 	name = "Deck 3 hallway"
 	})
-"aXz" = (
-/obj/structure/stairs/active{
-	icon_state = "stairs_up";
-	dir = 1
-	},
-/turf/open/floor/plasteel/ship/techfloor/alt,
-/area/hallway/primary/port{
-	name = "Deck 3 hallway"
-	})
 "aXA" = (
 /obj/machinery/status_display/evac{
 	pixel_y = -36
@@ -24728,15 +24649,6 @@
 	pixel_y = -36
 	},
 /turf/open/floor/plasteel/ship/padded,
-/area/hallway/primary/port{
-	name = "Deck 3 hallway"
-	})
-"aXD" = (
-/obj/structure/stairs{
-	icon_state = "stairs_down";
-	dir = 1
-	},
-/turf/open/floor/plasteel/ship/techfloor/alt,
 /area/hallway/primary/port{
 	name = "Deck 3 hallway"
 	})
@@ -51105,7 +51017,7 @@ tyN
 aag
 adi
 aaZ
-abj
+abk
 axS
 abk
 aaZ
@@ -51127,7 +51039,7 @@ aVS
 aTV
 aSx
 axT
-abj
+abk
 aaZ
 amq
 aag
@@ -61898,8 +61810,8 @@ tyN
 aag
 adi
 aaZ
-ahR
-asy
+abi
+abk
 abk
 abk
 abk
@@ -61921,8 +61833,8 @@ abk
 abk
 abk
 abk
-aXz
-aXD
+abk
+abi
 aaZ
 amq
 aag
@@ -66011,8 +65923,8 @@ tyN
 aVr
 adi
 aba
-ahR
-asy
+abi
+abk
 aSC
 abk
 abk
@@ -66032,8 +65944,8 @@ abk
 abk
 abk
 aSC
-aXz
-aXD
+abk
+abi
 aba
 amq
 aVr
@@ -116384,7 +116296,7 @@ tyN
 aCp
 aLT
 abd
-adI
+abj
 aDb
 aKR
 adp
@@ -116406,7 +116318,7 @@ adt
 aMS
 aHJ
 aDb
-adI
+abj
 azE
 aLT
 aCp
@@ -116641,7 +116553,7 @@ tyN
 aCp
 aLT
 abd
-aet
+aew
 aDb
 aKR
 aMS
@@ -116663,7 +116575,7 @@ aaa
 aMS
 aHJ
 aDb
-aet
+aew
 azE
 aLT
 aCp
@@ -127434,8 +127346,8 @@ aLT
 aLT
 aLT
 abd
-aqr
-azF
+abj
+aew
 aew
 aew
 aew
@@ -127457,8 +127369,8 @@ aew
 aew
 aew
 aew
-aNC
-aNF
+aew
+abj
 azE
 aMk
 aLT
@@ -131547,8 +131459,8 @@ anN
 aLT
 aLT
 anS
-aos
-azF
+abj
+aew
 aew
 aew
 azJ
@@ -131568,8 +131480,8 @@ aKL
 aew
 aew
 aew
-aNC
-aNF
+aew
+aew
 anS
 aLT
 aLT
@@ -181107,7 +181019,7 @@ aaa
 aaa
 aaa
 aaa
-aaa
+amk
 aaa
 aaa
 aaa
@@ -181252,7 +181164,7 @@ aaa
 aaa
 aaa
 aaa
-aaa
+anE
 aaa
 aaa
 aaa
@@ -181920,7 +181832,7 @@ tyN
 adx
 apJ
 aRK
-aoC
+adI
 apP
 axO
 apH
@@ -181942,7 +181854,7 @@ aYK
 aRn
 aZa
 apP
-aoC
+adI
 aRK
 apJ
 adx
@@ -182177,7 +182089,7 @@ tyN
 adx
 apJ
 aRK
-aoG
+apP
 apP
 aXZ
 aqf
@@ -182199,7 +182111,7 @@ avU
 aqf
 aXZ
 apP
-aoG
+apP
 aRK
 apJ
 adx

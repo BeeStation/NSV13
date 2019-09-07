@@ -32,6 +32,7 @@
 	for(var/obj/effect/landmark/ship_interior_spawn/SI in GLOB.landmarks_list)
 		if(!SI.used)
 			if(SI.load(interior_map, src))
+				priority_announce("Salvage armatures have pulled [src] to a stable nearside position of: [SI.name].","ASTRAEUS subsystem") //TEMP! Remove this shit when we move ruin spawns off-z
 				find_area()
 				return TRUE
 
@@ -61,7 +62,7 @@
 						qdel(X)
 				qdel(O)
 		for(var/mob/M in linked_area)
-			if(isliving(M))
+			if(isliving(M) && !M.client) //OK, this is unrealistic, but I don't want players getting deleted because of some brainlet helm operator.
 				qdel(M)
 		for(var/turf/T in linked_area)
 			T.ChangeTurf(/turf/open/space/basic)
