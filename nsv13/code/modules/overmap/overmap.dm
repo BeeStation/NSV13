@@ -125,10 +125,10 @@
 			side_maxthrust = 1
 			max_angular_acceleration = 120
 		if(MASS_LARGE)
-			forward_maxthrust = 0.5
-			backward_maxthrust = 0.5
+			forward_maxthrust = 0.3
+			backward_maxthrust = 0.3
 			side_maxthrust = 0.2
-			max_angular_acceleration = 1
+			max_angular_acceleration = 5
 		if(MASS_TITAN)
 			forward_maxthrust = 0.1
 			backward_maxthrust = 0.1
@@ -179,8 +179,9 @@
 	if(!impact_sound_cooldown)
 		var/sound = pick(GLOB.overmap_impact_sounds)
 		relay(sound)
+		shake_everyone(5)
 		impact_sound_cooldown = TRUE
-		addtimer(VARSET_CALLBACK(src, impact_sound_cooldown, FALSE), 30)
+		addtimer(VARSET_CALLBACK(src, impact_sound_cooldown, FALSE), 20)
 	update_icon()
 
 /obj/structure/overmap/relaymove(mob/user, direction)
@@ -262,12 +263,15 @@
 	progress = round(((progress / goal) * 100), 25)//Round it down to 20%. We now apply visual damage
 	icon_state = "[initial(icon_state)]-[progress]"
 
-/obj/structure/overmap/proc/relay(var/sound, var/message=null, loop = FALSE, channel = CHANNEL_SHIP_FX) //Sends a sound + text message to the crew of a ship
+/obj/structure/overmap/proc/relay(var/sound, var/message=null, loop = FALSE, channel = null) //Sends a sound + text message to the crew of a ship
 	for(var/X in mobs_in_ship)
 		if(ismob(X))
 			var/mob/mob = X
 			if(sound)
-				SEND_SOUND(mob, sound(sound, repeat = loop, wait = 0, volume = 100, channel = channel))
+				if(channel) //Doing this forbids overlapping of sounds
+					SEND_SOUND(mob, sound(sound, repeat = loop, wait = 0, volume = 100, channel = channel))
+				else
+					SEND_SOUND(mob, sound(sound, repeat = loop, wait = 0, volume = 100))
 			if(message)
 				to_chat(mob, message)
 
