@@ -195,7 +195,7 @@
 			weapon_range = initial(weapon_range)+30 //Most combat takes place at extreme ranges, torpedoes allow for this.
 			fire_mode = FIRE_MODE_TORPEDO
 	if(ai_controlled)
-		fire_delay += 5 //Make it fair on the humans who have to actually reload and stuff.
+		fire_delay += 10 //Make it fair on the humans who have to actually reload and stuff.
 
 /obj/structure/overmap/proc/fire_railgun(atom/target)
 	if(ai_controlled) //AI ships don't have interiors

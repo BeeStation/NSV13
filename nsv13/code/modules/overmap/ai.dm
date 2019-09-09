@@ -65,6 +65,8 @@
 			return
 	enemies += target
 	if(OM.tactical)
+		if(OM.main_overmap)
+			set_security_level(SEC_LEVEL_RED) //Action stations when the ship is under attack, if it's the main overmap.
 		var/sound = pick('nsv13/sound/effects/computer/alarm.ogg','nsv13/sound/effects/computer/alarm_3.ogg','nsv13/sound/effects/computer/alarm_4.ogg')
 		var/message = "<span class='warning'>DANGER: [src] is now targeting [OM].</span>"
 		OM.tactical.relay_sound(sound, message)
