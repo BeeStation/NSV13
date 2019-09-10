@@ -730,7 +730,7 @@
 			wh = W
 			state = 7
 			update_icon()
-			qdel(W)
+			W.forceMove(src)
 		return
 	else if(istype(W, /obj/item/torpedo/guidance_system))
 		if(state == 2)
@@ -741,7 +741,7 @@
 			gs = W
 			state = 3
 			update_icon()
-			qdel(W)
+			W.forceMove(src)
 		return
 	else if(istype(W, /obj/item/torpedo/propulsion_system))
 		if(state == 0)
@@ -752,7 +752,7 @@
 			ps = W
 			state = 1
 			update_icon()
-			qdel(W)
+			W.forceMove(src)
 		return
 	else if(istype(W, /obj/item/torpedo/iff_card))
 		if(state == 4)
@@ -763,7 +763,7 @@
 			iff = W
 			state = 5
 			update_icon()
-			qdel(W)
+			W.forceMove(src)
 		return
 	else if(istype(W, /obj/item/stack/cable_coil))
 		var/obj/item/stack/cable_coil/C = W
@@ -885,8 +885,7 @@
 			to_chat(user, "<span class='notice'>You start sealing the casing on [src]...</span>")
 			if(tool.use_tool(src, user, 40, volume=100))
 				to_chat(user, "<span class='notice'You seal the casing on [src].</span>")
-				var/obj/structure/munition/bomb = new_torpedo(wh, gs, ps, iff)
-				bomb.speed = ps?.speed //Placeholder, but allows for faster torps if we ever add that
+				new_torpedo(wh, gs, ps, iff)
 				qdel(src)
 			return TRUE
 
@@ -955,8 +954,11 @@
 			icon_state = "case_warhead_complete"
 
 /obj/structure/munition/torpedo_casing/proc/new_torpedo(obj/item/torpedo/warhead, obj/item/torpedo/guidance_system, obj/item/torpedo/propulsion_system, obj/item/torpedo/iff_card)
+	var/warhead_type = warhead.type
+	for(var/I in contents)
+		qdel(I) //Change this if we ever need to add more component factoring in to performance. This avoids infinite torpedo parts because the torpedo gets Qdel'd
 	if(istype(warhead, /obj/item/torpedo/warhead))
-		switch(warhead.type)
+		switch(warhead_type)
 			if(/obj/item/torpedo/warhead)
 				return new /obj/structure/munition(get_turf(src))
 			if(/obj/item/torpedo/warhead/bunker_buster)
