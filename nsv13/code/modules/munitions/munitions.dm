@@ -896,7 +896,7 @@
 			to_chat(user, "<span class='notice'>You start removing [ps.name] from [src]...</span>")
 			if(tool.use_tool(src, user, 40, volume=100))
 				to_chat(user, "<span class='notice'>You remove [ps.name] from [src].</span>")
-				ps = new (loc, 1)
+				ps?.forceMove(get_turf(src))
 				ps = null
 				state = 0
 				update_icon()
@@ -905,7 +905,7 @@
 			to_chat(user, "<span class='notice'>You start removing [gs.name] from [src]...</span>")
 			if(tool.use_tool(src, user, 40, volume=100))
 				to_chat(user, "<span class='notice'>You remove [gs.name] from [src].</span>")
-				gs = new (loc, 1)
+				gs?.forceMove(get_turf(src))
 				gs = null
 				state = 2
 				update_icon()
@@ -914,7 +914,7 @@
 			to_chat(user, "<span class='notice'>You start removing [iff.name] from [src]...</span>")
 			if(tool.use_tool(src, user, 40, volume=100))
 				to_chat(user, "<span class='notice'>You remove [iff.name] from [src].</span>")
-				iff = new (loc, 1)
+				iff?.forceMove(get_turf(src))
 				iff = null
 				state = 4
 				update_icon()
@@ -923,7 +923,7 @@
 			to_chat(user, "<span class='notice'>You start removing [wh.name] from [src]...</span>")
 			if(tool.use_tool(src, user, 40, volume=100))
 				to_chat(user, "<span class='notice'>You remove [wh.name] from [src].</span>")
-				wh = new (loc, 1)
+				wh?.forceMove(get_turf(src))
 				wh = null
 				state = 6
 				update_icon()
