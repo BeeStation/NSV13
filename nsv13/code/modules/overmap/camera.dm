@@ -20,6 +20,9 @@
 			pilot = user
 		if("gunner")
 			gunner = user
+		if("all_positions")
+			pilot = user
+			gunner = user
 	operators += user
 	CreateEye(user) //Your body stays there but your mind stays with me - 6 (Battlestar galactica)
 	user.overmap_ship = src

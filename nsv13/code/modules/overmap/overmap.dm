@@ -109,15 +109,15 @@
 	find_area()
 	switch(mass) //Scale speed with mass (tonnage)
 		if(MASS_TINY)
-			forward_maxthrust = 10
-			backward_maxthrust = 8
-			side_maxthrust = 6
-			max_angular_acceleration = 280
-		if(MASS_SMALL)
 			forward_maxthrust = 5
+			backward_maxthrust = 4
+			side_maxthrust = 6
+			max_angular_acceleration = 120
+		if(MASS_SMALL)
+			forward_maxthrust = 3
 			backward_maxthrust = 3
 			side_maxthrust = 2
-			max_angular_acceleration = 160
+			max_angular_acceleration = 110
 		if(MASS_MEDIUM)
 			forward_maxthrust = 2
 			backward_maxthrust = 1
@@ -225,6 +225,7 @@
 	left_thrusts.len = 8
 	var/list/right_thrusts = list()
 	right_thrusts.len = 8
+	var/back_thrust = 0
 	for(var/cdir in GLOB.cardinals)
 		left_thrusts[cdir] = 0
 		right_thrusts[cdir] = 0
@@ -232,6 +233,8 @@
 		var/tdir = last_thrust_right > 0 ? WEST : EAST
 		left_thrusts[tdir] = abs(last_thrust_right) / side_maxthrust
 		right_thrusts[tdir] = abs(last_thrust_right) / side_maxthrust
+	if(last_thrust_forward > 0)
+		back_thrust = last_thrust_forward / forward_maxthrust
 	if(last_thrust_forward < 0)
 		left_thrusts[NORTH] = -last_thrust_forward / backward_maxthrust
 		right_thrusts[NORTH] = -last_thrust_forward / backward_maxthrust
@@ -249,6 +252,9 @@
 			add_overlay(image(icon = icon, icon_state = "rcs_left", dir = cdir))
 		if(right_thrust)
 			add_overlay(image(icon = icon, icon_state = "rcs_right", dir = cdir))
+	if(back_thrust)
+		var/image/I = image(icon = icon, icon_state = "thrust")
+		add_overlay(I)
 
 /obj/structure/overmap/proc/apply_damage_states()
 	if(!damage_states)
