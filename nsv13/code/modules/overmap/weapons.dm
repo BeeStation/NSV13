@@ -25,6 +25,16 @@
 	icon_state = "explosion"
 	duration = 10
 
+/obj/effect/temp_visual/overmap_explosion
+	icon = 'nsv13/goonstation/icons/hugeexplosion.dmi'
+	icon_state = "explosion"
+	duration = 10
+
+/obj/effect/temp_visual/overmap_explosion/alt
+	icon = 'nsv13/goonstation/icons/hugeexplosion2.dmi'
+	icon_state = "explosion"
+	duration = 10
+
 /obj/item/projectile/bullet/torpedo/Crossed(atom/movable/AM) //Here, we check if the bullet that hit us is from a friendly ship. If it's from an enemy ship, we explode as we've been flak'd down.
 	. = ..()
 	if(istype(AM, /obj/item/projectile))
@@ -78,7 +88,7 @@
 			if(!istype(X, /obj/structure/overmap))
 				continue
 			var/obj/structure/overmap/ship = X
-			if(ship == src || ship.faction == faction) //No friendly fire
+			if(ship == src || ship.faction == faction || ship.wrecked) //No friendly fire, don't blow up wrecks that the crew may wish to loot.
 				continue
 			var/target_range = get_dist(ship,src)
 			if(target_range > initial(weapon_range)) //If the target is out of PDC range, don't shoot. This prevents OP shit like spamming torps AND PDC flak all over a target.
@@ -143,10 +153,7 @@
 		if(FIRE_MODE_PDC)
 			fire_pdcs(target)
 		if(FIRE_MODE_RAILGUN)
-			flick("railgun_charge",railgun_overlay)
-			addtimer(CALLBACK(src, .proc/fire_railgun, target), 20)
-			var/sound/chosen = pick('nsv13/sound/effects/ship/railgun.ogg','nsv13/sound/effects/ship/railgun2.ogg')
-			relay_to_nearby(chosen)
+			fire_railgun(target)
 		if(FIRE_MODE_TORPEDO) //In case of bugs.
 			fire_torpedo(target)
 
@@ -183,29 +190,44 @@
 			weapon_range = initial(weapon_range)
 			fire_mode = FIRE_MODE_PDC
 		if(FIRE_MODE_RAILGUN)
-			fire_delay = 50 //Takes time to charge up
+			fire_delay = 10 //Very limited ammo
 			weapon_range = initial(weapon_range)+30 //Gain a large range bonus. This will take care of a lot of combat.
 			fire_mode = FIRE_MODE_RAILGUN
 		if(FIRE_MODE_TORPEDO)
 			fire_delay = 5 //These things rip into your hull, but can be easily shot down
 			weapon_range = initial(weapon_range)+30 //Most combat takes place at extreme ranges, torpedoes allow for this.
 			fire_mode = FIRE_MODE_TORPEDO
+	if(ai_controlled)
+		fire_delay += 10 //Make it fair on the humans who have to actually reload and stuff.
 
 /obj/structure/overmap/proc/fire_railgun(atom/target)
 	if(ai_controlled) //AI ships don't have interiors
 		fire_lateral_projectile(/obj/item/projectile/bullet/railgun_slug, target, 10)
 		return
 	var/proj_type = null //If this is true, we've got a railgun shipside that's been able to fire.
+	var/fired = FALSE
 	for(var/X in railguns)
 		if(istype(X, /obj/structure/ship_weapon/railgun))
 			var/obj/structure/ship_weapon/railgun/RG = X
-			proj_type = RG.fire()
-			if(!proj_type)
-				continue
-	if(proj_type)
-		fire_lateral_projectile(proj_type, target, 10)
-	else
+			if(RG.can_fire())
+				proj_type = RG.fire()
+				if(proj_type)
+					fired = TRUE
+					break
+	if(!fired)
 		to_chat(gunner, "<span class='warning'>DANGER: Launch failure! Railgun systems are not loaded.</span>")
+		return
+	var/sound/chosen ='nsv13/sound/effects/ship/railgun_fire.ogg'
+	relay_to_nearby(chosen)
+	flick("railgun_charge",railgun_overlay)
+	shake_everyone(2)
+	if(proj_type)
+		fire_lateral_projectile(proj_type, target, 5)
+
+/obj/structure/overmap/proc/shake_everyone(severity)
+	for(var/mob/M in mobs_in_ship)
+		if(M.client)
+			shake_camera(M, severity, 1)
 
 /obj/structure/overmap/proc/fire_torpedo(atom/target)
 	if(!linked_area && !main_overmap) //AI ships don't have interiors

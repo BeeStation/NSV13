@@ -87,6 +87,7 @@
 	var/list/railguns = list() //Every railgun present on the ship
 	var/list/torpedo_tubes = list() //every torpedo tube present on the ship.
 	var/list/pdcs = list() //Every PDC ammo rack that we have.
+	var/datum/starsystem/current_system //What starsystem are we currently in? Used for parallax.
 
 
 /obj/railgun_overlay //Railgun sits on top of the ship and swivels to face its target
@@ -124,15 +125,17 @@
 			side_maxthrust = 1
 			max_angular_acceleration = 120
 		if(MASS_LARGE)
-			forward_maxthrust = 0.5
-			backward_maxthrust = 0.5
+			forward_maxthrust = 0.3
+			backward_maxthrust = 0.3
 			side_maxthrust = 0.2
-			max_angular_acceleration = 1
+			max_angular_acceleration = 5
 		if(MASS_TITAN)
 			forward_maxthrust = 0.1
 			backward_maxthrust = 0.1
 			side_maxthrust = 0.1
 			max_angular_acceleration = 2
+	if(main_overmap)
+		name = "[station_name()]"
 
 /obj/structure/overmap/proc/find_area()
 	if(main_overmap) //We're the hero ship, link us to every ss13 area.
@@ -176,8 +179,9 @@
 	if(!impact_sound_cooldown)
 		var/sound = pick(GLOB.overmap_impact_sounds)
 		relay(sound)
+		shake_everyone(5)
 		impact_sound_cooldown = TRUE
-		addtimer(VARSET_CALLBACK(src, impact_sound_cooldown, FALSE), 30)
+		addtimer(VARSET_CALLBACK(src, impact_sound_cooldown, FALSE), 20)
 	update_icon()
 
 /obj/structure/overmap/relaymove(mob/user, direction)
@@ -265,12 +269,15 @@
 	progress = round(((progress / goal) * 100), 25)//Round it down to 20%. We now apply visual damage
 	icon_state = "[initial(icon_state)]-[progress]"
 
-/obj/structure/overmap/proc/relay(var/sound, var/message=null, loop = FALSE, channel = CHANNEL_SHIP_ALERT) //Sends a sound + text message to the crew of a ship
+/obj/structure/overmap/proc/relay(var/sound, var/message=null, loop = FALSE, channel = null) //Sends a sound + text message to the crew of a ship
 	for(var/X in mobs_in_ship)
 		if(ismob(X))
 			var/mob/mob = X
 			if(sound)
-				SEND_SOUND(mob, sound(sound, repeat = loop, wait = 0, volume = 100, channel = channel))
+				if(channel) //Doing this forbids overlapping of sounds
+					SEND_SOUND(mob, sound(sound, repeat = loop, wait = 0, volume = 100, channel = channel))
+				else
+					SEND_SOUND(mob, sound(sound, repeat = loop, wait = 0, volume = 100))
 			if(message)
 				to_chat(mob, message)
 
@@ -280,17 +287,16 @@
 			var/mob/mob = X
 			mob.stop_sound_channel(channel)
 
-
-/obj/structure/overmap/proc/relay_to_nearby(var/sound, var/message=null) //Sends a sound + text message to nearby ships
-	for(var/X in GLOB.overmap_objects)
-		if(!istype(X, /obj/structure/overmap))
-			continue
-		var/obj/structure/overmap/ship = X
-		if(get_dist(src, X) <= 20) //Sound doesnt really travel in space, but space combat with no kaboom is LAME
+/obj/structure/overmap/proc/relay_to_nearby(sound, message, ignore_self=FALSE) //Sends a sound + text message to nearby ships
+	for(var/obj/structure/overmap/ship in GLOB.overmap_objects)
+		if(ignore_self)
+			if(ship == src)
+				continue
+		if(get_dist(src, ship) <= 20) //Sound doesnt really travel in space, but space combat with no kaboom is LAME
 			ship.relay(sound,message)
 	for(var/Y in GLOB.dead_mob_list)
 		var/mob/dead/M = Y
-		if(get_dist(src, M) <= 20) //Ghosts get to hear explosions too for clout.
+		if(M.z == z) //Ghosts get to hear explosions too for clout.
 			SEND_SOUND(M,sound)
 
 /obj/structure/overmap/proc/verb_check(require_pilot = TRUE, mob/user = null)
