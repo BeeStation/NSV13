@@ -163,7 +163,7 @@
 	set src = usr.loc
 	if(usr != gunner)
 		return
-	var/max_firemode = FIRE_MODE_TORPEDO
+	var/max_firemode = FIRE_MODE_RAILGUN
 	if(mass < MASS_MEDIUM) //Small craft dont get a railgun
 		max_firemode = FIRE_MODE_TORPEDO
 	fire_mode ++

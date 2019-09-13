@@ -84,6 +84,7 @@
 	var/list/operators = list() //Everyone who needs their client updating when we move.
 	var/obj/machinery/computer/ship/helm //Relay beeping noises when we act
 	var/obj/machinery/computer/ship/tactical
+	var/obj/machinery/computer/ship/dradis //So that pilots can check the radar easily
 	var/list/railguns = list() //Every railgun present on the ship
 	var/list/torpedo_tubes = list() //every torpedo tube present on the ship.
 	var/list/pdcs = list() //Every PDC ammo rack that we have.

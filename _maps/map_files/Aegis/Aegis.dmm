@@ -13836,6 +13836,13 @@
 /obj/structure/cable,
 /turf/open/floor/plasteel,
 /area/quartermaster/office)
+"aCg" = (
+/obj/machinery/computer/ship/dradis{
+	icon_state = "computer";
+	dir = 8
+	},
+/turf/open/floor/plasteel/dark,
+/area/bridge)
 "aCh" = (
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on{
 	dir = 1
@@ -21567,11 +21574,9 @@
 /turf/open/floor/plasteel/ship/techfloor/alt,
 /area/hallway/secondary/command)
 "aQv" = (
-/obj/machinery/computer/atmos_alert{
-	dir = 8
-	},
-/turf/open/floor/plasteel/dark,
-/area/bridge)
+/obj/structure/chair/comfy,
+/turf/open/floor/carpet/ship,
+/area/bridge/meeting_room)
 "aQw" = (
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on,
 /turf/open/floor/plasteel/dark,
@@ -26434,10 +26439,15 @@
 	name = "Deck 1 maintenance"
 	})
 "aZT" = (
-/obj/structure/chair/comfy,
+/obj/structure/chair/comfy/shuttle{
+	color = "#696969";
+	dir = 4;
+	icon_state = "shuttle_chair";
+	name = "bridge chair"
+	},
 /obj/effect/landmark/start/captain,
-/turf/open/floor/carpet/ship,
-/area/bridge/meeting_room)
+/turf/open/floor/plasteel/dark,
+/area/bridge)
 "aZU" = (
 /obj/machinery/power/deck_relay{
 	pixel_y = 32
@@ -185840,7 +185850,7 @@ aAW
 aAO
 aop
 aXO
-aZT
+aQv
 aId
 aIZ
 aPK
@@ -193809,7 +193819,7 @@ apo
 axu
 aGY
 aGW
-aGX
+aZT
 aGW
 iJb
 aQF
@@ -194066,8 +194076,8 @@ arv
 axm
 aGZ
 aOV
+aCg
 aiB
-aQv
 aGZ
 aQF
 arv
