@@ -4599,8 +4599,8 @@
 	name = "Deck 3 hallway"
 	})
 "akd" = (
-/obj/structure/stairs/active{
-	icon_state = "stairs_up";
+/obj/structure/ladder,
+/obj/effect/turf_decal/tile/bar{
 	dir = 1
 	},
 /turf/open/floor/plasteel,
@@ -11193,6 +11193,9 @@
 /area/security/brig)
 "axo" = (
 /obj/machinery/vending/boozeomat,
+/obj/machinery/keycard_auth{
+	pixel_y = 32
+	},
 /turf/open/floor/carpet/ship,
 /area/crew_quarters/heads/captain)
 "axp" = (
@@ -11617,12 +11620,12 @@
 	},
 /area/crew_quarters/bar)
 "ayb" = (
-/obj/structure/stairs{
-	icon_state = "stairs_down";
-	dir = 1
-	},
 /obj/structure/disposalpipe/segment{
 	dir = 4
+	},
+/obj/effect/turf_decal/tile/bar,
+/obj/effect/turf_decal/tile/bar{
+	dir = 1
 	},
 /turf/open/floor/plasteel,
 /area/crew_quarters/bar)
@@ -13034,6 +13037,7 @@
 /area/ai_monitored/security/armory)
 "aAM" = (
 /obj/machinery/light,
+/obj/structure/cable,
 /turf/open/floor/plating,
 /area/maintenance/department/bridge{
 	name = "Deck 1 maintenance"
@@ -15893,14 +15897,11 @@
 /turf/open/floor/plasteel/ship/padded,
 /area/hydroponics)
 "aFR" = (
-/obj/structure/stairs/active{
-	icon_state = "stairs_up";
-	dir = 1
-	},
 /obj/structure/railing{
 	icon_state = "railing0";
 	dir = 4
 	},
+/obj/structure/ladder,
 /turf/open/floor/plasteel/ship/techfloor/alt,
 /area/hydroponics)
 "aFS" = (
@@ -18898,17 +18899,6 @@
 /obj/structure/cable,
 /turf/open/floor/plasteel/white/corner,
 /area/quartermaster/sorting)
-"aKY" = (
-/obj/structure/stairs{
-	icon_state = "stairs_down";
-	dir = 1
-	},
-/obj/structure/railing{
-	icon_state = "railing0";
-	dir = 4
-	},
-/turf/open/floor/plasteel/ship/techfloor/alt,
-/area/hydroponics)
 "aKZ" = (
 /obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
@@ -21575,6 +21565,7 @@
 /area/hallway/secondary/command)
 "aQv" = (
 /obj/structure/chair/comfy,
+/obj/effect/landmark/start/captain,
 /turf/open/floor/carpet/ship,
 /area/bridge/meeting_room)
 "aQw" = (
@@ -22115,6 +22106,7 @@
 "aRF" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
 /obj/structure/disposalpipe/segment,
+/obj/structure/cable,
 /turf/open/floor/plasteel/ship/techfloor/alt,
 /area/hallway/secondary/command)
 "aRG" = (
@@ -22195,6 +22187,7 @@
 /area/hallway/secondary/command)
 "aRO" = (
 /obj/machinery/door/airlock/ship/maintenance,
+/obj/structure/cable,
 /turf/open/floor/plasteel/ship/padded,
 /area/maintenance/department/bridge{
 	name = "Deck 1 maintenance"
@@ -22231,6 +22224,7 @@
 /obj/machinery/door/airlock/ship/maintenance,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
 /obj/structure/disposalpipe/segment,
+/obj/structure/cable,
 /turf/open/floor/plasteel/ship/techfloor/alt,
 /area/maintenance/department/bridge{
 	name = "Deck 1 maintenance"
@@ -22260,12 +22254,14 @@
 /obj/structure/sign/nanotrasen{
 	pixel_y = 26
 	},
+/obj/structure/cable,
 /turf/open/floor/plating,
 /area/maintenance/department/bridge{
 	name = "Deck 1 maintenance"
 	})
 "aRW" = (
 /obj/machinery/atmospherics/pipe/simple/multiz,
+/obj/structure/cable,
 /turf/open/floor/plating,
 /area/maintenance/department/bridge{
 	name = "Deck 1 maintenance"
@@ -22274,6 +22270,7 @@
 /obj/machinery/light{
 	dir = 1
 	},
+/obj/structure/cable,
 /turf/open/floor/plating,
 /area/maintenance/department/bridge{
 	name = "Deck 1 maintenance"
@@ -25825,6 +25822,9 @@
 "aYP" = (
 /obj/structure/table/glass,
 /obj/machinery/chem_dispenser/drinks,
+/obj/machinery/keycard_auth{
+	pixel_y = 32
+	},
 /turf/open/floor/carpet/ship,
 /area/crew_quarters/heads/hop{
 	name = "Executive officer's office"
@@ -26205,6 +26205,7 @@
 	dir = 1
 	},
 /obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1,
+/obj/structure/cable,
 /turf/open/floor/plasteel/ship/padded,
 /area/hallway/secondary/command)
 "aZy" = (
@@ -26400,6 +26401,7 @@
 /obj/structure/disposalpipe/segment{
 	dir = 4
 	},
+/obj/structure/cable,
 /turf/open/floor/plating,
 /area/maintenance/department/bridge{
 	name = "Deck 1 maintenance"
@@ -26434,20 +26436,11 @@
 /obj/structure/disposalpipe/segment{
 	dir = 9
 	},
+/obj/structure/cable,
 /turf/open/floor/plating,
 /area/maintenance/department/bridge{
 	name = "Deck 1 maintenance"
 	})
-"aZT" = (
-/obj/structure/chair/comfy/shuttle{
-	color = "#696969";
-	dir = 4;
-	icon_state = "shuttle_chair";
-	name = "bridge chair"
-	},
-/obj/effect/landmark/start/captain,
-/turf/open/floor/plasteel/dark,
-/area/bridge)
 "aZU" = (
 /obj/machinery/power/deck_relay{
 	pixel_y = 32
@@ -27177,14 +27170,6 @@
 /area/hallway/primary/port{
 	name = "Deck 3 hallway"
 	})
-"bbk" = (
-/obj/machinery/keycard_auth,
-/turf/closed/wall/ship,
-/area/hallway/secondary/command)
-"bbl" = (
-/obj/machinery/keycard_auth,
-/turf/closed/wall/r_wall/ship,
-/area/hallway/secondary/command)
 "bbx" = (
 /obj/machinery/atmospherics/pipe/simple/orange/hidden{
 	icon_state = "pipe11-2";
@@ -29138,6 +29123,7 @@
 	dir = 4
 	},
 /obj/effect/landmark/nuclear_waste_spawner,
+/obj/structure/cable,
 /turf/open/floor/plasteel/ship/padded,
 /area/hallway/secondary/command)
 "owG" = (
@@ -124943,7 +124929,7 @@ avN
 aGN
 aAp
 aFR
-aKY
+aAp
 aLa
 avN
 avN
@@ -181727,7 +181713,7 @@ tyN
 tyN
 tyN
 adx
-apJ
+aGI
 aRK
 aop
 aXG
@@ -181753,7 +181739,7 @@ aRG
 aZR
 aRK
 aRK
-apJ
+aGI
 adx
 tyN
 tyN
@@ -181984,7 +181970,7 @@ tyN
 tyN
 tyN
 adx
-apJ
+aGI
 aRK
 adI
 apP
@@ -182010,7 +181996,7 @@ aZa
 apP
 adI
 aRK
-apJ
+aGI
 adx
 tyN
 tyN
@@ -182241,7 +182227,7 @@ tyN
 tyN
 tyN
 adx
-apJ
+aGI
 aRK
 apP
 apP
@@ -182267,7 +182253,7 @@ aXZ
 apP
 apP
 aRK
-apJ
+aGI
 adx
 tyN
 tyN
@@ -182755,8 +182741,8 @@ tyN
 tyN
 tyN
 adx
-apJ
-apJ
+aGI
+aGI
 aRK
 apP
 aXZ
@@ -182780,8 +182766,8 @@ aqf
 aXZ
 apP
 aRK
-apJ
-apJ
+aGI
+aGI
 adx
 tyN
 tyN
@@ -183013,7 +182999,7 @@ tyN
 tyN
 adx
 adx
-apJ
+aGI
 aRK
 apP
 aXZ
@@ -183037,7 +183023,7 @@ aqf
 aXZ
 apP
 aRK
-apJ
+aGI
 adx
 adx
 tyN
@@ -183270,7 +183256,7 @@ tyN
 tyN
 tyN
 adx
-apJ
+aGI
 aRK
 apP
 tjR
@@ -183294,7 +183280,7 @@ aqf
 tjR
 apP
 aRK
-apJ
+aGI
 adx
 tyN
 tyN
@@ -183527,7 +183513,7 @@ tyN
 tyN
 tyN
 adx
-apJ
+aGI
 aRK
 apP
 aXZ
@@ -183551,7 +183537,7 @@ aqf
 aXZ
 apP
 aRK
-apJ
+aGI
 adx
 tyN
 tyN
@@ -183784,7 +183770,7 @@ tyN
 tyN
 tyN
 adx
-apJ
+aGI
 aRK
 apP
 aXZ
@@ -183808,7 +183794,7 @@ aqf
 aXZ
 apP
 aRK
-apJ
+aGI
 adx
 tyN
 tyN
@@ -184041,7 +184027,7 @@ tyN
 tyN
 tyN
 adx
-apJ
+aGI
 aRK
 apP
 aXZ
@@ -184065,7 +184051,7 @@ aqf
 aXZ
 apP
 aRK
-apJ
+aGI
 adx
 tyN
 tyN
@@ -184298,7 +184284,7 @@ tyN
 tyN
 tyN
 adx
-apJ
+aGI
 aRK
 apP
 aXZ
@@ -184322,7 +184308,7 @@ aqf
 aXZ
 apP
 aRK
-apJ
+aGI
 adx
 tyN
 tyN
@@ -184555,7 +184541,7 @@ tyN
 tyN
 tyN
 adx
-apJ
+aGI
 aRK
 apP
 aXZ
@@ -184579,7 +184565,7 @@ aqf
 aXZ
 apP
 aRK
-apJ
+aGI
 adx
 tyN
 tyN
@@ -184812,7 +184798,7 @@ tyN
 tyN
 tyN
 adx
-apJ
+aGI
 aRK
 aRB
 aOH
@@ -184836,7 +184822,7 @@ bam
 aZa
 apP
 aRK
-apJ
+aGI
 adx
 tyN
 tyN
@@ -185326,7 +185312,7 @@ tyN
 tyN
 tyN
 adx
-apJ
+aGI
 aRK
 apP
 aXZ
@@ -185350,7 +185336,7 @@ apP
 aXZ
 apP
 aRK
-apJ
+aGI
 adx
 tyN
 tyN
@@ -185583,7 +185569,7 @@ tyN
 tyN
 tyN
 adx
-apJ
+aGI
 aRK
 apP
 aXZ
@@ -185607,7 +185593,7 @@ aQu
 aXZ
 apP
 aRK
-apJ
+aGI
 adx
 tyN
 tyN
@@ -185840,7 +185826,7 @@ tyN
 tyN
 tyN
 adx
-apJ
+aGI
 aRK
 apP
 aXZ
@@ -185864,7 +185850,7 @@ apP
 aXZ
 apP
 aRK
-apJ
+aGI
 adx
 tyN
 tyN
@@ -186097,7 +186083,7 @@ tyN
 tyN
 tyN
 adx
-apJ
+aGI
 aRK
 apP
 aXZ
@@ -186121,7 +186107,7 @@ aZB
 aZa
 apP
 aRK
-apJ
+aGI
 adx
 tyN
 tyN
@@ -186354,7 +186340,7 @@ tyN
 tyN
 tyN
 adx
-apJ
+aGI
 aRK
 apP
 aXZ
@@ -186378,7 +186364,7 @@ aRA
 aXZ
 apP
 aRK
-apJ
+aGI
 adx
 tyN
 tyN
@@ -186611,7 +186597,7 @@ tyN
 tyN
 tyN
 adx
-apJ
+aGI
 aRK
 avA
 aXZ
@@ -186635,7 +186621,7 @@ apP
 aXZ
 apP
 aRK
-apJ
+aGI
 adx
 tyN
 tyN
@@ -186868,10 +186854,10 @@ tyN
 tyN
 tyN
 adx
-apJ
+aGI
 aRK
 apP
-aGL
+aXZ
 apP
 aop
 aIo
@@ -186892,7 +186878,7 @@ aRB
 aXZ
 apP
 aRK
-apJ
+aGI
 adx
 tyN
 tyN
@@ -187125,10 +187111,10 @@ aXX
 aXX
 aXX
 adx
-apJ
+aGI
 aRK
 apP
-aGL
+aXZ
 apP
 aop
 aBx
@@ -187149,7 +187135,7 @@ aYC
 aXZ
 apP
 aRK
-apJ
+aGI
 adx
 aXX
 aXX
@@ -187382,15 +187368,15 @@ ahk
 ahk
 ahk
 adx
-apJ
+aGI
 aRK
 apP
-aGL
+aXZ
 apP
 aop
 aOX
 aAO
-bbk
+aop
 aYP
 aIE
 aIJ
@@ -187406,7 +187392,7 @@ apP
 aXZ
 apP
 aRK
-apJ
+aGI
 adx
 ahk
 ahk
@@ -187639,10 +187625,10 @@ aXX
 aXX
 aXX
 adx
-apJ
+aGI
 aRK
 apP
-aGL
+aXZ
 apP
 aop
 aBx
@@ -187663,7 +187649,7 @@ apP
 aXZ
 apP
 aRK
-apJ
+aGI
 adx
 aXX
 aXX
@@ -188153,10 +188139,10 @@ aXX
 aXX
 aXX
 adx
-apJ
+aGI
 aRK
 apP
-aGL
+aXZ
 aPl
 aop
 aBx
@@ -188177,7 +188163,7 @@ aQu
 aXZ
 apP
 aRK
-apJ
+aGI
 adx
 aXX
 aXX
@@ -188410,10 +188396,10 @@ ahk
 ahk
 ahk
 adx
-apJ
+aGI
 aRK
 apP
-aGL
+aXZ
 apP
 aop
 aBx
@@ -188434,7 +188420,7 @@ apP
 aXZ
 apP
 aRK
-apJ
+aGI
 adx
 ahk
 ahk
@@ -188667,10 +188653,10 @@ aXX
 aXX
 aXX
 adx
-apJ
+aGI
 aRK
 apP
-aGL
+aXZ
 apP
 aop
 aVx
@@ -188691,7 +188677,7 @@ aQi
 aXZ
 apP
 aRK
-apJ
+aGI
 adx
 aXX
 aXX
@@ -188924,7 +188910,7 @@ tyN
 tyN
 tyN
 adx
-apJ
+aGI
 aRK
 apP
 oqy
@@ -188948,7 +188934,7 @@ apP
 oqy
 apP
 aRK
-apJ
+aGI
 adx
 tyN
 tyN
@@ -189181,10 +189167,10 @@ tyN
 tyN
 tyN
 adx
-apJ
+aGI
 aRK
 apP
-aGL
+aXZ
 apP
 aop
 aBx
@@ -189202,10 +189188,10 @@ auM
 aop
 aop
 aRB
-aGL
+aXZ
 apP
 aRK
-apJ
+aGI
 adx
 tyN
 tyN
@@ -189438,10 +189424,10 @@ tyN
 tyN
 tyN
 adx
-apJ
+aGI
 aRO
-apP
-aGL
+aQi
+aXZ
 apP
 aop
 aBx
@@ -189459,10 +189445,10 @@ auM
 aRr
 aop
 apP
-aGL
-apP
+aXZ
+aQi
 aRO
-apJ
+aGI
 adx
 tyN
 tyN
@@ -189960,7 +189946,7 @@ aop
 apo
 aAW
 aAO
-bbl
+apo
 axo
 aJi
 aJl
@@ -193819,7 +193805,7 @@ apo
 axu
 aGY
 aGW
-aZT
+aGX
 aGW
 iJb
 aQF

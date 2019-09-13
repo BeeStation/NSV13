@@ -5,6 +5,8 @@
 	var/stored = "blank"
 	var/datum/looping_sound/dradis/soundloop
 	var/on = TRUE //Starts on by default.
+	var/scanning_speed = 2 //Duration of each pulse.
+	var/last_scanning_speed = 2 //To update the sound loop
 
 /datum/looping_sound/dradis
 	mid_sounds = list('nsv13/sound/effects/ship/dradis.ogg')
@@ -44,6 +46,13 @@
 			obj_flags |= IN_USE
 		else
 			obj_flags &= ~IN_USE
+
+/obj/machinery/computer/ship/dradis/power_change()
+	..()
+	if(stat & NOPOWER)
+		soundloop?.stop()
+	else
+		soundloop?.start()
 
 /obj/machinery/computer/ship/dradis/proc/update_dialogue()
 	if(!is_operational())
@@ -94,8 +103,8 @@
 	    width: 1em;\
 	    height: 1em;\
 	    border-radius: 50%;\
-        -webkit-animation: fadeinout 2s linear forwards;\
-        animation: fadeinout 2s linear forwards;\
+        -webkit-animation: fadeinout [scanning_speed]s linear forwards;\
+        animation: fadeinout [scanning_speed]s linear forwards;\
         opacity: 0;\
 	}\
 	@-webkit-keyframes fadeinout {\
@@ -105,6 +114,13 @@
 	@keyframes fadeinout {\
 	  50% { opacity: 1; }\
 	}"
+	if(last_scanning_speed != scanning_speed)
+		soundloop.stop()
+		soundloop.mid_length = scanning_speed SECONDS //Allow for faster sweeps
+		last_scanning_speed = scanning_speed
+		for(var/datum/X in soundloop.active_timers)
+			qdel(X)
+		soundloop.start()
 	var/count = 0 //em is NOT px! It's around 16px :)
 	for(var/obj/structure/overmap/OM in GLOB.overmap_objects)
 		if(OM.z == linked.z)
