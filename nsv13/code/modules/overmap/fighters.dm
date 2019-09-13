@@ -63,6 +63,12 @@
 	density = TRUE
 	climable = TRUE
 	var/build_state = BS_FUSE
+	var/obj/item/twohanded/required/fighter_component/armour_plating/ap = null
+	var/obj/item/twohanded/required/fighter_component/fuel_tank/ft = null
+	var/obj/item/fighter_component/engine/en1 = null
+	var/obj/item/fighter_component/engine/en2 = null
+	var/obj/item/fighter_component/avionics/av = null
+	var/obj/item/fighter_component/targeting_system/ts = null
 
 /obj/structure/fighter_component/underconsttruction_fighter/examine(mob/user)
 	. = ..()
@@ -285,6 +291,16 @@
 			update_icon()
 			qdel(W)
 		return
+	else if(istype(W, /obj/item/airlock_painter))
+		if(BS_TARS_MULTI)
+			to_chat(user, "<span class='notice'></span>")
+			if(!do_after(user, 2 SECONDS, target=src))
+				return
+			to_chat(user, "<span class='notice'></span>")
+			//wh = W
+			build_state = BS_PAINT
+			update_icon()
+		return
 	else if(istype(W, /obj/item/stack/cable_coil))
 		var/obj/item/stack/cable_coil/C = W
 		if(BS_POWP_SCREW)
@@ -486,6 +502,296 @@
 				maint_state = BS_TARS
 				update_overlay()
 				return TRUE
+
+/obj/structure/fighter_componenet/underconstruction_fighter/welder_act(mob/user, obj/item/tool)
+	. = FALSE
+	switch(build_state)
+		if(BS_FUSE_BOLT)
+			to_chat(user, "<span class='notice'></span>")
+			if(tool.use_tool(src, user, 40, volume=100))
+				to_chat(user, "<span class='notice'></span>")
+				maint_state = BS_FUSE_WELD
+				update_overlay()
+				return TRUE
+		if(BS_FUSE_WELD)
+			to_chat(user, "<span class='notice'></span>")
+			if(tool.use_tool(src, user, 40, volume=100))
+				to_chat(user, "<span class='notice'></span>")
+				maint_state = BS_FUSE_BOLT
+				update_overlay()
+				return TRUE
+		if(BS_EMPE_BOLT)
+			to_chat(user, "<span class='notice'></span>")
+			if(tool.use_tool(src, user, 40, volume=100))
+				to_chat(user, "<span class='notice'></span>")
+				maint_state = BS_EMPE_WELD
+				update_overlay()
+				return TRUE
+		if(BS_EMPE_WELD)
+			to_chat(user, "<span class='notice'></span>")
+			if(tool.use_tool(src, user, 40, volume=100))
+				to_chat(user, "<span class='notice'></span>")
+				maint_state = BS_EMPE_BOLT
+				update_overlay()
+				return TRUE
+		if(BS_WING1_BOLT)
+			to_chat(user, "<span class='notice'></span>")
+			if(tool.use_tool(src, user, 40, volume=100))
+				to_chat(user, "<span class='notice'></span>")
+				maint_state = BS_WING1_WELD
+				update_overlay()
+				return TRUE
+		if(BS_WING1_WELD)
+			to_chat(user, "<span class='notice'></span>")
+			if(tool.use_tool(src, user, 40, volume=100))
+				to_chat(user, "<span class='notice'></span>")
+				maint_state = BS_WING1_BOLT
+				update_overlay()
+				return TRUE
+		if(BS_WING2_BOLT)
+			to_chat(user, "<span class='notice'></span>")
+			if(tool.use_tool(src, user, 40, volume=100))
+				to_chat(user, "<span class='notice'></span>")
+				maint_state = BS_WING2_WELD
+				update_overlay()
+				return TRUE
+		if(BS_WING2_WELD)
+			to_chat(user, "<span class='notice'></span>")
+			if(tool.use_tool(src, user, 40, volume=100))
+				to_chat(user, "<span class='notice'></span>")
+				maint_state = BS_WING2_BOLT
+				update_overlay()
+				return TRUE
+		if(BS_ARMP_SCREW)
+			to_chat(user, "<span class='notice'></span>")
+			if(tool.use_tool(src, user, 40, volume=100))
+				to_chat(user, "<span class='notice'></span>")
+				maint_state = BS_ARMP_WELD
+				update_overlay()
+				return TRUE
+		if(BS_ARMP_WELD)
+			to_chat(user, "<span class='notice'></span>")
+			if(tool.use_tool(src, user, 40, volume=100))
+				to_chat(user, "<span class='notice'></span>")
+				maint_state = BS_ARMP_SCREW
+				update_overlay()
+				return TRUE
+		if(BS_ENGI1)
+			to_chat(user, "<span class='notice'></span>")
+			if(tool.use_tool(src, user, 40, volume=100))
+				to_chat(user, "<span class='notice'></span>")
+				maint_state = BS_ENGI1_WELD
+				update_overlay()
+				return TRUE
+		if(BS_ENGI1_WELD)
+			to_chat(user, "<span class='notice'></span>")
+			if(tool.use_tool(src, user, 40, volume=100))
+				to_chat(user, "<span class='notice'></span>")
+				maint_state = BS_ENGI1
+				update_overlay()
+				return TRUE
+		if(BS_ENGI2)
+			to_chat(user, "<span class='notice'></span>")
+			if(tool.use_tool(src, user, 40, volume=100))
+				to_chat(user, "<span class='notice'></span>")
+				maint_state = BS_ENGI2_WELD
+				update_overlay()
+				return TRUE
+		if(BS_ENGI2_WELD)
+			to_chat(user, "<span class='notice'></span>")
+			if(tool.use_tool(src, user, 40, volume=100))
+				to_chat(user, "<span class='notice'></span>")
+				maint_state = BS_ENGI2
+				update_overlay()
+				return TRUE
+
+/obj/structure/fighter_componenet/underconstruction_fighter/multitool_act(mob/user, obj/item/tool)
+	. = FALSE
+	switch(build_state)
+		if(BS_WIRE1)
+			to_chat(user, "<span class='notice'></span>")
+			if(tool.use_tool(src, user, 40, volume=100))
+				to_chat(user, "<span class='notice'></span>")
+				maint_state = BS_WIRE1_MULTI
+				update_overlay()
+				return TRUE
+		if(BS_WIRE1_MULTI)
+			to_chat(user, "<span class='notice'></span>")
+			if(tool.use_tool(src, user, 40, volume=100))
+				to_chat(user, "<span class='notice'></span>")
+				maint_state = BS_WIRE1
+				update_overlay()
+				return TRUE
+		if(BS_ENGI2_WELD)
+			to_chat(user, "<span class='notice'></span>")
+			if(tool.use_tool(src, user, 40, volume=100))
+				to_chat(user, "<span class='notice'></span>")
+				maint_state = BS_THRU_MULTI
+				update_overlay()
+				return TRUE
+		if(BS_THRU_MULTI)
+			to_chat(user, "<span class='notice'></span>")
+			if(tool.use_tool(src, user, 40, volume=100))
+				to_chat(user, "<span class='notice'></span>")
+				maint_state = BS_ENGI2_WELD
+				update_overlay()
+				return TRUE
+		if(BS_AVIO_SCREW)
+			to_chat(user, "<span class='notice'></span>")
+			if(tool.use_tool(src, user, 40, volume=100))
+				to_chat(user, "<span class='notice'></span>")
+				maint_state = BS_AVIO_MULTI
+				update_overlay()
+				return TRUE
+		if(BS_AVIO_MULTI)
+			to_chat(user, "<span class='notice'></span>")
+			if(tool.use_tool(src, user, 40, volume=100))
+				to_chat(user, "<span class='notice'></span>")
+				maint_state = BS_AVIO_SCREW
+				update_overlay()
+				return TRUE
+		if(BS_TARS_SCREW)
+			to_chat(user, "<span class='notice'></span>")
+			if(tool.use_tool(src, user, 40, volume=100))
+				to_chat(user, "<span class='notice'></span>")
+				maint_state = BS_TARS_MULTI
+				update_overlay()
+				return TRUE
+
+/obj/structure/fighter_component/underconstruction_fighter/wirecutter_act(mob/user, obj/item/tool)
+	. = FALSE
+	switch(build_state)
+		if(BS_WIRE1)
+			to_chat(user, "<span class='notice'>You start cutting the wiring in [src]...</span>")
+			if(tool.use_tool(src, user, 40, volume=100))
+				to_chat(user, "<span class='notice'>You cut the wiring in [src].</span>")
+				var/obj/item/stack/cable_coil/C = new (loc, 3)
+				C.add_fingerprint(user)
+				build_state = BS_ARMP_WELD
+				update_overlay()
+			return TRUE
+		if(BS_WIRE2)
+			to_chat(user, "<span class='notice'>You start cutting the wiring in [src]...</span>")
+			if(tool.use_tool(src, user, 40, volume=100))
+				to_chat(user, "<span class='notice'>You cut the wiring in [src].</span>")
+				var/obj/item/stack/cable_coil/C = new (loc, 3)
+				C.add_fingerprint(user)
+				build_state = BS_COCK_BOLT
+				update_overlay()
+			return TRUE
+
+/obj/structure/fighter_component/underconstruction_fighter/crowbar_act(mob/user, obj/item/tool)
+	. = FALSE
+	switch(build_state)
+		if(BS_TARS)
+			to_chat(user, "<span class='notice'>You start removing [ts.name] from [src]...</span>")
+			if(tool.use_tool(src, user, 40, volume=100))
+				to_chat(user, "<span class='notice'>You remove [ts.name] from [src].</span>")
+				ts = new (loc, 1)
+				ts = null
+				state = BS_AVIO_MULTI
+				update_icon()
+			return TRUE
+		if(BS_AVIO)
+			to_chat(user, "<span class='notice'>You start removing the avionics from [src]...</span>")
+			if(tool.use_tool(src, user, 40, volume=100))
+				to_chat(user, "<span class='notice'>You remove the avionics from [src].</span>")
+				new/obj/item/fighter_component/avionics
+				state = BS_WIRE2
+				update_icon()
+			return TRUE
+		if(BS_COCK)
+			to_chat(user, "<span class='notice'>You start disassembling the cockpit from [src]...</span>")
+			if(tool.use_tool(src, user, 40, volume=100))
+				to_chat(user, "<span class='notice'>You disassemble the cockpit from [src].</span>")
+				new/obj/twohanded/required/fighter_component/cockpit
+				state = BS_THRU_MULTI
+				update_icon()
+			return TRUE
+		if(BS_ENGI2)
+			to_chat(user, "<span class='notice'>You start removing [en2.name] from [src]...</span>")
+			if(tool.use_tool(src, user, 40, volume=100))
+				to_chat(user, "<span class='notice'>You remove [en2.name] from [src].</span>")
+				en2 = new (loc, 1)
+				en2 = null
+				state = BS_ENGI1_WELD
+				update_icon()
+			return TRUE
+		if(BS_ENGI1)
+			to_chat(user, "<span class='notice'>You start removing [en1.name] from [src]...</span>")
+			if(tool.use_tool(src, user, 40, volume=100))
+				to_chat(user, "<span class='notice'>You remove [en1.name] from [src].</span>")
+				en1 = new (loc, 1)
+				en1 = null
+				state = BS_FUEL_BOLT
+				update_icon()
+			return TRUE
+		if(BS_FUEL)
+			to_chat(user, "<span class='notice'>You start removing [fl.name] from [src]...</span>")
+			if(tool.use_tool(src, user, 40, volume=100))
+				to_chat(user, "<span class='notice'>You remove [fl.name] from [src].</span>")
+				fl = new (loc, 1)
+				fl = null
+				state = BS_FUET_BOLT
+				update_icon()
+			return TRUE
+		if(BS_FUET)
+			to_chat(user, "<span class='notice'>You start removing [ft.name] from [src]...</span>")
+			if(tool.use_tool(src, user, 40, volume=100))
+				to_chat(user, "<span class='notice'>You remove [ft.name] from [src].</span>")
+				ft = new (loc, 1)
+				ft = null
+				state = BS_WIRE1_MULTI
+				update_icon()
+			return TRUE
+		if(BS_ARMP)
+			to_chat(user, "<span class='notice'>You start removing [ap.name] from [src]...</span>")
+			if(tool.use_tool(src, user, 40, volume=100))
+				to_chat(user, "<span class='notice'>You remove [ap.name] from [src].</span>")
+				ap = new (loc, 1)
+				ap = null
+				state = BS_LANG_BOLT
+				update_icon()
+			return TRUE
+		if(BS_LANG)
+			to_chat(user, "<span class='notice'>You start removing the landing gear from [src]...</span>")
+			if(tool.use_tool(src, user, 40, volume=100))
+				to_chat(user, "<span class='notice'>You remove the landing gear from [src].</span>")
+				new/obj/twohanded/required/fighter_component/landing_gear
+				state = BS_WING2_WELD
+				update_icon()
+			return TRUE
+		if(BS_WING2)
+			to_chat(user, "<span class='notice'>You start disassembling a wing from [src]...</span>")
+			if(tool.use_tool(src, user, 40, volume=100))
+				to_chat(user, "<span class='notice'>You disassemble a wing from [src].</span>")
+				new/obj/twohanded/required/fighter_component/wing
+				state = BS_WING1_WELD
+				update_icon()
+			return TRUE
+		if(BS_WING1)
+			to_chat(user, "<span class='notice'>You start disassembling a wing from [src]...</span>")
+			if(tool.use_tool(src, user, 40, volume=100))
+				to_chat(user, "<span class='notice'>You disassemble a wing from [src].</span>")
+				new/obj/twohanded/required/fighter_component/wing
+				state = BS_EMPE_WELD
+				update_icon()
+			return TRUE
+		if(BS_EMPE)
+			to_chat(user, "<span class='notice'>You start disassembling the [src] empennage...</span>")
+			if(tool.use_tool(src, user, 40, volume=100))
+				to_chat(user, "<span class='notice'>You disassemble the [src] empennage.</span>")
+				new/obj/twohanded/required/fighter_component/empennage
+				state = BS_FUSE_WELD
+				update_icon()
+			return TRUE
+		if(BS_FUSE)
+			to_chat(user, "<span class='notice'>You start disassembling the [src] fuselage... </span>")
+			if(tool.use_tool(src, user, 40, volume=100))
+				to_chat(user, "<span class='notice'>You disassemble the [src] fuselage</span>")
+				new/obj/structure/fighter_component/fuselage_crate
+				qdel(src)
+			return TRUE
 
 //Fighter Components
 
