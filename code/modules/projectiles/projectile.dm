@@ -240,26 +240,26 @@
 			if(checking.overmap_ship)
 				if(checking.overmap_ship.faction == ship_target.faction)
 					trajectory_ignore_forcemove = TRUE
-					//Sephora start - multitile objects
+					//nsv13 start - multitile objects
 					var/turf/TT = trajectory.return_turf()
 					if(!istype(TT))
 						qdel(src)
 						return
 					if(TT != loc)
 						forceMove(get_step_towards(src, TT))
-					//Sephora end
+					//nsv13 end
 					trajectory_ignore_forcemove = FALSE
 					return FALSE
-		if((A == firer) || (((A in firer.buckled_mobs) || (istype(checking) && (A == checking.buckled))) && (A != original)) || (A == firer.loc && (ismecha(A) || istype(A, /obj/structure/overmap)))) //cannot shoot yourself or your mech //Sephora - or your ship
+		if((A == firer) || (((A in firer.buckled_mobs) || (istype(checking) && (A == checking.buckled))) && (A != original)) || (A == firer.loc && (ismecha(A) || istype(A, /obj/structure/overmap)))) //cannot shoot yourself or your mech //nsv13 - or your ship
 			trajectory_ignore_forcemove = TRUE
-			//Sephora start - multitile objects
+			//nsv13 start - multitile objects
 			var/turf/TT = trajectory.return_turf()
 			if(!istype(TT))
 				qdel(src)
 				return
 			if(TT != loc)
 				forceMove(get_step_towards(src, TT))
-			//Sephora end
+			//nsv13 end
 			trajectory_ignore_forcemove = FALSE
 			return FALSE
 	var/distance = get_dist(T, starting) // Get the distance between the turf shot from and the mob we hit and use that for the calculations.

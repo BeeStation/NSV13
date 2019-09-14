@@ -34,4 +34,4 @@
 	requires_console = FALSE
 	consoleless_interface = TRUE
 	allowed_buildtypes = PROTOLATHE | IMPRINTER
-//sephora added Advanced Munitions list above
+//nsv13 added Advanced Munitions list above
