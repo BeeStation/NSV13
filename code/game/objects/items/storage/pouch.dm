@@ -41,6 +41,7 @@
 	desc = "A general purpose pouch used to carry small items."
 	icon_state = "small_drop"
 
+
 /obj/item/storage/pouch/general/medium
 	name = "medium general pouch"
 	icon_state = "medium_drop"
