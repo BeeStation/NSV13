@@ -1,3 +1,8 @@
+#define isdwarf(A) (is_species(A, /datum/species/dwarf))
+
+GLOBAL_LIST_INIT(dwarf_first, world.file2list("strings/names/dwarf_first.txt"))
+GLOBAL_LIST_INIT(dwarf_last, world.file2list("strings/names/dwarf_last.txt"))
+
 /datum/species/dwarf //not to be confused with the genetic manlets
 	name = "Dwarf"
 	id = "dwarf"
@@ -18,6 +23,9 @@
 	punchdamagehigh = 14 //They do more damage and have a higher chance to stunpunch cause of the greater cap.
 	mutanteyes = /obj/item/organ/eyes/night_vision //And they have night vision.
 
+/mob/living/carbon/human/species/dwarf
+	race = /datum/species/dwarf
+
 /datum/species/dwarf/on_species_gain(mob/living/carbon/C, datum/species/old_species)
 	. = ..()
 	var/dwarf_hair = pick("Dwarf Beard", "Very Long Beard", "Full Beard")
@@ -27,3 +35,7 @@
 
 /datum/species/dwarf/random_name(gender,unique,lastname)
 	return dwarf_name() 
+
+//Dwarf Names
+/proc/dwarf_name()
+	return "[pick(GLOB.dwarf_first)] [pick(GLOB.dwarf_last)]"
