@@ -5,7 +5,7 @@ GLOBAL_LIST_INIT(elf_last, world.file2list("strings/names/elf_first.txt"))
 
 /datum/species/elf
 	name = "Elf"
-	id = "elf"
+	id = "elf" //Also called Homo sapiens nobilis
 	fixed_mut_color = "fcccb3" //Elves all come out perfectly caucasian2, as different colors of elves are other races.
 	hair_color = "ffc125" //GOLDENROD HAIR straight from google search for blonde hexcolors.
 	use_skintones = FALSE //Dark elves would cause too much crime.

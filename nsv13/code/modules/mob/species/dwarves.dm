@@ -6,7 +6,7 @@ GLOBAL_LIST_INIT(dwarf_last, world.file2list("strings/names/dwarf_last.txt"))
 //lavaland dwarves make a return, in the form of ship dwarves.
 /datum/species/dwarf //not to be confused with the genetic manlets
 	name = "Dwarf"
-	id = "dwarf"
+	id = "dwarf" //Also called Homo sapiens pumilionis
 	default_color = "FFFFFF"
 	species_traits = list(EYECOLOR,HAIR,FACEHAIR,LIPS,NO_UNDERWEAR)
 	//Their livers won't fail, they can grab burning objects and get hurt, and jump straight to aggro grab.
@@ -45,4 +45,4 @@ GLOBAL_LIST_INIT(dwarf_last, world.file2list("strings/names/dwarf_last.txt"))
 	return "[pick(GLOB.dwarf_first)] [pick(GLOB.dwarf_last)]"
 
 /datum/species/dwarf/random_name(gender,unique,lastname)
-	return dwarf_name() //whats ur random name?
+	return dwarf_name() //hello, ill return the value from dwarf_name proc to you when called.
