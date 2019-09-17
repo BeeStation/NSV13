@@ -1,6 +1,6 @@
 /datum/job/munitions_tech
 	title = "Munitions Technician"
-	flag = MUNITIONSTECH
+	flag = MUNITIONS_TECHNICIAN
 	department_head = list("Master At Arms")
 	department_flag = ENGSEC
 	faction = "Station"
@@ -24,8 +24,8 @@
 	jobtype = /datum/job/munitions_tech
 
 	belt = /obj/item/storage/belt/utility/full/engi
-	ears = /obj/item/radio/headset_sec/alt //placeholder
+	ears = /obj/item/radio/headset/headset_sec/alt //placeholder
 	uniform = /obj/item/clothing/under/rank/cargotech //placeholder
 	suit = /obj/item/clothing/suit/hazardvest
 	gloves = /obj/item/clothing/gloves/color/brown //placeholder
-	l_hand = /obj/item/pda/cargo //placeholder
+	l_pocket = /obj/item/pda/cargo //placeholder

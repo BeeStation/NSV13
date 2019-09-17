@@ -1,6 +1,6 @@
 /datum/job/fighter_pilot
 	title = "Fighter Pilot"
-	flag = MUNITIONSTECH
+	flag = FIGHTER_PILOT
 	department_head = list("Master At Arms")
 	department_flag = ENGSEC
 	faction = "Station"
@@ -26,7 +26,7 @@
 	jobtype = /datum/job/fighter_pilot
 
 	belt = /obj/item/pda/security //placeholder
-	ears = /obj/item/radio/headset_sec/alt //placeholder
+	ears = /obj/item/radio/headset/headset_sec/alt //placeholder
 	uniform = /obj/item/clothing/under/assistantformal //let's be real - placeholder
 	shoes = /obj/item/clothing/shoes/jackboots
 	gloves = /obj/item/clothing/gloves/color/black //placeholder
@@ -38,12 +38,12 @@
 	jobtype = /datum/job/fighter_pilot
 
 	belt = /obj/item/pda/security //placeholder
-	ears = /obj/item/radio/headset_sec/alt //placeholder
+	ears = /obj/item/radio/headset/headset_sec/alt //placeholder
 	uniform = /obj/item/clothing/under/assistantformal //let's be real - placeholder
 	shoes = /obj/item/clothing/shoes/jackboots
 	suit = /obj/item/clothing/suit/space //placeholder
 	gloves = /obj/item/clothing/gloves/color/black //placeholder
 	head = /obj/item/clothing/head/helmet/space //placeholder
-	face = /obj/item/clothing/mask/breath //placeholder
+	mask = /obj/item/clothing/mask/breath //placeholder
 	//l_pocket = <KEYS GO HERE>
 	r_pocket = /obj/item/tank/internals/emergency_oxygen
