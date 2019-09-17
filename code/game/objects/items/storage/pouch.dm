@@ -4,27 +4,10 @@
 	icon_state = "small_drop"
 	w_class = WEIGHT_CLASS_BULKY //does not fit in backpack
 	slot_flags = ITEM_SLOT_POCKET
-	var/fill_type
-	var/fill_number = 0
-
-/obj/item/storage/pouch/Initialize()
-	. = ..()
-	if(fill_number && fill_type)
-		for(var/i in 1 to fill_number)
-			new fill_type(src)
 
 /obj/item/storage/pouch/examine(mob/user)
-	..()
-	to_chat(user, "Can be worn by attaching it to a pocket.")
-
-
-/obj/item/storage/pouch/equipped(mob/user, slot)
-	if(slot == SLOT_L_STORE || slot == SLOT_R_STORE)
-		mouse_opacity = 2 //so it's easier to click when properly equipped.
-	..()
-
-/obj/item/storage/pouch/dropped(mob/user)
-	mouse_opacity = initial(mouse_opacity)
+	. = ..()
+	. += "<span class='notice'>Can be worn by attaching it to a pocket.</span>"
 
 /obj/item/storage/pouch/ComponentInitialize()
 	. = ..()
@@ -252,9 +235,10 @@
 		)
 
 
-/obj/item/storage/pouch/medkit/full
-	fill_type = /obj/item/storage/firstaid/regular
-	fill_number = 1
+/obj/item/storage/pouch/medkit/full/PopulateContents()
+	. = ..()
+	new /obj/item/storage/firstaid/regular (src)
+
 
 /obj/item/storage/pouch/document
 	name = "document pouch"
