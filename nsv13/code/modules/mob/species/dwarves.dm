@@ -39,6 +39,7 @@ GLOBAL_LIST_INIT(dwarf_last, world.file2list("strings/names/dwarf_last.txt"))
 		OFFSET_FACEMASK = list(0,0), 
 		OFFSET_HEAD = list(0,0), 
 		OFFSET_HAIR = list(0,-4), //this is at -4
+		OFFSET_FHAIR = list(0,-4), //this is at -4
 		OFFSET_FACE = list(0,-3), //this is at -3
 		OFFSET_BELT = list(0,0), 
 		OFFSET_BACK = list(0,0), 
