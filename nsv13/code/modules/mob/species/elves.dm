@@ -10,8 +10,8 @@ GLOBAL_LIST_INIT(elf_last, world.file2list("strings/names/elf_first.txt"))
 	hair_color = "ffc125" //GOLDENROD HAIR straight from google search for blonde hexcolors.
 	use_skintones = FALSE //Dark elves would cause too much crime.
 	species_traits = list(MUTCOLORS,EYECOLOR,HAIR,LIPS) //No facial hair.
-	mutant_bodyparts = list("ears")
-	default_features = list("ears" = "Elf")
+	mutant_bodyparts = list("ears") //Whats the difference between a human and a elf?
+	default_features = list("ears" = "Elf") //Its the fuckin ears.
 	limbs_id = "human"
 	liked_food = VEGETABLES | FRUIT | GRAIN //They like natural shit man, indifferent to the rest.
 	disliked_food = JUNKFOOD | FRIED | GROSS //Elves hate unnaturally processed foods, n gross things.
@@ -24,6 +24,24 @@ GLOBAL_LIST_INIT(elf_last, world.file2list("strings/names/elf_first.txt"))
 	punchstunthreshold = 8 //Because its the maximum here. They should be able to still critical hit.
 	skinned_type = /obj/item/stack/sheet/animalhide/human
 	mutantears = /obj/item/organ/ears/elf //yep.
+
+	offset_features = list(
+		OFFSET_UNIFORM = list(0,0), 
+		OFFSET_ID = list(0,0), 
+		OFFSET_GLOVES = list(0,0), 
+		OFFSET_GLASSES = list(0,0), 
+		OFFSET_EARS = list(0,0), 
+		OFFSET_SHOES = list(0,0), 
+		OFFSET_S_STORE = list(0,0), 
+		OFFSET_FACEMASK = list(0,0), 
+		OFFSET_HEAD = list(0,0), 
+		OFFSET_HAIR = list(0,0), 
+		OFFSET_FACE = list(0,0), 
+		OFFSET_BELT = list(0,0), 
+		OFFSET_BACK = list(0,0), 
+		OFFSET_SUIT = list(0,0), 
+		OFFSET_NECK = list(0,0)
+		)
 
 //spawn menu path
 /mob/living/carbon/human/species/elf
