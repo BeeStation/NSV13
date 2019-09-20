@@ -797,13 +797,18 @@
 				qdel(src)
 			return TRUE
 
-//Need to put the naming path in
 /obj/structure/fighter_component/underconstruction_fighter/attack_hand(mob/user)
 	.=..()
 	if(BS_PAINT)
 		fighter_name = input(user,"Name Fighter:","Finalize Fighter Construction","")
+		new_fighter(fighter_name)
+		qdel(src)
 
-/obj/structure/fighter_component/underconstruction_fighter/proc/new_fighter()
+/obj/structure/fighter_component/underconstruction_fighter/proc/new_fighter(fighter_name)
+	var/obj/structure/overmap/fighter/F = new/obj/structure/overmap/fighter (loc, 1)
+	F.name = fighter_name
+	for(var/atom/movable/C in contents)
+		C.forceMove(F)
 
 /obj/structure/fighter_component/underconstruction_fighter/update_icon()
 	cut_overlays()
@@ -929,8 +934,62 @@
 				//update_icon()
 				return TRUE
 
+/obj/structure/overmap/fighter/MouseDrop_T(obj/structure/A, mob/user)
+	. = ..()
+	if(istype(A, /obj/structure/munition))
+		switch(maint_state)
+			if(!MS_OPEN)
+				to_chat(user, "<span class='notice'>You require [src] to be in maintenance mode to load munitions!.</span>")
+				return
+			if(MS_OPEN)
+				var/tp = 0
+				for(var/obj/structure/munition/mu in contents)
+					tp++
+				if(tp < 2)
+					to_chat(user, "<span class='notice'>You start adding [A] to [src]...</span>")
+					if(!do_after(user, 2 SECONDS, target=src))
+						return
+					to_chat(user, "<span class='notice'>You add [A] to [src].</span>")
+					A.forceMove(src)
+					playsound(src, 'nsv13/sound/effects/ship/mac_load.ogg', 100, 1)  //placeholder
 
-/obj/structure/overmap/fighter/attackby  //fueling and changing equipment
+/obj/structure/overmap/fighter/attackby(obj/item/W, mob/user, params)   //fueling and changing equipment
+	add_fingerprint(user)
+	if(maint_state == MS_OPEN)
+		if(istype(W, /obj/item/fighter_component/fuel_lines) && !get_part(/obj/item/fighter_component/fuel_lines))
+			to_chat(user, "<span class='notice'>You start installing [W] in [src]...</span>")
+			if(!do_after(user, 2 SECONDS, target=src))
+				return
+			to_chat(user, "<span class='notice'>You install [W] in [src].</span>")
+			W.forceMove(src)
+		else if(istype(W, /obj/item/twohanded/required/fighter_component/fuel_tank) && !get_part(/obj/item/twohanded/required/fighter_component/fuel_tank))
+			to_chat(user, "<span class='notice'>You start installing [W] in [src]...</span>")
+			if(!do_after(user, 2 SECONDS, target=src))
+				return
+			to_chat(user, "<span class='notice'>You install [W] in [src].</span>")
+			W.forceMove(src)
+		else if(istype(W, /obj/item/fighter_component/targeting_sensor) && !get_part(/obj/item/fighter_component/targeting_sensor))
+			to_chat(user, "<span class='notice'>You start installing [W] in [src]...</span>")
+			if(!do_after(user, 2 SECONDS, target=src))
+				return
+			to_chat(user, "<span class='notice'>You install [W] in [src].</span>")
+			W.forceMove(src)
+		else if(istype(W, /obj/item/twohanded/required/fighter_component/armour_plating) && !get_part(/obj/item/twohanded/required/fighter_component/armour_plating))
+			to_chat(user, "<span class='notice'>You start installing [W] in [src]...</span>")
+			if(!do_after(user, 2 SECONDS, target=src))
+				return
+			to_chat(user, "<span class='notice'>You install [W] in [src].</span>")
+			W.forceMove(src)
+		else if(istype(W, /obj/item/fighter_component/engine))
+			var/e = 0
+			for(var/obj/item/fighter_component/engine/en in contents)
+				e++
+			if(e < 2)
+				to_chat(user, "<span class='notice'>You start installing [W] in [src]...</span>")
+				if(!do_after(user, 2 SECONDS, target=src))
+					return
+				to_chat(user, "<span class='notice'>You install [W] in [src].</span>")
+				W.forceMove(src)
 
 /obj/structure/overmap/fighter/attack_hand(mob/user)  //
 	.=..()
@@ -940,6 +999,21 @@
 			var/dat
 			dat += "<h2> Overview: </h2>"
 //hp, fuel etc go here
+			dat += "<p>Structural Integrity:</p>"
+			dat += "<p>Fuel Capacity:</p>"
+			dat += "<h2> Payload: </h2>"
+//Guns, ammo and torpedos
+			dat += "<a href='?src=[REF(src)]:primary_weapon=1'></a><br>"
+			dat += "<p>Ammo Capacity:</p>"
+			var/t = 0
+			for(var/obj/structure/munition/mu in contents)
+				dat += "<a href='?src=[REF(src)];torpedo=1'>[mu?.name]</a><br>"
+				t++
+			switch(t)
+				if(1)
+					dat += "<p><b>ONE TORPEDO PYLON EMPTY</font></p>"
+				if(0)
+					dat += "<p><b>TWO TORPEDO PYLONS EMPTY</font></p>"
 			dat += "<h2> Components: </h2>"
 			var/atom/movable/ap = get_part(/obj/item/twohanded/required/fighter_component/armour_plating)
 			if(ap == null)
@@ -961,7 +1035,15 @@
 				dat += "<p><b>TARGETING SENSOR NOT INSTALLED</font></p>"
 			else
 				dat += "<a href='?src=[REF(src)];targeting_sensor=1'>[ts?.name]</a><br>"
-//engines go here
+			var/e = 0
+			for(var/obj/item/fighter_component/engine/en in contents)
+				dat += "<a href='?src=[REF(src)];engine=1'>[en?.name]</a><br>"
+				e++
+			switch(e)
+				if(1)
+					dat += "<p><b>ONE ENGINE NOT INSTALLED</font></p>"
+				if(0)
+					dat += "<p><b>TWO ENGINES NOT INSTALLED</font></p>"
 
 			var/datum/browser/popup = new(user, "fighter", name, 400, 600)
 			popup.set_content(dat)
@@ -981,22 +1063,58 @@
 	var/atom/movable/ft = get_part(/obj/item/twohanded/required/fighter_component/fuel_tank)
 	var/atom/movable/fl = get_part(/obj/item/fighter_component/fuel_lines)
 	var/atom/movable/ts = get_part(/obj/item/fighter_component/targeting_sensor)
+	var/atom/movable/en = get_part(/obj/item/fighter_component/engine)
+	var/atom/movable/pw = get_part()
+	var/atom/movable/tr = get_part()
 	if(href_list["armour_plating"])
 		if(ap)
-			ap?.forceMove(get_turf(src))
+			to_chat(user, "<span class='notice'>You start uninstalling [ap.name] from [src].</span>")
+			if(!do_after(user, 2 SECONDS, target=src))
+				return
 			to_chat(user, "<span class='notice'>You uninstall [ap.name] from [src].</span>")
+			ap?.forceMove(get_turf(src))
 	if(href_list["fuel_tank"])
 		if(ft)
-			ft?.forceMove(get_turf(src))
+			to_chat(user, "<span class='notice'>You start uninstalling [ft.name] from [src].</span>")
+			if(!do_after(user, 2 SECONDS, target=src))
+				return
 			to_chat(user, "<span class='notice'>You uninstall [ft.name] from [src].</span>")
+			ft?.forceMove(get_turf(src))
 	if(href_list["fuel_lines"])
 		if(fl)
-			fl?.forceMove(get_turf(src))
+			to_chat(user, "<span class='notice'>You start uninstalling [fl.name] from [src].</span>")
+			if(!do_after(user, 2 SECONDS, target=src))
+				return
 			to_chat(user, "<span class='notice'>You uninstall [fl.name] from [src].</span>")
+			fl?.forceMove(get_turf(src))
 	if(href_list["targeting_sensor"])
 		if(ts)
-			ts?.forceMove(get_turf(src))
+			to_chat(user, "<span class='notice'>You start uninstalling [ts.name] from [src].</span>")
+			if(!do_after(user, 2 SECONDS, target=src))
+				return
 			to_chat(user, "<span class='notice'>You uninstall [ts.name] from [src].</span>")
+			ts?.forceMove(get_turf(src))
+	if(href_list["engine"])
+		if(en)
+			to_chat(user, "<span class='notice'>You start uninstalling [en.name] from [src].</span>")
+			if(!do_after(user, 2 SECONDS, target=src))
+				return
+			to_chat(user, "<span class='notice'>You uninstall [en.name] from [src].</span>")
+			en?.forceMove(get_turf(src))
+	if(href_list["primary_weapon"])
+		if(pw)
+			to_chat(user, "<span class='notice'>You start uninstalling [pw.name] from [src].</span>")
+			if(!do_after(user, 2 SECONDS, target=src))
+				return
+			to_chat(user, "<span class='notice'>You uninstall [pw.name] from [src].</span>")
+			pw?.forceMove(get_turf(src))
+	if(href_list["torpedo"])
+		if(tr)
+			to_chat(user, "<span class='notice'>You start uninstalling [tr.name] from [src].</span>")
+			if(!do_after(user, 2 SECONDS, target=src))
+				return
+			to_chat(user, "<span class='notice'>You uninstall [tr.name] from [src].</span>")
+			tr?.forceMove(get_turf(src))
 
 //Fighter Components
 
@@ -1140,6 +1258,136 @@
 	desc = "An overclocked engine assembly for a fighter"
 	speed = 1.2
 	consumption = 1.2
+
+//Component Fabrication
+/datum/techweb_node/fighter_component_fabrication
+	id = "fighter_component_fabrication"
+	display_name = "Fighter Component Fabrication"
+	description = "The components required for the fabrication of new fighter craft."
+	prereq_ids = list("explosive_weapons")
+	design_ids = list("fighter_engine_package", "fighter_fuel_lines_package", "fighter_targeting_sensor_package", "fighter_avionics_package", "fighter_fuel_tank", "fighter_armour_plating", "fighter_landing_gear_components", "fighter_landing_gear_components", "fighter_empennage_components", "fighter_cockpit_wing", "fighter_cockpit_components", "fighter_fuselage_crate")
+	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 10000)
+	export_price = 5000
+
+/datum/design/fighter_fuselage_crate
+	name = "Fighter Fuselage Crate"
+	desc = "A crate full of fuselage components for a fighter"
+	id = "fighter_fuselage_crate"
+	build_type = PROTOLATHE
+	materials = list(/datum/material/iron = 25000, /datum/material/silver = 5000)
+	build_path = /obj/structure/fighter_component/fuselage_crate
+	category = list("Ship Components")
+	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+
+/datum/design/fighter_cockpit_components
+	name = "Fighter Cockpit Components"
+	desc = "A box full of cockpit components for a fighter"
+	id = "fighter_cockpit_components"
+	build_type = PROTOLATHE
+	materials = list(/datum/material/iron = 10000, /datum/material/glass = 10000)
+	build_path = /obj/item/twohanded/required/fighter_component/cockpit
+	category = list("Ship Components")
+	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+
+/datum/design/fighter_wing_components
+	name = "Fighter Wing Components"
+	desc = "A box full of wing components for a fighter"
+	id = "fighter_cockpit_wing"
+	build_type = PROTOLATHE
+	materials = list(/datum/material/iron = 15000)
+	build_path = /obj/item/twohanded/required/fighter_component/wing
+	category = list("Ship Components")
+	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+
+/datum/design/fighter_empennage_components
+	name = "Fighter Empennage Components"
+	desc = "A box full of empennage components for a fighter"
+	id = "fighter_empennage_components"
+	build_type = PROTOLATHE
+	materials = list(/datum/material/iron = 15000)
+	build_path = /obj/item/twohanded/required/fighter_component/empennage
+	category = list("Ship Components")
+	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+
+/datum/design/fighter_landing_gear_components
+	name = "Fighter Landing Gear Components"
+	desc = "A box full of landing gear components for a fighter"
+	id = "fighter_landing_gear_components"
+	build_type = PROTOLATHE
+	materials = list(/datum/material/iron = 15000)
+	build_path = /obj/item/twohanded/required/fighter_component/landing_gear
+	category = list("Ship Components")
+	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+
+/datum/design/fighter_landing_gear_components
+	name = "Fighter Landing Gear Components"
+	desc = "A box full of landing gear components for a fighter"
+	id = "fighter_landing_gear_components"
+	build_type = PROTOLATHE
+	materials = list(/datum/material/iron = 15000)
+	build_path = /obj/item/twohanded/required/fighter_component/landing_gear
+	category = list("Ship Components")
+	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+
+/datum/design/fighter_armour_plating
+	name = "Fighter Armour Plating"
+	desc = "Armour plating for a fighter"
+	id = "fighter_armour_plating"
+	build_type = PROTOLATHE
+	materials = list(/datum/material/iron = 20000, /datum/material/silver = 5000)
+	build_path = /obj/item/twohanded/required/fighter_component/armour_plating
+	category = list("Ship Components")
+	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+
+/datum/design/fighter_fuel_tank
+	name = "Fighter Fuel Tank"
+	desc = "A fuel tank for a fighter"
+	id = "fighter_fuel_tank"
+	build_type = PROTOLATHE
+	materials = list(/datum/material/iron = 15000)
+	build_path = /obj/item/twohanded/required/fighter_component/fuel_tank
+	category = list("Ship Components")
+	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+
+/datum/design/fighter_avionics_package
+	name = "Fighter Avionics Package"
+	desc = "An avionics package for a fighter"
+	id = "fighter_avionics_package"
+	build_type = PROTOLATHE
+	materials = list(/datum/material/iron = 5000, /datum/material/glass = 5000, /datum/material/gold = 1000)
+	build_path = /obj/item/fighter_component/avionics
+	category = list("Ship Components")
+	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+
+/datum/design/fighter_targeting_sensor_package
+	name = "Fighter Targeting Sensor Package"
+	desc = "A targeting sensor package for a fighter"
+	id = "fighter_targeting_sensor_package"
+	build_type = PROTOLATHE
+	materials = list(/datum/material/iron = 5000, /datum/material/glass = 5000, /datum/material/gold = 1000)
+	build_path = /obj/item/fighter_component/targeting_sensor
+	category = list("Ship Components")
+	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+
+/datum/design/fighter_fuel_lines_package
+	name = "Fighter Fuel Lines Package"
+	desc = "A fuel lines package for a fighter"
+	id = "fighter_fuel_lines_package"
+	build_type = PROTOLATHE
+	materials = list(/datum/material/iron = 5000)
+	build_path = /obj/item/fighter_component/fuel_lines
+	category = list("Ship Components")
+	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+
+/datum/design/fighter_engine_package
+	name = "Fighter Engine Package"
+	desc = "An engine package for a fighter"
+	id = "fighter_engine_package"
+	build_type = PROTOLATHE
+	materials = list(/datum/material/iron = 15000)
+	build_path = /obj/item/fighter_component/engine
+	category = list("Ship Components")
+	departmental_flags = DEPARTMENTAL_FLAG_CARGO
 
 #undef BS_FUSE
 #undef BS_FUSE_BOLT
