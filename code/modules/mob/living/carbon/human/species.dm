@@ -398,8 +398,8 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 			facial_overlay.alpha = hair_alpha
 
 			if(OFFSET_FHAIR in H.dna.species.offset_features) //NSV13 EDIT: FACIAL HAIR OFFSET.
-				facial_overlay.pixel_x += H.dna.species.offset_features[OFFSET_FHAIR][1]
-				facial_overlay.pixel_y += H.dna.species.offset_features[OFFSET_FHAIR][2]
+				facial_overlay.pixel_x += H.dna.species.offset_features[OFFSET_FHAIR][1] 
+				facial_overlay.pixel_y += H.dna.species.offset_features[OFFSET_FHAIR][2] 
 
 			standing += facial_overlay
 

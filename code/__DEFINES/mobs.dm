@@ -252,7 +252,7 @@
 #define OFFSET_BACK "back"
 #define OFFSET_SUIT "suit"
 #define OFFSET_NECK "neck"
-#define OFFSET_HAIR "hair" //NSV13 EDIT - Hair and Face were on the same flag despite being seperate.
+#define OFFSET_HAIR "hair" //NSV13 EDIT - Hair and Face were on the same define despite being seperate.
 #define OFFSET_FHAIR "fhair" //NSV13 EDIT - Facial hair now has a offset too.
 
 //MINOR TWEAKS/MISC

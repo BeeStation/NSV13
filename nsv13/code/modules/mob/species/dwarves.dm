@@ -12,7 +12,7 @@ GLOBAL_LIST_INIT(dwarf_last, world.file2list("strings/names/dwarf_last.txt"))
 	//Their livers won't fail, they can grab burning objects and get hurt, and jump straight to aggro grab.
 	inherent_traits = list(TRAIT_STABLELIVER,TRAIT_RESISTHEATHANDS,TRAIT_STRONG_GRABBER) 
 	default_features = list("mcolor" = "FFF", "wings" = "None")
-	limbs_id = "dwarf"
+	limbs_id = "human"
 	use_skintones = 1
 	damage_overlay_type = "monkey" //fits surprisngly well, so why add more icons?
 	skinned_type = /obj/item/stack/sheet/animalhide/human
@@ -38,9 +38,9 @@ GLOBAL_LIST_INIT(dwarf_last, world.file2list("strings/names/dwarf_last.txt"))
 		OFFSET_S_STORE = list(0,0), 
 		OFFSET_FACEMASK = list(0,0), 
 		OFFSET_HEAD = list(0,0), 
-		OFFSET_HAIR = list(0,-4), //this is at -4
-		OFFSET_FHAIR = list(0,-4), //this is at -4
-		OFFSET_FACE = list(0,-3), //this is at -3
+		OFFSET_HAIR = list(0,0), 
+		OFFSET_FHAIR = list(0,0), 
+		OFFSET_FACE = list(0,0), 
 		OFFSET_BELT = list(0,0), 
 		OFFSET_BACK = list(0,0), 
 		OFFSET_SUIT = list(0,0), 
@@ -51,14 +51,27 @@ GLOBAL_LIST_INIT(dwarf_last, world.file2list("strings/names/dwarf_last.txt"))
 	race = /datum/species/dwarf //and the race the path is set to.
 
 /datum/species/dwarf/qualifies_for_rank(rank, list/features)
-	return TRUE	//I don't think dwarves would be barred from holding rank, reliable industrious people.
+	if(rank in GLOB.command_positions) //no dwarves in command
+		return 0
+	if(rank in GLOB.medical_positions) //no dwarves in medical
+		return 0
+	if(rank in GLOB.science_positions) //and no dwarves in science
+		return 0
+	return 1 //Otherwise you can enjoy being security, engineering, or service.
 
 /datum/species/dwarf/on_species_gain(mob/living/carbon/C, datum/species/old_species)
 	. = ..()
-	var/dwarf_hair = pick("Beard (Dwarf)", "Beard (Very Long)", "Beard (Moonshiner)", "Beard (Broken Man)") //beard roullette
+	var/dwarf_hair = pick("Beard (Dwarf)", "Beard (Very Long)", "Beard (Moonshiner)") //beard roullette
 	var/mob/living/carbon/human/H = C 
+	H.hair_style = "Mohawk" //Dwarves only come with a mohawk.
 	H.facial_hair_style = dwarf_hair
 	H.update_hair()
+	H.transform = H.transform.Scale(1, 0.8)
+
+/datum/species/dwarf/on_species_loss(mob/living/carbon/H, datum/species/new_species)
+	. = ..()
+	H.transform = H.transform.Scale(1, 1.25)
+
 
 //Dwarf Name stuff
 /proc/dwarf_name() //hello caller: my name is urist mcuristurister
