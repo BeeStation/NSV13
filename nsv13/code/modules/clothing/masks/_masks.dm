@@ -43,6 +43,8 @@
 
 /obj/item/clothing/mask/adjustmask(mob/living/user)
 	. = ..()
+	if(user.stat == DEAD)
+		return
 	if(!mask_adjusted)
 		soundloop?.start()
 	else
