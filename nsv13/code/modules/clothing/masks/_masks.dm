@@ -34,8 +34,11 @@
 /obj/item/clothing/mask/gas/sechailer
 	breathing_sound = null
 
-/obj/item/clothing/mask/equipped(mob/M, slot)
+/obj/item/clothing/mask/equipped(mob/living/M, slot)
 	. = ..()
+	if(M.stat == DEAD)
+		soundloop?.stop()
+		return
 	if(slot == SLOT_WEAR_MASK)
 		soundloop?.start()
 	else
@@ -44,6 +47,7 @@
 /obj/item/clothing/mask/adjustmask(mob/living/user)
 	. = ..()
 	if(user.stat == DEAD)
+		soundloop?.stop()
 		return
 	if(!mask_adjusted)
 		soundloop?.start()
