@@ -733,18 +733,22 @@
 	if(rustle_sound)
 		playsound(A, "rustle", 50, 1, -5)
 
-	if(ishuman(user))
-		var/mob/living/carbon/human/H = user
-		if(H.l_store == A && !H.get_active_held_item())	//Prevents opening if it's in a pocket.
-			. = COMPONENT_NO_ATTACK_HAND
-			H.put_in_hands(A)
-			H.l_store = null
-			return
-		if(H.r_store == A && !H.get_active_held_item())
-			. = COMPONENT_NO_ATTACK_HAND
-			H.put_in_hands(A)
-			H.r_store = null
-			return
+	// This functionality overrides default slot behaviours, to make items in your pocket go straight into your hand when clicked on.
+	// This was commented out for pouches (https://github.com/DDMers/NSV13/pull/43) to enable them to work like backpacks (so inventory pops open on click)
+	//if(ishuman(user))
+	//	var/mob/living/carbon/human/H = user
+	//	if(H.l_store == A && !H.get_active_held_item())	//Prevents opening if it's in a pocket.
+	//		. = COMPONENT_NO_ATTACK_HAND
+	//		H.put_in_hands(A)
+	//		H.l_store = null
+	//		return
+	//	if(H.r_store == A && !H.get_active_held_item())
+	//		. = COMPONENT_NO_ATTACK_HAND
+	//		H.put_in_hands(A)
+	//		H.r_store = null
+	//		return
+
+
 
 	if(A.loc == user)
 		. = COMPONENT_NO_ATTACK_HAND
