@@ -10336,9 +10336,12 @@
 /turf/open/floor/plating,
 /area/engine/atmos)
 "avq" = (
-/obj/machinery/space_heater,
+/obj/machinery/door/airlock/ship{
+	name = "Religious Closet";
+	req_one_access_txt = "22"
+	},
 /turf/open/floor/plating,
-/area/engine/atmos)
+/area/chapel/main)
 "avr" = (
 /obj/machinery/camera,
 /obj/structure/sign/nanotrasen{
@@ -17846,12 +17849,8 @@
 /turf/open/floor/plating,
 /area/engine/atmos)
 "aIR" = (
-/obj/machinery/disposal/bin,
-/obj/structure/disposalpipe/trunk{
-	dir = 8
-	},
-/turf/open/floor/plating,
-/area/engine/atmos)
+/turf/closed/wall/r_wall/ship,
+/area/chapel/main)
 "aIS" = (
 /obj/structure/bed/dogbed/ian,
 /obj/effect/mapping_helpers/ianbirthday,
@@ -18106,8 +18105,8 @@
 /area/crew_quarters/heads/captain)
 "aJx" = (
 /obj/machinery/meter,
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
-	dir = 10
+/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden{
+	dir = 1
 	},
 /turf/open/floor/plating,
 /area/engine/atmos)
@@ -18117,8 +18116,19 @@
 /turf/open/floor/carpet/ship,
 /area/crew_quarters/heads/captain)
 "aJz" = (
-/obj/machinery/vending/wardrobe/atmos_wardrobe,
-/turf/open/floor/plating,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
+	dir = 4
+	},
+/obj/effect/turf_decal/tile/green{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/green{
+	dir = 8
+	},
+/obj/effect/turf_decal/tile/green{
+	dir = 4
+	},
+/turf/open/floor/plasteel/dark,
 /area/engine/atmos)
 "aJA" = (
 /obj/machinery/door/airlock/ship/medical{
@@ -22870,14 +22880,17 @@
 	},
 /area/crew_quarters/bar)
 "aSU" = (
-/obj/effect/turf_decal/tile/bar,
-/obj/effect/turf_decal/tile/bar{
+/obj/effect/turf_decal/tile/neutral{
+	dir = 8
+	},
+/obj/effect/turf_decal/tile/neutral{
 	dir = 1
 	},
-/obj/structure/chair/stool/bar,
-/obj/effect/landmark/start/chaplain,
-/turf/open/floor/plasteel,
-/area/crew_quarters/bar)
+/obj/effect/turf_decal/tile/neutral{
+	dir = 4
+	},
+/turf/open/floor/plasteel/dark,
+/area/chapel/main)
 "aSV" = (
 /turf/open/floor/plasteel,
 /area/hallway/secondary/exit)
@@ -23013,8 +23026,16 @@
 /turf/open/floor/plasteel/dark,
 /area/crew_quarters/heads/chief)
 "aTh" = (
-/turf/open/floor/plating,
-/area/space)
+/obj/structure/bookcase,
+/obj/effect/turf_decal/tile/neutral{
+	dir = 4
+	},
+/obj/effect/turf_decal/tile/neutral,
+/obj/effect/turf_decal/tile/neutral{
+	dir = 1
+	},
+/turf/open/floor/plasteel/dark,
+/area/chapel/main)
 "aTi" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	icon_state = "pipe11-1";
@@ -23547,6 +23568,16 @@
 	dir = 5
 	},
 /area/crew_quarters/bar)
+"aUi" = (
+/obj/structure/chair,
+/obj/effect/turf_decal/tile/neutral{
+	dir = 8
+	},
+/obj/effect/turf_decal/tile/neutral{
+	dir = 1
+	},
+/turf/open/floor/plasteel/dark,
+/area/chapel/main)
 "aUj" = (
 /obj/effect/turf_decal/tile/bar,
 /obj/effect/turf_decal/tile/bar{
@@ -23933,6 +23964,18 @@
 	dir = 5
 	},
 /area/crew_quarters/bar)
+"aUX" = (
+/obj/item/paper/guides/jobs/medical/morgue{
+	info = "<font size='2'>Not to honkself, print a bible in the library for the chapel... HONK!!!</font>";
+	name = "dropped note";
+	pixel_x = -4
+	},
+/obj/effect/turf_decal/tile/neutral{
+	dir = 4
+	},
+/obj/effect/turf_decal/tile/neutral,
+/turf/open/floor/plasteel/dark,
+/area/chapel/main)
 "aUY" = (
 /obj/effect/landmark/start/depsec/supply,
 /turf/open/floor/plasteel,
@@ -28082,6 +28125,264 @@
 /obj/structure/lattice/catwalk,
 /turf/open/space/basic,
 /area/maintenance/ship_exterior)
+"bcM" = (
+/obj/structure/table/wood,
+/obj/item/radio/intercom{
+	broadcasting = 1;
+	frequency = 1481;
+	name = "Confessional Intercom";
+	pixel_x = -25
+	},
+/obj/item/storage/fancy/candle_box{
+	pixel_y = 5
+	},
+/obj/effect/turf_decal/tile/neutral{
+	dir = 8
+	},
+/obj/effect/turf_decal/tile/neutral{
+	dir = 1
+	},
+/turf/open/floor/plasteel/dark,
+/area/chapel/main)
+"bcN" = (
+/obj/effect/landmark/start/chaplain,
+/obj/effect/turf_decal/tile/neutral{
+	dir = 4
+	},
+/obj/effect/turf_decal/tile/neutral,
+/turf/open/floor/plasteel/dark,
+/area/chapel/main)
+"bcO" = (
+/obj/machinery/newscaster{
+	pixel_x = -30
+	},
+/obj/structure/chair{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/neutral{
+	dir = 8
+	},
+/obj/effect/turf_decal/tile/neutral{
+	dir = 1
+	},
+/turf/open/floor/plasteel/dark,
+/area/chapel/main)
+"bcP" = (
+/obj/effect/turf_decal/tile/neutral{
+	dir = 4
+	},
+/obj/effect/turf_decal/tile/neutral,
+/turf/open/floor/plasteel/dark,
+/area/chapel/main)
+"bcQ" = (
+/obj/structure/table/wood,
+/obj/item/book/granter/spell/smoke/lesser{
+	name = "mysterious old book of cloud-chasing"
+	},
+/obj/item/reagent_containers/food/drinks/bottle/holywater{
+	pixel_x = -2;
+	pixel_y = 2
+	},
+/obj/item/nullrod{
+	pixel_x = 4
+	},
+/obj/item/soulstone/anybody/chaplain,
+/obj/effect/turf_decal/tile/neutral{
+	dir = 8
+	},
+/obj/effect/turf_decal/tile/neutral{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/neutral,
+/turf/open/floor/plasteel/dark,
+/area/chapel/main)
+"bcR" = (
+/obj/machinery/vending/wardrobe/chap_wardrobe,
+/obj/effect/turf_decal/tile/neutral,
+/obj/effect/turf_decal/tile/neutral{
+	dir = 8
+	},
+/obj/effect/turf_decal/tile/neutral{
+	dir = 4
+	},
+/turf/open/floor/plasteel/dark,
+/area/chapel/main)
+"bcS" = (
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
+	dir = 10
+	},
+/obj/effect/turf_decal/tile/green{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/green{
+	dir = 4
+	},
+/turf/open/floor/plasteel/dark,
+/area/engine/atmos)
+"bcT" = (
+/obj/effect/turf_decal/tile/green{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/green{
+	dir = 4
+	},
+/turf/open/floor/plasteel/dark,
+/area/engine/atmos)
+"bcU" = (
+/obj/machinery/vending/wardrobe/atmos_wardrobe,
+/obj/effect/turf_decal/tile/green{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/green{
+	dir = 4
+	},
+/obj/effect/turf_decal/tile/green,
+/turf/open/floor/plasteel/dark,
+/area/engine/atmos)
+"bcV" = (
+/obj/effect/turf_decal/tile/green{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/green{
+	dir = 8
+	},
+/turf/open/floor/plasteel/dark,
+/area/engine/atmos)
+"bcW" = (
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
+/obj/structure/chair/stool/bar,
+/turf/open/floor/plasteel/dark,
+/area/engine/atmos)
+"bcX" = (
+/turf/open/floor/plasteel/dark,
+/area/engine/atmos)
+"bcY" = (
+/obj/structure/table,
+/obj/item/extinguisher/advanced,
+/obj/item/cartridge/atmos{
+	pixel_x = 8
+	},
+/obj/item/cartridge/atmos{
+	pixel_x = 8;
+	pixel_y = 4
+	},
+/obj/effect/turf_decal/tile/green{
+	dir = 4
+	},
+/obj/effect/turf_decal/tile/green,
+/turf/open/floor/plasteel/dark,
+/area/engine/atmos)
+"bcZ" = (
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
+/obj/effect/turf_decal/tile/green{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/green{
+	dir = 8
+	},
+/turf/open/floor/plasteel/dark,
+/area/engine/atmos)
+"bda" = (
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
+/obj/structure/table,
+/obj/item/toy/cards/deck,
+/turf/open/floor/plasteel/dark,
+/area/engine/atmos)
+"bdb" = (
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
+/turf/open/floor/plasteel/dark,
+/area/engine/atmos)
+"bdc" = (
+/obj/machinery/disposal/bin,
+/obj/structure/disposalpipe/trunk{
+	dir = 8
+	},
+/obj/machinery/light{
+	dir = 4
+	},
+/obj/effect/turf_decal/tile/green{
+	dir = 4
+	},
+/obj/effect/turf_decal/tile/green,
+/turf/open/floor/plasteel/dark,
+/area/engine/atmos)
+"bdd" = (
+/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden{
+	dir = 8
+	},
+/obj/structure/chair/stool/bar,
+/turf/open/floor/plasteel/dark,
+/area/engine/atmos)
+"bde" = (
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
+	dir = 4
+	},
+/turf/open/floor/plasteel/dark,
+/area/engine/atmos)
+"bdf" = (
+/obj/machinery/portable_atmospherics/scrubber,
+/obj/machinery/atmospherics/components/unary/portables_connector{
+	icon_state = "connector_map-2";
+	dir = 8
+	},
+/obj/effect/turf_decal/tile/green{
+	dir = 4
+	},
+/obj/effect/turf_decal/tile/green,
+/turf/open/floor/plasteel/dark,
+/area/engine/atmos)
+"bdg" = (
+/obj/effect/turf_decal/tile/green{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/green{
+	dir = 8
+	},
+/obj/effect/turf_decal/tile/green,
+/turf/open/floor/plasteel/dark,
+/area/engine/atmos)
+"bdh" = (
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
+	dir = 5
+	},
+/obj/effect/turf_decal/tile/green{
+	dir = 8
+	},
+/obj/effect/turf_decal/tile/green,
+/turf/open/floor/plasteel/dark,
+/area/engine/atmos)
+"bdi" = (
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
+	dir = 4
+	},
+/obj/effect/turf_decal/tile/green{
+	dir = 8
+	},
+/obj/effect/turf_decal/tile/green,
+/turf/open/floor/plasteel/dark,
+/area/engine/atmos)
+"bdj" = (
+/obj/machinery/portable_atmospherics/scrubber,
+/obj/machinery/atmospherics/components/unary/portables_connector{
+	icon_state = "connector_map-2";
+	dir = 8
+	},
+/obj/effect/turf_decal/tile/green{
+	dir = 8
+	},
+/obj/effect/turf_decal/tile/green{
+	dir = 4
+	},
+/obj/effect/turf_decal/tile/green,
+/turf/open/floor/plasteel/dark,
+/area/engine/atmos)
 "bdH" = (
 /obj/effect/turf_decal/tile/green{
 	dir = 1
@@ -60071,7 +60372,7 @@ aho
 akd
 ayb
 npH
-aSU
+agH
 agH
 agH
 agH
@@ -116612,7 +116913,7 @@ asE
 ate
 atn
 atD
-agh
+ael
 agh
 aIQ
 aIU
@@ -116869,11 +117170,11 @@ asF
 adt
 ato
 adp
-agh
-agh
-aIR
-avq
 aJz
+bcV
+bcZ
+bcV
+bdg
 aMS
 aHJ
 aDb
@@ -117125,12 +117426,12 @@ adp
 asH
 atf
 atp
-adp
-adp
-adp
-adp
-adp
-adp
+adt
+bcS
+bcW
+bda
+bdd
+bdh
 aMS
 aHJ
 aDb
@@ -117372,22 +117673,22 @@ abd
 aew
 aDb
 aKR
-aMS
-aTh
-aTh
-aTh
-ahk
-aTh
+avq
+aSU
+aUi
+bcM
+bcO
+bcQ
 adp
 asQ
 asQ
 asQ
-adp
-aTh
-ahk
-aTh
-aTh
-aTh
+adt
+bcT
+bcX
+bdb
+bde
+bdi
 aMS
 aHJ
 aDb
@@ -117629,22 +117930,22 @@ abd
 aew
 aDb
 aKR
-aMS
+aIR
 aTh
-aTh
-aTh
-ahk
-aTh
+aUX
+bcN
+bcP
+bcR
 adp
 asQ
 asQ
 asQ
 adp
-aTh
-ahk
-aTh
-aTh
-aTh
+bcU
+bcY
+bdc
+bdf
+bdj
 aMS
 aHJ
 aDb
@@ -117897,11 +118198,11 @@ asQ
 atg
 atq
 adp
-aiO
-aiO
-aiO
-aiO
-aiO
+adp
+adp
+adp
+adp
+adp
 aMS
 aHJ
 aDb
