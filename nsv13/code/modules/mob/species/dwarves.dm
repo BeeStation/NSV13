@@ -3,7 +3,7 @@
 GLOBAL_LIST_INIT(dwarf_first, world.file2list("strings/names/dwarf_first.txt"))
 GLOBAL_LIST_INIT(dwarf_last, world.file2list("strings/names/dwarf_last.txt"))
 
-//lavaland dwarves make a return, in the form of space dwarves with no alcohol organ.
+//lavaland dwarves make a return, in the form of space dwarves.
 /datum/species/dwarf //not to be confused with the genetic manlets
 	name = "Dwarf"
 	id = "dwarf" //Also called Homo sapiens pumilionis
@@ -22,6 +22,7 @@ GLOBAL_LIST_INIT(dwarf_last, world.file2list("strings/names/dwarf_last.txt"))
 	burnmod = 0.85 //Less laser damage too.
 	coldmod = 0.5 //Handle cold better too, but not their forte in life.
 	heatmod = 0.3 //Of course heat also, resistant thanks to being dwarves but not invulnerable.
+	speedmod = 1.5 //Slower than a human who is at a base of 0, short legs slowest race.
 	punchdamagelow = 2 // Their min roll is 1 higher than a base human
 	punchdamagehigh = 14 //They do more damage and have a higher chance to stunpunch since its at 10.
 	mutanteyes = /obj/item/organ/eyes/night_vision //And they have night vision.
@@ -63,14 +64,13 @@ GLOBAL_LIST_INIT(dwarf_last, world.file2list("strings/names/dwarf_last.txt"))
 	. = ..()
 	var/dwarf_hair = pick("Beard (Dwarf)", "Beard (Very Long)", "Beard (Moonshiner)") //beard roullette
 	var/mob/living/carbon/human/H = C 
-	H.hair_style = "Mohawk" //Dwarves only come with a mohawk.
 	H.facial_hair_style = dwarf_hair
 	H.update_hair()
-	H.transform = H.transform.Scale(1, 0.8)
+	H.transform = H.transform.Scale(1, 0.8) //We use scale.
 
 /datum/species/dwarf/on_species_loss(mob/living/carbon/H, datum/species/new_species)
 	. = ..()
-	H.transform = H.transform.Scale(1, 1.25)
+	H.transform = H.transform.Scale(1, 1.25) //And we undo it.
 
 
 //Dwarf Name stuff

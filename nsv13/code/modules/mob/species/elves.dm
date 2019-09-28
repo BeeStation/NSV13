@@ -7,17 +7,17 @@ GLOBAL_LIST_INIT(elf_last, world.file2list("strings/names/elf_first.txt"))
 	name = "Elf"
 	id = "elf" //Also called Homo sapiens nobilis
 	fixed_mut_color = "fcccb3" //Elves all come out perfectly caucasian2, as different colors of elves are other races.
-	hair_color = "ffc125" //GOLDENROD HAIR straight from google search for blonde hexcolors.
 	use_skintones = FALSE //Dark elves would cause too much crime.
 	species_traits = list(MUTCOLORS,EYECOLOR,HAIR,LIPS) //No facial hair.
 	mutant_bodyparts = list("ears") //Whats the difference between a human and a elf?
-	default_features = list("ears" = "Elf") //Its the fuckin ears.
+	default_features = list("ears" = "Elf") //Its the fuckin ears. Also luckily they can't pick cat ears.
 	limbs_id = "human"
 	liked_food = VEGETABLES | FRUIT | GRAIN //They like natural shit man, indifferent to the rest.
 	disliked_food = JUNKFOOD | FRIED | GROSS //Elves hate unnaturally processed foods, n gross things.
 	brutemod = 1.6 //They take greatly more damage than any other metahuman, graceful not durable.
 	burnmod = 1.5 //Lasers hurt worse too.
 	heatmod = 1.5 //They also die in fires easier.
+	speedmod = -0.3 //slightly faster than a human who is at a base of 0
 	coldmod = 1.8 //And space... space definitely hurts them almost twice as bad. Clearly better not in it.
 	punchdamagelow = 1
 	punchdamagehigh = 8//their punches are weaker
@@ -56,7 +56,7 @@ GLOBAL_LIST_INIT(elf_last, world.file2list("strings/names/elf_first.txt"))
 
 //Elf rank shit
 /datum/species/elf/qualifies_for_rank(rank, list/features)
-	return TRUE //This means they qualify for command positions, as its whats on the parent.
+	return TRUE //Elves qualify for everything.
 
 //Elf species on gain and loss n shiet
 /datum/species/elf/on_species_gain(mob/living/carbon/C, datum/species/old_species, pref_load)
