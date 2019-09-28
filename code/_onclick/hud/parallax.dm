@@ -81,7 +81,7 @@
 				return FALSE
 
 	C.parallax_throttle = PARALLAX_DELAY_DEFAULT
-	C.parallax_layers_max = 3
+	C.parallax_layers_max = 4 //Nsv13 - Tweaked so that the bluespace effects show up correctly by default. Lower settings if you experience lag.
 	return TRUE
 
 /datum/hud/proc/update_parallax_pref(mob/viewmob)
