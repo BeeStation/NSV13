@@ -1262,25 +1262,42 @@
 /turf/open/floor/plasteel/white,
 /area/science)
 "acN" = (
-/obj/structure/chair/stool,
-/obj/effect/landmark/start/scientist,
-/turf/open/floor/plasteel/white,
-/area/science)
+/obj/machinery/door/window{
+	base_state = "leftsecure";
+	dir = 8;
+	icon_state = "leftsecure";
+	name = "Primary AI Core Access";
+	obj_integrity = 300;
+	req_access_txt = "16"
+	},
+/obj/effect/landmark/start/ai,
+/turf/open/floor/plasteel/dark,
+/area/ai_monitored/turret_protected/ai)
 "acO" = (
 /obj/structure/chair/stool,
 /turf/open/floor/plasteel/white,
 /area/science)
 "acP" = (
-/obj/effect/turf_decal/tile/purple{
+/obj/effect/turf_decal/tile/yellow{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/yellow{
 	dir = 4
 	},
-/obj/effect/turf_decal/tile/purple,
-/obj/structure/chair{
+/obj/effect/turf_decal/tile/yellow{
 	dir = 8
 	},
-/obj/effect/landmark/start/depsec/science,
-/turf/open/floor/plasteel/white,
-/area/science)
+/obj/structure/chair{
+	name = "engineering department"
+	},
+/obj/machinery/atmospherics/components/unary/vent_scrubber/on{
+	dir = 1
+	},
+/obj/effect/landmark/start/atmospheric_technician,
+/turf/open/floor/plasteel/dark,
+/area/crew_quarters/heads/captain/private{
+	name = "Briefing room"
+	})
 "acQ" = (
 /obj/structure/disposalpipe/segment{
 	dir = 4
@@ -1631,7 +1648,6 @@
 	icon_state = "manifold-1";
 	dir = 1
 	},
-/obj/effect/landmark/start/scientist,
 /obj/structure/disposalpipe/segment{
 	dir = 4
 	},
@@ -1647,7 +1663,6 @@
 /obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden{
 	dir = 1
 	},
-/obj/effect/landmark/start/scientist,
 /obj/structure/disposalpipe/segment{
 	dir = 4
 	},
@@ -2470,17 +2485,24 @@
 /turf/open/floor/plasteel/dark,
 /area/ai_monitored/turret_protected/ai)
 "afs" = (
-/obj/effect/landmark/start/ai,
-/obj/machinery/door/window{
-	base_state = "leftsecure";
-	dir = 8;
-	icon_state = "leftsecure";
-	name = "Primary AI Core Access";
-	obj_integrity = 300;
-	req_access_txt = "16"
+/obj/effect/turf_decal/tile/yellow{
+	dir = 8
 	},
+/obj/effect/turf_decal/tile/yellow{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/yellow,
+/obj/structure/chair{
+	name = "engineering department"
+	},
+/obj/machinery/light{
+	dir = 8
+	},
+/obj/effect/landmark/start/atmospheric_technician,
 /turf/open/floor/plasteel/dark,
-/area/ai_monitored/turret_protected/ai)
+/area/crew_quarters/heads/captain/private{
+	name = "Briefing room"
+	})
 "aft" = (
 /obj/effect/turf_decal/tile/bar,
 /obj/effect/turf_decal/tile/bar{
@@ -2778,8 +2800,15 @@
 /turf/open/floor/plasteel/dark,
 /area/tcommsat/server)
 "agh" = (
-/turf/open/floor/plating,
-/area/engine/atmos)
+/obj/structure/chair{
+	dir = 4;
+	name = "non enlisted"
+	},
+/obj/effect/landmark/start/bartender,
+/turf/open/floor/plasteel/dark,
+/area/crew_quarters/heads/captain/private{
+	name = "Briefing room"
+	})
 "agi" = (
 /obj/structure/cable,
 /turf/open/floor/plating,
@@ -3003,7 +3032,6 @@
 	dir = 1
 	},
 /obj/structure/chair/stool,
-/obj/effect/landmark/start/assistant,
 /turf/open/floor/plasteel,
 /area/crew_quarters/bar)
 "agJ" = (
@@ -3062,7 +3090,6 @@
 	},
 /obj/effect/turf_decal/tile/bar,
 /obj/structure/chair/stool/bar,
-/obj/effect/landmark/start/bartender,
 /turf/open/floor/plasteel,
 /area/crew_quarters/bar)
 "agQ" = (
@@ -4259,7 +4286,6 @@
 	},
 /obj/structure/cable,
 /obj/structure/cable,
-/obj/effect/landmark/start/chemist,
 /turf/open/floor/plasteel/white,
 /area/medical/chemistry)
 "ajs" = (
@@ -4581,8 +4607,15 @@
 /turf/open/floor/plasteel/dark,
 /area/engine/engineering)
 "ajY" = (
+/obj/structure/chair{
+	dir = 4;
+	name = "non enlisted"
+	},
+/obj/effect/landmark/start/assistant,
 /turf/open/floor/plasteel/dark,
-/area/engine/engineering)
+/area/crew_quarters/heads/captain/private{
+	name = "Briefing room"
+	})
 "ajZ" = (
 /obj/structure/flora/ausbushes/fernybush,
 /obj/structure/flora/ausbushes/brflowers,
@@ -5251,7 +5284,6 @@
 /obj/effect/turf_decal/tile/blue{
 	dir = 1
 	},
-/obj/effect/landmark/start/medical_doctor,
 /turf/open/floor/plasteel/white,
 /area/medical{
 	name = "Infirmary"
@@ -5460,7 +5492,6 @@
 /obj/structure/chair/office{
 	dir = 4
 	},
-/obj/effect/landmark/start/detective,
 /turf/open/floor/carpet,
 /area/security/detectives_office)
 "alE" = (
@@ -5580,7 +5611,6 @@
 /obj/effect/turf_decal/stripes/line{
 	dir = 1
 	},
-/obj/effect/landmark/start/station_engineer,
 /obj/structure/cable,
 /obj/structure/sign/warning/electricshock{
 	pixel_y = 31
@@ -9487,10 +9517,19 @@
 /turf/open/floor/plating,
 /area/engine/atmos)
 "atG" = (
-/obj/effect/landmark/start/mime,
-/obj/structure/cable,
-/turf/open/floor/wood,
-/area/crew_quarters/theatre)
+/obj/structure/chair{
+	dir = 4;
+	name = "non enlisted"
+	},
+/obj/effect/turf_decal/tile/neutral,
+/obj/effect/turf_decal/tile/neutral{
+	dir = 4
+	},
+/obj/effect/landmark/start/assistant,
+/turf/open/floor/plasteel/dark,
+/area/crew_quarters/heads/captain/private{
+	name = "Briefing room"
+	})
 "atH" = (
 /obj/machinery/atmospherics/components/trinary/filter/atmos/n2{
 	dir = 4
@@ -10150,6 +10189,7 @@
 /obj/effect/turf_decal/tile/neutral{
 	dir = 8
 	},
+/obj/effect/landmark/start/clown,
 /turf/open/floor/plasteel/dark,
 /area/crew_quarters/heads/captain/private{
 	name = "Briefing room"
@@ -11488,15 +11528,22 @@
 /turf/open/floor/plasteel/dark,
 /area/crew_quarters/heads/chief)
 "axF" = (
-/obj/effect/turf_decal/stripes/line,
-/obj/effect/landmark/start/station_engineer,
-/obj/structure/cable,
-/obj/machinery/atmospherics/pipe/simple/orange/hidden{
-	icon_state = "pipe11-2";
+/obj/structure/chair{
+	dir = 4;
+	name = "non enlisted"
+	},
+/obj/effect/turf_decal/tile/neutral,
+/obj/effect/turf_decal/tile/neutral{
 	dir = 4
 	},
-/turf/open/floor/plating,
-/area/engine/engineering)
+/obj/effect/turf_decal/tile/neutral{
+	dir = 1
+	},
+/obj/effect/landmark/start/botanist,
+/turf/open/floor/plasteel/dark,
+/area/crew_quarters/heads/captain/private{
+	name = "Briefing room"
+	})
 "axG" = (
 /obj/effect/turf_decal/tile/brown{
 	dir = 1
@@ -11702,8 +11749,16 @@
 /turf/open/floor/plasteel,
 /area/science/robotics)
 "axV" = (
-/turf/open/floor/plasteel,
-/area/quartermaster/storage)
+/obj/structure/chair{
+	dir = 4;
+	name = "non enlisted"
+	},
+/obj/effect/landmark/nuclear_waste_spawner/strong,
+/obj/effect/landmark/start/assistant,
+/turf/open/floor/plasteel/dark,
+/area/crew_quarters/heads/captain/private{
+	name = "Briefing room"
+	})
 "axW" = (
 /obj/structure/chair/office{
 	dir = 4
@@ -11712,12 +11767,10 @@
 /obj/effect/turf_decal/tile/brown{
 	dir = 4
 	},
-/obj/effect/landmark/start/cargo_technician,
 /turf/open/floor/plasteel,
 /area/quartermaster/office)
 "axX" = (
 /obj/effect/turf_decal/bot,
-/obj/effect/landmark/start/roboticist,
 /turf/open/floor/plasteel,
 /area/science/robotics)
 "axY" = (
@@ -11876,9 +11929,19 @@
 	name = "Infirmary"
 	})
 "ayn" = (
-/turf/open/floor/plasteel/white,
-/area/medical{
-	name = "Infirmary"
+/obj/effect/turf_decal/tile/yellow{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/yellow{
+	dir = 4
+	},
+/obj/structure/chair{
+	name = "engineering department"
+	},
+/obj/effect/landmark/start/station_engineer,
+/turf/open/floor/plasteel/dark,
+/area/crew_quarters/heads/captain/private{
+	name = "Briefing room"
 	})
 "ayo" = (
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on,
@@ -11898,10 +11961,21 @@
 	name = "Infirmary"
 	})
 "ayq" = (
-/turf/open/floor/plasteel/cafeteria{
-	dir = 5
+/obj/effect/turf_decal/tile/yellow{
+	dir = 1
 	},
-/area/crew_quarters/bar)
+/obj/effect/turf_decal/tile/yellow{
+	dir = 4
+	},
+/obj/effect/turf_decal/tile/yellow,
+/obj/structure/chair{
+	name = "engineering department"
+	},
+/obj/effect/landmark/start/cargo_technician,
+/turf/open/floor/plasteel/dark,
+/area/crew_quarters/heads/captain/private{
+	name = "Briefing room"
+	})
 "ayr" = (
 /obj/machinery/atmospherics/pipe/manifold/general/visible{
 	icon_state = "manifold-2";
@@ -12677,8 +12751,18 @@
 /turf/open/floor/plasteel/dark,
 /area/crew_quarters/fitness/recreation)
 "azS" = (
-/turf/open/floor/plasteel,
-/area/hydroponics)
+/obj/effect/turf_decal/tile/yellow{
+	dir = 8
+	},
+/obj/effect/turf_decal/tile/yellow,
+/obj/structure/chair{
+	name = "engineering department"
+	},
+/obj/effect/landmark/start/station_engineer,
+/turf/open/floor/plasteel/dark,
+/area/crew_quarters/heads/captain/private{
+	name = "Briefing room"
+	})
 "azT" = (
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on,
 /obj/machinery/computer/lore_terminal{
@@ -13557,41 +13641,7 @@
 	})
 "aBt" = (
 /obj/effect/turf_decal/tile/yellow{
-	dir = 1
-	},
-/obj/effect/turf_decal/tile/yellow{
-	dir = 4
-	},
-/obj/effect/turf_decal/tile/yellow{
 	dir = 8
-	},
-/obj/structure/chair{
-	name = "engineering department"
-	},
-/obj/machinery/atmospherics/components/unary/vent_scrubber/on{
-	dir = 1
-	},
-/turf/open/floor/plasteel/dark,
-/area/crew_quarters/heads/captain/private{
-	name = "Briefing room"
-	})
-"aBu" = (
-/obj/effect/turf_decal/tile/yellow{
-	dir = 1
-	},
-/obj/effect/turf_decal/tile/yellow{
-	dir = 4
-	},
-/obj/structure/chair{
-	name = "engineering department"
-	},
-/turf/open/floor/plasteel/dark,
-/area/crew_quarters/heads/captain/private{
-	name = "Briefing room"
-	})
-"aBv" = (
-/obj/effect/turf_decal/tile/yellow{
-	dir = 1
 	},
 /obj/effect/turf_decal/tile/yellow{
 	dir = 4
@@ -13600,6 +13650,36 @@
 /obj/structure/chair{
 	name = "engineering department"
 	},
+/obj/effect/landmark/start/cargo_technician,
+/turf/open/floor/plasteel/dark,
+/area/crew_quarters/heads/captain/private{
+	name = "Briefing room"
+	})
+"aBu" = (
+/obj/effect/turf_decal/tile/red{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/red{
+	dir = 4
+	},
+/obj/structure/chair{
+	dir = 1;
+	name = "security department"
+	},
+/obj/effect/landmark/start/warden,
+/turf/open/floor/plasteel/dark,
+/area/crew_quarters/heads/captain/private{
+	name = "Briefing room"
+	})
+"aBv" = (
+/obj/effect/turf_decal/tile/blue,
+/obj/effect/turf_decal/tile/blue{
+	dir = 8
+	},
+/obj/structure/chair{
+	name = "medical department"
+	},
+/obj/effect/landmark/start/chemist,
 /turf/open/floor/plasteel/dark,
 /area/crew_quarters/heads/captain/private{
 	name = "Briefing room"
@@ -13810,7 +13890,6 @@
 	icon_state = "pipe11-1";
 	dir = 10
 	},
-/obj/effect/landmark/start/quartermaster,
 /turf/open/floor/plasteel,
 /area/quartermaster/storage)
 "aBP" = (
@@ -14073,7 +14152,6 @@
 /turf/open/floor/plasteel,
 /area/quartermaster/office)
 "aCo" = (
-/obj/effect/landmark/start/cargo_technician,
 /turf/open/floor/plasteel,
 /area/quartermaster/storage)
 "aCp" = (
@@ -14245,6 +14323,7 @@
 	name = "medical department"
 	},
 /obj/structure/cable,
+/obj/effect/landmark/start/medical_doctor,
 /turf/open/floor/plasteel/dark,
 /area/crew_quarters/heads/captain/private{
 	name = "Briefing room"
@@ -14316,13 +14395,13 @@
 	name = "Munitions"
 	})
 "aCO" = (
-/obj/structure/chair/office{
-	dir = 1
+/obj/structure/chair/comfy/black{
+	dir = 8
 	},
-/obj/effect/landmark/start/warden,
-/turf/open/floor/plasteel/ship/padded,
-/area/hallway/secondary/construction{
-	name = "Munitions"
+/obj/effect/landmark/start/captain,
+/turf/open/floor/carpet/ship,
+/area/crew_quarters/heads/captain/private{
+	name = "Briefing room"
 	})
 "aCP" = (
 /obj/structure/chair/office{
@@ -14354,7 +14433,6 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
 	dir = 4
 	},
-/obj/effect/landmark/start/head_of_security,
 /turf/open/floor/carpet/ship,
 /area/bridge/meeting_room)
 "aCS" = (
@@ -15436,6 +15514,7 @@
 	name = "medical department"
 	},
 /obj/structure/cable,
+/obj/effect/landmark/start/medical_doctor,
 /turf/open/floor/plasteel/dark,
 /area/crew_quarters/heads/captain/private{
 	name = "Briefing room"
@@ -16128,7 +16207,6 @@
 /obj/structure/chair{
 	dir = 4
 	},
-/obj/effect/landmark/start/security_officer,
 /turf/open/floor/plasteel,
 /area/security/brig)
 "aFY" = (
@@ -16173,7 +16251,6 @@
 /obj/structure/chair{
 	dir = 4
 	},
-/obj/effect/landmark/start/security_officer,
 /turf/open/floor/plasteel,
 /area/security/brig)
 "aGc" = (
@@ -17219,6 +17296,7 @@
 /obj/effect/turf_decal/tile/neutral{
 	dir = 1
 	},
+/obj/effect/landmark/start/shaft_miner,
 /turf/open/floor/plasteel/dark,
 /area/crew_quarters/heads/captain/private{
 	name = "Briefing room"
@@ -17351,10 +17429,13 @@
 	dir = 4;
 	name = "non enlisted"
 	},
-/obj/effect/turf_decal/tile/neutral,
 /obj/effect/turf_decal/tile/neutral{
-	dir = 4
+	dir = 1
 	},
+/obj/effect/turf_decal/tile/neutral{
+	dir = 8
+	},
+/obj/effect/landmark/start/chaplain,
 /turf/open/floor/plasteel/dark,
 /area/crew_quarters/heads/captain/private{
 	name = "Briefing room"
@@ -17417,10 +17498,18 @@
 	name = "Briefing room"
 	})
 "aHZ" = (
-/obj/structure/chair/office{
-	dir = 1
+/obj/effect/turf_decal/tile/blue,
+/obj/effect/turf_decal/tile/blue{
+	dir = 8
 	},
-/turf/open/floor/carpet/ship,
+/obj/effect/turf_decal/tile/blue{
+	dir = 4
+	},
+/obj/structure/chair{
+	name = "medical department"
+	},
+/obj/effect/landmark/start/geneticist,
+/turf/open/floor/plasteel/dark,
 /area/crew_quarters/heads/captain/private{
 	name = "Briefing room"
 	})
@@ -17488,6 +17577,7 @@
 	name = "medical department"
 	},
 /obj/structure/cable,
+/obj/effect/landmark/start/medical_doctor,
 /turf/open/floor/plasteel/dark,
 /area/crew_quarters/heads/captain/private{
 	name = "Briefing room"
@@ -17586,20 +17676,9 @@
 /turf/open/floor/plating,
 /area/science/robotics)
 "aIr" = (
-/obj/effect/turf_decal/tile/yellow{
-	dir = 8
-	},
-/obj/effect/turf_decal/tile/yellow{
-	dir = 1
-	},
-/obj/effect/turf_decal/tile/yellow,
-/obj/structure/chair{
-	name = "engineering department"
-	},
-/obj/machinery/light{
-	dir = 8
-	},
-/turf/open/floor/plasteel/dark,
+/obj/structure/chair/office,
+/obj/effect/landmark/start/chief_engineer,
+/turf/open/floor/carpet/ship,
 /area/crew_quarters/heads/captain/private{
 	name = "Briefing room"
 	})
@@ -17611,21 +17690,27 @@
 /obj/structure/chair{
 	name = "engineering department"
 	},
+/obj/effect/landmark/start/quartermaster,
 /turf/open/floor/plasteel/dark,
 /area/crew_quarters/heads/captain/private{
 	name = "Briefing room"
 	})
 "aIt" = (
-/obj/effect/turf_decal/tile/yellow{
+/obj/structure/chair{
+	dir = 4;
+	name = "non enlisted"
+	},
+/obj/machinery/airalarm{
+	dir = 4;
+	pixel_x = -23
+	},
+/obj/effect/turf_decal/tile/neutral{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/neutral{
 	dir = 8
 	},
-/obj/effect/turf_decal/tile/yellow{
-	dir = 4
-	},
-/obj/effect/turf_decal/tile/yellow,
-/obj/structure/chair{
-	name = "engineering department"
-	},
+/obj/effect/landmark/start/cook,
 /turf/open/floor/plasteel/dark,
 /area/crew_quarters/heads/captain/private{
 	name = "Briefing room"
@@ -17648,18 +17733,22 @@
 /obj/structure/chair{
 	name = "medical department"
 	},
+/obj/effect/landmark/start/medical_doctor,
 /turf/open/floor/plasteel/dark,
 /area/crew_quarters/heads/captain/private{
 	name = "Briefing room"
 	})
 "aIw" = (
-/obj/effect/turf_decal/tile/blue,
-/obj/effect/turf_decal/tile/blue{
-	dir = 8
+/obj/effect/turf_decal/tile/yellow{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/yellow{
+	dir = 4
 	},
 /obj/structure/chair{
-	name = "medical department"
+	name = "engineering department"
 	},
+/obj/effect/landmark/start/depsec/engineering,
 /turf/open/floor/plasteel/dark,
 /area/crew_quarters/heads/captain/private{
 	name = "Briefing room"
@@ -17675,21 +17764,14 @@
 /obj/structure/chair{
 	dir = 4
 	},
-/obj/effect/landmark/start/security_officer,
 /turf/open/floor/plasteel,
 /area/security/brig)
 "aIy" = (
-/obj/effect/turf_decal/tile/blue,
-/obj/effect/turf_decal/tile/blue{
-	dir = 8
+/obj/structure/chair/office{
+	dir = 1
 	},
-/obj/effect/turf_decal/tile/blue{
-	dir = 4
-	},
-/obj/structure/chair{
-	name = "medical department"
-	},
-/turf/open/floor/plasteel/dark,
+/obj/effect/landmark/start/head_of_personnel,
+/turf/open/floor/carpet/ship,
 /area/crew_quarters/heads/captain/private{
 	name = "Briefing room"
 	})
@@ -17762,7 +17844,6 @@
 /obj/structure/chair/office{
 	dir = 8
 	},
-/obj/effect/landmark/start/head_of_personnel,
 /turf/open/floor/carpet/ship,
 /area/crew_quarters/heads/hop{
 	name = "Executive officer's office"
@@ -17772,7 +17853,6 @@
 	icon_state = "comfychair";
 	dir = 8
 	},
-/obj/effect/landmark/start/research_director,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	icon_state = "pipe11-1";
 	dir = 4
@@ -17826,10 +17906,19 @@
 	name = "Executive officer's office"
 	})
 "aIN" = (
-/mob/living/simple_animal/pet/dog/corgi/Ian,
+/obj/structure/chair/office{
+	dir = 1
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	icon_state = "pipe11-1";
+	dir = 6
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
+	dir = 4
+	},
 /turf/open/floor/carpet/ship,
-/area/crew_quarters/heads/hop{
-	name = "Executive officer's office"
+/area/crew_quarters/heads/captain/private{
+	name = "Briefing room"
 	})
 "aIO" = (
 /obj/structure/window/reinforced/fulltile/ship,
@@ -17863,7 +17952,6 @@
 	icon_state = "comfychair";
 	dir = 8
 	},
-/obj/effect/landmark/start/bridge,
 /turf/open/floor/carpet/ship,
 /area/bridge/meeting_room)
 "aIU" = (
@@ -19301,7 +19389,6 @@
 	dir = 1;
 	network = list("aicore")
 	},
-/obj/effect/landmark/start/librarian,
 /turf/open/floor/carpet/ship,
 /area/library)
 "aLG" = (
@@ -19419,7 +19506,6 @@
 	dir = 1;
 	network = list("aicore")
 	},
-/obj/effect/landmark/start/lawyer,
 /obj/machinery/light,
 /turf/open/floor/carpet/ship,
 /area/lawoffice)
@@ -19612,7 +19698,6 @@
 	dir = 4
 	},
 /obj/machinery/light,
-/obj/effect/landmark/start/security_officer,
 /turf/open/floor/plasteel,
 /area/security/brig)
 "aMm" = (
@@ -20996,9 +21081,11 @@
 	name = "Executive officer's office"
 	})
 "aPb" = (
-/obj/effect/turf_decal/tile/purple,
 /obj/effect/turf_decal/tile/purple{
 	dir = 8
+	},
+/obj/effect/turf_decal/tile/purple{
+	dir = 4
 	},
 /obj/effect/turf_decal/tile/purple{
 	dir = 1
@@ -21007,25 +21094,26 @@
 	dir = 1;
 	name = "research department"
 	},
-/obj/machinery/atmospherics/components/unary/vent_scrubber/on,
+/obj/machinery/light{
+	dir = 8
+	},
+/obj/effect/landmark/start/janitor,
 /turf/open/floor/plasteel/dark,
 /area/crew_quarters/heads/captain/private{
 	name = "Briefing room"
 	})
 "aPc" = (
-/obj/effect/turf_decal/tile/red,
-/obj/effect/turf_decal/tile/red{
-	dir = 8
+/obj/structure/chair{
+	dir = 4;
+	name = "non enlisted"
 	},
-/obj/effect/turf_decal/tile/red{
+/obj/effect/turf_decal/tile/neutral{
+	dir = 4
+	},
+/obj/effect/turf_decal/tile/neutral{
 	dir = 1
 	},
-/obj/structure/chair{
-	dir = 1;
-	name = "security department"
-	},
-/obj/machinery/atmospherics/components/unary/vent_scrubber/on,
-/obj/structure/cable,
+/obj/effect/landmark/start/botanist,
 /turf/open/floor/plasteel/dark,
 /area/crew_quarters/heads/captain/private{
 	name = "Briefing room"
@@ -21082,7 +21170,6 @@
 	icon_state = "comfychair";
 	dir = 4
 	},
-/obj/effect/landmark/start/bridge,
 /turf/open/floor/carpet/ship,
 /area/bridge/meeting_room)
 "aPk" = (
@@ -21155,20 +21242,14 @@
 /turf/open/floor/plasteel/ship/techfloor/alt,
 /area/hallway/secondary/command)
 "aPs" = (
-/obj/effect/turf_decal/tile/red{
-	dir = 8
-	},
-/obj/effect/turf_decal/tile/red{
+/obj/structure/chair/office{
 	dir = 1
 	},
-/obj/effect/turf_decal/tile/red{
-	dir = 4
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
+	dir = 6
 	},
-/obj/structure/chair{
-	dir = 1;
-	name = "security department"
-	},
-/turf/open/floor/plasteel/dark,
+/obj/effect/landmark/start/chief_medical_officer,
+/turf/open/floor/carpet/ship,
 /area/crew_quarters/heads/captain/private{
 	name = "Briefing room"
 	})
@@ -21292,16 +21373,19 @@
 /turf/open/floor/plasteel/dark,
 /area/bridge)
 "aPJ" = (
-/obj/effect/turf_decal/tile/red{
-	dir = 1
+/obj/effect/turf_decal/tile/purple,
+/obj/effect/turf_decal/tile/purple{
+	dir = 8
 	},
-/obj/effect/turf_decal/tile/red{
-	dir = 4
+/obj/effect/turf_decal/tile/purple{
+	dir = 1
 	},
 /obj/structure/chair{
 	dir = 1;
-	name = "security department"
+	name = "research department"
 	},
+/obj/machinery/atmospherics/components/unary/vent_scrubber/on,
+/obj/effect/landmark/start/janitor,
 /turf/open/floor/plasteel/dark,
 /area/crew_quarters/heads/captain/private{
 	name = "Briefing room"
@@ -21313,17 +21397,17 @@
 /turf/open/floor/light,
 /area/bridge/meeting_room)
 "aPL" = (
-/obj/effect/turf_decal/tile/red,
-/obj/effect/turf_decal/tile/red{
-	dir = 1
-	},
-/obj/effect/turf_decal/tile/red{
+/obj/effect/turf_decal/tile/purple{
 	dir = 4
+	},
+/obj/effect/turf_decal/tile/purple{
+	dir = 1
 	},
 /obj/structure/chair{
 	dir = 1;
-	name = "security department"
+	name = "research department"
 	},
+/obj/effect/landmark/start/scientist,
 /turf/open/floor/plasteel/dark,
 /area/crew_quarters/heads/captain/private{
 	name = "Briefing room"
@@ -21347,6 +21431,7 @@
 	dir = 1;
 	name = "research department"
 	},
+/obj/effect/landmark/start/bridge,
 /turf/open/floor/plasteel/dark,
 /area/crew_quarters/heads/captain/private{
 	name = "Briefing room"
@@ -21377,6 +21462,7 @@
 	dir = 1;
 	name = "research department"
 	},
+/obj/effect/landmark/start/roboticist,
 /turf/open/floor/plasteel/dark,
 /area/crew_quarters/heads/captain/private{
 	name = "Briefing room"
@@ -21394,10 +21480,18 @@
 	name = "Deck 2 primary hallway"
 	})
 "aPS" = (
-/obj/structure/chair/comfy/black{
+/obj/structure/chair{
+	dir = 4;
+	name = "non enlisted"
+	},
+/obj/effect/turf_decal/tile/neutral{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/neutral{
 	dir = 8
 	},
-/turf/open/floor/carpet/ship,
+/obj/effect/landmark/start/cook,
+/turf/open/floor/plasteel/dark,
 /area/crew_quarters/heads/captain/private{
 	name = "Briefing room"
 	})
@@ -21417,6 +21511,7 @@
 	})
 "aPV" = (
 /obj/structure/chair/office,
+/obj/effect/landmark/start/research_director,
 /turf/open/floor/carpet/ship,
 /area/crew_quarters/heads/captain/private{
 	name = "Briefing room"
@@ -21430,6 +21525,7 @@
 /obj/effect/turf_decal/tile/neutral{
 	dir = 8
 	},
+/obj/effect/landmark/start/botanist,
 /turf/open/floor/plasteel/dark,
 /area/crew_quarters/heads/captain/private{
 	name = "Briefing room"
@@ -21565,22 +21661,23 @@
 	dir = 1;
 	name = "research department"
 	},
+/obj/effect/landmark/start/bridge,
 /turf/open/floor/plasteel/dark,
 /area/crew_quarters/heads/captain/private{
 	name = "Briefing room"
 	})
 "aQp" = (
-/obj/effect/turf_decal/tile/purple,
-/obj/effect/turf_decal/tile/purple{
-	dir = 4
+/obj/effect/turf_decal/tile/red{
+	dir = 1
 	},
-/obj/effect/turf_decal/tile/purple{
-	dir = 8
+/obj/effect/turf_decal/tile/red{
+	dir = 4
 	},
 /obj/structure/chair{
 	dir = 1;
-	name = "research department"
+	name = "security department"
 	},
+/obj/effect/landmark/start/security_officer,
 /turf/open/floor/plasteel/dark,
 /area/crew_quarters/heads/captain/private{
 	name = "Briefing room"
@@ -21601,20 +21698,14 @@
 /turf/open/floor/plasteel/ship/padded,
 /area/hallway/secondary/command)
 "aQs" = (
-/obj/structure/chair{
-	dir = 4;
-	name = "non enlisted"
-	},
-/obj/machinery/airalarm{
-	dir = 4;
-	pixel_x = -23
-	},
-/obj/effect/turf_decal/tile/neutral{
-	dir = 1
-	},
-/obj/effect/turf_decal/tile/neutral{
+/obj/effect/turf_decal/tile/yellow{
 	dir = 8
 	},
+/obj/effect/turf_decal/tile/yellow,
+/obj/structure/chair{
+	name = "engineering department"
+	},
+/obj/effect/landmark/start/depsec/supply,
 /turf/open/floor/plasteel/dark,
 /area/crew_quarters/heads/captain/private{
 	name = "Briefing room"
@@ -21630,7 +21721,8 @@
 /turf/open/floor/plasteel/ship/techfloor/alt,
 /area/hallway/secondary/command)
 "aQv" = (
-/obj/machinery/computer/atmos_alert{
+/obj/machinery/computer/ship/dradis{
+	icon_state = "computer";
 	dir = 8
 	},
 /turf/open/floor/plasteel/dark,
@@ -21696,12 +21788,18 @@
 /turf/open/floor/plasteel/dark,
 /area/bridge)
 "aQC" = (
-/obj/structure/chair/comfy{
-	dir = 1
+/obj/effect/turf_decal/tile/blue,
+/obj/effect/turf_decal/tile/blue{
+	dir = 8
 	},
-/obj/effect/landmark/start/chief_medical_officer,
-/turf/open/floor/carpet/ship,
-/area/bridge/meeting_room)
+/obj/structure/chair{
+	name = "medical department"
+	},
+/obj/effect/landmark/start/depsec/medical,
+/turf/open/floor/plasteel/dark,
+/area/crew_quarters/heads/captain/private{
+	name = "Briefing room"
+	})
 "aQD" = (
 /obj/machinery/holopad,
 /turf/open/floor/carpet/ship,
@@ -23110,7 +23208,6 @@
 	},
 /obj/machinery/atmospherics/pipe/manifold4w/supply/hidden/layer1,
 /obj/machinery/atmospherics/pipe/manifold4w/scrubbers/hidden,
-/obj/effect/landmark/start/depsec/engineering,
 /turf/open/floor/plasteel/dark,
 /area/engine/engineering)
 "aTp" = (
@@ -23555,7 +23652,6 @@
 /turf/open/floor/plasteel,
 /area/science/robotics)
 "aUg" = (
-/obj/effect/landmark/start/cook,
 /turf/open/floor/plasteel/cafeteria{
 	dir = 5
 	},
@@ -23922,11 +24018,9 @@
 	name = "Deck 3 hallway"
 	})
 "aUQ" = (
-/obj/effect/landmark/start/atmospheric_technician,
 /turf/open/floor/plating,
 /area/engine/atmos)
 "aUR" = (
-/obj/effect/landmark/start/botanist,
 /turf/open/floor/plasteel,
 /area/hydroponics)
 "aUS" = (
@@ -23943,19 +24037,16 @@
 /obj/structure/chair/office{
 	dir = 8
 	},
-/obj/effect/landmark/start/cargo_technician,
 /turf/open/floor/plasteel,
 /area/quartermaster/office)
 "aUU" = (
 /obj/structure/chair/office/light,
-/obj/effect/landmark/start/chemist,
 /turf/open/floor/plasteel/white,
 /area/medical/chemistry)
 "aUV" = (
 /obj/structure/chair/comfy{
 	dir = 1
 	},
-/obj/effect/landmark/start/chief_engineer,
 /turf/open/floor/carpet/ship,
 /area/bridge/meeting_room)
 "aUW" = (
@@ -23977,16 +24068,27 @@
 /turf/open/floor/plasteel/dark,
 /area/chapel/main)
 "aUY" = (
-/obj/effect/landmark/start/depsec/supply,
-/turf/open/floor/plasteel,
-/area/quartermaster/office)
+/obj/effect/turf_decal/tile/purple{
+	dir = 4
+	},
+/obj/effect/turf_decal/tile/purple{
+	dir = 1
+	},
+/obj/structure/chair{
+	dir = 1;
+	name = "research department"
+	},
+/obj/effect/landmark/start/depsec/science,
+/turf/open/floor/plasteel/dark,
+/area/crew_quarters/heads/captain/private{
+	name = "Briefing room"
+	})
 "aUZ" = (
 /obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	icon_state = "pipe11-1";
 	dir = 4
 	},
-/obj/effect/landmark/start/depsec/medical,
 /obj/effect/landmark/nuclear_waste_spawner,
 /turf/open/floor/plasteel/yellowsiding{
 	icon_state = "yellowsiding";
@@ -24014,7 +24116,6 @@
 /turf/open/floor/light,
 /area/bridge/meeting_room)
 "aVd" = (
-/obj/effect/landmark/start/medical_doctor,
 /turf/open/floor/plasteel/white,
 /area/medical{
 	name = "Infirmary"
@@ -24034,7 +24135,6 @@
 /turf/open/floor/plasteel/dark/telecomms,
 /area/science/server)
 "aVg" = (
-/obj/effect/landmark/start/station_engineer,
 /turf/open/floor/plasteel/dark,
 /area/engine/engineering)
 "aVh" = (
@@ -24135,11 +24235,12 @@
 	},
 /obj/effect/turf_decal/tile/neutral,
 /obj/effect/turf_decal/tile/neutral{
-	dir = 4
+	dir = 8
 	},
 /obj/effect/turf_decal/tile/neutral{
-	dir = 1
+	dir = 4
 	},
+/obj/effect/landmark/start/botanist,
 /turf/open/floor/plasteel/dark,
 /area/crew_quarters/heads/captain/private{
 	name = "Briefing room"
@@ -25671,19 +25772,10 @@
 /turf/open/floor/carpet,
 /area/crew_quarters/bar)
 "aYt" = (
-/obj/structure/chair/office{
-	dir = 1
-	},
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
-	icon_state = "pipe11-1";
-	dir = 6
-	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
-	dir = 4
-	},
+/mob/living/simple_animal/pet/dog/corgi/Ian,
 /turf/open/floor/carpet/ship,
-/area/crew_quarters/heads/captain/private{
-	name = "Briefing room"
+/area/crew_quarters/heads/hop{
+	name = "Executive officer's office"
 	})
 "aYu" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
@@ -25822,6 +25914,7 @@
 /obj/effect/turf_decal/tile/neutral{
 	dir = 1
 	},
+/obj/effect/landmark/start/mime,
 /turf/open/floor/plasteel/dark,
 /area/crew_quarters/heads/captain/private{
 	name = "Briefing room"
@@ -25846,13 +25939,16 @@
 "aYI" = (
 /obj/effect/turf_decal/tile/red,
 /obj/effect/turf_decal/tile/red{
-	dir = 8
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/red{
+	dir = 4
 	},
 /obj/structure/chair{
 	dir = 1;
 	name = "security department"
 	},
-/obj/structure/cable,
+/obj/effect/landmark/start/security_officer,
 /turf/open/floor/plasteel/dark,
 /area/crew_quarters/heads/captain/private{
 	name = "Briefing room"
@@ -25953,7 +26049,6 @@
 /obj/structure/chair/office{
 	dir = 1
 	},
-/obj/effect/landmark/start/head_of_personnel,
 /turf/open/floor/carpet/ship,
 /area/crew_quarters/heads/hop{
 	name = "Executive officer's office"
@@ -25967,10 +26062,20 @@
 	name = "Deck 3 hallway"
 	})
 "aYV" = (
-/obj/structure/chair{
-	dir = 4;
-	name = "non enlisted"
+/obj/effect/turf_decal/tile/red{
+	dir = 8
 	},
+/obj/effect/turf_decal/tile/red{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/red{
+	dir = 4
+	},
+/obj/structure/chair{
+	dir = 1;
+	name = "security department"
+	},
+/obj/effect/landmark/start/detective,
 /turf/open/floor/plasteel/dark,
 /area/crew_quarters/heads/captain/private{
 	name = "Briefing room"
@@ -26187,7 +26292,6 @@
 	pixel_x = 38;
 	pixel_y = -25
 	},
-/obj/effect/landmark/start/head_of_personnel,
 /obj/structure/cable,
 /turf/open/floor/carpet/ship,
 /area/crew_quarters/heads/hop{
@@ -26265,21 +26369,12 @@
 /turf/open/floor/plasteel/ship/padded,
 /area/hallway/secondary/command)
 "aZu" = (
-/obj/structure/chair{
-	dir = 4;
-	name = "non enlisted"
-	},
-/obj/effect/turf_decal/tile/neutral,
-/obj/effect/turf_decal/tile/neutral{
+/obj/machinery/atmospherics/components/trinary/filter/atmos/constricted_plasma/flipped,
+/obj/effect/turf_decal/stripes/line{
 	dir = 8
 	},
-/obj/effect/turf_decal/tile/neutral{
-	dir = 4
-	},
-/turf/open/floor/plasteel/dark,
-/area/crew_quarters/heads/captain/private{
-	name = "Briefing room"
-	})
+/turf/open/floor/plating,
+/area/engine/engineering)
 "aZv" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /obj/structure/cable,
@@ -26397,17 +26492,9 @@
 	name = "Executive officer's office"
 	})
 "aZI" = (
-/obj/structure/chair{
-	dir = 4;
-	name = "non enlisted"
-	},
-/obj/effect/turf_decal/tile/neutral{
-	dir = 1
-	},
-/obj/effect/turf_decal/tile/neutral{
-	dir = 8
-	},
-/turf/open/floor/plasteel/dark,
+/obj/structure/chair/office,
+/obj/effect/landmark/start/head_of_security,
+/turf/open/floor/carpet/ship,
 /area/crew_quarters/heads/captain/private{
 	name = "Briefing room"
 	})
@@ -26468,22 +26555,15 @@
 	name = "Executive officer's office"
 	})
 "aZO" = (
-/obj/effect/turf_decal/tile/purple{
-	dir = 8
-	},
-/obj/effect/turf_decal/tile/purple{
-	dir = 4
-	},
-/obj/effect/turf_decal/tile/purple{
-	dir = 1
-	},
 /obj/structure/chair{
-	dir = 1;
-	name = "research department"
+	dir = 4;
+	name = "non enlisted"
 	},
-/obj/machinery/light{
+/obj/effect/turf_decal/tile/neutral,
+/obj/effect/turf_decal/tile/neutral{
 	dir = 8
 	},
+/obj/effect/landmark/start/librarian,
 /turf/open/floor/plasteel/dark,
 /area/crew_quarters/heads/captain/private{
 	name = "Briefing room"
@@ -26494,18 +26574,15 @@
 /turf/open/floor/plating,
 /area/engine/atmos)
 "aZQ" = (
-/obj/effect/turf_decal/tile/red,
-/obj/effect/turf_decal/tile/red{
+/obj/effect/turf_decal/tile/purple,
+/obj/effect/turf_decal/tile/purple{
 	dir = 8
-	},
-/obj/effect/turf_decal/tile/red{
-	dir = 4
 	},
 /obj/structure/chair{
 	dir = 1;
-	name = "security department"
+	name = "research department"
 	},
-/obj/structure/cable,
+/obj/effect/landmark/start/scientist,
 /turf/open/floor/plasteel/dark,
 /area/crew_quarters/heads/captain/private{
 	name = "Briefing room"
@@ -26535,10 +26612,24 @@
 	name = "Deck 2 primary hallway"
 	})
 "aZT" = (
-/obj/structure/chair/comfy,
-/obj/effect/landmark/start/captain,
-/turf/open/floor/carpet/ship,
-/area/bridge/meeting_room)
+/obj/effect/turf_decal/tile/red,
+/obj/effect/turf_decal/tile/red{
+	dir = 8
+	},
+/obj/effect/turf_decal/tile/red{
+	dir = 1
+	},
+/obj/structure/chair{
+	dir = 1;
+	name = "security department"
+	},
+/obj/machinery/atmospherics/components/unary/vent_scrubber/on,
+/obj/structure/cable,
+/obj/effect/landmark/start/lawyer,
+/turf/open/floor/plasteel/dark,
+/area/crew_quarters/heads/captain/private{
+	name = "Briefing room"
+	})
 "aZU" = (
 /obj/machinery/power/deck_relay{
 	pixel_y = 32
@@ -26567,17 +26658,6 @@
 /turf/closed/wall/ship,
 /area/crew_quarters/heads/hop{
 	name = "Executive officer's office"
-	})
-"aZX" = (
-/obj/structure/chair/office{
-	dir = 1
-	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
-	dir = 6
-	},
-/turf/open/floor/carpet/ship,
-/area/crew_quarters/heads/captain/private{
-	name = "Briefing room"
 	})
 "aZY" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
@@ -28145,13 +28225,22 @@
 /turf/open/floor/plasteel/dark,
 /area/chapel/main)
 "bcN" = (
-/obj/effect/landmark/start/chaplain,
-/obj/effect/turf_decal/tile/neutral{
+/obj/effect/turf_decal/tile/purple,
+/obj/effect/turf_decal/tile/purple{
 	dir = 4
 	},
-/obj/effect/turf_decal/tile/neutral,
+/obj/effect/turf_decal/tile/purple{
+	dir = 8
+	},
+/obj/structure/chair{
+	dir = 1;
+	name = "research department"
+	},
+/obj/effect/landmark/start/roboticist,
 /turf/open/floor/plasteel/dark,
-/area/chapel/main)
+/area/crew_quarters/heads/captain/private{
+	name = "Briefing room"
+	})
 "bcO" = (
 /obj/machinery/newscaster{
 	pixel_x = -30
@@ -28383,6 +28472,53 @@
 /obj/effect/turf_decal/tile/green,
 /turf/open/floor/plasteel/dark,
 /area/engine/atmos)
+"bdk" = (
+/obj/effect/turf_decal/tile/red,
+/obj/effect/turf_decal/tile/red{
+	dir = 8
+	},
+/obj/structure/chair{
+	dir = 1;
+	name = "security department"
+	},
+/obj/structure/cable,
+/obj/effect/landmark/start/security_officer,
+/turf/open/floor/plasteel/dark,
+/area/crew_quarters/heads/captain/private{
+	name = "Briefing room"
+	})
+"bdl" = (
+/obj/effect/turf_decal/tile/red,
+/obj/effect/turf_decal/tile/red{
+	dir = 8
+	},
+/obj/effect/turf_decal/tile/red{
+	dir = 4
+	},
+/obj/structure/chair{
+	dir = 1;
+	name = "security department"
+	},
+/obj/structure/cable,
+/obj/effect/landmark/start/security_officer,
+/turf/open/floor/plasteel/dark,
+/area/crew_quarters/heads/captain/private{
+	name = "Briefing room"
+	})
+"bdm" = (
+/obj/structure/chair{
+	dir = 4;
+	name = "non enlisted"
+	},
+/obj/effect/turf_decal/tile/neutral,
+/obj/effect/turf_decal/tile/neutral{
+	dir = 8
+	},
+/obj/effect/landmark/start/shaft_miner,
+/turf/open/floor/plasteel/dark,
+/area/crew_quarters/heads/captain/private{
+	name = "Briefing room"
+	})
 "bdH" = (
 /obj/effect/turf_decal/tile/green{
 	dir = 1
@@ -28406,12 +28542,6 @@
 	},
 /turf/closed/wall/r_wall/ship,
 /area/engine/engineering)
-"bjs" = (
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
-	dir = 4
-	},
-/turf/open/floor/wood,
-/area/crew_quarters/theatre)
 "bme" = (
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on{
 	dir = 4
@@ -28481,7 +28611,6 @@
 /turf/closed/wall/r_wall/ship,
 /area/engine/storage)
 "bRc" = (
-/obj/effect/landmark/start/clown,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
 	dir = 4
 	},
@@ -29345,17 +29474,6 @@
 	},
 /turf/open/floor/plating,
 /area/engine/engineering)
-"hJd" = (
-/obj/machinery/atmospherics/pipe/simple/yellow/hidden{
-	icon_state = "pipe11-2";
-	dir = 10
-	},
-/obj/machinery/atmospherics/components/trinary/filter/atmos/constricted_plasma/flipped,
-/obj/effect/turf_decal/stripes/line{
-	dir = 8
-	},
-/turf/open/floor/plating,
-/area/engine/engineering)
 "hLN" = (
 /obj/structure/bookcase,
 /obj/machinery/computer/ship/viewscreen,
@@ -29471,7 +29589,6 @@
 	},
 /area/crew_quarters/bar)
 "iyj" = (
-/obj/effect/landmark/start/janitor,
 /obj/machinery/power/apc/auto_name/north,
 /obj/structure/cable,
 /turf/open/floor/plating,
@@ -30212,9 +30329,6 @@
 	},
 /turf/closed/wall/r_wall/ship,
 /area/engine/atmos)
-"omC" = (
-/turf/open/floor/plating,
-/area/janitor)
 "onM" = (
 /turf/open/floor/wood,
 /area/crew_quarters/theatre)
@@ -30518,7 +30632,6 @@
 /area/engine/storage)
 "qTO" = (
 /obj/structure/chair/comfy,
-/obj/effect/landmark/start/head_of_personnel,
 /turf/open/floor/carpet/ship,
 /area/bridge/meeting_room)
 "raL" = (
@@ -30658,16 +30771,6 @@
 /obj/structure/cable,
 /turf/open/floor/plasteel,
 /area/quartermaster/warehouse)
-"spG" = (
-/obj/structure/chair{
-	dir = 4;
-	name = "non enlisted"
-	},
-/obj/effect/landmark/nuclear_waste_spawner/strong,
-/turf/open/floor/plasteel/dark,
-/area/crew_quarters/heads/captain/private{
-	name = "Briefing room"
-	})
 "sqQ" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 6
@@ -30937,7 +31040,6 @@
 /turf/open/floor/plating,
 /area/maintenance/disposal)
 "uiQ" = (
-/obj/effect/landmark/start/cook,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
 /obj/effect/landmark/nuclear_waste_spawner,
 /turf/open/floor/plasteel/cafeteria{
@@ -31103,7 +31205,6 @@
 	name = "Deck 2 maintenance"
 	})
 "vOO" = (
-/obj/effect/landmark/start/janitor,
 /turf/open/floor/plating,
 /area/janitor)
 "vRb" = (
@@ -45463,7 +45564,7 @@ biy
 tOh
 gof
 evb
-hJd
+aZu
 bOB
 ttS
 dbm
@@ -45975,11 +46076,11 @@ ajQ
 aTs
 koL
 wVC
-ajY
-ajY
+aVg
+aVg
 aZw
-ajY
-ajY
+aVg
+aVg
 vXi
 adj
 aTs
@@ -46232,12 +46333,12 @@ aUN
 aTF
 adj
 alP
-ajY
+aVg
 aml
 ans
 aVg
-ajY
-axF
+aVg
+nsD
 adj
 aTG
 aUO
@@ -46489,11 +46590,11 @@ ajQ
 aTj
 adj
 iXR
-ajY
-ajY
+aVg
+aVg
 ant
-ajY
-ajY
+aVg
+aVg
 kwT
 adj
 aTj
@@ -53939,7 +54040,7 @@ abk
 aaZ
 abV
 acz
-acN
+acO
 acT
 adE
 aeT
@@ -54196,7 +54297,7 @@ abk
 aaZ
 abW
 acA
-acN
+acO
 acU
 adF
 afu
@@ -56252,7 +56353,7 @@ aSD
 aTA
 acp
 acG
-acP
+acY
 acY
 aee
 acY
@@ -58830,10 +58931,10 @@ agt
 aap
 ava
 ygZ
-ayq
+aUg
 lhl
-ayq
-ayq
+aUg
+aUg
 aap
 aaY
 aaZ
@@ -59090,7 +59191,7 @@ ayw
 giG
 uiQ
 tAC
-ayq
+aUg
 aap
 aaY
 aaZ
@@ -59601,10 +59702,10 @@ ahg
 aap
 ave
 itw
-ayq
 aUg
-ayq
-ayq
+aUg
+aUg
+aUg
 aap
 aaY
 aaZ
@@ -59858,10 +59959,10 @@ ahh
 aap
 aya
 itw
-ayq
-ayq
-ayq
-ayq
+aUg
+aUg
+aUg
+aUg
 aap
 aaY
 aVm
@@ -71672,7 +71773,7 @@ amq
 abm
 aby
 abm
-afs
+acN
 abm
 aWT
 abm
@@ -75011,7 +75112,7 @@ aag
 adi
 mej
 ftm
-atG
+bbf
 bXb
 onM
 tQF
@@ -75024,7 +75125,7 @@ aba
 aaa
 cPe
 wtz
-omC
+vOO
 iCH
 mrv
 aoa
@@ -75526,7 +75627,7 @@ adi
 mej
 oPw
 bbf
-bjs
+bRc
 fcM
 mej
 aaZ
@@ -75795,8 +75896,8 @@ abk
 abk
 aaZ
 rHs
-omC
-omC
+vOO
+vOO
 ijo
 aoa
 adi
@@ -76052,7 +76153,7 @@ rBS
 aXw
 aaZ
 xcs
-omC
+vOO
 vOO
 ops
 aoa
@@ -81698,7 +81799,7 @@ aag
 aaj
 aaM
 aoG
-aCO
+aCP
 aCN
 baZ
 aUs
@@ -104053,16 +104154,16 @@ tyN
 tyN
 afK
 ail
-axV
-axV
-axV
-axV
-axV
-axV
-axV
-axV
-axV
-axV
+aCo
+aCo
+aCo
+aCo
+aCo
+aCo
+aCo
+aCo
+aCo
+aCo
 aqG
 uOX
 ahY
@@ -104310,11 +104411,11 @@ tyN
 tyN
 afK
 ail
-axV
-axV
-axV
+aCo
+aCo
+aCo
 ars
-axV
+aCo
 ars
 aCo
 aCo
@@ -104569,15 +104670,15 @@ afK
 aKa
 ars
 arP
-axV
+aCo
 asq
-axV
+aCo
 auB
 aAF
 aBM
 aCh
 awX
-axV
+aCo
 frn
 ahY
 aKd
@@ -104826,16 +104927,16 @@ afK
 aiC
 arK
 ars
-axV
+aCo
 ass
-axV
+aCo
 awX
 aAK
 aBN
 aCi
 ass
-axV
-axV
+aCo
+aCo
 ahY
 aKe
 pZG
@@ -105081,13 +105182,13 @@ vjK
 vjK
 afK
 ail
-axV
-axV
-axV
+aCo
+aCo
+aCo
 ast
-axV
+aCo
 awX
-axV
+aCo
 aBO
 aCl
 rLT
@@ -105338,12 +105439,12 @@ sHs
 kZU
 afK
 ail
-axV
-axV
-axV
-axV
-axV
-axV
+aCo
+aCo
+aCo
+aCo
+aCo
+aCo
 aKG
 aKG
 aCm
@@ -105602,10 +105703,10 @@ aKG
 aKG
 aKG
 aKG
-axV
+aCo
 vZa
 aJX
-axV
+aCo
 pGB
 ahY
 kfD
@@ -106627,7 +106728,7 @@ gPQ
 aKB
 clU
 aqy
-aUY
+jxe
 jxe
 mzC
 aBH
@@ -112797,9 +112898,9 @@ aeq
 aie
 amM
 apY
-agh
-agh
-agh
+aUQ
+aUQ
+aUQ
 att
 atH
 aie
@@ -113055,7 +113156,7 @@ adt
 amN
 apZ
 aUQ
-agh
+aUQ
 aUQ
 atu
 atI
@@ -113567,11 +113668,11 @@ puU
 puU
 kDq
 aqz
-agh
-agh
+aUQ
+aUQ
 asW
-agh
-agh
+aUQ
+aUQ
 bbC
 adp
 adp
@@ -113825,9 +113926,9 @@ aeS
 gJh
 aot
 arR
-agh
+aUQ
 asW
-agh
+aUQ
 atx
 atL
 aie
@@ -114082,9 +114183,9 @@ aeV
 adt
 amN
 arS
-agh
+aUQ
 asW
-agh
+aUQ
 aty
 atI
 adt
@@ -114595,11 +114696,11 @@ ksw
 ksw
 lDh
 anL
-agh
-agh
+aUQ
+aUQ
 asW
-agh
-agh
+aUQ
+aUQ
 atK
 adp
 adp
@@ -114853,9 +114954,9 @@ afk
 aie
 aov
 arV
-agh
+aUQ
 asW
-agh
+aUQ
 atA
 aoE
 aie
@@ -115886,7 +115987,7 @@ atb
 atj
 asn
 atP
-agh
+aUQ
 avp
 aGc
 aJf
@@ -116134,18 +116235,18 @@ aRx
 adt
 adM
 aei
-agh
+aUQ
 aiJ
 aoP
 arZ
 aso
 atc
 atk
-agh
+aUQ
 atR
 atX
 uYg
-agh
+aUQ
 aJg
 aNb
 aGU
@@ -116655,7 +116756,7 @@ asg
 asz
 apj
 atm
-agh
+aUQ
 aJx
 aOo
 asn
@@ -116905,8 +117006,8 @@ aKR
 adp
 adS
 ael
-agh
-agh
+aUQ
+aUQ
 apj
 asi
 asE
@@ -116914,7 +117015,7 @@ ate
 atn
 atD
 ael
-agh
+aUQ
 aIQ
 aIU
 aIU
@@ -117933,7 +118034,7 @@ aKR
 aIR
 aTh
 aUX
-bcN
+bcP
 bcP
 bcR
 adp
@@ -121021,7 +121122,7 @@ aiT
 ajp
 ajH
 acS
-ayn
+aVd
 azs
 awT
 azk
@@ -123848,9 +123949,9 @@ adZ
 aWa
 axh
 vqo
-azS
+aUR
 aAz
-azS
+aUR
 vqo
 aLd
 aLg
@@ -124105,9 +124206,9 @@ adZ
 aWb
 axh
 vqo
-azS
+aUR
 aCT
-azS
+aUR
 vqo
 aLd
 aLh
@@ -182955,17 +183056,17 @@ axO
 apH
 aZZ
 auG
-aBt
-aIr
+acP
+afs
 aBk
 auW
-aZI
-aQs
-aZI
+aHU
+aIt
+aPS
 aYF
 aBk
-aZO
 aPb
+aPJ
 aGJ
 aYK
 aRn
@@ -183212,14 +183313,14 @@ aXZ
 aqf
 avU
 axw
-aBu
+ayn
 aIs
 aBk
 aHL
-aYV
-aYV
-aYV
-aPW
+agh
+ajY
+ajY
+aZO
 aBk
 aPN
 aQo
@@ -183469,17 +183570,17 @@ aXZ
 aqg
 aZe
 axx
-aBu
-aIs
+aIw
+aQs
 aBk
 aHL
-aYV
-spG
-aYV
-aPW
+ajY
+axV
+ajY
+bdm
 aBk
-aPN
-aQo
+aUY
+aZQ
 axx
 aZe
 aXK
@@ -183726,17 +183827,17 @@ aXZ
 aqf
 aZe
 axx
-aBu
-aIs
+ayn
+azS
 aBk
-aHL
-aYV
-aYV
-aYV
+aPc
+ajY
+ajY
+ajY
 aPW
 aBk
-aPN
-aQo
+aPL
+aZQ
 axx
 aZe
 aqf
@@ -183983,17 +184084,17 @@ aXZ
 aqf
 aZe
 axx
-aBv
-aIt
+ayq
+aBt
 aBk
+axF
+atG
+atG
+atG
 aVs
-aHU
-aHU
-aHU
-aZu
 aBk
 aPQ
-aQp
+bcN
 axx
 aZe
 aqf
@@ -184506,8 +184607,8 @@ aBk
 aBk
 aBk
 aBk
-aPs
-aPc
+aYV
+aZT
 aBk
 aZe
 aqf
@@ -184755,7 +184856,7 @@ aqf
 aZe
 aBk
 aEH
-aIw
+aQC
 aBk
 aZe
 aZe
@@ -184763,8 +184864,8 @@ aZe
 aZe
 aZe
 aBk
-aPJ
-aYI
+aBu
+bdk
 aBk
 aZe
 aqf
@@ -185012,16 +185113,16 @@ aqf
 aZe
 aBk
 aEH
-aIw
+aBv
 aBk
 aZe
 aHY
-aPS
+aCO
 aIW
 aZe
 aBk
-aPJ
-aYI
+aQp
+bdk
 aBk
 aZe
 aqf
@@ -185269,16 +185370,16 @@ aqf
 aZe
 aBk
 aEH
-aIw
+aBv
 aBk
 aZe
-aHZ
+aIy
 aPT
-aPV
+aIr
 aZe
 aBk
-aPJ
-aYI
+aQp
+bdk
 aBk
 aZe
 aqf
@@ -185526,16 +185627,16 @@ aqf
 avU
 aBl
 aIe
-aIy
+aHZ
 aBk
 aZe
-aZX
+aPs
 aYj
-aPV
+aZI
 aZe
 aBk
-aPL
-aZQ
+aYI
+bdl
 axx
 avU
 aqf
@@ -185786,7 +185887,7 @@ bak
 bal
 aJb
 aZe
-aYt
+aIN
 aZM
 aPV
 aZe
@@ -186813,7 +186914,7 @@ aAW
 aAO
 aop
 aXO
-aZT
+qTO
 aId
 aIZ
 aPK
@@ -187331,7 +187432,7 @@ qTO
 aXV
 aPe
 aIg
-aQC
+aUV
 aAc
 aop
 aOR
@@ -190157,7 +190258,7 @@ aWL
 aIH
 aHN
 aHN
-aIN
+aYt
 aPa
 auM
 auM
