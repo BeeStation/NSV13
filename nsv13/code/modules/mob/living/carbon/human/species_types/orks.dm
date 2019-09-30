@@ -51,4 +51,18 @@
 		return 0
 	if(rank in GLOB.science_positions) //and no orks in science
 		return 0
+	if(rank in GLOB.engineering_positions)
+		return 0
+	//List of Civ positions not allowed in as they can take some
+	var/list/civpositions = list("Lawyer","Curator","Mime","Chaplain")
+	if(rank in civpositions)
+		return 0
+	//List of Sec positions not allowed in as they can take some
+	var/list/secpositions = list("Master At Arms")
+	if(rank in secpositions)
+		return 0
+	//List of Supply positions not allowed in as they can take some
+	var/list/supplypositions = list("Shaft Miner")
+	if(rank in supplypositions)
+		return 0
 	return 1 //Otherwise you can enjoy being security, engineering, or service.

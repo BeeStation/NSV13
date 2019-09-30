@@ -758,28 +758,7 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 	if(slot in no_equip)
 		if(!I.species_exception || !is_type_in_list(src, I.species_exception))
 			return FALSE
-//NSV13 edit - species based clothing list checks straight from the shitty lavaland dwarves.
-	if(istype(I, /obj/item/clothing))
-		var/obj/item/clothing/C = I
-		if(C.species_clothing_blacklist)
-			for(var/the_id in C.species_clothing_blacklist)
-				if(the_id == id)
-					to_chat(H, "<span class='warning'> [I.name] doesn't fit upon your misshapen body! </span>")
-					return 0
-				else
-					continue
 
-		else if(C.species_clothing_whitelist)
-			var/whitelisted = FALSE
-			for(var/the_id in C.species_clothing_whitelist)
-				if(the_id != id)
-					continue
-				else
-					whitelisted = TRUE
-			if(!whitelisted)
-				to_chat(H, "<span class='warning'> [I.name] doesn't fit upon your misshapen body! </span>")
-				return 0
-//NSV13 edit end
 	var/num_arms = H.get_num_arms(FALSE)
 	var/num_legs = H.get_num_legs(FALSE)
 

@@ -21,10 +21,6 @@
 	var/toggle_cooldown = null
 	var/cooldown = 0
 
-	//NSV13 EDIT - Species clothing checks.
-	var/list/species_clothing_blacklist //If you're in this list, you can't wear it.
-	var/list/species_clothing_whitelist //If you're not in this list, you can't wear it.
-
 	var/clothing_flags = NONE
 
 	//Var modification - PLEASE be careful with this I know who you are and where you live
