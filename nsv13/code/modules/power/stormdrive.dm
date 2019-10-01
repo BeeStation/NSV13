@@ -175,7 +175,7 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 		dat += "<A href='?src=\ref[src];maintenance=1'>AZ-4: Initiate reactor maintenance protocols</font></A><BR>"
 	else
 		dat += "<A href='?src=\ref[src];maintenance=1'>AZ-4: Disengage reactor maintenance protocols</font></A><BR>"
-	dat += "<A href='?src=\ref[src];rods_4=1'>AZ-5: Initiate controlled reactor shutdown (SCRAM)</font></A><BR>" //AZ5 machine broke
+	dat += "<A href='?src=\ref[src];rods_4=1'>AZ-5: Attempt immediate reactor shutdown (SCRAM)</font></A><BR>" //AZ5 machine broke
 	if(reactor.pipe?.on == TRUE)
 		dat += "<A href='?src=\ref[src];pipe=1'>AZ-6: Close release valve</font></A><BR>"
 	if(reactor.pipe?.on == FALSE)
@@ -196,21 +196,21 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 	popup.open()
 
 /obj/structure/reactor_control_computer/Topic(href, href_list)
-	if(!in_range(src, usr))
+	if(!in_range(src, usr) || !reactor)
 		return
 	if(href_list["rods_1"])
-		reactor?.control_rod_state = RODS_RAISED
+		reactor.control_rod_state = RODS_RAISED
 		message_admins("[key_name(usr)] has fully raised reactor control rods in [get_area(usr)] [ADMIN_JMP(usr)]")
-		reactor?.update_icon()
+		reactor.update_icon()
 	if(href_list["rods_2"])
-		reactor?.control_rod_state = RODS_HALFRAISED
-		reactor?.update_icon()
+		reactor.control_rod_state = RODS_HALFRAISED
+		reactor.update_icon()
 	if(href_list["rods_3"])
-		reactor?.control_rod_state = RODS_HALFLOWERED
-		reactor?.update_icon()
+		reactor.control_rod_state = RODS_HALFLOWERED
+		reactor.update_icon()
 	if(href_list["rods_4"])
-		reactor?.control_rod_state = RODS_LOWERED
-		reactor?.update_icon()
+		reactor.control_rod_state = RODS_LOWERED
+		reactor.update_icon()
 	if(href_list["maintenance"])
 		if(reactor.state == REACTOR_STATE_MAINTENANCE)
 			reactor.disengage_maintenance()
@@ -628,6 +628,12 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 	icon = 'nsv13/icons/obj/machinery/reactor_parts.dmi'
 	icon_state = "nuclearwaste"
 	alpha = 150
+	light_color = LIGHT_COLOR_CYAN
+	color = "#ff9eff"
+
+/obj/effect/decal/nuclear_waste/Initialize()
+	. = ..()
+	set_light(3)
 
 /obj/effect/decal/nuclear_waste/epicenter //The one that actually does the irradiating. This is to avoid every bit of sludge PROCESSING
 	name = "Dense nuclear sludge"
@@ -642,10 +648,10 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 /obj/effect/landmark/nuclear_waste_spawner/proc/fire()
 	playsound(loc, 'sound/effects/gib_step.ogg', 100)
 	new /obj/effect/decal/nuclear_waste/epicenter(get_turf(src))
-	for(var/X in orange(range, get_turf(src)))
-		if(istype(X, /turf/open/floor))
-			var/turf/T = X
-			new /obj/effect/decal/nuclear_waste (get_turf(T))
+	for(var/turf/open/floor in orange(range, get_turf(src)))
+		if(prob(35)) //Scatter the sludge, don't smear it everywhere
+			new /obj/effect/decal/nuclear_waste (floor)
+			floor.acid_act(200, 100)
 	qdel(src)
 
 /obj/effect/decal/nuclear_waste/epicenter/Initialize()
