@@ -194,15 +194,15 @@
 	icon_state = "Sleep"
 
 /area/nsv/hanger/deck3/starboard
-	name = "Deck Three Starboard Hanger Bay"
+	name = "Deck 3 Starboard Hanger Bay"
 	icon_state = "hallS"
 
 /area/nsv/hanger/deck2/port
-	name = "Deck Two Port Hanger Bay"
+	name = "Deck 2 Port Hanger Bay"
 	icon_state = "hallP"
 
 /area/nsv/hanger/deck2/starboard
-	name = "Deck Two Starboard Hanger Bay"
+	name = "Deck 2 Starboard Hanger Bay"
 	icon_state = "hallS"
 
 /area/nsv/weapons/port
