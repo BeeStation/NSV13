@@ -22,7 +22,7 @@
 	mind_traits = list(TRAIT_LAW_ENFORCEMENT_METABOLISM)
 
 	display_order = JOB_DISPLAY_ORDER_WARDEN
-	display_rank = "GSGT" //Sephora - Displays the player's actual rank alongside their name, such as GSGT Sergei Koralev
+	display_rank = "GSGT" //nsv13 - Displays the player's actual rank alongside their name, such as GSGT Sergei Koralev
 
 /datum/job/warden/get_access()
 	var/list/L = list()
@@ -35,15 +35,14 @@
 
 	belt = /obj/item/pda/warden
 	ears = /obj/item/radio/headset/headset_sec/alt
-	uniform = /obj/item/clothing/under/ship/peacekeeper
+	uniform = /obj/item/clothing/under/syndicate/tacticool
 	shoes = /obj/item/clothing/shoes/jackboots
-	suit = /obj/item/clothing/suit/ship/peacekeeper/jacket
+	suit = /obj/item/clothing/suit/hazardvest
 	gloves = /obj/item/clothing/gloves/color/black
-	head = /obj/item/clothing/head/warden
+	head = /obj/item/clothing/head/soft
 	glasses = /obj/item/clothing/glasses/hud/security/sunglasses
 	r_pocket = /obj/item/assembly/flash/handheld
 	l_pocket = /obj/item/restraints/handcuffs
-	suit_store = /obj/item/gun/energy/disabler
 	backpack_contents = list(/obj/item/melee/baton/loaded=1)
 
 	backpack = /obj/item/storage/backpack/security

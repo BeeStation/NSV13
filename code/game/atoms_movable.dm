@@ -217,7 +217,7 @@
 	if(!direct)
 		direct = get_dir(src, newloc)
 	setDir(direct)
-	//Sephora start - multi tile object handling
+	//nsv13 start - multi tile object handling
 	if(bound_width != world.icon_size || bound_height != world.icon_size)
 		var/list/newlocs = isturf(newloc) ? block(locate(newloc.x+(-bound_x)/world.icon_size,newloc.y+(-bound_y)/world.icon_size,newloc.z),locate(newloc.x+(-bound_x+bound_width)/world.icon_size-1,newloc.y+(-bound_y+bound_height)/world.icon_size-1,newloc.z)) : list(newloc)
 		if(!newlocs)
@@ -238,7 +238,7 @@
 
 		if(!newloc.Enter(src, src.loc))
 			return
-	//Sephora end
+	//nsv13 end
 	if(!loc.Exit(src, newloc))
 		return
 
