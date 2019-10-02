@@ -182,7 +182,7 @@
 		relay(sound)
 		shake_everyone(5)
 		impact_sound_cooldown = TRUE
-		addtimer(VARSET_CALLBACK(src, impact_sound_cooldown, FALSE), 20)
+		addtimer(VARSET_CALLBACK(src, impact_sound_cooldown, FALSE), 10)
 	update_icon()
 
 /obj/structure/overmap/relaymove(mob/user, direction)
