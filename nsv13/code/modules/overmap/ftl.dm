@@ -27,9 +27,7 @@ GLOBAL_DATUM_INIT(starsystem_controller, /datum/starsystem_controller, new)
 		systems += S
 
 /datum/starsystem_controller/proc/set_timer()
-	addtimer(CALLBACK(src, .proc/spawn_enemies), rand(1 MINUTES, 2 MINUTES)) //Mr Gaeta, start the clock.
-	message_admins("Timer set")
-//	addtimer(CALLBACK(src, .proc/spawn_enemies), rand(10 MINUTES, 15 MINUTES)) //Mr Gaeta, start the clock.
+	addtimer(CALLBACK(src, .proc/spawn_enemies), rand(10 MINUTES, 15 MINUTES)) //Mr Gaeta, start the clock.
 
 /datum/starsystem_controller/proc/spawn_enemies() //A very simple way of having a gameplay loop. Every couple of minutes, the Syndicate appear in a system, the ship has to chase them.
 	var/datum/starsystem/current_system //Dont spawn enemies where theyre currently at
