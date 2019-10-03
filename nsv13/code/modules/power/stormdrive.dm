@@ -160,6 +160,9 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 /obj/structure/reactor_control_computer/attack_robot(mob/user)
 	return attack_hand(user)
 
+/obj/structure/reactor_control_computer/attack_ai(mob/user)
+	return attack_hand(user)
+
 /obj/structure/reactor_control_computer/attack_hand(mob/user)
 	. = ..()
 	if(!reactor)

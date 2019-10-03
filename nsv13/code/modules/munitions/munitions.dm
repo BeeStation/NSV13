@@ -255,6 +255,12 @@
 	if(adjacent && istype(adjacent, /obj/structure/ship_weapon))
 		railgun = adjacent
 
+/obj/structure/ship_weapon_computer/attack_robot(mob/user)
+	return attack_hand(user)
+
+/obj/structure/ship_weapon_computer/attack_ai(mob/user)
+	return attack_hand(user)
+
 /obj/structure/ship_weapon_computer/attack_hand(mob/user)
 	. = ..()
 	if(!railgun)
