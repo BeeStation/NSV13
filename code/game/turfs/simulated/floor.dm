@@ -21,7 +21,7 @@
 	var/floor_tile = null //tile that this floor drops
 	var/list/broken_states
 	var/list/burnt_states
-/*
+/*Nsv13 - Turfs
 This is part of the original proc for visual appearance of plasteel and mineral floors. They operate by having the icon_states named appropriately and then using [icon]damstate to reference changes.
 Merging it up the hierarchy clears out some nondisplaying icons, especially when building on stuff like asteroid tiles. However, many floors have specific named-states for other icon types.
 Recommendation is to merge it into a single sensible system, because this is handlers for like 3 or 4. It's purely visual, so if it breaks you'll see it and it won't crash the game (probably)
