@@ -250,9 +250,6 @@
 		cleanup_field(d)
 	return ..()
 
-/obj/machinery/power/shieldwallgen/should_have_node()
-	return anchored
-
 /obj/machinery/power/shieldwallgen/connect_to_network()
 	if(!anchored)
 		return FALSE
