@@ -157,6 +157,9 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 	if(adjacent && istype(adjacent, /obj/machinery/power/stormdrive_reactor))
 		reactor = adjacent
 
+/obj/structure/reactor_control_computer/attack_robot(mob/user)
+	return attack_hand(user)
+
 /obj/structure/reactor_control_computer/attack_hand(mob/user)
 	. = ..()
 	if(!reactor)
