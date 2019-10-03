@@ -63,7 +63,7 @@ Recommendation is to merge it into a single sensible system, because this is han
 		icon_regular_floor = icon_state
 	if(mapload && prob(33))
 		MakeDirty()
-	if (!icons)
+	if(!islist(icons))
 		icons = list()
 
 /turf/open/floor/ex_act(severity, target)
