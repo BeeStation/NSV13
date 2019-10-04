@@ -45,10 +45,10 @@
 		new item(src)
 
 /obj/structure/overmap/fighter/proc/update_stats() //PLACEHOLDER JANK SYSTEM
-	var/obj/item/twohanded/required/fighter_component/armour_plating.sap = get_part(/obj/item/twohanded/required/fighter_component/armour_plating)
-	var/obj/item/twohanded/required/fighter_component/fuel_tank.sft = get_part(/obj/item/twohanded/required/fighter_component/fuel_tank)
-	var/obj/item/fighter_component/targeting_sensor.sts = get_part(/obj/item/fighter_component/targeting_sensor)
-	var/obj/item/fighter_component/fuel_lines.sfl = get_part(/obj/item/fighter_component/fuel_lines)
+	var/obj/item/twohanded/required/fighter_component/armour_plating/sap = get_part(/obj/item/twohanded/required/fighter_component/armour_plating)
+	var/obj/item/twohanded/required/fighter_component/fuel_tank/sft = get_part(/obj/item/twohanded/required/fighter_component/fuel_tank)
+	var/obj/item/fighter_component/targeting_sensor/sts = get_part(/obj/item/fighter_component/targeting_sensor)
+	var/obj/item/fighter_component/fuel_lines/sfl = get_part(/obj/item/fighter_component/fuel_lines)
 	var/senc = 0
 	var/sens = 0
 	var/sene = 0
