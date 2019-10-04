@@ -3,6 +3,10 @@
 GLOBAL_LIST_INIT(elf_first, world.file2list("strings/names/elf_first.txt"))
 GLOBAL_LIST_INIT(elf_last, world.file2list("strings/names/elf_first.txt"))
 
+//Its hard to say whether they are more intelligent than humanity, or how many have moved up in nanotrasen.
+//Its also hard to say how long they've been around, or how long they actually live.
+//Regardless, they are around, and more than capable of inhuman feats.
+
 /datum/species/elf
 	name = "Elf"
 	id = "elf" //Also called Homo sapiens nobilis
@@ -18,7 +22,7 @@ GLOBAL_LIST_INIT(elf_last, world.file2list("strings/names/elf_first.txt"))
 	burnmod = 1.5 //Lasers hurt worse too.
 	heatmod = 1.5 //They also die in fires easier.
 	speedmod = -0.3 //slightly faster than a human who is at a base of 0
-	coldmod = 1.8 //And space... space definitely hurts them almost twice as bad. Clearly better not in it.
+	coldmod = 1.5 //And space... space definitely hurts them almost twice as bad. Clearly better not in it.
 	punchdamagelow = 1
 	punchdamagehigh = 8//their punches are weaker
 	punchstunthreshold = 8 //Because its the maximum here. They should be able to still critical hit.
@@ -36,6 +40,7 @@ GLOBAL_LIST_INIT(elf_last, world.file2list("strings/names/elf_first.txt"))
 		OFFSET_FACEMASK = list(0,0), 
 		OFFSET_HEAD = list(0,0), 
 		OFFSET_HAIR = list(0,0), 
+		OFFSET_FHAIR = list(0,0),
 		OFFSET_FACE = list(0,0), 
 		OFFSET_BELT = list(0,0), 
 		OFFSET_BACK = list(0,0), 
@@ -56,7 +61,7 @@ GLOBAL_LIST_INIT(elf_last, world.file2list("strings/names/elf_first.txt"))
 
 //Elf rank shit
 /datum/species/elf/qualifies_for_rank(rank, list/features)
-	return TRUE //Elves qualify for everything.
+	return TRUE //Elves qualify for everything, they are very persuasive at best, intolerable at worst.
 
 //Elf species on gain and loss n shiet
 /datum/species/elf/on_species_gain(mob/living/carbon/C, datum/species/old_species, pref_load)

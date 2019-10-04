@@ -1,4 +1,3 @@
 //jumpsuits and such.
 /obj/item/clothing/under
-
-species_restricted = list("Ork","Troll") // Odd mob bodytypes.
+	species_restricted = list("exclude","Ork","Troll") // Odd mob bodytypes.

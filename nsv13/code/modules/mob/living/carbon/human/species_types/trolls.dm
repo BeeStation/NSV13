@@ -1,6 +1,13 @@
 #define istroll(A) (is_species(A, /datum/species/troll))
 
-//Trolls also don't have any naming conventions.
+//Trolls also don't have any naming conventions, forever destined to be a servant race.
+//Downside is they are incapable of upward mobility, completely scary to be around due to size and strength.
+//And you'll more than likely never see anything other than what you are hired with for equipment.
+//They also burn and freeze a lot easier, all of their armors are inferior too.
+
+//Hint: Who is going to listen to a naked troll, or one in service clothes?
+//Security is going to be completely loyal and rigid anyways.
+//You'll also more than likely never see a troll sized eva suit, so no leaving the ship safely.
 
 /datum/species/troll //the largest variant of metahuman.
 	name = "Troll" //The largest variant of orkoid metahuman, lower lifespan, slower, tough, stupid.
@@ -10,19 +17,20 @@
 	inherent_traits = list(TRAIT_STRONG_GRABBER) 
 	default_features = list("mcolor" = "FFF", "wings" = "None")
 	limbs_id = "troll" 
-	use_skintones = 1
+	use_skintones = 1 //Like the ork they can interbreed with humanity.
 	damage_overlay_type = "monkey" //TODO: Make troll damage overlays for the larger bodytype.
 	skinned_type = /obj/item/stack/sheet/animalhide/human
-	liked_food = ALCOHOL | MEAT | DAIRY //Dwarves like alcohol, meat, and dairy products.
-	disliked_food = JUNKFOOD | FRIED //Dwarves hate foods that have no nutrition other than alcohol.
+	liked_food = ALCOHOL | JUNKFOOD | FRIED //Trolls like meat, and junkfood, basically imagine a really slobbish human.
+	disliked_food = VEGETABLES //They aren't a big fan of vegetables.
 	brutemod = 0.9 //Some damage reduction due to being tough
 	burnmod = 1.1 //More Laser damage cause troll.
 	coldmod = 1.3 //Takes more damage from cold.
-	heatmod = 1.5 //More damage from heat, since burning trolls and all.
+	heatmod = 1.7 //More damage from heat, since burning trolls and all.
 	armor = 25 // Very tough skin with muscle behind it.
 	speedmod = 1 // Slow, but has long legs.
 	punchdamagelow = 5 // If a troll is punching you then ouchies
-	punchdamagehigh = 22 //Has to hit harder than a ork, and be comparable to using a object. Still rng
+	punchdamagehigh = 22 //Has to hit harder than a ork, and be comparable to using a object.
+	//Otherwise you'll probably never see a troll opt to punch someone over grab a axe or sword.
 
 	//Pixel X, and Pixel Y.
 	offset_features = list(
@@ -38,10 +46,10 @@
 		OFFSET_HAIR = list(0,3), //3 pixel taller than a human
 		OFFSET_FHAIR = list(0,3), 
 		OFFSET_FACE = list(0,3), 
-		OFFSET_BELT = list(0,0), 
+		OFFSET_BELT = list(0,1), 
 		OFFSET_BACK = list(0,3), 
 		OFFSET_SUIT = list(0,0), 
-		OFFSET_NECK = list(0,0)
+		OFFSET_NECK = list(0,3)
 		)
 
 /mob/living/carbon/human/species/troll //species spawn path
@@ -54,7 +62,7 @@
 		return 0
 	if(rank in GLOB.science_positions) //and no trolls in ANY science job
 		return 0
-	if(rank in GLOB.engineering_positions)
+	if(rank in GLOB.engineering_positions) //Engineering? haha nope.
 		return 0
 	//List of Civ positions not allowed in as they can take some
 	var/list/civpositions = list("Lawyer","Curator","Clown","Mime","Chaplain")
@@ -69,3 +77,32 @@
 	if(rank in supplypositions)
 		return 0
 	return 1 //Otherwise you can enjoy being too stupid to be hired on for nearly everything.
+
+/datum/species/troll/before_equip_job(datum/job/J, mob/living/carbon/human/H, visualsOnly = FALSE)
+	var/current_job = J.title
+	var/datum/outfit/ork/O = new /datum/outfit/troll //Species Job Outfits
+	switch(current_job) //See: nsv13/code/modules/clothing/outfits/troll.dm for the object paths
+
+		if("Assistant") //Basically it runs before job equip, the normal job equip happens after.
+			O = new /datum/outfit/troll/assistant //The normal job outfit is only equipped if possible.
+
+		if("Botanist")
+			O = new /datum/outfit/troll/botany 
+
+		if("Janitor")
+			O = new /datum/outfit/troll/janitor
+
+		if("Bartender")
+			O = new /datum/outfit/troll/bar 
+
+		if("Cook")
+			O = new /datum/outfit/troll/chef
+
+		if("Security Officer")
+			O = new /datum/outfit/troll/security
+
+		if("Cargo Technician")
+			O = new /datum/outfit/troll/cargotech 
+
+	H.equipOutfit(O, visualsOnly)
+	return 0
