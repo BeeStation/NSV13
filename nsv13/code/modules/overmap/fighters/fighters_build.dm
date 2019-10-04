@@ -38,67 +38,6 @@
 #define BS_TARS_MULTI	37
 #define BS_PAINT		38
 
-#define MS_CLOSED 		0
-#define MS_UNSECURE 	1
-#define MS_OPEN	 		2
-
-//Fighter
-
-/obj/structure/overmap/fighter
-	name = "overmap fighter"
-	desc = "A space faring fighter craft."
-	icon = 'icons/obj/janitor.dmi'
-	icon_state = "mop"
-	brakes = TRUE
-	armor = list("melee" = 80, "bullet" = 80, "laser" = 80, "energy" = 50, "bomb" = 50, "bio" = 100, "rad" = 100, "fire" = 100, "acid" = 80)
-	var/maint_state = MS_CLOSED
-	var/piloted = FALSE
-	var/a_eff = 0
-	var/f_eff = 0
-
-/obj/structure/overmap/fighter/prebuilt
-	var/list/components = list(/obj/item/twohanded/required/fighter_component/empennage,
-								/obj/item/twohanded/required/fighter_component/wing,
-								/obj/item/twohanded/required/fighter_component/wing,
-								/obj/item/twohanded/required/fighter_component/landing_gear,
-								/obj/item/twohanded/required/fighter_component/cockpit,
-								/obj/item/twohanded/required/fighter_component/armour_plating,
-								/obj/item/twohanded/required/fighter_component/fuel_tank,
-								/obj/item/fighter_component/avionics,
-								/obj/item/fighter_component/fuel_lines,
-								/obj/item/fighter_component/targeting_sensor,
-								/obj/item/twohanded/required/fighter_component/engine,
-								/obj/item/twohanded/required/fighter_component/engine,
-								/obj/structure/munition/fast,
-								/obj/structure/munition/fast,
-								/obj/item/twohanded/required/fighter_component/primary_cannon)
-
-/obj/structure/overmap/fighter/Initialize()
-	.=..()
-	var/obj/item/twohanded/required/fighter_component/armour_plating.sap = get_part(/obj/item/twohanded/required/fighter_component/armour_plating)
-	var/obj/item/twohanded/required/fighter_component/fuel_tank.sft = get_part(/obj/item/twohanded/required/fighter_component/fuel_tank)
-	var/obj/item/fighter_component/targeting_sensor.sts = get_part(/obj/item/fighter_component/targeting_sensor)
-	var/obj/item/fighter_component/fuel_lines.sfl = get_part(/obj/item/fighter_component/fuel_lines)
-	var/senc = 0
-	var/sens = 0
-	var/sene = 0
-	for(var/obj/item/twohanded/required/fighter_component/engine/sen in contents)
-		senc++
-		sens = sens + sen.speed
-		sene = sene + sen.consumption
-	sens = sens / senc
-	sene = sene / senc
-	f_eff = sene + sfl.fuel_efficiency / 2
-	a_eff = sts.weapon_efficiency
-	max_integrity = 100 * sap.armour
-	create_reagents(sft.capacity)
-
-/obj/structure/overmap/fighter/prebuilt/Initialize()
-	..()
-	name = new_station_name() //temp - replace this with a fighter name list
-	for(var/item in components)
-		new item(src)
-
 //Fighter Build Path - The MaA will kill you if you make them have to go through this
 
 /obj/structure/fighter_component/underconstruction_fighter
@@ -116,83 +55,83 @@
 	. = ..()
 	switch(build_state)
 		if(BS_FUSE)
-			. += "<span class='notice'>0</span>"
+			. += "<span class='notice'>The unadorned husk of a newly constructed fighter fuselage, held together purely by friction and good intentions. Bolting together should fix this.</span>"
 		if(BS_FUSE_BOLT)
-			. += "<span class='notice'>1</span>"
+			. += "<span class='notice'>The unadorned husk of a newly constructed fighter fuselage, bolted but the joints aren't yet sealed together with a welder.</span>"
 		if(BS_FUSE_WELD)
-			. += "<span class='notice'>2</span>"
+			. += "<span class='notice'>The unadorned husk of a newly constructed fighter fuselage, as sturdy and strong as it'll need to be to install the empennage.</span>"
 		if(BS_EMPE)
-			. += "<span class='notice'>3</span>"
+			. += "<span class='notice'>The empennage stands tall and proud, a tail crest made frail by the lack of bolts holding it together.</span>"
 		if(BS_EMPE_BOLT)
-			. += "<span class='notice'>4</span>"
+			. += "<span class='notice'>The empennage stands tall and proud, bolts holding the crest in place for now, welding would make this permament.</span>"
 		if(BS_EMPE_WELD)
-			. += "<span class='notice'>5</span>"
+			. += "<span class='notice'>The empennage stands tall and proud, reinforced and resplendent, only lacking company from its wing-like brethen. </span>"
 		if(BS_WING1)
-			. += "<span class='notice'>6</span>"
+			. += "<span class='notice'>One wing stands alone, brittle in the wind, rivets can secure this lonely metal.</span>"
 		if(BS_WING1_BOLT)
-			. += "<span class='notice'>7</span>"
+			. += "<span class='notice'>One wing stands alone, rivets dot its fragile surface, reinforcement is just a weld away .</span>"
 		if(BS_WING1_WELD)
-			. += "<span class='notice'>8</span>"
+			. += "<span class='notice'>One wing stands alone, as stalwart as it is alone, a comrade it yearns for.</span>"
 		if(BS_WING2)
-			. += "<span class='notice'>9</span>"
+			. += "<span class='notice'>Another wing joins its comrade, eager yet not yet secured by rivets.</span>"
 		if(BS_WING2_BOLT)
-			. += "<span class='notice'>10</span>"
+			. += "<span class='notice'>Another wing joins its comrade, secure yet not yet reinforced by welding.</span>"
 		if(BS_WING2_WELD)
-			. += "<span class='notice'>11</span>"
+			. += "<span class='notice'>Another wing joins its comrade, stable and ready, awaiting landing gear to rest on. </span>"
 		if(BS_LANG)
-			. += "<span class='notice'>12</span>"
+			. += "<span class='notice'>Support rests upon this set of gears, loose and rattling like the bones of those trying to land on it. A few turns of wrench could resolve this. </span>"
 		if(BS_LANG_BOLT)
-			. += "<span class='notice'>13</span>"
+			. += "<span class='notice'>Support rests upon this set of gears, taut, trim, and able to bear the load of armour plating.</span>"
 		if(BS_ARMP)
-			. += "<span class='notice'>14</span>"
+			. += "<span class='notice'>Plating covers the fuselage like a second skin, slithering and sliding around. Each armour scale has a hole for a screw to fit.</span>"
 		if(BS_ARMP_SCREW)
-			. += "<span class='notice'>15</span>"
+			. += "<span class='notice'>Plating covers the fuselage like a second skin, screwed in yet structurally unsound. Welding the scales together would drastically improve the protection added. </span>"
 		if(BS_ARMP_WELD)
-			. += "<span class='notice'>16</span>"
+			. += "<span class='notice'>Plating covers the fuselage like a second skin, scales hardened against weapons inbound. With all main structures assembled, running wires would be prudent.</span>"
 		if(BS_WIRE1)
-			. += "<span class='notice'>17</span>"
+			. += "<span class='notice'>Wires snake and twist around the interior of the fuselage, ends in disarray, untested and uncalibrated.</span>" //here
 		if(BS_WIRE1_MULTI)
-			. += "<span class='notice'>18</span>"
+			. += "<span class='notice'>Wires snake and twist around the interior of the fuselage, neatly arranged, tested and calibrated. Internal components such as a fuel tank, can now be installed.</span>"
 		if(BS_FUET)
-			. += "<span class='notice'>19</span>"
+			. += "<span class='notice'>The fuel tank lies in the centre line of the fuselage, loose and likely to bounce around unless secured with bolts.</span>"
 		if(BS_FUET_BOLT)
-			. += "<span class='notice'>20</span>"
+			. += "<span class='notice'>The fuel tank lies in the centre line of the fuselage, snugly bound with bolts, but leading nowhere.</span>"
 		if(BS_FUEL)
-			. += "<span class='notice'>21</span>"
+			. += "<span class='notice'>Fuel lines spread from the tank like legs from a spider, these should be bolted secure before they scuttle away.</span>"
 		if(BS_FUEL_BOLT)
-			. += "<span class='notice'>22</span>"
+			. += "<span class='notice'>Fuel lines spread from the tank like legs from a spider, lines secured and awaiting engines.</span>"
 		if(BS_ENGI1)
-			. += "<span class='notice'>23</span>"
+			. += "<span class='notice'>The first of the engines rests in its cage, silent for now, but not forever. Weld the cage shut while you can.</span>"
 		if(BS_ENGI1_WELD)
-			. += "<span class='notice'>24</span>"
+			. += "<span class='notice'>The first of the engines rests in its cage, silent for now, but not forever. Sealed in and waiting its twin.</span>"
 		if(BS_ENGI2)
-			. += "<span class='notice'>25</span>"
+			. += "<span class='notice'>The second engine's cage lies next to its twin, waiting to be sealed closed.</span>"
 		if(BS_ENGI2_WELD)
-			. += "<span class='notice'>26</span>"
+			. += "<span class='notice'>The second engine's cage lies next to its twin, sealed and silent. Needing only to be linked to its twin and calibrated.</span>"
 		if(BS_THRU_MULTI)
-			. += "<span class='notice'>27</span>"
+			. += "<span class='notice'>Linked and calbrated, the engines growl in harmony. Assembling the cockpit area is the next step.</span>"
 		if(BS_COCP)
-			. += "<span class='notice'>28</span>"
+			. += "<span class='notice'>A shell of glass and metal, wrapping the pilot, protecting from the void. Precariously assembled until screwed tight.</span>"
 		if(BS_COCP_SCREW)
-			. += "<span class='notice'>29</span>"
+			. += "<span class='notice'>A shell of glass and metal, wrapping the pilot, protecting from the void. Seating and arming the explosive bolts will allow for rapid escape in emergency.</span>"
 		if(BS_COCP_BOLT)
-			. += "<span class='notice'>30</span>"
+			. += "<span class='notice'>A shell of glass and metal, wrapping the pilot, protecting from the void. Assembled but lacking instrumentation and equipment, running wires would be a good start.</span>"
 		if(BS_WIRE2)
-			. += "<span class='notice'>31</span>"
+			. += "<span class='notice'>Wires and flight controls are arranged neat and orderly in the cockpit, just needing an avionics package to plug into</span>"
 		if(BS_AVIO)
-			. += "<span class='notice'>32</span>"
+			. += "<span class='notice'>MFDs, switches and lights ablaze, coalescing in a dizzying information overload. Did you remember to screw them in place? </span>"
 		if(BS_AVIO_SCREW)
-			. += "<span class='notice'>33</span>"
+			. += "<span class='notice'>MFDs, switches and lights ablaze, coalescing in a dizzying information overload. Did you remember to run a full suite of calibrations?</span>"
 		if(BS_AVIO_MULTI)
-			. += "<span class='notice'>34</span>"
+			. += "<span class='notice'>MFDs, switches and lights ablaze, coalescing in a dizzying information overload. Did you remember to install the targeting sensors?</span>"
 		if(BS_TARS)
-			. += "<span class='notice'>35</span>"
+			. += "<span class='notice'>FLIR, DRADIS, TLAs, and other acronyms you can't quite remember. Still, you don't need their names to screw them in place.</span>"
 		if(BS_TARS_SCREW)
-			. += "<span class='notice'>36</span>"
+			. += "<span class='notice'>FLIR, DRADIS, TLAs, and other acronyms you can't quite remember. One final set of calbrations to align them is all that remains.</span>"
 		if(BS_TARS_MULTI)
-			. += "<span class='notice'>37/span>"
+			. += "<span class='notice'>FLIR, DRADIS, TLAs, and other acronyms you can't quite remember. All zeroed in and sharp. Are your painting skills on the same level?</span>"
 		if(BS_PAINT)
-			. += "<span class='notice'>38/span>"
+			. += "<span class='notice'>Base applied, details highlighted, decals paintstakingly traced, perfection achieved. Inevitably to be ruined once a pilot touches it. Should give it a name while you still can.</span>"
 
 /obj/structure/fighter_component/underconstruction_fighter/proc/get_part(type)
 	if(!type)
@@ -935,515 +874,6 @@
 		if(BS_PAINT)
 			icon_state = "sheetblack"
 
-//Fighter Maintenance
-/obj/structure/overmap/fighter/proc/get_part(type)
-	if(!type)
-		return
-	var/atom/movable/desired = locate(type) in contents
-	return desired
-
-/obj/structure/overmap/fighter/wrench_act(mob/user, obj/item/tool) //opening hatch p1
-	. = FALSE
-	if(maint_state == MS_CLOSED && piloted == TRUE)
-		to_chat(user, "<span class='warning'>You cannot start maintenance while a pilot is in [src]!</span>")
-		return TRUE
-	else if(maint_state == MS_CLOSED && piloted == FALSE)
-		to_chat(user, "<span class='notice'>You start unsecuring the maintenance hatch on [src]...</span>")
-		if(tool.use_tool(src, user, 40, volume=100))
-			to_chat(user, "<span class='notice'>You unsecure the maintenance hatch on [src].</span>")
-			maint_state = MS_UNSECURE
-			return TRUE
-	else if(maint_state == MS_UNSECURE)
-		to_chat(user, "<span class='notice'>You start securing the maintenance hatch on [src]...</span>")
-		if(tool.use_tool(src, user, 40, volume=100))
-			to_chat(user, "<span class='notice'>You secure the maintenance hatch on [src].</span>")
-			maint_state = MS_CLOSED
-			return TRUE
-
-/obj/structure/overmap/fighter/crowbar_act(mob/user, obj/item/tool) //opening hatch p2
-	. = FALSE
-	switch(maint_state)
-		if(MS_UNSECURE)
-			to_chat(user, "<span class='notice'>You start pry open the maintenance hatch on [src]...</span>")
-			if(tool.use_tool(src, user, 40, volume=100))
-				to_chat(user, "<span class='notice'>You pry open the maintenance hatch on [src].</span>")
-				maint_state = MS_OPEN
-				return TRUE
-		if(MS_OPEN)
-			to_chat(user, "<span class='notice'>You start replace the maintenance hatch on [src]...</span>")
-			if(tool.use_tool(src, user, 40, volume=100))
-				to_chat(user, "<span class='notice'>You replace the maintenance hatch on [src].</span>")
-				maint_state = MS_UNSECURE
-				return TRUE
-
-/obj/structure/overmap/fighter/MouseDrop_T(obj/structure/A, mob/user)
-	. = ..()
-	if(istype(A, /obj/structure/munition))
-		switch(maint_state)
-			if(!MS_OPEN)
-				to_chat(user, "<span class='notice'>You require [src] to be in maintenance mode to load munitions!.</span>")
-				return
-			if(MS_OPEN)
-				var/tp = 0
-				for(var/obj/structure/munition/mu in contents)
-					tp++
-				if(tp < 2)
-					to_chat(user, "<span class='notice'>You start adding [A] to [src]...</span>")
-					if(!do_after(user, 2 SECONDS, target=src))
-						return
-					to_chat(user, "<span class='notice'>You add [A] to [src].</span>")
-					A.forceMove(src)
-					playsound(src, 'nsv13/sound/effects/ship/mac_load.ogg', 100, 1)  //placeholder
-
-/obj/structure/overmap/fighter/attackby(obj/item/W, mob/user, params)   //fueling and changing equipment
-	add_fingerprint(user)
-	if(maint_state == MS_OPEN)
-		if(istype(W, /obj/item/fighter_component/fuel_lines) && !get_part(/obj/item/fighter_component/fuel_lines))
-			to_chat(user, "<span class='notice'>You start installing [W] in [src]...</span>")
-			if(!do_after(user, 2 SECONDS, target=src))
-				return
-			to_chat(user, "<span class='notice'>You install [W] in [src].</span>")
-			W.forceMove(src)
-		else if(istype(W, /obj/item/twohanded/required/fighter_component/fuel_tank) && !get_part(/obj/item/twohanded/required/fighter_component/fuel_tank))
-			to_chat(user, "<span class='notice'>You start installing [W] in [src]...</span>")
-			if(!do_after(user, 2 SECONDS, target=src))
-				return
-			to_chat(user, "<span class='notice'>You install [W] in [src].</span>")
-			W.forceMove(src)
-		else if(istype(W, /obj/item/fighter_component/targeting_sensor) && !get_part(/obj/item/fighter_component/targeting_sensor))
-			to_chat(user, "<span class='notice'>You start installing [W] in [src]...</span>")
-			if(!do_after(user, 2 SECONDS, target=src))
-				return
-			to_chat(user, "<span class='notice'>You install [W] in [src].</span>")
-			W.forceMove(src)
-		else if(istype(W, /obj/item/twohanded/required/fighter_component/armour_plating) && !get_part(/obj/item/twohanded/required/fighter_component/armour_plating))
-			to_chat(user, "<span class='notice'>You start installing [W] in [src]...</span>")
-			if(!do_after(user, 2 SECONDS, target=src))
-				return
-			to_chat(user, "<span class='notice'>You install [W] in [src].</span>")
-			W.forceMove(src)
-		else if(istype(W, /obj/item/twohanded/required/fighter_component/engine))
-			var/e = 0
-			for(var/obj/item/twohanded/required/fighter_component/engine/en in contents)
-				e++
-			if(e < 2)
-				to_chat(user, "<span class='notice'>You start installing [W] in [src]...</span>")
-				if(!do_after(user, 2 SECONDS, target=src))
-					return
-				to_chat(user, "<span class='notice'>You install [W] in [src].</span>")
-				W.forceMove(src)
-
-/obj/structure/overmap/fighter/attack_hand(mob/user)
-	.=..()
-	if(maint_state == MS_OPEN)
-		user.set_machine(src)
-		var/dat
-		dat += "<h2> Overview: </h2>"
-//hp, fuel etc go here
-		dat += "<p>Structural Integrity:[obj_integrity/max_integrity*(100)]%</p>"
-		dat += "<p>Fuel Capacity:%</p>"
-		dat += "<h2> Payload: </h2>"
-//Guns, ammo and torpedos
-		var/atom/movable/pw = get_part(/obj/item/twohanded/required/fighter_component/primary_cannon)
-		if(pw == null)
-			dat += "<p><b>PRIMARY WEAPON NOT INSTALLED</font></p>"
-		else
-			dat += "<a href='?src=[REF(src)]:primary_weapon=1'>[pw?.name]</a><br>"
-		dat += "<p>Ammo Capacity:</p>"
-		var/t = 0
-		for(var/obj/structure/munition/mu in contents)
-			dat += "<a href='?src=[REF(src)];torpedo=1'>[mu?.name]</a><br>"
-			t++
-		switch(t)
-			if(1)
-				dat += "<p><b>ONE TORPEDO PYLON EMPTY</font></p>"
-			if(0)
-				dat += "<p><b>TWO TORPEDO PYLONS EMPTY</font></p>"
-		dat += "<h2> Components: </h2>"
-		var/atom/movable/ap = get_part(/obj/item/twohanded/required/fighter_component/armour_plating)
-		if(ap == null)
-			dat += "<p><b>ARMOUR PLATING NOT INSTALLED</font></p>"
-		else
-			dat += "<a href='?src=[REF(src)];armour_plating=1'>[ap?.name]</a><br>"
-		var/atom/movable/ft = get_part(/obj/item/twohanded/required/fighter_component/fuel_tank)
-		if(ft == null)
-			dat += "<p><b>FUEL TANK NOT INSTALLED</font></p>"
-		else
-			dat += "<a href='?src=[REF(src)];fuel_tank=1'>[ft?.name]</a><br>"
-		var/atom/movable/fl = get_part(/obj/item/fighter_component/fuel_lines)
-		if(fl == null)
-			dat += "<p><b>FUEL LINES NOT INSTALLED</font></p>"
-		else
-			dat += "<a href='?src=[REF(src)];fuel_lines=1'>[fl?.name]</a><br>"
-		var/atom/movable/ts = get_part(/obj/item/fighter_component/targeting_sensor)
-		if(ts == null)
-			dat += "<p><b>TARGETING SENSOR NOT INSTALLED</font></p>"
-		else
-			dat += "<a href='?src=[REF(src)];targeting_sensor=1'>[ts?.name]</a><br>"
-		var/e = 0
-		for(var/obj/item/twohanded/required/fighter_component/engine/en in contents)
-			dat += "<a href='?src=[REF(src)];engine=1'>[en?.name]</a><br>"
-			e++
-		switch(e)
-			if(1)
-				dat += "<p><b>ONE ENGINE NOT INSTALLED</font></p>"
-			if(0)
-				dat += "<p><b>TWO ENGINES NOT INSTALLED</font></p>"
-		var/datum/browser/popup = new(user, "fighter", name, 400, 600)
-		popup.set_content(dat)
-		popup.open()
-		return TRUE
-	else if(maint_state == !MS_OPEN && piloted == FALSE) //temp behaviour - button will break control of fighter
-		if(alert(user, "Climb into [src]'s cockpit?",, "Yes", "No")!="Yes")
-			return
-		to_chat(user, "<span class='notice'>You begin climbing into [src]'s cockpit...</span>")
-		if(!do_after(user, 5 SECONDS, target=src))
-			return
-		to_chat(user, "<span class='notice'>You climb into [src]'s cockpit.</span>")
-		user.forceMove(src)
-		piloted = TRUE
-		start_piloting(user, "pilot")
-		return TRUE
-	else if(maint_state == !MS_OPEN && piloted == TRUE)  //temp behaviour - rework this
-		if(alert(user, "Climb out of [src]'s cockpit?",, "Yes", "No")!="Yes")
-			return
-		to_chat(user, "<span class='notice'>You begin climbing out of [src]'s cockpit...</span>")
-		if(!do_after(user, 5 SECONDS, target=src))
-			return
-		to_chat(user, "<span class='notice'>You climb out of [src]'s cockpit.</span>")
-		user.forceMove(loc)
-		piloted = FALSE
-		stop_piloting(user)
-
-/obj/structure/overmap/fighter/Topic(href, href_list)
-	if(!in_range(src, usr))
-		return
-	if(!isliving(usr))
-		return
-	var/mob/living/user = usr
-	var/atom/movable/ap = get_part(/obj/item/twohanded/required/fighter_component/armour_plating)
-	var/atom/movable/ft = get_part(/obj/item/twohanded/required/fighter_component/fuel_tank)
-	var/atom/movable/fl = get_part(/obj/item/fighter_component/fuel_lines)
-	var/atom/movable/ts = get_part(/obj/item/fighter_component/targeting_sensor)
-	var/atom/movable/en = get_part(/obj/item/twohanded/required/fighter_component/engine)
-	var/atom/movable/pw = get_part(/obj/item/twohanded/required/fighter_component/primary_cannon)
-	var/atom/movable/tr = get_part(/obj/structure/munition)
-	if(href_list["armour_plating"])
-		if(ap)
-			to_chat(user, "<span class='notice'>You start uninstalling [ap.name] from [src].</span>")
-			if(!do_after(user, 2 SECONDS, target=src))
-				return
-			to_chat(user, "<span class='notice'>You uninstall [ap.name] from [src].</span>")
-			ap?.forceMove(get_turf(src))
-	if(href_list["fuel_tank"])
-		if(ft)
-			to_chat(user, "<span class='notice'>You start uninstalling [ft.name] from [src].</span>")
-			if(!do_after(user, 2 SECONDS, target=src))
-				return
-			to_chat(user, "<span class='notice'>You uninstall [ft.name] from [src].</span>")
-			ft?.forceMove(get_turf(src))
-	if(href_list["fuel_lines"])
-		if(fl)
-			to_chat(user, "<span class='notice'>You start uninstalling [fl.name] from [src].</span>")
-			if(!do_after(user, 2 SECONDS, target=src))
-				return
-			to_chat(user, "<span class='notice'>You uninstall [fl.name] from [src].</span>")
-			fl?.forceMove(get_turf(src))
-	if(href_list["targeting_sensor"])
-		if(ts)
-			to_chat(user, "<span class='notice'>You start uninstalling [ts.name] from [src].</span>")
-			if(!do_after(user, 2 SECONDS, target=src))
-				return
-			to_chat(user, "<span class='notice'>You uninstall [ts.name] from [src].</span>")
-			ts?.forceMove(get_turf(src))
-	if(href_list["engine"])
-		if(en)
-			to_chat(user, "<span class='notice'>You start uninstalling [en.name] from [src].</span>")
-			if(!do_after(user, 2 SECONDS, target=src))
-				return
-			to_chat(user, "<span class='notice'>You uninstall [en.name] from [src].</span>")
-			en?.forceMove(get_turf(src))
-	if(href_list["primary_weapon"])
-		if(pw)
-			to_chat(user, "<span class='notice'>You start uninstalling [pw.name] from [src].</span>")
-			if(!do_after(user, 2 SECONDS, target=src))
-				return
-			to_chat(user, "<span class='notice'>You uninstall [pw.name] from [src].</span>")
-			pw?.forceMove(get_turf(src))
-	if(href_list["torpedo"])
-		if(tr)
-			to_chat(user, "<span class='notice'>You start uninstalling [tr.name] from [src].</span>")
-			if(!do_after(user, 2 SECONDS, target=src))
-				return
-			to_chat(user, "<span class='notice'>You uninstall [tr.name] from [src].</span>")
-			tr?.forceMove(get_turf(src))
-
-//Fighter Components
-
-/obj/structure/fighter_component/fuselage_crate
-	name = "Fighter Fuselage Components"
-	desc = "A crate full of fuselage components for a fighter"
-	icon = 'icons/obj/crates.dmi'
-	icon_state = "radiation"
-	anchored = FALSE
-	density = TRUE
-	climbable = TRUE
-
-/obj/item/twohanded/required/fighter_component/cockpit
-	name = "Fighter Cockpit Components"
-	desc = "A box of cockpit components for a fighter"
-	icon = 'icons/obj/crates.dmi'
-	icon_state = "crate"
-	lefthand_file = ""
-	righthand_file = ""
-	w_class = WEIGHT_CLASS_GIGANTIC
-
-/obj/item/twohanded/required/fighter_component/wing
-	name = "Fighter Wing Components"
-	desc = "A box of wing components for a fighter"
-	icon = 'icons/obj/crates.dmi'
-	icon_state = "medicalcrate"
-	lefthand_file = ""
-	righthand_file = ""
-	w_class = WEIGHT_CLASS_GIGANTIC
-
-/obj/item/twohanded/required/fighter_component/empennage
-	name = "Fighter Empennage Componets"
-	desc = "A box of empennage components for a fighter"
-	icon = 'icons/obj/crates.dmi'
-	icon_state = "engi_e_crate"
-	lefthand_file = ""
-	righthand_file = ""
-	w_class = WEIGHT_CLASS_GIGANTIC
-
-/obj/item/twohanded/required/fighter_component/landing_gear
-	name = "Fighter Landing Gear Componets"
-	desc = "A box of landing gear components for a fighter"
-	icon = 'icons/obj/crates.dmi'
-	icon_state = "engi_crate"
-	lefthand_file = ""
-	righthand_file = ""
-	w_class = WEIGHT_CLASS_GIGANTIC
-
-/obj/item/twohanded/required/fighter_component/armour_plating
-	name = "Fighter Armour Plating"
-	desc = "Armour plating for a fighter"
-	icon = 'icons/obj/crates.dmi'
-	icon_state = "engi_secure_crate"
-	lefthand_file = ""
-	righthand_file = ""
-	w_class = WEIGHT_CLASS_GIGANTIC
-	var/armour = 1.25 //HP Modifier
-
-/obj/item/twohanded/required/fighter_component/armour_plating/improved
-	name = "Fighter Improved Armour Plating"
-	desc = "Improved armour plating for a fighter"
-	armour = 1.5
-
-/obj/item/twohanded/required/fighter_component/fuel_tank
-	name = "Fighter Fuel Tank"
-	desc = "The fuel tank of a fighter"
-	icon = 'icons/obj/crates.dmi'
-	icon_state = "secgearcrate"
-	lefthand_file = ""
-	righthand_file = ""
-	w_class = WEIGHT_CLASS_GIGANTIC
-	var/capacity = 1000 //Fuel Capacity
-
-/obj/item/twohanded/required/fighter_component/fuel_tank/extended
-	name = "Fighter Extended Fuel Tank"
-	desc = "The extended fuel tank of a fighter"
-	capacity = 1500
-
-/obj/item/fighter_component/avionics
-	name = "Fighter Avionics"
-	desc = "Avionics for a fighter"
-	icon = 'icons/obj/crates.dmi'
-	icon_state = "freezer"
-	w_class = WEIGHT_CLASS_NORMAL
-
-/obj/item/fighter_component/targeting_sensor
-	name = "Fighter Targeting Sensors"
-	desc = "Targeting sensors for a fighter"
-	icon = 'icons/obj/crates.dmi'
-	icon_state = "weaponcrate"
-	w_class = WEIGHT_CLASS_NORMAL
-	var/weapon_efficiency = 1 //Primary ammo usage modifier
-
-/obj/item/fighter_component/targeting_sensor/enhanced
-	name = "Fighter Enhanced Targeting Sensors"
-	desc = "Enhanced targeting sensors for a fighter"
-	weapon_efficiency = 0.8
-
-/obj/item/fighter_component/fuel_lines
-	name = "Fighter Fuel Lines Kit"
-	desc = "Fuel line kit for routing fuel around a fighter"
-	icon = 'icons/obj/crates.dmi'
-	icon_state = "plasmacrate"
-	w_class = WEIGHT_CLASS_BULKY
-	var/fuel_efficiency = 1 //Fuel usage modifier
-
-/obj/item/fighter_component/fuel_lines/streamlined
-	name = "Fighter Streamlined Fuel Lines Kit"
-	desc = "Streamlined fuel line kit for routing fuel around a fighter"
-	fuel_efficiency = 0.8
-
-/obj/item/twohanded/required/fighter_component/engine
-	name = "Fighter Engine"
-	desc = "An engine assembly for a fighter"
-	icon = 'icons/obj/crates.dmi'
-	icon_state = "hydrocrate"
-	lefthand_file = ""
-	righthand_file = ""
-	w_class = WEIGHT_CLASS_GIGANTIC
-	var/speed = 1 //Speed modifier
-	var/consumption = 1 //How fast we burn fuel
-
-/obj/item/twohanded/required/fighter_component/engine/overclocked
-	name = "Fighter Overclocked Engine"
-	desc = "An overclocked engine assembly for a fighter"
-	speed = 1.2
-	consumption = 1.2
-
-/obj/item/twohanded/required/fighter_component/primary_cannon
-	name = "Fighter Cannon"
-	desc = "Fighter Cannon"
-	icon = 'icons/obj/crates.dmi'
-	icon_state = "o2crate"
-	lefthand_file = ""
-	righthand_file = ""
-	w_class = WEIGHT_CLASS_GIGANTIC
-
-//Component Fabrication
-/datum/techweb_node/fighter_component_fabrication
-	id = "fighter_component_fabrication"
-	display_name = "Fighter Component Fabrication"
-	description = "The components required for the fabrication of new fighter craft."
-	prereq_ids = list("explosive_weapons")
-	design_ids = list("fighter_primary_cannon_components", "fighter_engine_components", "fighter_fuel_lines_package", "fighter_targeting_sensor_package", "fighter_avionics_package", "fighter_fuel_tank", "fighter_armour_plating", "fighter_landing_gear_components", "fighter_landing_gear_components", "fighter_empennage_components", "fighter_cockpit_wing", "fighter_cockpit_components", "fighter_fuselage_crate")
-	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 10000)
-	export_price = 5000
-
-/datum/design/fighter_fuselage_crate
-	name = "Fighter Fuselage Crate"
-	desc = "A crate full of fuselage components for a fighter"
-	id = "fighter_fuselage_crate"
-	build_type = PROTOLATHE
-	materials = list(/datum/material/iron = 25000, /datum/material/silver = 5000)
-	build_path = /obj/structure/fighter_component/fuselage_crate
-	category = list("Ship Components")
-	departmental_flags = DEPARTMENTAL_FLAG_CARGO
-
-/datum/design/fighter_cockpit_components
-	name = "Fighter Cockpit Components"
-	desc = "A box full of cockpit components for a fighter"
-	id = "fighter_cockpit_components"
-	build_type = PROTOLATHE
-	materials = list(/datum/material/iron = 10000, /datum/material/glass = 10000)
-	build_path = /obj/item/twohanded/required/fighter_component/cockpit
-	category = list("Ship Components")
-	departmental_flags = DEPARTMENTAL_FLAG_CARGO
-
-/datum/design/fighter_wing_components
-	name = "Fighter Wing Components"
-	desc = "A box full of wing components for a fighter"
-	id = "fighter_cockpit_wing"
-	build_type = PROTOLATHE
-	materials = list(/datum/material/iron = 15000)
-	build_path = /obj/item/twohanded/required/fighter_component/wing
-	category = list("Ship Components")
-	departmental_flags = DEPARTMENTAL_FLAG_CARGO
-
-/datum/design/fighter_empennage_components
-	name = "Fighter Empennage Components"
-	desc = "A box full of empennage components for a fighter"
-	id = "fighter_empennage_components"
-	build_type = PROTOLATHE
-	materials = list(/datum/material/iron = 15000)
-	build_path = /obj/item/twohanded/required/fighter_component/empennage
-	category = list("Ship Components")
-	departmental_flags = DEPARTMENTAL_FLAG_CARGO
-
-/datum/design/fighter_landing_gear_components
-	name = "Fighter Landing Gear Components"
-	desc = "A box full of landing gear components for a fighter"
-	id = "fighter_landing_gear_components"
-	build_type = PROTOLATHE
-	materials = list(/datum/material/iron = 15000)
-	build_path = /obj/item/twohanded/required/fighter_component/landing_gear
-	category = list("Ship Components")
-	departmental_flags = DEPARTMENTAL_FLAG_CARGO
-
-/datum/design/fighter_armour_plating
-	name = "Fighter Armour Plating"
-	desc = "Armour plating for a fighter"
-	id = "fighter_armour_plating"
-	build_type = PROTOLATHE
-	materials = list(/datum/material/iron = 20000, /datum/material/silver = 5000)
-	build_path = /obj/item/twohanded/required/fighter_component/armour_plating
-	category = list("Ship Components")
-	departmental_flags = DEPARTMENTAL_FLAG_CARGO
-
-/datum/design/fighter_fuel_tank
-	name = "Fighter Fuel Tank"
-	desc = "A fuel tank for a fighter"
-	id = "fighter_fuel_tank"
-	build_type = PROTOLATHE
-	materials = list(/datum/material/iron = 15000)
-	build_path = /obj/item/twohanded/required/fighter_component/fuel_tank
-	category = list("Ship Components")
-	departmental_flags = DEPARTMENTAL_FLAG_CARGO
-
-/datum/design/fighter_avionics_package
-	name = "Fighter Avionics Package"
-	desc = "An avionics package for a fighter"
-	id = "fighter_avionics_package"
-	build_type = PROTOLATHE
-	materials = list(/datum/material/iron = 5000, /datum/material/glass = 5000, /datum/material/gold = 1000)
-	build_path = /obj/item/fighter_component/avionics
-	category = list("Ship Components")
-	departmental_flags = DEPARTMENTAL_FLAG_CARGO
-
-/datum/design/fighter_targeting_sensor_package
-	name = "Fighter Targeting Sensor Package"
-	desc = "A targeting sensor package for a fighter"
-	id = "fighter_targeting_sensor_package"
-	build_type = PROTOLATHE
-	materials = list(/datum/material/iron = 5000, /datum/material/glass = 5000, /datum/material/gold = 1000)
-	build_path = /obj/item/fighter_component/targeting_sensor
-	category = list("Ship Components")
-	departmental_flags = DEPARTMENTAL_FLAG_CARGO
-
-/datum/design/fighter_fuel_lines_package
-	name = "Fighter Fuel Lines Package"
-	desc = "A fuel lines package for a fighter"
-	id = "fighter_fuel_lines_package"
-	build_type = PROTOLATHE
-	materials = list(/datum/material/iron = 5000)
-	build_path = /obj/item/fighter_component/fuel_lines
-	category = list("Ship Components")
-	departmental_flags = DEPARTMENTAL_FLAG_CARGO
-
-/datum/design/fighter_engine_components
-	name = "Fighter Engine Components"
-	desc = "A box of engine components for a fighter"
-	id = "fighter_engine_components"
-	build_type = PROTOLATHE
-	materials = list(/datum/material/iron = 15000)
-	build_path = /obj/item/twohanded/required/fighter_component/engine
-	category = list("Ship Components")
-	departmental_flags = DEPARTMENTAL_FLAG_CARGO
-
-/datum/design/fighter_primary_cannon_components
-	name = "Fighter Cannon Components"
-	desc = "A box of cannon components for a fighter"
-	id = "fighter_primary_cannon_components"
-	build_type = PROTOLATHE
-	materials = list(/datum/material/iron = 5000, /datum/material/silver = 5000, /datum/material/glass = 2000)
-	build_path = /obj/item/twohanded/required/fighter_component/primary_cannon
-	category = list("Ship Components")
-	departmental_flags = DEPARTMENTAL_FLAG_CARGO
-
 #undef BS_FUSE
 #undef BS_FUSE_BOLT
 #undef BS_FUSE_WELD
@@ -1483,7 +913,3 @@
 #undef BS_TARS_SCREW
 #undef BS_TARS_MULTI
 #undef BS_PAINT
-
-#undef MS_CLOSED
-#undef MS_UNSECURE
-#undef MS_OPEN

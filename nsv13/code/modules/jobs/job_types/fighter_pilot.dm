@@ -11,8 +11,8 @@
 
 	outfit = /datum/outfit/job/fighter_pilot
 
-	access = list(ACCESS_SECURITY, ACCESS_SEC_DOORS, ACCESS_MECH_SECURITY, ACCESS_MAINT_TUNNELS, ACCESS_WEAPONS, ACCESS_ARMORY) //temp
-	minimal_access = list(ACCESS_SECURITY, ACCESS_SEC_DOORS, ACCESS_MECH_SECURITY, ACCESS_WEAPONS, ACCESS_ARMORY) //temp
+	access = list(ACCESS_SECURITY, ACCESS_SEC_DOORS, ACCESS_MECH_SECURITY, ACCESS_MAINT_TUNNELS, ACCESS_WEAPONS, ACCESS_MUNITIONS) //temp
+	minimal_access = list(ACCESS_SECURITY, ACCESS_SEC_DOORS, ACCESS_MECH_SECURITY, ACCESS_WEAPONS, ACCESS_MUNITIONS) //temp
 	paycheck = PAYCHECK_MEDIUM
 	paycheck_department = ACCOUNT_CAR
 
@@ -31,7 +31,6 @@
 	shoes = /obj/item/clothing/shoes/jackboots
 	gloves = /obj/item/clothing/gloves/color/black //placeholder
 	head = /obj/item/clothing/head/HoS/beret //placeholder
-	//l_pocket = <KEYS GO HERE>
 
 /datum/outfit/job/fighter_pilot_flight_ready
 	name = "Fighter Pilot - Flight Ready"
@@ -45,5 +44,4 @@
 	gloves = /obj/item/clothing/gloves/color/black //placeholder
 	head = /obj/item/clothing/head/helmet/space //placeholder
 	mask = /obj/item/clothing/mask/breath //placeholder
-	//l_pocket = <KEYS GO HERE>
 	r_pocket = /obj/item/tank/internals/emergency_oxygen
