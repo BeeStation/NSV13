@@ -259,7 +259,7 @@
 		popup.set_content(dat)
 		popup.open()
 		return TRUE
-	else if(maint_state == !MS_OPEN && piloted == FALSE) //temp behaviour - button will break control of fighter
+	else if(maint_state != MS_OPEN && !pilot) //temp behaviour - button will break control of fighter
 		if(alert(user, "Climb into [src]'s cockpit?",, "Yes", "No")!="Yes")
 			return
 		to_chat(user, "<span class='notice'>You begin climbing into [src]'s cockpit...</span>")
