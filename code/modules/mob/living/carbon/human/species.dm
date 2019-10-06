@@ -666,6 +666,8 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 					S = GLOB.moth_wings_list[H.dna.features["moth_wings"]]
 				if("caps")
 					S = GLOB.caps_list[H.dna.features["caps"]]
+				if("teeth") //NSV13 EDIT START - Teeth: Honestly, who knows where this may go later.
+					S = GLOB.teeth_list[H.dna.features["teeth"]] //NSV13 EDIT END
 			if(!S || S.icon_state == "none")
 				continue
 

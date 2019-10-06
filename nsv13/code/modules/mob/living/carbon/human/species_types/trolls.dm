@@ -15,7 +15,8 @@
 	default_color = "FFFFFF"
 	species_traits = list(EYECOLOR,HAIR,FACEHAIR,NO_UNDERWEAR)
 	inherent_traits = list(TRAIT_STRONG_GRABBER) 
-	default_features = list("mcolor" = "FFF", "wings" = "None")
+	mutant_bodyparts = list("teeth")
+	default_features = list("mcolor" = "FFF", "wings" = "None", "teeth" = "Troll")
 	limbs_id = "troll" 
 	use_skintones = 1 //Like the ork they can interbreed with humanity.
 	damage_overlay_type = "monkey" //TODO: Make troll damage overlays for the larger bodytype.
@@ -30,6 +31,7 @@
 	speedmod = 1 // Slow, but has long legs.
 	punchdamagelow = 5 // If a troll is punching you then ouchies
 	punchdamagehigh = 22 //Has to hit harder than a ork, and be comparable to using a object.
+	attack_sound = 'nsv13/sound/effects/strongerpunch.ogg' //A sound effect that lets you know things break.
 	//Otherwise you'll probably never see a troll opt to punch someone over grab a axe or sword.
 
 	//Pixel X, and Pixel Y.
@@ -54,6 +56,14 @@
 
 /mob/living/carbon/human/species/troll //species spawn path
 	race = /datum/species/troll //and the race the path is set to.
+
+/datum/species/troll/on_species_gain(mob/living/carbon/C, datum/species/old_species)
+	. = ..()
+	if(ishuman(C))
+		var/mob/living/carbon/human/H = C
+		if(!H.dna.features["teeth"])
+			H.dna.features["teeth"] = "Troll"
+			handle_mutant_bodyparts(H)
 
 /datum/species/troll/qualifies_for_rank(rank, list/features) //Based on intelligence mostly.
 	if(rank in GLOB.command_positions) //no trolls in ANY command job
@@ -106,3 +116,9 @@
 
 	H.equipOutfit(O, visualsOnly)
 	return 0
+
+/datum/sprite_accessory/teeth/troll
+	name = "Troll"
+	icon = 'nsv13/icons/mob/mutantbodyparts.dmi'
+	icon_state = "troll"
+	color_src = 0 //we handle this on mobicon. basically sets recoloring to false.

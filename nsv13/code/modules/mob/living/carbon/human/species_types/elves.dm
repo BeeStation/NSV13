@@ -8,9 +8,8 @@ GLOBAL_LIST_INIT(elf_last, world.file2list("strings/names/elf_first.txt"))
 Elves arrive with the other close members of humanity.
 Some say they have been around a long time, somewhere, some place.
 Regardless, they are frail, capable of literally burning to death in 5 seconds or so.
-They also feed off the emotions of everyone around them.
-A cruel joke only elves are innately aware of.
-Emotions bring their agility closer to the realms of pure fantasy.
+They also can feed off the emotions of everyone around them.
+Gaining faster reflexes if they maintain high mood levels.
 They also enjoy the taste of human flesh, some say they are a ancestor to the present-day vampire.
 Nanotrasen mysteriously holds them in high regards though, as they have no limit to their upward mobility.
 */
@@ -28,7 +27,7 @@ Nanotrasen mysteriously holds them in high regards though, as they have no limit
 	limbs_id = "human"
 	liked_food = GROSS | RAW //Elves have a good time eating human organs.
 	disliked_food = JUNKFOOD | FRIED //Mostly because they enjoy the taste of suffering.
-	brutemod = 1.6 //They take greatly more damage than any other metahuman, graceful not durable.
+	brutemod = 1.6 //They take greatly more damage, graceful not durable.
 	burnmod = 1.5 //Lasers hurt worse too.
 	heatmod = 1.5 //They also die in fires easier.
 	speedmod = -0.3 //slightly faster than a human who is at a base of 0
@@ -73,12 +72,13 @@ Nanotrasen mysteriously holds them in high regards though, as they have no limit
 /datum/species/elf/qualifies_for_rank(rank, list/features)
 	return TRUE //Elves qualify for everything, they are very persuasive at best, intolerable at worst.
 
+//Handles Mood bullet time dodging, considering a elf might go into crit from one or two ballistic this is ok?
 /datum/species/elf/bullet_act(obj/item/projectile/P, mob/living/carbon/human/H)
 	var/datum/component/mood/mood = H.GetComponent(/datum/component/mood)
 	if(mood && mood.sanity >= SANITY_GREAT) //If their mood has been maintained...
 		if(prob(50)) //They have a probability to dodge bullets with sheer speed.
 			H.visible_message("<span class='danger'>[H] twists at a speed defying reality avoiding [P]!</span>")
-			playsound(H.loc, 'sound/weapons/fwoosh.ogg', 75, 1) //Still going to nearly kill them if not tho
+			playsound(H.loc, 'nsv13/sound/effects/realitywhoosh.ogg', 75, 1) //Still going to nearly kill them if not tho
 			return BULLET_ACT_FORCE_PIERCE //The bullet should pass on by.
 	return ..()
 
@@ -101,6 +101,8 @@ Nanotrasen mysteriously holds them in high regards though, as they have no limit
 	C.real_name = new_name
 	C.name = new_name
 
+	C.faction |= "Elf" //A faction of Elf.
+
 
 /datum/species/elf/on_species_loss(mob/living/carbon/H, datum/species/new_species, pref_load)
 	var/obj/item/organ/ears/elf/ears = H.getorgan(/obj/item/organ/ears/elf)
@@ -120,15 +122,16 @@ Nanotrasen mysteriously holds them in high regards though, as they have no limit
 	name = "Elf"
 	icon_state = "elf"
 	color_src = MUTCOLORS //Their color is handled thru mutantcolor, which is currently fixed.
+	icon = 'nsv13/icons/mob/mutantbodyparts.dmi'
 
 //gay elf ears
 /obj/item/organ/ears/elf
 	name = "elf ears" // They only come in one color ok?
 	desc = "The torn ears off a elf metahuman variant."
-	icon = 'nsv13/icons/obj/clothing/hats.dmi' //obj icon when removed, made in 5 mins.
-	icon_state = "elf" //and their state
+	icon = 'nsv13/icons/obj/surgery.dmi' //obj icon when removed, made in 5 mins.
+	icon_state = "elf" //and their state, handled classic style aka it uses statename to assess handling.
 	damage_multiplier = 2 // And they take more hearing damage?
-	var/obj/effect/proc_holder/spell/targeted/drainmood/drainmood
+	var/obj/effect/proc_holder/spell/targeted/drainmood/drainmood //Technically putting ears on grants you this.
 
 /obj/item/organ/ears/elf/Insert(mob/living/carbon/human/H, special = 0, drop_if_replaced = TRUE)
 	..()
@@ -136,7 +139,7 @@ Nanotrasen mysteriously holds them in high regards though, as they have no limit
 		H.dna.species.mutant_bodyparts |= "ears"
 		H.dna.features["ears"] = "Elf" //Funny how the dna setting part is here huh.
 		H.update_body()
-	var/obj/effect/proc_holder/spell/targeted/drainmood/DM = new //DM's effects on ur mood realized
+	var/obj/effect/proc_holder/spell/targeted/drainmood/DM = new //My DM coding effects on ur mood realized
 	H.AddSpell(DM)
 	drainmood = DM
 
@@ -151,24 +154,24 @@ Nanotrasen mysteriously holds them in high regards though, as they have no limit
 
 /obj/effect/proc_holder/spell/targeted/drainmood //You could say they are emotional vampires.
 	name = "Drain Mood"
-	desc = "The magical ability to drain any good moods around you."
+	desc = "The magical ability to drain any moods around you."
 
 	school = "evocation" //THE POWERFUL SCHOOL OF EVOCATION
 	charge_max = 300 //The CD in deciseconds, so should be 30.
 	clothes_req = FALSE //No wizard clothes required, only pointy ass ears
 	invocation_emote_self = "<span class='notice'>You drain the emotions from everyone around you.</span>"//Self text
-	invocation_type = "emote" //We say its a emote
+	invocation_type = "emote" //We say its a emote, alas theres no way to get user in this holder.
 	max_targets = 0 //Everyone 2 turfs in our range is now in a bad mood. 0 = unlimited targets
 	range = 2 //Grand range of two
-	action_icon = 'icons/mob/actions/actions_cult.dmi' //TODO: Set these
-	action_icon_state = "sintouch" //TODO: Set these
-	action_background_icon_state = "bg_demon" //TODO: Set these
+	action_icon = 'nsv13/icons/mob/actions/actionbuttonicons.dmi' //Custom icon
+	action_icon_state = "drainmood" //I CAST DRAIN MOOD
+	action_background_icon_state = "bg_demon" //simply demonic
 
 
 /obj/effect/proc_holder/spell/targeted/drainmood/cast(list/targets, mob/living/user = usr)
 	for(var/mob/living/carbon/human/H in targets)
 		if(!H.mind)
-			continue
+			continue //This only fires if you actually effect people anyways.
 		SEND_SIGNAL(H, COMSIG_ADD_MOOD_EVENT, "drainmoodreceiver", /datum/mood_event/drainmoodreceiver)
 		SEND_SIGNAL(usr, COMSIG_ADD_MOOD_EVENT, "drainmoodtaker", /datum/mood_event/drainmoodtaker)
 
@@ -180,9 +183,9 @@ Nanotrasen mysteriously holds them in high regards though, as they have no limit
 /datum/mood_event/drainmoodreceiver
 	description = "<span class='warning'>Why do I suddenly feel so bad?</span>\n"
 	mood_change = -5 //Only the elf is in on the joke.
-	timeout = 6 MINUTES
+	timeout = 6 MINUTES //The crew shouldn't like this one too much.
 
 /datum/mood_event/drainmoodtaker
 	description = "<span class='nicegreen'>Draining their emotions makes me feel REAL fuckin' amazing.</span>\n"
-	mood_change = 5
-	timeout = 1 MINUTES //Lasts vastly less, due to them gaining a probability to dodge projectiles.
+	mood_change = 5 //Lasts vastly less, due to them gaining a probability to dodge projectiles.
+	timeout = 1 MINUTES //In combination with other moodboosts that is.

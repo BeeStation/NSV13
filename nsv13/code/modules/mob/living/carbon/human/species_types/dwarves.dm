@@ -95,7 +95,7 @@ Thus embarks the doomed race of dwarven gland engineers into space.
 /datum/species/dwarf/random_name(gender,unique,lastname)
 	return dwarf_name() //hello, ill return the value from dwarf_name proc to you when called.
 
-//This mostly exists because my dwarf's liver died while trying to also not die due to no alcohol.
+//This mostly exists because my testdwarf's liver died while trying to also not die due to no alcohol.
 /obj/item/organ/liver/dwarf
 	name = "dwarf liver"
 	icon_state = "liver"
@@ -103,15 +103,17 @@ Thus embarks the doomed race of dwarven gland engineers into space.
 	alcohol_tolerance = 0 //dwarves really shouldn't be dying to alcohol.
 	toxTolerance = 5 //Shrugs off 5 units of toxins damage.
 	maxHealth = 150 //More health than the average liver, as you aren't going to be replacing this.
+	//If it does need replaced with a standard human liver, prepare for hell.
 
 /obj/item/organ/dwarfgland //alcohol gland
 	name = "dwarf alcohol gland"
 	icon_state = "plasma" //Yes this is a actual icon in icons/obj/surgery.dmi
+	desc = "A genetically engineered gland which is hopefully a step forward for humanity."
 	w_class = WEIGHT_CLASS_NORMAL
-	var/stored_alcohol = 250 //They come with 250 units, that ticks down and eventaully bad effects occur
-	var/max_alcohol = 500 //Max they can attain
+	var/stored_alcohol = 250 //They start with 250 units, that ticks down and eventaully bad effects occur
+	var/max_alcohol = 500 //Max they can attain, easier than you think to OD on alcohol.
 	var/heal_rate = 0.5 //The rate they heal damages over 400 alcohol stored
-	var/alcohol_rate = 10 //Its times 0.025 making it tick down at .25
+	var/alcohol_rate = 10 //Its times 0.025 making it tick down by .25
 
 /obj/item/organ/dwarfgland/prepare_eat()
 	var/obj/S = ..()
@@ -168,7 +170,7 @@ Thus embarks the doomed race of dwarven gland engineers into space.
 		owner.adjustFireLoss(-heal_amt) //Unless they drink casually all the time.
 		owner.adjustOxyLoss(-heal_amt)
 		owner.adjustCloneLoss(-heal_amt)
-		owner.adjustBrainLoss(-heal_amt) //Mostly because my dwarf was becoming retarded.
+		owner.adjustBrainLoss(-heal_amt) //Mostly because my dwarf was becoming retarded from alcohol.
 	if(prob(5))
 		switch(stored_alcohol)
 			if(0 to 24)

@@ -1,20 +1,15 @@
 #define isork(A) (is_species(A, /datum/species/ork))
 
-//They follow standard naming conventions, usually either a streetname or a chinese name tho.
-//Not really any notable history, they've never formed a modern nation or major movement.
-//Due to being newer to the scene, along with short lived, and slightly lower intelligence.
-//Their major downside is a notable lack of upward mobility and equipment thats shoddy at best.
-
-//Still more options than a troll though.
-//More than likely they might see a ork sized eva suit, but probably not.
 
 /datum/species/ork //Not to be confused with the warhammer 40k ork, this is a shadowrun ork.
-	name = "Ork" //A close relative to the human, hes just a bit stronger. With a vastly shorter lifespan.
-	id = "ork" //Also called Homo sapiens robustus. Known to be less intelligent.
+	name = "Ork" 
+	id = "ork" //Also called Homo sapiens robustus.
 	default_color = "FFFFFF" //Capable of interbreeding, can be any skintone or race.
+	fixed_mut_color = "fcccb3" //TODO: ORK TEETH
 	species_traits = list(EYECOLOR,HAIR,FACEHAIR,NO_UNDERWEAR)
-	inherent_traits = list(TRAIT_STRONG_GRABBER) //Not resistant to the environment like dorves.
-	default_features = list("mcolor" = "FFF", "wings" = "None") //Nothing special about these guys.
+	inherent_traits = list(TRAIT_STRONG_GRABBER)
+	mutant_bodyparts = list("teeth") //You know, these will probably be a organ one day.
+	default_features = list("mcolor" = "FFF", "wings" = "None", "teeth" = "Ork") //teef
 	limbs_id = "ork"
 	use_skintones = 1 //Standard skintones.
 	skinned_type = /obj/item/stack/sheet/animalhide/human
@@ -49,6 +44,15 @@
 
 /mob/living/carbon/human/species/ork //species spawn path
 	race = /datum/species/ork //and the race the path is set to.
+
+/datum/species/ork/on_species_gain(mob/living/carbon/C, datum/species/old_species)
+	. = ..()
+	if(ishuman(C))
+		var/mob/living/carbon/human/H = C
+		if(!H.dna.features["teeth"])
+			H.dna.features["teeth"] = "Ork"
+			handle_mutant_bodyparts(H)
+
 
 /datum/species/ork/qualifies_for_rank(rank, list/features)
 	if(rank in GLOB.command_positions) //no orks in command.
@@ -110,3 +114,14 @@
 
 	H.equipOutfit(O, visualsOnly)
 	return 0
+
+/datum/sprite_accessory/teeth/ork
+	name = "Ork" //Name for species features
+	icon = 'nsv13/icons/mob/mutantbodyparts.dmi' //mob icon path
+	icon_state = "ork" //and their state, handled classic style aka it uses statename to assess handling.
+	color_src = 0 //we handle this on mobicon. basically sets recoloring to false.
+
+
+/datum/species/ork/spec_unarmedattacked(mob/living/carbon/human/user, mob/living/carbon/human/target)
+	..()
+	
