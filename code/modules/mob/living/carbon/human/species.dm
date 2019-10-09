@@ -497,9 +497,9 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 				eye_overlay = mutable_appearance('icons/mob/human_face.dmi', E.eye_icon_state, -BODY_LAYER)
 			if((EYECOLOR in species_traits) && E)
 				eye_overlay.color = "#" + H.eye_color
-			if(OFFSET_EYES in H.dna.species.offset_features) 
+			if(OFFSET_EYES in H.dna.species.offset_features) //NSV13 EDIT START - Offset face to offset eyes
 				eye_overlay.pixel_x += H.dna.species.offset_features[OFFSET_EYES][1]
-				eye_overlay.pixel_y += H.dna.species.offset_features[OFFSET_EYES][2]
+				eye_overlay.pixel_y += H.dna.species.offset_features[OFFSET_EYES][2] //NSV13 EDIT END - Offset face to offset eyes
 			standing += eye_overlay
 
 	//Underwear, Undershirts & Socks
