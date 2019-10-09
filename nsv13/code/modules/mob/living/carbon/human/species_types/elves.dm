@@ -155,7 +155,7 @@ Thanks to extreme nepotism, and manipulation; they have no limit to their upward
 		message = replacetext(message," troll ", " trog ")
 		message = replacetext(message," dwarf ", " squat ")
 		message = replacetext(message," lizard ", " lower-lifeform ")
-		message = replacetext(message," plasmaman ", " flaming retard ")
+		message = replacetext(message," plasmaman ", " flaming buffoon")
 
 		if(prob(2))
 			message += pick("Gaze upon the future.")
