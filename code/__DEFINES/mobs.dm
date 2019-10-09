@@ -247,13 +247,15 @@
 #define OFFSET_S_STORE "s_store"
 #define OFFSET_FACEMASK "mask"
 #define OFFSET_HEAD "head"
-#define OFFSET_FACE "face"
+#define OFFSET_EYES "eyes" //NSV13 EDIT - Face split into EYES
+#define OFFSET_LIPS "lips" //NSV13 EDIT - Face split into lips
 #define OFFSET_BELT "belt"
 #define OFFSET_BACK "back"
 #define OFFSET_SUIT "suit"
 #define OFFSET_NECK "neck"
 #define OFFSET_HAIR "hair" //NSV13 EDIT - Hair and Face were on the same define despite being seperate.
 #define OFFSET_FHAIR "fhair" //NSV13 EDIT - Facial hair now has a offset too.
+#define OFFSET_MUTPARTS "mutantparts" //NSV13 EDIT - Mutantparts have an offset now too.
 
 //MINOR TWEAKS/MISC
 #define AGE_MIN				17	//youngest a character can be

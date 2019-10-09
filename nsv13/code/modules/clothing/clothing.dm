@@ -6,7 +6,7 @@
 //You append this to clothing objects.
 
 
-//NSV13: Species-restricted clothing check. - Thanks Oraclestation, BS13, etc.
+//Species-restricted clothing check. - Thanks Oraclestation, BS13, etc.
 /obj/item/clothing/mob_can_equip(mob/M, slot, disable_warning = TRUE)
 
 	//if we can't equip the item anyway, don't bother with species_restricted (also cuts down on spam)

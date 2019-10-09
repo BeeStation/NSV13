@@ -65,7 +65,7 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 	var/skin_tone = "caucasian1"		//Skin color
 	var/eye_color = "000"				//Eye color
 	var/datum/species/pref_species = new /datum/species/human()	//Mutant race
-	var/list/features = list("mcolor" = "FFF", "ethcolor" = "9c3030", "tail_lizard" = "Smooth", "tail_human" = "None", "snout" = "Round", "horns" = "None", "ears" = "None", "wings" = "None", "frills" = "None", "spines" = "None", "body_markings" = "None", "legs" = "Normal Legs", "moth_wings" = "Plain")
+	var/list/features = list("mcolor" = "FFF", "ethcolor" = "9c3030", "tail_lizard" = "Smooth", "tail_human" = "None", "snout" = "Round", "horns" = "None", "ears" = "None", "wings" = "None", "frills" = "None", "spines" = "None", "body_markings" = "None", "legs" = "Normal Legs", "moth_wings" = "Plain", "troll_horns" = "Devil") //NSV13 EDIT
 	var/list/genders = list(MALE, FEMALE, PLURAL)
 	var/list/friendlyGenders = list("Male" = "male", "Female" = "female", "Other" = "plural")
 
@@ -424,6 +424,19 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 				if(mutant_category >= MAX_MUTANT_ROWS)
 					dat += "</td>"
 					mutant_category = 0
+			
+			if("troll_horns" in pref_species.default_features) //NSV13 EDIT START - Troll horns on pref menu.
+				if(!mutant_category)
+					dat += APPEARANCE_CATEGORY_COLUMN
+
+				dat += "<h3>Troll Horns</h3>"
+
+				dat += "<a href='?_src_=prefs;preference=troll_horns;task=input'>[features["troll_horns"]]</a><BR>"
+
+				mutant_category++
+				if(mutant_category >= MAX_MUTANT_ROWS)
+					dat += "</td>"
+					mutant_category = 0 //NSV13 EDIT END
 
 			if(CONFIG_GET(flag/join_with_mutant_humans))
 
@@ -1266,6 +1279,12 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 					new_moth_wings = input(user, "Choose your character's wings:", "Character Preference") as null|anything in GLOB.moth_wings_list
 					if(new_moth_wings)
 						features["moth_wings"] = new_moth_wings
+
+				if("troll_horns") //NSV13 EDIT START - Troll Horns preference selection
+					var/new_troll_horns
+					new_troll_horns = input(user, "Choose your character's horns:", "Character Preference") as null|anything in GLOB.troll_horns_list
+					if(new_troll_horns)
+						features["troll_horns"] = new_troll_horns //NSV13 EDIT END
 
 				if("s_tone")
 					var/new_s_tone = input(user, "Choose your character's skin-tone:", "Character Preference")  as null|anything in GLOB.skin_tones

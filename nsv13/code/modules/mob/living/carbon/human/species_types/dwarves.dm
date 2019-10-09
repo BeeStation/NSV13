@@ -1,7 +1,13 @@
-#define isdwarf(A) (is_species(A, /datum/species/dwarf))
+//Outside Code segments relating to Dwarf Species
+//strings/dwarf_replacement.json - massive scottish accent json of strings that is used for handle_speech
 
-GLOBAL_LIST_INIT(dwarf_first, world.file2list("strings/names/dwarf_first.txt"))
-GLOBAL_LIST_INIT(dwarf_last, world.file2list("strings/names/dwarf_last.txt"))
+//Icon Files
+//None - Nothing yet.
+
+#define isdwarf(A) (is_species(A, /datum/species/dwarf)) //istype shortcut define
+
+GLOBAL_LIST_INIT(dwarf_first, world.file2list("strings/names/dwarf_first.txt")) //Textfiles with first
+GLOBAL_LIST_INIT(dwarf_last, world.file2list("strings/names/dwarf_last.txt")) //textfiles with last
 
 /*
 @author:JTGSZ
@@ -27,6 +33,7 @@ Thus embarks the doomed race of dwarven gland engineers into space.
 	default_features = list("mcolor" = "FFF", "wings" = "None")
 	limbs_id = "human"
 	use_skintones = 1
+	say_mod = "bellows" //high energy, EXTRA BIOLOGICAL FUEL
 	damage_overlay_type = "human" 
 	skinned_type = /obj/item/stack/sheet/animalhide/human
 	liked_food = ALCOHOL | MEAT | DAIRY //Dwarves like alcohol, meat, and dairy products.
@@ -37,7 +44,7 @@ Thus embarks the doomed race of dwarven gland engineers into space.
 	heatmod = 0.3 //Of course heat also, resistant thanks to being dwarves but not invulnerable.
 	speedmod = 1.5 //Slower than a human who is at a base of 0, short legs slowest race.
 	punchdamagelow = 2 // Their min roll is 1 higher than a base human
-	punchdamagehigh = 14 //They do more damage and have a higher chance to stunpunch since its at 10.
+	punchdamagehigh = 12 //They do more damage and have a higher chance to stunpunch since its at 10.
 	mutanteyes = /obj/item/organ/eyes/night_vision //And they have night vision.
 	mutant_organs = list(/obj/item/organ/dwarfgland) //Dwarven alcohol gland, literal gland warrior
 	mutantliver = /obj/item/organ/liver/dwarf //Dwarven super liver (Otherwise they r doomed)
@@ -56,16 +63,19 @@ Thus embarks the doomed race of dwarven gland engineers into space.
 		OFFSET_HEAD = list(0,0), 
 		OFFSET_HAIR = list(0,0), 
 		OFFSET_FHAIR = list(0,0), 
-		OFFSET_FACE = list(0,0), 
+		OFFSET_EYES = list(0,0),
+		OFFSET_LIPS = list(0,0),
 		OFFSET_BELT = list(0,0), 
 		OFFSET_BACK = list(0,0), 
 		OFFSET_SUIT = list(0,0), 
-		OFFSET_NECK = list(0,0)
+		OFFSET_NECK = list(0,0),
+		OFFSET_MUTPARTS = list(0,0)
 		)
 
-/mob/living/carbon/human/species/dwarf //species spawn path
+/mob/living/carbon/human/species/dwarf //species admin spawn path
 	race = /datum/species/dwarf //and the race the path is set to.
 
+//Filters out the species from taking these jobs in the job selection.
 /datum/species/dwarf/qualifies_for_rank(rank, list/features)
 	if(rank in GLOB.command_positions) //no dwarves in command
 		return 0
@@ -82,11 +92,13 @@ Thus embarks the doomed race of dwarven gland engineers into space.
 	H.facial_hair_style = dwarf_hair
 	H.update_hair()
 	H.transform = H.transform.Scale(1, 0.8) //We use scale, and yeah. Dwarves can become gnomes with DWARFISM.
+	RegisterSignal(C, COMSIG_MOB_SAY, .proc/handle_speech) //We register handle_speech is being used.
+
 
 /datum/species/dwarf/on_species_loss(mob/living/carbon/H, datum/species/new_species)
 	. = ..()
 	H.transform = H.transform.Scale(1, 1.25) //And we undo it.
-
+	UnregisterSignal(H, COMSIG_MOB_SAY) //We register handle_speech is not being used.
 
 //Dwarf Name stuff
 /proc/dwarf_name() //hello caller: my name is urist mcuristurister
@@ -94,6 +106,26 @@ Thus embarks the doomed race of dwarven gland engineers into space.
 
 /datum/species/dwarf/random_name(gender,unique,lastname)
 	return dwarf_name() //hello, ill return the value from dwarf_name proc to you when called.
+
+//Dwarf Speech handling - Basically a filter/forces them to say things. The IC helper
+/datum/species/dwarf/proc/handle_speech(datum/source, list/speech_args)
+	var/message = speech_args[SPEECH_MESSAGE]
+	if(message[1] != "*")
+		message = " [message]" //Credits to goonstation for the strings list.
+		var/list/dwarf_words = strings("dwarf_replacement.json", "dwarf") //thanks to regex too.
+
+		for(var/key in dwarf_words) //Theres like 1459 words or something man.
+			var/value = dwarf_words[key] //Thus they will always be in character.
+			if(islist(value)) //Whether they like it or not.
+				value = pick(value) //This could be drastically reduced if needed though.
+
+			message = replacetextEx(message, " [uppertext(key)]", " [uppertext(value)]")
+			message = replacetextEx(message, " [capitalize(key)]", " [capitalize(value)]")
+			message = replacetextEx(message, " [key]", " [value]") //Also its scottish.
+
+		if(prob(3))
+			message += pick(" By Armok!")
+	speech_args[SPEECH_MESSAGE] = trim(message)
 
 //This mostly exists because my testdwarf's liver died while trying to also not die due to no alcohol.
 /obj/item/organ/liver/dwarf
@@ -113,7 +145,7 @@ Thus embarks the doomed race of dwarven gland engineers into space.
 	var/stored_alcohol = 250 //They start with 250 units, that ticks down and eventaully bad effects occur
 	var/max_alcohol = 500 //Max they can attain, easier than you think to OD on alcohol.
 	var/heal_rate = 0.5 //The rate they heal damages over 400 alcohol stored
-	var/alcohol_rate = 10 //Its times 0.025 making it tick down by .25
+	var/alcohol_rate = 10 //Its times 0.025 making it tick down by .25 per loop.
 
 /obj/item/organ/dwarfgland/prepare_eat()
 	var/obj/S = ..()

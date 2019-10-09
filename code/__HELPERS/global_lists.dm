@@ -32,7 +32,7 @@
 	init_sprite_accessory_subtypes(/datum/sprite_accessory/caps, GLOB.caps_list)
 	init_sprite_accessory_subtypes(/datum/sprite_accessory/moth_wings, GLOB.moth_wings_list)
 	init_sprite_accessory_subtypes(/datum/sprite_accessory/teeth, GLOB.teeth_list) //NSV13 EDIT - SPECIES TEETH
-
+	init_sprite_accessory_subtypes(/datum/sprite_accessory/troll_horns, GLOB.troll_horns_list) //NSV13 EDIT - TROLL HORNS
 
 	//Species
 	for(var/spath in subtypesof(/datum/species))
