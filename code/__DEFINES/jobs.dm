@@ -49,7 +49,7 @@
 #define JOB_UNAVAILABLE_PLAYTIME 3
 #define JOB_UNAVAILABLE_ACCOUNTAGE 4
 #define JOB_UNAVAILABLE_SLOTFULL 5
-#define JOB_UNAVAILABLE_SPECIESLOCK 6 //NSV13 - Latejoin menu species lock
+#define JOB_UNAVAILABLE_SPECIESLOCK 6 //NSV13 EDIT - Latejoin menu species lock
 
 #define DEFAULT_RELIGION "Christianity"
 #define DEFAULT_DEITY "Space Jesus"

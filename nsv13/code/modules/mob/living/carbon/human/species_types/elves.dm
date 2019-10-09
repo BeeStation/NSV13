@@ -1,6 +1,5 @@
 //Outside Code segments relating to Elf Species.
 //code/modules/mob/living/carbon/human/species.dm - extra offsets
-//None - Its all here.
 
 //Icon Files
 //nsv13/icons/mob/mutantbodyparts.dmi - sprite_accessory MOB elf ears
