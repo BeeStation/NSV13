@@ -113,7 +113,8 @@ Thanks to extreme nepotism, and manipulation; they have no limit to their upward
 		else
 			mutantears = /obj/item/organ/ears
 
-	if(C.client) //thanks kmc
+		if(C?.client?.prefs.real_name == C?.real_name) //Random name if this isnt their chosen name
+			return
 		if(C.client.prefs.real_name == C.real_name) //Random name if this isnt their chosen name
 			return
 	var/new_name = random_name()
