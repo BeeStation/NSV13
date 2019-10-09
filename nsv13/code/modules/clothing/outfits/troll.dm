@@ -33,7 +33,7 @@
 	uniform = /obj/item/clothing/under/troll/hydroponics
 
 /datum/outfit/troll/security
-	name = "Troll Security"
+	name = "Troll Security Officer"
 
 	uniform = /obj/item/clothing/under/troll/ship/peacekeeper
 	suit = /obj/item/clothing/suit/troll/ship/peacekeeper
