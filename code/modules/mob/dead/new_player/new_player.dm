@@ -297,7 +297,7 @@
 		if(JOB_UNAVAILABLE_SLOTFULL)
 			return "[jobtitle] is already filled to capacity."
 		if(JOB_UNAVAILABLE_SPECIESLOCK) //NSV13 EDIT START
-			return "Your species cannot play as a [jobtitle]" //NSV13 EDIT END - Latejoin Species Restrictor
+			return "Your species cannot play as a [jobtitle]." //NSV13 EDIT END - Latejoin Species Restrictor
 	return "Error: Unknown job availability."
 
 /mob/dead/new_player/proc/IsJobUnavailable(rank, latejoin = FALSE)
