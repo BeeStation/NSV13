@@ -33,7 +33,7 @@
 	uniform = /obj/item/clothing/under/ork/hydroponics 
 
 /datum/outfit/ork/security
-	name = "Ork Security"
+	name = "Ork Security Officer"
 
 	uniform = /obj/item/clothing/under/ork/ship/peacekeeper
 	suit = /obj/item/clothing/suit/ork/ship/peacekeeper
