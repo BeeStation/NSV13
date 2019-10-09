@@ -39,6 +39,7 @@ Thanks to extreme nepotism, and manipulation; they have no limit to their upward
 	limbs_id = "human"
 	liked_food = GROSS | RAW //Elves have a good time eating human organs.
 	disliked_food = JUNKFOOD | FRIED //Mostly because they enjoy the taste of suffering.
+	changesource_flags = MIRROR_BADMIN | MIRROR_MAGIC | MIRROR_PRIDE | RACE_SWAP | WABBAJACK
 	brutemod = 1.6 //They take greatly more damage, graceful not durable.
 	burnmod = 1.5 //Lasers hurt worse too.
 	heatmod = 1.5 //They also die in fires easier.

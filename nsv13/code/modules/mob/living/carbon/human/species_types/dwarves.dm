@@ -43,6 +43,7 @@ Thus embarks the doomed race of dwarven gland engineers into space.
 	skinned_type = /obj/item/stack/sheet/animalhide/human
 	liked_food = ALCOHOL | MEAT | DAIRY //Dwarves like alcohol, meat, and dairy products.
 	disliked_food = JUNKFOOD | FRIED //Dwarves hate foods that have no nutrition other than alcohol.
+	changesource_flags = MIRROR_BADMIN | MIRROR_MAGIC | MIRROR_PRIDE | RACE_SWAP | WABBAJACK
 	brutemod = 0.85 //Take slightly less damage than a human.
 	burnmod = 0.85 //Less laser damage too.
 	coldmod = 0.5 //Handle cold better too, but not their forte in life.

@@ -54,6 +54,8 @@ No rage systems or anything, too greytidey.
 	skinned_type = /obj/item/stack/sheet/animalhide/human
 	liked_food = ALCOHOL | JUNKFOOD | FRIED //Basically imagine a really slobbish human.
 	disliked_food = VEGETABLES //They aren't a big fan of vegetables.
+	changesource_flags = MIRROR_BADMIN | MIRROR_MAGIC | MIRROR_PRIDE | RACE_SWAP | WABBAJACK
+
 	brutemod = 0.9 //Some damage reduction due to being tough
 	burnmod = 1.1 //More Laser damage cause troll.
 	coldmod = 1.3 //Takes more damage from cold.

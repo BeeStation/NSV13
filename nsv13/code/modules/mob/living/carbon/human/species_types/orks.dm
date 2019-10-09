@@ -46,6 +46,7 @@ No rage systems or anything, too greytidey.
 	skinned_type = /obj/item/stack/sheet/animalhide/human
 	liked_food = JUNKFOOD | FRIED //Similar tastes to a humans.
 	disliked_food = GROSS | PINEAPPLE //Willing to eat raw food, hates gross food and pineapples.
+	changesource_flags = MIRROR_BADMIN | MIRROR_MAGIC | MIRROR_PRIDE | RACE_SWAP | WABBAJACK
 	brutemod = 0.9 //All he has going for him is a tiny bit of innate damage reduction.
 	burnmod = 0.9 //Burns less to lasers.
 	armor = 5 //and a slightly tougher hide
