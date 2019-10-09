@@ -113,7 +113,7 @@ No rage systems or anything, too greytidey.
 	var/list/supplypositions = list("Shaft Miner")
 	if(rank in supplypositions)
 		return 0
-	return 1 //Otherwise you can enjoy security, or service.
+	return 1 //Otherwise you can enjoy security, supply or service.
 
 //Handles special job outfit datums.
 /datum/species/ork/before_equip_job(datum/job/J, mob/living/carbon/human/H, visualsOnly = FALSE)

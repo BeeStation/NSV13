@@ -89,7 +89,7 @@ Thus embarks the doomed race of dwarven gland engineers into space.
 		return 0
 	if(rank in GLOB.science_positions) //and no dwarves in science
 		return 0
-	return 1 //Otherwise you can enjoy being security, engineering, or service.
+	return 1 //Otherwise you can enjoy being security, engineering, supply/mining or service.
 
 /datum/species/dwarf/on_species_gain(mob/living/carbon/C, datum/species/old_species)
 	. = ..()
@@ -143,25 +143,41 @@ Thus embarks the doomed race of dwarven gland engineers into space.
 	maxHealth = 150 //More health than the average liver, as you aren't going to be replacing this.
 	//If it does need replaced with a standard human liver, prepare for hell.
 
-/obj/item/organ/dwarfgland //alcohol gland
+//alcohol gland
+/obj/item/organ/dwarfgland
 	name = "dwarf alcohol gland"
 	icon_state = "plasma" //Yes this is a actual icon in icons/obj/surgery.dmi
 	desc = "A genetically engineered gland which is hopefully a step forward for humanity."
 	w_class = WEIGHT_CLASS_NORMAL
 	var/stored_alcohol = 250 //They start with 250 units, that ticks down and eventaully bad effects occur
 	var/max_alcohol = 500 //Max they can attain, easier than you think to OD on alcohol.
-	var/heal_rate = 0.5 //The rate they heal damages over 400 alcohol stored
-	var/alcohol_rate = 10 //Its times 0.025 making it tick down by .25 per loop.
+	var/heal_rate = 1.5 //The rate they heal damages over 400 alcohol stored. Default is 0.5 so we times 3 since 3 seconds.
+	var/alcohol_rate = 30 //Its times 0.025 making it tick down by .25 per loop. This is .75. Default is 10, so we times 3 since 3 seconds.
+	var/run_eth_check_cycle = TRUE //We start the ethanol reagent mob search cycle
+	var/run_filth_check_cycle = TRUE //We start the area scan filth cycle
+	var/filth_cycle_interval = 5 SECONDS //5 second delay before each forview scan
+	var/eth_cycle_interval = 3 SECONDS //3 second delay before each eth reagent check
 
 /obj/item/organ/dwarfgland/prepare_eat()
 	var/obj/S = ..()
 	S.reagents.add_reagent("ethanol", stored_alcohol/10)
 	return S
 
-/obj/item/organ/dwarfgland/on_life()
-	if(!owner?.client || !owner?.mind) 
-		return //Let's not waste resources on AFK players
+/obj/item/organ/dwarfgland/on_life() //Primary loop to hook into to start delayed loops for other loops..
+	if(run_eth_check_cycle == TRUE) //If first run_eth_check_cycle is equal to TRUE.
+		dwarf_eth_cycle() //Call Dwarf_eth_cycle - aka ethanol.
+		run_eth_check_cycle = FALSE //Then we set it to FALSE, proc sets it back to true on the timer.	
+	if(run_filth_check_cycle == TRUE) //If first_filth_check_cycle is equal to TRUE.
+		dwarf_filth_cycle() //Call Dwarf_filth_cycle.
+		run_filth_check_cycle = FALSE //Then we set it to FALSE, proc sets it back to true on the timer.
+
+
+//If this still friggin uses too much CPU, I'll make a for view subsystem If I have to.
+/obj/item/organ/dwarfgland/proc/dwarf_filth_cycle()
 	//Filth Reactions - Since miasma now exists
+	addtimer(VARSET_CALLBACK(src, run_filth_check_cycle, TRUE), filth_cycle_interval) //We set run cycle to true with filth_cycle_interval as time.
+	if(!owner?.client || !owner?.mind) //We do it here since they may come back.
+		return //Let's not waste resources on AFK players
 	var/filth_counter = 0
 	for(var/fuck in view(owner,7)) //hello byond for view loop, luckily its a custom organ.
 		if(istype(fuck, /mob/living/carbon/human))
@@ -175,28 +191,40 @@ Thus embarks the doomed race of dwarven gland engineers into space.
 				filth_counter += 0.1
 		if(istype(fuck,/obj/effect/decal/cleanable/vomit)) //They are disgusted by their own vomit too.
 			filth_counter += 10 //Dwarves could technically chainstun each other in a vomit tantrum spiral.
+	to_chat(owner, "<span class = 'danger'>FILTH VIEW SAYS [filth_counter], FILTH CYCLE REPEAT IS [run_filth_check_cycle]</span>")
 	switch(filth_counter)
 		if(11 to 25)
-			if(prob(5))
+			if(prob(25))
 				to_chat(owner, "<span class = 'danger'>Someone should really clean up in here!</span>")
 		if(26 to 50)
-			if(prob(10)) //Probability the message appears
+			if(prob(40)) //Probability the message appears
 				to_chat(owner, "<span class = 'danger'>The stench makes you queasy.</span>")
 				if(prob(20)) //And then the probability they vomit along with it.
 					owner.vomit(20) //I think vomit should stay over a disgust adjustment.
 		if(51 to 75)
-			if(prob(10))
+			if(prob(40))
 				to_chat(owner, "<span class = 'danger'>By Armok! You won't be able to keep alcohol down at all!</span>")
 				if(prob(25))
 					owner.vomit(20) //Its more funny
 		if(76 to 100)
-			if(prob(10))
+			if(prob(40))
 				to_chat(owner, "<span class = 'userdanger'>You can't live in such FILTH!</span>")
 				if(prob(25))
 					owner.adjustToxLoss(10) //Now they start dying.
 					owner.vomit(20)
+		if(101 to INFINITY) //Now they will really start dying
+			if(prob(40))
+				to_chat(owner, "<span class = 'userdanger'> THERES TOO MUCH FILTH, OH GODS THE FILTH!</span>")
+				owner.adjustToxLoss(15)
+				owner.vomit(40)
+	CHECK_TICK //Check_tick right here, its motherfuckin magic.
 
-	// BOOZE HANDLING
+/obj/item/organ/dwarfgland/proc/dwarf_eth_cycle()
+	to_chat(owner, "<span class = 'danger'>ALCOHOL COUNTER SAYS [stored_alcohol], ETH CYCLE REPEAT IS [run_eth_check_cycle].</span>")
+	addtimer(VARSET_CALLBACK(src, run_eth_check_cycle, TRUE), eth_cycle_interval) //We set run to go to true after interval.
+	if(owner.stat == DEAD) //If the owner is dead, we just stop here. 
+		return //Moved down so dwarves who die and come back won't avoid eth penalties.
+		// BOOZE HANDLING
 	for(var/datum/reagent/R in owner.reagents.reagent_list)
 		if(istype(R, /datum/reagent/consumable/ethanol))
 			var/datum/reagent/consumable/ethanol/E = R
@@ -211,7 +239,7 @@ Thus embarks the doomed race of dwarven gland engineers into space.
 		owner.adjustOxyLoss(-heal_amt)
 		owner.adjustCloneLoss(-heal_amt)
 		owner.adjustBrainLoss(-heal_amt) //Mostly because my dwarf was becoming retarded from alcohol.
-	if(prob(5))
+	if(prob(25))
 		switch(stored_alcohol)
 			if(0 to 24)
 				to_chat(owner, "<span class='userdanger'>DAMNATION INCARNATE, WHY AM I CURSED WITH THIS DRY-SPELL? I MUST DRINK.</span>")
