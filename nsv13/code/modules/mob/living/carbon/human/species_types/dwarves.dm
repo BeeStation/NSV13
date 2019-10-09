@@ -158,7 +158,8 @@ Thus embarks the doomed race of dwarven gland engineers into space.
 	return S
 
 /obj/item/organ/dwarfgland/on_life()
-if(!owner?.client || !owner?.mind) return //Let's not waste resources on AFK players
+	if(!owner?.client || !owner?.mind) 
+		return //Let's not waste resources on AFK players
 	//Filth Reactions - Since miasma now exists
 	var/filth_counter = 0
 	for(var/fuck in view(owner,7)) //hello byond for view loop, luckily its a custom organ.
