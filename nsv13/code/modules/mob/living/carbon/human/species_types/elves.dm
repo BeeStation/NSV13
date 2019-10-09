@@ -1,4 +1,5 @@
 //Outside Code segments relating to Elf Species.
+//code/modules/mob/living/carbon/human/species.dm - extra offsets
 //None - Its all here.
 
 //Icon Files
@@ -9,20 +10,17 @@
 //Sound files
 //nsv13/sound/effects/realitywhoosh.ogg - Probability Mood modifier dodge sound
 
-#define iself(A) (is_species(A, /datum/species/elf)) //istype shortcut define
-
 GLOBAL_LIST_INIT(elf_first, world.file2list("strings/names/elf_first.txt")) //Text files with first
 GLOBAL_LIST_INIT(elf_last, world.file2list("strings/names/elf_first.txt")) //And last names
 
 /*
 @author:JTGSZ
 Elves arrive with the other close members of humanity.
-Some say they have been around a long time, somewhere, some place.
-Regardless, they are frail, capable of literally burning to death in 7 or so seconds.
+They are frail, capable of literally burning to death in 7 or so seconds.
 They also can feed off the mood/sanity of everyone around them.
 Gaining faster reflexes if they maintain high mood levels, sanity and mood feats.
 They also enjoy the taste of human flesh, some say they are a ancestor to the present-day vampire.
-Nanotrasen mysteriously holds them in high regards though, as they have no limit to their upward mobility.
+Thanks to extreme nepotism, and manipulation; they have no limit to their upward mobility.
 */
 
 
@@ -153,6 +151,7 @@ Nanotrasen mysteriously holds them in high regards though, as they have no limit
 		message = replacetext(message," troll ", " trog ")
 		message = replacetext(message," dwarf ", " squat ")
 		message = replacetext(message," lizard ", " lower-lifeform ")
+		message = replacetext(message," plasmaman ", " flaming retard ")
 
 		if(prob(2))
 			message += pick("Gaze upon the future.")

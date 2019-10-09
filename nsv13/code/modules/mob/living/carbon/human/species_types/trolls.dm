@@ -1,6 +1,9 @@
 //Outside Code segments relating to Troll Species
-//code/modules/mob/living/carbon/human/species.dm - renders mutantpart teeth, troll_horns from global list
+//code/modules/mob/living/carbon/human/species.dm - renders mutantpart teeth, troll_horns from global list, extra offsets
 //code/__HELPERS/global_lists.dm - adds references to sprite accessory global list for mutantpart teeth, troll_horns
+//code/modules/jobs/job_types/security_officer.dm - species check that doesn't give them an accessory
+//code/modules/client/preferences_savefile.dm - saves troll_horns, as they are pickable on pref
+//code/modules/client/preferences.dm - adds options to pick troll_horns on preferences
 //nsv13/code/_globalvars/lists/flavor_misc.dm - creates empty global list for mutantpart teeth, trollhorns
 //nsv13/code/modules/clothing/trollequipment.dm - contains troll suit+under equipment and parent paths for it
 //nsv13/code/modules/clothing/outfits/troll.dm - contains troll job outfit datum equipment paths
@@ -13,8 +16,6 @@
 //Sound files
 //nsv13/sound/effects/strongerpunch.ogg - Contains notable punch sound effect
 
-#define istroll(A) (is_species(A, /datum/species/troll)) //shortcut istype define
-
 /*
 @author:JTGSZ
 Its a troll based on the ones from shadowrun.
@@ -25,7 +26,7 @@ More than likely only ever going to see what nanotrasen provided to them on hire
 Speech filter, comes out dumb as smart trolls are snowflakes.
 Comes with Trait_Dumb not monkeylike or clumsy, as they need to be able to use microwaves.
 Speech changed to reflect this too.
-Has choosable horns, these disable the head slot. STYLE OR FUNCTION.
+Has choosable horns.
 No rage systems or anything, too greytidey.
 */
 

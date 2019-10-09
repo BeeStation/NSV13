@@ -1,22 +1,21 @@
 //Outside Code segments relating to Ork Species
-//code/modules/mob/living/carbon/human/species.dm - renders mutantpart teeth from global list
+//code/modules/mob/living/carbon/human/species.dm - renders mutantpart teeth from global list, extra offsets
 //code/__HELPERS/global_lists.dm - adds references to sprite accessory global list for mutantpart teeth
+//code/modules/client/preferences_savefile.dm - saves teeth global list so they don't disappear on pref menu
+//code/modules/jobs/job_types/security_officer.dm - species check that doesn't give them an accessory
 //nsv13/code/_globalvars/lists/flavor_misc.dm - creates empty global list for teeth
 //nsv13/code/modules/mob/dead/new_player/sprite_accessories.dm - contains sprite accessory teeth
 //nsv13/code/modules/clothing/orkequipment.dm - contains ork suit+under equipment and parent paths for it
 //nsv13/code/modules/clothing/outfits/ork.dm - contains ork job outfit datum equipment paths
-//code/modules/client/preferences_savefile.dm - saves teeth global list so they don't disappear on pref menu
 
 //Icon files
 //icons/mob/human_parts_greyscale.dmi - Contains greyscale mob body
 //nsv13/icons/mob/mutantbodyparts.dmi - Contains mutantpart Ork teeth
 //nsv13/icons/mob/orkequipment.dmi - Contains mobbody MOB icon equipment
 
-#define isork(A) (is_species(A, /datum/species/ork)) //shortcut istype define
-
 /*
 @author:JTGSZ
-Its a ork from shadowrun, not to be confused for the 40k ork.
+Its a ork from shadowrun, not to be confused for the 40k ork. (Which I also have a mob body and equipment for)
 Basically hes a very close relative to the human, although a bit grotesque.
 Mob Icon body looks more bulked up, 1 Pixel taller than the human for effect.
 Comes with some longer canines, speaks with own slang.

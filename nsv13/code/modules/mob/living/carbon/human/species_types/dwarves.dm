@@ -1,10 +1,9 @@
 //Outside Code segments relating to Dwarf Species
 //strings/dwarf_replacement.json - massive scottish accent json of strings that is used for handle_speech
+//code/modules/mob/living/carbon/human/species.dm - extra offsets
 
 //Icon Files
 //None - Nothing yet.
-
-#define isdwarf(A) (is_species(A, /datum/species/dwarf)) //istype shortcut define
 
 GLOBAL_LIST_INIT(dwarf_first, world.file2list("strings/names/dwarf_first.txt")) //Textfiles with first
 GLOBAL_LIST_INIT(dwarf_last, world.file2list("strings/names/dwarf_last.txt")) //textfiles with last

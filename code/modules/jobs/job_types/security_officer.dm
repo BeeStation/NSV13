@@ -74,7 +74,7 @@ GLOBAL_LIST_INIT(available_depts, list(SEC_DEPT_ENGINEERING, SEC_DEPT_MEDICAL, S
 			spawn_point = locate(/obj/effect/landmark/start/depsec/science) in GLOB.department_security_spawns
 			accessory = /obj/item/clothing/accessory/armband/science
 
-	if(accessory)
+	if(accessory && !is_species(H, /datum/species/ork) && !is_species(H, /datum/species/troll)) //NSV13 EDIT - is_species checks for ork and troll on armband.
 		var/obj/item/clothing/under/U = H.w_uniform
 		U.attach_accessory(new accessory)
 	if(ears)
