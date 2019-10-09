@@ -236,7 +236,7 @@ Thanks to extreme nepotism, and manipulation; they have no limit to their upward
 	timeout = 6 MINUTES //The crew shouldn't like this one too much.
 
 /datum/mood_event/drainmoodtaker //User of drainmood
-	description = "<span class='nicegreen'>Draining their emotions makes me feel REAL fuckin' gooood.</span>\n"
+	description = "<span class='nicegreen'>So many strong emotions... A true feast!</span>\n"
 	mood_change = 5 //Lasts vastly less, due to them gaining a probability to dodge projectiles.
 	timeout = 1 MINUTES //In combination with other moodboosts that is.
 
