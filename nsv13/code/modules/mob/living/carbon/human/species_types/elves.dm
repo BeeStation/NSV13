@@ -1,12 +1,16 @@
-//Outside Code segments relating to Elf Species.
+// ----- Outside Code segments relating to Elf Species -----
+
+//code__DEFINES/mobs.dm - extra icon rendering OFFSET defines
 //code/modules/mob/living/carbon/human/species.dm - extra offsets
 
-//Icon Files
+// ----- Icon Files -----
+
 //nsv13/icons/mob/mutantbodyparts.dmi - sprite_accessory MOB elf ears
 //nsv13/icons/obj/surgery.dmi - sprite_accessory OBJ elf ears
 //nsv13/icons/mob/actions/actionbuttonicons.dmi - drainmood spell symbol icon
 
-//Sound files
+// ----- Sound files -----
+
 //nsv13/sound/effects/realitywhoosh.ogg - Probability Mood modifier dodge sound
 
 GLOBAL_LIST_INIT(elf_first, world.file2list("strings/names/elf_first.txt")) //Text files with first

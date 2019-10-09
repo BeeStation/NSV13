@@ -1,14 +1,21 @@
-//Outside Code segments relating to Ork Species
-//code/modules/mob/living/carbon/human/species.dm - renders mutantpart teeth from global list, extra offsets
+// ----- Outside Code segments relating to Ork Species -----
+
+//code/__DEFINES/mobs.dm - extra icon rendering OFFSET defines
+//code/__DEFINES/jobs.dm - species qualifies_for_rank check define
 //code/__HELPERS/global_lists.dm - adds references to sprite accessory global list for mutantpart teeth
+//code/modules/mob/living/carbon/human/species.dm - renders mutantpart teeth from global list, extra offsets
 //code/modules/client/preferences_savefile.dm - saves teeth global list so they don't disappear on pref menu
-//code/modules/jobs/job_types/security_officer.dm - species check that doesn't give them an accessory
+//code/modules/jobs/job_types/security_officer.dm - species check that doesn't give them an attachable accessory
+//code/controllers/subsystem/job.dm - job controller qualifies_for_rank species restriction checks on sorting.
+//code/modules/mob/dead/new_player/new_player.dm - latejoin menu qualifies_for_rank species restriction checks
+
 //nsv13/code/_globalvars/lists/flavor_misc.dm - creates empty global list for teeth
 //nsv13/code/modules/mob/dead/new_player/sprite_accessories.dm - contains sprite accessory teeth
 //nsv13/code/modules/clothing/orkequipment.dm - contains ork suit+under equipment and parent paths for it
 //nsv13/code/modules/clothing/outfits/ork.dm - contains ork job outfit datum equipment paths
 
-//Icon files
+// ----- Icon files -----
+
 //icons/mob/human_parts_greyscale.dmi - Contains greyscale mob body
 //nsv13/icons/mob/mutantbodyparts.dmi - Contains mutantpart Ork teeth
 //nsv13/icons/mob/orkequipment.dmi - Contains mobbody MOB icon equipment

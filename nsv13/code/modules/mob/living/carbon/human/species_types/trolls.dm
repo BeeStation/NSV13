@@ -1,19 +1,27 @@
-//Outside Code segments relating to Troll Species
-//code/modules/mob/living/carbon/human/species.dm - renders mutantpart teeth, troll_horns from global list, extra offsets
+// ----- Outside Code segments relating to Troll Species -----
+
+//code__DEFINES/mobs.dm - extra icon rendering OFFSET defines
+//code/__DEFINES/jobs.dm - species qualifies_for_rank check define
 //code/__HELPERS/global_lists.dm - adds references to sprite accessory global list for mutantpart teeth, troll_horns
 //code/modules/jobs/job_types/security_officer.dm - species check that doesn't give them an accessory
 //code/modules/client/preferences_savefile.dm - saves troll_horns, as they are pickable on pref
 //code/modules/client/preferences.dm - adds options to pick troll_horns on preferences
+//code/modules/mob/living/carbon/human/species.dm - renders mutantpart teeth, troll_horns from global list, extra offsets
+//code/controllers/subsystem/job.dm - job controller qualifies_for_rank species restriction checks on sorting.
+//code/modules/mob/dead/new_player/new_player.dm - latejoin menu qualifies_for_rank species restriction checks
+
 //nsv13/code/_globalvars/lists/flavor_misc.dm - creates empty global list for mutantpart teeth, trollhorns
 //nsv13/code/modules/clothing/trollequipment.dm - contains troll suit+under equipment and parent paths for it
 //nsv13/code/modules/clothing/outfits/troll.dm - contains troll job outfit datum equipment paths
 
-//Icon files
+// ----- Icon files -----
+
 //icons/mob/human_parts_greyscale.dmi - Contains greyscale mob body
 //nsv13/icons/mob/mutantbodyparts.dmi - Contains mutantpart Troll teeth, troll_horns
 //nsv13/icons/mob/trollequipment.dmi - Contains troll mobbody MOB icon equipment
 
-//Sound files
+// ----- Sound files -----
+
 //nsv13/sound/effects/strongerpunch.ogg - Contains notable punch sound effect
 
 /*

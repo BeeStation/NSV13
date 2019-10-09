@@ -1,8 +1,14 @@
-//Outside Code segments relating to Dwarf Species
-//strings/dwarf_replacement.json - massive scottish accent json of strings that is used for handle_speech
-//code/modules/mob/living/carbon/human/species.dm - extra offsets
+// ----- Outside Code segments relating to Dwarf Species -----
 
-//Icon Files
+//strings/dwarf_replacement.json - massive scottish accent json of strings that is used for handle_speech
+//code/__DEFINES/mobs.dm - extra icon rendering OFFSET defines
+//code/__DEFINES/jobs.dm - species qualifies_for_rank check define
+//code/modules/mob/living/carbon/human/species.dm - extra offsets
+//code/controllers/subsystem/job.dm - job controller qualifies_for_rank species restriction checks on sorting.
+//code/modules/mob/dead/new_player/new_player.dm - latejoin menu qualifies_for_rank species restriction checks
+
+// ----- Icon Files -----
+
 //None - Nothing yet.
 
 GLOBAL_LIST_INIT(dwarf_first, world.file2list("strings/names/dwarf_first.txt")) //Textfiles with first
