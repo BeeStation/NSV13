@@ -78,7 +78,7 @@
 		M.set_species(/datum/species/shadow/nightmare)
 		visible_message("<span class='warning'>[M] thrashes as [src] takes root in [M.p_their()] body!</span>")
 	var/obj/effect/proc_holder/spell/targeted/shadowwalk/SW = new
-	M.AddSpell(SW) 
+	M.AddSpell(SW)
 	shadowwalk = SW
 
 

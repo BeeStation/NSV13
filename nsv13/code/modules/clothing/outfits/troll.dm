@@ -1,3 +1,5 @@
+//Troll job outfits - basically it equips these objects in place of the regular outfit datums on entry.
+
 /datum/outfit/troll //Parent, you can put stuff here if you want all the listed jobs to have it.
 	name = "Naked Troll" //Tied in the before job equip in the species file for orks
 	

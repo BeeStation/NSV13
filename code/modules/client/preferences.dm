@@ -716,12 +716,12 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 				var/available_in_days = job.available_in_days(user.client)
 				HTML += "<font color=red>[rank]</font></td><td><font color=red> \[IN [(available_in_days)] DAYS\]</font></td></tr>"
 				continue
-			if(!user.client.prefs.pref_species.qualifies_for_rank(rank, user.client.prefs.features))
+			if(!user.client.prefs.pref_species.qualifies_for_rank(rank, user.client.prefs.features)) //NSV13 EDIT START
 				if(user.client.prefs.pref_species.id == "human")
 					HTML += "<font color=red>[rank]</font></td><td><font color=red><b> \[MUTANT\]</b></font></td></tr>"
 				else
 					HTML += "<font color=red>[rank]</font></td><td><font color=red><b> \[NON-HUMAN\]</b></font></td></tr>"
-				continue
+				continue //NSV13 EDIT END - species qualifies for rank button change
 			if((job_preferences[SSjob.overflow_role] == JP_LOW) && (rank != SSjob.overflow_role) && !is_banned_from(user.ckey, SSjob.overflow_role))
 				HTML += "<font color=orange>[rank]</font></td><td></td></tr>"
 				continue

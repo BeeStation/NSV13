@@ -642,9 +642,9 @@ generate/load female uniform sprites matching all previously decided variables
 		if(lip_style && (LIPS in dna.species.species_traits))
 			var/mutable_appearance/lip_overlay = mutable_appearance('icons/mob/human_face.dmi', "lips_[lip_style]", -BODY_LAYER)
 			lip_overlay.color = lip_color
-			if(OFFSET_LIPS in dna.species.offset_features)
+			if(OFFSET_LIPS in dna.species.offset_features) //NSV13 EDIT START - Offset face to offset lips
 				lip_overlay.pixel_x += dna.species.offset_features[OFFSET_LIPS][1]
-				lip_overlay.pixel_y += dna.species.offset_features[OFFSET_LIPS][2]
+				lip_overlay.pixel_y += dna.species.offset_features[OFFSET_LIPS][2] //NSV13 EDIT END - Offset face to offset lips
 			add_overlay(lip_overlay)
 
 		// eyes
@@ -657,9 +657,9 @@ generate/load female uniform sprites matching all previously decided variables
 				eye_overlay = mutable_appearance('icons/mob/human_face.dmi', E.eye_icon_state, -BODY_LAYER)
 			if((EYECOLOR in dna.species.species_traits) && E)
 				eye_overlay.color = "#" + eye_color
-			if(OFFSET_EYES in dna.species.offset_features) //NSV13 START - Offset face to offset eyes
+			if(OFFSET_EYES in dna.species.offset_features) //NSV13 EDIT START - Offset face to offset eyes
 				eye_overlay.pixel_x += dna.species.offset_features[OFFSET_EYES][1]
-				eye_overlay.pixel_y += dna.species.offset_features[OFFSET_EYES][2] //NSV13 END - Offset face to offset eyes
+				eye_overlay.pixel_y += dna.species.offset_features[OFFSET_EYES][2] //NSV13 EDIT END - Offset face to offset eyes
 			add_overlay(eye_overlay)
 
 	dna.species.handle_hair(src)

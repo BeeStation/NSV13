@@ -296,7 +296,7 @@
 			return "Your account is not old enough for [jobtitle]."
 		if(JOB_UNAVAILABLE_SLOTFULL)
 			return "[jobtitle] is already filled to capacity."
-		if(JOB_UNAVAILABLE_SPECIESLOCK) //NSV13 EDIT BEGIN
+		if(JOB_UNAVAILABLE_SPECIESLOCK) //NSV13 EDIT START
 			return "Your species cannot play as a [jobtitle]" //NSV13 EDIT END - Latejoin Species Restrictor
 	return "Error: Unknown job availability."
 
@@ -323,7 +323,7 @@
 		return JOB_UNAVAILABLE_PLAYTIME
 	if(latejoin && !job.special_check_latejoin(client))
 		return JOB_UNAVAILABLE_GENERIC
-	if(!client.prefs.pref_species.qualifies_for_rank(rank, client.prefs.features)) //NSV13 EDIT BEGIN
+	if(!client.prefs.pref_species.qualifies_for_rank(rank, client.prefs.features)) //NSV13 EDIT START
 		return JOB_UNAVAILABLE_SPECIESLOCK //NSV13 EDIT END - Latejoin Species Restrictor
 	return JOB_AVAILABLE
 

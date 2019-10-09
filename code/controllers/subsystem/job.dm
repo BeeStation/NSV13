@@ -118,9 +118,9 @@ SUBSYSTEM_DEF(job)
 		if(player.mind && job.title in player.mind.restricted_roles)
 			JobDebug("FOC incompatible with antagonist role, Player: [player]")
 			continue
-		if(!player.client.prefs.pref_species.qualifies_for_rank(job.title, player.client.prefs.features))
+		if(!player.client.prefs.pref_species.qualifies_for_rank(job.title, player.client.prefs.features)) //NSV13 EDIT START
 			JobDebug("FOC non-human failed, Player: [player]")
-			continue //NSV13 EDIT: Re-adds Qualifies for rank in job controller
+			continue //NSV13 EDIT END: Re-adds Qualifies for rank in job controller
 		if(player.client.prefs.job_preferences[job.title] == level)
 			JobDebug("FOC pass, Player: [player], Level:[level]")
 			candidates += player
@@ -146,9 +146,9 @@ SUBSYSTEM_DEF(job)
 			JobDebug("GRJ isbanned failed, Player: [player], Job: [job.title]")
 			continue
 
-		if(!player.client.prefs.pref_species.qualifies_for_rank(job.title, player.client.prefs.features))
+		if(!player.client.prefs.pref_species.qualifies_for_rank(job.title, player.client.prefs.features)) //NSV13 EDIT START
 			JobDebug("GRJ non-human failed, Player: [player]")
-			continue //NSV13 EDIT: Re-adds qualifies for rank in job controller
+			continue //NSV13 EDIT END: Re-adds qualifies for rank in job controller
 
 		if(!job.player_old_enough(player.client))
 			JobDebug("GRJ player not old enough, Player: [player]")
@@ -332,9 +332,9 @@ SUBSYSTEM_DEF(job)
 					JobDebug("DO player not old enough, Player: [player], Job:[job.title]")
 					continue
 
-				if(!player.client.prefs.pref_species.qualifies_for_rank(job.title, player.client.prefs.features))
+				if(!player.client.prefs.pref_species.qualifies_for_rank(job.title, player.client.prefs.features)) //NSV13 EDIT START
 					JobDebug("DO non-human failed, Player: [player], Job:[job.title]")
-					continue //NSV13 EDIT: Re-adds Qualifies for rank check in job controller.
+					continue //NSV13 EDIT END: Re-adds Qualifies for rank check in job controller.
 
 				if(job.required_playtime_remaining(player.client))
 					JobDebug("DO player not enough xp, Player: [player], Job:[job.title]")

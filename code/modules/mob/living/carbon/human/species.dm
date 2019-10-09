@@ -397,9 +397,9 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 
 			facial_overlay.alpha = hair_alpha
 
-			if(OFFSET_FHAIR in H.dna.species.offset_features) //NSV13 EDIT: FACIAL HAIR OFFSET.
+			if(OFFSET_FHAIR in H.dna.species.offset_features) //NSV13 EDIT START: FACIAL HAIR OFFSET.
 				facial_overlay.pixel_x += H.dna.species.offset_features[OFFSET_FHAIR][1] 
-				facial_overlay.pixel_y += H.dna.species.offset_features[OFFSET_FHAIR][2] 
+				facial_overlay.pixel_y += H.dna.species.offset_features[OFFSET_FHAIR][2] //NSV13 EDIT END
 
 			standing += facial_overlay
 
@@ -459,9 +459,9 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 				else
 					hair_overlay.color = forced_colour
 				hair_overlay.alpha = hair_alpha
-				if(OFFSET_HAIR in H.dna.species.offset_features) //NSV13 EDIT: OFFSET_FACE to OFFSET_HAIR.
+				if(OFFSET_HAIR in H.dna.species.offset_features) //NSV13 EDIT START: OFFSET_FACE to OFFSET_HAIR.
 					hair_overlay.pixel_x += H.dna.species.offset_features[OFFSET_HAIR][1] //Now both are seperated.
-					hair_overlay.pixel_y += H.dna.species.offset_features[OFFSET_HAIR][2]
+					hair_overlay.pixel_y += H.dna.species.offset_features[OFFSET_HAIR][2] //NSV13 END
 		if(hair_overlay.icon)
 			standing += hair_overlay
 
@@ -482,9 +482,9 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 		if(H.lip_style && (LIPS in species_traits))
 			var/mutable_appearance/lip_overlay = mutable_appearance('icons/mob/human_face.dmi', "lips_[H.lip_style]", -BODY_LAYER)
 			lip_overlay.color = H.lip_color
-			if(OFFSET_LIPS in H.dna.species.offset_features) //NSV13 START - Offset face to offset lips
+			if(OFFSET_LIPS in H.dna.species.offset_features) //NSV13 EDIT START - Offset face to offset lips
 				lip_overlay.pixel_x += H.dna.species.offset_features[OFFSET_LIPS][1]
-				lip_overlay.pixel_y += H.dna.species.offset_features[OFFSET_LIPS][2] //NSV13 End - Offset face to offset lips
+				lip_overlay.pixel_y += H.dna.species.offset_features[OFFSET_LIPS][2] //NSV13 EDIT END - Offset face to offset lips
 			standing += lip_overlay
 
 		// eyes
@@ -717,9 +717,9 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 				else
 					accessory_overlay.color = forced_colour
 
-			if(OFFSET_MUTPARTS in H.dna.species.offset_features) //NSV13 START: MUTANT PARTS OFFSET.
+			if(OFFSET_MUTPARTS in H.dna.species.offset_features) //NSV13 EDIT START: MUTANT PARTS OFFSET.
 				accessory_overlay.pixel_x += H.dna.species.offset_features[OFFSET_MUTPARTS][1] 
-				accessory_overlay.pixel_y += H.dna.species.offset_features[OFFSET_MUTPARTS][2] //NSV13 END: Mutant parts offset
+				accessory_overlay.pixel_y += H.dna.species.offset_features[OFFSET_MUTPARTS][2] //NSV13 EDIT END: Mutant parts offset
 
 			standing += accessory_overlay
 
@@ -733,14 +733,14 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 				if(S.center)
 					inner_accessory_overlay = center_image(inner_accessory_overlay, S.dimension_x, S.dimension_y)
 
-				if(OFFSET_MUTPARTS in H.dna.species.offset_features) //NSV13 START: MUTANT PARTS OFFSET.
+				if(OFFSET_MUTPARTS in H.dna.species.offset_features) //NSV13 EDIT START: MUTANT PARTS OFFSET.
 					inner_accessory_overlay.pixel_x += H.dna.species.offset_features[OFFSET_MUTPARTS][1] 
-					inner_accessory_overlay.pixel_y += H.dna.species.offset_features[OFFSET_MUTPARTS][2] //NSV13 END: Mutant parts offset 
+					inner_accessory_overlay.pixel_y += H.dna.species.offset_features[OFFSET_MUTPARTS][2] //NSV13 EDIT END: Mutant parts offset 
 
 				standing += inner_accessory_overlay
 
 		H.overlays_standing[layer] = standing.Copy()
-		standing = list() //TODO: NSV13 INJECT MUTANTPART OFFSETS
+		standing = list()
 
 	H.apply_overlay(BODY_BEHIND_LAYER)
 	H.apply_overlay(BODY_ADJ_LAYER)
