@@ -155,7 +155,7 @@ Thus embarks the doomed race of dwarven gland engineers into space.
 	var/alcohol_rate = 10 //Its times 0.025 making it tick down by .25 per loop per 10. EX: 20 = .50
 	var/filth_counter = 0 //Holder for the filth check cycle, basically it compares against this.
 	//These count in on_life ticks which should be 2 seconds per every increment of 1 in a perfect world.
-	var/dwarf_filth_ticker = 0 //Currently set =< 3, that means this will fire the proc around every 6 seconds.
+	var/dwarf_filth_ticker = 0 //Currently set =< 4, that means this will fire the proc around every 4-8 seconds.
 	var/dwarf_eth_ticker = 0 //Currently set =< 1, that means this will fire the proc around every 2 seconds
 
 /obj/item/organ/dwarfgland/prepare_eat()
@@ -171,7 +171,7 @@ Thus embarks the doomed race of dwarven gland engineers into space.
 	if(owner.stat != DEAD) //We make sure they are not dead, so they don't increment any tickers.
 		dwarf_eth_ticker++
 		dwarf_filth_ticker++
-	if(dwarf_filth_ticker >= 3) //Should be around 6 seconds since a tick is around 2 seconds. 
+	if(dwarf_filth_ticker >= 4) //Should be around 4-8 seconds since a tick is around 2 seconds. 
 		dwarf_filth_cycle()		//On_life will adjust regarding other factors, so we are along for the ride.
 		dwarf_filth_ticker = 0 //We set the ticker back to 0 to go again.
 	if(dwarf_eth_ticker >= 1) //Alcohol reagent check should be around 2 seconds, since a tick is around 2 seconds.
