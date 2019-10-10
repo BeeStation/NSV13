@@ -52,7 +52,7 @@ GLOBAL_DATUM_INIT(starsystem_controller, /datum/starsystem_controller, new)
 
 /datum/starsystem/proc/spawn_enemies() //Method for spawning enemies in a random distribution in the center of the system.
 	enemies_in_system = list()
-	for(var/i = 0, i< rand(4,6), i++)
+	for(var/i = 0, i< rand(3,5), i++)
 		var/enemy_type = pick(subtypesof(/obj/structure/overmap/syndicate)) //Spawn a random set of enemies.
 		for(var/z in SSmapping.levels_by_trait(level_trait))
 			var/turf/destination = get_turf(locate(round(world.maxx * 0.5, 1), round(world.maxy * 0.5, 1), z)) //Plop them bang in the center of the system.
