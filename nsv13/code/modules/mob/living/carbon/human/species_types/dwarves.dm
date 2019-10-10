@@ -151,12 +151,12 @@ Thus embarks the doomed race of dwarven gland engineers into space.
 	w_class = WEIGHT_CLASS_NORMAL
 	var/stored_alcohol = 250 //They start with 250 units, that ticks down and eventaully bad effects occur
 	var/max_alcohol = 500 //Max they can attain, easier than you think to OD on alcohol.
-	var/heal_rate = 1.5 //The rate they heal damages over 400 alcohol stored. Default is 0.5 so we times 3 since 3 seconds.
-	var/alcohol_rate = 30 //Its times 0.025 making it tick down by .25 per loop. This is .75. Default is 10, so we times 3 since 3 seconds.
-	var/run_eth_check_cycle = TRUE //We start the ethanol reagent mob search cycle
-	var/run_filth_check_cycle = TRUE //We start the area scan filth cycle
-	var/filth_cycle_interval = 5 SECONDS //5 second delay before each forview scan
-	var/eth_cycle_interval = 3 SECONDS //3 second delay before each eth reagent check
+	var/heal_rate = 0.5 //The rate they heal damages over 400 alcohol stored. Default is 0.5 so we times 3 since 3 seconds.
+	var/alcohol_rate = 10 //Its times 0.025 making it tick down by .25 per loop per 10. EX: 20 = .50
+	var/filth_counter = 0 //Holder for the filth check cycle, basically it compares against this.
+	//These count in on_life ticks which should be 2 seconds per every increment of 1 in a perfect world.
+	var/dwarf_filth_ticker = 0 //Currently set =< 3, that means this will fire the proc around every 6 seconds.
+	var/dwarf_eth_ticker = 0 //Currently set =< 1, that means this will fire the proc around every 2 seconds
 
 /obj/item/organ/dwarfgland/prepare_eat()
 	var/obj/S = ..()
@@ -164,22 +164,30 @@ Thus embarks the doomed race of dwarven gland engineers into space.
 	return S
 
 /obj/item/organ/dwarfgland/on_life() //Primary loop to hook into to start delayed loops for other loops..
-	if(run_eth_check_cycle == TRUE) //If first run_eth_check_cycle is equal to TRUE.
-		dwarf_eth_cycle() //Call Dwarf_eth_cycle - aka ethanol.
-		run_eth_check_cycle = FALSE //Then we set it to FALSE, proc sets it back to true on the timer.	
-	if(run_filth_check_cycle == TRUE) //If first_filth_check_cycle is equal to TRUE.
-		dwarf_filth_cycle() //Call Dwarf_filth_cycle.
-		run_filth_check_cycle = FALSE //Then we set it to FALSE, proc sets it back to true on the timer.
+	dwarf_cycle_ticker()
+
+//Handles the delayed tick cycle by just adding on increments per each on_life() tick
+/obj/item/organ/dwarfgland/proc/dwarf_cycle_ticker()
+	if(owner.stat != DEAD) //We make sure they are not dead, so they don't increment any tickers.
+		dwarf_eth_ticker++
+		dwarf_filth_ticker++
+	if(dwarf_filth_ticker >= 3) //Should be around 6 seconds since a tick is around 2 seconds. 
+		dwarf_filth_cycle()		//On_life will adjust regarding other factors, so we are along for the ride.
+		dwarf_filth_ticker = 0 //We set the ticker back to 0 to go again.
+	if(dwarf_eth_ticker >= 1) //Alcohol reagent check should be around 2 seconds, since a tick is around 2 seconds.
+		dwarf_eth_cycle()
+		dwarf_eth_ticker = 0
+	//Debug messages:
+	//to_chat(owner, "<span class = 'danger'>FILTH VIEW: [filth_counter], FILTH CYCLE TICKER: [dwarf_filth_ticker]</span>")
+	//to_chat(owner, "<span class = 'danger'>ALCOHOL COUNTER: [stored_alcohol], ETH CYCLE TICKER: [dwarf_eth_ticker].</span>")
 
 
 //If this still friggin uses too much CPU, I'll make a for view subsystem If I have to.
 /obj/item/organ/dwarfgland/proc/dwarf_filth_cycle()
+	if(!owner?.client || !owner?.mind)
+		return
 	//Filth Reactions - Since miasma now exists
-	addtimer(VARSET_CALLBACK(src, run_filth_check_cycle, TRUE), filth_cycle_interval) //We set run cycle to true with filth_cycle_interval as time.
-	if(!owner?.client || !owner?.mind) //We do it here since they may come back.
-		return //Let's not waste resources on AFK players
-	var/filth_counter = 0
-	for(var/fuck in view(owner,7)) //hello byond for view loop, luckily its a custom organ.
+	for(var/fuck in view(owner,7)) //hello byond for view loop.
 		if(istype(fuck, /mob/living/carbon/human))
 			var/mob/living/carbon/human/H = fuck
 			if(H.stat == DEAD)
@@ -191,18 +199,17 @@ Thus embarks the doomed race of dwarven gland engineers into space.
 				filth_counter += 0.1
 		if(istype(fuck,/obj/effect/decal/cleanable/vomit)) //They are disgusted by their own vomit too.
 			filth_counter += 10 //Dwarves could technically chainstun each other in a vomit tantrum spiral.
-	to_chat(owner, "<span class = 'danger'>FILTH VIEW SAYS [filth_counter], FILTH CYCLE REPEAT IS [run_filth_check_cycle]</span>")
 	switch(filth_counter)
 		if(11 to 25)
 			if(prob(25))
 				to_chat(owner, "<span class = 'danger'>Someone should really clean up in here!</span>")
 		if(26 to 50)
-			if(prob(40)) //Probability the message appears
+			if(prob(30)) //Probability the message appears
 				to_chat(owner, "<span class = 'danger'>The stench makes you queasy.</span>")
 				if(prob(20)) //And then the probability they vomit along with it.
 					owner.vomit(20) //I think vomit should stay over a disgust adjustment.
 		if(51 to 75)
-			if(prob(40))
+			if(prob(35))
 				to_chat(owner, "<span class = 'danger'>By Armok! You won't be able to keep alcohol down at all!</span>")
 				if(prob(25))
 					owner.vomit(20) //Its more funny
@@ -217,14 +224,12 @@ Thus embarks the doomed race of dwarven gland engineers into space.
 				to_chat(owner, "<span class = 'userdanger'> THERES TOO MUCH FILTH, OH GODS THE FILTH!</span>")
 				owner.adjustToxLoss(15)
 				owner.vomit(40)
-	CHECK_TICK //Check_tick right here, its motherfuckin magic.
+	CHECK_TICK //Check_tick right here, its motherfuckin magic. (To me at least)
 
+
+//Handles the dwarf alcohol cycle tied to on_life, it ticks in dwarf_cycle_ticker.
 /obj/item/organ/dwarfgland/proc/dwarf_eth_cycle()
-	to_chat(owner, "<span class = 'danger'>ALCOHOL COUNTER SAYS [stored_alcohol], ETH CYCLE REPEAT IS [run_eth_check_cycle].</span>")
-	addtimer(VARSET_CALLBACK(src, run_eth_check_cycle, TRUE), eth_cycle_interval) //We set run to go to true after interval.
-	if(owner.stat == DEAD) //If the owner is dead, we just stop here. 
-		return //Moved down so dwarves who die and come back won't avoid eth penalties.
-		// BOOZE HANDLING
+	//BOOZE POWER
 	for(var/datum/reagent/R in owner.reagents.reagent_list)
 		if(istype(R, /datum/reagent/consumable/ethanol))
 			var/datum/reagent/consumable/ethanol/E = R
