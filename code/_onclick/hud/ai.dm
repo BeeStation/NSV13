@@ -281,3 +281,13 @@
 	using = new /obj/screen/ai/add_multicam()
 	using.screen_loc = ui_ai_add_multicam
 	static_inventory += using
+
+//NSV13 - Add Z up action
+	using = new /obj/screen/ai/zup()
+	using.screen_loc = ui_ai_zup
+	static_inventory += using
+
+//NSV13 - Add Z down action
+	using = new /obj/screen/ai/zdown()
+	using.screen_loc = ui_ai_zdown
+	static_inventory += using
