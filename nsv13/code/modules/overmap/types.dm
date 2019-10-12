@@ -37,6 +37,8 @@
 /obj/structure/overmap/nanotrasen/patrol_cruiser/ai
 	ai_controlled = TRUE
 	ai_behaviour = AI_AGGRESSIVE
+	max_integrity = 800 //Max health
+	integrity_failure = 800
 
 /obj/structure/overmap/nanotrasen/ai //Generic good guy #10000.
 	icon = 'nsv13/icons/overmap/nanotrasen/light_cruiser.dmi'
@@ -81,5 +83,5 @@
 	damage_states = TRUE
 	pixel_z = -96
 	pixel_w = -96
-	max_integrity = 600 //Max health
-	integrity_failure = 600
+	max_integrity = 800 //Max health
+	integrity_failure = 800
