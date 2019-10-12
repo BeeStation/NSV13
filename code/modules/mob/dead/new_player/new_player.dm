@@ -141,6 +141,9 @@
 		ViewManifest()
 
 	if(href_list["SelectedJob"])
+		if(!SSticker || !SSticker.IsRoundInProgress())
+			to_chat(usr, "<span class='danger'>The round is either not ready, or has already finished...</span>")
+			return
 
 		if(!GLOB.enter_allowed)
 			to_chat(usr, "<span class='notice'>There is an administrative lock on entering the game!</span>")
@@ -535,6 +538,6 @@
 		if(has_antags)
 			log_admin("[src.ckey] just got booted back to lobby with no jobs, but antags enabled.")
 			message_admins("[src.ckey] just got booted back to lobby with no jobs enabled, but antag rolling enabled. Likely antag rolling abuse.")
-		
+
 		return FALSE //This is the only case someone should actually be completely blocked from antag rolling as well
 	return TRUE

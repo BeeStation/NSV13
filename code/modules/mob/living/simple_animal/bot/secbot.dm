@@ -69,7 +69,7 @@
 	var/datum/job/detective/J = new/datum/job/detective
 	access_card.access += J.get_access()
 	prev_access = access_card.access
-	
+
 	//SECHUD
 	var/datum/atom_hud/secsensor = GLOB.huds[DATA_HUD_SECURITY_ADVANCED]
 	secsensor.add_hud_to(src)
@@ -137,7 +137,9 @@ Auto Patrol: []"},
 
 /mob/living/simple_animal/bot/secbot/Topic(href, href_list)
 	if(..())
-		return 1
+		return TRUE
+	if(!issilicon(usr) && !IsAdminGhost(usr) && !(bot_core.allowed(usr) || !locked))
+		return TRUE
 
 	switch(href_list["operation"])
 		if("idcheck")
