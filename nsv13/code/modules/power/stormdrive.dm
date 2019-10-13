@@ -264,6 +264,7 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 	if(cached_gases[/datum/gas/constricted_plasma])
 		var/moles = cached_gases[/datum/gas/constricted_plasma][MOLES]
 		if(moles >= start_threshold && heat >= start_threshold)
+			heat = start_threshold+10 //Avoids it getting heated up to 10000 by the PA, then turning it on, then getting insta meltdown.
 			cached_gases[/datum/gas/constricted_plasma][MOLES] -= start_threshold //Here, we subtract the plasma
 			visible_message("<span class='danger'>[src] starts to glow an ominous blue!</span>")
 			icon_state = "reactor_on"

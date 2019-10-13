@@ -21,8 +21,9 @@
 	if((obj_flags & IN_USE) && !(obj_flags & USES_TGUI))
 		var/is_in_use = FALSE
 		var/list/nearby = viewers(1, src)
-		for(var/mob/M in linked?.operators)
-			nearby += M
+		for(var/mob/M in linked?.operators) //Separate check to avoid fuckery
+			is_in_use = TRUE
+			ui_interact(M)
 		for(var/mob/M in nearby)
 			if ((M.client && M.machine == src))
 				is_in_use = TRUE
