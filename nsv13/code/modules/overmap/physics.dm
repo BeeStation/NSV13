@@ -109,7 +109,12 @@
 			thrust_y -= sy * side_maxthrust
 			last_thrust_right = -side_maxthrust
 
-	velocity_x += thrust_x * time //And speed us up based on how long we've been thrusting
+	var/speedlimit = 5 //Stops you yeeting off at lightspeed. This made AI ships really frustrating to play against.
+	if(velocity_x > speedlimit)
+		velocity_x = speedlimit
+	if(velocity_y > speedlimit)
+		velocity_y = speedlimit
+	velocity_x += thrust_x * time //And speed us up based on how long we've been thrusting (up to a point)
 	velocity_y += thrust_y * time
 
 	offset_x += velocity_x * time
