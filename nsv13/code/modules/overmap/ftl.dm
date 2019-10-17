@@ -49,13 +49,15 @@ GLOBAL_DATUM_INIT(starsystem_controller, /datum/starsystem_controller, new)
 	var/visitable = FALSE //Can you directly travel to this system? (You shouldnt be able to jump directly into hyperspace)
 	var/list/enemies_in_system = list() //For mission completion.
 	var/reward = 5000 //Small cash bonus when you clear a system, allows you to buy more ammo
+	var/difficulty_budget = 2
 
 /datum/starsystem/proc/spawn_enemies() //Method for spawning enemies in a random distribution in the center of the system.
 	enemies_in_system = list()
-	for(var/i = 0, i< rand(3,5), i++)
+	for(var/i = 0, i< rand(1,difficulty_budget), i++)
 		var/enemy_type = pick(subtypesof(/obj/structure/overmap/syndicate)) //Spawn a random set of enemies.
 		for(var/z in SSmapping.levels_by_trait(level_trait))
-			var/turf/destination = get_turf(locate(round(world.maxx * 0.5, 1), round(world.maxy * 0.5, 1), z)) //Plop them bang in the center of the system.
+			var/turf/exit = get_turf(locate(round(world.maxx * 0.5, 1), round(world.maxy * 0.5, 1), z)) //Plop them bang in the center of the system.
+			var/turf/destination = get_turf(pick(orange(20,exit)))
 			if(!destination)
 				message_admins("WARNING: The [name] system has no exit point for ships! You probably forgot to set the [level_trait]:1 setting for that Z in your map's JSON file.")
 				return
@@ -80,13 +82,13 @@ GLOBAL_DATUM_INIT(starsystem_controller, /datum/starsystem_controller, new)
 
 /datum/starsystem/astraeus
 	name = "Astraeus"
-	parallax_property = null //If you want things to appear in the background when you jump to this system, do this.
+	parallax_property = "gas" //If you want things to appear in the background when you jump to this system, do this.
 	level_trait = ZTRAIT_ASTRAEUS //The Ztrait of the zlevel that this system leads to
 	visitable = TRUE
 
 /datum/starsystem/corvi
 	name = "Corvi"
-	parallax_property = "gas"
+	parallax_property = "icefield"
 	level_trait = ZTRAIT_CORVI
 	visitable = TRUE
 
