@@ -137,7 +137,7 @@
 			max_angular_acceleration = 2
 	if(main_overmap)
 		name = "[station_name()]"
-	current_system = GLOB.starsystem_controller.find_system(linked)
+	current_system = GLOB.starsystem_controller.find_system(src)
 
 /obj/structure/overmap/proc/find_area()
 	if(main_overmap) //We're the hero ship, link us to every ss13 area.
