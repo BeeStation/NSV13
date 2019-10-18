@@ -36,17 +36,17 @@
 /obj/structure/overmap/fighter/Initialize()
 	.=..()
 	update_stats()
+	fuel_setup()
 	obj_integrity = max_integrity
 
 /obj/structure/overmap/fighter/prebuilt/Initialize()
-	.()
+	.=..()
 	name = new_station_name() //temp - replace this with a fighter name list
 	for(var/item in components)
 		new item(src)
 
 /obj/structure/overmap/fighter/proc/update_stats() //PLACEHOLDER JANK SYSTEM
 	var/obj/item/twohanded/required/fighter_component/armour_plating/sap = get_part(/obj/item/twohanded/required/fighter_component/armour_plating)
-	var/obj/item/twohanded/required/fighter_component/fuel_tank/sft = get_part(/obj/item/twohanded/required/fighter_component/fuel_tank)
 	var/obj/item/fighter_component/targeting_sensor/sts = get_part(/obj/item/fighter_component/targeting_sensor)
 	var/obj/item/fighter_component/fuel_lines/sfl = get_part(/obj/item/fighter_component/fuel_lines)
 	var/senc = 0
@@ -61,11 +61,13 @@
 	f_eff = sene + sfl.fuel_efficiency / 2
 	a_eff = sts.weapon_efficiency
 	max_integrity = 100 * sap.armour
-	create_reagents(sft.capacity) //DANGER - TEMP
 
-/obj/structure/overmap/fighter/process()
-//air tank stuff will go here
+/obj/structure/overmap/fighter/proc/fuel_setup()
+	qdel(reagents)
+	var/obj/item/twohanded/required/fighter_component/fuel_tank/sft = get_part(/obj/item/twohanded/required/fighter_component/fuel_tank)
+	create_reagents(sft.capacity)
 
+/obj/structure/overmap/fighter/slowprocess()
 
 //Fighter Maintenance
 /obj/structure/overmap/fighter/proc/get_part(type)
@@ -172,7 +174,7 @@
 				return
 			to_chat(user, "<span class='notice'>You install [W] in [src].</span>")
 			W.forceMove(src)
-			update_stats()
+			fuel_setup()
 		else if(istype(W, /obj/item/fighter_component/targeting_sensor) && !get_part(/obj/item/fighter_component/targeting_sensor))
 			to_chat(user, "<span class='notice'>You start installing [W] in [src]...</span>")
 			if(!do_after(user, 2 SECONDS, target=src))
@@ -198,6 +200,10 @@
 				to_chat(user, "<span class='notice'>You install [W] in [src].</span>")
 				W.forceMove(src)
 				update_stats()
+		else if(istype(W, /obj/item/reagent_containers))
+			W.reagents.trans_to(src, W.amount_per_transfer_from_this, transfered_by = user)
+			to_chat(user, "<span class='notice'>You refuel [src] with [W].</span>")
+
 
 /obj/structure/overmap/fighter/attack_hand(mob/user)
 	.=..()
@@ -206,8 +212,8 @@
 		var/dat
 		dat += "<h2> Overview: </h2>"
 //hp, fuel etc go here
-		dat += "<p>Structural Integrity:[obj_integrity/max_integrity*(100)]%</p>"
-		dat += "<p>Fuel Capacity:%</p>"
+		dat += "<p>Structural Integrity: [obj_integrity/max_integrity*(100)]%</p>"
+		dat += "<p>Fuel Capacity: [reagents.total_volume/reagents.maximum_volume*(100)]%</p>"
 		dat += "<h2> Payload: </h2>"
 //Guns, ammo and torpedos
 		var/atom/movable/pw = get_part(/obj/item/twohanded/required/fighter_component/primary_cannon)
@@ -349,6 +355,27 @@
 				return
 			to_chat(user, "<span class='notice'>You uninstall [tr.name] from [src].</span>")
 			tr?.forceMove(get_turf(src))
+
+/obj/structure/overmap/fighter/on_reagent_change()
+	if(reagents.has_reagent(!/datum/reagent/plasma_spiked_fuel))
+		visible_message("<span class=warning>Warning: contaminant detected in fuel mix, dumping tank contents.</span>")
+		reagents.clear_reagents()
+		new /obj/effect/decal/cleanable/oil(src)
+
+/obj/structure/overmap/fighter/Destroy() //incomplete
+	visible_message("<span class=userdanger>EJECT! EJECT! EJECT!</span>")
+	playsound(src, 'sound/effects/alert.ogg', 100, TRUE)
+	var/obj/structure/overmap/escapepod/ep = new /obj/structure/overmap/escapepod (loc, 1)
+	var/atom/movable/hu = get_part(/mob/living/carbon/human)
+	hu.forceMove(ep)
+	visible_message("<span class=userdanger>Auto-Ejection Sequence Enabled! Escape Pod Launched!</span>")
+	qdel(src)
+
+/obj/structure/overmap/escapepod
+	name = "Escape Pod"
+	desc = "An escape pod launched from a space faring vessel."
+	icon = 'icons/obj/janitor.dmi'
+	icon_state = "smmop"
 
 #undef MS_CLOSED
 #undef MS_UNSECURE

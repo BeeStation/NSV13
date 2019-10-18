@@ -264,3 +264,25 @@
 	build_path = /obj/item/twohanded/required/fighter_component/primary_cannon
 	category = list("Ship Components")
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+
+//Fighter Fuel
+/datum/chemical_reaction/plasma_spiked_fuel
+	name = "Plasma Spiked Fuel"
+	id = /datum/reagent/plasma_spiked_fuel
+	results = list(/datum/reagent/plasma_spiked_fuel = 5)
+	required_reagents = list(/datum/reagent/fuel = 5, /datum/reagent/stable_plasma = 1, /datum/reagent/hydrogen = 2, /datum/reagent/oxygen = 1)
+	required_temp = 333
+
+/datum/reagent/plasma_spiked_fuel
+	name = "Plasma Spiked Fuel"
+	description = "High performance engine fuel, spiked with a little plasma for an extra kick."
+	reagent_state = LIQUID
+	color = "#170B28"
+	taste_description = "oil and bitterness"
+
+/obj/structure/reagent_dispensers/fueltank/plasma_spiked
+	name = "plasma spiked fuel tank"
+	desc = "A tank full of high performance engine fuel, spiked with a little plasma for an extra kick."
+	icon_state = "tank_stationairy" //temp
+	reagent_id = /datum/reagent/plasma_spiked_fuel
+	tank_volume = 2500
