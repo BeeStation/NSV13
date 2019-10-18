@@ -7,10 +7,15 @@
 /obj/structure/overmap/fighter
 	name = "Fighter"
 	desc = "A space faring fighter craft."
-	icon = 'icons/obj/janitor.dmi'
-	icon_state = "mop"
+	icon = 'nsv13/icons/overmap/nanotrasen/fighter.dmi'
+	icon_state = "fighter-100"
 	brakes = TRUE
 	armor = list("melee" = 80, "bullet" = 80, "laser" = 80, "energy" = 50, "bomb" = 50, "bio" = 100, "rad" = 100, "fire" = 100, "acid" = 80) //temp to stop easy destruction from small arms
+	bound_width = 96 //Change this on a per ship basis
+	bound_height = 96
+	mass = MASS_TINY
+	sprite_size = 32
+	damage_states = TRUE
 	var/maint_state = MS_CLOSED
 	var/piloted = FALSE
 	var/a_eff = 0
@@ -201,7 +206,8 @@
 				W.forceMove(src)
 				update_stats()
 		else if(istype(W, /obj/item/reagent_containers))
-			W.reagents.trans_to(src, W.amount_per_transfer_from_this, transfered_by = user)
+			var/obj/item/reagent_containers/R = W
+			R.reagents.trans_to(src, R.amount_per_transfer_from_this, transfered_by = user)
 			to_chat(user, "<span class='notice'>You refuel [src] with [W].</span>")
 
 
