@@ -111,7 +111,7 @@
 			fire_projectiles(/obj/item/projectile/bullet/pdc_round, target)
 
 /obj/structure/overmap/proc/can_fire_pdcs(shots) //Trigger the PDCs to fire
-	if(ai_controlled) //We need AIs to be able to use PDCs
+	if(!linked_area && !main_overmap) //We need AIs to be able to use PDCs
 		return TRUE
 	if(!pdcs.len)
 		return FALSE
@@ -163,8 +163,11 @@
 	set src = usr.loc
 	if(usr != gunner)
 		return
+	var/max_firemode = FIRE_MODE_RAILGUN
+	if(mass < MASS_MEDIUM) //Small craft dont get a railgun
+		max_firemode = FIRE_MODE_TORPEDO
 	fire_mode ++
-	if(fire_mode > FIRE_MODE_TORPEDO)
+	if(fire_mode > max_firemode)
 		fire_mode = FIRE_MODE_PDC
 	switch(fire_mode)
 		if(FIRE_MODE_PDC)
@@ -227,7 +230,7 @@
 			shake_camera(M, severity, 1)
 
 /obj/structure/overmap/proc/fire_torpedo(atom/target)
-	if(ai_controlled) //AI ships don't have interiors
+	if(!linked_area && !main_overmap) //AI ships don't have interiors
 		if(torpedoes <= 0)
 			return
 		fire_projectile(/obj/item/projectile/bullet/torpedo, target, homing = TRUE, speed=1, explosive = TRUE)

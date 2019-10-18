@@ -37,6 +37,8 @@
 /obj/structure/overmap/nanotrasen/patrol_cruiser/ai
 	ai_controlled = TRUE
 	ai_behaviour = AI_AGGRESSIVE
+	max_integrity = 800 //Max health
+	integrity_failure = 800
 
 /obj/structure/overmap/nanotrasen/ai //Generic good guy #10000.
 	icon = 'nsv13/icons/overmap/nanotrasen/light_cruiser.dmi'
@@ -60,7 +62,7 @@
 	interior_maps = list("Corvette.dmm")
 
 /obj/structure/overmap/syndicate/ai //Generic bad guy #10000. GRR.
-	icon = 'nsv13/icons/overmap/nanotrasen/light_cruiser.dmi'
+	icon = 'nsv13/icons/overmap/syndicate/syn_light_cruiser.dmi'
 	icon_state = "cruiser"
 	ai_controlled = TRUE
 	ai_behaviour = AI_AGGRESSIVE
@@ -70,3 +72,16 @@
 	sprite_size = 96
 	damage_states = TRUE
 	area_type = /area/ruin/powered/nsv13/gunship
+
+/obj/structure/overmap/syndicate/ai/patrol_cruiser //Larger ship which is much harder to kill
+	icon = 'nsv13/icons/overmap/syndicate/syn_patrol_cruiser.dmi'
+	icon_state = "patrol_cruiser"
+	bound_width = 128 //Change this on a per ship basis
+	bound_height = 256
+	mass = MASS_LARGE
+	sprite_size = 48
+	damage_states = TRUE
+	pixel_z = -96
+	pixel_w = -96
+	max_integrity = 800 //Max health
+	integrity_failure = 800
