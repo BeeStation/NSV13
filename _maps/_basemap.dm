@@ -7,6 +7,7 @@
 		#include "map_files\Mining\Lavaland.dmm"
 		#include "map_files\debug\runtimestation.dmm"
 		#include "map_files\Aegis\Aegis.dmm"
+		#include "map_files\Valkyrie\Valkyrie.dmm"
 
 		#ifdef TRAVISBUILDING
 			#include "templates.dm"
