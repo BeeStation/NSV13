@@ -19,17 +19,64 @@ GLOBAL_DATUM_INIT(starsystem_controller, /datum/starsystem_controller, new)
 	instantiate_systems()
 
 /datum/starsystem_controller/proc/instantiate_systems()
+	set_timer()
 	var/datum/starsystem/SS = new
 	hyperspace = SS //First system defaults to "hyperspace" AKA transit.
 	for(var/instance in subtypesof(/datum/starsystem))
 		var/datum/starsystem/S = new instance
 		systems += S
 
+/datum/starsystem_controller/proc/set_timer()
+	addtimer(CALLBACK(src, .proc/spawn_enemies), rand(10 MINUTES, 15 MINUTES)) //Mr Gaeta, start the clock.
+
+/datum/starsystem_controller/proc/spawn_enemies() //A very simple way of having a gameplay loop. Every couple of minutes, the Syndicate appear in a system, the ship has to chase them.
+	var/datum/starsystem/current_system //Dont spawn enemies where theyre currently at
+	for(var/obj/structure/overmap/OM in GLOB.overmap_objects)
+		if(!OM.main_overmap)
+			continue
+		OM.current_system = find_system(OM) //The ship doesnt start with a system assigned by default
+		current_system = OM?.current_system
+	for(var/datum/starsystem/SS in systems)
+		if(SS == current_system)
+			continue
+		if(SS.spawn_enemies())
+			priority_announce("Attention all ships, set condition 1 throughout the fleet. Syndicate incursion detected in: [SS]. All ships must repel the invasion.", "Naval Command")
+
 /datum/starsystem
 	var/name = "Hyperspace"
 	var/parallax_property = null //If you want things to appear in the background when you jump to this system, do this.
 	var/level_trait = ZTRAIT_HYPERSPACE //The Ztrait of the zlevel that this system leads to
-	var/visitable = FALSE //Can you directly travel to this system?
+	var/visitable = FALSE //Can you directly travel to this system? (You shouldnt be able to jump directly into hyperspace)
+	var/list/enemies_in_system = list() //For mission completion.
+	var/reward = 5000 //Small cash bonus when you clear a system, allows you to buy more ammo
+
+/datum/starsystem/proc/spawn_enemies() //Method for spawning enemies in a random distribution in the center of the system.
+	enemies_in_system = list()
+	for(var/i = 0, i< rand(3,5), i++)
+		var/enemy_type = pick(subtypesof(/obj/structure/overmap/syndicate)) //Spawn a random set of enemies.
+		for(var/z in SSmapping.levels_by_trait(level_trait))
+			var/turf/destination = get_turf(locate(round(world.maxx * 0.5, 1), round(world.maxy * 0.5, 1), z)) //Plop them bang in the center of the system.
+			if(!destination)
+				message_admins("WARNING: The [name] system has no exit point for ships! You probably forgot to set the [level_trait]:1 setting for that Z in your map's JSON file.")
+				return
+			var/obj/structure/overmap/enemy = new enemy_type(destination)
+			enemies_in_system += enemy
+			RegisterSignal(enemy, COMSIG_PARENT_QDELETING , .proc/remove_enemy, enemy) //Add a listener component to check when a ship is killed, and thus check if the incursion is cleared.
+	return TRUE
+
+/datum/starsystem/proc/remove_enemy(var/obj/structure/overmap/OM) //Method to remove an enemy from the list of active threats in a system
+	enemies_in_system -= OM
+	check_completion()
+
+/datum/starsystem/proc/check_completion() //Method to check if the ship has completed their active mission or not
+	if(!enemies_in_system.len)
+		priority_announce("All Syndicate targets in [src] have been dispatched. Return to standard patrol duties. A completion bonus of [reward] credits has been credited to your allowance.", "Naval Command")
+		var/datum/bank_account/D = SSeconomy.get_dep_account(ACCOUNT_CAR)
+		D.adjust_money(reward)
+		GLOB.starsystem_controller?.set_timer()
+		return TRUE
+	else
+		return FALSE
 
 /datum/starsystem/astraeus
 	name = "Astraeus"

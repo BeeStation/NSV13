@@ -26,8 +26,8 @@ GLOBAL_LIST_INIT(computer_beeps, list('nsv13/sound/effects/computer/beep.ogg','n
 	var/area/AR = get_area(src)
 	if(AR.linked_overmap)
 		linked = AR.linked_overmap
-		set_position(linked)
 	if(linked)
+		set_position(linked)
 		return TRUE
 	else
 		return FALSE
