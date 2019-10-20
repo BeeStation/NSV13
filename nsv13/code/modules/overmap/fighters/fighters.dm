@@ -207,9 +207,9 @@
 				update_stats()
 		else if(istype(W, /obj/item/reagent_containers))
 			var/obj/item/reagent_containers/R = W
-			R.reagents.trans_to(src, R.amount_per_transfer_from_this, transfered_by = user)
-			to_chat(user, "<span class='notice'>You refuel [src] with [W].</span>")
-
+			if(is_refillable())
+				R.reagents.trans_to(src, R.amount_per_transfer_from_this, transfered_by = user)
+				to_chat(user, "<span class='notice'>You refuel [src] with [W].</span>")
 
 /obj/structure/overmap/fighter/attack_hand(mob/user)
 	.=..()
@@ -369,6 +369,7 @@
 		new /obj/effect/decal/cleanable/oil(src)
 
 /obj/structure/overmap/fighter/Destroy() //incomplete
+	.=..()
 	visible_message("<span class=userdanger>EJECT! EJECT! EJECT!</span>")
 	playsound(src, 'sound/effects/alert.ogg', 100, TRUE)
 	var/obj/structure/overmap/escapepod/ep = new /obj/structure/overmap/escapepod (loc, 1)

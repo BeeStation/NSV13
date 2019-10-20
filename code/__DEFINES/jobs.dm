@@ -42,7 +42,6 @@
 #define MIME			(1<<12)
 #define ASSISTANT		(1<<13)
 #define BRIDGE_OFFICER		(1<<14) //Nsv13 - bridge officer job
-
 #define MUNITIONS_TECHNICIAN	(1<<15)
 #define FIGHTER_PILOT			(1<<16)
 
