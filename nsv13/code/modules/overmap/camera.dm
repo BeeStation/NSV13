@@ -18,6 +18,7 @@
 	switch(position)
 		if("pilot")
 			pilot = user
+			show_flight_ui()
 		if("gunner")
 			gunner = user
 		if("all_positions")
