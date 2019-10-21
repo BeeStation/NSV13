@@ -8,7 +8,7 @@
 	name = "Fighter"
 	desc = "A space faring fighter craft."
 	icon = 'nsv13/icons/overmap/nanotrasen/fighter.dmi'
-	icon_state = "fighter-100"
+	icon_state = "fighter"
 	brakes = TRUE
 	armor = list("melee" = 80, "bullet" = 80, "laser" = 80, "energy" = 50, "bomb" = 50, "bio" = 100, "rad" = 100, "fire" = 100, "acid" = 80) //temp to stop easy destruction from small arms
 	bound_width = 96 //Change this on a per ship basis
@@ -18,35 +18,39 @@
 	damage_states = TRUE
 	var/maint_state = MS_CLOSED
 	var/piloted = FALSE
+	var/prebuilt = FALSE
 	var/a_eff = 0
 	var/f_eff = 0
 
 /obj/structure/overmap/fighter/prebuilt
-	var/list/components = list(/obj/item/twohanded/required/fighter_component/empennage,
-								/obj/item/twohanded/required/fighter_component/wing,
-								/obj/item/twohanded/required/fighter_component/wing,
-								/obj/item/twohanded/required/fighter_component/landing_gear,
-								/obj/item/twohanded/required/fighter_component/cockpit,
-								/obj/item/twohanded/required/fighter_component/armour_plating,
-								/obj/item/twohanded/required/fighter_component/fuel_tank,
-								/obj/item/fighter_component/avionics,
-								/obj/item/fighter_component/fuel_lines,
-								/obj/item/fighter_component/targeting_sensor,
-								/obj/item/twohanded/required/fighter_component/engine,
-								/obj/item/twohanded/required/fighter_component/engine,
-								/obj/structure/munition/fast,
-								/obj/structure/munition/fast,
-								/obj/item/twohanded/required/fighter_component/primary_cannon)
+	prebuilt = TRUE
 
 /obj/structure/overmap/fighter/Initialize()
 	.=..()
+	if(prebuilt)
+		prebuilt_setup()
 	update_stats()
 	fuel_setup()
 	obj_integrity = max_integrity
 
-/obj/structure/overmap/fighter/prebuilt/Initialize()
+/obj/structure/overmap/fighter/proc/prebuilt_setup()
 	.=..()
-	name = new_station_name() //temp - replace this with a fighter name list
+	name = new_prebuilt_fighter_name() //pulling from NSV13 ship name list currently
+	var/list/components = list(/obj/item/twohanded/required/fighter_component/empennage,
+							/obj/item/twohanded/required/fighter_component/wing,
+							/obj/item/twohanded/required/fighter_component/wing,
+							/obj/item/twohanded/required/fighter_component/landing_gear,
+							/obj/item/twohanded/required/fighter_component/cockpit,
+							/obj/item/twohanded/required/fighter_component/armour_plating,
+							/obj/item/twohanded/required/fighter_component/fuel_tank,
+							/obj/item/fighter_component/avionics,
+							/obj/item/fighter_component/fuel_lines,
+							/obj/item/fighter_component/targeting_sensor,
+							/obj/item/twohanded/required/fighter_component/engine,
+							/obj/item/twohanded/required/fighter_component/engine,
+							/obj/structure/munition/fast,
+							/obj/structure/munition/fast,
+							/obj/item/twohanded/required/fighter_component/primary_cannon)
 	for(var/item in components)
 		new item(src)
 
@@ -73,6 +77,8 @@
 	create_reagents(sft.capacity)
 
 /obj/structure/overmap/fighter/slowprocess()
+	if(reagents.total_volume/reagents.maximum_volume*(100) < 10 && piloted) //too much spam currently - fix me
+		visible_message("<span class=userdanger>BINGO FUEL!</span>")
 
 //Fighter Maintenance
 /obj/structure/overmap/fighter/proc/get_part(type)
@@ -140,7 +146,7 @@
 				to_chat(user, "<span class='notice'>[src]'s inner components are fully repaired.</span>")
 			return TRUE
 	else if(maint_state == MS_OPEN && obj_integrity/max_integrity*100 <= 50 && user.a_intent != INTENT_HARM)
-		to_chat(user, "<span class='notice'>You open the maintenance panel to repair the inner components of [src].</span>")
+		to_chat(user, "<span class='notice'>You must open the maintenance panel to repair the inner components of [src].</span>")
 		return TRUE
 
 
@@ -207,9 +213,11 @@
 				update_stats()
 		else if(istype(W, /obj/item/reagent_containers))
 			var/obj/item/reagent_containers/R = W
-			if(is_refillable())
-				R.reagents.trans_to(src, R.amount_per_transfer_from_this, transfered_by = user)
-				to_chat(user, "<span class='notice'>You refuel [src] with [W].</span>")
+			if(reagents.total_volume >= reagents.maximum_volume)
+				to_chat(user, "<span class='notice'>[src]'s fuel tank is full!</span>")
+				return
+			R.reagents.trans_to(src, R.amount_per_transfer_from_this, transfered_by = user)
+			to_chat(user, "<span class='notice'>You refuel [src] with [W].</span>")
 
 /obj/structure/overmap/fighter/attack_hand(mob/user)
 	.=..()
@@ -363,20 +371,27 @@
 			tr?.forceMove(get_turf(src))
 
 /obj/structure/overmap/fighter/on_reagent_change()
-	if(reagents.has_reagent(!/datum/reagent/plasma_spiked_fuel))
-		visible_message("<span class=warning>Warning: contaminant detected in fuel mix, dumping tank contents.</span>")
-		reagents.clear_reagents()
-		new /obj/effect/decal/cleanable/oil(src)
+	.=..()
+	for(var/datum/reagent/G in reagents.reagent_list)
+		if(G.name != "Plasma Spiked Fuel")
+			visible_message("<span class=warning>Warning: contaminant detected in fuel mix, dumping tank contents.</span>")
+			reagents.clear_reagents()
+			new /obj/effect/decal/cleanable/oil(loc)
+
+/obj/structure/overmap/fighter/proc/Eject()
+	var/obj/structure/overmap/escapepod/ep = new /obj/structure/overmap/escapepod (loc, 1)
+	var/atom/movable/hu = get_part(/mob/living/carbon/human)
+	hu.forceMove(ep)
+	qdel(src)
 
 /obj/structure/overmap/fighter/Destroy() //incomplete
 	.=..()
 	visible_message("<span class=userdanger>EJECT! EJECT! EJECT!</span>")
 	playsound(src, 'sound/effects/alert.ogg', 100, TRUE)
-	var/obj/structure/overmap/escapepod/ep = new /obj/structure/overmap/escapepod (loc, 1)
-	var/atom/movable/hu = get_part(/mob/living/carbon/human)
-	hu.forceMove(ep)
+	sleep(10)
 	visible_message("<span class=userdanger>Auto-Ejection Sequence Enabled! Escape Pod Launched!</span>")
-	qdel(src)
+	//injuring pilot goes here
+	Eject()
 
 /obj/structure/overmap/escapepod
 	name = "Escape Pod"
