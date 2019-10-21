@@ -34,7 +34,6 @@
 	obj_integrity = max_integrity
 
 /obj/structure/overmap/fighter/proc/prebuilt_setup()
-	.=..()
 	name = new_prebuilt_fighter_name() //pulling from NSV13 ship name list currently
 	var/list/components = list(/obj/item/twohanded/required/fighter_component/empennage,
 							/obj/item/twohanded/required/fighter_component/wing,
