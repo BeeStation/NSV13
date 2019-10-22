@@ -517,7 +517,7 @@
 
 /datum/admins/proc/toggleooc()
 	set category = "Server"
-	set desc="Toggle dis bitch"
+	set desc="Makes everyone shut up for a moment."
 	set name="Toggle OOC"
 	toggle_ooc()
 	log_admin("[key_name(usr)] toggled OOC.")
@@ -526,7 +526,7 @@
 
 /datum/admins/proc/toggleoocdead()
 	set category = "Server"
-	set desc="Toggle dis bitch"
+	set desc="Toggle the dead's ability to complain through the 4th wall."
 	set name="Toggle Dead OOC"
 	toggle_dooc()
 
@@ -536,7 +536,7 @@
 
 /datum/admins/proc/togglelooc()
 	set category = "Server"
-	set desc = "can you even see verb descriptions anywhere?"
+	set desc = "Toggles local ooc for the server."
 	set name = "Toggle LOOC"
 	toggle_looc()
 	log_admin("[key_name(usr)] toggled LOOC.")
@@ -545,7 +545,7 @@
 
 /datum/admins/proc/toggleloocdead()
 	set category = "Server"
-	set desc = "seriously, why do we even bother"
+	set desc = "Makes the dead able to whine to players in game, too."
 	set name = "Toggle Dead LOOC"
 	toggle_dlooc()
 	log_admin("[key_name(usr)] toggled Dead LOOC.")

@@ -135,6 +135,7 @@
 			return
 	else
 		GLOB.dlooc_allowed = !GLOB.dlooc_allowed
+	to_chat(world, "<B>The LOOC channel has been globally [GLOB.looc_allowed ? "enabled" : "disabled"] for the dead.</B>")
 
 /client/proc/get_looc()
 	var/msg = input(src, null, "looc \"text\"") as text|null
