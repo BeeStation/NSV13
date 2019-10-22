@@ -27,6 +27,204 @@
 	looping_ambience = 'nsv13/sound/ambience/computer_core.ogg'
 	ambientsounds = list()
 
+/area/crew_quarters/dorms/nsv/dorms_1
+	name = "Deck 2 Fore Quarters"
+	icon_state = "Sleep"
+	safe = TRUE
+
+/area/crew_quarters/dorms/nsv/dorms_2
+	name = "Deck 2 Aft Quarters"
+	icon_state = "Sleep"
+	safe = TRUE
+
+/area/medical/nsv/clinic
+	name = "Deck 2 Medical Clinic"
+	icon_state = "medbay"
+
+/area/maintenance/nsv/deck2/frame1/port
+	name = "Deck 2 Frame 1 Port Maintenence"
+	icon_state = "pmaint"
+
+/area/maintenance/nsv/deck2/frame1/starboard
+	name = "Deck 2 Frame 1 Starboard Maintenence"
+	icon_state = "smaint"
+
+/area/maintenance/nsv/deck2/frame1/central
+	name = "Deck 2 Frame 1 Central Maintenance"
+	icon_state = "maintcentral"
+
+/area/maintenance/nsv/deck2/frame3/port
+	name = "Deck 2 Frame 3 Port Maintenence"
+	icon_state = "pmaint"
+
+/area/maintenance/nsv/deck2/frame3/starboard
+	name = "Deck 2 Frame 3 Starboard Maintenance"
+	icon_state = "smaint"
+
+/area/maintenance/nsv/deck2/frame4/port
+	name = "Deck 2 Frame 4 Port Maintenance"
+	icon_state = "pmaint"
+
+/area/maintenance/nsv/deck2/frame4/starboard
+	name = "Deck 2 Frame 4 Starboard Maintenance"
+	icon_state = "smaint"
+
+/area/maintenance/nsv/deck2/frame5/port
+	name = "Deck 2 Frame 5 Port Maintenance"
+	icon_state = "pmaint"
+
+/area/maintenance/nsv/deck2/frame5/starboard
+	name = "Deck 2 Frame 5 Starboard Maintenance"
+	icon_state = "smaint"
+
+/area/maintenance/nsv/deck3/frame3/port
+	name = "Deck 3 Frame 3 Port Maintenence"
+	icon_state = "pmaint"
+
+/area/maintenance/nsv/deck3/frame3/starboard
+	name = "Deck 3 Frame 3 Starboard Maintenence"
+	icon_state = "smaint"
+
+/area/maintenance/nsv/deck3/frame3/central
+	name = "Deck 3 Frame 3 Central Maintenance"
+	icon_state = "maintcentral"
+
+/area/maintenance/nsv/deck3/frame4/central
+	name = "Deck 3 Frame 4 Central Maintenance"
+	icon_state = "maintcentral"
+
+/area/hallway/nsv/deck2/frame1/port
+	name = "Deck 2 Frame 1 Port Hallway"
+	icon_state = "hallF"
+
+/area/hallway/nsv/deck2/frame1/starboard
+	name = "Deck 2 Frame 1 Starboard Hallway"
+	icon_state = "hallF"
+
+/area/hallway/nsv/deck2/frame2/port
+	name = "Deck 2 Frame 2 Port Hallway"
+	icon_state = "hallP"
+
+/area/hallway/nsv/deck2/frame2/starboard
+	name = "Deck 2 Frame 2 Starboard Hallway"
+	icon_state = "hallS"
+
+/area/hallway/nsv/deck2/frame3/port
+	name = "Deck 2 Frame 3 Port Hallway"
+	icon_state = "hallC"
+
+/area/hallway/nsv/deck2/frame3/starboard
+	name = "Deck 2 Frame 3 Starboard Hallway"
+	icon_state = "hallC"
+
+/area/hallway/nsv/deck2/frame4/port
+	name = "Deck 2 Frame 4 Port Hallway"
+	icon_state = "hallP"
+
+/area/hallway/nsv/deck2/frame4/starboard
+	name = "Deck 2 Frame 4 Starboard Hallway"
+	icon_state = "hallS"
+
+/area/hallway/nsv/deck2/frame4/central
+	name = "Deck 2 Frame 4 Central Hallway"
+	icon_state = "hallC"
+
+/area/hallway/nsv/deck2/frame5/port
+	name = "Deck 2 Frame 5 Port Hallway"
+	icon_state = "hallP"
+
+/area/hallway/nsv/deck2/frame5/starboard
+	name = "Deck 2 Frame 5 Starboard Hallway"
+	icon_state = "hallS"
+
+/area/hallway/nsv/deck2/frame5/central
+	name = "Deck 2 Frame 5 Central Hallway"
+	icon_state = "hallC"
+
+/area/hallway/nsv/deck3/frame1/port
+	name = "Deck 3 Frame 1 Port Hallway"
+	icon_state = "hallP"
+
+/area/hallway/nsv/deck3/frame1/starboard
+	name = "Deck 3 Frame 1 Starboard Hallway"
+	icon_state = "hallS"
+
+/area/hallway/nsv/deck3/frame1/central
+	name = "Deck 3 Frame 1 Central Hallway"
+	icon_state = "hallC"
+
+/area/hallway/nsv/deck3/frame2/port
+	name = "Deck 2 Frame 2 Port Hallway"
+	icon_state = "hallP"
+
+/area/hallway/nsv/deck3/frame2/starboard
+	name = "Deck 2 Frame 2 Starboard Hallway"
+	icon_state = "hallS"
+
+/area/hallway/nsv/deck3/frame3/port
+	name = "Deck 3 Frame 3 Port Hallway"
+	icon_state = "hallP"
+
+/area/hallway/nsv/deck3/frame3/starboard
+	name = "Deck 3 Frame 3 Starboard Hallway"
+	icon_state = "hallS"
+
+/area/hallway/nsv/deck3/frame3/central
+	name = "Deck 3 Frame 3 Central Hallway"
+	icon_state = "hallC"
+
+/area/hallway/nsv/deck3/frame4/port
+	name = "Deck 3 Frame 4 Port Hallway"
+	icon_state = "hallP"
+
+/area/hallway/nsv/deck3/frame4/starboard
+	name = "Deck 3 Frame 4 Starboard Hallway"
+	icon_state = "hallS"
+
+/area/hallway/nsv/deck1/hallway
+	name = "Deck 1 Primary Hallway"
+	icon_state = "hallC"
+
+/area/crew_quarters/nsv/observation
+	name = "Observation Lounge"
+	icon_state = "Sleep"
+
+/area/crew_quarters/nsv/officerquarters
+	name = "Bridge Officer's Quarters"
+	icon_state = "Sleep"
+
+/area/nsv/hanger/deck3/starboard
+	name = "Deck 3 Starboard Hanger Bay"
+	icon_state = "hallS"
+
+/area/nsv/hanger/deck2/port
+	name = "Deck 2 Port Hanger Bay"
+	icon_state = "hallP"
+
+/area/nsv/hanger/deck2/starboard
+	name = "Deck 2 Starboard Hanger Bay"
+	icon_state = "hallS"
+
+/area/nsv/weapons/port
+	name = "Port Weapons Bay"
+	icon_state = "hallP"
+
+/area/nsv/weapons/starboard
+	name = "Starboard Weapons Bay"
+	icon_state = "hallS"
+
+/area/nsv/magazine/port
+	name = "Port Magazine"
+	icon_state = "hallP"
+
+/area/nsv/magazine/starboard
+	name = "Starboard Magazine"
+	icon_state = "hallS"
+
+/area/nsv/briefingroom
+	name = "Briefing Room"
+	icon_state = "hallP"
+
 /area/Entered(atom/movable/M)
 	// Ambience goes down here -- make sure to list each area separately for ease of adding things in later, thanks! Note: areas adjacent to each other should have the same sounds to prevent cutoff when possible.- LastyScratch
 	set waitfor = FALSE

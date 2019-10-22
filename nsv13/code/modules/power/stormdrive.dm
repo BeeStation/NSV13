@@ -77,7 +77,7 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 	var/control_rod_state = 3 //Rods start out to raise the heat. Position 1 is considered DANGEROUS, 2 is OK, 3 is safe, 4 is if you want to shut it off.
 	var/heat_gain = 5
 	var/warning_state = WARNING_STATE_NONE //Are we warning people about a meltdown already? If we are, don't spam them with sounds. Also works for when it's actually exploding
-	var/reaction_rate = 1 //N mol of constricted plasma / tick to keep the reaction going, if you shut this off, the reactor will cool.
+	var/reaction_rate = 0.5 //N mol of constricted plasma / tick to keep the reaction going, if you shut this off, the reactor will cool.
 	var/power_loss = 2 //For subtypes, if you want a less efficient reactor
 	var/input_power_modifier = 1
 	var/state = REACTOR_STATE_IDLE
@@ -400,9 +400,7 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 		var/moles = cached_gases[/datum/gas/constricted_plasma][MOLES]
 		if(moles >= reaction_rate)
 			cached_gases[/datum/gas/constricted_plasma][MOLES] -= reaction_rate //Here, we subtract the plasma
-			heat_gain = reaction_rate
-			air1.assert_gas(/datum/gas/water_vapor) //Boil some water because of the heat.
-			air1.gases[/datum/gas/water_vapor][MOLES] += reaction_rate
+			heat_gain = initial(heat_gain)+reaction_rate
 			air1.garbage_collect()
 		else
 			heat_gain = -5 //No plasma to react, so the reaction slowly dies off.
