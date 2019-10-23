@@ -14,11 +14,12 @@ body.dradis
     border-radius 50%
     -webkit-animation blink 2s linear forwards
     animation blink 2s linear forwards
-    opacity 0
+    animation-iteration-count:infinite
+    opacity 1
   @keyframes blink
     50%
-      opacity:1
-  background: data-url('https://cdn.discordapp.com/attachments/628538465948139530/634439228461285386/dradis.gif') no-repeat fixed center/70% 70%,
+      opacity:0
+  background: data-url('dradis.gif') no-repeat fixed center/100% 110%,
     linear-gradient(to bottom,
       background-color-start 0%,
       background-color-end 100%)

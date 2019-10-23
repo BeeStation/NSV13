@@ -1,7 +1,3 @@
-<ui-display>
-	<div class='map'>
-	{{#each data.radar_dots}}
-		<p>Point</p>
-	{{/each}}
-	</div>
-</ui-display>
+{{#each data.ships:ship_value}}
+	<span class="point" style="left:{{x}}em;bottom: {{y}}em;background: {{colour}}"></span>
+{{/each}}
