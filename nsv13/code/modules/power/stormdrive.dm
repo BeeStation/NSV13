@@ -199,10 +199,10 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 		message_admins("[key_name(usr)] has fully raised reactor control rods in [get_area(usr)] [ADMIN_JMP(usr)]")
 		reactor.update_icon()
 	if(href_list["rods_2"])
-		reactor.control_rod_percent = 33.42
+		reactor.control_rod_percent = 23.49
 		reactor.update_icon()
 	if(href_list["rods_3"])
-		reactor.control_rod_percent = 23.49
+		reactor.control_rod_percent = 33.42
 		reactor.update_icon()
 	if(href_list["rods_4"])
 		reactor.control_rod_percent = 100
