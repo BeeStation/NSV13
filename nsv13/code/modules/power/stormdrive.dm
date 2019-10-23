@@ -69,7 +69,7 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 	var/heat = 0 //How hot are we?
 	var/target_heat = REACTOR_HEAT_NORMAL //For control rods. How hot do we want the reactor to get? We'll attempt to cool the reactor to this temperature.
 	var/cooling_power = 10 //How much heat we can drain per tick. Matches up with target_heat
-	var/inverse_control_rod_percent = 76.51 //0 is fully inserted, 100 if fully removed. Rods start out to raise the heat (target 200). Predefined position 1 is considered DANGEROUS, 2 is OK, 3 is safe, 4 is if you want to shut it off.
+	var/control_rod_percent = 33.42 //100 is fully inserted, 0 is fully removed. Rods start out to raise the heat (target 200). Predefined position 1 is considered DANGEROUS, 2 is OK, 3 is safe, 4 is manual control, 5 is if you want to shut it off.
 	var/heat_gain = 5
 	var/warning_state = WARNING_STATE_NONE //Are we warning people about a meltdown already? If we are, don't spam them with sounds. Also works for when it's actually exploding
 	var/reaction_rate = 0.5 //N mol of constricted plasma / tick to keep the reaction going, if you shut this off, the reactor will cool.
@@ -164,9 +164,9 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 	var/dat
 	dat += "<h2> ---Available reactor operations:--- </h2>"
 	dat += "<A href='?src=\ref[src];rods_1=1'>AZ-1: Fully raise control rods</font></A><BR>"
-	dat += "<A href='?src=\ref[src];rods_2=1'>AZ-2  Raise control rods to position 2</font></A><BR>"
+	dat += "<A href='?src=\ref[src];rods_2=1'>AZ-2: Raise control rods to position 2</font></A><BR>"
 	dat += "<A href='?src=\ref[src];rods_3=1'>AZ-3: Lower control rods to position 3</font></A><BR>"
-	dat += "<A href+'?src=\ref[src];rods_c=1'>AZ-4: Manual control rods position - DANGER</font></A><BR>"
+	dat += "<A href='?src=\ref[src];rods_c=1'>AZ-4: Manual control rods position - DANGER</font></A><BR>"
 	if(reactor.state != REACTOR_STATE_MAINTENANCE)
 		dat += "<A href='?src=\ref[src];maintenance=1'>AZ-5: Initiate reactor maintenance protocols</font></A><BR>"
 	else
@@ -195,21 +195,28 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 	if(!in_range(src, usr) || !reactor)
 		return
 	if(href_list["rods_1"])
-		reactor.inverse_control_rod_percent = 0
+		reactor.control_rod_percent = 0
 		message_admins("[key_name(usr)] has fully raised reactor control rods in [get_area(usr)] [ADMIN_JMP(usr)]")
 		reactor.update_icon()
 	if(href_list["rods_2"])
-		reactor.inverse_control_rod_percent = 66.58
+		reactor.control_rod_percent = 33.42
 		reactor.update_icon()
 	if(href_list["rods_3"])
-		reactor.inverse_control_rod_percent = 76.51
+		reactor.control_rod_percent = 23.49
 		reactor.update_icon()
 	if(href_list["rods_4"])
-		reactor.inverse_control_rod_percent = 100
+		reactor.control_rod_percent = 100
 		reactor.update_icon()
 	if(href_list["rods_c"])
-		reactor.inverse_control_rod_percent = 100
-		reactor.update_icon()
+		if(alert(usr, "Manually setting control rods positions should only be attempted by experienced nuclear engineers.", "EXTREME CAUTION ADVISED", "Continue", "Abort")=="Continue")
+			var/new_control_rod_percent = input(usr, "Set new control rod insertion depth percent", "Manual Control Rods Positional Control", reactor.control_rod_percent) as num|null
+			if(!usr.canUseTopic(src, BE_CLOSE))
+				return
+			new_control_rod_percent = CLAMP(new_control_rod_percent, 0, 100)
+			reactor.control_rod_percent = new_control_rod_percent
+			if(reactor.control_rod_percent <= 20)
+				message_admins("[key_name(usr)] has manually set reactor control rods to a dangerous position in [get_area(usr)] [ADMIN_JMP(usr)]")
+			reactor.update_icon()
 	if(href_list["maintenance"])
 		if(reactor.state == REACTOR_STATE_MAINTENANCE)
 			reactor.disengage_maintenance()
@@ -352,15 +359,15 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 		return
 	cut_overlays()
 	if(can_cool()) //If control rods aren't destroyed.
-		switch(inverse_control_rod_percent)
+		switch(control_rod_percent)
 			if(0 to 24)
-				add_overlay("rods_4")
-			if(25 to 49)
-				add_overlay("rods_3")
-			if(50 to 74)
-				add_overlay("rods_2")
-			if(75 to 100)
 				add_overlay("rods_1")
+			if(25 to 49)
+				add_overlay("rods_2")
+			if(50 to 74)
+				add_overlay("rods_3")
+			if(75 to 100)
+				add_overlay("rods_4")
 	if(state == REACTOR_STATE_MAINTENANCE)
 		icon_state = "reactor_maintenance" //If we're in maint, don't make it appear hot.
 		return
@@ -435,7 +442,7 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 
 /obj/machinery/power/stormdrive_reactor/proc/handle_heat()
 	heat += heat_gain
-	target_heat = (-1)+2^(0.1*inverse_control_rod_percent) //too safe, it's time for MATH
+	target_heat = (-1)+2**(0.1*(100-control_rod_percent)) //too safe, it's time for MATH
 	if(heat > target_heat+(cooling_power-heat_gain)) //If it's hotter than the desired temperature, + our cooling power, we need to cool it off.
 		if(can_cool())
 			heat -= cooling_power
