@@ -36,7 +36,7 @@
 			if(!istype(X, /obj/structure/overmap))
 				continue
 			var/obj/structure/overmap/ship = X
-			if(ship == src || ship.faction == faction)
+			if(ship == src || ship.faction == faction || ship.z != z)
 				continue
 			switch(ai_behaviour)
 				if(AI_AGGRESSIVE)
