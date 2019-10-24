@@ -10,7 +10,6 @@
 
 /obj/screen/parallax_layer/layer_3
  	speed = 1
- 	layer = 2
 
 /obj/screen/parallax_layer/layer_3/update_status(mob/M)
  	. = ..()
@@ -28,11 +27,15 @@
 	if(OM && AR.parallax_movedir)
 		icon_state = "transit"
 		dir = AR.parallax_movedir
-	else
-		icon_state = "layer3"
+		return
+	if(OM?.current_system.parallax_property)
+		icon_state = OM.current_system.parallax_property
 		dir = initial(dir)
+		return
+	icon_state = "layer3"
+	dir = initial(dir)
 
-/obj/screen/parallax_layer/planet/update_o(view) //FOR NOW, we don't want the planet to scale with view. Change this when the "planet" layer becomes the "system" trait layer
+/obj/screen/parallax_layer/planet/update_o(view)
 	if(!current_mob)
 		return
 	update_status(current_mob)
@@ -42,7 +45,7 @@
 	var/turf/T = get_turf(M)
 	var/obj/structure/overmap/OM = current_mob.get_overmap()
 	var/area/AR = get_area(current_mob)
-	if(is_station_level(T.z))
+	if(is_station_level(T.z) && !OM?.current_system?.parallax_property) //Hide if there's a parallax override coming from a system
 		invisibility = 0
 	else
 		invisibility = INVISIBILITY_ABSTRACT
