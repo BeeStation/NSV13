@@ -218,7 +218,7 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 			reactor.control_rod_percent = new_control_rod_percent
 			if(reactor.control_rod_percent <= 20)
 				message_admins("[key_name(usr)] has manually set reactor control rods to a dangerous position in [get_area(usr)] [ADMIN_JMP(usr)]")
-		reactor.update_icon()
+			reactor.update_icon()
 	if(href_list["maintenance"])
 		if(reactor.state == REACTOR_STATE_MAINTENANCE)
 			reactor.disengage_maintenance()
