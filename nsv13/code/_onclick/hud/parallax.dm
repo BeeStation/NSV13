@@ -10,7 +10,6 @@
 
 /obj/screen/parallax_layer/layer_3
  	speed = 1
- 	layer = 2
 
 /obj/screen/parallax_layer/layer_3/update_status(mob/M)
  	. = ..()
@@ -36,7 +35,7 @@
 	icon_state = "layer3"
 	dir = initial(dir)
 
-/obj/screen/parallax_layer/planet/update_o(view) //FOR NOW, we don't want the planet to scale with view. Change this when the "planet" layer becomes the "system" trait layer
+/obj/screen/parallax_layer/planet/update_o(view)
 	if(!current_mob)
 		return
 	update_status(current_mob)

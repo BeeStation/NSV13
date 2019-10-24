@@ -159,6 +159,14 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 	. = ..()
 	ui_interact(user)
 
+/obj/machinery/computer/ship/reactor_control_computer/attack_ai(mob/user)
+	. = ..()
+	ui_interact(user)
+
+/obj/machinery/computer/ship/reactor_control_computer/attack_robot(mob/user)
+	. = ..()
+	ui_interact(user)
+
 /obj/machinery/computer/ship/reactor_control_computer/Initialize()
 	. = ..()
 	var/atom/adjacent = locate(/obj/machinery/power/stormdrive_reactor) in get_area(src) //Locate via area

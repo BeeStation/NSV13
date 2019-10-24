@@ -82,7 +82,7 @@ GLOBAL_DATUM_INIT(starsystem_controller, /datum/starsystem_controller, new)
 
 /datum/starsystem/astraeus
 	name = "Astraeus"
-	parallax_property = "gas" //If you want things to appear in the background when you jump to this system, do this.
+	parallax_property = "nebula" //If you want things to appear in the background when you jump to this system, do this.
 	level_trait = ZTRAIT_ASTRAEUS //The Ztrait of the zlevel that this system leads to
 	visitable = TRUE
 
