@@ -18,6 +18,7 @@
 	switch(position)
 		if("pilot")
 			pilot = user
+			show_flight_ui()
 		if("gunner")
 			gunner = user
 		if("all_positions")
@@ -26,7 +27,7 @@
 	operators += user
 	CreateEye(user) //Your body stays there but your mind stays with me - 6 (Battlestar galactica)
 	user.overmap_ship = src
-	dradis?.ui_interact(user)
+	dradis?.attack_hand(user)
 	LAZYOR(user.mousemove_intercept_objects, src)
 	user.click_intercept = src
 
