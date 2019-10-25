@@ -438,7 +438,7 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 		else
 			heat_gain = -5 //No plasma to react, so the reaction slowly dies off.
 			radiation_pulse(src, 3, 10) //reaction bleedoff
-	input_power_modifier = heat/10 //"Safe" mode gives a power mod of "1". Run it hotter for more power and stop being such a bitch.
+	input_power_modifier = heat/100 //"Safe" mode gives a power mod of "1". Run it hotter for more power and stop being such a bitch.
 	var/base_power = 1000000 //A starting point. By default, on super safe mode, the reactor gives 1 MW per tick
 	var/power_produced = powernet ? base_power / power_loss : base_power
 	last_power_produced = power_produced*input_power_modifier
