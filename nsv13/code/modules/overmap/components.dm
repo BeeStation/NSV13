@@ -35,6 +35,14 @@ GLOBAL_LIST_INIT(computer_beeps, list('nsv13/sound/effects/computer/beep.ogg','n
 /obj/machinery/computer/ship/proc/set_position(obj/structure/overmap/OM)
 	return
 
+/obj/machinery/computer/ship/attack_ai(mob/user)
+	. = ..()
+	attack_hand(user)
+
+/obj/machinery/computer/ship/attack_robot(mob/user)
+	. = ..()
+	attack_hand(user)
+
 /obj/machinery/computer/ship/attack_hand(mob/user)
 	if(!allowed(user))
 		var/sound = pick('nsv13/sound/effects/computer/error.ogg','nsv13/sound/effects/computer/error2.ogg','nsv13/sound/effects/computer/error3.ogg')
