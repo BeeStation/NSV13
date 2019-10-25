@@ -42,11 +42,6 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 #define REACTOR_STATE_RUNNING 3
 #define REACTOR_STATE_MELTDOWN 4
 
-#define RODS_RAISED 1
-#define RODS_HALFRAISED 2
-#define RODS_HALFLOWERED 3
-#define RODS_LOWERED 4
-
 #define WARNING_STATE_NONE 0
 #define WARNING_STATE_OVERHEAT 1
 #define WARNING_STATE_MELTDOWN 2
@@ -197,24 +192,19 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 			reactor.control_rod_percent += adjust
 	switch(action)
 		if("rods_1")
-			reactor.control_rod_state = RODS_RAISED
 			reactor.control_rod_percent = 0 //KARMIC: Tweak this accordingly
 			message_admins("[key_name(usr)] has fully raised reactor control rods in [get_area(usr)] [ADMIN_JMP(usr)]")
 			reactor.update_icon()
 		if("rods_2")
-			reactor.control_rod_state = RODS_HALFRAISED
-			reactor.control_rod_percent = 25
+			reactor.control_rod_percent = 23.49
 			reactor.update_icon()
 		if("rods_3")
-			reactor.control_rod_state = RODS_HALFLOWERED
-			reactor.control_rod_percent = 50
+			reactor.control_rod_percent = 33.42
 			reactor.update_icon()
 		if("rods_4")
-			reactor.control_rod_state = RODS_HALFLOWERED
 			reactor.control_rod_percent = 75
 			reactor.update_icon()
 		if("rods_5")
-			reactor.control_rod_state = RODS_LOWERED
 			reactor.control_rod_percent = 100
 			reactor.update_icon()
 			to_chat(usr, "<span class='danger'>SCRAM protocols engaged. Attempting reactor shutdown!</span>")
@@ -386,7 +376,15 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 		return
 	cut_overlays()
 	if(can_cool()) //If control rods aren't destroyed.
-		add_overlay("rods_[control_rod_state]")
+		switch(round(control_rod_percent))
+			if(0 to 24)
+				add_overlay("rods_1")
+			if(25 to 49)
+				add_overlay("rods_2")
+			if(50 to 74)
+				add_overlay("rods_3")
+			if(75 to 100)
+				add_overlay("rods_4")
 	if(state == REACTOR_STATE_MAINTENANCE)
 		icon_state = "reactor_maintenance" //If we're in maint, don't make it appear hot.
 		return
@@ -398,20 +396,16 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 				icon_state = "reactor_on"
 				light_color = LIGHT_COLOR_CYAN
 				set_light(5)
-				reaction_rate = initial(reaction_rate)
 			if(REACTOR_HEAT_NORMAL+10 to REACTOR_HEAT_VERYHOT)
 				icon_state = "reactor_hot"
-				reaction_rate = initial(reaction_rate)+1
 			if(REACTOR_HEAT_VERYHOT to REACTOR_HEAT_MELTDOWN) //Final warning
 				icon_state = "reactor_overheat"
 				light_color = LIGHT_COLOR_RED
 				set_light(5)
-				reaction_rate = initial(reaction_rate)+2
 			if(REACTOR_HEAT_MELTDOWN to INFINITY)
 				icon_state = "reactor_overheat"
 				light_color = LIGHT_COLOR_RED
 				set_light(5)
-				reaction_rate = initial(reaction_rate)+3
 				start_meltdown() //you're gigafucked
 
 /obj/machinery/power/stormdrive_reactor/process()
@@ -443,6 +437,7 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 	last_power_produced = power_produced*input_power_modifier
 	theoretical_maximum_power = power_produced*(REACTOR_HEAT_VERYHOT/100) //Used to show your power output vs peak power output in the UI.
 	add_avail(last_power_produced)
+	handle_reaction_rate()
 	handle_heat()
 	update_icon()
 	radiation_pulse(src, heat, 2)
@@ -463,18 +458,13 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 
 /obj/machinery/power/stormdrive_reactor/proc/handle_heat()
 	heat += heat_gain
-	switch(control_rod_state)
-		if(RODS_RAISED)
-			target_heat = REACTOR_HEAT_MELTDOWN*2
-		if(RODS_HALFRAISED)
-			target_heat = REACTOR_HEAT_HOT
-		if(RODS_HALFLOWERED)
-			target_heat = REACTOR_HEAT_NORMAL
-		if(RODS_LOWERED)
-			target_heat = 0
+	target_heat = (-1)+2**(0.1*(100-control_rod_percent))
 	if(heat > target_heat+(cooling_power-heat_gain)) //If it's hotter than the desired temperature, + our cooling power, we need to cool it off.
 		if(can_cool())
 			heat -= cooling_power
+
+/obj/machinery/power/stormdrive_reactor/proc/handle_reaction_rate()
+	reaction_rate = 0.5+(1e-03*(100-control_rod_percent)**2) + 1e-05*(heat**2) //let the train derail!
 
 /obj/machinery/power/stormdrive_reactor/proc/send_alert(message, override=FALSE)
 	if(!message)
@@ -769,10 +759,6 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 #undef REACTOR_STATE_IDLE
 #undef REACTOR_STATE_RUNNING
 #undef REACTOR_STATE_MELTDOWN
-#undef RODS_RAISED
-#undef RODS_HALFRAISED
-#undef RODS_HALFLOWERED
-#undef RODS_LOWERED
 #undef WARNING_STATE_NONE
 #undef WARNING_STATE_OVERHEAT
 #undef WARNING_STATE_MELTDOWN
