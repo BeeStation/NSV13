@@ -184,10 +184,15 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 			tune = input("Tune control rod insertion percentage: ([min]-[max]):", name, reactor.control_rod_percent) as num
 			if(tune > 100)
 				tune = 100
+			if(tune <0)
+				tune = 0
 			reactor.control_rod_percent = tune
 		if(adjust && isnum(adjust))
 			if(reactor.control_rod_percent >= 100)
 				reactor.control_rod_percent = 100
+				return
+			if(reactor.control_rod_percent <= 0)
+				reactor.control_rod_percent = 0
 				return
 			reactor.control_rod_percent += adjust
 	switch(action)
@@ -196,10 +201,10 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 			message_admins("[key_name(usr)] has fully raised reactor control rods in [get_area(usr)] [ADMIN_JMP(usr)]")
 			reactor.update_icon()
 		if("rods_2")
-			reactor.control_rod_percent = 23.49
+			reactor.control_rod_percent = 25
 			reactor.update_icon()
 		if("rods_3")
-			reactor.control_rod_percent = 33.42
+			reactor.control_rod_percent = 33.52 //Safe by the tinest of margins
 			reactor.update_icon()
 		if("rods_4")
 			reactor.control_rod_percent = 75
@@ -251,6 +256,7 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 	data["pipe_open"] = reactor.pipe.on
 	data["last_power_produced"] = reactor.last_power_produced
 	data["theoretical_maximum_power"] = reactor.theoretical_maximum_power
+	data["reaction_rate"] = reactor.reaction_rate
 	if(reactor.state == REACTOR_STATE_MAINTENANCE)
 		data["reactor_maintenance"] = TRUE
 	else
@@ -431,7 +437,8 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 			air1.garbage_collect()
 		else
 			heat_gain = -5 //No plasma to react, so the reaction slowly dies off.
-	input_power_modifier = heat/100 //"Safe" mode gives a power mod of "1". Run it hotter for more power and stop being such a bitch.
+			radiation_pulse(src, 3, 10) //reaction bleedoff
+	input_power_modifier = heat/10 //"Safe" mode gives a power mod of "1". Run it hotter for more power and stop being such a bitch.
 	var/base_power = 1000000 //A starting point. By default, on super safe mode, the reactor gives 1 MW per tick
 	var/power_produced = powernet ? base_power / power_loss : base_power
 	last_power_produced = power_produced*input_power_modifier
