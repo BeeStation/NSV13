@@ -1,0 +1,1 @@
+#define COMSIG_LOOPINGSOUND_PLAYED "loop_played"

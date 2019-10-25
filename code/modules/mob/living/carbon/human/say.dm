@@ -45,6 +45,8 @@
 	return special_voice
 
 /mob/living/carbon/human/binarycheck()
+	if(..()) //NSV13- If they have the binary speaker trait. Used for synthetics
+		return TRUE
 	if(ears)
 		var/obj/item/radio/headset/dongle = ears
 		if(!istype(dongle))

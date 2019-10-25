@@ -26,14 +26,22 @@ GLOBAL_LIST_INIT(computer_beeps, list('nsv13/sound/effects/computer/beep.ogg','n
 	var/area/AR = get_area(src)
 	if(AR.linked_overmap)
 		linked = AR.linked_overmap
-		set_position(linked)
 	if(linked)
+		set_position(linked)
 		return TRUE
 	else
 		return FALSE
 
 /obj/machinery/computer/ship/proc/set_position(obj/structure/overmap/OM)
 	return
+
+/obj/machinery/computer/ship/attack_ai(mob/user)
+	. = ..()
+	attack_hand(user)
+
+/obj/machinery/computer/ship/attack_robot(mob/user)
+	. = ..()
+	attack_hand(user)
 
 /obj/machinery/computer/ship/attack_hand(mob/user)
 	if(!allowed(user))
