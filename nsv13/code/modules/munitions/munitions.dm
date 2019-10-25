@@ -241,7 +241,7 @@
 	fire_sound = 'nsv13/sound/effects/ship/plasma.ogg'
 	load_sound = 'nsv13/sound/effects/ship/freespace2/m_load.wav'
 
-/obj/structure/ship_weapon_computer
+/obj/machinery/computer/ship/munitions_computer
 	name = "munitions control computer"
 	icon = 'nsv13/icons/obj/munitions.dmi'
 	icon_state = "munitions_console"
@@ -249,13 +249,21 @@
 	anchored = TRUE
 	var/obj/structure/ship_weapon/railgun //The one we're firing
 
-/obj/structure/ship_weapon_computer/Initialize()
+/obj/machinery/computer/ship/munitions_computer/Initialize()
 	. = ..()
 	var/atom/adjacent = locate(/obj/structure/ship_weapon) in get_turf(get_step(src, dir)) //Look at what dir we're facing, find a gun in that turf
 	if(adjacent && istype(adjacent, /obj/structure/ship_weapon))
 		railgun = adjacent
 
-/obj/structure/ship_weapon_computer/attack_hand(mob/user)
+/obj/machinery/computer/ship/munitions_computer/attack_ai(mob/user)
+	. = ..()
+	attack_hand(user)
+
+/obj/machinery/computer/ship/munitions_computer/attack_robot(mob/user)
+	. = ..()
+	attack_hand(user)
+
+/obj/machinery/computer/ship/munitions_computer/attack_hand(mob/user)
 	. = ..()
 	if(!railgun)
 		return
@@ -283,7 +291,7 @@
 	popup.set_content(dat)
 	popup.open()
 
-/obj/structure/ship_weapon_computer/Topic(href, href_list)
+/obj/machinery/computer/ship/munitions_computer/Topic(href, href_list)
 	if(!in_range(src, usr))
 		return
 	if(!railgun)

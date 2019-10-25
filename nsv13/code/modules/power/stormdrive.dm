@@ -75,6 +75,7 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 	var/target_heat = REACTOR_HEAT_NORMAL //For control rods. How hot do we want the reactor to get? We'll attempt to cool the reactor to this temperature.
 	var/cooling_power = 10 //How much heat we can drain per tick. Matches up with target_heat
 	var/control_rod_state = 3 //Rods start out to raise the heat. Position 1 is considered DANGEROUS, 2 is OK, 3 is safe, 4 is if you want to shut it off.
+	var/control_rod_percent = 100 //KARMIC: REMOVE ME WHEN YOU CHANGE UP THE REACTOR. THIS IS A PLACEHOLDER FOR THE TGUI
 	var/heat_gain = 5
 	var/warning_state = WARNING_STATE_NONE //Are we warning people about a meltdown already? If we are, don't spam them with sounds. Also works for when it's actually exploding
 	var/reaction_rate = 0.5 //N mol of constricted plasma / tick to keep the reaction going, if you shut this off, the reactor will cool.
@@ -87,6 +88,8 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 	var/engineering_channel = "Engineering"
 	var/can_alert = TRUE //Prevents spamming up the radio channels.
 	var/alert_cooldown = 20 SECONDS
+	var/last_power_produced = 0 //For UI tracking. Shows your power output.
+	var/theoretical_maximum_power = 100000 //Placeholder.
 
 
 /obj/machinery/power/stormdrive_reactor/attackby(obj/item/I, mob/user)
@@ -136,12 +139,13 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 		send_alert("Fission reaction terminated. Reactor now off-line.")
 	icon_state = initial(icon_state)
 	heat = 0
+	last_power_produced = 0 //Update UI to show that it's not making power now
 	state = REACTOR_STATE_IDLE //Force reactor restart.
 	set_light(0)
 	var/area/AR = get_area(src)
 	AR.looping_ambience = 'nsv13/sound/ambience/shipambience.ogg'
 
-/obj/structure/reactor_control_computer
+/obj/machinery/computer/ship/reactor_control_computer
 	name = "Seegson model RBMK reactor control console"
 	desc = "A state of the art terminal which is linked to a nuclear storm drive reactor. It has several buttons labelled 'AZ' on the keyboard."
 	icon = 'nsv13/icons/obj/machinery/reactor_parts.dmi'
@@ -151,98 +155,126 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 	var/obj/machinery/power/stormdrive_reactor/reactor //Our parent reactor
 	req_access = list(ACCESS_ENGINE_EQUIP)
 
-/obj/structure/reactor_control_computer/Initialize()
+/obj/machinery/computer/ship/reactor_control_computer/attack_hand(mob/user)
+	. = ..()
+	ui_interact(user)
+
+/obj/machinery/computer/ship/reactor_control_computer/attack_ai(mob/user)
+	. = ..()
+	ui_interact(user)
+
+/obj/machinery/computer/ship/reactor_control_computer/attack_robot(mob/user)
+	. = ..()
+	ui_interact(user)
+
+/obj/machinery/computer/ship/reactor_control_computer/Initialize()
 	. = ..()
 	var/atom/adjacent = locate(/obj/machinery/power/stormdrive_reactor) in get_area(src) //Locate via area
 	if(adjacent && istype(adjacent, /obj/machinery/power/stormdrive_reactor))
 		reactor = adjacent
 
-/obj/structure/reactor_control_computer/attack_hand(mob/user)
-	. = ..()
-	if(!reactor)
+/obj/machinery/computer/ship/reactor_control_computer/ui_act(action, params, datum/tgui/ui)
+	if(..())
 		return
-	if(!allowed(user))
-		var/sound = pick('nsv13/sound/effects/computer/error.ogg','nsv13/sound/effects/computer/error2.ogg','nsv13/sound/effects/computer/error3.ogg')
-		playsound(src, sound, 100, 1)
-		to_chat(user, "<span class='warning'>Access denied</span>")
+	if(!in_range(src, usr) || !reactor) //Topic check
 		return
-	var/dat
-	dat += "<h2> ---Available reactor operations:--- </h2>"
-	dat += "<A href='?src=\ref[src];rods_1=1'>AZ-1: Fully raise control rods</font></A><BR>"
-	dat += "<A href='?src=\ref[src];rods_2=1'>AZ-2  Raise control rods to position 2</font></A><BR>"
-	dat += "<A href='?src=\ref[src];rods_3=1'>AZ-3: Lower control rods to position 3</font></A><BR>"
-	if(reactor.state != REACTOR_STATE_MAINTENANCE)
-		dat += "<A href='?src=\ref[src];maintenance=1'>AZ-4: Initiate reactor maintenance protocols</font></A><BR>"
+	if(!reactor.pipe)
+		reactor.find_pipe()
+	var/tune = params["tune"]
+	var/adjust = text2num(params["adjust"])
+	if(action == "control_rod_percent")
+		if(tune == "input")
+			var/min = 0
+			var/max = 100
+			tune = input("Tune control rod insertion percentage: ([min]-[max]):", name, reactor.control_rod_percent) as num
+			if(tune > 100)
+				tune = 100
+			reactor.control_rod_percent = tune
+		if(adjust && isnum(adjust))
+			if(reactor.control_rod_percent >= 100)
+				reactor.control_rod_percent = 100
+				return
+			reactor.control_rod_percent += adjust
+	switch(action)
+		if("rods_1")
+			reactor.control_rod_state = RODS_RAISED
+			reactor.control_rod_percent = 0 //KARMIC: Tweak this accordingly
+			message_admins("[key_name(usr)] has fully raised reactor control rods in [get_area(usr)] [ADMIN_JMP(usr)]")
+			reactor.update_icon()
+		if("rods_2")
+			reactor.control_rod_state = RODS_HALFRAISED
+			reactor.control_rod_percent = 25
+			reactor.update_icon()
+		if("rods_3")
+			reactor.control_rod_state = RODS_HALFLOWERED
+			reactor.control_rod_percent = 50
+			reactor.update_icon()
+		if("rods_4")
+			reactor.control_rod_state = RODS_HALFLOWERED
+			reactor.control_rod_percent = 75
+			reactor.update_icon()
+		if("rods_5")
+			reactor.control_rod_state = RODS_LOWERED
+			reactor.control_rod_percent = 100
+			reactor.update_icon()
+			to_chat(usr, "<span class='danger'>SCRAM protocols engaged. Attempting reactor shutdown!</span>")
+		if("maintenance")
+			if(reactor.state == REACTOR_STATE_MAINTENANCE)
+				reactor.disengage_maintenance()
+				to_chat(usr, "<span class='danger'>Maintenance protocols disengaged.</span>")
+				attack_hand(usr)
+				return
+			if(reactor.state == REACTOR_STATE_IDLE)
+				reactor.engage_maintenance()
+				to_chat(usr, "<span class='danger'>Maintenance protocols engaged.</span>")
+				attack_hand(usr)
+				return
+			else
+				to_chat(usr, "<span class='danger'>DANGER! Maintenance protocols cannot be initiated while the reactor is active</span>")
+		if("pipe")
+			if(reactor.pipe?.on)
+				reactor.pipe?.on = FALSE
+				reactor.pipe?.target_pressure = ONE_ATMOSPHERE
+				reactor.pipe?.update_icon()
+				to_chat(usr, "<span class='notice'>Reactor outlet gate disengaged.</span>")
+				attack_hand(usr)
+				return
+			else
+				reactor.pipe?.on = TRUE
+				reactor.pipe?.target_pressure = MAX_OUTPUT_PRESSURE
+				reactor.pipe?.update_icon()
+				to_chat(usr, "<span class='notice'>Reactor outlet gate engaged.</span>")
+				attack_hand(usr)
+				return
+
+/obj/machinery/computer/ship/reactor_control_computer/ui_interact(mob/user, ui_key = "main", datum/tgui/ui = null, force_open = 0, datum/tgui/master_ui = null, datum/ui_state/state = GLOB.default_state) // Remember to use the appropriate state.
+	ui = SStgui.try_update_ui(user, src, ui_key, ui, force_open)
+	if(!ui)
+		ui = new(user, src, ui_key, "stormdrive_console", name, 560, 600, master_ui, state)
+		ui.open()
+
+/obj/machinery/computer/ship/reactor_control_computer/ui_data(mob/user)
+	var/list/data = list()
+	data["heat"] = reactor.heat
+	data["rod_integrity"] = reactor.rod_integrity
+	data["control_rod_percent"] = reactor.control_rod_percent
+	data["pipe_open"] = reactor.pipe.on
+	data["last_power_produced"] = reactor.last_power_produced
+	data["theoretical_maximum_power"] = reactor.theoretical_maximum_power
+	if(reactor.state == REACTOR_STATE_MAINTENANCE)
+		data["reactor_maintenance"] = TRUE
 	else
-		dat += "<A href='?src=\ref[src];maintenance=1'>AZ-4: Disengage reactor maintenance protocols</font></A><BR>"
-	dat += "<A href='?src=\ref[src];rods_4=1'>AZ-5: Attempt immediate reactor shutdown (SCRAM)</font></A><BR>" //AZ5 machine broke
-	if(reactor.pipe?.on == TRUE)
-		dat += "<A href='?src=\ref[src];pipe=1'>AZ-6: Close release valve</font></A><BR>"
-	if(reactor.pipe?.on == FALSE)
-		dat += "<A href='?src=\ref[src];pipe=1'>AZ-6: Open release valve</font></A><BR>"
-	dat += "<h2> ---Statistics:--- </h2>"
-	dat += "<A href='?src=\ref[src];reactorplaceholder=1'> Last recorded temperature: [reactor?.heat] (�C)</A><BR>"
-	dat += "<A href='?src=\ref[src];reactorplaceholder=1'> Reported control rod health: [reactor?.rod_integrity] %</A><BR>"
+		data["reactor_maintenance"] = FALSE
+	var/moles = 0
 	if(reactor.pipe)
 		var/datum/gas_mixture/air1 = reactor.pipe.airs[1]
 		var/list/cached_gases = air1.gases
 		if(cached_gases[/datum/gas/constricted_plasma])
-			var/moles = cached_gases[/datum/gas/constricted_plasma][MOLES]
-			dat += "<A href='?src=\ref[src];reactorplaceholder=1'> Fuel level (moles): [moles]</A><BR>"
-
-
-	var/datum/browser/popup = new(user, "Reactor control systems", name, 400, 500)
-	popup.set_content(dat)
-	popup.open()
-
-/obj/structure/reactor_control_computer/Topic(href, href_list)
-	if(!in_range(src, usr) || !reactor)
-		return
-	if(href_list["rods_1"])
-		reactor.control_rod_state = RODS_RAISED
-		message_admins("[key_name(usr)] has fully raised reactor control rods in [get_area(usr)] [ADMIN_JMP(usr)]")
-		reactor.update_icon()
-	if(href_list["rods_2"])
-		reactor.control_rod_state = RODS_HALFRAISED
-		reactor.update_icon()
-	if(href_list["rods_3"])
-		reactor.control_rod_state = RODS_HALFLOWERED
-		reactor.update_icon()
-	if(href_list["rods_4"])
-		reactor.control_rod_state = RODS_LOWERED
-		reactor.update_icon()
-	if(href_list["maintenance"])
-		if(reactor.state == REACTOR_STATE_MAINTENANCE)
-			reactor.disengage_maintenance()
-			to_chat(usr, "<span class='danger'>Maintenance protocols disengaged.</span>")
-			attack_hand(usr)
-			return
-		if(reactor.state == REACTOR_STATE_IDLE)
-			reactor.engage_maintenance()
-			to_chat(usr, "<span class='danger'>Maintenance protocols engaged.</span>")
-			attack_hand(usr)
-			return
-		else
-			to_chat(usr, "<span class='danger'>DANGER! Maintenance protocols cannot be initiated while the reactor is active</span>")
-	if(!reactor.pipe)
-		reactor.find_pipe()
-	if(href_list["pipe"])
-		if(reactor.pipe?.on)
-			reactor.pipe?.on = FALSE
-			reactor.pipe?.target_pressure = ONE_ATMOSPHERE
-			reactor.pipe?.update_icon()
-			to_chat(usr, "<span class='notice'>Reactor outlet gate disengaged.</span>")
-			attack_hand(usr)
-			return
-		else
-			reactor.pipe?.on = TRUE
-			reactor.pipe?.target_pressure = MAX_OUTPUT_PRESSURE
-			reactor.pipe?.update_icon()
-			to_chat(usr, "<span class='notice'>Reactor outlet gate engaged.</span>")
-			attack_hand(usr)
-			return
-
-	attack_hand(usr)
+			moles = cached_gases[/datum/gas/constricted_plasma][MOLES]
+			if(moles < 0)
+				moles = 0
+	data["fuel"] = moles
+	return data
 
 /obj/machinery/power/stormdrive_reactor/Initialize()
 	. = ..()
@@ -264,6 +296,7 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 	if(cached_gases[/datum/gas/constricted_plasma])
 		var/moles = cached_gases[/datum/gas/constricted_plasma][MOLES]
 		if(moles >= start_threshold && heat >= start_threshold)
+			heat = start_threshold+10 //Avoids it getting heated up to 10000 by the PA, then turning it on, then getting insta meltdown.
 			cached_gases[/datum/gas/constricted_plasma][MOLES] -= start_threshold //Here, we subtract the plasma
 			visible_message("<span class='danger'>[src] starts to glow an ominous blue!</span>")
 			icon_state = "reactor_on"
@@ -407,7 +440,9 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 	input_power_modifier = heat/100 //"Safe" mode gives a power mod of "1". Run it hotter for more power and stop being such a bitch.
 	var/base_power = 1000000 //A starting point. By default, on super safe mode, the reactor gives 1 MW per tick
 	var/power_produced = powernet ? base_power / power_loss : base_power
-	add_avail(power_produced*input_power_modifier)
+	last_power_produced = power_produced*input_power_modifier
+	theoretical_maximum_power = power_produced*(REACTOR_HEAT_VERYHOT/100) //Used to show your power output vs peak power output in the UI.
+	add_avail(last_power_produced)
 	handle_heat()
 	update_icon()
 	radiation_pulse(src, heat, 2)

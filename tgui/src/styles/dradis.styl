@@ -1,0 +1,27 @@
+body.dradis
+  background-color-start   = #000000
+  background-color-end     = #000000
+  .map
+    position relative
+    width 31.875em
+    height 31.875em
+    margin 0 auto
+  .point
+    display block
+    position absolute
+    width 1em
+    height 1em
+    border-radius 50%
+    -webkit-animation blink 2s linear forwards
+    animation blink 2s linear forwards
+    animation-iteration-count:infinite
+    opacity 1
+  @keyframes blink
+    50%
+      opacity:0
+  background: data-url('dradis.gif') no-repeat fixed center/100% 110%,
+    linear-gradient(to bottom,
+      background-color-start 0%,
+      background-color-end 100%)
+  @import "util/*"
+  @import "components/*"
