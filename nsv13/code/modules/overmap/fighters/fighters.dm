@@ -22,6 +22,14 @@
 	var/a_eff = 0
 	var/f_eff = 0
 
+/obj/structure/overmap/fighter/ai
+	ai_controlled = TRUE
+	ai_behaviour = AI_AGGRESSIVE
+	faction = "nanotrasen"
+
+/obj/structure/overmap/fighter/ai/syndicate
+	faction = "syndicate"
+
 /obj/structure/overmap/fighter/prebuilt
 	prebuilt = TRUE
 
