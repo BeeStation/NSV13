@@ -65,8 +65,6 @@
 
 
 	mob.log_talk(raw_msg, LOG_LOOC)
-	mob.log_message("[key]: [raw_msg]", INDIVIDUAL_LOOC_LOG)
-
 
 	var/list/clients_to_hear = list()
 	var/turf/looc_source = get_turf(mob.get_looc_source())
@@ -136,7 +134,3 @@
 	else
 		GLOB.dlooc_allowed = !GLOB.dlooc_allowed
 	to_chat(world, "<B>The LOOC channel has been globally [GLOB.looc_allowed ? "enabled" : "disabled"] for the dead.</B>")
-
-/client/proc/get_looc()
-	var/msg = input(src, null, "looc \"text\"") as text|null
-	looc(msg)
