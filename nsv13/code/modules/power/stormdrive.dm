@@ -69,11 +69,10 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 	var/heat = 0 //How hot are we?
 	var/target_heat = REACTOR_HEAT_NORMAL //For control rods. How hot do we want the reactor to get? We'll attempt to cool the reactor to this temperature.
 	var/cooling_power = 10 //How much heat we can drain per tick. Matches up with target_heat
-	var/control_rod_state = 3 //Rods start out to raise the heat. Position 1 is considered DANGEROUS, 2 is OK, 3 is safe, 4 is if you want to shut it off.
-	var/control_rod_percent = 100 //KARMIC: REMOVE ME WHEN YOU CHANGE UP THE REACTOR. THIS IS A PLACEHOLDER FOR THE TGUI
+	var/control_rod_percent = 100 //Handles the insertion depth of the control rods into the reactor
 	var/heat_gain = 5
 	var/warning_state = WARNING_STATE_NONE //Are we warning people about a meltdown already? If we are, don't spam them with sounds. Also works for when it's actually exploding
-	var/reaction_rate = 0.5 //N mol of constricted plasma / tick to keep the reaction going, if you shut this off, the reactor will cool.
+	var/reaction_rate = 0 //N mol of constricted plasma / tick to keep the reaction going, if you shut this off, the reactor will cool.
 	var/power_loss = 2 //For subtypes, if you want a less efficient reactor
 	var/input_power_modifier = 1
 	var/state = REACTOR_STATE_IDLE
@@ -135,6 +134,7 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 	icon_state = initial(icon_state)
 	heat = 0
 	last_power_produced = 0 //Update UI to show that it's not making power now
+	reaction_rate = 0
 	state = REACTOR_STATE_IDLE //Force reactor restart.
 	set_light(0)
 	var/area/AR = get_area(src)
@@ -204,7 +204,7 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 			reactor.control_rod_percent = 25
 			reactor.update_icon()
 		if("rods_3")
-			reactor.control_rod_percent = 33.52 //Safe by the tinest of margins
+			reactor.control_rod_percent = 33.6 //Safe mode?
 			reactor.update_icon()
 		if("rods_4")
 			reactor.control_rod_percent = 75
@@ -437,7 +437,7 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 			air1.garbage_collect()
 		else
 			heat_gain = -5 //No plasma to react, so the reaction slowly dies off.
-			radiation_pulse(src, 3, 10) //reaction bleedoff
+			radiation_pulse(src, 10, 10) //reaction bleedoff
 	input_power_modifier = heat/100 //"Safe" mode gives a power mod of "1". Run it hotter for more power and stop being such a bitch.
 	var/base_power = 1000000 //A starting point. By default, on super safe mode, the reactor gives 1 MW per tick
 	var/power_produced = powernet ? base_power / power_loss : base_power
@@ -451,7 +451,7 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 
 /obj/machinery/power/stormdrive_reactor/proc/can_cool()
 	if(heat > REACTOR_HEAT_NORMAL+10) //Only start melting the rods if theyre running it hot. We have a "safe" mode which doesn't need you to check in on the reactor at all.
-		rod_integrity -= input_power_modifier/120 //Assuming youre running it at hot, rods will melt every 30 minutes.
+		rod_integrity -= input_power_modifier/60 //Assuming youre running it at hot, rods will melt every 30 minutes.
 		if(rod_integrity < 0)
 			rod_integrity = 0
 			send_alert("DANGER: Primary control rods have failed!")
@@ -465,7 +465,7 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 
 /obj/machinery/power/stormdrive_reactor/proc/handle_heat()
 	heat += heat_gain
-	target_heat = (-1)+2**(0.1*(100-control_rod_percent))
+	target_heat = (-1)+2**(0.1*(100-control_rod_percent)) //Let there be math
 	if(heat > target_heat+(cooling_power-heat_gain)) //If it's hotter than the desired temperature, + our cooling power, we need to cool it off.
 		if(can_cool())
 			heat -= cooling_power
@@ -620,7 +620,7 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 				to_chat(user, "<span class='notice'>You secure the maintenance hatches on [src].</span>")
 				state = CONSTRICTOR_WELDED
 				update_icon()
-				START_PROCESSING(SSmachines,src) //Start processing once it's built. If it doesn't have the required components, it shuts off.
+				START_PROCESSING(SSfastprocess,src) //Start processing once it's built. If it doesn't have the required components, it shuts off.
 			return TRUE
 		if(CONSTRICTOR_WELDED)
 			to_chat(user, "<span class='notice'>You start unwelding the maintenance hatches on [src]...</span>")
@@ -634,7 +634,7 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 	anchored = TRUE
 	state = CONSTRICTOR_WELDED
 	update_icon()
-	START_PROCESSING(SSmachines,src)
+	START_PROCESSING(SSfastprocess,src)
 
 /obj/machinery/power/magnetic_constrictor/update_icon()
 	cut_overlays()
