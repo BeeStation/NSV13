@@ -11,7 +11,7 @@
 	icon_state = "fighter"
 	brakes = TRUE
 	armor = list("melee" = 80, "bullet" = 80, "laser" = 80, "energy" = 50, "bomb" = 50, "bio" = 100, "rad" = 100, "fire" = 100, "acid" = 80) //temp to stop easy destruction from small arms
-	bound_width = 96 //Change this on a per ship basis
+	bound_width = 64 //Change this on a per ship basis
 	bound_height = 96
 	mass = MASS_TINY
 	sprite_size = 32
@@ -72,19 +72,21 @@
 		senc++
 		sens = sens + sen.speed
 		sene = sene + sen.consumption
-	sens = sens / senc
-	sene = sene / senc
-	f_eff = sene + sfl.fuel_efficiency / 2
+	if(senc > 0)
+		sens = sens / senc
+		sene = sene / senc
+	if(sfl?.fuel_efficiency > 0)
+		f_eff = sene + sfl.fuel_efficiency / 2
 	a_eff = sts.weapon_efficiency
-	max_integrity = 100 * sap.armour
+	max_integrity = initial(max_integrity) * sap.armour
 
 /obj/structure/overmap/fighter/proc/fuel_setup()
 	qdel(reagents)
 	var/obj/item/twohanded/required/fighter_component/fuel_tank/sft = get_part(/obj/item/twohanded/required/fighter_component/fuel_tank)
-	create_reagents(sft.capacity)
+	create_reagents(sft?.capacity)
 
 /obj/structure/overmap/fighter/slowprocess()
-	if(reagents.total_volume/reagents.maximum_volume*(100) < 10 && piloted) //too much spam currently - fix me
+	if(reagents?.total_volume/reagents.maximum_volume*(100) < 10 && piloted) //too much spam currently - fix me
 		visible_message("<span class=userdanger>BINGO FUEL!</span>")
 
 //Fighter Maintenance
@@ -229,64 +231,9 @@
 /obj/structure/overmap/fighter/attack_hand(mob/user)
 	.=..()
 	if(maint_state == MS_OPEN)
-		user.set_machine(src)
-		var/dat
-		dat += "<h2> Overview: </h2>"
-//hp, fuel etc go here
-		dat += "<p>Structural Integrity: [obj_integrity/max_integrity*(100)]%</p>"
-		dat += "<p>Fuel Capacity: [reagents.total_volume/reagents.maximum_volume*(100)]%</p>"
-		dat += "<h2> Payload: </h2>"
-//Guns, ammo and torpedos
-		var/atom/movable/pw = get_part(/obj/item/twohanded/required/fighter_component/primary_cannon)
-		if(pw == null)
-			dat += "<p><b>PRIMARY WEAPON NOT INSTALLED</font></p>"
-		else
-			dat += "<a href='?src=[REF(src)]:primary_weapon=1'>[pw?.name]</a><br>"
-		dat += "<p>Ammo Capacity:</p>"
-		var/t = 0
-		for(var/obj/structure/munition/mu in contents)
-			dat += "<a href='?src=[REF(src)];torpedo=1'>[mu?.name]</a><br>"
-			t++
-		switch(t)
-			if(1)
-				dat += "<p><b>ONE TORPEDO PYLON EMPTY</font></p>"
-			if(0)
-				dat += "<p><b>TWO TORPEDO PYLONS EMPTY</font></p>"
-		dat += "<h2> Components: </h2>"
-		var/atom/movable/ap = get_part(/obj/item/twohanded/required/fighter_component/armour_plating)
-		if(ap == null)
-			dat += "<p><b>ARMOUR PLATING NOT INSTALLED</font></p>"
-		else
-			dat += "<a href='?src=[REF(src)];armour_plating=1'>[ap?.name]</a><br>"
-		var/atom/movable/ft = get_part(/obj/item/twohanded/required/fighter_component/fuel_tank)
-		if(ft == null)
-			dat += "<p><b>FUEL TANK NOT INSTALLED</font></p>"
-		else
-			dat += "<a href='?src=[REF(src)];fuel_tank=1'>[ft?.name]</a><br>"
-		var/atom/movable/fl = get_part(/obj/item/fighter_component/fuel_lines)
-		if(fl == null)
-			dat += "<p><b>FUEL LINES NOT INSTALLED</font></p>"
-		else
-			dat += "<a href='?src=[REF(src)];fuel_lines=1'>[fl?.name]</a><br>"
-		var/atom/movable/ts = get_part(/obj/item/fighter_component/targeting_sensor)
-		if(ts == null)
-			dat += "<p><b>TARGETING SENSOR NOT INSTALLED</font></p>"
-		else
-			dat += "<a href='?src=[REF(src)];targeting_sensor=1'>[ts?.name]</a><br>"
-		var/e = 0
-		for(var/obj/item/twohanded/required/fighter_component/engine/en in contents)
-			dat += "<a href='?src=[REF(src)];engine=1'>[en?.name]</a><br>"
-			e++
-		switch(e)
-			if(1)
-				dat += "<p><b>ONE ENGINE NOT INSTALLED</font></p>"
-			if(0)
-				dat += "<p><b>TWO ENGINES NOT INSTALLED</font></p>"
-		var/datum/browser/popup = new(user, "fighter", name, 400, 600)
-		popup.set_content(dat)
-		popup.open()
+		display_maint_popup(user)
 		return TRUE
-	else if(maint_state != MS_OPEN && !pilot) //temp behaviour - button will break control of fighter
+	else if(maint_state < MS_UNSECURE && !pilot) //temp behaviour - button will break control of fighter
 		if(alert(user, "Climb into [src]'s cockpit?",, "Yes", "No")!="Yes")
 			return
 		to_chat(user, "<span class='notice'>You begin climbing into [src]'s cockpit...</span>")
@@ -295,9 +242,9 @@
 		to_chat(user, "<span class='notice'>You climb into [src]'s cockpit.</span>")
 		user.forceMove(src)
 		piloted = TRUE
-		start_piloting(user, "pilot")
+		start_piloting(user, "all_positions")
 		return TRUE
-	else if(maint_state == !MS_OPEN && piloted == TRUE)  //temp behaviour - rework this
+	else if(maint_state < MS_UNSECURE && pilot)  //temp behaviour - rework this
 		if(alert(user, "Climb out of [src]'s cockpit?",, "Yes", "No")!="Yes")
 			return
 		to_chat(user, "<span class='notice'>You begin climbing out of [src]'s cockpit...</span>")
@@ -307,6 +254,65 @@
 		user.forceMove(loc)
 		piloted = FALSE
 		stop_piloting(user)
+
+
+/obj/structure/overmap/fighter/proc/display_maint_popup(mob/user)
+	user.set_machine(src)
+	var/dat
+	dat += "<h2> Overview: </h2><br>"
+//hp, fuel etc go here
+	dat += "<p>Structural Integrity: [obj_integrity/max_integrity*(100)]%</p><br>"
+	dat += "<p>Fuel Capacity: [reagents?.total_volume/reagents.maximum_volume*(100)]%</p><br>"
+	dat += "<h2> Payload: </h2><br>"
+//Guns, ammo and torpedos
+	var/atom/movable/pw = get_part(/obj/item/twohanded/required/fighter_component/primary_cannon)
+	if(pw == null)
+		dat += "<p><b>PRIMARY WEAPON NOT INSTALLED</font></p><br>"
+	else
+		dat += "<a href='?src=[REF(src)]:primary_weapon=1'>[pw?.name]</a><br>"
+	dat += "<p>Ammo Capacity:</p>"
+	var/t = 0
+	for(var/obj/structure/munition/mu in contents)
+		dat += "<a href='?src=[REF(src)];torpedo=1'>[mu?.name]</a><br>"
+		t++
+	switch(t)
+		if(1)
+			dat += "<p><b>ONE TORPEDO PYLON EMPTY</font></p><br>"
+		if(0)
+			dat += "<p><b>TWO TORPEDO PYLONS EMPTY</font></p><br>"
+	dat += "<h2> Components: </h2>"
+	var/atom/movable/ap = get_part(/obj/item/twohanded/required/fighter_component/armour_plating)
+	if(ap == null)
+		dat += "<p><b>ARMOUR PLATING NOT INSTALLED</font></p><br>"
+	else
+		dat += "<a href='?src=[REF(src)];armour_plating=1'>[ap?.name]</a><br>"
+	var/atom/movable/ft = get_part(/obj/item/twohanded/required/fighter_component/fuel_tank)
+	if(ft == null)
+		dat += "<p><b>FUEL TANK NOT INSTALLED</font></p><br>"
+	else
+		dat += "<a href='?src=[REF(src)];fuel_tank=1'>[ft?.name]</a><br>"
+	var/atom/movable/fl = get_part(/obj/item/fighter_component/fuel_lines)
+	if(fl == null)
+		dat += "<p><b>FUEL LINES NOT INSTALLED</font></p><br>"
+	else
+		dat += "<a href='?src=[REF(src)];fuel_lines=1'>[fl?.name]</a><br>"
+	var/atom/movable/ts = get_part(/obj/item/fighter_component/targeting_sensor)
+	if(ts == null)
+		dat += "<p><b>TARGETING SENSOR NOT INSTALLED</font></p><br>"
+	else
+		dat += "<a href='?src=[REF(src)];targeting_sensor=1'>[ts?.name]</a><br>"
+	var/engine_count = 0
+	for(var/obj/item/twohanded/required/fighter_component/engine/en in contents)
+		dat += "<a href='?src=[REF(src)];engine=1'>[en?.name]</a><br>"
+		engine_count++
+	switch(engine_count)
+		if(1)
+			dat += "<p><b>ONE ENGINE NOT INSTALLED</font></p><br>"
+		if(0)
+			dat += "<p><b>TWO ENGINES NOT INSTALLED</font></p><br>"
+	var/datum/browser/popup = new(user, "fighter", name, 400, 600)
+	popup.set_content(dat)
+	popup.open()
 
 /obj/structure/overmap/fighter/Topic(href, href_list)
 	if(!in_range(src, usr))
@@ -329,6 +335,7 @@
 			to_chat(user, "<span class='notice'>You uninstall [ap.name] from [src].</span>")
 			ap?.forceMove(get_turf(src))
 			update_stats()
+			attack_hand(user) //Refresh UI.
 	if(href_list["fuel_tank"])
 		if(ft)
 			to_chat(user, "<span class='notice'>You start uninstalling [ft.name] from [src].</span>")
@@ -337,6 +344,7 @@
 			to_chat(user, "<span class='notice'>You uninstall [ft.name] from [src].</span>")
 			ft?.forceMove(get_turf(src))
 			update_stats()
+			attack_hand(user) //Refresh UI.
 	if(href_list["fuel_lines"])
 		if(fl)
 			to_chat(user, "<span class='notice'>You start uninstalling [fl.name] from [src].</span>")
@@ -345,6 +353,7 @@
 			to_chat(user, "<span class='notice'>You uninstall [fl.name] from [src].</span>")
 			fl?.forceMove(get_turf(src))
 			update_stats()
+			attack_hand(user) //Refresh UI.
 	if(href_list["targeting_sensor"])
 		if(ts)
 			to_chat(user, "<span class='notice'>You start uninstalling [ts.name] from [src].</span>")
@@ -353,6 +362,7 @@
 			to_chat(user, "<span class='notice'>You uninstall [ts.name] from [src].</span>")
 			ts?.forceMove(get_turf(src))
 			update_stats()
+			attack_hand(user) //Refresh UI.
 	if(href_list["engine"])
 		if(en)
 			to_chat(user, "<span class='notice'>You start uninstalling [en.name] from [src].</span>")
@@ -361,6 +371,7 @@
 			to_chat(user, "<span class='notice'>You uninstall [en.name] from [src].</span>")
 			en?.forceMove(get_turf(src))
 			update_stats()
+			attack_hand(user) //Refresh UI.
 	if(href_list["primary_weapon"])
 		if(pw)
 			to_chat(user, "<span class='notice'>You start uninstalling [pw.name] from [src].</span>")
@@ -369,6 +380,7 @@
 			to_chat(user, "<span class='notice'>You uninstall [pw.name] from [src].</span>")
 			pw?.forceMove(get_turf(src))
 			update_stats()
+			attack_hand(user) //Refresh UI.
 	if(href_list["torpedo"])
 		if(tr)
 			to_chat(user, "<span class='notice'>You start uninstalling [tr.name] from [src].</span>")
@@ -376,6 +388,7 @@
 				return
 			to_chat(user, "<span class='notice'>You uninstall [tr.name] from [src].</span>")
 			tr?.forceMove(get_turf(src))
+			attack_hand(user) //Refresh UI.
 
 /obj/structure/overmap/fighter/on_reagent_change()
 	.=..()
@@ -385,9 +398,9 @@
 			reagents.clear_reagents()
 			new /obj/effect/decal/cleanable/oil(loc)
 
-/obj/structure/overmap/fighter/proc/Eject()
+/obj/structure/overmap/fighter/proc/eject()
 	var/obj/structure/overmap/escapepod/ep = new /obj/structure/overmap/escapepod (loc, 1)
-	var/atom/movable/hu = get_part(/mob/living/carbon/human)
+	var/atom/movable/hu = get_part(/mob/living/carbon/human) //Lmao karmic stop objectifying people
 	hu.forceMove(ep)
 	qdel(src)
 
@@ -398,7 +411,7 @@
 	sleep(10)
 	visible_message("<span class=userdanger>Auto-Ejection Sequence Enabled! Escape Pod Launched!</span>")
 	//injuring pilot goes here
-	Eject()
+	eject()
 
 /obj/structure/overmap/escapepod
 	name = "Escape Pod"

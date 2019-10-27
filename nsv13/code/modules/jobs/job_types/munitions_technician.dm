@@ -17,15 +17,24 @@
 	paycheck_department = ACCOUNT_CAR
 
 	display_order = JOB_DISPLAY_ORDER_MUNITIONS_TECHNICIAN
-	display_rank = "LCPL" //nsv13 - Displays the player's actual rank alongside their name, such as GSGT Sergei Koralev
+	display_rank = "SPC" //nsv13 - Displays the player's actual rank alongside their name, such as GSGT Sergei Koralev
 
 /datum/outfit/job/munitions_tech
 	name = "Munitions Technician"
 	jobtype = /datum/job/munitions_tech
 
 	belt = /obj/item/storage/belt/utility/full/engi
-	ears = /obj/item/radio/headset/headset_sec/alt //placeholder
-	uniform = /obj/item/clothing/under/rank/cargotech //placeholder
+	ears = /obj/item/radio/headset/headset_sec/alt
+	uniform = /obj/item/clothing/under/rank/munitions_tech
 	suit = /obj/item/clothing/suit/hazardvest
-	gloves = /obj/item/clothing/gloves/color/brown //placeholder
-	l_pocket = /obj/item/pda/cargo //placeholder
+	head = /obj/item/clothing/head/soft/yellow
+	gloves = /obj/item/clothing/gloves/color/brown
+	l_pocket = /obj/item/pda/cargo
+
+/obj/item/clothing/under/rank/munitions_tech
+	name = "camouflage fatigues"
+	desc = "A green military camouflage uniform worn by specialists."
+	icon_state = "camogreen"
+	item_state = "g_suit"
+	item_color = "camogreen"
+	can_adjust = FALSE

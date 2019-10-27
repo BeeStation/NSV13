@@ -141,3 +141,45 @@
 	name = "hazmat suit"
 	icon = 'nsv13/icons/obj/clothing/suits.dmi' //Placeholder subtype for our own iconsets
 	alternate_worn_icon = 'nsv13/icons/mob/suit.dmi'
+
+	//Hardsuits
+/obj/item/clothing/head/helmet/space/hardsuit/pilot
+	name = "fighter pilot helmet"
+	icon = 'nsv13/icons/obj/clothing/hats.dmi'
+	alternate_worn_icon = 'nsv13/icons/mob/head.dmi'
+	icon_state = "hardsuit0-pilot_helmet"
+	item_state = "pilot_helmet"
+	item_color = "pilot_helmet"
+	desc = "A lightweight space-helmet designed to protect fighter pilots in combat situations."
+	armor = list("melee" = 20, "bullet" = 30, "laser" = 10, "energy" = 10, "bomb" = 70, "bio" = 100, "rad" = 50, "fire" = 100, "acid" = 100)
+	resistance_flags = FIRE_PROOF | ACID_PROOF
+	flags_inv = HIDEEARS|HIDEEYES|HIDEFACE|HIDEHAIR //we want to see the mask
+	heat_protection = HEAD
+	max_heat_protection_temperature = FIRE_IMMUNITY_MAX_TEMP_PROTECT
+
+/obj/item/clothing/suit/space/hardsuit/pilot
+	name = "fighter pilot flightsuit"
+	desc = "A space-proof flightsuit worn by fighter pilots in the Nanotrasen navy. It has been specially reinforced to protect its wearer against most threats."
+	icon = 'nsv13/icons/obj/clothing/suits.dmi'
+	alternate_worn_icon = 'nsv13/icons/mob/suit.dmi'
+	icon_state = "pilot"
+	item_state = "pilot"
+	item_color = "pilot"
+	helmettype = /obj/item/clothing/head/helmet/space/hardsuit/pilot
+	armor = list("melee" = 40, "bullet" = 50, "laser" = 50, "energy" = 25, "bomb" = 50, "bio" = 100, "rad" = 50, "fire" = 100, "acid" = 100)
+	resistance_flags = FIRE_PROOF | ACID_PROOF
+	heat_protection = CHEST|GROIN|LEGS|FEET|ARMS|HANDS
+	max_heat_protection_temperature = FIRE_IMMUNITY_MAX_TEMP_PROTECT //this needed to be added a long fucking time ago
+
+/obj/item/clothing/under/ship/pilot
+	name = "Pilot's combat jumpsuit"
+	desc = "A lightweight jumpsuit with harness points and carabiners which is designed to be worn with a pilot's flightsuit."
+	icon_state = "pilot"
+	item_color = "pilot"
+	item_state = "bl_suit"
+
+/obj/item/clothing/head/beret/ship/pilot
+	name = "pilot's beret"
+	desc = "In parts a fashion statement and a hard hat, this beret has been specially reinforced to protect its wearer against workplace accidents."
+	icon_state = "pilot"
+	armor = list("melee" = 15, "bullet" = 0, "laser" = 0, "energy" = 5, "bomb" = 10, "bio" = 0, "rad" = 5, "fire" = 30, "acid" = 5)

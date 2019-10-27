@@ -25,23 +25,16 @@
 	name = "Fighter Pilot"
 	jobtype = /datum/job/fighter_pilot
 
-	belt = /obj/item/pda/security //placeholder
-	ears = /obj/item/radio/headset/headset_sec/alt //placeholder
-	uniform = /obj/item/clothing/under/assistantformal //let's be real - placeholder
+	belt = /obj/item/pda/security
+	ears = /obj/item/radio/headset/headset_sec/alt
+	uniform = /obj/item/clothing/under/ship/pilot
 	shoes = /obj/item/clothing/shoes/jackboots
-	gloves = /obj/item/clothing/gloves/color/black //placeholder
-	head = /obj/item/clothing/head/HoS/beret //placeholder
+	gloves = /obj/item/clothing/gloves/color/black
+	head = /obj/item/clothing/head/beret/ship/pilot
 
-/datum/outfit/job/fighter_pilot_flight_ready
+/datum/outfit/job/fighter_pilot/flight_ready
 	name = "Fighter Pilot - Flight Ready"
 	jobtype = /datum/job/fighter_pilot
-
-	belt = /obj/item/pda/security //placeholder
-	ears = /obj/item/radio/headset/headset_sec/alt //placeholder
-	uniform = /obj/item/clothing/under/assistantformal //let's be real - placeholder
-	shoes = /obj/item/clothing/shoes/jackboots
-	suit = /obj/item/clothing/suit/space //placeholder
-	gloves = /obj/item/clothing/gloves/color/black //placeholder
-	head = /obj/item/clothing/head/helmet/space //placeholder
+	suit = /obj/item/clothing/suit/space/hardsuit/pilot //placeholder
 	mask = /obj/item/clothing/mask/breath //placeholder
-	r_pocket = /obj/item/tank/internals/emergency_oxygen
+	r_pocket = /obj/item/tank/internals/emergency_oxygen/double
