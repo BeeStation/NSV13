@@ -404,7 +404,7 @@
 		return FALSE
 	return TRUE
 
-/obj/machinery/chem_dispenser/proc/process_recipe_list(var/recipe)
+/proc/process_recipe_list(var/recipe)
 	var/list/key_list = list()
 	var/list/final_list = list()
 	var/list/first_process = splittext(recipe, ";")
