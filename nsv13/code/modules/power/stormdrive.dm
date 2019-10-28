@@ -73,6 +73,8 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 	var/heat_gain = 5
 	var/warning_state = WARNING_STATE_NONE //Are we warning people about a meltdown already? If we are, don't spam them with sounds. Also works for when it's actually exploding
 	var/reaction_rate = 0 //N mol of constricted plasma / tick to keep the reaction going, if you shut this off, the reactor will cool.
+	var/target_reaction_rate = 0
+	var/delta_reaction_rate = 0
 	var/power_loss = 2 //For subtypes, if you want a less efficient reactor
 	var/input_power_modifier = 1
 	var/state = REACTOR_STATE_IDLE
@@ -471,7 +473,9 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 			heat -= cooling_power
 
 /obj/machinery/power/stormdrive_reactor/proc/handle_reaction_rate()
-	reaction_rate = 0.5+(1e-03*(100-control_rod_percent)**2) + 1e-05*(heat**2) //let the train derail!
+	target_reaction_rate = 0.5+(1e-03*(100-control_rod_percent)**2) + 1e-05*(heat**2) //let the train derail!
+	delta_reaction_rate = target_reaction_rate - reaction_rate
+	reaction_rate += delta_reaction_rate/2
 
 /obj/machinery/power/stormdrive_reactor/proc/send_alert(message, override=FALSE)
 	if(!message)
