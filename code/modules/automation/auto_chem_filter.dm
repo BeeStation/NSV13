@@ -54,10 +54,10 @@
 			if(FILTER_INTO)
 				var/list/reagents_to_save = process_recipe_list(current_chem_macro)
 				for(var/datum/reagent/reagent in processing.reagents.reagent_list)
-					if(reagents_to_save[reagent.id])
-						processing.reagents.remove_reagent(reagent.id, 0, processing.reagents.get_reagent_amount(reagent.id) - reagents_to_save.[reagent.id], TRUE) //Remove any excess reagent
+					if(reagents_to_save[reagent])
+						processing.reagents.remove_reagent(reagent, 0, processing.reagents.get_reagent_amount(reagent) - reagents_to_save.[reagent], TRUE) //Remove any excess reagent
 					else
-						processing.reagents.del_reagent(reagent.id)
+						processing.reagents.del_reagent(reagent)
 
 				playsound(loc, 'sound/machines/ping.ogg', 30, 1)
 				processing.loc = get_step(src, outputdir)

@@ -4,7 +4,7 @@
 	name = "autocrafter"
 	desc = "Takes in ingredients and outputs products."
 	var/datum/crafting_recipe/currentrecipe
-	var/datum/personal_crafting/craftproc = new //The thing that has all the procs we gotta call
+	var/datum/component/personal_crafting/craftproc //The thing that has all the procs we gotta call
 	var/obj/possible_item
 	dir = SOUTH //Default outputs south
 	radial_categories = list(
@@ -12,6 +12,7 @@
 
 /obj/machinery/automation/crafter/Initialize()
 	. = ..()
+	craftproc = AddComponent(/datum/component/personal_crafting)
 	radial_categories["Change Crafting Recipe"] = image(icon = 'icons/mob/radial.dmi', icon_state = "auto_change_output")
 
 /obj/machinery/automation/crafter/examine(mob/user)
@@ -43,11 +44,12 @@
 						to_chat(user, "You set the recipe to [currentrecipe.name].")
 
 /obj/machinery/automation/crafter/process()
-	possible_item = craftproc.construct_item(src, currentrecipe)
-	if(isobj(possible_item)) //The returned one can either be null, a string or the object itself; the object itself means it's crafted
-		possible_item.loc = get_step(src, outputdir)
-	possible_item = null
-	..()
+	if(craftproc && currentrecipe)
+		possible_item = craftproc.construct_item(src, currentrecipe)
+		if(isobj(possible_item)) //The returned one can either be null, a string or the object itself; the object itself means it's crafted
+			possible_item.loc = get_step(src, outputdir)
+		possible_item = null
+		..()
 
 /obj/machinery/automation/crafter/Bumped(atom/input)
 	for(var/ingredients in currentrecipe.reqs)

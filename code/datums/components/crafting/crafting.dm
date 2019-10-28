@@ -1,7 +1,6 @@
 /datum/component/personal_crafting/Initialize()
-	if(!ismob(parent))
-		return COMPONENT_INCOMPATIBLE
-	RegisterSignal(parent, COMSIG_MOB_CLIENT_LOGIN, .proc/create_mob_button)
+	if(ismob(parent))
+		RegisterSignal(parent, COMSIG_MOB_CLIENT_LOGIN, .proc/create_mob_button)
 
 /datum/component/personal_crafting/proc/create_mob_button(mob/user, client/CL)
 	var/datum/hud/H = user.hud_used
@@ -87,27 +86,29 @@
 			return 0
 	return 1
 
-/datum/component/personal_crafting/proc/get_environment(mob/user)
+/datum/component/personal_crafting/proc/get_environment(atom/source)
 	. = list()
-	for(var/obj/item/I in user.held_items)
+	//for(var/obj/item/I in user.held_items)
+	//	. += I
+	for(var/obj/item/I in source.contents)
 		. += I
-	if(!isturf(user.loc))
+	if(!isturf(source.loc))
 		return
-	var/list/L = block(get_step(user, SOUTHWEST), get_step(user, NORTHEAST))
+	var/list/L = block(get_step(source, SOUTHWEST), get_step(source, NORTHEAST))
 	for(var/A in L)
 		var/turf/T = A
-		if(T.Adjacent(user))
+		if(T.Adjacent(source))
 			for(var/B in T)
 				var/atom/movable/AM = B
 				if(AM.flags_1 & HOLOGRAM_1)
 					continue
 				. += AM
 
-/datum/component/personal_crafting/proc/get_surroundings(mob/user)
+/datum/component/personal_crafting/proc/get_surroundings(atom/source)
 	. = list()
 	.["tool_behaviour"] = list()
 	.["other"] = list()
-	for(var/obj/item/I in get_environment(user))
+	for(var/obj/item/I in get_environment(source))
 		if(I.flags_1 & HOLOGRAM_1)
 			continue
 		if(istype(I, /obj/item/stack))
@@ -124,13 +125,13 @@
 						.["other"][A.type] += A.volume
 			.["other"][I.type] += 1
 
-/datum/component/personal_crafting/proc/check_tools(mob/user, datum/crafting_recipe/R, list/contents)
+/datum/component/personal_crafting/proc/check_tools(atom/source, datum/crafting_recipe/R, list/contents)
 	if(!R.tools.len)
 		return TRUE
 	var/list/possible_tools = list()
 	var/list/present_qualities = list()
 	present_qualities |= contents["tool_behaviour"]
-	for(var/obj/item/I in user.contents)
+	for(var/obj/item/I in source.contents)
 		if(istype(I, /obj/item/storage))
 			for(var/obj/item/SI in I.contents)
 				possible_tools += SI.type
@@ -155,23 +156,36 @@
 			return FALSE
 	return TRUE
 
-/datum/component/personal_crafting/proc/construct_item(mob/user, datum/crafting_recipe/R)
-	var/list/contents = get_surroundings(user)
+/datum/component/personal_crafting/proc/construct_item(atom/source, datum/crafting_recipe/R)
+	var/list/contents = get_surroundings(source)
 	var/send_feedback = 1
 	if(check_contents(R, contents))
-		if(check_tools(user, R, contents))
-			if(do_after(user, R.time, target = user))
-				contents = get_surroundings(user)
+		if(check_tools(source, R, contents))
+			if(isliving(source))
+				if(do_after(source, R.time, target = source))
+					contents = get_surroundings(source)
+					if(!check_contents(R, contents))
+						return ", missing component."
+					if(!check_tools(source, R, contents))
+						return ", missing tool."
+					var/list/parts = del_reqs(R, source)
+					var/atom/movable/I = new R.result (get_turf(source.loc))
+					I.CheckParts(parts, R)
+					if(send_feedback)
+						SSblackbox.record_feedback("tally", "object_crafted", 1, I.type)
+					return 0
+			else //If a mob ISN'T doing it, we do the above but without do_after
+				contents = get_surroundings(source)
 				if(!check_contents(R, contents))
 					return ", missing component."
-				if(!check_tools(user, R, contents))
+				if(!check_tools(source, R, contents))
 					return ", missing tool."
-				var/list/parts = del_reqs(R, user)
-				var/atom/movable/I = new R.result (get_turf(user.loc))
+				var/list/parts = del_reqs(R, source)
+				var/atom/movable/I = new R.result (get_turf(source.loc))
 				I.CheckParts(parts, R)
 				if(send_feedback)
 					SSblackbox.record_feedback("tally", "object_crafted", 1, I.type)
-				return 0
+				return I
 			return "."
 		return ", missing tool."
 	return ", missing component."
@@ -201,7 +215,7 @@
 	del_reqs return the list of parts resulting object will receive as argument of CheckParts proc, on the atom level it will add them all to the contents, on all other levels it calls ..() and does whatever is needed afterwards but from contents list already
 */
 
-/datum/component/personal_crafting/proc/del_reqs(datum/crafting_recipe/R, mob/user)
+/datum/component/personal_crafting/proc/del_reqs(datum/crafting_recipe/R, atom/source)
 	var/list/surroundings
 	var/list/Deletion = list()
 	. = list()
@@ -210,7 +224,7 @@
 	main_loop:
 		for(var/A in R.reqs)
 			amt = R.reqs[A]
-			surroundings = get_environment(user)
+			surroundings = get_environment(source)
 			surroundings -= Deletion
 			if(ispath(A, /datum/reagent))
 				var/datum/reagent/RG = new A

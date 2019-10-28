@@ -46,8 +46,7 @@
 
 /obj/machinery/automation/grinder/Initialize()
 	. = ..()
-	create_reagents(10000) //Because of the way this machine would work, all of this would be constantly be outputting anyway, or you could just use this as a unpowered 10000 unit vat
-	reagents.set_reacting(FALSE)
+	create_reagents(10000, NO_REACT) //Because of the way this machine would work, all of this would be constantly be outputting anyway, or you could just use this as a unpowered 10000 unit vat
 	radial_categories["Change Output Name"] = image(icon = 'icons/mob/radial.dmi', icon_state = "auto_change_label")
 	radial_categories["Change Transfer Rate"] = image(icon = 'icons/mob/radial.dmi', icon_state = "auto_change_transfer_rate")
 	radial_categories["Change Container Output"] = image(icon = 'icons/mob/radial.dmi', icon_state = "auto_change_container")
