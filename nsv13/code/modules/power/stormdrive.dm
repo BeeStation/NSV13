@@ -20,7 +20,7 @@ FTL requires plasma that's at least 5000 degrees hot. Anything below this and it
 
 What everything does:
 
-Storm drive reactor:
+Storm drive reactor: - Most of this is now outdated. KS~
 Takes  plasma and outputs superheated plasma and a shitload of radiation.
 -You can set it to """"""""""""""safe"""""""""""""" mode by leaving the control rods lowered, allowing you to basically ignore it. You'll get low amounts of plasma, and adequate power
 -You can set it to "moderate" mode by half raising the control rods. This will mean that the control rods are worn down over time, but you double your power. Doing this means you have to be able to maintain it, and be able to shut the thing off to swap out its control rods. (every 30 mins)
@@ -89,7 +89,7 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 
 
 /obj/machinery/power/stormdrive_reactor/attackby(obj/item/I, mob/user)
-	if(istype(I, /obj/item/stack/sheet/plasteel))
+	if(istype(I, /obj/item/stack/sheet/plasteel) && user.a_intent != INTENT_HARM)
 		if(state != REACTOR_STATE_MAINTENANCE)
 			to_chat(user, "<span class='danger'>[src] is not in maintenance mode! opening the lid on an active nuclear reaction would probably be fatal...</span>")
 			return FALSE
@@ -98,25 +98,14 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 		if(rod_integrity >= 100)
 			to_chat(user, "<span class='notice'>[src]'s control rods wouldn't benefit from any additional lining right now.</span>")
 			return FALSE
-		var/sheets_required = 10
-		switch(rod_integrity)
-			if(0 to 20)
-				sheets_required = 25
-			if(20 to 40)
-				sheets_required = 20
-			if(40 to 60)
-				sheets_required = 15
 		to_chat(user, "<span class='notice'>You start to line [src]'s control rods with a reinforced plasteel sheathe...</span>")
 		if(do_after(user,50, target = src))
-			if(S.use(sheets_required))
-				to_chat(user, "<span class='notice'>You reinforce [src]'s control rods.</span>")
-				rod_integrity += sheets_required*repair_power
-				if(rod_integrity > 100)
-					rod_integrity = 100
-				return TRUE
-			else
-				to_chat(user, "<span class='warning'>You need [sheets_required-S.amount] more sheets of plasteel to re-line [src]'s control rods!</span>")
-		return FALSE
+			rod_integrity += min(repair_power, 100-rod_integrity)
+			S.use(1)
+			to_chat(user,"<span class='notice'>You reinforce [src]'s control rods.</span>")
+			if(rod_integrity == 100)
+				to_chat(user,"<span class='notice'>[src]'s control rods are fully lined.</span>")
+			return TRUE
 	. = ..()
 
 /obj/machinery/power/stormdrive_reactor/proc/engage_maintenance()
@@ -199,7 +188,7 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 			reactor.control_rod_percent += adjust
 	switch(action)
 		if("rods_1")
-			reactor.control_rod_percent = 0 //KARMIC: Tweak this accordingly
+			reactor.control_rod_percent = 0
 			message_admins("[key_name(usr)] has fully raised reactor control rods in [get_area(usr)] [ADMIN_JMP(usr)]")
 			reactor.update_icon()
 		if("rods_2")
@@ -440,9 +429,14 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 		else
 			heat_gain = -5 //No plasma to react, so the reaction slowly dies off.
 			radiation_pulse(src, 10, 10) //reaction bleedoff
+/*
 	input_power_modifier = heat/100 //"Safe" mode gives a power mod of "1". Run it hotter for more power and stop being such a bitch.
 	var/base_power = 1000000 //A starting point. By default, on super safe mode, the reactor gives 1 MW per tick
 	var/power_produced = powernet ? base_power / power_loss : base_power
+*/
+	input_power_modifier = (heat/150)**3
+	var/base_power = 1000000
+	var/power_produced = base_power
 	last_power_produced = power_produced*input_power_modifier
 	theoretical_maximum_power = power_produced*(REACTOR_HEAT_VERYHOT/100) //Used to show your power output vs peak power output in the UI.
 	add_avail(last_power_produced)
