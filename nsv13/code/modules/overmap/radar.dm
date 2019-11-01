@@ -8,6 +8,12 @@
 	var/scanning_speed = 2 //Duration of each pulse.
 	var/last_scanning_speed = 2 //To update the sound loop
 
+/obj/machinery/computer/ship/dradis/minor //Secondary dradis consoles usable by people who arent on the bridge.
+	name = "Air traffic control console"
+
+/obj/machinery/computer/ship/dradis/minor/set_position()
+	return
+
 /datum/looping_sound/dradis
 	mid_sounds = list('nsv13/sound/effects/ship/dradis.ogg')
 	mid_length = 2 SECONDS
