@@ -20,7 +20,7 @@ FTL requires plasma that's at least 5000 degrees hot. Anything below this and it
 
 What everything does:
 
-Storm drive reactor:
+Storm drive reactor: - Most of this is now outdated. KS~
 Takes  plasma and outputs superheated plasma and a shitload of radiation.
 -You can set it to """"""""""""""safe"""""""""""""" mode by leaving the control rods lowered, allowing you to basically ignore it. You'll get low amounts of plasma, and adequate power
 -You can set it to "moderate" mode by half raising the control rods. This will mean that the control rods are worn down over time, but you double your power. Doing this means you have to be able to maintain it, and be able to shut the thing off to swap out its control rods. (every 30 mins)
@@ -41,11 +41,6 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 #define REACTOR_STATE_IDLE 2
 #define REACTOR_STATE_RUNNING 3
 #define REACTOR_STATE_MELTDOWN 4
-
-#define RODS_RAISED 1
-#define RODS_HALFRAISED 2
-#define RODS_HALFLOWERED 3
-#define RODS_LOWERED 4
 
 #define WARNING_STATE_NONE 0
 #define WARNING_STATE_OVERHEAT 1
@@ -74,11 +69,12 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 	var/heat = 0 //How hot are we?
 	var/target_heat = REACTOR_HEAT_NORMAL //For control rods. How hot do we want the reactor to get? We'll attempt to cool the reactor to this temperature.
 	var/cooling_power = 10 //How much heat we can drain per tick. Matches up with target_heat
-	var/control_rod_state = 3 //Rods start out to raise the heat. Position 1 is considered DANGEROUS, 2 is OK, 3 is safe, 4 is if you want to shut it off.
-	var/control_rod_percent = 100 //KARMIC: REMOVE ME WHEN YOU CHANGE UP THE REACTOR. THIS IS A PLACEHOLDER FOR THE TGUI
+	var/control_rod_percent = 100 //Handles the insertion depth of the control rods into the reactor
 	var/heat_gain = 5
 	var/warning_state = WARNING_STATE_NONE //Are we warning people about a meltdown already? If we are, don't spam them with sounds. Also works for when it's actually exploding
-	var/reaction_rate = 0.5 //N mol of constricted plasma / tick to keep the reaction going, if you shut this off, the reactor will cool.
+	var/reaction_rate = 0 //N mol of constricted plasma / tick to keep the reaction going, if you shut this off, the reactor will cool.
+	var/target_reaction_rate = 0
+	var/delta_reaction_rate = 0
 	var/power_loss = 2 //For subtypes, if you want a less efficient reactor
 	var/input_power_modifier = 1
 	var/state = REACTOR_STATE_IDLE
@@ -93,7 +89,7 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 
 
 /obj/machinery/power/stormdrive_reactor/attackby(obj/item/I, mob/user)
-	if(istype(I, /obj/item/stack/sheet/plasteel))
+	if(istype(I, /obj/item/stack/sheet/plasteel) && user.a_intent != INTENT_HARM)
 		if(state != REACTOR_STATE_MAINTENANCE)
 			to_chat(user, "<span class='danger'>[src] is not in maintenance mode! opening the lid on an active nuclear reaction would probably be fatal...</span>")
 			return FALSE
@@ -102,25 +98,14 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 		if(rod_integrity >= 100)
 			to_chat(user, "<span class='notice'>[src]'s control rods wouldn't benefit from any additional lining right now.</span>")
 			return FALSE
-		var/sheets_required = 10
-		switch(rod_integrity)
-			if(0 to 20)
-				sheets_required = 25
-			if(20 to 40)
-				sheets_required = 20
-			if(40 to 60)
-				sheets_required = 15
 		to_chat(user, "<span class='notice'>You start to line [src]'s control rods with a reinforced plasteel sheathe...</span>")
 		if(do_after(user,50, target = src))
-			if(S.use(sheets_required))
-				to_chat(user, "<span class='notice'>You reinforce [src]'s control rods.</span>")
-				rod_integrity += sheets_required*repair_power
-				if(rod_integrity > 100)
-					rod_integrity = 100
-				return TRUE
-			else
-				to_chat(user, "<span class='warning'>You need [sheets_required-S.amount] more sheets of plasteel to re-line [src]'s control rods!</span>")
-		return FALSE
+			rod_integrity += min(repair_power, 100-rod_integrity)
+			S.use(1)
+			to_chat(user,"<span class='notice'>You reinforce [src]'s control rods.</span>")
+			if(rod_integrity == 100)
+				to_chat(user,"<span class='notice'>[src]'s control rods are fully lined.</span>")
+			return TRUE
 	. = ..()
 
 /obj/machinery/power/stormdrive_reactor/proc/engage_maintenance()
@@ -140,6 +125,7 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 	icon_state = initial(icon_state)
 	heat = 0
 	last_power_produced = 0 //Update UI to show that it's not making power now
+	reaction_rate = 0
 	state = REACTOR_STATE_IDLE //Force reactor restart.
 	set_light(0)
 	var/area/AR = get_area(src)
@@ -189,32 +175,32 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 			tune = input("Tune control rod insertion percentage: ([min]-[max]):", name, reactor.control_rod_percent) as num
 			if(tune > 100)
 				tune = 100
+			if(tune <0)
+				tune = 0
 			reactor.control_rod_percent = tune
 		if(adjust && isnum(adjust))
 			if(reactor.control_rod_percent >= 100)
 				reactor.control_rod_percent = 100
 				return
+			if(reactor.control_rod_percent <= 0)
+				reactor.control_rod_percent = 0
+				return
 			reactor.control_rod_percent += adjust
 	switch(action)
 		if("rods_1")
-			reactor.control_rod_state = RODS_RAISED
-			reactor.control_rod_percent = 0 //KARMIC: Tweak this accordingly
+			reactor.control_rod_percent = 0
 			message_admins("[key_name(usr)] has fully raised reactor control rods in [get_area(usr)] [ADMIN_JMP(usr)]")
 			reactor.update_icon()
 		if("rods_2")
-			reactor.control_rod_state = RODS_HALFRAISED
 			reactor.control_rod_percent = 25
 			reactor.update_icon()
 		if("rods_3")
-			reactor.control_rod_state = RODS_HALFLOWERED
-			reactor.control_rod_percent = 50
+			reactor.control_rod_percent = 33.6 //Safe mode?
 			reactor.update_icon()
 		if("rods_4")
-			reactor.control_rod_state = RODS_HALFLOWERED
 			reactor.control_rod_percent = 75
 			reactor.update_icon()
 		if("rods_5")
-			reactor.control_rod_state = RODS_LOWERED
 			reactor.control_rod_percent = 100
 			reactor.update_icon()
 			to_chat(usr, "<span class='danger'>SCRAM protocols engaged. Attempting reactor shutdown!</span>")
@@ -261,6 +247,7 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 	data["pipe_open"] = reactor.pipe.on
 	data["last_power_produced"] = reactor.last_power_produced
 	data["theoretical_maximum_power"] = reactor.theoretical_maximum_power
+	data["reaction_rate"] = reactor.reaction_rate
 	if(reactor.state == REACTOR_STATE_MAINTENANCE)
 		data["reactor_maintenance"] = TRUE
 	else
@@ -386,7 +373,15 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 		return
 	cut_overlays()
 	if(can_cool()) //If control rods aren't destroyed.
-		add_overlay("rods_[control_rod_state]")
+		switch(round(control_rod_percent))
+			if(0 to 24)
+				add_overlay("rods_1")
+			if(25 to 49)
+				add_overlay("rods_2")
+			if(50 to 74)
+				add_overlay("rods_3")
+			if(75 to 100)
+				add_overlay("rods_4")
 	if(state == REACTOR_STATE_MAINTENANCE)
 		icon_state = "reactor_maintenance" //If we're in maint, don't make it appear hot.
 		return
@@ -398,20 +393,16 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 				icon_state = "reactor_on"
 				light_color = LIGHT_COLOR_CYAN
 				set_light(5)
-				reaction_rate = initial(reaction_rate)
 			if(REACTOR_HEAT_NORMAL+10 to REACTOR_HEAT_VERYHOT)
 				icon_state = "reactor_hot"
-				reaction_rate = initial(reaction_rate)+1
 			if(REACTOR_HEAT_VERYHOT to REACTOR_HEAT_MELTDOWN) //Final warning
 				icon_state = "reactor_overheat"
 				light_color = LIGHT_COLOR_RED
 				set_light(5)
-				reaction_rate = initial(reaction_rate)+2
 			if(REACTOR_HEAT_MELTDOWN to INFINITY)
 				icon_state = "reactor_overheat"
 				light_color = LIGHT_COLOR_RED
 				set_light(5)
-				reaction_rate = initial(reaction_rate)+3
 				start_meltdown() //you're gigafucked
 
 /obj/machinery/power/stormdrive_reactor/process()
@@ -437,19 +428,21 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 			air1.garbage_collect()
 		else
 			heat_gain = -5 //No plasma to react, so the reaction slowly dies off.
-	input_power_modifier = heat/100 //"Safe" mode gives a power mod of "1". Run it hotter for more power and stop being such a bitch.
-	var/base_power = 1000000 //A starting point. By default, on super safe mode, the reactor gives 1 MW per tick
-	var/power_produced = powernet ? base_power / power_loss : base_power
+			radiation_pulse(src, 10, 10) //reaction bleedoff
+	input_power_modifier = (heat/150)**3
+	var/base_power = 1000000
+	var/power_produced = base_power
 	last_power_produced = power_produced*input_power_modifier
 	theoretical_maximum_power = power_produced*(REACTOR_HEAT_VERYHOT/100) //Used to show your power output vs peak power output in the UI.
 	add_avail(last_power_produced)
+	handle_reaction_rate()
 	handle_heat()
 	update_icon()
 	radiation_pulse(src, heat, 2)
 
 /obj/machinery/power/stormdrive_reactor/proc/can_cool()
 	if(heat > REACTOR_HEAT_NORMAL+10) //Only start melting the rods if theyre running it hot. We have a "safe" mode which doesn't need you to check in on the reactor at all.
-		rod_integrity -= input_power_modifier/120 //Assuming youre running it at hot, rods will melt every 30 minutes.
+		rod_integrity -= input_power_modifier/60 //Assuming youre running it at hot, rods will melt every 30 minutes.
 		if(rod_integrity < 0)
 			rod_integrity = 0
 			send_alert("DANGER: Primary control rods have failed!")
@@ -463,18 +456,15 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 
 /obj/machinery/power/stormdrive_reactor/proc/handle_heat()
 	heat += heat_gain
-	switch(control_rod_state)
-		if(RODS_RAISED)
-			target_heat = REACTOR_HEAT_MELTDOWN*2
-		if(RODS_HALFRAISED)
-			target_heat = REACTOR_HEAT_HOT
-		if(RODS_HALFLOWERED)
-			target_heat = REACTOR_HEAT_NORMAL
-		if(RODS_LOWERED)
-			target_heat = 0
+	target_heat = (-1)+2**(0.1*(100-control_rod_percent)) //Let there be math
 	if(heat > target_heat+(cooling_power-heat_gain)) //If it's hotter than the desired temperature, + our cooling power, we need to cool it off.
 		if(can_cool())
 			heat -= cooling_power
+
+/obj/machinery/power/stormdrive_reactor/proc/handle_reaction_rate()
+	target_reaction_rate = 0.5+(1e-03*(100-control_rod_percent)**2) + 1e-05*(heat**2) //let the train derail!
+	delta_reaction_rate = target_reaction_rate - reaction_rate
+	reaction_rate += delta_reaction_rate/2
 
 /obj/machinery/power/stormdrive_reactor/proc/send_alert(message, override=FALSE)
 	if(!message)
@@ -623,7 +613,7 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 				to_chat(user, "<span class='notice'>You secure the maintenance hatches on [src].</span>")
 				state = CONSTRICTOR_WELDED
 				update_icon()
-				START_PROCESSING(SSmachines,src) //Start processing once it's built. If it doesn't have the required components, it shuts off.
+				START_PROCESSING(SSfastprocess,src) //Start processing once it's built. If it doesn't have the required components, it shuts off.
 			return TRUE
 		if(CONSTRICTOR_WELDED)
 			to_chat(user, "<span class='notice'>You start unwelding the maintenance hatches on [src]...</span>")
@@ -637,7 +627,7 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 	anchored = TRUE
 	state = CONSTRICTOR_WELDED
 	update_icon()
-	START_PROCESSING(SSmachines,src)
+	START_PROCESSING(SSfastprocess,src)
 
 /obj/machinery/power/magnetic_constrictor/update_icon()
 	cut_overlays()
@@ -769,10 +759,6 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 #undef REACTOR_STATE_IDLE
 #undef REACTOR_STATE_RUNNING
 #undef REACTOR_STATE_MELTDOWN
-#undef RODS_RAISED
-#undef RODS_HALFRAISED
-#undef RODS_HALFLOWERED
-#undef RODS_LOWERED
 #undef WARNING_STATE_NONE
 #undef WARNING_STATE_OVERHEAT
 #undef WARNING_STATE_MELTDOWN
