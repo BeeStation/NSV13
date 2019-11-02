@@ -211,9 +211,6 @@ After going through this checklist, you're ready to go!
 	var/obj/structure/overmap/our_overmap = get_overmap()
 	if(our_overmap)
 		our_overmap.relay('nsv13/sound/effects/ship/fighter_launch_short.ogg')
-		for(var/mob/M in mag_locked.mobs_in_ship)
-			if(locate(M in our_overmap.mobs_in_ship))
-				our_overmap.mobs_in_ship -= M
 	spawn(0)
 		shake_people(mag_locked)
 	switch(dir) //Just handling north / south..FOR NOW!
@@ -284,7 +281,7 @@ After going through this checklist, you're ready to go!
 			if(OM.main_overmap)
 				forceMove(get_turf(OM))
 				resize = 1 //Scale down!
-				bounds = list(32,32)
+				src.bounds = list(32,32)
 				docking_cooldown = TRUE
 				addtimer(VARSET_CALLBACK(src, docking_cooldown, FALSE), 5 SECONDS) //Prevents jank.
 				if(pilot)
@@ -297,7 +294,7 @@ After going through this checklist, you're ready to go!
 		return
 	if(OM.docking_points.len)
 		resize = 0 //Scale up!
-		bounds = list(bound_width,bound_height)
+		src.bounds = list(bound_width,bound_height)
 		var/turf/T = get_turf(pick(OM.docking_points))
 		forceMove(T)
 		if(pilot)
