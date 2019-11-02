@@ -33,8 +33,9 @@ After going through this checklist, you're ready to go!
 	sprite_size = 32
 	damage_states = TRUE
 	faction = "nanotrasen"
-	max_integrity = 150 //Squishy!
+	max_integrity = 120 //Really really squishy!
 	torpedoes = 0
+	speed_limit = 6 //We want fighters to be way more maneuverable
 	var/maint_state = MS_CLOSED
 	var/prebuilt = FALSE
 	var/a_eff = 0
@@ -45,6 +46,72 @@ After going through this checklist, you're ready to go!
 	var/docking_mode = FALSE
 	var/warning_cooldown = FALSE
 	var/canopy_breached = FALSE //Canopy will breach if you take too much damage, causing your air to leak out.
+	var/docking_cooldown = FALSE
+
+/obj/machinery/computer/ship/fighter_launcher
+	name = "Mag-cat control console"
+	desc = "A computer which is capable of remotely activating fighter launch / arrestor systems."
+	req_access = list()
+	req_one_access_txt = "69"
+	var/list/launchers = list()
+
+/obj/machinery/computer/ship/fighter_launcher/proc/get_launchers()
+	launchers = list()
+	var/area/AR = get_area(src)
+	for(var/obj/structure/fighter_launcher/FL in AR)
+		launchers += FL
+
+/obj/machinery/computer/ship/fighter_launcher/attack_hand(mob/user)
+	if(!allowed(user))
+		var/sound = pick('nsv13/sound/effects/computer/error.ogg','nsv13/sound/effects/computer/error2.ogg','nsv13/sound/effects/computer/error3.ogg')
+		playsound(src, sound, 100, 1)
+		to_chat(user, "<span class='warning'>Access denied</span>")
+		return
+	if(!has_overmap())
+		var/sound = pick('nsv13/sound/effects/computer/error.ogg','nsv13/sound/effects/computer/error2.ogg','nsv13/sound/effects/computer/error3.ogg')
+		playsound(src, sound, 100, 1)
+		to_chat(user, "<span class='warning'>A warning flashes across [src]'s screen: Unable to locate thrust parameters, no registered ship stored in microprocessor.</span>")
+		return
+	get_launchers()
+	var/dat = "<html>"
+	dat += "<h1>Fighter launch systems:</h2><br>"
+	for(var/obj/structure/fighter_launcher/FL in launchers)
+		dat += "<h2>[FL]:</h2><br>"
+		if(FL.mag_locked && FL.ready)
+			dat += "<a href='?src=[REF(src)];launch=[REF(FL)]'>Launch: [FL.mag_locked]</a><br>"
+			dat += "<a href='?src=[REF(src)];release=[REF(FL)]'>Release: [FL.mag_locked]</a><br>"
+		else
+			dat += "<p>[FL] 's status: IDLE.</p><br>"
+	dat += "<h2>Pre-flight checklist:</h2><br>"
+	dat += "<ul>Fuel check</ul><br>"
+	dat += "<ul>Fighter canopy check</ul><br>"
+	dat += "<ul>Fighter orientation check</ul><br>"
+	dat += "<ul>Exit doors check</ul><br>"
+	dat += "</html>"
+	var/datum/browser/popup = new(user, "[name]", name, 400, 600)
+	popup.set_content(dat)
+	popup.open()
+
+/obj/machinery/computer/ship/fighter_launcher/Topic(href, href_list)
+	if(!in_range(src, usr))
+		return
+	if(!isliving(usr))
+		return
+	if(href_list["launch"])
+		var/obj/structure/fighter_launcher/FL = locate(href_list["launch"])
+		if(!FL)
+			return
+		FL.start_launch()
+		playsound(src, 'nsv13/sound/effects/computer/alarm_2.ogg', 100, 1)
+		to_chat(usr, "<span class='notice'>Fighter launch sequence initiated.</span>")
+	if(href_list["release"])
+		var/obj/structure/fighter_launcher/FL = locate(href_list["release"])
+		if(!FL)
+			return
+		FL.abort_launch()
+		playsound(src, 'nsv13/sound/effects/computer/alarm_3.ogg', 100, 1)
+		to_chat(usr, "<span class='warning'>Fighter launch sequence aborted. Magnetic interlocks disabled for 15 seconds.</span>")
+	attack_hand(usr)
 
 /obj/structure/fighter_launcher //Fighter launch track! This is both an arrestor and an assisted launch system for ease of use.
 	name = "electromagnetic catapult"
@@ -58,11 +125,13 @@ After going through this checklist, you're ready to go!
 	density = FALSE
 	var/obj/structure/overmap/fighter/mag_locked = null
 	var/obj/structure/overmap/linked = null
+	var/ready = TRUE
 
 /obj/structure/fighter_launcher/Initialize()
 	. = ..()
 	icon_state = "launcher"
 	linkup()
+	addtimer(CALLBACK(src, .proc/linkup), 15 SECONDS)//Just in case we're not done initializing
 
 /obj/structure/overmap/fighter/can_brake()
 	if(mag_lock)
@@ -80,7 +149,7 @@ After going through this checklist, you're ready to go!
 
 /obj/structure/fighter_launcher/Crossed(atom/movable/AM)
 	. = ..()
-	if(istype(AM, /obj/structure/overmap/fighter) && !mag_locked) //Are we able to catch this ship?
+	if(istype(AM, /obj/structure/overmap/fighter) && !mag_locked && ready) //Are we able to catch this ship?
 		var/obj/structure/overmap/fighter/OM = AM
 		mag_locked = AM
 		visible_message("<span class='warning'>CLUNK.</span>")
@@ -105,32 +174,6 @@ After going through this checklist, you're ready to go!
 		if(!linked)
 			linkup()
 
-//Code that handles fighter - overmap transference.
-
-/obj/structure/fighter_launcher/proc/linkup()
-	linked = get_overmap()
-	if(linked) //If we have a linked overmap, translate our position into a point where fighters should be returning to our Z-level.
-		switch(dir)
-			if(NORTH)
-				linked.docking_points += get_turf(locate(x, 250, z))
-			if(SOUTH)
-				linked.docking_points += get_turf(locate(x, 10, z))
-			if(EAST)
-				linked.docking_points += get_turf(locate(250, y, z))
-			if(WEST)
-				linked.docking_points += get_turf(locate(10, y, z))
-
-/obj/structure/overmap/fighter/proc/ready_for_transfer()
-	if(is_station_level(z)) //AKA, we're on the ship. Havent added away mission support yet.
-		if(y > 250)
-			return TRUE
-		if(y < 10)
-			return TRUE
-		if(x > 250)
-			return TRUE
-		if(x < 10)
-			return TRUE
-	return FALSE
 
 /obj/structure/fighter_launcher/proc/shake_people(var/obj/structure/overmap/OM)
 	if(OM?.operators.len)
@@ -147,10 +190,74 @@ After going through this checklist, you're ready to go!
 						L.adjust_disgust(30)
 
 /obj/structure/fighter_launcher/proc/start_launch()
-	if(!mag_locked)
+	if(!mag_locked || !ready)
 		return
 	mag_locked.relay('nsv13/sound/effects/ship/fighter_launch.ogg')
 	addtimer(CALLBACK(src, .proc/finish_launch), 10 SECONDS)
+
+/obj/structure/fighter_launcher/proc/abort_launch()
+	if(!mag_locked)
+		return
+	if(mag_locked.pilot)
+		to_chat(mag_locked.pilot, "<span class='warning'>Launch aborted by operator.</span>")
+	mag_locked.release_maglock()
+	icon_state = "launcher_charge"
+	ready = FALSE
+	addtimer(CALLBACK(src, .proc/recharge), 15 SECONDS) //Give them time to get out of there.
+
+/obj/structure/fighter_launcher/proc/finish_launch()
+	icon_state = "launcher_charge"
+	mag_locked.prime_launch() //Gets us ready to move at PACE.
+	var/obj/structure/overmap/our_overmap = get_overmap()
+	if(our_overmap)
+		our_overmap.relay('nsv13/sound/effects/ship/fighter_launch_short.ogg')
+		for(var/mob/M in mag_locked.mobs_in_ship)
+			if(locate(M in our_overmap.mobs_in_ship))
+				our_overmap.mobs_in_ship -= M
+	spawn(0)
+		shake_people(mag_locked)
+	switch(dir) //Just handling north / south..FOR NOW!
+		if(NORTH) //PILOTS. REMEMBER TO FACE THE RIGHT WAY WHEN YOU LAUNCH, OR YOU WILL HAVE A TERRIBLE TIME.
+			mag_locked.velocity_y = 20
+		if(SOUTH)
+			mag_locked.velocity_y = -20
+	ready = FALSE
+	mag_locked = null
+	addtimer(CALLBACK(src, .proc/recharge), 10 SECONDS) //Stops us from catching the fighter right after we launch it.
+
+//Code that handles fighter - overmap transference.
+
+/obj/structure/fighter_launcher/proc/linkup()
+	linked = get_overmap()
+	if(linked) //If we have a linked overmap, translate our position into a point where fighters should be returning to our Z-level.
+		switch(dir)
+			if(NORTH)
+				linked.docking_points += get_turf(locate(x, 250, z))
+			if(SOUTH)
+				linked.docking_points += get_turf(locate(x, 10, z))
+			if(EAST)
+				linked.docking_points += get_turf(locate(250, y, z))
+			if(WEST)
+				linked.docking_points += get_turf(locate(10, y, z))
+
+/obj/structure/overmap/fighter/proc/ready_for_transfer()
+	if(docking_cooldown)
+		return
+	if(is_station_level(z)) //AKA, we're on the ship. Havent added away mission support yet.
+		if(y > 250)
+			return TRUE
+		if(y < 10)
+			return TRUE
+		if(x > 250)
+			return TRUE
+		if(x < 10)
+			return TRUE
+	return FALSE
+
+/obj/structure/fighter_launcher/proc/recharge()
+	ready = TRUE
+	icon_state = "launcher"
+
 
 /obj/structure/overmap/fighter/proc/release_maglock()
 	brakes = FALSE
@@ -178,14 +285,16 @@ After going through this checklist, you're ready to go!
 				forceMove(get_turf(OM))
 				resize = 1 //Scale down!
 				bounds = list(32,32)
+				docking_cooldown = TRUE
+				addtimer(VARSET_CALLBACK(src, docking_cooldown, FALSE), 5 SECONDS) //Prevents jank.
 				if(pilot)
 					to_chat(pilot, "<span class='notice'>Docking mode disabled. Use the 'Ship' verbs tab to re-enable docking mode, then fly into an allied ship to complete docking proceedures.</span>")
 					docking_mode = FALSE
-				density = FALSE
-				addtimer(VARSET_CALLBACK(src, density, TRUE), 2 SECONDS) //Give them a small grace period so they can actually fly out of the ship rather than just bump it.
 				return TRUE
 
 /obj/structure/overmap/fighter/proc/transfer_from_overmap(obj/structure/overmap/OM)
+	if(docking_cooldown)
+		return
 	if(OM.docking_points.len)
 		resize = 0 //Scale up!
 		bounds = list(bound_width,bound_height)
@@ -194,6 +303,8 @@ After going through this checklist, you're ready to go!
 		if(pilot)
 			to_chat(pilot, "<span class='notice'>Docking complete.</span>")
 			docking_mode = FALSE
+		docking_cooldown = TRUE
+		addtimer(VARSET_CALLBACK(src, docking_cooldown, FALSE), 5 SECONDS) //Prevents jank.
 		return TRUE
 
 /obj/structure/overmap/fighter/take_damage()
@@ -219,29 +330,6 @@ After going through this checklist, you're ready to go!
 	if(canopy_breached)
 		add_overlay(image(icon = icon, icon_state = "canopy_breach", dir = 1))
 
-
-/obj/structure/fighter_launcher/proc/finish_launch()
-	icon_state = "launcher_charge"
-	mag_locked.prime_launch() //Gets us ready to move at PACE.
-	var/obj/structure/overmap/our_overmap = get_overmap()
-	if(our_overmap)
-		our_overmap.relay('nsv13/sound/effects/ship/fighter_launch_short.ogg')
-		for(var/mob/M in mag_locked.mobs_in_ship)
-			if(locate(M in our_overmap.mobs_in_ship))
-				our_overmap.mobs_in_ship -= M
-	spawn(0)
-		shake_people(mag_locked)
-	switch(dir) //Just handling north / south..FOR NOW!
-		if(NORTH) //PILOTS. REMEMBER TO FACE THE RIGHT WAY WHEN YOU LAUNCH, OR YOU WILL HAVE A TERRIBLE TIME.
-			mag_locked.velocity_y = 20
-		if(SOUTH)
-			mag_locked.velocity_y = -20
-	addtimer(CALLBACK(src, .proc/recharge), 10 SECONDS) //Stops us from catching the fighter right after we launch it.
-
-/obj/structure/fighter_launcher/proc/recharge()
-	mag_locked = null
-	icon_state = "launcher"
-
 /obj/structure/overmap/fighter/ai
 	ai_controlled = TRUE
 	ai_behaviour = AI_AGGRESSIVE
@@ -261,7 +349,7 @@ After going through this checklist, you're ready to go!
 	icon_state = "carrier"
 	damage_states = FALSE
 	max_passengers = 5 //Raptors can fit multiple people
-	max_integrity = 200 //Squishy!
+	max_integrity = 150 //Squishy!
 
 /obj/structure/overmap/return_air()
 	return cabin_air
@@ -309,6 +397,8 @@ After going through this checklist, you're ready to go!
 	.=..()
 	if(prebuilt)
 		prebuilt_setup()
+	dradis = new /obj/machinery/computer/ship/dradis/internal(src) //Fighters need a way to find their way home.
+	dradis?.soundloop?.stop()
 	update_stats()
 	fuel_setup()
 	obj_integrity = max_integrity
@@ -522,6 +612,7 @@ After going through this checklist, you're ready to go!
 
 /obj/structure/overmap/fighter/attack_hand(mob/user)
 	.=..()
+	dradis?.linked = src
 	if(maint_state == MS_OPEN)
 		display_maint_popup(user)
 		return TRUE
@@ -534,6 +625,7 @@ After going through this checklist, you're ready to go!
 				to_chat(user, "<span class='notice'>You climb into [src]'s cockpit.</span>")
 				user.forceMove(src)
 				start_piloting(user, "all_positions")
+				dradis?.soundloop?.start()
 				mobs_in_ship += user
 				SEND_SOUND(user, sound('nsv13/sound/effects/ship/cockpit.ogg', repeat = TRUE, wait = 0, volume = 100, channel=CHANNEL_SHIP_ALERT))
 				return TRUE
@@ -562,6 +654,7 @@ After going through this checklist, you're ready to go!
 		pilot = null
 		if(helm)
 			playsound(helm, 'nsv13/sound/effects/computer/hum.ogg', 100, 1)
+		dradis?.soundloop?.stop()
 	if(M == gunner)
 		if(tactical)
 			playsound(tactical, 'nsv13/sound/effects/computer/hum.ogg', 100, 1)

@@ -113,6 +113,10 @@
 		velocity_x = speed_limit
 	if(velocity_y > speed_limit)
 		velocity_y = speed_limit
+	if(velocity_x < -speed_limit)
+		velocity_x = -speed_limit
+	if(velocity_y < -speed_limit)
+		velocity_y = -speed_limit
 	velocity_x += thrust_x * time //And speed us up based on how long we've been thrusting (up to a point)
 	velocity_y += thrust_y * time
 

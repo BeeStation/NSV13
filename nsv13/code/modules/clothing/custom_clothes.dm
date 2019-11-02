@@ -125,6 +125,12 @@
 	icon_state = "xo"
 	armor = list("melee" = 15, "bullet" = 5, "laser" = 0, "energy" = 5, "bomb" = 10, "bio" = 0, "rad" = 0, "fire" = 30, "acid" = 5)
 
+/obj/item/clothing/head/beret/ship/cag
+	name = "CAG's beret"
+	desc = "A sturdy beret worn by air group commanders, this stunning beret is designed to make CAGs feel confident in their leadership."
+	icon_state = "xo"
+	armor = list("melee" = 15, "bullet" = 5, "laser" = 0, "energy" = 5, "bomb" = 10, "bio" = 0, "rad" = 0, "fire" = 30, "acid" = 5)
+
 /obj/item/clothing/head/beret/ship/engineer
 	name = "engineer's beret"
 	desc = "In parts a fashion statement and a hard hat, this beret has been specially reinforced to protect its wearer against workplace accidents."

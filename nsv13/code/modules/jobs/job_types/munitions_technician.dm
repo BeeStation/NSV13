@@ -38,3 +38,7 @@
 	item_state = "g_suit"
 	item_color = "camogreen"
 	can_adjust = FALSE
+
+/obj/effect/landmark/start/munitions_tech
+	name = "Munitions Technician"
+	icon_state = "munitions_tech"

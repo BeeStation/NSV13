@@ -28,7 +28,7 @@
 	resistance_flags = LAVA_PROOF | FIRE_PROOF | UNACIDABLE | ACID_PROOF // Overmap ships represent massive craft that don't burn
 
 	max_integrity = 300 //Max health
-	integrity_failure = 300
+	integrity_failure = 0
 
 	var/next_firetime = 0
 	var/last_slowprocess = 0
@@ -44,7 +44,7 @@
 	var/desired_angle = null // set by pilot moving his mouse
 	var/angular_velocity = 0 // degrees per second
 	var/max_angular_acceleration = 180 // in degrees per second per second
-	var/speed_limit = 5 //Stops ships from going too damn fast.
+	var/speed_limit = 5 //Stops ships from going too damn fast. This can be overridden by things like fighters launching from tubes, so it's not a const.
 	var/last_thrust_forward = 0
 	var/last_thrust_right = 0
 	var/last_rotate = 0
@@ -85,7 +85,7 @@
 	var/list/operators = list() //Everyone who needs their client updating when we move.
 	var/obj/machinery/computer/ship/helm //Relay beeping noises when we act
 	var/obj/machinery/computer/ship/tactical
-	var/obj/machinery/computer/ship/dradis //So that pilots can check the radar easily
+	var/obj/machinery/computer/ship/dradis/dradis //So that pilots can check the radar easily
 	var/list/railguns = list() //Every railgun present on the ship
 	var/list/torpedo_tubes = list() //every torpedo tube present on the ship.
 	var/list/pdcs = list() //Every PDC ammo rack that we have.
@@ -94,6 +94,9 @@
 	var/obj/machinery/portable_atmospherics/canister/internal_tank //Internal air tank reference. Used mostly in small ships. If you want to sabotage a fighter, load a plasma tank into its cockpit :)
 	var/resize = 0 //Factor by which we should shrink a ship down. 0 means don't shrink it.
 	var/list/docking_points = list() //Where we can land on this ship. Usually right at the edge of a z-level.
+
+/obj/structure/overmap/can_be_pulled(user) // no :)
+	return FALSE
 
 /obj/railgun_overlay //Railgun sits on top of the ship and swivels to face its target
 	name = "Railgun"
@@ -362,6 +365,15 @@
 		return
 	brakes = !brakes
 	to_chat(usr, "<span class='notice'>You toggle the brakes [brakes ? "on" : "off"].</span>")
+
+/obj/structure/overmap/verb/show_dradis()
+	set name = "Show DRADIS"
+	set category = "Ship"
+	set src = usr.loc
+
+	if(!verb_check() || !dradis)
+		return
+	dradis.attack_hand(usr)
 
 /obj/structure/overmap/proc/can_brake()
 	return TRUE //See fighters.dm

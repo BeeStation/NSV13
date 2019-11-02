@@ -13,12 +13,9 @@
 	name = "Deck 3 hallway"
 	})
 "aad" = (
-/obj/effect/turf_decal/stripes/line{
-	dir = 9
-	},
-/turf/open/floor/plating,
-/area/hallway/primary/port{
-	name = "Deck 3 hallway"
+/turf/closed/wall/ship,
+/area/nsv/hanger{
+	name = "Hangar bay"
 	})
 "aae" = (
 /obj/effect/turf_decal/tile/neutral{
@@ -91,11 +88,10 @@
 /turf/closed/wall/ship,
 /area/engine/engine_smes)
 "aan" = (
-/obj/machinery/door/airlock/ship/maintenance{
-	icon_state = "closed";
-	dir = 8
+/obj/structure/disposalpipe/segment{
+	dir = 6
 	},
-/turf/open/floor/plasteel/ship/padded,
+/turf/open/floor/plasteel/ship/techfloor/alt,
 /area/hallway/primary/port{
 	name = "Deck 3 hallway"
 	})
@@ -157,9 +153,9 @@
 /turf/open/floor/carpet/ship,
 /area/crew_quarters/dorms)
 "aay" = (
-/turf/open/floor/plating,
-/area/hallway/primary/port{
-	name = "Deck 3 hallway"
+/turf/closed/wall/r_wall/ship,
+/area/nsv/hanger/deck2/starboard{
+	name = "Launch tubes 1 and 2"
 	})
 "aaz" = (
 /obj/structure/sign/warning/vacuum,
@@ -1707,9 +1703,14 @@
 /turf/open/floor/plasteel/white,
 /area/science)
 "adI" = (
-/obj/structure/ladder,
+/obj/structure/stairs{
+	icon_state = "stairs";
+	dir = 8
+	},
 /turf/open/floor/plasteel/ship/techfloor/alt,
-/area/hallway/secondary/command)
+/area/hallway/primary/port{
+	name = "Deck 3 hallway"
+	})
 "adJ" = (
 /obj/machinery/light/small{
 	dir = 1
@@ -4659,11 +4660,11 @@
 	name = "Deck 3 hallway"
 	})
 "akd" = (
-/obj/structure/ladder,
 /obj/effect/turf_decal/tile/bar,
 /obj/effect/turf_decal/tile/bar{
 	dir = 1
 	},
+/obj/structure/ladder,
 /turf/open/floor/plasteel,
 /area/crew_quarters/bar)
 "ake" = (
@@ -8718,16 +8719,8 @@
 /turf/open/floor/plating,
 /area/bridge)
 "arN" = (
-/obj/structure/cable,
-/obj/machinery/atmospherics/pipe/layer_manifold,
-/obj/machinery/meter,
-/obj/structure/disposalpipe/segment{
-	dir = 10
-	},
-/turf/open/floor/plating,
-/area/maintenance/department/bridge{
-	name = "Deck 1 maintenance"
-	})
+/turf/closed/wall/r_wall/ship,
+/area/maintenance/ship_exterior)
 "arO" = (
 /obj/machinery/conveyor{
 	dir = 1;
@@ -9252,15 +9245,13 @@
 	},
 /area/engine/atmos)
 "asT" = (
-/obj/machinery/door/airlock/ship/maintenance{
-	dir = 8;
-	icon_state = "closed";
-	req_one_access_txt = "46"
-	},
 /obj/structure/cable,
-/turf/open/floor/plating,
-/area/maintenance/aft/secondary{
-	name = "Deck 3 Maintenance"
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
+/turf/open/floor/plasteel/ship/padded,
+/area/hallway/primary/port{
+	name = "Deck 3 hallway"
 	})
 "asU" = (
 /obj/machinery/door/airlock/ship{
@@ -9679,12 +9670,19 @@
 /turf/open/floor/plasteel/dark,
 /area/tcommsat/server)
 "atV" = (
-/obj/structure/chair/wood/wings{
-	dir = 1
+/obj/machinery/door/airlock/ship{
+	name = "Theatre";
+	icon_state = "closed";
+	dir = 4;
+	req_one_access_txt = "46"
 	},
-/obj/structure/cable,
-/turf/open/floor/wood,
-/area/crew_quarters/theatre)
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
+/turf/open/floor/plasteel/ship/padded,
+/area/hallway/primary/port{
+	name = "Deck 3 hallway"
+	})
 "atW" = (
 /obj/machinery/atmospherics/components/binary/dp_vent_pump/on/layer1,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
@@ -11691,31 +11689,14 @@
 /turf/open/floor/plasteel/dark/telecomms,
 /area/crew_quarters/heads/hor)
 "axM" = (
-/obj/effect/turf_decal/loading_area{
-	dir = 4
-	},
-/obj/machinery/door/airlock/ship{
-	dir = 8;
-	icon_state = "closed";
-	name = "Frame 1-a"
-	},
-/obj/effect/mapping_helpers/airlock/cyclelink_helper{
-	dir = 4
-	},
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
-	icon_state = "pipe11-1";
-	dir = 4
-	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
-	dir = 4
-	},
-/obj/structure/cable,
-/obj/structure/disposalpipe/segment{
-	dir = 4
+/obj/machinery/door/airlock/ship/security{
+	dir = 4;
+	name = "Pilot locker room";
+	req_one_access_txt = "69"
 	},
 /turf/open/floor/plasteel/ship/padded,
-/area/hallway/primary/port{
-	name = "Deck 3 hallway"
+/area/nsv/hanger{
+	name = "Hangar bay"
 	})
 "axN" = (
 /obj/effect/turf_decal/tile/brown{
@@ -12230,15 +12211,10 @@
 	})
 "ayH" = (
 /obj/effect/turf_decal/loading_area{
-	dir = 8
-	},
-/obj/machinery/door/airlock/ship{
-	dir = 8;
-	icon_state = "closed";
-	name = "Frame 1-a"
+	dir = 4
 	},
 /obj/effect/mapping_helpers/airlock/cyclelink_helper{
-	dir = 8
+	dir = 4
 	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	icon_state = "pipe11-1";
@@ -12251,17 +12227,17 @@
 /obj/structure/disposalpipe/segment{
 	dir = 4
 	},
+/obj/machinery/door/airlock/ship/security{
+	dir = 4;
+	name = "Hangar bay";
+	req_one_access_txt = "69"
+	},
 /turf/open/floor/plasteel/ship/padded,
 /area/hallway/primary/port{
 	name = "Deck 3 hallway"
 	})
 "ayI" = (
-/obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1{
-	icon_state = "manifold-1";
-	dir = 1
-	},
-/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden,
-/obj/structure/cable,
+/obj/structure/chair,
 /turf/open/floor/plasteel/ship/padded,
 /area/hallway/primary/port{
 	name = "Deck 3 hallway"
@@ -12293,8 +12269,8 @@
 	dir = 4
 	},
 /turf/open/floor/plasteel/ship/techfloor/alt,
-/area/hallway/primary/port{
-	name = "Deck 3 hallway"
+/area/nsv/hanger{
+	name = "Hangar bay"
 	})
 "ayL" = (
 /obj/machinery/porta_turret/ai{
@@ -13975,14 +13951,15 @@
 /turf/open/floor/carpet/ship,
 /area/lawoffice)
 "aBR" = (
-/obj/machinery/door/airlock/ship/security{
-	dir = 4;
-	name = "Munitions office";
-	req_one_access_txt = "3"
+/obj/machinery/door/poddoor/ship{
+	id = "launch1"
 	},
-/turf/open/floor/plasteel/ship/padded,
-/area/hallway/secondary/construction{
-	name = "Munitions"
+/obj/effect/turf_decal/stripes/line{
+	dir = 9
+	},
+/turf/open/floor/plating,
+/area/nsv/hanger/deck2/starboard{
+	name = "Launch tubes 1 and 2"
 	})
 "aBS" = (
 /turf/open/floor/carpet/ship,
@@ -14347,9 +14324,8 @@
 /area/security/brig)
 "aCE" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
-/obj/machinery/door/airlock/ship/maintenance,
 /obj/structure/disposalpipe/segment,
-/turf/open/floor/plasteel/ship/techfloor/alt,
+/turf/closed/wall/ship,
 /area/maintenance/department/bridge{
 	name = "Deck 1 maintenance"
 	})
@@ -16255,6 +16231,7 @@
 /obj/structure/chair{
 	dir = 4
 	},
+/obj/effect/landmark/start/fighter_pilot,
 /turf/open/floor/plasteel,
 /area/security/brig)
 "aFY" = (
@@ -16299,6 +16276,7 @@
 /obj/structure/chair{
 	dir = 4
 	},
+/obj/effect/landmark/start/fighter_pilot,
 /turf/open/floor/plasteel,
 /area/security/brig)
 "aGc" = (
@@ -17802,6 +17780,7 @@
 /obj/structure/chair{
 	dir = 4
 	},
+/obj/effect/landmark/start/fighter_pilot,
 /turf/open/floor/plasteel,
 /area/security/brig)
 "aIy" = (
@@ -18651,11 +18630,15 @@
 	name = "Deck 3 hallway"
 	})
 "aKn" = (
-/obj/effect/turf_decal/bot,
-/obj/structure/overmap/fighter/prebuilt,
+/obj/machinery/door/poddoor/ship{
+	id = "launch1"
+	},
+/obj/effect/turf_decal/stripes/line{
+	dir = 1
+	},
 /turf/open/floor/plating,
-/area/hallway/primary/port{
-	name = "Deck 3 hallway"
+/area/nsv/hanger/deck2/starboard{
+	name = "Launch tubes 1 and 2"
 	})
 "aKo" = (
 /obj/structure/table,
@@ -18721,10 +18704,10 @@
 /turf/open/floor/plasteel,
 /area/quartermaster/sorting)
 "aKu" = (
-/obj/structure/overmap/fighter/prebuilt,
+/obj/structure/cable,
 /turf/open/floor/plating,
-/area/hallway/primary/port{
-	name = "Deck 3 hallway"
+/area/nsv/hanger{
+	name = "Hangar bay"
 	})
 "aKv" = (
 /obj/effect/turf_decal/tile/blue{
@@ -18872,10 +18855,9 @@
 /turf/open/floor/plasteel,
 /area/quartermaster/storage)
 "aKH" = (
-/obj/machinery/camera/autoname,
-/turf/open/floor/plasteel/ship/padded,
-/area/hallway/primary/port{
-	name = "Deck 3 hallway"
+/turf/open/floor/plasteel/ship/techfloor/alt,
+/area/nsv/hanger{
+	name = "Hangar bay"
 	})
 "aKI" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
@@ -18943,22 +18925,32 @@
 	name = "Deck 3 hallway"
 	})
 "aKN" = (
-/obj/machinery/camera/autoname{
+/obj/machinery/light{
 	dir = 1
 	},
-/turf/open/floor/plasteel/ship/padded,
-/area/hallway/primary/port{
-	name = "Deck 3 hallway"
+/turf/open/floor/plasteel/ship/techfloor/alt,
+/area/nsv/hanger{
+	name = "Hangar bay"
 	})
 "aKO" = (
-/obj/structure/reagent_dispensers/foamtank,
+/obj/effect/turf_decal/stripes/line{
+	dir = 1
+	},
 /turf/open/floor/plasteel/ship/techfloor/alt,
-/area/hallway/primary/port{
-	name = "Deck 3 hallway"
+/area/nsv/hanger{
+	name = "Hangar bay"
 	})
 "aKP" = (
-/turf/closed/wall/r_wall/ship,
-/area/space)
+/obj/machinery/door/poddoor/ship{
+	id = "launch1"
+	},
+/obj/effect/turf_decal/stripes/line{
+	dir = 5
+	},
+/turf/open/floor/plating,
+/area/nsv/hanger/deck2/starboard{
+	name = "Launch tubes 1 and 2"
+	})
 "aKQ" = (
 /obj/machinery/door/airlock/ship{
 	dir = 8;
@@ -19694,18 +19686,15 @@
 	name = "Munitions"
 	})
 "aMg" = (
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
-	icon_state = "pipe11-1";
-	dir = 4
+/obj/machinery/button/door{
+	id = "launchbay_access";
+	name = "Launch bay doors";
+	pixel_y = 26;
+	req_one_access_txt = "69"
 	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
-	dir = 4
-	},
-/obj/structure/window/reinforced/fulltile/ship,
-/obj/structure/cable,
-/turf/open/floor/plating,
-/area/hallway/primary/port{
-	name = "Deck 3 hallway"
+/turf/open/floor/plasteel/ship/techfloor/alt,
+/area/nsv/hanger{
+	name = "Hangar bay"
 	})
 "aMh" = (
 /obj/machinery/light,
@@ -19715,23 +19704,9 @@
 	name = "Deck 2 maintenance"
 	})
 "aMi" = (
-/obj/effect/turf_decal/stripes/line{
-	dir = 8
-	},
-/obj/machinery/light{
-	dir = 8
-	},
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
-	icon_state = "pipe11-1";
-	dir = 4
-	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
-	dir = 4
-	},
-/obj/structure/cable,
 /turf/open/floor/plasteel/ship/padded,
-/area/hallway/primary/port{
-	name = "Deck 3 hallway"
+/area/nsv/hanger{
+	name = "Hangar bay"
 	})
 "aMj" = (
 /obj/structure/disposalpipe/trunk/multiz,
@@ -19765,6 +19740,7 @@
 	dir = 4
 	},
 /obj/machinery/light,
+/obj/effect/landmark/start/fighter_pilot,
 /turf/open/floor/plasteel,
 /area/security/brig)
 "aMm" = (
@@ -19812,6 +19788,7 @@
 /obj/structure/chair/comfy/black{
 	dir = 8
 	},
+/obj/effect/landmark/start/cag,
 /turf/open/floor/plasteel,
 /area/security/brig)
 "aMq" = (
@@ -20020,18 +19997,10 @@
 /turf/open/floor/carpet/ship,
 /area/crew_quarters/heads/hos)
 "aML" = (
-/obj/effect/turf_decal/bot,
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
-	icon_state = "pipe11-1";
-	dir = 4
-	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
-	dir = 4
-	},
-/obj/structure/cable,
+/obj/machinery/camera/autoname,
 /turf/open/floor/plasteel/ship/padded,
-/area/hallway/primary/port{
-	name = "Deck 3 hallway"
+/area/nsv/hanger{
+	name = "Hangar bay"
 	})
 "aMM" = (
 /obj/machinery/camera{
@@ -20428,19 +20397,9 @@
 	name = "Deck 2 primary hallway"
 	})
 "aNC" = (
-/obj/effect/turf_decal/bot,
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
-	icon_state = "pipe11-1";
-	dir = 4
-	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
-	dir = 4
-	},
-/obj/effect/landmark/nuclear_waste_spawner/strong,
-/obj/structure/cable,
-/turf/open/floor/plasteel/ship/padded,
-/area/hallway/primary/port{
-	name = "Deck 3 hallway"
+/turf/closed/wall/r_wall/ship,
+/area/nsv/hanger{
+	name = "Hangar bay"
 	})
 "aND" = (
 /obj/machinery/status_display/evac{
@@ -20469,12 +20428,6 @@
 	name = "Deck 2 primary hallway"
 	})
 "aNF" = (
-/obj/effect/turf_decal/stripes/line{
-	dir = 4
-	},
-/obj/machinery/light{
-	dir = 4
-	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	icon_state = "pipe11-1";
 	dir = 4
@@ -20482,10 +20435,12 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
 	dir = 4
 	},
+/obj/structure/window/reinforced/fulltile/ship,
 /obj/structure/cable,
-/turf/open/floor/plasteel/ship/padded,
-/area/hallway/primary/port{
-	name = "Deck 3 hallway"
+/obj/structure/curtain/obscuring/grey,
+/turf/open/floor/plating,
+/area/nsv/hanger{
+	name = "Hangar bay"
 	})
 "aNG" = (
 /obj/structure/disposalpipe/segment{
@@ -20552,11 +20507,11 @@
 	name = "Deck 2 maintenance"
 	})
 "aNM" = (
+/obj/structure/sign/directions/evac,
 /obj/structure/sign/directions/command{
 	dir = 1;
 	pixel_y = -8
 	},
-/obj/structure/sign/directions/evac,
 /turf/closed/wall/ship,
 /area/maintenance/aft{
 	name = "Deck 2 maintenance"
@@ -22460,10 +22415,9 @@
 	name = "Deck 1 maintenance"
 	})
 "aRS" = (
-/obj/machinery/door/airlock/ship/maintenance,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
 /obj/structure/disposalpipe/segment,
-/turf/open/floor/plasteel/ship/techfloor/alt,
+/turf/closed/wall/ship,
 /area/maintenance/department/bridge{
 	name = "Deck 1 maintenance"
 	})
@@ -25451,14 +25405,12 @@
 	name = "Deck 3 hallway"
 	})
 "aXD" = (
-/obj/machinery/door/airlock/ship/security{
-	dir = 4;
-	name = "Munitions bay";
-	req_one_access_txt = "3"
+/obj/effect/turf_decal/stripes/line{
+	dir = 1
 	},
-/turf/open/floor/plasteel/ship/padded,
-/area/hallway/secondary/construction{
-	name = "Munitions"
+/turf/open/floor/plating,
+/area/nsv/hanger{
+	name = "Hangar bay"
 	})
 "aXE" = (
 /obj/machinery/computer/bounty{
@@ -27299,17 +27251,12 @@
 	name = "Deck 3 hallway"
 	})
 "baW" = (
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
-	icon_state = "pipe11-1";
-	dir = 4
+/obj/effect/turf_decal/stripes/line{
+	dir = 5
 	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
-	dir = 4
-	},
-/obj/structure/cable,
-/turf/closed/wall/r_wall/ship,
-/area/hallway/secondary/construction{
-	name = "Munitions"
+/turf/open/floor/plating,
+/area/nsv/hanger{
+	name = "Hangar bay"
 	})
 "baX" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
@@ -27423,31 +27370,22 @@
 /turf/open/floor/wood,
 /area/crew_quarters/theatre)
 "bbh" = (
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /obj/structure/disposalpipe/segment{
-	dir = 6
+	dir = 4
 	},
-/obj/structure/cable,
-/turf/open/floor/wood,
-/area/crew_quarters/theatre)
+/turf/open/floor/plating,
+/area/maintenance/aft/secondary{
+	name = "Deck 3 Maintenance"
+	})
 "bbi" = (
-/obj/machinery/door/airlock/ship{
-	dir = 2;
-	icon_state = "closed";
-	name = "Theatre";
-	req_one_access_txt = "46"
-	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
-/obj/structure/disposalpipe/segment,
 /obj/structure/cable,
-/turf/open/floor/wood,
+/turf/closed/wall/ship,
 /area/crew_quarters/theatre)
 "bbj" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
-/obj/structure/disposalpipe/segment,
 /obj/structure/cable,
 /turf/open/floor/plasteel/ship/techfloor/alt,
 /area/hallway/primary/port{
@@ -27826,17 +27764,22 @@
 /turf/open/floor/carpet/ship,
 /area/crew_quarters/heads/hos)
 "bbU" = (
+/obj/structure/lattice/catwalk,
+/turf/open/space/basic,
+/area/nsv/hanger/deck2/starboard{
+	name = "Launch tubes 1 and 2"
+	})
+"bbV" = (
 /obj/machinery/door/poddoor/ship{
-	id = "launch1"
+	id = "launch2"
 	},
 /obj/effect/turf_decal/stripes/line{
 	dir = 9
 	},
 /turf/open/floor/plating,
-/area/maintenance/ship_exterior)
-"bbV" = (
-/turf/closed/wall/r_wall/ship,
-/area/maintenance/ship_exterior)
+/area/nsv/hanger/deck2/starboard{
+	name = "Launch tubes 1 and 2"
+	})
 "bbW" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
 	dir = 5
@@ -28081,13 +28024,12 @@
 	name = "Deck 1 maintenance"
 	})
 "bcr" = (
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
+/obj/machinery/atmospherics/pipe/layer_manifold,
 /obj/machinery/meter,
 /obj/structure/disposalpipe/segment{
-	dir = 9
+	dir = 10
 	},
-/obj/structure/cable,
-/turf/open/floor/plating,
+/turf/closed/wall/ship,
 /area/maintenance/department/bridge{
 	name = "Deck 1 maintenance"
 	})
@@ -28130,8 +28072,8 @@
 	pixel_y = 8
 	},
 /turf/closed/wall/ship,
-/area/maintenance/aft{
-	name = "Deck 2 maintenance"
+/area/hallway/primary/central{
+	name = "Deck 2 primary hallway"
 	})
 "bcw" = (
 /obj/structure/sign/directions/command{
@@ -28616,172 +28558,193 @@
 	name = "Briefing room"
 	})
 "bdn" = (
-/obj/structure/lattice/catwalk,
-/turf/open/floor/plating,
-/area/maintenance/ship_exterior)
-"bdo" = (
 /obj/machinery/door/poddoor/ship{
-	id = "launchbay_access";
-	name = "Launch tube access"
+	id = "launch2"
+	},
+/obj/effect/turf_decal/stripes/line{
+	dir = 1
+	},
+/turf/open/floor/plating,
+/area/nsv/hanger/deck2/starboard{
+	name = "Launch tubes 1 and 2"
+	})
+"bdo" = (
+/obj/machinery/vending/cigarette{
+	name = "Adama's Finest Cigars";
+	pixel_x = 0
 	},
 /turf/open/floor/plasteel/ship/techfloor/alt,
-/area/hallway/primary/port{
-	name = "Deck 3 hallway"
+/area/nsv/hanger{
+	name = "Hangar bay"
 	})
 "bdp" = (
-/obj/machinery/button/door{
-	id = "launchbay_access";
-	name = "Launch bay doors";
-	pixel_y = 26;
-	req_one_access_txt = "3"
-	},
-/turf/open/floor/plasteel/ship/techfloor/alt,
-/area/hallway/primary/port{
-	name = "Deck 3 hallway"
-	})
-"bdq" = (
-/obj/machinery/button/door{
-	id = "launchbay_access";
-	name = "Launch bay doors";
-	pixel_y = -26;
-	req_one_access_txt = "3"
-	},
-/turf/open/floor/plasteel/ship/techfloor/alt,
-/area/hallway/primary/port{
-	name = "Deck 3 hallway"
-	})
-"bdr" = (
 /obj/machinery/door/poddoor/ship{
-	id = "launchbay_access2";
-	name = "Launch tube access"
-	},
-/turf/open/floor/plating,
-/area/maintenance/aft/secondary{
-	name = "Deck 3 Maintenance"
-	})
-"bds" = (
-/obj/machinery/door/poddoor/ship{
-	id = "launch1"
-	},
-/obj/effect/turf_decal/stripes/line{
-	dir = 1
-	},
-/turf/open/floor/plating,
-/area/maintenance/ship_exterior)
-"bdt" = (
-/obj/structure/table/reinforced,
-/obj/machinery/button/door{
-	id = "launch1";
-	name = "Tube 1 exterior doors";
-	pixel_y = 0;
-	req_one_access_txt = "3"
-	},
-/obj/effect/turf_decal/stripes/line{
-	dir = 8
-	},
-/turf/open/floor/plasteel/ship,
-/area/maintenance/ship_exterior)
-"bdu" = (
-/obj/structure/table/reinforced,
-/obj/machinery/button/door{
-	id = "launch2";
-	name = "Tube 2 exterior doors";
-	pixel_y = 0;
-	req_one_access_txt = "3"
-	},
-/obj/effect/turf_decal/stripes/line{
-	dir = 4
-	},
-/turf/open/floor/plasteel/ship,
-/area/maintenance/ship_exterior)
-"bdv" = (
-/obj/effect/turf_decal/stripes/line{
-	dir = 8
-	},
-/turf/open/floor/plasteel/ship,
-/area/maintenance/ship_exterior)
-"bdw" = (
-/obj/machinery/light{
-	dir = 1
-	},
-/obj/machinery/computer/ship/dradis/minor,
-/turf/open/floor/plasteel/ship,
-/area/maintenance/ship_exterior)
-"bdx" = (
-/obj/machinery/door/poddoor/ship{
-	id = "launch1"
+	id = "launch2"
 	},
 /obj/effect/turf_decal/stripes/line{
 	dir = 5
 	},
 /turf/open/floor/plating,
-/area/space)
-"bdy" = (
+/area/nsv/hanger/deck2/starboard{
+	name = "Launch tubes 1 and 2"
+	})
+"bdq" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
 	},
 /turf/open/floor/plating,
-/area/maintenance/ship_exterior)
-"bdz" = (
-/obj/machinery/door/poddoor/ship{
-	id = "launch2"
-	},
-/obj/effect/turf_decal/stripes/line{
-	dir = 9
-	},
+/area/nsv/hanger/deck2/starboard{
+	name = "Launch tubes 1 and 2"
+	})
+"bdr" = (
+/obj/structure/lattice/catwalk,
 /turf/open/floor/plating,
-/area/space)
-"bdA" = (
-/obj/structure/cable,
-/obj/effect/turf_decal/stripes/line{
-	dir = 1
-	},
-/turf/open/floor/plasteel/ship/riveted,
-/area/maintenance/aft/secondary{
-	name = "Deck 3 Maintenance"
+/area/nsv/hanger/deck2/starboard{
+	name = "Launch tubes 1 and 2"
 	})
-"bdB" = (
-/obj/effect/turf_decal/stripes/line{
-	dir = 1
-	},
-/turf/open/floor/plasteel/ship/techfloor/alt,
-/area/hallway/primary/port{
-	name = "Deck 3 hallway"
-	})
-"bdC" = (
-/obj/effect/turf_decal/stripes/line,
-/turf/open/floor/plasteel/ship/techfloor/alt,
-/area/hallway/primary/port{
-	name = "Deck 3 hallway"
-	})
-"bdD" = (
-/obj/structure/cable,
-/turf/open/floor/plasteel/ship/riveted,
-/area/maintenance/aft/secondary{
-	name = "Deck 3 Maintenance"
-	})
-"bdE" = (
+"bds" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 4
 	},
 /turf/open/floor/plating,
-/area/maintenance/ship_exterior)
-"bdF" = (
-/obj/machinery/door/poddoor/ship{
-	id = "launch3"
+/area/nsv/hanger/deck2/starboard{
+	name = "Launch tubes 1 and 2"
+	})
+"bdt" = (
+/obj/structure/window/reinforced/fulltile/ship,
+/turf/open/floor/plasteel/ship,
+/area/nsv/hanger/deck2/starboard{
+	name = "Launch tubes 1 and 2"
+	})
+"bdu" = (
+/obj/effect/turf_decal/stripes/line{
+	dir = 8
+	},
+/obj/machinery/light{
+	dir = 8
+	},
+/turf/open/floor/plating,
+/area/nsv/hanger/deck2/starboard{
+	name = "Launch tubes 1 and 2"
+	})
+"bdv" = (
+/obj/structure/window/reinforced/fulltile/ship,
+/turf/open/floor/plasteel/ship/padded,
+/area/nsv/hanger/deck2/starboard{
+	name = "Launch tubes 1 and 2"
+	})
+"bdw" = (
+/obj/structure/table/reinforced,
+/obj/machinery/button/door{
+	id = "launch1";
+	name = "Tube 1 exterior doors";
+	pixel_y = 0;
+	req_one_access_txt = "69"
 	},
 /obj/effect/turf_decal/stripes/line{
-	dir = 10
+	dir = 8
+	},
+/turf/open/floor/plasteel/ship,
+/area/nsv/hanger/deck2/starboard{
+	name = "Launch tubes 1 and 2"
+	})
+"bdx" = (
+/obj/machinery/light{
+	dir = 1
+	},
+/obj/machinery/computer/ship/fighter_launcher,
+/turf/open/floor/plasteel/ship,
+/area/nsv/hanger/deck2/starboard{
+	name = "Launch tubes 1 and 2"
+	})
+"bdy" = (
+/obj/structure/table/reinforced,
+/obj/machinery/button/door{
+	id = "launch2";
+	name = "Tube 2 exterior doors";
+	pixel_y = 0;
+	req_one_access_txt = "69"
+	},
+/obj/effect/turf_decal/stripes/line{
+	dir = 4
+	},
+/turf/open/floor/plasteel/ship,
+/area/nsv/hanger/deck2/starboard{
+	name = "Launch tubes 1 and 2"
+	})
+"bdz" = (
+/obj/effect/turf_decal/stripes/line{
+	dir = 4
+	},
+/obj/machinery/light{
+	dir = 4
 	},
 /turf/open/floor/plating,
-/area/maintenance/ship_exterior)
+/area/nsv/hanger/deck2/starboard{
+	name = "Launch tubes 1 and 2"
+	})
+"bdA" = (
+/obj/effect/turf_decal/stripes/line{
+	dir = 8
+	},
+/obj/structure/fighter_launcher{
+	dir = 1;
+	name = "electromagnetic catapult 1";
+	pixel_x = 38
+	},
+/turf/open/floor/plating,
+/area/nsv/hanger/deck2/starboard{
+	name = "Launch tubes 1 and 2"
+	})
+"bdB" = (
+/obj/effect/turf_decal/bot,
+/turf/open/floor/plating,
+/area/nsv/hanger{
+	name = "Hangar bay"
+	})
+"bdC" = (
+/obj/effect/turf_decal/stripes/line{
+	dir = 4
+	},
+/turf/open/floor/plating,
+/area/nsv/hanger{
+	name = "Hangar bay"
+	})
+"bdD" = (
+/obj/structure/lattice/catwalk,
+/obj/structure/cable,
+/turf/open/floor/plating,
+/area/nsv/hanger/deck2/starboard{
+	name = "Launch tubes 1 and 2"
+	})
+"bdE" = (
+/obj/effect/turf_decal/stripes/line{
+	dir = 8
+	},
+/obj/machinery/computer/ship/dradis/minor{
+	icon_state = "computer";
+	dir = 1
+	},
+/turf/open/floor/plasteel/ship,
+/area/nsv/hanger/deck2/starboard{
+	name = "Launch tubes 1 and 2"
+	})
+"bdF" = (
+/obj/structure/chair/office{
+	dir = 1
+	},
+/turf/open/floor/plasteel/ship/padded,
+/area/nsv/hanger/deck2/starboard{
+	name = "Launch tubes 1 and 2"
+	})
 "bdG" = (
-/obj/machinery/door/poddoor/ship{
-	id = "launch3"
+/obj/effect/turf_decal/stripes/line{
+	dir = 4
 	},
-/obj/effect/turf_decal/stripes/line,
-/turf/open/floor/plating,
-/area/maintenance/ship_exterior)
+/turf/open/floor/plasteel/ship,
+/area/nsv/hanger/deck2/starboard{
+	name = "Launch tubes 1 and 2"
+	})
 "bdH" = (
 /obj/effect/turf_decal/tile/green{
 	dir = 1
@@ -28795,74 +28758,95 @@
 /turf/open/floor/plasteel/dark,
 /area/hydroponics)
 "bdI" = (
-/obj/machinery/door/poddoor/ship{
-	id = "launch3"
-	},
 /obj/effect/turf_decal/stripes/line{
-	dir = 6
+	dir = 8
+	},
+/obj/structure/fighter_launcher{
+	dir = 1;
+	name = "electromagnetic catapult 2";
+	pixel_x = 38
 	},
 /turf/open/floor/plating,
-/area/maintenance/ship_exterior)
+/area/nsv/hanger/deck2/starboard{
+	name = "Launch tubes 1 and 2"
+	})
 "bdJ" = (
-/obj/machinery/door/poddoor/ship{
-	id = "launch2"
-	},
 /obj/effect/turf_decal/stripes/line{
-	dir = 1
+	dir = 8
 	},
-/turf/open/floor/plating,
-/area/space)
+/turf/open/floor/plasteel/ship,
+/area/nsv/hanger/deck2/starboard{
+	name = "Launch tubes 1 and 2"
+	})
 "bdK" = (
-/obj/machinery/door/poddoor/ship{
-	id = "launch2"
-	},
-/obj/effect/turf_decal/stripes/line{
-	dir = 5
-	},
-/turf/open/floor/plating,
-/area/space)
+/turf/open/floor/plasteel/ship,
+/area/nsv/hanger/deck2/starboard{
+	name = "Launch tubes 1 and 2"
+	})
 "bdL" = (
-/obj/machinery/door/poddoor/ship{
-	id = "launch4"
-	},
 /obj/effect/turf_decal/stripes/line{
-	dir = 10
+	dir = 4
 	},
-/turf/open/floor/plating,
-/area/maintenance/ship_exterior)
+/obj/machinery/button/door{
+	dir = 8;
+	id = "launchbay_access1";
+	name = "Launch bay doors";
+	pixel_x = 22;
+	pixel_y = 0;
+	req_one_access_txt = "69"
+	},
+/obj/structure/table/reinforced,
+/obj/item/clothing/ears/earmuffs,
+/turf/open/floor/plasteel/ship,
+/area/nsv/hanger/deck2/starboard{
+	name = "Launch tubes 1 and 2"
+	})
 "bdM" = (
 /obj/machinery/door/poddoor/ship{
-	id = "launch4"
+	id = "launchbay_access1";
+	name = "Launch tube access"
 	},
-/obj/effect/turf_decal/stripes/line,
 /turf/open/floor/plating,
-/area/maintenance/ship_exterior)
+/area/nsv/hanger/deck2/starboard{
+	name = "Launch tubes 1 and 2"
+	})
 "bdN" = (
 /obj/machinery/door/poddoor/ship{
-	id = "launch4"
+	id = "launchbay_access1";
+	name = "Launch tube access"
 	},
-/obj/effect/turf_decal/stripes/line{
-	dir = 6
-	},
+/obj/structure/cable,
 /turf/open/floor/plating,
-/area/maintenance/ship_exterior)
+/area/nsv/hanger/deck2/starboard{
+	name = "Launch tubes 1 and 2"
+	})
 "bdO" = (
+/obj/machinery/door/airlock/ship{
+	name = "Launch control room 1";
+	req_one_access_txt = "69"
+	},
+/turf/open/floor/plasteel/ship,
+/area/nsv/hanger/deck2/starboard{
+	name = "Launch tubes 1 and 2"
+	})
+"bdP" = (
 /obj/structure/sign/warning/vacuum/external{
 	name = "\improper DANGER: FIGHTER LAUNCH TUBE"
 	},
 /turf/closed/wall/r_wall/ship,
-/area/maintenance/aft/secondary{
-	name = "Deck 3 Maintenance"
+/area/nsv/hanger/deck2/starboard{
+	name = "Launch tubes 1 and 2"
 	})
-"bdP" = (
-/turf/open/floor/plasteel/ship,
-/area/maintenance/ship_exterior)
 "bdQ" = (
-/obj/effect/turf_decal/stripes/line{
-	dir = 4
+/obj/structure/cable,
+/obj/machinery/door/airlock/ship/maintenance{
+	icon_state = "closed";
+	dir = 8
 	},
-/turf/open/floor/plasteel/ship,
-/area/maintenance/ship_exterior)
+/turf/open/floor/plating,
+/area/nsv/hanger/deck2/starboard{
+	name = "Launch tubes 1 and 2"
+	})
 "bdR" = (
 /obj/machinery/light{
 	dir = 8
@@ -29120,7 +29104,7 @@
 /obj/structure/lattice,
 /obj/machinery/light/runway,
 /turf/open/space/basic,
-/area/space)
+/area/maintenance/ship_exterior)
 "bel" = (
 /obj/effect/turf_decal/delivery,
 /obj/structure/cable,
@@ -29213,11 +29197,6 @@
 	},
 /turf/open/floor/plasteel,
 /area/quartermaster/office)
-"beu" = (
-/obj/structure/lattice,
-/obj/machinery/light/runway/delay2,
-/turf/open/space/basic,
-/area/space)
 "bev" = (
 /obj/machinery/door/airlock/ship/public{
 	name = "Internal affairs";
@@ -29883,161 +29862,130 @@
 /area/quartermaster/miningoffice)
 "bfF" = (
 /obj/structure/cable,
-/obj/effect/turf_decal/stripes/line,
+/obj/effect/turf_decal/stripes/line{
+	dir = 1
+	},
 /turf/open/floor/plasteel/ship/riveted,
-/area/maintenance/aft/secondary{
-	name = "Deck 3 Maintenance"
+/area/nsv/hanger/deck2/starboard{
+	name = "Launch tubes 1 and 2"
 	})
 "bfG" = (
+/obj/structure/cable,
+/turf/open/floor/plasteel/ship/riveted,
+/area/nsv/hanger/deck2/starboard{
+	name = "Launch tubes 1 and 2"
+	})
+"bfH" = (
+/obj/structure/closet/secure_closet/personal,
+/turf/open/floor/plasteel/ship/techfloor/alt,
+/area/nsv/hanger{
+	name = "Hangar bay"
+	})
+"bfI" = (
+/obj/structure/cable,
+/obj/machinery/light,
+/turf/open/floor/plasteel/ship/riveted,
+/area/nsv/hanger/deck2/starboard{
+	name = "Launch tubes 1 and 2"
+	})
+"bfJ" = (
+/turf/closed/wall/ship,
+/area/nsv/hanger/deck2/starboard{
+	name = "Launch tubes 1 and 2"
+	})
+"bfK" = (
+/obj/machinery/door/poddoor/ship{
+	id = "launchbay_access";
+	name = "Launch tube access"
+	},
+/turf/open/floor/plasteel/ship/techfloor/alt,
+/area/nsv/hanger/deck2/starboard{
+	name = "Launch tubes 1 and 2"
+	})
+"bfL" = (
+/obj/machinery/door/airlock/ship{
+	name = "Launch control room 1";
+	req_one_access_txt = "69"
+	},
+/turf/open/floor/plasteel/ship/padded,
+/area/nsv/hanger/deck2/starboard{
+	name = "Launch tubes 1 and 2"
+	})
+"bfM" = (
+/turf/closed/wall/ship,
+/area/nsv/hanger/deck2/port{
+	name = "Launch tubes 3 and 4"
+	})
+"bfN" = (
+/obj/structure/lattice,
+/obj/machinery/light/runway/delay3,
+/turf/open/space/basic,
+/area/maintenance/ship_exterior)
+"bfP" = (
+/obj/structure/lattice,
+/obj/machinery/light/runway/delay4,
+/turf/open/space/basic,
+/area/maintenance/ship_exterior)
+"bfR" = (
+/obj/structure/lattice,
+/obj/machinery/light/runway/delay5,
+/turf/open/space/basic,
+/area/maintenance/ship_exterior)
+"bfT" = (
+/obj/structure/lattice,
+/obj/machinery/light/runway/delay2,
+/turf/open/space/basic,
+/area/maintenance/ship_exterior)
+"bfV" = (
+/obj/machinery/door/poddoor/ship{
+	id = "launchbay_access";
+	name = "Launch tube access"
+	},
+/turf/open/floor/plasteel/ship/techfloor/alt,
+/area/nsv/hanger/deck2/port{
+	name = "Launch tubes 3 and 4"
+	})
+"bfW" = (
+/obj/machinery/door/airlock/ship{
+	name = "Launch control room 2";
+	req_one_access_txt = "69"
+	},
+/turf/open/floor/plasteel/ship/padded,
+/area/nsv/hanger/deck2/port{
+	name = "Launch tubes 3 and 4"
+	})
+"bfX" = (
 /obj/structure/cable,
 /obj/machinery/door/airlock/ship/maintenance{
 	icon_state = "closed";
 	dir = 8
 	},
 /turf/open/floor/plating,
-/area/maintenance/aft/secondary{
-	name = "Deck 3 Maintenance"
-	})
-"bfH" = (
-/obj/machinery/door/airlock/ship{
-	name = "Launch control room 1";
-	req_one_access_txt = "3"
-	},
-/turf/open/floor/plasteel/ship,
-/area/maintenance/aft/secondary{
-	name = "Deck 3 Maintenance"
-	})
-"bfI" = (
-/obj/machinery/computer/ship/viewscreen,
-/obj/effect/turf_decal/stripes/line{
-	dir = 8
-	},
-/turf/open/floor/plasteel/ship,
-/area/maintenance/ship_exterior)
-"bfJ" = (
-/obj/machinery/button/door{
-	id = "launch3";
-	name = "Tube 3 exterior doors";
-	pixel_y = 0;
-	req_one_access_txt = "3"
-	},
-/obj/structure/table/reinforced,
-/obj/effect/turf_decal/stripes/line{
-	dir = 8
-	},
-/turf/open/floor/plasteel/ship,
-/area/maintenance/ship_exterior)
-"bfK" = (
-/obj/machinery/door/airlock/ship{
-	name = "Launch control room 2";
-	req_one_access_txt = "3"
-	},
-/turf/open/floor/plasteel/ship,
-/area/maintenance/aft/secondary{
-	name = "Deck 3 Maintenance"
-	})
-"bfL" = (
-/obj/structure/window/reinforced/fulltile/ship,
-/turf/open/floor/plasteel/ship,
-/area/maintenance/ship_exterior)
-"bfM" = (
-/obj/structure/window/reinforced/fulltile/ship,
-/turf/open/floor/plasteel/ship/padded,
-/area/maintenance/ship_exterior)
-"bfN" = (
-/obj/structure/lattice,
-/obj/machinery/light/runway/delay3,
-/turf/open/space/basic,
-/area/maintenance/ship_exterior)
-"bfO" = (
-/obj/structure/lattice,
-/obj/machinery/light/runway/delay3,
-/turf/open/space/basic,
-/area/space)
-"bfP" = (
-/obj/structure/lattice,
-/obj/machinery/light/runway/delay4,
-/turf/open/space/basic,
-/area/maintenance/ship_exterior)
-"bfQ" = (
-/obj/structure/lattice,
-/obj/machinery/light/runway/delay4,
-/turf/open/space/basic,
-/area/space)
-"bfR" = (
-/obj/structure/lattice,
-/obj/machinery/light/runway/delay5,
-/turf/open/space/basic,
-/area/maintenance/ship_exterior)
-"bfS" = (
-/obj/structure/lattice,
-/obj/machinery/light/runway/delay5,
-/turf/open/space/basic,
-/area/space)
-"bfT" = (
-/obj/structure/lattice,
-/obj/machinery/light/runway/delay2,
-/turf/open/space/basic,
-/area/maintenance/ship_exterior)
-"bfU" = (
-/obj/structure/lattice/catwalk,
-/turf/open/space/basic,
-/area/space)
-"bfV" = (
-/obj/machinery/light,
-/obj/machinery/computer/ship/dradis/minor{
-	icon_state = "computer";
-	dir = 1
-	},
-/turf/open/floor/plasteel/ship,
-/area/maintenance/ship_exterior)
-"bfW" = (
-/obj/structure/cable,
-/obj/machinery/light,
-/turf/open/floor/plasteel/ship/riveted,
-/area/maintenance/aft/secondary{
-	name = "Deck 3 Maintenance"
-	})
-"bfX" = (
-/obj/structure/cable,
-/obj/machinery/light{
-	dir = 1
-	},
-/turf/open/floor/plasteel/ship/riveted,
-/area/maintenance/aft/secondary{
-	name = "Deck 3 Maintenance"
+/area/nsv/hanger/deck2/port{
+	name = "Launch tubes 3 and 4"
 	})
 "bfY" = (
-/obj/machinery/button/door{
-	id = "launch4";
-	name = "Tube 4 exterior doors";
-	pixel_y = 0;
-	req_one_access_txt = "3"
-	},
-/obj/structure/table/reinforced,
-/obj/effect/turf_decal/stripes/line{
-	dir = 4
-	},
-/turf/open/floor/plasteel/ship,
-/area/maintenance/ship_exterior)
+/obj/structure/cable,
+/obj/effect/turf_decal/stripes/line,
+/turf/open/floor/plasteel/ship/riveted,
+/area/nsv/hanger/deck2/port{
+	name = "Launch tubes 3 and 4"
+	})
 "bfZ" = (
-/obj/effect/turf_decal/stripes/line{
-	dir = 8
-	},
-/obj/machinery/light{
-	dir = 8
-	},
-/turf/open/floor/plating,
-/area/maintenance/ship_exterior)
+/obj/structure/cable,
+/turf/open/floor/plasteel/ship/riveted,
+/area/nsv/hanger/deck2/port{
+	name = "Launch tubes 3 and 4"
+	})
 "bga" = (
-/obj/effect/turf_decal/stripes/line{
-	dir = 4
-	},
+/obj/structure/cable,
 /obj/machinery/light{
-	dir = 4
+	dir = 1
 	},
-/turf/open/floor/plating,
-/area/maintenance/ship_exterior)
+/turf/open/floor/plasteel/ship/riveted,
+/area/nsv/hanger/deck2/port{
+	name = "Launch tubes 3 and 4"
+	})
 "bgb" = (
 /obj/structure/cable,
 /obj/machinery/light{
@@ -30048,16 +29996,392 @@
 	name = "Deck 3 Maintenance"
 	})
 "bgc" = (
-/obj/structure/chair/office{
+/turf/closed/wall/r_wall/ship,
+/area/nsv/hanger/deck2/port{
+	name = "Launch tubes 3 and 4"
+	})
+"bgd" = (
+/obj/machinery/door/poddoor/ship{
+	id = "launchbay_access2";
+	name = "Launch tube access"
+	},
+/turf/open/floor/plating,
+/area/nsv/hanger/deck2/port{
+	name = "Launch tubes 3 and 4"
+	})
+"bge" = (
+/obj/machinery/door/poddoor/ship{
+	id = "launchbay_access2";
+	name = "Launch tube access"
+	},
+/obj/structure/cable,
+/turf/open/floor/plating,
+/area/nsv/hanger/deck2/port{
+	name = "Launch tubes 3 and 4"
+	})
+"bgf" = (
+/obj/machinery/door/airlock/ship{
+	name = "Launch control room 2";
+	req_one_access_txt = "69"
+	},
+/turf/open/floor/plasteel/ship,
+/area/nsv/hanger/deck2/port{
+	name = "Launch tubes 3 and 4"
+	})
+"bgg" = (
+/turf/open/floor/plating,
+/area/nsv/hanger{
+	name = "Hangar bay"
+	})
+"bgh" = (
+/obj/effect/turf_decal/bot,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	icon_state = "pipe11-1";
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
+	dir = 4
+	},
+/obj/structure/cable,
+/obj/effect/landmark/start/munitions_tech,
+/turf/open/floor/plasteel/ship/padded,
+/area/nsv/hanger{
+	name = "Hangar bay"
+	})
+"bgi" = (
+/obj/structure/sign/warning/vacuum/external{
+	name = "\improper DANGER: FIGHTER LAUNCH TUBE"
+	},
+/turf/closed/wall/r_wall/ship,
+/area/nsv/hanger/deck2/port{
+	name = "Launch tubes 3 and 4"
+	})
+"bgj" = (
+/obj/effect/turf_decal/stripes/line{
+	dir = 8
+	},
+/turf/open/floor/plating,
+/area/nsv/hanger/deck2/port{
+	name = "Launch tubes 3 and 4"
+	})
+"bgk" = (
+/obj/structure/lattice/catwalk,
+/obj/structure/cable,
+/turf/open/floor/plating,
+/area/nsv/hanger/deck2/port{
+	name = "Launch tubes 3 and 4"
+	})
+"bgl" = (
+/obj/effect/turf_decal/stripes/line{
+	dir = 4
+	},
+/turf/open/floor/plating,
+/area/nsv/hanger/deck2/port{
+	name = "Launch tubes 3 and 4"
+	})
+"bgm" = (
+/obj/machinery/computer/ship/viewscreen,
+/obj/effect/turf_decal/stripes/line{
+	dir = 8
+	},
+/obj/machinery/computer/ship/dradis/minor,
+/turf/open/floor/plasteel/ship,
+/area/nsv/hanger/deck2/port{
+	name = "Launch tubes 3 and 4"
+	})
+"bgn" = (
+/turf/open/floor/plasteel/ship,
+/area/nsv/hanger/deck2/port{
+	name = "Launch tubes 3 and 4"
+	})
+"bgo" = (
+/obj/effect/turf_decal/stripes/line{
+	dir = 4
+	},
+/obj/machinery/button/door{
+	dir = 8;
+	id = "launchbay_access2";
+	name = "Launch bay doors";
+	pixel_x = 22;
+	pixel_y = 0;
+	req_one_access_txt = "69"
+	},
+/obj/structure/table/reinforced,
+/obj/item/clothing/ears/earmuffs,
+/turf/open/floor/plasteel/ship,
+/area/nsv/hanger/deck2/port{
+	name = "Launch tubes 3 and 4"
+	})
+"bgq" = (
+/obj/effect/turf_decal/stripes/corner,
+/obj/effect/turf_decal/stripes/corner{
+	dir = 4
+	},
+/turf/open/floor/plating,
+/area/nsv/hanger{
+	name = "Hangar bay"
+	})
+"bgr" = (
+/obj/machinery/door/airlock/ship/security{
+	dir = 4;
+	name = "Munitions office";
+	req_one_access_txt = "69"
+	},
+/turf/open/floor/plasteel/ship/padded,
+/area/nsv/hanger{
+	name = "Hangar bay"
+	})
+"bgs" = (
+/obj/effect/turf_decal/loading_area{
+	dir = 8
+	},
+/obj/effect/mapping_helpers/airlock/cyclelink_helper{
+	dir = 8
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	icon_state = "pipe11-1";
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
+	dir = 4
+	},
+/obj/structure/cable,
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
+/obj/machinery/door/airlock/ship/security{
+	dir = 4;
+	name = "Hangar bay";
+	req_one_access_txt = "69"
+	},
+/turf/open/floor/plasteel/ship/padded,
+/area/hallway/primary/port{
+	name = "Deck 3 hallway"
+	})
+"bgt" = (
+/obj/structure/overmap/fighter/prebuilt,
+/turf/open/floor/plating,
+/area/nsv/hanger{
+	name = "Hangar bay"
+	})
+"bgu" = (
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	icon_state = "pipe11-1";
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
+	dir = 4
+	},
+/obj/structure/cable,
+/obj/structure/table/reinforced,
+/obj/item/toy/cards/deck,
+/obj/item/dice{
+	pixel_y = 4
+	},
+/turf/open/floor/plasteel/ship/padded,
+/area/hallway/primary/port{
+	name = "Deck 3 hallway"
+	})
+"bgv" = (
+/obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1{
+	icon_state = "manifold-1";
+	dir = 1
+	},
+/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden,
+/obj/structure/cable,
+/obj/structure/chair{
+	dir = 4
+	},
+/turf/open/floor/plasteel/ship/padded,
+/area/hallway/primary/port{
+	name = "Deck 3 hallway"
+	})
+"bgw" = (
+/obj/effect/turf_decal/bot,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	icon_state = "pipe11-1";
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
+	dir = 4
+	},
+/obj/structure/cable,
+/turf/open/floor/plasteel/ship/padded,
+/area/nsv/hanger{
+	name = "Hangar bay"
+	})
+"bgx" = (
+/obj/effect/turf_decal/bot,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	icon_state = "pipe11-1";
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
+	dir = 4
+	},
+/obj/effect/landmark/nuclear_waste_spawner/strong,
+/obj/structure/cable,
+/turf/open/floor/plasteel/ship/padded,
+/area/nsv/hanger{
+	name = "Hangar bay"
+	})
+"bgy" = (
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	icon_state = "pipe11-1";
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
+	dir = 4
+	},
+/obj/structure/cable,
+/obj/machinery/door/airlock/ship{
+	dir = 8;
+	icon_state = "closed";
+	name = "Frame 1-a"
+	},
+/turf/open/floor/plasteel/ship/padded,
+/area/hallway/primary/port{
+	name = "Deck 3 hallway"
+	})
+"bgz" = (
+/obj/effect/turf_decal/stripes/line{
+	dir = 4
+	},
+/obj/machinery/light{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	icon_state = "pipe11-1";
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
+	dir = 4
+	},
+/obj/structure/cable,
+/turf/open/floor/plasteel/ship/padded,
+/area/nsv/hanger{
+	name = "Hangar bay"
+	})
+"bgA" = (
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	icon_state = "pipe11-1";
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
+	dir = 4
+	},
+/obj/structure/cable,
+/turf/closed/wall/r_wall/ship,
+/area/nsv/hanger{
+	name = "Hangar bay"
+	})
+"bgB" = (
+/obj/machinery/door/airlock/ship/security{
+	dir = 4;
+	name = "Munitions bay";
+	req_one_access_txt = "69"
+	},
+/turf/open/floor/plasteel/ship/padded,
+/area/nsv/hanger{
+	name = "Hangar bay"
+	})
+"bgC" = (
+/obj/effect/turf_decal/bot,
+/obj/structure/overmap/fighter/prebuilt,
+/turf/open/floor/plating,
+/area/nsv/hanger{
+	name = "Hangar bay"
+	})
+"bgD" = (
+/obj/effect/turf_decal/bot,
+/obj/structure/overmap/fighter/prebuilt/raptor,
+/turf/open/floor/plating,
+/area/nsv/hanger{
+	name = "Hangar bay"
+	})
+"bgE" = (
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	icon_state = "pipe11-1";
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
+	dir = 4
+	},
+/obj/structure/cable,
+/obj/structure/chair{
+	dir = 8
+	},
+/turf/open/floor/plasteel/ship/padded,
+/area/hallway/primary/port{
+	name = "Deck 3 hallway"
+	})
+"bgF" = (
+/obj/effect/turf_decal/stripes/line,
+/turf/open/floor/plating,
+/area/nsv/hanger{
+	name = "Hangar bay"
+	})
+"bgG" = (
+/obj/structure/chair,
+/turf/open/floor/plasteel/ship/techfloor/alt,
+/area/hallway/primary/port{
+	name = "Deck 3 hallway"
+	})
+"bgH" = (
+/obj/effect/turf_decal/stripes/line{
+	dir = 6
+	},
+/turf/open/floor/plating,
+/area/nsv/hanger{
+	name = "Hangar bay"
+	})
+"bgI" = (
+/obj/machinery/camera/autoname{
 	dir = 1
 	},
 /turf/open/floor/plasteel/ship/padded,
-/area/maintenance/ship_exterior)
-"bgd" = (
-/obj/structure/chair/office,
+/area/nsv/hanger{
+	name = "Hangar bay"
+	})
+"bgJ" = (
+/obj/structure/reagent_dispensers/fueltank,
+/obj/machinery/light,
+/turf/open/floor/plasteel/ship/techfloor/alt,
+/area/nsv/hanger{
+	name = "Hangar bay"
+	})
+"bgK" = (
+/obj/structure/chair{
+	dir = 1
+	},
 /turf/open/floor/plasteel/ship/padded,
-/area/maintenance/ship_exterior)
-"bge" = (
+/area/hallway/primary/port{
+	name = "Deck 3 hallway"
+	})
+"bgL" = (
+/obj/effect/turf_decal/stripes/line,
+/turf/open/floor/plasteel/ship/techfloor/alt,
+/area/nsv/hanger{
+	name = "Hangar bay"
+	})
+"bgM" = (
+/obj/machinery/button/door{
+	id = "launchbay_access";
+	name = "Launch bay doors";
+	pixel_y = -26;
+	req_one_access_txt = "69"
+	},
+/turf/open/floor/plasteel/ship/techfloor/alt,
+/area/nsv/hanger{
+	name = "Hangar bay"
+	})
+"bgN" = (
+/obj/machinery/light,
+/turf/open/floor/plasteel/ship/techfloor/alt,
+/area/nsv/hanger{
+	name = "Hangar bay"
+	})
+"bgO" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
 	},
@@ -30065,121 +30389,487 @@
 	dir = 8
 	},
 /obj/structure/fighter_launcher{
+	name = "electromagnetic catapult 3";
 	pixel_x = 38;
 	pixel_y = -64
 	},
 /turf/open/floor/plating,
-/area/maintenance/ship_exterior)
-"bgf" = (
+/area/nsv/hanger/deck2/port{
+	name = "Launch tubes 3 and 4"
+	})
+"bgP" = (
+/obj/structure/window/reinforced/fulltile/ship,
+/turf/open/floor/plasteel/ship/padded,
+/area/nsv/hanger/deck2/port{
+	name = "Launch tubes 3 and 4"
+	})
+"bgQ" = (
+/obj/effect/turf_decal/stripes/line{
+	dir = 8
+	},
+/turf/open/floor/plasteel/ship,
+/area/nsv/hanger/deck2/port{
+	name = "Launch tubes 3 and 4"
+	})
+"bgR" = (
+/obj/structure/chair/office,
+/turf/open/floor/plasteel/ship/padded,
+/area/nsv/hanger/deck2/port{
+	name = "Launch tubes 3 and 4"
+	})
+"bgS" = (
+/obj/effect/turf_decal/stripes/line{
+	dir = 4
+	},
+/turf/open/floor/plasteel/ship,
+/area/nsv/hanger/deck2/port{
+	name = "Launch tubes 3 and 4"
+	})
+"bgT" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
 	},
 /obj/structure/fighter_launcher{
-	dir = 1;
-	pixel_x = 38
+	name = "electromagnetic catapult 4";
+	pixel_x = 38;
+	pixel_y = -64
 	},
 /turf/open/floor/plating,
-/area/maintenance/ship_exterior)
-"bgg" = (
-/obj/machinery/door/airlock/ship{
-	name = "Launch control room 1";
-	req_one_access_txt = "3"
-	},
-/turf/open/floor/plasteel/ship/padded,
-/area/hallway/primary/port{
-	name = "Deck 3 hallway"
+/area/nsv/hanger/deck2/port{
+	name = "Launch tubes 3 and 4"
 	})
-"bgh" = (
-/obj/machinery/door/airlock/ship{
-	name = "Launch control room 2";
-	req_one_access_txt = "3"
-	},
-/turf/open/floor/plasteel/ship/padded,
-/area/hallway/primary/port{
-	name = "Deck 3 hallway"
-	})
-"bgi" = (
+"bgU" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 4
 	},
-/obj/machinery/button/door{
-	dir = 8;
-	id = "launchbay_access2";
-	name = "Launch bay doors";
-	pixel_x = 22;
-	pixel_y = 0;
-	req_one_access_txt = "3"
-	},
-/turf/open/floor/plasteel/ship,
-/area/maintenance/ship_exterior)
-"bgj" = (
-/obj/machinery/door/poddoor/ship{
-	id = "launchbay_access1";
-	name = "Launch tube access"
-	},
-/turf/open/floor/plating,
-/area/maintenance/aft/secondary{
-	name = "Deck 3 Maintenance"
-	})
-"bgk" = (
-/obj/effect/turf_decal/stripes/line{
+/obj/machinery/light{
 	dir = 4
 	},
-/obj/machinery/button/door{
-	dir = 8;
-	id = "launchbay_access1";
-	name = "Launch bay doors";
-	pixel_x = 22;
-	pixel_y = 0;
-	req_one_access_txt = "3"
-	},
-/turf/open/floor/plasteel/ship,
-/area/maintenance/ship_exterior)
-"bgl" = (
+/turf/open/floor/plating,
+/area/nsv/hanger/deck2/port{
+	name = "Launch tubes 3 and 4"
+	})
+"bgV" = (
 /obj/structure/lattice/catwalk,
-/obj/structure/cable,
 /turf/open/floor/plating,
-/area/maintenance/ship_exterior)
-"bgm" = (
-/obj/machinery/door/poddoor/ship{
-	id = "launchbay_access1";
-	name = "Launch tube access"
-	},
-/obj/structure/cable,
-/turf/open/floor/plating,
-/area/maintenance/aft/secondary{
-	name = "Deck 3 Maintenance"
+/area/nsv/hanger/deck2/port{
+	name = "Launch tubes 3 and 4"
 	})
-"bgn" = (
-/obj/machinery/door/poddoor/ship{
-	id = "launchbay_access2";
-	name = "Launch tube access"
+"bgW" = (
+/obj/machinery/button/door{
+	id = "launch3";
+	name = "Tube 3 exterior doors";
+	pixel_y = 0;
+	req_one_access_txt = "69"
 	},
-/obj/structure/cable,
-/turf/open/floor/plating,
-/area/maintenance/aft/secondary{
-	name = "Deck 3 Maintenance"
-	})
-"bgo" = (
+/obj/structure/table/reinforced,
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
 	},
-/obj/structure/fighter_launcher{
-	pixel_x = 38;
-	pixel_y = -64
+/turf/open/floor/plasteel/ship,
+/area/nsv/hanger/deck2/port{
+	name = "Launch tubes 3 and 4"
+	})
+"bgX" = (
+/obj/machinery/computer/ship/fighter_launcher{
+	icon_state = "computer";
+	dir = 1
+	},
+/turf/open/floor/plasteel/ship,
+/area/nsv/hanger/deck2/port{
+	name = "Launch tubes 3 and 4"
+	})
+"bgY" = (
+/obj/machinery/button/door{
+	id = "launch4";
+	name = "Tube 4 exterior doors";
+	pixel_y = 0;
+	req_one_access_txt = "69"
+	},
+/obj/structure/table/reinforced,
+/obj/effect/turf_decal/stripes/line{
+	dir = 4
+	},
+/turf/open/floor/plasteel/ship,
+/area/nsv/hanger/deck2/port{
+	name = "Launch tubes 3 and 4"
+	})
+"bgZ" = (
+/obj/structure/window/reinforced/fulltile/ship,
+/turf/open/floor/plasteel/ship,
+/area/nsv/hanger/deck2/port{
+	name = "Launch tubes 3 and 4"
+	})
+"bha" = (
+/obj/machinery/door/poddoor/ship{
+	id = "launch3"
+	},
+/obj/effect/turf_decal/stripes/line{
+	dir = 10
 	},
 /turf/open/floor/plating,
-/area/maintenance/ship_exterior)
-"bgp" = (
-/obj/structure/lattice,
+/area/nsv/hanger/deck2/port{
+	name = "Launch tubes 3 and 4"
+	})
+"bhb" = (
+/obj/machinery/door/poddoor/ship{
+	id = "launch3"
+	},
+/obj/effect/turf_decal/stripes/line,
+/turf/open/floor/plating,
+/area/nsv/hanger/deck2/port{
+	name = "Launch tubes 3 and 4"
+	})
+"bhc" = (
+/obj/machinery/door/poddoor/ship{
+	id = "launch3"
+	},
+/obj/effect/turf_decal/stripes/line{
+	dir = 6
+	},
+/turf/open/floor/plating,
+/area/nsv/hanger/deck2/port{
+	name = "Launch tubes 3 and 4"
+	})
+"bhd" = (
+/obj/structure/lattice/catwalk,
 /turf/open/space/basic,
-/area/space)
-"bgq" = (
-/obj/effect/turf_decal/bot,
-/obj/structure/overmap/fighter/prebuilt/raptor,
+/area/nsv/hanger/deck2/port{
+	name = "Launch tubes 3 and 4"
+	})
+"bhe" = (
+/obj/machinery/door/poddoor/ship{
+	id = "launch4"
+	},
+/obj/effect/turf_decal/stripes/line{
+	dir = 10
+	},
+/turf/open/floor/plating,
+/area/nsv/hanger/deck2/port{
+	name = "Launch tubes 3 and 4"
+	})
+"bhf" = (
+/obj/machinery/door/poddoor/ship{
+	id = "launch4"
+	},
+/obj/effect/turf_decal/stripes/line,
+/turf/open/floor/plating,
+/area/nsv/hanger/deck2/port{
+	name = "Launch tubes 3 and 4"
+	})
+"bhg" = (
+/obj/machinery/door/poddoor/ship{
+	id = "launch4"
+	},
+/obj/effect/turf_decal/stripes/line{
+	dir = 6
+	},
+/turf/open/floor/plating,
+/area/nsv/hanger/deck2/port{
+	name = "Launch tubes 3 and 4"
+	})
+"bhh" = (
+/obj/machinery/light{
+	dir = 1
+	},
+/obj/structure/closet/firecloset/full,
+/turf/open/floor/plasteel/ship/techfloor/alt,
+/area/nsv/hanger{
+	name = "Hangar bay"
+	})
+"bhi" = (
+/obj/structure/extinguisher_cabinet{
+	pixel_y = -4
+	},
+/turf/closed/wall/ship,
+/area/nsv/hanger/deck2/starboard{
+	name = "Launch tubes 1 and 2"
+	})
+"bhj" = (
+/obj/structure/extinguisher_cabinet{
+	pixel_y = -4
+	},
+/turf/closed/wall/ship,
+/area/nsv/hanger/deck2/port{
+	name = "Launch tubes 3 and 4"
+	})
+"bhk" = (
+/obj/structure/stairs,
+/turf/open/floor/plasteel/ship/techfloor/alt,
+/area/hallway/primary/port{
+	name = "Deck 3 hallway"
+	})
+"bhl" = (
+/obj/structure/stairs,
+/turf/open/openspace,
+/area/hallway/primary/central{
+	name = "Deck 2 primary hallway"
+	})
+"bhm" = (
+/obj/structure/stairs{
+	icon_state = "stairs";
+	dir = 1
+	},
+/turf/open/floor/plasteel/ship/techfloor/alt,
+/area/hallway/primary/port{
+	name = "Deck 3 hallway"
+	})
+"bhn" = (
+/obj/structure/stairs{
+	icon_state = "stairs";
+	dir = 1
+	},
+/turf/open/openspace,
+/area/hallway/primary/central{
+	name = "Deck 2 primary hallway"
+	})
+"bho" = (
+/obj/structure/stairs{
+	dir = 4
+	},
+/turf/open/floor/plasteel/ship/techfloor/alt,
+/area/hallway/primary/central{
+	name = "Deck 2 primary hallway"
+	})
+"bhp" = (
+/obj/structure/stairs{
+	dir = 4
+	},
+/turf/open/openspace,
+/area/hallway/secondary/command)
+"bhq" = (
+/obj/structure/stairs{
+	icon_state = "stairs";
+	dir = 8
+	},
+/turf/open/floor/plasteel/ship/techfloor/alt,
+/area/hallway/primary/central{
+	name = "Deck 2 primary hallway"
+	})
+"bhr" = (
+/turf/open/floor/plasteel/ship/techfloor/alt,
+/area/maintenance/department/bridge{
+	name = "Deck 1 maintenance"
+	})
+"bhs" = (
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
+/obj/machinery/meter,
+/obj/structure/disposalpipe/segment{
+	dir = 9
+	},
+/turf/closed/wall/ship,
+/area/maintenance/department/bridge{
+	name = "Deck 1 maintenance"
+	})
+"bht" = (
+/obj/machinery/vending/cigarette{
+	name = "Adama's Finest Cigars";
+	pixel_x = 0
+	},
+/turf/open/floor/plasteel/ship/techfloor/alt,
+/area/hallway/secondary/command)
+"bhu" = (
+/obj/structure/stairs/top{
+	icon_state = "stairs";
+	dir = 4
+	},
+/turf/open/floor/plasteel/ship/techfloor/alt,
+/area/hallway/primary/central{
+	name = "Deck 2 primary hallway"
+	})
+"bhv" = (
+/obj/structure/chair{
+	dir = 1
+	},
+/turf/open/floor/plasteel/ship/techfloor/alt,
+/area/hallway/primary/port{
+	name = "Deck 3 hallway"
+	})
+"bhw" = (
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/obj/structure/disposalpipe/segment,
+/obj/structure/cable,
+/obj/structure/closet/secure_closet/personal,
+/turf/open/floor/plasteel/ship/techfloor/alt,
+/area/hallway/primary/port{
+	name = "Deck 3 hallway"
+	})
+"bhx" = (
+/obj/machinery/light{
+	dir = 1
+	},
+/obj/machinery/suit_storage_unit/pilot,
+/turf/open/floor/plasteel/ship/techfloor/alt,
+/area/hallway/primary/port{
+	name = "Deck 3 hallway"
+	})
+"bhy" = (
+/obj/machinery/camera/autoname,
+/obj/machinery/suit_storage_unit/pilot,
+/turf/open/floor/plasteel/ship/techfloor/alt,
+/area/hallway/primary/port{
+	name = "Deck 3 hallway"
+	})
+"bhz" = (
+/obj/machinery/suit_storage_unit/pilot,
+/turf/open/floor/plasteel/ship/techfloor/alt,
+/area/hallway/primary/port{
+	name = "Deck 3 hallway"
+	})
+"bhA" = (
+/obj/machinery/light,
+/obj/machinery/suit_storage_unit/pilot,
+/turf/open/floor/plasteel/ship/techfloor/alt,
+/area/hallway/primary/port{
+	name = "Deck 3 hallway"
+	})
+"bhB" = (
+/obj/structure/closet/secure_closet/personal,
+/turf/open/floor/plasteel/ship/techfloor/alt,
+/area/hallway/primary/port{
+	name = "Deck 3 hallway"
+	})
+"bhC" = (
+/obj/structure/sign/warning/nosmoking{
+	pixel_y = 26
+	},
+/turf/open/floor/plasteel/ship/padded,
+/area/nsv/hanger{
+	name = "Hangar bay"
+	})
+"bhD" = (
+/obj/structure/closet/secure_closet/personal,
+/obj/effect/spawner/lootdrop/grille_or_trash,
+/turf/open/floor/plating,
+/area/maintenance/aft/secondary{
+	name = "Deck 3 Maintenance"
+	})
+"bhE" = (
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	icon_state = "pipe11-1";
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
+	dir = 4
+	},
+/obj/structure/cable,
+/obj/effect/landmark/nuclear_waste_spawner,
+/turf/open/floor/plasteel/dark,
+/area/hallway/primary/port{
+	name = "Deck 3 hallway"
+	})
+"bhF" = (
+/obj/structure/cable,
+/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden,
+/obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1,
+/turf/open/floor/plasteel/ship/techfloor/alt,
+/area/hallway/primary/port{
+	name = "Deck 3 hallway"
+	})
+"bhG" = (
+/obj/structure/disposalpipe/junction{
+	icon_state = "pipe-j1";
+	dir = 8
+	},
+/turf/open/floor/plasteel/ship/techfloor/alt,
+/area/hallway/primary/port{
+	name = "Deck 3 hallway"
+	})
+"bhH" = (
+/obj/structure/cable,
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
+/turf/open/floor/plating,
+/area/maintenance/aft/secondary{
+	name = "Deck 3 Maintenance"
+	})
+"bhI" = (
+/obj/structure/cable,
+/obj/machinery/door/airlock/ship{
+	name = "Theatre";
+	icon_state = "closed";
+	dir = 4;
+	req_one_access_txt = "46"
+	},
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
+/turf/open/floor/plating,
+/area/maintenance/aft/secondary{
+	name = "Deck 3 Maintenance"
+	})
+"bhJ" = (
+/obj/structure/cable,
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
+/turf/open/floor/wood,
+/area/crew_quarters/theatre)
+"bhK" = (
+/obj/structure/chair/wood/wings{
+	dir = 1
+	},
+/obj/structure/cable,
+/obj/structure/disposalpipe/segment{
+	dir = 10
+	},
+/turf/open/floor/wood,
+/area/crew_quarters/theatre)
+"bhL" = (
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
+	dir = 4
+	},
+/obj/structure/disposalpipe/segment,
+/turf/open/floor/wood,
+/area/crew_quarters/theatre)
+"bhM" = (
+/obj/structure/disposalpipe/segment{
+	dir = 5
+	},
+/turf/open/floor/wood,
+/area/crew_quarters/theatre)
+"bhN" = (
+/obj/item/radio/intercom{
+	pixel_y = -29
+	},
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
+/turf/open/floor/wood,
+/area/crew_quarters/theatre)
+"bhO" = (
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/obj/structure/cable,
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
+/turf/open/floor/wood,
+/area/crew_quarters/theatre)
+"bhP" = (
+/obj/structure/window/reinforced/fulltile/ship,
 /turf/open/floor/plating,
 /area/hallway/primary/port{
 	name = "Deck 3 hallway"
+	})
+"bhQ" = (
+/obj/effect/turf_decal/bot,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	icon_state = "pipe11-1";
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
+	dir = 4
+	},
+/obj/structure/cable,
+/obj/machinery/camera/autoname{
+	dir = 4
+	},
+/turf/open/floor/plasteel/ship/padded,
+/area/nsv/hanger{
+	name = "Hangar bay"
 	})
 "bme" = (
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on{
@@ -30227,13 +30917,6 @@
 /obj/machinery/atmospherics/pipe/simple/purple/hidden,
 /turf/open/floor/plasteel,
 /area/engine/engineering)
-"bJO" = (
-/obj/structure/reagent_dispensers/fueltank,
-/obj/machinery/light,
-/turf/open/floor/plasteel/ship/techfloor/alt,
-/area/hallway/primary/port{
-	name = "Deck 3 hallway"
-	})
 "bOB" = (
 /obj/machinery/atmospherics/pipe/simple/orange/hidden,
 /obj/effect/turf_decal/stripes/line{
@@ -30331,14 +31014,6 @@
 	},
 /obj/structure/cable,
 /turf/open/floor/plasteel/ship/padded,
-/area/hallway/primary/port{
-	name = "Deck 3 hallway"
-	})
-"cMo" = (
-/obj/effect/turf_decal/stripes/line{
-	dir = 1
-	},
-/turf/open/floor/plating,
 /area/hallway/primary/port{
 	name = "Deck 3 hallway"
 	})
@@ -30567,22 +31242,6 @@
 	},
 /turf/open/floor/plasteel/dark,
 /area/hydroponics)
-"dXL" = (
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
-	icon_state = "pipe11-1";
-	dir = 4
-	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
-	dir = 4
-	},
-/obj/structure/cable,
-/obj/structure/disposalpipe/segment{
-	dir = 4
-	},
-/turf/open/floor/plasteel/dark,
-/area/hallway/primary/port{
-	name = "Deck 3 hallway"
-	})
 "dZL" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 6
@@ -30722,20 +31381,6 @@
 /obj/machinery/power/apc/auto_name/north,
 /turf/open/floor/plating,
 /area/engine/engineering)
-"fbr" = (
-/obj/effect/turf_decal/stripes/line{
-	dir = 8
-	},
-/turf/open/floor/plating,
-/area/hallway/primary/port{
-	name = "Deck 3 hallway"
-	})
-"fcM" = (
-/obj/item/radio/intercom{
-	pixel_y = -29
-	},
-/turf/open/floor/wood,
-/area/crew_quarters/theatre)
 "ffN" = (
 /obj/structure/cable,
 /obj/machinery/atmospherics/components/unary/vent_pump/high_volume/on/layer1,
@@ -30841,16 +31486,6 @@
 /turf/open/floor/plating,
 /area/crew_quarters/abandoned_gambling_den{
 	name = "Observation lounge"
-	})
-"fzg" = (
-/obj/machinery/door/airlock/ship{
-	dir = 8;
-	icon_state = "closed";
-	name = "Hangar bay"
-	},
-/turf/open/floor/plasteel/ship/padded,
-/area/hallway/primary/port{
-	name = "Deck 3 hallway"
 	})
 "fAk" = (
 /obj/effect/turf_decal/stripes/line,
@@ -31015,12 +31650,6 @@
 "gPQ" = (
 /turf/closed/wall/ship,
 /area/maintenance/disposal)
-"gPW" = (
-/obj/effect/turf_decal/bot,
-/turf/open/floor/plating,
-/area/hallway/primary/port{
-	name = "Deck 3 hallway"
-	})
 "gUb" = (
 /obj/structure/chair{
 	dir = 8
@@ -31059,23 +31688,6 @@
 	},
 /turf/open/floor/plasteel/dark,
 /area/hydroponics)
-"hzV" = (
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
-	icon_state = "pipe11-1";
-	dir = 4
-	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
-	dir = 4
-	},
-/obj/structure/cable,
-/obj/structure/disposalpipe/segment{
-	dir = 4
-	},
-/obj/effect/landmark/nuclear_waste_spawner,
-/turf/open/floor/plasteel/dark,
-/area/hallway/primary/port{
-	name = "Deck 3 hallway"
-	})
 "hAE" = (
 /obj/machinery/airalarm{
 	pixel_y = 26
@@ -31459,12 +32071,6 @@
 /obj/structure/closet/secure_closet/hydroponics,
 /turf/open/floor/plasteel/dark,
 /area/hydroponics)
-"jTB" = (
-/obj/effect/turf_decal/stripes/line,
-/turf/open/floor/plating,
-/area/hallway/primary/port{
-	name = "Deck 3 hallway"
-	})
 "jXn" = (
 /obj/structure/cable,
 /obj/effect/landmark/nuclear_waste_spawner,
@@ -31562,17 +32168,6 @@
 /obj/structure/window/reinforced/fulltile/ship,
 /turf/open/floor/plating,
 /area/engine/engineering)
-"kCh" = (
-/obj/structure/cable,
-/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden,
-/obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1,
-/obj/structure/disposalpipe/segment{
-	dir = 9
-	},
-/turf/open/floor/plasteel/ship/techfloor/alt,
-/area/hallway/primary/port{
-	name = "Deck 3 hallway"
-	})
 "kDq" = (
 /obj/machinery/atmospherics/pipe/simple/purple/hidden{
 	icon_state = "pipe11-2";
@@ -31580,14 +32175,6 @@
 	},
 /turf/closed/wall/r_wall/ship,
 /area/engine/atmos)
-"kEh" = (
-/obj/effect/turf_decal/stripes/line{
-	dir = 4
-	},
-/turf/open/floor/plating,
-/area/hallway/primary/port{
-	name = "Deck 3 hallway"
-	})
 "kTv" = (
 /obj/structure/cable,
 /turf/open/floor/plasteel/ship/techfloor/alt,
@@ -31787,14 +32374,6 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/disposal)
-"nhI" = (
-/obj/effect/turf_decal/stripes/line{
-	dir = 6
-	},
-/turf/open/floor/plating,
-/area/hallway/primary/port{
-	name = "Deck 3 hallway"
-	})
 "njx" = (
 /obj/structure/cable,
 /obj/machinery/door/airlock/ship/engineering{
@@ -31826,17 +32405,6 @@
 /area/hallway/primary/port{
 	name = "Deck 3 hallway"
 	})
-"nsg" = (
-/obj/effect/turf_decal/stripes/corner{
-	dir = 1
-	},
-/obj/effect/turf_decal/stripes/corner{
-	dir = 8
-	},
-/turf/open/floor/plating,
-/area/hallway/primary/port{
-	name = "Deck 3 hallway"
-	})
 "nsD" = (
 /obj/effect/turf_decal/stripes/line,
 /obj/structure/cable,
@@ -31862,15 +32430,6 @@
 /turf/open/space/basic,
 /area/crew_quarters/abandoned_gambling_den{
 	name = "Observation lounge"
-	})
-"nGe" = (
-/obj/effect/turf_decal/stripes/corner,
-/obj/effect/turf_decal/stripes/corner{
-	dir = 4
-	},
-/turf/open/floor/plating,
-/area/hallway/primary/port{
-	name = "Deck 3 hallway"
 	})
 "nGW" = (
 /obj/structure/chair/office{
@@ -31920,14 +32479,6 @@
 /obj/item/key/janitor,
 /turf/open/floor/plating,
 /area/janitor)
-"owG" = (
-/obj/effect/turf_decal/stripes/line{
-	dir = 10
-	},
-/turf/open/floor/plating,
-/area/hallway/primary/port{
-	name = "Deck 3 hallway"
-	})
 "ozd" = (
 /obj/machinery/door/airlock/ship/engineering{
 	dir = 8;
@@ -32320,14 +32871,6 @@
 /turf/open/space/basic,
 /area/crew_quarters/abandoned_gambling_den{
 	name = "Observation lounge"
-	})
-"sAF" = (
-/obj/effect/turf_decal/stripes/line{
-	dir = 5
-	},
-/turf/open/floor/plating,
-/area/hallway/primary/port{
-	name = "Deck 3 hallway"
 	})
 "sBz" = (
 /obj/structure/window/reinforced/fulltile/ship,
@@ -53501,7 +54044,7 @@ tyN
 aag
 adi
 aaZ
-abi
+abk
 aOF
 abk
 aaZ
@@ -53523,7 +54066,7 @@ aVR
 aTV
 aSx
 axT
-abi
+abk
 aaZ
 adi
 aag
@@ -54015,7 +54558,7 @@ tyN
 aag
 adi
 aaZ
-abk
+adI
 aOF
 abk
 aaZ
@@ -54037,7 +54580,7 @@ aUa
 aTV
 aSx
 axT
-abk
+adI
 aaZ
 adi
 aag
@@ -64551,8 +65094,8 @@ tyN
 aag
 adi
 aaZ
-abi
 abk
+bhm
 abk
 abk
 abk
@@ -64574,8 +65117,8 @@ abk
 abk
 abk
 abk
+bhk
 abk
-abi
 aaZ
 adi
 aag
@@ -73808,13 +74351,13 @@ aVr
 adi
 aba
 aQY
-abk
-abk
-abk
-abk
-abk
-abk
-aYO
+aan
+abY
+abY
+abY
+abY
+abY
+bhG
 aGM
 abk
 abk
@@ -74065,7 +74608,7 @@ aVr
 adi
 aac
 aho
-akp
+asT
 akp
 akp
 akp
@@ -74322,7 +74865,7 @@ aVr
 adi
 aba
 ajJ
-abk
+aYO
 abk
 aao
 abk
@@ -74578,23 +75121,23 @@ tyN
 aag
 adi
 aaZ
-aaZ
-aan
-aaZ
-aaZ
-aaZ
-aaZ
-aaZ
-abk
-auZ
-abk
+bhP
+atV
+bhP
 aaZ
 aaZ
 aaZ
 aaZ
 aaZ
+bgy
+aaZ
+aaZ
+aaZ
+aaZ
+aaZ
+bhP
 cFo
-aaZ
+bhP
 aaZ
 adi
 aag
@@ -74836,15 +75379,15 @@ aag
 adi
 aoa
 amq
-amq
+bbh
 amq
 aoa
 aYJ
 aaa
 aba
-abk
+bgG
 auZ
-abk
+bhv
 aba
 aaa
 aYJ
@@ -75093,15 +75636,15 @@ aag
 adi
 aoa
 amq
-amq
+bbh
 amq
 aoa
 aYJ
 aaa
 aba
-abk
+bgG
 auZ
-abk
+bhv
 aba
 aaa
 aYJ
@@ -75350,7 +75893,7 @@ aag
 adi
 abX
 adi
-adi
+bhH
 amy
 aoa
 aYJ
@@ -75607,15 +76150,15 @@ aag
 adi
 aoa
 amq
-adi
+bhH
 amq
 aoa
 aYJ
 aaa
 aba
-abk
+bgG
 auZ
-abk
+bhv
 aba
 aaa
 aYJ
@@ -75864,15 +76407,15 @@ aag
 adi
 aoa
 amq
-adi
+bhH
 amq
 aoa
 aYJ
 aaa
 aba
-abk
+bgG
 auZ
-abk
+bhv
 aba
 aaa
 aYJ
@@ -76121,14 +76664,14 @@ aag
 aaj
 mej
 mej
-asT
+bhI
 mej
 mej
 mej
 aab
 aaZ
 aaZ
-axM
+ayH
 aaZ
 aaZ
 aab
@@ -76378,14 +76921,14 @@ aag
 adi
 mej
 nMJ
-bbf
+bhJ
 gdC
 jtk
 tQF
 aaa
 aba
 ajS
-dXL
+aku
 aTI
 aba
 aaa
@@ -76635,14 +77178,14 @@ aag
 adi
 mej
 ftm
-bbf
+bhJ
 bXb
 onM
 tQF
 aaa
 aba
 xgD
-hzV
+bhE
 aTL
 aba
 aaa
@@ -76892,14 +77435,14 @@ aag
 adi
 mej
 mSW
-atV
-bRc
-onM
+bhK
+bhL
+bhM
 tQF
 aaa
 aba
 ajV
-dXL
+aku
 aTb
 aba
 aaa
@@ -77151,12 +77694,12 @@ mej
 oPw
 bbf
 bRc
-fcM
+bhN
 mej
 aaZ
 axd
 aaZ
-ayH
+bgs
 aaZ
 aaZ
 aaZ
@@ -77408,15 +77951,15 @@ mej
 bbd
 bbf
 bbg
-bbh
+bhO
 bbi
+bhw
 bbj
 bbj
-bbj
-kCh
+bhF
 abk
 abk
-abk
+bhB
 aaZ
 rHs
 vOO
@@ -77667,13 +78210,13 @@ kkf
 onM
 rLv
 mej
-ajK
+bhx
 akn
 aUL
-ayI
+bgv
 pzZ
 rBS
-aXw
+bhA
 aaZ
 xcs
 vOO
@@ -77924,13 +78467,13 @@ mej
 mej
 mej
 mej
-adk
+bhy
 auO
+ayI
+bgu
+bgK
 auO
-auZ
-auO
-auO
-abk
+bhz
 aaZ
 aoa
 aoa
@@ -78179,17 +78722,17 @@ adi
 aoa
 tHQ
 emR
-amq
+bhD
 aaZ
-abk
-abk
-abk
-ayK
-abk
-abk
-abk
+bhz
+auO
+auO
+bgE
+auO
+auO
+bhz
 aaZ
-amq
+bhD
 emR
 xFn
 aoa
@@ -78434,21 +78977,21 @@ aag
 aag
 adi
 aoa
-aaZ
-aaZ
-aaZ
-aaZ
-aaZ
-aaZ
-fzg
-aMg
-fzg
-aaZ
-aaZ
-aaZ
-aaZ
-aaZ
-aaZ
+aad
+bgg
+bgg
+aad
+bdo
+aKH
+aKH
+ayK
+aKH
+aKH
+bfH
+aad
+bgg
+bgg
+aad
 aoa
 adi
 aag
@@ -78665,22 +79208,22 @@ aaa
 aaa
 aaa
 aaa
-bfU
-bfU
-bfU
-bfU
-bfU
-bfU
-bfU
-bfU
-bfU
-bfU
-bfU
-bfU
-bfU
-bfU
-bfU
-bfU
+bXk
+bXk
+bXk
+bXk
+bXk
+bXk
+bXk
+bXk
+bXk
+bXk
+bXk
+bXk
+bXk
+bXk
+bXk
+bXk
 bXk
 bXk
 bXk
@@ -78691,21 +79234,21 @@ bXk
 aag
 adi
 adi
-aaZ
-abk
-auO
 aad
-fbr
-nsg
-fbr
-aMi
-fbr
-nsg
-fbr
-owG
-auO
-bJO
-aaZ
+aad
+aad
+aad
+aad
+aad
+axM
+aNF
+axM
+aad
+aad
+aad
+aad
+aad
+aad
 adi
 adi
 aag
@@ -78717,21 +79260,21 @@ bXk
 bXk
 bXk
 bXk
-bfU
-bfU
-bfU
-bfU
-bfU
-bfU
-bfU
-bfU
-bfU
-bfU
-bfU
-bfU
-bfU
-bfU
-bfU
+bXk
+bXk
+bXk
+bXk
+bXk
+bXk
+bXk
+bXk
+bXk
+bXk
+bXk
+bXk
+bXk
+bXk
+bXk
 aaa
 aaa
 aaa
@@ -78922,73 +79465,73 @@ aaa
 aaa
 aaa
 aaa
-bfU
+bXk
 bek
-beu
-bfO
-bfQ
-bfS
-bgp
-bgp
-bgp
-bgp
-bgp
-bgp
-bgp
-bgp
-bek
-beu
+bfT
 bfN
 bfP
 bfR
-bbV
-bbV
-bbV
-bbV
-aag
-aag
-bfG
-aaZ
-ajK
-auO
-cMo
-gPW
-gPW
-gPW
-aML
-gPW
-gPW
-gPW
-jTB
-auO
-aKO
-aaZ
-bfG
-aag
-aag
-bbV
-bbV
-bbV
-bbV
+pgs
+pgs
+pgs
+pgs
+pgs
+pgs
+pgs
+pgs
+bek
+bfT
+bfN
+bfP
+bfR
+aay
+aay
+aay
+aay
+aay
+aay
+bdQ
+bhi
+bhh
+aMi
+aXD
+bdB
+bdB
+bdB
+bhQ
+bdB
+bdB
+bdB
+bgF
+aMi
+bgJ
+bfM
+bfX
+bgc
+bgc
+bgc
+bgc
+bgc
+bgc
 bfR
 bfP
 bfN
 bfT
 bek
-bgp
-bgp
-bgp
-bgp
-bgp
-bgp
-bgp
-bgp
-bfS
-bfQ
-bfO
-beu
+pgs
+pgs
+pgs
+pgs
+pgs
+pgs
+pgs
+pgs
+bfR
+bfP
+bfN
+bfT
 bek
-bfU
+bXk
 aaa
 aaa
 aaa
@@ -79179,73 +79722,73 @@ aaa
 aaa
 aaa
 aaa
-bfU
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
+bXk
 tyN
 tyN
 tyN
-bbU
-bdy
-bfZ
-bgf
-bdy
-bgj
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+aBR
+bdq
+bdu
 bdA
-bdo
-bdB
-auO
-cMo
-gPW
-aay
-aay
-aML
-aay
-aay
-gPW
-jTB
-auO
-bdC
-bdo
+bdq
+bdM
 bfF
-bdr
-bdy
-bge
-bdy
-bdy
-bdF
+bfK
+aKO
+aMi
+aXD
+bdB
+bgg
+bgg
+bgw
+bgg
+bgg
+bdB
+bgF
+aMi
+bgL
+bfV
+bfY
+bgd
+bgj
+bgO
+bgj
+bgj
+bha
 tyN
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-bfU
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+bXk
 aaa
 aaa
 aaa
@@ -79436,73 +79979,73 @@ aaa
 aaa
 aaa
 aaa
-bfU
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-bds
-bdn
-bdn
-bgl
-bgl
-bgm
-bdA
-bdo
-bdB
-auO
-cMo
-gPW
-aay
-aKu
-aML
-aay
-aay
+bXk
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
 aKn
-jTB
-auO
-bdC
-bdo
+bdr
+bdr
+bdD
+bdD
+bdN
 bfF
-bgn
-bgl
-bgl
-bdn
-bdn
-bdG
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-bfU
+bfK
+aKO
+aMi
+aXD
+bdB
+bgg
+bgt
+bgw
+bgg
+bgg
+bgC
+bgF
+aMi
+bgL
+bfV
+bfY
+bge
+bgk
+bgk
+bgV
+bgV
+bhb
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+bXk
 aaa
 aaa
 aaa
@@ -79693,73 +80236,73 @@ aaa
 aaa
 aaa
 aaa
-bfU
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-bdx
-bdE
-bdE
-bdE
-bdE
-bgj
-bdA
-bdo
-bdB
-auO
-cMo
-gPW
-gPW
-gPW
-aML
-gPW
-gPW
-gPW
-jTB
-auO
-bdC
-bdo
+bXk
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+aKP
+bds
+bds
+bds
+bds
+bdM
 bfF
-bdr
-bdE
-bdE
-bdE
-bdE
-bdI
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-bfU
+bfK
+aKO
+aMi
+aXD
+bdB
+bdB
+bdB
+bgw
+bdB
+bdB
+bdB
+bgF
+aMi
+bgL
+bfV
+bfY
+bgd
+bgl
+bgl
+bgl
+bgl
+bhc
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+bXk
 aaa
 aaa
 aaa
@@ -79950,73 +80493,73 @@ aaa
 aaa
 aaa
 aaa
-bfU
+bXk
 bek
-beu
-bfO
-bfQ
-bfS
-bgp
-bgp
-bgp
-bgp
-bgp
-bgp
-bgp
-bgp
+bfT
+bfN
+bfP
+bfR
+pgs
+pgs
+pgs
+pgs
+pgs
+pgs
+pgs
+pgs
 bek
-beu
-bfO
-bfQ
-bfS
-aKP
-bbV
-bfM
-bfM
-bbV
-aag
-bdD
-aaZ
-bdp
-auO
-cMo
-gPW
+bfT
+bfN
+bfP
+bfR
 aay
 aay
-aML
+bdv
+bdv
 aay
 aay
-gPW
-jTB
-auO
-bdq
-aaZ
-bdD
-aag
-bbV
+bfG
+bfJ
+aMg
+aMi
+aXD
+bdB
+bgg
+bgg
+bgh
+bgg
+bgg
+bdB
+bgF
+aMi
+bgM
 bfM
-bfM
-bbV
-bbV
-bfS
-bfQ
-bfO
-beu
+bfZ
+bgc
+bgc
+bgP
+bgP
+bgc
+bgc
+bfR
+bfP
+bfN
+bfT
 bek
-bgp
-bgp
-bgp
-bgp
-bgp
-bgp
-bgp
-bgp
-bfS
-bfQ
-bfO
-beu
+pgs
+pgs
+pgs
+pgs
+pgs
+pgs
+pgs
+pgs
+bfR
+bfP
+bfN
+bfT
 bek
-bfU
+bXk
 aaa
 aaa
 aaa
@@ -80207,73 +80750,73 @@ aaa
 aaa
 aaa
 aaa
-bfU
-bfU
-bfU
-bfU
-bfU
-bfU
-bfU
-bfU
-bfU
-bfU
-bfU
-bfU
-bfU
-bfU
-bfU
-bfU
-bfU
-bfU
-bfU
-bfU
-bfL
-bdt
-bdv
-bdv
-aag
-bdD
-bgg
-abk
-auO
-cMo
-gPW
-aay
-aKu
-aML
-aay
-aay
-bgq
-jTB
-auO
-abk
-bgh
-bdD
-aag
-bfI
-bdv
-bfJ
-bfL
 bXk
-bfU
-bfU
-bfU
-bfU
-bfU
-bfU
-bfU
-bfU
-bfU
-bfU
-bfU
-bfU
-bfU
-bfU
-bfU
-bfU
-bfU
-bfU
-bfU
+bXk
+bXk
+bXk
+bXk
+bXk
+bXk
+bXk
+bXk
+bXk
+bXk
+bXk
+bXk
+bXk
+bXk
+bXk
+bXk
+bXk
+bXk
+bbU
+bdt
+bdw
+bdJ
+bdE
+aay
+bfG
+bfL
+aKH
+aMi
+aXD
+bdB
+bgg
+bgt
+bgw
+bgg
+bgg
+bgD
+bgF
+aMi
+aKH
+bfW
+bfZ
+bgc
+bgm
+bgQ
+bgW
+bgZ
+bhd
+bXk
+bXk
+bXk
+bXk
+bXk
+bXk
+bXk
+bXk
+bXk
+bXk
+bXk
+bXk
+bXk
+bXk
+bXk
+bXk
+bXk
+bXk
+bXk
 aaa
 aaa
 aaa
@@ -80464,73 +81007,73 @@ aaa
 aaa
 aaa
 aaa
-bfU
-bfU
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-bfU
-aaa
-aaa
-aaa
-aaa
-bfU
-bfL
-bdw
-bgc
-bdP
-bfH
-bfW
-aaZ
-ajK
-auO
-cMo
-gPW
-gPW
-gPW
-aNC
-gPW
-gPW
-gPW
-jTB
-auO
-aXw
-aaZ
-bfX
-bfK
-bdP
-bgd
-bfV
-bfL
 bXk
-aaa
-aaa
-aaa
-aaa
-bfU
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-bfU
-bfU
+bXk
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+bXk
+tyN
+tyN
+tyN
+tyN
+bbU
+bdt
+bdx
+bdF
+bdK
+bdO
+bfI
+bhi
+aKN
+aMi
+aXD
+bdB
+bdB
+bdB
+bgx
+bdB
+bdB
+bdB
+bgF
+aMi
+bgN
+bhj
+bga
+bgf
+bgn
+bgR
+bgX
+bgZ
+bhd
+tyN
+tyN
+tyN
+tyN
+bXk
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+bXk
+bXk
 aaa
 aaa
 aaa
@@ -80721,73 +81264,73 @@ aaa
 aaa
 aaa
 aaa
-bfU
-bfU
-bfU
-bfU
-bfU
-bfU
-bfU
-bfU
-bfU
-bfU
-bfU
-bfU
-bfU
-bfU
-bfU
-bfU
-bfU
-bfU
-bfU
-bfU
-bfL
-bdu
-bdQ
-bgk
-bdO
-bdD
-bgg
-abk
-auO
-cMo
-gPW
-aay
-aay
-aML
-aay
-aay
-gPW
-jTB
-auO
-abk
-bgh
-bdD
-bdO
-bgi
-bdQ
-bfY
-bfL
 bXk
-bfU
-bfU
-bfU
-bfU
-bfU
-bfU
-bfU
-bfU
-bfU
-bfU
-bfU
-bfU
-bfU
-bfU
-bfU
-bfU
-bfU
-bfU
-bfU
+bXk
+bXk
+bXk
+bXk
+bXk
+bXk
+bXk
+bXk
+bXk
+bXk
+bXk
+bXk
+bXk
+bXk
+bXk
+bXk
+bXk
+bXk
+bbU
+bdt
+bdy
+bdG
+bdL
+bdP
+bfG
+bfL
+aKH
+aMi
+aXD
+bdB
+bgg
+bgg
+bgw
+bgg
+bgg
+bdB
+bgF
+aMi
+aKH
+bfW
+bfZ
+bgi
+bgo
+bgS
+bgY
+bgZ
+bhd
+bXk
+bXk
+bXk
+bXk
+bXk
+bXk
+bXk
+bXk
+bXk
+bXk
+bXk
+bXk
+bXk
+bXk
+bXk
+bXk
+bXk
+bXk
+bXk
 aaa
 aaa
 aaa
@@ -80978,73 +81521,73 @@ aaa
 aaa
 aaa
 aaa
-bfU
+bXk
 bek
-beu
-bfO
-bfQ
-bfS
-bgp
-bgp
-bgp
-bgp
-bgp
-bgp
-bgp
-bgp
+bfT
+bfN
+bfP
+bfR
+pgs
+pgs
+pgs
+pgs
+pgs
+pgs
+pgs
+pgs
 bek
-beu
-bfO
-bfQ
-bfS
-aKP
-bbV
-bfM
-bfM
-bbV
-aag
-bdD
-aaZ
-bdp
-auO
-cMo
-gPW
-aay
-aKu
-aML
+bfT
+bfN
+bfP
+bfR
 aay
 aay
-aKn
-jTB
-auO
-bdq
-aaZ
-bdD
-aag
-bbV
+bdv
+bdv
+aay
+aay
+bfG
+bfJ
+aMg
+aMi
+aXD
+bdB
+bgg
+bgt
+bgh
+bgg
+bgg
+bgC
+bgF
+aMi
+bgM
 bfM
-bfM
-bbV
-bbV
-bfS
-bfQ
-bfO
-beu
+bfZ
+bgc
+bgc
+bgP
+bgP
+bgc
+bgc
+bfR
+bfP
+bfN
+bfT
 bek
-bgp
-bgp
-bgp
-bgp
-bgp
-bgp
-bgp
-bgp
-bfS
-bfQ
-bfO
-beu
+pgs
+pgs
+pgs
+pgs
+pgs
+pgs
+pgs
+pgs
+bfR
+bfP
+bfN
+bfT
 bek
-bfU
+bXk
 aaa
 aaa
 aaa
@@ -81235,73 +81778,73 @@ aaa
 aaa
 aaa
 aaa
-bfU
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-bdz
-bdy
-bdy
-bgf
-bdy
-bgj
-bdA
-bdo
-bdB
-auO
-cMo
-gPW
-gPW
-gPW
-aML
-gPW
-gPW
-gPW
-jTB
-auO
-bdC
-bdo
+bXk
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+bbV
+bdq
+bdq
+bdI
+bdq
+bdM
 bfF
-bdr
-bdy
-bgo
-bdy
-bdy
-bdL
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-bfU
+bfK
+aKO
+aMi
+aXD
+bdB
+bdB
+bdB
+bgw
+bdB
+bdB
+bdB
+bgF
+aMi
+bgL
+bfV
+bfY
+bgd
+bgj
+bgT
+bgj
+bgj
+bhe
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+bXk
 aaa
 aaa
 aaa
@@ -81492,73 +82035,73 @@ aaa
 aaa
 aaa
 aaa
-bfU
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-bdJ
+bXk
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
 bdn
-bdn
-bgl
-bgl
-bgm
-bdA
-bdo
-bdB
-auO
-cMo
-gPW
-aay
-aay
-aML
-aay
-aay
-gPW
-jTB
-auO
-bdC
-bdo
+bdr
+bdr
+bdD
+bdD
+bdN
 bfF
-bgn
-bgl
-bgl
-bdn
-bdn
-bdM
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-bfU
+bfK
+aKO
+aMi
+aXD
+bdB
+bgg
+bgg
+bgw
+bgg
+bgg
+bdB
+bgF
+aMi
+bgL
+bfV
+bfY
+bge
+bgk
+bgk
+bgV
+bgV
+bhf
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+bXk
 aaa
 aaa
 aaa
@@ -81749,73 +82292,73 @@ aaa
 aaa
 aaa
 aaa
-bfU
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-bdK
-bdE
-bga
-bdE
-bdE
-bgj
-bdA
-bdo
-bdB
-auO
-cMo
-gPW
-aay
-aay
-aML
-aay
-aay
-gPW
-jTB
-auO
-bdC
-bdo
+bXk
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+bdp
+bds
+bdz
+bds
+bds
+bdM
 bfF
-bdr
-bdE
-bga
-bdE
-bdE
-bdN
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-bfU
+bfK
+aKO
+aMi
+aXD
+bdB
+bgg
+bgg
+bgw
+bgg
+bgg
+bdB
+bgF
+aMi
+bgL
+bfV
+bfY
+bgd
+bgl
+bgU
+bgl
+bgl
+bhg
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+tyN
+bXk
 aaa
 aaa
 aaa
@@ -82006,73 +82549,73 @@ aaa
 aaa
 aaa
 aaa
-bfU
+bXk
 bek
-beu
-bfO
-bfQ
-bfS
-bgp
-bgp
-bgp
-bgp
-bgp
-bgp
-bgp
-bgp
+bfT
+bfN
+bfP
+bfR
+pgs
+pgs
+pgs
+pgs
+pgs
+pgs
+pgs
+pgs
 bek
-beu
-bfO
-bfQ
-bfS
-aKP
-bbV
-bbV
-bbV
-bbV
-aag
-bfG
-aaZ
-aaZ
-aKH
-cMo
-gPW
-gPW
-gPW
+bfT
+bfN
+bfP
+bfR
+aay
+aay
+aay
+aay
+aay
+aay
+bdQ
+bfJ
+aad
 aML
-gPW
-gPW
-gPW
-jTB
-aKN
-aaZ
-aaZ
-bfG
-aag
-bbV
-bbV
-bbV
-bbV
-bbV
-bfS
-bfQ
-bfO
-beu
+aXD
+bdB
+bdB
+bdB
+bgw
+bdB
+bdB
+bdB
+bgF
+bgI
+aad
+bfM
+bfX
+bgc
+bgc
+bgc
+bgc
+bgc
+bgc
+bfR
+bfP
+bfN
+bfT
 bek
-bgp
-bgp
-bgp
-bgp
-bgp
-bgp
-bgp
-bgp
-bfS
-bfQ
-bfO
-beu
+pgs
+pgs
+pgs
+pgs
+pgs
+pgs
+pgs
+pgs
+bfR
+bfP
+bfN
+bfT
 bek
-bfU
+bXk
 aaa
 aaa
 aaa
@@ -82263,46 +82806,46 @@ aaa
 aaa
 aaa
 aaa
-bfU
-bfU
-bfU
-bfU
-bfU
-bfU
-bfU
-bfU
-bfU
-bfU
-bfU
-bfU
-bfU
-bfU
-bfU
-bfU
-bfU
-bfU
-bfU
-bfU
+bXk
+bXk
+bXk
+bXk
+bXk
+bXk
+bXk
+bXk
+bXk
+bXk
+bXk
+bXk
+bXk
+bXk
+bXk
+bXk
+bXk
+bXk
+bXk
+bXk
 bXk
 bXk
 bXk
 bXk
 aag
 adi
-adi
-aaZ
-auO
-sAF
-kEh
-nGe
-kEh
-aNF
-kEh
-nGe
-kEh
-nhI
-auO
-aaZ
+aKu
+aad
+bhC
+baW
+bdC
+bgq
+bdC
+bgz
+bdC
+bgq
+bdC
+bgH
+aMi
+aad
 adi
 adi
 aag
@@ -82311,25 +82854,25 @@ bXk
 bXk
 bXk
 bXk
-bfU
-bfU
-bfU
-bfU
-bfU
-bfU
-bfU
-bfU
-bfU
-bfU
-bfU
-bfU
-bfU
-bfU
-bfU
-bfU
-bfU
-bfU
-bfU
+bXk
+bXk
+bXk
+bXk
+bXk
+bXk
+bXk
+bXk
+bXk
+bXk
+bXk
+bXk
+bXk
+bXk
+bXk
+bXk
+bXk
+bXk
+bXk
 aaa
 aaa
 aaa
@@ -82546,20 +83089,20 @@ tyN
 tyN
 aag
 aag
-adi
-aaZ
-aSE
-aaM
-aaM
-aBR
-aaM
-baW
-aaM
-aXD
-aaM
-aaM
-aSE
-aaZ
+aKu
+aad
+aNC
+aNC
+aNC
+bgr
+aNC
+bgA
+aNC
+bgB
+aNC
+aNC
+aNC
+aad
 adi
 aag
 aag
@@ -118780,7 +119323,7 @@ tyN
 aCp
 aLW
 azE
-bcv
+azE
 aDb
 aKR
 adp
@@ -118802,7 +119345,7 @@ bdg
 aMS
 aHJ
 aDb
-aNM
+azE
 azE
 aLW
 aCp
@@ -119037,7 +119580,7 @@ tyN
 aCp
 aLW
 abd
-abj
+bhq
 aDb
 aKR
 adp
@@ -119059,7 +119602,7 @@ bdh
 aMS
 aHJ
 aDb
-abj
+bhq
 azE
 aLW
 aCp
@@ -119293,7 +119836,7 @@ tyN
 tyN
 aCp
 aLW
-abd
+bcv
 aew
 aDb
 aKR
@@ -119317,7 +119860,7 @@ aMS
 aHJ
 aDb
 aew
-azE
+aNM
 aLW
 aCp
 tyN
@@ -119551,7 +120094,7 @@ tyN
 aCp
 aLW
 abd
-aew
+bho
 aDb
 aKR
 aIR
@@ -119573,7 +120116,7 @@ bdj
 aMS
 aHJ
 aDb
-aew
+bhu
 azE
 aLW
 aCp
@@ -130087,8 +130630,8 @@ aLW
 aLW
 aLW
 abd
-abj
 aew
+bhl
 aew
 aew
 aew
@@ -130110,8 +130653,8 @@ aew
 aew
 aew
 aew
+bhn
 aew
-abj
 azE
 bcj
 aLW
@@ -183542,7 +184085,7 @@ aaa
 tyN
 tyN
 tyN
-tyN
+arN
 adx
 aZU
 aRK
@@ -183570,7 +184113,7 @@ apP
 aRK
 aRT
 adx
-tyN
+arN
 tyN
 tyN
 aaa
@@ -183800,7 +184343,7 @@ tyN
 tyN
 tyN
 adx
-adx
+aGI
 aZV
 aRK
 apP
@@ -183826,7 +184369,7 @@ aRE
 apP
 aRK
 bcq
-adx
+aGI
 adx
 tyN
 tyN
@@ -184058,7 +184601,7 @@ tyN
 tyN
 adx
 aor
-arN
+bcr
 aCE
 aRd
 aRN
@@ -184082,7 +184625,7 @@ aPn
 aRe
 aRF
 aRS
-bcr
+bhs
 bct
 adx
 tyN
@@ -184316,7 +184859,7 @@ tyN
 adx
 aGI
 aRK
-aop
+apP
 aXG
 aGH
 apE
@@ -184338,7 +184881,7 @@ avU
 aPO
 aRG
 aZR
-aRK
+bhr
 aRK
 aGI
 adx
@@ -184573,7 +185116,7 @@ tyN
 adx
 aGI
 aRK
-adI
+bhp
 apP
 axO
 apH
@@ -184595,7 +185138,7 @@ aYK
 aRn
 aZa
 apP
-adI
+bhp
 aRK
 aGI
 adx
@@ -184830,7 +185373,7 @@ tyN
 adx
 aGI
 aRK
-apP
+bht
 apP
 aXZ
 aqf
@@ -184852,7 +185395,7 @@ avU
 aqf
 aXZ
 apP
-apP
+bht
 aRK
 aGI
 adx
