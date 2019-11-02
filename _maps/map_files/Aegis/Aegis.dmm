@@ -13,10 +13,10 @@
 	name = "Deck 3 hallway"
 	})
 "aad" = (
-/turf/closed/wall/ship,
-/area/nsv/hanger{
-	name = "Hangar bay"
-	})
+/obj/structure/lattice,
+/obj/machinery/light/runway,
+/turf/open/space/basic,
+/area/maintenance/ship_exterior)
 "aae" = (
 /obj/effect/turf_decal/tile/neutral{
 	dir = 8
@@ -88,13 +88,10 @@
 /turf/closed/wall/ship,
 /area/engine/engine_smes)
 "aan" = (
-/obj/structure/disposalpipe/segment{
-	dir = 6
-	},
-/turf/open/floor/plasteel/ship/techfloor/alt,
-/area/hallway/primary/port{
-	name = "Deck 3 hallway"
-	})
+/obj/structure/lattice,
+/obj/machinery/light/runway/delay2,
+/turf/open/space/basic,
+/area/maintenance/ship_exterior)
 "aao" = (
 /obj/machinery/light{
 	dir = 4
@@ -153,10 +150,10 @@
 /turf/open/floor/carpet/ship,
 /area/crew_quarters/dorms)
 "aay" = (
-/turf/closed/wall/r_wall/ship,
-/area/nsv/hanger/deck2/starboard{
-	name = "Launch tubes 1 and 2"
-	})
+/obj/structure/lattice,
+/obj/machinery/light/runway/delay3,
+/turf/open/space/basic,
+/area/maintenance/ship_exterior)
 "aaz" = (
 /obj/structure/sign/warning/vacuum,
 /turf/closed/wall/ship,
@@ -1584,6 +1581,7 @@
 	name = "Atmospherics";
 	req_one_access_txt = "24"
 	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /turf/open/floor/plating,
 /area/engine/atmos)
 "adv" = (
@@ -1605,6 +1603,7 @@
 	icon_state = "pipe11-2";
 	dir = 8
 	},
+/obj/machinery/portable_atmospherics/canister/carbon_dioxide,
 /turf/open/floor/engine/co2,
 /area/engine/atmos)
 "adz" = (
@@ -1615,11 +1614,10 @@
 /turf/open/floor/engine/plasma,
 /area/engine/atmos)
 "adB" = (
-/obj/machinery/light/small{
-	dir = 1
-	},
-/turf/open/floor/engine/plasma,
-/area/engine/atmos)
+/obj/structure/lattice,
+/obj/machinery/light/runway/delay4,
+/turf/open/space/basic,
+/area/maintenance/ship_exterior)
 "adC" = (
 /turf/open/floor/engine/n2o,
 /area/engine/atmos)
@@ -1703,19 +1701,12 @@
 /turf/open/floor/plasteel/white,
 /area/science)
 "adI" = (
-/obj/structure/stairs{
-	icon_state = "stairs";
-	dir = 8
-	},
+/obj/structure/ladder,
 /turf/open/floor/plasteel/ship/techfloor/alt,
-/area/hallway/primary/port{
-	name = "Deck 3 hallway"
-	})
+/area/hallway/secondary/command)
 "adJ" = (
-/obj/machinery/light/small{
-	dir = 1
-	},
-/turf/open/floor/engine/n2o,
+/obj/machinery/portable_atmospherics/canister/toxins,
+/turf/open/floor/engine,
 /area/engine/atmos)
 "adK" = (
 /obj/machinery/suit_storage_unit/atmos,
@@ -1734,6 +1725,7 @@
 /obj/machinery/light{
 	dir = 1
 	},
+/obj/machinery/atmospherics/pipe/layer_manifold,
 /turf/open/floor/plating,
 /area/engine/atmos)
 "adN" = (
@@ -1744,7 +1736,10 @@
 	dir = 1
 	},
 /obj/structure/cable,
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	icon_state = "pipe11-1";
+	dir = 5
+	},
 /turf/open/floor/plating,
 /area/engine/atmos)
 "adO" = (
@@ -1755,7 +1750,10 @@
 	c_tag = "Atmospherics - Distro Loop"
 	},
 /obj/structure/cable,
-/obj/machinery/atmospherics/pipe/layer_manifold,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	icon_state = "pipe11-1";
+	dir = 4
+	},
 /turf/open/floor/plating,
 /area/engine/atmos)
 "adP" = (
@@ -1775,6 +1773,10 @@
 "adS" = (
 /obj/machinery/power/apc/auto_name/north,
 /obj/structure/cable,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	icon_state = "pipe11-1";
+	dir = 10
+	},
 /turf/open/floor/plating,
 /area/engine/atmos)
 "adT" = (
@@ -1785,18 +1787,18 @@
 /turf/open/floor/plating,
 /area/engine/atmos)
 "adU" = (
-/obj/machinery/portable_atmospherics/canister/carbon_dioxide,
-/turf/open/floor/engine/co2,
-/area/engine/atmos)
+/obj/structure/lattice,
+/obj/machinery/light/runway/delay5,
+/turf/open/space/basic,
+/area/maintenance/ship_exterior)
 "adV" = (
-/obj/machinery/portable_atmospherics/canister/toxins,
-/turf/open/floor/engine/plasma,
-/area/engine/atmos)
+/turf/closed/wall/r_wall/ship,
+/area/nsv/hanger/deck2/starboard{
+	name = "Launch tubes 1 and 2"
+	})
 "adW" = (
-/obj/machinery/portable_atmospherics/canister/nitrous_oxide{
-	valve_open = 1
-	},
-/turf/open/floor/engine/n2o,
+/obj/machinery/portable_atmospherics/canister/nitrogen,
+/turf/open/floor/engine,
 /area/engine/atmos)
 "adX" = (
 /turf/closed/wall/ship,
@@ -1922,27 +1924,27 @@
 /turf/open/floor/plating,
 /area/engine/atmos)
 "aei" = (
-/obj/machinery/atmospherics/components/unary/vent_scrubber/on{
-	dir = 4
+/obj/machinery/atmospherics/components/binary/pump/on{
+	dir = 1;
+	name = "Distro to Vents"
 	},
 /turf/open/floor/plating,
 /area/engine/atmos)
 "aej" = (
-/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden,
-/obj/structure/cable,
+/obj/machinery/atmospherics/pipe/simple/supply/visible{
+	dir = 6
+	},
 /turf/open/floor/plating,
 /area/engine/atmos)
 "aek" = (
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
-	dir = 4
+/obj/machinery/atmospherics/components/unary/portables_connector/visible{
+	dir = 8;
+	name = "Connector Port (Air Supply)"
 	},
-/obj/machinery/atmospherics/pipe/simple/supply/hidden,
 /turf/open/floor/plating,
 /area/engine/atmos)
 "ael" = (
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
-	dir = 4
-	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /turf/open/floor/plating,
 /area/engine/atmos)
 "aem" = (
@@ -1982,9 +1984,6 @@
 	name = "Deck 3 hallway"
 	})
 "aep" = (
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
-	dir = 10
-	},
 /obj/structure/closet/secure_closet/atmospherics,
 /turf/open/floor/plating,
 /area/engine/atmos)
@@ -2183,9 +2182,16 @@
 /turf/open/floor/plasteel/white,
 /area/medical/chemistry)
 "aeO" = (
-/obj/machinery/air_sensor/atmos/carbon_tank,
-/turf/open/floor/engine/co2,
-/area/engine/atmos)
+/obj/machinery/door/poddoor/ship{
+	id = "launch1"
+	},
+/obj/effect/turf_decal/stripes/line{
+	dir = 9
+	},
+/turf/open/floor/plating,
+/area/nsv/hanger/deck2/starboard{
+	name = "Launch tubes 1 and 2"
+	})
 "aeP" = (
 /turf/closed/wall/r_wall/ship,
 /area/medical/genetics)
@@ -2810,7 +2816,7 @@
 	name = "Briefing room"
 	})
 "agi" = (
-/obj/structure/cable,
+/obj/machinery/atmospherics/pipe/manifold/supply/visible,
 /turf/open/floor/plating,
 /area/engine/atmos)
 "agj" = (
@@ -3640,8 +3646,11 @@
 /turf/closed/wall/ship,
 /area/quartermaster/warehouse)
 "ahZ" = (
-/obj/machinery/atmospherics/pipe/simple/supply/hidden,
 /obj/effect/landmark/nuclear_waste_spawner,
+/obj/machinery/atmospherics/components/unary/portables_connector/visible{
+	dir = 8;
+	name = "Connector Port (Air Supply)"
+	},
 /turf/open/floor/plating,
 /area/engine/atmos)
 "aia" = (
@@ -3663,7 +3672,6 @@
 /turf/closed/wall/r_wall/ship,
 /area/security/detectives_office)
 "aid" = (
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
 /obj/structure/rack,
 /obj/item/clothing/mask/gas,
 /obj/item/clothing/mask/gas,
@@ -3674,16 +3682,15 @@
 /area/engine/atmos)
 "aie" = (
 /obj/machinery/atmospherics/pipe/simple/green/visible,
-/turf/closed/wall/r_wall/ship,
+/obj/structure/window/reinforced/fulltile/ship,
+/turf/open/floor/plating,
 /area/engine/atmos)
 "aif" = (
 /obj/machinery/atmospherics/pipe/simple/yellow/visible,
 /turf/closed/wall/r_wall/ship,
 /area/engine/atmos)
 "aig" = (
-/obj/machinery/atmospherics/pipe/simple/supply/hidden{
-	dir = 6
-	},
+/obj/machinery/portable_atmospherics/scrubber,
 /turf/open/floor/plating,
 /area/engine/atmos)
 "aih" = (
@@ -3979,10 +3986,7 @@
 /turf/open/floor/plasteel/dark,
 /area/medical/genetics)
 "aiJ" = (
-/obj/machinery/atmospherics/components/binary/pump{
-	dir = 8;
-	name = "Distro to Waste"
-	},
+/obj/machinery/atmospherics/pipe/simple/supply/visible,
 /turf/open/floor/plating,
 /area/engine/atmos)
 "aiK" = (
@@ -4042,15 +4046,18 @@
 /turf/open/floor/plasteel/white,
 /area/medical/chemistry)
 "aiR" = (
-/obj/machinery/atmospherics/pipe/simple/supply/hidden{
-	dir = 4
+/obj/machinery/door/poddoor/ship{
+	id = "launch1"
 	},
-/obj/structure/cable,
+/obj/effect/turf_decal/stripes/line{
+	dir = 1
+	},
 /turf/open/floor/plating,
-/area/engine/atmos)
+/area/nsv/hanger/deck2/starboard{
+	name = "Launch tubes 1 and 2"
+	})
 "aiS" = (
-/obj/machinery/atmospherics/pipe/manifold/supply/visible{
-	icon_state = "manifold-2";
+/obj/machinery/atmospherics/components/unary/thermomachine/freezer{
 	dir = 4
 	},
 /turf/open/floor/plating,
@@ -4660,11 +4667,11 @@
 	name = "Deck 3 hallway"
 	})
 "akd" = (
+/obj/structure/ladder,
 /obj/effect/turf_decal/tile/bar,
 /obj/effect/turf_decal/tile/bar{
 	dir = 1
 	},
-/obj/structure/ladder,
 /turf/open/floor/plasteel,
 /area/crew_quarters/bar)
 "ake" = (
@@ -6132,9 +6139,6 @@
 	icon_state = "filter_on";
 	dir = 8
 	},
-/obj/structure/sign/plaques/atmos{
-	pixel_y = 26
-	},
 /turf/open/floor/plating,
 /area/engine/atmos)
 "amN" = (
@@ -6677,15 +6681,16 @@
 /turf/open/floor/plating,
 /area/engine/atmos)
 "anL" = (
-/obj/machinery/atmospherics/pipe/simple/green/visible{
-	dir = 4
+/obj/machinery/door/poddoor/ship{
+	id = "launch1"
 	},
-/obj/machinery/camera{
-	c_tag = "Atmospherics - Distro Loop"
+/obj/effect/turf_decal/stripes/line{
+	dir = 5
 	},
-/obj/machinery/computer/ship/viewscreen,
 /turf/open/floor/plating,
-/area/engine/atmos)
+/area/nsv/hanger/deck2/starboard{
+	name = "Launch tubes 1 and 2"
+	})
 "anM" = (
 /obj/structure/table,
 /obj/item/stack/medical/ointment{
@@ -7157,14 +7162,14 @@
 /turf/open/floor/plating,
 /area/engine/atmos)
 "aoE" = (
-/obj/machinery/atmospherics/pipe/manifold/green/visible{
+/obj/machinery/atmospherics/pipe/manifold/scrubbers/visible{
 	dir = 1
 	},
+/obj/machinery/airalarm/directional/north,
 /turf/open/floor/plating,
 /area/engine/atmos)
 "aoF" = (
-/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden{
-	icon_state = "manifold-2";
+/obj/machinery/atmospherics/pipe/simple/scrubbers/visible{
 	dir = 4
 	},
 /turf/open/floor/plating,
@@ -7257,20 +7262,23 @@
 	name = "Deck 2 maintenance"
 	})
 "aoP" = (
-/obj/machinery/atmospherics/components/unary/vent_pump/on{
+/obj/machinery/atmospherics/pipe/simple/supply/visible,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/visible{
 	dir = 4
 	},
 /turf/open/floor/plating,
 /area/engine/atmos)
 "aoQ" = (
-/obj/machinery/atmospherics/pipe/manifold/supply/visible{
-	dir = 1
-	},
-/obj/structure/cable,
-/turf/open/floor/plating,
-/area/engine/atmos)
+/obj/structure/lattice/catwalk,
+/turf/open/space/basic,
+/area/nsv/hanger/deck2/starboard{
+	name = "Launch tubes 1 and 2"
+	})
 "aoR" = (
-/obj/machinery/atmospherics/pipe/manifold4w/supply,
+/obj/machinery/atmospherics/components/binary/pump{
+	dir = 8;
+	name = "Port 1 to Waste"
+	},
 /turf/open/floor/plating,
 /area/engine/atmos)
 "aoS" = (
@@ -7427,10 +7435,7 @@
 	name = "Deck 2 primary hallway"
 	})
 "apj" = (
-/obj/machinery/atmospherics/components/unary/portables_connector{
-	icon_state = "connector_map-2";
-	dir = 8
-	},
+/obj/machinery/atmospherics/pipe/manifold4w/general/visible,
 /turf/open/floor/plating,
 /area/engine/atmos)
 "apk" = (
@@ -7632,7 +7637,10 @@
 /turf/open/floor/plasteel/dark/corner,
 /area/engine/atmos)
 "apA" = (
-/obj/machinery/atmospherics/pipe/simple/green/visible,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/visible,
+/obj/machinery/atmospherics/pipe/simple/yellow/visible{
+	dir = 8
+	},
 /turf/open/floor/plating,
 /area/engine/atmos)
 "apB" = (
@@ -7870,16 +7878,17 @@
 /obj/effect/turf_decal/tile/neutral{
 	dir = 1
 	},
+/obj/machinery/computer/atmos_control/tank/carbon_tank,
 /turf/open/floor/plasteel/dark,
 /area/engine/atmos)
 "apZ" = (
-/obj/machinery/computer/atmos_control/tank/carbon_tank,
 /obj/effect/turf_decal/tile/neutral{
 	dir = 4
 	},
 /obj/effect/turf_decal/tile/neutral{
 	dir = 1
 	},
+/obj/machinery/atmospherics/pipe/simple/yellow/visible,
 /turf/open/floor/plasteel/dark,
 /area/engine/atmos)
 "aqa" = (
@@ -8719,8 +8728,16 @@
 /turf/open/floor/plating,
 /area/bridge)
 "arN" = (
-/turf/closed/wall/r_wall/ship,
-/area/maintenance/ship_exterior)
+/obj/structure/cable,
+/obj/machinery/atmospherics/pipe/layer_manifold,
+/obj/machinery/meter,
+/obj/structure/disposalpipe/segment{
+	dir = 10
+	},
+/turf/open/floor/plating,
+/area/maintenance/department/bridge{
+	name = "Deck 1 maintenance"
+	})
 "arO" = (
 /obj/machinery/conveyor{
 	dir = 1;
@@ -8734,24 +8751,27 @@
 /turf/open/floor/plasteel,
 /area/quartermaster/storage)
 "arQ" = (
-/obj/machinery/atmospherics/pipe/simple/yellow/visible,
-/obj/effect/turf_decal/tile/neutral{
-	dir = 4
+/obj/machinery/door/poddoor/ship{
+	id = "launch2"
 	},
-/obj/effect/turf_decal/tile/neutral{
-	dir = 1
+/obj/effect/turf_decal/stripes/line{
+	dir = 9
 	},
-/turf/open/floor/plasteel/dark,
-/area/engine/atmos)
+/turf/open/floor/plating,
+/area/nsv/hanger/deck2/starboard{
+	name = "Launch tubes 1 and 2"
+	})
 "arR" = (
-/obj/effect/turf_decal/tile/purple{
-	dir = 4
+/obj/machinery/door/poddoor/ship{
+	id = "launch2"
 	},
-/obj/effect/turf_decal/tile/purple{
+/obj/effect/turf_decal/stripes/line{
 	dir = 1
 	},
-/turf/open/floor/plasteel,
-/area/engine/atmos)
+/turf/open/floor/plating,
+/area/nsv/hanger/deck2/starboard{
+	name = "Launch tubes 1 and 2"
+	})
 "arS" = (
 /obj/effect/turf_decal/tile/purple{
 	dir = 4
@@ -8779,14 +8799,16 @@
 /turf/open/floor/plasteel,
 /area/engine/atmos)
 "arV" = (
-/obj/effect/turf_decal/tile/red{
-	dir = 4
+/obj/machinery/door/poddoor/ship{
+	id = "launch2"
 	},
-/obj/effect/turf_decal/tile/red{
-	dir = 1
+/obj/effect/turf_decal/stripes/line{
+	dir = 5
 	},
-/turf/open/floor/plasteel,
-/area/engine/atmos)
+/turf/open/floor/plating,
+/area/nsv/hanger/deck2/starboard{
+	name = "Launch tubes 1 and 2"
+	})
 "arW" = (
 /obj/machinery/computer/atmos_control/tank/nitrous_tank,
 /obj/effect/turf_decal/tile/red{
@@ -8808,14 +8830,17 @@
 /turf/open/floor/plasteel,
 /area/engine/atmos)
 "arY" = (
-/obj/machinery/atmospherics/components/binary/pump/on{
-	dir = 1;
-	name = "Waste to filter"
+/obj/machinery/atmospherics/components/binary/pump{
+	dir = 4;
+	name = "Pure to Ports"
 	},
 /turf/open/floor/plating,
 /area/engine/atmos)
 "arZ" = (
-/obj/machinery/atmospherics/components/unary/thermomachine/freezer,
+/obj/machinery/atmospherics/pipe/simple/supply/visible,
+/obj/machinery/atmospherics/pipe/simple/yellow/visible{
+	dir = 8
+	},
 /turf/open/floor/plating,
 /area/engine/atmos)
 "asa" = (
@@ -8887,10 +8912,9 @@
 /turf/open/floor/plasteel/dark,
 /area/bridge)
 "ase" = (
-/obj/machinery/atmospherics/components/unary/thermomachine/heater/on{
-	dir = 1
+/obj/machinery/atmospherics/pipe/simple/yellow/visible{
+	dir = 10
 	},
-/obj/structure/cable,
 /turf/open/floor/plating,
 /area/engine/atmos)
 "asf" = (
@@ -8926,9 +8950,8 @@
 /turf/open/floor/plasteel,
 /area/science/robotics)
 "asi" = (
-/obj/machinery/atmospherics/components/unary/portables_connector,
-/obj/machinery/light{
-	dir = 4
+/obj/machinery/atmospherics/pipe/manifold/general/visible{
+	dir = 8
 	},
 /turf/open/floor/plating,
 /area/engine/atmos)
@@ -8972,22 +8995,25 @@
 /turf/open/floor/plating,
 /area/engine/atmos)
 "asn" = (
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
+/obj/machinery/atmospherics/components/unary/portables_connector/visible{
+	dir = 8
+	},
 /turf/open/floor/plating,
 /area/engine/atmos)
 "aso" = (
-/obj/machinery/atmospherics/pipe/simple/purple/visible{
-	dir = 5
+/obj/effect/turf_decal/stripes/line{
+	dir = 8
 	},
 /turf/open/floor/plating,
-/area/engine/atmos)
+/area/nsv/hanger/deck2/starboard{
+	name = "Launch tubes 1 and 2"
+	})
 "asp" = (
-/obj/machinery/atmospherics/pipe/simple/purple/visible{
-	dir = 4
-	},
-/obj/structure/cable,
+/obj/structure/lattice/catwalk,
 /turf/open/floor/plating,
-/area/engine/atmos)
+/area/nsv/hanger/deck2/starboard{
+	name = "Launch tubes 1 and 2"
+	})
 "asq" = (
 /obj/effect/turf_decal/bot,
 /obj/effect/spawner/lootdrop/maintenance,
@@ -9069,10 +9095,13 @@
 	name = "Munitions"
 	})
 "asz" = (
-/obj/machinery/atmospherics/pipe/manifold/purple/visible,
-/obj/machinery/meter,
+/obj/effect/turf_decal/stripes/line{
+	dir = 4
+	},
 /turf/open/floor/plating,
-/area/engine/atmos)
+/area/nsv/hanger/deck2/starboard{
+	name = "Launch tubes 1 and 2"
+	})
 "asA" = (
 /obj/structure/target_stake,
 /turf/open/floor/plasteel/cafeteria{
@@ -9099,18 +9128,14 @@
 /turf/open/floor/plasteel,
 /area/crew_quarters/heads/hor)
 "asE" = (
-/obj/effect/turf_decal/tile/green{
-	dir = 4
+/obj/machinery/atmospherics/components/binary/valve/digital{
+	name = "Ports to Port 2"
 	},
-/obj/effect/turf_decal/tile/green,
-/obj/machinery/atmospherics/pipe/manifold/purple/visible,
-/turf/open/floor/plasteel,
+/turf/open/floor/plating,
 /area/engine/atmos)
 "asF" = (
-/obj/machinery/atmospherics/pipe/simple/purple/visible{
-	dir = 4
-	},
-/turf/closed/wall/r_wall/ship,
+/obj/machinery/space_heater,
+/turf/open/floor/plating,
 /area/engine/atmos)
 "asG" = (
 /obj/structure/table,
@@ -9118,10 +9143,8 @@
 /turf/open/floor/plasteel,
 /area/crew_quarters/heads/hor)
 "asH" = (
-/obj/machinery/atmospherics/components/unary/vent_pump/siphon/atmos/mix_output{
-	dir = 8
-	},
-/turf/open/floor/engine/vacuum,
+/obj/machinery/atmospherics/components/unary/portables_connector/visible,
+/turf/open/floor/plating,
 /area/engine/atmos)
 "asI" = (
 /obj/item/aicard,
@@ -9245,13 +9268,10 @@
 	},
 /area/engine/atmos)
 "asT" = (
-/obj/structure/cable,
-/obj/structure/disposalpipe/segment{
-	dir = 4
-	},
-/turf/open/floor/plasteel/ship/padded,
-/area/hallway/primary/port{
-	name = "Deck 3 hallway"
+/obj/structure/window/reinforced/fulltile/ship,
+/turf/open/floor/plasteel/ship,
+/area/nsv/hanger/deck2/starboard{
+	name = "Launch tubes 1 and 2"
 	})
 "asU" = (
 /obj/machinery/door/airlock/ship{
@@ -9267,9 +9287,6 @@
 	name = "Deck 3 hallway"
 	})
 "asV" = (
-/obj/machinery/atmospherics/pipe/manifold/yellow/visible{
-	dir = 8
-	},
 /obj/structure/ladder,
 /turf/open/floor/plating,
 /area/engine/atmos)
@@ -9280,10 +9297,16 @@
 /turf/open/floor/plating,
 /area/engine/atmos)
 "asX" = (
-/obj/machinery/atmospherics/pipe/manifold4w/yellow/visible,
-/obj/effect/landmark/nuclear_waste_spawner/strong,
+/obj/effect/turf_decal/stripes/line{
+	dir = 8
+	},
+/obj/machinery/light{
+	dir = 8
+	},
 /turf/open/floor/plating,
-/area/engine/atmos)
+/area/nsv/hanger/deck2/starboard{
+	name = "Launch tubes 1 and 2"
+	})
 "asY" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	icon_state = "pipe11-1";
@@ -9298,52 +9321,52 @@
 	name = "Deck 3 hallway"
 	})
 "asZ" = (
-/obj/machinery/atmospherics/pipe/manifold4w/yellow/visible,
-/obj/machinery/meter,
-/turf/open/floor/plating,
-/area/engine/atmos)
+/obj/structure/window/reinforced/fulltile/ship,
+/turf/open/floor/plasteel/ship/padded,
+/area/nsv/hanger/deck2/starboard{
+	name = "Launch tubes 1 and 2"
+	})
 "ata" = (
-/obj/machinery/atmospherics/pipe/simple/yellow/visible{
-	dir = 4
+/obj/machinery/atmospherics/components/binary/pump{
+	dir = 1;
+	name = "Distro to Waste"
 	},
-/obj/machinery/atmospherics/pipe/simple/green/visible,
 /turf/open/floor/plating,
 /area/engine/atmos)
 "atb" = (
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
-/obj/machinery/atmospherics/pipe/simple/yellow/visible{
-	dir = 4
-	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/visible,
 /turf/open/floor/plating,
 /area/engine/atmos)
 "atc" = (
-/obj/machinery/atmospherics/components/binary/pump{
-	dir = 4;
-	name = "Pure to Mix"
+/obj/structure/table/reinforced,
+/obj/machinery/button/door{
+	id = "launch1";
+	name = "Tube 1 exterior doors";
+	pixel_y = 0;
+	req_one_access_txt = "69"
 	},
-/turf/open/floor/plating,
-/area/engine/atmos)
+/obj/effect/turf_decal/stripes/line{
+	dir = 8
+	},
+/turf/open/floor/plasteel/ship,
+/area/nsv/hanger/deck2/starboard{
+	name = "Launch tubes 1 and 2"
+	})
 "atd" = (
-/obj/machinery/atmospherics/pipe/manifold/yellow/visible{
-	dir = 1
+/obj/machinery/atmospherics/pipe/simple/yellow/visible{
+	dir = 5
 	},
-/obj/structure/cable,
 /turf/open/floor/plating,
 /area/engine/atmos)
 "ate" = (
-/obj/machinery/computer/atmos_control/tank/mix_tank{
-	dir = 8
+/obj/machinery/light{
+	dir = 1
 	},
-/obj/effect/turf_decal/tile/green{
-	dir = 4
-	},
-/obj/effect/turf_decal/tile/green,
-/obj/machinery/camera{
-	c_tag = "Atmospherics - Distro Loop";
-	dir = 8
-	},
-/turf/open/floor/plasteel,
-/area/engine/atmos)
+/obj/machinery/computer/ship/fighter_launcher,
+/turf/open/floor/plasteel/ship,
+/area/nsv/hanger/deck2/starboard{
+	name = "Launch tubes 1 and 2"
+	})
 "atf" = (
 /obj/machinery/air_sensor/atmos/mix_tank,
 /turf/open/floor/engine/vacuum,
@@ -9352,7 +9375,11 @@
 /obj/machinery/light/small{
 	dir = 4
 	},
-/turf/open/floor/engine/vacuum,
+/obj/machinery/atmospherics/pipe/manifold/general/visible{
+	icon_state = "manifold-2";
+	dir = 4
+	},
+/turf/open/floor/plating,
 /area/engine/atmos)
 "ath" = (
 /obj/structure/railing{
@@ -9371,16 +9398,14 @@
 	},
 /area/engine/atmos)
 "ati" = (
-/obj/machinery/atmospherics/pipe/manifold/green/visible{
-	dir = 8
-	},
+/obj/machinery/atmospherics/pipe/manifold4w/supply/visible,
 /turf/open/floor/plating,
 /area/engine/atmos)
 "atj" = (
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
-/obj/machinery/atmospherics/pipe/simple/green/visible{
-	dir = 4
+/obj/machinery/atmospherics/pipe/simple/supply/visible{
+	dir = 8
 	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/visible,
 /turf/open/floor/plating,
 /area/engine/atmos)
 "atk" = (
@@ -9391,45 +9416,66 @@
 /turf/open/floor/plating,
 /area/engine/atmos)
 "atl" = (
-/obj/machinery/atmospherics/pipe/manifold/green/visible,
-/obj/structure/cable,
-/turf/open/floor/plating,
-/area/engine/atmos)
+/obj/structure/table/reinforced,
+/obj/machinery/button/door{
+	id = "launch2";
+	name = "Tube 2 exterior doors";
+	pixel_y = 0;
+	req_one_access_txt = "69"
+	},
+/obj/effect/turf_decal/stripes/line{
+	dir = 4
+	},
+/turf/open/floor/plasteel/ship,
+/area/nsv/hanger/deck2/starboard{
+	name = "Launch tubes 1 and 2"
+	})
 "atm" = (
-/obj/machinery/atmospherics/pipe/simple/green/visible{
+/obj/effect/turf_decal/stripes/line{
 	dir = 4
 	},
-/obj/machinery/meter,
+/obj/machinery/light{
+	dir = 4
+	},
 /turf/open/floor/plating,
-/area/engine/atmos)
+/area/nsv/hanger/deck2/starboard{
+	name = "Launch tubes 1 and 2"
+	})
 "atn" = (
-/obj/effect/turf_decal/tile/green{
-	dir = 4
+/obj/machinery/atmospherics/components/binary/valve/digital{
+	name = "Ports to Waste"
 	},
-/obj/effect/turf_decal/tile/green,
-/obj/machinery/atmospherics/pipe/manifold/green/visible{
-	dir = 1
-	},
-/turf/open/floor/plasteel,
+/turf/open/floor/plating,
 /area/engine/atmos)
 "ato" = (
-/obj/machinery/atmospherics/pipe/simple/green/visible{
-	dir = 4
-	},
-/turf/closed/wall/r_wall/ship,
-/area/engine/atmos)
-"atp" = (
-/obj/machinery/atmospherics/components/unary/outlet_injector/atmos/mix_input{
+/obj/effect/turf_decal/stripes/line{
 	dir = 8
 	},
-/turf/open/floor/engine/vacuum,
-/area/engine/atmos)
+/obj/structure/fighter_launcher{
+	dir = 1;
+	name = "electromagnetic catapult 1";
+	pixel_x = 38
+	},
+/turf/open/floor/plating,
+/area/nsv/hanger/deck2/starboard{
+	name = "Launch tubes 1 and 2"
+	})
+"atp" = (
+/obj/structure/lattice/catwalk,
+/obj/structure/cable,
+/turf/open/floor/plating,
+/area/nsv/hanger/deck2/starboard{
+	name = "Launch tubes 1 and 2"
+	})
 "atq" = (
 /obj/machinery/camera{
 	c_tag = "Atmospherics Tank - Mix";
 	dir = 8
 	},
-/turf/open/floor/engine/vacuum,
+/obj/machinery/atmospherics/components/binary/pump{
+	name = "Port 2 to Waste"
+	},
+/turf/open/floor/plating,
 /area/engine/atmos)
 "atr" = (
 /obj/machinery/newscaster{
@@ -9454,14 +9500,17 @@
 /obj/effect/turf_decal/tile/red{
 	dir = 8
 	},
-/turf/open/floor/plasteel,
-/area/engine/atmos)
-"atu" = (
 /obj/machinery/computer/atmos_control/tank/nitrogen_tank{
 	dir = 1
 	},
+/turf/open/floor/plasteel,
+/area/engine/atmos)
+"atu" = (
 /obj/effect/turf_decal/tile/red,
 /obj/effect/turf_decal/tile/red{
+	dir = 8
+	},
+/obj/machinery/atmospherics/pipe/manifold/yellow/visible{
 	dir = 8
 	},
 /turf/open/floor/plasteel,
@@ -9473,73 +9522,84 @@
 /turf/open/floor/plasteel,
 /area/science/robotics)
 "atw" = (
-/obj/machinery/atmospherics/pipe/simple/yellow/visible,
-/obj/effect/turf_decal/tile/red,
-/obj/effect/turf_decal/tile/red{
+/obj/effect/turf_decal/stripes/line{
 	dir = 8
 	},
-/turf/open/floor/plasteel,
-/area/engine/atmos)
+/turf/open/floor/plasteel/ship,
+/area/nsv/hanger/deck2/starboard{
+	name = "Launch tubes 1 and 2"
+	})
 "atx" = (
+/obj/machinery/atmospherics/pipe/simple/yellow/visible,
 /obj/effect/turf_decal/tile/blue,
 /obj/effect/turf_decal/tile/blue{
 	dir = 8
+	},
+/obj/machinery/atmospherics/pipe/simple/yellow/visible{
+	dir = 4
 	},
 /turf/open/floor/plasteel,
 /area/engine/atmos)
 "aty" = (
-/obj/machinery/computer/atmos_control/tank/oxygen_tank{
+/obj/structure/chair/office{
 	dir = 1
 	},
-/obj/effect/turf_decal/tile/blue,
-/obj/effect/turf_decal/tile/blue{
-	dir = 8
-	},
-/turf/open/floor/plasteel,
-/area/engine/atmos)
+/obj/machinery/atmospherics/components/unary/vent_pump/high_volume/on/layer1,
+/turf/open/floor/plasteel/ship/padded,
+/area/nsv/hanger/deck2/starboard{
+	name = "Launch tubes 1 and 2"
+	})
 "atz" = (
-/obj/machinery/atmospherics/pipe/simple/yellow/visible,
-/obj/effect/turf_decal/tile/blue,
 /obj/effect/turf_decal/tile/blue{
 	dir = 8
 	},
+/obj/effect/turf_decal/tile/neutral,
+/obj/machinery/atmospherics/components/trinary/mixer/airmix/inverse,
 /turf/open/floor/plasteel,
 /area/engine/atmos)
 "atA" = (
-/obj/effect/turf_decal/tile/blue{
-	dir = 8
+/obj/effect/turf_decal/stripes/line{
+	dir = 4
 	},
-/obj/effect/turf_decal/tile/neutral,
-/turf/open/floor/plasteel,
-/area/engine/atmos)
+/turf/open/floor/plasteel/ship,
+/area/nsv/hanger/deck2/starboard{
+	name = "Launch tubes 1 and 2"
+	})
 "atB" = (
-/obj/machinery/computer/atmos_control/tank/air_tank{
+/obj/machinery/computer/atmos_control/tank/mix_tank{
 	dir = 1
 	},
-/obj/effect/turf_decal/tile/blue{
+/obj/effect/turf_decal/tile/green{
 	dir = 8
 	},
-/obj/effect/turf_decal/tile/neutral,
+/obj/effect/turf_decal/tile/green,
+/obj/machinery/atmospherics/pipe/simple/green/visible,
 /turf/open/floor/plasteel,
 /area/engine/atmos)
 "atC" = (
-/obj/machinery/atmospherics/pipe/simple/yellow/visible,
-/obj/effect/turf_decal/tile/blue{
+/obj/effect/turf_decal/tile/green{
 	dir = 8
 	},
-/obj/effect/turf_decal/tile/neutral,
+/obj/effect/turf_decal/tile/green,
+/obj/machinery/atmospherics/components/binary/pump{
+	dir = 1;
+	name = "Mix to Pure"
+	},
 /turf/open/floor/plasteel,
 /area/engine/atmos)
 "atD" = (
-/obj/machinery/atmospherics/components/unary/portables_connector{
-	icon_state = "connector_map-2";
-	dir = 1
+/obj/effect/turf_decal/stripes/line{
+	dir = 8
 	},
-/obj/machinery/light{
-	dir = 4
+/obj/structure/fighter_launcher{
+	dir = 1;
+	name = "electromagnetic catapult 2";
+	pixel_x = 38
 	},
 /turf/open/floor/plating,
-/area/engine/atmos)
+/area/nsv/hanger/deck2/starboard{
+	name = "Launch tubes 1 and 2"
+	})
 "atE" = (
 /obj/structure/railing,
 /obj/structure/railing{
@@ -9573,10 +9633,10 @@
 /turf/open/floor/plating,
 /area/engine/atmos)
 "atI" = (
-/obj/machinery/atmospherics/pipe/simple/green/visible{
+/obj/machinery/atmospherics/pipe/manifold/green/visible{
+	icon_state = "manifold-2";
 	dir = 4
 	},
-/obj/machinery/light,
 /turf/open/floor/plating,
 /area/engine/atmos)
 "atJ" = (
@@ -9612,44 +9672,61 @@
 /turf/open/floor/plating,
 /area/engine/atmos)
 "atN" = (
-/obj/machinery/atmospherics/components/binary/pump{
-	dir = 1;
-	name = "Air to Pure"
+/obj/effect/turf_decal/stripes/line{
+	dir = 8
 	},
-/obj/machinery/atmospherics/pipe/simple/green/visible{
-	dir = 4
+/obj/machinery/computer/ship/dradis/minor{
+	icon_state = "computer";
+	dir = 1
 	},
-/turf/open/floor/plating,
-/area/engine/atmos)
+/turf/open/floor/plasteel/ship,
+/area/nsv/hanger/deck2/starboard{
+	name = "Launch tubes 1 and 2"
+	})
 "atO" = (
-/obj/machinery/atmospherics/pipe/simple/green/visible{
+/obj/machinery/atmospherics/pipe/simple/yellow/visible{
 	dir = 9
 	},
 /turf/open/floor/plating,
 /area/engine/atmos)
 "atP" = (
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
-	dir = 5
-	},
-/turf/open/floor/plating,
-/area/engine/atmos)
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/obj/machinery/atmospherics/components/unary/vent_scrubber/on,
+/turf/open/floor/plasteel/ship,
+/area/nsv/hanger/deck2/starboard{
+	name = "Launch tubes 1 and 2"
+	})
 "atQ" = (
 /obj/structure/cable,
 /turf/open/floor/mech_bay_recharge_floor,
 /area/science/robotics)
 "atR" = (
-/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden{
-	dir = 1
+/obj/effect/turf_decal/stripes/line{
+	dir = 4
 	},
-/turf/open/floor/plating,
-/area/engine/atmos)
+/obj/machinery/button/door{
+	dir = 8;
+	id = "launchbay_access1";
+	name = "Launch bay doors";
+	pixel_x = 22;
+	pixel_y = 0;
+	req_one_access_txt = "69"
+	},
+/obj/structure/table/reinforced,
+/obj/item/clothing/ears/earmuffs,
+/turf/open/floor/plasteel/ship,
+/area/nsv/hanger/deck2/starboard{
+	name = "Launch tubes 1 and 2"
+	})
 "atS" = (
-/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden{
-	dir = 1
+/obj/machinery/door/poddoor/ship{
+	id = "launchbay_access1";
+	name = "Launch tube access"
 	},
-/obj/structure/cable,
 /turf/open/floor/plating,
-/area/engine/atmos)
+/area/nsv/hanger/deck2/starboard{
+	name = "Launch tubes 1 and 2"
+	})
 "atT" = (
 /obj/structure/cable,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
@@ -9670,18 +9747,14 @@
 /turf/open/floor/plasteel/dark,
 /area/tcommsat/server)
 "atV" = (
-/obj/machinery/door/airlock/ship{
-	name = "Theatre";
-	icon_state = "closed";
-	dir = 4;
-	req_one_access_txt = "46"
+/obj/machinery/door/poddoor/ship{
+	id = "launchbay_access1";
+	name = "Launch tube access"
 	},
-/obj/structure/disposalpipe/segment{
-	dir = 4
-	},
-/turf/open/floor/plasteel/ship/padded,
-/area/hallway/primary/port{
-	name = "Deck 3 hallway"
+/obj/structure/cable,
+/turf/open/floor/plating,
+/area/nsv/hanger/deck2/starboard{
+	name = "Launch tubes 1 and 2"
 	})
 "atW" = (
 /obj/machinery/atmospherics/components/binary/dp_vent_pump/on/layer1,
@@ -9691,16 +9764,24 @@
 /turf/open/floor/plasteel/dark,
 /area/engine/engineering)
 "atX" = (
-/obj/machinery/atmospherics/components/unary/vent_scrubber/on{
-	dir = 1
+/obj/machinery/door/airlock/ship{
+	name = "Launch control room 1";
+	req_one_access_txt = "69"
 	},
-/turf/open/floor/plating,
-/area/engine/atmos)
-"atY" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
-/obj/structure/cable,
-/turf/open/floor/plating,
-/area/engine/atmos)
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/turf/open/floor/plasteel/ship,
+/area/nsv/hanger/deck2/starboard{
+	name = "Launch tubes 1 and 2"
+	})
+"atY" = (
+/obj/structure/sign/warning/vacuum/external{
+	name = "\improper DANGER: FIGHTER LAUNCH TUBE"
+	},
+/turf/closed/wall/r_wall/ship,
+/area/nsv/hanger/deck2/starboard{
+	name = "Launch tubes 1 and 2"
+	})
 "atZ" = (
 /obj/machinery/atmospherics/components/unary/outlet_injector/atmos/nitrogen_input{
 	dir = 1
@@ -10538,12 +10619,15 @@
 	name = "Infirmary"
 	})
 "avC" = (
+/obj/machinery/atmospherics/miner/nitrogen,
 /turf/open/floor/engine/n2,
 /area/engine/atmos)
 "avD" = (
-/obj/machinery/portable_atmospherics/canister/nitrogen,
-/turf/open/floor/engine/n2,
-/area/engine/atmos)
+/obj/structure/window/reinforced/fulltile/ship,
+/turf/open/floor/plating,
+/area/hallway/primary/port{
+	name = "Deck 3 hallway"
+	})
 "avE" = (
 /obj/machinery/camera{
 	c_tag = "Atmospherics Tank - N2";
@@ -11325,17 +11409,12 @@
 	name = "Deck 3 hallway"
 	})
 "axd" = (
-/obj/structure/sign/directions/command{
-	dir = 8;
-	pixel_y = -8
-	},
-/obj/structure/sign/directions/evac{
-	icon_state = "direction_evac";
-	dir = 1
-	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/obj/structure/cable,
 /turf/closed/wall/ship,
-/area/hallway/primary/port{
-	name = "Deck 3 hallway"
+/area/nsv/hanger{
+	name = "Hangar bay"
 	})
 "axe" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
@@ -11689,14 +11768,14 @@
 /turf/open/floor/plasteel/dark/telecomms,
 /area/crew_quarters/heads/hor)
 "axM" = (
-/obj/machinery/door/airlock/ship/security{
-	dir = 4;
-	name = "Pilot locker room";
-	req_one_access_txt = "69"
+/obj/structure/cable,
+/obj/machinery/door/airlock/ship/maintenance{
+	icon_state = "closed";
+	dir = 8
 	},
-/turf/open/floor/plasteel/ship/padded,
-/area/nsv/hanger{
-	name = "Hangar bay"
+/turf/open/floor/plating,
+/area/nsv/hanger/deck2/starboard{
+	name = "Launch tubes 1 and 2"
 	})
 "axN" = (
 /obj/effect/turf_decal/tile/brown{
@@ -12210,37 +12289,19 @@
 	name = "Infirmary"
 	})
 "ayH" = (
-/obj/effect/turf_decal/loading_area{
-	dir = 4
-	},
-/obj/effect/mapping_helpers/airlock/cyclelink_helper{
-	dir = 4
-	},
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
-	icon_state = "pipe11-1";
-	dir = 4
-	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
-	dir = 4
-	},
 /obj/structure/cable,
-/obj/structure/disposalpipe/segment{
-	dir = 4
+/obj/effect/turf_decal/stripes/line{
+	dir = 1
 	},
-/obj/machinery/door/airlock/ship/security{
-	dir = 4;
-	name = "Hangar bay";
-	req_one_access_txt = "69"
-	},
-/turf/open/floor/plasteel/ship/padded,
-/area/hallway/primary/port{
-	name = "Deck 3 hallway"
+/turf/open/floor/plasteel/ship/riveted,
+/area/nsv/hanger/deck2/starboard{
+	name = "Launch tubes 1 and 2"
 	})
 "ayI" = (
-/obj/structure/chair,
-/turf/open/floor/plasteel/ship/padded,
-/area/hallway/primary/port{
-	name = "Deck 3 hallway"
+/obj/structure/cable,
+/turf/open/floor/plasteel/ship/riveted,
+/area/nsv/hanger/deck2/starboard{
+	name = "Launch tubes 1 and 2"
 	})
 "ayJ" = (
 /obj/effect/turf_decal/tile/blue,
@@ -12258,19 +12319,12 @@
 	})
 "ayK" = (
 /obj/structure/cable,
-/obj/machinery/camera/autoname{
-	dir = 8
-	},
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
-	icon_state = "pipe11-1";
-	dir = 4
-	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
-	dir = 4
-	},
-/turf/open/floor/plasteel/ship/techfloor/alt,
-/area/nsv/hanger{
-	name = "Hangar bay"
+/obj/machinery/light,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/turf/open/floor/plasteel/ship/riveted,
+/area/nsv/hanger/deck2/starboard{
+	name = "Launch tubes 1 and 2"
 	})
 "ayL" = (
 /obj/machinery/porta_turret/ai{
@@ -12405,16 +12459,22 @@
 	name = "Deck 3 hallway"
 	})
 "azc" = (
-/obj/machinery/portable_atmospherics/canister/oxygen,
-/turf/open/floor/engine/o2,
-/area/engine/atmos)
-"azd" = (
-/obj/machinery/camera{
-	c_tag = "Atmospherics Tank - O2";
-	dir = 8
+/obj/structure/disposalpipe/segment{
+	dir = 6
 	},
-/turf/open/floor/engine/o2,
-/area/engine/atmos)
+/turf/open/floor/plasteel/ship/techfloor/alt,
+/area/hallway/primary/port{
+	name = "Deck 3 hallway"
+	})
+"azd" = (
+/obj/structure/cable,
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
+/turf/open/floor/plasteel/ship/padded,
+/area/hallway/primary/port{
+	name = "Deck 3 hallway"
+	})
 "aze" = (
 /obj/effect/turf_decal/tile/blue,
 /obj/effect/turf_decal/tile/blue{
@@ -13951,15 +14011,18 @@
 /turf/open/floor/carpet/ship,
 /area/lawoffice)
 "aBR" = (
-/obj/machinery/door/poddoor/ship{
-	id = "launch1"
+/obj/machinery/door/airlock/ship{
+	name = "Theatre";
+	icon_state = "closed";
+	dir = 4;
+	req_one_access_txt = "46"
 	},
-/obj/effect/turf_decal/stripes/line{
-	dir = 9
+/obj/structure/disposalpipe/segment{
+	dir = 4
 	},
-/turf/open/floor/plating,
-/area/nsv/hanger/deck2/starboard{
-	name = "Launch tubes 1 and 2"
+/turf/open/floor/plasteel/ship/padded,
+/area/hallway/primary/port{
+	name = "Deck 3 hallway"
 	})
 "aBS" = (
 /turf/open/floor/carpet/ship,
@@ -14324,8 +14387,9 @@
 /area/security/brig)
 "aCE" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/obj/machinery/door/airlock/ship/maintenance,
 /obj/structure/disposalpipe/segment,
-/turf/closed/wall/ship,
+/turf/open/floor/plasteel/ship/techfloor/alt,
 /area/maintenance/department/bridge{
 	name = "Deck 1 maintenance"
 	})
@@ -16086,9 +16150,13 @@
 /turf/open/floor/engine/air,
 /area/engine/atmos)
 "aFI" = (
-/obj/machinery/portable_atmospherics/canister/air,
-/turf/open/floor/engine/air,
-/area/engine/atmos)
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
+/turf/open/floor/plating,
+/area/maintenance/aft/secondary{
+	name = "Deck 3 Maintenance"
+	})
 "aFJ" = (
 /obj/machinery/camera{
 	c_tag = "Atmospherics Tank - Air";
@@ -16285,9 +16353,13 @@
 /area/engine/atmos)
 "aGd" = (
 /obj/structure/cable,
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
 /turf/open/floor/plating,
-/area/engine/atmos)
+/area/maintenance/aft/secondary{
+	name = "Deck 3 Maintenance"
+	})
 "aGe" = (
 /obj/effect/turf_decal/tile/blue{
 	dir = 8
@@ -16917,20 +16989,19 @@
 	name = "Deck 2 primary hallway"
 	})
 "aHe" = (
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
-	dir = 4
-	},
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
-	icon_state = "pipe11-1";
-	dir = 4
-	},
 /obj/structure/cable,
+/obj/machinery/door/airlock/ship{
+	name = "Theatre";
+	icon_state = "closed";
+	dir = 4;
+	req_one_access_txt = "46"
+	},
 /obj/structure/disposalpipe/segment{
 	dir = 4
 	},
-/turf/closed/wall/ship,
-/area/hallway/primary/central{
-	name = "Deck 2 primary hallway"
+/turf/open/floor/plating,
+/area/maintenance/aft/secondary{
+	name = "Deck 3 Maintenance"
 	})
 "aHf" = (
 /obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden{
@@ -17170,7 +17241,6 @@
 	})
 "aHz" = (
 /obj/structure/cable,
-/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	icon_state = "pipe11-1";
 	dir = 4
@@ -17178,6 +17248,10 @@
 /obj/structure/disposalpipe/junction/flip{
 	icon_state = "pipe-j2";
 	dir = 8
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
+	dir = 4;
+	piping_layer = 3
 	},
 /turf/open/floor/plasteel/ship/techfloor/alt,
 /area/hallway/primary/central{
@@ -17794,14 +17868,19 @@
 	})
 "aIz" = (
 /obj/machinery/light/small,
+/obj/machinery/portable_atmospherics/canister/nitrogen,
 /turf/open/floor/engine/n2,
 /area/engine/atmos)
 "aIA" = (
-/obj/machinery/light/small,
-/turf/open/floor/engine/o2,
-/area/engine/atmos)
+/obj/structure/cable,
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
+/turf/open/floor/wood,
+/area/crew_quarters/theatre)
 "aIB" = (
-/turf/open/floor/engine/air,
+/obj/machinery/light/small,
+/turf/open/floor/engine/vacuum,
 /area/engine/atmos)
 "aIC" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
@@ -17952,6 +18031,7 @@
 /obj/structure/disposalpipe/segment{
 	dir = 6
 	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/visible,
 /turf/open/floor/plating,
 /area/engine/atmos)
 "aIR" = (
@@ -18085,9 +18165,15 @@
 	name = "Deck 2 primary hallway"
 	})
 "aJe" = (
-/obj/machinery/light/small,
-/turf/open/floor/engine/air,
-/area/engine/atmos)
+/obj/structure/chair/wood/wings{
+	dir = 1
+	},
+/obj/structure/cable,
+/obj/structure/disposalpipe/segment{
+	dir = 10
+	},
+/turf/open/floor/wood,
+/area/crew_quarters/theatre)
 "aJf" = (
 /obj/machinery/pipedispenser/disposal/transit_tube,
 /turf/open/floor/plating,
@@ -18095,6 +18181,10 @@
 "aJg" = (
 /obj/effect/turf_decal/stripes/line,
 /obj/machinery/light,
+/obj/machinery/atmospherics/components/binary/pump{
+	dir = 2;
+	name = "Waste Outlet"
+	},
 /turf/open/floor/plating,
 /area/engine/atmos)
 "aJh" = (
@@ -18132,14 +18222,10 @@
 /turf/open/floor/carpet/ship,
 /area/crew_quarters/heads/captain)
 "aJm" = (
-/obj/effect/turf_decal/stripes/corner,
-/obj/effect/turf_decal/stripes/corner{
-	dir = 8
-	},
-/obj/structure/cable,
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
-/turf/open/floor/plating,
-/area/engine/atmos)
+/turf/closed/wall/ship,
+/area/nsv/hanger{
+	name = "Hangar bay"
+	})
 "aJn" = (
 /obj/structure/table/glass,
 /turf/open/floor/carpet/ship,
@@ -18209,21 +18295,19 @@
 /turf/open/floor/carpet/ship,
 /area/crew_quarters/heads/captain)
 "aJx" = (
-/obj/machinery/meter,
-/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden{
-	dir = 1
+/obj/structure/extinguisher_cabinet{
+	pixel_y = -4
 	},
-/turf/open/floor/plating,
-/area/engine/atmos)
+/turf/closed/wall/ship,
+/area/nsv/hanger/deck2/starboard{
+	name = "Launch tubes 1 and 2"
+	})
 "aJy" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /obj/structure/disposalpipe/segment,
 /turf/open/floor/carpet/ship,
 /area/crew_quarters/heads/captain)
 "aJz" = (
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
-	dir = 4
-	},
 /obj/effect/turf_decal/tile/green{
 	dir = 1
 	},
@@ -18631,12 +18715,10 @@
 	})
 "aKn" = (
 /obj/machinery/door/poddoor/ship{
-	id = "launch1"
+	id = "launchbay_access";
+	name = "Launch tube access"
 	},
-/obj/effect/turf_decal/stripes/line{
-	dir = 1
-	},
-/turf/open/floor/plating,
+/turf/open/floor/plasteel/ship/techfloor/alt,
 /area/nsv/hanger/deck2/starboard{
 	name = "Launch tubes 1 and 2"
 	})
@@ -18704,10 +18786,9 @@
 /turf/open/floor/plasteel,
 /area/quartermaster/sorting)
 "aKu" = (
-/obj/structure/cable,
-/turf/open/floor/plating,
-/area/nsv/hanger{
-	name = "Hangar bay"
+/turf/closed/wall/ship,
+/area/nsv/hanger/deck2/starboard{
+	name = "Launch tubes 1 and 2"
 	})
 "aKv" = (
 /obj/effect/turf_decal/tile/blue{
@@ -18855,9 +18936,13 @@
 /turf/open/floor/plasteel,
 /area/quartermaster/storage)
 "aKH" = (
-/turf/open/floor/plasteel/ship/techfloor/alt,
-/area/nsv/hanger{
-	name = "Hangar bay"
+/obj/machinery/door/airlock/ship{
+	name = "Launch control room 1";
+	req_one_access_txt = "69"
+	},
+/turf/open/floor/plasteel/ship/padded,
+/area/nsv/hanger/deck2/starboard{
+	name = "Launch tubes 1 and 2"
 	})
 "aKI" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
@@ -18925,32 +19010,27 @@
 	name = "Deck 3 hallway"
 	})
 "aKN" = (
-/obj/machinery/light{
-	dir = 1
-	},
-/turf/open/floor/plasteel/ship/techfloor/alt,
+/obj/structure/cable,
+/turf/open/floor/plating,
 /area/nsv/hanger{
 	name = "Hangar bay"
 	})
 "aKO" = (
-/obj/effect/turf_decal/stripes/line{
-	dir = 1
-	},
-/turf/open/floor/plasteel/ship/techfloor/alt,
-/area/nsv/hanger{
-	name = "Hangar bay"
-	})
-"aKP" = (
-/obj/machinery/door/poddoor/ship{
-	id = "launch1"
-	},
-/obj/effect/turf_decal/stripes/line{
-	dir = 5
+/obj/structure/cable,
+/obj/machinery/light{
+	dir = 4
 	},
 /turf/open/floor/plating,
-/area/nsv/hanger/deck2/starboard{
-	name = "Launch tubes 1 and 2"
+/area/maintenance/aft/secondary{
+	name = "Deck 3 Maintenance"
 	})
+"aKP" = (
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
+	dir = 4
+	},
+/obj/structure/disposalpipe/segment,
+/turf/open/floor/wood,
+/area/crew_quarters/theatre)
 "aKQ" = (
 /obj/machinery/door/airlock/ship{
 	dir = 8;
@@ -19686,13 +19766,7 @@
 	name = "Munitions"
 	})
 "aMg" = (
-/obj/machinery/button/door{
-	id = "launchbay_access";
-	name = "Launch bay doors";
-	pixel_y = 26;
-	req_one_access_txt = "69"
-	},
-/turf/open/floor/plasteel/ship/techfloor/alt,
+/turf/open/floor/plating,
 /area/nsv/hanger{
 	name = "Hangar bay"
 	})
@@ -19704,7 +19778,11 @@
 	name = "Deck 2 maintenance"
 	})
 "aMi" = (
-/turf/open/floor/plasteel/ship/padded,
+/obj/machinery/light{
+	dir = 1
+	},
+/obj/structure/closet/firecloset/full,
+/turf/open/floor/plasteel/ship/techfloor/alt,
 /area/nsv/hanger{
 	name = "Hangar bay"
 	})
@@ -19997,8 +20075,10 @@
 /turf/open/floor/carpet/ship,
 /area/crew_quarters/heads/hos)
 "aML" = (
-/obj/machinery/camera/autoname,
-/turf/open/floor/plasteel/ship/padded,
+/obj/effect/turf_decal/stripes/line{
+	dir = 1
+	},
+/turf/open/floor/plasteel/ship/techfloor/alt,
 /area/nsv/hanger{
 	name = "Hangar bay"
 	})
@@ -20152,14 +20232,18 @@
 	name = "Deck 2 primary hallway"
 	})
 "aNb" = (
-/obj/structure/window/reinforced/fulltile/ship,
-/turf/open/floor/plating,
-/area/hallway/primary/central{
-	name = "Deck 2 primary hallway"
+/obj/machinery/button/door{
+	id = "launchbay_access";
+	name = "Launch bay doors";
+	pixel_y = 26;
+	req_one_access_txt = "69"
+	},
+/turf/open/floor/plasteel/ship/techfloor/alt,
+/area/nsv/hanger{
+	name = "Hangar bay"
 	})
 "aNc" = (
 /obj/structure/cable,
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
 /obj/machinery/door/airlock/ship/engineering{
 	name = "Atmospherics";
 	req_one_access_txt = "24"
@@ -20397,7 +20481,7 @@
 	name = "Deck 2 primary hallway"
 	})
 "aNC" = (
-/turf/closed/wall/r_wall/ship,
+/turf/open/floor/plasteel/ship/techfloor/alt,
 /area/nsv/hanger{
 	name = "Hangar bay"
 	})
@@ -20428,19 +20512,11 @@
 	name = "Deck 2 primary hallway"
 	})
 "aNF" = (
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
-	icon_state = "pipe11-1";
-	dir = 4
-	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
-	dir = 4
-	},
-/obj/structure/window/reinforced/fulltile/ship,
-/obj/structure/cable,
-/obj/structure/curtain/obscuring/grey,
-/turf/open/floor/plating,
-/area/nsv/hanger{
-	name = "Hangar bay"
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/turf/closed/wall/ship,
+/area/nsv/hanger/deck2/starboard{
+	name = "Launch tubes 1 and 2"
 	})
 "aNG" = (
 /obj/structure/disposalpipe/segment{
@@ -20507,11 +20583,11 @@
 	name = "Deck 2 maintenance"
 	})
 "aNM" = (
-/obj/structure/sign/directions/evac,
 /obj/structure/sign/directions/command{
 	dir = 1;
 	pixel_y = -8
 	},
+/obj/structure/sign/directions/evac,
 /turf/closed/wall/ship,
 /area/maintenance/aft{
 	name = "Deck 2 maintenance"
@@ -20761,12 +20837,11 @@
 /turf/open/floor/plasteel,
 /area/engine/engineering)
 "aOo" = (
-/obj/machinery/atmospherics/components/binary/valve/digital{
-	dir = 2;
-	name = "Waste Release"
+/obj/structure/disposalpipe/segment{
+	dir = 5
 	},
-/turf/open/floor/plating,
-/area/engine/atmos)
+/turf/open/floor/wood,
+/area/crew_quarters/theatre)
 "aOp" = (
 /obj/structure/window/reinforced/fulltile/ship,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
@@ -20904,7 +20979,7 @@
 /obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden{
 	dir = 1
 	},
-/obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1,
+/obj/machinery/atmospherics/pipe/manifold4w/supply/hidden/layer1,
 /turf/open/floor/plasteel/ship/techfloor/alt,
 /area/hallway/primary/central{
 	name = "Deck 2 primary hallway"
@@ -22204,8 +22279,8 @@
 	dir = 4
 	},
 /obj/machinery/atmospherics/pipe/manifold/orange/hidden{
-	icon_state = "manifold-2";
-	dir = 8
+	dir = 4;
+	icon_state = "manifold-2"
 	},
 /obj/structure/cable,
 /turf/open/floor/plating,
@@ -22415,9 +22490,10 @@
 	name = "Deck 1 maintenance"
 	})
 "aRS" = (
+/obj/machinery/door/airlock/ship/maintenance,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
 /obj/structure/disposalpipe/segment,
-/turf/closed/wall/ship,
+/turf/open/floor/plasteel/ship/techfloor/alt,
 /area/maintenance/department/bridge{
 	name = "Deck 1 maintenance"
 	})
@@ -23926,18 +24002,14 @@
 /turf/open/floor/circuit/telecomms/mainframe,
 /area/tcommsat/server)
 "aUD" = (
-/obj/structure/cable,
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
+/obj/item/radio/intercom{
+	pixel_y = -29
+	},
+/obj/structure/disposalpipe/segment{
 	dir = 4
 	},
-/obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1{
-	icon_state = "manifold-1";
-	dir = 1
-	},
-/turf/open/floor/plasteel/ship/techfloor/alt,
-/area/hallway/primary/central{
-	name = "Deck 2 primary hallway"
-	})
+/turf/open/floor/wood,
+/area/crew_quarters/theatre)
 "aUE" = (
 /obj/effect/turf_decal/tile/neutral{
 	dir = 8
@@ -25131,14 +25203,20 @@
 	dir = 6
 	},
 /obj/machinery/door/firedoor,
-/turf/open/floor/plating,
-/area/engine/atmos)
-"aXf" = (
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
-	dir = 9
+/obj/structure/sign/plaques/atmos{
+	pixel_y = 26
 	},
 /turf/open/floor/plating,
 /area/engine/atmos)
+"aXf" = (
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/obj/structure/cable,
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
+/turf/open/floor/wood,
+/area/crew_quarters/theatre)
 "aXg" = (
 /obj/machinery/light,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
@@ -25405,12 +25483,11 @@
 	name = "Deck 3 hallway"
 	})
 "aXD" = (
-/obj/effect/turf_decal/stripes/line{
-	dir = 1
-	},
+/obj/structure/closet/secure_closet/personal,
+/obj/effect/spawner/lootdrop/grille_or_trash,
 /turf/open/floor/plating,
-/area/nsv/hanger{
-	name = "Hangar bay"
+/area/maintenance/aft/secondary{
+	name = "Deck 3 Maintenance"
 	})
 "aXE" = (
 /obj/machinery/computer/bounty{
@@ -27251,10 +27328,7 @@
 	name = "Deck 3 hallway"
 	})
 "baW" = (
-/obj/effect/turf_decal/stripes/line{
-	dir = 5
-	},
-/turf/open/floor/plating,
+/turf/open/floor/plasteel/ship/padded,
 /area/nsv/hanger{
 	name = "Hangar bay"
 	})
@@ -27370,26 +27444,23 @@
 /turf/open/floor/wood,
 /area/crew_quarters/theatre)
 "bbh" = (
-/obj/structure/disposalpipe/segment{
-	dir = 4
-	},
-/turf/open/floor/plating,
-/area/maintenance/aft/secondary{
-	name = "Deck 3 Maintenance"
+/obj/machinery/camera/autoname,
+/turf/open/floor/plasteel/ship/padded,
+/area/nsv/hanger{
+	name = "Hangar bay"
 	})
 "bbi" = (
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
-/obj/structure/cable,
-/turf/closed/wall/ship,
-/area/crew_quarters/theatre)
+/obj/structure/sign/warning/nosmoking{
+	pixel_y = 26
+	},
+/turf/open/floor/plasteel/ship/padded,
+/area/nsv/hanger{
+	name = "Hangar bay"
+	})
 "bbj" = (
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
-/obj/structure/cable,
-/turf/open/floor/plasteel/ship/techfloor/alt,
-/area/hallway/primary/port{
-	name = "Deck 3 hallway"
+/turf/closed/wall/r_wall/ship,
+/area/nsv/hanger{
+	name = "Hangar bay"
 	})
 "bbk" = (
 /obj/machinery/keycard_auth,
@@ -27626,7 +27697,10 @@
 	c_tag = "Atmospherics - Distro Loop";
 	dir = 1
 	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
+/obj/machinery/atmospherics/components/binary/pump/on{
+	dir = 1;
+	name = "Scrubber to Waste"
+	},
 /turf/open/floor/plating,
 /area/engine/atmos)
 "bbE" = (
@@ -27764,21 +27838,22 @@
 /turf/open/floor/carpet/ship,
 /area/crew_quarters/heads/hos)
 "bbU" = (
-/obj/structure/lattice/catwalk,
-/turf/open/space/basic,
-/area/nsv/hanger/deck2/starboard{
-	name = "Launch tubes 1 and 2"
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/obj/structure/disposalpipe/segment,
+/obj/structure/cable,
+/obj/structure/closet/secure_closet/personal,
+/turf/open/floor/plasteel/ship/techfloor/alt,
+/area/nsv/hanger{
+	name = "Hangar bay"
 	})
 "bbV" = (
-/obj/machinery/door/poddoor/ship{
-	id = "launch2"
-	},
 /obj/effect/turf_decal/stripes/line{
-	dir = 9
+	dir = 1
 	},
 /turf/open/floor/plating,
-/area/nsv/hanger/deck2/starboard{
-	name = "Launch tubes 1 and 2"
+/area/nsv/hanger{
+	name = "Hangar bay"
 	})
 "bbW" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
@@ -28024,12 +28099,13 @@
 	name = "Deck 1 maintenance"
 	})
 "bcr" = (
-/obj/machinery/atmospherics/pipe/layer_manifold,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
 /obj/machinery/meter,
 /obj/structure/disposalpipe/segment{
-	dir = 10
+	dir = 9
 	},
-/turf/closed/wall/ship,
+/obj/structure/cable,
+/turf/open/floor/plating,
 /area/maintenance/department/bridge{
 	name = "Deck 1 maintenance"
 	})
@@ -28072,8 +28148,8 @@
 	pixel_y = 8
 	},
 /turf/closed/wall/ship,
-/area/hallway/primary/central{
-	name = "Deck 2 primary hallway"
+/area/maintenance/aft{
+	name = "Deck 2 maintenance"
 	})
 "bcw" = (
 /obj/structure/sign/directions/command{
@@ -28207,9 +28283,6 @@
 	})
 "bcI" = (
 /obj/structure/cable,
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
-	dir = 4
-	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	icon_state = "pipe11-1";
 	dir = 4
@@ -28217,7 +28290,7 @@
 /obj/structure/disposalpipe/segment{
 	dir = 4
 	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
+/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden,
 /turf/open/floor/plasteel/ship/techfloor/alt,
 /area/hallway/primary/central{
 	name = "Deck 2 primary hallway"
@@ -28335,17 +28408,13 @@
 /turf/open/floor/plasteel/dark,
 /area/chapel/main)
 "bcS" = (
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
-	dir = 10
+/obj/effect/turf_decal/stripes/line{
+	dir = 5
 	},
-/obj/effect/turf_decal/tile/green{
-	dir = 1
-	},
-/obj/effect/turf_decal/tile/green{
-	dir = 4
-	},
-/turf/open/floor/plasteel/dark,
-/area/engine/atmos)
+/turf/open/floor/plating,
+/area/nsv/hanger{
+	name = "Hangar bay"
+	})
 "bcT" = (
 /obj/effect/turf_decal/tile/green{
 	dir = 1
@@ -28376,7 +28445,6 @@
 /turf/open/floor/plasteel/dark,
 /area/engine/atmos)
 "bcW" = (
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
 /obj/structure/chair/stool/bar,
 /turf/open/floor/plasteel/dark,
 /area/engine/atmos)
@@ -28415,7 +28483,6 @@
 /obj/structure/disposalpipe/segment{
 	dir = 4
 	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
 /obj/structure/table,
 /obj/item/toy/cards/deck,
 /turf/open/floor/plasteel/dark,
@@ -28441,28 +28508,29 @@
 /turf/open/floor/plasteel/dark,
 /area/engine/atmos)
 "bdd" = (
-/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden{
-	dir = 8
-	},
 /obj/structure/chair/stool/bar,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
+	dir = 4;
+	piping_layer = 3
+	},
 /turf/open/floor/plasteel/dark,
 /area/engine/atmos)
 "bde" = (
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
-	dir = 4
+/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden{
+	dir = 1
 	},
 /turf/open/floor/plasteel/dark,
 /area/engine/atmos)
 "bdf" = (
 /obj/machinery/portable_atmospherics/scrubber,
-/obj/machinery/atmospherics/components/unary/portables_connector{
-	icon_state = "connector_map-2";
-	dir = 8
-	},
 /obj/effect/turf_decal/tile/green{
 	dir = 4
 	},
 /obj/effect/turf_decal/tile/green,
+/obj/machinery/atmospherics/components/unary/portables_connector/visible{
+	dir = 8;
+	name = "Connector Port (Waste Input)"
+	},
 /turf/open/floor/plasteel/dark,
 /area/engine/atmos)
 "bdg" = (
@@ -28476,9 +28544,6 @@
 /turf/open/floor/plasteel/dark,
 /area/engine/atmos)
 "bdh" = (
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
-	dir = 5
-	},
 /obj/effect/turf_decal/tile/green{
 	dir = 8
 	},
@@ -28486,21 +28551,17 @@
 /turf/open/floor/plasteel/dark,
 /area/engine/atmos)
 "bdi" = (
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
-	dir = 4
-	},
 /obj/effect/turf_decal/tile/green{
 	dir = 8
 	},
 /obj/effect/turf_decal/tile/green,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
+	dir = 5
+	},
 /turf/open/floor/plasteel/dark,
 /area/engine/atmos)
 "bdj" = (
 /obj/machinery/portable_atmospherics/scrubber,
-/obj/machinery/atmospherics/components/unary/portables_connector{
-	icon_state = "connector_map-2";
-	dir = 8
-	},
 /obj/effect/turf_decal/tile/green{
 	dir = 8
 	},
@@ -28508,6 +28569,10 @@
 	dir = 4
 	},
 /obj/effect/turf_decal/tile/green,
+/obj/machinery/atmospherics/components/unary/portables_connector/visible{
+	dir = 8;
+	name = "Connector Port (Waste Input)"
+	},
 /turf/open/floor/plasteel/dark,
 /area/engine/atmos)
 "bdk" = (
@@ -28558,17 +28623,41 @@
 	name = "Briefing room"
 	})
 "bdn" = (
-/obj/machinery/door/poddoor/ship{
-	id = "launch2"
-	},
-/obj/effect/turf_decal/stripes/line{
+/obj/machinery/light{
 	dir = 1
 	},
-/turf/open/floor/plating,
-/area/nsv/hanger/deck2/starboard{
-	name = "Launch tubes 1 and 2"
+/obj/machinery/suit_storage_unit/pilot,
+/turf/open/floor/plasteel/ship/techfloor/alt,
+/area/nsv/hanger{
+	name = "Hangar bay"
 	})
 "bdo" = (
+/obj/machinery/camera/autoname,
+/obj/machinery/suit_storage_unit/pilot,
+/turf/open/floor/plasteel/ship/techfloor/alt,
+/area/nsv/hanger{
+	name = "Hangar bay"
+	})
+"bdp" = (
+/obj/machinery/suit_storage_unit/pilot,
+/turf/open/floor/plasteel/ship/techfloor/alt,
+/area/nsv/hanger{
+	name = "Hangar bay"
+	})
+"bdq" = (
+/obj/structure/sign/directions/command{
+	dir = 8;
+	pixel_y = -8
+	},
+/obj/structure/sign/directions/evac{
+	icon_state = "direction_evac";
+	dir = 1
+	},
+/turf/closed/wall/ship,
+/area/nsv/hanger{
+	name = "Hangar bay"
+	})
+"bdr" = (
 /obj/machinery/vending/cigarette{
 	name = "Adama's Finest Cigars";
 	pixel_x = 0
@@ -28577,132 +28666,13 @@
 /area/nsv/hanger{
 	name = "Hangar bay"
 	})
-"bdp" = (
-/obj/machinery/door/poddoor/ship{
-	id = "launch2"
-	},
-/obj/effect/turf_decal/stripes/line{
-	dir = 5
-	},
-/turf/open/floor/plating,
-/area/nsv/hanger/deck2/starboard{
-	name = "Launch tubes 1 and 2"
-	})
-"bdq" = (
-/obj/effect/turf_decal/stripes/line{
-	dir = 8
-	},
-/turf/open/floor/plating,
-/area/nsv/hanger/deck2/starboard{
-	name = "Launch tubes 1 and 2"
-	})
-"bdr" = (
-/obj/structure/lattice/catwalk,
-/turf/open/floor/plating,
-/area/nsv/hanger/deck2/starboard{
-	name = "Launch tubes 1 and 2"
-	})
 "bds" = (
-/obj/effect/turf_decal/stripes/line{
-	dir = 4
-	},
-/turf/open/floor/plating,
-/area/nsv/hanger/deck2/starboard{
-	name = "Launch tubes 1 and 2"
-	})
-"bdt" = (
-/obj/structure/window/reinforced/fulltile/ship,
-/turf/open/floor/plasteel/ship,
-/area/nsv/hanger/deck2/starboard{
-	name = "Launch tubes 1 and 2"
-	})
-"bdu" = (
-/obj/effect/turf_decal/stripes/line{
-	dir = 8
-	},
-/obj/machinery/light{
-	dir = 8
-	},
-/turf/open/floor/plating,
-/area/nsv/hanger/deck2/starboard{
-	name = "Launch tubes 1 and 2"
-	})
-"bdv" = (
-/obj/structure/window/reinforced/fulltile/ship,
-/turf/open/floor/plasteel/ship/padded,
-/area/nsv/hanger/deck2/starboard{
-	name = "Launch tubes 1 and 2"
-	})
-"bdw" = (
-/obj/structure/table/reinforced,
-/obj/machinery/button/door{
-	id = "launch1";
-	name = "Tube 1 exterior doors";
-	pixel_y = 0;
-	req_one_access_txt = "69"
-	},
-/obj/effect/turf_decal/stripes/line{
-	dir = 8
-	},
-/turf/open/floor/plasteel/ship,
-/area/nsv/hanger/deck2/starboard{
-	name = "Launch tubes 1 and 2"
-	})
-"bdx" = (
-/obj/machinery/light{
-	dir = 1
-	},
-/obj/machinery/computer/ship/fighter_launcher,
-/turf/open/floor/plasteel/ship,
-/area/nsv/hanger/deck2/starboard{
-	name = "Launch tubes 1 and 2"
-	})
-"bdy" = (
-/obj/structure/table/reinforced,
-/obj/machinery/button/door{
-	id = "launch2";
-	name = "Tube 2 exterior doors";
-	pixel_y = 0;
-	req_one_access_txt = "69"
-	},
-/obj/effect/turf_decal/stripes/line{
-	dir = 4
-	},
-/turf/open/floor/plasteel/ship,
-/area/nsv/hanger/deck2/starboard{
-	name = "Launch tubes 1 and 2"
-	})
-"bdz" = (
-/obj/effect/turf_decal/stripes/line{
-	dir = 4
-	},
-/obj/machinery/light{
-	dir = 4
-	},
-/turf/open/floor/plating,
-/area/nsv/hanger/deck2/starboard{
-	name = "Launch tubes 1 and 2"
-	})
-"bdA" = (
-/obj/effect/turf_decal/stripes/line{
-	dir = 8
-	},
-/obj/structure/fighter_launcher{
-	dir = 1;
-	name = "electromagnetic catapult 1";
-	pixel_x = 38
-	},
-/turf/open/floor/plating,
-/area/nsv/hanger/deck2/starboard{
-	name = "Launch tubes 1 and 2"
-	})
-"bdB" = (
 /obj/effect/turf_decal/bot,
 /turf/open/floor/plating,
 /area/nsv/hanger{
 	name = "Hangar bay"
 	})
-"bdC" = (
+"bdt" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 4
 	},
@@ -28710,40 +28680,140 @@
 /area/nsv/hanger{
 	name = "Hangar bay"
 	})
-"bdD" = (
-/obj/structure/lattice/catwalk,
+"bdu" = (
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /obj/structure/cable,
-/turf/open/floor/plating,
-/area/nsv/hanger/deck2/starboard{
-	name = "Launch tubes 1 and 2"
+/turf/open/floor/plasteel/ship/techfloor/alt,
+/area/nsv/hanger{
+	name = "Hangar bay"
 	})
-"bdE" = (
-/obj/effect/turf_decal/stripes/line{
-	dir = 8
-	},
-/obj/machinery/computer/ship/dradis/minor{
-	icon_state = "computer";
-	dir = 1
-	},
-/turf/open/floor/plasteel/ship,
-/area/nsv/hanger/deck2/starboard{
-	name = "Launch tubes 1 and 2"
-	})
-"bdF" = (
-/obj/structure/chair/office{
-	dir = 1
-	},
-/turf/open/floor/plasteel/ship/padded,
-/area/nsv/hanger/deck2/starboard{
-	name = "Launch tubes 1 and 2"
-	})
-"bdG" = (
-/obj/effect/turf_decal/stripes/line{
+"bdv" = (
+/obj/effect/turf_decal/stripes/corner,
+/obj/effect/turf_decal/stripes/corner{
 	dir = 4
 	},
-/turf/open/floor/plasteel/ship,
-/area/nsv/hanger/deck2/starboard{
-	name = "Launch tubes 1 and 2"
+/turf/open/floor/plating,
+/area/nsv/hanger{
+	name = "Hangar bay"
+	})
+"bdw" = (
+/obj/machinery/door/airlock/ship/security{
+	dir = 4;
+	name = "Munitions office";
+	req_one_access_txt = "69"
+	},
+/turf/open/floor/plasteel/ship/padded,
+/area/hallway/secondary/construction{
+	name = "Munitions"
+	})
+"bdx" = (
+/obj/structure/disposalpipe/junction{
+	icon_state = "pipe-j1";
+	dir = 8
+	},
+/turf/open/floor/plasteel/ship/techfloor/alt,
+/area/hallway/primary/port{
+	name = "Deck 3 hallway"
+	})
+"bdy" = (
+/obj/structure/chair,
+/turf/open/floor/plasteel/ship/techfloor/alt,
+/area/hallway/primary/port{
+	name = "Deck 3 hallway"
+	})
+"bdz" = (
+/obj/machinery/atmospherics/components/unary/vent_scrubber/on,
+/turf/open/floor/plasteel/ship/padded,
+/area/nsv/hanger{
+	name = "Hangar bay"
+	})
+"bdA" = (
+/obj/machinery/door/airlock/ship/security{
+	dir = 4;
+	name = "Pilot locker room";
+	req_one_access_txt = "69"
+	},
+/turf/open/floor/plasteel/ship/padded,
+/area/nsv/hanger{
+	name = "Hangar bay"
+	})
+"bdB" = (
+/obj/structure/overmap/fighter/prebuilt,
+/turf/open/floor/plating,
+/area/nsv/hanger{
+	name = "Hangar bay"
+	})
+"bdC" = (
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	icon_state = "pipe11-1";
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
+	dir = 4
+	},
+/obj/structure/cable,
+/obj/machinery/door/airlock/ship{
+	dir = 8;
+	icon_state = "closed";
+	name = "Frame 1-a"
+	},
+/turf/open/floor/plasteel/ship/padded,
+/area/hallway/primary/port{
+	name = "Deck 3 hallway"
+	})
+"bdD" = (
+/obj/effect/turf_decal/loading_area{
+	dir = 4
+	},
+/obj/effect/mapping_helpers/airlock/cyclelink_helper{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	icon_state = "pipe11-1";
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
+	dir = 4
+	},
+/obj/structure/cable,
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
+/obj/machinery/door/airlock/ship/security{
+	dir = 4;
+	name = "Hangar bay";
+	req_one_access_txt = "69"
+	},
+/turf/open/floor/plasteel/ship/padded,
+/area/hallway/primary/port{
+	name = "Deck 3 hallway"
+	})
+"bdE" = (
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	icon_state = "pipe11-1";
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
+	dir = 4
+	},
+/obj/structure/cable,
+/obj/effect/landmark/nuclear_waste_spawner,
+/turf/open/floor/plasteel/dark,
+/area/hallway/primary/port{
+	name = "Deck 3 hallway"
+	})
+"bdF" = (
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
+/turf/open/floor/plasteel/ship/padded,
+/area/nsv/hanger{
+	name = "Hangar bay"
+	})
+"bdG" = (
+/obj/structure/chair,
+/turf/open/floor/plasteel/ship/padded,
+/area/nsv/hanger{
+	name = "Hangar bay"
 	})
 "bdH" = (
 /obj/effect/turf_decal/tile/green{
@@ -28758,94 +28828,142 @@
 /turf/open/floor/plasteel/dark,
 /area/hydroponics)
 "bdI" = (
-/obj/effect/turf_decal/stripes/line{
+/obj/effect/turf_decal/loading_area{
 	dir = 8
 	},
-/obj/structure/fighter_launcher{
-	dir = 1;
-	name = "electromagnetic catapult 2";
-	pixel_x = 38
-	},
-/turf/open/floor/plating,
-/area/nsv/hanger/deck2/starboard{
-	name = "Launch tubes 1 and 2"
-	})
-"bdJ" = (
-/obj/effect/turf_decal/stripes/line{
+/obj/effect/mapping_helpers/airlock/cyclelink_helper{
 	dir = 8
 	},
-/turf/open/floor/plasteel/ship,
-/area/nsv/hanger/deck2/starboard{
-	name = "Launch tubes 1 and 2"
-	})
-"bdK" = (
-/turf/open/floor/plasteel/ship,
-/area/nsv/hanger/deck2/starboard{
-	name = "Launch tubes 1 and 2"
-	})
-"bdL" = (
-/obj/effect/turf_decal/stripes/line{
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	icon_state = "pipe11-1";
 	dir = 4
 	},
-/obj/machinery/button/door{
-	dir = 8;
-	id = "launchbay_access1";
-	name = "Launch bay doors";
-	pixel_x = 22;
-	pixel_y = 0;
-	req_one_access_txt = "69"
-	},
-/obj/structure/table/reinforced,
-/obj/item/clothing/ears/earmuffs,
-/turf/open/floor/plasteel/ship,
-/area/nsv/hanger/deck2/starboard{
-	name = "Launch tubes 1 and 2"
-	})
-"bdM" = (
-/obj/machinery/door/poddoor/ship{
-	id = "launchbay_access1";
-	name = "Launch tube access"
-	},
-/turf/open/floor/plating,
-/area/nsv/hanger/deck2/starboard{
-	name = "Launch tubes 1 and 2"
-	})
-"bdN" = (
-/obj/machinery/door/poddoor/ship{
-	id = "launchbay_access1";
-	name = "Launch tube access"
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
+	dir = 4
 	},
 /obj/structure/cable,
-/turf/open/floor/plating,
-/area/nsv/hanger/deck2/starboard{
-	name = "Launch tubes 1 and 2"
-	})
-"bdO" = (
-/obj/machinery/door/airlock/ship{
-	name = "Launch control room 1";
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
+/obj/machinery/door/airlock/ship/security{
+	dir = 4;
+	name = "Hangar bay";
 	req_one_access_txt = "69"
 	},
-/turf/open/floor/plasteel/ship,
-/area/nsv/hanger/deck2/starboard{
-	name = "Launch tubes 1 and 2"
+/turf/open/floor/plasteel/ship/padded,
+/area/nsv/hanger{
+	name = "Hangar bay"
 	})
-"bdP" = (
-/obj/structure/sign/warning/vacuum/external{
-	name = "\improper DANGER: FIGHTER LAUNCH TUBE"
-	},
-/turf/closed/wall/r_wall/ship,
-/area/nsv/hanger/deck2/starboard{
-	name = "Launch tubes 1 and 2"
-	})
-"bdQ" = (
+"bdJ" = (
 /obj/structure/cable,
-/obj/machinery/door/airlock/ship/maintenance{
-	icon_state = "closed";
+/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden,
+/obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1,
+/turf/open/floor/plasteel/ship/techfloor/alt,
+/area/nsv/hanger{
+	name = "Hangar bay"
+	})
+"bdK" = (
+/obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1{
+	icon_state = "manifold-1";
+	dir = 1
+	},
+/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden,
+/obj/structure/cable,
+/obj/structure/chair{
+	dir = 4
+	},
+/turf/open/floor/plasteel/ship/padded,
+/area/nsv/hanger{
+	name = "Hangar bay"
+	})
+"bdL" = (
+/obj/structure/cable,
+/obj/machinery/camera/autoname{
 	dir = 8
 	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	icon_state = "pipe11-1";
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
+	dir = 4
+	},
+/turf/open/floor/plasteel/ship/techfloor/alt,
+/area/nsv/hanger{
+	name = "Hangar bay"
+	})
+"bdM" = (
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	icon_state = "pipe11-1";
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
+	dir = 4
+	},
+/obj/structure/window/reinforced/fulltile/ship,
+/obj/structure/cable,
+/obj/structure/curtain/obscuring/grey,
 /turf/open/floor/plating,
-/area/nsv/hanger/deck2/starboard{
-	name = "Launch tubes 1 and 2"
+/area/nsv/hanger{
+	name = "Hangar bay"
+	})
+"bdN" = (
+/obj/effect/turf_decal/bot,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	icon_state = "pipe11-1";
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
+	dir = 4
+	},
+/obj/structure/cable,
+/obj/machinery/camera/autoname{
+	dir = 4
+	},
+/turf/open/floor/plasteel/ship/padded,
+/area/nsv/hanger{
+	name = "Hangar bay"
+	})
+"bdO" = (
+/obj/effect/turf_decal/bot,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	icon_state = "pipe11-1";
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
+	dir = 4
+	},
+/obj/structure/cable,
+/turf/open/floor/plasteel/ship/padded,
+/area/nsv/hanger{
+	name = "Hangar bay"
+	})
+"bdP" = (
+/obj/effect/turf_decal/bot,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	icon_state = "pipe11-1";
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
+	dir = 4
+	},
+/obj/structure/cable,
+/obj/effect/landmark/start/munitions_tech,
+/turf/open/floor/plasteel/ship/padded,
+/area/nsv/hanger{
+	name = "Hangar bay"
+	})
+"bdQ" = (
+/obj/machinery/light{
+	dir = 1
+	},
+/obj/structure/cable,
+/obj/machinery/power/apc/auto_name/north,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/turf/open/floor/plasteel/ship/techfloor/alt,
+/area/nsv/hanger{
+	name = "Hangar bay"
 	})
 "bdR" = (
 /obj/machinery/light{
@@ -29101,10 +29219,24 @@
 /turf/open/floor/plasteel,
 /area/quartermaster/storage)
 "bek" = (
-/obj/structure/lattice,
-/obj/machinery/light/runway,
-/turf/open/space/basic,
-/area/maintenance/ship_exterior)
+/obj/effect/turf_decal/stripes/line{
+	dir = 4
+	},
+/obj/machinery/light{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	icon_state = "pipe11-1";
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
+	dir = 4
+	},
+/obj/structure/cable,
+/turf/open/floor/plasteel/ship/padded,
+/area/nsv/hanger{
+	name = "Hangar bay"
+	})
 "bel" = (
 /obj/effect/turf_decal/delivery,
 /obj/structure/cable,
@@ -29197,6 +29329,19 @@
 	},
 /turf/open/floor/plasteel,
 /area/quartermaster/office)
+"beu" = (
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	icon_state = "pipe11-1";
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
+	dir = 4
+	},
+/obj/structure/cable,
+/turf/closed/wall/r_wall/ship,
+/area/hallway/secondary/construction{
+	name = "Munitions"
+	})
 "bev" = (
 /obj/machinery/door/airlock/ship/public{
 	name = "Internal affairs";
@@ -29861,81 +30006,143 @@
 /turf/open/floor/plasteel,
 /area/quartermaster/miningoffice)
 "bfF" = (
-/obj/structure/cable,
-/obj/effect/turf_decal/stripes/line{
+/obj/structure/chair{
 	dir = 1
 	},
-/turf/open/floor/plasteel/ship/riveted,
-/area/nsv/hanger/deck2/starboard{
-	name = "Launch tubes 1 and 2"
+/turf/open/floor/plasteel/ship/techfloor/alt,
+/area/hallway/primary/port{
+	name = "Deck 3 hallway"
 	})
 "bfG" = (
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	icon_state = "pipe11-1";
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
+	dir = 4
+	},
 /obj/structure/cable,
-/turf/open/floor/plasteel/ship/riveted,
-/area/nsv/hanger/deck2/starboard{
-	name = "Launch tubes 1 and 2"
+/obj/structure/table/reinforced,
+/obj/item/toy/cards/deck,
+/obj/item/dice{
+	pixel_y = 4
+	},
+/turf/open/floor/plasteel/ship/padded,
+/area/nsv/hanger{
+	name = "Hangar bay"
 	})
 "bfH" = (
+/obj/machinery/door/airlock/ship/security{
+	dir = 4;
+	name = "Munitions bay";
+	req_one_access_txt = "69"
+	},
+/turf/open/floor/plasteel/ship/padded,
+/area/hallway/secondary/construction{
+	name = "Munitions"
+	})
+"bfI" = (
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	icon_state = "pipe11-1";
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
+	dir = 4
+	},
+/obj/structure/cable,
+/obj/structure/chair{
+	dir = 8
+	},
+/turf/open/floor/plasteel/ship/padded,
+/area/nsv/hanger{
+	name = "Hangar bay"
+	})
+"bfJ" = (
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/turf/open/floor/plasteel/ship/padded,
+/area/nsv/hanger{
+	name = "Hangar bay"
+	})
+"bfK" = (
 /obj/structure/closet/secure_closet/personal,
 /turf/open/floor/plasteel/ship/techfloor/alt,
 /area/nsv/hanger{
 	name = "Hangar bay"
 	})
-"bfI" = (
-/obj/structure/cable,
-/obj/machinery/light,
-/turf/open/floor/plasteel/ship/riveted,
-/area/nsv/hanger/deck2/starboard{
-	name = "Launch tubes 1 and 2"
-	})
-"bfJ" = (
-/turf/closed/wall/ship,
-/area/nsv/hanger/deck2/starboard{
-	name = "Launch tubes 1 and 2"
-	})
-"bfK" = (
-/obj/machinery/door/poddoor/ship{
-	id = "launchbay_access";
-	name = "Launch tube access"
-	},
-/turf/open/floor/plasteel/ship/techfloor/alt,
-/area/nsv/hanger/deck2/starboard{
-	name = "Launch tubes 1 and 2"
-	})
 "bfL" = (
-/obj/machinery/door/airlock/ship{
-	name = "Launch control room 1";
-	req_one_access_txt = "69"
-	},
-/turf/open/floor/plasteel/ship/padded,
-/area/nsv/hanger/deck2/starboard{
-	name = "Launch tubes 1 and 2"
+/obj/effect/turf_decal/bot,
+/obj/structure/overmap/fighter/prebuilt,
+/turf/open/floor/plating,
+/area/nsv/hanger{
+	name = "Hangar bay"
 	})
 "bfM" = (
+/obj/effect/turf_decal/bot,
+/obj/structure/overmap/fighter/prebuilt/raptor,
+/turf/open/floor/plating,
+/area/nsv/hanger{
+	name = "Hangar bay"
+	})
+"bfN" = (
+/obj/effect/turf_decal/stripes/line,
+/turf/open/floor/plating,
+/area/nsv/hanger{
+	name = "Hangar bay"
+	})
+"bfO" = (
+/obj/effect/turf_decal/stripes/line{
+	dir = 6
+	},
+/turf/open/floor/plating,
+/area/nsv/hanger{
+	name = "Hangar bay"
+	})
+"bfP" = (
+/obj/machinery/camera/autoname{
+	dir = 1
+	},
+/turf/open/floor/plasteel/ship/padded,
+/area/nsv/hanger{
+	name = "Hangar bay"
+	})
+"bfQ" = (
+/obj/structure/reagent_dispensers/fueltank,
+/obj/machinery/light,
+/turf/open/floor/plasteel/ship/techfloor/alt,
+/area/nsv/hanger{
+	name = "Hangar bay"
+	})
+"bfR" = (
+/obj/effect/turf_decal/stripes/line,
+/turf/open/floor/plasteel/ship/techfloor/alt,
+/area/nsv/hanger{
+	name = "Hangar bay"
+	})
+"bfS" = (
+/obj/machinery/button/door{
+	id = "launchbay_access";
+	name = "Launch bay doors";
+	pixel_y = -26;
+	req_one_access_txt = "69"
+	},
+/turf/open/floor/plasteel/ship/techfloor/alt,
+/area/nsv/hanger{
+	name = "Hangar bay"
+	})
+"bfT" = (
+/obj/effect/turf_decal/stripes/line{
+	dir = 8
+	},
+/obj/machinery/atmospherics/components/unary/vent_pump/high_volume/on/layer1,
+/turf/open/floor/plating,
+/area/nsv/hanger/deck2/starboard{
+	name = "Launch tubes 1 and 2"
+	})
+"bfU" = (
 /turf/closed/wall/ship,
 /area/nsv/hanger/deck2/port{
 	name = "Launch tubes 3 and 4"
 	})
-"bfN" = (
-/obj/structure/lattice,
-/obj/machinery/light/runway/delay3,
-/turf/open/space/basic,
-/area/maintenance/ship_exterior)
-"bfP" = (
-/obj/structure/lattice,
-/obj/machinery/light/runway/delay4,
-/turf/open/space/basic,
-/area/maintenance/ship_exterior)
-"bfR" = (
-/obj/structure/lattice,
-/obj/machinery/light/runway/delay5,
-/turf/open/space/basic,
-/area/maintenance/ship_exterior)
-"bfT" = (
-/obj/structure/lattice,
-/obj/machinery/light/runway/delay2,
-/turf/open/space/basic,
-/area/maintenance/ship_exterior)
 "bfV" = (
 /obj/machinery/door/poddoor/ship{
 	id = "launchbay_access";
@@ -29955,6 +30162,17 @@
 	name = "Launch tubes 3 and 4"
 	})
 "bfX" = (
+/obj/effect/turf_decal/stripes/line{
+	dir = 1
+	},
+/obj/structure/cable,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/turf/open/floor/plating,
+/area/nsv/hanger{
+	name = "Hangar bay"
+	})
+"bfY" = (
 /obj/structure/cable,
 /obj/machinery/door/airlock/ship/maintenance{
 	icon_state = "closed";
@@ -29964,36 +30182,27 @@
 /area/nsv/hanger/deck2/port{
 	name = "Launch tubes 3 and 4"
 	})
-"bfY" = (
+"bfZ" = (
 /obj/structure/cable,
 /obj/effect/turf_decal/stripes/line,
 /turf/open/floor/plasteel/ship/riveted,
 /area/nsv/hanger/deck2/port{
 	name = "Launch tubes 3 and 4"
 	})
-"bfZ" = (
-/obj/structure/cable,
-/turf/open/floor/plasteel/ship/riveted,
-/area/nsv/hanger/deck2/port{
-	name = "Launch tubes 3 and 4"
-	})
 "bga" = (
 /obj/structure/cable,
-/obj/machinery/light{
-	dir = 1
-	},
 /turf/open/floor/plasteel/ship/riveted,
 /area/nsv/hanger/deck2/port{
 	name = "Launch tubes 3 and 4"
 	})
 "bgb" = (
+/obj/effect/turf_decal/bot,
 /obj/structure/cable,
-/obj/machinery/light{
-	dir = 4
-	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /turf/open/floor/plating,
-/area/maintenance/aft/secondary{
-	name = "Deck 3 Maintenance"
+/area/nsv/hanger{
+	name = "Hangar bay"
 	})
 "bgc" = (
 /turf/closed/wall/r_wall/ship,
@@ -30020,43 +30229,23 @@
 	name = "Launch tubes 3 and 4"
 	})
 "bgf" = (
-/obj/machinery/door/airlock/ship{
-	name = "Launch control room 2";
-	req_one_access_txt = "69"
-	},
-/turf/open/floor/plasteel/ship,
-/area/nsv/hanger/deck2/port{
-	name = "Launch tubes 3 and 4"
-	})
-"bgg" = (
-/turf/open/floor/plating,
-/area/nsv/hanger{
-	name = "Hangar bay"
-	})
-"bgh" = (
 /obj/effect/turf_decal/bot,
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
-	icon_state = "pipe11-1";
-	dir = 4
-	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
-	dir = 4
-	},
+/obj/effect/landmark/nuclear_waste_spawner/strong,
 /obj/structure/cable,
-/obj/effect/landmark/start/munitions_tech,
+/obj/machinery/atmospherics/pipe/manifold4w/scrubbers/hidden,
+/obj/machinery/atmospherics/pipe/manifold4w/supply/hidden/layer1,
 /turf/open/floor/plasteel/ship/padded,
 /area/nsv/hanger{
 	name = "Hangar bay"
 	})
-"bgi" = (
-/obj/structure/sign/warning/vacuum/external{
-	name = "\improper DANGER: FIGHTER LAUNCH TUBE"
-	},
-/turf/closed/wall/r_wall/ship,
-/area/nsv/hanger/deck2/port{
-	name = "Launch tubes 3 and 4"
+"bgg" = (
+/obj/structure/cable,
+/obj/machinery/power/apc/auto_name/north,
+/turf/open/floor/plasteel/ship/riveted,
+/area/nsv/hanger/deck2/starboard{
+	name = "Launch tubes 1 and 2"
 	})
-"bgj" = (
+"bgh" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
 	},
@@ -30064,14 +30253,14 @@
 /area/nsv/hanger/deck2/port{
 	name = "Launch tubes 3 and 4"
 	})
-"bgk" = (
+"bgi" = (
 /obj/structure/lattice/catwalk,
 /obj/structure/cable,
 /turf/open/floor/plating,
 /area/nsv/hanger/deck2/port{
 	name = "Launch tubes 3 and 4"
 	})
-"bgl" = (
+"bgj" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 4
 	},
@@ -30079,7 +30268,7 @@
 /area/nsv/hanger/deck2/port{
 	name = "Launch tubes 3 and 4"
 	})
-"bgm" = (
+"bgk" = (
 /obj/machinery/computer/ship/viewscreen,
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
@@ -30089,12 +30278,15 @@
 /area/nsv/hanger/deck2/port{
 	name = "Launch tubes 3 and 4"
 	})
-"bgn" = (
-/turf/open/floor/plasteel/ship,
-/area/nsv/hanger/deck2/port{
-	name = "Launch tubes 3 and 4"
+"bgl" = (
+/obj/effect/turf_decal/bot,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/turf/open/floor/plating,
+/area/nsv/hanger{
+	name = "Hangar bay"
 	})
-"bgo" = (
+"bgm" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 4
 	},
@@ -30108,280 +30300,13 @@
 	},
 /obj/structure/table/reinforced,
 /obj/item/clothing/ears/earmuffs,
+/obj/machinery/power/apc/auto_name/north,
+/obj/structure/cable,
 /turf/open/floor/plasteel/ship,
 /area/nsv/hanger/deck2/port{
 	name = "Launch tubes 3 and 4"
 	})
-"bgq" = (
-/obj/effect/turf_decal/stripes/corner,
-/obj/effect/turf_decal/stripes/corner{
-	dir = 4
-	},
-/turf/open/floor/plating,
-/area/nsv/hanger{
-	name = "Hangar bay"
-	})
-"bgr" = (
-/obj/machinery/door/airlock/ship/security{
-	dir = 4;
-	name = "Munitions office";
-	req_one_access_txt = "69"
-	},
-/turf/open/floor/plasteel/ship/padded,
-/area/nsv/hanger{
-	name = "Hangar bay"
-	})
-"bgs" = (
-/obj/effect/turf_decal/loading_area{
-	dir = 8
-	},
-/obj/effect/mapping_helpers/airlock/cyclelink_helper{
-	dir = 8
-	},
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
-	icon_state = "pipe11-1";
-	dir = 4
-	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
-	dir = 4
-	},
-/obj/structure/cable,
-/obj/structure/disposalpipe/segment{
-	dir = 4
-	},
-/obj/machinery/door/airlock/ship/security{
-	dir = 4;
-	name = "Hangar bay";
-	req_one_access_txt = "69"
-	},
-/turf/open/floor/plasteel/ship/padded,
-/area/hallway/primary/port{
-	name = "Deck 3 hallway"
-	})
-"bgt" = (
-/obj/structure/overmap/fighter/prebuilt,
-/turf/open/floor/plating,
-/area/nsv/hanger{
-	name = "Hangar bay"
-	})
-"bgu" = (
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
-	icon_state = "pipe11-1";
-	dir = 4
-	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
-	dir = 4
-	},
-/obj/structure/cable,
-/obj/structure/table/reinforced,
-/obj/item/toy/cards/deck,
-/obj/item/dice{
-	pixel_y = 4
-	},
-/turf/open/floor/plasteel/ship/padded,
-/area/hallway/primary/port{
-	name = "Deck 3 hallway"
-	})
-"bgv" = (
-/obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1{
-	icon_state = "manifold-1";
-	dir = 1
-	},
-/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden,
-/obj/structure/cable,
-/obj/structure/chair{
-	dir = 4
-	},
-/turf/open/floor/plasteel/ship/padded,
-/area/hallway/primary/port{
-	name = "Deck 3 hallway"
-	})
-"bgw" = (
-/obj/effect/turf_decal/bot,
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
-	icon_state = "pipe11-1";
-	dir = 4
-	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
-	dir = 4
-	},
-/obj/structure/cable,
-/turf/open/floor/plasteel/ship/padded,
-/area/nsv/hanger{
-	name = "Hangar bay"
-	})
-"bgx" = (
-/obj/effect/turf_decal/bot,
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
-	icon_state = "pipe11-1";
-	dir = 4
-	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
-	dir = 4
-	},
-/obj/effect/landmark/nuclear_waste_spawner/strong,
-/obj/structure/cable,
-/turf/open/floor/plasteel/ship/padded,
-/area/nsv/hanger{
-	name = "Hangar bay"
-	})
-"bgy" = (
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
-	icon_state = "pipe11-1";
-	dir = 4
-	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
-	dir = 4
-	},
-/obj/structure/cable,
-/obj/machinery/door/airlock/ship{
-	dir = 8;
-	icon_state = "closed";
-	name = "Frame 1-a"
-	},
-/turf/open/floor/plasteel/ship/padded,
-/area/hallway/primary/port{
-	name = "Deck 3 hallway"
-	})
-"bgz" = (
-/obj/effect/turf_decal/stripes/line{
-	dir = 4
-	},
-/obj/machinery/light{
-	dir = 4
-	},
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
-	icon_state = "pipe11-1";
-	dir = 4
-	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
-	dir = 4
-	},
-/obj/structure/cable,
-/turf/open/floor/plasteel/ship/padded,
-/area/nsv/hanger{
-	name = "Hangar bay"
-	})
-"bgA" = (
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
-	icon_state = "pipe11-1";
-	dir = 4
-	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
-	dir = 4
-	},
-/obj/structure/cable,
-/turf/closed/wall/r_wall/ship,
-/area/nsv/hanger{
-	name = "Hangar bay"
-	})
-"bgB" = (
-/obj/machinery/door/airlock/ship/security{
-	dir = 4;
-	name = "Munitions bay";
-	req_one_access_txt = "69"
-	},
-/turf/open/floor/plasteel/ship/padded,
-/area/nsv/hanger{
-	name = "Hangar bay"
-	})
-"bgC" = (
-/obj/effect/turf_decal/bot,
-/obj/structure/overmap/fighter/prebuilt,
-/turf/open/floor/plating,
-/area/nsv/hanger{
-	name = "Hangar bay"
-	})
-"bgD" = (
-/obj/effect/turf_decal/bot,
-/obj/structure/overmap/fighter/prebuilt/raptor,
-/turf/open/floor/plating,
-/area/nsv/hanger{
-	name = "Hangar bay"
-	})
-"bgE" = (
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
-	icon_state = "pipe11-1";
-	dir = 4
-	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
-	dir = 4
-	},
-/obj/structure/cable,
-/obj/structure/chair{
-	dir = 8
-	},
-/turf/open/floor/plasteel/ship/padded,
-/area/hallway/primary/port{
-	name = "Deck 3 hallway"
-	})
-"bgF" = (
-/obj/effect/turf_decal/stripes/line,
-/turf/open/floor/plating,
-/area/nsv/hanger{
-	name = "Hangar bay"
-	})
-"bgG" = (
-/obj/structure/chair,
-/turf/open/floor/plasteel/ship/techfloor/alt,
-/area/hallway/primary/port{
-	name = "Deck 3 hallway"
-	})
-"bgH" = (
-/obj/effect/turf_decal/stripes/line{
-	dir = 6
-	},
-/turf/open/floor/plating,
-/area/nsv/hanger{
-	name = "Hangar bay"
-	})
-"bgI" = (
-/obj/machinery/camera/autoname{
-	dir = 1
-	},
-/turf/open/floor/plasteel/ship/padded,
-/area/nsv/hanger{
-	name = "Hangar bay"
-	})
-"bgJ" = (
-/obj/structure/reagent_dispensers/fueltank,
-/obj/machinery/light,
-/turf/open/floor/plasteel/ship/techfloor/alt,
-/area/nsv/hanger{
-	name = "Hangar bay"
-	})
-"bgK" = (
-/obj/structure/chair{
-	dir = 1
-	},
-/turf/open/floor/plasteel/ship/padded,
-/area/hallway/primary/port{
-	name = "Deck 3 hallway"
-	})
-"bgL" = (
-/obj/effect/turf_decal/stripes/line,
-/turf/open/floor/plasteel/ship/techfloor/alt,
-/area/nsv/hanger{
-	name = "Hangar bay"
-	})
-"bgM" = (
-/obj/machinery/button/door{
-	id = "launchbay_access";
-	name = "Launch bay doors";
-	pixel_y = -26;
-	req_one_access_txt = "69"
-	},
-/turf/open/floor/plasteel/ship/techfloor/alt,
-/area/nsv/hanger{
-	name = "Hangar bay"
-	})
-"bgN" = (
-/obj/machinery/light,
-/turf/open/floor/plasteel/ship/techfloor/alt,
-/area/nsv/hanger{
-	name = "Hangar bay"
-	})
-"bgO" = (
+"bgn" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
 	},
@@ -30397,13 +30322,13 @@
 /area/nsv/hanger/deck2/port{
 	name = "Launch tubes 3 and 4"
 	})
-"bgP" = (
+"bgo" = (
 /obj/structure/window/reinforced/fulltile/ship,
 /turf/open/floor/plasteel/ship/padded,
 /area/nsv/hanger/deck2/port{
 	name = "Launch tubes 3 and 4"
 	})
-"bgQ" = (
+"bgp" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
 	},
@@ -30411,13 +30336,17 @@
 /area/nsv/hanger/deck2/port{
 	name = "Launch tubes 3 and 4"
 	})
-"bgR" = (
-/obj/structure/chair/office,
-/turf/open/floor/plasteel/ship/padded,
+"bgq" = (
+/obj/structure/cable,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/obj/machinery/atmospherics/components/unary/vent_scrubber/on{
+	dir = 1
+	},
+/turf/open/floor/plasteel/ship,
 /area/nsv/hanger/deck2/port{
 	name = "Launch tubes 3 and 4"
 	})
-"bgS" = (
+"bgr" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 4
 	},
@@ -30425,7 +30354,7 @@
 /area/nsv/hanger/deck2/port{
 	name = "Launch tubes 3 and 4"
 	})
-"bgT" = (
+"bgs" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
 	},
@@ -30438,7 +30367,7 @@
 /area/nsv/hanger/deck2/port{
 	name = "Launch tubes 3 and 4"
 	})
-"bgU" = (
+"bgt" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 4
 	},
@@ -30449,13 +30378,13 @@
 /area/nsv/hanger/deck2/port{
 	name = "Launch tubes 3 and 4"
 	})
-"bgV" = (
+"bgu" = (
 /obj/structure/lattice/catwalk,
 /turf/open/floor/plating,
 /area/nsv/hanger/deck2/port{
 	name = "Launch tubes 3 and 4"
 	})
-"bgW" = (
+"bgv" = (
 /obj/machinery/button/door{
 	id = "launch3";
 	name = "Tube 3 exterior doors";
@@ -30470,7 +30399,7 @@
 /area/nsv/hanger/deck2/port{
 	name = "Launch tubes 3 and 4"
 	})
-"bgX" = (
+"bgw" = (
 /obj/machinery/computer/ship/fighter_launcher{
 	icon_state = "computer";
 	dir = 1
@@ -30479,7 +30408,7 @@
 /area/nsv/hanger/deck2/port{
 	name = "Launch tubes 3 and 4"
 	})
-"bgY" = (
+"bgx" = (
 /obj/machinery/button/door{
 	id = "launch4";
 	name = "Tube 4 exterior doors";
@@ -30494,13 +30423,13 @@
 /area/nsv/hanger/deck2/port{
 	name = "Launch tubes 3 and 4"
 	})
-"bgZ" = (
+"bgy" = (
 /obj/structure/window/reinforced/fulltile/ship,
 /turf/open/floor/plasteel/ship,
 /area/nsv/hanger/deck2/port{
 	name = "Launch tubes 3 and 4"
 	})
-"bha" = (
+"bgz" = (
 /obj/machinery/door/poddoor/ship{
 	id = "launch3"
 	},
@@ -30511,7 +30440,7 @@
 /area/nsv/hanger/deck2/port{
 	name = "Launch tubes 3 and 4"
 	})
-"bhb" = (
+"bgA" = (
 /obj/machinery/door/poddoor/ship{
 	id = "launch3"
 	},
@@ -30520,7 +30449,7 @@
 /area/nsv/hanger/deck2/port{
 	name = "Launch tubes 3 and 4"
 	})
-"bhc" = (
+"bgB" = (
 /obj/machinery/door/poddoor/ship{
 	id = "launch3"
 	},
@@ -30531,13 +30460,13 @@
 /area/nsv/hanger/deck2/port{
 	name = "Launch tubes 3 and 4"
 	})
-"bhd" = (
+"bgC" = (
 /obj/structure/lattice/catwalk,
 /turf/open/space/basic,
 /area/nsv/hanger/deck2/port{
 	name = "Launch tubes 3 and 4"
 	})
-"bhe" = (
+"bgD" = (
 /obj/machinery/door/poddoor/ship{
 	id = "launch4"
 	},
@@ -30548,7 +30477,7 @@
 /area/nsv/hanger/deck2/port{
 	name = "Launch tubes 3 and 4"
 	})
-"bhf" = (
+"bgE" = (
 /obj/machinery/door/poddoor/ship{
 	id = "launch4"
 	},
@@ -30557,7 +30486,7 @@
 /area/nsv/hanger/deck2/port{
 	name = "Launch tubes 3 and 4"
 	})
-"bhg" = (
+"bgF" = (
 /obj/machinery/door/poddoor/ship{
 	id = "launch4"
 	},
@@ -30568,308 +30497,308 @@
 /area/nsv/hanger/deck2/port{
 	name = "Launch tubes 3 and 4"
 	})
-"bhh" = (
-/obj/machinery/light{
-	dir = 1
-	},
-/obj/structure/closet/firecloset/full,
-/turf/open/floor/plasteel/ship/techfloor/alt,
-/area/nsv/hanger{
-	name = "Hangar bay"
-	})
-"bhi" = (
-/obj/structure/extinguisher_cabinet{
-	pixel_y = -4
-	},
-/turf/closed/wall/ship,
-/area/nsv/hanger/deck2/starboard{
-	name = "Launch tubes 1 and 2"
-	})
-"bhj" = (
-/obj/structure/extinguisher_cabinet{
-	pixel_y = -4
-	},
-/turf/closed/wall/ship,
-/area/nsv/hanger/deck2/port{
-	name = "Launch tubes 3 and 4"
-	})
-"bhk" = (
-/obj/structure/stairs,
-/turf/open/floor/plasteel/ship/techfloor/alt,
-/area/hallway/primary/port{
-	name = "Deck 3 hallway"
-	})
-"bhl" = (
-/obj/structure/stairs,
-/turf/open/openspace,
-/area/hallway/primary/central{
-	name = "Deck 2 primary hallway"
-	})
-"bhm" = (
-/obj/structure/stairs{
-	icon_state = "stairs";
-	dir = 1
-	},
-/turf/open/floor/plasteel/ship/techfloor/alt,
-/area/hallway/primary/port{
-	name = "Deck 3 hallway"
-	})
-"bhn" = (
-/obj/structure/stairs{
-	icon_state = "stairs";
-	dir = 1
-	},
-/turf/open/openspace,
-/area/hallway/primary/central{
-	name = "Deck 2 primary hallway"
-	})
-"bho" = (
-/obj/structure/stairs{
-	dir = 4
-	},
-/turf/open/floor/plasteel/ship/techfloor/alt,
-/area/hallway/primary/central{
-	name = "Deck 2 primary hallway"
-	})
-"bhp" = (
-/obj/structure/stairs{
-	dir = 4
-	},
-/turf/open/openspace,
-/area/hallway/secondary/command)
-"bhq" = (
-/obj/structure/stairs{
-	icon_state = "stairs";
-	dir = 8
-	},
-/turf/open/floor/plasteel/ship/techfloor/alt,
-/area/hallway/primary/central{
-	name = "Deck 2 primary hallway"
-	})
-"bhr" = (
-/turf/open/floor/plasteel/ship/techfloor/alt,
-/area/maintenance/department/bridge{
-	name = "Deck 1 maintenance"
-	})
-"bhs" = (
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
-/obj/machinery/meter,
-/obj/structure/disposalpipe/segment{
-	dir = 9
-	},
-/turf/closed/wall/ship,
-/area/maintenance/department/bridge{
-	name = "Deck 1 maintenance"
-	})
-"bht" = (
-/obj/machinery/vending/cigarette{
-	name = "Adama's Finest Cigars";
-	pixel_x = 0
-	},
-/turf/open/floor/plasteel/ship/techfloor/alt,
-/area/hallway/secondary/command)
-"bhu" = (
-/obj/structure/stairs/top{
-	icon_state = "stairs";
-	dir = 4
-	},
-/turf/open/floor/plasteel/ship/techfloor/alt,
-/area/hallway/primary/central{
-	name = "Deck 2 primary hallway"
-	})
-"bhv" = (
+"bgG" = (
 /obj/structure/chair{
 	dir = 1
-	},
-/turf/open/floor/plasteel/ship/techfloor/alt,
-/area/hallway/primary/port{
-	name = "Deck 3 hallway"
-	})
-"bhw" = (
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
-/obj/structure/disposalpipe/segment,
-/obj/structure/cable,
-/obj/structure/closet/secure_closet/personal,
-/turf/open/floor/plasteel/ship/techfloor/alt,
-/area/hallway/primary/port{
-	name = "Deck 3 hallway"
-	})
-"bhx" = (
-/obj/machinery/light{
-	dir = 1
-	},
-/obj/machinery/suit_storage_unit/pilot,
-/turf/open/floor/plasteel/ship/techfloor/alt,
-/area/hallway/primary/port{
-	name = "Deck 3 hallway"
-	})
-"bhy" = (
-/obj/machinery/camera/autoname,
-/obj/machinery/suit_storage_unit/pilot,
-/turf/open/floor/plasteel/ship/techfloor/alt,
-/area/hallway/primary/port{
-	name = "Deck 3 hallway"
-	})
-"bhz" = (
-/obj/machinery/suit_storage_unit/pilot,
-/turf/open/floor/plasteel/ship/techfloor/alt,
-/area/hallway/primary/port{
-	name = "Deck 3 hallway"
-	})
-"bhA" = (
-/obj/machinery/light,
-/obj/machinery/suit_storage_unit/pilot,
-/turf/open/floor/plasteel/ship/techfloor/alt,
-/area/hallway/primary/port{
-	name = "Deck 3 hallway"
-	})
-"bhB" = (
-/obj/structure/closet/secure_closet/personal,
-/turf/open/floor/plasteel/ship/techfloor/alt,
-/area/hallway/primary/port{
-	name = "Deck 3 hallway"
-	})
-"bhC" = (
-/obj/structure/sign/warning/nosmoking{
-	pixel_y = 26
 	},
 /turf/open/floor/plasteel/ship/padded,
 /area/nsv/hanger{
 	name = "Hangar bay"
 	})
-"bhD" = (
-/obj/structure/closet/secure_closet/personal,
-/obj/effect/spawner/lootdrop/grille_or_trash,
-/turf/open/floor/plating,
-/area/maintenance/aft/secondary{
-	name = "Deck 3 Maintenance"
-	})
-"bhE" = (
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
-	icon_state = "pipe11-1";
-	dir = 4
-	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
-	dir = 4
-	},
-/obj/structure/cable,
-/obj/effect/landmark/nuclear_waste_spawner,
-/turf/open/floor/plasteel/dark,
-/area/hallway/primary/port{
-	name = "Deck 3 hallway"
-	})
-"bhF" = (
-/obj/structure/cable,
-/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden,
-/obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1,
-/turf/open/floor/plasteel/ship/techfloor/alt,
-/area/hallway/primary/port{
-	name = "Deck 3 hallway"
-	})
-"bhG" = (
-/obj/structure/disposalpipe/junction{
-	icon_state = "pipe-j1";
-	dir = 8
-	},
-/turf/open/floor/plasteel/ship/techfloor/alt,
-/area/hallway/primary/port{
-	name = "Deck 3 hallway"
-	})
-"bhH" = (
-/obj/structure/cable,
-/obj/structure/disposalpipe/segment{
-	dir = 4
-	},
-/turf/open/floor/plating,
-/area/maintenance/aft/secondary{
-	name = "Deck 3 Maintenance"
-	})
-"bhI" = (
-/obj/structure/cable,
-/obj/machinery/door/airlock/ship{
-	name = "Theatre";
-	icon_state = "closed";
-	dir = 4;
-	req_one_access_txt = "46"
-	},
-/obj/structure/disposalpipe/segment{
-	dir = 4
-	},
-/turf/open/floor/plating,
-/area/maintenance/aft/secondary{
-	name = "Deck 3 Maintenance"
-	})
-"bhJ" = (
-/obj/structure/cable,
-/obj/structure/disposalpipe/segment{
-	dir = 4
-	},
-/turf/open/floor/wood,
-/area/crew_quarters/theatre)
-"bhK" = (
-/obj/structure/chair/wood/wings{
+"bgH" = (
+/obj/machinery/atmospherics/components/unary/vent_pump/high_volume/on/layer1{
+	icon_state = "vent_map_on-1";
 	dir = 1
 	},
-/obj/structure/cable,
-/obj/structure/disposalpipe/segment{
-	dir = 10
+/turf/open/floor/plasteel/ship/padded,
+/area/nsv/hanger{
+	name = "Hangar bay"
+	})
+"bgI" = (
+/obj/machinery/light,
+/obj/machinery/suit_storage_unit/pilot,
+/turf/open/floor/plasteel/ship/techfloor/alt,
+/area/nsv/hanger{
+	name = "Hangar bay"
+	})
+"bgJ" = (
+/obj/effect/turf_decal/stripes/line,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/turf/open/floor/plating,
+/area/nsv/hanger{
+	name = "Hangar bay"
+	})
+"bgK" = (
+/obj/effect/turf_decal/stripes/line{
+	dir = 4
 	},
-/turf/open/floor/wood,
-/area/crew_quarters/theatre)
-"bhL" = (
+/obj/machinery/atmospherics/components/unary/vent_pump/high_volume/on/layer1,
+/turf/open/floor/plating,
+/area/nsv/hanger/deck2/starboard{
+	name = "Launch tubes 1 and 2"
+	})
+"bgL" = (
+/obj/machinery/light,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/turf/open/floor/plasteel/ship/techfloor/alt,
+/area/nsv/hanger{
+	name = "Hangar bay"
+	})
+"bgM" = (
+/obj/machinery/atmospherics/components/unary/vent_pump/high_volume/on/layer1,
+/turf/open/floor/plating,
+/area/nsv/hanger{
+	name = "Hangar bay"
+	})
+"bgN" = (
+/obj/effect/turf_decal/bot,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
 	dir = 4
 	},
-/obj/structure/disposalpipe/segment,
-/turf/open/floor/wood,
-/area/crew_quarters/theatre)
-"bhM" = (
-/obj/structure/disposalpipe/segment{
-	dir = 5
-	},
-/turf/open/floor/wood,
-/area/crew_quarters/theatre)
-"bhN" = (
-/obj/item/radio/intercom{
-	pixel_y = -29
-	},
-/obj/structure/disposalpipe/segment{
-	dir = 4
-	},
-/turf/open/floor/wood,
-/area/crew_quarters/theatre)
-"bhO" = (
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /obj/structure/cable,
-/obj/structure/disposalpipe/segment{
-	dir = 4
-	},
-/turf/open/floor/wood,
-/area/crew_quarters/theatre)
-"bhP" = (
-/obj/structure/window/reinforced/fulltile/ship,
-/turf/open/floor/plating,
-/area/hallway/primary/port{
-	name = "Deck 3 hallway"
+/obj/machinery/atmospherics/pipe/manifold4w/supply/hidden/layer1,
+/turf/open/floor/plasteel/ship/padded,
+/area/nsv/hanger{
+	name = "Hangar bay"
 	})
-"bhQ" = (
+"bgO" = (
+/obj/machinery/atmospherics/components/unary/vent_pump/high_volume/on/layer1{
+	icon_state = "vent_map_on-1";
+	dir = 1
+	},
+/turf/open/floor/plating,
+/area/nsv/hanger{
+	name = "Hangar bay"
+	})
+"bgP" = (
+/obj/effect/turf_decal/bot,
+/obj/machinery/atmospherics/components/unary/vent_scrubber/on,
+/turf/open/floor/plating,
+/area/nsv/hanger{
+	name = "Hangar bay"
+	})
+"bgQ" = (
 /obj/effect/turf_decal/bot,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	icon_state = "pipe11-1";
 	dir = 4
 	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
-	dir = 4
-	},
 /obj/structure/cable,
-/obj/machinery/camera/autoname{
+/obj/machinery/atmospherics/pipe/manifold4w/scrubbers/hidden,
+/turf/open/floor/plasteel/ship/padded,
+/area/nsv/hanger{
+	name = "Hangar bay"
+	})
+"bgR" = (
+/obj/effect/turf_decal/bot,
+/obj/machinery/atmospherics/components/unary/vent_scrubber/on{
+	dir = 1
+	},
+/turf/open/floor/plating,
+/area/nsv/hanger{
+	name = "Hangar bay"
+	})
+"bgS" = (
+/obj/structure/extinguisher_cabinet{
+	pixel_y = -4
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/turf/closed/wall/ship,
+/area/nsv/hanger/deck2/port{
+	name = "Launch tubes 3 and 4"
+	})
+"bgT" = (
+/obj/structure/cable,
+/obj/machinery/light{
+	dir = 1
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/turf/open/floor/plasteel/ship/riveted,
+/area/nsv/hanger/deck2/port{
+	name = "Launch tubes 3 and 4"
+	})
+"bgU" = (
+/obj/machinery/door/airlock/ship{
+	name = "Launch control room 2";
+	req_one_access_txt = "69"
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/turf/open/floor/plasteel/ship,
+/area/nsv/hanger/deck2/port{
+	name = "Launch tubes 3 and 4"
+	})
+"bgV" = (
+/obj/structure/chair/office,
+/obj/machinery/atmospherics/components/unary/vent_pump/high_volume/on/layer1{
+	icon_state = "vent_map_on-1";
+	dir = 1
+	},
+/turf/open/floor/plasteel/ship/padded,
+/area/nsv/hanger/deck2/port{
+	name = "Launch tubes 3 and 4"
+	})
+"bgW" = (
+/obj/machinery/door/poddoor/ship{
+	id = "launchbay_access1";
+	name = "Launch tube access"
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/turf/open/floor/plating,
+/area/nsv/hanger/deck2/starboard{
+	name = "Launch tubes 1 and 2"
+	})
+"bgX" = (
+/obj/structure/cable,
+/obj/effect/turf_decal/stripes/line{
+	dir = 1
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/turf/open/floor/plasteel/ship/riveted,
+/area/nsv/hanger/deck2/starboard{
+	name = "Launch tubes 1 and 2"
+	})
+"bgY" = (
+/obj/machinery/door/poddoor/ship{
+	id = "launchbay_access";
+	name = "Launch tube access"
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/turf/open/floor/plasteel/ship/techfloor/alt,
+/area/nsv/hanger/deck2/starboard{
+	name = "Launch tubes 1 and 2"
+	})
+"bgZ" = (
+/obj/effect/turf_decal/stripes/line{
+	dir = 1
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/turf/open/floor/plasteel/ship/techfloor/alt,
+/area/nsv/hanger{
+	name = "Hangar bay"
+	})
+"bha" = (
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	icon_state = "pipe11-1";
+	dir = 5
+	},
+/turf/open/floor/plasteel/ship/padded,
+/area/nsv/hanger{
+	name = "Hangar bay"
+	})
+"bhb" = (
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	icon_state = "pipe11-1";
 	dir = 4
 	},
 /turf/open/floor/plasteel/ship/padded,
 /area/nsv/hanger{
 	name = "Hangar bay"
+	})
+"bhc" = (
+/obj/structure/cable,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
+/obj/machinery/atmospherics/pipe/manifold4w/supply/hidden/layer1,
+/turf/open/floor/plasteel/ship/padded,
+/area/nsv/hanger{
+	name = "Hangar bay"
+	})
+"bhd" = (
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	icon_state = "pipe11-1";
+	dir = 9
+	},
+/turf/open/floor/plasteel/ship/padded,
+/area/nsv/hanger{
+	name = "Hangar bay"
+	})
+"bhe" = (
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	icon_state = "pipe11-1";
+	dir = 6
+	},
+/turf/open/floor/plasteel/ship/padded,
+/area/nsv/hanger{
+	name = "Hangar bay"
+	})
+"bhf" = (
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
+/obj/machinery/atmospherics/pipe/manifold4w/supply/hidden/layer1,
+/turf/open/floor/plasteel/ship/padded,
+/area/nsv/hanger{
+	name = "Hangar bay"
+	})
+"bhg" = (
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	icon_state = "pipe11-1";
+	dir = 10
+	},
+/turf/open/floor/plasteel/ship/padded,
+/area/nsv/hanger{
+	name = "Hangar bay"
+	})
+"bhh" = (
+/obj/effect/turf_decal/stripes/line,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/turf/open/floor/plasteel/ship/techfloor/alt,
+/area/nsv/hanger{
+	name = "Hangar bay"
+	})
+"bhi" = (
+/obj/machinery/door/poddoor/ship{
+	id = "launchbay_access";
+	name = "Launch tube access"
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/turf/open/floor/plasteel/ship/techfloor/alt,
+/area/nsv/hanger/deck2/port{
+	name = "Launch tubes 3 and 4"
+	})
+"bhj" = (
+/obj/structure/cable,
+/obj/effect/turf_decal/stripes/line,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/turf/open/floor/plasteel/ship/riveted,
+/area/nsv/hanger/deck2/port{
+	name = "Launch tubes 3 and 4"
+	})
+"bhk" = (
+/obj/machinery/door/poddoor/ship{
+	id = "launchbay_access2";
+	name = "Launch tube access"
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/turf/open/floor/plating,
+/area/nsv/hanger/deck2/port{
+	name = "Launch tubes 3 and 4"
+	})
+"bhl" = (
+/obj/effect/turf_decal/stripes/line{
+	dir = 8
+	},
+/obj/machinery/atmospherics/components/unary/vent_pump/high_volume/on/layer1{
+	icon_state = "vent_map_on-1";
+	dir = 1
+	},
+/turf/open/floor/plating,
+/area/nsv/hanger/deck2/port{
+	name = "Launch tubes 3 and 4"
+	})
+"bhm" = (
+/obj/effect/turf_decal/stripes/line{
+	dir = 4
+	},
+/obj/machinery/atmospherics/components/unary/vent_pump/high_volume/on/layer1{
+	icon_state = "vent_map_on-1";
+	dir = 1
+	},
+/turf/open/floor/plating,
+/area/nsv/hanger/deck2/port{
+	name = "Launch tubes 3 and 4"
 	})
 "bme" = (
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on{
@@ -30907,16 +30836,52 @@
 	},
 /turf/open/floor/plating,
 /area/engine/engineering)
+"bzA" = (
+/obj/machinery/atmospherics/pipe/simple/scrubbers/visible{
+	dir = 10
+	},
+/turf/open/floor/plating,
+/area/engine/atmos)
 "bDE" = (
 /obj/structure/rack,
 /turf/open/floor/plating,
 /area/maintenance/aft{
 	name = "Deck 2 maintenance"
 	})
+"bEy" = (
+/obj/machinery/camera{
+	c_tag = "AI Chamber - Aft";
+	dir = 1;
+	network = list("aicore")
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
+	dir = 5
+	},
+/turf/open/floor/plasteel/ship/padded,
+/area/hallway/primary/central{
+	name = "Deck 2 primary hallway"
+	})
 "bFn" = (
 /obj/machinery/atmospherics/pipe/simple/purple/hidden,
 /turf/open/floor/plasteel,
 /area/engine/engineering)
+"bMO" = (
+/obj/machinery/atmospherics/pipe/simple/orange/hidden{
+	dir = 10;
+	icon_state = "pipe11-2"
+	},
+/turf/closed/wall/r_wall/ship,
+/area/engine/atmos)
+"bOs" = (
+/obj/machinery/atmospherics/pipe/simple/green/visible{
+	dir = 4
+	},
+/obj/machinery/atmospherics/components/binary/pump/on{
+	dir = 1;
+	name = "Airmix Outlet"
+	},
+/turf/open/floor/plating,
+/area/engine/atmos)
 "bOB" = (
 /obj/machinery/atmospherics/pipe/simple/orange/hidden,
 /obj/effect/turf_decal/stripes/line{
@@ -30949,6 +30914,14 @@
 /obj/item/reagent_containers/glass/bucket,
 /turf/open/floor/plasteel/dark,
 /area/hydroponics)
+"bUq" = (
+/obj/machinery/camera{
+	c_tag = "Atmospherics Tank - O2";
+	dir = 8
+	},
+/obj/machinery/atmospherics/miner/oxygen,
+/turf/open/floor/engine/o2,
+/area/engine/atmos)
 "bUV" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
 	dir = 4
@@ -30962,6 +30935,20 @@
 	},
 /turf/open/floor/plasteel/showroomfloor,
 /area/crew_quarters/bar)
+"bWw" = (
+/obj/machinery/atmospherics/pipe/manifold4w/scrubbers/visible,
+/turf/open/floor/plating,
+/area/engine/atmos)
+"bWG" = (
+/obj/structure/cable,
+/obj/structure/disposalpipe/segment,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
+	dir = 4
+	},
+/turf/open/floor/plasteel/ship/padded,
+/area/hallway/primary/central{
+	name = "Deck 2 primary hallway"
+	})
 "bXb" = (
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on{
 	dir = 4
@@ -30972,6 +30959,14 @@
 /obj/structure/lattice/catwalk,
 /turf/open/space/basic,
 /area/maintenance/ship_exterior)
+"ckO" = (
+/obj/machinery/atmospherics/components/unary/thermomachine/heater,
+/turf/open/floor/plating,
+/area/engine/atmos)
+"ckQ" = (
+/obj/machinery/portable_atmospherics/pump,
+/turf/open/floor/plating,
+/area/engine/atmos)
 "ckV" = (
 /obj/machinery/rnd/production/techfab/department/service,
 /turf/open/floor/plasteel/showroomfloor,
@@ -31025,6 +31020,7 @@
 /turf/open/floor/plasteel/dark,
 /area/engine/engineering)
 "cWm" = (
+/obj/machinery/air_sensor/atmos/carbon_tank,
 /obj/machinery/atmospherics/pipe/simple/purple/hidden{
 	icon_state = "pipe11-2";
 	dir = 8
@@ -31059,8 +31055,8 @@
 	},
 /obj/structure/cable,
 /obj/machinery/atmospherics/pipe/simple/orange/hidden{
-	icon_state = "pipe11-2";
-	dir = 5
+	dir = 10;
+	icon_state = "pipe11-2"
 	},
 /turf/open/floor/plating,
 /area/engine/engineering)
@@ -31100,6 +31096,18 @@
 /area/crew_quarters/abandoned_gambling_den{
 	name = "Observation lounge"
 	})
+"dxm" = (
+/obj/machinery/atmospherics/pipe/simple/yellow/visible{
+	dir = 6
+	},
+/turf/open/floor/plating,
+/area/engine/atmos)
+"dzT" = (
+/obj/machinery/atmospherics/pipe/manifold/general/visible{
+	dir = 1
+	},
+/turf/open/floor/plating,
+/area/engine/atmos)
 "dAF" = (
 /obj/effect/turf_decal/tile/bar,
 /obj/effect/turf_decal/tile/bar{
@@ -31305,6 +31313,12 @@
 /obj/structure/cable,
 /turf/open/floor/plating,
 /area/engine/engineering)
+"emt" = (
+/obj/machinery/atmospherics/pipe/manifold/scrubbers/visible{
+	dir = 8
+	},
+/turf/open/floor/plating,
+/area/engine/atmos)
 "emR" = (
 /obj/effect/spawner/lootdrop/grille_or_trash,
 /turf/open/floor/plating,
@@ -31381,6 +31395,10 @@
 /obj/machinery/power/apc/auto_name/north,
 /turf/open/floor/plating,
 /area/engine/engineering)
+"fbJ" = (
+/obj/machinery/atmospherics/components/unary/vent_scrubber/on,
+/turf/open/floor/plating,
+/area/engine/atmos)
 "ffN" = (
 /obj/structure/cable,
 /obj/machinery/atmospherics/components/unary/vent_pump/high_volume/on/layer1,
@@ -31500,6 +31518,10 @@
 	},
 /turf/open/floor/plating,
 /area/janitor)
+"fEz" = (
+/obj/machinery/portable_atmospherics/canister/air,
+/turf/open/floor/engine,
+/area/engine/atmos)
 "fEL" = (
 /obj/structure/window/reinforced/fulltile/ship,
 /turf/open/floor/plating,
@@ -31546,8 +31568,8 @@
 /area/quartermaster/warehouse)
 "gkE" = (
 /obj/machinery/atmospherics/pipe/simple/orange/hidden{
-	icon_state = "pipe11-2";
-	dir = 5
+	dir = 5;
+	icon_state = "pipe11-2"
 	},
 /turf/closed/wall/r_wall/ship,
 /area/engine/atmos)
@@ -31580,8 +31602,8 @@
 	},
 /obj/structure/cable,
 /obj/machinery/atmospherics/pipe/simple/orange/hidden{
-	icon_state = "pipe11-2";
-	dir = 5
+	dir = 10;
+	icon_state = "pipe11-2"
 	},
 /obj/machinery/atmospherics/pipe/simple/purple/hidden{
 	icon_state = "pipe11-2";
@@ -31604,6 +31626,12 @@
 /area/maintenance/aft{
 	name = "Deck 2 maintenance"
 	})
+"grL" = (
+/obj/machinery/atmospherics/components/unary/vent_pump/on/layer1{
+	dir = 1
+	},
+/turf/open/floor/plating,
+/area/engine/atmos)
 "gDc" = (
 /obj/structure/rack,
 /turf/open/floor/plating{
@@ -31630,9 +31658,9 @@
 	name = "Deck 1 maintenance"
 	})
 "gJh" = (
-/obj/machinery/atmospherics/pipe/manifold/green/visible{
+/obj/machinery/atmospherics/pipe/manifold/yellow{
 	icon_state = "manifold-2";
-	dir = 4
+	dir = 8
 	},
 /turf/closed/wall/r_wall/ship,
 /area/engine/atmos)
@@ -31711,6 +31739,19 @@
 /area/maintenance/aft{
 	name = "Deck 2 maintenance"
 	})
+"hFK" = (
+/obj/effect/turf_decal/tile/green{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/green{
+	dir = 8
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
+	dir = 4;
+	piping_layer = 3
+	},
+/turf/open/floor/plasteel/dark,
+/area/engine/atmos)
 "hGr" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 1
@@ -31743,6 +31784,13 @@
 /area/maintenance/aft/secondary{
 	name = "Deck 3 Maintenance"
 	})
+"hOG" = (
+/obj/machinery/atmospherics/components/binary/pump{
+	dir = 1;
+	name = "O2 to Pure"
+	},
+/turf/open/floor/plating,
+/area/engine/atmos)
 "hRM" = (
 /obj/structure/chair{
 	dir = 4
@@ -31894,6 +31942,13 @@
 /obj/effect/landmark/nuclear_waste_spawner,
 /turf/open/floor/carpet/ship,
 /area/library)
+"iMK" = (
+/obj/machinery/atmospherics/pipe/simple/green/visible,
+/obj/machinery/atmospherics/pipe/simple/yellow/visible{
+	dir = 4
+	},
+/turf/open/floor/plating,
+/area/engine/atmos)
 "iOh" = (
 /obj/effect/decal/cleanable/dirt,
 /obj/structure/cable,
@@ -32071,6 +32126,13 @@
 /obj/structure/closet/secure_closet/hydroponics,
 /turf/open/floor/plasteel/dark,
 /area/hydroponics)
+"jVd" = (
+/obj/machinery/atmospherics/components/binary/pump{
+	dir = 1;
+	name = "N2 to Pure"
+	},
+/turf/open/floor/plating,
+/area/engine/atmos)
 "jXn" = (
 /obj/structure/cable,
 /obj/effect/landmark/nuclear_waste_spawner,
@@ -32121,13 +32183,6 @@
 	},
 /turf/open/floor/wood,
 /area/crew_quarters/theatre)
-"kkj" = (
-/obj/machinery/atmospherics/pipe/manifold/orange/hidden{
-	icon_state = "manifold-2";
-	dir = 8
-	},
-/turf/closed/wall/r_wall/ship,
-/area/engine/atmos)
 "kkk" = (
 /obj/effect/turf_decal/tile/bar,
 /obj/effect/turf_decal/tile/bar{
@@ -32153,6 +32208,18 @@
 /obj/machinery/atmospherics/pipe/simple/orange/hidden,
 /turf/closed/wall/r_wall/ship,
 /area/engine/atmos)
+"ktV" = (
+/obj/machinery/atmospherics/pipe/simple/yellow/visible{
+	dir = 8
+	},
+/turf/open/floor/plating,
+/area/engine/atmos)
+"kut" = (
+/obj/machinery/atmospherics/pipe/manifold/yellow/visible{
+	dir = 8
+	},
+/turf/open/floor/plating,
+/area/engine/atmos)
 "kwT" = (
 /obj/machinery/power/magnetic_constrictor,
 /obj/effect/turf_decal/stripes/line,
@@ -32168,12 +32235,31 @@
 /obj/structure/window/reinforced/fulltile/ship,
 /turf/open/floor/plating,
 /area/engine/engineering)
+"kyc" = (
+/obj/machinery/light/small,
+/obj/machinery/portable_atmospherics/canister/air,
+/turf/open/floor/engine/air,
+/area/engine/atmos)
+"kAl" = (
+/obj/machinery/atmospherics/components/binary/valve/digital{
+	dir = 4;
+	name = "Ports to Port 1"
+	},
+/turf/open/floor/plating,
+/area/engine/atmos)
 "kDq" = (
 /obj/machinery/atmospherics/pipe/simple/purple/hidden{
 	icon_state = "pipe11-2";
 	dir = 5
 	},
 /turf/closed/wall/r_wall/ship,
+/area/engine/atmos)
+"kEf" = (
+/obj/machinery/light/small{
+	dir = 1
+	},
+/obj/machinery/portable_atmospherics/canister/nitrous_oxide,
+/turf/open/floor/engine/n2o,
 /area/engine/atmos)
 "kTv" = (
 /obj/structure/cable,
@@ -32190,6 +32276,13 @@
 /obj/structure/cable,
 /turf/open/floor/plasteel,
 /area/engine/engineering)
+"kWD" = (
+/obj/machinery/atmospherics/pipe/simple/scrubbers/visible{
+	dir = 4
+	},
+/obj/machinery/space_heater,
+/turf/open/floor/plating,
+/area/engine/atmos)
 "kWE" = (
 /obj/structure/railing{
 	icon_state = "railing0";
@@ -32267,6 +32360,17 @@
 	},
 /turf/open/floor/plating,
 /area/janitor)
+"lIV" = (
+/obj/machinery/atmospherics/pipe/simple/yellow/visible,
+/obj/effect/turf_decal/tile/blue{
+	dir = 8
+	},
+/obj/effect/turf_decal/tile/neutral,
+/obj/machinery/computer/atmos_control/tank/air_tank{
+	dir = 1
+	},
+/turf/open/floor/plasteel,
+/area/engine/atmos)
 "lJa" = (
 /turf/closed/wall/r_wall/ship,
 /area/tcommsat/computer)
@@ -32301,6 +32405,14 @@
 "mfp" = (
 /turf/open/floor/plating,
 /area/maintenance/disposal)
+"moj" = (
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
+	dir = 10
+	},
+/turf/open/floor/plasteel/ship/padded,
+/area/hallway/primary/central{
+	name = "Deck 2 primary hallway"
+	})
 "mrv" = (
 /obj/structure/janitorialcart,
 /turf/open/floor/plating,
@@ -32326,6 +32438,12 @@
 /area/maintenance/aft/secondary{
 	name = "Deck 3 Maintenance"
 	})
+"mNK" = (
+/obj/machinery/atmospherics/components/unary/vent_pump/siphon/atmos/mix_output{
+	dir = 1
+	},
+/turf/open/floor/engine/vacuum,
+/area/engine/atmos)
 "mSS" = (
 /obj/effect/turf_decal/tile/green{
 	dir = 4
@@ -32424,6 +32542,26 @@
 /area/maintenance/aft{
 	name = "Deck 2 maintenance"
 	})
+"nyN" = (
+/obj/machinery/atmospherics/pipe/simple/supply/visible{
+	dir = 9
+	},
+/turf/open/floor/plating,
+/area/engine/atmos)
+"nBa" = (
+/obj/machinery/atmospherics/pipe/simple/scrubbers/visible{
+	dir = 9
+	},
+/obj/machinery/space_heater,
+/turf/open/floor/plating,
+/area/engine/atmos)
+"nDK" = (
+/obj/machinery/atmospherics/pipe/simple/green/visible,
+/obj/machinery/atmospherics/pipe/simple/green/visible{
+	dir = 4
+	},
+/turf/open/floor/plating,
+/area/engine/atmos)
 "nFE" = (
 /obj/machinery/light/runway,
 /obj/structure/lattice/catwalk,
@@ -32458,6 +32596,11 @@
 /area/hallway/primary/port{
 	name = "Deck 3 hallway"
 	})
+"oju" = (
+/obj/machinery/light/small,
+/obj/machinery/portable_atmospherics/canister/oxygen,
+/turf/open/floor/engine/o2,
+/area/engine/atmos)
 "ojJ" = (
 /obj/machinery/atmospherics/pipe/simple/orange/hidden{
 	icon_state = "pipe11-2";
@@ -32488,6 +32631,23 @@
 /turf/open/floor/plating,
 /area/maintenance/department/bridge{
 	name = "Deck 1 maintenance"
+	})
+"oIX" = (
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	icon_state = "pipe11-1";
+	dir = 4
+	},
+/obj/structure/cable,
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
+	dir = 4
+	},
+/turf/open/floor/plasteel/ship/techfloor/alt,
+/area/hallway/primary/central{
+	name = "Deck 2 primary hallway"
 	})
 "oOV" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
@@ -32554,6 +32714,24 @@
 /area/maintenance/aft{
 	name = "Deck 2 maintenance"
 	})
+"poC" = (
+/obj/machinery/atmospherics/miner/toxins,
+/turf/open/floor/engine/plasma,
+/area/engine/atmos)
+"poV" = (
+/obj/machinery/atmospherics/pipe/simple/yellow/visible,
+/obj/machinery/atmospherics/components/binary/pump/on{
+	dir = 4;
+	name = "Airmix to Distro"
+	},
+/turf/open/floor/plating,
+/area/engine/atmos)
+"ptR" = (
+/obj/machinery/atmospherics/pipe/manifold/yellow/visible{
+	dir = 1
+	},
+/turf/open/floor/plating,
+/area/engine/atmos)
 "puU" = (
 /obj/machinery/atmospherics/pipe/simple/purple/hidden,
 /turf/closed/wall/r_wall/ship,
@@ -32580,12 +32758,6 @@
 /obj/structure/cable,
 /turf/open/floor/plasteel/dark,
 /area/tcommsat/server)
-"pzZ" = (
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
-/turf/open/floor/plasteel/ship/padded,
-/area/hallway/primary/port{
-	name = "Deck 3 hallway"
-	})
 "pBw" = (
 /turf/closed/wall/ship,
 /area/storage/primary)
@@ -32636,6 +32808,12 @@
 /area/hallway/primary/port{
 	name = "Deck 3 hallway"
 	})
+"pNv" = (
+/obj/machinery/atmospherics/pipe/manifold/yellow/visible{
+	dir = 4
+	},
+/turf/open/floor/plating,
+/area/engine/atmos)
 "pPV" = (
 /obj/effect/turf_decal/tile/green{
 	dir = 4
@@ -32655,6 +32833,32 @@
 /obj/structure/cable,
 /turf/open/floor/plasteel/grimy,
 /area/tcommsat/computer)
+"pUD" = (
+/obj/machinery/computer/atmos_control/tank/oxygen_tank{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/blue,
+/obj/effect/turf_decal/tile/blue{
+	dir = 8
+	},
+/obj/machinery/atmospherics/pipe/simple/yellow/visible{
+	dir = 4
+	},
+/turf/open/floor/plasteel,
+/area/engine/atmos)
+"pWH" = (
+/obj/machinery/atmospherics/pipe/simple/scrubbers/visible{
+	dir = 5
+	},
+/obj/machinery/portable_atmospherics/scrubber,
+/turf/open/floor/plating,
+/area/engine/atmos)
+"pYc" = (
+/obj/machinery/atmospherics/components/unary/outlet_injector/atmos/mix_input{
+	dir = 1
+	},
+/turf/open/floor/engine/vacuum,
+/area/engine/atmos)
 "pZG" = (
 /obj/effect/decal/cleanable/dirt,
 /obj/machinery/atmospherics/components/unary/vent_pump/high_volume/on/layer1{
@@ -32676,6 +32880,13 @@
 /obj/machinery/rnd/production/techfab/department/service,
 /turf/open/floor/plasteel/dark,
 /area/hydroponics)
+"qiK" = (
+/obj/machinery/atmospherics/pipe/manifold/yellow{
+	icon_state = "manifold-2";
+	dir = 8
+	},
+/turf/open/floor/plating,
+/area/engine/atmos)
 "qlH" = (
 /obj/structure/disposalpipe/segment,
 /obj/machinery/light_switch{
@@ -32737,6 +32948,13 @@
 /obj/machinery/light/runway/delay2,
 /turf/open/space/basic,
 /area/maintenance/ship_exterior)
+"rlX" = (
+/obj/machinery/light/small{
+	dir = 1
+	},
+/obj/machinery/portable_atmospherics/canister/toxins,
+/turf/open/floor/engine/plasma,
+/area/engine/atmos)
 "rmM" = (
 /obj/machinery/vending/cigarette{
 	name = "Adama's Finest Cigars";
@@ -32748,6 +32966,13 @@
 /area/crew_quarters/abandoned_gambling_den{
 	name = "Observation lounge"
 	})
+"rwi" = (
+/obj/machinery/atmospherics/components/binary/pump{
+	dir = 1;
+	name = "Air to Pure"
+	},
+/turf/open/floor/plating,
+/area/engine/atmos)
 "rwX" = (
 /obj/structure/railing{
 	icon_state = "railing0";
@@ -32774,15 +32999,6 @@
 /obj/structure/cable,
 /turf/open/floor/circuit,
 /area/ai_monitored/turret_protected/ai)
-"rBS" = (
-/obj/machinery/atmospherics/components/unary/vent_pump/high_volume/on/layer1{
-	icon_state = "vent_map_on-1";
-	dir = 1
-	},
-/turf/open/floor/plasteel/ship/padded,
-/area/hallway/primary/port{
-	name = "Deck 3 hallway"
-	})
 "rHs" = (
 /obj/structure/closet/l3closet/janitor,
 /obj/machinery/airalarm{
@@ -32865,6 +33081,19 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
 /turf/open/floor/plasteel/showroomfloor,
 /area/crew_quarters/bar)
+"swD" = (
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
+	dir = 4
+	},
+/obj/structure/cable,
+/obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1{
+	icon_state = "manifold-1";
+	dir = 1
+	},
+/turf/open/floor/plasteel/ship/techfloor/alt,
+/area/hallway/primary/central{
+	name = "Deck 2 primary hallway"
+	})
 "syn" = (
 /obj/machinery/light/runway/delay3,
 /obj/structure/lattice/catwalk,
@@ -32872,6 +33101,10 @@
 /area/crew_quarters/abandoned_gambling_den{
 	name = "Observation lounge"
 	})
+"sBf" = (
+/obj/machinery/atmospherics/pipe/manifold/general/visible,
+/turf/open/floor/plating,
+/area/engine/atmos)
 "sBz" = (
 /obj/structure/window/reinforced/fulltile/ship,
 /obj/machinery/atmospherics/pipe/simple/yellow/hidden{
@@ -32921,6 +33154,13 @@
 /area/crew_quarters/abandoned_gambling_den{
 	name = "Observation lounge"
 	})
+"sIm" = (
+/obj/machinery/atmospherics/components/binary/pump{
+	dir = 2;
+	name = "Pure to Mix"
+	},
+/turf/open/floor/plating,
+/area/engine/atmos)
 "sQA" = (
 /obj/effect/turf_decal/tile/bar,
 /obj/effect/turf_decal/tile/bar{
@@ -33001,6 +33241,13 @@
 /area/maintenance/aft{
 	name = "Deck 2 maintenance"
 	})
+"tsy" = (
+/obj/machinery/atmospherics/components/binary/pump/on{
+	dir = 8;
+	name = "Waste to filter"
+	},
+/turf/open/floor/plating,
+/area/engine/atmos)
 "ttS" = (
 /obj/effect/turf_decal/stripes/corner{
 	dir = 8
@@ -33010,8 +33257,8 @@
 	},
 /obj/structure/cable,
 /obj/machinery/atmospherics/pipe/manifold/orange/hidden{
-	icon_state = "manifold-2";
-	dir = 8
+	dir = 4;
+	icon_state = "manifold-2"
 	},
 /turf/open/floor/plating,
 /area/engine/engineering)
@@ -33026,6 +33273,10 @@
 	dir = 5
 	},
 /area/crew_quarters/bar)
+"tBh" = (
+/obj/machinery/portable_atmospherics/canister/oxygen,
+/turf/open/floor/engine,
+/area/engine/atmos)
 "tFt" = (
 /obj/machinery/atmospherics/pipe/simple/purple/hidden,
 /turf/open/floor/plating,
@@ -33068,6 +33319,11 @@
 /obj/effect/turf_decal/tile/green,
 /turf/open/floor/plasteel/dark,
 /area/hydroponics)
+"tPG" = (
+/obj/structure/disposalpipe/segment,
+/obj/machinery/atmospherics/pipe/manifold/scrubbers/visible,
+/turf/open/floor/plating,
+/area/engine/atmos)
 "tQF" = (
 /obj/structure/window/reinforced/fulltile/ship,
 /obj/machinery/door/poddoor/preopen{
@@ -33105,6 +33361,10 @@
 /obj/structure/closet/secure_closet/hydroponics,
 /turf/open/floor/plasteel/dark,
 /area/hydroponics)
+"tWa" = (
+/obj/machinery/portable_atmospherics/pump,
+/turf/open/floor/engine,
+/area/engine/atmos)
 "uiQ" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
 /obj/effect/landmark/nuclear_waste_spawner,
@@ -33158,12 +33418,13 @@
 /obj/structure/cable,
 /turf/open/floor/plating,
 /area/engine/engineering)
-"uIy" = (
-/obj/machinery/atmospherics/pipe/simple/orange/hidden{
-	icon_state = "pipe11-2";
-	dir = 10
+"uND" = (
+/obj/machinery/atmospherics/pipe/manifold/green/visible{
+	icon_state = "manifold-2";
+	dir = 4
 	},
-/turf/closed/wall/r_wall/ship,
+/obj/structure/window/reinforced/fulltile/ship,
+/turf/open/floor/plating,
 /area/engine/atmos)
 "uOX" = (
 /obj/machinery/conveyor{
@@ -33185,6 +33446,13 @@
 	},
 /turf/open/floor/engine,
 /area/engine/engineering)
+"uSi" = (
+/obj/effect/landmark/nuclear_waste_spawner/strong,
+/obj/machinery/atmospherics/pipe/simple/yellow/visible{
+	dir = 4
+	},
+/turf/open/floor/plating,
+/area/engine/atmos)
 "uWF" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 4
@@ -33197,7 +33465,15 @@
 /area/engine/engineering)
 "uYg" = (
 /obj/effect/landmark/nuclear_waste_spawner,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/visible,
 /turf/open/floor/plating,
+/area/engine/atmos)
+"uZR" = (
+/obj/machinery/light/small{
+	dir = 1
+	},
+/obj/machinery/portable_atmospherics/canister/nitrous_oxide,
+/turf/open/floor/engine,
 /area/engine/atmos)
 "vew" = (
 /obj/structure/sign/warning/radiation,
@@ -33247,6 +33523,12 @@
 	},
 /turf/open/floor/plating,
 /area/engine/engineering)
+"vIp" = (
+/obj/machinery/atmospherics/pipe/manifold/supply/visible{
+	dir = 8
+	},
+/turf/open/floor/plating,
+/area/engine/atmos)
 "vKV" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
@@ -33259,6 +33541,10 @@
 /area/maintenance/aft{
 	name = "Deck 2 maintenance"
 	})
+"vMo" = (
+/obj/machinery/atmospherics/pipe/manifold4w/yellow/visible,
+/turf/open/floor/plating,
+/area/engine/atmos)
 "vOO" = (
 /turf/open/floor/plating,
 /area/janitor)
@@ -33407,6 +33693,13 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/disposal)
+"wPG" = (
+/obj/machinery/camera{
+	c_tag = "Atmospherics - Distro Loop";
+	dir = 8
+	},
+/turf/open/floor/engine/vacuum,
+/area/engine/atmos)
 "wSV" = (
 /obj/structure/window/reinforced/fulltile/ship,
 /turf/open/floor/plasteel/ship/techfloor/alt,
@@ -54044,7 +54337,7 @@ tyN
 aag
 adi
 aaZ
-abk
+abi
 aOF
 abk
 aaZ
@@ -54066,7 +54359,7 @@ aVR
 aTV
 aSx
 axT
-abk
+abi
 aaZ
 adi
 aag
@@ -54558,7 +54851,7 @@ tyN
 aag
 adi
 aaZ
-adI
+abk
 aOF
 abk
 aaZ
@@ -54580,7 +54873,7 @@ aUa
 aTV
 aSx
 axT
-adI
+abk
 aaZ
 adi
 aag
@@ -65094,8 +65387,8 @@ tyN
 aag
 adi
 aaZ
+abi
 abk
-bhm
 abk
 abk
 abk
@@ -65117,8 +65410,8 @@ abk
 abk
 abk
 abk
-bhk
 abk
+abi
 aaZ
 adi
 aag
@@ -74351,13 +74644,13 @@ aVr
 adi
 aba
 aQY
-aan
+azc
 abY
 abY
 abY
 abY
 abY
-bhG
+bdx
 aGM
 abk
 abk
@@ -74608,7 +74901,7 @@ aVr
 adi
 aac
 aho
-asT
+azd
 akp
 akp
 akp
@@ -75121,23 +75414,23 @@ tyN
 aag
 adi
 aaZ
-bhP
-atV
-bhP
+avD
+aBR
+avD
 aaZ
 aaZ
 aaZ
 aaZ
 aaZ
-bgy
+bdC
 aaZ
 aaZ
 aaZ
 aaZ
 aaZ
-bhP
+avD
 cFo
-bhP
+avD
 aaZ
 adi
 aag
@@ -75379,15 +75672,15 @@ aag
 adi
 aoa
 amq
-bbh
+aFI
 amq
 aoa
 aYJ
 aaa
 aba
-bgG
+bdy
 auZ
-bhv
+bfF
 aba
 aaa
 aYJ
@@ -75636,15 +75929,15 @@ aag
 adi
 aoa
 amq
-bbh
+aFI
 amq
 aoa
 aYJ
 aaa
 aba
-bgG
+bdy
 auZ
-bhv
+bfF
 aba
 aaa
 aYJ
@@ -75893,7 +76186,7 @@ aag
 adi
 abX
 adi
-bhH
+aGd
 amy
 aoa
 aYJ
@@ -76150,15 +76443,15 @@ aag
 adi
 aoa
 amq
-bhH
+aGd
 amq
 aoa
 aYJ
 aaa
 aba
-bgG
+bdy
 auZ
-bhv
+bfF
 aba
 aaa
 aYJ
@@ -76407,15 +76700,15 @@ aag
 adi
 aoa
 amq
-bhH
+aGd
 amq
 aoa
 aYJ
 aaa
 aba
-bgG
+bdy
 auZ
-bhv
+bfF
 aba
 aaa
 aYJ
@@ -76664,14 +76957,14 @@ aag
 aaj
 mej
 mej
-bhI
+aHe
 mej
 mej
 mej
 aab
 aaZ
 aaZ
-ayH
+bdD
 aaZ
 aaZ
 aab
@@ -76921,7 +77214,7 @@ aag
 adi
 mej
 nMJ
-bhJ
+aIA
 gdC
 jtk
 tQF
@@ -77178,14 +77471,14 @@ aag
 adi
 mej
 ftm
-bhJ
+aIA
 bXb
 onM
 tQF
 aaa
 aba
 xgD
-bhE
+bdE
 aTL
 aba
 aaa
@@ -77435,9 +77728,9 @@ aag
 adi
 mej
 mSW
-bhK
-bhL
-bhM
+aJe
+aKP
+aOo
 tQF
 aaa
 aba
@@ -77694,16 +77987,16 @@ mej
 oPw
 bbf
 bRc
-bhN
-mej
-aaZ
-axd
-aaZ
-bgs
-aaZ
-aaZ
-aaZ
-aaZ
+aUD
+aJm
+aJm
+bdq
+aJm
+bdI
+aJm
+aJm
+aJm
+aJm
 iyj
 iCH
 iCH
@@ -77951,16 +78244,16 @@ mej
 bbd
 bbf
 bbg
-bhO
-bbi
-bhw
-bbj
-bbj
-bhF
-abk
-abk
-bhB
-aaZ
+aXf
+axd
+bbU
+bdu
+bdu
+bdJ
+aNC
+aNC
+bfK
+aJm
 rHs
 vOO
 vOO
@@ -78209,15 +78502,15 @@ bbe
 kkf
 onM
 rLv
-mej
-bhx
-akn
-aUL
-bgv
-pzZ
-rBS
-bhA
-aaZ
+aJm
+bdn
+bdz
+bdF
+bdK
+bfJ
+bgH
+bgI
+aJm
 xcs
 vOO
 vOO
@@ -78466,15 +78759,15 @@ mej
 mej
 mej
 mej
-mej
-bhy
-auO
-ayI
-bgu
-bgK
-auO
-bhz
-aaZ
+aJm
+bdo
+baW
+bdG
+bfG
+bgG
+baW
+bdp
+aJm
 aoa
 aoa
 aoa
@@ -78722,17 +79015,17 @@ adi
 aoa
 tHQ
 emR
-bhD
-aaZ
-bhz
-auO
-auO
-bgE
-auO
-auO
-bhz
-aaZ
-bhD
+aXD
+aJm
+bdp
+baW
+baW
+bfI
+baW
+baW
+bdp
+aJm
+aXD
 emR
 xFn
 aoa
@@ -78977,21 +79270,21 @@ aag
 aag
 adi
 aoa
-aad
-bgg
-bgg
-aad
-bdo
-aKH
-aKH
-ayK
-aKH
-aKH
-bfH
-aad
-bgg
-bgg
-aad
+aJm
+amq
+amq
+aJm
+bdr
+aNC
+aNC
+bdL
+aNC
+aNC
+bfK
+aJm
+amq
+amq
+aJm
 aoa
 adi
 aag
@@ -79234,21 +79527,21 @@ bXk
 aag
 adi
 adi
-aad
-aad
-aad
-aad
-aad
-aad
-axM
-aNF
-axM
-aad
-aad
-aad
-aad
-aad
-aad
+aJm
+aJm
+aJm
+aJm
+aJm
+aJm
+bdA
+bdM
+bdA
+aJm
+aJm
+aJm
+aJm
+aJm
+aJm
 adi
 adi
 aag
@@ -79466,58 +79759,58 @@ aaa
 aaa
 aaa
 bXk
-bek
-bfT
-bfN
-bfP
-bfR
-pgs
-pgs
-pgs
-pgs
-pgs
-pgs
-pgs
-pgs
-bek
-bfT
-bfN
-bfP
-bfR
+aad
+aan
 aay
+adB
+adU
+pgs
+pgs
+pgs
+pgs
+pgs
+pgs
+pgs
+pgs
+aad
+aan
 aay
-aay
-aay
-aay
-aay
-bdQ
-bhi
-bhh
+adB
+adU
+adV
+adV
+adV
+adV
+adV
+adV
+axM
+aJx
 aMi
-aXD
-bdB
-bdB
-bdB
-bhQ
-bdB
-bdB
-bdB
-bgF
-aMi
-bgJ
-bfM
-bfX
-bgc
-bgc
-bgc
-bgc
-bgc
-bgc
-bfR
-bfP
+baW
+bbV
+bds
+bds
+bds
+bdN
+bds
+bds
+bds
 bfN
-bfT
-bek
+baW
+bfQ
+bfU
+bfY
+bgc
+bgc
+bgc
+bgc
+bgc
+bgc
+adU
+adB
+aay
+aan
+aad
 pgs
 pgs
 pgs
@@ -79526,11 +79819,11 @@ pgs
 pgs
 pgs
 pgs
-bfR
-bfP
-bfN
-bfT
-bek
+adU
+adB
+aay
+aan
+aad
 bXk
 aaa
 aaa
@@ -79741,35 +80034,35 @@ tyN
 tyN
 tyN
 tyN
-aBR
-bdq
-bdu
-bdA
-bdq
-bdM
-bfF
-bfK
-aKO
-aMi
-aXD
-bdB
-bgg
-bgg
-bgw
-bgg
-bgg
-bdB
-bgF
-aMi
-bgL
-bfV
-bfY
-bgd
-bgj
-bgO
-bgj
-bgj
+aeO
+aso
+asX
+ato
+bfT
+bgW
+bgX
+bgY
+bgZ
 bha
+bbV
+bds
+aMg
+bgM
+bgN
+bgO
+aMg
+bds
+bfN
+bhe
+bhh
+bhi
+bhj
+bhk
+bhl
+bgn
+bgh
+bgh
+bgz
 tyN
 tyN
 tyN
@@ -79998,35 +80291,35 @@ tyN
 tyN
 tyN
 tyN
+aiR
+asp
+asp
+atp
+atp
+atV
+ayH
 aKn
-bdr
-bdr
-bdD
-bdD
-bdN
-bfF
-bfK
-aKO
-aMi
-aXD
-bdB
-bgg
-bgt
-bgw
-bgg
-bgg
-bgC
-bgF
-aMi
-bgL
-bfV
-bfY
-bge
-bgk
-bgk
-bgV
-bgV
+aML
 bhb
+bbV
+bds
+aMg
+bdB
+bdO
+aMg
+aMg
+bfL
+bfN
+bhb
+bfR
+bfV
+bfZ
+bge
+bgi
+bgi
+bgu
+bgu
+bgA
 tyN
 tyN
 tyN
@@ -80255,35 +80548,35 @@ tyN
 tyN
 tyN
 tyN
-aKP
+anL
+asz
+asz
+asz
+asz
+atS
+ayH
+aKn
+aML
+bhb
+bbV
 bds
 bds
 bds
+bdO
 bds
-bdM
-bfF
-bfK
-aKO
-aMi
-aXD
-bdB
-bdB
-bdB
-bgw
-bdB
-bdB
-bdB
-bgF
-aMi
-bgL
+bds
+bds
+bfN
+bhb
+bfR
 bfV
-bfY
+bfZ
 bgd
-bgl
-bgl
-bgl
-bgl
-bhc
+bgj
+bgj
+bgj
+bgj
+bgB
 tyN
 tyN
 tyN
@@ -80494,58 +80787,58 @@ aaa
 aaa
 aaa
 bXk
-bek
-bfT
-bfN
-bfP
-bfR
-pgs
-pgs
-pgs
-pgs
-pgs
-pgs
-pgs
-pgs
-bek
-bfT
-bfN
-bfP
-bfR
+aad
+aan
 aay
+adB
+adU
+pgs
+pgs
+pgs
+pgs
+pgs
+pgs
+pgs
+pgs
+aad
+aan
 aay
-bdv
-bdv
-aay
-aay
-bfG
-bfJ
+adB
+adU
+adV
+adV
+asZ
+asZ
+adV
+adV
+bgg
+aKu
+aNb
+bhb
+bbV
+bds
 aMg
-aMi
-aXD
-bdB
-bgg
-bgg
-bgh
-bgg
-bgg
-bdB
-bgF
-aMi
-bgM
-bfM
-bfZ
-bgc
-bgc
-bgP
-bgP
-bgc
-bgc
-bfR
-bfP
+aMg
+bdP
+aMg
+aMg
+bds
 bfN
-bfT
-bek
+bhb
+bfS
+bfU
+bga
+bgc
+bgc
+bgo
+bgo
+bgc
+bgc
+adU
+adB
+aay
+aan
+aad
 pgs
 pgs
 pgs
@@ -80554,11 +80847,11 @@ pgs
 pgs
 pgs
 pgs
-bfR
-bfP
-bfN
-bfT
-bek
+adU
+adB
+aay
+aan
+aad
 bXk
 aaa
 aaa
@@ -80769,35 +81062,35 @@ bXk
 bXk
 bXk
 bXk
-bbU
-bdt
-bdw
-bdJ
-bdE
-aay
-bfG
-bfL
+aoQ
+asT
+atc
+atw
+atN
+adV
+ayI
 aKH
-aMi
-aXD
+aNC
+bhb
+bbV
+bds
+aMg
 bdB
-bgg
-bgt
-bgw
-bgg
-bgg
-bgD
-bgF
-aMi
-aKH
+bdO
+aMg
+aMg
+bfM
+bfN
+bhb
+aNC
 bfW
-bfZ
+bga
 bgc
-bgm
-bgQ
-bgW
-bgZ
-bhd
+bgk
+bgp
+bgv
+bgy
+bgC
 bXk
 bXk
 bXk
@@ -81026,35 +81319,35 @@ tyN
 tyN
 tyN
 tyN
-bbU
-bdt
-bdx
-bdF
-bdK
-bdO
-bfI
-bhi
-aKN
-aMi
-aXD
-bdB
-bdB
-bdB
-bgx
-bdB
-bdB
-bdB
-bgF
-aMi
-bgN
-bhj
-bga
+aoQ
+asT
+ate
+aty
+atP
+atX
+ayK
+aNF
+bdQ
+bhc
+bfX
+bgb
+bgb
+bgb
 bgf
-bgn
-bgR
-bgX
-bgZ
-bhd
+bgl
+bgl
+bgl
+bgJ
+bhf
+bgL
+bgS
+bgT
+bgU
+bgq
+bgV
+bgw
+bgy
+bgC
 tyN
 tyN
 tyN
@@ -81283,35 +81576,35 @@ bXk
 bXk
 bXk
 bXk
-bbU
-bdt
-bdy
-bdG
-bdL
-bdP
-bfG
-bfL
+aoQ
+asT
+atl
+atA
+atR
+atY
+ayI
 aKH
-aMi
-aXD
-bdB
-bgg
-bgg
-bgw
-bgg
-bgg
-bdB
-bgF
-aMi
-aKH
+aNC
+bhb
+bbV
+bds
+aMg
+aMg
+bdO
+aMg
+aMg
+bds
+bfN
+bhb
+aNC
 bfW
-bfZ
-bgi
-bgo
-bgS
-bgY
-bgZ
-bhd
+bga
+bgc
+bgm
+bgr
+bgx
+bgy
+bgC
 bXk
 bXk
 bXk
@@ -81522,58 +81815,58 @@ aaa
 aaa
 aaa
 bXk
-bek
-bfT
-bfN
-bfP
-bfR
-pgs
-pgs
-pgs
-pgs
-pgs
-pgs
-pgs
-pgs
-bek
-bfT
-bfN
-bfP
-bfR
+aad
+aan
 aay
+adB
+adU
+pgs
+pgs
+pgs
+pgs
+pgs
+pgs
+pgs
+pgs
+aad
+aan
 aay
-bdv
-bdv
-aay
-aay
-bfG
-bfJ
+adB
+adU
+adV
+adV
+asZ
+asZ
+adV
+adV
+ayI
+aKu
+aNb
+bhb
+bbV
+bds
 aMg
-aMi
-aXD
 bdB
-bgg
-bgt
-bgh
-bgg
-bgg
-bgC
-bgF
-aMi
-bgM
-bfM
-bfZ
-bgc
-bgc
-bgP
-bgP
-bgc
-bgc
-bfR
-bfP
+bdP
+aMg
+aMg
+bfL
 bfN
-bfT
-bek
+bhb
+bfS
+bfU
+bga
+bgc
+bgc
+bgo
+bgo
+bgc
+bgc
+adU
+adB
+aay
+aan
+aad
 pgs
 pgs
 pgs
@@ -81582,11 +81875,11 @@ pgs
 pgs
 pgs
 pgs
-bfR
-bfP
-bfN
-bfT
-bek
+adU
+adB
+aay
+aan
+aad
 bXk
 aaa
 aaa
@@ -81797,35 +82090,35 @@ tyN
 tyN
 tyN
 tyN
+arQ
+aso
+aso
+atD
+aso
+atS
+ayH
+aKn
+aML
+bhb
 bbV
-bdq
-bdq
-bdI
-bdq
-bdM
-bfF
-bfK
-aKO
-aMi
-aXD
-bdB
-bdB
-bdB
-bgw
-bdB
-bdB
-bdB
-bgF
-aMi
-bgL
+bds
+bds
+bds
+bdO
+bds
+bds
+bds
+bfN
+bhb
+bfR
 bfV
-bfY
+bfZ
 bgd
-bgj
-bgT
-bgj
-bgj
-bhe
+bgh
+bgs
+bgh
+bgh
+bgD
 tyN
 tyN
 tyN
@@ -82054,35 +82347,35 @@ tyN
 tyN
 tyN
 tyN
-bdn
-bdr
-bdr
-bdD
-bdD
-bdN
-bfF
-bfK
-aKO
-aMi
-aXD
-bdB
-bgg
-bgg
-bgw
-bgg
-bgg
-bdB
-bgF
-aMi
-bgL
+arR
+asp
+asp
+atp
+atp
+atV
+ayH
+aKn
+aML
+bhb
+bbV
+bds
+aMg
+aMg
+bdO
+aMg
+aMg
+bds
+bfN
+bhb
+bfR
 bfV
-bfY
+bfZ
 bge
-bgk
-bgk
-bgV
-bgV
-bhf
+bgi
+bgi
+bgu
+bgu
+bgE
 tyN
 tyN
 tyN
@@ -82311,35 +82604,35 @@ tyN
 tyN
 tyN
 tyN
-bdp
+arV
+asz
+atm
+asz
+bgK
+bgW
+bgX
+bgY
+bgZ
+bhd
+bbV
 bds
-bdz
+aMg
+aMg
+bdO
+aMg
+aMg
 bds
-bds
-bdM
-bfF
-bfK
-aKO
-aMi
-aXD
-bdB
-bgg
-bgg
-bgw
-bgg
-bgg
-bdB
-bgF
-aMi
-bgL
-bfV
-bfY
-bgd
-bgl
-bgU
-bgl
-bgl
+bfN
 bhg
+bhh
+bhi
+bhj
+bhk
+bhm
+bgt
+bgj
+bgj
+bgF
 tyN
 tyN
 tyN
@@ -82550,71 +82843,71 @@ aaa
 aaa
 aaa
 bXk
-bek
-bfT
-bfN
-bfP
-bfR
-pgs
-pgs
-pgs
-pgs
-pgs
-pgs
-pgs
-pgs
-bek
-bfT
-bfN
-bfP
-bfR
-aay
-aay
-aay
-aay
-aay
-aay
-bdQ
-bfJ
 aad
-aML
-aXD
-bdB
-bdB
-bdB
-bgw
-bdB
-bdB
-bdB
-bgF
-bgI
+aan
+aay
+adB
+adU
+pgs
+pgs
+pgs
+pgs
+pgs
+pgs
+pgs
+pgs
 aad
-bfM
-bfX
-bgc
-bgc
-bgc
-bgc
-bgc
-bgc
-bfR
-bfP
+aan
+aay
+adB
+adU
+adV
+adV
+adV
+adV
+adV
+adV
+axM
+aKu
+aJm
+bbh
+bbV
+bds
+bds
+bgP
+bgQ
+bgR
+bds
+bds
 bfN
-bfT
-bek
-pgs
-pgs
-pgs
-pgs
-pgs
-pgs
-pgs
-pgs
-bfR
 bfP
-bfN
-bfT
-bek
+aJm
+bfU
+bfY
+bgc
+bgc
+bgc
+bgc
+bgc
+bgc
+adU
+adB
+aay
+aan
+aad
+pgs
+pgs
+pgs
+pgs
+pgs
+pgs
+pgs
+pgs
+adU
+adB
+aay
+aan
+aad
 bXk
 aaa
 aaa
@@ -82832,20 +83125,20 @@ bXk
 bXk
 aag
 adi
-aKu
-aad
-bhC
+aKN
+aJm
+bbi
+bcS
+bdt
+bdv
+bdt
+bek
+bdt
+bdv
+bdt
+bfO
 baW
-bdC
-bgq
-bdC
-bgz
-bdC
-bgq
-bdC
-bgH
-aMi
-aad
+aJm
 adi
 adi
 aag
@@ -83089,20 +83382,20 @@ tyN
 tyN
 aag
 aag
-aKu
-aad
-aNC
-aNC
-aNC
-bgr
-aNC
-bgA
-aNC
-bgB
-aNC
-aNC
-aNC
-aad
+aKN
+aJm
+bbj
+aaM
+aaM
+bdw
+aaM
+beu
+aaM
+bfH
+aaM
+aaM
+bbj
+aJm
 adi
 aag
 aag
@@ -83346,7 +83639,7 @@ tyN
 tyN
 tyN
 aag
-bgb
+aKO
 adi
 adi
 aaM
@@ -83360,7 +83653,7 @@ baM
 aaM
 adi
 adi
-bgb
+aKO
 aag
 tyN
 tyN
@@ -112404,7 +112697,7 @@ adv
 adv
 adv
 aMS
-aHe
+aEZ
 aFt
 azE
 aLW
@@ -114972,7 +115265,7 @@ atH
 aie
 atZ
 avC
-avC
+aub
 aMS
 aGU
 aDb
@@ -115216,19 +115509,19 @@ aPy
 aRx
 adp
 ady
-adU
-aeO
-adt
-amN
+adw
+aeR
+aif
+anK
 apZ
-aUQ
-aUQ
-aUQ
+kut
+jVd
+asm
 atu
-atI
-adt
-aub
-avD
+atJ
+aif
+auc
+avE
 aIz
 aMS
 aGU
@@ -115472,21 +115765,21 @@ azE
 aPy
 aRx
 adp
-cWm
-adw
-aeR
-aif
-anK
-arQ
-asm
+meI
+puU
+puU
+kDq
+aqz
+aUQ
+asW
 asV
-asm
-atw
-atJ
+aUQ
+asW
+bbC
 aif
-auc
-avE
-avC
+adp
+adp
+adp
 aMS
 aGU
 aDb
@@ -115729,21 +116022,21 @@ fui
 cEv
 aRW
 gkE
-meI
-puU
-puU
-kDq
-aqz
-aUQ
-aUQ
+aeV
+poC
+aeS
+uND
+aot
+arS
 asW
 aUQ
 aUQ
-bbC
-adp
-adp
-adp
-adp
+pUD
+atL
+aie
+aud
+avF
+aue
 aMS
 aGP
 aNo
@@ -115986,21 +116279,21 @@ azE
 aQe
 aRt
 ojJ
+rlX
 adA
-adA
-aeS
+afh
 gJh
-aot
-arR
-aUQ
-asW
-aUQ
+aou
+arU
+vMo
+hOG
+qiK
 atx
-atL
-aie
-aud
-avF
-avF
+atM
+aif
+auf
+bUq
+oju
 aMS
 aGU
 aNn
@@ -116242,22 +116535,22 @@ aLW
 azE
 aPy
 aRx
-ojJ
-adB
-adV
-aeV
-adt
+bMO
+ksw
+ksw
+ksw
+lDh
 amN
-arS
 aUQ
 asW
 aUQ
-aty
-atI
-adt
-aue
-azc
-aIA
+asW
+asW
+atK
+adp
+adp
+adp
+adp
 aMS
 aGU
 aDb
@@ -116499,22 +116792,22 @@ aLW
 azE
 aPy
 aRx
-ojJ
-adA
-adA
-afh
-kkj
-aou
-arU
-asm
-asX
-asm
+adp
+afl
+adC
+afk
+aie
+aov
+arW
+uSi
+aUQ
+ase
 atz
-atM
-aif
-auf
-azd
-avF
+nDK
+aie
+avl
+aFH
+avn
 aMS
 aGU
 aDb
@@ -116756,22 +117049,22 @@ aLW
 azE
 aPy
 aRx
-uIy
-ksw
-ksw
-ksw
-lDh
-anL
-aUQ
-aUQ
-asW
-aUQ
-aUQ
-atK
 adp
-adp
-adp
-adp
+kEf
+adC
+afN
+aif
+aoD
+arX
+vMo
+rwi
+kut
+lIV
+bOs
+aif
+avo
+aFJ
+kyc
 aMS
 aGU
 aDb
@@ -117014,21 +117307,21 @@ azE
 aPy
 aRx
 adp
-adC
-adC
-afk
-aie
-aov
-arV
+adp
+adp
+adp
+adp
+atK
 aUQ
 asW
 aUQ
-atA
-aoE
-aie
-avl
-aFH
-aIB
+asW
+aUQ
+atk
+adp
+adp
+adp
+adp
 aMS
 aGU
 aDb
@@ -117273,19 +117566,19 @@ aRx
 adp
 adJ
 adW
-afl
+fEz
 adt
 amN
-arW
 aUQ
-asW
-aUQ
+ptR
+sIm
+iMK
 atB
 atI
-adt
-avn
-aFI
-aJe
+aie
+pYc
+asQ
+atf
 aMS
 aGU
 aDb
@@ -117528,20 +117821,20 @@ azE
 aPy
 aRx
 adp
-adC
-adC
-afN
-aif
-aoD
-arX
+uZR
+tBh
+tWa
+ckQ
+tsy
+dxm
+pNv
 asm
-asZ
-asm
+poV
 atC
-atN
+kut
 aif
-avo
-aFJ
+mNK
+wPG
 aIB
 aMS
 aGU
@@ -117791,10 +118084,10 @@ adp
 adp
 aoE
 apA
-apA
+emt
 ata
 ati
-apA
+asg
 atO
 adp
 adp
@@ -118048,12 +118341,12 @@ age
 aig
 aoF
 arY
-asn
+bzA
 atb
 atj
-asn
-atP
-aUQ
+atb
+atb
+pWH
 avp
 aGc
 aJf
@@ -118297,26 +118590,26 @@ aMj
 aNd
 aFL
 aQh
-aRx
+swD
 adt
 adM
 aei
-aUQ
+vIp
 aiJ
 aoP
 arZ
-aso
-atc
-atk
+aiJ
+aiJ
+nyN
 aUQ
-atR
-atX
+aUQ
+bzA
 uYg
-aUQ
+emt
 aJg
-aNb
-aGU
-aNn
+bcH
+oIX
+bEy
 azE
 bcf
 aCp
@@ -118559,21 +118852,21 @@ adu
 adN
 aej
 agi
-aiR
-aoQ
+aUQ
+aoF
 ase
-asp
+asm
 atd
-atl
-agi
-atS
-atY
-atY
-aGd
-aJm
+aUQ
+aUQ
+aUQ
+aUQ
+aUQ
+aoF
+aUQ
 aNc
 aHz
-aLY
+bWG
 aOJ
 aPi
 aCp
@@ -118811,26 +119104,26 @@ aCp
 aLW
 aLy
 aDb
-aUD
+aKR
 aUM
 adO
 aek
 ahZ
 aiS
 aoR
-asg
-asz
-apj
-atm
 aUQ
-aJx
-aOo
-asn
-asn
+aUQ
+ktV
+aUQ
+aUQ
+aUQ
+aUQ
+fbJ
+bWw
 bbD
 bcH
 bcI
-aOK
+moj
 aOL
 bcJ
 bcK
@@ -119072,18 +119365,18 @@ aKR
 adp
 adS
 ael
-aUQ
-aUQ
+grL
+dzT
 apj
 asi
 asE
-ate
+vMo
 atn
-atD
-ael
-aUQ
+emt
+atb
+atb
 aIQ
-aIU
+tPG
 aIU
 aIV
 aHK
@@ -119323,7 +119616,7 @@ tyN
 aCp
 aLW
 azE
-azE
+bcv
 aDb
 aKR
 adp
@@ -119331,21 +119624,21 @@ adT
 aep
 aid
 asn
-aXf
-adp
+asn
+asn
 asF
-adt
-ato
-adp
+kAl
+aUQ
+aoF
 aJz
 bcV
 bcZ
-bcV
+hFK
 bdg
 aMS
 aHJ
 aDb
-azE
+aNM
 azE
 aLW
 aCp
@@ -119580,7 +119873,7 @@ tyN
 aCp
 aLW
 abd
-bhq
+abj
 aDb
 aKR
 adp
@@ -119591,10 +119884,10 @@ adp
 adp
 adp
 asH
-atf
-atp
-adt
-bcS
+sBf
+aUQ
+aoF
+bcT
 bcW
 bda
 bdd
@@ -119602,7 +119895,7 @@ bdh
 aMS
 aHJ
 aDb
-bhq
+abj
 azE
 aLW
 aCp
@@ -119836,7 +120129,7 @@ tyN
 tyN
 aCp
 aLW
-bcv
+abd
 aew
 aDb
 aKR
@@ -119847,10 +120140,10 @@ bcM
 bcO
 bcQ
 adp
-asQ
-asQ
-asQ
-adt
+asH
+sBf
+aUQ
+aoF
 bcT
 bcX
 bdb
@@ -119860,7 +120153,7 @@ aMS
 aHJ
 aDb
 aew
-aNM
+azE
 aLW
 aCp
 tyN
@@ -120094,7 +120387,7 @@ tyN
 aCp
 aLW
 abd
-bho
+aew
 aDb
 aKR
 aIR
@@ -120104,10 +120397,10 @@ bcP
 bcP
 bcR
 adp
-asQ
-asQ
-asQ
-adp
+asH
+sBf
+aUQ
+kWD
 bcU
 bcY
 bdc
@@ -120116,7 +120409,7 @@ bdj
 aMS
 aHJ
 aDb
-bhu
+aew
 azE
 aLW
 aCp
@@ -120361,10 +120654,10 @@ afL
 aeP
 aeP
 adp
-asQ
+ckO
 atg
 atq
-adp
+nBa
 adp
 adp
 adp
@@ -130630,8 +130923,8 @@ aLW
 aLW
 aLW
 abd
+abj
 aew
-bhl
 aew
 aew
 aew
@@ -130653,8 +130946,8 @@ aew
 aew
 aew
 aew
-bhn
 aew
+abj
 azE
 bcj
 aLW
@@ -184085,7 +184378,7 @@ aaa
 tyN
 tyN
 tyN
-arN
+tyN
 adx
 aZU
 aRK
@@ -184113,7 +184406,7 @@ apP
 aRK
 aRT
 adx
-arN
+tyN
 tyN
 tyN
 aaa
@@ -184343,7 +184636,7 @@ tyN
 tyN
 tyN
 adx
-aGI
+adx
 aZV
 aRK
 apP
@@ -184369,7 +184662,7 @@ aRE
 apP
 aRK
 bcq
-aGI
+adx
 adx
 tyN
 tyN
@@ -184601,7 +184894,7 @@ tyN
 tyN
 adx
 aor
-bcr
+arN
 aCE
 aRd
 aRN
@@ -184625,7 +184918,7 @@ aPn
 aRe
 aRF
 aRS
-bhs
+bcr
 bct
 adx
 tyN
@@ -184859,7 +185152,7 @@ tyN
 adx
 aGI
 aRK
-apP
+aop
 aXG
 aGH
 apE
@@ -184881,7 +185174,7 @@ avU
 aPO
 aRG
 aZR
-bhr
+aRK
 aRK
 aGI
 adx
@@ -185116,7 +185409,7 @@ tyN
 adx
 aGI
 aRK
-bhp
+adI
 apP
 axO
 apH
@@ -185138,7 +185431,7 @@ aYK
 aRn
 aZa
 apP
-bhp
+adI
 aRK
 aGI
 adx
@@ -185373,7 +185666,7 @@ tyN
 adx
 aGI
 aRK
-bht
+apP
 apP
 aXZ
 aqf
@@ -185395,7 +185688,7 @@ avU
 aqf
 aXZ
 apP
-bht
+apP
 aRK
 aGI
 adx
