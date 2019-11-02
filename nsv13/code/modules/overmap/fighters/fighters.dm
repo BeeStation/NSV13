@@ -201,6 +201,7 @@ After going through this checklist, you're ready to go!
 	if(mag_locked.pilot)
 		to_chat(mag_locked.pilot, "<span class='warning'>Launch aborted by operator.</span>")
 	mag_locked.release_maglock()
+	mag_locked = null
 	icon_state = "launcher_charge"
 	ready = FALSE
 	addtimer(CALLBACK(src, .proc/recharge), 15 SECONDS) //Give them time to get out of there.
