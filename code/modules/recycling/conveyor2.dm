@@ -18,7 +18,6 @@ GLOBAL_LIST_EMPTY(conveyors_by_id)
 	var/list/affecting	// the list of all items that will be moved this ptick
 	var/id = ""			// the control ID	- must match controller ID
 	var/verted = 1		// Inverts the direction the conveyor belt moves.
-	var/current_item_count = 0
 	speed_process = TRUE
 
 /obj/machinery/conveyor/centcom_auto
@@ -136,17 +135,14 @@ GLOBAL_LIST_EMPTY(conveyors_by_id)
 	if(!operating)
 		return
 	use_power(6)
-	affecting = loc.contents - src		// moved items will be all in loc
-	current_item_count = 0 //Ensures we only ever move at most four items at once
+	affecting = loc.contents - src // moved items will be all in loc
 	addtimer(CALLBACK(src, .proc/convey, affecting), 1)
 
 /obj/machinery/conveyor/proc/convey(list/affecting)
-	for(var/atom/movable/A in affecting)
-		if(current_item_count >= 4)
-			return
-		current_item_count++
-		if((A.loc == loc) && A.has_gravity())
-			A.ConveyorMove(movedir)
+	for(var/atom/movable/a in affecting)
+		if((a.loc == loc) && a.has_gravity())
+			a.ConveyorMove(movedir)
+			break
 
 // attack with item, place item on conveyor
 /obj/machinery/conveyor/attackby(obj/item/I, mob/user, params)
