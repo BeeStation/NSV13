@@ -282,7 +282,6 @@ After going through this checklist, you're ready to go!
 			if(OM.main_overmap)
 				forceMove(get_turf(OM))
 				resize = 1 //Scale down!
-				src.bounds = list(32,32)
 				docking_cooldown = TRUE
 				addtimer(VARSET_CALLBACK(src, docking_cooldown, FALSE), 5 SECONDS) //Prevents jank.
 				if(pilot)
@@ -295,7 +294,6 @@ After going through this checklist, you're ready to go!
 		return
 	if(OM.docking_points.len)
 		resize = 0 //Scale up!
-		src.bounds = list(bound_width,bound_height)
 		var/turf/T = get_turf(pick(OM.docking_points))
 		forceMove(T)
 		if(pilot)
