@@ -25,14 +25,16 @@
 				to_label_on = stripped_input(usr,"New label: ","Input a custom label!", "", MAX_NAME_LEN)
 
 /obj/machinery/automation/label/process()
+	if(!..())
+		return
 	if(contents.len && isitem(contents[1]))
 		if(to_label_on)
 			contents[1].name = "[contents[1].name] ([to_label_on])"
 			playsound(loc, 'sound/machines/ping.ogg', 30, 1)
-			contents[1].loc = get_step(src, outputdir)
+			try_output(contents[1])
 		else
 			playsound(loc, 'sound/machines/ping.ogg', 30, 1)
-			contents[1].loc = get_step(src, outputdir)
+			try_output(contents[1])
 
 	else
 		if(contents.len && istype(contents[1], /obj/structure/closet/crate))
@@ -48,7 +50,7 @@
 				acrate.manifest = P
 				acrate.update_icon()
 			playsound(loc, 'sound/machines/ping.ogg', 30, 1)
-			acrate.loc = get_step(src, outputdir)
+			try_output(acrate)
 
 /obj/machinery/automation/label/Bumped(atom/input)
 	if(isitem(input) || istype(input, /obj/structure/closet/crate))

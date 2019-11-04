@@ -47,7 +47,9 @@
 		to_chat(user, "<span class='notice'>Current chem macro: <span class='bold'>[current_chem_macro ? current_chem_macro : "No chem macro set"]</span></span>")
 
 /obj/machinery/automation/chem_filter/process()
-	..()
+	. = ..()
+	if(!.)
+		return
 	if(contents.len && current_chem_macro)
 		var/obj/item/processing = contents[1]
 		switch(current_mode)
@@ -60,11 +62,11 @@
 						processing.reagents.del_reagent(reagent)
 
 				playsound(loc, 'sound/machines/ping.ogg', 30, 1)
-				processing.loc = get_step(src, outputdir)
+				try_output(processing)
 
 			if(FILTER_OUT)
 				var/list/reagents_to_remove = process_recipe_list(current_chem_macro)
 				for(var/r_id in reagents_to_remove)
 					processing.reagents.remove_reagent(r_id, reagents_to_remove[r_id])
 				playsound(loc, 'sound/machines/ping.ogg', 30, 1)
-				processing.loc = get_step(src, outputdir)
+				try_output(processing)

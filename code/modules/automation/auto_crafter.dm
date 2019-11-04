@@ -44,10 +44,12 @@
 						to_chat(user, "You set the recipe to [currentrecipe.name].")
 
 /obj/machinery/automation/crafter/process()
+	if(!..())
+		return
 	if(craftproc && currentrecipe)
 		possible_item = craftproc.construct_item(src, currentrecipe)
 		if(isobj(possible_item)) //The returned one can either be null, a string or the object itself; the object itself means it's crafted
-			possible_item.loc = get_step(src, outputdir)
+			try_output(possible_item)
 		possible_item = null
 		..()
 

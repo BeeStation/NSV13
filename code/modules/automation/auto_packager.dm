@@ -52,7 +52,7 @@
 
 //Outputs the package and inits it again
 /obj/machinery/automation/packager/proc/output_package()
-	current_package.loc = get_step(src, outputdir)
+	try_output(current_package)
 	playsound(loc, 'sound/machines/ping.ogg', 30, 1)
 	current_package = new package_type
 	if(istype(current_package, /obj/structure/closet))
@@ -85,7 +85,9 @@
 	..()
 
 /obj/machinery/automation/packager/process()
-	..()
+	. = ..()
+	if(!.)
+		return
 	if(istype(current_package, /obj/item/storage))
 		var/datum/component/storage/compon_storage = current_package.GetComponent(/datum/component/storage)
 		//Copypasta electric boogaloo

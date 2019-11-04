@@ -9,10 +9,13 @@
 	..()
 
 /obj/machinery/automation/wrapper/process()
+	if(!..())
+		return
 	if(contents.len)
 		var/obj/item/I = contents[1]
 		if(I.can_be_package_wrapped())
-			var/obj/item/smallDelivery/P = new /obj/item/smallDelivery(get_step(src, outputdir))
+			var/obj/item/smallDelivery/P = new /obj/item/smallDelivery(src)
+			try_output(P)
 			var/size = round(I.w_class)
 			I.forceMove(P)
 			P.name = "[weightclass2text(size)] parcel"
@@ -24,10 +27,11 @@
 		else if(istype (contents[1], /obj/structure/closet))
 			var/obj/structure/closet/O = contents[1]
 			if(!O.opened && O.delivery_icon)
-				var/obj/structure/bigDelivery/P = new /obj/structure/bigDelivery(get_step(src, outputdir))
+				var/obj/structure/bigDelivery/P = new /obj/structure/bigDelivery(src)
+				try_output(P)
 				P.icon_state = O.delivery_icon
 				O.forceMove(P)
 				playsound(loc, 'sound/machines/ping.ogg', 30, 1)
 		else
-			contents[1].loc = get_step(src, outputdir)
+			try_output(contents[1])
 	..()

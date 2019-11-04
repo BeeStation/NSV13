@@ -64,8 +64,11 @@
 
 //For testing purposes, this machine will output a patch reagent container with some of the chems
 /obj/machinery/automation/grinder/process()
+	if(!..())
+		return
 	if(reagents.total_volume > amount_to_transfer && amount_to_transfer)
-		var/obj/item/reagent_containers/outputed_container = new output_container.type(get_step(src, outputdir))
+		var/obj/item/reagent_containers/outputed_container = new output_container.type(src)
+		try_output(outputed_container)
 		playsound(loc, 'sound/machines/ping.ogg', 30, 1)
 		reagents.trans_to(outputed_container, min(reagents.total_volume, amount_to_transfer)) //Transfer the chemicals
 		if(name_of_output)

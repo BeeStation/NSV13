@@ -11,22 +11,15 @@ GLOBAL_LIST_EMPTY(conveyors_by_id)
 	layer = BELOW_OPEN_DOOR_LAYER
 	var/operating = 0	// 1 if running forward, -1 if backwards, 0 if off
 	var/operable = 1	// true if can operate (no broken segments in this belt run)
-	var/forwards		// this is the default (forward) direction, set by the map dir
-	var/backwards		// hopefully self-explanatory
 	var/movedir			// the actual direction to move stuff in
 
 	var/list/affecting	// the list of all items that will be moved this ptick
 	var/id = ""			// the control ID	- must match controller ID
-	var/verted = 1		// Inverts the direction the conveyor belt moves.
 	speed_process = TRUE
+	var/current_item_count = 0
 
 /obj/machinery/conveyor/centcom_auto
 	id = "round_end_belt"
-
-
-/obj/machinery/conveyor/inverted //Directions inverted so you can use different corner peices.
-	icon_state = "conveyor_map_inverted"
-	verted = -1
 
 /obj/machinery/conveyor/inverted/Initialize(mapload)
 	. = ..()
@@ -51,7 +44,13 @@ GLOBAL_LIST_EMPTY(conveyors_by_id)
 		operating = FALSE
 	else
 		operating = TRUE
-	icon_state = "conveyor[operating * verted]"
+	icon_state = "conveyor[operating]"
+	for(var/obj/machinery/automation/auto in orange(1, src))
+		if(auto)
+			if(get_dir(src, auto) == movedir) //Don't make the automatic machine output into a conveyor delivering into it
+				return
+			else
+				auto.acceptable_output[get_dir(src, auto)] = src
 
 // create a conveyor
 /obj/machinery/conveyor/Initialize(mapload, newdir, newid)
@@ -83,37 +82,21 @@ GLOBAL_LIST_EMPTY(conveyors_by_id)
 /obj/machinery/conveyor/proc/update_move_direction()
 	switch(dir)
 		if(NORTH)
-			forwards = NORTH
-			backwards = SOUTH
+			movedir = NORTH
 		if(SOUTH)
-			forwards = SOUTH
-			backwards = NORTH
+			movedir = SOUTH
 		if(EAST)
-			forwards = EAST
-			backwards = WEST
+			movedir = EAST
 		if(WEST)
-			forwards = WEST
-			backwards = EAST
+			movedir = WEST
 		if(NORTHEAST)
-			forwards = EAST
-			backwards = SOUTH
+			movedir = EAST
 		if(NORTHWEST)
-			forwards = NORTH
-			backwards = EAST
+			movedir = NORTH
 		if(SOUTHEAST)
-			forwards = SOUTH
-			backwards = WEST
+			movedir = SOUTH
 		if(SOUTHWEST)
-			forwards = WEST
-			backwards = NORTH
-	if(verted == -1)
-		var/temp = forwards
-		forwards = backwards
-		backwards = temp
-	if(operating == 1)
-		movedir = forwards
-	else
-		movedir = backwards
+			movedir = WEST
 	update()
 
 /obj/machinery/conveyor/proc/update()
@@ -125,7 +108,13 @@ GLOBAL_LIST_EMPTY(conveyors_by_id)
 		operating = FALSE
 	if(stat & NOPOWER)
 		operating = FALSE
-	icon_state = "conveyor[operating * verted]"
+	icon_state = "conveyor[operating]"
+	for(var/obj/machinery/automation/auto in orange(1, src))
+		if(auto)
+			if(get_dir(src, auto) == movedir) //Don't make the automatic machine output into a conveyor delivering into it
+				return
+			else
+				auto.acceptable_output[dir2text(get_dir(src, auto))] = src
 
 	// machine process
 	// move items to the target location
@@ -136,13 +125,16 @@ GLOBAL_LIST_EMPTY(conveyors_by_id)
 		return
 	use_power(6)
 	affecting = loc.contents - src // moved items will be all in loc
+	current_item_count = 0 //Ensures we only ever move at most four items at once
 	addtimer(CALLBACK(src, .proc/convey, affecting), 1)
 
 /obj/machinery/conveyor/proc/convey(list/affecting)
-	for(var/atom/movable/a in affecting)
-		if((a.loc == loc) && a.has_gravity())
-			a.ConveyorMove(movedir)
-			break
+	for(var/atom/movable/A in affecting)
+		if((A.loc == loc) && A.has_gravity() && A.layer >= layer)
+			if(current_item_count >= 4)
+				break
+			current_item_count++
+			A.ConveyorMove(movedir)
 
 // attack with item, place item on conveyor
 /obj/machinery/conveyor/attackby(obj/item/I, mob/user, params)
@@ -156,19 +148,6 @@ GLOBAL_LIST_EMPTY(conveyors_by_id)
 				transfer_fingerprints_to(C)
 			to_chat(user, "<span class='notice'>You remove the conveyor belt.</span>")
 			qdel(src)
-
-	else if(I.tool_behaviour == TOOL_WRENCH)
-		if(!(stat & BROKEN))
-			I.play_tool_sound(src)
-			setDir(turn(dir,-45))
-			update_move_direction()
-			to_chat(user, "<span class='notice'>You rotate [src].</span>")
-
-	else if(I.tool_behaviour == TOOL_SCREWDRIVER)
-		if(!(stat & BROKEN))
-			verted = verted * -1
-			update_move_direction()
-			to_chat(user, "<span class='notice'>You reverse [src]'s direction.</span>")
 
 	else if(user.a_intent != INTENT_HARM)
 		user.transferItemToLoc(I, drop_location())
@@ -351,11 +330,11 @@ GLOBAL_LIST_EMPTY(conveyors_by_id)
 	. = ..()
 	if(!proximity || user.stat || !isfloorturf(A) || istype(A, /area/shuttle))
 		return
-	var/cdir = get_dir(A, user)
-	if(A == user.loc)
-		to_chat(user, "<span class='warning'>You cannot place a conveyor belt under yourself!</span>")
-		return
-	var/obj/machinery/conveyor/C = new/obj/machinery/conveyor(A, cdir, id)
+	var/obj/machinery/conveyor/C
+	if(A == user.loc) //It's under us, place the conveyor in the dir we're facing
+		C = new/obj/machinery/conveyor(A, user.dir, id)
+	else //Otherwise place it in the direction facing away from us
+		C = new/obj/machinery/conveyor(A, get_dir(user, A), id)
 	transfer_fingerprints_to(C)
 	qdel(src)
 
