@@ -41,6 +41,42 @@
 	name = "Deck 2 Medical Clinic"
 	icon_state = "medbay"
 
+/area/maintenance/nsv/ftlroom
+	name = "FTL Control Room"
+	icon_state = "maint_bridge"
+
+/area/maintenance/nsv/deck1/airlock/forward/port
+	name = "Deck 1 Port Forward Airlock"
+	icon_state = "maint_bridge"
+
+/area/maintenance/nsv/deck1/airlock/forward/starboard
+	name = "Deck 1 Starboard Forward Airlock"
+	icon_state = "maint_bridge"
+
+/area/maintenance/nsv/deck1/airlock/aft/port
+	name = "Deck 1 Port Aft Airlock"
+	icon_state = "maint_bridge"
+
+/area/maintenance/nsv/deck1/airlock/aft/starboard
+	name = "Deck 1 Starboard Aft Airlock"
+	icon_state = "maint_bridge"
+
+/area/maintenance/nsv/deck2/airlock/forward/port
+	name = "Deck 2 Port Forward Airlock"
+	icon_state = "maint_bridge"
+
+/area/maintenance/nsv/deck2/airlock/forward/starboard
+	name = "Deck 2 Starboard Forward Airlock"
+	icon_state = "maint_bridge"
+
+/area/maintenance/nsv/deck2/airlock/aft/port
+	name = "Deck 2 Port Aft Airlock"
+	icon_state = "maint_bridge"
+
+/area/maintenance/nsv/deck2/airlock/aft/starboard
+	name = "Deck 2 Starboard Aft Airlock"
+	icon_state = "maint_bridge"
+
 /area/maintenance/nsv/deck2/frame1/port
 	name = "Deck 2 Frame 1 Port Maintenence"
 	icon_state = "pmaint"
