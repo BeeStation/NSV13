@@ -36,3 +36,11 @@
 
 /area/ai_monitored/turret_protected/aisat/service/support_ship
 	name = "Support Vessel Service"
+
+/area/nsv/hanger
+	name = "Hangar Bay"
+	icon_state = "shuttlegrn"
+
+/area/nsv/hanger/storage
+	name = "Hangar Storage Bay"
+	icon_state = "shuttlered"
