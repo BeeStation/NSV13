@@ -44,7 +44,7 @@
 			else
 				adjustStaminaLoss(damage_amount, forced = forced)
 		if(BRAIN)
-			adjustBrainLoss(damage_amount)
+			adjustOrganLoss(ORGAN_SLOT_BRAIN, damage_amount)
 	return TRUE
 
 
@@ -217,24 +217,24 @@
 		update_damage_overlays()
 	update_stamina()
 
-/mob/living/carbon/getBrainLoss()
+/mob/living/carbon/getOrganLoss(ORGAN_SLOT_BRAIN)
 	. = 0
 	var/obj/item/organ/brain/B = getorganslot(ORGAN_SLOT_BRAIN)
 	if(B)
 		. = B.get_brain_damage()
 
 //Some sources of brain damage shouldn't be deadly
-/mob/living/carbon/adjustBrainLoss(amount, maximum = BRAIN_DAMAGE_DEATH)
+/mob/living/carbon/adjustOrganLoss(ORGAN_SLOT_BRAIN, amount, maximum = BRAIN_DAMAGE_DEATH)
 	if(status_flags & GODMODE)
 		return FALSE
-	var/prev_brainloss = getBrainLoss()
+	var/prev_brainloss = getOrganLoss(ORGAN_SLOT_BRAIN)
 	var/obj/item/organ/brain/B = getorganslot(ORGAN_SLOT_BRAIN)
 	if(!B)
 		return
 	B.adjust_brain_damage(amount, maximum)
 	if(amount <= 0) //cut this early
 		return
-	var/brainloss = getBrainLoss()
+	var/brainloss = getOrganLoss(ORGAN_SLOT_BRAIN)
 	if(brainloss > BRAIN_DAMAGE_MILD)
 		if(prob(amount * (1 + max(0, (brainloss - BRAIN_DAMAGE_MILD)/100)))) //Base chance is the hit damage; for every point of damage past the threshold the chance is increased by 1% //learn how to do your bloody math properly goddamnit
 			gain_trauma_type(BRAIN_TRAUMA_MILD)
