@@ -7,6 +7,7 @@
 /area/hydroponics)
 "ac" = (
 /obj/machinery/seed_extractor,
+/obj/machinery/camera/autoname,
 /turf/open/floor/plasteel,
 /area/hydroponics)
 "ad" = (
@@ -174,6 +175,9 @@
 /turf/open/space/basic,
 /area/maintenance/nsv/deck2/frame3/port)
 "aI" = (
+/obj/machinery/camera/autoname{
+	dir = 4
+	},
 /turf/open/floor/plating,
 /area/crew_quarters/heads/hor)
 "aJ" = (
@@ -200,6 +204,9 @@
 /area/crew_quarters/heads/hor)
 "aM" = (
 /obj/structure/closet/secure_closet/RD,
+/obj/machinery/camera/autoname{
+	dir = 8
+	},
 /turf/open/floor/plating,
 /area/crew_quarters/heads/hor)
 "aN" = (
@@ -212,6 +219,9 @@
 /area/maintenance/nsv/deck2/airlock/forward/port)
 "aP" = (
 /obj/structure/kitchenspike,
+/obj/machinery/camera/autoname{
+	dir = 4
+	},
 /turf/open/floor/plasteel/freezer,
 /area/crew_quarters/kitchen/coldroom)
 "aQ" = (
@@ -538,6 +548,9 @@
 	},
 /obj/machinery/portable_atmospherics/pump,
 /obj/item/wrench,
+/obj/machinery/camera/autoname{
+	dir = 8
+	},
 /turf/open/floor/plasteel/ship/padded,
 /area/maintenance/nsv/deck2/airlock/forward/port)
 "bH" = (
@@ -925,6 +938,7 @@
 /area/science/robotics)
 "cO" = (
 /obj/machinery/mecha_part_fabricator,
+/obj/machinery/camera/autoname,
 /turf/open/floor/plasteel,
 /area/science/robotics)
 "cP" = (
@@ -6277,8 +6291,9 @@
 /area/lawoffice)
 "pp" = (
 /obj/machinery/door/airlock/ship/maintenance{
+	dir = 8;
 	icon_state = "closed";
-	dir = 8
+	req_one_access_txt = "38"
 	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	icon_state = "pipe11-1";
@@ -9406,6 +9421,9 @@
 /area/hallway/nsv/deck2/frame1/starboard)
 "vJ" = (
 /obj/machinery/vending/cola,
+/obj/machinery/camera/autoname{
+	dir = 1
+	},
 /turf/open/floor/carpet/black,
 /area/engine/storage)
 "vK" = (
@@ -10078,6 +10096,9 @@
 /obj/machinery/atmospherics/components/unary/portables_connector,
 /obj/machinery/portable_atmospherics/pump,
 /obj/item/wrench,
+/obj/machinery/camera/autoname{
+	dir = 8
+	},
 /turf/open/floor/plasteel/ship/padded,
 /area/maintenance/nsv/deck2/airlock/forward/starboard)
 "wY" = (
@@ -10271,6 +10292,68 @@
 /obj/machinery/portable_atmospherics/canister/water_vapor,
 /turf/open/floor/plasteel/ship/riveted,
 /area/janitor)
+"zh" = (
+/obj/machinery/camera/autoname{
+	dir = 4
+	},
+/turf/open/floor/plasteel,
+/area/science/robotics)
+"AR" = (
+/obj/machinery/camera/autoname,
+/turf/open/floor/plasteel/dark,
+/area/engine/storage)
+"AT" = (
+/obj/machinery/camera/autoname{
+	dir = 4
+	},
+/turf/open/floor/plating,
+/area/science/xenobiology)
+"GK" = (
+/obj/machinery/camera/autoname{
+	dir = 8
+	},
+/turf/open/floor/plasteel/ship/techfloor/alt,
+/area/hallway/nsv/deck2/frame1/port)
+"GU" = (
+/obj/structure/rack,
+/obj/item/mmi,
+/obj/item/mmi,
+/obj/machinery/camera/autoname,
+/turf/open/floor/plasteel,
+/area/science/robotics)
+"LH" = (
+/obj/machinery/camera/autoname{
+	dir = 8
+	},
+/turf/open/floor/plating,
+/area/science/xenobiology)
+"Nf" = (
+/obj/machinery/camera/autoname{
+	dir = 4
+	},
+/turf/open/floor/plasteel/dark,
+/area/crew_quarters/heads/chief)
+"OB" = (
+/obj/structure/closet/secure_closet/hydroponics,
+/obj/machinery/camera/autoname{
+	dir = 1
+	},
+/turf/open/floor/plasteel,
+/area/hydroponics)
+"UJ" = (
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
+/obj/machinery/light,
+/turf/open/floor/plasteel,
+/area/science/robotics)
+"WY" = (
+/obj/structure/closet/radiation,
+/obj/machinery/camera/autoname{
+	dir = 4
+	},
+/turf/open/floor/plasteel,
+/area/engine/break_room)
 
 (1,1,1) = {"
 aa
@@ -20237,7 +20320,7 @@ rT
 sv
 sV
 tO
-sW
+Nf
 sW
 vP
 su
@@ -20736,7 +20819,7 @@ jd
 jb
 pI
 iv
-rc
+AR
 rV
 sw
 sX
@@ -21747,7 +21830,7 @@ eQ
 hK
 rY
 dr
-dr
+WY
 tQ
 dr
 dr
@@ -25507,13 +25590,13 @@ bv
 bd
 cA
 dw
-cD
+AT
 dz
 fI
 gw
 gX
 hS
-cD
+AT
 jp
 cD
 cE
@@ -27271,13 +27354,13 @@ bA
 bd
 cD
 dz
-cD
+LH
 dz
 fP
 gB
 he
 hU
-cD
+LH
 jp
 cD
 cE
@@ -27780,7 +27863,7 @@ eX
 fQ
 gD
 dB
-dB
+zh
 iB
 jr
 jU
@@ -28025,7 +28108,7 @@ aa
 bd
 bA
 bd
-cG
+GU
 dB
 dB
 dB
@@ -28539,7 +28622,7 @@ dB
 hW
 eZ
 dB
-jV
+UJ
 cR
 lu
 mw
@@ -38863,7 +38946,7 @@ ab
 bX
 db
 dU
-db
+GK
 fl
 ge
 ge
@@ -40623,7 +40706,7 @@ am
 aC
 aZ
 br
-bO
+OB
 cb
 dl
 dY
