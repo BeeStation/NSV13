@@ -2,22 +2,38 @@
 "d" = (
 /turf/open/floor/plasteel/dark,
 /area/shuttle/supply)
+"e" = (
+/obj/machinery/door/airlock/titanium/glass,
+/turf/open/floor/noslip,
+/area/shuttle/supply)
 "j" = (
 /obj/effect/spawner/structure/window/shuttle,
 /turf/open/floor/plating,
 /area/shuttle/supply)
+"k" = (
+/obj/machinery/light,
+/turf/open/floor/plasteel,
+/area/shuttle/supply)
 "l" = (
-/obj/machinery/door/poddoor/shuttledock{
-	checkdir = 1;
-	name = "Cargo Shuttle Shutter"
+/obj/machinery/door/poddoor/shutters{
+	id = "ss_hh_cargodoor";
+	name = "Supply Shutter"
 	},
 /turf/open/floor/noslip,
 /area/shuttle/supply)
 "o" = (
-/obj/effect/turf_decal/stripes/corner{
-	dir = 1
+/obj/machinery/door/poddoor/shutters{
+	id = "ss_hh_cargodoor";
+	name = "Supply Shutter"
 	},
-/turf/open/floor/plasteel,
+/obj/machinery/button/door{
+	dir = 8;
+	id = "ss_hh_cargodoor";
+	name = "Cargo Door";
+	pixel_x = 22;
+	req_one_access_txt = "31"
+	},
+/turf/open/floor/noslip,
 /area/shuttle/supply)
 "t" = (
 /obj/effect/turf_decal/delivery,
@@ -28,21 +44,22 @@
 /turf/template_noop,
 /area/template_noop)
 "A" = (
-/obj/machinery/door/poddoor/shuttledock{
-	checkdir = 1;
-	name = "Cargo Shuttle Shutter"
-	},
 /obj/docking_port/mobile/supply{
 	dir = 2;
 	dwidth = 4;
 	height = 6;
 	width = 11
 	},
+/obj/machinery/door/poddoor/shutters{
+	id = "ss_hh_cargodoor";
+	name = "Supply Shutter"
+	},
 /turf/open/floor/noslip,
 /area/shuttle/supply)
 "E" = (
-/obj/machinery/door/poddoor/shuttledock{
-	name = "Cargo Shuttle Shutter"
+/obj/machinery/door/airlock/titanium/glass{
+	name = "Cargo Shuttle";
+	req_one_access_txt = "31"
 	},
 /turf/open/floor/noslip,
 /area/shuttle/supply)
@@ -77,6 +94,13 @@
 "Q" = (
 /turf/open/floor/plasteel,
 /area/shuttle/supply)
+"S" = (
+/obj/effect/turf_decal/stripes/corner{
+	dir = 4
+	},
+/obj/machinery/light,
+/turf/open/floor/plasteel,
+/area/shuttle/supply)
 "T" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 1
@@ -91,6 +115,12 @@
 /area/shuttle/supply)
 "V" = (
 /obj/effect/turf_decal/stripes/corner,
+/obj/machinery/light{
+	dir = 1
+	},
+/obj/effect/turf_decal/stripes/corner{
+	dir = 1
+	},
 /turf/open/floor/plasteel,
 /area/shuttle/supply)
 "X" = (
@@ -102,6 +132,9 @@
 "Y" = (
 /obj/effect/turf_decal/stripes/corner{
 	dir = 4
+	},
+/obj/machinery/light{
+	dir = 1
 	},
 /turf/open/floor/plasteel,
 /area/shuttle/supply)
@@ -136,7 +169,7 @@ Y
 Q
 Q
 Q
-Q
+k
 O
 "}
 (4,1,1) = {"
@@ -194,13 +227,13 @@ Q
 j
 "}
 (10,1,1) = {"
-O
 o
+T
 P
 K
 t
 Q
-O
+j
 "}
 (11,1,1) = {"
 O
@@ -208,15 +241,15 @@ V
 U
 U
 U
-Y
+S
 O
 "}
 (12,1,1) = {"
 O
 O
 E
-E
-E
+e
+e
 O
 O
 "}
