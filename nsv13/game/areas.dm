@@ -41,6 +41,42 @@
 	name = "Deck 2 Medical Clinic"
 	icon_state = "medbay"
 
+/area/maintenance/nsv/ftlroom
+	name = "FTL Control Room"
+	icon_state = "maint_bridge"
+
+/area/maintenance/nsv/deck1/airlock/forward/port
+	name = "Deck 1 Port Forward Airlock"
+	icon_state = "maint_bridge"
+
+/area/maintenance/nsv/deck1/airlock/forward/starboard
+	name = "Deck 1 Starboard Forward Airlock"
+	icon_state = "maint_bridge"
+
+/area/maintenance/nsv/deck1/airlock/aft/port
+	name = "Deck 1 Port Aft Airlock"
+	icon_state = "maint_bridge"
+
+/area/maintenance/nsv/deck1/airlock/aft/starboard
+	name = "Deck 1 Starboard Aft Airlock"
+	icon_state = "maint_bridge"
+
+/area/maintenance/nsv/deck2/airlock/forward/port
+	name = "Deck 2 Port Forward Airlock"
+	icon_state = "maint_bridge"
+
+/area/maintenance/nsv/deck2/airlock/forward/starboard
+	name = "Deck 2 Starboard Forward Airlock"
+	icon_state = "maint_bridge"
+
+/area/maintenance/nsv/deck2/airlock/aft/port
+	name = "Deck 2 Port Aft Airlock"
+	icon_state = "maint_bridge"
+
+/area/maintenance/nsv/deck2/airlock/aft/starboard
+	name = "Deck 2 Starboard Aft Airlock"
+	icon_state = "maint_bridge"
+
 /area/maintenance/nsv/deck2/frame1/port
 	name = "Deck 2 Frame 1 Port Maintenence"
 	icon_state = "pmaint"
@@ -97,6 +133,10 @@
 	name = "Deck 2 Frame 1 Port Hallway"
 	icon_state = "hallF"
 
+/area/hallway/nsv/deck2/frame1/central
+	name = "Deck 2 Frame 1 Central Hallway"
+	icon_state = "HallC"
+
 /area/hallway/nsv/deck2/frame1/starboard
 	name = "Deck 2 Frame 1 Starboard Hallway"
 	icon_state = "hallF"
@@ -105,12 +145,20 @@
 	name = "Deck 2 Frame 2 Port Hallway"
 	icon_state = "hallP"
 
+/area/hallway/nsv/deck2/frame2/central
+	name = "Deck 2 Frame 2 Central Hallway"
+	icon_state = "hallC"
+
 /area/hallway/nsv/deck2/frame2/starboard
 	name = "Deck 2 Frame 2 Starboard Hallway"
 	icon_state = "hallS"
 
 /area/hallway/nsv/deck2/frame3/port
 	name = "Deck 2 Frame 3 Port Hallway"
+	icon_state = "hallC"
+
+/area/hallway/nsv/deck2/frame3/central
+	name = "Deck 2 Frame 3 Central Hallway"
 	icon_state = "hallC"
 
 /area/hallway/nsv/deck2/frame3/starboard
@@ -185,6 +233,30 @@
 	name = "Deck 1 Primary Hallway"
 	icon_state = "hallC"
 
+/area/hallway/nsv/deck1/frame1/central
+	name = "Deck 1 Frame 1 Central Hallway"
+	icon_state = "hallC"
+
+/area/hallway/nsv/deck1/frame2/port
+	name = "Deck 1 Frame 2 Port Hallway"
+	icon_state = "hallP"
+
+/area/hallway/nsv/deck1/frame2/central
+	name = "Deck 1 Frame 2 Central Hallway"
+	icon_state = "hallC"
+
+/area/hallway/nsv/deck1/frame2/starboard
+	name = "Deck 1 Frame 2 Starboard Hallway"
+	icon_state = "hallS"
+
+/area/hallway/nsv/deck1/frame3/central
+	name = "Deck 1 Frame 3 Central Hallway"
+	icon_state = "hallC"
+
+/area/hallway/nsv/deck1/frame4/central
+	name = "Deck 1 Frame 4 Central Hallway"
+	icon_state = "hallC"
+
 /area/crew_quarters/nsv/observation
 	name = "Observation Lounge"
 	icon_state = "Sleep"
@@ -204,6 +276,10 @@
 /area/nsv/hanger/deck2/starboard
 	name = "Deck 2 Starboard Hanger Bay"
 	icon_state = "hallS"
+
+/area/nsv/weapons
+	name = "Weapons Bay"
+	icon_state = "hallC"
 
 /area/nsv/weapons/port
 	name = "Port Weapons Bay"
