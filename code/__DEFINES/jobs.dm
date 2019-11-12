@@ -42,6 +42,9 @@
 #define MIME			(1<<12)
 #define ASSISTANT		(1<<13)
 #define BRIDGE_OFFICER		(1<<14) //Nsv13 - bridge officer job
+#define MUNITIONS_TECHNICIAN	(1<<15)
+#define FIGHTER_PILOT			(1<<16)
+#define CAG			(1<<17)
 
 #define JOB_AVAILABLE 0
 #define JOB_UNAVAILABLE_GENERIC 1
@@ -88,3 +91,6 @@
 #define JOB_DISPLAY_ORDER_SECURITY_OFFICER 31
 #define JOB_DISPLAY_ORDER_AI 32
 #define JOB_DISPLAY_ORDER_CYBORG 33
+#define JOB_DISPLAY_ORDER_MUNITIONS_TECHNICIAN 34 //Nsv13 start - fighter stuff
+#define JOB_DISPLAY_ORDER_FIGHTER_PILOT 35
+#define JOB_DISPLAY_ORDER_CAG 36
