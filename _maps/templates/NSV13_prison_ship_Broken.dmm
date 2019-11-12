@@ -2,6 +2,13 @@
 "aa" = (
 /turf/template_noop,
 /area/template_noop)
+"ab" = (
+/obj/machinery/atmospherics/pipe/simple/general/visible{
+	dir = 4
+	},
+/obj/structure/lattice/catwalk,
+/turf/open/space/basic,
+/area/ruin/powered/nsv13/trooptransport)
 "ad" = (
 /obj/structure/table/reinforced,
 /obj/item/storage/firstaid/brute,
@@ -132,7 +139,7 @@
 /obj/machinery/light{
 	dir = 1
 	},
-/turf/open/floor/plasteel/dark,
+/turf/open/floor/plasteel/dark/airless,
 /area/ruin/powered/nsv13/prisonship)
 "aB" = (
 /obj/machinery/computer/cloning{
@@ -196,12 +203,12 @@
 /obj/structure/closet/secure_closet/personal{
 	anchored = 1
 	},
-/turf/open/floor/plasteel/dark,
+/turf/open/floor/plasteel/dark/airless,
 /area/ruin/powered/nsv13/prisonship)
 "aN" = (
 /obj/structure/bed/pod,
 /obj/item/bedsheet/syndie,
-/turf/open/floor/plasteel/dark,
+/turf/open/floor/plasteel/dark/airless,
 /area/ruin/powered/nsv13/prisonship)
 "aO" = (
 /obj/structure/chair/office,
@@ -222,7 +229,9 @@
 	pixel_x = -25;
 	pixel_y = 0
 	},
-/turf/open/floor/plasteel/dark,
+/turf/open/floor/plating/airless{
+	icon_state = "panelscorched"
+	},
 /area/ruin/powered/nsv13/prisonship)
 "aR" = (
 /obj/structure/closet/secure_closet/personal{
@@ -233,7 +242,7 @@
 	pixel_x = 25;
 	pixel_y = 0
 	},
-/turf/open/floor/plasteel/dark,
+/turf/open/floor/plasteel/dark/airless,
 /area/ruin/powered/nsv13/prisonship)
 "aS" = (
 /obj/structure/table/optable,
@@ -290,7 +299,9 @@
 /obj/machinery/light{
 	dir = 8
 	},
-/turf/open/floor/plasteel/dark,
+/turf/open/floor/plating/airless{
+	icon_state = "panelscorched"
+	},
 /area/ruin/powered/nsv13/prisonship)
 "ba" = (
 /obj/structure/closet/secure_closet/personal{
@@ -299,7 +310,7 @@
 /obj/machinery/light{
 	dir = 4
 	},
-/turf/open/floor/plasteel/dark,
+/turf/open/floor/plasteel/dark/airless,
 /area/ruin/powered/nsv13/prisonship)
 "bb" = (
 /obj/machinery/clonepod,
@@ -313,7 +324,7 @@
 	anchored = 1
 	},
 /obj/machinery/light,
-/turf/open/floor/plasteel/dark,
+/turf/open/floor/plasteel/dark/airless,
 /area/ruin/powered/nsv13/prisonship)
 "bd" = (
 /obj/machinery/light{
@@ -321,6 +332,14 @@
 	},
 /turf/open/floor/plasteel/dark,
 /area/ruin/powered/nsv13/prisonship)
+"be" = (
+/obj/machinery/atmospherics/components/trinary/mixer/flipped{
+	dir = 4;
+	node1_concentration = 0.3;
+	node2_concentration = 0.7
+	},
+/turf/open/floor/plasteel/dark/airless,
+/area/ruin/powered/nsv13/trooptransport)
 "bg" = (
 /obj/machinery/computer/apc_control{
 	dir = 4
@@ -1044,6 +1063,12 @@
 	},
 /turf/open/floor/plasteel/dark,
 /area/ruin/powered/nsv13/prisonship)
+"cY" = (
+/obj/machinery/atmospherics/pipe/simple/general/visible{
+	dir = 4
+	},
+/turf/open/floor/plasteel/dark/airless,
+/area/ruin/powered/nsv13/trooptransport)
 "cZ" = (
 /turf/closed/wall/r_wall/ship,
 /area/ruin/powered/nsv13/prisonship)
@@ -1073,11 +1098,415 @@
 	},
 /turf/open/floor/plating,
 /area/ruin/powered/nsv13/prisonship)
+"de" = (
+/obj/structure/window/plasma/reinforced,
+/obj/structure/window/plasma/reinforced{
+	dir = 8
+	},
+/obj/structure/window/plasma/reinforced{
+	dir = 4
+	},
+/obj/machinery/atmospherics/components/unary/vent_pump/siphon/on{
+	dir = 8
+	},
+/turf/open/floor/engine/o2,
+/area/ruin/powered/nsv13/trooptransport)
+"df" = (
+/turf/open/floor/plasteel/dark,
+/area/ruin/powered/nsv13/trooptransport)
+"dg" = (
+/obj/machinery/atmospherics/pipe/simple/general/visible{
+	dir = 6
+	},
+/obj/machinery/button/door{
+	id = "syndi-turbine";
+	name = "Turbine vent control";
+	pixel_x = -25
+	},
+/turf/open/floor/plasteel/dark/airless,
+/area/ruin/powered/nsv13/trooptransport)
+"dh" = (
+/obj/machinery/atmospherics/pipe/simple/general/visible{
+	dir = 9
+	},
+/turf/open/floor/plasteel/dark/airless,
+/area/ruin/powered/nsv13/trooptransport)
+"di" = (
+/turf/open/floor/plasteel/dark/airless,
+/area/ruin/powered/nsv13/trooptransport)
+"dj" = (
+/obj/structure/window/plasma/reinforced,
+/obj/structure/window/plasma/reinforced{
+	dir = 4
+	},
+/turf/open/floor/plasteel/dark/airless,
+/area/ruin/powered/nsv13/trooptransport)
 "dk" = (
+/obj/structure/window/plasma/reinforced{
+	dir = 4
+	},
+/obj/structure/window/plasma/reinforced{
+	dir = 1
+	},
+/obj/machinery/atmospherics/components/unary/vent_pump/siphon/on{
+	dir = 1
+	},
+/turf/open/floor/engine/plasma,
+/area/ruin/powered/nsv13/trooptransport)
+"dl" = (
+/obj/machinery/door/window{
+	dir = 8
+	},
+/obj/machinery/door/window{
+	dir = 4
+	},
+/obj/structure/fans/tiny/invisible,
+/turf/open/floor/plasteel/dark,
+/area/ruin/powered/nsv13/trooptransport)
+"dm" = (
+/obj/structure/window/plasma/reinforced,
+/obj/structure/window/plasma/reinforced{
+	dir = 4
+	},
+/turf/open/floor/engine/plasma,
+/area/ruin/powered/nsv13/trooptransport)
+"dn" = (
+/obj/structure/window/plasma/reinforced,
+/turf/open/floor/plasteel/dark/airless,
+/area/ruin/powered/nsv13/trooptransport)
+"do" = (
+/obj/structure/window/plasma/reinforced,
+/obj/structure/window/plasma/reinforced{
+	dir = 4
+	},
+/obj/structure/window/plasma/reinforced{
+	dir = 1
+	},
+/turf/open/floor/plasteel/dark/airless,
+/area/ruin/powered/nsv13/trooptransport)
+"ds" = (
+/obj/structure/particle_accelerator/end_cap,
+/turf/open/floor/plasteel/dark/airless,
+/area/ruin/powered/nsv13/trooptransport)
+"dv" = (
+/obj/machinery/particle_accelerator/control_box,
+/turf/open/floor/plasteel/dark/airless,
+/area/ruin/powered/nsv13/trooptransport)
+"dw" = (
 /obj/structure/particle_accelerator/power_box,
+/turf/open/floor/plasteel/dark/airless,
+/area/ruin/powered/nsv13/trooptransport)
+"dx" = (
+/obj/effect/turf_decal/tile/yellow{
+	dir = 8
+	},
+/obj/effect/turf_decal/tile/yellow,
+/obj/effect/turf_decal/tile/yellow{
+	dir = 1
+	},
+/turf/open/floor/plasteel/dark/airless,
+/area/ruin/powered/nsv13/trooptransport)
+"dz" = (
+/obj/structure/particle_accelerator/fuel_chamber,
+/turf/open/floor/plasteel/dark/airless,
+/area/ruin/powered/nsv13/trooptransport)
+"dB" = (
+/obj/effect/turf_decal/tile/yellow{
+	dir = 8
+	},
+/obj/effect/turf_decal/tile/yellow{
+	dir = 1
+	},
+/obj/machinery/atmospherics/pipe/simple/general/visible,
+/obj/structure/grille,
+/obj/structure/window/reinforced/fulltile/ship,
+/turf/open/floor/plasteel/dark,
+/area/ruin/powered/nsv13/trooptransport)
+"dC" = (
+/obj/machinery/atmospherics/pipe/simple/general/visible{
+	dir = 6
+	},
+/turf/open/floor/plasteel/dark/airless,
+/area/ruin/powered/nsv13/trooptransport)
+"dD" = (
+/obj/structure/particle_accelerator/particle_emitter/center,
+/obj/machinery/atmospherics/pipe/simple/general/visible{
+	dir = 4
+	},
+/turf/open/floor/plasteel/dark/airless,
+/area/ruin/powered/nsv13/trooptransport)
+"dE" = (
+/obj/structure/particle_accelerator/particle_emitter/left,
+/obj/structure/cable,
+/obj/machinery/atmospherics/pipe/simple/general/visible{
+	dir = 4
+	},
+/turf/open/floor/plasteel/dark/airless,
+/area/ruin/powered/nsv13/trooptransport)
+"dF" = (
+/obj/structure/particle_accelerator/particle_emitter/right,
+/obj/structure/cable,
+/obj/machinery/atmospherics/pipe/simple/general/visible{
+	dir = 4
+	},
+/turf/open/floor/plasteel/dark/airless,
+/area/ruin/powered/nsv13/trooptransport)
+"dG" = (
+/obj/structure/cable,
+/obj/machinery/atmospherics/pipe/simple/general/visible{
+	dir = 4
+	},
+/turf/open/floor/plasteel/dark/airless,
+/area/ruin/powered/nsv13/trooptransport)
+"dH" = (
+/obj/effect/turf_decal/tile/yellow,
+/obj/effect/turf_decal/tile/yellow{
+	dir = 4
+	},
+/obj/structure/cable,
+/obj/machinery/atmospherics/pipe/simple/general/visible{
+	dir = 10
+	},
+/turf/open/floor/plasteel/dark/airless,
+/area/ruin/powered/nsv13/trooptransport)
+"dI" = (
+/obj/structure/grille,
+/obj/structure/window/reinforced/fulltile/ship,
+/obj/machinery/atmospherics/pipe/simple/general/visible,
 /turf/open/floor/plasteel/dark,
 /area/ruin/powered/nsv13/trooptransport)
 "dJ" = (
+/obj/structure/grille,
+/obj/structure/window/reinforced/fulltile/ship,
+/turf/open/floor/plasteel/dark,
+/area/ruin/powered/nsv13/trooptransport)
+"dK" = (
+/obj/structure/grille,
+/obj/structure/window/reinforced/fulltile/ship,
+/obj/structure/cable,
+/turf/open/floor/plasteel/dark,
+/area/ruin/powered/nsv13/trooptransport)
+"dL" = (
+/obj/effect/turf_decal/tile/yellow,
+/obj/effect/turf_decal/tile/yellow{
+	dir = 4
+	},
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
+/obj/machinery/atmospherics/pipe/simple/general/visible,
+/turf/open/floor/plasteel/dark/airless,
+/area/ruin/powered/nsv13/trooptransport)
+"dM" = (
+/obj/machinery/atmospherics/pipe/simple/general/visible,
+/turf/open/floor/plasteel/dark,
+/area/ruin/powered/nsv13/trooptransport)
+"dN" = (
+/obj/effect/turf_decal/stripes/line{
+	dir = 9
+	},
+/turf/open/floor/engine,
+/area/ruin/powered/nsv13/trooptransport)
+"dO" = (
+/obj/effect/turf_decal/stripes/line{
+	dir = 1
+	},
+/obj/structure/cable,
+/turf/open/floor/engine,
+/area/ruin/powered/nsv13/trooptransport)
+"dP" = (
+/obj/effect/turf_decal/stripes/line{
+	dir = 5
+	},
+/turf/open/floor/engine,
+/area/ruin/powered/nsv13/trooptransport)
+"dQ" = (
+/obj/structure/window/reinforced/fulltile/ship,
+/turf/open/floor/plating,
+/area/ruin/powered/nsv13/trooptransport)
+"dR" = (
+/obj/effect/turf_decal/stripes/line{
+	dir = 8
+	},
+/obj/effect/turf_decal/tile/yellow,
+/obj/effect/turf_decal/tile/yellow{
+	dir = 4
+	},
+/obj/structure/cable,
+/obj/machinery/atmospherics/pipe/simple/general/visible,
+/turf/open/floor/plasteel/dark/airless,
+/area/ruin/powered/nsv13/trooptransport)
+"dS" = (
+/turf/open/floor/plating/airless,
+/area/ruin/powered/nsv13/trooptransport)
+"dT" = (
+/obj/structure/window/plasma/reinforced{
+	dir = 4
+	},
+/obj/machinery/atmospherics/components/unary/outlet_injector/on{
+	dir = 4
+	},
+/turf/open/floor/engine/plasma,
+/area/ruin/powered/nsv13/trooptransport)
+"dU" = (
+/obj/machinery/atmospherics/pipe/simple/general/visible{
+	dir = 9
+	},
+/turf/open/floor/plasteel/dark,
+/area/ruin/powered/nsv13/trooptransport)
+"dV" = (
+/obj/effect/turf_decal/stripes/line{
+	dir = 8
+	},
+/obj/machinery/atmospherics/pipe/simple/general/visible{
+	dir = 6
+	},
+/turf/open/floor/engine,
+/area/ruin/powered/nsv13/trooptransport)
+"dW" = (
+/obj/machinery/power/stormdrive_reactor,
+/obj/structure/cable,
+/obj/machinery/atmospherics/components/binary/pump{
+	dir = 8;
+	name = "Reactor input"
+	},
+/turf/open/floor/engine,
+/area/ruin/powered/nsv13/trooptransport)
+"dX" = (
+/obj/effect/turf_decal/stripes/line{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/general/visible{
+	dir = 4
+	},
+/turf/open/floor/engine,
+/area/ruin/powered/nsv13/trooptransport)
+"dY" = (
+/obj/machinery/atmospherics/components/trinary/filter/atmos/constricted_plasma/flipped,
+/obj/effect/turf_decal/stripes/line{
+	dir = 8
+	},
+/obj/effect/turf_decal/tile/yellow,
+/obj/effect/turf_decal/tile/yellow{
+	dir = 4
+	},
+/obj/structure/cable,
+/turf/open/floor/plasteel/dark/airless,
+/area/ruin/powered/nsv13/trooptransport)
+"dZ" = (
+/obj/machinery/atmospherics/pipe/simple/general/visible{
+	dir = 6
+	},
+/turf/closed/wall/ship,
+/area/ruin/powered/nsv13/trooptransport)
+"ea" = (
+/obj/machinery/atmospherics/pipe/layer_manifold{
+	dir = 4
+	},
+/turf/closed/wall/ship,
+/area/ruin/powered/nsv13/trooptransport)
+"eb" = (
+/obj/structure/window/plasma/reinforced{
+	dir = 4
+	},
+/obj/structure/window/plasma/reinforced,
+/obj/machinery/atmospherics/components/unary/vent_pump/siphon/on,
+/obj/machinery/atmospherics/pipe/simple/general/visible/layer3{
+	dir = 4
+	},
+/turf/open/floor/engine/plasma,
+/area/ruin/powered/nsv13/trooptransport)
+"ec" = (
+/obj/machinery/atmospherics/pipe/layer_manifold{
+	dir = 4
+	},
+/turf/open/floor/plasteel/dark,
+/area/ruin/powered/nsv13/trooptransport)
+"ed" = (
+/obj/effect/turf_decal/stripes/line{
+	dir = 10
+	},
+/obj/machinery/atmospherics/pipe/simple/general/visible{
+	dir = 9
+	},
+/turf/open/floor/engine,
+/area/ruin/powered/nsv13/trooptransport)
+"ee" = (
+/obj/effect/turf_decal/stripes/line,
+/obj/structure/cable,
+/turf/open/floor/engine,
+/area/ruin/powered/nsv13/trooptransport)
+"ef" = (
+/obj/effect/turf_decal/stripes/line{
+	dir = 6
+	},
+/turf/open/floor/engine,
+/area/ruin/powered/nsv13/trooptransport)
+"eg" = (
+/obj/machinery/atmospherics/components/unary/outlet_injector/on{
+	dir = 1
+	},
+/turf/template_noop,
+/area/ruin/powered/nsv13/trooptransport)
+"eh" = (
+/obj/effect/turf_decal/tile/yellow{
+	dir = 8
+	},
+/obj/effect/turf_decal/tile/yellow{
+	dir = 1
+	},
+/obj/machinery/atmospherics/pipe/manifold/general/visible{
+	dir = 8
+	},
+/turf/open/floor/plasteel/dark/airless,
+/area/ruin/powered/nsv13/trooptransport)
+"ei" = (
+/obj/machinery/atmospherics/components/binary/pump{
+	dir = 4
+	},
+/turf/open/floor/plasteel/dark/airless,
+/area/ruin/powered/nsv13/trooptransport)
+"ek" = (
+/obj/structure/cable,
+/obj/machinery/atmospherics/pipe/simple/general/visible{
+	dir = 4
+	},
+/obj/machinery/power/magnetic_constrictor,
+/turf/open/floor/plasteel/dark/airless,
+/area/ruin/powered/nsv13/trooptransport)
+"el" = (
+/obj/effect/turf_decal/tile/yellow,
+/obj/effect/turf_decal/tile/yellow{
+	dir = 4
+	},
+/obj/structure/cable,
+/obj/machinery/atmospherics/pipe/simple/general/visible{
+	dir = 9
+	},
+/turf/open/floor/plasteel/dark/airless,
+/area/ruin/powered/nsv13/trooptransport)
+"em" = (
+/obj/machinery/atmospherics/pipe/simple/general/hidden,
+/obj/machinery/atmospherics/components/unary/vent_pump/on/layer1,
+/obj/machinery/door/window/brigdoor/security/cell,
+/turf/open/floor/plasteel/dark,
+/area/ruin/powered/nsv13/prisonship)
+"en" = (
+/obj/structure/window/plasma/reinforced{
+	dir = 1
+	},
+/obj/structure/window/plasma/reinforced{
+	dir = 4
+	},
+/turf/open/floor/engine/plasma,
+/area/ruin/powered/nsv13/trooptransport)
+"eo" = (
+/obj/structure/window/plasma/reinforced{
+	dir = 1
+	},
+/turf/open/floor/plasteel/dark/airless,
+/area/ruin/powered/nsv13/trooptransport)
+"ep" = (
 /obj/structure/window/plasma/reinforced{
 	dir = 1
 	},
@@ -1087,30 +1516,83 @@
 /obj/structure/window/plasma/reinforced,
 /turf/open/floor/plasteel/dark/airless,
 /area/ruin/powered/nsv13/trooptransport)
-"dM" = (
-/obj/machinery/computer/ship/tactical{
-	icon_state = "computer";
+"eq" = (
+/obj/structure/window/plasma/reinforced{
+	dir = 4
+	},
+/obj/structure/window/plasma/reinforced,
+/obj/machinery/atmospherics/components/unary/vent_pump/siphon/on,
+/turf/open/floor/engine/plasma,
+/area/ruin/powered/nsv13/trooptransport)
+"er" = (
+/obj/machinery/door/window{
+	dir = 4
+	},
+/obj/machinery/door/window{
 	dir = 8
 	},
+/obj/structure/fans/tiny/invisible,
 /turf/open/floor/plasteel/dark,
-/area/ruin/powered/nsv13/prisonship)
-"em" = (
-/obj/machinery/atmospherics/pipe/simple/general/hidden,
-/obj/machinery/atmospherics/components/unary/vent_pump/on/layer1,
-/obj/machinery/door/window/brigdoor/security/cell,
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/nsv13/prisonship)
+/area/ruin/powered/nsv13/trooptransport)
+"es" = (
+/obj/machinery/atmospherics/pipe/simple/general/visible{
+	dir = 5
+	},
+/obj/machinery/button/door{
+	id = "syndi-turbine";
+	name = "Turbine vent control";
+	pixel_x = -25
+	},
+/turf/open/floor/plasteel/dark/airless,
+/area/ruin/powered/nsv13/trooptransport)
+"et" = (
+/obj/machinery/atmospherics/pipe/simple/general/visible{
+	dir = 10
+	},
+/turf/open/floor/plasteel/dark/airless,
+/area/ruin/powered/nsv13/trooptransport)
+"eu" = (
+/obj/structure/window/plasma/reinforced{
+	dir = 4
+	},
+/obj/structure/window/plasma/reinforced{
+	dir = 1
+	},
+/turf/open/floor/plasteel/dark/airless,
+/area/ruin/powered/nsv13/trooptransport)
+"ev" = (
+/obj/machinery/atmospherics/components/trinary/mixer{
+	dir = 8;
+	node1_concentration = 0.3;
+	node2_concentration = 0.7
+	},
+/turf/open/floor/plasteel/dark/airless,
+/area/ruin/powered/nsv13/trooptransport)
+"ew" = (
+/obj/structure/window/plasma/reinforced{
+	dir = 4
+	},
+/obj/structure/window/plasma/reinforced{
+	dir = 1
+	},
+/obj/structure/window/plasma/reinforced{
+	dir = 8
+	},
+/obj/machinery/atmospherics/components/unary/vent_pump/siphon/on{
+	dir = 8
+	},
+/turf/open/floor/engine/o2,
+/area/ruin/powered/nsv13/trooptransport)
 "ey" = (
 /obj/structure/window/reinforced/tinted{
 	dir = 4
 	},
 /turf/open/floor/plasteel/showroomfloor,
 /area/ruin/powered/nsv13/prisonship)
-"eB" = (
-/obj/effect/turf_decal/stripes/line{
-	dir = 5
+"eV" = (
+/turf/open/floor/plating/airless{
+	icon_state = "platingdmg3"
 	},
-/turf/open/floor/engine,
 /area/ruin/powered/nsv13/trooptransport)
 "eX" = (
 /obj/structure/closet/wardrobe/orange,
@@ -1124,10 +1606,9 @@
 	},
 /turf/open/floor/plasteel/dark,
 /area/ruin/powered/nsv13/prisonship)
-"fo" = (
-/obj/structure/particle_accelerator/particle_emitter/right,
-/obj/structure/cable,
-/obj/machinery/atmospherics/pipe/simple/general/visible{
+"fp" = (
+/obj/effect/turf_decal/tile/yellow,
+/obj/effect/turf_decal/tile/yellow{
 	dir = 4
 	},
 /turf/open/floor/plasteel/dark,
@@ -1137,22 +1618,10 @@
 /mob/living/simple_animal/hostile/syndicate/ranged,
 /turf/open/floor/plasteel/dark,
 /area/ruin/powered/nsv13/prisonship)
-"fP" = (
-/obj/structure/particle_accelerator/fuel_chamber,
+"gs" = (
+/obj/machinery/computer/prisoner,
 /turf/open/floor/plasteel/dark,
-/area/ruin/powered/nsv13/trooptransport)
-"fV" = (
-/obj/effect/turf_decal/tile/yellow{
-	dir = 1
-	},
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/nsv13/trooptransport)
-"gm" = (
-/obj/machinery/atmospherics/pipe/simple/general/visible{
-	dir = 6
-	},
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/nsv13/trooptransport)
+/area/ruin/powered/nsv13/prisonship)
 "gv" = (
 /obj/structure/closet/secure_closet/medical3,
 /obj/machinery/light{
@@ -1160,47 +1629,40 @@
 	},
 /turf/open/floor/plasteel/dark,
 /area/ruin/powered/nsv13/prisonship)
-"gA" = (
-/obj/effect/turf_decal/stripes/line,
-/obj/structure/cable,
-/turf/open/floor/engine,
-/area/ruin/powered/nsv13/trooptransport)
-"gB" = (
-/obj/effect/turf_decal/tile/yellow,
-/obj/effect/turf_decal/tile/yellow{
+"gH" = (
+/obj/machinery/atmospherics/pipe/simple/general/hidden{
 	dir = 4
 	},
-/obj/structure/cable,
-/obj/machinery/atmospherics/pipe/simple/general/visible{
-	dir = 10
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	dir = 4
 	},
+/obj/machinery/computer/lore_terminal/awaymission,
 /turf/open/floor/plasteel/dark,
-/area/ruin/powered/nsv13/trooptransport)
-"gU" = (
-/obj/structure/window/plasma/reinforced{
-	dir = 1
-	},
-/obj/structure/window/plasma/reinforced{
-	dir = 4
-	},
-/turf/open/floor/engine/plasma,
-/area/ruin/powered/nsv13/trooptransport)
+/area/ruin/powered/nsv13/prisonship)
 "gZ" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /obj/machinery/door/airlock/public/glass,
 /turf/open/floor/plasteel/dark,
 /area/ruin/powered/nsv13/prisonship)
-"hq" = (
-/obj/machinery/atmospherics/pipe/simple/general/visible{
-	dir = 4
+"hi" = (
+/turf/open/floor/plating/airless{
+	icon_state = "panelscorched"
 	},
-/turf/open/floor/plasteel/dark,
 /area/ruin/powered/nsv13/trooptransport)
 "hA" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /mob/living/simple_animal/hostile/syndicate/melee,
 /turf/open/floor/plasteel/dark,
 /area/ruin/powered/nsv13/prisonship)
+"hI" = (
+/obj/structure/window/plasma/reinforced{
+	dir = 4
+	},
+/obj/structure/window/plasma/reinforced{
+	dir = 1
+	},
+/turf/open/floor/engine/plasma,
+/area/ruin/powered/nsv13/trooptransport)
 "hW" = (
 /obj/structure/window/reinforced/tinted{
 	dir = 4
@@ -1210,16 +1672,23 @@
 	},
 /turf/open/floor/plasteel/showroomfloor,
 /area/ruin/powered/nsv13/prisonship)
-"in" = (
-/obj/effect/turf_decal/stripes/line{
+"hZ" = (
+/obj/machinery/computer/ship/tactical{
+	icon_state = "computer";
 	dir = 8
 	},
-/obj/effect/turf_decal/tile/yellow,
+/turf/open/floor/plasteel/dark,
+/area/ruin/powered/nsv13/prisonship)
+"io" = (
 /obj/effect/turf_decal/tile/yellow{
 	dir = 4
 	},
-/obj/structure/cable,
-/obj/machinery/atmospherics/pipe/simple/general/visible,
+/obj/effect/turf_decal/tile/yellow{
+	dir = 8
+	},
+/obj/effect/turf_decal/tile/yellow{
+	dir = 1
+	},
 /turf/open/floor/plasteel/dark,
 /area/ruin/powered/nsv13/trooptransport)
 "iZ" = (
@@ -1231,51 +1700,20 @@
 	},
 /turf/open/floor/plasteel/showroomfloor,
 /area/ruin/powered/nsv13/prisonship)
-"jd" = (
+"ja" = (
 /obj/effect/turf_decal/tile/yellow,
 /obj/effect/turf_decal/tile/yellow{
 	dir = 4
 	},
-/obj/effect/turf_decal/tile/yellow{
-	dir = 1
-	},
-/turf/open/floor/plasteel/dark,
+/turf/open/floor/plasteel/dark/airless,
 /area/ruin/powered/nsv13/trooptransport)
-"jr" = (
-/obj/effect/turf_decal/tile/yellow{
-	dir = 4
-	},
-/obj/effect/turf_decal/tile/yellow{
-	dir = 1
-	},
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/nsv13/trooptransport)
-"jz" = (
-/obj/machinery/computer/pod/old/syndicate,
-/obj/structure/table/reinforced,
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/nsv13/prisonship)
 "jC" = (
 /obj/structure/closet/secure_closet/medical2,
 /turf/open/floor/plasteel/dark,
 /area/ruin/powered/nsv13/prisonship)
-"jJ" = (
-/obj/machinery/power/stormdrive_reactor,
-/obj/structure/cable,
-/obj/machinery/atmospherics/components/binary/pump{
-	dir = 8;
-	name = "Reactor input"
-	},
-/turf/open/floor/engine,
-/area/ruin/powered/nsv13/trooptransport)
-"jN" = (
-/obj/structure/particle_accelerator/end_cap,
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/nsv13/trooptransport)
-"jW" = (
-/obj/machinery/computer/atmos_alert{
-	dir = 1
-	},
+"jR" = (
+/obj/machinery/computer/pod/old/syndicate,
+/obj/structure/table/reinforced,
 /turf/open/floor/plasteel/dark,
 /area/ruin/powered/nsv13/prisonship)
 "jX" = (
@@ -1293,30 +1731,25 @@
 /obj/machinery/door/airlock/ship/external,
 /turf/open/floor/plating,
 /area/ruin/powered/nsv13/trooptransport)
-"kY" = (
-/obj/structure/window/plasma/reinforced{
-	dir = 4
-	},
-/obj/machinery/atmospherics/components/unary/outlet_injector/on{
-	dir = 4
-	},
-/turf/open/floor/engine/plasma,
-/area/ruin/powered/nsv13/trooptransport)
-"ld" = (
-/obj/effect/turf_decal/tile/yellow{
-	dir = 1
-	},
-/obj/effect/turf_decal/tile/yellow{
-	dir = 4
-	},
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/nsv13/trooptransport)
 "lh" = (
 /obj/structure/closet/firecloset{
 	anchored = 1
 	},
 /turf/open/floor/plasteel/dark,
 /area/ruin/powered/nsv13/prisonship)
+"lk" = (
+/turf/open/space/basic,
+/area/ruin/powered/nsv13/trooptransport)
+"lr" = (
+/obj/effect/turf_decal/tile/yellow,
+/obj/effect/turf_decal/tile/yellow{
+	dir = 4
+	},
+/obj/effect/turf_decal/tile/yellow{
+	dir = 1
+	},
+/turf/open/floor/plasteel/dark,
+/area/ruin/powered/nsv13/trooptransport)
 "ly" = (
 /obj/structure/closet/syndicate{
 	anchored = 1
@@ -1333,49 +1766,43 @@
 /mob/living/simple_animal/hostile/syndicate/ranged/space,
 /turf/open/floor/plasteel/dark,
 /area/ruin/powered/nsv13/prisonship)
-"lV" = (
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/nsv13/prisonship)
-"lW" = (
-/obj/machinery/atmospherics/pipe/layer_manifold{
-	dir = 4
+"lG" = (
+/obj/structure/bed/pod,
+/obj/item/bedsheet/syndie,
+/turf/open/floor/plating/airless{
+	icon_state = "panelscorched"
 	},
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/nsv13/trooptransport)
-"mk" = (
+/area/ruin/powered/nsv13/prisonship)
+"lQ" = (
+/obj/structure/bed/pod,
+/obj/item/bedsheet/syndie,
+/turf/open/floor/plating/airless{
+	icon_state = "platingdmg2"
+	},
+/area/ruin/powered/nsv13/prisonship)
+"lU" = (
+/obj/effect/turf_decal/tile/yellow{
+	dir = 1
+	},
 /obj/effect/turf_decal/tile/yellow{
 	dir = 8
 	},
 /obj/effect/turf_decal/tile/yellow,
-/obj/effect/turf_decal/tile/yellow{
-	dir = 4
-	},
-/turf/open/floor/plasteel/dark,
+/turf/open/floor/plasteel/dark/airless,
 /area/ruin/powered/nsv13/trooptransport)
+"lV" = (
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/turf/open/floor/plasteel/dark,
+/area/ruin/powered/nsv13/prisonship)
 "mC" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /obj/machinery/light{
 	dir = 8
 	},
-/turf/open/floor/plasteel/dark,
+/turf/open/floor/plating{
+	icon_state = "panelscorched"
+	},
 /area/ruin/powered/nsv13/prisonship)
-"mD" = (
-/obj/machinery/atmospherics/pipe/simple/general/visible{
-	dir = 6
-	},
-/turf/closed/wall/ship,
-/area/ruin/powered/nsv13/trooptransport)
-"ni" = (
-/obj/effect/turf_decal/tile/yellow{
-	dir = 8
-	},
-/obj/effect/turf_decal/tile/yellow,
-/obj/effect/turf_decal/tile/yellow{
-	dir = 1
-	},
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/nsv13/trooptransport)
 "nn" = (
 /obj/structure/table/reinforced,
 /turf/open/floor/plasteel/showroomfloor,
@@ -1391,6 +1818,17 @@
 /obj/machinery/light,
 /turf/open/floor/plasteel/dark,
 /area/ruin/powered/nsv13/prisonship)
+"nE" = (
+/obj/machinery/computer/secure_data/syndie,
+/turf/open/floor/plasteel/dark,
+/area/ruin/powered/nsv13/prisonship)
+"nF" = (
+/obj/structure/bed/pod,
+/obj/item/bedsheet/syndie,
+/turf/open/floor/plating/airless{
+	icon_state = "platingdmg3"
+	},
+/area/ruin/powered/nsv13/prisonship)
 "nP" = (
 /turf/open/floor/plasteel/showroomfloor,
 /area/ruin/powered/nsv13/prisonship)
@@ -1400,27 +1838,55 @@
 	},
 /turf/open/floor/plasteel/showroomfloor,
 /area/ruin/powered/nsv13/prisonship)
-"pZ" = (
+"oH" = (
+/obj/machinery/airalarm/syndicate{
+	dir = 1;
+	pixel_y = -25
+	},
+/turf/open/floor/plating/airless{
+	icon_state = "panelscorched"
+	},
+/area/ruin/powered/nsv13/prisonship)
+"oM" = (
 /obj/effect/turf_decal/tile/yellow{
 	dir = 8
 	},
-/obj/effect/turf_decal/tile/yellow{
-	dir = 1
-	},
 /turf/open/floor/plasteel/dark,
 /area/ruin/powered/nsv13/trooptransport)
-"qj" = (
+"oY" = (
+/obj/machinery/light/small{
+	dir = 8
+	},
+/turf/open/floor/plating/airless{
+	icon_state = "panelscorched"
+	},
+/area/ruin/powered/nsv13/prisonship)
+"pw" = (
+/obj/structure/bed/pod,
+/obj/item/bedsheet/syndie,
+/obj/effect/gibspawner/human,
+/turf/open/floor/plating/airless{
+	icon_state = "platingdmg2"
+	},
+/area/ruin/powered/nsv13/prisonship)
+"pF" = (
+/obj/effect/turf_decal/tile/yellow{
+	dir = 8
+	},
+/obj/effect/turf_decal/tile/yellow,
 /obj/effect/turf_decal/tile/yellow{
 	dir = 4
 	},
-/obj/effect/turf_decal/tile/yellow{
-	dir = 8
-	},
-/obj/effect/turf_decal/tile/yellow{
-	dir = 1
-	},
-/turf/open/floor/plasteel/dark,
+/turf/open/floor/plasteel/dark/airless,
 /area/ruin/powered/nsv13/trooptransport)
+"pO" = (
+/obj/structure/closet/secure_closet/personal{
+	anchored = 1
+	},
+/turf/open/floor/plating/airless{
+	icon_state = "panelscorched"
+	},
+/area/ruin/powered/nsv13/prisonship)
 "qD" = (
 /obj/machinery/power/compressor{
 	dir = 8
@@ -1428,114 +1894,61 @@
 /obj/structure/cable,
 /turf/open/floor/engine/airless,
 /area/ruin/powered/nsv13/prisonship)
-"qF" = (
-/obj/machinery/computer/ship/helm{
-	icon_state = "computer";
-	dir = 8
-	},
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/nsv13/prisonship)
-"qP" = (
-/obj/machinery/computer/secure_data/syndie,
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/nsv13/prisonship)
-"qW" = (
-/obj/machinery/atmospherics/pipe/simple/general/visible{
-	dir = 9
-	},
+"qO" = (
+/obj/machinery/atmospherics/components/unary/vent_pump/on/layer1,
 /turf/open/floor/plasteel/dark/airless,
-/area/ruin/powered/nsv13/trooptransport)
-"rb" = (
-/obj/effect/turf_decal/stripes/line{
-	dir = 8
+/area/ruin/powered/nsv13/prisonship)
+"rm" = (
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/turf/open/floor/plating{
+	icon_state = "panelscorched"
 	},
-/obj/machinery/atmospherics/pipe/simple/general/visible{
-	dir = 6
-	},
-/turf/open/floor/engine,
-/area/ruin/powered/nsv13/trooptransport)
-"ri" = (
+/area/ruin/powered/nsv13/prisonship)
+"ry" = (
 /obj/machinery/computer/med_data/syndie{
 	dir = 1
 	},
 /turf/open/floor/plasteel/dark,
 /area/ruin/powered/nsv13/prisonship)
-"ru" = (
-/obj/effect/turf_decal/tile/yellow{
-	dir = 8
+"su" = (
+/obj/machinery/shower{
+	dir = 4
 	},
-/obj/effect/turf_decal/tile/yellow{
-	dir = 1
+/obj/effect/decal/cleanable/ash/crematorium,
+/turf/open/floor/plating/airless{
+	icon_state = "panelscorched"
 	},
-/obj/effect/turf_decal/tile/yellow,
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/nsv13/trooptransport)
-"si" = (
-/obj/effect/turf_decal/stripes/line{
-	dir = 9
-	},
-/turf/open/floor/engine,
-/area/ruin/powered/nsv13/trooptransport)
-"st" = (
-/obj/effect/turf_decal/stripes/line{
-	dir = 10
-	},
-/obj/machinery/atmospherics/pipe/simple/general/visible{
-	dir = 9
-	},
-/turf/open/floor/engine,
-/area/ruin/powered/nsv13/trooptransport)
-"sw" = (
-/obj/machinery/computer/monitor,
-/turf/open/floor/plasteel/dark,
 /area/ruin/powered/nsv13/prisonship)
 "sy" = (
 /obj/structure/grille,
 /obj/structure/window/reinforced/fulltile/ship,
 /turf/open/floor/plating,
 /area/ruin/powered/nsv13/prisonship)
-"sP" = (
-/obj/machinery/atmospherics/pipe/simple/general/hidden{
-	dir = 4
+"sC" = (
+/obj/effect/gibspawner/human,
+/obj/effect/decal/cleanable/ash/large,
+/turf/open/floor/plating/airless{
+	icon_state = "panelscorched"
 	},
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
-	dir = 4
-	},
-/obj/machinery/computer/lore_terminal/awaymission,
-/turf/open/floor/plasteel/dark,
 /area/ruin/powered/nsv13/prisonship)
-"sS" = (
-/turf/template_noop,
-/area/ruin/powered/nsv13/trooptransport)
-"td" = (
-/obj/effect/turf_decal/tile/yellow,
-/obj/effect/turf_decal/tile/yellow{
-	dir = 4
-	},
-/obj/structure/cable{
-	icon_state = "1-2"
-	},
-/obj/machinery/atmospherics/pipe/simple/general/visible,
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/nsv13/trooptransport)
-"tn" = (
-/obj/structure/window/plasma/reinforced{
-	dir = 1
-	},
-/turf/open/floor/plasteel/dark/airless,
-/area/ruin/powered/nsv13/trooptransport)
-"tV" = (
+"sI" = (
 /obj/effect/turf_decal/tile/yellow{
 	dir = 8
 	},
 /obj/effect/turf_decal/tile/yellow{
 	dir = 1
 	},
-/obj/machinery/atmospherics/pipe/simple/general/visible,
-/obj/structure/grille,
-/obj/structure/window/reinforced/fulltile/ship,
-/turf/open/floor/plasteel/dark,
+/turf/open/floor/plasteel/dark/airless,
 /area/ruin/powered/nsv13/trooptransport)
+"sS" = (
+/turf/template_noop,
+/area/ruin/powered/nsv13/trooptransport)
+"sT" = (
+/turf/open/space/basic,
+/area/ruin/powered/nsv13/prisonship)
+"tj" = (
+/turf/open/floor/plasteel/dark/airless,
+/area/ruin/powered/nsv13/prisonship)
 "ub" = (
 /obj/machinery/computer/arcade/battle,
 /obj/machinery/light{
@@ -1543,9 +1956,6 @@
 	},
 /turf/open/floor/plasteel/dark,
 /area/ruin/powered/nsv13/prisonship)
-"um" = (
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/nsv13/trooptransport)
 "ut" = (
 /obj/machinery/washing_machine,
 /obj/machinery/light{
@@ -1553,21 +1963,6 @@
 	},
 /turf/open/floor/plasteel/showroomfloor,
 /area/ruin/powered/nsv13/prisonship)
-"uW" = (
-/obj/effect/turf_decal/stripes/line{
-	dir = 1
-	},
-/obj/structure/cable,
-/turf/open/floor/engine,
-/area/ruin/powered/nsv13/trooptransport)
-"uX" = (
-/obj/machinery/atmospherics/components/trinary/mixer/flipped{
-	dir = 4;
-	node1_concentration = 0.3;
-	node2_concentration = 0.7
-	},
-/turf/open/floor/plasteel/dark/airless,
-/area/ruin/powered/nsv13/trooptransport)
 "ve" = (
 /obj/machinery/atmospherics/pipe/simple/general/hidden,
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer1{
@@ -1585,43 +1980,20 @@
 /obj/machinery/light,
 /turf/open/floor/plasteel/showroomfloor,
 /area/ruin/powered/nsv13/prisonship)
-"vg" = (
-/obj/machinery/atmospherics/components/trinary/filter/atmos/constricted_plasma/flipped,
-/obj/effect/turf_decal/stripes/line{
-	dir = 8
-	},
-/obj/effect/turf_decal/tile/yellow,
-/obj/effect/turf_decal/tile/yellow{
-	dir = 4
-	},
-/obj/structure/cable,
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/nsv13/trooptransport)
 "vj" = (
 /obj/structure/closet/syndicate{
 	anchored = 1
 	},
 /turf/open/floor/plasteel/dark,
 /area/ruin/powered/nsv13/prisonship)
-"vm" = (
-/obj/effect/turf_decal/tile/yellow{
+"vr" = (
+/obj/structure/toilet{
 	dir = 8
 	},
-/obj/effect/turf_decal/tile/yellow{
-	dir = 1
+/turf/open/floor/plating/airless{
+	icon_state = "panelscorched"
 	},
-/obj/effect/turf_decal/tile/yellow{
-	dir = 4
-	},
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/nsv13/trooptransport)
-"vp" = (
-/obj/effect/turf_decal/tile/yellow{
-	dir = 8
-	},
-/obj/effect/turf_decal/tile/yellow,
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/nsv13/trooptransport)
+/area/ruin/powered/nsv13/prisonship)
 "vA" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /obj/machinery/door/airlock/security/glass{
@@ -1629,76 +2001,70 @@
 	},
 /turf/open/floor/plasteel/dark,
 /area/ruin/powered/nsv13/prisonship)
-"vE" = (
-/obj/structure/grille,
-/obj/structure/window/reinforced/fulltile/ship,
-/obj/structure/cable,
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/nsv13/trooptransport)
-"vQ" = (
-/obj/machinery/atmospherics/pipe/simple/general/visible{
-	dir = 10
-	},
-/turf/open/floor/plasteel/dark/airless,
-/area/ruin/powered/nsv13/trooptransport)
-"vT" = (
-/obj/machinery/atmospherics/pipe/simple/general/visible{
-	dir = 4
-	},
-/turf/open/floor/plasteel/dark/airless,
-/area/ruin/powered/nsv13/trooptransport)
-"wB" = (
-/obj/structure/particle_accelerator/particle_emitter/left,
-/obj/structure/cable,
-/obj/machinery/atmospherics/pipe/simple/general/visible{
-	dir = 4
+"wy" = (
+/obj/effect/turf_decal/tile/yellow{
+	dir = 1
 	},
 /turf/open/floor/plasteel/dark,
 /area/ruin/powered/nsv13/trooptransport)
+"wA" = (
+/obj/machinery/door/window,
+/obj/machinery/atmospherics/pipe/simple/general/hidden,
+/obj/machinery/atmospherics/components/unary/vent_pump/on/layer1,
+/turf/open/floor/plating/airless{
+	icon_state = "panelscorched"
+	},
+/area/ruin/powered/nsv13/prisonship)
 "wC" = (
 /obj/structure/chair/office,
 /mob/living/simple_animal/hostile/syndicate/civilian,
 /turf/open/floor/plasteel/dark,
 /area/ruin/powered/nsv13/prisonship)
-"wD" = (
-/obj/machinery/particle_accelerator/control_box,
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/nsv13/trooptransport)
 "xd" = (
 /mob/living/simple_animal/hostile/syndicate/civilian,
 /turf/open/floor/plasteel/dark,
 /area/ruin/powered/nsv13/prisonship)
-"xo" = (
-/obj/machinery/atmospherics/pipe/simple/general/visible{
-	dir = 6
+"xQ" = (
+/obj/machinery/airalarm/syndicate{
+	dir = 4;
+	pixel_x = -25;
+	pixel_y = 0
 	},
-/obj/machinery/button/door{
-	id = "syndi-turbine";
-	name = "Turbine vent control";
-	pixel_x = -25
+/obj/machinery/atmospherics/components/unary/vent_pump/on{
+	dir = 2;
+	external_pressure_bound = 120;
+	name = "Prisoner Supression System Pump"
 	},
-/turf/open/floor/plasteel/dark/airless,
-/area/ruin/powered/nsv13/trooptransport)
-"xD" = (
-/obj/structure/closet/secure_closet/personal{
-	anchored = 1
+/turf/open/floor/plating/airless{
+	icon_state = "panelscorched"
 	},
-/obj/machinery/computer/lore_terminal/awaymission,
-/turf/open/floor/plasteel/dark,
 /area/ruin/powered/nsv13/prisonship)
 "yj" = (
 /turf/open/floor/plasteel/dark,
 /area/ruin/powered/nsv13/prisonship)
-"yy" = (
-/obj/machinery/atmospherics/pipe/simple/general/visible{
-	dir = 4
-	},
-/obj/structure/lattice/catwalk,
-/turf/open/space/basic,
-/area/ruin/powered/nsv13/trooptransport)
+"yq" = (
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/turf/open/floor/plasteel/dark/airless,
+/area/ruin/powered/nsv13/prisonship)
 "yK" = (
 /obj/machinery/door/airlock/engineering{
 	req_one_access_txt = "150"
+	},
+/turf/open/floor/plasteel/dark,
+/area/ruin/powered/nsv13/prisonship)
+"Ak" = (
+/obj/machinery/light,
+/turf/open/floor/plating/airless{
+	icon_state = "panelscorched"
+	},
+/area/ruin/powered/nsv13/prisonship)
+"Av" = (
+/turf/closed/wall/r_wall/ship,
+/area/ruin/powered/nsv13/trooptransport)
+"Ax" = (
+/obj/machinery/computer/prisoner{
+	icon_state = "computer";
+	dir = 8
 	},
 /turf/open/floor/plasteel/dark,
 /area/ruin/powered/nsv13/prisonship)
@@ -1712,11 +2078,24 @@
 	},
 /turf/open/floor/engine/airless,
 /area/ruin/powered/nsv13/prisonship)
-"BB" = (
-/obj/structure/grille,
-/obj/structure/window/reinforced/fulltile/ship,
-/obj/machinery/atmospherics/pipe/simple/general/visible,
+"Be" = (
+/obj/effect/turf_decal/tile/yellow{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/yellow{
+	dir = 4
+	},
 /turf/open/floor/plasteel/dark,
+/area/ruin/powered/nsv13/trooptransport)
+"BD" = (
+/obj/effect/turf_decal/tile/yellow{
+	dir = 8
+	},
+/obj/effect/turf_decal/tile/yellow{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/yellow,
+/turf/open/floor/plasteel/dark/airless,
 /area/ruin/powered/nsv13/trooptransport)
 "BE" = (
 /obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1{
@@ -1729,36 +2108,46 @@
 	},
 /turf/open/floor/plasteel/dark,
 /area/ruin/powered/nsv13/prisonship)
-"BN" = (
-/obj/structure/window/plasma/reinforced,
-/obj/structure/window/plasma/reinforced{
-	dir = 4
-	},
-/obj/structure/window/plasma/reinforced{
-	dir = 1
-	},
-/turf/open/floor/plasteel/dark/airless,
-/area/ruin/powered/nsv13/trooptransport)
 "BS" = (
 /turf/closed/wall/ship,
 /area/ruin/powered/nsv13/trooptransport)
-"BZ" = (
-/obj/machinery/atmospherics/pipe/simple/general/visible,
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/nsv13/trooptransport)
+"Cp" = (
+/obj/structure/closet/secure_closet/personal{
+	anchored = 1
+	},
+/obj/machinery/computer/lore_terminal/awaymission,
+/turf/open/floor/plasteel/dark/airless,
+/area/ruin/powered/nsv13/prisonship)
 "Cs" = (
 /turf/closed/wall,
 /area/ruin/powered/nsv13/prisonship)
-"CA" = (
-/turf/closed/wall/r_wall/ship,
-/area/ruin/powered/nsv13/trooptransport)
-"CC" = (
-/obj/structure/cable,
-/obj/machinery/atmospherics/pipe/simple/general/visible{
-	dir = 4
+"CG" = (
+/obj/structure/sink{
+	dir = 4;
+	pixel_x = 12
+	},
+/turf/open/floor/plating/airless{
+	icon_state = "panelscorched"
+	},
+/area/ruin/powered/nsv13/prisonship)
+"CN" = (
+/obj/machinery/computer/ship/helm{
+	icon_state = "computer";
+	dir = 8
 	},
 /turf/open/floor/plasteel/dark,
-/area/ruin/powered/nsv13/trooptransport)
+/area/ruin/powered/nsv13/prisonship)
+"CX" = (
+/turf/open/floor/plating/airless{
+	icon_state = "panelscorched"
+	},
+/area/ruin/powered/nsv13/prisonship)
+"CZ" = (
+/obj/machinery/computer/crew/syndie{
+	dir = 1
+	},
+/turf/open/floor/plasteel/dark,
+/area/ruin/powered/nsv13/prisonship)
 "Dg" = (
 /mob/living/simple_animal/bot/ed209,
 /turf/open/floor/plasteel/dark,
@@ -1772,14 +2161,17 @@
 	},
 /turf/open/floor/plasteel/dark,
 /area/ruin/powered/nsv13/prisonship)
-"Ds" = (
-/obj/structure/cable,
-/obj/machinery/atmospherics/pipe/simple/general/visible{
-	dir = 4
+"DN" = (
+/obj/machinery/door/window{
+	dir = 1
 	},
-/obj/machinery/power/magnetic_constrictor,
+/obj/machinery/atmospherics/pipe/simple/general/hidden,
+/obj/machinery/atmospherics/components/unary/vent_pump/on/layer1{
+	dir = 1
+	},
+/obj/effect/decal/cleanable/blood/tracks,
 /turf/open/floor/plasteel/dark,
-/area/ruin/powered/nsv13/trooptransport)
+/area/ruin/powered/nsv13/prisonship)
 "DR" = (
 /obj/machinery/atmospherics/pipe/simple/general/hidden{
 	dir = 4
@@ -1792,18 +2184,6 @@
 	},
 /turf/open/floor/plasteel/dark,
 /area/ruin/powered/nsv13/prisonship)
-"Eb" = (
-/obj/structure/window/plasma/reinforced{
-	dir = 4
-	},
-/obj/structure/window/plasma/reinforced{
-	dir = 1
-	},
-/obj/machinery/atmospherics/components/unary/vent_pump/siphon/on{
-	dir = 1
-	},
-/turf/open/floor/engine/plasma,
-/area/ruin/powered/nsv13/trooptransport)
 "Ed" = (
 /obj/machinery/atmospherics/pipe/simple/general/hidden{
 	dir = 4
@@ -1814,43 +2194,43 @@
 /obj/machinery/light,
 /turf/open/floor/plasteel/dark,
 /area/ruin/powered/nsv13/prisonship)
-"Eu" = (
-/obj/structure/window/plasma/reinforced,
-/turf/open/floor/plasteel/dark/airless,
-/area/ruin/powered/nsv13/trooptransport)
-"FI" = (
-/obj/structure/grille,
-/obj/structure/window/reinforced/fulltile/ship,
+"Ew" = (
+/obj/machinery/computer/atmos_alert{
+	dir = 1
+	},
 /turf/open/floor/plasteel/dark,
+/area/ruin/powered/nsv13/prisonship)
+"Fi" = (
+/obj/effect/turf_decal/tile/yellow,
+/obj/effect/turf_decal/tile/yellow{
+	dir = 4
+	},
+/turf/open/floor/plating/airless{
+	icon_state = "platingdmg2"
+	},
+/area/ruin/powered/nsv13/trooptransport)
+"FU" = (
+/obj/effect/turf_decal/tile/yellow{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/yellow{
+	dir = 8
+	},
+/turf/open/floor/plasteel/dark/airless,
 /area/ruin/powered/nsv13/trooptransport)
 "FX" = (
 /mob/living/simple_animal/hostile/syndicate/ranged/smg,
 /turf/open/floor/plasteel/dark,
 /area/ruin/powered/nsv13/prisonship)
-"Ga" = (
-/obj/structure/window/plasma/reinforced{
-	dir = 4
-	},
-/obj/structure/window/plasma/reinforced{
-	dir = 1
-	},
-/turf/open/floor/plasteel/dark/airless,
-/area/ruin/powered/nsv13/trooptransport)
 "Gd" = (
 /mob/living/simple_animal/hostile/syndicate/melee,
 /turf/open/floor/plasteel/dark,
 /area/ruin/powered/nsv13/prisonship)
-"Gw" = (
-/obj/effect/turf_decal/tile/yellow,
-/obj/effect/turf_decal/tile/yellow{
-	dir = 4
+"GE" = (
+/turf/open/floor/plating/airless{
+	icon_state = "platingdmg2"
 	},
-/obj/structure/cable,
-/obj/machinery/atmospherics/pipe/simple/general/visible{
-	dir = 9
-	},
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/nsv13/trooptransport)
+/area/ruin/powered/nsv13/prisonship)
 "GV" = (
 /mob/living/silicon/robot/shell,
 /turf/open/floor/plasteel/dark,
@@ -1859,18 +2239,13 @@
 /obj/structure/closet/secure_closet/medical1,
 /turf/open/floor/plasteel/dark,
 /area/ruin/powered/nsv13/prisonship)
-"HD" = (
-/obj/machinery/computer/atmos_control{
-	dir = 1
+"Hv" = (
+/obj/effect/turf_decal/tile/yellow{
+	dir = 8
 	},
+/obj/effect/turf_decal/tile/yellow,
 /turf/open/floor/plasteel/dark,
-/area/ruin/powered/nsv13/prisonship)
-"HK" = (
-/obj/machinery/computer/crew/syndie{
-	dir = 1
-	},
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/nsv13/prisonship)
+/area/ruin/powered/nsv13/trooptransport)
 "In" = (
 /obj/machinery/light,
 /turf/open/floor/plasteel/dark,
@@ -1878,89 +2253,56 @@
 "IA" = (
 /turf/open/floor/plating,
 /area/ruin/powered/nsv13/trooptransport)
-"IE" = (
-/turf/open/floor/plating/airless,
-/area/ruin/powered/nsv13/trooptransport)
-"IH" = (
-/obj/effect/turf_decal/stripes/line{
-	dir = 6
+"IN" = (
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/turf/open/floor/plating/airless{
+	icon_state = "panelscorched"
 	},
-/turf/open/floor/engine,
-/area/ruin/powered/nsv13/trooptransport)
-"Jf" = (
-/obj/structure/particle_accelerator/particle_emitter/center,
-/obj/machinery/atmospherics/pipe/simple/general/visible{
-	dir = 4
-	},
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/nsv13/trooptransport)
+/area/ruin/powered/nsv13/prisonship)
 "Jq" = (
 /obj/machinery/light{
 	dir = 8
 	},
 /turf/open/floor/plasteel/dark,
 /area/ruin/powered/nsv13/prisonship)
-"Jw" = (
-/obj/effect/turf_decal/tile/yellow{
-	dir = 8
+"Jt" = (
+/obj/machinery/computer/atmos_control{
+	dir = 1
 	},
 /turf/open/floor/plasteel/dark,
-/area/ruin/powered/nsv13/trooptransport)
+/area/ruin/powered/nsv13/prisonship)
+"Jw" = (
+/obj/structure/bed/pod,
+/obj/item/bedsheet/syndie,
+/obj/effect/gibspawner/human,
+/turf/open/floor/plating/airless{
+	icon_state = "platingdmg1"
+	},
+/area/ruin/powered/nsv13/prisonship)
 "JO" = (
 /mob/living/simple_animal/hostile/syndicate/ranged,
+/turf/open/floor/plasteel/dark,
+/area/ruin/powered/nsv13/prisonship)
+"Kl" = (
+/obj/machinery/computer/monitor,
 /turf/open/floor/plasteel/dark,
 /area/ruin/powered/nsv13/prisonship)
 "Kx" = (
 /turf/closed/wall/ship,
 /area/ruin/powered/nsv13/prisonship)
-"KF" = (
-/obj/structure/window/plasma/reinforced{
-	dir = 4
-	},
-/obj/structure/window/plasma/reinforced{
-	dir = 1
-	},
-/obj/structure/window/plasma/reinforced{
-	dir = 8
-	},
-/obj/machinery/atmospherics/components/unary/vent_pump/siphon/on{
-	dir = 8
-	},
-/turf/open/floor/engine/o2,
-/area/ruin/powered/nsv13/trooptransport)
-"Lf" = (
-/obj/effect/turf_decal/tile/yellow{
-	dir = 1
-	},
-/obj/effect/turf_decal/tile/yellow{
-	dir = 8
-	},
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/nsv13/trooptransport)
 "Ln" = (
 /obj/machinery/door/airlock/ship/external,
 /obj/effect/mapping_helpers/airlock/locked,
 /turf/open/floor/plating,
 /area/ruin/powered/nsv13/trooptransport)
-"Lz" = (
-/obj/structure/window/plasma/reinforced{
+"Lo" = (
+/obj/effect/turf_decal/tile/yellow{
 	dir = 4
 	},
-/obj/structure/window/plasma/reinforced,
-/obj/machinery/atmospherics/components/unary/vent_pump/siphon/on,
-/obj/machinery/atmospherics/pipe/simple/general/visible/layer3{
-	dir = 4
-	},
-/turf/open/floor/engine/plasma,
-/area/ruin/powered/nsv13/trooptransport)
-"LA" = (
-/obj/structure/window/plasma/reinforced{
-	dir = 4
-	},
-/obj/structure/window/plasma/reinforced{
+/obj/effect/turf_decal/tile/yellow{
 	dir = 1
 	},
-/turf/open/floor/engine/plasma,
+/turf/open/floor/plasteel/dark,
 /area/ruin/powered/nsv13/trooptransport)
 "LV" = (
 /obj/structure/closet/wardrobe/orange,
@@ -1973,52 +2315,54 @@
 /obj/machinery/washing_machine,
 /turf/open/floor/plasteel/showroomfloor,
 /area/ruin/powered/nsv13/prisonship)
-"Ng" = (
-/obj/effect/turf_decal/tile/yellow,
-/obj/effect/turf_decal/tile/yellow{
+"Nx" = (
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	dir = 4
 	},
+/turf/open/floor/plating{
+	icon_state = "panelscorched"
+	},
+/area/ruin/powered/nsv13/prisonship)
+"OK" = (
+/obj/effect/gibspawner/human,
 /turf/open/floor/plasteel/dark,
-/area/ruin/powered/nsv13/trooptransport)
-"Nh" = (
-/obj/machinery/atmospherics/components/trinary/mixer{
-	dir = 8;
-	node1_concentration = 0.3;
-	node2_concentration = 0.7
+/area/ruin/powered/nsv13/prisonship)
+"Pp" = (
+/obj/machinery/light/small{
+	dir = 8
 	},
-/turf/open/floor/plasteel/dark/airless,
-/area/ruin/powered/nsv13/trooptransport)
-"Or" = (
-/obj/effect/turf_decal/tile/yellow{
-	dir = 1
-	},
+/obj/effect/gibspawner/human,
+/turf/open/floor/plasteel/dark,
+/area/ruin/powered/nsv13/prisonship)
+"PA" = (
 /obj/effect/turf_decal/tile/yellow{
 	dir = 8
 	},
 /obj/effect/turf_decal/tile/yellow,
-/turf/open/floor/plasteel/dark,
+/turf/open/floor/plasteel/dark/airless,
 /area/ruin/powered/nsv13/trooptransport)
-"OQ" = (
-/obj/machinery/atmospherics/components/unary/outlet_injector/on{
+"PB" = (
+/turf/open/floor/plating{
+	icon_state = "panelscorched"
+	},
+/area/ruin/powered/nsv13/prisonship)
+"PW" = (
+/obj/effect/turf_decal/tile/yellow{
 	dir = 1
 	},
-/turf/template_noop,
+/turf/open/floor/plasteel/dark/airless,
 /area/ruin/powered/nsv13/trooptransport)
-"Qw" = (
-/obj/machinery/computer/prisoner,
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/nsv13/prisonship)
-"QN" = (
-/obj/structure/window/reinforced/fulltile/ship,
-/turf/open/floor/plating,
-/area/ruin/powered/nsv13/trooptransport)
-"Rk" = (
-/obj/structure/window/plasma/reinforced{
+"QW" = (
+/obj/effect/turf_decal/tile/yellow{
 	dir = 4
 	},
-/obj/structure/window/plasma/reinforced,
-/obj/machinery/atmospherics/components/unary/vent_pump/siphon/on,
-/turf/open/floor/engine/plasma,
+/obj/effect/turf_decal/tile/yellow{
+	dir = 8
+	},
+/obj/effect/turf_decal/tile/yellow{
+	dir = 1
+	},
+/turf/open/floor/plasteel/dark/airless,
 /area/ruin/powered/nsv13/trooptransport)
 "RA" = (
 /obj/machinery/door/airlock/ship/external{
@@ -2026,29 +2370,29 @@
 	},
 /turf/open/floor/plating,
 /area/ruin/powered/nsv13/trooptransport)
-"RC" = (
-/obj/machinery/computer/prisoner{
-	icon_state = "computer";
-	dir = 8
-	},
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/nsv13/prisonship)
-"RD" = (
-/obj/effect/turf_decal/tile/yellow{
-	dir = 8
-	},
-/obj/effect/turf_decal/tile/yellow{
-	dir = 1
-	},
-/obj/machinery/atmospherics/pipe/manifold/general/visible{
-	dir = 8
-	},
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/nsv13/trooptransport)
 "RJ" = (
 /obj/structure/shuttle/engine/propulsion/right,
 /turf/open/floor/plating/airless,
 /area/ruin/powered/nsv13/prisonship)
+"Sn" = (
+/obj/machinery/airalarm/syndicate{
+	dir = 4;
+	pixel_x = -25;
+	pixel_y = 0
+	},
+/obj/machinery/atmospherics/components/unary/vent_pump/on{
+	dir = 1;
+	external_pressure_bound = 120;
+	name = "Prisoner Supression System Pump"
+	},
+/obj/effect/decal/cleanable/blood/tracks,
+/turf/open/floor/plasteel/dark,
+/area/ruin/powered/nsv13/prisonship)
+"St" = (
+/turf/open/floor/plating/airless{
+	icon_state = "platingdmg1"
+	},
+/area/ruin/powered/nsv13/trooptransport)
 "Su" = (
 /obj/machinery/shower{
 	dir = 4
@@ -2075,18 +2419,21 @@
 /obj/machinery/suit_storage_unit/syndicate,
 /turf/open/floor/plasteel/dark,
 /area/ruin/powered/nsv13/prisonship)
-"Tt" = (
-/obj/machinery/atmospherics/pipe/simple/general/visible{
-	dir = 9
+"Tg" = (
+/obj/structure/bed/pod,
+/obj/item/bedsheet/syndie,
+/turf/open/floor/plating/airless{
+	icon_state = "platingdmg1"
 	},
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/nsv13/trooptransport)
-"TG" = (
-/obj/structure/window/plasma/reinforced,
-/obj/structure/window/plasma/reinforced{
-	dir = 4
+/area/ruin/powered/nsv13/prisonship)
+"Tu" = (
+/obj/effect/turf_decal/tile/yellow{
+	dir = 8
 	},
-/turf/open/floor/plasteel/dark/airless,
+/obj/effect/turf_decal/tile/yellow,
+/turf/open/floor/plating/airless{
+	icon_state = "panelscorched"
+	},
 /area/ruin/powered/nsv13/trooptransport)
 "TS" = (
 /obj/structure/chair/comfy/brown{
@@ -2095,20 +2442,19 @@
 /mob/living/simple_animal/hostile/syndicate/civilian,
 /turf/open/floor/plasteel/dark,
 /area/ruin/powered/nsv13/prisonship)
-"Uh" = (
-/turf/open/floor/plasteel/dark/airless,
-/area/ruin/powered/nsv13/trooptransport)
-"UW" = (
-/obj/machinery/atmospherics/pipe/simple/general/visible{
-	dir = 5
+"TU" = (
+/obj/structure/closet/secure_closet/brig,
+/obj/structure/window/reinforced,
+/turf/open/floor/plating/airless{
+	icon_state = "panelscorched"
 	},
-/obj/machinery/button/door{
-	id = "syndi-turbine";
-	name = "Turbine vent control";
-	pixel_x = -25
+/area/ruin/powered/nsv13/prisonship)
+"UF" = (
+/obj/structure/grille/broken,
+/turf/open/floor/plating/airless{
+	icon_state = "platingdmg3"
 	},
-/turf/open/floor/plasteel/dark/airless,
-/area/ruin/powered/nsv13/trooptransport)
+/area/ruin/powered/nsv13/prisonship)
 "VM" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer1{
 	dir = 1
@@ -2132,27 +2478,40 @@
 	},
 /turf/open/floor/plasteel/dark,
 /area/ruin/powered/nsv13/prisonship)
+"Xb" = (
+/turf/open/floor/plating/airless{
+	icon_state = "platingdmg2"
+	},
+/area/ruin/powered/nsv13/trooptransport)
 "Xd" = (
 /obj/machinery/light{
 	dir = 4
 	},
 /turf/open/floor/plasteel/dark,
 /area/ruin/powered/nsv13/prisonship)
-"Xf" = (
-/obj/machinery/door/window{
-	dir = 4
-	},
-/obj/machinery/door/window{
+"Xp" = (
+/obj/effect/turf_decal/tile/yellow{
 	dir = 8
 	},
-/obj/structure/fans/tiny/invisible,
-/turf/open/floor/plasteel/dark,
+/obj/effect/turf_decal/tile/yellow{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/yellow{
+	dir = 4
+	},
+/turf/open/floor/plasteel/dark/airless,
 /area/ruin/powered/nsv13/trooptransport)
 "Xr" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	dir = 4
 	},
 /turf/open/floor/plasteel/dark,
+/area/ruin/powered/nsv13/prisonship)
+"XC" = (
+/obj/machinery/atmospherics/components/unary/vent_pump/on/layer1,
+/turf/open/floor/plating/airless{
+	icon_state = "platingdmg3"
+	},
 /area/ruin/powered/nsv13/prisonship)
 "XD" = (
 /obj/machinery/door/poddoor{
@@ -2161,57 +2520,18 @@
 	},
 /turf/open/floor/engine/airless,
 /area/ruin/powered/nsv13/prisonship)
+"XV" = (
+/obj/effect/turf_decal/tile/yellow{
+	dir = 8
+	},
+/turf/open/floor/plasteel/dark/airless,
+/area/ruin/powered/nsv13/trooptransport)
 "XX" = (
 /obj/structure/shuttle/engine/propulsion/left{
 	dir = 1
 	},
 /turf/open/floor/plating/airless,
 /area/ruin/powered/nsv13/prisonship)
-"Yp" = (
-/obj/effect/turf_decal/stripes/line{
-	dir = 4
-	},
-/obj/machinery/atmospherics/pipe/simple/general/visible{
-	dir = 4
-	},
-/turf/open/floor/engine,
-/area/ruin/powered/nsv13/trooptransport)
-"YA" = (
-/obj/structure/window/plasma/reinforced,
-/obj/structure/window/plasma/reinforced{
-	dir = 8
-	},
-/obj/structure/window/plasma/reinforced{
-	dir = 4
-	},
-/obj/machinery/atmospherics/components/unary/vent_pump/siphon/on{
-	dir = 8
-	},
-/turf/open/floor/engine/o2,
-/area/ruin/powered/nsv13/trooptransport)
-"YC" = (
-/obj/machinery/door/window{
-	dir = 8
-	},
-/obj/machinery/door/window{
-	dir = 4
-	},
-/obj/structure/fans/tiny/invisible,
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/nsv13/trooptransport)
-"YD" = (
-/obj/machinery/atmospherics/pipe/layer_manifold{
-	dir = 4
-	},
-/turf/closed/wall/ship,
-/area/ruin/powered/nsv13/trooptransport)
-"YW" = (
-/obj/structure/window/plasma/reinforced,
-/obj/structure/window/plasma/reinforced{
-	dir = 4
-	},
-/turf/open/floor/engine/plasma,
-/area/ruin/powered/nsv13/trooptransport)
 "Zl" = (
 /obj/machinery/vending/snack/random,
 /obj/machinery/light{
@@ -2232,12 +2552,12 @@
 	},
 /turf/open/floor/engine/airless,
 /area/ruin/powered/nsv13/prisonship)
-"ZY" = (
-/obj/machinery/atmospherics/components/binary/pump{
-	dir = 4
+"ZR" = (
+/obj/machinery/atmospherics/pipe/manifold4w/supply/hidden/layer1,
+/turf/open/floor/plating{
+	icon_state = "panelscorched"
 	},
-/turf/open/floor/plasteel/dark,
-/area/ruin/powered/nsv13/trooptransport)
+/area/ruin/powered/nsv13/prisonship)
 
 (1,1,1) = {"
 aa
@@ -3137,9 +3457,9 @@ BS
 BS
 aa
 BS
-IE
-mD
-OQ
+dS
+dZ
+eg
 BS
 aa
 cZ
@@ -3193,14 +3513,14 @@ cZ
 cZ
 cZ
 cZ
-qj
-pZ
-ni
+QW
+sI
+dx
 BS
 BS
 BS
 BS
-YD
+ea
 BS
 BS
 cZ
@@ -3246,36 +3566,36 @@ aa
 aa
 aa
 aa
-CA
-yy
-xo
-Eb
-YW
-vm
-pZ
-pZ
-pZ
-fV
-um
-Jw
-pZ
-FI
-LA
-kY
-Lz
-tV
-RD
-Lf
-Lf
-Lf
-Lf
-Lf
-Lf
-Or
-gU
-Rk
-UW
-yy
+Av
+ab
+dg
+dk
+dm
+Xp
+sI
+sI
+sI
+PW
+di
+XV
+sI
+dJ
+hI
+dT
+eb
+dB
+eh
+FU
+FU
+FU
+FU
+FU
+FU
+lU
+en
+eq
+es
+ab
 cZ
 aa
 aa
@@ -3308,36 +3628,36 @@ aa
 aa
 aa
 aa
-CA
-uX
-qW
-Uh
-Eu
-ld
-um
-um
-um
-um
-um
-um
-gm
-BB
-BZ
-Tt
-lW
-FI
-ZY
-um
-um
-um
-um
-um
-um
-vp
-tn
-Uh
-vQ
-Nh
+Av
+be
+dh
+di
+dn
+Be
+df
+df
+hi
+di
+di
+St
+dC
+dI
+dM
+dU
+ec
+dJ
+ei
+di
+di
+di
+di
+di
+di
+PA
+eo
+di
+et
+ev
 cZ
 aa
 aa
@@ -3370,36 +3690,36 @@ aa
 aa
 aa
 aa
-CA
-vT
-Uh
-Uh
-Eu
-ld
-um
-um
-um
-um
-wD
-um
-Jf
-FI
-si
-rb
-st
-FI
-hq
-um
-um
-um
-um
-um
-um
-vp
-tn
-Uh
-Uh
-vT
+Av
+cY
+di
+di
+dn
+Be
+df
+df
+di
+di
+dv
+di
+dD
+dJ
+dN
+dV
+ed
+dJ
+cY
+di
+lk
+di
+hi
+hi
+hi
+Hv
+eo
+di
+di
+cY
 cZ
 aa
 aa
@@ -3432,36 +3752,36 @@ aa
 aa
 aa
 aa
-CA
-YA
-TG
-YC
-BN
-ld
-um
-um
-um
-jN
-dk
-fP
-wB
-vE
-uW
-jJ
-gA
-vE
-Ds
-um
-um
-um
-um
-um
-um
-vp
-dJ
-Xf
-Ga
-KF
+Av
+de
+dj
+dl
+do
+Be
+df
+Xb
+di
+ds
+dw
+dz
+dE
+dK
+dO
+dW
+ee
+dK
+ek
+di
+Xb
+di
+eV
+df
+di
+PA
+ep
+er
+eu
+ew
 cZ
 aa
 aa
@@ -3494,36 +3814,36 @@ aa
 aa
 aa
 aa
-CA
-qj
-Jw
-Jw
-Jw
-fV
-um
-um
-um
-um
-um
-um
-fo
-FI
-eB
-Yp
-IH
-FI
-CC
-um
-um
-um
-um
-um
-um
-Jw
-pZ
-pZ
-pZ
-ru
+Av
+io
+oM
+oM
+oM
+wy
+df
+df
+di
+di
+di
+di
+dF
+dJ
+dP
+dX
+ef
+dJ
+dG
+di
+di
+di
+di
+lk
+di
+XV
+sI
+sI
+sI
+BD
 cZ
 aa
 aa
@@ -3556,36 +3876,36 @@ aa
 aa
 aa
 aa
-CA
-jr
-um
-um
-um
-um
-um
-um
-um
-um
-um
-um
-CC
-FI
-QN
-QN
-QN
-FI
-Ds
-um
-um
-um
-um
-um
-um
-um
-um
-um
-um
-vp
+Av
+Lo
+eV
+df
+df
+df
+df
+lk
+di
+di
+di
+di
+dG
+dJ
+dQ
+dQ
+dQ
+dJ
+ek
+di
+di
+di
+di
+di
+di
+di
+di
+di
+hi
+PA
 cZ
 aa
 aa
@@ -3618,36 +3938,36 @@ aa
 aa
 aa
 aa
-CA
-jr
-um
-um
-um
-um
-um
-um
-um
-um
-um
-um
-gB
-td
-in
-vg
-in
-td
-Gw
-um
-um
-um
-um
-um
-um
-um
-um
-um
-um
-vp
+Av
+Lo
+df
+df
+St
+df
+eV
+df
+df
+hi
+di
+di
+dH
+dL
+dR
+dY
+dR
+dL
+el
+di
+df
+St
+di
+di
+di
+di
+hi
+hi
+di
+Tu
 cZ
 aa
 aa
@@ -3680,36 +4000,36 @@ aa
 aa
 aa
 aa
-CA
-jr
-um
-um
-um
-um
-um
-um
-um
-um
-um
-um
-um
-um
-um
-um
-um
-um
-um
-um
-um
-um
-um
-um
-um
-um
-um
-um
-um
-vp
+Av
+Lo
+lk
+df
+df
+df
+df
+hi
+hi
+df
+di
+di
+di
+df
+di
+di
+di
+di
+Xb
+df
+df
+lk
+di
+di
+Xb
+df
+hi
+di
+di
+PA
 cZ
 aa
 aa
@@ -3742,36 +4062,36 @@ aa
 aa
 aa
 aa
-CA
-jr
-um
-um
-um
-um
-um
-um
-um
-um
-um
-um
-um
-um
-um
-um
-um
-um
-um
-um
-um
-um
-um
-um
-um
-um
-um
-um
-um
-vp
+Av
+Lo
+df
+df
+df
+hi
+hi
+df
+df
+df
+hi
+di
+di
+di
+di
+di
+St
+di
+di
+eV
+di
+di
+Xb
+di
+di
+di
+hi
+di
+hi
+PA
 cZ
 aa
 aa
@@ -3804,36 +4124,36 @@ aa
 aa
 aa
 aa
-CA
-jd
-Ng
-Ng
-Ng
-Ng
-Ng
-Ng
-Ng
-Ng
-Ng
-Ng
-Ng
-Ng
-Ng
-Ng
-Ng
-Ng
-Ng
-Ng
-Ng
-Ng
-Ng
-Ng
-Ng
-Ng
-Ng
-Ng
-Ng
-mk
+Av
+lr
+fp
+fp
+fp
+fp
+fp
+fp
+fp
+fp
+fp
+ja
+ja
+ja
+Fi
+ja
+ja
+ja
+ja
+ja
+ja
+ja
+ja
+ja
+ja
+ja
+ja
+ja
+ja
+pF
 cZ
 aa
 aa
@@ -3940,13 +4260,13 @@ lV
 lV
 BE
 lV
-lV
-lV
+rm
+rm
 mC
-cz
+ZR
 mC
-lV
-lV
+rm
+rm
 lV
 BE
 lV
@@ -4003,11 +4323,11 @@ yj
 aq
 yj
 yj
-yj
-yj
-Xr
-yj
-yj
+PB
+PB
+Nx
+PB
+PB
 yj
 yj
 aq
@@ -4066,9 +4386,9 @@ Xd
 yj
 yj
 yj
-yj
-Xr
-yj
+PB
+Nx
+PB
 yj
 yj
 yj
@@ -4129,7 +4449,7 @@ Kx
 Kx
 Kx
 yj
-Xr
+Nx
 yj
 Kx
 Kx
@@ -4491,7 +4811,7 @@ Kx
 Kx
 Kx
 Kx
-sP
+gH
 yj
 Kx
 nP
@@ -5132,9 +5452,9 @@ Kx
 Kx
 af
 cw
-cM
-ci
-au
+DN
+Sn
+Pp
 aw
 bz
 aa
@@ -5235,7 +5555,7 @@ Kx
 Kx
 Kx
 Kx
-sP
+gH
 yj
 Kx
 bC
@@ -5479,10 +5799,10 @@ aa
 aa
 aa
 bz
-aw
-au
-cj
-bx
+su
+oY
+xQ
+wA
 cp
 yj
 Kx
@@ -5541,10 +5861,10 @@ aa
 aa
 aa
 bz
-ax
-av
-at
-by
+vr
+CG
+sC
+TU
 Xr
 yj
 Kx
@@ -5745,7 +6065,7 @@ Xr
 yj
 yj
 yj
-yj
+OK
 aq
 yj
 yj
@@ -6178,7 +6498,7 @@ yj
 Xr
 yj
 Kx
-yj
+af
 yj
 yj
 Xd
@@ -6430,8 +6750,8 @@ yj
 yj
 yj
 yj
-yj
-yj
+CX
+CX
 sy
 aa
 aa
@@ -6491,9 +6811,9 @@ Kx
 Kx
 Kx
 Kx
-yj
-yj
-aW
+CX
+CX
+oH
 Kx
 aa
 aa
@@ -6553,9 +6873,9 @@ yj
 yj
 Jq
 Kx
-yj
-yj
-In
+CX
+CX
+Ak
 Kx
 aa
 aa
@@ -6615,9 +6935,9 @@ ap
 yj
 yj
 Kx
-yj
-yj
-yj
+CX
+CX
+CX
 Kx
 aa
 aa
@@ -6669,17 +6989,17 @@ yj
 Kx
 yj
 wC
-ri
+ry
 yj
 Xr
 yj
-Qw
+gs
 aP
 yj
 Kx
 yj
-yj
-yj
+CX
+CX
 Kx
 aa
 aa
@@ -6740,8 +7060,8 @@ yj
 xd
 Kx
 yj
-yj
-yj
+CX
+CX
 Kx
 aa
 aa
@@ -6793,11 +7113,11 @@ yj
 Kx
 yj
 wC
-HK
+CZ
 yj
 cF
 yj
-qP
+nE
 aP
 yj
 Kx
@@ -6855,11 +7175,11 @@ yj
 Kx
 yj
 aO
-HD
+Jt
 yj
 cF
 yj
-jz
+jR
 aP
 yj
 Kx
@@ -6979,11 +7299,11 @@ yj
 Kx
 yj
 fr
-jW
+Ew
 yj
 Xr
 yj
-sw
+Kl
 aP
 yj
 Kx
@@ -7477,8 +7797,8 @@ aM
 aM
 aZ
 aQ
-aM
-aM
+pO
+pO
 Kx
 Xr
 yj
@@ -7536,11 +7856,11 @@ aa
 XX
 sy
 aN
-aN
-aN
-aN
-aN
-aN
+lG
+Jw
+lQ
+lG
+lG
 Kx
 Xr
 yj
@@ -7597,12 +7917,12 @@ aa
 aa
 aa
 sy
-yj
-yj
-yj
-az
-lV
-lV
+tj
+CX
+sT
+XC
+IN
+IN
 cS
 cz
 cK
@@ -7660,10 +7980,10 @@ aa
 aa
 sy
 aN
-aN
-aN
-aN
-aN
+Tg
+nF
+Tg
+lQ
 aN
 Kx
 Xr
@@ -7721,7 +8041,7 @@ aa
 aa
 aa
 Kx
-xD
+Cp
 aM
 aM
 aM
@@ -7845,7 +8165,7 @@ aa
 aa
 aa
 sy
-aN
+Tg
 aN
 aN
 aN
@@ -7906,13 +8226,13 @@ aa
 aa
 aa
 aa
-sy
-yj
-yj
-yj
-az
-lV
-lV
+UF
+GE
+tj
+tj
+qO
+yq
+yq
 cS
 cz
 cK
@@ -7969,7 +8289,7 @@ aa
 aa
 aa
 sy
-aN
+pw
 aN
 aN
 aN
@@ -8655,7 +8975,7 @@ sy
 ap
 cI
 ap
-RC
+Ax
 ap
 cI
 ap
@@ -8715,11 +9035,11 @@ aa
 aa
 sy
 yj
-qF
+CN
 aL
 Xd
 aK
-dM
+hZ
 yj
 sy
 aa
