@@ -52,8 +52,10 @@ GLOBAL_LIST_INIT(security_positions, list(
 	"Head of Security",
 	"Master At Arms",
 	"Detective",
-	"Security Officer"))
-
+	"Security Officer",
+	"Munitions Technician",
+	"Fighter Pilot"))
+//NSV13 - Munitions Technician and Fighter Pilot temporarily added here until a new department is made
 
 GLOBAL_LIST_INIT(nonhuman_positions, list(
 	"AI",

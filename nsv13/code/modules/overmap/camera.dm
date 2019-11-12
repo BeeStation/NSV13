@@ -17,9 +17,15 @@
 		return
 	switch(position)
 		if("pilot")
+			if(pilot)
+				to_chat(pilot, "<span class='warning'>[user] has kicked you off the ship controls!</span>")
+				stop_piloting(pilot)
 			pilot = user
 			show_flight_ui()
 		if("gunner")
+			if(gunner)
+				to_chat(gunner, "<span class='warning'>[user] has kicked you off the ship controls!</span>")
+				stop_piloting(gunner)
 			gunner = user
 		if("all_positions")
 			pilot = user
@@ -49,6 +55,7 @@
 	M.overmap_ship = null
 	M.cancel_camera()
 	M.remote_control = null
+	return TRUE
 
 /obj/structure/overmap/proc/CreateEye(mob/user)
 	if(!user.client)
@@ -86,9 +93,9 @@
 	if(!target || !isliving(target))
 		return
 	var/obj/structure/overmap/ship = remote_eye.origin
-	ship.stop_piloting(target)
-	qdel(remote_eye)
-	qdel(src)
+	if(ship.stop_piloting(target))
+		qdel(remote_eye)
+		qdel(src)
 
 /obj/structure/overmap/proc/remove_eye_control(mob/living/user)
 
