@@ -1,3 +1,13 @@
+/turf/closed/wall/ship
+	icon = 'nsv13/icons/turf/interior_wall.dmi'
+	name = "Durasteel hull"
+	desc = "A large hull segment designed to create vessels and structures capable of supporting life in even the most hazardous places."
+	legacy_smooth = TRUE //Override /tg/ iconsmooths
+	smooth = TRUE
+	canSmoothWith = list(/turf/closed/wall/ship,/turf/closed/wall/r_wall/ship,/obj/machinery/door,/obj/structure/window)
+	sheet_type = /obj/item/stack/sheet/durasteel
+	var/connect_universally = TRUE //Connect to every subtype of the walls?
+
 /turf/closed/wall/r_wall/ship
 	icon = 'nsv13/icons/turf/reinforced_wall.dmi'
 	name = "Duranium hull"
@@ -9,7 +19,7 @@
 
 /obj/structure/girder/attackby(obj/item/W, mob/user, params) //Time to add support for our walls..
 	var/obj/item/stack/sheet/S = W
-	if(istype(W, /obj/item/stack/sheet/))
+	if(istype(W, /obj/item/stack/sheet))
 		if(S.get_amount() < 2)
 			to_chat(user, "<span class='warning'>You need two sheets of [W] to finish a wall!</span>")
 			return
