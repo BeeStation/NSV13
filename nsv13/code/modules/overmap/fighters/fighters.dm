@@ -164,7 +164,8 @@ After going through this checklist, you're ready to go!
 			if(SOUTH)
 				center = get_turf(locate(x,y-1,z))
 		OM.forceMove(get_turf(center)) //"Catch" them like an arrestor.
-		get_overmap()?.relay('nsv13/sound/effects/ship/freespace2/shockwave.wav')
+		var/obj/structure/overmap/link = get_overmap()
+		link?.relay('nsv13/sound/effects/ship/freespace2/shockwave.wav')
 		shake_people(OM)
 		switch(dir) //Make sure theyre facing the right way so they dont FACEPLANT INTO THE WALL.
 			if(NORTH)
