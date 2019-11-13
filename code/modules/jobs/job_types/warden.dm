@@ -34,7 +34,7 @@
 	jobtype = /datum/job/warden
 
 	belt = /obj/item/pda/warden
-	ears = /obj/item/radio/headset/headset_sec/alt
+	ears = /obj/item/radio/headset/headset_sec/alt/pilot
 	uniform = /obj/item/clothing/under/syndicate/tacticool
 	shoes = /obj/item/clothing/shoes/jackboots
 	suit = /obj/item/clothing/suit/hazardvest
