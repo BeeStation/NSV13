@@ -99,7 +99,7 @@
 					if(surgery_step.repeatable)
 						var/datum/surgery_step/next_step = procedure.get_surgery_next_step()
 						if(next_step)
-							alternative_step = capitalize(next_step.name)
+							alternative_step = capitalize("[parse_zone(procedure.location)] [procedure.name]"),
 							alt_chems_needed = next_step.get_chem_list()
 						else
 							alternative_step = "Finish operation"
