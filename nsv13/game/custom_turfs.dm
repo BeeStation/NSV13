@@ -63,7 +63,34 @@
 	glass_type = /obj/item/stack/sheet/nanocarbon_glass
 	legacy_smooth = TRUE //Override /tg/ iconsmooths
 	smooth = TRUE
-	canSmoothWith = list(/obj/structure/window/reinforced/fulltile/ship,/turf/closed/wall/ship,/turf/closed/wall/r_wall/ship,/obj/machinery/door/airlock/ship)
+	canSmoothWith = list(/obj/structure/window/reinforced/fulltile/ship,/turf/closed/wall/ship,/turf/closed/wall/r_wall/ship,/obj/machinery/door/airlock/ship,/obj/structure/window/reinforced/fulltile/ship/interior)
+
+/obj/structure/window/reinforced/fulltile/ship/interior
+	name = "Interior reinforced window"
+	desc = "A heavyset window reinforced with tiny carbon structures which is designed to take a beating."
+	icon = 'nsv13/goonstation/icons/obj/interior_window.dmi'
+	color = "#94bbd1"
+	icon_state = "0"
+	glass_type = /obj/item/stack/sheet/rglass
+	legacy_smooth = TRUE //Override /tg/ iconsmooths
+	smooth = TRUE
+	canSmoothWith = list(/obj/structure/window/reinforced/fulltile/ship,/turf/closed/wall/ship,/turf/closed/wall/r_wall/ship,/obj/machinery/door/airlock/ship,/obj/structure/window/reinforced/fulltile/ship/interior)
+
+/obj/effect/spawner/structure/window/reinforced
+	name = "reinforced window spawner"
+	icon_state = "rwindow_spawner"
+	spawn_list = list(/obj/structure/grille, /obj/structure/window/reinforced/fulltile/ship/interior)
+
+
+/obj/structure/window/reinforced/ship
+	icon = 'nsv13/goonstation/icons/obj/window_pane.dmi'
+	icon_state = "rwindow"
+	color = "#94bbd1"
+
+/obj/structure/window/ship
+	icon = 'nsv13/goonstation/icons/obj/window_pane.dmi'
+	icon_state = "window"
+	color = "#94bbd1"
 
 /obj/structure/fluff/support_beam
 	name = "Support beam"
