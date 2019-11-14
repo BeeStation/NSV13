@@ -269,6 +269,18 @@
 	name = "Deck 3 Starboard Hanger Bay"
 	icon_state = "hallS"
 
+/area/nsv/hanger/notkmcstupidhanger/launchtube/left
+	name = "Launch Tubes 1 & 2"
+	icon_state = "hallP"
+
+/area/nsv/hanger/notkmcstupidhanger/launchtube/right
+	name = "Launch Tubes 3 & 4"
+	icon_state = "hallS"
+
+/area/nsv/hanger/notkmcstupidhanger/hangar
+	name = "Hangar Bay"
+	icon_state = "hallC"
+
 /area/nsv/hanger/deck2/port
 	name = "Deck 2 Port Hanger Bay"
 	icon_state = "hallP"
