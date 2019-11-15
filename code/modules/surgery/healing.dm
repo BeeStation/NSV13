@@ -71,7 +71,7 @@
 	display_results(user, target, "<span class='warning'>You screwed up!</span>",
 		"[user] screws up!",
 		"[user] fixes some of [target]'s wounds.", TRUE)
-	target.take_bodypart_damage(5,0)
+	target.take_bodypart_damage(brutehealing*0.8,burnhealing*0.8)
 	return FALSE
 
 /***************************BRUTE***************************/
