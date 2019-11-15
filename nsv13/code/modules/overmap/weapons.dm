@@ -64,7 +64,9 @@
 	return ..()
 
 /obj/structure/overmap/proc/handle_pdcs()
-	if(fire_mode == FIRE_MODE_PDC) //If theyre aiming the PDCs manually, don't automatically flak
+	if(fire_mode == FIRE_MODE_PDC) //If theyre aiming the PDCs manually, don't automatically flak.
+		return
+	if(mass <= MASS_TINY && !ai_controlled) //Small ships don't get to use PDCs. AIs still need to aim like this, though
 		return
 	if(!last_target || QDELETED(last_target))
 		last_target = null

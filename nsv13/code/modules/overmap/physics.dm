@@ -108,12 +108,15 @@
 			thrust_x -= sx * side_maxthrust
 			thrust_y -= sy * side_maxthrust
 			last_thrust_right = -side_maxthrust
-
-	var/speedlimit = 5 //Stops you yeeting off at lightspeed. This made AI ships really frustrating to play against.
-	if(velocity_x > speedlimit)
-		velocity_x = speedlimit
-	if(velocity_y > speedlimit)
-		velocity_y = speedlimit
+	 //Stops you yeeting off at lightspeed. This made AI ships really frustrating to play against.
+	if(velocity_x > speed_limit)
+		velocity_x = speed_limit
+	if(velocity_y > speed_limit)
+		velocity_y = speed_limit
+	if(velocity_x < -speed_limit)
+		velocity_x = -speed_limit
+	if(velocity_y < -speed_limit)
+		velocity_y = -speed_limit
 	velocity_x += thrust_x * time //And speed us up based on how long we've been thrusting (up to a point)
 	velocity_y += thrust_y * time
 
@@ -201,6 +204,10 @@
 	mat_from.Turn(last_angle)
 	var/matrix/mat_to = new()
 	mat_to.Turn(angle)
+	if(resize > 0)
+		for(var/i = 0, i < resize, i++) //We have to resize by 0.5 to shrink. So shrink down by a factor of "resize"
+			mat_from.Scale(0.5,0.5)
+			mat_to.Scale(0.5,0.5)
 	transform = mat_from
 	pixel_x = last_offset_x*32
 	pixel_y = last_offset_y*32
@@ -223,6 +230,13 @@
 	update_icon()
 
 /obj/structure/overmap/Bumped(atom/movable/A)
+	if(istype(A, /obj/structure/overmap/fighter))
+		var/obj/structure/overmap/fighter/F = A
+		if(F.mass < mass && docking_points.len && F.docking_mode) //If theyre smaller than us,and we have docking points, and they want to dock
+			F.transfer_from_overmap(src)
+			return FALSE
+	if(brakes) //No :)
+		return FALSE
 	if(A.dir & NORTH)
 		velocity_y += bump_impulse
 	if(A.dir & SOUTH)

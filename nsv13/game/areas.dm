@@ -232,6 +232,11 @@
 	SEND_SIGNAL(M, COMSIG_ENTER_AREA, src) //The atom that enters the area
 	if(ismob(M) && linked_overmap)
 		linked_overmap.mobs_in_ship += M
+	if(istype(M, /obj/structure/overmap))
+		var/obj/structure/overmap/OM = M
+		if(OM.mobs_in_ship.len) //Relays area exits and enters. This is so that fighter pilots and crews arent registered as being still inside their carrier vessel, and thus hear its sounds.
+			for(var/mob/LM in OM.mobs_in_ship)
+				Entered(LM)
 	if(!isliving(M))
 		return
 
@@ -273,3 +278,8 @@
 	SEND_SIGNAL(M, COMSIG_EXIT_AREA, src) //The atom that exits the area
 	if(ismob(M) && linked_overmap)
 		linked_overmap.mobs_in_ship -= M
+	if(istype(M, /obj/structure/overmap))
+		var/obj/structure/overmap/OM = M
+		if(OM.mobs_in_ship.len)
+			for(var/mob/LM in OM.mobs_in_ship)
+				Exited(LM)
