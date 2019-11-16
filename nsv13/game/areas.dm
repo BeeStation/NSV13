@@ -213,6 +213,10 @@
 	name = "Starboard Weapons Bay"
 	icon_state = "hallS"
 
+/area/nsv/weapons/fore
+	name = "Fore Weapons Bay"
+	icon_state = "hallF"
+
 /area/nsv/magazine/port
 	name = "Port Magazine"
 	icon_state = "hallP"
