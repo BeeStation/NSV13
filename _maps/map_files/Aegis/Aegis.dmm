@@ -1002,12 +1002,15 @@
 /turf/open/floor/plasteel/white,
 /area/science)
 "acl" = (
-/obj/structure/window/reinforced/fulltile/ship,
 /obj/machinery/door/poddoor/ship{
 	dir = 4;
 	icon_state = "closed";
 	id = "research_shutters_2"
 	},
+/obj/structure/window/reinforced/fulltile/ship/interior{
+	color = "#94bbd1"
+	},
+/obj/structure/grille,
 /turf/open/floor/plasteel/white,
 /area/science)
 "acm" = (
@@ -1091,7 +1094,10 @@
 /turf/open/floor/plasteel/white,
 /area/science)
 "acq" = (
-/obj/structure/window/reinforced/fulltile/ship,
+/obj/structure/window/reinforced/fulltile/ship/interior{
+	color = "#94bbd1"
+	},
+/obj/structure/grille,
 /turf/open/floor/plating,
 /area/science)
 "acr" = (
@@ -1302,7 +1308,10 @@
 	},
 /area/crew_quarters/heads/hor)
 "acR" = (
-/obj/structure/window/reinforced/fulltile/ship,
+/obj/structure/window/reinforced/fulltile/ship/interior{
+	color = "#94bbd1"
+	},
+/obj/structure/grille,
 /turf/open/floor/plasteel/white,
 /area/crew_quarters/heads/hor)
 "acS" = (
@@ -1571,7 +1580,11 @@
 /turf/open/floor/plasteel,
 /area/engine/engine_smes)
 "adt" = (
-/obj/structure/window/reinforced/fulltile/ship,
+/obj/structure/grille,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/obj/structure/window/reinforced/fulltile/ship/interior{
+	color = "#94bbd1"
+	},
 /turf/open/floor/plating,
 /area/engine/atmos)
 "adu" = (
@@ -2060,7 +2073,10 @@
 /turf/open/floor/plasteel,
 /area/science)
 "aeB" = (
-/obj/structure/window/reinforced/fulltile/ship,
+/obj/structure/window/reinforced/fulltile/ship/interior{
+	color = "#94bbd1"
+	},
+/obj/structure/grille,
 /turf/open/floor/plasteel,
 /area/science)
 "aeC" = (
@@ -3460,9 +3476,14 @@
 	name = "Deck 3 hallway"
 	})
 "ahz" = (
-/obj/structure/window/reinforced/fulltile/ship,
-/turf/open/floor/plasteel/grimy,
-/area/tcommsat/server)
+/obj/structure/window/reinforced/fulltile/ship/interior{
+	color = "#94bbd1"
+	},
+/obj/structure/grille,
+/turf/open/floor/plating,
+/area/hallway/primary/port{
+	name = "Deck 3 hallway"
+	})
 "ahA" = (
 /obj/machinery/door/airlock/ship/external{
 	req_one_access_txt = null
@@ -3484,12 +3505,14 @@
 /turf/open/floor/plasteel,
 /area/hallway/secondary/entry)
 "ahD" = (
-/obj/effect/turf_decal/stripes/line,
-/obj/machinery/door/window/brigdoor{
-	name = "Arrivals Security Checkpoint";
-	pixel_y = -8;
-	req_access_txt = "1"
+/obj/machinery/door/airlock/ship/external{
+	req_one_access_txt = null
 	},
+/obj/effect/mapping_helpers/airlock/cyclelink_helper{
+	dir = 1
+	},
+/obj/effect/turf_decal/delivery,
+/obj/structure/cable,
 /turf/open/floor/plasteel,
 /area/hallway/secondary/entry)
 "ahE" = (
@@ -3522,11 +3545,20 @@
 /turf/open/floor/plasteel,
 /area/hallway/secondary/entry)
 "ahI" = (
-/obj/structure/window/reinforced/fulltile/ship,
+/obj/effect/turf_decal/stripes/corner{
+	dir = 1
+	},
+/obj/effect/turf_decal/stripes/corner{
+	dir = 4
+	},
+/obj/structure/cable,
 /turf/open/floor/plasteel,
 /area/hallway/secondary/entry)
 "ahJ" = (
-/obj/structure/window/reinforced/fulltile/ship,
+/obj/structure/grille,
+/obj/structure/window/reinforced/fulltile/ship/interior{
+	color = "#94bbd1"
+	},
 /turf/open/floor/plasteel/dark,
 /area/tcommsat/server)
 "ahK" = (
@@ -3683,7 +3715,10 @@
 /area/engine/atmos)
 "aie" = (
 /obj/machinery/atmospherics/pipe/simple/green/visible,
-/obj/structure/window/reinforced/fulltile/ship,
+/obj/structure/window/reinforced/fulltile/ship/interior{
+	color = "#94bbd1"
+	},
+/obj/structure/grille,
 /turf/open/floor/plating,
 /area/engine/atmos)
 "aif" = (
@@ -3797,9 +3832,15 @@
 	},
 /area/crew_quarters/heads/hor)
 "aiq" = (
-/obj/structure/window/reinforced/fulltile/ship,
-/turf/open/floor/plasteel,
-/area/crew_quarters/heads/hor)
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
+/obj/structure/window/reinforced/fulltile/ship/interior{
+	color = "#94bbd1"
+	},
+/obj/structure/grille,
+/turf/open/floor/plating,
+/area/science)
 "air" = (
 /obj/structure/table/reinforced,
 /obj/machinery/door/poddoor/ship{
@@ -3863,16 +3904,8 @@
 /turf/open/floor/plasteel,
 /area/hallway/secondary/entry)
 "aiw" = (
-/obj/effect/turf_decal/tile/neutral{
-	dir = 1
-	},
-/obj/effect/turf_decal/tile/neutral{
-	dir = 8
-	},
-/obj/effect/turf_decal/stripes/corner{
-	dir = 4
-	},
-/turf/open/floor/plasteel/dark,
+/obj/structure/cable,
+/turf/open/floor/plasteel,
 /area/hallway/secondary/entry)
 "aix" = (
 /obj/effect/turf_decal/tile/neutral{
@@ -4454,22 +4487,13 @@
 /turf/open/floor/plasteel/grimy,
 /area/security/detectives_office)
 "ajH" = (
-/obj/effect/turf_decal/tile/yellow{
-	dir = 1
+/obj/structure/curtain/obscuring/grey,
+/obj/structure/window/reinforced/fulltile/ship/interior{
+	color = "#94bbd1"
 	},
-/obj/effect/turf_decal/tile/yellow,
-/obj/effect/turf_decal/tile/yellow{
-	dir = 8
-	},
-/obj/structure/window/reinforced/fulltile/ship,
-/obj/machinery/door/poddoor/ship{
-	dir = 2;
-	icon_state = "closed";
-	id = "chemistryshutters";
-	layer = 3.1
-	},
+/obj/structure/grille,
 /turf/open/floor/plasteel/white,
-/area/medical/chemistry)
+/area/medical/genetics)
 "ajI" = (
 /obj/effect/turf_decal/tile/blue{
 	dir = 4
@@ -4744,12 +4768,12 @@
 	name = "Deck 3 hallway"
 	})
 "akk" = (
-/obj/structure/window/reinforced/fulltile/ship,
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
-/obj/structure/cable,
-/turf/open/floor/plasteel/dark,
-/area/hallway/secondary/exit)
+/obj/structure/grille,
+/obj/structure/window/reinforced/fulltile/ship/interior{
+	color = "#94bbd1"
+	},
+/turf/open/floor/plasteel,
+/area/crew_quarters/bar)
 "akl" = (
 /obj/machinery/door/airlock/ship/command,
 /turf/open/floor/plasteel/ship/riveted,
@@ -4982,9 +5006,25 @@
 /turf/open/floor/plasteel/dark,
 /area/hallway/secondary/exit)
 "akE" = (
-/obj/structure/window/reinforced/fulltile/ship,
-/turf/open/floor/plasteel,
-/area/hallway/secondary/exit)
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	icon_state = "pipe11-1";
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
+	dir = 4
+	},
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
+/obj/structure/cable,
+/obj/structure/grille,
+/obj/structure/window/reinforced/fulltile/ship/interior{
+	color = "#94bbd1"
+	},
+/turf/open/floor/plasteel/dark,
+/area/hallway/primary/port{
+	name = "Deck 3 hallway"
+	})
 "akF" = (
 /obj/effect/turf_decal/tile/neutral,
 /obj/effect/turf_decal/tile/neutral{
@@ -5144,19 +5184,14 @@
 /turf/open/floor/plating,
 /area/engine/engineering)
 "akX" = (
-/obj/structure/window/reinforced/fulltile/ship,
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
-	icon_state = "pipe11-1";
-	dir = 4
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
+/obj/structure/window/reinforced/fulltile/ship/interior{
+	color = "#94bbd1"
 	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
-	dir = 4
-	},
-/obj/structure/cable,
+/obj/structure/grille,
 /turf/open/floor/plasteel/dark,
-/area/hallway/primary/port{
-	name = "Deck 3 hallway"
-	})
+/area/hallway/secondary/entry)
 "akY" = (
 /obj/effect/turf_decal/delivery,
 /obj/structure/closet/radiation,
@@ -5201,21 +5236,23 @@
 /turf/open/floor/plasteel/white,
 /area/medical/chemistry)
 "ald" = (
+/obj/effect/turf_decal/tile/yellow{
+	dir = 1
+	},
 /obj/effect/turf_decal/tile/yellow,
 /obj/effect/turf_decal/tile/yellow{
 	dir = 8
 	},
-/obj/effect/turf_decal/tile/yellow{
-	dir = 4
-	},
-/obj/structure/window/reinforced/fulltile/ship,
 /obj/machinery/door/poddoor/ship{
 	dir = 2;
 	icon_state = "closed";
 	id = "chemistryshutters";
 	layer = 3.1
 	},
-/obj/structure/cable,
+/obj/structure/window/reinforced/fulltile/ship/interior{
+	color = "#94bbd1"
+	},
+/obj/structure/grille,
 /turf/open/floor/plasteel/white,
 /area/medical/chemistry)
 "ale" = (
@@ -5371,10 +5408,12 @@
 /turf/open/floor/plasteel/yellowsiding,
 /area/medical/surgery)
 "alq" = (
-/obj/structure/window/reinforced/fulltile/ship,
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
-/turf/open/floor/plasteel/white,
-/area/science/robotics)
+/obj/structure/window/reinforced/fulltile/ship/interior{
+	color = "#94bbd1"
+	},
+/obj/structure/grille,
+/turf/open/floor/plasteel,
+/area/crew_quarters/heads/hor)
 "alr" = (
 /obj/machinery/door/airlock/ship{
 	dir = 2;
@@ -5388,7 +5427,11 @@
 /turf/open/floor/plasteel/white,
 /area/science/robotics)
 "als" = (
-/obj/structure/window/reinforced/fulltile/ship,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/obj/structure/window/reinforced/fulltile/ship/interior{
+	color = "#94bbd1"
+	},
+/obj/structure/grille,
 /turf/open/floor/plasteel/white,
 /area/science/robotics)
 "alt" = (
@@ -6012,7 +6055,10 @@
 /turf/open/floor/plasteel/dark,
 /area/engine/engineering)
 "amD" = (
-/obj/structure/window/reinforced/fulltile/ship,
+/obj/structure/window/reinforced/fulltile/ship/interior{
+	color = "#94bbd1"
+	},
+/obj/structure/grille,
 /turf/open/floor/plasteel/dark,
 /area/crew_quarters/heads/chief)
 "amE" = (
@@ -6030,9 +6076,7 @@
 /turf/open/floor/plasteel,
 /area/crew_quarters/bar)
 "amF" = (
-/obj/machinery/computer/med_data{
-	dir = 8
-	},
+/obj/structure/cable,
 /turf/open/floor/carpet,
 /area/security/detectives_office)
 "amG" = (
@@ -6287,17 +6331,11 @@
 /turf/open/floor/plasteel/dark,
 /area/security/brig)
 "amW" = (
-/obj/machinery/door_timer{
-	id = "Cell 3";
-	name = "Cell 3";
-	pixel_y = 32
+/obj/structure/grille,
+/obj/structure/window/reinforced/fulltile/ship/interior{
+	color = "#94bbd1"
 	},
-/obj/effect/turf_decal/tile/red{
-	dir = 4
-	},
-/obj/effect/turf_decal/tile/red{
-	dir = 1
-	},
+/obj/structure/cable,
 /turf/open/floor/plasteel/dark,
 /area/security/brig)
 "amX" = (
@@ -6342,9 +6380,7 @@
 /obj/effect/turf_decal/tile/red{
 	dir = 1
 	},
-/obj/machinery/camera{
-	c_tag = "Brig - Hallway - Entrance"
-	},
+/obj/structure/cable,
 /turf/open/floor/plasteel/dark,
 /area/security/brig)
 "ana" = (
@@ -6919,6 +6955,7 @@
 /obj/machinery/airalarm{
 	pixel_y = 26
 	},
+/obj/structure/cable,
 /turf/open/floor/plasteel/dark,
 /area/security/brig)
 "aog" = (
@@ -8433,10 +8470,12 @@
 /turf/open/floor/plasteel/freezer,
 /area/crew_quarters/dorms)
 "are" = (
-/obj/structure/window/reinforced/fulltile/ship,
-/obj/structure/curtain/obscuring/grey,
-/turf/open/floor/plasteel/dark,
-/area/crew_quarters/heads/hos)
+/obj/machinery/computer/med_data{
+	dir = 8
+	},
+/obj/structure/cable,
+/turf/open/floor/carpet,
+/area/security/detectives_office)
 "arf" = (
 /turf/open/floor/plasteel/dark,
 /area/security/brig)
@@ -8483,13 +8522,18 @@
 /turf/open/floor/plasteel/dark,
 /area/security/brig)
 "arl" = (
-/obj/effect/turf_decal/tile/red,
+/obj/machinery/door_timer{
+	id = "Cell 3";
+	name = "Cell 3";
+	pixel_y = 32
+	},
 /obj/effect/turf_decal/tile/red{
 	dir = 4
 	},
 /obj/effect/turf_decal/tile/red{
-	dir = 8
+	dir = 1
 	},
+/obj/structure/cable,
 /turf/open/floor/plasteel/dark,
 /area/security/brig)
 "arm" = (
@@ -8678,8 +8722,17 @@
 /turf/open/floor/plasteel/showroomfloor,
 /area/crew_quarters/bar)
 "arG" = (
-/obj/structure/window/reinforced/fulltile/ship,
-/turf/open/floor/plasteel/showroomfloor,
+/obj/effect/turf_decal/tile/red{
+	dir = 4
+	},
+/obj/effect/turf_decal/tile/red{
+	dir = 1
+	},
+/obj/machinery/camera{
+	c_tag = "Brig - Hallway - Entrance"
+	},
+/obj/structure/cable,
+/turf/open/floor/plasteel/dark,
 /area/security/brig)
 "arH" = (
 /obj/structure/kitchenspike,
@@ -9110,14 +9163,12 @@
 	},
 /area/science)
 "asB" = (
-/obj/structure/window/reinforced/fulltile/ship,
-/obj/machinery/door/poddoor/ship{
-	dir = 4;
-	icon_state = "closed";
-	id = "research_shutters_firing"
+/obj/structure/window/reinforced/fulltile/ship/interior{
+	color = "#94bbd1"
 	},
-/turf/open/floor/plasteel,
-/area/science)
+/obj/structure/grille,
+/turf/open/floor/plasteel/white,
+/area/science/robotics)
 "asC" = (
 /obj/structure/cable,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
@@ -9865,7 +9916,10 @@
 	name = "Deck 3 hallway"
 	})
 "auk" = (
-/obj/structure/window/reinforced/fulltile/ship,
+/obj/structure/grille,
+/obj/structure/window/reinforced/fulltile/ship/interior{
+	color = "#94bbd1"
+	},
 /turf/open/floor/plating,
 /area/hallway/secondary/construction{
 	name = "Munitions"
@@ -10172,14 +10226,15 @@
 /turf/open/floor/plasteel/grimy,
 /area/security/detectives_office)
 "auK" = (
-/obj/effect/turf_decal/tile/red{
-	dir = 1
+/obj/structure/curtain/obscuring/grey,
+/obj/structure/disposalpipe/segment,
+/obj/structure/window/reinforced/fulltile/ship/interior{
+	color = "#94bbd1"
 	},
-/obj/effect/turf_decal/tile/red{
-	dir = 4
-	},
+/obj/structure/grille,
+/obj/structure/cable,
 /turf/open/floor/plasteel/dark,
-/area/security/brig)
+/area/security/detectives_office)
 "auL" = (
 /obj/effect/turf_decal/stripes/corner{
 	dir = 1
@@ -11033,9 +11088,12 @@
 /turf/open/floor/plasteel/dark,
 /area/crew_quarters/fitness/recreation)
 "aww" = (
-/obj/structure/window/reinforced/fulltile/ship,
-/turf/open/floor/plasteel/dark,
-/area/crew_quarters/fitness/recreation)
+/obj/structure/window/reinforced/fulltile/ship/interior{
+	color = "#94bbd1"
+	},
+/obj/structure/grille,
+/turf/open/floor/plasteel/ship/padded,
+/area/library)
 "awx" = (
 /obj/effect/turf_decal/tile/neutral{
 	dir = 1
@@ -11145,16 +11203,12 @@
 /turf/open/floor/plasteel/dark,
 /area/crew_quarters/fitness/recreation)
 "awE" = (
-/obj/structure/window/reinforced/fulltile/ship,
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
-	dir = 4
+/obj/structure/window/reinforced/fulltile/ship/interior{
+	color = "#94bbd1"
 	},
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
-	icon_state = "pipe11-1";
-	dir = 4
-	},
-/turf/open/floor/plasteel/dark,
-/area/crew_quarters/fitness/recreation)
+/obj/structure/grille,
+/turf/open/floor/plasteel,
+/area/hydroponics)
 "awF" = (
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on{
 	dir = 8
@@ -12058,11 +12112,26 @@
 /turf/open/floor/plating,
 /area/engine/engineering)
 "aym" = (
-/obj/structure/window/reinforced/fulltile/ship,
+/obj/effect/turf_decal/tile/yellow,
+/obj/effect/turf_decal/tile/yellow{
+	dir = 8
+	},
+/obj/effect/turf_decal/tile/yellow{
+	dir = 4
+	},
+/obj/machinery/door/poddoor/ship{
+	dir = 2;
+	icon_state = "closed";
+	id = "chemistryshutters";
+	layer = 3.1
+	},
+/obj/structure/cable,
+/obj/structure/window/reinforced/fulltile/ship/interior{
+	color = "#94bbd1"
+	},
+/obj/structure/grille,
 /turf/open/floor/plasteel/white,
-/area/medical{
-	name = "Infirmary"
-	})
+/area/medical/chemistry)
 "ayn" = (
 /obj/effect/turf_decal/tile/yellow{
 	dir = 1
@@ -12294,11 +12363,12 @@
 	name = "Infirmary"
 	})
 "ayH" = (
-/obj/structure/window/reinforced/fulltile/ship,
-/turf/open/floor/plating,
-/area/hallway/primary/port{
-	name = "Deck 3 hallway"
-	})
+/obj/structure/grille,
+/obj/structure/window/reinforced/fulltile/ship/interior{
+	color = "#94bbd1"
+	},
+/turf/open/floor/plasteel/grimy,
+/area/tcommsat/server)
 "ayI" = (
 /obj/structure/cable,
 /obj/machinery/door/airlock/ship/maintenance{
@@ -12400,9 +12470,12 @@
 	name = "Infirmary"
 	})
 "ayT" = (
-/obj/structure/window/reinforced/fulltile/ship,
-/turf/open/floor/plasteel,
-/area/quartermaster/office)
+/obj/structure/grille,
+/obj/structure/window/reinforced/fulltile/ship/interior{
+	color = "#94bbd1"
+	},
+/turf/open/floor/plating,
+/area/quartermaster/qm)
 "ayU" = (
 /obj/machinery/telecomms/processor/preset_two,
 /turf/open/floor/circuit/telecomms/mainframe,
@@ -12566,12 +12639,9 @@
 	name = "Infirmary"
 	})
 "azl" = (
-/obj/structure/window/reinforced/fulltile/ship,
-/obj/machinery/door/poddoor/ship{
-	dir = 2;
-	icon_state = "closed";
-	id = "CMO";
-	layer = 3.1
+/obj/structure/grille,
+/obj/structure/window/reinforced/fulltile/ship/interior{
+	color = "#94bbd1"
 	},
 /turf/open/floor/plasteel/white,
 /area/medical{
@@ -12640,9 +12710,12 @@
 	name = "Infirmary"
 	})
 "azt" = (
-/obj/structure/window/reinforced/fulltile/ship,
-/turf/open/floor/plasteel/ship/padded,
-/area/library)
+/obj/structure/window/reinforced/fulltile/ship/interior{
+	color = "#94bbd1"
+	},
+/obj/structure/grille,
+/turf/open/floor/plasteel/ship/techfloor/alt,
+/area/hydroponics)
 "azu" = (
 /obj/machinery/camera/autoname,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
@@ -13147,9 +13220,12 @@
 /turf/open/floor/plasteel/dark,
 /area/security/brig)
 "aAs" = (
-/obj/structure/window/reinforced/fulltile/ship,
-/turf/open/floor/plasteel/ship/techfloor/alt,
-/area/hydroponics)
+/obj/structure/grille,
+/obj/structure/window/reinforced/fulltile/ship/interior{
+	color = "#94bbd1"
+	},
+/turf/open/floor/plasteel/dark,
+/area/crew_quarters/dorms)
 "aAt" = (
 /obj/structure/cable,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
@@ -14358,8 +14434,12 @@
 /turf/open/floor/plating,
 /area/maintenance/disposal)
 "aCA" = (
-/obj/structure/window/reinforced/fulltile/ship,
-/turf/open/floor/plasteel,
+/obj/effect/turf_decal/tile/red,
+/obj/effect/turf_decal/tile/red{
+	dir = 8
+	},
+/obj/structure/cable,
+/turf/open/floor/plasteel/dark,
 /area/security/brig)
 "aCB" = (
 /obj/structure/reagent_dispensers/peppertank{
@@ -14609,7 +14689,6 @@
 	name = "Deck 2 primary hallway"
 	})
 "aDc" = (
-/obj/structure/window/reinforced/fulltile/ship,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
 	dir = 4
 	},
@@ -14619,6 +14698,10 @@
 	},
 /obj/structure/disposalpipe/segment{
 	dir = 4
+	},
+/obj/structure/grille,
+/obj/structure/window/reinforced/fulltile/ship/interior{
+	color = "#94bbd1"
 	},
 /turf/open/floor/plasteel/dark,
 /area/crew_quarters/dorms)
@@ -14938,19 +15021,21 @@
 /turf/open/floor/plasteel/ship/techfloor/alt,
 /area/security/brig)
 "aDE" = (
+/obj/structure/curtain/obscuring/grey,
+/obj/structure/window/reinforced/fulltile/ship/interior{
+	color = "#94bbd1"
+	},
+/obj/structure/grille,
+/obj/structure/cable,
+/turf/open/floor/plasteel/dark,
+/area/security/detectives_office)
+"aDF" = (
 /obj/effect/turf_decal/tile/red{
 	dir = 4
 	},
 /obj/effect/turf_decal/tile/red,
+/obj/structure/cable,
 /turf/open/floor/plasteel/dark,
-/area/security/brig)
-"aDF" = (
-/obj/structure/window/reinforced/fulltile/ship,
-/obj/machinery/door/poddoor/shutters/preopen{
-	id = "briglockdown";
-	name = "brig shutters"
-	},
-/turf/open/floor/plating,
 /area/security/brig)
 "aDG" = (
 /obj/machinery/computer/secure_data,
@@ -15151,11 +15236,17 @@
 /turf/open/floor/plasteel/ship/padded,
 /area/security/brig)
 "aDU" = (
-/obj/structure/window/reinforced/fulltile/ship,
-/obj/structure/curtain/obscuring/grey,
-/obj/structure/disposalpipe/segment,
-/turf/open/floor/plasteel/dark,
-/area/security/detectives_office)
+/obj/machinery/door/poddoor/shutters/preopen{
+	id = "briglockdown";
+	name = "brig shutters"
+	},
+/obj/structure/window/reinforced/fulltile/ship/interior{
+	color = "#94bbd1"
+	},
+/obj/structure/cable,
+/obj/structure/grille,
+/turf/open/floor/plating,
+/area/security/brig)
 "aDV" = (
 /obj/item/twohanded/required/kirbyplants{
 	icon_state = "plant-14"
@@ -16087,9 +16178,12 @@
 /turf/open/floor/plating,
 /area/quartermaster/sorting)
 "aFA" = (
-/obj/structure/window/reinforced/fulltile/ship,
+/obj/structure/window/reinforced/fulltile/ship/interior{
+	color = "#94bbd1"
+	},
+/obj/structure/grille,
 /turf/open/floor/plasteel,
-/area/quartermaster/sorting)
+/area/quartermaster/office)
 "aFB" = (
 /obj/structure/table/reinforced,
 /obj/item/folder/yellow,
@@ -16237,9 +16331,12 @@
 /turf/open/floor/plasteel/ship/techfloor/alt,
 /area/hydroponics)
 "aFS" = (
-/obj/structure/window/reinforced/fulltile/ship,
+/obj/structure/grille,
+/obj/structure/window/reinforced/fulltile/ship/interior{
+	color = "#94bbd1"
+	},
 /turf/open/floor/plasteel/dark,
-/area/crew_quarters/dorms)
+/area/crew_quarters/fitness/recreation)
 "aFT" = (
 /obj/effect/turf_decal/tile/red{
 	dir = 8
@@ -16488,7 +16585,6 @@
 /turf/open/floor/plasteel,
 /area/security/brig)
 "aGn" = (
-/obj/structure/window/reinforced/fulltile/ship,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
 	dir = 4
 	},
@@ -16496,6 +16592,10 @@
 	icon_state = "pipe11-1";
 	dir = 4
 	},
+/obj/structure/window/reinforced/fulltile/ship/interior{
+	color = "#94bbd1"
+	},
+/obj/structure/grille,
 /turf/open/floor/plasteel/white,
 /area/medical{
 	name = "Infirmary"
@@ -17282,7 +17382,10 @@
 	name = "Deck 2 primary hallway"
 	})
 "aHC" = (
-/obj/structure/window/reinforced/fulltile/ship,
+/obj/structure/window/reinforced/fulltile/ship/interior{
+	color = "#94bbd1"
+	},
+/obj/structure/grille,
 /turf/open/floor/plasteel/dark,
 /area/hallway/primary/central{
 	name = "Deck 2 primary hallway"
@@ -17763,9 +17866,17 @@
 	name = "Deck 2 primary hallway"
 	})
 "aIq" = (
-/obj/structure/window/reinforced/fulltile/ship,
-/turf/open/floor/plating,
-/area/science/robotics)
+/obj/machinery/door/poddoor/ship{
+	dir = 4;
+	icon_state = "closed";
+	id = "research_shutters_firing"
+	},
+/obj/structure/window/reinforced/fulltile/ship/interior{
+	color = "#94bbd1"
+	},
+/obj/structure/grille,
+/turf/open/floor/plasteel,
+/area/science)
 "aIr" = (
 /obj/structure/chair/office,
 /obj/effect/landmark/start/chief_engineer,
@@ -18019,8 +18130,10 @@
 	name = "Briefing room"
 	})
 "aIO" = (
-/obj/structure/window/reinforced/fulltile/ship,
-/obj/structure/cable,
+/obj/structure/window/reinforced/fulltile/ship/interior{
+	color = "#94bbd1"
+	},
+/obj/structure/grille,
 /turf/open/floor/plating,
 /area/science/robotics)
 "aIP" = (
@@ -18352,10 +18465,20 @@
 /turf/open/floor/plasteel/showroomfloor,
 /area/crew_quarters/bar)
 "aJC" = (
-/obj/structure/window/reinforced/fulltile/ship,
-/obj/structure/curtain/obscuring/grey,
+/obj/machinery/door/poddoor/ship{
+	dir = 2;
+	icon_state = "closed";
+	id = "CMO";
+	layer = 3.1
+	},
+/obj/structure/window/reinforced/fulltile/ship/interior{
+	color = "#94bbd1"
+	},
+/obj/structure/grille,
 /turf/open/floor/plasteel/white,
-/area/medical/genetics)
+/area/medical{
+	name = "Infirmary"
+	})
 "aJD" = (
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on,
 /obj/structure/cable,
@@ -19903,13 +20026,14 @@
 /turf/open/floor/plasteel/dark,
 /area/security/brig)
 "aMs" = (
+/obj/effect/turf_decal/tile/red,
 /obj/effect/turf_decal/tile/red{
 	dir = 4
 	},
 /obj/effect/turf_decal/tile/red{
-	dir = 1
+	dir = 8
 	},
-/obj/effect/turf_decal/tile/red,
+/obj/structure/cable,
 /turf/open/floor/plasteel/dark,
 /area/security/brig)
 "aMt" = (
@@ -19936,26 +20060,22 @@
 /turf/open/floor/plasteel/dark,
 /area/security/brig)
 "aMv" = (
-/obj/machinery/door_timer{
-	id = "Cell 1";
-	name = "Cell 1";
-	pixel_y = -32
+/obj/structure/grille,
+/obj/structure/window/reinforced/fulltile/ship/interior{
+	color = "#94bbd1"
 	},
-/obj/effect/turf_decal/tile/red,
-/obj/effect/turf_decal/tile/red{
-	dir = 8
-	},
-/turf/open/floor/plasteel/dark,
+/obj/structure/cable,
+/turf/open/floor/plasteel/showroomfloor,
 /area/security/brig)
 "aMw" = (
-/obj/effect/turf_decal/tile/red,
 /obj/effect/turf_decal/tile/red{
-	dir = 8
+	dir = 4
 	},
-/obj/machinery/camera{
-	c_tag = "Brig - Hallway - Entrance";
+/obj/effect/turf_decal/tile/red{
 	dir = 1
 	},
+/obj/effect/turf_decal/tile/red,
+/obj/structure/cable,
 /turf/open/floor/plasteel/dark,
 /area/security/brig)
 "aMx" = (
@@ -20117,8 +20237,12 @@
 /turf/open/floor/carpet/ship,
 /area/crew_quarters/heads/hos)
 "aMP" = (
-/obj/structure/window/reinforced/fulltile/ship,
+/obj/structure/window/reinforced/fulltile/ship/interior{
+	color = "#94bbd1"
+	},
 /obj/structure/curtain/obscuring/grey,
+/obj/structure/grille,
+/obj/structure/cable,
 /turf/open/floor/carpet/ship,
 /area/crew_quarters/heads/hos)
 "aMQ" = (
@@ -20417,9 +20541,9 @@
 /turf/open/floor/plasteel/dark,
 /area/security/brig)
 "aNu" = (
-/obj/structure/window/reinforced/fulltile/ship,
-/obj/structure/disposalpipe/segment{
-	dir = 4
+/obj/structure/grille,
+/obj/structure/window/reinforced/fulltile/ship/interior{
+	color = "#94bbd1"
 	},
 /turf/open/floor/plasteel,
 /area/security/brig)
@@ -20862,13 +20986,14 @@
 /turf/open/floor/wood,
 /area/crew_quarters/theatre)
 "aOp" = (
-/obj/structure/window/reinforced/fulltile/ship,
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
-	icon_state = "pipe11-1";
-	dir = 4
-	},
+/obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
 	dir = 4
+	},
+/obj/structure/cable,
+/obj/structure/grille,
+/obj/structure/window/reinforced/fulltile/ship/interior{
+	color = "#94bbd1"
 	},
 /turf/open/floor/plasteel/ship/padded,
 /area/hallway/secondary/construction{
@@ -21447,8 +21572,11 @@
 /turf/open/floor/carpet/ship,
 /area/crew_quarters/heads/captain)
 "aPC" = (
-/obj/structure/window/reinforced/fulltile/ship,
 /obj/structure/curtain/obscuring/grey,
+/obj/structure/grille,
+/obj/structure/window/reinforced/fulltile/ship/interior{
+	color = "#94bbd1"
+	},
 /turf/open/floor/carpet/ship,
 /area/crew_quarters/heads/captain)
 "aPD" = (
@@ -21994,15 +22122,13 @@
 /turf/open/floor/carpet/ship,
 /area/crew_quarters/heads/captain)
 "aQM" = (
-/obj/structure/window/reinforced/fulltile/ship,
-/obj/machinery/door/poddoor/preopen{
-	id = "xo";
-	name = "privacy shutters"
+/obj/structure/window/reinforced/fulltile/ship/interior{
+	color = "#94bbd1"
 	},
-/obj/structure/disposalpipe/segment,
+/obj/structure/grille,
 /turf/open/floor/plating,
-/area/crew_quarters/heads/hop{
-	name = "Executive officer's office"
+/area/crew_quarters/heads/captain/private{
+	name = "Briefing room"
 	})
 "aQN" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
@@ -22341,14 +22467,14 @@
 /turf/open/floor/plating,
 /area/engine/engineering)
 "aRz" = (
-/obj/structure/window/reinforced/fulltile/ship,
 /obj/structure/cable,
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
-	icon_state = "pipe11-1";
+/obj/machinery/atmospherics/pipe/simple/orange/hidden{
+	icon_state = "pipe11-2";
 	dir = 4
 	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
-	dir = 4
+/obj/structure/grille,
+/obj/structure/window/reinforced/fulltile/ship/interior{
+	color = "#94bbd1"
 	},
 /turf/open/floor/plasteel,
 /area/engine/engineering)
@@ -22620,7 +22746,6 @@
 	name = "Deck 3 hallway"
 	})
 "aSb" = (
-/obj/structure/window/reinforced/fulltile/ship,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	icon_state = "pipe11-1";
 	dir = 4
@@ -22628,18 +22753,21 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
 	dir = 4
 	},
-/obj/structure/disposalpipe/segment{
-	dir = 4
+/obj/structure/window/reinforced/fulltile/ship/interior{
+	color = "#94bbd1"
 	},
-/obj/structure/cable,
+/obj/structure/grille,
 /turf/open/floor/plasteel/dark,
 /area/hallway/primary/port{
 	name = "Deck 3 hallway"
 	})
 "aSc" = (
-/obj/structure/window/reinforced/fulltile/ship,
-/turf/open/floor/plating,
-/area/quartermaster/qm)
+/obj/structure/grille,
+/obj/structure/window/reinforced/fulltile/ship/interior{
+	color = "#94bbd1"
+	},
+/turf/open/floor/plasteel,
+/area/quartermaster/sorting)
 "aSd" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
@@ -22685,7 +22813,6 @@
 /turf/open/floor/plasteel/dark,
 /area/engine/engineering)
 "aSg" = (
-/obj/structure/window/reinforced/fulltile/ship,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	icon_state = "pipe11-1";
 	dir = 4
@@ -22693,6 +22820,11 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
 	dir = 4
 	},
+/obj/structure/cable,
+/obj/structure/window/reinforced/fulltile/ship/interior{
+	color = "#94bbd1"
+	},
+/obj/structure/grille,
 /turf/open/floor/plasteel/dark,
 /area/hallway/primary/port{
 	name = "Deck 3 hallway"
@@ -24124,8 +24256,10 @@
 	name = "Deck 3 hallway"
 	})
 "aUM" = (
-/obj/structure/window/reinforced/fulltile/ship,
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/obj/structure/grille,
+/obj/structure/window/reinforced/fulltile/ship/interior{
+	color = "#94bbd1"
+	},
 /turf/open/floor/plating,
 /area/engine/atmos)
 "aUN" = (
@@ -24254,7 +24388,10 @@
 "aVe" = (
 /obj/structure/disposalpipe/segment,
 /obj/structure/cable,
-/obj/structure/window/reinforced/fulltile/ship,
+/obj/structure/window/reinforced/fulltile/ship/interior{
+	color = "#94bbd1"
+	},
+/obj/structure/grille,
 /turf/open/floor/plating,
 /area/quartermaster/qm)
 "aVf" = (
@@ -24976,11 +25113,15 @@
 /turf/closed/wall/ship,
 /area/hallway/secondary/entry)
 "aWy" = (
-/obj/structure/window/reinforced/fulltile/ship,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
+/obj/structure/cable,
+/obj/structure/window/reinforced/fulltile/ship/interior{
+	color = "#94bbd1"
+	},
+/obj/structure/grille,
 /turf/open/floor/plasteel/dark,
-/area/hallway/secondary/entry)
+/area/hallway/secondary/exit)
 "aWz" = (
 /obj/structure/sign/warning/vacuum,
 /turf/closed/wall/ship,
@@ -25099,18 +25240,22 @@
 	name = "Executive officer's office"
 	})
 "aWN" = (
-/obj/structure/window/reinforced/fulltile/ship,
-/obj/structure/disposalpipe/segment{
-	dir = 4
+/obj/structure/cable,
+/obj/structure/window/reinforced/fulltile/ship/interior{
+	color = "#94bbd1"
 	},
+/obj/structure/grille,
 /turf/open/floor/plating,
-/area/science)
+/area/science/robotics)
 "aWO" = (
-/obj/structure/window/reinforced/fulltile/ship,
 /obj/machinery/door/poddoor/preopen{
 	id = "xo";
 	name = "privacy shutters"
 	},
+/obj/structure/window/reinforced/fulltile/ship/interior{
+	color = "#94bbd1"
+	},
+/obj/structure/grille,
 /turf/open/floor/plating,
 /area/crew_quarters/heads/hop{
 	name = "Executive officer's office"
@@ -25203,9 +25348,12 @@
 /turf/open/floor/circuit/telecomms/mainframe,
 /area/tcommsat/server)
 "aXb" = (
-/obj/structure/window/reinforced/fulltile/ship,
 /obj/structure/curtain/obscuring/grey,
 /obj/structure/cable,
+/obj/structure/window/reinforced/fulltile/ship/interior{
+	color = "#94bbd1"
+	},
+/obj/structure/grille,
 /turf/open/floor/plating,
 /area/bridge/meeting_room)
 "aXc" = (
@@ -26315,10 +26463,18 @@
 /turf/open/floor/plasteel/dark,
 /area/hallway/secondary/command)
 "aZe" = (
-/obj/structure/window/reinforced/fulltile/ship,
+/obj/machinery/door/poddoor/preopen{
+	id = "xo";
+	name = "privacy shutters"
+	},
+/obj/structure/disposalpipe/segment,
+/obj/structure/window/reinforced/fulltile/ship/interior{
+	color = "#94bbd1"
+	},
+/obj/structure/grille,
 /turf/open/floor/plating,
-/area/crew_quarters/heads/captain/private{
-	name = "Briefing room"
+/area/crew_quarters/heads/hop{
+	name = "Executive officer's office"
 	})
 "aZf" = (
 /obj/machinery/airalarm{
@@ -26578,7 +26734,10 @@
 /turf/open/floor/plasteel/ship/techfloor/alt,
 /area/hallway/secondary/command)
 "aZC" = (
-/obj/structure/window/reinforced/fulltile/ship,
+/obj/structure/window/reinforced/fulltile/ship/interior{
+	color = "#94bbd1"
+	},
+/obj/structure/grille,
 /turf/open/floor/plating,
 /area/hallway/secondary/command)
 "aZD" = (
@@ -27372,18 +27531,6 @@
 	name = "Munitions"
 	})
 "baY" = (
-/obj/structure/window/reinforced/fulltile/ship,
-/obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1,
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
-	dir = 4
-	},
-/obj/structure/cable,
-/turf/open/floor/plasteel/ship/padded,
-/area/hallway/secondary/construction{
-	name = "Munitions"
-	})
-"baZ" = (
-/obj/structure/window/reinforced/fulltile/ship,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	icon_state = "pipe11-1";
 	dir = 4
@@ -27392,6 +27539,26 @@
 	dir = 1
 	},
 /obj/structure/cable,
+/obj/structure/grille,
+/obj/structure/window/reinforced/fulltile/ship/interior{
+	color = "#94bbd1"
+	},
+/turf/open/floor/plasteel/ship/padded,
+/area/hallway/secondary/construction{
+	name = "Munitions"
+	})
+"baZ" = (
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	icon_state = "pipe11-1";
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
+	dir = 4
+	},
+/obj/structure/grille,
+/obj/structure/window/reinforced/fulltile/ship/interior{
+	color = "#94bbd1"
+	},
 /turf/open/floor/plasteel/ship/padded,
 /area/hallway/secondary/construction{
 	name = "Munitions"
@@ -27774,12 +27941,16 @@
 /turf/open/floor/plasteel/dark,
 /area/security/brig)
 "bbI" = (
-/obj/structure/window/reinforced/fulltile/ship,
-/obj/structure/curtain/obscuring/grey,
-/obj/structure/disposalpipe/segment,
-/obj/structure/cable,
-/turf/open/floor/plasteel/dark,
-/area/crew_quarters/heads/hos)
+/obj/machinery/door/poddoor/shutters/preopen{
+	id = "briglockdown";
+	name = "brig shutters"
+	},
+/obj/structure/window/reinforced/fulltile/ship/interior{
+	color = "#94bbd1"
+	},
+/obj/structure/grille,
+/turf/open/floor/plating,
+/area/security/brig)
 "bbJ" = (
 /obj/structure/sign/directions/evac,
 /turf/closed/wall/ship,
@@ -28309,8 +28480,11 @@
 	name = "Deck 2 primary hallway"
 	})
 "bcH" = (
-/obj/structure/window/reinforced/fulltile/ship,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
+/obj/structure/grille,
+/obj/structure/window/reinforced/fulltile/ship/interior{
+	color = "#94bbd1"
+	},
 /turf/open/floor/plating,
 /area/hallway/primary/central{
 	name = "Deck 2 primary hallway"
@@ -29524,7 +29698,10 @@
 /obj/structure/disposalpipe/segment{
 	dir = 4
 	},
-/obj/structure/window/reinforced/fulltile/ship,
+/obj/structure/window/reinforced/fulltile/ship/interior{
+	color = "#94bbd1"
+	},
+/obj/structure/grille,
 /turf/open/floor/plasteel,
 /area/quartermaster/sorting)
 "beU" = (
@@ -30816,6 +30993,219 @@
 /area/nsv/hanger/deck2/port{
 	name = "Launch tubes 3 and 4"
 	})
+"bho" = (
+/obj/structure/cable,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	icon_state = "pipe11-1";
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
+	dir = 4
+	},
+/obj/structure/grille,
+/obj/structure/window/reinforced/fulltile/ship/interior{
+	color = "#94bbd1"
+	},
+/turf/open/floor/plasteel,
+/area/engine/engineering)
+"bhp" = (
+/obj/structure/cable,
+/obj/structure/grille,
+/obj/structure/window/reinforced/fulltile/ship/interior{
+	color = "#94bbd1"
+	},
+/turf/open/floor/plasteel,
+/area/engine/engineering)
+"bhq" = (
+/obj/machinery/atmospherics/pipe/manifold/green/visible{
+	icon_state = "manifold-2";
+	dir = 4
+	},
+/obj/structure/window/reinforced/fulltile/ship/interior{
+	color = "#94bbd1"
+	},
+/obj/structure/grille,
+/turf/open/floor/plating,
+/area/engine/atmos)
+"bhr" = (
+/obj/structure/window/reinforced/fulltile/ship/interior{
+	color = "#94bbd1"
+	},
+/obj/structure/grille,
+/turf/open/floor/plating,
+/area/engine/atmos)
+"bhs" = (
+/obj/structure/window/reinforced/fulltile/ship/interior{
+	color = "#94bbd1"
+	},
+/obj/structure/grille,
+/turf/open/floor/plasteel/white,
+/area/medical{
+	name = "Infirmary"
+	})
+"bht" = (
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	icon_state = "pipe11-1";
+	dir = 4
+	},
+/obj/structure/grille,
+/obj/structure/window/reinforced/fulltile/ship/interior{
+	color = "#94bbd1"
+	},
+/turf/open/floor/plasteel/dark,
+/area/crew_quarters/fitness/recreation)
+"bhu" = (
+/obj/structure/curtain/obscuring/grey,
+/obj/structure/window/reinforced/fulltile/ship/interior{
+	color = "#94bbd1"
+	},
+/obj/structure/grille,
+/obj/structure/cable,
+/turf/open/floor/plasteel/dark,
+/area/crew_quarters/heads/hos)
+"bhv" = (
+/obj/structure/curtain/obscuring/grey,
+/obj/structure/disposalpipe/segment,
+/obj/structure/cable,
+/obj/structure/window/reinforced/fulltile/ship/interior{
+	color = "#94bbd1"
+	},
+/obj/structure/grille,
+/turf/open/floor/plasteel/dark,
+/area/crew_quarters/heads/hos)
+"bhw" = (
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
+/obj/structure/grille,
+/obj/structure/window/reinforced/fulltile/ship/interior{
+	color = "#94bbd1"
+	},
+/turf/open/floor/plasteel,
+/area/security/brig)
+"bhx" = (
+/obj/machinery/door_timer{
+	id = "Cell 1";
+	name = "Cell 1";
+	pixel_y = -32
+	},
+/obj/effect/turf_decal/tile/red,
+/obj/effect/turf_decal/tile/red{
+	dir = 8
+	},
+/obj/structure/cable,
+/turf/open/floor/plasteel/dark,
+/area/security/brig)
+"bhy" = (
+/obj/effect/turf_decal/tile/red,
+/obj/effect/turf_decal/tile/red{
+	dir = 8
+	},
+/obj/machinery/camera{
+	c_tag = "Brig - Hallway - Entrance";
+	dir = 1
+	},
+/obj/structure/cable,
+/turf/open/floor/plasteel/dark,
+/area/security/brig)
+"bhz" = (
+/obj/effect/turf_decal/tile/red{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/red{
+	dir = 4
+	},
+/obj/structure/cable,
+/turf/open/floor/plasteel/dark,
+/area/security/brig)
+"bhA" = (
+/obj/structure/grille,
+/obj/structure/window/reinforced/fulltile/ship/interior{
+	color = "#94bbd1"
+	},
+/turf/open/floor/plasteel/ship/techfloor/alt,
+/area/storage/primary)
+"bhB" = (
+/obj/structure/window/reinforced/fulltile/ship/interior{
+	color = "#94bbd1"
+	},
+/obj/structure/grille,
+/turf/open/floor/plasteel,
+/area/hallway/secondary/exit)
+"bhC" = (
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	icon_state = "pipe11-1";
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
+	dir = 4
+	},
+/obj/structure/grille,
+/obj/structure/window/reinforced/fulltile/ship/interior{
+	color = "#94bbd1"
+	},
+/turf/open/floor/plasteel/dark,
+/area/hallway/primary/port{
+	name = "Deck 3 hallway"
+	})
+"bhD" = (
+/obj/effect/turf_decal/stripes/line,
+/obj/structure/cable,
+/turf/open/floor/plasteel,
+/area/hallway/secondary/entry)
+"bhE" = (
+/obj/effect/turf_decal/stripes/line,
+/obj/machinery/door/window/brigdoor{
+	name = "Arrivals Security Checkpoint";
+	pixel_y = -8;
+	req_access_txt = "1"
+	},
+/obj/structure/cable,
+/turf/open/floor/plasteel,
+/area/hallway/secondary/entry)
+"bhF" = (
+/obj/effect/turf_decal/stripes/corner,
+/obj/effect/turf_decal/stripes/corner{
+	dir = 8
+	},
+/obj/structure/cable,
+/turf/open/floor/plasteel,
+/area/hallway/secondary/entry)
+"bhG" = (
+/obj/structure/grille,
+/obj/structure/window/reinforced/fulltile/ship/interior{
+	color = "#94bbd1"
+	},
+/obj/structure/cable,
+/turf/open/floor/plasteel,
+/area/hallway/secondary/entry)
+"bhH" = (
+/obj/machinery/door/airlock/ship{
+	name = "Arrivals checkpoint"
+	},
+/obj/machinery/door/poddoor/shutters/preopen{
+	id = "arrivals_shutter";
+	name = "Checkpoint lockdown"
+	},
+/obj/structure/cable,
+/turf/open/floor/plasteel/dark,
+/area/hallway/secondary/entry)
+"bhI" = (
+/obj/effect/turf_decal/tile/neutral{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/neutral{
+	dir = 8
+	},
+/obj/effect/turf_decal/stripes/corner{
+	dir = 4
+	},
+/obj/structure/cable,
+/turf/open/floor/plasteel/dark,
+/area/hallway/secondary/entry)
 "bli" = (
 /obj/machinery/atmospherics/pipe/simple/green/visible,
 /obj/machinery/atmospherics/pipe/simple/green/visible{
@@ -31061,23 +31451,6 @@
 /obj/machinery/light/runway,
 /turf/open/space/basic,
 /area/maintenance/ship_exterior)
-"dek" = (
-/obj/structure/window/reinforced/fulltile/ship,
-/obj/structure/cable,
-/obj/machinery/atmospherics/pipe/simple/orange/hidden{
-	icon_state = "pipe11-2";
-	dir = 4
-	},
-/turf/open/floor/plasteel,
-/area/engine/engineering)
-"dfq" = (
-/obj/machinery/atmospherics/pipe/manifold/green/visible{
-	icon_state = "manifold-2";
-	dir = 4
-	},
-/obj/structure/window/reinforced/fulltile/ship,
-/turf/open/floor/plating,
-/area/engine/atmos)
 "dnT" = (
 /obj/machinery/atmospherics/components/binary/valve/digital{
 	dir = 4;
@@ -31187,12 +31560,6 @@
 /area/crew_quarters/abandoned_gambling_den{
 	name = "Observation lounge"
 	})
-"dJj" = (
-/obj/structure/window/reinforced/fulltile/ship,
-/obj/structure/curtain/obscuring/grey,
-/obj/structure/cable,
-/turf/open/floor/carpet/ship,
-/area/crew_quarters/heads/hos)
 "dJM" = (
 /obj/structure/window/reinforced/fulltile/ship,
 /obj/machinery/door/poddoor/ship/preopen{
@@ -33711,10 +34078,6 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/disposal)
-"wSV" = (
-/obj/structure/window/reinforced/fulltile/ship,
-/turf/open/floor/plasteel/ship/techfloor/alt,
-/area/storage/primary)
 "wUE" = (
 /obj/structure/table/reinforced,
 /obj/item/reagent_containers/food/drinks/britcup,
@@ -33823,11 +34186,6 @@
 /area/hallway/primary/port{
 	name = "Deck 3 hallway"
 	})
-"xiN" = (
-/obj/structure/window/reinforced/fulltile/ship,
-/obj/structure/cable,
-/turf/open/floor/plasteel,
-/area/engine/engineering)
 "xwA" = (
 /obj/machinery/telecomms/relay/preset/station,
 /turf/open/floor/plating,
@@ -49499,9 +49857,9 @@ xao
 aOr
 aOr
 glu
-dek
 aRz
-xiN
+bho
+bhp
 glu
 adj
 aOr
@@ -54640,7 +54998,7 @@ acR
 adb
 aey
 aey
-aiq
+alq
 alU
 apT
 apT
@@ -56439,7 +56797,7 @@ acT
 adE
 aeT
 agw
-alq
+als
 anp
 aqI
 atv
@@ -56953,7 +57311,7 @@ acV
 adG
 acB
 agM
-als
+asB
 anw
 arT
 aua
@@ -56961,7 +57319,7 @@ axX
 aUf
 aVL
 aVZ
-aIq
+aIO
 aSx
 axT
 aXw
@@ -57218,7 +57576,7 @@ aCg
 aHl
 aHH
 aHR
-aIO
+aWN
 aSx
 axT
 abk
@@ -57475,7 +57833,7 @@ axZ
 aUp
 aVN
 aIb
-aIq
+aIO
 aSx
 axT
 abk
@@ -58228,7 +58586,7 @@ aag
 adi
 aaZ
 asU
-aSb
+akE
 asU
 aaZ
 acn
@@ -58248,7 +58606,7 @@ aVO
 aWd
 aas
 aUr
-aSg
+bhC
 asU
 aaZ
 adi
@@ -58999,7 +59357,7 @@ adi
 adi
 aaZ
 auo
-aSb
+akE
 auo
 ame
 acq
@@ -59008,18 +59366,18 @@ acq
 acq
 aef
 acq
-aWN
+aiq
 aas
 aas
-asB
-asB
-asB
-asB
-asB
+aIq
+aIq
+aIq
+aIq
+aIq
 aas
 aIP
 aUI
-aSg
+bhC
 auo
 aaZ
 adi
@@ -64658,17 +65016,17 @@ aap
 aap
 aap
 aap
-acx
-acx
-acx
+akk
+akk
+akk
 ahd
 aYz
-acx
+akk
 aiU
 aap
-acx
-acx
-acx
+akk
+akk
+akk
 aap
 aap
 aap
@@ -65691,7 +66049,7 @@ aaq
 aaq
 axb
 acj
-aSg
+aSb
 akj
 aLl
 aal
@@ -65940,7 +66298,7 @@ aaq
 aaR
 afR
 ahB
-ahI
+bhG
 ait
 akC
 aHb
@@ -66196,8 +66554,8 @@ adi
 aaq
 aaS
 afV
-ahC
-ahI
+bhD
+bhG
 aiu
 afV
 aUz
@@ -66213,7 +66571,7 @@ aaU
 agX
 agX
 aka
-akE
+bhB
 akJ
 aSV
 aUo
@@ -66453,7 +66811,7 @@ adi
 aaq
 aaV
 afV
-ahD
+bhE
 ahN
 aiv
 arJ
@@ -66470,7 +66828,7 @@ aaX
 ahE
 ahE
 akb
-akE
+bhB
 akJ
 aSV
 aUo
@@ -66710,11 +67068,11 @@ abF
 aaq
 aaW
 afV
-ahC
+bhD
 aaq
-ahI
-ahI
-ahI
+bhG
+bhG
+bhG
 aWr
 aWx
 aaG
@@ -66964,12 +67322,12 @@ tyN
 tyN
 avg
 aeE
-aat
-abN
-afV
-ahF
-ahO
+ahD
+ahI
 aiw
+bhF
+bhH
+bhI
 auR
 aWl
 aWs
@@ -67230,13 +67588,13 @@ aix
 auS
 aWm
 aWt
-aWy
+akX
 aaI
 akf
 akq
 aSA
 aTP
-akk
+aWy
 akx
 akH
 akM
@@ -68012,7 +68370,7 @@ afj
 ahE
 ahE
 akb
-akE
+bhB
 akJ
 aSV
 aUo
@@ -68269,7 +68627,7 @@ afS
 ajT
 ajT
 akD
-akE
+bhB
 akJ
 aSV
 aUo
@@ -68775,7 +69133,7 @@ aaq
 aaq
 ayh
 aYN
-akX
+aSg
 ahP
 aAM
 aal
@@ -73150,7 +73508,7 @@ lJa
 afJ
 agc
 ahr
-ahz
+ayH
 ayP
 aTd
 aaC
@@ -75449,9 +75807,9 @@ tyN
 aag
 adi
 aaZ
-ayH
+ahz
 aJe
-ayH
+ahz
 aaZ
 aaZ
 aaZ
@@ -75463,9 +75821,9 @@ aaZ
 aaZ
 aaZ
 aaZ
-ayH
+ahz
 cFo
-ayH
+ahz
 aaZ
 adi
 aag
@@ -83938,7 +84296,7 @@ aaM
 aoC
 aCN
 aKg
-baY
+aOp
 aUq
 aKC
 baN
@@ -84195,7 +84553,7 @@ aaM
 aoG
 aCP
 aCN
-baZ
+baY
 aUs
 aKC
 baO
@@ -85223,7 +85581,7 @@ aaM
 asy
 aCP
 aCN
-aOp
+baZ
 aUq
 aKC
 baO
@@ -85480,7 +85838,7 @@ aaM
 asR
 aCN
 aCN
-aOp
+baZ
 aUq
 aKC
 baN
@@ -109894,7 +110252,7 @@ aKB
 clU
 clU
 aye
-ayT
+aFA
 clU
 ben
 clU
@@ -109902,9 +110260,9 @@ clU
 clU
 clU
 aCw
-aFA
+aSc
 aKh
-aFA
+aSc
 aKz
 bfe
 bfm
@@ -110415,7 +110773,7 @@ sde
 ber
 aNw
 aCr
-aFA
+aSc
 baz
 beH
 aKv
@@ -110929,7 +111287,7 @@ aKI
 bet
 aNw
 aCu
-aFA
+aSc
 aFF
 beJ
 aKw
@@ -111430,7 +111788,7 @@ nwD
 azE
 aKA
 aRo
-aSc
+ayT
 aRo
 aRo
 aRo
@@ -111438,7 +111796,7 @@ clU
 clU
 clU
 aBX
-ayT
+aFA
 aKK
 clU
 anh
@@ -116060,7 +116418,7 @@ gkE
 aeV
 bGR
 aeS
-dfq
+bhq
 aot
 arS
 asW
@@ -117602,7 +117960,7 @@ adp
 adJ
 adW
 qEe
-adt
+bhr
 amN
 aUQ
 uCo
@@ -121201,13 +121559,13 @@ aim
 aqu
 bef
 aDg
-aJC
+ajH
 ale
 apM
 avB
 ayv
 ayD
-aym
+bhs
 ajE
 ali
 ali
@@ -121715,13 +122073,13 @@ amR
 bea
 beg
 bei
-aJC
+ajH
 alu
 aqa
 aws
 ayx
 ayM
-aym
+bhs
 ajI
 aVd
 aVd
@@ -123514,13 +123872,13 @@ aeN
 aii
 aiT
 ajp
-ajH
+ald
 acS
 aVd
 azs
 awT
 azk
-azl
+aJC
 aGr
 aDH
 aEf
@@ -124285,13 +124643,13 @@ afm
 ajr
 aJV
 ajs
-ald
+aym
 alC
 ayG
 aGi
 axy
 aJU
-azl
+aJC
 aGv
 aJG
 aJO
@@ -124543,11 +124901,11 @@ air
 air
 ajy
 aeF
-aym
+azl
 azn
 aGn
 axI
-aym
+bhs
 apL
 apL
 apL
@@ -126335,7 +126693,7 @@ abd
 apO
 aDb
 aKR
-wSV
+bhA
 kTv
 pJd
 bed
@@ -126592,7 +126950,7 @@ abd
 aBs
 aEx
 aCS
-wSV
+bhA
 kTv
 pJd
 sUb
@@ -126849,7 +127207,7 @@ abd
 aew
 aDb
 aKR
-wSV
+bhA
 aEW
 anX
 arz
@@ -127371,9 +127729,9 @@ adZ
 adZ
 adZ
 aKQ
-aqJ
+awE
 aEz
-aqJ
+awE
 aKQ
 xyT
 adZ
@@ -130194,17 +130552,17 @@ bcA
 abd
 adZ
 adZ
-aqJ
-aqJ
-aqJ
+awE
+awE
+awE
 aJa
-aAs
-aqJ
-aAs
+azt
+awE
+azt
 aAi
-aqJ
-aqJ
-aqJ
+awE
+awE
+awE
 adZ
 adZ
 abd
@@ -131227,7 +131585,7 @@ ado
 aZx
 azQ
 aDy
-aFS
+aAs
 bbq
 ado
 bbE
@@ -135331,11 +135689,11 @@ adX
 adX
 adX
 adX
-azt
+aww
 azz
-azt
+aww
 aEw
-azt
+aww
 aLC
 abd
 bcE
@@ -135343,9 +135701,9 @@ aEy
 aOM
 abd
 aqP
-aww
-aww
-awE
+aFS
+aFS
+bht
 awJ
 aqN
 aqN
@@ -135861,7 +136219,7 @@ awx
 awB
 awG
 axj
-aww
+aFS
 aHo
 aGE
 aGE
@@ -136118,7 +136476,7 @@ awy
 awC
 awH
 azR
-aww
+aFS
 aLH
 aGE
 aGE
@@ -136375,7 +136733,7 @@ awz
 awD
 awI
 axj
-aww
+aFS
 aHo
 aGE
 aGE
@@ -140988,7 +141346,7 @@ ajA
 bdW
 ajA
 auJ
-aDU
+auK
 aDV
 aFi
 aFi
@@ -140998,7 +141356,7 @@ aAr
 aAr
 aAr
 aHp
-are
+bhu
 aNi
 aEF
 aEQ
@@ -141243,10 +141601,10 @@ afG
 aiG
 ajB
 alD
-ajB
-ajA
-apG
-auK
+amF
+ajG
+aDE
+bhz
 aAt
 aCC
 aCC
@@ -141255,7 +141613,7 @@ bbt
 bbt
 bbF
 bbH
-bbI
+bhv
 bbL
 aEJ
 bbR
@@ -141500,19 +141858,19 @@ afG
 aiV
 ajC
 alE
-amF
+are
 ajA
-apG
+aDE
 awQ
 aAu
 aCD
-aDE
+aDF
 aDX
-aDE
+aDF
 aCD
 aFk
 aHr
-are
+bhu
 aEr
 aEG
 bbS
@@ -141763,9 +142121,9 @@ afG
 aja
 aAw
 aja
-aDF
+aDU
 aDY
-aDF
+bbI
 aja
 aFl
 aja
@@ -142032,7 +142390,7 @@ aEJ
 wsS
 aEJ
 aEJ
-dJj
+aMP
 aLW
 axk
 tyN
@@ -143298,8 +143656,8 @@ aLW
 azE
 ajf
 alk
-alI
-amV
+amW
+amZ
 arf
 arf
 axn
@@ -143313,8 +143671,8 @@ aFW
 aIu
 arf
 arf
-ark
-alI
+aCA
+amW
 aMA
 aMC
 aja
@@ -143556,7 +143914,7 @@ azE
 ajg
 ajf
 alR
-amV
+amZ
 arj
 aro
 aro
@@ -143570,7 +143928,7 @@ aro
 aro
 aro
 aMr
-ark
+aCA
 aMy
 ajf
 aMD
@@ -143812,23 +144170,23 @@ aLW
 azE
 abC
 alm
-alI
-amV
+amW
+amZ
 ark
 aja
-aja
-aCA
-aDq
-aCA
 aja
 aNu
+aDq
+aNu
+aja
+bhw
 aED
-aCA
+aNu
 aja
 aja
 amV
-ark
-alI
+aCA
+amW
 ajk
 alm
 aja
@@ -144070,9 +144428,9 @@ azE
 aja
 aja
 aja
-amW
-ark
-arG
+arl
+aCA
+aMv
 axp
 alb
 aDx
@@ -144082,9 +144440,9 @@ aEl
 aEL
 aFX
 aIx
-arG
-amV
 aMv
+amZ
+bhx
 aja
 aja
 aja
@@ -144327,9 +144685,9 @@ azE
 aaa
 aaa
 alI
-amV
+amZ
 ark
-arG
+aMv
 axt
 alb
 aDx
@@ -144339,9 +144697,9 @@ aEm
 aEO
 aGa
 aLS
-arG
+aMv
 amV
-ark
+aCA
 alI
 aaa
 aaa
@@ -144584,9 +144942,9 @@ azE
 aja
 aja
 aja
-amZ
-ark
 arG
+aCA
+aMv
 azN
 alb
 aDz
@@ -144596,9 +144954,9 @@ agd
 aFd
 aGb
 aMl
-arG
-amV
-aMw
+aMv
+amZ
+bhy
 aja
 aja
 aja
@@ -144840,8 +145198,8 @@ aLW
 azE
 ajm
 aln
-alI
-amV
+amW
+amZ
 ark
 aja
 aAd
@@ -144855,8 +145213,8 @@ aGa
 aMm
 aja
 amV
-ark
-alI
+aCA
+amW
 aMB
 aME
 aja
@@ -145098,9 +145456,9 @@ azE
 ajg
 ajf
 alY
-amV
-ark
-arG
+amZ
+aCA
+aMv
 aAk
 alb
 aDB
@@ -145110,9 +145468,9 @@ aEp
 aFf
 aGm
 aMn
-arG
-amV
-ark
+aMv
+amZ
+aCA
 aMz
 ajf
 aMD
@@ -145354,10 +145712,10 @@ aLW
 azE
 ajn
 alo
-alI
-amV
+amW
+amZ
 ark
-arG
+aMv
 apn
 alb
 aDC
@@ -145367,10 +145725,10 @@ ahp
 aEO
 aGB
 aMo
-arG
+aMv
 amV
-ark
-alI
+aCA
+amW
 ajf
 alm
 aja
@@ -145613,8 +145971,8 @@ aja
 aja
 aja
 aof
-arl
-arG
+aMs
+aMv
 apn
 aCB
 aDC
@@ -145624,8 +145982,8 @@ aEq
 aFg
 aGC
 aMp
-arG
-aMs
+aMv
+aMw
 aMx
 aja
 aja
@@ -185962,7 +186320,7 @@ bcl
 auX
 aXZ
 aqg
-aZe
+aQM
 axx
 aIw
 aQs
@@ -185976,7 +186334,7 @@ aBk
 aUY
 aZQ
 axx
-aZe
+aQM
 aXK
 aXZ
 aRI
@@ -186219,7 +186577,7 @@ aRK
 apP
 aXZ
 aqf
-aZe
+aQM
 axx
 ayn
 azS
@@ -186233,7 +186591,7 @@ aBk
 aPL
 aZQ
 axx
-aZe
+aQM
 aqf
 aXZ
 apP
@@ -186476,7 +186834,7 @@ aRK
 apP
 aXZ
 aqf
-aZe
+aQM
 axx
 ayq
 aBt
@@ -186490,7 +186848,7 @@ aBk
 aPQ
 bcN
 axx
-aZe
+aQM
 aqf
 aXZ
 apP
@@ -186733,7 +187091,7 @@ aRK
 apP
 tjR
 aqf
-aZe
+aQM
 aBj
 axx
 axx
@@ -186747,7 +187105,7 @@ axx
 axx
 axx
 aPz
-aZe
+aQM
 aqf
 tjR
 apP
@@ -186990,7 +187348,7 @@ aRK
 apP
 aXZ
 aqf
-aZe
+aQM
 aBk
 aCF
 aIv
@@ -187004,7 +187362,7 @@ aBk
 aYV
 aZT
 aBk
-aZe
+aQM
 aqf
 aXZ
 apP
@@ -187247,21 +187605,21 @@ aRK
 apP
 aXZ
 aqf
-aZe
+aQM
 aBk
 aEH
 aQC
 aBk
-aZe
-aZe
-aZe
-aZe
-aZe
+aQM
+aQM
+aQM
+aQM
+aQM
 aBk
 aBu
 bdk
 aBk
-aZe
+aQM
 aqf
 aXZ
 apP
@@ -187504,21 +187862,21 @@ aRK
 apP
 aXZ
 aqf
-aZe
+aQM
 aBk
 aEH
 aBv
 aBk
-aZe
+aQM
 aHY
 aCO
 aIW
-aZe
+aQM
 aBk
 aQp
 bdk
 aBk
-aZe
+aQM
 aqf
 aXZ
 apP
@@ -187761,21 +188119,21 @@ aRK
 apP
 aXZ
 aqf
-aZe
+aQM
 aBk
 aEH
 aBv
 aBk
-aZe
+aQM
 aIy
 aPT
 aIr
-aZe
+aQM
 aBk
 aQp
 bdk
 aBk
-aZe
+aQM
 aqf
 aXZ
 apP
@@ -188023,11 +188381,11 @@ aBl
 aIe
 aHZ
 aBk
-aZe
+aQM
 aPs
 aYj
 aZI
-aZe
+aQM
 aBk
 aYI
 bdl
@@ -188280,11 +188638,11 @@ aAR
 bak
 bal
 aJb
-aZe
+aQM
 aIN
 aZM
 aPV
-aZe
+aQM
 aZy
 bal
 axs
@@ -191885,7 +192243,7 @@ baa
 aIC
 aPP
 aQg
-aQM
+aZe
 bau
 aZC
 apP

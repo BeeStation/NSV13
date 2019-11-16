@@ -24,7 +24,7 @@
 	jobtype = /datum/job/munitions_tech
 
 	belt = /obj/item/storage/belt/utility/full/engi
-	ears = /obj/item/radio/headset/headset_sec/alt
+	ears = /obj/item/radio/headset/headset_sec/alt/pilot
 	uniform = /obj/item/clothing/under/rank/munitions_tech
 	suit = /obj/item/clothing/suit/hazardvest
 	head = /obj/item/clothing/head/soft/yellow
