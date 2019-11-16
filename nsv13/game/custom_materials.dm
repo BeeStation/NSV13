@@ -10,7 +10,7 @@
 	flags_1 = CONDUCT_1
 	resistance_flags = FIRE_PROOF
 	merge_type = /obj/item/stack/sheet/duranium
-	turf_type = /turf/closed/wall/ship
+	turf_type = /turf/closed/wall/r_wall/ship
 
 /obj/item/stack/sheet/duranium/twenty
 	amount = 20
@@ -37,7 +37,7 @@ GLOBAL_LIST_INIT(durasteel_recipes, list ( \
 	flags_1 = CONDUCT_1
 	resistance_flags = FIRE_PROOF
 	merge_type = /obj/item/stack/sheet/durasteel
-	turf_type = /turf/closed/wall/r_wall/ship
+	turf_type = /turf/closed/wall/ship
 
 /obj/item/stack/sheet/durasteel/twenty
 	amount = 20

@@ -1,0 +1,57 @@
+<ui-display title='Control presets'>
+  <ui-button icon='{{. ? "square-o" : "square-o"}}'
+	style='{{. ? "caution" : null}}'
+	action='rods_1'>
+	"AZ-1 (Fully raise control rods)"</ui-button><br/>
+  <ui-button icon='{{. ? "square-o" : "square-o"}}'
+	style='{{. ? "normal" : null}}'
+	action='rods_2'>
+	"AZ-2 (Set Position 1 - "Unsafe")"</ui-button><br/>
+  <ui-button icon='{{. ? "square-o" : "square-o"}}'
+	style='{{. ? "normal" : null}}'
+	action='rods_3'>
+	"AZ-3 (Set Position 2 - "Safe")"</ui-button><br/>
+  <ui-button icon='{{. ? "square-o" : "square-o"}}'
+	style='{{. ? "normal" : null}}'
+	action='rods_4'>
+	"AZ-4 (Set Position 3 - "Cooling")"</ui-button><br/>
+  <ui-button icon='{{. ? "square-o" : "square-o"}}'
+	style='{{. ? "caution" : null}}'
+	action='rods_5'>
+	"AZ-5 (SCRAM)"</ui-button><br/>
+</ui-display>
+<ui-display title='Options'>
+  <ui-button icon='{{data.pipe_open ? "power-off" : "close"}}' style='{{data.pipe_open ? "selected" : null}}'
+	action='pipe'>
+	"AZ-6 (Toggle waste valve)"</ui-button><br/>
+  <ui-button icon='{{data.reactor_maintenance ? "power-off" : "close"}}' style='{{data.reactor_maintenance ? "selected" : null}}'
+	action='maintenance'>
+	"AZ-7 (Toggle maintenance protocols)"</ui-button><br/>
+</ui-display>
+<ui-display title='Control rod tuning'>
+  <ui-button icon='fast-backward' action='control_rod_percent' params='{"adjust": -10}'/>
+  <ui-button icon='backward' action='control_rod_percent' params='{"adjust": -5}'/>
+  <ui-button icon='pencil' action='control_rod_percent' params='{"tune": "input"}'>{{data.control_rod_percent}}%</ui-button>
+  <ui-button icon='forward' action='control_rod_percent' params='{"adjust": 5}'/>
+  <ui-button icon='fast-forward' action='control_rod_percent' params='{"adjust": 10}'/>
+</ui-display>
+<ui-display title='Statistics'>
+  <ui-section label='Temperature'>
+    <ui-bar min='0' max='500' value='{{data.heat}}' state='{{data.heat}}'>{{Math.fixed(adata.heat)}} °C</ui-bar>
+  </ui-section>
+  <ui-section label='Control rod integrity'>
+    <ui-bar min='0' max='100' value='{{data.rod_integrity}}' state='{{data.rod_integrity}}'>{{Math.fixed(data.rod_integrity)}}%</ui-bar>
+  </ui-section>
+  <ui-section label='Control rod insertion'>
+    <ui-bar min='0' max='100' value='{{data.control_rod_percent}}' state='{{data.control_rod_percent}}'>{{Math.fixed(data.control_rod_percent)}}%</ui-bar>
+  </ui-section>
+  <ui-section label='Power output'>
+    <ui-bar min='0' max='{{data.theoretical_maximum_power}}' value='{{data.last_power_produced}}' state='{{data.last_power_produced}}'>{{Math.fixed(data.last_power_produced)}}W</ui-bar>
+  </ui-section>
+  <ui-section label='Fuel level'>
+    <ui-bar min='0' max='1000' value='{{data.fuel}}' state='{{data.fuel}}'>{{Math.fixed(data.fuel)}} Mol</ui-bar>
+  </ui-section>
+  <ui-section label='Rate of Reaction'>
+    <ui-bar min='0' max='20' value='{{data.reaction_rate}}' state='{{data.reaction_rate}}'>{{Math.fixed(data.reaction_rate)}} Mol/tick</ui-bar>
+  </ui-section>
+</ui-display>

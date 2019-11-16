@@ -391,7 +391,7 @@
 
 	var/icon_gender = (body_gender == FEMALE) ? "f" : "m" //gender of the icon, if applicable
 
-	if((body_zone != BODY_ZONE_HEAD && body_zone != BODY_ZONE_CHEST))
+	if((body_zone != BODY_ZONE_HEAD && body_zone != BODY_ZONE_CHEST && icon_gender))
 		should_draw_gender = FALSE
 
 	if(is_organic_limb())
@@ -414,11 +414,13 @@
 			. += aux
 
 	else
+		to_chat(world, "[body_zone]:AAAA1")
 		limb.icon = icon
-		if(should_draw_gender)
+		if(should_draw_gender && icon_gender)
 			limb.icon_state = "[body_zone]_[icon_gender]"
 		else
 			limb.icon_state = "[body_zone]"
+			to_chat(world, "[body_zone]:AAAA2")
 		if(aux_zone)
 			aux = image(limb.icon, "[aux_zone]", -aux_layer, image_dir)
 			. += aux

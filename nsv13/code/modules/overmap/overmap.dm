@@ -28,7 +28,7 @@
 	resistance_flags = LAVA_PROOF | FIRE_PROOF | UNACIDABLE | ACID_PROOF // Overmap ships represent massive craft that don't burn
 
 	max_integrity = 300 //Max health
-	integrity_failure = 300
+	integrity_failure = 0
 
 	var/next_firetime = 0
 	var/last_slowprocess = 0
@@ -44,6 +44,7 @@
 	var/desired_angle = null // set by pilot moving his mouse
 	var/angular_velocity = 0 // degrees per second
 	var/max_angular_acceleration = 180 // in degrees per second per second
+	var/speed_limit = 5 //Stops ships from going too damn fast. This can be overridden by things like fighters launching from tubes, so it's not a const.
 	var/last_thrust_forward = 0
 	var/last_thrust_right = 0
 	var/last_rotate = 0
@@ -84,12 +85,18 @@
 	var/list/operators = list() //Everyone who needs their client updating when we move.
 	var/obj/machinery/computer/ship/helm //Relay beeping noises when we act
 	var/obj/machinery/computer/ship/tactical
-	var/obj/machinery/computer/ship/dradis //So that pilots can check the radar easily
+	var/obj/machinery/computer/ship/dradis/dradis //So that pilots can check the radar easily
 	var/list/railguns = list() //Every railgun present on the ship
 	var/list/torpedo_tubes = list() //every torpedo tube present on the ship.
 	var/list/pdcs = list() //Every PDC ammo rack that we have.
 	var/datum/starsystem/current_system //What starsystem are we currently in? Used for parallax.
+	var/datum/gas_mixture/cabin_air //Cabin air mix used for small ships like fighters (see overmap/fighters/fighters.dm)
+	var/obj/machinery/portable_atmospherics/canister/internal_tank //Internal air tank reference. Used mostly in small ships. If you want to sabotage a fighter, load a plasma tank into its cockpit :)
+	var/resize = 0 //Factor by which we should shrink a ship down. 0 means don't shrink it.
+	var/list/docking_points = list() //Where we can land on this ship. Usually right at the edge of a z-level.
 
+/obj/structure/overmap/can_be_pulled(user) // no :)
+	return FALSE
 
 /obj/railgun_overlay //Railgun sits on top of the ship and swivels to face its target
 	name = "Railgun"
@@ -110,11 +117,17 @@
 	max_range = initial(weapon_range)+20 //Range of the maximum possible attack (torpedo)
 	find_area()
 	switch(mass) //Scale speed with mass (tonnage)
-		if(MASS_TINY)
-			forward_maxthrust = 5
+		if(MASS_TINY) //Tiny ships are manned by people, so they need air.
+			forward_maxthrust = 4
 			backward_maxthrust = 4
-			side_maxthrust = 6
+			side_maxthrust = 3
 			max_angular_acceleration = 120
+			cabin_air = new
+			cabin_air.temperature = T20C
+			cabin_air.volume = 200
+			cabin_air.add_gases(/datum/gas/oxygen, /datum/gas/nitrogen)
+			cabin_air.gases[/datum/gas/oxygen][MOLES] = O2STANDARD*cabin_air.volume/(R_IDEAL_GAS_EQUATION*cabin_air.temperature)
+			cabin_air.gases[/datum/gas/nitrogen][MOLES] = N2STANDARD*cabin_air.volume/(R_IDEAL_GAS_EQUATION*cabin_air.temperature)
 		if(MASS_SMALL)
 			forward_maxthrust = 3
 			backward_maxthrust = 3
@@ -137,6 +150,12 @@
 			max_angular_acceleration = 2
 	if(main_overmap)
 		name = "[station_name()]"
+	current_system = GLOB.starsystem_controller.find_system(src)
+
+/obj/structure/overmap/Destroy()
+	. = ..()
+	if(cabin_air)
+		QDEL_NULL(cabin_air)
 
 /obj/structure/overmap/proc/find_area()
 	if(main_overmap) //We're the hero ship, link us to every ss13 area.
@@ -186,7 +205,7 @@
 	update_icon()
 
 /obj/structure/overmap/relaymove(mob/user, direction)
-	if(user != pilot || pilot.incapacitated())
+	if(user != pilot || pilot.incapacitated() || !can_move())
 		return
 	if(rcs_mode || move_by_mouse) //They don't want to turn the ship, or theyre using mouse movement mode.
 		user_thrust_dir = direction
@@ -198,6 +217,9 @@
 				desired_angle += max_angular_acceleration*0.1
 			if(WEST)
 				desired_angle -= max_angular_acceleration*0.1
+
+/obj/structure/overmap/proc/can_move()
+	return TRUE//Used mostly for fighters. If we ever get engines, change this.
 
 //	relay('nsv13/sound/effects/ship/rcs.ogg')
 
@@ -339,10 +361,22 @@
 	set category = "Ship"
 	set src = usr.loc
 
-	if(!verb_check())
+	if(!verb_check() || !can_brake())
 		return
 	brakes = !brakes
 	to_chat(usr, "<span class='notice'>You toggle the brakes [brakes ? "on" : "off"].</span>")
+
+/obj/structure/overmap/verb/show_dradis()
+	set name = "Show DRADIS"
+	set category = "Ship"
+	set src = usr.loc
+
+	if(!verb_check() || !dradis)
+		return
+	dradis.attack_hand(usr)
+
+/obj/structure/overmap/proc/can_brake()
+	return TRUE //See fighters.dm
 
 /obj/structure/overmap/verb/overmap_help()
 	set name = "Help"

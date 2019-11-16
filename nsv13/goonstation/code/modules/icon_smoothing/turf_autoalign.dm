@@ -8,16 +8,6 @@
 /atom
 	var/smoothing_d_state = 0 //Smoothing stuff
 
-/turf/closed/wall/ship
-	icon = 'nsv13/icons/turf/interior_wall.dmi'
-	name = "Durasteel hull"
-	desc = "A large hull segment designed to create vessels and structures capable of supporting life in even the most hazardous places."
-	legacy_smooth = TRUE //Override /tg/ iconsmooths
-	smooth = TRUE
-	canSmoothWith = list(/turf/closed/wall/ship,/turf/closed/wall/r_wall/ship,/obj/machinery/door,/obj/structure/window)
-	sheet_type = /obj/item/stack/sheet/durasteel
-	var/connect_universally = TRUE //Connect to every subtype of the walls?
-
 /turf/closed/wall/ship/Initialize()
 	. = ..()
 	if(connect_universally)
