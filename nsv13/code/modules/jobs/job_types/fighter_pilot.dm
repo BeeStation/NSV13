@@ -73,7 +73,7 @@
 	paycheck_department = ACCOUNT_CAR
 
 	display_order = JOB_DISPLAY_ORDER_CAG
-	display_rank = "Sgt" //nsv13 - Displays the player's actual rank alongside their name, such as GSGT Sergei Koralev
+	display_rank = "SGT" //nsv13 - Displays the player's actual rank alongside their name, such as GSGT Sergei Koralev
 
 /datum/outfit/job/cag
 	name = "CAG"

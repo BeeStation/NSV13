@@ -69,7 +69,7 @@
 		if(BS_WING1)
 			. += "<span class='notice'>One wing stands alone, brittle in the wind, rivets can secure this lonely metal.</span>"
 		if(BS_WING1_BOLT)
-			. += "<span class='notice'>One wing stands alone, rivets dot its fragile surface, reinforcement is just a weld away .</span>"
+			. += "<span class='notice'>One wing stands alone, rivets dot its fragile surface, reinforcement is just a weld away.</span>"
 		if(BS_WING1_WELD)
 			. += "<span class='notice'>One wing stands alone, as stalwart as it is alone, a comrade it yearns for.</span>"
 		if(BS_WING2)
@@ -783,7 +783,7 @@
 
 /obj/structure/fighter_component/underconstruction_fighter/attack_hand(mob/user)
 	.=..()
-	if(BS_PAINT)
+	if(build_state == BS_PAINT)
 		fighter_name = input(user,"Name Fighter:","Finalize Fighter Construction","")
 		new_fighter(fighter_name)
 		qdel(src)
@@ -819,6 +819,8 @@
 			icon_state = "sheetrainbow"
 		if(BS_WING2_BOLT)
 			icon_state = "sheetclown"
+		if(BS_WING2_WELD)
+			icon_state = "sheetblack"
 		if(BS_LANG)
 			icon_state = "sheetmime"
 		if(BS_LANG_BOLT)
@@ -838,7 +840,7 @@
 		if(BS_FUET_BOLT)
 			icon_state = "sheetian"
 		if(BS_FUEL)
-			icon_state = "sheetnt"
+			icon_state = "sheetclown"
 		if(BS_FUEL_BOLT)
 			icon_state = "sheetcentcom"
 		if(BS_ENGI1)
