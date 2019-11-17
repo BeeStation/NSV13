@@ -614,6 +614,7 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 				state = CONSTRICTOR_WELDED
 				update_icon()
 				START_PROCESSING(SSfastprocess,src) //Start processing once it's built. If it doesn't have the required components, it shuts off.
+				anchored = TRUE
 			return TRUE
 		if(CONSTRICTOR_WELDED)
 			to_chat(user, "<span class='notice'>You start unwelding the maintenance hatches on [src]...</span>")
@@ -621,6 +622,7 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 				to_chat(user, "<span class='notice'You unweld the maintenance hatches on [src], exposing its anchoring bolts.</span>")
 				state = CONSTRICTOR_SCREWED
 				update_icon()
+				anchored = FALSE
 			return TRUE
 
 /obj/machinery/power/magnetic_constrictor/proc/finish() //Admin only for lazy people who want their shit to instantly complete.

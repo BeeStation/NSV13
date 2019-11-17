@@ -391,7 +391,7 @@
 
 	var/icon_gender = (body_gender == FEMALE) ? "f" : "m" //gender of the icon, if applicable
 
-	if((body_zone != BODY_ZONE_HEAD && body_zone != BODY_ZONE_CHEST))
+	if((body_zone != BODY_ZONE_HEAD && body_zone != BODY_ZONE_CHEST && icon_gender))
 		should_draw_gender = FALSE
 
 	if(is_organic_limb())
@@ -415,7 +415,7 @@
 
 	else
 		limb.icon = icon
-		if(should_draw_gender)
+		if(should_draw_gender && icon_gender)
 			limb.icon_state = "[body_zone]_[icon_gender]"
 		else
 			limb.icon_state = "[body_zone]"
