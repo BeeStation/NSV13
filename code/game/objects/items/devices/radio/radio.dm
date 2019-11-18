@@ -247,8 +247,8 @@
 	// Construct the signal
 	var/datum/signal/subspace/vocal/signal = new(src, freq, speaker, language, message, spans)
 
-	// Independent radios, on the CentCom frequency, reach all independent radios
-	if (independent && (freq == FREQ_CENTCOM || freq == FREQ_CTF_RED || freq == FREQ_CTF_BLUE))
+	// Independent radios, on the CentCom frequency, reach all independent radios. NSV13 - Fighter comms always reach the ship. Always.
+	if (independent && (freq == FREQ_CENTCOM || freq == FREQ_CTF_RED || freq == FREQ_CTF_BLUE || freq == FREQ_ATC))
 		signal.data["compression"] = 0
 		signal.transmission_method = TRANSMISSION_SUPERSPACE
 		signal.levels = list(0)  // reaches all Z-levels
@@ -303,7 +303,7 @@
 		return FALSE
 	if (freq == FREQ_SYNDICATE && !syndie)
 		return FALSE
-	if (freq == FREQ_CENTCOM)
+	if (freq == FREQ_CENTCOM || freq == FREQ_ATC)
 		return independent  // hard-ignores the z-level check
 	if (!(0 in level))
 		var/turf/position = get_turf(src)

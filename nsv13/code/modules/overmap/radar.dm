@@ -2,11 +2,27 @@
 	name = "DRADIS computer"
 	desc = "The DRADIS system is a series of highly sensitive detection, identification, navigation and tracking systems used to determine the range and speed of objects. This forms the most central component of a spaceship's navigational systems, as it can project the whereabouts of enemies that are out of visual sensor range by tracking their engine signatures."
 	icon_screen = "teleport"
+	req_access = list()
 	var/stored = "blank"
 	var/datum/looping_sound/dradis/soundloop
 	var/on = TRUE //Starts on by default.
 	var/scanning_speed = 2 //Duration of each pulse.
 	var/last_scanning_speed = 2 //To update the sound loop
+
+/obj/machinery/computer/ship/dradis/minor //Secondary dradis consoles usable by people who arent on the bridge.
+	name = "Air traffic control console"
+
+/obj/machinery/computer/ship/dradis/internal
+	name = "Integrated dradis console"
+	use_power = 0
+
+/obj/machinery/computer/ship/dradis/internal/has_overmap()
+	if(linked)
+		return TRUE
+	return FALSE
+
+/obj/machinery/computer/ship/dradis/minor/set_position()
+	return
 
 /datum/looping_sound/dradis
 	mid_sounds = list('nsv13/sound/effects/ship/dradis.ogg')
