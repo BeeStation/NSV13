@@ -7,6 +7,10 @@
 //	doorClose = 'DS13/sound/effects/tng_airlock.ogg'
 //	doorDeni = 'DS13/sound/effects/denybeep.ogg'
 
+/obj/machinery/door/airlock/ship/hatch
+	name = "airtight hatch"
+	icon = 'nsv13/icons/obj/machinery/doors/hatch.dmi'
+
 /obj/machinery/door/poddoor/ship
 	name = "Double reinforced durasteel blast door"
 	icon = 'nsv13/goonstation/icons/blastdoor.dmi'
@@ -22,15 +26,39 @@
 	icon = 'nsv13/goonstation/icons/command.dmi'
 	req_one_access_txt = "19"
 
+/obj/machinery/door/airlock/highsecurity/ship
+	icon = 'nsv13/icons/obj/machinery/doors/vault.dmi'
+	req_one_access_txt = "19"
+
+/obj/machinery/door/airlock/wood
+	icon = 'nsv13/goonstation/icons/airlock_wood.dmi'
+
+/obj/machinery/door/airlock/ship/command/glass
+	icon = 'nsv13/goonstation/icons/command_glass.dmi'
+	opacity = 0
+	glass = TRUE
+
+/obj/machinery/door/airlock/vault/ship
+	icon = 'nsv13/icons/obj/machinery/doors/vault.dmi'
+	desc = "A durasteel bulkhead which opens and closes. Hope you're good at hatch hopping"
+	icon_state = "closed"
+
 /obj/machinery/door/airlock/ship/engineering
 	name = "Engineering wing"
 	icon = 'nsv13/goonstation/icons/engineering.dmi'
 	req_one_access_txt = "10"
 
+/obj/machinery/door/airlock/ship/engineering/glass
+	icon = 'nsv13/goonstation/icons/engineering_glass.dmi'
+	opacity = 0
+	glass = TRUE
+
 /obj/machinery/door/airlock/ship/external
 	name = "External airlock"
 	icon = 'nsv13/goonstation/icons/external.dmi'
 	req_one_access_txt = "13"
+	opacity = 0
+	glass = TRUE
 
 /obj/machinery/door/airlock/ship/maintenance
 	name = "Maintenance tunnels"
@@ -40,6 +68,14 @@
 /obj/machinery/door/airlock/ship/public
 	name = "Public airlock"
 	icon = 'nsv13/goonstation/icons/public.dmi'
+
+/obj/machinery/door/airlock/ship/public/glass
+	icon = 'nsv13/goonstation/icons/airlock_glass.dmi'
+	opacity = 0
+	glass = TRUE
+
+/obj/machinery/door/airlock/glass_large/ship
+	icon = 'nsv13/icons/obj/machinery/doors/double.dmi'
 
 /obj/machinery/door/airlock/ship/medical
 	name = "Infirmary"

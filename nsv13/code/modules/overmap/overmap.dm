@@ -108,7 +108,7 @@
 /obj/structure/overmap/Initialize()
 	. = ..()
 	GLOB.overmap_objects += src
-	START_PROCESSING(SSfastprocess, src)
+	START_PROCESSING(SSovermap, src)
 	railgun_overlay = new()
 	railgun_overlay.appearance_flags |= KEEP_APART
 	railgun_overlay.appearance_flags |= RESET_TRANSFORM
@@ -222,21 +222,6 @@
 	return TRUE//Used mostly for fighters. If we ever get engines, change this.
 
 //	relay('nsv13/sound/effects/ship/rcs.ogg')
-
-/obj/structure/overmap/onMouseMove(object,location,control,params)
-	if(!pilot || !pilot.client || pilot.incapacitated() || !move_by_mouse)//TEST REMOVE ME
-		return // I don't know what's going on.
-	var/list/params_list = params2list(params)
-	var/sl_list = splittext(params_list["screen-loc"],",")
-	var/sl_x_list = splittext(sl_list[1], ":")
-	var/sl_y_list = splittext(sl_list[2], ":")
-	var/view_list = isnum(pilot.client.view) ? list("[pilot.client.view*2+1]","[pilot.client.view*2+1]") : splittext(pilot.client.view, "x")
-	var/dx = text2num(sl_x_list[1]) + (text2num(sl_x_list[2]) / world.icon_size) - 1 - text2num(view_list[1]) / 2
-	var/dy = text2num(sl_y_list[1]) + (text2num(sl_y_list[2]) / world.icon_size) - 1 - text2num(view_list[2]) / 2
-	if(sqrt(dx*dx+dy*dy) > 1)
-		desired_angle = 90 - ATAN2(dx, dy)
-	else
-		desired_angle = null
 
 /obj/structure/overmap/update_icon() //Adds an rcs overlay
 	cut_overlays()

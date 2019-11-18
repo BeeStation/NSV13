@@ -3,9 +3,12 @@
 // I had no part in writing this movement engine, that's his work      //
 /////////////////////////////////////////////////////////////////////////
 
+/obj/structure/overmap
+	var/last_process = 0
 
 /obj/structure/overmap/process(time)
 	time /= 10 // fuck off with your deciseconds
+	last_process = world.time
 
 	if(world.time > last_slowprocess + 10)
 		last_slowprocess = world.time
