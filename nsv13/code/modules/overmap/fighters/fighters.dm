@@ -36,6 +36,7 @@ After going through this checklist, you're ready to go!
 	max_integrity = 120 //Really really squishy!
 	torpedoes = 0
 	speed_limit = 6 //We want fighters to be way more maneuverable
+	weapon_safety = TRUE //This happens wayy too much for my liking. Starts OFF.
 	var/maint_state = MS_CLOSED
 	var/prebuilt = FALSE
 	var/a_eff = 0
@@ -47,6 +48,7 @@ After going through this checklist, you're ready to go!
 	var/warning_cooldown = FALSE
 	var/canopy_breached = FALSE //Canopy will breach if you take too much damage, causing your air to leak out.
 	var/docking_cooldown = FALSE
+	var/list/munitions = list()
 
 /obj/machinery/computer/ship/fighter_launcher
 	name = "Mag-cat control console"
@@ -415,11 +417,12 @@ After going through this checklist, you're ready to go!
 							/obj/item/fighter_component/targeting_sensor,
 							/obj/item/twohanded/required/fighter_component/engine,
 							/obj/item/twohanded/required/fighter_component/engine,
-							/obj/structure/munition/fast,
-							/obj/structure/munition/fast,
 							/obj/item/twohanded/required/fighter_component/primary_cannon)
+	munitions += new /obj/structure/munition/fast(src)
+	munitions += new /obj/structure/munition/fast(src)
 	for(var/item in components)
 		new item(src)
+	torpedoes = munitions.len
 	internal_tank = new /obj/machinery/portable_atmospherics/canister/air(src)
 
 /obj/structure/overmap/fighter/proc/update_stats() //PLACEHOLDER JANK SYSTEM
@@ -542,23 +545,62 @@ After going through this checklist, you're ready to go!
 		return
 	if(istype(A, /obj/structure/munition))
 		if(maint_state == MS_OPEN)
-			var/munition_count = 0
-			for(var/obj/structure/munition/mu in contents)
-				munition_count++
+			var/munition_count = munitions.len
 			if(munition_count < max_torpedoes)
 				to_chat(user, "<span class='notice'>You start adding [A] to [src]...</span>")
 				if(!do_after(user, 2 SECONDS, target=src))
 					return
 				to_chat(user, "<span class='notice'>You add [A] to [src].</span>")
 				A.forceMove(src)
-				torpedoes ++ //Temporary quickfix. Replace me with real code.
+				munitions += A
+				torpedoes ++
 				playsound(src, 'nsv13/sound/effects/ship/mac_load.ogg', 100, 1)  //placeholder
 		else
 			to_chat(user, "<span class='notice'>You require [src] to be in maintenance mode to load munitions!.</span>")
 			return
 
+/obj/structure/overmap/fighter/fire_torpedo(atom/target)
+	if(ai_controlled) //AI ships don't have interiors
+		if(torpedoes <= 0)
+			return
+		fire_projectile(/obj/item/projectile/bullet/torpedo, target, homing = TRUE, speed=1, explosive = TRUE)
+		torpedoes --
+		return
+	var/proj_type = null //If this is true, we've got a launcher shipside that's been able to fire.
+	var/proj_speed = 1
+	if(!munitions.len)
+		return
+	torpedoes = munitions.len
+	var/obj/structure/munition/thirtymillimetertorpedo = pick(munitions)
+	proj_type = thirtymillimetertorpedo.torpedo_type
+	proj_speed = thirtymillimetertorpedo.speed
+	munitions -= thirtymillimetertorpedo
+	qdel(thirtymillimetertorpedo)
+	torpedoes = munitions.len
+	if(proj_type)
+		var/sound/chosen = pick('nsv13/sound/effects/ship/torpedo.ogg','nsv13/sound/effects/ship/freespace2/m_shrike.wav','nsv13/sound/effects/ship/freespace2/m_stiletto.wav','nsv13/sound/effects/ship/freespace2/m_tsunami.wav','nsv13/sound/effects/ship/freespace2/m_wasp.wav')
+		relay_to_nearby(chosen)
+		if(proj_type == /obj/item/projectile/bullet/torpedo/dud) //Some brainlet MAA loaded an incomplete torp
+			fire_projectile(proj_type, target, homing = FALSE, speed=proj_speed, explosive = TRUE)
+		else
+			fire_projectile(proj_type, target, homing = TRUE, speed=proj_speed, explosive = TRUE)
+	else
+		to_chat(gunner, "<span class='warning'>DANGER: Launch failure! Torpedo tubes are not loaded.</span>")
+
 /obj/structure/overmap/fighter/attackby(obj/item/W, mob/user, params)   //fueling and changing equipment
 	add_fingerprint(user)
+	if (istype(W, /obj/item/card/id)||istype(W, /obj/item/pda) && operators.len)
+		if(!allowed(user))
+			var/sound = pick('nsv13/sound/effects/computer/error.ogg','nsv13/sound/effects/computer/error2.ogg','nsv13/sound/effects/computer/error3.ogg')
+			playsound(src, sound, 100, 1)
+			to_chat(user, "<span class='warning'>Access denied</span>")
+			return
+		if(alert("Eject all current occupants from [src]?",name,"Yes","No") == "Yes" && Adjacent(user))
+			to_chat(user, "<span class='warning'>Ejecting all current occupants from [src] and activating inertial dampeners...</span>")
+			brakes = TRUE
+			for(var/mob/M in operators)
+				stop_piloting(M)
+				to_chat(M, "<span class='warning'>[user] has forcibly ejected you from [src]!.</span>")
 	if(maint_state == MS_OPEN)
 		if(istype(W, /obj/item/fighter_component/fuel_lines) && !get_part(/obj/item/fighter_component/fuel_lines))
 			to_chat(user, "<span class='notice'>You start installing [W] in [src]...</span>")
@@ -610,6 +652,11 @@ After going through this checklist, you're ready to go!
 /obj/structure/overmap/fighter/attack_hand(mob/user)
 	.=..()
 	dradis?.linked = src
+	if(!allowed(user))
+		var/sound = pick('nsv13/sound/effects/computer/error.ogg','nsv13/sound/effects/computer/error2.ogg','nsv13/sound/effects/computer/error3.ogg')
+		playsound(src, sound, 100, 1)
+		to_chat(user, "<span class='warning'>Access denied</span>")
+		return
 	if(maint_state == MS_OPEN)
 		display_maint_popup(user)
 		return TRUE
@@ -801,6 +848,8 @@ After going through this checklist, you're ready to go!
 				return
 			to_chat(user, "<span class='notice'>You uninstall [tr.name] from [src].</span>")
 			tr?.forceMove(get_turf(src))
+			munitions -= tr
+			torpedoes = munitions.len
 			attack_hand(user) //Refresh UI.
 	if(href_list["remove_tank"])
 		if(!internal_tank)

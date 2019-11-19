@@ -23,6 +23,7 @@
 	bound_width = 64 //Change this on a per ship basis
 	bound_height = 64
 	animate_movement = NO_STEPS // Override the inbuilt movement engine to avoid bouncing
+	req_one_access = list(ACCESS_HEADS, ACCESS_MUNITIONS, ACCESS_SEC_DOORS, ACCESS_ENGINE) //Bridge officers/heads, munitions techs / fighter pilots, security officers, engineering personnel all have access.
 
 	anchored = FALSE
 	resistance_flags = LAVA_PROOF | FIRE_PROOF | UNACIDABLE | ACID_PROOF // Overmap ships represent massive craft that don't burn
@@ -94,6 +95,7 @@
 	var/obj/machinery/portable_atmospherics/canister/internal_tank //Internal air tank reference. Used mostly in small ships. If you want to sabotage a fighter, load a plasma tank into its cockpit :)
 	var/resize = 0 //Factor by which we should shrink a ship down. 0 means don't shrink it.
 	var/list/docking_points = list() //Where we can land on this ship. Usually right at the edge of a z-level.
+	var/weapon_safety = FALSE //Like a gun safety. Entirely un-used except for fighters to stop brainlets from shooting people on the ship unintentionally :)
 
 /obj/structure/overmap/can_be_pulled(user) // no :)
 	return FALSE
@@ -171,6 +173,8 @@
 
 /obj/structure/overmap/proc/InterceptClickOn(mob/user, params, atom/target)
 	var/list/params_list = params2list(params)
+	if(user.incapacitated() || !isliving(user))
+		return FALSE
 	if(target == src || istype(target, /obj/screen) || (target && (target in user.GetAllContents())) || user != gunner || params_list["shift"] || params_list["alt"] || params_list["ctrl"])
 		return FALSE
 	if(tactical && prob(80))
@@ -350,6 +354,16 @@
 		return
 	brakes = !brakes
 	to_chat(usr, "<span class='notice'>You toggle the brakes [brakes ? "on" : "off"].</span>")
+
+/obj/structure/overmap/verb/toggle_safety()
+	set name = "Toggle Gun Safeties"
+	set category = "Ship"
+	set src = usr.loc
+
+	if(!verb_check() || !can_brake())
+		return
+	weapon_safety = !weapon_safety
+	to_chat(usr, "<span class='notice'>You toggle [src]'s weapon safeties [weapon_safety ? "on" : "off"].</span>")
 
 /obj/structure/overmap/verb/show_dradis()
 	set name = "Show DRADIS"

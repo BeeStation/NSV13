@@ -27,6 +27,7 @@
 	icon_state = "highvelocity"
 	desc = "A small torpedo which is fitted with an advanced propulsion system, allowing it to rapidly travel long distances. Due to its smaller frame however, it packs less of a punch."
 	torpedo_type = /obj/item/projectile/bullet/torpedo/fast
+	speed = 5
 
 /obj/structure/munition/decoy //A dud missile designed to exhaust flak
 	name = "NTP-0x 'DCY' 530mm electronic countermeasure"
@@ -247,6 +248,7 @@
 	icon_state = "munitions_console"
 	density = TRUE
 	anchored = TRUE
+	req_access = list(ACCESS_MUNITIONS)
 	var/obj/structure/ship_weapon/railgun //The one we're firing
 
 /obj/machinery/computer/ship/munitions_computer/Initialize()
@@ -364,12 +366,7 @@
 /obj/structure/ship_weapon/proc/fire()
 	if(!can_fire())
 		return
-	var/proj_type
-	if(istype(chambered, /obj/structure/munition))
-		proj_type = chambered.torpedo_type
-	if(istype(chambered, /obj/item/twohanded/required/railgun_ammo))
-		var/obj/item/twohanded/required/railgun_ammo/RA = chambered
-		proj_type = RA.proj_type
+	var/atom/projectile = null
 	if(maint_req <= 0)
 		weapon_malfunction()
 		return
@@ -381,13 +378,14 @@
 		if(M.stat == DEAD || !isliving(M))
 			continue
 		M.soundbang_act(1,200,10,15)
+	projectile = new chambered.type() //Dummy munition in nullspace so we can get its attributes for the ship to fire it.
 	qdel(chambered)
 	chambered = null
 	state = STATE_NOTLOADED
 	maint_req --
 	after_fire()
-	if(proj_type) //Looks like we were able to fire a projectile, let's tell the ship what kind of bullet to shoot.
-		return proj_type
+	if(projectile) //Looks like we were able to fire a projectile, let's tell the ship what kind of bullet to shoot.
+		return projectile
 
 /obj/structure/ship_weapon/proc/after_fire()
 	return
