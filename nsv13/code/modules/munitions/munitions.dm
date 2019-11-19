@@ -27,7 +27,7 @@
 	icon_state = "highvelocity"
 	desc = "A small torpedo which is fitted with an advanced propulsion system, allowing it to rapidly travel long distances. Due to its smaller frame however, it packs less of a punch."
 	torpedo_type = /obj/item/projectile/bullet/torpedo/fast
-	speed = 5
+	speed = 3
 
 /obj/structure/munition/decoy //A dud missile designed to exhaust flak
 	name = "NTP-0x 'DCY' 530mm electronic countermeasure"
@@ -35,6 +35,7 @@
 	icon_state = "decoy"
 	desc = "A simple electronic countermeasure packed inside a standard torpedo casing. This model excels at diverting enemy PDC emplacements away from friendly ships, or even another barrage of missiles."
 	torpedo_type = /obj/item/projectile/bullet/torpedo/decoy
+	speed = 2
 
 /obj/structure/munition/nuke //The alpha torpedo
 	name = "NTNK 'Oncoming Storm' 700mm thermonuclear warhead"
