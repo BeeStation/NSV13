@@ -42,11 +42,11 @@
 	LAZYREMOVE(M.mousemove_intercept_objects, src)
 	if(M.click_intercept == src)
 		M.click_intercept = null
-	if(M == pilot)
+	if(pilot && M == pilot)
 		pilot = null
 		if(helm)
 			playsound(helm, 'nsv13/sound/effects/computer/hum.ogg', 100, 1)
-	if(M == gunner)
+	if(gunner && M == gunner)
 		if(tactical)
 			playsound(tactical, 'nsv13/sound/effects/computer/hum.ogg', 100, 1)
 		gunner = null
@@ -55,7 +55,6 @@
 	M.overmap_ship = null
 	M.cancel_camera()
 	M.remote_control = null
-	return TRUE
 
 /obj/structure/overmap/proc/CreateEye(mob/user)
 	if(!user.client)
@@ -92,6 +91,9 @@
 /datum/action/innate/camera_off/overmap/Activate()
 	if(!target || !isliving(target))
 		return
+	if(!remote_eye.origin)
+		qdel(src)
+		qdel(remote_eye)
 	var/obj/structure/overmap/ship = remote_eye.origin
 	if(ship.stop_piloting(target))
 		qdel(remote_eye)

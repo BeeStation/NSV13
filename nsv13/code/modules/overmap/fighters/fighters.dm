@@ -279,6 +279,19 @@ After going through this checklist, you're ready to go!
 	docking_mode = !docking_mode
 	to_chat(usr, "<span class='notice'>Docking mode [docking_mode ? "engaged" : "disengaged"].</span>")
 
+/obj/structure/overmap/fighter/verb/change_name()
+	set name = "Change name"
+	set category = "Ship"
+	set src = usr.loc
+
+	if(!verb_check())
+		return
+	var/new_name = stripped_input(usr, message="What do you want to name \
+		your fighter? Keep in mind that particularly terrible names may be \
+		rejected by your employers.", max_length=MAX_CHARTER_LEN)
+	message_admins("[key_name_admin(usr)] renamed a fighter to [new_name] [ADMIN_LOOKUPFLW(src)].")
+	name = new_name
+
 /obj/structure/overmap/fighter/proc/check_overmap_elegibility() //What we're doing here is checking if the fighter's hitting the bounds of the Zlevel. If they are, we need to transfer them to overmap space.
 	if(ready_for_transfer())
 		for(var/obj/structure/overmap/OM in GLOB.overmap_objects)
@@ -291,6 +304,10 @@ After going through this checklist, you're ready to go!
 					to_chat(pilot, "<span class='notice'>Docking mode disabled. Use the 'Ship' verbs tab to re-enable docking mode, then fly into an allied ship to complete docking proceedures.</span>")
 					docking_mode = FALSE
 				return TRUE
+
+/obj/structure/overmap/fighter/proc/docking_act(obj/structure/overmap/OM)
+	if(mass < OM.mass && OM.docking_points.len && docking_mode) //If theyre smaller than us,and we have docking points, and they want to dock
+		transfer_from_overmap(OM)
 
 /obj/structure/overmap/fighter/proc/transfer_from_overmap(obj/structure/overmap/OM)
 	if(docking_cooldown)
@@ -349,6 +366,25 @@ After going through this checklist, you're ready to go!
 	damage_states = FALSE
 	max_passengers = 5 //Raptors can fit multiple people
 	max_integrity = 150 //Squishy!
+
+/obj/structure/overmap/fighter/prebuilt/raptor/docking_act(obj/structure/overmap/OM)
+	if(docking_cooldown)
+		return
+	if(mass < OM.mass && OM.docking_points.len && docking_mode) //If theyre smaller than us,and we have docking points, and they want to dock
+		transfer_from_overmap(OM)
+	if(mass >= OM.mass && docking_mode) //Looks like theyre smaller than us, and need rescue.
+		if(istype(OM, /obj/structure/overmap/fighter/escapepod)) //Can we take them aboard?
+			if(OM.operators.len <= max_passengers+1-OM.mobs_in_ship.len) //Max passengers + 1 to allow for one raptor crew rescuing another. Imagine that theyre being cramped into the footwell or something.
+				docking_cooldown = TRUE
+				addtimer(VARSET_CALLBACK(src, docking_cooldown, FALSE), 5 SECONDS) //Prevents jank.
+				var/obj/structure/overmap/fighter/escapepod/ep = OM
+				relay_to_nearby('nsv13/sound/effects/ship/boarding_pod.ogg')
+				to_chat(pilot,"<span class='warning'>Extending docking armatures...</span>")
+				ep.transfer_occupants_to(src)
+				qdel(ep)
+			else
+				if(pilot)
+					to_chat(pilot,"<span class='warning'>[src]'s passenger cabin is full, you'd need [max_passengers+1-OM.mobs_in_ship.len] more seats to retrieve everyone!</span>")
 
 /obj/structure/overmap/return_air()
 	return cabin_air
@@ -434,15 +470,15 @@ After going through this checklist, you're ready to go!
 	var/sene = 0
 	for(var/obj/item/twohanded/required/fighter_component/engine/sen in contents)
 		senc++
-		sens = sens + sen.speed
-		sene = sene + sen.consumption
+		sens = sens + sen?.speed
+		sene = sene + sen?.consumption
 	if(senc > 0)
 		sens = sens / senc
 		sene = sene / senc
 	if(sfl?.fuel_efficiency > 0)
-		f_eff = sene + sfl.fuel_efficiency / 2
-	a_eff = sts.weapon_efficiency
-	max_integrity = initial(max_integrity) * sap.armour
+		f_eff = sene + sfl?.fuel_efficiency / 2
+	a_eff = sts?.weapon_efficiency
+	max_integrity = initial(max_integrity) * sap?.armour
 
 /obj/structure/overmap/fighter/proc/fuel_setup()
 	qdel(reagents)
@@ -685,8 +721,8 @@ After going through this checklist, you're ready to go!
 				SEND_SOUND(user, sound('nsv13/sound/effects/ship/cockpit.ogg', repeat = TRUE, wait = 0, volume = 100, channel=CHANNEL_SHIP_ALERT))
 				return TRUE
 
-/obj/structure/overmap/fighter/stop_piloting(mob/living/M)
-	if(!is_station_level(z))
+/obj/structure/overmap/fighter/stop_piloting(mob/living/M, force=FALSE)
+	if(!is_station_level(z) &&!force)
 		to_chat(M, "<span class='warning'>DANGER: You may not exit [src] while flying alongside other large ships.</span>")
 		return FALSE //No jumping out into the overmap :)
 	operators -= M
@@ -870,26 +906,44 @@ After going through this checklist, you're ready to go!
 			reagents.clear_reagents()
 			new /obj/effect/decal/cleanable/oil(loc)
 
+/obj/structure/overmap/fighter/Destroy()
+	if(operators.len && !istype(src, /obj/structure/overmap/fighter/escapepod))
+		relay('nsv13/sound/effects/computer/alarm_3.ogg', "<span class=userdanger>EJECT! EJECT! EJECT!</span>")
+		relay_to_nearby('nsv13/sound/effects/ship/fighter_launch_short.ogg')
+		visible_message("<span class=userdanger>Auto-Ejection Sequence Enabled! Escape Pod Launched!</span>")
+		eject()
+		sleep(20)
+	. = ..()
+
 /obj/structure/overmap/fighter/proc/eject()
-	var/obj/structure/overmap/escapepod/ep = new /obj/structure/overmap/escapepod (loc, 1)
-	var/atom/movable/hu = get_part(/mob/living/carbon/human) //Lmao karmic stop objectifying people
-	hu.forceMove(ep)
-	qdel(src)
+	var/obj/structure/overmap/fighter/escapepod/ep = new /obj/structure/overmap/fighter/escapepod(get_turf(src))
+	transfer_occupants_to(ep)
+	ep.desired_angle = pick(0,360)
+	ep.user_thrust_dir = NORTH
 
-/obj/structure/overmap/fighter/Destroy() //incomplete
-	.=..()
-	visible_message("<span class=userdanger>EJECT! EJECT! EJECT!</span>")
-	playsound(src, 'sound/effects/alert.ogg', 100, TRUE)
-	sleep(10)
-	visible_message("<span class=userdanger>Auto-Ejection Sequence Enabled! Escape Pod Launched!</span>")
-	//injuring pilot goes here
-	eject()
-
-/obj/structure/overmap/escapepod
+/obj/structure/overmap/fighter/escapepod
 	name = "Escape Pod"
-	desc = "An escape pod launched from a space faring vessel."
-	icon = 'icons/obj/janitor.dmi'
-	icon_state = "smmop"
+	desc = "An escape pod launched from a space faring vessel. It has no internal thrusters and is thus very immobile."
+	icon = 'nsv13/icons/overmap/nanotrasen/escape_pod.dmi'
+	icon_state = "escape_pod"
+	damage_states = FALSE
+	bound_width = 32 //Change this on a per ship basis
+	bound_height = 32
+	mass = MASS_TINY
+	max_integrity = 250 //Able to withstand more punishment so that people inside it don't get yeeted as hard
+	speed_limit = 3 //Theyve always got to be slow so that we can catch up with them
+
+/obj/structure/overmap/fighter/escapepod/attack_hand(mob/user)
+	return
+
+/obj/structure/overmap/fighter/proc/transfer_occupants_to(obj/structure/overmap/what)
+	if(!operators.len)
+		return
+	for(var/mob/M in operators)
+		stop_piloting(M, force=TRUE)
+		M.forceMove(what)
+		what.start_piloting(M, "observer") //So theyre unable to fly the pod
+		what.mobs_in_ship += M
 
 #undef MS_CLOSED
 #undef MS_UNSECURE
