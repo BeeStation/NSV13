@@ -86,13 +86,18 @@ odir = EAST / WEST. We need it to face forwards so you can get through
 	name = "Standard airlock"
 	icon = 'nsv13/icons/obj/machinery/doors/station.dmi'
 
+/obj/machinery/door/airlock/ship/station/glass
+	name = "Standard airlock"
+	icon = 'nsv13/icons/obj/machinery/doors/station_glass.dmi'
+	density = FALSE
+	opacity = 0
+
 /obj/machinery/door/airlock/ship/station/mining
 	name = "Mining airlock"
-	color = "#b3784d"
+	color = "#b88a3d"
 
 /obj/machinery/door/airlock/ship/station/research
 	name = "Research airlock"
-	color = "#FFFFFF"
 
 /obj/machinery/door/airlock/ship/hatch
 	name = "airtight hatch"
