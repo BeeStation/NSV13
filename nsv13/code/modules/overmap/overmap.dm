@@ -23,6 +23,7 @@
 	bound_width = 64 //Change this on a per ship basis
 	bound_height = 64
 	animate_movement = NO_STEPS // Override the inbuilt movement engine to avoid bouncing
+	req_one_access = list(ACCESS_HEADS, ACCESS_MUNITIONS, ACCESS_SEC_DOORS, ACCESS_ENGINE) //Bridge officers/heads, munitions techs / fighter pilots, security officers, engineering personnel all have access.
 
 	anchored = FALSE
 	resistance_flags = LAVA_PROOF | FIRE_PROOF | UNACIDABLE | ACID_PROOF // Overmap ships represent massive craft that don't burn
@@ -94,6 +95,7 @@
 	var/obj/machinery/portable_atmospherics/canister/internal_tank //Internal air tank reference. Used mostly in small ships. If you want to sabotage a fighter, load a plasma tank into its cockpit :)
 	var/resize = 0 //Factor by which we should shrink a ship down. 0 means don't shrink it.
 	var/list/docking_points = list() //Where we can land on this ship. Usually right at the edge of a z-level.
+	var/weapon_safety = FALSE //Like a gun safety. Entirely un-used except for fighters to stop brainlets from shooting people on the ship unintentionally :)
 
 /obj/structure/overmap/can_be_pulled(user) // no :)
 	return FALSE
@@ -108,7 +110,7 @@
 /obj/structure/overmap/Initialize()
 	. = ..()
 	GLOB.overmap_objects += src
-	START_PROCESSING(SSfastprocess, src)
+	START_PROCESSING(SSovermap, src)
 	railgun_overlay = new()
 	railgun_overlay.appearance_flags |= KEEP_APART
 	railgun_overlay.appearance_flags |= RESET_TRANSFORM
@@ -171,6 +173,8 @@
 
 /obj/structure/overmap/proc/InterceptClickOn(mob/user, params, atom/target)
 	var/list/params_list = params2list(params)
+	if(user.incapacitated() || !isliving(user))
+		return FALSE
 	if(target == src || istype(target, /obj/screen) || (target && (target in user.GetAllContents())) || user != gunner || params_list["shift"] || params_list["alt"] || params_list["ctrl"])
 		return FALSE
 	if(tactical && prob(80))
@@ -222,21 +226,6 @@
 	return TRUE//Used mostly for fighters. If we ever get engines, change this.
 
 //	relay('nsv13/sound/effects/ship/rcs.ogg')
-
-/obj/structure/overmap/onMouseMove(object,location,control,params)
-	if(!pilot || !pilot.client || pilot.incapacitated() || !move_by_mouse)//TEST REMOVE ME
-		return // I don't know what's going on.
-	var/list/params_list = params2list(params)
-	var/sl_list = splittext(params_list["screen-loc"],",")
-	var/sl_x_list = splittext(sl_list[1], ":")
-	var/sl_y_list = splittext(sl_list[2], ":")
-	var/view_list = isnum(pilot.client.view) ? list("[pilot.client.view*2+1]","[pilot.client.view*2+1]") : splittext(pilot.client.view, "x")
-	var/dx = text2num(sl_x_list[1]) + (text2num(sl_x_list[2]) / world.icon_size) - 1 - text2num(view_list[1]) / 2
-	var/dy = text2num(sl_y_list[1]) + (text2num(sl_y_list[2]) / world.icon_size) - 1 - text2num(view_list[2]) / 2
-	if(sqrt(dx*dx+dy*dy) > 1)
-		desired_angle = 90 - ATAN2(dx, dy)
-	else
-		desired_angle = null
 
 /obj/structure/overmap/update_icon() //Adds an rcs overlay
 	cut_overlays()
@@ -365,6 +354,16 @@
 		return
 	brakes = !brakes
 	to_chat(usr, "<span class='notice'>You toggle the brakes [brakes ? "on" : "off"].</span>")
+
+/obj/structure/overmap/verb/toggle_safety()
+	set name = "Toggle Gun Safeties"
+	set category = "Ship"
+	set src = usr.loc
+
+	if(!verb_check() || !can_brake())
+		return
+	weapon_safety = !weapon_safety
+	to_chat(usr, "<span class='notice'>You toggle [src]'s weapon safeties [weapon_safety ? "on" : "off"].</span>")
 
 /obj/structure/overmap/verb/show_dradis()
 	set name = "Show DRADIS"

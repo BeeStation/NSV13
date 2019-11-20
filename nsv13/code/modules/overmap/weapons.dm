@@ -124,6 +124,10 @@
 	return FALSE
 
 /obj/structure/overmap/proc/fire(atom/target)
+	if(weapon_safety)
+		if(gunner)
+			to_chat(gunner, "<span class='warning'>Weapon safety interlocks are active! Use the ship verbs tab to disable them!</span>")
+		return
 	if(ai_controlled) //Let the AI switch weapons according to range
 		var/target_range = get_dist(target,src)
 		if(target_range > max_range) //Our max range is the maximum possible range we can engage in. This is to stop you getting hunted from outside of your view range.
@@ -206,19 +210,28 @@
 	if(ai_controlled) //AI ships don't have interiors
 		fire_lateral_projectile(/obj/item/projectile/bullet/railgun_slug, target, 10)
 		return
-	var/proj_type = null //If this is true, we've got a railgun shipside that's been able to fire.
+	var/proj_type = null //If this is true, we've got a launcher shipside that's been able to fire.
+	var/atom/proj_object = null
 	var/fired = FALSE
 	for(var/X in railguns)
 		if(istype(X, /obj/structure/ship_weapon/railgun))
 			var/obj/structure/ship_weapon/railgun/RG = X
 			if(RG.can_fire())
-				proj_type = RG.fire()
+				proj_object = RG.fire()
+				if(!proj_object)
+					continue
+				if(istype(proj_object, /obj/item/twohanded/required/railgun_ammo))
+					var/obj/item/twohanded/required/railgun_ammo/RA = proj_object
+					proj_type = RA.proj_type
+					qdel(proj_object)
 				if(proj_type)
 					fired = TRUE
 					break
 	if(!fired)
 		to_chat(gunner, "<span class='warning'>DANGER: Launch failure! Railgun systems are not loaded.</span>")
 		return
+
+
 	var/sound/chosen ='nsv13/sound/effects/ship/railgun_fire.ogg'
 	relay_to_nearby(chosen)
 	flick("railgun_charge",railgun_overlay)
@@ -239,18 +252,24 @@
 		torpedoes --
 		return
 	var/proj_type = null //If this is true, we've got a launcher shipside that's been able to fire.
+	var/obj/structure/munition/proj_object = null
+	var/proj_speed = 1
 	for(var/X in torpedo_tubes)
 		if(istype(X, /obj/structure/ship_weapon/torpedo_launcher))
 			var/obj/structure/ship_weapon/torpedo_launcher/TL = X
-			proj_type = TL.fire()
-			if(proj_type) //Found a gun and fired it. No need to fire all the guns at once
-				break
+			proj_object = TL.fire()
+			if(proj_object)
+				break //Found a gun and fired it. No need to fire all the guns at once
+
+	proj_type = proj_object?.torpedo_type
+	proj_speed = proj_object?.speed
+	qdel(proj_object)
 	if(proj_type)
 		var/sound/chosen = pick('nsv13/sound/effects/ship/torpedo.ogg','nsv13/sound/effects/ship/freespace2/m_shrike.wav','nsv13/sound/effects/ship/freespace2/m_stiletto.wav','nsv13/sound/effects/ship/freespace2/m_tsunami.wav','nsv13/sound/effects/ship/freespace2/m_wasp.wav')
 		relay_to_nearby(chosen)
 		if(proj_type == /obj/item/projectile/bullet/torpedo/dud) //Some brainlet MAA loaded an incomplete torp
-			fire_projectile(proj_type, target, homing = FALSE, speed=1, explosive = TRUE)
+			fire_projectile(proj_type, target, homing = FALSE, speed=proj_speed, explosive = TRUE)
 		else
-			fire_projectile(proj_type, target, homing = TRUE, speed=1, explosive = TRUE)
+			fire_projectile(proj_type, target, homing = TRUE, speed=proj_speed, explosive = TRUE)
 	else
 		to_chat(gunner, "<span class='warning'>DANGER: Launch failure! Torpedo tubes are not loaded.</span>")

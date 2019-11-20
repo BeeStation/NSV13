@@ -36,6 +36,7 @@ After going through this checklist, you're ready to go!
 	max_integrity = 120 //Really really squishy!
 	torpedoes = 0
 	speed_limit = 6 //We want fighters to be way more maneuverable
+	weapon_safety = TRUE //This happens wayy too much for my liking. Starts OFF.
 	var/maint_state = MS_CLOSED
 	var/prebuilt = FALSE
 	var/a_eff = 0
@@ -47,6 +48,7 @@ After going through this checklist, you're ready to go!
 	var/warning_cooldown = FALSE
 	var/canopy_breached = FALSE //Canopy will breach if you take too much damage, causing your air to leak out.
 	var/docking_cooldown = FALSE
+	var/list/munitions = list()
 
 /obj/machinery/computer/ship/fighter_launcher
 	name = "Mag-cat control console"
@@ -277,6 +279,19 @@ After going through this checklist, you're ready to go!
 	docking_mode = !docking_mode
 	to_chat(usr, "<span class='notice'>Docking mode [docking_mode ? "engaged" : "disengaged"].</span>")
 
+/obj/structure/overmap/fighter/verb/change_name()
+	set name = "Change name"
+	set category = "Ship"
+	set src = usr.loc
+
+	if(!verb_check())
+		return
+	var/new_name = stripped_input(usr, message="What do you want to name \
+		your fighter? Keep in mind that particularly terrible names may be \
+		rejected by your employers.", max_length=MAX_CHARTER_LEN)
+	message_admins("[key_name_admin(usr)] renamed a fighter to [new_name] [ADMIN_LOOKUPFLW(src)].")
+	name = new_name
+
 /obj/structure/overmap/fighter/proc/check_overmap_elegibility() //What we're doing here is checking if the fighter's hitting the bounds of the Zlevel. If they are, we need to transfer them to overmap space.
 	if(ready_for_transfer())
 		for(var/obj/structure/overmap/OM in GLOB.overmap_objects)
@@ -289,6 +304,10 @@ After going through this checklist, you're ready to go!
 					to_chat(pilot, "<span class='notice'>Docking mode disabled. Use the 'Ship' verbs tab to re-enable docking mode, then fly into an allied ship to complete docking proceedures.</span>")
 					docking_mode = FALSE
 				return TRUE
+
+/obj/structure/overmap/fighter/proc/docking_act(obj/structure/overmap/OM)
+	if(mass < OM.mass && OM.docking_points.len && docking_mode) //If theyre smaller than us,and we have docking points, and they want to dock
+		transfer_from_overmap(OM)
 
 /obj/structure/overmap/fighter/proc/transfer_from_overmap(obj/structure/overmap/OM)
 	if(docking_cooldown)
@@ -347,6 +366,25 @@ After going through this checklist, you're ready to go!
 	damage_states = FALSE
 	max_passengers = 5 //Raptors can fit multiple people
 	max_integrity = 150 //Squishy!
+
+/obj/structure/overmap/fighter/prebuilt/raptor/docking_act(obj/structure/overmap/OM)
+	if(docking_cooldown)
+		return
+	if(mass < OM.mass && OM.docking_points.len && docking_mode) //If theyre smaller than us,and we have docking points, and they want to dock
+		transfer_from_overmap(OM)
+	if(mass >= OM.mass && docking_mode) //Looks like theyre smaller than us, and need rescue.
+		if(istype(OM, /obj/structure/overmap/fighter/escapepod)) //Can we take them aboard?
+			if(OM.operators.len <= max_passengers+1-OM.mobs_in_ship.len) //Max passengers + 1 to allow for one raptor crew rescuing another. Imagine that theyre being cramped into the footwell or something.
+				docking_cooldown = TRUE
+				addtimer(VARSET_CALLBACK(src, docking_cooldown, FALSE), 5 SECONDS) //Prevents jank.
+				var/obj/structure/overmap/fighter/escapepod/ep = OM
+				relay_to_nearby('nsv13/sound/effects/ship/boarding_pod.ogg')
+				to_chat(pilot,"<span class='warning'>Extending docking armatures...</span>")
+				ep.transfer_occupants_to(src)
+				qdel(ep)
+			else
+				if(pilot)
+					to_chat(pilot,"<span class='warning'>[src]'s passenger cabin is full, you'd need [max_passengers+1-OM.mobs_in_ship.len] more seats to retrieve everyone!</span>")
 
 /obj/structure/overmap/return_air()
 	return cabin_air
@@ -415,11 +453,12 @@ After going through this checklist, you're ready to go!
 							/obj/item/fighter_component/targeting_sensor,
 							/obj/item/twohanded/required/fighter_component/engine,
 							/obj/item/twohanded/required/fighter_component/engine,
-							/obj/structure/munition/fast,
-							/obj/structure/munition/fast,
 							/obj/item/twohanded/required/fighter_component/primary_cannon)
+	munitions += new /obj/structure/munition/fast(src)
+	munitions += new /obj/structure/munition/fast(src)
 	for(var/item in components)
 		new item(src)
+	torpedoes = munitions.len
 	internal_tank = new /obj/machinery/portable_atmospherics/canister/air(src)
 
 /obj/structure/overmap/fighter/proc/update_stats() //PLACEHOLDER JANK SYSTEM
@@ -431,15 +470,15 @@ After going through this checklist, you're ready to go!
 	var/sene = 0
 	for(var/obj/item/twohanded/required/fighter_component/engine/sen in contents)
 		senc++
-		sens = sens + sen.speed
-		sene = sene + sen.consumption
+		sens = sens + sen?.speed
+		sene = sene + sen?.consumption
 	if(senc > 0)
 		sens = sens / senc
 		sene = sene / senc
 	if(sfl?.fuel_efficiency > 0)
-		f_eff = sene + sfl.fuel_efficiency / 2
-	a_eff = sts.weapon_efficiency
-	max_integrity = initial(max_integrity) * sap.armour
+		f_eff = sene + sfl?.fuel_efficiency / 2
+	a_eff = sts?.weapon_efficiency
+	max_integrity = initial(max_integrity) * sap?.armour
 
 /obj/structure/overmap/fighter/proc/fuel_setup()
 	qdel(reagents)
@@ -542,23 +581,62 @@ After going through this checklist, you're ready to go!
 		return
 	if(istype(A, /obj/structure/munition))
 		if(maint_state == MS_OPEN)
-			var/munition_count = 0
-			for(var/obj/structure/munition/mu in contents)
-				munition_count++
+			var/munition_count = munitions.len
 			if(munition_count < max_torpedoes)
 				to_chat(user, "<span class='notice'>You start adding [A] to [src]...</span>")
 				if(!do_after(user, 2 SECONDS, target=src))
 					return
 				to_chat(user, "<span class='notice'>You add [A] to [src].</span>")
 				A.forceMove(src)
-				torpedoes ++ //Temporary quickfix. Replace me with real code.
+				munitions += A
+				torpedoes ++
 				playsound(src, 'nsv13/sound/effects/ship/mac_load.ogg', 100, 1)  //placeholder
 		else
 			to_chat(user, "<span class='notice'>You require [src] to be in maintenance mode to load munitions!.</span>")
 			return
 
+/obj/structure/overmap/fighter/fire_torpedo(atom/target)
+	if(ai_controlled) //AI ships don't have interiors
+		if(torpedoes <= 0)
+			return
+		fire_projectile(/obj/item/projectile/bullet/torpedo, target, homing = TRUE, speed=1, explosive = TRUE)
+		torpedoes --
+		return
+	var/proj_type = null //If this is true, we've got a launcher shipside that's been able to fire.
+	var/proj_speed = 1
+	if(!munitions.len)
+		return
+	torpedoes = munitions.len
+	var/obj/structure/munition/thirtymillimetertorpedo = pick(munitions)
+	proj_type = thirtymillimetertorpedo.torpedo_type
+	proj_speed = thirtymillimetertorpedo.speed
+	munitions -= thirtymillimetertorpedo
+	qdel(thirtymillimetertorpedo)
+	torpedoes = munitions.len
+	if(proj_type)
+		var/sound/chosen = pick('nsv13/sound/effects/ship/torpedo.ogg','nsv13/sound/effects/ship/freespace2/m_shrike.wav','nsv13/sound/effects/ship/freespace2/m_stiletto.wav','nsv13/sound/effects/ship/freespace2/m_tsunami.wav','nsv13/sound/effects/ship/freespace2/m_wasp.wav')
+		relay_to_nearby(chosen)
+		if(proj_type == /obj/item/projectile/bullet/torpedo/dud) //Some brainlet MAA loaded an incomplete torp
+			fire_projectile(proj_type, target, homing = FALSE, speed=proj_speed, explosive = TRUE)
+		else
+			fire_projectile(proj_type, target, homing = TRUE, speed=proj_speed, explosive = TRUE)
+	else
+		to_chat(gunner, "<span class='warning'>DANGER: Launch failure! Torpedo tubes are not loaded.</span>")
+
 /obj/structure/overmap/fighter/attackby(obj/item/W, mob/user, params)   //fueling and changing equipment
 	add_fingerprint(user)
+	if (istype(W, /obj/item/card/id)||istype(W, /obj/item/pda) && operators.len)
+		if(!allowed(user))
+			var/sound = pick('nsv13/sound/effects/computer/error.ogg','nsv13/sound/effects/computer/error2.ogg','nsv13/sound/effects/computer/error3.ogg')
+			playsound(src, sound, 100, 1)
+			to_chat(user, "<span class='warning'>Access denied</span>")
+			return
+		if(alert("Eject all current occupants from [src]?",name,"Yes","No") == "Yes" && Adjacent(user))
+			to_chat(user, "<span class='warning'>Ejecting all current occupants from [src] and activating inertial dampeners...</span>")
+			brakes = TRUE
+			for(var/mob/M in operators)
+				stop_piloting(M)
+				to_chat(M, "<span class='warning'>[user] has forcibly ejected you from [src]!.</span>")
 	if(maint_state == MS_OPEN)
 		if(istype(W, /obj/item/fighter_component/fuel_lines) && !get_part(/obj/item/fighter_component/fuel_lines))
 			to_chat(user, "<span class='notice'>You start installing [W] in [src]...</span>")
@@ -610,6 +688,11 @@ After going through this checklist, you're ready to go!
 /obj/structure/overmap/fighter/attack_hand(mob/user)
 	.=..()
 	dradis?.linked = src
+	if(!allowed(user))
+		var/sound = pick('nsv13/sound/effects/computer/error.ogg','nsv13/sound/effects/computer/error2.ogg','nsv13/sound/effects/computer/error3.ogg')
+		playsound(src, sound, 100, 1)
+		to_chat(user, "<span class='warning'>Access denied</span>")
+		return
 	if(maint_state == MS_OPEN)
 		display_maint_popup(user)
 		return TRUE
@@ -638,8 +721,8 @@ After going through this checklist, you're ready to go!
 				SEND_SOUND(user, sound('nsv13/sound/effects/ship/cockpit.ogg', repeat = TRUE, wait = 0, volume = 100, channel=CHANNEL_SHIP_ALERT))
 				return TRUE
 
-/obj/structure/overmap/fighter/stop_piloting(mob/living/M)
-	if(!is_station_level(z))
+/obj/structure/overmap/fighter/stop_piloting(mob/living/M, force=FALSE)
+	if(!is_station_level(z) &&!force)
 		to_chat(M, "<span class='warning'>DANGER: You may not exit [src] while flying alongside other large ships.</span>")
 		return FALSE //No jumping out into the overmap :)
 	operators -= M
@@ -801,6 +884,8 @@ After going through this checklist, you're ready to go!
 				return
 			to_chat(user, "<span class='notice'>You uninstall [tr.name] from [src].</span>")
 			tr?.forceMove(get_turf(src))
+			munitions -= tr
+			torpedoes = munitions.len
 			attack_hand(user) //Refresh UI.
 	if(href_list["remove_tank"])
 		if(!internal_tank)
@@ -821,26 +906,44 @@ After going through this checklist, you're ready to go!
 			reagents.clear_reagents()
 			new /obj/effect/decal/cleanable/oil(loc)
 
+/obj/structure/overmap/fighter/Destroy()
+	if(operators.len && !istype(src, /obj/structure/overmap/fighter/escapepod))
+		relay('nsv13/sound/effects/computer/alarm_3.ogg', "<span class=userdanger>EJECT! EJECT! EJECT!</span>")
+		relay_to_nearby('nsv13/sound/effects/ship/fighter_launch_short.ogg')
+		visible_message("<span class=userdanger>Auto-Ejection Sequence Enabled! Escape Pod Launched!</span>")
+		eject()
+		sleep(20)
+	. = ..()
+
 /obj/structure/overmap/fighter/proc/eject()
-	var/obj/structure/overmap/escapepod/ep = new /obj/structure/overmap/escapepod (loc, 1)
-	var/atom/movable/hu = get_part(/mob/living/carbon/human) //Lmao karmic stop objectifying people
-	hu.forceMove(ep)
-	qdel(src)
+	var/obj/structure/overmap/fighter/escapepod/ep = new /obj/structure/overmap/fighter/escapepod(get_turf(src))
+	transfer_occupants_to(ep)
+	ep.desired_angle = pick(0,360)
+	ep.user_thrust_dir = NORTH
 
-/obj/structure/overmap/fighter/Destroy() //incomplete
-	.=..()
-	visible_message("<span class=userdanger>EJECT! EJECT! EJECT!</span>")
-	playsound(src, 'sound/effects/alert.ogg', 100, TRUE)
-	sleep(10)
-	visible_message("<span class=userdanger>Auto-Ejection Sequence Enabled! Escape Pod Launched!</span>")
-	//injuring pilot goes here
-	eject()
-
-/obj/structure/overmap/escapepod
+/obj/structure/overmap/fighter/escapepod
 	name = "Escape Pod"
-	desc = "An escape pod launched from a space faring vessel."
-	icon = 'icons/obj/janitor.dmi'
-	icon_state = "smmop"
+	desc = "An escape pod launched from a space faring vessel. It has no internal thrusters and is thus very immobile."
+	icon = 'nsv13/icons/overmap/nanotrasen/escape_pod.dmi'
+	icon_state = "escape_pod"
+	damage_states = FALSE
+	bound_width = 32 //Change this on a per ship basis
+	bound_height = 32
+	mass = MASS_TINY
+	max_integrity = 250 //Able to withstand more punishment so that people inside it don't get yeeted as hard
+	speed_limit = 3 //Theyve always got to be slow so that we can catch up with them
+
+/obj/structure/overmap/fighter/escapepod/attack_hand(mob/user)
+	return
+
+/obj/structure/overmap/fighter/proc/transfer_occupants_to(obj/structure/overmap/what)
+	if(!operators.len)
+		return
+	for(var/mob/M in operators)
+		stop_piloting(M, force=TRUE)
+		M.forceMove(what)
+		what.start_piloting(M, "observer") //So theyre unable to fly the pod
+		what.mobs_in_ship += M
 
 #undef MS_CLOSED
 #undef MS_UNSECURE
