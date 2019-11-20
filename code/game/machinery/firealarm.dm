@@ -125,7 +125,7 @@
 	last_alarm = world.time
 	var/area/A = get_area(src)
 	A.firealert(src)
-	playsound(loc, 'goon/sound/machinery/FireAlarm.ogg', 75)
+	playsound(loc, 'nsv13/sound/effects/computer/alarm.ogg', 100)//NSV13 - Fire alarm sound change.
 	if(user)
 		log_game("[user] triggered a fire alarm at [COORD(src)]")
 
@@ -260,7 +260,7 @@
 
 /obj/machinery/firealarm/rcd_vals(mob/user, obj/item/construction/rcd/the_rcd)
 	if((buildstage == 0) && (the_rcd.upgrade & RCD_UPGRADE_SIMPLE_CIRCUITS))
-		return list("mode" = RCD_UPGRADE_SIMPLE_CIRCUITS, "delay" = 20, "cost" = 1)	
+		return list("mode" = RCD_UPGRADE_SIMPLE_CIRCUITS, "delay" = 20, "cost" = 1)
 	return FALSE
 
 /obj/machinery/firealarm/rcd_act(mob/user, obj/item/construction/rcd/the_rcd, passed_mode)
