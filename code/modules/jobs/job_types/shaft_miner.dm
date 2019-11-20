@@ -4,8 +4,8 @@
 	department_head = list("Executive Officer")
 	department_flag = CIVILIAN
 	faction = "Station"
-	total_positions = 3
-	spawn_positions = 3
+	total_positions = 0 //CHANGE ME BACK TO 3 WHEN WE GET A MINING UPDATE ¬KMC
+	spawn_positions = 0
 	supervisors = "the quartermaster and the Executive Officer"
 	selection_color = "#dcba97"
 
