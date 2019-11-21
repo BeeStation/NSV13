@@ -3,9 +3,12 @@
 // I had no part in writing this movement engine, that's his work      //
 /////////////////////////////////////////////////////////////////////////
 
+/obj/structure/overmap
+	var/last_process = 0
 
 /obj/structure/overmap/process(time)
 	time /= 10 // fuck off with your deciseconds
+	last_process = world.time
 
 	if(world.time > last_slowprocess + 10)
 		last_slowprocess = world.time
@@ -232,9 +235,8 @@
 /obj/structure/overmap/Bumped(atom/movable/A)
 	if(istype(A, /obj/structure/overmap/fighter))
 		var/obj/structure/overmap/fighter/F = A
-		if(F.mass < mass && docking_points.len && F.docking_mode) //If theyre smaller than us,and we have docking points, and they want to dock
-			F.transfer_from_overmap(src)
-			return FALSE
+		F.docking_act(src)
+		return FALSE
 	if(brakes) //No :)
 		return FALSE
 	if(A.dir & NORTH)
