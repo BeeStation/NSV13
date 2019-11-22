@@ -1,4 +1,3 @@
-//Takes input item and attempts to wrap it in wrapping paper acquired from nowhere
 /obj/machinery/automation/router
 	name = "router"
 	desc = "Outputs items onto nearby conveyor belts that are traveling outwards (respective to this) and will do so evenly."

@@ -13,6 +13,7 @@
 	//Used for machines to know where to output in a proper way (onto a conveyor belt NOT pointing towards the machine
 	var/list/acceptable_output = list("north" = null, "south" = null, "west" = null, "east" = null)
 	var/jammed = FALSE //If this is TRUE, then we couldn't output a thing because there's no conveyors going outwards
+	var/turf/last_turf //Last turf were at; update acceptable output if this isn't the same as last process()
 
 	/*
 	var/list/i_o_radial_options = list(
@@ -26,6 +27,7 @@
 
 /obj/machinery/automation/Initialize()
 	. = ..()
+	last_turf = loc
 	/*
 	radial_categories["I/O Settings"] = image(icon = 'icons/mob/radial.dmi', icon_state = "auto_change_io")
 	i_o_radial_options["Change Input"] = image(icon = 'icons/mob/radial.dmi', icon_state = "auto_change_input")
@@ -35,21 +37,30 @@
 /obj/machinery/automation/proc/try_output(atom/movable/a) //Try to output a onto a turf,
 	for(var/index in shuffle(acceptable_output))
 		if(acceptable_output[index])
-			if(get_dist(src, acceptable_output[index]) < 2)
-				a.loc = get_step(src, text2dir(index))
-				break
-			else
-				acceptable_output[index] = null
+			a.loc = get_step(src, text2dir(index))
+			break
 	if(a.loc == src) //Item is still stuck in here, no outputted directions located
 		jammed = TRUE
 		return
 
 /obj/machinery/automation/process()
 	. = ..()
+	if(loc != last_turf)
+		update_acceptable_outputs()
 	if(.)
 		current_work_tick += 1
 	if(jammed)
+		if(current_work_tick % 20 == 0) //Check every 2 seconds to update inputs
+			update_acceptable_outputs()
 		return FALSE
+
+/obj/machinery/automation/proc/update_acceptable_outputs()
+	for(var/obj/machinery/conveyor/convey in orange(1, src))
+		if(convey)
+			if(get_dir(convey, src) == convey.movedir) //Don't make the automatic machine output into a conveyor delivering into it
+				return
+			else
+				acceptable_output[dir2text(get_dir(src, convey))] = convey
 
 /obj/machinery/automation/examine(mob/user)
 	. = ..()
@@ -64,7 +75,8 @@
 		return FALSE
 
 /obj/machinery/automation/Bumped(atom/input)
-	contents += input
+	if(!ismob(input)) //No mobs into the machine please thank you
+		contents += input
 	return ..()
 
 //Radial settings instead of TGUI

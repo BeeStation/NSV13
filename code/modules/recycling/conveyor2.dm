@@ -50,7 +50,7 @@ GLOBAL_LIST_EMPTY(conveyors_by_id)
 			if(get_dir(src, auto) == movedir) //Don't make the automatic machine output into a conveyor delivering into it
 				return
 			else
-				auto.acceptable_output[get_dir(src, auto)] = src
+				auto.acceptable_output[dir2text(get_dir(auto, src))] = src
 
 // create a conveyor
 /obj/machinery/conveyor/Initialize(mapload, newdir, newid)
@@ -114,7 +114,7 @@ GLOBAL_LIST_EMPTY(conveyors_by_id)
 			if(get_dir(src, auto) == movedir) //Don't make the automatic machine output into a conveyor delivering into it
 				return
 			else
-				auto.acceptable_output[dir2text(get_dir(src, auto))] = src
+				auto.acceptable_output[dir2text(get_dir(auto, src))] = src
 
 	// machine process
 	// move items to the target location
