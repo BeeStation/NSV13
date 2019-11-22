@@ -31,6 +31,24 @@
 	max_integrity = 1500 //Max health
 	integrity_failure = 1500
 
+/obj/structure/overmap/nanotrasen/missile_cruiser
+	name = "vago class heavy cruiser"
+	desc = "A medium sized ship with an advanced railgun, long range torpedo systems and multiple PDCs. This ship is fast, responsive, and able to deliver copious amounts of torpedo bombardment at a moment's notice."
+	icon = 'nsv13/icons/overmap/nanotrasen/patrol_cruiser.dmi'
+	icon_state = "patrol_cruiser"
+	bound_width = 128 //Change this on a per ship basis
+	bound_height = 128
+	mass = MASS_MEDIUM
+	sprite_size = 48
+	damage_states = TRUE
+	pixel_z = -96
+	pixel_w = -96
+	max_integrity = 1500 //Max health
+	integrity_failure = 1500
+
+/obj/structure/overmap/nanotrasen/missile_cruiser/starter //VAGO. Sergei use me!
+	main_overmap = TRUE //Player controlled variant
+
 /obj/structure/overmap/nanotrasen/patrol_cruiser/starter
 	main_overmap = TRUE //Player controlled variant
 
