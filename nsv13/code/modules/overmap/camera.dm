@@ -55,6 +55,7 @@
 	M.overmap_ship = null
 	M.cancel_camera()
 	M.remote_control = null
+	return TRUE
 
 /obj/structure/overmap/proc/CreateEye(mob/user)
 	if(!user.client)
