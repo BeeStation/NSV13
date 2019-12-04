@@ -46,6 +46,14 @@
 	else
 		new /obj/effect/temp_visual/overmap_explosion/alt(get_turf(src))
 	sleep(20)
+	if(main_overmap)
+		priority_announce("WARNING: ([rand(10,100)]) Attempts to establish DRADIS uplink with [station_name()] have failed. Unable to ascertain operational status. Presumed status: TERMINATED","Central Intelligence Unit", 'nsv13/sound/effects/ship/reactor/explode.ogg')
+		SSticker.mode.check_finished(TRUE)
+		SSticker.force_ending = TRUE
+		for(var/X in GLOB.teleportlocs) //Time to kill everyone
+			var/area/target = GLOB.teleportlocs[X]
+			var/turf/T = pick(get_area_turfs(target))
+			explosion(T,20,20,20)
 	. = ..()
 
 /obj/structure/overmap/proc/decimate_area()

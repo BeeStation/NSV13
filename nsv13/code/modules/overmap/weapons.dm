@@ -35,6 +35,13 @@
 	icon_state = "explosion"
 	duration = 10
 
+/obj/item/projectile/bullet/torpedo/on_hit(atom/target, blocked = FALSE)
+	..()
+	if(istype(target, /obj/structure/overmap)) //Were we to explode on an actual overmap, this would oneshot the ship as it's a powerful explosion.
+		return BULLET_ACT_HIT
+	explosion(target, 2, 4, 4)
+	return BULLET_ACT_HIT
+
 /obj/item/projectile/bullet/torpedo/Crossed(atom/movable/AM) //Here, we check if the bullet that hit us is from a friendly ship. If it's from an enemy ship, we explode as we've been flak'd down.
 	. = ..()
 	if(istype(AM, /obj/item/projectile))
@@ -273,3 +280,31 @@
 			fire_projectile(proj_type, target, homing = TRUE, speed=proj_speed, explosive = TRUE)
 	else
 		to_chat(gunner, "<span class='warning'>DANGER: Launch failure! Torpedo tubes are not loaded.</span>")
+
+
+/obj/structure/overmap/bullet_act(obj/item/projectile/P)
+	relay_damage(P?.type)
+	. = ..()
+
+/obj/structure/overmap/proc/relay_damage(proj_type)
+	if(!main_overmap)
+		return
+	var/turf/pickedstart
+	var/turf/pickedgoal
+	var/max_i = 10//number of tries to spawn bullet.
+	while(!isspaceturf(pickedstart))
+		var/startSide = pick(GLOB.cardinals)
+		var/startZ = pick(SSmapping.levels_by_trait(ZTRAIT_STATION))
+		pickedstart = spaceDebrisStartLoc(startSide, startZ)
+		pickedgoal = spaceDebrisFinishLoc(startSide, startZ)
+		max_i--
+		if(max_i<=0)
+			return
+	var/obj/item/projectile/proj = new proj_type(pickedstart)
+	proj.starting = pickedstart
+	proj.firer = null
+	proj.def_zone = "chest"
+	proj.original = pickedgoal
+	spawn()
+		proj.fire(Get_Angle(pickedstart,pickedgoal))
+		proj.set_pixel_speed(4)
