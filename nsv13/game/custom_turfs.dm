@@ -104,6 +104,7 @@
 	icon = 'nsv13/icons/turf/floors.dmi'
 	icon_state = "durasteel"
 	floor_tile = /obj/item/stack/tile/plasteel/ship
+	broken_states = list("durasteel_dam1", "durasteel_dam2", "durasteel_dam3", "durasteel_dam4", "durasteel_dam5")
 
 /obj/item/stack/tile/plasteel/ship
 	name = "durasteel hull plating tile"
@@ -129,6 +130,7 @@
 	name = "riveted steel hull plating"
 	icon_state = "riveted"
 	floor_tile = /obj/item/stack/tile/plasteel/ship/riveted
+	broken_states = list("riveted_dam1", "riveted_dam2", "riveted_dam3", "riveted_dam4", "riveted_dam5")
 
 /obj/item/stack/tile/plasteel/ship/riveted
 	name = "riiveted steel hull plating tile"
@@ -141,6 +143,7 @@
 	name = "padded steel hull plating"
 	icon_state = "padded"
 	floor_tile = /obj/item/stack/tile/plasteel/padded
+	broken_states = list("padded_dam1", "padded_dam2", "padded_dam3", "padded_dam4", "padded_dam5")
 
 /obj/item/stack/tile/plasteel/padded
 	name = "padded steel hull plating tile"
@@ -154,6 +157,7 @@
 	name = "embossed hull plating"
 	icon_state = "eris_techfloor"
 	floor_tile = /obj/item/stack/tile/plasteel/ship/techfloor
+	broken_states = list("eris_techfloor_dam1", "eris_techfloor_dam2", "eris_techfloor_dam3", "eris_techfloor_dam4", "eris_techfloor_dam5")
 
 /obj/item/stack/tile/plasteel/ship/techfloor
 	name = "embossed hull plating tile"
@@ -167,6 +171,7 @@
 	name = "embossed hull plating"
 	icon_state = "eris_techfloor_alt"
 	floor_tile = /obj/item/stack/tile/plasteel/ship/techfloor/alt
+	broken_states = list("eris_techfloor_alt_dam1", "eris_techfloor_alt_dam2", "eris_techfloor_alt_dam3", "eris_techfloor_alt_dam4", "eris_techfloor_alt_dam5")
 
 /obj/item/stack/tile/plasteel/ship/techfloor/alt
 	name = "embossed hull plating tile"

@@ -8,6 +8,7 @@
 	var/on = TRUE //Starts on by default.
 	var/scanning_speed = 2 //Duration of each pulse.
 	var/last_scanning_speed = 2 //To update the sound loop
+	var/start_with_sound = TRUE //Used to stop fighters playing dradis sounds all at once and being annoying.
 
 /obj/machinery/computer/ship/dradis/minor //Secondary dradis consoles usable by people who arent on the bridge.
 	name = "Air traffic control console"
@@ -15,6 +16,7 @@
 /obj/machinery/computer/ship/dradis/internal
 	name = "Integrated dradis console"
 	use_power = 0
+	start_with_sound = FALSE
 
 /obj/machinery/computer/ship/dradis/internal/has_overmap()
 	if(linked)
@@ -27,7 +29,7 @@
 /datum/looping_sound/dradis
 	mid_sounds = list('nsv13/sound/effects/ship/dradis.ogg')
 	mid_length = 2 SECONDS
-	volume = 70
+	volume = 60
 
 /datum/asset/simple/dradis
 	assets = list(
@@ -46,7 +48,8 @@
 /obj/machinery/computer/ship/dradis/Initialize()
 	. = ..()
 	soundloop = new(list(src), FALSE)
-	soundloop?.start()
+	if(start_with_sound)
+		soundloop?.start()
 
 /obj/machinery/computer/ship/dradis/attack_hand(mob/user)
 	. = ..()

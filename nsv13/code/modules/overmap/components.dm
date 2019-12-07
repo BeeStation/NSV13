@@ -90,6 +90,7 @@ GLOBAL_LIST_INIT(computer_beeps, list('nsv13/sound/effects/computer/beep.ogg','n
 	pixel_y = 26
 	density = FALSE
 	anchored = TRUE
+	req_access = null
 
 /obj/machinery/computer/ship/viewscreen/examine(mob/user)
 	. = ..()

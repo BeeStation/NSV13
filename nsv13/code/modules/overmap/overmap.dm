@@ -155,9 +155,9 @@
 	current_system = GLOB.starsystem_controller.find_system(src)
 
 /obj/structure/overmap/Destroy()
-	. = ..()
 	if(cabin_air)
 		QDEL_NULL(cabin_air)
+	. = ..()
 
 /obj/structure/overmap/proc/find_area()
 	if(main_overmap) //We're the hero ship, link us to every ss13 area.
