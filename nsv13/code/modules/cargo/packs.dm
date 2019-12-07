@@ -160,3 +160,14 @@
 					/obj/item/ammo_box/magazine/peacekeeper/lethal,
 					/obj/item/ammo_box/magazine/peacekeeper/lethal)
 	crate_name = "M2A45 pulse rifle ammunition (lethal)"
+
+/datum/supply_pack/munitions/pilot_outfitting
+	name = "Pilot Outfitting Crate"
+	desc = "A full set of of gear for a new pilot"
+	cost = 1500
+	contains = list(/obj/item/clothing/under/ship/pilot,
+					/obj/item/clothing/shoes/jackboots,
+					/obj/item/clothing/gloves/color/black,
+					/obj/item/clothing/head/beret/ship/pilot,
+					/obj/item/radio/headset/headset_sec/alt/pilot,
+					/obj/item/clothing/suit/space/hardsuit/pilot)
