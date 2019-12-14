@@ -103,7 +103,7 @@
 #define FIRE_HELM_MIN_TEMP_PROTECT			60		//Cold protection for fire helmets
 #define FIRE_HELM_MAX_TEMP_PROTECT			30000	//for fire helmet quality items (red and white hardhats)
 
-#define EMERGENCY_HELM_MIN_TEMP_PROTECT		2.0		//The helmet is pressurized with air from the oxygen tank. If they don't take damage fromt hat they won't take damage here
+#define EMERGENCY_HELM_MIN_TEMP_PROTECT		2.0		//The helmet is pressurized with air from the oxygen tank. If they don't take damage from that they won't take damage here
 #define EMERGENCY_SUIT_MIN_TEMP_PROTECT		237		//This is the approximate average temperature of Mt. Everest in the winter
 
 #define FIRE_IMMUNITY_MAX_TEMP_PROTECT	35000		//what max_heat_protection_temperature is set to for firesuit quality suits and helmets. MUST NOT BE 0.
