@@ -408,3 +408,27 @@ Contains:
 	armor = list(melee = 60, bullet = 40, laser = 40, energy = 50, bomb = 100, bio = 100, rad = 100, fire = 100, acid = 100)
 	strip_delay = 130
 	resistance_flags = FIRE_PROOF | ACID_PROOF
+
+/obj/item/clothing/head/helmet/space/skinsuit
+	name = "skinsuit helmet"
+	icon_state = "griffinhat"
+	item_state = "griffinhat"
+	desc = "An airtight helmet meant to protect the wearer during emergency situations."
+	permeability_coefficient = 0.01
+	armor = list("melee" = 0, "bullet" = 0, "laser" = 0,"energy" = 0, "bomb" = 0, "bio" = 100, "rad" = 0, "fire" = 0, "acid" = 0)
+	min_cold_protection_temperature = EMERGENCY_HELM_MIN_TEMP_PROTECT
+	heat_protection = NONE
+	flash_protect = 0
+
+/obj/item/clothing/suit/space/skinsuit
+	name = "skinsuit"
+	desc = "A slim, compression-based spacesuit meant to protect the user during emergency situations. It's only a little warmer than your uniform."
+	icon_state = "freedom"
+	item_state = "freedom"
+	slowdown = 0.7
+	w_class = WEIGHT_CLASS_NORMAL
+	gas_transfer_coefficient = 0.5
+	permeability_coefficient = 0.5
+	armor = list("melee" = 0, "bullet" = 0, "laser" = 0, "energy" = 0, "bomb" = 0, "bio" = 50, "rad" = 0, "fire" = 0, "acid" = 0)
+	min_cold_protection_temperature = EMERGENCY_SUIT_MIN_TEMP_PROTECT
+	heat_protection = NONE

@@ -126,6 +126,8 @@
 	new /obj/item/clothing/mask/breath(src)
 	new /obj/item/tank/internals/emergency_oxygen(src)
 	new /obj/item/reagent_containers/hypospray/medipen(src)
+	new /obj/item/clothing/head/helmet/space/skinsuit(src)
+	new /obj/item/clothing/suit/space/skinsuit(src)
 
 /obj/item/storage/box/survival/radio/PopulateContents()
 	..() // we want the survival stuff too.
