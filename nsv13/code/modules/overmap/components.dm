@@ -258,6 +258,7 @@ GLOBAL_LIST_INIT(computer_beeps, list('nsv13/sound/effects/computer/beep.ogg','n
 		update_icon()
 		return FALSE
 	. = ..()
+	update_icon()
 
 /obj/structure/hull_plate/proc/try_repair(amount, mob/user)
 	if(obj_integrity+amount >= max_integrity)
@@ -307,7 +308,7 @@ GLOBAL_LIST_INIT(computer_beeps, list('nsv13/sound/effects/computer/beep.ogg','n
 			return ..()
 		to_chat(user, "<span class='notice'>You begin fixing some of the dents in [src] and the surrounding hull segment...</span>")
 		if(do_after(user, 4 SECONDS, target = src))
-			if(W.use_tool(src, user, fuel_required, volume=100))
+			if(W.use_tool(src, user, 0, volume=100, amount=fuel_required))
 				to_chat(user, "<span class='notice'>You fix some of the dents in [src] and the surrounding hull segment.</span>")
 				for(var/obj/structure/hull_plate/S in plates)
 					S.try_repair(100, user)
