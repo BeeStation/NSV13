@@ -211,3 +211,108 @@ GLOBAL_LIST_INIT(computer_beeps, list('nsv13/sound/effects/computer/beep.ogg','n
 		salvage_target.explode() //Ship loses stability. It's literally just us that's holding it together.
 		UnregisterSignal(linked, COMSIG_MOVABLE_MOVED, .proc/update_salvage_target)
 		salvage_target = null
+
+/obj/structure/hull_plate
+	name = "nanolaminate reinforced hull plating"
+	desc = "A heavy piece of hull plating designed to reinforced the ship's superstructure. The Nanotrasen official starship operational manual states that any damage sustained can be patched up temporarily with a welder."
+	icon = 'nsv13/icons/obj/structures/ship_structures.dmi'
+	icon_state = "tgmc_outerhull"
+	anchored = TRUE
+	density = FALSE
+	layer = LATTICE_LAYER //under pipes
+	plane = FLOOR_PLANE
+	obj_integrity = 100
+	max_integrity = 100
+	var/obj/structure/overmap/parent
+	var/armour_scale_modifier = 4
+	var/armour_broken = FALSE
+
+/obj/structure/hull_plate/end
+	icon_state = "tgmc_outerhull_dir"
+
+/obj/structure/hull_plate/Initialize()
+	. = ..()
+	return INITIALIZE_HINT_LATELOAD
+
+/obj/structure/hull_plate/LateInitialize()
+	parent = get_overmap()
+	parent.armour_plates ++
+	RegisterSignal(parent, COMSIG_DAMAGE_TAKEN, .proc/relay_damage)
+
+/obj/structure/hull_plate/Destroy()
+	parent?.armour_plates --
+	. = ..()
+
+/obj/structure/hull_plate/proc/relay_damage(datum/source, amount)
+	if(prob(10))
+		take_damage(amount)
+
+/obj/structure/hull_plate/take_damage(damage_amount, damage_type = BRUTE, damage_flag = 0, sound_effect = FALSE)
+	if(damage_amount >= 15)
+		shake_animation(3)
+	if(obj_integrity <= damage_amount)
+		obj_integrity = 1
+		if(!armour_broken)
+			parent?.armour_plates --
+			armour_broken = TRUE
+		update_icon()
+		return FALSE
+	. = ..()
+
+/obj/structure/hull_plate/proc/try_repair(amount, mob/user)
+	if(obj_integrity+amount >= max_integrity)
+		if(user)
+			to_chat(user, "<span class='warning'>You have fully repaired [src].</span>")
+		parent?.armour_plates ++
+		obj_integrity = max_integrity
+		update_icon()
+		armour_broken = FALSE
+		return
+	obj_integrity += amount
+	update_icon()
+
+/obj/structure/hull_plate/update_icon()
+	var/progress = obj_integrity
+	var/goal = max_integrity
+	progress = CLAMP(progress, 0, goal)
+	progress = round(((progress / goal) * 100), 25)//Round it down to 25%. We now apply visual damage
+	icon_state = "[initial(icon_state)][progress]"
+
+/obj/structure/overmap/proc/check_armour() //Get the "max" armour plates value when all the armour plates have been initialized.
+	if(armour_plates <= 0)
+		addtimer(CALLBACK(src, .proc/check_armour), 20 SECONDS) //Recursively call the function until we've generated the armour plates value to account for lag / late initializations.
+		return
+	max_armour_plates = armour_plates
+
+/obj/structure/overmap/slowprocess()
+	. = ..()
+	try_repair(get_repair_efficiency() / 25) //Scale the value. If you have 80% of your armour plates repaired, the ship takes about 7.5 minutes to fully repair. If you only have 25% of your plates operational, it will take half an hour to fully repair the ship.
+
+/obj/structure/hull_plate/attackby(obj/item/W, mob/user)
+	if(W.tool_behaviour == TOOL_WELDER)
+		var/obj/item/weldingtool/WT = W
+		if(obj_integrity >= max_integrity)
+			if(user)
+				to_chat(user, "<span class='warning'>[src] is not in need of repair.</span>")
+			return FALSE
+		var/fuel_required = 1
+		var/list/plates = list()
+		plates += src
+		for(var/obj/structure/hull_plate/S in orange(1, src))
+			if(S.armour_broken)
+				plates += S
+				fuel_required ++
+		if(!W.tool_start_check(user, amount=fuel_required))
+			to_chat(user, "<span class='notice'>You need [fuel_required-WT.get_fuel()] more units of welding fuel to repair this hull segment.</span>")
+			return ..()
+		to_chat(user, "<span class='notice'>You begin fixing some of the dents in [src] and the surrounding hull segment...</span>")
+		if(do_after(user, 4 SECONDS, target = src))
+			if(W.use_tool(src, user, fuel_required, volume=100))
+				to_chat(user, "<span class='notice'>You fix some of the dents in [src] and the surrounding hull segment.</span>")
+				for(var/obj/structure/hull_plate/S in plates)
+					S.try_repair(100, user)
+		return FALSE
+	. = ..()
+
+/obj/structure/overmap/proc/get_repair_efficiency()
+	return 100*(armour_plates/max_armour_plates)

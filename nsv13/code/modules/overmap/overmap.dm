@@ -96,6 +96,8 @@
 	var/resize = 0 //Factor by which we should shrink a ship down. 0 means don't shrink it.
 	var/list/docking_points = list() //Where we can land on this ship. Usually right at the edge of a z-level.
 	var/weapon_safety = FALSE //Like a gun safety. Entirely un-used except for fighters to stop brainlets from shooting people on the ship unintentionally :)
+	var/armour_plates = 0 //You lose max integrity when you lose armour plates.
+	var/max_armour_plates = 500 //Placeholder. Set by counting in game objects.
 
 /obj/structure/overmap/can_be_pulled(user) // no :)
 	return FALSE
@@ -153,6 +155,7 @@
 	if(main_overmap)
 		name = "[station_name()]"
 	current_system = GLOB.starsystem_controller.find_system(src)
+	addtimer(CALLBACK(src, .proc/check_armour), 20 SECONDS)
 
 /obj/structure/overmap/Destroy()
 	if(cabin_air)

@@ -114,18 +114,6 @@
 	icon_state = "durasteel_tile"
 	turf_type = /turf/open/floor/plasteel/ship
 
-/turf/open/indestructible/outer_hull
-	name = "Quadrouple reinforced outer hull plating"
-	initial_gas_mix = AIRLESS_ATMOS
-	icon = 'nsv13/icons/turf/floors.dmi'
-	icon_state = "tgmc_outerhull"
-
-/turf/open/indestructible/outer_hull/end
-	icon_state = "tgmc_outerhull_dir"
-
-/turf/open/indestructible/outer_hull/attackby(obj/I, mob/user)
-	return FALSE
-
 /turf/open/floor/plasteel/ship/riveted
 	name = "riveted steel hull plating"
 	icon_state = "riveted"
