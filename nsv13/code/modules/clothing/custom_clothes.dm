@@ -257,3 +257,49 @@
 /obj/machinery/suit_storage_unit/peacekeeper
 	suit_type = /obj/item/clothing/suit/space/hardsuit/syndi/peacekeeper
 	mask_type = /obj/item/clothing/mask/gas/sechailer
+
+/obj/item/clothing/suit/space/syndicate/odst
+	name = "drop trooper space suit"
+	desc = "A bulky and somewhat primitive space suit with armour plates bolted on. Despite its primitive and jury rigged nature, these suits are worn by Syndicate shock troopers on CQC boarding operations."
+	icon = 'nsv13/icons/obj/clothing/suits.dmi'
+	alternate_worn_icon = 'nsv13/icons/mob/suit.dmi'
+	icon_state = "syndicate-space"
+	item_state = "syndicate-space"
+	item_color = "syndicate-space"
+	allowed = list(/obj/item/gun, /obj/item/ammo_box, /obj/item/ammo_casing, /obj/item/melee/baton, /obj/item/restraints/handcuffs, /obj/item/tank/internals, /obj/item/stock_parts/cell)
+	slowdown = 1
+	resistance_flags = ACID_PROOF
+	strip_delay = 12
+
+/obj/item/clothing/head/helmet/space/syndicate/odst
+	name = "drop trooper space suit"
+	desc = "An ominous space helmet littered with blood red decals and motifs. Wearers of helmets like this should not be taken lightly."
+	icon = 'nsv13/icons/obj/clothing/hats.dmi'
+	alternate_worn_icon = 'nsv13/icons/mob/head.dmi'
+	icon_state = "syndicate-space"
+	item_state = "syndicate-space"
+	item_color = "syndicate-space"
+
+/obj/machinery/suit_storage_unit/syndicate/odst
+	suit_type = /obj/item/clothing/suit/space/syndicate/odst
+	mask_type = /obj/item/clothing/mask/gas/sechailer
+	helmet_type = /obj/item/clothing/head/helmet/space/syndicate/odst
+
+/obj/item/storage/belt/utility/syndicate
+	name = "syndicate utility belt"
+	desc = "A large, black belt which facilitates tool storage."
+	icon_state = "assaultbelt"
+	item_state = "security"
+
+/obj/item/storage/belt/utility/syndicate/ComponentInitialize()
+	. = ..()
+	var/datum/component/storage/STR = GetComponent(/datum/component/storage)
+	STR.silent = TRUE
+
+/obj/item/storage/belt/utility/syndicate/PopulateContents()
+	new /obj/item/screwdriver/nuke(src)
+	new /obj/item/wrench(src)
+	new /obj/item/weldingtool/largetank(src)
+	new /obj/item/crowbar/red(src)
+	new /obj/item/wirecutters(src, "red")
+	new /obj/item/multitool(src)

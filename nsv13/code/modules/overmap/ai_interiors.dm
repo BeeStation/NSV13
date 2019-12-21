@@ -101,3 +101,51 @@
 		SpinAnimation(1000,10)
 	else //OK, they've shot us again as we're despawning, that means they don't want to loot us.
 		. = ..()
+
+GLOBAL_LIST_INIT(drop_trooper_teams, list("Noble", "Helljumper","Red", "Black", "Crimson", "Osiris", "Apex", "Apollo", "Thrace", "Galactica", "Valkyrie", "Recon", "Gamma", "Alpha", "Bravo", "Charlie", "Delta", "Indigo", "Sol's fist", "Abassi", "Cartesia", "Switchback", "Majestic", "Mountain", "Shadow", "Shrike", "Sterling", "FTL", "Belter", "Moya", "Crichton"))
+
+/obj/structure/closet/supplypod/syndicate_odst
+	name = "Syndicate drop pod"
+	desc = "A large pod which is used to launch syndicate drop troopers at enemy vessels. It's rare to see one of these and survive the encounter."
+	style = STYLE_SYNDICATE
+	explosionSize = list(0,0,0,5)
+	landingDelay = 25 //Slower than usual so you have time to react
+	resistance_flags = INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | UNACIDABLE | ACID_PROOF
+
+/obj/structure/overmap/proc/spawn_boarders(amount)
+	if(!main_overmap)
+		return FALSE
+	if(!amount)
+		amount = rand(2,4)
+	var/turf/target = safepick(get_area_turfs(/area/maintenance/ship_exterior))
+	if(!target)
+		return FALSE //Cut off here to avoid polling people for a spawn that will never work.
+	var/list/candidates = pollCandidatesForMob("Do you want to play as a Syndicate drop trooper?", ROLE_OPERATIVE, null, ROLE_OPERATIVE, 10 SECONDS, src)
+	var/pod_type = /obj/structure/closet/supplypod/syndicate_odst
+	var/obj/structure/closet/supplypod/toLaunch = new pod_type()
+	toLaunch.update_icon()//we update_icon() here so that the door doesnt "flicker on" right after it lands
+	if(!LAZYLEN(candidates))
+		return FALSE
+	var/team_name = pick_n_take(GLOB.drop_trooper_teams)
+	for(var/I = 0, I < amount, I++)
+		if(!LAZYLEN(candidates))
+			return FALSE
+		var/mob/dead/observer/C = pick_n_take(candidates)
+		var/mob/living/carbon/human/H = new(toLaunch)
+		H.equipOutfit(/datum/outfit/syndicate/odst)
+		H.key = C.key
+		if(team_name) //If there is an available "team name", give them a callsign instead of a placeholder name
+			var/callsign = I
+			if(callsign <= 0)
+				callsign = "Lead"
+			else
+				callsign = num2text(callsign)
+			H.fully_replace_character_name(H.real_name, "[team_name]-[callsign]")
+		log_game("[key_name(H)] became a syndicate drop trooper.")
+		message_admins("[ADMIN_LOOKUPFLW(H)] became a syndicate drop trooper.")
+		to_chat(H, "<span class='danger'>You are a syndicate drop trooper! Your mission is to sabotage [station_name()] so that our ships can dispose of it. For Abassi!")
+		H.mind?.special_role = "Syndicate Drop Trooper"
+
+	relay_to_nearby('nsv13/sound/effects/ship/boarding_pod.ogg')
+	new /obj/effect/DPtarget(target, toLaunch)
+	return TRUE
