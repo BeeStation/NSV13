@@ -17,6 +17,7 @@
 	paycheck_department = ACCOUNT_MED
 
 	display_order = JOB_DISPLAY_ORDER_MEDICAL_DOCTOR
+	display_rank = "LCPL" //nsv13 - Displays the player's actual rank alongside their name, such as GSGT Sergei Koralev
 
 /datum/outfit/job/emt
 	name = "Paramedic"
@@ -25,9 +26,9 @@
 	id = /obj/item/card/id/job/med
 	belt = /obj/item/pda/medical
 	ears = /obj/item/radio/headset/headset_med
-	uniform = /obj/item/clothing/under/rank/medical
+	uniform = /obj/item/clothing/under/ship/medical
 	shoes = /obj/item/clothing/shoes/sneakers/white
-	head = /obj/item/clothing/head/soft/emt
+	head = /obj/item/clothing/head/beret/durathread
 	suit =  /obj/item/clothing/suit/toggle/labcoat/emt
 	l_hand = /obj/item/storage/firstaid/regular
 	l_pocket = /obj/item/pinpointer/crew

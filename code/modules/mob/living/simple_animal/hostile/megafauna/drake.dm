@@ -380,13 +380,6 @@ Difficulty: Medium
 	if(!lava_success)
 		arena_escape_enrage()
 
-<<<<<<< HEAD
-=======
-/mob/living/simple_animal/hostile/megafauna/dragon/death()
-	QDEL_NULL(internal) // so drake corpses don't have a gps signal
-	. = ..()
-
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 /mob/living/simple_animal/hostile/megafauna/dragon/ex_act(severity, target)
 	if(severity == EXPLODE_LIGHT)
 		return
@@ -413,13 +406,6 @@ Difficulty: Medium
 /mob/living/simple_animal/hostile/megafauna/dragon/Move()
 	if(!swooping)
 		..()
-<<<<<<< HEAD
-=======
-
-/mob/living/simple_animal/hostile/megafauna/dragon/Goto(target, delay, minimum_distance)
-	if(!swooping)
-		..()
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 /mob/living/simple_animal/hostile/megafauna/dragon/Goto(target, delay, minimum_distance)
 	if(!swooping)

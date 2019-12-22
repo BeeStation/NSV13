@@ -11,12 +11,7 @@
 
 /obj/item/assembly/health/examine(mob/user)
 	. = ..()
-<<<<<<< HEAD
 	. += "<span class='notice'>Use a multitool to swap between \"detect death\" mode and \"detect critical state\" mode.</span>"
-=======
-	. += "Use it in hand to turn it off/on and Alt-click to swap between \"detect death\" mode and \"detect critical state\" mode."
-	. += "[src.scanning ? "The sensor is on and you can see [health_scan] displayed on the screen" : "The sensor is off"]."
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 /obj/item/assembly/health/activate()
 	if(!..())
@@ -34,13 +29,14 @@
 	update_icon()
 	return secured
 
-/obj/item/assembly/health/AltClick(mob/living/user)
+/obj/item/assembly/health/multitool_act(mob/living/user, obj/item/I)
 	if(alarm_health == HEALTH_THRESHOLD_CRIT)
 		alarm_health = HEALTH_THRESHOLD_DEAD
 		to_chat(user, "<span class='notice'>You toggle [src] to \"detect death\" mode.</span>")
 	else
 		alarm_health = HEALTH_THRESHOLD_CRIT
 		to_chat(user, "<span class='notice'>You toggle [src] to \"detect critical state\" mode.</span>")
+	return TRUE
 
 /obj/item/assembly/health/process()
 	if(!scanning || !secured)
@@ -73,9 +69,8 @@
 		STOP_PROCESSING(SSobj, src)
 	return
 
-/obj/item/assembly/health/attack_self(mob/user)
+/obj/item/assembly/health/ui_interact(mob/user as mob)//TODO: Change this to the wires thingy
 	. = ..()
-<<<<<<< HEAD
 	if(!secured)
 		user.show_message("<span class='warning'>The [name] is unsecured!</span>")
 		return FALSE
@@ -107,7 +102,3 @@
 
 	attack_self(user)
 	return
-=======
-	to_chat(user, "<span class='notice'>You toggle [src] [src.scanning ? "off" : "on"].</span>")
-	toggle_scan()
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36

@@ -178,19 +178,6 @@
 	tastes = list("egg" = 1)
 	foodtype = MEAT | GRAIN
 
-<<<<<<< HEAD
-=======
-/obj/item/reagent_containers/food/snacks/beans
-	name = "tin of beans"
-	desc = "Musical fruit in a slightly less musical container."
-	icon_state = "beans"
-	bonus_reagents = list(/datum/reagent/consumable/nutriment = 1, /datum/reagent/consumable/nutriment/vitamin = 1)
-	list_reagents = list(/datum/reagent/consumable/nutriment = 10)
-	filling_color = "#B22222"
-	tastes = list("beans" = 1)
-	foodtype = VEGETABLES
-
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 /obj/item/reagent_containers/food/snacks/spidereggs
 	name = "spider eggs"
 	desc = "A cluster of juicy spider eggs. A great side dish for when you care not for your health."
@@ -427,13 +414,8 @@
 	name = "stuffed legion"
 	desc = "The former skull of a damned human, filled with goliath meat. It has a decorative lava pool made of ketchup and hotsauce."
 	icon_state = "stuffed_legion"
-<<<<<<< HEAD
 	bonus_reagents = list(/datum/reagent/consumable/nutriment/vitamin = 3, /datum/reagent/consumable/capsaicin = 1, /datum/reagent/medicine/tricordrazine = 5)
 	list_reagents = list(/datum/reagent/consumable/nutriment = 5, /datum/reagent/consumable/nutriment/vitamin = 5, /datum/reagent/consumable/capsaicin = 2, /datum/reagent/medicine/tricordrazine = 10)
-=======
-	bonus_reagents = list(/datum/reagent/consumable/nutriment/vitamin = 3, /datum/reagent/consumable/capsaicin = 1)
-	list_reagents = list(/datum/reagent/consumable/nutriment = 5, /datum/reagent/consumable/nutriment/vitamin = 5, /datum/reagent/consumable/capsaicin = 2)
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	tastes = list("death" = 2, "rock" = 1, "meat" = 1, "hot peppers" = 1)
 	foodtype = MEAT
 
@@ -458,17 +440,9 @@
 	desc = "A delicious lollipop. Makes for a great Valentine's present."
 	icon = 'icons/obj/lollipop.dmi'
 	icon_state = "lollipop_stick"
-<<<<<<< HEAD
-=======
-	item_state = "lollipop_stick"
-	slot_flags = ITEM_SLOT_MASK
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	list_reagents = list(/datum/reagent/consumable/nutriment = 1, /datum/reagent/consumable/nutriment/vitamin = 1, /datum/reagent/iron = 10, /datum/reagent/consumable/sugar = 5, /datum/reagent/medicine/omnizine = 2)	//Honk
 	var/mutable_appearance/head
 	var/headcolor = rgb(0, 0, 0)
-	var/succ_dur = 180
-	var/succ_int = 100
-	var/next_succ = 0
 	tastes = list("candy" = 1)
 	foodtype = JUNKFOOD | SUGAR
 
@@ -476,43 +450,6 @@
 	. = ..()
 	head = mutable_appearance('icons/obj/lollipop.dmi', "lollipop_head")
 	change_head_color(rgb(rand(0, 255), rand(0, 255), rand(0, 255)))
-
-	//makes lollipops actually wearable as masks and still edible the old fashioned way.
-/obj/item/reagent_containers/food/snacks/lollipop/proc/handle_reagents()
-	if(reagents.total_volume)
-		if(iscarbon(loc))
-			var/mob/living/carbon/C = loc
-			if (src == C.wear_mask) // if it's in the human/monkey mouth, transfer reagents to the mob
-				var/fraction = min(REAGENTS_METABOLISM/reagents.total_volume, 1)
-				reagents.reaction(C, INGEST, fraction)
-				if(!reagents.trans_to(C, REAGENTS_METABOLISM))
-					reagents.remove_any(REAGENTS_METABOLISM)
-				return
-		reagents.remove_any(REAGENTS_METABOLISM)
-
-/obj/item/reagent_containers/food/snacks/lollipop/process()
-	if(iscarbon(loc))
-		if(succ_dur < 1)
-			qdel(src)
-			return
-		succ_dur--
-		if((reagents && reagents.total_volume) && (next_succ <= world.time))
-			handle_reagents()
-			next_succ = world.time + succ_int
-
-
-/obj/item/reagent_containers/food/snacks/lollipop/equipped(mob/user, slot)
-	. = ..()
-	if(slot == SLOT_WEAR_MASK)
-		START_PROCESSING(SSobj, src)
-	else
-		STOP_PROCESSING(SSobj, src)
-
-/obj/item/reagent_containers/food/snacks/lollipop/Destroy()
-	STOP_PROCESSING(SSobj, src)
-	. = ..()
-
-
 
 /obj/item/reagent_containers/food/snacks/lollipop/proc/change_head_color(C)
 	headcolor = C
@@ -545,11 +482,7 @@
 	desc = "A colorful, sugary gumball."
 	icon = 'icons/obj/lollipop.dmi'
 	icon_state = "gumball"
-<<<<<<< HEAD
 	list_reagents = list(/datum/reagent/consumable/sugar = 5, /datum/reagent/medicine/bicaridine = 2, /datum/reagent/medicine/kelotane = 2)	//Kek
-=======
-	list_reagents = list(/datum/reagent/consumable/sugar = 5, /datum/reagent/medicine/sal_acid = 2, /datum/reagent/medicine/oxandrolone = 2)	//Kek
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	tastes = list("candy")
 	foodtype = JUNKFOOD
 
@@ -597,7 +530,7 @@
 	list_reagents = list(/datum/reagent/consumable/nutriment = 3, /datum/reagent/consumable/nutriment/vitamin = 2, /datum/reagent/consumable/sodiumchloride = 5)
 	bonus_reagents = list(/datum/reagent/consumable/sodiumchloride = 10)
 	tastes = list("bran" = 4, "raisins" = 3, "salt" = 1)
-	foodtype = GRAIN | FRUIT | BREAKFAST
+	foodtype = GRAIN | FRUIT
 
 /obj/item/reagent_containers/food/snacks/butter
 	name = "stick of butter"
@@ -660,7 +593,6 @@
 	tastes = list("chocolate" = 1)
 	foodtype = JUNKFOOD | SUGAR
 
-<<<<<<< HEAD
 /obj/item/reagent_containers/food/snacks/canned
 	name = "Canned Air"
 	desc = "If you ever wondered where air came from..."
@@ -727,20 +659,3 @@
 	w_class = WEIGHT_CLASS_SMALL
 	tastes = list("cream cheese" = 4, "crab" = 3, "crispiness" = 2)
 	foodtype = MEAT | DAIRY | GRAIN
-=======
-/obj/item/reagent_containers/food/snacks/cannedpeaches
-	name = "Canned Peaches"
-	desc = "Just a nice can of ripe peaches swimming in their own juices."
-	icon_state = "peachcan"
-	list_reagents = list(/datum/reagent/consumable/peachjuice = 20, /datum/reagent/consumable/sugar = 8, /datum/reagent/consumable/nutriment = 2)
-	filling_color = "#ffdf26"
-	w_class = WEIGHT_CLASS_NORMAL
-	tastes = list("peaches" = 7, "tin" = 1)
-	foodtype = FRUIT | SUGAR
-
-/obj/item/reagent_containers/food/snacks/cannedpeaches/maint
-	name = "Maintenance Peaches"
-	desc = "I have a mouth and I must eat."
-	icon_state = "peachcanmaint"
-	tastes = list("peaches" = 1, "tin" = 7)
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36

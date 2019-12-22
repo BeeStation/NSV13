@@ -30,11 +30,7 @@
 /obj/machinery/dna_scannernew/examine(mob/user)
 	. = ..()
 	if(in_range(user, src) || isobserver(user))
-<<<<<<< HEAD
 		. += "<span class='notice'>The status display reads: Radiation pulse accuracy increased by factor <b>[precision_coeff**2]</b>.<br>Radiation pulse damage decreased by factor <b>[damage_coeff**2]</b>.<span>"
-=======
-		. += "<span class='notice'>The status display reads: Radiation pulse accuracy increased by factor <b>[precision_coeff**2]</b>.<br>Radiation pulse damage decreased by factor <b>[damage_coeff**2]</b>.</span>"
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 /obj/machinery/dna_scannernew/update_icon()
 

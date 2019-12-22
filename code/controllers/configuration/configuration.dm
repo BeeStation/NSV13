@@ -19,9 +19,6 @@
 	var/list/mode_false_report_weight
 
 	var/motd
-	var/policy
-
-	var/static/regex/ic_filter_regex
 
 	var/static/regex/ic_filter_regex
 	var/static/regex/ooc_filter_regex
@@ -57,10 +54,6 @@
 				break
 	loadmaplist(CONFIG_MAPS_FILE)
 	LoadMOTD()
-<<<<<<< HEAD
-=======
-	LoadPolicy()
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	LoadChatFilter()
 
 /datum/controller/configuration/proc/full_wipe()
@@ -164,7 +157,7 @@
 			var/good_update = istext(new_value)
 			log_config("Entry [entry] is deprecated and will be removed soon. Migrate to [new_ver.name]![good_update ? " Suggested new value is: [new_value]" : ""]")
 			if(!warned_deprecated_configs)
-				DelayedMessageAdmins("This server is using deprecated configuration settings. Please check the logs and update accordingly.")
+				addtimer(CALLBACK(GLOBAL_PROC, /proc/message_admins, "This server is using deprecated configuration settings. Please check the logs and update accordingly."), 0)
 				warned_deprecated_configs = TRUE
 			if(good_update)
 				value = new_value
@@ -258,35 +251,6 @@
 	var/tm_info = GLOB.revdata.GetTestMergeInfo()
 	if(motd || tm_info)
 		motd = motd ? "[motd]<br>[tm_info]" : tm_info
-/*
-Policy file should be a json file with a single object.
-Value is raw html.
-
-Possible keywords :
-Job titles / Assigned roles (ghost spawners for example) : Assistant , Captain , Ash Walker
-Mob types : /mob/living/simple_animal/hostile/carp
-Antagonist types : /datum/antagonist/highlander
-Species types : /datum/species/lizard
-special keywords defined in _DEFINES/admin.dm
-
-Example config:
-{
-    "Assistant" : "Don't kill everyone",
-    "/datum/antagonist/highlander" : "<b>Kill everyone</b>",
-    "Ash Walker" : "Kill all spacemans"
-}
-
-*/
-/datum/controller/configuration/proc/LoadPolicy()
-	policy = list()
-	var/rawpolicy = file2text("[directory]/policy.json")
-	if(rawpolicy)
-		var/parsed = safe_json_decode(rawpolicy)
-		if(!parsed)
-			log_config("JSON parsing failure for policy.json")
-			DelayedMessageAdmins("JSON parsing failure for policy.json")
-		else
-			policy = parsed
 
 /datum/controller/configuration/proc/loadmaplist(filename)
 	log_config("Loading config file [filename]...")
@@ -412,7 +376,6 @@ Example config:
 
 /datum/controller/configuration/proc/LoadChatFilter()
 	var/list/in_character_filter = list()
-<<<<<<< HEAD
 	var/list/ooc_filter = list()
 
 	if(!fexists("[directory]/ooc_filter.txt"))
@@ -436,12 +399,6 @@ Example config:
 	ooc_filter_regex = ooc_filter.len ? regex("\\b([jointext(ooc_filter, "|")])\\b", "i") : null
 
 
-=======
-
-	if(!fexists("[directory]/in_character_filter.txt"))
-		return
-
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	log_config("Loading config file in_character_filter.txt...")
 
 	for(var/line in world.file2list("[directory]/in_character_filter.txt"))
@@ -454,10 +411,3 @@ Example config:
 	ic_filter_regex = in_character_filter.len ? regex("\\b([jointext(in_character_filter, "|")])\\b", "i") : null
 
 	syncChatRegexes()
-<<<<<<< HEAD
-=======
-
-//Message admins when you can.
-/datum/controller/configuration/proc/DelayedMessageAdmins(text)
-	addtimer(CALLBACK(GLOBAL_PROC, /proc/message_admins, text), 0)
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36

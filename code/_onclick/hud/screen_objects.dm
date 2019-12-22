@@ -640,15 +640,12 @@
 	icon_state = "slime_health0"
 	screen_loc = ui_slime_health
 	mouse_opacity = MOUSE_OPACITY_TRANSPARENT
-<<<<<<< HEAD
 	
 /obj/screen/healths/lavaland_elite
 	icon = 'icons/mob/screen_elite.dmi'
 	icon_state = "elite_health0"
 	screen_loc = ui_health
 	mouse_opacity = MOUSE_OPACITY_TRANSPARENT
-=======
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 /obj/screen/healthdoll
 	name = "health doll"

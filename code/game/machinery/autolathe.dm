@@ -48,11 +48,7 @@
 							)
 
 /obj/machinery/autolathe/Initialize()
-<<<<<<< HEAD
 	AddComponent(/datum/component/material_container, list(/datum/material/iron, /datum/material/glass, /datum/material/copper, /datum/material/gold, /datum/material/gold, /datum/material/silver, /datum/material/diamond, /datum/material/uranium, /datum/material/plasma, /datum/material/bluespace, /datum/material/bananium, /datum/material/titanium), 0, TRUE, null, null, CALLBACK(src, .proc/AfterMaterialInsert))
-=======
-	AddComponent(/datum/component/material_container, list(/datum/material/iron, /datum/material/glass, /datum/material/gold, /datum/material/silver, /datum/material/diamond, /datum/material/uranium, /datum/material/plasma, /datum/material/bluespace, /datum/material/bananium, /datum/material/titanium), 0, TRUE, null, null, CALLBACK(src, .proc/AfterMaterialInsert))
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	. = ..()
 
 	wires = new /datum/wires/autolathe(src)
@@ -134,11 +130,8 @@
 		switch(id_inserted)
 			if (/datum/material/iron)
 				flick("autolathe_o",src)//plays metal insertion animation
-<<<<<<< HEAD
 			if(/datum/material/copper)
 				flick("autolathe_c",src)//plays metal insertion animation
-=======
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 			else
 				flick("autolathe_r",src)//plays glass insertion animation by default otherwise
 		use_power(min(1000, amount_inserted / 100))
@@ -265,11 +258,7 @@
 	. += ..()
 	var/datum/component/material_container/materials = GetComponent(/datum/component/material_container)
 	if(in_range(user, src) || isobserver(user))
-<<<<<<< HEAD
 		. += "<span class='notice'>The status display reads: Storing up to <b>[materials.max_amount]</b> material units.<br>Material consumption at <b>[prod_coeff*100]%</b>.<span>"
-=======
-		. += "<span class='notice'>The status display reads: Storing up to <b>[materials.max_amount]</b> material units.<br>Material consumption at <b>[prod_coeff*100]%</b>.</span>"
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 /obj/machinery/autolathe/proc/main_win(mob/user)
 	var/dat = "<div class='statusDisplay'><h3>Autolathe Menu:</h3><br>"

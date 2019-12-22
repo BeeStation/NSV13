@@ -107,11 +107,7 @@
 		else
 			to_chat(user, "<span class='warning'>[src] cannot hold more syringes!</span>")
 	return FALSE
-<<<<<<< HEAD
 	
-=======
-
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 /obj/item/gun/syringe/blowgun
 	name = "blowgun"
 	desc = "Fire syringes at a short distance."

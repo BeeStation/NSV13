@@ -10,7 +10,7 @@
 	supervisors = "the head of security, and the head of your assigned department (if applicable)"
 	selection_color = "#ffeeee"
 	minimal_player_age = 7
-	exp_requirements = 420
+	exp_requirements = 300
 	exp_type = EXP_TYPE_CREW
 
 	outfit = /datum/outfit/job/security
@@ -35,7 +35,7 @@ GLOBAL_LIST_INIT(available_depts, list(SEC_DEPT_ENGINEERING, SEC_DEPT_MEDICAL, S
 	. = ..()
 	// Assign department security
 	var/department
-	if(M?.client?.prefs)
+	if(M && M.client && M.client.prefs)
 		department = M.client.prefs.prefered_security_department
 		if(!LAZYLEN(GLOB.available_depts) || department == "None")
 			return
@@ -114,12 +114,7 @@ GLOBAL_LIST_INIT(available_depts, list(SEC_DEPT_ENGINEERING, SEC_DEPT_MEDICAL, S
 	name = "Security Officer"
 	jobtype = /datum/job/officer
 
-<<<<<<< HEAD
-	id = /obj/item/card/id/job/sec
-	belt = /obj/item/pda/security
-=======
 	belt = /obj/item/gun/ballistic/automatic/peacekeeper
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	ears = /obj/item/radio/headset/headset_sec/alt
 	uniform = /obj/item/clothing/under/ship/peacekeeper
 	suit = /obj/item/clothing/suit/ship/peacekeeper

@@ -156,10 +156,6 @@
 	var/health_deficiency = (100 - health)
 	var/mod = 0
 	if(!HAS_TRAIT(src, TRAIT_IGNOREDAMAGESLOWDOWN))
-<<<<<<< HEAD
-=======
-		var/health_deficiency = (maxHealth - health)
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 		if(health_deficiency >= 45)
 			mod += (health_deficiency / 25)
 		if(health <= 0)

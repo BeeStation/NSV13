@@ -37,11 +37,8 @@
 	maptext_height = 26
 	maptext_width = 32
 	maptext_y = -1
-<<<<<<< HEAD
 	ui_x = 300
 	ui_y = 138 
-=======
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 /obj/machinery/door_timer/Initialize()
 	. = ..()

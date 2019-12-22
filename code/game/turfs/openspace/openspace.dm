@@ -110,11 +110,7 @@
 			else
 				to_chat(user, "<span class='warning'>You need one floor tile to build a floor!</span>")
 		else
-<<<<<<< HEAD
 			to_chat(user, "<span class='warning'>The plating is going to need some support! Place iron rods first.</span>")
-=======
-			to_chat(user, "<span class='warning'>The plating is going to need some support! Place metal rods first.</span>")
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 /turf/open/openspace/rcd_vals(mob/user, obj/item/construction/rcd/the_rcd)
 	if(!CanBuildHere())
@@ -135,8 +131,4 @@
 			to_chat(user, "<span class='notice'>You build a floor.</span>")
 			PlaceOnTop(/turf/open/floor/plating, flags = CHANGETURF_INHERIT_AIR)
 			return TRUE
-<<<<<<< HEAD
 	return FALSE
-=======
-	return FALSE
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36

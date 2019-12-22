@@ -16,7 +16,7 @@
 /*
  * Metal
  */
- //nsv13 - Torpedo Casing added to the end of this list
+//nsv13 - Torpedo Casing added to the end of this list
 GLOBAL_LIST_INIT(metal_recipes, list ( \
 	new/datum/stack_recipe("stool", /obj/structure/chair/stool, one_per_turf = TRUE, on_floor = TRUE), \
 	new/datum/stack_recipe("bar stool", /obj/structure/chair/stool/bar, one_per_turf = TRUE, on_floor = TRUE), \
@@ -51,8 +51,6 @@ GLOBAL_LIST_INIT(metal_recipes, list ( \
 	null, \
 	new/datum/stack_recipe("wall girders", /obj/structure/girder, 2, time = 40, one_per_turf = TRUE, on_floor = TRUE), \
 	null, \
-	new/datum/stack_recipe("barbed wire", /obj/item/stack/barbed_wire, 2, 1, 20, time = 1 SECONDS), \
-	new/datum/stack_recipe("metal barricade", /obj/structure/peacekeeper_barricade/metal, 4, time = 8 SECONDS, one_per_turf = 1, on_floor = TRUE), \
 	new/datum/stack_recipe("computer frame", /obj/structure/frame/computer, 5, time = 25, one_per_turf = TRUE, on_floor = TRUE), \
 	new/datum/stack_recipe("modular console", /obj/machinery/modular_computer/console/buildable/, 10, time = 25, one_per_turf = TRUE, on_floor = TRUE), \
 	new/datum/stack_recipe("machine frame", /obj/structure/frame/machine, 5, time = 25, one_per_turf = TRUE, on_floor = TRUE), \
@@ -108,11 +106,7 @@ GLOBAL_LIST_INIT(metal_recipes, list ( \
 	throwforce = 10
 	flags_1 = CONDUCT_1
 	resistance_flags = FIRE_PROOF
-<<<<<<< HEAD
 	merge_type = /obj/item/stack/sheet/iron
-=======
-	merge_type = /obj/item/stack/sheet/metal
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	grind_results = list(/datum/reagent/iron = 20)
 	point_value = 2
 	tableVariant = /obj/structure/table
@@ -155,7 +149,6 @@ GLOBAL_LIST_INIT(metal_recipes, list ( \
  */
 GLOBAL_LIST_INIT(plasteel_recipes, list ( \
 	new/datum/stack_recipe("AI core", /obj/structure/AIcore, 4, time = 50, one_per_turf = TRUE), \
-	new/datum/stack_recipe("plasteel barricade", /obj/structure/peacekeeper_barricade/metal/plasteel, 5, time = 8 SECONDS, one_per_turf = 1, on_floor = TRUE), \
 	new/datum/stack_recipe("bomb assembly", /obj/machinery/syndicatebomb/empty, 10, time = 50), \
 	new/datum/stack_recipe("pestle", /obj/item/pestle, 1, time = 50), \
 	null, \
@@ -215,8 +208,6 @@ GLOBAL_LIST_INIT(wood_recipes, list ( \
 	new/datum/stack_recipe("apiary", /obj/structure/beebox, 40, time = 50),\
 	new/datum/stack_recipe("tiki mask", /obj/item/clothing/mask/gas/tiki_mask, 2), \
 	new/datum/stack_recipe("honey frame", /obj/item/honey_frame, 5, time = 10),\
-	new/datum/stack_recipe("wooden bucket", /obj/item/reagent_containers/glass/bucket/wooden, 3, time = 10),\
-	new/datum/stack_recipe("rake", /obj/item/cultivator/rake, 5, time = 10),\
 	new/datum/stack_recipe("ore box", /obj/structure/ore_box, 4, time = 50, one_per_turf = TRUE, on_floor = TRUE),\
 	new/datum/stack_recipe("wooden crate", /obj/structure/closet/crate/wooden, 6, time = 50, one_per_turf = TRUE, on_floor = TRUE),\
 	new/datum/stack_recipe("baseball bat", /obj/item/melee/baseball_bat, 5, time = 15),\
@@ -254,37 +245,9 @@ GLOBAL_LIST_INIT(wood_recipes, list ( \
 	amount = 50
 
 /*
- * Bamboo
- */
-
-GLOBAL_LIST_INIT(bamboo_recipes, list ( \
-	new/datum/stack_recipe("punji sticks trap", /obj/structure/punji_sticks, 5, time = 30, one_per_turf = TRUE, on_floor = TRUE), \
-	new/datum/stack_recipe("blow gun", /obj/item/gun/syringe/blowgun, 10, time = 70), \
-	))
-
-/obj/item/stack/sheet/mineral/bamboo
-	name = "bamboo cuttings"
-	desc = "Finely cut bamboo sticks."
-	singular_name = "cut bamboo"
-	icon_state = "sheet-bamboo"
-	item_state = "sheet-bamboo"
-	icon = 'icons/obj/stack_objects.dmi'
-	sheettype = "bamboo"
-	throwforce = 15
-	armor = list("melee" = 0, "bullet" = 0, "laser" = 0, "energy" = 0, "bomb" = 0, "bio" = 0, "rad" = 0, "fire" = 50, "acid" = 0)
-	resistance_flags = FLAMMABLE
-	merge_type = /obj/item/stack/sheet/mineral/bamboo
-	grind_results = list("carbon" = 5)
-
-/obj/item/stack/sheet/mineral/bamboo/Initialize(mapload, new_amount, merge = TRUE)
-	recipes = GLOB.bamboo_recipes
-	return ..()
-
-/*
  * Cloth
  */
 GLOBAL_LIST_INIT(cloth_recipes, list ( \
-	new/datum/stack_recipe("white jumpskirt", /obj/item/clothing/under/skirt/color/white, 3), /*Ladies first*/ \
 	new/datum/stack_recipe("white jumpsuit", /obj/item/clothing/under/color/white, 3), \
 	new/datum/stack_recipe("white shoes", /obj/item/clothing/shoes/sneakers/white, 2), \
 	new/datum/stack_recipe("white scarf", /obj/item/clothing/neck/scarf, 1), \
@@ -374,7 +337,6 @@ GLOBAL_LIST_INIT(durathread_recipes, list ( \
 	merge_type = /obj/item/stack/sheet/cotton/durathread
 	pull_effort = 70
 	loom_result = /obj/item/stack/sheet/durathread
-<<<<<<< HEAD
 
 /*
  * Bamboo
@@ -405,8 +367,6 @@ GLOBAL_LIST_INIT(bamboo_recipes, list ( \
 /obj/item/stack/sheet/mineral/bamboo/Initialize(mapload, new_amount, merge = TRUE)
 	recipes = GLOB.bamboo_recipes
 	return ..()
-=======
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 
 /*
@@ -447,11 +407,7 @@ GLOBAL_LIST_INIT(cardboard_recipes, list (														\
 		new /datum/stack_recipe("latex gloves box", /obj/item/storage/box/gloves),				\
 		new /datum/stack_recipe("sterile masks box", /obj/item/storage/box/masks),				\
 		new /datum/stack_recipe("body bag box", /obj/item/storage/box/bodybags),					\
-<<<<<<< HEAD
 		new /datum/stack_recipe("prescription glasses box", /obj/item/storage/box/rxglasses),	\
-=======
-		new /datum/stack_recipe("perscription glasses box", /obj/item/storage/box/rxglasses),	\
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 		null,																					\
 
 		new /datum/stack_recipe("disk box", /obj/item/storage/box/disks),						\
@@ -695,15 +651,9 @@ GLOBAL_LIST_INIT(bronze_recipes, list ( \
 
 GLOBAL_LIST_INIT(plastic_recipes, list(
 	new /datum/stack_recipe("plastic flaps", /obj/structure/plasticflaps, 5, one_per_turf = TRUE, on_floor = TRUE, time = 40), \
-<<<<<<< HEAD
 	new /datum/stack_recipe("water bottle", /obj/item/reagent_containers/glass/waterbottle/empty), \
 	new /datum/stack_recipe("large water bottle", /obj/item/reagent_containers/glass/waterbottle/large/empty,3), \
 	new /datum/stack_recipe("wet floor sign", /obj/item/caution, 2)))
-=======
-	new /datum/stack_recipe("water bottle", /obj/item/reagent_containers/glass/beaker/waterbottle/empty), \
-	new /datum/stack_recipe("large water bottle", /obj/item/reagent_containers/glass/beaker/waterbottle/large/empty,3), \
-	new /datum/stack_recipe("wet floor sign", /obj/item/clothing/suit/caution, 2)))
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 /obj/item/stack/sheet/plastic
 	name = "plastic"

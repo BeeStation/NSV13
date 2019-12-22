@@ -142,10 +142,6 @@
 	id = /datum/reagent/mulligan
 	results = list(/datum/reagent/mulligan = 1)
 	required_reagents = list(/datum/reagent/slime_toxin = 1, /datum/reagent/toxin/mutagen = 1)
-<<<<<<< HEAD
-=======
-
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 ////////////////////////////////// VIROLOGY //////////////////////////////////////////
 
@@ -214,7 +210,6 @@
 	id = "uraniumvirusfood_silver"
 	results = list(/datum/reagent/uranium/uraniumvirusfood/stable = 1)
 	required_reagents = list(/datum/reagent/uranium = 10, /datum/reagent/silver = 10, /datum/reagent/toxin/plasma = 1)
-<<<<<<< HEAD
 
 /datum/chemical_reaction/virus_food_laughter
 	name = "Anomolous virus food"
@@ -228,8 +223,6 @@
 	results = list(/datum/reagent/consumable/virus_food/advvirusfood = 1)
 	required_reagents = list(/datum/reagent/consumable/virus_food/viralbase = 1, /datum/reagent/uranium = 20)
 	mix_message = "The mixture turns every colour of the rainbow, soon settling on a bright white. There's no way this isn't a good idea."
-=======
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 /datum/chemical_reaction/mix_virus
 	name = "Mix Virus"
@@ -648,7 +641,6 @@
 	results = list(/datum/reagent/pax = 3)
 	required_reagents  = list(/datum/reagent/toxin/mindbreaker = 1, /datum/reagent/medicine/synaptizine = 1, /datum/reagent/water = 1)
 
-<<<<<<< HEAD
 
 //////////////////EXPANDED MUTATION TOXINS/////////////////////
 
@@ -749,11 +741,3 @@
 	id = /datum/reagent/mutationtoxin/plasma
 	results = list(/datum/reagent/mutationtoxin/plasma = 1)
 	required_reagents  = list(/datum/reagent/aslimetoxin = 1, /datum/reagent/toxin/plasma = 60, /datum/reagent/uranium = 20)
-=======
-/datum/chemical_reaction/yuck
-	name = "Organic Fluid"
-	id = /datum/reagent/yuck
-	results = list(/datum/reagent/yuck = 4)
-	required_reagents = list(/datum/reagent/fuel = 3)
-	required_container = /obj/item/reagent_containers/food/snacks/deadmouse
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36

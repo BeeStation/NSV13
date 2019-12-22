@@ -458,7 +458,6 @@
 	else
 		return INITIALIZE_HINT_QDEL
 
-<<<<<<< HEAD
 /obj/effect/constructing_effect
 	icon = 'icons/effects/effects_rcd.dmi'
 	icon_state = ""
@@ -497,5 +496,3 @@
 
 /obj/effect/constructing_effect/proc/end()
 	qdel(src)
-=======
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36

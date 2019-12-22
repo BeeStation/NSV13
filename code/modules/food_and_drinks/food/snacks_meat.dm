@@ -118,7 +118,7 @@
 	bonus_reagents = list(/datum/reagent/consumable/nutriment = 1, /datum/reagent/consumable/nutriment/vitamin = 1)
 	list_reagents = list(/datum/reagent/consumable/nutriment = 6, /datum/reagent/consumable/nutriment/vitamin = 1)
 	tastes = list("meat" = 1)
-	foodtype = MEAT | BREAKFAST
+	foodtype = MEAT
 	var/roasted = FALSE
 
 /obj/item/reagent_containers/food/snacks/sausage/Initialize()
@@ -314,7 +314,6 @@
 	icon_state = "doubleratkebab"
 	tastes = list("rat meat" = 2, "metal" = 1)
 	bonus_reagents = list(/datum/reagent/consumable/nutriment = 6, /datum/reagent/consumable/nutriment/vitamin = 2)
-<<<<<<< HEAD
 
 /obj/item/reagent_containers/food/snacks/meat/steak/ashflake
 	name = "ashflaked steak"
@@ -324,5 +323,3 @@
 	tastes = list("tough meat" = 2, "bubblegum" = 1)
 	foodtype = MEAT
 	
-=======
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36

@@ -3,15 +3,11 @@
 	desc = "Retracts stuff."
 	icon = 'icons/obj/surgery.dmi'
 	icon_state = "retractor"
-<<<<<<< HEAD
 	lefthand_file = 'icons/mob/inhands/equipment/medical_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/equipment/medical_righthand.dmi'
 	item_state = "clamps"
-=======
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	materials = list(/datum/material/iron=6000, /datum/material/glass=3000)
 	flags_1 = CONDUCT_1
-	item_flags = SURGICAL_TOOL
 	w_class = WEIGHT_CLASS_TINY
 
 
@@ -21,10 +17,7 @@
 	icon = 'icons/obj/surgery.dmi'
 	icon_state = "retractor"
 	materials = list(/datum/material/iron=6000, /datum/material/glass=3000)
-<<<<<<< HEAD
 	flags_1 = CONDUCT_1
-=======
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	w_class = WEIGHT_CLASS_TINY
 	toolspeed = 0.5
 
@@ -34,15 +27,11 @@
 	desc = "You think you have seen this before."
 	icon = 'icons/obj/surgery.dmi'
 	icon_state = "hemostat"
-<<<<<<< HEAD
 	lefthand_file = 'icons/mob/inhands/equipment/medical_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/equipment/medical_righthand.dmi'
 	item_state = "clamps"
-=======
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	materials = list(/datum/material/iron=5000, /datum/material/glass=2500)
 	flags_1 = CONDUCT_1
-	item_flags = SURGICAL_TOOL
 	w_class = WEIGHT_CLASS_TINY
 	attack_verb = list("attacked", "pinched")
 
@@ -53,10 +42,7 @@
 	icon = 'icons/obj/surgery.dmi'
 	icon_state = "hemostat"
 	materials = list(/datum/material/iron=5000, /datum/material/glass=2500)
-<<<<<<< HEAD
 	flags_1 = CONDUCT_1
-=======
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	w_class = WEIGHT_CLASS_TINY
 	toolspeed = 0.5
 	attack_verb = list("attacked", "pinched")
@@ -67,15 +53,11 @@
 	desc = "This stops bleeding."
 	icon = 'icons/obj/surgery.dmi'
 	icon_state = "cautery"
-<<<<<<< HEAD
 	lefthand_file = 'icons/mob/inhands/equipment/medical_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/equipment/medical_righthand.dmi'
 	item_state = "cautery"
-=======
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	materials = list(/datum/material/iron=2500, /datum/material/glass=750)
 	flags_1 = CONDUCT_1
-	item_flags = SURGICAL_TOOL
 	w_class = WEIGHT_CLASS_TINY
 	attack_verb = list("burnt")
 
@@ -86,10 +68,7 @@
 	icon = 'icons/obj/surgery.dmi'
 	icon_state = "cautery"
 	materials = list(/datum/material/iron=2500, /datum/material/glass=750)
-<<<<<<< HEAD
 	flags_1 = CONDUCT_1
-=======
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	w_class = WEIGHT_CLASS_TINY
 	toolspeed = 0.5
 	attack_verb = list("burnt")
@@ -105,7 +84,6 @@
 	hitsound = 'sound/weapons/circsawhit.ogg'
 	materials = list(/datum/material/iron=10000, /datum/material/glass=6000)
 	flags_1 = CONDUCT_1
-	item_flags = SURGICAL_TOOL
 	force = 15
 	w_class = WEIGHT_CLASS_NORMAL
 	attack_verb = list("drilled")
@@ -124,10 +102,7 @@
 	icon_state = "drill"
 	hitsound = 'sound/weapons/circsawhit.ogg'
 	materials = list(/datum/material/iron=10000, /datum/material/glass=6000)
-<<<<<<< HEAD
 	flags_1 = CONDUCT_1
-=======
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	force = 10
 	w_class = WEIGHT_CLASS_SMALL
 	toolspeed = 0.5
@@ -143,8 +118,6 @@
 	righthand_file = 'icons/mob/inhands/equipment/medical_righthand.dmi'
 	item_state = "scalpel"
 	flags_1 = CONDUCT_1
-	item_flags = SURGICAL_TOOL
-
 	force = 10
 	w_class = WEIGHT_CLASS_TINY
 	throwforce = 5
@@ -164,6 +137,7 @@
 	desc = "Ultra-sharp blade attached directly to your bone for extra-accuracy."
 	icon = 'icons/obj/surgery.dmi'
 	icon_state = "scalpel"
+	flags_1 = CONDUCT_1
 	force = 10
 	w_class = WEIGHT_CLASS_TINY
 	throwforce = 5
@@ -190,7 +164,6 @@
 	hitsound = 'sound/weapons/circsawhit.ogg'
 	throwhitsound =  'sound/weapons/pierce.ogg'
 	flags_1 = CONDUCT_1
-	item_flags = SURGICAL_TOOL
 	force = 15
 	w_class = WEIGHT_CLASS_NORMAL
 	throwforce = 9
@@ -211,6 +184,7 @@
 	icon_state = "saw"
 	hitsound = 'sound/weapons/circsawhit.ogg'
 	throwhitsound =  'sound/weapons/pierce.ogg'
+	flags_1 = CONDUCT_1
 	force = 10
 	w_class = WEIGHT_CLASS_SMALL
 	throwforce = 9
@@ -241,7 +215,6 @@
 	desc = "A container for holding body parts."
 	icon = 'icons/obj/storage.dmi'
 	icon_state = "evidenceobj"
-	item_flags = SURGICAL_TOOL
 
 /obj/item/organ_storage/afterattack(obj/item/I, mob/user, proximity)
 	. = ..()

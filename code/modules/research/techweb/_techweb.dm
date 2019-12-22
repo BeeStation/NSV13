@@ -225,11 +225,7 @@
 	. = ..()
 	if(.)
 		node.on_research()
-<<<<<<< HEAD
 	
-=======
-
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 /datum/techweb/proc/unresearch_node_id(id)
 	return unresearch_node(SSresearch.techweb_node_by_id(id))
 

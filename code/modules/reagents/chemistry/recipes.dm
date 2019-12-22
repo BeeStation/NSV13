@@ -20,13 +20,8 @@
 	return
 	//I recommend you set the result amount to the total volume of all components.
 
-<<<<<<< HEAD
 /datum/chemical_reaction/proc/chemical_mob_spawn(datum/reagents/holder, amount_to_spawn, reaction_name, mob_class = HOSTILE_SPAWN, mob_faction = "chemicalsummon")
 	if(holder?.my_atom)
-=======
-/datum/chemical_reaction/proc/chemical_mob_spawn(datum/reagents/holder, amount_to_spawn, reaction_name, mob_class = HOSTILE_SPAWN, mob_faction = "chemicalsummon", random = TRUE)
-	if(holder && holder.my_atom)
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 		var/atom/A = holder.my_atom
 		var/turf/T = get_turf(A)
 		var/message = "A [reaction_name] reaction has occurred in [ADMIN_VERBOSEJMP(T)]"
@@ -47,11 +42,7 @@
 			C.flash_act()
 
 		for(var/i in 1 to amount_to_spawn)
-			var/mob/living/simple_animal/S
-			if(random)
-				S = create_random_mob(get_turf(holder.my_atom), mob_class)
-			else
-				S = new mob_class(get_turf(holder.my_atom))//Spawn our specific mob_class
+			var/mob/living/simple_animal/S = create_random_mob(get_turf(holder.my_atom), mob_class)
 			S.faction |= mob_faction
 			if(prob(50))
 				for(var/j = 1, j <= rand(1, 3), j++)
@@ -61,15 +52,9 @@
 /proc/goonchem_vortex(turf/T, setting_type, range)
 	for(var/atom/movable/X in orange(range, T))
 		if(X.anchored)
-<<<<<<< HEAD
 			continue
 		if(iseffect(X) || iscameramob(X) || isdead(X))
 			continue
-=======
-			continue
-		if(iseffect(X) || iscameramob(X) || isdead(X))
-			continue
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 		var/distance = get_dist(X, T)
 		var/moving_power = max(range - distance, 1)
 		if(moving_power > 2) //if the vortex is powerful and we're close, we get thrown

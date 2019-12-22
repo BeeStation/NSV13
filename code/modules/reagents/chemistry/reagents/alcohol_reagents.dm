@@ -175,7 +175,7 @@ All effects don't start immediately, but rather get worse over time; the rate is
 		var/obj/item/I = M.get_active_held_item()
 		if(I)
 			M.dropItemToGround(I)
-			to_chat(M, "<span class='notice'>Your hands jitter and you drop what you were holding!</span>")
+			to_chat(M, "<span class ='notice'>Your hands jitter and you drop what you were holding!</span>")
 			M.Jitter(10)
 
 	if(prob(7))
@@ -2092,7 +2092,6 @@ All effects don't start immediately, but rather get worse over time; the rate is
 	glass_icon_state = "planet_cracker"
 	glass_name = "Planet Cracker"
 	glass_desc = "Although historians believe the drink was originally created to commemorate the end of an important conflict in man's past, its origins have largely been forgotten and it is today seen more as a general symbol of human supremacy."
-<<<<<<< HEAD
 
 /datum/reagent/consumable/ethanol/mauna_loa
 	name = "Mauna Loa"
@@ -2112,5 +2111,3 @@ All effects don't start immediately, but rather get worse over time; the rate is
 		M.adjust_fire_stacks(1)
 		M.IgniteMob()
 	..()
-=======
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36

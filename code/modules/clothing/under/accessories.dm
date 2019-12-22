@@ -193,15 +193,9 @@
 	desc = "An award for distinguished combat and sacrifice in defence of Nanotrasen's commercial interests. Often awarded to security staff."
 
 /obj/item/clothing/accessory/medal/silver/excellence
-<<<<<<< HEAD
 	name = "the head of personnel award for outstanding achievement in the field of excellence"
 	desc = "Nanotrasen's dictionary defines excellence as \"the quality or condition of being excellent\". This is awarded to those rare crewmembers who fit that definition."
 	
-=======
-	name = "the Executive Officer award for outstanding achievement in the field of excellence"
-	desc = "Nanotrasen's dictionary defines excellence as \"the quality or condition of being excellent\". This is awarded to those rare crewmembers who fit that definition."
-
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 /obj/item/clothing/accessory/medal/gold
 	name = "gold medal"
 	desc = "A prestigious golden medal."

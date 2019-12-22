@@ -32,19 +32,6 @@
 		return
 	if(!cargo_holder)
 		return
-	if(ismecha(target))
-		var/obj/mecha/M = target
-		var/have_ammo
-		for(var/obj/item/mecha_ammo/box in cargo_holder.cargo)
-			if(istype(box, /obj/item/mecha_ammo) && box.rounds)
-				have_ammo = TRUE
-				if(M.ammo_resupply(box, chassis.occupant, TRUE))
-					return
-		if(have_ammo)
-			to_chat(chassis.occupant, "No further supplies can be provided to [M].")
-		else
-			to_chat(chassis.occupant, "No providable supplies found in cargo hold")
-		return
 	if(isobj(target))
 		var/obj/O = target
 		if(istype(O, /obj/machinery/door/firedoor))
@@ -346,7 +333,6 @@
 /obj/item/mecha_parts/mecha_equipment/rcd/get_equip_info()
 	return "[..()] \[<a href='?src=[REF(src)];mode=0'>D</a>|<a href='?src=[REF(src)];mode=1'>C</a>|<a href='?src=[REF(src)];mode=2'>A</a>\]"
 
-<<<<<<< HEAD
 
 
 
@@ -485,8 +471,6 @@
 	last_piece = NC
 	return 1
 
-=======
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 //Dunno where else to put this so shrug
 /obj/item/mecha_parts/mecha_equipment/ripleyupgrade
 	name = "Ripley MK-II Conversion Kit"

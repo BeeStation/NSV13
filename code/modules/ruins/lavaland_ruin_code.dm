@@ -90,9 +90,9 @@
 				new shell_type(get_turf(src), species, user)
 				qdel(src)
 			else
-				to_chat(user, "<span class='warning'>You need at least ten sheets to finish a golem!</span>")
+				to_chat(user, "You need at least ten sheets to finish a golem.")
 		else
-			to_chat(user, "<span class='warning'>You can't build a golem out of this kind of material!</span>")
+			to_chat(user, "You can't build a golem out of this kind of material.")
 
 //made with xenobiology, the golem obeys its creator
 /obj/item/golem_shell/servant
@@ -141,13 +141,9 @@
 	outfit = /datum/outfit/lavaland_syndicate/comms
 
 /obj/effect/mob_spawn/human/lavaland_syndicate/comms/space
-<<<<<<< HEAD
 	short_desc = "You are a syndicate agent, assigned to a small listening post station situated near your hated enemy's top secret research facility: Space Station 13."
 	flavour_text = "Monitor enemy activity as best you can, and try to keep a low profile. Monitor enemy activity as best you can, and try to keep a low profile. Use the communication equipment to provide support to any field agents, and sow disinformation to throw Nanotrasen off your trail. Do not let the base fall into enemy hands!"
 	important_info = "DO NOT abandon the base."
-=======
-	flavour_text = "<span class='big bold'>You are a syndicate agent,</span><b> assigned to a small listening post station situated near your hated enemy's top secret research facility: Space Station 13. <b>Monitor enemy activity as best you can, and try to keep a low profile. <font size=6>DO NOT</font> abandon the base.</b> Use the communication equipment to provide support to any field agents, and sow disinformation to throw Nanotrasen off your trail. Do not let the base fall into enemy hands!</b>"
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 /obj/effect/mob_spawn/human/lavaland_syndicate/comms/space/Initialize()
 	. = ..()

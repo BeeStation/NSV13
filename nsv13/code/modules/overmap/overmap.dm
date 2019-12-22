@@ -96,6 +96,8 @@
 	var/resize = 0 //Factor by which we should shrink a ship down. 0 means don't shrink it.
 	var/list/docking_points = list() //Where we can land on this ship. Usually right at the edge of a z-level.
 	var/weapon_safety = FALSE //Like a gun safety. Entirely un-used except for fighters to stop brainlets from shooting people on the ship unintentionally :)
+	var/armour_plates = 0 //You lose max integrity when you lose armour plates.
+	var/max_armour_plates = 500 //Placeholder. Set by counting in game objects.
 
 /obj/structure/overmap/can_be_pulled(user) // no :)
 	return FALSE
@@ -153,11 +155,12 @@
 	if(main_overmap)
 		name = "[station_name()]"
 	current_system = GLOB.starsystem_controller.find_system(src)
+	addtimer(CALLBACK(src, .proc/check_armour), 20 SECONDS)
 
 /obj/structure/overmap/Destroy()
-	. = ..()
 	if(cabin_air)
 		QDEL_NULL(cabin_air)
+	. = ..()
 
 /obj/structure/overmap/proc/find_area()
 	if(main_overmap) //We're the hero ship, link us to every ss13 area.
@@ -319,25 +322,25 @@
 		return FALSE
 	return !user.incapacitated() && isliving(user)
 
-/obj/structure/overmap/proc/handle_hotkeys(key, client/C)
-	var/mob/user = C.mob
+/obj/structure/overmap/key_down(key, client/user)
+	var/mob/themob = user.mob
 	switch(key)
 		if("Space")
-			if(user == pilot)
+			if(themob == pilot)
 				toggle_move_mode()
 			if(helm && prob(80))
 				var/sound = pick(GLOB.computer_beeps)
 				playsound(helm, sound, 100, 1)
 			return TRUE
 		if("Alt")
-			if(user == pilot)
+			if(themob == pilot)
 				toggle_brakes()
 			if(helm && prob(80))
 				var/sound = pick(GLOB.computer_beeps)
 				playsound(helm, sound, 100, 1)
 			return TRUE
 		if("Ctrl")
-			if(user == gunner)
+			if(themob == gunner)
 				cycle_firemode()
 			if(tactical && prob(80))
 				var/sound = pick(GLOB.computer_beeps)

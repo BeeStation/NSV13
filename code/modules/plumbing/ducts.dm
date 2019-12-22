@@ -10,11 +10,7 @@ All the important duct code:
 	level = 1
 	///bitfield with the directions we're connected in
 	var/connects
-<<<<<<< HEAD
 	///set to TRUE to disable smart duct behaviour
-=======
-	///set to TRUE to disable smart cable behaviour
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	var/dumb = FALSE
 	///wheter we allow our connects to be changed after initialization or not
 	var/lock_connects = FALSE
@@ -37,11 +33,8 @@ All the important duct code:
 	var/active = TRUE
 	///track ducts we're connected to. Mainly for ducts we connect to that we normally wouldn't, like different layers and colors, for when we regenerate the ducts
 	var/list/neighbours = list()
-<<<<<<< HEAD
 	///wheter we just unanchored or drop whatever is in the variable. either is safe
 	var/drop_on_wrench = /obj/item/stack/ducts
-=======
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 /obj/machinery/duct/Initialize(mapload, no_anchor, color_of_duct, layer_of_duct = DUCT_LAYER_DEFAULT, force_connects)
 	. = ..()
@@ -64,25 +57,18 @@ All the important duct code:
 		if(D == src)
 			continue
 		if(D.duct_layer & duct_layer)
-<<<<<<< HEAD
 			disconnect_duct()
-=======
-			qdel(src) //replace with dropping or something
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	if(active)
 		attempt_connect()
 ///start looking around us for stuff to connect to
 /obj/machinery/duct/proc/attempt_connect()
 	reset_connects() //All connects are gathered here again eitherway, we might aswell reset it so they properly update when reconnecting
 
-<<<<<<< HEAD
 	for(var/atom/movable/AM in loc)
 		var/datum/component/plumbing/P = AM.GetComponent(/datum/component/plumbing)
 		if(P?.active)
 			disconnect_duct() //let's not built under plumbing machinery
 			return
-=======
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	for(var/D in GLOB.cardinals)
 		if(dumb && !(D & connects))
 			continue
@@ -107,19 +93,11 @@ All the important duct code:
 
 	if(!dumb && D.dumb && !(opposite_dir & D.connects))
 		return
-<<<<<<< HEAD
 	if(dumb && D.dumb && !(connects & D.connects)) //we eliminated a few more scenarios in attempt connect
 		return
 
 	if((duct == D.duct) && duct)//check if we're not just comparing two null values
 		add_neighbour(D, direction)
-=======
-	if(dumb && D.dumb && !(connects & D.connects)) //we eliminated a few more scenario in attempt connect
-		return
-
-	if((duct == D.duct) && duct)//check if we're not just comparing two null values
-		add_neighbour(D)
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 		D.add_connects(opposite_dir)
 		D.update_icon()
@@ -141,15 +119,10 @@ All the important duct code:
 		else
 			create_duct()
 			duct.add_duct(D)
-<<<<<<< HEAD
 	add_neighbour(D, direction)
 	//tell our buddy its time to pass on the torch of connecting to pipes. This shouldn't ever infinitely loop since it only works on pipes that havent been inductrinated
 	D.attempt_connect() 
 
-=======
-	add_neighbour(D)
-	D.attempt_connect()//tell our buddy its time to pass on the torch of connecting to pipes. This shouldn't ever infinitely loop since it only works on pipes that havent been inductrinated
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	return TRUE
 ///connect to a plumbing object
 /obj/machinery/duct/proc/connect_plumber(datum/component/plumbing/P, direction)
@@ -164,14 +137,9 @@ All the important duct code:
 	if(opposite_dir & comp_directions)
 		if(!duct)
 			create_duct()
-<<<<<<< HEAD
 		if(duct.add_plumber(P, opposite_dir))
 			neighbours[P.parent] = direction
 			return TRUE
-=======
-		duct.add_plumber(P, opposite_dir)
-		return TRUE
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 ///we disconnect ourself from our neighbours. we also destroy our ductnet and tell our neighbours to make a new one
 /obj/machinery/duct/proc/disconnect_duct()
 	anchored = FALSE
@@ -181,7 +149,6 @@ All the important duct code:
 	lose_neighbours()
 	reset_connects(0)
 	update_icon()
-<<<<<<< HEAD
 	if(ispath(drop_on_wrench) && !QDELING(src))
 		new drop_on_wrench(drop_location())
 		qdel(src)
@@ -219,14 +186,11 @@ All the important duct code:
 		connects |= neighbours[A]
 	update_icon()
 
-=======
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 ///create a new duct datum
 /obj/machinery/duct/proc/create_duct()
 	duct = new()
 	duct.add_duct(src)
 ///add a duct as neighbour. this means we're connected and will connect again if we ever regenerate
-<<<<<<< HEAD
 /obj/machinery/duct/proc/add_neighbour(obj/machinery/duct/D, direction)
 	if(!(D in neighbours))
 		neighbours[D] = direction
@@ -235,17 +199,6 @@ All the important duct code:
 ///remove all our neighbours, and remove us from our neighbours aswell
 /obj/machinery/duct/proc/lose_neighbours()
 	for(var/obj/machinery/duct/D in neighbours)
-=======
-/obj/machinery/duct/proc/add_neighbour(obj/machinery/duct/D)
-	if(!(D in neighbours))
-		neighbours += D
-	if(!(src in D.neighbours))
-		D.neighbours += src
-///remove all our neighbours, and remove us from our neighbours aswell
-/obj/machinery/duct/proc/lose_neighbours()
-	for(var/A in neighbours)
-		var/obj/machinery/duct/D = A
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 		D.neighbours.Remove(src)
 	neighbours = list()
 ///add a connect direction
@@ -349,7 +302,6 @@ All the important duct code:
 	var/direction = get_dir(src, D)
 	if(!(direction in GLOB.cardinals))
 		return
-<<<<<<< HEAD
 	if(duct_layer != D.duct_layer)
 		return 
 
@@ -358,35 +310,22 @@ All the important duct code:
 	connect_network(D, direction, TRUE)
 	update_icon()
 ///has a total of 5 layers and doesnt give a shit about color. its also dumb so doesnt autoconnect. 
-=======
-	connect_network(D, direction, TRUE)
-	add_connects(direction)
-	update_icon()
-///has a total of 5 layers and doesnt give a shit about color. its also dumb so doesnt autoconnect. the sprite is vomit inducing
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 /obj/machinery/duct/multilayered
 	name = "duct layer-manifold"
 	icon = 'icons/obj/2x2.dmi'
 	icon_state = "multiduct"
-<<<<<<< HEAD
 	pixel_x = -15
 	pixel_y = -15
 
 	color_to_color_support = FALSE
 	duct_layer = FIRST_DUCT_LAYER | SECOND_DUCT_LAYER | THIRD_DUCT_LAYER | FOURTH_DUCT_LAYER | FIFTH_DUCT_LAYER
 	drop_on_wrench = null
-=======
-
-	color_to_color_support = FALSE
-	duct_layer = FIRST_DUCT_LAYER | SECOND_DUCT_LAYER | THIRD_DUCT_LAYER | FOURTH_DUCT_LAYER | FIFTH_DUCT_LAYER
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 	lock_connects = TRUE
 	lock_layers = TRUE
 	ignore_colors = TRUE
 	dumb = TRUE
 
-<<<<<<< HEAD
 	active = FALSE
 	anchored = FALSE
 
@@ -407,24 +346,11 @@ All the important duct code:
 	else
 		connects = EAST | WEST
 
-=======
-/obj/machinery/duct/multilayered/update_icon()
-	icon_state = initial(icon_state)
-	if((connects & NORTH) || (connects & SOUTH))
-		icon_state += "_vertical"
-		pixel_x = -15
-		pixel_y = -15
-	else
-		icon_state += "_horizontal"
-		pixel_x = -10
-		pixel_y = -12
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 ///don't connect to other multilayered stuff because honestly it shouldnt be done and I dont wanna deal with it
 /obj/machinery/duct/multilayered/connect_duct(obj/machinery/duct/D, direction, ignore_color)
 	if(istype(D, /obj/machinery/duct/multilayered))
 		return
 	return ..()
-<<<<<<< HEAD
 
 /obj/machinery/duct/multilayered/handle_layer()
 	return
@@ -477,5 +403,3 @@ All the important duct code:
 
 /obj/item/stack/ducts/fifty
 	amount = 50
-=======
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36

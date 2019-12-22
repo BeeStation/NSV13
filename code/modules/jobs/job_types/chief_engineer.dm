@@ -12,7 +12,7 @@
 	selection_color = "#ffeeaa"
 	req_admin_notify = 1
 	minimal_player_age = 7
-	exp_requirements = 360
+	exp_requirements = 180
 	exp_type = EXP_TYPE_CREW
 	exp_type_department = EXP_TYPE_ENGINEERING
 
@@ -36,7 +36,7 @@
 	name = "Chief Engineer"
 	jobtype = /datum/job/chief_engineer
 
-	id = /obj/item/card/id/job/ce
+	id = /obj/item/card/id/silver
 	belt = /obj/item/storage/belt/utility/chief/full
 	l_pocket = /obj/item/pda/heads/ce
 	ears = /obj/item/radio/headset/heads/ce

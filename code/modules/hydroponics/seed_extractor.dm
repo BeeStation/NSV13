@@ -59,11 +59,7 @@
 /obj/machinery/seed_extractor/examine(mob/user)
 	. = ..()
 	if(in_range(user, src) || isobserver(user))
-<<<<<<< HEAD
 		. += "<span class='notice'>The status display reads: Extracting <b>[seed_multiplier]</b> seed(s) per piece of produce.<br>Machine can store up to <b>[max_seeds]%</b> seeds.<span>"
-=======
-		. += "<span class='notice'>The status display reads: Extracting <b>[seed_multiplier]</b> seed(s) per piece of produce.<br>Machine can store up to <b>[max_seeds]%</b> seeds.</span>"
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 /obj/machinery/seed_extractor/attackby(obj/item/O, mob/user, params)
 

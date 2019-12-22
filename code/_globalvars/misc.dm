@@ -4,6 +4,8 @@ GLOBAL_VAR_INIT(timezoneOffset, 0) //! The difference betwen midnight (of the ho
 
 GLOBAL_VAR_INIT(fileaccess_timer, 0) //! For FTP requests. (i.e. downloading runtime logs.) However it'd be ok to use for accessing attack logs and such too, which are even laggier.
 
+GLOBAL_VAR_INIT(TAB, "&nbsp;&nbsp;&nbsp;&nbsp;")
+
 GLOBAL_DATUM_INIT(data_core, /datum/datacore, new)
 
 GLOBAL_VAR_INIT(CELLRATE, 0.002)  //! conversion ratio between a watt-tick and kilojoule
@@ -13,13 +15,9 @@ GLOBAL_LIST_EMPTY(powernets)
 
 GLOBAL_VAR_INIT(bsa_unlock, FALSE)	//! BSA unlocked by head ID swipes
 
-<<<<<<< HEAD
 GLOBAL_LIST_EMPTY(player_details)	//! ckey -> /datum/player_details
 
 GLOBAL_VAR_INIT(remote_control, TRUE) //! circuit shit
-=======
-GLOBAL_LIST_EMPTY(player_details)	// ckey -> /datum/player_details
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 // All religion stuff
 GLOBAL_VAR(religion)
@@ -29,11 +27,8 @@ GLOBAL_VAR(bible_icon_state)
 GLOBAL_VAR(bible_item_state)
 GLOBAL_VAR(holy_weapon_type)
 GLOBAL_VAR(holy_armor_type)
-<<<<<<< HEAD
 
 // Monkeycube/chicken/slime spam prevention
 GLOBAL_VAR_INIT(total_cube_monkeys, 0)
 GLOBAL_VAR_INIT(total_chickens, 0)
 GLOBAL_VAR_INIT(total_slimes, 0)
-=======
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36

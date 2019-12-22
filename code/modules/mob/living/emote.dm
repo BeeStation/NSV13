@@ -222,16 +222,6 @@
 			else
 				return pick('sound/voice/human/manlaugh1.ogg', 'sound/voice/human/manlaugh2.ogg')
 
-/datum/emote/living/snap
-	key = "snap"
-	key_third_person = "snaps"
-	message = "snaps their fingers."
-	message_param = "snaps their fingers at %t."
-	emote_type = EMOTE_AUDIBLE
-
-/datum/emote/living/snap/get_sound(mob/living/user)
-	return pick('sound/misc/fingersnap1.ogg', 'sound/misc/fingersnap2.ogg')
-
 /datum/emote/living/look
 	key = "look"
 	key_third_person = "looks"
@@ -416,9 +406,6 @@
 	key_third_person = "custom"
 	message = null
 
-/datum/emote/living/custom/can_run_emote(mob/user, status_check, intentional)
-	. = ..() && intentional
-
 /datum/emote/living/custom/proc/check_invalid(mob/user, input)
 	. = TRUE
 	if(copytext(input,1,5) == "says")
@@ -432,12 +419,9 @@
 	else
 		. = FALSE
 
-<<<<<<< HEAD
 /datum/emote/living/custom/can_run_emote(mob/user, status_check, intentional)
 	. = ..() && intentional
 
-=======
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 /datum/emote/living/custom/run_emote(mob/user, params, type_override = null, intentional = FALSE)
 	if(!can_run_emote(user, TRUE, intentional))
 		return FALSE

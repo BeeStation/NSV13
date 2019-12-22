@@ -17,12 +17,8 @@
 	var/points = 0
 	var/ore_pickup_rate = 15
 	var/sheet_per_ore = 1
-<<<<<<< HEAD
 	var/point_upgrade = 1
 	var/list/ore_values = list(/datum/material/iron = 1, /datum/material/glass = 1, /datum/material/copper = 5, /datum/material/plasma = 15,  /datum/material/silver = 16, /datum/material/gold = 18, /datum/material/titanium = 30, /datum/material/uranium = 30, /datum/material/diamond = 50, /datum/material/bluespace = 50, /datum/material/bananium = 60)
-=======
-	var/list/ore_values = list(/datum/material/iron = 1, /datum/material/glass = 1,  /datum/material/plasma = 15,  /datum/material/silver = 16, /datum/material/gold = 18, /datum/material/titanium = 30, /datum/material/uranium = 30, /datum/material/diamond = 50, /datum/material/bluespace = 50, /datum/material/bananium = 60)
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	var/message_sent = FALSE
 	var/list/ore_buffer = list()
 	var/datum/techweb/stored_research
@@ -40,49 +36,37 @@
 
 /obj/machinery/mineral/ore_redemption/RefreshParts()
 	var/ore_pickup_rate_temp = 15
+	var/point_upgrade_temp = 1
 	var/sheet_per_ore_temp = 1
 	for(var/obj/item/stock_parts/matter_bin/B in component_parts)
-		sheet_per_ore_temp = 0.65 + (0.15 * B.rating)
-	for(var/obj/item/stock_parts/micro_laser/L in component_parts)
-		sheet_per_ore_temp += (0.20 * L.rating)
+		sheet_per_ore_temp = 0.65 + (0.35 * B.rating)
 	for(var/obj/item/stock_parts/manipulator/M in component_parts)
 		ore_pickup_rate_temp = 15 * M.rating
-
+	for(var/obj/item/stock_parts/micro_laser/L in component_parts)
+		point_upgrade_temp = 0.65 + (0.35 * L.rating)
 	ore_pickup_rate = ore_pickup_rate_temp
-<<<<<<< HEAD
 	point_upgrade = point_upgrade_temp
-=======
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	sheet_per_ore = round(sheet_per_ore_temp, 0.01)
 
 /obj/machinery/mineral/ore_redemption/examine(mob/user)
 	. = ..()
 	if(in_range(user, src) || isobserver(user))
-<<<<<<< HEAD
 		. += "<span class='notice'>The status display reads: Smelting <b>[sheet_per_ore]</b> sheet(s) per piece of ore.<br>Reward point generation at <b>[point_upgrade*100]%</b>.<br>Ore pickup speed at <b>[ore_pickup_rate]</b>.<span>"
 	if(panel_open)
 		. += "<span class='notice'>Alt-click to rotate the input and output direction.</span>"
-=======
-		. += "<span class='notice'>The status display reads: Smelting <b>[sheet_per_ore]</b> sheet(s) per piece of ore.<br>Ore pickup speed at <b>[ore_pickup_rate]</b>.</span>"
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 /obj/machinery/mineral/ore_redemption/proc/smelt_ore(obj/item/stack/ore/O)
 	var/datum/component/material_container/mat_container = materials.mat_container
 	if (!mat_container)
 		return
-
+		
 	if(O.refined_type == null)
 		return
 
 	ore_buffer -= O
 
-<<<<<<< HEAD
 	if(O?.refined_type)
 		points += O.points * point_upgrade * O.amount
-=======
-	if(O && O.refined_type)
-		points += O.points * O.amount
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 	var/material_amount = mat_container.get_item_material_amount(O)
 
@@ -194,29 +178,18 @@
 
 	if(!powered())
 		return ..()
-<<<<<<< HEAD
-=======
-	if(istype(W, /obj/item/card/id))
-		var/obj/item/card/id/I = user.get_active_held_item()
-		if(istype(I) && !istype(inserted_id))
-			if(!user.transferItemToLoc(I, src))
-				return
-			inserted_id = I
-			interact(user)
-		return
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 	if(istype(W, /obj/item/disk/design_disk))
 		if(user.transferItemToLoc(W, src))
 			inserted_disk = W
 			return TRUE
-
+			
 	var/obj/item/stack/ore/O = W
 	if(istype(O))
 		if(O.refined_type == null)
 			to_chat(user, "<span class='notice'>[O] has already been refined!</span>")
 			return
-
+		
 	return ..()
 
 /obj/machinery/mineral/ore_redemption/AltClick(mob/living/user)
@@ -238,13 +211,6 @@
 /obj/machinery/mineral/ore_redemption/ui_data(mob/user)
 	var/list/data = list()
 	data["unclaimedPoints"] = points
-<<<<<<< HEAD
-=======
-	if(inserted_id)
-		data["hasID"] = TRUE
-		if (inserted_id.registered_account)
-			data["hasAccount"] = TRUE
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 	data["materials"] = list()
 	var/datum/component/material_container/mat_container = materials.mat_container
@@ -254,11 +220,7 @@
 			var/amount = mat_container.materials[M]
 			var/sheet_amount = amount / MINERAL_MATERIAL_AMOUNT
 			var/ref = REF(M)
-<<<<<<< HEAD
 			data["materials"] += list(list("name" = M.name, "id" = ref, "amount" = sheet_amount, "value" = ore_values[M.type] * point_upgrade))
-=======
-			data["materials"] += list(list("name" = M.name, "id" = ref, "amount" = sheet_amount, "value" = ore_values[M.type]))
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 		data["alloys"] = list()
 		for(var/v in stored_research.researched_designs)
@@ -290,7 +252,6 @@
 	var/datum/component/material_container/mat_container = materials.mat_container
 	switch(action)
 		if("Claim")
-<<<<<<< HEAD
 			var/mob/M = usr
 			var/obj/item/card/id/I = M.get_idcard(TRUE)
 			if(points)
@@ -300,10 +261,6 @@
 					to_chat(usr, "<span class='warning'>No ID detected.</span>")
 			else
 				to_chat(usr, "<span class='warning'>No points to claim.</span>")
-=======
-			if(inserted_id && inserted_id.registered_account.adjust_money(points))
-				points = 0
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 			return TRUE
 		if("Release")
 			if(!mat_container)

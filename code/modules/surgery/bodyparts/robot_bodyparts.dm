@@ -179,13 +179,8 @@
 	else
 		. += "<span class='info'>It has an empty port for a <b>power cell</b>.</span>"
 	if(wired)
-<<<<<<< HEAD
 		. += {"Its all wired up[cell ? " and ready for usage" : ""].\n
 		<span class='info'>You can use <b>wirecutters</b> to remove the wiring.</span>"}
-=======
-		. += "Its all wired up[cell ? " and ready for usage" : ""].\n"+\
-		"<span class='info'>You can use <b>wirecutters</b> to remove the wiring.</span>"
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	else
 		. += "<span class='info'>It has a couple spots that still need to be <b>wired</b>.</span>"
 

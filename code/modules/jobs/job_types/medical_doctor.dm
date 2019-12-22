@@ -7,17 +7,12 @@
 	total_positions = 5
 	spawn_positions = 3
 	supervisors = "the chief medical officer"
-	selection_color = "#d4ebf2"
+	selection_color = "#ffeef0"
 
 	outfit = /datum/outfit/job/doctor
 
-<<<<<<< HEAD
-	access = list(ACCESS_MEDICAL, ACCESS_MORGUE, ACCESS_SURGERY, ACCESS_CHEMISTRY, ACCESS_GENETICS, ACCESS_CLONING, ACCESS_VIROLOGY, ACCESS_MECH_MEDICAL, ACCESS_MINERAL_STOREROOM, ACCESS_MAINT_TUNNELS)
-	minimal_access = list(ACCESS_MEDICAL, ACCESS_MORGUE, ACCESS_SURGERY, ACCESS_CLONING, ACCESS_MECH_MEDICAL, ACCESS_MINERAL_STOREROOM, ACCESS_MAINT_TUNNELS, ACCESS_APOTHECARY)
-=======
 	access = list(ACCESS_MEDICAL, ACCESS_MORGUE, ACCESS_SURGERY, ACCESS_CHEMISTRY, ACCESS_GENETICS, ACCESS_CLONING, ACCESS_VIROLOGY, ACCESS_MECH_MEDICAL, ACCESS_MINERAL_STOREROOM)
 	minimal_access = list(ACCESS_MEDICAL, ACCESS_MORGUE, ACCESS_SURGERY, ACCESS_CLONING, ACCESS_MECH_MEDICAL, ACCESS_MINERAL_STOREROOM)
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	paycheck = PAYCHECK_MEDIUM
 	paycheck_department = ACCOUNT_MED
 
@@ -28,11 +23,7 @@
 	name = "Medical Doctor"
 	jobtype = /datum/job/doctor
 
-<<<<<<< HEAD
-	id = /obj/item/card/id/job/med
-=======
 	head = /obj/item/clothing/head/beret/durathread
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	belt = /obj/item/pda/medical
 	ears = /obj/item/radio/headset/headset_med
 	uniform = /obj/item/clothing/under/ship/medical

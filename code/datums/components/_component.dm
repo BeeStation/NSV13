@@ -182,16 +182,8 @@
 		var/proctype = C.signal_procs[src][sigtype]
 		. |= CallAsync(C, proctype, arguments)
 
-<<<<<<< HEAD
 /datum/proc/GetComponent(c_type)
 	RETURN_TYPE(c_type)
-=======
-// The type arg is casted so initial works, you shouldn't be passing a real instance into this
-/datum/proc/GetComponent(datum/component/c_type)
-	RETURN_TYPE(c_type)
-	if(initial(c_type.dupe_mode) == COMPONENT_DUPE_ALLOWED)
-		stack_trace("GetComponent was called to get a component of which multiple copies could be on an object. This can easily break and should be changed. Type: \[[c_type]\]")
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	var/list/dc = datum_components
 	if(!dc)
 		return null

@@ -7,7 +7,6 @@
 /turf/open/floor/plasteel/examine(mob/user)
 	. = ..()
 	. += "<span class='notice'>There's a <b>small crack</b> on the edge of it.</span>"
-<<<<<<< HEAD
 
 /turf/open/floor/plasteel/update_icon()
 	if(!..())
@@ -15,8 +14,6 @@
 	if(!broken && !burnt)
 		icon_state = icon_regular_floor
 
-=======
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 /turf/open/floor/plasteel/airless
 	initial_gas_mix = AIRLESS_ATMOS
@@ -54,9 +51,6 @@
 	icon_state = "whitecorner"
 /turf/open/floor/plasteel/white/telecomms
 	initial_gas_mix = TCOMMS_ATMOS
-
-/turf/open/floor/plasteel/airless/showroomfloor
-	icon_state = "showroomfloor"
 
 
 /turf/open/floor/plasteel/yellowsiding

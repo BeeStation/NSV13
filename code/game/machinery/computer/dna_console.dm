@@ -77,7 +77,7 @@
 			stored_chromosomes += I
 			to_chat(user, "<span class='notice'>You insert [I]</span>")
 		else
-			to_chat(user, "<span class='warning'>You cannot store any more chromosomes!</span>")
+			to_chat(user, "<span class='warnning'>You cannot store any more chromosomes.</span>")
 		return
 	if(istype(I, /obj/item/dnainjector/activator))
 		var/obj/item/dnainjector/activator/A = I
@@ -785,7 +785,6 @@
 						I.name = "[HM.name] injector"
 						if(connected)
 							I.damage_coeff = connected.damage_coeff
-<<<<<<< HEAD
 							injectorready = world.time + INJECTOR_TIMEOUT * 5 * (1 - 0.1 * connected.precision_coeff)
 						else
 							injectorready = world.time + INJECTOR_TIMEOUT * 5
@@ -808,11 +807,6 @@
 						else
 							injectorready = world.time + INJECTOR_TIMEOUT * 8
 
-=======
-							injectorready = world.time + INJECTOR_TIMEOUT*5 * (1 - 0.1 * connected.precision_coeff)
-						else
-							injectorready = world.time + INJECTOR_TIMEOUT *5
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 		if("nullify")
 			if(viable_occupant)
 				var/datum/mutation/human/A = viable_occupant.dna.get_mutation(current_mutation)
@@ -901,7 +895,7 @@
 				if(chromosomes.len)
 					var/obj/item/chromosome/CM = input("Select a chromosome to apply", "Apply Chromosome") as null|anything in chromosomes
 					if(CM)
-						to_chat(usr, "<span class='notice'>You apply [CM] to [HM.name].</span>")
+						to_chat(usr, "<span class='notice'>You apply [CM] to [HM.name].")
 						stored_chromosomes -= CM
 						CM.apply(HM)
 		if("expand_advinjector")

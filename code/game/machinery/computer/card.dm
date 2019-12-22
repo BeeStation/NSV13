@@ -4,11 +4,6 @@
 //increase the slots of many jobs.
 GLOBAL_VAR_INIT(time_last_changed_position, 0)
 
-#define JOB_ALLOWED 1
-#define JOB_COOLDOWN -2
-#define JOB_MAX_POSITIONS -1 // Trying to reduce the number of slots below that of current holders of that job, or trying to open more slots than allowed
-#define JOB_DENIED 0
-
 /obj/machinery/computer/card
 	name = "identification console"
 	desc = "You can use this to manage jobs and ID access."
@@ -35,7 +30,7 @@ GLOBAL_VAR_INIT(time_last_changed_position, 0)
 		"Assistant",
 		"Cyborg",
 		"Captain",
-		"Executive Officer",
+		"Head of Personnel",
 		"Head of Security",
 		"Chief Engineer",
 		"Research Director",
@@ -50,12 +45,6 @@ GLOBAL_VAR_INIT(time_last_changed_position, 0)
 	var/list/opened_positions = list();
 
 	light_color = LIGHT_COLOR_BLUE
-
-/obj/machinery/computer/card/proc/get_jobs()
-	return get_all_jobs()
-
-/obj/machinery/computer/card/centcom/get_jobs()
-	return get_all_centcom_jobs()
 
 /obj/machinery/computer/card/examine(mob/user)
 	. = ..()
@@ -128,10 +117,10 @@ GLOBAL_VAR_INIT(time_last_changed_position, 0)
 			if((job.total_positions <= GLOB.player_list.len * (max_relative_positions / 100)))
 				var/delta = (world.time / 10) - GLOB.time_last_changed_position
 				if((change_position_cooldown < delta) || (opened_positions[job.title] < 0))
-					return JOB_ALLOWED
-				return JOB_COOLDOWN
-			return JOB_MAX_POSITIONS
-	return JOB_DENIED
+					return 1
+				return -2
+			return -1
+	return 0
 
 //Logic check for Topic() if you can close the job
 /obj/machinery/computer/card/proc/can_close_job(datum/job/job)
@@ -140,28 +129,35 @@ GLOBAL_VAR_INIT(time_last_changed_position, 0)
 			if(job.total_positions > job.current_positions)
 				var/delta = (world.time / 10) - GLOB.time_last_changed_position
 				if((change_position_cooldown < delta) || (opened_positions[job.title] > 0))
-					return JOB_ALLOWED
-				return JOB_COOLDOWN
-			return JOB_MAX_POSITIONS
-	return JOB_DENIED
+					return 1
+				return -2
+			return -1
+	return 0
 
 /obj/machinery/computer/card/ui_interact(mob/user)
 	. = ..()
 
-	var/list/dat = list()
+	var/dat
+	if(!SSticker)
+		return
 	if (mode == 1) // accessing crew manifest
-		dat += "<tt><b>Crew Manifest:</b><br>Please use security record computer to modify entries.<br><br>"
+		var/crew = ""
 		for(var/datum/data/record/t in sortRecord(GLOB.data_core.general))
-			dat += {"[t.fields["name"]] - [t.fields["rank"]]<br>"}
-		dat += "<a href='?src=[REF(src)];choice=print'>Print</a><br><br><a href='?src=[REF(src)];choice=mode;mode_target=0'>Access ID modification console.</a><br></tt>"
+			crew += t.fields["name"] + " - " + t.fields["rank"] + "<br>"
+		dat = "<tt><b>Crew Manifest:</b><br>Please use security record computer to modify entries.<br><br>[crew]<a href='?src=[REF(src)];choice=print'>Print</a><br><br><a href='?src=[REF(src)];choice=mode;mode_target=0'>Access ID modification console.</a><br></tt>"
 
 	else if(mode == 2)
 		// JOB MANAGEMENT
-		dat += {"<a href='?src=[REF(src)];choice=return'>Return</a>
-		 || Confirm Identity:
-		<a href='?src=[REF(src)];choice=scan'>[(scan ? html_encode(scan.name) : "--------")]</a>
-		<table><tr><td style='width:25%'><b>Job</b></td><td style='width:25%'><b>Slots</b></td>
-		<td style='width:25%'><b>Open job</b></td><td style='width:25%'><b>Close job</b><td style='width:25%'><b>Prioritize</b></td></td></tr>"}
+		dat = "<a href='?src=[REF(src)];choice=return'>Return</a>"
+		dat += " || Confirm Identity: "
+		var/S
+		if(scan)
+			S = html_encode(scan.name)
+		else
+			S = "--------"
+		dat += "<a href='?src=[REF(src)];choice=scan'>[S]</a>"
+		dat += "<table>"
+		dat += "<tr><td style='width:25%'><b>Job</b></td><td style='width:25%'><b>Slots</b></td><td style='width:25%'><b>Open job</b></td><td style='width:25%'><b>Close job</b><td style='width:25%'><b>Prioritize</b></td></td></tr>"
 		var/ID
 		if(scan && (ACCESS_CHANGE_IDS in scan.access) && !target_dept)
 			ID = 1
@@ -171,35 +167,39 @@ GLOBAL_VAR_INIT(time_last_changed_position, 0)
 			dat += "<tr>"
 			if(job.title in blacklisted)
 				continue
-			dat += {"<td>[job.title]</td>
-				<td>[job.current_positions]/[job.total_positions]</td>
-				<td>"}
+			dat += "<td>[job.title]</td>"
+			dat += "<td>[job.current_positions]/[job.total_positions]</td>"
+			dat += "<td>"
 			switch(can_open_job(job))
-				if(JOB_ALLOWED)
+				if(1)
 					if(ID)
 						dat += "<a href='?src=[REF(src)];choice=make_job_available;job=[job.title]'>Open Position</a><br>"
 					else
 						dat += "Open Position"
-				if(JOB_COOLDOWN)
+				if(-1)
+					dat += "Denied"
+				if(-2)
 					var/time_to_wait = round(change_position_cooldown - ((world.time / 10) - GLOB.time_last_changed_position), 1)
 					var/mins = round(time_to_wait / 60)
 					var/seconds = time_to_wait - (60*mins)
 					dat += "Cooldown ongoing: [mins]:[(seconds < 10) ? "0[seconds]" : "[seconds]"]"
-				else
+				if(0)
 					dat += "Denied"
 			dat += "</td><td>"
 			switch(can_close_job(job))
-				if(JOB_ALLOWED)
+				if(1)
 					if(ID)
 						dat += "<a href='?src=[REF(src)];choice=make_job_unavailable;job=[job.title]'>Close Position</a>"
 					else
 						dat += "Close Position"
-				if(JOB_COOLDOWN)
+				if(-1)
+					dat += "Denied"
+				if(-2)
 					var/time_to_wait = round(change_position_cooldown - ((world.time / 10) - GLOB.time_last_changed_position), 1)
 					var/mins = round(time_to_wait / 60)
 					var/seconds = time_to_wait - (60*mins)
 					dat += "Cooldown ongoing: [mins]:[(seconds < 10) ? "0[seconds]" : "[seconds]"]"
-				else
+				if(0)
 					dat += "Denied"
 			dat += "</td><td>"
 			switch(job.total_positions)
@@ -220,9 +220,8 @@ GLOBAL_VAR_INIT(time_last_changed_position, 0)
 			dat += "</td></tr>"
 		dat += "</table>"
 	else
-		var/list/header = list()
+		var/header = ""
 
-<<<<<<< HEAD
 		var/target_name
 		var/target_owner
 		var/target_rank
@@ -238,37 +237,40 @@ GLOBAL_VAR_INIT(time_last_changed_position, 0)
 			target_rank = html_encode(modify.assignment)
 		else
 			target_rank = "Unassigned"
-=======
-		var/scan_name = scan ? html_encode(scan.name) : "--------"
-		var/target_name = modify ? html_encode(modify.name) : "--------"
-		var/target_owner = (modify && modify.registered_name) ? html_encode(modify.registered_name) : "--------"
-		var/target_rank = (modify && modify.assignment) ? html_encode(modify.assignment) : "Unassigned"
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
+		var/scan_name
+		if(scan)
+			scan_name = html_encode(scan.name)
+		else
+			scan_name = "--------"
 
 		if(!authenticated)
-			header += {"<br><i>Please insert the cards into the slots</i><br>
-				Target: <a href='?src=[REF(src)];choice=modify'>[target_name]</a><br>
-				Confirm Identity: <a href='?src=[REF(src)];choice=scan'>[scan_name]</a><br>"}
+			header += "<br><i>Please insert the cards into the slots</i><br>"
+			header += "Target: <a href='?src=[REF(src)];choice=modify'>[target_name]</a><br>"
+			header += "Confirm Identity: <a href='?src=[REF(src)];choice=scan'>[scan_name]</a><br>"
 		else
-			header += {"<div align='center'><br>
-				<a href='?src=[REF(src)];choice=modify'>Remove [target_name]</a> ||
-				<a href='?src=[REF(src)];choice=scan'>Remove [scan_name]</a><br>
-				<a href='?src=[REF(src)];choice=mode;mode_target=1'>Access Crew Manifest</a><br>
-				<a href='?src=[REF(src)];choice=logout'>Log Out</a></div>"}
+			header += "<div align='center'><br>"
+			header += "<a href='?src=[REF(src)];choice=modify'>Remove [target_name]</a> || "
+			header += "<a href='?src=[REF(src)];choice=scan'>Remove [scan_name]</a> <br> "
+			header += "<a href='?src=[REF(src)];choice=mode;mode_target=1'>Access Crew Manifest</a> <br> "
+			header += "<a href='?src=[REF(src)];choice=logout'>Log Out</a></div>"
 
 		header += "<hr>"
+
+		var/jobs_all = ""
+		var/list/alljobs = list("Unassigned")
+		alljobs += (istype(src, /obj/machinery/computer/card/centcom)? get_all_centcom_jobs() : get_all_jobs()) + "Custom"
+		for(var/job in alljobs)
+			jobs_all += "<a href='?src=[REF(src)];choice=assign;assign_target=[job]'>[replacetext(job, " ", "&nbsp")]</a> " //make sure there isn't a line break in the middle of a job
 
 
 		var/body
 
 		if (authenticated && modify)
-			var/list/carddesc = list()
-			var/list/jobs = list()
-			if (authenticated == 2)
-				var/list/jobs_all = list()
-				for(var/job in (list("Unassigned") + get_jobs() + "Custom"))
-					jobs_all += "<a href='?src=[REF(src)];choice=assign;assign_target=[job]'>[replacetext(job, " ", "&nbsp;")]</a> " //make sure there isn't a line break in the middle of a job
+
+			var/carddesc = text("")
+			var/jobs = text("")
+			if( authenticated == 2)
 				carddesc += {"<script type="text/javascript">
 									function markRed(){
 										var nameField = document.getElementById('namefield');
@@ -280,20 +282,20 @@ GLOBAL_VAR_INIT(time_last_changed_position, 0)
 									}
 									function showAll(){
 										var allJobsSlot = document.getElementById('alljobsslot');
-										allJobsSlot.innerHTML = "<a href='#' onclick='hideAll()'>hide</a><br>"+ "[jobs_all.Join()]";
+										allJobsSlot.innerHTML = "<a href='#' onclick='hideAll()'>hide</a><br>"+ "[jobs_all]";
 									}
 									function hideAll(){
 										var allJobsSlot = document.getElementById('alljobsslot');
 										allJobsSlot.innerHTML = "<a href='#' onclick='showAll()'>show</a>";
 									}
 								</script>"}
-				carddesc += {"<form name='cardcomp' action='?src=[REF(src)]' method='get'>
-					<input type='hidden' name='src' value='[REF(src)]'>
-					<input type='hidden' name='choice' value='reg'>
-					<b>registered name:</b> <input type='text' id='namefield' name='reg' value='[target_owner]' style='width:250px; background-color:white;' onchange='markRed()'>
-					<input type='submit' value='Rename' onclick='markGreen()'>
-					</form>
-					<b>Assignment:</b> "}
+				carddesc += "<form name='cardcomp' action='?src=[REF(src)]' method='get'>"
+				carddesc += "<input type='hidden' name='src' value='[REF(src)]'>"
+				carddesc += "<input type='hidden' name='choice' value='reg'>"
+				carddesc += "<b>registered name:</b> <input type='text' id='namefield' name='reg' value='[target_owner]' style='width:250px; background-color:white;' onchange='markRed()'>"
+				carddesc += "<input type='submit' value='Rename' onclick='markGreen()'>"
+				carddesc += "</form>"
+				carddesc += "<b>Assignment:</b> "
 
 				jobs += "<span id='alljobsslot'><a href='#' onclick='showAll()'>[target_rank]</a></span>" //CHECK THIS
 
@@ -301,8 +303,8 @@ GLOBAL_VAR_INIT(time_last_changed_position, 0)
 				carddesc += "<b>registered_name:</b> [target_owner]</span>"
 				jobs += "<b>Assignment:</b> [target_rank] (<a href='?src=[REF(src)];choice=demote'>Demote</a>)</span>"
 
-			var/list/accesses = list()
-			if(istype(src, /obj/machinery/computer/card/centcom)) // REE
+			var/accesses = ""
+			if(istype(src, /obj/machinery/computer/card/centcom))
 				accesses += "<h5>Central Command:</h5>"
 				for(var/A in get_all_centcom_access())
 					if(A in modify.access)
@@ -310,9 +312,9 @@ GLOBAL_VAR_INIT(time_last_changed_position, 0)
 					else
 						accesses += "<a href='?src=[REF(src)];choice=access;access_target=[A];allowed=1'>[replacetext(get_centcom_access_desc(A), " ", "&nbsp")]</a> "
 			else
-				accesses += {"<div align='center'><b>Access</b></div>
-					<table style='width:100%'>
-					<tr>"}
+				accesses += "<div align='center'><b>Access</b></div>"
+				accesses += "<table style='width:100%'>"
+				accesses += "<tr>"
 				for(var/i = 1; i <= 7; i++)
 					if(authenticated == 1 && !(i in region_access))
 						continue
@@ -330,17 +332,17 @@ GLOBAL_VAR_INIT(time_last_changed_position, 0)
 						accesses += "<br>"
 					accesses += "</td>"
 				accesses += "</tr></table>"
-			body = "[carddesc.Join()]<br>[jobs.Join()]<br><br>[accesses.Join()]" //CHECK THIS
+			body = "[carddesc]<br>[jobs]<br><br>[accesses]" //CHECK THIS
 
 		else
-			body = {"<a href='?src=[REF(src)];choice=auth'>{Log in}</a> <br><hr>
-				<a href='?src=[REF(src)];choice=mode;mode_target=1'>Access Crew Manifest</a>"}
+			body = "<a href='?src=[REF(src)];choice=auth'>{Log in}</a> <br><hr>"
+			body += "<a href='?src=[REF(src)];choice=mode;mode_target=1'>Access Crew Manifest</a>"
 			if(!target_dept)
-				body += "<br><hr><a href='?src=[REF(src)];choice=mode;mode_target=2'>Job Management</a>"
+				body += "<br><hr><a href = '?src=[REF(src)];choice=mode;mode_target=2'>Job Management</a>"
 
-		dat = list("<tt>", header.Join(), body, "<hr><br></tt>")
+		dat = "<tt>[header][body]<hr><br></tt>"
 	var/datum/browser/popup = new(user, "id_com", src.name, 900, 620)
-	popup.set_content(dat.Join())
+	popup.set_content(dat)
 	popup.set_title_image(user.browse_rsc_icon(src.icon, src.icon_state))
 	popup.open()
 
@@ -377,7 +379,7 @@ GLOBAL_VAR_INIT(time_last_changed_position, 0)
 						if((ACCESS_HOP in scan.access) && ((target_dept==1) || !target_dept))
 							region_access |= 1
 							region_access |= 6
-							get_subordinates("Executive Officer")
+							get_subordinates("Head of Personnel")
 						if((ACCESS_HOS in scan.access) && ((target_dept==2) || !target_dept))
 							region_access |= 2
 							get_subordinates("Head of Security")
@@ -440,12 +442,10 @@ GLOBAL_VAR_INIT(time_last_changed_position, 0)
 				if (modify)
 					modify.assignment = t1
 					playsound(src, 'sound/machines/terminal_prompt_confirm.ogg', 50, 0)
-					modify.update_label()
 		if ("demote")
 			if(modify.assignment in head_subordinates || modify.assignment == "Assistant")
 				modify.assignment = "Unassigned"
 				playsound(src, 'sound/machines/terminal_prompt_confirm.ogg', 50, 0)
-				modify.update_label()
 			else
 				to_chat(usr, "<span class='error'>You are not authorized to demote this position.</span>")
 		if ("reg")
@@ -456,7 +456,6 @@ GLOBAL_VAR_INIT(time_last_changed_position, 0)
 					if(newName)
 						modify.registered_name = newName
 						playsound(src, 'sound/machines/terminal_prompt_confirm.ogg', 50, 0)
-						modify.update_label()
 					else
 						to_chat(usr, "<span class='error'>Invalid name entered.</span>")
 						updateUsrDialog()
@@ -537,6 +536,8 @@ GLOBAL_VAR_INIT(time_last_changed_position, 0)
 				P.name = "paper- 'Crew Manifest'"
 				printing = null
 				playsound(src, 'sound/machines/terminal_insert_disc.ogg', 50, 0)
+	if (modify)
+		modify.update_label()
 	updateUsrDialog()
 
 /obj/machinery/computer/card/AltClick(mob/user)
@@ -569,6 +570,7 @@ GLOBAL_VAR_INIT(time_last_changed_position, 0)
 /obj/machinery/computer/card/proc/eject_id_modify(mob/user)
 	if(modify)
 		GLOB.data_core.manifest_modify(modify.registered_name, modify.assignment)
+		modify.update_label()
 		modify.forceMove(drop_location())
 		if(!issilicon(user) && Adjacent(user))
 			user.put_in_hands(modify)
@@ -635,8 +637,3 @@ GLOBAL_VAR_INIT(time_last_changed_position, 0)
 	icon_screen = "idce"
 
 	light_color = LIGHT_COLOR_YELLOW
-
-#undef JOB_ALLOWED
-#undef JOB_COOLDOWN
-#undef JOB_MAX_POSITIONS
-#undef JOB_DENIED

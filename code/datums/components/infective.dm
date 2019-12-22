@@ -12,10 +12,6 @@
 	if(expire_in)
 		expire_time = world.time + expire_in
 		QDEL_IN(src, expire_in)
-<<<<<<< HEAD
-=======
-	
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	if(!ismovableatom(parent))
 		return COMPONENT_INCOMPATIBLE
 	RegisterSignal(parent, COMSIG_COMPONENT_CLEAN_ACT, .proc/clean)

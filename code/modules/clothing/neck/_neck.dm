@@ -198,14 +198,6 @@
 	item_color = "petcollar"
 	var/tagname = null
 
-<<<<<<< HEAD
-=======
-/obj/item/clothing/neck/petcollar/mob_can_equip(mob/M, mob/equipper, slot, disable_warning = 0)
-	if(ishuman(M))
-		return FALSE
-	return ..()
-
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 /obj/item/clothing/neck/petcollar/attack_self(mob/user)
 	tagname = copytext(sanitize(input(user, "Would you like to change the name on the tag?", "Name your new pet", "Spot") as null|text),1,MAX_NAME_LEN)
 	name = "[initial(name)] - [tagname]"
@@ -248,4 +240,4 @@
 			user.put_in_hand(newBand, currentHandIndex)
 			user.visible_message("You untie [oldName] back into a [newBand.name]", "[user] unties [oldName] back into a [newBand.name]")
 		else
-			to_chat(user, "<span class='warning'>You must be holding [src] in order to untie it!</span>")
+			to_chat(user, "<span class='warning'>You must be holding [src] in order to untie it!")

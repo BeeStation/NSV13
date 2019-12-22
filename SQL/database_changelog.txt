@@ -40,20 +40,6 @@ CHANGE `server` `server_name` varchar(32);
 ----------------------------------------------------
 
 
-Version 5.3, 6 July 2019, by Atlanta-Ned
-Added a `feedback` column to the admin table, used for linking to individual admin feedback threads. Currently this is only used for statistics tracking tools such as Statbus and isn't used by the game.
-
-ALTER TABLE `admin` ADD `feedback` VARCHAR(255) NULL DEFAULT NULL AFTER `rank`;
-
-----------------------------------------------------
-
-Version 5.2, 30 May 2019, by AffectedArc07
-Added a field to the `player` table to track ckey and discord ID relationships
-
-ALTER TABLE `player`
-	ADD COLUMN `discord_id` BIGINT NULL DEFAULT NULL AFTER `flags`;
-----------------------------------------------------
-
 Version 5.1, 25 Feb 2018, by MrStonedOne
 Added four tables to enable storing of stickybans in the database since byond can lose them, and to enable disabling stickybans for a round without depending on a crash free round. Existing stickybans are automagically imported to the tables.
 

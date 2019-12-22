@@ -430,11 +430,7 @@
 	name = "Machine Design (Weapon Recharger Board)"
 	desc = "The circuit board for a Weapon Recharger."
 	id = "recharger"
-<<<<<<< HEAD
 	materials = list(/datum/material/glass = 1000, /datum/material/gold = 2000, /datum/material/copper = 300)
-=======
-	materials = list(/datum/material/glass = 1000, /datum/material/gold = 2000)
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	build_path = /obj/item/circuitboard/machine/recharger
 	category = list("Misc. Machinery")
 	departmental_flags = DEPARTMENTAL_FLAG_ALL

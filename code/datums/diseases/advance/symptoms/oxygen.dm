@@ -56,24 +56,11 @@ Bonus
 	if(!..())
 		return FALSE
 	var/mob/living/carbon/M = A.affected_mob
-<<<<<<< HEAD
 	if(A.stage <= 3)
 		REMOVE_TRAIT(M, TRAIT_NOBREATH, DISEASE_TRAIT)
-=======
-	switch(A.stage)
-		if(3)
-			REMOVE_TRAIT(M, TRAIT_NOBREATH, DISEASE_TRAIT)
-		if(4)
-			ADD_TRAIT(M, TRAIT_NOBREATH, DISEASE_TRAIT)
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	return TRUE
 
 /datum/symptom/oxygen/End(datum/disease/advance/A)
 	if(!..())
 		return
-<<<<<<< HEAD
 	REMOVE_TRAIT(A.affected_mob, TRAIT_NOBREATH, DISEASE_TRAIT)
-=======
-	if(A.stage >= 4)
-		REMOVE_TRAIT(A.affected_mob, TRAIT_NOBREATH, DISEASE_TRAIT)
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36

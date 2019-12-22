@@ -43,7 +43,6 @@ SUBSYSTEM_DEF(throwing)
 	var/atom/movable/thrownthing
 	var/atom/target
 	var/turf/target_turf
-	var/target_zone
 	var/init_dir
 	var/maxrange
 	var/speed

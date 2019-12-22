@@ -27,17 +27,13 @@
 #define STIMULUM_SECOND_RISE				0.0009
 #define STIMULUM_ABSOLUTE_DROP				0.00000335
 #define REACTION_OPPRESSION_THRESHOLD		5
-<<<<<<< HEAD
 #define NOBLIUM_FORMATION_ENERGY			2e9 	//! 1 Mole of Noblium takes the planck energy to condense.
-=======
-#define NOBLIUM_FORMATION_ENERGY			2e9 	//1 Mole of Noblium takes the planck energy to condense.
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 #define STIM_BALL_GAS_AMOUNT				5
 //Research point amounts
 #define NOBLIUM_RESEARCH_AMOUNT				1000
 #define BZ_RESEARCH_SCALE					4
 #define BZ_RESEARCH_MAX_AMOUNT				400
-#define MIASMA_RESEARCH_AMOUNT				40
+#define MIASMA_RESEARCH_AMOUNT				160
 #define STIMULUM_RESEARCH_AMOUNT			50
 //Plasma fusion properties
 #define FUSION_ENERGY_THRESHOLD				3e9 	//! Amount of energy it takes to start a fusion reaction

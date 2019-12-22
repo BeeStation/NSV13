@@ -12,7 +12,7 @@
 	selection_color = "#ffdddd"
 	req_admin_notify = 1
 	minimal_player_age = 14
-	exp_requirements = 480
+	exp_requirements = 300
 	exp_type = EXP_TYPE_CREW
 	exp_type_department = EXP_TYPE_SECURITY
 
@@ -37,7 +37,7 @@
 	name = "Head of Security"
 	jobtype = /datum/job/hos
 
-	id = /obj/item/card/id/job/hos
+	id = /obj/item/card/id/silver
 	belt = /obj/item/pda/heads/hos
 	ears = /obj/item/radio/headset/heads/hos/alt
 	uniform = /obj/item/clothing/under/ship/peacekeeper
@@ -49,11 +49,7 @@
 	suit_store = /obj/item/gun/ballistic/automatic/peacekeeper
 	r_pocket = /obj/item/assembly/flash/handheld
 	l_pocket = /obj/item/restraints/handcuffs
-<<<<<<< HEAD
-	backpack_contents = list(/obj/item/melee/baton/loaded=1)
-=======
 	backpack_contents = list(/obj/item/melee/baton/loaded=1, /obj/item/ammo_box/magazine/peacekeeper=1)
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 	backpack = /obj/item/storage/backpack/security
 	satchel = /obj/item/storage/backpack/satchel/sec

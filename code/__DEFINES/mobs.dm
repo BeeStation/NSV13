@@ -82,15 +82,9 @@
 
 #define STAMINA_REGEN_BLOCK_TIME (10 SECONDS)
 
-<<<<<<< HEAD
 #define HEAT_DAMAGE_LEVEL_1 2 //! Amount of damage applied when your body temperature just passes the 360.15k safety point
 #define HEAT_DAMAGE_LEVEL_2 3 //! Amount of damage applied when your body temperature passes the 400K point
 #define HEAT_DAMAGE_LEVEL_3 8 //! Amount of damage applied when your body temperature passes the 460K point and you are on fire
-=======
-#define HEAT_DAMAGE_LEVEL_1 2 //Amount of damage applied when your body temperature just passes the 360.15k safety point
-#define HEAT_DAMAGE_LEVEL_2 3 //Amount of damage applied when your body temperature passes the 400K point
-#define HEAT_DAMAGE_LEVEL_3 8 //Amount of damage applied when your body temperature passes the 460K point and you are on fire
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 #define COLD_DAMAGE_LEVEL_1 0.5 //! Amount of damage applied when your body temperature just passes the 260.15k safety point
 #define COLD_DAMAGE_LEVEL_2 1.5 //! Amount of damage applied when your body temperature passes the 200K point
@@ -162,6 +156,11 @@
 #define SANITY_CRAZY 25
 #define SANITY_INSANE 0
 
+//Hygiene levels for humans
+#define HYGIENE_LEVEL_CLEAN 250
+#define HYGIENE_LEVEL_NORMAL 200
+#define HYGIENE_LEVEL_DIRTY 75
+
 //Nutrition levels for humans
 #define NUTRITION_LEVEL_FAT 600
 #define NUTRITION_LEVEL_FULL 550
@@ -230,13 +229,9 @@
 #define SLIDE					(1<<1)
 #define GALOSHES_DONT_HELP		(1<<2)
 #define SLIDE_ICE				(1<<3)
-#define SLIP_WHEN_CRAWLING		(1<<4) //clown planet ruin
 
 
-<<<<<<< HEAD
 
-=======
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 #define INCORPOREAL_MOVE_BASIC 1
 #define INCORPOREAL_MOVE_SHADOW 2 //!  leaves a trail of shadows
@@ -270,7 +265,6 @@
 #define OFFSET_NECK "neck"
 
 //MINOR TWEAKS/MISC
-<<<<<<< HEAD
 #define AGE_MIN				17	//! youngest a character can be
 #define AGE_MAX				85	//! oldest a character can be
 #define WIZARD_AGE_MIN		30	//! youngest a wizard can be
@@ -284,20 +278,6 @@
 #define	HYGIENE_FACTOR  0.1	//! factor at which mob hygiene decreases
 #define	REAGENTS_METABOLISM 0.4	//! How many units of reagent are consumed per tick, by default.
 #define REAGENTS_EFFECT_MULTIPLIER (REAGENTS_METABOLISM / 0.4)	//! By defining the effect multiplier this way, it'll exactly adjust all effects according to how they originally were with the 0.4 metabolism
-=======
-#define AGE_MIN				17	//youngest a character can be
-#define AGE_MAX				85	//oldest a character can be
-#define WIZARD_AGE_MIN		30	//youngest a wizard can be
-#define APPRENTICE_AGE_MIN	29	//youngest an apprentice can be
-#define SHOES_SLOWDOWN		0	//How much shoes slow you down by default. Negative values speed you up
-#define POCKET_STRIP_DELAY			40	//time taken (in deciseconds) to search somebody's pockets
-#define DOOR_CRUSH_DAMAGE	15	//the amount of damage that airlocks deal when they crush you
-
-#define	HUNGER_FACTOR		0.1	//factor at which mob nutrition decreases
-#define	ETHEREAL_CHARGE_FACTOR	0.12 //factor at which ethereal's charge decreases
-#define	REAGENTS_METABOLISM 0.4	//How many units of reagent are consumed per tick, by default.
-#define REAGENTS_EFFECT_MULTIPLIER (REAGENTS_METABOLISM / 0.4)	// By defining the effect multiplier this way, it'll exactly adjust all effects according to how they originally were with the 0.4 metabolism
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 // Roundstart trait system
 
@@ -322,13 +302,8 @@
 #define PULL_PRONE_SLOWDOWN 1.5
 #define HUMAN_CARRY_SLOWDOWN 0.35
 
-<<<<<<< HEAD
 //! ## control what things can spawn species
 /// Badmin magic mirror
-=======
-//Flags that control what things can spawn species (whitelist)
-//Badmin magic mirror
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 #define MIRROR_BADMIN (1<<0)
 /// Standard magic mirror (wizard)
 #define MIRROR_MAGIC  (1<<1)

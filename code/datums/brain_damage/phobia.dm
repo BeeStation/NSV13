@@ -78,42 +78,30 @@
 						freak_out(H)
 						return
 
-<<<<<<< HEAD
 /datum/brain_trauma/mild/phobia/on_hear(message, speaker, message_language, raw_message, radio_freq)
 	if(!owner.can_hear() || world.time < next_scare) //words can't trigger you if you can't hear them *taps head*
 		return message
 	if(HAS_TRAIT(owner, TRAIT_FEARLESS))
 		return message
-=======
-/datum/brain_trauma/mild/phobia/handle_hearing(datum/source, list/hearing_args)
-	if(!owner.can_hear() || world.time < next_scare) //words can't trigger you if you can't hear them *taps head*
-		return
-	if(HAS_TRAIT(owner, TRAIT_FEARLESS))
-		return
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	for(var/word in trigger_words)
 		var/regex/reg = regex("(\\b|\\A)[REGEX_QUOTE(word)]'?s*(\\b|\\Z)", "i")
 
-		if(findtext(hearing_args[HEARING_RAW_MESSAGE], reg))
+		if(findtext(raw_message, reg))
 			addtimer(CALLBACK(src, .proc/freak_out, null, word), 10) //to react AFTER the chat message
-			hearing_args[HEARING_MESSAGE] = reg.Replace(hearing_args[HEARING_MESSAGE], "<span class='phobia'>$1</span>")
+			message = reg.Replace(message, "<span class='phobia'>$1</span>")
 			break
+	return message
 
-<<<<<<< HEAD
 /datum/brain_trauma/mild/phobia/on_say(message)
 	if(HAS_TRAIT(owner, TRAIT_FEARLESS))
 		return message
-=======
-/datum/brain_trauma/mild/phobia/handle_speech(datum/source, list/speech_args)
-	if(HAS_TRAIT(owner, TRAIT_FEARLESS))
-		return
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	for(var/word in trigger_words)
 		var/regex/reg = regex("(\\b|\\A)[REGEX_QUOTE(word)]'?s*(\\b|\\Z)", "i")
 
-		if(findtext(speech_args[SPEECH_MESSAGE], reg))
+		if(findtext(message, reg))
 			to_chat(owner, "<span class='warning'>You can't bring yourself to say the word \"<span class='phobia'>[word]</span>\"!</span>")
-			speech_args[SPEECH_MESSAGE] = ""
+			return ""
+	return message
 
 /datum/brain_trauma/mild/phobia/proc/freak_out(atom/reason, trigger_word)
 	next_scare = world.time + 120

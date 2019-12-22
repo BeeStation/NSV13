@@ -181,7 +181,7 @@
 
 /turf/proc/handleRCL(obj/item/twohanded/rcl/C, mob/user)
 	if(C.loaded)
-		for(var/obj/structure/pipe_cleaner/LC in src)
+		for(var/obj/structure/cable/LC in src)
 			if(!LC.d1 || !LC.d2)
 				LC.handlecable(C, user)
 				return
@@ -195,13 +195,9 @@
 		return TRUE
 	if(can_lay_cable() && istype(C, /obj/item/stack/cable_coil))
 		var/obj/item/stack/cable_coil/coil = C
-		coil.place_turf(src, user)
-		return TRUE
-	else if(can_have_cabling() && istype(C, /obj/item/stack/pipe_cleaner_coil))
-		var/obj/item/stack/pipe_cleaner_coil/coil = C
-		for(var/obj/structure/pipe_cleaner/LC in src)
+		for(var/obj/structure/cable/LC in src)
 			if(!LC.d1 || !LC.d2)
-				LC.attackby(C, user)
+				LC.attackby(C,user)
 				return
 		coil.place_turf(src, user)
 		return TRUE
@@ -570,11 +566,7 @@
 		if(istype(R, /datum/reagent/consumable))
 			var/datum/reagent/consumable/nutri_check = R
 			if(nutri_check.nutriment_factor >0)
-<<<<<<< HEAD
 				M.reagents.remove_reagent(R.type, min(R.volume, 10))
-=======
-				M.reagents.remove_reagent(R.type,R.volume)
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 //Whatever happens after high temperature fire dies out or thermite reaction works.
 //Should return new turf

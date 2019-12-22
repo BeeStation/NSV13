@@ -22,11 +22,7 @@ if [ -d ".git" ]; then
   cp -r .git/logs/* $1/.git/logs/
 fi
 
-<<<<<<< HEAD
 cp beestation.dmb beestation.rsc $1/
-=======
-cp nsv13.dmb nsv13.rsc $1/
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 cp -r _maps/* $1/_maps/
 cp icons/default_title.dmi $1/icons/
 cp -r sound/chatter/* $1/sound/chatter/

@@ -49,11 +49,7 @@
 		. += {"<span class='brass'>Can be used to replace walls, floors, tables, windows, windoors, and airlocks with Clockwork variants.</span>\n
 			<span class='brass'>Can construct Clockwork Walls on Clockwork Floors and deconstruct Clockwork Walls to Clockwork Floors.</span>"}
 		if(uses_power)
-<<<<<<< HEAD
 			. += {"<span class='alloy'>It can consume floor tiles, rods, iron, and plasteel for power at rates of <b>2:[DisplayPower(POWER_ROD)]</b>, <b>1:[DisplayPower(POWER_ROD)]</b>, <b>1:[DisplayPower(POWER_IRON)]</b>, \
-=======
-			. += {"<span class='alloy'>It can consume floor tiles, rods, metal, and plasteel for power at rates of <b>2:[DisplayPower(POWER_ROD)]</b>, <b>1:[DisplayPower(POWER_ROD)]</b>, <b>1:[DisplayPower(POWER_METAL)]</b>, \
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 			and <b>1:[DisplayPower(POWER_PLASTEEL)]</b>, respectively.</span>\n
 			<span class='alloy'>It can also consume brass sheets for power at a rate of <b>1:[DisplayPower(POWER_FLOOR)]</b>.</span>\n
 			<span class='alloy'>Use it in-hand to produce <b>5</b> brass sheets at a cost of <b>[DisplayPower(POWER_WALL_TOTAL)]</b> power.</span>\n

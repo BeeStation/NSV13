@@ -70,6 +70,8 @@ SUBSYSTEM_DEF(mapping)
 	for (var/i in 1 to config.space_empty_levels)
 		++space_levels_so_far
 		empty_space = add_new_zlevel("Empty Area [space_levels_so_far]", list(ZTRAIT_LINKAGE = CROSSLINKED))
+	// and the transit level
+	transit = add_new_zlevel("Transit/Reserved", list(ZTRAIT_RESERVED = TRUE))
 
 	// Pick a random away mission.
 	if(CONFIG_GET(flag/roundstart_away))
@@ -95,8 +97,6 @@ SUBSYSTEM_DEF(mapping)
 		seedRuins(space_ruins, CONFIG_GET(number/space_budget), /area/space, space_ruins_templates)
 	loading_ruins = FALSE
 #endif
-	// Add the transit level
-	transit = add_new_zlevel("Transit/Reserved", list(ZTRAIT_RESERVED = TRUE))
 	repopulate_sorted_areas()
 	// Set up Z-level transitions.
 	setup_map_transitions()
@@ -281,11 +281,7 @@ GLOBAL_LIST_EMPTY(the_station_areas)
 	if(map_voted)
 		map_voted = FALSE
 		return
-<<<<<<< HEAD
 
-=======
-	
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	var/players = GLOB.clients.len
 	var/list/mapvotes = list()
 	//count votes

@@ -147,7 +147,6 @@
 		update_icon()
 
 /obj/machinery/pdapainter/attackby(obj/item/O, mob/user, params)
-<<<<<<< HEAD
 	if(default_unfasten_wrench(user, O))
 		power_change()
 		return
@@ -174,10 +173,6 @@
 
 	else if(O.tool_behaviour == TOOL_WELDER && user.a_intent != INTENT_HARM)
 		if(stat & BROKEN)
-=======
-	if(stat & BROKEN)
-		if(O.tool_behaviour == TOOL_WELDER && user.a_intent != INTENT_HARM)
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 			if(!O.tool_start_check(user, amount=0))
 				return
 			user.visible_message("[user] is repairing [src].", \
@@ -190,24 +185,8 @@
 				stat &= ~BROKEN
 				obj_integrity = max_integrity
 				update_icon()
-
 		else
-			return ..()
-
-	else if(default_unfasten_wrench(user, O))
-		power_change()
-		return
-
-	else if(istype(O, /obj/item/pda))
-		if(storedpda)
-			to_chat(user, "<span class='warning'>There is already a PDA inside!</span>")
-			return
-		else if(!user.transferItemToLoc(O, src))
-			return
-		storedpda = O
-		O.add_fingerprint(user)
-		update_icon()
-
+			to_chat(user, "<span class='notice'>[src] does not need repairs.</span>")
 	else
 		return ..()
 
@@ -246,7 +225,6 @@
 		else
 			to_chat(user, "<span class='notice'>[src] is empty.</span>")
 
-<<<<<<< HEAD
 /obj/machinery/pdapainter/AltClick(mob/user)
 	if(usr.stat || usr.restrained())
 		return
@@ -256,28 +234,6 @@
 		to_chat(usr, "<span class='notice'>You eject the contents.</span>")
 	else
 		to_chat(usr, "<span class='notice'>[src] is empty.")
-=======
-	if(storedpda)
-		if(stat & BROKEN)	//otherwise the PDA is stuck until repaired
-			ejectpda()
-			to_chat(user, "<span class='info'>You manage to eject the loaded PDA.</span>")
-		else
-			var/obj/item/pda/P
-			P = input(user, "Select your color!", "PDA Painting") as null|anything in colorlist
-			if(!P)
-				return
-			if(!in_range(src, user))
-				return
-			if(!storedpda)//is the pda still there?
-				return
-			storedpda.icon_state = P.icon_state
-			storedpda.desc = P.desc
-			ejectpda()
-
-	else
-		to_chat(user, "<span class='warning'>[src] is empty!</span>")
-
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 
 /obj/machinery/pdapainter/proc/ejectpda()
@@ -286,7 +242,7 @@
 		storedpda = null
 		update_icon()
 	else
-		to_chat(usr, "<span class='warning'>[src] is empty!</span>")
+		to_chat(usr, "<span class='notice'>[src] is empty.</span>")
 
 /obj/machinery/pdapainter/proc/ejectid()
 	if(storedid)

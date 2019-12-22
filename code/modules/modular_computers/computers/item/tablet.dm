@@ -17,7 +17,6 @@
 
 /obj/item/modular_computer/tablet/update_icon()
 	..()
-<<<<<<< HEAD
 	if (has_variants)
 		if(!finish_color)
 			finish_color = pick("red","blue","brown","green","black")
@@ -36,22 +35,3 @@
 	slot_flags = ITEM_SLOT_ID | ITEM_SLOT_BELT
 	comp_light_luminosity = 6.3
 	has_variants = FALSE
-=======
-	if(!finish_color)
-		finish_color = pick("red","blue","brown","green","black")
-	icon_state = "tablet-[finish_color]"
-	icon_state_unpowered = "tablet-[finish_color]"
-	icon_state_powered = "tablet-[finish_color]"
-
-/obj/item/modular_computer/tablet/syndicate_contract_uplink
-	name = "tablet computer"
-	icon = 'icons/obj/modular_tablet.dmi'
-	icon_state = "tablet-red"
-	icon_state_unpowered = "tablet"
-	icon_state_powered = "tablet"
-	icon_state_menu = "hostile"
-	w_class = WEIGHT_CLASS_SMALL
-	slot_flags = ITEM_SLOT_ID | ITEM_SLOT_BELT
-	comp_light_luminosity = 4.3
-	finish_color = "red"
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36

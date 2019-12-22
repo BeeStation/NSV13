@@ -19,19 +19,10 @@
 
 	if(!length(C.parallax_layers_cached))
 		C.parallax_layers_cached = list()
-<<<<<<< HEAD
-		C.parallax_layers_cached += new /obj/screen/parallax_layer/layer_1(null, C.view)
-		C.parallax_layers_cached += new /obj/screen/parallax_layer/layer_2(null, C.view)
-		C.parallax_layers_cached += new /obj/screen/parallax_layer/planet(null, C.view)
-		if(SSparallax.random_layer)
-			C.parallax_layers_cached += new SSparallax.random_layer
-		C.parallax_layers_cached += new /obj/screen/parallax_layer/layer_3(null, C.view)
-=======
 		C.parallax_layers_cached += new /obj/screen/parallax_layer/layer_1(null, C.view, viewmob)//Nsv13 - FTL parallax
 		C.parallax_layers_cached += new /obj/screen/parallax_layer/layer_2(null, C.view, viewmob)//Nsv13 - FTL parallax
 		C.parallax_layers_cached += new /obj/screen/parallax_layer/planet(null, C.view, viewmob)//Nsv13 - FTL parallax
 		C.parallax_layers_cached += new /obj/screen/parallax_layer/layer_3(null, C.view, viewmob)//Nsv13 - FTL parallax
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 	C.parallax_layers = C.parallax_layers_cached.Copy()
 
@@ -91,11 +82,7 @@
 
 	//This is high parallax.
 	C.parallax_throttle = PARALLAX_DELAY_DEFAULT
-<<<<<<< HEAD
-	C.parallax_layers_max = 4
-=======
 	C.parallax_layers_max = 4 //Nsv13 - Tweaked so that the bluespace effects show up correctly by default. Lower settings if you experience lag.
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	return TRUE
 
 /datum/hud/proc/update_parallax_pref(mob/viewmob)
@@ -271,7 +258,7 @@
 	mouse_opacity = MOUSE_OPACITY_TRANSPARENT
 
 
-/obj/screen/parallax_layer/Initialize(mapload, view, mob/our_mob)
+/obj/screen/parallax_layer/Initialize(mapload, view)
 	. = ..()
 	if (!view)
 		view = world.view
@@ -298,20 +285,21 @@
 
 /obj/screen/parallax_layer/proc/update_status(mob/M)
 	current_mob = M //Nsv13 - FTL parallax
+	return
 
 /obj/screen/parallax_layer/layer_1
 	icon_state = "layer1"
-	speed = 0.3
+	speed = 0.6
 	layer = 1
 
 /obj/screen/parallax_layer/layer_2
 	icon_state = "layer2"
-	speed = 0.6
+	speed = 1
 	layer = 2
 
 /obj/screen/parallax_layer/layer_3
 	icon_state = "layer3"
-	speed = 1
+	speed = 1.4
 	layer = 3
 
 /obj/screen/parallax_layer/random

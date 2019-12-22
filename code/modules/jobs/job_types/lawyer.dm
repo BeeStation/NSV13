@@ -25,18 +25,11 @@
 	name = "Lawyer"
 	jobtype = /datum/job/lawyer
 
-	id = /obj/item/card/id/job/lawyer
 	belt = /obj/item/pda/lawyer
 	ears = /obj/item/radio/headset/headset_srvsec
-<<<<<<< HEAD
-	uniform = /obj/item/clothing/under/lawyer/bluesuit
-	suit = /obj/item/clothing/suit/toggle/lawyer
-	shoes = /obj/item/clothing/shoes/laceup
-=======
 	uniform = /obj/item/clothing/under/ship/officer
 	shoes = /obj/item/clothing/shoes/jackboots
 	head = /obj/item/clothing/head/beret/durathread
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	l_hand = /obj/item/storage/briefcase/lawyer
 	l_pocket = /obj/item/laser_pointer
 	r_pocket = /obj/item/clothing/accessory/lawyers_badge

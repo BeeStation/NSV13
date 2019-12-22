@@ -5,6 +5,7 @@
 #define SCANGATE_GUNS 			"Guns"
 #define SCANGATE_WANTED			"Wanted"
 #define SCANGATE_SPECIES		"Species"
+#define SCANGATE_HYGIENE		"Hygiene"
 #define SCANGATE_NUTRITION		"Nutrition"
 
 /obj/machinery/scanner_gate
@@ -24,6 +25,7 @@
 	var/nanite_cloud = 0
 	var/datum/species/detect_species = /datum/species/human
 	var/reverse = FALSE //If true, signals if the scan returns false
+	var/detect_hygiene = HYGIENE_LEVEL_DIRTY
 	var/detect_nutrition = NUTRITION_LEVEL_FAT
 
 /obj/machinery/scanner_gate/Initialize()
@@ -116,6 +118,13 @@
 				if(istype(I, /obj/item/gun))
 					beep = TRUE
 					break
+		if(SCANGATE_HYGIENE)
+			if(ishuman(M))
+				var/mob/living/carbon/human/H = M
+				if(H.hygiene >= detect_hygiene && detect_hygiene == HYGIENE_LEVEL_CLEAN)
+					beep = TRUE
+				if(H.hygiene <= detect_hygiene && detect_hygiene == HYGIENE_LEVEL_DIRTY)
+					beep = TRUE
 		if(SCANGATE_NUTRITION)
 			if(ishuman(M))
 				var/mob/living/carbon/human/H = M
@@ -157,6 +166,7 @@
 	data["nanite_cloud"] = nanite_cloud
 	data["disease_threshold"] = disease_threshold
 	data["target_species"] = initial(detect_species.name)
+	data["target_hygiene"] = detect_hygiene
 	data["target_nutrition"] = detect_nutrition
 	return data
 
@@ -172,6 +182,7 @@
 																								SCANGATE_GUNS,
 																								SCANGATE_WANTED,
 																								SCANGATE_SPECIES,
+																								SCANGATE_HYGIENE,
 																								SCANGATE_NUTRITION)
 			if(new_mode)
 				scangate_mode = new_mode
@@ -227,6 +238,16 @@
 					if("Zombie")
 						detect_species = /datum/species/zombie
 			. = TRUE
+		if("set_target_hygiene")
+			var/new_hygiene = input("Set target hygiene level","Scan Mode") as null|anything in list("Clean",
+																									"Filthy")
+			if(new_hygiene)
+				switch(new_hygiene)
+					if("Clean")
+						detect_hygiene = HYGIENE_LEVEL_CLEAN
+					if("Filthy")
+						detect_hygiene = HYGIENE_LEVEL_DIRTY
+			. = TRUE
 		if("set_target_nutrition")
 			var/new_nutrition = input("Set target nutrition level","Scan Mode") as null|anything in list("Starving",
 																											"Obese")
@@ -245,4 +266,5 @@
 #undef SCANGATE_GUNS
 #undef SCANGATE_WANTED
 #undef SCANGATE_SPECIES
+#undef SCANGATE_HYGIENE
 #undef SCANGATE_NUTRITION

@@ -71,7 +71,7 @@
 	if(!channeling)
 		channeling = TRUE
 	else
-		to_chat(owner, "<span class='cultitalic'>You are already invoking blood magic!</span>")
+		to_chat(owner, "<span class='cultitalic'>You are already invoking blood magic!")
 		return
 	if(do_after(owner, 100 - rune*60, target = owner))
 		if(ishuman(owner))
@@ -358,13 +358,6 @@
 	health_cost = source.health_cost
 	..()
 
-<<<<<<< HEAD
-=======
-/obj/item/melee/blood_magic/Initialize()
-	. = ..()
-	ADD_TRAIT(src, TRAIT_NODROP, CULT_TRAIT)
-
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 /obj/item/melee/blood_magic/Destroy()
 	if(!QDELETED(source))
 		if(uses <= 0)
@@ -567,11 +560,7 @@
 	. = ..()
 	. += {"<u>A sinister spell used to convert:</u>\n
 	Plasteel into runed metal\n
-<<<<<<< HEAD
 	[IRON_TO_CONSTRUCT_SHELL_CONVERSION] metal into a construct shell\n
-=======
-	[METAL_TO_CONSTRUCT_SHELL_CONVERSION] metal into a construct shell\n
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	Living cyborgs into constructs after a delay\n
 	Cyborg shells into construct shells\n
 	Airlocks into brittle runed airlocks after a delay (harm intent)"}
@@ -752,7 +741,7 @@
 					to_chat(user,"<span class='cultitalic'>Your blood rite gains 50 charges from draining [H]'s blood.</span>")
 					new /obj/effect/temp_visual/cult/sparks(get_turf(H))
 				else
-					to_chat(user,"<span class='warning'>[H.p_theyre(TRUE)] missing too much blood - you cannot drain [H.p_them()] further!</span>")
+					to_chat(user,"<span class='danger'>[H.p_theyre(TRUE)] missing too much blood - you cannot drain [H.p_them()] further!</span>")
 					return
 		if(isconstruct(target))
 			var/mob/living/simple_animal/M = target

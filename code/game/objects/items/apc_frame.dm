@@ -66,11 +66,7 @@
 		if(iswallturf(T))
 			T.attackby(src, user, params)
 
-<<<<<<< HEAD
 	var/iron_amt = round(materials[/datum/material/iron]/MINERAL_MATERIAL_AMOUNT) //Replace this shit later
-=======
-	var/metal_amt = round(materials[/datum/material/iron]/MINERAL_MATERIAL_AMOUNT) //Replace this shit later
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	var/glass_amt = round(materials[/datum/material/glass]/MINERAL_MATERIAL_AMOUNT) //Replace this shit later
 
 	if(W.tool_behaviour == TOOL_WRENCH && (iron_amt || glass_amt))

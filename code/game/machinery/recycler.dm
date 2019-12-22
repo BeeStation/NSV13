@@ -18,13 +18,8 @@
 	var/item_recycle_sound = 'sound/items/welder.ogg'
 
 /obj/machinery/recycler/Initialize()
-<<<<<<< HEAD
 	AddComponent(/datum/component/material_container, list(/datum/material/iron, /datum/material/glass, /datum/material/copper, /datum/material/silver, /datum/material/plasma, /datum/material/gold, /datum/material/diamond, /datum/material/plastic, /datum/material/uranium, /datum/material/bananium, /datum/material/titanium, /datum/material/bluespace), INFINITY, FALSE, null, null, null, TRUE)
 	AddComponent(/datum/component/butchering, 1, amount_produced,amount_produced/5)
-=======
-	AddComponent(/datum/component/butchering/recycler, 1, amount_produced,amount_produced/5)
-	AddComponent(/datum/component/material_container, list(/datum/material/iron, /datum/material/glass, /datum/material/silver, /datum/material/plasma, /datum/material/gold, /datum/material/diamond, /datum/material/plastic, /datum/material/uranium, /datum/material/bananium, /datum/material/titanium, /datum/material/bluespace), INFINITY, FALSE, null, null, null, TRUE)
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	. = ..()
 	update_icon()
 	req_one_access = get_all_accesses() + get_all_centcom_access()
@@ -40,21 +35,13 @@
 	var/datum/component/material_container/materials = GetComponent(/datum/component/material_container)
 	materials.max_amount = mat_mod
 	amount_produced = min(50, amt_made) + 50
-<<<<<<< HEAD
 	var/datum/component/butchering/butchering = GetComponent(/datum/component/butchering)
-=======
-	var/datum/component/butchering/butchering = GetComponent(/datum/component/butchering/recycler)
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	butchering.effectiveness = amount_produced
 	butchering.bonus_modifier = amount_produced/5
 
 /obj/machinery/recycler/examine(mob/user)
 	. = ..()
-<<<<<<< HEAD
 	. += "<span class='notice'>Reclaiming <b>[amount_produced]%</b> of materials salvaged.<span>"
-=======
-	. += "<span class='notice'>Reclaiming <b>[amount_produced]%</b> of materials salvaged.</span>"
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	. += {"The power light is [(stat & NOPOWER) ? "off" : "on"].
 	The safety-mode light is [safety_mode ? "on" : "off"].
 	The safety-sensors status light is [obj_flags & EMAGGED ? "off" : "on"]."}
@@ -95,24 +82,20 @@
 		is_powered = FALSE
 	icon_state = icon_name + "[is_powered]" + "[(blood ? "bld" : "")]" // add the blood tag at the end
 
-/obj/machinery/recycler/CanPass(atom/movable/AM)
-	. = ..()
-	if(!anchored)
-		return
-	var/move_dir = get_dir(loc, AM.loc)
-	if(move_dir == eat_dir)
-		return TRUE
+/obj/machinery/recycler/Bumped(atom/movable/AM)
 
-/obj/machinery/recycler/Crossed(atom/movable/AM)
-	eat(AM)
-	. = ..()
-
-/obj/machinery/recycler/proc/eat(atom/AM0, sound=TRUE)
 	if(stat & (BROKEN|NOPOWER))
+		return
+	if(!anchored)
 		return
 	if(safety_mode)
 		return
 
+	var/move_dir = get_dir(loc, AM.loc)
+	if(move_dir == eat_dir)
+		eat(AM)
+
+/obj/machinery/recycler/proc/eat(atom/AM0, sound=TRUE)
 	var/list/to_eat
 	if(istype(AM0, /obj/item))
 		to_eat = AM0.GetAllContents()
@@ -204,12 +187,9 @@
 	// Instantly lie down, also go unconscious from the pain, before you die.
 	L.Unconscious(100)
 	L.adjustBruteLoss(crush_damage)
-<<<<<<< HEAD
 	if(L.stat == DEAD && (L.butcher_results || L.guaranteed_butcher_results))
 		var/datum/component/butchering/butchering = GetComponent(/datum/component/butchering)
 		butchering.Butcher(src,L)
-=======
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 /obj/machinery/recycler/deathtrap
 	name = "dangerous old crusher"

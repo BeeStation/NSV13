@@ -1,13 +1,6 @@
-<<<<<<< HEAD
 <h1 align="center">BeeStation 13 Codebase</h1>
 
 
-=======
-## NVS 13 codebase
-
-[![Build Status](https://travis-ci.com/DDMers/NSV13.svg?branch=master)](https://travis-ci.com/DDMers/NSV13) [![Krihelimeter](https://www.krihelinator.xyz/badge/DDMers/nsv13)](https://www.krihelinator.xyz)  
-[![Percentage of issues still open](https://isitmaintained.com/badge/open/DDMers/nsv13.svg)](https://isitmaintained.com/project/DDMers/nsv13 "Percentage of issues still open") [![Average time to resolve an issue](https://isitmaintained.com/badge/resolution/DDMers/nsv13.svg)](https://isitmaintained.com/project/DDMers/nsv13 "Average time to resolve an issue") ![Coverage](https://img.shields.io/badge/coverage---2%25-red.svg)  
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 [![forthebadge](https://forthebadge.com/images/badges/built-with-resentment.svg)](https://forthebadge.com) [![forthebadge](https://forthebadge.com/images/badges/contains-technical-debt.svg)](https://user-images.githubusercontent.com/8171642/50290880-ffef5500-043a-11e9-8270-a2e5b697c86c.png) [![forinfinityandbyond](https://user-images.githubusercontent.com/5211576/29499758-4efff304-85e6-11e7-8267-62919c3688a9.gif)](https://www.reddit.com/r/SS13/comments/5oplxp/what_is_the_main_problem_with_byond_as_an_engine/dclbu1a)
 [![Build Status](https://travis-ci.com/BeeStation/BeeStation-Hornet.svg?branch=master)](https://travis-ci.com/BeeStation/BeeStation-Hornet) ![Open Issues](https://isitmaintained.com/badge/open/BeeStation/BeeStation-Hornet.svg)
 
@@ -15,18 +8,6 @@
 **Code:** https://github.com/beestation/beestation-hornet
 **Wiki:** https://wiki.beestation13.com/view/Main_Page
 
-<<<<<<< HEAD
-=======
-### NSV Information
-
-**Discord:** https://discord.gg/u7uwyQ3
-
-### Upstream Information
-**Website:** https://www.tgstation13.org
-**Code:** https://github.com/tgstation/tgstation
-**Wiki** https://tgstation13.org/wiki/Main_Page
-**IRC:** irc://irc.rizon.net/coderbus or if you dont have an IRC client, you can click  [here](https://kiwiirc.com/client/irc.rizon.net:6667/?&theme=cli#coderbus)
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 ## DOWNLOADING
 
@@ -117,7 +98,6 @@ https://github.com/tgstation/tgstation-server
 
 ## MAPS
 
-<<<<<<< HEAD
 BeeStation currently comes equipped with these maps.
 
 * [DeltaStation (default)](https://wiki.beestation13.com/view/DeltaStation)
@@ -125,15 +105,6 @@ BeeStation currently comes equipped with these maps.
 * [MetaStation](https://wiki.beestation13.com/view/MetaStation)
 * [PubbyStation](https://wiki.beestation13.com/view/PubbyStation)
 * [DonutStation](https://wiki.beestation13.com/view/Donutstation)
-=======
-/tg/station currently comes equipped with five maps.
-
-* [BoxStation (default)](https://tgstation13.org/wiki/Boxstation)
-* [MetaStation](https://tgstation13.org/wiki/MetaStation)
-* [DeltaStation](https://tgstation13.org/wiki/DeltaStation)
-* [PubbyStation](https://tgstation13.org/wiki/PubbyStation)
-* [DonutStation](https://tgstation13.org/wiki/Donutstation)
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 
 All maps have their own code file that is in the base of the _maps directory. Maps are loaded dynamically when the game starts. Follow this guideline when adding your own map, to your fork, for easy compatibility.

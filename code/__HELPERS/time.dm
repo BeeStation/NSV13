@@ -13,17 +13,11 @@
 		wtime = world.time
 	return time2text(wtime - GLOB.timezoneOffset, format)
 
-<<<<<<< HEAD
 /// Returns the station time in deciseconds
 /proc/station_time(display_only = FALSE, wtime=world.time)
 	return ((((wtime - SSticker.round_start_time) * SSticker.station_time_rate_multiplier) + SSticker.gametime_offset) % 864000) - (display_only? GLOB.timezoneOffset : 0)
 
 /// Returns the station time in hh:mm:ss
-=======
-/proc/station_time(display_only = FALSE, wtime=world.time)
-	return ((((wtime - SSticker.round_start_time) * SSticker.station_time_rate_multiplier) + SSticker.gametime_offset) % 864000) - (display_only? GLOB.timezoneOffset : 0)
-
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 /proc/station_time_timestamp(format = "hh:mm:ss", wtime)
 	return time2text(station_time(TRUE, wtime), format)
 
@@ -99,7 +93,3 @@ GLOBAL_VAR_INIT(rollovercheck_last_timeofday, 0)
 	if(hour)
 		hourT = " and [hour] hour[(hour != 1)? "s":""]"
 	return "[day] day[(day != 1)? "s":""][hourT][minuteT][secondT]"
-
-
-/proc/daysSince(realtimev)
-	return round((world.realtime - realtimev) / (24 HOURS))

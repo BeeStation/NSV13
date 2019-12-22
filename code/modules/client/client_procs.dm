@@ -84,11 +84,6 @@ GLOBAL_LIST_INIT(blacklisted_builds, list(
 	//Logs all hrefs, except chat pings
 	if(!(href_list["_src_"] == "chat" && href_list["proc"] == "ping" && LAZYLEN(href_list) == 2))
 		log_href("[src] (usr:[usr]\[[COORD(usr)]\]) : [hsrc ? "[hsrc] " : ""][href]")
-	
-	//byond bug ID:2256651
-	if (asset_cache_job && asset_cache_job in completed_asset_jobs)
-		to_chat(src, "<span class='danger'>An error has been detected in how your client is receiving resources. Attempting to correct.... (If you keep seeing these messages you might want to close byond and reconnect)</span>")
-		src << browse("...", "window=asset_cache_browser")
 
 	//byond bug ID:2256651
 	if (asset_cache_job && asset_cache_job in completed_asset_jobs)
@@ -155,11 +150,7 @@ GLOBAL_LIST_INIT(blacklisted_builds, list(
  * Handles checking for duplicate messages and people sending messages too fast
  *
  * The first checks are if you're sending too fast, this is defined as sending
-<<<<<<< HEAD
  * SPAM_TRIGGER_AUTOMUTE messages in
-=======
- * SPAM_TRIGGER_AUTOMUTE messages in 
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
  * 5 seconds, this will start supressing your messages,
  * if you send 2* that limit, you also get muted
  *
@@ -182,11 +173,7 @@ GLOBAL_LIST_INIT(blacklisted_builds, list(
 	if(cache >= SPAM_TRIGGER_AUTOMUTE * 2)
 		total_message_count = 0
 		total_count_reset = 0
-<<<<<<< HEAD
 		cmd_admin_mute(src, mute_type, 1)
-=======
-		cmd_admin_mute(src, mute_type, 1)	
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 		return 1
 
 	//Otherwise just supress the message
@@ -508,7 +495,6 @@ GLOBAL_LIST_EMPTY(external_rsc_urls)
 	return ..()
 
 /client/Destroy()
-	. = ..() //Even though we're going to be hard deleted there are still some things that want to know the destroy is happening
 	return QDEL_HINT_HARDDEL_NOW
 
 /client/proc/set_client_age_from_db(connectiontopic)
@@ -903,9 +889,6 @@ GLOBAL_LIST_EMPTY(external_rsc_urls)
 /client/proc/change_view(new_size)
 	if (isnull(new_size))
 		CRASH("change_view called without argument.")
-
-	if(prefs && !prefs.widescreenpref && new_size == CONFIG_GET(string/default_view))
-		new_size = CONFIG_GET(string/default_view_square)
 
 	view = new_size
 	apply_clickcatcher()

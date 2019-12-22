@@ -356,7 +356,7 @@
 			user.examinate(src)
 			return
 		else
-			to_chat(user, "<span class='warning'>You don't know how to read or write!</span>")
+			to_chat(user, "<span class='notice'>You don't know how to read or write.</span>")
 			return
 
 	else if(istype(P, /obj/item/stamp))

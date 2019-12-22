@@ -44,36 +44,8 @@
 		var/mob/living/carbon/human/HMN = M
 		HMN.eye_color = old_eye_color
 		HMN.regenerate_icons()
-	M.cure_blind(EYE_DAMAGE)
-	M.cure_nearsighted(EYE_DAMAGE)
-	M.set_blindness(0)
-	M.set_blurriness(0)
 	M.update_tint()
 	M.update_sight()
-	
-
-/obj/item/organ/eyes/on_life()
-	..()
-	var/mob/living/carbon/C = owner
-	//since we can repair fully damaged eyes, check if healing has occurred
-	if(failing && (damage < maxHealth))
-		failing = FALSE
-		C.cure_blind(EYE_DAMAGE)
-	//various degrees of "oh fuck my eyes", from "point a laser at your eye" to "staring at the Sun" intensities
-	if(damage > 20)
-		damaged = TRUE
-		if(failing)
-			C.become_blind(EYE_DAMAGE)
-		else if(damage > 30)
-			C.overlay_fullscreen("eye_damage", /obj/screen/fullscreen/impaired, 2)
-		else
-			C.overlay_fullscreen("eye_damage", /obj/screen/fullscreen/impaired, 1)
-	//called once since we don't want to keep clearing the screen of eye damage for people who are below 20 damage
-	else if(damaged)
-		damaged = FALSE
-		C.clear_fullscreen("eye_damage")
-	return
-
 
 /obj/item/organ/eyes/on_life()
 	..()

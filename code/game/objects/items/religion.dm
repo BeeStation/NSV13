@@ -81,11 +81,7 @@
 	item_state = "banner_security"
 	lefthand_file = 'icons/mob/inhands/equipment/banners_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/equipment/banners_righthand.dmi'
-<<<<<<< HEAD
 	job_loyalties = list("Security Officer", "Warden", "Detective", "Head of Security", "Brig Physician")
-=======
-	job_loyalties = list("Security Officer", "Warden", "Detective", "Head of Security")
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	warcry = "EVERYONE DOWN ON THE GROUND!!"
 
 /obj/item/banner/security/mundane
@@ -106,11 +102,7 @@
 	item_state = "banner_medical"
 	lefthand_file = 'icons/mob/inhands/equipment/banners_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/equipment/banners_righthand.dmi'
-<<<<<<< HEAD
 	job_loyalties = list("Medical Doctor", "Chemist", "Geneticist", "Virologist", "Paramedic", "Chief Medical Officer")
-=======
-	job_loyalties = list("Medical Doctor", "Chemist", "Geneticist", "Virologist", "Chief Medical Officer")
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	warcry = "No wounds cannot be healed!"
 
 /obj/item/banner/medical/mundane
@@ -205,7 +197,7 @@
 	name = "command banner"
 	desc = "The banner of Command, a staunch and ancient line of bueraucratic kings and queens."
 	//No icon state here since the default one is the NT banner
-	job_loyalties = list("Captain", "Executive Officer", "Chief Engineer", "Head of Security", "Research Director", "Chief Medical Officer")
+	job_loyalties = list("Captain", "Head of Personnel", "Chief Engineer", "Head of Security", "Research Director", "Chief Medical Officer")
 	warcry = "Hail Nanotrasen!"
 
 /obj/item/banner/command/mundane

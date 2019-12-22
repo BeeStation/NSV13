@@ -352,16 +352,14 @@
 
 /mob/living/carbon/proc/clear_cuffs(obj/item/I, cuff_break)
 	if(!I.loc || buckled)
-		return FALSE
-	if(I != handcuffed && I != legcuffed)
-		return FALSE
+		return
 	visible_message("<span class='danger'>[src] manages to [cuff_break ? "break" : "remove"] [I]!</span>")
 	to_chat(src, "<span class='notice'>You successfully [cuff_break ? "break" : "remove"] [I].</span>")
 
 	if(cuff_break)
 		. = !((I == handcuffed) || (I == legcuffed))
 		qdel(I)
-		return TRUE
+		return
 
 	else
 		if(I == handcuffed)
@@ -371,13 +369,17 @@
 			if(buckled?.buckle_requires_restraints)
 				buckled.unbuckle_mob(src)
 			update_handcuffed()
-			return TRUE
+			return
 		if(I == legcuffed)
 			legcuffed.forceMove(drop_location())
 			legcuffed.dropped()
 			legcuffed = null
 			update_inv_legcuffed()
-			return TRUE
+			return
+		else
+			dropItemToGround(I)
+			return
+		return TRUE
 
 /mob/living/carbon/get_standard_pixel_y_offset(lying = 0)
 	if(lying)
@@ -429,18 +431,12 @@
 		return 0
 	return ..()
 
-<<<<<<< HEAD
 /mob/living/carbon/proc/vomit(lost_nutrition = 10, blood = FALSE, stun = TRUE, distance = 1, message = TRUE, toxic = FALSE)
 	if(HAS_TRAIT(src, TRAIT_NOHUNGER))
 		return 1
 	
 	if(!has_mouth())
 		return 1
-=======
-/mob/living/carbon/proc/vomit(lost_nutrition = 10, blood = FALSE, stun = TRUE, distance = 1, message = TRUE, toxic = FALSE, harm = TRUE, force = FALSE)
-	if(HAS_TRAIT(src, TRAIT_NOHUNGER) && !force)
-		return TRUE
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 	if(nutrition < 100 && !blood)
 		if(message)
@@ -448,7 +444,7 @@
 							"<span class='userdanger'>You try to throw up, but there's nothing in your stomach!</span>")
 		if(stun)
 			Paralyze(200)
-		return TRUE
+		return 1
 
 	if(is_mouth_covered()) //make this add a blood/vomit overlay later it'll be hilarious
 		if(message)
@@ -474,7 +470,7 @@
 		if(blood)
 			if(T)
 				add_splatter_floor(T)
-			if(harm)
+			if(stun)
 				adjustBruteLoss(3)
 		else if(src.reagents.has_reagent(/datum/reagent/consumable/ethanol/blazaam, needs_metabolizing = TRUE))
 			if(T)
@@ -485,7 +481,7 @@
 		T = get_step(T, dir)
 		if (is_blocked_turf(T))
 			break
-	return TRUE
+	return 1
 
 /mob/living/carbon/proc/spew_organ(power = 5, amt = 1)
 	for(var/i in 1 to amt)
@@ -529,7 +525,6 @@
 	update_mobility()
 	if(((maxHealth - total_burn) < HEALTH_THRESHOLD_DEAD) && stat == DEAD )
 		become_husk("burn")
-
 	med_hud_set_health()
 	if(stat == SOFT_CRIT)
 		add_movespeed_modifier(MOVESPEED_ID_CARBON_SOFTCRIT, TRUE, multiplicative_slowdown = SOFTCRIT_ADD_SLOWDOWN)
@@ -625,18 +620,6 @@
 
 	else
 		. += INFINITY
-
-/mob/living/carbon/get_permeability_protection(list/target_zones = list(HANDS,CHEST,GROIN,LEGS,FEET,ARMS,HEAD))
-	var/list/tally = list()
-	for(var/obj/item/I in get_equipped_items())
-		for(var/zone in target_zones)
-			if(I.body_parts_covered & zone)
-				tally["[zone]"] = max(1 - I.permeability_coefficient, target_zones["[zone]"])
-	var/protection = 0
-	for(var/key in tally)
-		protection += tally[key]
-	protection *= INVERSE(target_zones.len)
-	return protection
 
 //this handles hud updates
 /mob/living/carbon/update_damage_hud()
@@ -806,11 +789,6 @@
 /mob/living/carbon/fully_heal(admin_revive = FALSE)
 	if(reagents)
 		reagents.clear_reagents()
-<<<<<<< HEAD
-=======
-		for(var/addi in reagents.addiction_list)
-			reagents.remove_addiction(addi)
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	for(var/O in internal_organs)
 		var/obj/item/organ/organ = O
 		organ.setOrganDamage(0)

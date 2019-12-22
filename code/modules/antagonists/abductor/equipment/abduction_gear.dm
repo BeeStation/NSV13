@@ -221,9 +221,12 @@
 	if(marked == target)
 		to_chat(user, "<span class='warning'>This specimen is already marked!</span>")
 		return
-	if(isabductor(target) || iscow(target))
-		marked = target
-		to_chat(user, "<span class='notice'>You mark [target] for future retrieval.</span>")
+	if(ishuman(target))
+		if(isabductor(target))
+			marked = target
+			to_chat(user, "<span class='notice'>You mark [target] for future retrieval.</span>")
+		else
+			prepare(target,user)
 	else
 		prepare(target,user)
 
@@ -341,8 +344,8 @@
 		if(QDELETED(G))
 			return
 
-		if(C.anti_magic_check(FALSE, FALSE, TRUE, 0))
-			to_chat(user, "<span class='warning'>Your target seems to have some sort of tinfoil protection on, blocking the message from being sent!</span>")
+		if(istype(C.get_item_by_slot(SLOT_HEAD), /obj/item/clothing/head/foilhat))
+			to_chat(user, "<span class='warning'>Your target seems to have some sort of protective headgear on, blocking the message from being sent!</span>")
 			return
 
 		G.mind_control(command, user)
@@ -516,10 +519,10 @@ Congratulations! You are now trained for invasive xenobiology research!"}
 
 /obj/item/abductor/baton/proc/SleepAttack(mob/living/L,mob/living/user)
 	if(L.incapacitated(TRUE, TRUE))
-		if(L.anti_magic_check(FALSE, FALSE, TRUE))
-			to_chat(user, "<span class='warning'>The specimen's tinfoil protection is interfering with the sleep inducement!</span>")
-			L.visible_message("<span class='danger'>[user] tried to induced sleep in [L] with [src], but [L.p_their()] tinfoil protection [L.p_them()]!</span>", \
-								"<span class='userdanger'>You feel a strange wave of heavy drowsiness wash over you, but your tinfoil protection deflects most of it!</span>")
+		if(istype(L.get_item_by_slot(SLOT_HEAD), /obj/item/clothing/head/foilhat))
+			to_chat(user, "<span class='warning'>The specimen's protective headgear is interfering with the sleep inducement!</span>")
+			L.visible_message("<span class='danger'>[user] tried to induced sleep in [L] with [src], but [L.p_their()] headgear protected [L.p_them()]!</span>", \
+								"<span class='userdanger'>You feel a strange wave of heavy drowsiness wash over you, but your headgear deflects most of it!</span>")
 			L.drowsyness += 2
 			return
 		L.visible_message("<span class='danger'>[user] has induced sleep in [L] with [src]!</span>", \
@@ -528,10 +531,10 @@ Congratulations! You are now trained for invasive xenobiology research!"}
 		L.Sleeping(1200)
 		log_combat(user, L, "put to sleep")
 	else
-		if(L.anti_magic_check(FALSE, FALSE, TRUE, 0))
-			to_chat(user, "<span class='warning'>The specimen's tinfoil protection is completely blocking our sleep inducement methods!</span>")
-			L.visible_message("<span class='danger'>[user] tried to induce sleep in [L] with [src], but [L.p_their()] tinfoil protection completely protected [L.p_them()]!</span>", \
-								"<span class='userdanger'>Any sense of drowsiness is quickly diminished as your tinfoil protection deflects the effects!</span>")
+		if(istype(L.get_item_by_slot(SLOT_HEAD), /obj/item/clothing/head/foilhat))
+			to_chat(user, "<span class='warning'>The specimen's protective headgear is completely blocking our sleep inducement methods!</span>")
+			L.visible_message("<span class='danger'>[user] tried to induce sleep in [L] with [src], but [L.p_their()] headgear completely protected [L.p_them()]!</span>", \
+								"<span class='userdanger'>Any sense of drowsiness is quickly diminished as your headgear deflects the effects!</span>")
 			return
 		L.drowsyness += 1
 		to_chat(user, "<span class='warning'>Sleep inducement works fully only on stunned specimens! </span>")
@@ -666,13 +669,6 @@ Congratulations! You are now trained for invasive xenobiology research!"}
 		qdel(src)
 	else
 		playsound(src, 'sound/machines/buzz-two.ogg', 50)
-<<<<<<< HEAD
-=======
-
-/obj/item/abductor_machine_beacon/chem_dispenser
-	name = "beacon - Reagent Synthesizer"
-	spawned_machine = /obj/machinery/chem_dispenser/abductor
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 /obj/item/abductor_machine_beacon/chem_dispenser
 	name = "beacon - Reagent Synthesizer"

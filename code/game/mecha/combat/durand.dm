@@ -138,10 +138,7 @@ own integrity back to max. Shield is automatically dropped if we run out of powe
 	pixel_y = 4
 	max_integrity = 10000
 	obj_integrity = 10000
-<<<<<<< HEAD
 	anchored = TRUE
-=======
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	var/obj/mecha/combat/durand/chassis ///Our link back to the durand
 	var/switching = FALSE ///To keep track of things during the animation
 
@@ -210,8 +207,4 @@ the shield is disabled by means other than the action button (like running out o
 
 /obj/durand_shield/bullet_act()
 	play_attack_sound()
-<<<<<<< HEAD
 	. = ..()
-=======
-	. = ..()
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36

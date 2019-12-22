@@ -56,7 +56,8 @@
 	for(var/obj/item/I in contents)
 		I.on_mob_death(src, gibbed)
 	if(mind && mind.name && mind.active && !istype(T.loc, /area/ctf))
-		deadchat_broadcast(" has died at <b>[get_area_name(T)]</b>.", "<b>[mind.name]</b>", follow_target = src, turf_target = T, message_type=DEADCHAT_DEATHRATTLE)
+		var/rendered = "<span class='deadsay'><b>[mind.name]</b> has died at <b>[get_area_name(T)]</b>.</span>"
+		deadchat_broadcast(rendered, follow_target = src, turf_target = T, message_type=DEADCHAT_DEATHRATTLE)
 	if(mind)
 		mind.store_memory("Time of death: [tod]", 0)
 	GLOB.alive_mob_list -= src

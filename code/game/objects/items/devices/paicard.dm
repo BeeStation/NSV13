@@ -158,11 +158,7 @@
 				src.add_overlay("pai-sunglasses")
 
 /obj/item/paicard/proc/alertUpdate()
-<<<<<<< HEAD
 	audible_message("<span class ='info'>[src] flashes a message across its screen, \"Additional personalities available for download.\"</span>", "<span class='notice'>[src] vibrates with an alert.</span>")
-=======
-	audible_message("<span class='info'>[src] flashes a message across its screen, \"Additional personalities available for download.\"</span>", "<span class='notice'>[src] vibrates with an alert.</span>")
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 /obj/item/paicard/emp_act(severity)
 	. = ..()

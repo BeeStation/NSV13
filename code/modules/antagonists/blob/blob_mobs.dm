@@ -57,7 +57,7 @@
 	return ..()
 
 /mob/living/simple_animal/hostile/blob/proc/blob_chat(msg)
-	var/spanned_message = say_quote(msg)
+	var/spanned_message = say_quote(msg, get_spans())
 	var/rendered = "<font color=\"#EE4000\"><b>\[Blob Telepathy\] [real_name]</b> [spanned_message]</font>"
 	for(var/M in GLOB.mob_list)
 		if(isovermind(M) || istype(M, /mob/living/simple_animal/hostile/blob))
@@ -144,11 +144,7 @@
 
 
 
-<<<<<<< HEAD:code/modules/antagonists/blob/blob_mobs.dm
 	if(overmind?.blobstrain)
-=======
-	if(overmind && overmind.blobstrain)
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36:code/modules/antagonists/blob/blob_mobs.dm
 		overmind.blobstrain.on_sporedeath(src)
 	else
 		reagents.add_reagent(/datum/reagent/toxin/spore, 10)
@@ -275,11 +271,7 @@
 /mob/living/simple_animal/hostile/blob/blobbernaut/AttackingTarget()
 	. = ..()
 	if(. && isliving(target) && overmind)
-<<<<<<< HEAD:code/modules/antagonists/blob/blob_mobs.dm
 		overmind.blobstrain.blobbernaut_attack(target)
-=======
-		overmind.blobstrain.blobbernaut_attack(target, src)
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36:code/modules/antagonists/blob/blob_mobs.dm
 
 /mob/living/simple_animal/hostile/blob/blobbernaut/update_icons()
 	..()

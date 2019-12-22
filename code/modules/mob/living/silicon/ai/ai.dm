@@ -29,10 +29,6 @@
 	sec_hud = DATA_HUD_SECURITY_BASIC
 	d_hud = DATA_HUD_DIAGNOSTIC_ADVANCED
 	mob_size = MOB_SIZE_LARGE
-<<<<<<< HEAD
-=======
-	radio = /obj/item/radio/headset/silicon/ai
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	var/battery = 200 //emergency power if the AI's APC is off
 	var/list/network = list("ss13")
 	var/obj/machinery/camera/current
@@ -152,10 +148,7 @@
 	aiPDA.name = real_name + " (" + aiPDA.ownjob + ")"
 
 	aiMulti = new(src)
-<<<<<<< HEAD
 	radio = new /obj/item/radio/headset/silicon/ai(src)
-=======
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	aicamera = new/obj/item/camera/siliconcam/ai_camera(src)
 
 	deploy_action.Grant(src)

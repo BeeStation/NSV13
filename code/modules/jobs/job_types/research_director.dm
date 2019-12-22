@@ -13,7 +13,7 @@
 	req_admin_notify = 1
 	minimal_player_age = 7
 	exp_type_department = EXP_TYPE_SCIENCE
-	exp_requirements = 240
+	exp_requirements = 180
 	exp_type = EXP_TYPE_CREW
 
 	outfit = /datum/outfit/job/rd
@@ -38,7 +38,7 @@
 	name = "Research Director"
 	jobtype = /datum/job/rd
 
-	id = /obj/item/card/id/job/rd
+	id = /obj/item/card/id/silver
 	belt = /obj/item/pda/heads/rd
 	ears = /obj/item/radio/headset/heads/rd
 	uniform = /obj/item/clothing/under/rank/research_director

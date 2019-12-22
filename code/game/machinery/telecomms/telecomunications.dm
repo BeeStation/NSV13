@@ -153,7 +153,6 @@ GLOBAL_LIST_EMPTY(telecomms_list)
 		var/duration = (300 * 10)/severity
 		addtimer(CALLBACK(src, .proc/de_emp), rand(duration - 20, duration + 20))
 
-<<<<<<< HEAD
 /obj/machinery/telecomms/obj_break(damage_flag)
 	. = ..()
 	update_power()
@@ -162,7 +161,5 @@ GLOBAL_LIST_EMPTY(telecomms_list)
 	..()
 	update_power()
 
-=======
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 /obj/machinery/telecomms/proc/de_emp()
 	stat &= ~EMPED

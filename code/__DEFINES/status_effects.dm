@@ -77,7 +77,6 @@
 
 #define STATUS_EFFECT_SAWBLEED /datum/status_effect/saw_bleed //! if the bleed builds up enough, takes a ton of damage
 
-<<<<<<< HEAD
 #define STATUS_EFFECT_NECKSLICE /datum/status_effect/neck_slice //Creates the flavor messages for the neck-slice
 
 #define STATUS_EFFECT_NECROPOLIS_CURSE /datum/status_effect/necropolis_curse
@@ -87,16 +86,6 @@
 #define CURSE_GRASPING	8 //! hands reach out from the sides of the screen, doing damage and stunning if they hit the target
 
 #define STATUS_EFFECT_KINDLE /datum/status_effect/kindle //! A knockdown reduced by 1 second for every 3 points of damage the target takes.
-=======
-#define STATUS_EFFECT_SAWBLEED /datum/status_effect/stacking/saw_bleed //if the bleed builds up enough, takes a ton of damage
-
-#define STATUS_EFFECT_NECROPOLIS_CURSE /datum/status_effect/necropolis_curse
-#define STATUS_EFFECT_HIVEMIND_CURSE /datum/status_effect/necropolis_curse/hivemind
-#define CURSE_BLINDING	1 //makes the edges of the target's screen obscured
-#define CURSE_SPAWNING	2 //spawns creatures that attack the target only
-#define CURSE_WASTING	4 //causes gradual damage
-#define CURSE_GRASPING	8 //hands reach out from the sides of the screen, doing damage and stunning if they hit the target
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 #define STATUS_EFFECT_ICHORIAL_STAIN /datum/status_effect/ichorial_stain //! Prevents a servant from being revived by vitality matrices for one minute.
 
@@ -110,13 +99,7 @@
 
 #define STATUS_EFFECT_STASIS /datum/status_effect/incapacitating/stasis //! Halts biological functions like bleeding, chemical processing, blood regeneration, walking, etc
 
-<<<<<<< HEAD
 //---------//
-=======
-#define STATUS_EFFECT_STASIS /datum/status_effect/incapacitating/stasis //Halts biological functions like bleeding, chemical processing, blood regeneration, walking, etc
-
-/////////////
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 // NEUTRAL //
 //---------//
 
@@ -130,28 +113,15 @@
 
 #define STATUS_EFFECT_BUGGED /datum/status_effect/bugged //! Lets other mobs listen in on what it hears
 
-<<<<<<< HEAD
 #define STATUS_EFFECT_HIVE_TRACKER /datum/status_effect/hive_track
 
 #define STATUS_EFFECT_HIVE_RADAR /datum/status_effect/agent_pinpointer/hivemind
 
 #define STATUS_EFFECT_BOUNTY /datum/status_effect/bounty //! rewards the person who added this to the target with refreshed spells and a fair heal
-=======
-#define STATUS_EFFECT_BOUNTY /datum/status_effect/bounty //rewards the person who added this to the target with refreshed spells and a fair heal
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 //---------//
 //  SLIME  //
 //---------//
 
-<<<<<<< HEAD
 #define STATUS_EFFECT_RAINBOWPROTECTION /datum/status_effect/rainbow_protection //! Invulnerable and pacifistic
 #define STATUS_EFFECT_SLIMESKIN /datum/status_effect/slimeskin //! Increased armor
-=======
-#define STATUS_EFFECT_RAINBOWPROTECTION /datum/status_effect/rainbow_protection //Invulnerable and pacifistic
-#define STATUS_EFFECT_SLIMESKIN /datum/status_effect/slimeskin //Increased armor
-
-// Stasis helpers
-
-#define IS_IN_STASIS(mob) (mob.has_status_effect(STATUS_EFFECT_STASIS))
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36

@@ -47,8 +47,8 @@ GLOBAL_LIST_INIT(maintenance_loot, list(
 	/obj/item/radio/off = 2,
 	/obj/item/t_scanner = 5,
 	/obj/item/airlock_painter = 1,
-	/obj/item/stack/cable_coil = 4,
-	/obj/item/stack/cable_coil/five = 6,
+	/obj/item/stack/cable_coil/random = 4,
+	/obj/item/stack/cable_coil/random/five = 6,
 	/obj/item/stack/medical/bruise_pack = 1,
 	/obj/item/stack/rods/ten = 9,
 	/obj/item/stack/rods/twentyfive = 1,
@@ -104,12 +104,7 @@ GLOBAL_LIST_INIT(maintenance_loot, list(
 	/obj/item/storage/secure/briefcase = 3,
 	/obj/item/storage/toolbox/artistic = 2,
 	/obj/item/toy/eightball = 1,
-<<<<<<< HEAD
 	/obj/item/reagent_containers/pill/floorpill = 4,
 	/obj/item/reagent_containers/food/snacks/canned/peaches/maint = 1,
-=======
-	/obj/item/reagent_containers/pill/floorpill = 1,
-	/obj/item/reagent_containers/food/snacks/cannedpeaches/maint = 1,
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	"" = 3
 	))

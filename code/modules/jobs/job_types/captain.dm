@@ -11,7 +11,7 @@
 	selection_color = "#ccccff"
 	req_admin_notify = 1
 	minimal_player_age = 14
-	exp_requirements = 480
+	exp_requirements = 180
 	exp_type = EXP_TYPE_CREW
 	exp_type_department = EXP_TYPE_COMMAND
 
@@ -44,17 +44,10 @@
 	glasses = /obj/item/clothing/glasses/sunglasses
 	ears = /obj/item/radio/headset/heads/captain/alt
 	gloves = /obj/item/clothing/gloves/color/captain
-<<<<<<< HEAD
-	uniform =  /obj/item/clothing/under/rank/captain
-	suit = /obj/item/clothing/suit/armor/vest/capcarapace
-	shoes = /obj/item/clothing/shoes/sneakers/brown
-	head = /obj/item/clothing/head/caphat
-=======
 	uniform = /obj/item/clothing/under/ship/officer
 	shoes = /obj/item/clothing/shoes/jackboots
 	suit = /obj/item/clothing/suit/ship/officer
 	head = /obj/item/clothing/head/beret/ship/captain
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	backpack_contents = list(/obj/item/melee/classic_baton/telescopic=1, /obj/item/station_charter=1)
 
 	backpack = /obj/item/storage/backpack/captain

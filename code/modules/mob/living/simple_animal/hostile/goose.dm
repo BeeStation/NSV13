@@ -34,11 +34,8 @@
 
 /mob/living/simple_animal/hostile/retaliate/goose/handle_automated_movement()
 	. = ..()
-<<<<<<< HEAD
 	if (stat == DEAD)
 		return
-=======
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	if(prob(5) && random_retaliate == TRUE)
 		Retaliate()
 
@@ -61,15 +58,10 @@
 	. = ..()
 	goosevomit = new
 	goosevomit.Grant(src)
-<<<<<<< HEAD
 	RegisterSignal(src, COMSIG_MOVABLE_MOVED, .proc/goosement)
 
 /mob/living/simple_animal/hostile/retaliate/goose/vomit/Destroy()
 	UnregisterSignal(src, COMSIG_MOVABLE_MOVED)
-=======
-
-/mob/living/simple_animal/hostile/retaliate/goose/vomit/Destroy()
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	QDEL_NULL(goosevomit)
 	return ..()
 
@@ -83,11 +75,8 @@
 		feed(O)
 
 /mob/living/simple_animal/hostile/retaliate/goose/vomit/proc/feed(obj/item/reagent_containers/food/tasty)
-<<<<<<< HEAD
 	if (stat == DEAD) // plapatin I swear to god
 		return
-=======
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	if (contents.len > GOOSE_SATIATED)
 		visible_message("<span class='notice'>[src] looks too full to eat \the [tasty]!</span>")
 		return
@@ -101,11 +90,8 @@
 		visible_message("<span class='notice'>[src] refuses to eat \the [tasty].</span>")
 
 /mob/living/simple_animal/hostile/retaliate/goose/vomit/proc/vomit()
-<<<<<<< HEAD
 	if (stat == DEAD)
 		return
-=======
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	var/turf/T = get_turf(src)
 	var/obj/item/reagent_containers/food/consumed = locate() in contents //Barf out a single food item from our guts
 	if (prob(50) && consumed)
@@ -114,13 +100,9 @@
 		playsound(T, 'sound/effects/splat.ogg', 50, 1)
 		T.add_vomit_floor(src)
 
-<<<<<<< HEAD
 /mob/living/simple_animal/hostile/retaliate/goose/vomit/proc/barf_food(atom/A, hard = FALSE)
 	if (stat == DEAD)
 		return
-=======
-/mob/living/simple_animal/hostile/retaliate/goose/vomit/proc/barf_food(var/atom/A, var/hard = FALSE)
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	if(!istype(A, /obj/item/reagent_containers/food))
 		return
 	var/turf/currentTurf = get_turf(src)
@@ -159,14 +141,9 @@
 	vomiting = FALSE
 	icon_state = initial(icon_state)
 
-<<<<<<< HEAD
 /mob/living/simple_animal/hostile/retaliate/goose/vomit/proc/goosement(atom/movable/AM, OldLoc, Dir, Forced)
 	if(stat == DEAD)
 		return
-=======
-/mob/living/simple_animal/hostile/retaliate/goose/vomit/Moved(oldLoc, dir)
-	. = ..()
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	if(vomiting)
 		vomit() // its supposed to keep vomiting if you move
 		return

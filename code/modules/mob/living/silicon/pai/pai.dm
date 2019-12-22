@@ -13,10 +13,6 @@
 	maxHealth = 500
 	layer = BELOW_MOB_LAYER
 	can_be_held = TRUE
-<<<<<<< HEAD
-=======
-	radio = /obj/item/radio/headset/silicon/pai
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	var/network = "ss13"
 	var/obj/machinery/camera/current = null
 
@@ -67,11 +63,7 @@
 	var/can_receive = TRUE
 	var/obj/item/card/id/access_card = null
 	var/chassis = "repairbot"
-<<<<<<< HEAD
 	var/list/possible_chassis = list("cat" = TRUE, "mouse" = TRUE, "monkey" = TRUE, "corgi" = FALSE, "fox" = FALSE, "repairbot" = TRUE, "rabbit" = TRUE, "bat" = FALSE, "butterfly" = FALSE, "hawk" = FALSE, "lizard" = FALSE, "duffel" = TRUE)		//assoc value is whether it can be picked up.
-=======
-	var/list/possible_chassis = list("cat" = TRUE, "mouse" = TRUE, "monkey" = TRUE, "corgi" = FALSE, "fox" = FALSE, "repairbot" = TRUE, "rabbit" = TRUE)		//assoc value is whether it can be picked up.
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	var/static/item_head_icon = 'icons/mob/pai_item_head.dmi'
 	var/static/item_lh_icon = 'icons/mob/pai_item_lh.dmi'
 	var/static/item_rh_icon = 'icons/mob/pai_item_rh.dmi'
@@ -119,11 +111,8 @@
 	job = "Personal AI"
 	signaler = new(src)
 	hostscan = new /obj/item/healthanalyzer(src)
-<<<<<<< HEAD
 	if(!radio)
 		radio = new /obj/item/radio/headset/silicon/pai(src)
-=======
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	newscaster = new /obj/machinery/newscaster(src)
 	if(!aicamera)
 		aicamera = new /obj/item/camera/siliconcam/ai_camera(src)
@@ -300,11 +289,7 @@
 /obj/item/paicard/attackby(obj/item/W, mob/user, params)
 	..()
 	user.set_machine(src)
-<<<<<<< HEAD
 	if(pai.encryptmod == TRUE)
-=======
-	if(pai && pai.encryptmod == TRUE)
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 		if(W.tool_behaviour == TOOL_SCREWDRIVER)
 			pai.radio.attackby(W, user, params)
 		else if(istype(W, /obj/item/encryptionkey))

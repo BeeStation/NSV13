@@ -39,15 +39,9 @@ To add a crossbreed:
 	throw_range = 6
 
 /obj/item/slimecross/examine(mob/user)
-<<<<<<< HEAD
     ..()
     if(effect_desc)
         to_chat(user, "<span class='notice'>[effect_desc]</span>")
-=======
-	. = ..()
-	if(effect_desc)
-		. += "<span class='notice'>[effect_desc]</span>"
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 /obj/item/slimecross/Initialize()
 	. = ..()

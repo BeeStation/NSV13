@@ -25,9 +25,6 @@
 	QDEL_NULL(soundloop)
 	return ..()
 
-/obj/machinery/power/port_gen/should_have_node()
-	return anchored
-
 /obj/machinery/power/port_gen/connect_to_network()
 	if(!anchored)
 		return FALSE
@@ -122,11 +119,7 @@
 	if(anchored)
 		. += "<span class='notice'>It is anchored to the ground.</span>"
 	if(in_range(user, src) || isobserver(user))
-<<<<<<< HEAD
 		. += "<span class='notice'>The status display reads: Fuel efficiency increased by <b>[(consumption*100)-100]%</b>.<span>"
-=======
-		. += "<span class='notice'>The status display reads: Fuel efficiency increased by <b>[(consumption*100)-100]%</b>.</span>"
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 /obj/machinery/power/port_gen/pacman/HasFuel()
 	if(sheets >= 1 / (time_per_sheet / power_output) - sheet_left)

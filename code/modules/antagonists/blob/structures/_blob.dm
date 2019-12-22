@@ -241,7 +241,6 @@
 	RETURN_TYPE(/list)
 	. = list()
 	if(overmind)
-<<<<<<< HEAD:code/modules/antagonists/blob/structures/_blob.dm
 		. += {"<b>Material: <font color=\"[overmind.blobstrain.color]\">[overmind.blobstrain.name]</font><span class='notice'>.</span></b>\n
 				<b>Material Effects:</b> <span class='notice'>[overmind.blobstrain.analyzerdescdamage]</span>\n
 				<b>Material Properties:</b> <span class='notice'>[overmind.blobstrain.analyzerdesceffect]</span>"}
@@ -253,19 +252,6 @@
 	return list({"<b>Blob Type:</b> <span class='notice'>[uppertext(initial(name))]</span>\n
 		<b>Health:</b> <span class='notice'>[obj_integrity]/[max_integrity]</span>\n
 		<b>Effects:</b> <span class='notice'>[scannerreport()]</span>"})
-=======
-		. += list("<b>Material: <font color=\"[overmind.blobstrain.color]\">[overmind.blobstrain.name]</font><span class='notice'>.</span></b>",
-		"<b>Material Effects:</b> <span class='notice'>[overmind.blobstrain.analyzerdescdamage]</span>",
-		"<b>Material Properties:</b> <span class='notice'>[overmind.blobstrain.analyzerdesceffect]</span>")
-	else
-		. += "<b>No Material Detected!</b>"
-
-/obj/structure/blob/proc/typereport(mob/user)
-	RETURN_TYPE(/list)
-	return list("<b>Blob Type:</b> <span class='notice'>[uppertext(initial(name))]</span>",
-							"<b>Health:</b> <span class='notice'>[obj_integrity]/[max_integrity]</span>",
-							"<b>Effects:</b> <span class='notice'>[scannerreport()]</span>")
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36:code/modules/antagonists/blob/structures/_blob.dm
 
 
 /obj/structure/blob/attack_animal(mob/living/simple_animal/M)
@@ -327,23 +313,14 @@
 	if(user.research_scanner || hud_to_check.hudusers[user])
 		. += "<b>Your HUD displays an extensive report...</b><br>"
 		if(overmind)
-<<<<<<< HEAD:code/modules/antagonists/blob/structures/_blob.dm
 			. += "<b>Progress to Critical Mass:</b> <span class='notice'>[overmind.blobs_legit.len]/[overmind.blobwincount].</span>"
-=======
-			. += overmind.blobstrain.examine(user)
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36:code/modules/antagonists/blob/structures/_blob.dm
 		else
 			. += "<b>Core neutralized. Critical mass no longer attainable.</b>"
 		. += chemeffectreport(user)
 		. += typereport(user)
 	else
-<<<<<<< HEAD:code/modules/antagonists/blob/structures/_blob.dm
 		if(isobserver(user) && overmind)
 			. += "<b>Progress to Critical Mass:</b> <span class='notice'>[overmind.blobs_legit.len]/[overmind.blobwincount].</span>"
-=======
-		if((user == overmind || isobserver(user)) && overmind)
-			. += overmind.blobstrain.examine(user)
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36:code/modules/antagonists/blob/structures/_blob.dm
 		. += "It seems to be made of [get_chem_name()]."
 
 /obj/structure/blob/proc/scannerreport()

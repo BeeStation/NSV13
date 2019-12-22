@@ -10,9 +10,8 @@
 	supervisors = "the head of security"
 	selection_color = "#ffeeee"
 	minimal_player_age = 7
-	exp_requirements = 180
-	exp_type = EXP_TYPE_SECURITY
-	exp_type_department = EXP_TYPE_SECURITY
+	exp_requirements = 300
+	exp_type = EXP_TYPE_CREW
 
 	outfit = /datum/outfit/job/warden
 
@@ -34,7 +33,6 @@
 	name = "Master At Arms"
 	jobtype = /datum/job/warden
 
-	id = /obj/item/card/id/job/warden
 	belt = /obj/item/pda/warden
 	ears = /obj/item/radio/headset/headset_sec/alt/pilot
 	uniform = /obj/item/clothing/under/syndicate/tacticool

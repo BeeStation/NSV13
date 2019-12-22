@@ -32,12 +32,8 @@
 
 
 //more specialised stuff
-<<<<<<< HEAD
 /// Return `gender` if it is a valid gender, otherwise `default`. No I did not mean to offend you. -qwerty
 /proc/sanitize_gender(gender,neuter=0,plural=0, default="male")
-=======
-/proc/sanitize_gender(gender,neuter=0,plural=1, default="male")
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	switch(gender)
 		if(MALE, FEMALE)
 			return gender

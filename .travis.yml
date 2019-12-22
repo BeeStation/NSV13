@@ -1,20 +1,10 @@
-<<<<<<< HEAD
 anguage: generic
-=======
-language: generic
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 dist: xenial
 sudo: false
 
 branches:
-<<<<<<< HEAD
   only:
     - master
-=======
-  except:
-  - ___TGS3TempBranch
-  - ___TGSTempBranch
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 matrix:
   include:
@@ -29,11 +19,7 @@ matrix:
         - tools/travis/install_build_tools.sh
         - tools/travis/install_spaceman_dmm.sh dreamchecker
       script:
-<<<<<<< HEAD
         - tools/travis/check_filedirs.sh beestation.dme
-=======
-        - tools/travis/check_filedirs.sh nsv13.dme
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
         - tools/travis/check_changelogs.sh
         - find . -name "*.php" -print0 | xargs -0 -n1 php -l
         - find . -name "*.json" -not -path "./tgui/node_modules/*" -print0 | xargs -0 python3 ./tools/json_verifier.py
@@ -55,11 +41,7 @@ matrix:
       before_script:
         - tools/travis/template_dm_generator.py
       script:
-<<<<<<< HEAD
         - tools/travis/dm.sh -DTRAVISBUILDING -DTRAVISTESTING -DALL_MAPS beestation.dme
-=======
-        - tools/travis/dm.sh -DTRAVISBUILDING -DTRAVISTESTING -DALL_MAPS nsv13.dme
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
     - name: "Compile and Run Tests"
       addons:
@@ -84,21 +66,11 @@ matrix:
         - tools/travis/install_libmariadb.sh
         - tools/travis/install_rust_g.sh
       before_script:
-<<<<<<< HEAD
         - mysql -u root -e 'CREATE DATABASE bee_travis;'
         - mysql -u root bee_travis < SQL/beestation_schema.sql
         - tools/travis/build_bsql.sh
       script:
         - tools/travis/dm.sh -DTRAVISBUILDING beestation.dme || travis_terminate 1
-=======
-        - mysql -u root -e 'CREATE DATABASE tg_travis;'
-        - mysql -u root tg_travis < SQL/tgstation_schema.sql
-        - mysql -u root -e 'CREATE DATABASE tg_travis_prefixed;'
-        - mysql -u root tg_travis_prefixed < SQL/tgstation_schema_prefixed.sql
-        - tools/travis/build_bsql.sh
-      script:
-        - tools/travis/dm.sh -DTRAVISBUILDING nsv13.dme || travis_terminate 1
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
         - tools/travis/run_server.sh
 
 #    - name: "Generate Documentation"
@@ -108,11 +80,7 @@ matrix:
 #        - tools/travis/install_spaceman_dmm.sh dmdoc
 #      before_script:
 #        # Travis checks out a hash, try to get back on a branch.
-<<<<<<< HEAD
 #        - git checkout -qf $(git name-rev --name-only HEAD) || true
-=======
-#        - git checkout $TRAVIS_BRANCH || true
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 #      script:
 #        - ~/dmdoc
 #        - touch dmdoc/.nojekyll
@@ -121,7 +89,3 @@ matrix:
 #        skip_cleanup: true
 #        local_dir: dmdoc
 #        github_token: $DMDOC_GITHUB_TOKEN
-<<<<<<< HEAD
-=======
-#        fqdn: codedocs.tgstation13.org
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36

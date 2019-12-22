@@ -229,11 +229,7 @@ GLOBAL_LIST_EMPTY(blob_nodes)
 
 	src.log_talk(message, LOG_SAY)
 
-<<<<<<< HEAD:code/modules/antagonists/blob/overmind.dm
 	var/message_a = say_quote(message, get_spans())
-=======
-	var/message_a = say_quote(message)
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36:code/modules/antagonists/blob/overmind.dm
 	var/rendered = "<span class='big'><font color=\"#EE4000\"><b>\[Blob Telepathy\] [name](<font color=\"[blobstrain.color]\">[blobstrain.name]</font>)</b> [message_a]</font></span>"
 
 	for(var/mob/M in GLOB.mob_list)

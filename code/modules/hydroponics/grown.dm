@@ -154,35 +154,17 @@
 
 /obj/item/reagent_containers/food/snacks/grown/on_juice()
 	var/nutriment = reagents.get_reagent_amount(/datum/reagent/consumable/nutriment)
-<<<<<<< HEAD
 	if(juice_results?.len)
-=======
-	if(juice_results&&juice_results.len)
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 		for(var/i in 1 to juice_results.len)
 			juice_results[juice_results[i]] = nutriment
 		reagents.del_reagent(/datum/reagent/consumable/nutriment)
 		reagents.del_reagent(/datum/reagent/consumable/nutriment/vitamin)
 
-<<<<<<< HEAD
 // For item-containing growns such as eggy or gatfruit
-=======
-/*
- * Attack self for growns
- *
- * Spawns the trash item at the growns drop_location()
- * 
- * Then deletes the grown object
- *
- * Then puts trash item into the hand of user attack selfing, or drops it back on the ground
- */
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 /obj/item/reagent_containers/food/snacks/grown/shell/attack_self(mob/user)
 	var/obj/item/T
 	if(trash)
-		T = generate_trash(drop_location())
-		//Delete grown so our hand is free
+		T = generate_trash()
 		qdel(src)
-		//put trash obj in hands or drop to ground
-		user.put_in_hands(T, user.active_hand_index, TRUE)
+		user.putItemFromInventoryInHandIfPossible(T, user.active_hand_index, TRUE)
 		to_chat(user, "<span class='notice'>You open [src]\'s shell, revealing \a [T].</span>")

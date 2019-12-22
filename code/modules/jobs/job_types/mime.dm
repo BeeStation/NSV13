@@ -20,14 +20,12 @@
 	display_rank = "CRW" //nsv13 - Displays the player's actual rank alongside their name, such as GSGT Sergei Koralev
 
 /datum/job/mime/after_spawn(mob/living/carbon/human/H, mob/M)
-	. = ..()
 	H.apply_pref_name("mime", M.client)
 
 /datum/outfit/job/mime
 	name = "Mime"
 	jobtype = /datum/job/mime
 
-	id = /obj/item/card/id/job/mime
 	belt = /obj/item/pda/mime
 	ears = /obj/item/radio/headset/headset_srv
 	uniform = /obj/item/clothing/under/rank/mime

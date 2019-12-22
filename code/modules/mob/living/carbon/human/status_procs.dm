@@ -15,17 +15,13 @@
 	amount = dna.species.spec_stun(src, amount)
 	return ..()
 
-/mob/living/carbon/human/Unconscious(amount, updating = 1, ignore_canstun = 0)
+/mob/living/carbon/human/Unconscious(amount, updating = 1, ignore_canunconscious = 0)
 	amount = dna.species.spec_stun(src,amount)
 	if(HAS_TRAIT(src, TRAIT_HEAVY_SLEEPER))
 		amount *= rand(1.25, 1.3)
 	return ..()
 
-<<<<<<< HEAD
 /mob/living/carbon/human/Sleeping(amount, updating = 1, ignore_sleepimmune = 0)
-=======
-/mob/living/carbon/human/Sleeping(amount, updating = 1, ignore_canstun = 0)
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	if(HAS_TRAIT(src, TRAIT_HEAVY_SLEEPER))
 		amount *= rand(1.25, 1.3)
 	return ..()
@@ -55,3 +51,11 @@
 			grant_language(/datum/language/beachbum)
 		else
 			remove_language(/datum/language/beachbum)
+
+/mob/living/carbon/human/proc/adjust_hygiene(amount)
+	hygiene = CLAMP(hygiene+amount, 0, HYGIENE_LEVEL_CLEAN)
+	update_smell()
+
+/mob/living/carbon/human/proc/set_hygiene(amount)
+	hygiene	 = CLAMP(amount, 0, HYGIENE_LEVEL_CLEAN)
+	update_smell()

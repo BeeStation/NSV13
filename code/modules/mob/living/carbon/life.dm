@@ -8,11 +8,7 @@
 		damageoverlaytemp = 0
 		update_damage_hud()
 
-<<<<<<< HEAD
 	if(!IsInStasis())
-=======
-	if(!IS_IN_STASIS(src))
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 		if(stat != DEAD) //Reagent processing needs to come before breathing, to prevent edge cases.
 			handle_organs()
@@ -43,8 +39,6 @@
 	if(stat == DEAD)
 		stop_sound_channel(CHANNEL_HEARTBEAT)
 		LoadComponent(/datum/component/rot/corpse)
-
-	check_cremation()
 
 	//Updates the number of stored chemicals for powers
 	handle_changeling()
@@ -583,20 +577,16 @@ GLOBAL_LIST_INIT(ballmer_windows_me_msg, list("Yo man, what if, we like, uh, put
 //LIVER//
 /////////
 
-///Decides if the liver is failing or not.
 /mob/living/carbon/proc/handle_liver()
-<<<<<<< HEAD
 	if(!dna || (NOLIVER in dna.species?.species_traits))
-=======
-	if(!dna)
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 		return
 	var/obj/item/organ/liver/liver = getorganslot(ORGAN_SLOT_LIVER)
 	if(liver)
-		if(liver.damage < liver.maxHealth)
-			return
-		liver.failing = TRUE
-	liver_failure()
+		if(liver.damage >= liver.maxHealth)
+			liver.failing = TRUE
+			liver_failure()
+	else
+		liver_failure()
 
 /mob/living/carbon/proc/undergoing_liver_failure()
 	var/obj/item/organ/liver/liver = getorganslot(ORGAN_SLOT_LIVER)
@@ -606,70 +596,12 @@ GLOBAL_LIST_INIT(ballmer_windows_me_msg, list("Yo man, what if, we like, uh, put
 /mob/living/carbon/proc/liver_failure()
 	reagents.end_metabolization(src, keep_liverless = TRUE) //Stops trait-based effects on reagents, to prevent permanent buffs
 	reagents.metabolize(src, can_overdose=FALSE, liverless = TRUE)
-<<<<<<< HEAD
 	if(HAS_TRAIT(src, TRAIT_STABLEHEART))
-=======
-	if(HAS_TRAIT(src, TRAIT_STABLELIVER) || HAS_TRAIT(src, TRAIT_NOMETABOLISM))
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 		return
 	adjustToxLoss(4, TRUE,  TRUE)
 	if(prob(30))
 		to_chat(src, "<span class='warning'>You feel a stabbing pain in your abdomen!</span>")
 
-/////////////
-//CREMATION//
-/////////////
-/mob/living/carbon/proc/check_cremation()
-	//Only cremate while actively on fire
-	if(!on_fire)
-		return
-
-	//Only starts when the chest has taken full damage
-	var/obj/item/bodypart/chest = get_bodypart(BODY_ZONE_CHEST)
-	if(!(chest.get_damage() >= chest.max_damage))
-		return
-
-	//Burn off limbs one by one
-	var/obj/item/bodypart/limb
-	var/list/limb_list = list(BODY_ZONE_L_ARM, BODY_ZONE_R_ARM, BODY_ZONE_L_LEG, BODY_ZONE_R_LEG)
-	var/still_has_limbs = FALSE
-	for(var/zone in limb_list)
-		limb = get_bodypart(zone)
-		if(limb)
-			still_has_limbs = TRUE
-			if(limb.get_damage() >= limb.max_damage)
-				limb.cremation_progress += rand(2,5)
-				if(limb.cremation_progress >= 100)
-					if(limb.status == BODYPART_ORGANIC) //Non-organic limbs don't burn
-						limb.drop_limb()
-						limb.visible_message("<span class='warning'>[src]'s [limb.name] crumbles into ash!</span>")
-						qdel(limb)
-					else
-						limb.drop_limb()
-						limb.visible_message("<span class='warning'>[src]'s [limb.name] detaches from [p_their()] body!</span>")
-	if(still_has_limbs)
-		return
-
-	//Burn the head last
-	var/obj/item/bodypart/head = get_bodypart(BODY_ZONE_HEAD)
-	if(head)
-		if(head.get_damage() >= head.max_damage)
-			head.cremation_progress += rand(2,5)
-			if(head.cremation_progress >= 100)
-				if(head.status == BODYPART_ORGANIC) //Non-organic limbs don't burn
-					head.drop_limb()
-					head.visible_message("<span class='warning'>[src]'s head crumbles into ash!</span>")
-					qdel(head)
-				else
-					head.drop_limb()
-					head.visible_message("<span class='warning'>[src]'s head detaches from [p_their()] body!</span>")
-		return
-
-	//Nothing left: dust the body, drop the items (if they're flammable they'll burn on their own)
-	chest.cremation_progress += rand(2,5)
-	if(chest.cremation_progress >= 100)
-		visible_message("<span class='warning'>[src]'s body crumbles into a pile of ash!</span>")
-		dust(TRUE, TRUE)
 
 ////////////////
 //BRAIN DAMAGE//
@@ -681,7 +613,7 @@ GLOBAL_LIST_INIT(ballmer_windows_me_msg, list("Yo man, what if, we like, uh, put
 		BT.on_life()
 
 	if(getBrainLoss() >= BRAIN_DAMAGE_DEATH) //rip
-		to_chat(src, "<span class='userdanger'>The last spark of life in your brain fizzles out...</span>")
+		to_chat(src, "<span class='userdanger'>The last spark of life in your brain fizzles out...<span>")
 		death()
 		var/obj/item/organ/brain/B = getorganslot(ORGAN_SLOT_BRAIN)
 		if(B)

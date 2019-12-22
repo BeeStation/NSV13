@@ -168,11 +168,8 @@ ID_CONSOLE_JOBSLOT_DELAY 30
 ## allow players to initiate a restart vote
 #ALLOW_VOTE_RESTART
 
-## allow players to initiate a mode-change vote
+## allow players to initate a mode-change start
 #ALLOW_VOTE_MODE
-
-## allow players to initiate a map-change vote
-#ALLOW_VOTE_MAP
 
 ## min delay (deciseconds) between voting sessions (default 10 minutes)
 VOTE_DELAY 6000
@@ -234,22 +231,22 @@ CHECK_RANDOMIZER
 SERVER  byond://golden.beestation13.com:7777
 
 ## forum address
-FORUMURL http://forums.beestation13.com
+FORUMURL https://nsv.ddmers.com/fluxbb/index.php
 
 ## Wiki address
-WIKIURL https://wiki.beestation13.com/view
+WIKIURL https://nsv.ddmers.com/wiki/Main_Page
 
 ## Rules address
 RULESURL http://beestation13.com/rules
 
 ## Github address
-GITHUBURL https://www.github.com/beestation/beestation-hornet
+GITHUBURL https://github.com/DDMers/NSV13
 
 ## Donation URL
 DONATEURL https://www.patreon.com/user?u=10639001
 
 ## Discord Invite
-DISCORDURL https://discord.gg/zUe34rs
+DISCORDURL https://discord.gg/8rrttjN
 
 ## Round specific stats address
 ## Link to round specific parsed logs; IE statbus. It is appended with the RoundID automatically by ticker/Reboot()
@@ -265,10 +262,10 @@ DISCORDURL https://discord.gg/zUe34rs
 ## Github repo id
 ##This can be found by going to https://api.github.com/users/<user name here>/repos
 ##Or https://api.github.com/orgs/<org name here>/repos if the repo owner is an organization
-GITHUBREPOID 154500094
+GITHUBREPOID 199051995
 
 ## Ban appeals URL - usually for a forum or wherever people should go to contact your admins.
-BANAPPEALS https://forums.beestation13.com/c/ban-appeals/game-ban-appeals
+BANAPPEALS https://nsv.ddmers.com/fluxbb/viewforum.php?id=5
 
 ## System command that invokes youtube-dl, used by Play Internet Sound.
 ## You can install youtube-dl with
@@ -378,15 +375,12 @@ ANNOUNCE_ADMIN_LOGIN
 #MAPROTATION
 
 ## Map voting
-## Allows players to vote with their preffered map setting
+## Allows players to vote for their preffered map
 ## When it's set to zero, the map will be randomly picked each round
 PREFERENCE_MAP_VOTING 1
-<<<<<<< HEAD
 
 ## Starts a map vote at the end of rounds
 AUTOMAPVOTE
-=======
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 ## Map rotate chance delta
 ## This is the chance of map rotation factored to the round length.
@@ -443,21 +437,8 @@ MINUTE_CLICK_LIMIT 500
 ##How long to wait between messaging admins about occurences of a unique error
 #ERROR_MSG_DELAY 50
 
-<<<<<<< HEAD
 ## Send a message to IRC when starting a new game
 #IRC_ANNOUNCE_NEW_GAME
-=======
-
-## Chat Announce Options
-## Various messages to be sent to game chats
-## Uncommenting these will enable them, by default they will be broadcast to Game chat channels on TGS3 or non-admin channels on TGS4
-## If using TGS4, the string option can be set as a chat channel tag to limit the message to channels of that tag type (case-sensitive)
-## i.e. CHAT_ANNOUNCE_NEW_GAME chat_channel_tag
-
-## Send a message with the station name starting a new game. Also required for the notify function
-#CHAT_ANNOUNCE_NEW_GAME
-
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 ## Allow admin hrefs that don't use the new token system, will eventually be removed
 DEBUG_ADMIN_HREFS
@@ -488,14 +469,12 @@ DISABLE_HIGH_POP_MC_MODE_AMOUNT 100
 ## Uncomment to set the number of /world/Reboot()s before the DreamDaemon restarts itself. 0 means restart every round. Requires tgstation server tools.
 ROUNDS_UNTIL_HARD_RESTART 3
 
-##Default view size, in tiles.
-##	By default, this is 15x15, which gets simplified to 7 by byond
-##  15x15 would be the standard square view. 21x15 is what goonstation uses for widescreen.
-##  Setting this to something different from DEFAULT_VIEW_SQUARE will enable widescreen toggles
+##Default screen resolution, in tiles.
+##	By default, this is 15x15, which gets simplified to 7 by BYOND, as it is a 1:1 screen ratio.
+##	For reference, Goonstation uses a resolution of 21x15 for it's widescreen mode.
 ##	Do note that changing this value will affect the title screen. The title screen will have to be updated manually if this is changed.
 DEFAULT_VIEW 15x15
 
-<<<<<<< HEAD
 ## Name your perpetual currency here
 ## This is used within the metashop and earned by playing the game.
 METACURRENCY_NAME BeeCoin
@@ -507,9 +486,3 @@ GRANT_METACURRENCY
 ## Respect global bans
 ## Comment this out to ignore global bans
 RESPECT_GLOBAL_BANS
-=======
-##Default view size, in tiles. Should *always* be square.
-## The alternative square viewport size if you're using a widescreen view size
-## You probably shouldn't ever be changing this, but it's here if you want to.
-DEFAULT_VIEW_SQUARE 15x15
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36

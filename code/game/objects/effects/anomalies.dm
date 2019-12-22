@@ -281,19 +281,11 @@
 	S.rabid = TRUE
 	S.amount_grown = SLIME_EVOLUTION_THRESHOLD
 	S.Evolve()
-<<<<<<< HEAD
 	
-=======
-
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	var/list/mob/dead/observer/candidates = pollCandidatesForMob("Do you want to play as a pyroclastic anomaly slime?", ROLE_PAI, null, null, 100, S, POLL_IGNORE_PYROSLIME)
 	if(LAZYLEN(candidates))
 		var/mob/dead/observer/chosen = pick(candidates)
 		S.key = chosen.key
-<<<<<<< HEAD
-=======
-		log_game("[key_name(S.key)] was made into a slime by pyroclastic anomaly at [AREACOORD(T)].")
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 /////////////////////
 

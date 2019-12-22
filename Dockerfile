@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 FROM tgstation/byond:512.1488 as base
-=======
-FROM tgstation/byond:512.1478 as base
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 FROM base as build_base
 

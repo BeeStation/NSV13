@@ -80,7 +80,6 @@
       <span>No Requests</span>
     {{/each}}
 </ui-display>
-<<<<<<< HEAD
 {{#if !data.requestonly}}
   <ui-display title='Cart' button>
     {{#partial button}}
@@ -103,27 +102,3 @@
     {{/each}}
   </ui-display>
 {{/if}}
-=======
-<ui-tabs tabs='{{tabs}}'>
-  {{#each data.supplies}}
-    <tab name='{{name}}'>
-      {{#each packs}}
-        <ui-section label='{{name}}' candystripe nowrap>
-		  {{#if small_item}}
-			<div class='content'>Small Item</div>
-		  {{else}}
-			<div class='content'> </div>
-		  {{/if}}
-		  {{#if access}}
-			<div class='content'>Restrictions Apply</div>
-		  {{else}}
-			<div class='content'> </div>
-		  {{/if}}
-          <ui-button tooltip='{{desc}}' tooltip-side='left' action='add' params='{"id": "{{id}}","self_paid": "0"}'>{{cost}}Credits</ui-button>
-			<ui-button tooltip='Pay with your bank account instead of the cargo budget. Costs 10% extra for handling fees.' tooltip-side='left' action='add' params='{"id": "{{id}}","self_paid": "1"}'>Buy Directly</ui-button>
-        </ui-section>
-      {{/each}}
-    </tab>
-  {{/each}}
-</ui-tabs>
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36

@@ -26,11 +26,7 @@ Borg Hypospray
 	var/bypass_protection = 0 //If the hypospray can go through armor or thick material
 
 	var/list/datum/reagents/reagent_list = list()
-<<<<<<< HEAD
 	var/list/reagent_ids = list(/datum/reagent/medicine/dexalin, /datum/reagent/medicine/kelotane, /datum/reagent/medicine/bicaridine, /datum/reagent/medicine/antitoxin, /datum/reagent/medicine/epinephrine, /datum/reagent/medicine/spaceacillin, /datum/reagent/medicine/salglu_solution)
-=======
-	var/list/reagent_ids = list(/datum/reagent/medicine/dexalin, /datum/reagent/medicine/sanguiose, /datum/reagent/medicine/ferveatium, /datum/reagent/medicine/frogenite, /datum/reagent/medicine/epinephrine, /datum/reagent/medicine/spaceacillin, /datum/reagent/medicine/salglu_solution)
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	var/accepts_reagent_upgrades = TRUE //If upgrades can increase number of reagents dispensed.
 	var/list/modes = list() //Basically the inverse of reagent_ids. Instead of having numbers as "keys" and strings as values it has strings as keys and numbers as values.
 								//Used as list for input() in shakers.
@@ -102,15 +98,17 @@ Borg Hypospray
 /obj/item/reagent_containers/borghypo/attack(mob/living/carbon/M, mob/user)
 	var/datum/reagents/R = reagent_list[mode]
 	if(!R.total_volume)
-		to_chat(user, "<span class='warning'>The injector is empty!</span>")
+		to_chat(user, "<span class='notice'>The injector is empty.</span>")
 		return
 	if(!istype(M))
 		return
 	if(R.total_volume && M.can_inject(user, 1, user.zone_selected,bypass_protection))
 		to_chat(M, "<span class='warning'>You feel a tiny prick!</span>")
 		to_chat(user, "<span class='notice'>You inject [M] with the injector.</span>")
+		var/fraction = min(amount_per_transfer_from_this/R.total_volume, 1)
+		R.reaction(M, INJECT, fraction)
 		if(M.reagents)
-			var/trans = R.trans_to(M, amount_per_transfer_from_this, transfered_by = user, method = INJECT)
+			var/trans = R.trans_to(M, amount_per_transfer_from_this, transfered_by = user)
 			to_chat(user, "<span class='notice'>[trans] unit\s injected.  [R.total_volume] unit\s remaining.</span>")
 
 	var/list/injected = list()

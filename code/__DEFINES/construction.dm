@@ -59,12 +59,8 @@
 // let's just pretend fulltile windows being children of border windows is fine
 #define FULLTILE_WINDOW_DIR NORTHEAST
 
-<<<<<<< HEAD
 
 /// The amount of materials you get from a sheet of mineral like iron/diamond/glass etc
-=======
-//The amount of materials you get from a sheet of mineral like iron/diamond/glass etc
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 #define MINERAL_MATERIAL_AMOUNT 2000
 /// The maximum size of a stack object.
 #define MAX_STACK_SIZE 50
@@ -108,7 +104,4 @@
 
 #define RCD_UPGRADE_FRAMES	1
 #define RCD_UPGRADE_SIMPLE_CIRCUITS	2
-<<<<<<< HEAD
 #define RCD_UPGRADE_SILO_LINK	4
-=======
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36

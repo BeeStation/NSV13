@@ -80,13 +80,10 @@ global procs
 	say_quote(input, spans, message_mode)
 		Adds a verb and quotes to a message. Also attaches span classes to a message.
         Verbs are determined by verb_say/verb_ask/verb_yell variables. Called on the speaker.
-<<<<<<< HEAD:code/modules/mob/say_readme.md
 
 	get_spans(input, spans)
 		Returns the list of spans that are always applied to messages of this atom.
 		Always return ..() | + youroutput when overriding this proc!
-=======
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36:code/modules/mob/say_readme.md
 
 /mob
 	say_dead(message)

@@ -29,11 +29,7 @@
 	if(charging)
 		. += "Current charge: [round(charging.percent(), 1)]%."
 	if(in_range(user, src) || isobserver(user))
-<<<<<<< HEAD
 		. += "<span class='notice'>The status display reads: Charge rate at <b>[charge_rate]J</b> per cycle.<span>"
-=======
-		. += "<span class='notice'>The status display reads: Charge rate at <b>[charge_rate]J</b> per cycle.</span>"
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 /obj/machinery/cell_charger/attackby(obj/item/W, mob/user, params)
 	if(istype(W, /obj/item/stock_parts/cell) && !panel_open)

@@ -38,7 +38,6 @@
 	category = list("Ammo")
 	departmental_flags = DEPARTMENTAL_FLAG_SECURITY
 
-<<<<<<< HEAD
 /datum/design/sleepy/sec
 	name = "Soporific Shell"
 	id = "sleepy"
@@ -48,8 +47,6 @@
 	build_path = /obj/item/ammo_casing/shotgun/sleepytime
 	departmental_flags = DEPARTMENTAL_FLAG_SECURITY
 
-=======
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 /datum/design/rubbershot/sec
 	id = "sec_rshot"
 	build_type = PROTOLATHE

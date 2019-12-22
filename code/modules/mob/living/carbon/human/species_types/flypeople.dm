@@ -2,11 +2,7 @@
 	name = "Flyperson"
 	id = "fly"
 	say_mod = "buzzes"
-<<<<<<< HEAD
 	species_traits = list(NOEYESPRITES, NO_UNDERWEAR)
-=======
-	species_traits = list(NOEYESPRITES)
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	inherent_biotypes = list(MOB_ORGANIC, MOB_HUMANOID, MOB_BUG)
 	mutanttongue = /obj/item/organ/tongue/fly
 	mutantliver = /obj/item/organ/liver/fly

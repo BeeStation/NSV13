@@ -208,7 +208,6 @@
 	id = /datum/reagent/medicine/haloperidol
 	results = list(/datum/reagent/medicine/haloperidol = 5)
 	required_reagents = list(/datum/reagent/chlorine = 1, /datum/reagent/fluorine = 1, /datum/reagent/aluminium = 1, /datum/reagent/medicine/potass_iodide = 1, /datum/reagent/oil = 1)
-<<<<<<< HEAD
 
 /datum/chemical_reaction/bicaridine
 	name = "Bicaridine"
@@ -246,18 +245,12 @@
 	id = /datum/reagent/medicine/tricordrazine
 	results = list(/datum/reagent/medicine/tricordrazine = 3)
 	required_reagents = list(/datum/reagent/medicine/bicaridine = 1, /datum/reagent/medicine/kelotane = 1, /datum/reagent/medicine/antitoxin = 1)
-=======
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 /datum/chemical_reaction/regen_jelly
 	name = "Regenerative Jelly"
 	id = /datum/reagent/medicine/regen_jelly
 	results = list(/datum/reagent/medicine/regen_jelly = 2)
-<<<<<<< HEAD
 	required_reagents = list(/datum/reagent/medicine/tricordrazine = 1, /datum/reagent/toxin/slimejelly = 1)
-=======
-	required_reagents = list(/datum/reagent/medicine/omnizine = 1, /datum/reagent/toxin/slimejelly = 1)
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 /datum/chemical_reaction/corazone
 	name = "Corazone"
@@ -285,7 +278,6 @@
 	results = list(/datum/reagent/medicine/psicodine = 5)
 	required_reagents = list( /datum/reagent/medicine/mannitol = 2, /datum/reagent/water = 2, /datum/reagent/impedrezene = 1)
 
-<<<<<<< HEAD
 /datum/chemical_reaction/system_cleaner
 	name = "System Cleaner"
 	id = /datum/reagent/medicine/system_cleaner
@@ -313,42 +305,3 @@
 	results = list(/datum/reagent/medicine/hepanephrodaxon = 5)
 	required_reagents = list(/datum/reagent/medicine/carthatoline = 2, /datum/reagent/carbon = 2, /datum/reagent/lithium = 1)
 	required_catalysts = list(/datum/reagent/toxin/plasma = 5)
-=======
-/datum/chemical_reaction/rhigoxane
-	name = "Rhigoxane"
-	id = /datum/reagent/medicine/rhigoxane
-	results = list(/datum/reagent/medicine/rhigoxane/ = 5)
-	required_reagents = list(/datum/reagent/cryostylane = 3, /datum/reagent/bromine = 1, /datum/reagent/lye = 1)
-	required_temp = 47
-	is_cold_recipe = TRUE
-
-/datum/chemical_reaction/trophazole
-	name = "Trophazole"
-	id  = /datum/reagent/medicine/trophazole
-	results = list(/datum/reagent/medicine/trophazole = 4)
-	required_reagents = list(/datum/reagent/copper = 1, /datum/reagent/acetone = 2,  /datum/reagent/phosphorus = 1)
-
-/datum/chemical_reaction/thializid
-	name = "Thializid"
-	id = /datum/reagent/medicine/thializid
-	results = list(/datum/reagent/medicine/thializid = 5)
-	required_reagents = list(/datum/reagent/sulfur = 1, /datum/reagent/fluorine = 1, /datum/reagent/toxin = 1, /datum/reagent/nitrous_oxide = 2)
-
-/datum/chemical_reaction/sanguiose
-	name = "Sanguiose"
-	id = /datum/reagent/medicine/sanguiose
-	results = list(/datum/reagent/medicine/sanguiose= 4)
-	required_reagents = list(/datum/reagent/phosphorus = 1, /datum/reagent/hydrogen = 1,/datum/reagent/phenol=1, /datum/reagent/acetone=1,)
-	
-/datum/chemical_reaction/frogenite
-	name = "Frogenite"
-	id = /datum/reagent/medicine/frogenite
-	results = list(/datum/reagent/medicine/frogenite = 4)
-	required_reagents = list( /datum/reagent/lye = 1, /datum/reagent/hydrogen = 1,/datum/reagent/phenol=1, /datum/reagent/bromine=1,)
-
-/datum/chemical_reaction/ferveatium
-	name = "Ferveatium"
-	id = /datum/reagent/medicine/ferveatium
-	results = list(/datum/reagent/medicine/ferveatium = 4)
-	required_reagents = list( /datum/reagent/ammonia = 1, /datum/reagent/hydrogen = 1,/datum/reagent/phenol=1, /datum/reagent/toxin/acid=1,)
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36

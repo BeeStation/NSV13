@@ -132,15 +132,12 @@ GLOBAL_DATUM_INIT(iconCache, /savefile, new("tmp/iconCache.sav")) //Cache of ico
 			"ig",
 			"<span class='boldwarning'>$1</span>"
 		)
-<<<<<<< HEAD
 	if (config.ooc_filter_regex)
 		regexes["show_filtered_ooc_chat"] = list(
 			config.ooc_filter_regex.name,
 			"ig",
 			"<span class='boldwarning'>$1</span>"
 		)
-=======
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 	if (regexes.len)
 		ehjax_send(data = list("syncRegex" = regexes))
@@ -214,7 +211,6 @@ GLOBAL_DATUM_INIT(iconCache, /savefile, new("tmp/iconCache.sav")) //Cache of ico
 	log_world("\[[time2text(world.realtime, "YYYY-MM-DD hh:mm:ss")]\] Client: [(src.owner.key ? src.owner.key : src.owner)] triggered JS error: [error]")
 
 //Global chat procs
-<<<<<<< HEAD
 /proc/to_chat_immediate(target, message, handle_whitespace=TRUE)
 	if(!target)
 		return
@@ -227,19 +223,18 @@ GLOBAL_DATUM_INIT(iconCache, /savefile, new("tmp/iconCache.sav")) //Cache of ico
 	if(!istext(message))
 		if (istype(message, /image) || istype(message, /sound))
 			CRASH("Invalid message! [message]")
-=======
-/proc/to_chat_immediate(target, message, handle_whitespace = TRUE)
-	if(!target || !message)
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 		return
 
 	if(target == world)
 		target = GLOB.clients
 
 	var/original_message = message
+	//Some macros remain in the string even after parsing and fuck up the eventual output
+	message = replacetext(message, "\improper", "")
+	message = replacetext(message, "\proper", "")
 	if(handle_whitespace)
 		message = replacetext(message, "\n", "<br>")
-		message = replacetext(message, "\t", "[FOURSPACES][FOURSPACES]") //EIGHT SPACES IN TOTAL!!
+		message = replacetext(message, "\t", "[GLOB.TAB][GLOB.TAB]")
 
 	if(islist(target))
 		// Do the double-encoding outside the loop to save nanoseconds

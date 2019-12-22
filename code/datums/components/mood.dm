@@ -22,10 +22,6 @@
 	RegisterSignal(parent, COMSIG_ADD_MOOD_EVENT, .proc/add_event)
 	RegisterSignal(parent, COMSIG_CLEAR_MOOD_EVENT, .proc/clear_event)
 	RegisterSignal(parent, COMSIG_ENTER_AREA, .proc/check_area_mood)
-<<<<<<< HEAD
-=======
-	RegisterSignal(parent, COMSIG_LIVING_REVIVE, .proc/on_revive)
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 	RegisterSignal(parent, COMSIG_MOB_HUD_CREATED, .proc/modify_hud)
 	var/mob/living/owner = parent
@@ -86,8 +82,7 @@
 		msg += "<span class='nicegreen'>I don't have much of a reaction to anything right now.<span>\n"
 	to_chat(user || parent, msg)
 
-///Called after moodevent/s have been added/removed.
-/datum/component/mood/proc/update_mood()
+/datum/component/mood/proc/update_mood() //Called whenever a mood event is added or removed
 	mood = 0
 	shown_mood = 0
 	for(var/i in mood_events)
@@ -198,6 +193,7 @@
 			setSanity(sanity+0.6, maximum=SANITY_MAXIMUM)
 
 	HandleNutrition(owner)
+	HandleHygiene(owner)
 
 /datum/component/mood/proc/setSanity(amount, minimum=SANITY_INSANE, maximum=SANITY_GREAT)
 	var/mob/living/owner = parent
@@ -219,7 +215,6 @@
 	switch(sanity)
 		if(SANITY_INSANE to SANITY_CRAZY)
 			setInsanityEffect(MAJOR_INSANITY_PEN)
-<<<<<<< HEAD
 			master.add_movespeed_modifier(MOVESPEED_ID_SANITY, TRUE, 100, override=TRUE, multiplicative_slowdown=0.6, movetypes=(~FLYING))
 			sanity_level = 6
 		if(SANITY_CRAZY to SANITY_UNSTABLE)
@@ -229,17 +224,6 @@
 		if(SANITY_UNSTABLE to SANITY_DISTURBED)
 			setInsanityEffect(0)
 			master.add_movespeed_modifier(MOVESPEED_ID_SANITY, TRUE, 100, override=TRUE, multiplicative_slowdown=0.15, movetypes=(~FLYING))
-=======
-			master.add_movespeed_modifier(MOVESPEED_ID_SANITY, TRUE, 100, override=TRUE, multiplicative_slowdown=1, movetypes=(~FLYING))
-			sanity_level = 6
-		if(SANITY_CRAZY to SANITY_UNSTABLE)
-			setInsanityEffect(MINOR_INSANITY_PEN)
-			master.add_movespeed_modifier(MOVESPEED_ID_SANITY, TRUE, 100, override=TRUE, multiplicative_slowdown=0.5, movetypes=(~FLYING))
-			sanity_level = 5
-		if(SANITY_UNSTABLE to SANITY_DISTURBED)
-			setInsanityEffect(0)
-			master.add_movespeed_modifier(MOVESPEED_ID_SANITY, TRUE, 100, override=TRUE, multiplicative_slowdown=0.25, movetypes=(~FLYING))
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 			sanity_level = 4
 		if(SANITY_DISTURBED to SANITY_NEUTRAL)
 			setInsanityEffect(0)
@@ -294,14 +278,14 @@
 	qdel(event)
 	update_mood()
 
-/datum/component/mood/proc/remove_temp_moods() //Removes all temp moods
+/datum/component/mood/proc/remove_temp_moods(var/admin) //Removes all temp moods
 	for(var/i in mood_events)
 		var/datum/mood_event/moodlet = mood_events[i]
 		if(!moodlet || !moodlet.timeout)
 			continue
 		mood_events -= moodlet.category
 		qdel(moodlet)
-	update_mood()
+		update_mood()
 
 
 /datum/component/mood/proc/modify_hud(datum/source)
@@ -354,7 +338,7 @@
 
 /datum/component/mood/proc/HandleCharge(mob/living/carbon/human/H)
 	var/datum/species/ethereal/E = H.dna?.species
-	switch(E.get_charge(H))
+	switch(E.ethereal_charge)
 		if(ETHEREAL_CHARGE_NONE to ETHEREAL_CHARGE_LOWPOWER)
 			add_event(null, "charge", /datum/mood_event/decharged)
 		if(ETHEREAL_CHARGE_LOWPOWER to ETHEREAL_CHARGE_NORMAL)
@@ -364,7 +348,6 @@
 		if(ETHEREAL_CHARGE_ALMOSTFULL to ETHEREAL_CHARGE_FULL)
 			add_event(null, "charge", /datum/mood_event/charged)
 
-<<<<<<< HEAD
 /datum/component/mood/proc/HandleHygiene(mob/living/carbon/human/H)
 	if(H.hygiene <= HYGIENE_LEVEL_DIRTY)
 		HygieneMiasma(H)
@@ -385,20 +368,6 @@
 	stank.temperature = BODYTEMP_NORMAL
 	T.assume_air(stank)
 	T.air_update_turf()
-=======
-/datum/component/mood/proc/check_area_mood(datum/source, var/area/A)
-	if(A.mood_bonus)
-		add_event(null, "area", /datum/mood_event/area, list(A.mood_bonus, A.mood_message))
-	else
-		clear_event(null, "area")
-
-///Called when parent is ahealed.
-/datum/component/mood/proc/on_revive(datum/source, full_heal)
-	if(!full_heal)
-		return
-	remove_temp_moods()
-	setSanity(initial(sanity))
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 /datum/component/mood/proc/check_area_mood(datum/source, var/area/A)
 	if(A.mood_bonus)

@@ -155,6 +155,8 @@
 /obj/docking_port/stationary
 	name = "dock"
 
+	area_type = SHUTTLE_DEFAULT_UNDERLYING_AREA
+
 	var/last_dock_time
 
 	var/datum/map_template/shuttle/roundstart_template
@@ -167,9 +169,6 @@
 		id = "[SSshuttle.stationary.len]"
 	if(name == "dock")
 		name = "dock[SSshuttle.stationary.len]"
-	if(!area_type)
-		var/area/place = get_area(src)
-		area_type = place?.type // We might be created in nullspace
 
 	if(mapload)
 		for(var/turf/T in return_turfs())
@@ -184,13 +183,6 @@
 		SSshuttle.stationary -= src
 	. = ..()
 
-/obj/docking_port/stationary/Moved(atom/oldloc, dir, forced)
-	. = ..()
-	if(area_type) // We already have one
-		return
-	var/area/newarea = get_area(src)
-	area_type = newarea?.type
-
 /obj/docking_port/stationary/proc/load_roundstart()
 	if(json_key)
 		var/sid = SSmapping.config.shuttles[json_key]
@@ -202,10 +194,10 @@
 
 		roundstart_template = SSmapping.shuttle_templates[sid]
 		if(!roundstart_template)
-			CRASH("Invalid path ([sid]/[roundstart_template]) passed to docking port.")
+			CRASH("Invalid path ([roundstart_template]) passed to docking port.")
 
 	if(roundstart_template)
-		SSshuttle.action_load(roundstart_template, src)
+		SSshuttle.manipulator.action_load(roundstart_template, src)
 
 //returns first-found touching shuttleport
 /obj/docking_port/stationary/get_docked()

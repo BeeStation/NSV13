@@ -9,11 +9,7 @@
 	if (notransform)
 		return
 
-<<<<<<< HEAD
 	if(..() && !IsInStasis())
-=======
-	if(..() && !IS_IN_STASIS(src))
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 		if(!client)
 			if(stat == CONSCIOUS)

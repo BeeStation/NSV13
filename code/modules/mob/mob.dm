@@ -167,10 +167,7 @@
 	else
 		to_chat(src, msg)
 
-<<<<<<< HEAD
 
-=======
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 /**
   * Generate a visible message from this atom
   *
@@ -188,23 +185,17 @@
   * * vision_distance (optional) define how many tiles away the message can be seen.
   * * ignored_mob (optional) doesn't show any message to a given mob if TRUE.
   */
-<<<<<<< HEAD
 /atom/proc/visible_message(message, self_message, blind_message, vision_distance, ignored_mob)
-=======
-/atom/proc/visible_message(message, self_message, blind_message, vision_distance, list/ignored_mobs)
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	var/turf/T = get_turf(src)
 	if(!T)
 		return
-	if(!islist(ignored_mobs))
-		ignored_mobs = list(ignored_mobs)
 	var/range = 7
 	if(vision_distance)
 		range = vision_distance
 	for(var/mob/M in get_hearers_in_view(range, src))
 		if(!M.client)
 			continue
-		if(M in ignored_mobs)
+		if(M == ignored_mob)
 			continue
 		var/msg = message
 		if(M == src) //the src always see the main message or self message
@@ -372,7 +363,6 @@
 			return 1
 
 	return 0
-<<<<<<< HEAD
 
 // Convinience proc.  Collects crap that fails to equip either onto the mob's back, or drops it.
 // Used in job equipping so shit doesn't pile up at the start loc.
@@ -399,8 +389,6 @@
 				STR.handle_item_insertion(W,1)
 			return B
 
-=======
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 /**
   * Reset the attached clients perspective (viewpoint)
   *
@@ -458,7 +446,7 @@
 		return
 
 	if(is_blind(src))
-		to_chat(src, "<span class='warning'>Something is there but you can't see it!</span>")
+		to_chat(src, "<span class='notice'>Something is there but you can't see it.</span>")
 		return
 
 	face_atom(A)
@@ -579,10 +567,7 @@
 		memory_throttle_time = world.time + 5 SECONDS
 		msg = copytext(msg, 1, MAX_MESSAGE_LEN)
 		msg = sanitize(msg)
-<<<<<<< HEAD
 
-=======
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 		mind.store_memory(msg)
 	else
 		to_chat(src, "You don't have a mind datum for some reason, so you can't add a note to it.")
@@ -720,16 +705,12 @@
 	. = ..()
 	if(ismob(dropping) && dropping != user)
 		var/mob/M = dropping
-<<<<<<< HEAD
 		if(ismob(user))
 			var/mob/U = user
 			if(!iscyborg(U) || U.a_intent == INTENT_HARM)
 				M.show_inv(U)
 		else
 			M.show_inv(user)
-=======
-		M.show_inv(user)
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 ///Is the mob muzzled (default false)
 /mob/proc/is_muzzled()
@@ -818,12 +799,9 @@
 		add_spells_to_statpanel(mind.spell_list)
 	add_spells_to_statpanel(mob_spell_list)
 
-<<<<<<< HEAD
 	winset(src, "current-map", "text = 'Map: [SSmapping.config?.map_name || "Loading..."]'")
 
 
-=======
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 /**
   * Convert a list of spells into a displyable list for the statpanel
   *
@@ -872,12 +850,9 @@
 		return FALSE
 	return ..()
 
-<<<<<<< HEAD
 /mob/dead/observer/canface()
 	return TRUE
 
-=======
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 ///Hidden verb to turn east
 /mob/verb/eastface()
 	set hidden = TRUE
@@ -960,16 +935,11 @@
 			qdel(S)
 
 ///Return any anti magic atom on this mob that matches the magic type
-<<<<<<< HEAD
 /mob/proc/anti_magic_check(magic = TRUE, holy = FALSE, major = TRUE, self = FALSE)
 	if(!magic && !holy)
-=======
-/mob/proc/anti_magic_check(magic = TRUE, holy = FALSE, tinfoil = FALSE, chargecost = 1, self = FALSE)
-	if(!magic && !holy && !tinfoil)
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 		return
 	var/list/protection_sources = list()
-	if(SEND_SIGNAL(src, COMSIG_MOB_RECEIVE_MAGIC, src, magic, holy, tinfoil, chargecost, self, protection_sources) & COMPONENT_BLOCK_MAGIC)
+	if(SEND_SIGNAL(src, COMSIG_MOB_RECEIVE_MAGIC, src, magic, holy, major, self, protection_sources) & COMPONENT_BLOCK_MAGIC)
 		if(protection_sources.len)
 			return pick(protection_sources)
 		else
@@ -1028,7 +998,6 @@
 /mob/proc/can_interact_with(atom/A)
 	return IsAdminGhost(src) || Adjacent(A)
 
-<<<<<<< HEAD
 ///Can the mob see reagents inside of containers?
 /mob/proc/can_see_reagents()
 	if(stat == DEAD) //Ghosts and such can always see reagents
@@ -1049,8 +1018,6 @@
 				return 1
 	return 0
 
-=======
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 ///Can the mob use Topic to interact with machines
 /mob/proc/canUseTopic(atom/movable/M, be_close=FALSE, no_dextery=FALSE, no_tk=FALSE)
 	return

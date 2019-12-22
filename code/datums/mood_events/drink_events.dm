@@ -21,11 +21,3 @@
 	description = "<span class='nicegreen'>That drink was amazing!</span>\n"
 	mood_change = 8
 	timeout = 7 MINUTES
-<<<<<<< HEAD
-=======
-
-/datum/mood_event/amazingtaste
-	description = "<span class='nicegreen'>Amazing taste!</span>\n"
-	mood_change = 50
-	timeout = 10 MINUTES
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36

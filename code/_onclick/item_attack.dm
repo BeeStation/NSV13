@@ -39,7 +39,6 @@
 	if(..())
 		return TRUE
 	user.changeNext_move(CLICK_CD_MELEE)
-<<<<<<< HEAD
 	if(user.a_intent == INTENT_HARM && stat == DEAD && (butcher_results || guaranteed_butcher_results)) //can we butcher it?
 		var/datum/component/butchering/butchering = I.GetComponent(/datum/component/butchering)
 		if(butchering?.butchering_enabled)
@@ -52,8 +51,6 @@
 			I.AddComponent(/datum/component/butchering, 80 * I.toolspeed)
 			attackby(I, user, params) //call the attackby again to refresh and do the butchering check again
 			return
-=======
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	return I.attack(src, user)
 
 
@@ -115,6 +112,9 @@
 				add_splatter_floor(location)
 				if(get_dist(user, src) <= 1)	//people with TK won't get smeared with blood
 					user.add_mob_blood(src)
+					if(ishuman(user))
+						var/mob/living/carbon/human/dirtyboy = user
+						dirtyboy.adjust_hygiene(-10)
 		return TRUE //successful attack
 
 /mob/living/simple_animal/attacked_by(obj/item/I, mob/living/user)

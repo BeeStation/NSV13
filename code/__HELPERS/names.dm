@@ -92,7 +92,7 @@ GLOBAL_VAR(command_name)
 	else
 		world.name = GLOB.station_name
 
-/* Nsv13 - Changed station names to make ship names. See our overridden version of this file.
+/* NSv13 - Moved to nsv subfolder for ship names.
 /proc/new_station_name()
 	var/random = rand(1,5)
 	var/name = ""

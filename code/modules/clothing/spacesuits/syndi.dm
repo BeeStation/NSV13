@@ -137,11 +137,7 @@
 //Black-red syndicate contract varient
 /obj/item/clothing/head/helmet/space/syndicate/contract
 	name = "contractor helmet"
-<<<<<<< HEAD
 	desc = "A specialised black and gold helmet that's more compact than its standard Syndicate counterpart. Can be ultra-compressed into even the tightest of spaces."
-=======
-	desc = "A specialised black and gold helmet that's quicker, and more compact than its standard Syndicate counterpart. Can be ultra-compressed into even the tightest of spaces."
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	slowdown = 0.55
 	w_class = WEIGHT_CLASS_SMALL
 	icon_state = "syndicate-contract-helm"

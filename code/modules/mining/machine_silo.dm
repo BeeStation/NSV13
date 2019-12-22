@@ -16,11 +16,7 @@ GLOBAL_LIST_EMPTY(silo_access_logs)
 /obj/machinery/ore_silo/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/material_container,
-<<<<<<< HEAD
 		list(/datum/material/iron, /datum/material/glass, /datum/material/copper, /datum/material/silver, /datum/material/gold, /datum/material/diamond, /datum/material/plasma, /datum/material/uranium, /datum/material/bananium, /datum/material/titanium, /datum/material/bluespace, /datum/material/plastic),
-=======
-		list(/datum/material/iron, /datum/material/glass, /datum/material/silver, /datum/material/gold, /datum/material/diamond, /datum/material/plasma, /datum/material/uranium, /datum/material/bananium, /datum/material/titanium, /datum/material/bluespace, /datum/material/plastic),
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 		INFINITY,
 		FALSE,
 		/obj/item/stack,

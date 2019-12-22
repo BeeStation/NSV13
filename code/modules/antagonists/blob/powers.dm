@@ -71,11 +71,7 @@
 		var/list/nodes = list()
 		for(var/i in 1 to GLOB.blob_nodes.len)
 			var/obj/structure/blob/node/B = GLOB.blob_nodes[i]
-<<<<<<< HEAD:code/modules/antagonists/blob/powers.dm
 			nodes["Blob Node #[i] ([B.overmind ? "[B.overmind.blobstrain.name]":"No Strain"])"] = B
-=======
-			nodes["Blob Node #[i] ([get_area_name(B)])"] = B
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36:code/modules/antagonists/blob/powers.dm
 		var/node_name = input(src, "Choose a node to jump to.", "Node Jump") in nodes
 		var/obj/structure/blob/node/chosen_node = nodes[node_name]
 		if(chosen_node)
@@ -273,11 +269,7 @@
 				continue
 			if(L.stat != DEAD)
 				attacksuccess = TRUE
-<<<<<<< HEAD:code/modules/antagonists/blob/powers.dm
 			blobstrain.attack_living(L)
-=======
-			blobstrain.attack_living(L, possibleblobs)
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36:code/modules/antagonists/blob/powers.dm
 		var/obj/structure/blob/B = locate() in T
 		if(B)
 			if(attacksuccess) //if we successfully attacked a turf with a blob on it, only give an attack refund

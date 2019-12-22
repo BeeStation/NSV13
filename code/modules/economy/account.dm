@@ -7,10 +7,7 @@
 	var/list/bank_cards = list()
 	var/add_to_accounts = TRUE
 	var/account_id
-<<<<<<< HEAD
 	var/welfare = FALSE
-=======
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	var/being_dumped = FALSE //pink levels are rising
 	var/withdrawDelay = 0
 
@@ -53,11 +50,8 @@
 
 /datum/bank_account/proc/payday(amt_of_paychecks, free = FALSE)
 	var/money_to_transfer = account_job.paycheck * amt_of_paychecks
-<<<<<<< HEAD
 	if(welfare)
 		money_to_transfer += PAYCHECK_WELFARE
-=======
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	if(free)
 		adjust_money(money_to_transfer)
 	else
@@ -76,11 +70,6 @@
 	if(!message || !bank_cards.len)
 		return
 	for(var/obj/A in bank_cards)
-		var/icon_source = A
-		if(istype(A, /obj/item/card/id))
-			var/obj/item/card/id/id_card = A
-			if(id_card.uses_overlays)
-				icon_source = id_card.get_cached_flat_icon()
 		var/mob/card_holder = recursive_loc_check(A, /mob)
 		if(ismob(card_holder)) //If on a mob
 			if(card_holder.client && !(card_holder.client.prefs.chat_toggles & CHAT_BANKCARD) && !force)
@@ -88,17 +77,13 @@
 
 			card_holder.playsound_local(get_turf(card_holder), 'sound/machines/twobeep_high.ogg', 50, TRUE)
 			if(card_holder.can_hear())
-				to_chat(card_holder, "[icon2html(icon_source, card_holder)] *[message]*")
+				to_chat(card_holder, "[icon2html(A, card_holder)] *[message]*")
 		else if(isturf(A.loc)) //If on the ground
 			for(var/mob/M in hearers(1,get_turf(A)))
 				if(M.client && !(M.client.prefs.chat_toggles & CHAT_BANKCARD) && !force)
 					return
 				playsound(A, 'sound/machines/twobeep_high.ogg', 50, TRUE)
-<<<<<<< HEAD
 				A.audible_message("[icon2html(A, hearers(A))] *[message]*", null, 1)
-=======
-				A.audible_message("[icon2html(icon_source, hearers(A))] *[message]*", null, 1)
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 				break
 		else
 			for(var/mob/M in A.loc) //If inside a container with other mobs (e.g. locker)
@@ -106,7 +91,7 @@
 					return
 				M.playsound_local(get_turf(M), 'sound/machines/twobeep_high.ogg', 50, TRUE)
 				if(M.can_hear())
-					to_chat(M, "[icon2html(icon_source, M)] *[message]*")
+					to_chat(M, "[icon2html(A, M)] *[message]*")
 
 /datum/bank_account/department
 	account_holder = "Guild Credit Agency"
@@ -118,12 +103,5 @@
 	account_balance = budget
 	account_holder = SSeconomy.department_accounts[dep_id]
 	SSeconomy.generated_accounts += src
-<<<<<<< HEAD
 	
-=======
-
-/datum/bank_account/remote // Bank account not belonging to the local station
-	add_to_accounts = FALSE
-
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 #undef DUMPTIME

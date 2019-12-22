@@ -76,14 +76,6 @@
 	name = "rubbershot pellet"
 	damage = 3
 	stamina = 11
-<<<<<<< HEAD
-=======
-
-/obj/item/projectile/bullet/pellet/shotgun_incapacitate
-	name = "incapacitating pellet"
-	damage = 1
-	stamina = 6
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 /obj/item/projectile/bullet/pellet/Range()
 	..()

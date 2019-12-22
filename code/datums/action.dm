@@ -734,17 +734,10 @@
 	small_icon_state = "goliath2"
 
 /datum/action/small_sprite/megafauna/legion
-<<<<<<< HEAD
 	small_icon_state = "dwarf_legion"
 
 /datum/action/small_sprite/megafauna/spacedragon
 	small_icon = 'icons/mob/animal.dmi'
-=======
-	small_icon_state = "mega_legion"
-
-/datum/action/small_sprite/megafauna/spacedragon
-	small_icon = 'icons/mob/carp.dmi'
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	small_icon_state = "carp"
 
 /datum/action/small_sprite/Trigger()

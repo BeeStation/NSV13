@@ -151,7 +151,6 @@
 /obj/machinery/stasis/survival_pod/update_icon()
 	return
 
-<<<<<<< HEAD
 //NanoMed
 /obj/machinery/vending/wallmed/survival_pod
 	name = "survival pod medical supply"
@@ -159,8 +158,6 @@
 	refill_canister = null
 	onstation = FALSE
 
-=======
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 //Computer
 /obj/item/gps/computer
 	name = "pod computer"

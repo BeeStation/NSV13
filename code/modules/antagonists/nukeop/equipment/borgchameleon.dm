@@ -106,13 +106,6 @@
 	user.bubble_icon = "robot"
 	active = TRUE
 	user.update_icons()
-	
-	if(listeningTo == user)
-		return
-	if(listeningTo)
-		UnregisterSignal(listeningTo, signalCache)
-	RegisterSignal(user, signalCache, .proc/disrupt)
-	listeningTo = user
 
 	if(listeningTo == user)
 		return

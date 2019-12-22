@@ -54,7 +54,7 @@
 				else
 					l_hacking = 0
 			else
-				to_chat(user, "<span class='warning'>You must <b>unscrew</b> the service panel before you can pulse the wiring!</span>")
+				to_chat(user, "<span class='notice'>You must <b>unscrew</b> the service panel before you can pulse the wiring.</span>")
 			return
 		//At this point you have exhausted all the special things to do when locked
 		// ... but it's still locked.
@@ -171,11 +171,7 @@
 /obj/item/storage/secure/safe/ComponentInitialize()
 	. = ..()
 	var/datum/component/storage/STR = GetComponent(/datum/component/storage)
-<<<<<<< HEAD
 	STR.cant_hold = typecacheof(list(/obj/item/storage/secure/briefcase))
-=======
-	STR.set_holdable(null, list(/obj/item/storage/secure/briefcase))
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	STR.max_w_class = 8						//??
 
 /obj/item/storage/secure/safe/PopulateContents()

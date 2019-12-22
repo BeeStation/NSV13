@@ -41,7 +41,6 @@
 	icon_state = "plasmaman-helm"
 	item_state = "plasmaman-helm"
 	strip_delay = 80
-	flash_protect = 0
 	armor = list("melee" = 0, "bullet" = 0, "laser" = 0, "energy" = 0, "bomb" = 0, "bio" = 100, "rad" = 0, "fire" = 100, "acid" = 75)
 	resistance_flags = FIRE_PROOF
 	var/brightness_on = 4 //luminosity when the light is on
@@ -167,7 +166,6 @@
 	desc = "A grey helmet bearing a pair of purple stripes, designating the wearer as a janitor."
 	icon_state = "janitor_envirohelm"
 	item_state = "janitor_envirohelm"
-<<<<<<< HEAD
 //mime and clown
 /obj/item/clothing/head/helmet/space/plasmaman/mime
 	name = "mime envirosuit helmet"
@@ -325,17 +323,3 @@
 	desc = "A replacement grey helmet bearing a pair of purple stripes, designating the wearer as a janitor."
 	icon_state = "janitor_envirohelm"
 	item_state = "janitor_envirohelm"
-=======
-
-/obj/item/clothing/head/helmet/space/plasmaman/mime
-	name = "mime envirosuit helmet"
-	desc = "The make-up is painted on, it's a miracle it doesn't chip. It's not very colourful."
-	icon_state = "mime_envirohelm"
-	item_state = "mime_envirohelm"
-
-/obj/item/clothing/head/helmet/space/plasmaman/clown
-	name = "clown envirosuit helmet"
-	desc = "The make-up is painted on, it's a miracle it doesn't chip. <i>'HONK!'</i>"
-	icon_state = "clown_envirohelm"
-	item_state = "clown_envirohelm"
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36

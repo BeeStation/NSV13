@@ -52,29 +52,23 @@
 
 /obj/item/organ/heart/gland/proc/mind_control(command, mob/living/user)
 	if(!ownerCheck() || !mind_control_uses || active_mind_control)
-		return FALSE
+		return
 	mind_control_uses--
 	to_chat(owner, "<span class='userdanger'>You suddenly feel an irresistible compulsion to follow an order...</span>")
 	to_chat(owner, "<span class='mind_control'>[command]</span>")
 	active_mind_control = TRUE
-	message_admins("[key_name(user)] sent an abductor mind control message to [key_name(owner)]: [command]")
+	log_admin("[key_name(user)] sent an abductor mind control message to [key_name(owner)]: [command]")
 	update_gland_hud()
 	var/obj/screen/alert/mind_control/mind_alert = owner.throw_alert("mind_control", /obj/screen/alert/mind_control)
 	mind_alert.command = command
 	addtimer(CALLBACK(src, .proc/clear_mind_control), mind_control_duration)
-	return TRUE
 
 /obj/item/organ/heart/gland/proc/clear_mind_control()
 	if(!ownerCheck() || !active_mind_control)
-<<<<<<< HEAD
 		return
-=======
-		return FALSE
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	to_chat(owner, "<span class='userdanger'>You feel the compulsion fade, and you <i>completely forget</i> about your previous orders.</span>")
 	owner.clear_alert("mind_control")
 	active_mind_control = FALSE
-	return TRUE
 
 /obj/item/organ/heart/gland/Remove(mob/living/carbon/M, special = 0)
 	active = 0
@@ -111,7 +105,6 @@
 
 /obj/item/organ/heart/gland/proc/activate()
 	return
-<<<<<<< HEAD
 
 /obj/item/organ/heart/gland/heals
 	true_name = "coherency harmonizer"
@@ -358,5 +351,3 @@
 	if(istype(T))
 		T.atmos_spawn_air("plasma=50;TEMP=[T20C]")
 	owner.vomit()
-=======
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36

@@ -18,11 +18,7 @@
 	desc = "The latest in Artificial Intelligences."
 	id = "mmi_posi"
 	build_type = PROTOLATHE | MECHFAB
-<<<<<<< HEAD
 	materials = list(/datum/material/iron = 1700, /datum/material/glass = 1350, /datum/material/gold = 500, /datum/material/copper = 500) //Gold, because SWAG.
-=======
-	materials = list(/datum/material/iron = 1700, /datum/material/glass = 1350, /datum/material/gold = 500) //Gold, because SWAG.
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	construction_time = 75
 	build_path = /obj/item/mmi/posibrain
 	category = list("Misc", "Medical Designs")
@@ -81,11 +77,7 @@
 	desc = "Produce additional disks for storing genetic data."
 	id = "cloning_disk"
 	build_type = PROTOLATHE
-<<<<<<< HEAD
 	materials = list(/datum/material/iron = 300, /datum/material/glass = 100, /datum/material/silver = 50, /datum/material/copper = 50)
-=======
-	materials = list(/datum/material/iron = 300, /datum/material/glass = 100, /datum/material/silver = 50)
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	build_path = /obj/item/disk/data
 	category = list("Medical Designs")
 	departmental_flags = DEPARTMENTAL_FLAG_MEDICAL | DEPARTMENTAL_FLAG_SCIENCE
@@ -135,11 +127,7 @@
 	desc = "Allows tracking of someone's location if their suit sensors are turned to tracking beacon."
 	id = "crewpinpointer"
 	build_type = PROTOLATHE
-<<<<<<< HEAD
 	materials = list(/datum/material/iron = 3000, /datum/material/glass = 1500, /datum/material/gold = 200, /datum/material/copper = 200)
-=======
-	materials = list(/datum/material/iron = 3000, /datum/material/glass = 1500, /datum/material/gold = 200)
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	build_path = /obj/item/pinpointer/crew
 	category = list("Medical Designs")
 	departmental_flags = DEPARTMENTAL_FLAG_MEDICAL
@@ -194,11 +182,11 @@
 	category = list("Medical Designs")
 	departmental_flags = DEPARTMENTAL_FLAG_MEDICAL
 
-/datum/design/medigel
-	name = "Medical Gel"
-	desc = "A medical gel applicator bottle, designed for precision application, with an unscrewable cap."
-	id = "medigel"
-	build_path = /obj/item/reagent_containers/medigel
+/datum/design/medspray
+	name = "Medical Spray"
+	desc = "A medical spray bottle, designed for precision application, with an unscrewable cap."
+	id = "medspray"
+	build_path = /obj/item/reagent_containers/medspray
 	build_type = PROTOLATHE
 	materials = list(/datum/material/iron = 2500, /datum/material/glass = 500)
 	category = list("Medical Designs")
@@ -243,36 +231,6 @@
 	category = list("Tool Designs")
 	departmental_flags = DEPARTMENTAL_FLAG_MEDICAL | DEPARTMENTAL_FLAG_SCIENCE
 
-/datum/design/medical_spray_bottle
-	name = "Medical Spray Bottle"
-	desc = "A traditional spray bottle used to generate a fine mist. Not to be confused with a medspray."
-	id = "med_spray_bottle"
-	build_type = PROTOLATHE
-	departmental_flags = DEPARTMENTAL_FLAG_MEDICAL
-	materials = list(/datum/material/plastic = 2000)
-	build_path = /obj/item/reagent_containers/spray/medical
-	category = list("Medical Designs")
-
-/datum/design/chem_pack
-	name = "Intravenous Medicine Bag"
-	desc = "A plastic pressure bag for IV administration of drugs."
-	id = "chem_pack"
-	build_type = PROTOLATHE
-	departmental_flags = DEPARTMENTAL_FLAG_MEDICAL
-	materials = list(/datum/material/plastic = 2000)
-	build_path = /obj/item/reagent_containers/chem_pack
-	category = list("Medical Designs")
-
-/datum/design/blood_pack
-	name = "Blood Pack"
-	desc = "Is used to contain blood used for transfusion. Must be attached to an IV drip."
-	id = "blood_pack"
-	build_type = PROTOLATHE
-	departmental_flags = DEPARTMENTAL_FLAG_MEDICAL
-	materials = list(/datum/material/plastic = 1000)
-	build_path = /obj/item/reagent_containers/blood
-	category = list("Medical Designs")
-
 /////////////////////////////////////////
 //////////Cybernetic Implants////////////
 /////////////////////////////////////////
@@ -283,11 +241,7 @@
 	id = "ci-welding"
 	build_type = PROTOLATHE | MECHFAB
 	construction_time = 40
-<<<<<<< HEAD
 	materials = list(/datum/material/iron = 600, /datum/material/glass = 400, /datum/material/copper = 200)
-=======
-	materials = list(/datum/material/iron = 600, /datum/material/glass = 400)
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	build_path = /obj/item/organ/eyes/robotic/shield
 	category = list("Misc", "Medical Designs")
 	departmental_flags = DEPARTMENTAL_FLAG_MEDICAL
@@ -298,11 +252,7 @@
 	id = "ci-gloweyes"
 	build_type = PROTOLATHE | MECHFAB
 	construction_time = 40
-<<<<<<< HEAD
 	materials = list(/datum/material/iron = 600, /datum/material/glass = 1000, /datum/material/copper = 200)
-=======
-	materials = list(/datum/material/iron = 600, /datum/material/glass = 1000)
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	build_path = /obj/item/organ/eyes/robotic/glow
 	category = list("Misc", "Medical Designs")
 	departmental_flags = DEPARTMENTAL_FLAG_MEDICAL
@@ -313,11 +263,7 @@
 	id = "ci-breather"
 	build_type = PROTOLATHE | MECHFAB
 	construction_time = 35
-<<<<<<< HEAD
 	materials = list(/datum/material/iron = 600, /datum/material/glass = 250, /datum/material/copper = 200)
-=======
-	materials = list(/datum/material/iron = 600, /datum/material/glass = 250)
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	build_path = /obj/item/organ/cyberimp/mouth/breathing_tube
 	category = list("Misc", "Medical Designs")
 	departmental_flags = DEPARTMENTAL_FLAG_MEDICAL
@@ -327,11 +273,7 @@
 	desc = "A set of surgical tools hidden behind a concealed panel on the user's arm."
 	id = "ci-surgery"
 	build_type = PROTOLATHE | MECHFAB
-<<<<<<< HEAD
 	materials = list (/datum/material/iron = 2500, /datum/material/glass = 1500, /datum/material/silver = 1500, /datum/material/copper = 200)
-=======
-	materials = list (/datum/material/iron = 2500, /datum/material/glass = 1500, /datum/material/silver = 1500)
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	construction_time = 200
 	build_path = /obj/item/organ/cyberimp/arm/surgery
 	category = list("Misc", "Medical Designs")
@@ -342,11 +284,7 @@
 	desc = "A stripped-down version of engineering cyborg toolset, designed to be installed on subject's arm."
 	id = "ci-toolset"
 	build_type = PROTOLATHE | MECHFAB
-<<<<<<< HEAD
 	materials = list (/datum/material/iron = 2500, /datum/material/glass = 1500, /datum/material/silver = 1500, /datum/material/copper = 200)
-=======
-	materials = list (/datum/material/iron = 2500, /datum/material/glass = 1500, /datum/material/silver = 1500)
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	construction_time = 200
 	build_path = /obj/item/organ/cyberimp/arm/toolset
 	category = list("Misc", "Medical Designs")
@@ -358,11 +296,7 @@
 	id = "ci-medhud"
 	build_type = PROTOLATHE | MECHFAB
 	construction_time = 50
-<<<<<<< HEAD
 	materials = list(/datum/material/iron = 600, /datum/material/glass = 600, /datum/material/silver = 500, /datum/material/gold = 500, /datum/material/copper = 200)
-=======
-	materials = list(/datum/material/iron = 600, /datum/material/glass = 600, /datum/material/silver = 500, /datum/material/gold = 500)
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	build_path = /obj/item/organ/cyberimp/eyes/hud/medical
 	category = list("Misc", "Medical Designs")
 	departmental_flags = DEPARTMENTAL_FLAG_MEDICAL
@@ -373,11 +307,7 @@
 	id = "ci-sechud"
 	build_type = PROTOLATHE | MECHFAB
 	construction_time = 50
-<<<<<<< HEAD
 	materials = list(/datum/material/iron = 600, /datum/material/glass = 600, /datum/material/silver = 750, /datum/material/gold = 750, /datum/material/copper = 200)
-=======
-	materials = list(/datum/material/iron = 600, /datum/material/glass = 600, /datum/material/silver = 750, /datum/material/gold = 750)
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	build_path = /obj/item/organ/cyberimp/eyes/hud/security
 	category = list("Misc", "Medical Designs")
 	departmental_flags = DEPARTMENTAL_FLAG_MEDICAL
@@ -393,28 +323,13 @@
 	category = list("Misc", "Medical Designs")
 	departmental_flags = DEPARTMENTAL_FLAG_MEDICAL
 
-/datum/design/cyberimp_diagnostic_hud
-	name = "Diagnostic HUD Implant"
-	desc = "These cybernetic eyes will display a diagnostic HUD over everything you see. Wiggle eyes to control."
-	id = "ci-diaghud"
-	build_type = PROTOLATHE | MECHFAB
-	construction_time = 50
-	materials = list(/datum/material/iron = 600, /datum/material/glass = 600, /datum/material/silver = 600, /datum/material/gold = 600)
-	build_path = /obj/item/organ/cyberimp/eyes/hud/diagnostic
-	category = list("Misc", "Medical Designs")
-	departmental_flags = DEPARTMENTAL_FLAG_MEDICAL
-
 /datum/design/cyberimp_xray
 	name = "X-ray Eyes"
 	desc = "These cybernetic eyes will give you X-ray vision. Blinking is futile."
 	id = "ci-xray"
 	build_type = PROTOLATHE | MECHFAB
 	construction_time = 60
-<<<<<<< HEAD
 	materials = list(/datum/material/iron = 600, /datum/material/glass = 600, /datum/material/silver = 600, /datum/material/gold = 600, /datum/material/plasma = 1000, /datum/material/uranium = 1000, /datum/material/diamond = 1000, /datum/material/bluespace = 1000, /datum/material/copper = 200)
-=======
-	materials = list(/datum/material/iron = 600, /datum/material/glass = 600, /datum/material/silver = 600, /datum/material/gold = 600, /datum/material/plasma = 1000, /datum/material/uranium = 1000, /datum/material/diamond = 1000, /datum/material/bluespace = 1000)
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	build_path = /obj/item/organ/eyes/robotic/xray
 	category = list("Misc", "Medical Designs")
 	departmental_flags = DEPARTMENTAL_FLAG_MEDICAL
@@ -425,11 +340,7 @@
 	id = "ci-thermals"
 	build_type = PROTOLATHE | MECHFAB
 	construction_time = 60
-<<<<<<< HEAD
 	materials = list(/datum/material/iron = 600, /datum/material/glass = 600, /datum/material/silver = 600, /datum/material/gold = 600, /datum/material/plasma = 1000, /datum/material/diamond = 2000, /datum/material/copper = 200)
-=======
-	materials = list(/datum/material/iron = 600, /datum/material/glass = 600, /datum/material/silver = 600, /datum/material/gold = 600, /datum/material/plasma = 1000, /datum/material/diamond = 2000)
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	build_path = /obj/item/organ/eyes/robotic/thermals
 	category = list("Misc", "Medical Designs")
 	departmental_flags = DEPARTMENTAL_FLAG_MEDICAL
@@ -440,11 +351,7 @@
 	id = "ci-antidrop"
 	build_type = PROTOLATHE | MECHFAB
 	construction_time = 60
-<<<<<<< HEAD
 	materials = list(/datum/material/iron = 600, /datum/material/glass = 600, /datum/material/silver = 400, /datum/material/gold = 400, /datum/material/copper = 200)
-=======
-	materials = list(/datum/material/iron = 600, /datum/material/glass = 600, /datum/material/silver = 400, /datum/material/gold = 400)
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	build_path = /obj/item/organ/cyberimp/brain/anti_drop
 	category = list("Misc", "Medical Designs")
 	departmental_flags = DEPARTMENTAL_FLAG_MEDICAL
@@ -455,11 +362,7 @@
 	id = "ci-antistun"
 	build_type = PROTOLATHE | MECHFAB
 	construction_time = 60
-<<<<<<< HEAD
 	materials = list(/datum/material/iron = 600, /datum/material/glass = 600, /datum/material/silver = 500, /datum/material/gold = 1000, /datum/material/copper = 200)
-=======
-	materials = list(/datum/material/iron = 600, /datum/material/glass = 600, /datum/material/silver = 500, /datum/material/gold = 1000)
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	build_path = /obj/item/organ/cyberimp/brain/anti_stun
 	category = list("Misc", "Medical Designs")
 	departmental_flags = DEPARTMENTAL_FLAG_MEDICAL
@@ -470,11 +373,7 @@
 	id = "ci-nutriment"
 	build_type = PROTOLATHE | MECHFAB
 	construction_time = 40
-<<<<<<< HEAD
 	materials = list(/datum/material/iron = 500, /datum/material/glass = 500, /datum/material/gold = 500, /datum/material/copper = 200)
-=======
-	materials = list(/datum/material/iron = 500, /datum/material/glass = 500, /datum/material/gold = 500)
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	build_path = /obj/item/organ/cyberimp/chest/nutriment
 	category = list("Misc", "Medical Designs")
 	departmental_flags = DEPARTMENTAL_FLAG_MEDICAL
@@ -485,11 +384,7 @@
 	id = "ci-nutrimentplus"
 	build_type = PROTOLATHE | MECHFAB
 	construction_time = 50
-<<<<<<< HEAD
 	materials = list(/datum/material/iron = 600, /datum/material/glass = 600, /datum/material/gold = 500, /datum/material/uranium = 750, /datum/material/copper = 200)
-=======
-	materials = list(/datum/material/iron = 600, /datum/material/glass = 600, /datum/material/gold = 500, /datum/material/uranium = 750)
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	build_path = /obj/item/organ/cyberimp/chest/nutriment/plus
 	category = list("Misc", "Medical Designs")
 	departmental_flags = DEPARTMENTAL_FLAG_MEDICAL
@@ -500,11 +395,7 @@
 	id = "ci-reviver"
 	build_type = PROTOLATHE | MECHFAB
 	construction_time = 60
-<<<<<<< HEAD
 	materials = list(/datum/material/iron = 800, /datum/material/glass = 800, /datum/material/gold = 300, /datum/material/uranium = 500, /datum/material/copper = 200)
-=======
-	materials = list(/datum/material/iron = 800, /datum/material/glass = 800, /datum/material/gold = 300, /datum/material/uranium = 500)
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	build_path = /obj/item/organ/cyberimp/chest/reviver
 	category = list("Misc", "Medical Designs")
 	departmental_flags = DEPARTMENTAL_FLAG_MEDICAL
@@ -515,11 +406,7 @@
 	id = "ci-thrusters"
 	build_type = PROTOLATHE | MECHFAB
 	construction_time = 80
-<<<<<<< HEAD
 	materials = list(/datum/material/iron = 4000, /datum/material/glass = 2000, /datum/material/silver = 1000, /datum/material/diamond = 1000, /datum/material/copper = 200)
-=======
-	materials = list(/datum/material/iron = 4000, /datum/material/glass = 2000, /datum/material/silver = 1000, /datum/material/diamond = 1000)
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	build_path = /obj/item/organ/cyberimp/chest/thrusters
 	category = list("Misc", "Medical Designs")
 	departmental_flags = DEPARTMENTAL_FLAG_MEDICAL
@@ -586,11 +473,7 @@
 	id = "cybernetic_liver"
 	build_type = PROTOLATHE | MECHFAB
 	construction_time = 40
-<<<<<<< HEAD
 	materials = list(/datum/material/iron = 500, /datum/material/glass = 500, /datum/material/copper = 200)
-=======
-	materials = list(/datum/material/iron = 500, /datum/material/glass = 500)
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	build_path = /obj/item/organ/liver/cybernetic
 	category = list("Misc", "Medical Designs")
 	departmental_flags = DEPARTMENTAL_FLAG_MEDICAL
@@ -601,11 +484,7 @@
 	id = "cybernetic_liver_u"
 	build_type = PROTOLATHE | MECHFAB
 	construction_time = 50
-<<<<<<< HEAD
 	materials = list(/datum/material/iron = 500, /datum/material/glass = 500, /datum/material/copper = 200)
-=======
-	materials = list(/datum/material/iron = 500, /datum/material/glass = 500)
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	build_path = /obj/item/organ/liver/cybernetic/upgraded
 	category = list("Misc", "Medical Designs")
 	departmental_flags = DEPARTMENTAL_FLAG_MEDICAL
@@ -616,11 +495,7 @@
 	id = "cybernetic_heart"
 	build_type = PROTOLATHE | MECHFAB
 	construction_time = 40
-<<<<<<< HEAD
 	materials = list(/datum/material/iron = 500, /datum/material/glass = 500, /datum/material/copper = 200)
-=======
-	materials = list(/datum/material/iron = 500, /datum/material/glass = 500)
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	build_path = /obj/item/organ/heart/cybernetic
 	category = list("Misc", "Medical Designs")
 	departmental_flags = DEPARTMENTAL_FLAG_MEDICAL
@@ -631,11 +506,7 @@
 	id = "cybernetic_heart_u"
 	build_type = PROTOLATHE | MECHFAB
 	construction_time = 50
-<<<<<<< HEAD
 	materials = list(/datum/material/iron = 500, /datum/material/glass = 500, /datum/material/silver=500, /datum/material/copper = 300)
-=======
-	materials = list(/datum/material/iron = 500, /datum/material/glass = 500, /datum/material/silver=500)
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	build_path = /obj/item/organ/heart/cybernetic/upgraded
 	category = list("Misc", "Medical Designs")
 	departmental_flags = DEPARTMENTAL_FLAG_MEDICAL
@@ -646,11 +517,7 @@
 	id = "cybernetic_lungs"
 	build_type = PROTOLATHE | MECHFAB
 	construction_time = 40
-<<<<<<< HEAD
 	materials = list(/datum/material/iron = 500, /datum/material/glass = 500, /datum/material/copper = 200)
-=======
-	materials = list(/datum/material/iron = 500, /datum/material/glass = 500)
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	build_path = /obj/item/organ/lungs/cybernetic
 	category = list("Misc", "Medical Designs")
 	departmental_flags = DEPARTMENTAL_FLAG_MEDICAL
@@ -661,11 +528,7 @@
 	id = "cybernetic_lungs_u"
 	build_type = PROTOLATHE | MECHFAB
 	construction_time = 50
-<<<<<<< HEAD
 	materials = list(/datum/material/iron = 500, /datum/material/glass = 500, /datum/material/silver = 500, /datum/material/copper = 300)
-=======
-	materials = list(/datum/material/iron = 500, /datum/material/glass = 500, /datum/material/silver = 500)
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	build_path = /obj/item/organ/lungs/cybernetic/upgraded
 	category = list("Misc", "Medical Designs")
 	departmental_flags = DEPARTMENTAL_FLAG_MEDICAL
@@ -682,21 +545,11 @@
 	var/surgery
 
 /datum/design/surgery/experimental_dissection
-	name = "Advanced Dissection"
-	desc = "A surgical procedure which analyzes the biology of a corpse, and automatically adds new findings to the research database."
-	id = "surgery_adv_dissection"
-	surgery = /datum/surgery/advanced/experimental_dissection/adv
-	research_icon_state = "surgery_chest"
-
-/datum/design/surgery/experimental_dissection/exp
 	name = "Experimental Dissection"
+	desc = "A surgical procedure which deeply analyzes the biology of a corpse, and automatically adds new findings to the research database."
 	id = "surgery_exp_dissection"
-	surgery = /datum/surgery/advanced/experimental_dissection/exp
-
-/datum/design/surgery/experimental_dissection/ext
-	name = "Extraterrestrial Dissection"
-	id = "surgery_ext_dissection"
-	surgery = /datum/surgery/advanced/experimental_dissection/alien
+	surgery = /datum/surgery/advanced/experimental_dissection
+	research_icon_state = "surgery_chest"
 
 /datum/design/surgery/lobotomy
 	name = "Lobotomy"
@@ -719,48 +572,12 @@
 	surgery = /datum/surgery/advanced/viral_bonding
 	research_icon_state = "surgery_chest"
 
-/datum/design/surgery/healing
-	name = "Tend Wounds"
-	desc = "An upgraded version of the original surgery."
-	id = "surgery_healing_base" //holder because travis cries otherwise. Not used in techweb unlocks.
+/datum/design/surgery/reconstruction
+	name = "Reconstruction"
+	desc = "A surgical procedure that gradually repairs damage done to a body without the assistance of chemicals. Unlike classic medicine, it is effective on corpses."
+	id = "surgery_reconstruction"
+	surgery = /datum/surgery/advanced/reconstruction
 	research_icon_state = "surgery_chest"
-
-/datum/design/surgery/healing/brute_upgrade
-	name = "Tend Wounds (Brute) Upgrade"
-	surgery = /datum/surgery/healing/brute/upgraded
-	id = "surgery_heal_brute_upgrade"
-
-/datum/design/surgery/healing/brute_upgrade_2
-	name = "Tend Wounds (Brute) Upgrade"
-	surgery = /datum/surgery/healing/brute/upgraded/femto
-	id = "surgery_heal_brute_upgrade_femto"
-
-/datum/design/surgery/healing/burn_upgrade
-	name = "Tend Wounds (Burn) Upgrade"
-	surgery = /datum/surgery/healing/burn/upgraded
-	id = "surgery_heal_burn_upgrade"
-
-/datum/design/surgery/healing/burn_upgrade_2
-	name = "Tend Wounds (Burn) Upgrade"
-	surgery = /datum/surgery/healing/brute/upgraded/femto
-	id = "surgery_heal_burn_upgrade_femto"
-
-/datum/design/surgery/healing/combo
-	name = "Tend Wounds (Physical)"
-	desc = "A surgical procedure that repairs both bruises and burns. Repair efficiency is not as high as the individual surgeries but it is faster."
-	surgery = /datum/surgery/healing/combo
-	id = "surgery_heal_combo"
-
-/datum/design/surgery/healing/combo_upgrade
-	name = "Tend Wounds (Physical) Upgrade"
-	surgery = /datum/surgery/healing/combo/upgraded
-	id = "surgery_heal_combo_upgrade"
-
-/datum/design/surgery/healing/combo_upgrade_2
-	name = "Tend Wounds (Physical) Upgrade"
-	desc = "A surgical procedure that repairs both bruises and burns faster than their individual counterparts. It is more effective than both the individual surgeries."
-	surgery = /datum/surgery/healing/combo/upgraded/femto
-	id = "surgery_heal_combo_upgrade_femto"
 
 /datum/design/surgery/revival
 	name = "Revival"
@@ -795,13 +612,6 @@
 	desc = "A surgical procedure which severely reduces the amount of blood lost in case of injury."
 	id = "surgery_vein_thread"
 	surgery = /datum/surgery/advanced/bioware/vein_threading
-	research_icon_state = "surgery_chest"
-
-/datum/design/surgery/muscled_veins
-	name = "Vein Muscle Membrane"
-	desc = "A surgical procedure which adds a muscled membrane to blood vessels, allowing them to pump blood without a heart."
-	id = "surgery_muscled_veins"
-	surgery = /datum/surgery/advanced/bioware/muscled_veins
 	research_icon_state = "surgery_chest"
 
 /datum/design/surgery/ligament_hook

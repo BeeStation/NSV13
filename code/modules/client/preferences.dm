@@ -64,7 +64,6 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 	var/undershirt = "Nude"				//undershirt type
 	var/socks = "Nude"					//socks type
 	var/backbag = DBACKPACK				//backpack type
-	var/jumpsuit_style = PREF_SUIT		//suit/skirt
 	var/hair_style = "Bald"				//Hair type
 	var/hair_color = "000"				//Hair color
 	var/facial_hair_style = "Shaved"	//Face hair type
@@ -72,13 +71,7 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 	var/skin_tone = "caucasian1"		//Skin color
 	var/eye_color = "000"				//Eye color
 	var/datum/species/pref_species = new /datum/species/human()	//Mutant race
-<<<<<<< HEAD
 	var/list/features = list("mcolor" = "FFF", "ethcolor" = "9c3030", "tail_lizard" = "Smooth", "tail_human" = "None", "snout" = "Round", "horns" = "None", "ears" = "None", "wings" = "None", "frills" = "None", "spines" = "None", "body_markings" = "None", "legs" = "Normal Legs", "moth_wings" = "Plain", "ipc_screen" = "Blue", "ipc_antenna" = "None", "ipc_chassis" = "Morpheus Cyberkinetics(Greyscale)", "insect_type" = "Common Fly")
-=======
-	var/list/features = list("mcolor" = "FFF", "ethcolor" = "9c3030", "tail_lizard" = "Smooth", "tail_human" = "None", "snout" = "Round", "horns" = "None", "ears" = "None", "wings" = "None", "frills" = "None", "spines" = "None", "body_markings" = "None", "legs" = "Normal Legs", "moth_wings" = "Plain")
-	var/list/genders = list(MALE, FEMALE, PLURAL)
-	var/list/friendlyGenders = list("Male" = "male", "Female" = "female", "Other" = "plural")
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 	var/list/custom_names = list()
 	var/preferred_ai_core_display = "Blue"
@@ -107,7 +100,6 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 
 	var/ambientocclusion = TRUE
 	var/auto_fit_viewport = FALSE
-	var/widescreenpref = TRUE
 
 	var/uplink_spawn_loc = UPLINK_PDA
 
@@ -209,14 +201,7 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 			dat += "<a href='?_src_=prefs;preference=name;task=input'>[real_name]</a><BR>"
 
 			if(!(AGENDER in pref_species.species_traits))
-				var/dispGender
-				if(gender == MALE)
-					dispGender = "Male"
-				else if(gender == FEMALE)
-					dispGender = "Female"
-				else
-					dispGender = "Other"
-				dat += "<b>Gender:</b> <a href='?_src_=prefs;preference=gender'>[dispGender]</a><BR>"
+				dat += "<b>Gender:</b> <a href='?_src_=prefs;preference=gender'>[gender == MALE ? "Male" : "Female"]</a><BR>"
 			dat += "<b>Age:</b> <a href='?_src_=prefs;preference=age;task=input'>[age]</a><BR>"
 
 			dat += "<b>Special Names:</b><BR>"
@@ -250,7 +235,6 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 			dat += "<b>Undershirt:</b><BR><a href ='?_src_=prefs;preference=undershirt;task=input'>[undershirt]</a><BR>"
 			dat += "<b>Socks:</b><BR><a href ='?_src_=prefs;preference=socks;task=input'>[socks]</a><BR>"
 			dat += "<b>Backpack:</b><BR><a href ='?_src_=prefs;preference=bag;task=input'>[backbag]</a><BR>"
-			dat += "<b>Jumpsuit:</b><BR><a href ='?_src_=prefs;preference=suit;task=input'>[jumpsuit_style]</a><BR>"
 			dat += "<b>Uplink Spawn Location:</b><BR><a href ='?_src_=prefs;preference=uplink_loc;task=input'>[uplink_spawn_loc]</a><BR></td>"
 
 			var/use_skintones = pref_species.use_skintones
@@ -593,8 +577,6 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 
 			dat += "<b>Ambient Occlusion:</b> <a href='?_src_=prefs;preference=ambientocclusion'>[ambientocclusion ? "Enabled" : "Disabled"]</a><br>"
 			dat += "<b>Fit Viewport:</b> <a href='?_src_=prefs;preference=auto_fit_viewport'>[auto_fit_viewport ? "Auto" : "Manual"]</a><br>"
-			if (CONFIG_GET(string/default_view) != CONFIG_GET(string/default_view_square))
-				dat += "<b>Widescreen:</b> <a href='?_src_=prefs;preference=widescreenpref'>[widescreenpref ? "Enabled ([CONFIG_GET(string/default_view)])" : "Disabled ([CONFIG_GET(string/default_view_square)])"]</a><br>"
 
 			if (CONFIG_GET(flag/maprotation))
 				var/p_map = preferred_map
@@ -821,6 +803,8 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 		//The job before the current job. I only use this to get the previous jobs color when I'm filling in blank rows.
 		var/datum/job/lastJob
 
+		var/datum/job/overflow = SSjob.GetJob(SSjob.overflow_role)
+
 		for(var/datum/job/job in sortList(SSjob.occupations, /proc/cmp_job_display_asc))
 
 			index += 1
@@ -848,11 +832,7 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 				var/available_in_days = job.available_in_days(user.client)
 				HTML += "<font color=red>[rank]</font></td><td><font color=red> \[IN [(available_in_days)] DAYS\]</font></td></tr>"
 				continue
-<<<<<<< HEAD
 			if((job_preferences[overflow] == JP_LOW) && (rank != SSjob.overflow_role) && !is_banned_from(user.ckey, SSjob.overflow_role))
-=======
-			if((job_preferences[SSjob.overflow_role] == JP_LOW) && (rank != SSjob.overflow_role) && !is_banned_from(user.ckey, SSjob.overflow_role))
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 				HTML += "<font color=orange>[rank]</font></td><td></td></tr>"
 				continue
 			if((rank in GLOB.command_positions) || (rank == "AI"))//Bold head jobs
@@ -892,11 +872,7 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 			HTML += "<a class='white' href='?_src_=prefs;preference=job;task=setJobLevel;level=[prefUpperLevel];text=[rank]' oncontextmenu='javascript:return setJobPrefRedirect([prefLowerLevel], \"[rank]\");'>"
 
 			if(rank == SSjob.overflow_role)//Overflow is special
-<<<<<<< HEAD
 				if(job_preferences[overflow.title] == JP_LOW)
-=======
-				if(job_preferences[SSjob.overflow_role] == JP_LOW)
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 					HTML += "<font color=green>Yes</font>"
 				else
 					HTML += "<font color=red>No</font>"
@@ -998,18 +974,12 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 			if(job_preferences[j] == JP_HIGH)
 				job_preferences[j] = JP_MEDIUM
 				//technically break here
-<<<<<<< HEAD
 
 	job_preferences[job.title] = level
 	return TRUE
 
 
 
-=======
-
-	job_preferences[job.title] = level
-	return TRUE
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 /datum/preferences/proc/UpdateJobPreference(mob/user, role, desiredLvl)
 	if(!SSjob || SSjob.occupations.len <= 0)
@@ -1281,8 +1251,6 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 					skin_tone = random_skin_tone()
 				if("bag")
 					backbag = pick(GLOB.backbaglist)
-				if("suit")
-					jumpsuit_style = pick(GLOB.jumpsuitlist)
 				if("all")
 					random_character()
 
@@ -1345,28 +1313,22 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 					var/new_hair_style
 					if(gender == MALE)
 						new_hair_style = input(user, "Choose your character's hair style:", "Character Preference")  as null|anything in GLOB.hair_styles_male_list
-					else if(gender == FEMALE)
-						new_hair_style = input(user, "Choose your character's hair style:", "Character Preference")  as null|anything in GLOB.hair_styles_female_list
 					else
-						new_hair_style = input(user, "Choose your character's hair style:", "Character Preference")  as null|anything in GLOB.hair_styles_list
+						new_hair_style = input(user, "Choose your character's hair style:", "Character Preference")  as null|anything in GLOB.hair_styles_female_list
 					if(new_hair_style)
 						hair_style = new_hair_style
 
 				if("next_hair_style")
 					if (gender == MALE)
 						hair_style = next_list_item(hair_style, GLOB.hair_styles_male_list)
-					else if(gender == FEMALE)
-						hair_style = next_list_item(hair_style, GLOB.hair_styles_female_list)
 					else
-						hair_style = next_list_item(hair_style, GLOB.hair_styles_list)
+						hair_style = next_list_item(hair_style, GLOB.hair_styles_female_list)
 
 				if("previous_hair_style")
 					if (gender == MALE)
 						hair_style = previous_list_item(hair_style, GLOB.hair_styles_male_list)
-					else if(gender == FEMALE)
-						hair_style = previous_list_item(hair_style, GLOB.hair_styles_female_list)
 					else
-						hair_style = previous_list_item(hair_style, GLOB.hair_styles_list)
+						hair_style = previous_list_item(hair_style, GLOB.hair_styles_female_list)
 
 				if("facial")
 					var/new_facial = input(user, "Choose your character's facial-hair colour:", "Character Preference","#"+facial_hair_color) as color|null
@@ -1377,37 +1339,29 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 					var/new_facial_hair_style
 					if(gender == MALE)
 						new_facial_hair_style = input(user, "Choose your character's facial-hair style:", "Character Preference")  as null|anything in GLOB.facial_hair_styles_male_list
-					else if(gender == FEMALE)
-						new_facial_hair_style = input(user, "Choose your character's facial-hair style:", "Character Preference")  as null|anything in GLOB.facial_hair_styles_female_list
 					else
-						new_facial_hair_style = input(user, "Choose your character's facial-hair style:", "Character Preference")  as null|anything in GLOB.facial_hair_styles_list
+						new_facial_hair_style = input(user, "Choose your character's facial-hair style:", "Character Preference")  as null|anything in GLOB.facial_hair_styles_female_list
 					if(new_facial_hair_style)
 						facial_hair_style = new_facial_hair_style
 
 				if("next_facehair_style")
 					if (gender == MALE)
 						facial_hair_style = next_list_item(facial_hair_style, GLOB.facial_hair_styles_male_list)
-					else if(gender == FEMALE)
-						facial_hair_style = next_list_item(facial_hair_style, GLOB.facial_hair_styles_female_list)
 					else
-						facial_hair_style = next_list_item(facial_hair_style, GLOB.facial_hair_styles_list)
+						facial_hair_style = next_list_item(facial_hair_style, GLOB.facial_hair_styles_female_list)
 
 				if("previous_facehair_style")
 					if (gender == MALE)
 						facial_hair_style = previous_list_item(facial_hair_style, GLOB.facial_hair_styles_male_list)
-					else if (gender == FEMALE)
-						facial_hair_style = previous_list_item(facial_hair_style, GLOB.facial_hair_styles_female_list)
 					else
-						facial_hair_style = previous_list_item(facial_hair_style, GLOB.facial_hair_styles_list)
+						facial_hair_style = previous_list_item(facial_hair_style, GLOB.facial_hair_styles_female_list)
 
 				if("underwear")
 					var/new_underwear
 					if(gender == MALE)
 						new_underwear = input(user, "Choose your character's underwear:", "Character Preference")  as null|anything in GLOB.underwear_m
-					else if(gender == FEMALE)
-						new_underwear = input(user, "Choose your character's underwear:", "Character Preference")  as null|anything in GLOB.underwear_f
 					else
-						new_underwear = input(user, "Choose your character's underwear:", "Character Preference")  as null|anything in GLOB.underwear_list
+						new_underwear = input(user, "Choose your character's underwear:", "Character Preference")  as null|anything in GLOB.underwear_f
 					if(new_underwear)
 						underwear = new_underwear
 
@@ -1420,10 +1374,8 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 					var/new_undershirt
 					if(gender == MALE)
 						new_undershirt = input(user, "Choose your character's undershirt:", "Character Preference") as null|anything in GLOB.undershirt_m
-					else if(gender == FEMALE)
-						new_undershirt = input(user, "Choose your character's undershirt:", "Character Preference") as null|anything in GLOB.undershirt_f
 					else
-						new_undershirt = input(user, "Choose your character's undershirt:", "Character Preference") as null|anything in GLOB.undershirt_list
+						new_undershirt = input(user, "Choose your character's undershirt:", "Character Preference") as null|anything in GLOB.undershirt_f
 					if(new_undershirt)
 						undershirt = new_undershirt
 
@@ -1587,12 +1539,6 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 					if(new_backbag)
 						backbag = new_backbag
 
-				if("suit")
-					if(jumpsuit_style == PREF_SUIT)
-						jumpsuit_style = PREF_SKIRT
-					else
-						jumpsuit_style = PREF_SUIT
-
 				if("uplink_loc")
 					var/new_loc = input(user, "Choose your character's traitor uplink spawn location:", "Character Preference") as null|anything in GLOB.uplink_spawn_loc_list
 					if(new_loc)
@@ -1652,14 +1598,15 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 					if(unlock_content)
 						toggles ^= MEMBER_PUBLIC
 				if("gender")
-					var/pickedGender = input(user, "Choose your gender.", "Character Preference", gender) as null|anything in friendlyGenders
-					if(pickedGender && friendlyGenders[pickedGender] != gender)
-						gender = friendlyGenders[pickedGender]
-						underwear = random_underwear(gender)
-						undershirt = random_undershirt(gender)
-						socks = random_socks()
-						facial_hair_style = random_facial_hair_style(gender)
-						hair_style = random_hair_style(gender)
+					if(gender == MALE)
+						gender = FEMALE
+					else
+						gender = MALE
+					underwear = random_underwear(gender)
+					undershirt = random_undershirt(gender)
+					socks = random_socks()
+					facial_hair_style = random_facial_hair_style(gender)
+					hair_style = random_hair_style(gender)
 
 				if("hotkeys")
 					hotkeys = !hotkeys
@@ -1772,10 +1719,6 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 					auto_fit_viewport = !auto_fit_viewport
 					if(auto_fit_viewport && parent)
 						parent.fit_viewport()
-
-				if("widescreenpref")
-					widescreenpref = !widescreenpref
-					user.client.check_view()
 
 				if("save")
 					save_preferences()
@@ -1909,17 +1852,11 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 
 	character.backbag = backbag
 
-	character.jumpsuit_style = jumpsuit_style
-
 	var/datum/species/chosen_species
 	chosen_species = pref_species.type
-<<<<<<< HEAD
 	if(!roundstart_checks || (pref_species.id in GLOB.roundstart_races))
 		chosen_species = pref_species.type
 	else
-=======
-	if(roundstart_checks && !(pref_species.id in GLOB.roundstart_races) && !(pref_species.id in (CONFIG_GET(keyed_list/roundstart_no_hard_check))))
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 		chosen_species = /datum/species/human
 		pref_species = new /datum/species/human
 		save_character()

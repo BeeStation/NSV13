@@ -10,8 +10,6 @@
 	has_limbs = 1
 	hud_type = /datum/hud/robot
 
-	radio = /obj/item/radio/borg
-
 	var/custom_name = ""
 	var/braintype = "Cyborg"
 	var/obj/item/robot_suit/robot_suit = null //Used for deconstruction to remember what the borg was constructed out of..
@@ -42,7 +40,7 @@
 	var/mutable_appearance/eye_lights
 
 	var/mob/living/silicon/ai/connected_ai = null
-	var/obj/item/stock_parts/cell/cell = /obj/item/stock_parts/cell/high ///If this is a path, this gets created as an object in Initialize.
+	var/obj/item/stock_parts/cell/cell = null
 
 	var/opened = 0
 	var/emagged = FALSE
@@ -55,6 +53,7 @@
 
 	var/alarms = list("Motion"=list(), "Fire"=list(), "Atmosphere"=list(), "Power"=list(), "Camera"=list(), "Burglar"=list())
 
+	var/speed = 0 // VTEC speed boost.
 	var/magpulse = FALSE // Magboot-like effect.
 	var/ionpulse = FALSE // Jetpack-like effect.
 	var/ionpulse_on = FALSE // Jetpack-like effect.
@@ -82,15 +81,12 @@
 	var/hasExpanded = FALSE
 	var/obj/item/hat
 	var/hat_offset = -3
-<<<<<<< HEAD
 	var/list/blacklisted_hats = list( //Hats that don't really work on borgos
 	/obj/item/clothing/head/helmet/space/santahat,
 	/obj/item/clothing/head/welding,
 	/obj/item/clothing/head/mob_holder, //I am so very upset that this breaks things
 	/obj/item/clothing/head/helmet/space/eva,
 	)
-=======
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 	can_buckle = TRUE
 	buckle_lying = FALSE
@@ -107,8 +103,6 @@
 	wires = new /datum/wires/robot(src)
 	AddComponent(/datum/component/empprotection, EMP_PROTECT_WIRES)
 
-	RegisterSignal(src, COMSIG_PROCESS_BORGCHARGER_OCCUPANT, .proc/charge)
-
 	robot_modules_background = new()
 	robot_modules_background.icon_state = "block"
 	robot_modules_background.layer = HUD_LAYER	//Objects that appear on screen are on layer ABOVE_HUD_LAYER, UI should be just below it.
@@ -116,14 +110,15 @@
 
 	ident = rand(1, 999)
 
-	if(ispath(cell))
-		cell = new cell(src)
+	if(!cell)
+		cell = new /obj/item/stock_parts/cell/high(src)
 
 	if(lawupdate)
 		make_laws()
 		if(!TryConnectToAI())
 			lawupdate = FALSE
 
+	radio = new /obj/item/radio/borg(src)
 	if(!scrambledcodes && !builtInCamera)
 		builtInCamera = new (src)
 		builtInCamera.c_tag = real_name
@@ -154,11 +149,8 @@
 
 	updatename()
 
-<<<<<<< HEAD
 	blacklisted_hats = typecacheof(blacklisted_hats)
 
-=======
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	playsound(loc, 'sound/voice/liveagain.ogg', 75, 1)
 	aicamera = new/obj/item/camera/siliconcam/robot_camera(src)
 	toner = tonermax
@@ -447,7 +439,7 @@
 
 	else if(W.tool_behaviour == TOOL_SCREWDRIVER && opened && cell)	// radio
 		if(shell)
-			to_chat(user, "<span class='warning'>You cannot seem to open the radio compartment!</span>")	//Prevent AI radio key theft
+			to_chat(user, "You cannot seem to open the radio compartment")	//Prevent AI radio key theft
 		else if(radio)
 			radio.attackby(W,user)//Push it to the radio to let it handle everything
 		else
@@ -456,7 +448,7 @@
 
 	else if(W.tool_behaviour == TOOL_WRENCH && opened && !cell) //Deconstruction. The flashes break from the fall, to prevent this from being a ghetto reset module.
 		if(!lockcharge)
-			to_chat(user, "<span class='warning'>[src]'s bolts spark! Maybe you should lock them down first!</span>")
+			to_chat(user, "<span class='boldannounce'>[src]'s bolts spark! Maybe you should lock them down first!</span>")
 			spark_system.start()
 			return
 		else
@@ -773,12 +765,8 @@
 		cell = null
 	qdel(src)
 
-///This is the subtype that gets created by robot suits. It's needed so that those kind of borgs don't have a useless cell in them
-/mob/living/silicon/robot/nocell
-	cell = null
-
 /mob/living/silicon/robot/modules
-	var/set_module = /obj/item/robot_module
+	var/set_module = null
 
 /mob/living/silicon/robot/modules/Initialize()
 	. = ..()
@@ -828,11 +816,11 @@
 							Your cyborg LMG will slowly produce ammunition from your power supply, and your operative pinpointer will find and locate fellow nuclear operatives. \
 							<i>Help the operatives secure the disk at all costs!</i></b>"
 	set_module = /obj/item/robot_module/syndicate
-	cell = /obj/item/stock_parts/cell/hyper
-	radio = /obj/item/radio/borg/syndicate
 
 /mob/living/silicon/robot/modules/syndicate/Initialize()
 	. = ..()
+	cell = new /obj/item/stock_parts/cell/hyper(src, 25000)
+	radio = new /obj/item/radio/borg/syndicate(src)
 	laws = new /datum/ai_laws/syndicate_override()
 	addtimer(CALLBACK(src, .proc/show_playstyle), 5)
 
@@ -1012,6 +1000,7 @@
 
 	upgrades.Cut()
 
+	speed = 0
 	ionpulse = FALSE
 	revert_shell()
 
@@ -1142,7 +1131,6 @@
 
 /mob/living/silicon/robot/shell
 	shell = TRUE
-	cell = null
 
 /mob/living/silicon/robot/mouse_buckle_handling(mob/living/M, mob/living/user)
 	if(can_buckle && istype(M) && !(M in buckled_mobs) && ((user!=src)||(a_intent != INTENT_HARM)))
@@ -1163,12 +1151,14 @@
 		return
 	if(incapacitated())
 		return
+	if(M.incapacitated())
+		return
 	if(module)
 		if(!module.allow_riding)
 			M.visible_message("<span class='boldwarning'>Unfortunately, [M] just can't seem to hold onto [src]!</span>")
 			return
-	if(iscarbon(M) && !M.incapacitated() && !riding_datum.equip_buckle_inhands(M, 1))
-		if(M.get_num_arms() <= 0)
+	if(iscarbon(M) && (!riding_datum.equip_buckle_inhands(M, 1)))
+		if (M.get_num_arms() <= 0)
 			M.visible_message("<span class='boldwarning'>[M] can't climb onto [src] because [M.p_they()] don't have any usable arms!</span>")
 		else
 			M.visible_message("<span class='boldwarning'>[M] can't climb onto [src] because [M.p_their()] hands are full!</span>")
@@ -1199,11 +1189,3 @@
 			connected_ai.aicamera.stored[i] = TRUE
 		for(var/i in connected_ai.aicamera.stored)
 			aicamera.stored[i] = TRUE
-
-/mob/living/silicon/robot/proc/charge(datum/source, amount, repairs)
-	if(module)
-		module.respawn_consumable(src, amount * 0.005)
-	if(cell)
-		cell.charge = min(cell.charge + amount, cell.maxcharge)
-	if(repairs)
-		heal_bodypart_damage(repairs, repairs - 1)

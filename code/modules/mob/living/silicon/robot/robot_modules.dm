@@ -90,11 +90,7 @@
 	if(istype(I, /obj/item/stack))
 		var/obj/item/stack/S = I
 
-<<<<<<< HEAD
 		if(is_type_in_list(S, list(/obj/item/stack/sheet/iron, /obj/item/stack/rods, /obj/item/stack/tile/plasteel)))
-=======
-		if(is_type_in_list(S, list(/obj/item/stack/sheet/metal, /obj/item/stack/rods, /obj/item/stack/tile/plasteel)))
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 			if(S.materials[/datum/material/iron])
 				S.cost = S.materials[/datum/material/iron] * 0.25
 			S.source = get_or_create_estorage(/datum/robot_energy_storage/metal)
@@ -120,15 +116,7 @@
 			S.cost = 1
 			S.source = get_or_create_estorage(/datum/robot_energy_storage/beacon)
 
-<<<<<<< HEAD
 		if(S?.source)
-=======
-		else if(istype(S, /obj/item/stack/pipe_cleaner_coil))
-			S.cost = 1
-			S.source = get_or_create_estorage(/datum/robot_energy_storage/pipe_cleaner)
-
-		if(S && S.source)
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 			S.materials = list()
 			S.is_cyborg = 1
 
@@ -332,7 +320,7 @@
 		/obj/item/stack/sheet/rglass/cyborg,
 		/obj/item/stack/rods/cyborg,
 		/obj/item/stack/tile/plasteel/cyborg,
-		/obj/item/stack/cable_coil/cyborg)
+		/obj/item/stack/cable_coil)
 	emag_modules = list(/obj/item/borg/stun)
 	ratvar_modules = list(
 		/obj/item/clockwork/slab/cyborg/engineer,
@@ -341,7 +329,7 @@
 	moduleselect_icon = "engineer"
 	magpulsing = TRUE
 	hat_offset = -4
-	
+
 /obj/item/robot_module/deathsquad
 	name = "Centcom"
 	basic_modules = list(
@@ -525,8 +513,7 @@
 		/obj/item/lighter,
 		/obj/item/storage/bag/tray,
 		/obj/item/reagent_containers/borghypo/borgshaker,
-		/obj/item/borg/lollipop,
-		/obj/item/stack/pipe_cleaner_coil/cyborg)
+		/obj/item/borg/lollipop)
 	emag_modules = list(/obj/item/reagent_containers/borghypo/borgshaker/hacked)
 	ratvar_modules = list(/obj/item/clockwork/slab/cyborg/service,
 		/obj/item/borg/sight/xray/truesight_lens)
@@ -695,10 +682,7 @@
 		/obj/item/construction/rcd/borg/syndicate,
 		/obj/item/pipe_dispenser,
 		/obj/item/restraints/handcuffs/cable/zipties,
-<<<<<<< HEAD
 		/obj/item/borg/charger,
-=======
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 		/obj/item/extinguisher,
 		/obj/item/weldingtool/largetank/cyborg,
 		/obj/item/screwdriver/nuke,
@@ -712,7 +696,7 @@
 		/obj/item/stack/rods/cyborg,
 		/obj/item/stack/tile/plasteel/cyborg,
 		/obj/item/destTagger/borg,
-		/obj/item/stack/cable_coil/cyborg,
+		/obj/item/stack/cable_coil,
 		/obj/item/card/emag,
 		/obj/item/pinpointer/syndicate_cyborg,
 		/obj/item/borg_chameleon,
@@ -771,8 +755,3 @@
 	max_energy = 30
 	recharge_rate = 1
 	name = "Marker Beacon Storage"
-
-/datum/robot_energy_storage/pipe_cleaner
-	max_energy = 50
-	recharge_rate = 2
-	name = "Pipe Cleaner Synthesizer"

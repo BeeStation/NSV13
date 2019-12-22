@@ -70,19 +70,12 @@
 	suffix = "lavaland_surface_golem_ship.dmm"
 	allow_duplicates = FALSE
 
-<<<<<<< HEAD
 /datum/map_template/ruin/lavaland/animal_hospital
 	name = "Animal Hospital"
 	id = "animal-hospital"
 	description = "An ancient animal hospital, its true purpose long forgotten. The doctors awaken with a singular purpose: heal the dying, sick, and injured habitants of the wasteland around them."
-=======
-/datum/map_template/ruin/lavaland/gaia
-	name = "Patch of Eden"
-	id = "gaia"
-	description = "Who would have thought that such a peaceful place could be on such a horrific planet"
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	cost = 5
-	suffix = "lavaland_surface_gaia.dmm"
+	suffix = "lavaland_surface_animal_hospital.dmm"
 	allow_duplicates = FALSE
 
 /datum/map_template/ruin/lavaland/sin
@@ -111,7 +104,7 @@
 /datum/map_template/ruin/lavaland/sin/pride
 	name = "Ruin of Pride"
 	id = "pride"
-	description = "Wormhole lifebelts are for LOSERS, whom you are better than."
+	description = "Wormhole lifebelts are for LOSERS, who you are better than."
 	suffix = "lavaland_surface_pride.dmm"
 
 /datum/map_template/ruin/lavaland/sin/sloth
@@ -125,7 +118,7 @@
 /datum/map_template/ruin/lavaland/ratvar
 	name = "Dead God"
 	id = "ratvar"
-	description = "Ratvar's final resting place."
+	description = "Ratvars final resting place."
 	suffix = "lavaland_surface_dead_ratvar.dmm"
 	cost = 0
 	allow_duplicates = FALSE
@@ -186,7 +179,7 @@
 /datum/map_template/ruin/lavaland/pizza
 	name = "Ruined Pizza Party"
 	id = "pizza"
-	description = "Little Timmy's birthday pizza bash took a turn for the worse when a bluespace anomaly passed by."
+	description = "Little Timmy's birthday pizza-bash took a turn for the worse when a bluespace anomaly passed by."
 	suffix = "lavaland_surface_pizzaparty.dmm"
 	allow_duplicates = FALSE
 	cost = 5
@@ -194,7 +187,7 @@
 /datum/map_template/ruin/lavaland/cultaltar
 	name = "Summoning Ritual"
 	id = "cultaltar"
-	description = "A place of vile worship, the scrawling of blood in the middle glowing eerily. A demonic laugh echoes throughout the caverns."
+	description = "A place of vile worship, the scrawling of blood in the middle glowing eerily. A demonic laugh echoes throughout the caverns"
 	suffix = "lavaland_surface_cultaltar.dmm"
 	allow_duplicates = FALSE
 	cost = 10

@@ -30,6 +30,7 @@
 		if("all_positions")
 			pilot = user
 			gunner = user
+	user.set_focus(src)
 	operators += user
 	CreateEye(user) //Your body stays there but your mind stays with me - 6 (Battlestar galactica)
 	user.overmap_ship = src
@@ -38,6 +39,7 @@
 	user.click_intercept = src
 
 /obj/structure/overmap/proc/stop_piloting(mob/living/M)
+	M.focus = M
 	operators -= M
 	LAZYREMOVE(M.mousemove_intercept_objects, src)
 	if(M.click_intercept == src)
@@ -55,6 +57,7 @@
 	M.overmap_ship = null
 	M.cancel_camera()
 	M.remote_control = null
+	return TRUE
 
 /obj/structure/overmap/proc/CreateEye(mob/user)
 	if(!user.client)

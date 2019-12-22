@@ -10,15 +10,11 @@
 	density = TRUE
 	active_power_usage = 30
 	use_power = ACTIVE_POWER_USE
-<<<<<<< HEAD
 	resistance_flags = FIRE_PROOF | UNACIDABLE | ACID_PROOF
-=======
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	///Plumbing machinery is always gonna need reagents, so we might aswell put it here
 	var/buffer = 50
 	///Flags for reagents, like INJECTABLE, TRANSPARENT bla bla everything thats in DEFINES/reagents.dm
 	var/reagent_flags = TRANSPARENT
-<<<<<<< HEAD
 	///wheter we partake in rcd construction or not
 	var/rcd_constructable = TRUE
 	///cost of the plumbing rcd construction
@@ -58,12 +54,6 @@
 			deconstruct(TRUE)
 			to_chat(user, "<span class='notice'>You slice the [name] apart.</span")
 			return TRUE
-=======
-
-/obj/machinery/plumbing/Initialize(mapload)
-	. = ..()
-	create_reagents(buffer, reagent_flags)
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 ///We can empty beakers in here and everything
 /obj/machinery/plumbing/input
@@ -71,23 +61,12 @@
 	desc = "Can be manually filled with reagents from containers."
 	icon_state = "pipe_input"
 	reagent_flags = TRANSPARENT | REFILLABLE
-<<<<<<< HEAD
 	rcd_cost = 5
 	rcd_delay = 5
 
 /obj/machinery/plumbing/input/Initialize(mapload, bolt)
 	. = ..()
 	AddComponent(/datum/component/plumbing/simple_supply, bolt)
-=======
-
-/obj/machinery/plumbing/input/Initialize(mapload)
-	. = ..()
-	AddComponent(/datum/component/plumbing/simple_supply)
-
-/obj/machinery/plumbing/input/wrench_act(mob/living/user, obj/item/I)
-	default_unfasten_wrench(user, I)
-	return TRUE
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 ///We can fill beakers in here and everything. we dont inheret from input because it has nothing that we need
 /obj/machinery/plumbing/output
@@ -95,7 +74,6 @@
 	desc = "A manual output for plumbing systems, for taking reagents directly into containers."
 	icon_state = "pipe_output"
 	reagent_flags = TRANSPARENT | DRAINABLE
-<<<<<<< HEAD
 	rcd_cost = 5
 	rcd_delay = 5
 
@@ -114,13 +92,3 @@
 /obj/machinery/plumbing/tank/Initialize(mapload, bolt)
 	. = ..()
 	AddComponent(/datum/component/plumbing/tank, bolt)
-=======
-
-/obj/machinery/plumbing/output/Initialize(mapload)
-	. = ..()
-	AddComponent(/datum/component/plumbing/simple_demand)
-
-/obj/machinery/plumbing/output/wrench_act(mob/living/user, obj/item/I)
-	default_unfasten_wrench(user, I)
-	return TRUE
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36

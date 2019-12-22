@@ -103,10 +103,6 @@
 /datum/status_effect/incapacitating/stasis/on_creation(mob/living/new_owner, set_duration, updating_canmove)
         . = ..()
         update_time_of_death()
-<<<<<<< HEAD
-=======
-        owner.reagents?.end_metabolization(owner, FALSE)
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 /datum/status_effect/incapacitating/stasis/tick()
         update_time_of_death()
@@ -232,7 +228,7 @@
 
 /datum/status_effect/belligerent/proc/do_movement_toggle(force_damage)
 	var/number_legs = owner.get_num_legs(FALSE)
-	if(iscarbon(owner) && !is_servant_of_ratvar(owner) && !owner.anti_magic_check(chargecost = 0) && number_legs)
+	if(iscarbon(owner) && !is_servant_of_ratvar(owner) && !owner.anti_magic_check(major = FALSE) && number_legs)
 		if(force_damage || owner.m_intent != MOVE_INTENT_WALK)
 			if(GLOB.ratvar_awakens)
 				owner.Paralyze(20)
@@ -325,7 +321,7 @@
 		if(owner.confused)
 			owner.confused = 0
 		severity = 0
-	else if(!owner.anti_magic_check(chargecost = 0) && owner.stat != DEAD && severity)
+	else if(!owner.anti_magic_check(major = FALSE) && owner.stat != DEAD && severity)
 		var/static/hum = get_sfx('sound/effects/screech.ogg') //same sound for every proc call
 		if(owner.getToxLoss() > MANIA_DAMAGE_TO_CONVERT)
 			if(is_eligible_servant(owner))
@@ -393,19 +389,78 @@
 	owner.underlays -= marked_underlay //if this is being called, we should have an owner at this point.
 	..()
 
-/datum/status_effect/stacking/saw_bleed
+/datum/status_effect/saw_bleed
 	id = "saw_bleed"
+	duration = -1 //removed under specific conditions
 	tick_interval = 6
-	delay_before_decay = 5
-	stack_threshold = 10
-	max_stacks = 10
-	overlay_file = 'icons/effects/bleed.dmi'
-	underlay_file = 'icons/effects/bleed.dmi'
-	overlay_state = "bleed"
-	underlay_state = "bleed"
+	alert_type = null
+	var/mutable_appearance/bleed_overlay
+	var/mutable_appearance/bleed_underlay
+	var/bleed_amount = 3
+	var/bleed_buildup = 3
+	var/delay_before_decay = 5
 	var/bleed_damage = 200
+	var/needs_to_bleed = FALSE
 
-<<<<<<< HEAD
+/datum/status_effect/saw_bleed/Destroy()
+	if(owner)
+		owner.cut_overlay(bleed_overlay)
+		owner.underlays -= bleed_underlay
+	QDEL_NULL(bleed_overlay)
+	return ..()
+
+/datum/status_effect/saw_bleed/on_apply()
+	if(owner.stat == DEAD)
+		return FALSE
+	bleed_overlay = mutable_appearance('icons/effects/bleed.dmi', "bleed[bleed_amount]")
+	bleed_underlay = mutable_appearance('icons/effects/bleed.dmi', "bleed[bleed_amount]")
+	var/icon/I = icon(owner.icon, owner.icon_state, owner.dir)
+	var/icon_height = I.Height()
+	bleed_overlay.pixel_x = -owner.pixel_x
+	bleed_overlay.pixel_y = FLOOR(icon_height * 0.25, 1)
+	bleed_overlay.transform = matrix() * (icon_height/world.icon_size) //scale the bleed overlay's size based on the target's icon size
+	bleed_underlay.pixel_x = -owner.pixel_x
+	bleed_underlay.transform = matrix() * (icon_height/world.icon_size) * 3
+	bleed_underlay.alpha = 40
+	owner.add_overlay(bleed_overlay)
+	owner.underlays += bleed_underlay
+	return ..()
+
+/datum/status_effect/saw_bleed/tick()
+	if(owner.stat == DEAD)
+		qdel(src)
+	else
+		add_bleed(-1)
+
+/datum/status_effect/saw_bleed/proc/add_bleed(amount)
+	owner.cut_overlay(bleed_overlay)
+	owner.underlays -= bleed_underlay
+	bleed_amount += amount
+	if(bleed_amount)
+		if(bleed_amount >= 10)
+			needs_to_bleed = TRUE
+			qdel(src)
+		else
+			if(amount > 0)
+				tick_interval += delay_before_decay
+			bleed_overlay.icon_state = "bleed[bleed_amount]"
+			bleed_underlay.icon_state = "bleed[bleed_amount]"
+			owner.add_overlay(bleed_overlay)
+			owner.underlays += bleed_underlay
+	else
+		qdel(src)
+
+/datum/status_effect/saw_bleed/on_remove()
+	if(needs_to_bleed)
+		var/turf/T = get_turf(owner)
+		new /obj/effect/temp_visual/bleed/explode(T)
+		for(var/d in GLOB.alldirs)
+			new /obj/effect/temp_visual/dir_setting/bloodsplatter(T, d)
+		playsound(T, "desceration", 200, 1, -1)
+		owner.adjustBruteLoss(bleed_damage)
+	else
+		new /obj/effect/temp_visual/bleed(get_turf(owner))
+
 /datum/status_effect/neck_slice
 	id = "neck_slice"
 	status_type = STATUS_EFFECT_UNIQUE
@@ -419,19 +474,6 @@
 	if(prob(10))
 		H.emote(pick("gasp", "gag", "choke"))
 
-=======
-/datum/status_effect/stacking/saw_bleed/fadeout_effect()
-	new /obj/effect/temp_visual/bleed(get_turf(owner))
-
-/datum/status_effect/stacking/saw_bleed/threshold_cross_effect()
-	owner.adjustBruteLoss(bleed_damage)
-	var/turf/T = get_turf(owner)
-	new /obj/effect/temp_visual/bleed/explode(T)
-	for(var/d in GLOB.alldirs)
-		new /obj/effect/temp_visual/dir_setting/bloodsplatter(T, d)
-	playsound(T, "desceration", 100, TRUE, -1)
-	
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 /mob/living/proc/apply_necropolis_curse(set_curse)
 	var/datum/status_effect/necropolis_curse/C = has_status_effect(STATUS_EFFECT_NECROPOLIS_CURSE)
 	if(!set_curse)
@@ -440,7 +482,7 @@
 		apply_status_effect(STATUS_EFFECT_NECROPOLIS_CURSE, set_curse)
 	else
 		C.apply_curse(set_curse)
-		C.duration += 3000 //time added by additional curses
+		C.duration += 3000 //additional curses add 5 minutes
 
 /datum/status_effect/necropolis_curse
 	id = "necrocurse"
@@ -451,10 +493,6 @@
 	var/effect_last_activation = 0
 	var/effect_cooldown = 100
 	var/obj/effect/temp_visual/curse/wasting_effect = new
-	
-/datum/status_effect/necropolis_curse/hivemind
-	id = "hivecurse"
-	duration = 600
 
 /datum/status_effect/necropolis_curse/on_creation(mob/living/new_owner, set_curse)
 	. = ..()
@@ -647,14 +685,14 @@
 		owner.remove_client_colour(/datum/client_colour/monochrome)
 	to_chat(owner, "<span class='warning'>You snap out of your trance!</span>")
 
-/datum/status_effect/trance/proc/hypnotize(datum/source, list/hearing_args)
+/datum/status_effect/trance/proc/hypnotize(datum/source, message, atom/movable/speaker, message_language, raw_message, radio_freq, list/spans, message_mode)
 	if(!owner.can_hear())
 		return
-	if(hearing_args[HEARING_SPEAKER] == owner)
+	if(speaker == owner)
 		return
 	var/mob/living/carbon/C = owner
 	C.cure_trauma_type(/datum/brain_trauma/hypnosis, TRAUMA_RESILIENCE_SURGERY) //clear previous hypnosis
-	addtimer(CALLBACK(C, /mob/living/carbon.proc/gain_trauma, /datum/brain_trauma/hypnosis, TRAUMA_RESILIENCE_SURGERY, hearing_args[HEARING_RAW_MESSAGE]), 10)
+	addtimer(CALLBACK(C, /mob/living/carbon.proc/gain_trauma, /datum/brain_trauma/hypnosis, TRAUMA_RESILIENCE_SURGERY, raw_message), 10)
 	addtimer(CALLBACK(C, /mob/living.proc/Stun, 60, TRUE, TRUE), 15) //Take some time to think about it
 	qdel(src)
 

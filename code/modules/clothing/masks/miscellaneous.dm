@@ -43,20 +43,11 @@
 /obj/item/clothing/mask/fakemoustache/italian
 	name = "italian moustache"
 	desc = "Made from authentic Italian moustache hairs. Gives the wearer an irresistable urge to gesticulate wildly."
-<<<<<<< HEAD
 	clothing_flags = SHOWEROKAY
 	
 /obj/item/clothing/mask/fakemoustache/italian/speechModification(M)
 	if(copytext(M, 1, 2) != "*")
 		M = " [M]"
-=======
-	modifies_speech = TRUE
-
-/obj/item/clothing/mask/fakemoustache/italian/handle_speech(datum/source, list/speech_args)
-	var/message = speech_args[SPEECH_MESSAGE]
-	if(message[1] != "*")
-		message = " [message]"
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 		var/list/italian_words = strings("italian_replacement.json", "italian")
 
 		for(var/key in italian_words)
@@ -64,13 +55,13 @@
 			if(islist(value))
 				value = pick(value)
 
-			message = replacetextEx(message, " [uppertext(key)]", " [uppertext(value)]")
-			message = replacetextEx(message, " [capitalize(key)]", " [capitalize(value)]")
-			message = replacetextEx(message, " [key]", " [value]")
+			M = replacetextEx(M, " [uppertext(key)]", " [uppertext(value)]")
+			M = replacetextEx(M, " [capitalize(key)]", " [capitalize(value)]")
+			M = replacetextEx(M, " [key]", " [value]")
 
 		if(prob(3))
-			message += pick(" Ravioli, ravioli, give me the formuoli!"," Mamma-mia!"," Mamma-mia! That's a spicy meat-ball!", " La la la la la funiculi funicula!")
-	speech_args[SPEECH_MESSAGE] = trim(message)
+			M += pick(" Ravioli, ravioli, give me the formuoli!"," Mamma-mia!"," Mamma-mia! That's a spicy meat-ball!", " La la la la la funiculi funicula!")
+	return trim(M)
 
 /obj/item/clothing/mask/joy
 	name = "joy mask"
@@ -85,11 +76,11 @@
 	flags_inv = HIDEFACE|HIDEHAIR|HIDEFACIALHAIR
 	clothing_flags = VOICEBOX_TOGGLABLE
 	w_class = WEIGHT_CLASS_SMALL
-	modifies_speech = TRUE
 
-/obj/item/clothing/mask/pig/handle_speech(datum/source, list/speech_args)
+/obj/item/clothing/mask/pig/speechModification(message)
+	. = message
 	if(!CHECK_BITFIELD(clothing_flags, VOICEBOX_DISABLED))
-		speech_args[SPEECH_MESSAGE] = pick("Oink!","Squeeeeeeee!","Oink Oink!")
+		. = pick("Oink!","Squeeeeeeee!","Oink Oink!")
 
 /obj/item/clothing/mask/pig/cursed
 	name = "pig face"
@@ -111,14 +102,14 @@
 	flags_inv = HIDEFACE|HIDEHAIR|HIDEFACIALHAIR
 	w_class = WEIGHT_CLASS_SMALL
 	clothing_flags = VOICEBOX_TOGGLABLE
-	modifies_speech = TRUE
 
-/obj/item/clothing/mask/frog/handle_speech(datum/source, list/speech_args) //whenever you speak
+/obj/item/clothing/mask/frog/speechModification(message) //whenever you speak
+	. = message
 	if(!CHECK_BITFIELD(clothing_flags, VOICEBOX_DISABLED))
 		if(prob(5)) //sometimes, the angry spirit finds others words to speak.
-			speech_args[SPEECH_MESSAGE] = pick("HUUUUU!!","SMOOOOOKIN'!!","Hello my baby, hello my honey, hello my rag-time gal.", "Feels bad, man.", "GIT DIS GUY OFF ME!!" ,"SOMEBODY STOP ME!!", "NORMIES, GET OUT!!")
+			. = pick("HUUUUU!!","SMOOOOOKIN'!!","Hello my baby, hello my honey, hello my rag-time gal.", "Feels bad, man.", "GIT DIS GUY OFF ME!!" ,"SOMEBODY STOP ME!!", "NORMIES, GET OUT!!")
 		else
-			speech_args[SPEECH_MESSAGE] = pick("Ree!!", "Reee!!","REEE!!","REEEEE!!") //but its usually just angry gibberish,
+			. = pick("Ree!!", "Reee!!","REEE!!","REEEEE!!") //but its usually just angry gibberish,
 
 /obj/item/clothing/mask/frog/cursed
 	clothing_flags = NONE
@@ -141,11 +132,11 @@
 	clothing_flags = VOICEBOX_TOGGLABLE
 	flags_inv = HIDEFACE|HIDEHAIR|HIDEFACIALHAIR
 	w_class = WEIGHT_CLASS_SMALL
-	modifies_speech = TRUE
 
-/obj/item/clothing/mask/cowmask/handle_speech(datum/source, list/speech_args)
+/obj/item/clothing/mask/cowmask/speechModification(message)
+	. = message
 	if(!CHECK_BITFIELD(clothing_flags, VOICEBOX_DISABLED))
-		speech_args[SPEECH_MESSAGE] = pick("Moooooooo!","Moo!","Moooo!")
+		. = pick("Moooooooo!","Moo!","Moooo!")
 
 /obj/item/clothing/mask/cowmask/cursed
 	name = "cow face"
@@ -167,9 +158,10 @@
 	w_class = WEIGHT_CLASS_SMALL
 	clothing_flags = VOICEBOX_TOGGLABLE
 
-/obj/item/clothing/mask/horsehead/handle_speech(datum/source, list/speech_args)
+/obj/item/clothing/mask/horsehead/speechModification(message)
+	. = message
 	if(!CHECK_BITFIELD(clothing_flags, VOICEBOX_DISABLED))
-		speech_args[SPEECH_MESSAGE] = pick("NEEIIGGGHHHH!", "NEEEIIIIGHH!", "NEIIIGGHH!", "HAAWWWWW!", "HAAAWWW!")
+		. = pick("NEEIIGGGHHHH!", "NEEEIIIIGHH!", "NEIIIGGHH!", "HAAWWWWW!", "HAAAWWW!")
 
 /obj/item/clothing/mask/horsehead/cursed
 	name = "horse face"
@@ -269,7 +261,7 @@
 			user.visible_message("<span class='notice'>You tie [src] up like a neckerchief.</span>", "<span class='notice'>[user] ties [src] up like a neckerchief.</span>")
 			qdel(src)
 		else
-			to_chat(user, "<span class='warning'>You must be holding [src] in order to tie it!</span>")
+			to_chat(user, "<span class='warning'>You must be holding [src] in order to tie it!")
 
 /obj/item/clothing/mask/bandana/red
 	name = "red bandana"
@@ -327,18 +319,16 @@
 	item_state = "gondola"
 	flags_inv = HIDEFACE|HIDEHAIR|HIDEFACIALHAIR
 	w_class = WEIGHT_CLASS_SMALL
-	modifies_speech = TRUE
 
-/obj/item/clothing/mask/gondola/handle_speech(datum/source, list/speech_args)
-	var/message = speech_args[SPEECH_MESSAGE]
-	if(message[1] != "*")
-		message = " [message]"
+/obj/item/clothing/mask/gondola/speechModification(M)
+	if(copytext(M, 1, 2) != "*")
+		M = " [M]"
 		var/list/spurdo_words = strings("spurdo_replacement.json", "spurdo")
 		for(var/key in spurdo_words)
 			var/value = spurdo_words[key]
 			if(islist(value))
 				value = pick(value)
-			message = replacetextEx(message,regex(uppertext(key),"g"), "[uppertext(value)]")
-			message = replacetextEx(message,regex(capitalize(key),"g"), "[capitalize(value)]")
-			message = replacetextEx(message,regex(key,"g"), "[value]")
-	speech_args[SPEECH_MESSAGE] = trim(message)
+			M = replacetextEx(M,regex(uppertext(key),"g"), "[uppertext(value)]")
+			M = replacetextEx(M,regex(capitalize(key),"g"), "[capitalize(value)]")
+			M = replacetextEx(M,regex(key,"g"), "[value]")
+	return trim(M)

@@ -51,15 +51,11 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 	var/deathsound //used to set the mobs deathsound on species change
 	var/list/special_step_sounds //Sounds to override barefeet walkng
 	var/grab_sound //Special sound for grabbing
-<<<<<<< HEAD
 	var/reagent_tag = PROCESS_ORGANIC //Used for metabolizing reagents. We're going to assume you're a meatbag unless you say otherwise.
 	var/species_gibs = "human"
 	var/allow_numbers_in_name // Can this species use numbers in its name?
 	var/datum/outfit/outfit_important_for_life /// A path to an outfit that is important for species life e.g. plasmaman outfit
 
-=======
-	var/datum/outfit/outfit_important_for_life /// A path to an outfit that is important for species life e.g. plasmaman outfit
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 	// species-only traits. Can be found in DNA.dm
 	var/list/species_traits = list()
@@ -165,7 +161,7 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 	var/should_have_eyes = TRUE
 	var/should_have_ears = TRUE
 	var/should_have_tongue = TRUE
-	var/should_have_liver = !(TRAIT_NOMETABOLISM in inherent_traits)
+	var/should_have_liver = !(NOLIVER in species_traits)
 	var/should_have_stomach = !(NOSTOMACH in species_traits)
 	var/should_have_tail = mutanttail
 
@@ -315,12 +311,6 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 	if(TRAIT_VIRUSIMMUNE in inherent_traits)
 		for(var/datum/disease/A in C.diseases)
 			A.cure(FALSE)
-
-	if(TRAIT_TOXIMMUNE in inherent_traits)
-		C.setToxLoss(0, TRUE, TRUE)
-
-	if(TRAIT_NOMETABOLISM in inherent_traits)
-		C.reagents.end_metabolization(C, keep_liverless = TRUE)
 
 	C.add_movespeed_modifier(MOVESPEED_ID_SPECIES, TRUE, 100, override=TRUE, multiplicative_slowdown=speedmod, movetypes=(~FLYING))
 
@@ -1010,7 +1000,6 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 		return 1
 	return FALSE
 
-<<<<<<< HEAD
 // Do species-specific reagent handling here
 // Return 1 if it should do normal processing too
 // Return 0 if it shouldn't deplete and do its normal effect
@@ -1029,26 +1018,16 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 /datum/species/proc/get_spans()
 	return list()
 
-=======
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 /datum/species/proc/check_species_weakness(obj/item, mob/living/attacker)
 	return 0 //This is not a boolean, it's the multiplier for the damage that the user takes from the item.It is added onto the check_weakness value of the mob, and then the force of the item is multiplied by this value
 
 /**
  * Equip the outfit required for life. Replaces items currently worn.
-<<<<<<< HEAD
  */ 
 /datum/species/proc/give_important_for_life(mob/living/carbon/human/human_to_equip)
 	if(!outfit_important_for_life)
 		return
 		
-=======
- */
-/datum/species/proc/give_important_for_life(mob/living/carbon/human/human_to_equip)
-	if(!outfit_important_for_life)
-		return
-
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	outfit_important_for_life= new()
 	outfit_important_for_life.equip(human_to_equip)
 
@@ -1061,11 +1040,7 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 		return //hunger is for BABIES
 
 	//The fucking TRAIT_FAT mutation is the dumbest shit ever. It makes the code so difficult to work with
-<<<<<<< HEAD
 	if(HAS_TRAIT_FROM(H, TRAIT_FAT, OBESITY))//I share your pain, past coder.
-=======
-	if(HAS_TRAIT(H, TRAIT_FAT))//I share your pain, past coder.
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 		if(H.overeatduration < 100)
 			to_chat(H, "<span class='notice'>You feel fit again!</span>")
 			REMOVE_TRAIT(H, TRAIT_FAT, OBESITY)
@@ -1203,11 +1178,7 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 				. += I.slowdown
 		if(!HAS_TRAIT(H, TRAIT_IGNOREDAMAGESLOWDOWN))
 			var/health_deficiency = max(H.maxHealth - H.health, H.staminaloss)
-<<<<<<< HEAD
 			if(health_deficiency >= HEALTH_DEF_MOVESPEED_DAMAGE_MIN)
-=======
-			if(health_deficiency >= 40)
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 				if(flight)
 					. += min(((health_deficiency) ** HEALTH_DEF_MOVESPEED_POW) / HEALTH_DEF_MOVESPEED_FLIGHT_DIV, HEALTH_DEF_MOVESPEED_DELAY_MAX)
 				else
@@ -1219,9 +1190,8 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 					. += hungry / 50
 			else if(isethereal(H))
 				var/datum/species/ethereal/E = H.dna.species
-				var/charge = E.get_charge()
-				if(charge <= ETHEREAL_CHARGE_NORMAL)
-					. += 1.5 * (1 - charge / 100)
+				if(E.ethereal_charge <= ETHEREAL_CHARGE_NORMAL)
+					. += 1.5 * (1 - E.ethereal_charge / 100)
 
 		//Moving in high gravity is very slow (Flying too)
 		if(gravity > STANDARD_GRAVITY)
@@ -1257,6 +1227,9 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 /datum/species/proc/spec_emag_act(mob/living/carbon/human/H, mob/user)
 	return
 
+/datum/species/proc/spec_electrocute_act(mob/living/carbon/human/H, shock_damage, obj/source, siemens_coeff = 1, safety = 0, override = 0, tesla_shock = 0, illusion = 0, stun = TRUE)
+	return
+
 /datum/species/proc/help(mob/living/carbon/human/user, mob/living/carbon/human/target, datum/martial_art/attacker_style)
 	if(!((target.health < 0 || HAS_TRAIT(target, TRAIT_FAKEDEATH)) && !(target.mobility_flags & MOBILITY_STAND)))
 		target.help_shake_act(user)
@@ -1270,9 +1243,9 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 		if(we_breathe && we_lung)
 			user.do_cpr(target)
 		else if(we_breathe && !we_lung)
-			to_chat(user, "<span class='warning'>You have no lungs to breathe with, so you cannot perform CPR!</span>")
+			to_chat(user, "<span class='warning'>You have no lungs to breathe with, so you cannot perform CPR.</span>")
 		else
-			to_chat(user, "<span class='warning'>You do not breathe, so you cannot perform CPR!</span>")
+			to_chat(user, "<span class='notice'>You do not breathe, so you cannot perform CPR.</span>")
 
 /datum/species/proc/grab(mob/living/carbon/human/user, mob/living/carbon/human/target, datum/martial_art/attacker_style)
 	if(target.check_block())
@@ -1295,7 +1268,6 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 		target.grabbedby(user)
 		return TRUE
 
-///This proc handles punching damage. IMPORTANT: Our owner is the TARGET and not the USER in this proc. For whatever reason...
 /datum/species/proc/harm(mob/living/carbon/human/user, mob/living/carbon/human/target, datum/martial_art/attacker_style)
 	if(HAS_TRAIT(user, TRAIT_PACIFISM))
 		to_chat(user, "<span class='warning'>You don't want to harm [target]!</span>")
@@ -1335,13 +1307,8 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 
 		if(!damage || !affecting || prob(miss_chance))//future-proofing for species that have 0 damage/weird cases where no zone is targeted
 			playsound(target.loc, user.dna.species.miss_sound, 25, 1, -1)
-<<<<<<< HEAD
 			target.visible_message("<span class='danger'>[user]'s [atk_verb] misses [target]!</span>",\
 			"<span class='userdanger'>[user]'s [atk_verb] misses you!</span>", null, COMBAT_MESSAGE_RANGE)
-=======
-			target.visible_message("<span class='danger'>[user] has attempted to [atk_verb] [target]!</span>",\
-			"<span class='userdanger'>[user] has attempted to [atk_verb] [target]!</span>", null, COMBAT_MESSAGE_RANGE)
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 			log_combat(user, target, "attempted to punch")
 			return FALSE
 
@@ -1360,28 +1327,16 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 			target.dismembering_strike(user, affecting.body_zone)
 
 		if(atk_verb == ATTACK_EFFECT_KICK)//kicks deal 1.5x raw damage
-<<<<<<< HEAD
 			target.apply_damage(damage*1.5, attack_type, affecting, armor_block)
 			log_combat(user, target, "kicked")
 		else//other attacks deal full raw damage + 1.5x in stamina damage
 			target.apply_damage(damage, attack_type, affecting, armor_block)
-=======
-			target.apply_damage(damage*1.5, user.dna.species.attack_type, affecting, armor_block)
-			log_combat(user, target, "kicked")
-		else//other attacks deal full raw damage + 1.5x in stamina damage
-			target.apply_damage(damage, user.dna.species.attack_type, affecting, armor_block)
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 			target.apply_damage(damage*1.5, STAMINA, affecting, armor_block)
 			log_combat(user, target, "punched")
 
 		if((target.stat != DEAD) && damage >= user.dna.species.punchstunthreshold)
-<<<<<<< HEAD
 			target.visible_message("<span class='danger'>[user] knocked [target] down!</span>", \
 							"<span class='userdanger'>[user] knocked you down!</span>", null, COMBAT_MESSAGE_RANGE)
-=======
-			target.visible_message("<span class='danger'>[user] has knocked  [target] down!</span>", \
-							"<span class='userdanger'>[user] has knocked [target] down!</span>", null, COMBAT_MESSAGE_RANGE)
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 			var/knockdown_duration = 40 + (target.getStaminaLoss() + (target.getBruteLoss()*0.5))*0.8 //50 total damage = 40 base stun + 40 stun modifier = 80 stun duration, which is the old base duration
 			target.apply_effect(knockdown_duration, EFFECT_KNOCKDOWN, armor_block)
 			target.forcesay(GLOB.hit_appends)
@@ -1394,12 +1349,8 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 
 /datum/species/proc/disarm(mob/living/carbon/human/user, mob/living/carbon/human/target, datum/martial_art/attacker_style)
 	if(target.check_block())
-<<<<<<< HEAD
 		target.visible_message("<span class='warning'>[target] blocks [user]'s shoving attempt!</span>", \
 							"<span class='userdanger'>You block [user]'s shoving attempt!</span>")
-=======
-		target.visible_message("<span class='warning'>[target] blocks [user]'s shoving attempt!</span>")
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 		return FALSE
 	if(attacker_style && attacker_style.disarm_act(user,target))
 		return TRUE
@@ -1584,6 +1535,9 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 					H.add_splatter_floor(location)
 				if(get_dist(user, H) <= 1)	//people with TK won't get smeared with blood
 					user.add_mob_blood(H)
+					if(ishuman(user))
+						var/mob/living/carbon/human/dirtyboy = user
+						dirtyboy.adjust_hygiene(-10)
 
 		switch(hit_area)
 			if(BODY_ZONE_HEAD)
@@ -1635,11 +1589,7 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 			H.forcesay(GLOB.hit_appends)	//forcesay checks stat already.
 	return TRUE
 
-<<<<<<< HEAD
 /datum/species/proc/apply_damage(damage, damagetype = BRUTE, def_zone = null, blocked, mob/living/carbon/human/H, forced = FALSE)
-=======
-/datum/species/proc/apply_damage(damage, damagetype = BRUTE, def_zone = null, blocked, mob/living/carbon/human/H, forced = FALSE, spread_damage = FALSE)
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	SEND_SIGNAL(H, COMSIG_MOB_APPLY_DAMGE, damage, damagetype, def_zone)
 	var/hit_percent = (100-(blocked+armor))/100
 	hit_percent = (hit_percent * (100-H.physiology.damage_resistance))/100
@@ -1647,15 +1597,14 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 		return 0
 
 	var/obj/item/bodypart/BP = null
-	if(!spread_damage)
-		if(isbodypart(def_zone))
-			BP = def_zone
-		else
-			if(!def_zone)
-				def_zone = ran_zone(def_zone)
-			BP = H.get_bodypart(check_zone(def_zone))
-			if(!BP)
-				BP = H.bodyparts[1]
+	if(isbodypart(def_zone))
+		BP = def_zone
+	else
+		if(!def_zone)
+			def_zone = ran_zone(def_zone)
+		BP = H.get_bodypart(check_zone(def_zone))
+		if(!BP)
+			BP = H.bodyparts[1]
 
 	switch(damagetype)
 		if(BRUTE)
@@ -1675,7 +1624,6 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 			else
 				H.adjustFireLoss(damage_amount)
 		if(TOX)
-<<<<<<< HEAD
 			var/damage_amount = forced ? damage : damage * hit_percent * toxmod * H.physiology.tox_mod
 			H.adjustToxLoss(damage_amount)
 		if(OXY)
@@ -1686,18 +1634,6 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 			H.adjustCloneLoss(damage_amount)
 		if(STAMINA)
 			var/damage_amount = forced ? damage : damage * hit_percent * staminamod * H.physiology.stamina_mod
-=======
-			var/damage_amount = forced ? damage : damage * hit_percent * H.physiology.tox_mod
-			H.adjustToxLoss(damage_amount)
-		if(OXY)
-			var/damage_amount = forced ? damage : damage * hit_percent * H.physiology.oxy_mod
-			H.adjustOxyLoss(damage_amount)
-		if(CLONE)
-			var/damage_amount = forced ? damage : damage * hit_percent * H.physiology.clone_mod
-			H.adjustCloneLoss(damage_amount)
-		if(STAMINA)
-			var/damage_amount = forced ? damage : damage * hit_percent * H.physiology.stamina_mod
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 			if(BP)
 				if(BP.receive_damage(0, 0, damage_amount))
 					H.update_stamina()
@@ -1786,7 +1722,7 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 		burn_damage = burn_damage * heatmod * H.physiology.heat_mod
 		if (H.stat < UNCONSCIOUS && (prob(burn_damage) * 10) / 4) //40% for level 3 damage on humans
 			H.emote("scream")
-		H.apply_damage(burn_damage, BURN, spread_damage = TRUE)
+		H.apply_damage(burn_damage, BURN)
 
 	else if(H.bodytemperature < BODYTEMP_COLD_DAMAGE_LIMIT && !HAS_TRAIT(H, TRAIT_RESISTCOLD))
 		SEND_SIGNAL(H, COMSIG_CLEAR_MOOD_EVENT, "hot")

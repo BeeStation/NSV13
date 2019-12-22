@@ -65,7 +65,6 @@ component.exports = {
 }
 </script>
 
-<<<<<<< HEAD
 <header class='titlebar' on-mousedown='drag'>
   <i class='statusicon fa fa-eye fa-2x {{visualStatus}}'></i>
   <span class='title'>{{yield}}</span>
@@ -77,18 +76,3 @@ component.exports = {
     <i class='close no-icons' on-click='close'></i>
   {{/if}}
 </header>
-=======
-{{#if config.titlebar}}
-  <header class='titlebar' on-mousedown='drag'>
-    <i class='statusicon fa fa-eye fa-2x {{visualStatus}}'></i>
-    <span class='title'>{{yield}}</span>
-    {{#if config.fancy}}
-      <i class='minimize fa fa-minus fa-2x' on-click='minimize'></i>
-      <i class='close fa fa-close fa-2x' on-click='close'></i>
-    {{else}}
-      <i class='minimize no-icons' on-click='minimize'></i>
-      <i class='close no-icons' on-click='close'></i>
-    {{/if}}
-  </header>
-{{/if}}
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36

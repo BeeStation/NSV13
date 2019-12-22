@@ -53,17 +53,14 @@
 	H.equip_to_slot_or_del(new /obj/item/pinpointer/nuke(H), SLOT_L_STORE)
 	for(var/obj/item/pinpointer/nuke/P in H)
 		P.attack_self(H)
-	var/obj/item/card/id/centcom/W = new(H)
+	var/obj/item/card/id/W = new(H)
+	W.icon_state = "centcom"
 	W.access = get_all_accesses()
 	W.access += get_all_centcom_access()
 	W.assignment = "Highlander"
 	W.registered_name = H.real_name
 	ADD_TRAIT(W, TRAIT_NODROP, HIGHLANDER)
-<<<<<<< HEAD
 	W.update_label(H.real_name)
-=======
-	W.update_label()
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	H.equip_to_slot_or_del(W, SLOT_WEAR_ID)
 
 	sword = new(H)

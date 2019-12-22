@@ -105,19 +105,12 @@ GENE SCANNER
 
 /obj/item/healthanalyzer/attack(mob/living/M, mob/living/carbon/human/user)
 	flick("[icon_state]-scan", src)	//makes it so that it plays the scan animation upon scanning, including clumsy scanning
-<<<<<<< HEAD
 
 	// Clumsiness/brain damage check
 
 	if ((HAS_TRAIT(user, TRAIT_CLUMSY) || HAS_TRAIT(user, TRAIT_DUMB)) && prob(50))
 		user.visible_message("<span class='warning'>[user] analyzes the floor's vitals!</span>", \
 							"<span class='notice'>You stupidly try to analyze the floor's vitals!</span>")
-=======
-	// Clumsiness/brain damage check
-	if ((HAS_TRAIT(user, TRAIT_CLUMSY) || HAS_TRAIT(user, TRAIT_DUMB)) && prob(50))
-		to_chat(user, "<span class='notice'>You stupidly try to analyze the floor's vitals!</span>")
-		user.visible_message("<span class='warning'>[user] has analyzed the floor's vitals!</span>")
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 		to_chat(user, "<span class='info'>Analyzing results for The floor:\n\tOverall status: <b>Healthy</b></span>")
 		to_chat(user, "<span class='info'>Key: <font color='blue'>Suffocation</font>/<font color='green'>Toxin</font>/<font color='#FF8000'>Burn</font>/<font color='red'>Brute</font></span>")
 		to_chat(user, "<span class='info'>\tDamage specifics: <font color='blue'>0</font>-<font color='green'>0</font>-<font color='#FF8000'>0</font>-<font color='red'>0</font></span>")
@@ -153,11 +146,7 @@ GENE SCANNER
 	if(ishuman(M))
 		var/mob/living/carbon/human/H = M
 		if(H.undergoing_cardiac_arrest() && H.stat != DEAD)
-<<<<<<< HEAD
 			to_chat(user, "<span class='alert'>Subject suffering from heart attack: Apply defibrillation or other electric shock immediately!</span>")
-=======
-			to_chat(user, "<span class='danger'>Subject suffering from heart attack: Apply defibrillation or other electric shock immediately!</span>")
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 		//organ failure messages
 		for(var/O in H.internal_organs)
 			var/obj/item/organ/organ = O
@@ -271,10 +260,7 @@ GENE SCANNER
 
 	if(ishuman(M))
 		var/mob/living/carbon/human/H = M
-<<<<<<< HEAD
 		var/list/damaged = H.get_damaged_bodyparts(1,1)
-=======
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 		for(var/O in H.internal_organs)
 			var/obj/item/organ/organ = O
 			if((organ.damage > organ.low_threshold)&&(!istype(organ, /obj/item/organ/brain)))
@@ -338,11 +324,7 @@ GENE SCANNER
 
 	// Time of death
 	if(M.tod && (M.stat == DEAD || ((HAS_TRAIT(M, TRAIT_FAKEDEATH)) && !advanced)))
-<<<<<<< HEAD
 		to_chat(user, "<span class='info'>Time of Death: [M.tod]</span>")
-=======
-		to_chat(user, "<span class='info'>Time of Death:</span> [M.tod]")
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 		var/tdelta = round(world.time - M.timeofdeath)
 		if(tdelta < (DEFIB_TIME_LIMIT * 10))
 			to_chat(user, "<span class='alert'><b>Subject died [DisplayTimeText(tdelta)] ago, defibrillation may be possible!</b></span>")
@@ -674,7 +656,7 @@ GENE SCANNER
 	to_chat(user, "Growth progress: [T.amount_grown]/[SLIME_EVOLUTION_THRESHOLD]")
 	if(T.effectmod)
 		to_chat(user, "<span class='notice'>Core mutation in progress: [T.effectmod]</span>")
-		to_chat(user, "<span class='notice'>Progress in core mutation: [T.applied] / [SLIME_EXTRACT_CROSSING_REQUIRED]</span>")
+		to_chat(user, "<span class = 'notice'>Progress in core mutation: [T.applied] / [SLIME_EXTRACT_CROSSING_REQUIRED]</span>")
 	to_chat(user, "========================")
 
 
@@ -729,12 +711,8 @@ GENE SCANNER
 /obj/item/sequence_scanner/attack(mob/living/M, mob/living/carbon/human/user)
 	add_fingerprint(user)
 	if (!HAS_TRAIT(M, TRAIT_RADIMMUNE) && !HAS_TRAIT(M, TRAIT_BADDNA)) //no scanning if its a husk or DNA-less Species
-<<<<<<< HEAD
 		user.visible_message("<span class='notice'>[user] analyzes [M]'s genetic sequence.</span>", \
 							"<span class='notice'>You analyze [M]'s genetic sequence.</span>")
-=======
-		user.visible_message("<span class='notice'>[user] has analyzed [M]'s genetic sequence.</span>")
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 		gene_scan(M, user)
 
 	else
@@ -767,10 +745,7 @@ GENE SCANNER
 	if(LAZYLEN(buffer))
 		for(var/A in buffer)
 			to_chat(user, "<span class='notice'>[get_display_name(A)]</span>")
-<<<<<<< HEAD
 
-=======
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 /obj/item/sequence_scanner/proc/display_sequence(mob/living/user)
 	if(!LAZYLEN(buffer) || !ready)
@@ -787,24 +762,6 @@ GENE SCANNER
 				sequence = buffer[A]
 				break
 
-<<<<<<< HEAD
-=======
-/obj/item/sequence_scanner/proc/display_sequence(mob/living/user)
-	if(!LAZYLEN(buffer) || !ready)
-		return
-	var/list/options = list()
-	for(var/A in buffer)
-		options += get_display_name(A)
-
-	var/answer = input(user, "Analyze Potential", "Sequence Analyzer")  as null|anything in options
-	if(answer && ready && user.canUseTopic(src, BE_CLOSE, FALSE, NO_TK))
-		var/sequence
-		for(var/A in buffer) //this physically hurts but i dont know what anything else short of an assoc list
-			if(get_display_name(A) == answer)
-				sequence = buffer[A]
-				break
-
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 		if(sequence)
 			var/display
 			for(var/i in 0 to length(sequence) / DNA_MUTATION_BLOCKS-1)

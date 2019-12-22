@@ -71,11 +71,7 @@
 /obj/machinery/atmospherics/components/unary/cryo_cell/examine(mob/user) //this is leaving out everything but efficiency since they follow the same idea of "better beaker, better results"
 	. = ..()
 	if(in_range(user, src) || isobserver(user))
-<<<<<<< HEAD
 		. += "<span class='notice'>The status display reads: Efficiency at <b>[efficiency*100]%</b>.<span>"
-=======
-		. += "<span class='notice'>The status display reads: Efficiency at <b>[efficiency*100]%</b>.</span>"
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 /obj/machinery/atmospherics/components/unary/cryo_cell/Destroy()
 	QDEL_NULL(radio)
@@ -194,7 +190,7 @@
 		if(autoeject) // Eject if configured.
 			msg += " Auto ejecting patient now."
 			open_machine()
-		radio.talk_into(src, msg, radio_channel)
+		radio.talk_into(src, msg, radio_channel, get_spans(), get_default_language())
 		return
 
 	var/datum/gas_mixture/air1 = airs[1]
@@ -330,8 +326,8 @@
 		update_icon()
 		return
 	else if(I.tool_behaviour == TOOL_SCREWDRIVER)
-		to_chat(user, "<span class='warning'>You can't access the maintenance panel while the pod is " \
-		+ (on ? "active" : (occupant ? "full" : "open")) + "!</span>")
+		to_chat(user, "<span class='notice'>You can't access the maintenance panel while the pod is " \
+		+ (on ? "active" : (occupant ? "full" : "open")) + ".</span>")
 		return
 	return ..()
 

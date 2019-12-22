@@ -79,11 +79,7 @@
 	singular_name = "iron ore chunk"
 	points = 1
 	materials = list(/datum/material/iron=MINERAL_MATERIAL_AMOUNT)
-<<<<<<< HEAD
 	refined_type = /obj/item/stack/sheet/iron
-=======
-	refined_type = /obj/item/stack/sheet/metal
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 /obj/item/stack/ore/glass
 	name = "sand pile"
@@ -444,7 +440,6 @@ GLOBAL_LIST_INIT(sand_recipes, list(\
 	sideslist = list("valid", "salad")
 	value = 0
 	grind_results = list(/datum/reagent/consumable/sodiumchloride = 4)
-<<<<<<< HEAD
 
 /obj/item/coin/arcade_token
 	name = "arcade token"
@@ -452,8 +447,6 @@ GLOBAL_LIST_INIT(sand_recipes, list(\
 	cmineral = "bananium"
 	desc = "A coin that allows you to redeem a prize from an arcade machine."
 	value = 0
-=======
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 /obj/item/coin/attackby(obj/item/W, mob/user, params)
 	if(istype(W, /obj/item/stack/cable_coil))

@@ -89,11 +89,7 @@
 	if(iscarbon(pAI.card.loc))
 		pAI.hostscan.attack(pAI.card.loc, pAI)
 	else
-<<<<<<< HEAD
 		to_chat(src, "You are not being carried by anyone!")
-=======
-		to_chat(src, "<span class='warning'>You are not being carried by anyone!</span>")
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 		return 0
 
 /obj/screen/pai/crew_manifest

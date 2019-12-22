@@ -8,12 +8,8 @@
 	flags_1 = NODECONSTRUCT_1
 	use_power = NO_POWER_USE
 	var/static/list/shortcuts = list(
-<<<<<<< HEAD
 		"meth" = /datum/reagent/drug/methamphetamine,
 		"tricord" = /datum/reagent/medicine/tricordrazine
-=======
-		"meth" = /datum/reagent/drug/methamphetamine
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	)
 
 /obj/machinery/chem_dispenser/chem_synthesizer/ui_interact(mob/user, ui_key = "main", datum/tgui/ui = null, force_open = FALSE, \
@@ -35,15 +31,11 @@
 				beaker = null
 				. = TRUE
 		if("input")
-<<<<<<< HEAD
 			var/input_reagent = replacetext(lowertext(input("Enter the name of any reagent", "Input") as text|null), " ", "") //95% of the time, the reagent id is a lowercase/no spaces version of the name
 
 			if (isnull(input_reagent))
 				return
 
-=======
-			var/input_reagent = replacetext(lowertext(input("Enter the name of any reagent", "Input") as text), " ", "") //95% of the time, the reagent id is a lowercase/no spaces version of the name
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 			if(shortcuts[input_reagent])
 				input_reagent = shortcuts[input_reagent]
 			else

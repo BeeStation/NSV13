@@ -239,15 +239,6 @@
 	target_pressure = MAX_OUTPUT_PRESSURE
 	on = TRUE
 
-/obj/machinery/atmospherics/components/trinary/mixer/airmix/layer1
-	piping_layer = 1
-	icon_state = "mixer_on_map-1"
-
-/obj/machinery/atmospherics/components/trinary/mixer/airmix/layer3
-	piping_layer = 3
-	icon_state = "mixer_on_map-3"
-
-
 /obj/machinery/atmospherics/components/trinary/mixer/airmix/inverse
 	node1_concentration = O2STANDARD
 	node2_concentration = N2STANDARD

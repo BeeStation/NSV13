@@ -42,11 +42,7 @@ Difficulty: Very Hard
 	ranged = TRUE
 	pixel_x = -32
 	del_on_death = TRUE
-<<<<<<< HEAD
 	gps_name = "Angelic Signal"
-=======
-	internal_type = /obj/item/gps/internal/colossus
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	medal_type = BOSS_MEDAL_COLOSSUS
 	score_type = COLOSSUS_SCORE
 	crusher_loot = list(/obj/structure/closet/crate/necropolis/colossus/crusher)
@@ -128,17 +124,17 @@ Difficulty: Very Hard
 	if(ishuman(L))
 		var/mob/living/carbon/human/H = L
 		if(H.mind)
-			if(istype(H.mind.martial_art, /datum/martial_art/the_sleeping_carp))
+			if(H.mind.martial_art && prob(H.mind.martial_art.deflection_chance))
 				. = TRUE
 
 /mob/living/simple_animal/hostile/megafauna/colossus/proc/alternating_dir_shots()
 	ranged_cooldown = world.time + 40
 	dir_shots(GLOB.diagonals)
-	SLEEP_CHECK_DEATH(10)
+	sleep(10)
 	dir_shots(GLOB.cardinals)
-	SLEEP_CHECK_DEATH(10)
+	sleep(10)
 	dir_shots(GLOB.diagonals)
-	SLEEP_CHECK_DEATH(10)
+	sleep(10)
 	dir_shots(GLOB.cardinals)
 
 /mob/living/simple_animal/hostile/megafauna/colossus/proc/select_spiral_attack()
@@ -169,7 +165,7 @@ Difficulty: Very Hard
 			counter = 16
 		shoot_projectile(start_turf, counter * 22.5)
 		playsound(get_turf(src), 'sound/magic/clockwork/invoke_general.ogg', 20, 1)
-		SLEEP_CHECK_DEATH(1)
+		sleep(1)
 
 /mob/living/simple_animal/hostile/megafauna/colossus/proc/shoot_projectile(turf/marker, set_angle)
 	if(!isnum(set_angle) && (!marker || marker == loc))

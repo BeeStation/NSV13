@@ -167,33 +167,20 @@
 	data["isPillBottleLoaded"] = bottle ? 1 : 0
 	if(bottle)
 		var/datum/component/storage/STRB = bottle.GetComponent(/datum/component/storage)
-<<<<<<< HEAD
 		data["pillBottleCurrentAmount"] = bottle.contents.len
 		data["pillBottleMaxAmount"] = STRB.max_items
-=======
-		data["pillBotContent"] = bottle.contents.len
-		data["pillBotMaxContent"] = STRB.max_items
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 	var/beakerContents[0]
 	if(beaker)
 		for(var/datum/reagent/R in beaker.reagents.reagent_list)
 			beakerContents.Add(list(list("name" = R.name, "id" = ckey(R.name), "volume" = R.volume))) // list in a list because Byond merges the first list...
-<<<<<<< HEAD
 	data["beakerContents"] = beakerContents
-=======
-		data["beakerContents"] = beakerContents
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 	var/bufferContents[0]
 	if(reagents.total_volume)
 		for(var/datum/reagent/N in reagents.reagent_list)
 			bufferContents.Add(list(list("name" = N.name, "id" = ckey(N.name), "volume" = N.volume))) // ^
-<<<<<<< HEAD
 	data["bufferContents"] = bufferContents
-=======
-		data["bufferContents"] = bufferContents
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 	//Calculated at init time as it never changes
 	data["pillStyles"] = pillStyles
@@ -203,89 +190,9 @@
 	if(..())
 		return
 
-<<<<<<< HEAD
 	if(action == "eject")
 		replace_beaker(usr)
 		return TRUE
-=======
-		if("ejectp")
-			if(bottle)
-				bottle.forceMove(drop_location())
-				adjust_item_drop_location(bottle)
-				bottle = null
-				. = TRUE
-
-		if("transferToBuffer")
-			if(beaker)
-				var/reagent = GLOB.name2reagent[params["id"]]
-				var/amount = text2num(params["amount"])
-				if (amount > 0)
-					beaker.reagents.trans_id_to(src, reagent, amount)
-					. = TRUE
-				else if (amount == -1) // -1 means custom amount
-					useramount = input("Enter the Amount you want to transfer:", name, useramount) as num|null
-					if (useramount > 0)
-						beaker.reagents.trans_id_to(src, reagent, useramount)
-						. = TRUE
-
-		if("transferFromBuffer")
-			var/reagent = GLOB.name2reagent[params["id"]]
-			var/amount = text2num(params["amount"])
-			if (amount > 0)
-				if(mode)
-					reagents.trans_id_to(beaker, reagent, amount)
-					. = TRUE
-				else
-					reagents.remove_reagent(reagent, amount)
-					. = TRUE
-
-		if("toggleMode")
-			mode = !mode
-			. = TRUE
-
-		if("createPill")
-			var/many = params["many"]
-			if(reagents.total_volume == 0)
-				return
-			if(!condi)
-				var/amount = 1
-				var/vol_each = min(reagents.total_volume, 50)
-				if(text2num(many))
-					amount = CLAMP(round(input(usr, "Max 10. Buffer content will be split evenly.", "How many pills?", amount) as num|null), 0, 10)
-					if(!amount)
-						return
-					vol_each = min(reagents.total_volume / amount, 50)
-				var/name = stripped_input(usr,"Name:","Name your pill!", "[reagents.get_master_reagent_name()] ([vol_each]u)", MAX_NAME_LEN)
-				if(!name || !reagents.total_volume || !src || QDELETED(src) || !usr.canUseTopic(src, !issilicon(usr)))
-					return
-				var/obj/item/reagent_containers/pill/P
-				var/target_loc = drop_location()
-				var/drop_threshold = INFINITY
-				if(bottle)
-					var/datum/component/storage/STRB = bottle.GetComponent(/datum/component/storage)
-					if(STRB)
-						drop_threshold = STRB.max_items - bottle.contents.len
-
-				for(var/i = 0; i < amount; i++)
-					if(i < drop_threshold)
-						P = new(target_loc)
-					else
-						P = new(drop_location())
-					P.name = trim("[name] pill")
-					if(chosenPillStyle == RANDOM_PILL_STYLE)
-						P.icon_state ="pill[rand(1,21)]"
-					else
-						P.icon_state = "pill[chosenPillStyle]"
-					if(P.icon_state == "pill4")
-						P.desc = "A tablet or capsule, but not just any, a red one, one taken by the ones not scared of knowledge, freedom, uncertainty and the brutal truths of reality."
-					adjust_item_drop_location(P)
-					reagents.trans_to(P,vol_each, transfered_by = usr)
-			else
-				var/name = stripped_input(usr, "Name:", "Name your pack!", reagents.get_master_reagent_name(), MAX_NAME_LEN)
-				if(!name || !reagents.total_volume || !src || QDELETED(src) || !usr.canUseTopic(src, !issilicon(usr)))
-					return
-				var/obj/item/reagent_containers/food/condiment/pack/P = new/obj/item/reagent_containers/food/condiment/pack(drop_location())
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 	if(action == "ejectPillBottle")
 		if(!bottle)
@@ -437,7 +344,6 @@
 				P = new/obj/item/reagent_containers/food/condiment(drop_location())
 				P.originalname = name
 				P.name = trim("[name] bottle")
-<<<<<<< HEAD
 				reagents.trans_to(P, vol_each, transfered_by = usr)
 			return TRUE
 		return FALSE
@@ -463,54 +369,6 @@
 		return TRUE
 
 	return FALSE
-=======
-				reagents.trans_to(P, P.volume, transfered_by = usr)
-			else
-				var/amount_full = 0
-				var/vol_part = min(reagents.total_volume, 30)
-				if(text2num(many))
-					amount_full = round(reagents.total_volume / 30)
-					vol_part = reagents.total_volume % 30
-				var/name = stripped_input(usr, "Name:","Name your bottle!", (reagents.total_volume ? reagents.get_master_reagent_name() : " "), MAX_NAME_LEN)
-				if(!name || !reagents.total_volume || !src || QDELETED(src) || !usr.canUseTopic(src, !issilicon(usr)))
-					return
-
-				var/obj/item/reagent_containers/glass/bottle/P
-				for(var/i = 0; i < amount_full; i++)
-					P = new/obj/item/reagent_containers/glass/bottle(drop_location())
-					P.name = trim("[name] bottle")
-					adjust_item_drop_location(P)
-					reagents.trans_to(P, 30, transfered_by = usr)
-
-				if(vol_part)
-					P = new/obj/item/reagent_containers/glass/bottle(drop_location())
-					P.name = trim("[name] bottle")
-					adjust_item_drop_location(P)
-					reagents.trans_to(P, vol_part, transfered_by = usr)
-			. = TRUE
-
-		if("analyze")
-			var/datum/reagent/R = GLOB.name2reagent[params["id"]]
-			if(R)
-				var/state = "Unknown"
-				if(initial(R.reagent_state) == 1)
-					state = "Solid"
-				else if(initial(R.reagent_state) == 2)
-					state = "Liquid"
-				else if(initial(R.reagent_state) == 3)
-					state = "Gas"
-				var/const/P = 3 //The number of seconds between life ticks
-				var/T = initial(R.metabolization_rate) * (60 / P)
-				analyzeVars = list("name" = initial(R.name), "state" = state, "color" = initial(R.color), "description" = initial(R.description), "metaRate" = T, "overD" = initial(R.overdose_threshold), "addicD" = initial(R.addiction_threshold))
-				screen = "analyze"
-				return
-
-		if("goScreen")
-			screen = params["screen"]
-			. = TRUE
-
-
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 
 /obj/machinery/chem_master/proc/isgoodnumber(num)

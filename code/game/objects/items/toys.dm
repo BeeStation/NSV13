@@ -35,7 +35,7 @@
 /*
  * Balloons
  */
-/obj/item/toy/waterballoon
+/obj/item/toy/balloon
 	name = "water balloon"
 	desc = "A translucent balloon. There's nothing in it."
 	icon = 'icons/obj/toy.dmi'
@@ -43,14 +43,14 @@
 	item_state = "balloon-empty"
 
 
-/obj/item/toy/waterballoon/Initialize()
+/obj/item/toy/balloon/Initialize()
 	. = ..()
 	create_reagents(10)
 
-/obj/item/toy/waterballoon/attack(mob/living/carbon/human/M, mob/user)
+/obj/item/toy/balloon/attack(mob/living/carbon/human/M, mob/user)
 	return
 
-/obj/item/toy/waterballoon/afterattack(atom/A as mob|obj, mob/user, proximity)
+/obj/item/toy/balloon/afterattack(atom/A as mob|obj, mob/user, proximity)
 	. = ..()
 	if(!proximity)
 		return
@@ -66,7 +66,7 @@
 			desc = "A translucent balloon with some form of liquid sloshing around in it."
 			update_icon()
 
-/obj/item/toy/waterballoon/attackby(obj/item/I, mob/user, params)
+/obj/item/toy/balloon/attackby(obj/item/I, mob/user, params)
 	if(istype(I, /obj/item/reagent_containers/glass))
 		if(I.reagents)
 			if(I.reagents.total_volume <= 0)
@@ -83,11 +83,11 @@
 	else
 		return ..()
 
-/obj/item/toy/waterballoon/throw_impact(atom/hit_atom, datum/thrownthing/throwingdatum)
+/obj/item/toy/balloon/throw_impact(atom/hit_atom, datum/thrownthing/throwingdatum)
 	if(!..()) //was it caught by a mob?
 		balloon_burst(hit_atom)
 
-/obj/item/toy/waterballoon/proc/balloon_burst(atom/AT)
+/obj/item/toy/balloon/proc/balloon_burst(atom/AT)
 	if(reagents.total_volume >= 1)
 		var/turf/T
 		if(AT)
@@ -101,7 +101,7 @@
 		icon_state = "burst"
 		qdel(src)
 
-/obj/item/toy/waterballoon/update_icon()
+/obj/item/toy/balloon/update_icon()
 	if(src.reagents.total_volume >= 1)
 		icon_state = "waterballoon"
 		item_state = "balloon"
@@ -109,44 +109,19 @@
 		icon_state = "waterballoon-e"
 		item_state = "balloon-empty"
 
-#define BALLOON_COLORS list("red", "blue", "green", "yellow")
-
-/obj/item/toy/balloon
-	name = "balloon"
-	desc = "No birthday is complete without it."
-	icon = 'icons/obj/balloons.dmi'
-	icon_state = "balloon"
-	item_state = "balloon"
-	lefthand_file = 'icons/mob/inhands/balloons_lefthand.dmi'
-	righthand_file = 'icons/mob/inhands/balloons_righthand.dmi'
-	w_class = WEIGHT_CLASS_BULKY
+/obj/item/toy/syndicateballoon
+	name = "syndicate balloon"
+	desc = "There is a tag on the back that reads \"FUK NT!11!\"."
 	throwforce = 0
 	throw_speed = 3
 	throw_range = 7
 	force = 0
-	var/random_color = TRUE
-
-/obj/item/toy/balloon/Initialize(mapload)
-	. = ..()
-	if(random_color)
-		var/chosen_balloon_color = pick(BALLOON_COLORS)
-		name = "[chosen_balloon_color] [name]"
-		icon_state = "[icon_state]_[chosen_balloon_color]"
-		item_state = icon_state
-
-/obj/item/toy/balloon/corgi
-	name = "corgi balloon"
-	desc = "A balloon with a corgi face on it. For the all year good boys."
-	icon_state = "corgi"
-	item_state = "corgi"
-	random_color = FALSE
-
-/obj/item/toy/balloon/syndicate
-	name = "syndicate balloon"
-	desc = "There is a tag on the back that reads \"FUK NT!11!\"."
+	icon = 'icons/obj/items_and_weapons.dmi'
 	icon_state = "syndballoon"
 	item_state = "syndballoon"
-	random_color = FALSE
+	lefthand_file = 'icons/mob/inhands/antag/balloons_lefthand.dmi'
+	righthand_file = 'icons/mob/inhands/antag/balloons_righthand.dmi'
+	w_class = WEIGHT_CLASS_BULKY
 
 /obj/item/toy/syndicateballoon/pickup(mob/user)
 	. = ..()
@@ -164,6 +139,7 @@
 		var/mob/M = loc
 		SEND_SIGNAL(M, COMSIG_CLEAR_MOOD_EVENT, "badass_antag", /datum/mood_event/badass_antag)
 	. = ..()
+
 
 /*
  * Fake singularity
@@ -912,7 +888,7 @@
 
 /obj/item/toy/cards/singlecard
 	name = "card"
-	desc = "A playing card used to play card games like poker."
+	desc = "a card"
 	icon = 'icons/obj/toy.dmi'
 	icon_state = "singlecard_down_nanotrasen"
 	w_class = WEIGHT_CLASS_TINY
@@ -1324,7 +1300,7 @@
 	toysay = "Smash!"
 
 /obj/item/toy/figure/hop
-	name = "Executive Officer action figure"
+	name = "Head of Personnel action figure"
 	icon_state = "hop"
 	toysay = "Giving out all access!"
 
@@ -1446,18 +1422,3 @@
 
 /obj/item/toy/dummy/GetVoice()
 	return doll_name
-
-/obj/item/toy/seashell
-	name = "seashell"
-	desc = "May you always have a shell in your pocket and sand in your shoes. Whatever that's supposed to mean."
-	icon = 'icons/misc/beach.dmi'
-	icon_state = "shell1"
-	var/static/list/possible_colors = list("" =  2, COLOR_PURPLE_GRAY = 1, COLOR_OLIVE = 1, COLOR_PALE_BLUE_GRAY = 1, COLOR_RED_GRAY = 1)
-
-/obj/item/toy/seashell/Initialize()
-	. = ..()
-	pixel_x = rand(-5, 5)
-	pixel_y = rand(-5, 5)
-	icon_state = "shell[rand(1,3)]"
-	color = pickweight(possible_colors)
-	setDir(pick(GLOB.cardinals))

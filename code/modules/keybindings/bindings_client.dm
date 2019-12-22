@@ -20,62 +20,24 @@ GLOBAL_LIST_INIT(valid_keys, list(
 /proc/input_sanity_check(client/C, key)
 	if(GLOB.valid_keys[key])
 		return FALSE
-		
+
 	if(length(key) > 32)
 		log_admin("[key_name(C)] just attempted to send an invalid keypress with length over 32 characters, likely malicious.")
 		message_admins("Mob [(C.mob)] with the ckey [(C.ckey)] just attempted to send an invalid keypress with length over 32 characters, likely malicious.")
 	else
 		log_admin_private("[key_name(C)] just attempted to send an invalid keypress - \"[key]\", possibly malicious.")
 		message_admins("Mob [(C.mob)] with the ckey [(C.ckey)] just attempted to send an invalid keypress - \"[key]\", possibly malicious.")
-	
+
 	return TRUE
 
 /client/verb/keyDown(_key as text)
 	set instant = TRUE
 	set hidden = TRUE
 
-<<<<<<< HEAD
 	if(input_sanity_check(src, _key))
 		return
 
-=======
-	client_keysend_amount += 1
-
-	var/cache = client_keysend_amount
-
-	if(keysend_tripped && next_keysend_trip_reset <= world.time)
-		keysend_tripped = FALSE
-
-	if(next_keysend_reset <= world.time)
-		client_keysend_amount = 0
-		next_keysend_reset = world.time + (1 SECONDS)
-
-	//The "tripped" system is to confirm that flooding is still happening after one spike
-	//not entirely sure how byond commands interact in relation to lag
-	//don't want to kick people if a lag spike results in a huge flood of commands being sent
-	if(cache >= MAX_KEYPRESS_AUTOKICK)
-		if(!keysend_tripped)
-			keysend_tripped = TRUE
-			next_keysend_trip_reset = world.time + (2 SECONDS)
-		else
-			log_admin("Client [ckey] was just autokicked for flooding keysends; likely abuse but potentially lagspike.")
-			message_admins("Client [ckey] was just autokicked for flooding keysends; likely abuse but potentially lagspike.")
-			QDEL_IN(src, 1)
-			return
-
-	///Check if the key is short enough to even be a real key
-	if(LAZYLEN(_key) > MAX_KEYPRESS_COMMANDLENGTH)
-		to_chat(src, "<span class='userdanger'>Invalid KeyDown detected! You have been disconnected from the server automatically.</span>")
-		log_admin("Client [ckey] just attempted to send an invalid keypress. Keymessage was over [MAX_KEYPRESS_COMMANDLENGTH] characters, autokicking due to likely abuse.")
-		message_admins("Client [ckey] just attempted to send an invalid keypress. Keymessage was over [MAX_KEYPRESS_COMMANDLENGTH] characters, autokicking due to likely abuse.")
-		QDEL_IN(src, 1)
-		return
-	//offset by 1 because the buffer address is 0 indexed because the math was simpler
-	keys_held[current_key_address + 1] = _key
-	//the time a key was pressed isn't actually used anywhere (as of 2019-9-10) but this allows easier access usage/checking
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	keys_held[_key] = world.time
-	current_key_address = ((current_key_address + 1) % HELD_KEY_BUFFER_LENGTH)
 	var/movement = SSinput.movement_keys[_key]
 	if(!(next_move_dir_sub & movement) && !keys_held["Ctrl"])
 		next_move_dir_add |= movement
@@ -97,7 +59,6 @@ GLOBAL_LIST_INIT(valid_keys, list(
 	for (var/datum/keybinding/kb in kbs)
 		if (kb.down(src))
 			break
-
 	if(holder)
 		holder.key_down(full_key, src)
 	if(mob.focus)
@@ -107,18 +68,10 @@ GLOBAL_LIST_INIT(valid_keys, list(
 	set instant = TRUE
 	set hidden = TRUE
 
-<<<<<<< HEAD
 	if(input_sanity_check(src, _key))
 		return
 
 	keys_held -= _key
-=======
-	//Can't just do a remove because it would alter the length of the rolling buffer, instead search for the key then null it out if it exists
-	for(var/i in 1 to HELD_KEY_BUFFER_LENGTH)
-		if(keys_held[i] == _key)
-			keys_held[i] = null
-			break
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	var/movement = SSinput.movement_keys[_key]
 	if(!(next_move_dir_add & movement))
 		next_move_dir_sub |= movement
@@ -144,8 +97,4 @@ GLOBAL_LIST_INIT(valid_keys, list(
 	if(holder)
 		holder.keyLoop(src)
 	if(mob?.focus)
-<<<<<<< HEAD
 		mob.focus.keyLoop(src)
-=======
-		mob.focus.keyLoop(src)
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36

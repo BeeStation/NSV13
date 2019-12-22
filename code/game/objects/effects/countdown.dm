@@ -170,7 +170,6 @@
 	else
 		var/time_left = max(0, (H.finish_time - world.time) / 10)
 		return round(time_left)
-<<<<<<< HEAD
 
 /obj/effect/countdown/dominator
 	name = "dominator countdown"
@@ -198,5 +197,3 @@
 		var/obj/machinery/computer/arena/C = A.get_controller()
 		var/time_left = max(0, (C.start_time - world.time) / 10)
 		return round(time_left)
-=======
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36

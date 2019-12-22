@@ -80,8 +80,4 @@
 /obj/item/ammo_box/foambox/riot
 	icon_state = "foambox_riot"
 	ammo_type = /obj/item/ammo_casing/caseless/foam_dart/riot
-<<<<<<< HEAD
 	materials = list(/datum/material/iron = 50000)
-=======
-	materials = list(/datum/material/iron = 50000)
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36

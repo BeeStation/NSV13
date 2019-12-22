@@ -13,11 +13,7 @@
 	outfit = /datum/outfit/job/bartender
 
 	access = list(ACCESS_HYDROPONICS, ACCESS_BAR, ACCESS_KITCHEN, ACCESS_MORGUE, ACCESS_WEAPONS, ACCESS_MINERAL_STOREROOM, ACCESS_THEATRE)
-<<<<<<< HEAD
-	minimal_access = list(ACCESS_BAR, ACCESS_MINERAL_STOREROOM, ACCESS_THEATRE)
-=======
 	minimal_access = list(ACCESS_BAR, ACCESS_MINERAL_STOREROOM)
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	paycheck = PAYCHECK_EASY
 	paycheck_department = ACCOUNT_SRV
 	display_order = JOB_DISPLAY_ORDER_BARTENDER
@@ -27,7 +23,6 @@
 	name = "Bartender"
 	jobtype = /datum/job/bartender
 
-	id = /obj/item/card/id/job/serv
 	glasses = /obj/item/clothing/glasses/sunglasses/reagent
 	belt = /obj/item/pda/bar
 	ears = /obj/item/radio/headset/headset_srv

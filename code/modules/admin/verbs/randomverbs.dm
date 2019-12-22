@@ -422,7 +422,7 @@ Traitors and the like can also be revived with the previous role mostly intact.
 
 	if(record_found)//If they have a record we can determine a few things.
 		new_character.real_name = record_found.fields["name"]
-		new_character.gender = record_found.fields["gender"]
+		new_character.gender = record_found.fields["sex"]
 		new_character.age = record_found.fields["age"]
 		new_character.hardset_dna(record_found.fields["identity"], record_found.fields["enzymes"], record_found.fields["name"], record_found.fields["blood_type"], new record_found.fields["species"], record_found.fields["features"])
 	else
@@ -746,7 +746,7 @@ Traitors and the like can also be revived with the previous role mostly intact.
 	if(view == CONFIG_GET(string/default_view))
 		change_view(input("Select view range:", "FUCK YE", 7) in list(1,2,3,4,5,6,7,8,9,10,11,12,13,14,128))
 	else
-		check_view()
+		change_view(CONFIG_GET(string/default_view))
 
 	log_admin("[key_name(usr)] changed their view range to [view].")
 	//message_admins("\blue [key_name_admin(usr)] changed their view range to [view].")	//why? removed by order of XSI
@@ -909,6 +909,13 @@ Traitors and the like can also be revived with the previous role mostly intact.
 	var/datum/atom_hud/A = GLOB.huds[ANTAG_HUD_TRAITOR]
 	return A.hudusers[mob]
 
+/client/proc/open_shuttle_manipulator()
+	set category = "Admin"
+	set name = "Shuttle Manipulator"
+	set desc = "Opens the shuttle manipulator UI."
+
+	for(var/obj/machinery/shuttle_manipulator/M in GLOB.machines)
+		M.ui_interact(usr)
 
 /client/proc/run_weather()
 	set category = "Fun"

@@ -48,14 +48,9 @@
 	description = "<span class='nicegreen'>\The [animal.name] is adorable! I can't stop petting [animal.p_them()]!</span>\n"
 
 /datum/mood_event/honk
-	description = "<span class='nicegreen'>I've been honked!</span>\n"
+	description = "<span class='nicegreen'>Maybe clowns aren't so bad after all. Honk!</span>\n"
 	mood_change = 2
 	timeout = 4 MINUTES
-<<<<<<< HEAD
-=======
-	special_screen_obj = "honked_nose"
-	special_screen_replace = FALSE
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 /datum/mood_event/perform_cpr
 	description = "<span class='nicegreen'>It feels good to save a life.</span>\n"
@@ -125,7 +120,6 @@
 /datum/mood_event/religiously_comforted
 	description = "<span class='nicegreen'>You are comforted by the presence of a holy person.</span>\n"
 	mood_change = 3
-	timeout = 5 MINUTES
 
 /datum/mood_event/clownshoes
 	description = "<span class='nicegreen'>The shoes are a clown's legacy, I never want to take them off!</span>\n"
@@ -151,7 +145,6 @@
 	mood_change = 6
 	timeout = 5 MINUTES
 
-<<<<<<< HEAD
 /datum/mood_event/bottle_flip
 	description = "<span class='nicegreen'>The bottle landing like that was satisfying.</span>\n"
 	mood_change = 2
@@ -168,8 +161,6 @@
 /datum/mood_event/nanite_happiness/add_effects(message)
 	description = "<span class='nicegreen robot'>+++++++[message]+++++++</span>\n"
 
-=======
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 /datum/mood_event/area
 	description = "" //Fill this out in the area
 	mood_change = 0

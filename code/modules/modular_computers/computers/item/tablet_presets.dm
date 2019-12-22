@@ -28,7 +28,6 @@
 	install_component(new /obj/item/computer_hardware/network_card)
 	install_component(new /obj/item/computer_hardware/printer/mini)
 
-<<<<<<< HEAD
 /// Given by the syndicate as part of the contract uplink bundle - loads in the Contractor Uplink.
 /obj/item/modular_computer/tablet/syndicate_contract_uplink/preset/uplink/Initialize()
 	. = ..()
@@ -40,13 +39,6 @@
 	uplink.computer = src
 
 	hard_drive.store_file(uplink)
-=======
-// Given by the syndicate as part of the contract uplink bundle
-/obj/item/modular_computer/tablet/syndicate_contract_uplink/preset/uplink/Initialize()
-	. = ..()
-	var/obj/item/computer_hardware/hard_drive/small/syndicate/hard_drive = new
-	hard_drive.store_file(new /datum/computer_file/program/contract_uplink)
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 	install_component(new /obj/item/computer_hardware/processor_unit/small)
 	install_component(new /obj/item/computer_hardware/battery(src, /obj/item/stock_parts/cell/computer))

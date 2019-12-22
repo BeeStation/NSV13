@@ -37,11 +37,7 @@ GLOBAL_LIST_EMPTY(monkey_recyclers)
 /obj/machinery/monkey_recycler/examine(mob/user)
 	. = ..()
 	if(in_range(user, src) || isobserver(user))
-<<<<<<< HEAD
 		. += "<span class='notice'>The status display reads: Producing <b>[cube_production]</b> cubes for every monkey inserted.<span>"
-=======
-		. += "<span class='notice'>The status display reads: Producing <b>[cube_production]</b> cubes for every monkey inserted.</span>"
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 /obj/machinery/monkey_recycler/attackby(obj/item/O, mob/user, params)
 	if(default_deconstruction_screwdriver(user, "grinder_open", "grinder", O))

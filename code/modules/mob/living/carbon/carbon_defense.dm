@@ -1,24 +1,35 @@
+
 /mob/living/carbon/get_eye_protection()
-	. = ..()
+	var/number = ..()
+
+	if(istype(src.head, /obj/item/clothing/head))			//are they wearing something on their head
+		var/obj/item/clothing/head/HFP = src.head			//if yes gets the flash protection value from that item
+		number += HFP.flash_protect
+
+	if(istype(src.glasses, /obj/item/clothing/glasses))		//glasses
+		var/obj/item/clothing/glasses/GFP = src.glasses
+		number += GFP.flash_protect
+
+	if(istype(src.wear_mask, /obj/item/clothing/mask))		//mask
+		var/obj/item/clothing/mask/MFP = src.wear_mask
+		number += MFP.flash_protect
+
 	var/obj/item/organ/eyes/E = getorganslot(ORGAN_SLOT_EYES)
 	if(!E)
-		return INFINITY //Can't get flashed without eyes
+		number = INFINITY //Can't get flashed without eyes
 	else
-		. += E.flash_protect
-	if(isclothing(head)) //Adds head protection
-		. += head.flash_protect
-	if(isclothing(glasses)) //Glasses
-		. += glasses.flash_protect
-	if(isclothing(wear_mask)) //Mask
-		. += wear_mask.flash_protect
+		number += E.flash_protect
+
+	return number
 
 /mob/living/carbon/get_ear_protection()
-	. = ..()
+	var/number = ..()
 	var/obj/item/organ/ears/E = getorganslot(ORGAN_SLOT_EARS)
 	if(!E)
-		return INFINITY
+		number = INFINITY
 	else
-		. += E.bang_protect
+		number += E.bang_protect
+	return number
 
 /mob/living/carbon/is_mouth_covered(head_only = 0, mask_only = 0)
 	if( (!mask_only && head && (head.flags_cover & HEADCOVERSMOUTH)) || (!head_only && wear_mask && (wear_mask.flags_cover & MASKCOVERSMOUTH)) )
@@ -88,6 +99,9 @@
 				add_splatter_floor(location)
 				if(get_dist(user, src) <= 1)	//people with TK won't get smeared with blood
 					user.add_mob_blood(src)
+					if(ishuman(user))
+						var/mob/living/carbon/human/dirtyboy = user
+						dirtyboy.adjust_hygiene(-10)
 				if(affecting.body_zone == BODY_ZONE_HEAD)
 					if(wear_mask)
 						wear_mask.add_mob_blood(src)
@@ -215,7 +229,6 @@
 		var/obj/item/organ/O = X
 		O.emp_act(severity)
 
-<<<<<<< HEAD
 /mob/living/carbon/electrocute_act(shock_damage, source, siemens_coeff = 1, safety = 0, override = 0, tesla_shock = 0, illusion = 0, stun = TRUE)
 	if(tesla_shock && (flags_1 & TESLA_IGNORE_1))
 		return FALSE
@@ -237,43 +250,25 @@
 		"<span class='userdanger'>You feel a powerful shock coursing through your body!</span>", \
 		"<span class='italics'>You hear a heavy electrical crack.</span>" \
 		)
-=======
-///Adds to the parent by also adding functionality to propagate shocks through pulling and doing some fluff effects.
-/mob/living/carbon/electrocute_act(shock_damage, source, siemens_coeff = 1, safety = FALSE, override = FALSE, tesla_shock = FALSE, illusion = FALSE, stun = TRUE)
-	. = ..()
-	if(!.)
-		return
-	//Pulling
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	if(iscarbon(pulling) && !illusion && source != pulling)
 		var/mob/living/carbon/C = pulling
 		C.electrocute_act(shock_damage*0.75, src, 1, 0, override, 0, illusion, stun)
 	if(iscarbon(pulledby) && !illusion && source != pulledby)
 		var/mob/living/carbon/C = pulledby
 		C.electrocute_act(shock_damage*0.75, src, 1, 0, override, 0, illusion, stun)
-<<<<<<< HEAD
 	jitteriness += 1000 //High numbers for violent convulsions
-=======
-	//Stun
-	var/should_stun = (!tesla_shock || siemens_coeff > 0.5) && stun
-	if(should_stun)
-		Paralyze(40)
-	//Jitter and other fluff.
-	jitteriness += 1000
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	do_jitter_animation(jitteriness)
 	stuttering += 2
-	addtimer(CALLBACK(src, .proc/secondary_shock, should_stun), 20)
+	if((!tesla_shock || (tesla_shock && siemens_coeff > 0.5)) && stun)
+		Paralyze(40)
+	spawn(20)
+		jitteriness = max(jitteriness - 990, 10) //Still jittery, but vastly less
+		if((!tesla_shock || (tesla_shock && siemens_coeff > 0.5)) && stun)
+			Paralyze(60)
 	if(override)
 		return override
 	else
 		return shock_damage
-
-///Called slightly after electrocute act to reduce jittering and apply a secondary stun.
-/mob/living/carbon/proc/secondary_shock(should_stun)
-	jitteriness = max(jitteriness - 990, 10)
-	if(should_stun)
-		Paralyze(60)
 
 /mob/living/carbon/proc/help_shake_act(mob/living/carbon/M)
 	if(on_fire)
@@ -282,7 +277,7 @@
 
 	if(!(mobility_flags & MOBILITY_STAND))
 		if(buckled)
-			to_chat(M, "<span class='warning'>You need to unbuckle [src] first to do that!</span>")
+			to_chat(M, "<span class='warning'>You need to unbuckle [src] first to do that!")
 			return
 		M.visible_message("<span class='notice'>[M] shakes [src] trying to get [p_them()] up!</span>", \
 						"<span class='notice'>You shake [src] trying to get [p_them()] up!</span>")

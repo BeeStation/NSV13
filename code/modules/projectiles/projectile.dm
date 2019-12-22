@@ -136,11 +136,7 @@
 
 /obj/item/projectile/proc/on_hit(atom/target, blocked = FALSE)
 	if(fired_from)
-<<<<<<< HEAD
 		SEND_SIGNAL(fired_from, COMSIG_PROJECTILE_BEFORE_FIRE, src, original)
-=======
-		SEND_SIGNAL(fired_from, COMSIG_PROJECTILE_ON_HIT, firer, target, Angle)
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	var/turf/target_loca = get_turf(target)
 
 	var/hitx
@@ -242,35 +238,31 @@
 			if(hitscan)
 				store_hitscan_collision(pcache)
 			return TRUE
-	if(firer && !ignore_source_check)
+	if(firer && !ignore_source_check)//nsv13 start - multitile objects
 		var/mob/checking = firer
 		if(istype(A, /obj/structure/overmap))
 			var/obj/structure/overmap/ship_target = A
 			if(checking.overmap_ship)
 				if(checking.overmap_ship.faction == ship_target.faction)
 					trajectory_ignore_forcemove = TRUE
-					//nsv13 start - multitile objects
 					var/turf/TT = trajectory.return_turf()
 					if(!istype(TT))
 						qdel(src)
 						return
 					if(TT != loc)
 						forceMove(get_step_towards(src, TT))
-					//nsv13 end
 					trajectory_ignore_forcemove = FALSE
 					return FALSE
 		if((A == firer) || (((A in firer.buckled_mobs) || (istype(checking) && (A == checking.buckled))) && (A != original)) || (A == firer.loc && (ismecha(A) || istype(A, /obj/structure/overmap)))) //cannot shoot yourself or your mech //nsv13 - or your ship
 			trajectory_ignore_forcemove = TRUE
-			//nsv13 start - multitile objects
 			var/turf/TT = trajectory.return_turf()
 			if(!istype(TT))
 				qdel(src)
 				return
 			if(TT != loc)
 				forceMove(get_step_towards(src, TT))
-			//nsv13 end
 			trajectory_ignore_forcemove = FALSE
-			return FALSE
+			return FALSE			//nsv13 end
 	var/distance = get_dist(T, starting) // Get the distance between the turf shot from and the mob we hit and use that for the calculations.
 	def_zone = ran_zone(def_zone, max(100-(7*distance), 5)) //Lower accurancy/longer range tradeoff. 7 is a balanced number to use.
 

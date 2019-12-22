@@ -38,11 +38,7 @@
 /obj/item/storage/belt/utility/ComponentInitialize()
 	. = ..()
 	var/datum/component/storage/STR = GetComponent(/datum/component/storage)
-<<<<<<< HEAD
 	var/static/list/can_hold = typecacheof(list(
-=======
-	STR.set_holdable(list(
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 		/obj/item/crowbar,
 		/obj/item/screwdriver,
 		/obj/item/weldingtool,
@@ -63,6 +59,7 @@
 		/obj/item/assembly/signaler,
 		/obj/item/lightreplacer
 		))
+	STR.can_hold = can_hold
 
 /obj/item/storage/belt/utility/chief
 	name = "\improper Chief Engineer's toolbelt" //"the Chief Engineer's toolbelt", because "Chief Engineer's toolbelt" is not a proper noun
@@ -75,7 +72,7 @@
 	new /obj/item/crowbar/power(src)
 	new /obj/item/weldingtool/experimental(src)//This can be changed if this is too much
 	new /obj/item/multitool(src)
-	new /obj/item/stack/cable_coil(src,MAXCOIL,pick("red","yellow","orange"))
+	new /obj/item/stack/cable_coil(src,30,pick("red","yellow","orange"))
 	new /obj/item/extinguisher/mini(src)
 	new /obj/item/analyzer(src)
 	//much roomier now that we've managed to remove two tools
@@ -87,7 +84,7 @@
 	new /obj/item/crowbar(src)
 	new /obj/item/wirecutters(src)
 	new /obj/item/multitool(src)
-	new /obj/item/stack/cable_coil(src,MAXCOIL,pick("red","yellow","orange"))
+	new /obj/item/stack/cable_coil(src,30,pick("red","yellow","orange"))
 
 /obj/item/storage/belt/utility/full/engi/PopulateContents()
 	new /obj/item/screwdriver(src)
@@ -96,7 +93,7 @@
 	new /obj/item/crowbar(src)
 	new /obj/item/wirecutters(src)
 	new /obj/item/multitool(src)
-	new /obj/item/stack/cable_coil(src,MAXCOIL,pick("red","yellow","orange"))
+	new /obj/item/stack/cable_coil(src,30,pick("red","yellow","orange"))
 
 
 /obj/item/storage/belt/utility/atmostech/PopulateContents()
@@ -115,7 +112,7 @@
 	new /obj/item/crowbar/brass(src)
 	new /obj/item/weldingtool/experimental/brass(src)
 	new /obj/item/multitool(src)
-	new /obj/item/stack/cable_coil(src, MAXCOIL, "yellow")
+	new /obj/item/stack/cable_coil(src, 30, "yellow")
 
 /obj/item/storage/belt/medical
 	name = "medical belt"
@@ -127,7 +124,7 @@
 	. = ..()
 	var/datum/component/storage/STR = GetComponent(/datum/component/storage)
 	STR.max_w_class = WEIGHT_CLASS_BULKY
-	STR.set_holdable(list(
+	STR.can_hold = typecacheof(list(
 		/obj/item/healthanalyzer,
 		/obj/item/dnainjector,
 		/obj/item/reagent_containers/dropper,
@@ -135,7 +132,7 @@
 		/obj/item/reagent_containers/glass/bottle,
 		/obj/item/reagent_containers/pill,
 		/obj/item/reagent_containers/syringe,
-		/obj/item/reagent_containers/medigel,
+		/obj/item/reagent_containers/medspray,
 		/obj/item/lighter,
 		/obj/item/storage/fancy/cigarettes,
 		/obj/item/storage/pill_bottle,
@@ -188,7 +185,7 @@
 	var/datum/component/storage/STR = GetComponent(/datum/component/storage)
 	STR.max_items = 5
 	STR.max_w_class = WEIGHT_CLASS_NORMAL
-	STR.set_holdable(list(
+	STR.can_hold = typecacheof(list(
 		/obj/item/melee/baton,
 		/obj/item/melee/classic_baton,
 		/obj/item/grenade,
@@ -242,7 +239,7 @@
 	STR.max_items = 6
 	STR.max_w_class = WEIGHT_CLASS_BULKY
 	STR.max_combined_w_class = 20
-	STR.set_holdable(list(
+	STR.can_hold = typecacheof(list(
 		/obj/item/crowbar,
 		/obj/item/screwdriver,
 		/obj/item/weldingtool,
@@ -258,7 +255,6 @@
 		/obj/item/resonator,
 		/obj/item/mining_scanner,
 		/obj/item/pickaxe,
-		/obj/item/shovel,
 		/obj/item/stack/sheet/animalhide,
 		/obj/item/stack/sheet/sinew,
 		/obj/item/stack/sheet/bone,
@@ -311,7 +307,7 @@
 	. = ..()
 	var/datum/component/storage/STR = GetComponent(/datum/component/storage)
 	STR.max_items = 6
-	STR.set_holdable(list(
+	STR.can_hold = typecacheof(list(
 		/obj/item/soulstone
 		))
 
@@ -334,9 +330,9 @@
 	. = ..()
 	var/datum/component/storage/STR = GetComponent(/datum/component/storage)
 	STR.max_items = 1
-	STR.set_holdable(list(
+	STR.can_hold = list(
 		/obj/item/clothing/mask/luchador
-		))
+		)
 
 /obj/item/storage/belt/military
 	name = "chest rig"
@@ -363,7 +359,7 @@
 	var/datum/component/storage/STR = GetComponent(/datum/component/storage)
 	STR.max_items = 6
 	STR.max_w_class = WEIGHT_CLASS_SMALL
-	STR.set_holdable(list(
+	STR.can_hold = typecacheof(list(
 		/obj/item/reagent_containers/food/snacks,
 		/obj/item/reagent_containers/food/drinks
 		))
@@ -411,7 +407,7 @@
 	new /obj/item/crowbar/abductor(src)
 	new /obj/item/wirecutters/abductor(src)
 	new /obj/item/multitool/abductor(src)
-	new /obj/item/stack/cable_coil(src,MAXCOIL,"white")
+	new /obj/item/stack/cable_coil(src,30,"white")
 
 /obj/item/storage/belt/military/army
 	name = "army belt"
@@ -443,7 +439,7 @@
 	STR.display_numerical_stacking = TRUE
 	STR.max_combined_w_class = 60
 	STR.max_w_class = WEIGHT_CLASS_BULKY
-	STR.set_holdable(list(
+	STR.can_hold = typecacheof(list(
 		/obj/item/grenade,
 		/obj/item/screwdriver,
 		/obj/item/lighter,
@@ -478,7 +474,7 @@
 	. = ..()
 	var/datum/component/storage/STR = GetComponent(/datum/component/storage)
 	STR.max_items = 6
-	STR.set_holdable(list(
+	STR.can_hold = typecacheof(list(
 		/obj/item/gun/magic/wand
 		))
 
@@ -505,7 +501,7 @@
 	var/datum/component/storage/STR = GetComponent(/datum/component/storage)
 	STR.max_items = 6
 	STR.max_w_class = WEIGHT_CLASS_BULKY // Set to this so the  light replacer can fit.
-	STR.set_holdable(list(
+	STR.can_hold = typecacheof(list(
 		/obj/item/grenade/chem_grenade,
 		/obj/item/lightreplacer,
 		/obj/item/flashlight,
@@ -537,7 +533,7 @@
 	var/datum/component/storage/STR = GetComponent(/datum/component/storage)
 	STR.max_items = 18
 	STR.display_numerical_stacking = TRUE
-	STR.set_holdable(list(
+	STR.can_hold = typecacheof(list(
 		/obj/item/ammo_casing/shotgun
 		))
 
@@ -553,7 +549,7 @@
 	var/datum/component/storage/STR = GetComponent(/datum/component/storage)
 	STR.max_items = 3
 	STR.max_w_class = WEIGHT_CLASS_NORMAL
-	STR.set_holdable(list(
+	STR.can_hold = typecacheof(list(
 		/obj/item/gun/ballistic/automatic/pistol,
 		/obj/item/gun/ballistic/revolver,
 		/obj/item/ammo_box,
@@ -653,7 +649,7 @@
 	STR.max_items = 1
 	STR.rustle_sound = FALSE
 	STR.max_w_class = WEIGHT_CLASS_BULKY
-	STR.set_holdable(list(
+	STR.can_hold = typecacheof(list(
 		/obj/item/melee/sabre
 		))
 
@@ -671,7 +667,7 @@
 		user.put_in_hands(I)
 		update_icon()
 	else
-		to_chat(user, "<span class='warning'>[src] is empty!</span>")
+		to_chat(user, "[src] is empty.")
 
 /obj/item/storage/belt/sabre/update_icon()
 	icon_state = "sheath"

@@ -117,10 +117,6 @@
 	var/list/diseases = list() // list of all diseases in a mob
 	var/list/disease_resistances = list()
 
-<<<<<<< HEAD
 	var/slowed_by_drag = TRUE //Whether the mob is slowed down when dragging another prone mob
 
 	var/is_busy = FALSE //Used for random actions that take time. ex: curbstomping. We need to make sure we can only do one of these at a time.
-=======
-	var/drag_slowdown = TRUE //Whether the mob is slowed down when dragging another prone mob
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36

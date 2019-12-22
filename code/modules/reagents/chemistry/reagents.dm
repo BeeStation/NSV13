@@ -68,7 +68,6 @@ GLOBAL_LIST_INIT(name2reagent, build_name2reagent())
 	holder.remove_reagent(type, metabolization_rate * M.metabolism_efficiency) //By default it slowly disappears.
 	return
 
-<<<<<<< HEAD
 /datum/reagent/proc/on_transfer(atom/A, method=TOUCH, trans_volume) //Called after a reagent is transfered
 	return
 
@@ -96,11 +95,6 @@ GLOBAL_LIST_INIT(name2reagent, build_name2reagent())
 			R.reaction_turf(A, R.volume * volume_modifier, show_message)
 		if("OBJ")
 			R.reaction_obj(A, R.volume * volume_modifier, show_message)
-=======
-datum/reagent/proc/on_transfer(atom/A, method=TOUCH, volume) //Called after a reagent is transfered
-	return
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
-
 
 // Called when this reagent is first added to a mob
 /datum/reagent/proc/on_mob_add(mob/living/L)

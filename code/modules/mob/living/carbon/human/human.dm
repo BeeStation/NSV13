@@ -25,13 +25,8 @@
 
 	. = ..()
 
-<<<<<<< HEAD
 	AddComponent(/datum/component/personal_crafting)
 	RegisterSignal(src, COMSIG_COMPONENT_CLEAN_ACT, .proc/clean_blood)
-=======
-	RegisterSignal(src, COMSIG_COMPONENT_CLEAN_ACT, .proc/clean_blood)
-	AddComponent(/datum/component/personal_crafting)
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 /mob/living/carbon/human/proc/setup_human_dna()
 	//initialize dna. for spawned humans; overwritten by other code
@@ -78,6 +73,10 @@
 			if(changeling)
 				stat("Chemical Storage", "[changeling.chem_charges]/[changeling.chem_storage]")
 				stat("Absorbed DNA", changeling.absorbedcount)
+			var/datum/antagonist/hivemind/hivemind = mind.has_antag_datum(/datum/antagonist/hivemind)
+			if(hivemind)
+				stat("Hivemind Vessels", "[hivemind.hive_size] (+[hivemind.size_mod])")
+				stat("Psychic Link Duration", "[(hivemind.track_bonus + TRACKER_DEFAULT_TIME)/10] seconds")
 
 	//NINJACODE
 	if(istype(wear_suit, /obj/item/clothing/suit/space/space_ninja)) //Only display if actually a ninja.
@@ -768,7 +767,7 @@
 			else
 				hud_used.healthdoll.icon_state = "healthdoll_DEAD"
 
-/mob/living/carbon/human/fully_heal(admin_revive = FALSE)
+/mob/living/carbon/human/fully_heal(admin_revive = 0)
 	dna?.species.spec_fully_heal(src)
 	if(admin_revive)
 		regenerate_limbs()
@@ -776,6 +775,7 @@
 	remove_all_embedded_objects()
 	set_heartattack(FALSE)
 	drunkenness = 0
+	set_hygiene(HYGIENE_LEVEL_NORMAL)
 	for(var/datum/mutation/human/HM in dna.mutations)
 		if(HM.quality != POSITIVE)
 			dna.remove_mutation(HM.name)
@@ -831,7 +831,6 @@
 			return
 	. = ..()
 
-<<<<<<< HEAD
 /mob/living/carbon/human/MouseDrop(mob/over)
 	. = ..()
 	if(ishuman(over))
@@ -909,42 +908,6 @@
 	else
 		to_chat(target, "<span class='warning'>You can't piggyback ride [src] right now!</span>")
 
-=======
-//src is the user that will be carrying, target is the mob to be carried
-/mob/living/carbon/human/proc/can_piggyback(mob/living/carbon/target)
-	return (istype(target) && target.stat == CONSCIOUS)
-
-/mob/living/carbon/human/proc/can_be_firemanned(mob/living/carbon/target)
-	return (ishuman(target) && !(target.mobility_flags & MOBILITY_STAND))
-
-/mob/living/carbon/human/proc/fireman_carry(mob/living/carbon/target)
-	if(can_be_firemanned(target))
-		visible_message("<span class='notice'>[src] starts lifting [target] onto their back...</span>",
-			"<span class='notice'>You start lifting [target] onto your back...</span>")
-		if(do_after(src, 50, TRUE, target))
-			//Second check to make sure they're still valid to be carried
-			if(can_be_firemanned(target) && !incapacitated(FALSE, TRUE))
-				buckle_mob(target, TRUE, TRUE, 90, 1, 0)
-				return
-		visible_message("<span class='warning'>[src] fails to fireman carry [target]!")
-	else
-		to_chat(src, "<span class='warning'>You can't fireman carry [target] while they're standing!</span>")
-
-/mob/living/carbon/human/proc/piggyback(mob/living/carbon/target)
-	if(can_piggyback(target))
-		visible_message("<span class='notice'>[target] starts to climb onto [src]...</span>")
-		if(do_after(target, 15, target = src))
-			if(can_piggyback(target))
-				if(target.incapacitated(FALSE, TRUE) || incapacitated(FALSE, TRUE))
-					target.visible_message("<span class='warning'>[target] can't hang onto [src]!</span>")
-					return
-				buckle_mob(target, TRUE, TRUE, FALSE, 0, 2)
-		else
-			visible_message("<span class='warning'>[target] fails to climb onto [src]!</span>")
-	else
-		to_chat(target, "<span class='warning'>You can't piggyback ride [src] right now!</span>")
-
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 /mob/living/carbon/human/buckle_mob(mob/living/target, force = FALSE, check_loc = TRUE, lying_buckle = FALSE, hands_needed = 0, target_hands_needed = 0)
 	if(!force)//humans are only meant to be ridden through piggybacking and special cases
 		return
@@ -983,11 +946,7 @@
 	for(var/bp in body_parts)
 		if(istype(bp, /obj/item/clothing))
 			var/obj/item/clothing/C = bp
-<<<<<<< HEAD
 			if(C.blocks_shove_knockdown)
-=======
-			if(C.clothing_flags & BLOCKS_SHOVE_KNOCKDOWN)
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 				return TRUE
 	return FALSE
 

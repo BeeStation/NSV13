@@ -219,10 +219,11 @@
 		tank = null
 		update_icon()
 
-/obj/item/pneumatic_cannon/ghetto //Obtainable by improvised methods; more gas per use, less capacity
+/obj/item/pneumatic_cannon/ghetto //Obtainable by improvised methods; more gas per use, less capacity, but smaller
 	name = "improvised pneumatic cannon"
 	desc = "A gas-powered, object-firing cannon made out of common parts."
 	force = 5
+	w_class = WEIGHT_CLASS_NORMAL
 	maxWeightClass = 7
 	gasPerThrow = 5
 
@@ -326,7 +327,7 @@
 	STR.max_items = 20
 	STR.max_combined_w_class = 40
 	STR.display_numerical_stacking = TRUE
-	STR.set_holdable(list(
+	STR.can_hold = typecacheof(list(
 		/obj/item/throwing_star/magspear
 		))
 

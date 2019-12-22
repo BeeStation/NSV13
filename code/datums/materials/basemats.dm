@@ -5,11 +5,7 @@
 	desc = "Common iron ore often found in sedimentary and igneous layers of the crust."
 	color = "#878687"
 	categories = list(MAT_CATEGORY_ORE = TRUE, MAT_CATEGORY_RIGID = TRUE)
-<<<<<<< HEAD
 	sheet_type = /obj/item/stack/sheet/iron
-=======
-	sheet_type = /obj/item/stack/sheet/metal
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	coin_type = /obj/item/coin/iron
 
 ///Breaks extremely easily but is transparent.
@@ -151,7 +147,6 @@
 	desc = "Organic matter"
 	color = "#735b4d"
 	strength_modifier = 0.8
-<<<<<<< HEAD
 
 
 /datum/material/copper
@@ -161,5 +156,3 @@
 	color = "#d95802"
 	categories = list(MAT_CATEGORY_ORE = TRUE, MAT_CATEGORY_RIGID = TRUE)
 	sheet_type = /obj/item/stack/sheet/mineral/copper
-=======
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36

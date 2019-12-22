@@ -8,7 +8,6 @@
 #define Z_TURFS(ZLEVEL) block(locate(1,1,ZLEVEL), locate(world.maxx, world.maxy, ZLEVEL))
 #define CULT_POLL_WAIT 2400
 
-<<<<<<< HEAD
 /proc/get_area(atom/A)
 	RETURN_TYPE(/area)
 	if(isarea(A))
@@ -16,8 +15,6 @@
 	var/turf/T = get_turf(A)
 	return T ? T.loc : null
 
-=======
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 /proc/get_area_name(atom/X, format_text = FALSE)
 	var/area/A = isarea(X) ? X : get_area(X)
 	if(!A)
@@ -334,19 +331,6 @@
 		else if(isliving(M.current))
 			return M.current.stat != DEAD
 	return FALSE
-	
-/**
-  * Exiled check
-  * 
-  * Checks if the current body of the mind has an exile implant and is currently in 
-  * an away mission. Returns FALSE if any of those conditions aren't met.
-  */ 
-/proc/considered_exiled(datum/mind/M)
-	if(!ishuman(M?.current))
-		return FALSE
-	for(var/obj/item/implant/I in M.current.implants)
-		if(istype(I, /obj/item/implant/exile && M.current.onAwayMission()))
-			return TRUE
 
 /proc/considered_afk(datum/mind/M)
 	return !M || !M.current || !M.current.client || M.current.client.is_afk()
@@ -529,7 +513,10 @@
 	if(!SSticker.IsRoundInProgress() || QDELETED(character))
 		return
 	var/area/A = get_area(character)
-	deadchat_broadcast(" has arrived at the station at <span class='name'>[A.name]</span>.", "<span class='game'><span class='name'>[character.real_name]</span> ([rank])", follow_target = character, message_type=DEADCHAT_ARRIVALRATTLE)
+	var/message = "<span class='game deadsay'><span class='name'>\
+		[character.real_name]</span> ([rank]) has arrived at the station at \
+		<span class='name'>[A.name]</span>.</span>"
+	deadchat_broadcast(message, follow_target = character, message_type=DEADCHAT_ARRIVALRATTLE)
 	if((!GLOB.announcement_systems.len) || (!character.mind))
 		return
 	if((character.mind.assigned_role == "Cyborg") || (character.mind.assigned_role == character.mind.special_role))

@@ -6,7 +6,7 @@
 	var/max_mobs = 5
 	var/spawn_text = "emerges from"
 	var/list/faction = list("mining")
-
+	
 
 
 /datum/component/spawner/Initialize(_mob_types, _spawn_time, _faction, _spawn_text, _max_mobs)
@@ -26,11 +26,8 @@
 
 /datum/component/spawner/process()
 	try_spawn_mob()
+	
 
-<<<<<<< HEAD
-=======
-
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 /datum/component/spawner/proc/stop_spawning(force)
 	STOP_PROCESSING(SSprocessing, src)
 	for(var/mob/living/simple_animal/L in spawned_mobs)
@@ -39,7 +36,7 @@
 	spawned_mobs = null
 
 /datum/component/spawner/proc/try_spawn_mob()
-	var/atom/P = parent
+	var/atom/P = parent 
 	if(spawned_mobs.len >= max_mobs)
 		return 0
 	if(spawn_delay > world.time)
@@ -47,7 +44,7 @@
 	spawn_delay = world.time + spawn_time
 	var/chosen_mob_type = pick(mob_types)
 	var/mob/living/simple_animal/L = new chosen_mob_type(P.loc)
-	L.flags_1 |= (P.flags_1 & ADMIN_SPAWNED_1)
+	L.flags_1 |= (P.flags_1 & ADMIN_SPAWNED_1)	
 	spawned_mobs += L
 	L.nest = src
 	L.faction = src.faction

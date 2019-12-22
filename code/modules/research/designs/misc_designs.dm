@@ -8,11 +8,7 @@
 	desc = "A heads-up display that scans the humans in view and provides accurate data about their health status."
 	id = "health_hud"
 	build_type = PROTOLATHE
-<<<<<<< HEAD
 	materials = list(/datum/material/iron = 500, /datum/material/glass = 500, /datum/material/copper = 200)
-=======
-	materials = list(/datum/material/iron = 500, /datum/material/glass = 500)
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	build_path = /obj/item/clothing/glasses/hud/health
 	category = list("Equipment")
 	departmental_flags = DEPARTMENTAL_FLAG_MEDICAL
@@ -22,11 +18,7 @@
 	desc = "An advanced medical head-up display that allows doctors to find patients in complete darkness."
 	id = "health_hud_night"
 	build_type = PROTOLATHE
-<<<<<<< HEAD
 	materials = list(/datum/material/iron = 600, /datum/material/glass = 600, /datum/material/uranium = 1000, /datum/material/silver = 350, /datum/material/copper = 300)
-=======
-	materials = list(/datum/material/iron = 600, /datum/material/glass = 600, /datum/material/uranium = 1000, /datum/material/silver = 350)
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	build_path = /obj/item/clothing/glasses/hud/health/night
 	category = list("Equipment")
 	departmental_flags = DEPARTMENTAL_FLAG_MEDICAL
@@ -36,11 +28,7 @@
 	desc = "A heads-up display that scans the humans in view and provides accurate data about their ID status."
 	id = "security_hud"
 	build_type = PROTOLATHE
-<<<<<<< HEAD
 	materials = list(/datum/material/iron = 500, /datum/material/glass = 500, /datum/material/copper = 200)
-=======
-	materials = list(/datum/material/iron = 500, /datum/material/glass = 500)
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	build_path = /obj/item/clothing/glasses/hud/security
 	category = list("Equipment")
 	departmental_flags = DEPARTMENTAL_FLAG_SECURITY
@@ -50,11 +38,7 @@
 	desc = "A heads-up display which provides id data and vision in complete darkness."
 	id = "security_hud_night"
 	build_type = PROTOLATHE
-<<<<<<< HEAD
 	materials = list(/datum/material/iron = 600, /datum/material/glass = 600, /datum/material/uranium = 1000, /datum/material/gold = 350, /datum/material/copper = 300)
-=======
-	materials = list(/datum/material/iron = 600, /datum/material/glass = 600, /datum/material/uranium = 1000, /datum/material/gold = 350)
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	build_path = /obj/item/clothing/glasses/hud/security/night
 	category = list("Equipment")
 	departmental_flags = DEPARTMENTAL_FLAG_SECURITY
@@ -64,11 +48,7 @@
 	desc = "A HUD used to analyze and determine faults within robotic machinery."
 	id = "diagnostic_hud"
 	build_type = PROTOLATHE
-<<<<<<< HEAD
 	materials = list(/datum/material/iron = 500, /datum/material/glass = 500, /datum/material/copper = 250)
-=======
-	materials = list(/datum/material/iron = 500, /datum/material/glass = 500)
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	build_path = /obj/item/clothing/glasses/hud/diagnostic
 	category = list("Equipment")
 	departmental_flags = DEPARTMENTAL_FLAG_SCIENCE
@@ -78,11 +58,7 @@
 	desc = "Upgraded version of the diagnostic HUD designed to function during a power failure."
 	id = "diagnostic_hud_night"
 	build_type = PROTOLATHE
-<<<<<<< HEAD
 	materials = list(/datum/material/iron = 600, /datum/material/glass = 600, /datum/material/uranium = 1000, /datum/material/plasma = 300, /datum/material/copper = 300)
-=======
-	materials = list(/datum/material/iron = 600, /datum/material/glass = 600, /datum/material/uranium = 1000, /datum/material/plasma = 300)
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	build_path = /obj/item/clothing/glasses/hud/diagnostic/night
 	category = list("Equipment")
 	departmental_flags = DEPARTMENTAL_FLAG_SCIENCE
@@ -477,7 +453,6 @@
 	category = list("Equipment")
 	departmental_flags = DEPARTMENTAL_FLAG_SECURITY
 
-<<<<<<< HEAD
 /datum/design/plumbing_rcd
 	name = "Plumbing Constructor"
 	id = "plumbing_rcd"
@@ -486,6 +461,3 @@
 	build_path = /obj/item/construction/plumbing
 	category = list("Equipment")
 	departmental_flags = DEPARTMENTAL_FLAG_MEDICAL
-=======
-
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36

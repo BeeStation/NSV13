@@ -26,12 +26,9 @@
 /obj/item/soulstone/anybody
 	usability = TRUE
 
-<<<<<<< HEAD
 /obj/item/soulstone/anybody/revolver
 	old_shard = TRUE
 
-=======
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 /obj/item/soulstone/anybody/purified
 	icon = 'icons/obj/wizard.dmi'
 	icon_state = "purified_soulstone"
@@ -88,11 +85,7 @@
 			to_chat(user, "<span class='cultlarge'>\"Come now, do not capture your bretheren's soul.\"</span>")
 			return
 	if(purified && iscultist(user))
-<<<<<<< HEAD
 		hot_potato(user)
-=======
-		to_chat(user, "<span class='warning'>Holy magic resides within the stone, you cannot use it.</span>")
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 		return
 	log_combat(user, M, "captured [M.name]'s soul", src)
 	transfer_soul("VICTIM", M, user)
@@ -107,11 +100,7 @@
 		to_chat(user, "<span class='userdanger'>Your body is wracked with debilitating pain!</span>")
 		return
 	if(purified && iscultist(user))
-<<<<<<< HEAD
 		hot_potato(user)
-=======
-		to_chat(user, "<span class='warning'>Holy magic resides within the stone, you cannot use it.</span>")
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 		return
 	release_shades(user)
 
@@ -158,11 +147,7 @@
 			user.Dizzy(30)
 			return
 		if(SS.purified && iscultist(user))
-<<<<<<< HEAD
 			SS.hot_potato(user)
-=======
-			to_chat(user, "<span class='warning'>Holy magic resides within the stone, you cannot use it.</span>")
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 			return
 		SS.transfer_soul("CONSTRUCT",src,user)
 		SS.was_used()
@@ -224,11 +209,8 @@
 				T.health = T.maxHealth
 				if(purified)
 					icon_state = "purified_soulstone2"
-<<<<<<< HEAD
 					if(iscultist(T))
 						SSticker.mode.remove_cultist(T.mind, FALSE, FALSE)
-=======
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 				else
 					icon_state = "soulstone2"
 				name = "soulstone: Shade of [T.real_name]"

@@ -50,11 +50,7 @@
 
 /obj/machinery/proc/remove_eye_control(mob/living/user)
 	CRASH("[type] does not implement ai eye handling")
-<<<<<<< HEAD
 	
-=======
-
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 /obj/machinery/computer/camera_advanced/remove_eye_control(mob/living/user)
 	if(!user)
 		return
@@ -107,7 +103,7 @@
 	if(!is_operational()) //you cant use broken machine you chumbis
 		return
 	if(current_user)
-		to_chat(user, "<span class='warning'>The console is already in use!</span>")
+		to_chat(user, "The console is already in use!")
 		return
 	var/mob/living/L = user
 

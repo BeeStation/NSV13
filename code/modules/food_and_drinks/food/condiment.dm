@@ -16,7 +16,6 @@
 	volume = 50
 	//Possible_states has the reagent type as key and a list of, in order, the icon_state, the name and the desc as values. Used in the on_reagent_change(changetype) to change names, descs and sprites.
 	var/list/possible_states = list(
-<<<<<<< HEAD
 	 /datum/reagent/consumable/enzyme = list("icon_state" = "enzyme", "item_state" = "", "icon_empty" = "", "name" = "universal enzyme bottle", "desc" = "Used in cooking various dishes."),
 	 /datum/reagent/consumable/flour = list("icon_state" = "flour", "item_state" = "flour", "icon_empty" = "", "name" = "flour sack", "desc" = "A big bag of flour. Good for baking!"),
 	 /datum/reagent/consumable/mayonnaise = list("icon_state" = "mayonnaise", "item_state" = "", "icon_empty" = "", "name" = "mayonnaise jar", "desc" = "An oily condiment made from egg yolks."),
@@ -32,18 +31,6 @@
 	 /datum/reagent/consumable/frostoil = list("icon_state" = "coldsauce", "item_state" = "", "icon_empty" = "", "name" = "coldsauce bottle", "desc" = "Leaves the tongue numb from its passage."),
 	 /datum/reagent/consumable/cornoil = list("icon_state" = "oliveoil", "item_state" = "", "icon_empty" = "", "name" = "corn oil bottle", "desc" = "A delicious oil used in cooking. Made from corn."),
 
-=======
-	 /datum/reagent/consumable/ketchup = list("ketchup", "ketchup bottle", "You feel more American already."),
-	 /datum/reagent/consumable/capsaicin = list("hotsauce", "hotsauce bottle", "You can almost TASTE the stomach ulcers now!"),
-	 /datum/reagent/consumable/enzyme = list("enzyme", "universal enzyme bottle", "Used in cooking various dishes"),
-	 /datum/reagent/consumable/soysauce = list("soysauce", "soy sauce bottle", "A salty soy-based flavoring"),
-	 /datum/reagent/consumable/frostoil = list("coldsauce", "coldsauce bottle", "Leaves the tongue numb in its passage"),
-	 /datum/reagent/consumable/sodiumchloride = list("saltshakersmall", "salt shaker", "Salt. From space oceans, presumably"),
-	 /datum/reagent/consumable/blackpepper = list("peppermillsmall", "pepper mill", "Often used to flavor food or make people sneeze"),
-	 /datum/reagent/consumable/cornoil = list("oliveoil", "corn oil bottle", "A delicious oil used in cooking. Made from corn"),
-	 /datum/reagent/consumable/sugar = list("emptycondiment", "sugar bottle", "Tasty spacey sugar!"),
-	 /datum/reagent/consumable/mayonnaise = list("mayonnaise", "mayonnaise jar", "An oily condiment made from egg yolks."),
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	 )
 	var/originalname = "condiment" //Can't use initial(name) for this. This stores the name set by condimasters.
 	var/icon_empty = ""
@@ -76,10 +63,6 @@
 		icon_state = icon_empty
 
 	. = ..()
-
-/obj/item/reagent_containers/food/condiment/Initialize()
-	. = ..()
-	possible_states = typelist("possible_states", possible_states)
 
 /obj/item/reagent_containers/food/condiment/suicide_act(mob/living/carbon/user)
 	user.visible_message("<span class='suicide'>[user] is trying to eat the entire [src]! It looks like [user.p_they()] forgot how food works!</span>")
@@ -154,11 +137,8 @@
 /obj/item/reagent_containers/food/condiment/sugar
 	name = "sugar sack"
 	desc = "Tasty spacey sugar!"
-<<<<<<< HEAD
 	icon_state = "sugar"
 	item_state = "flour"
-=======
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	list_reagents = list(/datum/reagent/consumable/sugar = 50)
 
 /obj/item/reagent_containers/food/condiment/saltshaker		//Separate from above since it's a small shaker rather then
@@ -170,16 +150,6 @@
 	amount_per_transfer_from_this = 1
 	volume = 20
 	list_reagents = list(/datum/reagent/consumable/sodiumchloride = 20)
-<<<<<<< HEAD
-=======
-	possible_states = list()
-
-/obj/item/reagent_containers/food/condiment/saltshaker/on_reagent_change(changetype)
-	if(reagents.reagent_list.len == 0)
-		icon_state = "emptyshaker"
-	else
-		icon_state = "saltshakersmall"
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 /obj/item/reagent_containers/food/condiment/saltshaker/suicide_act(mob/user)
 	user.visible_message("<span class='suicide'>[user] begins to swap forms with the salt shaker! It looks like [user.p_theyre()] trying to commit suicide!</span>")
@@ -212,16 +182,6 @@
 	amount_per_transfer_from_this = 1
 	volume = 20
 	list_reagents = list(/datum/reagent/consumable/blackpepper = 20)
-<<<<<<< HEAD
-=======
-	possible_states = list()
-
-/obj/item/reagent_containers/food/condiment/peppermill/on_reagent_change(changetype)
-	if(reagents.reagent_list.len == 0)
-		icon_state = "emptyshaker"
-	else
-		icon_state = "peppermillsmall"
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 /obj/item/reagent_containers/food/condiment/milk
 	name = "space milk"
@@ -231,10 +191,6 @@
 	lefthand_file = 'icons/mob/inhands/equipment/kitchen_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/equipment/kitchen_righthand.dmi'
 	list_reagents = list(/datum/reagent/consumable/milk = 50)
-<<<<<<< HEAD
-=======
-	possible_states = list()
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 /obj/item/reagent_containers/food/condiment/flour
 	name = "flour sack"
@@ -242,10 +198,6 @@
 	icon_state = "flour"
 	item_state = "flour"
 	list_reagents = list(/datum/reagent/consumable/flour = 30)
-<<<<<<< HEAD
-=======
-	possible_states = list()
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 /obj/item/reagent_containers/food/condiment/soymilk
 	name = "soy milk"
@@ -255,10 +207,6 @@
 	lefthand_file = 'icons/mob/inhands/equipment/kitchen_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/equipment/kitchen_righthand.dmi'
 	list_reagents = list(/datum/reagent/consumable/soymilk = 50)
-<<<<<<< HEAD
-=======
-	possible_states = list()
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 /obj/item/reagent_containers/food/condiment/rice
 	name = "rice sack"
@@ -266,30 +214,18 @@
 	icon_state = "rice"
 	item_state = "flour"
 	list_reagents = list(/datum/reagent/consumable/rice = 30)
-<<<<<<< HEAD
-=======
-	possible_states = list()
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 /obj/item/reagent_containers/food/condiment/soysauce
 	name = "soy sauce"
 	desc = "A salty soy-based flavoring."
 	icon_state = "soysauce"
 	list_reagents = list(/datum/reagent/consumable/soysauce = 50)
-<<<<<<< HEAD
-=======
-	possible_states = list()
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 /obj/item/reagent_containers/food/condiment/mayonnaise
 	name = "mayonnaise"
 	desc = "An oily condiment made from egg yolks."
 	icon_state = "mayonnaise"
 	list_reagents = list(/datum/reagent/consumable/mayonnaise = 50)
-<<<<<<< HEAD
-=======
-	possible_states = list()
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 
 
@@ -313,12 +249,9 @@
 		/datum/reagent/consumable/sugar = list("condi_sugar", "Sugar", "Tasty spacey sugar!"),
 		/datum/reagent/consumable/astrotame = list("condi_astrotame", "Astrotame", "The sweetness of a thousand sugars but none of the calories."),
 		)
-<<<<<<< HEAD
 
 /obj/item/reagent_containers/food/condiment/pack/update_icon()
 	return
-=======
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 /obj/item/reagent_containers/food/condiment/pack/attack(mob/M, mob/user, def_zone) //Can't feed these to people directly.
 	return

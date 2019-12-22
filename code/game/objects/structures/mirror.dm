@@ -28,7 +28,7 @@
 		//this is largely copypasted from there.
 
 		//handle facial hair (if necessary)
-		if(H.gender != FEMALE)
+		if(H.gender == MALE)
 			var/new_style = input(user, "Select a facial hair style", "Grooming")  as null|anything in GLOB.facial_hair_styles_list
 			if(!user.canUseTopic(src, BE_CLOSE, FALSE, NO_TK))
 				return	//no tele-grooming

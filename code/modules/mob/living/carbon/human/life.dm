@@ -28,7 +28,6 @@
 	if (QDELETED(src))
 		return 0
 
-<<<<<<< HEAD
 	if(!IsInStasis())
 		if(.) //not dead
 			handle_active_genes()
@@ -43,21 +42,6 @@
 
 		if(stat != DEAD)
 			handle_hygiene()
-=======
-	if(!IS_IN_STASIS(src))
-		if(.) //not dead
-
-			for(var/datum/mutation/human/HM in dna.mutations) // Handle active genes
-				HM.on_life()
-
-		if(stat != DEAD)
-			//heart attack stuff
-			handle_heart()
-
-		if(stat != DEAD)
-			//Stuff jammed in your limbs hurts
-			handle_embedded_objects()
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 		dna.species.spec_life(src) // for mutantraces
 
@@ -326,6 +310,10 @@
 					clear_alert("embeddedobject")
 					SEND_SIGNAL(src, COMSIG_CLEAR_MOOD_EVENT, "embedded")
 
+/mob/living/carbon/human/proc/handle_active_genes()
+	for(var/datum/mutation/human/HM in dna.mutations)
+		HM.on_life()
+
 /mob/living/carbon/human/proc/handle_heart()
 	var/we_breath = !HAS_TRAIT_FROM(src, TRAIT_NOBREATH, SPECIES_TRAIT)
 
@@ -338,7 +326,6 @@
 	// Tissues die without blood circulation
 	adjustBruteLoss(2)
 
-<<<<<<< HEAD
 /mob/living/carbon/human/proc/handle_hygiene()
 	if(HAS_TRAIT(src, TRAIT_ALWAYS_CLEAN))
 		set_hygiene(HYGIENE_LEVEL_CLEAN)
@@ -370,8 +357,6 @@
 	adjust_hygiene(hygiene_loss)
 
 
-=======
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 #undef THERMAL_PROTECTION_HEAD
 #undef THERMAL_PROTECTION_CHEST
 #undef THERMAL_PROTECTION_GROIN

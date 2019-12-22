@@ -36,7 +36,6 @@
 #define HIJACK_HIJACKER 1 //Needs to be present for shuttle to be hijacked
 #define HIJACK_PREVENT 2 //Prevents hijacking same way as non-antags
 
-<<<<<<< HEAD
 //Overthrow time to update heads obj
 #define OBJECTIVE_UPDATING_TIME 300
 
@@ -52,8 +51,6 @@
 #define MAX_LEADERS_GANG		3
 #define INITIAL_DOM_ATTEMPTS	3 
 
-=======
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 //Syndicate Contracts
 #define CONTRACT_STATUS_INACTIVE 1
 #define CONTRACT_STATUS_ACTIVE 2

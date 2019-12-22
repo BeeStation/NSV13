@@ -46,7 +46,6 @@
 		GLOB.surgeries_list += new path()
 
 	GLOB.emote_list = init_emote_list()
-<<<<<<< HEAD
 
 
 
@@ -64,9 +63,6 @@
 	for(var/key in GLOB.keybinding_list_by_key)
 		GLOB.keybinding_list_by_key[key] = sortList(GLOB.keybinding_list_by_key[key])
 
-=======
-	
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 	init_subtypes(/datum/crafting_recipe, GLOB.crafting_recipes)
 

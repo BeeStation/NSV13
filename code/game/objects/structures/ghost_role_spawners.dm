@@ -213,7 +213,6 @@
 	mob_name = "a stranded hermit"
 	icon = 'icons/obj/lavaland/spawners.dmi'
 	icon_state = "cryostasis_sleeper"
-	outfit = /datum/outfit/hermit
 	roundstart = FALSE
 	death = FALSE
 	random = TRUE
@@ -239,26 +238,23 @@
 			scrambled its destination's coordinates, and launched it. You awoke from stasis when you landed and have been surviving - barely - ever since."
 			outfit.uniform = /obj/item/clothing/under/rank/prisoner
 			outfit.shoes = /obj/item/clothing/shoes/sneakers/orange
+			outfit.back = /obj/item/storage/backpack
 		if(3)
 			flavour_text += "you were a doctor on one of Nanotrasen's space stations, but you left behind that damn corporation's tyranny and everything it stood for. From a metaphorical hell \
 			to a literal one, you find yourself nonetheless missing the recycled air and warm floors of what you left behind... but you'd still rather be here than there."
 			outfit.uniform = /obj/item/clothing/under/rank/medical
 			outfit.suit = /obj/item/clothing/suit/toggle/labcoat
 			outfit.back = /obj/item/storage/backpack/medic
+			outfit.shoes = /obj/item/clothing/shoes/sneakers/black
 		if(4)
 			flavour_text += "you were always joked about by your friends for \"not playing with a full deck\", as they so <i>kindly</i> put it. It seems that they were right when you, on a tour \
 			at one of Nanotrasen's state-of-the-art research facilities, were in one of the escape pods alone and saw the red button. It was big and shiny, and it caught your eye. You pressed \
-<<<<<<< HEAD
 			it, and after a terrifying and fast ride for days, you landed here. You've had time to wisen up since then, and you think that your old friends wouldn't be laughing now."
-=======
-			it, and after a terrifying and fast ride for days, you landed here. You've had time to wisen up since then, and you think that your old friends wouldn't be laughing now.</b>"
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 /obj/effect/mob_spawn/human/hermit/Destroy()
 	new/obj/structure/fluff/empty_cryostasis_sleeper(get_turf(src))
 	return ..()
 
-<<<<<<< HEAD
 //Broken rejuvenation pod: Spawns in animal hospitals in lavaland. Ghosts become disoriented interns and are advised to search for help.
 /obj/effect/mob_spawn/human/doctor/alive/lavaland
 	name = "broken rejuvenation pod"
@@ -273,16 +269,6 @@
 	var/obj/structure/fluff/empty_sleeper/S = new(drop_location())
 	S.setDir(dir)
 	return ..()
-=======
-/datum/outfit/hermit
-	name = "Lavaland hermit"
-	uniform = /obj/item/clothing/under/color/grey/glorf
-	shoes = /obj/item/clothing/shoes/sneakers/black
-	back = /obj/item/storage/backpack
-	mask = /obj/item/clothing/mask/breath
-	l_pocket = /obj/item/tank/internals/emergency_oxygen
-	r_pocket = /obj/item/flashlight/glowstick
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 //Prisoner containment sleeper: Spawns in crashed prison ships in lavaland. Ghosts become escaped prisoners and are advised to find a way out of the mess they've gotten themselves into.
 /obj/effect/mob_spawn/human/prisoner_transport

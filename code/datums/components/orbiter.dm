@@ -13,12 +13,6 @@
 		return COMPONENT_INCOMPATIBLE
 
 	orbiters = list()
-<<<<<<< HEAD
-=======
-
-	var/atom/master = parent
-	master.orbiters = src
->>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 	begin_orbit(orbiter, radius, clockwise, rotation_speed, rotation_segments, pre_rotation)
 
