@@ -725,6 +725,7 @@ After going through this checklist, you're ready to go!
 	if(!is_station_level(z) &&!force)
 		to_chat(M, "<span class='warning'>DANGER: You may not exit [src] while flying alongside other large ships.</span>")
 		return FALSE //No jumping out into the overmap :)
+	M.focus = M
 	operators -= M
 	mobs_in_ship -= M
 	LAZYREMOVE(M.mousemove_intercept_objects, src)

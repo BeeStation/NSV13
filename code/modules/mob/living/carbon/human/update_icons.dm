@@ -479,6 +479,14 @@ There are several things that need to be remembered:
 		client.screen += I
 	update_observer_view(I)
 
+//Update whether we smell
+/mob/living/carbon/human/proc/update_smell(var/smelly_icon = "generic_mob_smell")
+	remove_overlay(SMELL_LAYER)
+	if(hygiene <= HYGIENE_LEVEL_DIRTY)
+		var/mutable_appearance/new_smell_overlay = mutable_appearance('icons/mob/smelly.dmi', smelly_icon, -SMELL_LAYER)
+		overlays_standing[SMELL_LAYER] = new_smell_overlay
+		apply_overlay(SMELL_LAYER)
+
 /*
 Does everything in relation to building the /mutable_appearance used in the mob's overlays list
 covers:
@@ -529,7 +537,7 @@ generate/load female uniform sprites matching all previously decided variables
 	//Get the overlays for this item when it's being worn
 	//eg: ammo counters, primed grenade flashes, etc.
 	var/list/worn_overlays = worn_overlays(isinhands, file2use)
-	if(worn_overlays && worn_overlays.len)
+	if(worn_overlays?.len)
 		standing.overlays.Add(worn_overlays)
 
 	standing = center_image(standing, isinhands ? inhand_x_dimension : worn_x_dimension, isinhands ? inhand_y_dimension : worn_y_dimension)

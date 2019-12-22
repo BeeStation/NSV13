@@ -83,7 +83,7 @@
 
 /datum/reagent/liquidgibs
 	name = "Liquid gibs"
-	color = "#CC4633"
+	color = "#FF9966"
 	description = "You don't even want to think about what's in here."
 	taste_description = "gross iron"
 	shot_glass_icon_state = "shotglassred"
@@ -116,6 +116,7 @@
 	glass_name = "glass of water"
 	glass_desc = "The father of all refreshments."
 	shot_glass_icon_state = "shotglassclear"
+	process_flags = ORGANIC | SYNTHETIC
 
 /*
  *	Water reaction to turf
@@ -286,6 +287,7 @@
 	name = "Hell Water"
 	description = "YOUR FLESH! IT BURNS!"
 	taste_description = "burning"
+	process_flags = ORGANIC | SYNTHETIC
 
 /datum/reagent/hellwater/on_mob_life(mob/living/carbon/M)
 	M.fire_stacks = min(5,M.fire_stacks + 3)
@@ -300,25 +302,17 @@
 	description = "Slowly heals all damage types. Has a rather high overdose threshold. Glows with mysterious power."
 	overdose_threshold = 150
 
-///Used for clownery
 /datum/reagent/lube
 	name = "Space Lube"
 	description = "Lubricant is a substance introduced between two moving surfaces to reduce the friction and wear between them. giggity."
 	color = "#009CA8" // rgb: 0, 156, 168
 	taste_description = "cherry" // by popular demand
-	var/lube_kind = TURF_WET_LUBE ///What kind of slipperiness gets added to turfs.
 
 /datum/reagent/lube/reaction_turf(turf/open/T, reac_volume)
 	if (!istype(T))
 		return
 	if(reac_volume >= 1)
-		T.MakeSlippery(lube_kind, 15 SECONDS, min(reac_volume * 2 SECONDS, 120))
-
-///Stronger kind of lube. Applies TURF_WET_SUPERLUBE.
-/datum/reagent/lube/superlube
-	name = "Super Duper Lube"
-	description = "This \[REDACTED\] has been outlawed after the incident on \[DATA EXPUNGED\]."
-	lube_kind = TURF_WET_SUPERLUBE
+		T.MakeSlippery(TURF_WET_LUBE, 15 SECONDS, min(reac_volume * 2 SECONDS, 120))
 
 /datum/reagent/spraytan
 	name = "Spray Tan"
@@ -423,6 +417,7 @@
 	taste_description = "slime"
 	var/datum/species/race = /datum/species/human
 	var/mutationtext = "<span class='danger'>The pain subsides. You feel... human.</span>"
+	process_flags = ORGANIC | SYNTHETIC
 
 /datum/reagent/mutationtoxin/on_mob_life(mob/living/carbon/human/H)
 	..()
@@ -437,13 +432,14 @@
 /datum/reagent/mutationtoxin/proc/mutate(mob/living/carbon/human/H)
 	if(QDELETED(H))
 		return
+	var/datum/species/mutation = pick(race)			//I honestly feel extremely uncomfortable. I do not like the fact that this works.
 	var/current_species = H.dna.species.type
-	var/datum/species/mutation = race
 	if(mutation && mutation != current_species)
 		to_chat(H, mutationtext)
 		H.set_species(mutation)
 	else
 		to_chat(H, "<span class='danger'>The pain vanishes suddenly. You feel no different.</span>")
+	H.reagents.del_reagent(type)
 
 /datum/reagent/mutationtoxin/classic //The one from plasma on green slimes
 	name = "Mutation Toxin"
@@ -451,12 +447,31 @@
 	color = "#13BC5E" // rgb: 19, 188, 94
 	race = /datum/species/jelly/slime
 	mutationtext = "<span class='danger'>The pain subsides. Your whole body feels like slime.</span>"
+	process_flags = ORGANIC | SYNTHETIC
+
+/datum/reagent/mutationtoxin/unstable
+	name = "Unstable Mutation Toxin"
+	description = "A mostly safe mutation toxin."
+	color = "#13BC5E" // rgb: 19, 188, 94
+	race = list(/datum/species/jelly/slime,
+						/datum/species/human,
+						/datum/species/human/felinid,
+						/datum/species/lizard,
+						/datum/species/fly,
+						/datum/species/moth,
+						/datum/species/pod,
+						/datum/species/jelly,
+						/datum/species/abductor,
+						/datum/species/squid)
+	mutationtext = "<span class='danger'>The pain subsides. Your whole body feels... Different.</span>"
+	process_flags = ORGANIC | SYNTHETIC
 
 /datum/reagent/mutationtoxin/felinid
 	name = "Felinid Mutation Toxin"
 	color = "#5EFF3B" //RGB: 94, 255, 59
 	race = /datum/species/human/felinid
 	mutationtext = "<span class='danger'>The pain subsides. You feel... like a degenerate.</span>"
+	process_flags = ORGANIC | SYNTHETIC
 
 /datum/reagent/mutationtoxin/lizard
 	name = "Lizard Mutation Toxin"
@@ -464,6 +479,7 @@
 	color = "#5EFF3B" //RGB: 94, 255, 59
 	race = /datum/species/lizard
 	mutationtext = "<span class='danger'>The pain subsides. You feel... scaly.</span>"
+	process_flags = ORGANIC | SYNTHETIC
 
 /datum/reagent/mutationtoxin/fly
 	name = "Fly Mutation Toxin"
@@ -471,6 +487,7 @@
 	color = "#5EFF3B" //RGB: 94, 255, 59
 	race = /datum/species/fly
 	mutationtext = "<span class='danger'>The pain subsides. You feel... buzzy.</span>"
+	process_flags = ORGANIC | SYNTHETIC
 
 /datum/reagent/mutationtoxin/moth
 	name = "Moth Mutation Toxin"
@@ -478,6 +495,7 @@
 	color = "#5EFF3B" //RGB: 94, 255, 59
 	race = /datum/species/moth
 	mutationtext = "<span class='danger'>The pain subsides. You feel... attracted to light.</span>"
+	process_flags = ORGANIC | SYNTHETIC
 
 /datum/reagent/mutationtoxin/pod
 	name = "Podperson Mutation Toxin"
@@ -485,6 +503,7 @@
 	color = "#5EFF3B" //RGB: 94, 255, 59
 	race = /datum/species/pod
 	mutationtext = "<span class='danger'>The pain subsides. You feel... plantlike.</span>"
+	process_flags = ORGANIC | SYNTHETIC
 
 /datum/reagent/mutationtoxin/jelly
 	name = "Imperfect Mutation Toxin"
@@ -492,6 +511,7 @@
 	color = "#5EFF3B" //RGB: 94, 255, 59
 	race = /datum/species/jelly
 	mutationtext = "<span class='danger'>The pain subsides. You feel... wobbly.</span>"
+	process_flags = ORGANIC | SYNTHETIC
 
 /datum/reagent/mutationtoxin/golem
 	name = "Golem Mutation Toxin"
@@ -499,6 +519,7 @@
 	color = "#5EFF3B" //RGB: 94, 255, 59
 	race = /datum/species/golem/random
 	mutationtext = "<span class='danger'>The pain subsides. You feel... rocky.</span>"
+	process_flags = ORGANIC | SYNTHETIC
 
 /datum/reagent/mutationtoxin/abductor
 	name = "Abductor Mutation Toxin"
@@ -506,6 +527,7 @@
 	color = "#5EFF3B" //RGB: 94, 255, 59
 	race = /datum/species/abductor
 	mutationtext = "<span class='danger'>The pain subsides. You feel... alien.</span>"
+	process_flags = ORGANIC | SYNTHETIC
 
 /datum/reagent/mutationtoxin/android
 	name = "Android Mutation Toxin"
@@ -513,6 +535,23 @@
 	color = "#5EFF3B" //RGB: 94, 255, 59
 	race = /datum/species/android
 	mutationtext = "<span class='danger'>The pain subsides. You feel... artificial.</span>"
+	process_flags = ORGANIC | SYNTHETIC
+
+/datum/reagent/mutationtoxin/ipc
+	name = "IPC Mutation Toxin"
+	description = "An integrated positronic toxin."
+	color = "#5EFF3B" //RGB: 94, 255, 59
+	race = /datum/species/ipc
+	mutationtext = "<span class='danger'>The pain subsides. You feel... artificial.</span>"
+	process_flags = ORGANIC | SYNTHETIC
+
+/datum/reagent/mutationtoxin/squid
+	name = "Squid Mutation Toxin"
+	description = "A salty toxin."
+	color = "#5EFF3B" //RGB: 94, 255, 59
+	race = /datum/species/squid
+	mutationtext = "<span class='danger'>The pain subsides. You feel... salty.</span>"
+	process_flags = ORGANIC | SYNTHETIC
 
 
 //BLACKLISTED RACES
@@ -522,6 +561,7 @@
 	color = "#5EFF3B" //RGB: 94, 255, 59
 	race = /datum/species/skeleton
 	mutationtext = "<span class='danger'>The pain subsides. You feel... spooky.</span>"
+	process_flags = ORGANIC | SYNTHETIC
 
 /datum/reagent/mutationtoxin/zombie
 	name = "Zombie Mutation Toxin"
@@ -529,6 +569,15 @@
 	color = "#5EFF3B" //RGB: 94, 255, 59
 	race = /datum/species/zombie //Not the infectious kind. The days of xenobio zombie outbreaks are long past.
 	mutationtext = "<span class='danger'>The pain subsides. You feel... undead.</span>"
+	process_flags = ORGANIC | SYNTHETIC
+
+/datum/reagent/mutationtoxin/goofzombie
+	name = "Zombie Mutation Toxin"
+	description = "An undead toxin... kinda..."
+	color = "#5EFF3B" //RGB: 94, 255, 59
+	race = /datum/species/krokodil_addict //Not the infectious kind. The days of xenobio zombie outbreaks are long past.
+	mutationtext = "<span class='danger'>The pain subsides. You feel... as if your skin have just fallen off.</span>"
+	process_flags = ORGANIC | SYNTHETIC
 
 /datum/reagent/mutationtoxin/ash
 	name = "Ash Mutation Toxin"
@@ -536,6 +585,7 @@
 	color = "#5EFF3B" //RGB: 94, 255, 59
 	race = /datum/species/lizard/ashwalker
 	mutationtext = "<span class='danger'>The pain subsides. You feel... savage.</span>"
+	process_flags = ORGANIC | SYNTHETIC
 
 
 //DANGEROUS RACES
@@ -545,6 +595,7 @@
 	color = "#5EFF3B" //RGB: 94, 255, 59
 	race = /datum/species/shadow
 	mutationtext = "<span class='danger'>The pain subsides. You feel... darker.</span>"
+	process_flags = ORGANIC | SYNTHETIC
 
 /datum/reagent/mutationtoxin/plasma
 	name = "Plasma Mutation Toxin"
@@ -552,6 +603,7 @@
 	color = "#5EFF3B" //RGB: 94, 255, 59
 	race = /datum/species/plasmaman
 	mutationtext = "<span class='danger'>The pain subsides. You feel... flammable.</span>"
+	process_flags = ORGANIC | SYNTHETIC
 
 /datum/reagent/slime_toxin
 	name = "Slime Mutation Toxin"
@@ -559,6 +611,7 @@
 	color = "#5EFF3B" //RGB: 94, 255, 59
 	taste_description = "slime"
 	metabolization_rate = 0.2
+	process_flags = ORGANIC | SYNTHETIC
 
 /datum/reagent/slime_toxin/on_mob_life(mob/living/carbon/human/H)
 	..()
@@ -664,8 +717,8 @@
 	taste_description = "metal"
 
 /datum/reagent/copper/reaction_obj(obj/O, reac_volume)
-	if(istype(O, /obj/item/stack/sheet/metal))
-		var/obj/item/stack/sheet/metal/M = O
+	if(istype(O, /obj/item/stack/sheet/iron))
+		var/obj/item/stack/sheet/iron/M = O
 		reac_volume = min(reac_volume, M.amount)
 		new/obj/item/stack/tile/bronze(get_turf(M), reac_volume)
 		M.use(reac_volume)
@@ -755,6 +808,7 @@
 	reagent_state = GAS
 	color = "#808080" // rgb: 128, 128, 128
 	taste_description = "acid"
+	process_flags = ORGANIC | SYNTHETIC
 
 /datum/reagent/fluorine/on_mob_life(mob/living/carbon/M)
 	M.adjustToxLoss(1*REM, 0)
@@ -854,6 +908,7 @@
 	color = "#B8B8C0" // rgb: 184, 184, 192
 	taste_description = "the inside of a reactor"
 	var/irradiation_level = 1
+	process_flags = ORGANIC | SYNTHETIC
 
 /datum/reagent/uranium/on_mob_life(mob/living/carbon/M)
 	M.apply_effect(irradiation_level/M.metabolism_efficiency,EFFECT_IRRADIATE,0)
@@ -874,6 +929,7 @@
 	color = "#C7C7C7" // rgb: 199,199,199
 	taste_description = "the colour blue and regret"
 	irradiation_level = 2*REM
+	process_flags = ORGANIC | SYNTHETIC
 
 /datum/reagent/bluespace
 	name = "Bluespace Dust"
@@ -881,6 +937,7 @@
 	reagent_state = SOLID
 	color = "#0000CC"
 	taste_description = "fizzling blue"
+	process_flags = ORGANIC | SYNTHETIC
 
 /datum/reagent/bluespace/reaction_mob(mob/living/M, method=TOUCH, reac_volume)
 	if(method == TOUCH || method == VAPOR)
@@ -920,6 +977,7 @@
 	glass_icon_state = "dr_gibb_glass"
 	glass_name = "glass of welder fuel"
 	glass_desc = "Unless you're an industrial tool, this is probably not safe for consumption."
+	process_flags = ORGANIC | SYNTHETIC
 
 /datum/reagent/fuel/reaction_mob(mob/living/M, method=TOUCH, reac_volume)//Splashing people with welding fuel to make them easy to ignite!
 	if(method == TOUCH || method == VAPOR)
@@ -964,6 +1022,7 @@
 			var/mob/living/carbon/C = M
 			if(ishuman(M))
 				var/mob/living/carbon/human/H = M
+				H.adjust_hygiene((30 * reac_volume) / (3 + reac_volume))
 				if(H.lip_style)
 					H.lip_style = null
 					H.update_body()
@@ -1168,7 +1227,7 @@
 
 /datum/reagent/stimulum
 	name = "Stimulum"
-	description = "An unstable experimental gas that greatly increases the energy of those that inhale it"
+	description = "An unstable experimental gas that greatly increases the energy of those that inhale it, while dealing increasing toxin damage over time."
 	reagent_state = GAS
 	metabolization_rate = REAGENTS_METABOLISM * 0.5 // Because stimulum/nitryl are handled through gas breathing, metabolism must be lower for breathcode to keep up
 	color = "E1A116"
@@ -1186,11 +1245,12 @@
 
 /datum/reagent/stimulum/on_mob_life(mob/living/carbon/M)
 	M.adjustStaminaLoss(-2*REM, 0)
+	M.adjustToxLoss(current_cycle*0.1*REM, 0) // 1 toxin damage per cycle at cycle 10
 	..()
 
 /datum/reagent/nitryl
 	name = "Nitryl"
-	description = "A highly reactive gas that makes you feel faster"
+	description = "A highly reactive gas that makes you feel faster."
 	reagent_state = GAS
 	metabolization_rate = REAGENTS_METABOLISM * 0.5 // Because stimulum/nitryl are handled through gas breathing, metabolism must be lower for breathcode to keep up
 	color = "90560B"
@@ -1248,7 +1308,7 @@
 	name = "Blue Crayon Powder"
 	colorname = "blue"
 	color = "#00B7EF" // blue
-	random_color_list = list("#71CAE5")
+	random_color_list = list("#00B7EF")
 
 /datum/reagent/colorful_reagent/crayonpowder/purple
 	name = "Purple Crayon Powder"
@@ -1266,13 +1326,16 @@
 	name = "Black Crayon Powder"
 	colorname = "black"
 	color = "#1C1C1C" // not quite black
-	random_color_list = list("#8D8D8D")	//more grey than black, not enough to hide your true colors
+	random_color_list = list("#404040")
 
 /datum/reagent/colorful_reagent/crayonpowder/white
 	name = "White Crayon Powder"
 	colorname = "white"
 	color = "#FFFFFF" // white
 	random_color_list = list("#FFFFFF") //doesn't actually change appearance at all
+
+
+
 
 //////////////////////////////////Hydroponics stuff///////////////////////////////
 
@@ -1323,6 +1386,7 @@
 	reagent_state = LIQUID
 	color = "#C8A5DC"
 	taste_description = "oil"
+	process_flags = ORGANIC | SYNTHETIC
 
 /datum/reagent/stable_plasma
 	name = "Stable Plasma"
@@ -1331,6 +1395,7 @@
 	color = "#C8A5DC"
 	taste_description = "bitterness"
 	taste_mult = 1.5
+	process_flags = ORGANIC | SYNTHETIC
 
 /datum/reagent/stable_plasma/on_mob_life(mob/living/carbon/C)
 	C.adjustPlasma(10)
@@ -1534,6 +1599,22 @@
 	color = "#04506C" // rgb: 4,80,108
 	taste_description = "the inside of a reactor"
 
+/datum/reagent/consumable/laughter/laughtervirusfood
+	name = "anomolous virus food"
+	color = "#ffa6ff" //rgb: 255,166,255
+	taste_description = "a bad idea"
+
+/datum/reagent/consumable/virus_food/advvirusfood
+	name = "highly unstable virus food"
+	color = "#ffffff" //rgb: 255,255,255 ITS PURE WHITE CMON
+	taste_description = "an EXTREMELY bad idea"
+
+/datum/reagent/consumable/virus_food/viralbase
+	name = "Experimental viral base"
+	description = "Recently discovered by Nanotrasen's top scientists after years of research, this substance can be used as the base for extremely rare and extremely dangerous viruses once exposed to uranium."
+	color = "#fff0da"
+	taste_description = "tears of scientists"
+
 // Bee chemicals
 
 /datum/reagent/royal_bee_jelly
@@ -1649,7 +1730,7 @@
 
 /datum/reagent/pax
 	name = "Pax"
-	description = "A colorless liquid that suppresses violence on the subjects."
+	description = "A colorless liquid that suppresses violence in its subjects."
 	color = "#AAAAAA55"
 	taste_description = "water"
 	metabolization_rate = 0.25 * REAGENTS_METABOLISM
@@ -1685,8 +1766,8 @@
 	return ..()
 
 /datum/reagent/pax/peaceborg
-	name = "synth-pax"
-	description = "A colorless liquid that suppresses violence on the subjects. Cheaper to synthetize, but wears out faster than normal Pax."
+	name = "synthpax"
+	description = "A colorless liquid that suppresses violence in its subjects. Cheaper to synthesize than normal Pax, but wears off faster."
 	metabolization_rate = 1.5 * REAGENTS_METABOLISM
 
 /datum/reagent/peaceborg
@@ -1734,51 +1815,9 @@
 	if(method==PATCH || method==INGEST || method==INJECT || (method == VAPOR && prob(min(reac_volume,100)*(1 - touch_protection))))
 		L.ForceContractDisease(new /datum/disease/transformation/gondola(), FALSE, TRUE)
 
-
-/datum/reagent/spider_extract
-	name = "Spider Extract"
-	description = "A highly specialized extract coming from the Australicus sector, used to create broodmother spiders."
-	color = "#ED2939"
-	taste_description = "upside down"
+/datum/reagent/liquidadamantine
+	name = "Liquid Adamantine"
+	description = "A legengary lifegiving metal liquified."
+	color = "#10cca6" //RGB: 16, 204, 166
+	taste_description = "lifegiiving metal"
 	can_synth = FALSE
-
-/// Improvised reagent that induces vomiting. Created by dipping a dead mouse in welder fluid.
-/datum/reagent/yuck
-	name = "Organic Slurry"
-	description = "A mixture of various colors of fluid. Induces vomiting."
-	glass_name = "glass of ...yuck!"
-	glass_desc = "It smells like a carcass, and doesn't look much better."
-	color = "#545000"
-	taste_description = "insides"
-	taste_mult = 4
-	can_synth = FALSE
-	metabolization_rate = 0.4 * REAGENTS_METABOLISM
-	var/yuck_cycle = 0 //! The `current_cycle` when puking starts.
-
-/datum/reagent/yuck/on_mob_add(mob/living/L)
-	if(HAS_TRAIT(src, TRAIT_NOHUNGER)) //they can't puke
-		holder.del_reagent(type)
-
-#define YUCK_PUKE_CYCLES 3 		// every X cycle is a puke
-#define YUCK_PUKES_TO_STUN 3 	// hit this amount of pukes in a row to start stunning
-/datum/reagent/yuck/on_mob_life(mob/living/carbon/C)
-	if(!yuck_cycle)
-		if(prob(8))
-			var/dread = pick("Something is moving in your stomach...", \
-				"A wet growl echoes from your stomach...", \
-				"For a moment you feel like your surroundings are moving, but it's your stomach...")
-			to_chat(C, "<span class='userdanger'>[dread]</span>")
-			yuck_cycle = current_cycle
-	else
-		var/yuck_cycles = current_cycle - yuck_cycle
-		if(yuck_cycles % YUCK_PUKE_CYCLES == 0)
-			holder.remove_reagent(type, 5)
-			C.vomit(rand(14, 26), stun = yuck_cycles >= YUCK_PUKE_CYCLES * YUCK_PUKES_TO_STUN)
-	if(holder)
-		return ..()
-#undef YUCK_PUKE_CYCLES
-#undef YUCK_PUKES_TO_STUN
-
-/datum/reagent/yuck/on_mob_end_metabolize(mob/living/L)
-	yuck_cycle = 0 // reset vomiting
-	return ..()

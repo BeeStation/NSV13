@@ -9,12 +9,13 @@
 	lefthand_file = 'icons/mob/inhands/equipment/briefcase_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/equipment/briefcase_righthand.dmi'
 	resistance_flags = FLAMMABLE
+	w_class = WEIGHT_CLASS_SMALL
 	var/persistence_id
 
 /obj/item/storage/photo_album/Initialize()
 	. = ..()
 	var/datum/component/storage/STR = GetComponent(/datum/component/storage)
-	STR.set_holdable(list(/obj/item/photo))
+	STR.can_hold = typecacheof(list(/obj/item/photo))
 	STR.max_combined_w_class = 42
 	STR.max_items = 21
 	LAZYADD(SSpersistence.photo_albums, src)
@@ -52,6 +53,9 @@
 		if(istype(P))
 			if(!SEND_SIGNAL(src, COMSIG_TRY_STORAGE_INSERT, P, null, TRUE, TRUE))
 				qdel(P)
+
+/obj/item/storage/photo_album/prevent_content_explosion()
+	return TRUE
 
 /obj/item/storage/photo_album/HoS
 	persistence_id = "HoS"

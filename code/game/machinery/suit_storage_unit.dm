@@ -13,36 +13,20 @@
 	var/obj/item/storage = null
 								// if you add more storage slots, update cook() to clear their radiation too.
 
-	/// What type of spacesuit the unit starts with when spawned.
 	var/suit_type = null
-	/// What type of space helmet the unit starts with when spawned.
 	var/helmet_type = null
-	/// What type of breathmask the unit starts with when spawned.
 	var/mask_type = null
-	/// What type of additional item the unit starts with when spawned.
 	var/storage_type = null
 
 	state_open = FALSE
-	/// If the SSU's doors are locked closed. Can be toggled manually via the UI, but is also locked automatically when the UV decontamination sequence is running.
 	var/locked = FALSE
 	panel_open = FALSE
-	/// If the safety wire is cut/pulsed, the SSU can run the decontamination sequence while occupied by a mob. The mob will be burned during every cycle of cook().
 	var/safeties = TRUE
 
-	/// If UV decontamination sequence is running. See cook()
 	var/uv = FALSE
-	/**
-	* If the hack wire is cut/pulsed.
-	* Modifies effects of cook()
-	* * If FALSE, decontamination sequence will clear radiation for all atoms (and their contents) contained inside the unit, and burn any mobs inside.
-	* * If TRUE, decontamination sequence will delete all items contained within, and if occupied by a mob, intensifies burn damage delt. All wires will be cut at the end.
-	*/
 	var/uv_super = FALSE
-	/// How many cycles remain for the decontamination sequence.
 	var/uv_cycles = 6
-	/// Cooldown for occupant breakout messages via relaymove()
 	var/message_cooldown
-	/// How long it takes to break out of the SSU.
 	var/breakout_time = 300
 
 /obj/machinery/suit_storage_unit/standard_unit
@@ -180,9 +164,6 @@
 		dump_contents()
 	update_icon()
 
-/**
-  * Drops all contents of the unit onto the ground.
-*/
 /obj/machinery/suit_storage_unit/proc/dump_contents()
 	dropContents()
 	helmet = null
@@ -195,7 +176,7 @@
 	if(!(flags_1 & NODECONSTRUCT_1))
 		open_machine()
 		dump_contents()
-		new /obj/item/stack/sheet/metal (loc, 2)
+		new /obj/item/stack/sheet/iron (loc, 2)
 	qdel(src)
 
 /obj/machinery/suit_storage_unit/MouseDrop_T(atom/A, mob/living/user)
@@ -227,26 +208,18 @@
 		if(target == user)
 			user.visible_message("<span class='warning'>[user] slips into [src] and closes the door behind [user.p_them()]!</span>", "<span class=notice'>You slip into [src]'s cramped space and shut its door.</span>")
 		else
-			target.visible_message("<span class='warning'>[user] pushes [target] into [src] and shuts its door!</span>", "<span class='userdanger'>[user] shoves you into [src] and shuts the door!</span>")
+			target.visible_message("<span class='warning'>[user] pushes [target] into [src] and shuts its door!<span>", "<span class='userdanger'>[user] shoves you into [src] and shuts the door!</span>")
 		close_machine(target)
 		add_fingerprint(user)
 
-/**
-  * UV decontamination sequence.
-  * Duration is determined by the uv_cycles var.
-  * Effects determined by the uv_super var.
-  * * If FALSE, all atoms (and their contents) contained are cleared of radiation. If a mob is inside, they are burned every cycle.
-  * * If TRUE, all items contained are destroyed, and burn damage applied to the mob is increased. All wires will be cut at the end.
-  * All atoms still inside at the end of all cycles are ejected from the unit.
-*/
 /obj/machinery/suit_storage_unit/proc/cook()
+	var/mob/living/mob_occupant = occupant
 	if(uv_cycles)
 		uv_cycles--
 		uv = TRUE
 		locked = TRUE
 		update_icon()
 		if(occupant)
-			var/mob/living/mob_occupant = occupant
 			if(uv_super)
 				mob_occupant.adjustFireLoss(rand(20, 36))
 			else
@@ -275,6 +248,7 @@
 				visible_message("<span class='notice'>[src]'s door slides open. The glowing yellow lights dim to a gentle green.</span>")
 			else
 				visible_message("<span class='warning'>[src]'s door slides open, barraging you with the nauseating smell of charred flesh.</span>")
+				mob_occupant.radiation = 0
 			playsound(src, 'sound/machines/airlockclose.ogg', 25, 1)
 			var/list/things_to_clear = list() //Done this way since using GetAllContents on the SSU itself would include circuitry and such.
 			if(suit)
@@ -398,17 +372,6 @@
 
 	return ..()
 
-/*	ref tg-git issue #45036
-	screwdriving it open while it's running a decontamination sequence without closing the panel prior to finish
-	causes the SSU to break due to state_open being set to TRUE at the end, and the panel becoming inaccessible.
-*/
-/obj/machinery/suit_storage_unit/default_deconstruction_screwdriver(mob/user, icon_state_open, icon_state_closed, obj/item/I)
-	if(!(flags_1 & NODECONSTRUCT_1) && I.tool_behaviour == TOOL_SCREWDRIVER && uv)
-		to_chat(user, "<span class='warning'>It might not be wise to fiddle with [src] while it's running...</span>")
-		return TRUE
-	return ..()
-
-
 /obj/machinery/suit_storage_unit/default_pry_open(obj/item/I)//needs to check if the storage is locked.
 	. = !(state_open || panel_open || is_operational() || locked || (flags_1 & NODECONSTRUCT_1)) && I.tool_behaviour == TOOL_CROWBAR
 	if(.)
@@ -432,14 +395,24 @@
 	data["uv_super"] = uv_super
 	if(helmet)
 		data["helmet"] = helmet.name
+	else
+		data["helmet"] = null
 	if(suit)
 		data["suit"] = suit.name
+	else
+		data["suit"] = null
 	if(mask)
 		data["mask"] = mask.name
+	else
+		data["mask"] = null
 	if(storage)
 		data["storage"] = storage.name
+	else
+		data["storage"] = null
 	if(occupant)
-		data["occupied"] = 1
+		data["occupied"] = TRUE
+	else
+		data["occupied"] = FALSE
 	return data
 
 /obj/machinery/suit_storage_unit/ui_act(action, params)

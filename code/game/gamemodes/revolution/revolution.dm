@@ -13,14 +13,13 @@
 	report_type = "revolution"
 	antag_flag = ROLE_REV
 	false_report_weight = 10
-	restricted_jobs = list("Security Officer", "Warden", "Detective", "AI", "Cyborg","Captain", "Executive Officer", "Head of Security", "Chief Engineer", "Research Director", "Chief Medical Officer")
-	required_jobs = list(list("Captain"=1),list("Executive Officer"=1),list("Head of Security"=1),list("Chief Engineer"=1),list("Research Director"=1),list("Chief Medical Officer"=1)) //Any head present
+	restricted_jobs = list("Security Officer", "Warden", "Detective", "AI", "Cyborg","Captain", "Head of Personnel", "Head of Security", "Chief Engineer", "Research Director", "Chief Medical Officer", "Brig Physician")
 	required_players = 30
 	required_enemies = 2
 	recommended_enemies = 3
 	enemy_minimum_age = 14
 
-	announce_span = "Revolution"
+	announce_span = "danger"
 	announce_text = "Some crewmembers are attempting a coup!\n\
 	<span class='danger'>Revolutionaries</span>: Expand your cause and overthrow the heads of staff by execution or otherwise.\n\
 	<span class='notice'>Crew</span>: Prevent the revolutionaries from taking over the station."
@@ -31,6 +30,14 @@
 	var/datum/team/revolution/revolution
 	var/list/datum/mind/headrev_candidates = list()
 	var/end_when_heads_dead = TRUE
+
+///////////////////////////
+//Announces the game type//
+///////////////////////////
+/datum/game_mode/revolution/announce()
+	to_chat(world, "<B>The current game mode is - Revolution!</B>")
+	to_chat(world, "<B>Some crewmembers are attempting to start a revolution!<BR>\nRevolutionaries - Kill the Captain, HoP, HoS, CE, RD and CMO. Convert other crewmembers (excluding the heads of staff, and security officers) to your cause by flashing them. Protect your leaders.<BR>\nPersonnel - Protect the heads of staff. Kill the leaders of the revolution, and brainwash the other revolutionaries (by beating them in the head).</B>")
+
 
 ///////////////////////////////////////////////////////////////////////////////
 //Gets the round setup, cancelling if there's not enough players at the start//
@@ -140,10 +147,10 @@
 //Deals with converting players to the revolution//
 ///////////////////////////////////////////////////
 /proc/is_revolutionary(mob/M)
-	return M && istype(M) && M.mind && M.mind.has_antag_datum(/datum/antagonist/rev)
+	return M?.mind?.has_antag_datum(/datum/antagonist/rev)
 
 /proc/is_head_revolutionary(mob/M)
-	return M && istype(M) && M.mind && M.mind.has_antag_datum(/datum/antagonist/rev/head)
+	return M?.mind?.has_antag_datum(/datum/antagonist/rev/head)
 
 //////////////////////////
 //Checks for rev victory//
@@ -213,3 +220,21 @@
 					N.timer_set = 200
 					N.set_safety()
 					N.set_active()
+
+
+/datum/game_mode/revolution/generate_credit_text()
+	var/list/round_credits = list()
+	var/len_before_addition
+
+	round_credits += "<center><h1>The Disgruntled Revolutionaries:</h1>"
+	len_before_addition = round_credits.len
+	for(var/datum/mind/headrev in revolution.head_revolutionaries())
+		round_credits += "<center><h2>[headrev.name] as a revolutionary leader</h2>"
+	for(var/datum/mind/grunt in (revolution.members - revolution.head_revolutionaries()))
+		round_credits += "<center><h2>[grunt.name] as a grunt of the revolution</h2>"
+	if(len_before_addition == round_credits.len)
+		round_credits += list("<center><h2>The revolutionaries were all destroyed as martyrs!</h2>", "<center><h2>We couldn't identify their remains!</h2>")
+	round_credits += "<br>"
+
+	round_credits += ..()
+	return round_credits

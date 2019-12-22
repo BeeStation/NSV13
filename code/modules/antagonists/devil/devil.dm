@@ -89,6 +89,8 @@ GLOBAL_LIST_INIT(devil_suffix, list(" the Red", " the Soulless", " the Master", 
 	roundend_category = "devils"
 	antagpanel_category = "Devil"
 	job_rank = ROLE_DEVIL
+	//Don't delete upon mind destruction, otherwise soul re-selling will break.
+	delete_on_mind_deletion = FALSE
 	var/obligation
 	var/ban
 	var/bane
@@ -481,7 +483,7 @@ GLOBAL_LIST_INIT(devil_suffix, list(" the Red", " the Soulless", " the Master", 
 /datum/antagonist/devil/proc/update_hud()
 	if(iscarbon(owner.current))
 		var/mob/living/C = owner.current
-		if(C.hud_used && C.hud_used.devilsouldisplay)
+		if(C.hud_used?.devilsouldisplay)
 			C.hud_used.devilsouldisplay.update_counter(SOULVALUE)
 
 /datum/antagonist/devil/greet()
@@ -537,10 +539,10 @@ GLOBAL_LIST_INIT(devil_suffix, list(" the Red", " the Soulless", " the Master", 
 	var/list/parts = list()
 	parts += "The devil's true name is: [truename]"
 	parts += "The devil's bans were:"
-	parts += "[FOURSPACES][GLOB.lawlorify[LORE][ban]]"
-	parts += "[FOURSPACES][GLOB.lawlorify[LORE][bane]]"
-	parts += "[FOURSPACES][GLOB.lawlorify[LORE][obligation]]"
-	parts += "[FOURSPACES][GLOB.lawlorify[LORE][banish]]"
+	parts += "[GLOB.TAB][GLOB.lawlorify[LORE][ban]]"
+	parts += "[GLOB.TAB][GLOB.lawlorify[LORE][bane]]"
+	parts += "[GLOB.TAB][GLOB.lawlorify[LORE][obligation]]"
+	parts += "[GLOB.TAB][GLOB.lawlorify[LORE][banish]]"
 	return parts.Join("<br>")
 
 /datum/antagonist/devil/roundend_report()

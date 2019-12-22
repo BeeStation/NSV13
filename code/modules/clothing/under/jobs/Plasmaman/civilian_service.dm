@@ -49,38 +49,36 @@
 	item_color = "janitor_envirosuit"
 
 /obj/item/clothing/under/plasmaman/botany
-	name = "botany envirosuit"
+	name = "botany plasma envirosuit"
 	desc = "A green and blue envirosuit designed to protect plasmamen from minor plant-related injuries."
 	icon_state = "botany_envirosuit"
 	item_state = "botany_envirosuit"
 	item_color = "botany_envirosuit"
-
+	
+/obj/item/clothing/under/plasmaman/command //fun fact, captains uniforms don't get the sec uniform defense buff, pretty stupid
+	name = "captains plasma envirosuit"
+	desc = "A blue envirosuit with gold trimmings. A suit made for those who demand respect from their subordinates."
+	icon_state = "command_envirosuit"
+	item_state = "command_envirosuit"
+	item_color = "command_envirosuit"
+	
+/obj/item/clothing/under/plasmaman/hop
+	name = "head of personnel plasma envirosuit"
+	desc = "The head of personnels blue envirosuit, complete with red trimmings and adorned with various medals."
+	icon_state = "hop_envirosuit"
+	item_state = "hop_envirosuit"
+	item_color = "hop_envirosuit"
 
 /obj/item/clothing/under/plasmaman/mime
 	name = "mime envirosuit"
-	desc = "It's not very colourful."
+	desc = "A black and white envirosuit, your bones may rattle but that won't stop your silent shinanigains!."
 	icon_state = "mime_envirosuit"
 	item_state = "mime_envirosuit"
 	item_color = "mime_envirosuit"
 
-/obj/item/clothing/under/plasmaman/clown
-	name = "clown envirosuit"
-	desc = "<i>'HONK!'</i>"
-	icon_state = "clown_envirosuit"
-	item_state = "clown_envirosuit"
-	item_color = "clown_envirosuit"
-
-/obj/item/clothing/under/plasmaman/clown/Extinguish(mob/living/carbon/human/H)
-	if(!istype(H))
-		return
-
-	if(H.on_fire)
-		if(extinguishes_left)
-			if(next_extinguish > world.time)
-				return
-			next_extinguish = world.time + extinguish_cooldown
-			extinguishes_left--
-			H.visible_message("<span class='warning'>[H]'s suit spews out a tonne of space lube!</span>","<span class='warning'>Your suit spews out a tonne of space lube!</span>")
-			H.ExtinguishMob()
-			new /obj/effect/particle_effect/foam(loc) //Truely terrifying.
-	return 0
+/obj/item/clothing/under/plasmaman/honk
+	name = "Clowns plasma envirosuit"
+	desc = "A rainbow colored envirosuit, it reaks of bananas and cheap rubber horns."
+	icon_state = "honk_envirosuit"
+	item_state = "honk_envirosuit"
+	item_color = "honk_envirosuit"

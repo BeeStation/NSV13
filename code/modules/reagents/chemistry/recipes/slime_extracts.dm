@@ -54,21 +54,14 @@
 	required_other = TRUE
 	required_container = /obj/item/slime_extract/green
 
-/datum/chemical_reaction/slime/slimehuman
-	name = "Human Mutation Toxin"
-	id = "humanmuttoxin"
-	results = list(/datum/reagent/mutationtoxin = 1)
-	required_reagents = list(/datum/reagent/blood = 1)
-	required_other = TRUE
-	required_container = /obj/item/slime_extract/green
-
-/datum/chemical_reaction/slime/slimelizard
-	name = "Lizard Mutation Toxin"
-	id = "lizardmuttoxin"
-	results = list(/datum/reagent/mutationtoxin/lizard = 1)
+/datum/chemical_reaction/slime/unstabletoxin
+	name = "Unstable Mutation Toxin"
+	id = "unstablemuttoxin"
+	results = list(/datum/reagent/mutationtoxin/unstable = 1)
 	required_reagents = list(/datum/reagent/uranium/radium = 1)
 	required_other = TRUE
 	required_container = /obj/item/slime_extract/green
+
 
 //Metal
 /datum/chemical_reaction/slime/slimemetal
@@ -81,7 +74,7 @@
 /datum/chemical_reaction/slime/slimemetal/on_reaction(datum/reagents/holder)
 	var/turf/location = get_turf(holder.my_atom)
 	new /obj/item/stack/sheet/plasteel(location, 5)
-	new /obj/item/stack/sheet/metal(location, 15)
+	new /obj/item/stack/sheet/iron(location, 15)
 	..()
 
 /datum/chemical_reaction/slime/slimeglass
@@ -135,16 +128,6 @@
 /datum/chemical_reaction/slime/slimemobspawn/friendly/summon_mobs(datum/reagents/holder, turf/T)
 	T.visible_message("<span class='danger'>The slime extract begins to vibrate adorably!</span>")
 	addtimer(CALLBACK(src, .proc/chemical_mob_spawn, holder, 1, "Friendly Gold Slime", FRIENDLY_SPAWN, "neutral"), 50)
-
-/datum/chemical_reaction/slime/slimemobspawn/spider
-	name = "Slime Crit Traitor Spider"
-	id = "m_tele6"
-	required_reagents = list(/datum/reagent/spider_extract = 1)
-
-/datum/chemical_reaction/slime/slimemobspawn/spider/summon_mobs(datum/reagents/holder, turf/T)
-	T.visible_message("<span class='danger'>The slime extract begins to vibrate crikey-ingly!</span>")
-	addtimer(CALLBACK(src, .proc/chemical_mob_spawn, holder, 3, "Traitor Spider Slime", /mob/living/simple_animal/hostile/poison/giant_spider/nurse/midwife, "neutral", FALSE), 50)
-
 
 //Silver
 /datum/chemical_reaction/slime/slimebork
@@ -459,7 +442,7 @@
 	M.qdel_timer = addtimer(CALLBACK(src, .proc/delete_extract, holder), 55, TIMER_STOPPABLE)
 
 /datum/chemical_reaction/slime/slimeexplosion/proc/boom(datum/reagents/holder)
-	if(holder && holder.my_atom)
+	if(holder?.my_atom)
 		explosion(get_turf(holder.my_atom), 1 ,3, 6)
 
 

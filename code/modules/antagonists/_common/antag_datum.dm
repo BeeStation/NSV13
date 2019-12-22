@@ -1,6 +1,7 @@
 GLOBAL_LIST_EMPTY(antagonists)
 
 /datum/antagonist
+	var/tips
 	var/name = "Antagonist"
 	var/roundend_category = "other antagonists"				//Section of roundend report, datums with same category will be displayed together, also default header for the section
 	var/show_in_roundend = TRUE								//Set to false to hide the antagonists from roundend report
@@ -9,6 +10,7 @@ GLOBAL_LIST_EMPTY(antagonists)
 	var/silent = FALSE							//Silent will prevent the gain/lose texts to show
 	var/can_coexist_with_others = TRUE			//Whether or not the person will be able to have more than one datum
 	var/list/typecache_datum_blacklist = list()	//List of datums this type can't coexist with
+	var/delete_on_mind_deletion = TRUE
 	var/job_rank
 	var/replace_banned = TRUE //Should replace jobbanned player with ghosts if granted.
 	var/list/objectives = list()
@@ -20,7 +22,17 @@ GLOBAL_LIST_EMPTY(antagonists)
 	var/show_in_antagpanel = TRUE	//This will hide adding this antag type in antag panel, use only for internal subtypes that shouldn't be added directly but still show if possessed by mind
 	var/antagpanel_category = "Uncategorized"	//Antagpanel will display these together, REQUIRED
 	var/show_name_in_check_antagonists = FALSE //Will append antagonist name in admin listings - use for categories that share more than one antag type
-
+			
+/datum/antagonist/proc/show_tips(file)
+	if(!owner || !owner.current || !owner.current.client)
+		return
+	var/datum/asset/stuff = get_asset_datum(/datum/asset/simple/bee_antags)
+	stuff.send(owner.current.client)
+	var/datum/browser/popup = new(owner.current, "antagTips", null, 600, 400)
+	popup.set_window_options("titlebar=1;can_minimize=0;can_resize=0")
+	popup.set_content(file2text(file))
+	popup.open(FALSE)
+	
 /datum/antagonist/New()
 	GLOB.antagonists += src
 	typecache_datum_blacklist = typecacheof(typecache_datum_blacklist)
@@ -65,16 +77,17 @@ GLOBAL_LIST_EMPTY(antagonists)
 
 //Proc called when the datum is given to a mind.
 /datum/antagonist/proc/on_gain()
-	if(owner && owner.current)
-		if(!silent)
-			greet()
+	if(owner?.current)
+		if(!silent && tips)
+			show_tips(tips)
+		greet()
 		apply_innate_effects()
 		give_antag_moodies()
 		if(is_banned(owner.current) && replace_banned)
 			replace_banned_player()
 		else if(owner.current.client?.holder && (CONFIG_GET(flag/auto_deadmin_antagonists) || owner.current.client.prefs?.toggles & DEADMIN_ANTAGONIST))
 			owner.current.client.holder.auto_deadmin()
-
+	
 /datum/antagonist/proc/is_banned(mob/M)
 	if(!M)
 		return FALSE

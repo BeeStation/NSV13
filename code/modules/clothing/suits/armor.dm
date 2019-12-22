@@ -18,14 +18,14 @@
 
 /obj/item/clothing/suit/armor/vest
 	name = "armor vest"
-	desc = "A slim Type I armored vest that provides decent protection against most types of damage."
+	desc = "A slim Type I-A armored vest that provides decent protection against most types of damage."
 	icon_state = "armoralt"
 	item_state = "armoralt"
 	blood_overlay_type = "armor"
 	dog_fashion = /datum/dog_fashion/back
 
 /obj/item/clothing/suit/armor/vest/alt
-	desc = "A Type I armored vest that provides decent protection against most types of damage."
+	desc = "A Type I-B armored vest that provides decent protection against most types of damage. A bit heavier on the shoulders than it's type I-A cousin."
 	icon_state = "armor"
 	item_state = "armor"
 
@@ -119,10 +119,10 @@
 	cold_protection = CHEST|GROIN|LEGS|FEET|ARMS|HANDS
 	heat_protection = CHEST|GROIN|LEGS|FEET|ARMS|HANDS
 	armor = list("melee" = 50, "bullet" = 10, "laser" = 10, "energy" = 10, "bomb" = 0, "bio" = 0, "rad" = 0, "fire" = 80, "acid" = 80)
-	clothing_flags = BLOCKS_SHOVE_KNOCKDOWN
+	blocks_shove_knockdown = TRUE
 	strip_delay = 80
 	equip_delay_other = 60
-	slowdown = 0.5
+	slowdown = 0.2
 
 /obj/item/clothing/suit/armor/bone
 	name = "bone armor"

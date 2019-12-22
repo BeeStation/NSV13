@@ -12,6 +12,7 @@
 #define ROBOTICIST		(1<<8)
 #define AI_JF			(1<<9)
 #define CYBORG			(1<<10)
+#define BRIG_PHYS		(1<<11)
 
 
 #define MEDSCI			(1<<1)
@@ -23,6 +24,7 @@
 #define DOCTOR			(1<<4)
 #define GENETICIST		(1<<5)
 #define VIROLOGIST		(1<<6)
+#define EMT				(1<<7)
 
 
 #define CIVILIAN		(1<<2)
@@ -94,3 +96,4 @@
 #define JOB_DISPLAY_ORDER_MUNITIONS_TECHNICIAN 34 //Nsv13 start - fighter stuff
 #define JOB_DISPLAY_ORDER_FIGHTER_PILOT 35
 #define JOB_DISPLAY_ORDER_CAG 36
+#define JOB_DISPLAY_ORDER_BRIG_PHYS 37 //I'm lazy, this can live here now :)

@@ -48,7 +48,7 @@
 	STR.max_w_class = WEIGHT_CLASS_SMALL
 	STR.max_combined_w_class = 30
 	STR.max_items = 30
-	STR.set_holdable(null, list(/obj/item/disk/nuclear))
+	STR.cant_hold = typecacheof(list(/obj/item/disk/nuclear))
 
 /obj/item/storage/bag/trash/suicide_act(mob/user)
 	user.visible_message("<span class='suicide'>[user] puts [src] over [user.p_their()] head and starts chomping at the insides! Disgusting!</span>")
@@ -110,7 +110,7 @@
 	. = ..()
 	var/datum/component/storage/concrete/stack/STR = GetComponent(/datum/component/storage/concrete/stack)
 	STR.allow_quick_empty = TRUE
-	STR.set_holdable(list(/obj/item/stack/ore))
+	STR.can_hold = typecacheof(list(/obj/item/stack/ore))
 	STR.max_w_class = WEIGHT_CLASS_HUGE
 	STR.max_combined_stack_amount = 50
 
@@ -125,9 +125,8 @@
 
 /obj/item/storage/bag/ore/dropped()
 	. = ..()
-	if(listeningTo)
-		UnregisterSignal(listeningTo, COMSIG_MOVABLE_MOVED)
-		listeningTo = null
+	UnregisterSignal(listeningTo, COMSIG_MOVABLE_MOVED)
+	listeningTo = null
 
 /obj/item/storage/bag/ore/proc/Pickup_ores(mob/living/user)
 	var/show_message = FALSE
@@ -194,7 +193,8 @@
 	STR.max_w_class = WEIGHT_CLASS_NORMAL
 	STR.max_combined_w_class = 100
 	STR.max_items = 100
-	STR.set_holdable(list(/obj/item/reagent_containers/food/snacks/grown, /obj/item/seeds, /obj/item/grown, /obj/item/reagent_containers/honeycomb))
+	STR.can_hold = typecacheof(list(/obj/item/reagent_containers/food/snacks/grown, /obj/item/seeds, /obj/item/grown, /obj/item/reagent_containers/honeycomb, /obj/item/disk/plantgene))
+
 ////////
 
 /obj/item/storage/bag/plants/portaseeder
@@ -231,7 +231,8 @@
 	. = ..()
 	var/datum/component/storage/concrete/stack/STR = GetComponent(/datum/component/storage/concrete/stack)
 	STR.allow_quick_empty = TRUE
-	STR.set_holdable(list(/obj/item/stack/sheet), list(/obj/item/stack/sheet/mineral/sandstone, /obj/item/stack/sheet/mineral/wood))
+	STR.can_hold = typecacheof(list(/obj/item/stack/sheet))
+	STR.cant_hold = typecacheof(list(/obj/item/stack/sheet/mineral/sandstone, /obj/item/stack/sheet/mineral/wood))
 	STR.max_combined_stack_amount = 300
 
 // -----------------------------
@@ -267,7 +268,7 @@
 	STR.max_combined_w_class = 21
 	STR.max_items = 7
 	STR.display_numerical_stacking = FALSE
-	STR.set_holdable(list(/obj/item/book, /obj/item/storage/book, /obj/item/spellbook))
+	STR.can_hold = typecacheof(list(/obj/item/book, /obj/item/storage/book, /obj/item/spellbook))
 
 /*
  * Trays - Agouri
@@ -294,8 +295,7 @@
 	. = ..()
 	// Drop all the things. All of them.
 	var/list/obj/item/oldContents = contents.Copy()
-	var/datum/component/storage/STR = GetComponent(/datum/component/storage)
-	STR.quick_empty()
+	SEND_SIGNAL(src, COMSIG_TRY_STORAGE_QUICK_EMPTY)
 	// Make each item scatter a bit
 	for(var/obj/item/I in oldContents)
 		spawn()
@@ -345,7 +345,7 @@
 	STR.max_combined_w_class = 200
 	STR.max_items = 50
 	STR.insert_preposition = "in"
-	STR.set_holdable(list(/obj/item/reagent_containers/pill, /obj/item/reagent_containers/glass/beaker, /obj/item/reagent_containers/glass/bottle, /obj/item/reagent_containers/medigel, /obj/item/reagent_containers/syringe, /obj/item/reagent_containers/dropper, /obj/item/reagent_containers/chem_pack))
+	STR.can_hold = typecacheof(list(/obj/item/reagent_containers/pill, /obj/item/reagent_containers/glass/beaker, /obj/item/reagent_containers/glass/bottle, /obj/item/reagent_containers/medspray, /obj/item/reagent_containers/syringe, /obj/item/reagent_containers/dropper, /obj/item/reagent_containers/glass/waterbottle))
 
 /*
  *  Biowaste bag (mostly for xenobiologists)
@@ -365,25 +365,4 @@
 	STR.max_combined_w_class = 200
 	STR.max_items = 25
 	STR.insert_preposition = "in"
-	STR.set_holdable(list(/obj/item/slime_extract, /obj/item/reagent_containers/syringe, /obj/item/reagent_containers/dropper, /obj/item/reagent_containers/glass/beaker, /obj/item/reagent_containers/glass/bottle, /obj/item/reagent_containers/blood, /obj/item/reagent_containers/hypospray/medipen, /obj/item/reagent_containers/food/snacks/deadmouse, /obj/item/reagent_containers/food/snacks/monkeycube))
-
-/*
- *  Construction bag (for engineering, holds stock parts and electronics)
- */
-
-/obj/item/storage/bag/construction
-	name = "construction bag"
-	icon = 'icons/obj/tools.dmi'
-	icon_state = "construction_bag"
-	desc = "A bag for storing small construction components."
-	w_class = WEIGHT_CLASS_TINY
-	resistance_flags = FLAMMABLE
-
-/obj/item/storage/bag/construction/ComponentInitialize()
-	. = ..()
-	var/datum/component/storage/STR = GetComponent(/datum/component/storage)
-	STR.max_combined_w_class = 100
-	STR.max_items = 50
-	STR.max_w_class = WEIGHT_CLASS_SMALL
-	STR.insert_preposition = "in"
-	STR.set_holdable(list(/obj/item/stack/ore/bluespace_crystal, /obj/item/assembly, /obj/item/stock_parts, /obj/item/reagent_containers/glass/beaker, /obj/item/stack/cable_coil, /obj/item/circuitboard, /obj/item/electronics))
+	STR.can_hold = typecacheof(list(/obj/item/slime_extract, /obj/item/reagent_containers/syringe, /obj/item/reagent_containers/dropper, /obj/item/reagent_containers/glass/beaker, /obj/item/reagent_containers/glass/bottle, /obj/item/reagent_containers/blood, /obj/item/reagent_containers/hypospray/medipen, /obj/item/reagent_containers/food/snacks/deadmouse, /obj/item/reagent_containers/food/snacks/monkeycube))

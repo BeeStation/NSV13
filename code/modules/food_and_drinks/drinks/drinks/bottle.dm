@@ -100,11 +100,11 @@
 
 	//Display an attack message.
 	if(target != user)
-		target.visible_message("<span class='danger'>[user] has hit [target][head_attack_message] with a bottle of [src.name]!</span>", \
-				"<span class='userdanger'>[user] has hit [target][head_attack_message] with a bottle of [src.name]!</span>")
+		target.visible_message("<span class='danger'>[user] hits [target][head_attack_message] with a bottle of [src.name]!</span>", \
+				"<span class='userdanger'>[user] hits you [head_attack_message] with a bottle of [src.name]!</span>")
 	else
-		user.visible_message("<span class='danger'>[target] hits [target.p_them()]self with a bottle of [src.name][head_attack_message]!</span>", \
-				"<span class='userdanger'>[target] hits [target.p_them()]self with a bottle of [src.name][head_attack_message]!</span>")
+		target.visible_message("<span class='danger'>[target] hits [target.p_them()]self with a bottle of [src.name][head_attack_message]!</span>", \
+				"<span class='userdanger'>You hit yourself with a bottle of [src.name][head_attack_message]!</span>")
 
 	//Attack logs
 	log_combat(user, target, "attacked", src)
@@ -338,7 +338,7 @@
 	righthand_file = 'icons/mob/inhands/equipment/kitchen_righthand.dmi'
 	isGlass = FALSE
 	list_reagents = list(/datum/reagent/consumable/orangejuice = 100)
-	foodtype = FRUIT | BREAKFAST
+	foodtype = FRUIT
 
 /obj/item/reagent_containers/food/drinks/bottle/cream
 	name = "milk cream"
@@ -427,6 +427,33 @@
 	volume = 50
 	list_reagents = list(/datum/reagent/consumable/ethanol/trappist = 50)
 
+/obj/item/reagent_containers/food/drinks/bottle/hooch
+	name = "hooch bottle"
+	desc = "A bottle of rotgut. Its owner has applied some street wisdom to cleverly disguise it as a brown paper bag."
+	icon_state = "hoochbottle"
+	list_reagents = list(/datum/reagent/consumable/ethanol/hooch = 100)
+
+/obj/item/reagent_containers/food/drinks/bottle/moonshine
+	name = "moonshine jug"
+	desc = "It is said that the ancient Applalacians used these stoneware jugs to capture lightning in a bottle."
+	icon_state = "moonshinebottle"
+	list_reagents = list(/datum/reagent/consumable/ethanol/moonshine = 100)
+
+/obj/item/reagent_containers/food/drinks/bottle/blank //Don't let players print these from a lathe, bottles should be obtained in mass from the bar only.
+	name = "glass bottle"
+	desc = "This blank bottle is unyieldingly anonymous, offering no clues to it's contents."
+	icon_state = "glassbottle"
+	fill_icon_thresholds = list(0, 10, 20, 30, 40, 50, 60, 70, 80, 90)
+
+/obj/item/reagent_containers/food/drinks/bottle/blank/update_icon()
+	..()
+	add_overlay("[initial(icon_state)]shine")
+
+/obj/item/reagent_containers/food/drinks/bottle/blank/small
+	name = "small glass bottle"
+	desc = "This small bottle is unyieldingly anonymous, offering no clues to it's contents."
+	icon_state = "glassbottlesmall"
+	volume = 50
 
 ////////////////////////// MOLOTOV ///////////////////////
 /obj/item/reagent_containers/food/drinks/bottle/molotov

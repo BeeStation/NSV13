@@ -46,7 +46,7 @@
 
 //Effect when activated by a Luminescent. Separated into a minor and major effect. Returns cooldown in deciseconds.
 /obj/item/slime_extract/proc/activate(mob/living/carbon/human/user, datum/species/jelly/luminescent/species, activation_type)
-	to_chat(user, "<span class='warning'>Nothing happened... This slime extract cannot be activated this way.</span>")
+	to_chat(user, "<span class='notice'>Nothing happened... This slime extract cannot be activated this way.</span>")
 	return 0
 
 //Core-crossing: Feeding adult slimes extracts to obtain a much more powerful, single extract.
@@ -170,7 +170,7 @@
 			return 150
 
 		if(SLIME_ACTIVATE_MAJOR)
-			var/obj/item/stack/sheet/metal/O = new(null, 5)
+			var/obj/item/stack/sheet/iron/O = new(null, 5)
 			if(!user.put_in_active_hand(O))
 				O.forceMove(user.drop_location())
 			playsound(user, 'sound/effects/splat.ogg', 50, 1)
@@ -616,7 +616,7 @@
 /obj/item/slimepotion/afterattack(obj/item/reagent_containers/target, mob/user , proximity)
 	. = ..()
 	if (istype(target))
-		to_chat(user, "<span class='warning'>You cannot transfer [src] to [target]! It appears the potion must be given directly to a slime to absorb.</span>" )
+		to_chat(user, "<span class='notice'>You cannot transfer [src] to [target]! It appears the potion must be given directly to a slime to absorb.</span>" )
 		return
 
 /obj/item/slimepotion/slime/docility
@@ -642,7 +642,7 @@
 	M.set_nutrition(700)
 	to_chat(M, "<span class='warning'>You absorb the potion and feel your intense desire to feed melt away.</span>")
 	to_chat(user, "<span class='notice'>You feed the slime the potion, removing its hunger and calming it.</span>")
-	var/newname = copytext(sanitize(input(user, "Would you like to give the slime a name?", "Name your new pet", "pet slime") as null|text),1,MAX_NAME_LEN)
+	var/newname = copytext(sanitize_name(input(user, "Would you like to give the slime a name?", "Name your new pet", "pet slime") as null|text),1,MAX_NAME_LEN)
 
 	if (!newname)
 		newname = "pet slime"
@@ -978,6 +978,7 @@
 	singular_name = "floor tile"
 	desc = "Through a series of micro-teleports these tiles let people move at incredible speeds."
 	icon_state = "tile-bluespace"
+	item_state = "tile-bluespace"
 	w_class = WEIGHT_CLASS_NORMAL
 	force = 6
 	materials = list(/datum/material/iron=500)
@@ -994,6 +995,7 @@
 	singular_name = "floor tile"
 	desc = "Time seems to flow very slowly around these tiles."
 	icon_state = "tile-sepia"
+	item_state = "tile-sepia"
 	w_class = WEIGHT_CLASS_NORMAL
 	force = 6
 	materials = list(/datum/material/iron=500)

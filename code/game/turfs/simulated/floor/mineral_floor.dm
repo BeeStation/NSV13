@@ -3,6 +3,7 @@
  * Plasma floor
  * Gold floor
  * Silver floor
+ * Copper floor
  * Bananium floor
  * Diamond floor
  * Uranium floor
@@ -12,6 +13,7 @@
 /turf/open/floor/mineral
 	name = "mineral floor"
 	icon_state = ""
+	var/list/icons
 	tiled_dirt = FALSE
 
 
@@ -20,6 +22,14 @@
 		broken_states = list("[initial(icon_state)]_dam")
 	. = ..()
 	icons = typelist("icons", icons)
+
+
+/turf/open/floor/mineral/update_icon()
+	if(!..())
+		return 0
+	if(!broken && !burnt)
+		if( !(icon_state in icons) )
+			icon_state = initial(icon_state)
 
 //PLASMA
 
@@ -65,6 +75,14 @@
 	icon_state = "silver"
 	floor_tile = /obj/item/stack/tile/mineral/silver
 	icons = list("silver","silver_dam")
+
+//COPPER
+
+/turf/open/floor/mineral/copper
+	name = "copper floor"
+	icon_state = "copper"
+	floor_tile = /obj/item/stack/tile/mineral/copper
+	icons = list("copper","copper_dam")
 
 //TITANIUM (shuttle)
 

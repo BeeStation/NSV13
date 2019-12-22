@@ -17,7 +17,8 @@
 	var/points = 0
 	var/ore_pickup_rate = 15
 	var/sheet_per_ore = 1
-	var/list/ore_values = list(/datum/material/iron = 1, /datum/material/glass = 1,  /datum/material/plasma = 15,  /datum/material/silver = 16, /datum/material/gold = 18, /datum/material/titanium = 30, /datum/material/uranium = 30, /datum/material/diamond = 50, /datum/material/bluespace = 50, /datum/material/bananium = 60)
+	var/point_upgrade = 1
+	var/list/ore_values = list(/datum/material/iron = 1, /datum/material/glass = 1, /datum/material/copper = 5, /datum/material/plasma = 15,  /datum/material/silver = 16, /datum/material/gold = 18, /datum/material/titanium = 30, /datum/material/uranium = 30, /datum/material/diamond = 50, /datum/material/bluespace = 50, /datum/material/bananium = 60)
 	var/message_sent = FALSE
 	var/list/ore_buffer = list()
 	var/datum/techweb/stored_research
@@ -35,34 +36,37 @@
 
 /obj/machinery/mineral/ore_redemption/RefreshParts()
 	var/ore_pickup_rate_temp = 15
+	var/point_upgrade_temp = 1
 	var/sheet_per_ore_temp = 1
 	for(var/obj/item/stock_parts/matter_bin/B in component_parts)
-		sheet_per_ore_temp = 0.65 + (0.15 * B.rating)
-	for(var/obj/item/stock_parts/micro_laser/L in component_parts)
-		sheet_per_ore_temp += (0.20 * L.rating)
+		sheet_per_ore_temp = 0.65 + (0.35 * B.rating)
 	for(var/obj/item/stock_parts/manipulator/M in component_parts)
 		ore_pickup_rate_temp = 15 * M.rating
-
+	for(var/obj/item/stock_parts/micro_laser/L in component_parts)
+		point_upgrade_temp = 0.65 + (0.35 * L.rating)
 	ore_pickup_rate = ore_pickup_rate_temp
+	point_upgrade = point_upgrade_temp
 	sheet_per_ore = round(sheet_per_ore_temp, 0.01)
 
 /obj/machinery/mineral/ore_redemption/examine(mob/user)
 	. = ..()
 	if(in_range(user, src) || isobserver(user))
-		. += "<span class='notice'>The status display reads: Smelting <b>[sheet_per_ore]</b> sheet(s) per piece of ore.<br>Ore pickup speed at <b>[ore_pickup_rate]</b>.</span>"
+		. += "<span class='notice'>The status display reads: Smelting <b>[sheet_per_ore]</b> sheet(s) per piece of ore.<br>Reward point generation at <b>[point_upgrade*100]%</b>.<br>Ore pickup speed at <b>[ore_pickup_rate]</b>.<span>"
+	if(panel_open)
+		. += "<span class='notice'>Alt-click to rotate the input and output direction.</span>"
 
 /obj/machinery/mineral/ore_redemption/proc/smelt_ore(obj/item/stack/ore/O)
 	var/datum/component/material_container/mat_container = materials.mat_container
 	if (!mat_container)
 		return
-
+		
 	if(O.refined_type == null)
 		return
 
 	ore_buffer -= O
 
-	if(O && O.refined_type)
-		points += O.points * O.amount
+	if(O?.refined_type)
+		points += O.points * point_upgrade * O.amount
 
 	var/material_amount = mat_container.get_item_material_amount(O)
 
@@ -75,11 +79,8 @@
 	else
 		var/mats = O.materials & mat_container.materials
 		var/amount = O.amount
-		var/id = inserted_id && inserted_id.registered_name
-		if (id)
-			id = " (ID: [id])"
 		mat_container.insert_item(O, sheet_per_ore) //insert it
-		materials.silo_log(src, "smelted", amount, "ores[id]", mats)
+		materials.silo_log(src, "smelted", amount, "someone", mats)
 		qdel(O)
 
 /obj/machinery/mineral/ore_redemption/proc/can_smelt_alloy(datum/design/D)
@@ -177,29 +178,24 @@
 
 	if(!powered())
 		return ..()
-	if(istype(W, /obj/item/card/id))
-		var/obj/item/card/id/I = user.get_active_held_item()
-		if(istype(I) && !istype(inserted_id))
-			if(!user.transferItemToLoc(I, src))
-				return
-			inserted_id = I
-			interact(user)
-		return
 
 	if(istype(W, /obj/item/disk/design_disk))
 		if(user.transferItemToLoc(W, src))
 			inserted_disk = W
 			return TRUE
-
+			
 	var/obj/item/stack/ore/O = W
 	if(istype(O))
 		if(O.refined_type == null)
 			to_chat(user, "<span class='notice'>[O] has already been refined!</span>")
 			return
-
+		
 	return ..()
 
-/obj/machinery/mineral/ore_redemption/multitool_act(mob/living/user, obj/item/multitool/I)
+/obj/machinery/mineral/ore_redemption/AltClick(mob/living/user)
+	..()
+	if(!user.canUseTopic(src, BE_CLOSE))
+		return
 	if (panel_open)
 		input_dir = turn(input_dir, -90)
 		output_dir = turn(output_dir, -90)
@@ -215,10 +211,6 @@
 /obj/machinery/mineral/ore_redemption/ui_data(mob/user)
 	var/list/data = list()
 	data["unclaimedPoints"] = points
-	if(inserted_id)
-		data["hasID"] = TRUE
-		if (inserted_id.registered_account)
-			data["hasAccount"] = TRUE
 
 	data["materials"] = list()
 	var/datum/component/material_container/mat_container = materials.mat_container
@@ -228,7 +220,7 @@
 			var/amount = mat_container.materials[M]
 			var/sheet_amount = amount / MINERAL_MATERIAL_AMOUNT
 			var/ref = REF(M)
-			data["materials"] += list(list("name" = M.name, "id" = ref, "amount" = sheet_amount, "value" = ore_values[M.type]))
+			data["materials"] += list(list("name" = M.name, "id" = ref, "amount" = sheet_amount, "value" = ore_values[M.type] * point_upgrade))
 
 		data["alloys"] = list()
 		for(var/v in stored_research.researched_designs)
@@ -243,6 +235,7 @@
 		data["disconnected"] = "mineral withdrawal is on hold"
 
 	data["diskDesigns"] = list()
+	data["hasDisk"] = FALSE
 	if(inserted_disk)
 		data["hasDisk"] = TRUE
 		if(inserted_disk.blueprints.len)
@@ -258,24 +251,16 @@
 		return
 	var/datum/component/material_container/mat_container = materials.mat_container
 	switch(action)
-		if("Eject")
-			if(!inserted_id)
-				return
-			usr.put_in_hands(inserted_id)
-			inserted_id = null
-			return TRUE
-		if("Insert")
-			var/obj/item/card/id/I = usr.get_active_held_item()
-			if(istype(I))
-				if(!usr.transferItemToLoc(I,src))
-					return
-				inserted_id = I
-			else
-				to_chat(usr, "<span class='warning'>Not a valid ID!</span>")
-			return TRUE
 		if("Claim")
-			if(inserted_id && inserted_id.registered_account.adjust_money(points))
-				points = 0
+			var/mob/M = usr
+			var/obj/item/card/id/I = M.get_idcard(TRUE)
+			if(points)
+				if(I?.mining_points += points)
+					points = 0
+				else
+					to_chat(usr, "<span class='warning'>No ID detected.</span>")
+			else
+				to_chat(usr, "<span class='warning'>No points to claim.</span>")
 			return TRUE
 		if("Release")
 			if(!mat_container)
@@ -283,7 +268,7 @@
 
 			if(materials.on_hold())
 				to_chat(usr, "<span class='warning'>Mineral access is on hold, please contact the quartermaster.</span>")
-			else if(!check_access(inserted_id) && !allowed(usr)) //Check the ID inside, otherwise check the user
+			else if(!allowed(usr)) //Check the ID inside, otherwise check the user
 				to_chat(usr, "<span class='warning'>Required access not found.</span>")
 			else
 				var/datum/material/mat = locate(params["id"])
