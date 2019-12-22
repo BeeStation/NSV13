@@ -65,7 +65,7 @@ FROM dm_base as build
 
 COPY . .
 
-RUN DreamMaker -max_errors 0 beestation.dme && tools/deploy.sh /deploy
+RUN DreamMaker -max_errors 0 nsv13.dme && tools/deploy.sh /deploy
 
 FROM dm_base
 
@@ -93,4 +93,4 @@ RUN ln -s /tgstation/libBSQL.so /root/.byond/bin/libBSQL.so
 
 VOLUME [ "/tgstation/config", "/tgstation/data" ]
 
-ENTRYPOINT [ "DreamDaemon", "beestation.dmb", "-port", "1337", "-trusted", "-close", "-verbose" ]
+ENTRYPOINT [ "DreamDaemon", "nsv13.dmb", "-port", "1337", "-trusted", "-close", "-verbose" ]
