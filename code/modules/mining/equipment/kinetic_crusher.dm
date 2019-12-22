@@ -11,8 +11,13 @@
 	force = 0 //You can't hit stuff unless wielded
 	w_class = WEIGHT_CLASS_BULKY
 	slot_flags = ITEM_SLOT_BACK
+<<<<<<< HEAD
 	force_unwielded = 20 //It's never not wielded so these are the same
 	force_wielded = 0
+=======
+	force_unwielded = 0 
+	force_wielded = 20
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	throwforce = 5
 	throw_speed = 4
 	armour_penetration = 10
@@ -38,12 +43,18 @@
 	return ..()
 
 /obj/item/twohanded/kinetic_crusher/examine(mob/living/user)
+<<<<<<< HEAD
 	..()
 	to_chat(user, "<span class='notice'>Mark a large creature with the destabilizing force, then hit them in melee to do <b>[force + detonation_damage]</b> damage.</span>")
 	to_chat(user, "<span class='notice'>Does <b>[force + detonation_damage + backstab_bonus]</b> damage if the target is backstabbed, instead of <b>[force + detonation_damage]</b>.</span>")
+=======
+	. = ..()
+	. += "<span class='notice'>Mark a large creature with the destabilizing force, then hit them in melee to do <b>[force + detonation_damage]</b> damage.</span>"
+	. += "<span class='notice'>Does <b>[force + detonation_damage + backstab_bonus]</b> damage if the target is backstabbed, instead of <b>[force + detonation_damage]</b>.</span>"
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	for(var/t in trophies)
 		var/obj/item/crusher_trophy/T = t
-		to_chat(user, "<span class='notice'>It has \a [T] attached, which causes [T.effect_desc()].</span>")
+		. += "<span class='notice'>It has \a [T] attached, which causes [T.effect_desc()].</span>"
 
 /obj/item/twohanded/kinetic_crusher/attackby(obj/item/I, mob/living/user)
 	if(I.tool_behaviour == TOOL_CROWBAR)
@@ -196,8 +207,8 @@
 	var/denied_type = /obj/item/crusher_trophy
 
 /obj/item/crusher_trophy/examine(mob/living/user)
-	..()
-	to_chat(user, "<span class='notice'>Causes [effect_desc()] when attached to a kinetic crusher.</span>")
+	. = ..()
+	. += "<span class='notice'>Causes [effect_desc()] when attached to a kinetic crusher.</span>"
 
 /obj/item/crusher_trophy/proc/effect_desc()
 	return "errors"

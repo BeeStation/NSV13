@@ -338,7 +338,11 @@
 	righthand_file = 'icons/mob/inhands/equipment/kitchen_righthand.dmi'
 	isGlass = FALSE
 	list_reagents = list(/datum/reagent/consumable/orangejuice = 100)
+<<<<<<< HEAD
 	foodtype = FRUIT
+=======
+	foodtype = FRUIT | BREAKFAST
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 /obj/item/reagent_containers/food/drinks/bottle/cream
 	name = "milk cream"
@@ -394,6 +398,7 @@
 	icon_state = "grenadine"
 	isGlass = TRUE
 	list_reagents = list(/datum/reagent/consumable/grenadine = 100)
+<<<<<<< HEAD
 	foodtype = FRUIT
 
 /obj/item/reagent_containers/food/drinks/bottle/applejack
@@ -405,6 +410,19 @@
 	list_reagents = list(/datum/reagent/consumable/ethanol/applejack = 100)
 	foodtype = FRUIT
 
+=======
+	foodtype = FRUIT
+
+/obj/item/reagent_containers/food/drinks/bottle/applejack
+	name = "Buckin' Bronco's Applejack"
+	desc = "Kicks like a horse, tastes like an apple!"
+	custom_price = 10
+	icon_state = "applejack_bottle"
+	isGlass = TRUE
+	list_reagents = list(/datum/reagent/consumable/ethanol/applejack = 100)
+	foodtype = FRUIT
+
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 /obj/item/reagent_containers/food/drinks/bottle/champagne
 	name = "Eau d' Dandy Brut Champagne"
 	desc = "Finely sourced from only the most pretentious French vineyards."
@@ -427,6 +445,7 @@
 	volume = 50
 	list_reagents = list(/datum/reagent/consumable/ethanol/trappist = 50)
 
+<<<<<<< HEAD
 /obj/item/reagent_containers/food/drinks/bottle/hooch
 	name = "hooch bottle"
 	desc = "A bottle of rotgut. Its owner has applied some street wisdom to cleverly disguise it as a brown paper bag."
@@ -454,6 +473,8 @@
 	desc = "This small bottle is unyieldingly anonymous, offering no clues to it's contents."
 	icon_state = "glassbottlesmall"
 	volume = 50
+=======
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 ////////////////////////// MOLOTOV ///////////////////////
 /obj/item/reagent_containers/food/drinks/bottle/molotov

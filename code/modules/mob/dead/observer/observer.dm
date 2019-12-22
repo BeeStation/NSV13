@@ -338,7 +338,7 @@ This is the proc mobs get to turn into a ghost. Forked from ghostize due to comp
 	if(mind.current.key && copytext(mind.current.key,1,2)!="@")	//makes sure we don't accidentally kick any clients
 		to_chat(usr, "<span class='warning'>Another consciousness is in your body...It is resisting you.</span>")
 		return
-	client.change_view(CONFIG_GET(string/default_view))
+	client.check_view()
 	SStgui.on_transfer(src, mind.current) // Transfer NanoUIs.
 	mind.current.key = key
 	return TRUE
@@ -354,7 +354,11 @@ This is the proc mobs get to turn into a ghost. Forked from ghostize due to comp
 
 	var/response = alert(src, "Are you sure you want to prevent (almost) all means of resuscitation? This cannot be undone. ","Are you sure you want to stay dead?","DNR","Save Me")
 	if(response != "DNR")
+<<<<<<< HEAD
 		return 
+=======
+		return
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 	can_reenter_corpse = FALSE
 	to_chat(src, "You can no longer be brought back into your body.")
@@ -387,7 +391,7 @@ This is the proc mobs get to turn into a ghost. Forked from ghostize due to comp
 	set name = "Teleport"
 	set desc= "Teleport to a location"
 	if(!isobserver(usr))
-		to_chat(usr, "Not when you're not dead!")
+		to_chat(usr, "<span class='warning'>Not when you're not dead!</span>")
 		return
 	var/list/filtered = list()
 	for(var/V in GLOB.sortedAreas)
@@ -404,7 +408,7 @@ This is the proc mobs get to turn into a ghost. Forked from ghostize due to comp
 		L+=T
 
 	if(!L || !L.len)
-		to_chat(usr, "No area available.")
+		to_chat(usr, "<span class='warning'>No area available.</span>")
 		return
 
 	usr.forceMove(pick(L))
@@ -497,7 +501,7 @@ This is the proc mobs get to turn into a ghost. Forked from ghostize due to comp
 		if(new_view)
 			client.change_view(CLAMP(new_view, 7, max_view))
 	else
-		client.change_view(CONFIG_GET(string/default_view))
+		client.check_view()
 
 /mob/dead/observer/verb/add_view_range(input as num)
 	set name = "Add View Range"
@@ -830,7 +834,7 @@ This is the proc mobs get to turn into a ghost. Forked from ghostize due to comp
 	if(isobserver(src))
 		SSpai.recruitWindow(src)
 	else
-		to_chat(usr, "Can't become a pAI candidate while not dead!")
+		to_chat(usr, "<span class='warning'>Can't become a pAI candidate while not dead!</span>")
 
 /mob/dead/observer/CtrlShiftClick(mob/user)
 	if(isobserver(user) && check_rights(R_SPAWN))

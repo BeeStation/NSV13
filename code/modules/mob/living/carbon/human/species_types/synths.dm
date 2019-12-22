@@ -13,7 +13,11 @@
 	var/datum/species/fake_species //a species to do most of our work for us, unless we're damaged
 	var/list/initial_species_traits //for getting these values back for assume_disguise()
 	var/list/initial_inherent_traits
+<<<<<<< HEAD
 	changesource_flags = MIRROR_BADMIN | WABBAJACK | MIRROR_PRIDE | MIRROR_MAGIC
+=======
+	changesource_flags = MIRROR_BADMIN | WABBAJACK
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 /datum/species/synth/New()
 	initial_species_traits = species_traits.Copy()
@@ -33,6 +37,11 @@
 /datum/species/synth/on_species_gain(mob/living/carbon/human/H, datum/species/old_species)
 	..()
 	assume_disguise(old_species, H)
+	RegisterSignal(H, COMSIG_MOB_SAY, .proc/handle_speech)
+
+/datum/species/synth/on_species_loss(mob/living/carbon/human/H)
+	. = ..()
+	UnregisterSignal(H, COMSIG_MOB_SAY)
 
 /datum/species/synth/handle_chemicals(datum/reagent/chem, mob/living/carbon/human/H)
 	if(chem.type == /datum/reagent/medicine/synthflesh)
@@ -116,17 +125,12 @@
 		return ..()
 
 
-/datum/species/synth/get_spans()
-	if(fake_species)
-		return fake_species.get_spans()
-	return list()
-
-
-/datum/species/synth/handle_speech(message, mob/living/carbon/human/H)
-	if(H.health > disguise_fail_health)
-		if(fake_species)
-			return fake_species.handle_speech(message,H)
-		else
-			return ..()
-	else
-		return ..()
+/datum/species/synth/proc/handle_speech(datum/source, list/speech_args)
+	if (isliving(source)) // yeah it's gonna be living but just to be clean
+		var/mob/living/L = source
+		if(fake_species && L.health > disguise_fail_health)
+			switch (fake_species.type)
+				if (/datum/species/golem/bananium)
+					speech_args[SPEECH_SPANS] |= SPAN_CLOWN
+				if (/datum/species/golem/clockwork)
+					speech_args[SPEECH_SPANS] |= SPAN_ROBOT

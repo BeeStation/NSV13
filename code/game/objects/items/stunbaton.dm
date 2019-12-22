@@ -113,9 +113,15 @@
 
 /obj/item/melee/baton/attack(mob/M, mob/living/carbon/human/user)
 	if(status && HAS_TRAIT(user, TRAIT_CLUMSY) && prob(50))
+<<<<<<< HEAD
 		user.visible_message("<span class='danger'>[user] accidentally hits [user.p_them()]self with [src], electrocuting themselves badly!</span>", \
 							"<span class='userdanger'>You accidentally hit yourself with [src], electrocuting yourself badly!</span>")
 		user.adjustStaminaLoss(stunforce*3)
+=======
+		user.visible_message("<span class='danger'>[user] accidentally hits [user.p_them()]self with [src]!</span>", \
+							"<span class='userdanger'>You accidentally hit yourself with [src]!</span>")
+		user.Paralyze(stunforce*3)
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 		deductcharge(hitcost)
 		return
 

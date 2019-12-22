@@ -53,6 +53,13 @@
 	if(small_sprite_type)
 		var/datum/action/small_sprite/small_action = new small_sprite_type()
 		small_action.Grant(src)
+<<<<<<< HEAD
+=======
+
+/mob/living/simple_animal/hostile/megafauna/Destroy()
+	QDEL_NULL(internal)
+	. = ..()
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 /mob/living/simple_animal/hostile/megafauna/Moved()
 	if(nest && nest.parent && get_dist(nest.parent, src) > nest_range)

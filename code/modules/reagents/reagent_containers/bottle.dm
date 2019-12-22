@@ -98,11 +98,14 @@
 	icon = 'icons/obj/drinks.dmi'
 	icon_state = "holyflask"
 	list_reagents = list(/datum/reagent/medicine/adminordrazine = 30)
+<<<<<<< HEAD
 
 /obj/item/reagent_containers/glass/bottle/viralbase
 	name = "Highly potent Viral Base Bottle"
 	desc = "A small bottle. Contains a trace amount of a substance found by scientists that can be used to create extremely advanced diseases once exposed to uranium."
 	list_reagents = list(/datum/reagent/consumable/virus_food/viralbase = 1)
+=======
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 /obj/item/reagent_containers/glass/bottle/capsaicin
 	name = "Capsaicin Bottle"
@@ -286,7 +289,11 @@
 /obj/item/reagent_containers/glass/bottle/tuberculosiscure
 	name = "BVAK bottle"
 	desc = "A small bottle containing Bio Virus Antidote Kit."
+<<<<<<< HEAD
 	list_reagents = list(/datum/reagent/medicine/atropine = 5, /datum/reagent/medicine/epinephrine = 5, /datum/reagent/medicine/salbutamol = 10, /datum/reagent/medicine/spaceacillin = 10)
+=======
+	list_reagents = list(/datum/reagent/medicine/atropine = 5, /datum/reagent/medicine/epinephrine = 5, /datum/reagent/medicine/perfluorodecalin = 10, /datum/reagent/medicine/spaceacillin = 10)
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 //Oldstation.dmm chemical storage bottles
 

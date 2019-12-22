@@ -19,7 +19,11 @@
 /datum/atmosphere/proc/generate_gas_string()
 	var/target_pressure = rand(minimum_pressure, maximum_pressure)
 	var/pressure_scalar = target_pressure / maximum_pressure
+<<<<<<< HEAD
 
+=======
+	
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	// First let's set up the gasmix and base gases for this template
 	// We make the string from a gasmix in this proc because gases need to calculate their pressure
 	var/datum/gas_mixture/gasmix = new
@@ -41,11 +45,19 @@
 			amount = restricted_gases[gastype]
 			if(gaslist[gastype])
 				continue
+<<<<<<< HEAD
 
 		amount *= rand(50, 200) / 100	// Randomly modifes the amount from half to double the base for some variety
 		amount *= pressure_scalar		// If we pick a really small target pressure we want roughly the same mix but less of it all
 		amount = CEILING(amount, 0.1)
 
+=======
+		
+		amount *= rand(50, 200) / 100	// Randomly modifes the amount from half to double the base for some variety
+		amount *= pressure_scalar		// If we pick a really small target pressure we want roughly the same mix but less of it all
+		amount = CEILING(amount, 0.1)
+		
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 		ASSERT_GAS(gastype, gasmix)
 		gaslist[gastype][MOLES] += amount
 
@@ -61,4 +73,8 @@
 		var/list/gas = gaslist[i]
 		gas_string_builder += "[gas[GAS_META][META_GAS_ID]]=[gas[MOLES]]"
 	gas_string_builder += "TEMP=[gasmix.temperature]"
+<<<<<<< HEAD
 	gas_string = gas_string_builder.Join(";")
+=======
+	gas_string = gas_string_builder.Join(";")
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36

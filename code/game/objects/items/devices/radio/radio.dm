@@ -37,6 +37,7 @@
 	var/syndie = FALSE  // If true, hears all well-known channels automatically, and can say/hear on the Syndicate channel.
 	var/list/channels = list()  // Map from name (see communications.dm) to on/off. First entry is current department (:h).
 	var/list/secure_radio_connections
+	var/list/radio_sounds = list('nsv13/sound/effects/radio1.ogg','nsv13/sound/effects/radio2.ogg') //nsv13 - Radios make small static noises now
 
 	var/const/FREQ_LISTENING = 1
 	//FREQ_BROADCASTING = 2
@@ -196,7 +197,7 @@
 
 /obj/item/radio/talk_into(atom/movable/M, message, channel, list/spans, datum/language/language)
 	if(!spans)
-		spans = M.get_spans()
+		spans = list(M.speech_span)
 	if(!language)
 		language = M.get_default_language()
 	INVOKE_ASYNC(src, .proc/talk_into_impl, M, message, channel, spans.Copy(), language)
@@ -211,6 +212,9 @@
 		return
 	if(!M.IsVocal())
 		return
+	if(radio_sounds.len) //nsv13 - Radios make small static sounds now.
+		var/sound/radio_sound = pick(radio_sounds)
+		playsound(M.loc, radio_sound, 50, 1)
 
 	if(use_command)
 		spans |= SPAN_COMMAND
@@ -250,8 +254,8 @@
 	// Construct the signal
 	var/datum/signal/subspace/vocal/signal = new(src, freq, speaker, language, message, spans)
 
-	// Independent radios, on the CentCom frequency, reach all independent radios
-	if (independent && (freq == FREQ_CENTCOM || freq == FREQ_CTF_RED || freq == FREQ_CTF_BLUE))
+	// Independent radios, on the CentCom frequency, reach all independent radios. NSV13 - Fighter comms always reach the ship. Always.
+	if (independent && (freq == FREQ_CENTCOM || freq == FREQ_CTF_RED || freq == FREQ_CTF_BLUE || freq == FREQ_ATC))
 		signal.data["compression"] = 0
 		signal.transmission_method = TRANSMISSION_SUPERSPACE
 		signal.levels = list(0)  // reaches all Z-levels
@@ -306,7 +310,7 @@
 		return FALSE
 	if (freq == FREQ_SYNDICATE && !syndie)
 		return FALSE
-	if (freq == FREQ_CENTCOM)
+	if (freq == FREQ_CENTCOM || freq == FREQ_ATC)
 		return independent  // hard-ignores the z-level check
 	if (!(0 in level))
 		var/turf/position = get_turf(src)

@@ -148,7 +148,7 @@
 	materials = list(/datum/material/iron = 10, /datum/material/glass = 5)
 	build_path = /obj/item/stack/cable_coil
 	category = list("initial","Tools","Tool Designs")
-	maxstack = 30
+	maxstack = MAXCOIL
 	departmental_flags = DEPARTMENTAL_FLAG_ENGINEERING | DEPARTMENTAL_FLAG_SCIENCE
 
 /datum/design/toolbox
@@ -286,7 +286,11 @@
 	id = "iron"
 	build_type = AUTOLATHE
 	materials = list(/datum/material/iron = MINERAL_MATERIAL_AMOUNT)
+<<<<<<< HEAD
 	build_path = /obj/item/stack/sheet/iron
+=======
+	build_path = /obj/item/stack/sheet/metal
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	category = list("initial","Construction")
 	maxstack = 50
 
@@ -799,11 +803,16 @@
 	category = list("hacked", "Security")
 
 /datum/design/a357
-	name = "Speed Loader (.357)"
+	name = ".357 Casing"
 	id = "a357"
 	build_type = AUTOLATHE
+<<<<<<< HEAD
 	materials = list(/datum/material/iron = 30000)
 	build_path = /obj/item/ammo_box/a357
+=======
+	materials = list(MAT_METAL = 4000)
+	build_path = /obj/item/ammo_casing/a357
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	category = list("hacked", "Security")
 
 /datum/design/c10mm
@@ -882,8 +891,13 @@
 	name = "Conveyor Belt"
 	id = "conveyor_belt"
 	build_type = AUTOLATHE
+<<<<<<< HEAD
 	materials = list(/datum/material/iron = 3000)
 	build_path = /obj/item/stack/conveyor
+=======
+	materials = list(/datum/material/iron = 5000)
+	build_path = /obj/item/conveyor_construct
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	category = list("initial", "Construction")
 	maxstack = 30
 

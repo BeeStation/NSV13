@@ -39,7 +39,11 @@
 /obj/machinery/power/rtg/examine(mob/user)
 	. = ..()
 	if(in_range(user, src) || isobserver(user))
+<<<<<<< HEAD
 		. += "<span class='notice'>The status display reads: Power generation now at <b>[power_gen*0.001]</b>kW.<span>"
+=======
+		. += "<span class='notice'>The status display reads: Power generation now at <b>[power_gen*0.001]</b>kW.</span>"
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 /obj/machinery/power/rtg/attackby(obj/item/I, mob/user, params)
 	if(default_deconstruction_screwdriver(user, "[initial(icon_state)]-open", initial(icon_state), I))

@@ -33,8 +33,12 @@
 		return 0
 
 	if(M == user)
+<<<<<<< HEAD
 		user.visible_message("<span class='notice'>[user] swallows a gulp of [src].</span>", \
 			"<span class='notice'>You swallow a gulp of [src].</span>")
+=======
+		user.visible_message("<span class='notice'>[user] swallows a gulp of [src].</span>", "<span class='notice'>You swallow a gulp of [src].</span>")
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 		if(HAS_TRAIT(M, TRAIT_VORACIOUS))
 			M.changeNext_move(CLICK_CD_MELEE * 0.5) //chug! chug! chug!
 
@@ -206,6 +210,7 @@
 	spillable = TRUE
 	resistance_flags = FREEZE_PROOF
 	isGlass = FALSE
+	foodtype = BREAKFAST
 
 /obj/item/reagent_containers/food/drinks/ice
 	name = "ice cup"
@@ -322,12 +327,20 @@
 				icon_state = "orangebox"
 				name = "orange juice box"
 				desc = "A great source of vitamins. Stay healthy!"
+<<<<<<< HEAD
 				foodtype = FRUIT
+=======
+				foodtype = FRUIT | BREAKFAST
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 			if(/datum/reagent/consumable/milk)
 				icon_state = "milkbox"
 				name = "carton of milk"
 				desc = "An excellent source of calcium for growing space explorers."
+<<<<<<< HEAD
 				foodtype = DAIRY
+=======
+				foodtype = DAIRY | BREAKFAST
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 			if(/datum/reagent/consumable/applejuice)
 				icon_state = "juicebox"
 				name = "apple juice box"

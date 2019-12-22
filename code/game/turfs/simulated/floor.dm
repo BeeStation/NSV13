@@ -21,6 +21,13 @@
 	var/floor_tile = null //tile that this floor drops
 	var/list/broken_states
 	var/list/burnt_states
+/*Nsv13 - Turfs
+This is part of the original proc for visual appearance of plasteel and mineral floors. They operate by having the icon_states named appropriately and then using [icon]damstate to reference changes.
+Merging it up the hierarchy clears out some nondisplaying icons, especially when building on stuff like asteroid tiles. However, many floors have specific named-states for other icon types.
+Recommendation is to merge it into a single sensible system, because this is handlers for like 3 or 4. It's purely visual, so if it breaks you'll see it and it won't crash the game (probably)
+*/
+	var/list/icons
+	icon_state = ""
 
 	tiled_dirt = TRUE
 
@@ -56,6 +63,8 @@
 		icon_regular_floor = icon_state
 	if(mapload && prob(33))
 		MakeDirty()
+	if(!islist(icons))
+		icons = list()
 
 /turf/open/floor/ex_act(severity, target)
 	var/shielded = is_shielded()
@@ -106,7 +115,11 @@
 
 /turf/open/floor/proc/update_icon()
 	update_visuals()
+	if(!broken && !burnt)
+		if( !(icon_state in icons) )
+			icon_state = initial(icon_state)
 	return 1
+
 
 /turf/open/floor/attack_paw(mob/user)
 	return attack_hand(user)

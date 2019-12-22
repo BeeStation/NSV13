@@ -388,6 +388,21 @@
 			else
 				to_chat(usr, "<span class='warning'>Construction failed[fail_msg]</span>")
 			busy = FALSE
+<<<<<<< HEAD:code/datums/components/crafting/crafting.dm
+=======
+		if("forwardCat") //Meow
+			viewing_category = next_cat(FALSE)
+			. = TRUE
+		if("backwardCat")
+			viewing_category = prev_cat(FALSE)
+			. = TRUE
+		if("forwardSubCat")
+			viewing_subcategory = next_subcat()
+			. = TRUE
+		if("backwardSubCat")
+			viewing_subcategory = prev_subcat()
+			. = TRUE
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36:code/datums/components/crafting/crafting.dm
 		if("toggle_recipes")
 			display_craftable_only = !display_craftable_only
 			. = TRUE
@@ -404,6 +419,45 @@
 					cur_subcategory = params["subcategory"]
 			. = TRUE
 
+<<<<<<< HEAD:code/datums/components/crafting/crafting.dm
+=======
+//Next works nicely with modular arithmetic
+/datum/component/personal_crafting/proc/next_cat(readonly = TRUE)
+	if (!readonly)
+		viewing_subcategory = 1
+	. = viewing_category % categories.len + 1
+
+/datum/component/personal_crafting/proc/next_subcat()
+	if(islist(subcategories[viewing_category]))
+		var/list/subs = subcategories[viewing_category]
+		. = viewing_subcategory % subs.len + 1
+
+
+//Previous can go fuck itself
+/datum/component/personal_crafting/proc/prev_cat(readonly = TRUE)
+	if (!readonly)
+		viewing_subcategory = 1
+	if(viewing_category == categories.len)
+		. = viewing_category-1
+	else
+		. = viewing_category % categories.len - 1
+	if(. <= 0)
+		. = categories.len
+
+/datum/component/personal_crafting/proc/prev_subcat()
+	if(islist(subcategories[viewing_category]))
+		var/list/subs = subcategories[viewing_category]
+		if(viewing_subcategory == subs.len)
+			. = viewing_subcategory-1
+		else
+			. = viewing_subcategory % subs.len - 1
+		if(. <= 0)
+			. = subs.len
+	else
+		. = null
+
+
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36:code/datums/components/crafting/crafting.dm
 /datum/component/personal_crafting/proc/build_recipe_data(datum/crafting_recipe/R)
 	var/list/data = list()
 	data["name"] = R.name

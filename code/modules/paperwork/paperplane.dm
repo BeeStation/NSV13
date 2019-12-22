@@ -77,7 +77,7 @@
 /obj/item/paperplane/attackby(obj/item/P, mob/living/carbon/human/user, params)
 	..()
 	if(istype(P, /obj/item/pen) || istype(P, /obj/item/toy/crayon))
-		to_chat(user, "<span class='notice'>You should unfold [src] before changing it.</span>")
+		to_chat(user, "<span class='warning'>You should unfold [src] before changing it!</span>")
 		return
 
 	else if(istype(P, /obj/item/stamp)) 	//we don't randomize stamps on a paperplane
@@ -120,9 +120,13 @@
 	if(prob(hit_probability))
 		if(H.is_eyes_covered())
 			return
-		visible_message("<span class='danger'>\The [src] hits [H] in the eye!</span>")
+		visible_message("<span class='danger'>\The [src] hits [H] in the eye[eyes ? "" : " socket"]!</span>")
 		H.adjust_blurriness(6)
+<<<<<<< HEAD
 		eyes.applyOrganDamage(rand(6,8))
+=======
+		eyes?.applyOrganDamage(rand(6,8))
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 		H.Paralyze(40)
 		H.emote("scream")
 

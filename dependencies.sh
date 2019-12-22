@@ -17,7 +17,11 @@ export RUST_G_VERSION=0.4.2
 export BSQL_VERSION=v1.4.0.0
 
 #node version
+<<<<<<< HEAD
 export NODE_VERSION=12
+=======
+export NODE_VERSION=8
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 # PHP version
 export PHP_VERSION=5.6

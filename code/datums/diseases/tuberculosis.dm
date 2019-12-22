@@ -3,8 +3,13 @@
 	name = "Fungal tuberculosis"
 	max_stages = 5
 	spread_text = "Airborne"
+<<<<<<< HEAD
 	cure_text = "Spaceacillin & salbutamol"
 	cures = list(/datum/reagent/medicine/spaceacillin, /datum/reagent/medicine/salbutamol)
+=======
+	cure_text = "Spaceacillin & Perfluorodecalin"
+	cures = list(/datum/reagent/medicine/spaceacillin, /datum/reagent/medicine/perfluorodecalin)
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	agent = "Fungal Tubercle bacillus Cosmosis"
 	viable_mobtypes = list(/mob/living/carbon/human)
 	cure_chance = 5//like hell are you getting out of hell

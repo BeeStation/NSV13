@@ -229,7 +229,11 @@
 	if(!keep) // wait for a keep portal to set
 		return
 	var/list/possible_temp = get_linked()
+<<<<<<< HEAD
 	if(possible_temp?.len)
+=======
+	if(possible_temp && possible_temp.len)
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 		for(var/obj/effect/portal/permanent/other in possible_temp)
 			possible_exits += get_turf(other)
 			qdel(other)

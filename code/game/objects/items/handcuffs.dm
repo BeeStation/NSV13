@@ -123,10 +123,6 @@
 /obj/item/restraints/handcuffs/cable/Initialize(mapload, param_color)
 	. = ..()
 
-	var/list/cable_colors = GLOB.cable_colors
-	item_color = param_color || item_color || pick(cable_colors)
-	if(cable_colors[item_color])
-		item_color = cable_colors[item_color]
 	update_icon()
 
 /obj/item/restraints/handcuffs/cable/update_icon()
@@ -170,7 +166,7 @@
 /obj/item/restraints/handcuffs/fake
 	name = "fake handcuffs"
 	desc = "Fake handcuffs meant for gag purposes."
-	breakouttime = 10 //Deciseconds = 1s
+	breakouttime = 1 SECONDS
 
 /obj/item/restraints/handcuffs/cable/attackby(obj/item/I, mob/user, params)
 	..()
@@ -210,7 +206,7 @@
 	lefthand_file = 'icons/mob/inhands/equipment/security_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/equipment/security_righthand.dmi'
 	materials = list()
-	breakouttime = 450 //Deciseconds = 45s
+	breakouttime = 45 SECONDS
 	trashtype = /obj/item/restraints/handcuffs/cable/zipties/used
 	item_color = "white"
 
@@ -236,7 +232,7 @@
 	throwforce = 0
 	w_class = WEIGHT_CLASS_NORMAL
 	slowdown = 7
-	breakouttime = 300	//Deciseconds = 30s = 0.5 minute
+	breakouttime = 30 SECONDS
 
 /obj/item/restraints/legcuffs/beartrap
 	name = "bear trap"

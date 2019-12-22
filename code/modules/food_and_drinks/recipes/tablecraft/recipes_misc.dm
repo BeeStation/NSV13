@@ -125,6 +125,15 @@
 	result = /obj/item/reagent_containers/food/snacks/jelliedtoast/cherry
 	subcategory = CAT_MISCFOOD
 
+/datum/crafting_recipe/food/butteredtoast
+	name = "Buttered Toast"
+	reqs = list(
+		/obj/item/reagent_containers/food/snacks/breadslice/plain = 1,
+		/obj/item/reagent_containers/food/snacks/butter = 1
+	)
+	result = /obj/item/reagent_containers/food/snacks/butteredtoast
+	subcategory = CAT_MISCFOOD
+
 /datum/crafting_recipe/food/twobread
 	name = "Two bread"
 	reqs = list(
@@ -281,6 +290,22 @@
 	result = /obj/item/reagent_containers/food/snacks/stuffedlegion
 	subcategory = CAT_MISCFOOD
 
+<<<<<<< HEAD
+=======
+
+/datum/crafting_recipe/lizardwine
+	name = "Lizard wine"
+	time = 40
+	reqs = list(
+		/obj/item/organ/tail/lizard = 1,
+		/datum/reagent/consumable/ethanol = 100
+	)
+	result = /obj/item/reagent_containers/food/drinks/bottle/lizardwine
+	category = CAT_FOOD
+	subcategory = CAT_MISCFOOD
+
+
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 /datum/crafting_recipe/food/powercrepe
 	name = "Powercrepe"
 	time = 40

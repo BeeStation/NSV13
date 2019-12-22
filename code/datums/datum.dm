@@ -45,6 +45,18 @@
 #endif
 
 /**
+<<<<<<< HEAD
+=======
+  * Called when a href for this datum is clicked
+  *
+  * Sends a COMSIG_TOPIC signal
+  */
+/datum/Topic(href, href_list[])
+	..()
+	SEND_SIGNAL(src, COMSIG_TOPIC, usr, href_list)
+
+/**
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
   * Default implementation of clean-up code.
   * 
   * This should be overridden to remove all references pointing to the object being destroyed, if
@@ -61,6 +73,7 @@
   * Returns QDEL_HINT_QUEUE
   */ 
 /datum/proc/Destroy(force=FALSE, ...)
+	SHOULD_CALL_PARENT(1)
 	tag = null
 	datum_flags &= ~DF_USE_TAG //In case something tries to REF us
 	weak_reference = null	//ensure prompt GCing of weakref.

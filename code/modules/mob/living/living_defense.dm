@@ -140,7 +140,11 @@
 		return FALSE
 
 	if(user.grab_state >= GRAB_AGGRESSIVE && HAS_TRAIT(user, TRAIT_PACIFISM))
+<<<<<<< HEAD
 		to_chat(user, "<span class='notice'>You don't want to risk hurting [src]!</span>")
+=======
+		to_chat(user, "<span class='warning'>You don't want to risk hurting [src]!</span>")
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 		return FALSE
 	grippedby(user)
 
@@ -170,19 +174,32 @@
 			if(!user.pulling || user.pulling != src || user.grab_state != old_grab_state)
 				return 0
 			if(user.a_intent != INTENT_GRAB)
+<<<<<<< HEAD
 				to_chat(user, "<span class='notice'>You must be on grab intent to upgrade your grab further!<span>")
+=======
+				to_chat(user, "<span class='warning'>You must be on grab intent to upgrade your grab further!<span>")
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 				return 0
 		user.grab_state++
 		switch(user.grab_state)
 			if(GRAB_AGGRESSIVE)
 				var/add_log = ""
 				if(HAS_TRAIT(user, TRAIT_PACIFISM))
+<<<<<<< HEAD
 					visible_message("<span class='danger'>[user] firmly grips [src]!</span>",
 									"<span class='danger'>[user] firmly grips you!</span>")
 					add_log = " (pacifist)"
 				else
 					visible_message("<span class='danger'>[user] grabs [src] aggressively!</span>", \
 									"<span class='userdanger'>[user] grabs you aggressively!</span>")
+=======
+					visible_message("<span class='danger'>[user] has firmly gripped [src]!</span>",
+						"<span class='danger'>[user] has firmly gripped you!</span>")
+					add_log = " (pacifist)"
+				else
+					visible_message("<span class='danger'>[user] has grabbed [src] aggressively!</span>", \
+									"<span class='userdanger'>[user] has grabbed you aggressively!</span>")
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 					drop_all_held_items()
 				stop_pulling()
 				log_combat(user, src, "grabbed", addition="aggressive grab[add_log]")
@@ -215,7 +232,11 @@
 		return // can't attack while eating!
 
 	if(HAS_TRAIT(src, TRAIT_PACIFISM))
+<<<<<<< HEAD
 		to_chat(M, "<span class='notice'>You don't want to hurt anyone!</span>")
+=======
+		to_chat(M, "<span class='warning'>You don't want to hurt anyone!</span>")
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 		return FALSE
 
 	if (stat != DEAD)
@@ -233,7 +254,11 @@
 		return FALSE
 	else
 		if(HAS_TRAIT(M, TRAIT_PACIFISM))
+<<<<<<< HEAD
 			to_chat(M, "<span class='notice'>You don't want to hurt anyone!</span>")
+=======
+			to_chat(M, "<span class='warning'>You don't want to hurt anyone!</span>")
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 			return FALSE
 
 		if(M.attack_sound)
@@ -252,7 +277,11 @@
 
 	if (M.a_intent == INTENT_HARM)
 		if(HAS_TRAIT(M, TRAIT_PACIFISM))
+<<<<<<< HEAD
 			to_chat(M, "<span class='notice'>You don't want to hurt anyone!</span>")
+=======
+			to_chat(M, "<span class='warning'>You don't want to hurt anyone!</span>")
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 			return FALSE
 
 		if(M.is_muzzled() || M.is_mouth_covered(FALSE, TRUE))
@@ -279,7 +308,11 @@
 
 		else
 			if(HAS_TRAIT(L, TRAIT_PACIFISM))
+<<<<<<< HEAD
 				to_chat(L, "<span class='notice'>You don't want to hurt anyone!</span>")
+=======
+				to_chat(L, "<span class='warning'>You don't want to hurt anyone!</span>")
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 				return
 
 			L.do_attack_animation(src)
@@ -305,7 +338,11 @@
 			return FALSE
 		if("harm")
 			if(HAS_TRAIT(M, TRAIT_PACIFISM))
+<<<<<<< HEAD
 				to_chat(M, "<span class='notice'>You don't want to hurt anyone!</span>")
+=======
+				to_chat(M, "<span class='warning'>You don't want to hurt anyone!</span>")
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 				return FALSE
 			M.do_attack_animation(src)
 			return TRUE
@@ -324,21 +361,34 @@
 	take_bodypart_damage(acidpwr * min(1, acid_volume * 0.1))
 	return 1
 
+<<<<<<< HEAD
 /mob/living/proc/electrocute_act(shock_damage, source, siemens_coeff = 1, safety = 0, tesla_shock = 0, illusion = 0, stun = TRUE)
 	SEND_SIGNAL(src, COMSIG_LIVING_ELECTROCUTE_ACT, shock_damage)
 	if(tesla_shock && (flags_1 & TESLA_IGNORE_1))
 		return FALSE
 	if(HAS_TRAIT(src, TRAIT_SHOCKIMMUNE))
+=======
+///As the name suggests, this should be called to apply electric shocks.
+/mob/living/proc/electrocute_act(shock_damage, source, siemens_coeff = 1, safety = FALSE, override = FALSE, tesla_shock = FALSE, illusion = FALSE, stun = TRUE)
+	SEND_SIGNAL(src, COMSIG_LIVING_ELECTROCUTE_ACT, shock_damage, source, siemens_coeff, safety, override, tesla_shock, illusion, stun)
+	shock_damage *= siemens_coeff
+	if(tesla_shock && (flags_1 & TESLA_IGNORE_1))
 		return FALSE
-	if(shock_damage > 0)
-		if(!illusion)
-			adjustFireLoss(shock_damage)
-		visible_message(
-			"<span class='danger'>[src] was shocked by \the [source]!</span>", \
-			"<span class='userdanger'>You feel a powerful shock coursing through your body!</span>", \
-			"<span class='italics'>You hear a heavy electrical crack.</span>" \
-		)
-		return shock_damage
+	if(HAS_TRAIT(src, TRAIT_SHOCKIMMUNE))
+		return FALSE
+	if(shock_damage < 1 && !override)
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
+		return FALSE
+	if(!illusion)
+		adjustFireLoss(shock_damage)
+	else
+		adjustStaminaLoss(shock_damage)
+	visible_message(
+		"<span class='danger'>[src] was shocked by \the [source]!</span>", \
+		"<span class='userdanger'>You feel a powerful shock coursing through your body!</span>", \
+		"<span class='italics'>You hear a heavy electrical crack.</span>" \
+	)
+	return shock_damage
 
 /mob/living/emp_act(severity)
 	. = ..()
@@ -347,7 +397,9 @@
 	for(var/obj/O in contents)
 		O.emp_act(severity)
 
+///Logs, gibs and returns point values of whatever mob is unfortunate enough to get eaten.
 /mob/living/singularity_act()
+<<<<<<< HEAD
 	var/gain = 20
 
 	
@@ -355,9 +407,11 @@
 		SSmedals.UnlockMedal(MEDAL_SINGULARITY_DEATH,client)
 	
 
+=======
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	investigate_log("([key_name(src)]) has been consumed by the singularity.", INVESTIGATE_SINGULO) //Oh that's where the clown ended up!
 	gib()
-	return(gain)
+	return 20
 
 /mob/living/narsie_act()
 	if(status_flags & GODMODE || QDELETED(src))

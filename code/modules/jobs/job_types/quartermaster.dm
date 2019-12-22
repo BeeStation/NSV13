@@ -1,12 +1,12 @@
 /datum/job/qm
 	title = "Quartermaster"
 	flag = QUARTERMASTER
-	department_head = list("Head of Personnel")
+	department_head = list("Executive Officer")
 	department_flag = CIVILIAN
 	faction = "Station"
 	total_positions = 1
 	spawn_positions = 1
-	supervisors = "the head of personnel"
+	supervisors = "the Executive Officer"
 	selection_color = "#d7b088"
 
 	outfit = /datum/outfit/job/quartermaster
@@ -17,6 +17,7 @@
 	paycheck_department = ACCOUNT_CAR
 
 	display_order = JOB_DISPLAY_ORDER_QUARTERMASTER
+	display_rank = "GSGT" //nsv13 - Displays the player's actual rank alongside their name, such as GSGT Sergei Koralev
 
 /datum/outfit/job/quartermaster
 	name = "Quartermaster"

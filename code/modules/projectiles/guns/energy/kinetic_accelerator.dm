@@ -29,6 +29,10 @@
 	. = ..()
 	if(max_mod_capacity)
 		. += "<b>[get_remaining_mod_capacity()]%</b> mod capacity remaining."
+<<<<<<< HEAD
+=======
+		. += "<span class='info'>You can use a <b>crowbar</b> to remove modules.</span>"
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 		for(var/A in get_modkits())
 			var/obj/item/borg/upgrade/modkit/M = A
 			. += "<span class='notice'>There is \a [M] installed, using <b>[M.cost]%</b> capacity.</span>"

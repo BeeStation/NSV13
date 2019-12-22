@@ -42,4 +42,8 @@
 		for(var/A in mutations)
 			target.dna.remove_mutation(A)
 		for(var/A in traits)
+<<<<<<< HEAD
 			REMOVE_TRAIT(target, A, GENETICS_SPELL)
+=======
+			REMOVE_TRAIT(target, A, GENETICS_SPELL)
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36

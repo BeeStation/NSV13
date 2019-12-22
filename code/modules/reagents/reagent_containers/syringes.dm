@@ -114,7 +114,7 @@
 			log_combat(user, target, "attempted to inject", src, addition="which had [contained]")
 
 			if(!reagents.total_volume)
-				to_chat(user, "<span class='notice'>[src] is empty.</span>")
+				to_chat(user, "<span class='warning'>[src] is empty!</span>")
 				return
 
 			if(!L && !target.is_injectable(user)) //only checks on non-living mobs, due to how can_inject() handles
@@ -144,9 +144,7 @@
 					log_combat(user, L, "injected", src, addition="which had [contained]")
 				else
 					L.log_message("injected themselves ([contained]) with [src.name]", LOG_ATTACK, color="orange")
-			var/fraction = min(amount_per_transfer_from_this/reagents.total_volume, 1)
-			reagents.reaction(L, INJECT, fraction)
-			reagents.trans_to(target, amount_per_transfer_from_this, transfered_by = user)
+			reagents.trans_to(target, amount_per_transfer_from_this, transfered_by = user, method = INJECT)
 			to_chat(user, "<span class='notice'>You inject [amount_per_transfer_from_this] units of the solution. The syringe now contains [reagents.total_volume] units.</span>")
 			if (reagents.total_volume <= 0 && mode==SYRINGE_INJECT)
 				mode = SYRINGE_DRAW
@@ -185,6 +183,14 @@
 	name = "syringe (charcoal)"
 	desc = "Contains charcoal."
 	list_reagents = list(/datum/reagent/medicine/charcoal = 15)
+<<<<<<< HEAD
+=======
+
+/obj/item/reagent_containers/syringe/perfluorodecalin
+	name = "syringe (perfluorodecalin)"
+	desc = "Contains perfluorodecalin."
+	list_reagents = list(/datum/reagent/medicine/perfluorodecalin = 15)
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 /obj/item/reagent_containers/syringe/antiviral
 	name = "syringe (spaceacillin)"
@@ -195,6 +201,16 @@
 	name = "bioterror syringe"
 	desc = "Contains several paralyzing reagents."
 	list_reagents = list(/datum/reagent/consumable/ethanol/neurotoxin = 5, /datum/reagent/toxin/mutetoxin = 5, /datum/reagent/toxin/sodium_thiopental = 5)
+<<<<<<< HEAD
+=======
+
+/obj/item/reagent_containers/syringe/stimulants
+	name = "Stimpack"
+	desc = "Contains stimulants."
+	amount_per_transfer_from_this = 50
+	volume = 50
+	list_reagents = list(/datum/reagent/medicine/stimulants = 50)
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 /obj/item/reagent_containers/syringe/calomel
 	name = "syringe (calomel)"
@@ -250,7 +266,34 @@
 	volume = 10
 	proj_piercing = 1
 
+<<<<<<< HEAD
 /obj/item/reagent_containers/syringe/crude
 	name = "crude syringe"
 	desc = "A crudely made syringe. The flimsy wooden construction makes it hold up minimal amounts of reagents."
 	volume = 5
+=======
+/obj/item/reagent_containers/syringe/spider_extract
+	name = "spider extract syringe"
+	desc = "Contains crikey juice - makes any gold core create the most deadly companions in the world."
+	list_reagents = list(/datum/reagent/spider_extract = 1)
+
+/obj/item/reagent_containers/syringe/oxandrolone
+	name = "syringe (oxandrolone)"
+	desc = "Contains oxandrolone, used to treat severe burns."
+	list_reagents = list(/datum/reagent/medicine/oxandrolone = 15)
+
+/obj/item/reagent_containers/syringe/salacid
+	name = "syringe (salicyclic acid)"
+	desc = "Contains salicyclic acid, used to treat severe brute damage."
+	list_reagents = list(/datum/reagent/medicine/sal_acid = 15)
+
+/obj/item/reagent_containers/syringe/penacid
+	name = "syringe (pentetic acid)"
+	desc = "Contains pentetic acid, used to reduce high levels of radiation and heal severe toxins."
+	list_reagents = list(/datum/reagent/medicine/pen_acid = 15)
+
+/obj/item/reagent_containers/syringe/thializid
+	name = "syringe (thializid)"
+	desc = "Contains thializid, used to treat toxins and purge chemicals.The tag on the syringe states 'Inject one time per minute'"
+	list_reagents = list(/datum/reagent/medicine/thializid = 15)
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36

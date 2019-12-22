@@ -15,7 +15,10 @@
 	delivery_icon = null //unwrappable
 	anchorable = FALSE
 	mouse_drag_pointer = MOUSE_ACTIVE_POINTER
+<<<<<<< HEAD
 	drag_slowdown = 0
+=======
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	var/foldedbag_path = /obj/item/bodybag
 	var/obj/item/bodybag/foldedbag_instance = null
 	var/tagged = 0 // so closet code knows to put the tag overlay back

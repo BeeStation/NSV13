@@ -166,30 +166,6 @@
 	contains = list(/obj/item/storage/box/metalfoam)
 	crate_name = "metal foam grenade crate"
 
-/datum/supply_pack/emergency/syndicate
-	name = "NULL_ENTRY"
-	desc = "(#@&^$THIS PACKAGE CONTAINS 30TC WORTH OF SOME RANDOM SYNDICATE GEAR WE HAD LYING AROUND THE WAREHOUSE. GIVE EM HELL, OPERATIVE@&!*() "
-	hidden = TRUE
-	cost = 20000
-	contains = list()
-	crate_name = "emergency crate"
-	crate_type = /obj/structure/closet/crate/internals
-	dangerous = TRUE
-
-/datum/supply_pack/emergency/syndicate/fill(obj/structure/closet/crate/C)
-	var/crate_value = 30
-	var/list/uplink_items = get_uplink_items(SSticker.mode)
-	while(crate_value)
-		var/category = pick(uplink_items)
-		var/item = pick(uplink_items[category])
-		var/datum/uplink_item/I = uplink_items[category][item]
-		if(!I.surplus_nullcrates || prob(100 - I.surplus_nullcrates))
-			continue
-		if(crate_value < I.cost)
-			continue
-		crate_value -= I.cost
-		new I.item(C)
-
 /datum/supply_pack/emergency/plasma_spacesuit
 	name = "Plasmaman Space Envirosuits"
 	desc = "Contains two space-worthy envirosuits for Plasmamen. Order now and we'll throw in two free helmets! Requires EVA access to open."
@@ -492,6 +468,7 @@
 					/obj/item/storage/belt/bandolier)
 	crate_name = "combat shotguns crate"
 
+<<<<<<< HEAD
 /datum/supply_pack/security/armory/riot_shotgun_single
 	name = "Riot Shotgun Single-Pack"
 	desc = "When the clown's slipped you one time too many. Requires armory access to open."
@@ -506,6 +483,8 @@
 					/obj/item/gun/ballistic/shotgun/riot,
 					/obj/item/gun/ballistic/shotgun/riot)
 
+=======
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 /datum/supply_pack/security/armory/dragnet
 	name = "DRAGnet Crate"
 	desc = "Contains three \"Dynamic Rapid-Apprehension of the Guilty\" netting devices, a recent breakthrough in law enforcement prisoner management technology. Requires armory access to open."
@@ -716,9 +695,29 @@
 
 /datum/supply_pack/engineering/conveyor
 	name = "Conveyor Assembly Crate"
+<<<<<<< HEAD
 	desc = "Keep production moving along with thirty conveyor belts. Conveyor switch included. If you have any questions, check out the enclosed instruction book."
 	cost = 1500
 	contains = list(/obj/item/stack/conveyor/thirty,
+=======
+	desc = "Keep production moving along with fifteen conveyor belts. Conveyor switch included. If you have any questions, check out the enclosed instruction book."
+	cost = 1500
+	contains = list(/obj/item/conveyor_construct,
+					/obj/item/conveyor_construct,
+					/obj/item/conveyor_construct,
+					/obj/item/conveyor_construct,
+					/obj/item/conveyor_construct,
+					/obj/item/conveyor_construct,
+					/obj/item/conveyor_construct,
+					/obj/item/conveyor_construct,
+					/obj/item/conveyor_construct,
+					/obj/item/conveyor_construct,
+					/obj/item/conveyor_construct,
+					/obj/item/conveyor_construct,
+					/obj/item/conveyor_construct,
+					/obj/item/conveyor_construct,
+					/obj/item/conveyor_construct,
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 					/obj/item/conveyor_switch_construct,
 					/obj/item/paper/guides/conveyor)
 	crate_name = "conveyor assembly crate"
@@ -889,37 +888,6 @@
 /datum/supply_pack/engine
 	group = "Engine Construction"
 	crate_type = /obj/structure/closet/crate/engineering
-
-/datum/supply_pack/engine/am_jar
-	name = "Antimatter Containment Jar Crate"
-	desc = "Two Antimatter containment jars stuffed into a single crate."
-	cost = 2000
-	contains = list(/obj/item/am_containment,
-					/obj/item/am_containment)
-	crate_name = "antimatter jar crate"
-
-/datum/supply_pack/engine/am_core
-	name = "Antimatter Control Crate"
-	desc = "The brains of the Antimatter engine, this device is sure to teach the station's powergrid the true meaning of real power."
-	cost = 5000
-	contains = list(/obj/machinery/power/am_control_unit)
-	crate_name = "antimatter control crate"
-
-/datum/supply_pack/engine/am_shielding
-	name = "Antimatter Shielding Crate"
-	desc = "Contains ten Antimatter shields, somehow crammed into a crate."
-	cost = 2000
-	contains = list(/obj/item/am_shielding_container,
-					/obj/item/am_shielding_container,
-					/obj/item/am_shielding_container,
-					/obj/item/am_shielding_container,
-					/obj/item/am_shielding_container,
-					/obj/item/am_shielding_container,
-					/obj/item/am_shielding_container,
-					/obj/item/am_shielding_container,
-					/obj/item/am_shielding_container,
-					/obj/item/am_shielding_container) //10 shields: 3x3 containment and a core
-	crate_name = "antimatter shielding crate"
 
 /datum/supply_pack/engine/emitter
 	name = "Emitter Crate"
@@ -1280,7 +1248,7 @@
 					/obj/item/reagent_containers/pill/insulin,
 					/obj/item/stack/medical/gauze,
 					/obj/item/storage/box/beakers,
-					/obj/item/storage/box/medsprays,
+					/obj/item/storage/box/medigels,
 					/obj/item/storage/box/syringes,
 					/obj/item/storage/box/bodybags,
 					/obj/item/storage/firstaid/regular,
@@ -1312,7 +1280,11 @@
 	desc = "Do you want to perform surgery, but don't have one of those fancy shmancy degrees? Just get started with this crate containing a medical duffelbag, Sterilizine spray and collapsible roller bed."
 	cost = 3000
 	contains = list(/obj/item/storage/backpack/duffelbag/med/surgery,
+<<<<<<< HEAD
 					/obj/item/reagent_containers/medspray/sterilizine,
+=======
+					/obj/item/reagent_containers/medigel/sterilizine,
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 					/obj/item/roller)
 	crate_name = "surgical supplies crate"
 
@@ -1424,10 +1396,10 @@
 	desc = "These high powered Shield Wall Generators are guaranteed to keep any unwanted lifeforms on the outside, where they belong! Contains four shield wall generators. Requires Teleporter access to open."
 	cost = 2000
 	access = ACCESS_TELEPORTER
-	contains = list(/obj/machinery/shieldwallgen,
-					/obj/machinery/shieldwallgen,
-					/obj/machinery/shieldwallgen,
-					/obj/machinery/shieldwallgen)
+	contains = list(/obj/machinery/power/shieldwallgen,
+					/obj/machinery/power/shieldwallgen,
+					/obj/machinery/power/shieldwallgen,
+					/obj/machinery/power/shieldwallgen)
 	crate_name = "shield generators crate"
 	crate_type = /obj/structure/closet/crate/secure/science
 
@@ -1483,9 +1455,9 @@
 					/obj/item/reagent_containers/glass/bucket,
 					/obj/item/reagent_containers/glass/bucket,
 					/obj/item/mop,
-					/obj/item/caution,
-					/obj/item/caution,
-					/obj/item/caution,
+					/obj/item/clothing/suit/caution,
+					/obj/item/clothing/suit/caution,
+					/obj/item/clothing/suit/caution,
 					/obj/item/storage/bag/trash,
 					/obj/item/reagent_containers/spray/cleaner,
 					/obj/item/reagent_containers/glass/rag,
@@ -1584,15 +1556,6 @@
 					/obj/item/storage/box/lights/mixed)
 	crate_name = "replacement lights"
 
-/datum/supply_pack/service/minerkit
-	name = "Shaft Miner Starter Kit"
-	desc = "All the miners died too fast? Assistant wants to get a taste of life off-station? Either way, this kit is the best way to turn a regular crewman into an ore-producing, monster-slaying machine. Contains meson goggles, a pickaxe, advanced mining scanner, cargo headset, ore bag, gasmask, an explorer suit and a miner ID upgrade. Requires QM access to open."
-	cost = 2500
-	access = ACCESS_QM
-	contains = list(/obj/item/storage/backpack/duffelbag/mining_conscript)
-	crate_name = "shaft miner starter kit"
-	crate_type = /obj/structure/closet/crate/secure
-
 /datum/supply_pack/service/vending/bartending
 	name = "Booze-o-mat and Coffee Supply Crate"
 	desc = "Bring on the booze and coffee vending machine refills."
@@ -1662,6 +1625,16 @@
 	contains = list(/obj/item/vending_refill/assist)
 	crate_name = "vendomat supply crate"
 
+<<<<<<< HEAD
+=======
+/datum/supply_pack/service/emptycrate
+	name = "Empty Crate"
+	desc = "It's an empty crate, for all your storage needs."
+	cost = 700
+	contains = list()
+	crate_name = "crate"
+
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 //////////////////////////////////////////////////////////////////////////////
 //////////////////////////// Organic /////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////
@@ -1729,7 +1702,10 @@
 					/obj/item/seeds/liberty,
 					/obj/item/seeds/amanita,
 					/obj/item/seeds/reishi,
+<<<<<<< HEAD
 					/obj/item/seeds/banana,
+=======
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 					/obj/item/seeds/bamboo,
 					/obj/item/seeds/eggplant/eggy,
 					/obj/item/seeds/rainbow_bunch,
@@ -2199,6 +2175,16 @@
 	contraband = TRUE
 	contains = list(/obj/item/storage/box/lasertagpins)
 	crate_name = "laser tag crate"
+
+/datum/supply_pack/costumes_toys/mech_suits
+	name = "Mech Pilot's Suit Crate"
+	desc = "Suits for piloting big robots. Contains all three colors!"
+	cost = 1500 //state-of-the-art technology doesn't come cheap
+	contains = list(/obj/item/clothing/under/mech_suit,
+					/obj/item/clothing/under/mech_suit/white,
+					/obj/item/clothing/under/mech_suit/blue)
+	crate_name = "mech pilot's suit crate"
+	crate_type = /obj/structure/closet/crate/wooden
 
 /datum/supply_pack/costumes_toys/costume_original
 	name = "Original Costume Crate"

@@ -75,7 +75,11 @@
 /datum/symptom/proc/generate_threshold_desc()
 	return
 
+<<<<<<< HEAD
 /datum/symptom/proc/OnAdd(datum/disease/advance/A)		//Overload when a symptom needs to be active before processing, like changing biotypes. 
+=======
+/datum/symptom/proc/OnAdd(datum/disease/advance/A)		//Overload when a symptom needs to be active before processing, like changing biotypes.
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	return
 
 /datum/symptom/proc/OnRemove(datum/disease/advance/A)	//But dont forget to remove them too.

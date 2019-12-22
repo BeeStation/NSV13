@@ -145,7 +145,11 @@ Possible to do for anyone motivated enough:
 /obj/machinery/holopad/examine(mob/user)
 	. = ..()
 	if(in_range(user, src) || isobserver(user))
+<<<<<<< HEAD
 		. += "<span class='notice'>The status display reads: Current projection range: <b>[holo_range]</b> units.<span>"
+=======
+		. += "<span class='notice'>The status display reads: Current projection range: <b>[holo_range]</b> units.</span>"
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 /obj/machinery/holopad/attackby(obj/item/P, mob/user, params)
 	if(default_deconstruction_screwdriver(user, "holopad_open", "holopad0", P))

@@ -37,6 +37,7 @@
 	turf_type = /turf/open/floor/mineral/silver
 	mineralType = "silver"
 	materials = list(/datum/material/silver=500)
+<<<<<<< HEAD
 
 /obj/item/stack/tile/mineral/copper
 	name = "copper tile"
@@ -46,6 +47,8 @@
 	turf_type = /turf/open/floor/mineral/copper
 	mineralType = "copper"
 	materials = list(/datum/material/copper=500)
+=======
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 /obj/item/stack/tile/mineral/diamond
 	name = "diamond tile"

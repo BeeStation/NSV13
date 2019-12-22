@@ -76,4 +76,8 @@
 		to_chat(M, "<span class='warning'>There aren't enough people to use the [src.name]!</span>")
 		return FALSE
 
+<<<<<<< HEAD
 	return TRUE
+=======
+	return 1
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36

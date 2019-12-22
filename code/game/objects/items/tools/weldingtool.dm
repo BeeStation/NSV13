@@ -299,9 +299,12 @@
 	icon_state = "indwelder"
 	max_fuel = 40
 	materials = list(/datum/material/glass=60)
+<<<<<<< HEAD
 
 /obj/item/weldingtool/largetank/flamethrower_screwdriver()
 	return	
+=======
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 /obj/item/weldingtool/largetank/cyborg
 	name = "integrated welding tool"

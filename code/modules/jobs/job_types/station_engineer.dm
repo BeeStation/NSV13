@@ -20,6 +20,7 @@
 	paycheck_department = ACCOUNT_ENG
 
 	display_order = JOB_DISPLAY_ORDER_STATION_ENGINEER
+	display_rank = "LCPL" //nsv13 - Displays the player's actual rank alongside their name, such as GSGT Sergei Koralev
 
 /datum/outfit/job/engineer
 	name = "Station Engineer"
@@ -29,9 +30,10 @@
 	belt = /obj/item/storage/belt/utility/full/engi
 	l_pocket = /obj/item/pda/engineering
 	ears = /obj/item/radio/headset/headset_eng
-	uniform = /obj/item/clothing/under/rank/engineer
+	uniform = /obj/item/clothing/under/ship/engineer
 	shoes = /obj/item/clothing/shoes/workboots
-	head = /obj/item/clothing/head/hardhat
+	suit = /obj/item/clothing/suit/ship/engineer
+	head = /obj/item/clothing/head/beret/ship/engineer
 	r_pocket = /obj/item/t_scanner
 
 	backpack = /obj/item/storage/backpack/industrial

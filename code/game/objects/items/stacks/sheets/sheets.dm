@@ -12,4 +12,9 @@
 	novariants = FALSE
 	var/perunit = MINERAL_MATERIAL_AMOUNT
 	var/sheettype = null //this is used for girders in the creation of walls/false walls
+<<<<<<< HEAD
 	var/point_value = 0 //turn-in value for the gulag stacker - loosely relative to its rarity.
+=======
+	var/point_value = 0 //turn-in value for the gulag stacker - loosely relative to its rarity.
+	var/turf_type = null //nsv13 - Wall stuff
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36

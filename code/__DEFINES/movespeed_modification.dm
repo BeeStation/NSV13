@@ -25,6 +25,8 @@
 
 #define MOVESPEED_ID_SLIME_STATUS						"SLIME_STATUS"
 
+#define MOVESPEED_ID_TARANTULA_WEB						"TARANTULA_WEB"
+
 #define MOVESPEED_ID_LIVING_TURF_SPEEDMOD				"LIVING_TURF_SPEEDMOD"
 
 #define MOVESPEED_ID_CARBON_SOFTCRIT					"CARBON_SOFTCRIT"
@@ -62,7 +64,13 @@
 #define MOVESPEED_ID_DIE_OF_FATE                        "DIE_OF_FATE"
 
 #define MOVESPEED_ID_SHOVE                              "SHOVE"
+<<<<<<< HEAD
 #define MOVESPEED_ID_BULKY_DRAGGING                     "BULKY_DRAG"
 #define MOVESPEED_ID_HUMAN_CARRYING                     "HUMAN_CARRY"
 #define MOVESPEED_ID_PEPPER_SPRAY                       "PEPPER_SPRAYED"
 
+=======
+#define MOVESPEED_ID_PRONE_DRAGGING                     "PRONE_DRAG"
+#define MOVESPEED_ID_HUMAN_CARRYING                     "HUMAN_CARRY"
+#define MOVESPEED_ID_SHRINK_RAY							"SHRUNKEN_SPEED_MODIFIER"
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36

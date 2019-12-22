@@ -90,7 +90,11 @@
 	lifespan = 30
 	endurance = 25
 	mutatelist = list()
+<<<<<<< HEAD
 	genes = list(/datum/plant_gene/trait/glow/berry, /datum/plant_gene/trait/noreact, /datum/plant_gene/trait/repeated_harvest)
+=======
+	genes = list(/datum/plant_gene/trait/glow/berry, /datum/plant_gene/trait/repeated_harvest)
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	reagents_add = list(/datum/reagent/uranium = 0.25, /datum/reagent/iodine = 0.2, /datum/reagent/consumable/nutriment/vitamin = 0.04, /datum/reagent/consumable/nutriment = 0.1)
 	rarity = 20
 
@@ -204,9 +208,13 @@
 	species = "greengrape"
 	plantname = "Green-Grape Vine"
 	product = /obj/item/reagent_containers/food/snacks/grown/grapes/green
+<<<<<<< HEAD
 	reagents_add = list(/datum/reagent/medicine/kelotane = 0.2, /datum/reagent/consumable/nutriment/vitamin = 0.04, /datum/reagent/consumable/nutriment = 0.1, /datum/reagent/consumable/sugar = 0.1)
 	// No rarity: technically it's a beneficial mutant, but it's not exactly "new"...
 	mutatelist = list()
+=======
+	reagents_add = list( /datum/reagent/consumable/nutriment/vitamin = 0.04, /datum/reagent/consumable/nutriment = 0.1, /datum/reagent/consumable/sugar = 0.1, /datum/reagent/medicine/frogenite = 0.2)
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 /obj/item/reagent_containers/food/snacks/grown/grapes/green
 	seed = /obj/item/seeds/grape/green

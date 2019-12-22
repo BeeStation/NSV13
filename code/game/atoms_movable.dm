@@ -17,6 +17,7 @@
 	var/verb_exclaim = "exclaims"
 	var/verb_whisper = "whispers"
 	var/verb_yell = "yells"
+	var/speech_span
 	var/inertia_dir = 0
 	var/atom/inertia_last_loc
 	var/inertia_moving = 0
@@ -217,7 +218,28 @@
 	if(!direct)
 		direct = get_dir(src, newloc)
 	setDir(direct)
+	//nsv13 start - multi tile object handling
+	if(bound_width != world.icon_size || bound_height != world.icon_size)
+		var/list/newlocs = isturf(newloc) ? block(locate(newloc.x+(-bound_x)/world.icon_size,newloc.y+(-bound_y)/world.icon_size,newloc.z),locate(newloc.x+(-bound_x+bound_width)/world.icon_size-1,newloc.y+(-bound_y+bound_height)/world.icon_size-1,newloc.z)) : list(newloc)
+		if(!newlocs)
+			return // we're trying to cross into the edge of space
+		var/bothturfs = isturf(newloc) && isturf(loc)
+		var/dx = bothturfs ? newloc.x - loc.x : 0
+		var/dy = bothturfs ? newloc.y - loc.y : 0
+		var/dz = bothturfs ? newloc.z - loc.z : 0
+		for(var/atom/A in (locs - newlocs))
+			if(!A.Exit(src, bothturfs ? locate(A.x+dx,A.y+dy,A.z+dz) : newloc))
+				return
+		for(var/atom/A in (newlocs - locs))
+			if(!A.Enter(src, bothturfs ? locate(A.x-dx,A.y-dy,A.z+dz) : loc))
+				return
+	else
+		if(!loc.Exit(src, newloc))
+			return
 
+		if(!newloc.Enter(src, src.loc))
+			return
+	//nsv13 end
 	if(!loc.Exit(src, newloc))
 		return
 
@@ -579,6 +601,8 @@
 	TT.diagonals_first = diagonals_first
 	TT.force = force
 	TT.callback = callback
+	if(!QDELETED(thrower))
+		TT.target_zone = thrower.zone_selected
 
 	var/dist_x = abs(target.x - src.x)
 	var/dist_y = abs(target.y - src.y)

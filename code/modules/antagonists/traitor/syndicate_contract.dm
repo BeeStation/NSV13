@@ -2,6 +2,7 @@
 	var/id = 0
 	var/status = CONTRACT_STATUS_INACTIVE
 	var/datum/objective/contract/contract = new()
+<<<<<<< HEAD
 	var/target_rank
 	var/ransom = 0
 	var/payout_type = null
@@ -26,6 +27,22 @@
 	if (payout_type == CONTRACT_PAYOUT_LARGE)
 		contract.payout_bonus = rand(9,13)
 	else if (payout_type == CONTRACT_PAYOUT_MEDIUM)
+=======
+	var/ransom = 0
+
+	var/list/victim_belongings = list()
+
+/datum/syndicate_contract/New(owner, type, blacklist)
+	generate(owner, type, blacklist)
+
+/datum/syndicate_contract/proc/generate(owner, type, blacklist)
+	contract.owner = owner
+	contract.find_target(null, blacklist)
+
+	if (type == CONTRACT_PAYOUT_LARGE)
+		contract.payout_bonus = rand(9,13)
+	else if (type == CONTRACT_PAYOUT_MEDIUM)
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 		contract.payout_bonus = rand(6,8)
 	else
 		contract.payout_bonus = rand(2,4)
@@ -67,6 +84,7 @@
 			var/datum/antagonist/traitor/traitor_data = contract.owner.has_antag_datum(/datum/antagonist/traitor)
 			
 			if (M == contract.target.current)
+<<<<<<< HEAD
 				traitor_data.contractor_hub.contract_TC_to_redeem += contract.payout
 
 				if (M.stat != DEAD)
@@ -76,13 +94,29 @@
 
 				if (traitor_data.contractor_hub.current_contract == src) 
 					traitor_data.contractor_hub.current_contract = null
+=======
+				traitor_data.contract_TC_to_redeem += contract.payout
+
+				if (M.stat != DEAD)
+					traitor_data.contract_TC_to_redeem += contract.payout_bonus
+
+				status = CONTRACT_STATUS_COMPLETE
+
+				if (traitor_data.current_contract == src) 
+					traitor_data.current_contract = null
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 				
 				traitor_data.contractor_hub.contract_rep += 2
 			else
 				status = CONTRACT_STATUS_ABORTED // Sending a target that wasn't even yours is as good as just aborting it
 				
+<<<<<<< HEAD
 				if (traitor_data.contractor_hub.current_contract == src) 
 					traitor_data.contractor_hub.current_contract = null
+=======
+				if (traitor_data.current_contract == src) 
+					traitor_data.current_contract = null
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 			if (iscarbon(M))
 				for(var/obj/item/W in M)
@@ -143,13 +177,21 @@
 
 // They're off to holding - handle the return timer and give some text about what's going on.
 /datum/syndicate_contract/proc/handleVictimExperience(var/mob/living/M)
+<<<<<<< HEAD
 	// Ship 'em back - dead or alive, 4 minutes wait.
+=======
+	// Ship 'em back - dead or alive, it depends on if the Syndicate get paid... 4 minutes wait.
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	// Even if they weren't the target, we're still treating them the same.
 	addtimer(CALLBACK(src, .proc/returnVictim, M), (60 * 10) * 4)
 
 	if (M.stat != DEAD)
+<<<<<<< HEAD
 		// Heal them up - gets them out of crit/soft crit. If omnizine is removed in the future, this needs to be replaced with a
 		// method of healing them, consequence free, to a reasonable amount of health.
+=======
+		// Heal them up - gets them out of crit/soft crit.
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 		M.reagents.add_reagent(/datum/reagent/medicine/omnizine, 20)
 
 		M.flash_act()

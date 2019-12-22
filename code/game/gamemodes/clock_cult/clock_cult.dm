@@ -355,6 +355,7 @@ Credit where due:
 	. = ..()
 	if(!is_servant_of_ratvar(user) && !isobserver(user))
 		. += "<span class='danger'>You can't understand any of the words on [src].</span>"
+<<<<<<< HEAD
 
 /datum/game_mode/clockwork_cult/generate_credit_text()
 	var/list/round_credits = list()
@@ -372,3 +373,5 @@ Credit where due:
 
 	round_credits += ..()
 	return round_credits
+=======
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36

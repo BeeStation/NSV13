@@ -67,10 +67,17 @@ GLOBAL_LIST_INIT(bitflags, list(1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 204
 #define FIRE_PROOF		(1<<1) //! 100% immune to fire damage (but not necessarily to lava or heat)
 #define FLAMMABLE		(1<<2)
 #define ON_FIRE			(1<<3)
+<<<<<<< HEAD
 #define UNACIDABLE		(1<<4) //! acid can't even appear on it, let alone melt it.
 #define ACID_PROOF		(1<<5) //! acid stuck on it doesn't melt it.
 #define INDESTRUCTIBLE	(1<<6) //! doesn't take damage
 #define FREEZE_PROOF	(1<<7) //! can't be frozen
+=======
+#define UNACIDABLE		(1<<4) //acid can't even appear on it, let alone melt it.
+#define ACID_PROOF		(1<<5) //acid stuck on it doesn't melt it.
+#define INDESTRUCTIBLE	(1<<6) //doesn't take damage
+#define FREEZE_PROOF	(1<<7) //can't be frozen
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 //tesla_zap
 #define TESLA_MACHINE_EXPLOSIVE		(1<<0)

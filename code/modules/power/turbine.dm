@@ -67,6 +67,18 @@
 		compressor.turbine = null
 	compressor = null
 	return ..()
+<<<<<<< HEAD
+=======
+
+/obj/machinery/computer/turbine_computer
+	name = "gas turbine control computer"
+	desc = "A computer to remotely control a gas turbine."
+	icon_screen = "turbinecomp"
+	icon_keyboard = "tech_key"
+	circuit = /obj/item/circuitboard/computer/turbine_computer
+	var/obj/machinery/power/compressor/compressor
+	var/id = 0
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 // the inlet stage of the gas turbine electricity generator
 
@@ -188,7 +200,11 @@
 /obj/machinery/power/turbine/examine(mob/user)
 	. = ..()
 	if(in_range(user, src) || isobserver(user))
+<<<<<<< HEAD
 		. += "<span class='notice'>The status display reads: Productivity at <b>[productivity*100]%</b>.<span>"
+=======
+		. += "<span class='notice'>The status display reads: Productivity at <b>[productivity*100]%</b>.</span>"
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 /obj/machinery/power/turbine/locate_machinery()
 	if(compressor)

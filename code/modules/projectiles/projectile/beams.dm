@@ -55,6 +55,7 @@
 /obj/item/projectile/beam/xray
 	name = "\improper X-ray beam"
 	icon_state = "xray"
+	flag = "rad"
 	damage = 15
 	irradiate = 300
 	range = 15
@@ -69,7 +70,11 @@
 /obj/item/projectile/beam/disabler
 	name = "disabler beam"
 	icon_state = "omnilaser"
+<<<<<<< HEAD
 	damage = 35
+=======
+	damage = 30
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	damage_type = STAMINA
 	flag = "energy"
 	hitsound = 'sound/weapons/tap.ogg'

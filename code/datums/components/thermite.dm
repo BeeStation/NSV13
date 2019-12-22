@@ -1,7 +1,11 @@
 /datum/component/thermite
 	dupe_mode = COMPONENT_DUPE_UNIQUE_PASSARGS
 	var/amount
+<<<<<<< HEAD
 	var/burn_require
+=======
+	var/burn_coeff
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	var/overlay
 
 	var/static/list/blacklist = typecacheof(list(
@@ -24,6 +28,16 @@
 /datum/component/thermite/Initialize(_amount)
 	if(!istype(parent, /turf) || blacklist[parent.type])
 		return COMPONENT_INCOMPATIBLE
+<<<<<<< HEAD
+=======
+
+	if(immunelist[parent.type])
+		burn_coeff = 0 //Yeah the overlay can still go on it and be cleaned but you arent burning down a diamond wall
+	else if(resistlist[parent.type])
+		burn_coeff = 0.25
+	else
+		burn_coeff = 1
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 	if(immunelist[parent.type])
 		amount = 0 //Yeah the overlay can still go on it and be cleaned but you arent burning down a diamond wall
@@ -68,6 +82,7 @@
 	addtimer(CALLBACK(src, .proc/burn_parent, fakefire, user), min(amount * 0.35 SECONDS, 20 SECONDS))
 	UnregisterFromParent()
 
+<<<<<<< HEAD
 /datum/component/thermite/proc/burn_parent(var/datum/fakefire, mob/user)
 	var/turf/master = parent
 	if(!QDELETED(fakefire))
@@ -77,6 +92,14 @@
 	if(amount >= burn_require)
 		master = master.Melt()
 		master.burn_tile()
+=======
+	if(amount * burn_coeff >= 50)
+		master = master.Melt()
+		master.burn_tile()
+		if(user)
+			master.add_hiddenprint(user)
+	QDEL_IN(fakefire, 10 SECONDS)
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	qdel(src)
 
 /datum/component/thermite/proc/clean_react(datum/source, strength)

@@ -644,7 +644,11 @@
 		switch(security_level)
 			if(AIRLOCK_SECURITY_NONE)
 				. += "Its wires are exposed!"
+<<<<<<< HEAD
 			if(AIRLOCK_SECURITY_IRON)
+=======
+			if(AIRLOCK_SECURITY_METAL)
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 				. += "Its wires are hidden behind a welded metal cover."
 			if(AIRLOCK_SECURITY_PLASTEEL_I_S)
 				. += "There is some shredded plasteel inside."
@@ -657,7 +661,11 @@
 			if(AIRLOCK_SECURITY_PLASTEEL)
 				. += "There is a protective grille over its panel."
 	else if(security_level)
+<<<<<<< HEAD
 		if(security_level == AIRLOCK_SECURITY_IRON)
+=======
+		if(security_level == AIRLOCK_SECURITY_METAL)
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 			. += "It looks a bit stronger."
 		else
 			. += "It looks very robust."
@@ -1192,7 +1200,7 @@
 	if(airlock_material == "glass")
 		optionlist = list("Standard", "Public", "Engineering", "Atmospherics", "Security", "Command", "Medical", "Research", "Science", "Virology", "Mining", "Maintenance", "External", "External Maintenance")
 	else
-		optionlist = list("Standard", "Public", "Engineering", "Atmospherics", "Security", "Command", "Medical", "Research", "Freezer", "Science", "Virology", "Mining", "Maintenance", "External", "External Maintenance")
+		optionlist = list("Standard", "Public", "Engineering", "Atmospherics", "Security", "Command", "Medical", "Research", "Freezer", "Science", "Virology", "Mining", "Maintenance", "External", "External Maintenance", "Ship")
 
 	var/paintjob = input(user, "Please select a paintjob for this airlock.") in optionlist
 	if((!in_range(src, usr) && loc != usr) || !W.use_paint(user))
@@ -1258,6 +1266,10 @@
 			icon = 'icons/obj/doors/airlocks/station/maintenanceexternal.dmi'
 			overlays_file = 'icons/obj/doors/airlocks/station/overlays.dmi'
 			assemblytype = /obj/structure/door_assembly/door_assembly_extmai
+		if("Ship") //nsv13 Ship Stuff
+			icon = 'nsv13/icons/obj/machinery/doors/standard.dmi'
+			overlays_file = null
+			assemblytype = /obj/machinery/door/airlock/ship
 	update_icon()
 
 /obj/machinery/door/airlock/CanAStarPass(obj/item/card/id/ID)
@@ -1571,9 +1583,9 @@
 	if(!user_allowed(user))
 		return
 	if(welded)
-		to_chat(user, text("The airlock has been welded shut!"))
+		to_chat(user, text("<span class='warning'>The airlock has been welded shut!</span>"))
 	else if(locked)
-		to_chat(user, text("The door bolts are down!"))
+		to_chat(user, text("<span class='warning'>The door bolts are down!</span>"))
 	else if(!density)
 		close()
 	else

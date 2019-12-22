@@ -360,7 +360,11 @@ Class Procs:
 			spawn_frame(disassembled)
 			for(var/obj/item/I in component_parts)
 				I.forceMove(loc)
+<<<<<<< HEAD
 				component_parts.Cut()
+=======
+			component_parts.Cut()
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	qdel(src)
 
 /obj/machinery/proc/spawn_frame(disassembled)
@@ -403,8 +407,8 @@ Class Procs:
 			panel_open = FALSE
 			icon_state = icon_state_closed
 			to_chat(user, "<span class='notice'>You close the maintenance hatch of [src].</span>")
-		return 1
-	return 0
+		return TRUE
+	return FALSE
 
 /obj/machinery/proc/default_change_direction_wrench(mob/user, obj/item/I)
 	if(panel_open && I.tool_behaviour == TOOL_WRENCH)

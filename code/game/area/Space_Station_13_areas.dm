@@ -315,7 +315,7 @@ NOTE: there are two lists of areas in the end of this file: centcom and station 
 	icon_state = "cmo_office"
 
 /area/crew_quarters/heads/hop
-	name = "Head of Personnel's Office"
+	name = "Executive Officer's Office"
 	icon_state = "hop_office"
 
 /area/crew_quarters/heads/hos
@@ -529,6 +529,14 @@ NOTE: there are two lists of areas in the end of this file: centcom and station 
 /area/engine/transit_tube
 	name = "Transit Tube"
 	icon_state = "transit_tube"
+
+/area/engine/port_turbine
+	name = "Port Turbine Room"
+	icon_state = "atmos_engine"
+
+/area/engine/sarboard_turbine
+	name = "Starboard Turbine Room"
+	icon_state = "atmos_engine"
 
 
 //Solars

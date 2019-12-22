@@ -51,7 +51,9 @@
 	var/miming = 0 // Mime's vow of silence
 	var/list/antag_datums
 	var/antag_hud_icon_state = null //this mind's ANTAG_HUD should have this icon_state
-	var/datum/atom_hud/antag/antag_hud = null //this mind's antag HUD
+	var/team_antag_hud_icon_state = null //this mind's ANTAG_HUD should have this icon_state
+	var/datum/atom_hud/antag/antag_hud = null //this mind's global antag HUD
+	var/datum/atom_hud/antag/team_antag_hud = null //this mind's antag HUD
 	var/damnation_type = 0
 	var/datum/mind/soulOwner //who owns the soul.  Under normal circumstances, this will point to src
 	var/hasSoul = TRUE // If false, renders the character unable to sell their soul.
@@ -77,11 +79,7 @@
 /datum/mind/Destroy()
 	SSticker.minds -= src
 	if(islist(antag_datums))
-		for(var/i in antag_datums)
-			var/datum/antagonist/antag_datum = i
-			if(antag_datum.delete_on_mind_deletion)
-				qdel(i)
-		antag_datums = null
+		QDEL_LIST(antag_datums)
 	return ..()
 
 /datum/mind/proc/get_language_holder()
@@ -110,7 +108,8 @@
 	if(new_character.mind)								//disassociate any mind currently in our new body's mind variable
 		new_character.mind.current = null
 
-	var/datum/atom_hud/antag/hud_to_transfer = antag_hud//we need this because leave_hud() will clear this list
+	var/datum/atom_hud/antag/global_hud_to_transfer = antag_hud //we need these because leave_hud() will clear this list
+	var/datum/atom_hud/antag/team_hud_to_transfer = team_antag_hud
 	var/mob/living/old_current = current
 	if(current)
 		current.transfer_observers_to(new_character)	//transfer anyone observing the old character to the new one
@@ -122,7 +121,7 @@
 	if(iscarbon(new_character))
 		var/mob/living/carbon/C = new_character
 		C.last_mind = src
-	transfer_antag_huds(hud_to_transfer)				//inherit the antag HUD
+	transfer_antag_huds(global_hud_to_transfer, team_hud_to_transfer)				//inherit the antag HUD
 	transfer_actions(new_character)
 	transfer_martial_arts(new_character)
 	RegisterSignal(new_character, COMSIG_MOB_DEATH, .proc/set_death_time)
@@ -167,6 +166,7 @@
 	if(antag_team)
 		antag_team.add_member(src)
 	A.on_gain()
+	log_game("[key_name(src)] has gained antag datum [A.name]([A.type])")
 	return A
 
 /datum/mind/proc/remove_antag_datum(datum_type)

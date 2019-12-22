@@ -32,7 +32,11 @@
 /obj/machinery/nanite_chamber/examine(mob/user)
 	. = ..()
 	if(in_range(user, src) || isobserver(user))
+<<<<<<< HEAD
 		. += "<span class='notice'>The status display reads: Scanning module has been upgraded to level <b>[scan_level]</b>.<span>"
+=======
+		. += "<span class='notice'>The status display reads: Scanning module has been upgraded to level <b>[scan_level]</b>.</span>"
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 /obj/machinery/nanite_chamber/proc/set_busy(status, message, working_icon)
 	busy = status

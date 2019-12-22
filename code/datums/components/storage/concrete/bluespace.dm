@@ -9,7 +9,11 @@
 		var/atom/dumping_location = dest.get_dumping_location()
 		var/turf/bagT = get_turf(parent)
 		var/turf/destT = get_turf(dumping_location)
+<<<<<<< HEAD
 		if(destT && bagT && bagT.z == destT.z && get_dist(M, dumping_location) < dumping_range)
+=======
+		if(bagT.z == destT.z && get_dist(M, dumping_location) < dumping_range)
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 			if(dumping_location.storage_contents_dump_act(src, M))
 				if(alt_sound && prob(1))
 					playsound(src, alt_sound, 40, 1)

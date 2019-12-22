@@ -81,7 +81,11 @@
 	icon = 'icons/turf/walls/plastitanium_wall.dmi'
 	icon_state = "map-shuttle"
 	smooth = SMOOTH_MORE
+<<<<<<< HEAD
 	
+=======
+
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 /turf/closed/indestructible/riveted/uranium
 	icon = 'icons/turf/walls/uranium_wall.dmi'
 	icon_state = "uranium"
@@ -117,7 +121,11 @@
 	icon_state = null
 	underlays += mutable_appearance('icons/obj/structures.dmi', "grille")
 	underlays += mutable_appearance('icons/turf/floors.dmi', "plating")
+<<<<<<< HEAD
 	
+=======
+
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 /turf/closed/indestructible/fakedoor
 	name = "CentCom Access"
 	icon = 'icons/obj/doors/airlocks/centcom/centcom.dmi'

@@ -1,22 +1,27 @@
 /datum/job/bartender
 	title = "Bartender"
 	flag = BARTENDER
-	department_head = list("Head of Personnel")
+	department_head = list("Executive Officer")
 	department_flag = CIVILIAN
 	faction = "Station"
 	total_positions = 1
 	spawn_positions = 1
-	supervisors = "the head of personnel"
+	supervisors = "the Executive Officer"
 	selection_color = "#bbe291"
 	exp_type_department = EXP_TYPE_SERVICE // This is so the jobs menu can work properly
 
 	outfit = /datum/outfit/job/bartender
 
 	access = list(ACCESS_HYDROPONICS, ACCESS_BAR, ACCESS_KITCHEN, ACCESS_MORGUE, ACCESS_WEAPONS, ACCESS_MINERAL_STOREROOM, ACCESS_THEATRE)
+<<<<<<< HEAD
 	minimal_access = list(ACCESS_BAR, ACCESS_MINERAL_STOREROOM, ACCESS_THEATRE)
+=======
+	minimal_access = list(ACCESS_BAR, ACCESS_MINERAL_STOREROOM)
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	paycheck = PAYCHECK_EASY
 	paycheck_department = ACCOUNT_SRV
 	display_order = JOB_DISPLAY_ORDER_BARTENDER
+	display_rank = "CRW" //nsv13 - Displays the player's actual rank alongside their name, such as GSGT Sergei Koralev
 
 /datum/outfit/job/bartender
 	name = "Bartender"

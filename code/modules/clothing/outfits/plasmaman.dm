@@ -113,6 +113,7 @@
 	head = /obj/item/clothing/head/helmet/space/plasmaman/atmospherics
 	uniform = /obj/item/clothing/under/plasmaman/atmospherics
 
+<<<<<<< HEAD
 /datum/outfit/plasmaman/command
 	name = "Command Plasmamand"
 	
@@ -160,4 +161,18 @@
 
 	head = /obj/item/clothing/head/helmet/space/plasmaman/honk
 	uniform = /obj/item/clothing/under/plasmaman/honk
+=======
+/datum/outfit/plasmaman/mime
+	name = "Plasmamime"
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
+	head = /obj/item/clothing/head/helmet/space/plasmaman/mime
+	uniform = /obj/item/clothing/under/plasmaman/mime
+	mask = /obj/item/clothing/mask/gas/mime
+
+/datum/outfit/plasmaman/clown
+	name = "Plasmaclown"
+
+	head = /obj/item/clothing/head/helmet/space/plasmaman/clown
+	uniform = /obj/item/clothing/under/plasmaman/clown
+	mask = /obj/item/clothing/mask/gas/clown_hat

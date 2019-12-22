@@ -7,8 +7,13 @@
 	var/legs_required = 2
 	var/arms_required = 1	//why not?
 	var/fall_off_if_missing_arms = FALSE //heh...
+<<<<<<< HEAD
 	var/message_cooldown
 	
+=======
+	var/message_cooldown = 0
+
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 /obj/vehicle/ridden/Initialize()
 	. = ..()
 	LoadComponent(/datum/component/riding)
@@ -43,14 +48,14 @@
 				inserted_key.forceMove(drop_location())
 			inserted_key = I
 		else
-			to_chat(user, "<span class='notice'>[I] seems to be stuck to your hand!</span>")
+			to_chat(user, "<span class='warning'>[I] seems to be stuck to your hand!</span>")
 		return
 	return ..()
 
 /obj/vehicle/ridden/AltClick(mob/user)
 	if(inserted_key && user.canUseTopic(src, BE_CLOSE, ismonkey(user)))
 		if(!is_occupant(user))
-			to_chat(user, "<span class='notice'>You must be riding the [src] to remove [src]'s key!</span>")
+			to_chat(user, "<span class='warning'>You must be riding the [src] to remove [src]'s key!</span>")
 			return
 		to_chat(user, "<span class='notice'>You remove \the [inserted_key] from \the [src].</span>")
 		inserted_key.forceMove(drop_location())
@@ -67,7 +72,9 @@
 	if(legs_required)
 		var/how_many_legs = user.get_num_legs()
 		if(how_many_legs < legs_required)
-			to_chat(user, "<span class='warning'>You can't seem to manage that with[how_many_legs ? " your leg[how_many_legs > 1 ? "s" : null]" : "out legs"]...</span>")
+			if(message_cooldown < world.time)
+				to_chat(user, "<span class='warning'>You can't seem to manage that with[how_many_legs ? " your leg[how_many_legs > 1 ? "s" : null]" : "out legs"]...</span>")
+				message_cooldown = world.time + 5 SECONDS
 			return FALSE
 	if(arms_required)
 		var/how_many_arms = user.get_num_arms()
@@ -81,7 +88,9 @@
 					L.Stun(30)
 				return FALSE
 
-			to_chat(user, "<span class='warning'>You can't seem to manage that with[how_many_arms ? " your arm[how_many_arms > 1 ? "s" : null]" : "out arms"]...</span>")
+			if(message_cooldown < world.time)
+				to_chat(user, "<span class='warning'>You can't seem to manage that with[how_many_arms ? " your arm[how_many_arms > 1 ? "s" : null]" : "out arms"]...</span>")
+				message_cooldown = world.time + 5 SECONDS
 			return FALSE
 	var/datum/component/riding/R = GetComponent(/datum/component/riding)
 	R.handle_ride(user, direction)

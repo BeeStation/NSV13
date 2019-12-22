@@ -13,11 +13,16 @@
 	tiled_dirt = FALSE
 
 /turf/open/floor/engine/examine(mob/user)
+<<<<<<< HEAD
 	..()
 	to_chat(user, "<span class='notice'>The reinforcement plates are <b>wrenched</b> firmly in place.</span>")
 	
 /turf/open/floor/engine/light
 	icon_state = "engine_light"
+=======
+	. += ..()
+	. += "<span class='notice'>The reinforcement rods are <b>wrenched</b> firmly in place.</span>"
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 /turf/open/floor/engine/airless
 	initial_gas_mix = AIRLESS_ATMOS

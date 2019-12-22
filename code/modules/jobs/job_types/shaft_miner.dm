@@ -1,22 +1,23 @@
 /datum/job/mining
 	title = "Shaft Miner"
 	flag = MINER
-	department_head = list("Head of Personnel")
+	department_head = list("Executive Officer")
 	department_flag = CIVILIAN
 	faction = "Station"
-	total_positions = 3
-	spawn_positions = 3
-	supervisors = "the quartermaster and the head of personnel"
+	total_positions = 0 //CHANGE ME BACK TO 3 WHEN WE GET A MINING UPDATE ¬KMC
+	spawn_positions = 0
+	supervisors = "the quartermaster and the Executive Officer"
 	selection_color = "#dcba97"
 
 	outfit = /datum/outfit/job/miner
 
 	access = list(ACCESS_MAINT_TUNNELS, ACCESS_MAILSORTING, ACCESS_CARGO, ACCESS_QM, ACCESS_MINING, ACCESS_MECH_MINING, ACCESS_MINING_STATION, ACCESS_MINERAL_STOREROOM)
 	minimal_access = list(ACCESS_MINING, ACCESS_MECH_MINING, ACCESS_MINING_STATION, ACCESS_MAILSORTING, ACCESS_MINERAL_STOREROOM)
-	paycheck = PAYCHECK_HARD
+	paycheck = PAYCHECK_MINIMAL
 	paycheck_department = ACCOUNT_CAR
 
 	display_order = JOB_DISPLAY_ORDER_SHAFT_MINER
+	display_rank = "SPC" //nsv13 - Displays the player's actual rank alongside their name, such as GSGT Sergei Koralev
 
 /datum/outfit/job/miner
 	name = "Shaft Miner"
@@ -70,4 +71,3 @@
 	name = "Shaft Miner (Equipment + Hardsuit)"
 	suit = /obj/item/clothing/suit/space/hardsuit/mining
 	mask = /obj/item/clothing/mask/breath
-

@@ -168,7 +168,12 @@
 
 /obj/item/gun/ballistic/revolver/russian/do_spin()
 	. = ..()
+<<<<<<< HEAD
 	spun = TRUE
+=======
+	if(.)
+		spun = TRUE
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 /obj/item/gun/ballistic/revolver/russian/attackby(obj/item/A, mob/user, params)
 	..()

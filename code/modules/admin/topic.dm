@@ -2208,6 +2208,7 @@
 		var/ban_id = href_list["unbanlog"]
 		ban_log(ban_id)
 
+<<<<<<< HEAD
 	else if(href_list["modantagtokens"])
 		if(!check_rights(R_ADMIN))
 			return
@@ -2217,6 +2218,10 @@
 		usr.client.cmd_admin_mod_antag_tokens(C, href_list["modantagtokens"])
 		show_player_panel(M)
 
+=======
+	else if(href_list["beakerpanel"])
+		beaker_panel_act(href_list)
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 	else if(href_list["retrieveboh"])
 		var/obj/singularity/boh_tear/tear = locate(href_list["retrieveboh"])
@@ -2231,9 +2236,12 @@
 		tear.investigate_log("Items consumed at [AREACOORD(T)] retrieved by [key_name(usr)].", INVESTIGATE_SINGULO)
 		tear.retrieve_consumed_items()
 
+<<<<<<< HEAD
 	else if(href_list["beakerpanel"])
 		beaker_panel_act(href_list)
 
+=======
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 /datum/admins/proc/HandleCMode()
 	if(!check_rights(R_ADMIN))
 		return

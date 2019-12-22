@@ -55,7 +55,11 @@
 	name = "Lexorin"
 	id = /datum/reagent/toxin/lexorin
 	results = list(/datum/reagent/toxin/lexorin = 3)
+<<<<<<< HEAD
 	required_reagents = list(/datum/reagent/toxin/plasma = 1, /datum/reagent/hydrogen = 1, /datum/reagent/oxygen = 1)
+=======
+	required_reagents = list(/datum/reagent/toxin/plasma = 1, /datum/reagent/hydrogen = 1, /datum/reagent/medicine/salbutamol = 1)
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 /datum/chemical_reaction/chloralhydrate
 	name = "Chloral Hydrate"

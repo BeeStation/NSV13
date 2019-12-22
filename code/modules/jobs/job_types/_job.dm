@@ -59,6 +59,7 @@
 	var/list/mind_traits // Traits added to the mind of the mob assigned this job
 
 	var/display_order = JOB_DISPLAY_ORDER_DEFAULT
+	var/display_rank = "PVT" //nsv13 - Displays the player's actual rank alongside their name, such as GSGT Sergei Koralev
 
 	var/tmp/list/gear_leftovers = list()
 
@@ -67,9 +68,12 @@
 //do actions on H but send messages to M as the key may not have been transferred_yet
 /datum/job/proc/after_spawn(mob/living/H, mob/M, latejoin = FALSE)
 	//do actions on H but send messages to M as the key may not have been transferred_yet
+	if(ishuman(H)) //Don't give AIs a rank
+		H.fully_replace_character_name(H.real_name, "[display_rank] [H.real_name]") //nsv13 - Visibly display player ranks with their names.
 	if(mind_traits)
 		for(var/t in mind_traits)
 			ADD_TRAIT(H.mind, t, JOB_TRAIT)
+<<<<<<< HEAD
 
 	if(!ishuman(H))
 		return
@@ -138,6 +142,8 @@
 			qdel(item)
 
 		qdel(gear_leftovers)
+=======
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 /datum/job/proc/announce(mob/living/carbon/human/H)
 	if(head_announce)
@@ -261,6 +267,16 @@
 			back = duffelbag //Department duffel bag
 		else
 			back = backpack //Department backpack
+
+	//converts the uniform string into the path we'll wear, whether it's the skirt or regular variant
+	var/holder
+	if(H.jumpsuit_style == PREF_SKIRT)
+		holder = "[uniform]/skirt"
+		if(!text2path(holder))
+			holder = "[uniform]"
+	else
+		holder = "[uniform]"
+	uniform = text2path(holder)
 
 /datum/outfit/job/post_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
 	if(visualsOnly)

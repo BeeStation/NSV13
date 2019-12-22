@@ -1,10 +1,14 @@
 <ui-display title='Acclimator'>
+<<<<<<< HEAD
 
+=======
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	<ui-section>
 		<span> Current Temperature - {{data.chem_temp}} </span> <br/>
 		<span> Target Temperature - </span> <ui-button action='set_target_temperature'>{{data.target_temperature}}</ui-button> <br/>
 		<span> Acceptable Temperature Difference - </span> <ui-button action='set_allowed_temperature_difference'>{{data.allowed_temperature_difference}}</ui-button>
 	</ui-section>
+<<<<<<< HEAD
 
 </ui-display>
 <ui-display title='Status'>
@@ -15,6 +19,12 @@
 		<span> Current Operation - {{data.acclimate_state}} </span> <br/>
     <span> Current status: {{data.emptying ? "Emptying" : "Filling"}} </span> 
     
+=======
+</ui-display>
+<ui-display title='Status'>
+	<ui-section>
+		<span> Current Operation - {{data.acclimate_state}} </span> <br/>
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 		{{#if data.enabled}}
 			<ui-button state='selected' action='turn_on'>On</ui-button>
 			<ui-button action='turn_off'>Off</ui-button>
@@ -23,5 +33,9 @@
 			<ui-button state='selected' action='turn_off'>Off</ui-button>
 		{{/if}}
 	</ui-section>
+<<<<<<< HEAD
 
 </ui-display>
+=======
+</ui-display>
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36

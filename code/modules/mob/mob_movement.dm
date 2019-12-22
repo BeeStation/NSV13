@@ -48,17 +48,28 @@
   * Move a client in a direction
   *
   * Huge proc, has a lot of functionality
+<<<<<<< HEAD
   * 
   * Mostly it will despatch to the mob that you are the owner of to actually move
   * in the physical realm
   * 
+=======
+  *
+  * Mostly it will despatch to the mob that you are the owner of to actually move
+  * in the physical realm
+  *
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
   * Things that stop you moving as a mob:
   * * world time being less than your next move_delay
   * * not being in a mob, or that mob not having a loc
   * * missing the n and direction parameters
   * * being in remote control of an object (calls Moveobject instead)
   * * being dead (it ghosts you instead)
+<<<<<<< HEAD
   * 
+=======
+  *
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
   * Things that stop you moving as a mob living (why even have OO if you're just shoving it all
   * in the parent proc with istype checks right?):
   * * having incorporeal_move set (calls Process_Incorpmove() instead)
@@ -78,7 +89,11 @@
   *
   * Finally if you're pulling an object and it's dense, you are turned 180 after the move
   * (if you ask me, this should be at the top of the move so you don't dance around)
+<<<<<<< HEAD
   * 
+=======
+  *
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
   */
 /client/Move(n, direct)
 	if(world.time < move_delay) //do not move anything ahead of this check please
@@ -185,7 +200,11 @@
   * Allows mobs to ignore density and phase through objects
   *
   * Called by client/Move()
+<<<<<<< HEAD
   * 
+=======
+  *
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
   * The behaviour depends on the incorporeal_move value of the mob
   *
   * * INCORPOREAL_MOVE_BASIC - forceMoved to the next tile with no stop
@@ -273,9 +292,15 @@
   * Handles mob/living movement in space (or no gravity)
   *
   * Called by /client/Move()
+<<<<<<< HEAD
   * 
   * return TRUE for movement or FALSE for none
   * 
+=======
+  *
+  * return TRUE for movement or FALSE for none
+  *
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
   * You can move in space if you have a spacewalk ability
   */
 /mob/Process_Spacemove(movement_dir = 0)
@@ -333,7 +358,11 @@
 	return FALSE
 
 /// Called when this mob slips over, override as needed
+<<<<<<< HEAD
 /mob/proc/slip(knockdown, paralyze, forcedrop, w_amount, obj/O, lube)
+=======
+/mob/proc/slip(knockdown_amount, obj/O, lube, paralyze, force_drop)
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	return
 
 /// Update the gravity status of this mob
@@ -449,7 +478,11 @@
 
 /**
   * Toggle the move intent of the mob
+<<<<<<< HEAD
   * 
+=======
+  *
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
   * triggers an update the move intent hud as well
   */
 /mob/proc/toggle_move_intent(mob/user)
@@ -466,6 +499,16 @@
 	set name = "Move Upwards"
 	set category = "IC"
 
+	if(isAI(src)) //Nsv13 - AI multiz
+		var/mob/living/silicon/ai/AI = src
+		if(AI.eyeobj)
+			var/turf/T = SSmapping.get_turf_above(get_turf(AI.eyeobj))
+			var/area/X = get_area(T) //Check theyre ON THE STATION and not trying to move down into the overmap
+			if(T && !istype(X, /area/space) && !istype(T, /turf/open/space/basic))
+				AI.eyeobj.forceMove(T)
+			else
+				to_chat(AI, "<span class='warning'>You cannot move here</span>")
+
 	if(zMove(UP, TRUE))
 		to_chat(src, "<span class='notice'>You move upwards.</span>")
 
@@ -473,6 +516,16 @@
 /mob/verb/down()
 	set name = "Move Down"
 	set category = "IC"
+
+	if(isAI(src)) //Nsv13 - AI multiz
+		var/mob/living/silicon/ai/AI = src
+		if(AI.eyeobj)
+			var/turf/T = SSmapping.get_turf_below(get_turf(AI.eyeobj))
+			var/area/X = get_area(T) //Check theyre ON THE STATION and not trying to move down into the overmap
+			if(T && !istype(X, /area/space) && !istype(T, /turf/open/space/basic))
+				AI.eyeobj.forceMove(T)
+			else
+				to_chat(AI, "<span class='warning'>You cannot move here</span>")
 
 	if(zMove(DOWN, TRUE))
 		to_chat(src, "<span class='notice'>You move down.</span>")

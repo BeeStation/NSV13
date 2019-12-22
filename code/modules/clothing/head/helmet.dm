@@ -10,7 +10,7 @@
 	heat_protection = HEAD
 	max_heat_protection_temperature = HELMET_MAX_TEMP_PROTECT
 	strip_delay = 60
-	resistance_flags = NONE
+	clothing_flags = SNUG_FIT
 	flags_cover = HEADCOVERSEYES
 	flags_inv = HIDEHAIR
 
@@ -297,7 +297,11 @@
 	icon_state = "rus_helmet"
 	item_state = "rus_helmet"
 	armor = list("melee" = 30, "bullet" = 25, "laser" = 20,"energy" = 10, "bomb" = 25, "bio" = 0, "rad" = 20, "fire" = 30, "acid" = 50)
+<<<<<<< HEAD
 	pocket_storage_component_path = /datum/component/storage/concrete/pockets/small/helmet
+=======
+	pocket_storage_component_path = /datum/component/storage/concrete/pockets/helmet
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 /obj/item/clothing/head/helmet/rus_ushanka
 	name = "battle ushanka"

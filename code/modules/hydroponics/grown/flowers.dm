@@ -15,7 +15,11 @@
 	icon_grow = "poppy-grow"
 	icon_dead = "poppy-dead"
 	mutatelist = list(/obj/item/seeds/poppy/geranium, /obj/item/seeds/poppy/lily)
+<<<<<<< HEAD
 	reagents_add = list(/datum/reagent/medicine/bicaridine = 0.2, /datum/reagent/consumable/nutriment = 0.05)
+=======
+	reagents_add = list(/datum/reagent/medicine/sanguiose = 0.2, /datum/reagent/consumable/nutriment = 0.05)
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 /obj/item/reagent_containers/food/snacks/grown/poppy
 	seed = /obj/item/seeds/poppy
@@ -141,8 +145,13 @@
 	icon_dead = "sunflower-dead"
 	product = /obj/item/reagent_containers/food/snacks/grown/moonflower
 	mutatelist = list()
+<<<<<<< HEAD
 	reagents_add = list(/datum/reagent/consumable/ethanol/moonshine = 0.2,/datum/reagent/medicine/morphine = 0.3, /datum/reagent/consumable/nutriment = 0.02)
 	rarity = 20
+=======
+	reagents_add = list(/datum/reagent/consumable/ethanol/moonshine = 0.2, /datum/reagent/consumable/nutriment/vitamin = 0.02, /datum/reagent/consumable/nutriment = 0.02)
+	rarity = 15
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 /obj/item/reagent_containers/food/snacks/grown/moonflower
 	seed = /obj/item/seeds/sunflower/moonflower
@@ -166,7 +175,11 @@
 	product = /obj/item/grown/novaflower
 	mutatelist = list()
 	reagents_add = list(/datum/reagent/consumable/condensedcapsaicin = 0.25, /datum/reagent/consumable/capsaicin = 0.3, /datum/reagent/consumable/nutriment = 0)
+<<<<<<< HEAD
 	rarity = 15
+=======
+	rarity = 20
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 /obj/item/grown/novaflower
 	seed = /obj/item/seeds/sunflower/novaflower

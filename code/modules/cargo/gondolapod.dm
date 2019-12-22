@@ -44,9 +44,15 @@
 /mob/living/simple_animal/pet/gondola/gondolapod/examine(mob/user)
 	. = ..()
 	if (contents.len)
+<<<<<<< HEAD
 		. += "<span class='notice'>It looks like it hasn't made its delivery yet.</b><span>"
 	else
 		. += "<span class='notice'>It looks like it has already made its delivery.</b><span>"
+=======
+		. += "<span class='notice'>It looks like it hasn't made its delivery yet.</b></span>"
+	else
+		. += "<span class='notice'>It looks like it has already made its delivery.</b></span>"
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 /mob/living/simple_animal/pet/gondola/gondolapod/verb/check()
 	set name = "Count Contents"

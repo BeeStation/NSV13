@@ -69,7 +69,11 @@
 /obj/item/storage/bag/easterbasket/Initialize()
 	. = ..()
 	var/datum/component/storage/STR = GetComponent(/datum/component/storage)
+<<<<<<< HEAD
 	STR.can_hold = typecacheof(list(/obj/item/reagent_containers/food/snacks/egg, /obj/item/reagent_containers/food/snacks/chocolateegg, /obj/item/reagent_containers/food/snacks/boiledegg))
+=======
+	STR.set_holdable(list(/obj/item/reagent_containers/food/snacks/egg, /obj/item/reagent_containers/food/snacks/chocolateegg, /obj/item/reagent_containers/food/snacks/boiledegg))
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 /obj/item/storage/bag/easterbasket/proc/countEggs()
 	cut_overlays()

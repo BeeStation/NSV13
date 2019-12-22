@@ -13,7 +13,6 @@
 /turf/open/floor/mineral
 	name = "mineral floor"
 	icon_state = ""
-	var/list/icons
 	tiled_dirt = FALSE
 
 
@@ -22,14 +21,6 @@
 		broken_states = list("[initial(icon_state)]_dam")
 	. = ..()
 	icons = typelist("icons", icons)
-
-
-/turf/open/floor/mineral/update_icon()
-	if(!..())
-		return 0
-	if(!broken && !burnt)
-		if( !(icon_state in icons) )
-			icon_state = initial(icon_state)
 
 //PLASMA
 

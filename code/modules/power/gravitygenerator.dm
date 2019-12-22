@@ -366,7 +366,11 @@ GLOBAL_LIST_EMPTY(gravity_generators) // We will keep track of this by adding ne
 	var/sound/alert_sound = sound('sound/effects/alert.ogg')
 	for(var/i in GLOB.mob_list)
 		var/mob/M = i
+<<<<<<< HEAD
 		if(M.z != z && !(ztrait && SSmapping.level_trait(z, ztrait) && SSmapping.level_trait(M.z, ztrait)))
+=======
+		if(M.z != z && !is_station_level(T.z)) //nsv13 - Multiz gravgen. Continue if theyre not on our Z AND we're not the main gravgen for the primary ship.
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 			continue
 		M.update_gravity(M.mob_has_gravity())
 		if(M.client)
@@ -382,6 +386,7 @@ GLOBAL_LIST_EMPTY(gravity_generators) // We will keep track of this by adding ne
 	return 0
 
 /obj/machinery/gravity_generator/main/proc/update_list()
+<<<<<<< HEAD
 	var/turf/T = get_turf(src.loc)
 	if(T)
 		var/list/z_list = list()
@@ -392,6 +397,20 @@ GLOBAL_LIST_EMPTY(gravity_generators) // We will keep track of this by adding ne
 		else
 			z_list += T.z
 		for(var/z in z_list)
+=======
+	var/turf/T = get_turf(src)
+	if(is_station_level(T.z)) //nsv13 - Multi-z gravity generators.
+		for(var/z = 0 to world.maxz) //Loop through every Z level. If it's a station level (set by JSON file) then gravity it up.
+			if(!GLOB.gravity_generators["[z]"])
+				GLOB.gravity_generators["[z]"] = list()
+			if(on)
+				GLOB.gravity_generators["[z]"] |= src
+			else
+				GLOB.gravity_generators["[z]"] -= src
+		return
+	else
+		if(T)
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 			if(!GLOB.gravity_generators["[T.z]"])
 				GLOB.gravity_generators["[T.z]"] = list()
 			if(on)

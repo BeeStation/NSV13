@@ -84,6 +84,7 @@
 	return ..()
 
 /obj/machinery/door/Bumped(atom/movable/AM)
+	. = ..()
 	if(operating || (obj_flags & EMAGGED))
 		return
 	if(ismob(AM))
@@ -115,7 +116,11 @@
 
 	if(isitem(AM))
 		var/obj/item/I = AM
+<<<<<<< HEAD
 		if(!density)
+=======
+		if(!density || (I.w_class < WEIGHT_CLASS_NORMAL && !LAZYLEN(I.GetAccess())))
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 			return
 		if(check_access(I))
 			open()

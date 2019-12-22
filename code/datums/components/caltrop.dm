@@ -47,9 +47,13 @@
 
 		var/damage = rand(min_damage, max_damage)
 		if(HAS_TRAIT(H, TRAIT_LIGHT_STEP))
+<<<<<<< HEAD
 			damage *= 0.5
 		if(is_species(H, /datum/species/squid))
 			damage *= 1.3
+=======
+			damage *= 0.75
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 		H.apply_damage(damage, BRUTE, picked_def_zone)
 
 		if(cooldown < world.time - 10) //cooldown to avoid message spam.

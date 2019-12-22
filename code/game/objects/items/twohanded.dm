@@ -721,7 +721,7 @@
 
 /obj/item/twohanded/pitchfork/demonic/attack(mob/target, mob/living/carbon/human/user)
 	if(user.mind && user.owns_soul() && !is_devil(user))
-		to_chat(user, "<span class ='warning'>[src] burns in your hands.</span>")
+		to_chat(user, "<span class='warning'>[src] burns in your hands.</span>")
 		user.apply_damage(rand(force/2, force), BURN, pick(BODY_ZONE_L_ARM, BODY_ZONE_R_ARM))
 	..()
 
@@ -869,7 +869,7 @@
 	if(user?.client)
 		user.regenerate_icons()
 		var/client/C = user.client
-		C.change_view(CONFIG_GET(string/default_view))
+		C.check_view()
 		user.client.pixel_x = 0
 		user.client.pixel_y = 0
 

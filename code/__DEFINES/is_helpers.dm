@@ -74,7 +74,10 @@ GLOBAL_LIST_INIT(turfs_without_ground, typecacheof(list(
 #define iscatperson(A) (ishumanbasic(A) && istype(A.dna.species, /datum/species/human/felinid) )
 #define isethereal(A) (is_species(A, /datum/species/ethereal))
 #define isvampire(A) (is_species(A,/datum/species/vampire))
+<<<<<<< HEAD
 #define isipc(A) (is_species(A, /datum/species/ipc))
+=======
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 //more carbon mobs
 #define ismonkey(A) (istype(A, /mob/living/carbon/monkey))
@@ -118,6 +121,8 @@ GLOBAL_LIST_INIT(turfs_without_ground, typecacheof(list(
 #define isshade(A) (istype(A, /mob/living/simple_animal/shade))
 
 #define ismouse(A) (istype(A, /mob/living/simple_animal/mouse))
+
+#define iscow(A) (istype(A, /mob/living/simple_animal/cow))
 
 #define isslime(A) (istype(A, /mob/living/simple_animal/slime))
 
@@ -220,6 +225,10 @@ GLOBAL_LIST_INIT(heavyfootmob, typecacheof(list(
 #define is_cleanable(A) (istype(A, /obj/effect/decal/cleanable) || istype(A, /obj/effect/rune)) //if something is cleanable
 
 #define isorgan(A) (istype(A, /obj/item/organ))
+
+#define isclothing(A) (istype(A, /obj/item/clothing))
+
+#define iscash(A) (istype(A, /obj/item/coin) || istype(A, /obj/item/stack/spacecash) || istype(A, /obj/item/holochip))
 
 GLOBAL_LIST_INIT(pointed_types, typecacheof(list(
 	/obj/item/pen,

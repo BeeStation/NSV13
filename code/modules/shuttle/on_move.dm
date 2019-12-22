@@ -349,8 +349,13 @@ All ShuttleMove procs go here
 	var/turf/T = loc
 	if(level==1)
 		hide(T.intact)
+<<<<<<< HEAD
 	mergeConnectedNetworks(d1)
 	mergeConnectedNetworks(d2)
+=======
+	connect_wire(TRUE)
+	propogate_if_no_network()
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 /obj/structure/shuttle/beforeShuttleMove(turf/newT, rotation, move_mode, obj/docking_port/mobile/moving_dock)
 	. = ..()

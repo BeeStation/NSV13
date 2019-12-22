@@ -37,6 +37,9 @@ require only minor tweaks.
 #define ZTRAIT_AWAY "Away Mission"
 #define ZTRAIT_SPACE_RUINS "Space Ruins"
 #define ZTRAIT_LAVA_RUINS "Lava Ruins"
+#define ZTRAIT_ASTRAEUS "Astraeus System" //NSV13 - System defines for moving ships around
+#define ZTRAIT_CORVI "Corvi System"//NSV13 - System defines for moving ships around
+#define ZTRAIT_HYPERSPACE "Hyperspace" //NSV13 - System defines for moving ships around
 
 /// number - bombcap is multiplied by this before being applied to bombs
 #define ZTRAIT_BOMBCAP_MULTIPLIER "Bombcap Multiplier"

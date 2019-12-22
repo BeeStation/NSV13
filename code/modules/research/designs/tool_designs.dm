@@ -50,6 +50,7 @@
 	build_type = PROTOLATHE
 	materials = list(/datum/material/iron = 5000, /datum/material/glass = 2500, /datum/material/silver = 1500, /datum/material/titanium = 2000)
 	build_path = /obj/item/rcd_upgrade/simple_circuits
+<<<<<<< HEAD
 	category = list("Tool Designs")
 	departmental_flags = DEPARTMENTAL_FLAG_ENGINEERING
 
@@ -60,6 +61,8 @@
 	build_type = PROTOLATHE
 	materials = list(/datum/material/iron = 2500, /datum/material/glass = 2500, /datum/material/silver = 2500, /datum/material/titanium = 2500, /datum/material/bluespace = 2500)
 	build_path = /obj/item/rcd_upgrade/silo_link
+=======
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	category = list("Tool Designs")
 	departmental_flags = DEPARTMENTAL_FLAG_ENGINEERING
 

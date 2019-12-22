@@ -11,8 +11,11 @@
 	new /obj/item/clothing/head/bio_hood/scientist(src)
 	new /obj/item/clothing/suit/toggle/labcoat(src)
 	new /obj/item/clothing/under/rank/research_director(src)
+	new /obj/item/clothing/under/rank/research_director/skirt(src)
 	new /obj/item/clothing/under/rank/research_director/alt(src)
+	new /obj/item/clothing/under/rank/research_director/alt/skirt(src)
 	new /obj/item/clothing/under/rank/research_director/turtleneck(src)
+	new /obj/item/clothing/under/rank/research_director/turtleneck/skirt(src)
 	new /obj/item/clothing/shoes/sneakers/brown(src)
 	new /obj/item/cartridge/rd(src)
 	new /obj/item/clothing/gloves/color/latex(src)
@@ -27,4 +30,8 @@
 	new /obj/item/door_remote/research_director(src)
 	new /obj/item/circuitboard/machine/techfab/department/science(src)
 	new /obj/item/storage/photo_album/RD(src)
+<<<<<<< HEAD
 	new /obj/item/card/id/departmental_budget/sci(src)
+=======
+	new /obj/item/card/id/departmental_budget/sci(src)
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36

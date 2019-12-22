@@ -26,10 +26,13 @@
 								"Subspace Telecomms",
 								"Research Machinery",
 								"Misc. Machinery",
-								"Computer Parts"
+								"Computer Parts",
+								"Advanced Munitions",
+								"Ship Components"
 								)
 	console_link = FALSE
 	production_animation = "protolathe_n"
 	requires_console = FALSE
 	consoleless_interface = TRUE
 	allowed_buildtypes = PROTOLATHE | IMPRINTER
+//nsv13 added Advanced Munitions, Ship Components list above

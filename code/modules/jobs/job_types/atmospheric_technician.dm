@@ -18,6 +18,7 @@
 	paycheck = PAYCHECK_MEDIUM
 	paycheck_department = ACCOUNT_ENG
 	display_order = JOB_DISPLAY_ORDER_ATMOSPHERIC_TECHNICIAN
+	display_rank = "LCPL" //nsv13 - Displays the player's actual rank alongside their name, such as GSGT Sergei Koralev
 
 /datum/outfit/job/atmos
 	name = "Atmospheric Technician"
@@ -28,6 +29,9 @@
 	l_pocket = /obj/item/pda/atmos
 	ears = /obj/item/radio/headset/headset_eng
 	uniform = /obj/item/clothing/under/rank/atmospheric_technician
+	shoes = /obj/item/clothing/shoes/workboots
+	suit = /obj/item/clothing/suit/ship/engineer
+	head = /obj/item/clothing/head/beret/ship/engineer
 	r_pocket = /obj/item/analyzer
 
 	backpack = /obj/item/storage/backpack/industrial

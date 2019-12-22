@@ -17,7 +17,11 @@
 
 /datum/mood_event/starving
 	description = "<span class='boldwarning'>I'm starving!</span>\n"
+<<<<<<< HEAD
 	mood_change = -16
+=======
+	mood_change = -14
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 //charge
 /datum/mood_event/charged
@@ -52,6 +56,7 @@
 /datum/mood_event/disgust/nauseating_stench
 	description = "<span class='warning'>The stench of rotting carcasses is unbearable!</span>\n"
 	mood_change = -12
+<<<<<<< HEAD
 
 //Hygiene Events
 /datum/mood_event/neat
@@ -65,6 +70,8 @@
 /datum/mood_event/happy_neet
 	description = "<span class='nicegreen'>I smell horrid.</span>\n"
 	mood_change = 2
+=======
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 //Generic needs events
 /datum/mood_event/favorite_food
@@ -81,6 +88,14 @@
 	description = "<span class='warning'>That food was disgusting!</span>\n"
 	mood_change = -6
 	timeout = 4 MINUTES
+<<<<<<< HEAD
+=======
+
+/datum/mood_event/breakfast
+	description = "<span class='nicegreen'>Nothing like a hearty breakfast to start the shift.</span>\n"
+	mood_change = 2
+	timeout = 10 MINUTES
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 /datum/mood_event/nice_shower
 	description = "<span class='nicegreen'>I have recently had a nice shower.</span>\n"

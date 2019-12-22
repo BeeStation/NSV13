@@ -159,7 +159,11 @@
 /obj/machinery/limbgrower/examine(mob/user)
 	. = ..()
 	if(in_range(user, src) || isobserver(user))
+<<<<<<< HEAD
 		. += "<span class='notice'>The status display reads: Storing up to <b>[reagents.maximum_volume]u</b> of synthflesh.<br>Synthflesh consumption at <b>[prod_coeff*100]%</b>.<span>"
+=======
+		. += "<span class='notice'>The status display reads: Storing up to <b>[reagents.maximum_volume]u</b> of synthflesh.<br>Synthflesh consumption at <b>[prod_coeff*100]%</b>.</span>"
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 /obj/machinery/limbgrower/proc/main_win(mob/user)
 	var/dat = "<div class='statusDisplay'><h3>Limb Grower Menu:</h3><br>"

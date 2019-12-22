@@ -18,7 +18,11 @@
 	current_cycle++
 	if(ishuman(M))
 		var/mob/living/carbon/human/H = M
+<<<<<<< HEAD
 		if(!HAS_TRAIT(H, TRAIT_NOHUNGER))
+=======
+		if(!HAS_TRAIT(H, TRAIT_NOHUNGER) || !HAS_TRAIT(H, TRAIT_NODIGEST))//Nsv13-Synthetics
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 			H.adjust_nutrition(nutriment_factor)
 	holder.remove_reagent(type, metabolization_rate)
 
@@ -34,6 +38,8 @@
 					SEND_SIGNAL(M, COMSIG_ADD_MOOD_EVENT, "quality_drink", /datum/mood_event/quality_verygood)
 				if (DRINK_FANTASTIC)
 					SEND_SIGNAL(M, COMSIG_ADD_MOOD_EVENT, "quality_drink", /datum/mood_event/quality_fantastic)
+				if (FOOD_AMAZING)
+					SEND_SIGNAL(M, COMSIG_ADD_MOOD_EVENT, "quality_food", /datum/mood_event/amazingtaste)
 	return ..()
 
 /datum/reagent/consumable/nutriment
@@ -107,7 +113,6 @@
 	nutriment_factor = 7 * REAGENTS_METABOLISM //Not very healthy on its own
 	metabolization_rate = 10 * REAGENTS_METABOLISM
 	var/fry_temperature = 450 //Around ~350 F (117 C) which deep fryers operate around in the real world
-	var/boiling //Used in mob life to determine if the oil kills, and only on touch application
 
 /datum/reagent/consumable/cooking_oil/reaction_obj(obj/O, reac_volume)
 	if(holder && holder.chem_temp >= fry_temperature)
@@ -120,18 +125,27 @@
 /datum/reagent/consumable/cooking_oil/reaction_mob(mob/living/M, method = TOUCH, reac_volume, show_message = 1, touch_protection = 0)
 	if(!istype(M))
 		return
+	var/boiling = FALSE
 	if(holder && holder.chem_temp >= fry_temperature)
 		boiling = TRUE
-	if(method == VAPOR || method == TOUCH) //Directly coats the mob, and doesn't go into their bloodstream
-		if(boiling)
-			M.visible_message("<span class='warning'>The boiling oil sizzles as it covers [M]!</span>", \
-			"<span class='userdanger'>You're covered in boiling oil!</span>")
+	if(method != VAPOR && method != TOUCH) //Directly coats the mob, and doesn't go into their bloodstream
+		return ..()
+	if(!boiling)
+		return TRUE
+	var/oil_damage = ((holder.chem_temp / fry_temperature) * 0.33) //Damage taken per unit
+	if(method == TOUCH)
+		oil_damage *= 1 - M.get_permeability_protection()
+	var/FryLoss = round(min(38, oil_damage * reac_volume))
+	if(!HAS_TRAIT(M, TRAIT_OIL_FRIED))
+		M.visible_message("<span class='warning'>The boiling oil sizzles as it covers [M]!</span>", \
+		"<span class='userdanger'>You're covered in boiling oil!</span>")
+		if(FryLoss)
 			M.emote("scream")
-			playsound(M, 'sound/machines/fryer/deep_fryer_emerge.ogg', 25, TRUE)
-			var/oil_damage = (holder.chem_temp / fry_temperature) * 0.33 //Damage taken per unit
-			M.adjustFireLoss(min(35, oil_damage * reac_volume)) //Damage caps at 35
-	else
-		..()
+		playsound(M, 'sound/machines/fryer/deep_fryer_emerge.ogg', 25, TRUE)
+		ADD_TRAIT(M, TRAIT_OIL_FRIED, "cooking_oil_react")
+		addtimer(CALLBACK(M, /mob/living/proc/unfry_mob), 3)
+	if(FryLoss)
+		M.adjustFireLoss(FryLoss)
 	return TRUE
 
 /datum/reagent/consumable/cooking_oil/reaction_turf(turf/open/T, reac_volume)
@@ -409,8 +423,11 @@
 			if(prob(20)) //stays in the system much longer than sprinkles/banana juice, so heals slower to partially compensate
 				H.heal_bodypart_damage(1,1, 0)
 				. = 1
+<<<<<<< HEAD
 		else //chefs' robust space-Italian metabolism lets them eat garlic without producing allyl methyl sulfide
 			H.adjust_hygiene(-0.15 * volume)
+=======
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	..()
 
 /datum/reagent/consumable/sprinkles
@@ -420,7 +437,11 @@
 	taste_description = "childhood whimsy"
 
 /datum/reagent/consumable/sprinkles/on_mob_life(mob/living/carbon/M)
+<<<<<<< HEAD
 	if(HAS_TRAIT(M.mind, TRAIT_LAW_ENFORCEMENT_METABOLISM))
+=======
+	if(M.mind && HAS_TRAIT(M.mind, TRAIT_LAW_ENFORCEMENT_METABOLISM))
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 		M.heal_bodypart_damage(1,1, 0)
 		. = 1
 	..()
@@ -596,10 +617,10 @@
 				unprotected = TRUE
 	if(unprotected)
 		if(!M.getorganslot(ORGAN_SLOT_EYES))	//can't blind somebody with no eyes
-			to_chat(M, "<span class = 'notice'>Your eye sockets feel wet.</span>")
+			to_chat(M, "<span class='notice'>Your eye sockets feel wet.</span>")
 		else
 			if(!M.eye_blurry)
-				to_chat(M, "<span class = 'warning'>Tears well up in your eyes!</span>")
+				to_chat(M, "<span class='warning'>Tears well up in your eyes!</span>")
 			M.blind_eyes(2)
 			M.blur_eyes(5)
 	..()
@@ -609,7 +630,7 @@
 	if(M.eye_blurry)	//Don't worsen vision if it was otherwise fine
 		M.blur_eyes(4)
 		if(prob(10))
-			to_chat(M, "<span class = 'warning'>Your eyes sting!</span>")
+			to_chat(M, "<span class='warning'>Your eyes sting!</span>")
 			M.blind_eyes(2)
 
 
@@ -688,12 +709,15 @@
 	color = "#97ee63"
 	taste_description = "pure electrictiy"
 
+/datum/reagent/consumable/liquidelectricity/reaction_mob(mob/living/M, method=TOUCH, reac_volume) //can't be on life because of the way blood works.
+	if((method == INGEST || method == INJECT || method == PATCH) && iscarbon(M))
+		var/mob/living/carbon/C = M
+		var/obj/item/organ/stomach/ethereal/stomach = C.getorganslot(ORGAN_SLOT_STOMACH)
+		if(istype(stomach))
+			stomach.adjust_charge(reac_volume * REM)
+
 /datum/reagent/consumable/liquidelectricity/on_mob_life(mob/living/carbon/M)
-	if(isethereal(M))
-		var/mob/living/carbon/human/H = M
-		var/datum/species/ethereal/E = H.dna?.species
-		E.adjust_charge(5*REM)
-	else if(prob(25)) //scp13 optimization
+	if(prob(25) && !isethereal(M))
 		M.electrocute_act(rand(10,15), "Liquid Electricity in their body", 1) //lmao at the newbs who eat energy bars
 		playsound(M, "sparks", 50, 1)
 	return ..()
@@ -715,11 +739,39 @@
 	..()
 	. = 1
 
+<<<<<<< HEAD
+=======
+/datum/reagent/consumable/secretsauce
+	name = "Secret Sauce"
+	description = "What could it be."
+	nutriment_factor = 2 * REAGENTS_METABOLISM
+	color = "#792300"
+	taste_description = "indescribable"
+	quality = FOOD_AMAZING
+	taste_mult = 100
+	can_synth = FALSE
+
+/datum/reagent/consumable/nutriment/peptides
+	name = "Peptides"
+	color = "#BBD4D9"
+	taste_description = "mint frosting"
+	description = "These restorative peptides not only speed up wound healing, but are nutrious as well!"
+	nutriment_factor = 10 * REAGENTS_METABOLISM // 33% less than nutriment to reduce weight gain
+	brute_heal = 3
+	burn_heal = 1
+
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 /datum/reagent/consumable/caramel
 	name = "Caramel"
 	description = "Who would have guessed that heating sugar is so delicious?"
 	nutriment_factor = 10 * REAGENTS_METABOLISM
+<<<<<<< HEAD
 	color = "#C65A00"
 	taste_mult = 2
 	taste_description = "bitter sweetness"
+=======
+	color = "#D98736"
+	taste_mult = 2
+	taste_description = "caramel"
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	reagent_state = SOLID

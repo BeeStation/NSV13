@@ -4,7 +4,11 @@
 	say_mod = "gibbers"
 	sexes = FALSE
 	species_traits = list(NOBLOOD,NOEYESPRITES)
+<<<<<<< HEAD
 	inherent_traits = list(TRAIT_VIRUSIMMUNE,TRAIT_NOGUNS,TRAIT_NOHUNGER,TRAIT_NOBREATH,NOMOUTH)
+=======
+	inherent_traits = list(TRAIT_VIRUSIMMUNE,TRAIT_NOGUNS,TRAIT_NOHUNGER,TRAIT_NOBREATH)
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	mutanttongue = /obj/item/organ/tongue/abductor
 	changesource_flags = MIRROR_BADMIN | WABBAJACK | MIRROR_PRIDE | MIRROR_MAGIC | RACE_SWAP | ERT_SPAWN | SLIME_EXTRACT
 

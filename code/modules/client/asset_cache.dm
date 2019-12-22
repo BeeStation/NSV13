@@ -391,6 +391,7 @@ GLOBAL_LIST_EMPTY(asset_datums)
 
 /datum/asset/simple/tgui
 	assets = list(
+<<<<<<< HEAD
 		// tgui
 		"tgui.css" = 'tgui/assets/tgui.css',
 		"tgui.js" = 'tgui/assets/tgui.js',
@@ -403,6 +404,10 @@ GLOBAL_LIST_EMPTY(asset_datums)
 		"shim-ie8.js" = 'tgui-next/packages/tgui/public/shim-ie8.js',
 		"shim-dom4.js" = 'tgui-next/packages/tgui/public/shim-dom4.js',
 		"shim-css-om.js" = 'tgui-next/packages/tgui/public/shim-css-om.js',
+=======
+		"tgui.css"	= 'tgui/assets/tgui.css',
+		"tgui.js"	= 'tgui/assets/tgui.js',
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	)
 
 /datum/asset/group/tgui
@@ -542,7 +547,6 @@ GLOBAL_LIST_EMPTY(asset_datums)
 	verify = FALSE
 	assets = list(
 		"json2.min.js"             = 'code/modules/goonchat/browserassets/js/json2.min.js',
-		"errorHandler.js"          = 'code/modules/goonchat/browserassets/js/errorHandler.js',
 		"browserOutput.js"         = 'code/modules/goonchat/browserassets/js/browserOutput.js',
 		"browserOutput.css"	       = 'code/modules/goonchat/browserassets/css/browserOutput.css',
 		"browserOutput_white.css"  = 'code/modules/goonchat/browserassets/css/browserOutput_white.css',

@@ -16,6 +16,7 @@
 	value = 0
 	gain_text = "<span class='notice'>You feel repulsion at the idea of eating meat.</span>"
 	lose_text = "<span class='notice'>You feel like eating meat isn't that bad.</span>"
+	medical_record_text = "Patient reports a vegetarian diet."
 
 /datum/quirk/vegetarian/add()
 	var/mob/living/carbon/human/H = quirk_holder
@@ -38,6 +39,7 @@
 	value = 0
 	gain_text = "<span class='notice'>You feel an intense craving for pineapple.</span>"
 	lose_text = "<span class='notice'>Your feelings towards pineapples seem to return to a lukewarm state.</span>"
+	medical_record_text = "Patient demonstrates a pathological love of pineapple."
 
 /datum/quirk/pineapple_liker/add()
 	var/mob/living/carbon/human/H = quirk_holder
@@ -56,6 +58,7 @@
 	value = 0
 	gain_text = "<span class='notice'>You find yourself pondering what kind of idiot actually enjoys pineapples...</span>"
 	lose_text = "<span class='notice'>Your feelings towards pineapples seem to return to a lukewarm state.</span>"
+	medical_record_text = "Patient is correct to think that pineapple is disgusting."
 
 /datum/quirk/pineapple_hater/add()
 	var/mob/living/carbon/human/H = quirk_holder
@@ -74,6 +77,7 @@
 	value = 0
 	gain_text = "<span class='notice'>You start craving something that tastes strange.</span>"
 	lose_text = "<span class='notice'>You feel like eating normal food again.</span>"
+	medical_record_text = "Patient demonstrates irregular nutrition preferences."
 
 /datum/quirk/deviant_tastes/add()
 	var/mob/living/carbon/human/H = quirk_holder
@@ -89,6 +93,7 @@
 		species.liked_food = initial(species.liked_food)
 		species.disliked_food = initial(species.disliked_food)
 
+<<<<<<< HEAD
 /datum/quirk/neat
 	name = "Neat"
 	desc = "You really don't like being unhygienic, and will get sad if you are."
@@ -107,6 +112,8 @@
 		if(HYGIENE_LEVEL_NORMAL to HYGIENE_LEVEL_CLEAN)
 			SEND_SIGNAL(H, COMSIG_ADD_MOOD_EVENT, "neat", /datum/mood_event/neat)
 
+=======
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 /datum/quirk/monochromatic
 	name = "Monochromacy"
 	desc = "You suffer from full colorblindness, and perceive nearly the entire world in blacks and whites."

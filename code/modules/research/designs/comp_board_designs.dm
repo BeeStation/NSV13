@@ -4,7 +4,11 @@
 	name = "Computer Design ( NULL ENTRY )"
 	desc = "I promise this doesn't give you syndicate goodies!"
 	build_type = IMPRINTER
+<<<<<<< HEAD
 	materials = list(/datum/material/glass = 1000, /datum/material/copper = 300)
+=======
+	materials = list(/datum/material/glass = 1000)
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 /datum/design/board/arcade_battle
 	name = "Computer Design (Battle Arcade Machine)"
@@ -50,7 +54,11 @@
 	name = "Computer Design (AI Upload)"
 	desc = "Allows for the construction of circuit boards used to build an AI Upload Console."
 	id = "aiupload"
+<<<<<<< HEAD
 	materials = list(/datum/material/glass = 1000, /datum/material/gold = 2000, /datum/material/copper = 300)
+=======
+	materials = list(/datum/material/glass = 1000, /datum/material/gold = 2000)
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	build_path = /obj/item/circuitboard/computer/aiupload
 	category = list("Computer Boards")
 	departmental_flags = DEPARTMENTAL_FLAG_SCIENCE
@@ -59,7 +67,11 @@
 	name = "Computer Design (Cyborg Upload)"
 	desc = "Allows for the construction of circuit boards used to build a Cyborg Upload Console."
 	id = "borgupload"
+<<<<<<< HEAD
 	materials = list(/datum/material/glass = 1000, /datum/material/gold = 2000, /datum/material/copper = 300)
+=======
+	materials = list(/datum/material/glass = 1000, /datum/material/gold = 2000)
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	build_path = /obj/item/circuitboard/computer/borgupload
 	category = list("Computer Boards")
 	departmental_flags = DEPARTMENTAL_FLAG_SCIENCE
@@ -303,11 +315,19 @@
 	build_path = /obj/item/circuitboard/computer/nanite_cloud_controller
 	category = list("Computer Boards")
 	departmental_flags = DEPARTMENTAL_FLAG_SCIENCE
+<<<<<<< HEAD
 
+=======
+	
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 /datum/design/board/advanced_camera
 	name = "Computer Design (Advanced Camera Console)"
 	desc = "Allows for the construction of circuit boards used to build advanced camera consoles."
 	id = "advanced_camera"
 	build_path = /obj/item/circuitboard/computer/advanced_camera
 	category = list("Computer Boards")
+<<<<<<< HEAD
 	departmental_flags = DEPARTMENTAL_FLAG_SECURITY
+=======
+	departmental_flags = DEPARTMENTAL_FLAG_SECURITY
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36

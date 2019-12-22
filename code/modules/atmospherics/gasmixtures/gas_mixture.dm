@@ -267,7 +267,11 @@ GLOBAL_LIST_INIT(gaslist_cache, init_gaslist_cache())
 
 /datum/gas_mixture/parse_gas_string(gas_string)
 	gas_string = SSair.preprocess_gas_string(gas_string)
+<<<<<<< HEAD
 
+=======
+	
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	var/list/gases = src.gases
 	var/list/gas = params2list(gas_string)
 	if(gas["TEMP"])
@@ -432,7 +436,11 @@ GLOBAL_LIST_INIT(gaslist_cache, init_gaslist_cache())
 					continue reaction_loop
 
 			//at this point, all requirements for the reaction are satisfied. we can now react()
+<<<<<<< HEAD
 
+=======
+			
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 			. |= reaction.react(src, holder)
 			if (. & STOP_REACTIONS)
 				break

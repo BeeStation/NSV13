@@ -137,7 +137,7 @@
 		buckled_mob.pixel_x = 0
 		buckled_mob.pixel_y = 0
 		if(buckled_mob.client)
-			buckled_mob.client.change_view(CONFIG_GET(string/default_view))
+			buckled_mob.client.check_view()
 
 //MOVEMENT
 /datum/component/riding/proc/turf_check(turf/next, turf/current)
@@ -163,7 +163,7 @@
 		if(!istype(next) || !istype(current))
 			return	//not happening.
 		if(!turf_check(next, current))
-			to_chat(user, "Your \the [AM] can not go onto [next]!")
+			to_chat(user, "<span class='warning'>Your \the [AM] can not go onto [next]!</span>")
 			return
 		if(!Process_Spacemove(direction) || !isturf(AM.loc))
 			return
@@ -177,7 +177,7 @@
 		handle_vehicle_layer()
 		handle_vehicle_offsets()
 	else
-		to_chat(user, "<span class='notice'>You'll need the keys in one of your hands to [drive_verb] [AM].</span>")
+		to_chat(user, "<span class='warning'>You'll need the keys in one of your hands to [drive_verb] [AM].</span>")
 
 /datum/component/riding/proc/Unbuckle(atom/movable/M)
 	addtimer(CALLBACK(parent, /atom/movable/.proc/unbuckle_mob, M), 0, TIMER_UNIQUE)
@@ -219,7 +219,11 @@
 
 /datum/component/riding/human/handle_vehicle_layer()
 	var/atom/movable/AM = parent
+<<<<<<< HEAD
 	if(AM.buckled_mobs?.len)
+=======
+	if(AM.buckled_mobs && AM.buckled_mobs.len)
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 		for(var/mob/M in AM.buckled_mobs) //ensure proper layering of piggyback and carry, sometimes weird offsets get applied
 			M.layer = MOB_LAYER
 		if(!AM.buckle_lying)
@@ -241,7 +245,11 @@
 		return list(TEXT_NORTH = list(0, 6), TEXT_SOUTH = list(0, 6), TEXT_EAST = list(0, 6), TEXT_WEST = list(0, 6))
 	else
 		return list(TEXT_NORTH = list(0, 6), TEXT_SOUTH = list(0, 6), TEXT_EAST = list(-6, 4), TEXT_WEST = list( 6, 4))
+<<<<<<< HEAD
 	
+=======
+
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 /datum/component/riding/human/force_dismount(mob/living/user)
 	var/atom/movable/AM = parent
@@ -269,7 +277,7 @@
 		var/mob/living/carbon/carbonuser = user
 		if(!carbonuser.get_num_arms())
 			Unbuckle(user)
-			to_chat(user, "<span class='userdanger'>You can't grab onto [AM] with no hands!</span>")
+			to_chat(user, "<span class='warning'>You can't grab onto [AM] with no hands!</span>")
 			return
 
 /datum/component/riding/cyborg/handle_vehicle_layer()

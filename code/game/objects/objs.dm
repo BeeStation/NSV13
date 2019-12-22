@@ -1,6 +1,11 @@
 
 /obj
+<<<<<<< HEAD
 	animate_movement = SLIDE_STEPS
+=======
+	animate_movement = 2
+	speech_span = SPAN_ROBOT
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	var/obj_flags = CAN_BE_HIT
 
 	/// ONLY FOR MAPPING: Sets flags from a string list, handled in Initialize. Usage: set_obj_flags = "EMAGGED;!CAN_BE_HIT" to set EMAGGED and clear CAN_BE_HIT.
@@ -213,9 +218,6 @@
 	..()
 	if(!anchored || current_size >= STAGE_FIVE)
 		step_towards(src,S)
-
-/obj/get_spans()
-	return ..() | SPAN_ROBOT
 
 /obj/get_dumping_location(datum/component/storage/source,mob/user)
 	return get_turf(src)

@@ -66,8 +66,9 @@
 	..()
 	owner.mind.remove_antag_datum(/datum/antagonist/obsessed)
 
-/datum/brain_trauma/special/obsessed/on_say(message)
+/datum/brain_trauma/special/obsessed/handle_speech(datum/source, list/speech_args)
 	if(!viewing)
+<<<<<<< HEAD
 		return message
 	var/choked_up
 	var/datum/component/mood/mood = owner.GetComponent(/datum/component/mood)
@@ -77,6 +78,12 @@
 	if(choked_up)
 		return ""
 	return message
+=======
+		return
+	var/datum/component/mood/mood = owner.GetComponent(/datum/component/mood)
+	if(mood && mood.sanity >= SANITY_GREAT && social_interaction())
+		speech_args[SPEECH_MESSAGE] = ""
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 /datum/brain_trauma/special/obsessed/on_hug(mob/living/hugger, mob/living/hugged)
 	if(hugged == obsession)

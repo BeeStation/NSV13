@@ -53,7 +53,11 @@
 	var/datum/component/material_container/materials = AddComponent(/datum/component/material_container, list(/datum/material/iron, /datum/material/glass), MINERAL_MATERIAL_AMOUNT * MAX_STACK_SIZE * 2, TRUE, /obj/item/stack)
 	materials.insert_amount_mat(starting_amount)
 	materials.precise_insertion = TRUE
+<<<<<<< HEAD
 	using_materials = list(/datum/material/iron = iron_cost, /datum/material/glass = glass_cost)
+=======
+	using_materials = list(/datum/material/iron = metal_cost, /datum/material/glass = glass_cost)
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 /obj/machinery/droneDispenser/preloaded
 	starting_amount = 5000

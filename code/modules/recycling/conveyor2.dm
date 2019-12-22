@@ -326,6 +326,40 @@ GLOBAL_LIST_EMPTY(conveyors_by_id)
 	if((dir == NORTH) || (dir == WEST))
 		invert_icon = TRUE
 
+<<<<<<< HEAD
+=======
+//
+// CONVEYOR CONSTRUCTION STARTS HERE
+//
+
+/obj/item/conveyor_construct
+	icon = 'icons/obj/recycling.dmi'
+	icon_state = "conveyor_construct"
+	name = "conveyor belt assembly"
+	desc = "A conveyor belt assembly."
+	w_class = WEIGHT_CLASS_BULKY
+	var/id = "" //inherited by the belt
+
+/obj/item/conveyor_construct/attackby(obj/item/I, mob/user, params)
+	..()
+	if(istype(I, /obj/item/conveyor_switch_construct))
+		to_chat(user, "<span class='notice'>You link the switch to the conveyor belt assembly.</span>")
+		var/obj/item/conveyor_switch_construct/C = I
+		id = C.id
+
+/obj/item/conveyor_construct/afterattack(atom/A, mob/user, proximity)
+	. = ..()
+	if(!proximity || user.stat || !isfloorturf(A) || istype(A, /area/shuttle))
+		return
+	var/cdir = get_dir(A, user)
+	if(A == user.loc)
+		to_chat(user, "<span class='warning'>You cannot place a conveyor belt under yourself!</span>")
+		return
+	var/obj/machinery/conveyor/C = new/obj/machinery/conveyor(A, cdir, id)
+	transfer_fingerprints_to(C)
+	qdel(src)
+
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 /obj/item/conveyor_switch_construct
 	name = "conveyor switch assembly"
 	desc = "A conveyor control switch assembly."
@@ -339,7 +373,11 @@ GLOBAL_LIST_EMPTY(conveyors_by_id)
 	id = "[rand()]" //this couldn't possibly go wrong
 
 /obj/item/conveyor_switch_construct/attack_self(mob/user)
+<<<<<<< HEAD
 	for(var/obj/item/stack/conveyor/C in view())
+=======
+	for(var/obj/item/conveyor_construct/C in view())
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 		C.id = id
 	to_chat(user, "<span class='notice'>You have linked all nearby conveyor belt assemblies to this switch.</span>")
 

@@ -119,8 +119,12 @@ Thanks to spacemaniac and mcdonald for help with the JS side of this.
 	winset(src, "asset_cache_browser", "background-color = none;background-color = [COLOR_DARKMODE_BACKGROUND]")
 	winset(src, "asset_cache_browser", "text-color = #000000;text-color = [COLOR_DARKMODE_TEXT]")
 	winset(src, "tooltip", "background-color = none;background-color = [COLOR_DARKMODE_BACKGROUND]")
+<<<<<<< HEAD
 	winset(src, "tooltip", "text-color = #000000;text-color = [COLOR_DARKMODE_TEXT]")
 
 	winset(src, "discord", "background-color = none;background-color = #494949")
 	winset(src, "donate", "background-color = none;background-color = #494949")
 	winset(src, "current-map", "background-color = none;background-color = #494949; text-color = [COLOR_DARKMODE_TEXT]")
+=======
+	winset(src, "tooltip", "text-color = #000000;text-color = [COLOR_DARKMODE_TEXT]")
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36

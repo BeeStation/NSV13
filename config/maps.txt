@@ -10,8 +10,10 @@ Format:
 	default (The last map with this defined will get all votes of players who have not explicitly voted for a map)
 	voteweight [number] (How much to count each player vote as, defaults to 1, setting to 0.5 counts each vote as half a vote, 2 as double, etc, Setting to 0 disables the map but allows players to still pick it)
 	disabled (disables the map)
+	votable (is this map votable)
 endmap
 
+<<<<<<< HEAD
 map boxstation
 	maxplayers 60
 	votable
@@ -39,6 +41,25 @@ map donutstation
 	maxplayers 120
 	disabled
 endmap
+=======
+map aegis
+	default
+	maxplayers 20
+	votable
+endmap
+
+map Hammerhead
+	votable
+endmap
+
+map NSV_Taojhug
+endmap
+
+map Valkyrie
+endmap
+
+#DEBUG MAPS LEAVE AT BOTTOM
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 map runtimestation
 	disabled

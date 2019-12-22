@@ -425,6 +425,10 @@ for further reading, please see: https://github.com/tgstation/tgstation/pull/301
 	icon = 'icons/obj/wizard.dmi'
 	icon_state = "angelplasm"
 
+/obj/item/ectoplasm/angelic
+	icon = 'icons/obj/wizard.dmi'
+	icon_state = "angelplasm"
+
 /obj/item/mounted_chainsaw
 	name = "mounted chainsaw"
 	desc = "A chainsaw that has replaced your arm."
@@ -468,11 +472,17 @@ for further reading, please see: https://github.com/tgstation/tgstation/pull/301
 	throw_speed = 5
 	throw_range = 2
 	attack_verb = list("busted")
+	var/impressiveness = 45
+
+/obj/item/statuebust/Initialize()
+	. = ..()
+	AddComponent(/datum/component/art, impressiveness)
 
 /obj/item/statuebust/hippocratic
 	name = "hippocrates bust"
 	desc = "A bust of the famous Greek physician Hippocrates of Kos, often referred to as the father of western medicine."
 	icon_state = "hippocratic"
+	impressiveness = 50
 
 /obj/item/tailclub
 	name = "tail club"
@@ -659,6 +669,7 @@ for further reading, please see: https://github.com/tgstation/tgstation/pull/301
 	force = 0
 	throwforce = 5
 	reach = 2
+	var/min_reach = 2
 
 /obj/item/extendohand/acme
 	name = "\improper ACME Extendo-Hand"
@@ -666,7 +677,7 @@ for further reading, please see: https://github.com/tgstation/tgstation/pull/301
 
 /obj/item/extendohand/attack(atom/M, mob/living/carbon/human/user)
 	var/dist = get_dist(M, user)
-	if(dist < reach)
+	if(dist < min_reach)
 		to_chat(user, "<span class='warning'>[M] is too close to use [src] on.</span>")
 		return
 	M.attack_hand(user)

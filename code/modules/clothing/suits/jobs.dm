@@ -166,7 +166,12 @@
 	cold_protection = CHEST|ARMS
 	heat_protection = CHEST|ARMS
 
+<<<<<<< HEAD
 //Roboticist
+=======
+
+//Robotocist
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 /obj/item/clothing/suit/hooded/techpriest
 	name = "techpriest robes"
@@ -175,11 +180,19 @@
 	item_state = "techpriest"
 	body_parts_covered = CHEST|GROIN|LEGS|ARMS
 	hoodtype = /obj/item/clothing/head/hooded/techpriest
+<<<<<<< HEAD
 
+=======
+	
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 /obj/item/clothing/head/hooded/techpriest
 	name = "techpriest's hood"
 	desc = "A hood for those who REALLY love their toasters."
 	icon_state = "techpriesthood"
 	item_state = "techpriesthood"
 	body_parts_covered = HEAD
+<<<<<<< HEAD
 	flags_inv = HIDEHAIR|HIDEEARS
+=======
+	flags_inv = HIDEHAIR|HIDEEARS
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36

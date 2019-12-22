@@ -14,7 +14,11 @@
 
 		if("harm", "disarm")
 			if(HAS_TRAIT(M, TRAIT_PACIFISM))
+<<<<<<< HEAD
 				to_chat(M, "<span class='notice'>You don't want to hurt [src]!</span>")
+=======
+				to_chat(M, "<span class='warning'>You don't want to hurt [src]!</span>")
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 				return
 			M.do_attack_animation(src, ATTACK_EFFECT_PUNCH)
 			visible_message("<span class='danger'>[M] [response_harm] [src]!</span>",\
@@ -28,7 +32,11 @@
 /mob/living/simple_animal/attack_hulk(mob/living/carbon/human/user, does_attack_animation = 0)
 	if(user.a_intent == INTENT_HARM)
 		if(HAS_TRAIT(user, TRAIT_PACIFISM))
+<<<<<<< HEAD
 			to_chat(user, "<span class='notice'>You don't want to hurt [src]!</span>")
+=======
+			to_chat(user, "<span class='warning'>You don't want to hurt [src]!</span>")
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 			return FALSE
 		..(user, 1)
 		playsound(loc, "punch", 25, 1, -1)

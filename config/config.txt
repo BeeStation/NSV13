@@ -168,8 +168,11 @@ ID_CONSOLE_JOBSLOT_DELAY 30
 ## allow players to initiate a restart vote
 #ALLOW_VOTE_RESTART
 
-## allow players to initate a mode-change start
+## allow players to initiate a mode-change vote
 #ALLOW_VOTE_MODE
+
+## allow players to initiate a map-change vote
+#ALLOW_VOTE_MAP
 
 ## min delay (deciseconds) between voting sessions (default 10 minutes)
 VOTE_DELAY 6000
@@ -375,12 +378,15 @@ ANNOUNCE_ADMIN_LOGIN
 #MAPROTATION
 
 ## Map voting
-## Allows players to vote for their preffered map
+## Allows players to vote with their preffered map setting
 ## When it's set to zero, the map will be randomly picked each round
 PREFERENCE_MAP_VOTING 1
+<<<<<<< HEAD
 
 ## Starts a map vote at the end of rounds
 AUTOMAPVOTE
+=======
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 ## Map rotate chance delta
 ## This is the chance of map rotation factored to the round length.
@@ -437,8 +443,21 @@ MINUTE_CLICK_LIMIT 500
 ##How long to wait between messaging admins about occurences of a unique error
 #ERROR_MSG_DELAY 50
 
+<<<<<<< HEAD
 ## Send a message to IRC when starting a new game
 #IRC_ANNOUNCE_NEW_GAME
+=======
+
+## Chat Announce Options
+## Various messages to be sent to game chats
+## Uncommenting these will enable them, by default they will be broadcast to Game chat channels on TGS3 or non-admin channels on TGS4
+## If using TGS4, the string option can be set as a chat channel tag to limit the message to channels of that tag type (case-sensitive)
+## i.e. CHAT_ANNOUNCE_NEW_GAME chat_channel_tag
+
+## Send a message with the station name starting a new game. Also required for the notify function
+#CHAT_ANNOUNCE_NEW_GAME
+
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 ## Allow admin hrefs that don't use the new token system, will eventually be removed
 DEBUG_ADMIN_HREFS
@@ -469,12 +488,14 @@ DISABLE_HIGH_POP_MC_MODE_AMOUNT 100
 ## Uncomment to set the number of /world/Reboot()s before the DreamDaemon restarts itself. 0 means restart every round. Requires tgstation server tools.
 ROUNDS_UNTIL_HARD_RESTART 3
 
-##Default screen resolution, in tiles.
-##	By default, this is 15x15, which gets simplified to 7 by BYOND, as it is a 1:1 screen ratio.
-##	For reference, Goonstation uses a resolution of 21x15 for it's widescreen mode.
+##Default view size, in tiles.
+##	By default, this is 15x15, which gets simplified to 7 by byond
+##  15x15 would be the standard square view. 21x15 is what goonstation uses for widescreen.
+##  Setting this to something different from DEFAULT_VIEW_SQUARE will enable widescreen toggles
 ##	Do note that changing this value will affect the title screen. The title screen will have to be updated manually if this is changed.
 DEFAULT_VIEW 15x15
 
+<<<<<<< HEAD
 ## Name your perpetual currency here
 ## This is used within the metashop and earned by playing the game.
 METACURRENCY_NAME BeeCoin
@@ -486,3 +507,9 @@ GRANT_METACURRENCY
 ## Respect global bans
 ## Comment this out to ignore global bans
 RESPECT_GLOBAL_BANS
+=======
+##Default view size, in tiles. Should *always* be square.
+## The alternative square viewport size if you're using a widescreen view size
+## You probably shouldn't ever be changing this, but it's here if you want to.
+DEFAULT_VIEW_SQUARE 15x15
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36

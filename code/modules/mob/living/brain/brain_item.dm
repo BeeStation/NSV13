@@ -24,7 +24,11 @@
 
 	if(C.mind && C.mind.has_antag_datum(/datum/antagonist/changeling) && !no_id_transfer)	//congrats, you're trapped in a body you don't control
 		if(brainmob && !(C.stat == DEAD || (HAS_TRAIT(C, TRAIT_DEATHCOMA))))
+<<<<<<< HEAD
 			to_chat(brainmob, "<span class = danger>You can't feel your body! You're still just a brain!</span>")
+=======
+			to_chat(brainmob, "<span class= danger>You can't feel your body! You're still just a brain!</span>")
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 		forceMove(C)
 		C.update_hair()
 		return

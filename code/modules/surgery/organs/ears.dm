@@ -119,6 +119,7 @@
 	desc = "The robust ears of a bronze golem. "
 	damage_multiplier = 0.1 //STRONK
 	bang_protect = 1 //Fear me weaklings.
+<<<<<<< HEAD
 
 /obj/item/organ/ears/robot
 	name = "auditory sensors"
@@ -142,3 +143,5 @@
 			owner.Dizzy(15)
 			owner.Knockdown(100)
 			to_chat(owner, "<span class='warning'>Your robotic ears buzz.</span>") 
+=======
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36

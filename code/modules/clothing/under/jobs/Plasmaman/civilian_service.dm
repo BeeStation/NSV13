@@ -54,6 +54,7 @@
 	icon_state = "botany_envirosuit"
 	item_state = "botany_envirosuit"
 	item_color = "botany_envirosuit"
+<<<<<<< HEAD
 	
 /obj/item/clothing/under/plasmaman/command //fun fact, captains uniforms don't get the sec uniform defense buff, pretty stupid
 	name = "captains plasma envirosuit"
@@ -72,13 +73,44 @@
 /obj/item/clothing/under/plasmaman/mime
 	name = "mime envirosuit"
 	desc = "A black and white envirosuit, your bones may rattle but that won't stop your silent shinanigains!."
+=======
+
+
+/obj/item/clothing/under/plasmaman/mime
+	name = "mime envirosuit"
+	desc = "It's not very colourful."
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	icon_state = "mime_envirosuit"
 	item_state = "mime_envirosuit"
 	item_color = "mime_envirosuit"
 
+<<<<<<< HEAD
 /obj/item/clothing/under/plasmaman/honk
 	name = "Clowns plasma envirosuit"
 	desc = "A rainbow colored envirosuit, it reaks of bananas and cheap rubber horns."
 	icon_state = "honk_envirosuit"
 	item_state = "honk_envirosuit"
 	item_color = "honk_envirosuit"
+=======
+/obj/item/clothing/under/plasmaman/clown
+	name = "clown envirosuit"
+	desc = "<i>'HONK!'</i>"
+	icon_state = "clown_envirosuit"
+	item_state = "clown_envirosuit"
+	item_color = "clown_envirosuit"
+
+/obj/item/clothing/under/plasmaman/clown/Extinguish(mob/living/carbon/human/H)
+	if(!istype(H))
+		return
+
+	if(H.on_fire)
+		if(extinguishes_left)
+			if(next_extinguish > world.time)
+				return
+			next_extinguish = world.time + extinguish_cooldown
+			extinguishes_left--
+			H.visible_message("<span class='warning'>[H]'s suit spews out a tonne of space lube!</span>","<span class='warning'>Your suit spews out a tonne of space lube!</span>")
+			H.ExtinguishMob()
+			new /obj/effect/particle_effect/foam(loc) //Truely terrifying.
+	return 0
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36

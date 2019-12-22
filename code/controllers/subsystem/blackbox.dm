@@ -139,6 +139,8 @@ SUBSYSTEM_DEF(blackbox)
 			record_feedback("tally", "radio_usage", 1, "supply")
 		if(FREQ_CENTCOM)
 			record_feedback("tally", "radio_usage", 1, "centcom")
+		if(FREQ_ATC) //NSV13 - ATC chat
+			record_feedback("tally", "radio_usage", 1, "air traffic control")
 		if(FREQ_AI_PRIVATE)
 			record_feedback("tally", "radio_usage", 1, "ai private")
 		if(FREQ_CTF_RED)

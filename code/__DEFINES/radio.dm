@@ -46,6 +46,10 @@
 #define RADIO_KEY_CENTCOM "y"
 #define RADIO_TOKEN_CENTCOM ":y"
 
+#define RADIO_CHANNEL_ATC "Air Traffic Control" //Nsv13 - Air traffic  control chat
+#define RADIO_KEY_ATC "q"
+#define RADIO_TOKEN_ATC ":q"
+
 #define RADIO_CHANNEL_CTF_RED "Red Team"
 #define RADIO_CHANNEL_CTF_BLUE "Blue Team"
 
@@ -53,6 +57,7 @@
 #define MIN_FREE_FREQ 1201 // -------------------------------------------------
 // Frequencies are always odd numbers and range from 1201 to 1599.
 
+<<<<<<< HEAD
 #define FREQ_SYNDICATE 1213  //!  Nuke op comms frequency, dark brown
 #define FREQ_CTF_RED 1215  //!  CTF red team comms frequency, red
 #define FREQ_CTF_BLUE 1217  //!  CTF blue team comms frequency, blue
@@ -64,6 +69,20 @@
 #define FREQ_MEDICAL 1355  //! Medical comms frequency, soft blue
 #define FREQ_ENGINEERING 1357  //! Engineering comms frequency, orange
 #define FREQ_SECURITY 1359  //! Security comms frequency, red
+=======
+#define FREQ_SYNDICATE 1213  // Nuke op comms frequency, dark brown
+#define FREQ_CTF_RED 1215  // CTF red team comms frequency, red
+#define FREQ_CTF_BLUE 1217  // CTF blue team comms frequency, blue
+#define FREQ_CENTCOM 1337  // CentCom comms frequency, gray
+#define FREQ_ATC 1237  // Air traffic control comms frequency, grey
+#define FREQ_SUPPLY 1347  // Supply comms frequency, light brown
+#define FREQ_SERVICE 1349  // Service comms frequency, green
+#define FREQ_SCIENCE 1351  // Science comms frequency, plum
+#define FREQ_COMMAND 1353  // Command comms frequency, gold
+#define FREQ_MEDICAL 1355  // Medical comms frequency, soft blue
+#define FREQ_ENGINEERING 1357  // Engineering comms frequency, orange
+#define FREQ_SECURITY 1359  // Security comms frequency, red
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 #define FREQ_STATUS_DISPLAYS 1435
 #define FREQ_ATMOS_ALARMS 1437  //! air alarms <-> alert computers

@@ -48,7 +48,11 @@
 		var/mob/M = target
 		if(M.anti_magic_check(check_antimagic, check_holy))
 			return FALSE
+<<<<<<< HEAD
 		if(ignored_factions?.len && faction_check(M.faction,ignored_factions))
+=======
+		if(ignored_factions && ignored_factions.len && faction_check(M.faction,ignored_factions))
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 			return FALSE
 
 
@@ -127,4 +131,8 @@
 		if(new_turf.density)
 			break
 		T = new_turf
+<<<<<<< HEAD
 	perform(list(T),user = user)
+=======
+	perform(list(T),user = user)
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36

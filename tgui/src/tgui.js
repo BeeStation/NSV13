@@ -52,6 +52,7 @@ if (data !== '{}') {
   holder.remove()
 }
 
+<<<<<<< HEAD
 // Let the server know we're set up.
 // This also sends data if it was not inlined.
 // NOTE: This is currently handled by tgui-next. Only initialize if
@@ -68,3 +69,10 @@ if (window.tguiFallback) {
 else {
   act(ref, 'tgui:update');
 }
+=======
+// Load fonts.
+import { loadCSS } from 'fg-loadcss'
+loadCSS('v4shim.css')
+loadCSS('font-awesome.css')
+// Handle font loads.
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36

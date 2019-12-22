@@ -31,16 +31,27 @@
 								"H.O.N.K",
 								"Phazon",
 								"Exosuit Equipment",
+								"Exosuit Ammunition",
 								"Cyborg Upgrade Modules",
 								"IPC components",
 								"Misc"
 								)
 
+<<<<<<< HEAD
 /obj/machinery/mecha_part_fabricator/Initialize(mapload)
 	stored_research = new
 	rmat = AddComponent(/datum/component/remote_materials, "mechfab", mapload && link_on_init)
 	RefreshParts() //Recalculating local material sizes if the fab isn't linked
 	return ..()
+=======
+/obj/machinery/mecha_part_fabricator/Initialize()
+    var/datum/component/material_container/materials = AddComponent(/datum/component/material_container,
+     list(/datum/material/iron, /datum/material/glass, /datum/material/silver, /datum/material/gold, /datum/material/diamond, /datum/material/plasma, /datum/material/uranium, /datum/material/bananium, /datum/material/titanium, /datum/material/bluespace), 0,
+        TRUE, /obj/item/stack, CALLBACK(src, .proc/is_insertion_ready), CALLBACK(src, .proc/AfterMaterialInsert))
+    materials.precise_insertion = TRUE
+    stored_research = new
+    return ..()
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 /obj/machinery/mecha_part_fabricator/RefreshParts()
 	var/T = 0
@@ -48,7 +59,12 @@
 	//maximum stocking amount (default 300000, 600000 at T4)
 	for(var/obj/item/stock_parts/matter_bin/M in component_parts)
 		T += M.rating
+<<<<<<< HEAD
 	rmat.set_local_size((200000 + (T*50000)))
+=======
+	var/datum/component/material_container/materials = GetComponent(/datum/component/material_container)
+	materials.max_amount = (200000 + (T*50000))
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 	//resources adjustment coefficient (1 -> 0.85 -> 0.7 -> 0.55)
 	T = 1.15
@@ -64,8 +80,14 @@
 
 /obj/machinery/mecha_part_fabricator/examine(mob/user)
 	. = ..()
+<<<<<<< HEAD
 	if(in_range(user, src) || isobserver(user))
 		. += "<span class='notice'>The status display reads: Storing up to <b>[rmat.local_size]</b> material units.<br>Material consumption at <b>[component_coeff*100]%</b>.<br>Build time reduced by <b>[100-time_coeff*100]%</b>.<span>"
+=======
+	var/datum/component/material_container/materials = GetComponent(/datum/component/material_container)
+	if(in_range(user, src) || isobserver(user))
+		. += "<span class='notice'>The status display reads: Storing up to <b>[materials.max_amount]</b> material units.<br>Material consumption at <b>[component_coeff*100]%</b>.<br>Build time reduced by <b>[100-time_coeff*100]%</b>.</span>"
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 /obj/machinery/mecha_part_fabricator/emag_act()
 	if(obj_flags & EMAGGED)
@@ -108,6 +130,7 @@
 
 /obj/machinery/mecha_part_fabricator/proc/output_available_resources()
 	var/output
+<<<<<<< HEAD
 	var/datum/component/material_container/materials = rmat.mat_container
 
 	if(materials)
@@ -124,6 +147,19 @@
 			output += "<br>"
 	else
 		output += "<font color='red'>No material storage connected, please contact the quartermaster.</font><br>"
+=======
+	var/datum/component/material_container/materials = GetComponent(/datum/component/material_container)
+	for(var/mat_id in materials.materials)
+		var/datum/material/M = mat_id
+		var/amount = materials.materials[mat_id]
+		output += "<span class=\"res_name\">[M.name]: </span>[amount] cm&sup3;"
+		if(amount >= MINERAL_MATERIAL_AMOUNT)
+			output += "<span style='font-size:80%;'>- Remove \[<a href='?src=[REF(src)];remove_mat=1;material=[REF(mat_id)]'>1</a>\]"
+			if(amount >= (MINERAL_MATERIAL_AMOUNT * 10))
+				output += " | \[<a href='?src=[REF(src)];remove_mat=10;material=[REF(M)]'>10</a>\]"
+			output += " | \[<a href='?src=[REF(src)];remove_mat=50;material=[REF(M)]'>All</a>\]</span>"
+		output += "<br/>"
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	return output
 
 /obj/machinery/mecha_part_fabricator/proc/get_resources_w_coeff(datum/design/D)
@@ -136,7 +172,11 @@
 /obj/machinery/mecha_part_fabricator/proc/check_resources(datum/design/D)
 	if(D.reagents_list.len) // No reagents storage - no reagent designs.
 		return FALSE
+<<<<<<< HEAD
 	var/datum/component/material_container/materials = rmat.mat_container
+=======
+	var/datum/component/material_container/materials = GetComponent(/datum/component/material_container)
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	if(materials.has_materials(get_resources_w_coeff(D)))
 		return TRUE
 	return FALSE
@@ -159,6 +199,11 @@
 	materials.use_materials(res_coef)
 	rmat.silo_log(src, "built", -1, "[D.name]", res_coef)
 
+<<<<<<< HEAD
+=======
+	var/datum/component/material_container/materials = GetComponent(/datum/component/material_container)
+	materials.use_materials(res_coef)
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	add_overlay("fab-active")
 	use_power = ACTIVE_POWER_USE
 	updateUsrDialog()
@@ -397,12 +442,19 @@
 					break
 
 	if(href_list["remove_mat"] && href_list["material"])
+<<<<<<< HEAD
 		var/datum/material/Mat = locate(href_list["material"])
 		eject_sheets(Mat, text2num(href_list["remove_mat"]))
+=======
+		var/datum/component/material_container/materials = GetComponent(/datum/component/material_container)
+		var/datum/material/Mat = locate(href_list["material"])
+		materials.retrieve_sheets(text2num(href_list["remove_mat"]), Mat)
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 	updateUsrDialog()
 	return
 
+<<<<<<< HEAD
 /obj/machinery/mecha_part_fabricator/proc/do_process_queue()		
 	if(processing_queue || being_built)		
 		return FALSE		
@@ -423,6 +475,12 @@
 	matlist[eject_sheet] = text2num(eject_amt)
 	rmat.silo_log(src, "ejected", -count, "sheets", matlist)
 	return count
+=======
+/obj/machinery/mecha_part_fabricator/on_deconstruction()
+	var/datum/component/material_container/materials = GetComponent(/datum/component/material_container)
+	materials.retrieve_all()
+	..()
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 /obj/machinery/mecha_part_fabricator/proc/AfterMaterialInsert(type_inserted, id_inserted, amount_inserted)
 	var/datum/material/M = id_inserted

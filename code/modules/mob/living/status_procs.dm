@@ -440,12 +440,20 @@
 
 /mob/living/proc/become_husk(source)
 	if(!HAS_TRAIT(src, TRAIT_HUSK))
+<<<<<<< HEAD
 		ADD_TRAIT(src, TRAIT_HUSK, source)
 		ADD_TRAIT(src, TRAIT_DISFIGURED, "husk")
 		update_body()
 	else
 		ADD_TRAIT(src, TRAIT_HUSK, source)
 	
+=======
+		ADD_TRAIT(src, TRAIT_DISFIGURED, "husk")
+		update_body()
+		. = TRUE
+	ADD_TRAIT(src, TRAIT_HUSK, source)
+
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 /mob/living/proc/cure_fakedeath(source)
 	REMOVE_TRAIT(src, TRAIT_FAKEDEATH, source)
 	REMOVE_TRAIT(src, TRAIT_DEATHCOMA, source)

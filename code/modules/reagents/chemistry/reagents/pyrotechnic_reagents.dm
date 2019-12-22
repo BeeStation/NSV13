@@ -135,7 +135,10 @@
 	color = "#FA00AF"
 	taste_description = "burning"
 	self_consuming = TRUE
+<<<<<<< HEAD
 	process_flags = ORGANIC | SYNTHETIC
+=======
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 /datum/reagent/phlogiston/reaction_mob(mob/living/M, method=TOUCH, reac_volume)
 	M.adjust_fire_stacks(1)
@@ -158,7 +161,10 @@
 	color = "#FA00AF"
 	taste_description = "burning"
 	self_consuming = TRUE
+<<<<<<< HEAD
 	process_flags = ORGANIC | SYNTHETIC
+=======
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 /datum/reagent/napalm/on_mob_life(mob/living/carbon/M)
 	M.adjust_fire_stacks(1)
@@ -176,7 +182,10 @@
 	metabolization_rate = 0.5 * REAGENTS_METABOLISM
 	taste_description = "bitterness"
 	self_consuming = TRUE
+<<<<<<< HEAD
 	process_flags = ORGANIC | SYNTHETIC
+=======
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 
 /datum/reagent/cryostylane/on_mob_life(mob/living/carbon/M) //TODO: code freezing into an ice cube
@@ -197,7 +206,10 @@
 	metabolization_rate = 0.5 * REAGENTS_METABOLISM
 	taste_description = "bitterness"
 	self_consuming = TRUE
+<<<<<<< HEAD
 	process_flags = ORGANIC | SYNTHETIC
+=======
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 /datum/reagent/pyrosium/on_mob_life(mob/living/carbon/M)
 	if(M.reagents.has_reagent(/datum/reagent/oxygen))
@@ -223,6 +235,18 @@
 		M.electrocute_act(rand(5,20), "Teslium in their body", 1, 1) //Override because it's caused from INSIDE of you
 		playsound(M, "sparks", 50, 1)
 	..()
+
+/datum/reagent/teslium/on_mob_metabolize(mob/living/carbon/human/L)
+	. = ..()
+	if(!istype(L))
+		return
+	L.physiology.siemens_coeff *= 2
+
+/datum/reagent/teslium/on_mob_end_metabolize(mob/living/carbon/human/L)
+	. = ..()
+	if(!istype(L))
+		return
+	L.physiology.siemens_coeff *= 0.5
 
 /datum/reagent/teslium/energized_jelly
 	name = "Energized Jelly"

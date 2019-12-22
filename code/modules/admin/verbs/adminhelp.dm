@@ -196,7 +196,7 @@ GLOBAL_DATUM_INIT(ahelp_tickets, /datum/admin_help_tickets, new)
 		message_admins("<font color='blue'>Ticket [TicketHref("#[id]")] created</font>")
 	else
 		MessageNoRecipient(msg)
-
+		SSredbot.send_discord_message("admin", "Ticket #[id] created by [usr.ckey] ([usr.real_name]): [name]", "ticket")
 		//send it to irc if nobody is on and tell us how many were on
 		var/admin_number_present = send2irc_adminless_only(initiator_ckey, "Ticket #[id]: [name]")
 		log_admin_private("Ticket #[id]: [key_name(initiator)]: [name] - heard by [admin_number_present] non-AFK admins who have +BAN.")
@@ -443,9 +443,9 @@ GLOBAL_DATUM_INIT(ahelp_tickets, /datum/admin_help_tickets, new)
 			dat += "CLOSED"
 		else
 			dat += "UNKNOWN"
-	dat += "</b>[GLOB.TAB][TicketHref("Refresh", ref_src)][GLOB.TAB][TicketHref("Re-Title", ref_src, "retitle")]"
+	dat += "</b>[FOURSPACES][TicketHref("Refresh", ref_src)][FOURSPACES][TicketHref("Re-Title", ref_src, "retitle")]"
 	if(state != AHELP_ACTIVE)
-		dat += "[GLOB.TAB][TicketHref("Reopen", ref_src, "reopen")]"
+		dat += "[FOURSPACES][TicketHref("Reopen", ref_src, "reopen")]"
 	dat += "<br><br>Opened at: [gameTimestamp(wtime = opened_at)] (Approx [DisplayTimeText(world.time - opened_at)] ago)"
 	if(closed_at)
 		dat += "<br>Closed at: [gameTimestamp(wtime = closed_at)] (Approx [DisplayTimeText(world.time - closed_at)] ago)"
@@ -453,7 +453,7 @@ GLOBAL_DATUM_INIT(ahelp_tickets, /datum/admin_help_tickets, new)
 	if(initiator)
 		dat += "<b>Actions:</b> [FullMonty(ref_src)]<br>"
 	else
-		dat += "<b>DISCONNECTED</b>[GLOB.TAB][ClosureLinks(ref_src)]<br>"
+		dat += "<b>DISCONNECTED</b>[FOURSPACES][ClosureLinks(ref_src)]<br>"
 	dat += "<br><b>Log:</b><br><br>"
 	for(var/I in _interactions)
 		dat += "[I]<br>"

@@ -79,7 +79,10 @@ GLOBAL_LIST_INIT(uplink_items, subtypesof(/datum/uplink_item))
 
 		uplink_items[category_name][A.name] = A
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 /**
  * Uplink Items
@@ -96,7 +99,6 @@ GLOBAL_LIST_INIT(uplink_items, subtypesof(/datum/uplink_item))
 	var/refund_amount = 0 // specified refund amount in case there needs to be a TC penalty for refunds.
 	var/refundable = FALSE
 	var/surplus = 100 // Chance of being included in the surplus crate.
-	var/surplus_nullcrates //Chance of being included in null crates. null = pull from surplus
 	var/cant_discount = FALSE
 	var/limited_stock = -1 //Setting this above zero limits how many times this item can be bought by the same traitor in a round, -1 is unlimited
 	var/list/include_modes = list() // Game modes to allow this item in.
@@ -107,11 +109,6 @@ GLOBAL_LIST_INIT(uplink_items, subtypesof(/datum/uplink_item))
 	var/restricted = FALSE // Adds restrictions for VR/Events
 	var/list/restricted_species //Limits items to a specific species. Hopefully.
 	var/illegal_tech = TRUE // Can this item be deconstructed to unlock certain techweb research nodes?
-
-/datum/uplink_item/New()
-	. = ..()
-	if(isnull(surplus_nullcrates))
-		surplus_nullcrates = surplus
 
 /datum/uplink_item/proc/get_discount()
 	return pick(4;0.75,2;0.5,1;0.25)
@@ -495,7 +492,7 @@ GLOBAL_LIST_INIT(uplink_items, subtypesof(/datum/uplink_item))
 	name = "Surplus Rifle"
 	desc = "A horribly outdated bolt action weapon. You've got to be desperate to use this."
 	item = /obj/item/gun/ballistic/rifle/boltaction
-	cost = 2
+	cost = 1
 	include_modes = list(/datum/game_mode/nuclear)
 
 /datum/uplink_item/dangerous/revolver
@@ -840,6 +837,20 @@ GLOBAL_LIST_INIT(uplink_items, subtypesof(/datum/uplink_item))
 	cost = 1
 	include_modes = list(/datum/game_mode/nuclear)
 
+/datum/uplink_item/ammo/dark_gygax/bag
+	name = "Dark Gygax Ammo Bag"
+	desc = "A duffel bag containing ammo for three full reloads of the incendiary carbine and flash bang launcher that are equipped on a standard Dark Gygax exosuit."
+	item = /obj/item/storage/backpack/duffelbag/syndie/ammo/dark_gygax
+	cost = 4
+	include_modes = list(/datum/game_mode/nuclear)
+
+/datum/uplink_item/ammo/mauler/bag
+	name = "Mauler Ammo Bag"
+	desc = "A duffel bag containing ammo for three full reloads of the LMG, scattershot carbine, and SRM-8 missile laucher that are equipped on a standard Mauler exosuit."
+	item = /obj/item/storage/backpack/duffelbag/syndie/ammo/mauler
+	cost = 6
+	include_modes = list(/datum/game_mode/nuclear)
+
 //Grenades and Explosives
 /datum/uplink_item/explosives
 	category = "Explosives"
@@ -1139,7 +1150,11 @@ GLOBAL_LIST_INIT(uplink_items, subtypesof(/datum/uplink_item))
 			Useful for disrupting headsets, cameras, doors, lockers and borgs during stealth operations. \
 			Attacking a target with this flashlight will direct an EM pulse at it and consumes a charge."
 	item = /obj/item/flashlight/emp
+<<<<<<< HEAD
 	cost = 3
+=======
+	cost = 4
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	surplus = 30
 
 /datum/uplink_item/stealthy_tools/mulligan
@@ -1297,7 +1312,6 @@ GLOBAL_LIST_INIT(uplink_items, subtypesof(/datum/uplink_item))
 	item = /obj/item/disk/nuclear/fake
 	cost = 1
 	surplus = 1
-	surplus_nullcrates = 0
 
 /datum/uplink_item/device_tools/frame
 	name = "F.R.A.M.E. PDA Cartridge"
@@ -1458,7 +1472,12 @@ GLOBAL_LIST_INIT(uplink_items, subtypesof(/datum/uplink_item))
 	The crew can move their funds to a new banking site though, unless they HODL, in which case they deserve it."
 	item = /obj/item/suspiciousphone
 	restricted = TRUE
+<<<<<<< HEAD
 	cost = 8
+=======
+	cost = 7
+	limited_stock = 1
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 // Implants
 /datum/uplink_item/implants
@@ -1589,7 +1608,11 @@ GLOBAL_LIST_INIT(uplink_items, subtypesof(/datum/uplink_item))
 	item = /obj/item/clothing/under/color/grey/glorf
 	cost = 20
 	restricted_roles = list("Assistant")
+<<<<<<< HEAD
 	surplus = 1
+=======
+	surplus = 0
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 /datum/uplink_item/role_restricted/oldtoolboxclean
 	name = "Ancient Toolbox"
@@ -1671,6 +1694,17 @@ GLOBAL_LIST_INIT(uplink_items, subtypesof(/datum/uplink_item))
 	item = /obj/item/grenade/spawnergrenade/clown_broken
 	cost = 5
 	restricted_roles = list("Clown")
+
+
+/datum/uplink_item/role_restricted/spider_injector
+	name = "Australicus Slime Mutator"
+	desc = "Crikey mate, it's been a wild travel from the Australicus sector but we've managed to get \
+			some special spider extract from the giant spiders down there. Use this injector on a gold slime core \
+			to create a few of the same type of spiders we found on the planets over there. They're a bit tame until you \
+			also give them a bit of sentience though."
+	item = /obj/item/reagent_containers/syringe/spider_extract
+	cost = 10
+	restricted_roles = list("Research Director", "Scientist", "Roboticist")
 
 /datum/uplink_item/role_restricted/clowncar
 	name = "Clown Car"

@@ -51,13 +51,20 @@
 	icon_state = "monkfrock"
 	item_state = "monkfrock"
 	body_parts_covered = CHEST|GROIN|LEGS|ARMS
+<<<<<<< HEAD
 	flags_inv = HIDEJUMPSUIT
+=======
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	hoodtype = /obj/item/clothing/head/hooded/monkfrock
 	
 /obj/item/clothing/head/hooded/monkfrock
 	name = "monk's hood"
 	desc = "For when a man wants to cover up his tonsure."
 	icon_state = "monkhood"
+<<<<<<< HEAD
+=======
+	item_state = "monkhood"
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	body_parts_covered = HEAD
 	flags_inv = HIDEHAIR|HIDEEARS
 

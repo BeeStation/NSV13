@@ -588,6 +588,7 @@
 	construction_time = 120
 	category = list("Cyborg Upgrade Modules")
 
+<<<<<<< HEAD
 /datum/design/borg_upgrade_vtec
 	name = "Cyborg Upgrade (VTEC Module)"
 	id = "borg_upgrade_vtec"
@@ -597,6 +598,8 @@
 	construction_time = 80
 	category = list("Cyborg Upgrade Modules")
 
+=======
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 /datum/design/borg_upgrade_thrusters
 	name = "Cyborg Upgrade (Ion Thrusters)"
 	id = "borg_upgrade_thrusters"
@@ -747,6 +750,7 @@
 	build_type = MECHFAB
 	build_path = /obj/item/borg/upgrade/rped
 	materials = list(/datum/material/iron = 10000, /datum/material/glass = 5000)
+<<<<<<< HEAD
 	construction_time = 120
 	category = list("Cyborg Upgrade Modules")
 
@@ -756,6 +760,8 @@
 	build_type = MECHFAB
 	build_path = /obj/item/borg/upgrade/circuit_app
 	materials = list(/datum/material/iron = 2000, /datum/material/titanium = 500)
+=======
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	construction_time = 120
 	category = list("Cyborg Upgrade Modules")
 

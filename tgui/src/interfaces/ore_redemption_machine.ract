@@ -3,10 +3,30 @@
 		This machine only accepts ore. Gibtonite and Slag are not accepted.
 	</ui-section>
 	<ui-section>
+<<<<<<< HEAD
 		Current unclaimed points: {{data.unclaimedPoints}}
+=======
+		Current unclaimed credits: {{data.unclaimedPoints}}
+		{{#if data.unclaimedPoints && data.hasAccount}}
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 			<ui-button action='Claim'>
-				Claim Points
+				Claim
 			</ui-button>
+<<<<<<< HEAD
+=======
+		{{/if}}
+	</ui-section>
+	<ui-section>
+		{{#if data.hasID}}
+			<ui-button action='Eject'>
+				Eject ID
+			</ui-button>
+		{{else}}
+			<ui-button action='Insert'>
+				Insert ID
+			</ui-button>
+		{{/if}}
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	</ui-section>
 </ui-display>
 <ui-display>

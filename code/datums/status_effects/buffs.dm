@@ -310,6 +310,7 @@
 		last_staminaloss = owner.getStaminaLoss()
 		owner.log_message("gained blood-drunk stun immunity", LOG_ATTACK)
 		owner.add_stun_absorption("blooddrunk", INFINITY, 4)
+		ADD_TRAIT(owner, TRAIT_IGNOREDAMAGESLOWDOWN, "blooddrunk");
 		owner.playsound_local(get_turf(owner), 'sound/effects/singlebeat.ogg', 40, 1)
 
 /datum/status_effect/blooddrunk/tick() //multiply the effect of healing by 10
@@ -487,7 +488,11 @@
 		else
 			owner.visible_message("[owner]'s soul is absorbed into the rod, relieving the previous snake of its duty.")
 			var/mob/living/simple_animal/hostile/retaliate/poison/snake/healSnake = new(owner.loc)
+<<<<<<< HEAD
 			var/list/chems = list(/datum/reagent/medicine/bicaridine, /datum/reagent/medicine/salbutamol, /datum/reagent/medicine/kelotane, /datum/reagent/medicine/antitoxin)
+=======
+			var/list/chems = list(/datum/reagent/medicine/sal_acid, /datum/reagent/medicine/perfluorodecalin, /datum/reagent/medicine/oxandrolone)
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 			healSnake.poison_type = pick(chems)
 			healSnake.name = "Asclepius's Snake"
 			healSnake.real_name = "Asclepius's Snake"

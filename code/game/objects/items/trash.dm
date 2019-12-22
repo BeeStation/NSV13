@@ -7,6 +7,18 @@
 	w_class = WEIGHT_CLASS_TINY
 	resistance_flags = FLAMMABLE
 
+/obj/item/trash/Initialize(mapload)
+	var/turf/T = get_turf(src)
+	if(T && is_station_level(T.z))
+		SSblackbox.record_feedback("tally", "station_mess_created", 1, name)
+	return ..()
+
+/obj/item/trash/Destroy()
+	var/turf/T = get_turf(src)
+	if(T && is_station_level(T.z))
+		SSblackbox.record_feedback("tally", "station_mess_destroyed", 1, name)
+	return ..()
+
 /obj/item/trash/raisins
 	name = "\improper 4no raisins"
 	icon_state= "4no_raisins"
@@ -72,6 +84,7 @@
 	resistance_flags = NONE
 	grind_results = list(/datum/reagent/aluminium = 10)
 
+<<<<<<< HEAD
 /obj/item/trash/can/food/peaches
 	name = "canned peaches"
 	icon = 'icons/obj/food/food.dmi'
@@ -86,6 +99,8 @@
 	icon = 'icons/obj/food/food.dmi'
 	icon_state = "beans_empty"
 
+=======
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 /obj/item/trash/can/Initialize()
 	. = ..()
 	pixel_x = rand(-4,4)

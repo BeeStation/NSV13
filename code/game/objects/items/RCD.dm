@@ -51,10 +51,13 @@ RLD
 /obj/item/construction/examine(mob/user)
 	. = ..()
 	. += "\A [src]. It currently holds [matter]/[max_matter] matter-units."
+<<<<<<< HEAD
 	if(upgrade & RCD_UPGRADE_SILO_LINK)
 		. += "\A [src]. Remote storage link state: [silo_link ? "[silo_mats.on_hold() ? "ON HOLD" : "ON"]" : "OFF"]."
 		if(silo_link && !silo_mats.on_hold())
 			. += "\A [src]. Remote connection have iron in equivalent to [silo_mats.mat_container.get_material_amount(/datum/material/iron)/500] rcd units." // 1 matter for 1 floortile, as 4 tiles are produced from 1 iron
+=======
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 /obj/item/construction/Destroy()
 	QDEL_NULL(spark_system)
@@ -94,8 +97,11 @@ RLD
 		var/obj/item/rcd_upgrade/rcd_up = W
 		if(!(upgrade & rcd_up.upgrade))
 			upgrade |= rcd_up.upgrade
+<<<<<<< HEAD
 			if((rcd_up.upgrade & RCD_UPGRADE_SILO_LINK) && !silo_mats)
 				silo_mats = AddComponent(/datum/component/remote_materials, "RCD", FALSE, FALSE)
+=======
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 			playsound(src.loc, 'sound/machines/click.ogg', 50, 1)
 			qdel(W)
 	else
@@ -123,6 +129,7 @@ RLD
 		spark_system.start()
 
 /obj/item/construction/proc/useResource(amount, mob/user)
+<<<<<<< HEAD
 	if(!silo_mats || !silo_link)
 		if(matter < amount)
 			if(user)
@@ -144,6 +151,15 @@ RLD
 		silo_mats.mat_container.use_materials(list(/datum/material/iron = 500), amount)
 		silo_mats.silo_log(src, "consume", -amount, "build", list(/datum/material/iron = 500))
 		return TRUE
+=======
+	if(matter < amount)
+		if(user)
+			to_chat(user, no_ammo_message)
+		return FALSE
+	matter -= amount
+	update_icon()
+	return TRUE
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 /obj/item/construction/proc/checkResource(amount, mob/user)
 	if(!silo_mats || !silo_link)
@@ -356,7 +372,6 @@ RLD
 		"Medical" = get_airlock_image(/obj/machinery/door/airlock/medical),
 		"Research" = get_airlock_image(/obj/machinery/door/airlock/research),
 		"Freezer" = get_airlock_image(/obj/machinery/door/airlock/freezer),
-		"Science" = get_airlock_image(/obj/machinery/door/airlock/science),
 		"Virology" = get_airlock_image(/obj/machinery/door/airlock/virology),
 		"Mining" = get_airlock_image(/obj/machinery/door/airlock/mining),
 		"Maintenance" = get_airlock_image(/obj/machinery/door/airlock/maintenance),
@@ -375,7 +390,6 @@ RLD
 		"Command" = get_airlock_image(/obj/machinery/door/airlock/command/glass),
 		"Medical" = get_airlock_image(/obj/machinery/door/airlock/medical/glass),
 		"Research" = get_airlock_image(/obj/machinery/door/airlock/research/glass),
-		"Science" = get_airlock_image(/obj/machinery/door/airlock/science/glass),
 		"Virology" = get_airlock_image(/obj/machinery/door/airlock/virology/glass),
 		"Mining" = get_airlock_image(/obj/machinery/door/airlock/mining/glass),
 		"Maintenance" = get_airlock_image(/obj/machinery/door/airlock/maintenance/glass),
@@ -411,8 +425,6 @@ RLD
 						airlock_type = /obj/machinery/door/airlock/research
 					if("Freezer")
 						airlock_type = /obj/machinery/door/airlock/freezer
-					if("Science")
-						airlock_type = /obj/machinery/door/airlock/science
 					if("Virology")
 						airlock_type = /obj/machinery/door/airlock/virology
 					if("Mining")
@@ -454,8 +466,6 @@ RLD
 						airlock_type = /obj/machinery/door/airlock/medical/glass
 					if("Research")
 						airlock_type = /obj/machinery/door/airlock/research/glass
-					if("Science")
-						airlock_type = /obj/machinery/door/airlock/science/glass
 					if("Virology")
 						airlock_type = /obj/machinery/door/airlock/virology/glass
 					if("Mining")
@@ -943,10 +953,13 @@ RLD
 /obj/item/rcd_upgrade/simple_circuits
 	desc = "It contains the design for firelock, air alarm, fire alarm, apc circuits and crap power cells."
 	upgrade = RCD_UPGRADE_SIMPLE_CIRCUITS
+<<<<<<< HEAD
 
 /obj/item/rcd_upgrade/silo_link
 	desc = "It contains direct silo connection RCD upgrade."
 	upgrade = RCD_UPGRADE_SILO_LINK
+=======
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 #undef GLOW_MODE
 #undef LIGHT_MODE

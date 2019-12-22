@@ -22,6 +22,7 @@
 	mind_traits = list(TRAIT_LAW_ENFORCEMENT_METABOLISM)
 
 	display_order = JOB_DISPLAY_ORDER_SECURITY_OFFICER
+	display_rank = "LCPL" //nsv13 - Displays the player's actual rank alongside their name, such as GSGT Sergei Koralev
 
 /datum/job/officer/get_access()
 	var/list/L = list()
@@ -113,18 +114,21 @@ GLOBAL_LIST_INIT(available_depts, list(SEC_DEPT_ENGINEERING, SEC_DEPT_MEDICAL, S
 	name = "Security Officer"
 	jobtype = /datum/job/officer
 
+<<<<<<< HEAD
 	id = /obj/item/card/id/job/sec
 	belt = /obj/item/pda/security
+=======
+	belt = /obj/item/gun/ballistic/automatic/peacekeeper
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	ears = /obj/item/radio/headset/headset_sec/alt
-	uniform = /obj/item/clothing/under/rank/security
+	uniform = /obj/item/clothing/under/ship/peacekeeper
+	suit = /obj/item/clothing/suit/ship/peacekeeper
 	gloves = /obj/item/clothing/gloves/color/black
-	head = /obj/item/clothing/head/helmet/sec
-	suit = /obj/item/clothing/suit/armor/vest/alt
+	head = /obj/item/clothing/head/beret/sec/navyofficer
 	shoes = /obj/item/clothing/shoes/jackboots
 	l_pocket = /obj/item/restraints/handcuffs
 	r_pocket = /obj/item/assembly/flash/handheld
-	suit_store = /obj/item/gun/energy/disabler
-	backpack_contents = list(/obj/item/melee/baton/loaded=1)
+	backpack_contents = list(/obj/item/melee/baton/loaded=1, /obj/item/ammo_box/magazine/peacekeeper=1,/obj/item/pda/security)
 
 	backpack = /obj/item/storage/backpack/security
 	satchel = /obj/item/storage/backpack/satchel/sec

@@ -71,8 +71,12 @@
 				difficulty++ //if cartridge has manifest access it has extra snowflake difficulty
 			else
 				difficulty += 2
+<<<<<<< HEAD
 		var/datum/component/uplink/hidden_uplink = target.GetComponent(/datum/component/uplink)
 		if(!target.detonatable || prob(difficulty * 15) || (hidden_uplink))
+=======
+		if(SEND_SIGNAL(target, COMSIG_PDA_CHECK_DETONATE) & COMPONENT_PDA_NO_DETONATE || prob(difficulty * 15))
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 			U.show_message("<span class='danger'>An error flashes on your [src].</span>", 1)
 		else
 			log_bomber(U, "triggered a PDA explosion on", target, "[!is_special_character(U) ? "(TRIGGED BY NON-ANTAG)" : ""]")

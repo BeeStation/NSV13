@@ -244,31 +244,31 @@
 	name = "virologist satchel"
 	desc = "A sterile satchel with virologist colours."
 	icon_state = "satchel-vir"
-	item_state = "satchel-vir"
+	item_state = "viropack"
 
 /obj/item/storage/backpack/satchel/chem
 	name = "chemist satchel"
 	desc = "A sterile satchel with chemist colours."
 	icon_state = "satchel-chem"
-	item_state = "satchel-chem"
+	item_state = "chempack"
 
 /obj/item/storage/backpack/satchel/gen
 	name = "geneticist satchel"
 	desc = "A sterile satchel with geneticist colours."
 	icon_state = "satchel-gen"
-	item_state = "satchel-gen"
+	item_state = "genepack"
 
 /obj/item/storage/backpack/satchel/tox
 	name = "scientist satchel"
 	desc = "Useful for holding research materials."
 	icon_state = "satchel-tox"
-	item_state = "satchel-tox"
+	item_state = "toxpack"
 
 /obj/item/storage/backpack/satchel/hyd
 	name = "botanist satchel"
 	desc = "A satchel made of all natural fibers."
 	icon_state = "satchel-hyd"
-	item_state = "satchel-hyd"
+	item_state = "botpack"
 
 /obj/item/storage/backpack/satchel/sec
 	name = "security satchel"
@@ -280,7 +280,11 @@
 	name = "explorer satchel"
 	desc = "A robust satchel for stashing your loot."
 	icon_state = "satchel-explorer"
+<<<<<<< HEAD
 	item_state = "satchel-explorer"
+=======
+	item_state = "explorerpack"
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 /obj/item/storage/backpack/satchel/cap
 	name = "captain's satchel"
@@ -296,25 +300,30 @@
 	w_class = WEIGHT_CLASS_NORMAL //Can fit in backpacks itself.
 	level = 1
 
+<<<<<<< HEAD
 /obj/item/storage/backpack/satchel/flat/Initialize()
 	. = ..()
 	ADD_TRAIT(src, TRAIT_T_RAY_VISIBLE, TRAIT_GENERIC)
 
+=======
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 /obj/item/storage/backpack/satchel/flat/ComponentInitialize()
 	. = ..()
 	var/datum/component/storage/STR = GetComponent(/datum/component/storage)
 	STR.max_combined_w_class = 15
-	STR.cant_hold = typecacheof(list(/obj/item/storage/backpack/satchel/flat)) //muh recursive backpacks
+	STR.set_holdable(null, list(/obj/item/storage/backpack/satchel/flat)) //muh recursive backpacks)
 
 /obj/item/storage/backpack/satchel/flat/hide(intact)
 	if(intact)
 		invisibility = INVISIBILITY_OBSERVER
 		anchored = TRUE //otherwise you can start pulling, cover it, and drag around an invisible backpack.
 		icon_state = "[initial(icon_state)]2"
+		ADD_TRAIT(src, TRAIT_T_RAY_VISIBLE, TRAIT_GENERIC)
 	else
 		invisibility = initial(invisibility)
 		anchored = FALSE
 		icon_state = initial(icon_state)
+		REMOVE_TRAIT(src, TRAIT_T_RAY_VISIBLE, TRAIT_GENERIC)
 
 /obj/item/storage/backpack/satchel/flat/PopulateContents()
 	var/datum/supply_pack/costumes_toys/randomised/contraband/C = new
@@ -411,7 +420,7 @@
 	new /obj/item/wrench(src)
 	new /obj/item/weldingtool(src)
 	new /obj/item/crowbar(src)
-	new /obj/item/stack/cable_coil/random(src)
+	new /obj/item/stack/cable_coil(src)
 	new /obj/item/wirecutters(src)
 	new /obj/item/multitool(src)
 
@@ -501,6 +510,31 @@
 /obj/item/storage/backpack/duffelbag/syndie/ammo/smg/PopulateContents()
 	for(var/i in 1 to 9)
 		new /obj/item/ammo_box/magazine/smgm45(src)
+
+/obj/item/storage/backpack/duffelbag/syndie/ammo/dark_gygax
+	desc = "A large duffel bag, packed to the brim with various exosuit ammo."
+
+/obj/item/storage/backpack/duffelbag/syndie/ammo/dark_gygax/PopulateContents()
+	new /obj/item/mecha_ammo/incendiary(src)
+	new /obj/item/mecha_ammo/incendiary(src)
+	new /obj/item/mecha_ammo/incendiary(src)
+	new /obj/item/mecha_ammo/flashbang(src)
+	new /obj/item/mecha_ammo/flashbang(src)
+	new /obj/item/mecha_ammo/flashbang(src)
+
+/obj/item/storage/backpack/duffelbag/syndie/ammo/mauler
+	desc = "A large duffel bag, packed to the brim with various exosuit ammo."
+
+/obj/item/storage/backpack/duffelbag/syndie/ammo/mauler/PopulateContents()
+	new /obj/item/mecha_ammo/lmg(src)
+	new /obj/item/mecha_ammo/lmg(src)
+	new /obj/item/mecha_ammo/lmg(src)
+	new /obj/item/mecha_ammo/scattershot(src)
+	new /obj/item/mecha_ammo/scattershot(src)
+	new /obj/item/mecha_ammo/scattershot(src)
+	new /obj/item/mecha_ammo/missiles_he(src)
+	new /obj/item/mecha_ammo/missiles_he(src)
+	new /obj/item/mecha_ammo/missiles_he(src)
 
 /obj/item/storage/backpack/duffelbag/syndie/c20rbundle
 	desc = "A large duffel bag containing a C-20r, some magazines, and a cheap looking suppressor."

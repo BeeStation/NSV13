@@ -45,6 +45,7 @@
 #define DEFAULT_UNDERLAY_ICON_STATE 	"plating"
 
 /atom/var/smooth = SMOOTH_FALSE
+/atom/var/legacy_smooth = FALSE //nsv13 - Goon walls
 /atom/var/top_left_corner
 /atom/var/top_right_corner
 /atom/var/bottom_left_corner
@@ -117,6 +118,9 @@
 	if(QDELETED(A))
 		return
 	if(A.smooth & (SMOOTH_TRUE | SMOOTH_MORE))
+		if(A.legacy_smooth) //nsv13 - Adds support for goon style walls
+			A.legacy_smooth()
+			return
 		var/adjacencies = calculate_adjacencies(A)
 
 		if(A.smooth & SMOOTH_DIAGONAL)

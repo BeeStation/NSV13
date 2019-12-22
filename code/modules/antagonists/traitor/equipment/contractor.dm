@@ -28,6 +28,7 @@
 	var/contract_rep = 0
 	var/list/hub_items = list()
 	var/list/purchased_items = list()
+<<<<<<< HEAD
 	var/static/list/contractor_items = typecacheof(/datum/contractor_item/, TRUE)
 
 	var/datum/syndicate_contract/current_contract
@@ -37,6 +38,10 @@
 
 	var/contract_TC_payed_out = 0 // Keeping track for roundend reporting
 	var/contract_TC_to_redeem = 0 // Used internally and roundend reporting - what TC we have available to cashout.
+=======
+
+	var/static/list/contractor_items = typecacheof(/datum/contractor_item/, TRUE)
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 /datum/contractor_hub/proc/create_hub_items()
 	for(var/path in contractor_items)
@@ -44,6 +49,7 @@
 
 		hub_items.Add(contractor_item)
 
+<<<<<<< HEAD
 /datum/contractor_hub/proc/create_contracts(datum/mind/owner)
 
 	// 6 initial contracts
@@ -92,6 +98,8 @@
 	if (total < lowest_TC_threshold)
 		lowest_paying_contract.contract.payout_bonus += (lowest_TC_threshold - total)
 
+=======
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 /datum/contractor_item
 	var/name // Name of item
 	var/desc // description of item
@@ -100,6 +108,7 @@
 	var/limited = -1 // Any number above 0 for how many times it can be bought in a round for a single traitor. -1 is unlimited.
 	var/cost // Cost of the item in contract rep.
 
+<<<<<<< HEAD
 /datum/contractor_item/contract_reroll
 	name = "Contract Reroll"
 	desc = "Request a reroll of your current contract list. Will generate a new target, payment, and dropoff for the contracts you currently have available."
@@ -130,6 +139,8 @@
 		/// Set our target list with the new set we've generated.
 		hub.assigned_targets = new_target_list
 
+=======
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 /datum/contractor_item/contractor_pinpointer
 	name = "Contractor Pinpointer"
 	desc = "A pinpointer that finds targets even without active suit sensors. Due to taking advantage of an exploit within the system, it can't pinpoint to the same accuracy as the traditional models. Becomes permanently locked to the user that first activates it."
@@ -255,8 +266,11 @@
 
 	hub.purchased_items.Add(src)
 
+<<<<<<< HEAD
 	user.playsound_local(user, 'sound/machines/uplinkpurchase.ogg', 100)
 
+=======
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	if (item && ispath(item))
 		var/atom/item_to_create = new item(get_turf(user))
 		

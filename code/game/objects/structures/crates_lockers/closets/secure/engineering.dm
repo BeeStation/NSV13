@@ -8,6 +8,7 @@
 	new /obj/item/clothing/head/beret/ce(src)
 	new /obj/item/clothing/neck/cloak/ce(src)
 	new /obj/item/clothing/under/rank/chief_engineer(src)
+	new /obj/item/clothing/under/rank/chief_engineer/skirt(src)
 	new /obj/item/clothing/head/hardhat/white(src)
 	new /obj/item/clothing/head/hardhat/weldhat/white(src)
 	new /obj/item/clothing/head/welding(src)
@@ -33,7 +34,11 @@
 	new /obj/item/extinguisher/advanced(src)
 	new /obj/item/storage/photo_album/CE(src)
 	new /obj/item/card/id/departmental_budget/eng(src)
+<<<<<<< HEAD
 	
+=======
+
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 /obj/structure/closet/secure_closet/engineering_electrical
 	name = "electrical supplies locker"
 	req_access = list(ACCESS_ENGINE_EQUIP)
@@ -78,6 +83,7 @@
 	new /obj/item/clothing/mask/gas(src)
 	new /obj/item/clothing/glasses/meson/engine(src)
 	new /obj/item/storage/box/emptysandbags(src)
+	new /obj/item/storage/bag/construction(src)
 
 
 /obj/structure/closet/secure_closet/atmospherics

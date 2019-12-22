@@ -1,6 +1,10 @@
 #define DUEL_IDLE 1
 #define DUEL_PREPARATION 2
+<<<<<<< HEAD
 #define DUEL_READY 3 
+=======
+#define DUEL_READY 3
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 #define DUEL_COUNTDOWN 4
 #define DUEL_FIRING 5
 
@@ -172,7 +176,11 @@
 			setting = DUEL_SETTING_C
 		if(DUEL_SETTING_C)
 			setting = DUEL_SETTING_A
+<<<<<<< HEAD
 	to_chat(user,"<span class='notice'>You switch [src] setting to [setting] mode.")
+=======
+	to_chat(user,"<span class='notice'>You switch [src] setting to [setting] mode.</span>")
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	update_icon()
 
 /obj/item/gun/energy/dueling/update_icon(force_update)
@@ -219,7 +227,11 @@
 	else
 		duel.fired[src] = TRUE
 		. = ..()
+<<<<<<< HEAD
 	
+=======
+
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 /obj/item/gun/energy/dueling/before_firing(target,user)
 	var/obj/item/ammo_casing/energy/duel/D = chambered
 	D.setting = setting
@@ -297,7 +309,11 @@
 	var/mob/living/L = target
 	if(!istype(target))
 		return BULLET_ACT_BLOCK
+<<<<<<< HEAD
 	
+=======
+
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	var/obj/item/bodypart/B = L.get_bodypart(BODY_ZONE_HEAD)
 	B.dismember()
 	qdel(B)
@@ -321,7 +337,11 @@
 	var/datum/component/storage/STR = GetComponent(/datum/component/storage)
 	STR.max_w_class = WEIGHT_CLASS_SMALL
 	STR.max_items = 2
+<<<<<<< HEAD
 	STR.can_hold = typecacheof(list(/obj/item/gun/energy/dueling))
+=======
+	STR.set_holdable(list(/obj/item/gun/energy/dueling))
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 /obj/item/storage/lockbox/dueling/update_icon()
 	cut_overlays()

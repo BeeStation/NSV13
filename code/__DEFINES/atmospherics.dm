@@ -169,7 +169,11 @@
 #define ATMOS_TANK_AIRMIX			"o2=2644;n2=10580;TEMP=293.15"
 
 //LAVALAND
+<<<<<<< HEAD
 #define LAVALAND_EQUIPMENT_EFFECT_PRESSURE 50 //! what pressure you have to be under to increase the effect of equipment meant for lavaland
+=======
+#define LAVALAND_EQUIPMENT_EFFECT_PRESSURE 50 //what pressure you have to be under to increase the effect of equipment meant for lavaland
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 //ATMOS MIX IDS
 #define LAVALAND_DEFAULT_ATMOS		"LAVALAND_ATMOS"
@@ -312,4 +316,3 @@ GLOBAL_LIST_INIT(pipe_paint_colors, list(
 
 #define MIASMA_CORPSE_MOLES 0.02
 #define MIASMA_GIBS_MOLES 0.005
-#define MIASMA_HYGIENE_MOLES 0.002

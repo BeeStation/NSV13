@@ -237,6 +237,7 @@
 	result = /obj/item/reagent_containers/food/snacks/soup/beet/red
 	subcategory = CAT_SOUP
 
+<<<<<<< HEAD
 /datum/crafting_recipe/food/bisque
 	name = "Bisque"
 	reqs = list(
@@ -247,3 +248,15 @@
 	)
 	result = /obj/item/reagent_containers/food/snacks/soup/bisque
 	subcategory = CAT_SOUP
+=======
+/datum/crafting_recipe/food/onionsoup
+	name = "French onion soup"
+	reqs = list(
+		/datum/reagent/water = 10,
+		/obj/item/reagent_containers/glass/bowl = 1,
+		/obj/item/reagent_containers/food/snacks/grown/onion = 1,
+		/obj/item/reagent_containers/food/snacks/cheesewedge = 1,
+	)
+	result = /obj/item/reagent_containers/food/snacks/soup/onion
+	subcategory = CAT_SOUP
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36

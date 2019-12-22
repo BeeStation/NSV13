@@ -28,6 +28,7 @@
 	paycheck_department = ACCOUNT_MED
 
 	display_order = JOB_DISPLAY_ORDER_CHIEF_MEDICAL_OFFICER
+	display_rank = "WO" //nsv13 - Displays the player's actual rank alongside their name, such as GSGT Sergei Koralev
 
 /datum/outfit/job/cmo
 	name = "Chief Medical Officer"
@@ -37,8 +38,9 @@
 	belt = /obj/item/pda/heads/cmo
 	l_pocket = /obj/item/pinpointer/crew
 	ears = /obj/item/radio/headset/heads/cmo
-	uniform = /obj/item/clothing/under/rank/chief_medical_officer
-	shoes = /obj/item/clothing/shoes/sneakers/brown
+	head = /obj/item/clothing/head/beret/durathread
+	uniform = /obj/item/clothing/under/ship/medical
+	shoes = /obj/item/clothing/shoes/sneakers/white
 	suit = /obj/item/clothing/suit/toggle/labcoat/cmo
 	l_hand = /obj/item/storage/firstaid/regular
 	suit_store = /obj/item/flashlight/pen

@@ -11,7 +11,11 @@
 /obj/item/stack/telecrystal/attack(mob/target, mob/user)
 	if(target == user) //You can't go around smacking people with crystals to find out if they have an uplink or not.
 		for(var/obj/item/implant/uplink/I in target)
+<<<<<<< HEAD
 			if(I?.imp_in)
+=======
+			if(I && I.imp_in)
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 				var/datum/component/uplink/hidden_uplink = I.GetComponent(/datum/component/uplink)
 				if(hidden_uplink)
 					hidden_uplink.telecrystals += amount

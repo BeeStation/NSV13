@@ -13,6 +13,10 @@
 	)
 	restricted_gases = list(
 		/datum/gas/bz=10,
+<<<<<<< HEAD
+=======
+		/datum/gas/miasma=10,
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 		/datum/gas/plasma=0.1,
 		/datum/gas/water_vapor=0.1,
 	)

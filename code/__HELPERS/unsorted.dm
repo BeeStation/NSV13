@@ -372,7 +372,11 @@ Turf and target are separate in case you want to teleport some distance from a t
 		return "[round((powerused * 0.000001),0.001)] MW"
 	return "[round((powerused * 0.000000001),0.0001)] GW"
 
+<<<<<<< HEAD
 /// Format an energy value in J, kJ, MJ, or GJ. 1W = 1J/s.
+=======
+// Format an energy value in J, kJ, MJ, or GJ. 1W = 1J/s.
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 /proc/DisplayJoules(units)
 	if (units < 1000) // Less than a kJ
 		return "[round(units, 0.1)] J"
@@ -382,7 +386,11 @@ Turf and target are separate in case you want to teleport some distance from a t
 		return "[round(units * 0.000001, 0.001)] MJ"
 	return "[round(units * 0.000000001, 0.0001)] GJ"
 
+<<<<<<< HEAD
 /// Format an energy value measured in Power Cell units.
+=======
+// Format an energy value measured in Power Cell units.
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 /proc/DisplayEnergy(units)
 	// APCs process every (SSmachines.wait * 0.1) seconds, and turn 1 W of
 	// excess power into GLOB.CELLRATE energy units when charging cells.
@@ -1013,25 +1021,24 @@ eg2: `center_image(I, 96,96)`
 
 /// similar function to range(), but with no limitations on the distance; will search spiralling outwards from the center
 /proc/spiral_range(dist=0, center=usr, orange=0)
-	if(!dist)
-		if(!orange)
-			return list(center)
-		else
-			return list()
-
+	var/list/L = list()
 	var/turf/t_center = get_turf(center)
 	if(!t_center)
 		return list()
 
-	var/list/L = list()
+	if(!orange)
+		L += t_center
+		L += t_center.contents
+
+	if(!dist)
+		return L
+
+
 	var/turf/T
 	var/y
 	var/x
 	var/c_dist = 1
 
-	if(!orange)
-		L += t_center
-		L += t_center.contents
 
 	while( c_dist <= dist )
 		y = t_center.y + c_dist
@@ -1614,6 +1621,7 @@ config_setting should be one of the following:
 	return call(source, proctype)(arglist(arguments))
 
 #define TURF_FROM_COORDS_LIST(List) (locate(List[1], List[2], List[3]))
+<<<<<<< HEAD
 
 // Converts browser keycodes to BYOND keycodes.
 /proc/browser_keycode_to_byond(keycode)
@@ -1658,3 +1666,5 @@ config_setting should be one of the following:
 			return "."
 		if(189)
 			return "-"
+=======
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36

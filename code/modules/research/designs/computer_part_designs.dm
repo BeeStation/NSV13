@@ -6,7 +6,11 @@
 	name = "Hard Disk Drive"
 	id = "hdd_basic"
 	build_type = PROTOLATHE
+<<<<<<< HEAD
 	materials = list(/datum/material/iron = 400, /datum/material/glass = 100, /datum/material/copper = 150)
+=======
+	materials = list(/datum/material/iron = 400, /datum/material/glass = 100)
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	build_path = /obj/item/computer_hardware/hard_drive
 	category = list("Computer Parts")
 	departmental_flags = DEPARTMENTAL_FLAG_SCIENCE | DEPARTMENTAL_FLAG_ENGINEERING
@@ -15,7 +19,11 @@
 	name = "Advanced Hard Disk Drive"
 	id = "hdd_advanced"
 	build_type = PROTOLATHE
+<<<<<<< HEAD
 	materials = list(/datum/material/iron = 800, /datum/material/glass = 200, /datum/material/copper = 300)
+=======
+	materials = list(/datum/material/iron = 800, /datum/material/glass = 200)
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	build_path = /obj/item/computer_hardware/hard_drive/advanced
 	category = list("Computer Parts")
 	departmental_flags = DEPARTMENTAL_FLAG_SCIENCE | DEPARTMENTAL_FLAG_ENGINEERING
@@ -24,7 +32,11 @@
 	name = "Super Hard Disk Drive"
 	id = "hdd_super"
 	build_type = PROTOLATHE
+<<<<<<< HEAD
 	materials = list(/datum/material/iron = 1600, /datum/material/glass = 400, /datum/material/copper = 600)
+=======
+	materials = list(/datum/material/iron = 1600, /datum/material/glass = 400)
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	build_path = /obj/item/computer_hardware/hard_drive/super
 	category = list("Computer Parts")
 	departmental_flags = DEPARTMENTAL_FLAG_SCIENCE | DEPARTMENTAL_FLAG_ENGINEERING
@@ -33,7 +45,11 @@
 	name = "Cluster Hard Disk Drive"
 	id = "hdd_cluster"
 	build_type = PROTOLATHE
+<<<<<<< HEAD
 	materials = list(/datum/material/iron = 3200, /datum/material/glass = 800, /datum/material/copper = 1000)
+=======
+	materials = list(/datum/material/iron = 3200, /datum/material/glass = 800)
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	build_path = /obj/item/computer_hardware/hard_drive/cluster
 	category = list("Computer Parts")
 	departmental_flags = DEPARTMENTAL_FLAG_SCIENCE | DEPARTMENTAL_FLAG_ENGINEERING
@@ -42,7 +58,11 @@
 	name = "Solid State Drive"
 	id = "ssd_small"
 	build_type = PROTOLATHE
+<<<<<<< HEAD
 	materials = list(/datum/material/iron = 800, /datum/material/glass = 200, /datum/material/copper = 200)
+=======
+	materials = list(/datum/material/iron = 800, /datum/material/glass = 200)
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	build_path = /obj/item/computer_hardware/hard_drive/small
 	category = list("Computer Parts")
 	departmental_flags = DEPARTMENTAL_FLAG_SCIENCE | DEPARTMENTAL_FLAG_ENGINEERING
@@ -51,7 +71,11 @@
 	name = "Micro Solid State Drive"
 	id = "ssd_micro"
 	build_type = PROTOLATHE
+<<<<<<< HEAD
 	materials = list(/datum/material/iron = 400, /datum/material/glass = 100, /datum/material/copper = 150)
+=======
+	materials = list(/datum/material/iron = 400, /datum/material/glass = 100)
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	build_path = /obj/item/computer_hardware/hard_drive/micro
 	category = list("Computer Parts")
 	departmental_flags = DEPARTMENTAL_FLAG_SCIENCE | DEPARTMENTAL_FLAG_ENGINEERING
@@ -61,7 +85,11 @@
 	name = "Network Card"
 	id = "netcard_basic"
 	build_type = IMPRINTER
+<<<<<<< HEAD
 	materials = list(/datum/material/iron = 250, /datum/material/glass = 100, /datum/material/copper = 100)
+=======
+	materials = list(/datum/material/iron = 250, /datum/material/glass = 100)
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	build_path = /obj/item/computer_hardware/network_card
 	category = list("Computer Parts")
 	departmental_flags = DEPARTMENTAL_FLAG_SCIENCE | DEPARTMENTAL_FLAG_ENGINEERING
@@ -70,7 +98,11 @@
 	name = "Advanced Network Card"
 	id = "netcard_advanced"
 	build_type = IMPRINTER
+<<<<<<< HEAD
 	materials = list(/datum/material/iron = 500, /datum/material/glass = 200, /datum/material/copper = 200)
+=======
+	materials = list(/datum/material/iron = 500, /datum/material/glass = 200)
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	build_path = /obj/item/computer_hardware/network_card/advanced
 	category = list("Computer Parts")
 	departmental_flags = DEPARTMENTAL_FLAG_SCIENCE | DEPARTMENTAL_FLAG_ENGINEERING
@@ -79,7 +111,11 @@
 	name = "Wired Network Card"
 	id = "netcard_wired"
 	build_type = IMPRINTER
+<<<<<<< HEAD
 	materials = list(/datum/material/iron = 2500, /datum/material/glass = 400, /datum/material/copper = 400)
+=======
+	materials = list(/datum/material/iron = 2500, /datum/material/glass = 400)
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	build_path = /obj/item/computer_hardware/network_card/wired
 	category = list("Computer Parts")
 	departmental_flags = DEPARTMENTAL_FLAG_SCIENCE | DEPARTMENTAL_FLAG_ENGINEERING
@@ -89,7 +125,11 @@
 	name = "Data Disk"
 	id = "portadrive_basic"
 	build_type = IMPRINTER
+<<<<<<< HEAD
 	materials = list(/datum/material/glass = 800, /datum/material/copper = 200)
+=======
+	materials = list(/datum/material/glass = 800)
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	build_path = /obj/item/computer_hardware/hard_drive/portable
 	category = list("Computer Parts")
 	departmental_flags = DEPARTMENTAL_FLAG_SCIENCE | DEPARTMENTAL_FLAG_ENGINEERING
@@ -98,7 +138,11 @@
 	name = "Advanced Data Disk"
 	id = "portadrive_advanced"
 	build_type = IMPRINTER
+<<<<<<< HEAD
 	materials = list(/datum/material/glass = 1600, /datum/material/copper = 300)
+=======
+	materials = list(/datum/material/glass = 1600)
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	build_path = /obj/item/computer_hardware/hard_drive/portable/advanced
 	category = list("Computer Parts")
 	departmental_flags = DEPARTMENTAL_FLAG_SCIENCE | DEPARTMENTAL_FLAG_ENGINEERING
@@ -107,7 +151,11 @@
 	name = "Super Data Disk"
 	id = "portadrive_super"
 	build_type = IMPRINTER
+<<<<<<< HEAD
 	materials = list(/datum/material/glass = 3200, /datum/material/copper = 400)
+=======
+	materials = list(/datum/material/glass = 3200)
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	build_path = /obj/item/computer_hardware/hard_drive/portable/super
 	category = list("Computer Parts")
 	departmental_flags = DEPARTMENTAL_FLAG_SCIENCE | DEPARTMENTAL_FLAG_ENGINEERING
@@ -117,7 +165,11 @@
 	name = "ID Card Slot"
 	id = "cardslot"
 	build_type = PROTOLATHE
+<<<<<<< HEAD
 	materials = list(/datum/material/iron = 600, /datum/material/copper = 100)
+=======
+	materials = list(/datum/material/iron = 600)
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	build_path = /obj/item/computer_hardware/card_slot
 	category = list("Computer Parts")
 	departmental_flags = DEPARTMENTAL_FLAG_SCIENCE | DEPARTMENTAL_FLAG_ENGINEERING
@@ -127,7 +179,11 @@
 	name = "Intellicard Slot"
 	id = "aislot"
 	build_type = PROTOLATHE
+<<<<<<< HEAD
 	materials = list(/datum/material/iron = 600, /datum/material/copper = 100)
+=======
+	materials = list(/datum/material/iron = 600)
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	build_path = /obj/item/computer_hardware/ai_slot
 	category = list("Computer Parts")
 	departmental_flags = DEPARTMENTAL_FLAG_SCIENCE | DEPARTMENTAL_FLAG_ENGINEERING
@@ -137,7 +193,11 @@
 	name = "Miniprinter"
 	id = "miniprinter"
 	build_type = PROTOLATHE
+<<<<<<< HEAD
 	materials = list(/datum/material/iron = 600, /datum/material/copper = 100)
+=======
+	materials = list(/datum/material/iron = 600)
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	build_path = /obj/item/computer_hardware/printer/mini
 	category = list("Computer Parts")
 	departmental_flags = DEPARTMENTAL_FLAG_SCIENCE | DEPARTMENTAL_FLAG_ENGINEERING
@@ -212,7 +272,11 @@
 	name = "Processor Board"
 	id = "cpu_normal"
 	build_type = IMPRINTER
+<<<<<<< HEAD
 	materials = list(/datum/material/glass = 200, /datum/material/copper = 1600)
+=======
+	materials = list(/datum/material/glass = 1600)
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	build_path = /obj/item/computer_hardware/processor_unit
 	category = list("Computer Parts")
 	departmental_flags = DEPARTMENTAL_FLAG_SCIENCE | DEPARTMENTAL_FLAG_ENGINEERING
@@ -221,7 +285,11 @@
 	name = "Microprocessor"
 	id = "cpu_small"
 	build_type = IMPRINTER
+<<<<<<< HEAD
 	materials = list(/datum/material/glass = 100, /datum/material/copper = 800)
+=======
+	materials = list(/datum/material/glass = 800)
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	build_path = /obj/item/computer_hardware/processor_unit/small
 	category = list("Computer Parts")
 	departmental_flags = DEPARTMENTAL_FLAG_SCIENCE | DEPARTMENTAL_FLAG_ENGINEERING
@@ -230,7 +298,11 @@
 	name = "Photonic Processor Board"
 	id = "pcpu_normal"
 	build_type = IMPRINTER
+<<<<<<< HEAD
 	materials = list(/datum/material/glass = 6400, /datum/material/gold = 2000, /datum/material/copper = 800)
+=======
+	materials = list(/datum/material/glass = 6400, /datum/material/gold = 2000)
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	build_path = /obj/item/computer_hardware/processor_unit/photonic
 	category = list("Computer Parts")
 	departmental_flags = DEPARTMENTAL_FLAG_SCIENCE | DEPARTMENTAL_FLAG_ENGINEERING
@@ -239,7 +311,11 @@
 	name = "Photonic Microprocessor"
 	id = "pcpu_small"
 	build_type = IMPRINTER
+<<<<<<< HEAD
 	materials = list(/datum/material/glass = 3200, /datum/material/gold = 1000, /datum/material/copper = 400)
+=======
+	materials = list(/datum/material/glass = 3200, /datum/material/gold = 1000)
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	build_path = /obj/item/computer_hardware/processor_unit/photonic/small
 	category = list("Computer Parts")
 	departmental_flags = DEPARTMENTAL_FLAG_SCIENCE | DEPARTMENTAL_FLAG_ENGINEERING

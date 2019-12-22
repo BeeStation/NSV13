@@ -1,12 +1,12 @@
 /datum/job/lawyer
 	title = "Lawyer"
 	flag = LAWYER
-	department_head = list("Head of Personnel")
+	department_head = list("Executive Officer")
 	department_flag = CIVILIAN
 	faction = "Station"
 	total_positions = 2
 	spawn_positions = 2
-	supervisors = "the head of personnel"
+	supervisors = "the Executive Officer"
 	selection_color = "#dddddd"
 	var/lawyers = 0 //Counts lawyer amount
 
@@ -19,6 +19,7 @@
 	mind_traits = list(TRAIT_LAW_ENFORCEMENT_METABOLISM)
 
 	display_order = JOB_DISPLAY_ORDER_LAWYER
+	display_rank = "CRW" //nsv13 - Displays the player's actual rank alongside their name, such as GSGT Sergei Koralev
 
 /datum/outfit/job/lawyer
 	name = "Lawyer"
@@ -27,15 +28,20 @@
 	id = /obj/item/card/id/job/lawyer
 	belt = /obj/item/pda/lawyer
 	ears = /obj/item/radio/headset/headset_srvsec
+<<<<<<< HEAD
 	uniform = /obj/item/clothing/under/lawyer/bluesuit
 	suit = /obj/item/clothing/suit/toggle/lawyer
 	shoes = /obj/item/clothing/shoes/laceup
+=======
+	uniform = /obj/item/clothing/under/ship/officer
+	shoes = /obj/item/clothing/shoes/jackboots
+	head = /obj/item/clothing/head/beret/durathread
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	l_hand = /obj/item/storage/briefcase/lawyer
 	l_pocket = /obj/item/laser_pointer
 	r_pocket = /obj/item/clothing/accessory/lawyers_badge
 
 	chameleon_extras = /obj/item/stamp/law
-
 
 /datum/outfit/job/lawyer/pre_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
 	..()

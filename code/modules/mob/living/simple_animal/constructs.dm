@@ -313,7 +313,10 @@
 
 /////////////////////////////Angelic Artificer/////////////////////////
 /mob/living/simple_animal/hostile/construct/builder/angelic
+<<<<<<< HEAD
 	desc = "A bulbous construct dedicated to building and maintaining holy armies."
+=======
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	icon_state = "artificer_angelic"
 	icon_living = "artificer_angelic"
 	holy = TRUE

@@ -6,7 +6,6 @@
 ******************************************/
 
 //DEBUG STUFF
-var triggerError = attachErrorHandler('chatDebug', true);
 var escaper = encodeURIComponent || escape;
 var decoder = decodeURIComponent || unescape;
 window.onerror = function(msg, url, line, col, error) {
@@ -74,6 +73,7 @@ var opts = {
 	'messageCombining': true,
 
 };
+var replaceRegexes = {};
 
 var replaceRegexes = {};
 

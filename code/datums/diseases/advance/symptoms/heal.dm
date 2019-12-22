@@ -249,8 +249,11 @@
 
 /datum/symptom/heal/coma/CanHeal(datum/disease/advance/A)
 	var/mob/living/M = A.affected_mob
+<<<<<<< HEAD
 	if(stabilize)
 		ADD_TRAIT(M, TRAIT_NOCRITDAMAGE, DISEASE_TRAIT)
+=======
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	if(HAS_TRAIT(M, TRAIT_DEATHCOMA))
 		return power
 	else if(M.IsUnconscious() || M.stat == UNCONSCIOUS)

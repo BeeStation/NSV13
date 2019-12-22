@@ -9,9 +9,15 @@
 	anchored = TRUE
 	//dir = direction of travel to go upwards
 
-	var/force_open_above = FALSE
+	var/force_open_above = TRUE //Prevents mapping fuckups ~Kmc
 	var/terminator_mode = STAIR_TERMINATOR_AUTOMATIC
 	var/turf/listeningTo
+<<<<<<< HEAD
+=======
+
+/obj/structure/stairs/top
+	force_open_above = FALSE
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 /obj/structure/stairs/Initialize(mapload)
 	if(force_open_above)
@@ -99,13 +105,13 @@
 /obj/structure/stairs/proc/force_open_above()
 	var/turf/open/openspace/T = get_step_multiz(get_turf(src), UP)
 	if(T && !istype(T))
-		T.ChangeTurf(/turf/open/openspace)
+		T.ChangeTurf(/turf/open/openspace, flags = CHANGETURF_INHERIT_AIR)
 
 /obj/structure/stairs/proc/on_multiz_new(turf/source, dir)
 	if(dir == UP)
 		var/turf/open/openspace/T = get_step_multiz(get_turf(src), UP)
 		if(T && !istype(T))
-			T.ChangeTurf(/turf/open/openspace)
+			T.ChangeTurf(/turf/open/openspace, flags = CHANGETURF_INHERIT_AIR)
 
 /obj/structure/stairs/intercept_zImpact(atom/movable/AM, levels = 1)
 	return isTerminator()

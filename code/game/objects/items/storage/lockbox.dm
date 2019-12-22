@@ -103,7 +103,7 @@
 	STR.max_w_class = WEIGHT_CLASS_SMALL
 	STR.max_items = 10
 	STR.max_combined_w_class = 20
-	STR.can_hold = typecacheof(list(/obj/item/clothing/accessory/medal))
+	STR.set_holdable(list(/obj/item/clothing/accessory/medal))
 
 /obj/item/storage/lockbox/medal/examine(mob/user)
 	. = ..()
@@ -176,7 +176,11 @@
 
 /obj/item/storage/lockbox/medal/service/PopulateContents()
 		new /obj/item/clothing/accessory/medal/silver/excellence(src)
+<<<<<<< HEAD
 		
+=======
+
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 /obj/item/storage/lockbox/medal/sci
 	name = "science medal box"
 	desc = "A locked box used to store medals to be given to members of the science department."

@@ -4,7 +4,11 @@
 	set invisibility = 0
 	if (notransform)
 		return
+<<<<<<< HEAD
 	if(..() && !IsInStasis()) //not dead and not in stasis
+=======
+	if(..() && !IS_IN_STASIS(src)) //not dead and not in stasis
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 		// GROW!
 		if(amount_grown < max_grown)
 			amount_grown++

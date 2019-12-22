@@ -49,7 +49,11 @@
 /obj/machinery/launchpad/examine(mob/user)
 	. = ..()
 	if(in_range(user, src) || isobserver(user))
+<<<<<<< HEAD
 		. += "<span class='notice'>The status display reads: Maximum range: <b>[range]</b> units.<span>"
+=======
+		. += "<span class='notice'>The status display reads: Maximum range: <b>[range]</b> units.</span>"
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 /obj/machinery/launchpad/attackby(obj/item/I, mob/user, params)
 	if(stationary)

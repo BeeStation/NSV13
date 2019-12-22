@@ -61,7 +61,6 @@ GLOBAL_LIST_EMPTY(PDAs)
 	var/note = "Congratulations, your station has chosen the Thinktronic 5230 Personal Data Assistant!" //Current note in the notepad function
 	var/notehtml = ""
 	var/notescanned = FALSE // True if what is in the notekeeper was from a paper.
-	var/detonatable = TRUE // Can the PDA be blown up?
 	var/hidden = FALSE // Is the PDA hidden from the PDA list?
 	var/emped = FALSE
 	var/equipped = FALSE  //used here to determine if this is the first time its been picked up
@@ -678,20 +677,24 @@ GLOBAL_LIST_EMPTY(PDAs)
 		L = get(src, /mob/living/silicon)
 
 	if(L && L.stat != UNCONSCIOUS)
+		var/reply = "(<a href='byond://?src=[REF(src)];choice=Message;skiprefresh=1;target=[REF(signal.source)]'>Reply</a>)"
 		var/hrefstart
 		var/hrefend
 		if (isAI(L))
 			hrefstart = "<a href='?src=[REF(L)];track=[html_encode(signal.data["name"])]'>"
 			hrefend = "</a>"
 
-		to_chat(L, "[icon2html(src)] <b>Message from [hrefstart][signal.data["name"]] ([signal.data["job"]])[hrefend], </b>[signal.format_message()] (<a href='byond://?src=[REF(src)];choice=Message;skiprefresh=1;target=[REF(signal.source)]'>Reply</a>)")
+		if(signal.data["automated"])
+			reply = "\[Automated Message\]"
+
+		to_chat(L, "[icon2html(src)] <b>Message from [hrefstart][signal.data["name"]] ([signal.data["job"]])[hrefend], </b>[signal.format_message()] [reply]")
 
 	update_icon()
 	add_overlay(icon_alert)
 
 /obj/item/pda/proc/send_to_all(mob/living/U)
 	if (last_everyone && world.time < last_everyone + PDA_SPAM_DELAY)
-		to_chat(U,"<span class='warning'>Send To All function is still on cooldown.")
+		to_chat(U,"<span class='warning'>Send To All function is still on cooldown.</span>")
 		return
 	send_message(U,get_viewable_pdas(), TRUE)
 
@@ -807,12 +810,11 @@ GLOBAL_LIST_EMPTY(PDAs)
 			update_label()
 			to_chat(user, "<span class='notice'>Card scanned.</span>")
 		else
-			//Basic safety check. If either both objects are held by user or PDA is on ground and card is in hand.
-			if(((src in user.contents) || (isturf(loc) && in_range(src, user))) && (C in user.contents))
-				if(!id_check(user, idcard))
-					return
-				to_chat(user, "<span class='notice'>You put the ID into \the [src]'s slot.</span>")
-				updateSelfDialog()//Update self dialog on success.
+			if(!id_check(user, idcard))
+				return
+			to_chat(user, "<span class='notice'>You put the ID into \the [src]'s slot.</span>")
+			updateSelfDialog()//Update self dialog on success.
+			
 			return	//Return in case of failed check or when successful.
 		updateSelfDialog()//For the non-input related code.
 	else if(istype(C, /obj/item/paicard) && !pai)
@@ -892,8 +894,6 @@ GLOBAL_LIST_EMPTY(PDAs)
 
 
 /obj/item/pda/proc/explode() //This needs tuning.
-	if(!detonatable)
-		return
 	var/turf/T = get_turf(src)
 
 	if (ismob(loc))
@@ -1011,6 +1011,9 @@ GLOBAL_LIST_EMPTY(PDAs)
 		if(!P.owner || P.toff || P.hidden)
 			continue
 		. += P
+
+/obj/item/pda/proc/pda_no_detonate()
+	return COMPONENT_PDA_NO_DETONATE
 
 #undef PDA_SCANNER_NONE
 #undef PDA_SCANNER_MEDICAL

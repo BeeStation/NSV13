@@ -109,7 +109,11 @@
 			if(!ispath(program_to_load))
 				return FALSE
 			var/valid = FALSE
+<<<<<<< HEAD
 			var/list/checked = program_cache.Copy()
+=======
+			var/list/checked = program_cache
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 			if(obj_flags & EMAGGED)
 				checked |= emag_programs
 			for(var/prog in checked)
@@ -124,7 +128,14 @@
 			if(A)
 				load_program(A)
 		if("safety")
+<<<<<<< HEAD
 			if((obj_flags & EMAGGED) && program)
+=======
+			if(!issilicon(usr) && !IsAdminGhost(usr))
+				return
+			obj_flags ^= EMAGGED
+			if((obj_flags & EMAGGED) && program && emag_programs[program.name])
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 				emergency_shutdown()
 			nerf(obj_flags & EMAGGED)
 			obj_flags ^= EMAGGED

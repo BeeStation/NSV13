@@ -45,7 +45,11 @@
 		dat += "<b>Transfer data in exchange for supplies:</b><br>"
 		dat += "<a href='?src=[REF(src)];dispense=baton'>Advanced Baton (2 Credits)</A><br>"
 		dat += "<a href='?src=[REF(src)];dispense=mind_device'>Mental Interface Device (2 Credits)</A><br>"
+<<<<<<< HEAD
 		dat += "<a href='?src=[REF(src)];dispense=chem_dispenser'>Reagent Synthesizer (2 Credits)</A><br>"
+=======
+		dat += "<a href='?src=[REF(src)];dispense=chem_dispenser'>Reagent Synthetizer (2 Credits)</A><br>"
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 		dat += "<a href='?src=[REF(src)];dispense=helmet'>Agent Helmet</A><br>"
 		dat += "<a href='?src=[REF(src)];dispense=vest'>Agent Vest</A><br>"
 		dat += "<a href='?src=[REF(src)];dispense=silencer'>Radio Silencer</A><br>"
@@ -184,8 +188,8 @@
 			c.console = src
 
 /obj/machinery/abductor/console/proc/AddSnapshot(mob/living/carbon/human/target)
-	if(istype(target.get_item_by_slot(SLOT_HEAD), /obj/item/clothing/head/foilhat))
-		say("Subject wearing specialized protective headgear, unable to get a proper scan!")
+	if(target.anti_magic_check(FALSE, FALSE, TRUE, 0))
+		say("Subject wearing specialized protective tinfoil gear, unable to get a proper scan!")
 		return
 	var/datum/icon_snapshot/entry = new
 	entry.name = target.name

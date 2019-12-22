@@ -25,6 +25,7 @@
 	mind_traits = list(TRAIT_DISK_VERIFIER)
 
 	display_order = JOB_DISPLAY_ORDER_CAPTAIN
+	display_rank = "CPT" //nsv13 - Displays the player's actual rank alongside their name, such as GSGT Sergei Koralev
 
 /datum/job/captain/get_access()
 	return get_all_accesses()
@@ -38,14 +39,22 @@
 	jobtype = /datum/job/captain
 
 	id = /obj/item/card/id/gold
-	belt = /obj/item/pda/captain
+	belt = /obj/item/melee/classic_baton/telescopic/stunsword
+	r_pocket = /obj/item/pda/captain
 	glasses = /obj/item/clothing/glasses/sunglasses
 	ears = /obj/item/radio/headset/heads/captain/alt
 	gloves = /obj/item/clothing/gloves/color/captain
+<<<<<<< HEAD
 	uniform =  /obj/item/clothing/under/rank/captain
 	suit = /obj/item/clothing/suit/armor/vest/capcarapace
 	shoes = /obj/item/clothing/shoes/sneakers/brown
 	head = /obj/item/clothing/head/caphat
+=======
+	uniform = /obj/item/clothing/under/ship/officer
+	shoes = /obj/item/clothing/shoes/jackboots
+	suit = /obj/item/clothing/suit/ship/officer
+	head = /obj/item/clothing/head/beret/ship/captain
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	backpack_contents = list(/obj/item/melee/classic_baton/telescopic=1, /obj/item/station_charter=1)
 
 	backpack = /obj/item/storage/backpack/captain

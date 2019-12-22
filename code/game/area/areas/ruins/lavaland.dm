@@ -8,7 +8,8 @@
 	icon_state = "dk_yellow"
 	ambientsounds = list('sound/ambience/clown.ogg')
 
-/area/ruin/powered/animal_hospital
+/area/ruin/unpowered/gaia
+	name = "Patch of Eden"
 	icon_state = "dk_yellow"
 
 /area/ruin/powered/snow_biodome

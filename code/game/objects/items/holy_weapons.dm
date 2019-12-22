@@ -18,7 +18,11 @@
 	item_state = "knight_templar"
 	allowed = list(/obj/item/storage/book/bible, /obj/item/nullrod, /obj/item/reagent_containers/food/drinks/bottle/holywater, /obj/item/storage/fancy/candle_box, /obj/item/candle, /obj/item/tank/internals/emergency_oxygen, /obj/item/tank/internals/plasmaman)
 	slowdown = 0
+<<<<<<< HEAD
 	blocks_shove_knockdown = FALSE
+=======
+	clothing_flags = NONE
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 /obj/item/choice_beacon/holy
 	name = "armaments beacon"
@@ -203,7 +207,7 @@
 
 /obj/item/nullrod/Initialize()
 	. = ..()
-	AddComponent(/datum/component/anti_magic, TRUE, TRUE, null, FALSE)
+	AddComponent(/datum/component/anti_magic, TRUE, TRUE, FALSE, null, null, FALSE)
 
 /obj/item/nullrod/suicide_act(mob/user)
 	user.visible_message("<span class='suicide'>[user] is killing [user.p_them()]self with [src]! It looks like [user.p_theyre()] trying to get closer to god!</span>")

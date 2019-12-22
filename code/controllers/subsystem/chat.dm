@@ -1,6 +1,10 @@
 SUBSYSTEM_DEF(chat)
 	name = "Chat"
+<<<<<<< HEAD
 	flags = SS_TICKER
+=======
+	flags = SS_TICKER|SS_NO_INIT
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	wait = 1
 	priority = FIRE_PRIORITY_CHAT
 	init_order = INIT_ORDER_CHAT
@@ -34,7 +38,11 @@ SUBSYSTEM_DEF(chat)
 	message = replacetext(message, "\proper", "")
 	if(handle_whitespace)
 		message = replacetext(message, "\n", "<br>")
+<<<<<<< HEAD
 		message = replacetext(message, "\t", "[GLOB.TAB][GLOB.TAB]")
+=======
+		message = replacetext(message, "\t", "[FOURSPACES][FOURSPACES]")
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	message += "<br>"
 
 
@@ -45,7 +53,11 @@ SUBSYSTEM_DEF(chat)
 	if(islist(target))
 		for(var/I in target)
 			var/client/C = CLIENT_FROM_VAR(I) //Grab us a client if possible
+<<<<<<< HEAD
 			
+=======
+
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 			if(!C?.chatOutput || C.chatOutput.broken) //A player who hasn't updated his skin file.
 				continue
 

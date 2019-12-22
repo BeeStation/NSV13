@@ -46,25 +46,12 @@
 		if(spec_return)
 			return spec_return
 
+	//MARTIAL ART STUFF
 	if(mind)
-		if(mind.martial_art && !incapacitated(FALSE, TRUE) && mind.martial_art.can_use(src) && mind.martial_art.deflection_chance) //Some martial arts users can deflect projectiles!
-			if(prob(mind.martial_art.deflection_chance))
-				if((mobility_flags & MOBILITY_USE) && dna && !dna.check_mutation(HULK)) //But only if they're otherwise able to use items, and hulks can't do it
-					if(!isturf(loc)) //if we're inside something and still got hit
-						P.force_hit = TRUE //The thing we're in passed the bullet to us. Pass it back, and tell it to take the damage.
-						loc.bullet_act(P)
-						return BULLET_ACT_HIT
-					if(mind.martial_art.deflection_chance >= 100) //if they can NEVER be hit, lets clue sec in ;)
-						visible_message("<span class='danger'>[src] deflects the projectile; [p_they()] can't be hit with ranged weapons!</span>", "<span class='userdanger'>You deflect the projectile!</span>")
-					else
-						visible_message("<span class='danger'>[src] deflects the projectile!</span>", "<span class='userdanger'>You deflect the projectile!</span>")
-					playsound(src, pick('sound/weapons/bulletflyby.ogg', 'sound/weapons/bulletflyby2.ogg', 'sound/weapons/bulletflyby3.ogg'), 75, 1)
-					if(!mind.martial_art.reroute_deflection)
-						return BULLET_ACT_BLOCK
-					else
-						P.firer = src
-						P.setAngle(rand(0, 360))//SHING
-						return BULLET_ACT_FORCE_PIERCE
+		if(mind.martial_art && mind.martial_art.can_use(src)) //Some martial arts users can deflect projectiles!
+			var/martial_art_result = mind.martial_art.on_projectile_hit(src, P, def_zone)
+			if(!(martial_art_result == BULLET_ACT_HIT))
+				return martial_art_result
 
 	if(!(P.original == src && P.firer == src)) //can't block or reflect when shooting yourself
 		if(P.reflectable & REFLECT_NORMAL)
@@ -245,6 +232,7 @@
 			if (src.IsKnockdown() && !src.IsParalyzed())
 				Paralyze(40)
 				log_combat(M, src, "pinned")
+<<<<<<< HEAD
 				visible_message("<span class='danger'>[M] has pinned [src] down!</span>", \
 					"<span class='userdanger'>[M] has pinned you down!</span>")
 			else
@@ -252,6 +240,15 @@
 				log_combat(M, src, "tackled")
 				visible_message("<span class='danger'>[M] has tackled [src] down!</span>", \
 					"<span class='userdanger'>[M] has tackled you down!</span>")
+=======
+				visible_message("<span class='danger'>[M] has pinned down [src]!</span>", \
+					"<span class='userdanger'>[M] has pinned down [src]!</span>")
+			else
+				Knockdown(30)
+				log_combat(M, src, "tackled")
+				visible_message("<span class='danger'>[M] has tackled down [src]!</span>", \
+					"<span class='userdanger'>[M] has tackled down [src]!</span>")
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 	if(M.limb_destroyer)
 		dismembering_strike(M, affecting.body_zone)
@@ -466,6 +463,7 @@
 	apply_damage(5, BRUTE, affecting, run_armor_check(affecting, "melee"))
 
 
+<<<<<<< HEAD
 //Added a safety check in case you want to shock a human mob directly through electrocute_act.
 /mob/living/carbon/human/electrocute_act(shock_damage, source, siemens_coeff = 1, safety = 0, override = 0, tesla_shock = 0, illusion = 0, stun = TRUE)
 	if(tesla_shock)
@@ -474,35 +472,43 @@
 			var/obj/item/clothing/gloves/G = gloves
 			if(G.siemens_coefficient <= 0)
 				total_coeff -= 0.5
+=======
+///Calculates the siemens coeff based on clothing and species, can also restart hearts.
+/mob/living/carbon/human/electrocute_act(shock_damage, source, siemens_coeff = 1, safety = FALSE, override = 0, tesla_shock = FALSE, illusion = FALSE, stun = TRUE)
+	//Calculates the siemens coeff based on clothing. Completely ignores the arguments
+	if(tesla_shock) //I hate this entire block. This gets the siemens_coeff for tesla shocks
+		if(gloves && gloves.siemens_coefficient <= 0)
+			siemens_coeff -= 0.5
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 		if(wear_suit)
-			var/obj/item/clothing/suit/S = wear_suit
-			if(S.siemens_coefficient <= 0)
-				total_coeff -= 0.95
-			else if(S.siemens_coefficient == (-1))
-				total_coeff -= 1
-		siemens_coeff = total_coeff
-		if(flags_1 & TESLA_IGNORE_1)
-			siemens_coeff = 0
-	else if(!safety)
-		var/gloves_siemens_coeff = 1
+			if(wear_suit.siemens_coefficient == -1)
+				siemens_coeff -= 1
+			else if(wear_suit.siemens_coefficient <= 0)
+				siemens_coeff -= 0.95
+		siemens_coeff = max(siemens_coeff, 0)
+	else if(!safety) //This gets the siemens_coeff for all non tesla shocks
 		if(gloves)
+<<<<<<< HEAD
 			var/obj/item/clothing/gloves/G = gloves
 			gloves_siemens_coeff = G.siemens_coefficient
 		siemens_coeff = gloves_siemens_coeff
+=======
+			siemens_coeff *= gloves.siemens_coefficient
+	siemens_coeff *= physiology.siemens_coeff
+	siemens_coeff *= dna.species.siemens_coeff
+	. = ..()
+	//Don't go further if the shock was blocked/too weak.
+	if(!.)
+		return
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	//Note we both check that the user is in cardiac arrest and can actually heartattack
 	//If they can't, they're missing their heart and this would runtime
 	if(undergoing_cardiac_arrest() && can_heartattack() && !illusion)
 		if(shock_damage * siemens_coeff >= 1 && prob(25))
 			var/obj/item/organ/heart/heart = getorganslot(ORGAN_SLOT_HEART)
-			heart.beating = TRUE
-			if(stat == CONSCIOUS)
+			if(heart.Restart() && stat == CONSCIOUS)
 				to_chat(src, "<span class='notice'>You feel your heart beating again!</span>")
-	siemens_coeff *= physiology.siemens_coeff
-
-	dna.species.spec_electrocute_act(src, shock_damage,source,siemens_coeff,safety,override,tesla_shock, illusion, stun)
-	. = ..(shock_damage,source,siemens_coeff,safety,override,tesla_shock, illusion, stun)
-	if(.)
-		electrocution_animation(40)
+	electrocution_animation(40)
 
 /mob/living/carbon/human/emag_act(mob/user)
 	.=..()
@@ -671,7 +677,9 @@
 		I.acid_act(acidpwr, acid_volume)
 	return 1
 
+///Overrides the point value that the mob is worth
 /mob/living/carbon/human/singularity_act()
+<<<<<<< HEAD
 	var/gain = 20
 
 
@@ -679,15 +687,23 @@
 		SSmedals.UnlockMedal(MEDAL_SINGULARITY_DEATH,client)
 
 
+=======
+	. = 20
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	if(mind)
 		if((mind.assigned_role == "Station Engineer") || (mind.assigned_role == "Chief Engineer") )
-			gain = 100
+			. = 100
 		if(mind.assigned_role == "Clown")
+<<<<<<< HEAD
 			gain = rand(-1000, 1000)
 	investigate_log("([key_name(src)]) has been consumed by the singularity.", INVESTIGATE_SINGULO) //Oh that's where the clown ended up!
 	gib()
 
 	return(gain)
+=======
+			. = rand(-1000, 1000)
+	..() //Called afterwards because getting the mind after getting gibbed is sketchy
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 /mob/living/carbon/human/help_shake_act(mob/living/carbon/M)
 	if(!istype(M))
@@ -700,8 +716,6 @@
 				to_chat(src, "<span class='notice'>You succesfuly remove the durathread strand.</span>")
 				remove_status_effect(STATUS_EFFECT_CHOKINGSTRAND)
 			return
-		visible_message("[src] examines [p_them()]self.", \
-			"<span class='notice'>You check yourself for injuries.</span>")
 		check_self_for_injuries()
 
 

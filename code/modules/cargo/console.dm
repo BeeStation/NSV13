@@ -87,6 +87,28 @@
 	if(SSshuttle.supplyBlocked)
 		message = blockade_warning
 	data["message"] = message
+<<<<<<< HEAD
+=======
+	data["supplies"] = list()
+	for(var/pack in SSshuttle.supply_packs)
+		var/datum/supply_pack/P = SSshuttle.supply_packs[pack]
+		if(!data["supplies"][P.group])
+			data["supplies"][P.group] = list(
+				"name" = P.group,
+				"packs" = list()
+			)
+		if((P.hidden && !(obj_flags & EMAGGED)) || (P.contraband && !contraband) || (P.special && !P.special_enabled) || P.DropPodOnly)
+			continue
+		data["supplies"][P.group]["packs"] += list(list(
+			"name" = P.name,
+			"cost" = P.cost,
+			"id" = pack,
+			"desc" = P.desc || P.name, // If there is a description, use it. Otherwise use the pack's name.
+			"small_item" = P.small_item,
+			"access" = P.access
+		))
+
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 	data["cart"] = list()
 	for(var/datum/supply_order/SO in SSshuttle.shoppinglist)
 		data["cart"] += list(list(

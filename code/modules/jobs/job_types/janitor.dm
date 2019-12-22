@@ -1,12 +1,12 @@
 /datum/job/janitor
 	title = "Janitor"
 	flag = JANITOR
-	department_head = list("Head of Personnel")
+	department_head = list("Executive Officer")
 	department_flag = CIVILIAN
 	faction = "Station"
 	total_positions = 2
 	spawn_positions = 1
-	supervisors = "the head of personnel"
+	supervisors = "the Executive Officer"
 	selection_color = "#bbe291"
 
 	outfit = /datum/outfit/job/janitor
@@ -17,6 +17,7 @@
 	paycheck_department = ACCOUNT_SRV
 
 	display_order = JOB_DISPLAY_ORDER_JANITOR
+	display_rank = "CRW" //nsv13 - Displays the player's actual rank alongside their name, such as GSGT Sergei Koralev
 
 /datum/outfit/job/janitor
 	name = "Janitor"

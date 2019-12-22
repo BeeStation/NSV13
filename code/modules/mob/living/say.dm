@@ -19,6 +19,7 @@ GLOBAL_LIST_INIT(department_radio_keys, list(
 	// Faction
 	RADIO_KEY_SYNDICATE = RADIO_CHANNEL_SYNDICATE,
 	RADIO_KEY_CENTCOM = RADIO_CHANNEL_CENTCOM,
+	RADIO_KEY_ATC = RADIO_CHANNEL_ATC,
 
 	// Admin
 	MODE_KEY_ADMIN = MODE_ADMIN,
@@ -89,7 +90,11 @@ GLOBAL_LIST_INIT(department_radio_keys, list(
 	var/static/list/one_character_prefix = list(MODE_HEADSET = TRUE, MODE_ROBOT = TRUE, MODE_WHISPER = TRUE)
 
 	var/ic_blocked = FALSE
+<<<<<<< HEAD
 	if(client && !forced && CHAT_FILTER_CHECK(message))
+=======
+	if(client && !forced && config.ic_filter_regex && findtext(message, config.ic_filter_regex))
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 		//The filter doesn't act on the sanitized message, but the raw message.
 		ic_blocked = TRUE
 
@@ -101,6 +106,10 @@ GLOBAL_LIST_INIT(department_radio_keys, list(
 	if(ic_blocked)
 		//The filter warning message shows the sanitized message though.
 		to_chat(src, "<span class='warning'>That message contained a word prohibited in IC chat! Consider reviewing the server rules.\n<span replaceRegex='show_filtered_ic_chat'>\"[message]\"</span></span>")
+<<<<<<< HEAD
+=======
+		SSblackbox.record_feedback("tally", "ic_blocked_words", 1, lowertext(config.ic_filter_regex.match))
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 		return
 
 	var/datum/saymode/saymode = SSradio.saymodes[talk_key]
@@ -186,11 +195,14 @@ GLOBAL_LIST_INIT(department_radio_keys, list(
 	else
 		src.log_talk(message, LOG_SAY, forced_by=forced)
 
-	message = treat_message(message)
+	message = treat_message(message) // unfortunately we still need this
+	var/sigreturn = SEND_SIGNAL(src, COMSIG_MOB_SAY, args)
+	if (sigreturn & COMPONENT_UPPERCASE_SPEECH)
+		message = uppertext(message)
 	if(!message)
 		return
 
-	spans |= get_spans()
+	spans |= speech_span
 
 	if(language)
 		var/datum/language/L = GLOB.language_datum_instances[language]
@@ -238,12 +250,16 @@ GLOBAL_LIST_INIT(department_radio_keys, list(
 
 	// Recompose message for AI hrefs, language incomprehension.
 	message = compose_message(speaker, message_language, raw_message, radio_freq, spans, message_mode)
+<<<<<<< HEAD
 	message = hear_intercept(message, speaker, message_language, raw_message, radio_freq, spans, message_mode)
 
 	show_message(message, 2, deaf_message, deaf_type)
 	return message
+=======
+	SEND_SIGNAL(src, COMSIG_MOVABLE_HEAR, args)
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
-/mob/living/proc/hear_intercept(message, atom/movable/speaker, datum/language/message_language, raw_message, radio_freq, list/spans, message_mode)
+	show_message(message, 2, deaf_message, deaf_type)
 	return message
 
 /mob/living/send_speech(message, message_range = 6, obj/source = src, bubble_type = bubble_icon, list/spans, datum/language/message_language=null, message_mode)

@@ -118,7 +118,10 @@ GLOBAL_VAR(restart_counter)
 	GLOB.query_debug_log = "[GLOB.log_directory]/query_debug.log"
 	GLOB.world_job_debug_log = "[GLOB.log_directory]/job_debug.log"
 	GLOB.world_paper_log = "[GLOB.log_directory]/paper.log"
+<<<<<<< HEAD
 	GLOB.tgui_log = "[GLOB.log_directory]/tgui.log"
+=======
+>>>>>>> 6019aa33c0e954c94587c43287536eaf970cdb36
 
 #ifdef UNIT_TESTS
 	GLOB.test_log = file("[GLOB.log_directory]/tests.log")
@@ -302,3 +305,27 @@ GLOBAL_VAR(restart_counter)
 	maxz++
 	SSmobs.MaxZChanged()
 	SSidlenpcpool.MaxZChanged()
+
+
+/world/proc/change_fps(new_value = 20)
+	if(new_value <= 0)
+		CRASH("change_fps() called with [new_value] new_value.")
+	if(fps == new_value)
+		return //No change required.
+
+	fps = new_value
+	on_tickrate_change()
+
+
+/world/proc/change_tick_lag(new_value = 0.5)
+	if(new_value <= 0)
+		CRASH("change_tick_lag() called with [new_value] new_value.")
+	if(tick_lag == new_value)
+		return //No change required.
+
+	tick_lag = new_value
+	on_tickrate_change()
+
+
+/world/proc/on_tickrate_change()
+	SStimer?.reset_buckets()
