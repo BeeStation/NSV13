@@ -141,6 +141,7 @@
 	new /obj/item/radio/headset/headset_sec/alt(src)
 	new /obj/item/clothing/glasses/hud/security/sunglasses(src)
 	new /obj/item/flashlight/seclite(src)
+	new /obj/item/clothing/suit/space/hardsuit/syndi/peacekeeper(src) //NSV13 - Allows all sec to board.
 
 /obj/structure/closet/secure_closet/security/sec
 
