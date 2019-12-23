@@ -34,8 +34,6 @@
 					SEND_SIGNAL(M, COMSIG_ADD_MOOD_EVENT, "quality_drink", /datum/mood_event/quality_verygood)
 				if (DRINK_FANTASTIC)
 					SEND_SIGNAL(M, COMSIG_ADD_MOOD_EVENT, "quality_drink", /datum/mood_event/quality_fantastic)
-				if (FOOD_AMAZING)
-					SEND_SIGNAL(M, COMSIG_ADD_MOOD_EVENT, "quality_food", /datum/mood_event/amazingtaste)
 	return ..()
 
 /datum/reagent/consumable/nutriment
@@ -109,6 +107,7 @@
 	nutriment_factor = 7 * REAGENTS_METABOLISM //Not very healthy on its own
 	metabolization_rate = 10 * REAGENTS_METABOLISM
 	var/fry_temperature = 450 //Around ~350 F (117 C) which deep fryers operate around in the real world
+	var/boiling //Used in mob life to determine if the oil kills, and only on touch application
 
 /datum/reagent/consumable/cooking_oil/reaction_obj(obj/O, reac_volume)
 	if(holder && holder.chem_temp >= fry_temperature)
@@ -121,27 +120,18 @@
 /datum/reagent/consumable/cooking_oil/reaction_mob(mob/living/M, method = TOUCH, reac_volume, show_message = 1, touch_protection = 0)
 	if(!istype(M))
 		return
-	var/boiling = FALSE
 	if(holder && holder.chem_temp >= fry_temperature)
 		boiling = TRUE
-	if(method != VAPOR && method != TOUCH) //Directly coats the mob, and doesn't go into their bloodstream
-		return ..()
-	if(!boiling)
-		return TRUE
-	var/oil_damage = ((holder.chem_temp / fry_temperature) * 0.33) //Damage taken per unit
-	if(method == TOUCH)
-		oil_damage *= 1 - M.get_permeability_protection()
-	var/FryLoss = round(min(38, oil_damage * reac_volume))
-	if(!HAS_TRAIT(M, TRAIT_OIL_FRIED))
-		M.visible_message("<span class='warning'>The boiling oil sizzles as it covers [M]!</span>", \
-		"<span class='userdanger'>You're covered in boiling oil!</span>")
-		if(FryLoss)
+	if(method == VAPOR || method == TOUCH) //Directly coats the mob, and doesn't go into their bloodstream
+		if(boiling)
+			M.visible_message("<span class='warning'>The boiling oil sizzles as it covers [M]!</span>", \
+			"<span class='userdanger'>You're covered in boiling oil!</span>")
 			M.emote("scream")
-		playsound(M, 'sound/machines/fryer/deep_fryer_emerge.ogg', 25, TRUE)
-		ADD_TRAIT(M, TRAIT_OIL_FRIED, "cooking_oil_react")
-		addtimer(CALLBACK(M, /mob/living/proc/unfry_mob), 3)
-	if(FryLoss)
-		M.adjustFireLoss(FryLoss)
+			playsound(M, 'sound/machines/fryer/deep_fryer_emerge.ogg', 25, TRUE)
+			var/oil_damage = (holder.chem_temp / fry_temperature) * 0.33 //Damage taken per unit
+			M.adjustFireLoss(min(35, oil_damage * reac_volume)) //Damage caps at 35
+	else
+		..()
 	return TRUE
 
 /datum/reagent/consumable/cooking_oil/reaction_turf(turf/open/T, reac_volume)
@@ -282,34 +272,19 @@
 
 	var/mob/living/carbon/victim = M
 	if(method == TOUCH || method == VAPOR)
-		//check for protection
-		var/mouth_covered = victim.is_mouth_covered()
-		var/eyes_covered = victim.is_eyes_covered()
+		var/pepper_proof = victim.is_pepper_proof()
 
+		//check for protection
 		//actually handle the pepperspray effects
-		if ( eyes_covered && mouth_covered )
-			return
-		else if ( mouth_covered )	// Reduced effects if partially protected
+		if (!(pepper_proof)) // you need both eye and mouth protection
 			if(prob(5))
 				victim.emote("scream")
-			victim.blur_eyes(3)
-			victim.blind_eyes(2)
-			victim.confused = max(M.confused, 3)
-			victim.damageoverlaytemp = 60
-			victim.Paralyze(60)
-			return
-		else if ( eyes_covered ) // Eye cover is better than mouth cover
-			victim.blur_eyes(3)
-			victim.damageoverlaytemp = 30
-			return
-		else // Oh dear :D
-			if(prob(5))
-				victim.emote("scream")
-			victim.blur_eyes(5)
-			victim.blind_eyes(3)
-			victim.confused = max(M.confused, 6)
-			victim.damageoverlaytemp = 75
-			victim.Paralyze(100)
+			victim.blur_eyes(5) // 10 seconds
+			victim.blind_eyes(3) // 6 seconds
+			victim.confused = max(M.confused, 5) // 10 seconds
+			victim.Knockdown(3 SECONDS)
+			victim.add_movespeed_modifier(MOVESPEED_ID_PEPPER_SPRAY, update=TRUE, priority=100, multiplicative_slowdown=0.25, blacklisted_movetypes=(FLYING|FLOATING))
+			addtimer(CALLBACK(victim, /mob.proc/remove_movespeed_modifier, MOVESPEED_ID_PEPPER_SPRAY), 10 SECONDS)
 		victim.update_damage_hud()
 
 /datum/reagent/consumable/condensedcapsaicin/on_mob_life(mob/living/carbon/M)
@@ -329,6 +304,18 @@
 		return
 	if(M.has_bane(BANE_SALT))
 		M.mind.disrupt_spells(-200)
+	if(method == INGEST && is_species(M, /datum/species/squid))
+		to_chat(M, "<span class='danger'>Your tongue shrivels as you taste the salt! It burns!</span>")
+		if(prob(25))
+			M.emote("scream")
+		M.adjustFireLoss(5, TRUE)
+	else if(method == TOUCH && is_species(M, /datum/species/squid))
+		if(M.incapacitated())
+			return
+		var/obj/item/I = M.get_active_held_item()
+		M.throw_item(get_ranged_target_turf(M, pick(GLOB.alldirs), rand(1, 3)))
+		to_chat(M, "<span class='warning'>The salt causes your arm to spasm!</span>")
+		M.log_message("threw [I] due to a Muscle Spasm", LOG_ATTACK)
 
 /datum/reagent/consumable/sodiumchloride/reaction_turf(turf/T, reac_volume) //Creates an umbra-blocking salt pile
 	if(!istype(T))
@@ -351,6 +338,13 @@
 	nutriment_factor = 5 * REAGENTS_METABOLISM
 	color = "#302000" // rgb: 48, 32, 0
 	taste_description = "bitterness"
+/datum/reagent/consumable/coco/on_mob_add(mob/living/carbon/M)
+	.=..()
+	if(iscatperson(M))
+		to_chat(M, "<span class='warning'>Your insides revolt at the presence of lethal chocolate!</span>")
+		M.vomit(20)
+
+
 
 /datum/reagent/consumable/hot_coco
 	name = "Hot Chocolate"
@@ -415,6 +409,8 @@
 			if(prob(20)) //stays in the system much longer than sprinkles/banana juice, so heals slower to partially compensate
 				H.heal_bodypart_damage(1,1, 0)
 				. = 1
+		else //chefs' robust space-Italian metabolism lets them eat garlic without producing allyl methyl sulfide
+			H.adjust_hygiene(-0.15 * volume)
 	..()
 
 /datum/reagent/consumable/sprinkles
@@ -424,7 +420,7 @@
 	taste_description = "childhood whimsy"
 
 /datum/reagent/consumable/sprinkles/on_mob_life(mob/living/carbon/M)
-	if(M.mind && HAS_TRAIT(M.mind, TRAIT_LAW_ENFORCEMENT_METABOLISM))
+	if(HAS_TRAIT(M.mind, TRAIT_LAW_ENFORCEMENT_METABOLISM))
 		M.heal_bodypart_damage(1,1, 0)
 		. = 1
 	..()
@@ -600,10 +596,10 @@
 				unprotected = TRUE
 	if(unprotected)
 		if(!M.getorganslot(ORGAN_SLOT_EYES))	//can't blind somebody with no eyes
-			to_chat(M, "<span class='notice'>Your eye sockets feel wet.</span>")
+			to_chat(M, "<span class = 'notice'>Your eye sockets feel wet.</span>")
 		else
 			if(!M.eye_blurry)
-				to_chat(M, "<span class='warning'>Tears well up in your eyes!</span>")
+				to_chat(M, "<span class = 'warning'>Tears well up in your eyes!</span>")
 			M.blind_eyes(2)
 			M.blur_eyes(5)
 	..()
@@ -613,7 +609,7 @@
 	if(M.eye_blurry)	//Don't worsen vision if it was otherwise fine
 		M.blur_eyes(4)
 		if(prob(10))
-			to_chat(M, "<span class='warning'>Your eyes sting!</span>")
+			to_chat(M, "<span class = 'warning'>Your eyes sting!</span>")
 			M.blind_eyes(2)
 
 
@@ -692,15 +688,12 @@
 	color = "#97ee63"
 	taste_description = "pure electrictiy"
 
-/datum/reagent/consumable/liquidelectricity/reaction_mob(mob/living/M, method=TOUCH, reac_volume) //can't be on life because of the way blood works.
-	if((method == INGEST || method == INJECT || method == PATCH) && iscarbon(M))
-		var/mob/living/carbon/C = M
-		var/obj/item/organ/stomach/ethereal/stomach = C.getorganslot(ORGAN_SLOT_STOMACH)
-		if(istype(stomach))
-			stomach.adjust_charge(reac_volume * REM)
-
 /datum/reagent/consumable/liquidelectricity/on_mob_life(mob/living/carbon/M)
-	if(prob(25) && !isethereal(M))
+	if(isethereal(M))
+		var/mob/living/carbon/human/H = M
+		var/datum/species/ethereal/E = H.dna?.species
+		E.adjust_charge(5*REM)
+	else if(prob(25)) //scp13 optimization
 		M.electrocute_act(rand(10,15), "Liquid Electricity in their body", 1) //lmao at the newbs who eat energy bars
 		playsound(M, "sparks", 50, 1)
 	return ..()
@@ -722,30 +715,11 @@
 	..()
 	. = 1
 
-/datum/reagent/consumable/secretsauce
-	name = "Secret Sauce"
-	description = "What could it be."
-	nutriment_factor = 2 * REAGENTS_METABOLISM
-	color = "#792300"
-	taste_description = "indescribable"
-	quality = FOOD_AMAZING
-	taste_mult = 100
-	can_synth = FALSE
-
-/datum/reagent/consumable/nutriment/peptides
-	name = "Peptides"
-	color = "#BBD4D9"
-	taste_description = "mint frosting"
-	description = "These restorative peptides not only speed up wound healing, but are nutrious as well!"
-	nutriment_factor = 10 * REAGENTS_METABOLISM // 33% less than nutriment to reduce weight gain
-	brute_heal = 3
-	burn_heal = 1
-
 /datum/reagent/consumable/caramel
 	name = "Caramel"
 	description = "Who would have guessed that heating sugar is so delicious?"
 	nutriment_factor = 10 * REAGENTS_METABOLISM
-	color = "#D98736"
+	color = "#C65A00"
 	taste_mult = 2
-	taste_description = "caramel"
+	taste_description = "bitter sweetness"
 	reagent_state = SOLID

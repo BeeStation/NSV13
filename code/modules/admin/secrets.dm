@@ -8,6 +8,7 @@
 			<B>General Secrets</B><BR>
 			<BR>
 			<A href='?src=[REF(src)];[HrefToken()];secrets=admin_log'>Admin Log</A><BR>
+			<A href='?src=[REF(src)];[HrefToken()];secrets=mentor_log'>Mentor Log</A><BR>
 			<A href='?src=[REF(src)];[HrefToken()];secrets=show_admins'>Show Admin List</A><BR>
 			<BR>
 			"}
@@ -59,6 +60,7 @@
 			<A href='?src=[REF(src)];[HrefToken()];secrets=onlyone'>There can only be one!</A><BR>
 			<A href='?src=[REF(src)];[HrefToken()];secrets=delayed_onlyone'>There can only be one! (40-second delay)</A><BR>
 			<A href='?src=[REF(src)];[HrefToken()];secrets=retardify'>Make all players retarded</A><BR>
+			<A href='?src=[REF(src)];[HrefToken()];secrets=aussify'>Make all players Australian</A><BR>
 			<A href='?src=[REF(src)];[HrefToken()];secrets=eagles'>Egalitarian Station Mode</A><BR>
 			<A href='?src=[REF(src)];[HrefToken()];secrets=ancap'>Anarcho-Capitalist Station Mode</A><BR>
 			<A href='?src=[REF(src)];[HrefToken()];secrets=blackout'>Break all lights</A><BR>
@@ -106,6 +108,10 @@
 			if(!GLOB.admin_log.len)
 				dat += "No-one has done anything this round!"
 			usr << browse(dat, "window=admin_log")
+
+
+		if("mentor_log") // hippie start -- access mentor log
+			MentorLogSecret() // hippie end
 
 		if("show_admins")
 			var/dat = "<B>Current admins:</B><HR>"
@@ -403,7 +409,7 @@
 						var/obj/item/organ/tail/cat/tail = new
 						ears.Insert(H, drop_if_replaced=FALSE)
 						tail.Insert(H, drop_if_replaced=FALSE)
-					var/list/honorifics = list("[MALE]" = list("kun"), "[FEMALE]" = list("chan","tan"), "[NEUTER]" = list("san"), "[PLURAL]" = list("san")) //John Robust -> Robust-kun
+					var/list/honorifics = list("[MALE]" = list("kun"), "[FEMALE]" = list("chan","tan"), "[NEUTER]" = list("san")) //John Robust -> Robust-kun
 					var/list/names = splittext(H.real_name," ")
 					var/forename = names.len > 1 ? names[2] : names[1]
 					var/newname = "[forename]-[pick(honorifics["[H.gender]"])]"
@@ -455,6 +461,18 @@
 				to_chat(H, "<span class='boldannounce'>You suddenly feel stupid.</span>")
 				H.adjustBrainLoss(60, 80)
 			message_admins("[key_name_admin(usr)] made everybody retarded")
+
+		if("aussify") //for rimjobtide
+			if(!check_rights(R_FUN))
+				return
+			SSblackbox.record_feedback("nested tally", "admin_secrets_fun_used", 1, list("Mass Australian"))
+			var/s = sound('sound/misc/downunder.ogg')
+			for(var/mob/living/carbon/human/H in GLOB.player_list)
+				to_chat(H, "<span class='boldannounce'>You suddenly feel crikey.</span>")
+				var/matrix/M = H.transform
+				H.transform = M.Scale(1,-1) //flip em upside down
+				SEND_SOUND(H, s)
+			message_admins("[key_name_admin(usr)] made everybody australian")
 
 		if("eagles")//SCRAW
 			if(!check_rights(R_FUN))
@@ -722,7 +740,7 @@
 		E.processing = FALSE
 		if(E.announceWhen>0)
 			if(alert(usr, "Would you like to alert the crew?", "Alert", "Yes", "No") == "No")
-				E.announceWhen = -1
+				E.announceChance = 0
 		E.processing = TRUE
 	if (usr)
 		log_admin("[key_name(usr)] used secret [item]")

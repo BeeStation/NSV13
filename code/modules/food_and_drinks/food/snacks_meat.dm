@@ -118,7 +118,7 @@
 	bonus_reagents = list(/datum/reagent/consumable/nutriment = 1, /datum/reagent/consumable/nutriment/vitamin = 1)
 	list_reagents = list(/datum/reagent/consumable/nutriment = 6, /datum/reagent/consumable/nutriment/vitamin = 1)
 	tastes = list("meat" = 1)
-	foodtype = MEAT | BREAKFAST
+	foodtype = MEAT
 	var/roasted = FALSE
 
 /obj/item/reagent_containers/food/snacks/sausage/Initialize()
@@ -193,6 +193,9 @@
 	var/spawned_mob = /mob/living/carbon/monkey
 
 /obj/item/reagent_containers/food/snacks/monkeycube/proc/Expand()
+	if(GLOB.total_cube_monkeys >= CONFIG_GET(number/max_cube_monkeys))
+		visible_message("<span class='warning'>[src] refuses to expand!</span>")
+		return
 	var/mob/spammer = get_mob_by_key(fingerprintslast)
 	var/mob/living/bananas = new spawned_mob(drop_location(), TRUE, spammer)
 	if(faction)
@@ -311,3 +314,12 @@
 	icon_state = "doubleratkebab"
 	tastes = list("rat meat" = 2, "metal" = 1)
 	bonus_reagents = list(/datum/reagent/consumable/nutriment = 6, /datum/reagent/consumable/nutriment/vitamin = 2)
+
+/obj/item/reagent_containers/food/snacks/meat/steak/ashflake
+	name = "ashflaked steak"
+	desc = "A common delicacy among miners."
+	icon_state = "ashsteak"
+	bonus_reagents = list(/datum/reagent/consumable/vitfro = 2)
+	tastes = list("tough meat" = 2, "bubblegum" = 1)
+	foodtype = MEAT
+	

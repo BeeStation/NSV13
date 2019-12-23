@@ -26,7 +26,7 @@
 	return TRUE
 
 /datum/surgery_step/revive
-	name = "shock body"
+	name = "repair body"
 	implements = list(/obj/item/twohanded/shockpaddles = 100, /obj/item/melee/baton = 75, /obj/item/gun/energy = 60)
 	time = 120
 
@@ -51,31 +51,25 @@
 			return FALSE
 
 /datum/surgery_step/revive/preop(mob/user, mob/living/carbon/target, target_zone, obj/item/tool, datum/surgery/surgery)
-	display_results(user, target, "<span class='notice'>You prepare to give [target]'s brain the spark of life with [tool].</span>",
-		"[user] prepares to shock [target]'s brain with [tool].",
-		"[user] prepares to shock [target]'s brain with [tool].")
+	user.visible_message("[user] prepares to shock [target]'s brain with [tool].", "<span class='notice'>You prepare to give [target]'s brain the spark of life with [tool].</span>")
 	target.notify_ghost_cloning("Someone is trying to zap your brain. Re-enter your corpse if you want to be revived!", source = target)
 
 /datum/surgery_step/revive/success(mob/user, mob/living/carbon/target, target_zone, obj/item/tool, datum/surgery/surgery)
-	display_results(user, target, "<span class='notice'>You successfully shock [target]'s brain with [tool]...</span>",
-		"[user] send a powerful shock to [target]'s brain with [tool]...",
-		"[user] send a powerful shock to [target]'s brain with [tool]...")
+	user.visible_message("[user] send a powerful shock to [target]'s brain with [tool]...", "<span class='notice'>You successfully shock [target]'s brain with [tool]...</span>")
 	playsound(get_turf(target), 'sound/magic/lightningbolt.ogg', 50, 1)
 	target.adjustOxyLoss(-50, 0)
 	target.updatehealth()
 	if(target.revive())
-		target.visible_message("...[target] wakes up, alive and aware!")
+		user.visible_message("...[target] wakes up, alive and aware!", "<span class='notice'><b>IT'S ALIVE!</b></span>")
 		target.emote("gasp")
 		target.adjustBrainLoss(50, 199) //MAD SCIENCE
 		return TRUE
 	else
-		target.visible_message("...[target.p_they()] convulses, then lies still.")
+		user.visible_message("...[target.p_they()] convulses, then lies still.")
 		return FALSE
 
 /datum/surgery_step/revive/failure(mob/user, mob/living/carbon/target, target_zone, obj/item/tool, datum/surgery/surgery)
-	display_results(user, target, "<span class='notice'>You shock [target]'s brain with [tool], but [target.p_they()] doesn't react.</span>",
-		"[user] send a powerful shock to [target]'s brain with [tool], but [target.p_they()] doesn't react.",
-		"[user] send a powerful shock to [target]'s brain with [tool], but [target.p_they()] doesn't react.")
+	user.visible_message("[user] send a powerful shock to [target]'s brain with [tool], but [target.p_they()] doesn't react.", "<span class='notice'>You shock [target]'s brain with [tool], but [target.p_they()] doesn't react.</span>")
 	playsound(get_turf(target), 'sound/magic/lightningbolt.ogg', 50, 1)
 	target.adjustBrainLoss(15, 199)
 	return FALSE

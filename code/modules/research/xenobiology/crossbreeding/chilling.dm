@@ -280,7 +280,7 @@ Chilling extracts:
 
 /obj/item/slimecross/chilling/oil
 	colour = "oil"
-	effect_desc = "It creates a weak, but wide-ranged explosion."
+	effect_desc = "It creates a useless flash."
 
 /obj/item/slimecross/chilling/oil/do_effect(mob/user)
 	user.visible_message("<span class='danger'>[src] begins to shake with muted intensity!</span>")

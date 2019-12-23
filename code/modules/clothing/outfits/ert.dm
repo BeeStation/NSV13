@@ -19,7 +19,7 @@
 
 	var/obj/item/card/id/W = H.wear_id
 	W.registered_name = H.real_name
-	W.update_label()
+	W.update_label(W.registered_name, W.assignment)
 
 /datum/outfit/ert/commander
 	name = "ERT Commander"
@@ -173,7 +173,7 @@
 	back = /obj/item/storage/backpack/satchel
 	r_pocket = /obj/item/pda/heads
 	l_hand = /obj/item/clipboard
-	id = /obj/item/card/id/centcom
+	id = /obj/item/card/id
 
 /datum/outfit/centcom_official/post_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
 	if(visualsOnly)
@@ -185,6 +185,7 @@
 	pda.update_label()
 
 	var/obj/item/card/id/W = H.wear_id
+	W.icon_state = "centcom"
 	W.access = get_centcom_access("CentCom Official")
 	W.access += ACCESS_WEAPONS
 	W.assignment = "CentCom Official"
@@ -299,3 +300,37 @@
 		/obj/item/clothing/mask/gas/sechailer=1,\
 		/obj/item/grenade/clusterbuster/cleaner=3)
 
+/datum/outfit/centcom_intern
+	name = "CentCom Intern"
+
+	uniform = /obj/item/clothing/under/rank/centcom/intern
+	shoes = /obj/item/clothing/shoes/sneakers/black
+	gloves = /obj/item/clothing/gloves/color/black
+	ears = /obj/item/radio/headset/headset_cent
+	glasses = /obj/item/clothing/glasses/sunglasses
+	belt = /obj/item/melee/classic_baton
+	r_hand = /obj/item/gun/ballistic/rifle/boltaction
+	back = /obj/item/storage/backpack/satchel
+	l_pocket = /obj/item/ammo_box/a762
+	r_pocket = /obj/item/ammo_box/a762
+	id = /obj/item/card/id/centcom
+	backpack_contents = list(/obj/item/storage/box/survival = 1)
+
+/datum/outfit/centcom_intern/post_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
+	if(visualsOnly)
+		return
+
+	var/obj/item/card/id/W = H.wear_id
+	W.access = get_centcom_access(name)
+	W.access += ACCESS_WEAPONS
+	W.assignment = name
+	W.registered_name = H.real_name
+	W.update_label()
+
+/datum/outfit/centcom_intern/leader
+	name = "CentCom Head Intern"
+	belt = /obj/item/melee/baton/loaded
+	suit = /obj/item/clothing/suit/armor/vest
+	suit_store = /obj/item/gun/ballistic/rifle/boltaction
+	r_hand = /obj/item/megaphone
+	head = /obj/item/clothing/head/intern

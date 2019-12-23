@@ -95,9 +95,6 @@
 	  */
 	var/list/implants = null
 
-  /// Any undershirt. While on humans it is a string, here we use paths to stay consistent with the rest of the equips.
-	var/datum/sprite_accessory/undershirt = null
-
 	/// Any clothing accessory item
 	var/accessory = null
 
@@ -181,9 +178,6 @@
 		H.equip_to_slot_or_del(new id(H),SLOT_WEAR_ID)
 	if(suit_store)
 		H.equip_to_slot_or_del(new suit_store(H),SLOT_S_STORE)
-
-	if(undershirt)
-		H.undershirt = initial(undershirt.name)
 
 	if(accessory)
 		var/obj/item/clothing/under/U = H.w_uniform
@@ -291,7 +285,6 @@
 	listclearnulls(types)
 	return types
 
-/// Return a json list of this outfit
 /datum/outfit/proc/get_json_data()
 	. = list()
 	.["outfit_type"] = type
@@ -320,17 +313,15 @@
 	.["implants"] = implants
 	.["accessory"] = accessory
 
-/// Prompt the passed in mob client to download this outfit as a json blob
 /datum/outfit/proc/save_to_file(mob/admin)
 	var/stored_data = get_json_data()
 	var/json = json_encode(stored_data)
 	//Kinda annoying but as far as i can tell you need to make actual file.
-	var/f = file("data/TempOutfitUpload")
+	var/f = file("data/TempOutfitUpload") 
 	fdel(f)
 	WRITE_FILE(f,json)
 	admin << ftp(f,"[name].json")
 
-/// Create an outfit datum from a list of json data
 /datum/outfit/proc/load_from(list/outfit_data)
 	//This could probably use more strict validation
 	name = outfit_data["name"]

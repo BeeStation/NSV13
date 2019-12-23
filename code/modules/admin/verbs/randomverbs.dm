@@ -225,6 +225,9 @@
 		if(MUTE_ADMINHELP)
 			mute_string = "adminhelp, admin PM and ASAY"
 			feedback_string = "Adminhelp"
+		if(MUTE_MHELP)
+			mute_string = "mhelp"
+			feedback_string = "Mentorhelp"
 		if(MUTE_DEADCHAT)
 			mute_string = "deadchat and DSAY"
 			feedback_string = "Deadchat"
@@ -292,7 +295,7 @@
 				continue	//we don't want to be an alium
 			if(M.client.is_afk())
 				continue	//we are afk
-			if(M.mind && M.mind.current && M.mind.current.stat != DEAD)
+			if(M.mind?.current && M.mind.current.stat != DEAD)
 				continue	//we have a live body we are tied to
 			candidates += M.ckey
 		if(candidates.len)
@@ -419,7 +422,7 @@ Traitors and the like can also be revived with the previous role mostly intact.
 
 	if(record_found)//If they have a record we can determine a few things.
 		new_character.real_name = record_found.fields["name"]
-		new_character.gender = record_found.fields["gender"]
+		new_character.gender = record_found.fields["sex"]
 		new_character.age = record_found.fields["age"]
 		new_character.hardset_dna(record_found.fields["identity"], record_found.fields["enzymes"], record_found.fields["name"], record_found.fields["blood_type"], new record_found.fields["species"], record_found.fields["features"])
 	else
@@ -517,10 +520,10 @@ Traitors and the like can also be revived with the previous role mostly intact.
 	message_admins("Admin [key_name_admin(usr)] has added a new AI law - [input]")
 
 	var/show_log = alert(src, "Show ion message?", "Message", "Yes", "No")
-	var/announce_ion_laws = (show_log == "Yes" ? 1 : -1)
+	var/announce_ion_laws = (show_log == "Yes" ? 100 : 0)
 
 	var/datum/round_event/ion_storm/add_law_only/ion = new()
-	ion.announceEvent = announce_ion_laws
+	ion.announceChance = announce_ion_laws
 	ion.ionMessage = input
 
 	SSblackbox.record_feedback("tally", "admin_verb", 1, "Add Custom AI Law") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
@@ -743,7 +746,7 @@ Traitors and the like can also be revived with the previous role mostly intact.
 	if(view == CONFIG_GET(string/default_view))
 		change_view(input("Select view range:", "FUCK YE", 7) in list(1,2,3,4,5,6,7,8,9,10,11,12,13,14,128))
 	else
-		check_view()
+		change_view(CONFIG_GET(string/default_view))
 
 	log_admin("[key_name(usr)] changed their view range to [view].")
 	//message_admins("\blue [key_name_admin(usr)] changed their view range to [view].")	//why? removed by order of XSI
@@ -906,6 +909,13 @@ Traitors and the like can also be revived with the previous role mostly intact.
 	var/datum/atom_hud/A = GLOB.huds[ANTAG_HUD_TRAITOR]
 	return A.hudusers[mob]
 
+/client/proc/open_shuttle_manipulator()
+	set category = "Admin"
+	set name = "Shuttle Manipulator"
+	set desc = "Opens the shuttle manipulator UI."
+
+	for(var/obj/machinery/shuttle_manipulator/M in GLOB.machines)
+		M.ui_interact(usr)
 
 /client/proc/run_weather()
 	set category = "Fun"
@@ -1064,7 +1074,7 @@ Traitors and the like can also be revived with the previous role mostly intact.
 	if(!check_rights(R_ADMIN) || !check_rights(R_FUN))
 		return
 
-	var/list/punishment_list = list(ADMIN_PUNISHMENT_LIGHTNING, ADMIN_PUNISHMENT_BRAINDAMAGE, ADMIN_PUNISHMENT_GIB, ADMIN_PUNISHMENT_BSA, ADMIN_PUNISHMENT_FIREBALL, ADMIN_PUNISHMENT_ROD, ADMIN_PUNISHMENT_SUPPLYPOD_QUICK, ADMIN_PUNISHMENT_SUPPLYPOD, ADMIN_PUNISHMENT_MAZING)
+	var/list/punishment_list = list(ADMIN_PUNISHMENT_LIGHTNING, ADMIN_PUNISHMENT_BRAINDAMAGE, ADMIN_PUNISHMENT_GIB, ADMIN_PUNISHMENT_BSA, ADMIN_PUNISHMENT_FIREBALL, ADMIN_PUNISHMENT_ROD, ADMIN_PUNISHMENT_SUPPLYPOD_QUICK, ADMIN_PUNISHMENT_SUPPLYPOD, ADMIN_PUNISHMENT_MAZING, ADMIN_PUNISHMENT_FLOORCLUWNE, ADMIN_PUNISHMENT_CLUWNE)
 
 	var/punishment = input("Choose a punishment", "DIVINE SMITING") as null|anything in punishment_list
 
@@ -1129,6 +1139,18 @@ Traitors and the like can also be revived with the previous role mostly intact.
 			if(!puzzle_imprison(target))
 				to_chat(usr,"<span class='warning'>Imprisonment failed!</span>")
 				return
+			
+		if(ADMIN_PUNISHMENT_FLOORCLUWNE)
+			var/turf/T = get_turf(target)
+			var/mob/living/simple_animal/hostile/floor_cluwne/FC = new(T)
+			FC.invalid_area_typecache = list()  // works anywhere
+			FC.delete_after_target_killed = TRUE
+			FC.force_target(target)
+			FC.stage = 4
+		
+		if(ADMIN_PUNISHMENT_CLUWNE)
+			message_admins("[usr] cluwned [target]")
+			target.cluwne()
 
 	punish_log(target, punishment)
 
@@ -1196,10 +1218,13 @@ Traitors and the like can also be revived with the previous role mostly intact.
 		to_chat(usr, "<span class='danger'>ERROR: Unable read player flags from database. Please check logs.</span>")
 	var/dbflags = C.prefs.db_flags
 	var/newstate = FALSE
-	if(dbflags & DB_FLAG_EXEMPT)
+
+	if(dbflags & DB_FLAG_EXEMPT || C.prefs.job_exempt)
 		newstate = FALSE
 	else
 		newstate = TRUE
+
+	C.prefs.job_exempt = newstate
 
 	if(C.update_flag_db(DB_FLAG_EXEMPT, newstate))
 		to_chat(usr, "<span class='danger'>ERROR: Unable to update player flags. Please check logs.</span>")

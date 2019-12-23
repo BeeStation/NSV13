@@ -323,7 +323,7 @@ Code:
 
 			if(active1 in GLOB.data_core.general)
 				menu += "Name: [active1.fields["name"]] ID: [active1.fields["id"]]<br>"
-				menu += "Gender: [active1.fields["gender"]]<br>"
+				menu += "Sex: [active1.fields["sex"]]<br>"
 				menu += "Age: [active1.fields["age"]]<br>"
 				menu += "Rank: [active1.fields["rank"]]<br>"
 				menu += "Fingerprint: [active1.fields["fingerprint"]]<br>"
@@ -367,7 +367,7 @@ Code:
 
 			if(active1 in GLOB.data_core.general)
 				menu += "Name: [active1.fields["name"]] ID: [active1.fields["id"]]<br>"
-				menu += "Gender: [active1.fields["gender"]]<br>"
+				menu += "Sex: [active1.fields["sex"]]<br>"
 				menu += "Age: [active1.fields["age"]]<br>"
 				menu += "Rank: [active1.fields["rank"]]<br>"
 				menu += "Fingerprint: [active1.fields["fingerprint"]]<br>"
@@ -679,7 +679,7 @@ Code:
 		menu += "Mode: [active_bot.get_mode()]"
 		if(active_bot.allow_pai)
 			menu += "<BR>pAI: "
-			if(active_bot.paicard && active_bot.paicard.pai)
+			if(active_bot.paicard?.pai)
 				menu += "[active_bot.paicard.pai.name]"
 				if(active_bot.bot_core.allowed(usr))
 					menu += " (<A href='byond://?src=[REF(src)];op=ejectpai'><i>eject</i></A>)"

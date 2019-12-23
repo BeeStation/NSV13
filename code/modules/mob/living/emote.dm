@@ -78,6 +78,7 @@
 	message_alien = "lets out a waning guttural screech, green blood bubbling from its maw..."
 	message_larva = "lets out a sickly hiss of air and falls limply to the floor..."
 	message_monkey = "lets out a faint chimper as it collapses and stops moving..."
+	message_ipc = "gives one shrill beep before falling limp, their monitor flashing blue before completely shutting off..."
 	message_simple =  "stops moving..."
 	stat_allowed = UNCONSCIOUS
 
@@ -220,16 +221,6 @@
 				return 'sound/voice/human/womanlaugh.ogg'
 			else
 				return pick('sound/voice/human/manlaugh1.ogg', 'sound/voice/human/manlaugh2.ogg')
-
-/datum/emote/living/snap
-	key = "snap"
-	key_third_person = "snaps"
-	message = "snaps their fingers."
-	message_param = "snaps their fingers at %t."
-	emote_type = EMOTE_AUDIBLE
-
-/datum/emote/living/snap/get_sound(mob/living/user)
-	return pick('sound/misc/fingersnap1.ogg', 'sound/misc/fingersnap2.ogg')
 
 /datum/emote/living/look
 	key = "look"
@@ -415,9 +406,6 @@
 	key_third_person = "custom"
 	message = null
 
-/datum/emote/living/custom/can_run_emote(mob/user, status_check, intentional)
-	. = ..() && intentional
-
 /datum/emote/living/custom/proc/check_invalid(mob/user, input)
 	. = TRUE
 	if(copytext(input,1,5) == "says")
@@ -430,6 +418,9 @@
 		to_chat(user, "<span class='danger'>Invalid emote.</span>")
 	else
 		. = FALSE
+
+/datum/emote/living/custom/can_run_emote(mob/user, status_check, intentional)
+	. = ..() && intentional
 
 /datum/emote/living/custom/run_emote(mob/user, params, type_override = null, intentional = FALSE)
 	if(!can_run_emote(user, TRUE, intentional))
@@ -530,3 +521,18 @@
 		to_chat(user, "<span class='notice'>You ready your slapping hand.</span>")
 	else
 		to_chat(user, "<span class='warning'>You're incapable of slapping in your current state.</span>")
+		
+/datum/emote/living/raisehand
+	key = "highfive"
+	key_third_person = "highfives"
+	message = "raises their hand"
+	restraint_check = TRUE
+
+/datum/emote/living/raisehand/run_emote(mob/user, params)
+	. = ..()
+	var/obj/item/highfive/N = new(user)
+	if(user.put_in_hands(N))
+		to_chat(user, "<span class='notice'>You raise your hand for a high-five.</span>")
+	else
+		qdel(N)
+		to_chat(user, "<span class='warning'>You don't have any free hands to high-five with.</span>")

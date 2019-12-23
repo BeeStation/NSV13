@@ -2,7 +2,7 @@
 
 #define CHECK_DNA_AND_SPECIES(C) if((!(C.dna)) || (!(C.dna.species))) return
 
-//Defines copying names of mutations in all cases, make sure to change this if you change mutation's type
+// Defines copying names of mutations in all cases, make sure to change this if you change mutation's type
 #define HULK		/datum/mutation/human/hulk
 #define XRAY		/datum/mutation/human/thermal/x_ray
 #define SPACEMUT	/datum/mutation/human/space_adaptation
@@ -31,6 +31,7 @@
 #define ELVIS		/datum/mutation/human/elvis
 #define RADIOACTIVE	/datum/mutation/human/radioactive
 #define GLOWY		/datum/mutation/human/glow
+#define ANTIGLOWY	/datum/mutation/human/glow/anti
 #define TELEPATHY	/datum/mutation/human/telepathy
 #define FIREBREATH	/datum/mutation/human/firebreath
 #define VOID		/datum/mutation/human/void
@@ -49,6 +50,7 @@
 #define EXTRASTUN	/datum/mutation/human/extrastun
 #define GELADIKINESIS		/datum/mutation/human/geladikinesis
 #define CRYOKINESIS /datum/mutation/human/cryokinesis
+#define CLUWNEMUT   /datum/mutation/human/cluwne
 
 #define UI_CHANGED "ui changed"
 #define UE_CHANGED "ue changed"
@@ -57,18 +59,18 @@
 
 // String identifiers for associative list lookup
 
-//Types of usual mutations
+// Types of usual mutations
 #define	POSITIVE 			1
 #define	NEGATIVE			2
 #define	MINOR_NEGATIVE		4
 
 
-//Mutation classes. Normal being on them, extra being additional mutations with instability and other being stuff you dont want people to fuck with like wizard mutate
+// Mutation classes. Normal being on them, extra being additional mutations with instability and other being stuff you dont want people to fuck with like wizard mutate
 #define MUT_NORMAL 1
 #define MUT_EXTRA 2
 #define MUT_OTHER 3
 
-//DNA - Because fuck you and your magic numbers being all over the codebase.
+// DNA - Because fuck you and your magic numbers being all over the codebase.
 #define DNA_BLOCK_SIZE				3
 
 #define DNA_UNI_IDENTITY_BLOCKS		7
@@ -93,14 +95,12 @@
 #define TR_KEEPSE		(1<<5)	// changelings shouldn't edit the DNA's SE when turning into a monkey
 #define TR_DEFAULTMSG	(1<<6)
 #define TR_KEEPORGANS	(1<<8)
-#define TR_KEEPSTUNS	(1<<9)
-#define TR_KEEPREAGENTS	(1<<10)
 
 
 #define CLONER_FRESH_CLONE "fresh"
 #define CLONER_MATURE_CLONE "mature"
 
-//species traits for mutantraces
+//! ## species traits for mutantraces
 #define MUTCOLORS		1
 #define HAIR			2
 #define FACEHAIR		3
@@ -108,17 +108,23 @@
 #define LIPS			5
 #define NOBLOOD			6
 #define NOTRANSSTING	7
-#define MUTCOLORS_PARTSONLY	8	//Used if we want the mutant colour to be only used by mutant bodyparts. Don't combine this with MUTCOLORS, or it will be useless.
+#define MUTCOLORS_PARTSONLY	8	//! Used if we want the mutant colour to be only used by mutant bodyparts. Don't combine this with MUTCOLORS, or it will be useless.
 #define NOZOMBIE		9
-#define DIGITIGRADE		10	//Uses weird leg sprites. Optional for Lizards, required for ashwalkers. Don't give it to other races unless you make sprites for this (see human_parts_greyscale.dmi)
+#define DIGITIGRADE		10	//! Uses weird leg sprites. Optional for Lizards, required for ashwalkers. Don't give it to other races unless you make sprites for this (see human_parts_greyscale.dmi)
 #define NO_UNDERWEAR	11
-#define NOSTOMACH		12
-#define NO_DNA_COPY     13
-#define DRINKSBLOOD		14
-#define NOFLASH			15
-#define DYNCOLORS		16 //Use this if you want to change the race's color without the player being able to pick their own color. AKA special color shifting
-#define AGENDER			17
-#define NOEYESPRITES	18 //Do not draw eyes or eyeless overlay
+#define NOLIVER			12
+#define NOSTOMACH		13
+#define NO_DNA_COPY     14
+#define DRINKSBLOOD		15
+#define NOFLASH			16
+#define DYNCOLORS		17 //! Use this if you want to change the race's color without the player being able to pick their own color. AKA special color shifting
+#define AGENDER			18
+#define NOEYESPRITES	19 //! Do not draw eyes or eyeless overlay
+#define NOREAGENTS     20 //! DO NOT PROCESS REAGENTS
+#define REVIVESBYHEALING 21 // Will revive on heal when healing and total HP > 0.
+#define NOHUSK			22 // Can't be husked.
+#define ROBOTIC_LIMBS	23 //limbs start out as robotic; but also use organic icons. If you want to use the default ones, you'll have to use on_species_gain
+#define NOMOUTH			24
 
 #define ORGAN_SLOT_BRAIN "brain"
 #define ORGAN_SLOT_APPENDIX "appendix"
@@ -142,14 +148,9 @@
 #define ORGAN_SLOT_BRAIN_ANTIDROP "brain_antidrop"
 #define ORGAN_SLOT_BRAIN_ANTISTUN "brain_antistun"
 #define ORGAN_SLOT_TAIL "tail"
-#define ORGAN_SLOT_PARASITE_EGG "parasite_egg"
 
 
-//used for the can_chromosome var on mutations
+// used for the can_chromosome var on mutations
 #define CHROMOSOME_NEVER 0
 #define CHROMOSOME_NONE 1
 #define CHROMOSOME_USED 2
-
-#define G_MALE 1
-#define G_FEMALE 2
-#define G_PLURAL 3

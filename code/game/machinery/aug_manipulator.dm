@@ -1,8 +1,8 @@
 /obj/machinery/aug_manipulator
 	name = "\improper augment manipulator"
 	desc = "A machine for custom fitting augmentations, with in-built spraypainter."
-	icon = 'icons/obj/pda.dmi'
-	icon_state = "pdapainter"
+	icon = 'icons/obj/robotics.dmi'
+	icon_state = "robocolorer"
 	density = TRUE
 	obj_integrity = 200
 	max_integrity = 200
@@ -118,7 +118,7 @@
 		eject_part(user)
 
 	else
-		to_chat(user, "<span class='warning'>\The [src] is empty!</span>")
+		to_chat(user, "<span class='notice'>\The [src] is empty.</span>")
 
 /obj/machinery/aug_manipulator/proc/eject_part(mob/living/user)
 	if(storedpart)
@@ -126,7 +126,7 @@
 		storedpart = null
 		update_icon()
 	else
-		to_chat(user, "<span class='warning'>[src] is empty!</span>")
+		to_chat(user, "<span class='notice'>[src] is empty.</span>")
 
 /obj/machinery/aug_manipulator/AltClick(mob/living/user)
 	..()
