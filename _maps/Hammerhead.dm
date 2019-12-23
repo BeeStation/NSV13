@@ -1,1 +1,1 @@
-#define FORCE_MAP "_maps/Hammerhead.json"
+#define FORCE_MAP "_maps/hammerhead.json"

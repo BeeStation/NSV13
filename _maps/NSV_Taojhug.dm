@@ -1,1 +1,1 @@
-#define FORCE_MAP "_maps/NSV_Taojhug.json"
+#define FORCE_MAP "_maps/nsv_taojhug.json"

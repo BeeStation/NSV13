@@ -1,1 +1,1 @@
-#define FORCE_MAP "_maps/Valkyrie.json"
+#define FORCE_MAP "_maps/valkyrie.json"
