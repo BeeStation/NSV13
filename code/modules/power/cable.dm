@@ -505,7 +505,7 @@ GLOBAL_LIST_INIT(cable_coil_recipes, list(new/datum/stack_recipe("cable restrain
 	full_w_class = WEIGHT_CLASS_SMALL
 	grind_results = list(/datum/reagent/copper = 2) //2 copper per cable in the coil
 	usesound = 'sound/items/deconstruct.ogg'
-	var/target_type = /obj/structure/cable/auto //NSV13 - CHANGE THIS SHIT BACK TO NORMAL CABLES WHEN MAPPERS FIX THE MAPS OK THANKS BABES XX
+	var/target_type = /obj/structure/cable
 
 /obj/item/stack/cable_coil/cyborg
 	is_cyborg = 1
