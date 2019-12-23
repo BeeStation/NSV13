@@ -2,11 +2,12 @@
 
 
 [![forthebadge](https://forthebadge.com/images/badges/built-with-resentment.svg)](https://forthebadge.com) [![forthebadge](https://forthebadge.com/images/badges/contains-technical-debt.svg)](https://user-images.githubusercontent.com/8171642/50290880-ffef5500-043a-11e9-8270-a2e5b697c86c.png) [![forinfinityandbyond](https://user-images.githubusercontent.com/5211576/29499758-4efff304-85e6-11e7-8267-62919c3688a9.gif)](https://www.reddit.com/r/SS13/comments/5oplxp/what_is_the_main_problem_with_byond_as_an_engine/dclbu1a)
-[![Build Status](https://travis-ci.com/BeeStation/BeeStation-Hornet.svg?branch=master)](https://travis-ci.com/BeeStation/BeeStation-Hornet) ![Open Issues](https://isitmaintained.com/badge/open/BeeStation/BeeStation-Hornet.svg)
 
-**Website:** http://beestation13.com
-**Code:** https://github.com/beestation/beestation-hornet
-**Wiki:** https://wiki.beestation13.com/view/Main_Page
+[![Build Status](https://travis-ci.com/DDMers/NSV13.svg?branch=master)](https://travis-ci.com/DDMers/NSV13) ![Open Issues](https://isitmaintained.com/badge/open/DDMers/NSV13.svg)
+
+**Website:** http://nsv.ddmers.com
+**Code:** https://github.com/DDMers/NSV13
+**Wiki:** https://nsv.ddmers.com/wiki/Main_Page
 
 
 ## DOWNLOADING
@@ -17,7 +18,7 @@ Option 1:
 Follow this: https://wiki.beestation13.com/view/Setting_up_git
 
 Option 2: Download the source code as a zip by clicking the ZIP button in the
-code tab of https://github.com/beestation/beestation-hornet
+code tab of https://github.com/DDMers/NSV13
 (note: this will use a lot of bandwidth if you wish to update and is a lot of
 hassle if you want to make any changes at all, so it's not recommended.)
 
@@ -98,13 +99,9 @@ https://github.com/tgstation/tgstation-server
 
 ## MAPS
 
-BeeStation currently comes equipped with these maps.
+NSV13 currently comes equipped with these maps.
 
-* [DeltaStation (default)](https://wiki.beestation13.com/view/DeltaStation)
-* [BoxStation](https://wiki.beestation13.com/view/Boxstation)
-* [MetaStation](https://wiki.beestation13.com/view/MetaStation)
-* [PubbyStation](https://wiki.beestation13.com/view/PubbyStation)
-* [DonutStation](https://wiki.beestation13.com/view/Donutstation)
+<PUT WEBMAP LINKS HERE EVENTUALLY>
 
 
 All maps have their own code file that is in the base of the _maps directory. Maps are loaded dynamically when the game starts. Follow this guideline when adding your own map, to your fork, for easy compatibility.
@@ -135,7 +132,7 @@ Web delivery of game resources makes it quicker for players to join and reduces 
 
 1. Edit compile_options.dm to set the `PRELOAD_RSC` define to `0`
 1. Add a url to config/external_rsc_urls pointing to a .zip file containing the .rsc.
-    * If you keep up to date with BeeStation you could reuse our rsc cdn at https://rsc.beestation13.com/beestation.zip. Otherwise you can use cdn services like CDN77 or cloudflare (requires adding a page rule to enable caching of the zip), or roll your own cdn using route 53 and vps providers.
+    * You can use cdn services like CDN77 or cloudflare (requires adding a page rule to enable caching of the zip), or roll your own cdn using route 53 and vps providers.
 	* Regardless even offloading the rsc to a website without a CDN will be a massive improvement over the in game system for transferring files.
 
 ## IRC BOT SETUP
