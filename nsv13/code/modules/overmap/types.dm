@@ -48,9 +48,13 @@
 
 /obj/structure/overmap/nanotrasen/missile_cruiser/starter //VAGO. Sergei use me!
 	main_overmap = TRUE //Player controlled variant
+	max_integrity = 1800 //Buffed health due to ship internal damage existing
+	integrity_failure = 1800
 
 /obj/structure/overmap/nanotrasen/patrol_cruiser/starter
 	main_overmap = TRUE //Player controlled variant
+	max_integrity = 1800 //Buffed health due to ship internal damage existing
+	integrity_failure = 1800
 
 /obj/structure/overmap/nanotrasen/patrol_cruiser/ai
 	ai_controlled = TRUE
