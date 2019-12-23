@@ -20,7 +20,7 @@
 		playsound(src, 'sound/effects/smoke.ogg', 50, TRUE)
 		visible_message("<span class='warning'>Oh, ye gods! [src] is ruined! But what if...?</span>")
 		name = "steamed ham"
-		desc = pick("Ahh, Executive Officer, welcome. I hope you're prepared for an unforgettable luncheon!",
+		desc = pick("Ahh, Head of Personnel, welcome. I hope you're prepared for an unforgettable luncheon!",
 		"And you call these steamed hams despite the fact that they are obviously microwaved?",
 		"Aurora Station 13? At this time of shift, in this time of year, in this sector of space, localized entirely within your freezer?",
 		"You know, these hamburgers taste quite similar to the ones they have at the Maltese Falcon.")
@@ -289,3 +289,11 @@
 	list_reagents = list(/datum/reagent/consumable/nutriment = 8, /datum/reagent/consumable/liquidelectricity = 5)
 	tastes = list("bun" = 2, "pure electricity" = 4)
 	foodtype = GRAIN | TOXIC
+
+/obj/item/reagent_containers/food/snacks/burger/crab
+	name = "crab burger"
+	desc = "A delicious patty of the crabby kind, slapped in between a bun."
+	icon_state = "crabburger"
+	bonus_reagents = list(/datum/reagent/consumable/nutriment = 2, /datum/reagent/consumable/nutriment/vitamin = 3)
+	tastes = list("bun" = 2, "crab meat" = 4)
+	foodtype = GRAIN | MEAT

@@ -124,7 +124,7 @@ INITIALIZE_IMMEDIATE(/obj/effect/landmark)
 	icon_state = "Detective"
 
 /obj/effect/landmark/start/warden
-	name = "Master At Arms"
+	name = "Warden"
 	icon_state = "Warden"
 
 /obj/effect/landmark/start/chief_engineer
@@ -132,8 +132,8 @@ INITIALIZE_IMMEDIATE(/obj/effect/landmark)
 	icon_state = "Chief Engineer"
 
 /obj/effect/landmark/start/head_of_personnel
-	name = "Executive Officer"
-	icon_state = "Executive Officer"
+	name = "Head of Personnel"
+	icon_state = "Head of Personnel"
 
 /obj/effect/landmark/start/librarian
 	name = "Curator"
@@ -149,6 +149,10 @@ INITIALIZE_IMMEDIATE(/obj/effect/landmark)
 
 /obj/effect/landmark/start/medical_doctor
 	name = "Medical Doctor"
+	icon_state = "Medical Doctor"
+
+/obj/effect/landmark/start/emt
+	name = "Paramedic"
 	icon_state = "Medical Doctor"
 
 /obj/effect/landmark/start/scientist
@@ -204,6 +208,9 @@ INITIALIZE_IMMEDIATE(/obj/effect/landmark)
 	icon_state = "ai_spawn"
 	primary_ai = FALSE
 	latejoin_active = FALSE
+
+/obj/effect/landmark/start/brig_phys
+	name = "Brig Physician"
 
 //Department Security spawns
 
@@ -303,7 +310,7 @@ INITIALIZE_IMMEDIATE(/obj/effect/landmark/start/new_player)
 	GLOB.xeno_spawn += loc
 	return INITIALIZE_HINT_QDEL
 
-//objects with the stationloving component (nuke disk) respawn here.
+//objects with the stationloving component (nuke disk) respawn here. 
 //also blobs that have their spawn forcemoved (running out of time when picking their spawn spot), santa and respawning devils
 /obj/effect/landmark/blobstart
 	name = "blobstart"

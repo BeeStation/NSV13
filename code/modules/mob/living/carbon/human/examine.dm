@@ -95,9 +95,7 @@
 		. += "[t_He] [t_is] wearing [wear_id.get_examine_string(user)]."
 
 	//Status effects
-	var/list/status_examines = status_effect_examines()
-	if (length(status_examines))
-		. += status_examines
+	. += status_effect_examines()
 
 	//Jitters
 	switch(jitteriness)
@@ -126,7 +124,7 @@
 
 	var/temp = getBruteLoss() //no need to calculate each of these twice
 
-	var/list/msg = list()
+	var/list/msg = list("")
 
 	var/list/missing = list(BODY_ZONE_HEAD, BODY_ZONE_CHEST, BODY_ZONE_L_ARM, BODY_ZONE_R_ARM, BODY_ZONE_L_LEG, BODY_ZONE_R_LEG)
 	var/list/disabled = list()
@@ -202,7 +200,7 @@
 		msg += "[t_He] look[p_s()] a little soaked.\n"
 
 
-	if(pulledby && pulledby.grab_state)
+	if(pulledby?.grab_state)
 		msg += "[t_He] [t_is] restrained by [pulledby]'s grip.\n"
 
 	if(nutrition < NUTRITION_LEVEL_STARVING - 50)
@@ -239,45 +237,40 @@
 			if(stun_absorption[i]["end_time"] > world.time && stun_absorption[i]["examine_message"])
 				msg += "[t_He] [t_is][stun_absorption[i]["examine_message"]]\n"
 
+	if(drunkenness && !skipface && !appears_dead) //Drunkenness
+		switch(drunkenness)
+			if(11 to 21)
+				msg += "[t_He] [t_is] slightly flushed.\n"
+			if(21.01 to 41) //.01s are used in case drunkenness ends up to be a small decimal
+				msg += "[t_He] [t_is] flushed.\n"
+			if(41.01 to 51)
+				msg += "[t_He] [t_is] quite flushed and [t_his] breath smells of alcohol.\n"
+			if(51.01 to 61)
+				msg += "[t_He] [t_is] very flushed and [t_his] movements jerky, with breath reeking of alcohol.\n"
+			if(61.01 to 91)
+				msg += "[t_He] look[p_s()] like a drunken mess.\n"
+			if(91.01 to INFINITY)
+				msg += "[t_He] [t_is] a shitfaced, slobbering wreck.\n"
+
+	if(HAS_TRAIT(user, TRAIT_EMPATH) && !appears_dead && (src != user))
+		if (a_intent != INTENT_HELP)
+			msg += "[t_He] seem[p_s()] to be on guard.\n"
+		if (getOxyLoss() >= 10)
+			msg += "[t_He] seem[p_s()] winded.\n"
+		if (getToxLoss() >= 10)
+			msg += "[t_He] seem[p_s()] sickly.\n"
+		var/datum/component/mood/mood = src.GetComponent(/datum/component/mood)
+		if(mood.sanity <= SANITY_DISTURBED)
+			msg += "[t_He] seem[p_s()] distressed.\n"
+			SEND_SIGNAL(user, COMSIG_ADD_MOOD_EVENT, "empath", /datum/mood_event/sad_empath, src)
+		if (HAS_TRAIT(src, TRAIT_BLIND))
+			msg += "[t_He] appear[p_s()] to be staring off into space.\n"
+		if (HAS_TRAIT(src, TRAIT_DEAF))
+			msg += "[t_He] appear[p_s()] to not be responding to noises.\n"
+
+	msg += "</span>"
+
 	if(!appears_dead)
-		if(drunkenness && !skipface) //Drunkenness
-			switch(drunkenness)
-				if(11 to 21)
-					msg += "[t_He] [t_is] slightly flushed.\n"
-				if(21.01 to 41) //.01s are used in case drunkenness ends up to be a small decimal
-					msg += "[t_He] [t_is] flushed.\n"
-				if(41.01 to 51)
-					msg += "[t_He] [t_is] quite flushed and [t_his] breath smells of alcohol.\n"
-				if(51.01 to 61)
-					msg += "[t_He] [t_is] very flushed and [t_his] movements jerky, with breath reeking of alcohol.\n"
-				if(61.01 to 91)
-					msg += "[t_He] look[p_s()] like a drunken mess.\n"
-				if(91.01 to INFINITY)
-					msg += "[t_He] [t_is] a shitfaced, slobbering wreck.\n"
-
-		if(src != user)
-			if(HAS_TRAIT(user, TRAIT_EMPATH))
-				if (a_intent != INTENT_HELP)
-					msg += "[t_He] seem[p_s()] to be on guard.\n"
-				if (getOxyLoss() >= 10)
-					msg += "[t_He] seem[p_s()] winded.\n"
-				if (getToxLoss() >= 10)
-					msg += "[t_He] seem[p_s()] sickly.\n"
-				var/datum/component/mood/mood = src.GetComponent(/datum/component/mood)
-				if(mood.sanity <= SANITY_DISTURBED)
-					msg += "[t_He] seem[p_s()] distressed.\n"
-					SEND_SIGNAL(user, COMSIG_ADD_MOOD_EVENT, "empath", /datum/mood_event/sad_empath, src)
-				if (HAS_TRAIT(src, TRAIT_BLIND))
-					msg += "[t_He] appear[p_s()] to be staring off into space.\n"
-				if (HAS_TRAIT(src, TRAIT_DEAF))
-					msg += "[t_He] appear[p_s()] to not be responding to noises.\n"
-
-			msg += "</span>"
-
-			if(HAS_TRAIT(user, TRAIT_SPIRITUAL) && mind?.isholy)
-				msg += "[t_He] [t_has] a holy aura about [t_him].\n"
-				SEND_SIGNAL(user, COMSIG_ADD_MOOD_EVENT, "religious_comfort", /datum/mood_event/religiously_comforted)
-
 		if(stat == UNCONSCIOUS)
 			msg += "[t_He] [t_is]n't responding to anything around [t_him] and seem[p_s()] to be asleep.\n"
 		else
@@ -345,7 +338,7 @@
 							"<a href='?src=[REF(src)];hud=s;view_comment=1'>\[View comment log\]</a>",
 							"<a href='?src=[REF(src)];hud=s;add_comment=1'>\[Add comment\]</a>"), "")
 	else if(isobserver(user) && traitstring)
-		. += "<span class='info'><b>Traits:</b> [traitstring]</span>"
+		. += "<span class='info'><b>Traits:</b> [traitstring]</span><br>"
 	. += "*---------*</span>"
 
 /mob/living/proc/status_effect_examines(pronoun_replacement) //You can include this in any mob's examine() to show the examine texts of status effects!

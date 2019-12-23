@@ -11,6 +11,16 @@
 	name = "incendiary slug"
 	damage = 20
 
+/obj/item/projectile/bullet/sleepy
+	name = "soporific slug"
+	damage = 0
+
+/obj/item/projectile/bullet/sleepy/on_hit(atom/target, blocked = FALSE)
+	if((blocked != 100) && isliving(target))
+		var/mob/living/L = target
+		L.Sleeping(50)
+	return ..()
+
 /obj/item/projectile/bullet/incendiary/shotgun/dragonsbreath
 	name = "dragonsbreath pellet"
 	damage = 5
@@ -66,11 +76,6 @@
 	name = "rubbershot pellet"
 	damage = 3
 	stamina = 11
-
-/obj/item/projectile/bullet/pellet/shotgun_incapacitate
-	name = "incapacitating pellet"
-	damage = 1
-	stamina = 6
 
 /obj/item/projectile/bullet/pellet/Range()
 	..()

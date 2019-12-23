@@ -59,17 +59,87 @@
 	var/list/mind_traits // Traits added to the mind of the mob assigned this job
 
 	var/display_order = JOB_DISPLAY_ORDER_DEFAULT
+
+	var/tmp/list/gear_leftovers = list()
 	var/display_rank = "PVT" //nsv13 - Displays the player's actual rank alongside their name, such as GSGT Sergei Koralev
 
-//Only override this proc
+//Only override this proc, unless altering loadout code. Loadouts act on H but get info from M
 //H is usually a human unless an /equip override transformed it
+//do actions on H but send messages to M as the key may not have been transferred_yet
 /datum/job/proc/after_spawn(mob/living/H, mob/M, latejoin = FALSE)
 	//do actions on H but send messages to M as the key may not have been transferred_yet
-	if(ishuman(H)) //Don't give AIs a rank
-		H.fully_replace_character_name(H.real_name, "[display_rank] [H.real_name]") //nsv13 - Visibly display player ranks with their names.
 	if(mind_traits)
 		for(var/t in mind_traits)
 			ADD_TRAIT(H.mind, t, JOB_TRAIT)
+
+	if(!ishuman(H))
+		return
+	var/mob/living/carbon/human/human = H
+	human.fully_replace_character_name(H.real_name, "[display_rank] [human.real_name]") //nsv13 - Visibly display player ranks with their names.
+	if(M.client && (M.client.prefs.equipped_gear && M.client.prefs.equipped_gear.len))
+		for(var/gear in M.client.prefs.equipped_gear)
+			var/datum/gear/G = GLOB.gear_datums[gear]
+			if(G)
+				var/permitted = FALSE
+
+				if(G.allowed_roles && H.mind && (H.mind.assigned_role in G.allowed_roles))
+					permitted = TRUE
+				else if(!G.allowed_roles)
+					permitted = TRUE
+				else
+					permitted = FALSE
+
+				if(G.species_blacklist && (human.dna.species.id in G.species_blacklist))
+					permitted = FALSE
+
+				if(G.species_whitelist && !(human.dna.species.id in G.species_whitelist))
+					permitted = FALSE
+
+				if(!permitted)
+					to_chat(M, "<span class='warning'>Your current species or role does not permit you to spawn with [gear]!</span>")
+					continue
+
+				if(G.slot)
+					if(H.equip_to_slot_or_del(G.spawn_item(H), G.slot))
+						to_chat(M, "<span class='notice'>Equipping you with [gear]!</span>")
+					else
+						gear_leftovers += G
+				else
+					gear_leftovers += G
+
+			else
+				M.client.prefs.equipped_gear -= gear
+
+	if(gear_leftovers.len)
+		for(var/datum/gear/G in gear_leftovers)
+			var/metadata = M.client.prefs.equipped_gear[G.display_name]
+			var/item = G.spawn_item(null, metadata)
+			var/atom/placed_in = human.equip_or_collect(item)
+
+			if(istype(placed_in))
+				if(isturf(placed_in))
+					to_chat(M, "<span class='notice'>Placing [G.display_name] on [placed_in]!</span>")
+				else
+					to_chat(M, "<span class='noticed'>Placing [G.display_name] in [placed_in.name]]")
+				continue
+
+			if(H.equip_to_appropriate_slot(item))
+				to_chat(M, "<span class='notice'>Placing [G.display_name] in your inventory!</span>")
+				continue
+			if(H.put_in_hands(item))
+				to_chat(M, "<span class='notice'>Placing [G.display_name] in your hands!</span>")
+				continue
+
+			var/obj/item/storage/B = (locate() in H)
+			if(B)
+				G.spawn_item(B, metadata)
+				to_chat(M, "<span class='notice'>Placing [G.display_name] in [B.name]!</span>")
+				continue
+
+			to_chat(M, "<span class='danger'>Failed to locate a storage object on your mob, either you spawned with no hands free and no backpack or this is a bug.</span>")
+			qdel(item)
+
+		qdel(gear_leftovers)
 
 /datum/job/proc/announce(mob/living/carbon/human/H)
 	if(head_announce)
@@ -91,14 +161,14 @@
 /datum/job/proc/equip(mob/living/carbon/human/H, visualsOnly = FALSE, announce = TRUE, latejoin = FALSE, datum/outfit/outfit_override = null, client/preference_source)
 	if(!H)
 		return FALSE
-	if(!visualsOnly)
-		var/datum/bank_account/bank_account = new(H.real_name, src)
-		bank_account.payday(STARTING_PAYCHECKS, TRUE)
-		H.account_id = bank_account.account_id
 	if(CONFIG_GET(flag/enforce_human_authority) && (title in GLOB.command_positions))
 		if(H.dna.species.id != "human")
 			H.set_species(/datum/species/human)
 			H.apply_pref_name("human", preference_source)
+	if(!visualsOnly)
+		var/datum/bank_account/bank_account = new(H.real_name, src)
+		bank_account.payday(STARTING_PAYCHECKS, TRUE)
+		H.account_id = bank_account.account_id
 
 	//Equip the rest of the gear
 	H.dna.species.before_equip_job(src, H, visualsOnly)
@@ -194,16 +264,6 @@
 		else
 			back = backpack //Department backpack
 
-	//converts the uniform string into the path we'll wear, whether it's the skirt or regular variant
-	var/holder
-	if(H.jumpsuit_style == PREF_SKIRT)
-		holder = "[uniform]/skirt"
-		if(!text2path(holder))
-			holder = "[uniform]"
-	else
-		holder = "[uniform]"
-	uniform = text2path(holder)
-
 /datum/outfit/job/post_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
 	if(visualsOnly)
 		return
@@ -246,4 +306,3 @@
 	if(CONFIG_GET(flag/security_has_maint_access))
 		return list(ACCESS_MAINT_TUNNELS)
 	return list()
-

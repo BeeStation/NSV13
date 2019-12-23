@@ -2,7 +2,7 @@
 	name = "Unknown"
 	real_name = "Unknown"
 	icon = 'icons/mob/human.dmi'
-	icon_state = "human_basic"
+	icon_state = ""
 	appearance_flags = KEEP_TOGETHER|TILE_BOUND|PIXEL_SCALE
 
 /mob/living/carbon/human/Initialize()
@@ -25,8 +25,8 @@
 
 	. = ..()
 
-	RegisterSignal(src, COMSIG_COMPONENT_CLEAN_ACT, .proc/clean_blood)
 	AddComponent(/datum/component/personal_crafting)
+	RegisterSignal(src, COMSIG_COMPONENT_CLEAN_ACT, .proc/clean_blood)
 
 /mob/living/carbon/human/proc/setup_human_dna()
 	//initialize dna. for spawned humans; overwritten by other code
@@ -73,6 +73,10 @@
 			if(changeling)
 				stat("Chemical Storage", "[changeling.chem_charges]/[changeling.chem_storage]")
 				stat("Absorbed DNA", changeling.absorbedcount)
+			var/datum/antagonist/hivemind/hivemind = mind.has_antag_datum(/datum/antagonist/hivemind)
+			if(hivemind)
+				stat("Hivemind Vessels", "[hivemind.hive_size] (+[hivemind.size_mod])")
+				stat("Psychic Link Duration", "[(hivemind.track_bonus + TRACKER_DEFAULT_TIME)/10] seconds")
 
 	//NINJACODE
 	if(istype(wear_suit, /obj/item/clothing/suit/space/space_ninja)) //Only display if actually a ninja.
@@ -671,7 +675,7 @@
 //Just like a cartoon!
 /mob/living/carbon/human/proc/electrocution_animation(anim_duration)
 	//Handle mutant parts if possible
-	if(dna && dna.species)
+	if(dna?.species)
 		add_atom_colour("#000000", TEMPORARY_COLOUR_PRIORITY)
 		var/static/mutable_appearance/electrocution_skeleton_anim
 		if(!electrocution_skeleton_anim)
@@ -763,7 +767,7 @@
 			else
 				hud_used.healthdoll.icon_state = "healthdoll_DEAD"
 
-/mob/living/carbon/human/fully_heal(admin_revive = FALSE)
+/mob/living/carbon/human/fully_heal(admin_revive = 0)
 	dna?.species.spec_fully_heal(src)
 	if(admin_revive)
 		regenerate_limbs()
@@ -771,6 +775,7 @@
 	remove_all_embedded_objects()
 	set_heartattack(FALSE)
 	drunkenness = 0
+	set_hygiene(HYGIENE_LEVEL_NORMAL)
 	for(var/datum/mutation/human/HM in dna.mutations)
 		if(HM.quality != POSITIVE)
 			dna.remove_mutation(HM.name)
@@ -826,6 +831,49 @@
 			return
 	. = ..()
 
+/mob/living/carbon/human/MouseDrop(mob/over)
+	. = ..()
+	if(ishuman(over))
+		var/mob/living/carbon/human/T = over  // curbstomp, ported from PP with modifications
+		if(!src.is_busy && src.zone_selected == BODY_ZONE_HEAD && get_turf(src) == get_turf(T) && !(T.mobility_flags & MOBILITY_STAND) && src.a_intent != INTENT_HELP) //all the stars align, time to curbstomp
+			src.is_busy = TRUE
+
+			if (!do_mob(src,T,25) || src.zone_selected != BODY_ZONE_HEAD || get_turf(src) != get_turf(T) || (T.mobility_flags & MOBILITY_STAND) || src.a_intent == INTENT_HELP) //wait 30ds and make sure the stars still align
+				src.is_busy = FALSE
+				return
+
+			T.Stun(6)
+
+			var/increment = (T.lying/90)-2
+			setDir(increment > 0 ? WEST : EAST)
+			for(var/i in 1 to 5)
+				src.pixel_y += 8-i
+				src.pixel_x -= increment
+				sleep(0.2)
+			for(var/i in 1 to 5)
+				src.pixel_y -= 8-i
+				src.pixel_x -= increment
+				sleep(0.2)
+
+			playsound(src, 'sound/effects/hit_kick.ogg', 80, 1, -1)
+			playsound(src, 'sound/weapons/punch2.ogg', 80, 1, -1)
+
+			var/obj/item/bodypart/BP = T.get_bodypart(BODY_ZONE_HEAD)
+			if(BP)
+				BP.receive_damage(36) //so 3 toolbox hits
+
+			T.visible_message("<span class='warning'>[src] curbstomps [T]!</span>", "<span class='warning'>[src] curbstomps you!</span>")
+
+			for(var/i in 1 to 10)
+				src.pixel_x = src.pixel_x + increment
+				sleep(0.1)
+
+			src.pixel_x = 0
+			src.pixel_y = 0 //just to make sure
+
+			log_combat(src, T, "curbstomped")
+			src.is_busy = FALSE
+
 //src is the user that will be carrying, target is the mob to be carried
 /mob/living/carbon/human/proc/can_piggyback(mob/living/carbon/target)
 	return (istype(target) && target.stat == CONSCIOUS)
@@ -844,7 +892,7 @@
 				return
 		visible_message("<span class='warning'>[src] fails to fireman carry [target]!")
 	else
-		to_chat(src, "<span class='warning'>You can't fireman carry [target] while they're standing!</span>")
+		to_chat(src, "<span class='notice'>You can't fireman carry [target] while they're standing!</span>")
 
 /mob/living/carbon/human/proc/piggyback(mob/living/carbon/target)
 	if(can_piggyback(target))
@@ -898,7 +946,7 @@
 	for(var/bp in body_parts)
 		if(istype(bp, /obj/item/clothing))
 			var/obj/item/clothing/C = bp
-			if(C.clothing_flags & BLOCKS_SHOVE_KNOCKDOWN)
+			if(C.blocks_shove_knockdown)
 				return TRUE
 	return FALSE
 
@@ -1029,6 +1077,9 @@
 /mob/living/carbon/human/species/golem/durathread
 	race = /datum/species/golem/durathread
 
+/mob/living/carbon/human/species/golem/snow
+	race = /datum/species/golem/snow
+	
 /mob/living/carbon/human/species/golem/clockwork
 	race = /datum/species/golem/clockwork
 
