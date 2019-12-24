@@ -7,7 +7,7 @@
 	force = 2
 	var/stage = GRENADE_EMPTY
 	var/list/obj/item/reagent_containers/glass/beakers = list()
-	var/list/allowed_containers = list(/obj/item/reagent_containers/glass/beaker, /obj/item/reagent_containers/glass/bottle)
+	var/list/allowed_containers = list(/obj/item/reagent_containers/glass/beaker, /obj/item/reagent_containers/glass/bottle, /obj/item/reagent_containers/glass/waterbottle)
 	var/list/banned_containers = list(/obj/item/reagent_containers/glass/beaker/bluespace) //Containers to exclude from specific grenade subtypes
 	var/affected_area = 3
 	var/ignition_temp = 10 // The amount of heat added to the reagents when this grenade goes off.
@@ -226,7 +226,7 @@
 			//otherwise drop it on the ground for timed reactions like gold.
 
 			if(S)
-				if(S.reagents && S.reagents.total_volume)
+				if(S.reagents?.total_volume)
 					for(var/obj/item/reagent_containers/glass/G in beakers)
 						S.reagents.trans_to(G, S.reagents.total_volume)
 				else
@@ -269,14 +269,16 @@
 	var/unit_spread = 10 // Amount of units per repeat. Can be altered with a multitool.
 
 /obj/item/grenade/chem_grenade/adv_release/attackby(obj/item/I, mob/user, params)
-	if(I.tool_behaviour == TOOL_MULTITOOL && !active)
-		var/newspread = text2num(stripped_input(user, "Please enter a new spread amount", name))
-		if (newspread != null && user.canUseTopic(src, BE_CLOSE))
-			newspread = round(newspread)
-			unit_spread = CLAMP(newspread, 5, 100)
-			to_chat(user, "<span class='notice'>You set the time release to [unit_spread] units per detonation.</span>")
-		if (newspread != unit_spread)
-			to_chat(user, "<span class='notice'>The new value is out of bounds. Minimum spread is 5 units, maximum is 100 units.</span>")
+	if(I.tool_behaviour == TOOL_MULTITOOL)
+		switch(unit_spread)
+			if(0 to 24)
+				unit_spread += 5
+			if(25 to 99)
+				unit_spread += 25
+			else
+				unit_spread = 5
+		to_chat(user, "<span class='notice'> You set the time release to [unit_spread] units per detonation.</span>")
+		return
 	..()
 
 /obj/item/grenade/chem_grenade/adv_release/prime()

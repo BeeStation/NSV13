@@ -11,6 +11,7 @@
 	var/message_robot = "" //Message displayed if the user is a robot
 	var/message_AI = "" //Message displayed if the user is an AI
 	var/message_monkey = "" //Message displayed if the user is a monkey
+	var/message_ipc = "" // Message to display if the user is an IPC
 	var/message_simple = "" //Message to display if the user is a simple_animal
 	var/message_param = "" //Message to display if a param was given
 	var/emote_type = EMOTE_VISIBLE //Whether the emote is visible or audible
@@ -55,8 +56,13 @@
 
 	if(!msg)
 		return
+		
+	var/end = copytext(msg, lentext(message))
+	if(!(end in list("!", ".", "?", ":", "\"", "-")))
+		msg += "."
 
 	user.log_message(msg, LOG_EMOTE)
+
 	msg = "<b>[user]</b> " + msg
 
 	var/tmp_sound = get_sound(user)
@@ -91,7 +97,7 @@
 	. = message
 	if(!muzzle_ignore && user.is_muzzled() && emote_type == EMOTE_AUDIBLE)
 		return "makes a [pick("strong ", "weak ", "")]noise."
-	if(user.mind && user.mind.miming && message_mime)
+	if(user.mind?.miming && message_mime)
 		. = message_mime
 	if(isalienadult(user) && message_alien)
 		. = message_alien
@@ -103,6 +109,8 @@
 		. = message_AI
 	else if(ismonkey(user) && message_monkey)
 		. = message_monkey
+	else if(isipc(user) && message_ipc)
+		. = message_ipc
 	else if(isanimal(user) && message_simple)
 		. = message_simple
 
@@ -121,11 +129,11 @@
 				return FALSE
 			switch(user.stat)
 				if(SOFT_CRIT)
-					to_chat(user, "<span class='warning'>You cannot [key] while in a critical condition!</span>")
+					to_chat(user, "<span class='notice'>You cannot [key] while in a critical condition.</span>")
 				if(UNCONSCIOUS)
-					to_chat(user, "<span class='warning'>You cannot [key] while unconscious!</span>")
+					to_chat(user, "<span class='notice'>You cannot [key] while unconscious.</span>")
 				if(DEAD)
-					to_chat(user, "<span class='warning'>You cannot [key] while dead!</span>")
+					to_chat(user, "<span class='notice'>You cannot [key] while dead.</span>")
 			return FALSE
 		if(restraint_check)
 			if(isliving(user))
@@ -133,12 +141,12 @@
 				if(L.IsParalyzed() || L.IsStun())
 					if(!intentional)
 						return FALSE
-					to_chat(user, "<span class='warning'>You cannot [key] while stunned!</span>")
+					to_chat(user, "<span class='notice'>You cannot [key] while stunned.</span>")
 					return FALSE
 		if(restraint_check && user.restrained())
 			if(!intentional)
 				return FALSE
-			to_chat(user, "<span class='warning'>You cannot [key] while restrained!</span>")
+			to_chat(user, "<span class='notice'>You cannot [key] while restrained.</span>")
 			return FALSE
 
 	if(isliving(user))

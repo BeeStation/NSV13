@@ -210,6 +210,12 @@
 /datum/config_entry/string/githuburl
 	config_entry_value = "https://www.github.com/tgstation/-tg-station"
 
+/datum/config_entry/string/donateurl
+	config_entry_value = "https://www.patreon.com/user?u=10639001"
+
+/datum/config_entry/string/discordurl
+	config_entry_value = "https://discord.gg/zUe34rs"
+
 /datum/config_entry/string/roundstatsurl
 
 /datum/config_entry/string/gamelogurl
@@ -281,6 +287,8 @@
 	integer = FALSE
 
 /datum/config_entry/flag/maprotation
+
+/datum/config_entry/flag/automapvote
 
 /datum/config_entry/number/maprotatechancedelta
 	config_entry_value = 0.75
@@ -470,9 +478,6 @@
 /datum/config_entry/string/default_view
 	config_entry_value = "15x15"
 
-/datum/config_entry/string/default_view_square
-	config_entry_value = "15x15"
-
 /datum/config_entry/flag/log_pictures
 
 /datum/config_entry/flag/picture_logging_camera
@@ -487,3 +492,9 @@
 
 /datum/config_entry/flag/reopen_roundstart_suicide_roles_command_report
 
+/datum/config_entry/string/metacurrency_name
+	config_entry_value = "MetaCoin"
+
+/datum/config_entry/flag/grant_metacurrency
+
+/datum/config_entry/flag/respect_global_bans

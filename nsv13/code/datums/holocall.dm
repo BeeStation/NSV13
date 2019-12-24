@@ -1,7 +1,7 @@
 /obj/item/disk/holodisk/hammerhead_cryo
 	name = "Engineering Audit Log HH-593"
 	desc = "A holodisk containing a recording of a work order being carried out during servicing."
-	preset_image_type = /datum/preset_holoimage/engineer/rig
+	preset_image_type = /datum/preset_holoimage/engineer
 	preset_record_text = {"
 	NAME Almayer Gervais
 	DELAY 10

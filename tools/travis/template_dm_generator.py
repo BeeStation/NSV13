@@ -26,4 +26,3 @@ for folder in folders:
 with open(generated, 'w') as f:
     for template in template_filenames:
         f.write('''#include "{}"\n'''.format(template))
-

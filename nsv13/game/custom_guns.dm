@@ -1,3 +1,6 @@
+/obj/item/gun/ballistic/automatic
+	automatic = 1
+
 /obj/item/gun/ballistic/automatic/peacekeeper
 	name = "M2A45 security pulse rifle"
 	desc = "A large personal defense weapon commonly employed by the colonial peacekeepers. This advanced weapon uses a magnetic acceleration system in favour of traditional gunpowder, allowing specialized 6mm rounds to be loaded."

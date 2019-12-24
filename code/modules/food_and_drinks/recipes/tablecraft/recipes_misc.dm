@@ -83,7 +83,7 @@
 	reqs = list(/datum/reagent/consumable/ketchup = 5,
 		/obj/item/reagent_containers/food/snacks/grown/soybeans = 2
 	)
-	result = /obj/item/reagent_containers/food/snacks/beans
+	result = /obj/item/reagent_containers/food/snacks/canned/beans
 	subcategory = CAT_MISCFOOD
 
 /datum/crafting_recipe/food/eggplantparm
@@ -123,15 +123,6 @@
 		/obj/item/reagent_containers/food/snacks/breadslice/plain = 1
 	)
 	result = /obj/item/reagent_containers/food/snacks/jelliedtoast/cherry
-	subcategory = CAT_MISCFOOD
-
-/datum/crafting_recipe/food/butteredtoast
-	name = "Buttered Toast"
-	reqs = list(
-		/obj/item/reagent_containers/food/snacks/breadslice/plain = 1,
-		/obj/item/reagent_containers/food/snacks/butter = 1
-	)
-	result = /obj/item/reagent_containers/food/snacks/butteredtoast
 	subcategory = CAT_MISCFOOD
 
 /datum/crafting_recipe/food/twobread
@@ -290,19 +281,6 @@
 	result = /obj/item/reagent_containers/food/snacks/stuffedlegion
 	subcategory = CAT_MISCFOOD
 
-
-/datum/crafting_recipe/lizardwine
-	name = "Lizard wine"
-	time = 40
-	reqs = list(
-		/obj/item/organ/tail/lizard = 1,
-		/datum/reagent/consumable/ethanol = 100
-	)
-	result = /obj/item/reagent_containers/food/drinks/bottle/lizardwine
-	category = CAT_FOOD
-	subcategory = CAT_MISCFOOD
-
-
 /datum/crafting_recipe/food/powercrepe
 	name = "Powercrepe"
 	time = 40
@@ -354,4 +332,15 @@
 		/obj/item/reagent_containers/food/snacks/salad/boiledrice = 1
 	)
 	result = /obj/item/reagent_containers/food/snacks/salad/ricepudding
+	subcategory = CAT_MISCFOOD
+
+/datum/crafting_recipe/food/crab_rangoon
+	name = "Crab Rangoon"
+	reqs = list(
+		/obj/item/reagent_containers/food/snacks/doughslice = 1,
+		/datum/reagent/consumable/cream = 5,
+		/obj/item/reagent_containers/food/snacks/cheesewedge = 1,
+		/obj/item/reagent_containers/food/snacks/meat/rawcrab = 1
+	)
+	result = /obj/item/reagent_containers/food/snacks/crab_rangoon
 	subcategory = CAT_MISCFOOD

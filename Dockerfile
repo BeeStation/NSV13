@@ -1,4 +1,4 @@
-FROM tgstation/byond:512.1478 as base
+FROM tgstation/byond:512.1488 as base
 
 FROM base as build_base
 
@@ -65,14 +65,20 @@ FROM dm_base as build
 
 COPY . .
 
-RUN DreamMaker -max_errors 0 tgstation.dme && tools/deploy.sh /deploy
+RUN DreamMaker -max_errors 0 nsv13.dme && tools/deploy.sh /deploy
 
 FROM dm_base
 
 EXPOSE 1337
 
 RUN apt-get update \
+    && apt-get install -y --no-install-recommends software-properties-common \
+    && add-apt-repository ppa:ubuntu-toolchain-r/test \
+    && apt-get update \
+    && apt-get upgrade -y \
+    && apt-get dist-upgrade -y \
     && apt-get install -y --no-install-recommends \
+    libmariadb2 \
     mariadb-client \
     libssl1.0.0 \
     && rm -rf /var/lib/apt/lists/* \
@@ -87,4 +93,4 @@ RUN ln -s /tgstation/libBSQL.so /root/.byond/bin/libBSQL.so
 
 VOLUME [ "/tgstation/config", "/tgstation/data" ]
 
-ENTRYPOINT [ "DreamDaemon", "tgstation.dmb", "-port", "1337", "-trusted", "-close", "-verbose" ]
+ENTRYPOINT [ "DreamDaemon", "nsv13.dmb", "-port", "1337", "-trusted", "-close", "-verbose" ]

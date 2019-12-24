@@ -317,6 +317,18 @@
 	name = "Briefing Room"
 	icon_state = "hallP"
 
+/area/ruin/powered/nsv13/prisonship
+	name = "Syndicate prison ship"
+
+/area/ruin/powered/nsv13/trooptransport
+	name = "Syndicate troop transport"
+
+/area/ruin/powered/nsv13/gunship
+	name = "Syndicate corvette"
+
+/area/ruin/powered/nsv13/yacht
+	name = "Luxury yacht"
+
 /area/Entered(atom/movable/M)
 	// Ambience goes down here -- make sure to list each area separately for ease of adding things in later, thanks! Note: areas adjacent to each other should have the same sounds to prevent cutoff when possible.- LastyScratch
 	set waitfor = FALSE

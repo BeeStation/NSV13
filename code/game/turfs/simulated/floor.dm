@@ -21,13 +21,6 @@
 	var/floor_tile = null //tile that this floor drops
 	var/list/broken_states
 	var/list/burnt_states
-/*Nsv13 - Turfs
-This is part of the original proc for visual appearance of plasteel and mineral floors. They operate by having the icon_states named appropriately and then using [icon]damstate to reference changes.
-Merging it up the hierarchy clears out some nondisplaying icons, especially when building on stuff like asteroid tiles. However, many floors have specific named-states for other icon types.
-Recommendation is to merge it into a single sensible system, because this is handlers for like 3 or 4. It's purely visual, so if it breaks you'll see it and it won't crash the game (probably)
-*/
-	var/list/icons
-	icon_state = ""
 
 	tiled_dirt = TRUE
 
@@ -63,8 +56,6 @@ Recommendation is to merge it into a single sensible system, because this is han
 		icon_regular_floor = icon_state
 	if(mapload && prob(33))
 		MakeDirty()
-	if(!islist(icons))
-		icons = list()
 
 /turf/open/floor/ex_act(severity, target)
 	var/shielded = is_shielded()
@@ -89,7 +80,7 @@ Recommendation is to merge it into a single sensible system, because this is han
 					else
 						ScrapeAway(2)
 					if(prob(33))
-						new /obj/item/stack/sheet/metal(src)
+						new /obj/item/stack/sheet/iron(src)
 				if(2)
 					ScrapeAway(2)
 				if(3)
@@ -99,7 +90,7 @@ Recommendation is to merge it into a single sensible system, because this is han
 						break_tile()
 					hotspot_expose(1000,CELL_VOLUME)
 					if(prob(33))
-						new /obj/item/stack/sheet/metal(src)
+						new /obj/item/stack/sheet/iron(src)
 		if(3)
 			if (prob(50))
 				src.break_tile()
@@ -115,11 +106,7 @@ Recommendation is to merge it into a single sensible system, because this is han
 
 /turf/open/floor/proc/update_icon()
 	update_visuals()
-	if(!broken && !burnt)
-		if( !(icon_state in icons) )
-			icon_state = initial(icon_state)
 	return 1
-
 
 /turf/open/floor/attack_paw(mob/user)
 	return attack_hand(user)
@@ -241,6 +228,8 @@ Recommendation is to merge it into a single sensible system, because this is han
 	switch(the_rcd.mode)
 		if(RCD_FLOORWALL)
 			return list("mode" = RCD_FLOORWALL, "delay" = 20, "cost" = 16)
+		if(RCD_LADDER)
+			return list("mode" = RCD_LADDER, "delay" = 25, "cost" = 16)
 		if(RCD_AIRLOCK)
 			if(the_rcd.airlock_glass)
 				return list("mode" = RCD_AIRLOCK, "delay" = 50, "cost" = 20)
@@ -261,6 +250,11 @@ Recommendation is to merge it into a single sensible system, because this is han
 		if(RCD_FLOORWALL)
 			to_chat(user, "<span class='notice'>You build a wall.</span>")
 			PlaceOnTop(/turf/closed/wall)
+			return TRUE
+		if(RCD_LADDER)
+			to_chat(user, "<span class='notice'>You build a ladder.</span>")
+			var/obj/structure/ladder/L = new(src)
+			L.anchored = TRUE
 			return TRUE
 		if(RCD_AIRLOCK)
 			if(locate(/obj/machinery/door/airlock) in src)

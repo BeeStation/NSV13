@@ -35,7 +35,7 @@
 	if(!loc)
 		return
 
-	if(!IS_IN_STASIS(src))
+	if(!IsInStasis())
 
 		if(stat != DEAD)
 			//Mutations and radiation

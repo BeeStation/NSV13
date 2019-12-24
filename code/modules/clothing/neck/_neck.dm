@@ -191,17 +191,12 @@
 	item_color = "stripedbluescarf"
 	custom_price = 10
 
-/obj/item/clothing/neck/petcollar
+/obj/item/clothing/neck/petcollar  // adding an OOC restriction to an IC action, like wearing a collar, is gay.
 	name = "pet collar"
-	desc = "It's for pets."
+	desc = "It's for pets. You probably shouldn't wear it yourself unless you want to be ridiculed."
 	icon_state = "petcollar"
 	item_color = "petcollar"
 	var/tagname = null
-
-/obj/item/clothing/neck/petcollar/mob_can_equip(mob/M, mob/equipper, slot, disable_warning = 0)
-	if(ishuman(M))
-		return FALSE
-	return ..()
 
 /obj/item/clothing/neck/petcollar/attack_self(mob/user)
 	tagname = copytext(sanitize(input(user, "Would you like to change the name on the tag?", "Name your new pet", "Spot") as null|text),1,MAX_NAME_LEN)
@@ -245,4 +240,4 @@
 			user.put_in_hand(newBand, currentHandIndex)
 			user.visible_message("You untie [oldName] back into a [newBand.name]", "[user] unties [oldName] back into a [newBand.name]")
 		else
-			to_chat(user, "<span class='warning'>You must be holding [src] in order to untie it!</span>")
+			to_chat(user, "<span class='warning'>You must be holding [src] in order to untie it!")

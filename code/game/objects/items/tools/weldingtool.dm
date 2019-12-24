@@ -27,7 +27,8 @@
 	var/max_fuel = 20 	//The max amount of fuel the welder can hold
 	var/change_icons = 1
 	var/can_off_process = 0
-	var/light_intensity = 2 //how powerful the emitted light is when used.
+	var/light_intensity = 1 //how powerful the emitted light is when used.
+	light_color = LIGHT_COLOR_FIRE
 	var/progress_flash_divisor = 10
 	var/burned_fuel_for = 0	//when fuel was last removed
 	heat = 3800
@@ -299,19 +300,20 @@
 	max_fuel = 40
 	materials = list(/datum/material/glass=60)
 
+/obj/item/weldingtool/largetank/flamethrower_screwdriver()
+	return	
+
 /obj/item/weldingtool/largetank/cyborg
 	name = "integrated welding tool"
-	desc = "An advanced welder designed to be used in robotic systems."
+	desc = "An advanced welder designed to be used in robotic systems. Custom framework doubles the speed of welding."
+	icon = 'icons/obj/items_cyborg.dmi'
+	icon_state = "indwelder_cyborg"
 	toolspeed = 0.5
 
 /obj/item/weldingtool/largetank/cyborg/cyborg_unequip(mob/user)
 	if(!isOn())
 		return
 	switched_on(user)
-
-/obj/item/weldingtool/largetank/flamethrower_screwdriver()
-	return
-
 
 /obj/item/weldingtool/mini
 	name = "emergency welding tool"
