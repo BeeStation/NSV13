@@ -17,6 +17,11 @@
 	impact_effect_type = /obj/effect/temp_visual/impact_effect/torpedo
 	var/detonation_timer = 20 SECONDS
 
+/obj/item/projectile/bullet/laser
+	icon = "icons/obj/projectiles.dmi"
+	icon_state = "heavylaser"
+	damage = 80
+
 /obj/effect/temp_visual/impact_effect/torpedo
 	icon_state = "impact_torpedo"
 	duration = 10
@@ -195,6 +200,7 @@
 			to_chat(usr, "<span class='notice'>Long range target acquisition systems: online.</span>")
 			relay('nsv13/sound/effects/ship/reload.ogg')
 			swap_to(FIRE_MODE_TORPEDO)
+
 
 /obj/structure/overmap/proc/swap_to(what=FIRE_MODE_PDC)
 	switch(what)
