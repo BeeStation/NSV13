@@ -56,7 +56,7 @@
 	mass = MASS_LARGE
 	sprite_size = 48
 	damage_states = TRUE
-	pixel_z = -96
+	pixel_z = -128
 	pixel_w = -96
 	max_integrity = 1500 //Max health
 	integrity_failure = 1500
