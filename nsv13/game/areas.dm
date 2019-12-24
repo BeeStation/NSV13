@@ -77,6 +77,22 @@
 	name = "Deck 2 Frame 5 Starboard Maintenance"
 	icon_state = "smaint"
 
+/area/maintenance/nsv/deck3/frame1/port
+	name = "Deck 3 Frame 1 Port Maintenance"
+	icon_state = "pmaint"
+
+/area/maintenance/nsv/deck3/frame1/starboard
+	name = "Deck 3 Frame 1 Starboard Maintenance"
+	icon_state = "smaint"
+
+/area/maintenance/nsv/deck3/frame2/port
+	name = "Deck 3 Frame 2 Port Maintenance"
+	icon_state = "pmaint"
+
+/area/maintenance/nsv/deck3/frame2/starboard
+	name = "Deck 3 Frame 2 Starboard Maintenance"
+	icon_state = "smaint"
+
 /area/maintenance/nsv/deck3/frame3/port
 	name = "Deck 3 Frame 3 Port Maintenence"
 	icon_state = "pmaint"
