@@ -1,8 +1,8 @@
 #define STATE_DISCONNECTED 1
 #define STATE_OFF 2
 #define STATE_CHARGING 3
-// STATE_READY 4 from main ship_weapon
-// STATE_FIRING 5 from main ship_weapon
+#define STATE_READY 4
+#define STATE_FIRING 5
 
 /obj/structure/ship_weapon/laser_cannon
 	name = "MODEL_HERE Ship mounted laser"
@@ -15,25 +15,38 @@
 	// TODO: figure out how game balance works
 	var/max_power = 200000 //How much power does it cost to fire this?
 	var/current_power = 0 //How much do we currently have?
-	var/drain_rate 1000 //How fast do we charge?
+	var/drain_rate = 1000 //How fast do we charge?
 
 	var/obj/structure/cable/attached
 
 	state = STATE_OFF
 
+/obj/structure/ship_weapon/laser_cannon/Initialize()
+	// Get the power node we're sitting on
+	var/turf/T = loc
+	if(isturf(T) && !T.intact)
+		attached = locate() in T
+	if(!attached)
+		world << "didn't get the attached cable"
+		state = STATE_DISCONNECTED
+	else
+		world << "found the power cable maybe"
+	..()
+
 /obj/structure/ship_weapon/laser_cannon/set_position(obj/structure/overmap/OM)
 	OM.ship_lasers += src
 
-/obj/structure/ship_weapon/laser_cannon/proc/process()
+/obj/structure/ship_weapon/laser_cannon/process()
 	if(!attached || !anchored)
+		world << "No cable or we're not wrenched down"
 		state = STATE_DISCONNECTED
 		return
 	if (state == STATE_OFF)
+		world << "The laser is off, why are we processing?"
 		return
 	var/datum/powernet/PN = attached.powernet
 	if(PN)
-		set_light(5)
-
+		world << "Found apowernet, drawing power"
 		// found a powernet, so drain up to max power from it
 		var/drained = min ( drain_rate, attached.newavail() )
 		attached.add_delayedload(drained)
@@ -42,17 +55,19 @@
 		// if tried to drain more than available on powernet
 		// now look for APCs and drain their cells
 		if(drained < drain_rate)
+			world << "Not enough on the powernet, looking for APCs"
 			for(var/obj/machinery/power/terminal/T in PN.nodes)
 				if(istype(T.master, /obj/machinery/power/apc))
 					var/obj/machinery/power/apc/A = T.master
 					if(A.operating && A.cell)
 						A.cell.charge = max(0, A.cell.charge - 50)
-						power_drained += 50
+						current_power += 50
 						if(A.charging == 2) // If the cell was full
 							A.charging = 1 // It's no longer full
 				if(drained >= drain_rate)
 					break
-		if(power_drained >= max_power)
+		if(current_power >= max_power)
+			world << "Got enough power!"
 			STOP_PROCESSING(SSobj, src)
 			state = STATE_READY
 
@@ -60,9 +75,8 @@
 /obj/structure/ship_weapon/laser_cannon/fire()
 	if(!can_fire())
 		return
-	var/atom/projectile = null
-	spawn(0) //Branch so that there isnt a fire delay for the helm.
-		do_animation()
+	//spawn(0) //Branch so that there isnt a fire delay for the helm.
+	//	do_animation()
 	state = STATE_FIRING
 
 	playsound(src, fire_sound, 100, 1)
@@ -70,7 +84,7 @@
 		if(M.stat == DEAD || !isliving(M))
 			continue
 		M.soundbang_act(1,200,10,15)
-	new /obj/effect/dummy/lighting_obj (get_turf(src), LIGHT_COLOR_WHITE, (flashbang_range + 2), 4, 2) // flash
+	new /obj/effect/dummy/lighting_obj (get_turf(src), LIGHT_COLOR_WHITE, 6, 4, 2) // flash
 	power_fail(5, 15)
 
 	state = STATE_CHARGING
@@ -110,7 +124,7 @@
 
 	// TODO: figure out desired steps/states for firing this thing
 	dat += "<h2> Power: </h2>"
-	if(laser_cannon.state <= STATE_0FF)
+	if(laser_cannon.state <= STATE_OFF)
 		dat += "<A href='?src=\ref[src];turn_on=1'>Begin charging</font></A><BR>" //STEP 1: Turn the gun on
 	else
 		dat += "<A href='?src=\ref[src];turn_off=1'>Stop charging</font></A><BR>" //OPTIONAL: Cancel loading
@@ -134,14 +148,15 @@
 /obj/machinery/computer/ship/laser_computer/Topic(href, href_list)
 	if(!in_range(src, usr))
 		return
-	if(!railgun)
+	if(!laser_cannon)
 		return
 	if(href_list["turn_on"])
+		world << "starting to charge"
 		laser_cannon.state = STATE_CHARGING
-		START_PROCESSING(SSobj, src)
+		START_PROCESSING(SSobj, laser_cannon)
 	if(href_list["turn_off"])
 		laser_cannon.state = STATE_OFF
-		STOP_PROCESSING(SSobj, src)
+		STOP_PROCESSING(SSobj, laser_cannon)
 	//if(href_list["wait_charge"])
 	if(href_list["disengage_safeties"])
 		laser_cannon.safety = FALSE
