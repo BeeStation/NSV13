@@ -3598,6 +3598,9 @@
 /obj/machinery/door/window{
 	dir = 1
 	},
+/obj/structure/cable/yellow{
+	icon_state = "1-2"
+	},
 /turf/open/floor/plasteel,
 /area/engine/engineering)
 "kx" = (
@@ -3889,6 +3892,9 @@
 	dir = 6
 	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/visible/layer3,
+/obj/structure/cable/yellow{
+	icon_state = "1-2"
+	},
 /turf/open/floor/plasteel,
 /area/engine/engineering)
 "li" = (
@@ -4146,12 +4152,18 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/visible/layer3{
 	dir = 6
 	},
+/obj/structure/cable/yellow{
+	icon_state = "4-8"
+	},
 /turf/open/floor/plasteel,
 /area/engine/engineering)
 "lS" = (
 /obj/machinery/atmospherics/pipe/simple/orange/visible,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/visible/layer3{
 	dir = 9
+	},
+/obj/structure/cable/yellow{
+	icon_state = "1-8"
 	},
 /turf/open/floor/plasteel/dark,
 /area/engine/engineering)
@@ -4292,6 +4304,9 @@
 "ml" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 1
+	},
+/obj/structure/cable/yellow{
+	icon_state = "1-2"
 	},
 /turf/open/floor/engine,
 /area/engine/engineering)
@@ -4619,6 +4634,7 @@
 	dir = 8;
 	name = "Reactor input"
 	},
+/obj/structure/cable/yellow,
 /turf/open/floor/engine,
 /area/engine/engineering)
 "nc" = (
@@ -4930,7 +4946,7 @@
 	pixel_x = 3;
 	pixel_y = 3
 	},
-/obj/item/stack/sheet/metal/fifty,
+/obj/item/stack/sheet/durasteel/fifty,
 /obj/item/clothing/glasses/welding,
 /obj/item/storage/toolbox/mechanical{
 	pixel_x = -2;
@@ -6118,12 +6134,6 @@
 /obj/structure/ladder,
 /turf/open/floor/plasteel/ship/techfloor/alt,
 /area/hallway/nsv/deck2/frame4/central)
-"qO" = (
-/obj/machinery/computer/warrant{
-	dir = 1
-	},
-/turf/open/floor/plasteel/dark,
-/area/security/warden)
 "qP" = (
 /obj/machinery/airalarm{
 	dir = 8;
@@ -6300,9 +6310,9 @@
 "rm" = (
 /obj/structure/table,
 /obj/item/storage/belt/utility,
-/obj/item/stack/sheet/metal/fifty,
-/obj/item/stack/sheet/metal/fifty,
-/obj/item/stack/sheet/metal/fifty,
+/obj/item/stack/sheet/durasteel/fifty,
+/obj/item/stack/sheet/durasteel/fifty,
+/obj/item/stack/sheet/durasteel/fifty,
 /obj/item/stack/sheet/glass{
 	amount = 20;
 	pixel_x = -3;
@@ -9571,6 +9581,12 @@
 /obj/effect/decal/cleanable/dirt,
 /turf/open/floor/plasteel,
 /area/nsv/hanger/deck2/port)
+"Bs" = (
+/obj/structure/cable/yellow{
+	icon_state = "4-8"
+	},
+/turf/open/floor/plasteel,
+/area/maintenance/department/engine)
 "Bz" = (
 /obj/structure/bed,
 /obj/item/bedsheet,
@@ -9635,6 +9651,35 @@
 	},
 /turf/open/floor/plasteel/ship/techfloor/alt,
 /area/nsv/hanger/deck2/starboard)
+"DB" = (
+/obj/machinery/door/airlock/ship/engineering{
+	dir = 8;
+	icon_state = "closed";
+	name = "Reactor core"
+	},
+/obj/structure/cable/yellow{
+	icon_state = "4-8"
+	},
+/turf/open/floor/plasteel/dark,
+/area/engine/engineering)
+"FL" = (
+/obj/structure/cable/yellow{
+	icon_state = "2-8"
+	},
+/turf/open/floor/plasteel,
+/area/maintenance/department/engine)
+"TX" = (
+/obj/structure/cable/yellow{
+	icon_state = "4-8"
+	},
+/turf/open/floor/plating,
+/area/engine/engineering)
+"Yb" = (
+/obj/structure/cable/yellow{
+	icon_state = "2-4"
+	},
+/turf/open/floor/plating,
+/area/engine/engineering)
 
 (1,1,1) = {"
 aa
@@ -22356,7 +22401,7 @@ jx
 jy
 lF
 mG
-nC
+Yb
 ml
 nb
 og
@@ -22610,10 +22655,10 @@ bi
 bi
 iF
 jy
-jy
+Bs
 lF
 lJ
-nC
+TX
 ow
 ps
 qm
@@ -22867,10 +22912,10 @@ he
 hT
 iF
 jy
-jy
+Bs
 lG
 lJ
-lQ
+DB
 ox
 pt
 ox
@@ -23124,7 +23169,7 @@ ag
 ag
 iF
 jz
-jy
+Bs
 lH
 mH
 lR
@@ -23381,7 +23426,7 @@ gi
 hU
 iF
 jy
-jy
+FL
 kw
 lh
 lS
@@ -41634,7 +41679,7 @@ mW
 nX
 oL
 pN
-qO
+ob
 rv
 rS
 mb
