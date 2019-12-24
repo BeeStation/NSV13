@@ -1,1 +1,1 @@
-#define FORCE_MAP "_maps/Vago.json"
+#define FORCE_MAP "_maps/vago.json"
