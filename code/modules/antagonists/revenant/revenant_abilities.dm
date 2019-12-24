@@ -27,7 +27,6 @@
 		if(prob(10))
 			to_chat(target, "You feel as if you are being watched.")
 		return
-	face_atom(target)
 	draining = TRUE
 	essence_drained += rand(15, 20)
 	to_chat(src, "<span class='revennotice'>You search for the soul of [target].</span>")
@@ -116,7 +115,6 @@
 	notice = "revennotice"
 	boldnotice = "revenboldnotice"
 	holy_check = TRUE
-	tinfoil_check = FALSE
 
 /obj/effect/proc_holder/spell/aoe_turf/revenant
 	clothes_req = 0
@@ -344,7 +342,7 @@
 		if(iscarbon(mob))
 			if(ishuman(mob))
 				var/mob/living/carbon/human/H = mob
-				if(H.dna && H.dna.species)
+				if(H.dna?.species)
 					H.dna.species.handle_hair(H,"#1d2953") //will be reset when blight is cured
 				var/blightfound = FALSE
 				for(var/datum/disease/revblight/blight in H.diseases)

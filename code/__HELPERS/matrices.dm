@@ -79,9 +79,9 @@
 	d = y
 
 
-/////////////////////
+//-----------------//
 // COLOUR MATRICES //
-/////////////////////
+//-----------------//
 
 /* Documenting a couple of potentially useful color matrices here to inspire ideas
 // Greyscale - indentical to saturation @ 0

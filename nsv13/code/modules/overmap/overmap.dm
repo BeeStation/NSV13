@@ -322,25 +322,25 @@
 		return FALSE
 	return !user.incapacitated() && isliving(user)
 
-/obj/structure/overmap/proc/handle_hotkeys(key, client/C)
-	var/mob/user = C.mob
+/obj/structure/overmap/key_down(key, client/user)
+	var/mob/themob = user.mob
 	switch(key)
 		if("Space")
-			if(user == pilot)
+			if(themob == pilot)
 				toggle_move_mode()
 			if(helm && prob(80))
 				var/sound = pick(GLOB.computer_beeps)
 				playsound(helm, sound, 100, 1)
 			return TRUE
 		if("Alt")
-			if(user == pilot)
+			if(themob == pilot)
 				toggle_brakes()
 			if(helm && prob(80))
 				var/sound = pick(GLOB.computer_beeps)
 				playsound(helm, sound, 100, 1)
 			return TRUE
 		if("Ctrl")
-			if(user == gunner)
+			if(themob == gunner)
 				cycle_firemode()
 			if(tactical && prob(80))
 				var/sound = pick(GLOB.computer_beeps)

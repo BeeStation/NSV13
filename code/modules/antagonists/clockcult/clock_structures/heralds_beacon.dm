@@ -78,12 +78,12 @@
 			return
 		voters += user.key
 	else
-		if(!user.key in voters)
+		if(!(user.key in voters))
 			return
 		voters -= user.key
 	var/votes_left = votes_needed - voters.len
 	message_admins("[ADMIN_LOOKUPFLW(user)] has [voting ? "voted" : "undone their vote"] to activate [src]! [ADMIN_JMP(user)]")
-	hierophant_message("<span class='brass'><b>[user.real_name]</b> has [voting ? "voted" : "undone their vote"] to activate [src]! The beacon needs [votes_left] more votes to activate.</span>")
+	hierophant_message("<span class='brass'><b>[user.real_name]</b> has [voting ? "voted" : "undone their vote"] to activate [src]! The beacon needs [votes_left] more votes to activate.")
 	for(var/mob/M in GLOB.player_list)
 		if(isobserver(M) || is_servant_of_ratvar(M))
 			M.playsound_local(M, 'sound/magic/clockwork/fellowship_armory.ogg', 50, FALSE)

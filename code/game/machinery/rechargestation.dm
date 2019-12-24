@@ -31,9 +31,9 @@
 /obj/machinery/recharge_station/examine(mob/user)
 	. = ..()
 	if(in_range(user, src) || isobserver(user))
-		. += "<span class='notice'>The status display reads: Recharging <b>[recharge_speed]J</b> per cycle.</span>"
+		. += "<span class='notice'>The status display reads: Recharging <b>[recharge_speed]J</b> per cycle.<span>"
 		if(repairs)
-			. += "<span class='notice'>[src] has been upgraded to support automatic repairs.</span>"
+			. += "<span class='notice'>[src] has been upgraded to support automatic repairs.<span>"
 
 /obj/machinery/recharge_station/process()
 	if(!is_operational())
@@ -80,12 +80,14 @@
 
 /obj/machinery/recharge_station/open_machine()
 	. = ..()
-	use_power = IDLE_POWER_USE
+	if(iscyborg(occupant) || isethereal(occupant))
+		use_power = IDLE_POWER_USE
 
 /obj/machinery/recharge_station/close_machine()
 	. = ..()
 	if(occupant)
-		use_power = ACTIVE_POWER_USE //It always tries to charge, even if it can't.
+		if(iscyborg(occupant) || isethereal(occupant))
+			use_power = ACTIVE_POWER_USE
 		add_fingerprint(occupant)
 
 /obj/machinery/recharge_station/update_icon()
@@ -104,4 +106,23 @@
 /obj/machinery/recharge_station/proc/process_occupant()
 	if(!occupant)
 		return
-	SEND_SIGNAL(occupant, COMSIG_PROCESS_BORGCHARGER_OCCUPANT, recharge_speed, repairs)
+	SEND_SIGNAL(occupant, COMSIG_PROCESS_BORGCHARGER_OCCUPANT, recharge_speed, repairs) //Nsv13 - Allows synths to charge off of chargers.
+	if(iscyborg(occupant))
+		var/mob/living/silicon/robot/R = occupant
+		restock_modules()
+		if(repairs)
+			R.heal_bodypart_damage(repairs, repairs - 1)
+		if(R.cell)
+			R.cell.charge = min(R.cell.charge + recharge_speed, R.cell.maxcharge)
+	if(isethereal(occupant))
+		var/mob/living/carbon/human/H = occupant
+		var/datum/species/ethereal/E = H.dna?.species
+		if(E)
+			E.adjust_charge(recharge_speed / 70) //Around 3 per process if unupgraded
+
+/obj/machinery/recharge_station/proc/restock_modules()
+	if(occupant)
+		var/mob/living/silicon/robot/R = occupant
+		if(R?.module)
+			var/coeff = recharge_speed * 0.005
+			R.module.respawn_consumable(R, coeff)

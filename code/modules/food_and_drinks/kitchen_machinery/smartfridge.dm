@@ -36,7 +36,7 @@
 /obj/machinery/smartfridge/examine(mob/user)
 	. = ..()
 	if(in_range(user, src) || isobserver(user))
-		. += "<span class='notice'>The status display reads: This unit can hold a maximum of <b>[max_n_of_items]</b> items.</span>"
+		. += "<span class='notice'>The status display reads: This unit can hold a maximum of <b>[max_n_of_items]</b> items.<span>"
 
 /obj/machinery/smartfridge/power_change()
 	..()
@@ -243,7 +243,7 @@
 
 /obj/machinery/smartfridge/drying_rack/Initialize()
 	. = ..()
-	if(component_parts && component_parts.len)
+	if(component_parts?.len)
 		component_parts.Cut()
 	component_parts = null
 
@@ -395,15 +395,6 @@
 	desc = "A refrigerated storage unit for medicine storage."
 
 /obj/machinery/smartfridge/chemistry/accept_check(obj/item/O)
-	var/static/list/chemfridge_typecache = typecacheof(list(
-					/obj/item/reagent_containers/syringe,
-					/obj/item/reagent_containers/glass/bottle,
-					/obj/item/reagent_containers/glass/beaker,
-					/obj/item/reagent_containers/spray,
-					/obj/item/reagent_containers/medigel,
-					/obj/item/reagent_containers/chem_pack
-	))
-
 	if(istype(O, /obj/item/storage/pill_bottle))
 		if(O.contents.len)
 			for(var/obj/item/I in O)
@@ -417,7 +408,7 @@
 		return TRUE
 	if(!O.reagents || !O.reagents.reagent_list.len) // other empty containers not accepted
 		return FALSE
-	if(is_type_in_typecache(O, chemfridge_typecache))
+	if(istype(O, /obj/item/reagent_containers/syringe) || istype(O, /obj/item/reagent_containers/glass/bottle) || istype(O, /obj/item/reagent_containers/glass/beaker) || istype(O, /obj/item/reagent_containers/spray) || istype(O, /obj/item/reagent_containers/medspray))
 		return TRUE
 	return FALSE
 
@@ -443,7 +434,8 @@
 		/obj/item/reagent_containers/glass/bottle/mutagen = 1,
 		/obj/item/reagent_containers/glass/bottle/plasma = 1,
 		/obj/item/reagent_containers/glass/bottle/synaptizine = 1,
-		/obj/item/reagent_containers/glass/bottle/formaldehyde = 1)
+		/obj/item/reagent_containers/glass/bottle/formaldehyde = 1,
+		/obj/item/reagent_containers/glass/bottle/viralbase = 1)
 
 // ----------------------------
 // Disk """fridge"""

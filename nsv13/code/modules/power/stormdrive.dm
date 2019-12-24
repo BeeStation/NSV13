@@ -581,8 +581,7 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 		to_chat(user, "<span class='notice'>You start to disassemble [src] into sheets of metal...</span>")
 		if(tool.use_tool(src, user, 40, volume=100))
 			to_chat(user, "<span class='notice'>You complete disassembly on [src]. </span>")
-			var/obj/item/stack/sheet/metal/M = new (loc, 15)
-			M.add_fingerprint(user)
+			new /obj/item/stack/sheet/iron(loc, 15)
 			qdel(src)
 		return TRUE
 

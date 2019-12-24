@@ -11,7 +11,6 @@
 	var/obj/structure/table/optable/table
 	var/list/advanced_surgeries = list()
 	var/datum/techweb/linked_techweb
-	var/menu = MENU_OPERATION
 	light_color = LIGHT_COLOR_BLUE
 
 /obj/machinery/computer/operating/Initialize()
@@ -44,7 +43,7 @@
 			table.computer = src
 			break
 
-/obj/machinery/computer/operating/ui_interact(mob/user, ui_key = "main", datum/tgui/ui = null, force_open = 0, datum/tgui/master_ui = null, datum/ui_state/state = GLOB.not_incapacitated_state)
+/obj/machinery/computer/operating/ui_interact(mob/user, ui_key = "main", datum/tgui/ui = null, force_open = 0, datum/tgui/master_ui = null, datum/ui_state/state = GLOB.default_state)
 	ui = SStgui.try_update_ui(user, src, ui_key, ui, force_open)
 	if(!ui)
 		ui = new(user, src, ui_key, "operating_computer", name, 350, 470, master_ui, state)
@@ -53,20 +52,18 @@
 /obj/machinery/computer/operating/ui_data(mob/user)
 	var/list/data = list()
 	data["table"] = table
+
+	var/list/surgeries = list()
+	for(var/X in advanced_surgeries)
+		var/datum/surgery/S = X
+		var/list/surgery = list()
+		surgery["name"] = initial(S.name)
+		surgery["desc"] = initial(S.desc)
+		surgeries += list(surgery)
+	data["surgeries"] = surgeries
 	if(table)
-		data["menu"] = menu
-
-		var/list/surgeries = list()
-		for(var/X in advanced_surgeries)
-			var/datum/surgery/S = X
-			var/list/surgery = list()
-			surgery["name"] = initial(S.name)
-			surgery["desc"] = initial(S.desc)
-			surgeries += list(surgery)
-		data["surgeries"] = surgeries
-
-		data["patient"] = list()
 		if(table.check_patient())
+			data["patient"] = list()
 			patient = table.patient
 			switch(patient.stat)
 				if(CONSCIOUS)
@@ -110,15 +107,14 @@
 						"alternative_step" = alternative_step,
 						"alt_chems_needed" = alt_chems_needed
 					))
+		else
+			data["patient"] = null
 	return data
 
 /obj/machinery/computer/operating/ui_act(action, params)
 	if(..())
 		return
 	switch(action)
-		if("change_menu")
-			menu = text2num(params["menu"])
-			. = TRUE
 		if("sync")
 			sync_surgeries()
 			. = TRUE
