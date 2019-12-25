@@ -3,6 +3,7 @@
 #define FIRE_MODE_PDC 1
 #define FIRE_MODE_TORPEDO 2
 #define FIRE_MODE_RAILGUN 3
+#define FIRE_MODE_LASER 4
 
 //AI behaviour
 
