@@ -55,8 +55,9 @@ do
     filename="_maps/$(jq -r '.map_path' $json)/$(jq -r '.map_file' $json)"
     if [ ! -f "$filename" ]
     then
-        echo "ERROR: Found invalid file reference to $filename in _maps/$json"
-        st=1
+        echo "WARNING: Found potential invalid file reference to $filename in _maps/$json OR it is a list." #TODO: Rewrite this to support lists, probably in python
+        echo "Consider rewriting this check to support lists."
+		# st=1
     fi
 done
 
