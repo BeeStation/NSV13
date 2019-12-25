@@ -129,7 +129,7 @@
 	name = "Laser cannon"
 	icon = 'icons/obj/hand_of_god_structures.dmi'
 	icon_state = "conduit-red"
-	layer = 5
+	layer = 4
 	mouse_opacity = FALSE
 	var/angle = 0 //Debug
 
@@ -139,6 +139,7 @@
 	START_PROCESSING(SSovermap, src)
 
 	railgun_overlay = new()
+	railgun_overlay.icon = icon
 	railgun_overlay.appearance_flags |= KEEP_APART
 	railgun_overlay.appearance_flags |= RESET_TRANSFORM
 	vis_contents += railgun_overlay
@@ -265,11 +266,14 @@
 	cut_overlays()
 	apply_damage_states()
 
-	if(railgun_overlay) //Swivel the railgun to aim at the last thing we hit
+	if (main_overmap)
+		message_admins("The fire mode is [fire_mode]")
+	if(railgun_overlay && (fire_mode == FIRE_MODE_RAILGUN)) //Swivel the railgun to aim at the last thing we hit
+		message_admins("Rotating railgun")
 		railgun_overlay.icon = icon
 		railgun_overlay.setDir(get_dir(src, last_target))
-	if(laser_overlay)
-		laser_overlay.icon = icon
+	else if(laser_overlay && (fire_mode == FIRE_MODE_LASER))
+		message_admins("Rotating laser")
 		laser_overlay.setDir(get_dir(src, last_target))
 
 	if(angle == desired_angle)

@@ -216,12 +216,16 @@
 	pixel_y = last_offset_y*32
 	animate(src, transform=mat_to, pixel_x = offset_x*32, pixel_y = offset_y*32, time = time*10, flags=ANIMATION_END_NOW)
 	if(last_target)
-		var/target_railgun_angle = Get_Angle(src,last_target)
+		var/target_angle = Get_Angle(src,last_target)
 		var/matrix/final = matrix()
-		final.Turn(target_railgun_angle)
-		railgun_overlay.transform = final
+		final.Turn(target_angle)
+		if(fire_mode == FIRE_MODE_RAILGUN)
+			railgun_overlay.transform = final
+		else if (fire_mode == FIRE_MODE_LASER)
+			laser_overlay.transform = final
 	else
 		railgun_overlay.transform = mat_to
+		laser_overlay.transform = mat_to
 	for(var/mob/living/M in operators)
 		var/client/C = M.client
 		if(!C)
