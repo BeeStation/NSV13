@@ -53,7 +53,7 @@ fi;
 for json in _maps/*.json
 do
     filename="_maps/$(jq -r '.map_path' $json)/$(jq -r '.map_file' $json)"
-    if [ ! -f $filename ]
+    if [ ! -f "$filename" ]
     then
         echo "ERROR: Found invalid file reference to $filename in _maps/$json"
         st=1
