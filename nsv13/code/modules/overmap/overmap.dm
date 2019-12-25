@@ -38,7 +38,6 @@
 
 	// Big ship things
 	var/main_overmap = FALSE //There can only be one of these per game! This denotes that this ship is the "hero ship" and what the players fly. This links it to all the station areas by default
-
 	// Small ship things
 	var/area/linked_area = null //The area to which we're linked. This is for Ai / small ships only.
 	var/datum/gas_mixture/cabin_air //Cabin air mix used for small ships like fighters (see overmap/fighters/fighters.dm)
@@ -108,6 +107,7 @@
 	var/next_firetime = 0
 
 	var/obj/railgun_overlay/railgun_overlay
+	var/obj/laser_overlay/laser_overlay
 	var/atom/last_target //Last thing we shot at, used to point the railgun at an enemy.
 
 	var/torpedoes = 15 //Prevent infinite torp spam
@@ -125,14 +125,29 @@
 	mouse_opacity = FALSE
 	var/angle = 0 //Debug
 
+/obj/laser_overlay
+	name = "Laser cannon"
+	icon = 'icons/obj/hand_of_god_structures.dmi'
+	icon_state = "conduit-red"
+	layer = 5
+	mouse_opacity = FALSE
+	var/angle = 0 //Debug
+
 /obj/structure/overmap/Initialize()
 	. = ..()
 	GLOB.overmap_objects += src
 	START_PROCESSING(SSovermap, src)
+
 	railgun_overlay = new()
 	railgun_overlay.appearance_flags |= KEEP_APART
 	railgun_overlay.appearance_flags |= RESET_TRANSFORM
 	vis_contents += railgun_overlay
+
+	laser_overlay = new()
+	laser_overlay.appearance_flags |= KEEP_APART
+	laser_overlay.appearance_flags |= RESET_TRANSFORM
+	vis_contents += laser_overlay
+
 	update_icon()
 	max_range = initial(weapon_range)+20 //Range of the maximum possible attack (torpedo)
 	find_area()
@@ -249,9 +264,14 @@
 /obj/structure/overmap/update_icon() //Adds an rcs overlay
 	cut_overlays()
 	apply_damage_states()
+
 	if(railgun_overlay) //Swivel the railgun to aim at the last thing we hit
 		railgun_overlay.icon = icon
 		railgun_overlay.setDir(get_dir(src, last_target))
+	if(laser_overlay)
+		laser_overlay.icon = icon
+		laser_overlay.setDir(get_dir(src, last_target))
+
 	if(angle == desired_angle)
 		return //No RCS needed if we're already facing where we want to go
 	if(prob(20) && desired_angle)
