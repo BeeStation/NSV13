@@ -84,14 +84,16 @@
 
 /obj/structure/ship_weapon/laser_cannon/can_fire() // STATE_READY *should* be enough indication but I won't assume anything
 	if (state != STATE_READY)
-		return 0
+		return FALSE
 	if (!attached)
-		return 0
+		return FALSE // No power cable
 	if (cell.charge < cell.maxcharge)
-		return 0
+		return FALSE // Not fully charged
 	if (!anchored)
-		return 0
-	return 1
+		return FALSE // Need to wrench it down first
+	if (safety)
+		return FALSE // You left the safety on
+	return TRUE
 
 /obj/structure/ship_weapon/laser_cannon/fire()
 	if(!can_fire())
@@ -103,7 +105,6 @@
 
 	playsound(src, fire_sound, 100, 1)
 
-	new /obj/effect/dummy/lighting_obj (get_turf(src), LIGHT_COLOR_WHITE, 6, 4, 5) // Flash people nearby
 	power_fail(0, 10) // Kill the power for a moment
 	for(var/mob/living/M in get_hearers_in_view(7, get_turf(src)))
 		if(M.stat != DEAD)
