@@ -106,8 +106,8 @@
 	var/fire_delay = 5
 	var/next_firetime = 0
 
-	var/obj/railgun_overlay/railgun_overlay
-	var/obj/laser_overlay/laser_overlay
+	var/obj/weapon_overlay/railgun/railgun_overlay
+	var/obj/weapon_overlay/laser/laser_overlay
 	var/atom/last_target //Last thing we shot at, used to point the railgun at an enemy.
 
 	var/torpedoes = 15 //Prevent infinite torp spam
@@ -118,20 +118,20 @@
 /obj/structure/overmap/can_be_pulled(user) // no :)
 	return FALSE
 
-/obj/railgun_overlay //Railgun sits on top of the ship and swivels to face its target
-	name = "Railgun"
-	icon_state = "railgun"
+/obj/weapon_overlay
+	name = "Weapon overlay"
 	layer = 4
 	mouse_opacity = FALSE
 	var/angle = 0 //Debug
 
-/obj/laser_overlay
+/obj/weapon_overlay/railgun //Railgun sits on top of the ship and swivels to face its target
+	name = "Railgun"
+	icon_state = "railgun"
+
+/obj/weapon_overlay/laser
 	name = "Laser cannon"
 	icon = 'icons/obj/hand_of_god_structures.dmi'
 	icon_state = "conduit-red"
-	layer = 4
-	mouse_opacity = FALSE
-	var/angle = 0 //Debug
 
 /obj/structure/overmap/Initialize()
 	. = ..()
