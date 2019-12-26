@@ -12,6 +12,7 @@
 	maxcharge = 200000
 	materials = list(/datum/material/glass=800)
 	chargerate = 3000
+	var/maxchargerate = 100000
 
 /obj/item/stock_parts/cell/laser_cannon/corrupt() // No we will not explode thanks
 	return
@@ -44,8 +45,6 @@
 /obj/structure/ship_weapon/laser_cannon/process()
 	if(!attached || !anchored) // No cable or we're not wrenched down
 		state = STATE_DISCONNECTED
-		STOP_PROCESSING(SSobj, src)
-		return
 	if (state == STATE_OFF || state == STATE_DISCONNECTED) // Turned off or not connected to the grid, don't draw power
 		STOP_PROCESSING(SSobj, src)
 		return
@@ -99,8 +98,8 @@
 	if(!can_fire())
 		return
 	// TODO: No animation for this yet
-	// spawn(0) //Branch so that there isnt a fire delay for the helm.
-	//	do_animation()
+	spawn(0) //Branch so that there isnt a fire delay for the helm.
+		do_animation()
 	state = STATE_FIRING
 
 	playsound(src, fire_sound, 100, 1)
@@ -113,6 +112,12 @@
 	cell.use(cell.maxcharge) // Used all the power we'd stored
 	state = STATE_CHARGING
 	after_fire()
+
+/obj/structure/ship_weapon/laser_cannon/proc/get_charge()
+	return cell.charge
+
+/obj/structure/ship_weapon/laser_cannon/proc/get_max_charge()
+	return cell.maxcharge
 
 // Parts
 
