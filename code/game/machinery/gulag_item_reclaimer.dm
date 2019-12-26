@@ -8,6 +8,8 @@
 	use_power = IDLE_POWER_USE
 	idle_power_usage = 100
 	active_power_usage = 2500
+	ui_x = 300
+	ui_y = 400
 	var/list/stored_items = list()
 	var/obj/item/card/id/prisoner/inserted_id = null
 	var/obj/machinery/gulag_teleporter/linked_teleporter = null
@@ -30,7 +32,7 @@
 	obj_flags |= EMAGGED
 
 /obj/machinery/gulag_item_reclaimer/attackby(obj/item/I, mob/user)
-	if(istype(I, /obj/item/card/id))
+	if(istype(I, /obj/item/card/id/prisoner))
 		if(!inserted_id)
 			if(!user.transferItemToLoc(I, src))
 				return
@@ -74,8 +76,6 @@
 		mobs += list(mob_info)
 
 	data["mobs"] = mobs
-
-
 	data["can_reclaim"] = can_reclaim
 
 	return data
@@ -87,46 +87,28 @@
 				usr.put_in_hands(inserted_id)
 				inserted_id = null
 			else
-				var/obj/item/I = usr.is_holding_item_of_type(/obj/item/card/id)
+				var/obj/item/I = usr.is_holding_item_of_type(/obj/item/card/id/prisoner)
 				if(I)
 					if(!usr.transferItemToLoc(I, src))
 						return
 					inserted_id = I
 
 		if("release_items")
-			var/mob/living/carbon/human/H = locate(params["mobref"]) in stored_items
-			if ((H == usr || allowed(usr)) && inserted_id)
-				var/obj/item/card/id/target_id
-				if (stored_items[H])
-					idloop:
-						for(var/obj/item/I in stored_items[H])
-							if (istype(I, /obj/item/card/id))
-								var/obj/item/card/id/potential_id = I
-								if (potential_id.registered_account && potential_id.registered_account == H.get_bank_account())
-									target_id = potential_id
-									break
-							for (var/obj/item/card/id/potential_id in I.GetAllContents())
-								if (potential_id.registered_account && potential_id.registered_account == H.get_bank_account())
-									target_id = potential_id
-									break idloop
-				if (target_id)
-					target_id.registered_account.adjust_money(inserted_id.points * 0.5)
+			var/mob/M = locate(params["mobref"]) in stored_items
+			if(M == usr || allowed(usr))
+				if(inserted_id)
 					var/datum/bank_account/D = SSeconomy.get_dep_account(ACCOUNT_SEC)
 					if(D)
-						D.adjust_money(inserted_id.points * 0.5)
-				else
-					new /obj/item/holochip(drop_location(), inserted_id.points)
-					to_chat(usr, "An ID with your bank account registration was not located amongst your items, a sum of [inserted_id.points] has been dispensed as holochips.")
-				drop_items(H)
+						D.adjust_money(inserted_id.points * 1.5)
+				drop_items(M)
 			else
 				to_chat(usr, "Access denied.")
 
 /obj/machinery/gulag_item_reclaimer/proc/drop_items(mob/user)
 	if(!stored_items[user])
 		return
-	var/drop_location = drop_location()
 	for(var/i in stored_items[user])
 		var/obj/item/W = i
 		stored_items[user] -= W
-		W.forceMove(drop_location)
+		W.forceMove(get_turf(src))
 	stored_items -= user

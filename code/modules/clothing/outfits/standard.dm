@@ -108,7 +108,7 @@
 	var/obj/item/card/id/W = H.wear_id
 	if(W)
 		W.registered_name = H.real_name
-		W.update_label()
+		W.update_label(H.real_name)
 
 /datum/outfit/tunnel_clown
 	name = "Tunnel Clown"
@@ -131,9 +131,10 @@
 
 	var/obj/item/card/id/W = H.wear_id
 	W.access = get_all_accesses()
+	W.icon_state = "clown_op"
 	W.assignment = "Tunnel Clown!"
 	W.registered_name = H.real_name
-	W.update_label()
+	W.update_label(H.real_name)
 
 /datum/outfit/psycho
 	name = "Masked Killer"
@@ -197,7 +198,7 @@
 	W.access = get_all_accesses()
 	W.assignment = "Reaper"
 	W.registered_name = H.real_name
-	W.update_label()
+	W.update_label(H.real_name)
 
 /datum/outfit/centcom_commander
 	name = "CentCom Commander"
@@ -214,21 +215,22 @@
 	r_pocket = /obj/item/lighter
 	l_pocket = /obj/item/ammo_box/a357
 	back = /obj/item/storage/backpack/satchel/leather
-	id = /obj/item/card/id/centcom
+	id = /obj/item/card/id
 
 /datum/outfit/centcom_commander/post_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
 	if(visualsOnly)
 		return
 
 	var/obj/item/card/id/W = H.wear_id
+	W.icon_state = "centcom"
 	W.access = get_all_accesses()
 	W.access += get_centcom_access("CentCom Commander")
 	W.assignment = "CentCom Commander"
 	W.registered_name = H.real_name
 	W.update_label()
 
-/datum/outfit/spec_ops
-	name = "Special Ops Officer"
+/datum/outfit/admiral
+	name = "Admiral"
 
 	uniform = /obj/item/clothing/under/syndicate
 	suit = /obj/item/clothing/suit/space/officer
@@ -241,16 +243,17 @@
 	belt = /obj/item/gun/energy/pulse/pistol/m1911
 	r_pocket = /obj/item/lighter
 	back = /obj/item/storage/backpack/satchel/leather
-	id = /obj/item/card/id/centcom
+	id = /obj/item/card/id
 
-/datum/outfit/spec_ops/post_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
+/datum/outfit/admiral/post_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
 	if(visualsOnly)
 		return
 
 	var/obj/item/card/id/W = H.wear_id
+	W.icon_state = "centcom"
 	W.access = get_all_accesses()
-	W.access += get_centcom_access("Special Ops Officer")
-	W.assignment = "Special Ops Officer"
+	W.access += get_centcom_access("Admiral")
+	W.assignment = "Admiral"
 	W.registered_name = H.real_name
 	W.update_label()
 
@@ -321,13 +324,14 @@
 	back = /obj/item/storage/backpack/satchel/leather
 	belt = /obj/item/gun/ballistic/revolver/mateba
 
-	id = /obj/item/card/id/centcom
+	id = /obj/item/card/id
 
 /datum/outfit/soviet/post_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
 	if(visualsOnly)
 		return
 
 	var/obj/item/card/id/W = H.wear_id
+	W.icon_state = "centcom"
 	W.access = get_all_accesses()
 	W.access += get_centcom_access("Admiral")
 	W.assignment = "Admiral"
@@ -378,7 +382,7 @@
 	suit_store = /obj/item/tank/internals/emergency_oxygen/double
 	belt = /obj/item/gun/ballistic/revolver/mateba
 	r_hand = /obj/item/gun/energy/pulse/loyalpin
-	id = /obj/item/card/id/centcom
+	id = /obj/item/card/id
 	ears = /obj/item/radio/headset/headset_cent/alt
 
 	backpack_contents = list(/obj/item/storage/box=1,\
@@ -401,11 +405,12 @@
 
 
 	var/obj/item/card/id/W = H.wear_id
+	W.icon_state = "centcom"
 	W.access = get_all_accesses()//They get full station access.
 	W.access += get_centcom_access("Death Commando")//Let's add their alloted CentCom access.
 	W.assignment = "Death Commando"
 	W.registered_name = H.real_name
-	W.update_label()
+	W.update_label(W.registered_name, W.assignment)
 
 /datum/outfit/death_commando/officer
 	name = "Death Commando Officer"
@@ -419,6 +424,15 @@
 	head = /obj/item/clothing/head/helmet/space/chronos
 	mask = /obj/item/clothing/mask/breath
 	suit_store = /obj/item/tank/internals/oxygen
+
+/datum/outfit/joker
+	name = "Joker"
+	uniform = /obj/item/clothing/under/joker
+	suit = /obj/item/clothing/suit/joker
+	shoes = /obj/item/clothing/shoes/laceup
+	gloves = /obj/item/clothing/gloves/color/white
+	id = /obj/item/card/id/job/clown
+	ears = /obj/item/radio/headset/headset_srv
 
 /datum/outfit/debug //Debug objs plus hardsuit
 	name = "Debug outfit"

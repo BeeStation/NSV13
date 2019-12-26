@@ -34,8 +34,6 @@ LINEN BINS
 	if(layer == initial(layer))
 		layer = ABOVE_MOB_LAYER
 		to_chat(user, "<span class='notice'>You cover yourself with [src].</span>")
-		pixel_x = 0
-		pixel_y = 0
 	else
 		layer = initial(layer)
 		to_chat(user, "<span class='notice'>You smooth [src] out beneath you.</span>")
@@ -157,11 +155,11 @@ LINEN BINS
 	dream_messages = list("authority", "a silvery ID", "handcuffs", "a baton", "a flashbang", "sunglasses", "the head of security")
 
 /obj/item/bedsheet/hop
-	name = "Executive Officer's bedsheet"
+	name = "head of personnel's bedsheet"
 	desc = "It is decorated with a key emblem. For those rare moments when you can rest and cuddle with Ian without someone screaming for you over the radio."
 	icon_state = "sheethop"
 	item_color = "hop"
-	dream_messages = list("authority", "a silvery ID", "obligation", "a computer", "an ID", "a corgi", "the Executive Officer")
+	dream_messages = list("authority", "a silvery ID", "obligation", "a computer", "an ID", "a corgi", "the head of personnel")
 
 /obj/item/bedsheet/ce
 	name = "chief engineer's bedsheet"
@@ -259,7 +257,7 @@ LINEN BINS
 	var/type = pickweight(list("Colors" = 80, "Special" = 20))
 	switch(type)
 		if("Colors")
-			type = pick(list(/obj/item/bedsheet,
+			type = pick(list(/obj/item/bedsheet, 
 				/obj/item/bedsheet/blue,
 				/obj/item/bedsheet/green,
 				/obj/item/bedsheet/grey,
@@ -289,11 +287,6 @@ LINEN BINS
 	var/amount = 10
 	var/list/sheets = list()
 	var/obj/item/hidden = null
-
-/obj/structure/bedsheetbin/empty
-	amount = 0
-	icon_state = "linenbin-empty"
-	anchored = FALSE
 
 
 /obj/structure/bedsheetbin/examine(mob/user)
@@ -329,21 +322,6 @@ LINEN BINS
 		amount++
 		to_chat(user, "<span class='notice'>You put [I] in [src].</span>")
 		update_icon()
-
-	else if(default_unfasten_wrench(user, I, 5))
-		return
-
-	else if(I.tool_behaviour == TOOL_SCREWDRIVER)
-		if(flags_1 & NODECONSTRUCT_1)
-			return
-		if(amount)
-			to_chat(user, "<span clas='warn'>The [src] must be empty first!</span>")
-			return
-		if(I.use_tool(src, user, 5, volume=50))
-			to_chat(user, "<span clas='notice'>You disassemble the [src].</span>")
-			new /obj/item/stack/rods(loc, 2)
-			qdel(src)
-
 	else if(amount && !hidden && I.w_class < WEIGHT_CLASS_BULKY)	//make sure there's sheets to hide it among, make sure nothing else is hidden in there.
 		if(!user.transferItemToLoc(I, src))
 			to_chat(user, "<span class='warning'>\The [I] is stuck to your hand, you cannot hide it among the sheets!</span>")

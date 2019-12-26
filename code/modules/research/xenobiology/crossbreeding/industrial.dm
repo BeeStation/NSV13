@@ -79,7 +79,7 @@ Industrial extracts:
 	colour = "metal"
 	effect_desc = "Produces metal sheets."
 	plasmarequired = 3
-	itempath = /obj/item/stack/sheet/metal/ten
+	itempath = /obj/item/stack/sheet/iron/ten
 
 /obj/item/slimecross/industrial/yellow
 	colour = "yellow"

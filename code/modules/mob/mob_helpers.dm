@@ -198,6 +198,7 @@
 		message = stutter(message)
 	return message
 
+
 /**
   * Turn text into complete gibberish!
   *
@@ -447,7 +448,7 @@
   */
 /proc/item_heal_robotic(mob/living/carbon/human/H, mob/user, brute_heal, burn_heal)
 	var/obj/item/bodypart/affecting = H.get_bodypart(check_zone(user.zone_selected))
-	if(affecting && affecting.status == BODYPART_ROBOTIC)
+	if(affecting?.status == BODYPART_ROBOTIC)
 		var/dam //changes repair text based on how much brute/burn was supplied
 		if(brute_heal > burn_heal)
 			dam = 1
@@ -562,6 +563,9 @@
 /mob/proc/can_hear()
 	. = TRUE
 
+/mob/proc/has_mouth()
+	return FALSE 
+
 /**
   * Examine text for traits shared by multiple types.
   *
@@ -570,22 +574,3 @@
 /mob/proc/common_trait_examine()
 	if(HAS_TRAIT(src, TRAIT_DISSECTED))
 		. += "<span class='notice'>This body has been dissected and analyzed. It is no longer worth experimenting on.</span><br>"
-
-/**
-  * Get the list of keywords for policy config
-  *
-  * This gets the type, mind assigned roles and antag datums as a list, these are later used
-  * to send the user relevant headadmin policy config
-  */
-/mob/proc/get_policy_keywords()
-	. = list()
-	. += "[type]"
-	if(mind)
-		. += mind.assigned_role
-		. += mind.special_role //In case there's something special leftover, try to avoid
-		for(var/datum/antagonist/A in mind.antag_datums)
-			. += "[A.type]"
-
-///Can the mob see reagents inside of containers?
-/mob/proc/can_see_reagents()
-	return stat == DEAD || has_unlimited_silicon_privilege //Dead guys and silicons can always see reagents

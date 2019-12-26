@@ -22,7 +22,7 @@ Bonus
 	stealth = -3
 	resistance = -2
 	stage_speed = -2
-	transmittable = -2
+	transmittable = -4
 	level = 3
 	severity = 3
 	base_message_chance = 15
@@ -93,7 +93,7 @@ Bonus
 	resistance = -0
 	stage_speed = -1
 	transmittable = -2
-	level = 7
+	level = 9
 	severity = 6
 	base_message_chance = 15
 	symptom_delay_min = 14

@@ -22,6 +22,9 @@
 	interaction_flags_machine = INTERACT_MACHINE_OPEN | INTERACT_MACHINE_ALLOW_SILICON | INTERACT_MACHINE_OFFLINE
 	resistance_flags = FIRE_PROOF | ACID_PROOF
 	circuit = /obj/item/circuitboard/machine/chem_dispenser
+	ui_x = 565
+	ui_y = 620
+
 	var/obj/item/stock_parts/cell/cell
 	var/powerefficiency = 0.1
 	var/amount = 30
@@ -100,10 +103,8 @@
 	if(panel_open)
 		. += "<span class='notice'>[src]'s maintenance hatch is open!</span>"
 	if(in_range(user, src) || isobserver(user))
-		. += "<span class='notice'>The status display reads: \n"+\
-		"Recharging <b>[recharge_amount]</b> power units per interval.\n"+\
-		"Power efficiency increased by <b>[round((powerefficiency*1000)-100, 1)]%</b>.\n"+\
-		"Macro granularity at <b>[macroresolution]u</b>.</span>"
+		. += {"<span class='notice'>The status display reads: <br>Recharging <b>[recharge_amount]</b> power units per interval.<br>Power efficiency increased by <b>
+		[round((powerefficiency*1000)-100, 1)]%</b>.<br>Macro granularity at <b>[macroresolution]u</b>.<span>"}
 
 /obj/machinery/chem_dispenser/process()
 	if (recharge_counter >= 4)
@@ -348,7 +349,7 @@
 		Q.add_reagent(pick(dispensable_reagents), 10)
 	R += Q
 	chem_splash(get_turf(src), 3, R)
-	if(beaker && beaker.reagents)
+	if(beaker?.reagents)
 		beaker.reagents.remove_all()
 	cell.use(total/powerefficiency)
 	cell.emp_act(severity)
