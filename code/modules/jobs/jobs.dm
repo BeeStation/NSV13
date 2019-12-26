@@ -1,3 +1,4 @@
+//NSV13 - HoP renamed, BO added
 GLOBAL_LIST_INIT(command_positions, list(
 	"Captain",
 	"Executive Officer",
@@ -19,6 +20,7 @@ GLOBAL_LIST_INIT(medical_positions, list(
 	"Medical Doctor",
 	"Geneticist",
 	"Virologist",
+	"Paramedic",
 	"Chemist"))
 
 
@@ -28,6 +30,7 @@ GLOBAL_LIST_INIT(science_positions, list(
 	"Roboticist"))
 
 
+//NSV13 - HoP renamed
 GLOBAL_LIST_INIT(supply_positions, list(
 	"Executive Officer",
 	"Quartermaster",
@@ -47,16 +50,16 @@ GLOBAL_LIST_INIT(civilian_positions, list(
 	"Mime",
 	"Assistant"))
 
-
+//NSV13 - Munitions Technician, CAG and Fighter Pilot temporarily added here until a new department is made
 GLOBAL_LIST_INIT(security_positions, list(
 	"Head of Security",
 	"Master At Arms",
 	"Detective",
 	"Security Officer",
+	"Brig Physician",
 	"Munitions Technician",
 	"CAG",
 	"Fighter Pilot"))
-//NSV13 - Munitions Technician, CAG and Fighter Pilot temporarily added here until a new department is made
 
 GLOBAL_LIST_INIT(nonhuman_positions, list(
 	"AI",
@@ -103,7 +106,7 @@ GLOBAL_PROTECT(exp_specialmap)
 	var/static/regex/cap_expand = new("cap(?!tain)")
 	var/static/regex/cmo_expand = new("cmo")
 	var/static/regex/hos_expand = new("hos")
-	var/static/regex/hop_expand = new("xo")
+	var/static/regex/hop_expand = new("hop")
 	var/static/regex/rd_expand = new("rd")
 	var/static/regex/ce_expand = new("ce")
 	var/static/regex/qm_expand = new("qm")
@@ -119,7 +122,7 @@ GLOBAL_PROTECT(exp_specialmap)
 	job = cap_expand.Replace(job, "captain")
 	job = cmo_expand.Replace(job, "chief medical officer")
 	job = hos_expand.Replace(job, "head of security")
-	job = hop_expand.Replace(job, "executive Officer")
+	job = hop_expand.Replace(job, "head of personnel")
 	job = rd_expand.Replace(job, "research director")
 	job = ce_expand.Replace(job, "chief engineer")
 	job = qm_expand.Replace(job, "quartermaster")

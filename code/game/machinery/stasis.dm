@@ -43,7 +43,7 @@
 /obj/machinery/stasis/Exited(atom/movable/AM, atom/newloc)
 	if(AM == occupant)
 		var/mob/living/L = AM
-		if(IS_IN_STASIS(L))
+		if(L.IsInStasis())
 			thaw_them(L)
 	. = ..()
 
@@ -68,6 +68,9 @@
 
 	SSvis_overlays.remove_vis_overlay(src, overlays_to_remove)
 
+	if(occupant)
+		SSvis_overlays.add_vis_overlay(src, 'icons/obj/machines/stasis.dmi', "tubes", LYING_MOB_LAYER + 0.1, plane, dir) //using vis_overlays instead of normal overlays for mouse_opacity here
+
 	if(stat & BROKEN)
 		icon_state = "stasis_broken"
 		return
@@ -91,12 +94,12 @@
 		return
 	var/freq = rand(24750, 26550)
 	playsound(src, 'sound/effects/spray.ogg', 5, TRUE, 2, frequency = freq)
-	target.apply_status_effect(STATUS_EFFECT_STASIS, null, TRUE)
+	target.SetStasis(TRUE)
 	target.ExtinguishMob()
 	use_power = ACTIVE_POWER_USE
 
 /obj/machinery/stasis/proc/thaw_them(mob/living/target)
-	target.remove_status_effect(STATUS_EFFECT_STASIS)
+	target.SetStasis(FALSE)
 	if(target == occupant)
 		use_power = IDLE_POWER_USE
 
@@ -120,9 +123,9 @@
 		return
 	var/mob/living/L_occupant = occupant
 	if(stasis_running())
-		if(!IS_IN_STASIS(L_occupant))
+		if(!L_occupant.IsInStasis())
 			chill_out(L_occupant)
-	else if(IS_IN_STASIS(L_occupant))
+	else if(L_occupant.IsInStasis())
 		thaw_them(L_occupant)
 
 /obj/machinery/stasis/screwdriver_act(mob/living/user, obj/item/I)

@@ -174,13 +174,13 @@
 			. = TRUE
 		if("node2")
 			var/value = text2num(params["concentration"])
-			adjust_node1_value(-value)
+			adjust_node1_value(100 - value)
 			investigate_log("was set to [node2_concentration] % on node 2 by [key_name(usr)]", INVESTIGATE_ATMOS)
 			. = TRUE
 	update_icon()
 
-/obj/machinery/atmospherics/components/trinary/mixer/proc/adjust_node1_value(delta)
-	node1_concentration = round(max(0, min(1, node1_concentration + delta)), 0.01)
+/obj/machinery/atmospherics/components/trinary/mixer/proc/adjust_node1_value(newValue)
+	node1_concentration = newValue / 100
 	node2_concentration = 1 - node1_concentration
 
 /obj/machinery/atmospherics/components/trinary/mixer/can_unwrench(mob/user)
@@ -238,15 +238,6 @@
 	node2_concentration = O2STANDARD
 	target_pressure = MAX_OUTPUT_PRESSURE
 	on = TRUE
-
-/obj/machinery/atmospherics/components/trinary/mixer/airmix/layer1
-	piping_layer = 1
-	icon_state = "mixer_on_map-1"
-
-/obj/machinery/atmospherics/components/trinary/mixer/airmix/layer3
-	piping_layer = 3
-	icon_state = "mixer_on_map-3"
-
 
 /obj/machinery/atmospherics/components/trinary/mixer/airmix/inverse
 	node1_concentration = O2STANDARD

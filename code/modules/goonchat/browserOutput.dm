@@ -132,6 +132,12 @@ GLOBAL_DATUM_INIT(iconCache, /savefile, new("tmp/iconCache.sav")) //Cache of ico
 			"ig",
 			"<span class='boldwarning'>$1</span>"
 		)
+	if (config.ooc_filter_regex)
+		regexes["show_filtered_ooc_chat"] = list(
+			config.ooc_filter_regex.name,
+			"ig",
+			"<span class='boldwarning'>$1</span>"
+		)
 
 	if (regexes.len)
 		ehjax_send(data = list("syncRegex" = regexes))
@@ -205,17 +211,30 @@ GLOBAL_DATUM_INIT(iconCache, /savefile, new("tmp/iconCache.sav")) //Cache of ico
 	log_world("\[[time2text(world.realtime, "YYYY-MM-DD hh:mm:ss")]\] Client: [(src.owner.key ? src.owner.key : src.owner)] triggered JS error: [error]")
 
 //Global chat procs
-/proc/to_chat_immediate(target, message, handle_whitespace = TRUE)
-	if(!target || !message)
+/proc/to_chat_immediate(target, message, handle_whitespace=TRUE)
+	if(!target)
+		return
+
+	//Ok so I did my best but I accept that some calls to this will be for shit like sound and images
+	//It stands that we PROBABLY don't want to output those to the browser output so just handle them here
+	if (istype(target, /savefile))
+		CRASH("Invalid message! [message]")
+
+	if(!istext(message))
+		if (istype(message, /image) || istype(message, /sound))
+			CRASH("Invalid message! [message]")
 		return
 
 	if(target == world)
 		target = GLOB.clients
 
 	var/original_message = message
+	//Some macros remain in the string even after parsing and fuck up the eventual output
+	message = replacetext(message, "\improper", "")
+	message = replacetext(message, "\proper", "")
 	if(handle_whitespace)
 		message = replacetext(message, "\n", "<br>")
-		message = replacetext(message, "\t", "[FOURSPACES][FOURSPACES]") //EIGHT SPACES IN TOTAL!!
+		message = replacetext(message, "\t", "[GLOB.TAB][GLOB.TAB]")
 
 	if(islist(target))
 		// Do the double-encoding outside the loop to save nanoseconds

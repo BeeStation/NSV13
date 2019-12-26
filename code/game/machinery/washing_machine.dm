@@ -266,7 +266,7 @@
 			to_chat(user, "<span class='warning'>\The [W] is stuck to your hand, you cannot put it in the washing machine!</span>")
 			return 1
 
-		if(istype(W, /obj/item/toy/crayon) || istype(W, /obj/item/stamp) || istype(W, /obj/item/reagent_containers/food/snacks/grown/rainbow_flower) || istype(W, /obj/item/stack/ore/bluespace_crystal))
+		if(istype(W, /obj/item/toy/crayon) || istype(W, /obj/item/stamp) || istype(W, /obj/item/reagent_containers/food/snacks/grown/rainbow_flower))
 			color_source = W
 		update_icon()
 
@@ -298,7 +298,7 @@
 		update_icon()
 
 /obj/machinery/washing_machine/deconstruct(disassembled = TRUE)
-	new /obj/item/stack/sheet/metal(drop_location(), 2)
+	new /obj/item/stack/sheet/iron(drop_location(), 2)
 	qdel(src)
 
 /obj/machinery/washing_machine/open_machine(drop = 1)

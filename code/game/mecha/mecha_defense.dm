@@ -53,6 +53,7 @@
 	if(.)
 		. *= booster_damage_modifier
 
+
 /obj/mecha/attack_hand(mob/living/user)
 	. = ..()
 	if(.)
@@ -65,6 +66,7 @@
 
 /obj/mecha/attack_paw(mob/user as mob)
 	return attack_hand(user)
+
 
 /obj/mecha/attack_alien(mob/living/user)
 	log_message("Attack by alien. Attacker - [user].", LOG_MECHA, color="red")
@@ -109,6 +111,7 @@
 /obj/mecha/hitby(atom/movable/AM, skipcatch, hitpush, blocked, datum/thrownthing/throwingdatum) //wrapper
 	log_message("Hit by [AM].", LOG_MECHA, color="red")
 	. = ..()
+
 
 /obj/mecha/bullet_act(obj/item/projectile/Proj) //wrapper
 	if (!enclosed && occupant && !silicon_pilot && !Proj.force_hit && (Proj.def_zone == BODY_ZONE_HEAD || Proj.def_zone == BODY_ZONE_CHEST)) //allows bullets to hit the pilot of open-canopy mechs
@@ -170,10 +173,6 @@
 			to_chat(user, "[src]-[W] interface initialized successfully.")
 		else
 			to_chat(user, "[src]-[W] interface initialization failed.")
-		return
-
-	if(istype(W, /obj/item/mecha_ammo))
-		ammo_resupply(W, user)
 		return
 
 	if(W.GetID())
