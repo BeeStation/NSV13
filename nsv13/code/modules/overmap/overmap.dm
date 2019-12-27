@@ -266,8 +266,6 @@
 	cut_overlays()
 	apply_damage_states()
 
-	if (main_overmap)
-		message_admins("The fire mode is [fire_mode]")
 	if(railgun_overlay && (fire_mode == FIRE_MODE_RAILGUN)) //Swivel the railgun to aim at the last thing we hit
 		message_admins("Rotating railgun")
 		railgun_overlay.icon = icon

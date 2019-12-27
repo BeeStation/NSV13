@@ -68,6 +68,8 @@ import { TurboLift } from './interfaces/TurboLift';
 import { Uplink } from './interfaces/Uplink';
 import { VaultController } from './interfaces/VaultController';
 import { Wires } from './interfaces/Wires';
+// NSV13
+import { LaserCannonComputer } from './interfaces/LaserCannonComputer';
 
 const ROUTES = {
   ai_airlock: {
@@ -228,6 +230,11 @@ const ROUTES = {
   },
   language_menu: {
     component: () => LanguageMenu,
+    scrollable: true,
+  },
+  // NSV13
+  laser_cannon_computer: {
+    component: () => LaserCannonComputer,
     scrollable: true,
   },
   mech_bay_power_console: {
