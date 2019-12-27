@@ -53,6 +53,14 @@
 	name = "Deck 2 Frame 1 Central Maintenance"
 	icon_state = "maintcentral"
 
+/area/maintenance/nsv/deck2/frame2/port
+	name = "Deck 2 Frame 2 Port Maintenance"
+	icon_state = "pmaint"
+
+/area/maintenance/nsv/deck2/frame2/starboard
+	name = "Deck 2 Frame 2 Starboard Maintenance"
+	icon_state = "smaint"
+
 /area/maintenance/nsv/deck2/frame3/port
 	name = "Deck 2 Frame 3 Port Maintenence"
 	icon_state = "pmaint"
@@ -77,6 +85,22 @@
 	name = "Deck 2 Frame 5 Starboard Maintenance"
 	icon_state = "smaint"
 
+/area/maintenance/nsv/deck3/frame1/port
+	name = "Deck 3 Frame 1 Port Maintenance"
+	icon_state = "pmaint"
+
+/area/maintenance/nsv/deck3/frame1/starboard
+	name = "Deck 3 Frame 1 Starboard Maintenance"
+	icon_state = "smaint"
+
+/area/maintenance/nsv/deck3/frame2/port
+	name = "Deck 3 Frame 2 Port Maintenance"
+	icon_state = "pmaint"
+
+/area/maintenance/nsv/deck3/frame2/starboard
+	name = "Deck 3 Frame 2 Starboard Maintenance"
+	icon_state = "smaint"
+
 /area/maintenance/nsv/deck3/frame3/port
 	name = "Deck 3 Frame 3 Port Maintenence"
 	icon_state = "pmaint"
@@ -96,6 +120,10 @@
 /area/hallway/nsv/deck2/frame1/port
 	name = "Deck 2 Frame 1 Port Hallway"
 	icon_state = "hallF"
+
+/area/hallway/nsv/deck2/frame1/central
+	name = "Deck 2 Frame 1 Central Hallway"
+	icon_state = "hallC"
 
 /area/hallway/nsv/deck2/frame1/starboard
 	name = "Deck 2 Frame 1 Starboard Hallway"
