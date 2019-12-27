@@ -95,7 +95,6 @@
 	return TRUE
 
 /obj/structure/ship_weapon/laser_cannon/fire()
-	message_admins("Firing laser cannon")
 	if(!can_fire())
 		return
 	// TODO: No animation for this yet

@@ -78,4 +78,6 @@
 
 /obj/machinery/computer/ship/laser_cannon_computer/attack_hand(mob/user)
 	. = ..()
+	if(!LC.linked)
+		LC.get_ship()
 	ui_interact(user)

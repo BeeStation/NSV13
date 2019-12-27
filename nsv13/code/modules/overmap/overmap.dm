@@ -267,11 +267,9 @@
 	apply_damage_states()
 
 	if(railgun_overlay && (fire_mode == FIRE_MODE_RAILGUN)) //Swivel the railgun to aim at the last thing we hit
-		message_admins("Rotating railgun")
 		railgun_overlay.icon = icon
 		railgun_overlay.setDir(get_dir(src, last_target))
 	else if(laser_overlay && (fire_mode == FIRE_MODE_LASER))
-		message_admins("Rotating laser")
 		laser_overlay.setDir(get_dir(src, last_target))
 
 	if(angle == desired_angle)
