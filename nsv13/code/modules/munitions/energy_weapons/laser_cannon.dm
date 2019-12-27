@@ -95,6 +95,7 @@
 	return TRUE
 
 /obj/structure/ship_weapon/laser_cannon/fire()
+	message_admins("Firing laser cannon")
 	if(!can_fire())
 		return
 	// TODO: No animation for this yet
@@ -104,7 +105,7 @@
 
 	playsound(src, fire_sound, 100, 1)
 
-	power_fail(0, 10) // Kill the power for a moment
+	power_fail(0, 15) // Kill the power for a moment
 	for(var/mob/living/M in get_hearers_in_view(7, get_turf(src)))
 		if(M.stat != DEAD)
 			M.flash_act(affect_silicon = 1)
@@ -112,6 +113,20 @@
 	cell.use(cell.maxcharge) // Used all the power we'd stored
 	state = STATE_CHARGING
 	after_fire()
+
+/obj/structure/ship_weapon/laser_cannon/proc/toggle_charging()
+	if(state == STATE_CHARGING)
+		STOP_PROCESSING(SSobj, src)
+		state = STATE_OFF
+	else if(state == STATE_OFF)
+		state = STATE_CHARGING
+		START_PROCESSING(SSobj, src)
+
+/obj/structure/ship_weapon/laser_cannon/proc/toggle_safety()
+	if(safety)
+		safety = FALSE
+	else
+		safety = TRUE
 
 /obj/structure/ship_weapon/laser_cannon/proc/get_charge()
 	return cell.charge

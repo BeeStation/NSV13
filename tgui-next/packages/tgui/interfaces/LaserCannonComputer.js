@@ -35,7 +35,7 @@ export const LaserCannonComputer = props => {
               <Button
                 icon={data.charging ? 'sync-alt' : 'times'}
                 selected={data.charging}
-                onClick={() => act('tryinput')}>
+                onClick={() => act('trycharge')}>
                 {data.charging ? 'Auto' : 'Off'}
               </Button>
             }>
@@ -79,6 +79,14 @@ export const LaserCannonComputer = props => {
               })} />
           </LabeledList.Item>
         </LabeledList>
+      </Section>
+      <Section title="Safety">
+        <Button
+          icon={data.safety ? 'sync-alt' : 'times'}
+          selected={data.safety}
+          onClick={() => act('trysafety')}>
+          {data.safety ? 'Disengage Safety' : 'Engage Safety'}
+        </Button>
       </Section>
     </Fragment>
   );
