@@ -46,14 +46,14 @@ GLOBAL_VAR_INIT(security_level, SEC_LEVEL_GREEN)
 						FA.update_icon()
 			if(SEC_LEVEL_RED)
 				if(GLOB.security_level < SEC_LEVEL_RED)
-					minor_announce(CONFIG_GET(string/alert_red_upto), "Attention! Code red!",1)
+					gq_announce(CONFIG_GET(string/alert_red_upto))//Nsv13 - Condition 1
 					if(SSshuttle.emergency.mode == SHUTTLE_CALL || SSshuttle.emergency.mode == SHUTTLE_RECALL)
 						if(GLOB.security_level == SEC_LEVEL_GREEN)
 							SSshuttle.emergency.modTimer(0.25)
 						else
 							SSshuttle.emergency.modTimer(0.5)
 				else
-					minor_announce(CONFIG_GET(string/alert_red_downto), "Attention! Code red!")
+					gq_announce(CONFIG_GET(string/alert_red_downto)) //Nsv13 - Condition 1
 				GLOB.security_level = SEC_LEVEL_RED
 
 				for(var/obj/machinery/firealarm/FA in GLOB.machines)
