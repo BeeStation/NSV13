@@ -37,6 +37,7 @@ GLOBAL_VAR_INIT(security_level, SEC_LEVEL_GREEN)
 					if(SSshuttle.emergency.mode == SHUTTLE_CALL || SSshuttle.emergency.mode == SHUTTLE_RECALL)
 						SSshuttle.emergency.modTimer(0.5)
 				else
+					toggle_gq_lights(FALSE)
 					minor_announce(CONFIG_GET(string/alert_blue_downto), "Attention! Security level lowered to blue:")
 					if(SSshuttle.emergency.mode == SHUTTLE_CALL || SSshuttle.emergency.mode == SHUTTLE_RECALL)
 						SSshuttle.emergency.modTimer(2)
@@ -55,6 +56,7 @@ GLOBAL_VAR_INIT(security_level, SEC_LEVEL_GREEN)
 				else
 					gq_announce(CONFIG_GET(string/alert_red_downto)) //Nsv13 - Condition 1
 				GLOB.security_level = SEC_LEVEL_RED
+				toggle_gq_lights(TRUE)
 
 				for(var/obj/machinery/firealarm/FA in GLOB.machines)
 					if(is_station_level(FA.z))
