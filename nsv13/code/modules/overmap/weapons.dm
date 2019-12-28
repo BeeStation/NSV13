@@ -137,6 +137,7 @@
 	return FALSE
 
 /obj/structure/overmap/proc/fire(atom/target)
+	message_admins("Overmap fire()")
 	if(weapon_safety)
 		if(gunner)
 			to_chat(gunner, "<span class='warning'>Weapon safety interlocks are active! Use the ship verbs tab to disable them!</span>")
@@ -168,6 +169,7 @@
 		var/obj/structure/overmap/ship = target
 		ship.add_enemy(src)
 	next_firetime = world.time + fire_delay
+	message_admins("Fire mode [fire_mode]")
 	switch(fire_mode)
 		if(FIRE_MODE_PDC)
 			fire_pdcs(target)
@@ -269,14 +271,17 @@
 
 /obj/structure/overmap/proc/fire_laser(atom/target)
 	if(ai_controlled) //AI ships don't have interiors
-		fire_projectiles(/obj/item/projectile/bullet/laser, target)
+		fire_lateral_projectile(/obj/item/projectile/bullet/laser, target)
 		return
 	var/fired = FALSE
+	message_admins("Starting for loop")
 	for(var/X in ship_lasers)
 		if(istype(X, /obj/structure/ship_weapon/laser_cannon))
+			message_admins("Found a laser cannon")
 			var/obj/structure/ship_weapon/laser_cannon/LC = X
 			if(LC.can_fire())
 				LC.fire()
+				fire_lateral_projectile(/obj/item/projectile/bullet/laser, target)
 				fired = TRUE
 				break
 			else

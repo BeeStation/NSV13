@@ -4,16 +4,6 @@
 #define STATE_READY 4
 #define STATE_FIRING 5
 
-/obj/item/stock_parts/cell/laser_cannon // As long as the gun isn't machinery they can't do replace_parts so it should be fine
-	name = "laser cannon power collector"
-	icon_state = "hpcell"
-
-	// TODO: figure out how game balance works
-	maxcharge = 200000
-	materials = list(/datum/material/glass=800)
-	chargerate = 3000
-	var/maxchargerate = 100000
-
 /obj/item/stock_parts/cell/laser_cannon/corrupt() // No we will not explode thanks
 	return
 
@@ -23,10 +13,17 @@
 	icon = 'icons/obj/janitor.dmi'
 	icon_state = "mop"
 
+	pixel_y = 0
+
 	fire_sound = 'sound/weapons/lasercannonfire.ogg'
 	var/obj/item/stock_parts/cell/laser_cannon/cell
 	var/obj/structure/cable/attached
 	state = STATE_OFF
+
+	//This is duplicate _machinery.dm code, because I want to inherit from ship_weapon
+	var/list/component_parts = null
+	var/panel_open = FALSE
+	var/obj/item/circuitboard/circuit // Circuit to be created and inserted when the machinery is created
 
 /obj/structure/ship_weapon/laser_cannon/Initialize()
 	..()
@@ -38,6 +35,19 @@
 
 	if(!attached)
 		state = STATE_DISCONNECTED // Otherwise STATE_OFF as in the initial declaration
+
+	//This is duplicate _machinery.dm code
+	if(ispath(circuit, /obj/item/circuitboard))
+		circuit = new circuit
+		circuit.apply_default_parts(src)
+
+/obj/structure/ship_weapon/laser_cannon/Destroy()
+	//This is duplicate _machinery.dm code
+	if(length(component_parts))
+		for(var/atom/A in component_parts)
+			qdel(A)
+		component_parts.Cut()
+	return ..()
 
 /obj/structure/ship_weapon/laser_cannon/set_position(obj/structure/overmap/OM)
 	OM.ship_lasers += src
