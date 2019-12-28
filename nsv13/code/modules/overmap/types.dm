@@ -46,6 +46,21 @@
 	max_integrity = 1500 //Max health
 	integrity_failure = 1500
 
+/obj/structure/overmap/nanotrasen/heavy_cruiser
+	name = "sol class heavy cruiser"
+	desc = "A large ship with an advanced railgun, long range torpedo systems and multiple PDCs. It is slow, heavy and frighteningly powerful, excelling at sustained combat over short distances."
+	icon = 'nsv13/icons/overmap/nanotrasen/heavy_Cruiser.dmi'
+	icon_state = "heavy_cruiser"
+	bound_width = 128 //Change this on a per ship basis
+	bound_height = 256
+	mass = MASS_LARGE
+	sprite_size = 48
+	damage_states = TRUE
+	pixel_z = -128
+	pixel_w = -96
+	max_integrity = 1500 //Max health
+	integrity_failure = 1500
+
 /obj/structure/overmap/nanotrasen/missile_cruiser/starter //VAGO. Sergei use me!
 	main_overmap = TRUE //Player controlled variant
 	max_integrity = 1800 //Buffed health due to ship internal damage existing
@@ -56,11 +71,22 @@
 	max_integrity = 1800 //Buffed health due to ship internal damage existing
 	integrity_failure = 1800
 
+/obj/structure/overmap/nanotrasen/heavy_cruiser/starter
+	main_overmap = TRUE //Player controlled variant
+	max_integrity = 1800 //Buffed health due to ship internal damage existing
+	integrity_failure = 1800
+
 /obj/structure/overmap/nanotrasen/patrol_cruiser/ai
 	ai_controlled = TRUE
 	ai_behaviour = AI_AGGRESSIVE
 	max_integrity = 800 //Max health
 	integrity_failure = 800
+
+/obj/structure/overmap/nanotrasen/heavy_cruiser/ai
+	ai_controlled = TRUE
+	ai_behaviour = AI_AGGRESSIVE
+	max_integrity = 1000 //Max health
+	integrity_failure = 1000
 
 /obj/structure/overmap/nanotrasen/ai //Generic good guy #10000.
 	icon = 'nsv13/icons/overmap/nanotrasen/light_cruiser.dmi'

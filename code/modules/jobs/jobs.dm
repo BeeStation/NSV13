@@ -1,10 +1,12 @@
+//NSV13 - HoP renamed, BO added
 GLOBAL_LIST_INIT(command_positions, list(
 	"Captain",
-	"Head of Personnel",
+	"Executive Officer",
 	"Head of Security",
 	"Chief Engineer",
 	"Research Director",
-	"Chief Medical Officer"))
+	"Chief Medical Officer",
+	"Bridge Officer"))
 
 
 GLOBAL_LIST_INIT(engineering_positions, list(
@@ -28,8 +30,9 @@ GLOBAL_LIST_INIT(science_positions, list(
 	"Roboticist"))
 
 
+//NSV13 - HoP renamed
 GLOBAL_LIST_INIT(supply_positions, list(
-	"Head of Personnel",
+	"Executive Officer",
 	"Quartermaster",
 	"Cargo Technician",
 	"Shaft Miner"))
@@ -50,7 +53,7 @@ GLOBAL_LIST_INIT(civilian_positions, list(
 //NSV13 - Munitions Technician, CAG and Fighter Pilot temporarily added here until a new department is made
 GLOBAL_LIST_INIT(security_positions, list(
 	"Head of Security",
-	"Warden",
+	"Master At Arms",
 	"Detective",
 	"Security Officer",
 	"Brig Physician",
