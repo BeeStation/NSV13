@@ -23,7 +23,7 @@
 	//This is duplicate _machinery.dm code, because I want to inherit from ship_weapon
 	var/list/component_parts = null
 	var/panel_open = FALSE
-	var/obj/item/circuitboard/circuit // Circuit to be created and inserted when the machinery is created
+	var/obj/item/circuitboard/machine/laser_cannon/circuit // Circuit to be created and inserted when the machinery is created
 
 /obj/structure/ship_weapon/laser_cannon/Initialize()
 	..()
@@ -37,8 +37,8 @@
 		state = STATE_DISCONNECTED // Otherwise STATE_OFF as in the initial declaration
 
 	//This is duplicate _machinery.dm code
-	if(ispath(circuit, /obj/item/circuitboard))
-		circuit = new circuit
+	circuit = new /obj/item/circuitboard/machine/laser_cannon
+	if (circuit)
 		circuit.apply_default_parts(src)
 
 /obj/structure/ship_weapon/laser_cannon/Destroy()
@@ -142,9 +142,3 @@
 
 /obj/structure/ship_weapon/laser_cannon/proc/get_max_charge()
 	return cell.maxcharge
-
-// Parts
-
-// Techweb
-
-// Designs

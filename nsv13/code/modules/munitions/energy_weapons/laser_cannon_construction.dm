@@ -28,6 +28,30 @@ Install
 		/obj/item/torpedo/iff_card = 1,
 		/obj/item/stack/sheet/mineral/diamond = 3)
 
+/obj/item/circuitboard/machine/laser_cannon/apply_default_parts(obj/structure/ship_weapon/laser_cannon/M)
+	if(!req_components)
+		message_admins("No req components")
+		return
+
+	M.component_parts = list(src) // List of components always contains a board
+	moveToNullspace()
+
+	for(var/comp_path in req_components)
+		var/comp_amt = req_components[comp_path]
+		if(!comp_amt)
+			continue
+
+		if(def_components && def_components[comp_path])
+			comp_path = def_components[comp_path]
+
+		if(ispath(comp_path, /obj/item/stack))
+			message_admins("Adding a [comp_path]")
+			M.component_parts += new comp_path(null, comp_amt)
+		else
+			for(var/i in 1 to comp_amt)
+				message_admins("Adding a [comp_path]")
+				M.component_parts += new comp_path(null)
+
 // TODO: give this a fancy sprite
 /obj/structure/frame/machine/laser_cannon
 	name = "MODEL_HERE laser cannon frame"
@@ -48,7 +72,7 @@ Install
 	cut_overlays()
 */
 
-/obj/machinery/autolathe/attackby(obj/item/O, mob/user, params)
+/obj/structure/ship_weapon/laser_cannon/attackby(obj/item/O, mob/user, params)
 	if(default_deconstruction_screwdriver(user, "laser_cannon_t", "laser_cannon", O))
 		updateUsrDialog()
 		return TRUE
@@ -59,14 +83,13 @@ Install
 	if(user.a_intent == INTENT_HARM) //so we can hit the machine
 		return ..()
 
-	if(stat)
-		return TRUE
-
 	return ..()
 
 /obj/structure/ship_weapon/laser_cannon/deconstruct(disassembled = TRUE)
+	message_admins("deconstructing")
 	if(!(flags_1 & NODECONSTRUCT_1))
 		on_deconstruction()
+		message_admins("there are [component_parts?.len] parts")
 		if(component_parts?.len)
 			spawn_frame(disassembled)
 			for(var/obj/item/I in component_parts)
@@ -75,7 +98,7 @@ Install
 	qdel(src)
 
 /obj/structure/ship_weapon/laser_cannon/proc/spawn_frame(disassembled)
-	var/obj/structure/frame/machine/M = new /obj/structure/frame/machine(loc)
+	var/obj/structure/frame/machine/laser_cannon/M = new /obj/structure/frame/machine.laser_cannon(loc)
 	. = M
 	M.setAnchored(anchored)
 	if(!disassembled)
@@ -109,8 +132,22 @@ Install
 			update_overlay()
 			return TRUE
 
-/obj/structure/ship_weapon/laser_cannon/crowbar_act(mob/user, obj/item/tool)
-	. = (panel_open || ignore_panel) && !(flags_1 & NODECONSTRUCT_1) && I.tool_behaviour == TOOL_CROWBAR
+/obj/structure/ship_weapon/laser_cannon/proc/default_deconstruction_screwdriver(mob/user, icon_state_open, icon_state_closed, obj/item/I)
+	if(!(flags_1 & NODECONSTRUCT_1) && I.tool_behaviour == TOOL_SCREWDRIVER)
+		I.play_tool_sound(src, 50)
+		if(!panel_open)
+			panel_open = TRUE
+			icon_state = icon_state_open
+			to_chat(user, "<span class='notice'>You open the maintenance hatch of [src].</span>")
+		else
+			panel_open = FALSE
+			icon_state = icon_state_closed
+			to_chat(user, "<span class='notice'>You close the maintenance hatch of [src].</span>")
+		return 1
+	return 0
+
+/obj/structure/ship_weapon/laser_cannon/proc/default_deconstruction_crowbar(obj/item/I, ignore_panel = 0)
+	. = (panel_open) && I.tool_behaviour == TOOL_CROWBAR
 	if(.)
 		I.play_tool_sound(src, 50)
 		deconstruct(TRUE)
