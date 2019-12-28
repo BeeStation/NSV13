@@ -66,6 +66,14 @@ Install
 	. = ..()
 	. += " It uses a special power cell and a diamond focusing lens."
 
+/obj/structure/frame/deconstruct(disassembled = TRUE)
+	if(!(flags_1 & NODECONSTRUCT_1))
+		new /obj/item/stack/sheet/plasteel(loc, 5)
+		if(circuit)
+			circuit.forceMove(loc)
+			circuit = null
+	qdel(src)
+
 // TODO: Do cool stuff
 /*
 /obj/structure/frame/machine/laser_cannon/update_icon()
@@ -151,3 +159,7 @@ Install
 	if(.)
 		I.play_tool_sound(src, 50)
 		deconstruct(TRUE)
+
+// Duplicate _machinery.dm code
+/obj/structure/ship_weapon/laser_cannon/proc/RefreshParts()
+	return
