@@ -31,6 +31,7 @@
 		if("all_positions")
 			pilot = user
 			gunner = user
+			LAZYOR(user.mousemove_intercept_objects, src)
 	user.set_focus(src)
 	operators += user
 	CreateEye(user) //Your body stays there but your mind stays with me - 6 (Battlestar galactica)
