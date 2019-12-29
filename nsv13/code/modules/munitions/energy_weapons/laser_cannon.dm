@@ -10,12 +10,15 @@
 /obj/structure/ship_weapon/laser_cannon
 	name = "MODEL_HERE Ship mounted laser"
 	desc = "A ship-to-ship weapon which fires a destructive energy burst."
-	icon = 'icons/obj/janitor.dmi'
-	icon_state = "mop"
+	icon = 'nsv13/icons/obj/railgun.dmi'
+	icon_state = "laser_cannon"
 
 	pixel_y = 0
+	bound_width = 16
+	bound_height = 16
 
 	fire_sound = 'sound/weapons/lasercannonfire.ogg'
+	var/obj/machinery/computer/ship/laser_cannon_computer/computer
 	var/obj/item/stock_parts/cell/laser_cannon/cell
 	var/obj/structure/cable/attached
 	state = STATE_OFF

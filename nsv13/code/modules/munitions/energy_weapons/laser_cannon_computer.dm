@@ -12,6 +12,7 @@
 	var/atom/adjacent = locate(/obj/structure/ship_weapon) in get_turf(get_step(src, dir)) //Look at what dir we're facing, find a gun in that turf
 	if(adjacent && istype(adjacent, /obj/structure/ship_weapon/laser_cannon))
 		LC = adjacent
+		LC.computer = src
 		if(!LC.linked)
 			LC.get_ship()
 
@@ -78,6 +79,11 @@
 
 /obj/machinery/computer/ship/laser_cannon_computer/attack_hand(mob/user)
 	. = ..()
+	if(!LC)
+		var/atom/adjacent = locate(/obj/structure/ship_weapon) in get_turf(get_step(src, dir)) //Look at what dir we're facing, find a gun in that turf
+		if(adjacent && istype(adjacent, /obj/structure/ship_weapon/laser_cannon))
+			LC = adjacent
+			LC.computer = src
 	if(!LC.linked)
 		LC.get_ship()
 	ui_interact(user)

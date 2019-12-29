@@ -42,6 +42,8 @@
 // TODO: give this a fancy sprite
 /obj/structure/frame/machine/laser_cannon
 	name = "MODEL_HERE laser cannon frame"
+	icon = 'nsv13/icons/obj/railgun.dmi'
+	icon_state = "laser_frame_loose"
 
 /obj/structure/frame/machine/laser_cannon/examine(user)
 	. = ..()
@@ -54,12 +56,45 @@
 	if(ispath(P:type, /obj/item/circuitboard/machine) && !istype(P, /obj/item/circuitboard/machine/laser_cannon))
 		to_chat(user, "<span class='warning'>This frame does not accept circuit boards of this type!</span>")
 		return
-	. = ..()
+
+	// Override frame deconstruction - neet to return plasteel, not iron
+	if (state == 1 && P.tool_behaviour == TOOL_SCREWDRIVER && !anchored)
+		user.visible_message("<span class='warning'>[user] disassembles the frame.</span>", \
+							 "<span class='notice'>You start to disassemble the frame...</span>", "You hear banging and clanking.")
+		if(P.use_tool(src, user, 40, volume=50))
+			to_chat(user, "<span class='notice'>You disassemble the frame.</span>")
+			var/obj/item/stack/sheet/plasteel/M = new (loc, 8)
+			M.add_fingerprint(user)
+			qdel(src)
+			return
+	else
+		. = ..()
+
+	// Update icon_state
+	if (locate(/obj/item/stack/sheet/mineral/diamond) in components)
+		icon_state = "laser_frame_lens"
+	else
+		switch (state)
+			if (1)
+				if (anchored)
+					icon_state = "laser_frame_secure"
+				else
+					icon_state = "laser_frame_loose"
+			if (2)
+				icon_state = "laser_frame_wired"
+			if (3)
+				icon_state = "laser_frame_circuit"
+
 
 // Deconstruction
 
+/obj/structure/ship_weapon/laser_cannon/examine(user)
+	. = ..()
+	if (panel_open)
+		. += " The maintenance panel is open."
+
 /obj/structure/ship_weapon/laser_cannon/attackby(obj/item/O, mob/user, params)
-	if(default_deconstruction_screwdriver(user, "laser_cannon_t", "laser_cannon", O))
+	if(default_deconstruction_screwdriver(user, O))
 		updateUsrDialog()
 		return TRUE
 
@@ -68,25 +103,25 @@
 
 	return ..()
 
+/obj/structure/ship_weapon/laser_cannon/screwdriver_act(mob/user, obj/item/tool)
+	return default_deconstruction_screwdriver(user, tool)
 
-/obj/structure/ship_weapon/laser_cannon/proc/default_deconstruction_screwdriver(mob/user, icon_state_open, icon_state_closed, obj/item/I)
+/obj/structure/ship_weapon/laser_cannon/proc/default_deconstruction_screwdriver(mob/user, obj/item/I)
 	//TODO: Update icon_state
 	// Copied from the torpedo casings. Let's make this take a little longer.
 	if(!(flags_1 & NODECONSTRUCT_1) && I.tool_behaviour == TOOL_SCREWDRIVER)
 		. = FALSE
 		if(!panel_open)
 			to_chat(user, "<span class='notice'>You begin unfastening the maintenance panel on [src]...</span>")
-			if(tool.use_tool(src, user, 40, volume=100))
+			if(I.use_tool(src, user, 40, volume=100))
 				to_chat(user, "<span class='notice'> You unfasten the maintenance panel on [src].</span>")
 				panel_open = TRUE
-				update_overlay()
 				return TRUE
 		else
 			to_chat(user, "<span class='notice'>You begin fastening the maintenance panel on [src]...</span>")
-			if(tool.use_tool(src, user, 40, volume=100))
+			if(I.use_tool(src, user, 40, volume=100))
 				to_chat(user, "<span class='notice'> You fasten the maintenance panel on [src].</span>")
 				panel_open = FALSE
-				update_overlay()
 				return TRUE
 	return FALSE
 
@@ -99,7 +134,7 @@
 
 /obj/structure/frame/machine/laser_cannon/deconstruct(disassembled = TRUE) // Frame is made of plasteel instead of iron
 	if(!(flags_1 & NODECONSTRUCT_1))
-		new /obj/item/stack/sheet/plasteel(loc, 5)
+		new /obj/item/stack/sheet/plasteel(loc, 8)
 		if(circuit)
 			circuit.forceMove(loc)
 			circuit = null
@@ -109,6 +144,7 @@
 /obj/structure/ship_weapon/laser_cannon/deconstruct(disassembled = TRUE)
 	if(!(flags_1 & NODECONSTRUCT_1))
 		on_deconstruction()
+		computer.LC = null
 		if(component_parts?.len)
 			spawn_frame(disassembled)
 			for(var/obj/item/I in component_parts)
@@ -124,7 +160,7 @@
 		M.obj_integrity = M.max_integrity * 0.5 //the frame is already half broken
 	transfer_fingerprints_to(M)
 	M.state = 2
-	M.icon_state = "box_1"
+	M.icon_state = "laser_frame_wired"
 
 // Duplicate _machinery.dm code
 //called on machinery construction (i.e from frame to machinery) but not on initialization
