@@ -14,8 +14,8 @@
 	icon_state = "laser_cannon"
 
 	pixel_y = 0
-	bound_width = 16
-	bound_height = 16
+	bound_width = 32
+	bound_height = 32
 
 	fire_sound = 'sound/weapons/lasercannonfire.ogg'
 	var/obj/machinery/computer/ship/laser_cannon_computer/computer
@@ -124,6 +124,7 @@
 
 	cell.use(cell.maxcharge) // Used all the power we'd stored
 	state = STATE_CHARGING
+	START_PROCESSING(SSobj, src)
 	after_fire()
 
 /obj/structure/ship_weapon/laser_cannon/proc/toggle_charging()
