@@ -143,6 +143,7 @@
 			if (!fexists("_maps/[map_path]/[file]"))
 				log_world("Map file ([map_path]/[file]) does not exist!")
 				return
+
 	over_traits = json["over_traits"]
 	if (islist(over_traits))
 		// "overmap" is set by default, but it's assumed if you're setting
