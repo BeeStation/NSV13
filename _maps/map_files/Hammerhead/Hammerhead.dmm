@@ -1019,13 +1019,13 @@
 "acD" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer1,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer3,
-/obj/machinery/door/airlock/highsecurity/ship{
-	name = "Private Investigator's Office";
-	req_one_access_txt = "4"
-	},
 /obj/machinery/door/firedoor,
 /obj/structure/cable{
 	icon_state = "1-2"
+	},
+/obj/machinery/door/airlock/ship/security{
+	name = "Private Investigator's Office";
+	req_one_access_txt = "4"
 	},
 /turf/open/floor/plasteel,
 /area/security/detectives_office/private_investigators_office)
@@ -3479,6 +3479,9 @@
 /obj/structure/cable{
 	icon_state = "1-2"
 	},
+/obj/structure/cable{
+	icon_state = "2-8"
+	},
 /turf/open/floor/plasteel/ship/techfloor/alt,
 /area/nsv/weapons/fore)
 "aig" = (
@@ -5106,13 +5109,13 @@
 "alY" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer3,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer1,
-/obj/machinery/door/airlock/highsecurity/ship{
-	name = "Gravity Generator";
-	req_access_txt = "19;23"
-	},
 /obj/machinery/door/firedoor/heavy,
 /obj/structure/cable{
 	icon_state = "1-2"
+	},
+/obj/machinery/door/airlock/ship/command{
+	name = "Gravity Generator";
+	req_one_access_txt = "56"
 	},
 /turf/open/floor/plasteel/ship/techfloor/alt,
 /area/engine/gravity_generator)
@@ -7978,12 +7981,12 @@
 /area/hallway/primary/central)
 "asI" = (
 /obj/machinery/door/firedoor,
-/obj/machinery/door/airlock/highsecurity/ship{
-	name = "Morgue";
-	req_one_access_txt = "6"
-	},
 /obj/structure/cable{
 	icon_state = "1-2"
+	},
+/obj/machinery/door/airlock/ship/medical{
+	name = "Morgue";
+	req_one_access_txt = "6"
 	},
 /turf/open/floor/plasteel/white,
 /area/medical/morgue)
@@ -9872,12 +9875,12 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer1,
 /obj/structure/disposalpipe/segment,
 /obj/machinery/door/firedoor,
-/obj/machinery/door/airlock/highsecurity/ship{
-	name = "Morgue";
-	req_one_access_txt = "6"
-	},
 /obj/structure/cable{
 	icon_state = "1-2"
+	},
+/obj/machinery/door/airlock/ship/medical{
+	name = "Morgue";
+	req_one_access_txt = "6"
 	},
 /turf/open/floor/plasteel/dark,
 /area/medical/morgue)
@@ -9901,6 +9904,9 @@
 "axn" = (
 /obj/machinery/conveyor{
 	id = "cmbelt"
+	},
+/obj/structure/cable{
+	icon_state = "4-8"
 	},
 /turf/open/floor/plating,
 /area/nsv/weapons/fore)
@@ -12873,13 +12879,13 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer1,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer3,
 /obj/structure/disposalpipe/segment,
-/obj/machinery/door/airlock/highsecurity/ship{
-	name = "Captain's Quarters";
-	req_one_access_txt = "20"
-	},
 /obj/machinery/door/firedoor,
 /obj/structure/cable{
 	icon_state = "1-2"
+	},
+/obj/machinery/door/airlock/ship/command{
+	name = "Captain's Quarters";
+	req_one_access_txt = "20"
 	},
 /turf/open/floor/carpet/black,
 /area/crew_quarters/heads/captain/private)
@@ -15715,13 +15721,14 @@
 /obj/structure/disposalpipe/segment{
 	dir = 4
 	},
-/obj/machinery/door/airlock/highsecurity/ship{
-	name = "Captain's Office";
-	req_one_access_txt = "20"
-	},
 /obj/machinery/door/firedoor,
 /obj/structure/cable{
 	icon_state = "4-8"
+	},
+/obj/machinery/door/airlock/ship/command{
+	dir = 4;
+	name = "Captain's Office";
+	req_one_access_txt = "20"
 	},
 /turf/open/floor/plasteel/dark,
 /area/crew_quarters/heads/captain)
@@ -19903,12 +19910,13 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer1{
 	dir = 8
 	},
-/obj/machinery/door/airlock/highsecurity/ship{
-	name = "Gravity Generator Core";
-	req_access_txt = "19;61"
-	},
 /obj/structure/cable{
 	icon_state = "4-8"
+	},
+/obj/machinery/door/airlock/ship/command{
+	dir = 4;
+	name = "Gravity Generator";
+	req_one_access_txt = "56"
 	},
 /turf/open/floor/plasteel/ship/techfloor/alt,
 /area/engine/gravity_generator)
@@ -20540,13 +20548,13 @@
 /turf/open/floor/carpet/black,
 /area/lawoffice)
 "aXg" = (
-/obj/machinery/door/airlock/highsecurity/ship{
-	name = "Executive Officer's Office";
-	req_one_access_txt = "57"
-	},
 /obj/machinery/door/firedoor,
 /obj/structure/cable{
 	icon_state = "1-2"
+	},
+/obj/machinery/door/airlock/ship/command{
+	name = "Executive Officer's Office";
+	req_one_access_txt = "57"
 	},
 /turf/open/floor/plasteel/dark,
 /area/crew_quarters/heads/hop)
@@ -26573,6 +26581,14 @@
 	},
 /turf/open/floor/plasteel/white,
 /area/medical/medbay/central)
+"dtf" = (
+/obj/structure/grille,
+/obj/structure/cable,
+/obj/structure/cable{
+	icon_state = "1-8"
+	},
+/turf/open/floor/plating,
+/area/nsv/weapons/fore)
 "dtr" = (
 /obj/effect/turf_decal/tile/yellow{
 	dir = 1
@@ -27535,6 +27551,13 @@
 "exg" = (
 /turf/closed/wall/ship,
 /area/maintenance/disposal)
+"exu" = (
+/obj/structure/grille,
+/obj/structure/cable{
+	icon_state = "0-4"
+	},
+/turf/open/floor/plating,
+/area/nsv/weapons/fore)
 "eze" = (
 /obj/effect/mapping_helpers/airlock/cyclelink_helper,
 /obj/machinery/door/firedoor,
@@ -28546,6 +28569,16 @@
 	},
 /turf/open/floor/plasteel,
 /area/science/lab)
+"fDX" = (
+/obj/effect/spawner/structure/window/reinforced,
+/obj/structure/cable{
+	icon_state = "0-8"
+	},
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/turf/open/floor/plating,
+/area/nsv/weapons/fore)
 "fEa" = (
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer1{
 	dir = 8
@@ -28944,6 +28977,16 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/port/central)
+"gbL" = (
+/obj/structure/grille,
+/obj/structure/cable{
+	icon_state = "0-8"
+	},
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/turf/open/floor/plating,
+/area/nsv/weapons/fore)
 "gcr" = (
 /obj/structure/closet/crate/freezer/blood,
 /obj/effect/turf_decal/tile/blue{
@@ -31125,13 +31168,14 @@
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer3{
 	dir = 8
 	},
-/obj/machinery/door/airlock/highsecurity/ship{
-	name = "Tech Storage";
-	req_one_access_txt = "23"
-	},
 /obj/machinery/door/firedoor,
 /obj/structure/cable{
 	icon_state = "4-8"
+	},
+/obj/machinery/door/airlock/ship/engineering{
+	dir = 4;
+	name = "Tech Storage";
+	req_one_access_txt = "23"
 	},
 /turf/open/floor/plating,
 /area/storage/tech)
@@ -32870,6 +32914,12 @@
 /obj/structure/closet/secure_closet/engineering_chief,
 /turf/open/floor/carpet/black,
 /area/crew_quarters/heads/chief)
+"jPK" = (
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/turf/closed/wall/r_wall/ship,
+/area/nsv/weapons/fore)
 "jQI" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer1{
 	dir = 8
@@ -37718,6 +37768,12 @@
 /obj/effect/turf_decal/tile/brown,
 /turf/open/floor/plasteel,
 /area/quartermaster/office)
+"oOO" = (
+/obj/structure/cable{
+	icon_state = "1-4"
+	},
+/turf/closed/wall/r_wall/ship,
+/area/nsv/weapons/fore)
 "oPO" = (
 /obj/machinery/light,
 /obj/effect/landmark/start/ai/secondary,
@@ -41306,6 +41362,13 @@
 /obj/machinery/holopad,
 /turf/open/floor/plasteel/ship,
 /area/tcommsat/computer)
+"sDQ" = (
+/obj/machinery/door/airlock/highsecurity/ship{
+	name = "Executive Officer's Office";
+	req_one_access_txt = "57"
+	},
+/turf/open/space/basic,
+/area/space)
 "sDT" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer1{
 	dir = 8
@@ -41386,6 +41449,16 @@
 	},
 /turf/open/floor/plasteel/ship,
 /area/engine/break_room)
+"sMJ" = (
+/obj/structure/grille,
+/obj/structure/cable{
+	icon_state = "0-8"
+	},
+/obj/structure/cable{
+	icon_state = "1-8"
+	},
+/turf/open/floor/plating,
+/area/nsv/weapons/fore)
 "sNI" = (
 /obj/effect/turf_decal/tile/brown,
 /obj/effect/turf_decal/tile/brown{
@@ -42606,6 +42679,16 @@
 /obj/effect/decal/cleanable/dirt/dust,
 /turf/open/floor/plating,
 /area/maintenance/department/cargo)
+"tUx" = (
+/obj/structure/grille,
+/obj/structure/cable{
+	icon_state = "0-2"
+	},
+/obj/structure/cable{
+	icon_state = "2-4"
+	},
+/turf/open/floor/plating,
+/area/nsv/weapons/fore)
 "tUJ" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/visible{
 	dir = 4
@@ -44601,8 +44684,8 @@
 /turf/open/floor/plating,
 /area/maintenance/department/chapel)
 "vVt" = (
-/obj/machinery/door/airlock/highsecurity/ship{
-	name = "Confinement Maintenance";
+/obj/machinery/door/airlock/ship/maintenance{
+	dir = 4;
 	req_one_access_txt = "2"
 	},
 /turf/open/floor/plating,
@@ -44763,6 +44846,16 @@
 	},
 /turf/open/floor/carpet/ship,
 /area/bridge/meeting_room)
+"wdF" = (
+/obj/structure/grille,
+/obj/structure/cable{
+	icon_state = "0-8"
+	},
+/obj/structure/cable{
+	icon_state = "2-8"
+	},
+/turf/open/floor/plating,
+/area/nsv/weapons/fore)
 "wea" = (
 /obj/effect/turf_decal/tile/blue{
 	dir = 1
@@ -45559,6 +45652,16 @@
 /obj/machinery/disposal/bin,
 /turf/open/floor/plasteel,
 /area/crew_quarters/locker)
+"xfz" = (
+/obj/structure/grille,
+/obj/structure/cable{
+	icon_state = "0-4"
+	},
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/turf/open/floor/plating,
+/area/nsv/weapons/fore)
 "xgc" = (
 /obj/structure/cable{
 	icon_state = "2-4"
@@ -46320,6 +46423,16 @@
 /obj/machinery/door/firedoor,
 /turf/open/floor/plasteel/ship,
 /area/ai_monitored/security/armory/security)
+"xWG" = (
+/obj/structure/grille,
+/obj/structure/cable{
+	icon_state = "0-2"
+	},
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
+/turf/open/floor/plating,
+/area/nsv/weapons/fore)
 "xXc" = (
 /obj/machinery/door/airlock/ship/maintenance{
 	req_one_access_txt = "38"
@@ -46607,6 +46720,14 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/department/security)
+"yhA" = (
+/obj/structure/grille,
+/obj/structure/cable,
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
+/turf/open/floor/plating,
+/area/nsv/weapons/fore)
 "yhR" = (
 /obj/structure/dresser,
 /turf/open/floor/carpet,
@@ -102089,16 +102210,16 @@ beU
 aAi
 oXC
 arv
-aIf
-ahI
-aIf
-aIf
-aIf
-aIf
-aIf
-aIf
-aIf
-arv
+tUx
+xWG
+xWG
+xWG
+xWG
+xWG
+xWG
+xWG
+xWG
+oOO
 arv
 arv
 arv
@@ -102346,7 +102467,7 @@ aAi
 oXC
 arv
 arv
-aIf
+gbL
 arv
 arv
 arv
@@ -102355,7 +102476,7 @@ arv
 arv
 arv
 arv
-arv
+jPK
 nSm
 aAj
 arv
@@ -102602,8 +102723,8 @@ aIs
 oXC
 arv
 arv
-aIf
-aIf
+tUx
+sMJ
 arv
 aSx
 aJl
@@ -102858,8 +102979,8 @@ eDh
 arv
 arv
 arv
-aIf
-aIf
+tUx
+sMJ
 arv
 arv
 aSx
@@ -103114,8 +103235,8 @@ aoI
 jLd
 arv
 aIf
-aIf
-aIf
+tUx
+sMJ
 arv
 arv
 aRl
@@ -103371,7 +103492,7 @@ aoI
 eDh
 arv
 aIf
-aIf
+gbL
 arv
 arv
 aYY
@@ -103628,7 +103749,7 @@ aoI
 eDh
 arv
 arv
-ahI
+fDX
 arv
 aCF
 aZJ
@@ -103898,7 +104019,7 @@ azO
 azO
 aZa
 arv
-aIf
+exu
 aFe
 nEF
 veF
@@ -104142,7 +104263,7 @@ aoI
 wyF
 arv
 arv
-ahI
+fDX
 arv
 amJ
 afw
@@ -104155,7 +104276,7 @@ azO
 azO
 aZk
 arv
-aIf
+xfz
 aFe
 beW
 aMG
@@ -104399,7 +104520,7 @@ aoI
 auh
 arv
 aIf
-aIf
+gbL
 arv
 aSx
 afw
@@ -104412,7 +104533,7 @@ aUE
 azO
 usV
 arv
-aIf
+xfz
 aFe
 aCX
 ttq
@@ -104656,7 +104777,7 @@ wMX
 wyF
 arv
 aIf
-aIf
+gbL
 arv
 foU
 mws
@@ -104669,7 +104790,7 @@ aBu
 azO
 cxD
 arv
-aIf
+xfz
 aFe
 aLr
 ttq
@@ -104913,7 +105034,7 @@ aoI
 auh
 arv
 aIf
-aIf
+gbL
 arv
 aYN
 afw
@@ -104926,7 +105047,7 @@ afw
 afw
 afw
 arv
-aIf
+xfz
 aFe
 aXF
 ttq
@@ -105170,7 +105291,7 @@ aoI
 auh
 arv
 aIf
-aIf
+gbL
 arv
 aSx
 aFi
@@ -105183,7 +105304,7 @@ amy
 afw
 aTN
 arv
-aIf
+xfz
 aFe
 bbg
 saz
@@ -105427,7 +105548,7 @@ aoI
 auh
 arv
 aIf
-aIf
+gbL
 arv
 baa
 aWZ
@@ -105440,7 +105561,7 @@ aFi
 afw
 aFi
 arv
-aIf
+xfz
 aOA
 aOA
 aOA
@@ -105684,7 +105805,7 @@ aoI
 auh
 arv
 aIf
-aIf
+gbL
 arv
 afw
 afw
@@ -105697,7 +105818,7 @@ aZR
 afw
 aYS
 arv
-aIf
+xfz
 aOA
 aLC
 aHP
@@ -105941,7 +106062,7 @@ azw
 auh
 arv
 aIf
-aIf
+gbL
 arv
 azO
 afw
@@ -105954,7 +106075,7 @@ azO
 afw
 azO
 arv
-aIf
+xfz
 aOA
 axe
 aUU
@@ -106198,7 +106319,7 @@ afl
 wyF
 arv
 aIf
-aIf
+gbL
 arv
 azO
 afw
@@ -106211,7 +106332,7 @@ azO
 czU
 azO
 arv
-aIf
+xfz
 aOA
 bZm
 aUU
@@ -106455,7 +106576,7 @@ afl
 aua
 arv
 aIf
-aIf
+gbL
 arv
 arv
 arv
@@ -106468,7 +106589,7 @@ arv
 arv
 arv
 arv
-aIf
+xfz
 aOA
 bbh
 aUU
@@ -106712,20 +106833,20 @@ afl
 auh
 arv
 aIf
-aIf
-aIf
-aIf
-aIf
-aIf
-aIf
-aIf
-aIf
-aIf
-aIf
-aIf
-aIf
-aIf
-aIf
+wdF
+yhA
+yhA
+yhA
+yhA
+yhA
+yhA
+yhA
+yhA
+yhA
+yhA
+yhA
+yhA
+dtf
 aOA
 xuG
 aLu
@@ -110342,7 +110463,7 @@ aaa
 aaa
 aaa
 aaa
-aaa
+sDQ
 aaa
 aaa
 aaa
