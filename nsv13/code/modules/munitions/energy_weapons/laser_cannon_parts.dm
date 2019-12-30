@@ -31,6 +31,7 @@
 
 	// TODO: figure out how game balance works
 	maxcharge = 200000
+	charge = 0 // New cells are empty
 	materials = list(/datum/material/glass=800)
 	chargerate = 10000
 	var/maxchargerate = 100000
