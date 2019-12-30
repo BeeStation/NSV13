@@ -257,6 +257,34 @@
 	name = "Briefing Room"
 	icon_state = "hallP"
 
+/area/nsv/shuttle/bridge
+	name = "Mining Shuttle Bridge"
+	icon_state = "bridge"
+
+/area/nsv/shuttle/central
+	name = "Mining Shuttle"
+	icon_state = "hallC"
+
+/area/nsv/shuttle/storage
+	name = "Mining Shuttle Equipment Storage"
+	icon_state = "storage"
+
+/area/nsv/shuttle/atmospherics
+	name = "Mining Shuttle Maintenance"
+	icon_state = "atmos"
+
+/area/nsv/shuttle/airlock/aft
+	name = "Mining Shuttle Aft Airlock"
+	icon_state = "hallA"
+
+/area/nsv/shuttle/airlock/port
+	name = "Mining Shuttle Port Airlock"
+	icon_state = "hallP"
+
+/area/nsv/shuttle/airlock/starboard
+	name = "Mining Shuttle Starboard Airlock"
+	icon_state = "hallS"
+
 /area/ruin/powered/nsv13/prisonship
 	name = "Syndicate prison ship"
 
