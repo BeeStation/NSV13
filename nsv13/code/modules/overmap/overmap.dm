@@ -157,7 +157,7 @@
 			forward_maxthrust = 4
 			backward_maxthrust = 4
 			side_maxthrust = 3
-			max_angular_acceleration = 120
+			max_angular_acceleration = 180
 			cabin_air = new
 			cabin_air.temperature = T20C
 			cabin_air.volume = 200
@@ -178,12 +178,12 @@
 			forward_maxthrust = 0.3
 			backward_maxthrust = 0.3
 			side_maxthrust = 0.2
-			max_angular_acceleration = 5
+			max_angular_acceleration = 15
 		if(MASS_TITAN)
 			forward_maxthrust = 0.1
 			backward_maxthrust = 0.1
 			side_maxthrust = 0.1
-			max_angular_acceleration = 2
+			max_angular_acceleration = 5
 	if(main_overmap)
 		name = "[station_name()]"
 	current_system = GLOB.starsystem_controller.find_system(src)
@@ -385,7 +385,7 @@
 	return FALSE
 
 /obj/structure/overmap/verb/toggle_brakes()
-	set name = "Toggle Brakes"
+	set name = "Toggle Handbrake"
 	set category = "Ship"
 	set src = usr.loc
 
@@ -427,18 +427,8 @@
 	to_chat(usr, "<span class='notice'>Use the <b>scroll wheel</b> to zoom in / out.</span>")
 	to_chat(usr, "<span class='notice'>Use tab to activate hotkey mode, then:</span>")
 	to_chat(usr, "<span class='notice'>Press <b>space</b> to make the ship follow your mouse (or stop following your mouse).</span>")
-	to_chat(usr, "<span class='notice'>Press <b>Alt<b> to engage inertial dampeners</span>")
+	to_chat(usr, "<span class='notice'>Press <b>Alt<b> to engage handbrake</span>")
 	to_chat(usr, "<span class='notice'>Press <b>Ctrl<b> to cycle fire modes</span>")
-
-/obj/structure/overmap/verb/toggle_rcs()
-	set name = "Toggle RCS maneuvering jets"
-	set category = "Ship"
-	set src = usr.loc
-
-	if(!verb_check())
-		return
-	rcs_mode = !rcs_mode
-	to_chat(usr, "<span class='notice'>You [rcs_mode ? "activate" : "deactivate"] [src]'s reaction control systems.</span>")
 
 /obj/structure/overmap/verb/toggle_move_mode()
 	set name = "Change movement mode"
