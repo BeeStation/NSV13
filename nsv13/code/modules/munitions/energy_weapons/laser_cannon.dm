@@ -18,12 +18,15 @@
 	pixel_x = 0
 	bound_width = 64
 	bound_height = 32
+	dir = 4
 
 	fire_sound = 'sound/weapons/lasercannonfire.ogg'
 	var/obj/machinery/computer/ship/laser_cannon_computer/computer
 	var/obj/item/stock_parts/cell/laser_cannon/cell
 	var/obj/structure/cable/attached
 	state = STATE_OFF
+
+	var/projectile_type = /obj/item/projectile/beam/laser/heavylaser
 
 	// Variables used for construction and deconstruction, copied from _machinery.dm
 	var/list/component_parts = null
@@ -134,35 +137,27 @@
  * Causes a bright flash in the cannon's area and fires a laser bolt forwards.
  */
 /obj/structure/ship_weapon/laser_cannon/fire()
-	message_admins("checking if we can fire")
 	if(!can_fire())
-		message_admins("can't fire")
 		return
 	// TODO: No animation for this yet
-	spawn(0) //Branch so that there isnt a fire delay for the helm.
+	spawn(0)
+		// Fire on the main map
+		playsound(src, fire_sound, 100, 1)
+		var/obj/item/projectile/P = new projectile_type(get_step(src, 4))
+		P.fire(dir2angle(dir))
 		do_animation()
+
 	state = STATE_FIRING
 
-	message_admins("play sound")
-	playsound(src, fire_sound, 100, 1)
-
-	message_admins("power_fail")
 	power_fail(0, 10) // Kill the power for a moment
-	message_admins("flash nearby")
 	for(var/mob/living/M in get_hearers_in_view(7, get_turf(src)))
 		if(M.stat != DEAD)
 			M.flash_act(affect_silicon = 1)
 
-	message_admins("try to deplete cell")
-	if (cell)
-		message_admins("we have a cell")
-		cell.use(cell.maxcharge) // Used all the power we'd stored
-		message_admins("charge is now [cell.charge]")
-		state = STATE_OFF
-		message_admins("toggle charging")
-		toggle_charging() // Start charging again
-	else
-		message_admins("No more power cell")
+	cell.use(cell.maxcharge) // Used all the power we'd stored
+	state = STATE_OFF
+	toggle_charging() // Start charging again
+
 	after_fire()
 
 /*
