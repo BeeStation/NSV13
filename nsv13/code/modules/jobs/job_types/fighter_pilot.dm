@@ -24,7 +24,7 @@
 /obj/item/encryptionkey/pilot
 	name = "air traffic control radio encryption key"
 	icon_state = "sec_cypherkey"
-	channels = list(RADIO_CHANNEL_ATC = 1, RADIO_CHANNEL_SECURITY = 1, RADIO_CHANNEL_SUPPLY = 1)
+	channels = list(RADIO_CHANNEL_ATC = 1, RADIO_CHANNEL_MUNITIONS = 1)
 	independent = TRUE
 
 /obj/item/radio/headset/headset_sec/alt/pilot

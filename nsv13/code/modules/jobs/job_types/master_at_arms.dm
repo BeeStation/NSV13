@@ -1,9 +1,10 @@
 /datum/job/master_at_arms
 	title = "Master At Arms"
 	flag = MASTER_AT_ARMS
-	auto_deadmin_role_flags = DEADMIN_POSITION_SECURITY
+	auto_deadmin_role_flags = DEADMIN_POSITION_HEAD
 	department_head = list("Captain")
 	department_flag = ENGSEC
+	head_announce = list("Munitions")
 	faction = "Station"
 	total_positions = 1
 	spawn_positions = 1
@@ -16,11 +17,10 @@
 
 	outfit = /datum/outfit/job/master_at_arms
 
-	access = list(ACCESS_SECURITY, ACCESS_SEC_DOORS, ACCESS_BRIG, ACCESS_ARMORY, ACCESS_COURT, ACCESS_MECH_SECURITY, ACCESS_MAINT_TUNNELS, ACCESS_MORGUE, ACCESS_WEAPONS, ACCESS_FORENSICS_LOCKERS, ACCESS_MINERAL_STOREROOM, ACCESS_MUNITIONS) //NSV13 - Added ACCESS_MUNITIONS
-	minimal_access = list(ACCESS_SECURITY, ACCESS_SEC_DOORS, ACCESS_BRIG, ACCESS_ARMORY, ACCESS_MECH_SECURITY, ACCESS_COURT, ACCESS_WEAPONS, ACCESS_MINERAL_STOREROOM, ACCESS_MUNITIONS) // See /datum/job/warden/get_access()
+	access = list(ACCESS_MAINT_TUNNELS, ACCESS_HEADS, ACCESS_EVA, ACCESS_CONSTRUCTION, ACCESS_MINERAL_STOREROOM, ACCESS_MUNITIONS) //NSV13 - Added ACCESS_MUNITIONS
+	minimal_access = list(ACCESS_MAINT_TUNNELS, ACCESS_HEADS, ACCESS_EVA, ACCESS_CONSTRUCTION, ACCESS_MINERAL_STOREROOM, ACCESS_MUNITIONS) // See /datum/job/warden/get_access()
 	paycheck = PAYCHECK_HARD
 	paycheck_department = ACCOUNT_SEC
-	mind_traits = list(TRAIT_LAW_ENFORCEMENT_METABOLISM)
 
 	display_order = JOB_DISPLAY_ORDER_MASTER_AT_ARMS
 	display_rank = "WO" //nsv13 - Displays the player's actual rank alongside their name, such as GSGT Sergei Koralev
@@ -47,4 +47,7 @@
 	duffelbag = /obj/item/storage/backpack/duffelbag/sec
 	box = /obj/item/storage/box/security
 
-
+/obj/machinery/telecomms/server/presets/munitions //TELECOMMS HELL
+	id = "Munitions Server"
+	freq_listening = list(FREQ_MUNITIONS)
+	autolinkers = list("munitions")

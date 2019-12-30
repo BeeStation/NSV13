@@ -11,13 +11,13 @@
 	selection_color = "#ddddff"
 	req_admin_notify = 1
 	minimal_player_age = 2
-
+	exp_type = EXP_TYPE_CREW
 
 	outfit = /datum/outfit/job/bridge
 
 	access = list(ACCESS_HEADS, ACCESS_MAINT_TUNNELS, ACCESS_CONSTRUCTION, ACCESS_RC_ANNOUNCE, ACCESS_KEYCARD_AUTH)
 	minimal_access = list(ACCESS_HEADS, ACCESS_MAINT_TUNNELS,ACCESS_RC_ANNOUNCE, ACCESS_KEYCARD_AUTH)
-	paycheck = PAYCHECK_COMMAND
+	paycheck = PAYCHECK_MEDIUM
 	paycheck_department = ACCOUNT_SEC
 
 	display_order = JOB_DISPLAY_ORDER_BRIDGE_OFFICER

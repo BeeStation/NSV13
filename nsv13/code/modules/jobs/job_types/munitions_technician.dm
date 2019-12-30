@@ -12,8 +12,8 @@
 
 	outfit = /datum/outfit/job/munitions_tech
 
-	access = list(ACCESS_MAINT_TUNNELS, ACCESS_MINERAL_STOREROOM, ACCESS_MUNITIONS) //temp
-	minimal_access = list(ACCESS_MINERAL_STOREROOM, ACCESS_MUNITIONS) //temp
+	access = list(ACCESS_MAINT_TUNNELS, ACCESS_CONSTRUCTION, ACCESS_MINERAL_STOREROOM, ACCESS_MUNITIONS) //temp
+	minimal_access = list(ACCESS_MINERAL_STOREROOM, ACCESS_CONSTRUCTION, ACCESS_MUNITIONS) //temp
 	paycheck = PAYCHECK_MEDIUM
 	paycheck_department = ACCOUNT_CAR
 
