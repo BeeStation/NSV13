@@ -189,26 +189,44 @@
 	var/max_firemode = FIRE_MODE_LASER
 	if(mass < MASS_MEDIUM) //Small craft dont get a railgun
 		max_firemode = FIRE_MODE_TORPEDO
-	fire_mode ++
-	if(fire_mode > max_firemode)
-		fire_mode = FIRE_MODE_PDC
+
+	var/tries = 0
+	while (tries < 4) // The total number of weapon types
+		fire_mode ++
+		if(fire_mode > max_firemode)
+			fire_mode = FIRE_MODE_PDC
+		if (try_firemode(usr, fire_mode))
+			break
+		tries++
+
+/obj/structure/overmap/proc/try_firemode(atom/usr, mode=FIRE_MODE_PDC)
 	switch(fire_mode)
 		if(FIRE_MODE_PDC)
-			to_chat(usr, "<span class='notice'>Defensive flak screens: <b>OFFLINE</b>. Activating manual point defense cannon control.</span>")
-			relay('nsv13/sound/effects/ship/pdc_start.ogg')
-			swap_to(FIRE_MODE_PDC)
+			if (pdcs.len >= 1)
+				to_chat(usr, "<span class='notice'>Defensive flak screens: <b>OFFLINE</b>. Activating manual point defense cannon control.</span>")
+				relay('nsv13/sound/effects/ship/pdc_start.ogg')
+				swap_to(FIRE_MODE_PDC)
+				return TRUE
 		if(FIRE_MODE_RAILGUN)
-			to_chat(usr, "<span class='notice'>Charging railgun hardpoints...</span>")
-			relay('nsv13/sound/effects/ship/railgun_ready.ogg')
-			swap_to(FIRE_MODE_RAILGUN)
+			if (railguns.len >= 1)
+				to_chat(usr, "<span class='notice'>Charging railgun hardpoints...</span>")
+				relay('nsv13/sound/effects/ship/railgun_ready.ogg')
+				swap_to(FIRE_MODE_RAILGUN)
+				return TRUE
 		if(FIRE_MODE_TORPEDO)
-			to_chat(usr, "<span class='notice'>Long range target acquisition systems: online.</span>")
-			relay('nsv13/sound/effects/ship/reload.ogg')
-			swap_to(FIRE_MODE_TORPEDO)
+			if (torpedo_tubes.len >= 1)
+				to_chat(usr, "<span class='notice'>Long range target acquisition systems: online.</span>")
+				relay('nsv13/sound/effects/ship/reload.ogg')
+				swap_to(FIRE_MODE_TORPEDO)
+				return TRUE
 		if(FIRE_MODE_LASER)
-			// TODO: add sound and a good message
-			to_chat(usr, "<span class='notice'>TODO add laser message here</span>")
-			swap_to(FIRE_MODE_LASER)
+			if (ship_lasers.len >= 1)
+				// TODO: add sound and a good message
+				to_chat(usr, "<span class='notice'>TODO add laser message here</span>")
+				swap_to(FIRE_MODE_LASER)
+				return TRUE
+
+	return FALSE
 
 
 /obj/structure/overmap/proc/swap_to(what=FIRE_MODE_PDC)

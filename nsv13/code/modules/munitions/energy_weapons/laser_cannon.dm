@@ -4,17 +4,19 @@
 #define STATE_READY 4
 #define STATE_FIRING 5
 
-/obj/item/stock_parts/cell/laser_cannon/corrupt() // No we will not explode thanks
-	return
-
+/*
+ * A ship-to-ship laser cannon that charges by drawing a large amount of power from the ship's grid.
+ * Can be researched by science and built by the crew.
+ */
 /obj/structure/ship_weapon/laser_cannon
 	name = "MODEL_HERE Ship mounted laser"
-	desc = "A ship-to-ship weapon which fires a destructive energy burst."
-	icon = 'nsv13/icons/obj/railgun.dmi'
+	desc = "A ship-to-ship weapon which fires a powerful destructive laser bolt."
+	icon = 'nsv13/icons/obj/laser_cannon.dmi'
 	icon_state = "laser_cannon"
 
 	pixel_y = 0
-	bound_width = 32
+	pixel_x = 0
+	bound_width = 64
 	bound_height = 32
 
 	fire_sound = 'sound/weapons/lasercannonfire.ogg'
@@ -23,15 +25,17 @@
 	var/obj/structure/cable/attached
 	state = STATE_OFF
 
-	//This is duplicate _machinery.dm code, because I want to inherit from ship_weapon
+	// Variables used for construction and deconstruction, copied from _machinery.dm
 	var/list/component_parts = null
 	var/panel_open = FALSE
 	var/obj/item/circuitboard/machine/laser_cannon/circuit // Circuit to be created and inserted when the machinery is created
 
+/*
+ * Make sure we have a wire to drain power from, a circuitboard, and all the required parts for construction/deconstruction.
+ */
 /obj/structure/ship_weapon/laser_cannon/Initialize()
 	..()
-	cell = new /obj/item/stock_parts/cell/laser_cannon
-	cell.charge = 0
+
 	var/turf/T = loc
 	if(isturf(T))
 		attached = locate() // Find the power cable we're sitting on
@@ -44,6 +48,11 @@
 	if (circuit)
 		circuit.apply_default_parts(src)
 
+	// TODO: Partially charged cell should stay partially charged, new cell should be 0 charge
+
+/*
+ * Destroys the cannon and its components. Copied from _machinery.dm
+ */
 /obj/structure/ship_weapon/laser_cannon/Destroy()
 	//This is duplicate _machinery.dm code
 	if(length(component_parts))
@@ -52,9 +61,16 @@
 		component_parts.Cut()
 	return ..()
 
+/*
+ * Adds the laser cannon to the list of laser cannons available to the overmap ship.
+ */
 /obj/structure/ship_weapon/laser_cannon/set_position(obj/structure/overmap/OM)
 	OM.ship_lasers += src
 
+/*
+ * Handles power drain.
+ * The laser cannon functions similarly to a powersink, without the exploding.
+ */
 /obj/structure/ship_weapon/laser_cannon/process()
 	if(!attached || !anchored) // No cable or we're not wrenched down
 		state = STATE_DISCONNECTED
@@ -62,7 +78,6 @@
 		STOP_PROCESSING(SSobj, src)
 		return
 
-	// Yes this is modified powersink code, why do you ask?
 	var/datum/powernet/PN = attached.powernet
 	if(PN)
 		var/drained // Amount of power we've drained this tick
@@ -94,7 +109,11 @@
 			STOP_PROCESSING(SSobj, src)
 			state = STATE_READY
 
-/obj/structure/ship_weapon/laser_cannon/can_fire() // STATE_READY *should* be enough indication but I won't assume anything
+/*
+ * Checks whether the laser cannon is able to fire.
+ * If all goes well, STATE_READY should be the only indicator needed, but I won't assume anything.
+ */
+/obj/structure/ship_weapon/laser_cannon/can_fire()
 	if (state != STATE_READY)
 		return FALSE
 	if (!attached)
@@ -107,6 +126,11 @@
 		return FALSE // You left the safety on
 	return TRUE
 
+/*
+ * Fires the laser cannon.
+ * Depowers the non-essential areas of the ship for 10 seconds as the grid check event.
+ * Causes a bright flash in the cannon's area and fires a laser bolt forwards.
+ */
 /obj/structure/ship_weapon/laser_cannon/fire()
 	if(!can_fire())
 		return
@@ -117,16 +141,18 @@
 
 	playsound(src, fire_sound, 100, 1)
 
-	power_fail(0, 15) // Kill the power for a moment
+	power_fail(0, 10) // Kill the power for a moment
 	for(var/mob/living/M in get_hearers_in_view(7, get_turf(src)))
 		if(M.stat != DEAD)
 			M.flash_act(affect_silicon = 1)
 
 	cell.use(cell.maxcharge) // Used all the power we'd stored
-	state = STATE_CHARGING
-	START_PROCESSING(SSobj, src)
+	toggle_charging() // Start charging again
 	after_fire()
 
+/*
+ * Switches whether the laser cannon is charging.
+ */
 /obj/structure/ship_weapon/laser_cannon/proc/toggle_charging()
 	if(state == STATE_CHARGING)
 		STOP_PROCESSING(SSobj, src)
@@ -135,14 +161,11 @@
 		state = STATE_CHARGING
 		START_PROCESSING(SSobj, src)
 
+/*
+ * Switches the weapon safety.
+ */
 /obj/structure/ship_weapon/laser_cannon/proc/toggle_safety()
 	if(safety)
 		safety = FALSE
 	else
 		safety = TRUE
-
-/obj/structure/ship_weapon/laser_cannon/proc/get_charge()
-	return cell.charge
-
-/obj/structure/ship_weapon/laser_cannon/proc/get_max_charge()
-	return cell.maxcharge
