@@ -137,7 +137,6 @@
 /obj/structure/ship_weapon/laser_cannon/fire()
 	if(!can_fire())
 		return
-	// TODO: No animation for this yet
 	spawn(0)
 		// Fire on the main map
 		playsound(src, fire_sound, 100, 1)
@@ -147,16 +146,34 @@
 
 	state = STATE_FIRING
 
-	power_fail(0, 10) // Kill the power for a moment
-	for(var/mob/living/M in get_hearers_in_view(7, get_turf(src)))
-		if(M.stat != DEAD)
-			M.flash_act(affect_silicon = 1)
+	power_fail(0, 3) // Kill the power for a moment
+	apply_flash()
 
 	cell.use(cell.maxcharge) // Used all the power we'd stored
 	state = STATE_OFF
 	toggle_charging() // Start charging again
 
 	after_fire()
+
+/*
+ * Flash all mobs that are near open space or the laser
+ */
+/obj/structure/ship_weapon/laser_cannon/proc/apply_flash()
+	// Mobs near laser
+	for(var/mob/living/M in get_hearers_in_view(7, get_turf(src)))
+		if(M.stat != DEAD)
+			M.flash_act(affect_silicon = 1)
+
+	for(var/mob/living/M in linked.mobs_in_ship)
+		// Mobs in space
+		if(istype(get_turf(M), /turf/open/space))
+			if(M.stat != DEAD)
+				M.flash_act(affect_silicon = 1)
+		else
+			// Mobs that are looking at space
+			for(var/turf/T in view(M, 2))
+				if(istype(T, /turf/open/space) && (M.stat != DEAD))
+					M.flash_act(affect_silicon = 1)
 
 /*
  * Switches whether the laser cannon is charging.
