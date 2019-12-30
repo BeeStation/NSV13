@@ -1,5 +1,5 @@
 /datum/job/bridge
-	title = "Bridge Officer"
+	title = "Bridge Staff"
 	flag = BRIDGE_OFFICER
 	auto_deadmin_role_flags = DEADMIN_POSITION_SECURITY
 	department_head = list("Executive Officer")
@@ -15,8 +15,8 @@
 
 	outfit = /datum/outfit/job/bridge
 
-	access = list(ACCESS_SECURITY, ACCESS_SEC_DOORS, ACCESS_COURT, ACCESS_WEAPONS,ACCESS_HEADS, ACCESS_MAINT_TUNNELS, ACCESS_CONSTRUCTION, ACCESS_CARGO, ACCESS_RC_ANNOUNCE, ACCESS_KEYCARD_AUTH, ACCESS_GATEWAY, ACCESS_MINERAL_STOREROOM)
-	minimal_access = list(ACCESS_SECURITY, ACCESS_SEC_DOORS, ACCESS_COURT, ACCESS_WEAPONS,ACCESS_HEADS, ACCESS_MAINT_TUNNELS, ACCESS_CONSTRUCTION, ACCESS_CARGO, ACCESS_RC_ANNOUNCE, ACCESS_KEYCARD_AUTH, ACCESS_GATEWAY, ACCESS_MINERAL_STOREROOM)
+	access = list(ACCESS_HEADS, ACCESS_MAINT_TUNNELS, ACCESS_CONSTRUCTION, ACCESS_RC_ANNOUNCE, ACCESS_KEYCARD_AUTH)
+	minimal_access = list(ACCESS_HEADS, ACCESS_MAINT_TUNNELS,ACCESS_RC_ANNOUNCE, ACCESS_KEYCARD_AUTH)
 	paycheck = PAYCHECK_COMMAND
 	paycheck_department = ACCOUNT_SEC
 
@@ -24,7 +24,7 @@
 	display_rank = "SGT" //nsv13 - Displays the player's actual rank alongside their name, such as GSGT Sergei Koralev
 
 /datum/outfit/job/bridge
-	name = "Bridge officer"
+	name = "Bridge Staff"
 	jobtype = /datum/job/bridge
 
 	id = /obj/item/card/id/silver
@@ -35,5 +35,5 @@
 	head = /obj/item/clothing/head/beret/durathread
 
 /obj/effect/landmark/start/bridge
-	name = "Bridge Officer"
+	name = "Bridge Staff"
 	icon_state = "Bridge Officer"

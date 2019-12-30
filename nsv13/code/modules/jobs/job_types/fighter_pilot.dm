@@ -7,12 +7,13 @@
 	total_positions = 4
 	spawn_positions = 4
 	supervisors = "the CAG"
-	selection_color = "#ffeeee"
+	selection_color = "#d692a3"
+	exp_type_department = EXP_TYPE_MUNITIONS
 
 	outfit = /datum/outfit/job/fighter_pilot
 
-	access = list(ACCESS_SECURITY, ACCESS_SEC_DOORS, ACCESS_MECH_SECURITY, ACCESS_MAINT_TUNNELS, ACCESS_WEAPONS, ACCESS_MUNITIONS) //temp
-	minimal_access = list(ACCESS_SECURITY, ACCESS_SEC_DOORS, ACCESS_MECH_SECURITY, ACCESS_WEAPONS, ACCESS_MUNITIONS) //temp
+	access = list(ACCESS_MAINT_TUNNELS, ACCESS_MUNITIONS) //temp
+	minimal_access = list(ACCESS_MAINT_TUNNELS, ACCESS_MUNITIONS) //temp
 	paycheck = PAYCHECK_MEDIUM
 	paycheck_department = ACCOUNT_CAR
 
@@ -63,12 +64,13 @@
 	total_positions = 1
 	spawn_positions = 1
 	supervisors = "the Master At Arms"
-	selection_color = "#ffeeee"
+	selection_color = "#d692a3"
+	exp_type_department = EXP_TYPE_MUNITIONS
 
 	outfit = /datum/outfit/job/cag
 
-	access = list(ACCESS_SECURITY, ACCESS_SEC_DOORS, ACCESS_MECH_SECURITY, ACCESS_MAINT_TUNNELS, ACCESS_WEAPONS, ACCESS_MUNITIONS) //temp
-	minimal_access = list(ACCESS_SECURITY, ACCESS_SEC_DOORS, ACCESS_MECH_SECURITY, ACCESS_WEAPONS, ACCESS_MUNITIONS) //temp
+	access = list(ACCESS_MAINT_TUNNELS, ACCESS_MUNITIONS) //temp
+	minimal_access = list(ACCESS_MAINT_TUNNELS, ACCESS_MUNITIONS) //temp
 	paycheck = PAYCHECK_MEDIUM
 	paycheck_department = ACCOUNT_CAR
 

@@ -173,6 +173,8 @@
 		chosen_department = "supply"
 	if(oldmind.assigned_role in GLOB.civilian_positions)
 		chosen_department = "civilian"
+	if(oldmind.assigned_role in GLOB.munitions_positions) //NSV13 munitions department
+		chosen_department = "munitions"
 	for(var/mob/living/carbon/human/H in GLOB.alive_mob_list)
 		if(!H.mind)
 			continue

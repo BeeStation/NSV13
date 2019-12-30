@@ -4,15 +4,16 @@
 	department_head = list("Master At Arms")
 	department_flag = ENGSEC
 	faction = "Station"
-	total_positions = 2
-	spawn_positions = 2
+	total_positions = 4
+	spawn_positions = 4
 	supervisors = "the Master At Arms"
-	selection_color = "#ffeeee"
+	selection_color = "#d692a3"
+	exp_type_department = EXP_TYPE_MUNITIONS
 
 	outfit = /datum/outfit/job/munitions_tech
 
-	access = list(ACCESS_SECURITY, ACCESS_SEC_DOORS, ACCESS_MECH_SECURITY, ACCESS_MAINT_TUNNELS, ACCESS_MINERAL_STOREROOM, ACCESS_MUNITIONS) //temp
-	minimal_access = list(ACCESS_SECURITY, ACCESS_SEC_DOORS, ACCESS_MECH_SECURITY, ACCESS_MINERAL_STOREROOM, ACCESS_MUNITIONS) //temp
+	access = list(ACCESS_MAINT_TUNNELS, ACCESS_MINERAL_STOREROOM, ACCESS_MUNITIONS) //temp
+	minimal_access = list(ACCESS_MINERAL_STOREROOM, ACCESS_MUNITIONS) //temp
 	paycheck = PAYCHECK_MEDIUM
 	paycheck_department = ACCOUNT_CAR
 

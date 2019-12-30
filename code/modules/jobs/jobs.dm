@@ -1,4 +1,4 @@
-//NSV13 - HoP renamed, BO added
+//NSV13 - HoP renamed, BS added, MAA added
 GLOBAL_LIST_INIT(command_positions, list(
 	"Captain",
 	"Executive Officer",
@@ -6,7 +6,8 @@ GLOBAL_LIST_INIT(command_positions, list(
 	"Chief Engineer",
 	"Research Director",
 	"Chief Medical Officer",
-	"Bridge Officer"))
+	"Master At Arms",
+	"Bridge Staff"))
 
 
 GLOBAL_LIST_INIT(engineering_positions, list(
@@ -50,24 +51,32 @@ GLOBAL_LIST_INIT(civilian_positions, list(
 	"Mime",
 	"Assistant"))
 
-//NSV13 - Munitions Technician, CAG and Fighter Pilot temporarily added here until a new department is made
+
 GLOBAL_LIST_INIT(security_positions, list(
 	"Head of Security",
-	"Master At Arms",
+	"Warden",
 	"Detective",
 	"Security Officer",
-	"Brig Physician",
-	"Munitions Technician",
-	"CAG",
-	"Fighter Pilot"))
+	"Brig Physician"))
+
 
 GLOBAL_LIST_INIT(nonhuman_positions, list(
 	"AI",
 	"Cyborg",
 	ROLE_PAI))
 
+
+//NSV13 DEPARTMENT
+GLOBAL_LIST_INIT(munitions_positions, list(
+	"Master At Arms",
+	"Munitions Technician",
+	"CAG",
+	"Fighter Pilot",
+	"Air Traffic Controller"))
+
+
 GLOBAL_LIST_INIT(exp_jobsmap, list(
-	EXP_TYPE_CREW = list("titles" = command_positions | engineering_positions | medical_positions | science_positions | supply_positions | security_positions | civilian_positions | list("AI","Cyborg")), // crew positions
+	EXP_TYPE_CREW = list("titles" = command_positions | engineering_positions | medical_positions | science_positions | supply_positions | security_positions | civilian_positions | munitions_positions | list("AI","Cyborg")) , // crew positions
 	EXP_TYPE_COMMAND = list("titles" = command_positions),
 	EXP_TYPE_ENGINEERING = list("titles" = engineering_positions),
 	EXP_TYPE_MEDICAL = list("titles" = medical_positions),
@@ -76,6 +85,7 @@ GLOBAL_LIST_INIT(exp_jobsmap, list(
 	EXP_TYPE_SECURITY = list("titles" = security_positions),
 	EXP_TYPE_SILICON = list("titles" = list("AI","Cyborg")),
 	EXP_TYPE_SERVICE = list("titles" = civilian_positions),
+	EXP_TYPE_MUNITIONS = list("titles" = munitions_positions),
 ))
 
 GLOBAL_LIST_INIT(exp_specialmap, list(

@@ -775,7 +775,7 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 #undef APPEARANCE_CATEGORY_COLUMN
 #undef MAX_MUTANT_ROWS
 
-/datum/preferences/proc/SetChoices(mob/user, limit = 18, list/splitJobs = list("Chief Medical Officer"), widthPerColumn = 295, height = 620)
+/datum/preferences/proc/SetChoices(mob/user, limit = 18, list/splitJobs = list("Head of Security"), widthPerColumn = 295, height = 620) //NSV13
 	if(!SSjob)
 		return
 
