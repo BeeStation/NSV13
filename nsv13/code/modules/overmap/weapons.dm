@@ -21,7 +21,7 @@
 	icon = 'icons/obj/projectiles.dmi'
 	icon_state = "heavylaser"
 	// TODO: Balance
-	damage = 110
+	damage = 130
 
 /obj/effect/temp_visual/impact_effect/torpedo
 	icon_state = "impact_torpedo"
@@ -137,7 +137,6 @@
 	return FALSE
 
 /obj/structure/overmap/proc/fire(atom/target)
-	message_admins("Overmap fire()")
 	if(weapon_safety)
 		if(gunner)
 			to_chat(gunner, "<span class='warning'>Weapon safety interlocks are active! Use the ship verbs tab to disable them!</span>")
@@ -169,7 +168,6 @@
 		var/obj/structure/overmap/ship = target
 		ship.add_enemy(src)
 	next_firetime = world.time + fire_delay
-	message_admins("Fire mode [fire_mode]")
 	switch(fire_mode)
 		if(FIRE_MODE_PDC)
 			fire_pdcs(target)
@@ -292,10 +290,8 @@
 		fire_lateral_projectile(/obj/item/projectile/bullet/laser, target)
 		return
 	var/fired = FALSE
-	message_admins("Starting for loop")
 	for(var/X in ship_lasers)
 		if(istype(X, /obj/structure/ship_weapon/laser_cannon))
-			message_admins("Found a laser cannon")
 			var/obj/structure/ship_weapon/laser_cannon/LC = X
 			if(LC.can_fire())
 				LC.fire()

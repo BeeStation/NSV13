@@ -109,10 +109,8 @@
  * Open or close the maintenance panel
  */
 /obj/structure/ship_weapon/laser_cannon/proc/default_deconstruction_screwdriver(mob/user, obj/item/I)
-	message_admins("default_deconstruction_screwdriver called")
 	// Takes a bit longer than normal machines but effects are about the same
 	if(!(flags_1 & NODECONSTRUCT_1) && I.tool_behaviour == TOOL_SCREWDRIVER)
-		message_admins("It's a screwdriver")
 		. = FALSE
 		if(!panel_open)
 			to_chat(user, "<span class='notice'>You begin unfastening the maintenance panel on [src]...</span>")
@@ -200,4 +198,4 @@
 
 // Duplicate _machinery.dm code
 /obj/structure/ship_weapon/laser_cannon/proc/RefreshParts()
-	return
+	cell = locate(/obj/item/stock_parts/cell/laser_cannon) in component_parts

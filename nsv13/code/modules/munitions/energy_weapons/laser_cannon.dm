@@ -48,10 +48,8 @@
 
 	//This is duplicate _machinery.dm code
 	circuit = new /obj/item/circuitboard/machine/laser_cannon
-	if (circuit)
-		circuit.apply_default_parts(src)
+	circuit.apply_default_parts(src)
 
-	// TODO: Partially charged cell should stay partially charged, new cell should be 0 charge
 	cell = locate(/obj/item/stock_parts/cell/laser_cannon) in component_parts
 	cell.charge = 0
 
