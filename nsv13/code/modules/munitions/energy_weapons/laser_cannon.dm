@@ -49,6 +49,8 @@
 		circuit.apply_default_parts(src)
 
 	// TODO: Partially charged cell should stay partially charged, new cell should be 0 charge
+	cell = locate(/obj/item/stock_parts/cell/laser_cannon) in component_parts
+	cell.charge = 0
 
 /*
  * Destroys the cannon and its components. Copied from _machinery.dm
@@ -132,22 +134,35 @@
  * Causes a bright flash in the cannon's area and fires a laser bolt forwards.
  */
 /obj/structure/ship_weapon/laser_cannon/fire()
+	message_admins("checking if we can fire")
 	if(!can_fire())
+		message_admins("can't fire")
 		return
 	// TODO: No animation for this yet
 	spawn(0) //Branch so that there isnt a fire delay for the helm.
 		do_animation()
 	state = STATE_FIRING
 
+	message_admins("play sound")
 	playsound(src, fire_sound, 100, 1)
 
+	message_admins("power_fail")
 	power_fail(0, 10) // Kill the power for a moment
+	message_admins("flash nearby")
 	for(var/mob/living/M in get_hearers_in_view(7, get_turf(src)))
 		if(M.stat != DEAD)
 			M.flash_act(affect_silicon = 1)
 
-	cell.use(cell.maxcharge) // Used all the power we'd stored
-	toggle_charging() // Start charging again
+	message_admins("try to deplete cell")
+	if (cell)
+		message_admins("we have a cell")
+		cell.use(cell.maxcharge) // Used all the power we'd stored
+		message_admins("charge is now [cell.charge]")
+		state = STATE_OFF
+		message_admins("toggle charging")
+		toggle_charging() // Start charging again
+	else
+		message_admins("No more power cell")
 	after_fire()
 
 /*

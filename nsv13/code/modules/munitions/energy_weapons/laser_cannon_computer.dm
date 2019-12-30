@@ -5,6 +5,7 @@
 	name = "laser cannon control computer"
 	icon = 'nsv13/icons/obj/munitions.dmi'
 	icon_state = "munitions_console"
+	circuit = /obj/item/circuitboard/computer/laser_cannon
 	density = TRUE
 	anchored = TRUE
 	req_access = list(ACCESS_MUNITIONS)
@@ -65,17 +66,15 @@
  * Provides data for tgui-next GUI
  */
 /obj/machinery/computer/ship/laser_cannon_computer/ui_data()
-	var/obj/item/stock_parts/cell/laser_cannon/cell
-
 	var/list/data = list(
-		"capacityPercent" = round(100*cell.charge/cell.maxcharge, 0.1),
-		"capacity" = cell.maxcharge,
-		"charge" = cell.charge,
+		"capacityPercent" = round(100*LC.cell.charge/LC.cell.maxcharge, 0.1),
+		"capacity" = LC.cell.maxcharge,
+		"charge" = LC.cell.charge,
 
 		"charging" = (LC.state == STATE_CHARGING),
-		"chargeRate" = cell.chargerate,
-		"chargeRateText" = DisplayPower(cell.chargerate),
-		"maxChargeRate" = cell.maxchargerate,
+		"chargeRate" = LC.cell.chargerate,
+		"chargeRateText" = DisplayPower(LC.cell.chargerate),
+		"maxChargeRate" = LC.cell.maxchargerate,
 
 		"safety" = LC.safety
 	)
@@ -110,7 +109,7 @@
 				. = TRUE
 			if(.)
 				LC.cell.chargerate = CLAMP(target, 0, LC.cell.maxchargerate)
-		if("trycharge") // User tried to change whether or not the laser canno is charging
+		if("trycharge") // User tried to change whether or not the laser cannon is charging
 			LC.toggle_charging()
 			. = TRUE
 		if("trysafety") // User tried to toggle the safety

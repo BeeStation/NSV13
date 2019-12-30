@@ -5,7 +5,7 @@
  * *************/
 
 /*
- * Copied from _machinery.dm.
+ * Mostly copied from _machinery.dm.
  * Adds all required parts to a laser cannon (M). Called from ship_weapon/laser_cannon/Initialize().
  * Necessary to be able to deconstruct the thing and have parts afterwards.
  */
@@ -48,8 +48,7 @@
 							 "<span class='notice'>You start to disassemble the frame...</span>", "You hear banging and clanking.")
 		if(P.use_tool(src, user, 40, volume=50))
 			to_chat(user, "<span class='notice'>You disassemble the frame.</span>")
-			deconstruct(TRUE)
-			M.add_fingerprint(user)
+			deconstruct(user, TRUE)
 			return
 	else
 		. = ..()
@@ -176,13 +175,16 @@
  * When the cannon frame is deconstructed, drop plasteel instead of iron
  * Otherwise the same as the base frame code
  */
-/obj/structure/frame/machine/laser_cannon/deconstruct(disassembled = TRUE) // Frame is made of plasteel instead of iron
+/obj/structure/frame/machine/laser_cannon/deconstruct(mob/user, disassembled = TRUE) // Frame is made of plasteel instead of iron
 	if(!(flags_1 & NODECONSTRUCT_1))
-		new /obj/item/stack/sheet/plasteel(loc, 8)
+		var/obj/item/stack/sheet/plasteel/M = new(loc, 8)
 		if(circuit)
 			circuit.forceMove(loc)
+			circuit.add_fingerprint(user)
 			circuit = null
-	qdel(src)
+		qdel(src)
+		if (user)
+			M.add_fingerprint(user)
 
 /* ************
  * Empty _machinery.dm calls
