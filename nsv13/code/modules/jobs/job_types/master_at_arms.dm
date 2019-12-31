@@ -34,6 +34,7 @@
 	name = "Master At Arms"
 	jobtype = /datum/job/master_at_arms
 
+	belt = /obj/item/storage/belt/utility/full/engi
 	ears = /obj/item/radio/headset/headset_sec/alt/master_at_arms
 	uniform = /obj/item/clothing/under/syndicate/tacticool
 	shoes = /obj/item/clothing/shoes/jackboots

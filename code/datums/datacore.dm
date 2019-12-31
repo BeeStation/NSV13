@@ -98,6 +98,7 @@
 	var/list/sup = list()
 	var/list/civ = list()
 	var/list/bot = list()
+	var/list/mun = list() //NSV13 Munitions
 	var/list/misc = list()
 	var/dat = {"
 	<head><style>
@@ -139,6 +140,9 @@
 			department = 1
 		if(rank in GLOB.nonhuman_positions)
 			bot[name] = rank
+			department = 1
+		if(rank in GLOB.munitions_positions) //NSV13 Munitions added
+			mun[name] = rank
 			department = 1
 		if(!department && !(name in heads))
 			misc[name] = rank
@@ -182,6 +186,12 @@
 		dat += "<tr><th colspan=3>Silicon</th></tr>"
 		for(var/name in bot)
 			dat += "<tr[even ? " class='alt'" : ""]><td>[name]</td><td>[bot[name]]</td></tr>"
+			even = !even
+	//NSV13 Munitions
+	if(mun.len > 0)
+		dat += "<tr><th colspan=3>Munitions</th></tr>"
+		for(var/name in mun)
+			dat += "<tr[even ? " class='alt'" : ""]><td>[name]</td><td>[mun[name]]</td></tr>"
 			even = !even
 	// misc guys
 	if(misc.len > 0)
