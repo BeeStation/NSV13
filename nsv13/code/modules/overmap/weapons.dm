@@ -17,12 +17,6 @@
 	impact_effect_type = /obj/effect/temp_visual/impact_effect/torpedo
 	var/detonation_timer = 20 SECONDS
 
-/obj/item/projectile/bullet/laser
-	icon = 'icons/obj/projectiles.dmi'
-	icon_state = "heavylaser"
-	// TODO: Balance
-	damage = 130
-
 /obj/effect/temp_visual/impact_effect/torpedo
 	icon_state = "impact_torpedo"
 	duration = 10

@@ -29,12 +29,11 @@
 	name = "laser cannon power collector"
 	icon_state = "hpcell"
 
-	// TODO: figure out how game balance works
-	maxcharge = 200000
+	maxcharge = 5000000
 	charge = 0 // New cells are empty
 	materials = list(/datum/material/glass=800)
-	chargerate = 10000
-	var/maxchargerate = 100000
+	chargerate = 50000
+	var/maxchargerate = 1000000
 
 /*
  * EMP shield the power cell - don't explode munitions
@@ -83,6 +82,7 @@
 	name = "Machine Design (Laser Cannon)"
 	desc = "Allows for the construction of a ship-to-ship laser cannon."
 	id = "laser_cannon_circuit"
+	materials = list(/datum/material/glass = 2000, /datum/material/gold = 1000)
 	build_path = /obj/item/circuitboard/machine/laser_cannon
 	category = list("Advanced Munitions")
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO | DEPARTMENTAL_FLAG_SCIENCE
@@ -91,6 +91,7 @@
 	name = "Computer Design (Laser Cannon Control)"
 	desc = "Allows for the construction of laser cannon control computer."
 	id = "laser_cannon_computer_circuit"
+	materials = list(/datum/material/glass = 2000, /datum/material/gold = 1000)
 	build_path = /obj/item/circuitboard/computer/laser_cannon
 	category = list("Advanced Munitions")
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO | DEPARTMENTAL_FLAG_SCIENCE
@@ -100,7 +101,7 @@
 	desc = "Allows for the construction of a ship-to-ship laser cannon."
 	id = "laser_cannon_cell"
 	build_type = PROTOLATHE
-	materials = list(/datum/material/iron = 800)//, /datum/material/gold = 120, /datum/material/glass = 160, \
+	materials = list(/datum/material/iron = 800, /datum/material/gold = 120, /datum/material/glass = 160, \
 					 /datum/material/diamond = 160, /datum/material/titanium = 300, /datum/material/copper = 100)
 	construction_time=100
 	build_path = /obj/item/stock_parts/cell/laser_cannon

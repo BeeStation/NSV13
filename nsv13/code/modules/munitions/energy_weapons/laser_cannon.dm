@@ -34,6 +34,14 @@
 	var/obj/item/circuitboard/machine/laser_cannon/circuit // Circuit to be created and inserted when the machinery is created
 
 /*
+ * Overmap projectile
+ */
+/obj/item/projectile/bullet/laser
+	icon = 'icons/obj/projectiles.dmi'
+	icon_state = "heavylaser"
+	damage = 250
+
+/*
  * Make sure we have a wire to drain power from, a circuitboard, and all the required parts for construction/deconstruction.
  */
 /obj/structure/ship_weapon/laser_cannon/Initialize()
@@ -146,7 +154,7 @@
 
 	state = STATE_FIRING
 
-	power_fail(0, 3) // Kill the power for a moment
+	power_fail(0, 6) // Kill the power for a moment
 	apply_flash()
 
 	cell.use(cell.maxcharge) // Used all the power we'd stored
@@ -171,9 +179,10 @@
 				M.flash_act(affect_silicon = 1)
 		else
 			// Mobs that are looking at space
-			for(var/turf/T in view(M, 2))
+			for(var/turf/T in view(M, 4))
 				if(istype(T, /turf/open/space) && (M.stat != DEAD))
 					M.flash_act(affect_silicon = 1)
+					break // Only need to flash each mob once
 
 /*
  * Switches whether the laser cannon is charging.
