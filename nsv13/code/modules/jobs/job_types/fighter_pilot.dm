@@ -29,7 +29,7 @@
 
 /obj/item/radio/headset/headset_sec/alt/pilot
 	name = "pilot radio headset"
-	desc = "A headset capable of accessing the Nanotrasen blue channel via a special DRADIS satellite uplink, allowing fighter pilots to communicate from anywhere inside of Nanotrasen's airspace. Use :q to access the air traffic control frequency."
+	desc = "A headset capable of accessing the Nanotrasen blue channel via a special DRADIS satellite uplink, allowing fighter pilots to communicate from anywhere inside of Nanotrasen's airspace. Use :q to access the air traffic control frequency. Use :w to access the department frequency while on the ship."
 	icon_state = "sec_headset"
 	keyslot = new /obj/item/encryptionkey/pilot
 

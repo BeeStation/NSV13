@@ -25,7 +25,7 @@
 	jobtype = /datum/job/munitions_tech
 
 	belt = /obj/item/storage/belt/utility/full/engi
-	ears = /obj/item/radio/headset/headset_sec/alt/pilot
+	ears = /obj/item/radio/headset/headset_sec/alt/munitions_tech
 	uniform = /obj/item/clothing/under/rank/munitions_tech
 	suit = /obj/item/clothing/suit/hazardvest
 	head = /obj/item/clothing/head/soft/yellow
@@ -43,3 +43,15 @@
 /obj/effect/landmark/start/munitions_tech
 	name = "Munitions Technician"
 	icon_state = "munitions_tech"
+
+/obj/item/encryptionkey/munitions_tech
+	name = "munitions department encryption key"
+	icon_state = "sec_cypherkey"
+	channels = list(RADIO_CHANNEL_MUNITIONS = 1, RADIO_CHANNEL_SUPPLY = 1)
+	independent = TRUE
+
+/obj/item/radio/headset/headset_sec/alt/munitions_tech
+	name = "munitions technician radio headset"
+	desc = "Use :w to access the department frequency. Use :u to access the supply frequency."
+	icon_state = "sec_headset"
+	keyslot = new /obj/item/encryptionkey/munitions_tech

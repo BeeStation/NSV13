@@ -34,7 +34,7 @@
 	name = "Master At Arms"
 	jobtype = /datum/job/master_at_arms
 
-	ears = /obj/item/radio/headset/headset_sec/alt/pilot
+	ears = /obj/item/radio/headset/headset_sec/alt/master_at_arms
 	uniform = /obj/item/clothing/under/syndicate/tacticool
 	shoes = /obj/item/clothing/shoes/jackboots
 	suit = /obj/item/clothing/suit/hazardvest
@@ -51,3 +51,19 @@
 	id = "Munitions Server"
 	freq_listening = list(FREQ_MUNITIONS)
 	autolinkers = list("munitions")
+
+/obj/item/encryptionkey/master_at_arms
+	name = "master at arms radio encryption key"
+	icon_state = "sec_cypherkey"
+	channels = list(RADIO_CHANNEL_MUNITIONS = 1, RADIO_CHANNEL_SUPPLY = 1, RADIO_CHANNEL_COMMAND = 1, RADIO_CHANNEL_ATC = 1)
+	independent = TRUE
+
+/obj/item/radio/headset/headset_sec/alt/master_at_arms
+	name = "master at arms radio headset"
+	desc = "Use :w to access the department frequency. Use :u to access the supply frequency. Use :c to access the command frequency. Use :q to access the ATC frequency."
+	icon_state = "sec_headset"
+	keyslot = new /obj/item/encryptionkey/munitions_tech
+
+/obj/effect/landmark/start/master_at_arms
+	name = "Master At Arms"
+	icon_state = "master_at_arms"

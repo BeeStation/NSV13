@@ -1,4 +1,4 @@
-//NSV13 - HoP renamed, BS added, MAA added
+//NSV13 - HoP renamed, MAA added
 GLOBAL_LIST_INIT(command_positions, list(
 	"Captain",
 	"Executive Officer",
