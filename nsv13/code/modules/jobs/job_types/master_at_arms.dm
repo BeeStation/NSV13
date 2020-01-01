@@ -8,7 +8,7 @@
 	faction = "Station"
 	total_positions = 1
 	spawn_positions = 1
-	supervisors = "the captain"
+	supervisors = "the Captain"
 	selection_color = "#cc8899"
 	minimal_player_age = 7
 	exp_requirements = 300
@@ -17,8 +17,8 @@
 
 	outfit = /datum/outfit/job/master_at_arms
 
-	access = list(ACCESS_MAINT_TUNNELS, ACCESS_HEADS, ACCESS_EVA, ACCESS_CONSTRUCTION, ACCESS_MINERAL_STOREROOM, ACCESS_MUNITIONS) //NSV13 - Added ACCESS_MUNITIONS
-	minimal_access = list(ACCESS_MAINT_TUNNELS, ACCESS_HEADS, ACCESS_EVA, ACCESS_CONSTRUCTION, ACCESS_MINERAL_STOREROOM, ACCESS_MUNITIONS) // See /datum/job/warden/get_access()
+	access = list(ACCESS_MAINT_TUNNELS, ACCESS_HEADS, ACCESS_EVA, ACCESS_CONSTRUCTION, ACCESS_MINERAL_STOREROOM, ACCESS_MUNITIONS, ACCESS_MAA, ACCESS_RC_ANNOUNCE) //NSV13 - Added ACCESS_MUNITIONS
+	minimal_access = list(ACCESS_MAINT_TUNNELS, ACCESS_HEADS, ACCESS_EVA, ACCESS_CONSTRUCTION, ACCESS_MINERAL_STOREROOM, ACCESS_MUNITIONS, ACCESS_MAA, ACCESS_RC_ANNOUNCE) // See /datum/job/warden/get_access()
 	paycheck = PAYCHECK_HARD
 	paycheck_department = ACCOUNT_SEC
 
