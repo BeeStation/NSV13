@@ -291,6 +291,8 @@ After going through this checklist, you're ready to go!
 	var/new_name = stripped_input(usr, message="What do you want to name \
 		your fighter? Keep in mind that particularly terrible names may be \
 		rejected by your employers.", max_length=MAX_CHARTER_LEN)
+	if(!new_name || length(new_name) <= 0)
+		return
 	message_admins("[key_name_admin(usr)] renamed a fighter to [new_name] [ADMIN_LOOKUPFLW(src)].")
 	name = new_name
 
