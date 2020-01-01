@@ -6,8 +6,8 @@ GLOBAL_LIST_INIT(command_positions, list(
 	"Chief Engineer",
 	"Research Director",
 	"Chief Medical Officer",
-	"Master At Arms",
-	"Bridge Staff"))
+	"Master At Arms"
+	))
 
 
 GLOBAL_LIST_INIT(engineering_positions, list(
@@ -66,13 +66,14 @@ GLOBAL_LIST_INIT(nonhuman_positions, list(
 	ROLE_PAI))
 
 
-//NSV13 DEPARTMENT
+//NSV13 DEPARTMENT - Hidden bridge staff here for non-bold raisins - Will appear in the Munitions department for the late join screen
 GLOBAL_LIST_INIT(munitions_positions, list(
 	"Master At Arms",
 	"Munitions Technician",
 	"CAG",
 	"Fighter Pilot",
-	"Air Traffic Controller"))
+	"Air Traffic Controller",
+	"Bridge Staff"))
 
 
 GLOBAL_LIST_INIT(exp_jobsmap, list(
