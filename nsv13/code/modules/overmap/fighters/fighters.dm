@@ -715,7 +715,7 @@ After going through this checklist, you're ready to go!
 					dradis?.soundloop?.start()
 				mobs_in_ship += user
 				if(user?.client?.prefs.toggles & SOUND_AMBIENCE) //Disable ambient sounds to shut up the noises.
-					SEND_SOUND(user, sound('nsv13/sound/effects/ship/cockpit.ogg', repeat = TRUE, wait = 0, volume = 70, channel=CHANNEL_SHIP_ALERT))
+					SEND_SOUND(user, sound('nsv13/sound/effects/ship/cockpit.ogg', repeat = TRUE, wait = 0, volume = 50, channel=CHANNEL_SHIP_ALERT))
 				return TRUE
 		else
 			if(mobs_in_ship.len < max_passengers)
