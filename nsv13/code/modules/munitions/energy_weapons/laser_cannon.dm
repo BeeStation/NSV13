@@ -9,8 +9,8 @@
  * Can be researched by science and built by the crew.
  */
 /obj/structure/ship_weapon/laser_cannon
-	name = "MODEL_HERE Ship mounted laser"
-	desc = "A ship-to-ship weapon which fires a powerful destructive laser bolt."
+	name = "NT-WMG2 Laser cannon"
+	desc = "An experimental ship-to-ship energy weapon which fires a powerful destructive blast."
 	icon = 'nsv13/icons/obj/laser_cannon.dmi'
 	icon_state = "laser_cannon"
 

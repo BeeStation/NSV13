@@ -6,7 +6,7 @@
 
 /*
  * Machine circuit board for the actual laser cannon
- * Cannon construction requires 5 tier 3 capacitors and lasers, a torpedo IFF card because targeting is good, a special power cell, and diamonds for a lens
+ * Cannon construction requires 5 tier 3 capacitors and lasers, a special power cell, and diamonds for a lens
  */
 /obj/item/circuitboard/machine/laser_cannon
 	name = "Laser Cannon (Machine Board)"
@@ -15,7 +15,6 @@
 		/obj/item/stock_parts/capacitor/super = 5,
 		/obj/item/stock_parts/micro_laser/ultra = 5,
 		/obj/item/stock_parts/cell/laser_cannon = 1,
-		/obj/item/torpedo/iff_card = 1,
 		/obj/item/stack/sheet/mineral/diamond = 3)
 
 /*
@@ -26,7 +25,7 @@
  *			  either scale damage or make replace_parts not work on this.
  */
 /obj/item/stock_parts/cell/laser_cannon
-	name = "laser cannon power collector"
+	name = "laser cannon power cell"
 	icon_state = "hpcell"
 
 	maxcharge = 5000000
@@ -52,7 +51,7 @@
  * Machine frame for the laser cannon. Mostly works like the regular kind, but made of plasteel and with fancy sprites.
  */
 /obj/structure/frame/machine/laser_cannon
-	name = "MODEL_HERE laser cannon frame"
+	name = "NT-WMG2 Phased cannon frame"
 	icon = 'nsv13/icons/obj/laser_cannon.dmi'
 	icon_state = "laser_frame_loose"
 
@@ -65,7 +64,7 @@
 
 /* *************
  * TECHWEB AND DESIGNS
- * Requires beam weapons because it's a laser, torpedo for the IFF card, computers for the console,
+ * Requires beam weapons because it's a laser, torpedo because emphasis on ballistics, computers for the console,
  * and advanced power because it has a special power cell and draws power from the whole grid.
  * Three unique parts: machine circuit, computer circuit, and power cell
  * *************/

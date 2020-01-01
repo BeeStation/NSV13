@@ -213,8 +213,8 @@
 				return TRUE
 		if(FIRE_MODE_LASER)
 			if (ship_lasers.len >= 1)
-				// TODO: add sound and a good message
-				to_chat(usr, "<span class='notice'>TODO add laser message here</span>")
+				to_chat(usr, "<span class='notice'>Calibrating wave motion gun targeting systems.</span>")
+				relay('sound/effects/empulse.ogg')
 				swap_to(FIRE_MODE_LASER)
 				return TRUE
 
@@ -237,7 +237,7 @@
 			fire_mode = FIRE_MODE_TORPEDO
 		if(FIRE_MODE_LASER)
 			fire_delay =30 // Probably too short, figure out the real charging time or something close
-			weapon_range = initial(weapon_range)+10 //TODO: figure out range
+			weapon_range = initial(weapon_range)+30
 	if(ai_controlled)
 		fire_delay += 10 //Make it fair on the humans who have to actually reload and stuff.
 
