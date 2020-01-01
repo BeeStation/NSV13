@@ -122,9 +122,11 @@ GLOBAL_DATUM_INIT(starsystem_controller, /datum/starsystem_controller, new)
 				AR.parallax_movedir = null
 	else
 		if(ftl_start)
-			linked_area.parallax_movedir = EAST
+			for(var/area/linked_area in linked_areas)
+				linked_area.parallax_movedir = EAST
 		else
-			linked_area.parallax_movedir = null
+			for(var/area/linked_area in linked_areas)
+				linked_area.parallax_movedir = null
 	for(var/mob/M in mobs_in_ship)
 		if(M && M.client && M.hud_used && length(M.client.parallax_layers))
 			M.hud_used.update_parallax(forced = TRUE)

@@ -120,7 +120,7 @@
 			fire_projectiles(/obj/item/projectile/bullet/pdc_round, target)
 
 /obj/structure/overmap/proc/can_fire_pdcs(shots) //Trigger the PDCs to fire
-	if(!linked_area && !main_overmap) //We need AIs to be able to use PDCs
+	if(!linked_areas.len && !main_overmap) //We need AIs to be able to use PDCs
 		return TRUE
 	if(!pdcs.len)
 		return FALSE
@@ -252,7 +252,7 @@
 			shake_camera(M, severity, 1)
 
 /obj/structure/overmap/proc/fire_torpedo(atom/target)
-	if(!linked_area && !main_overmap) //AI ships don't have interiors
+	if(!linked_areas.len && !main_overmap) //AI ships don't have interiors
 		if(torpedoes <= 0)
 			return
 		fire_projectile(/obj/item/projectile/bullet/torpedo, target, homing = TRUE, speed=1, explosive = TRUE)
