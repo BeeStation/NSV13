@@ -6,7 +6,6 @@
 #define TRAIT_BINARY_SPEAKER	"speaks_binary"
 //Access
 #define ACCESS_MUNITIONS 69
-#define FREQ_ATC 1237  // Air traffic control comms frequency, grey
 #define COMSIG_PROCESS_BORGCHARGER_OCCUPANT "living_charge"		//sent from borg recharge stations: (amount, repairs)
 
 //Lazy cables
