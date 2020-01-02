@@ -44,12 +44,11 @@
 		if("PRG_beginReconstruction")
 			if(A && A.health < 100)
 				restoring = TRUE
-				A.notify_ghost_cloning("Your core files are being restored!", source = computer)
 			return TRUE
 		if("PRG_eject")
 			if(computer.all_components[MC_AI])
 				var/obj/item/computer_hardware/ai_slot/ai_slot = computer.all_components[MC_AI]
-				if(ai_slot && ai_slot.stored_card)
+				if(ai_slot?.stored_card)
 					ai_slot.try_eject(0,usr)
 					return TRUE
 

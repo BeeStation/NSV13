@@ -35,6 +35,10 @@
 /datum/config_entry/keyed_list/midround_antag/ValidateListEntry(key_name, key_value)
 	return key_name in config.modes
 
+/datum/config_entry/keyed_list/policy
+	key_mode = KEY_MODE_TEXT
+	value_mode = VALUE_MODE_TEXT
+
 /datum/config_entry/number/damage_multiplier
 	config_entry_value = 1
 	integer = FALSE
@@ -375,6 +379,12 @@
 	key_mode = KEY_MODE_TEXT
 	value_mode = VALUE_MODE_NUM
 
-/datum/config_entry/number/monkeycap
-	config_entry_value = 64
-	min_val = 0
+/datum/config_entry/flag/allow_crew_objectives
+
+//Mob spam prevention
+/datum/config_entry/number/max_cube_monkeys
+	config_entry_value = 100
+/datum/config_entry/number/max_chickens
+	config_entry_value = 100
+/datum/config_entry/number/max_slimes
+	config_entry_value = 100

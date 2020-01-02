@@ -96,6 +96,8 @@
 	var/resize = 0 //Factor by which we should shrink a ship down. 0 means don't shrink it.
 	var/list/docking_points = list() //Where we can land on this ship. Usually right at the edge of a z-level.
 	var/weapon_safety = FALSE //Like a gun safety. Entirely un-used except for fighters to stop brainlets from shooting people on the ship unintentionally :)
+	var/armour_plates = 0 //You lose max integrity when you lose armour plates.
+	var/max_armour_plates = 500 //Placeholder. Set by counting in game objects.
 
 /obj/structure/overmap/can_be_pulled(user) // no :)
 	return FALSE
@@ -123,7 +125,7 @@
 			forward_maxthrust = 4
 			backward_maxthrust = 4
 			side_maxthrust = 3
-			max_angular_acceleration = 120
+			max_angular_acceleration = 180
 			cabin_air = new
 			cabin_air.temperature = T20C
 			cabin_air.volume = 200
@@ -144,20 +146,21 @@
 			forward_maxthrust = 0.3
 			backward_maxthrust = 0.3
 			side_maxthrust = 0.2
-			max_angular_acceleration = 5
+			max_angular_acceleration = 15
 		if(MASS_TITAN)
 			forward_maxthrust = 0.1
 			backward_maxthrust = 0.1
 			side_maxthrust = 0.1
-			max_angular_acceleration = 2
+			max_angular_acceleration = 5
 	if(main_overmap)
 		name = "[station_name()]"
 	current_system = GLOB.starsystem_controller.find_system(src)
+	addtimer(CALLBACK(src, .proc/check_armour), 20 SECONDS)
 
 /obj/structure/overmap/Destroy()
-	. = ..()
 	if(cabin_air)
 		QDEL_NULL(cabin_air)
+	. = ..()
 
 /obj/structure/overmap/proc/find_area()
 	if(main_overmap) //We're the hero ship, link us to every ss13 area.
@@ -319,25 +322,25 @@
 		return FALSE
 	return !user.incapacitated() && isliving(user)
 
-/obj/structure/overmap/proc/handle_hotkeys(key, client/C)
-	var/mob/user = C.mob
+/obj/structure/overmap/key_down(key, client/user)
+	var/mob/themob = user.mob
 	switch(key)
 		if("Space")
-			if(user == pilot)
+			if(themob == pilot)
 				toggle_move_mode()
 			if(helm && prob(80))
 				var/sound = pick(GLOB.computer_beeps)
 				playsound(helm, sound, 100, 1)
 			return TRUE
 		if("Alt")
-			if(user == pilot)
+			if(themob == pilot)
 				toggle_brakes()
 			if(helm && prob(80))
 				var/sound = pick(GLOB.computer_beeps)
 				playsound(helm, sound, 100, 1)
 			return TRUE
 		if("Ctrl")
-			if(user == gunner)
+			if(themob == gunner)
 				cycle_firemode()
 			if(tactical && prob(80))
 				var/sound = pick(GLOB.computer_beeps)
@@ -346,7 +349,7 @@
 	return FALSE
 
 /obj/structure/overmap/verb/toggle_brakes()
-	set name = "Toggle Brakes"
+	set name = "Toggle Handbrake"
 	set category = "Ship"
 	set src = usr.loc
 
@@ -388,18 +391,8 @@
 	to_chat(usr, "<span class='notice'>Use the <b>scroll wheel</b> to zoom in / out.</span>")
 	to_chat(usr, "<span class='notice'>Use tab to activate hotkey mode, then:</span>")
 	to_chat(usr, "<span class='notice'>Press <b>space</b> to make the ship follow your mouse (or stop following your mouse).</span>")
-	to_chat(usr, "<span class='notice'>Press <b>Alt<b> to engage inertial dampeners</span>")
+	to_chat(usr, "<span class='notice'>Press <b>Alt<b> to engage handbrake</span>")
 	to_chat(usr, "<span class='notice'>Press <b>Ctrl<b> to cycle fire modes</span>")
-
-/obj/structure/overmap/verb/toggle_rcs()
-	set name = "Toggle RCS maneuvering jets"
-	set category = "Ship"
-	set src = usr.loc
-
-	if(!verb_check())
-		return
-	rcs_mode = !rcs_mode
-	to_chat(usr, "<span class='notice'>You [rcs_mode ? "activate" : "deactivate"] [src]'s reaction control systems.</span>")
 
 /obj/structure/overmap/verb/toggle_move_mode()
 	set name = "Change movement mode"

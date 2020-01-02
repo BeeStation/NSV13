@@ -6,7 +6,7 @@
 #define CLONE_INITIAL_DAMAGE     150    //Clones in clonepods start with 150 cloneloss damage and 150 brainloss damage, thats just logical
 #define MINIMUM_HEAL_LEVEL 40
 
-#define SPEAK(message) radio.talk_into(src, message, radio_channel)
+#define SPEAK(message) radio.talk_into(src, message, radio_channel, get_spans(), get_default_language())
 
 /obj/machinery/clonepod
 	name = "cloning pod"
@@ -65,8 +65,8 @@
 	. = ..()
 
 /obj/machinery/clonepod/RefreshParts()
-	speed_coeff = 0
-	efficiency = 0
+	speed_coeff = 2
+	efficiency = 2
 	for(var/obj/item/stock_parts/scanning_module/S in component_parts)
 		efficiency += S.rating
 	for(var/obj/item/stock_parts/manipulator/P in component_parts)
@@ -81,9 +81,9 @@
 	. = ..()
 	. += "<span class='notice'>The <i>linking</i> device can be <i>scanned<i> with a multitool.</span>"
 	if(in_range(user, src) || isobserver(user))
-		. += "<span class='notice'>The status display reads: Cloning speed at <b>[speed_coeff*50]%</b>.<br>Predicted amount of cellular damage: <b>[100-heal_level]%</b>.</span>"
+		. += "<span class='notice'>The status display reads: Cloning speed at <b>[speed_coeff*50]%</b>.<br>Predicted amount of cellular damage: <b>[100-heal_level]%</b>.<span>"
 		if(efficiency > 5)
-			. += "<span class='notice'>Pod has been upgraded to support autoprocessing and apply beneficial mutations.</span>"
+			. += "<span class='notice'>Pod has been upgraded to support autoprocessing and apply beneficial mutations.<span>"
 
 //The return of data disks?? Just for transferring between genetics machine/cloning machine.
 //TO-DO: Make the genetics machine accept them.
@@ -140,37 +140,35 @@
 	return examine(user)
 
 //Start growing a human clone in the pod!
-/obj/machinery/clonepod/proc/growclone(clonename, ui, mutation_index, mindref, last_death, datum/species/mrace, list/features, factions, list/quirks, datum/bank_account/insurance, list/traumas, empty)
+/obj/machinery/clonepod/proc/growclone(clonename, ui, mutation_index, mindref, last_death, datum/species/mrace, list/features, factions, list/quirks, datum/bank_account/insurance, list/traumas)
 	if(panel_open)
 		return NONE
 	if(mess || attempting)
 		return NONE
-
-	if(!empty) //Doesn't matter if we're just making a copy
-		clonemind = locate(mindref) in SSticker.minds
-		if(!istype(clonemind))	//not a mind
+	clonemind = locate(mindref) in SSticker.minds
+	if(!istype(clonemind))	//not a mind
+		return NONE
+	if(clonemind.last_death != last_death) //The soul has advanced, the record has not.
+		return NONE
+	if(!QDELETED(clonemind.current))
+		if(clonemind.current.stat != DEAD)	//mind is associated with a non-dead body
 			return NONE
-		if(clonemind.last_death != last_death) //The soul has advanced, the record has not.
+		if(clonemind.current.suiciding) // Mind is associated with a body that is suiciding.
 			return NONE
-		if(!QDELETED(clonemind.current))
-			if(clonemind.current.stat != DEAD)	//mind is associated with a non-dead body
-				return NONE
-			if(clonemind.current.suiciding) // Mind is associated with a body that is suiciding.
-				return NONE
-		if(!clonemind.active)
-			// get_ghost() will fail if they're unable to reenter their body
-			var/mob/dead/observer/G = clonemind.get_ghost()
-			if(!G)
-				return NONE
-			if(G.suiciding) // The ghost came from a body that is suiciding.
-				return NONE
-		if(clonemind.damnation_type) //Can't clone the damned.
-			INVOKE_ASYNC(src, .proc/horrifyingsound)
-			mess = TRUE
-			icon_state = "pod_g"
-			update_icon()
+	if(!clonemind.active)
+		// get_ghost() will fail if they're unable to reenter their body
+		var/mob/dead/observer/G = clonemind.get_ghost()
+		if(!G)
 			return NONE
-		current_insurance = insurance
+		if(G.suiciding) // The ghost came from a body that is suiciding.
+			return NONE
+	if(clonemind.damnation_type) //Can't clone the damned.
+		INVOKE_ASYNC(src, .proc/horrifyingsound)
+		mess = TRUE
+		icon_state = "pod_g"
+		update_icon()
+		return NONE
+	current_insurance = insurance
 	attempting = TRUE //One at a time!!
 	countdown.start()
 
@@ -200,26 +198,25 @@
 	//Get the clone body ready
 	maim_clone(H)
 	ADD_TRAIT(H, TRAIT_STABLEHEART, CLONING_POD_TRAIT)
-	ADD_TRAIT(H, TRAIT_STABLELIVER, CLONING_POD_TRAIT)
 	ADD_TRAIT(H, TRAIT_EMOTEMUTE, CLONING_POD_TRAIT)
 	ADD_TRAIT(H, TRAIT_MUTE, CLONING_POD_TRAIT)
 	ADD_TRAIT(H, TRAIT_NOBREATH, CLONING_POD_TRAIT)
 	ADD_TRAIT(H, TRAIT_NOCRITDAMAGE, CLONING_POD_TRAIT)
 	H.Unconscious(80)
 
-	if(!empty)
-		clonemind.transfer_to(H)
+	clonemind.transfer_to(H)
 
-		if(grab_ghost_when == CLONER_FRESH_CLONE)
-			H.grab_ghost()
-			to_chat(H, "<span class='notice'><b>Consciousness slowly creeps over you as your body regenerates.</b><br><i>So this is what cloning feels like?</i></span>")
+	if(grab_ghost_when == CLONER_FRESH_CLONE)
+		H.grab_ghost()
+		to_chat(H, "<span class='notice'><b>Consciousness slowly creeps over you as your body regenerates.</b><br><i>So this is what cloning feels like?</i></span>")
 
-		if(grab_ghost_when == CLONER_MATURE_CLONE)
-			H.ghostize(TRUE)	//Only does anything if they were still in their old body and not already a ghost
-			to_chat(H.get_ghost(TRUE), "<span class='notice'>Your body is beginning to regenerate in a cloning pod. You will become conscious when it is complete.</span>")
+	if(grab_ghost_when == CLONER_MATURE_CLONE)
+		H.ghostize(TRUE)	//Only does anything if they were still in their old body and not already a ghost
+		to_chat(H.get_ghost(TRUE), "<span class='notice'>Your body is beginning to regenerate in a cloning pod. You will become conscious when it is complete.</span>")
 
 	if(H)
 		H.faction |= factions
+		remove_hivemember(H)
 
 		for(var/V in quirks)
 			var/datum/quirk/Q = new V(H)
@@ -278,7 +275,7 @@
 			mob_occupant.Unconscious(80)
 			var/dmg_mult = CONFIG_GET(number/damage_multiplier)
 			 //Slowly get that clone healed and finished.
-			mob_occupant.adjustCloneLoss(-((speed_coeff / 2) * dmg_mult))
+			mob_occupant.adjustCloneLoss(-((speed_coeff / 1.75) * dmg_mult))
 			var/progress = CLONE_INITIAL_DAMAGE - mob_occupant.getCloneLoss()
 			// To avoid the default cloner making incomplete clones
 			progress += (100 - MINIMUM_HEAL_LEVEL)
@@ -408,7 +405,6 @@
 		return
 	current_insurance = null
 	REMOVE_TRAIT(mob_occupant, TRAIT_STABLEHEART, CLONING_POD_TRAIT)
-	REMOVE_TRAIT(mob_occupant, TRAIT_STABLELIVER, CLONING_POD_TRAIT)
 	REMOVE_TRAIT(mob_occupant, TRAIT_EMOTEMUTE, CLONING_POD_TRAIT)
 	REMOVE_TRAIT(mob_occupant, TRAIT_MUTE, CLONING_POD_TRAIT)
 	REMOVE_TRAIT(mob_occupant, TRAIT_NOCRITDAMAGE, CLONING_POD_TRAIT)
@@ -429,6 +425,7 @@
 	unattached_flesh.Cut()
 
 	occupant = null
+	clonemind = null
 
 /obj/machinery/clonepod/proc/malfunction()
 	var/mob/living/mob_occupant = occupant
@@ -439,7 +436,7 @@
 		mess = TRUE
 		maim_clone(mob_occupant)	//Remove every bit that's grown back so far to drop later, also destroys bits that haven't grown yet
 		icon_state = "pod_g"
-		if(mob_occupant.mind != clonemind)
+		if(clonemind && mob_occupant.mind != clonemind)
 			clonemind.transfer_to(mob_occupant)
 		mob_occupant.grab_ghost() // We really just want to make you suffer.
 		flash_color(mob_occupant, flash_color="#960000", flash_time=100)

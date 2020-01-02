@@ -26,8 +26,8 @@
 #define ROLE_SERVANT_OF_RATVAR	"Servant of Ratvar"
 #define ROLE_BROTHER			"Blood Brother"
 #define ROLE_BRAINWASHED		"Brainwashed Victim"
-#define ROLE_OVERTHROW			"Syndicate Mutineer"		//Role removed, left here for safety.
-#define ROLE_HIVE				"Hivemind Host"				//Role removed, left here for safety.
+#define ROLE_OVERTHROW			"Syndicate Mutineer"
+#define ROLE_HIVE				"Hivemind Host"
 #define ROLE_OBSESSED				"Obsessed"
 #define ROLE_SENTIENCE			"Sentience Potion Spawn"
 #define ROLE_MIND_TRANSFER		"Mind Transfer Potion"
@@ -36,6 +36,7 @@
 #define ROLE_DEATHSQUAD			"Deathsquad"
 #define ROLE_LAVALAND			"Lavaland"
 #define ROLE_INTERNAL_AFFAIRS	"Internal Affairs Agent"
+#define ROLE_GANG				"Gangster"
 
 //Missing assignment means it's not a gamemode specific role, IT'S NOT A BUG OR ERROR.
 //The gamemode specific ones are just so the gamemodes can query whether a player is old enough
@@ -59,8 +60,11 @@ GLOBAL_LIST_INIT(special_roles, list(
 	ROLE_ABDUCTOR,
 	ROLE_DEVIL = /datum/game_mode/devil,
 	ROLE_SERVANT_OF_RATVAR = /datum/game_mode/clockwork_cult,
+	ROLE_OVERTHROW = /datum/game_mode/overthrow,
+	ROLE_HIVE = /datum/game_mode/hivemind,
 	ROLE_INTERNAL_AFFAIRS = /datum/game_mode/traitor/internal_affairs,
-	ROLE_SENTIENCE
+	ROLE_SENTIENCE,
+	ROLE_GANG = /datum/game_mode/gang
 ))
 
 //Job defines for what happens when you fail to qualify for any job during job selection

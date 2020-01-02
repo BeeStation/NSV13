@@ -37,6 +37,8 @@ After going through this checklist, you're ready to go!
 	torpedoes = 0
 	speed_limit = 6 //We want fighters to be way more maneuverable
 	weapon_safety = TRUE //This happens wayy too much for my liking. Starts OFF.
+	pixel_w = -26
+	pixel_z = -28
 	var/maint_state = MS_CLOSED
 	var/prebuilt = FALSE
 	var/a_eff = 0
@@ -289,6 +291,8 @@ After going through this checklist, you're ready to go!
 	var/new_name = stripped_input(usr, message="What do you want to name \
 		your fighter? Keep in mind that particularly terrible names may be \
 		rejected by your employers.", max_length=MAX_CHARTER_LEN)
+	if(!new_name || length(new_name) <= 0)
+		return
 	message_admins("[key_name_admin(usr)] renamed a fighter to [new_name] [ADMIN_LOOKUPFLW(src)].")
 	name = new_name
 
@@ -298,6 +302,8 @@ After going through this checklist, you're ready to go!
 			if(OM.main_overmap)
 				forceMove(get_turf(OM))
 				resize = 1 //Scale down!
+				pixel_w = -20
+				pixel_z = -40
 				docking_cooldown = TRUE
 				addtimer(VARSET_CALLBACK(src, docking_cooldown, FALSE), 5 SECONDS) //Prevents jank.
 				if(pilot)
@@ -314,6 +320,8 @@ After going through this checklist, you're ready to go!
 		return
 	if(OM.docking_points.len)
 		resize = 0 //Scale up!
+		pixel_w = initial(pixel_w)
+		pixel_z = initial(pixel_z)
 		var/turf/T = get_turf(pick(OM.docking_points))
 		forceMove(T)
 		if(pilot)
@@ -705,9 +713,11 @@ After going through this checklist, you're ready to go!
 				to_chat(user, "<span class='notice'>You climb into [src]'s cockpit.</span>")
 				user.forceMove(src)
 				start_piloting(user, "all_positions")
-				dradis?.soundloop?.start()
+				if(user?.client?.prefs.toggles & SOUND_AMBIENCE) //Disable ambient sounds to shut up the noises.
+					dradis?.soundloop?.start()
 				mobs_in_ship += user
-				SEND_SOUND(user, sound('nsv13/sound/effects/ship/cockpit.ogg', repeat = TRUE, wait = 0, volume = 100, channel=CHANNEL_SHIP_ALERT))
+				if(user?.client?.prefs.toggles & SOUND_AMBIENCE) //Disable ambient sounds to shut up the noises.
+					SEND_SOUND(user, sound('nsv13/sound/effects/ship/cockpit.ogg', repeat = TRUE, wait = 0, volume = 70, channel=CHANNEL_SHIP_ALERT))
 				return TRUE
 		else
 			if(mobs_in_ship.len < max_passengers)
@@ -725,6 +735,7 @@ After going through this checklist, you're ready to go!
 	if(!is_station_level(z) &&!force)
 		to_chat(M, "<span class='warning'>DANGER: You may not exit [src] while flying alongside other large ships.</span>")
 		return FALSE //No jumping out into the overmap :)
+	M.focus = M
 	operators -= M
 	mobs_in_ship -= M
 	LAZYREMOVE(M.mousemove_intercept_objects, src)

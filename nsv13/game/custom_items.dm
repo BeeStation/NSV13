@@ -6,8 +6,10 @@
 	item_state = "stunsword"
 	slot_flags = ITEM_SLOT_BELT
 	w_class = WEIGHT_CLASS_BULKY
-	force = 0
+	force = 10
 	on_stun_sound = 'nsv13/sound/effects/saberhit.ogg'
+	attack_verb = list("immolated", "slashed")
+	hitsound = 'sound/weapons/rapierhit.ogg'
 
 	on_icon_state = "stunsword_active"
 	off_icon_state = "stunsword"

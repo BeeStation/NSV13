@@ -420,7 +420,7 @@ for further reading, please see: https://github.com/tgstation/tgstation/pull/301
 /obj/item/ectoplasm/suicide_act(mob/user)
 	user.visible_message("<span class='suicide'>[user] is inhaling [src]! It looks like [user.p_theyre()] trying to visit the astral plane!</span>")
 	return (OXYLOSS)
-
+	
 /obj/item/ectoplasm/angelic
 	icon = 'icons/obj/wizard.dmi'
 	icon_state = "angelplasm"
@@ -468,17 +468,11 @@ for further reading, please see: https://github.com/tgstation/tgstation/pull/301
 	throw_speed = 5
 	throw_range = 2
 	attack_verb = list("busted")
-	var/impressiveness = 45
-
-/obj/item/statuebust/Initialize()
-	. = ..()
-	AddComponent(/datum/component/art, impressiveness)
 
 /obj/item/statuebust/hippocratic
 	name = "hippocrates bust"
 	desc = "A bust of the famous Greek physician Hippocrates of Kos, often referred to as the father of western medicine."
 	icon_state = "hippocratic"
-	impressiveness = 50
 
 /obj/item/tailclub
 	name = "tail club"
@@ -641,7 +635,7 @@ for further reading, please see: https://github.com/tgstation/tgstation/pull/301
 /obj/item/slapper/attack(mob/M, mob/living/carbon/human/user)
 	if(ishuman(M))
 		var/mob/living/carbon/human/L = M
-		if(L && L.dna && L.dna.species)
+		if(L?.dna?.species)
 			L.dna.species.stop_wagging_tail(M)
 	user.do_attack_animation(M)
 	playsound(M, 'sound/weapons/slap.ogg', 50, 1, -1)
@@ -665,7 +659,6 @@ for further reading, please see: https://github.com/tgstation/tgstation/pull/301
 	force = 0
 	throwforce = 5
 	reach = 2
-	var/min_reach = 2
 
 /obj/item/extendohand/acme
 	name = "\improper ACME Extendo-Hand"
@@ -673,7 +666,57 @@ for further reading, please see: https://github.com/tgstation/tgstation/pull/301
 
 /obj/item/extendohand/attack(atom/M, mob/living/carbon/human/user)
 	var/dist = get_dist(M, user)
-	if(dist < min_reach)
+	if(dist < reach)
 		to_chat(user, "<span class='warning'>[M] is too close to use [src] on.</span>")
 		return
 	M.attack_hand(user)
+
+
+// Shank - Makeshift weapon that can embed on throw
+/obj/item/melee/shank
+	name = "Shank"
+	desc = "A crude knife fashioned by wrapping some cable around a glass shard. It looks like it could be thrown with some force.. and stick. Good to throw at someone chasing you"
+	icon = 'icons/obj/items_and_weapons.dmi'
+	icon_state = "shank"
+	item_state = "shank" //Kind of a placeholder, but im ass with sprites and I doubt someone will notice its a recoloured switchblade :')
+	lefthand_file = 'icons/mob/inhands/weapons/swords_lefthand.dmi'
+	righthand_file = 'icons/mob/inhands/weapons/swords_righthand.dmi'
+	force = 8 // 3 more than base glass shard
+	throwforce = 8
+	throw_speed = 5 //yeets
+	armour_penetration = 10 //spear has 10 armour pen, I think its fitting another glass tipped item should have it too
+	embedding = list("embedded_pain_multiplier" = 6, "embed_chance" = 40, "embedded_fall_chance" = 5) // Incentive to disengage/stop chasing when stuck
+	attack_verb = list("stuck", "shanked")
+	w_class = WEIGHT_CLASS_SMALL
+	hitsound = 'sound/weapons/bladeslice.ogg'
+	sharpness = IS_SHARP
+
+/obj/item/melee/shank/suicide_act(mob/user)
+	user.visible_message("<span class='suicide'>[user] is slitting [user.p_their()] [pick("wrists", "throat")] with the shank! It looks like [user.p_theyre()] trying to commit suicide.</span>")
+	return (BRUTELOSS)
+
+/obj/item/highfive
+	name = "raised hand"
+	desc = "Slap my hand."
+	icon_state = "latexballon"
+	item_state = "nothing"
+	hitsound = 'sound/weapons/punchmiss.ogg'
+	force = 0
+	throwforce = 0
+	item_flags = DROPDEL | ABSTRACT
+	attack_verb = list("is left hanging by")
+
+/obj/item/highfive/attack(mob/target, mob/user)
+	if(target == user)
+		to_chat(user, "<span class='notice'>You can't high-five yourself! Go get a friend!</span>")
+	else if(ishuman(target) && (target.stat == CONSCIOUS) && (istype(target.get_active_held_item(), /obj/item/highfive)) )
+		var/obj/item/highfive/downlow = target.get_active_held_item()
+		user.visible_message("[user] and [target] high five!", "<span class='notice'>You high five with [target]!</span>", "<span class='italics'>You hear a slap!</span>")
+		user.do_attack_animation(target)
+		target.do_attack_animation(user)
+		playsound(src, 'sound/weapons/punch2.ogg', 50, 0)
+		qdel(src)
+		qdel(downlow)
+	else
+		user.visible_message("[user] is left hanging by [target].", "<span class='notice'>[target] leaves you hanging.</span>")
+		playsound(src, 'sound/weapons/punchmiss.ogg', 50, 0)

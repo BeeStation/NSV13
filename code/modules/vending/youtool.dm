@@ -3,7 +3,8 @@
 	desc = "Tools for tools."
 	icon_state = "tool"
 	icon_deny = "tool-deny"
-	products = list(/obj/item/stack/cable_coil = 10,
+	light_color = LIGHT_COLOR_YELLOW
+	products = list(/obj/item/stack/cable_coil/random = 10,
 		            /obj/item/crowbar = 5,
 		            /obj/item/weldingtool = 3,
 		            /obj/item/wirecutters = 5,

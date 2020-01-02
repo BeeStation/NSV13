@@ -74,7 +74,7 @@
 			else
 				to_chat(user, "<span class='warning'>You need one floor tile to build a floor!</span>")
 		else
-			to_chat(user, "<span class='warning'>The plating is going to need some support! Place metal rods first.</span>")
+			to_chat(user, "<span class='warning'>The plating is going to need some support! Place iron rods first.</span>")
 
 /turf/open/chasm/CanPass(atom/movable/mover, turf/target)
 	return 1
@@ -92,7 +92,7 @@
 // Chasms for the jungle, with planetary atmos and a different icon
 /turf/open/chasm/jungle
 	icon = 'icons/turf/floors/junglechasm.dmi'
-	initial_gas_mix = LAVALAND_DEFAULT_ATMOS
+	initial_gas_mix = OPENTURF_LOW_PRESSURE
 	planetary_atmos = TRUE
 	baseturfs = /turf/open/chasm/jungle
 

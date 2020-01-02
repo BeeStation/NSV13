@@ -202,6 +202,8 @@ GLOBAL_LIST_EMPTY(allCasters)
 	var/c_locked=0
 	var/datum/newscaster/feed_channel/viewing_channel = null
 	var/allow_comments = 1
+	light_color = LIGHT_COLOR_GREEN
+	light_power = 1.5
 
 /obj/machinery/newscaster/security_unit
 	name = "security newscaster"
@@ -228,6 +230,7 @@ GLOBAL_LIST_EMPTY(allCasters)
 	cut_overlays()
 	if(stat & (NOPOWER|BROKEN))
 		icon_state = "newscaster_off"
+		set_light(0)
 	else
 		if(GLOB.news_network.wanted_issue.active)
 			icon_state = "newscaster_wanted"
@@ -235,6 +238,7 @@ GLOBAL_LIST_EMPTY(allCasters)
 			icon_state = "newscaster_normal"
 			if(alert)
 				add_overlay("newscaster_alert")
+		set_light(1)
 	var/hp_percent = obj_integrity * 100 /max_integrity
 	switch(hp_percent)
 		if(75 to 100)
@@ -515,7 +519,7 @@ GLOBAL_LIST_EMPTY(allCasters)
 		if(href_list["set_channel_name"])
 			channel_name = stripped_input(usr, "Provide a Feed Channel Name", "Network Channel Handler", "", MAX_NAME_LEN)
 			while (findtext(channel_name," ") == 1)
-				channel_name = copytext(channel_name,2,lentext(channel_name)+1)
+				channel_name = copytext(channel_name,2,length(channel_name)+1)
 			updateUsrDialog()
 		else if(href_list["set_channel_lock"])
 			c_locked = !c_locked
@@ -725,7 +729,7 @@ GLOBAL_LIST_EMPTY(allCasters)
 			playsound(loc, 'sound/items/deconstruct.ogg', 50, 1)
 			if(stat & BROKEN)
 				to_chat(user, "<span class='warning'>The broken remains of [src] fall on the ground.</span>")
-				new /obj/item/stack/sheet/metal(loc, 5)
+				new /obj/item/stack/sheet/iron(loc, 5)
 				new /obj/item/shard(loc)
 				new /obj/item/shard(loc)
 			else
@@ -764,7 +768,7 @@ GLOBAL_LIST_EMPTY(allCasters)
 
 /obj/machinery/newscaster/deconstruct(disassembled = TRUE)
 	if(!(flags_1 & NODECONSTRUCT_1))
-		new /obj/item/stack/sheet/metal(loc, 2)
+		new /obj/item/stack/sheet/iron(loc, 2)
 		new /obj/item/shard(loc)
 		new /obj/item/shard(loc)
 	qdel(src)

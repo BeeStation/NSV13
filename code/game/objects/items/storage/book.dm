@@ -78,13 +78,7 @@ GLOBAL_LIST_INIT(bibleitemstates, list("bible", "koran", "scrapbook", "burning",
 			var/mob/living/carbon/human/H = usr
 			H.dna.add_mutation(CLOWNMUT)
 			H.equip_to_slot_or_del(new /obj/item/clothing/mask/gas/clown_hat(H), SLOT_WEAR_MASK)
-		if(icon_state == "insuls")
-			var/mob/living/carbon/human/H =usr
-			var/obj/item/clothing/gloves/color/fyellow/insuls = new
-			insuls.name = "insuls"
-			insuls.desc = "A mere copy of the true insuls."
-			insuls.siemens_coefficient = 0.99999
-			H.equip_to_slot(insuls, ITEM_SLOT_GLOVES)
+
 		GLOB.bible_icon_state = icon_state
 		GLOB.bible_item_state = item_state
 
@@ -219,6 +213,8 @@ GLOBAL_LIST_INIT(bibleitemstates, list("bible", "koran", "scrapbook", "burning",
 			for(var/mob/M in SS.contents)
 				if(M.mind)
 					SS.icon_state = "purified_soulstone2"
+					if(iscultist(M))
+						SSticker.mode.remove_cultist(M.mind, FALSE, FALSE)
 			for(var/mob/living/simple_animal/shade/EX in SS)
 				EX.icon_state = "ghost1"
 				EX.name = "Purified [initial(EX.name)]"				

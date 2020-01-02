@@ -9,7 +9,7 @@
 
 /mob/living/carbon/human/movement_delay()
 	. = ..()
-	if(dna && dna.species)
+	if(dna?.species)
 		. += dna.species.movement_delay(src)
 
 /mob/living/carbon/human/slip(knockdown_amount, obj/O, lube, paralyze, forcedrop)
@@ -43,6 +43,8 @@
 
 /mob/living/carbon/human/Move(NewLoc, direct)
 	. = ..()
+	for(var/datum/mutation/human/HM in dna.mutations)
+		HM.on_move(NewLoc)
 
 	if(shoes)
 		if(mobility_flags & MOBILITY_STAND)

@@ -18,7 +18,7 @@
 
 /obj/item/mecha_parts/mecha_equipment/drill/Initialize()
 	. = ..()
-	AddComponent(/datum/component/butchering, 50, 100, null, null, TRUE)
+	AddComponent(/datum/component/butchering, 50, 100)
 
 /obj/item/mecha_parts/mecha_equipment/drill/action(atom/target)
 	if(!action_checks(target))

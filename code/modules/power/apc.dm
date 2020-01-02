@@ -56,8 +56,10 @@
 	integrity_failure = 50
 	resistance_flags = FIRE_PROOF
 	interaction_flags_machine = INTERACT_MACHINE_WIRES_IF_OPEN | INTERACT_MACHINE_ALLOW_SILICON | INTERACT_MACHINE_OPEN_SILICON
+	ui_x = 450
+	ui_y = 460
 
-	var/lon_range = 1.5
+	var/lon_range = 2
 	var/area/area
 	var/areastring = null
 	var/obj/item/stock_parts/cell/cell
@@ -539,7 +541,7 @@
 							"<span class='italics'>You hear welding.</span>")
 		if(W.use_tool(src, user, 50, volume=50, amount=3))
 			if ((stat & BROKEN) || opened==APC_COVER_REMOVED)
-				new /obj/item/stack/sheet/metal(loc)
+				new /obj/item/stack/sheet/iron(loc)
 				user.visible_message(\
 					"[user.name] has cut [src] apart with [W].",\
 					"<span class='notice'>You disassembled the broken APC frame.</span>")
@@ -706,57 +708,15 @@
 			opened = APC_COVER_CLOSED
 			locked = FALSE
 			update_icon()
+
+	else if(istype(W, /obj/item/apc_powercord))
+		return //because we put our fancy code in the right places, and this is all in the powercord's afterattack()
+
 		return
 	else if(panel_open && !opened && is_wire_tool(W))
 		wires.interact(user)
 	else
 		return ..()
-
-/obj/machinery/power/apc/rcd_vals(mob/user, obj/item/construction/rcd/the_rcd)
-	if(the_rcd.upgrade & RCD_UPGRADE_SIMPLE_CIRCUITS)
-		if(!has_electronics)
-			if(stat & BROKEN)
-				to_chat(user, "<span class='warning'>[src]'s frame is too damaged to support a circuit.</span>")
-				return FALSE
-			return list("mode" = RCD_UPGRADE_SIMPLE_CIRCUITS, "delay" = 20, "cost" = 1)	
-		else if(!cell)
-			if(stat & MAINT)
-				to_chat(user, "<span class='warning'>There's no connector for a power cell.</span>")
-				return FALSE
-			return list("mode" = RCD_UPGRADE_SIMPLE_CIRCUITS, "delay" = 50, "cost" = 10) //16 for a wall
-		else
-			to_chat(user, "<span class='warning'>[src] has both electronics and a cell.</span>")
-			return FALSE
-	return FALSE
-
-/obj/machinery/power/apc/rcd_act(mob/user, obj/item/construction/rcd/the_rcd, passed_mode)
-	switch(passed_mode)
-		if(RCD_UPGRADE_SIMPLE_CIRCUITS)
-			if(!has_electronics)
-				if(stat & BROKEN)
-					to_chat(user, "<span class='warning'>[src]'s frame is too damaged to support a circuit.</span>")
-					return
-				user.visible_message("<span class='notice'>[user] fabricates a circuit and places it into [src].</span>", \
-				"<span class='notice'>You adapt a power control board and click it into place in [src]'s guts.</span>")
-				has_electronics = TRUE
-				locked = TRUE
-				return TRUE
-			else if(!cell)
-				if(stat & MAINT)
-					to_chat(user, "<span class='warning'>There's no connector for a power cell.</span>")
-					return FALSE
-				var/obj/item/stock_parts/cell/crap/empty/C = new(src)
-				C.forceMove(src)
-				cell = C
-				chargecount = 0
-				user.visible_message("<span class='notice'>[user] fabricates a weak power cell and places it into [src].</span>", \
-				"<span class='warning'>Your [the_rcd.name] whirrs with strain as you create a weak power cell and place it into [src]!</span>")
-				update_icon()
-				return TRUE
-			else
-				to_chat(user, "<span class='warning'>[src] has both electronics and a cell.</span>")
-				return FALSE
-	return FALSE
 
 /obj/machinery/power/apc/AltClick(mob/user)
 	..()
@@ -852,8 +812,6 @@
 	if(!ui)
 		ui = new(user, src, ui_key, "apc", name, 535, 515, master_ui, state)
 		ui.open()
-	if(ui)
-		ui.set_autoupdate(state = (failure_timer ? 1 : 0))
 
 /obj/machinery/power/apc/ui_data(mob/user)
 	var/list/data = list(
@@ -1167,9 +1125,9 @@
 	if(terminal && terminal.powernet)
 		terminal.add_load(amount)
 
-/obj/machinery/power/apc/avail()
+/obj/machinery/power/apc/avail(amount)
 	if(terminal)
-		return terminal.avail()
+		return terminal.avail(amount)
 	else
 		return 0
 
@@ -1178,7 +1136,7 @@
 		update_icon()
 	if(stat & (BROKEN|MAINT))
 		return
-	if(!area.requires_power)
+	if(!area?.requires_power)
 		return
 	if(failure_timer)
 		update()

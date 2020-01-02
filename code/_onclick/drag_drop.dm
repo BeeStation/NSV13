@@ -93,7 +93,16 @@
 /obj/item/gun/CanItemAutoclick(object, location, params)
 	. = automatic
 
-//nsv13 start - Overmap stuff
+/atom/proc/IsAutoclickable()
+	. = 1
+
+/obj/screen/IsAutoclickable()
+	. = 0
+
+/obj/screen/click_catcher/IsAutoclickable()
+	. = 1
+
+//Please don't roast me too hard
 /client/MouseMove(object,location,control,params)
 	mouseParams = params
 	mouseLocation = location
@@ -106,17 +115,6 @@
 
 /datum/proc/onMouseMove(object, location, control, params)
 	return
-
-//nsv13 end
-
-/atom/proc/IsAutoclickable()
-	. = 1
-
-/obj/screen/IsAutoclickable()
-	. = 0
-
-/obj/screen/click_catcher/IsAutoclickable()
-	. = 1
 
 /client/MouseDrag(src_object,atom/over_object,src_location,over_location,src_control,over_control,params)
 	var/list/L = params2list(params)

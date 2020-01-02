@@ -131,9 +131,8 @@
 #define INIT_ORDER_SHUTTLE			-21
 #define INIT_ORDER_MINOR_MAPPING	-40
 #define INIT_ORDER_PATH				-50
-#define INIT_ORDER_DISCORD			-60
-#define INIT_ORDER_PERSISTENCE		-95
-#define INIT_ORDER_CHAT				-100 //Should be last to ensure chat remains smooth during init.
+#define INIT_ORDER_PERSISTENCE		-100
+#define INIT_ORDER_CHAT				-150 //Should be last to ensure chat remains smooth during init.
 
 // Subsystem fire priority, from lowest to highest priority
 // If the subsystem isn't listed here it's either DEFAULT or PROCESS (if it's a processing subsystem child)
@@ -181,7 +180,7 @@
 
 //! ## Overlays subsystem
 
-///Compile all the overlays for an atom from the cache lists
+/// Compile all the overlays for an atom from the cache lists
 #define COMPILE_OVERLAYS(A)\
 	if (TRUE) {\
 		var/list/ad = A.add_overlays;\

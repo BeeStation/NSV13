@@ -124,6 +124,15 @@
 	category = list("initial","Tools","Tool Designs")
 	departmental_flags = DEPARTMENTAL_FLAG_ENGINEERING | DEPARTMENTAL_FLAG_SCIENCE
 
+/datum/design/plunger
+	name = "Plunger"
+	id = "plunger"
+	build_type = AUTOLATHE | PROTOLATHE
+	materials = list(/datum/material/iron = 150)
+	build_path = /obj/item/plunger
+	category = list("initial","Tools","Tool Designs")
+	departmental_flags = DEPARTMENTAL_FLAG_ENGINEERING | DEPARTMENTAL_FLAG_MEDICAL
+
 /datum/design/welding_helmet
 	name = "Welding Helmet"
 	id = "welding_helmet"
@@ -139,7 +148,7 @@
 	materials = list(/datum/material/iron = 10, /datum/material/glass = 5)
 	build_path = /obj/item/stack/cable_coil
 	category = list("initial","Tools","Tool Designs")
-	maxstack = MAXCOIL
+	maxstack = 30
 	departmental_flags = DEPARTMENTAL_FLAG_ENGINEERING | DEPARTMENTAL_FLAG_SCIENCE
 
 /datum/design/toolbox
@@ -254,6 +263,15 @@
 	category = list("hacked","Misc","Equipment")
 	departmental_flags = DEPARTMENTAL_FLAG_ENGINEERING | DEPARTMENTAL_FLAG_CARGO
 
+/datum/design/plasmaman_tank
+	name = "Extended-Capacity Plasmaman Tank"
+	id = "plasmaman_tank"
+	build_type = AUTOLATHE | PROTOLATHE
+	materials = list(/datum/material/iron = 3200)
+	build_path = /obj/item/tank/internals/plasmaman/empty
+	category = list("hacked","Misc","Equipment")
+	departmental_flags = DEPARTMENTAL_FLAG_ENGINEERING | DEPARTMENTAL_FLAG_CARGO
+
 /datum/design/plasmaman_tank_belt
 	name = "Plasmaman Belt Tank"
 	id = "plasmaman_tank_belt"
@@ -263,12 +281,12 @@
 	category = list("hacked","Misc","Equipment")
 	departmental_flags = DEPARTMENTAL_FLAG_ENGINEERING | DEPARTMENTAL_FLAG_CARGO
 
-/datum/design/metal
-	name = "Metal"
-	id = "metal"
+/datum/design/iron
+	name = "Iron"
+	id = "iron"
 	build_type = AUTOLATHE
 	materials = list(/datum/material/iron = MINERAL_MATERIAL_AMOUNT)
-	build_path = /obj/item/stack/sheet/metal
+	build_path = /obj/item/stack/sheet/iron
 	category = list("initial","Construction")
 	maxstack = 50
 
@@ -291,7 +309,7 @@
 	maxstack = 50
 
 /datum/design/rods
-	name = "Metal Rod"
+	name = "Iron Rod"
 	id = "rods"
 	build_type = AUTOLATHE
 	materials = list(/datum/material/iron = 1000)
@@ -781,11 +799,11 @@
 	category = list("hacked", "Security")
 
 /datum/design/a357
-	name = ".357 Casing"
+	name = "Speed Loader (.357)"
 	id = "a357"
 	build_type = AUTOLATHE
-	materials = list(MAT_METAL = 4000)
-	build_path = /obj/item/ammo_casing/a357
+	materials = list(/datum/material/iron = 30000)
+	build_path = /obj/item/ammo_box/a357
 	category = list("hacked", "Security")
 
 /datum/design/c10mm
@@ -864,9 +882,10 @@
 	name = "Conveyor Belt"
 	id = "conveyor_belt"
 	build_type = AUTOLATHE
-	materials = list(/datum/material/iron = 5000)
-	build_path = /obj/item/conveyor_construct
+	materials = list(/datum/material/iron = 3000)
+	build_path = /obj/item/stack/conveyor
 	category = list("initial", "Construction")
+	maxstack = 30
 
 /datum/design/conveyor_switch
 	name = "Conveyor Belt Switch"
@@ -958,4 +977,29 @@
 	materials = list(/datum/material/iron = 500, /datum/material/glass = 500)
 	build_path = /obj/item/stack/tile/circuit/red
 	category = list("initial", "Misc")
+	maxstack = 50
+
+/datum/design/toygun
+	name = "Cap Gun"
+	id = "toygun"
+	build_type = AUTOLATHE
+	materials = list(/datum/material/iron = 100, /datum/material/glass = 50)
+	build_path = /obj/item/toy/gun
+	category = list("hacked", "Misc")
+
+/datum/design/capbox
+	name = "Box of Cap Gun Shots"
+	id = "capbox"
+	build_type = AUTOLATHE
+	materials = list(/datum/material/iron = 20, /datum/material/glass = 5)
+	build_path = /obj/item/toy/ammo/gun
+	category = list("hacked", "Misc")
+
+/datum/design/ducts
+	name = "Fluid Ducts"
+	id = "fluid_ducts"
+	build_type = AUTOLATHE
+	materials = list(/datum/material/iron = 500)
+	build_path = /obj/item/stack/ducts
+	category = list("initial", "Construction")
 	maxstack = 50

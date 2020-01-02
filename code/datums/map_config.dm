@@ -24,6 +24,9 @@
 
 	var/minetype = "lavaland"
 
+	var/overmap = null //NSV13 Stuff with overmap code
+	var/over_traits = null //NSV13 Stuff with overmap code
+
 	var/allow_custom_shuttles = TRUE
 	var/shuttles = list(
 		"cargo" = "cargo_box",
@@ -128,6 +131,32 @@
 
 	allow_custom_shuttles = json["allow_custom_shuttles"] != FALSE
 
+	overmap = json["overmap"]
+	if (istext(overmap))
+		if (!fexists("_maps/[map_path]/[overmap]"))
+			log_world("Map file ([map_path]/[overmap]) does not exist!")
+			return
+	// BECAUSE I NEED TO MODULARISE THIS AND MOVE IT OUT- Jalleo (I should stop shouting at myself) [Shout at me if I dont do this]
+
+	else if (islist(overmap))
+		for (var/file in overmap)
+			if (!fexists("_maps/[map_path]/[file]"))
+				log_world("Map file ([map_path]/[file]) does not exist!")
+				return
+
+	over_traits = json["over_traits"]
+	if (islist(over_traits))
+		// "overmap" is set by default, but it's assumed if you're setting
+		// traits you want to customize which level is cross-linked
+		for (var/level in traits)
+			if (!(ZTRAITS_OVERMAP in level))
+				level[ZTRAITS_OVERMAP] = TRUE
+	// "traits": null or absent -> default
+	else if (!isnull(traits))
+		log_world("map_config traits is not a list!")
+		return
+
+
 	defaulted = FALSE
 	return TRUE
 #undef CHECK_EXISTS
@@ -138,6 +167,11 @@
 	. = list()
 	for (var/file in map_file)
 		. += "_maps/[map_path]/[file]"
+
+/datum/map_config/proc/is_votable()
+	var/below_max = !(config_max_users) || GLOB.clients.len <= config_max_users
+	var/above_min = !(config_min_users) || GLOB.clients.len >= config_min_users
+	return votable && below_max && above_min
 
 /datum/map_config/proc/MakeNextMap()
 	return config_filename == "data/next_map.json" || fcopy(config_filename, "data/next_map.json")

@@ -126,7 +126,7 @@
 				else
 					to_chat(user, "<span class='notice'>You begin deconstructing [src]...</span>")
 					if (W.use_tool(src, user, 30, volume=50))
-						new /obj/item/stack/sheet/metal(drop_location(), sheets_refunded)
+						new /obj/item/stack/sheet/iron(drop_location(), sheets_refunded)
 						user.visible_message("[user.name] deconstructs [src].", \
 							"<span class='notice'>You deconstruct [src].</span>", "<span class='italics'>You hear a ratchet.</span>")
 						playsound(src, 'sound/items/deconstruct.ogg', 75, 1)
@@ -183,7 +183,7 @@
 
 /obj/structure/light_construct/deconstruct(disassembled = TRUE)
 	if(!(flags_1 & NODECONSTRUCT_1))
-		new /obj/item/stack/sheet/metal(loc, sheets_refunded)
+		new /obj/item/stack/sheet/iron(loc, sheets_refunded)
 	qdel(src)
 
 /obj/structure/light_construct/small
@@ -213,7 +213,7 @@
 	var/static_power_used = 0
 	var/brightness = 8			// luminosity when on, also used in power calculation
 	var/bulb_power = 1			// basically the alpha of the emitted light source
-	var/bulb_colour = "#FFFFFF"	// befault colour of the light.
+	var/bulb_colour = "#FFCE99"	// qwerty's new more cozy color of light
 	var/status = LIGHT_OK		// LIGHT_OK, _EMPTY, _BURNED or _BROKEN
 	var/flickering = FALSE
 	var/light_type = /obj/item/light/tube		// the type of light item
@@ -230,7 +230,7 @@
 	var/nightshift_allowed = TRUE	//Set to FALSE to never let this light get switched to night mode.
 	var/nightshift_brightness = 8
 	var/nightshift_light_power = 0.45
-	var/nightshift_light_color = "#FFDDCC"
+	var/nightshift_light_color = "#FFDBB5" //qwerty's more cozy light
 
 	var/emergency_mode = FALSE	// if true, the light is in emergency mode
 	var/no_emergency = FALSE	// if true, this light cannot ever have an emergency mode
@@ -238,8 +238,6 @@
 	var/bulb_emergency_colour = "#FF3232"	// determines the colour of the light while it's in emergency mode
 	var/bulb_emergency_pow_mul = 0.75	// the multiplier for determining the light's power in emergency mode
 	var/bulb_emergency_pow_min = 0.5	// the minimum value for the light's power in emergency mode
-	var/gq_redalert_colour = "#e17f7f"	// Nsv13 - general quarters
-
 
 /obj/machinery/light/broken
 	status = LIGHT_BROKEN
@@ -253,6 +251,7 @@
 	fitting = "bulb"
 	brightness = 4
 	desc = "A small lighting fixture."
+	bulb_colour = "#FFE6CC" //little less cozy, bit more industrial, but still cozy.. -qwerty
 	light_type = /obj/item/light/bulb
 
 /obj/machinery/light/small/broken
@@ -275,6 +274,7 @@
 
 /obj/machinery/light/small/built
 	icon_state = "bulb-empty"
+	start_with_cell = FALSE
 
 /obj/machinery/light/small/built/Initialize()
 	. = ..()
@@ -346,18 +346,13 @@
 		var/BR = brightness
 		var/PO = bulb_power
 		var/CO = bulb_colour
-		if(color)
-			CO = color
 		var/area/A = get_area(src)
-		if (A && A.fire)
+		if (A?.fire || A?.redalert) //Nsv13 - general quarters
 			CO = bulb_emergency_colour
-		if(A && A.redalert)
-			CO = gq_redalert_colour
 		else if (nightshift_enabled)
 			BR = nightshift_brightness
 			PO = nightshift_light_power
-			if(!color)
-				CO = nightshift_light_color
+			CO = nightshift_light_color
 		var/matching = light && BR == light.light_range && PO == light.light_power && CO == light.light_color
 		if(!matching)
 			switchcount++
@@ -640,12 +635,9 @@
 			if(istype(eth_species))
 				to_chat(H, "<span class='notice'>You start channeling some power through the [fitting] into your body.</span>")
 				if(do_after(user, 50, target = src))
-					var/obj/item/organ/stomach/ethereal/stomach = H.getorganslot(ORGAN_SLOT_STOMACH)
-					if(istype(stomach))
-						to_chat(H, "<span class='notice'>You receive some charge from the [fitting].</span>")
-						stomach.adjust_charge(5)
-					else
-						to_chat(H, "<span class='warning'>You can't receive charge from the [fitting]!</span>")
+					to_chat(H, "<span class='notice'>You receive some charge from the [fitting].</span>")
+					eth_species.adjust_charge(5)
+					return
 				return
 
 			if(H.gloves)

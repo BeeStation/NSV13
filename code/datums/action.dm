@@ -119,7 +119,7 @@
 		if(!status_only)
 			button.name = name
 			button.desc = desc
-			if(owner && owner.hud_used && background_icon_state == ACTION_BUTTON_DEFAULT_BACKGROUND)
+			if(owner?.hud_used && background_icon_state == ACTION_BUTTON_DEFAULT_BACKGROUND)
 				var/list/settings = owner.hud_used.get_action_buttons_icons()
 				if(button.icon != settings["bg_icon"])
 					button.icon = settings["bg_icon"]
@@ -348,6 +348,9 @@
 
 /datum/action/item_action/toggle_helmet_mode
 	name = "Toggle Helmet Mode"
+
+/datum/action/item_action/crew_monitor
+	name = "Interface With Crew Monitor"
 
 /datum/action/item_action/toggle
 
@@ -731,10 +734,10 @@
 	small_icon_state = "goliath2"
 
 /datum/action/small_sprite/megafauna/legion
-	small_icon_state = "mega_legion"
+	small_icon_state = "dwarf_legion"
 
 /datum/action/small_sprite/megafauna/spacedragon
-	small_icon = 'icons/mob/carp.dmi'
+	small_icon = 'icons/mob/animal.dmi'
 	small_icon_state = "carp"
 
 /datum/action/small_sprite/Trigger()

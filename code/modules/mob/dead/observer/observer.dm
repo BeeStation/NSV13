@@ -84,7 +84,10 @@ GLOBAL_VAR_INIT(observer_default_invisibility, INVISIBILITY_OBSERVER)
 
 		gender = body.gender
 		if(body.mind && body.mind.name)
-			name = body.mind.name
+			if(body.mind.ghostname)
+				name = body.mind.ghostname
+			else
+				name = body.mind.name
 		else
 			if(body.real_name)
 				name = body.real_name
@@ -233,7 +236,7 @@ GLOBAL_VAR_INIT(observer_default_invisibility, INVISIBILITY_OBSERVER)
 	var/r_val
 	var/b_val
 	var/g_val
-	var/color_format = lentext(input_color)
+	var/color_format = length(input_color)
 	if(color_format == 3)
 		r_val = hex2num(copytext(input_color, 1, 2))*16
 		g_val = hex2num(copytext(input_color, 2, 3))*16
@@ -335,7 +338,7 @@ This is the proc mobs get to turn into a ghost. Forked from ghostize due to comp
 	if(mind.current.key && copytext(mind.current.key,1,2)!="@")	//makes sure we don't accidentally kick any clients
 		to_chat(usr, "<span class='warning'>Another consciousness is in your body...It is resisting you.</span>")
 		return
-	client.check_view()
+	client.change_view(CONFIG_GET(string/default_view))
 	SStgui.on_transfer(src, mind.current) // Transfer NanoUIs.
 	mind.current.key = key
 	return TRUE
@@ -384,7 +387,7 @@ This is the proc mobs get to turn into a ghost. Forked from ghostize due to comp
 	set name = "Teleport"
 	set desc= "Teleport to a location"
 	if(!isobserver(usr))
-		to_chat(usr, "<span class='warning'>Not when you're not dead!</span>")
+		to_chat(usr, "Not when you're not dead!")
 		return
 	var/list/filtered = list()
 	for(var/V in GLOB.sortedAreas)
@@ -401,7 +404,7 @@ This is the proc mobs get to turn into a ghost. Forked from ghostize due to comp
 		L+=T
 
 	if(!L || !L.len)
-		to_chat(usr, "<span class='warning'>No area available.</span>")
+		to_chat(usr, "No area available.")
 		return
 
 	usr.forceMove(pick(L))
@@ -494,7 +497,7 @@ This is the proc mobs get to turn into a ghost. Forked from ghostize due to comp
 		if(new_view)
 			client.change_view(CLAMP(new_view, 7, max_view))
 	else
-		client.check_view()
+		client.change_view(CONFIG_GET(string/default_view))
 
 /mob/dead/observer/verb/add_view_range(input as num)
 	set name = "Add View Range"
@@ -731,8 +734,10 @@ This is the proc mobs get to turn into a ghost. Forked from ghostize due to comp
 	set category = "Ghost"
 
 	set_ghost_appearance()
-	if(client && client.prefs)
+	if(client?.prefs)
 		deadchat_name = client.prefs.real_name
+		mind.ghostname = client.prefs.real_name
+		name = client.prefs.real_name
 
 /mob/dead/observer/proc/set_ghost_appearance()
 	if((!client) || (!client.prefs))
@@ -825,7 +830,7 @@ This is the proc mobs get to turn into a ghost. Forked from ghostize due to comp
 	if(isobserver(src))
 		SSpai.recruitWindow(src)
 	else
-		to_chat(usr, "<span class='warning'>Can't become a pAI candidate while not dead!</span>")
+		to_chat(usr, "Can't become a pAI candidate while not dead!")
 
 /mob/dead/observer/CtrlShiftClick(mob/user)
 	if(isobserver(user) && check_rights(R_SPAWN))

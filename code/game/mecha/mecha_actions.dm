@@ -164,6 +164,7 @@
 		chassis.log_message("Toggled thrusters.", LOG_MECHA)
 		chassis.occupant_message("<font color='[chassis.thrusters_active ?"blue":"red"]'>Thrusters [chassis.thrusters_active ?"en":"dis"]abled.")
 
+
 /datum/action/innate/mecha/mech_defense_mode
 	name = "Toggle an energy shield that blocks all attacks from the faced direction at a heavy power cost."
 	button_icon_state = "mech_defense_mode_off"
@@ -209,9 +210,8 @@
 	if(chassis.smoke_ready && chassis.smoke>0)
 		chassis.smoke_system.start()
 		chassis.smoke--
-		chassis.smoke_ready = 0
-		spawn(chassis.smoke_cooldown)
-			chassis.smoke_ready = 1
+		chassis.smoke_ready = FALSE
+		addtimer(VARSET_CALLBACK(chassis, smoke_ready, TRUE), chassis.smoke_cooldown)
 
 
 /datum/action/innate/mecha/mech_zoom
@@ -230,7 +230,7 @@
 			owner.client.change_view(12)
 			SEND_SOUND(owner, sound('sound/mecha/imag_enh.ogg',volume=50))
 		else
-			owner.client.check_view() //world.view - default mob view size
+			owner.client.change_view(CONFIG_GET(string/default_view)) //world.view - default mob view size
 		UpdateButtonIcon()
 
 /datum/action/innate/mecha/mech_switch_damtype

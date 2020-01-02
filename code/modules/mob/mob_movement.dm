@@ -32,7 +32,7 @@
   * Has no sanity other than checking density
   */
 /client/proc/Move_object(direct)
-	if(mob && mob.control_object)
+	if(mob?.control_object)
 		if(mob.control_object.density)
 			step(mob.control_object,direct)
 			if(!mob.control_object)
@@ -333,7 +333,7 @@
 	return FALSE
 
 /// Called when this mob slips over, override as needed
-/mob/proc/slip(knockdown_amount, obj/O, lube, paralyze, force_drop)
+/mob/proc/slip(knockdown, paralyze, forcedrop, w_amount, obj/O, lube)
 	return
 
 /// Update the gravity status of this mob

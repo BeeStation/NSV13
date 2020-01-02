@@ -10,9 +10,10 @@ GLOBAL_LIST_INIT(channel_tokens, list(
 	RADIO_CHANNEL_SYNDICATE = RADIO_TOKEN_SYNDICATE,
 	RADIO_CHANNEL_SUPPLY = RADIO_TOKEN_SUPPLY,
 	RADIO_CHANNEL_SERVICE = RADIO_TOKEN_SERVICE,
+	RADIO_CHANNEL_ATC = RADIO_TOKEN_ATC,
 	MODE_BINARY = MODE_TOKEN_BINARY,
 	RADIO_CHANNEL_AI_PRIVATE = RADIO_TOKEN_AI_PRIVATE
-))
+)) //Nsv13 - Atc chat
 
 /obj/item/radio/headset
 	name = "radio headset"
@@ -106,6 +107,12 @@ GLOBAL_LIST_INIT(channel_tokens, list(
 	desc = "This is used by your elite security force."
 	icon_state = "sec_headset"
 	keyslot = new /obj/item/encryptionkey/headset_sec
+
+/obj/item/radio/headset/headset_medsec
+	name = "medical-security radio headset"
+	desc = "Used to hear how many security officers need to be stiched back together."
+	icon_state = "medsec_headset"
+	keyslot = new /obj/item/encryptionkey/headset_medsec
 
 /obj/item/radio/headset/headset_sec/alt
 	name = "security bowman headset"
@@ -213,7 +220,7 @@ GLOBAL_LIST_INIT(channel_tokens, list(
 	keyslot = new /obj/item/encryptionkey/heads/cmo
 
 /obj/item/radio/headset/heads/hop
-	name = "\proper the Executive Officer's headset"
+	name = "\proper the head of personnel's headset"
 	desc = "The headset of the guy who will one day be captain."
 	icon_state = "com_headset"
 	keyslot = new /obj/item/encryptionkey/heads/hop
