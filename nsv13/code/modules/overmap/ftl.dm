@@ -50,9 +50,38 @@ GLOBAL_DATUM_INIT(starsystem_controller, /datum/starsystem_controller, new)
 	var/list/enemies_in_system = list() //For mission completion.
 	var/reward = 5000 //Small cash bonus when you clear a system, allows you to buy more ammo
 	var/difficulty_budget = 2
+	var/list/asteroids = list() //Keep track of how many asteroids are in system. Don't want to spam the system full of them
+
+/datum/starsystem/New()
+	. = ..()
+	addtimer(CALLBACK(src, .proc/spawn_asteroids), 30 SECONDS)
+
+/datum/starsystem/proc/spawn_asteroids()
+	if(asteroids.len >= 6)
+		message_admins("Asteroids failed to spawn in [src] due to over population of asteroids. Tell the ship to do mining or shoot them down.")
+		return //Too many asteroids mane
+	var/turf/destination = null
+	for(var/z in SSmapping.levels_by_trait(level_trait))
+		var/turf/exit = get_turf(locate(round(world.maxx * 0.5, 1), round(world.maxy * 0.5, 1), z)) //Plop them bang in the center of the system.
+		destination = get_turf(pick(orange(20,exit)))
+		if(!destination)
+			message_admins("WARNING: The [name] system has no exit point for ships! You probably forgot to set the [level_trait]:1 setting for that Z in your map's JSON file.")
+			return
+	new /obj/structure/asteroid(get_turf(pick(orange(5, destination)))) //Guaranteed at least some asteroids that they can pull in to start with.
+	new /obj/structure/asteroid(get_turf(pick(orange(5, destination))))
+	for(var/i = 0, i< rand(3,6), i++)
+		var/roid_type = pick(/obj/structure/asteroid, /obj/structure/asteroid/medium, /obj/structure/asteroid/large)
+		var/turf/random_dest = get_turf(locate(rand(20,220), rand(20,220), destination.z))
+		var/obj/structure/asteroid/roid = new roid_type(random_dest)
+		asteroids += roid
+		RegisterSignal(roid, COMSIG_PARENT_QDELETING , .proc/remove_asteroid, roid) //Add a listener component to check when a ship is killed, and thus check if the incursion is cleared.
+
+/datum/starsystem/proc/remove_asteroid(obj/structure/asteroid/AS)
+	asteroids -= AS
 
 /datum/starsystem/proc/spawn_enemies() //Method for spawning enemies in a random distribution in the center of the system.
 	enemies_in_system = list()
+	spawn_asteroids()
 	for(var/i = 0, i< rand(1,difficulty_budget), i++)
 		var/enemy_type = pick(subtypesof(/obj/structure/overmap/syndicate)) //Spawn a random set of enemies.
 		for(var/z in SSmapping.levels_by_trait(level_trait))
