@@ -163,11 +163,15 @@ After going through this checklist, you're ready to go!
 		OM.velocity_y = 0 //Full stop.
 		OM.mag_lock = TRUE
 		var/turf/center = get_turf(src)
-		switch(dir)
-			if(NORTH || EAST || WEST)
-				center = get_turf(src)
+		switch(dir) //Do some fuckery to make sure the fighter lines up on the pad in a halfway sensible manner.
+			if(NORTH)
+				center = get_turf(locate(x+1,y+1,z))
 			if(SOUTH)
-				center = get_turf(locate(x,y-1,z))
+				center = get_turf(locate(x+1,y+1,z))
+			if(EAST)
+				center = get_turf(locate(x+2,y,z))
+			if(WEST)
+				center = get_turf(locate(x+2,y,z))
 		OM.forceMove(get_turf(center)) //"Catch" them like an arrestor.
 		var/obj/structure/overmap/link = get_overmap()
 		link?.relay('nsv13/sound/effects/ship/freespace2/shockwave.wav')
@@ -177,6 +181,10 @@ After going through this checklist, you're ready to go!
 				OM.desired_angle = 0
 			if(SOUTH)
 				OM.desired_angle = 180
+			if(EAST)
+				OM.desired_angle = 90
+			if(WEST)
+				OM.desired_angle = -90
 		if(!linked)
 			linkup()
 
