@@ -153,7 +153,7 @@ SUBSYSTEM_DEF(vote)
 
 /datum/controller/subsystem/vote/proc/submit_vote(vote)
 	if(mode)
-		if(CONFIG_GET(flag/no_dead_vote) && usr.stat == DEAD && !usr.client.holder)
+		if(CONFIG_GET(flag/no_dead_vote) && (usr.stat == DEAD && !isnewplayer(usr)) && !usr.client.holder && mode != "map")
 			return 0
 		if(!(usr.ckey in voted))
 			if(vote && 1<=vote && vote<=choices.len)
@@ -162,7 +162,7 @@ SUBSYSTEM_DEF(vote)
 				return vote
 	return 0
 
-/datum/controller/subsystem/vote/proc/initiate_vote(vote_type, initiator_key)
+/datum/controller/subsystem/vote/proc/initiate_vote(vote_type, initiator_key, forced=FALSE, popup=FALSE)
 	if(!mode)
 		if(started_time)
 			var/next_allowed_time = (started_time + CONFIG_GET(number/vote_delay))
@@ -172,7 +172,7 @@ SUBSYSTEM_DEF(vote)
 
 			var/admin = FALSE
 			var/ckey = ckey(initiator_key)
-			if(GLOB.admin_datums[ckey])
+			if(GLOB.admin_datums[ckey] || forced)
 				admin = TRUE
 
 			if(next_allowed_time > world.time && !admin)
@@ -186,11 +186,16 @@ SUBSYSTEM_DEF(vote)
 			if("gamemode")
 				choices.Add(config.votable_modes)
 			if("map")
+				// Randomizes the list so it isn't always METASTATION
+				var/list/maps = list()
 				for(var/map in global.config.maplist)
 					var/datum/map_config/VM = config.maplist[map]
-					if(!VM.votable)
+					if(!VM.is_votable())
 						continue
-					choices.Add(VM.map_name)
+					maps += VM.map_name
+					shuffle_inplace(maps)
+				for(var/valid_map in maps)
+					choices.Add(valid_map)
 			if("custom")
 				question = stripped_input(usr,"What is the vote for?")
 				if(!question)
@@ -220,6 +225,10 @@ SUBSYSTEM_DEF(vote)
 			C.player_details.player_actions += V
 			V.Grant(C.mob)
 			generated_actions += V
+
+			if(popup)
+				C?.mob?.vote() // automatically popup the vote
+
 		return 1
 	return 0
 
@@ -295,7 +304,7 @@ SUBSYSTEM_DEF(vote)
 	if(usr.client.holder)
 		if(check_rights_for(usr.client, R_ADMIN))
 			trialmin = 1
-	
+
 	switch(href_list["vote"])
 		if("close")
 			voting -= usr.client

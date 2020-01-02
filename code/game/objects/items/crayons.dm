@@ -69,6 +69,8 @@
 	var/pre_noise = FALSE
 	var/post_noise = FALSE
 
+	var/datum/team/gang/gang //For marking territory, spraycans are gang-locked to their initial gang due to colors
+
 /obj/item/toy/crayon/proc/isValidSurface(surface)
 	return istype(surface, /turf/open/floor)
 
@@ -140,7 +142,7 @@
 /obj/item/toy/crayon/ui_interact(mob/user, ui_key = "main", datum/tgui/ui = null, force_open = FALSE, datum/tgui/master_ui = null, datum/ui_state/state = GLOB.hands_state)
 	// tgui is a plague upon this codebase
 
-	SStgui.try_update_ui(user, src, ui_key, ui, force_open)
+	ui = SStgui.try_update_ui(user, src, ui_key, ui, force_open)
 	if(!ui)
 		ui = new(user, src, ui_key, "crayon", name, 600, 600,
 			master_ui, state)
@@ -231,8 +233,13 @@
 				paint_mode = PAINT_NORMAL
 		if("select_colour")
 			if(can_change_colour)
-				paint_color = input(usr,"","Choose Color",paint_color) as color|null
-				. = TRUE
+				var/chosen_colour = input(usr,"","Choose Color",paint_color) as color|null
+
+				if (!isnull(chosen_colour))
+					paint_color = chosen_colour
+					. = TRUE
+				else 
+					. = FALSE
 		if("enter_text")
 			var/txt = stripped_input(usr,"Choose what to write.",
 				"Scribbles",default = text_buffer)
@@ -252,7 +259,6 @@
 		return
 
 	var/static/list/punctuation = list("!","?",".",",","/","+","-","=","%","#","&")
-	var/istagger = HAS_TRAIT(user, TRAIT_TAGGER)
 
 	var/cost = 1
 	if(paint_mode == PAINT_LARGE_HORIZONTAL)
@@ -260,12 +266,15 @@
 	if(istype(target, /obj/item/canvas))
 		cost = 0
 	if(ishuman(user))
-		if (istagger)
+		var/mob/living/carbon/human/H = user
+		if (HAS_TRAIT(H, TRAIT_TAGGER))
 			cost *= 0.5
+	/* hippie start -- moved to the end of the proc, after the crayon is actually used.
 	var/charges_used = use_charges(user, cost)
 	if(!charges_used)
 		return
 	. = charges_used
+	hippie end */
 
 	if(istype(target, /obj/effect/decal/cleanable))
 		target = target.loc
@@ -308,7 +317,9 @@
 		temp = "drawing"
 	else if(drawing in graffiti|oriented)
 		temp = "graffiti"
-
+	var/gang_check = hippie_gang_check(user,target) // hippie start -- gang check and temp setting
+	if(!gang_check) return
+	else if(gang_check == "gang graffiti") temp = gang_check // hippie end
 
 	var/graf_rot
 	if(drawing in oriented)
@@ -331,7 +342,7 @@
 		clicky = CLAMP(text2num(click_params["icon-y"]) - 16, -(world.icon_size/2), world.icon_size/2)
 
 	if(!instant)
-		to_chat(user, "<span class='notice'>You start drawing a [temp] on the	[target.name]...</span>")
+		to_chat(user, "<span class='notice'>You start drawing a [temp] on the [target.name]...</span>") // hippie -- removed a weird tab that had no reason to be here
 
 	if(pre_noise)
 		audible_message("<span class='notice'>You hear spraying.</span>")
@@ -340,7 +351,7 @@
 	var/wait_time = 50
 	if(paint_mode == PAINT_LARGE_HORIZONTAL)
 		wait_time *= 3
-
+	if(gang) instant = FALSE // hippie -- gang spraying must not be instant, balance reasons
 	if(!instant)
 		if(!do_after(user, 50, target = target))
 			return
@@ -351,11 +362,16 @@
 
 	var/list/turf/affected_turfs = list()
 
+	if(gang) // hippie start -- gang spraying is done differently
+		if(gang_final(user, target, affected_turfs))
+			return
+		actually_paints = FALSE // skip the next if check
+	// hippie end
 	if(actually_paints)
-		var/obj/effect/decal/cleanable/crayon/C
 		switch(paint_mode)
 			if(PAINT_NORMAL)
-				C = new(target, paint_color, drawing, temp, graf_rot)
+				var/obj/effect/decal/cleanable/crayon/C = new(target, paint_color, drawing, temp, graf_rot)
+				C.add_hiddenprint(user)
 				C.pixel_x = clickx
 				C.pixel_y = clicky
 				affected_turfs += target
@@ -363,16 +379,14 @@
 				var/turf/left = locate(target.x-1,target.y,target.z)
 				var/turf/right = locate(target.x+1,target.y,target.z)
 				if(isValidSurface(left) && isValidSurface(right))
-					C = new(left, paint_color, drawing, temp, graf_rot, PAINT_LARGE_HORIZONTAL_ICON)
+					var/obj/effect/decal/cleanable/crayon/C = new(left, paint_color, drawing, temp, graf_rot, PAINT_LARGE_HORIZONTAL_ICON)
+					C.add_hiddenprint(user)
 					affected_turfs += left
 					affected_turfs += right
 					affected_turfs += target
 				else
 					to_chat(user, "<span class='warning'>There isn't enough space to paint!</span>")
 					return
-		C.add_hiddenprint(user)
-		if(istagger)
-			C.AddComponent(/datum/component/art, 30)
 
 	if(!instant)
 		to_chat(user, "<span class='notice'>You finish drawing \the [temp].</span>")
@@ -386,7 +400,12 @@
 	if(post_noise)
 		audible_message("<span class='notice'>You hear spraying.</span>")
 		playsound(user.loc, 'sound/effects/spray.ogg', 5, 1, 5)
-
+	// hippie start -- using changes moved to the end of the proc, so it won't use charges if the spraying fails for any reason.
+	var/charges_used = use_charges(user, cost)
+	if(!charges_used)
+		return
+	. = charges_used
+	// hippie end
 	var/fraction = min(1, . / reagents.maximum_volume)
 	if(affected_turfs.len)
 		fraction /= affected_turfs.len
@@ -492,7 +511,7 @@
 	. = ..()
 	var/datum/component/storage/STR = GetComponent(/datum/component/storage)
 	STR.max_items = 7
-	STR.set_holdable(list(/obj/item/toy/crayon))
+	STR.can_hold = typecacheof(list(/obj/item/toy/crayon))
 
 /obj/item/storage/crayons/PopulateContents()
 	new /obj/item/toy/crayon/red(src)
@@ -621,9 +640,9 @@
 		if(C.client)
 			C.blur_eyes(3)
 			C.blind_eyes(1)
-		if(C.get_eye_protection() <= 0) // no eye protection? ARGH IT BURNS. Warning: don't add a stun here. It's a roundstart item with some quirks.
-			C.apply_effects(eyeblur = 5, jitter = 10)
-			flash_color(C, flash_color=paint_color, flash_time=40)
+		if(C.get_eye_protection() <= 0) // no eye protection? ARGH IT BURNS.
+			C.confused = max(C.confused, 3)
+			C.Paralyze(60)
 		if(ishuman(C) && actually_paints)
 			var/mob/living/carbon/human/H = C
 			H.lip_style = "spray_face"
@@ -638,12 +657,18 @@
 
 	if(isobj(target))
 		if(actually_paints)
+			if(color_hex2num(paint_color) < 350 && !istype(target, /obj/structure/window)) //Colors too dark are rejected
+				to_chat(usr, "<span class='warning'>A colour that dark on an object like this? Surely not...</span>")
+				return FALSE
+				
 			target.add_atom_colour(paint_color, WASHABLE_COLOUR_PRIORITY)
+
 			if(istype(target, /obj/structure/window))
 				if(color_hex2num(paint_color) < 255)
 					target.set_opacity(255)
 				else
 					target.set_opacity(initial(target.opacity))
+
 		. = use_charges(user, 2)
 		var/fraction = min(1, . / reagents.maximum_volume)
 		reagents.reaction(target, TOUCH, fraction * volume_multiplier)
@@ -730,6 +755,98 @@
 	pre_noise = FALSE
 	post_noise = FALSE
 	reagent_contents = list(/datum/reagent/consumable/nothing = 1, /datum/reagent/toxin/mutetoxin = 1)
+
+
+// HIPPIE GANG HIPPIE GANG
+
+/obj/item/toy/crayon/proc/hippie_gang_check(mob/user, atom/target) // hooked into afterattack
+	var/gang_mode = FALSE
+	if(gang && user.mind)
+		var/datum/antagonist/gang/G = user.mind.has_antag_datum(/datum/antagonist/gang)
+		if(G)
+			if(G.gang != gang)
+				to_chat(user, "<span class='danger'>This spraycan's color isn't your gang's one! You cannot use it.</span>")
+				return FALSE
+			gang_mode = TRUE
+			instant = FALSE
+			. = "graffiti"
+	// discontinue if we're not in gang modethe area isn't valid for tagging because gang "honour"
+	if(gang_mode && (!can_claim_for_gang(user, target)))
+		return FALSE
+	return TRUE
+
+/obj/item/toy/crayon/proc/gang_final(mob/user, atom/target, list/affected_turfs) // hooked into afterattack
+	// Double check it wasn't tagged in the meanwhile
+	if(!can_claim_for_gang(user, target))
+		return TRUE
+	tag_for_gang(user, target)
+	affected_turfs += target
+
+/obj/item/toy/crayon/proc/can_claim_for_gang(mob/user, atom/target)
+	// Check area validity.
+	// Reject space, player-created areas, and non-station z-levels.
+	var/area/A = get_area(target)
+	if(!A || (!is_station_level(A.z)) || !A.valid_territory)
+		to_chat(user, "<span class='warning'>[A] is unsuitable for tagging.</span>")
+		return FALSE
+
+	var/spraying_over = FALSE
+	for(var/G in target)
+		var/obj/effect/decal/cleanable/crayon/gang/gangtag = G
+		if(istype(gangtag))
+			var/datum/antagonist/gang/GA = user.mind.has_antag_datum(/datum/antagonist/gang)
+			if(gangtag.gang != GA.gang)
+				spraying_over = TRUE
+				break
+
+	for(var/obj/machinery/power/apc in target)
+		to_chat(user, "<span class='warning'>You can't tag an APC.</span>")
+		return FALSE
+
+	var/occupying_gang = territory_claimed(A, user)
+	if(occupying_gang && !spraying_over)
+		to_chat(user, "<span class='danger'>[A] has already been tagged by the [occupying_gang] gang! You must get rid of or spray over the old tag first!</span>")
+		return FALSE
+
+	// If you pass the gaunlet of checks, you're good to proceed
+	return TRUE
+
+/obj/item/toy/crayon/proc/territory_claimed(area/territory, mob/user)
+	for(var/datum/team/gang/G in GLOB.gangs)
+		if(territory.type in (G.territories|G.new_territories))
+			. = G.name
+			break
+
+/obj/item/toy/crayon/proc/tag_for_gang(mob/user, atom/target)
+	//Delete any old markings on this tile, including other gang tags
+	for(var/obj/effect/decal/cleanable/crayon/old_marking in target)
+		qdel(old_marking)
+
+	var/datum/antagonist/gang/G = user.mind.has_antag_datum(/datum/antagonist/gang)
+	var/area/territory = get_area(target)
+	new /obj/effect/decal/cleanable/crayon/gang(target,G.gang,"graffiti",0,user)
+	to_chat(user, "<span class='notice'>You tagged [territory] for your gang!</span>")
+
+/obj/item/toy/crayon/spraycan/gang
+	//desc = "A modified container containing suspicious paint."
+	charges = 20
+	gang = TRUE
+	pre_noise = FALSE
+	post_noise = TRUE
+
+/obj/item/toy/crayon/spraycan/gang/Initialize(loc, datum/team/gang/G)
+	.=..()
+	if(G)
+		gang = G
+		paint_color = G.color
+		update_icon()
+
+/obj/item/toy/crayon/spraycan/gang/examine(mob/user)
+	. = ..()
+	if(user.mind && user.mind.has_antag_datum(/datum/antagonist/gang) || isobserver(user))
+		to_chat(user, "This spraycan has been specially modified for tagging territory.")
+
+
 
 #undef RANDOM_GRAFFITI
 #undef RANDOM_LETTER

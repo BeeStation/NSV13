@@ -24,7 +24,6 @@
 			icon_state = R.glass_icon_state
 		else
 			var/mutable_appearance/reagent_overlay = mutable_appearance(icon, "glassoverlay")
-			icon_state = "glass_empty"
 			reagent_overlay.color = mix_color_from_reagents(reagents.reagent_list)
 			add_overlay(reagent_overlay)
 	else
@@ -52,10 +51,7 @@
 /obj/item/reagent_containers/food/drinks/drinkingglass/shotglass/on_reagent_change(changetype)
 	cut_overlays()
 
-	if (gulp_size < 15)
-		gulp_size = 15
-	else
-		gulp_size = max(round(reagents.total_volume / 15), 15)
+	gulp_size = max(round(reagents.total_volume / 15), 15)
 
 	if (reagents.reagent_list.len > 0)
 		var/datum/reagent/largest_reagent = reagents.get_master_reagent()
@@ -110,7 +106,7 @@
 /obj/item/reagent_containers/food/drinks/drinkingglass/attack(obj/target, mob/user)
 	if(user.a_intent == INTENT_HARM && ismob(target) && target.reagents && reagents.total_volume)
 		target.visible_message("<span class='danger'>[user] splashes the contents of [src] onto [target]!</span>", \
-						"<span class='userdanger'>[user] splashes the contents of [src] onto [target]!</span>")
+						"<span class='userdanger'>[user] splashes the contents of [src] onto you!</span>")
 		log_combat(user, target, "splashed", src)
 		reagents.reaction(target, TOUCH)
 		reagents.clear_reagents()
@@ -128,4 +124,3 @@
 		reagents.reaction(target, TOUCH)
 		reagents.clear_reagents()
 		return
-

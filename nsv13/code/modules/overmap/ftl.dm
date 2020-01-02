@@ -141,6 +141,12 @@ GLOBAL_DATUM_INIT(starsystem_controller, /datum/starsystem_controller, new)
 		relay('nsv13/sound/effects/ship/FTL_loop.ogg', "<span class='warning'>You feel the ship lurch forward</span>", loop=TRUE, channel = CHANNEL_SHIP_ALERT)
 		addtimer(CALLBACK(src, .proc/jump, target_system, FALSE), 2 MINUTES)
 		GLOB.starsystem_controller?.hyperspace?.transfer_ship(src) //Get the system to transfer us to its location.
+		if(structure_crit) //Tear the ship apart if theyre trying to limp away.
+			for(var/i = 0, i < rand(4,8), i++)
+				var/name = pick(GLOB.teleportlocs)
+				var/area/target = GLOB.teleportlocs[name]
+				var/turf/T = pick(get_area_turfs(target))
+				new /obj/effect/temp_visual/explosion_telegraph(T)
 	else
 		relay('nsv13/sound/effects/ship/freespace2/warp_close.wav', "<span class='warning'>You feel the ship lurch to a halt</span>", loop=FALSE, channel = CHANNEL_SHIP_ALERT)
 		target_system.transfer_ship(src) //Get the system to transfer us to its location.

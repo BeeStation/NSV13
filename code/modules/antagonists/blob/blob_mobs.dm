@@ -57,7 +57,7 @@
 	return ..()
 
 /mob/living/simple_animal/hostile/blob/proc/blob_chat(msg)
-	var/spanned_message = say_quote(msg)
+	var/spanned_message = say_quote(msg, get_spans())
 	var/rendered = "<font color=\"#EE4000\"><b>\[Blob Telepathy\] [real_name]</b> [spanned_message]</font>"
 	for(var/M in GLOB.mob_list)
 		if(isovermind(M) || istype(M, /mob/living/simple_animal/hostile/blob))
@@ -144,7 +144,7 @@
 
 
 
-	if(overmind && overmind.blobstrain)
+	if(overmind?.blobstrain)
 		overmind.blobstrain.on_sporedeath(src)
 	else
 		reagents.add_reagent(/datum/reagent/toxin/spore, 10)
@@ -271,7 +271,7 @@
 /mob/living/simple_animal/hostile/blob/blobbernaut/AttackingTarget()
 	. = ..()
 	if(. && isliving(target) && overmind)
-		overmind.blobstrain.blobbernaut_attack(target, src)
+		overmind.blobstrain.blobbernaut_attack(target)
 
 /mob/living/simple_animal/hostile/blob/blobbernaut/update_icons()
 	..()

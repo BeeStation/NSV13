@@ -11,7 +11,7 @@ RLD
 
 /obj/item/construction
 	name = "not for ingame use"
-	desc = "A device used to rapidly build and deconstruct. Reload with metal, plasteel, glass or compressed matter cartridges."
+	desc = "A device used to rapidly build and deconstruct. Reload with iron, plasteel, glass or compressed matter cartridges."
 	opacity = 0
 	density = FALSE
 	anchored = FALSE
@@ -29,24 +29,32 @@ RLD
 	var/datum/effect_system/spark_spread/spark_system
 	var/matter = 0
 	var/max_matter = 100
-	var/sheetmultiplier	= 4 //Controls the amount of matter added for each glass/metal sheet, triple for plasteel
-	var/plasteelmultiplier = 3 //Plasteel is worth 3 times more than glass or metal
+	var/sheetmultiplier	= 4 //Controls the amount of matter added for each glass/iron sheet, triple for plasteel
+	var/plasteelmultiplier = 3 //Plasteel is worth 3 times more than glass or iron
 	var/plasmarglassmultiplier = 2 //50% less plasma than in plasteel
-	var/rglassmultiplier = 1.5 //One metal sheet, half a glass sheet
+	var/rglassmultiplier = 1.5 //One iron sheet, half a glass sheet
 	var/no_ammo_message = "<span class='warning'>The \'Low Ammo\' light on the device blinks yellow.</span>"
 	var/has_ammobar = FALSE	//controls whether or not does update_icon apply ammo indicator overlays
 	var/ammo_sections = 10	//amount of divisions in the ammo indicator overlay/number of ammo indicator states
 	var/upgrade = FALSE
+	var/datum/component/remote_materials/silo_mats //remote connection to the silo
+	var/silo_link = FALSE //switch to use internal or remote storage
 
 /obj/item/construction/Initialize()
 	. = ..()
 	spark_system = new /datum/effect_system/spark_spread
 	spark_system.set_up(5, 0, src)
 	spark_system.attach(src)
+	if(upgrade & RCD_UPGRADE_SILO_LINK)
+		silo_mats = AddComponent(/datum/component/remote_materials, "RCD", FALSE)
 
 /obj/item/construction/examine(mob/user)
 	. = ..()
 	. += "\A [src]. It currently holds [matter]/[max_matter] matter-units."
+	if(upgrade & RCD_UPGRADE_SILO_LINK)
+		. += "\A [src]. Remote storage link state: [silo_link ? "[silo_mats.on_hold() ? "ON HOLD" : "ON"]" : "OFF"]."
+		if(silo_link && !silo_mats.on_hold())
+			. += "\A [src]. Remote connection have iron in equivalent to [silo_mats.mat_container.get_material_amount(/datum/material/iron)/500] rcd units." // 1 matter for 1 floortile, as 4 tiles are produced from 1 iron
 
 /obj/item/construction/Destroy()
 	QDEL_NULL(spark_system)
@@ -68,7 +76,7 @@ RLD
 		matter += load
 		playsound(src.loc, 'sound/machines/click.ogg', 50, 1)
 		loaded = 1
-	else if(istype(W, /obj/item/stack/sheet/metal) || istype(W, /obj/item/stack/sheet/glass))
+	else if(istype(W, /obj/item/stack/sheet/iron) || istype(W, /obj/item/stack/sheet/glass))
 		loaded = loadwithsheets(W, sheetmultiplier, user)
 	else if(istype(W, /obj/item/stack/sheet/plasteel))
 		loaded = loadwithsheets(W, plasteelmultiplier*sheetmultiplier, user) //12 matter for 1 plasteel sheet
@@ -77,15 +85,17 @@ RLD
 	else if(istype(W, /obj/item/stack/sheet/rglass))
 		loaded = loadwithsheets(W, rglassmultiplier*sheetmultiplier, user) //6 matter for one rglass sheet
 	else if(istype(W, /obj/item/stack/rods))
-		loaded = loadwithsheets(W, sheetmultiplier * 0.5, user) // 2 matter for 1 rod, as 2 rods are produced from 1 metal
+		loaded = loadwithsheets(W, sheetmultiplier * 0.5, user) // 2 matter for 1 rod, as 2 rods are produced from 1 iron
 	else if(istype(W, /obj/item/stack/tile/plasteel))
-		loaded = loadwithsheets(W, sheetmultiplier * 0.25, user) // 1 matter for 1 floortile, as 4 tiles are produced from 1 metal
+		loaded = loadwithsheets(W, sheetmultiplier * 0.25, user) // 1 matter for 1 floortile, as 4 tiles are produced from 1 iron
 	if(loaded)
 		to_chat(user, "<span class='notice'>[src] now holds [matter]/[max_matter] matter-units.</span>")
 	else if(istype(W, /obj/item/rcd_upgrade))
 		var/obj/item/rcd_upgrade/rcd_up = W
 		if(!(upgrade & rcd_up.upgrade))
 			upgrade |= rcd_up.upgrade
+			if((rcd_up.upgrade & RCD_UPGRADE_SILO_LINK) && !silo_mats)
+				silo_mats = AddComponent(/datum/component/remote_materials, "RCD", FALSE, FALSE)
 			playsound(src.loc, 'sound/machines/click.ogg', 50, 1)
 			qdel(W)
 	else
@@ -113,16 +123,37 @@ RLD
 		spark_system.start()
 
 /obj/item/construction/proc/useResource(amount, mob/user)
-	if(matter < amount)
-		if(user)
-			to_chat(user, no_ammo_message)
-		return FALSE
-	matter -= amount
-	update_icon()
-	return TRUE
+	if(!silo_mats || !silo_link)
+		if(matter < amount)
+			if(user)
+				to_chat(user, no_ammo_message)
+			return FALSE
+		matter -= amount
+		update_icon()
+		return TRUE
+	else
+		if(silo_mats.on_hold())
+			if(user)
+				to_chat(user, "Mineral access is on hold, please contact the quartermaster.")
+			return FALSE
+		if(!silo_mats.mat_container.has_materials(list(/datum/material/iron = 500), amount))
+			if(user)
+				to_chat(user, no_ammo_message)
+			return FALSE
+
+		silo_mats.mat_container.use_materials(list(/datum/material/iron = 500), amount)
+		silo_mats.silo_log(src, "consume", -amount, "build", list(/datum/material/iron = 500))
+		return TRUE
 
 /obj/item/construction/proc/checkResource(amount, mob/user)
-	. = matter >= amount
+	if(!silo_mats || !silo_link)
+		. = matter >= amount
+	else
+		if(silo_mats.on_hold())
+			if(user)
+				to_chat(user, "Mineral access is on hold, please contact the quartermaster.")
+			return FALSE
+		. = silo_mats.mat_container.has_materials(list(/datum/material/iron = 500), amount)
 	if(!. && user)
 		to_chat(user, no_ammo_message)
 		if(has_ammobar)
@@ -142,6 +173,12 @@ RLD
 	else
 		return FALSE
 
+/obj/item/construction/proc/check_menu(mob/living/user)
+	if(!istype(user))
+		return FALSE
+	if(user.incapacitated() || !user.Adjacent(src))
+		return FALSE
+	return TRUE
 
 /obj/item/construction/rcd
 	name = "rapid-construction-device (RCD)"
@@ -189,6 +226,14 @@ RLD
 		window_type_name = "glass"
 
 	to_chat(user, "<span class='notice'>You change \the [src]'s window mode to [window_type_name].</span>")
+
+/obj/item/construction/rcd/proc/toggle_silo_link(mob/user)
+	if(silo_mats)
+		silo_link = !silo_link
+		to_chat(user, "<span class='notice'>You change \the [src]'s storage link state: [silo_link ? "ON" : "OFF"].</span>")
+	else
+		to_chat(user, "<span class='warning'>\the [src] dont have remote storage connection.</span>")
+
 
 /obj/item/construction/rcd/proc/change_airlock_access(mob/user)
 	if (!ishuman(user) && !user.has_unlimited_silicon_privilege)
@@ -270,12 +315,6 @@ RLD
 	//Not scaling these down to button size because they look horrible then, instead just bumping up radius.
 	return MA
 
-/obj/item/construction/rcd/proc/check_menu(mob/living/user)
-	if(!istype(user))
-		return FALSE
-	if(user.incapacitated() || !user.Adjacent(src))
-		return FALSE
-	return TRUE
 /obj/item/construction/rcd/proc/change_computer_dir(mob/user)
 	if(!user)
 		return
@@ -317,6 +356,7 @@ RLD
 		"Medical" = get_airlock_image(/obj/machinery/door/airlock/medical),
 		"Research" = get_airlock_image(/obj/machinery/door/airlock/research),
 		"Freezer" = get_airlock_image(/obj/machinery/door/airlock/freezer),
+		"Science" = get_airlock_image(/obj/machinery/door/airlock/science),
 		"Virology" = get_airlock_image(/obj/machinery/door/airlock/virology),
 		"Mining" = get_airlock_image(/obj/machinery/door/airlock/mining),
 		"Maintenance" = get_airlock_image(/obj/machinery/door/airlock/maintenance),
@@ -335,6 +375,7 @@ RLD
 		"Command" = get_airlock_image(/obj/machinery/door/airlock/command/glass),
 		"Medical" = get_airlock_image(/obj/machinery/door/airlock/medical/glass),
 		"Research" = get_airlock_image(/obj/machinery/door/airlock/research/glass),
+		"Science" = get_airlock_image(/obj/machinery/door/airlock/science/glass),
 		"Virology" = get_airlock_image(/obj/machinery/door/airlock/virology/glass),
 		"Mining" = get_airlock_image(/obj/machinery/door/airlock/mining/glass),
 		"Maintenance" = get_airlock_image(/obj/machinery/door/airlock/maintenance/glass),
@@ -370,6 +411,8 @@ RLD
 						airlock_type = /obj/machinery/door/airlock/research
 					if("Freezer")
 						airlock_type = /obj/machinery/door/airlock/freezer
+					if("Science")
+						airlock_type = /obj/machinery/door/airlock/science
 					if("Virology")
 						airlock_type = /obj/machinery/door/airlock/virology
 					if("Mining")
@@ -411,6 +454,8 @@ RLD
 						airlock_type = /obj/machinery/door/airlock/medical/glass
 					if("Research")
 						airlock_type = /obj/machinery/door/airlock/research/glass
+					if("Science")
+						airlock_type = /obj/machinery/door/airlock/science/glass
 					if("Virology")
 						airlock_type = /obj/machinery/door/airlock/virology/glass
 					if("Mining")
@@ -433,13 +478,18 @@ RLD
 	var/list/rcd_results = A.rcd_vals(user, src)
 	if(!rcd_results)
 		return FALSE
-	if(do_after(user, rcd_results["delay"] * delay_mod, target = A))
-		if(checkResource(rcd_results["cost"], user))
-			if(A.rcd_act(user, src, rcd_results["mode"]))
-				useResource(rcd_results["cost"], user)
-				activate()
-				playsound(src.loc, 'sound/machines/click.ogg', 50, 1)
-				return TRUE
+	var/delay = rcd_results["delay"] * delay_mod
+	var/obj/effect/constructing_effect/rcd_effect = new(get_turf(A), delay, src.mode)
+	if(checkResource(rcd_results["cost"], user))
+		if(do_after(user, delay, target = A))
+			if(checkResource(rcd_results["cost"], user))
+				if(A.rcd_act(user, src, rcd_results["mode"]))
+					rcd_effect.end_animation()
+					useResource(rcd_results["cost"], user)
+					activate()
+					playsound(src.loc, 'sound/machines/click.ogg', 50, 1)
+					return TRUE
+	qdel(rcd_effect)
 
 /obj/item/construction/rcd/Initialize()
 	. = ..()
@@ -461,6 +511,11 @@ RLD
 		choices += list(
 		"Machine Frames" = image(icon = 'icons/mob/radial.dmi', icon_state = "machine"),
 		"Computer Frames" = image(icon = 'icons/mob/radial.dmi', icon_state = "computer_dir"),
+		"Ladders" = image(icon = 'icons/mob/radial.dmi', icon_state = "ladder")
+		)
+	if(upgrade & RCD_UPGRADE_SILO_LINK)
+		choices += list(
+		"Silo Link" = image(icon = 'icons/obj/mining.dmi', icon_state = "silo"),
 		)
 	if(mode == RCD_AIRLOCK)
 		choices += list(
@@ -488,6 +543,8 @@ RLD
 		if("Computer Frames")
 			mode = RCD_COMPUTER
 			change_computer_dir(user)
+		if("Ladders")
+			mode = RCD_LADDER
 			return
 		if("Change Access")
 			change_airlock_access(user)
@@ -498,15 +555,20 @@ RLD
 		if("Change Window Type")
 			toggle_window_type(user)
 			return
+		if("Silo Link")
+			toggle_silo_link(user)
+			return
 		else
 			return
 	playsound(src, 'sound/effects/pop.ogg', 50, 0)
 	to_chat(user, "<span class='notice'>You change RCD's mode to '[choice]'.</span>")
 
 /obj/item/construction/rcd/proc/target_check(atom/A, mob/user) // only returns true for stuff the device can actually work with
-	if((isturf(A) && A.density && mode==RCD_DECONSTRUCT) || (isturf(A) && !A.density) || (istype(A, /obj/machinery/door/airlock) && mode==RCD_DECONSTRUCT) || istype(A, /obj/structure/grille) || (istype(A, /obj/structure/window) && mode==RCD_DECONSTRUCT) || istype(A, /obj/structure/girder))
+	if((isturf(A) && A.density && mode==RCD_DECONSTRUCT) || (isturf(A) && !A.density) || (istype(A, /obj/machinery/door/airlock) && mode==RCD_DECONSTRUCT) || istype(A, /obj/structure/grille) || (istype(A, /obj/structure/window) && mode==RCD_DECONSTRUCT) || istype(A, /obj/structure/girder || istype(A, /obj/structure/ladder)))
 		return TRUE
 	else
+		return FALSE
+
 		return FALSE
 
 /obj/item/construction/rcd/afterattack(atom/A, mob/user, proximity)
@@ -614,7 +676,7 @@ RLD
 
 /obj/item/construction/rcd/arcd
 	name = "advanced rapid-construction-device (ARCD)"
-	desc = "A prototype RCD with ranged capability and extended capacity. Reload with metal, plasteel, glass or compressed matter cartridges."
+	desc = "A prototype RCD with ranged capability and extended capacity. Reload with iron, plasteel, glass or compressed matter cartridges."
 	max_matter = 300
 	matter = 300
 	delay_mod = 0.6
@@ -639,7 +701,7 @@ RLD
 
 /obj/item/construction/rld
 	name = "rapid-light-device (RLD)"
-	desc = "A device used to rapidly provide lighting sources to an area. Reload with metal, plasteel, glass or compressed matter cartridges."
+	desc = "A device used to rapidly provide lighting sources to an area. Reload with iron, plasteel, glass or compressed matter cartridges."
 	icon = 'icons/obj/tools.dmi'
 	icon_state = "rld-5"
 	lefthand_file = 'icons/mob/inhands/equipment/tools_lefthand.dmi'
@@ -793,6 +855,80 @@ RLD
 				return TRUE
 			return FALSE
 
+/obj/item/construction/plumbing
+	name = "Plumbing Constructor"
+	desc = "An expertly modified RCD outfitted to construct plumbing machinery."
+	icon_state = "plumberer2"
+	icon = 'icons/obj/tools.dmi'
+
+	matter = 200
+	max_matter = 200
+
+	///type of the plumbing machine
+	var/blueprint = null
+	///index, used in the attack self to get the type. stored here since it doesnt change
+	var/list/choices = list()
+	///index, used in the attack self to get the type. stored here since it doesnt change
+	var/list/name_to_type = list()
+	///
+	var/list/machinery_data = list("cost" = list(), "delay" = list())
+
+/obj/item/construction/plumbing/attack_self(mob/user)
+	..()
+	if(!choices.len)
+		for(var/A in subtypesof(/obj/machinery/plumbing))
+			var/obj/machinery/plumbing/M = A
+			if(initial(M.rcd_constructable))
+				choices += list(initial(M.name) = image(icon = initial(M.icon), icon_state = initial(M.icon_state)))
+				name_to_type[initial(M.name)] = M
+				machinery_data["cost"][A] = initial(M.rcd_cost)
+				machinery_data["delay"][A] = initial(M.rcd_delay)
+
+	var/choice = show_radial_menu(user, src, choices, custom_check = CALLBACK(src, .proc/check_menu, user), require_near = TRUE, tooltips = TRUE)
+	if(!check_menu(user))
+		return
+
+	blueprint = name_to_type[choice]
+	playsound(src, 'sound/effects/pop.ogg', 50, FALSE)
+	to_chat(user, "<span class='notice'>You change [name]s blueprint to '[choice]'.</span>")
+
+///pretty much rcd_create, but named differently to make myself feel less bad for copypasting from a sibling-type
+/obj/item/construction/plumbing/proc/create_machine(atom/A, mob/user)
+	if(!machinery_data || !isopenturf(A))
+		return FALSE
+
+	if(checkResource(machinery_data["cost"][blueprint], user) && blueprint)
+		if(do_after(user, machinery_data["delay"][blueprint], target = A))
+			if(checkResource(machinery_data["cost"][blueprint], user) && canPlace(A))
+				useResource(machinery_data["cost"][blueprint], user)
+				activate()
+				playsound(src.loc, 'sound/machines/click.ogg', 50, TRUE)
+				new blueprint (A, FALSE, FALSE)
+				return TRUE
+
+/obj/item/construction/plumbing/proc/canPlace(turf/T)
+	if(!isopenturf(T))
+		return FALSE
+	. = TRUE
+	for(var/obj/O in T.contents)
+		if(O.density) //let's not built ontop of dense stuff, like big machines and other obstacles, it kills my immershion
+			return FALSE
+
+/obj/item/construction/plumbing/afterattack(atom/A, mob/user, proximity)
+	. = ..()
+	if(!prox_check(proximity))
+		return
+	if(istype(A, /obj/machinery/plumbing))
+		var/obj/machinery/plumbing/P = A
+		if(P.anchored)
+			to_chat(user, "<span class='warning'>The [P.name] needs to be unanchored!</span>")
+			return
+		if(do_after(user, 20, target = P))
+			P.deconstruct() //Let's not substract matter
+			playsound(get_turf(src), 'sound/machines/click.ogg', 50, TRUE) //this is just such a great sound effect
+	else
+		create_machine(A, user)
+
 /obj/item/rcd_upgrade
 	name = "RCD advanced design disk"
 	desc = "It seems to be empty."
@@ -807,6 +943,10 @@ RLD
 /obj/item/rcd_upgrade/simple_circuits
 	desc = "It contains the design for firelock, air alarm, fire alarm, apc circuits and crap power cells."
 	upgrade = RCD_UPGRADE_SIMPLE_CIRCUITS
+
+/obj/item/rcd_upgrade/silo_link
+	desc = "It contains direct silo connection RCD upgrade."
+	upgrade = RCD_UPGRADE_SILO_LINK
 
 #undef GLOW_MODE
 #undef LIGHT_MODE

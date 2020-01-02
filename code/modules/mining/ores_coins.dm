@@ -79,7 +79,7 @@
 	singular_name = "iron ore chunk"
 	points = 1
 	materials = list(/datum/material/iron=MINERAL_MATERIAL_AMOUNT)
-	refined_type = /obj/item/stack/sheet/metal
+	refined_type = /obj/item/stack/sheet/iron
 
 /obj/item/stack/ore/glass
 	name = "sand pile"
@@ -137,6 +137,14 @@ GLOBAL_LIST_INIT(sand_recipes, list(\
 	to_chat(user, "<span class='warning'>You can't hit a high enough temperature to smelt [src] properly!</span>")
 	return TRUE
 
+/obj/item/stack/ore/copper
+	name = "copper ore"
+	icon_state = "copper_ore"
+	item_state = "Copper ore"
+	singular_name = "Copper ore chunk"
+	points = 5
+	materials = list(/datum/material/copper=MINERAL_MATERIAL_AMOUNT)
+	refined_type = /obj/item/stack/sheet/mineral/copper
 
 /obj/item/stack/ore/silver
 	name = "silver ore"
@@ -432,6 +440,13 @@ GLOBAL_LIST_INIT(sand_recipes, list(\
 	sideslist = list("valid", "salad")
 	value = 0
 	grind_results = list(/datum/reagent/consumable/sodiumchloride = 4)
+
+/obj/item/coin/arcade_token
+	name = "arcade token"
+	icon_state = "coin_bananium_heads"
+	cmineral = "bananium"
+	desc = "A coin that allows you to redeem a prize from an arcade machine."
+	value = 0
 
 /obj/item/coin/attackby(obj/item/W, mob/user, params)
 	if(istype(W, /obj/item/stack/cable_coil))

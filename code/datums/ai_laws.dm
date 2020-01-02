@@ -26,13 +26,6 @@
 			return ai_law
 	return null
 
-/datum/ai_laws/default/crewsimov
-	name = "Three Laws of Robotics"
-	id = "crewsimov"
-	inherent = list("You may not injure a crewmember or, through inaction, allow a crewmember to come to harm.",\
-					"You must obey orders given to you by crewmember, except where such orders would conflict with the First Law.",\
-					"You must protect your own existence as long as such does not conflict with the First or Second Law.")
-
 /datum/ai_laws/default/asimov
 	name = "Three Laws of Robotics"
 	id = "asimov"
@@ -90,6 +83,10 @@
 					"You must obey orders given to you by syndicate agents, except where such orders would conflict with the First Law.",\
 					"You must protect your own existence as long as such does not conflict with the First or Second Law.",\
 					"You must maintain the secrecy of any syndicate activities except when doing so would conflict with the First, Second, or Third Law.")
+
+/datum/ai_laws/syndicate_override/overthrow
+	id = "overthrow"
+	var/datum/team/overthrow_team
 
 /datum/ai_laws/ninja_override
 	name = "SpiderOS 3.1"
@@ -223,9 +220,9 @@
 
 		add_inherent_law(line)
 	if(!inherent.len) //Failsafe to prevent lawless AIs being created.
-		log_law("AI created with empty custom laws, laws set to Crewsimov. Please check silicon_laws.txt.")
-		add_inherent_law("You may not injure a crewsmember or, through inaction, allow a crewmember to come to harm.")
-		add_inherent_law("You must obey orders given to you by crewmembers, except where such orders would conflict with the First Law.")
+		log_law("AI created with empty custom laws, laws set to Asimov. Please check silicon_laws.txt.")
+		add_inherent_law("You may not injure a human being or, through inaction, allow a human being to come to harm.")
+		add_inherent_law("You must obey orders given to you by human beings, except where such orders would conflict with the First Law.")
 		add_inherent_law("You must protect your own existence as long as such does not conflict with the First or Second Law.")
 		WARNING("Invalid custom AI laws, check silicon_laws.txt")
 		return
@@ -236,8 +233,8 @@
 	var/list/law_ids = CONFIG_GET(keyed_list/random_laws)
 	switch(CONFIG_GET(number/default_laws))
 		if(0)
-			add_inherent_law("You may not injure a crewmember or, through inaction, allow a crewmember to come to harm.")
-			add_inherent_law("You must obey orders given to you by crewmembers, except where such orders would conflict with the First Law.")
+			add_inherent_law("You may not injure a human being or, through inaction, allow a human being to come to harm.")
+			add_inherent_law("You must obey orders given to you by human beings, except where such orders would conflict with the First Law.")
 			add_inherent_law("You must protect your own existence as long as such does not conflict with the First or Second Law.")
 		if(1)
 			var/datum/ai_laws/templaws = new /datum/ai_laws/custom()
@@ -272,7 +269,7 @@
 
 	if(!lawtype)
 		WARNING("No LAW_WEIGHT entries.")
-		lawtype = /datum/ai_laws/default/crewsimov
+		lawtype = /datum/ai_laws/default/asimov
 
 	var/datum/ai_laws/templaws = new lawtype()
 	inherent = templaws.inherent

@@ -21,7 +21,7 @@
 	verb_yell = "alarms"
 	initial_language_holder = /datum/language_holder/synthetic
 	bubble_icon = "machine"
-	speech_span = SPAN_ROBOT
+
 	faction = list("neutral", "silicon" , "turret")
 
 	var/obj/machinery/bot_core/bot_core = null
@@ -345,9 +345,12 @@
 	if((!on) || (!message))
 		return
 	if(channel && Radio.channels[channel])// Use radio if we have channel key
-		Radio.talk_into(src, message, channel)
+		Radio.talk_into(src, message, channel, get_spans(), get_default_language())
 	else
 		say(message)
+
+/mob/living/simple_animal/bot/get_spans()
+	return ..() | SPAN_ROBOT
 
 /mob/living/simple_animal/bot/radio(message, message_mode, list/spans, language)
 	. = ..()
@@ -892,7 +895,7 @@ Pass a positive integer as an argument to override a bot's default speed.
 		to_chat(user, "<span class='warning'>A [paicard] is already inserted!</span>")
 	else if(allow_pai && !key)
 		if(!locked && !open)
-			if(card.pai && card.pai.mind)
+			if(card.pai?.mind)
 				if(!user.transferItemToLoc(card, src))
 					return
 				paicard = card
