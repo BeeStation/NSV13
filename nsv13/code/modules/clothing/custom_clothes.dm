@@ -327,3 +327,66 @@
 	new /obj/item/crowbar/red(src)
 	new /obj/item/wirecutters(src, "red")
 	new /obj/item/multitool(src)
+
+/obj/item/clothing/shoes/clown_shoes/delinquent
+	name = "Delinquent's shoes"
+	icon = 'nsv13/icons/obj/clothing/shoes.dmi'
+	alternate_worn_icon = 'nsv13/icons/mob/feet.dmi'
+	desc = "A set of pristine white sneakers. Good grief."
+
+/obj/item/clothing/suit/ship/delinquent
+	name = "Delinquent's jacket"
+	desc = "A modified and probably stolen Nanotrasen academy jacket, adorned with countless badges and references. Good grief."
+	icon_state = "clown"
+	actions_types = list(/datum/action/item_action/menacing_pose)
+
+/datum/action/item_action/menacing_pose
+	name = "Strike a menacing pose"
+	button_icon_state = "menacing"
+	icon_icon = 'nsv13/icons/mob/actions/actions.dmi'
+	var/cooldown = FALSE
+
+/datum/action/item_action/menacing_pose/Trigger()
+	if(!IsAvailable())
+		return
+	pose(owner)
+	return TRUE
+
+/datum/action/item_action/menacing_pose/proc/pose(mob/user)
+	if(cooldown)
+		return
+	cooldown = TRUE
+	UpdateButtonIcon()
+	addtimer(CALLBACK(src, .proc/reset_cooldown), 10 SECONDS)
+	var/message = pick("[user] strikes a menacing pose", "[user] poses menacingly", "[user] looks menacing")
+	user.visible_message("<span class='game deadsay'>[message]</span>")
+	user.shake_animation()
+	for(var/I = 0, I<rand(3,5), I++)
+		new /obj/effect/temp_visual/menacing(get_turf(user))
+
+/datum/action/item_action/menacing_pose/proc/reset_cooldown()
+	cooldown = FALSE
+	UpdateButtonIcon()
+
+/datum/action/item_action/menacing_pose/IsAvailable()
+	if(cooldown)
+		return FALSE
+	return ..()
+
+/obj/item/clothing/suit/ship/delinquent/ComponentInitialize()
+	. = ..()
+	AddComponent(/datum/component/slippery, 7 SECONDS, NO_SLIP_WHEN_WALKING)
+
+/obj/item/clothing/under/ship/delinquent
+	name = "Delinquent's uniform"
+	desc = "An extremely smart looking uniform consisting of a shirt, jumper and pants. Good grief."
+	icon_state = "clown"
+	item_color = "clown"
+	item_state = "bl_suit"
+
+/obj/effect/temp_visual/menacing
+	name = "Menacing..."
+	icon = 'nsv13/icons/overmap/effects.dmi'
+	icon_state = "menacing"
+	randomdir = TRUE
+	duration = 2 SECONDS
