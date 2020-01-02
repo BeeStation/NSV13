@@ -102,6 +102,10 @@
 /obj/machinery/light{
 	dir = 1
 	},
+/obj/machinery/computer/ship/fighter_launcher{
+	req_access = null;
+	req_one_access_txt = "31;48"
+	},
 /turf/open/floor/plasteel/techmaint,
 /area/nostromo)
 "av" = (
@@ -357,7 +361,7 @@
 	pixel_y = 26
 	},
 /turf/open/floor/plasteel/tiled,
-/area/nostromo/maintenance)
+/area/nostromo/medbay)
 "bf" = (
 /obj/machinery/door/airlock/ship/hatch{
 	name = "maintenance hatch"
@@ -413,7 +417,7 @@
 /obj/item/reagent_containers/glass/beaker/cryoxadone,
 /obj/machinery/computer/ship/viewscreen,
 /turf/open/floor/engine,
-/area/nostromo/maintenance)
+/area/nostromo/medbay)
 "bo" = (
 /turf/open/floor/carpet/ship,
 /area/nostromo)
@@ -470,7 +474,7 @@
 	dir = 4
 	},
 /turf/open/floor/engine,
-/area/nostromo/maintenance)
+/area/nostromo/medbay)
 "bz" = (
 /obj/machinery/computer/ship/viewscreen,
 /obj/structure/chair/sofa/right,
@@ -2216,7 +2220,7 @@
 	icon_state = "1-2"
 	},
 /turf/open/floor/plasteel/ridged/steel,
-/area/nostromo/maintenance)
+/area/nostromo/medbay)
 "gs" = (
 /obj/effect/turf_decal/tile/blue{
 	dir = 1
@@ -2229,7 +2233,7 @@
 	icon_state = "1-4"
 	},
 /turf/open/floor/plasteel/tiled,
-/area/nostromo/maintenance)
+/area/nostromo/medbay)
 "gt" = (
 /obj/effect/turf_decal/tile/blue,
 /obj/effect/turf_decal/tile/blue{
@@ -2243,7 +2247,7 @@
 	icon_state = "0-8"
 	},
 /turf/open/floor/plasteel/tiled,
-/area/nostromo/maintenance)
+/area/nostromo/medbay)
 "gu" = (
 /obj/machinery/door/airlock/ship/hatch{
 	name = "maintenance hatch"
@@ -3217,6 +3221,9 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
 	dir = 5
 	},
+/obj/machinery/light{
+	dir = 4
+	},
 /turf/open/floor/plasteel/ridged/steel,
 /area/nostromo)
 "iI" = (
@@ -3745,6 +3752,140 @@
 /obj/machinery/light/runway,
 /turf/open/floor/plating/airless,
 /area/nostromo/maintenance/exterior)
+"lY" = (
+/obj/machinery/light{
+	dir = 1
+	},
+/turf/open/floor/plasteel/tech/grid,
+/area/nostromo)
+"mf" = (
+/turf/open/space/basic,
+/area/nostromo)
+"na" = (
+/obj/structure/sign/mining,
+/turf/closed/wall/ship,
+/area/nostromo/maintenance)
+"ph" = (
+/obj/structure/hull_plate,
+/turf/open/floor/plating/airless,
+/area/nostromo)
+"pq" = (
+/obj/structure/hull_plate,
+/obj/structure/fighter_launcher{
+	icon_state = "launcher_map";
+	dir = 4
+	},
+/turf/open/floor/plating/airless,
+/area/nostromo)
+"qv" = (
+/obj/effect/turf_decal/stripes/full,
+/obj/structure/overmap/fighter/prebuilt/raptor{
+	req_one_access = null;
+	req_one_access_txt = "31;48"
+	},
+/turf/open/floor/plasteel/techmaint,
+/area/nostromo)
+"rS" = (
+/obj/structure/hull_plate/end,
+/turf/open/floor/plating/airless,
+/area/nostromo)
+"rV" = (
+/obj/structure/sign/warning/pods,
+/turf/closed/wall/ship,
+/area/nostromo)
+"yl" = (
+/obj/structure/hull_plate/end{
+	icon_state = "tgmc_outerhull_dir";
+	dir = 4
+	},
+/turf/open/floor/plating/airless,
+/area/nostromo)
+"Aa" = (
+/obj/machinery/light,
+/obj/structure/chair/stool,
+/turf/open/floor/plasteel/tech/grid,
+/area/nostromo/maintenance)
+"Bk" = (
+/obj/machinery/computer/shuttle/mining{
+	dir = 1;
+	req_access = null
+	},
+/turf/open/floor/plasteel/tech/grid,
+/area/nostromo)
+"Ea" = (
+/obj/structure/sign/mining,
+/turf/closed/wall/ship,
+/area/nostromo/bridge)
+"Fu" = (
+/obj/machinery/light{
+	dir = 4
+	},
+/turf/open/floor/plasteel/ridged/steel,
+/area/nostromo)
+"Gf" = (
+/obj/docking_port/stationary{
+	area_type = /area/nostromo;
+	dir = 8;
+	dwidth = 3;
+	height = 10;
+	id = "mining_away";
+	name = "NSV nostromo";
+	width = 7
+	},
+/turf/open/space/basic,
+/area/nostromo)
+"Hi" = (
+/obj/structure/sign/mining,
+/turf/closed/wall/ship,
+/area/nostromo)
+"IJ" = (
+/obj/structure/hull_plate,
+/obj/machinery/light/runway/delay2,
+/turf/open/floor/plating/airless,
+/area/nostromo)
+"Je" = (
+/obj/structure/hull_plate/end{
+	icon_state = "tgmc_outerhull_dir";
+	dir = 6
+	},
+/turf/open/floor/plating/airless,
+/area/nostromo)
+"Ri" = (
+/obj/structure/sign/warning/vacuum/external,
+/turf/closed/wall/ship,
+/area/nostromo)
+"RW" = (
+/obj/machinery/door/airlock/ship/external/glass{
+	dir = 4;
+	name = "Shuttle dock";
+	req_one_access_txt = "31;48"
+	},
+/obj/effect/mapping_helpers/airlock/cyclelink_helper{
+	dir = 8
+	},
+/turf/open/floor/plasteel/tech/grid,
+/area/nostromo)
+"SU" = (
+/obj/structure/hull_plate,
+/obj/machinery/light/runway,
+/turf/open/floor/plating/airless,
+/area/nostromo)
+"TV" = (
+/obj/machinery/door/airlock/ship/external/glass{
+	dir = 4;
+	name = "Shuttle dock";
+	req_one_access_txt = "31;48"
+	},
+/obj/effect/mapping_helpers/airlock/cyclelink_helper{
+	dir = 4
+	},
+/turf/open/floor/plasteel/tech/grid,
+/area/nostromo)
+"XD" = (
+/obj/structure/hull_plate,
+/obj/machinery/light/runway/delay3,
+/turf/open/floor/plating/airless,
+/area/nostromo)
 
 (1,1,1) = {"
 aa
@@ -25999,12 +26140,12 @@ ad
 ad
 ad
 ad
-aa
-aa
-aa
-aa
-aa
-aa
+ad
+ad
+ad
+ad
+ad
+ad
 aa
 aa
 aa
@@ -26253,15 +26394,15 @@ ad
 ad
 ad
 ad
+mf
+mf
+mf
+mf
+mf
+mf
 ad
 ad
 ad
-aa
-aa
-aa
-aa
-aa
-aa
 aa
 aa
 aa
@@ -26510,15 +26651,15 @@ ad
 ad
 ad
 ad
+mf
+mf
+mf
+mf
+mf
+mf
 ad
 ad
 ad
-aa
-aa
-aa
-aa
-aa
-aa
 aa
 aa
 aa
@@ -26767,15 +26908,15 @@ ad
 ad
 ad
 ad
+mf
+mf
+mf
+mf
+mf
+mf
 ad
 ad
 ad
-aa
-aa
-aa
-aa
-aa
-aa
 aa
 aa
 aa
@@ -27024,15 +27165,15 @@ ad
 ad
 ad
 ad
+mf
+mf
+mf
+mf
+mf
+mf
 ad
 ad
 ad
-aa
-aa
-aa
-aa
-aa
-aa
 aa
 aa
 aa
@@ -27267,7 +27408,7 @@ jw
 ic
 fT
 fT
-bv
+Aa
 aY
 cK
 aY
@@ -27281,15 +27422,15 @@ ad
 ad
 ad
 ad
+mf
+mf
+mf
+mf
+mf
+mf
 ad
 ad
 ad
-aa
-aa
-aa
-aa
-aa
-aa
 aa
 aa
 aa
@@ -27538,12 +27679,12 @@ ad
 ad
 ad
 ad
-ad
-ad
-ad
-ad
-ad
-ad
+mf
+mf
+Gf
+mf
+mf
+mf
 ad
 ad
 ad
@@ -27796,10 +27937,10 @@ aY
 ad
 ad
 ad
-ad
-ad
-ad
-ad
+ap
+TV
+ap
+ap
 ad
 ad
 ad
@@ -28053,10 +28194,10 @@ aY
 ad
 ad
 ad
-ad
-ad
-ad
-ad
+Ri
+lY
+Bk
+ap
 ad
 ad
 ad
@@ -28310,10 +28451,10 @@ aY
 aY
 aY
 aY
-aY
-aY
-aY
-aY
+ap
+RW
+ap
+ap
 aY
 aY
 aY
@@ -28824,7 +28965,7 @@ ap
 ap
 ap
 ap
-ap
+rV
 es
 ap
 ap
@@ -30103,7 +30244,7 @@ cM
 ap
 aY
 aE
-aY
+ag
 bn
 dF
 dP
@@ -30360,7 +30501,7 @@ ap
 ap
 ax
 aF
-aY
+ag
 by
 dG
 eH
@@ -30617,7 +30758,7 @@ ap
 ap
 aY
 aQ
-aY
+ag
 be
 dH
 eI
@@ -31131,7 +31272,7 @@ aY
 fR
 aY
 aY
-aY
+ag
 gt
 dL
 aT
@@ -31388,7 +31529,7 @@ bd
 bd
 bd
 bd
-aY
+ag
 ag
 ag
 ag
@@ -32164,7 +32305,7 @@ aY
 bd
 bd
 aY
-aY
+ag
 eq
 ew
 hf
@@ -32899,7 +33040,7 @@ aa
 ad
 ad
 ad
-aY
+na
 ea
 ap
 bW
@@ -32946,7 +33087,7 @@ bW
 bW
 aY
 bd
-aY
+na
 ad
 ad
 ad
@@ -35751,7 +35892,7 @@ hG
 hP
 iH
 hs
-cq
+Fu
 eW
 co
 eW
@@ -37287,8 +37428,8 @@ ah
 at
 at
 at
+at
 bQ
-bM
 bM
 bQ
 fo
@@ -37296,13 +37437,13 @@ hT
 jD
 hA
 hB
-hB
 hA
+bq
 bq
 hD
 dA
 dS
-dZ
+qv
 dz
 dA
 dS
@@ -37315,7 +37456,7 @@ fT
 ds
 ds
 fY
-aY
+na
 ad
 ad
 ad
@@ -37783,7 +37924,7 @@ aa
 ad
 ad
 ad
-aY
+na
 fP
 fT
 ds
@@ -39108,7 +39249,7 @@ dX
 ej
 fF
 dA
-ap
+Hi
 ah
 ah
 ah
@@ -39608,7 +39749,7 @@ cZ
 fG
 hd
 jB
-ct
+Ea
 ah
 ap
 ap
@@ -39867,19 +40008,19 @@ dg
 fN
 ct
 ah
-ah
-ah
-ah
-jU
-ah
-ah
-ah
-ah
-ah
-ah
-ah
-jU
-ak
+ph
+ph
+ph
+XD
+ph
+pq
+ph
+ph
+ph
+pq
+ph
+XD
+rS
 ad
 ad
 ad
@@ -40124,19 +40265,19 @@ gS
 fN
 ct
 ah
-ah
-ah
-ah
-ah
-ah
-ah
-ah
-ah
-ah
-ah
-ah
-ah
-ak
+ph
+ph
+ph
+ph
+ph
+ph
+ph
+ph
+ph
+ph
+ph
+ph
+rS
 ad
 ad
 ad
@@ -40381,19 +40522,19 @@ fH
 cH
 ct
 ai
-ah
-ah
-ah
-jV
-ah
-ah
-ah
-ah
-ah
-ah
-ah
-jV
-ak
+ph
+ph
+ph
+IJ
+ph
+ph
+ph
+ph
+ph
+ph
+ph
+IJ
+rS
 ad
 ad
 ad
@@ -40638,19 +40779,19 @@ ad
 ad
 ad
 ad
-ah
-ah
-ah
-ah
-ah
-ah
-ah
-ah
-ah
-ah
-ah
-ah
-ak
+ph
+ph
+ph
+ph
+ph
+ph
+ph
+ph
+ph
+ph
+ph
+ph
+rS
 ad
 ad
 ad
@@ -40895,19 +41036,19 @@ ad
 ad
 ad
 ad
-ah
-ah
-ah
-jW
-ah
-ah
-ah
-ah
-ah
-ah
-ah
-jW
-ak
+ph
+ph
+ph
+SU
+ph
+ph
+ph
+ph
+ph
+ph
+ph
+SU
+rS
 ad
 ad
 ad
@@ -41152,19 +41293,19 @@ ad
 ad
 ad
 ad
-ai
-ai
-ai
-ai
-ai
-ai
-ai
-ai
-ai
-ai
-ai
-ai
-al
+yl
+yl
+yl
+yl
+yl
+yl
+yl
+yl
+yl
+yl
+yl
+yl
+Je
 ad
 ad
 ad
