@@ -156,6 +156,7 @@ GLOBAL_LIST_EMPTY(overmap_asteroids) //For dradis to be able to track asteroids.
 	icon = 'nsv13/icons/obj/terminals.dmi'
 	icon_state = "magnet"
 	req_access = list(ACCESS_MINING)
+	resistance_flags = INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | UNACIDABLE | ACID_PROOF | FREEZE_PROOF
 	var/datum/map_template/asteroid/current_asteroid
 	var/turf/target_location
 	var/cooldown = FALSE
@@ -220,7 +221,7 @@ GLOBAL_LIST_EMPTY(overmap_asteroids) //For dradis to be able to track asteroids.
 		playsound(src, sound, 100, 1)
 		return FALSE
 	var/list/asteroids = list()
-	for(var/obj/structure/asteroid/AS in orange(3, linked))
+	for(var/obj/structure/asteroid/AS in orange(5, linked))
 		if(AS.required_tier <= tier)
 			asteroids += AS
 	if(!asteroids.len)

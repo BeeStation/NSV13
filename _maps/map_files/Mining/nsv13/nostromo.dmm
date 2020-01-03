@@ -1876,6 +1876,7 @@
 /obj/structure/rack,
 /obj/item/tank/internals/oxygen,
 /obj/item/pickaxe,
+/obj/item/tank/jetpack/oxygen,
 /turf/open/floor/monotile/dark,
 /area/nostromo)
 "fs" = (
@@ -1885,6 +1886,7 @@
 /obj/structure/rack,
 /obj/item/tank/internals/oxygen,
 /obj/item/pickaxe,
+/obj/item/tank/jetpack/oxygen,
 /turf/open/floor/monotile/dark,
 /area/nostromo)
 "ft" = (
@@ -3510,6 +3512,7 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
 	dir = 8
 	},
+/obj/item/tank/jetpack/oxygen,
 /turf/open/floor/monotile/dark,
 /area/nostromo)
 "jm" = (
@@ -3828,18 +3831,6 @@
 	},
 /turf/open/floor/plating/airless,
 /area/nostromo/maintenance/exterior)
-"og" = (
-/obj/machinery/atmospherics/pipe/simple/supply/hidden,
-/obj/machinery/door/firedoor,
-/obj/machinery/door/airlock/ship/external/glass{
-	dir = 2;
-	req_one_access_txt = "31;48"
-	},
-/obj/effect/mapping_helpers/airlock/cyclelink_helper{
-	dir = 1
-	},
-/turf/open/floor/plating,
-/area/nostromo)
 "oK" = (
 /turf/open/space/basic,
 /area/nostromo)
@@ -3873,6 +3864,10 @@
 	},
 /turf/open/floor/plating/airless,
 /area/nostromo/maintenance/exterior)
+"wv" = (
+/obj/structure/sign/departments/minsky/engineering/engineering,
+/turf/closed/wall/ship,
+/area/nostromo/maintenance)
 "xW" = (
 /obj/effect/turf_decal/stripes/line,
 /turf/open/floor/plating/airless,
@@ -3898,6 +3893,18 @@
 	},
 /turf/open/floor/plating/airless,
 /area/nostromo/maintenance)
+"At" = (
+/obj/machinery/atmospherics/pipe/simple/supply/hidden,
+/obj/machinery/door/firedoor,
+/obj/machinery/door/airlock/ship/external/glass{
+	dir = 2;
+	req_one_access_txt = "31;48"
+	},
+/obj/effect/mapping_helpers/airlock/cyclelink_helper{
+	dir = 1
+	},
+/turf/open/floor/plating,
+/area/nostromo)
 "Bp" = (
 /obj/machinery/light{
 	dir = 1
@@ -3918,18 +3925,6 @@
 	icon_state = "1-8"
 	},
 /turf/open/floor/plating/airless,
-/area/nostromo/maintenance)
-"ET" = (
-/obj/effect/turf_decal/stripes/line{
-	dir = 1
-	},
-/obj/machinery/light{
-	dir = 1
-	},
-/obj/structure/sign/mining{
-	pixel_y = 26
-	},
-/turf/open/floor/plasteel/tech/grid,
 /area/nostromo/maintenance)
 "EU" = (
 /obj/structure/hull_plate,
@@ -3957,6 +3952,11 @@
 	},
 /turf/open/floor/plating/airless,
 /area/nostromo/maintenance)
+"Ha" = (
+/obj/machinery/light,
+/obj/structure/reagent_dispensers/fueltank,
+/turf/open/floor/monotile/light,
+/area/nostromo)
 "Hi" = (
 /obj/structure/lattice/catwalk,
 /obj/structure/cable/yellow{
@@ -3967,16 +3967,6 @@
 "HB" = (
 /obj/structure/sign/mining,
 /turf/closed/wall/ship,
-/area/nostromo/maintenance)
-"HK" = (
-/obj/structure/grille,
-/obj/structure/window/reinforced/fulltile/ship,
-/obj/machinery/door/poddoor/ship{
-	dir = 4;
-	id = "nostromostorage2";
-	name = "Window shutters"
-	},
-/turf/open/floor/plasteel/tech/grid,
 /area/nostromo/maintenance)
 "IT" = (
 /obj/docking_port/stationary{
@@ -3995,7 +3985,21 @@
 /obj/machinery/light/runway/delay2,
 /turf/open/floor/plating/airless,
 /area/nostromo)
-"MY" = (
+"KL" = (
+/obj/structure/grille,
+/obj/structure/window/reinforced/fulltile/ship,
+/obj/machinery/door/poddoor/ship{
+	dir = 4;
+	id = "nostromostorage2";
+	name = "Window shutters"
+	},
+/turf/open/floor/plasteel/tech/grid,
+/area/nostromo/maintenance)
+"LD" = (
+/obj/structure/sign/departments/minsky/engineering/atmospherics,
+/turf/closed/wall/ship,
+/area/nostromo/maintenance)
+"MR" = (
 /obj/machinery/door/airlock/ship/external/glass{
 	dir = 2;
 	req_one_access_txt = "31;48"
@@ -4005,18 +4009,7 @@
 	},
 /turf/open/floor/plating,
 /area/nostromo)
-"MZ" = (
-/obj/machinery/light,
-/obj/structure/reagent_dispensers/fueltank,
-/turf/open/floor/monotile/light,
-/area/nostromo)
-"Qn" = (
-/obj/effect/turf_decal/stripes/line{
-	dir = 1
-	},
-/turf/open/floor/plating/airless,
-/area/nostromo/maintenance/exterior)
-"Rf" = (
+"NZ" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 1
 	},
@@ -4030,6 +4023,24 @@
 	},
 /turf/open/floor/plasteel/tech/grid,
 /area/nostromo/maintenance)
+"PS" = (
+/obj/effect/turf_decal/stripes/line{
+	dir = 1
+	},
+/obj/machinery/light{
+	dir = 1
+	},
+/obj/structure/sign/mining{
+	pixel_y = 26
+	},
+/turf/open/floor/plasteel/tech/grid,
+/area/nostromo/maintenance)
+"Qn" = (
+/obj/effect/turf_decal/stripes/line{
+	dir = 1
+	},
+/turf/open/floor/plating/airless,
+/area/nostromo/maintenance/exterior)
 "Rh" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
@@ -28118,7 +28129,7 @@ ad
 aY
 aY
 aY
-aY
+wv
 ie
 aY
 aY
@@ -28130,7 +28141,7 @@ aY
 aY
 aY
 aN
-aY
+LD
 aY
 aY
 aY
@@ -29157,7 +29168,7 @@ iM
 bT
 iN
 bW
-MZ
+Ha
 ap
 ap
 ap
@@ -29928,7 +29939,7 @@ dT
 bW
 cc
 bW
-MZ
+Ha
 ap
 ag
 ag
@@ -37394,7 +37405,7 @@ dY
 ek
 dA
 aY
-Rf
+NZ
 ds
 ds
 fd
@@ -37631,13 +37642,13 @@ at
 at
 bQ
 bM
-MY
+MR
 fo
 hT
 jD
 hA
 hB
-og
+At
 bq
 bq
 hD
@@ -37651,7 +37662,7 @@ dZ
 dz
 dA
 aY
-ET
+PS
 fT
 ds
 ds
@@ -38166,9 +38177,9 @@ fF
 dA
 aY
 aY
-HK
-HK
-HK
+KL
+KL
+KL
 aY
 aY
 ad
