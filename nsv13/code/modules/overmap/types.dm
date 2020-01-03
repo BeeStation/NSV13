@@ -64,8 +64,8 @@
 /obj/structure/overmap/nanotrasen/mining_cruiser
 	name = "Mining hauler"
 	desc = "A medium sized ship which has been retrofitted countless times. These ships are often relegated to mining duty."
-	icon = 'nsv13/icons/overmap/nanotrasen/missile_cruiser.dmi'
-	icon_state = "patrol_cruiser"
+	icon = 'nsv13/icons/overmap/nanotrasen/light_cruiser.dmi'
+	icon_state = "cruiser"
 	bound_width = 128 //Change this on a per ship basis
 	bound_height = 128
 	mass = MASS_MEDIUM
