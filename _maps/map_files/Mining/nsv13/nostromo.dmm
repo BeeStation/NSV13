@@ -2589,9 +2589,9 @@
 /turf/open/floor/plasteel/white,
 /area/nostromo/medbay)
 "hd" = (
-/obj/machinery/computer/ship/dradis{
-	dir = 8;
-	req_one_access_txt = "31;48"
+/obj/machinery/computer/ship/dradis/mining{
+	icon_state = "computer";
+	dir = 8
 	},
 /turf/open/floor/plasteel/grid/steel,
 /area/nostromo/bridge)
@@ -3828,6 +3828,18 @@
 	},
 /turf/open/floor/plating/airless,
 /area/nostromo/maintenance/exterior)
+"og" = (
+/obj/machinery/atmospherics/pipe/simple/supply/hidden,
+/obj/machinery/door/firedoor,
+/obj/machinery/door/airlock/ship/external/glass{
+	dir = 2;
+	req_one_access_txt = "31;48"
+	},
+/obj/effect/mapping_helpers/airlock/cyclelink_helper{
+	dir = 1
+	},
+/turf/open/floor/plating,
+/area/nostromo)
 "oK" = (
 /turf/open/space/basic,
 /area/nostromo)
@@ -3892,16 +3904,6 @@
 	},
 /turf/open/floor/plasteel/tech/grid,
 /area/nostromo)
-"CF" = (
-/obj/machinery/door/airlock/ship/external/glass{
-	dir = 2;
-	req_one_access_txt = "31;48"
-	},
-/obj/effect/mapping_helpers/airlock/cyclelink_helper{
-	dir = 1
-	},
-/turf/open/floor/plating,
-/area/nostromo)
 "DE" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 5
@@ -3917,16 +3919,7 @@
 	},
 /turf/open/floor/plating/airless,
 /area/nostromo/maintenance)
-"EU" = (
-/obj/structure/hull_plate,
-/obj/machinery/light/runway/delay3,
-/turf/open/floor/plating/airless,
-/area/nostromo)
-"FT" = (
-/obj/structure/sign/mining,
-/turf/closed/wall/ship,
-/area/nostromo/bridge)
-"Ga" = (
+"ET" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 1
 	},
@@ -3938,6 +3931,15 @@
 	},
 /turf/open/floor/plasteel/tech/grid,
 /area/nostromo/maintenance)
+"EU" = (
+/obj/structure/hull_plate,
+/obj/machinery/light/runway/delay3,
+/turf/open/floor/plating/airless,
+/area/nostromo)
+"FT" = (
+/obj/structure/sign/mining,
+/turf/closed/wall/ship,
+/area/nostromo/bridge)
 "GR" = (
 /obj/effect/turf_decal/stripes/full,
 /obj/structure/overmap/fighter/prebuilt/raptor{
@@ -3966,6 +3968,16 @@
 /obj/structure/sign/mining,
 /turf/closed/wall/ship,
 /area/nostromo/maintenance)
+"HK" = (
+/obj/structure/grille,
+/obj/structure/window/reinforced/fulltile/ship,
+/obj/machinery/door/poddoor/ship{
+	dir = 4;
+	id = "nostromostorage2";
+	name = "Window shutters"
+	},
+/turf/open/floor/plasteel/tech/grid,
+/area/nostromo/maintenance)
 "IT" = (
 /obj/docking_port/stationary{
 	area_type = /area/nostromo;
@@ -3983,9 +3995,7 @@
 /obj/machinery/light/runway/delay2,
 /turf/open/floor/plating/airless,
 /area/nostromo)
-"Mg" = (
-/obj/machinery/atmospherics/pipe/simple/supply/hidden,
-/obj/machinery/door/firedoor,
+"MY" = (
 /obj/machinery/door/airlock/ship/external/glass{
 	dir = 2;
 	req_one_access_txt = "31;48"
@@ -3995,42 +4005,18 @@
 	},
 /turf/open/floor/plating,
 /area/nostromo)
-"Or" = (
-/obj/structure/grille,
-/obj/structure/window/reinforced/fulltile/ship,
-/obj/machinery/door/poddoor/ship{
-	dir = 4;
-	id = "nostromostorage2";
-	name = "Window shutters"
-	},
-/turf/open/floor/plasteel/tech/grid,
-/area/nostromo/maintenance)
+"MZ" = (
+/obj/machinery/light,
+/obj/structure/reagent_dispensers/fueltank,
+/turf/open/floor/monotile/light,
+/area/nostromo)
 "Qn" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 1
 	},
 /turf/open/floor/plating/airless,
 /area/nostromo/maintenance/exterior)
-"Rh" = (
-/obj/effect/turf_decal/stripes/line{
-	dir = 8
-	},
-/turf/open/floor/plating/airless,
-/area/nostromo/maintenance/exterior)
-"Rs" = (
-/obj/structure/sign/warning/pods,
-/turf/closed/wall/ship,
-/area/nostromo)
-"Se" = (
-/obj/machinery/light,
-/obj/structure/reagent_dispensers/fueltank,
-/turf/open/floor/monotile/light,
-/area/nostromo)
-"TK" = (
-/obj/structure/sign/warning/vacuum/external,
-/turf/closed/wall/ship,
-/area/nostromo)
-"UJ" = (
+"Rf" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 1
 	},
@@ -4044,6 +4030,20 @@
 	},
 /turf/open/floor/plasteel/tech/grid,
 /area/nostromo/maintenance)
+"Rh" = (
+/obj/effect/turf_decal/stripes/line{
+	dir = 8
+	},
+/turf/open/floor/plating/airless,
+/area/nostromo/maintenance/exterior)
+"Rs" = (
+/obj/structure/sign/warning/pods,
+/turf/closed/wall/ship,
+/area/nostromo)
+"TK" = (
+/obj/structure/sign/warning/vacuum/external,
+/turf/closed/wall/ship,
+/area/nostromo)
 "UV" = (
 /obj/structure/hull_plate/end{
 	icon_state = "tgmc_outerhull_dir";
@@ -29157,7 +29157,7 @@ iM
 bT
 iN
 bW
-Se
+MZ
 ap
 ap
 ap
@@ -29928,7 +29928,7 @@ dT
 bW
 cc
 bW
-Se
+MZ
 ap
 ag
 ag
@@ -37394,7 +37394,7 @@ dY
 ek
 dA
 aY
-UJ
+Rf
 ds
 ds
 fd
@@ -37631,13 +37631,13 @@ at
 at
 bQ
 bM
-CF
+MY
 fo
 hT
 jD
 hA
 hB
-Mg
+og
 bq
 bq
 hD
@@ -37651,7 +37651,7 @@ dZ
 dz
 dA
 aY
-Ga
+ET
 fT
 ds
 ds
@@ -38166,9 +38166,9 @@ fF
 dA
 aY
 aY
-Or
-Or
-Or
+HK
+HK
+HK
 aY
 aY
 ad

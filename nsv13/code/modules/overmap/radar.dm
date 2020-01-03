@@ -9,9 +9,17 @@
 	var/scanning_speed = 2 //Duration of each pulse.
 	var/last_scanning_speed = 2 //To update the sound loop
 	var/start_with_sound = TRUE //Used to stop fighters playing dradis sounds all at once and being annoying.
+	var/show_asteroids = FALSE //Used so that mining can track what they're supposed to be drilling.
+	var/mining_sensor_tier = 1
 
 /obj/machinery/computer/ship/dradis/minor //Secondary dradis consoles usable by people who arent on the bridge.
 	name = "Air traffic control console"
+
+/obj/machinery/computer/ship/dradis/mining
+	name = "Nostromo DRADIS computer"
+	desc = "A modified dradis console which links to the Nostromo's mineral scanners, able to pick up asteroids that can be mined."
+	req_one_access_txt = "31;48"
+	show_asteroids = TRUE
 
 /obj/machinery/computer/ship/dradis/internal
 	name = "Integrated dradis console"
@@ -78,6 +86,20 @@
 		ui.set_style("dradis")
 		ui.open()
 
+/obj/machinery/computer/ship/dradis/attackby(obj/item/I, mob/user) //Allows you to upgrade dradis consoles to show asteroids, as well as revealing more valuable ones.
+	. = ..()
+	if(istype(I, /obj/item/mining_sensor_upgrade))
+		if(!show_asteroids)
+			show_asteroids = TRUE
+		var/obj/item/mining_sensor_upgrade/MS = I
+		if(MS.tier > mining_sensor_tier)
+			playsound(src, 'sound/machines/terminal_insert_disc.ogg', 100, 0)
+			to_chat(user, "<span class='notice'>You slot [I] into [src], allowing it to detect a wider variety of asteroids.</span>")
+			mining_sensor_tier = MS.tier
+			qdel(MS)
+		else
+			to_chat(user, "<span class='notice'>[src] has already been upgraded to a higher tier than [MS].</span>")
+
 /obj/machinery/computer/ship/dradis/ui_data(mob/user) //NEW AND IMPROVED DRADIS 2.0. NOW FEATURING LESS LAG AND CLICKSPAM. This was a pain to code. Don't make me do it again..please? -Kmc
 	if(last_scanning_speed != scanning_speed) //Make the scanner go at a speed that you want.
 		soundloop.stop()
@@ -110,6 +132,26 @@
 			if(OMy > 39)
 				OMy = 39
 			blips.Add(list(list("x" = OMx, "y" = OMy, "colour" = thecolour))) //So now make a 2-d array that TGUI can iterate through. This is just a list within a list.
+	if(show_asteroids)
+		for(var/obj/structure/asteroid/AS in GLOB.overmap_asteroids)
+			if(AS.z == linked.z && AS.required_tier <= mining_sensor_tier)
+				var/thecolor = "#80523c"
+				switch(AS.required_tier) //Better asteroids show up in different colours
+					if(2)
+						thecolor = "#ffcc00"
+					if(3)
+						thecolor = "#cc66ff"
+				var/OMx = AS.x/6 //We're now going to scale down the X,Y coords into something we can display
+				var/OMy = AS.y/6 //THESE NUMBERS ARE BASED ON TRIAL AND ERROR. DON'T ARGUE WITH ME JUST DEAL WITH IT
+				if(OMx < 5) //This chain of IFs stops the dots from going off the screen. Simple as.
+					OMx = 5
+				if(OMx > 235)
+					OMx = 235
+				if(OMy < 5)
+					OMy = 5
+				if(OMy > 39)
+					OMy = 39
+				blips.Add(list(list("x" = OMx, "y" = OMy, "colour" = thecolor))) //So now make a 2-d array that TGUI can iterate through. This is just a list within a list.
 	data["ships"] = blips //Create a category in data called "ships" with our 2-d arrays.
 	return data
 

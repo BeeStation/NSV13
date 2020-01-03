@@ -15,6 +15,8 @@
 	mass = MASS_MEDIUM
 	sprite_size = 96
 	damage_states = TRUE
+	pixel_w = -32
+	pixel_z = -32
 
 /obj/structure/overmap/nanotrasen/patrol_cruiser
 	name = "ragnarok class heavy cruiser"
@@ -66,15 +68,15 @@
 	desc = "A medium sized ship which has been retrofitted countless times. These ships are often relegated to mining duty."
 	icon = 'nsv13/icons/overmap/nanotrasen/light_cruiser.dmi'
 	icon_state = "cruiser"
-	bound_width = 128 //Change this on a per ship basis
-	bound_height = 128
+	bound_width = 96 //Change this on a per ship basis
+	bound_height = 96
 	mass = MASS_MEDIUM
-	sprite_size = 48
+	sprite_size = 96
 	damage_states = TRUE
-	pixel_z = -96
-	pixel_w = -96
-	max_integrity = 1500 //Max health
-	integrity_failure = 1500
+	max_integrity = 800 //Max health
+	integrity_failure = 800
+	pixel_w = -32
+	pixel_z = -32
 
 /obj/structure/overmap/nanotrasen/mining_cruiser/nostromo
 	name = "NSV Nostromo"

@@ -1,4 +1,5 @@
 GLOBAL_LIST_EMPTY(asteroid_spawn_markers)		//handles mining asteroids, kind of shitcode but i cant think of what else to do
+GLOBAL_LIST_EMPTY(overmap_asteroids) //For dradis to be able to track asteroids.
 
 //Credit to floyd for the backbone of this code
 
@@ -11,7 +12,6 @@ GLOBAL_LIST_EMPTY(asteroid_spawn_markers)		//handles mining asteroids, kind of s
 	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 10000)
 	export_price = 5000
 
-
 /datum/design/deepcore1
 	name = "Polytrinic non magnetic asteroid arrestor upgrade"
 	desc = "An upgrade module for the Nostromo's asteroid arrestor, allowing it to lock on to asteroids containing valuable non ferrous metals such as gold, silver, copper and plasma"
@@ -19,7 +19,7 @@ GLOBAL_LIST_EMPTY(asteroid_spawn_markers)		//handles mining asteroids, kind of s
 	build_type = PROTOLATHE
 	materials = list(/datum/material/iron = 25000,/datum/material/titanium = 25000, /datum/material/silver = 5000)
 	build_path = /obj/item/deepcore_upgrade
-	category = list("mineral_mining")
+	category = list("Asteroid Mining")
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO | DEPARTMENTAL_FLAG_SCIENCE
 
 /datum/design/deepcore2
@@ -29,7 +29,36 @@ GLOBAL_LIST_EMPTY(asteroid_spawn_markers)		//handles mining asteroids, kind of s
 	build_type = PROTOLATHE
 	materials = list(/datum/material/copper = 25000,/datum/material/titanium = 25000, /datum/material/gold = 10000, /datum/material/silver = 10000, /datum/material/plasma = 10000, /datum/material/uranium = 5000, /datum/material/diamond = 5000)
 	build_path = /obj/item/deepcore_upgrade/max
-	category = list("mineral_mining")
+	category = list("Asteroid Mining")
+	departmental_flags = DEPARTMENTAL_FLAG_CARGO | DEPARTMENTAL_FLAG_SCIENCE
+
+/datum/techweb_node/mineral_scanning
+	id = "mineral_scanning"
+	display_name = "Asteroid core sensors"
+	description = "Upgrades for dradis computers, allowing them to scan for mineral rich asteroids."
+	prereq_ids = list("base")
+	design_ids = list("asteroidscanner", "asteroidscanner2")
+	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 10000)
+	export_price = 5000
+
+/datum/design/asteroidscanner
+	name = "Tier II asteroid sensor module"
+	desc = "An upgrade for dradis computers, allowing them to scan for asteroids containing valuable non ferrous metals such as gold, silver, copper and plasma"
+	id = "asteroidscanner"
+	build_type = PROTOLATHE
+	materials = list(/datum/material/iron = 25000,/datum/material/titanium = 5000, /datum/material/silver = 2000)
+	build_path = /obj/item/mining_sensor_upgrade
+	category = list("Asteroid Mining")
+	departmental_flags = DEPARTMENTAL_FLAG_CARGO | DEPARTMENTAL_FLAG_SCIENCE
+
+/datum/design/asteroidscanner2
+	name = "Tier III asteroid sensor module"
+	desc = "An upgrade for dradis computers, allowing them to scan for asteroids containing rare and valuable minerals such as diamond, uranium and the exceedingly rare bluespace crystals."
+	id = "asteroidscanner2"
+	build_type = PROTOLATHE
+	materials = list(/datum/material/copper = 25000,/datum/material/titanium = 25000, /datum/material/plasma = 2000, /datum/material/uranium = 2000, /datum/material/diamond = 2000)
+	build_path = /obj/item/mining_sensor_upgrade/max
+	category = list("Asteroid Mining")
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO | DEPARTMENTAL_FLAG_SCIENCE
 
 /obj/structure/asteroid
@@ -63,6 +92,11 @@ GLOBAL_LIST_EMPTY(asteroid_spawn_markers)		//handles mining asteroids, kind of s
 /obj/structure/asteroid/Initialize()
 	. = ..()
 	icon_state = "[rand(1,5)]"
+	GLOB.overmap_asteroids += src
+
+/obj/structure/asteroid/Destroy()
+	GLOB.overmap_asteroids -= src
+	. = ..()
 
 /datum/map_template/asteroid
 	var/list/core_composition = list(/turf/closed/mineral/iron, /turf/closed/mineral/titanium)
@@ -103,6 +137,18 @@ GLOBAL_LIST_EMPTY(asteroid_spawn_markers)		//handles mining asteroids, kind of s
 /obj/item/deepcore_upgrade/max
 	name = "Phasic asteroid arrestor upgrade"
 	icon_state = "minescanner_upgrade_max"
+	tier = 3
+
+/obj/item/mining_sensor_upgrade
+	name = "Dradis mineral sensor upgrade (tier II)"
+	desc = "A component which, when slotted into an asteroid magnet computer, will allow it to capture increasingly valuable asteroids."
+	icon = 'nsv13/icons/obj/computers.dmi'
+	icon_state = "minesensor"
+	var/tier = 2
+
+/obj/item/mining_sensor_upgrade/max
+	name = "Dradis mineral sensor upgrade (tier III)"
+	icon_state = "minesensor_max"
 	tier = 3
 
 /obj/machinery/computer/ship/mineral_magnet
