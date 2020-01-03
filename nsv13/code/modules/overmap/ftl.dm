@@ -252,7 +252,10 @@ GLOBAL_DATUM_INIT(starsystem_controller, /datum/starsystem_controller, new)
 	radio.talk_into(src, "Initiating FTL jump.", engineering_channel)
 	playsound(src, 'nsv13/sound/effects/ship/freespace2/computer/escape.wav', 100, 1)
 	visible_message("<span class='notice'>Initiating FTL jump.</span>")
-	priority_announce("Attention: All hands brace for FTL translation. Destination: [target_system]. Projected ETA: 2:45 minutes","Automated announcement") //TEMP! Remove this shit when we move ruin spawns off-z
+	if(linked.main_overmap)
+		priority_announce("Attention: All hands brace for FTL translation. Destination: [target_system]. Projected ETA: 2:45 minutes","Automated announcement") //TEMP! Remove this shit when we move ruin spawns off-z
+	else
+		minor_announce("[linked] has begun an FTL jump. Target: [target_system]. Projected ETA: 2:45 minutes", "Bluespace hyperlane governor")
 	depower()
 
 /obj/machinery/computer/ship/ftl_computer/proc/ready_ftl()

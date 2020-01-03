@@ -583,6 +583,7 @@
 	dir = 2;
 	req_one_access_txt = "31;48"
 	},
+/obj/effect/mapping_helpers/airlock/cyclelink_helper,
 /turf/open/floor/plating,
 /area/nostromo)
 "bR" = (
@@ -629,6 +630,9 @@
 /obj/machinery/door/airlock/ship/external/glass{
 	dir = 4;
 	req_one_access_txt = "31;48"
+	},
+/obj/effect/mapping_helpers/airlock/cyclelink_helper{
+	dir = 8
 	},
 /turf/open/floor/plating,
 /area/nostromo/maintenance)
@@ -819,6 +823,10 @@
 	icon_state = "support_beam";
 	dir = 1
 	},
+/obj/item/ammo_box/magazine/pdc,
+/obj/item/ammo_box/magazine/pdc,
+/obj/item/ammo_box/magazine/pdc,
+/obj/structure/closet/crate,
 /turf/open/floor/plasteel/techmaint,
 /area/nostromo)
 "cF" = (
@@ -845,12 +853,19 @@
 /area/nostromo/maintenance)
 "cJ" = (
 /obj/machinery/light,
-/turf/open/floor/plating,
+/turf/open/floor/plating/airless,
 /area/nostromo/maintenance)
 "cK" = (
 /obj/effect/decal/cleanable/dirt{
 	color = "#FF7F50";
 	name = "rust"
+	},
+/obj/effect/mapping_helpers/airlock/cyclelink_helper{
+	dir = 4
+	},
+/obj/machinery/door/airlock/ship/external/glass{
+	dir = 4;
+	req_one_access_txt = "31;48"
 	},
 /turf/open/floor/plating,
 /area/nostromo/maintenance)
@@ -1049,6 +1064,14 @@
 /obj/effect/turf_decal/stripes/line{
 	dir = 1
 	},
+/obj/machinery/button/door{
+	dir = 8;
+	id = "nostromostorage";
+	name = "Window shutters";
+	pixel_x = 1;
+	pixel_y = 26;
+	req_one_access_txt = "31;48"
+	},
 /turf/open/floor/plasteel/tech/grid,
 /area/nostromo/maintenance)
 "ds" = (
@@ -1090,11 +1113,13 @@
 "dw" = (
 /obj/effect/turf_decal/delivery/white,
 /obj/structure/reagent_dispensers/foamtank,
+/obj/structure/pdc_mount,
 /turf/open/floor/plasteel/techmaint,
 /area/nostromo)
 "dx" = (
 /obj/effect/turf_decal/delivery/white,
 /obj/structure/reagent_dispensers/watertank,
+/obj/structure/pdc_mount,
 /turf/open/floor/plasteel/techmaint,
 /area/nostromo)
 "dy" = (
@@ -1104,6 +1129,7 @@
 	icon_state = "support_beam";
 	dir = 4
 	},
+/obj/structure/pdc_mount,
 /turf/open/floor/plasteel/techmaint,
 /area/nostromo)
 "dz" = (
@@ -1116,6 +1142,11 @@
 "dB" = (
 /obj/structure/grille,
 /obj/structure/window/reinforced/fulltile/ship,
+/obj/machinery/door/poddoor/ship{
+	dir = 4;
+	id = "nostromostorage";
+	name = "Window shutters"
+	},
 /turf/open/floor/plasteel/tech/grid,
 /area/nostromo/maintenance)
 "dC" = (
@@ -1691,6 +1722,8 @@
 /area/nostromo/medbay)
 "eS" = (
 /obj/structure/rack,
+/obj/item/clothing/head/welding,
+/obj/item/weldingtool/largetank,
 /turf/open/floor/monotile/light,
 /area/nostromo)
 "eT" = (
@@ -2742,6 +2775,7 @@
 	dir = 2;
 	req_one_access_txt = "31;48"
 	},
+/obj/effect/mapping_helpers/airlock/cyclelink_helper,
 /turf/open/floor/plating,
 /area/nostromo)
 "hB" = (
@@ -3858,6 +3892,16 @@
 	},
 /turf/open/floor/plasteel/tech/grid,
 /area/nostromo)
+"CF" = (
+/obj/machinery/door/airlock/ship/external/glass{
+	dir = 2;
+	req_one_access_txt = "31;48"
+	},
+/obj/effect/mapping_helpers/airlock/cyclelink_helper{
+	dir = 1
+	},
+/turf/open/floor/plating,
+/area/nostromo)
 "DE" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 5
@@ -3882,6 +3926,18 @@
 /obj/structure/sign/mining,
 /turf/closed/wall/ship,
 /area/nostromo/bridge)
+"Ga" = (
+/obj/effect/turf_decal/stripes/line{
+	dir = 1
+	},
+/obj/machinery/light{
+	dir = 1
+	},
+/obj/structure/sign/mining{
+	pixel_y = 26
+	},
+/turf/open/floor/plasteel/tech/grid,
+/area/nostromo/maintenance)
 "GR" = (
 /obj/effect/turf_decal/stripes/full,
 /obj/structure/overmap/fighter/prebuilt/raptor{
@@ -3927,6 +3983,28 @@
 /obj/machinery/light/runway/delay2,
 /turf/open/floor/plating/airless,
 /area/nostromo)
+"Mg" = (
+/obj/machinery/atmospherics/pipe/simple/supply/hidden,
+/obj/machinery/door/firedoor,
+/obj/machinery/door/airlock/ship/external/glass{
+	dir = 2;
+	req_one_access_txt = "31;48"
+	},
+/obj/effect/mapping_helpers/airlock/cyclelink_helper{
+	dir = 1
+	},
+/turf/open/floor/plating,
+/area/nostromo)
+"Or" = (
+/obj/structure/grille,
+/obj/structure/window/reinforced/fulltile/ship,
+/obj/machinery/door/poddoor/ship{
+	dir = 4;
+	id = "nostromostorage2";
+	name = "Window shutters"
+	},
+/turf/open/floor/plasteel/tech/grid,
+/area/nostromo/maintenance)
 "Qn" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 1
@@ -3943,10 +4021,29 @@
 /obj/structure/sign/warning/pods,
 /turf/closed/wall/ship,
 /area/nostromo)
+"Se" = (
+/obj/machinery/light,
+/obj/structure/reagent_dispensers/fueltank,
+/turf/open/floor/monotile/light,
+/area/nostromo)
 "TK" = (
 /obj/structure/sign/warning/vacuum/external,
 /turf/closed/wall/ship,
 /area/nostromo)
+"UJ" = (
+/obj/effect/turf_decal/stripes/line{
+	dir = 1
+	},
+/obj/machinery/button/door{
+	dir = 8;
+	id = "nostromostorage2";
+	name = "Window shutters";
+	pixel_x = 1;
+	pixel_y = 26;
+	req_one_access_txt = "31;48"
+	},
+/turf/open/floor/plasteel/tech/grid,
+/area/nostromo/maintenance)
 "UV" = (
 /obj/structure/hull_plate/end{
 	icon_state = "tgmc_outerhull_dir";
@@ -26228,7 +26325,7 @@ bD
 bD
 ci
 aY
-bZ
+bE
 aY
 nh
 Rh
@@ -26485,7 +26582,7 @@ Al
 bE
 cj
 aY
-cI
+bE
 aY
 Qn
 am
@@ -26742,7 +26839,7 @@ DI
 ch
 dj
 aY
-cI
+bE
 aY
 DE
 ta
@@ -27256,7 +27353,7 @@ gg
 gh
 gi
 aY
-cI
+ch
 aY
 gW
 aw
@@ -28284,7 +28381,7 @@ ap
 ap
 cL
 cW
-cc
+jM
 bW
 eS
 ap
@@ -29060,7 +29157,7 @@ iM
 bT
 iN
 bW
-fb
+Se
 ap
 ap
 ap
@@ -29831,7 +29928,7 @@ dT
 bW
 cc
 bW
-fb
+Se
 ap
 ag
 ag
@@ -37297,7 +37394,7 @@ dY
 ek
 dA
 aY
-dr
+UJ
 ds
 ds
 fd
@@ -37534,13 +37631,13 @@ at
 at
 bQ
 bM
-bQ
+CF
 fo
 hT
 jD
 hA
 hB
-hA
+Mg
 bq
 bq
 hD
@@ -37554,7 +37651,7 @@ dZ
 dz
 dA
 aY
-fP
+Ga
 fT
 ds
 ds
@@ -38069,9 +38166,9 @@ fF
 dA
 aY
 aY
-dB
-dB
-dB
+Or
+Or
+Or
 aY
 aY
 ad
