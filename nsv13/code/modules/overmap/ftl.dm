@@ -249,6 +249,7 @@ GLOBAL_DATUM_INIT(starsystem_controller, /datum/starsystem_controller, new)
 		radio.talk_into(src, "ERROR. Specified starsystem no longer exists.", engineering_channel)
 		return
 	linked?.begin_jump(target_system)
+	say("Initiating FTL jump...")
 	radio.talk_into(src, "Initiating FTL jump.", engineering_channel)
 	playsound(src, 'nsv13/sound/effects/ship/freespace2/computer/escape.wav', 100, 1)
 	visible_message("<span class='notice'>Initiating FTL jump.</span>")
@@ -260,6 +261,7 @@ GLOBAL_DATUM_INIT(starsystem_controller, /datum/starsystem_controller, new)
 
 /obj/machinery/computer/ship/ftl_computer/proc/ready_ftl()
 	state = FTL_STATE_READY
+	say("FTL vectors calculated. Drive status: READY.")
 	radio.talk_into(src, "FTL vectors calculated. Drive status: READY.", engineering_channel)
 	playsound(src, 'nsv13/sound/effects/ship/freespace2/computer/escape.wav', 100, 1)
 
@@ -283,6 +285,7 @@ GLOBAL_DATUM_INIT(starsystem_controller, /datum/starsystem_controller, new)
 /obj/machinery/computer/ship/ftl_computer/proc/spoolup()
 	if(state == FTL_STATE_IDLE)
 		playsound(src, 'nsv13/sound/effects/computer/hum3.ogg', 100, 1)
+		say("Calculating bluespace vectors. FTL spoolup initiated.")
 		radio.talk_into(src, "Calculating bluespace vectors. FTL spoolup initiated.", engineering_channel)
 		icon_state = "ftl_charging"
 		state = FTL_STATE_SPOOLING
