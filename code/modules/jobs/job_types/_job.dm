@@ -307,3 +307,7 @@
 	if(CONFIG_GET(flag/security_has_maint_access))
 		return list(ACCESS_MAINT_TUNNELS)
 	return list()
+
+//NSV13
+/datum/job/proc/get_rank()
+	return display_rank
