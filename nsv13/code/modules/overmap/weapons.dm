@@ -93,10 +93,9 @@
 				else
 					fire_pdcs(target, lateral=TRUE)
 	if(!found_target) //Can't see a torpedo to shoot, try find an enemy ship to shoot
-		for(var/X in GLOB.overmap_objects)
-			if(!istype(X, /obj/structure/overmap))
+		for(var/obj/structure/overmap/ship in GLOB.overmap_objects)
+			if(!istype(ship, /obj/structure/overmap))
 				continue
-			var/obj/structure/overmap/ship = X
 			if(ship == src || ship.faction == faction || ship.wrecked) //No friendly fire, don't blow up wrecks that the crew may wish to loot.
 				continue
 			var/target_range = get_dist(ship,src)
