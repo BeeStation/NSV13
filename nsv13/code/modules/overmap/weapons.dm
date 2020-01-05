@@ -93,10 +93,9 @@
 				else
 					fire_pdcs(target, lateral=TRUE)
 	if(!found_target) //Can't see a torpedo to shoot, try find an enemy ship to shoot
-		for(var/X in GLOB.overmap_objects)
-			if(!istype(X, /obj/structure/overmap))
+		for(var/obj/structure/overmap/ship in GLOB.overmap_objects)
+			if(!istype(ship, /obj/structure/overmap))
 				continue
-			var/obj/structure/overmap/ship = X
 			if(ship == src || ship.faction == faction || ship.wrecked) //No friendly fire, don't blow up wrecks that the crew may wish to loot.
 				continue
 			var/target_range = get_dist(ship,src)
@@ -120,7 +119,7 @@
 			fire_projectiles(/obj/item/projectile/bullet/pdc_round, target)
 
 /obj/structure/overmap/proc/can_fire_pdcs(shots) //Trigger the PDCs to fire
-	if(!linked_area && !main_overmap) //We need AIs to be able to use PDCs
+	if(!linked_areas.len && !main_overmap) //We need AIs to be able to use PDCs
 		return TRUE
 	if(!pdcs.len)
 		return FALSE
@@ -305,7 +304,7 @@
 	flick("laser",laser_overlay)
 
 /obj/structure/overmap/proc/fire_torpedo(atom/target)
-	if(!linked_area && !main_overmap) //AI ships don't have interiors
+	if(!linked_areas.len && !main_overmap) //AI ships don't have interiors
 		if(torpedoes <= 0)
 			return
 		fire_projectile(/obj/item/projectile/bullet/torpedo, target, homing = TRUE, speed=1, explosive = TRUE)
@@ -364,12 +363,17 @@
 
 /obj/structure/overmap/take_damage(damage_amount, damage_type = BRUTE, damage_flag = 0, sound_effect = 1)
 	SEND_SIGNAL(src, COMSIG_DAMAGE_TAKEN, damage_amount) //Trigger to update our list of armour plates without making the server cry.
-	if(main_overmap) //Code for handling "superstructure crit" only applies to the player ship, nothing else.
+	if(is_player_ship()) //Code for handling "superstructure crit" only applies to the player ship, nothing else.
 		if(obj_integrity <= damage_amount || structure_crit) //Superstructure crit! They would explode otherwise, unable to withstand the hit.
 			obj_integrity = 10 //Automatically set them to 10 HP, so that the hit isn't totally ignored. Say if we have a nuke dealing 1800 DMG (the ship's full health) this stops them from not taking damage from it, as it's more DMG than we can handle.
 			handle_crit(damage_amount)
 			return FALSE
 	. = ..()
+
+/obj/structure/overmap/proc/is_player_ship() //Should this ship be considered a player ship? This doesnt count fighters because they need to actually die.
+	if(linked_areas.len || main_overmap)
+		return TRUE
+	return FALSE
 
 /obj/structure/overmap
 	var/structure_crit = FALSE
@@ -378,14 +382,18 @@
 /obj/structure/overmap/proc/handle_crit(damage_amount) //A proc to allow ships to enter superstructure crit, this means the player ship can't die, but its insides can get torn to shreds.
 	if(!structure_crit)
 		relay('nsv13/sound/effects/ship/crit_alarm.ogg', message=null, loop=TRUE, channel=CHANNEL_SHIP_FX)
-		priority_announce("DANGER. Ship superstructure failing. Structural integrity failure imminent. Immediate repairs are required to avoid total structural failure.","Automated announcement") //TEMP! Remove this shit when we move ruin spawns off-z
+		priority_announce("DANGER. Ship superstructure failing. Structural integrity failure imminent. Immediate repairs are required to avoid total structural failure.","Automated announcement ([src])") //TEMP! Remove this shit when we move ruin spawns off-z
 		structure_crit = TRUE
 	if(explosion_cooldown)
 		return
 	explosion_cooldown = TRUE
 	addtimer(VARSET_CALLBACK(src, explosion_cooldown, FALSE), 5 SECONDS)
-	var/name = pick(GLOB.teleportlocs) //Time to kill everyone
-	var/area/target = GLOB.teleportlocs[name]
+	var/area/target = null
+	if(main_overmap)
+		var/name = pick(GLOB.teleportlocs) //Time to kill everyone
+		target = GLOB.teleportlocs[name]
+	else
+		target = pick(linked_areas)
 	var/turf/T = pick(get_area_turfs(target))
 	new /obj/effect/temp_visual/explosion_telegraph(T)
 
@@ -398,7 +406,7 @@
 	if(structure_crit)
 		if(obj_integrity >= max_integrity/3) //You need to repair a good chunk of her HP before you're getting outta this fucko.
 			stop_relay(channel=CHANNEL_SHIP_FX)
-			priority_announce("Ship structural integrity restored to acceptable levels. ","Automated announcement")
+			priority_announce("Ship structural integrity restored to acceptable levels. ","Automated announcement ([src])")
 			structure_crit = FALSE
 
 /obj/effect/temp_visual/explosion_telegraph

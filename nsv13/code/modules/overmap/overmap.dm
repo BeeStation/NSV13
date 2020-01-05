@@ -36,10 +36,8 @@
 	var/list/docking_points = list() //Where we can land on this ship. Usually right at the edge of a z-level.
 	var/last_slowprocess = 0
 
-	// Big ship things
 	var/main_overmap = FALSE //There can only be one of these per game! This denotes that this ship is the "hero ship" and what the players fly. This links it to all the station areas by default
-	// Small ship things
-	var/area/linked_area = null //The area to which we're linked. This is for Ai / small ships only.
+	var/area/linked_areas = list() //List of all areas that we control
 	var/datum/gas_mixture/cabin_air //Cabin air mix used for small ships like fighters (see overmap/fighters/fighters.dm)
 	var/obj/machinery/portable_atmospherics/canister/internal_tank //Internal air tank reference. Used mostly in small ships. If you want to sabotage a fighter, load a plasma tank into its cockpit :)
 
@@ -194,12 +192,11 @@
 		for(var/X in GLOB.teleportlocs) //Teleportlocs = ss13 areas that aren't special / centcom
 			var/area/area = GLOB.teleportlocs[X] //Pick a station area and yeet it.
 			area.linked_overmap = src
-	for(var/area/AR in GLOB.sortedAreas) //Otherwise, look for an area with the same "class" var as us.
-		if(!area_type) //No area type set? Break the loop.
-			return
-		if(istype(AR, area_type))
-			AR.linked_overmap = src
-			linked_area = AR
+	else
+		for(var/area/AR in GLOB.sortedAreas) //Otherwise, look for areas with that point to our type.
+			if(istype(src, AR.overmap_type))
+				AR.linked_overmap = src
+				linked_areas += AR
 
 /obj/structure/overmap/proc/InterceptClickOn(mob/user, params, atom/target)
 	var/list/params_list = params2list(params)
