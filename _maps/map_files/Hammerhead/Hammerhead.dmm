@@ -14203,10 +14203,6 @@
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer1,
 /turf/open/floor/plasteel/ship,
 /area/crew_quarters/dorms)
-"aHt" = (
-/obj/effect/landmark/start/shaft_miner,
-/turf/open/floor/plating,
-/area/quartermaster/miningoffice)
 "aHu" = (
 /turf/closed/wall/r_wall/ship,
 /area/engine/gravity_generator)
@@ -22172,10 +22168,6 @@
 /obj/machinery/computer/ship/viewscreen,
 /turf/open/floor/plasteel/dark,
 /area/security)
-"baQ" = (
-/obj/machinery/mineral/equipment_vendor,
-/turf/open/floor/plating,
-/area/quartermaster/miningoffice)
 "baR" = (
 /obj/structure/disposalpipe/segment{
 	dir = 4
@@ -25081,6 +25073,8 @@
 /obj/docking_port/stationary{
 	dir = 4;
 	dwidth = 3;
+	height = 5;
+	id = "mining_home";
 	name = "mining shuttle bay";
 	roundstart_template = /datum/map_template/shuttle/mining/box;
 	width = 7
@@ -28372,7 +28366,7 @@
 "foj" = (
 /obj/machinery/door/airlock/ship/external{
 	name = "Mining Shuttle Airlock";
-	req_one_access_txt = "13"
+	req_one_access_txt = "31;48"
 	},
 /obj/effect/mapping_helpers/airlock/cyclelink_helper{
 	dir = 4
@@ -28597,7 +28591,7 @@
 "fAp" = (
 /obj/machinery/door/airlock/ship/external{
 	name = "Mining Shuttle Airlock";
-	req_one_access_txt = "13"
+	req_one_access_txt = "31;48"
 	},
 /obj/effect/mapping_helpers/airlock/cyclelink_helper{
 	dir = 8
@@ -38703,7 +38697,6 @@
 /area/security/prison)
 "pAj" = (
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer1,
-/obj/effect/landmark/start/shaft_miner,
 /turf/open/floor/plating,
 /area/quartermaster/miningoffice)
 "pAJ" = (
@@ -39117,7 +39110,6 @@
 /area/hallway/primary/port)
 "pVg" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer1,
-/obj/effect/landmark/start/shaft_miner,
 /turf/open/floor/plating,
 /area/quartermaster/miningoffice)
 "pVs" = (
@@ -41364,31 +41356,6 @@
 	},
 /turf/open/floor/plasteel/ship/techfloor/alt,
 /area/hallway/secondary/service)
-"scu" = (
-/obj/structure/closet/crate/trashcart,
-/obj/item/stack/sheet/mineral/diamond{
-	amount = 50
-	},
-/obj/item/stack/sheet/mineral/gold{
-	amount = 50
-	},
-/obj/item/stack/sheet/mineral/plasma{
-	amount = 50
-	},
-/obj/item/stack/sheet/mineral/silver{
-	amount = 50
-	},
-/obj/item/stack/sheet/mineral/uranium{
-	amount = 50
-	},
-/obj/item/stack/sheet/mineral/titanium{
-	amount = 50
-	},
-/obj/item/stack/sheet/bluespace_crystal{
-	amount = 50
-	},
-/turf/open/floor/plasteel,
-/area/quartermaster/office)
 "sdZ" = (
 /obj/machinery/camera/autoname,
 /turf/open/floor/plating,
@@ -45498,7 +45465,6 @@
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer3{
 	dir = 8
 	},
-/obj/effect/landmark/start/shaft_miner,
 /obj/structure/cable{
 	icon_state = "0-8"
 	},
@@ -46173,7 +46139,6 @@
 /obj/machinery/light{
 	dir = 1
 	},
-/obj/effect/landmark/start/shaft_miner,
 /turf/open/floor/plating,
 /area/quartermaster/miningoffice)
 "xdN" = (
@@ -105874,7 +105839,7 @@ tVk
 aSS
 qKb
 kai
-scu
+abQ
 abQ
 qVq
 aXe
@@ -107925,7 +107890,7 @@ ogo
 ogo
 mFD
 ahe
-aHt
+qpN
 wqA
 mFD
 aEn
@@ -108439,7 +108404,7 @@ ogo
 ogo
 mFD
 xdF
-aHt
+qpN
 fBJ
 mFD
 aEn
@@ -108695,8 +108660,8 @@ arp
 ogo
 ogo
 mFD
-aHt
-baQ
+qpN
+qpN
 mFD
 mFD
 aEn
