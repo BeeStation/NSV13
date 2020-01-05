@@ -78,14 +78,16 @@ GLOBAL_LIST_INIT(freqtospan, list(
 	return ""
 
 /atom/movable/proc/compose_job(atom/movable/speaker, message_langs, raw_message, radio_freq)
-	var/speakerJob = speaker.GetJob()
-	message_admins("[ speakerJob ? " (" +  speakerJob + ")" : ""]")
 	return ""
 
 //NSV13
 /atom/movable/proc/compose_rank(atom/movable/speaker)
+	if (!CONFIG_GET(flag/show_ranks))
+		return
+
 	var/job
 	var/rank = ""
+
 	if (istype(speaker, /mob/living/carbon/human))
 		var/mob/living/carbon/human/speakerMob = speaker
 		job = speakerMob.get_assignment()
@@ -226,7 +228,6 @@ INITIALIZE_IMMEDIATE(/atom/movable/virtualspeaker)
 		job = "Unknown"
 
 /atom/movable/virtualspeaker/GetJob()
-	message_admins("Virtual speaker job is [job]")
 	return job
 
 /atom/movable/virtualspeaker/GetSource()
