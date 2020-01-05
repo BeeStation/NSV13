@@ -57,7 +57,7 @@
 	. = ..()
 
 /obj/structure/overmap/proc/decimate_area()
-	if(!linked_area)
+	if(!linked_areas.len)
 		return TRUE
 	if(main_overmap)
 		Cinematic(CINEMATIC_ANNIHILATION,world)
@@ -65,19 +65,20 @@
 		SSticker.force_ending = 1
 		return TRUE
 	else
-		for(var/obj/O in linked_area) //This is fucking disgusting but it works
-			if(isobj(O))
-				if(O.contents.len)
-					for(var/atom/X in O.contents)
-						qdel(X)
-				qdel(O)
-		for(var/mob/M in linked_area)
-			if(isliving(M) && !M.client) //OK, this is unrealistic, but I don't want players getting deleted because of some brainlet helm operator.
-				qdel(M)
-		for(var/turf/T in linked_area)
-			T.ChangeTurf(/turf/open/space/basic)
-		qdel(linked_area)
-		return TRUE
+		for(var/area/linked_area in linked_areas)
+			for(var/obj/O in linked_area) //This is fucking disgusting but it works
+				if(isobj(O))
+					if(O.contents.len)
+						for(var/atom/X in O.contents)
+							qdel(X)
+					qdel(O)
+			for(var/mob/M in linked_area)
+				if(isliving(M) && !M.client) //OK, this is unrealistic, but I don't want players getting deleted because of some brainlet helm operator.
+					qdel(M)
+			for(var/turf/T in linked_area)
+				T.ChangeTurf(/turf/open/space/basic)
+			qdel(linked_area)
+			return TRUE
 	return FALSE
 
 /obj/structure/overmap/proc/explode()
