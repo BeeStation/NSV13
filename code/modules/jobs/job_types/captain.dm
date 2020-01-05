@@ -25,7 +25,7 @@
 	mind_traits = list(TRAIT_DISK_VERIFIER)
 
 	display_order = JOB_DISPLAY_ORDER_CAPTAIN
-	display_rank = "CPT" //nsv13 - Displays the player's actual rank alongside their name, such as GSGT Sergei Koralev
+	display_rank = "Director" //nsv13 - Displays the player's actual rank alongside their name, such as GSGT Sergei Koralev
 
 /datum/job/captain/get_access()
 	return get_all_accesses()

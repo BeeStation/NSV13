@@ -61,7 +61,7 @@
 	var/display_order = JOB_DISPLAY_ORDER_DEFAULT
 
 	var/tmp/list/gear_leftovers = list()
-	var/display_rank = "PVT" //nsv13 - Displays the player's actual rank alongside their name, such as GSGT Sergei Koralev
+	var/display_rank = "WS" //nsv13 - Displays the player's actual rank alongside their name, such as GSGT Sergei Koralev
 
 //Only override this proc, unless altering loadout code. Loadouts act on H but get info from M
 //H is usually a human unless an /equip override transformed it
