@@ -47,9 +47,7 @@
 /obj/structure/ship_weapon/laser_cannon/Initialize()
 	..()
 
-	var/turf/T = loc
-	if(isturf(T))
-		attached = locate() // Find the power cable we're sitting on
+	attached = locate() in loc.contents // I don't know why I had to specify this but regular locate didn't work
 
 	if(!attached)
 		state = STATE_DISCONNECTED // Otherwise STATE_OFF as in the initial declaration
@@ -58,6 +56,7 @@
 	circuit = new /obj/item/circuitboard/machine/laser_cannon
 	circuit.apply_default_parts(src)
 
+	// Set charge to 0 for brand new cannons (i.e. map-placed cannons)
 	cell = locate(/obj/item/stock_parts/cell/laser_cannon) in component_parts
 	cell.charge = 0
 
@@ -77,6 +76,11 @@
  */
 /obj/structure/ship_weapon/laser_cannon/set_position(obj/structure/overmap/OM)
 	OM.ship_lasers += src
+
+	OM.laser_overlay = new()
+	OM.laser_overlay.appearance_flags |= KEEP_APART
+	OM.laser_overlay.appearance_flags |= RESET_TRANSFORM
+	OM.vis_contents += OM.laser_overlay
 
 /*
  * Handles power drain.

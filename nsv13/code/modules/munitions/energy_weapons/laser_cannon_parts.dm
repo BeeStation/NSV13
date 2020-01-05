@@ -6,14 +6,14 @@
 
 /*
  * Machine circuit board for the actual laser cannon
- * Cannon construction requires 5 tier 3 capacitors and lasers, a special power cell, and diamonds for a lens
+ * Cannon construction requires 5 tier 4 capacitors and lasers, a special power cell, and diamonds for a lens
  */
 /obj/item/circuitboard/machine/laser_cannon
 	name = "Laser Cannon (Machine Board)"
 	build_path = /obj/structure/ship_weapon/laser_cannon
 	req_components = list(
-		/obj/item/stock_parts/capacitor/super = 5,
-		/obj/item/stock_parts/micro_laser/ultra = 5,
+		/obj/item/stock_parts/capacitor/quadratic = 5,
+		/obj/item/stock_parts/micro_laser/quadultra = 5,
 		/obj/item/stock_parts/cell/laser_cannon = 1,
 		/obj/item/stack/sheet/mineral/diamond = 3)
 
@@ -33,6 +33,10 @@
 	materials = list(/datum/material/glass=800)
 	chargerate = 50000
 	var/maxchargerate = 1000000
+
+/obj/item/stock_parts/cell/laser_cannon/Initialize()
+	..()
+	charge = 0
 
 /*
  * EMP shield the power cell - don't explode munitions
@@ -60,7 +64,7 @@
  */
 /obj/structure/frame/machine/laser_cannon/examine(user)
 	. = ..()
-	. += " It uses a special power cell, a torpedo IFF card, and a diamond focusing lens."
+	. += " It uses a special power cell and a diamond focusing lens."
 
 /* *************
  * TECHWEB AND DESIGNS

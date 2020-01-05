@@ -144,11 +144,6 @@
 	railgun_overlay.appearance_flags |= RESET_TRANSFORM
 	vis_contents += railgun_overlay
 
-	laser_overlay = new()
-	laser_overlay.appearance_flags |= KEEP_APART
-	laser_overlay.appearance_flags |= RESET_TRANSFORM
-	vis_contents += laser_overlay
-
 	update_icon()
 	max_range = initial(weapon_range)+20 //Range of the maximum possible attack (torpedo)
 	find_area()
