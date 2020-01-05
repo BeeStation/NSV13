@@ -75,7 +75,8 @@
 	if(!ishuman(H))
 		return
 	var/mob/living/carbon/human/human = H
-	human.fully_replace_character_name(H.real_name, "[display_rank] [human.real_name]") //nsv13 - Visibly display player ranks with their names.
+	if (CONFIG_GET(flag/show_ranks))
+		human.fully_replace_character_name(H.real_name, "[display_rank] [human.real_name]") //nsv13 - Visibly display player ranks with their names.
 	if(M.client && (M.client.prefs.equipped_gear && M.client.prefs.equipped_gear.len))
 		for(var/gear in M.client.prefs.equipped_gear)
 			var/datum/gear/G = GLOB.gear_datums[gear]
