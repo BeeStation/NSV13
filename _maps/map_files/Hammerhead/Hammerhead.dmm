@@ -3960,6 +3960,10 @@
 /obj/structure/cable{
 	icon_state = "2-8"
 	},
+/obj/machinery/navbeacon{
+	codes_txt = "patrol;next_patrol=Arrivals-B-0";
+	location = "MaintDetour-3"
+	},
 /turf/open/floor/plasteel/ship,
 /area/hallway/primary/central)
 "aji" = (
@@ -14545,6 +14549,10 @@
 /obj/structure/cable{
 	icon_state = "1-4"
 	},
+/obj/machinery/navbeacon{
+	codes_txt = "patrol;next_patrol=MaintDetour-2";
+	location = "MaintDetour-1"
+	},
 /turf/open/floor/plasteel/ship,
 /area/hallway/primary/fore)
 "aIl" = (
@@ -17342,7 +17350,7 @@
 	icon_state = "2-4"
 	},
 /obj/machinery/navbeacon{
-	codes_txt = "patrol;next_patrol=Bridge-Ext";
+	codes_txt = "patrol;next_patrol=Brig-0";
 	location = "HOP"
 	},
 /turf/open/floor/plasteel/ship,
@@ -32579,7 +32587,7 @@
 	icon_state = "4-8"
 	},
 /obj/machinery/navbeacon{
-	codes_txt = "patrol;next_patrol=HOP-Corner";
+	codes_txt = "patrol;next_patrol=MaintDetour-0";
 	location = "JaniCloset"
 	},
 /turf/open/floor/plasteel/ship,
@@ -33671,6 +33679,10 @@
 	},
 /obj/structure/cable{
 	icon_state = "2-8"
+	},
+/obj/machinery/navbeacon{
+	codes_txt = "patrol;next_patrol=MaintDetour-0.5";
+	location = "MaintDetour-0"
 	},
 /turf/open/floor/plasteel/ship,
 /area/hallway/primary/fore)
@@ -35835,7 +35847,7 @@
 /area/maintenance/department/medical)
 "mBd" = (
 /obj/machinery/navbeacon{
-	codes_txt = "patrol;next_patrol=JaniCloset";
+	codes_txt = "patrol;next_patrol=Medbay-0";
 	location = "Arrivals-A-1"
 	},
 /turf/open/floor/plasteel/ship/techfloor/alt,
@@ -39051,8 +39063,8 @@
 /area/science/xenobiology)
 "pTf" = (
 /obj/machinery/navbeacon{
-	codes_txt = "patrol;next_patrol=Brig-0";
-	location = "Bridge-Maint"
+	codes_txt = "patrol;next_patrol=HOP-Corner";
+	location = "BridgeMaint"
 	},
 /turf/open/floor/plasteel/ship/techfloor/alt,
 /area/hallway/primary/fore)
@@ -42783,8 +42795,8 @@
 "tGs" = (
 /obj/machinery/computer/ship/viewscreen,
 /obj/machinery/navbeacon{
-	codes_txt = "patrol;next_patrol=Brig-1";
-	location = "Brig-0"
+	codes_txt = "patrol;next_patrol=BridgeMaint";
+	location = "Brig-1"
 	},
 /turf/open/floor/plasteel/ship,
 /area/hallway/primary/fore)
@@ -44505,6 +44517,25 @@
 	},
 /turf/open/floor/plasteel/ship/techfloor/alt,
 /area/hallway/primary/central)
+"vmg" = (
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer1{
+	dir = 8
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer3{
+	dir = 8
+	},
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/obj/machinery/navbeacon{
+	codes_txt = "patrol;next_patrol=MaintDetour-1";
+	location = "MaintDetour-0.5"
+	},
+/turf/open/floor/plasteel/ship,
+/area/hallway/primary/fore)
 "vno" = (
 /obj/structure/disposalpipe/segment,
 /turf/open/floor/plasteel,
@@ -46714,8 +46745,8 @@
 	icon_state = "1-2"
 	},
 /obj/machinery/navbeacon{
-	codes_txt = "patrol;next_patrol=HOP";
-	location = "Brig-1"
+	codes_txt = "patrol;next_patrol=Brig-1";
+	location = "Brig-0"
 	},
 /turf/open/floor/plasteel/ship,
 /area/hallway/primary/fore)
@@ -46817,7 +46848,7 @@
 /area/hydroponics)
 "xQw" = (
 /obj/machinery/navbeacon{
-	codes_txt = "patrol;next_patrol=Bridge-Maint";
+	codes_txt = "patrol;next_patrol=JaniCloset";
 	location = "HOP-Corner"
 	},
 /turf/open/floor/plasteel/ship/techfloor/alt,
@@ -46967,6 +46998,16 @@
 	},
 /turf/open/floor/plasteel/white,
 /area/science/mixing)
+"xVF" = (
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
+/obj/machinery/navbeacon{
+	codes_txt = "patrol;next_patrol=MaintDetour-3";
+	location = "MaintDetour-2"
+	},
+/turf/open/floor/plating,
+/area/maintenance/department/medical/morgue)
 "xWu" = (
 /obj/machinery/door/airlock/ship/security/glass{
 	name = "Riot Armory";
@@ -82216,7 +82257,7 @@ aGx
 kkJ
 aiA
 ayy
-qzO
+xVF
 aXp
 aNV
 atz
@@ -93267,7 +93308,7 @@ aNR
 bez
 aHB
 aOr
-ecH
+vmg
 kjB
 eZe
 brd
