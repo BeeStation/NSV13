@@ -37,7 +37,7 @@
 	var/last_slowprocess = 0
 
 	var/main_overmap = FALSE //There can only be one of these per game! This denotes that this ship is the "hero ship" and what the players fly. This links it to all the station areas by default
-	var/area/linked_areas = list() //List of all areas that we control
+	var/list/linked_areas = list() //List of all areas that we control
 	var/datum/gas_mixture/cabin_air //Cabin air mix used for small ships like fighters (see overmap/fighters/fighters.dm)
 	var/obj/machinery/portable_atmospherics/canister/internal_tank //Internal air tank reference. Used mostly in small ships. If you want to sabotage a fighter, load a plasma tank into its cockpit :)
 
