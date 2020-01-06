@@ -96,7 +96,8 @@ GLOBAL_LIST_INIT(freqtospan, list(
 		job = VS.GetJob()
 
 	if (job)
-		rank = "[SSjob.GetJob(job).get_rank()] "
+		var/datum/job/J = SSjob.GetJob(job)
+		rank = "[J.get_rank()] "
 
 	return rank
 
