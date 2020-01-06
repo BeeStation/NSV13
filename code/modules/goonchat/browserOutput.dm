@@ -5,9 +5,16 @@ For the main html chat area
 //Precaching a bunch of shit
 GLOBAL_DATUM_INIT(iconCache, /savefile, new("tmp/iconCache.sav")) //Cache of icons for the browser output
 
+//Should match the value set in the browser js
+#define MAX_COOKIE_LENGTH 5
+
 //On client, created on login
 /datum/chatOutput
 	var/client/owner	 //client ref
+	// How many times client data has been checked
+	var/total_checks = 0
+	// When to next clear the client data checks counter
+	var/next_time_to_clear = 0
 	var/loaded       = FALSE // Has the client loaded the browser output area?
 	var/list/messageQueue //If they haven't loaded chat, this is where messages will go until they do
 	var/cookieSent   = FALSE // Has the client sent a cookie for analysis
@@ -132,12 +139,6 @@ GLOBAL_DATUM_INIT(iconCache, /savefile, new("tmp/iconCache.sav")) //Cache of ico
 			"ig",
 			"<span class='boldwarning'>$1</span>"
 		)
-	if (config.ooc_filter_regex)
-		regexes["show_filtered_ooc_chat"] = list(
-			config.ooc_filter_regex.name,
-			"ig",
-			"<span class='boldwarning'>$1</span>"
-		)
 
 	if (regexes.len)
 		ehjax_send(data = list("syncRegex" = regexes))
@@ -178,6 +179,18 @@ GLOBAL_DATUM_INIT(iconCache, /savefile, new("tmp/iconCache.sav")) //Cache of ico
 
 //Called by client, sent data to investigate (cookie history so far)
 /datum/chatOutput/proc/analyzeClientData(cookie = "")
+	//Spam check
+	if(world.time  >  next_time_to_clear)
+		next_time_to_clear = world.time + (3 SECONDS)
+		total_checks = 0
+
+	total_checks += 1
+
+	if(total_checks > SPAM_TRIGGER_AUTOMUTE)
+		message_admins("[key_name(owner)] kicked for goonchat topic spam")
+		qdel(owner)
+		return
+
 	if(!cookie)
 		return
 
@@ -186,17 +199,26 @@ GLOBAL_DATUM_INIT(iconCache, /savefile, new("tmp/iconCache.sav")) //Cache of ico
 		if (connData && islist(connData) && connData.len > 0 && connData["connData"])
 			connectionHistory = connData["connData"] //lol fuck
 			var/list/found = new()
+
+			if(connectionHistory.len > MAX_COOKIE_LENGTH)
+				message_admins("[key_name(src.owner)] was kicked for an invalid ban cookie)")
+				qdel(owner)
+				return
+
 			for(var/i in connectionHistory.len to 1 step -1)
+				if(QDELETED(owner))
+					//he got cleaned up before we were done
+					return
 				var/list/row = src.connectionHistory[i]
 				if (!row || row.len < 3 || (!row["ckey"] || !row["compid"] || !row["ip"])) //Passed malformed history object
 					return
 				if (world.IsBanned(row["ckey"], row["ip"], row["compid"], real_bans_only=TRUE))
 					found = row
 					break
+				CHECK_TICK
 
 			//Uh oh this fucker has a history of playing on a banned account!!
 			if (found.len > 0)
-				//TODO: add a new evasion ban for the CURRENT client details, using the matched row details
 				message_admins("[key_name(src.owner)] has a cookie from a banned account! (Matched: [found["ckey"]], [found["ip"]], [found["compid"]])")
 				log_admin_private("[key_name(owner)] has a cookie from a banned account! (Matched: [found["ckey"]], [found["ip"]], [found["compid"]])")
 
@@ -211,30 +233,17 @@ GLOBAL_DATUM_INIT(iconCache, /savefile, new("tmp/iconCache.sav")) //Cache of ico
 	log_world("\[[time2text(world.realtime, "YYYY-MM-DD hh:mm:ss")]\] Client: [(src.owner.key ? src.owner.key : src.owner)] triggered JS error: [error]")
 
 //Global chat procs
-/proc/to_chat_immediate(target, message, handle_whitespace=TRUE)
-	if(!target)
-		return
-
-	//Ok so I did my best but I accept that some calls to this will be for shit like sound and images
-	//It stands that we PROBABLY don't want to output those to the browser output so just handle them here
-	if (istype(target, /savefile))
-		CRASH("Invalid message! [message]")
-
-	if(!istext(message))
-		if (istype(message, /image) || istype(message, /sound))
-			CRASH("Invalid message! [message]")
+/proc/to_chat_immediate(target, message, handle_whitespace = TRUE)
+	if(!target || !message)
 		return
 
 	if(target == world)
 		target = GLOB.clients
 
 	var/original_message = message
-	//Some macros remain in the string even after parsing and fuck up the eventual output
-	message = replacetext(message, "\improper", "")
-	message = replacetext(message, "\proper", "")
 	if(handle_whitespace)
 		message = replacetext(message, "\n", "<br>")
-		message = replacetext(message, "\t", "[GLOB.TAB][GLOB.TAB]")
+		message = replacetext(message, "\t", "[FOURSPACES][FOURSPACES]") //EIGHT SPACES IN TOTAL!!
 
 	if(islist(target))
 		// Do the double-encoding outside the loop to save nanoseconds
@@ -288,3 +297,5 @@ GLOBAL_DATUM_INIT(iconCache, /savefile, new("tmp/iconCache.sav")) //Cache of ico
 
 /datum/chatOutput/proc/swaptodarkmode()
 	owner.force_dark_theme()
+
+#undef MAX_COOKIE_LENGTH
