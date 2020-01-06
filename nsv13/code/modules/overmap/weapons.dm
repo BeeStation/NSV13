@@ -183,6 +183,7 @@
 
 	var/tries = 0
 	while (tries < 4) // The total number of weapon types
+		stoplag()
 		fire_mode ++
 		if(fire_mode > max_firemode)
 			fire_mode = FIRE_MODE_PDC
