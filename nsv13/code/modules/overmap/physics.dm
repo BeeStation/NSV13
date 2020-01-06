@@ -221,11 +221,12 @@
 		final.Turn(target_angle)
 		if(fire_mode == FIRE_MODE_RAILGUN)
 			railgun_overlay.transform = final
-		else if (fire_mode == FIRE_MODE_LASER)
+		else if (laser_overlay && fire_mode == FIRE_MODE_LASER)
 			laser_overlay.transform = final
 	else
 		railgun_overlay.transform = mat_to
-		laser_overlay.transform = mat_to
+		if (laser_overlay)
+			laser_overlay.transform = mat_to
 	for(var/mob/living/M in operators)
 		var/client/C = M.client
 		if(!C)
