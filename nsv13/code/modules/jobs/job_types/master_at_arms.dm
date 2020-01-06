@@ -67,4 +67,4 @@
 
 /obj/effect/landmark/start/master_at_arms
 	name = "Master At Arms"
-	icon_state = "master_at_arms"
+	icon_state = "Master At Arms"

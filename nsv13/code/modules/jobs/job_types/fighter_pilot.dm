@@ -53,7 +53,7 @@
 
 /obj/effect/landmark/start/fighter_pilot
 	name = "Fighter Pilot"
-	icon_state = "fighter_pilot"
+	icon_state = "Fighter Pilot"
 
 /datum/job/cag //"Commander Air Group" AKA chief fighter pilot
 	title = "CAG"

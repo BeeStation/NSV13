@@ -42,7 +42,7 @@
 
 /obj/effect/landmark/start/munitions_tech
 	name = "Munitions Technician"
-	icon_state = "munitions_tech"
+	icon_state = "Munitions Technician"
 
 /obj/item/encryptionkey/munitions_tech
 	name = "munitions department encryption key"

@@ -33,7 +33,7 @@
 
 /obj/effect/landmark/start/air_traffic_controller
 	name = "Air Traffic Controller"
-	icon_state = "air_traffic_controller"
+	icon_state = "Air Traffic Controller"
 
 /obj/item/encryptionkey/atc
 	name = "air traffic control radio encryption key"

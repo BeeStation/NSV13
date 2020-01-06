@@ -36,4 +36,4 @@
 
 /obj/effect/landmark/start/bridge
 	name = "Bridge Staff"
-	icon_state = "Bridge Officer"
+	icon_state = "Bridge Staff"
