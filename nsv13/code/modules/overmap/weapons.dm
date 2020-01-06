@@ -238,7 +238,7 @@
 			weapon_range = initial(weapon_range)+30 //Most combat takes place at extreme ranges, torpedoes allow for this.
 			fire_mode = FIRE_MODE_TORPEDO
 		if(FIRE_MODE_LASER)
-			fire_delay = 30 //Long charging time
+			fire_delay = 3 SECONDS //Long charging time
 			weapon_range = initial(weapon_range)+30
 	if(ai_controlled)
 		fire_delay += 10 //Make it fair on the humans who have to actually reload and stuff.

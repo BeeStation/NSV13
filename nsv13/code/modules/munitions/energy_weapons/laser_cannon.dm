@@ -47,13 +47,13 @@
 /obj/structure/ship_weapon/laser_cannon/Initialize()
 	..()
 
-	attached = locate() in loc.contents // I don't know why I had to specify this but regular locate didn't work
+	attached = locate(/obj/structure/cable) in get_turf(src)// I don't know why I had to specify this but regular locate didn't work
 
 	if(!attached)
 		state = STATE_DISCONNECTED // Otherwise STATE_OFF as in the initial declaration
 
 	//This is duplicate _machinery.dm code
-	circuit = new /obj/item/circuitboard/machine/laser_cannon
+	circuit = new /obj/item/circuitboard/machine/laser_cannon(src)
 	circuit.apply_default_parts(src)
 
 	// Set charge to 0 for brand new cannons (i.e. map-placed cannons)
