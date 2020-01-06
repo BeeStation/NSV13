@@ -187,9 +187,12 @@
 		if(fire_mode > max_firemode)
 			fire_mode = FIRE_MODE_PDC
 		if (try_firemode(usr, fire_mode))
-			break
+			return
 		tries++
+	// No weapons available, set PDCs as default
+	fire_mode = FIRE_MODE_PDC
 
+// Try to switch fire modes. Fail if there are no weapons of that type available.
 /obj/structure/overmap/proc/try_firemode(atom/usr, mode=FIRE_MODE_PDC)
 	switch(fire_mode)
 		if(FIRE_MODE_PDC)
@@ -235,7 +238,7 @@
 			weapon_range = initial(weapon_range)+30 //Most combat takes place at extreme ranges, torpedoes allow for this.
 			fire_mode = FIRE_MODE_TORPEDO
 		if(FIRE_MODE_LASER)
-			fire_delay =30 // Probably too short, figure out the real charging time or something close
+			fire_delay = 30 //Long charging time
 			weapon_range = initial(weapon_range)+30
 	if(ai_controlled)
 		fire_delay += 10 //Make it fair on the humans who have to actually reload and stuff.
