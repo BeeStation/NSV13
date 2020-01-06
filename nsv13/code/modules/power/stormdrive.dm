@@ -429,6 +429,16 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 		else
 			heat_gain = -5 //No plasma to react, so the reaction slowly dies off.
 			radiation_pulse(src, 10, 10) //reaction bleedoff
+			if(prob(10))
+				grav_pull()
+				for(var/mob/living/M in view(10, src))
+					to_chat(M, "<span class='danger'>The reactor hungers!</span>")
+					shake_camera(M, 2, 1)
+			else if(prob(5))
+				//something here
+				for(var/mob/living/M in view(10, src))
+					to_chat(M, "<span class='danger'>The reactor growls!</span>")
+					shake_camera(M, 2, 1)
 	input_power_modifier = (heat/150)**3
 	var/base_power = 1000000
 	var/power_produced = base_power
@@ -439,6 +449,15 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 	handle_heat()
 	update_icon()
 	radiation_pulse(src, heat, 2)
+
+/obj/machinery/power/stormdrive_reactor/proc/grav_pull() //HUNGRY!
+	for(var/obj/O in orange(6, src))
+		if(!O.anchored)
+			step_towards(O,src)
+	for(var/mob/living/M in orange(6, src))
+		if(!M.mob_negates_gravity())
+			step_towards(M,src)
+			M.Knockdown(40) //Knockdown prey so it can't get away!
 
 /obj/machinery/power/stormdrive_reactor/proc/can_cool()
 	if(heat > REACTOR_HEAT_NORMAL+10) //Only start melting the rods if theyre running it hot. We have a "safe" mode which doesn't need you to check in on the reactor at all.
