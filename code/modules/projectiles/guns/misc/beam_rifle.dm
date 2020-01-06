@@ -143,7 +143,7 @@
 		return FALSE
 	animate(user.client, pixel_x = 0, pixel_y = 0, 0, FALSE, LINEAR_EASING, ANIMATION_END_NOW)
 	zoom_current_view_increase = 0
-	user.client.change_view(CONFIG_GET(string/default_view))
+	user.client.check_view()
 	zooming_angle = 0
 	current_zoom_x = 0
 	current_zoom_y = 0
