@@ -236,7 +236,7 @@ GLOBAL_VAR_INIT(observer_default_invisibility, INVISIBILITY_OBSERVER)
 	var/r_val
 	var/b_val
 	var/g_val
-	var/color_format = lentext(input_color)
+	var/color_format = length(input_color)
 	if(color_format == 3)
 		r_val = hex2num(copytext(input_color, 1, 2))*16
 		g_val = hex2num(copytext(input_color, 2, 3))*16
@@ -338,7 +338,7 @@ This is the proc mobs get to turn into a ghost. Forked from ghostize due to comp
 	if(mind.current.key && copytext(mind.current.key,1,2)!="@")	//makes sure we don't accidentally kick any clients
 		to_chat(usr, "<span class='warning'>Another consciousness is in your body...It is resisting you.</span>")
 		return
-	client.change_view(CONFIG_GET(string/default_view))
+	client.check_view()
 	SStgui.on_transfer(src, mind.current) // Transfer NanoUIs.
 	mind.current.key = key
 	return TRUE
@@ -354,7 +354,7 @@ This is the proc mobs get to turn into a ghost. Forked from ghostize due to comp
 
 	var/response = alert(src, "Are you sure you want to prevent (almost) all means of resuscitation? This cannot be undone. ","Are you sure you want to stay dead?","DNR","Save Me")
 	if(response != "DNR")
-		return 
+		return
 
 	can_reenter_corpse = FALSE
 	to_chat(src, "You can no longer be brought back into your body.")
@@ -497,7 +497,7 @@ This is the proc mobs get to turn into a ghost. Forked from ghostize due to comp
 		if(new_view)
 			client.change_view(CLAMP(new_view, 7, max_view))
 	else
-		client.change_view(CONFIG_GET(string/default_view))
+		client.check_view()
 
 /mob/dead/observer/verb/add_view_range(input as num)
 	set name = "Add View Range"
