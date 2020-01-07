@@ -498,3 +498,5 @@
 /datum/config_entry/flag/grant_metacurrency
 
 /datum/config_entry/flag/respect_global_bans
+
+/datum/config_entry/flag/show_ranks //nsv13
