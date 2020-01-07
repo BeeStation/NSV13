@@ -22,6 +22,8 @@ SUBSYSTEM_DEF(job)
 		SetupOccupations()
 	if(CONFIG_GET(flag/load_jobs_from_txt))
 		LoadJobs()
+	if(CONFIG_GET(flag/show_ranks)) //NSV13 - load job-rank mappings
+		LoadRanks()
 	generate_selectable_species()
 	set_overflow_role(CONFIG_GET(string/overflow_job))
 	return ..()

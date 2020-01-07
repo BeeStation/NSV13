@@ -80,27 +80,6 @@ GLOBAL_LIST_INIT(freqtospan, list(
 /atom/movable/proc/compose_job(atom/movable/speaker, message_langs, raw_message, radio_freq)
 	return ""
 
-//NSV13
-/atom/movable/proc/compose_rank(atom/movable/speaker)
-	if (!CONFIG_GET(flag/show_ranks))
-		return
-
-	var/job
-	var/rank = ""
-
-	if (istype(speaker, /mob/living/carbon/human))
-		var/mob/living/carbon/human/speakerMob = speaker
-		job = speakerMob.get_assignment()
-	else if (istype(speaker, /atom/movable/virtualspeaker))
-		var/atom/movable/virtualspeaker/VS = speaker
-		job = VS.GetJob()
-
-	if (job)
-		var/datum/job/J = SSjob.GetJob(job)
-		rank = "[J.get_rank()] "
-
-	return rank
-
 /atom/movable/proc/say_mod(input, message_mode)
 	var/ending = copytext(input, length(input))
 	if(copytext(input, length(input) - 1) == "!!")

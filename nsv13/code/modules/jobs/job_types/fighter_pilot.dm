@@ -17,7 +17,6 @@
 	paycheck_department = ACCOUNT_CAR
 
 	display_order = JOB_DISPLAY_ORDER_FIGHTER_PILOT
-	display_rank = "CPL" //nsv13 - Displays the player's actual rank alongside their name, such as GSGT Sergei Koralev
 //add support for callsigns here
 
 /obj/item/encryptionkey/pilot
@@ -73,7 +72,6 @@
 	paycheck_department = ACCOUNT_CAR
 
 	display_order = JOB_DISPLAY_ORDER_CAG
-	display_rank = "SGT" //nsv13 - Displays the player's actual rank alongside their name, such as GSGT Sergei Koralev
 
 /datum/outfit/job/cag
 	name = "CAG"

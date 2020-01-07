@@ -17,7 +17,6 @@
 	paycheck_department = ACCOUNT_CAR
 
 	display_order = JOB_DISPLAY_ORDER_MUNITIONS_TECHNICIAN
-	display_rank = "SPC" //nsv13 - Displays the player's actual rank alongside their name, such as GSGT Sergei Koralev
 
 /datum/outfit/job/munitions_tech
 	name = "Munitions Technician"
