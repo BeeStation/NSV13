@@ -1,12 +1,16 @@
 //For code/controllers/subsystem/job.dm
 /datum/controller/subsystem/job/proc/LoadRanks()
-	var/rankstext = file2text("[global.config.directory]/ranks/military.txt")
-	for(var/datum/job/J in occupations)
-		var/regex/jobs = new("[J.title]=(.+)")
-		jobs.Find(rankstext)
-		J.display_rank = jobs.group[1]
+	var/rankfile = "[global.config.directory]/ranks/[CONFIG_GET(string/rank_file)]"
+	message_admins("Rankfile is [rankfile]")
 
-//For code/game/say.dm
+	if (fexists("[rankfile]"))
+		var/rankstext = file2text("[rankfile]")
+		for(var/datum/job/J in occupations)
+			var/regex/jobs = new("[J.title]=(.+)")
+			jobs.Find(rankstext)
+			J.display_rank = jobs.group[1]
+
+//For code/game/say.dm - show ranks in speech
 /atom/movable/proc/compose_rank(atom/movable/speaker)
 	if (!CONFIG_GET(flag/show_ranks))
 		return
