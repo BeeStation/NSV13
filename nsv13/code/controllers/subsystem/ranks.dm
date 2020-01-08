@@ -1,14 +1,11 @@
 //For code/controllers/subsystem/job.dm
-/datum/controller/subsystem/job/proc/LoadRanks()
-	var/rankfile = "[global.config.directory]/ranks/[CONFIG_GET(string/rank_file)]"
-	message_admins("Rankfile is [rankfile]")
-
+/datum/controller/subsystem/job/proc/LoadRanks(rankfile="config/ranks/military.txt")
 	if (fexists("[rankfile]"))
 		var/rankstext = file2text("[rankfile]")
 		for(var/datum/job/J in occupations)
 			var/regex/jobs = new("[J.title]=(.+)")
 			jobs.Find(rankstext)
-			J.display_rank = jobs.group[1]
+			J.display_rank = "[jobs.group[1] ? jobs.group[1] : ]"
 
 //For code/game/say.dm - show ranks in speech
 /atom/movable/proc/compose_rank(atom/movable/speaker)
@@ -30,3 +27,33 @@
 		rank = "[J? J.get_rank() : ] "
 
 	return rank
+
+///////////////////////////////////////
+// Admin verb to switch rank structure
+/client/proc/changeranks()
+	set name = "Change Ranks"
+	set desc = "Set the rank structure for the current round."
+	set category = "Admin"
+
+	browse_rank_configs()
+
+/client/proc/browse_rank_configs(path = "config/ranks/")
+	path = browse_files(path)
+	if(!path)
+		return
+
+	if(file_spam_check())
+		return
+
+	message_admins("[key_name_admin(src)] changed rank configuration to: [path]")
+	switch(alert("View (in game), Open (in your system's text editor), or Load?", path, "View", "Open", "Load"))
+		if ("View")
+			src << browse("<pre style='word-wrap: break-word;'>[html_encode(file2text(file(path)))]</pre>", list2params(list("window" = "viewfile.[path]")))
+		if ("Open")
+			src << run(file(path))
+		if ("Load")
+			SSjob.LoadRanks(path)
+		else
+			return
+	to_chat(src, "Attempting to send [path].")
+	return
