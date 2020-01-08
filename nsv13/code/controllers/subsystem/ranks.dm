@@ -5,7 +5,7 @@
 		for(var/datum/job/J in occupations)
 			var/regex/jobs = new("[J.title]=(.+)")
 			jobs.Find(rankstext)
-			J.display_rank = "[jobs.group[1] ? jobs.group[1] : ]"
+			J.display_rank = "[jobs.group[1] ? jobs.group[1] : ""]"
 
 //For code/game/say.dm - show ranks in speech
 /atom/movable/proc/compose_rank(atom/movable/speaker)
@@ -24,7 +24,7 @@
 
 	if (job)
 		var/datum/job/J = SSjob.GetJob(job)
-		rank = "[J? J.get_rank() : ] "
+		rank = "[J ? "[J.get_rank()] " : ""]"
 
 	return rank
 
