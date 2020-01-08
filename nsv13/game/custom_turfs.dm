@@ -28,6 +28,7 @@
 	canSmoothWith = list(/turf/closed/wall/ship,/obj/machinery/door,/obj/structure/window,/turf/closed/wall/r_wall/ship, /obj/structure/falsewall/duranium, /obj/structure/falsewall/durasteel)
 	sheet_type = /obj/item/stack/sheet/duranium
 	sheet_amount = 2
+	girder_type = /obj/structure/girder
 
 /obj/structure/falsewall/duranium
 	icon = 'nsv13/icons/turf/reinforced_wall.dmi'
@@ -51,6 +52,7 @@
 				to_chat(user, "<span class='warning'>You need two sheets of [W] to finish a wall!</span>")
 				return
 
+			to_chat(user, "<span class='notice'>You start plating the wall with [W]...</span>")
 			if (do_after(user, 40, target = src))
 				if(S.get_amount() < 2)
 					return
