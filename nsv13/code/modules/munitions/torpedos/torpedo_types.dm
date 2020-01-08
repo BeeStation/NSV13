@@ -1,3 +1,12 @@
+/obj/structure/munition/CtrlClick(mob/user)
+	. = ..()
+	to_chat(user,"<span class='warning'>[src] is far too cumbersome to carry, and dragging it around might set it off! Load it onto a munitions trolley.</span>")
+
+/obj/structure/munition/examine(mob/user)
+	. = ..()
+	. += "<span class='warning'>It's far too cumbersome to carry, and dragging it around might set it off!</span>"
+
+
 /obj/structure/munition //CREDIT TO CM FOR THIS SPRITE
 	name = "NTP-2 530mm torpedo"
 	icon = 'nsv13/icons/obj/munition_types.dmi'
