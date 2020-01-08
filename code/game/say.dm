@@ -71,13 +71,35 @@ GLOBAL_LIST_INIT(freqtospan, list(
 	if(istype(D) && D.display_icon(src))
 		languageicon = "[D.get_icon()] "
 
-	return "[spanpart1][spanpart2][freqpart][languageicon][compose_track_href(speaker, namepart)][namepart][compose_job(speaker, message_language, raw_message, radio_freq)][endspanpart][messagepart]"
+	//NSV13 - added [compose_rank(speaker)]
+	return "[spanpart1][spanpart2][freqpart][languageicon][compose_track_href(speaker, namepart)][compose_rank(speaker)][namepart][compose_job(speaker, message_language, raw_message, radio_freq)][endspanpart][messagepart]"
 
 /atom/movable/proc/compose_track_href(atom/movable/speaker, message_langs, raw_message, radio_freq)
 	return ""
 
 /atom/movable/proc/compose_job(atom/movable/speaker, message_langs, raw_message, radio_freq)
 	return ""
+
+//NSV13
+/atom/movable/proc/compose_rank(atom/movable/speaker)
+	if (!CONFIG_GET(flag/show_ranks))
+		return
+
+	var/job
+	var/rank = ""
+
+	if (istype(speaker, /mob/living/carbon/human))
+		var/mob/living/carbon/human/speakerMob = speaker
+		job = speakerMob.get_assignment()
+	else if (istype(speaker, /atom/movable/virtualspeaker))
+		var/atom/movable/virtualspeaker/VS = speaker
+		job = VS.GetJob()
+
+	if (job)
+		var/datum/job/J = SSjob.GetJob(job)
+		rank = "[J.get_rank()] "
+
+	return rank
 
 /atom/movable/proc/say_mod(input, message_mode)
 	var/ending = copytext(input, length(input))
