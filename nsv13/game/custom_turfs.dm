@@ -4,8 +4,19 @@
 	desc = "A large hull segment designed to create vessels and structures capable of supporting life in even the most hazardous places."
 	legacy_smooth = TRUE //Override /tg/ iconsmooths
 	smooth = TRUE
-	canSmoothWith = list(/turf/closed/wall/ship,/turf/closed/wall/r_wall/ship,/obj/machinery/door,/obj/structure/window)
+	canSmoothWith = list(/turf/closed/wall/ship,/turf/closed/wall/r_wall/ship,/obj/machinery/door,/obj/structure/window, /obj/structure/falsewall/duranium, /obj/structure/falsewall/durasteel)
 	sheet_type = /obj/item/stack/sheet/durasteel
+	var/connect_universally = TRUE //Connect to every subtype of the walls?
+
+/obj/structure/falsewall/durasteel
+	icon = 'nsv13/icons/turf/interior_wall.dmi'
+	name = "Durasteel hull"
+	desc = "A large hull segment designed to create vessels and structures capable of supporting life in even the most hazardous places."
+	legacy_smooth = TRUE //Override /tg/ iconsmooths
+	smooth = TRUE
+	walltype = /turf/closed/wall/ship
+	canSmoothWith = list(/turf/closed/wall/ship,/turf/closed/wall/r_wall/ship,/obj/machinery/door,/obj/structure/window, /obj/structure/falsewall/duranium, /obj/structure/falsewall/durasteel)
+	mineral = /obj/item/stack/sheet/durasteel
 	var/connect_universally = TRUE //Connect to every subtype of the walls?
 
 /turf/closed/wall/r_wall/ship
@@ -14,28 +25,67 @@
 	desc = "A large hull segment designed to create vessels and structures capable of supporting life in even the most hazardous places."
 	legacy_smooth = TRUE //Override /tg/ iconsmooths
 	smooth = TRUE
-	canSmoothWith = list(/turf/closed/wall/ship,/obj/machinery/door,/obj/structure/window,/turf/closed/wall/r_wall/ship)
+	canSmoothWith = list(/turf/closed/wall/ship,/obj/machinery/door,/obj/structure/window,/turf/closed/wall/r_wall/ship, /obj/structure/falsewall/duranium, /obj/structure/falsewall/durasteel)
 	sheet_type = /obj/item/stack/sheet/duranium
+	sheet_amount = 2
+
+/obj/structure/falsewall/duranium
+	icon = 'nsv13/icons/turf/reinforced_wall.dmi'
+	name = "Duranium hull"
+	desc = "A large hull segment designed to create vessels and structures capable of supporting life in even the most hazardous places."
+	legacy_smooth = TRUE //Override /tg/ iconsmooths
+	smooth = TRUE
+	walltype = /turf/closed/wall/r_wall/ship
+	canSmoothWith = list(/turf/closed/wall/ship,/obj/machinery/door,/obj/structure/window,/turf/closed/wall/r_wall/ship, /obj/structure/falsewall/duranium, /obj/structure/falsewall/durasteel)
+	mineral = /obj/item/stack/sheet/duranium
 
 /obj/structure/girder/attackby(obj/item/W, mob/user, params) //Time to add support for our walls..
 	var/obj/item/stack/sheet/S = W
 	if(istype(W, /obj/item/stack/sheet))
-		if(S.get_amount() < 2)
-			to_chat(user, "<span class='warning'>You need two sheets of [W] to finish a wall!</span>")
-			return
 		if(!S.turf_type)
 			to_chat(user, "<span class='warning'>You can't build anything with [W].</span>")
 			return
-		if (do_after(user, 40, target = src))
+
+		if (state != GIRDER_DISPLACED) //Build regular wall
 			if(S.get_amount() < 2)
+				to_chat(user, "<span class='warning'>You need two sheets of [W] to finish a wall!</span>")
 				return
-			S.use(2)
-			to_chat(user, "<span class='notice'>You add the hull plating.</span>")
-			var/turf/T = get_turf(src)
-			T.PlaceOnTop(S.turf_type)
-			transfer_fingerprints_to(T)
-			qdel(src)
-			return
+
+			if (do_after(user, 40, target = src))
+				if(S.get_amount() < 2)
+					return
+				S.use(2)
+				to_chat(user, "<span class='notice'>You add the hull plating.</span>")
+				var/turf/T = get_turf(src)
+				T.PlaceOnTop(S.turf_type)
+				transfer_fingerprints_to(T)
+				qdel(src)
+				return
+
+		else //Build false wall
+			if(S.get_amount() < 2)
+				to_chat(user, "<span class='warning'>You need two sheets of [W] to create a false wall!</span>")
+				return
+
+			to_chat(user, "<span class='notice'>You start building a false wall with [W]...</span>")
+			if (do_after(user, 40, target = src))
+				if(S.get_amount() < 2)
+					return
+				S.use(2)
+				to_chat(user, "<span class='notice'>You create a false wall. Push on it to open or close the passage.</span>")
+
+				var/turf/T = get_turf(src)
+				var/obj/structure/falsewall/FW
+				if (istype(W, /obj/item/stack/sheet/durasteel))
+					FW = new /obj/structure/falsewall/durasteel(T)
+				else if (istype(W, /obj/item/stack/sheet/duranium))
+					FW = new /obj/structure/falsewall/duranium(T)
+				else
+					return
+
+				transfer_fingerprints_to(FW)
+				qdel(src)
+				return
 	. = ..()
 
 /turf/open/floor/carpet/ship
