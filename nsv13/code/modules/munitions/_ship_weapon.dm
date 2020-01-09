@@ -43,12 +43,9 @@
 /obj/machinery/ship_weapon/proc/set_position(obj/structure/overmap/OM) //Use this to tell your ship what weapon category this belongs in
 	return
 
-/obj/machinery/ship_weapon/railgun/set_position(obj/structure/overmap/OM)
-	OM.railguns += src
-
 /obj/machinery/ship_weapon/MouseDrop_T(obj/structure/A, mob/user)
 	. = ..()
-	if(istype(A, /obj/item/ship_weapon/ammunition/munition))
+	if(istype(A, /obj/item/ship_weapon/ammunition))
 		if(loading)
 			to_chat(user, "<span class='notice'>You're already loading a round into [src]!.</span>")
 		if(!chambered || state == STATE_NOTLOADED)

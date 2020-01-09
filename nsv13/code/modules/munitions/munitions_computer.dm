@@ -1,3 +1,9 @@
+#define STATE_NOTLOADED 1
+#define STATE_LOADED 2
+#define STATE_CHAMBERED 3
+#define STATE_READY 4
+#define STATE_FIRING 5
+
 /obj/machinery/computer/ship/munitions_computer
 	name = "munitions control computer"
 	icon = 'nsv13/icons/obj/munitions.dmi'
@@ -9,9 +15,9 @@
 
 /obj/machinery/computer/ship/munitions_computer/Initialize()
 	. = ..()
-	var/atom/adjacent = locate(/obj/structure/ship_weapon) in get_turf(get_step(src, dir)) //Look at what dir we're facing, find a gun in that turf
-	if(adjacent && istype(adjacent, /obj/structure/ship_weapon))
-		railgun = adjacent
+	var/atom/adjacent = locate(/obj/machinery/ship_weapon) in get_turf(get_step(src, dir)) //Look at what dir we're facing, find a gun in that turf
+	if(adjacent && istype(adjacent, /obj/machinery/ship_weapon))
+		SW = adjacent
 
 /obj/machinery/computer/ship/munitions_computer/attack_ai(mob/user)
 	. = ..()
@@ -39,7 +45,7 @@
 	if(SW.state != STATE_READY)
 		dat += "<A href='?src=\ref[src];chamber_tray=1'>Chamber Tray Payload</font></A><BR>" //Step 2: Chamber the round
 	else
-		dat += "<A href='?src=\ref[src];tray_notif=1'>'[railgun.chambered.name]' is ready for deployment</font></A><BR>" //Tell them that theyve chambered something
+		dat += "<A href='?src=\ref[src];tray_notif=1'>'[SW.chambered.name]' is ready for deployment</font></A><BR>" //Tell them that theyve chambered something
 	dat += "<h2> Safeties: </h2>"
 	if(SW.safety)
 		dat += "<A href='?src=\ref[src];disengage_safeties=1'>Disengage safeties</font></A><BR>" //Step 3: Disengage safeties. This allows the helm to fire the weapon.
@@ -66,3 +72,10 @@
 		SW.safety = TRUE
 
 	attack_hand(usr) //Refresh window
+
+
+#undef STATE_NOTLOADED
+#undef STATE_LOADED
+#undef STATE_CHAMBERED
+#undef STATE_READY
+#undef STATE_FIRING

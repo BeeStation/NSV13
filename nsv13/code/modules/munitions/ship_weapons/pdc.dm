@@ -7,7 +7,7 @@
 	density = FALSE
 	pixel_y = 26
 	var/obj/item/ammo_box/magazine/pdc/magazine = null
-	var/obj/structure/overmap/linked = null
+	linked = null
 
 /obj/machinery/ship_weapon/pdc_mount/attack_hand(mob/user)
 	. = ..()
@@ -49,13 +49,13 @@
 	progress = round(((progress / goal) * 100), 20)//Round it down to 20%. We now apply visual damage
 	icon_state = "[initial(icon_state)]_[progress]"
 
-/obj/machinery/ship_weapon/pdc_mount/proc/can_fire(shots) //We need to fire 3 shots. Can we do that?
+/obj/machinery/ship_weapon/pdc_mount/can_fire(shots) //We need to fire 3 shots. Can we do that?
 	if(magazine?.ammo_count() > shots)
 		return TRUE
 	else
 		return FALSE
 
-/obj/structure/pdc_mount/proc/fire(shots)
+/obj/machinery/ship_weapon/pdc_mount/fire(shots)
 	if(can_fire(shots))
 		for(var/i = 0, i < shots, i++)
 			var/obj/item/projectile/P = magazine.get_round(FALSE)

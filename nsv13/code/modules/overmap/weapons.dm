@@ -123,7 +123,7 @@
 	if(!pdcs.len)
 		return FALSE
 	for(var/X in pdcs)
-		var/obj/structure/pdc_mount/pdc = X
+		var/obj/machinery/ship_weapon/pdc_mount/pdc = X
 		if(pdc.fire(shots))
 			return TRUE
 	return FALSE
@@ -257,7 +257,7 @@
 		torpedoes --
 		return
 	var/proj_type = null //If this is true, we've got a launcher shipside that's been able to fire.
-	var/obj/structure/munition/proj_object = null
+	var/obj/item/ship_weapon/ammunition/torpedo/proj_object = null
 	var/proj_speed = 1
 	for(var/X in torpedo_tubes)
 		if(istype(X, /obj/machinery/ship_weapon/torpedo_launcher))

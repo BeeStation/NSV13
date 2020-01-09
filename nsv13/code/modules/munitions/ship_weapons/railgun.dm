@@ -1,3 +1,14 @@
+#define MSTATE_CLOSED 0
+#define MSTATE_UNSCREWED 1
+#define MSTATE_UNBOLTED 2
+#define MSTATE_PRIEDOUT 3
+
+#define STATE_NOTLOADED 1
+#define STATE_LOADED 2
+#define STATE_CHAMBERED 3
+#define STATE_READY 4
+#define STATE_FIRING 5
+
 /obj/machinery/ship_weapon/railgun
 	name = "NT-STC4 Ship mounted railgun chamber"
 	desc = "A powerful ship-to-ship weapon which uses a localized magnetic field accelerate a projectile through a spinally mounted railgun with a 360 degree rotation axis. This particular model has an effective range of 20,000KM."
@@ -20,6 +31,9 @@
 	visible_message("<span class='warning'>[src]'s autoloader rack slams down into [src]!</span>")
 	autoloader_contents -= ammo
 	chamber(rapidfire = TRUE)
+
+/obj/machinery/ship_weapon/railgun/set_position(obj/structure/overmap/OM)
+	OM.railguns += src
 
 /obj/machinery/ship_weapon/railgun/unload()
 	if(state < STATE_LOADED)
@@ -81,3 +95,14 @@
 					return FALSE
 			to_chat(user, "<span class='warning'>[src] already has a round loaded!</span>")
 	. = ..()
+
+#undef MSTATE_CLOSED
+#undef MSTATE_UNSCREWED
+#undef MSTATE_UNBOLTED
+#undef MSTATE_PRIEDOUT
+
+#undef STATE_NOTLOADED
+#undef STATE_LOADED
+#undef STATE_CHAMBERED
+#undef STATE_READY
+#undef STATE_FIRING

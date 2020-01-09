@@ -489,8 +489,8 @@ After going through this checklist, you're ready to go!
 							/obj/item/twohanded/required/fighter_component/engine,
 							/obj/item/twohanded/required/fighter_component/engine,
 							/obj/item/twohanded/required/fighter_component/primary_cannon)
-	munitions += new /obj/structure/munition/fast(src)
-	munitions += new /obj/structure/munition/fast(src)
+	munitions += new /obj/item/ship_weapon/ammunition/torpedo/fast(src)
+	munitions += new /obj/item/ship_weapon/ammunition/torpedo/fast(src)
 	for(var/item in components)
 		new item(src)
 	torpedoes = munitions.len
@@ -614,7 +614,7 @@ After going through this checklist, you're ready to go!
 			A.forceMove(src)
 			internal_tank = A
 		return
-	if(istype(A, /obj/structure/munition))
+	if(istype(A, /obj/item/ship_weapon/ammunition/torpedo))
 		if(maint_state == MS_OPEN)
 			var/munition_count = munitions.len
 			if(munition_count < max_torpedoes)
@@ -642,7 +642,7 @@ After going through this checklist, you're ready to go!
 	if(!munitions.len)
 		return
 	torpedoes = munitions.len
-	var/obj/structure/munition/thirtymillimetertorpedo = pick(munitions)
+	var/obj/item/ship_weapon/ammunition/torpedo/thirtymillimetertorpedo = pick(munitions)
 	proj_type = thirtymillimetertorpedo.torpedo_type
 	proj_speed = thirtymillimetertorpedo.speed
 	munitions -= thirtymillimetertorpedo
@@ -803,7 +803,7 @@ After going through this checklist, you're ready to go!
 		dat += "<a href='?src=[REF(src)]:primary_weapon=1'>[pw?.name]</a><br>"
 	dat += "<p>Ammo Capacity:</p>"
 	var/t = 0
-	for(var/obj/structure/munition/mu in contents)
+	for(var/obj/item/ship_weapon/ammunition/torpedo/mu in contents)
 		dat += "<a href='?src=[REF(src)];torpedo=1'>[mu?.name]</a><br>"
 		t++
 	switch(t)
@@ -861,7 +861,7 @@ After going through this checklist, you're ready to go!
 	var/atom/movable/ts = get_part(/obj/item/fighter_component/targeting_sensor)
 	var/atom/movable/en = get_part(/obj/item/twohanded/required/fighter_component/engine)
 	var/atom/movable/pw = get_part(/obj/item/twohanded/required/fighter_component/primary_cannon)
-	var/atom/movable/tr = get_part(/obj/structure/munition)
+	var/atom/movable/tr = get_part(/obj/item/ship_weapon/ammunition/torpedo)
 	if(href_list["armour_plating"])
 		if(ap)
 			to_chat(user, "<span class='notice'>You start uninstalling [ap.name] from [src].</span>")

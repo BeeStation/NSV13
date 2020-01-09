@@ -6,7 +6,6 @@
 	desc = "The outer casing of a 30mm torpedo."
 	anchored = TRUE
 	density = TRUE
-	climbable = TRUE
 	var/state = 0
 	var/obj/item/ship_weapon/parts/torpedo/warhead/wh = null
 	var/obj/item/ship_weapon/parts/torpedo/guidance_system/gs = null
