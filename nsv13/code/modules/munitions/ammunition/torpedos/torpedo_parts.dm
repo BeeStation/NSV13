@@ -1,4 +1,4 @@
-/obj/item/torpedo/warhead
+/obj/item/ship_weapon/parts/torpedo/warhead
 	name = "NTP-2 standard torpedo warhead"
 	icon = 'nsv13/icons/obj/munitions.dmi'
 	icon_state = "warhead"
@@ -6,31 +6,31 @@
 	w_class = WEIGHT_CLASS_HUGE
 	var/payload = null
 
-/obj/item/torpedo/warhead/bunker_buster
+/obj/item/ship_weapon/parts/torpedo/warhead/bunker_buster
 	name = "NTP-4 'BNKR' torpedo warhead"
 	desc = "a bunker buster torpedo warhead"
 	icon_state = "warhead_shredder"
 	desc = "An extremely heavy warhead designed to be fitted to a torpedo. This one has an inbuilt plasma charge to amplify its damage."
 
-/obj/item/torpedo/warhead/lightweight
+/obj/item/ship_weapon/parts/torpedo/warhead/lightweight
 	name = "NTP-1 'SPD' lightweight torpedo warhead"
 	desc = "a lightweight torpedo warhead"
 	icon_state = "warhead_highvelocity"
 	desc = "A stripped down warhead designed to be fitted to a torpedo. Due to its reduced weight, torpedoes with these equipped will travel more quickly."
 
-/obj/item/torpedo/warhead/decoy
+/obj/item/ship_weapon/parts/torpedo/warhead/decoy
 	name = "NTP-0x 'DCY' electronic countermeasure torpedo payload"
 	desc = "a decoy torpedo warhead"
 	icon_state = "warhead_decoy"
 	desc = "A simple electronic countermeasure wrapped in a metal casing. While these form inert torpedoes, they can be used to distract enemy PDC emplacements to divert their flak away from other targets."
 
-/obj/item/torpedo/warhead/nuclear
+/obj/item/ship_weapon/parts/torpedo/warhead/nuclear
 	name = "nuclear torpedo warhead"
 	desc = "a nuclear torpedo warhead"
 	icon_state = "warhead_nuclear"
 	desc = "An advanced warhead which carries a nuclear fission explosive. Torpedoes equipped with these can quickly annihilate targets with extreme prejudice, however they are extremely costly to produce."
 
-/obj/item/torpedo/guidance_system
+/obj/item/ship_weapon/parts/torpedo/guidance_system
 	name = "torpedo guidance system"
 	icon = 'nsv13/icons/obj/munitions.dmi'
 	icon_state = "guidance"
@@ -38,7 +38,7 @@
 	w_class = WEIGHT_CLASS_NORMAL
 	var/accuracy = null
 
-/obj/item/torpedo/propulsion_system
+/obj/item/ship_weapon/parts/torpedo/propulsion_system
 	name = "torpedo propulsion system"
 	icon = 'nsv13/icons/obj/munitions.dmi'
 	icon_state = "propulsion"
@@ -46,7 +46,7 @@
 	w_class = WEIGHT_CLASS_BULKY
 	var/speed = 1
 
-/obj/item/torpedo/iff_card //This should be abuseable via emag
+/obj/item/ship_weapon/parts/torpedo/iff_card //This should be abuseable via emag
 	name = "torpedo IFF card"
 	icon = 'nsv13/icons/obj/munitions.dmi'
 	icon_state = "iff"
@@ -54,7 +54,7 @@
 	w_class = WEIGHT_CLASS_SMALL
 	var/calibrated = FALSE
 
-/obj/item/torpedo/iff_card/emag_act(mob/user)
+/obj/item/ship_weapon/parts/torpedo/iff_card/emag_act(mob/user)
 	if(obj_flags & EMAGGED)
 		return
 	obj_flags |= EMAGGED
@@ -78,7 +78,7 @@
 	id = "warhead"
 	build_type = PROTOLATHE
 	materials = list(/datum/material/iron = 20000, /datum/material/glass = 5000)
-	build_path = /obj/item/torpedo/warhead
+	build_path = /obj/item/ship_weapon/parts/torpedo/warhead
 	category = list("Advanced Munitions")
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO
 
@@ -88,7 +88,7 @@
 	id = "bb_warhead"
 	build_type = PROTOLATHE
 	materials = list(/datum/material/iron = 15000, /datum/material/plasma = 5000, /datum/material/glass = 5000)
-	build_path = /obj/item/torpedo/warhead/bunker_buster
+	build_path = /obj/item/ship_weapon/parts/torpedo/warhead/bunker_buster
 	category = list("Advanced Munitions")
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO
 
@@ -98,7 +98,7 @@
 	id = "lw_warhead"
 	build_type = PROTOLATHE
 	materials = list(/datum/material/iron = 10000, /datum/material/glass = 2500)
-	build_path = /obj/item/torpedo/warhead/lightweight
+	build_path = /obj/item/ship_weapon/parts/torpedo/warhead/lightweight
 	category = list("Advanced Munitions")
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO
 
@@ -108,7 +108,7 @@
 	id = "decoy_warhead"
 	build_type = PROTOLATHE
 	materials = list(/datum/material/iron = 5000)
-	build_path = /obj/item/torpedo/warhead/decoy
+	build_path = /obj/item/ship_weapon/parts/torpedo/warhead/decoy
 	category = list("Advanced Munitions")
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO
 
@@ -118,7 +118,7 @@
 	id = "nuke_warhead"
 	build_type = PROTOLATHE
 	materials = list(/datum/material/iron = 20000, /datum/material/plasma = 10000, /datum/material/uranium = 5000)
-	build_path = /obj/item/torpedo/warhead/nuclear
+	build_path = /obj/item/ship_weapon/parts/torpedo/warhead/nuclear
 	category = list("Advanced Munitions")
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO
 
@@ -128,7 +128,7 @@
 	id = "guidance_system"
 	build_type = PROTOLATHE
 	materials = list(/datum/material/iron = 10000, /datum/material/glass = 5000)
-	build_path = /obj/item/torpedo/guidance_system
+	build_path = /obj/item/ship_weapon/parts/torpedo/guidance_system
 	category = list("Advanced Munitions")
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO
 
@@ -138,7 +138,7 @@
 	id = "propulsion_system"
 	build_type = PROTOLATHE
 	materials = list(/datum/material/iron = 10000, /datum/material/glass = 5000)
-	build_path = /obj/item/torpedo/propulsion_system
+	build_path = /obj/item/ship_weapon/parts/torpedo/propulsion_system
 	category = list("Advanced Munitions")
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO
 
@@ -148,6 +148,6 @@
 	id = "iff_card"
 	build_type = IMPRINTER
 	materials = list(/datum/material/glass = 20000, /datum/material/iron = 5000)
-	build_path = /obj/item/torpedo/iff_card
+	build_path = /obj/item/ship_weapon/parts/torpedo/iff_card
 	category = list("Advanced Munitions")
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO

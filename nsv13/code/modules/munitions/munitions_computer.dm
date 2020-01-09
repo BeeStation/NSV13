@@ -5,7 +5,7 @@
 	density = TRUE
 	anchored = TRUE
 	req_access = list(ACCESS_MUNITIONS)
-	var/obj/structure/ship_weapon/railgun //The one we're firing
+	var/obj/machinery/ship_weapon/SW //The one we're firing
 
 /obj/machinery/computer/ship/munitions_computer/Initialize()
 	. = ..()
@@ -23,25 +23,25 @@
 
 /obj/machinery/computer/ship/munitions_computer/attack_hand(mob/user)
 	. = ..()
-	if(!railgun)
+	if(!SW)
 		return
-	if(!railgun.linked)
-		railgun.get_ship()
+	if(!SW.linked)
+		SW.get_ship()
 	var/dat
-	if(railgun.malfunction)
+	if(SW.malfunction)
 		dat += "<p><b><font color='#FF0000'>MALFUNCTION DETECTED!</font></p>"
 	dat += "<h2> Tray: </h2>"
-	if(railgun.state <= STATE_LOADED)
+	if(SW.state <= STATE_LOADED)
 		dat += "<A href='?src=\ref[src];load_tray=1'>Load Tray</font></A><BR>" //STEP 1: Move the tray into the railgun
 	else
 		dat += "<A href='?src=\ref[src];unload_tray=1'>Unload Tray</font></A><BR>" //OPTIONAL: Cancel loading
 	dat += "<h2> Firing chamber: </h2>"
-	if(railgun.state != STATE_READY)
+	if(SW.state != STATE_READY)
 		dat += "<A href='?src=\ref[src];chamber_tray=1'>Chamber Tray Payload</font></A><BR>" //Step 2: Chamber the round
 	else
 		dat += "<A href='?src=\ref[src];tray_notif=1'>'[railgun.chambered.name]' is ready for deployment</font></A><BR>" //Tell them that theyve chambered something
 	dat += "<h2> Safeties: </h2>"
-	if(railgun.safety)
+	if(SW.safety)
 		dat += "<A href='?src=\ref[src];disengage_safeties=1'>Disengage safeties</font></A><BR>" //Step 3: Disengage safeties. This allows the helm to fire the weapon.
 	else
 		dat += "<A href='?src=\ref[src];engage_safeties=1'>Engage safeties</font></A><BR>" //OPTIONAL: Re-engage safeties. Use this if some disaster happens in the tubes, and you need to forbid the helm from firing
@@ -52,17 +52,17 @@
 /obj/machinery/computer/ship/munitions_computer/Topic(href, href_list)
 	if(!in_range(src, usr))
 		return
-	if(!railgun)
+	if(!SW)
 		return
 	if(href_list["load_tray"])
-		railgun.load()
+		SW.load()
 	if(href_list["unload_tray"])
-		railgun.unload()
+		SW.unload()
 	if(href_list["chamber_tray"])
-		railgun.chamber()
+		SW.chamber()
 	if(href_list["disengage_safeties"])
-		railgun.safety = FALSE
+		SW.safety = FALSE
 	if(href_list["engage_safeties"])
-		railgun.safety = TRUE
+		SW.safety = TRUE
 
 	attack_hand(usr) //Refresh window

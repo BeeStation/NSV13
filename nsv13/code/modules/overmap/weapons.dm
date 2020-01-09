@@ -1,4 +1,3 @@
-
 /obj/item/projectile/bullet/pdc_round
 	icon_state = "pdc"
 	name = "teflon coated tungsten round"
@@ -220,8 +219,8 @@
 	var/atom/proj_object = null
 	var/fired = FALSE
 	for(var/X in railguns)
-		if(istype(X, /obj/structure/ship_weapon/railgun))
-			var/obj/structure/ship_weapon/railgun/RG = X
+		if(istype(X, /obj/machinery/ship_weapon/railgun))
+			var/obj/machinery/ship_weapon/railgun/RG = X
 			if(RG.can_fire())
 				proj_object = RG.fire()
 				if(!proj_object)
@@ -261,8 +260,8 @@
 	var/obj/structure/munition/proj_object = null
 	var/proj_speed = 1
 	for(var/X in torpedo_tubes)
-		if(istype(X, /obj/structure/ship_weapon/torpedo_launcher))
-			var/obj/structure/ship_weapon/torpedo_launcher/TL = X
+		if(istype(X, /obj/machinery/ship_weapon/torpedo_launcher))
+			var/obj/machinery/ship_weapon/torpedo_launcher/TL = X
 			proj_object = TL.fire()
 			if(proj_object)
 				break //Found a gun and fired it. No need to fire all the guns at once

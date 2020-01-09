@@ -1,6 +1,6 @@
 //Torpedo construction//
 
-/obj/structure/munition/torpedo_casing
+/obj/item/ship_weapon/ammunition/torpedo/torpedo_casing
 	name = "NTB-M4A1-IB prebuilt torpedo-casing"
 	icon_state = "case"
 	desc = "The outer casing of a 30mm torpedo."
@@ -8,13 +8,13 @@
 	density = TRUE
 	climbable = TRUE
 	var/state = 0
-	var/obj/item/torpedo/warhead/wh = null
-	var/obj/item/torpedo/guidance_system/gs = null
-	var/obj/item/torpedo/propulsion_system/ps = null
-	var/obj/item/torpedo/iff_card/iff = null
+	var/obj/item/ship_weapon/parts/torpedo/warhead/wh = null
+	var/obj/item/ship_weapon/parts/torpedo/guidance_system/gs = null
+	var/obj/item/ship_weapon/parts/torpedo/propulsion_system/ps = null
+	var/obj/item/ship_weapon/parts/torpedo/iff_card/iff = null
 	torpedo_type = /obj/item/projectile/bullet/torpedo/dud //Forget to finish your torpedo? You get a dud torpedo that doesn't do anything
 
-/obj/structure/munition/torpedo_casing/examine(mob/user) //No better guide than an in-game play-by-play guide
+/obj/item/ship_weapon/ammunition/torpedo/torpedo_casing/examine(mob/user) //No better guide than an in-game play-by-play guide
 	. = ..()
 	switch(state)
 		if(0)
@@ -40,9 +40,9 @@
 		if(10)
 			. += "<span class='notice'>The casing has been closed and bolted shut. It only requires sealing with a welding tool to be ready for action.</span>"
 
-/obj/structure/munition/torpedo_casing/attackby(obj/item/W, mob/user, params)
+/obj/item/ship_weapon/ammunition/torpedo/torpedo_casing/attackby(obj/item/W, mob/user, params)
 	add_fingerprint(user)
-	if(istype(W, /obj/item/torpedo/warhead))
+	if(istype(W, /obj/item/ship_weapon/parts/torpedo/warhead))
 		if(state == 6)
 			to_chat(user, "<span class='notice'>You start adding [W] to [src]...</span>")
 			if(!do_after(user, 2 SECONDS, target=src))
@@ -53,7 +53,7 @@
 			update_icon()
 			W.forceMove(src)
 		return
-	else if(istype(W, /obj/item/torpedo/guidance_system))
+	else if(istype(W, /obj/item/ship_weapon/parts/torpedo/guidance_system))
 		if(state == 2)
 			to_chat(user, "<span class='notice'>You start adding [W] to [src]...</span>")
 			if(!do_after(user, 2 SECONDS, target=src))
@@ -64,7 +64,7 @@
 			update_icon()
 			W.forceMove(src)
 		return
-	else if(istype(W, /obj/item/torpedo/propulsion_system))
+	else if(istype(W, /obj/item/ship_weapon/parts/torpedo/propulsion_system))
 		if(state == 0)
 			to_chat(user, "<span class='notice'>You start adding [W] to [src]...</span>")
 			if(!do_after(user, 2 SECONDS, target=src))
@@ -75,7 +75,7 @@
 			update_icon()
 			W.forceMove(src)
 		return
-	else if(istype(W, /obj/item/torpedo/iff_card))
+	else if(istype(W, /obj/item/ship_weapon/parts/torpedo/iff_card))
 		if(state == 4)
 			to_chat(user, "<span class='notice'>You start adding [W] to [src]...</span>")
 			if(!do_after(user, 2 SECONDS, target=src))
@@ -101,7 +101,7 @@
 			update_icon()
 		return
 
-/obj/structure/munition/torpedo_casing/wrench_act(mob/user, obj/item/tool)
+/obj/item/ship_weapon/ammunition/torpedo/torpedo_casing/wrench_act(mob/user, obj/item/tool)
 	. = FALSE
 	switch(state)
 		if(1)
@@ -147,7 +147,7 @@
 				update_icon()
 			return TRUE
 
-/obj/structure/munition/torpedo_casing/screwdriver_act(mob/user, obj/item/tool)
+/obj/item/ship_weapon/ammunition/torpedo/torpedo_casing/screwdriver_act(mob/user, obj/item/tool)
 	. = FALSE
 	switch(state)
 		if(3)
@@ -179,7 +179,7 @@
 				update_icon()
 			return TRUE
 
-/obj/structure/munition/torpedo_casing/wirecutter_act(mob/user, obj/item/tool)
+/obj/item/ship_weapon/ammunition/torpedo/torpedo_casing/wirecutter_act(mob/user, obj/item/tool)
 	. = ..()
 	if(state == 9)
 		to_chat(user, "<span class='notice'>You start cutting the wiring in [src]...</span>")
@@ -191,7 +191,7 @@
 			update_icon()
 		return TRUE
 
-/obj/structure/munition/torpedo_casing/welder_act(mob/user, obj/item/tool)
+/obj/item/ship_weapon/ammunition/torpedo/torpedo_casing/welder_act(mob/user, obj/item/tool)
 	. = FALSE
 	switch(state)
 		if(0)
@@ -210,7 +210,7 @@
 				qdel(src)
 			return TRUE
 
-/obj/structure/munition/torpedo_casing/crowbar_act(mob/user, obj/item/tool)
+/obj/item/ship_weapon/ammunition/torpedo/torpedo_casing/crowbar_act(mob/user, obj/item/tool)
 	. = FALSE
 	switch(state)
 		if(1)
@@ -250,7 +250,7 @@
 				update_icon()
 			return TRUE
 
-/obj/structure/munition/torpedo_casing/update_icon()
+/obj/item/ship_weapon/ammunition/torpedo/torpedo_casing/update_icon()
 	cut_overlays()
 	switch(state)
 		if(1)
@@ -274,19 +274,29 @@
 		if(10)
 			icon_state = "case_warhead_complete"
 
-/obj/structure/munition/torpedo_casing/proc/new_torpedo(obj/item/torpedo/warhead, obj/item/torpedo/guidance_system, obj/item/torpedo/propulsion_system, obj/item/torpedo/iff_card)
+/obj/item/ship_weapon/ammunition/torpedo/torpedo_casing/proc/new_torpedo(
+			obj/item/ship_weapon/parts/torpedo/warhead,
+			obj/item/ship_weapon/parts/torpedo/guidance_system,
+			obj/item/ship_weapon/parts/torpedo/propulsion_system,
+			obj/item/ship_weapon/parts/torpedo/iff_card)
+
 	var/warhead_type = warhead.type
 	for(var/I in contents)
 		qdel(I) //Change this if we ever need to add more component factoring in to performance. This avoids infinite torpedo parts because the torpedo gets Qdel'd
-	if(istype(warhead, /obj/item/torpedo/warhead))
+
+	if(istype(warhead, /obj/item/ship_weapon/parts/torpedo/warhead))
 		switch(warhead_type)
-			if(/obj/item/torpedo/warhead)
-				return new /obj/structure/munition(get_turf(src))
-			if(/obj/item/torpedo/warhead/bunker_buster)
-				return new /obj/structure/munition/hull_shredder(get_turf(src))
-			if(/obj/item/torpedo/warhead/lightweight)
-				return new /obj/structure/munition/fast(get_turf(src))
-			if(/obj/item/torpedo/warhead/decoy)
-				return new /obj/structure/munition/decoy(get_turf(src))
-			if(/obj/item/torpedo/warhead/nuclear)
-				return new /obj/structure/munition/nuke(get_turf(src))
+			if(/obj/item/ship_weapon/parts/torpedo/warhead)
+				return new /obj/item/ship_weapon/ammunition/torpedo(get_turf(src))
+
+			if(/obj/item/ship_weapon/parts/torpedo/warhead/bunker_buster)
+				return new /obj/item/ship_weapon/ammunition/torpedo/hull_shredder(get_turf(src))
+
+			if(/obj/item/ship_weapon/parts/torpedo/warhead/lightweight)
+				return new /obj/item/ship_weapon/ammunition/torpedo/fast(get_turf(src))
+
+			if(/obj/item/ship_weapon/parts/torpedo/warhead/decoy)
+				return new /obj/item/ship_weapon/ammunition/torpedo/decoy(get_turf(src))
+
+			if(/obj/item/ship_weapon/parts/torpedo/warhead/nuclear)
+				return new /obj/item/ship_weapon/ammunition/torpedo/nuke(get_turf(src))

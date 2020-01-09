@@ -32,7 +32,7 @@
 
 /obj/structure/munitions_trolley/MouseDrop_T(obj/structure/A, mob/user)
 	. = ..()
-	if(istype(A, /obj/structure/munition))
+	if(istype(A, /obj/item/ship_weapon/ammunition/torpedo))
 		if(loading)
 			to_chat(user, "<span class='notice'>You're already loading something onto [src]!.</span>")
 			return
@@ -52,7 +52,7 @@
 	//	if(!user.transferItemToLoc(A, src))
 	//		return
 	playsound(src, 'nsv13/sound/effects/ship/mac_load.ogg', 100, 1)
-	if(istype(A, /obj/structure/munition))
+	if(istype(A, /obj/item/ship_weapon/ammunition/torpedo))
 		A.forceMove(src)
 		A.pixel_y = 10+(capacity*10)
 		vis_contents += A
@@ -94,12 +94,12 @@
 	A.pixel_y = initial(A.pixel_y) //Remove our offset
 	A.layer = initial(A.layer)
 	to_chat(usr, "<span class='notice'>You unload [A] from [src].</span>")
-	if(istype(A, /obj/structure/munition)) //If a munition, allow them to load other munitions onto us.
+	if(istype(A, /obj/item/ship_weapon/ammunition/torpedo)) //If a munition, allow them to load other munitions onto us.
 		capacity --
 	if(contents.len)
 		var/count = capacity
 		for(var/X in contents)
 			var/atom/movable/AM = X
-			if(istype(AM, /obj/structure/munition))
+			if(istype(AM, /obj/item/ship_weapon/ammunition/torpedo))
 				AM.pixel_y = count*10
 				count --

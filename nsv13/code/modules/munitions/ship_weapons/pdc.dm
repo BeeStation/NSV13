@@ -1,4 +1,4 @@
-/obj/structure/pdc_mount
+/obj/machinery/ship_weapon/pdc_mount
 	name = "PDC loading rack"
 	icon = 'nsv13/icons/obj/munitions.dmi'
 	icon_state = "pdc"
@@ -9,7 +9,7 @@
 	var/obj/item/ammo_box/magazine/pdc/magazine = null
 	var/obj/structure/overmap/linked = null
 
-/obj/structure/pdc_mount/attack_hand(mob/user)
+/obj/machinery/ship_weapon/pdc_mount/attack_hand(mob/user)
 	. = ..()
 	if(magazine)
 		to_chat(user, "<span class='notice'>You start to unload [magazine] from [src].</span>")
@@ -19,7 +19,7 @@
 			update_icon()
 			playsound(src, 'sound/weapons/autoguninsert.ogg', 100, 1)
 
-/obj/structure/pdc_mount/attackby(obj/item/I, mob/user)
+/obj/machinery/ship_weapon/pdc_mount/attackby(obj/item/I, mob/user)
 	if(!linked)
 		var/area/AR = get_area(src)
 		if(AR.linked_overmap)
@@ -39,7 +39,7 @@
 	else
 		. = ..()
 
-/obj/structure/pdc_mount/update_icon()
+/obj/machinery/ship_weapon/pdc_mount/update_icon()
 	if(!magazine)
 		icon_state = "[initial(icon_state)]_0"
 		return
@@ -49,7 +49,7 @@
 	progress = round(((progress / goal) * 100), 20)//Round it down to 20%. We now apply visual damage
 	icon_state = "[initial(icon_state)]_[progress]"
 
-/obj/structure/pdc_mount/proc/can_fire(shots) //We need to fire 3 shots. Can we do that?
+/obj/machinery/ship_weapon/pdc_mount/proc/can_fire(shots) //We need to fire 3 shots. Can we do that?
 	if(magazine?.ammo_count() > shots)
 		return TRUE
 	else

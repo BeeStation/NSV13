@@ -9,16 +9,13 @@
 #define STATE_READY 4
 #define STATE_FIRING 5
 
-/obj/structure/ship_weapon //CREDIT TO CM FOR THE SPRITES!
+/obj/machinery/ship_weapon //CREDIT TO CM FOR THE SPRITES!
 	name = "A ship weapon"
 	desc = "Don't use this, use the subtypes"
 	icon = 'nsv13/icons/obj/railgun.dmi'
 	icon_state = "OBC"
 	density = TRUE
 	anchored = TRUE
-	bound_width = 128
-	bound_height = 64
-	pixel_y = -64
 	layer = BELOW_OBJ_LAYER
 	var/fire_sound = 'nsv13/sound/effects/ship/mac_fire.ogg'
 	var/load_sound = 'nsv13/sound/effects/ship/reload.ogg'
@@ -29,29 +26,29 @@
 	var/maint_state = MSTATE_CLOSED
 	var/maint_req = 0 //Number of times a weapon can fire until a maintenance cycle is required. This will countdown to 0.
 	var/malfunction = FALSE
-	var/obj/structure/munition/chambered //What have we got loaded? Extrapolate ammo type from this
+	var/obj/item/ship_weapon/ammunition/chambered //What have we got loaded? Extrapolate ammo type from this
 
-/obj/structure/ship_weapon/Initialize()
+/obj/machinery/ship_weapon/Initialize()
 	. = ..()
 	get_ship()
 	maint_req = rand(15,25) //Setting initial number of cycles until maintenance is required
 	create_reagents(50)
 
-/obj/structure/ship_weapon/proc/get_ship()
+/obj/machinery/ship_weapon/proc/get_ship()
 	var/area/AR = get_area(src)
 	if(AR.linked_overmap)
 		linked = AR.linked_overmap
 		set_position(linked)
 
-/obj/structure/ship_weapon/proc/set_position(obj/structure/overmap/OM) //Use this to tell your ship what weapon category this belongs in
+/obj/machinery/ship_weapon/proc/set_position(obj/structure/overmap/OM) //Use this to tell your ship what weapon category this belongs in
 	return
 
-/obj/structure/ship_weapon/railgun/set_position(obj/structure/overmap/OM)
+/obj/machinery/ship_weapon/railgun/set_position(obj/structure/overmap/OM)
 	OM.railguns += src
 
-/obj/structure/ship_weapon/MouseDrop_T(obj/structure/A, mob/user)
+/obj/machinery/ship_weapon/MouseDrop_T(obj/structure/A, mob/user)
 	. = ..()
-	if(istype(A, /obj/structure/munition))
+	if(istype(A, /obj/item/ship_weapon/ammunition/munition))
 		if(loading)
 			to_chat(user, "<span class='notice'>You're already loading a round into [src]!.</span>")
 		if(!chambered || state == STATE_NOTLOADED)
@@ -68,7 +65,7 @@
 		else
 			to_chat(user, "<span class='warning'>[src] already has a round loaded!</span>")
 
-/obj/structure/ship_weapon/proc/load()
+/obj/machinery/ship_weapon/proc/load()
 	if(state != STATE_LOADED)
 		return
 	flick("[initial(icon_state)]_loading",src)
@@ -78,7 +75,7 @@
 	icon_state = "[initial(icon_state)]_loaded"
 	state = STATE_CHAMBERED
 
-/obj/structure/ship_weapon/proc/unload()
+/obj/machinery/ship_weapon/proc/unload()
 	if(state < STATE_LOADED)
 		return
 	flick("[initial(icon_state)]_unloading",src)
@@ -89,7 +86,7 @@
 	state = STATE_NOTLOADED
 	icon_state = initial(icon_state)
 
-/obj/structure/ship_weapon/proc/chamber(rapidfire = FALSE) //Rapidfire is used for when you want to reload rapidly. This is done for the railgun autoloader so that you can "volley" shots quickly.
+/obj/machinery/ship_weapon/proc/chamber(rapidfire = FALSE) //Rapidfire is used for when you want to reload rapidly. This is done for the railgun autoloader so that you can "volley" shots quickly.
 	if(state != STATE_CHAMBERED)
 		return
 	flick("[initial(icon_state)]_chambering",src)
@@ -101,7 +98,7 @@
 	playsound(src, 'nsv13/sound/weapons/railgun/ready.ogg', 100, 1)
 	state = STATE_READY
 
-/obj/structure/ship_weapon/proc/fire()
+/obj/machinery/ship_weapon/proc/fire()
 	if(!can_fire())
 		return
 	var/atom/projectile = null
@@ -125,23 +122,23 @@
 	if(projectile) //Looks like we were able to fire a projectile, let's tell the ship what kind of bullet to shoot.
 		return projectile
 
-/obj/structure/ship_weapon/proc/after_fire()
+/obj/machinery/ship_weapon/proc/after_fire()
 	return
 
-/obj/structure/ship_weapon/proc/can_fire()
+/obj/machinery/ship_weapon/proc/can_fire()
 	if(state < STATE_READY || state >= STATE_FIRING || !chambered || malfunction || maint_state != MSTATE_CLOSED)
 		return FALSE
 	else
 		return TRUE
 
-/obj/structure/ship_weapon/proc/do_animation()
+/obj/machinery/ship_weapon/proc/do_animation()
 	flick("[initial(icon_state)]_firing",src)
 	sleep(5)
 	flick("[initial(icon_state)]_unloading",src)
 	sleep(5)
 	icon_state = initial(icon_state)
 
-/obj/structure/ship_weapon/proc/weapon_malfunction()
+/obj/machinery/ship_weapon/proc/weapon_malfunction()
 	malfunction = TRUE
 	playsound(src, 'sound/effects/alert.ogg', 100, TRUE) //replace this with appropriate sound
 	visible_message("<span class=userdanger>Malfunction detected in [src]! Firing sequence aborted!</span>") //perhaps additional flavour text of a non angry red kind?
@@ -155,7 +152,7 @@
 
 
 // Ship Weapon Maintenance
-/obj/structure/ship_weapon/screwdriver_act(mob/user, obj/item/tool)
+/obj/machinery/ship_weapon/screwdriver_act(mob/user, obj/item/tool)
 	. = FALSE
 	if(state >= STATE_LOADED && maint_state == MSTATE_CLOSED)
 		to_chat(user, "<span class='warning'>You cannot open the maintence panel while [src] is loaded!</span>")
@@ -175,7 +172,7 @@
 			update_overlay()
 			return TRUE
 
-/obj/structure/ship_weapon/wrench_act(mob/user, obj/item/tool)
+/obj/machinery/ship_weapon/wrench_act(mob/user, obj/item/tool)
 	. = FALSE
 	if(maint_state == MSTATE_UNSCREWED)
 		to_chat(user, "<span class='notice'>You begin unfastening the inner casing bolts on [src]...</span>")
@@ -192,7 +189,7 @@
 			update_overlay()
 			return TRUE
 
-/obj/structure/ship_weapon/crowbar_act(mob/user, obj/item/tool)
+/obj/machinery/ship_weapon/crowbar_act(mob/user, obj/item/tool)
 	. = FALSE
 	if(maint_state == MSTATE_UNBOLTED)
 		to_chat(user, "<span class='notice'>You begin prying the inner casing off [src]...</span>")
@@ -213,7 +210,7 @@
 			update_overlay()
 			return TRUE
 
-/obj/structure/ship_weapon/attackby(obj/item/I, mob/user)
+/obj/machinery/ship_weapon/attackby(obj/item/I, mob/user)
 	if(istype(I, /obj/item/reagent_containers))
 		if(maint_state != MSTATE_PRIEDOUT)
 			to_chat(user, "<span class='notice'>You require access to the inner workings of [src].</span>")
@@ -242,7 +239,7 @@
 				reagents.clear_reagents()
 				return
 
-/obj/structure/ship_weapon/proc/update_overlay()
+/obj/machinery/ship_weapon/proc/update_overlay()
 	cut_overlays()
 	switch(maint_state)
 		if(MSTATE_UNSCREWED)

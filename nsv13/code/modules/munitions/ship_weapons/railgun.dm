@@ -1,12 +1,15 @@
-/obj/structure/ship_weapon/railgun
+/obj/machinery/ship_weapon/railgun
 	name = "NT-STC4 Ship mounted railgun chamber"
 	desc = "A powerful ship-to-ship weapon which uses a localized magnetic field accelerate a projectile through a spinally mounted railgun with a 360 degree rotation axis. This particular model has an effective range of 20,000KM."
 	icon = 'nsv13/icons/obj/railgun.dmi'
 	icon_state = "OBC"
+	bound_width = 128
+	bound_height = 64
+	pixel_y = -64
 	var/list/autoloader_contents = list() //All the shit that the autoloader has ready. This means multiple munitions!
 	var/max_autoloader_mag = 3 //Until you have to manually load it back up again. Battleships IRL have 3-4 shots before you need to reload the rack
 
-/obj/structure/ship_weapon/railgun/after_fire()
+/obj/machinery/ship_weapon/railgun/after_fire()
 	if(!autoloader_contents.len)
 		say("Autoloader has depleted all ammunition sources. Reload required.")
 		return
@@ -18,7 +21,7 @@
 	autoloader_contents -= ammo
 	chamber(rapidfire = TRUE)
 
-/obj/structure/ship_weapon/railgun/unload()
+/obj/machinery/ship_weapon/railgun/unload()
 	if(state < STATE_LOADED)
 		return
 	flick("[initial(icon_state)]_unloading",src)
@@ -33,7 +36,7 @@
 			ammo.forceMove(get_turf(src))
 			autoloader_contents -= ammo
 
-/obj/structure/ship_weapon/railgun/MouseDrop_T(obj/structure/A, mob/user)
+/obj/machinery/ship_weapon/railgun/MouseDrop_T(obj/structure/A, mob/user)
 	return
 
 /obj/item/twohanded/required/railgun_ammo //The big slugs that you load into the railgun. These are able to be carried...one at a time
@@ -46,7 +49,7 @@
 	w_class = 4
 	var/proj_type = /obj/item/projectile/bullet/railgun_slug
 
-/obj/structure/ship_weapon/railgun/attackby(obj/item/I, mob/user)
+/obj/machinery/ship_weapon/railgun/attackby(obj/item/I, mob/user)
 	if(istype(I, /obj/item/twohanded/required/railgun_ammo))
 		if(loading)
 			to_chat(user, "<span class='notice'>You're already loading a round into [src]!.</span>")
