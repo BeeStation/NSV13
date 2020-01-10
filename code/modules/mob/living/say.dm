@@ -1,5 +1,5 @@
 GLOBAL_LIST_INIT(department_radio_prefixes, list(":", "."))
-
+//Nsv13 - atc chat
 GLOBAL_LIST_INIT(department_radio_keys, list(
 	// Location
 	MODE_KEY_R_HAND = MODE_R_HAND,
@@ -19,6 +19,7 @@ GLOBAL_LIST_INIT(department_radio_keys, list(
 	// Faction
 	RADIO_KEY_SYNDICATE = RADIO_CHANNEL_SYNDICATE,
 	RADIO_KEY_CENTCOM = RADIO_CHANNEL_CENTCOM,
+	RADIO_KEY_ATC = RADIO_CHANNEL_ATC,
 
 	// Admin
 	MODE_KEY_ADMIN = MODE_ADMIN,
@@ -368,7 +369,7 @@ GLOBAL_LIST_INIT(department_radio_keys, list(
 		message = cultslur(message)
 
 	// check for and apply punctuation
-	var/end = copytext(message, lentext(message))
+	var/end = copytext(message, length(message))
 	if(!(end in list("!", ".", "?", ":", "\"", "-")))
 		message += "."
 

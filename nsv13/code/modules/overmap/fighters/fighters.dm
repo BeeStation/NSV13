@@ -37,6 +37,8 @@ After going through this checklist, you're ready to go!
 	torpedoes = 0
 	speed_limit = 6 //We want fighters to be way more maneuverable
 	weapon_safety = TRUE //This happens wayy too much for my liking. Starts OFF.
+	pixel_w = -26
+	pixel_z = -28
 	var/maint_state = MS_CLOSED
 	var/prebuilt = FALSE
 	var/a_eff = 0
@@ -49,6 +51,7 @@ After going through this checklist, you're ready to go!
 	var/canopy_breached = FALSE //Canopy will breach if you take too much damage, causing your air to leak out.
 	var/docking_cooldown = FALSE
 	var/list/munitions = list()
+	var/obj/structure/overmap/last_overmap = null //Last overmap we were attached to
 
 /obj/machinery/computer/ship/fighter_launcher
 	name = "Mag-cat control console"
@@ -160,11 +163,15 @@ After going through this checklist, you're ready to go!
 		OM.velocity_y = 0 //Full stop.
 		OM.mag_lock = TRUE
 		var/turf/center = get_turf(src)
-		switch(dir)
-			if(NORTH || EAST || WEST)
-				center = get_turf(src)
+		switch(dir) //Do some fuckery to make sure the fighter lines up on the pad in a halfway sensible manner.
+			if(NORTH)
+				center = get_turf(locate(x+1,y+1,z))
 			if(SOUTH)
-				center = get_turf(locate(x,y-1,z))
+				center = get_turf(locate(x+1,y+1,z))
+			if(EAST)
+				center = get_turf(locate(x+2,y,z))
+			if(WEST)
+				center = get_turf(locate(x+2,y,z))
 		OM.forceMove(get_turf(center)) //"Catch" them like an arrestor.
 		var/obj/structure/overmap/link = get_overmap()
 		link?.relay('nsv13/sound/effects/ship/freespace2/shockwave.wav')
@@ -174,9 +181,12 @@ After going through this checklist, you're ready to go!
 				OM.desired_angle = 0
 			if(SOUTH)
 				OM.desired_angle = 180
+			if(EAST)
+				OM.desired_angle = 90
+			if(WEST)
+				OM.desired_angle = -90
 		if(!linked)
 			linkup()
-
 
 /obj/structure/fighter_launcher/proc/shake_people(var/obj/structure/overmap/OM)
 	if(OM?.operators.len)
@@ -222,6 +232,10 @@ After going through this checklist, you're ready to go!
 			mag_locked.velocity_y = 20
 		if(SOUTH)
 			mag_locked.velocity_y = -20
+		if(EAST)
+			mag_locked.velocity_x = 20
+		if(WEST)
+			mag_locked.velocity_x = -20
 	ready = FALSE
 	mag_locked = null
 	addtimer(CALLBACK(src, .proc/recharge), 10 SECONDS) //Stops us from catching the fighter right after we launch it.
@@ -244,7 +258,7 @@ After going through this checklist, you're ready to go!
 /obj/structure/overmap/fighter/proc/ready_for_transfer()
 	if(docking_cooldown)
 		return
-	if(is_station_level(z)) //AKA, we're on the ship. Havent added away mission support yet.
+	if(SSmapping.level_trait(z, ZTRAIT_BOARDABLE)) //AKA, we're on the ship or mining level. Havent added away mission support yet.
 		if(y > 250)
 			return TRUE
 		if(y < 10)
@@ -289,21 +303,38 @@ After going through this checklist, you're ready to go!
 	var/new_name = stripped_input(usr, message="What do you want to name \
 		your fighter? Keep in mind that particularly terrible names may be \
 		rejected by your employers.", max_length=MAX_CHARTER_LEN)
+	if(!new_name || length(new_name) <= 0)
+		return
 	message_admins("[key_name_admin(usr)] renamed a fighter to [new_name] [ADMIN_LOOKUPFLW(src)].")
 	name = new_name
 
 /obj/structure/overmap/fighter/proc/check_overmap_elegibility() //What we're doing here is checking if the fighter's hitting the bounds of the Zlevel. If they are, we need to transfer them to overmap space.
 	if(ready_for_transfer())
-		for(var/obj/structure/overmap/OM in GLOB.overmap_objects)
-			if(OM.main_overmap)
-				forceMove(get_turf(OM))
-				resize = 1 //Scale down!
-				docking_cooldown = TRUE
-				addtimer(VARSET_CALLBACK(src, docking_cooldown, FALSE), 5 SECONDS) //Prevents jank.
-				if(pilot)
-					to_chat(pilot, "<span class='notice'>Docking mode disabled. Use the 'Ship' verbs tab to re-enable docking mode, then fly into an allied ship to complete docking proceedures.</span>")
-					docking_mode = FALSE
-				return TRUE
+		var/obj/structure/overmap/OM = null
+		if(last_overmap)
+			OM = last_overmap
+			last_overmap = null
+		else
+			for(var/obj/structure/overmap/O in GLOB.overmap_objects)
+				if(O.main_overmap)
+					OM = O
+		if(!OM)
+			return FALSE
+		forceMove(get_turf(OM))
+		docking_cooldown = TRUE
+		addtimer(VARSET_CALLBACK(src, docking_cooldown, FALSE), 5 SECONDS) //Prevents jank.
+		resize = 1 //Scale down!
+		pixel_w = -20
+		pixel_z = -40
+		if(pilot)
+			to_chat(pilot, "<span class='notice'>Docking mode disabled. Use the 'Ship' verbs tab to re-enable docking mode, then fly into an allied ship to complete docking proceedures.</span>")
+			docking_mode = FALSE
+		return TRUE
+
+/obj/structure/overmap/fighter/proc/update_overmap()
+	var/area/A = get_area(src)
+	if(A.linked_overmap)
+		last_overmap = A.linked_overmap
 
 /obj/structure/overmap/fighter/proc/docking_act(obj/structure/overmap/OM)
 	if(mass < OM.mass && OM.docking_points.len && docking_mode) //If theyre smaller than us,and we have docking points, and they want to dock
@@ -313,14 +344,17 @@ After going through this checklist, you're ready to go!
 	if(docking_cooldown)
 		return
 	if(OM.docking_points.len)
+		last_overmap = OM
+		docking_cooldown = TRUE
+		addtimer(VARSET_CALLBACK(src, docking_cooldown, FALSE), 5 SECONDS) //Prevents jank.
 		resize = 0 //Scale up!
+		pixel_w = initial(pixel_w)
+		pixel_z = initial(pixel_z)
 		var/turf/T = get_turf(pick(OM.docking_points))
 		forceMove(T)
 		if(pilot)
 			to_chat(pilot, "<span class='notice'>Docking complete.</span>")
 			docking_mode = FALSE
-		docking_cooldown = TRUE
-		addtimer(VARSET_CALLBACK(src, docking_cooldown, FALSE), 5 SECONDS) //Prevents jank.
 		return TRUE
 
 /obj/structure/overmap/fighter/take_damage()
@@ -438,6 +472,7 @@ After going through this checklist, you're ready to go!
 	fuel_setup()
 	obj_integrity = max_integrity
 	RegisterSignal(src, COMSIG_MOVABLE_MOVED, .proc/check_overmap_elegibility) //Used to smoothly transition from ship to overmap
+	RegisterSignal(src, COMSIG_AREA_ENTERED, .proc/update_overmap) //Used to smoothly transition from ship to overmap
 
 /obj/structure/overmap/fighter/proc/prebuilt_setup()
 	name = new_prebuilt_fighter_name() //pulling from NSV13 ship name list currently
@@ -688,6 +723,7 @@ After going through this checklist, you're ready to go!
 /obj/structure/overmap/fighter/attack_hand(mob/user)
 	.=..()
 	dradis?.linked = src
+	update_overmap()
 	if(!allowed(user))
 		var/sound = pick('nsv13/sound/effects/computer/error.ogg','nsv13/sound/effects/computer/error2.ogg','nsv13/sound/effects/computer/error3.ogg')
 		playsound(src, sound, 100, 1)
@@ -705,9 +741,11 @@ After going through this checklist, you're ready to go!
 				to_chat(user, "<span class='notice'>You climb into [src]'s cockpit.</span>")
 				user.forceMove(src)
 				start_piloting(user, "all_positions")
-				dradis?.soundloop?.start()
+				if(user?.client?.prefs.toggles & SOUND_AMBIENCE) //Disable ambient sounds to shut up the noises.
+					dradis?.soundloop?.start()
 				mobs_in_ship += user
-				SEND_SOUND(user, sound('nsv13/sound/effects/ship/cockpit.ogg', repeat = TRUE, wait = 0, volume = 100, channel=CHANNEL_SHIP_ALERT))
+				if(user?.client?.prefs.toggles & SOUND_AMBIENCE) //Disable ambient sounds to shut up the noises.
+					SEND_SOUND(user, sound('nsv13/sound/effects/ship/cockpit.ogg', repeat = TRUE, wait = 0, volume = 50, channel=CHANNEL_SHIP_ALERT))
 				return TRUE
 		else
 			if(mobs_in_ship.len < max_passengers)
@@ -722,7 +760,7 @@ After going through this checklist, you're ready to go!
 				return TRUE
 
 /obj/structure/overmap/fighter/stop_piloting(mob/living/M, force=FALSE)
-	if(!is_station_level(z) &&!force)
+	if(!SSmapping.level_trait(z, ZTRAIT_BOARDABLE) && !force)
 		to_chat(M, "<span class='warning'>DANGER: You may not exit [src] while flying alongside other large ships.</span>")
 		return FALSE //No jumping out into the overmap :)
 	M.focus = M

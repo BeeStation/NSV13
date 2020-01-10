@@ -98,6 +98,7 @@
 	icon = 'nsv13/icons/obj/structures/ship_structures.dmi'
 	icon_state = "support_beam"
 	density = FALSE
+	anchored = TRUE
 
 /turf/open/floor/plasteel/ship
 	name = "durasteel hull plating"
@@ -168,3 +169,9 @@
 	icon = 'nsv13/icons/turf/floors.dmi'
 	icon_state = "eris_techfloor_alt_tile"
 	turf_type = /turf/open/floor/plasteel/ship/techfloor/alt
+
+/turf/open/floor/circuit/orange
+	icon_state = "gscircuit"
+	icon_normal = "gscircuit"
+	color = "#FF8C00"
+	light_color = LIGHT_COLOR_ORANGE
