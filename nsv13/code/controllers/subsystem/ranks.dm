@@ -45,13 +45,14 @@
 	if(file_spam_check())
 		return
 
-	message_admins("[key_name_admin(src)] changed rank configuration to: [path]")
+	message_admins("[key_name_admin(src)] accessed file: [path]")
 	switch(alert("View (in game), Open (in your system's text editor), or Load?", path, "View", "Open", "Load"))
 		if ("View")
 			src << browse("<pre style='word-wrap: break-word;'>[html_encode(file2text(file(path)))]</pre>", list2params(list("window" = "viewfile.[path]")))
 		if ("Open")
 			src << run(file(path))
 		if ("Load")
+			message_admins("[key_name_admin(src)] changed rank configuration to: [path]")
 			SSjob.LoadRanks(path)
 		else
 			return
