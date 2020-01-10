@@ -41,50 +41,51 @@
 	mineral = /obj/item/stack/sheet/duranium
 
 /obj/structure/girder/proc/try_nsv_walls(obj/item/stack/sheet/S, mob/user)
-	if(!S.turf_type) //Let the girder code handle it
-		return
+	if(!S.turf_type) //Let the girder code handle it. It's not one of ours.
+		return FALSE
 
-	if (state != GIRDER_DISPLACED) //Build regular wall
+	if(state != GIRDER_DISPLACED) //Build regular wall
 		if(S.get_amount() < 2)
 			to_chat(user, "<span class='warning'>You need two sheets of [S] to finish a wall!</span>")
-			return
+			return FALSE
 
 		to_chat(user, "<span class='notice'>You start plating the wall with [S]...</span>")
 		if (do_after(user, 40, target = src))
 			if(S.get_amount() < 2)
-				return
+				to_chat(user, "<span class='warning'>You need two sheets of [S] to create a false wall!</span>")
+				return FALSE
 			S.use(2)
 			to_chat(user, "<span class='notice'>You add the hull plating.</span>")
 			var/turf/T = get_turf(src)
 			T.PlaceOnTop(S.turf_type)
 			transfer_fingerprints_to(T)
 			qdel(src)
-			return
+			return TRUE
 
 	else //Build false wall
 		if(S.get_amount() < 2)
 			to_chat(user, "<span class='warning'>You need two sheets of [S] to create a false wall!</span>")
-			return
+			return FALSE
 
 		to_chat(user, "<span class='notice'>You start building a false wall with [S]...</span>")
-		if (do_after(user, 40, target = src))
+		if(do_after(user, 40, target = src))
 			if(S.get_amount() < 2)
-				return
+				to_chat(user, "<span class='warning'>You need two sheets of [S] to create a false wall!</span>")
+				return FALSE
 			S.use(2)
 			to_chat(user, "<span class='notice'>You create a false wall. Push on it to open or close the passage.</span>")
 
 			var/turf/T = get_turf(src)
-			var/obj/structure/falsewall/FW
-			if (istype(S, /obj/item/stack/sheet/durasteel))
-				FW = new /obj/structure/falsewall/durasteel(T)
-			else if (istype(S, /obj/item/stack/sheet/duranium))
-				FW = new /obj/structure/falsewall/duranium(T)
-			else
-				return
 
-			transfer_fingerprints_to(FW)
-			qdel(src)
-			return
+			if(S.sheettype && !ispath(S, /obj/item/stack/sheet/mineral))
+				var/F = text2path("/obj/structure/falsewall/[S.sheettype]")
+				var/obj/structure/falsewall/FW
+				FW = new F(T)
+
+				transfer_fingerprints_to(FW)
+				qdel(src)
+				return TRUE
+	return FALSE
 
 /turf/open/floor/carpet/ship
 	name = "nanoweave carpet"
