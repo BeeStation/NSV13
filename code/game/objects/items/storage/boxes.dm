@@ -128,6 +128,7 @@
 	//NSV13 items
 	new /obj/item/clothing/head/helmet/space/skinsuit(src)
 	new /obj/item/clothing/suit/space/skinsuit(src)
+	//NSV13 end of extra items
 
 	if(!isplasmaman(loc))
 		new /obj/item/tank/internals/emergency_oxygen(src)
@@ -149,6 +150,11 @@
 	else
 		new /obj/item/tank/internals/plasmaman/belt(src)
 
+	//NSV13 items
+	new /obj/item/clothing/head/helmet/space/skinsuit(src)
+	new /obj/item/clothing/suit/space/skinsuit(src)
+	//NSV13 end of extra items
+
 // Engineer survival box
 /obj/item/storage/box/engineer/PopulateContents()
 	new /obj/item/clothing/mask/breath(src)
@@ -158,6 +164,11 @@
 		new /obj/item/tank/internals/emergency_oxygen/engi(src)
 	else
 		new /obj/item/tank/internals/plasmaman/belt(src)
+
+	//NSV13 items
+	new /obj/item/clothing/head/helmet/space/skinsuit(src)
+	new /obj/item/clothing/suit/space/skinsuit(src)
+	//NSV13 end of extra items
 
 /obj/item/storage/box/engineer/radio/PopulateContents()
 	..() // we want the regular items too.
@@ -181,6 +192,11 @@
 		new /obj/item/tank/internals/emergency_oxygen(src)
 	else
 		new /obj/item/tank/internals/plasmaman/belt(src)
+
+	//NSV13 items
+	new /obj/item/clothing/head/helmet/space/skinsuit(src)
+	new /obj/item/clothing/suit/space/skinsuit(src)
+	//NSV13 end of extra items
 
 /obj/item/storage/box/security/radio/PopulateContents()
 	..() // we want the regular stuff too
