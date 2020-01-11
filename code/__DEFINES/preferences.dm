@@ -68,6 +68,7 @@
 #define EXP_TYPE_SECURITY		"Security"
 #define EXP_TYPE_SILICON		"Silicon"
 #define EXP_TYPE_SERVICE		"Service"
+#define EXP_TYPE_MUNITIONS		"Munitions" //NSV13 -  Munitions added
 #define EXP_TYPE_ANTAG			"Antag"
 #define EXP_TYPE_SPECIAL		"Special"
 #define EXP_TYPE_GHOST			"Ghost"
