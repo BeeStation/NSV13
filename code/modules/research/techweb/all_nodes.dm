@@ -546,7 +546,7 @@
 	prereq_ids = list("janitor")
 	design_ids = list("rld")
 	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 1000)
-	export_price = 5000
+	export_price = 2000
 
 /datum/techweb_node/botany
 	id = "botany"
