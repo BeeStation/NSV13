@@ -235,7 +235,10 @@ GLOBAL_LIST_EMPTY(overmap_asteroids) //For dradis to be able to track asteroids.
 	linked.relay('nsv13/sound/effects/ship/tractor.ogg', "<span class='warning'>DANGER: Magnet has locked on to an asteroid. Vacate the asteroid cage immediately.</span>")
 	cooldown = TRUE
 	addtimer(VARSET_CALLBACK(src, cooldown, FALSE), 1 MINUTES)
-	current_asteroid = new /datum/map_template/asteroid(pick("_maps/templates/nsv13/asteroid1.dmm","_maps/templates/nsv13/asteroid2.dmm","_maps/templates/nsv13/asteroid3.dmm"), null, FALSE, AS.core_composition) //Set up an asteroid
+	if(prob(10)) //I hate this but it works so fuck you
+		current_asteroid = new /datum/map_template/asteroid(pick("_maps/map_files/Mining/nsv13/ruins/mining1.dmm","_maps/map_files/Mining/nsv13/ruins/mining2.dmm","_maps/map_files/Mining/nsv13/ruins/mining3.dmm","_maps/map_files/Mining/nsv13/ruins/mining4.dmm"), null, FALSE, AS.core_composition) //Set up an asteroid
+	else //90% chance to get an actual asteroid
+		current_asteroid = new /datum/map_template/asteroid(pick("_maps/templates/nsv13/asteroid1.dmm","_maps/templates/nsv13/asteroid2.dmm","_maps/templates/nsv13/asteroid3.dmm"), null, FALSE, AS.core_composition) //Set up an asteroid
 	addtimer(CALLBACK(src, .proc/load_asteroid), 10 SECONDS)
 	qdel(AS)
 

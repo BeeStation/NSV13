@@ -54,7 +54,7 @@
 			if(AI_RETALIATE)
 				if(ship in enemies)
 					target(ship)
-		if(locate(ship in enemies))
+		if(locate(ship) in enemies)
 			if(get_dist(ship, src) <= 3)
 				user_thrust_dir = 0 //Don't thrust towards ships we're already close to.
 				brakes = TRUE
