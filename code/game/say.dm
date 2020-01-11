@@ -4,7 +4,7 @@
 	And the base of the send_speech() proc, which is the core of saycode.
 */
 
-//Nsv13 - Added atc chat. God you have to do so many tweaks to add a single radio channel huh...
+//Nsv13 - Added atc chat & munitions. God you have to do so many tweaks to add a single radio channel huh...
 GLOBAL_LIST_INIT(freqtospan, list(
 	"[FREQ_SCIENCE]" = "sciradio",
 	"[FREQ_MEDICAL]" = "medradio",
@@ -18,6 +18,7 @@ GLOBAL_LIST_INIT(freqtospan, list(
 	"[FREQ_CENTCOM]" = "centcomradio",
 	"[FREQ_CTF_RED]" = "redteamradio",
 	"[FREQ_ATC]" = "centcomradio",
+	"[FREQ_MUNITIONS]" = "muniradio",
 	"[FREQ_CTF_BLUE]" = "blueteamradio"
 	))
 
