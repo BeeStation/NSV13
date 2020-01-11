@@ -5,6 +5,7 @@
 // If you modify this file you ALSO need to modify code/modules/goonchat/browserAssets/browserOutput.css
 // BUT you have to use PX font sizes with are on a x8 scale of these font sizes
 // Sample font-size: DM: 8 CSS: 64px
+// NSV13 - ADDED MUNITIONS - LINE 57
 
 /client/script = {"<style>
 body					{font-family: Verdana, sans-serif;}
@@ -53,6 +54,7 @@ em						{font-style: normal;	font-weight: bold;}
 .aiprivradio			{color: #ff00ff;}
 .redteamradio           {color: #ff0000;}
 .blueteamradio          {color: #0000ff;}
+.muniradio				{color: #cc8899;}
 
 .yell					{					font-weight: bold;}
 
