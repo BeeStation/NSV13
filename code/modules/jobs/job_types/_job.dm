@@ -61,7 +61,7 @@
 	var/display_order = JOB_DISPLAY_ORDER_DEFAULT
 
 	var/tmp/list/gear_leftovers = list()
-	var/display_rank = "PVT" //nsv13 - Displays the player's actual rank alongside their name, such as GSGT Sergei Koralev
+	var/display_rank = "" //nsv13 - Displays the player's actual rank alongside their name, such as GSGT Sergei Koralev
 
 //Only override this proc, unless altering loadout code. Loadouts act on H but get info from M
 //H is usually a human unless an /equip override transformed it
@@ -75,7 +75,6 @@
 	if(!ishuman(H))
 		return
 	var/mob/living/carbon/human/human = H
-	human.fully_replace_character_name(H.real_name, "[display_rank] [human.real_name]") //nsv13 - Visibly display player ranks with their names.
 	if(M.client && (M.client.prefs.equipped_gear && M.client.prefs.equipped_gear.len))
 		for(var/gear in M.client.prefs.equipped_gear)
 			var/datum/gear/G = GLOB.gear_datums[gear]
@@ -306,3 +305,7 @@
 	if(CONFIG_GET(flag/security_has_maint_access))
 		return list(ACCESS_MAINT_TUNNELS)
 	return list()
+
+//NSV13
+/datum/job/proc/get_rank()
+	return display_rank

@@ -221,3 +221,11 @@ GLOBAL_LIST_EMPTY(employmentCabinets)
 	else
 		to_chat(user, "<span class='warning'>[src] is jammed, give it a few seconds.</span>")
 	..()
+
+//NSV13
+/obj/structure/filingcabinet/documents
+    name = "classified filing cabinet"
+
+/obj/structure/filingcabinet/documents/Initialize(mapload)
+    . = ..()
+    new /obj/item/documents/nanotrasen(src)

@@ -9,7 +9,7 @@
 	supervisors = "the Executive Officer"
 	selection_color = "#dddddd"
 
-	outfit = /datum/outfit/job/clown
+	outfit = /datum/outfit/job/clown/delinquent //NSV13 - Modded clown outfit to be a jojo reference
 
 	access = list(ACCESS_THEATRE)
 	minimal_access = list(ACCESS_THEATRE)
@@ -17,7 +17,6 @@
 	paycheck_department = ACCOUNT_SRV
 
 	display_order = JOB_DISPLAY_ORDER_CLOWN
-	display_rank = "CRW" //nsv13 - Displays the player's actual rank alongside their name, such as GSGT Sergei Koralev
 
 
 /datum/job/clown/after_spawn(mob/living/carbon/human/H, mob/M)

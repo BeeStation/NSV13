@@ -3,6 +3,7 @@
 /area
 	var/looping_ambience = 'nsv13/sound/ambience/shipambience.ogg' //If you want an ambient sound to play on loop while theyre in a specific area, set this. Defaults to the classic "engine rumble"
 	var/obj/structure/overmap/linked_overmap = null //For relaying damage etc. to the interior.
+	var/overmap_type = null //Set this to the type of your ship object if you want to create a secondary ship to the main one. (EG: /obj/structure/overmap/nanotrasen/patrol_cruiser/starter)
 
 /area/space
 	looping_ambience = null
@@ -257,6 +258,34 @@
 	name = "Briefing Room"
 	icon_state = "hallP"
 
+/area/nsv/shuttle/bridge
+	name = "Mining Shuttle Bridge"
+	icon_state = "bridge"
+
+/area/nsv/shuttle/central
+	name = "Mining Shuttle"
+	icon_state = "hallC"
+
+/area/nsv/shuttle/storage
+	name = "Mining Shuttle Equipment Storage"
+	icon_state = "storage"
+
+/area/nsv/shuttle/atmospherics
+	name = "Mining Shuttle Maintenance"
+	icon_state = "atmos"
+
+/area/nsv/shuttle/airlock/aft
+	name = "Mining Shuttle Aft Airlock"
+	icon_state = "hallA"
+
+/area/nsv/shuttle/airlock/port
+	name = "Mining Shuttle Port Airlock"
+	icon_state = "hallP"
+
+/area/nsv/shuttle/airlock/starboard
+	name = "Mining Shuttle Starboard Airlock"
+	icon_state = "hallS"
+
 /area/ruin/powered/nsv13/prisonship
 	name = "Syndicate prison ship"
 
@@ -268,6 +297,38 @@
 
 /area/ruin/powered/nsv13/yacht
 	name = "Luxury yacht"
+
+/area/nostromo
+	name = "NSV Nostromo"
+	ambientsounds = list('nsv13/sound/ambience/leit_motif.ogg','nsv13/sound/ambience/wind.ogg','nsv13/sound/ambience/wind2.ogg','nsv13/sound/ambience/wind3.ogg','nsv13/sound/ambience/wind4.ogg','nsv13/sound/ambience/wind5.ogg','nsv13/sound/ambience/wind6.ogg')
+	noteleport = TRUE
+	overmap_type = /obj/structure/overmap/nanotrasen/mining_cruiser/nostromo
+	icon_state = "mining"
+	has_gravity = TRUE
+
+/area/nostromo/maintenance
+	name = "Nostromo maintenance"
+	looping_ambience = 'nsv13/sound/ambience/maintenance.ogg'
+	icon_state = "maintcentral"
+
+/area/nostromo/maintenance/exterior
+	name = "Nostromo exterior"
+	icon_state = "space_near"
+
+/area/nostromo/medbay
+	name = "Nostromo sickbay"
+	looping_ambience = 'nsv13/sound/ambience/medbay.ogg'
+	icon_state = "medbay"
+
+/area/nostromo/tcomms
+	name = "Nostromo TE/LE/COMM core"
+	looping_ambience = 'nsv13/sound/ambience/computer_core.ogg'
+	icon_state = "tcomsatcham"
+
+/area/nostromo/bridge
+	name = "Nostromo flight deck"
+	looping_ambience = 'nsv13/sound/ambience/bridge.ogg'
+	icon_state = "bridge"
 
 /area/Entered(atom/movable/M)
 	// Ambience goes down here -- make sure to list each area separately for ease of adding things in later, thanks! Note: areas adjacent to each other should have the same sounds to prevent cutoff when possible.- LastyScratch
