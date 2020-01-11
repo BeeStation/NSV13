@@ -376,7 +376,9 @@
 				data["security_jobs"] = format_jobs(GLOB.security_positions)
 				data["cargo_jobs"] = format_jobs(GLOB.supply_positions)
 				data["civilian_jobs"] = format_jobs(GLOB.civilian_positions)
+				data["munitions_jobs"] = format_jobs(GLOB.munitions_positions) //NSV13 Munitions Department
 				data["centcom_jobs"] = format_jobs(get_all_centcom_jobs())
+
 
 
 		if(card_slot.stored_card)

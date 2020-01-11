@@ -239,12 +239,13 @@
 			"}
 			break_counter++
 		output += "</div></div>"
-		//standard departments all have identical handling
+		//standard departments all have identical handling - NSV13 Munitions added
 		var/list/job_lists = list("Security" = GLOB.security_positions,
 							"Engineering" = GLOB.engineering_positions,
 							"Medical" = GLOB.medical_positions,
 							"Science" = GLOB.science_positions,
-							"Supply" = GLOB.supply_positions)
+							"Supply" = GLOB.supply_positions,
+							"Munitions" = GLOB.munitions_positions)
 		for(var/department in job_lists)
 			//the first element is the department head so they need the same javascript call as above
 			output += "<div class='column'><label class='rolegroup [ckey(department)]'><input type='checkbox' name='[department]' class='hidden' [usr.client.prefs.tgui_fancy ? " onClick='toggle_checkboxes(this, \"_com\")'" : ""]>[department]</label><div class='content'>"
