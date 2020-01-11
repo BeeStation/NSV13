@@ -190,6 +190,34 @@
 	icon_state = "pilot"
 	armor = list("melee" = 15, "bullet" = 0, "laser" = 0, "energy" = 5, "bomb" = 10, "bio" = 0, "rad" = 5, "fire" = 30, "acid" = 5)
 
+/obj/item/clothing/head/helmet/space/skinsuit
+	name = "skinsuit helmet"
+	icon = 'nsv13/icons/obj/clothing/hats.dmi'
+	alternate_worn_icon = 'nsv13/icons/mob/head.dmi'
+	icon_state = "skinsuit_helmet"
+	item_state = "skinsuit_helmet"
+	desc = "An airtight helmet meant to protect the wearer during emergency situations."
+	permeability_coefficient = 0.01
+	armor = list("melee" = 0, "bullet" = 0, "laser" = 0,"energy" = 0, "bomb" = 0, "bio" = 100, "rad" = 0, "fire" = 0, "acid" = 0)
+	min_cold_protection_temperature = EMERGENCY_HELM_MIN_TEMP_PROTECT
+	heat_protection = NONE
+	flash_protect = 0
+
+/obj/item/clothing/suit/space/skinsuit
+	name = "skinsuit"
+	desc = "A slim, compression-based spacesuit meant to protect the user during emergency situations. It's only a little warmer than your uniform."
+	icon = 'nsv13/icons/obj/clothing/suits.dmi'
+	alternate_worn_icon = 'nsv13/icons/mob/suit.dmi'
+	icon_state = "skinsuit"
+	item_state = "skinsuit"
+	slowdown = 0.7
+	w_class = WEIGHT_CLASS_NORMAL
+	gas_transfer_coefficient = 0.5
+	permeability_coefficient = 0.5
+	armor = list("melee" = 0, "bullet" = 0, "laser" = 0, "energy" = 0, "bomb" = 0, "bio" = 50, "rad" = 0, "fire" = 0, "acid" = 0)
+	min_cold_protection_temperature = EMERGENCY_SUIT_MIN_TEMP_PROTECT
+	heat_protection = NONE
+
 /obj/item/clothing/head/helmet/space/hardsuit/syndi/peacekeeper //Ironic type path. We're inheriting the "dual mode" behaviour from the syndie hardsuit.
 	name = "SG-1 Mjolnir Helmet"
 	icon = 'nsv13/icons/obj/clothing/hats.dmi'
