@@ -2,10 +2,47 @@
 /datum/controller/subsystem/job/proc/LoadRanks(rankfile="config/ranks/military.txt")
 	if (fexists("[rankfile]"))
 		var/rankstext = file2text("[rankfile]")
+
+		var/list/missed = list()
 		for(var/datum/job/J in occupations)
 			var/regex/jobs = new("[J.title]=(.+)")
 			jobs.Find(rankstext)
-			J.display_rank = "[jobs.group[1] ? jobs.group[1] : ""]"
+			stoplag() //In case someone gives us a really huge file
+
+			if(jobs.group && jobs.group[1])
+				J.display_rank = "[jobs.group[1]]"
+			else
+				message_admins("No rank found for: [J.title]")
+				missed += J
+				J.display_rank = ""
+
+		if(missed.len == 0)
+			return
+		else if(missed.len < occupations.len)
+			//Try to default rank-less jobs to another rank
+			var/datum/job/A = select_substitute_rank()
+			if(A)
+				message_admins("Substituting rank [A.display_rank] for missing ranks")
+				for(var/datum/job/J in missed)
+					J.display_rank = A.display_rank
+		else
+			message_admins("No rank information found.")
+
+/datum/controller/subsystem/job/proc/select_substitute_rank()
+	//Try assistant first
+	var/datum/job/A = SSjob.GetJob("Assistant")
+	if(A && A.display_rank)
+		return A
+
+	//Get a random good one
+	var/list/remaining = occupations.Copy()
+	while(remaining.len > 0)
+		stoplag()
+		A = pick(remaining)
+		if(A.display_rank)
+			return A
+		remaining -= A
+
 
 //For code/game/say.dm - show ranks in speech
 /atom/movable/proc/compose_rank(atom/movable/speaker)
