@@ -89,7 +89,7 @@ GLOBAL_LIST_EMPTY(all_radios)
 // For information on what objects or departments use what frequencies,
 // see __DEFINES/radio.dm. Mappers may also select additional frequencies for
 // use in maps, such as in intercoms.
-//Nsv13 - Added ATC radio channel
+//Nsv13 - Added ATC radio channel, Munitions
 
 GLOBAL_LIST_INIT(radiochannels, list(
 	RADIO_CHANNEL_COMMON = FREQ_COMMON,
@@ -100,6 +100,7 @@ GLOBAL_LIST_INIT(radiochannels, list(
 	RADIO_CHANNEL_SECURITY = FREQ_SECURITY,
 	RADIO_CHANNEL_CENTCOM = FREQ_CENTCOM,
 	RADIO_CHANNEL_ATC = FREQ_ATC,
+	RADIO_CHANNEL_MUNITIONS = FREQ_MUNITIONS,
 	RADIO_CHANNEL_SYNDICATE = FREQ_SYNDICATE,
 	RADIO_CHANNEL_SUPPLY = FREQ_SUPPLY,
 	RADIO_CHANNEL_SERVICE = FREQ_SERVICE,
@@ -118,6 +119,7 @@ GLOBAL_LIST_INIT(reverseradiochannels, list(
 	"[FREQ_SECURITY]" = RADIO_CHANNEL_SECURITY,
 	"[FREQ_CENTCOM]" = RADIO_CHANNEL_CENTCOM,
 	"[FREQ_ATC]" = RADIO_CHANNEL_ATC,
+	"[FREQ_MUNITIONS]" = RADIO_CHANNEL_MUNITIONS,
 	"[FREQ_SYNDICATE]" = RADIO_CHANNEL_SYNDICATE,
 	"[FREQ_SUPPLY]" = RADIO_CHANNEL_SUPPLY,
 	"[FREQ_SERVICE]" = RADIO_CHANNEL_SERVICE,

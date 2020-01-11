@@ -7,12 +7,13 @@
 	total_positions = 4
 	spawn_positions = 4
 	supervisors = "the CAG"
-	selection_color = "#ffeeee"
+	selection_color = "#d692a3"
+	exp_type_department = EXP_TYPE_MUNITIONS
 
 	outfit = /datum/outfit/job/fighter_pilot
 
-	access = list(ACCESS_SECURITY, ACCESS_SEC_DOORS, ACCESS_MECH_SECURITY, ACCESS_MAINT_TUNNELS, ACCESS_WEAPONS, ACCESS_MUNITIONS) //temp
-	minimal_access = list(ACCESS_SECURITY, ACCESS_SEC_DOORS, ACCESS_MECH_SECURITY, ACCESS_WEAPONS, ACCESS_MUNITIONS) //temp
+	access = list(ACCESS_MAINT_TUNNELS, ACCESS_MUNITIONS) //temp
+	minimal_access = list(ACCESS_MAINT_TUNNELS, ACCESS_MUNITIONS) //temp
 	paycheck = PAYCHECK_MEDIUM
 	paycheck_department = ACCOUNT_CAR
 
@@ -20,14 +21,14 @@
 //add support for callsigns here
 
 /obj/item/encryptionkey/pilot
-	name = "air traffic control radio encryption key"
+	name = "fighter pilot radio encryption key"
 	icon_state = "sec_cypherkey"
-	channels = list(RADIO_CHANNEL_ATC = 1, RADIO_CHANNEL_SECURITY = 1, RADIO_CHANNEL_SUPPLY = 1)
+	channels = list(RADIO_CHANNEL_ATC = 1, RADIO_CHANNEL_MUNITIONS = 1)
 	independent = TRUE
 
 /obj/item/radio/headset/headset_sec/alt/pilot
 	name = "pilot radio headset"
-	desc = "A headset capable of accessing the Nanotrasen blue channel via a special DRADIS satellite uplink, allowing fighter pilots to communicate from anywhere inside of Nanotrasen's airspace. Use :q to access the air traffic control frequency."
+	desc = "A headset capable of accessing the Nanotrasen blue channel via a special DRADIS satellite uplink, allowing fighter pilots to communicate from anywhere inside of Nanotrasen's airspace. Use :q to access the air traffic control frequency. Use :w to access the department frequency while on the ship."
 	icon_state = "sec_headset"
 	keyslot = new /obj/item/encryptionkey/pilot
 
@@ -51,7 +52,7 @@
 
 /obj/effect/landmark/start/fighter_pilot
 	name = "Fighter Pilot"
-	icon_state = "fighter_pilot"
+	icon_state = "Fighter Pilot"
 
 /datum/job/cag //"Commander Air Group" AKA chief fighter pilot
 	title = "CAG"
@@ -62,12 +63,13 @@
 	total_positions = 1
 	spawn_positions = 1
 	supervisors = "the Master At Arms"
-	selection_color = "#ffeeee"
+	selection_color = "#d692a3"
+	exp_type_department = EXP_TYPE_MUNITIONS
 
 	outfit = /datum/outfit/job/cag
 
-	access = list(ACCESS_SECURITY, ACCESS_SEC_DOORS, ACCESS_MECH_SECURITY, ACCESS_MAINT_TUNNELS, ACCESS_WEAPONS, ACCESS_MUNITIONS) //temp
-	minimal_access = list(ACCESS_SECURITY, ACCESS_SEC_DOORS, ACCESS_MECH_SECURITY, ACCESS_WEAPONS, ACCESS_MUNITIONS) //temp
+	access = list(ACCESS_MAINT_TUNNELS, ACCESS_MUNITIONS) //temp
+	minimal_access = list(ACCESS_MAINT_TUNNELS, ACCESS_MUNITIONS) //temp
 	paycheck = PAYCHECK_MEDIUM
 	paycheck_department = ACCOUNT_CAR
 
