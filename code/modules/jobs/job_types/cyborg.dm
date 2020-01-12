@@ -13,7 +13,6 @@
 	exp_type = EXP_TYPE_CREW
 
 	display_order = JOB_DISPLAY_ORDER_CYBORG
-	display_rank = "CPU" //nsv13 - Displays the player's actual rank alongside their name, such as GSGT Sergei Koralev
 
 /datum/job/cyborg/equip(mob/living/carbon/human/H, visualsOnly = FALSE, announce = TRUE, latejoin = FALSE, datum/outfit/outfit_override = null, client/preference_source = null)
 	if(visualsOnly)

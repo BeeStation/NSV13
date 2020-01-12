@@ -6,6 +6,7 @@
 	icon = 'nsv13/icons/obj/custom_stack_objects.dmi'
 	icon_state = "sheet-duranium"
 	item_state = "sheet-duranium"
+	sheettype = "duranium"
 	throwforce = 10
 	flags_1 = CONDUCT_1
 	resistance_flags = FIRE_PROOF
@@ -33,6 +34,7 @@ GLOBAL_LIST_INIT(durasteel_recipes, list ( \
 	icon = 'nsv13/icons/obj/custom_stack_objects.dmi'
 	icon_state = "sheet-durasteel"
 	item_state = "sheet-durasteel"
+	sheettype = "durasteel"
 	throwforce = 10
 	flags_1 = CONDUCT_1
 	resistance_flags = FIRE_PROOF
