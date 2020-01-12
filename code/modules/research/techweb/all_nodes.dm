@@ -539,15 +539,6 @@
 	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 2500)
 	export_price = 5000
 
-/datum/techweb_node/rld
-	id = "rld"
-	display_name = "Advanced Lamp Construction"
-	description = "No more wasting time making lamps!"
-	prereq_ids = list("janitor")
-	design_ids = list("rld")
-	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 1000)
-	export_price = 2000
-
 /datum/techweb_node/botany
 	id = "botany"
 	display_name = "Botanical Engineering"
