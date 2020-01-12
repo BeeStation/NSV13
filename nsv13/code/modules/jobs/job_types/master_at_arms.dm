@@ -42,6 +42,7 @@
 	gloves = /obj/item/clothing/gloves/color/black
 	head = /obj/item/clothing/head/soft
 	glasses = /obj/item/clothing/glasses/sunglasses
+	l_pocket = /obj/item/pda
 
 	backpack = /obj/item/storage/backpack/security
 	satchel = /obj/item/storage/backpack/satchel/sec
@@ -63,7 +64,7 @@
 	name = "master at arms radio headset"
 	desc = "Use :w to access the department frequency. Use :u to access the supply frequency. Use :c to access the command frequency. Use :q to access the ATC frequency."
 	icon_state = "sec_headset"
-	keyslot = new /obj/item/encryptionkey/munitions_tech
+	keyslot = new /obj/item/encryptionkey/master_at_arms
 
 /obj/effect/landmark/start/master_at_arms
 	name = "Master At Arms"
