@@ -18,7 +18,6 @@
 	paycheck_department = ACCOUNT_CAR
 
 	display_order = JOB_DISPLAY_ORDER_MUNITIONS_TECHNICIAN
-	display_rank = "SPC" //nsv13 - Displays the player's actual rank alongside their name, such as GSGT Sergei Koralev
 
 /datum/outfit/job/munitions_tech
 	name = "Munitions Technician"
@@ -30,7 +29,7 @@
 	suit = /obj/item/clothing/suit/hazardvest
 	head = /obj/item/clothing/head/soft/yellow
 	gloves = /obj/item/clothing/gloves/color/brown
-	l_pocket = /obj/item/pda/cargo
+	l_pocket = /obj/item/pda
 
 /obj/item/clothing/under/rank/munitions_tech
 	name = "camouflage fatigues"

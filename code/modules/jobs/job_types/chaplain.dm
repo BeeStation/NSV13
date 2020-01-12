@@ -17,7 +17,6 @@
 	paycheck_department = ACCOUNT_CIV
 
 	display_order = JOB_DISPLAY_ORDER_CHAPLAIN
-	display_rank = "CRW" //nsv13 - Displays the player's actual rank alongside their name, such as GSGT Sergei Koralev
 
 /datum/job/chaplain/after_spawn(mob/living/H, mob/M)
 	. = ..()

@@ -91,6 +91,10 @@
 			return
 
 		var/obj/item/stack/sheet/S = W
+
+		if (try_nsv_walls(S, user)) //NSV13 - try to build our walls
+			return
+
 		if(istype(S, /obj/item/stack/sheet/iron))
 			if(state == GIRDER_DISPLACED)
 				if(S.get_amount() < 2)

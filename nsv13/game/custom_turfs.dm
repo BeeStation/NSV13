@@ -4,8 +4,19 @@
 	desc = "A large hull segment designed to create vessels and structures capable of supporting life in even the most hazardous places."
 	legacy_smooth = TRUE //Override /tg/ iconsmooths
 	smooth = TRUE
-	canSmoothWith = list(/turf/closed/wall/ship,/turf/closed/wall/r_wall/ship,/obj/machinery/door,/obj/structure/window)
+	canSmoothWith = list(/turf/closed/wall/ship,/turf/closed/wall/r_wall/ship,/obj/machinery/door,/obj/structure/window, /obj/structure/falsewall/duranium, /obj/structure/falsewall/durasteel)
 	sheet_type = /obj/item/stack/sheet/durasteel
+	var/connect_universally = TRUE //Connect to every subtype of the walls?
+
+/obj/structure/falsewall/durasteel
+	icon = 'nsv13/icons/turf/interior_wall.dmi'
+	name = "Durasteel hull"
+	desc = "A large hull segment designed to create vessels and structures capable of supporting life in even the most hazardous places."
+	legacy_smooth = TRUE //Override /tg/ iconsmooths
+	smooth = TRUE
+	walltype = /turf/closed/wall/ship
+	canSmoothWith = list(/turf/closed/wall/ship,/turf/closed/wall/r_wall/ship,/obj/machinery/door,/obj/structure/window, /obj/structure/falsewall/duranium, /obj/structure/falsewall/durasteel)
+	mineral = /obj/item/stack/sheet/durasteel
 	var/connect_universally = TRUE //Connect to every subtype of the walls?
 
 /turf/closed/wall/r_wall/ship
@@ -14,29 +25,67 @@
 	desc = "A large hull segment designed to create vessels and structures capable of supporting life in even the most hazardous places."
 	legacy_smooth = TRUE //Override /tg/ iconsmooths
 	smooth = TRUE
-	canSmoothWith = list(/turf/closed/wall/ship,/obj/machinery/door,/obj/structure/window,/turf/closed/wall/r_wall/ship)
+	canSmoothWith = list(/turf/closed/wall/ship,/obj/machinery/door,/obj/structure/window,/turf/closed/wall/r_wall/ship, /obj/structure/falsewall/duranium, /obj/structure/falsewall/durasteel)
 	sheet_type = /obj/item/stack/sheet/duranium
+	sheet_amount = 2
+	girder_type = /obj/structure/girder
 
-/obj/structure/girder/attackby(obj/item/W, mob/user, params) //Time to add support for our walls..
-	var/obj/item/stack/sheet/S = W
-	if(istype(W, /obj/item/stack/sheet))
+/obj/structure/falsewall/duranium
+	icon = 'nsv13/icons/turf/reinforced_wall.dmi'
+	name = "Duranium hull"
+	desc = "A large hull segment designed to create vessels and structures capable of supporting life in even the most hazardous places."
+	legacy_smooth = TRUE //Override /tg/ iconsmooths
+	smooth = TRUE
+	walltype = /turf/closed/wall/r_wall/ship
+	canSmoothWith = list(/turf/closed/wall/ship,/obj/machinery/door,/obj/structure/window,/turf/closed/wall/r_wall/ship, /obj/structure/falsewall/duranium, /obj/structure/falsewall/durasteel)
+	mineral = /obj/item/stack/sheet/duranium
+
+/obj/structure/girder/proc/try_nsv_walls(obj/item/stack/sheet/S, mob/user)
+	if(!S.turf_type) //Let the girder code handle it. It's not one of ours.
+		return FALSE
+
+	if(state != GIRDER_DISPLACED) //Build regular wall
 		if(S.get_amount() < 2)
-			to_chat(user, "<span class='warning'>You need two sheets of [W] to finish a wall!</span>")
-			return
-		if(!S.turf_type)
-			to_chat(user, "<span class='warning'>You can't build anything with [W].</span>")
-			return
+			to_chat(user, "<span class='warning'>You need two sheets of [S] to finish a wall!</span>")
+			return FALSE
+
+		to_chat(user, "<span class='notice'>You start plating the wall with [S]...</span>")
 		if (do_after(user, 40, target = src))
 			if(S.get_amount() < 2)
-				return
+				to_chat(user, "<span class='warning'>You need two sheets of [S] to create a false wall!</span>")
+				return FALSE
 			S.use(2)
 			to_chat(user, "<span class='notice'>You add the hull plating.</span>")
 			var/turf/T = get_turf(src)
 			T.PlaceOnTop(S.turf_type)
 			transfer_fingerprints_to(T)
 			qdel(src)
-			return
-	. = ..()
+			return TRUE
+
+	else //Build false wall
+		if(S.get_amount() < 2)
+			to_chat(user, "<span class='warning'>You need two sheets of [S] to create a false wall!</span>")
+			return FALSE
+
+		to_chat(user, "<span class='notice'>You start building a false wall with [S]...</span>")
+		if(do_after(user, 40, target = src))
+			if(S.get_amount() < 2)
+				to_chat(user, "<span class='warning'>You need two sheets of [S] to create a false wall!</span>")
+				return FALSE
+			S.use(2)
+			to_chat(user, "<span class='notice'>You create a false wall. Push on it to open or close the passage.</span>")
+
+			var/turf/T = get_turf(src)
+
+			if(S.sheettype && !ispath(S, /obj/item/stack/sheet/mineral))
+				var/F = text2path("/obj/structure/falsewall/[S.sheettype]")
+				var/obj/structure/falsewall/FW
+				FW = new F(T)
+
+				transfer_fingerprints_to(FW)
+				qdel(src)
+				return TRUE
+	return FALSE
 
 /turf/open/floor/carpet/ship
 	name = "nanoweave carpet"
