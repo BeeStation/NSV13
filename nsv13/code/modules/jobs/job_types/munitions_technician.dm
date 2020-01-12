@@ -29,7 +29,7 @@
 	suit = /obj/item/clothing/suit/hazardvest
 	head = /obj/item/clothing/head/soft/yellow
 	gloves = /obj/item/clothing/gloves/color/brown
-	l_pocket = /obj/item/pda/cargo
+	l_pocket = /obj/item/pda
 
 /obj/item/clothing/under/rank/munitions_tech
 	name = "camouflage fatigues"
