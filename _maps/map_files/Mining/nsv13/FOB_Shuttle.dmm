@@ -5,14 +5,10 @@
 "ab" = (
 /obj/structure/lattice,
 /turf/open/space/basic,
-/area/nsv/shuttle/storage)
+/area/nostromo/maintenance/exterior)
 "ac" = (
 /turf/closed/wall/mineral/titanium,
 /area/nsv/shuttle/storage)
-"ad" = (
-/obj/structure/lattice,
-/turf/open/space/basic,
-/area/nsv/shuttle/central)
 "ae" = (
 /turf/open/floor/plating/airless,
 /area/nsv/shuttle/central)
@@ -27,7 +23,7 @@
 	dir = 4
 	},
 /turf/open/floor/plating/airless,
-/area/nsv/shuttle/storage)
+/area/nostromo/maintenance/exterior)
 "ai" = (
 /obj/structure/closet/secure_closet/miner,
 /turf/open/floor/plasteel,
@@ -67,7 +63,7 @@
 	dir = 8
 	},
 /turf/open/floor/plating/airless,
-/area/nsv/shuttle/storage)
+/area/nostromo/maintenance/exterior)
 "aq" = (
 /obj/effect/landmark/start/shaft_miner,
 /turf/open/floor/plasteel,
@@ -162,6 +158,7 @@
 	icon_state = "0-8"
 	},
 /obj/machinery/power/apc/auto_name/east,
+/obj/machinery/telecomms/relay/preset/mining,
 /turf/open/floor/plasteel,
 /area/nsv/shuttle/storage)
 "aG" = (
@@ -244,17 +241,10 @@
 /turf/open/floor/plasteel,
 /area/nsv/shuttle/central)
 "aR" = (
-/obj/structure/cable{
-	icon_state = "4-8"
-	},
-/obj/structure/table,
-/turf/open/floor/plasteel,
-/area/nsv/shuttle/central)
-"aS" = (
-/obj/structure/cable{
-	icon_state = "0-8"
-	},
-/obj/structure/table,
+/obj/item/ammo_box/magazine/pdc,
+/obj/item/ammo_box/magazine/pdc,
+/obj/item/ammo_box/magazine/pdc,
+/obj/structure/closet/crate,
 /turf/open/floor/plasteel,
 /area/nsv/shuttle/central)
 "aT" = (
@@ -290,11 +280,22 @@
 /obj/structure/cable{
 	icon_state = "1-2"
 	},
+/obj/structure/chair/comfy/shuttle{
+	color = "#696969";
+	dir = 4;
+	icon_state = "shuttle_chair";
+	name = "bridge chair"
+	},
 /turf/open/floor/plasteel/dark,
 /area/nsv/shuttle/bridge)
 "aW" = (
 /obj/machinery/airalarm/all_access{
 	pixel_y = 23
+	},
+/obj/machinery/computer/ship/helm{
+	dir = 8;
+	req_access = null;
+	req_one_access_txt = "31;48"
 	},
 /turf/open/floor/plasteel/dark,
 /area/nsv/shuttle/bridge)
@@ -782,6 +783,7 @@
 /obj/machinery/light{
 	dir = 8
 	},
+/obj/structure/chair/comfy/shuttle,
 /turf/open/floor/plasteel/dark,
 /area/nsv/shuttle/bridge)
 "ca" = (
@@ -893,15 +895,6 @@
 /obj/structure/table/wood,
 /turf/open/floor/plasteel,
 /area/nsv/shuttle/central)
-"co" = (
-/turf/open/floor/plating/airless,
-/area/nsv/shuttle/atmospherics)
-"cp" = (
-/obj/structure/window/reinforced{
-	dir = 4
-	},
-/turf/open/floor/plating/airless,
-/area/nsv/shuttle/atmospherics)
 "cq" = (
 /obj/machinery/atmospherics/pipe/layer_manifold,
 /turf/open/floor/plating,
@@ -1019,12 +1012,6 @@
 /obj/machinery/vending/boozeomat/all_access,
 /turf/open/floor/plasteel,
 /area/nsv/shuttle/central)
-"cI" = (
-/obj/structure/shuttle/engine/huge{
-	dir = 8
-	},
-/turf/open/floor/plating/airless,
-/area/nsv/shuttle/atmospherics)
 "cJ" = (
 /obj/machinery/atmospherics/components/unary/tank/air{
 	dir = 4
@@ -1095,7 +1082,85 @@
 	width = 7
 	},
 /turf/open/space/basic,
-/area/space)
+/area/nostromo/maintenance/exterior)
+"eC" = (
+/obj/machinery/computer/ship/dradis/mining{
+	icon_state = "computer";
+	dir = 1
+	},
+/turf/open/floor/plasteel/dark,
+/area/nsv/shuttle/bridge)
+"ol" = (
+/obj/machinery/computer/ship/mineral_magnet{
+	density = 0;
+	pixel_y = 26
+	},
+/obj/structure/cable{
+	icon_state = "0-2"
+	},
+/turf/open/floor/plating/airless,
+/area/nsv/shuttle/airlock/aft)
+"qq" = (
+/obj/machinery/computer/ship/tactical{
+	dir = 8;
+	req_access = null;
+	req_one_access_txt = "31;48"
+	},
+/turf/open/floor/plasteel/dark,
+/area/nsv/shuttle/bridge)
+"rg" = (
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer3{
+	dir = 1
+	},
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/obj/structure/pdc_mount,
+/turf/open/floor/plasteel,
+/area/nsv/shuttle/central)
+"GX" = (
+/obj/machinery/computer/ship/ftl_computer{
+	dir = 4;
+	name = "Nostromo FTL computer";
+	req_access = null;
+	req_one_access_txt = "31;48"
+	},
+/turf/open/floor/plasteel/dark,
+/area/nsv/shuttle/bridge)
+"Ji" = (
+/obj/structure/chair/comfy/shuttle{
+	color = "#696969";
+	dir = 4;
+	icon_state = "shuttle_chair";
+	name = "bridge chair"
+	},
+/turf/open/floor/plasteel/dark,
+/area/nsv/shuttle/bridge)
+"TH" = (
+/obj/structure/cable{
+	icon_state = "1-4"
+	},
+/turf/open/floor/plating/airless,
+/area/nsv/shuttle/airlock/aft)
+"WK" = (
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	dir = 4
+	},
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/obj/structure/pdc_mount,
+/turf/open/floor/plasteel,
+/area/nsv/shuttle/central)
+"XD" = (
+/turf/open/floor/plating/airless,
+/area/nsv/shuttle/airlock/aft)
 
 (1,1,1) = {"
 cO
@@ -3279,11 +3344,11 @@ cO
 cO
 cO
 cO
-cP
-cP
-cP
-cP
-cP
+aN
+ol
+TH
+XD
+XD
 cO
 cO
 cO
@@ -3320,11 +3385,11 @@ aa
 aa
 aa
 aa
-aa
-aa
+cQ
+cQ
 ab
-ag
-ag
+cP
+cP
 ap
 ab
 aN
@@ -3332,13 +3397,13 @@ aX
 bm
 aX
 aN
-ca
-co
-co
-cI
-ca
-aa
-aa
+ab
+cP
+cP
+ap
+ab
+cQ
+cQ
 aa
 aa
 aa
@@ -3368,12 +3433,12 @@ aa
 aa
 aa
 aa
-aa
-aa
+cQ
+cQ
 ac
-ag
-ag
-ag
+cP
+cP
+cP
 ag
 aN
 aY
@@ -3381,12 +3446,12 @@ bn
 aY
 aN
 cb
-co
-co
-co
+cP
+cP
+cP
 bR
-aa
-aa
+cQ
+cQ
 aa
 aa
 aa
@@ -3416,8 +3481,8 @@ aa
 aa
 aa
 aa
-aa
-aa
+cQ
+cQ
 ac
 ah
 ah
@@ -3429,12 +3494,12 @@ bo
 bD
 aN
 cc
-cp
-cp
-cp
+ah
+ah
+ah
 bR
-aa
-aa
+cQ
+cQ
 aa
 aa
 aa
@@ -3464,8 +3529,8 @@ aa
 aa
 aa
 aa
-aa
-aa
+cQ
+cQ
 ac
 ai
 al
@@ -3481,8 +3546,8 @@ cq
 cB
 cJ
 bR
-aa
-aa
+cQ
+cQ
 aa
 aa
 aa
@@ -3512,8 +3577,8 @@ aa
 aa
 aa
 aa
-aa
-aa
+cQ
+cQ
 ac
 ai
 al
@@ -3529,8 +3594,8 @@ cr
 cC
 cK
 bR
-aa
-aa
+cQ
+cQ
 aa
 aa
 aa
@@ -3560,8 +3625,8 @@ aa
 aa
 aa
 aa
-aa
-aa
+cQ
+cQ
 ac
 aj
 al
@@ -3577,8 +3642,8 @@ cs
 cD
 cL
 bR
-aa
-aa
+cQ
+cQ
 aa
 aa
 aa
@@ -3608,8 +3673,8 @@ aa
 aa
 aa
 aa
-aa
-aa
+cQ
+cQ
 ac
 ai
 al
@@ -3625,8 +3690,8 @@ ct
 cg
 cM
 bR
-aa
-aa
+cQ
+cQ
 aa
 aa
 aa
@@ -3656,8 +3721,8 @@ aa
 aa
 aa
 aa
-aa
-aa
+cQ
+cQ
 ac
 ac
 am
@@ -3673,8 +3738,8 @@ cu
 cE
 bR
 bR
-aa
-aa
+cQ
+cQ
 aa
 aa
 aa
@@ -3704,8 +3769,8 @@ aa
 aa
 aa
 aa
-aa
-aa
+cQ
+cQ
 ab
 ac
 ac
@@ -3721,8 +3786,8 @@ cv
 bR
 bR
 ca
-aa
-aa
+cQ
+cQ
 aa
 aa
 aa
@@ -3752,8 +3817,8 @@ aa
 aa
 aa
 aa
-aa
-aa
+cQ
+cQ
 ab
 ab
 ac
@@ -3767,10 +3832,10 @@ bR
 cj
 cw
 bR
-aa
-aa
-aa
-aa
+cQ
+cQ
+cQ
+cQ
 aa
 aa
 aa
@@ -3800,25 +3865,25 @@ aa
 aa
 aa
 aa
-aa
-aa
-ad
-ad
+cQ
+cQ
+ab
+ab
 af
 au
 aG
 aP
 af
-bs
+WK
 av
 bR
 bR
 bR
 bR
-aa
-aa
-aa
-aa
+cQ
+cQ
+cQ
+cQ
 aa
 aa
 aa
@@ -3848,10 +3913,10 @@ aa
 aa
 aa
 aa
-aa
-aa
-ad
-ad
+cQ
+cQ
+ab
+ab
 an
 av
 av
@@ -3863,10 +3928,10 @@ bT
 ck
 cx
 cF
-aa
-aa
-aa
-aa
+cQ
+cQ
+cQ
+cQ
 aa
 aa
 aa
@@ -3896,10 +3961,10 @@ aa
 aa
 aa
 aa
-aa
-aa
-ad
-ad
+cQ
+cQ
+ab
+ab
 an
 av
 aH
@@ -3912,9 +3977,9 @@ cl
 cy
 cG
 cU
-aa
-aa
-aa
+cQ
+cQ
+cQ
 aa
 aa
 aa
@@ -3944,10 +4009,10 @@ aa
 aa
 aa
 aa
-aa
-aa
-ad
-ad
+cQ
+cQ
+ab
+ab
 an
 aw
 av
@@ -3959,10 +4024,10 @@ bT
 cm
 cm
 cF
-aa
-aa
-aa
-aa
+cQ
+cQ
+cQ
+cQ
 aa
 aa
 aa
@@ -3992,14 +4057,14 @@ aa
 aa
 aa
 aa
-aa
-aa
-ad
-ad
+cQ
+cQ
+ab
+ab
 af
 ax
 aI
-aS
+aw
 af
 bx
 bK
@@ -4007,10 +4072,10 @@ bV
 bV
 cz
 af
-aa
-aa
-aa
-aa
+cQ
+cQ
+cQ
+cQ
 aa
 aa
 aa
@@ -4040,10 +4105,10 @@ aa
 aa
 aa
 aa
-aa
-aa
-ae
-ak
+cQ
+cQ
+ab
+ab
 af
 af
 af
@@ -4055,10 +4120,10 @@ av
 av
 av
 an
-aa
-aa
-aa
-aa
+cQ
+cQ
+cQ
+cQ
 aa
 aa
 aa
@@ -4088,16 +4153,16 @@ aa
 aa
 aa
 aa
-aa
-aa
-af
-af
+cQ
+cQ
+ae
+ak
 af
 ay
 aJ
 aw
 af
-bv
+rg
 bL
 bW
 av
@@ -4105,8 +4170,8 @@ av
 af
 af
 ak
-aa
-aa
+cQ
+cQ
 aa
 aa
 aa
@@ -4136,8 +4201,8 @@ aa
 aa
 aa
 aa
-aa
-aa
+cQ
+cQ
 af
 af
 af
@@ -4153,8 +4218,8 @@ av
 cH
 af
 af
-aa
-aa
+cQ
+cQ
 aa
 aa
 aa
@@ -4184,8 +4249,8 @@ aa
 aa
 aa
 aa
-aa
-aa
+cQ
+cQ
 af
 af
 af
@@ -4201,8 +4266,8 @@ cA
 af
 af
 af
-aa
-aa
+cQ
+cQ
 aa
 aa
 aa
@@ -4232,9 +4297,9 @@ aa
 aa
 aa
 aa
-aa
-aa
-aa
+cQ
+cQ
+cQ
 ao
 ao
 ao
@@ -4248,9 +4313,9 @@ ao
 ao
 ao
 ao
-aa
-aa
-aa
+cQ
+cQ
+cQ
 aa
 aa
 aa
@@ -4280,10 +4345,10 @@ aa
 aa
 aa
 aa
-aa
-aa
-aa
-aa
+cQ
+cQ
+cQ
+cQ
 ao
 ao
 aL
@@ -4292,13 +4357,13 @@ bi
 bB
 bP
 bZ
-bk
+eC
 ao
 ao
-aa
-aa
-aa
-aa
+cQ
+cQ
+cQ
+cQ
 aa
 aa
 aa
@@ -4328,25 +4393,25 @@ aa
 aa
 aa
 aa
-aa
-aa
-aa
-aa
-aa
+cQ
+cQ
+cQ
+cQ
+cQ
 ao
 aM
 aV
 bj
 bC
 bQ
-bk
+Ji
 ao
 ao
-aa
-aa
-aa
-aa
-aa
+cQ
+cQ
+cQ
+cQ
+cQ
 aa
 aa
 aa
@@ -4376,25 +4441,25 @@ aa
 aa
 aa
 aa
-aa
-aa
-aa
-aa
-aa
+cQ
+cQ
+cQ
+cQ
+cQ
 ao
 ao
 aW
 bk
 bk
-bk
-bk
+GX
+qq
 ao
 ao
-aa
-aa
-aa
-aa
-aa
+cQ
+cQ
+cQ
+cQ
+cQ
 aa
 aa
 aa
@@ -4424,12 +4489,12 @@ aa
 aa
 aa
 aa
-aa
-aa
-aa
-aa
-aa
-aa
+cQ
+cQ
+cQ
+cQ
+cQ
+cQ
 ao
 ao
 bl
@@ -4437,12 +4502,12 @@ bl
 bl
 ao
 ao
-aa
-aa
-aa
-aa
-aa
-aa
+cQ
+cQ
+cQ
+cQ
+cQ
+cQ
 aa
 aa
 aa
@@ -4472,25 +4537,25 @@ aa
 aa
 aa
 aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
+cQ
+cQ
+cQ
+cQ
+cQ
+cQ
+cQ
+cQ
+cQ
+cQ
+cQ
+cQ
+cQ
+cQ
+cQ
+cQ
+cQ
+cQ
+cQ
 aa
 aa
 aa
@@ -4520,25 +4585,25 @@ aa
 aa
 aa
 aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
+cQ
+cQ
+cQ
+cQ
+cQ
+cQ
+cQ
+cQ
+cQ
+cQ
+cQ
+cQ
+cQ
+cQ
+cQ
+cQ
+cQ
+cQ
+cQ
 aa
 aa
 aa
