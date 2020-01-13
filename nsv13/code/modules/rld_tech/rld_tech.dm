@@ -1,6 +1,6 @@
 /datum/design/rld
-	name = "Rapid Light Dispencer"
-	desc = "Adds the Rapid Light Dispencer capable of constructing light fixtures and synthesising glowsticks."
+	name = "Rapid Light Dispenser"
+	desc = "Adds the Rapid Light Dispenser capable of constructing light fixtures and synthesising glowsticks."
 	id = "rld"
 	build_type = PROTOLATHE
 	materials = list(/datum/material/iron = 4000, /datum/material/uranium = 200, /datum/material/glass = 1000)
