@@ -259,8 +259,8 @@ Any-Mode: (hotkey doesn't need to be on)
 	switch(SSmapping.config?.map_name)																	// NSV Changes begin
 		if("NSV Hammerhead")			map_in_url = "Hammerhead"
 	if(map_in_url)
-		if(alert("This will open the current map in your browser. Are you sure?",,"Yes","No")!="Yes")	// NSV Changes end
+		if(alert("This will open the current map in your browser. Are you sure?",,"Yes","No")!="Yes")
 			return
-		src << link("https://affectedarc07.github.io/SS13WebMap/NSV13/[map_in_url]")
+		src << link("https://affectedarc07.github.io/SS13WebMap/NSV13/[map_in_url]")					// NSV Changes end
 	else
 		to_chat(src, "<span class='danger'>The current map is either invalid or unavailable.</span>")
