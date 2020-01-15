@@ -4648,6 +4648,10 @@
 	dir = 4;
 	pixel_x = -22
 	},
+/obj/machinery/cryopod{
+	icon_state = "cryopod-open";
+	dir = 4
+	},
 /turf/open/floor/plasteel,
 /area/hallway/nsv/deck2/frame2/central)
 "kZ" = (
@@ -4871,6 +4875,10 @@
 /area/engine/gravity_generator)
 "lC" = (
 /obj/machinery/light,
+/obj/machinery/cryopod{
+	icon_state = "cryopod-open";
+	dir = 8
+	},
 /turf/open/floor/plasteel,
 /area/hallway/nsv/deck2/frame2/central)
 "lD" = (
@@ -9961,11 +9969,11 @@
 /turf/open/floor/plasteel/white,
 /area/medical/surgery)
 "vl" = (
-/obj/structure/table/optable,
 /obj/effect/turf_decal/tile/blue,
 /obj/effect/turf_decal/tile/blue{
 	dir = 4
 	},
+/obj/machinery/stasis,
 /turf/open/floor/plasteel/white,
 /area/medical/surgery)
 "vm" = (
@@ -10881,6 +10889,13 @@
 /obj/machinery/portable_atmospherics/canister/water_vapor,
 /turf/open/floor/plasteel/ship/riveted,
 /area/janitor)
+"xJ" = (
+/obj/machinery/cryopod{
+	icon_state = "cryopod-open";
+	dir = 4
+	},
+/turf/open/floor/plasteel,
+/area/hallway/nsv/deck2/frame2/central)
 "xQ" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer1{
@@ -11177,6 +11192,10 @@
 /obj/structure/hull_plate,
 /turf/open/floor/plating/airless,
 /area/maintenance/ship_exterior)
+"Fx" = (
+/obj/machinery/telecomms/relay/preset/station,
+/turf/open/floor/plating,
+/area/engine/gravity_generator)
 "FH" = (
 /obj/structure/hull_plate/end{
 	icon_state = "tgmc_outerhull_dir";
@@ -11324,6 +11343,20 @@
 	},
 /turf/open/floor/plating/airless,
 /area/maintenance/ship_exterior)
+"IS" = (
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	icon_state = "pipe11-1";
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	dir = 4
+	},
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
+/obj/machinery/door/firedoor,
+/turf/open/floor/plasteel/ship/padded,
+/area/hallway/nsv/deck2/frame2/central)
 "Ja" = (
 /obj/machinery/atmospherics/components/unary/vent_pump{
 	dir = 4
@@ -11365,6 +11398,13 @@
 	},
 /turf/closed/wall/r_wall/ship,
 /area/maintenance/nsv/deck2/airlock/aft/starboard)
+"JZ" = (
+/obj/machinery/cryopod{
+	icon_state = "cryopod-open";
+	dir = 8
+	},
+/turf/open/floor/plasteel,
+/area/hallway/nsv/deck2/frame2/central)
 "Kf" = (
 /obj/structure/cable/yellow{
 	icon_state = "1-8"
@@ -11429,6 +11469,10 @@
 	},
 /turf/open/floor/plasteel/ship/padded,
 /area/hallway/nsv/deck2/frame1/port)
+"Mf" = (
+/obj/machinery/telecomms/relay/preset/telecomms,
+/turf/open/floor/plating,
+/area/engine/gravity_generator)
 "MA" = (
 /obj/structure/cable/yellow{
 	icon_state = "4-8"
@@ -11620,6 +11664,12 @@
 /obj/structure/sign/nanotrasen,
 /turf/closed/wall/r_wall/ship,
 /area/maintenance/nsv/deck2/airlock/forward/port)
+"Si" = (
+/obj/machinery/airalarm{
+	pixel_y = 23
+	},
+/turf/open/floor/plasteel,
+/area/hallway/nsv/deck2/frame2/central)
 "Sm" = (
 /obj/machinery/atmospherics/pipe/heat_exchanging/junction,
 /turf/open/floor/plating/airless,
@@ -11727,6 +11777,12 @@
 /obj/structure/sign/nanotrasen,
 /turf/closed/wall/r_wall/ship,
 /area/maintenance/nsv/deck2/airlock/forward/starboard)
+"Uh" = (
+/obj/machinery/computer/cryopod{
+	pixel_y = 32
+	},
+/turf/open/floor/plasteel,
+/area/hallway/nsv/deck2/frame2/central)
 "Ur" = (
 /turf/closed/wall/r_wall,
 /area/engine/supermatter)
@@ -11734,6 +11790,10 @@
 /obj/structure/sign/directions/evac,
 /turf/closed/wall/ship,
 /area/space)
+"UG" = (
+/obj/machinery/telecomms/relay/preset/auto,
+/turf/open/floor/plating,
+/area/engine/gravity_generator)
 "UJ" = (
 /obj/structure/disposalpipe/segment{
 	dir = 4
@@ -20926,7 +20986,7 @@ mf
 jb
 jb
 jb
-jb
+Fx
 iv
 ra
 rQ
@@ -21178,7 +21238,7 @@ mf
 jb
 jb
 jb
-jb
+Mf
 iv
 qZ
 rR
@@ -21430,7 +21490,7 @@ mf
 jb
 jb
 jb
-jb
+UG
 iv
 qZ
 pM
@@ -33771,7 +33831,7 @@ fh
 ie
 ie
 ie
-kf
+IS
 ie
 ie
 mF
@@ -34021,11 +34081,11 @@ fZ
 gJ
 hm
 ie
-iM
-iM
+xJ
+xJ
 kg
 kY
-iM
+xJ
 mF
 nw
 mZ
@@ -34273,7 +34333,7 @@ ga
 gK
 hn
 ie
-iM
+Uh
 iM
 kh
 iM
@@ -34525,10 +34585,10 @@ fh
 fh
 fh
 ie
-iM
-iM
+JZ
+JZ
 ki
-iM
+JZ
 lC
 mF
 ny
@@ -34777,7 +34837,7 @@ fZ
 gJ
 hm
 ie
-iM
+Si
 iM
 kj
 iM
@@ -35029,11 +35089,11 @@ ga
 gK
 hn
 ie
-iM
-iM
+JZ
+JZ
 kj
-iM
-iM
+JZ
+JZ
 mF
 nA
 os
