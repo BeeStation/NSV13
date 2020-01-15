@@ -7,16 +7,16 @@
 	name = "300mm railgun slugs (x10)"
 	desc = "A set of 10 tungsten railgun slugs, guaranteed to pierce through enemy hulls or your money back!"
 	cost = 1000
-	contains = list(/obj/item/twohanded/required/railgun_ammo,
-					/obj/item/twohanded/required/railgun_ammo,
-					/obj/item/twohanded/required/railgun_ammo,
-					/obj/item/twohanded/required/railgun_ammo,
-					/obj/item/twohanded/required/railgun_ammo,
-					/obj/item/twohanded/required/railgun_ammo,
-					/obj/item/twohanded/required/railgun_ammo,
-					/obj/item/twohanded/required/railgun_ammo,
-					/obj/item/twohanded/required/railgun_ammo,
-					/obj/item/twohanded/required/railgun_ammo)
+	contains = list(/obj/item/ship_weapon/ammunition/railgun_ammo,
+					/obj/item/ship_weapon/ammunition/railgun_ammo,
+					/obj/item/ship_weapon/ammunition/railgun_ammo,
+					/obj/item/ship_weapon/ammunition/railgun_ammo,
+					/obj/item/ship_weapon/ammunition/railgun_ammo,
+					/obj/item/ship_weapon/ammunition/railgun_ammo,
+					/obj/item/ship_weapon/ammunition/railgun_ammo,
+					/obj/item/ship_weapon/ammunition/railgun_ammo,
+					/obj/item/ship_weapon/ammunition/railgun_ammo,
+					/obj/item/ship_weapon/ammunition/railgun_ammo)
 	crate_name = "Railgun ammunition"
 
 /datum/supply_pack/munitions/pdc

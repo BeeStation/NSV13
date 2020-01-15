@@ -7,6 +7,7 @@
 	density = FALSE
 	pixel_y = 26
 	var/obj/item/ammo_box/magazine/pdc/magazine = null
+	magazine_type = /obj/item/ammo_box/magazine/pdc
 	linked = null
 
 /obj/machinery/ship_weapon/pdc_mount/attack_hand(mob/user)

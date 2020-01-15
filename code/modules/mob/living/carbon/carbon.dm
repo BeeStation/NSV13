@@ -33,6 +33,9 @@
 			if(TH.wielded == 1)
 				to_chat(usr, "<span class='warning'>Your other hand is too busy holding [TH].</span>")
 				return
+		else if(item_in_hand.GetComponent(/datum/component/twohanded)) //NSV13 - check twohanded component
+			to_chat(usr, "<span class='warning'>Your other hand is too busy holding [TH].</span>")
+			return
 	var/oindex = active_hand_index
 	active_hand_index = held_index
 	if(hud_used)

@@ -225,8 +225,8 @@
 				proj_object = RG.fire()
 				if(!proj_object)
 					continue
-				if(istype(proj_object, /obj/item/twohanded/required/railgun_ammo))
-					var/obj/item/twohanded/required/railgun_ammo/RA = proj_object
+				if(istype(proj_object, /obj/item/ship_weapon/ammunition/railgun_ammo))
+					var/obj/item/ship_weapon/ammunition/railgun_ammo/RA = proj_object
 					proj_type = RA.proj_type
 					qdel(proj_object)
 				if(proj_type)
