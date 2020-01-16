@@ -255,12 +255,9 @@ Any-Mode: (hotkey doesn't need to be on)
 	set name = "map"
 	set desc = "View the current map in the webviewer"
 	set hidden = 1
-	var/map_in_url
-	switch(SSmapping.config?.map_name)																	// NSV Changes begin
-		if("NSV Hammerhead")			map_in_url = "Hammerhead"
-	if(map_in_url)
+	if(SSmapping.config.map_link)	// NSV Changes begin
 		if(alert("This will open the current map in your browser. Are you sure?",,"Yes","No")!="Yes")
 			return
-		src << link("https://affectedarc07.github.io/SS13WebMap/NSV13/[map_in_url]")					// NSV Changes end
+		src << link("https://affectedarc07.github.io/SS13WebMap/NSV13/[SSmapping.config.map_link]")
 	else
-		to_chat(src, "<span class='danger'>The current map is either invalid or unavailable.</span>")
+		to_chat(src, "<span class='danger'>The current map is either invalid or unavailable. Open an issue on the github.</span>") // NSV Changes end
