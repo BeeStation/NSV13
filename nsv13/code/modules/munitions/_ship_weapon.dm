@@ -260,8 +260,11 @@
 			maint_state = MSTATE_UNBOLTED
 			update_overlay()
 			return TRUE
+	..()
 
 /obj/machinery/ship_weapon/attackby(obj/item/I, mob/user)
+	if(istype(I, ammo_type))
+		load(I, user)
 	if(istype(I, /obj/item/reagent_containers))
 		if(maint_state != MSTATE_PRIEDOUT)
 			to_chat(user, "<span class='notice'>You require access to the inner workings of [src].</span>")

@@ -61,7 +61,7 @@
 	if(!SW)
 		return
 	if(href_list["load_tray"])
-		SW.load()
+		SW.feed()
 	if(href_list["unload_tray"])
 		SW.unload()
 	if(href_list["chamber_tray"])
