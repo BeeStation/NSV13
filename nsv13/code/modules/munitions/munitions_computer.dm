@@ -1,7 +1,7 @@
 #define STATE_NOTLOADED 1
 #define STATE_LOADED 2
-#define STATE_CHAMBERED 3
-#define STATE_READY 4
+#define STATE_FED 3
+#define STATE_CHAMBERED 4
 #define STATE_FIRING 5
 
 /obj/machinery/computer/ship/munitions_computer
@@ -37,12 +37,12 @@
 	if(SW.malfunction)
 		dat += "<p><b><font color='#FF0000'>MALFUNCTION DETECTED!</font></p>"
 	dat += "<h2> Tray: </h2>"
-	if(SW.state <= STATE_LOADED)
+	if(SW.state <= STATE_FED)
 		dat += "<A href='?src=\ref[src];load_tray=1'>Load Tray</font></A><BR>" //STEP 1: Move the tray into the railgun
 	else
 		dat += "<A href='?src=\ref[src];unload_tray=1'>Unload Tray</font></A><BR>" //OPTIONAL: Cancel loading
 	dat += "<h2> Firing chamber: </h2>"
-	if(SW.state != STATE_READY)
+	if(SW.state != STATE_CHAMBERED)
 		dat += "<A href='?src=\ref[src];chamber_tray=1'>Chamber Tray Payload</font></A><BR>" //Step 2: Chamber the round
 	else
 		dat += "<A href='?src=\ref[src];tray_notif=1'>'[SW.chambered.name]' is ready for deployment</font></A><BR>" //Tell them that theyve chambered something
@@ -76,6 +76,6 @@
 
 #undef STATE_NOTLOADED
 #undef STATE_LOADED
+#undef STATE_FED
 #undef STATE_CHAMBERED
-#undef STATE_READY
 #undef STATE_FIRING

@@ -6,39 +6,8 @@
 	anchored = TRUE
 	density = FALSE
 	pixel_y = 26
-	var/obj/item/ammo_box/magazine/pdc/magazine = null
 	magazine_type = /obj/item/ammo_box/magazine/pdc
 	linked = null
-
-/obj/machinery/ship_weapon/pdc_mount/attack_hand(mob/user)
-	. = ..()
-	if(magazine)
-		to_chat(user, "<span class='notice'>You start to unload [magazine] from [src].</span>")
-		if(do_after(user,50, target = src))
-			user.put_in_hands(magazine)
-			magazine = null
-			update_icon()
-			playsound(src, 'sound/weapons/autoguninsert.ogg', 100, 1)
-
-/obj/machinery/ship_weapon/pdc_mount/attackby(obj/item/I, mob/user)
-	if(!linked)
-		var/area/AR = get_area(src)
-		if(AR.linked_overmap)
-			linked = AR.linked_overmap
-			linked?.pdcs += src
-	if(istype(I, /obj/item/ammo_box/magazine/pdc))
-		to_chat(user, "<span class='notice'>You start to load [I] into [src].</span>")
-		if(do_after(user,50, target = src))
-			to_chat(user, "<span class='notice'>You load [I] into [src].</span>")
-			playsound(src, 'sound/weapons/autoguninsert.ogg', 100, 1)
-			if(magazine)
-				user.put_in_hands(magazine)
-				magazine = null
-			I.forceMove(src)
-			magazine = I
-			update_icon()
-	else
-		. = ..()
 
 /obj/machinery/ship_weapon/pdc_mount/update_icon()
 	if(!magazine)
@@ -49,12 +18,6 @@
 	progress = CLAMP(progress, 0, goal)
 	progress = round(((progress / goal) * 100), 20)//Round it down to 20%. We now apply visual damage
 	icon_state = "[initial(icon_state)]_[progress]"
-
-/obj/machinery/ship_weapon/pdc_mount/can_fire(shots) //We need to fire 3 shots. Can we do that?
-	if(magazine?.ammo_count() > shots)
-		return TRUE
-	else
-		return FALSE
 
 /obj/machinery/ship_weapon/pdc_mount/fire(shots)
 	if(can_fire(shots))

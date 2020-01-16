@@ -10,5 +10,5 @@
 	bound_width = 96
 	pixel_y = -72
 	pixel_x = -32
-	fire_sound = 'nsv13/sound/effects/ship/plasma.ogg'
+	firing_sound = 'nsv13/sound/effects/ship/plasma.ogg'
 	load_sound = 'nsv13/sound/effects/ship/freespace2/m_load.wav'
