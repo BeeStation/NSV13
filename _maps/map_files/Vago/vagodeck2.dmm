@@ -10731,11 +10731,17 @@
 /turf/closed/wall/r_wall/ship,
 /area/maintenance/nsv/deck2/airlock/forward/starboard)
 "wJ" = (
-/turf/closed/wall/r_wall/ship,
+/turf/closed/wall/r_wall/ship{
+	name = "Radiation Resistant Duranium hull";
+	rad_insulation = 1
+	},
 /area/hallway/nsv/deck2/frame2/starboard)
 "wK" = (
 /obj/structure/grille,
-/obj/structure/window/reinforced/fulltile/ship,
+/obj/structure/window/reinforced/fulltile/ship{
+	name = "Lead lined Nanocarbon reinforced window";
+	rad_insulation = 1
+	},
 /obj/machinery/door/firedoor,
 /turf/open/floor/plating,
 /area/hallway/nsv/deck2/frame2/starboard)
@@ -11158,12 +11164,6 @@
 	},
 /turf/open/floor/plating/airless,
 /area/maintenance/ship_exterior)
-"AM" = (
-/obj/machinery/atmospherics/pipe/heat_exchanging/junction{
-	dir = 1
-	},
-/turf/open/floor/plating/airless,
-/area/engine/supermatter)
 "AP" = (
 /obj/structure/cable{
 	icon_state = "1-8"
@@ -11643,7 +11643,10 @@
 /turf/open/space/basic,
 /area/engine/engine_room/external)
 "Ld" = (
-/turf/closed/wall/r_wall/ship,
+/turf/closed/wall/r_wall/ship{
+	name = "Radiation Resistant Duranium hull";
+	rad_insulation = 1
+	},
 /area/engine/engine_room/external)
 "Ll" = (
 /obj/structure/lattice,
@@ -11700,6 +11703,12 @@
 /obj/machinery/atmospherics/pipe/heat_exchanging/simple,
 /turf/open/space/basic,
 /area/engine/engine_room/external)
+"MO" = (
+/turf/closed/wall/r_wall/ship{
+	name = "Radiation Resistant Duranium hull";
+	rad_insulation = 1
+	},
+/area/maintenance/nsv/deck2/airlock/forward/starboard)
 "MZ" = (
 /obj/machinery/atmospherics/pipe/simple/orange/hidden{
 	icon_state = "pipe11-2";
@@ -11796,6 +11805,12 @@
 	},
 /turf/open/space/basic,
 /area/engine/engine_room/external)
+"QR" = (
+/turf/closed/wall/r_wall/ship{
+	name = "Radiation Resistant Duranium hull";
+	rad_insulation = 1
+	},
+/area/janitor)
 "QS" = (
 /turf/open/floor/plasteel/dark,
 /area/engine/gravity_generator)
@@ -11857,6 +11872,15 @@
 	},
 /turf/open/floor/carpet,
 /area/crew_quarters/bar)
+"RJ" = (
+/obj/structure/grille,
+/obj/machinery/door/firedoor,
+/obj/structure/window/reinforced/fulltile/ship{
+	name = "Lead lined Nanocarbon reinforced window";
+	rad_insulation = 1
+	},
+/turf/open/floor/plating,
+/area/hallway/nsv/deck2/frame2/starboard)
 "RN" = (
 /obj/structure/sign/directions/medical{
 	dir = 8;
@@ -11883,10 +11907,6 @@
 	},
 /turf/open/floor/plasteel,
 /area/hallway/nsv/deck2/frame2/central)
-"Sm" = (
-/obj/machinery/atmospherics/pipe/heat_exchanging/junction,
-/turf/open/floor/plating/airless,
-/area/engine/supermatter)
 "Sw" = (
 /obj/structure/sign/poster/random,
 /turf/closed/wall/r_wall/ship,
@@ -12022,7 +12042,10 @@
 /turf/open/floor/plasteel,
 /area/science/robotics)
 "UN" = (
-/turf/closed/wall/r_wall/ship,
+/turf/closed/wall/r_wall/ship{
+	name = "Radiation Resistant Duranium hull";
+	rad_insulation = 1
+	},
 /area/maintenance/ship_exterior)
 "UZ" = (
 /obj/structure/lattice,
@@ -12069,7 +12092,6 @@
 /turf/open/floor/plasteel/dark,
 /area/crew_quarters/heads/cmo)
 "VP" = (
-/obj/machinery/atmospherics/pipe/heat_exchanging/simple,
 /turf/open/floor/engine/airless,
 /area/engine/supermatter)
 "Wc" = (
@@ -34096,10 +34118,10 @@ GQ
 uO
 tb
 uQ
-wH
-wH
-wH
-wH
+MO
+MO
+MO
+MO
 TB
 Ld
 Ld
@@ -34852,7 +34874,7 @@ fh
 uQ
 tb
 uQ
-wK
+RJ
 Ll
 LF
 LF
@@ -35104,7 +35126,7 @@ fi
 uP
 tc
 uQ
-wK
+RJ
 Ll
 LF
 LF
@@ -35860,7 +35882,7 @@ fi
 uP
 tc
 uQ
-wK
+RJ
 Ll
 TB
 LF
@@ -36112,7 +36134,7 @@ fh
 uQ
 td
 wv
-wK
+RJ
 Ll
 uz
 Ur
@@ -36619,11 +36641,11 @@ uQ
 wJ
 Ll
 LF
-Sm
+FW
 VP
 VP
 VP
-AM
+FW
 LF
 Ll
 Ld
@@ -36868,7 +36890,7 @@ fh
 uO
 tb
 uQ
-wK
+RJ
 Ll
 LF
 FW
@@ -37120,7 +37142,7 @@ fh
 uQ
 tb
 uQ
-wK
+RJ
 Ll
 Rm
 Ur
@@ -37372,7 +37394,7 @@ fh
 uQ
 tb
 uQ
-wK
+RJ
 Ll
 LF
 LF
@@ -37876,13 +37898,13 @@ RD
 uS
 tf
 uS
-uX
-uX
-uX
-uX
-uX
-uX
-uX
+QR
+QR
+QR
+QR
+QR
+QR
+QR
 UN
 Ld
 Ld
