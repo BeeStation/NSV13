@@ -383,6 +383,11 @@ AI MODULES
 	name = "'Asimov++' Core AI Module"
 	law_id = "asimovpp"
 
+/******************** Crewsimov ********************/	// NSV changes begin
+
+/obj/item/aiModule/core/full/crewsimov
+	name = "Crewsimov Cor AI Module"
+	law_id = "crewsimov" 								// NSV changes end
 
 /******************** Corporate ********************/
 
