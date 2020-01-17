@@ -8,6 +8,21 @@
 	pixel_y = 26
 	magazine_type = /obj/item/ammo_box/magazine/pdc
 	linked = null
+	load_delay = 50
+	unload_delay = 50
+
+	feeding_sound = null
+	fed_sound = null
+	feed_delay = 0
+	chamber_sound = null
+	chamber_delay_rapid = 0
+	chamber_delay = 0
+	semi_auto = TRUE
+	max_ammo = 100
+	maintainable = FALSE
+
+/obj/machinery/ship_weapon/pdc_mount/set_position(obj/structure/overmap/OM) //Use this to tell your ship what weapon category this belongs in
+	OM.pdcs += src
 
 /obj/machinery/ship_weapon/pdc_mount/update_icon()
 	if(!magazine)
@@ -20,11 +35,8 @@
 	icon_state = "[initial(icon_state)]_[progress]"
 
 /obj/machinery/ship_weapon/pdc_mount/fire(shots)
-	if(can_fire(shots))
-		for(var/i = 0, i < shots, i++)
-			var/obj/item/projectile/P = magazine.get_round(FALSE)
-			qdel(P)
-			update_icon()
+	if(..())
+		update_icon()
 		return TRUE
 	else
 		return FALSE

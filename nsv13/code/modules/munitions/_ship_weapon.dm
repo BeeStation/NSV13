@@ -20,12 +20,18 @@
 
 	var/load_sound = 'nsv13/sound/effects/ship/mac_load.ogg'
 	var/mag_load_sound = 'sound/weapons/autoguninsert.ogg'
+	var/load_delay = 20
 	var/unload_sound = 'nsv13/sound/effects/ship/freespace2/crane_short.ogg'
 	var/mag_unload_sound = 'sound/weapons/autoguninsert.ogg'
+	var/unload_delay = 10
 	var/feeding_sound = 'nsv13/sound/effects/ship/freespace2/crane_short.ogg'
 	var/fed_sound = 'nsv13/sound/effects/ship/reload.ogg'
+	var/feed_delay = 20
 	var/chamber_sound = 'nsv13/sound/weapons/railgun/ready.ogg'
+	var/chamber_delay_rapid = 2
+	var/chamber_delay = 10
 	var/firing_sound = 'nsv13/sound/effects/ship/mac_fire.ogg'
+	var/fire_animation_length = 5
 	var/malfunction_sound = 'sound/effects/alert.ogg'
 
 	var/safety = TRUE //Can only fire when safeties are off
@@ -83,12 +89,8 @@
 /obj/machinery/ship_weapon/pdc_mount/attack_hand(mob/user)
 	. = ..()
 	if(magazine)
-		to_chat(user, "<span class='notice'>You start to unload [magazine] from [src].</span>")
-		if(do_after(user,50, target = src))
-			user.put_in_hands(magazine)
-			magazine = null
-			update_icon()
-			playsound(src, mag_unload_sound, 100, 1)
+		unload_magazine()
+
 
 /obj/machinery/ship_weapon/MouseDrop_T(obj/item/A, mob/user)
 	. = ..()
@@ -96,16 +98,18 @@
 
 /obj/machinery/ship_weapon/proc/load(obj/A, mob/user)
 	if(istype(A, ammo_type)) //Right round type?
-		if( ((state >= STATE_LOADED) && !semi_auto) || (semi_auto && (ammo?.len < max_ammo)) ) //Room for one more?
+		message_admins("state [state], semi-auto [semi_auto], ammo length [ammo?.len], max ammo [max_ammo]")
+		if( (!semi_auto && (state < STATE_LOADED)) || (semi_auto && (ammo?.len < max_ammo)) ) //Room for one more?
 			if(!loading) //Not already loading a round?
 				to_chat(user, "<span class='notice'>You start to load [A] into [src]...</span>")
 				loading = TRUE
-				if(do_after(user,20, target = src))
+				if(do_after(user, load_delay, target = src))
 					to_chat(user, "<span class='notice'>You load [A] into [src].</span>")
 					loading = FALSE
 					A.forceMove(src)
 					ammo += A
-					playsound(src, load_sound, 100, 1)
+					if(load_sound)
+						playsound(src, load_sound, 100, 1)
 					state = STATE_LOADED
 				loading = FALSE
 			else
@@ -118,24 +122,38 @@
 /obj/machinery/ship_weapon/proc/load_magazine(obj/A, mob/user)
 	if(istype(A, magazine_type))
 		to_chat(user, "<span class='notice'>You start to load [A] into [src].</span>")
-		if(do_after(user,50, target = src))
+		if(do_after(user, load_delay, target = src))
 			to_chat(user, "<span class='notice'>You load [A] into [src].</span>")
-			playsound(src, mag_load_sound, 100, 1)
+			if(mag_load_sound)
+				playsound(src, mag_load_sound, 100, 1)
 			if(magazine) //If one's already loaded, swap it out
 				user.put_in_hands(magazine)
 				magazine = null
 			A.forceMove(src)
 			magazine = A
 			ammo = magazine.stored_ammo
+			state = STATE_FED
 			update_icon()
+			chamber()
+
+/obj/machinery/ship_weapon/proc/unload_magazine(obj/A, mob/user)
+	to_chat(user, "<span class='notice'>You start to unload [magazine] from [src].</span>")
+	if(do_after(user, unload_delay, target = src))
+		user.put_in_hands(magazine)
+		magazine = null
+		update_icon()
+		if(mag_unload_sound)
+			playsound(src, mag_unload_sound, 100, 1)
 
 /obj/machinery/ship_weapon/proc/feed()
 	if(state == STATE_LOADED)
 		flick("[initial(icon_state)]_loading",src)
-		playsound(src, feeding_sound, 100, 1)
-		sleep(20)
+		if(feeding_sound)
+			playsound(src, feeding_sound, 100, 1)
+		sleep(feed_delay)
 		icon_state = "[initial(icon_state)]_loaded"
-		playsound(src, fed_sound, 100, 1)
+		if(fed_sound)
+			playsound(src, fed_sound, 100, 1)
 		state = STATE_FED
 
 /obj/machinery/ship_weapon/proc/unload() //Unchambers, un--feeds, and unloads - spits out round
@@ -143,9 +161,11 @@
 		if(state == STATE_CHAMBERED) //If chambered, unchamber first
 			unchamber()
 
-		flick("[initial(icon_state)]_unloading",src)
-		playsound(src, unload_sound, 100, 1)
-		sleep(10)
+		if(state >= STATE_FED)
+			flick("[initial(icon_state)]_unloading",src)
+		if(unload_sound)
+			playsound(src, unload_sound, 100, 1)
+		sleep(unload_delay)
 		state = STATE_LOADED
 
 		//Spit it out
@@ -162,37 +182,45 @@
 				ammo -= round
 
 /obj/machinery/ship_weapon/proc/chamber(rapidfire = FALSE) //Rapidfire is used for when you want to reload rapidly. This is done for the railgun autoloader so that you can "volley" shots quickly.
-	message_admins("chambering")
+	message_admins("Chambering")
+	message_admins("State is [state]")
 	if((state == STATE_FED) && (ammo?.len > 0))
-		message_admins("We're fed and have at least one round")
+		message_admins("Fed and have ammo, continuing")
 		flick("[initial(icon_state)]_chambering",src)
+		message_admins("Sleeping")
 		if(rapidfire)
-			sleep(2)
+			sleep(chamber_delay_rapid)
 		else
-			sleep(10)
+			sleep(chamber_delay)
 		icon_state = "[initial(icon_state)]_chambered"
-		message_admins("Getting round to chamber")
+		message_admins("Getting round")
 		chambered = ammo[1]
-		message_admins("Chambered [chambered?.name]")
-		playsound(src, chamber_sound, 100, 1)
+		message_admins("Got [chambered]")
+		if(chamber_sound)
+			playsound(src, chamber_sound, 100, 1)
 		state = STATE_CHAMBERED
 
 /obj/machinery/ship_weapon/proc/unchamber()
 	if((state == STATE_CHAMBERED) && chambered)
 		flick("[initial(icon_state)]_chambering",src)
-		sleep(10)
+		sleep(chamber_delay)
 		icon_state = "[initial(icon_state)]_loaded"
-		playsound(src, fed_sound, 100, 1)
+		if(fed_sound)
+			playsound(src, fed_sound, 100, 1)
 		state = STATE_FED
 
 /obj/machinery/ship_weapon/proc/can_fire(shots = 1)
 	if((state < STATE_CHAMBERED) || (state >= STATE_FIRING) || (maint_state != MSTATE_CLOSED))
+		message_admins("Not chambered, firing, or panel open")
 		return FALSE
 	if(maintainable && malfunction)
+		message_admins("Malfunctioning")
 		return FALSE
-	if((ammo?.len < shots) && (magazine?.len < shots))
+	if(ammo?.len < shots)
+		message_admins("No ammo")
 		return FALSE
 	if(!chambered)
+		message_admins("No chambered round")
 		return FALSE
 	else
 		return TRUE
@@ -203,7 +231,8 @@
 			spawn(0) //Branch so that there isnt a fire delay for the helm.
 			do_animation()
 			state = STATE_FIRING
-			playsound(src, firing_sound, 100, 1)
+			if(firing_sound)
+				playsound(src, firing_sound, 100, 1)
 			if(bang)
 				for(var/mob/living/M in get_hearers_in_view(10, get_turf(src))) //Burst unprotected eardrums
 					if(M.stat == DEAD || !isliving(M))
@@ -215,29 +244,33 @@
 			qdel(chambered)
 			chambered = null
 
-			if(projectile) //Looks like we were able to fire a projectile, let's tell the ship what kind of bullet to shoot.
-				return projectile
-
 			//Count down towards maintenance
 			if(maintainable)
 				if(maint_req > 0)
 					maint_req --
 				else
 					weapon_malfunction()
+				after_fire()
+
+			if(projectile) //Looks like we were able to fire a projectile, let's tell the ship what kind of bullet to shoot.
+				return projectile //TODO doesn't work for multi-shot
+		return TRUE
+	return FALSE
 
 /obj/machinery/ship_weapon/proc/after_fire()
 	if(!ammo.len) //Only had one round
 		state = STATE_NOTLOADED
-	else if(!semi_auto) //Multiple rounds, but need to get ready manually
+	else
 		state = STATE_FED
-	else //Semi-automatic, chamber the next one
+
+	if(semi_auto) //Semi-automatic, chamber the next one
 		chamber(rapidfire = TRUE)
 
 /obj/machinery/ship_weapon/proc/do_animation()
 	flick("[initial(icon_state)]_firing",src)
-	sleep(5)
+	sleep(fire_animation_length)
 	flick("[initial(icon_state)]_unloading",src)
-	sleep(5)
+	sleep(fire_animation_length)
 	icon_state = initial(icon_state)
 
 // Ship Weapon Maintenance
