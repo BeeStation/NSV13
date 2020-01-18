@@ -6,6 +6,7 @@
 	bound_width = 128
 	bound_height = 64
 	pixel_y = -64
+
 	semi_auto = TRUE
 	ammo_type = /obj/item/ship_weapon/ammunition/railgun_ammo
 	max_ammo = 3 //Until you have to manually load it back up again. Battleships IRL have 3-4 shots before you need to reload the rack

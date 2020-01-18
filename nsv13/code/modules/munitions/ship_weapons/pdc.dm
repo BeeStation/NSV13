@@ -55,5 +55,6 @@
 	..()
 	update_icon()
 
+// Don't animate us on fire, the above takes care of all the icon updates we need
 /obj/machinery/ship_weapon/pdc_mount/do_animation()
 	return
