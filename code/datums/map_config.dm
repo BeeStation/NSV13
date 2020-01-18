@@ -15,6 +15,7 @@
 
 	// Config actually from the JSON - should default to Box
 	var/map_name = "Box Station"
+	var/map_link = null
 	var/map_path = "map_files/BoxStation"
 	var/map_file = "BoxStation.dmm"
 
@@ -156,6 +157,10 @@
 		log_world("map_config traits is not a list!")
 		return
 
+	if("map_link" in json)						// NSV Changes begin
+		map_link = json["map_link"]
+	else
+		log_world("map_link missing from json!")	// NSV Changes end
 
 	defaulted = FALSE
 	return TRUE
