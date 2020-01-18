@@ -121,9 +121,11 @@
 	if(!linked_areas.len && !main_overmap) //We need AIs to be able to use PDCs
 		return TRUE
 	if(!pdcs.len)
+		message_admins("No PDCs")
 		return FALSE
 	for(var/X in pdcs)
 		var/obj/machinery/ship_weapon/pdc_mount/pdc = X
+		message_admins("Firing")
 		if(pdc.fire(shots))
 			return TRUE
 	return FALSE

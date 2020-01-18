@@ -20,6 +20,7 @@
 	semi_auto = TRUE
 	max_ammo = 100
 	maintainable = FALSE
+	auto_load = TRUE
 
 /obj/machinery/ship_weapon/pdc_mount/set_position(obj/structure/overmap/OM) //Use this to tell your ship what weapon category this belongs in
 	OM.pdcs += src
@@ -33,13 +34,6 @@
 	progress = CLAMP(progress, 0, goal)
 	progress = round(((progress / goal) * 100), 20)//Round it down to 20%. We now apply visual damage
 	icon_state = "[initial(icon_state)]_[progress]"
-
-/obj/machinery/ship_weapon/pdc_mount/fire(shots)
-	if(..())
-		update_icon()
-		return TRUE
-	else
-		return FALSE
 
 /obj/item/ammo_box/magazine/pdc
 	name = "Point defense cannon ammo (30.12x82mm)"
