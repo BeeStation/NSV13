@@ -6,25 +6,30 @@
 	anchored = TRUE
 	density = FALSE
 	pixel_y = 26
+
+	auto_load = TRUE
+	semi_auto = TRUE
+	maintainable = FALSE
 	magazine_type = /obj/item/ammo_box/magazine/pdc
-	linked = null
+	max_ammo = 100
+
+	// We're fully automatic, so just the loading sound is enough
+	feeding_sound = null
+	fed_sound = null
+	chamber_sound = null
+
 	load_delay = 50
 	unload_delay = 50
 
-	feeding_sound = null
-	fed_sound = null
+	// No added delay between shots or for feeding rounds
 	feed_delay = 0
-	chamber_sound = null
 	chamber_delay_rapid = 0
 	chamber_delay = 0
-	semi_auto = TRUE
-	max_ammo = 100
-	maintainable = FALSE
-	auto_load = TRUE
 
-/obj/machinery/ship_weapon/pdc_mount/set_position(obj/structure/overmap/OM) //Use this to tell your ship what weapon category this belongs in
+/obj/machinery/ship_weapon/pdc_mount/set_position(obj/structure/overmap/OM)
 	OM.pdcs += src
 
+// Update the icon to reflect how far our magazine is depleted
 /obj/machinery/ship_weapon/pdc_mount/update_icon()
 	if(!magazine)
 		icon_state = "[initial(icon_state)]_0"
@@ -35,22 +40,20 @@
 	progress = round(((progress / goal) * 100), 20)//Round it down to 20%. We now apply visual damage
 	icon_state = "[initial(icon_state)]_[progress]"
 
-/obj/item/ammo_box/magazine/pdc
-	name = "Point defense cannon ammo (30.12x82mm)"
-	desc = "A box of .30 caliber rounds which can be loaded into a ship's point defense emplacements. These are typically used to shoot down oncoming missiles, and provide close quarters combat relief for large ships."
-	icon_state = "pdc"
-	ammo_type = /obj/item/ammo_casing/pdc
-	caliber = "mm30.12"
-	max_ammo = 100
 
+// Update the icon after things that affect how much ammo we have
 
-/obj/item/ammo_box/magazine/pdc/update_icon()
-	if(ammo_count() > 10)
-		icon_state = "pdc"
-	else
-		icon_state = "pdc_empty"
+/obj/machinery/ship_weapon/pdc_mount/load_magazine()
+	..()
+	update_icon()
 
-/obj/item/ammo_casing/pdc
-	name = "30.12x82mm bullet casing"
-	desc = "A 30.12x82mm bullet casing."
-	projectile_type = /obj/item/projectile/bullet/pdc_round
+/obj/machinery/ship_weapon/pdc_mount/unload_magazine()
+	..()
+	update_icon()
+
+/obj/machinery/ship_weapon/pdc_mount/after_fire()
+	..()
+	update_icon()
+
+/obj/machinery/ship_weapon/pdc_mount/do_animation()
+	return

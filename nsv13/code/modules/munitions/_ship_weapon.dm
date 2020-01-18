@@ -9,6 +9,10 @@
 #define STATE_CHAMBERED 4
 #define STATE_FIRING 5
 
+/**
+ * Ship-to-ship weapons
+ * Be sure to specify either a magazine_type or ammo_type so it can be loaded
+ */
 /obj/machinery/ship_weapon //CREDIT TO CM FOR THE SPRITES!
 	name = "A ship weapon"
 	desc = "Don't use this, use the subtypes"
@@ -21,6 +25,7 @@
 	var/obj/structure/overmap/linked = null
 	var/list/icon_state_list
 
+	// Icons, sounds, and timing for the states
 	var/load_sound = 'nsv13/sound/effects/ship/mac_load.ogg'
 	var/mag_load_sound = 'sound/weapons/autoguninsert.ogg'
 	var/load_delay = 20
@@ -39,19 +44,12 @@
 
 	var/firing_sound = 'nsv13/sound/effects/ship/mac_fire.ogg'
 	var/fire_animation_length = 5
-	var/bang = TRUE //Is firing loud?
 
 	var/malfunction_sound = 'sound/effects/alert.ogg'
+
+	//Various traits that probably won't change
 	var/maintainable = TRUE //Does the weapon require maintenance?
-
-	var/maint_req = 0 //Number of times a weapon can fire until a maintenance cycle is required. This will countdown to 0.
-	var/malfunction = FALSE
-	var/maint_state = MSTATE_CLOSED
-
-	var/safety = TRUE //Can only fire when safeties are off
-	var/loading = FALSE
-	var/state = STATE_NOTLOADED
-
+	var/bang = TRUE //Is firing loud?
 	var/auto_load = FALSE //Does the weapon feed and chamber the round once we load it?
 	var/semi_auto = FALSE //Does the weapon re-chamber for us after firing?
 
@@ -59,28 +57,53 @@
 	var/magazine_type = null
 	var/max_ammo = 1
 
+	// Things that change while we're operating
+	var/maint_req = 0 //Number of times a weapon can fire until a maintenance cycle is required. This will countdown to 0.
+	var/malfunction = FALSE
+	var/maint_state = MSTATE_CLOSED
+	var/safety = TRUE //Can only fire when safeties are off
+	var/loading = FALSE
+	var/state = STATE_NOTLOADED
+
 	var/obj/item/ammo_box/magazine/magazine //Magazine if we have one
-	var/obj/chambered //What have we got ready? Extrapolate ammo type from this
-	var/list/ammo = list()
+	var/obj/chambered //Chambered round if we have one. Extrapolate ammo type from this
+	var/list/ammo = list() //All loaded ammo
 
+/**
+ * Constructor for /obj/machinery/ship_weapon
 
+ * Attempts to link the weapon to an overmap ship.
+ * If the weapon requires maintenance, generates initial maintenance countdown.
+ * Caches icon state list for sanity checking when updating icons.
+ */
 /obj/machinery/ship_weapon/Initialize()
 	. = ..()
 	get_ship()
 	if(maintainable)
 		maint_req = rand(15,25) //Setting initial number of cycles until maintenance is required
-	create_reagents(50)
+		create_reagents(50)
 	icon_state_list = icon_states(icon)
 
+/**
+ * Tries to link the ship to an overmap by finding the overmap linked it the area we are in.
+ */
 /obj/machinery/ship_weapon/proc/get_ship()
 	var/area/AR = get_area(src)
 	if(AR.linked_overmap)
 		linked = AR.linked_overmap
 		set_position(linked)
 
+/**
+ * Adds the weapon to the overmap ship's list of weapons of this type
+ */
 /obj/machinery/ship_weapon/proc/set_position(obj/structure/overmap/OM) //Use this to tell your ship what weapon category this belongs in
 	return
 
+/**
+ * If we're not already linked to an overmap ship, try again.
+ * If we can accept it as ammunition, try to load it.
+ * If we're in maintenance and it holds reagents, try to use it as lubricant.
+ */
 /obj/machinery/ship_weapon/attackby(obj/item/I, mob/user)
 	if(!linked)
 		get_ship()
@@ -96,75 +119,109 @@
 		return
 	..()
 
+/**
+ * Unload magazine or just-loaded rounds.
+ */
 /obj/machinery/ship_weapon/pdc_mount/attack_hand(mob/user)
 	. = ..()
 	if(magazine)
 		unload_magazine(user)
+	else if(state == STATE_LOADED) //Only if we just put it in, if it's in the chamber they need to use the computer
+		unload()
 
-
+/**
+ * If we can accept it as ammo, try to load it.
+ */
 /obj/machinery/ship_weapon/MouseDrop_T(obj/item/A, mob/user)
 	. = ..()
-	load(A, user)
+	if(ammo_type && istype(A, ammo_type))
+		load(A, user)
 
+/**
+ * Transitions from STATE_NOTLOADED to STATE_LOADED.
+ *
+ * Try to load a single round (obj/A).
+ * Returns true if loaded successfully, false otherwise.
+ */
 /obj/machinery/ship_weapon/proc/load(obj/A, mob/user)
-	if(istype(A, ammo_type)) //Right round type?
-		message_admins("state [state], semi-auto [semi_auto], ammo length [ammo?.len], max ammo [max_ammo]")
-		if( (!semi_auto && (state < STATE_LOADED)) || (semi_auto && (ammo?.len < max_ammo)) ) //Room for one more?
+	if(ammo_type && istype(A, ammo_type))
+		if(ammo?.len < max_ammo) //Room for one more?
 			if(!loading) //Not already loading a round?
 				to_chat(user, "<span class='notice'>You start to load [A] into [src]...</span>")
 				loading = TRUE
+
 				if(do_after(user, load_delay, target = src))
-					to_chat(user, "<span class='notice'>You load [A] into [src].</span>")
 					loading = FALSE
 					A.forceMove(src)
 					ammo += A
 					if(load_sound)
 						playsound(src, load_sound, 100, 1)
 					state = STATE_LOADED
+					to_chat(user, "<span class='notice'>You load [A] into [src].</span>")
+
+					if(auto_load) //If we're automatic, get ready to fire
+						feed()
+						chamber()
+					loading = FALSE
+					return TRUE
+				//end if(do_after(user, load_delay, target = src))
 				loading = FALSE
-				if(auto_load)
-					feed()
-					chamber()
+			//end if(!loading)
 			else
 				to_chat(user, "<span class='notice'>You're already loading a round into [src]!.</span>")
+		//end if(ammo?.len < max_ammo)
 		else
 			to_chat(user, "<span class='warning'>[src] is already fully loaded!</span>")
+	//end if(ammo_type && istype(I, ammo_type))
 	else
 		to_chat(user, "<span class='warning'>You can't load [A] into [src]!</span>")
 
+	return FALSE
+
+/**
+ * Transitions from STATE_NOTLOADED to STATE_LOADED.
+ *
+ * Try to load a magazine (obj/A).
+ * Returns true if loaded successfully, false otherwise.
+ */
 /obj/machinery/ship_weapon/proc/load_magazine(obj/A, mob/user)
-	if(istype(A, magazine_type))
+	if(magazine_type && istype(A, magazine_type))
 		to_chat(user, "<span class='notice'>You start to load [A] into [src].</span>")
+		loading = TRUE
 		if(do_after(user, load_delay, target = src))
-			to_chat(user, "<span class='notice'>You load [A] into [src].</span>")
 			if(mag_load_sound)
 				playsound(src, mag_load_sound, 100, 1)
+
 			if(magazine) //If one's already loaded, swap it out
 				user.put_in_hands(magazine)
 				magazine = null
+
 			A.forceMove(src)
 			magazine = A
-			ammo = magazine.stored_ammo
+			ammo = magazine.stored_ammo //Lets us handle magazines and single rounds the same way
 			state = STATE_LOADED
-			if(auto_load)
+			to_chat(user, "<span class='notice'>You load [A] into [src].</span>")
+
+			if(auto_load) //If we're automatic, get ready to fire
 				feed()
 				chamber()
+			loading = FALSE
+			return TRUE
+		//end if(do_after(user, load_delay, target = src))
+		loading = FALSE
+	//end if(magazine_type && istype(A, magazine_type))
 	else
 		to_chat(user, "<span class='warning'>You can't load [A] into [src]!</span>")
 
-/obj/machinery/ship_weapon/proc/unload_magazine(mob/user)
-	to_chat(user, "<span class='notice'>You start to unload [magazine] from [src].</span>")
-	if(do_after(user, unload_delay, target = src))
-		user.put_in_hands(magazine)
-		magazine = null
-		update_icon()
-		if(mag_unload_sound)
-			playsound(src, mag_unload_sound, 100, 1)
-		state = STATE_NOTLOADED
+	return FALSE
 
-/obj/machinery/ship_weapon/proc/unload() //Unchambers, un-feeds, and spits out round
+/**
+ * If we're not magazine-fed, eject round(s) from the weapon.
+ * Transitions to STATE_NOTLOADED from higher states.
+ */
+/obj/machinery/ship_weapon/proc/unload()
 	if((state >= STATE_LOADED) && !magazine)
-		if(state >= STATE_FED) //If fed, un-feed
+		if(state >= STATE_FED) //Animate properly and make sure we clear any chambered rounds
 			unfeed()
 
 		if(unload_sound)
@@ -183,6 +240,27 @@
 				round.forceMove(get_turf(src))
 				ammo -= round
 
+/**
+ * If we are magazine-fed, unload the magazine.
+ * Transitions to STATE_NOTLOADED from higher states.
+ */
+/obj/machinery/ship_weapon/proc/unload_magazine(mob/user)
+	if((state >= STATE_LOADED) && magazine)
+		to_chat(user, "<span class='notice'>You start to unload [magazine] from [src].</span>")
+		if(state >= STATE_FED)
+			unfeed() //Animate properly and make sure we clear any chambered rounds
+		if(do_after(user, unload_delay, target = src))
+			user.put_in_hands(magazine)
+			magazine = null
+			if(mag_unload_sound)
+				playsound(src, mag_unload_sound, 100, 1)
+			state = STATE_NOTLOADED
+
+/**
+ * Once the user has insert a round into the gun, we can start moving through the cycle of firing.
+ * Primarily an animation and sound effect step - closes the breech/tray.
+ * Transitions from STATE_LOADED to STATE_FED
+ */
 /obj/machinery/ship_weapon/proc/feed()
 	if(state == STATE_LOADED)
 		flick("[initial(icon_state)]_loading",src)
@@ -195,6 +273,11 @@
 			playsound(src, fed_sound, 100, 1)
 		state = STATE_FED
 
+/**
+ * Gets ammunition ready to take out.
+ * Primarily an animation and sound effect step - opens the breech/tray.
+ * Transitions to STATE_LOADED from higher states.
+ */
 /obj/machinery/ship_weapon/proc/unfeed()
 	if(state >= STATE_FED)
 		if(state == STATE_CHAMBERED) //If chambered, unchamber first
@@ -202,91 +285,103 @@
 		flick("[initial(icon_state)]_unloading",src)
 		state = STATE_LOADED
 
-/obj/machinery/ship_weapon/proc/chamber(rapidfire = FALSE) //Rapidfire is used for when you want to reload rapidly. This is done for the railgun autoloader so that you can "volley" shots quickly.
-	message_admins("Chambering")
-	message_admins("State is [state]")
+/**
+ * Chambers the next round in ammo so that we're ready to fire.
+ * Rapidfire is used for when you want to reload rapidly. This is done for the railgun autoloader so that you can "volley" shots quickly.
+ * Transitions from STATE_FED to STATE_CHAMBERED.
+ */
+/obj/machinery/ship_weapon/proc/chamber(rapidfire = FALSE)
 	if((state == STATE_FED) && (ammo?.len > 0))
-		message_admins("Fed and have ammo, continuing")
 		flick("[initial(icon_state)]_chambering",src)
-		message_admins("Sleeping")
 		if(rapidfire)
 			sleep(chamber_delay_rapid)
 		else
 			sleep(chamber_delay)
 		if("[initial(icon_state)]_chambered" in icon_state_list)
 			icon_state = "[initial(icon_state)]_chambered"
-		message_admins("Getting round")
 		chambered = ammo[1]
-		message_admins("Got [chambered]")
 		if(chamber_sound)
 			playsound(src, chamber_sound, 100, 1)
 		state = STATE_CHAMBERED
 
+/**
+ * Unchambers a chambered round.
+ * Very important, sets chambered to null so we can't shoot things that aren't inside the weapon anymore.
+ * Transitions from STATE_CHAMBERED to STATE_FED.
+ */
 /obj/machinery/ship_weapon/proc/unchamber()
-	if((state == STATE_CHAMBERED) && chambered)
+	if(state == STATE_CHAMBERED)
 		flick("[initial(icon_state)]_chambering",src)
 		sleep(chamber_delay)
 		if("[initial(icon_state)]_loaded" in icon_state_list)
 			icon_state = "[initial(icon_state)]_loaded"
 		if(fed_sound)
 			playsound(src, fed_sound, 100, 1)
+		chambered = null
 		state = STATE_FED
 
+/**
+ * Checks if the weapon is able to fire the given number of shots.
+ * Need to have a round in the chamber, not already be shooting, not be in maintenance, not be malfunctioning, and have enough shots in our ammo pool.
+ */
 /obj/machinery/ship_weapon/proc/can_fire(shots = 1)
-	if((state < STATE_CHAMBERED) || (state >= STATE_FIRING) || (maint_state != MSTATE_CLOSED))
-		message_admins("Not chambered, firing, or panel open")
+	if((state < STATE_CHAMBERED) || !chambered) //Do we have a round ready to fire
 		return FALSE
-	if(maintainable && malfunction)
-		message_admins("Malfunctioning")
+	if (maint_state != MSTATE_CLOSED) //Are we in maintenance?
 		return FALSE
-	if(ammo?.len < shots)
-		message_admins("No ammo")
+	if(state >= STATE_FIRING) //Are we in the process of shooting already?
 		return FALSE
-	if(!chambered)
-		message_admins("No chambered round")
+	if(maintainable && malfunction) //Do we need maintenance?
+		return FALSE
+	if(ammo?.len < shots) //Do we have enough ammo?
 		return FALSE
 	else
 		return TRUE
 
+/**
+ * Fires the weapon.
+ * Verifies that we are ready to fire this many shots, then does that.
+ * Transitions from STATE_CHAMBERED to STATE_FIRING, then transitions
+ *   from STATE_FIRING to STATE_NOTLOADED if no more ammo,
+ *   from STATE_FED if not semi-auto and have ammo
+ *   from STATE_CHAMBERED if semi-auto and have ammo.
+ * Returns projectile if successfully fired, FALSE otherwise.
+ */
 /obj/machinery/ship_weapon/proc/fire(shots = 1)
 	if(can_fire(shots))
 		var/atom/projectile = null
 		for(var/i = 0, i < shots, i++)
-			projectile = fire_round()
-		after_fire()
+			spawn(0) //Branch so that there isnt a fire delay for the helm.
+			do_animation()
+			state = STATE_FIRING
+			if(firing_sound)
+				playsound(src, firing_sound, 100, 1)
+			if(bang)
+				for(var/mob/living/M in get_hearers_in_view(10, get_turf(src))) //Burst unprotected eardrums
+					if(M.stat == DEAD || !isliving(M)) //Unless they're dead
+						continue
+					M.soundbang_act(1,200,10,15)
+			projectile = new chambered.type() //Dummy munition in nullspace so we can get its attributes for the ship to fire it.
+			ammo -= chambered
+			qdel(chambered)
+			chambered = null
+
+			if(ammo?.len)
+				state = STATE_FED
+			else
+				state = STATE_NOTLOADED
+			//Semi-automatic, chamber the next one
+			if(semi_auto)
+				chamber(rapidfire = TRUE)
+
+			after_fire()
 		return projectile //Tell the overmap ship what icon to use
 	return FALSE
 
-/obj/machinery/ship_weapon/proc/fire_round()
-	spawn(0) //Branch so that there isnt a fire delay for the helm.
-	do_animation()
-	state = STATE_FIRING
-	if(firing_sound)
-		playsound(src, firing_sound, 100, 1)
-	if(bang)
-		for(var/mob/living/M in get_hearers_in_view(10, get_turf(src))) //Burst unprotected eardrums
-			if(M.stat == DEAD || !isliving(M))
-				continue
-			M.soundbang_act(1,200,10,15)
-
-	var/atom/projectile = new chambered.type() //Dummy munition in nullspace so we can get its attributes for the ship to fire it.
-	ammo -= chambered
-	qdel(chambered)
-	chambered = null
-
-	if(ammo?.len)
-		state = STATE_FED
-	else
-		state = STATE_NOTLOADED
-	//Semi-automatic, chamber the next one
-	if(semi_auto)
-		chamber(rapidfire = TRUE)
-
-	if(projectile)
-		return projectile
-
+/**
+ * Updates maintenance counter after firing if applicable.
+ */
 /obj/machinery/ship_weapon/proc/after_fire()
-	update_icon()
 	//Count down towards maintenance
 	if(maintainable)
 		if(maint_req > 0)
@@ -294,6 +389,9 @@
 		else
 			weapon_malfunction()
 
+/**
+ * Handles firing animation.
+ */
 /obj/machinery/ship_weapon/proc/do_animation()
 	flick("[initial(icon_state)]_firing",src)
 	sleep(fire_animation_length)
@@ -301,10 +399,30 @@
 	sleep(fire_animation_length)
 	icon_state = initial(icon_state)
 
+///////////////////////////
 // Ship Weapon Maintenance
+///////////////////////////
+/**
+ * Give people a hint about what to do.
+ */
+/obj/machinery/ship_weapon/examine()
+	. = ..()
+	if(malfunction)
+		. += "The maintenance lights are flashing red."
+		if(maint_state == MSTATE_CLOSED)
+			. += "The maintenance panel is <i>screwed</i> shut."
+
+	if(maint_state == MSTATE_UNSCREWED)
+		. += "The maintenance panel is <b>unscrewed</b> and the inner casing is <i>bolted</i> in place."
+	else if(maint_state == MSTATE_UNBOLTED)
+		. += "The inner casing has been <b>pried away</b> and the parts can be <i>lubricated</i>."
+
+/**
+ * The weapon has malfunctioned and needs maintenance. Set the flag and do some effects to let people know.
+ */
 /obj/machinery/ship_weapon/proc/weapon_malfunction()
 	malfunction = TRUE
-	playsound(src, 'sound/effects/alert.ogg', 100, TRUE) //replace this with appropriate sound
+	playsound(src, malfunction_sound, 100, TRUE)
 	visible_message("<span class=userdanger>Malfunction detected in [src]! Firing sequence aborted!</span>") //perhaps additional flavour text of a non angry red kind?
 	for(var/mob/living/M in range(10, get_turf(src)))
 		shake_camera(M, 2, 1)
@@ -314,6 +432,12 @@
 	light_color = LIGHT_COLOR_RED
 	set_light(3)
 
+/**
+ * Unscrews or re-secures the maintenance panel.
+ * Transitions from MSTATE_CLOSED to MSTATE_UNSCREWED.
+ * Transitions from MSTATE_UNSCREWED to MSTATE_CLOSED.
+ * Returns TRUE if handled, FALSE otherwise.
+ */
 /obj/machinery/ship_weapon/screwdriver_act(mob/user, obj/item/tool)
 	. = FALSE
 	if(state >= STATE_CHAMBERED && maint_state == MSTATE_CLOSED)
@@ -324,6 +448,7 @@
 		if(tool.use_tool(src, user, 40, volume=100))
 			to_chat(user, "<span class='notice'> You unfasten the maintenance panel on [src].</span>")
 			maint_state = MSTATE_UNSCREWED
+			panel_open = TRUE
 			update_overlay()
 			return TRUE
 	else if(maint_state == MSTATE_UNSCREWED)
@@ -334,6 +459,12 @@
 			update_overlay()
 			return TRUE
 
+/**
+ * Unbolts or re-secures the inner casing bolts.
+ * Transitions from MSTATE_UNSCREWED to MSTATE_UNBOLTED.
+ * Transitions from MSTATE_UNBOLTED to MSTATE_UNSCREWED.
+ * Returns TRUE if handled, FALSE otherwise.
+ */
 /obj/machinery/ship_weapon/wrench_act(mob/user, obj/item/tool)
 	. = FALSE
 	if(maint_state == MSTATE_UNSCREWED)
@@ -351,6 +482,12 @@
 			update_overlay()
 			return TRUE
 
+/**
+ * Removes or re-secures the inner casing to allow maintenance.
+ * Transitions from MSTATE_UNBOLTED to MSTATE_PRIEDOUT.
+ * Transitions from MSTATE_PRIEDOUT to MSTATE_UNBOLTED.
+ * Returns TRUE if handled, FALSE otherwise.
+ */
 /obj/machinery/ship_weapon/crowbar_act(mob/user, obj/item/tool)
 	. = FALSE
 	if(maint_state == MSTATE_UNBOLTED)
@@ -373,11 +510,14 @@
 			return TRUE
 	..()
 
+/**
+ * Tries to use item I to lubricate the machinery.
+ */
 /obj/machinery/ship_weapon/proc/oil(obj/item/I, mob/user)
 	if(maint_state != MSTATE_PRIEDOUT)
 		to_chat(user, "<span class='notice'>You require access to the inner workings of [src].</span>")
 		return
-	else if(maint_state == MSTATE_PRIEDOUT)
+	else if((maint_state == MSTATE_PRIEDOUT) && istype(I, /obj/item/reagent_containers))
 		if(I.reagents.has_reagent(/datum/reagent/oil, 10))
 			to_chat(user, "<span class='notice'>You start lubricating the inner workings of [src]...</span>")
 			if(!do_after(user, 2 SECONDS, target=src))
@@ -387,7 +527,7 @@
 				malfunction = FALSE
 				visible_message("<span class='notice'>The red warning lights on [src] fade away.</span>")
 				set_light(0)
-			maint_req = rand(15,25)
+			maint_req = max(maint_req, rand(15,25))
 			I.reagents.trans_to(src, 10)
 			reagents.clear_reagents()
 			return
@@ -400,6 +540,8 @@
 			I.reagents.trans_to(src, 10)
 			reagents.clear_reagents()
 			return
+	else
+		to_chat(user, "<span class='notice'>You can't lubricate the [src] with [I]!</span>")
 
 /obj/machinery/ship_weapon/proc/update_overlay()
 	cut_overlays()
