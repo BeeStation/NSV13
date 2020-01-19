@@ -57,6 +57,12 @@
 	var/magazine_type = null
 	var/max_ammo = 1
 
+	var/burst_size = 1
+	var/default_proj_type = /obj/item/projectile/bullet
+	var/overmap_fire_delay = 0
+	var/range_mod = 30
+	var/fire_mode = 1
+
 	// Things that change while we're operating
 	var/maint_req = 0 //Number of times a weapon can fire until a maintenance cycle is required. This will countdown to 0.
 	var/malfunction = FALSE
@@ -97,7 +103,7 @@
  * Adds the weapon to the overmap ship's list of weapons of this type
  */
 /obj/machinery/ship_weapon/proc/set_position(obj/structure/overmap/OM) //Use this to tell your ship what weapon category this belongs in
-	return
+	OM.add_weapon(src)
 
 /**
  * If we're not already linked to an overmap ship, try again.
@@ -398,6 +404,12 @@
 	flick("[initial(icon_state)]_unloading",src)
 	sleep(fire_animation_length)
 	icon_state = initial(icon_state)
+
+/**
+ * Overmap helper - prints weapon-specific selection notification
+ */
+/obj/machinery/ship_weapon/proc/notify_select(mob/user)
+	to_chat(usr, "<span class='notice'>Selecting weapon...</span>")
 
 #undef MSTATE_CLOSED
 #undef MSTATE_UNSCREWED

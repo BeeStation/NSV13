@@ -12,6 +12,9 @@
 	maintainable = FALSE
 	magazine_type = /obj/item/ammo_box/magazine/pdc
 	max_ammo = 100
+	burst_size = 3
+	range_mod = 0
+	fire_mode = 1
 
 	// We're fully automatic, so just the loading sound is enough
 	feeding_sound = null
@@ -25,9 +28,6 @@
 	feed_delay = 0
 	chamber_delay_rapid = 0
 	chamber_delay = 0
-
-/obj/machinery/ship_weapon/pdc_mount/set_position(obj/structure/overmap/OM)
-	OM.pdcs += src
 
 // Update the icon to reflect how far our magazine is depleted
 /obj/machinery/ship_weapon/pdc_mount/update_icon()
@@ -58,3 +58,7 @@
 // Don't animate us on fire, the above takes care of all the icon updates we need
 /obj/machinery/ship_weapon/pdc_mount/do_animation()
 	return
+
+/obj/machinery/ship_weapon/pdc_mount/notify_select(obj/structure/overmap/OM, mob/user)
+	to_chat(user, "<span class='notice'>Defensive flak screens: <b>OFFLINE</b>. Activating manual point defense cannon control.</span>")
+	OM.relay('nsv13/sound/effects/ship/pdc_start.ogg')

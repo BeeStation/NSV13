@@ -4,6 +4,11 @@
 #define MASS_LARGE 4
 #define MASS_TITAN 5
 
+#define FIRE_MODE_PDC 1
+#define FIRE_MODE_TORPEDO 2
+#define FIRE_MODE_RAILGUN 3
+#define FIRE_MODE_LASER 4
+
 /////////////////////////////////////////////////////////////////////////////////
 // ACKNOWLEDGEMENTS:  Credit to yogstation (Monster860) for the movement code. //
 // I had no part in writing the movement engine, that's his work               //
@@ -91,10 +96,8 @@
 	var/obj/machinery/computer/ship/dradis/dradis //So that pilots can check the radar easily
 
 	// Ship weapons
-	var/list/railguns = list() //Every railgun present on the ship
-	var/list/torpedo_tubes = list() //every torpedo tube present on the ship.
-	var/list/pdcs = list() //Every PDC ammo rack that we have.
-	var/list/ship_lasers = list() //Every ship-to-ship laser gun we have
+	var/list/weapons = list() //All of the weapons linked to us
+	var/list/weapon_types = list(4) //For iterating through when we cycle fire modes
 
 	var/fire_mode = FIRE_MODE_PDC //What gun do we want to fire? Defaults to railgun, with PDCs there for flak
 	var/weapon_safety = FALSE //Like a gun safety. Entirely un-used except for fighters to stop brainlets from shooting people on the ship unintentionally :)
@@ -136,12 +139,6 @@
 	GLOB.overmap_objects += src
 	START_PROCESSING(SSovermap, src)
 
-	railgun_overlay = new()
-	railgun_overlay.icon = icon
-	railgun_overlay.appearance_flags |= KEEP_APART
-	railgun_overlay.appearance_flags |= RESET_TRANSFORM
-	vis_contents += railgun_overlay
-
 	update_icon()
 	max_range = initial(weapon_range)+20 //Range of the maximum possible attack (torpedo)
 	find_area()
@@ -181,6 +178,17 @@
 		name = "[station_name()]"
 	current_system = GLOB.starsystem_controller.find_system(src)
 	addtimer(CALLBACK(src, .proc/check_armour), 20 SECONDS)
+
+/obj/structure/overmap/proc/add_weapon(obj/machinery/ship_weapon/weapon)
+	if(!weapon_types.Find(weapon.type))
+		//Try to keep our preferred order, but otherwise just tack them on at the end
+		if((weapon_types?.len >= weapon.fire_mode) && !weapon_types[weapon.fire_mode])
+			weapon_types[weapon.fire_mode] = weapon
+		else
+			weapon_types += weapon.type
+		weapons[weapon.type] = list()
+
+	weapons[weapon.type] += weapon
 
 /obj/structure/overmap/Destroy()
 	if(cabin_air)
@@ -431,4 +439,9 @@
 		return
 	move_by_mouse = !move_by_mouse
 	to_chat(usr, "<span class='notice'>You [move_by_mouse ? "activate" : "deactivate"] [src]'s laser guided movement system.</span>")
+
+#undef FIRE_MODE_PDC
+#undef FIRE_MODE_TORPEDO
+#undef FIRE_MODE_RAILGUN
+#undef FIRE_MODE_LASER
 

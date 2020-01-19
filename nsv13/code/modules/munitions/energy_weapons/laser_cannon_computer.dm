@@ -9,7 +9,7 @@
 	density = TRUE
 	anchored = TRUE
 	req_access = list(ACCESS_MUNITIONS)
-	var/obj/structure/ship_weapon/laser_cannon/LC //The one we're firing
+	var/obj/machinery/ship_weapon/laser_cannon/LC //The one we're firing
 
 /*
  * Try to find a laser cannon
@@ -23,8 +23,8 @@
  */
 /obj/machinery/computer/ship/laser_cannon_computer/proc/link_weapon()
 	if(!LC)
-		var/atom/adjacent = locate(/obj/structure/ship_weapon) in get_turf(get_step(src, dir)) //Look at what dir we're facing, find a gun in that turf
-		if(adjacent && istype(adjacent, /obj/structure/ship_weapon/laser_cannon))
+		var/atom/adjacent = locate(/obj/machinery/ship_weapon) in get_turf(get_step(src, dir)) //Look at what dir we're facing, find a gun in that turf
+		if(adjacent && istype(adjacent, /obj/machinery/ship_weapon/laser_cannon))
 			LC = adjacent
 			LC.computer = src
 	if(LC && !LC.linked)

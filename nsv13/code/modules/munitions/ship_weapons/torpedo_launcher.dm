@@ -11,6 +11,9 @@
 	firing_sound = 'nsv13/sound/effects/ship/plasma.ogg'
 	load_sound = 'nsv13/sound/effects/ship/freespace2/m_load.wav'
 	ammo_type = /obj/item/ship_weapon/ammunition/torpedo
+	fire_mode = 3
+	overmap_fire_delay = 5
 
-/obj/machinery/ship_weapon/torpedo_launcher/set_position(obj/structure/overmap/OM)
-	OM.torpedo_tubes += src
+/obj/machinery/ship_weapon/pdc_mount/notify_select(obj/structure/overmap/OM, mob/user)
+	to_chat(user, "<span class='notice'>Long range target acquisition systems: online.</span>")
+	OM.relay('nsv13/sound/effects/ship/reload.ogg')

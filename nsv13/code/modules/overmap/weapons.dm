@@ -103,30 +103,15 @@
 			if(!QDELETED(ship) && isovermap(ship))
 				fire_pdcs(ship, lateral=TRUE)
 
-/obj/structure/overmap/proc/fire_pdcs(atom/target, lateral=TRUE) //"Lateral" means that your ship doesnt have to face the target
-	var/shots_per = 3
-	if(!can_fire_pdcs(shots_per))
-		to_chat(gunner, "<span class='warning'>DANGER: Point defense emplacements are unable to fire due to lack of ammunition.</span>")
-		return
-	var/sound/chosen = pick('nsv13/sound/effects/ship/pdc.ogg','nsv13/sound/effects/ship/pdc2.ogg','nsv13/sound/effects/ship/pdc3.ogg')
-	relay_to_nearby(chosen)
-	for(var/i = 0, i < shots_per, i++)
-		sleep(1)
-		if(lateral)
-			fire_lateral_projectile(/obj/item/projectile/bullet/pdc_round, target)
-		else
-			fire_projectiles(/obj/item/projectile/bullet/pdc_round, target)
-
 /obj/structure/overmap/proc/can_fire_pdcs(shots) //Trigger the PDCs to fire
 	if(!linked_areas.len && !main_overmap) //We need AIs to be able to use PDCs
 		return TRUE
-	if(!pdcs.len)
+	if(!/obj/machinery/ship_weapon/pdc_mount in weapon_types)
 		message_admins("No PDCs")
 		return FALSE
-	for(var/X in pdcs)
-		var/obj/machinery/ship_weapon/pdc_mount/pdc = X
+	for(var/obj/machinery/ship_weapon/pdc_mount/pdc in weapons[/obj/machinery/ship_weapon/pdc_mount])
 		message_admins("Firing")
-		if(pdc.fire(shots))
+		if(pdc.can_fire(shots) && pdc.fire(shots))
 			return TRUE
 	return FALSE
 
@@ -178,98 +163,101 @@
 	set src = usr.loc
 	if(usr != gunner)
 		return
-	var/max_firemode = FIRE_MODE_LASER
-	if(mass < MASS_MEDIUM) //Small craft dont get a railgun
-		max_firemode = FIRE_MODE_TORPEDO
 
-	var/tries = 0
-	while (tries < 4) // The total number of weapon types
+	var/stop = fire_mode
+	var/mod = weapon_types.len
+	fire_mode = ((fire_mode + 1) % mod)
+
+	for(fire_mode; fire_mode != stop; fire_mode = ((fire_mode + 1) % mod))
 		stoplag()
-		fire_mode ++
-		if(fire_mode > max_firemode)
-			fire_mode = FIRE_MODE_PDC
-		if (try_firemode(usr, fire_mode))
+		if(try_firemode(usr, fire_mode))
 			return
-		tries++
+
 	// No weapons available, set PDCs as default
 	fire_mode = FIRE_MODE_PDC
 
 // Try to switch fire modes. Fail if there are no weapons of that type available.
-/obj/structure/overmap/proc/try_firemode(atom/usr, mode=FIRE_MODE_PDC)
-	switch(fire_mode)
-		if(FIRE_MODE_PDC)
-			if (pdcs.len >= 1)
-				to_chat(usr, "<span class='notice'>Defensive flak screens: <b>OFFLINE</b>. Activating manual point defense cannon control.</span>")
-				relay('nsv13/sound/effects/ship/pdc_start.ogg')
-				swap_to(FIRE_MODE_PDC)
-				return TRUE
-		if(FIRE_MODE_RAILGUN)
-			if (railguns.len >= 1)
-				to_chat(usr, "<span class='notice'>Charging railgun hardpoints...</span>")
-				relay('nsv13/sound/effects/ship/railgun_ready.ogg')
-				swap_to(FIRE_MODE_RAILGUN)
-				return TRUE
-		if(FIRE_MODE_TORPEDO)
-			if (torpedo_tubes.len >= 1)
-				to_chat(usr, "<span class='notice'>Long range target acquisition systems: online.</span>")
-				relay('nsv13/sound/effects/ship/reload.ogg')
-				swap_to(FIRE_MODE_TORPEDO)
-				return TRUE
-		if(FIRE_MODE_LASER)
-			if (ship_lasers.len >= 1)
-				to_chat(usr, "<span class='notice'>Calibrating wave motion gun targeting systems.</span>")
-				relay('sound/effects/empulse.ogg')
-				swap_to(FIRE_MODE_LASER)
-				return TRUE
-
+/obj/structure/overmap/proc/try_firemode(atom/user, mode=1)
+	var/mode_type = weapon_types[mode]
+	if(weapons[mode_type]?.len) //We have at least one
+		weapons[mode_type][1].notify_select(src, user)
+		swap_to(mode)
+		return TRUE
 	return FALSE
 
-
 /obj/structure/overmap/proc/swap_to(what=FIRE_MODE_PDC)
-	switch(what)
-		if(FIRE_MODE_PDC)
-			fire_delay = initial(fire_delay) //all ships start on PDC mode
-			weapon_range = initial(weapon_range)
-			fire_mode = FIRE_MODE_PDC
-		if(FIRE_MODE_RAILGUN)
-			fire_delay = 10 //Very limited ammo
-			weapon_range = initial(weapon_range)+30 //Gain a large range bonus. This will take care of a lot of combat.
-			fire_mode = FIRE_MODE_RAILGUN
-		if(FIRE_MODE_TORPEDO)
-			fire_delay = 5 //These things rip into your hull, but can be easily shot down
-			weapon_range = initial(weapon_range)+30 //Most combat takes place at extreme ranges, torpedoes allow for this.
-			fire_mode = FIRE_MODE_TORPEDO
-		if(FIRE_MODE_LASER)
-			fire_delay = 3 SECONDS //Long charging time
-			weapon_range = initial(weapon_range)+30
+	var/mode_type = weapon_types[what]
+	if(weapons[mode_type]?.len)
+		var/obj/machinery/ship_weapon/W = weapons[mode_type][1]
+		fire_delay = initial(fire_delay) + W.overmap_fire_delay
+		weapon_range = initial(weapon_range) + W.range_mod
+		fire_mode = what
+
+		if(ai_controlled)
+			fire_delay += 10 //Make it fair on the humans who have to actually reload and stuff.
+
+/obj/structure/overmap/proc/fire_pdcs(atom/target, lateral=TRUE) //"Lateral" means that your ship doesnt have to face the target
+	var/shots_per = 3
+	if(!can_fire_pdcs(shots_per))
+		to_chat(gunner, "<span class='warning'>DANGER: Point defense emplacements are unable to fire due to lack of ammunition.</span>")
+		return
+	var/sound/chosen = pick('nsv13/sound/effects/ship/pdc.ogg','nsv13/sound/effects/ship/pdc2.ogg','nsv13/sound/effects/ship/pdc3.ogg')
+	relay_to_nearby(chosen)
+	for(var/i = 0, i < shots_per, i++)
+		sleep(1)
+		if(lateral)
+			fire_lateral_projectile(/obj/item/projectile/bullet/pdc_round, target)
+		else
+			fire_projectiles(/obj/item/projectile/bullet/pdc_round, target)
+
+/*
+/obj/structure/overmap/proc/fire_weapon(var/weapon_type, atom/target, lateral=TRUE)
 	if(ai_controlled)
-		fire_delay += 10 //Make it fair on the humans who have to actually reload and stuff.
+		fire_lateral_projectile(weapon_type.default_proj_type, target, weapon_type.overmap_fire_delay)
+		return TRUE
+	if(!weapon_type in weapon_types)
+		return FALSE
+
+	var/proj_type = null
+	var/atom/proj_object = null
+	var/fired = FALSE
+
+	for(var/obj/machinery/ship_weapon/SW in weapons[weapon_type])
+		if(SW.can_fire(weapon_type.burst_size))
+			proj_object = SW.fire()
+			if(!proj_object)
+				continue
+			if(istype(proj_object, weapon_type.ammo_type))
+				proj_type =
+*/
 
 /obj/structure/overmap/proc/fire_railgun(atom/target)
 	if(ai_controlled) //AI ships don't have interiors
 		fire_lateral_projectile(/obj/item/projectile/bullet/railgun_slug, target, 10)
 		return
+	if(!/obj/machinery/ship_weapon/railgun in weapon_types)
+		message_admins("No railguns")
+		return FALSE
+
 	var/proj_type = null //If this is true, we've got a launcher shipside that's been able to fire.
 	var/atom/proj_object = null
 	var/fired = FALSE
-	for(var/X in railguns)
-		if(istype(X, /obj/machinery/ship_weapon/railgun))
-			var/obj/machinery/ship_weapon/railgun/RG = X
-			if(RG.can_fire())
-				proj_object = RG.fire()
-				if(!proj_object)
-					continue
-				if(istype(proj_object, /obj/item/ship_weapon/ammunition/railgun_ammo))
-					var/obj/item/ship_weapon/ammunition/railgun_ammo/RA = proj_object
-					proj_type = RA.proj_type
-					qdel(proj_object)
-				if(proj_type)
-					fired = TRUE
-					break
+
+	for(var/obj/machinery/ship_weapon/railgun/RG in weapons[/obj/machinery/ship_weapon/railgun])
+		if(RG.can_fire())
+			proj_object = RG.fire()
+			if(!proj_object)
+				continue
+			if(istype(proj_object, /obj/item/ship_weapon/ammunition/railgun_ammo))
+				var/obj/item/ship_weapon/ammunition/railgun_ammo/RA = proj_object
+				proj_type = RA.proj_type
+				qdel(proj_object)
+			if(proj_type)
+				fired = TRUE
+				break
 	if(!fired)
 		to_chat(gunner, "<span class='warning'>DANGER: Launch failure! Railgun systems are not loaded.</span>")
 		return
-
 
 	var/sound/chosen ='nsv13/sound/effects/ship/railgun_fire.ogg'
 	relay_to_nearby(chosen)
@@ -287,19 +275,20 @@
 	if(ai_controlled) //AI ships don't have interiors
 		fire_lateral_projectile(/obj/item/projectile/bullet/laser, target)
 		return
+
+	if(!/obj/machinery/ship_weapon/laser_cannon in weapon_types)
+		message_admins("No laser cannons")
+		return FALSE
+
 	var/fired = FALSE
-	for(var/X in ship_lasers)
-		if(istype(X, /obj/structure/ship_weapon/laser_cannon))
-			var/obj/structure/ship_weapon/laser_cannon/LC = X
-			if(LC.can_fire())
-				LC.fire()
-				fire_lateral_projectile(/obj/item/projectile/bullet/laser, target)
-				fired = TRUE
-				break
-			else
-				to_chat(gunner, "<span class='warning'>The cannon cannot fire</span>")
+	for(var/obj/machinery/ship_weapon/laser_cannon/LC in weapons[/obj/machinery/ship_weapon/laser_cannon])
+		if(LC.can_fire())
+			LC.fire()
+			fire_lateral_projectile(/obj/item/projectile/bullet/laser, target)
+			fired = TRUE
+			break
 		else
-			to_chat(gunner, "<span class='warning'>This is not a laser cannon</span>")
+			to_chat(gunner, "<span class='warning'>The cannon cannot fire</span>")
 	if(!fired)
 		to_chat(gunner, "<span class='warning'>ERROR: Laser systems are offline.</span>")
 		return
@@ -315,15 +304,18 @@
 		fire_projectile(/obj/item/projectile/bullet/torpedo, target, homing = TRUE, speed=1, explosive = TRUE)
 		torpedoes --
 		return
+
+	if(!/obj/machinery/ship_weapon/torpedo_launcher in weapon_types)
+		message_admins("No laser cannons")
+		return FALSE
+
 	var/proj_type = null //If this is true, we've got a launcher shipside that's been able to fire.
 	var/obj/item/ship_weapon/ammunition/torpedo/proj_object = null
 	var/proj_speed = 1
-	for(var/X in torpedo_tubes)
-		if(istype(X, /obj/machinery/ship_weapon/torpedo_launcher))
-			var/obj/machinery/ship_weapon/torpedo_launcher/TL = X
-			proj_object = TL.fire()
-			if(proj_object)
-				break //Found a gun and fired it. No need to fire all the guns at once
+	for(var/obj/machinery/ship_weapon/torpedo_launcher/TL in weapons[/obj/machinery/ship_weapon/torpedo_launcher])
+		proj_object = TL.fire()
+		if(proj_object)
+			break //Found a gun and fired it. No need to fire all the guns at once
 
 	proj_type = proj_object?.torpedo_type
 	proj_speed = proj_object?.speed

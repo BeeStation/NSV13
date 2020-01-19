@@ -8,7 +8,7 @@
  * A ship-to-ship laser cannon that charges by drawing a large amount of power from the ship's grid.
  * Can be researched by science and built by the crew.
  */
-/obj/structure/ship_weapon/laser_cannon
+/obj/machinery/ship_weapon/laser_cannon
 	name = "NT-WMG2 Laser cannon"
 	desc = "An experimental ship-to-ship energy weapon which fires a powerful destructive blast."
 	icon = 'nsv13/icons/obj/laser_cannon.dmi'
@@ -20,7 +20,10 @@
 	bound_height = 32
 	dir = 4
 
-	fire_sound = 'sound/weapons/lasercannonfire.ogg'
+	fire_mode = 4
+	overmap_fire_delay = 3
+
+	firing_sound = 'sound/weapons/lasercannonfire.ogg'
 	var/obj/machinery/computer/ship/laser_cannon_computer/computer
 	var/obj/item/stock_parts/cell/laser_cannon/cell
 	var/obj/structure/cable/attached
@@ -28,10 +31,7 @@
 
 	var/projectile_type = /obj/item/projectile/beam/laser/heavylaser
 
-	// Variables used for construction and deconstruction, copied from _machinery.dm
-	var/list/component_parts = null
-	var/panel_open = FALSE
-	var/obj/item/circuitboard/machine/laser_cannon/circuit // Circuit to be created and inserted when the machinery is created
+	circuit = /obj/item/circuitboard/machine/laser_cannon // Circuit to be created and inserted when the machinery is created
 
 /*
  * Overmap projectile
@@ -41,10 +41,14 @@
 	icon_state = "heavylaser"
 	damage = 250
 
+/obj/machinery/ship_weapon/pdc_mount/notify_select(obj/structure/overmap/OM, mob/user)
+	to_chat(user, "<span class='notice'>Calibrating wave motion gun targeting systems.</span>")
+	OM.relay('sound/effects/empulse.ogg')
+
 /*
  * Make sure we have a wire to drain power from, a circuitboard, and all the required parts for construction/deconstruction.
  */
-/obj/structure/ship_weapon/laser_cannon/Initialize()
+/obj/machinery/ship_weapon/laser_cannon/Initialize()
 	..()
 
 	attached = locate(/obj/structure/cable) in get_turf(src)// I don't know why I had to specify this but regular locate didn't work
@@ -52,30 +56,15 @@
 	if(!attached)
 		state = STATE_DISCONNECTED // Otherwise STATE_OFF as in the initial declaration
 
-	//This is duplicate _machinery.dm code
-	circuit = new /obj/item/circuitboard/machine/laser_cannon(src)
-	circuit.apply_default_parts(src)
-
 	// Set charge to 0 for brand new cannons (i.e. map-placed cannons)
 	cell = locate(/obj/item/stock_parts/cell/laser_cannon) in component_parts
 	cell.charge = 0
 
 /*
- * Destroys the cannon and its components. Copied from _machinery.dm
- */
-/obj/structure/ship_weapon/laser_cannon/Destroy()
-	//This is duplicate _machinery.dm code
-	if(length(component_parts))
-		for(var/atom/A in component_parts)
-			qdel(A)
-		component_parts.Cut()
-	return ..()
-
-/*
  * Adds the laser cannon to the list of laser cannons available to the overmap ship.
  */
-/obj/structure/ship_weapon/laser_cannon/set_position(obj/structure/overmap/OM)
-	OM.ship_lasers += src
+/obj/machinery/ship_weapon/laser_cannon/set_position(obj/structure/overmap/OM)
+	..()
 
 	OM.laser_overlay = new()
 	OM.laser_overlay.appearance_flags |= KEEP_APART
@@ -86,7 +75,7 @@
  * Handles power drain.
  * The laser cannon functions similarly to a powersink, without the exploding.
  */
-/obj/structure/ship_weapon/laser_cannon/process()
+/obj/machinery/ship_weapon/laser_cannon/process()
 	if(!attached || !anchored) // No cable or we're not wrenched down
 		state = STATE_DISCONNECTED
 	if (state == STATE_OFF || state == STATE_DISCONNECTED) // Turned off or not connected to the grid, don't draw power
@@ -128,7 +117,7 @@
  * Checks whether the laser cannon is able to fire.
  * If all goes well, STATE_READY should be the only indicator needed, but I won't assume anything.
  */
-/obj/structure/ship_weapon/laser_cannon/can_fire()
+/obj/machinery/ship_weapon/laser_cannon/can_fire()
 	if (state != STATE_READY)
 		return FALSE
 	if (!attached)
@@ -146,12 +135,12 @@
  * Depowers the non-essential areas of the ship for 10 seconds as the grid check event.
  * Causes a bright flash in the cannon's area and fires a laser bolt forwards.
  */
-/obj/structure/ship_weapon/laser_cannon/fire()
+/obj/machinery/ship_weapon/laser_cannon/fire()
 	if(!can_fire())
 		return
 	spawn(0)
 		// Fire on the main map
-		playsound(src, fire_sound, 100, 1)
+		playsound(src, firing_sound, 100, 1)
 		var/obj/item/projectile/P = new projectile_type(get_step(src, 4))
 		P.fire(dir2angle(dir))
 		do_animation()
@@ -170,7 +159,7 @@
 /*
  * Flash all mobs that are near open space or the laser
  */
-/obj/structure/ship_weapon/laser_cannon/proc/apply_flash()
+/obj/machinery/ship_weapon/laser_cannon/proc/apply_flash()
 	// Mobs near laser
 	for(var/mob/living/M in get_hearers_in_view(7, get_turf(src)))
 		if(M.stat != DEAD)
@@ -191,7 +180,7 @@
 /*
  * Switches whether the laser cannon is charging.
  */
-/obj/structure/ship_weapon/laser_cannon/proc/toggle_charging()
+/obj/machinery/ship_weapon/laser_cannon/proc/toggle_charging()
 	if(state == STATE_CHARGING)
 		STOP_PROCESSING(SSobj, src)
 		state = STATE_OFF
@@ -202,7 +191,7 @@
 /*
  * Switches the weapon safety.
  */
-/obj/structure/ship_weapon/laser_cannon/proc/toggle_safety()
+/obj/machinery/ship_weapon/laser_cannon/proc/toggle_safety()
 	if(safety)
 		safety = FALSE
 	else
