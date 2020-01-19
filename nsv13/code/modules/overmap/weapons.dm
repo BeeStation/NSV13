@@ -169,6 +169,8 @@
 			fire_railgun(target)
 		if(FIRE_MODE_TORPEDO) //In case of bugs.
 			fire_torpedo(target)
+		if(FIRE_MODE_LASER)
+			fire_laser(target)
 
 /obj/structure/overmap/verb/cycle_firemode()
 	set name = "Switch firemode"
@@ -176,25 +178,52 @@
 	set src = usr.loc
 	if(usr != gunner)
 		return
-	var/max_firemode = FIRE_MODE_RAILGUN
+	var/max_firemode = FIRE_MODE_LASER
 	if(mass < MASS_MEDIUM) //Small craft dont get a railgun
 		max_firemode = FIRE_MODE_TORPEDO
-	fire_mode ++
-	if(fire_mode > max_firemode)
-		fire_mode = FIRE_MODE_PDC
+
+	var/tries = 0
+	while (tries < 4) // The total number of weapon types
+		stoplag()
+		fire_mode ++
+		if(fire_mode > max_firemode)
+			fire_mode = FIRE_MODE_PDC
+		if (try_firemode(usr, fire_mode))
+			return
+		tries++
+	// No weapons available, set PDCs as default
+	fire_mode = FIRE_MODE_PDC
+
+// Try to switch fire modes. Fail if there are no weapons of that type available.
+/obj/structure/overmap/proc/try_firemode(atom/usr, mode=FIRE_MODE_PDC)
 	switch(fire_mode)
 		if(FIRE_MODE_PDC)
-			to_chat(usr, "<span class='notice'>Defensive flak screens: <b>OFFLINE</b>. Activating manual point defense cannon control.</span>")
-			relay('nsv13/sound/effects/ship/pdc_start.ogg')
-			swap_to(FIRE_MODE_PDC)
+			if (pdcs.len >= 1)
+				to_chat(usr, "<span class='notice'>Defensive flak screens: <b>OFFLINE</b>. Activating manual point defense cannon control.</span>")
+				relay('nsv13/sound/effects/ship/pdc_start.ogg')
+				swap_to(FIRE_MODE_PDC)
+				return TRUE
 		if(FIRE_MODE_RAILGUN)
-			to_chat(usr, "<span class='notice'>Charging railgun hardpoints...</span>")
-			relay('nsv13/sound/effects/ship/railgun_ready.ogg')
-			swap_to(FIRE_MODE_RAILGUN)
+			if (railguns.len >= 1)
+				to_chat(usr, "<span class='notice'>Charging railgun hardpoints...</span>")
+				relay('nsv13/sound/effects/ship/railgun_ready.ogg')
+				swap_to(FIRE_MODE_RAILGUN)
+				return TRUE
 		if(FIRE_MODE_TORPEDO)
-			to_chat(usr, "<span class='notice'>Long range target acquisition systems: online.</span>")
-			relay('nsv13/sound/effects/ship/reload.ogg')
-			swap_to(FIRE_MODE_TORPEDO)
+			if (torpedo_tubes.len >= 1)
+				to_chat(usr, "<span class='notice'>Long range target acquisition systems: online.</span>")
+				relay('nsv13/sound/effects/ship/reload.ogg')
+				swap_to(FIRE_MODE_TORPEDO)
+				return TRUE
+		if(FIRE_MODE_LASER)
+			if (ship_lasers.len >= 1)
+				to_chat(usr, "<span class='notice'>Calibrating wave motion gun targeting systems.</span>")
+				relay('sound/effects/empulse.ogg')
+				swap_to(FIRE_MODE_LASER)
+				return TRUE
+
+	return FALSE
+
 
 /obj/structure/overmap/proc/swap_to(what=FIRE_MODE_PDC)
 	switch(what)
@@ -210,6 +239,9 @@
 			fire_delay = 5 //These things rip into your hull, but can be easily shot down
 			weapon_range = initial(weapon_range)+30 //Most combat takes place at extreme ranges, torpedoes allow for this.
 			fire_mode = FIRE_MODE_TORPEDO
+		if(FIRE_MODE_LASER)
+			fire_delay = 3 SECONDS //Long charging time
+			weapon_range = initial(weapon_range)+30
 	if(ai_controlled)
 		fire_delay += 10 //Make it fair on the humans who have to actually reload and stuff.
 
@@ -250,6 +282,31 @@
 	for(var/mob/M in mobs_in_ship)
 		if(M.client)
 			shake_camera(M, severity, 1)
+
+/obj/structure/overmap/proc/fire_laser(atom/target)
+	if(ai_controlled) //AI ships don't have interiors
+		fire_lateral_projectile(/obj/item/projectile/bullet/laser, target)
+		return
+	var/fired = FALSE
+	for(var/X in ship_lasers)
+		if(istype(X, /obj/structure/ship_weapon/laser_cannon))
+			var/obj/structure/ship_weapon/laser_cannon/LC = X
+			if(LC.can_fire())
+				LC.fire()
+				fire_lateral_projectile(/obj/item/projectile/bullet/laser, target)
+				fired = TRUE
+				break
+			else
+				to_chat(gunner, "<span class='warning'>The cannon cannot fire</span>")
+		else
+			to_chat(gunner, "<span class='warning'>This is not a laser cannon</span>")
+	if(!fired)
+		to_chat(gunner, "<span class='warning'>ERROR: Laser systems are offline.</span>")
+		return
+
+	var/sound/chosen ='sound/weapons/lasercannonfire.ogg'
+	relay_to_nearby(chosen)
+	flick("laser",laser_overlay)
 
 /obj/structure/overmap/proc/fire_torpedo(atom/target)
 	if(!linked_areas.len && !main_overmap) //AI ships don't have interiors
