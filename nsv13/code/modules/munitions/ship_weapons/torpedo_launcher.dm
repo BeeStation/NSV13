@@ -15,5 +15,6 @@
 	overmap_fire_delay = 5
 
 /obj/machinery/ship_weapon/pdc_mount/notify_select(obj/structure/overmap/OM, mob/user)
+	message_admins("Selecting torps")
 	to_chat(user, "<span class='notice'>Long range target acquisition systems: online.</span>")
 	OM.relay('nsv13/sound/effects/ship/reload.ogg')

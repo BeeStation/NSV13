@@ -97,7 +97,7 @@
 
 	// Ship weapons
 	var/list/weapons = list() //All of the weapons linked to us
-	var/list/weapon_types = list(4) //For iterating through when we cycle fire modes
+	var/list/weapon_types[4] //For iterating through when we cycle fire modes
 
 	var/fire_mode = FIRE_MODE_PDC //What gun do we want to fire? Defaults to railgun, with PDCs there for flak
 	var/weapon_safety = FALSE //Like a gun safety. Entirely un-used except for fighters to stop brainlets from shooting people on the ship unintentionally :)

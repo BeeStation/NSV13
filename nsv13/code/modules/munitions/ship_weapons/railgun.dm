@@ -32,5 +32,6 @@
 	return
 
 /obj/machinery/ship_weapon/pdc_mount/notify_select(obj/structure/overmap/OM, mob/user)
+	message_admins("Selecting railgun")
 	to_chat(user, "<span class='notice'>Charging railgun hardpoints...</span>")
 	OM.relay('nsv13/sound/effects/ship/railgun_ready.ogg')

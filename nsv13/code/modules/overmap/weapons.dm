@@ -166,9 +166,12 @@
 
 	var/stop = fire_mode
 	var/mod = weapon_types.len
+	message_admins("Trying to cycle from mode [fire_mode]")
 	fire_mode = ((fire_mode + 1) % mod)
+	message_admins("First to try is [fire_mode]")
 
 	for(fire_mode; fire_mode != stop; fire_mode = ((fire_mode + 1) % mod))
+		message_admins("Trying [fire_mode]")
 		stoplag()
 		if(try_firemode(usr, fire_mode))
 			return
@@ -179,7 +182,10 @@
 // Try to switch fire modes. Fail if there are no weapons of that type available.
 /obj/structure/overmap/proc/try_firemode(atom/user, mode=1)
 	var/mode_type = weapon_types[mode]
+	message_admins("Mode type is [mode_type ? mode_type : ""]")
+	message_admins("Length is [weapons[mode_type] ? weapons[mode_type].len : ""]")
 	if(weapons[mode_type]?.len) //We have at least one
+		message_admins("Switching to [mode]")
 		weapons[mode_type][1].notify_select(src, user)
 		swap_to(mode)
 		return TRUE

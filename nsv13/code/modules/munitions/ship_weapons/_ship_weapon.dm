@@ -409,7 +409,7 @@
  * Overmap helper - prints weapon-specific selection notification
  */
 /obj/machinery/ship_weapon/proc/notify_select(mob/user)
-	to_chat(usr, "<span class='notice'>Selecting weapon...</span>")
+	to_chat(user, "<span class='notice'>Selecting weapon...</span>")
 
 #undef MSTATE_CLOSED
 #undef MSTATE_UNSCREWED

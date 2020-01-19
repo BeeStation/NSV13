@@ -60,5 +60,6 @@
 	return
 
 /obj/machinery/ship_weapon/pdc_mount/notify_select(obj/structure/overmap/OM, mob/user)
+	message_admins("Selecting PDCs")
 	to_chat(user, "<span class='notice'>Defensive flak screens: <b>OFFLINE</b>. Activating manual point defense cannon control.</span>")
 	OM.relay('nsv13/sound/effects/ship/pdc_start.ogg')
