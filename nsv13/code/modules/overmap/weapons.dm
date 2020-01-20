@@ -232,17 +232,22 @@
 			fire_projectiles(/obj/item/projectile/bullet/pdc_round, target)
 
 /obj/structure/overmap/proc/fire_railgun(atom/target)
-	var/obj/item/ship_weapon/ammunition/A = fire_weapon(target)
+	var/obj/A = fire_weapon(target)
 	if(A)
-		fire_projectile(A.projectile_type, target)
-	qdel(A)
-	shake_everyone(3)
+		if(istype(A, /obj/item/ship_weapon/ammunition))
+			var/obj/item/ship_weapon/ammunition/shot = A
+			fire_projectile(shot.projectile_type, target)
+			shake_everyone(3)
+		qdel(A)
 
 /obj/structure/overmap/proc/fire_laser(atom/target)
-	var/obj/item/ship_weapon/ammunition/A = fire_weapon(target)
+	var/obj/A = fire_weapon(target)
 	if(A)
-		fire_projectile(A.projectile_type, target)
-	qdel(A)
+		if(istype(A, /obj/item/ship_weapon/ammunition))
+			var/obj/item/ship_weapon/ammunition/shot = A
+			fire_projectile(shot.projectile_type, target)
+			shake_everyone(3)
+		qdel(A)
 
 /obj/structure/overmap/proc/fire_torpedo(atom/target)
 	if(!linked_areas.len && !main_overmap) //AI ships and fighters don't have interiors
@@ -252,13 +257,15 @@
 		torpedoes --
 		return
 
-	var/obj/item/ship_weapon/ammunition/torpedo/A = fire_weapon(target)
+	var/obj/A = fire_weapon(target)
 	if(A)
-		if(istype(A, /obj/item/projectile/bullet/torpedo/dud)) //Some brainlet MAA loaded an incomplete torp
-			fire_projectile(A.projectile_type, target, homing = FALSE, speed=A.speed, explosive = TRUE)
-		else
-			fire_projectile(A.projectile_type, target, homing = TRUE, speed=A.speed, explosive = TRUE)
-	qdel(A)
+		if(istype(A, /obj/item/ship_weapon/ammunition/torpedo))
+			var/obj/item/ship_weapon/ammunition/torpedo/shot = A
+			if(istype(A, /obj/item/projectile/bullet/torpedo/dud)) //Some brainlet MAA loaded an incomplete torp
+				fire_projectile(shot.projectile_type, target, homing = FALSE, speed=shot.speed, explosive = TRUE)
+			else
+				fire_projectile(shot.projectile_type, target, homing = TRUE, speed=shot.speed, explosive = TRUE)
+		qdel(A)
 
 /obj/structure/overmap/proc/shake_everyone(severity)
 	for(var/mob/M in mobs_in_ship)

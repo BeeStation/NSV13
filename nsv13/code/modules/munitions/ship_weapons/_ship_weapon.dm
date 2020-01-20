@@ -382,6 +382,7 @@
 				chamber(rapidfire = TRUE)
 
 			after_fire()
+		return TRUE
 	else
 		notify_failed_fire()
 
