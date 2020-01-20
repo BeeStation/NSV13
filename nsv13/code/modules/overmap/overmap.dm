@@ -96,8 +96,7 @@
 	var/obj/machinery/computer/ship/dradis/dradis //So that pilots can check the radar easily
 
 	// Ship weapons
-	var/list/weapons = list() //All of the weapons linked to us
-	var/list/weapon_types[4] //For iterating through when we cycle fire modes
+	var/list/weapons[4][] //All of the weapons linked to us
 
 	var/fire_mode = FIRE_MODE_PDC //What gun do we want to fire? Defaults to railgun, with PDCs there for flak
 	var/weapon_safety = FALSE //Like a gun safety. Entirely un-used except for fighters to stop brainlets from shooting people on the ship unintentionally :)
@@ -180,15 +179,11 @@
 	addtimer(CALLBACK(src, .proc/check_armour), 20 SECONDS)
 
 /obj/structure/overmap/proc/add_weapon(obj/machinery/ship_weapon/weapon)
-	if(!weapon_types.Find(weapon.type))
-		//Try to keep our preferred order, but otherwise just tack them on at the end
-		if((weapon_types?.len >= weapon.fire_mode) && !weapon_types[weapon.fire_mode])
-			weapon_types[weapon.fire_mode] = weapon
-		else
-			weapon_types += weapon.type
-		weapons[weapon.type] = list()
-
-	weapons[weapon.type] += weapon
+	message_admins("Adding [weapon] to fire mode [weapon.fire_mode]")
+	if(!weapons[weapon.fire_mode])
+		weapons[weapon.fire_mode] = list(weapon)
+	else
+		weapons[weapon.fire_mode] += weapon
 
 /obj/structure/overmap/Destroy()
 	if(cabin_air)

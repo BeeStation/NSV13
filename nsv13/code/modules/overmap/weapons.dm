@@ -106,10 +106,10 @@
 /obj/structure/overmap/proc/can_fire_pdcs(shots) //Trigger the PDCs to fire
 	if(!linked_areas.len && !main_overmap) //We need AIs to be able to use PDCs
 		return TRUE
-	if(!/obj/machinery/ship_weapon/pdc_mount in weapon_types)
+	if(!/obj/machinery/ship_weapon/pdc_mount in weapons[FIRE_MODE_PDC])
 		message_admins("No PDCs")
 		return FALSE
-	for(var/obj/machinery/ship_weapon/pdc_mount/pdc in weapons[/obj/machinery/ship_weapon/pdc_mount])
+	for(var/obj/machinery/ship_weapon/pdc_mount/pdc in weapons[FIRE_MODE_PDC])
 		message_admins("Firing")
 		if(pdc.can_fire(shots) && pdc.fire(shots))
 			return TRUE
@@ -165,7 +165,7 @@
 		return
 
 	var/stop = fire_mode
-	var/mod = weapon_types.len
+	var/mod = weapons.len + 1
 	message_admins("Trying to cycle from mode [fire_mode]")
 	fire_mode = ((fire_mode + 1) % mod)
 	message_admins("First to try is [fire_mode]")
@@ -174,6 +174,12 @@
 		message_admins("Trying [fire_mode]")
 		stoplag()
 		if(try_firemode(usr, fire_mode))
+			var/obj/machinery/ship_weapon/W = weapons[fire_mode][1]
+			if(W)
+				message_admins("It's a [W]")
+				W.notify_select(src, usr)
+			else
+				message_admins("Couldn't get a weapon for mode [fire_mode]")
 			return
 
 	// No weapons available, set PDCs as default
@@ -181,26 +187,22 @@
 
 // Try to switch fire modes. Fail if there are no weapons of that type available.
 /obj/structure/overmap/proc/try_firemode(atom/user, mode=1)
-	var/mode_type = weapon_types[mode]
-	message_admins("Mode type is [mode_type ? mode_type : ""]")
-	message_admins("Length is [weapons[mode_type] ? weapons[mode_type].len : ""]")
-	if(weapons[mode_type]?.len) //We have at least one
-		message_admins("Switching to [mode]")
-		weapons[mode_type][1].notify_select(src, user)
-		swap_to(mode)
+	message_admins("Switching to [mode] (we hope)")
+	if(weapons[mode]?.len && swap_to(mode)) //We have at least one
 		return TRUE
 	return FALSE
 
 /obj/structure/overmap/proc/swap_to(what=FIRE_MODE_PDC)
-	var/mode_type = weapon_types[what]
-	if(weapons[mode_type]?.len)
-		var/obj/machinery/ship_weapon/W = weapons[mode_type][1]
+	if(weapons[what]?.len)
+		var/obj/machinery/ship_weapon/W = weapons[what][1]
 		fire_delay = initial(fire_delay) + W.overmap_fire_delay
 		weapon_range = initial(weapon_range) + W.range_mod
 		fire_mode = what
 
 		if(ai_controlled)
 			fire_delay += 10 //Make it fair on the humans who have to actually reload and stuff.
+		return TRUE
+	return FALSE
 
 /obj/structure/overmap/proc/fire_pdcs(atom/target, lateral=TRUE) //"Lateral" means that your ship doesnt have to face the target
 	var/shots_per = 3
@@ -241,7 +243,7 @@
 	if(ai_controlled) //AI ships don't have interiors
 		fire_lateral_projectile(/obj/item/projectile/bullet/railgun_slug, target, 10)
 		return
-	if(!/obj/machinery/ship_weapon/railgun in weapon_types)
+	if(!/obj/machinery/ship_weapon/railgun in weapons[FIRE_MODE_RAILGUN])
 		message_admins("No railguns")
 		return FALSE
 
@@ -249,7 +251,7 @@
 	var/atom/proj_object = null
 	var/fired = FALSE
 
-	for(var/obj/machinery/ship_weapon/railgun/RG in weapons[/obj/machinery/ship_weapon/railgun])
+	for(var/obj/machinery/ship_weapon/railgun/RG in weapons[FIRE_MODE_RAILGUN])
 		if(RG.can_fire())
 			proj_object = RG.fire()
 			if(!proj_object)
@@ -282,12 +284,12 @@
 		fire_lateral_projectile(/obj/item/projectile/bullet/laser, target)
 		return
 
-	if(!/obj/machinery/ship_weapon/laser_cannon in weapon_types)
+	if(!/obj/machinery/ship_weapon/laser_cannon in weapons[FIRE_MODE_LASER])
 		message_admins("No laser cannons")
 		return FALSE
 
 	var/fired = FALSE
-	for(var/obj/machinery/ship_weapon/laser_cannon/LC in weapons[/obj/machinery/ship_weapon/laser_cannon])
+	for(var/obj/machinery/ship_weapon/laser_cannon/LC in weapons[FIRE_MODE_LASER])
 		if(LC.can_fire())
 			LC.fire()
 			fire_lateral_projectile(/obj/item/projectile/bullet/laser, target)
@@ -311,14 +313,14 @@
 		torpedoes --
 		return
 
-	if(!/obj/machinery/ship_weapon/torpedo_launcher in weapon_types)
+	if(!/obj/machinery/ship_weapon/torpedo_launcher in weapons[FIRE_MODE_TORPEDO])
 		message_admins("No laser cannons")
 		return FALSE
 
 	var/proj_type = null //If this is true, we've got a launcher shipside that's been able to fire.
 	var/obj/item/ship_weapon/ammunition/torpedo/proj_object = null
 	var/proj_speed = 1
-	for(var/obj/machinery/ship_weapon/torpedo_launcher/TL in weapons[/obj/machinery/ship_weapon/torpedo_launcher])
+	for(var/obj/machinery/ship_weapon/torpedo_launcher/TL in weapons[FIRE_MODE_TORPEDO])
 		proj_object = TL.fire()
 		if(proj_object)
 			break //Found a gun and fired it. No need to fire all the guns at once

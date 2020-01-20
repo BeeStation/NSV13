@@ -41,7 +41,7 @@
 	icon_state = "heavylaser"
 	damage = 250
 
-/obj/machinery/ship_weapon/pdc_mount/notify_select(obj/structure/overmap/OM, mob/user)
+/obj/machinery/ship_weapon/laser_cannon/notify_select(obj/structure/overmap/OM, mob/user)
 	to_chat(user, "<span class='notice'>Calibrating wave motion gun targeting systems.</span>")
 	OM.relay('sound/effects/empulse.ogg')
 
