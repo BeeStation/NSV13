@@ -350,7 +350,7 @@
 		return TRUE
 
 /**
- * Fires the weapon.
+ * Fires the weapon a given number of times at a given target.
  * Verifies that we are ready to fire this many shots, then does that.
  * Transitions from STATE_CHAMBERED to STATE_FIRING, then transitions
  *   from STATE_FIRING to STATE_NOTLOADED if no more ammo,
@@ -386,7 +386,7 @@
 		notify_failed_fire()
 
 /**
- *
+ * Handles firing animations and sounds around the mapped weapon
  */
 /obj/machinery/ship_weapon/proc/local_fire()
 	if(firing_sound)
@@ -397,7 +397,7 @@
 				M.soundbang_act(1,200,10,15)
 
 /**
- *
+ * Handles firing animations and sounds on the overmap.
  */
 /obj/machinery/ship_weapon/proc/overmap_fire(atom/target)
 	var/sound/chosen = pick(overmap_firing_sounds)

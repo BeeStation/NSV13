@@ -151,7 +151,7 @@
 	for(fire_mode; fire_mode != stop; fire_mode = WRAP_AROUND_VALUE(fire_mode + 1, 1, weapons.len))
 		message_admins("Trying [fire_mode]")
 		stoplag()
-		if(weapons[mode]?.len && swap_to(fire_mode))
+		if(weapons[fire_mode]?.len && swap_to(fire_mode))
 			var/obj/machinery/ship_weapon/W = weapons[fire_mode][1]
 			if(W)
 				W.notify_select(src, usr)
@@ -160,7 +160,21 @@
 	// No weapons available, set PDCs as default
 	fire_mode = FIRE_MODE_PDC
 
+/obj/structure/overmap/tiny/swap_to(what)
+	if(what > FIRE_MODE_TORPEDO)
+		return FALSE
+	. = ..()
+/obj/structure/overmap/small/swap_to(what)
+	if(what > FIRE_MODE_TORPEDO)
+		return FALSE
+	. = ..()
+
 /obj/structure/overmap/proc/swap_to(what=FIRE_MODE_PDC)
+	if(ai_controlled || (!linked_areas.len && !main_overmap))
+		if((what == FIRE_MODE_TORPEDO) && !torpedoes)
+			return FALSE
+		if((mass < MASS_MEDIUM) && (what > FIRE_MODE_TORPEDO))
+			return FALSE
 	if(weapons[what]?.len)
 		message_admins("At least one")
 		var/obj/machinery/ship_weapon/W = weapons[what][1]
@@ -176,10 +190,10 @@
 
 /obj/structure/overmap/proc/fire_weapon(atom/target, mode=fire_mode, lateral=TRUE) //"Lateral" means that your ship doesnt have to face the target
 	message_admins("Trying to fire on mode [mode]")
-	if(mode == FIRE_MODE_TORPEDO && !linked_areas.len && !main_overmap)
-		fire_torpedo(target) // Because fighters are special
-		return TRUE
-	if(ai_controlled)
+	if(ai_controlled || (!linked_areas.len && !main_overmap))
+		if(fire_mode == FIRE_MODE_TORPEDO)
+			fire_torpedo(target)
+			return
 		fire_lateral_projectile(default_projectiles[mode], target)
 		return TRUE
 	if(!weapons[mode] || !weapons[mode].len)
