@@ -90,7 +90,6 @@
 		maint_req = rand(15,25) //Setting initial number of cycles until maintenance is required
 		create_reagents(50)
 	icon_state_list = icon_states(icon)
-	weapon_type = new
 
 /**
  * Tries to link the ship to an overmap by finding the overmap linked it the area we are in.
@@ -332,7 +331,7 @@
  * Checks if the weapon is able to fire the given number of shots.
  * Need to have a round in the chamber, not already be shooting, not be in maintenance, not be malfunctioning, and have enough shots in our ammo pool.
  */
-/obj/machinery/ship_weapon/proc/can_fire(shots = 1)
+/obj/machinery/ship_weapon/proc/can_fire(shots = weapon_type.burst_size)
 	if((state < STATE_CHAMBERED) || !chambered) //Do we have a round ready to fire
 		return FALSE
 	if (maint_state != MSTATE_CLOSED) //Are we in maintenance?

@@ -20,7 +20,7 @@
 	bound_height = 32
 	dir = 4
 
-	fire_mode = 4
+	fire_mode = FIRE_MODE_LASER
 
 	firing_sound = 'sound/weapons/lasercannonfire.ogg'
 	var/obj/machinery/computer/ship/laser_cannon_computer/computer

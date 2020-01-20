@@ -44,3 +44,9 @@
 		'nsv13/sound/effects/ship/pdc3.ogg')
 	select_alert = "<span class='notice'>Defensive flak screens: <b>OFFLINE</b>. Activating manual point defense cannon control.</span>"
 	failure_alert = "<span class='warning'>DANGER: Point defense emplacements are unable to fire due to lack of ammunition.</span>"
+
+/datum/ship_weapon/laser_cannon
+	default_projectile_type = /obj/item/projectile/beam/laser/heavylaser
+	burst_size = 1
+	fire_delay = 3
+	range_modifier = 30

@@ -12,7 +12,7 @@
 	maintainable = FALSE
 	magazine_type = /obj/item/ammo_box/magazine/pdc
 	max_ammo = 100
-	weapon_type = /datum/ship_weapon/pdc_mount
+	weapon_type = new/datum/ship_weapon/pdc_mount
 
 	// We're fully automatic, so just the loading sound is enough
 	feeding_sound = null

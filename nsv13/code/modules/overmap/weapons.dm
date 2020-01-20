@@ -151,11 +151,10 @@
 	for(fire_mode; fire_mode != stop; fire_mode = WRAP_AROUND_VALUE(fire_mode + 1, 1, weapons.len))
 		message_admins("Trying [fire_mode]")
 		stoplag()
-		if(weapons[fire_mode]?.len && swap_to(fire_mode))
-			var/obj/machinery/ship_weapon/W = weapons[fire_mode][1]
-			if(W)
-				W.notify_select(src, usr)
-				return
+		if(swap_to(fire_mode))
+			var/datum/ship_weapon/SW = weapon_types[fire_mode]
+			to_chat(gunner, SW.select_alert)
+			return
 
 	// No weapons available, set PDCs as default
 	fire_mode = FIRE_MODE_PDC
@@ -175,6 +174,14 @@
 			return FALSE
 		if((mass < MASS_MEDIUM) && (what > FIRE_MODE_TORPEDO))
 			return FALSE
+		var/datum/ship_weapon/SW = weapon_types[what]
+		fire_delay = initial(fire_delay) + SW.fire_delay
+		weapon_range = initial(weapon_range) + SW.fire_delay
+		fire_mode = what
+		if(ai_controlled)
+			fire_delay += 10 //Make it fair on the humans who have to actually reload and stuff.
+		return TRUE
+
 	if(weapons[what]?.len)
 		message_admins("At least one")
 		var/obj/machinery/ship_weapon/W = weapons[what][1]
@@ -182,9 +189,6 @@
 		fire_delay = initial(fire_delay) + W.weapon_type.fire_delay
 		weapon_range = initial(weapon_range) + W.weapon_type.range_modifier
 		fire_mode = what
-
-		if(ai_controlled)
-			fire_delay += 10 //Make it fair on the humans who have to actually reload and stuff.
 		return TRUE
 	return FALSE
 
@@ -194,8 +198,11 @@
 		if(fire_mode == FIRE_MODE_TORPEDO)
 			fire_torpedo(target)
 			return
-		fire_lateral_projectile(default_projectiles[mode], target)
+		var/datum/ship_weapon/weapon_type = weapon_types[mode]
+		var/obj/proj_type = weapon_type.default_projectile_type
+		fire_lateral_projectile(proj_type, target)
 		return TRUE
+
 	if(!weapons[mode] || !weapons[mode].len)
 		return FALSE
 

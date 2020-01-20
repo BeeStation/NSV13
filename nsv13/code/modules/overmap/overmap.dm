@@ -92,7 +92,7 @@
 
 	// Ship weapons
 	var/list/weapons[4][] //All of the weapons linked to us
-	var/list/default_projectiles[4]
+	var/list/weapon_types[4]
 
 	var/fire_mode = FIRE_MODE_PDC //What gun do we want to fire? Defaults to railgun, with PDCs there for flak
 	var/weapon_safety = FALSE //Like a gun safety. Entirely un-used except for fighters to stop brainlets from shooting people on the ship unintentionally :)
@@ -183,10 +183,10 @@
 	current_system = GLOB.starsystem_controller.find_system(src)
 	addtimer(CALLBACK(src, .proc/check_armour), 20 SECONDS)
 
-	default_projectiles[FIRE_MODE_PDC] = /obj/item/projectile/bullet/pdc_round
-	default_projectiles[FIRE_MODE_TORPEDO] = /obj/item/projectile/bullet/torpedo
-	default_projectiles[FIRE_MODE_RAILGUN] = /obj/item/projectile/bullet/railgun_slug
-	default_projectiles[FIRE_MODE_LASER] = /obj/item/projectile/beam/laser/heavylaser
+	weapon_types[FIRE_MODE_PDC] = new/datum/ship_weapon/pdc_mount
+	weapon_types[FIRE_MODE_TORPEDO] = new/datum/ship_weapon/torpedo_launcher
+	weapon_types[FIRE_MODE_RAILGUN] = new/datum/ship_weapon/railgun
+	weapon_types[FIRE_MODE_LASER] = new/datum/ship_weapon/laser_cannon
 
 /obj/structure/overmap/proc/add_weapon(obj/machinery/ship_weapon/weapon)
 	message_admins("Adding [weapon] to fire mode [weapon.fire_mode]")

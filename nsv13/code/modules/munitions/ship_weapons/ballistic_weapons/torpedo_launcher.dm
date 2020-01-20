@@ -13,6 +13,7 @@
 	fire_mode = FIRE_MODE_TORPEDO
 	ammo_type = /obj/item/ship_weapon/ammunition/torpedo
 	fire_mode = 2
+	weapon_type = new/datum/ship_weapon/torpedo_launcher
 
 /obj/machinery/ship_weapon/torpedo_launcher/animate_projectile(atom/target, lateral=TRUE)
 	var/obj/item/ship_weapon/ammunition/torpedo/T = chambered
