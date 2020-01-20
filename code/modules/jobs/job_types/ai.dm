@@ -15,7 +15,6 @@
 	exp_type_department = EXP_TYPE_SILICON
 	display_order = JOB_DISPLAY_ORDER_AI
 	var/do_special_check = TRUE
-	display_rank = "CPU" //nsv13 - Displays the player's actual rank alongside their name, such as GSGT Sergei Koralev
 
 
 /datum/job/ai/equip(mob/living/carbon/human/H, visualsOnly, announce, latejoin, datum/outfit/outfit_override, client/preference_source = null)

@@ -9,7 +9,7 @@
 	total_positions = 1
 	spawn_positions = 1
 	supervisors = "the captain"
-	selection_color = "#ffddf0"
+	selection_color = "#cae1e8" //NSV13
 	req_admin_notify = 1
 	minimal_player_age = 7
 	exp_requirements = 180
@@ -28,7 +28,6 @@
 	paycheck_department = ACCOUNT_MED
 
 	display_order = JOB_DISPLAY_ORDER_CHIEF_MEDICAL_OFFICER
-	display_rank = "WO" //nsv13 - Displays the player's actual rank alongside their name, such as GSGT Sergei Koralev
 
 /datum/outfit/job/cmo
 	name = "Chief Medical Officer"

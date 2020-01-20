@@ -4,7 +4,7 @@
 	And the base of the send_speech() proc, which is the core of saycode.
 */
 
-//Nsv13 - Added atc chat. God you have to do so many tweaks to add a single radio channel huh...
+//Nsv13 - Added atc chat & munitions. God you have to do so many tweaks to add a single radio channel huh...
 GLOBAL_LIST_INIT(freqtospan, list(
 	"[FREQ_SCIENCE]" = "sciradio",
 	"[FREQ_MEDICAL]" = "medradio",
@@ -18,6 +18,7 @@ GLOBAL_LIST_INIT(freqtospan, list(
 	"[FREQ_CENTCOM]" = "centcomradio",
 	"[FREQ_CTF_RED]" = "redteamradio",
 	"[FREQ_ATC]" = "centcomradio",
+	"[FREQ_MUNITIONS]" = "muniradio",
 	"[FREQ_CTF_BLUE]" = "blueteamradio"
 	))
 
@@ -79,27 +80,6 @@ GLOBAL_LIST_INIT(freqtospan, list(
 
 /atom/movable/proc/compose_job(atom/movable/speaker, message_langs, raw_message, radio_freq)
 	return ""
-
-//NSV13
-/atom/movable/proc/compose_rank(atom/movable/speaker)
-	if (!CONFIG_GET(flag/show_ranks))
-		return
-
-	var/job
-	var/rank = ""
-
-	if (istype(speaker, /mob/living/carbon/human))
-		var/mob/living/carbon/human/speakerMob = speaker
-		job = speakerMob.get_assignment()
-	else if (istype(speaker, /atom/movable/virtualspeaker))
-		var/atom/movable/virtualspeaker/VS = speaker
-		job = VS.GetJob()
-
-	if (job)
-		var/datum/job/J = SSjob.GetJob(job)
-		rank = "[J.get_rank()] "
-
-	return rank
 
 /atom/movable/proc/say_mod(input, message_mode)
 	var/ending = copytext(input, length(input))
