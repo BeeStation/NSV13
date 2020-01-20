@@ -23,6 +23,7 @@
 	layer = BELOW_OBJ_LAYER
 
 	var/obj/structure/overmap/linked = null
+	var/obj/weapon_overlay/overlay = null
 	var/list/icon_state_list
 
 	// Icons, sounds, and timing for the states
@@ -43,9 +44,11 @@
 	var/chamber_delay = 10
 
 	var/firing_sound = 'nsv13/sound/effects/ship/mac_fire.ogg'
+	var/overmap_firing_sounds = list('nsv13/sound/effects/ship/pdc.ogg','nsv13/sound/effects/ship/pdc2.ogg','nsv13/sound/effects/ship/pdc3.ogg')
 	var/fire_animation_length = 5
 
 	var/malfunction_sound = 'sound/effects/alert.ogg'
+	var/overmap_select_sound = 'nsv13/sound/effects/ship/pdc_start.ogg'
 
 	//Various traits that probably won't change
 	var/maintainable = TRUE //Does the weapon require maintenance?
@@ -58,7 +61,7 @@
 	var/max_ammo = 1
 
 	var/burst_size = 1
-	var/default_proj_type = /obj/item/projectile/bullet
+	var/projectile_type = /obj/item/projectile/bullet
 	var/overmap_fire_delay = 0
 	var/range_mod = 30
 	var/fire_mode = 1
@@ -330,7 +333,7 @@
  * Checks if the weapon is able to fire the given number of shots.
  * Need to have a round in the chamber, not already be shooting, not be in maintenance, not be malfunctioning, and have enough shots in our ammo pool.
  */
-/obj/machinery/ship_weapon/proc/can_fire(shots = 1)
+/obj/machinery/ship_weapon/proc/can_fire(shots = burst_size)
 	if((state < STATE_CHAMBERED) || !chambered) //Do we have a round ready to fire
 		return FALSE
 	if (maint_state != MSTATE_CLOSED) //Are we in maintenance?
@@ -353,21 +356,16 @@
  *   from STATE_CHAMBERED if semi-auto and have ammo.
  * Returns projectile if successfully fired, FALSE otherwise.
  */
-/obj/machinery/ship_weapon/proc/fire(shots = 1)
+/obj/machinery/ship_weapon/proc/fire(atom/target, shots = 1)
 	if(can_fire(shots))
-		var/atom/projectile = null
 		for(var/i = 0, i < shots, i++)
 			spawn(0) //Branch so that there isnt a fire delay for the helm.
 			do_animation()
 			state = STATE_FIRING
-			if(firing_sound)
-				playsound(src, firing_sound, 100, 1)
-			if(bang)
-				for(var/mob/living/M in get_hearers_in_view(10, get_turf(src))) //Burst unprotected eardrums
-					if(M.stat == DEAD || !isliving(M)) //Unless they're dead
-						continue
-					M.soundbang_act(1,200,10,15)
-			projectile = new chambered.type() //Dummy munition in nullspace so we can get its attributes for the ship to fire it.
+
+			local_fire()
+			overmap_fire(target)
+
 			ammo -= chambered
 			qdel(chambered)
 			chambered = null
@@ -381,8 +379,36 @@
 				chamber(rapidfire = TRUE)
 
 			after_fire()
-		return projectile //Tell the overmap ship what icon to use
-	return FALSE
+	else
+		notify_failed_fire()
+
+/**
+ *
+ */
+/obj/machinery/ship_weapon/proc/local_fire()
+	if(firing_sound)
+		playsound(src, firing_sound, 100, 1)
+	if(bang)
+		for(var/mob/living/M in get_hearers_in_view(10, get_turf(src))) //Burst unprotected eardrums
+			if(M.stat != DEAD && isliving(M)) //Don't make noise if they're dead
+				M.soundbang_act(1,200,10,15)
+
+/**
+ *
+ */
+/obj/machinery/ship_weapon/proc/overmap_fire(atom/target)
+	var/sound/chosen = pick(overmap_firing_sounds)
+	linked.relay_to_nearby(chosen)
+	if(overlay)
+		overlay.do_animation()
+	animate_projectile(target)
+
+/obj/machinery/ship_weapon/proc/notify_failed_fire()
+	to_chat(linked.gunner, "<span class='warning'>DANGER: Failed to fire!</span>")
+
+/obj/machinery/ship_weapon/proc/animate_projectile(atom/target)
+	message_admins("I am a [src]")
+	linked.fire_lateral_projectile(projectile_type, target)
 
 /**
  * Updates maintenance counter after firing if applicable.

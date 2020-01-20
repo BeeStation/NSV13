@@ -20,6 +20,9 @@
 	feeding_sound = null
 	fed_sound = null
 	chamber_sound = null
+	overmap_select_sound = 'nsv13/sound/effects/ship/pdc_start.ogg'
+	overmap_firing_sounds = list('nsv13/sound/effects/ship/pdc.ogg','nsv13/sound/effects/ship/pdc2.ogg','nsv13/sound/effects/ship/pdc3.ogg')
+	projectile_type = /obj/item/projectile/bullet/pdc_round
 
 	load_delay = 50
 	unload_delay = 50
@@ -60,6 +63,5 @@
 	return
 
 /obj/machinery/ship_weapon/pdc_mount/notify_select(obj/structure/overmap/OM, mob/user)
-	message_admins("Selecting PDCs")
 	to_chat(user, "<span class='notice'>Defensive flak screens: <b>OFFLINE</b>. Activating manual point defense cannon control.</span>")
-	OM.relay('nsv13/sound/effects/ship/pdc_start.ogg')
+	OM.relay(overmap_select_sound)

@@ -4,11 +4,6 @@
 #define MASS_LARGE 4
 #define MASS_TITAN 5
 
-#define FIRE_MODE_PDC 1
-#define FIRE_MODE_TORPEDO 2
-#define FIRE_MODE_RAILGUN 3
-#define FIRE_MODE_LASER 4
-
 /////////////////////////////////////////////////////////////////////////////////
 // ACKNOWLEDGEMENTS:  Credit to yogstation (Monster860) for the movement code. //
 // I had no part in writing the movement engine, that's his work               //
@@ -97,6 +92,7 @@
 
 	// Ship weapons
 	var/list/weapons[4][] //All of the weapons linked to us
+	var/list/default_projectiles[4]
 
 	var/fire_mode = FIRE_MODE_PDC //What gun do we want to fire? Defaults to railgun, with PDCs there for flak
 	var/weapon_safety = FALSE //Like a gun safety. Entirely un-used except for fighters to stop brainlets from shooting people on the ship unintentionally :)
@@ -124,14 +120,23 @@
 	mouse_opacity = FALSE
 	var/angle = 0 //Debug
 
+/obj/weapon_overlay/proc/do_animation()
+	return
+
 /obj/weapon_overlay/railgun //Railgun sits on top of the ship and swivels to face its target
 	name = "Railgun"
 	icon_state = "railgun"
+
+/obj/weapon_overlay/railgun_overlay/do_animation()
+	flick("railgun_charge",src)
 
 /obj/weapon_overlay/laser
 	name = "Laser cannon"
 	icon = 'icons/obj/hand_of_god_structures.dmi'
 	icon_state = "conduit-red"
+
+/obj/weapon_overlay/laser/do_animation()
+	flick("laser",src)
 
 /obj/structure/overmap/Initialize()
 	. = ..()
@@ -177,6 +182,11 @@
 		name = "[station_name()]"
 	current_system = GLOB.starsystem_controller.find_system(src)
 	addtimer(CALLBACK(src, .proc/check_armour), 20 SECONDS)
+
+	default_projectiles[FIRE_MODE_PDC] = /obj/item/projectile/bullet/pdc_round
+	default_projectiles[FIRE_MODE_TORPEDO] = /obj/item/projectile/bullet/torpedo
+	default_projectiles[FIRE_MODE_RAILGUN] = /obj/item/projectile/bullet/railgun_slug
+	default_projectiles[FIRE_MODE_LASER] = /obj/item/projectile/beam/laser/heavylaser
 
 /obj/structure/overmap/proc/add_weapon(obj/machinery/ship_weapon/weapon)
 	message_admins("Adding [weapon] to fire mode [weapon.fire_mode]")
@@ -434,9 +444,3 @@
 		return
 	move_by_mouse = !move_by_mouse
 	to_chat(usr, "<span class='notice'>You [move_by_mouse ? "activate" : "deactivate"] [src]'s laser guided movement system.</span>")
-
-#undef FIRE_MODE_PDC
-#undef FIRE_MODE_TORPEDO
-#undef FIRE_MODE_RAILGUN
-#undef FIRE_MODE_LASER
-

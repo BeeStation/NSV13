@@ -9,9 +9,12 @@
 
 	overmap_fire_delay = 10
 	fire_mode = 3
+	overmap_select_sound = 'nsv13/sound/effects/ship/railgun_ready.ogg'
+	overmap_firing_sounds = list('nsv13/sound/effects/ship/railgun_fire.ogg')
 
 	semi_auto = TRUE
 	ammo_type = /obj/item/ship_weapon/ammunition/railgun_ammo
+	projectile_type = /obj/item/projectile/bullet/railgun_slug
 	max_ammo = 3 //Until you have to manually load it back up again. Battleships IRL have 3-4 shots before you need to reload the rack
 
 /obj/machinery/ship_weapon/railgun/after_fire()
@@ -22,16 +25,19 @@
 
 /obj/machinery/ship_weapon/railgun/set_position(obj/structure/overmap/OM)
 	..()
-	OM.railgun_overlay = new()
-	OM.railgun_overlay.icon = OM.icon
-	OM.railgun_overlay.appearance_flags |= KEEP_APART
-	OM.railgun_overlay.appearance_flags |= RESET_TRANSFORM
-	OM.vis_contents += OM.railgun_overlay
+	overlay = new/obj/weapon_overlay/railgun
+	overlay.icon = OM.icon
+	overlay.appearance_flags |= KEEP_APART
+	overlay.appearance_flags |= RESET_TRANSFORM
+	OM.vis_contents += overlay
 
 /obj/machinery/ship_weapon/railgun/MouseDrop_T(obj/structure/A, mob/user)
 	return
 
 /obj/machinery/ship_weapon/railgun/notify_select(obj/structure/overmap/OM, mob/user)
-	message_admins("Selecting railgun")
 	to_chat(user, "<span class='notice'>Charging railgun hardpoints...</span>")
-	OM.relay('nsv13/sound/effects/ship/railgun_ready.ogg')
+	OM.relay(overmap_select_sound)
+
+/obj/machinery/ship_weapon/railgun/fire()
+	. = ..()
+	linked.shake_everyone(2)

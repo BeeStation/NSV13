@@ -166,28 +166,20 @@
 
 	var/stop = fire_mode
 	var/mod = weapons.len + 1
-	message_admins("Trying to cycle from mode [fire_mode]")
 	fire_mode = ((fire_mode + 1) % mod)
-	message_admins("First to try is [fire_mode]")
 
 	for(fire_mode; fire_mode != stop; fire_mode = ((fire_mode + 1) % mod))
-		message_admins("Trying [fire_mode]")
 		stoplag()
 		if(try_firemode(usr, fire_mode))
 			var/obj/machinery/ship_weapon/W = weapons[fire_mode][1]
 			if(W)
-				message_admins("It's a [W]")
 				W.notify_select(src, usr)
-			else
-				message_admins("Couldn't get a weapon for mode [fire_mode]")
-			return
 
 	// No weapons available, set PDCs as default
 	fire_mode = FIRE_MODE_PDC
 
 // Try to switch fire modes. Fail if there are no weapons of that type available.
 /obj/structure/overmap/proc/try_firemode(atom/user, mode=1)
-	message_admins("Switching to [mode] (we hope)")
 	if(weapons[mode]?.len && swap_to(mode)) //We have at least one
 		return TRUE
 	return FALSE
@@ -218,61 +210,22 @@
 		else
 			fire_projectiles(/obj/item/projectile/bullet/pdc_round, target)
 
-/*
 /obj/structure/overmap/proc/fire_weapon(var/weapon_type, atom/target, lateral=TRUE)
 	if(ai_controlled)
-		fire_lateral_projectile(weapon_type.default_proj_type, target, weapon_type.overmap_fire_delay)
+		fire_lateral_projectile(default_projectiles[fire_mode], target)
 		return TRUE
-	if(!weapon_type in weapon_types)
+	if(!weapons[fire_mode] || !weapons[fire_mode].len)
 		return FALSE
 
-	var/proj_type = null
-	var/atom/proj_object = null
 	var/fired = FALSE
-
 	for(var/obj/machinery/ship_weapon/SW in weapons[weapon_type])
-		if(SW.can_fire(weapon_type.burst_size))
-			proj_object = SW.fire()
-			if(!proj_object)
-				continue
-			if(istype(proj_object, weapon_type.ammo_type))
-				proj_type =
-*/
+		if(SW.can_fire() && SW.fire(target))
+			fired = TRUE
+	if(!fired)
+		weapons[fire_mode][1].notify_failed_fire()
 
 /obj/structure/overmap/proc/fire_railgun(atom/target)
-	if(ai_controlled) //AI ships don't have interiors
-		fire_lateral_projectile(/obj/item/projectile/bullet/railgun_slug, target, 10)
-		return
-	if(!/obj/machinery/ship_weapon/railgun in weapons[FIRE_MODE_RAILGUN])
-		message_admins("No railguns")
-		return FALSE
-
-	var/proj_type = null //If this is true, we've got a launcher shipside that's been able to fire.
-	var/atom/proj_object = null
-	var/fired = FALSE
-
-	for(var/obj/machinery/ship_weapon/railgun/RG in weapons[FIRE_MODE_RAILGUN])
-		if(RG.can_fire())
-			proj_object = RG.fire()
-			if(!proj_object)
-				continue
-			if(istype(proj_object, /obj/item/ship_weapon/ammunition/railgun_ammo))
-				var/obj/item/ship_weapon/ammunition/railgun_ammo/RA = proj_object
-				proj_type = RA.proj_type
-				qdel(proj_object)
-			if(proj_type)
-				fired = TRUE
-				break
-	if(!fired)
-		to_chat(gunner, "<span class='warning'>DANGER: Launch failure! Railgun systems are not loaded.</span>")
-		return
-
-	var/sound/chosen ='nsv13/sound/effects/ship/railgun_fire.ogg'
-	relay_to_nearby(chosen)
-	flick("railgun_charge",railgun_overlay)
-	shake_everyone(2)
-	if(proj_type)
-		fire_lateral_projectile(proj_type, target, 5)
+	fire_weapon(FIRE_MODE_RAILGUN)
 
 /obj/structure/overmap/proc/shake_everyone(severity)
 	for(var/mob/M in mobs_in_ship)
@@ -280,30 +233,7 @@
 			shake_camera(M, severity, 1)
 
 /obj/structure/overmap/proc/fire_laser(atom/target)
-	if(ai_controlled) //AI ships don't have interiors
-		fire_lateral_projectile(/obj/item/projectile/bullet/laser, target)
-		return
-
-	if(!/obj/machinery/ship_weapon/laser_cannon in weapons[FIRE_MODE_LASER])
-		message_admins("No laser cannons")
-		return FALSE
-
-	var/fired = FALSE
-	for(var/obj/machinery/ship_weapon/laser_cannon/LC in weapons[FIRE_MODE_LASER])
-		if(LC.can_fire())
-			LC.fire()
-			fire_lateral_projectile(/obj/item/projectile/bullet/laser, target)
-			fired = TRUE
-			break
-		else
-			to_chat(gunner, "<span class='warning'>The cannon cannot fire</span>")
-	if(!fired)
-		to_chat(gunner, "<span class='warning'>ERROR: Laser systems are offline.</span>")
-		return
-
-	var/sound/chosen ='sound/weapons/lasercannonfire.ogg'
-	relay_to_nearby(chosen)
-	flick("laser",laser_overlay)
+	fire_weapon(FIRE_MODE_LASER)
 
 /obj/structure/overmap/proc/fire_torpedo(atom/target)
 	if(!linked_areas.len && !main_overmap) //AI ships don't have interiors
@@ -313,30 +243,7 @@
 		torpedoes --
 		return
 
-	if(!/obj/machinery/ship_weapon/torpedo_launcher in weapons[FIRE_MODE_TORPEDO])
-		message_admins("No laser cannons")
-		return FALSE
-
-	var/proj_type = null //If this is true, we've got a launcher shipside that's been able to fire.
-	var/obj/item/ship_weapon/ammunition/torpedo/proj_object = null
-	var/proj_speed = 1
-	for(var/obj/machinery/ship_weapon/torpedo_launcher/TL in weapons[FIRE_MODE_TORPEDO])
-		proj_object = TL.fire()
-		if(proj_object)
-			break //Found a gun and fired it. No need to fire all the guns at once
-
-	proj_type = proj_object?.torpedo_type
-	proj_speed = proj_object?.speed
-	qdel(proj_object)
-	if(proj_type)
-		var/sound/chosen = pick('nsv13/sound/effects/ship/torpedo.ogg','nsv13/sound/effects/ship/freespace2/m_shrike.wav','nsv13/sound/effects/ship/freespace2/m_stiletto.wav','nsv13/sound/effects/ship/freespace2/m_tsunami.wav','nsv13/sound/effects/ship/freespace2/m_wasp.wav')
-		relay_to_nearby(chosen)
-		if(proj_type == /obj/item/projectile/bullet/torpedo/dud) //Some brainlet MAA loaded an incomplete torp
-			fire_projectile(proj_type, target, homing = FALSE, speed=proj_speed, explosive = TRUE)
-		else
-			fire_projectile(proj_type, target, homing = TRUE, speed=proj_speed, explosive = TRUE)
-	else
-		to_chat(gunner, "<span class='warning'>DANGER: Launch failure! Torpedo tubes are not loaded.</span>")
+	fire_weapon(FIRE_MODE_TORPEDO)
 
 
 /obj/structure/overmap/bullet_act(obj/item/projectile/P)

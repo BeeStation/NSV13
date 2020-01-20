@@ -24,12 +24,13 @@
 	overmap_fire_delay = 3
 
 	firing_sound = 'sound/weapons/lasercannonfire.ogg'
+	overmap_select_sound = 'sound/effects/empulse.ogg'
 	var/obj/machinery/computer/ship/laser_cannon_computer/computer
 	var/obj/item/stock_parts/cell/laser_cannon/cell
 	var/obj/structure/cable/attached
 	state = STATE_OFF
 
-	var/projectile_type = /obj/item/projectile/beam/laser/heavylaser
+	projectile_type = /obj/item/projectile/beam/laser/heavylaser
 
 	circuit = /obj/item/circuitboard/machine/laser_cannon // Circuit to be created and inserted when the machinery is created
 
@@ -43,7 +44,7 @@
 
 /obj/machinery/ship_weapon/laser_cannon/notify_select(obj/structure/overmap/OM, mob/user)
 	to_chat(user, "<span class='notice'>Calibrating wave motion gun targeting systems.</span>")
-	OM.relay('sound/effects/empulse.ogg')
+	OM.relay(overmap_select_sound)
 
 /*
  * Make sure we have a wire to drain power from, a circuitboard, and all the required parts for construction/deconstruction.
@@ -65,11 +66,11 @@
  */
 /obj/machinery/ship_weapon/laser_cannon/set_position(obj/structure/overmap/OM)
 	..()
-
-	OM.laser_overlay = new()
-	OM.laser_overlay.appearance_flags |= KEEP_APART
-	OM.laser_overlay.appearance_flags |= RESET_TRANSFORM
-	OM.vis_contents += OM.laser_overlay
+	overlay = new/obj/weapon_overlay/laser
+	overlay.icon = OM.icon
+	overlay.appearance_flags |= KEEP_APART
+	overlay.appearance_flags |= RESET_TRANSFORM
+	OM.vis_contents += overlay
 
 /*
  * Handles power drain.
