@@ -142,7 +142,11 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 	req_access = list(ACCESS_ENGINE_EQUIP)
 
 /obj/machinery/computer/ship/reactor_control_computer/attack_hand(mob/user)
-	. = ..()
+	if(!allowed(user))
+		var/sound = pick('nsv13/sound/effects/computer/error.ogg','nsv13/sound/effects/computer/error2.ogg','nsv13/sound/effects/computer/error3.ogg')
+		playsound(src, sound, 100, 1)
+		to_chat(user, "<span class='warning'>Access denied</span>")
+		return
 	ui_interact(user)
 
 /obj/machinery/computer/ship/reactor_control_computer/attack_ai(mob/user)
@@ -326,6 +330,11 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 	air1.gases[/datum/gas/constricted_plasma][MOLES] += 300
 	try_start()
 
+/obj/machinery/power/stormdrive_reactor/proc/juice_up(var/juice)
+	var/datum/gas_mixture/air1 = pipe.airs[1]
+	air1.assert_gas(/datum/gas/constricted_plasma) //Yeet some plasma into the pipe so it can run for a while
+	air1.gases[/datum/gas/constricted_plasma][MOLES] += juice
+
 /obj/machinery/power/stormdrive_reactor/proc/start_meltdown()
 	if(warning_state >= WARNING_STATE_MELTDOWN)
 		return
@@ -431,14 +440,17 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 			radiation_pulse(src, 10, 10) //reaction bleedoff
 			if(prob(10))
 				grav_pull()
+				playsound(loc, 'sound/effects/empulse.ogg', 100)
 				for(var/mob/living/M in view(10, src))
 					to_chat(M, "<span class='danger'>The reactor hungers!</span>")
 					shake_camera(M, 2, 1)
 			else if(prob(5))
-				//something here
+				var/growl = pick('sound/hallucinations/growl1.ogg', 'sound/hallucinations/growl2.ogg', 'sound/hallucinations/growl3.ogg')
+				playsound(loc, growl, 100)
 				for(var/mob/living/M in view(10, src))
 					to_chat(M, "<span class='danger'>The reactor growls!</span>")
 					shake_camera(M, 2, 1)
+					M.hallucination += 30
 	input_power_modifier = (heat/150)**3
 	var/base_power = 1000000
 	var/power_produced = base_power
@@ -449,6 +461,7 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 	handle_heat()
 	update_icon()
 	radiation_pulse(src, heat, 2)
+	ambient_temp_bleed()
 
 /obj/machinery/power/stormdrive_reactor/proc/grav_pull() //HUNGRY!
 	for(var/obj/O in orange(6, src))
@@ -459,12 +472,20 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 			step_towards(M,src)
 			M.Knockdown(40) //Knockdown prey so it can't get away!
 
+/obj/machinery/power/stormdrive_reactor/proc/ambient_temp_bleed()
+	var/turf/L = loc
+	var/datum/gas_mixture/env = L.return_air()
+	if(env.temperature <= heat)
+		var/delta_env = heat - env.temperature
+		env.temperature += delta_env / 2
+
 /obj/machinery/power/stormdrive_reactor/proc/can_cool()
 	if(heat > REACTOR_HEAT_NORMAL+10) //Only start melting the rods if theyre running it hot. We have a "safe" mode which doesn't need you to check in on the reactor at all.
 		rod_integrity -= input_power_modifier/60 //Assuming youre running it at hot, rods will melt every 30 minutes.
 		if(rod_integrity < 0)
 			rod_integrity = 0
 			send_alert("DANGER: Primary control rods have failed!")
+			message_admins("Stormdrive control rods are at 0% integrity.")
 			return FALSE
 		if(rod_integrity <= 10 && warning_state <= WARNING_STATE_NONE) //If there isn't a more important thing to notify them about, engineers should be told that their rods are failing.
 			send_alert("WARNING: Reactor control rods failing at [rod_integrity]% integrity, intervention required to avoid possible meltdown.")
