@@ -12,16 +12,13 @@
 	maintainable = FALSE
 	magazine_type = /obj/item/ammo_box/magazine/pdc
 	max_ammo = 100
-	burst_size = 3
-	range_mod = 0
-	fire_mode = 1
+	weapon_type = /datum/ship_weapon/pdc_mount
 
 	// We're fully automatic, so just the loading sound is enough
 	feeding_sound = null
 	fed_sound = null
 	chamber_sound = null
-	overmap_select_sound = 'nsv13/sound/effects/ship/pdc_start.ogg'
-	overmap_firing_sounds = list('nsv13/sound/effects/ship/pdc.ogg','nsv13/sound/effects/ship/pdc2.ogg','nsv13/sound/effects/ship/pdc3.ogg')
+	fire_mode = FIRE_MODE_PDC
 
 	load_delay = 50
 	unload_delay = 50
@@ -60,13 +57,6 @@
 // Don't animate us on fire, the above takes care of all the icon updates we need
 /obj/machinery/ship_weapon/pdc_mount/do_animation()
 	return
-
-/obj/machinery/ship_weapon/pdc_mount/notify_select(obj/structure/overmap/OM, mob/user)
-	to_chat(user, "<span class='notice'>Defensive flak screens: <b>OFFLINE</b>. Activating manual point defense cannon control.</span>")
-	OM.relay(overmap_select_sound)
-
-/obj/machinery/ship_weapon/pdc_mount/notify_failed_fire(mob/gunner)
-	to_chat(gunner, "<span class='warning'>DANGER: Point defense emplacements are unable to fire due to lack of ammunition.</span>")
 
 /obj/machinery/ship_weapon/pdc_mount/animate_projectile(atom/target, lateral=TRUE)
 	sleep(1)

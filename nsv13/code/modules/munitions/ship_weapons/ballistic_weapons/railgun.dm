@@ -7,10 +7,7 @@
 	bound_height = 64
 	pixel_y = -64
 
-	overmap_fire_delay = 10
-	fire_mode = 3
-	overmap_select_sound = 'nsv13/sound/effects/ship/railgun_ready.ogg'
-	overmap_firing_sounds = list('nsv13/sound/effects/ship/railgun_fire.ogg')
+	fire_mode = FIRE_MODE_RAILGUN
 
 	semi_auto = TRUE
 	ammo_type = /obj/item/ship_weapon/ammunition/railgun_ammo
@@ -32,13 +29,6 @@
 
 /obj/machinery/ship_weapon/railgun/MouseDrop_T(obj/structure/A, mob/user)
 	return
-
-/obj/machinery/ship_weapon/railgun/notify_select(obj/structure/overmap/OM, mob/user)
-	to_chat(user, "<span class='notice'>Charging railgun hardpoints...</span>")
-	OM.relay(overmap_select_sound)
-
-/obj/machinery/ship_weapon/railgun/notify_failed_fire(mob/gunner)
-	to_chat(gunner, "<span class='warning'>DANGER: Launch failure! Railgun systems are not loaded.</span>")
 
 /obj/machinery/ship_weapon/railgun/animate_projectile(atom/target)
 	. = ..()

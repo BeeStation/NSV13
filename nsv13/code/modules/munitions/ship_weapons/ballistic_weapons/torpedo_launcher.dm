@@ -10,18 +10,9 @@
 
 	firing_sound = 'nsv13/sound/effects/ship/plasma.ogg'
 	load_sound = 'nsv13/sound/effects/ship/freespace2/m_load.wav'
-	overmap_select_sound = 'nsv13/sound/effects/ship/reload.ogg'
-	overmap_firing_sounds = list('nsv13/sound/effects/ship/torpedo.ogg','nsv13/sound/effects/ship/freespace2/m_shrike.wav','nsv13/sound/effects/ship/freespace2/m_stiletto.wav','nsv13/sound/effects/ship/freespace2/m_tsunami.wav','nsv13/sound/effects/ship/freespace2/m_wasp.wav')
+	fire_mode = FIRE_MODE_TORPEDO
 	ammo_type = /obj/item/ship_weapon/ammunition/torpedo
 	fire_mode = 2
-	overmap_fire_delay = 5
-
-/obj/machinery/ship_weapon/torpedo_launcher/notify_select(obj/structure/overmap/OM, mob/user)
-	to_chat(user, "<span class='notice'>Long range target acquisition systems: online.</span>")
-	OM.relay(overmap_select_sound)
-
-/obj/machinery/ship_weapon/torpedo_launcher/notify_failed_fire(mob/gunner)
-	to_chat(gunner, "<span class='warning'>DANGER: Launch failure! Torpedo tubes are not loaded.</span>")
 
 /obj/machinery/ship_weapon/torpedo_launcher/animate_projectile(atom/target, lateral=TRUE)
 	var/obj/item/ship_weapon/ammunition/torpedo/T = chambered

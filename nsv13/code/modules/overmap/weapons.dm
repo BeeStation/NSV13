@@ -179,8 +179,8 @@
 		message_admins("At least one")
 		var/obj/machinery/ship_weapon/W = weapons[what][1]
 		message_admins("It's a [W]")
-		fire_delay = initial(fire_delay) + W.overmap_fire_delay
-		weapon_range = initial(weapon_range) + W.range_mod
+		fire_delay = initial(fire_delay) + W.weapon_type.fire_delay
+		weapon_range = initial(weapon_range) + W.weapon_type.range_modifier
 		fire_mode = what
 
 		if(ai_controlled)

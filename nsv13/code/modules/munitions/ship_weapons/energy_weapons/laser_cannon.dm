@@ -21,10 +21,8 @@
 	dir = 4
 
 	fire_mode = 4
-	overmap_fire_delay = 3
 
 	firing_sound = 'sound/weapons/lasercannonfire.ogg'
-	overmap_select_sound = 'sound/effects/empulse.ogg'
 	var/obj/machinery/computer/ship/laser_cannon_computer/computer
 	var/obj/item/stock_parts/cell/laser_cannon/cell
 	var/obj/structure/cable/attached
@@ -39,10 +37,6 @@
 	icon = 'icons/obj/projectiles.dmi'
 	icon_state = "heavylaser"
 	damage = 250
-
-/obj/machinery/ship_weapon/laser_cannon/notify_select(obj/structure/overmap/OM, mob/user)
-	to_chat(user, "<span class='notice'>Calibrating wave motion gun targeting systems.</span>")
-	OM.relay(overmap_select_sound)
 
 /*
  * Make sure we have a wire to drain power from, a circuitboard, and all the required parts for construction/deconstruction.

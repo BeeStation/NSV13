@@ -47,11 +47,10 @@
 	var/chamber_delay = 10
 
 	var/firing_sound = 'nsv13/sound/effects/ship/mac_fire.ogg'
-	var/overmap_firing_sounds = list('nsv13/sound/effects/ship/pdc.ogg','nsv13/sound/effects/ship/pdc2.ogg','nsv13/sound/effects/ship/pdc3.ogg')
 	var/fire_animation_length = 5
+	var/fire_mode
 
 	var/malfunction_sound = 'sound/effects/alert.ogg'
-	var/overmap_select_sound = 'nsv13/sound/effects/ship/pdc_start.ogg'
 
 	//Various traits that probably won't change
 	var/maintainable = TRUE //Does the weapon require maintenance?
@@ -63,10 +62,7 @@
 	var/magazine_type = null
 	var/max_ammo = 1
 
-	var/burst_size = 1
-	var/overmap_fire_delay = 0
-	var/range_mod = 30
-	var/fire_mode = 1
+	var/datum/ship_weapon/weapon_type
 
 	// Things that change while we're operating
 	var/maint_req = 0 //Number of times a weapon can fire until a maintenance cycle is required. This will countdown to 0.
@@ -94,6 +90,7 @@
 		maint_req = rand(15,25) //Setting initial number of cycles until maintenance is required
 		create_reagents(50)
 	icon_state_list = icon_states(icon)
+	weapon_type = new
 
 /**
  * Tries to link the ship to an overmap by finding the overmap linked it the area we are in.
@@ -335,7 +332,7 @@
  * Checks if the weapon is able to fire the given number of shots.
  * Need to have a round in the chamber, not already be shooting, not be in maintenance, not be malfunctioning, and have enough shots in our ammo pool.
  */
-/obj/machinery/ship_weapon/proc/can_fire(shots = burst_size)
+/obj/machinery/ship_weapon/proc/can_fire(shots = 1)
 	if((state < STATE_CHAMBERED) || !chambered) //Do we have a round ready to fire
 		return FALSE
 	if (maint_state != MSTATE_CLOSED) //Are we in maintenance?
@@ -358,7 +355,7 @@
  *   from STATE_CHAMBERED if semi-auto and have ammo.
  * Returns projectile if successfully fired, FALSE otherwise.
  */
-/obj/machinery/ship_weapon/proc/fire(atom/target, shots = burst_size)
+/obj/machinery/ship_weapon/proc/fire(atom/target, shots = 1)
 	if(can_fire(shots))
 		for(var/i = 0, i < shots, i++)
 			spawn(0) //Branch so that there isnt a fire delay for the helm.
@@ -400,23 +397,20 @@
  * Handles firing animations and sounds on the overmap.
  */
 /obj/machinery/ship_weapon/proc/overmap_fire(atom/target)
-	var/sound/chosen = pick(overmap_firing_sounds)
+	var/sound/chosen = pick(weapon_type.overmap_firing_sounds)
 	linked.relay_to_nearby(chosen)
 	if(overlay)
 		overlay.do_animation()
 	animate_projectile(target)
 
 /obj/machinery/ship_weapon/proc/notify_failed_fire(mob/gunner)
-	to_chat(gunner, "<span class='warning'>DANGER: Failed to fire!</span>")
+	to_chat(gunner, weapon_type.failure_alert)
 
 /obj/machinery/ship_weapon/proc/animate_projectile(atom/target)
 	message_admins("I am a [src] with a [chambered]")
 	if(istype(chambered, /obj/item/ship_weapon/ammunition))
 		var/obj/item/ship_weapon/ammunition/round = chambered
 		linked.fire_lateral_projectile(round.projectile_type, target)
-
-/obj/machinery/ship_weapon/proc/get_chambered_round()
-	return chambered
 
 /**
  * Updates maintenance counter after firing if applicable.
@@ -444,7 +438,8 @@
  */
 /obj/machinery/ship_weapon/proc/notify_select(mob/user)
 	message_admins("Default notify_select")
-	to_chat(user, "<span class='notice'>Selecting weapon...</span>")
+	to_chat(user, weapon_type.select_alert)
+	linked.relay(weapon_type.overmap_select_sound)
 
 #undef MSTATE_CLOSED
 #undef MSTATE_UNSCREWED
