@@ -9,6 +9,9 @@
 #define STATE_CHAMBERED 4
 #define STATE_FIRING 5
 
+/obj/item/ship_weapon/ammunition
+	var/projectile_type
+
 /**
  * Ship-to-ship weapons
  * Be sure to specify either a magazine_type or ammo_type so it can be loaded
@@ -367,7 +370,7 @@
 			overmap_fire(target)
 
 			ammo -= chambered
-			qdel(chambered)
+			//qdel(chambered)
 			chambered = null
 
 			if(ammo?.len)
@@ -401,7 +404,7 @@
 	linked.relay_to_nearby(chosen)
 	if(overlay)
 		overlay.do_animation()
-	animate_projectile(target)
+	//animate_projectile(target)
 
 /obj/machinery/ship_weapon/proc/notify_failed_fire()
 	to_chat(linked.gunner, "<span class='warning'>DANGER: Failed to fire!</span>")
@@ -409,6 +412,9 @@
 /obj/machinery/ship_weapon/proc/animate_projectile(atom/target)
 	message_admins("I am a [src]")
 	linked.fire_lateral_projectile(projectile_type, target)
+
+/obj/machinery/ship_weapon/proc/get_chambered_round()
+	return chambered
 
 /**
  * Updates maintenance counter after firing if applicable.

@@ -24,6 +24,6 @@
 	var/obj/item/ship_weapon/ammunition/torpedo/T = chambered
 	if(T)
 		if(istype(T, /obj/item/projectile/bullet/torpedo/dud)) //Some brainlet MAA loaded an incomplete torp
-			linked.fire_projectile(T.torpedo_type, target, homing = FALSE, speed=T.speed, explosive = TRUE)
+			linked.fire_projectile(T.projectile_type, target, homing = FALSE, speed=T.speed, explosive = TRUE)
 		else
-			linked.fire_projectile(T.torpedo_type, target, homing = TRUE, speed=T.speed, explosive = TRUE)
+			linked.fire_projectile(T.projectile_type, target, homing = TRUE, speed=T.speed, explosive = TRUE)

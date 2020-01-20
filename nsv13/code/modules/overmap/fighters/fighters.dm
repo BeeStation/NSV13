@@ -643,7 +643,7 @@ After going through this checklist, you're ready to go!
 		return
 	torpedoes = munitions.len
 	var/obj/item/ship_weapon/ammunition/torpedo/thirtymillimetertorpedo = pick(munitions)
-	proj_type = thirtymillimetertorpedo.torpedo_type
+	proj_type = thirtymillimetertorpedo.projectile_type
 	proj_speed = thirtymillimetertorpedo.speed
 	munitions -= thirtymillimetertorpedo
 	qdel(thirtymillimetertorpedo)

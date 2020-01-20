@@ -5,7 +5,7 @@
 	desc = "A fairly standard torpedo which is designed to cause massive structural damage to a target. It is fitted with a basic homing mechanism to ensure it always hits the mark."
 	anchored = TRUE
 	density = TRUE
-	var/torpedo_type = /obj/item/projectile/bullet/torpedo //What torpedo type we fire
+	projectile_type = /obj/item/projectile/bullet/torpedo //What torpedo type we fire
 	pixel_x = -17
 	var/speed = 1 //Placeholder, allows upgrading speed with better propulsion
 
@@ -23,7 +23,7 @@
 	icon = 'nsv13/icons/obj/munition_types.dmi'
 	icon_state = "hull_shredder"
 	desc = "A heavy torpedo which is packed with a high energy plasma charge, allowing it to impact a target with massive force."
-	torpedo_type = /obj/item/projectile/bullet/torpedo/shredder
+	projectile_type = /obj/item/projectile/bullet/torpedo/shredder
 
 /obj/item/projectile/bullet/torpedo/shredder
 	icon_state = "torpedo_shredder"
@@ -36,7 +36,7 @@
 	icon = 'nsv13/icons/obj/munition_types.dmi'
 	icon_state = "highvelocity"
 	desc = "A small torpedo which is fitted with an advanced propulsion system, allowing it to rapidly travel long distances. Due to its smaller frame however, it packs less of a punch."
-	torpedo_type = /obj/item/projectile/bullet/torpedo/fast
+	projectile_type = /obj/item/projectile/bullet/torpedo/fast
 	speed = 3
 
 /obj/item/projectile/bullet/torpedo/fast
@@ -50,7 +50,7 @@
 	icon = 'nsv13/icons/obj/munition_types.dmi'
 	icon_state = "decoy"
 	desc = "A simple electronic countermeasure packed inside a standard torpedo casing. This model excels at diverting enemy PDC emplacements away from friendly ships, or even another barrage of missiles."
-	torpedo_type = /obj/item/projectile/bullet/torpedo/decoy
+	projectile_type = /obj/item/projectile/bullet/torpedo/decoy
 	speed = 2
 
 /obj/item/projectile/bullet/torpedo/decoy
@@ -63,7 +63,7 @@
 	icon = 'nsv13/icons/obj/munition_types.dmi'
 	icon_state = "nuke"
 	desc = "The NTX-class IV nuclear torpedo carries a radiological payload which is capable of inflicting catastrophic damage against enemy ships, stations or dense population centers. These weapons are utterly without mercy and will annihilate indiscriminately, use with EXTREME caution."
-	torpedo_type = /obj/item/projectile/bullet/torpedo/nuclear
+	projectile_type = /obj/item/projectile/bullet/torpedo/nuclear
 
 /obj/item/projectile/bullet/torpedo/nuclear
 	icon_state = "torpedo_shredder"

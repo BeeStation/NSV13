@@ -164,16 +164,18 @@
 	if(usr != gunner)
 		return
 
+	message_admins("Cycle fire mode from [fire_mode]")
 	var/stop = fire_mode
-	var/mod = weapons.len + 1
-	fire_mode = ((fire_mode + 1) % mod)
+	fire_mode = WRAP_AROUND_VALUE(fire_mode + 1, 1, weapons.len)
 
-	for(fire_mode; fire_mode != stop; fire_mode = ((fire_mode + 1) % mod))
+	for(fire_mode; fire_mode != stop; fire_mode = WRAP_AROUND_VALUE(fire_mode + 1, 1, weapons.len))
+		message_admins("Trying [fire_mode]")
 		stoplag()
 		if(try_firemode(usr, fire_mode))
 			var/obj/machinery/ship_weapon/W = weapons[fire_mode][1]
 			if(W)
 				W.notify_select(src, usr)
+				return
 
 	// No weapons available, set PDCs as default
 	fire_mode = FIRE_MODE_PDC
@@ -181,12 +183,15 @@
 // Try to switch fire modes. Fail if there are no weapons of that type available.
 /obj/structure/overmap/proc/try_firemode(atom/user, mode=1)
 	if(weapons[mode]?.len && swap_to(mode)) //We have at least one
+		message_admins("Trying to swap")
 		return TRUE
 	return FALSE
 
 /obj/structure/overmap/proc/swap_to(what=FIRE_MODE_PDC)
 	if(weapons[what]?.len)
+		message_admins("At least one")
 		var/obj/machinery/ship_weapon/W = weapons[what][1]
+		message_admins("It's a [W]")
 		fire_delay = initial(fire_delay) + W.overmap_fire_delay
 		weapon_range = initial(weapon_range) + W.range_mod
 		fire_mode = what
@@ -195,6 +200,22 @@
 			fire_delay += 10 //Make it fair on the humans who have to actually reload and stuff.
 		return TRUE
 	return FALSE
+
+/obj/structure/overmap/proc/fire_weapon(atom/target, mode=fire_mode, lateral=TRUE)
+	if(ai_controlled)
+		fire_lateral_projectile(default_projectiles[mode], target)
+		return TRUE
+	if(!weapons[mode] || !weapons[mode].len)
+		return FALSE
+
+	var/fired = FALSE
+	for(var/obj/machinery/ship_weapon/SW in weapons[mode])
+		if(SW.can_fire())
+			var/obj/chambered = SW.get_chambered_round()
+			if(SW.fire(target))
+				return chambered
+	if(!fired)
+		weapons[mode][1].notify_failed_fire()
 
 /obj/structure/overmap/proc/fire_pdcs(atom/target, lateral=TRUE) //"Lateral" means that your ship doesnt have to face the target
 	var/shots_per = 3
@@ -210,41 +231,39 @@
 		else
 			fire_projectiles(/obj/item/projectile/bullet/pdc_round, target)
 
-/obj/structure/overmap/proc/fire_weapon(var/weapon_type, atom/target, lateral=TRUE)
-	if(ai_controlled)
-		fire_lateral_projectile(default_projectiles[fire_mode], target)
-		return TRUE
-	if(!weapons[fire_mode] || !weapons[fire_mode].len)
-		return FALSE
-
-	var/fired = FALSE
-	for(var/obj/machinery/ship_weapon/SW in weapons[weapon_type])
-		if(SW.can_fire() && SW.fire(target))
-			fired = TRUE
-	if(!fired)
-		weapons[fire_mode][1].notify_failed_fire()
-
 /obj/structure/overmap/proc/fire_railgun(atom/target)
-	fire_weapon(FIRE_MODE_RAILGUN)
-
-/obj/structure/overmap/proc/shake_everyone(severity)
-	for(var/mob/M in mobs_in_ship)
-		if(M.client)
-			shake_camera(M, severity, 1)
+	var/obj/item/ship_weapon/ammunition/A = fire_weapon(target)
+	if(A)
+		fire_projectile(A.projectile_type, target)
+	qdel(A)
+	shake_everyone(3)
 
 /obj/structure/overmap/proc/fire_laser(atom/target)
-	fire_weapon(FIRE_MODE_LASER)
+	var/obj/item/ship_weapon/ammunition/A = fire_weapon(target)
+	if(A)
+		fire_projectile(A.projectile_type, target)
+	qdel(A)
 
 /obj/structure/overmap/proc/fire_torpedo(atom/target)
-	if(!linked_areas.len && !main_overmap) //AI ships don't have interiors
+	if(!linked_areas.len && !main_overmap) //AI ships and fighters don't have interiors
 		if(torpedoes <= 0)
 			return
 		fire_projectile(/obj/item/projectile/bullet/torpedo, target, homing = TRUE, speed=1, explosive = TRUE)
 		torpedoes --
 		return
 
-	fire_weapon(FIRE_MODE_TORPEDO)
+	var/obj/item/ship_weapon/ammunition/torpedo/A = fire_weapon(target)
+	if(A)
+		if(istype(A, /obj/item/projectile/bullet/torpedo/dud)) //Some brainlet MAA loaded an incomplete torp
+			fire_projectile(A.projectile_type, target, homing = FALSE, speed=A.speed, explosive = TRUE)
+		else
+			fire_projectile(A.projectile_type, target, homing = TRUE, speed=A.speed, explosive = TRUE)
+	qdel(A)
 
+/obj/structure/overmap/proc/shake_everyone(severity)
+	for(var/mob/M in mobs_in_ship)
+		if(M.client)
+			shake_camera(M, severity, 1)
 
 /obj/structure/overmap/bullet_act(obj/item/projectile/P)
 	relay_damage(P?.type)
