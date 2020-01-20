@@ -88,9 +88,9 @@
 				found_target = TRUE
 				if(prob(pdc_miss_chance)) //Gives them a chance to actually hit a torpedo, so it's not a perfect smokescreen.
 					var/turf/T = get_turf(pick(orange(6,target))) //Pick a random tile within 6 turfs, this isn't a flat out miss 100% of the time though
-					fire_pdcs(T, lateral=TRUE)
+					fire_weapon(T, mode=FIRE_MODE_PDC, lateral=TRUE)
 				else
-					fire_pdcs(target, lateral=TRUE)
+					fire_weapon(target, mode=FIRE_MODE_PDC, lateral=TRUE)
 	if(!found_target) //Can't see a torpedo to shoot, try find an enemy ship to shoot
 		for(var/obj/structure/overmap/ship in GLOB.overmap_objects)
 			if(!istype(ship, /obj/structure/overmap))
@@ -101,19 +101,7 @@
 			if(target_range > initial(weapon_range)) //If the target is out of PDC range, don't shoot. This prevents OP shit like spamming torps AND PDC flak all over a target.
 				continue
 			if(!QDELETED(ship) && isovermap(ship))
-				fire_pdcs(ship, lateral=TRUE)
-
-/obj/structure/overmap/proc/can_fire_pdcs(shots) //Trigger the PDCs to fire
-	if(!linked_areas.len && !main_overmap) //We need AIs to be able to use PDCs
-		return TRUE
-	if(!/obj/machinery/ship_weapon/pdc_mount in weapons[FIRE_MODE_PDC])
-		message_admins("No PDCs")
-		return FALSE
-	for(var/obj/machinery/ship_weapon/pdc_mount/pdc in weapons[FIRE_MODE_PDC])
-		message_admins("Firing")
-		if(pdc.can_fire(shots) && pdc.fire(shots))
-			return TRUE
-	return FALSE
+				fire_weapon(ship, mode=FIRE_MODE_PDC, lateral=TRUE)
 
 /obj/structure/overmap/proc/fire(atom/target)
 	if(weapon_safety)
@@ -147,15 +135,7 @@
 		var/obj/structure/overmap/ship = target
 		ship.add_enemy(src)
 	next_firetime = world.time + fire_delay
-	switch(fire_mode)
-		if(FIRE_MODE_PDC)
-			fire_pdcs(target)
-		if(FIRE_MODE_RAILGUN)
-			fire_railgun(target)
-		if(FIRE_MODE_TORPEDO) //In case of bugs.
-			fire_torpedo(target)
-		if(FIRE_MODE_LASER)
-			fire_laser(target)
+	fire_weapon(target)
 
 /obj/structure/overmap/verb/cycle_firemode()
 	set name = "Switch firemode"
@@ -171,7 +151,7 @@
 	for(fire_mode; fire_mode != stop; fire_mode = WRAP_AROUND_VALUE(fire_mode + 1, 1, weapons.len))
 		message_admins("Trying [fire_mode]")
 		stoplag()
-		if(try_firemode(usr, fire_mode))
+		if(weapons[mode]?.len && swap_to(fire_mode))
 			var/obj/machinery/ship_weapon/W = weapons[fire_mode][1]
 			if(W)
 				W.notify_select(src, usr)
@@ -179,13 +159,6 @@
 
 	// No weapons available, set PDCs as default
 	fire_mode = FIRE_MODE_PDC
-
-// Try to switch fire modes. Fail if there are no weapons of that type available.
-/obj/structure/overmap/proc/try_firemode(atom/user, mode=1)
-	if(weapons[mode]?.len && swap_to(mode)) //We have at least one
-		message_admins("Trying to swap")
-		return TRUE
-	return FALSE
 
 /obj/structure/overmap/proc/swap_to(what=FIRE_MODE_PDC)
 	if(weapons[what]?.len)
@@ -201,7 +174,11 @@
 		return TRUE
 	return FALSE
 
-/obj/structure/overmap/proc/fire_weapon(atom/target, mode=fire_mode, lateral=TRUE)
+/obj/structure/overmap/proc/fire_weapon(atom/target, mode=fire_mode, lateral=TRUE) //"Lateral" means that your ship doesnt have to face the target
+	message_admins("Trying to fire on mode [mode]")
+	if(mode == FIRE_MODE_TORPEDO && !linked_areas.len && !main_overmap)
+		fire_torpedo(target) // Because fighters are special
+		return TRUE
 	if(ai_controlled)
 		fire_lateral_projectile(default_projectiles[mode], target)
 		return TRUE
@@ -211,43 +188,12 @@
 	var/fired = FALSE
 	for(var/obj/machinery/ship_weapon/SW in weapons[mode])
 		if(SW.can_fire())
-			var/obj/chambered = SW.get_chambered_round()
+			message_admins("Can fire a [SW]")
 			if(SW.fire(target))
-				return chambered
+				message_admins("Fired a [SW]")
+				return TRUE
 	if(!fired)
-		weapons[mode][1].notify_failed_fire()
-
-/obj/structure/overmap/proc/fire_pdcs(atom/target, lateral=TRUE) //"Lateral" means that your ship doesnt have to face the target
-	var/shots_per = 3
-	if(!can_fire_pdcs(shots_per))
-		to_chat(gunner, "<span class='warning'>DANGER: Point defense emplacements are unable to fire due to lack of ammunition.</span>")
-		return
-	var/sound/chosen = pick('nsv13/sound/effects/ship/pdc.ogg','nsv13/sound/effects/ship/pdc2.ogg','nsv13/sound/effects/ship/pdc3.ogg')
-	relay_to_nearby(chosen)
-	for(var/i = 0, i < shots_per, i++)
-		sleep(1)
-		if(lateral)
-			fire_lateral_projectile(/obj/item/projectile/bullet/pdc_round, target)
-		else
-			fire_projectiles(/obj/item/projectile/bullet/pdc_round, target)
-
-/obj/structure/overmap/proc/fire_railgun(atom/target)
-	var/obj/A = fire_weapon(target)
-	if(A)
-		if(istype(A, /obj/item/ship_weapon/ammunition))
-			var/obj/item/ship_weapon/ammunition/shot = A
-			fire_projectile(shot.projectile_type, target)
-			shake_everyone(3)
-		qdel(A)
-
-/obj/structure/overmap/proc/fire_laser(atom/target)
-	var/obj/A = fire_weapon(target)
-	if(A)
-		if(istype(A, /obj/item/ship_weapon/ammunition))
-			var/obj/item/ship_weapon/ammunition/shot = A
-			fire_projectile(shot.projectile_type, target)
-			shake_everyone(3)
-		qdel(A)
+		weapons[mode][1].notify_failed_fire(gunner)
 
 /obj/structure/overmap/proc/fire_torpedo(atom/target)
 	if(!linked_areas.len && !main_overmap) //AI ships and fighters don't have interiors
@@ -256,16 +202,6 @@
 		fire_projectile(/obj/item/projectile/bullet/torpedo, target, homing = TRUE, speed=1, explosive = TRUE)
 		torpedoes --
 		return
-
-	var/obj/A = fire_weapon(target)
-	if(A)
-		if(istype(A, /obj/item/ship_weapon/ammunition/torpedo))
-			var/obj/item/ship_weapon/ammunition/torpedo/shot = A
-			if(istype(A, /obj/item/projectile/bullet/torpedo/dud)) //Some brainlet MAA loaded an incomplete torp
-				fire_projectile(shot.projectile_type, target, homing = FALSE, speed=shot.speed, explosive = TRUE)
-			else
-				fire_projectile(shot.projectile_type, target, homing = TRUE, speed=shot.speed, explosive = TRUE)
-		qdel(A)
 
 /obj/structure/overmap/proc/shake_everyone(severity)
 	for(var/mob/M in mobs_in_ship)

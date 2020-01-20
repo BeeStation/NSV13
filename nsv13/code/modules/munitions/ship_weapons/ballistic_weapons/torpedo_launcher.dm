@@ -20,7 +20,10 @@
 	to_chat(user, "<span class='notice'>Long range target acquisition systems: online.</span>")
 	OM.relay(overmap_select_sound)
 
-/obj/machinery/ship_weapon/animate_projectile(atom/target)
+/obj/machinery/ship_weapon/torpedo_launcher/notify_failed_fire(mob/gunner)
+	to_chat(gunner, "<span class='warning'>DANGER: Launch failure! Torpedo tubes are not loaded.</span>")
+
+/obj/machinery/ship_weapon/torpedo_launcher/animate_projectile(atom/target, lateral=TRUE)
 	var/obj/item/ship_weapon/ammunition/torpedo/T = chambered
 	if(T)
 		if(istype(T, /obj/item/projectile/bullet/torpedo/dud)) //Some brainlet MAA loaded an incomplete torp

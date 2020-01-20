@@ -14,7 +14,6 @@
 
 	semi_auto = TRUE
 	ammo_type = /obj/item/ship_weapon/ammunition/railgun_ammo
-	projectile_type = /obj/item/projectile/bullet/railgun_slug
 	max_ammo = 3 //Until you have to manually load it back up again. Battleships IRL have 3-4 shots before you need to reload the rack
 
 /obj/machinery/ship_weapon/railgun/after_fire()
@@ -38,6 +37,9 @@
 	to_chat(user, "<span class='notice'>Charging railgun hardpoints...</span>")
 	OM.relay(overmap_select_sound)
 
-/obj/machinery/ship_weapon/railgun/fire()
+/obj/machinery/ship_weapon/railgun/notify_failed_fire(mob/gunner)
+	to_chat(gunner, "<span class='warning'>DANGER: Launch failure! Railgun systems are not loaded.</span>")
+
+/obj/machinery/ship_weapon/railgun/animate_projectile(atom/target)
 	. = ..()
-	linked.shake_everyone(2)
+	linked.shake_everyone(3)

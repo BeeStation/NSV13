@@ -64,7 +64,6 @@
 	var/max_ammo = 1
 
 	var/burst_size = 1
-	var/projectile_type = /obj/item/projectile/bullet
 	var/overmap_fire_delay = 0
 	var/range_mod = 30
 	var/fire_mode = 1
@@ -359,7 +358,7 @@
  *   from STATE_CHAMBERED if semi-auto and have ammo.
  * Returns projectile if successfully fired, FALSE otherwise.
  */
-/obj/machinery/ship_weapon/proc/fire(atom/target, shots = 1)
+/obj/machinery/ship_weapon/proc/fire(atom/target, shots = burst_size)
 	if(can_fire(shots))
 		for(var/i = 0, i < shots, i++)
 			spawn(0) //Branch so that there isnt a fire delay for the helm.
@@ -370,7 +369,7 @@
 			overmap_fire(target)
 
 			ammo -= chambered
-			//qdel(chambered)
+			qdel(chambered)
 			chambered = null
 
 			if(ammo?.len)
@@ -405,14 +404,16 @@
 	linked.relay_to_nearby(chosen)
 	if(overlay)
 		overlay.do_animation()
-	//animate_projectile(target)
+	animate_projectile(target)
 
-/obj/machinery/ship_weapon/proc/notify_failed_fire()
-	to_chat(linked.gunner, "<span class='warning'>DANGER: Failed to fire!</span>")
+/obj/machinery/ship_weapon/proc/notify_failed_fire(mob/gunner)
+	to_chat(gunner, "<span class='warning'>DANGER: Failed to fire!</span>")
 
 /obj/machinery/ship_weapon/proc/animate_projectile(atom/target)
-	message_admins("I am a [src]")
-	linked.fire_lateral_projectile(projectile_type, target)
+	message_admins("I am a [src] with a [chambered]")
+	if(istype(chambered, /obj/item/ship_weapon/ammunition))
+		var/obj/item/ship_weapon/ammunition/round = chambered
+		linked.fire_lateral_projectile(round.projectile_type, target)
 
 /obj/machinery/ship_weapon/proc/get_chambered_round()
 	return chambered

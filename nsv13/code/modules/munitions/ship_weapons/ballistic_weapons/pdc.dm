@@ -22,7 +22,6 @@
 	chamber_sound = null
 	overmap_select_sound = 'nsv13/sound/effects/ship/pdc_start.ogg'
 	overmap_firing_sounds = list('nsv13/sound/effects/ship/pdc.ogg','nsv13/sound/effects/ship/pdc2.ogg','nsv13/sound/effects/ship/pdc3.ogg')
-	projectile_type = /obj/item/projectile/bullet/pdc_round
 
 	load_delay = 50
 	unload_delay = 50
@@ -65,3 +64,13 @@
 /obj/machinery/ship_weapon/pdc_mount/notify_select(obj/structure/overmap/OM, mob/user)
 	to_chat(user, "<span class='notice'>Defensive flak screens: <b>OFFLINE</b>. Activating manual point defense cannon control.</span>")
 	OM.relay(overmap_select_sound)
+
+/obj/machinery/ship_weapon/pdc_mount/notify_failed_fire(mob/gunner)
+	to_chat(gunner, "<span class='warning'>DANGER: Point defense emplacements are unable to fire due to lack of ammunition.</span>")
+
+/obj/machinery/ship_weapon/pdc_mount/animate_projectile(atom/target, lateral=TRUE)
+	sleep(1)
+	if(lateral)
+		linked.fire_lateral_projectile(/obj/item/projectile/bullet/pdc_round, target)
+	else
+		linked.fire_projectiles(/obj/item/projectile/bullet/pdc_round, target)

@@ -30,8 +30,6 @@
 	var/obj/structure/cable/attached
 	state = STATE_OFF
 
-	projectile_type = /obj/item/projectile/beam/laser/heavylaser
-
 	circuit = /obj/item/circuitboard/machine/laser_cannon // Circuit to be created and inserted when the machinery is created
 
 /*
@@ -142,7 +140,7 @@
 	spawn(0)
 		// Fire on the main map
 		playsound(src, firing_sound, 100, 1)
-		var/obj/item/projectile/P = new projectile_type(get_step(src, 4))
+		var/obj/item/projectile/P = new /obj/item/projectile/beam/laser/heavylaser(get_step(src, 4))
 		P.fire(dir2angle(dir))
 		do_animation()
 
