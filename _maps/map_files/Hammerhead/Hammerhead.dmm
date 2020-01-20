@@ -710,7 +710,6 @@
 "abJ" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer1,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer3,
-/obj/machinery/rnd/destructive_analyzer,
 /obj/effect/turf_decal/stripes/white/line{
 	dir = 5
 	},
@@ -1815,12 +1814,6 @@
 /area/nsv/hanger/deck2/starboard{
 	name = "Launch tubes 1 and 2"
 	})
-"aee" = (
-/obj/structure/extinguisher_cabinet{
-	pixel_y = 28
-	},
-/turf/open/floor/plasteel/ship/techfloor/alt,
-/area/hallway/primary/central)
 "aef" = (
 /obj/machinery/door/airlock/ship/hatch{
 	name = "Air Control Right";
@@ -9447,15 +9440,18 @@
 /turf/open/floor/carpet/ship,
 /area/bridge/meeting_room)
 "avv" = (
-/obj/machinery/computer/rdconsole/core{
-	dir = 8
-	},
 /obj/machinery/light_switch{
 	pixel_y = -22
 	},
 /obj/effect/turf_decal/stripes/white/line{
 	dir = 9
 	},
+/obj/structure/table,
+/obj/item/stack/sheet/mineral/copper,
+/obj/item/stack/sheet/mineral/copper,
+/obj/item/stack/sheet/mineral/copper,
+/obj/item/stack/sheet/glass/fifty,
+/obj/item/stack/sheet/iron/fifty,
 /turf/open/floor/plasteel,
 /area/science/lab)
 "avw" = (
@@ -13978,7 +13974,6 @@
 "aGg" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer1,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer3,
-/obj/machinery/rnd/production/protolathe/department/science,
 /obj/effect/turf_decal/stripes/white/line{
 	dir = 6
 	},
@@ -15379,7 +15374,7 @@
 "aJx" = (
 /obj/effect/spawner/structure/window/reinforced,
 /obj/machinery/door/poddoor/shutters/preopen{
-	id = "med_sec";
+	id = "med_check";
 	name = "privacy shutter"
 	},
 /turf/open/floor/plating,
@@ -17438,9 +17433,6 @@
 /turf/open/floor/plasteel/ship,
 /area/hallway/primary/fore)
 "aOD" = (
-/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer1{
-	dir = 8
-	},
 /obj/machinery/light{
 	dir = 4
 	},
@@ -17451,6 +17443,7 @@
 	dir = 1
 	},
 /obj/effect/turf_decal/tile/purple,
+/obj/machinery/rnd/destructive_analyzer,
 /turf/open/floor/plasteel/white,
 /area/science/lab)
 "aOE" = (
@@ -17951,6 +17944,7 @@
 /obj/effect/turf_decal/tile/yellow{
 	dir = 4
 	},
+/obj/item/book/manual/wiki/chemistry,
 /turf/open/floor/plasteel/white,
 /area/medical/chemistry)
 "aPS" = (
@@ -18348,22 +18342,15 @@
 /turf/open/floor/plasteel/white,
 /area/science/mixing)
 "aQV" = (
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer1{
-	dir = 8
-	},
-/obj/structure/table,
-/obj/item/stack/sheet/glass/fifty,
-/obj/item/stack/sheet/iron/fifty,
 /obj/effect/turf_decal/tile/purple{
 	dir = 4
 	},
 /obj/effect/turf_decal/tile/purple{
 	dir = 1
 	},
-/obj/item/stack/sheet/mineral/copper,
-/obj/item/stack/sheet/mineral/copper,
-/obj/item/stack/sheet/mineral/copper,
-/obj/item/stack/sheet/mineral/copper,
+/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer1{
+	dir = 8
+	},
 /turf/open/floor/plasteel/white,
 /area/science/lab)
 "aQW" = (
@@ -19637,7 +19624,7 @@
 /obj/effect/turf_decal/tile/red,
 /obj/machinery/light,
 /obj/machinery/button/door{
-	id = "rd_desk";
+	id = "med_check";
 	name = "Privacy Shutters";
 	pixel_x = -8;
 	pixel_y = -26;
@@ -21609,7 +21596,7 @@
 "aYZ" = (
 /obj/effect/spawner/structure/window/reinforced,
 /obj/machinery/door/poddoor/shutters/preopen{
-	id = "med_sec";
+	id = "med_check";
 	name = "privacy shutter"
 	},
 /turf/open/floor/plating,
@@ -22351,6 +22338,7 @@
 	},
 /obj/machinery/camera/autoname,
 /obj/machinery/computer/ship/viewscreen,
+/obj/machinery/computer/rdconsole/core,
 /turf/open/floor/plasteel,
 /area/science/lab)
 "baH" = (
@@ -24760,6 +24748,7 @@
 /obj/structure/table/glass,
 /obj/machinery/light,
 /obj/item/pen,
+/obj/item/reagent_containers/glass/beaker/cryoxadone,
 /turf/open/floor/plasteel/white,
 /area/medical/genetics/cloning)
 "bhv" = (
@@ -24925,6 +24914,12 @@
 	},
 /turf/open/floor/plasteel/ship/techfloor/alt,
 /area/hallway/primary/central)
+"bog" = (
+/obj/structure/chair/office{
+	dir = 8
+	},
+/turf/open/floor/plasteel/white,
+/area/medical/chemistry)
 "bok" = (
 /obj/structure/cable{
 	icon_state = "1-2"
@@ -26244,7 +26239,7 @@
 "cJA" = (
 /obj/effect/spawner/structure/window/reinforced,
 /obj/machinery/door/poddoor/shutters/preopen{
-	id = "med_sec";
+	id = "med_check";
 	name = "privacy shutter"
 	},
 /turf/open/floor/plating,
@@ -28451,6 +28446,8 @@
 /obj/effect/turf_decal/tile/yellow{
 	dir = 1
 	},
+/obj/machinery/reagentgrinder,
+/obj/item/book/manual/wiki/chemistry,
 /turf/open/floor/plasteel/white,
 /area/medical/chemistry)
 "eUW" = (
@@ -29138,6 +29135,9 @@
 "fJb" = (
 /obj/effect/turf_decal/tile/yellow,
 /obj/effect/turf_decal/tile/yellow{
+	dir = 4
+	},
+/obj/structure/chair/office{
 	dir = 4
 	},
 /turf/open/floor/plasteel/white,
@@ -32838,6 +32838,19 @@
 	},
 /turf/open/floor/plasteel/ship,
 /area/hallway/primary/fore)
+"jiI" = (
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
+/obj/effect/turf_decal/tile/blue{
+	dir = 4
+	},
+/obj/effect/turf_decal/tile/blue{
+	dir = 1
+	},
+/obj/machinery/door/firedoor,
+/turf/open/floor/plasteel/white,
+/area/medical/medbay/central)
 "jiY" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer1,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer3,
@@ -32940,6 +32953,9 @@
 /obj/effect/turf_decal/tile/red,
 /obj/machinery/camera/autoname{
 	dir = 1
+	},
+/obj/machinery/recharger{
+	pixel_y = -23
 	},
 /turf/open/floor/plasteel/ship/techfloor/alt,
 /area/security/main)
@@ -34914,6 +34930,19 @@
 	},
 /turf/open/floor/plasteel/white,
 /area/science/mixing)
+"lct" = (
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer3{
+	dir = 8
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer1{
+	dir = 8
+	},
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/obj/machinery/door/firedoor,
+/turf/open/floor/plasteel/white,
+/area/medical/medbay/central)
 "lcD" = (
 /obj/effect/landmark/start/medical_doctor,
 /turf/open/floor/plasteel/white,
@@ -36482,6 +36511,21 @@
 "mFD" = (
 /turf/closed/wall/ship,
 /area/quartermaster/miningoffice)
+"mGn" = (
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
+/obj/effect/turf_decal/tile/blue{
+	dir = 4
+	},
+/obj/effect/turf_decal/tile/blue{
+	dir = 1
+	},
+/obj/machinery/firealarm{
+	pixel_y = 30
+	},
+/turf/open/floor/plasteel/white,
+/area/medical/medbay/central)
 "mGB" = (
 /obj/structure/disposalpipe/segment{
 	dir = 4
@@ -38174,10 +38218,11 @@
 	dwidth = 2;
 	height = 13;
 	id = "ferry_home";
-	name = "Hammerhead Auxiliary Shuttle Dock"
+	name = "port bay 2";
+	width = 5
 	},
 /turf/open/space/basic,
-/area/maintenance/ship_exterior)
+/area/space)
 "onx" = (
 /obj/machinery/airalarm/directional/north,
 /turf/open/floor/plasteel/ship/techfloor/alt,
@@ -39767,6 +39812,9 @@
 	dir = 8
 	},
 /obj/effect/turf_decal/tile/red,
+/obj/machinery/recharger{
+	pixel_y = -23
+	},
 /turf/open/floor/plasteel/ship/techfloor/alt,
 /area/security/main)
 "pUR" = (
@@ -43055,6 +43103,7 @@
 /obj/effect/turf_decal/tile/yellow{
 	dir = 4
 	},
+/obj/item/book/manual/wiki/chemistry,
 /turf/open/floor/plasteel/white,
 /area/medical/chemistry)
 "tko" = (
@@ -45365,6 +45414,18 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/department/engine)
+"vqf" = (
+/obj/effect/turf_decal/tile/blue{
+	dir = 8
+	},
+/obj/effect/turf_decal/tile/blue,
+/obj/machinery/firealarm{
+	dir = 1;
+	pixel_y = -24
+	},
+/obj/machinery/door/firedoor,
+/turf/open/floor/plasteel/white,
+/area/medical/medbay/central)
 "vqt" = (
 /obj/machinery/modular_computer/console/preset/command{
 	dir = 1
@@ -46194,8 +46255,7 @@
 /turf/open/floor/plasteel/ship,
 /area/hallway/primary/fore)
 "wgI" = (
-/obj/machinery/atmospherics/pipe/manifold/brown{
-	icon_state = "manifold-2";
+/obj/machinery/atmospherics/pipe/manifold/brown/visible{
 	dir = 8
 	},
 /turf/open/floor/plasteel,
@@ -46401,6 +46461,7 @@
 /obj/effect/turf_decal/stripes/white/line{
 	dir = 1
 	},
+/obj/machinery/rnd/production/protolathe/department/science,
 /turf/open/floor/plasteel,
 /area/science/lab)
 "wuo" = (
@@ -46503,6 +46564,9 @@
 	dir = 8
 	},
 /obj/effect/turf_decal/tile/red,
+/obj/machinery/recharger{
+	pixel_y = -23
+	},
 /turf/open/floor/plasteel/ship/techfloor/alt,
 /area/security/main)
 "wBC" = (
@@ -47102,6 +47166,12 @@
 /obj/item/seeds/ambrosia,
 /turf/open/floor/plasteel/ship,
 /area/security/prison)
+"xkE" = (
+/obj/machinery/recharger{
+	pixel_y = -23
+	},
+/turf/open/floor/plasteel/ship,
+/area/security/warden)
 "xkL" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer1,
 /obj/machinery/door/firedoor,
@@ -47430,6 +47500,8 @@
 /obj/effect/turf_decal/tile/yellow{
 	dir = 1
 	},
+/obj/machinery/reagentgrinder,
+/obj/item/book/manual/wiki/chemistry,
 /turf/open/floor/plasteel/white,
 /area/medical/chemistry)
 "xCO" = (
@@ -74882,7 +74954,7 @@ tQs
 niw
 aWP
 eNe
-awp
+bog
 mXS
 awp
 kvX
@@ -77447,7 +77519,7 @@ alD
 bcd
 alD
 alD
-aee
+adz
 amV
 asH
 atV
@@ -78742,7 +78814,7 @@ aYZ
 aYZ
 atV
 atV
-kXR
+mGn
 dEe
 hYg
 akD
@@ -78772,7 +78844,7 @@ aGX
 aEn
 aGX
 aux
-vcx
+aux
 aux
 aux
 aux
@@ -81312,9 +81384,9 @@ aJF
 aJF
 aJF
 aJF
-kXR
-aGR
-hmp
+jiI
+lct
+vqf
 aWK
 aWK
 aWK
@@ -81603,7 +81675,7 @@ aux
 aux
 gHG
 aux
-pFp
+aaa
 aaa
 aaa
 aaa
@@ -88534,7 +88606,7 @@ aux
 aux
 aux
 aux
-vcx
+aux
 aaa
 aaa
 aaa
@@ -90518,7 +90590,7 @@ aux
 aux
 aux
 aux
-vcx
+aux
 aux
 aux
 bfF
@@ -93678,7 +93750,7 @@ aEn
 aEn
 jMT
 aux
-vcx
+aux
 aEn
 jMT
 aBT
@@ -95477,7 +95549,7 @@ aux
 aux
 jMT
 aux
-vcx
+aux
 aux
 jMT
 jMT
@@ -95933,7 +96005,7 @@ aux
 aux
 aux
 aux
-vcx
+aux
 bfF
 bfQ
 bfW
@@ -97217,7 +97289,7 @@ aux
 aux
 aux
 aux
-vcx
+aux
 aux
 bfF
 bfQ
@@ -99320,7 +99392,7 @@ aOT
 alK
 aOh
 bfK
-bfL
+bfQ
 bfR
 aux
 auW
@@ -101049,7 +101121,7 @@ aaa
 aaa
 aaa
 aux
-vcx
+aux
 bfF
 bfQ
 aVi
@@ -105246,7 +105318,7 @@ xoh
 aZi
 bcU
 bda
-aAR
+xkE
 aFQ
 aux
 aux
@@ -107540,7 +107612,7 @@ bbL
 aQZ
 bfK
 bfQ
-bfL
+bfQ
 bfR
 aux
 aux
@@ -110076,7 +110148,7 @@ aGX
 aGX
 aEn
 aGX
-qti
+aEn
 aGX
 aEn
 aGX
@@ -110313,7 +110385,7 @@ aux
 aEn
 aGX
 aGX
-yiA
+aGX
 aEn
 aux
 aux
@@ -111128,13 +111200,13 @@ aaa
 aaa
 aaa
 aaa
-pFp
 aaa
 aaa
 aaa
 aaa
 aaa
-pFp
+aaa
+aaa
 aaa
 aaa
 aaa
