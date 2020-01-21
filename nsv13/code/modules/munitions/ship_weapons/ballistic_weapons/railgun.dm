@@ -22,11 +22,7 @@
 
 /obj/machinery/ship_weapon/railgun/set_position(obj/structure/overmap/OM)
 	..()
-	overlay = new/obj/weapon_overlay/railgun
-	overlay.icon = OM.icon
-	overlay.appearance_flags |= KEEP_APART
-	overlay.appearance_flags |= RESET_TRANSFORM
-	OM.vis_contents += overlay
+	overlay = linked.add_weapon_overlay("/obj/weapon_overlay/railgun")
 
 /obj/machinery/ship_weapon/railgun/MouseDrop_T(obj/structure/A, mob/user)
 	return

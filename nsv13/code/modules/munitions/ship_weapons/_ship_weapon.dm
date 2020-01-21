@@ -11,10 +11,11 @@
 
 /**
  * Ship-to-ship weapons
- * To add a weapon:
- *    Define a unique firing mode in nsv13/_DEFINES/overmap.dm
+ * To add a weapon type:
+ *    Define a FIRE_MODE in nsv13/_DEFINES/overmap.dm
  *    Up the size of weapon_types and weapons in nsv13/code/modules/overmap/weapons.dm
  *    Add weapon specifics as a datum in nsv13/code/datums/weapon_types.dm
+ *    Add a new datum of your type to weapon_types in nsv13/code/modules/overmap/overmap.dm Initialize()
  *    Subclass this
  *    Make firing_mode in the subclass equal to that define
  *    Set weapon_type in the subclass to a new datum of the kind you just created

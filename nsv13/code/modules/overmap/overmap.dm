@@ -135,6 +135,16 @@
 	icon = 'icons/obj/hand_of_god_structures.dmi'
 	icon_state = "conduit-red"
 
+/obj/structure/overmap/proc/add_weapon_overlay(type)
+	var/path = text2path(type)
+	var/obj/weapon_overlay/OL = new path
+	OL.icon = icon
+	OL.appearance_flags |= KEEP_APART
+	OL.appearance_flags |= RESET_TRANSFORM
+	vis_contents += OL
+	railgun_overlay = OL
+	return OL
+
 /obj/weapon_overlay/laser/do_animation()
 	flick("laser",src)
 
