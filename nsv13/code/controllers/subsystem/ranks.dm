@@ -54,7 +54,7 @@
 
 	if (istype(speaker, /mob/living/carbon/human))
 		var/mob/living/carbon/human/speakerMob = speaker
-		job = speakerMob.get_assignment()
+		job = speakerMob.get_assignment("", "")
 	else if (istype(speaker, /atom/movable/virtualspeaker))
 		var/atom/movable/virtualspeaker/VS = speaker
 		job = VS.GetJob()
