@@ -149,17 +149,17 @@
 		return
 
 	var/stop = fire_mode
-	fire_mode = WRAP_AROUND_VALUE(fire_mode + 1, 1, weapons.len)
+	fire_mode = WRAP_AROUND_VALUE(fire_mode + 1, 1, weapons.len + 1)
 
-	for(fire_mode; fire_mode != stop; fire_mode = WRAP_AROUND_VALUE(fire_mode + 1, 1, weapons.len))
+	for(fire_mode; fire_mode != stop; fire_mode = WRAP_AROUND_VALUE(fire_mode + 1, 1, weapons.len + 1))
 		stoplag()
 		if(swap_to(fire_mode))
 			var/datum/ship_weapon/SW = weapon_types[fire_mode]
 			to_chat(gunner, SW.select_alert)
 			return
 
-	// No weapons available, set PDCs as default
-	fire_mode = FIRE_MODE_PDC
+	// No other weapons available, go with whatever we had before
+	fire_mode = stop
 
 /obj/structure/overmap/tiny/swap_to(what)
 	if(what > FIRE_MODE_TORPEDO)

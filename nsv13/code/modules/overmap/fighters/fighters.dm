@@ -655,6 +655,7 @@ After going through this checklist, you're ready to go!
 			fire_projectile(proj_type, target, homing = FALSE, speed=proj_speed, explosive = TRUE)
 		else
 			fire_projectile(proj_type, target, homing = TRUE, speed=proj_speed, explosive = TRUE)
+		return TRUE
 	else
 		to_chat(gunner, "<span class='warning'>DANGER: Launch failure! Torpedo tubes are not loaded.</span>")
 
