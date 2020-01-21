@@ -199,22 +199,22 @@
 /datum/config_entry/string/banappeals
 
 /datum/config_entry/string/wikiurl
-	config_entry_value = "http://www.tgstation13.org/wiki"
+	config_entry_value = "https://nsv.ddmers.com/wiki/Main_Page"
 
 /datum/config_entry/string/forumurl
-	config_entry_value = "http://tgstation13.org/phpBB/index.php"
+	config_entry_value = "https://nsv.ddmers.com/fluxbb/index.php"
 
 /datum/config_entry/string/rulesurl
-	config_entry_value = "http://www.tgstation13.org/wiki/Rules"
+	config_entry_value = "https://nsv.ddmers.com/wiki/Rules"
 
 /datum/config_entry/string/githuburl
-	config_entry_value = "https://www.github.com/tgstation/-tg-station"
+	config_entry_value = "https://github.com/BeeStation/NSV13"
 
 /datum/config_entry/string/donateurl
 	config_entry_value = "https://www.patreon.com/user?u=10639001"
 
 /datum/config_entry/string/discordurl
-	config_entry_value = "https://discord.gg/zUe34rs"
+	config_entry_value = "https://discord.gg/8rrttjN"
 
 /datum/config_entry/string/roundstatsurl
 
