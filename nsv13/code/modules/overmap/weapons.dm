@@ -205,7 +205,7 @@
 			return TRUE
 	else if(weapons[mode] && weapons[mode].len) //It's the main ship, see if any part of our battery can fire
 		for(var/obj/machinery/ship_weapon/SW in weapons[mode])
-			if(SW.can_fire() && SW.fire(target))
+			if(SW.can_fire() && SW.fire(target, manual=(mode == fire_mode)))
 				return TRUE
 
 	if(gunner) //Tell them we failed

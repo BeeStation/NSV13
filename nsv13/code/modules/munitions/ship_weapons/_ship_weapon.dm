@@ -367,8 +367,11 @@
  *   from STATE_CHAMBERED if semi-auto and have ammo.
  * Returns projectile if successfully fired, FALSE otherwise.
  */
-/obj/machinery/ship_weapon/proc/fire(atom/target, shots = weapon_type.burst_size)
+/obj/machinery/ship_weapon/proc/fire(atom/target, shots = weapon_type.burst_size, manual = TRUE)
 	if(can_fire(shots))
+		if(manual)
+			linked.last_fired = overlay
+
 		for(var/i = 0, i < shots, i++)
 			spawn(0) //Branch so that there isnt a fire delay for the helm.
 			do_animation()

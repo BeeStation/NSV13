@@ -102,8 +102,8 @@
 	var/fire_delay = 5
 	var/next_firetime = 0
 
-	var/obj/weapon_overlay/railgun/railgun_overlay
-	var/obj/weapon_overlay/laser/laser_overlay
+	var/list/weapon_overlays = list()
+	var/obj/weapon_overlay/last_fired //Last weapon overlay that fired, so we can rotate guns independently
 	var/atom/last_target //Last thing we shot at, used to point the railgun at an enemy.
 
 	var/torpedoes = 15 //Prevent infinite torp spam
@@ -142,7 +142,7 @@
 	OL.appearance_flags |= KEEP_APART
 	OL.appearance_flags |= RESET_TRANSFORM
 	vis_contents += OL
-	railgun_overlay = OL
+	weapon_overlays += OL
 	return OL
 
 /obj/weapon_overlay/laser/do_animation()
@@ -279,9 +279,9 @@
 	cut_overlays()
 	apply_damage_states()
 
-	if(railgun_overlay && (fire_mode == FIRE_MODE_RAILGUN)) //Swivel the railgun to aim at the last thing we hit
-		railgun_overlay.icon = icon
-		railgun_overlay.setDir(get_dir(src, last_target))
+	if(last_fired) //Swivel the most recently fired gun's overlay to aim at the last thing we hit
+		last_fired.icon = icon
+		last_fired.setDir(get_dir(src, last_target))
 
 	if(angle == desired_angle)
 		return //No RCS needed if we're already facing where we want to go

@@ -219,13 +219,11 @@
 		var/target_angle = Get_Angle(src,last_target)
 		var/matrix/final = matrix()
 		final.Turn(target_angle)
-		if((fire_mode == FIRE_MODE_RAILGUN) && railgun_overlay)
-			railgun_overlay.transform = final
-	else
-		if(railgun_overlay)
-			railgun_overlay.transform = mat_to
-		if(laser_overlay)
-			laser_overlay.transform = mat_to
+		if(last_fired)
+			last_fired.transform = final
+	else if(last_fired)
+		last_fired.transform = mat_to
+
 	for(var/mob/living/M in operators)
 		var/client/C = M.client
 		if(!C)
