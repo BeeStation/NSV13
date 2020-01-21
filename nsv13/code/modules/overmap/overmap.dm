@@ -91,8 +91,8 @@
 	var/obj/machinery/computer/ship/dradis/dradis //So that pilots can check the radar easily
 
 	// Ship weapons
-	var/list/weapons[4][] //All of the weapons linked to us
-	var/list/weapon_types[4]
+	var/list/weapons[3][] //All of the weapons linked to us
+	var/list/weapon_types[3]
 
 	var/fire_mode = FIRE_MODE_PDC //What gun do we want to fire? Defaults to railgun, with PDCs there for flak
 	var/weapon_safety = FALSE //Like a gun safety. Entirely un-used except for fighters to stop brainlets from shooting people on the ship unintentionally :)
@@ -186,7 +186,6 @@
 	weapon_types[FIRE_MODE_PDC] = new/datum/ship_weapon/pdc_mount
 	weapon_types[FIRE_MODE_TORPEDO] = new/datum/ship_weapon/torpedo_launcher
 	weapon_types[FIRE_MODE_RAILGUN] = new/datum/ship_weapon/railgun
-	weapon_types[FIRE_MODE_LASER] = new/datum/ship_weapon/laser_cannon
 
 /obj/structure/overmap/proc/add_weapon(obj/machinery/ship_weapon/weapon)
 	if(!weapons[weapon.fire_mode])
@@ -273,8 +272,6 @@
 	if(railgun_overlay && (fire_mode == FIRE_MODE_RAILGUN)) //Swivel the railgun to aim at the last thing we hit
 		railgun_overlay.icon = icon
 		railgun_overlay.setDir(get_dir(src, last_target))
-	else if(laser_overlay && (fire_mode == FIRE_MODE_LASER))
-		laser_overlay.setDir(get_dir(src, last_target))
 
 	if(angle == desired_angle)
 		return //No RCS needed if we're already facing where we want to go

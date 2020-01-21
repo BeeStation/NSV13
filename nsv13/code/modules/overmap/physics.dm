@@ -221,8 +221,6 @@
 		final.Turn(target_angle)
 		if((fire_mode == FIRE_MODE_RAILGUN) && railgun_overlay)
 			railgun_overlay.transform = final
-		else if (laser_overlay && (fire_mode == FIRE_MODE_LASER))
-			laser_overlay.transform = final
 	else
 		if(railgun_overlay)
 			railgun_overlay.transform = mat_to

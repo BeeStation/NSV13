@@ -6,7 +6,7 @@
 	righthand_file = 'nsv13/icons/mob/inhands/weapons/bombs_righthand.dmi'
 	icon = 'nsv13/icons/obj/munitions.dmi'
 	w_class = 4
-	projectile_type = /obj/item/projectile/bullet/railgun_slug
+	var/projectile_type = /obj/item/projectile/bullet/railgun_slug
 
 /obj/item/ship_weapon/ammunition/railgun_ammo/Initialize()
 	..()
