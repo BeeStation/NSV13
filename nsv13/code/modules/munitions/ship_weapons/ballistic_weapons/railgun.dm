@@ -8,11 +8,11 @@
 	pixel_y = -64
 
 	fire_mode = FIRE_MODE_RAILGUN
+	weapon_type = new/datum/ship_weapon/railgun
+	ammo_type = /obj/item/ship_weapon/ammunition/railgun_ammo
 
 	semi_auto = TRUE
-	ammo_type = /obj/item/ship_weapon/ammunition/railgun_ammo
 	max_ammo = 3 //Until you have to manually load it back up again. Battleships IRL have 3-4 shots before you need to reload the rack
-	weapon_type = new/datum/ship_weapon/railgun
 
 /obj/machinery/ship_weapon/railgun/after_fire()
 	if(!ammo.len)

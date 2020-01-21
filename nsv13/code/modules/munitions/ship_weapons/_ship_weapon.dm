@@ -9,12 +9,16 @@
 #define STATE_CHAMBERED 4
 #define STATE_FIRING 5
 
-/obj/item/ship_weapon/ammunition
-	var/projectile_type
-
 /**
  * Ship-to-ship weapons
- * Be sure to specify either a magazine_type or ammo_type so it can be loaded
+ * To add a weapon:
+ *    Define a unique firing mode in nsv13/_DEFINES/overmap.dm
+ *    Up the size of weapon_types and weapons in nsv13/code/modules/overmap/weapons.dm
+ *    Add weapon specifics as a datum in nsv13/code/datums/weapon_types.dm
+ *    Subclass this
+ *    Make firing_mode in the subclass equal to that define
+ *    Set weapon_type in the subclass to a new datum of the kind you just created
+ *    Define an ammo_type or magazine_type so you can load the weapon
  */
 /obj/machinery/ship_weapon //CREDIT TO CM FOR THE SPRITES!
 	name = "A ship weapon"
@@ -154,17 +158,24 @@
 	if(ammo_type && istype(A, ammo_type))
 		if(ammo?.len < max_ammo) //Room for one more?
 			if(!loading) //Not already loading a round?
-				to_chat(user, "<span class='notice'>You start to load [A] into [src]...</span>")
+				if(user)
+					to_chat(user, "<span class='notice'>You start to load [A] into [src]...</span>")
 				loading = TRUE
 
-				if(do_after(user, load_delay, target = src))
+				var/load = FALSE
+				if(user)
+					load = do_after(user, load_delay, target = src)
+				else
+					load = TRUE
+				if(load)
 					loading = FALSE
 					A.forceMove(src)
 					ammo += A
 					if(load_sound)
 						playsound(src, load_sound, 100, 1)
 					state = STATE_LOADED
-					to_chat(user, "<span class='notice'>You load [A] into [src].</span>")
+					if(user)
+						to_chat(user, "<span class='notice'>You load [A] into [src].</span>")
 
 					if(auto_load) //If we're automatic, get ready to fire
 						feed()
@@ -174,13 +185,13 @@
 				//end if(do_after(user, load_delay, target = src))
 				loading = FALSE
 			//end if(!loading)
-			else
+			else if(user)
 				to_chat(user, "<span class='notice'>You're already loading a round into [src]!.</span>")
 		//end if(ammo?.len < max_ammo)
-		else
+		else if(user)
 			to_chat(user, "<span class='warning'>[src] is already fully loaded!</span>")
 	//end if(ammo_type && istype(I, ammo_type))
-	else
+	else if(user)
 		to_chat(user, "<span class='warning'>You can't load [A] into [src]!</span>")
 
 	return FALSE
@@ -246,6 +257,7 @@
 			for(var/obj/round in ammo)
 				round.forceMove(get_turf(src))
 				ammo -= round
+	//end if((state >= STATE_LOADED) && !magazine)
 
 /**
  * If we are magazine-fed, unload the magazine.
@@ -354,7 +366,7 @@
  *   from STATE_CHAMBERED if semi-auto and have ammo.
  * Returns projectile if successfully fired, FALSE otherwise.
  */
-/obj/machinery/ship_weapon/proc/fire(atom/target, shots = 1)
+/obj/machinery/ship_weapon/proc/fire(atom/target, shots = weapon_type.burst_size)
 	if(can_fire(shots))
 		for(var/i = 0, i < shots, i++)
 			spawn(0) //Branch so that there isnt a fire delay for the helm.
@@ -378,8 +390,7 @@
 
 			after_fire()
 		return TRUE
-	else
-		notify_failed_fire()
+	return FALSE
 
 /**
  * Handles firing animations and sounds around the mapped weapon
@@ -402,14 +413,11 @@
 		overlay.do_animation()
 	animate_projectile(target)
 
-/obj/machinery/ship_weapon/proc/notify_failed_fire(mob/gunner)
-	to_chat(gunner, weapon_type.failure_alert)
-
+/**
+ * Animates an overmap projectile matching whatever we're shooting.
+ */
 /obj/machinery/ship_weapon/proc/animate_projectile(atom/target)
-	message_admins("I am a [src] with a [chambered]")
-	if(istype(chambered, /obj/item/ship_weapon/ammunition))
-		var/obj/item/ship_weapon/ammunition/round = chambered
-		linked.fire_lateral_projectile(round.projectile_type, target)
+	linked.fire_lateral_projectile(weapon_type.default_projectile_type, target)
 
 /**
  * Updates maintenance counter after firing if applicable.
@@ -423,7 +431,7 @@
 			weapon_malfunction()
 
 /**
- * Handles firing animation.
+ * Handles firing animation for the mapped weapon.
  */
 /obj/machinery/ship_weapon/proc/do_animation()
 	flick("[initial(icon_state)]_firing",src)
@@ -431,14 +439,6 @@
 	flick("[initial(icon_state)]_unloading",src)
 	sleep(fire_animation_length)
 	icon_state = initial(icon_state)
-
-/**
- * Overmap helper - prints weapon-specific selection notification
- */
-/obj/machinery/ship_weapon/proc/notify_select(mob/user)
-	message_admins("Default notify_select")
-	to_chat(user, weapon_type.select_alert)
-	linked.relay(weapon_type.overmap_select_sound)
 
 #undef MSTATE_CLOSED
 #undef MSTATE_UNSCREWED

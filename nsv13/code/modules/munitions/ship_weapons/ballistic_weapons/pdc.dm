@@ -7,18 +7,21 @@
 	density = FALSE
 	pixel_y = 26
 
+	fire_mode = FIRE_MODE_PDC
+	weapon_type = new/datum/ship_weapon/pdc_mount
+	magazine_type = /obj/item/ammo_box/magazine/pdc
+
 	auto_load = TRUE
 	semi_auto = TRUE
 	maintainable = FALSE
-	magazine_type = /obj/item/ammo_box/magazine/pdc
 	max_ammo = 100
-	weapon_type = new/datum/ship_weapon/pdc_mount
 
 	// We're fully automatic, so just the loading sound is enough
+	mag_load_sound = 'sound/weapons/autoguninsert.ogg'
+	mag_unload_sound = 'sound/weapons/autoguninsert.ogg'
 	feeding_sound = null
 	fed_sound = null
 	chamber_sound = null
-	fire_mode = FIRE_MODE_PDC
 
 	load_delay = 50
 	unload_delay = 50
@@ -39,7 +42,7 @@
 	progress = round(((progress / goal) * 100), 20)//Round it down to 20%. We now apply visual damage
 	icon_state = "[initial(icon_state)]_[progress]"
 
-
+//////////////////////////////////////////////////////////////////
 // Update the icon after things that affect how much ammo we have
 
 /obj/machinery/ship_weapon/pdc_mount/load_magazine()

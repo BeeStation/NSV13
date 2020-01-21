@@ -1,9 +1,3 @@
-#define STATE_DISCONNECTED 1
-#define STATE_OFF 2
-#define STATE_CHARGING 3
-#define STATE_READY 4
-#define STATE_FIRING 5
-
 /*
  * A ship-to-ship laser cannon that charges by drawing a large amount of power from the ship's grid.
  * Can be researched by science and built by the crew.
@@ -21,6 +15,10 @@
 	dir = 4
 
 	fire_mode = FIRE_MODE_LASER
+	weapon_type = new/datum/ship_weapon/laser_cannon
+	//Automate the whole shebang, the round is a dummy
+	auto_load = TRUE
+	semi_auto = TRUE
 
 	firing_sound = 'sound/weapons/lasercannonfire.ogg'
 	var/obj/machinery/computer/ship/laser_cannon_computer/computer
@@ -104,7 +102,7 @@
 
 		if(cell.charge >= cell.maxcharge) // The gun is fully charged
 			STOP_PROCESSING(SSobj, src)
-			state = STATE_READY
+			load(new/obj/item/ship_weapon/ammunition/laser_bolt, null)
 
 /*
  * Checks whether the laser cannon is able to fire.
@@ -131,6 +129,7 @@
 /obj/machinery/ship_weapon/laser_cannon/fire()
 	if(!can_fire())
 		return
+	..()
 	spawn(0)
 		// Fire on the main map
 		playsound(src, firing_sound, 100, 1)
@@ -138,16 +137,11 @@
 		P.fire(dir2angle(dir))
 		do_animation()
 
-	state = STATE_FIRING
-
 	power_fail(0, 6) // Kill the power for a moment
 	apply_flash()
 
 	cell.use(cell.maxcharge) // Used all the power we'd stored
-	state = STATE_OFF
 	toggle_charging() // Start charging again
-
-	after_fire()
 
 /*
  * Flash all mobs that are near open space or the laser

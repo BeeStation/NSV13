@@ -5,7 +5,7 @@
 	desc = "A fairly standard torpedo which is designed to cause massive structural damage to a target. It is fitted with a basic homing mechanism to ensure it always hits the mark."
 	anchored = TRUE
 	density = TRUE
-	projectile_type = /obj/item/projectile/bullet/torpedo //What torpedo type we fire
+	var/projectile_type = /obj/item/projectile/bullet/torpedo //What torpedo type we fire
 	pixel_x = -17
 	var/speed = 1 //Placeholder, allows upgrading speed with better propulsion
 

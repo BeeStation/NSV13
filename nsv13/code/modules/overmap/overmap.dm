@@ -189,7 +189,6 @@
 	weapon_types[FIRE_MODE_LASER] = new/datum/ship_weapon/laser_cannon
 
 /obj/structure/overmap/proc/add_weapon(obj/machinery/ship_weapon/weapon)
-	message_admins("Adding [weapon] to fire mode [weapon.fire_mode]")
 	if(!weapons[weapon.fire_mode])
 		weapons[weapon.fire_mode] = list(weapon)
 	else

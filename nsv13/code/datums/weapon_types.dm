@@ -1,3 +1,6 @@
+/**
+ * Common information used by both the hero ship and the fighters/AIs
+ */
 /datum/ship_weapon
 	var/default_projectile_type
 	var/burst_size
@@ -46,7 +49,7 @@
 	failure_alert = "<span class='warning'>DANGER: Point defense emplacements are unable to fire due to lack of ammunition.</span>"
 
 /datum/ship_weapon/laser_cannon
-	default_projectile_type = /obj/item/projectile/beam/laser/heavylaser
+	default_projectile_type = /obj/item/projectile/bullet/laser
 	burst_size = 1
 	fire_delay = 3
 	range_modifier = 30

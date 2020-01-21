@@ -16,6 +16,7 @@
 	weapon_type = new/datum/ship_weapon/torpedo_launcher
 
 /obj/machinery/ship_weapon/torpedo_launcher/animate_projectile(atom/target, lateral=TRUE)
+	// We have different sprites and behaviors for each torpedo
 	var/obj/item/ship_weapon/ammunition/torpedo/T = chambered
 	if(T)
 		if(istype(T, /obj/item/projectile/bullet/torpedo/dud)) //Some brainlet MAA loaded an incomplete torp

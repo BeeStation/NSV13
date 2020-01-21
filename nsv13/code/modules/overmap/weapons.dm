@@ -69,6 +69,9 @@
 		OM.torpedoes_to_target -= src
 	return ..()
 
+/**
+ * Handles automatic firing of the PDCs to shoot down torpedoes
+ */
 /obj/structure/overmap/proc/handle_pdcs()
 	if(fire_mode == FIRE_MODE_PDC) //If theyre aiming the PDCs manually, don't automatically flak.
 		return
@@ -122,6 +125,7 @@
 				swap_to(FIRE_MODE_PDC)
 			else
 				swap_to(FIRE_MODE_RAILGUN)
+	//end if(ai_controlled)
 	last_target = target
 	if(next_firetime > world.time)
 		to_chat(pilot, "<span class='warning'>WARNING: Weapons cooldown in effect to prevent overheat.</span>")
@@ -144,12 +148,10 @@
 	if(usr != gunner)
 		return
 
-	message_admins("Cycle fire mode from [fire_mode]")
 	var/stop = fire_mode
 	fire_mode = WRAP_AROUND_VALUE(fire_mode + 1, 1, weapons.len)
 
 	for(fire_mode; fire_mode != stop; fire_mode = WRAP_AROUND_VALUE(fire_mode + 1, 1, weapons.len))
-		message_admins("Trying [fire_mode]")
 		stoplag()
 		if(swap_to(fire_mode))
 			var/datum/ship_weapon/SW = weapon_types[fire_mode]
@@ -169,60 +171,55 @@
 	. = ..()
 
 /obj/structure/overmap/proc/swap_to(what=FIRE_MODE_PDC)
-	if(ai_controlled || (!linked_areas.len && !main_overmap))
-		if((what == FIRE_MODE_TORPEDO) && !torpedoes)
+	if(ai_controlled || (!linked_areas.len && !main_overmap)) //AI ships and fighters don't have interiors
+		if((what == FIRE_MODE_TORPEDO) && !torpedoes) //Out of torpedoes
 			return FALSE
-		if((mass < MASS_MEDIUM) && (what > FIRE_MODE_TORPEDO))
+		if((mass < MASS_MEDIUM) && (what > FIRE_MODE_TORPEDO)) //Little ships don't have railguns or lasers
 			return FALSE
-		var/datum/ship_weapon/SW = weapon_types[what]
-		fire_delay = initial(fire_delay) + SW.fire_delay
-		weapon_range = initial(weapon_range) + SW.fire_delay
-		fire_mode = what
-		if(ai_controlled)
-			fire_delay += 10 //Make it fair on the humans who have to actually reload and stuff.
-		return TRUE
-
-	if(weapons[what]?.len)
-		message_admins("At least one")
-		var/obj/machinery/ship_weapon/W = weapons[what][1]
-		message_admins("It's a [W]")
-		fire_delay = initial(fire_delay) + W.weapon_type.fire_delay
-		weapon_range = initial(weapon_range) + W.weapon_type.range_modifier
-		fire_mode = what
-		return TRUE
-	return FALSE
-
-/obj/structure/overmap/proc/fire_weapon(atom/target, mode=fire_mode, lateral=TRUE) //"Lateral" means that your ship doesnt have to face the target
-	message_admins("Trying to fire on mode [mode]")
-	if(ai_controlled || (!linked_areas.len && !main_overmap))
-		if(fire_mode == FIRE_MODE_TORPEDO)
-			fire_torpedo(target)
-			return
-		var/datum/ship_weapon/weapon_type = weapon_types[mode]
-		var/obj/proj_type = weapon_type.default_projectile_type
-		fire_lateral_projectile(proj_type, target)
-		return TRUE
-
-	if(!weapons[mode] || !weapons[mode].len)
+	else if(!weapons || !weapons[what] || !weapons[what].len) //Hero ship doesn't have any weapons of this type
 		return FALSE
 
-	var/fired = FALSE
-	for(var/obj/machinery/ship_weapon/SW in weapons[mode])
-		if(SW.can_fire())
-			message_admins("Can fire a [SW]")
-			if(SW.fire(target))
-				message_admins("Fired a [SW]")
+	var/datum/ship_weapon/SW = weapon_types[what]
+	fire_delay = initial(fire_delay) + SW.fire_delay
+	weapon_range = initial(weapon_range) + SW.fire_delay
+	fire_mode = what
+	if(ai_controlled)
+		fire_delay += 10 //Make it fair on the humans who have to actually reload and stuff.
+
+	return TRUE
+
+/obj/structure/overmap/proc/fire_weapon(atom/target, mode=fire_mode, lateral=TRUE) //"Lateral" means that your ship doesnt have to face the target
+	if(ai_controlled || (!linked_areas.len && !main_overmap)) //AI ships and fighters don't have interiors
+		if(fire_mode == FIRE_MODE_TORPEDO) //because fighter torpedoes are special
+			if(fire_torpedo(target))
 				return TRUE
-	if(!fired)
-		weapons[mode][1].notify_failed_fire(gunner)
+		else
+			var/datum/ship_weapon/weapon_type = weapon_types[mode]
+			var/obj/proj_type = weapon_type.default_projectile_type
+			for(var/i; i < weapon_type.burst_size; i++)
+				if(lateral)
+					fire_lateral_projectile(proj_type, target)
+				else
+					fire_projectile(proj_type, target)
+				sleep(1)
+			return TRUE
+	else if(weapons[mode] && weapons[mode].len) //It's the main ship, see if any part of our battery can fire
+		for(var/obj/machinery/ship_weapon/SW in weapons[mode])
+			if(SW.can_fire() && SW.fire(target))
+				return TRUE
+
+	if(gunner) //Tell them we failed
+		var/datum/ship_weapon/SW = weapon_types[fire_mode]
+		to_chat(gunner, SW.failure_alert)
+	return FALSE
 
 /obj/structure/overmap/proc/fire_torpedo(atom/target)
 	if(!linked_areas.len && !main_overmap) //AI ships and fighters don't have interiors
 		if(torpedoes <= 0)
-			return
+			return FALSE
 		fire_projectile(/obj/item/projectile/bullet/torpedo, target, homing = TRUE, speed=1, explosive = TRUE)
 		torpedoes --
-		return
+		return TRUE
 
 /obj/structure/overmap/proc/shake_everyone(severity)
 	for(var/mob/M in mobs_in_ship)
