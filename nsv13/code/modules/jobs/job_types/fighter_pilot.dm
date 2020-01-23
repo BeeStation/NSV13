@@ -36,7 +36,6 @@
 	name = "Fighter Pilot"
 	jobtype = /datum/job/fighter_pilot
 
-	belt = /obj/item/pda/security
 	ears = /obj/item/radio/headset/headset_sec/alt/pilot
 	uniform = /obj/item/clothing/under/ship/pilot
 	shoes = /obj/item/clothing/shoes/jackboots
@@ -79,7 +78,6 @@
 	name = "CAG"
 	jobtype = /datum/job/cag
 
-	belt = /obj/item/pda/security
 	ears = /obj/item/radio/headset/headset_sec/alt/pilot
 	uniform = /obj/item/clothing/under/ship/pilot
 	shoes = /obj/item/clothing/shoes/jackboots
