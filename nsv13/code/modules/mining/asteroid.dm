@@ -236,9 +236,11 @@ GLOBAL_LIST_EMPTY(overmap_asteroids) //For dradis to be able to track asteroids.
 	cooldown = TRUE
 	addtimer(VARSET_CALLBACK(src, cooldown, FALSE), 1 MINUTES)
 	if(prob(10)) //I hate this but it works so fuck you
-		current_asteroid = new /datum/map_template/asteroid(pick("_maps/map_files/Mining/nsv13/ruins/mining1.dmm","_maps/map_files/Mining/nsv13/ruins/mining2.dmm","_maps/map_files/Mining/nsv13/ruins/mining3.dmm","_maps/map_files/Mining/nsv13/ruins/mining4.dmm"), null, FALSE, AS.core_composition) //Set up an asteroid
+		var/list/potential_ruins = flist("_maps/map_files/Mining/nsv13/ruins/")
+		current_asteroid = new /datum/map_template/asteroid("_maps/map_files/Mining/nsv13/ruins/[pick(potential_ruins)]", null, FALSE, AS.core_composition) //Set up an asteroid
 	else //90% chance to get an actual asteroid
-		current_asteroid = new /datum/map_template/asteroid(pick("_maps/templates/nsv13/asteroid1.dmm","_maps/templates/nsv13/asteroid2.dmm","_maps/templates/nsv13/asteroid3.dmm"), null, FALSE, AS.core_composition) //Set up an asteroid
+		var/list/potential_asteroids = flist("_maps/map_files/Mining/nsv13/asteroids/")
+		current_asteroid = new /datum/map_template/asteroid("_maps/map_files/Mining/nsv13/asteroids/[pick(potential_asteroids)]", null, FALSE, AS.core_composition) //Set up an asteroid
 	addtimer(CALLBACK(src, .proc/load_asteroid), 10 SECONDS)
 	qdel(AS)
 

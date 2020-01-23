@@ -107,7 +107,7 @@
 	relay_to_nearby(chosen)
 	for(var/i = 0, i < shots_per, i++)
 		sleep(1)
-		if(lateral)
+		if(lateral && mass > MASS_SMALL)
 			fire_lateral_projectile(/obj/item/projectile/bullet/pdc_round, target)
 		else
 			fire_projectiles(/obj/item/projectile/bullet/pdc_round, target)

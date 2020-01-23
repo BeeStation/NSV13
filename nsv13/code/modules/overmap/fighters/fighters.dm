@@ -393,6 +393,7 @@ After going through this checklist, you're ready to go!
 	icon = 'nsv13/icons/overmap/syndicate/syn_fighter.dmi'
 	icon_state = "fighter"
 	brakes = FALSE
+	max_integrity = 100 //Super squishy!
 	bound_width = 32 //Change this on a per ship basis
 	bound_height = 32
 	sprite_size = 32
