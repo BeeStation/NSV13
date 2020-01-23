@@ -13,6 +13,13 @@
 	var/ai_can_launch_fighters = FALSE //AI variable. Allows your ai ships to spawn fighter craft
 	var/ai_fighter_type = null
 
+/**
+*
+*
+* Proc override to handle AI ship specific requirements such as spawning a pilot, making it move away, and calling its ai behaviour action.
+*
+*/
+
 /obj/structure/overmap/proc/slowprocess() //For ai ships, this allows for target acquisition, tactics etc.
 	handle_pdcs()
 	if(!ai_controlled)
@@ -36,48 +43,55 @@
 	handle_ai_behaviour()
 
 /obj/structure/overmap/proc/handle_ai_behaviour()
-	if(!ai_controlled)
-		return
-	for(var/X in GLOB.overmap_objects)
-		if(!istype(X, /obj/structure/overmap))
-			continue
-		var/obj/structure/overmap/ship = X
+	for(var/obj/structure/overmap/ship in GLOB.overmap_objects)
 		if(ship == src || ship.faction == faction || ship.z != z)
 			continue
-		switch(ai_behaviour)
-			if(AI_AGGRESSIVE)
-				if(get_dist(ship,src) <= max_range)
-					target(ship)
-			if(AI_GUARD)
-				if(get_dist(ship,src) <= guard_range)
-					target(ship)
-			if(AI_RETALIATE)
-				if(ship in enemies)
-					target(ship)
-		if(locate(ship) in enemies)
-			if(get_dist(ship, src) <= 3)
-				user_thrust_dir = 0 //Don't thrust towards ships we're already close to.
-				brakes = TRUE
-			else
-				user_thrust_dir = 1
-				brakes = FALSE
+		ai_target(ship)
 
-/obj/structure/overmap/syndicate/ai/carrier/handle_ai_behaviour()
-	if(!ai_controlled)
-		return
-	for(var/X in GLOB.overmap_objects)
-		if(!istype(X, /obj/structure/overmap))
-			continue
-		var/obj/structure/overmap/ship = X
-		if(ship == src || ship.faction == faction || ship.z != z)
-			continue
-		if(get_dist(ship,src) <= max_range)
-			if(get_dist(ship, src) <= max_range/2) //Little bit too friendly there partner.
-				last_target = ship
-				retreat()
-			else
+
+/**
+*
+*
+* ai_target -> what happens after a targetable ship is found
+* if your ship subtype is "timid" like carriers, override this to handle ai behaviours specifically, otherwise, ship will be targeted based on its "ai behaviour"
+* @param ship overmap ship that was found by handle_ai_behaviour()
+*
+*
+*/
+
+/obj/structure/overmap/proc/ai_target(obj/structure/overmap/ship)
+	switch(ai_behaviour)
+		if(AI_AGGRESSIVE)
+			if(get_dist(ship,src) <= max_range)
 				target(ship)
-				try_launch_fighters()
+		if(AI_GUARD)
+			if(get_dist(ship,src) <= guard_range)
+				target(ship)
+		if(AI_RETALIATE)
+			if(ship in enemies)
+				target(ship)
+	if(locate(ship) in enemies)
+		if(get_dist(ship, src) <= 3)
+			user_thrust_dir = 0 //Don't thrust towards ships we're already close to.
+			brakes = TRUE
+		else
+			user_thrust_dir = 1
+			brakes = FALSE
+
+/**
+*
+* Carriers are more timid, and prefer to run away from enemy ships before firing, engaging at extreme range.
+*
+*/
+
+/obj/structure/overmap/syndicate/ai/carrier/ai_target(obj/structure/overmap/ship)
+	if(get_dist(ship,src) <= max_range)
+		if(get_dist(ship, src) <= max_range/2) //Little bit too friendly there partner.
+			last_target = ship
+			retreat()
+		else
+			target(ship)
+			try_launch_fighters()
 
 /obj/structure/overmap/proc/retreat()
 	if(!last_target)
