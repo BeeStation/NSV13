@@ -3496,7 +3496,7 @@
 /area/hallway/nsv/deck2/frame2/central)
 "if" = (
 /turf/closed/wall/ship,
-/area/space)
+/area/maintenance/disposal)
 "ig" = (
 /turf/closed/wall/ship,
 /area/storage/primary)
@@ -3730,8 +3730,12 @@
 /turf/open/floor/plasteel,
 /area/hallway/nsv/deck2/frame2/central)
 "iN" = (
+/obj/machinery/conveyor{
+	dir = 4;
+	id = "garbage"
+	},
 /turf/open/floor/plating,
-/area/space)
+/area/maintenance/disposal)
 "iO" = (
 /turf/closed/wall/r_wall/ship,
 /area/storage/primary)
@@ -4040,20 +4044,24 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 6
 	},
+/obj/structure/disposaloutlet{
+	dir = 1
+	},
+/obj/structure/disposalpipe/trunk,
 /turf/open/floor/plating,
-/area/space)
+/area/maintenance/disposal)
 "jv" = (
 /obj/machinery/atmospherics/pipe/layer_manifold{
 	dir = 4
 	},
 /turf/open/floor/plating,
-/area/space)
+/area/maintenance/disposal)
 "jw" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
 	dir = 10
 	},
 /turf/open/floor/plating,
-/area/space)
+/area/maintenance/disposal)
 "jx" = (
 /obj/structure/reagent_dispensers/watertank,
 /turf/open/floor/plasteel,
@@ -4421,16 +4429,16 @@
 /turf/open/floor/plating,
 /area/hallway/nsv/deck2/frame2/central)
 "kl" = (
-/obj/structure/disposalpipe/segment{
-	dir = 4
-	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
+/obj/structure/disposalpipe/junction/flip{
+	dir = 1
+	},
 /turf/open/floor/plating,
-/area/space)
+/area/maintenance/disposal)
 "km" = (
 /obj/machinery/atmospherics/pipe/simple/multiz,
 /turf/open/floor/plating,
-/area/space)
+/area/maintenance/disposal)
 "kn" = (
 /obj/machinery/door/airlock/ship/maintenance{
 	icon_state = "closed";
@@ -4800,14 +4808,15 @@
 /obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer3{
 	dir = 8
 	},
+/obj/structure/disposalpipe/segment,
 /turf/open/floor/plating,
-/area/space)
+/area/maintenance/disposal)
 "la" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
 	dir = 9
 	},
 /turf/open/floor/plating,
-/area/space)
+/area/maintenance/disposal)
 "lb" = (
 /obj/machinery/camera/autoname{
 	dir = 4
@@ -5026,8 +5035,9 @@
 /area/hallway/nsv/deck2/frame2/central)
 "lD" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
+/obj/structure/disposalpipe/segment,
 /turf/open/floor/plating,
-/area/space)
+/area/maintenance/disposal)
 "lE" = (
 /obj/structure/sign/poster/official/random{
 	pixel_x = -32
@@ -7204,13 +7214,13 @@
 	dir = 1
 	},
 /turf/open/floor/plating,
-/area/space)
+/area/maintenance/disposal)
 "pr" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden{
 	dir = 10
 	},
 /turf/open/floor/plating,
-/area/space)
+/area/maintenance/disposal)
 "ps" = (
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3,
 /obj/machinery/airalarm{
@@ -7661,7 +7671,7 @@
 "qk" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /turf/open/floor/plating,
-/area/space)
+/area/maintenance/disposal)
 "ql" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer1,
@@ -7840,13 +7850,13 @@
 	dir = 5
 	},
 /turf/open/floor/plating,
-/area/space)
+/area/maintenance/disposal)
 "qK" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden{
 	dir = 9
 	},
 /turf/open/floor/plating,
-/area/space)
+/area/maintenance/disposal)
 "qL" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 5
@@ -9972,6 +9982,14 @@
 	},
 /turf/open/floor/plasteel/ship/techfloor/alt,
 /area/hallway/nsv/deck2/frame2/starboard)
+"uM" = (
+/obj/machinery/conveyor{
+	dir = 4;
+	id = "garbage"
+	},
+/obj/machinery/recycler,
+/turf/open/floor/plating,
+/area/maintenance/disposal)
 "uN" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	icon_state = "pipe11-1";
@@ -11101,6 +11119,16 @@
 	},
 /turf/open/floor/plasteel/freezer,
 /area/crew_quarters/kitchen/coldroom)
+"zf" = (
+/obj/machinery/mineral/stacking_machine{
+	input_dir = 1;
+	stack_amt = 10
+	},
+/obj/machinery/conveyor{
+	id = "garbage"
+	},
+/turf/open/floor/plating,
+/area/maintenance/disposal)
 "zh" = (
 /obj/machinery/camera/autoname{
 	dir = 4
@@ -11290,6 +11318,10 @@
 	},
 /turf/open/floor/plating/airless,
 /area/engine/engine_room/external)
+"CF" = (
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
+/turf/open/floor/plating,
+/area/maintenance/disposal)
 "CP" = (
 /obj/structure/lattice,
 /obj/machinery/atmospherics/pipe/heat_exchanging/simple{
@@ -11625,6 +11657,10 @@
 	},
 /turf/open/floor/plasteel,
 /area/hydroponics)
+"Kq" = (
+/obj/structure/disposalpipe/trunk/multiz,
+/turf/open/floor/plating,
+/area/maintenance/disposal)
 "Kt" = (
 /obj/structure/sign/poster/random,
 /turf/closed/wall/r_wall/ship,
@@ -11723,6 +11759,13 @@
 	},
 /turf/open/floor/carpet/ship,
 /area/crew_quarters/dorms)
+"Nd" = (
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
+/obj/structure/disposalpipe/segment{
+	dir = 5
+	},
+/turf/open/floor/plating,
+/area/maintenance/disposal)
 "Nf" = (
 /obj/machinery/camera/autoname{
 	dir = 4
@@ -11780,6 +11823,9 @@
 	},
 /turf/open/floor/plating/airless,
 /area/engine/supermatter)
+"PO" = (
+/turf/open/floor/plating,
+/area/maintenance/disposal)
 "PQ" = (
 /obj/machinery/light/floor,
 /obj/structure/cable{
@@ -11961,6 +12007,12 @@
 	},
 /turf/open/floor/engine/airless,
 /area/engine/supermatter)
+"Tu" = (
+/obj/structure/disposalpipe/segment{
+	dir = 9
+	},
+/turf/open/floor/plating,
+/area/maintenance/disposal)
 "Tv" = (
 /obj/item/radio/intercom{
 	pixel_y = 23
@@ -12034,6 +12086,13 @@
 /obj/structure/sign/directions/evac,
 /turf/closed/wall/ship,
 /area/space)
+"UB" = (
+/obj/machinery/conveyor{
+	dir = 6;
+	id = "garbage"
+	},
+/turf/open/floor/plating,
+/area/maintenance/disposal)
 "UJ" = (
 /obj/structure/disposalpipe/segment{
 	dir = 4
@@ -12172,6 +12231,14 @@
 	},
 /turf/open/floor/plasteel/cafeteria,
 /area/crew_quarters/kitchen)
+"XB" = (
+/obj/machinery/conveyor_switch/oneway{
+	dir = 8;
+	id = "garbage";
+	name = "disposal conveyor"
+	},
+/turf/open/floor/plating,
+/area/maintenance/disposal)
 "XI" = (
 /obj/structure/sign/directions/command{
 	dir = 1;
@@ -22287,7 +22354,7 @@ Bd
 Bd
 Bd
 Bd
-aa
+Bd
 aa
 aa
 aa
@@ -35868,9 +35935,9 @@ ju
 kl
 kZ
 lD
-lD
-lD
-lD
+Nd
+CF
+CF
 pq
 qk
 qJ
@@ -36117,14 +36184,14 @@ hn
 if
 iN
 jv
-iN
+XB
 jv
-iN
-iN
-iN
-iN
+Kq
+Tu
+PO
+PO
 jv
-iN
+PO
 jv
 if
 Na
@@ -36367,14 +36434,14 @@ fh
 fh
 fh
 if
-iN
+uM
 jw
 km
 la
-iN
-iN
-iN
-iN
+PO
+PO
+PO
+PO
 pr
 km
 qK
@@ -36619,17 +36686,17 @@ fZ
 gJ
 ho
 if
-iN
-iN
-iN
-iN
-iN
-iN
-iN
-iN
-iN
-iN
-iN
+UB
+zf
+PO
+PO
+PO
+PO
+PO
+PO
+PO
+PO
+PO
 if
 sj
 sL
