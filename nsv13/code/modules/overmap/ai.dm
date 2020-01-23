@@ -78,19 +78,6 @@
 			user_thrust_dir = 1
 			brakes = FALSE
 
-/**
-*
-* Carriers are more timid, and prefer to run away from enemy ships before firing, engaging at extreme range.
-*
-*/
-
-/obj/structure/overmap/syndicate/ai/carrier/ai_target(obj/structure/overmap/ship)
-	if(get_dist(ship,src) <= max_range)
-		if(get_dist(ship, src) <= max_range/2) //Little bit too friendly there partner.
-			last_target = ship
-			retreat()
-		else
-			target(ship)
 
 /obj/structure/overmap/proc/retreat()
 	if(!last_target)
@@ -108,16 +95,6 @@
 	desired_angle = Get_Angle(src, target)
 	last_target = target
 
-/obj/structure/overmap/target(atom/target)
-	. = ..()
-	if(ai_can_launch_fighters) //Found a new enemy? Launch the CAP.
-		ai_can_launch_fighters = FALSE
-		if(ai_fighter_type)
-			for(var/i = 0, i < rand(2,3), i++)
-				new ai_fighter_type(get_turf(src))
-				relay_to_nearby('nsv13/sound/effects/ship/fighter_launch_short.ogg')
-		addtimer(VARSET_CALLBACK(src, ai_can_launch_fighters, TRUE), 3 MINUTES)
-
 /obj/structure/overmap/proc/add_enemy(atom/target)
 	if(!istype(target, /obj/structure/overmap)) //Don't know why it wouldn't be..but yeah
 		return
@@ -132,3 +109,31 @@
 		var/sound = pick('nsv13/sound/effects/computer/alarm.ogg','nsv13/sound/effects/computer/alarm_3.ogg','nsv13/sound/effects/computer/alarm_4.ogg')
 		var/message = "<span class='warning'>DANGER: [src] is now targeting [OM].</span>"
 		OM.tactical.relay_sound(sound, message)
+
+/**
+* Class specific overrides.
+*/
+
+/**
+*
+* Carriers are more timid, and prefer to run away from enemy ships before firing, engaging at extreme range.
+*
+*/
+
+/obj/structure/overmap/syndicate/ai/carrier/ai_target(obj/structure/overmap/ship)
+	if(get_dist(ship,src) <= max_range)
+		if(get_dist(ship, src) <= max_range/2) //Little bit too friendly there partner.
+			last_target = ship
+			retreat()
+		else
+			target(ship)
+
+/obj/structure/overmap/syndicate/ai/carrier/target(atom/target)
+	. = ..()
+	if(ai_can_launch_fighters) //Found a new enemy? Launch the CAP.
+		ai_can_launch_fighters = FALSE
+		if(ai_fighter_type)
+			for(var/i = 0, i < rand(2,3), i++)
+				new ai_fighter_type(get_turf(src))
+				relay_to_nearby('nsv13/sound/effects/ship/fighter_launch_short.ogg')
+		addtimer(VARSET_CALLBACK(src, ai_can_launch_fighters, TRUE), 3 MINUTES)
