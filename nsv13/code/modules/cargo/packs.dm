@@ -1,6 +1,6 @@
 /datum/supply_pack/munitions
 	group = "Munitions"
-	access = ACCESS_ARMORY
+	access = ACCESS_MUNITIONS
 	crate_type = /obj/structure/closet/crate/secure/weapon
 
 /datum/supply_pack/munitions/railgun

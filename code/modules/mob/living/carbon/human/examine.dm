@@ -13,7 +13,18 @@
 		if(HAS_TRAIT(L, TRAIT_PROSOPAGNOSIA))
 			obscure_name = TRUE
 
-	. = list("<span class='info'>*---------*\nThis is <EM>[!obscure_name ? name : "Unknown"]</EM>!")
+	//NSV13 - compose name in parts so we can add rank
+	var/display_name = ""
+	if (obscure_name)
+		display_name = "Unknown"
+	else
+		if (CONFIG_GET(flag/show_ranks))
+			var/assignment = get_assignment("", "")
+			if (assignment)
+				var/datum/job/J = SSjob.GetJob(assignment)
+				display_name+= "[J ? "[J.get_rank()] " : ""] "
+		display_name += "[name]"
+	. = list("<span class='info'>*---------*\nThis is <EM>[display_name]</EM>!")
 
 	var/list/obscured = check_obscured_slots()
 	var/skipface = (wear_mask && (wear_mask.flags_inv & HIDEFACE)) || (head && (head.flags_inv & HIDEFACE))

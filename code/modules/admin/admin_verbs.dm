@@ -74,7 +74,8 @@ GLOBAL_PROTECT(admin_verbs_admin)
 	/client/proc/respawn_character,
 	/datum/admins/proc/open_borgopanel,
 	/client/proc/fix_say,
-	/client/proc/stabilize_atmos
+	/client/proc/stabilize_atmos,
+	/client/proc/changeranks //NSV13 - verb to change rank structure
 	)
 GLOBAL_LIST_INIT(admin_verbs_ban, list(/client/proc/unban_panel, /client/proc/ban_panel, /client/proc/stickybanpanel))
 GLOBAL_PROTECT(admin_verbs_ban)
@@ -238,7 +239,8 @@ GLOBAL_LIST_INIT(admin_verbs_hideable, list(
 	/client/proc/toggle_nuke,
 	/client/proc/cmd_display_del_log,
 	/client/proc/toggle_combo_hud,
-	/client/proc/debug_huds
+	/client/proc/debug_huds,
+	/client/proc/changeranks //NSV13
 	))
 GLOBAL_PROTECT(admin_verbs_hideable)
 
@@ -752,7 +754,7 @@ GLOBAL_PROTECT(admin_verbs_hideable)
 		for(var/obj/machinery/atmospherics/pipe/P in line.members)
 			P.air_temporary = new
 
-	
+
 
 
 

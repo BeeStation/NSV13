@@ -4,7 +4,7 @@
 	And the base of the send_speech() proc, which is the core of saycode.
 */
 
-//Nsv13 - Added atc chat. God you have to do so many tweaks to add a single radio channel huh...
+//Nsv13 - Added atc chat & munitions. God you have to do so many tweaks to add a single radio channel huh...
 GLOBAL_LIST_INIT(freqtospan, list(
 	"[FREQ_SCIENCE]" = "sciradio",
 	"[FREQ_MEDICAL]" = "medradio",
@@ -18,6 +18,7 @@ GLOBAL_LIST_INIT(freqtospan, list(
 	"[FREQ_CENTCOM]" = "centcomradio",
 	"[FREQ_CTF_RED]" = "redteamradio",
 	"[FREQ_ATC]" = "centcomradio",
+	"[FREQ_MUNITIONS]" = "muniradio",
 	"[FREQ_CTF_BLUE]" = "blueteamradio"
 	))
 
@@ -71,7 +72,8 @@ GLOBAL_LIST_INIT(freqtospan, list(
 	if(istype(D) && D.display_icon(src))
 		languageicon = "[D.get_icon()] "
 
-	return "[spanpart1][spanpart2][freqpart][languageicon][compose_track_href(speaker, namepart)][namepart][compose_job(speaker, message_language, raw_message, radio_freq)][endspanpart][messagepart]"
+	//NSV13 - added [compose_rank(speaker)]
+	return "[spanpart1][spanpart2][freqpart][languageicon][compose_track_href(speaker, namepart)][compose_rank(speaker)][namepart][compose_job(speaker, message_language, raw_message, radio_freq)][endspanpart][messagepart]"
 
 /atom/movable/proc/compose_track_href(atom/movable/speaker, message_langs, raw_message, radio_freq)
 	return ""

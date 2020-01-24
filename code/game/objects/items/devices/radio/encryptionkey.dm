@@ -79,10 +79,11 @@
 	icon_state = "com_cypherkey"
 	channels = list(RADIO_CHANNEL_COMMAND = 1)
 
-/obj/item/encryptionkey/heads/captain
+/obj/item/encryptionkey/heads/captain //NSV13 - added ATC & Munitions
 	name = "\proper the captain's encryption key"
 	icon_state = "cap_cypherkey"
-	channels = list(RADIO_CHANNEL_COMMAND = 1, RADIO_CHANNEL_SECURITY = 1, RADIO_CHANNEL_ENGINEERING = 0, RADIO_CHANNEL_SCIENCE = 0, RADIO_CHANNEL_MEDICAL = 0, RADIO_CHANNEL_SUPPLY = 0, RADIO_CHANNEL_SERVICE = 0)
+	independent = TRUE
+	channels = list(RADIO_CHANNEL_COMMAND = 1, RADIO_CHANNEL_SECURITY = 1, RADIO_CHANNEL_ENGINEERING = 0, RADIO_CHANNEL_SCIENCE = 0, RADIO_CHANNEL_MEDICAL = 0, RADIO_CHANNEL_SUPPLY = 0, RADIO_CHANNEL_SERVICE = 0, RADIO_CHANNEL_MUNITIONS = 0, RADIO_CHANNEL_ATC = 0)
 
 /obj/item/encryptionkey/heads/rd
 	name = "\proper the research director's encryption key"
@@ -130,8 +131,9 @@
 	independent = TRUE
 	channels = list(RADIO_CHANNEL_CENTCOM = 1)
 
-/obj/item/encryptionkey/ai //ported from NT, this goes 'inside' the AI.
-	channels = list(RADIO_CHANNEL_COMMAND = 1, RADIO_CHANNEL_SECURITY = 1, RADIO_CHANNEL_ENGINEERING = 1, RADIO_CHANNEL_SCIENCE = 1, RADIO_CHANNEL_MEDICAL = 1, RADIO_CHANNEL_SUPPLY = 1, RADIO_CHANNEL_SERVICE = 1, RADIO_CHANNEL_AI_PRIVATE = 1)
+/obj/item/encryptionkey/ai //ported from NT, this goes 'inside' the AI. NSV13 - added munitions & ATC
+	independent = TRUE
+	channels = list(RADIO_CHANNEL_COMMAND = 1, RADIO_CHANNEL_SECURITY = 1, RADIO_CHANNEL_ENGINEERING = 1, RADIO_CHANNEL_SCIENCE = 1, RADIO_CHANNEL_MEDICAL = 1, RADIO_CHANNEL_SUPPLY = 1, RADIO_CHANNEL_SERVICE = 1, RADIO_CHANNEL_AI_PRIVATE = 1, RADIO_CHANNEL_MUNITIONS = 1, RADIO_CHANNEL_ATC = 1)
 
 /obj/item/encryptionkey/secbot
 	channels = list(RADIO_CHANNEL_AI_PRIVATE = 1, RADIO_CHANNEL_SECURITY = 1)

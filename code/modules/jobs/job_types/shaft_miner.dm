@@ -4,8 +4,8 @@
 	department_head = list("Executive Officer")
 	department_flag = CIVILIAN
 	faction = "Station"
-	total_positions = 0 //CHANGE ME BACK TO 3 WHEN WE GET A MINING UPDATE ¬KMC
-	spawn_positions = 0
+	total_positions = 4
+	spawn_positions = 4
 	supervisors = "the quartermaster and the Executive Officer"
 	selection_color = "#dcba97"
 
@@ -17,7 +17,6 @@
 	paycheck_department = ACCOUNT_CAR
 
 	display_order = JOB_DISPLAY_ORDER_SHAFT_MINER
-	display_rank = "SPC" //nsv13 - Displays the player's actual rank alongside their name, such as GSGT Sergei Koralev
 
 /datum/outfit/job/miner
 	name = "Shaft Miner"
