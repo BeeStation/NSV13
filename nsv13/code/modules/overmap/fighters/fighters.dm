@@ -2,6 +2,13 @@
 #define MS_UNSECURE 	1
 #define MS_OPEN	 		2
 
+#define NO_IGNITION 1
+#define NO_FUEL_PUMP 2
+#define NO_BATTERY 3
+#define NO_APU 4
+#define THROTTLE_LOCK 5
+#define FLIGHT_READY 6
+
 //Fighter
 
 
@@ -52,6 +59,10 @@ After going through this checklist, you're ready to go!
 	var/docking_cooldown = FALSE
 	var/list/munitions = list()
 	var/obj/structure/overmap/last_overmap = null //Last overmap we were attached to
+	var/canopy_open = TRUE //Is the canopy open?
+	var/flight_state = NO_IGNITION
+	var/warmup_cooldown = FALSE //So you cant blitz the fighter ignition in 2 seconds
+	var/ejecting = FALSE
 
 /obj/machinery/computer/ship/fighter_launcher
 	name = "Mag-cat control console"
@@ -174,7 +185,7 @@ After going through this checklist, you're ready to go!
 				center = get_turf(locate(x+2,y,z))
 		OM.forceMove(get_turf(center)) //"Catch" them like an arrestor.
 		var/obj/structure/overmap/link = get_overmap()
-		link?.relay('nsv13/sound/effects/ship/freespace2/shockwave.wav')
+		link?.relay('nsv13/sound/effects/fighters/magcat.ogg')
 		shake_people(OM)
 		switch(dir) //Make sure theyre facing the right way so they dont FACEPLANT INTO THE WALL.
 			if(NORTH)
@@ -379,6 +390,9 @@ After going through this checklist, you're ready to go!
 	. =..()
 	if(canopy_breached)
 		add_overlay(image(icon = icon, icon_state = "canopy_breach", dir = 1))
+	else
+		if(canopy_open)
+			add_overlay("canopy_open")
 
 /obj/structure/overmap/fighter/ai
 	ai_controlled = TRUE
@@ -465,12 +479,32 @@ After going through this checklist, you're ready to go!
 
 /obj/structure/overmap/fighter/slowprocess()
 	. = ..()
-	if(canopy_breached) //Leak.
+	if(canopy_breached || (canopy_open && pilot)) //Leak.
 		var/datum/gas_mixture/removed = cabin_air.remove(5)
 		qdel(removed)
 
-/obj/structure/overmap/remove_air(amount)
+/obj/structure/overmap/fighter/return_air()
+	if(!canopy_open && !canopy_breached)
+		return cabin_air
+	return loc.return_air()
+
+/obj/structure/overmap/fighter/remove_air(amount)
 	return cabin_air.remove(amount)
+
+/obj/structure/overmap/fighter/return_analyzable_air()
+	return cabin_air
+
+/obj/structure/overmap/fighter/return_temperature()
+	var/datum/gas_mixture/t_air = return_air()
+	if(t_air)
+		. = t_air.return_temperature()
+	return
+
+/obj/structure/overmap/fighter/portableConnectorReturnAir()
+	return return_air()
+
+/obj/structure/overmap/fighter/assume_air(datum/gas_mixture/giver)
+	return return_air().merge(giver)
 
 /obj/structure/overmap/fighter/Initialize()
 	.=..()
@@ -483,6 +517,7 @@ After going through this checklist, you're ready to go!
 	obj_integrity = max_integrity
 	RegisterSignal(src, COMSIG_MOVABLE_MOVED, .proc/check_overmap_elegibility) //Used to smoothly transition from ship to overmap
 	RegisterSignal(src, COMSIG_AREA_ENTERED, .proc/update_overmap) //Used to smoothly transition from ship to overmap
+	add_overlay(image(icon = icon, icon_state = "canopy_open", dir = SOUTH))
 
 /obj/structure/overmap/fighter/proc/prebuilt_setup()
 	name = new_prebuilt_fighter_name() //pulling from NSV13 ship name list currently
@@ -742,7 +777,10 @@ After going through this checklist, you're ready to go!
 	if(maint_state == MS_OPEN)
 		display_maint_popup(user)
 		return TRUE
-	else if(maint_state < MS_UNSECURE) //temp behaviour - button will break control of fighter
+	if(!canopy_open)
+		to_chat(user, "<span class='warning'>[src]'s canopy isn't open.</span>")
+		return
+	if(maint_state < MS_UNSECURE)
 		if(alert("Enter what seat?",name,"Pilot seat","Passenger seat") !="Passenger seat")
 			if(!pilot)
 				to_chat(user, "<span class='notice'>You begin climbing into [src]'s cockpit...</span>")
@@ -751,6 +789,7 @@ After going through this checklist, you're ready to go!
 				to_chat(user, "<span class='notice'>You climb into [src]'s cockpit.</span>")
 				user.forceMove(src)
 				start_piloting(user, "all_positions")
+				ui_interact(user)
 				if(user?.client?.prefs.toggles & SOUND_AMBIENCE) //Disable ambient sounds to shut up the noises.
 					dradis?.soundloop?.start()
 				mobs_in_ship += user
@@ -773,6 +812,13 @@ After going through this checklist, you're ready to go!
 	if(!SSmapping.level_trait(z, ZTRAIT_BOARDABLE) && !force)
 		to_chat(M, "<span class='warning'>DANGER: You may not exit [src] while flying alongside other large ships.</span>")
 		return FALSE //No jumping out into the overmap :)
+	if(!canopy_open)
+		to_chat(M, "<span class='warning'>[src]'s canopy isn't open.</span>")
+		if(prob(50))
+			playsound(src, 'sound/effects/glasshit.ogg', 75, 1)
+			to_chat(M, "<span class='warning'>You bump your head on [src]'s canopy.</span>")
+			visible_message("<span class='warning'>You hear a muffled thud.</span>")
+		return
 	M.focus = M
 	operators -= M
 	mobs_in_ship -= M
@@ -993,6 +1039,208 @@ After going through this checklist, you're ready to go!
 		M.forceMove(what)
 		what.start_piloting(M, "observer") //So theyre unable to fly the pod
 		what.mobs_in_ship += M
+
+/**
+
+Fighter bootup sequence components.
+
+Steps:
+Hit ignition switch
+Fuel pump switch
+Engage battery
+Engage APU
+Disengage throttle lock
+Throttle up VERY gently with brakes on so that engine takes over but you're still not moving.
+Disengage APU to let engines take over powergen
+Flight ready.
+
+#define NO_IGNITION 1
+#define NO_FUEL_PUMP 2
+#define NO_BATTERY 3
+#define NO_APU 4
+#define THROTTLE_LOCK 5
+#define FLIGHT_READY 6
+
+Shutdown sequence:
+Throttle off + brakes on
+Throttle lock on
+Disengage battery
+Disengage fuel pump (or engine gets flooded)
+Turn off ignition
+
+*/
+
+/obj/structure/overmap/fighter/proc/toggle_canopy()
+	canopy_open = !canopy_open
+	playsound(src, 'nsv13/sound/effects/fighters/canopy.ogg', 100, 1)
+
+/obj/structure/overmap/fighter/verb/show_control_panel()
+	set name = "Show control panel"
+	set category = "Ship"
+	set src = usr.loc
+
+	if(!verb_check())
+		return
+	ui_interact(usr)
+
+/obj/structure/overmap/fighter/ui_interact(mob/user, ui_key = "main", datum/tgui/ui = null, force_open = 0, datum/tgui/master_ui = null, datum/ui_state/state = GLOB.default_state) // Remember to use the appropriate state.
+	if(user != pilot)
+		return
+	ui = SStgui.try_update_ui(user, src, ui_key, ui, force_open)
+	if(!ui)
+		ui = new(user, src, ui_key, "fighter_controls", name, 560, 600, master_ui, state)
+		ui.open()
+
+/obj/structure/overmap/fighter/can_move()
+	if(flight_state != FLIGHT_READY)
+		return FALSE
+	return TRUE
+
+/obj/structure/overmap/fighter/proc/check_start() //See if we can kick off the engine off of the APU.
+	if(user_thrust_dir) //This will never ever work currently.
+		playsound(src, 'nsv13/sound/effects/ship/plasma.ogg', 100, TRUE)
+		visible_message("<span class='warning'>[src]'s engine bursts into life!</span>")
+		flight_state = FLIGHT_READY
+		add_overlay("engine_start")
+		return TRUE
+	relay('nsv13/sound/effects/fighters/master_caution.ogg', "<span class='warning'>WARNING: Engine ignition failure.</span>")
+	playsound(src, 'nsv13/sound/effects/ship/rcs.ogg', 100, TRUE)
+	visible_message("<span class='warning'>[src]'s engine fizzles out!</span>")
+	flight_state = NO_APU
+	return FALSE
+
+/obj/structure/overmap/fighter/ui_act(action, params, datum/tgui/ui)
+	if(..())
+		return
+	if(!in_range(src, usr) || !pilot || usr != pilot) //Topic check
+		return
+	if(warmup_cooldown)
+		to_chat(usr, "You need to wait for [src] to finish its last action.</span>")
+		return
+	switch(action)
+		if("ignition")
+			if(flight_state >= NO_FUEL_PUMP)
+				to_chat(usr, "You can't flip the ignition switch without first deactivating the fuel pump.</span>")
+				return
+			to_chat(usr, "You flip the ignition switch.</span>")
+			flight_state = NO_FUEL_PUMP
+			relay('nsv13/sound/effects/fighters/powerswitch.ogg')
+		if("fuel_pump")
+			if(flight_state >= NO_BATTERY)
+				to_chat(usr, "You can't flip this switch without first deactivating the battery.</span>")
+				return
+			to_chat(usr, "You flip the battery switch.</span>")
+			flight_state = NO_BATTERY
+			playsound(src, 'nsv13/sound/effects/fighters/warmup.ogg', 100, FALSE)
+		if("battery")
+			if(flight_state >= NO_APU)
+				to_chat(usr, "You can't flip this switch without first disengaging the APU.</span>")
+				return
+			to_chat(usr, "You flip the master fuel pump switch.</span>")
+			flight_state = NO_APU
+		if("apu")
+			if(flight_state >= THROTTLE_LOCK)
+				to_chat(usr, "You can't flip this switch without first engaging the throttle lock.</span>")
+				return
+			to_chat(usr, "You flip the APU switch.</span>")
+			flight_state = NO_APU
+			playsound(src, 'nsv13/sound/effects/fighters/apu_start.ogg', 100, FALSE)
+			addtimer(VARSET_CALLBACK(src, warmup_cooldown, FALSE), 15 SECONDS)
+			return
+		if("throttle_lock")
+			if(flight_state > NO_APU)
+				to_chat(usr, "You can't flip this switch without first engaging the throttle lock.</span>")
+				return
+			to_chat(usr, "You flip the throttle lock switch.</span>")
+			flight_state = THROTTLE_LOCK
+			if(flight_state != FLIGHT_READY) //if theyre trying to cold start, they need to apply a bit of gas before they can go anywhere.
+				addtimer(CALLBACK(src, .proc/check_start), 15 SECONDS) //Throttle up....
+		if("shutdown")
+			if(flight_state != THROTTLE_LOCK)
+				to_chat(usr, "You cannot shut down [src]'s engines without first engaging the throttle lock.</span>")
+				return
+			to_chat(usr, "You start flipping switches and perfoming a controlled shutdown...</span>")
+			relay('nsv13/sound/effects/fighters/powerswitch.ogg')
+			if(do_after(usr, 5 SECONDS, target=src))
+				flight_state = NO_FUEL_PUMP
+		if("canopy_lock")
+			toggle_canopy()
+
+		if("eject")
+			if(!ejecting)
+				to_chat(usr, "<span class='notice'>WARNING AUTO-EJECT SEQUENCE COMMENCING IN T-5 SECONDS. USE THIS SWITCH AGAIN TO CANCEL THIS ACTION.</span>")
+				relay('nsv13/sound/effects/fighters/switch.ogg')
+				relay('nsv13/sound/effects/ship/general_quarters.ogg')
+				addtimer(CALLBACK(src, .proc/eject), 5 SECONDS)
+				ejecting = TRUE
+			else
+				to_chat(usr, "<span class='notice'>WARNING AUTO-EJECT SEQUENCE CANCELLED.</span>")
+				relay('nsv13/sound/effects/fighters/switch.ogg')
+				ejecting = FALSE
+
+		if("docking_mode")
+			to_chat(usr, "<span class='notice'>You [docking_mode ? "disengage" : "engage"] [src]'s docking computer.</span>")
+			docking_mode = !docking_mode
+			relay('nsv13/sound/effects/fighters/switch.ogg')
+			return //Dodge the cooldown because these actions should be instant
+		if("brakes")
+			toggle_brakes()
+			relay('nsv13/sound/effects/fighters/switch.ogg')
+			return //Dodge the cooldown because these actions should be instant
+		if("weapon_safety")
+			toggle_safety()
+			relay('nsv13/sound/effects/fighters/switch.ogg')
+			return //Dodge the cooldown because these actions should be instant
+	warmup_cooldown = TRUE
+	addtimer(VARSET_CALLBACK(src, warmup_cooldown, FALSE), 5 SECONDS)
+	relay('nsv13/sound/effects/fighters/switch.ogg')
+
+/obj/structure/overmap/fighter/proc/get_fuel()
+	var/obj/item/twohanded/required/fighter_component/fuel_tank/sft = get_part(/obj/item/twohanded/required/fighter_component/fuel_tank)
+	if(!sft)
+		return 0
+	return sft.reagents.total_volume
+
+/obj/structure/overmap/fighter/proc/get_max_fuel()
+	var/obj/item/twohanded/required/fighter_component/fuel_tank/sft = get_part(/obj/item/twohanded/required/fighter_component/fuel_tank)
+	if(!sft)
+		return 0
+	return sft.reagents.maximum_volume
+
+/obj/structure/overmap/fighter/ui_data(mob/user)
+	var/list/data = list()
+	data["ignition"] = TRUE
+	data["fuel_pump"] = TRUE
+	data["battery"] = TRUE
+	data["apu"] = TRUE
+	data["throttle_lock"] = FALSE
+	data["docking_mode"] = docking_mode
+	data["canopy_lock"] = canopy_open
+	data["brakes"] = brakes
+	data["weapon_safety"] = weapon_safety
+	data["max_integrity"] = max_integrity
+	data["integrity"] = obj_integrity
+	data["max_fuel"] = get_max_fuel()
+	data["fuel"] = get_fuel()
+//	data["eject"] = ejecting
+	if(flight_state >= NO_IGNITION)
+		data["ignition"] = FALSE
+	if(flight_state >= NO_FUEL_PUMP)
+		data["fuel_pump"] = FALSE
+	if(flight_state >= NO_BATTERY)
+		data["battery"] = FALSE
+	if(flight_state >= NO_APU)
+		data["apu"] = FALSE
+	if(flight_state >= THROTTLE_LOCK)
+		data["throttle_lock"] = TRUE
+	return data
+
+#undef NO_IGNITION
+#undef NO_FUEL_PUMP
+#undef NO_BATTERY
+#undef NO_APU
+#undef THROTTLE_LOCK
+#undef FLIGHT_READY
 
 #undef MS_CLOSED
 #undef MS_UNSECURE

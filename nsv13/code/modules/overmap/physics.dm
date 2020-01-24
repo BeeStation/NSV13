@@ -6,6 +6,9 @@
 /obj/structure/overmap
 	var/last_process = 0
 
+/obj/structure/overmap/proc/can_move()
+	return TRUE //Placeholder for everything but fighters. We can later extend this if / when we want to code in ship engines.
+
 /obj/structure/overmap/process(time)
 	time /= 10 // fuck off with your deciseconds
 	last_process = world.time
@@ -83,8 +86,6 @@
 	last_thrust_forward = 0
 	last_thrust_right = 0
 	if(brakes) //If our brakes are engaged, attempt to slow them down
-		if(user_thrust_dir)
-			to_chat(pilot, "<span class='warning'>Inertial dampeners are online.</span>")
 		// basically calculates how much we can brake using the thrust
 		var/forward_thrust = -((fx * velocity_x) + (fy * velocity_y)) / time
 		var/right_thrust = -((sx * velocity_x) + (sy * velocity_y)) / time
@@ -95,22 +96,23 @@
 		last_thrust_forward = forward_thrust
 		last_thrust_right = right_thrust
 	else // Add our thrust to the movement vector
-		if(user_thrust_dir & NORTH)
-			thrust_x += fx * forward_maxthrust
-			thrust_y += fy * forward_maxthrust
-			last_thrust_forward = forward_maxthrust
-		if(user_thrust_dir & SOUTH)
-			thrust_x -= fx * backward_maxthrust
-			thrust_y -= fy * backward_maxthrust
-			last_thrust_forward = -backward_maxthrust
-		if(user_thrust_dir & EAST)
-			thrust_x += sx * side_maxthrust
-			thrust_y += sy * side_maxthrust
-			last_thrust_right = side_maxthrust
-		if(user_thrust_dir & WEST)
-			thrust_x -= sx * side_maxthrust
-			thrust_y -= sy * side_maxthrust
-			last_thrust_right = -side_maxthrust
+		if(can_move())
+			if(user_thrust_dir & NORTH)
+				thrust_x += fx * forward_maxthrust
+				thrust_y += fy * forward_maxthrust
+				last_thrust_forward = forward_maxthrust
+			if(user_thrust_dir & SOUTH)
+				thrust_x -= fx * backward_maxthrust
+				thrust_y -= fy * backward_maxthrust
+				last_thrust_forward = -backward_maxthrust
+			if(user_thrust_dir & EAST)
+				thrust_x += sx * side_maxthrust
+				thrust_y += sy * side_maxthrust
+				last_thrust_right = side_maxthrust
+			if(user_thrust_dir & WEST)
+				thrust_x -= sx * side_maxthrust
+				thrust_y -= sy * side_maxthrust
+				last_thrust_right = -side_maxthrust
 	 //Stops you yeeting off at lightspeed. This made AI ships really frustrating to play against.
 	if(velocity_x > speed_limit)
 		velocity_x = speed_limit

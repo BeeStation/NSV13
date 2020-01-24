@@ -186,7 +186,7 @@
 	return TRUE
 
 /obj/structure/overmap/onMouseMove(object,location,control,params)
-	if(!pilot || !pilot.client || pilot.incapacitated() || !move_by_mouse || control !="mapwindow.map") //Check pilot status, if we're meant to follow the mouse, and if theyre actually moving over a tile rather than in a menu
+	if(!pilot || !pilot.client || pilot.incapacitated() || !move_by_mouse || control !="mapwindow.map" ||!can_move()) //Check pilot status, if we're meant to follow the mouse, and if theyre actually moving over a tile rather than in a menu
 		return // I don't know what's going on.
 	var/list/params_list = params2list(params)
 	var/sl_list = splittext(params_list["screen-loc"],",")
@@ -211,7 +211,7 @@
 	update_icon()
 
 /obj/structure/overmap/relaymove(mob/user, direction)
-	if(user != pilot || pilot.incapacitated() || !can_move())
+	if(user != pilot || pilot.incapacitated())
 		return
 	if(rcs_mode || move_by_mouse) //They don't want to turn the ship, or theyre using mouse movement mode.
 		user_thrust_dir = direction
@@ -223,9 +223,6 @@
 				desired_angle += max_angular_acceleration*0.1
 			if(WEST)
 				desired_angle -= max_angular_acceleration*0.1
-
-/obj/structure/overmap/proc/can_move()
-	return TRUE//Used mostly for fighters. If we ever get engines, change this.
 
 //	relay('nsv13/sound/effects/ship/rcs.ogg')
 
