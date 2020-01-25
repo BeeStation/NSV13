@@ -121,11 +121,11 @@
 	name = "Torpedo warheads (decoy)"
 	desc = "A pack of 5 electronic countermeasure warheads which excel at distracting enemy PDC emplacements."
 	cost = 500
-	contains = list(/obj/item/ship_weapon/parts/torpedo/warhead/bunker_buster,
-					/obj/item/ship_weapon/parts/torpedo/warhead/bunker_buster,
-					/obj/item/ship_weapon/parts/torpedo/warhead/bunker_buster,
-					/obj/item/ship_weapon/parts/torpedo/warhead/bunker_buster,
-					/obj/item/ship_weapon/parts/torpedo/warhead/bunker_buster)
+	contains = list(/obj/item/ship_weapon/parts/torpedo/warhead/decoy,
+					/obj/item/ship_weapon/parts/torpedo/warhead/decoy,
+					/obj/item/ship_weapon/parts/torpedo/warhead/decoy,
+					/obj/item/ship_weapon/parts/torpedo/warhead/decoy,
+					/obj/item/ship_weapon/parts/torpedo/warhead/decoy)
 	crate_name = "Decoy torpedo warheads"
 
 /datum/supply_pack/munitions/peacekeeper_rifles
