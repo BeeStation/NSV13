@@ -24,11 +24,16 @@
 
 	var/state = BS_MOUNT_UNBOLTED
 
+	// Material costs so we can rebalance them easily
+	var/num_cables = 2
+	var/num_sheets_door = 2
+	var/num_sheets_barrel = 4
+	var/num_sheets_frame = 4
+
 /obj/structure/ship_weapon/torpedo_launcher_assembly/Initialize()
 	..()
 	if(!contents)
 		contents = list()
-	dir = 4
 
 /obj/structure/ship_weapon/torpedo_launcher_assembly/examine(mob/user)
 	. = ..()
@@ -59,151 +64,84 @@
 	state = BS_DOOR_BOLTED
 
 /obj/structure/ship_weapon/torpedo_launcher_assembly/attackby(obj/item/W, mob/user, params)
-	message_admins("Attacking [src] with [W]")
 	add_fingerprint(user)
-	if(W.tool_behaviour == TOOL_WRENCH)
-		message_admins("It's a wrench and we're in state [state]")
-		if(!anchored && (state == BS_MOUNT_UNBOLTED))
-			W.play_tool_sound(src, 2 SECONDS)
-			if(!do_after(user, 2 SECONDS, target=src))
-				return
-			to_chat(user, "<span class='notice'>You bolt the [src] to the floor.</span>")
-			anchored = TRUE
-			state = BS_MOUNT_BOLTED
-			return
 
-		else if(state == BS_BARREL_PLACED)
-			W.play_tool_sound(src, 2 SECONDS)
-			if(!do_after(user, 2 SECONDS, target=src))
-				return
-			to_chat(user, "<span class='notice'>You secure the barrel.</span>")
-			state = BS_BARREL_BOLTED
-			return
-
-		else if(state == BS_BARREL_BOLTED)
-			W.play_tool_sound(src, 2 SECONDS)
-			if(!do_after(user, 2 SECONDS, target=src))
-				return
-			to_chat(user, "<span class='notice'>You unbolt the the barrel.</span>")
-			state = BS_BARREL_PLACED
-			return
-
-		else if(state == BS_MOUNT_BOLTED)
-			W.play_tool_sound(src, 2 SECONDS)
-			if(!do_after(user, 2 SECONDS, target=src))
-				return
-			to_chat(user, "<span class='notice'>You unbolt the [src] from the floor.</span>")
-			state = BS_MOUNT_UNBOLTED
-			return
-
-		else if(state == BS_DOOR_PLACED)
-			W.play_tool_sound(src, 2 SECONDS)
-			if(!do_after(user, 2 SECONDS, target=src))
-				return
-			to_chat(user, "<span class='notice'>You bolt the door to the frame.</span>")
-			state = BS_DOOR_BOLTED
-			return
-
-		else if(state == BS_DOOR_BOLTED)
-			W.play_tool_sound(src, 2 SECONDS)
-			if(!do_after(user, 2 SECONDS, target=src))
-				return
-			to_chat(user, "<span class='notice'>You unbolt the door from the frame.</span>")
-			state = BS_DOOR_PLACED
-			return
-
-	else if(W.tool_behaviour == TOOL_WELDER)
-		if(anchored && (state == BS_MOUNT_BOLTED))
-			W.play_tool_sound(src, 2 SECONDS)
-			if(!do_after(user, 2 SECONDS, target=src))
-				return
-			to_chat(user, "<span class='notice'>You weld the [src] to the floor.</span>")
-			state = BS_MOUNT_WELDED
-			return
-
-		if(state == BS_MOUNT_WELDED)
-			W.play_tool_sound(src, 2 SECONDS)
-			if(!do_after(user, 2 SECONDS, target=src))
-				return
-			to_chat(user, "<span class='notice'>You unweld the [src] from the floor.</span>")
-			state = BS_MOUNT_BOLTED
-			return
-
-		if(state == BS_MOUNT_UNBOLTED)
-			W.play_tool_sound(src, 2 SECONDS)
-			if(!do_after(user, 2 SECONDS, target=src))
-				return
-			to_chat(user, "<span class='notice'>You cut apart the frame.</span>")
-			new/obj/item/stack/sheet/plasteel(loc, 4)
-			qdel(src)
-			return
-
-		return
-
-	else if(W.tool_behaviour == TOOL_WIRECUTTER)
-		if(state == BS_WIRED)
-			W.play_tool_sound(src, 2 SECONDS)
-			if(!do_after(user, 2 SECONDS, target=src))
-				return
-			new/obj/item/stack/cable_coil(loc, 2)
-			to_chat(user, "<span class='notice'>You cut the wires from the frame.</span>")
-			state = BS_BARREL_BOLTED
-			return
-
-		return
-
-	else if(istype(W, /obj/item/stack/sheet/nanocarbon_glass))
+	if(istype(W, /obj/item/stack/sheet/nanocarbon_glass))
 		if(state == BS_MOUNT_WELDED)
 			var/obj/item/stack/sheet/nanocarbon_glass/S = W
-			if(S.get_amount() < 4)
+			if(S.get_amount() < num_sheets_barrel)
 				to_chat(user, "<span class='warning'>You need four sheets of [S] to build the tube!</span>")
 				return
 			if(!do_after(user, 2 SECONDS, target=src))
 				return
-			if(S.get_amount() < 4) // Check whether they used too much while standing here...
+			if(S.get_amount() < num_sheets_barrel) // Check whether they used too much while standing here...
 				to_chat(user, "<span class='warning'>You need four sheets of [S] to build the tube!</span>")
 				return
-			S.use(4)
+			S.use(num_sheets_barrel)
 			to_chat(user, "<span class='notice'>You shape the nanocarbon torpedo tube.</span>")
 			state = BS_BARREL_PLACED
-			return
+			return TRUE
 
 		else if(state == BS_ELECTRONICS_SECURE)
 			var/obj/item/stack/sheet/nanocarbon_glass/S = W
-			if(S.get_amount() < 2)
+			if(S.get_amount() < num_sheets_door)
 				to_chat(user, "<span class='warning'>You need two sheets of [S] to build the door!</span>")
 				return
 			if(!do_after(user, 2 SECONDS, target=src))
 				return
-			if(S.get_amount() < 2) // Check whether they used too much while standing here...
+			if(S.get_amount() < num_sheets_door) // Check whether they used too much while standing here...
 				to_chat(user, "<span class='warning'>You need two sheets of [S] to build the door!</span>")
 				return
-			S.use(4)
+			S.use(num_sheets_door)
 			to_chat(user, "<span class='notice'>You add the door to the [src].</span>")
 			state = BS_DOOR_PLACED
-			return
+			return TRUE
 
-	else if(W.tool_behaviour == TOOL_SCREWDRIVER)
-		if(state == BS_ELECTRONICS_LOOSE)
-			W.play_tool_sound(src, 2 SECONDS)
-			if(!do_after(user, 2 SECONDS, target=src))
-				return
+	else if(istype(W, /obj/item/stack/cable_coil) && (state == BS_BARREL_BOLTED))
+		var/obj/item/stack/cable_coil/S = W
+		if(S.get_amount() < num_cables)
+			to_chat(user, "<span class='warning'>You need two pieces of [S] to wire the railgun!</span>")
+			return
+		if(!do_after(user, 2 SECONDS, target=src))
+			return
+		if(S.get_amount() < num_cables)
+			to_chat(user, "<span class='warning'>You need two pieces of [S] to wire the railgun!</span>")
+			return
+		S.use(num_cables)
+		to_chat(user, "<span class='notice'>You wire the torpedo launcher.</span>")
+		state = BS_WIRED
+		return TRUE
+
+	else if((istype(W, /obj/item/ship_weapon/parts/firing_electronics)) && (state = BS_WIRED))
+		if(!do_after(user, 2 SECONDS, target=src))
+			return
+		W.forceMove(src)
+		to_chat(user, "<span class='notice'>Add the electronic firing mechanism.</span>")
+		state = BS_ELECTRONICS_LOOSE
+		return TRUE
+
+	. = ..()
+
+/obj/structure/ship_weapon/torpedo_launcher_assembly/attack_robot(mob/user)
+	. = ..()
+	attack_hand(user)
+
+/obj/structure/ship_weapon/torpedo_launcher_assembly/screwdriver_act(mob/user, obj/item/tool)
+	. = ..()
+	if(state == BS_ELECTRONICS_LOOSE)
+		if(tool.use_tool(src, user, 2 SECONDS, volume=100))
 			to_chat(user, "<span class='notice'>You secure the firing electronics.</span>")
 			state = BS_ELECTRONICS_SECURE
-			return
+			return TRUE
 
-		else if(state == BS_ELECTRONICS_SECURE)
-			W.play_tool_sound(src, 2 SECONDS)
-			if(!do_after(user, 2 SECONDS, target=src))
-				return
+	else if(state == BS_ELECTRONICS_SECURE)
+		if(tool.use_tool(src, user, 2 SECONDS, volume=100))
 			to_chat(user, "<span class='notice'>You unsecure the firing electronics.</span>")
 			state = BS_ELECTRONICS_LOOSE
-			return
+			return TRUE
 
-		else if(state == BS_DOOR_BOLTED)
-			W.play_tool_sound(src, 2 SECONDS)
-			if(!do_after(user, 2 SECONDS, target=src))
-				return
+	else if(state == BS_DOOR_BOLTED)
+		if(tool.use_tool(src, user, 2 SECONDS, volume=100))
 			to_chat(user, "<span class='notice'>You finish the torpedo launcher.</span>")
 			var/obj/machinery/ship_weapon/torpedo_launcher/TL = new(loc)
 			TL.dir = dir
@@ -219,64 +157,97 @@
 				TL.component_parts += O
 				stoplag()
 			qdel(src)
-			return
+			return TRUE
 
-		return
+/obj/structure/ship_weapon/torpedo_launcher_assembly/wrench_act(mob/user, obj/item/tool)
+	. = ..()
+	if(!anchored && (state == BS_MOUNT_UNBOLTED))
+		if(tool.use_tool(src, user, 2 SECONDS, volume=100))
+			to_chat(user, "<span class='notice'>You bolt the [src] to the floor.</span>")
+			anchored = TRUE
+			state = BS_MOUNT_BOLTED
+			return TRUE
 
-	else if(W.tool_behaviour == TOOL_CROWBAR)
-		if(state == BS_DOOR_PLACED)
-			W.play_tool_sound(src, 2 SECONDS)
-			if(!do_after(user, 2 SECONDS, target=src))
-				return
+	else if(state == BS_BARREL_PLACED)
+		if(tool.use_tool(src, user, 2 SECONDS, volume=100))
+			to_chat(user, "<span class='notice'>You secure the barrel.</span>")
+			state = BS_BARREL_BOLTED
+			return TRUE
+
+	else if(state == BS_BARREL_BOLTED)
+		if(tool.use_tool(src, user, 2 SECONDS, volume=100))
+			to_chat(user, "<span class='notice'>You unbolt the the barrel.</span>")
+			state = BS_BARREL_PLACED
+			return TRUE
+
+	else if(state == BS_MOUNT_BOLTED)
+		if(tool.use_tool(src, user, 2 SECONDS, volume=100))
+			to_chat(user, "<span class='notice'>You unbolt the [src] from the floor.</span>")
+			state = BS_MOUNT_UNBOLTED
+			return TRUE
+
+	else if(state == BS_DOOR_PLACED)
+		if(tool.use_tool(src, user, 2 SECONDS, volume=100))
+			to_chat(user, "<span class='notice'>You bolt the door to the frame.</span>")
+			state = BS_DOOR_BOLTED
+			return TRUE
+
+	else if(state == BS_DOOR_BOLTED)
+		if(tool.use_tool(src, user, 2 SECONDS, volume=100))
+			to_chat(user, "<span class='notice'>You unbolt the door from the frame.</span>")
+			state = BS_DOOR_PLACED
+			return TRUE
+
+/obj/structure/ship_weapon/torpedo_launcher_assembly/welder_act(mob/user, obj/item/tool)
+	. = ..()
+	if(anchored && (state == BS_MOUNT_BOLTED))
+		if(tool.use_tool(src, user, 2 SECONDS, volume=100))
+			to_chat(user, "<span class='notice'>You weld the [src] to the floor.</span>")
+			state = BS_MOUNT_WELDED
+			return TRUE
+
+	else if(state == BS_MOUNT_WELDED)
+		if(tool.use_tool(src, user, 2 SECONDS, volume=100))
+			to_chat(user, "<span class='notice'>You unweld the [src] from the floor.</span>")
+			state = BS_MOUNT_BOLTED
+			return TRUE
+
+	else if(state == BS_MOUNT_UNBOLTED)
+		if(tool.use_tool(src, user, 2 SECONDS, volume=100))
+			to_chat(user, "<span class='notice'>You cut apart the frame.</span>")
+			new/obj/item/stack/sheet/plasteel(loc, num_sheets_frame)
+			qdel(src)
+			return TRUE
+
+/obj/structure/ship_weapon/torpedo_launcher_assembly/crowbar_act(mob/user, obj/item/tool)
+	. = ..()
+	if(state == BS_DOOR_PLACED)
+		if(tool.use_tool(src, user, 2 SECONDS, volume=100))
 			to_chat(user, "<span class='notice'>You pry the door loose from the [src].</span>")
-			new/obj/item/stack/sheet/nanocarbon_glass(loc, 2)
+			new/obj/item/stack/sheet/nanocarbon_glass(loc, num_sheets_door)
 			state = BS_ELECTRONICS_SECURE
-			return
+			return TRUE
 
-		else if(state == BS_ELECTRONICS_LOOSE)
-			W.play_tool_sound(src, 2 SECONDS)
-			if(!do_after(user, 2 SECONDS, target=src))
-				return
+	else if(state == BS_ELECTRONICS_LOOSE)
+		if(tool.use_tool(src, user, 2 SECONDS, volume=100))
 			var/obj/item/ship_weapon/parts/firing_electronics/F = (locate(/obj/item/ship_weapon/parts/firing_electronics) in contents)
 			F.forceMove(loc)
 			to_chat(user, "<span class='notice'>You pry the firing electronics loose from the [src].</span>")
 			state = BS_WIRED
-			return
+			return TRUE
 
-		else if(state == BS_BARREL_PLACED)
-			W.play_tool_sound(src, 2 SECONDS)
-			if(!do_after(user, 2 SECONDS, target=src))
-				return
+	else if(state == BS_BARREL_PLACED)
+		if(tool.use_tool(src, user, 2 SECONDS, volume=100))
 			to_chat(user, "<span class='notice'>You pry the nanocarbon barrel off the [src].</span>")
-			new/obj/item/stack/sheet/nanocarbon_glass(loc, 4)
+			new/obj/item/stack/sheet/nanocarbon_glass(loc, num_sheets_barrel)
 			state = BS_MOUNT_WELDED
-			return
+			return TRUE
 
-	else if(istype(W, /obj/item/stack/cable_coil) && (state == BS_BARREL_BOLTED))
-		var/obj/item/stack/cable_coil/S = W
-		if(S.get_amount() < 2)
-			to_chat(user, "<span class='warning'>You need two pieces of [S] to wire the railgun!</span>")
-			return
-		if(!do_after(user, 2 SECONDS, target=src))
-			return
-		if(S.get_amount() < 2)
-			to_chat(user, "<span class='warning'>You need two pieces of [S] to wire the railgun!</span>")
-			return
-		S.use(4)
-		to_chat(user, "<span class='notice'>You wire the torpedo launcher.</span>")
-		state = BS_WIRED
-		return
-
-	else if((istype(W, /obj/item/ship_weapon/parts/firing_electronics)) && (state = BS_WIRED))
-		if(!do_after(user, 2 SECONDS, target=src))
-			return
-		W.forceMove(src)
-		to_chat(user, "<span class='notice'>Add the electronic firing mechanism.</span>")
-		state = BS_ELECTRONICS_LOOSE
-		return
-
+/obj/structure/ship_weapon/torpedo_launcher_assembly/wirecutter_act(mob/living/user, obj/item/tool)
 	. = ..()
-
-/obj/structure/ship_weapon/torpedo_launcher_assembly/attack_robot(mob/user)
-	. = ..()
-	attack_hand(user)
+	if(state == BS_WIRED)
+		if(tool.use_tool(src, user, 2 SECONDS, volume=100))
+			new/obj/item/stack/cable_coil(loc, num_cables)
+			to_chat(user, "<span class='notice'>You cut the wires from the frame.</span>")
+			state = BS_BARREL_BOLTED
+			return TRUE

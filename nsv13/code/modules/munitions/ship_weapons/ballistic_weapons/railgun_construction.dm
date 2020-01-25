@@ -26,15 +26,21 @@
 	density = TRUE
 
 	var/state = BS_MOUNT_UNBOLTED
-
 	var/capacitors = 0
 	var/rails = 0
+
+	// Material costs so we can rebalance them easily
+	var/num_rails = 2
+	var/num_capacitors = 4
+	var/num_sheets_frame = 4
+	var/num_sheets_casing = 2
+	var/num_sheets_insulation = 4
+	var/num_cables = 4
 
 /obj/structure/ship_weapon/railgun_assembly/Initialize()
 	..()
 	if(!contents)
 		contents = list()
-	dir = 4
 
 /obj/structure/ship_weapon/railgun_assembly/examine(mob/user)
 	. = ..()
@@ -48,13 +54,13 @@
 		if(BS_BARREL_PLACED)
 			. += "The <i>bolts</i> on the nanocarbon insulation are loose. It could be <b>pried out</b>."
 		if(BS_BARREL_BOLTED)
-			var/rails_needed = 2 - rails
-			. += "The nanocarbon insulation is <b>bolted</b> to the barrel and there is room for <i>[rails_needed] rail[(rails_needed != 1) ? "s" : ""]</i>."
+			var/rails_left = num_rails - rails
+			. += "The nanocarbon insulation is <b>bolted</b> to the barrel and there is room for <i>[rails_left] rail[(rails_left != 1) ? "s" : ""]</i>."
 		if(BS_RAILS_PLACED)
 			. += "The condductive rails are loose in the frame. They could be <b>pried out</b> or <i>bolted</i> down."
 		if(BS_RAILS_BOLTED)
-			var/capacitors_needed = 4 - capacitors
-			. += "The rails are <b>bolted</b> in place. There is space for <i>[capacitors_needed] capacitor[(capacitors_needed != 1) ? "s" : ""]</i>."
+			var/capacitors_left = num_capacitors - capacitors
+			. += "The rails are <b>bolted</b> in place. There is space for <i>[capacitors_left] capacitor[(capacitors_left != 1) ? "s" : ""]</i>."
 		if(BS_CAPACITORS_PLACED)
 			. += "The capacitors are in place. The <i>screws</i> are loose, and they could be <b>removed</b> by hand."
 		if(BS_CAPACITORS_SECURED)
@@ -76,111 +82,20 @@
 
 /obj/structure/ship_weapon/railgun_assembly/attackby(obj/item/W, mob/user, params)
 	add_fingerprint(user)
-	if(W.tool_behaviour == TOOL_WRENCH)
-		if(!anchored && (state == BS_MOUNT_UNBOLTED))
-			if(!do_after(user, 2 SECONDS, target=src))
-				return
-			to_chat(user, "<span class='notice'>You bolt the [src] to the floor.</span>")
-			anchored = TRUE
-			state = BS_MOUNT_BOLTED
-			return
-
-		if(state == BS_BARREL_PLACED)
-			if(!do_after(user, 2 SECONDS, target=src))
-				return
-			to_chat(user, "<span class='notice'>You secure the insulated barrel.</span>")
-			state = BS_BARREL_BOLTED
-			return
-
-		if(state == BS_RAILS_PLACED)
-			if(!do_after(user, 2 SECONDS, target=src))
-				return
-			to_chat(user, "<span class='notice'>You bolt the conductive rails to the frame.</span>")
-			state = BS_RAILS_BOLTED
-			return
-
-		if(state == BS_RAILS_BOLTED)
-			if(!do_after(user, 2 SECONDS, target=src))
-				return
-			to_chat(user, "<span class='notice'>You unbolt the rails from the frame.</span>")
-			state = BS_RAILS_PLACED
-			return
-
-		if(state == BS_BARREL_BOLTED)
-			if(!do_after(user, 2 SECONDS, target=src))
-				return
-			to_chat(user, "<span class='notice'>You unbolt the nanocarbon insulation from the barrel.</span>")
-			state = BS_BARREL_PLACED
-			return
-
-		if(state == BS_MOUNT_BOLTED)
-			if(!do_after(user, 2 SECONDS, target=src))
-				return
-			to_chat(user, "<span class='notice'>You unbolt the [src] from the floor.</span>")
-			state = BS_MOUNT_UNBOLTED
-			return
-
-	else if(W.tool_behaviour == TOOL_WELDER)
-		if(anchored && (state == BS_MOUNT_BOLTED))
-			if(!do_after(user, 2 SECONDS, target=src))
-				return
-			to_chat(user, "<span class='notice'>You weld the [src] to the floor.</span>")
-			state = BS_MOUNT_WELDED
-			return
-
-		if(state == BS_WIRED)
-			if(!do_after(user, 2 SECONDS, target=src))
-				return
-			to_chat(user, "<span class='notice'>You solder the wiring into place.</span>")
-			state = BS_WIRES_SOLDERED
-			return
-
-		if(state == BS_CASING_ADDED)
-			if(!do_after(user, 2 SECONDS, target=src))
-				return
-			to_chat(user, "<span class='notice'>You slice away the outer casing.</span>")
-			new/obj/item/stack/sheet/plasteel(loc, 2)
-			state = BS_ELECTRONICS_SECURE
-			return
-
-		if(state == BS_WIRES_SOLDERED)
-			if(!do_after(user, 2 SECONDS, target=src))
-				return
-			to_chat(user, "<span class='notice'>You desolder the wires.</span>")
-			state = BS_WIRED
-			return
-
-		if(state == BS_MOUNT_WELDED)
-			if(!do_after(user, 2 SECONDS, target=src))
-				return
-			to_chat(user, "<span class='notice'>You unweld the [src] from the floor.</span>")
-			state = BS_MOUNT_BOLTED
-			return
-
-		if(state == BS_MOUNT_UNBOLTED)
-			if(!do_after(user, 2 SECONDS, target=src))
-				return
-			to_chat(user, "<span class='notice'>You cut apart the frame.</span>")
-			new/obj/item/stack/sheet/plasteel(loc, 4)
-			qdel(src)
-			return
-
-		return
-
-	else if(istype(W, /obj/item/stack/sheet/nanocarbon_glass) && (state == BS_MOUNT_WELDED))
+	if(istype(W, /obj/item/stack/sheet/nanocarbon_glass) && (state == BS_MOUNT_WELDED))
 		var/obj/item/stack/sheet/nanocarbon_glass/S = W
-		if(S.get_amount() < 4)
+		if(S.get_amount() < num_sheets_insulation)
 			to_chat(user, "<span class='warning'>You need four sheets of [S] to insulate the railgun!</span>")
 			return
 		if(!do_after(user, 2 SECONDS, target=src))
 			return
-		if(S.get_amount() < 4) // Check whether they used too much while standing here...
+		if(S.get_amount() < num_sheets_insulation) // Check whether they used too much while standing here...
 			to_chat(user, "<span class='warning'>You need four sheets of [S] to insulate the railgun!</span>")
 			return
-		S.use(4)
+		S.use(num_sheets_insulation)
 		to_chat(user, "<span class='notice'>You line the frame with insulating nanocarbon glass.</span>")
 		state = BS_BARREL_PLACED
-		return
+		return TRUE
 
 	else if(istype(W, /obj/item/ship_weapon/parts/railgun_rail))
 		if(state == BS_BARREL_BOLTED)
@@ -189,64 +104,32 @@
 			W.forceMove(src)
 			rails++
 			to_chat(user, "<span class='notice'>You add the [W] to the [src].</span>")
-			if(rails >= 2)
+			if(rails >= num_rails)
 				state = BS_RAILS_PLACED
-			return
-		return
+			return TRUE
 
 	else if((istype(W, /obj/item/stock_parts/capacitor)) && (state == BS_RAILS_BOLTED))
 		W.forceMove(src)
 		capacitors++
 		to_chat(user, "<span class='notice'>You add the [W] to the [src].</span>")
-		if(capacitors >= 4)
+		if(capacitors >= num_capacitors)
 			state = BS_CAPACITORS_PLACED
-		return
-
-	else if(W.tool_behaviour == TOOL_SCREWDRIVER)
-		if(state == BS_CAPACITORS_PLACED)
-			if(!do_after(user, 2 SECONDS, target=src))
-				return
-			to_chat(user, "<span class='notice'>You screw the capacitors into place.</span>")
-			state = BS_CAPACITORS_SECURED
-			return
-
-		else if(state == BS_ELECTRONICS_LOOSE)
-			if(!do_after(user, 2 SECONDS, target=src))
-				return
-			to_chat(user, "<span class='notice'>You secure the firing electronics.</span>")
-			state = BS_ELECTRONICS_SECURE
-			return
-
-		else if(state == BS_ELECTRONICS_SECURE)
-			if(!do_after(user, 2 SECONDS, target=src))
-				return
-			to_chat(user, "<span class='notice'>You unsecure the firing electronics.</span>")
-			state = BS_ELECTRONICS_LOOSE
-			return
-
-		else if(state == BS_CAPACITORS_SECURED)
-			if(!do_after(user, 2 SECONDS, target=src))
-				return
-			to_chat(user, "<span class='notice'>You unscrew the capacitors.</span>")
-			state = BS_CAPACITORS_PLACED
-			return
-
-		return
+		return TRUE
 
 	else if(istype(W, /obj/item/stack/cable_coil) && (state == BS_CAPACITORS_SECURED))
 		var/obj/item/stack/cable_coil/S = W
-		if(S.get_amount() < 4)
+		if(S.get_amount() < num_cables)
 			to_chat(user, "<span class='warning'>You need four pieces of [S] to wire the railgun!</span>")
 			return
 		if(!do_after(user, 2 SECONDS, target=src))
 			return
-		if(S.get_amount() < 4)
+		if(S.get_amount() < num_cables)
 			to_chat(user, "<span class='warning'>You need four pieces of [S] to wire the railgun!</span>")
 			return
-		S.use(4)
+		S.use(num_cables)
 		to_chat(user, "<span class='notice'>You wire the power supply to the rails.</span>")
 		state = BS_WIRED
-		return
+		return TRUE
 
 	else if((istype(W, /obj/item/ship_weapon/parts/firing_electronics)) && (state = BS_WIRES_SOLDERED))
 		if(!do_after(user, 2 SECONDS, target=src))
@@ -254,22 +137,22 @@
 		W.forceMove(src)
 		to_chat(user, "<span class='notice'>Add the electronic firing mechanism.</span>")
 		state = BS_ELECTRONICS_LOOSE
-		return
+		return TRUE
 
 	else if((istype(W, /obj/item/stack/sheet/plasteel)) && (state == BS_ELECTRONICS_SECURE))
 		var/obj/item/stack/sheet/plasteel/S = W
-		if(S.get_amount() < 2)
+		if(S.get_amount() < num_sheets_casing)
 			to_chat(user, "<span class='warning'>You need four sheets of [S] to finish the [src]!</span>")
 			return
 		if(!do_after(user, 2 SECONDS, target=src))
 			return
-		if(S.get_amount() < 2)
+		if(S.get_amount() < num_sheets_casing)
 			to_chat(user, "<span class='warning'>You need four sheets of [S] to finish the [src]!</span>")
 			return
-		S.use(2)
+		S.use(num_sheets_casing)
 		to_chat(user, "<span class='notice'>You add the outer casing to the assembly.</span>")
 		state = BS_CASING_ADDED
-		return
+		return TRUE
 
 	else if((istype(W, /obj/item/ship_weapon/parts/loading_tray)) && (state == BS_CASING_ADDED))
 		if(!do_after(user, 2 SECONDS, target=src))
@@ -290,49 +173,7 @@
 			RG.component_parts += O
 			stoplag()
 		qdel(src)
-		return
-
-	else if(W.tool_behaviour == TOOL_CROWBAR)
-		if(state == BS_ELECTRONICS_LOOSE)
-			if(!do_after(user, 2 SECONDS, target=src))
-				return
-			var/obj/item/ship_weapon/parts/firing_electronics/F = (locate(/obj/item/ship_weapon/parts/firing_electronics) in src)
-			if(F)
-				F.forceMove(loc)
-			to_chat(user, "<span class='notice'>You pry the firing electronics loose.</span>")
-			state = BS_WIRES_SOLDERED
-			return
-
-		if(state == BS_RAILS_PLACED)
-			if(!do_after(user, 2 SECONDS, target=src))
-				return
-			var/obj/item/ship_weapon/parts/railgun_rail/R = (locate(/obj/item/ship_weapon/parts/railgun_rail) in src)
-			while(R)
-				R.forceMove(loc)
-				R = (locate(/obj/item/ship_weapon/parts/railgun_rail) in src)
-				stoplag()
-			to_chat(user, "<span class='notice'>You pry the rails loose.</span>")
-			state = BS_BARREL_BOLTED
-			return
-
-		if(state == BS_BARREL_PLACED)
-			if(!do_after(user, 2 SECONDS, target=src))
-				return
-			new/obj/item/stack/sheet/nanocarbon_glass(loc, 4)
-			to_chat(user, "<span class='notice'>You pry the nanocargon glass free.</span>")
-			state = BS_MOUNT_WELDED
-		return
-
-	else if(W.tool_behaviour == TOOL_WIRECUTTER)
-		if(state == BS_WIRED)
-			if(!do_after(user, 2 SECONDS, target=src))
-				return
-			new/obj/item/stack/cable_coil(loc, 4)
-			to_chat(user, "<span class='notice'>You cut the wires from the frame.</span>")
-			state = BS_CAPACITORS_SECURED
-			return
-
-		return
+		return TRUE
 
 	..()
 
@@ -352,7 +193,147 @@
 			C = (locate(/obj/item/stock_parts/capacitor) in src)
 			stoplag()
 		state = BS_RAILS_BOLTED
-		return
+		return TRUE
+
+/obj/structure/ship_weapon/railgun_assembly/wrench_act(mob/living/user, obj/item/tool)
+	if(!anchored && (state == BS_MOUNT_UNBOLTED))
+		if(tool.use_tool(src, user, 2 SECONDS, volume=100))
+			to_chat(user, "<span class='notice'>You bolt the [src] to the floor.</span>")
+			anchored = TRUE
+			state = BS_MOUNT_BOLTED
+			return TRUE
+
+	else if(state == BS_BARREL_PLACED)
+		if(tool.use_tool(src, user, 2 SECONDS, volume=100))
+			to_chat(user, "<span class='notice'>You secure the insulated barrel.</span>")
+			state = BS_BARREL_BOLTED
+			return TRUE
+
+	else if(state == BS_RAILS_PLACED)
+		if(tool.use_tool(src, user, 2 SECONDS, volume=100))
+			to_chat(user, "<span class='notice'>You bolt the conductive rails to the frame.</span>")
+			state = BS_RAILS_BOLTED
+			return TRUE
+
+	else if(state == BS_RAILS_BOLTED)
+		if(tool.use_tool(src, user, 2 SECONDS, volume=100))
+			to_chat(user, "<span class='notice'>You unbolt the rails from the frame.</span>")
+			state = BS_RAILS_PLACED
+			return TRUE
+
+	else if(state == BS_BARREL_BOLTED)
+		if(tool.use_tool(src, user, 2 SECONDS, volume=100))
+			to_chat(user, "<span class='notice'>You unbolt the nanocarbon insulation from the barrel.</span>")
+			state = BS_BARREL_PLACED
+			return TRUE
+
+	else if(state == BS_MOUNT_BOLTED)
+		if(tool.use_tool(src, user, 2 SECONDS, volume=100))
+			to_chat(user, "<span class='notice'>You unbolt the [src] from the floor.</span>")
+			state = BS_MOUNT_UNBOLTED
+			return TRUE
+
+/obj/structure/ship_weapon/railgun_assembly/welder_act(mob/living/user, obj/item/tool)
+	if(anchored && (state == BS_MOUNT_BOLTED))
+		if(tool.use_tool(src, user, 2 SECONDS, volume=100))
+			to_chat(user, "<span class='notice'>You weld the [src] to the floor.</span>")
+			state = BS_MOUNT_WELDED
+			return TRUE
+
+	else if(state == BS_WIRED)
+		if(tool.use_tool(src, user, 2 SECONDS, volume=100))
+			to_chat(user, "<span class='notice'>You solder the wiring into place.</span>")
+			state = BS_WIRES_SOLDERED
+			return TRUE
+
+	else if(state == BS_CASING_ADDED)
+		if(tool.use_tool(src, user, 2 SECONDS, volume=100))
+			to_chat(user, "<span class='notice'>You slice away the outer casing.</span>")
+			new/obj/item/stack/sheet/plasteel(loc, num_sheets_casing)
+			state = BS_ELECTRONICS_SECURE
+			return TRUE
+
+	else if(state == BS_WIRES_SOLDERED)
+		if(tool.use_tool(src, user, 2 SECONDS, volume=100))
+			to_chat(user, "<span class='notice'>You desolder the wires.</span>")
+			state = BS_WIRED
+			return TRUE
+
+	else if(state == BS_MOUNT_WELDED)
+		if(tool.use_tool(src, user, 2 SECONDS, volume=100))
+			to_chat(user, "<span class='notice'>You unweld the [src] from the floor.</span>")
+			state = BS_MOUNT_BOLTED
+			return TRUE
+
+	else if(state == BS_MOUNT_UNBOLTED)
+		if(tool.use_tool(src, user, 2 SECONDS, volume=100))
+			to_chat(user, "<span class='notice'>You cut apart the frame.</span>")
+			new/obj/item/stack/sheet/plasteel(loc, num_sheets_frame)
+			qdel(src)
+			return TRUE
+
+/obj/structure/ship_weapon/railgun_assembly/crowbar_act(mob/living/user, obj/item/tool)
+	if(state == BS_ELECTRONICS_LOOSE)
+		if(tool.use_tool(src, user, 2 SECONDS, volume=100))
+			var/obj/item/ship_weapon/parts/firing_electronics/F = (locate(/obj/item/ship_weapon/parts/firing_electronics) in src)
+			if(F)
+				F.forceMove(loc)
+			to_chat(user, "<span class='notice'>You pry the firing electronics loose.</span>")
+			state = BS_WIRES_SOLDERED
+			return TRUE
+
+	else if(state == BS_RAILS_PLACED)
+		if(tool.use_tool(src, user, 2 SECONDS, volume=100))
+			var/obj/item/ship_weapon/parts/railgun_rail/R = (locate(/obj/item/ship_weapon/parts/railgun_rail) in src)
+			while(R)
+				R.forceMove(loc)
+				R = (locate(/obj/item/ship_weapon/parts/railgun_rail) in src)
+				stoplag()
+			to_chat(user, "<span class='notice'>You pry the rails loose.</span>")
+			state = BS_BARREL_BOLTED
+			return TRUE
+
+	else if(state == BS_BARREL_PLACED)
+		if(tool.use_tool(src, user, 2 SECONDS, volume=100))
+			new/obj/item/stack/sheet/nanocarbon_glass(loc, num_sheets_insulation)
+			to_chat(user, "<span class='notice'>You pry the nanocargon glass free.</span>")
+			state = BS_MOUNT_WELDED
+			return TRUE
+
+/obj/structure/ship_weapon/railgun_assembly/wirecutter_act(mob/living/user, obj/item/tool)
+	. = ..()
+	if(state == BS_WIRED)
+		if(tool.use_tool(src, user, 2 SECONDS, volume=100))
+			new/obj/item/stack/cable_coil(loc, num_cables)
+			to_chat(user, "<span class='notice'>You cut the wires from the frame.</span>")
+			state = BS_CAPACITORS_SECURED
+			return TRUE
+
+/obj/structure/ship_weapon/railgun_assembly/screwdriver_act(mob/living/user, obj/item/tool)
+	. = ..()
+	if(state == BS_CAPACITORS_PLACED)
+		if(tool.use_tool(src, user, 2 SECONDS, volume=100))
+			to_chat(user, "<span class='notice'>You screw the capacitors into place.</span>")
+			state = BS_CAPACITORS_SECURED
+			return TRUE
+
+	else if(state == BS_ELECTRONICS_LOOSE)
+		if(tool.use_tool(src, user, 2 SECONDS, volume=100))
+			to_chat(user, "<span class='notice'>You secure the firing electronics.</span>")
+			state = BS_ELECTRONICS_SECURE
+			return TRUE
+
+	else if(state == BS_ELECTRONICS_SECURE)
+		if(tool.use_tool(src, user, 2 SECONDS, volume=100))
+			to_chat(user, "<span class='notice'>You unsecure the firing electronics.</span>")
+			state = BS_ELECTRONICS_LOOSE
+			return TRUE
+
+	else if(state == BS_CAPACITORS_SECURED)
+		if(tool.use_tool(src, user, 2 SECONDS, volume=100))
+			to_chat(user, "<span class='notice'>You unscrew the capacitors.</span>")
+			state = BS_CAPACITORS_PLACED
+			return TRUE
 
 #undef BS_MOUNT_UNBOLTED
 #undef BS_MOUNT_BOLTED

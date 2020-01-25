@@ -157,8 +157,10 @@ GLOBAL_LIST_INIT(plasteel_recipes, list ( \
 		new/datum/stack_recipe("vault door assembly", /obj/structure/door_assembly/door_assembly_vault, 6, time = 50, one_per_turf = 1, on_floor = 1), \
 	)), \
 	//NSV13 start
-	null, \
-	new/datum/stack_recipe("Railgun frame", /obj/structure/ship_weapon/railgun_assembly, 4, time = 50, one_per_turf = TRUE, on_floor = TRUE), \
+	new /datum/stack_recipe_list("ship weapon frames", list( \
+		new/datum/stack_recipe("railgun frame", /obj/structure/ship_weapon/railgun_assembly, 4, time = 50, one_per_turf = TRUE, on_floor = TRUE), \
+		new/datum/stack_recipe("torpedo tube frame", /obj/structure/ship_weapon/torpedo_launcher_assembly, 4, time = 50, one_per_turf = TRUE, on_floor = TRUE), \
+	)), \
 	//NSV13 end
 ))
 
