@@ -14,8 +14,6 @@
 #define BS_CASING_ADDED 14		// 2 sheets of plasteel
 // Final step - insert loading tray
 
-
-//////////// ASSEMBLY //////////////
 /obj/structure/ship_weapon/railgun_assembly
 	name = "NT-STC4 Ship railgun mount"
 	desc = "An incomplete assembly for an NT-STC4 ship mounted railgun chamber."
@@ -355,3 +353,18 @@
 			stoplag()
 		state = BS_RAILS_BOLTED
 		return
+
+#undef BS_MOUNT_UNBOLTED
+#undef BS_MOUNT_BOLTED
+#undef BS_MOUNT_WELDED
+#undef BS_BARREL_PLACED
+#undef BS_BARREL_BOLTED
+#undef BS_RAILS_PLACED
+#undef BS_RAILS_BOLTED
+#undef BS_CAPACITORS_PLACED
+#undef BS_CAPACITORS_SECURED
+#undef BS_WIRED
+#undef BS_WIRES_SOLDERED
+#undef BS_ELECTRONICS_LOOSE
+#undef BS_ELECTRONICS_SECURE
+#undef BS_CASING_ADDED

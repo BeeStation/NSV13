@@ -31,11 +31,6 @@
 	component_parts += new/obj/item/stock_parts/capacitor
 	component_parts += new/obj/item/stock_parts/capacitor
 
-/obj/machinery/ship_weapon/Destroy()
-	. = ..()
-	if(linked_computer)
-		linked_computer.SW = null
-
 /obj/machinery/ship_weapon/railgun/examine()
 	. = ..()
 	if(maint_state == MSTATE_PRIEDOUT)

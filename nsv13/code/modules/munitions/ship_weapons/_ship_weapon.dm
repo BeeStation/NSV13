@@ -98,6 +98,15 @@
 	icon_state_list = icon_states(icon)
 
 /**
+ * Destructor for /obj/machinery/ship_weapon
+ * Try to unlink from a munitions computer, so it can re-link to other things
+ */
+/obj/machinery/ship_weapon/Destroy()
+	. = ..()
+	if(linked_computer)
+		linked_computer.SW = null
+
+/**
  * Tries to link the ship to an overmap by finding the overmap linked it the area we are in.
  */
 /obj/machinery/ship_weapon/proc/get_ship()

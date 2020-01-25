@@ -1,7 +1,7 @@
 /**
  * Munitions computer circuitboard
  */
-/obj/item/circuitboard/computer/munitions
+/obj/item/circuitboard/computer/ship/munitions_computer
 	name = "circuit board (laser cannon control computer)"
 	build_path = /obj/machinery/computer/ship/munitions_computer
 

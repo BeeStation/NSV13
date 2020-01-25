@@ -15,6 +15,42 @@
 	fire_mode = 2
 	weapon_type = new/datum/ship_weapon/torpedo_launcher
 
+/obj/machinery/ship_weapon/torpedo_launcher/Initialize()
+	..()
+	component_parts = list()
+	component_parts += new/obj/item/ship_weapon/parts/firing_electronics
+
+/obj/machinery/ship_weapon/torpedo_launcher/examine()
+	. = ..()
+	if(maint_state == MSTATE_PRIEDOUT)
+		. += "The door panel could be <i>unscrewed</i>."
+
+/obj/machinery/ship_weapon/torpedo_launcher/screwdriver_act(mob/user, obj/item/tool)
+	if(maint_state == MSTATE_PRIEDOUT)
+		if(!do_after(user, 2 SECONDS, target=src))
+			return
+		to_chat(user, "<span class='notice'>You unscrew the door panel on the [src].</span>")
+		spawn_frame(TRUE)
+		return TRUE
+	. = ..()
+
+/obj/machinery/ship_weapon/torpedo_launcher/spawn_frame(disassembled)
+	var/obj/structure/ship_weapon/torpedo_launcher_assembly/M = new /obj/structure/ship_weapon/torpedo_launcher_assembly(loc)
+
+	for(var/obj/O in component_parts)
+		message_admins("Moving [O] to [M]")
+		O.forceMove(M)
+	component_parts = list()
+
+	. = M
+	M.setAnchored(anchored)
+	M.set_final_state()
+	if(!disassembled)
+		M.obj_integrity = M.max_integrity * 0.5 //the frame is already half broken
+	transfer_fingerprints_to(M)
+
+	qdel(src)
+
 /obj/machinery/ship_weapon/torpedo_launcher/animate_projectile(atom/target, lateral=TRUE)
 	// We have different sprites and behaviors for each torpedo
 	var/obj/item/ship_weapon/ammunition/torpedo/T = chambered
