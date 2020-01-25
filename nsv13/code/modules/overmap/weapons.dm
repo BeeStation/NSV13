@@ -14,7 +14,6 @@
 	name = "plasma torpedo"
 	damage = 60
 	impact_effect_type = /obj/effect/temp_visual/impact_effect/torpedo
-	var/detonation_timer = 20 SECONDS
 
 /obj/effect/temp_visual/impact_effect/torpedo
 	icon_state = "impact_torpedo"
@@ -59,10 +58,6 @@
 				qdel(src)
 				return FALSE
 
-/obj/item/projectile/bullet/torpedo/Initialize()
-	. = ..()
-	QDEL_IN(src, detonation_timer)
-
 /obj/item/projectile/bullet/torpedo/on_hit(atom/target, blocked = 0)
 	if(isovermap(target))
 		var/obj/structure/overmap/OM = target
@@ -81,22 +76,21 @@
 		last_target = null
 	var/found_target = FALSE //Have we found a torpedo to shoot down? If we can't find a torpedo to shoot, look for enemy ships in range.
 	if(torpedoes_to_target.len)  //Are there any torpedoes we need to worry about? Torpedoes enter this list as theyre shot (when they target us).
-		for(var/X in torpedoes_to_target) //Check through the torpedoes that our PDCs need to target
-			var/atom/target = X
+		for(var/atom/target in torpedoes_to_target) //Check through the torpedoes that our PDCs need to target
 			if(!target || QDELETED(target)) //Clear null bullets that may have runtimed
-				torpedoes_to_target -= X
+				torpedoes_to_target -= target
 				continue
 			var/target_range = get_dist(target,src)
 			if(target_range <= initial(weapon_range)) //The torpedo is in range, let's target it!
 				found_target = TRUE
 				if(prob(pdc_miss_chance)) //Gives them a chance to actually hit a torpedo, so it's not a perfect smokescreen.
-					var/turf/T = get_turf(pick(orange(6,target))) //Pick a random tile within 6 turfs, this isn't a flat out miss 100% of the time though
+					var/turf/T = get_turf(pick(orange(4,target))) //Pick a random tile within 6 turfs, this isn't a flat out miss 100% of the time though
 					fire_weapon(T, mode=FIRE_MODE_PDC, lateral=TRUE)
 				else
 					fire_weapon(target, mode=FIRE_MODE_PDC, lateral=TRUE)
 	if(!found_target) //Can't see a torpedo to shoot, try find an enemy ship to shoot
 		for(var/obj/structure/overmap/ship in GLOB.overmap_objects)
-			if(!istype(ship, /obj/structure/overmap))
+			if(!ship || !istype(ship, /obj/structure/overmap))
 				continue
 			if(ship == src || ship.faction == faction || ship.wrecked) //No friendly fire, don't blow up wrecks that the crew may wish to loot.
 				continue
@@ -161,14 +155,10 @@
 	// No other weapons available, go with whatever we had before
 	fire_mode = stop
 
-/obj/structure/overmap/tiny/swap_to(what)
-	if(what > FIRE_MODE_TORPEDO)
-		return FALSE
-	. = ..()
-/obj/structure/overmap/small/swap_to(what)
-	if(what > FIRE_MODE_TORPEDO)
-		return FALSE
-	. = ..()
+/obj/structure/overmap/proc/get_max_firemode()
+	if(mass < MASS_MEDIUM) //Small craft dont get a railgun
+		return FIRE_MODE_TORPEDO
+	return FIRE_MODE_RAILGUN
 
 /obj/structure/overmap/proc/swap_to(what=FIRE_MODE_PDC)
 	if(ai_controlled || (!linked_areas.len && !main_overmap)) //AI ships and fighters don't have interiors
@@ -216,7 +206,9 @@
 /obj/structure/overmap/proc/fire_torpedo(atom/target)
 	if(!linked_areas.len && !main_overmap) //AI ships and fighters don't have interiors
 		if(torpedoes <= 0)
-			return FALSE
+			if(ai_controlled)
+				addtimer(VARSET_CALLBACK(src, torpedoes, initial(src.torpedoes)), 60 SECONDS)
+			return
 		fire_projectile(/obj/item/projectile/bullet/torpedo, target, homing = TRUE, speed=1, explosive = TRUE)
 		torpedoes --
 		return TRUE
