@@ -7,6 +7,8 @@
 	density = FALSE
 	pixel_y = 26
 
+	var/buildstage
+
 	fire_mode = FIRE_MODE_PDC
 	weapon_type = new/datum/ship_weapon/pdc_mount
 	magazine_type = /obj/item/ammo_box/magazine/pdc

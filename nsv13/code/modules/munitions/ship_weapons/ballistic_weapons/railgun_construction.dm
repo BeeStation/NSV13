@@ -5,7 +5,7 @@
 #define BS_BARREL_BOLTED 5
 #define BS_RAILS_PLACED 6		// 2 rails
 #define BS_RAILS_BOLTED 7
-#define BS_CAPACITORS_PLACED 8	// 2 capacitors
+#define BS_CAPACITORS_PLACED 8	// 2 _added
 #define BS_CAPACITORS_SECURED 9
 #define BS_WIRED 10				// 4 pieces of wire
 #define BS_WIRES_SOLDERED 11
@@ -26,8 +26,8 @@
 	density = TRUE
 
 	var/state = BS_MOUNT_UNBOLTED
-	var/capacitors = 0
-	var/rails = 0
+	var/capacitors_added = 0
+	var/rails_added = 0
 
 	// Material costs so we can rebalance them easily
 	var/num_rails = 2
@@ -54,21 +54,21 @@
 		if(BS_BARREL_PLACED)
 			. += "The <i>bolts</i> on the nanocarbon insulation are loose. It could be <b>pried out</b>."
 		if(BS_BARREL_BOLTED)
-			var/rails_left = num_rails - rails
+			var/rails_left = num_rails - rails_added
 			. += "The nanocarbon insulation is <b>bolted</b> to the barrel and there is room for <i>[rails_left] rail[(rails_left != 1) ? "s" : ""]</i>."
 		if(BS_RAILS_PLACED)
 			. += "The condductive rails are loose in the frame. They could be <b>pried out</b> or <i>bolted</i> down."
 		if(BS_RAILS_BOLTED)
-			var/capacitors_left = num_capacitors - capacitors
+			var/capacitors_left = num_capacitors - capacitors_added
 			. += "The rails are <b>bolted</b> in place. There is space for <i>[capacitors_left] capacitor[(capacitors_left != 1) ? "s" : ""]</i>."
 		if(BS_CAPACITORS_PLACED)
-			. += "The capacitors are in place. The <i>screws</i> are loose, and they could be <b>removed</b> by hand."
+			. += "The _added are in place. The <i>screws</i> are loose, and they could be <b>removed</b> by hand."
 		if(BS_CAPACITORS_SECURED)
-			. += "The capacitors are <b>screwed</b> in place, but lack <i>wiring</i>."
+			. += "The _added are <b>screwed</b> in place, but lack <i>wiring</i>."
 		if(BS_WIRED)
-			. += "The capacitors are <b>wired</b> to the rails and can be <i>soldered<i/> in place."
+			. += "The _added are <b>wired</b> to the rails and can be <i>soldered<i/> in place."
 		if(BS_WIRES_SOLDERED)
-			. += "The capacitors are <b>soldered</b> to the rails, and the <i>firing electronics</i> are missing."
+			. += "The _added are <b>soldered</b> to the rails, and the <i>firing electronics</i> are missing."
 		if(BS_ELECTRONICS_LOOSE)
 			. += "The firing electronics sit loose in the frame. They could be <b>pried out</b> or <i>screwed</i> into place."
 		if(BS_ELECTRONICS_SECURE)
@@ -102,17 +102,17 @@
 			if(!do_after(user, 2 SECONDS, target=src))
 				return
 			W.forceMove(src)
-			rails++
+			rails_added++
 			to_chat(user, "<span class='notice'>You add the [W] to the [src].</span>")
-			if(rails >= num_rails)
+			if(rails_added >= num_rails)
 				state = BS_RAILS_PLACED
 			return TRUE
 
 	else if((istype(W, /obj/item/stock_parts/capacitor)) && (state == BS_RAILS_BOLTED))
 		W.forceMove(src)
-		capacitors++
+		capacitors_added++
 		to_chat(user, "<span class='notice'>You add the [W] to the [src].</span>")
-		if(capacitors >= num_capacitors)
+		if(capacitors_added >= num_capacitors)
 			state = BS_CAPACITORS_PLACED
 		return TRUE
 
@@ -186,7 +186,7 @@
 	if(state == BS_CAPACITORS_PLACED)
 		if(!do_after(user, 2 SECONDS, target=src))
 			return
-		to_chat(user, "<span class='notice'>You remove the capacitors.</span>")
+		to_chat(user, "<span class='notice'>You remove the _added.</span>")
 		var/obj/item/stock_parts/capacitor/C = (locate(/obj/item/stock_parts/capacitor) in src)
 		while(C)
 			C.forceMove(loc)
@@ -320,7 +320,7 @@
 	switch(state)
 		if(BS_CAPACITORS_PLACED)
 			if(tool.use_tool(src, user, 2 SECONDS, volume=100))
-				to_chat(user, "<span class='notice'>You screw the capacitors into place.</span>")
+				to_chat(user, "<span class='notice'>You screw the _added into place.</span>")
 				state = BS_CAPACITORS_SECURED
 				return TRUE
 
@@ -338,7 +338,7 @@
 
 		if(BS_CAPACITORS_SECURED)
 			if(tool.use_tool(src, user, 2 SECONDS, volume=100))
-				to_chat(user, "<span class='notice'>You unscrew the capacitors.</span>")
+				to_chat(user, "<span class='notice'>You unscrew the _added.</span>")
 				state = BS_CAPACITORS_PLACED
 				return TRUE
 

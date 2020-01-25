@@ -163,7 +163,7 @@
 /obj/structure/ship_weapon/torpedo_launcher_assembly/wrench_act(mob/user, obj/item/tool)
 	. = ..()
 	switch(state)
-		if(BS_MOUNT_UNBOLTED))
+		if(BS_MOUNT_UNBOLTED)
 			if(!anchored && tool.use_tool(src, user, 2 SECONDS, volume=100))
 				to_chat(user, "<span class='notice'>You bolt the [src] to the floor.</span>")
 				anchored = TRUE
