@@ -27,11 +27,10 @@
 
 /obj/machinery/ship_weapon/torpedo_launcher/screwdriver_act(mob/user, obj/item/tool)
 	if(maint_state == MSTATE_PRIEDOUT)
-		if(!do_after(user, 2 SECONDS, target=src))
-			return
-		to_chat(user, "<span class='notice'>You unscrew the door panel on the [src].</span>")
-		spawn_frame(TRUE)
-		return TRUE
+		if(tool.use_tool(src, user, 40, volume=100))
+			to_chat(user, "<span class='notice'>You unscrew the door panel on the [src].</span>")
+			spawn_frame(TRUE)
+			return TRUE
 	. = ..()
 
 /obj/machinery/ship_weapon/torpedo_launcher/spawn_frame(disassembled)
