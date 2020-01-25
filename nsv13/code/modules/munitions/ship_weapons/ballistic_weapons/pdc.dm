@@ -33,6 +33,14 @@
 	chamber_delay_rapid = 0
 	chamber_delay = 0
 
+/obj/machinery/ship_weapon/pdc_mount/Initialize()
+	. = ..()
+
+	pixel_x = (dir & 3)? 0 : (dir == 4 ? -24 : 24)
+	pixel_y = (dir & 3)? (dir == 1 ? -24 : 24) : 0
+
+	update_icon()
+
 // Update the icon to reflect how far our magazine is depleted
 /obj/machinery/ship_weapon/pdc_mount/update_icon()
 	if(!magazine)

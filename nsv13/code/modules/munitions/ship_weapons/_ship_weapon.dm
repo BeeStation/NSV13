@@ -258,8 +258,9 @@
 		sleep(unload_delay)
 
 		if(ammo[1])
-			ammo[1].forceMove(get_turf(src))
-			ammo -= ammo[1]
+			var/obj/A = ammo[1]
+			A.forceMove(get_turf(src))
+			ammo -= A
 		state = STATE_NOTLOADED
 		icon_state = initial(icon_state)
 
