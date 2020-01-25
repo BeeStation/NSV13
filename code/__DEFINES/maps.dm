@@ -37,7 +37,7 @@ require only minor tweaks.
 #define ZTRAIT_AWAY "Away Mission"
 #define ZTRAIT_SPACE_RUINS "Space Ruins"
 #define ZTRAIT_LAVA_RUINS "Lava Ruins"
-#define ZTRAITS_OVERMAP "Overmap" //NSV13
+#define ZTRAIT_OVERMAP "Overmap" //NSV13
 #define ZTRAIT_ASTRAEUS "Astraeus System" //NSV13 - System defines for moving ships around
 #define ZTRAIT_CORVI "Corvi System"//NSV13 - System defines for moving ships around
 #define ZTRAIT_HYPERSPACE "Hyperspace" //NSV13 - System defines for moving ships around
