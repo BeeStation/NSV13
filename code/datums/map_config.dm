@@ -149,12 +149,12 @@
 	if (islist(over_traits))
 		// "overmap" is set by default, but it's assumed if you're setting
 		// traits you want to customize which level is cross-linked
-		for (var/level in traits)
+		for (var/level in over_traits)
 			if (!(ZTRAITS_OVERMAP in level))
-				level[ZTRAITS_OVERMAP] = TRUE
+				level += ZTRAITS_OVERMAP
 	// "traits": null or absent -> default
 	else if (!isnull(traits))
-		log_world("map_config traits is not a list!")
+		log_world("map_config over_traits is not a list!")
 		return
 
 	if("map_link" in json)						// NSV Changes begin
