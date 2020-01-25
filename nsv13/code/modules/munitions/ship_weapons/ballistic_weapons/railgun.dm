@@ -19,11 +19,11 @@
 	semi_auto = TRUE
 	max_ammo = 3 //Until you have to manually load it back up again. Battleships IRL have 3-4 shots before you need to reload the rack
 
-/obj/machinery/ship_weapon/Initialize()
+/obj/machinery/ship_weapon/railgun/Initialize()
 	..()
 	component_parts = list()
 	component_parts += new/obj/item/ship_weapon/parts/loading_tray
-	component_parts += new/obj/item/ship_weapon/parts/firing_mechanism
+	component_parts += new/obj/item/ship_weapon/parts/firing_electronics
 	component_parts += new/obj/item/ship_weapon/parts/railgun_rail
 	component_parts += new/obj/item/ship_weapon/parts/railgun_rail
 	component_parts += new/obj/item/stock_parts/capacitor
@@ -31,16 +31,21 @@
 	component_parts += new/obj/item/stock_parts/capacitor
 	component_parts += new/obj/item/stock_parts/capacitor
 
-/obj/machinery/ship_weapon/examine()
+/obj/machinery/ship_weapon/Destroy()
+	. = ..()
+	if(linked_computer)
+		linked_computer.SW = null
+
+/obj/machinery/ship_weapon/railgun/examine()
 	. = ..()
 	if(maint_state == MSTATE_PRIEDOUT)
 		. += "The loading tray could be removed by hand."
 
-/obj/machinery/ship_weapon/attack_robot(mob/user)
+/obj/machinery/ship_weapon/railgun/attack_robot(mob/user)
 	. = ..()
 	attack_hand(user)
 
-/obj/machinery/ship_weapon/attack_hand(mob/user)
+/obj/machinery/ship_weapon/railgun/attack_hand(mob/user)
 	. = ..()
 	if(!do_after(user, 2 SECONDS, target=src))
 		return

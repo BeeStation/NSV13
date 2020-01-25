@@ -18,6 +18,12 @@
 	var/atom/adjacent = locate(/obj/machinery/ship_weapon) in get_turf(get_step(src, dir)) //Look at what dir we're facing, find a gun in that turf
 	if(adjacent && istype(adjacent, /obj/machinery/ship_weapon))
 		SW = adjacent
+		SW.linked_computer = src
+
+/obj/machinery/computer/ship/munitions_computer/Destroy()
+	. = ..()
+	if(SW)
+		SW.linked_computer = null
 
 /obj/machinery/computer/ship/munitions_computer/attack_ai(mob/user)
 	. = ..()
@@ -30,7 +36,10 @@
 /obj/machinery/computer/ship/munitions_computer/attack_hand(mob/user)
 	. = ..()
 	if(!SW)
-		return
+		var/atom/adjacent = locate(/obj/machinery/ship_weapon) in get_turf(get_step(src, dir)) //Look at what dir we're facing, find a gun in that turf
+		if(adjacent && istype(adjacent, /obj/machinery/ship_weapon))
+			SW = adjacent
+			SW.linked_computer = src
 	if(!SW.linked)
 		SW.get_ship()
 	var/dat

@@ -250,7 +250,7 @@
 		state = BS_WIRED
 		return
 
-	else if((istype(W, /obj/item/ship_weapon/parts/firing_mechanism)) && (state = BS_WIRES_SOLDERED))
+	else if((istype(W, /obj/item/ship_weapon/parts/firing_electronics)) && (state = BS_WIRES_SOLDERED))
 		if(!do_after(user, 2 SECONDS, target=src))
 			return
 		W.forceMove(src)
@@ -298,6 +298,9 @@
 		if(state == BS_ELECTRONICS_LOOSE)
 			if(!do_after(user, 2 SECONDS, target=src))
 				return
+			var/obj/item/ship_weapon/parts/firing_electronics/F = (locate(/obj/item/ship_weapon/parts/firing_electronics) in src)
+			if(F)
+				F.forceMove(loc)
 			to_chat(user, "<span class='notice'>You pry the firing electronics loose.</span>")
 			state = BS_WIRES_SOLDERED
 			return

@@ -31,6 +31,7 @@
 	layer = BELOW_OBJ_LAYER
 
 	var/obj/structure/overmap/linked = null
+	var/obj/machinery/computer/ship/munitions_computer/linked_computer
 	var/obj/weapon_overlay/overlay = null
 	var/list/icon_state_list
 
