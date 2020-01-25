@@ -42,7 +42,6 @@
  * Returns TRUE if handled, FALSE otherwise.
  */
 /obj/machinery/ship_weapon/screwdriver_act(mob/user, obj/item/tool)
-	. = FALSE
 	if(state >= STATE_CHAMBERED && maint_state == MSTATE_CLOSED)
 		to_chat(user, "<span class='warning'>You cannot open the maintence panel while [src] has a round chambered!</span>")
 		return TRUE
@@ -61,6 +60,7 @@
 			maint_state = MSTATE_CLOSED
 			update_overlay()
 			return TRUE
+	. = ..()
 
 /**
  * Unbolts or re-secures the inner casing bolts.
@@ -69,7 +69,6 @@
  * Returns TRUE if handled, FALSE otherwise.
  */
 /obj/machinery/ship_weapon/wrench_act(mob/user, obj/item/tool)
-	. = FALSE
 	if(maint_state == MSTATE_UNSCREWED)
 		to_chat(user, "<span class='notice'>You begin unfastening the inner casing bolts on [src]...</span>")
 		if(tool.use_tool(src, user, 40, volume=100))
@@ -92,7 +91,6 @@
  * Returns TRUE if handled, FALSE otherwise.
  */
 /obj/machinery/ship_weapon/crowbar_act(mob/user, obj/item/tool)
-	. = FALSE
 	if(maint_state == MSTATE_UNBOLTED)
 		to_chat(user, "<span class='notice'>You begin prying the inner casing off [src]...</span>")
 		if(tool.use_tool(src, user, 40, volume=100))
@@ -111,7 +109,7 @@
 			maint_state = MSTATE_UNBOLTED
 			update_overlay()
 			return TRUE
-	..()
+	. = ..()
 
 /**
  * Tries to use item I to lubricate the machinery.
