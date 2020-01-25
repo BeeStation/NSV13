@@ -6,17 +6,6 @@
 	build_path = /obj/machinery/computer/ship/munitions_computer
 
 /**
- * Railgun circuitboard
- */
-/obj/item/circuitboard/machine/railgun
-	name = "Railgun (Machine Board)"
-	build_path = /obj/machinery/ship_weapon/railgun
-	req_components = list(
-		/obj/item/stock_parts/capacitor/quadratic = 2,
-		/obj/item/stack/cable_coil = 5,
-		/obj/item/stack/sheet/mineral/copper = 2)
-
-/**
  * Torpedo circuitboard
  */
 /obj/item/circuitboard/machine/torpedo_launcher

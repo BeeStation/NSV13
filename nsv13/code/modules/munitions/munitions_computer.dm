@@ -11,6 +11,7 @@
 	density = TRUE
 	anchored = TRUE
 	req_access = list(ACCESS_MUNITIONS)
+	circuit = /obj/item/circuitboard/computer/ship/munitions_computer
 	var/obj/machinery/ship_weapon/SW //The one we're firing
 
 /obj/machinery/computer/ship/munitions_computer/Initialize()
