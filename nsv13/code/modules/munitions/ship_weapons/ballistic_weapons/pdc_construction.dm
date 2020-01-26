@@ -13,6 +13,13 @@
 	pixel_y = 26
 	density = FALSE
 
+/obj/structure/frame/machine/ship_weapon/pdc_mount/examine(mob/user)
+	. = ..()
+	if(!anchored)
+		. += "It is <i>not welded</i> to the wall and could be removed with a <b>wrench</b>."
+	else if(state == 1)
+		. += "It is <b>welded</b> to the wall."
+
 /obj/structure/frame/machine/ship_weapon/pdc_mount/New(loc, ndir, nbuild)
 	. = ..()
 	if(ndir)
@@ -38,14 +45,18 @@
 	. = ..()
 	icon_state = initial(icon_state)
 
-/obj/structure/frame/machine/ship_weapon/pdc_mount/wrench_act(mob/user, obj/item/tool)
-	if(state != 1)
-		if(circuit)
-			to_chat(user, "<span class='warning'>Remove the circuitboard first!</span>")
+/obj/structure/frame/machine/ship_weapon/pdc_mount/welder_act(mob/user, obj/item/tool)
+	if(tool.use_tool(src, user, 2 SECONDS, amount=2, volume=100))
+		if(!anchored)
+			to_chat(user, "<span class='notice'>You weld the frame to the wall.</span>")
+			anchored = TRUE
 		else
-			to_chat(user, "<span class='warning'>Remove the wires first!</span>")
-		return TRUE
-	else
+			to_chat(user, "<span class='notice'>You unweld the frame from the wall.</span>")
+			anchored = FALSE
+	return TRUE
+
+/obj/structure/frame/machine/ship_weapon/pdc_mount/wrench_act(mob/user, obj/item/tool)
+	if(!anchored && (state == 1))
 		to_chat(user, "<span class='notice'>You unsecure the frame from the wall.</span>")
 		new /obj/item/wallframe/pdc_frame(loc)
 		qdel(src)
