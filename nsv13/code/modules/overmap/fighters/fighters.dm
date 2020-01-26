@@ -497,7 +497,8 @@ After going through this checklist, you're ready to go!
 	return return_air()
 
 /obj/structure/overmap/fighter/assume_air(datum/gas_mixture/giver)
-	return return_air().merge(giver)
+	var/datum/gas_mixture/t_air = return_air()
+	return t_air.merge(giver)
 
 /obj/structure/overmap/fighter/Initialize()
 	.=..()
