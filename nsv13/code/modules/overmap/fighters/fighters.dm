@@ -1032,7 +1032,7 @@ After going through this checklist, you're ready to go!
 		what.start_piloting(M, "observer") //So theyre unable to fly the pod
 		what.mobs_in_ship += M
 
-/**
+/** CHEATSHEET
 
 Fighter bootup sequence components.
 
@@ -1046,13 +1046,6 @@ Throttle up VERY gently with brakes on so that engine takes over but you're stil
 Disengage APU to let engines take over powergen
 Flight ready.
 
-#define NO_IGNITION 1
-#define NO_FUEL_PUMP 2
-#define NO_BATTERY 3
-#define NO_APU 4
-#define THROTTLE_LOCK 5
-#define FLIGHT_READY 6
-
 Shutdown sequence:
 Throttle off + brakes on
 Throttle lock on
@@ -1061,7 +1054,7 @@ Disengage fuel pump (or engine gets flooded)
 Turn off ignition
 
 If you run out of fuel:
-Activate the brakes and begin a shutdown of your fighter. Once you have received more fuel, begin startup sequence as expected.
+Activate the brakes and begin a shutdown of your fighter. Once you have received more fuel, begin startup sequence as expected. If you run out of fuel, you will be stuck adrift. It is highly recommended that you RTB when you hit 100 fuel as you'll have 30 seconds or so more burn time before you fizzle out.
 
 How to make fuel:
 1 part hydrogen : 1 part carbon to make hydrocarbon. Mix hydrocarbon and welding fuel to produce tyrosene
