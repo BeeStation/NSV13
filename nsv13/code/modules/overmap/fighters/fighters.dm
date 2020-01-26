@@ -439,9 +439,6 @@ After going through this checklist, you're ready to go!
 				if(pilot)
 					to_chat(pilot,"<span class='warning'>[src]'s passenger cabin is full, you'd need [max_passengers+1-OM.mobs_in_ship.len] more seats to retrieve everyone!</span>")
 
-/obj/structure/overmap/return_air()
-	return cabin_air
-
 /obj/structure/overmap/slowprocess()
 	. = ..()
 	if(cabin_air && cabin_air.volume > 0)
