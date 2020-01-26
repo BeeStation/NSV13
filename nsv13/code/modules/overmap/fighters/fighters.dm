@@ -6,8 +6,9 @@
 #define NO_FUEL_PUMP 2
 #define NO_BATTERY 3
 #define NO_APU 4
-#define THROTTLE_LOCK 5
+#define APU_SPUN 5
 #define FLIGHT_READY 6
+#define NO_FUEL 7
 
 //Fighter
 
@@ -48,8 +49,8 @@ After going through this checklist, you're ready to go!
 	pixel_z = -28
 	var/maint_state = MS_CLOSED
 	var/prebuilt = FALSE
-	var/a_eff = 0
-	var/f_eff = 0
+	var/weapon_efficiency = 0
+	var/fuel_consumption = 0
 	var/max_torpedoes = 2 //Tiny payload.
 	var/mag_lock = FALSE //Mag locked by a launch pad. Cheaper to use than locate()
 	var/max_passengers = 0 //Maximum capacity for passengers, INCLUDING pilot (EG: 1 pilot, 4 passengers).
@@ -63,6 +64,7 @@ After going through this checklist, you're ready to go!
 	var/flight_state = NO_IGNITION
 	var/warmup_cooldown = FALSE //So you cant blitz the fighter ignition in 2 seconds
 	var/ejecting = FALSE
+	var/throttle_lock = FALSE
 
 /obj/machinery/computer/ship/fighter_launcher
 	name = "Mag-cat control console"
@@ -150,13 +152,6 @@ After going through this checklist, you're ready to go!
 	addtimer(CALLBACK(src, .proc/linkup), 15 SECONDS)//Just in case we're not done initializing
 
 /obj/structure/overmap/fighter/can_brake()
-	if(mag_lock)
-		if(pilot)
-			to_chat(pilot, "<span class='warning'>WARNING: Ship is magnetically arrested by an arrestor. Awaiting decoupling by fighter technicians.</span>")
-		return FALSE
-	return TRUE
-
-/obj/structure/overmap/fighter/can_move()
 	if(mag_lock)
 		if(pilot)
 			to_chat(pilot, "<span class='warning'>WARNING: Ship is magnetically arrested by an arrestor. Awaiting decoupling by fighter technicians.</span>")
@@ -479,6 +474,7 @@ After going through this checklist, you're ready to go!
 
 /obj/structure/overmap/fighter/slowprocess()
 	. = ..()
+	use_fuel()
 	if(canopy_breached || (canopy_open && pilot)) //Leak.
 		var/datum/gas_mixture/removed = cabin_air.remove(5)
 		qdel(removed)
@@ -556,14 +552,17 @@ After going through this checklist, you're ready to go!
 		sens = sens / senc
 		sene = sene / senc
 	if(sfl?.fuel_efficiency > 0)
-		f_eff = sene + sfl?.fuel_efficiency / 2
-	a_eff = sts?.weapon_efficiency
+		fuel_consumption = sene + sfl?.fuel_efficiency / 2
+	weapon_efficiency = sts?.weapon_efficiency
 	max_integrity = initial(max_integrity) * sap?.armour
 
 /obj/structure/overmap/fighter/proc/fuel_setup()
-	qdel(reagents)
 	var/obj/item/twohanded/required/fighter_component/fuel_tank/sft = get_part(/obj/item/twohanded/required/fighter_component/fuel_tank)
-	create_reagents(sft?.capacity)
+	sft.fuel_setup()
+
+/obj/item/twohanded/required/fighter_component/fuel_tank/proc/fuel_setup()
+	create_reagents(capacity, DRAINABLE | AMOUNT_VISIBLE)
+	reagents.add_reagent(/datum/reagent/aviation_fuel, capacity)
 
 //obj/structure/overmap/fighter/slowprocess()
 //	if(reagents?.total_volume/reagents.maximum_volume*(100) < 10 && piloted) //too much spam currently - fix me
@@ -757,13 +756,6 @@ After going through this checklist, you're ready to go!
 				to_chat(user, "<span class='notice'>You install [W] in [src].</span>")
 				W.forceMove(src)
 				update_stats()
-		else if(istype(W, /obj/item/reagent_containers))
-			var/obj/item/reagent_containers/R = W
-			if(reagents.total_volume >= reagents.maximum_volume)
-				to_chat(user, "<span class='notice'>[src]'s fuel tank is full!</span>")
-				return
-			R.reagents.trans_to(src, R.amount_per_transfer_from_this, transfered_by = user)
-			to_chat(user, "<span class='notice'>You refuel [src] with [W].</span>")
 
 /obj/structure/overmap/fighter/attack_hand(mob/user)
 	.=..()
@@ -793,8 +785,8 @@ After going through this checklist, you're ready to go!
 				if(user?.client?.prefs.toggles & SOUND_AMBIENCE) //Disable ambient sounds to shut up the noises.
 					dradis?.soundloop?.start()
 				mobs_in_ship += user
-				if(user?.client?.prefs.toggles & SOUND_AMBIENCE) //Disable ambient sounds to shut up the noises.
-					SEND_SOUND(user, sound('nsv13/sound/effects/ship/cockpit.ogg', repeat = TRUE, wait = 0, volume = 50, channel=CHANNEL_SHIP_ALERT))
+				if(user?.client?.prefs.toggles & SOUND_AMBIENCE && flight_state >= FLIGHT_READY) //Disable ambient sounds to shut up the noises.
+					SEND_SOUND(user, sound('nsv13/sound/effects/fighters/cockpit.ogg', repeat = TRUE, wait = 0, volume = 50, channel=CHANNEL_SHIP_ALERT))
 				return TRUE
 		else
 			if(mobs_in_ship.len < max_passengers)
@@ -805,7 +797,8 @@ After going through this checklist, you're ready to go!
 				user.forceMove(src)
 				start_piloting(user, "observer")
 				mobs_in_ship += user
-				SEND_SOUND(user, sound('nsv13/sound/effects/ship/cockpit.ogg', repeat = TRUE, wait = 0, volume = 100, channel=CHANNEL_SHIP_ALERT))
+				if(user?.client?.prefs.toggles & SOUND_AMBIENCE && flight_state >= FLIGHT_READY) //Disable ambient sounds to shut up the noises.
+					SEND_SOUND(user, sound('nsv13/sound/effects/fighters/cockpit.ogg', repeat = TRUE, wait = 0, volume = 100, channel=CHANNEL_SHIP_ALERT))
 				return TRUE
 
 /obj/structure/overmap/fighter/stop_piloting(mob/living/M, force=FALSE)
@@ -849,7 +842,6 @@ After going through this checklist, you're ready to go!
 	dat += "<h2> Overview: </h2><br>"
 //HP, fuel etc go here
 	dat += "<p>Structural Integrity: [obj_integrity/max_integrity*(100)]%</p><br>"
-	dat += "<p>Fuel Capacity: [reagents?.total_volume/reagents.maximum_volume*(100)]%</p><br>"
 	dat += "<h2> Payload: </h2><br>"
 //Guns, ammo and torpedos
 	var/atom/movable/pw = get_part(/obj/item/twohanded/required/fighter_component/primary_cannon)
@@ -1068,6 +1060,12 @@ Disengage battery
 Disengage fuel pump (or engine gets flooded)
 Turn off ignition
 
+If you run out of fuel:
+Activate the brakes and begin a shutdown of your fighter. Once you have received more fuel, begin startup sequence as expected.
+
+How to make fuel:
+1 part hydrogen : 1 part carbon to make hydrocarbon. Mix hydrocarbon and welding fuel to produce tyrosene
+
 */
 
 /obj/structure/overmap/fighter/proc/toggle_canopy()
@@ -1092,21 +1090,33 @@ Turn off ignition
 		ui.open()
 
 /obj/structure/overmap/fighter/can_move()
-	if(flight_state != FLIGHT_READY)
+	var/obj/item/twohanded/required/fighter_component/engine/engine = get_part(/obj/item/twohanded/required/fighter_component/engine)
+	if(!engine)
+		if(pilot)
+			to_chat(pilot, "<span class='warning'>WARNING: This fighter doesn't have any engines!</span>")
+		return FALSE
+	if(flight_state == NO_FUEL)
+		return FALSE
+	if(mag_lock)
+		if(pilot)
+			to_chat(pilot, "<span class='warning'>WARNING: Ship is magnetically arrested by an arrestor. Awaiting decoupling by fighter technicians.</span>")
+		return FALSE
+	if(flight_state != FLIGHT_READY || throttle_lock)
 		return FALSE
 	return TRUE
 
 /obj/structure/overmap/fighter/proc/check_start() //See if we can kick off the engine off of the APU.
-	if(user_thrust_dir) //This will never ever work currently.
-		playsound(src, 'nsv13/sound/effects/ship/plasma.ogg', 100, TRUE)
+	if(user_thrust_dir)
+		playsound(src, 'nsv13/sound/effects/fighters/startup.ogg', 100, FALSE)
 		visible_message("<span class='warning'>[src]'s engine bursts into life!</span>")
 		flight_state = FLIGHT_READY
 		add_overlay("engine_start")
+		relay('nsv13/sound/effects/fighters/cockpit.ogg', "<span class='warning'>You hear a loud noise as [src]'s engine kicks in.</span>", loop=TRUE, channel = CHANNEL_SHIP_ALERT)
 		return TRUE
 	relay('nsv13/sound/effects/fighters/master_caution.ogg', "<span class='warning'>WARNING: Engine ignition failure.</span>")
 	playsound(src, 'nsv13/sound/effects/ship/rcs.ogg', 100, TRUE)
 	visible_message("<span class='warning'>[src]'s engine fizzles out!</span>")
-	flight_state = NO_APU
+	flight_state = NO_IGNITION
 	return FALSE
 
 /obj/structure/overmap/fighter/ui_act(action, params, datum/tgui/ui)
@@ -1129,43 +1139,44 @@ Turn off ignition
 			if(flight_state >= NO_BATTERY)
 				to_chat(usr, "You can't flip this switch without first deactivating the battery.</span>")
 				return
-			to_chat(usr, "You flip the battery switch.</span>")
+			to_chat(usr, "You flip the master fuel pump switch.</span>")
 			flight_state = NO_BATTERY
 			playsound(src, 'nsv13/sound/effects/fighters/warmup.ogg', 100, FALSE)
 		if("battery")
 			if(flight_state >= NO_APU)
 				to_chat(usr, "You can't flip this switch without first disengaging the APU.</span>")
 				return
-			to_chat(usr, "You flip the master fuel pump switch.</span>")
+			to_chat(usr, "You flip the battery switch.</span>")
 			flight_state = NO_APU
 		if("apu")
-			if(flight_state >= THROTTLE_LOCK)
-				to_chat(usr, "You can't flip this switch without first engaging the throttle lock.</span>")
+			if(!throttle_lock || flight_state >= APU_SPUN)
+				to_chat(usr, "You can't flip this switch without first engaging the throttle lock or when in flight.</span>")
+				return
+			if(flight_state < NO_APU)
+				to_chat(usr, "You can't flip this switch without first engaging the battery.</span>")
 				return
 			to_chat(usr, "You flip the APU switch.</span>")
-			flight_state = NO_APU
+			flight_state = APU_SPUN
 			playsound(src, 'nsv13/sound/effects/fighters/apu_start.ogg', 100, FALSE)
 			addtimer(VARSET_CALLBACK(src, warmup_cooldown, FALSE), 15 SECONDS)
+			addtimer(CALLBACK(src, .proc/check_start), 16 SECONDS) //Throttle up now....
 			return
 		if("throttle_lock")
-			if(flight_state > NO_APU)
-				to_chat(usr, "You can't flip this switch without first engaging the throttle lock.</span>")
-				return
 			to_chat(usr, "You flip the throttle lock switch.</span>")
-			flight_state = THROTTLE_LOCK
-			if(flight_state != FLIGHT_READY) //if theyre trying to cold start, they need to apply a bit of gas before they can go anywhere.
-				addtimer(CALLBACK(src, .proc/check_start), 15 SECONDS) //Throttle up....
+			throttle_lock = !throttle_lock
 		if("shutdown")
-			if(flight_state != THROTTLE_LOCK)
+			if(!throttle_lock)
 				to_chat(usr, "You cannot shut down [src]'s engines without first engaging the throttle lock.</span>")
 				return
 			to_chat(usr, "You start flipping switches and perfoming a controlled shutdown...</span>")
 			relay('nsv13/sound/effects/fighters/powerswitch.ogg')
 			if(do_after(usr, 5 SECONDS, target=src))
-				flight_state = NO_FUEL_PUMP
+				flight_state = NO_IGNITION
+				playsound(src, 'nsv13/sound/effects/ship/rcs.ogg', 100, TRUE)
+				visible_message("<span class='warning'>[src]'s engine fizzles out!</span>")
+				stop_relay(CHANNEL_SHIP_ALERT)
 		if("canopy_lock")
 			toggle_canopy()
-
 		if("eject")
 			if(!ejecting)
 				to_chat(usr, "<span class='notice'>WARNING AUTO-EJECT SEQUENCE COMMENCING IN T-5 SECONDS. USE THIS SWITCH AGAIN TO CANCEL THIS ACTION.</span>")
@@ -1173,10 +1184,12 @@ Turn off ignition
 				relay('nsv13/sound/effects/ship/general_quarters.ogg')
 				addtimer(CALLBACK(src, .proc/eject), 5 SECONDS)
 				ejecting = TRUE
+				return
 			else
 				to_chat(usr, "<span class='notice'>WARNING AUTO-EJECT SEQUENCE CANCELLED.</span>")
 				relay('nsv13/sound/effects/fighters/switch.ogg')
 				ejecting = FALSE
+				return
 
 		if("docking_mode")
 			to_chat(usr, "<span class='notice'>You [docking_mode ? "disengage" : "engage"] [src]'s docking computer.</span>")
@@ -1192,14 +1205,51 @@ Turn off ignition
 			relay('nsv13/sound/effects/fighters/switch.ogg')
 			return //Dodge the cooldown because these actions should be instant
 	warmup_cooldown = TRUE
-	addtimer(VARSET_CALLBACK(src, warmup_cooldown, FALSE), 5 SECONDS)
+	addtimer(VARSET_CALLBACK(src, warmup_cooldown, FALSE), 3 SECONDS)
 	relay('nsv13/sound/effects/fighters/switch.ogg')
 
 /obj/structure/overmap/fighter/proc/get_fuel()
 	var/obj/item/twohanded/required/fighter_component/fuel_tank/sft = get_part(/obj/item/twohanded/required/fighter_component/fuel_tank)
 	if(!sft)
 		return 0
-	return sft.reagents.total_volume
+	var/return_amt = 0
+	for(var/datum/reagent/aviation_fuel/F in sft.reagents.reagent_list)
+		if(!istype(F))
+			continue
+		return_amt += F.volume
+	return return_amt
+
+/obj/structure/overmap/fighter/proc/set_master_caution(state)
+	var/master_caution = state
+	if(master_caution)
+		relay('nsv13/sound/effects/fighters/master_caution.ogg', "<span class='warning'>WARNING: Master caution.</span>", loop=FALSE, channel=CHANNEL_BUZZ)
+	else
+		stop_relay(CHANNEL_BUZZ)
+
+/obj/structure/overmap/fighter/proc/use_fuel()
+	if(flight_state < APU_SPUN) //No fuel? don't spam them with master cautions / use any fuel
+		return FALSE
+	var/amount = fuel_consumption
+	var/obj/item/twohanded/required/fighter_component/fuel_tank/sft = get_part(/obj/item/twohanded/required/fighter_component/fuel_tank)
+	if(!sft)
+		flight_state = NO_FUEL
+		set_master_caution(TRUE)
+		return FALSE
+	sft.reagents.remove_reagent(/datum/reagent/aviation_fuel, amount)
+	if(get_fuel() >= amount)
+		set_master_caution(FALSE)
+		return TRUE
+	if(flight_state < NO_FUEL) //Stops people from getting spammed
+		flight_state = NO_FUEL
+		set_master_caution(TRUE)
+	return FALSE
+
+/obj/structure/overmap/fighter/proc/empty_fuel_tank()//Debug purposes, for when you need to drain a fighter's tank entirely.
+	var/obj/item/twohanded/required/fighter_component/fuel_tank/sft = get_part(/obj/item/twohanded/required/fighter_component/fuel_tank)
+	if(!sft)
+		return FALSE
+	sft.reagents.clear_reagents()
+	say("Fuel tank emptied!")
 
 /obj/structure/overmap/fighter/proc/get_max_fuel()
 	var/obj/item/twohanded/required/fighter_component/fuel_tank/sft = get_part(/obj/item/twohanded/required/fighter_component/fuel_tank)
@@ -1209,11 +1259,11 @@ Turn off ignition
 
 /obj/structure/overmap/fighter/ui_data(mob/user)
 	var/list/data = list()
-	data["ignition"] = TRUE
-	data["fuel_pump"] = TRUE
-	data["battery"] = TRUE
-	data["apu"] = TRUE
-	data["throttle_lock"] = FALSE
+	data["ignition"] = FALSE
+	data["fuel_pump"] = FALSE
+	data["battery"] = FALSE
+	data["apu"] = FALSE
+	data["throttle_lock"] = throttle_lock
 	data["docking_mode"] = docking_mode
 	data["canopy_lock"] = canopy_open
 	data["brakes"] = brakes
@@ -1222,25 +1272,23 @@ Turn off ignition
 	data["integrity"] = obj_integrity
 	data["max_fuel"] = get_max_fuel()
 	data["fuel"] = get_fuel()
-//	data["eject"] = ejecting
-	if(flight_state >= NO_IGNITION)
-		data["ignition"] = FALSE
-	if(flight_state >= NO_FUEL_PUMP)
-		data["fuel_pump"] = FALSE
-	if(flight_state >= NO_BATTERY)
-		data["battery"] = FALSE
-	if(flight_state >= NO_APU)
-		data["apu"] = FALSE
-	if(flight_state >= THROTTLE_LOCK)
-		data["throttle_lock"] = TRUE
+	if(flight_state > NO_IGNITION)
+		data["ignition"] = TRUE
+	if(flight_state > NO_FUEL_PUMP)
+		data["fuel_pump"] = TRUE
+	if(flight_state > NO_BATTERY)
+		data["battery"] = TRUE
+	if(flight_state > NO_APU)
+		data["apu"] = TRUE
 	return data
 
 #undef NO_IGNITION
 #undef NO_FUEL_PUMP
 #undef NO_BATTERY
 #undef NO_APU
-#undef THROTTLE_LOCK
+#undef APU_SPUN
 #undef FLIGHT_READY
+#undef NO_FUEL
 
 #undef MS_CLOSED
 #undef MS_UNSECURE
