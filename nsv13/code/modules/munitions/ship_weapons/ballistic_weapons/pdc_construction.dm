@@ -24,9 +24,30 @@
 
 	update_icon()
 
+/obj/structure/frame/machine/ship_weapon/pdc_mount/setDir(newdir)
+	. = ..()
+	pixel_x = (dir & 3)? 0 : (dir == 4 ? -24 : 24)
+	pixel_y = (dir & 3)? (dir == 1 ? -24 : 24) : 0
+
+	update_icon()
+
 /obj/structure/frame/machine/ship_weapon/pdc_mount/attackby(obj/item/P, mob/user, params)
 	if(istype(P, /obj/item/circuitboard/machine) && !istype(P, /obj/item/circuitboard/machine/pdc_mount))// Only accept our specific circuitboard
 		to_chat(user, "<span class='warning'>This frame does not accept circuit boards of this type!</span>")
 		return TRUE
 	. = ..()
 	icon_state = initial(icon_state)
+
+/obj/structure/frame/machine/ship_weapon/pdc_mount/wrench_act(mob/user, obj/item/tool)
+	if(state != 1)
+		if(circuit)
+			to_chat(user, "<span class='warning'>Remove the circuitboard first!</span>")
+		else
+			to_chat(user, "<span class='warning'>Remove the wires first!</span>")
+		return TRUE
+	else
+		to_chat(user, "<span class='notice'>You unsecure the frame from the wall.</span>")
+		new /obj/item/wallframe/pdc_frame(loc)
+		qdel(src)
+		return TRUE
+	. = ..()

@@ -266,9 +266,9 @@
 
 		//If we have more ammo, spit those out too
 		if(ammo.len)
-			for(var/obj/round in ammo)
-				round.forceMove(get_turf(src))
-				ammo -= round
+			for(var/obj/A in ammo)
+				A.forceMove(get_turf(src))
+				ammo -= A
 	//end if((state >= STATE_LOADED) && !magazine)
 
 /**

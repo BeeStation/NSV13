@@ -37,7 +37,13 @@
 
 /obj/machinery/ship_weapon/pdc_mount/Initialize()
 	. = ..()
+	adjust_sprite_direction()
 
+/obj/machinery/ship_weapon/pdc_mount/setDir(newdir)
+	. = ..()
+	adjust_sprite_direction()
+
+/obj/machinery/ship_weapon/pdc_mount/proc/adjust_sprite_direction()
 	pixel_x = (dir & 3)? 0 : (dir == 4 ? -24 : 24)
 	pixel_y = (dir & 3)? (dir == 1 ? -24 : 24) : 0
 
@@ -48,11 +54,15 @@
 	if(!magazine)
 		icon_state = "[initial(icon_state)]_0"
 		return
+	var/progress = calculate_progress()
+	icon_state = "[initial(icon_state)]_[progress]"
+
+/obj/machinery/ship_weapon/pdc_mount/proc/calculate_progress()
 	var/progress = magazine.ammo_count() //How damaged is this shield? We examine the position of index "I" in the for loop to check which directional we want to check
 	var/goal = magazine.max_ammo //How much is the max hp of the shield? This is constant through all of them
 	progress = CLAMP(progress, 0, goal)
 	progress = round(((progress / goal) * 100), 20)//Round it down to 20%. We now apply visual damage
-	icon_state = "[initial(icon_state)]_[progress]"
+	return progress
 
 //////////////////////////////////////////////////////////////////
 // Update the icon after things that affect how much ammo we have
@@ -82,19 +92,15 @@
 
 /obj/machinery/ship_weapon/pdc_mount/examine()
 	. = ..()
-	if(maint_state == MSTATE_PRIEDOUT)
-		. += "The panel could be <i>unscrewed</i>."
-
-/obj/machinery/ship_weapon/pdc_mount/screwdriver_act(mob/user, obj/item/tool)
-	if(maint_state == MSTATE_PRIEDOUT)
-		if(tool.use_tool(src, user, 40, volume=100))
-			to_chat(user, "<span class='notice'>You unscrew the panel on the [src].</span>")
-			spawn_frame(TRUE)
-			return TRUE
-	. = ..()
+	if(panel_open)
+		. += "The maintenance panel is <b>unscrewed</b> and the machinery could be <i>pried out</i>."
 
 /obj/machinery/ship_weapon/pdc_mount/spawn_frame(disassembled)
 	var/obj/structure/frame/machine/ship_weapon/pdc_mount/M = new /obj/structure/frame/machine/ship_weapon/pdc_mount(loc)
+	M.state = 2
+	if(magazine)
+		magazine.forceMove(loc)
+		ammo = list()
 
 	for(var/obj/O in component_parts)
 		O.forceMove(loc)
@@ -104,10 +110,28 @@
 
 	. = M
 	M.setAnchored(anchored)
+	M.setDir(dir)
 	if(!disassembled)
 		M.obj_integrity = M.max_integrity * 0.5 //the frame is already half broken
 	transfer_fingerprints_to(M)
 
 	qdel(src)
+
+/obj/machinery/ship_weapon/pdc_mount/screwdriver_act(mob/user, obj/item/tool)
+	var/icon_state_open = initial(icon_state)
+	var/icon_state_closed
+	if(!panel_open)
+		icon_state_closed = icon_state
+	else
+		var/progress = calculate_progress()
+		icon_state_closed = "[initial(icon_state)]_[progress]"
+	. = default_deconstruction_screwdriver(user, icon_state_open, icon_state_closed, tool)
+
+/obj/machinery/ship_weapon/pdc_mount/crowbar_act(mob/user, obj/item/tool)
+	if(panel_open)
+		tool.play_tool_sound(src, 50)
+		deconstruct(TRUE)
+		return TRUE
+	. = default_deconstruction_crowbar(user, tool)
 
 #undef MSTATE_PRIEDOUT
