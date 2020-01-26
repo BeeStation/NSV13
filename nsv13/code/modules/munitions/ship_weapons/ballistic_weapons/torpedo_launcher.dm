@@ -7,6 +7,7 @@
 	bound_width = 96
 	pixel_y = -72
 	pixel_x = -32
+	dir = 4
 
 	firing_sound = 'nsv13/sound/effects/ship/plasma.ogg'
 	load_sound = 'nsv13/sound/effects/ship/freespace2/m_load.wav'
@@ -37,7 +38,6 @@
 	var/obj/structure/ship_weapon/torpedo_launcher_assembly/M = new /obj/structure/ship_weapon/torpedo_launcher_assembly(loc)
 
 	for(var/obj/O in component_parts)
-		message_admins("Moving [O] to [M]")
 		O.forceMove(M)
 	component_parts = list()
 

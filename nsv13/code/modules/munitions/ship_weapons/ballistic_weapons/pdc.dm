@@ -1,3 +1,5 @@
+#define MSTATE_PRIEDOUT 3
+
 /obj/machinery/ship_weapon/pdc_mount
 	name = "PDC loading rack"
 	icon = 'nsv13/icons/obj/munitions.dmi'
@@ -7,7 +9,7 @@
 	density = FALSE
 	pixel_y = 26
 
-	var/buildstage
+	circuit = /obj/item/circuitboard/machine/pdc_mount
 
 	fire_mode = FIRE_MODE_PDC
 	weapon_type = new/datum/ship_weapon/pdc_mount
@@ -77,3 +79,35 @@
 		linked.fire_lateral_projectile(/obj/item/projectile/bullet/pdc_round, target)
 	else
 		linked.fire_projectiles(/obj/item/projectile/bullet/pdc_round, target)
+
+/obj/machinery/ship_weapon/pdc_mount/examine()
+	. = ..()
+	if(maint_state == MSTATE_PRIEDOUT)
+		. += "The panel could be <i>unscrewed</i>."
+
+/obj/machinery/ship_weapon/pdc_mount/screwdriver_act(mob/user, obj/item/tool)
+	if(maint_state == MSTATE_PRIEDOUT)
+		if(tool.use_tool(src, user, 40, volume=100))
+			to_chat(user, "<span class='notice'>You unscrew the panel on the [src].</span>")
+			spawn_frame(TRUE)
+			return TRUE
+	. = ..()
+
+/obj/machinery/ship_weapon/pdc_mount/spawn_frame(disassembled)
+	var/obj/structure/frame/machine/ship_weapon/pdc_mount/M = new /obj/structure/frame/machine/ship_weapon/pdc_mount(loc)
+
+	for(var/obj/O in component_parts)
+		O.forceMove(loc)
+	component_parts = list()
+	var/obj/item/stack/cable_coil/C = new /obj/item/stack/cable_coil(loc)
+	C.amount = 5
+
+	. = M
+	M.setAnchored(anchored)
+	if(!disassembled)
+		M.obj_integrity = M.max_integrity * 0.5 //the frame is already half broken
+	transfer_fingerprints_to(M)
+
+	qdel(src)
+
+#undef MSTATE_PRIEDOUT

@@ -18,6 +18,7 @@
 
 	semi_auto = TRUE
 	max_ammo = 3 //Until you have to manually load it back up again. Battleships IRL have 3-4 shots before you need to reload the rack
+	dir = 4
 
 /obj/machinery/ship_weapon/railgun/Initialize()
 	..()
