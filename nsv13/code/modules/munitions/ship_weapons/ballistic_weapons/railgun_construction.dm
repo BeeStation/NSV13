@@ -239,38 +239,38 @@
 	. = ..()
 	switch(state)
 		if(BS_MOUNT_BOLTED)
-			if(anchored && tool.use_tool(src, user, 2 SECONDS, volume=100))
+			if(anchored && tool.use_tool(src, user, 2 SECONDS, amount=2, volume=100))
 				to_chat(user, "<span class='notice'>You weld the [src] to the floor.</span>")
 				state = BS_MOUNT_WELDED
 				return TRUE
 
 		if(BS_WIRED)
-			if(tool.use_tool(src, user, 2 SECONDS, volume=100))
+			if(tool.use_tool(src, user, 2 SECONDS, amount=2, volume=100))
 				to_chat(user, "<span class='notice'>You solder the wiring into place.</span>")
 				state = BS_WIRES_SOLDERED
 				return TRUE
 
 		if(BS_CASING_ADDED)
-			if(tool.use_tool(src, user, 2 SECONDS, volume=100))
+			if(tool.use_tool(src, user, 2 SECONDS, amount=2, volume=100))
 				to_chat(user, "<span class='notice'>You slice away the outer casing.</span>")
 				new/obj/item/stack/sheet/plasteel(loc, num_sheets_casing)
 				state = BS_ELECTRONICS_SECURE
 				return TRUE
 
 		if(BS_WIRES_SOLDERED)
-			if(tool.use_tool(src, user, 2 SECONDS, volume=100))
+			if(tool.use_tool(src, user, 2 SECONDS, amount=2, volume=100))
 				to_chat(user, "<span class='notice'>You desolder the wires.</span>")
 				state = BS_WIRED
 				return TRUE
 
 		if(BS_MOUNT_WELDED)
-			if(tool.use_tool(src, user, 2 SECONDS, volume=100))
+			if(tool.use_tool(src, user, 2 SECONDS, amount=2, volume=100))
 				to_chat(user, "<span class='notice'>You unweld the [src] from the floor.</span>")
 				state = BS_MOUNT_BOLTED
 				return TRUE
 
 		if(BS_MOUNT_UNBOLTED)
-			if(tool.use_tool(src, user, 2 SECONDS, volume=100))
+			if(tool.use_tool(src, user, 2 SECONDS, amount=2, volume=100))
 				to_chat(user, "<span class='notice'>You cut apart the frame.</span>")
 				new/obj/item/stack/sheet/plasteel(loc, num_sheets_frame)
 				qdel(src)
