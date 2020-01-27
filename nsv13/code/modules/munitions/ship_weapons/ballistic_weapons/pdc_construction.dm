@@ -4,6 +4,7 @@
 	icon = 'icons/obj/monitors.dmi'
 	icon_state = "alarm_bitem"
 	result_path = /obj/structure/frame/machine/ship_weapon/pdc_mount
+	iron_amt = 5
 
 /obj/structure/frame/machine/ship_weapon/pdc_mount
 	name = "PDC loading rack frame"
