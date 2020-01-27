@@ -40,6 +40,9 @@
 	if(istype(P, /obj/item/circuitboard/machine) && !istype(P, /obj/item/circuitboard/machine/pdc_mount))// Only accept our specific circuitboard
 		to_chat(user, "<span class='warning'>This frame does not accept circuit boards of this type!</span>")
 		return TRUE
+	if((state == 1) && (P.tool_behaviour == TOOL_SCREWDRIVER) && !anchored)
+		to_chat(user, "<span class='warning'>Remove it from the wall first!</span>")
+		return TRUE
 	. = ..()
 	icon_state = initial(icon_state)
 
