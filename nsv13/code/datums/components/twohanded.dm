@@ -120,7 +120,7 @@
 	RegisterSignal(parent, COMSIG_ITEM_EQUIP_TO_BEST_SLOT, .proc/equip_to_best_slot)
 	RegisterSignal(parent, COMSIG_ATOM_ATTACK_HAND, .proc/attack_hand)
 
-/datum/component/twohanded/required/proc/equip_to_best_slot(ojb/item/I, mob/M)
+/datum/component/twohanded/required/proc/equip_to_best_slot(obj/item/I, mob/M)
 	if(master.equip_to_best_slot())
 		unwield(M)
 
