@@ -524,3 +524,54 @@
 	name = "Aviation fuel"
 	desc = "One Tyrosene fuel pump, capable of fully refuelling 3 fighters."
 	cost = 1500
+
+/obj/item/flashlight/atc_wavy_sticks //I dont know what theyre actually called :)
+	name = "Aircraft sigalling sticks"
+	desc = "A large set of fluorescent sticks used to direct aircraft around the hangar bay."
+	w_class = WEIGHT_CLASS_SMALL
+	brightness_on = 6
+	color = LIGHT_COLOR_GREEN
+	color = COLOR_RED
+	grind_results = list(/datum/reagent/phenol = 15, /datum/reagent/hydrogen = 10, /datum/reagent/oxygen = 5) //Meth-in-a-stick
+	actions_types = list(/datum/action/item_action/pick_color, /datum/action/item_action/toggle_light)
+	var/turf/start_turf
+	var/turf/end_turf
+
+/datum/action/item_action/change_color
+	name = "Toggle Light"
+
+/obj/item/construction/rld/ui_action_click(mob/user, var/datum/action/A)
+	if(istype(A, /datum/action/item_action/pick_color))
+		if(!usr.stat)
+			if(light_color == LIGHT_COLOR_GREEN)
+				light_color = LIGHT_COLOR_RED
+				color = COLOR_RED
+			else
+				light_color = LIGHT_COLOR_GREEN
+				color = COLOR_GREEN
+	else
+		. = ..()
+
+/obj/effect/temp_visual/dir_setting/wavystick
+	icon = 'icons/mob/aibots.dmi'
+	icon_state = "path_indicator"
+	color = COLOR_GREEN
+	duration = 5 SECONDS
+
+/obj/item/flashlight/atc_wavy_sticks/afterattack(atom/target, mob/user, proximity)
+	if(!start_turf)
+		if(istype(target, /turf/open))
+			start_turf = target
+			to_chat(user, "<span class='warning'>You point [src] at [target]</span>")
+			return
+	if(istype(target, /turf/open) && !end_turf)
+		end_turf = target
+		addtimer(VARSET_CALLBACK(src, start_turf, null, 5 SECONDS)) //Clear the path after a while
+		addtimer(VARSET_CALLBACK(src, end_turf, null, 5 SECONDS)) //Clear the path after a while
+		var/turf/last_turf = start_turf
+		for(var/turf/T in getline(start_turf,end_turf))
+			var/pdir = getDir(last_turf, T)
+			new /obj/effect/temp_visual/dir_setting/wavystick(T, pdir)
+			last_turf = T
+		return
+	. = ..()

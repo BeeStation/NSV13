@@ -1089,8 +1089,6 @@ How to make fuel:
 	if(flight_state == NO_FUEL)
 		return FALSE
 	if(mag_lock)
-		if(pilot)
-			to_chat(pilot, "<span class='warning'>WARNING: Ship is magnetically arrested by an arrestor. Awaiting decoupling by fighter technicians.</span>")
 		return FALSE
 	if(flight_state != FLIGHT_READY || throttle_lock)
 		return FALSE
@@ -1130,15 +1128,17 @@ How to make fuel:
 			if(flight_state >= NO_BATTERY)
 				to_chat(usr, "You can't flip this switch without first deactivating the battery.</span>")
 				return
-			to_chat(usr, "You flip the master fuel pump switch.</span>")
-			flight_state = NO_BATTERY
-			playsound(src, 'nsv13/sound/effects/fighters/warmup.ogg', 100, FALSE)
+			if(flight_state == NO_FUEL_PUMP)
+				to_chat(usr, "You flip the master fuel pump switch.</span>")
+				flight_state = NO_BATTERY
+				playsound(src, 'nsv13/sound/effects/fighters/warmup.ogg', 100, FALSE)
 		if("battery")
 			if(flight_state >= NO_APU)
 				to_chat(usr, "You can't flip this switch without first disengaging the APU.</span>")
 				return
-			to_chat(usr, "You flip the battery switch.</span>")
-			flight_state = NO_APU
+			if(flight_state == NO_BATTERY)
+				to_chat(usr, "You flip the battery switch.</span>")
+				flight_state = NO_APU
 		if("apu")
 			if(!throttle_lock || flight_state >= APU_SPUN)
 				to_chat(usr, "You can't flip this switch without first engaging the throttle lock or when in flight.</span>")
