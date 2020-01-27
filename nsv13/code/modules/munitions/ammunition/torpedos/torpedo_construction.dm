@@ -195,7 +195,7 @@
 	switch(state)
 		if(0)
 			to_chat(user, "<span class='notice'>You start disassembling [src]...</span>")
-			if(tool.use_tool(src, user, 40, volume=100))
+			if(tool.use_tool(src, user, 40, amount=1, volume=100))
 				to_chat(user, "<span class='notice'>You disassmeble [src].</span>")
 				new /obj/item/stack/sheet/iron(loc, 15)
 				add_fingerprint(user)
@@ -203,7 +203,7 @@
 			return TRUE
 		if(10)
 			to_chat(user, "<span class='notice'>You start sealing the casing on [src]...</span>")
-			if(tool.use_tool(src, user, 40, volume=100))
+			if(tool.use_tool(src, user, 40, amount=1, volume=100))
 				to_chat(user, "<span class='notice'You seal the casing on [src].</span>")
 				new_torpedo(wh, gs, ps, iff)
 				qdel(src)
