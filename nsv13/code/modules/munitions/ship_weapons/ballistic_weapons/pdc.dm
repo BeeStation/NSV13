@@ -105,8 +105,6 @@
 	for(var/obj/O in component_parts)
 		O.forceMove(loc)
 	component_parts = list()
-	var/obj/item/stack/cable_coil/C = new /obj/item/stack/cable_coil(loc)
-	C.amount = 5
 
 	. = M
 	M.setAnchored(anchored)
