@@ -135,7 +135,6 @@
 		if(!disable_warning)
 			to_chat(M, "<span class='warning'>[parent] is too cumbersome to carry with anything but your hands!</span>")
 		return 0
-	return ..()
 
 /datum/component/twohanded/required/proc/attack_hand(obj/item/I, mob/user)//Can't even pick it up without both hands empty
 	var/obj/item/H = user.get_inactive_held_item()
