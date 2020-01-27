@@ -44,8 +44,8 @@
 	adjust_sprite_direction()
 
 /obj/machinery/ship_weapon/pdc_mount/proc/adjust_sprite_direction()
-	pixel_x = (dir & 3)? 0 : (dir == 4 ? -24 : 24)
-	pixel_y = (dir & 3)? (dir == 1 ? -24 : 24) : 0
+	pixel_x = (dir & 3)? 0 : (dir == 4 ? -26 : 26)
+	pixel_y = (dir & 3)? (dir == 1 ? -26 : 26) : 0
 
 	update_icon()
 
