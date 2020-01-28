@@ -76,7 +76,7 @@
 "aan" = (
 /obj/machinery/atmospherics/pipe/simple/purple/visible{
 	dir = 10;
-	step_y = 2
+	step_y = 0
 	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer1,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer3,
@@ -29238,10 +29238,6 @@
 	},
 /turf/open/floor/plasteel,
 /area/engine/engineering)
-"fPb" = (
-/obj/machinery/atmospherics/components/binary/magnetic_constrictor,
-/turf/open/floor/plasteel,
-/area/engine/engine_room)
 "fPg" = (
 /obj/structure/closet/secure_closet/detective,
 /turf/open/floor/carpet,
@@ -33429,6 +33425,10 @@
 	},
 /turf/open/floor/plasteel,
 /area/quartermaster/office)
+"jJA" = (
+/obj/machinery/atmospherics/components/binary/magnetic_constrictor,
+/turf/open/floor/plasteel,
+/area/engine/engine_room)
 "jJE" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer1,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer3,
@@ -33542,6 +33542,12 @@
 	},
 /turf/open/space/basic,
 /area/maintenance/ship_exterior)
+"jNu" = (
+/obj/machinery/atmospherics/pipe/simple/brown/visible{
+	dir = 5
+	},
+/turf/open/floor/plasteel,
+/area/engine/engine_room)
 "jNA" = (
 /obj/machinery/portable_atmospherics/scrubber/huge,
 /turf/open/floor/plasteel/dark,
@@ -36474,21 +36480,7 @@
 	},
 /turf/open/floor/plasteel/ship/techfloor/alt,
 /area/ai_monitored/turret_protected/ai_upload)
-"mFf" = (
-/obj/machinery/door/airlock/ship{
-	name = "Server Access";
-	req_access_txt = "29;30"
-	},
-/turf/open/floor/plasteel/dark,
-/area/science/robotics/lab)
-"mFo" = (
-/obj/structure/closet/secure_closet/atmospherics,
-/turf/open/floor/plasteel,
-/area/engine/atmos)
-"mFD" = (
-/turf/closed/wall/ship,
-/area/quartermaster/miningoffice)
-"mFU" = (
+"mEV" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer3,
 /obj/effect/turf_decal/tile/yellow{
 	dir = 8
@@ -36504,6 +36496,20 @@
 	},
 /turf/open/floor/plasteel,
 /area/engine/engineering)
+"mFf" = (
+/obj/machinery/door/airlock/ship{
+	name = "Server Access";
+	req_access_txt = "29;30"
+	},
+/turf/open/floor/plasteel/dark,
+/area/science/robotics/lab)
+"mFo" = (
+/obj/structure/closet/secure_closet/atmospherics,
+/turf/open/floor/plasteel,
+/area/engine/atmos)
+"mFD" = (
+/turf/closed/wall/ship,
+/area/quartermaster/miningoffice)
 "mGn" = (
 /obj/structure/disposalpipe/segment{
 	dir = 4
@@ -37225,6 +37231,10 @@
 	},
 /turf/open/floor/plasteel/white,
 /area/science/mixing)
+"nsN" = (
+/obj/machinery/atmospherics/components/binary/valve,
+/turf/open/floor/plasteel,
+/area/engine/engine_room)
 "num" = (
 /obj/machinery/door/airlock/ship/maintenance{
 	req_one_access_txt = "12;69"
@@ -40036,10 +40046,6 @@
 /obj/structure/window/reinforced/spawner/north,
 /turf/open/floor/wood,
 /area/library)
-"qeO" = (
-/obj/machinery/atmospherics/components/binary/valve,
-/turf/open/floor/plasteel,
-/area/engine/engine_room)
 "qfc" = (
 /obj/structure/disposalpipe/segment{
 	dir = 6
@@ -40193,12 +40199,6 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/department/medical/morgue)
-"qnA" = (
-/obj/machinery/atmospherics/pipe/simple/brown/visible{
-	dir = 5
-	},
-/turf/open/floor/plasteel,
-/area/engine/engine_room)
 "qoQ" = (
 /obj/machinery/power/smes{
 	charge = 5e+006
@@ -64941,11 +64941,11 @@ aAb
 aAu
 aSG
 wgI
-qeO
-fPb
+nsN
+jJA
 aVO
 aVO
-qnA
+jNu
 aQK
 aSW
 leF
@@ -65198,8 +65198,8 @@ aSW
 aSW
 aIA
 aRS
-qeO
-fPb
+nsN
+jJA
 aVO
 byc
 akq
@@ -65710,7 +65710,7 @@ tSU
 tSU
 ase
 cNg
-mFU
+mEV
 cNg
 cNg
 aKh
