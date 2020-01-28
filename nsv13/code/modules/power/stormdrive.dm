@@ -330,9 +330,9 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 	air1.gases[/datum/gas/constricted_plasma][MOLES] += 300
 	try_start()
 
-/obj/machinery/power/stormdrive_reactor/proc/juice_up(var/juice)
+/obj/machinery/power/stormdrive_reactor/proc/juice_up(var/juice) //Admin command to add a specified amount of CPlas to the drive
 	var/datum/gas_mixture/air1 = pipe.airs[1]
-	air1.assert_gas(/datum/gas/constricted_plasma) //Yeet some plasma into the pipe so it can run for a while
+	air1.assert_gas(/datum/gas/constricted_plasma)
 	air1.gases[/datum/gas/constricted_plasma][MOLES] += juice
 
 /obj/machinery/power/stormdrive_reactor/proc/start_meltdown()
@@ -478,6 +478,7 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 	if(env.temperature <= heat)
 		var/delta_env = heat - env.temperature
 		env.temperature += delta_env / 2
+		air_update_turf()
 
 /obj/machinery/power/stormdrive_reactor/proc/can_cool()
 	if(heat > REACTOR_HEAT_NORMAL+10) //Only start melting the rods if theyre running it hot. We have a "safe" mode which doesn't need you to check in on the reactor at all.
@@ -514,18 +515,38 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 		radio.talk_into(src, message, engineering_channel)
 		addtimer(VARSET_CALLBACK(src, can_alert, TRUE), alert_cooldown)
 
-/obj/machinery/power/magnetic_constrictor //This heats the plasma up to acceptable levels for use in the reactor.
+//////Reactor Manifold//////
+
+/obj/machinery/atmospherics/components/binary/pump/reactor_manifold
+	name = "Reactor Manifold"
+	desc = "The manifold connection for the stormdrive."
+	resistance_flags = INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | UNACIDABLE | ACID_PROOF | FREEZE_PROOF
+	can_unwrench = FALSE
+
+//////Magnetic Constrictors//////
+
+/obj/machinery/atmospherics/components/binary/magnetic_constrictor //This heats the plasma up to acceptable levels for use in the reactor.
 	name = "magnetic constrictor"
 	desc = "A large magnet which is capable of pressurizing plasma into a more energetic state. It is able to self-regulate its plasma input valve, as long as plasma is supplied to it."
 	icon = 'nsv13/icons/obj/machinery/reactor_parts.dmi'
 	icon_state = "constrictor_assembly"
 	density = TRUE
-	anchored = FALSE
-	var/obj/machinery/atmospherics/components/binary/pump/inlet
+	circuit = /obj/item/circuitboard/machine/magnetic_constrictor
 	var/state = CONSTRICTOR_NOTBUILT
-	var/on = FALSE //Active?
+	var/constriction_rate = 0 //SSAtmos is 4x faster than SSMachines aka the reactor
+	var/max_output_pressure = 0
 
-/obj/machinery/power/magnetic_constrictor/attack_hand(mob/user)
+/obj/machinery/atmospherics/components/binary/magnetic_constrictor/RefreshParts()
+	var/A
+	for(var/obj/item/stock_parts/capacitor/C in component_parts)
+		A += C.rating
+	constriction_rate = 0.9 + (0.1 * A)
+	var/B
+	for(var/obj/item/stock_parts/manipulator/M in component_parts)
+		B += M.rating
+	max_output_pressure = 100 + (100 * B)
+
+/obj/machinery/atmospherics/components/binary/magnetic_constrictor/attack_hand(mob/user)
 	. = ..()
 	if(state != CONSTRICTOR_WELDED)
 		to_chat(user, "<span class='notice'>[src] isn't finished yet!</span>")
@@ -533,34 +554,155 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 	to_chat(user, "<span class='notice'>You press [src]'s power button.</span>")
 	on = !on
 
-/obj/machinery/power/magnetic_constrictor/Initialize()
+/obj/machinery/atmospherics/components/binary/magnetic_constrictor/Initialize()
+	.=..()
+	component_parts = list(new /obj/item/circuitboard/machine/magnetic_constrictor)
+
+/obj/machinery/atmospherics/components/binary/magnetic_constrictor/ComponentInitialize()
 	. = ..()
-	find_pipes()
+	AddComponent(/datum/component/simple_rotation,ROTATION_ALTCLICK | ROTATION_CLOCKWISE | ROTATION_COUNTERCLOCKWISE | ROTATION_VERBS )
 
-/obj/machinery/power/magnetic_constrictor/proc/find_pipes()
-	inlet = locate(/obj/machinery/atmospherics/components/binary/pump) in get_turf(src) //Look for the inlet in our turf
-
-/obj/machinery/power/magnetic_constrictor/process()
-	if(state != CONSTRICTOR_WELDED)
-		return ..() //Kill the process if it's not built yet.
+/obj/machinery/atmospherics/components/binary/magnetic_constrictor/process_atmos()
+	..()
 	if(!on)
 		icon_state = "constrictor"
 		return
-	if(!inlet || inlet?.loc != get_turf(src))
-		inlet = null //If not inlet, or inlet's not in our turf, abort.
-		icon_state = initial(icon_state)
-		find_pipes()
-		return
 	update_icon()
-	var/datum/gas_mixture/air1 = inlet.airs[1]
+
+	var/datum/gas_mixture/air1 = airs[1]
+	var/datum/gas_mixture/air2 = airs[2]
+
+	var/output_starting_pressure = air2.return_pressure()
+	if(output_starting_pressure >= max_output_pressure)
+		return
+
 	var/list/cached_gases = air1.gases
 	if(cached_gases[/datum/gas/plasma])
-		var/moles = cached_gases[/datum/gas/plasma][MOLES]
-		if(moles >= 0)
-			air1.assert_gas(/datum/gas/constricted_plasma) //Add some constricted plasma
-			air1.gases[/datum/gas/constricted_plasma][MOLES] += moles //Transfer the plasma into constricted plasma.
-			cached_gases[/datum/gas/plasma][MOLES] = 0 //Here, we subtract the plasma
-			air1.garbage_collect()
+		var/plasma_moles = cached_gases[/datum/gas/plasma][MOLES]
+		var/plasma_transfer_moles = min(constriction_rate, plasma_moles)
+		air2.assert_gas(/datum/gas/constricted_plasma)
+		air2.gases[/datum/gas/constricted_plasma][MOLES] += plasma_transfer_moles
+		air2.temperature = air1.temperature
+		air1.gases[/datum/gas/plasma][MOLES] -= plasma_transfer_moles
+		air1.garbage_collect()
+
+		update_parents()
+
+/obj/machinery/atmospherics/components/binary/magnetic_constrictor/examine(mob/user) //No better guide than an in-game play-by-play guide
+	. = ..()
+	switch(state)
+		if(CONSTRICTOR_NOTBUILT)
+			. += "<span class='notice'>The device lies in pieces on the ground, it must be assembled and the bolts wrenched to secure it into place.</span>"
+		if(CONSTRICTOR_WRENCHED)
+			. += "<span class='notice'>The devices internal wire harnesses must be connected and screwed into place. You could also use a crowbar to dismantle it.</span>"
+		if(CONSTRICTOR_SCREWED)
+			. += "<span class='notice'>Per specifications, the maintenance hatches must be welded shut, normally this device is not tampered with once assembled.</span>"
+		if(CONSTRICTOR_WELDED)
+			. += "<span class='notice'>You can use a welder to open the device to begin disassembly, or to access its securing bolts.</span>"
+
+/obj/machinery/atmospherics/components/binary/magnetic_constrictor/wrench_act(mob/user, obj/item/tool)
+	. = FALSE
+	switch(state)
+		if(CONSTRICTOR_NOTBUILT)
+			to_chat(user, "<span class='notice'>You start assembly on [src], securing its components into place with bolts...</span>")
+			if(tool.use_tool(src, user, 40, volume=100))
+				to_chat(user, "<span class='notice'>You complete initial assembly on [src]. </span>")
+				state = CONSTRICTOR_WRENCHED
+				update_icon()
+			return TRUE
+		if(CONSTRICTOR_WRENCHED to CONSTRICTOR_SCREWED)
+			return default_unfasten_wrench(user, tool, 20)
+
+/obj/machinery/atmospherics/components/binary/magnetic_constrictor/crowbar_act(mob/user, obj/item/tool)
+	. = FALSE
+	if(state == CONSTRICTOR_WRENCHED)
+		to_chat(user, "<span class='notice'>You start to disassemble [src].</span>")
+		if(tool.use_tool(src, user, 40, volume=100))
+			to_chat(user, "<span class='notice'>You complete disassembly on [src]. </span>")
+			default_deconstruction_crowbar(tool)
+		return TRUE
+
+/obj/machinery/atmospherics/components/binary/magnetic_constrictor/screwdriver_act(mob/user, obj/item/tool)
+	. = FALSE
+	switch(state)
+		if(CONSTRICTOR_WRENCHED)
+			to_chat(user, "<span class='notice'>You start running wires and securing wire harnesses on [src]...</span>")
+			if(tool.use_tool(src, user, 40, volume=100))
+				to_chat(user, "<span class='notice'>You have assembled the wiring on [src]. </span>")
+				state = CONSTRICTOR_SCREWED
+				update_icon()
+			return TRUE
+		if(CONSTRICTOR_SCREWED)
+			to_chat(user, "<span class='notice'>You start unsecuring wiring harnesses and re-coiling wires on [src]...</span>")
+			if(tool.use_tool(src, user, 40, volume=100))
+				to_chat(user, "<span class='notice'>You undo the wiring of [src]. </span>")
+				state = CONSTRICTOR_WRENCHED
+				update_icon()
+			return TRUE
+
+/obj/machinery/atmospherics/components/binary/magnetic_constrictor/welder_act(mob/user, obj/item/tool)
+	. = FALSE
+	switch(state)
+		if(CONSTRICTOR_SCREWED)
+			to_chat(user, "<span class='notice'>You start securing the maintenance hatches on [src]...</span>")
+			if(tool.use_tool(src, user, 40, volume=100))
+				to_chat(user, "<span class='notice'>You secure the maintenance hatches on [src].</span>")
+				state = CONSTRICTOR_WELDED
+				update_icon()
+			return TRUE
+		if(CONSTRICTOR_WELDED)
+			to_chat(user, "<span class='notice'>You start unwelding the maintenance hatches on [src]...</span>")
+			if(tool.use_tool(src, user, 40, volume=100))
+				to_chat(user, "<span class='notice'You unweld the maintenance hatches on [src].</span>")
+				state = CONSTRICTOR_SCREWED
+				update_icon()
+			return TRUE
+
+/obj/machinery/atmospherics/components/binary/magnetic_constrictor/proc/finish() //Admin only for lazy people who want their shit to instantly complete.
+	anchored = TRUE
+	state = CONSTRICTOR_WELDED
+	update_icon()
+
+/obj/machinery/atmospherics/components/binary/magnetic_constrictor/update_icon()
+	cut_overlays()
+	switch(state)
+		if(CONSTRICTOR_NOTBUILT)
+			icon_state = "constrictor_assembly"
+		if(CONSTRICTOR_WRENCHED)
+			icon_state = "constrictor_wrench"
+		if(CONSTRICTOR_SCREWED)
+			icon_state = "constrictor_screw"
+		if(CONSTRICTOR_WELDED)
+			if(on)
+				icon_state = "constrictor_active"
+			else
+				icon_state = "constrictor"
+
+/obj/item/circuitboard/machine/magnetic_constrictor
+	name = "Magnetic Constrictor (Machine Board)"
+	build_path = /obj/machinery/atmospherics/components/binary/magnetic_constrictor
+	req_components = list(
+		/obj/item/stock_parts/capacitor = 1,
+		/obj/item/stock_parts/manipulator = 1)
+
+/datum/design/board/magnetic_constrictor
+	name = "Machine Design (Magnetic Constrictor Board)"
+	desc = "The circuit board for a Magnetic Constrictor."
+	id = "mag_cons"
+	build_path = /obj/item/circuitboard/machine/magnetic_constrictor
+	category = list("Engineering Machinery")
+	departmental_flags = DEPARTMENTAL_FLAG_ENGINEERING
+
+/datum/techweb_node/magnetic_constrictor
+	id = "mag_cons"
+	display_name = "Magnetic Constriction of Plasma"
+	description = "Beating plasma into submission - a guide."
+	prereq_ids = list("adv_engi", "adv_power")
+	design_ids = list("mag_cons")
+	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 2500)
+	export_price = 5000
+
+//////Constricted Plasma//////
 
 /datum/gas/constricted_plasma
 	id = "constricted_plasma"
@@ -589,102 +731,7 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 	icon_state = "orange"
 	gas_type = /datum/gas/constricted_plasma
 
-/obj/machinery/power/magnetic_constrictor/examine(mob/user) //No better guide than an in-game play-by-play guide
-	. = ..()
-	switch(state)
-		if(CONSTRICTOR_NOTBUILT)
-			. += "<span class='notice'>The device lies in pieces on the ground, it must be assembled and the bolts wrenched to secure it into place.</span>"
-		if(CONSTRICTOR_WRENCHED)
-			. += "<span class='notice'>The devices internal wire harnesses must be connected and screwed into place. You could also use a crowbar to dismantle it.</span>"
-		if(CONSTRICTOR_SCREWED)
-			. += "<span class='notice'>Per specifications, the maintenance hatches must be welded shut, normally this device is not tampered with once assembled.</span>"
-		if(CONSTRICTOR_WELDED)
-			. += "<span class='notice'>You can use a welder to open the device to begin disassembly, or to access its securing bolts.</span>"
-
-/obj/machinery/power/magnetic_constrictor/wrench_act(mob/user, obj/item/tool)
-	. = FALSE
-	switch(state)
-		if(CONSTRICTOR_NOTBUILT)
-			to_chat(user, "<span class='notice'>You start assembly on [src], securing its components into place with bolts...</span>")
-			if(tool.use_tool(src, user, 40, volume=100))
-				to_chat(user, "<span class='notice'>You complete initial assembly on [src]. </span>")
-				anchored = TRUE
-				state = CONSTRICTOR_WRENCHED
-				update_icon()
-			return TRUE
-		if(CONSTRICTOR_WRENCHED to CONSTRICTOR_SCREWED)
-			return default_unfasten_wrench(user, tool, 20)
-
-/obj/machinery/power/magnetic_constrictor/crowbar_act(mob/user, obj/item/tool)
-	. = FALSE
-	if(state == CONSTRICTOR_WRENCHED)
-		to_chat(user, "<span class='notice'>You start to disassemble [src] into sheets of metal...</span>")
-		if(tool.use_tool(src, user, 40, volume=100))
-			to_chat(user, "<span class='notice'>You complete disassembly on [src]. </span>")
-			new /obj/item/stack/sheet/iron(loc, 15)
-			qdel(src)
-		return TRUE
-
-/obj/machinery/power/magnetic_constrictor/screwdriver_act(mob/user, obj/item/tool)
-	. = FALSE
-	switch(state)
-		if(CONSTRICTOR_WRENCHED)
-			to_chat(user, "<span class='notice'>You start running wires and securing wire harnesses on [src]...</span>")
-			if(tool.use_tool(src, user, 40, volume=100))
-				to_chat(user, "<span class='notice'>You have assembled the wiring on [src]. </span>")
-				state = CONSTRICTOR_SCREWED
-				update_icon()
-			return TRUE
-		if(CONSTRICTOR_SCREWED)
-			to_chat(user, "<span class='notice'>You start unsecuring wiring harnesses and re-coiling wires on [src]...</span>")
-			if(tool.use_tool(src, user, 40, volume=100))
-				to_chat(user, "<span class='notice'>You undo the wiring of [src]. </span>")
-				state = CONSTRICTOR_WRENCHED
-				update_icon()
-			return TRUE
-
-/obj/machinery/power/magnetic_constrictor/welder_act(mob/user, obj/item/tool)
-	. = FALSE
-	switch(state)
-		if(CONSTRICTOR_SCREWED)
-			to_chat(user, "<span class='notice'>You start securing the maintenance hatches on [src]...</span>")
-			if(tool.use_tool(src, user, 40, volume=100))
-				to_chat(user, "<span class='notice'>You secure the maintenance hatches on [src].</span>")
-				state = CONSTRICTOR_WELDED
-				update_icon()
-				START_PROCESSING(SSfastprocess,src) //Start processing once it's built. If it doesn't have the required components, it shuts off.
-				anchored = TRUE
-			return TRUE
-		if(CONSTRICTOR_WELDED)
-			to_chat(user, "<span class='notice'>You start unwelding the maintenance hatches on [src]...</span>")
-			if(tool.use_tool(src, user, 40, volume=100))
-				to_chat(user, "<span class='notice'You unweld the maintenance hatches on [src], exposing its anchoring bolts.</span>")
-				state = CONSTRICTOR_SCREWED
-				update_icon()
-				anchored = FALSE
-			return TRUE
-
-/obj/machinery/power/magnetic_constrictor/proc/finish() //Admin only for lazy people who want their shit to instantly complete.
-	anchored = TRUE
-	state = CONSTRICTOR_WELDED
-	update_icon()
-	START_PROCESSING(SSfastprocess,src)
-
-/obj/machinery/power/magnetic_constrictor/update_icon()
-	cut_overlays()
-	switch(state)
-		if(CONSTRICTOR_NOTBUILT)
-			icon_state = "constrictor_assembly"
-		if(CONSTRICTOR_WRENCHED)
-			icon_state = "constrictor_wrench"
-		if(CONSTRICTOR_SCREWED)
-			icon_state = "constrictor_screw"
-		if(CONSTRICTOR_WELDED)
-			if(on)
-				icon_state = "constrictor_active"
-			else
-				icon_state = "constrictor"
-
+//////MELTDOWN//////
 
 /obj/effect/decal/nuclear_waste
 	name = "Plutonium sludge"
