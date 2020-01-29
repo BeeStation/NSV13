@@ -1269,7 +1269,7 @@ How to make fuel:
 		data["fuel_pump"] = TRUE
 	if(flight_state > NO_BATTERY)
 		data["battery"] = TRUE
-	if(flight_state > NO_APU)
+	if(flight_state == APU_SPUN)
 		data["apu"] = TRUE
 	return data
 
