@@ -12,7 +12,7 @@
 	display_name = "Magnetic Acceleration"
 	description = "Using opposing charges to throw things really, really fast."
 	prereq_ids = list("emp_super", "macro_ballistics")
-	design_ids = list("railgun_rail", "ship_loading_tray")
+	design_ids = list("railgun_rail")
 	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 4000)
 	export_price = 8000
 
