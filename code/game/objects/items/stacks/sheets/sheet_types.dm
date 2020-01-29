@@ -91,6 +91,7 @@ GLOBAL_LIST_INIT(metal_recipes, list ( \
 	new/datum/stack_recipe("button frame", /obj/item/wallframe/button, 1), \
 	//NSV13 start
 	new/datum/stack_recipe("pdc mount frame", /obj/item/wallframe/pdc_frame, 5), \
+	new/datum/stack_recipe("railgun loading tray", /obj/item/ship_weapon/parts/loading_tray, 10), \
 	//NSV13 end
 	null, \
 	new/datum/stack_recipe("iron door", /obj/structure/mineral_door/iron, 20, one_per_turf = TRUE, on_floor = TRUE), \

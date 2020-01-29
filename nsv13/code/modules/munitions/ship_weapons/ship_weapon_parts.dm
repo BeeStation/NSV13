@@ -2,14 +2,14 @@
  * Munitions computer circuitboard
  */
 /obj/item/circuitboard/computer/ship/munitions_computer
-	name = "circuit board (laser cannon control computer)"
+	name = "circuit board (munitions control computer)"
 	build_path = /obj/machinery/computer/ship/munitions_computer
 
 /**
  * PDC mount circuitboard
  */
 /obj/item/circuitboard/machine/pdc_mount
-	name = "PDC Mount (Machine Board)"
+	name = "circuit board (pdc mount)"
 	build_path = /obj/machinery/ship_weapon/pdc_mount
 	req_components = list(
 		/obj/item/stock_parts/manipulator = 4,
