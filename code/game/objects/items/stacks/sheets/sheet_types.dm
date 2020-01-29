@@ -16,7 +16,7 @@
 /*
  * Metal
  */
-//nsv13 - Torpedo Casing added to the end of this list
+//nsv13 - Torpedo Casing, PDC frame, railgun tray added to the end of this list
 GLOBAL_LIST_INIT(metal_recipes, list ( \
 	new/datum/stack_recipe("stool", /obj/structure/chair/stool, one_per_turf = TRUE, on_floor = TRUE), \
 	new/datum/stack_recipe("bar stool", /obj/structure/chair/stool/bar, one_per_turf = TRUE, on_floor = TRUE), \
@@ -89,15 +89,15 @@ GLOBAL_LIST_INIT(metal_recipes, list ( \
 	new/datum/stack_recipe("fire alarm frame", /obj/item/wallframe/firealarm, 2), \
 	new/datum/stack_recipe("extinguisher cabinet frame", /obj/item/wallframe/extinguisher_cabinet, 2), \
 	new/datum/stack_recipe("button frame", /obj/item/wallframe/button, 1), \
-	//NSV13 start
-	new/datum/stack_recipe("pdc mount frame", /obj/item/wallframe/pdc_frame, 5), \
-	new/datum/stack_recipe("railgun loading tray", /obj/item/ship_weapon/parts/loading_tray, 10), \
-	//NSV13 end
 	null, \
 	new/datum/stack_recipe("iron door", /obj/structure/mineral_door/iron, 20, one_per_turf = TRUE, on_floor = TRUE), \
 	new/datum/stack_recipe("floodlight frame", /obj/structure/floodlight_frame, 5, one_per_turf = TRUE, on_floor = TRUE), \
+	//NSV13 start
 	null, \
 	new/datum/stack_recipe("torpedo casing", /obj/item/ship_weapon/ammunition/torpedo/torpedo_casing, 15, one_per_turf = TRUE, on_floor = TRUE), \
+	new/datum/stack_recipe("pdc mount frame", /obj/item/wallframe/pdc_frame, 5), \
+	new/datum/stack_recipe("railgun loading tray", /obj/item/ship_weapon/parts/loading_tray, 10), \
+	//NSV13 end
 ))
 
 /obj/item/stack/sheet/iron
