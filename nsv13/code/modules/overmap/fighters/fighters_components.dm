@@ -530,3 +530,9 @@
 			to_chat(user, "<span class='warning'>You can only indicate in straight lines, not diagonally.</span>")
 			return
 	. = ..()
+
+/obj/item/flashlight/atc_wavy_sticks/AltClick(mob/user)
+	. = ..()
+	if(start_turf)
+		start_turf = null
+		to_chat(user, "<span class='warning'>Cleared target selection</span>")

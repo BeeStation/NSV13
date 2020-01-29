@@ -1173,7 +1173,7 @@ How to make fuel:
 				to_chat(usr, "<span class='notice'>WARNING AUTO-EJECT SEQUENCE COMMENCING IN T-5 SECONDS. USE THIS SWITCH AGAIN TO CANCEL THIS ACTION.</span>")
 				relay('nsv13/sound/effects/fighters/switch.ogg')
 				relay('nsv13/sound/effects/ship/general_quarters.ogg')
-				addtimer(CALLBACK(src, .proc/eject), 5 SECONDS)
+				addtimer(CALLBACK(src, .proc/eject), 10 SECONDS)
 				ejecting = TRUE
 				return
 			else
