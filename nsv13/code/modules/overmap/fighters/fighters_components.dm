@@ -265,64 +265,6 @@
 	category = list("Ship Components")
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO
 
-//Fighter Fuel
-/datum/chemical_reaction/plasma_spiked_fuel
-	name = "Plasma Spiked Fuel"
-	id = /datum/reagent/plasma_spiked_fuel
-	results = list(/datum/reagent/plasma_spiked_fuel = 5)
-	required_reagents = list(/datum/reagent/fuel = 5, /datum/reagent/stable_plasma = 1, /datum/reagent/hydrogen = 2, /datum/reagent/oxygen = 1)
-	required_temp = 333
-
-/datum/reagent/plasma_spiked_fuel
-	name = "Plasma Spiked Fuel"
-	description = "High performance engine fuel, spiked with a little plasma for an extra kick."
-	reagent_state = LIQUID
-	color = "#170B28"
-	taste_description = "oil and bitterness"
-
-/obj/structure/reagent_dispensers/fueltank/plasma_spiked
-	name = "plasma spiked fuel tank"
-	desc = "A tank full of high performance engine fuel, spiked with a little plasma for an extra kick."
-	icon_state = "tank_stationairy" //temp
-	reagent_id = /datum/reagent/plasma_spiked_fuel
-	tank_volume = 2500
-
-/datum/chemical_reaction/plasma_spiked_fuel
-	name = "Plasma Spiked Fuel"
-	id = /datum/reagent/plasma_spiked_fuel
-	results = list(/datum/reagent/plasma_spiked_fuel = 5)
-	required_reagents = list(/datum/reagent/fuel = 5, /datum/reagent/stable_plasma = 1, /datum/reagent/hydrogen = 2, /datum/reagent/oxygen = 1)
-	required_temp = 333
-
-/datum/chemical_reaction/aviation_fuel
-	name = "Aviation Fuel"
-	id = /datum/reagent/aviation_fuel
-	results = list(/datum/reagent/aviation_fuel = 5)
-	required_reagents = list(/datum/reagent/fuel = 1, /datum/reagent/hydrocarbon=5)
-	required_temp = 333
-
-/datum/chemical_reaction/hydrocarbon
-	name = "Hydrocarbon"
-	id = /datum/reagent/hydrocarbon
-	results = list(/datum/reagent/hydrocarbon = 5)
-	required_reagents = list(/datum/reagent/hydrogen = 1, /datum/reagent/carbon = 1)
-	required_temp = 333
-
-/datum/reagent/hydrocarbon
-	name = "Hydrocarbon"
-	description = "A gunky mixture of hydrogen and carbon molecules, most often used in the production of aviation fuel."
-	reagent_state = LIQUID
-	color = "#e3f5f9"
-	taste_description = "oily water"
-
-/datum/reagent/aviation_fuel
-	name = "Tyrosene"
-	description = "High performance aviation fuel used in small fighter craft, created by enhancing standard fuel with extra hydrocarbons."
-	reagent_state = LIQUID
-	color = "#170B28"
-	taste_description = "jet fuel"
-
-
 /datum/looping_sound/refuel
 	mid_sounds = list('nsv13/sound/effects/fighters/refuel.ogg')
 	mid_length = 8 SECONDS
@@ -528,6 +470,9 @@
 /obj/item/flashlight/atc_wavy_sticks //I dont know what theyre actually called :)
 	name = "Aircraft sigalling sticks"
 	desc = "A large set of fluorescent sticks used to direct aircraft around the hangar bay."
+	icon = 'nsv13/icons/objects/lighting.dmi'
+	icon_state = "wavystick"
+	item_state = "glowstick"
 	w_class = WEIGHT_CLASS_SMALL
 	brightness_on = 6
 	color = LIGHT_COLOR_GREEN
@@ -540,7 +485,7 @@
 /datum/action/item_action/change_color
 	name = "Toggle Light"
 
-/obj/item/construction/rld/ui_action_click(mob/user, var/datum/action/A)
+/obj/item/flashlight/atc_wavy_sticks/ui_action_click(mob/user, var/datum/action/A)
 	if(istype(A, /datum/action/item_action/pick_color))
 		if(!usr.stat)
 			if(light_color == LIGHT_COLOR_GREEN)
@@ -555,22 +500,31 @@
 /obj/effect/temp_visual/dir_setting/wavystick
 	icon = 'icons/mob/aibots.dmi'
 	icon_state = "path_indicator"
-	color = COLOR_GREEN
+	color = "#ccffcc" //Light green
 	duration = 5 SECONDS
 
 /obj/item/flashlight/atc_wavy_sticks/afterattack(atom/target, mob/user, proximity)
 	if(!start_turf)
 		if(istype(target, /turf/open))
 			start_turf = target
-			to_chat(user, "<span class='warning'>You point [src] at [target]</span>")
+			to_chat(user, "<span class='warning'>You point [src] at [target]. Point it at another turf to form a path.</span>")
 			return
 	if(istype(target, /turf/open) && !end_turf)
+		var/testDir = get_dir(start_turf,end_turf)
+		if(!(testDir in GLOB.cardinals)) //Because the icon states glitch the hell out and look disgusting
+			to_chat(user, "<span class='warning'>You can only indicate in straight lines, not diagonally.</span>")
+			return
 		end_turf = target
-		addtimer(VARSET_CALLBACK(src, start_turf, null, 5 SECONDS)) //Clear the path after a while
-		addtimer(VARSET_CALLBACK(src, end_turf, null, 5 SECONDS)) //Clear the path after a while
+		addtimer(VARSET_CALLBACK(src, start_turf, null), 10 SECONDS) //Clear the path after a while
+		addtimer(VARSET_CALLBACK(src, end_turf, null), 10 SECONDS) //Clear the path after a while
+		visible_message("<span class='warning'>[user] waves [src] around in a controlled motion.</span>")
 		var/turf/last_turf = start_turf
 		for(var/turf/T in getline(start_turf,end_turf))
-			var/pdir = getDir(last_turf, T)
+			var/pdir = SOUTH
+			if(T == start_turf)
+				pdir = testDir
+			else
+				pdir  = get_dir(last_turf, T)
 			new /obj/effect/temp_visual/dir_setting/wavystick(T, pdir)
 			last_turf = T
 		return
