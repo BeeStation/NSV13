@@ -505,27 +505,28 @@
 
 /obj/item/flashlight/atc_wavy_sticks/afterattack(atom/target, mob/user, proximity)
 	if(!start_turf)
-		if(istype(target, /turf/open))
-			start_turf = target
-			to_chat(user, "<span class='warning'>You point [src] at [target]. Point it at another turf to form a path.</span>")
+		start_turf = get_turf(target)
+		to_chat(user, "<span class='warning'>You point [src] at [target]. Point it at another turf to form a path or alt-click [src] to cancel.</span>")
+		new /obj/effect/temp_visual/impact_effect/green_laser(start_turf)
+		return
+	if(!end_turf)
+		var/testDir = get_dir(start_turf,target)
+		if((testDir in GLOB.cardinals)) //Because otherwise the icon states glitch the hell out and look disgusting
+			end_turf = get_turf(target)
+			addtimer(VARSET_CALLBACK(src, start_turf, null), 5 SECONDS) //Clear the path after a while
+			addtimer(VARSET_CALLBACK(src, end_turf, null), 5 SECONDS) //Clear the path after a while
+			visible_message("<span class='warning'>[user] waves [src] around in a controlled motion.</span>")
+			var/turf/last_turf = start_turf
+			for(var/turf/T in getline(start_turf,end_turf))
+				var/pdir = SOUTH
+				if(T == start_turf)
+					pdir = testDir
+				else
+					pdir  = get_dir(last_turf, T)
+				new /obj/effect/temp_visual/dir_setting/wavystick(T, pdir)
+				last_turf = T
 			return
-	if(istype(target, /turf/open) && !end_turf)
-		var/testDir = get_dir(start_turf,end_turf)
-		if(!(testDir in GLOB.cardinals)) //Because the icon states glitch the hell out and look disgusting
+		else
 			to_chat(user, "<span class='warning'>You can only indicate in straight lines, not diagonally.</span>")
 			return
-		end_turf = target
-		addtimer(VARSET_CALLBACK(src, start_turf, null), 10 SECONDS) //Clear the path after a while
-		addtimer(VARSET_CALLBACK(src, end_turf, null), 10 SECONDS) //Clear the path after a while
-		visible_message("<span class='warning'>[user] waves [src] around in a controlled motion.</span>")
-		var/turf/last_turf = start_turf
-		for(var/turf/T in getline(start_turf,end_turf))
-			var/pdir = SOUTH
-			if(T == start_turf)
-				pdir = testDir
-			else
-				pdir  = get_dir(last_turf, T)
-			new /obj/effect/temp_visual/dir_setting/wavystick(T, pdir)
-			last_turf = T
-		return
 	. = ..()
