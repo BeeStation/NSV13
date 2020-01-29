@@ -173,12 +173,11 @@
 					to_chat(user, "<span class='notice'>You start to load [A] into [src]...</span>")
 				loading = TRUE
 
-				var/load = FALSE
-				if(user)
-					load = do_after(user, load_delay, target = src)
-				else
-					load = TRUE
-				if(load)
+				if(!user || do_after(user, load_delay, target = src))
+					if(!isturf(A.loc)) //Fix double-loading torpedos
+						if(user)
+							to_chat(user, "<span class='warning'>The ammunition has to be next to the weapon!</span>")
+						return FALSE
 					loading = FALSE
 					A.forceMove(src)
 					ammo += A
@@ -193,7 +192,7 @@
 						chamber()
 					loading = FALSE
 					return TRUE
-				//end if(do_after(user, load_delay, target = src))
+				//end if(!user || do_after(user, load_delay, target = src))
 				loading = FALSE
 			//end if(!loading)
 			else if(user)
