@@ -46,13 +46,7 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 #define WARNING_STATE_OVERHEAT 1
 #define WARNING_STATE_MELTDOWN 2
 
-//Constrictor construction steps
-
-#define CONSTRICTOR_NOTBUILT 0
-#define CONSTRICTOR_WRENCHED 1
-#define CONSTRICTOR_SCREWED 2
-#define CONSTRICTOR_WELDED 3
-
+//////Stormdrive///////
 
 /obj/machinery/power/stormdrive_reactor
 	name = "class IV nuclear storm drive"
@@ -66,7 +60,7 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 	light_color = LIGHT_COLOR_CYAN
 	var/obj/machinery/atmospherics/components/binary/pump/pipe
 	var/start_threshold = 20 //N mol of constricted plasma to fire it up. N heat to start it up
-	var/heat = 0 //How hot are we?
+	var/heat = 0 //How hot are we? In Celcius
 	var/target_heat = REACTOR_HEAT_NORMAL //For control rods. How hot do we want the reactor to get? We'll attempt to cool the reactor to this temperature.
 	var/cooling_power = 10 //How much heat we can drain per tick. Matches up with target_heat
 	var/control_rod_percent = 100 //Handles the insertion depth of the control rods into the reactor
@@ -130,142 +124,6 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 	set_light(0)
 	var/area/AR = get_area(src)
 	AR.looping_ambience = 'nsv13/sound/ambience/shipambience.ogg'
-
-/obj/machinery/computer/ship/reactor_control_computer
-	name = "Seegson model RBMK reactor control console"
-	desc = "A state of the art terminal which is linked to a nuclear storm drive reactor. It has several buttons labelled 'AZ' on the keyboard."
-	icon = 'nsv13/icons/obj/machinery/reactor_parts.dmi'
-	icon_state = "rodconsole"
-	density = TRUE
-	anchored = TRUE
-	var/obj/machinery/power/stormdrive_reactor/reactor //Our parent reactor
-	req_access = list(ACCESS_ENGINE_EQUIP)
-
-/obj/machinery/computer/ship/reactor_control_computer/attack_hand(mob/user)
-	if(!allowed(user))
-		var/sound = pick('nsv13/sound/effects/computer/error.ogg','nsv13/sound/effects/computer/error2.ogg','nsv13/sound/effects/computer/error3.ogg')
-		playsound(src, sound, 100, 1)
-		to_chat(user, "<span class='warning'>Access denied</span>")
-		return
-	ui_interact(user)
-
-/obj/machinery/computer/ship/reactor_control_computer/attack_ai(mob/user)
-	. = ..()
-	ui_interact(user)
-
-/obj/machinery/computer/ship/reactor_control_computer/attack_robot(mob/user)
-	. = ..()
-	ui_interact(user)
-
-/obj/machinery/computer/ship/reactor_control_computer/Initialize()
-	. = ..()
-	var/atom/adjacent = locate(/obj/machinery/power/stormdrive_reactor) in get_area(src) //Locate via area
-	if(adjacent && istype(adjacent, /obj/machinery/power/stormdrive_reactor))
-		reactor = adjacent
-
-/obj/machinery/computer/ship/reactor_control_computer/ui_act(action, params, datum/tgui/ui)
-	if(..())
-		return
-	if(!in_range(src, usr) || !reactor) //Topic check
-		return
-	if(!reactor.pipe)
-		reactor.find_pipe()
-	var/tune = params["tune"]
-	var/adjust = text2num(params["adjust"])
-	if(action == "control_rod_percent")
-		if(tune == "input")
-			var/min = 0
-			var/max = 100
-			tune = input("Tune control rod insertion percentage: ([min]-[max]):", name, reactor.control_rod_percent) as num
-			if(tune > 100)
-				tune = 100
-			if(tune <0)
-				tune = 0
-			reactor.control_rod_percent = tune
-		if(adjust && isnum(adjust))
-			if(reactor.control_rod_percent >= 100)
-				reactor.control_rod_percent = 100
-				return
-			if(reactor.control_rod_percent <= 0)
-				reactor.control_rod_percent = 0
-				return
-			reactor.control_rod_percent += adjust
-	switch(action)
-		if("rods_1")
-			reactor.control_rod_percent = 0
-			message_admins("[key_name(usr)] has fully raised reactor control rods in [get_area(usr)] [ADMIN_JMP(usr)]")
-			reactor.update_icon()
-		if("rods_2")
-			reactor.control_rod_percent = 25
-			reactor.update_icon()
-		if("rods_3")
-			reactor.control_rod_percent = 33.6 //Safe mode?
-			reactor.update_icon()
-		if("rods_4")
-			reactor.control_rod_percent = 75
-			reactor.update_icon()
-		if("rods_5")
-			reactor.control_rod_percent = 100
-			reactor.update_icon()
-			to_chat(usr, "<span class='danger'>SCRAM protocols engaged. Attempting reactor shutdown!</span>")
-		if("maintenance")
-			if(reactor.state == REACTOR_STATE_MAINTENANCE)
-				reactor.disengage_maintenance()
-				to_chat(usr, "<span class='danger'>Maintenance protocols disengaged.</span>")
-				attack_hand(usr)
-				return
-			if(reactor.state == REACTOR_STATE_IDLE)
-				reactor.engage_maintenance()
-				to_chat(usr, "<span class='danger'>Maintenance protocols engaged.</span>")
-				attack_hand(usr)
-				return
-			else
-				to_chat(usr, "<span class='danger'>DANGER! Maintenance protocols cannot be initiated while the reactor is active</span>")
-		if("pipe")
-			if(reactor.pipe?.on)
-				reactor.pipe?.on = FALSE
-				reactor.pipe?.target_pressure = ONE_ATMOSPHERE
-				reactor.pipe?.update_icon()
-				to_chat(usr, "<span class='notice'>Reactor outlet gate disengaged.</span>")
-				attack_hand(usr)
-				return
-			else
-				reactor.pipe?.on = TRUE
-				reactor.pipe?.target_pressure = MAX_OUTPUT_PRESSURE
-				reactor.pipe?.update_icon()
-				to_chat(usr, "<span class='notice'>Reactor outlet gate engaged.</span>")
-				attack_hand(usr)
-				return
-
-/obj/machinery/computer/ship/reactor_control_computer/ui_interact(mob/user, ui_key = "main", datum/tgui/ui = null, force_open = 0, datum/tgui/master_ui = null, datum/ui_state/state = GLOB.default_state) // Remember to use the appropriate state.
-	ui = SStgui.try_update_ui(user, src, ui_key, ui, force_open)
-	if(!ui)
-		ui = new(user, src, ui_key, "stormdrive_console", name, 560, 600, master_ui, state)
-		ui.open()
-
-/obj/machinery/computer/ship/reactor_control_computer/ui_data(mob/user)
-	var/list/data = list()
-	data["heat"] = reactor.heat
-	data["rod_integrity"] = reactor.rod_integrity
-	data["control_rod_percent"] = reactor.control_rod_percent
-	data["pipe_open"] = reactor.pipe.on
-	data["last_power_produced"] = reactor.last_power_produced
-	data["theoretical_maximum_power"] = reactor.theoretical_maximum_power
-	data["reaction_rate"] = reactor.reaction_rate
-	if(reactor.state == REACTOR_STATE_MAINTENANCE)
-		data["reactor_maintenance"] = TRUE
-	else
-		data["reactor_maintenance"] = FALSE
-	var/moles = 0
-	if(reactor.pipe)
-		var/datum/gas_mixture/air1 = reactor.pipe.airs[1]
-		var/list/cached_gases = air1.gases
-		if(cached_gases[/datum/gas/constricted_plasma])
-			moles = cached_gases[/datum/gas/constricted_plasma][MOLES]
-			if(moles < 0)
-				moles = 0
-	data["fuel"] = moles
-	return data
 
 /obj/machinery/power/stormdrive_reactor/Initialize()
 	. = ..()
@@ -473,10 +331,14 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 			M.Knockdown(40) //Knockdown prey so it can't get away!
 
 /obj/machinery/power/stormdrive_reactor/proc/ambient_temp_bleed()
-	var/turf/L = loc
+	var/turf/open/L = loc
+	if(!istype(L) || !(L.air))
+		return
 	var/datum/gas_mixture/env = L.return_air()
-	if(env.temperature <= heat)
-		var/delta_env = heat - env.temperature
+//	var/heat_capacity = env.heat_capacity()
+	var/heat_kelvin = heat + 273.15
+	if(env.temperature <= heat_kelvin)
+		var/delta_env = heat_kelvin - env.temperature
 		env.temperature += delta_env / 2
 		air_update_turf()
 
@@ -515,6 +377,166 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 		radio.talk_into(src, message, engineering_channel)
 		addtimer(VARSET_CALLBACK(src, can_alert, TRUE), alert_cooldown)
 
+//////Reactor Computer//////
+
+/obj/machinery/computer/ship/reactor_control_computer
+	name = "Seegson model RBMK reactor control console"
+	desc = "A state of the art terminal which is linked to a nuclear storm drive reactor. It has several buttons labelled 'AZ' on the keyboard."
+	icon = 'nsv13/icons/obj/machinery/reactor_parts.dmi'
+	icon_state = "rodconsole"
+	density = TRUE
+	anchored = TRUE
+	circuit = /obj/item/circuitboard/computer/stormdrive_reactor_control
+	var/obj/machinery/power/stormdrive_reactor/reactor //Our parent reactor
+	req_access = list(ACCESS_ENGINE_EQUIP)
+
+/obj/machinery/computer/ship/reactor_control_computer/attack_hand(mob/user)
+	if(!allowed(user))
+		var/sound = pick('nsv13/sound/effects/computer/error.ogg','nsv13/sound/effects/computer/error2.ogg','nsv13/sound/effects/computer/error3.ogg')
+		playsound(src, sound, 100, 1)
+		to_chat(user, "<span class='warning'>Access denied</span>")
+		return
+	ui_interact(user)
+
+/obj/machinery/computer/ship/reactor_control_computer/attack_ai(mob/user)
+	. = ..()
+	ui_interact(user)
+
+/obj/machinery/computer/ship/reactor_control_computer/attack_robot(mob/user)
+	. = ..()
+	ui_interact(user)
+
+/obj/machinery/computer/ship/reactor_control_computer/Initialize()
+	. = ..()
+	var/atom/adjacent = locate(/obj/machinery/power/stormdrive_reactor) in get_area(src) //Locate via area
+	if(adjacent && istype(adjacent, /obj/machinery/power/stormdrive_reactor))
+		reactor = adjacent
+
+/obj/machinery/computer/ship/reactor_control_computer/ui_act(action, params, datum/tgui/ui)
+	if(..())
+		return
+	if(!in_range(src, usr) || !reactor) //Topic check
+		return
+	if(!reactor.pipe)
+		reactor.find_pipe()
+	var/tune = params["tune"]
+	var/adjust = text2num(params["adjust"])
+	if(action == "control_rod_percent")
+		if(tune == "input")
+			var/min = 0
+			var/max = 100
+			tune = input("Tune control rod insertion percentage: ([min]-[max]):", name, reactor.control_rod_percent) as num
+			if(tune > 100)
+				tune = 100
+			if(tune <0)
+				tune = 0
+			reactor.control_rod_percent = tune
+		if(adjust && isnum(adjust))
+			if(reactor.control_rod_percent >= 100)
+				reactor.control_rod_percent = 100
+				return
+			if(reactor.control_rod_percent <= 0)
+				reactor.control_rod_percent = 0
+				return
+			reactor.control_rod_percent += adjust
+	switch(action)
+		if("rods_1")
+			reactor.control_rod_percent = 0
+			message_admins("[key_name(usr)] has fully raised reactor control rods in [get_area(usr)] [ADMIN_JMP(usr)]")
+			reactor.update_icon()
+		if("rods_2")
+			reactor.control_rod_percent = 25
+			reactor.update_icon()
+		if("rods_3")
+			reactor.control_rod_percent = 33.6 //Safe mode?
+			reactor.update_icon()
+		if("rods_4")
+			reactor.control_rod_percent = 75
+			reactor.update_icon()
+		if("rods_5")
+			reactor.control_rod_percent = 100
+			reactor.update_icon()
+			to_chat(usr, "<span class='danger'>SCRAM protocols engaged. Attempting reactor shutdown!</span>")
+		if("maintenance")
+			if(reactor.state == REACTOR_STATE_MAINTENANCE)
+				reactor.disengage_maintenance()
+				to_chat(usr, "<span class='danger'>Maintenance protocols disengaged.</span>")
+				attack_hand(usr)
+				return
+			if(reactor.state == REACTOR_STATE_IDLE)
+				reactor.engage_maintenance()
+				to_chat(usr, "<span class='danger'>Maintenance protocols engaged.</span>")
+				attack_hand(usr)
+				return
+			else
+				to_chat(usr, "<span class='danger'>DANGER! Maintenance protocols cannot be initiated while the reactor is active</span>")
+		if("pipe")
+			if(reactor.pipe?.on)
+				reactor.pipe?.on = FALSE
+				reactor.pipe?.target_pressure = ONE_ATMOSPHERE
+				reactor.pipe?.update_icon()
+				to_chat(usr, "<span class='notice'>Reactor outlet gate disengaged.</span>")
+				attack_hand(usr)
+				return
+			else
+				reactor.pipe?.on = TRUE
+				reactor.pipe?.target_pressure = MAX_OUTPUT_PRESSURE
+				reactor.pipe?.update_icon()
+				to_chat(usr, "<span class='notice'>Reactor outlet gate engaged.</span>")
+				attack_hand(usr)
+				return
+
+/obj/machinery/computer/ship/reactor_control_computer/ui_interact(mob/user, ui_key = "main", datum/tgui/ui = null, force_open = 0, datum/tgui/master_ui = null, datum/ui_state/state = GLOB.default_state) // Remember to use the appropriate state.
+	ui = SStgui.try_update_ui(user, src, ui_key, ui, force_open)
+	if(!ui)
+		ui = new(user, src, ui_key, "stormdrive_console", name, 560, 600, master_ui, state)
+		ui.open()
+
+/obj/machinery/computer/ship/reactor_control_computer/ui_data(mob/user)
+	var/list/data = list()
+	data["heat"] = reactor.heat
+	data["rod_integrity"] = reactor.rod_integrity
+	data["control_rod_percent"] = reactor.control_rod_percent
+	data["pipe_open"] = reactor.pipe.on
+	data["last_power_produced"] = reactor.last_power_produced
+	data["theoretical_maximum_power"] = reactor.theoretical_maximum_power
+	data["reaction_rate"] = reactor.reaction_rate
+	if(reactor.state == REACTOR_STATE_MAINTENANCE)
+		data["reactor_maintenance"] = TRUE
+	else
+		data["reactor_maintenance"] = FALSE
+	var/moles = 0
+	if(reactor.pipe)
+		var/datum/gas_mixture/air1 = reactor.pipe.airs[1]
+		var/list/cached_gases = air1.gases
+		if(cached_gases[/datum/gas/constricted_plasma])
+			moles = cached_gases[/datum/gas/constricted_plasma][MOLES]
+			if(moles < 0)
+				moles = 0
+	data["fuel"] = moles
+	return data
+
+/obj/item/circuitboard/computer/stormdrive_reactor_control
+	name = "Stormdrive Reactor Control Console (Computer Board)"
+	build_path = /obj/machinery/computer/ship/reactor_control_computer
+
+/datum/design/board/stormdrive_reactor_control
+	name = "Computer Design (Stormdrive Reactor Control Console)"
+	desc = "Allows for the construction of circuit boards used to build a new stormdrive reactor control console."
+	id = "sd_r_c_c"
+	build_path = /obj/item/circuitboard/computer/stormdrive_reactor_control
+	category = list("Computer Boards")
+	departmental_flags = DEPARTMENTAL_FLAG_ENGINEERING
+
+/datum/techweb_node/stormdrive_reactor_control
+	id = "sd_r_c_c"
+	display_name = "Seegson RBMK RCC"
+	description = "Seegson's latest and greatest (within your budget range) reactor control design!"
+	prereq_ids = list("adv_engi", "adv_power")
+	design_ids = list("sd_r_c_c")
+	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 2500)
+	export_price = 5000
+
 //////Reactor Manifold//////
 
 /obj/machinery/atmospherics/components/binary/pump/reactor_manifold
@@ -529,10 +551,10 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 	name = "magnetic constrictor"
 	desc = "A large magnet which is capable of pressurizing plasma into a more energetic state. It is able to self-regulate its plasma input valve, as long as plasma is supplied to it."
 	icon = 'nsv13/icons/obj/machinery/reactor_parts.dmi'
-	icon_state = "constrictor_assembly"
+	icon_state = "constrictor"
 	density = TRUE
 	circuit = /obj/item/circuitboard/machine/magnetic_constrictor
-	var/state = CONSTRICTOR_NOTBUILT
+	active_power_usage = 200
 	var/constriction_rate = 0 //SSAtmos is 4x faster than SSMachines aka the reactor
 	var/max_output_pressure = 0
 
@@ -548,15 +570,12 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 
 /obj/machinery/atmospherics/components/binary/magnetic_constrictor/attack_hand(mob/user)
 	. = ..()
-	if(state != CONSTRICTOR_WELDED)
-		to_chat(user, "<span class='notice'>[src] isn't finished yet!</span>")
-		return ..()
+	if(panel_open)
+		to_chat(user, "<span class='notice'>You must turn close the panel on [src] before turning it on.</span>")
+		return
 	to_chat(user, "<span class='notice'>You press [src]'s power button.</span>")
 	on = !on
-
-/obj/machinery/atmospherics/components/binary/magnetic_constrictor/Initialize()
-	.=..()
-	component_parts = list(new /obj/item/circuitboard/machine/magnetic_constrictor)
+	update_icon()
 
 /obj/machinery/atmospherics/components/binary/magnetic_constrictor/ComponentInitialize()
 	. = ..()
@@ -565,17 +584,12 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 /obj/machinery/atmospherics/components/binary/magnetic_constrictor/process_atmos()
 	..()
 	if(!on)
-		icon_state = "constrictor"
 		return
-	update_icon()
-
 	var/datum/gas_mixture/air1 = airs[1]
 	var/datum/gas_mixture/air2 = airs[2]
-
 	var/output_starting_pressure = air2.return_pressure()
 	if(output_starting_pressure >= max_output_pressure)
 		return
-
 	var/list/cached_gases = air1.gases
 	if(cached_gases[/datum/gas/plasma])
 		var/plasma_moles = cached_gases[/datum/gas/plasma][MOLES]
@@ -585,98 +599,32 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 		air2.temperature = air1.temperature
 		air1.gases[/datum/gas/plasma][MOLES] -= plasma_transfer_moles
 		air1.garbage_collect()
-
 		update_parents()
 
-/obj/machinery/atmospherics/components/binary/magnetic_constrictor/examine(mob/user) //No better guide than an in-game play-by-play guide
-	. = ..()
-	switch(state)
-		if(CONSTRICTOR_NOTBUILT)
-			. += "<span class='notice'>The device lies in pieces on the ground, it must be assembled and the bolts wrenched to secure it into place.</span>"
-		if(CONSTRICTOR_WRENCHED)
-			. += "<span class='notice'>The devices internal wire harnesses must be connected and screwed into place. You could also use a crowbar to dismantle it.</span>"
-		if(CONSTRICTOR_SCREWED)
-			. += "<span class='notice'>Per specifications, the maintenance hatches must be welded shut, normally this device is not tampered with once assembled.</span>"
-		if(CONSTRICTOR_WELDED)
-			. += "<span class='notice'>You can use a welder to open the device to begin disassembly, or to access its securing bolts.</span>"
+/obj/machinery/atmospherics/components/binary/magnetic_constrictor/crowbar_act(mob/user, obj/item/I)
+	default_deconstruction_crowbar(I)
+	return TRUE
 
-/obj/machinery/atmospherics/components/binary/magnetic_constrictor/wrench_act(mob/user, obj/item/tool)
-	. = FALSE
-	switch(state)
-		if(CONSTRICTOR_NOTBUILT)
-			to_chat(user, "<span class='notice'>You start assembly on [src], securing its components into place with bolts...</span>")
-			if(tool.use_tool(src, user, 40, volume=100))
-				to_chat(user, "<span class='notice'>You complete initial assembly on [src]. </span>")
-				state = CONSTRICTOR_WRENCHED
-				update_icon()
-			return TRUE
-		if(CONSTRICTOR_WRENCHED to CONSTRICTOR_SCREWED)
-			return default_unfasten_wrench(user, tool, 20)
-
-/obj/machinery/atmospherics/components/binary/magnetic_constrictor/crowbar_act(mob/user, obj/item/tool)
-	. = FALSE
-	if(state == CONSTRICTOR_WRENCHED)
-		to_chat(user, "<span class='notice'>You start to disassemble [src].</span>")
-		if(tool.use_tool(src, user, 40, volume=100))
-			to_chat(user, "<span class='notice'>You complete disassembly on [src]. </span>")
-			default_deconstruction_crowbar(tool)
+/obj/machinery/atmospherics/components/binary/magnetic_constrictor/screwdriver_act(mob/user, obj/item/I)
+	if(..())
 		return TRUE
-
-/obj/machinery/atmospherics/components/binary/magnetic_constrictor/screwdriver_act(mob/user, obj/item/tool)
-	. = FALSE
-	switch(state)
-		if(CONSTRICTOR_WRENCHED)
-			to_chat(user, "<span class='notice'>You start running wires and securing wire harnesses on [src]...</span>")
-			if(tool.use_tool(src, user, 40, volume=100))
-				to_chat(user, "<span class='notice'>You have assembled the wiring on [src]. </span>")
-				state = CONSTRICTOR_SCREWED
-				update_icon()
-			return TRUE
-		if(CONSTRICTOR_SCREWED)
-			to_chat(user, "<span class='notice'>You start unsecuring wiring harnesses and re-coiling wires on [src]...</span>")
-			if(tool.use_tool(src, user, 40, volume=100))
-				to_chat(user, "<span class='notice'>You undo the wiring of [src]. </span>")
-				state = CONSTRICTOR_WRENCHED
-				update_icon()
-			return TRUE
-
-/obj/machinery/atmospherics/components/binary/magnetic_constrictor/welder_act(mob/user, obj/item/tool)
-	. = FALSE
-	switch(state)
-		if(CONSTRICTOR_SCREWED)
-			to_chat(user, "<span class='notice'>You start securing the maintenance hatches on [src]...</span>")
-			if(tool.use_tool(src, user, 40, volume=100))
-				to_chat(user, "<span class='notice'>You secure the maintenance hatches on [src].</span>")
-				state = CONSTRICTOR_WELDED
-				update_icon()
-			return TRUE
-		if(CONSTRICTOR_WELDED)
-			to_chat(user, "<span class='notice'>You start unwelding the maintenance hatches on [src]...</span>")
-			if(tool.use_tool(src, user, 40, volume=100))
-				to_chat(user, "<span class='notice'You unweld the maintenance hatches on [src].</span>")
-				state = CONSTRICTOR_SCREWED
-				update_icon()
-			return TRUE
-
-/obj/machinery/atmospherics/components/binary/magnetic_constrictor/proc/finish() //Admin only for lazy people who want their shit to instantly complete.
-	anchored = TRUE
-	state = CONSTRICTOR_WELDED
+	if(on)
+		to_chat(user, "<span class='notice'>You must turn off [src] before opening the panel.</span>")
+		return FALSE
+	panel_open = !panel_open
+	I.play_tool_sound(src)
+	to_chat(user, "<span class='notice'>You [panel_open?"open":"close"] the panel on [src].</span>")
 	update_icon()
+	return TRUE
 
 /obj/machinery/atmospherics/components/binary/magnetic_constrictor/update_icon()
 	cut_overlays()
-	switch(state)
-		if(CONSTRICTOR_NOTBUILT)
-			icon_state = "constrictor_assembly"
-		if(CONSTRICTOR_WRENCHED)
-			icon_state = "constrictor_wrench"
-		if(CONSTRICTOR_SCREWED)
-			icon_state = "constrictor_screw"
-		if(CONSTRICTOR_WELDED)
-			if(on)
-				icon_state = "constrictor_active"
-			else
-				icon_state = "constrictor"
+	if(panel_open)
+		icon_state = "constrictor_screw"
+	else if(on)
+		icon_state = "constrictor_active"
+	else
+		icon_state = "constrictor"
 
 /obj/item/circuitboard/machine/magnetic_constrictor
 	name = "Magnetic Constrictor (Machine Board)"
@@ -834,11 +782,6 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 		return
 	status_alarm(FALSE)
 
-
-#undef CONSTRICTOR_NOTBUILT
-#undef CONSTRICTOR_WRENCHED
-#undef CONSTRICTOR_SCREWED
-#undef CONSTRICTOR_WELDED
 #undef REACTOR_HEAT_NORMAL
 #undef REACTOR_HEAT_HOT
 #undef REACTOR_HEAT_VERYHOT

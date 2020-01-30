@@ -394,7 +394,7 @@
 	contains = list(/obj/item/storage/box/firingpins,
 					/obj/item/storage/box/firingpins)
 	crate_name = "firing pins crate"
-	
+
 /datum/supply_pack/security/firingpins/paywall
 	name = "Paywall Firing Pins Crate"
 	desc = "Specialized firing pins with a built-in configurable paywall. Requires Security access to open."
@@ -888,6 +888,7 @@
 
 /datum/supply_pack/engine
 	group = "Engine Construction"
+	access = ACCESS_ENGINE_EQUIP //NSV13 - Do your hecking jobs
 	crate_type = /obj/structure/closet/crate/engineering
 
 /datum/supply_pack/engine/am_jar
@@ -1574,7 +1575,7 @@
 					/obj/item/stack/tile/carpet/royalblack/fifty,
 					/obj/item/stack/tile/carpet/royalblack/fifty)
 	crate_name = "exotic carpet crate"
-	
+
 /datum/supply_pack/service/lightbulbs
 	name = "Replacement Lights"
 	desc = "May the light of Aether shine upon this station! Or at least, the light of forty two light tubes and twenty one light bulbs."
