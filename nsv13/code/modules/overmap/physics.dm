@@ -222,10 +222,19 @@
 	mat_from.Turn(last_angle)
 	var/matrix/mat_to = new()
 	mat_to.Turn(angle)
+	var/matrix/targetAngle = new() //Indicate where the ship wants to go.
+	targetAngle.Turn(desired_angle)
 	if(resize > 0)
 		for(var/i = 0, i < resize, i++) //We have to resize by 0.5 to shrink. So shrink down by a factor of "resize"
 			mat_from.Scale(0.5,0.5)
 			mat_to.Scale(0.5,0.5)
+			targetAngle.Scale(0.5,0.5) //Scale down their movement indicator too so it doesnt look comically big
+	if(pilot?.client && desired_angle && !move_by_mouse)//Preconditions: Pilot is logged in and exists, there is a desired angle, we are NOT moving by mouse (dont need to see where we're steering if it follows mousemovement)
+		vector_overlay.transform = targetAngle
+		vector_overlay.alpha = 255
+	else
+		vector_overlay.alpha = 0
+		targetAngle = null
 	transform = mat_from
 	pixel_x = last_offset_x*32
 	pixel_y = last_offset_y*32

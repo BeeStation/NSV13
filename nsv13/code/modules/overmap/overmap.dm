@@ -230,13 +230,6 @@
 	if(railgun_overlay) //Swivel the railgun to aim at the last thing we hit
 		railgun_overlay.icon = icon
 		railgun_overlay.setDir(get_dir(src, last_target))
-	if(pilot?.client && desired_angle && !move_by_mouse)//Preconditions: Pilot is logged in and exists, there is a desired angle, we are NOT moving by mouse (dont need to see where we're steering if it follows mousemovement)
-		var/matrix/targetAngle = new() //Indicate where the ship wants to go.
-		targetAngle.Turn(desired_angle)
-		vector_overlay.transform = targetAngle
-		vector_overlay.alpha = 255
-	else
-		vector_overlay.alpha = 0
 	if(angle == desired_angle)
 		return //No RCS needed if we're already facing where we want to go
 	if(prob(20) && desired_angle)
