@@ -151,12 +151,12 @@
 		if(MASS_LARGE)
 			forward_maxthrust = 0.3
 			backward_maxthrust = 0.3
-			side_maxthrust = 0.3
+			side_maxthrust = 0.75
 			max_angular_acceleration = 1
 		if(MASS_TITAN)
 			forward_maxthrust = 0.1
 			backward_maxthrust = 0.1
-			side_maxthrust = 0.1
+			side_maxthrust = 0.3
 			max_angular_acceleration = 0.5
 	if(main_overmap)
 		name = "[station_name()]"
