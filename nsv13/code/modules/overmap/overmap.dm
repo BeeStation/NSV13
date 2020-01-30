@@ -69,7 +69,7 @@
 	var/atom/last_target //Last thing we shot at, used to point the railgun at an enemy.
 	var/rcs_mode = FALSE //stops you from swivelling on mouse move
 	var/fire_mode = FIRE_MODE_PDC //What gun do we want to fire? Defaults to railgun, with PDCs there for flak
-	var/move_by_mouse = TRUE //It's way easier this way, but people can choose.
+	var/move_by_mouse = FALSE //By default this isn't on. The Q+E method feels way better for large ships, this is mostly reserved for fighters.
 	var/faction = null //Used for target acquisition by AIs
 	var/sprite_size = 64 //Pixels. This represents 64x64 and allows for the bullets that you fire to align properly.
 	var/torpedoes = 15 //Prevent infinite torp spam
@@ -116,6 +116,11 @@
 	railgun_overlay = new()
 	railgun_overlay.appearance_flags |= KEEP_APART
 	railgun_overlay.appearance_flags |= RESET_TRANSFORM
+	vector_overlay = new()
+	vector_overlay.appearance_flags |= KEEP_APART
+	vector_overlay.appearance_flags |= RESET_TRANSFORM
+	vector_overlay.icon = icon
+	vis_contents += vector_overlay
 	vis_contents += railgun_overlay
 	update_icon()
 	max_range = initial(weapon_range)+20 //Range of the maximum possible attack (torpedo)
@@ -132,26 +137,27 @@
 			cabin_air.add_gases(/datum/gas/oxygen, /datum/gas/nitrogen)
 			cabin_air.gases[/datum/gas/oxygen][MOLES] = O2STANDARD*cabin_air.volume/(R_IDEAL_GAS_EQUATION*cabin_air.temperature)
 			cabin_air.gases[/datum/gas/nitrogen][MOLES] = N2STANDARD*cabin_air.volume/(R_IDEAL_GAS_EQUATION*cabin_air.temperature)
+			move_by_mouse = TRUE //You'll want this. Trust.
 		if(MASS_SMALL)
 			forward_maxthrust = 3
 			backward_maxthrust = 3
-			side_maxthrust = 2
+			side_maxthrust = 3
 			max_angular_acceleration = 110
 		if(MASS_MEDIUM)
 			forward_maxthrust = 2
-			backward_maxthrust = 1
-			side_maxthrust = 1
-			max_angular_acceleration = 120
+			backward_maxthrust = 2
+			side_maxthrust = 2
+			max_angular_acceleration = 15
 		if(MASS_LARGE)
 			forward_maxthrust = 0.3
 			backward_maxthrust = 0.3
-			side_maxthrust = 0.2
-			max_angular_acceleration = 15
+			side_maxthrust = 0.3
+			max_angular_acceleration = 1
 		if(MASS_TITAN)
 			forward_maxthrust = 0.1
 			backward_maxthrust = 0.1
 			side_maxthrust = 0.1
-			max_angular_acceleration = 5
+			max_angular_acceleration = 0.5
 	if(main_overmap)
 		name = "[station_name()]"
 	current_system = GLOB.starsystem_controller.find_system(src)
@@ -199,6 +205,7 @@
 		desired_angle = 90 - ATAN2(dx, dy)
 	else
 		desired_angle = null
+	update_icon()
 
 /obj/structure/overmap/take_damage()
 	..()
@@ -213,16 +220,7 @@
 /obj/structure/overmap/relaymove(mob/user, direction)
 	if(user != pilot || pilot.incapacitated())
 		return
-	if(rcs_mode || move_by_mouse) //They don't want to turn the ship, or theyre using mouse movement mode.
-		user_thrust_dir = direction
-	else
-		switch(direction)
-			if(NORTH || SOUTH || NORTHEAST || SOUTHEAST || NORTHWEST || SOUTHWEST) //Forward or backwards means we don't want to turn
-				user_thrust_dir = direction
-			if(EAST) //Left or right means we do want to turn
-				desired_angle += max_angular_acceleration*0.1
-			if(WEST)
-				desired_angle -= max_angular_acceleration*0.1
+	user_thrust_dir = direction
 
 //	relay('nsv13/sound/effects/ship/rcs.ogg')
 
@@ -232,6 +230,13 @@
 	if(railgun_overlay) //Swivel the railgun to aim at the last thing we hit
 		railgun_overlay.icon = icon
 		railgun_overlay.setDir(get_dir(src, last_target))
+	if(pilot?.client && desired_angle)
+		var/matrix/targetAngle = new() //Indicate where the ship wants to go.
+		targetAngle.Turn(desired_angle)
+		vector_overlay.transform = targetAngle
+		vector_overlay.alpha = 255
+	else
+		vector_overlay.alpha = 0
 	if(angle == desired_angle)
 		return //No RCS needed if we're already facing where we want to go
 	if(prob(20) && desired_angle)
@@ -318,6 +323,17 @@
 		return FALSE
 	return !user.incapacitated() && isliving(user)
 
+/*
+
+Legend:
+Q = turn left
+E = turn right
+WASD = RCS laterally
+
+*/
+
+/obj/structure/overmap/key_down(key, client/user)
+
 /obj/structure/overmap/key_down(key, client/user)
 	var/mob/themob = user.mob
 	switch(key)
@@ -327,22 +343,22 @@
 			if(helm && prob(80))
 				var/sound = pick(GLOB.computer_beeps)
 				playsound(helm, sound, 100, 1)
-			return TRUE
+			return
 		if("Alt")
 			if(themob == pilot)
 				toggle_brakes()
 			if(helm && prob(80))
 				var/sound = pick(GLOB.computer_beeps)
 				playsound(helm, sound, 100, 1)
-			return TRUE
+			return
 		if("Ctrl")
 			if(themob == gunner)
 				cycle_firemode()
 			if(tactical && prob(80))
 				var/sound = pick(GLOB.computer_beeps)
 				playsound(tactical, sound, 100, 1)
-			return TRUE
-	return FALSE
+			return
+	return ..()
 
 /obj/structure/overmap/verb/toggle_brakes()
 	set name = "Toggle Handbrake"

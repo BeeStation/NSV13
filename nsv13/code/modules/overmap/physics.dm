@@ -3,8 +3,18 @@
 // I had no part in writing this movement engine, that's his work      //
 /////////////////////////////////////////////////////////////////////////
 
+/obj/vector_overlay
+	name = "Vector overlay for overmap ships"
+	desc = "Report this to a coder"
+	icon = 'nsv13/icons/overmap/thrust_vector.dmi'
+	icon_state = "thrust_low"
+	mouse_opacity = FALSE
+	alpha = 0
+	layer = HIGH_OBJ_LAYER
+
 /obj/structure/overmap
 	var/last_process = 0
+	var/obj/vector_overlay/vector_overlay
 
 /obj/structure/overmap/proc/can_move()
 	return TRUE //Placeholder for everything but fighters. We can later extend this if / when we want to code in ship engines.
@@ -124,7 +134,10 @@
 		velocity_y = -speed_limit
 	velocity_x += thrust_x * time //And speed us up based on how long we've been thrusting (up to a point)
 	velocity_y += thrust_y * time
-
+	if(pilot?.client?.keys_held["Q"]) //While theyre pressing E || Q, turn.
+		desired_angle -= 15 //Otherwise it feels sluggish as all hell
+	if(pilot?.client?.keys_held["E"])
+		desired_angle += 15
 	offset_x += velocity_x * time
 	offset_y += velocity_y * time
 	// alright so now we reconcile the offsets with the in-world position.

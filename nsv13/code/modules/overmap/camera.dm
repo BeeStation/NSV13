@@ -21,7 +21,6 @@
 				to_chat(pilot, "<span class='warning'>[user] has kicked you off the ship controls!</span>")
 				stop_piloting(pilot)
 			pilot = user
-			show_flight_ui()
 			LAZYOR(user.mousemove_intercept_objects, src)
 		if("gunner")
 			if(gunner)
