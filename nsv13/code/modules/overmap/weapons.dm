@@ -162,6 +162,9 @@
 			fire_railgun(target)
 		if(FIRE_MODE_TORPEDO) //In case of bugs.
 			fire_torpedo(target)
+			var/obj/structure/overmap/OM = target
+			if(OM.dradis)
+				playsound(OM.dradis, 'nsv13/sound/effects/fighters/launchwarning.ogg', 100, FALSE)
 
 /obj/structure/overmap/verb/cycle_firemode()
 	set name = "Switch firemode"

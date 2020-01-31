@@ -134,9 +134,9 @@
 		velocity_y = -speed_limit
 	velocity_x += thrust_x * time //And speed us up based on how long we've been thrusting (up to a point)
 	velocity_y += thrust_y * time
-	if(pilot?.client?.keys_held["Q"]) //While theyre pressing E || Q, turn.
+	if(pilot?.client?.keys_held["Q"] && can_move()) //While theyre pressing E || Q, turn.
 		desired_angle -= 15 //Otherwise it feels sluggish as all hell
-	if(pilot?.client?.keys_held["E"])
+	if(pilot?.client?.keys_held["E"] && can_move())
 		desired_angle += 15
 	offset_x += velocity_x * time
 	offset_y += velocity_y * time

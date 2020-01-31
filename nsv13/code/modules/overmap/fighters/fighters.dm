@@ -51,7 +51,7 @@ After going through this checklist, you're ready to go!
 	var/prebuilt = FALSE
 	var/weapon_efficiency = 0
 	var/fuel_consumption = 0
-	var/max_torpedoes = 2 //Tiny payload.
+	var/max_torpedoes = 6 //Decent payload.
 	var/mag_lock = FALSE //Mag locked by a launch pad. Cheaper to use than locate()
 	var/max_passengers = 0 //Maximum capacity for passengers, INCLUDING pilot (EG: 1 pilot, 4 passengers).
 	var/docking_mode = FALSE
@@ -530,6 +530,10 @@ After going through this checklist, you're ready to go!
 							/obj/item/twohanded/required/fighter_component/primary_cannon)
 	munitions += new /obj/structure/munition/fast(src)
 	munitions += new /obj/structure/munition/fast(src)
+	munitions += new /obj/structure/munition/fast(src)
+	munitions += new /obj/structure/munition/fast(src)
+	munitions += new /obj/structure/munition/fast(src)
+	munitions += new /obj/structure/munition/fast(src)
 	for(var/item in components)
 		new item(src)
 	torpedoes = munitions.len
@@ -848,15 +852,12 @@ After going through this checklist, you're ready to go!
 	else
 		dat += "<a href='?src=[REF(src)]:primary_weapon=1'>[pw?.name]</a><br>"
 	dat += "<p>Ammo Capacity:</p>"
-	var/t = 0
+	var/empty = 6
 	for(var/obj/structure/munition/mu in contents)
 		dat += "<a href='?src=[REF(src)];torpedo=1'>[mu?.name]</a><br>"
-		t++
-	switch(t)
-		if(1)
-			dat += "<p><b>ONE TORPEDO PYLON EMPTY</font></p><br>"
-		if(0)
-			dat += "<p><b>TWO TORPEDO PYLONS EMPTY</font></p><br>"
+		empty--
+	if(empty > 0)
+		dat += "<p><b>[num2text(empty)] TORPEDO PYLONS EMPTY</font></p><br>"
 	dat += "<h2> Components: </h2>"
 	var/atom/movable/ap = get_part(/obj/item/twohanded/required/fighter_component/armour_plating)
 	if(ap == null)

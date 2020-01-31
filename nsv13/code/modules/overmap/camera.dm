@@ -52,6 +52,7 @@
 		if(tactical)
 			playsound(tactical, 'nsv13/sound/effects/computer/hum.ogg', 100, 1)
 		gunner = null
+		target_lock = null
 	if(M.client)
 		M.client.check_view()
 	M.overmap_ship = null
@@ -83,6 +84,7 @@
 	var/datum/action/innate/camera_off/overmap/off_action
 	animate_movement = 0 //Stops glitching with overmap movement
 	use_static = USE_STATIC_NONE
+	var/obj/structure/overmap/override_origin = null //Lets gunners lock on to their targets for accurate shooting.
 
 /datum/action/innate/camera_off/overmap
 	name = "Stop observing"
@@ -112,4 +114,10 @@
 	RegisterSignal(origin, COMSIG_MOVABLE_MOVED, .proc/update)
 
 /mob/camera/aiEye/remote/overmap_observer/proc/update()
+	if(override_origin)
+		forceMove(override_origin) //This only happens for gunner cams
+		eye_user.client.pixel_x = override_origin.pixel_x
+		eye_user.client.pixel_y = override_origin.pixel_y
+		eye_user.client.eye = override_origin
+		return
 	forceMove(get_turf(origin))

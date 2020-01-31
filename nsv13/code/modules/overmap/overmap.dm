@@ -98,6 +98,9 @@
 	var/weapon_safety = FALSE //Like a gun safety. Entirely un-used except for fighters to stop brainlets from shooting people on the ship unintentionally :)
 	var/armour_plates = 0 //You lose max integrity when you lose armour plates.
 	var/max_armour_plates = 500 //Placeholder. Set by counting in game objects.
+	var/obj/structure/overmap/target_lock = null //Have we locked on to a ship?
+	var/lockon_time = 5 SECONDS
+	var/can_lock = TRUE //Are we able to lock on to things with RADAR/DRADIS..?
 
 /obj/structure/overmap/can_be_pulled(user) // no :)
 	return FALSE
@@ -183,13 +186,61 @@
 	var/list/params_list = params2list(params)
 	if(user.incapacitated() || !isliving(user))
 		return FALSE
-	if(target == src || istype(target, /obj/screen) || (target && (target in user.GetAllContents())) || user != gunner || params_list["shift"] || params_list["alt"] || params_list["ctrl"])
+	if(target == src || istype(target, /obj/screen) || (target && (target in user.GetAllContents())) || user != gunner || params_list["alt"] || params_list["ctrl"])
 		return FALSE
 	if(tactical && prob(80))
 		var/sound = pick(GLOB.computer_beeps)
 		playsound(tactical, sound, 100, 1)
+	if(params_list["shift"]) //Shift click to lock on to people
+		start_lockon(target)
+		return TRUE
+	if(target_lock && mass <= MASS_TINY)
+		fire(target_lock) //Fighters get an aimbot to help them out.
+		return TRUE
 	fire(target)
 	return TRUE
+
+/obj/structure/overmap/proc/start_lockon(atom/target)
+	if(!istype(target, /obj/structure/overmap))
+		return FALSE
+	if(target == target_lock)
+		to_chat(gunner, "<span class='warning'>Target lock on [target] cancelled. Returning manual fire control.</span>")
+		target_lock = null
+		update_gunner_cam(src)
+		return
+	if(!can_lock)
+		to_chat(gunner, "<span class='warning'>Target acquisition already in progress. Please wait.</span>")
+		return
+	if(target_lock)
+		target_lock = null
+		stop_relay(CHANNEL_IMPORTANT_SHIP_ALERT)
+		if(mass > MASS_TINY)
+			update_gunner_cam(src)
+	can_lock = FALSE
+	relay('nsv13/sound/effects/fighters/locking.ogg', message=null, loop=TRUE, channel=CHANNEL_IMPORTANT_SHIP_ALERT)
+	addtimer(CALLBACK(src, .proc/finish_lockon, target), lockon_time)
+
+/obj/structure/overmap/proc/finish_lockon(atom/target)
+	if(!gunner)
+		return
+	can_lock = TRUE
+	target_lock = target
+	if(mass > MASS_TINY)
+		update_gunner_cam(target)
+	else
+		to_chat(gunner, "<span class='notice'>Target lock established. All weapons will now automatically lock on to your chosen target instead of where you specifically aim them. </span>")
+	stop_relay(CHANNEL_IMPORTANT_SHIP_ALERT)
+	relay('nsv13/sound/effects/fighters/locked.ogg', message=null, loop=FALSE, channel=CHANNEL_IMPORTANT_SHIP_ALERT)
+
+/obj/structure/overmap/proc/update_gunner_cam(atom/target)
+	if(target == src)
+		target = null //Snap cams back to us.
+	for(var/mob/living/carbon/human/M in operators)
+		if(M != gunner) //Don't snap the pilot's view...
+			continue
+		var/mob/camera/aiEye/remote/overmap_observer/cam = M.remote_control
+		cam.override_origin = target //Tell the camera that we're now going to track our currently target lock'd ship over our own ship.
+		cam.update()
 
 /obj/structure/overmap/onMouseMove(object,location,control,params)
 	if(!pilot || !pilot.client || pilot.incapacitated() || !move_by_mouse || control !="mapwindow.map" ||!can_move()) //Check pilot status, if we're meant to follow the mouse, and if theyre actually moving over a tile rather than in a menu
