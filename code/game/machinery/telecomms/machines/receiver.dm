@@ -33,7 +33,7 @@
 
 	for(var/obj/machinery/telecomms/hub/H in links)
 		for(var/obj/machinery/telecomms/relay/R in H.links)
-			if(R.can_receive(signal) && R.z in signal.levels)
+			if(R.can_receive(signal) && (R.z in signal.levels))
 				return TRUE
 
 	return FALSE
@@ -55,7 +55,7 @@
 	id = "Receiver B"
 	network = "tcommsat"
 	autolinkers = list("receiverB") // link to relay
-	freq_listening = list(FREQ_COMMAND, FREQ_ENGINEERING, FREQ_SECURITY)
+	freq_listening = list(FREQ_COMMAND, FREQ_ENGINEERING, FREQ_SECURITY, FREQ_MUNITIONS) //NSV13 - Munitions added
 
 	//Common and other radio frequencies for people to freely use
 /obj/machinery/telecomms/receiver/preset_right/Initialize()

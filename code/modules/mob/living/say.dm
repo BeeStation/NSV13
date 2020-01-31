@@ -1,5 +1,5 @@
 GLOBAL_LIST_INIT(department_radio_prefixes, list(":", "."))
-//Nsv13 - atc chat
+//Nsv13 - atc chat & munitions
 GLOBAL_LIST_INIT(department_radio_keys, list(
 	// Location
 	MODE_KEY_R_HAND = MODE_R_HAND,
@@ -15,6 +15,7 @@ GLOBAL_LIST_INIT(department_radio_keys, list(
 	RADIO_KEY_SECURITY = RADIO_CHANNEL_SECURITY,
 	RADIO_KEY_SUPPLY = RADIO_CHANNEL_SUPPLY,
 	RADIO_KEY_SERVICE = RADIO_CHANNEL_SERVICE,
+	RADIO_KEY_MUNITIONS = RADIO_CHANNEL_MUNITIONS,
 
 	// Faction
 	RADIO_KEY_SYNDICATE = RADIO_CHANNEL_SYNDICATE,
@@ -383,7 +384,7 @@ GLOBAL_LIST_INIT(department_radio_keys, list(
 		if(message_mode == MODE_HEADSET)
 			imp.radio.talk_into(src, message, , spans, language)
 			return ITALICS | REDUCE_RANGE
-		if(message_mode == MODE_DEPARTMENT || message_mode in GLOB.radiochannels)
+		if(message_mode == MODE_DEPARTMENT || (message_mode in GLOB.radiochannels))
 			imp.radio.talk_into(src, message, message_mode, spans, language)
 			return ITALICS | REDUCE_RANGE
 

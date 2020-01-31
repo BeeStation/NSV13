@@ -167,6 +167,19 @@
 				heirloom_type = /obj/item/clipboard
 			if("Shaft Miner")
 				heirloom_type = pick(/obj/item/pickaxe/mini, /obj/item/shovel)
+			//NSV13 Munitions
+			if("Master At Arms")
+				heirloom_type = pick(/obj/item/wrench, /obj/item/screwdriver, /obj/item/multitool)
+			if("Munitions Technician")
+				heirloom_type = pick(/obj/item/wrench, /obj/item/screwdriver, /obj/item/multitool)
+			if("Air Traffic Controller")
+				heirloom_type = pick(/obj/item/clothing/head/beret/ship/pilot, /obj/item/reagent_containers/food/drinks/mug)
+			if("CAG")
+				heirloom_type = pick(/obj/item/clothing/head/beret/ship/pilot, /obj/item/clothing/accessory/medal/bronze_heart)
+			if("Fighter Pilot")
+				heirloom_type = pick(/obj/item/clothing/head/beret/ship/pilot, /obj/item/clothing/accessory/medal/bronze_heart)
+			if("Bridge Staff")
+				heirloom_type = /obj/item/reagent_containers/food/drinks/mug
 
 	if(!heirloom_type)
 		heirloom_type = pick(
