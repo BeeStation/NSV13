@@ -42,7 +42,7 @@ GLOBAL_PROTECT(exp_to_update)
 	return exp_type
 
 /proc/job_is_xp_locked(jobtitle)
-	if(!CONFIG_GET(flag/use_exp_restrictions_heads) && jobtitle in (GLOB.command_positions | list("AI")))
+	if(!CONFIG_GET(flag/use_exp_restrictions_heads) && (jobtitle in (GLOB.command_positions | list("AI"))))
 		return FALSE
 	if(!CONFIG_GET(flag/use_exp_restrictions_other) && !(jobtitle in (GLOB.command_positions | list("AI"))))
 		return FALSE
@@ -89,7 +89,7 @@ GLOBAL_PROTECT(exp_to_update)
 				exp_data[category] = text2num(play_records[category])
 			else
 				exp_data[category] = 0
-	
+
 	if((prefs.db_flags & DB_FLAG_EXEMPT) || (prefs.job_exempt))
 		return_text += "<LI>Exempt (all jobs auto-unlocked)</LI>"
 
@@ -212,9 +212,9 @@ GLOBAL_PROTECT(exp_to_update)
 		if(mob.stat != DEAD)
 			var/rolefound = FALSE
 			play_records[EXP_TYPE_LIVING] += minutes
-			
+
 			process_ten_minute_living()
-			
+
 			if(announce_changes)
 				to_chat(src,"<span class='notice'>You got: [minutes] Living EXP!</span>")
 			if(mob.mind.assigned_role)

@@ -8,7 +8,7 @@
 	ruletype = "Midround"
 	/// If the ruleset should be restricted from ghost roles.
 	var/restrict_ghost_roles = TRUE
-	/// What mob type the ruleset is restricted to. 
+	/// What mob type the ruleset is restricted to.
 	var/required_type = /mob/living/carbon/human
 	var/list/living_players = list()
 	var/list/living_antags = list()
@@ -48,7 +48,7 @@
 				candidates.Remove(M)
 				continue
 		if (M.mind)
-			if (restrict_ghost_roles && M.mind.assigned_role in GLOB.exp_specialmap[EXP_TYPE_SPECIAL]) // Are they playing a ghost role?
+			if (restrict_ghost_roles && (M.mind.assigned_role in GLOB.exp_specialmap[EXP_TYPE_SPECIAL])) // Are they playing a ghost role?
 				trimmed_list.Remove(M)
 				continue
 			if (M.mind.assigned_role in restricted_roles || HAS_TRAIT(M, TRAIT_MINDSHIELD)) // Does their job allow it or are they mindshielded?
@@ -191,7 +191,7 @@
 	..()
 	for(var/mob/living/player in living_players)
 		if(issilicon(player)) // Your assigned role doesn't change when you are turned into a silicon.
-			living_players -= player 
+			living_players -= player
 			continue
 		if(is_centcom_level(player.z))
 			living_players -= player // We don't autotator people in CentCom
