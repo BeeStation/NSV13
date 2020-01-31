@@ -205,8 +205,8 @@
 		return FALSE
 	if(target == target_lock)
 		to_chat(gunner, "<span class='warning'>Target lock on [target] cancelled. Returning manual fire control.</span>")
-		target_lock = null
 		update_gunner_cam(src)
+		target_lock = null
 		return
 	if(!can_lock)
 		to_chat(gunner, "<span class='warning'>Target acquisition already in progress. Please wait.</span>")

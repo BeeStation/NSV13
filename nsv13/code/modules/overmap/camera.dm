@@ -118,6 +118,5 @@
 		forceMove(override_origin) //This only happens for gunner cams
 		eye_user.client.pixel_x = override_origin.pixel_x
 		eye_user.client.pixel_y = override_origin.pixel_y
-		eye_user.client.eye = override_origin
 		return
 	forceMove(get_turf(origin))
