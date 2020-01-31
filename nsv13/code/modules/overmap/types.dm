@@ -141,6 +141,25 @@
 	damage_states = TRUE
 	area_type = /area/ruin/powered/nsv13/gunship
 
+/obj/structure/overmap/syndicate/ai/carrier
+	name = "syndicate carrier"
+	icon = 'nsv13/icons/overmap/syndicate/syn_carrier.dmi'
+	icon_state = "carrier"
+	bound_width = 128 //Change this on a per ship basis
+	bound_height = 256
+	mass = MASS_LARGE
+	ai_can_launch_fighters = TRUE //AI variable. Allows your ai ships to spawn fighter craft
+	ai_fighter_type = /obj/structure/overmap/fighter/ai/syndicate
+	sprite_size = 48
+	damage_states = TRUE
+	pixel_z = -96
+	pixel_w = -96
+	max_integrity = 700 //Tanky so that it can survive to deploy multiple fighter waves.
+	integrity_failure = 700
+
+/obj/structure/overmap/syndicate/ai/carrier/get_max_firemode() //This boy really doesn't need a railgun
+	return FIRE_MODE_TORPEDO
+
 /obj/structure/overmap/syndicate/ai/patrol_cruiser //Larger ship which is much harder to kill
 	icon = 'nsv13/icons/overmap/syndicate/syn_patrol_cruiser.dmi'
 	icon_state = "patrol_cruiser"
