@@ -20,17 +20,35 @@
 	max_ammo = 3 //Until you have to manually load it back up again. Battleships IRL have 3-4 shots before you need to reload the rack
 	dir = 4
 
+	var/req_components = list(
+		/obj/item/stock_parts/capacitor = 4,
+		/obj/item/ship_weapon/parts/loading_tray = 1,
+		/obj/item/ship_weapon/parts/firing_electronics = 1,
+		/obj/item/ship_weapon/parts/railgun_rail = 2
+
 /obj/machinery/ship_weapon/railgun/Initialize()
 	..()
-	component_parts = list()
-	component_parts += new/obj/item/ship_weapon/parts/loading_tray
-	component_parts += new/obj/item/ship_weapon/parts/firing_electronics
-	component_parts += new/obj/item/ship_weapon/parts/railgun_rail
-	component_parts += new/obj/item/ship_weapon/parts/railgun_rail
-	component_parts += new/obj/item/stock_parts/capacitor
-	component_parts += new/obj/item/stock_parts/capacitor
-	component_parts += new/obj/item/stock_parts/capacitor
-	component_parts += new/obj/item/stock_parts/capacitor
+	apply_default_parts()
+
+/obj/machinery/ship_weapon/railgun/proc/apply_default_parts()
+	if(!req_components)
+		return
+
+	component_parts = list() // List of components always contains a board
+
+	for(var/comp_path in req_components)
+		var/comp_amt = req_components[comp_path]
+		if(!comp_amt)
+			continue
+
+		if(def_components && def_components[comp_path])
+			comp_path = def_components[comp_path]
+
+		if(ispath(comp_path, /obj/item/stack))
+			component_parts += new comp_path(null, comp_amt)
+		else
+			for(var/i in 1 to comp_amt)
+				component_parts += new comp_path(null)
 
 /obj/machinery/ship_weapon/railgun/examine()
 	. = ..()
