@@ -9,6 +9,9 @@
 #define STATE_CHAMBERED 4
 #define STATE_FIRING 5
 
+/obj/item/ship_weapon/ammunition
+	var/projectile_type = null //What does the projectile look like on the overmap?
+
 /**
  * Ship-to-ship weapons
  * To add a weapon type:

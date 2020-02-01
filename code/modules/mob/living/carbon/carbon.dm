@@ -23,7 +23,6 @@
 	AddComponent(/datum/component/footstep, 1, 2)
 
 /mob/living/carbon/swap_hand(held_index)
-	to_chat(world, "<span class='notice'>Trying to swap hands</span>")
 	if(!held_index)
 		held_index = (active_hand_index % held_items.len)+1
 
@@ -31,9 +30,7 @@
 	if(item_in_hand) //this segment checks if the item in your hand is twohanded.
 		var/datum/component/twohanded/TH = item_in_hand.GetComponent(/datum/component/twohanded)
 		if(TH)
-			to_chat(world, "<span class='notice'>Got one for [item_in_hand]!</span>")
 			if(TH.wielded == 1)
-				to_chat(world, "<span class='notice'>And it's wielded!</span>")
 				to_chat(usr, "<span class='warning'>Your other hand is too busy holding [item_in_hand].</span>")
 				return
 		else if(item_in_hand.GetComponent(/datum/component/twohanded)) //NSV13 - check twohanded component

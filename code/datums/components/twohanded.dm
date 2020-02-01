@@ -53,9 +53,7 @@
 	return
 
 /datum/component/twohanded/proc/wield(mob/living/carbon/user)
-	to_chat(world, "<span class='notice'>Trying to wield a twohanded item</span>")
 	if(wielded)
-		to_chat(world, "<span class='notice'>Already wielded</span>")
 		return
 	if(ismonkey(user))
 		to_chat(user, "<span class='warning'>It's too heavy for you to wield fully.</span>")
@@ -83,7 +81,6 @@
 	var/datum/component/twohanded/T = O.GetComponent(/datum/component/twohanded)
 	T.wielded = TRUE
 	user.put_in_inactive_hand(O)
-	to_chat(world, "<span class='notice'>Made it to the end and [master] has [wielded]</span>")
 	return
 
 /datum/component/twohanded/proc/dropped(obj/item/I, mob/user)
@@ -158,7 +155,6 @@
 	..()
 
 /datum/component/twohanded/required/wield(mob/living/carbon/user)
-	to_chat(world, "<span class='notice'>Trying to wield a 2h-required item</span>")
 	..()
 	if(!wielded)
 		user.dropItemToGround(parent)
