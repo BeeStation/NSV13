@@ -42,9 +42,6 @@
 		if(!comp_amt)
 			continue
 
-		if(req_components && req_components[comp_path])
-			comp_path = req_components[comp_path]
-
 		if(ispath(comp_path, /obj/item/stack))
 			component_parts += new comp_path(null, comp_amt)
 		else
