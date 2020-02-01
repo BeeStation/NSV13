@@ -56,8 +56,10 @@
 	if(M.client)
 		M.client.check_view()
 	M.overmap_ship = null
+	var/mob/camera/aiEye/remote/overmap_observer/eyeobj = M.remote_control
+	if(eyeobj?.off_action)
+		qdel(eyeobj.off_action)
 	M.cancel_camera()
-	M.remote_control = null
 	return TRUE
 
 /obj/structure/overmap/proc/CreateEye(mob/user)
@@ -96,7 +98,7 @@
 /datum/action/innate/camera_off/overmap/Activate()
 	if(!target || !isliving(target))
 		return
-	if(!remote_eye.origin)
+	if(!remote_eye?.origin)
 		qdel(src)
 		qdel(remote_eye)
 	var/obj/structure/overmap/ship = remote_eye.origin

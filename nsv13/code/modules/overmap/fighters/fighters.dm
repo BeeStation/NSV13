@@ -425,11 +425,11 @@ After going through this checklist, you're ready to go!
 	if(mass < OM.mass && OM.docking_points.len && docking_mode) //If theyre smaller than us,and we have docking points, and they want to dock
 		transfer_from_overmap(OM)
 	if(mass >= OM.mass && docking_mode) //Looks like theyre smaller than us, and need rescue.
-		if(istype(OM, /obj/structure/overmap/fighter/escapepod)) //Can we take them aboard?
+		if(istype(OM, /obj/structure/overmap/fighter/prebuilt/escapepod)) //Can we take them aboard?
 			if(OM.operators.len <= max_passengers+1-OM.mobs_in_ship.len) //Max passengers + 1 to allow for one raptor crew rescuing another. Imagine that theyre being cramped into the footwell or something.
 				docking_cooldown = TRUE
 				addtimer(VARSET_CALLBACK(src, docking_cooldown, FALSE), 5 SECONDS) //Prevents jank.
-				var/obj/structure/overmap/fighter/escapepod/ep = OM
+				var/obj/structure/overmap/fighter/prebuilt/escapepod/ep = OM
 				relay_to_nearby('nsv13/sound/effects/ship/boarding_pod.ogg')
 				to_chat(pilot,"<span class='warning'>Extending docking armatures...</span>")
 				ep.transfer_occupants_to(src)
@@ -832,6 +832,9 @@ After going through this checklist, you're ready to go!
 		M.client.check_view()
 	M.stop_sound_channel(CHANNEL_SHIP_ALERT)
 	M.overmap_ship = null
+	var/mob/camera/aiEye/remote/overmap_observer/eyeobj = M.remote_control
+	if(eyeobj?.off_action)
+		qdel(eyeobj.off_action)
 	M.cancel_camera()
 	M.remote_control = null
 	M.forceMove(get_turf(src))
@@ -983,16 +986,8 @@ After going through this checklist, you're ready to go!
 		internal_tank = null
 		attack_hand(user) //Refresh UI.
 
-/obj/structure/overmap/fighter/on_reagent_change()
-	.=..()
-	for(var/datum/reagent/G in reagents.reagent_list)
-		if(G.name != "Plasma Spiked Fuel")
-			visible_message("<span class=warning>Warning: contaminant detected in fuel mix, dumping tank contents.</span>")
-			reagents.clear_reagents()
-			new /obj/effect/decal/cleanable/oil(loc)
-
 /obj/structure/overmap/fighter/Destroy()
-	if(operators.len && !istype(src, /obj/structure/overmap/fighter/escapepod))
+	if(operators.len && !istype(src, /obj/structure/overmap/fighter/prebuilt/escapepod))
 		relay('nsv13/sound/effects/computer/alarm_3.ogg', "<span class=userdanger>EJECT! EJECT! EJECT!</span>")
 		relay_to_nearby('nsv13/sound/effects/ship/fighter_launch_short.ogg')
 		visible_message("<span class=userdanger>Auto-Ejection Sequence Enabled! Escape Pod Launched!</span>")
@@ -1001,34 +996,49 @@ After going through this checklist, you're ready to go!
 	. = ..()
 
 /obj/structure/overmap/fighter/proc/eject()
-	var/obj/structure/overmap/fighter/escapepod/ep = new /obj/structure/overmap/fighter/escapepod(get_turf(src))
+	if(istype(src, /obj/structure/overmap/fighter/prebuilt/escapepod))
+		return FALSE
+	var/obj/structure/overmap/fighter/prebuilt/escapepod/ep = new /obj/structure/overmap/fighter/prebuilt/escapepod(get_turf(src))
+	ep.set_fuel(get_fuel()) //No infinite tyrosene for you!
 	transfer_occupants_to(ep)
 	ep.desired_angle = pick(0,360)
 	ep.user_thrust_dir = NORTH
+	qdel(src)
 
-/obj/structure/overmap/fighter/escapepod
+/obj/structure/overmap/fighter/prebuilt/escapepod
 	name = "Escape Pod"
-	desc = "An escape pod launched from a space faring vessel. It has no internal thrusters and is thus very immobile."
+	desc = "An escape pod launched from a space faring vessel. It only has very limited thrusters and is thus very slow."
 	icon = 'nsv13/icons/overmap/nanotrasen/escape_pod.dmi'
 	icon_state = "escape_pod"
 	damage_states = FALSE
 	bound_width = 32 //Change this on a per ship basis
 	bound_height = 32
+	pixel_z = 0
+	pixel_w = 0
 	mass = MASS_TINY
-	max_integrity = 250 //Able to withstand more punishment so that people inside it don't get yeeted as hard
-	speed_limit = 3 //Theyve always got to be slow so that we can catch up with them
+	max_integrity = 100 //Able to withstand more punishment so that people inside it don't get yeeted as hard
+	speed_limit = 2 //This, for reference, will feel suuuuper slow, but this is intentional
+	max_torpedoes = 0
+	flight_state = FLIGHT_READY
+	canopy_open = FALSE
 
-/obj/structure/overmap/fighter/escapepod/attack_hand(mob/user)
+/obj/structure/overmap/fighter/prebuilt/escapepod/attack_hand(mob/user)
 	return
 
 /obj/structure/overmap/fighter/proc/transfer_occupants_to(obj/structure/overmap/what)
 	if(!operators.len)
 		return
 	for(var/mob/M in operators)
+		var/mob/last_pilot = pilot
 		stop_piloting(M, force=TRUE)
 		M.forceMove(what)
+		if(M == last_pilot && !what.pilot) //Let the pilot fly the new ship, unless it already has a pilot.
+			what.start_piloting(M, "pilot")
+			what.mobs_in_ship += M
+			continue
 		what.start_piloting(M, "observer") //So theyre unable to fly the pod
 		what.mobs_in_ship += M
+	what.relay('nsv13/sound/effects/fighters/cockpit.ogg', "<span class='warning'>You hear a loud noise as [what]'s engine kicks in.</span>", loop=TRUE, channel = CHANNEL_SHIP_ALERT)
 
 /** CHEATSHEET FOR LAZY PEOPLE
 
@@ -1209,6 +1219,16 @@ How to make fuel:
 			continue
 		return_amt += F.volume
 	return return_amt
+
+/obj/structure/overmap/fighter/proc/set_fuel(amount)
+	var/obj/item/twohanded/required/fighter_component/fuel_tank/sft = get_part(/obj/item/twohanded/required/fighter_component/fuel_tank)
+	if(!sft)
+		return FALSE
+	for(var/datum/reagent/aviation_fuel/F in sft.reagents.reagent_list)
+		if(!istype(F))
+			continue
+		F.volume = amount
+	return amount
 
 /obj/structure/overmap/fighter/proc/set_master_caution(state)
 	var/master_caution = state
