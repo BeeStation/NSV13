@@ -331,11 +331,10 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 			M.Knockdown(40) //Knockdown prey so it can't get away!
 
 /obj/machinery/power/stormdrive_reactor/proc/ambient_temp_bleed()
-	var/turf/open/L = loc
+	var/turf/open/L = get_turf(src)
 	if(!istype(L) || !(L.air))
 		return
 	var/datum/gas_mixture/env = L.return_air()
-//	var/heat_capacity = env.heat_capacity()
 	var/heat_kelvin = heat + 273.15
 	if(env.temperature <= heat_kelvin)
 		var/delta_env = heat_kelvin - env.temperature
