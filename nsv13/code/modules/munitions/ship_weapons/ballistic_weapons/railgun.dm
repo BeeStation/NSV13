@@ -42,8 +42,8 @@
 		if(!comp_amt)
 			continue
 
-		if(def_components && def_components[comp_path])
-			comp_path = def_components[comp_path]
+		if(req_components && req_components[comp_path])
+			comp_path = req_components[comp_path]
 
 		if(ispath(comp_path, /obj/item/stack))
 			component_parts += new comp_path(null, comp_amt)
@@ -78,7 +78,6 @@
 	var/obj/structure/ship_weapon/railgun_assembly/M = new /obj/structure/ship_weapon/railgun_assembly(loc)
 
 	for(var/obj/O in component_parts)
-		message_admins("Moving [O] to [M]")
 		O.forceMove(M)
 	component_parts = list()
 
