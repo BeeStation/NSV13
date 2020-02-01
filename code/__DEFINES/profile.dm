@@ -1,5 +1,9 @@
+#if DM_BUILD < 1506
 #define PROFILE_START ;PROFILE_STORE = list();PROFILE_SET;
 #define PROFILE_STOP ;PROFILE_STORE = null;
+#else
+#warn time to replace this with world.Profile()
+#endif
 
 #define PROFILE_SET ;PROFILE_TIME = TICK_USAGE_REAL; PROFILE_LINE = __LINE__; PROFILE_FILE = __FILE__; PROFILE_SLEEPCHECK = world.time;
 
