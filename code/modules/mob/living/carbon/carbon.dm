@@ -36,6 +36,9 @@
 				to_chat(world, "<span class='notice'>And it's wielded!</span>")
 				to_chat(usr, "<span class='warning'>Your other hand is too busy holding [item_in_hand].</span>")
 				return
+		else if(item_in_hand.GetComponent(/datum/component/twohanded)) //NSV13 - check twohanded component
+			to_chat(usr, "<span class='warning'>Your other hand is too busy holding [TH].</span>")
+			return
 	var/oindex = active_hand_index
 	active_hand_index = held_index
 	if(hud_used)
