@@ -281,13 +281,12 @@
 	var/datum/looping_sound/refuel/soundloop
 	var/max_range = 2
 	var/datum/beam/current_beam
-	var/mob/last_user
 	var/allow_refuel = FALSE
 
 /obj/structure/reagent_dispensers/fueltank/aviation_fuel/ui_act(action, params, datum/tgui/ui)
 	if(..())
 		return
-	if(!in_range(src, usr) && last_user != usr) //Topic check
+	if(!in_range(src, usr) && get_current_user() != usr) //Topic check
 		return
 	if(action == "stopfuel" && fuel_target)
 		soundloop?.stop()
@@ -303,8 +302,20 @@
 			to_chat(usr, "<span class='notice'>You close [src]'s fuel inlet valve, it will now transfer its reagents to containers that it's hit with.</span>")
 			allow_refuel = FALSE
 
+/**
+* Function that will get the current wielder of "nozzle".
+* @return The mob that's holding our nozzle, or null
+*
+*/
+
+/obj/structure/reagent_dispensers/fueltank/aviation_fuel/proc/get_current_user()
+	var/mob/living/user = nozzle.loc
+	if(!isliving(user))
+		return null
+	return user
+
 /obj/structure/reagent_dispensers/fueltank/aviation_fuel/can_interact(mob/user)
-	if(last_user == user) //If theyre holding the hose, bypass range checks so that they can see what they're currently fuelling.
+	if(user == get_current_user()) //If theyre holding the hose, bypass range checks so that they can see what they're currently fuelling.
 		return TRUE
 	if(!user.can_interact_with(src)) //Theyre too far away and not flying the ship
 		return FALSE
@@ -350,8 +361,7 @@
 			to_chat(user, "<span class='warning'>You need a free hand to hold the fuel hose!</span>")
 			return
 		to_chat(user, "<span class='warning'>You grab [src]'s refuelling hose.</span>")
-		last_user = user
-		RegisterSignal(last_user, COMSIG_MOVABLE_MOVED, .proc/check_distance)
+		RegisterSignal(user, COMSIG_MOVABLE_MOVED, .proc/check_distance)
 		toggle_nozzle(FALSE)
 		ui_interact(user)
 	else
@@ -359,13 +369,14 @@
 		. = ..()
 
 /obj/effect/ebeam/fuel_hose
-	name = "fuel hose" //Nsv13 - Modified beam.dmi to include a fuel hose.
+	name = "fuel hose"
 	layer = LYING_MOB_LAYER
 
 /obj/structure/reagent_dispensers/fueltank/aviation_fuel/proc/toggle_nozzle(state) //@param state: are you adding or removing the nozzle. True = adding, false = removing
 	if(state)
-		UnregisterSignal(last_user, COMSIG_MOVABLE_MOVED)
-		last_user = null
+		var/mob/user = get_current_user() //If they let the hose snap back in, unregister this way
+		if(user)
+			UnregisterSignal(user, COMSIG_MOVABLE_MOVED)
 		add_overlay("jetfuel_nozzle")
 		visible_message("<span class='warning'>[nozzle] snaps back into [src]!</span>")
 		soundloop?.stop()
@@ -374,12 +385,13 @@
 		fuel_target = null
 	else
 		cut_overlay("jetfuel_nozzle")
-		current_beam = new(last_user,src,time=INFINITY,maxdistance = INFINITY,beam_icon_state="hose",btype=/obj/effect/ebeam/fuel_hose)
+		current_beam = new(get_current_user(),src,beam_icon='nsv13/icons/effects/beam.dmi',time=INFINITY,maxdistance = INFINITY,beam_icon_state="hose",btype=/obj/effect/ebeam/fuel_hose)
 		INVOKE_ASYNC(current_beam, /datum/beam.proc/Start)
 
 /obj/structure/reagent_dispensers/fueltank/aviation_fuel/attackby(obj/item/I, mob/user, params)
 	if(I == nozzle)
 		to_chat(user, "<span class='warning'>You slot the fuel hose back into [src]</span>")
+		UnregisterSignal(user, COMSIG_MOVABLE_MOVED) //Otherwise unregister the signal here because they put it back cleanly
 		nozzle.forceMove(src)
 		toggle_nozzle(TRUE)
 	if(allow_refuel)
@@ -397,8 +409,7 @@
 	START_PROCESSING(SSobj, src)
 
 /obj/structure/reagent_dispensers/fueltank/aviation_fuel/proc/check_distance()
-	if(get_dist(last_user, src) > max_range)// because nozzle, when in storage, will actually be in nullspace.
-		nozzle.forceMove(src)
+	if(get_dist(get_current_user(), src) > max_range)// because nozzle, when in storage, will actually be in nullspace.
 		toggle_nozzle(TRUE)
 		STOP_PROCESSING(SSobj,src)
 		return FALSE
