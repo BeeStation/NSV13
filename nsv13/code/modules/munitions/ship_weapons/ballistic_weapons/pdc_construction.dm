@@ -1,16 +1,16 @@
 /obj/item/wallframe/pdc_frame
 	name = "PDC loading rack frame"
 	desc = "Used for building PDC loading racks."
-	icon = 'icons/obj/monitors.dmi'
-	icon_state = "alarm_bitem"
+	icon = 'nsv13/icons/obj/railgun.dmi'
+	icon_state = "pdc_frame"
 	result_path = /obj/structure/frame/machine/ship_weapon/pdc_mount
 	materials = list(/datum/material/iron=MINERAL_MATERIAL_AMOUNT*5)
 
 /obj/structure/frame/machine/ship_weapon/pdc_mount
 	name = "PDC loading rack frame"
 	desc = "Used for building PDC loading racks."
-	icon = 'icons/obj/monitors.dmi'
-	icon_state = "alarm_bitem"
+	icon = 'nsv13/icons/obj/munitions.dmi'
+	icon_state = "pdc_frame"
 	pixel_y = 26
 	density = FALSE
 

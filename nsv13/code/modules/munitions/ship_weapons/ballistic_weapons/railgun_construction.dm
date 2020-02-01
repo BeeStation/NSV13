@@ -18,7 +18,7 @@
 	name = "NT-STC4 Ship railgun mount"
 	desc = "An incomplete assembly for an NT-STC4 ship mounted railgun chamber."
 	icon = 'nsv13/icons/obj/railgun.dmi'
-	icon_state = "OBC"
+	icon_state = "railgun_platform"
 	bound_width = 128
 	bound_height = 64
 	pixel_y = -64
@@ -62,13 +62,13 @@
 			var/capacitors_left = num_capacitors - capacitors_added
 			. += "The rails are <b>bolted</b> in place. There is space for <i>[capacitors_left] capacitor[(capacitors_left != 1) ? "s" : ""]</i>."
 		if(BS_CAPACITORS_PLACED)
-			. += "The _added are in place. The <i>screws</i> are loose, and they could be <b>removed</b> by hand."
+			. += "The capacitors are in place. The <i>screws</i> are loose, and they could be <b>removed</b> by hand."
 		if(BS_CAPACITORS_SECURED)
-			. += "The _added are <b>screwed</b> in place, but lack <i>wiring</i>."
+			. += "The capacitors are <b>screwed</b> in place, but lack <i>wiring</i>."
 		if(BS_WIRED)
-			. += "The _added are <b>wired</b> to the rails and can be <i>soldered<i/> in place."
+			. += "The capacitors are <b>wired</b> to the rails and can be <i>soldered<i/> in place."
 		if(BS_WIRES_SOLDERED)
-			. += "The _added are <b>soldered</b> to the rails, and the <i>firing electronics</i> are missing."
+			. += "The capacitors are <b>soldered</b> to the rails, and the <i>firing electronics</i> are missing."
 		if(BS_ELECTRONICS_LOOSE)
 			. += "The firing electronics sit loose in the frame. They could be <b>pried out</b> or <i>screwed</i> into place."
 		if(BS_ELECTRONICS_SECURE)
@@ -186,7 +186,7 @@
 	if(state == BS_CAPACITORS_PLACED)
 		if(!do_after(user, 2 SECONDS, target=src))
 			return
-		to_chat(user, "<span class='notice'>You remove the _added.</span>")
+		to_chat(user, "<span class='notice'>You remove the capacitors.</span>")
 		var/obj/item/stock_parts/capacitor/C = (locate(/obj/item/stock_parts/capacitor) in src)
 		while(C)
 			C.forceMove(loc)
@@ -320,7 +320,7 @@
 	switch(state)
 		if(BS_CAPACITORS_PLACED)
 			if(tool.use_tool(src, user, 2 SECONDS, volume=100))
-				to_chat(user, "<span class='notice'>You screw the _added into place.</span>")
+				to_chat(user, "<span class='notice'>You screw the capacitors into place.</span>")
 				state = BS_CAPACITORS_SECURED
 				return TRUE
 
@@ -338,7 +338,7 @@
 
 		if(BS_CAPACITORS_SECURED)
 			if(tool.use_tool(src, user, 2 SECONDS, volume=100))
-				to_chat(user, "<span class='notice'>You unscrew the _added.</span>")
+				to_chat(user, "<span class='notice'>You unscrew the capacitors.</span>")
 				state = BS_CAPACITORS_PLACED
 				return TRUE
 

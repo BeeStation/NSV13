@@ -177,8 +177,9 @@
 				loading = TRUE
 
 				if(!user || do_after(user, load_delay, target = src))
-					if(!isturf(A.loc)) //Fix double-loading torpedos
+					if(!isturf(A.loc) && !ismob(A.loc)) //Fix double-loading torpedos
 						if(user)
+							loading = FALSE
 							to_chat(user, "<span class='warning'>The ammunition has to be next to the weapon!</span>")
 						return FALSE
 					loading = FALSE
