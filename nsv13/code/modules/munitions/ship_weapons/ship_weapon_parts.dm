@@ -23,21 +23,33 @@
  */
 /obj/item/ship_weapon/parts/firing_electronics
 	name = "firing electronics"
-	icon = 'icons/obj/tools.dmi'
-	icon_state = "rcl-0"
+	icon = 'icons/obj/module.dmi'
+	icon_state = "mcontroller"
 
 /**
  * Railgun loading tray
  */
 /obj/item/ship_weapon/parts/loading_tray
 	name = "loading tray"
-	icon = 'icons/obj/tools.dmi'
+	icon = 'nsv13/icons/obj/items_and_weapons.dmi'
 	icon_state = "rcl-0"
+	lefthand_file = 'nsv13/icons/mob/inhands/weapons/bombs_lefthand.dmi'
+	righthand_file = 'nsv13/icons/mob/inhands/weapons/bombs_righthand.dmi'
+
+/obj/item/ship_weapon/parts/loading_tray/Initialize()
+	..()
+	AddComponent(/datum/twohanded/required)
 
 /**
  * Railgun rail
  */
 /obj/item/ship_weapon/parts/railgun_rail
 	name = "rail"
-	icon = 'icons/obj/tools.dmi'
-	icon_state = "rcl-0"
+	icon = 'nsv13/icons/obj/items_and_weapons.dmi'
+	icon_state = "railgun_tray"
+	lefthand_file = 'nsv13/icons/mob/inhands/weapons/bombs_lefthand.dmi'
+	righthand_file = 'nsv13/icons/mob/inhands/weapons/bombs_righthand.dmi'
+
+/obj/item/ship_weapon/parts/railgun_rail/Initialize()
+	..()
+	AddComponent(/datum/twohanded/required)
