@@ -367,17 +367,6 @@
 		return FALSE
 	return !user.incapacitated() && isliving(user)
 
-/*
-
-Legend:
-Q = turn left
-E = turn right
-WASD = RCS laterally
-
-*/
-
-/obj/structure/overmap/key_down(key, client/user)
-
 /obj/structure/overmap/key_down(key, client/user)
 	var/mob/themob = user.mob
 	switch(key)

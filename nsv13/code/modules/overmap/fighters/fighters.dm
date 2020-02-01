@@ -385,9 +385,8 @@ After going through this checklist, you're ready to go!
 	. =..()
 	if(canopy_breached)
 		add_overlay(image(icon = icon, icon_state = "canopy_breach", dir = 1))
-	else
-		if(canopy_open)
-			add_overlay("canopy_open")
+	else if(canopy_open)
+		add_overlay("canopy_open")
 
 /obj/structure/overmap/fighter/ai
 	ai_controlled = TRUE
@@ -852,12 +851,12 @@ After going through this checklist, you're ready to go!
 	else
 		dat += "<a href='?src=[REF(src)]:primary_weapon=1'>[pw?.name]</a><br>"
 	dat += "<p>Ammo Capacity:</p>"
-	var/empty = 6
+	var/unfilled_slots = max_torpedoes
 	for(var/obj/structure/munition/mu in contents)
 		dat += "<a href='?src=[REF(src)];torpedo=1'>[mu?.name]</a><br>"
-		empty--
-	if(empty > 0)
-		dat += "<p><b>[num2text(empty)] TORPEDO PYLONS EMPTY</font></p><br>"
+		unfilled_slots--
+	if(unfilled_slots > 0)
+		dat += "<p><b>[num2text(unfilled_slots)] TORPEDO PYLONS EMPTY</font></p><br>"
 	dat += "<h2> Components: </h2>"
 	var/atom/movable/ap = get_part(/obj/item/twohanded/required/fighter_component/armour_plating)
 	if(ap == null)
@@ -1031,7 +1030,7 @@ After going through this checklist, you're ready to go!
 		what.start_piloting(M, "observer") //So theyre unable to fly the pod
 		what.mobs_in_ship += M
 
-/** CHEATSHEET
+/** CHEATSHEET FOR LAZY PEOPLE
 
 Fighter bootup sequence components.
 
