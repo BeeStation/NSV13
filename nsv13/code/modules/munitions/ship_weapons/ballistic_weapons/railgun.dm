@@ -25,6 +25,7 @@
 		/obj/item/ship_weapon/parts/loading_tray = 1,
 		/obj/item/ship_weapon/parts/firing_electronics = 1,
 		/obj/item/ship_weapon/parts/railgun_rail = 2
+		)
 
 /obj/machinery/ship_weapon/railgun/Initialize()
 	..()
