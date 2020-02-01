@@ -1,7 +1,7 @@
 /obj/item/wallframe/pdc_frame
 	name = "PDC loading rack frame"
 	desc = "Used for building PDC loading racks."
-	icon = 'nsv13/icons/obj/railgun.dmi'
+	icon = 'nsv13/icons/obj/munitions.dmi'
 	icon_state = "pdc_frame"
 	result_path = /obj/structure/frame/machine/ship_weapon/pdc_mount
 	materials = list(/datum/material/iron=MINERAL_MATERIAL_AMOUNT*5)
