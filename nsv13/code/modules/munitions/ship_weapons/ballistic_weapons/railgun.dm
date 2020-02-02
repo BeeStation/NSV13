@@ -27,6 +27,18 @@
 		/obj/item/ship_weapon/parts/railgun_rail = 2
 		)
 
+/obj/machinery/ship_weapon/railgun/north // South-facing monitor looks for a gun to its north that's probably facing north
+	dir = SOUTH
+
+/obj/machinery/ship_weapon/railgun/south
+	dir = NORTH
+
+/obj/machinery/ship_weapon/railgun/east
+	dir = WEST
+
+/obj/machinery/ship_weapon/railgun/west
+	dir = EAST
+
 /obj/machinery/ship_weapon/railgun/Initialize()
 	..()
 	apply_default_parts()

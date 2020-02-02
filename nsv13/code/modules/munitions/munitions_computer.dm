@@ -14,6 +14,18 @@
 	circuit = /obj/item/circuitboard/computer/ship/munitions_computer
 	var/obj/machinery/ship_weapon/SW //The one we're firing
 
+/obj/machinery/computer/ship/munitions_computer/north
+	dir = NORTH
+
+/obj/machinery/computer/ship/munitions_computer/south
+	dir = SOUTH
+
+/obj/machinery/computer/ship/munitions_computer/east
+	dir = EAST
+
+/obj/machinery/computer/ship/munitions_computer/west
+	dir = WEST
+
 /obj/machinery/computer/ship/munitions_computer/Initialize()
 	. = ..()
 	var/opposite_dir = turn(dir, 180)

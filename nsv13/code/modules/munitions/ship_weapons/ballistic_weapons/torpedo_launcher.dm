@@ -16,6 +16,18 @@
 	fire_mode = 2
 	weapon_type = new/datum/ship_weapon/torpedo_launcher
 
+/obj/machinery/ship_weapon/torpedo_launcher/north
+	dir = NORTH
+
+/obj/machinery/ship_weapon/torpedo_launcher/south
+	dir = SOUTH
+
+/obj/machinery/ship_weapon/torpedo_launcher/east
+	dir = EAST
+
+/obj/machinery/ship_weapon/torpedo_launcher/west
+	dir = WEST
+
 /obj/machinery/ship_weapon/torpedo_launcher/Initialize()
 	..()
 	component_parts = list()

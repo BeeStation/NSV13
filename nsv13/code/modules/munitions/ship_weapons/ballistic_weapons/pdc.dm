@@ -35,6 +35,26 @@
 	chamber_delay_rapid = 0
 	chamber_delay = 0
 
+/obj/machinery/ship_weapon/pdc_mount/north //Things mounted on a north wall face south, etc.
+	dir = SOUTH
+	pixel_x = 0
+	pixel_y = 26
+
+/obj/machinery/ship_weapon/pdc_mount/south
+	dir = NORTH
+	pixel_x = 0
+	pixel_y = -26
+
+/obj/machinery/ship_weapon/pdc_mount/east
+	dir = WEST
+	pixel_y = 0
+	pixel_x = 26
+
+/obj/machinery/ship_weapon/pdc_mount/west
+	dir = EAST
+	pixel_y = 0
+	pixel_x = -26
+
 /obj/machinery/ship_weapon/pdc_mount/New(loc, ndir=dir)
 	. = ..()
 	if(ndir)
@@ -46,8 +66,8 @@
 	adjust_sprite_direction()
 
 /obj/machinery/ship_weapon/pdc_mount/proc/adjust_sprite_direction()
-	pixel_x = (dir & 3)? 0 : (dir == 4 ? -26 : 26)
-	pixel_y = (dir & 3)? (dir == 1 ? -26 : 26) : 0
+	pixel_x = (dir & 3)? 0 : (dir == EAST ? -26 : 26)
+	pixel_y = (dir & 3)? (dir == NORTH ? -26 : 26) : 0
 
 	update_icon()
 
