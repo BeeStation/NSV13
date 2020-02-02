@@ -147,7 +147,7 @@
 /**
  * Unload magazine or just-loaded rounds.
  */
-/obj/machinery/ship_weapon/pdc_mount/attack_hand(mob/user)
+/obj/machinery/ship_weapon/attack_hand(mob/user)
 	. = ..()
 	if(magazine)
 		unload_magazine(user)
