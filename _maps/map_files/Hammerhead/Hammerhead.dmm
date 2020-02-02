@@ -4633,13 +4633,7 @@
 /turf/open/floor/plasteel,
 /area/security/checkpoint/medical)
 "akq" = (
-/obj/machinery/atmospherics/components/trinary/filter/atmos/constricted_plasma/flipped{
-	dir = 1
-	},
-/obj/effect/turf_decal/tile/purple,
-/obj/effect/turf_decal/tile/purple{
-	dir = 4
-	},
+/obj/machinery/atmospherics/pipe/manifold/purple/visible,
 /turf/open/floor/plasteel,
 /area/engine/engine_room)
 "akr" = (
@@ -8701,9 +8695,6 @@
 /turf/open/floor/plasteel,
 /area/security/checkpoint/customs/auxiliary)
 "atE" = (
-/obj/machinery/atmospherics/pipe/simple/brown/visible{
-	dir = 9
-	},
 /obj/effect/turf_decal/tile/purple,
 /obj/effect/turf_decal/tile/purple{
 	dir = 4
@@ -14798,12 +14789,7 @@
 /turf/open/floor/wood,
 /area/crew_quarters/bar)
 "aIj" = (
-/obj/machinery/atmospherics/components/binary/pump/on{
-	dir = 1;
-	icon_state = "pump_map-2";
-	name = "Filtered to Supply";
-	on = 0
-	},
+/obj/machinery/atmospherics/pipe/simple/purple/visible,
 /turf/open/floor/plasteel,
 /area/engine/engine_room)
 "aIk" = (
@@ -14961,9 +14947,6 @@
 /turf/open/floor/plasteel/ship,
 /area/hallway/secondary/entry)
 "aIA" = (
-/obj/machinery/atmospherics/pipe/simple/brown/visible{
-	dir = 10
-	},
 /obj/machinery/light/small{
 	dir = 4
 	},
@@ -14972,6 +14955,9 @@
 	},
 /obj/structure/sign/warning/nosmoking/circle{
 	pixel_x = 32
+	},
+/obj/machinery/atmospherics/components/binary/passive_gate{
+	dir = 4
 	},
 /turf/open/floor/plasteel,
 /area/engine/engine_room)
@@ -18267,9 +18253,6 @@
 /turf/open/floor/plating,
 /area/lawoffice)
 "aQK" = (
-/obj/machinery/atmospherics/pipe/simple/brown/visible{
-	dir = 5
-	},
 /obj/machinery/camera/autoname{
 	dir = 1
 	},
@@ -18748,9 +18731,8 @@
 /turf/open/floor/plasteel,
 /area/engine/engineering)
 "aRS" = (
-/obj/machinery/power/magnetic_constrictor,
-/obj/machinery/atmospherics/components/binary/pump/on{
-	name = "Plasma To Stormdrive"
+/obj/machinery/atmospherics/pipe/simple/brown/visible{
+	dir = 10
 	},
 /turf/open/floor/plasteel,
 /area/engine/engine_room)
@@ -19077,14 +19059,14 @@
 /turf/open/floor/plasteel/dark,
 /area/security/execution/transfer)
 "aSG" = (
-/obj/machinery/atmospherics/pipe/manifold/brown/visible{
-	dir = 8
-	},
 /obj/effect/turf_decal/tile/purple{
 	dir = 4
 	},
 /obj/effect/turf_decal/tile/purple{
 	dir = 1
+	},
+/obj/machinery/atmospherics/pipe/manifold/brown/visible{
+	dir = 8
 	},
 /turf/open/floor/plasteel,
 /area/engine/engine_room)
@@ -21328,12 +21310,10 @@
 /area/science/robotics/lab)
 "aYo" = (
 /obj/machinery/power/stormdrive_reactor,
-/obj/machinery/atmospherics/components/binary/pump{
-	desc = "A pump that moves gas by pressure. <b>Some moron's taken a hacksaw to it to act as the Stormdrive's gas manifold. Best to leave it alone.</b>";
-	dir = 8;
-	name = "Reactor Manifold"
-	},
 /obj/effect/landmark/event_spawn,
+/obj/machinery/atmospherics/components/binary/pump/reactor_manifold{
+	dir = 8
+	},
 /obj/structure/cable/yellow{
 	icon_state = "0-4"
 	},
@@ -25075,15 +25055,10 @@
 /turf/open/floor/plating,
 /area/maintenance/department/cargo)
 "byc" = (
-/obj/machinery/atmospherics/pipe/simple/brown/visible,
 /obj/machinery/light/small{
 	dir = 4
 	},
-/obj/effect/turf_decal/tile/purple,
-/obj/machinery/atmospherics/components/binary/valve{
-	icon_state = "mvalve_map-2";
-	dir = 4
-	},
+/obj/machinery/atmospherics/pipe/simple/purple/visible,
 /turf/open/floor/plasteel,
 /area/engine/engine_room)
 "byf" = (
@@ -26211,6 +26186,12 @@
 	},
 /turf/open/floor/plasteel/ship/techfloor/alt,
 /area/security/prison)
+"cIi" = (
+/obj/machinery/atmospherics/pipe/simple/purple/visible{
+	dir = 5
+	},
+/turf/open/floor/plasteel,
+/area/engine/engine_room)
 "cIx" = (
 /obj/machinery/light/small,
 /turf/open/floor/plating,
@@ -32885,6 +32866,10 @@
 	},
 /turf/open/floor/plasteel/white,
 /area/medical/chemistry)
+"jjm" = (
+/obj/machinery/atmospherics/components/binary/magnetic_constrictor,
+/turf/open/floor/plasteel,
+/area/engine/engine_room)
 "jjs" = (
 /obj/machinery/blackbox_recorder{
 	desc = "Some kind of machine. Contains a copy of it's assigned Primary Vessel's blackbox data.";
@@ -33713,6 +33698,9 @@
 /obj/structure/cable{
 	icon_state = "0-2"
 	},
+/obj/machinery/atmospherics/pipe/layer_manifold{
+	dir = 4
+	},
 /turf/closed/wall/ship,
 /area/engine/engine_room)
 "jUN" = (
@@ -34466,6 +34454,22 @@
 	},
 /turf/open/floor/plasteel/ship,
 /area/hallway/primary/central)
+"kBR" = (
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer3,
+/obj/effect/turf_decal/tile/yellow{
+	dir = 8
+	},
+/obj/effect/turf_decal/tile/yellow{
+	dir = 1
+	},
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
+/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer1{
+	dir = 4
+	},
+/turf/open/floor/plasteel,
+/area/engine/engineering)
 "kCR" = (
 /obj/structure/window/reinforced/spawner/west,
 /obj/machinery/flasher{
@@ -36189,9 +36193,7 @@
 	dir = 4;
 	pixel_x = -24
 	},
-/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer1{
-	dir = 4
-	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer1,
 /turf/open/floor/plasteel,
 /area/engine/engineering)
 "mms" = (
@@ -46595,7 +46597,6 @@
 /turf/open/floor/carpet/black,
 /area/security/courtroom)
 "wCW" = (
-/obj/machinery/atmospherics/pipe/simple/purple/visible,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer1,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer3,
 /obj/effect/turf_decal/tile/yellow{
@@ -46604,6 +46605,7 @@
 /obj/structure/cable/yellow{
 	icon_state = "1-2"
 	},
+/obj/machinery/atmospherics/components/binary/pump,
 /turf/open/floor/plasteel,
 /area/engine/engineering)
 "wDs" = (
@@ -47439,12 +47441,6 @@
 /obj/effect/landmark/nuclear_waste_spawner,
 /turf/open/floor/plasteel/white,
 /area/science/mixing)
-"xxV" = (
-/obj/machinery/atmospherics/pipe/layer_manifold{
-	dir = 4
-	},
-/turf/closed/wall/ship,
-/area/engine/engine_room)
 "xys" = (
 /obj/effect/turf_decal/tile/yellow{
 	dir = 4
@@ -64943,12 +64939,12 @@ hcQ
 aAb
 aAu
 aSG
-aVO
-aVO
-aVO
-aIj
 wgI
 aVO
+jjm
+aIj
+aIj
+cIi
 aQK
 aSW
 leF
@@ -65202,8 +65198,8 @@ aSW
 aIA
 aRS
 aVO
-aVO
-aRS
+jjm
+aIj
 byc
 akq
 atE
@@ -65461,7 +65457,7 @@ anI
 anI
 anI
 anI
-xxV
+aSW
 ala
 qUo
 aSW
@@ -65713,7 +65709,7 @@ tSU
 tSU
 ase
 cNg
-cNg
+kBR
 cNg
 cNg
 aKh
