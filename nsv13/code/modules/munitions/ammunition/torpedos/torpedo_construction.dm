@@ -51,7 +51,7 @@
 			state = 7
 			update_icon()
 			W.forceMove(src)
-		return
+		return TRUE
 	else if(istype(W, /obj/item/ship_weapon/parts/torpedo/guidance_system))
 		if(state == 2)
 			to_chat(user, "<span class='notice'>You start adding [W] to [src]...</span>")
@@ -62,7 +62,7 @@
 			state = 3
 			update_icon()
 			W.forceMove(src)
-		return
+		return TRUE
 	else if(istype(W, /obj/item/ship_weapon/parts/torpedo/propulsion_system))
 		if(state == 0)
 			to_chat(user, "<span class='notice'>You start adding [W] to [src]...</span>")
@@ -73,7 +73,7 @@
 			state = 1
 			update_icon()
 			W.forceMove(src)
-		return
+		return TRUE
 	else if(istype(W, /obj/item/ship_weapon/parts/torpedo/iff_card))
 		if(state == 4)
 			to_chat(user, "<span class='notice'>You start adding [W] to [src]...</span>")
@@ -84,7 +84,7 @@
 			state = 5
 			update_icon()
 			W.forceMove(src)
-		return
+		return TRUE
 	else if(istype(W, /obj/item/stack/cable_coil))
 		var/obj/item/stack/cable_coil/C = W
 		if(state == 8)
@@ -98,10 +98,9 @@
 			to_chat(user, "<span class='notice'>You wire [src].</span>")
 			state = 9
 			update_icon()
-		return
+		return TRUE
 
 /obj/item/ship_weapon/ammunition/torpedo/torpedo_casing/wrench_act(mob/user, obj/item/tool)
-	. = FALSE
 	switch(state)
 		if(1)
 			to_chat(user, "<span class='notice'>You start securing [ps.name] to [src]...</span>")
@@ -145,9 +144,9 @@
 				state = 9
 				update_icon()
 			return TRUE
+	. = ..()
 
 /obj/item/ship_weapon/ammunition/torpedo/torpedo_casing/screwdriver_act(mob/user, obj/item/tool)
-	. = FALSE
 	switch(state)
 		if(3)
 			to_chat(user, "<span class='notice'>You start securing [gs.name] to [src]...</span>")
@@ -177,9 +176,9 @@
 				state = 5
 				update_icon()
 			return TRUE
+	. = ..()
 
 /obj/item/ship_weapon/ammunition/torpedo/torpedo_casing/wirecutter_act(mob/user, obj/item/tool)
-	. = ..()
 	if(state == 9)
 		to_chat(user, "<span class='notice'>You start cutting the wiring in [src]...</span>")
 		if(tool.use_tool(src, user, 40, volume=100))
@@ -189,9 +188,9 @@
 			state = 8
 			update_icon()
 		return TRUE
+	. = ..()
 
 /obj/item/ship_weapon/ammunition/torpedo/torpedo_casing/welder_act(mob/user, obj/item/tool)
-	. = FALSE
 	switch(state)
 		if(0)
 			to_chat(user, "<span class='notice'>You start disassembling [src]...</span>")
@@ -208,9 +207,9 @@
 				new_torpedo(wh, gs, ps, iff)
 				qdel(src)
 			return TRUE
+	. = ..()
 
 /obj/item/ship_weapon/ammunition/torpedo/torpedo_casing/crowbar_act(mob/user, obj/item/tool)
-	. = FALSE
 	switch(state)
 		if(1)
 			to_chat(user, "<span class='notice'>You start removing [ps.name] from [src]...</span>")
@@ -248,6 +247,7 @@
 				state = 6
 				update_icon()
 			return TRUE
+	. = ..()
 
 /obj/item/ship_weapon/ammunition/torpedo/torpedo_casing/update_icon()
 	cut_overlays()

@@ -60,6 +60,8 @@
 	icon_state = "[initial(icon_state)]_[progress]"
 
 /obj/machinery/ship_weapon/pdc_mount/proc/calculate_progress()
+	if(!magazine)
+		return 0
 	var/progress = magazine.ammo_count() //How damaged is this shield? We examine the position of index "I" in the for loop to check which directional we want to check
 	var/goal = magazine.max_ammo //How much is the max hp of the shield? This is constant through all of them
 	progress = CLAMP(progress, 0, goal)
