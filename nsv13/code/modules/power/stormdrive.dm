@@ -46,13 +46,7 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 #define WARNING_STATE_OVERHEAT 1
 #define WARNING_STATE_MELTDOWN 2
 
-//Constrictor construction steps
-
-#define CONSTRICTOR_NOTBUILT 0
-#define CONSTRICTOR_WRENCHED 1
-#define CONSTRICTOR_SCREWED 2
-#define CONSTRICTOR_WELDED 3
-
+//////Stormdrive///////
 
 /obj/machinery/power/stormdrive_reactor
 	name = "class IV nuclear storm drive"
@@ -66,7 +60,7 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 	light_color = LIGHT_COLOR_CYAN
 	var/obj/machinery/atmospherics/components/binary/pump/pipe
 	var/start_threshold = 20 //N mol of constricted plasma to fire it up. N heat to start it up
-	var/heat = 0 //How hot are we?
+	var/heat = 0 //How hot are we? In Celcius
 	var/target_heat = REACTOR_HEAT_NORMAL //For control rods. How hot do we want the reactor to get? We'll attempt to cool the reactor to this temperature.
 	var/cooling_power = 10 //How much heat we can drain per tick. Matches up with target_heat
 	var/control_rod_percent = 100 //Handles the insertion depth of the control rods into the reactor
@@ -131,6 +125,259 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 	var/area/AR = get_area(src)
 	AR.looping_ambience = 'nsv13/sound/ambience/shipambience.ogg'
 
+/obj/machinery/power/stormdrive_reactor/Initialize()
+	. = ..()
+	radio = new(src)
+	radio.keyslot = new radio_key
+	radio.listening = 0
+	radio.recalculateChannels()
+	find_pipe()
+
+/obj/machinery/power/stormdrive_reactor/proc/try_start()
+	if(!pipe)
+		find_pipe()
+		return FALSE
+	if(state == REACTOR_STATE_RUNNING || state == REACTOR_STATE_MELTDOWN || state == REACTOR_STATE_MAINTENANCE)
+		return FALSE
+	icon_state = "reactor_starting"
+	var/datum/gas_mixture/air1 = pipe.airs[1]
+	var/list/cached_gases = air1.gases
+	if(cached_gases[/datum/gas/constricted_plasma])
+		var/moles = cached_gases[/datum/gas/constricted_plasma][MOLES]
+		if(moles >= start_threshold && heat >= start_threshold)
+			heat = start_threshold+10 //Avoids it getting heated up to 10000 by the PA, then turning it on, then getting insta meltdown.
+			cached_gases[/datum/gas/constricted_plasma][MOLES] -= start_threshold //Here, we subtract the plasma
+			visible_message("<span class='danger'>[src] starts to glow an ominous blue!</span>")
+			icon_state = "reactor_on"
+			START_PROCESSING(SSmachines,src)
+			state = REACTOR_STATE_RUNNING
+			set_light(5)
+			var/startup_sound = pick('nsv13/sound/effects/ship/reactor/startup.ogg', 'nsv13/sound/effects/ship/reactor/startup2.ogg')
+			playsound(loc, startup_sound, 100)
+			send_alert("Fission reaction initiated. Reactor now on-line.", override=TRUE)
+			var/area/AR = get_area(src)
+			AR.looping_ambience = 'nsv13/sound/ambience/engineering.ogg'
+			return TRUE
+	return FALSE
+
+/obj/machinery/power/stormdrive_reactor/proc/find_pipe()
+	pipe = locate(/obj/machinery/atmospherics/components/binary/pump) in get_turf(src)
+
+/obj/machinery/power/stormdrive_reactor/proc/check_meltdown_warning()
+	if(warning_state >= WARNING_STATE_OVERHEAT)
+		if(heat <= REACTOR_HEAT_VERYHOT) //This implies that we've now stopped melting down.
+			var/obj/structure/overmap/OM = get_overmap()
+			OM?.stop_relay(CHANNEL_REACTOR_ALERT)
+			warning_state = 0
+			send_alert("Nuclear meltdown averted. Manual reactor inspection is strongly advised", override=TRUE)
+		return FALSE
+	if(heat >= REACTOR_HEAT_VERYHOT)
+		send_alert("DANGER: Reactor core overheating. Nuclear meltdown imminent", override=TRUE)
+		warning_state = WARNING_STATE_OVERHEAT
+		var/sound = 'nsv13/sound/effects/ship/reactor/core_overheating.ogg'
+		var/obj/structure/overmap/OM = get_overmap()
+		OM?.relay(sound, null, loop=TRUE, channel = CHANNEL_REACTOR_ALERT)
+		return TRUE
+
+/obj/machinery/power/stormdrive_reactor/proc/lazy_startup() //Admin only command to instantly start a reactor
+	if(!pipe)
+		find_pipe()
+	heat = start_threshold+10
+	var/datum/gas_mixture/air1 = pipe.airs[1]
+	air1.assert_gas(/datum/gas/constricted_plasma) //Yeet some plasma into the pipe so it can run for a while
+	air1.gases[/datum/gas/constricted_plasma][MOLES] += 300
+	try_start()
+
+/obj/machinery/power/stormdrive_reactor/proc/juice_up(var/juice) //Admin command to add a specified amount of CPlas to the drive
+	var/datum/gas_mixture/air1 = pipe.airs[1]
+	air1.assert_gas(/datum/gas/constricted_plasma)
+	air1.gases[/datum/gas/constricted_plasma][MOLES] += juice
+
+/obj/machinery/power/stormdrive_reactor/proc/start_meltdown()
+	if(warning_state >= WARNING_STATE_MELTDOWN)
+		return
+	rod_integrity = 0 //Burn through the control rods if we haven't already.
+	send_alert("ERROR IN MODULE FISSREAC0 AT ADDRESS 0x12DF. CONTROL RODS HAVE FAILED. IMMEDIATE INTERVENTION REQUIRED.", override=TRUE)
+	warning_state = WARNING_STATE_MELTDOWN
+	var/sound = 'nsv13/sound/effects/ship/reactor/meltdown.ogg'
+	addtimer(CALLBACK(src, .proc/meltdown), 18 SECONDS)
+	var/obj/structure/overmap/OM = get_overmap()
+	OM?.relay(sound, null, loop=FALSE, channel = CHANNEL_REACTOR_ALERT)
+
+/obj/machinery/power/stormdrive_reactor/proc/meltdown()
+	if(heat >= REACTOR_HEAT_MELTDOWN)
+		state = REACTOR_STATE_MELTDOWN
+		var/sound = 'nsv13/sound/effects/ship/reactor/explode.ogg'
+		var/obj/structure/overmap/OM = get_overmap()
+		OM?.relay(sound, null, loop=FALSE, channel = CHANNEL_REACTOR_ALERT)
+		cut_overlays()
+		flick("meltdown", src)
+		do_meltdown_effects()
+		sleep(10)
+		icon_state = "broken"
+	else
+		warning_state = WARNING_STATE_NONE
+
+/obj/machinery/power/stormdrive_reactor/proc/do_meltdown_effects()
+	explosion(get_turf(src), 5, 10, 19, 10, TRUE, TRUE)
+	var/obj/structure/overmap/OM = get_overmap()
+	if(OM?.main_overmap) //Irradiate the shit out of the player ship
+		SSweather.run_weather("nuclear fallout")
+	for(var/X in GLOB.landmarks_list)
+		if(istype(X, /obj/effect/landmark/nuclear_waste_spawner))
+			var/obj/effect/landmark/nuclear_waste_spawner/WS = X
+			if(shares_overmap(src, WS)) //If the spawner's overmap ship is the same as ours, LET LOOSE THE SLUDGE
+				spawn(0)
+					WS.fire()
+	for(var/a in GLOB.apcs_list)
+		var/obj/machinery/power/apc/A = a
+		if(shares_overmap(src, a) && prob(70)) //Are they on our ship?
+			A.overload_lighting()
+
+/obj/machinery/power/stormdrive_reactor/update_icon()
+	if(state == REACTOR_STATE_MELTDOWN)
+		icon_state = "broken"
+		return
+	cut_overlays()
+	if(can_cool()) //If control rods aren't destroyed.
+		switch(round(control_rod_percent))
+			if(0 to 24)
+				add_overlay("rods_1")
+			if(25 to 49)
+				add_overlay("rods_2")
+			if(50 to 74)
+				add_overlay("rods_3")
+			if(75 to 100)
+				add_overlay("rods_4")
+	if(state == REACTOR_STATE_MAINTENANCE)
+		icon_state = "reactor_maintenance" //If we're in maint, don't make it appear hot.
+		return
+	if(state == REACTOR_STATE_RUNNING)
+		icon_state = "reactor_on" //Default to being on.
+		check_meltdown_warning()
+		switch(heat)
+			if(0 to REACTOR_HEAT_NORMAL)
+				icon_state = "reactor_on"
+				light_color = LIGHT_COLOR_CYAN
+				set_light(5)
+			if(REACTOR_HEAT_NORMAL+10 to REACTOR_HEAT_VERYHOT)
+				icon_state = "reactor_hot"
+			if(REACTOR_HEAT_VERYHOT to REACTOR_HEAT_MELTDOWN) //Final warning
+				icon_state = "reactor_overheat"
+				light_color = LIGHT_COLOR_RED
+				set_light(5)
+			if(REACTOR_HEAT_MELTDOWN to INFINITY)
+				icon_state = "reactor_overheat"
+				light_color = LIGHT_COLOR_RED
+				set_light(5)
+				start_meltdown() //you're gigafucked
+
+/obj/machinery/power/stormdrive_reactor/process()
+	if(state == REACTOR_STATE_MELTDOWN)
+		radiation_pulse(src, 1000, 10)
+		return
+	if(state != REACTOR_STATE_RUNNING || heat <= start_threshold)
+		deactivate()
+		return ..() //Stop processing if we're not activated, start processing when we're activated.
+	if(!pipe)
+		find_pipe()
+		return
+	var/datum/gas_mixture/air1 = pipe.airs[1]
+	var/list/cached_gases = air1.gases
+	if(cached_gases[/datum/gas/plasma] && heat >= REACTOR_HEAT_HOT)
+		cached_gases[/datum/gas/plasma][MOLES] -= reaction_rate*2 //If there's any plasma in the reactor, burn it off if theyre running the reactor hot. If it's too cold, the reaction gets poisoned by the plasma as constricted plasma can't fill up the chamber.
+		air1.garbage_collect()
+	if(cached_gases[/datum/gas/constricted_plasma])
+		var/moles = cached_gases[/datum/gas/constricted_plasma][MOLES]
+		if(moles >= reaction_rate)
+			cached_gases[/datum/gas/constricted_plasma][MOLES] -= reaction_rate //Here, we subtract the plasma
+			heat_gain = initial(heat_gain)+reaction_rate
+			air1.garbage_collect()
+		else
+			heat_gain = -5 //No plasma to react, so the reaction slowly dies off.
+			radiation_pulse(src, 10, 10) //reaction bleedoff
+			if(prob(10))
+				grav_pull()
+				playsound(loc, 'sound/effects/empulse.ogg', 100)
+				for(var/mob/living/M in view(10, src))
+					to_chat(M, "<span class='danger'>The reactor hungers!</span>")
+					shake_camera(M, 2, 1)
+			else if(prob(5))
+				var/growl = pick('sound/hallucinations/growl1.ogg', 'sound/hallucinations/growl2.ogg', 'sound/hallucinations/growl3.ogg')
+				playsound(loc, growl, 100)
+				for(var/mob/living/M in view(10, src))
+					to_chat(M, "<span class='danger'>The reactor growls!</span>")
+					shake_camera(M, 2, 1)
+					M.hallucination += 30
+	input_power_modifier = (heat/150)**3
+	var/base_power = 1000000
+	var/power_produced = base_power
+	last_power_produced = power_produced*input_power_modifier
+	theoretical_maximum_power = power_produced*(REACTOR_HEAT_VERYHOT/100) //Used to show your power output vs peak power output in the UI.
+	add_avail(last_power_produced)
+	handle_reaction_rate()
+	handle_heat()
+	update_icon()
+	radiation_pulse(src, heat, 2)
+	ambient_temp_bleed()
+
+/obj/machinery/power/stormdrive_reactor/proc/grav_pull() //HUNGRY!
+	for(var/obj/O in orange(6, src))
+		if(!O.anchored)
+			step_towards(O,src)
+	for(var/mob/living/M in orange(6, src))
+		if(!M.mob_negates_gravity())
+			step_towards(M,src)
+			M.Knockdown(40) //Knockdown prey so it can't get away!
+
+/obj/machinery/power/stormdrive_reactor/proc/ambient_temp_bleed()
+	var/turf/open/L = get_turf(src)
+	if(!istype(L) || !(L.air))
+		return
+	var/datum/gas_mixture/env = L.return_air()
+	var/heat_kelvin = heat + 273.15
+	if(env.temperature <= heat_kelvin)
+		var/delta_env = heat_kelvin - env.temperature
+		env.temperature += delta_env / 2
+		air_update_turf()
+
+/obj/machinery/power/stormdrive_reactor/proc/can_cool()
+	if(heat > REACTOR_HEAT_NORMAL+10) //Only start melting the rods if theyre running it hot. We have a "safe" mode which doesn't need you to check in on the reactor at all.
+		rod_integrity -= input_power_modifier/60 //Assuming youre running it at hot, rods will melt every 30 minutes.
+		if(rod_integrity < 0)
+			rod_integrity = 0
+			send_alert("DANGER: Primary control rods have failed!")
+			message_admins("Stormdrive control rods are at 0% integrity.")
+			return FALSE
+		if(rod_integrity <= 10 && warning_state <= WARNING_STATE_NONE) //If there isn't a more important thing to notify them about, engineers should be told that their rods are failing.
+			send_alert("WARNING: Reactor control rods failing at [rod_integrity]% integrity, intervention required to avoid possible meltdown.")
+	if(rod_integrity > 0)
+		return TRUE //TODO: Check control rod health
+	else
+		return FALSE
+
+/obj/machinery/power/stormdrive_reactor/proc/handle_heat()
+	heat += heat_gain
+	target_heat = (-1)+2**(0.1*(100-control_rod_percent)) //Let there be math
+	if(heat > target_heat+(cooling_power-heat_gain)) //If it's hotter than the desired temperature, + our cooling power, we need to cool it off.
+		if(can_cool())
+			heat -= cooling_power
+
+/obj/machinery/power/stormdrive_reactor/proc/handle_reaction_rate()
+	target_reaction_rate = 0.5+(1e-03*(100-control_rod_percent)**2) + 1e-05*(heat**2) //let the train derail!
+	delta_reaction_rate = target_reaction_rate - reaction_rate
+	reaction_rate += delta_reaction_rate/2
+
+/obj/machinery/power/stormdrive_reactor/proc/send_alert(message, override=FALSE)
+	if(!message)
+		return
+	if(can_alert || override) //We have an override to ignore continuous alerts like control rod reports in favour of screaming that the reactor is about to go nuclear.
+		can_alert = FALSE
+		radio.talk_into(src, message, engineering_channel)
+		addtimer(VARSET_CALLBACK(src, can_alert, TRUE), alert_cooldown)
+
+//////Reactor Computer//////
+
 /obj/machinery/computer/ship/reactor_control_computer
 	name = "Seegson model RBMK reactor control console"
 	desc = "A state of the art terminal which is linked to a nuclear storm drive reactor. It has several buttons labelled 'AZ' on the keyboard."
@@ -138,11 +385,16 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 	icon_state = "rodconsole"
 	density = TRUE
 	anchored = TRUE
+	circuit = /obj/item/circuitboard/computer/stormdrive_reactor_control
 	var/obj/machinery/power/stormdrive_reactor/reactor //Our parent reactor
 	req_access = list(ACCESS_ENGINE_EQUIP)
 
 /obj/machinery/computer/ship/reactor_control_computer/attack_hand(mob/user)
-	. = ..()
+	if(!allowed(user))
+		var/sound = pick('nsv13/sound/effects/computer/error.ogg','nsv13/sound/effects/computer/error2.ogg','nsv13/sound/effects/computer/error3.ogg')
+		playsound(src, sound, 100, 1)
+		to_chat(user, "<span class='warning'>Access denied</span>")
+		return
 	ui_interact(user)
 
 /obj/machinery/computer/ship/reactor_control_computer/attack_ai(mob/user)
@@ -263,264 +515,141 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 	data["fuel"] = moles
 	return data
 
-/obj/machinery/power/stormdrive_reactor/Initialize()
-	. = ..()
-	radio = new(src)
-	radio.keyslot = new radio_key
-	radio.listening = 0
-	radio.recalculateChannels()
-	find_pipe()
+/obj/item/circuitboard/computer/stormdrive_reactor_control
+	name = "Stormdrive Reactor Control Console (Computer Board)"
+	build_path = /obj/machinery/computer/ship/reactor_control_computer
 
-/obj/machinery/power/stormdrive_reactor/proc/try_start()
-	if(!pipe)
-		find_pipe()
-		return FALSE
-	if(state == REACTOR_STATE_RUNNING || state == REACTOR_STATE_MELTDOWN || state == REACTOR_STATE_MAINTENANCE)
-		return FALSE
-	icon_state = "reactor_starting"
-	var/datum/gas_mixture/air1 = pipe.airs[1]
-	var/list/cached_gases = air1.gases
-	if(cached_gases[/datum/gas/constricted_plasma])
-		var/moles = cached_gases[/datum/gas/constricted_plasma][MOLES]
-		if(moles >= start_threshold && heat >= start_threshold)
-			heat = start_threshold+10 //Avoids it getting heated up to 10000 by the PA, then turning it on, then getting insta meltdown.
-			cached_gases[/datum/gas/constricted_plasma][MOLES] -= start_threshold //Here, we subtract the plasma
-			visible_message("<span class='danger'>[src] starts to glow an ominous blue!</span>")
-			icon_state = "reactor_on"
-			START_PROCESSING(SSmachines,src)
-			state = REACTOR_STATE_RUNNING
-			set_light(5)
-			var/startup_sound = pick('nsv13/sound/effects/ship/reactor/startup.ogg', 'nsv13/sound/effects/ship/reactor/startup2.ogg')
-			playsound(loc, startup_sound, 100)
-			send_alert("Fission reaction initiated. Reactor now on-line.", override=TRUE)
-			var/area/AR = get_area(src)
-			AR.looping_ambience = 'nsv13/sound/ambience/engineering.ogg'
-			return TRUE
-	return FALSE
+/datum/design/board/stormdrive_reactor_control
+	name = "Computer Design (Stormdrive Reactor Control Console)"
+	desc = "Allows for the construction of circuit boards used to build a new stormdrive reactor control console."
+	id = "sd_r_c_c"
+	build_path = /obj/item/circuitboard/computer/stormdrive_reactor_control
+	category = list("Computer Boards")
+	departmental_flags = DEPARTMENTAL_FLAG_ENGINEERING
 
-/obj/machinery/power/stormdrive_reactor/proc/find_pipe()
-	pipe = locate(/obj/machinery/atmospherics/components/binary/pump) in get_turf(src)
+/datum/techweb_node/stormdrive_reactor_control
+	id = "sd_r_c_c"
+	display_name = "Seegson RBMK RCC"
+	description = "Seegson's latest and greatest (within your budget range) reactor control design!"
+	prereq_ids = list("adv_engi", "adv_power")
+	design_ids = list("sd_r_c_c")
+	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 2500)
+	export_price = 5000
 
-/obj/machinery/power/stormdrive_reactor/proc/check_meltdown_warning()
-	if(warning_state >= WARNING_STATE_OVERHEAT)
-		if(heat <= REACTOR_HEAT_VERYHOT) //This implies that we've now stopped melting down.
-			var/obj/structure/overmap/OM = get_overmap()
-			OM?.stop_relay(CHANNEL_REACTOR_ALERT)
-			warning_state = 0
-			send_alert("Nuclear meltdown averted. Manual reactor inspection is strongly advised", override=TRUE)
-		return FALSE
-	if(heat >= REACTOR_HEAT_VERYHOT)
-		send_alert("DANGER: Reactor core overheating. Nuclear meltdown imminent", override=TRUE)
-		warning_state = WARNING_STATE_OVERHEAT
-		var/sound = 'nsv13/sound/effects/ship/reactor/core_overheating.ogg'
-		var/obj/structure/overmap/OM = get_overmap()
-		OM?.relay(sound, null, loop=TRUE, channel = CHANNEL_REACTOR_ALERT)
-		return TRUE
+//////Reactor Manifold//////
 
-/obj/machinery/power/stormdrive_reactor/proc/lazy_startup() //Admin only command to instantly start a reactor
-	if(!pipe)
-		find_pipe()
-	heat = start_threshold+10
-	var/datum/gas_mixture/air1 = pipe.airs[1]
-	air1.assert_gas(/datum/gas/constricted_plasma) //Yeet some plasma into the pipe so it can run for a while
-	air1.gases[/datum/gas/constricted_plasma][MOLES] += 300
-	try_start()
+/obj/machinery/atmospherics/components/binary/pump/reactor_manifold
+	name = "Reactor Manifold"
+	desc = "The manifold connection for the stormdrive."
+	resistance_flags = INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | UNACIDABLE | ACID_PROOF | FREEZE_PROOF
+	can_unwrench = FALSE
 
-/obj/machinery/power/stormdrive_reactor/proc/start_meltdown()
-	if(warning_state >= WARNING_STATE_MELTDOWN)
-		return
-	rod_integrity = 0 //Burn through the control rods if we haven't already.
-	send_alert("ERROR IN MODULE FISSREAC0 AT ADDRESS 0x12DF. CONTROL RODS HAVE FAILED. IMMEDIATE INTERVENTION REQUIRED.", override=TRUE)
-	warning_state = WARNING_STATE_MELTDOWN
-	var/sound = 'nsv13/sound/effects/ship/reactor/meltdown.ogg'
-	addtimer(CALLBACK(src, .proc/meltdown), 18 SECONDS)
-	var/obj/structure/overmap/OM = get_overmap()
-	OM?.relay(sound, null, loop=FALSE, channel = CHANNEL_REACTOR_ALERT)
+//////Magnetic Constrictors//////
 
-/obj/machinery/power/stormdrive_reactor/proc/meltdown()
-	if(heat >= REACTOR_HEAT_MELTDOWN)
-		state = REACTOR_STATE_MELTDOWN
-		var/sound = 'nsv13/sound/effects/ship/reactor/explode.ogg'
-		var/obj/structure/overmap/OM = get_overmap()
-		OM?.relay(sound, null, loop=FALSE, channel = CHANNEL_REACTOR_ALERT)
-		cut_overlays()
-		flick("meltdown", src)
-		do_meltdown_effects()
-		sleep(10)
-		icon_state = "broken"
-	else
-		warning_state = WARNING_STATE_NONE
-
-/obj/machinery/power/stormdrive_reactor/proc/do_meltdown_effects()
-	explosion(get_turf(src), 5, 10, 19, 10, TRUE, TRUE)
-	var/obj/structure/overmap/OM = get_overmap()
-	if(OM?.main_overmap) //Irradiate the shit out of the player ship
-		SSweather.run_weather("nuclear fallout")
-	for(var/X in GLOB.landmarks_list)
-		if(istype(X, /obj/effect/landmark/nuclear_waste_spawner))
-			var/obj/effect/landmark/nuclear_waste_spawner/WS = X
-			if(shares_overmap(src, WS)) //If the spawner's overmap ship is the same as ours, LET LOOSE THE SLUDGE
-				spawn(0)
-					WS.fire()
-	for(var/a in GLOB.apcs_list)
-		var/obj/machinery/power/apc/A = a
-		if(shares_overmap(src, a) && prob(70)) //Are they on our ship?
-			A.overload_lighting()
-
-/obj/machinery/power/stormdrive_reactor/update_icon()
-	if(state == REACTOR_STATE_MELTDOWN)
-		icon_state = "broken"
-		return
-	cut_overlays()
-	if(can_cool()) //If control rods aren't destroyed.
-		switch(round(control_rod_percent))
-			if(0 to 24)
-				add_overlay("rods_1")
-			if(25 to 49)
-				add_overlay("rods_2")
-			if(50 to 74)
-				add_overlay("rods_3")
-			if(75 to 100)
-				add_overlay("rods_4")
-	if(state == REACTOR_STATE_MAINTENANCE)
-		icon_state = "reactor_maintenance" //If we're in maint, don't make it appear hot.
-		return
-	if(state == REACTOR_STATE_RUNNING)
-		icon_state = "reactor_on" //Default to being on.
-		check_meltdown_warning()
-		switch(heat)
-			if(0 to REACTOR_HEAT_NORMAL)
-				icon_state = "reactor_on"
-				light_color = LIGHT_COLOR_CYAN
-				set_light(5)
-			if(REACTOR_HEAT_NORMAL+10 to REACTOR_HEAT_VERYHOT)
-				icon_state = "reactor_hot"
-			if(REACTOR_HEAT_VERYHOT to REACTOR_HEAT_MELTDOWN) //Final warning
-				icon_state = "reactor_overheat"
-				light_color = LIGHT_COLOR_RED
-				set_light(5)
-			if(REACTOR_HEAT_MELTDOWN to INFINITY)
-				icon_state = "reactor_overheat"
-				light_color = LIGHT_COLOR_RED
-				set_light(5)
-				start_meltdown() //you're gigafucked
-
-/obj/machinery/power/stormdrive_reactor/process()
-	if(state == REACTOR_STATE_MELTDOWN)
-		radiation_pulse(src, 1000, 10)
-		return
-	if(state != REACTOR_STATE_RUNNING || heat <= start_threshold)
-		deactivate()
-		return ..() //Stop processing if we're not activated, start processing when we're activated.
-	if(!pipe)
-		find_pipe()
-		return
-	var/datum/gas_mixture/air1 = pipe.airs[1]
-	var/list/cached_gases = air1.gases
-	if(cached_gases[/datum/gas/plasma] && heat >= REACTOR_HEAT_HOT)
-		cached_gases[/datum/gas/plasma][MOLES] -= reaction_rate*2 //If there's any plasma in the reactor, burn it off if theyre running the reactor hot. If it's too cold, the reaction gets poisoned by the plasma as constricted plasma can't fill up the chamber.
-		air1.garbage_collect()
-	if(cached_gases[/datum/gas/constricted_plasma])
-		var/moles = cached_gases[/datum/gas/constricted_plasma][MOLES]
-		if(moles >= reaction_rate)
-			cached_gases[/datum/gas/constricted_plasma][MOLES] -= reaction_rate //Here, we subtract the plasma
-			heat_gain = initial(heat_gain)+reaction_rate
-			air1.garbage_collect()
-		else
-			heat_gain = -5 //No plasma to react, so the reaction slowly dies off.
-			radiation_pulse(src, 10, 10) //reaction bleedoff
-	input_power_modifier = (heat/150)**3
-	var/base_power = 1000000
-	var/power_produced = base_power
-	last_power_produced = power_produced*input_power_modifier
-	theoretical_maximum_power = power_produced*(REACTOR_HEAT_VERYHOT/100) //Used to show your power output vs peak power output in the UI.
-	add_avail(last_power_produced)
-	handle_reaction_rate()
-	handle_heat()
-	update_icon()
-	radiation_pulse(src, heat, 2)
-
-/obj/machinery/power/stormdrive_reactor/proc/can_cool()
-	if(heat > REACTOR_HEAT_NORMAL+10) //Only start melting the rods if theyre running it hot. We have a "safe" mode which doesn't need you to check in on the reactor at all.
-		rod_integrity -= input_power_modifier/60 //Assuming youre running it at hot, rods will melt every 30 minutes.
-		if(rod_integrity < 0)
-			rod_integrity = 0
-			send_alert("DANGER: Primary control rods have failed!")
-			return FALSE
-		if(rod_integrity <= 10 && warning_state <= WARNING_STATE_NONE) //If there isn't a more important thing to notify them about, engineers should be told that their rods are failing.
-			send_alert("WARNING: Reactor control rods failing at [rod_integrity]% integrity, intervention required to avoid possible meltdown.")
-	if(rod_integrity > 0)
-		return TRUE //TODO: Check control rod health
-	else
-		return FALSE
-
-/obj/machinery/power/stormdrive_reactor/proc/handle_heat()
-	heat += heat_gain
-	target_heat = (-1)+2**(0.1*(100-control_rod_percent)) //Let there be math
-	if(heat > target_heat+(cooling_power-heat_gain)) //If it's hotter than the desired temperature, + our cooling power, we need to cool it off.
-		if(can_cool())
-			heat -= cooling_power
-
-/obj/machinery/power/stormdrive_reactor/proc/handle_reaction_rate()
-	target_reaction_rate = 0.5+(1e-03*(100-control_rod_percent)**2) + 1e-05*(heat**2) //let the train derail!
-	delta_reaction_rate = target_reaction_rate - reaction_rate
-	reaction_rate += delta_reaction_rate/2
-
-/obj/machinery/power/stormdrive_reactor/proc/send_alert(message, override=FALSE)
-	if(!message)
-		return
-	if(can_alert || override) //We have an override to ignore continuous alerts like control rod reports in favour of screaming that the reactor is about to go nuclear.
-		can_alert = FALSE
-		radio.talk_into(src, message, engineering_channel)
-		addtimer(VARSET_CALLBACK(src, can_alert, TRUE), alert_cooldown)
-
-/obj/machinery/power/magnetic_constrictor //This heats the plasma up to acceptable levels for use in the reactor.
+/obj/machinery/atmospherics/components/binary/magnetic_constrictor //This heats the plasma up to acceptable levels for use in the reactor.
 	name = "magnetic constrictor"
 	desc = "A large magnet which is capable of pressurizing plasma into a more energetic state. It is able to self-regulate its plasma input valve, as long as plasma is supplied to it."
 	icon = 'nsv13/icons/obj/machinery/reactor_parts.dmi'
-	icon_state = "constrictor_assembly"
+	icon_state = "constrictor"
 	density = TRUE
-	anchored = FALSE
-	var/obj/machinery/atmospherics/components/binary/pump/inlet
-	var/state = CONSTRICTOR_NOTBUILT
-	var/on = FALSE //Active?
+	circuit = /obj/item/circuitboard/machine/magnetic_constrictor
+	active_power_usage = 200
+	var/constriction_rate = 0 //SSAtmos is 4x faster than SSMachines aka the reactor
+	var/max_output_pressure = 0
 
-/obj/machinery/power/magnetic_constrictor/attack_hand(mob/user)
+/obj/machinery/atmospherics/components/binary/magnetic_constrictor/RefreshParts()
+	var/A
+	for(var/obj/item/stock_parts/capacitor/C in component_parts)
+		A += C.rating
+	constriction_rate = 0.9 + (0.1 * A)
+	var/B
+	for(var/obj/item/stock_parts/manipulator/M in component_parts)
+		B += M.rating
+	max_output_pressure = 100 + (100 * B)
+
+/obj/machinery/atmospherics/components/binary/magnetic_constrictor/attack_hand(mob/user)
 	. = ..()
-	if(state != CONSTRICTOR_WELDED)
-		to_chat(user, "<span class='notice'>[src] isn't finished yet!</span>")
-		return ..()
+	if(panel_open)
+		to_chat(user, "<span class='notice'>You must turn close the panel on [src] before turning it on.</span>")
+		return
 	to_chat(user, "<span class='notice'>You press [src]'s power button.</span>")
 	on = !on
-
-/obj/machinery/power/magnetic_constrictor/Initialize()
-	. = ..()
-	find_pipes()
-
-/obj/machinery/power/magnetic_constrictor/proc/find_pipes()
-	inlet = locate(/obj/machinery/atmospherics/components/binary/pump) in get_turf(src) //Look for the inlet in our turf
-
-/obj/machinery/power/magnetic_constrictor/process()
-	if(state != CONSTRICTOR_WELDED)
-		return ..() //Kill the process if it's not built yet.
-	if(!on)
-		icon_state = "constrictor"
-		return
-	if(!inlet || inlet?.loc != get_turf(src))
-		inlet = null //If not inlet, or inlet's not in our turf, abort.
-		icon_state = initial(icon_state)
-		find_pipes()
-		return
 	update_icon()
-	var/datum/gas_mixture/air1 = inlet.airs[1]
+
+/obj/machinery/atmospherics/components/binary/magnetic_constrictor/ComponentInitialize()
+	. = ..()
+	AddComponent(/datum/component/simple_rotation,ROTATION_ALTCLICK | ROTATION_CLOCKWISE | ROTATION_COUNTERCLOCKWISE | ROTATION_VERBS )
+
+/obj/machinery/atmospherics/components/binary/magnetic_constrictor/process_atmos()
+	..()
+	if(!on)
+		return
+	var/datum/gas_mixture/air1 = airs[1]
+	var/datum/gas_mixture/air2 = airs[2]
+	var/output_starting_pressure = air2.return_pressure()
+	if(output_starting_pressure >= max_output_pressure)
+		return
 	var/list/cached_gases = air1.gases
 	if(cached_gases[/datum/gas/plasma])
-		var/moles = cached_gases[/datum/gas/plasma][MOLES]
-		if(moles >= 0)
-			air1.assert_gas(/datum/gas/constricted_plasma) //Add some constricted plasma
-			air1.gases[/datum/gas/constricted_plasma][MOLES] += moles //Transfer the plasma into constricted plasma.
-			cached_gases[/datum/gas/plasma][MOLES] = 0 //Here, we subtract the plasma
-			air1.garbage_collect()
+		var/plasma_moles = cached_gases[/datum/gas/plasma][MOLES]
+		var/plasma_transfer_moles = min(constriction_rate, plasma_moles)
+		air2.assert_gas(/datum/gas/constricted_plasma)
+		air2.gases[/datum/gas/constricted_plasma][MOLES] += plasma_transfer_moles
+		air2.temperature = air1.temperature
+		air1.gases[/datum/gas/plasma][MOLES] -= plasma_transfer_moles
+		air1.garbage_collect()
+		update_parents()
+
+/obj/machinery/atmospherics/components/binary/magnetic_constrictor/crowbar_act(mob/user, obj/item/I)
+	default_deconstruction_crowbar(I)
+	return TRUE
+
+/obj/machinery/atmospherics/components/binary/magnetic_constrictor/screwdriver_act(mob/user, obj/item/I)
+	if(..())
+		return TRUE
+	if(on)
+		to_chat(user, "<span class='notice'>You must turn off [src] before opening the panel.</span>")
+		return FALSE
+	panel_open = !panel_open
+	I.play_tool_sound(src)
+	to_chat(user, "<span class='notice'>You [panel_open?"open":"close"] the panel on [src].</span>")
+	update_icon()
+	return TRUE
+
+/obj/machinery/atmospherics/components/binary/magnetic_constrictor/update_icon()
+	cut_overlays()
+	if(panel_open)
+		icon_state = "constrictor_screw"
+	else if(on)
+		icon_state = "constrictor_active"
+	else
+		icon_state = "constrictor"
+
+/obj/item/circuitboard/machine/magnetic_constrictor
+	name = "Magnetic Constrictor (Machine Board)"
+	build_path = /obj/machinery/atmospherics/components/binary/magnetic_constrictor
+	req_components = list(
+		/obj/item/stock_parts/capacitor = 1,
+		/obj/item/stock_parts/manipulator = 1)
+
+/datum/design/board/magnetic_constrictor
+	name = "Machine Design (Magnetic Constrictor Board)"
+	desc = "The circuit board for a Magnetic Constrictor."
+	id = "mag_cons"
+	build_path = /obj/item/circuitboard/machine/magnetic_constrictor
+	category = list("Engineering Machinery")
+	departmental_flags = DEPARTMENTAL_FLAG_ENGINEERING
+
+/datum/techweb_node/magnetic_constrictor
+	id = "mag_cons"
+	display_name = "Magnetic Constriction of Plasma"
+	description = "Beating plasma into submission - a guide."
+	prereq_ids = list("adv_engi", "adv_power")
+	design_ids = list("mag_cons")
+	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 2500)
+	export_price = 5000
+
+//////Constricted Plasma//////
 
 /datum/gas/constricted_plasma
 	id = "constricted_plasma"
@@ -549,102 +678,7 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 	icon_state = "orange"
 	gas_type = /datum/gas/constricted_plasma
 
-/obj/machinery/power/magnetic_constrictor/examine(mob/user) //No better guide than an in-game play-by-play guide
-	. = ..()
-	switch(state)
-		if(CONSTRICTOR_NOTBUILT)
-			. += "<span class='notice'>The device lies in pieces on the ground, it must be assembled and the bolts wrenched to secure it into place.</span>"
-		if(CONSTRICTOR_WRENCHED)
-			. += "<span class='notice'>The devices internal wire harnesses must be connected and screwed into place. You could also use a crowbar to dismantle it.</span>"
-		if(CONSTRICTOR_SCREWED)
-			. += "<span class='notice'>Per specifications, the maintenance hatches must be welded shut, normally this device is not tampered with once assembled.</span>"
-		if(CONSTRICTOR_WELDED)
-			. += "<span class='notice'>You can use a welder to open the device to begin disassembly, or to access its securing bolts.</span>"
-
-/obj/machinery/power/magnetic_constrictor/wrench_act(mob/user, obj/item/tool)
-	. = FALSE
-	switch(state)
-		if(CONSTRICTOR_NOTBUILT)
-			to_chat(user, "<span class='notice'>You start assembly on [src], securing its components into place with bolts...</span>")
-			if(tool.use_tool(src, user, 40, volume=100))
-				to_chat(user, "<span class='notice'>You complete initial assembly on [src]. </span>")
-				anchored = TRUE
-				state = CONSTRICTOR_WRENCHED
-				update_icon()
-			return TRUE
-		if(CONSTRICTOR_WRENCHED to CONSTRICTOR_SCREWED)
-			return default_unfasten_wrench(user, tool, 20)
-
-/obj/machinery/power/magnetic_constrictor/crowbar_act(mob/user, obj/item/tool)
-	. = FALSE
-	if(state == CONSTRICTOR_WRENCHED)
-		to_chat(user, "<span class='notice'>You start to disassemble [src] into sheets of metal...</span>")
-		if(tool.use_tool(src, user, 40, volume=100))
-			to_chat(user, "<span class='notice'>You complete disassembly on [src]. </span>")
-			new /obj/item/stack/sheet/iron(loc, 15)
-			qdel(src)
-		return TRUE
-
-/obj/machinery/power/magnetic_constrictor/screwdriver_act(mob/user, obj/item/tool)
-	. = FALSE
-	switch(state)
-		if(CONSTRICTOR_WRENCHED)
-			to_chat(user, "<span class='notice'>You start running wires and securing wire harnesses on [src]...</span>")
-			if(tool.use_tool(src, user, 40, volume=100))
-				to_chat(user, "<span class='notice'>You have assembled the wiring on [src]. </span>")
-				state = CONSTRICTOR_SCREWED
-				update_icon()
-			return TRUE
-		if(CONSTRICTOR_SCREWED)
-			to_chat(user, "<span class='notice'>You start unsecuring wiring harnesses and re-coiling wires on [src]...</span>")
-			if(tool.use_tool(src, user, 40, volume=100))
-				to_chat(user, "<span class='notice'>You undo the wiring of [src]. </span>")
-				state = CONSTRICTOR_WRENCHED
-				update_icon()
-			return TRUE
-
-/obj/machinery/power/magnetic_constrictor/welder_act(mob/user, obj/item/tool)
-	. = FALSE
-	switch(state)
-		if(CONSTRICTOR_SCREWED)
-			to_chat(user, "<span class='notice'>You start securing the maintenance hatches on [src]...</span>")
-			if(tool.use_tool(src, user, 40, volume=100))
-				to_chat(user, "<span class='notice'>You secure the maintenance hatches on [src].</span>")
-				state = CONSTRICTOR_WELDED
-				update_icon()
-				START_PROCESSING(SSfastprocess,src) //Start processing once it's built. If it doesn't have the required components, it shuts off.
-				anchored = TRUE
-			return TRUE
-		if(CONSTRICTOR_WELDED)
-			to_chat(user, "<span class='notice'>You start unwelding the maintenance hatches on [src]...</span>")
-			if(tool.use_tool(src, user, 40, volume=100))
-				to_chat(user, "<span class='notice'You unweld the maintenance hatches on [src], exposing its anchoring bolts.</span>")
-				state = CONSTRICTOR_SCREWED
-				update_icon()
-				anchored = FALSE
-			return TRUE
-
-/obj/machinery/power/magnetic_constrictor/proc/finish() //Admin only for lazy people who want their shit to instantly complete.
-	anchored = TRUE
-	state = CONSTRICTOR_WELDED
-	update_icon()
-	START_PROCESSING(SSfastprocess,src)
-
-/obj/machinery/power/magnetic_constrictor/update_icon()
-	cut_overlays()
-	switch(state)
-		if(CONSTRICTOR_NOTBUILT)
-			icon_state = "constrictor_assembly"
-		if(CONSTRICTOR_WRENCHED)
-			icon_state = "constrictor_wrench"
-		if(CONSTRICTOR_SCREWED)
-			icon_state = "constrictor_screw"
-		if(CONSTRICTOR_WELDED)
-			if(on)
-				icon_state = "constrictor_active"
-			else
-				icon_state = "constrictor"
-
+//////MELTDOWN//////
 
 /obj/effect/decal/nuclear_waste
 	name = "Plutonium sludge"
@@ -747,11 +781,6 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 		return
 	status_alarm(FALSE)
 
-
-#undef CONSTRICTOR_NOTBUILT
-#undef CONSTRICTOR_WRENCHED
-#undef CONSTRICTOR_SCREWED
-#undef CONSTRICTOR_WELDED
 #undef REACTOR_HEAT_NORMAL
 #undef REACTOR_HEAT_HOT
 #undef REACTOR_HEAT_VERYHOT
