@@ -59,7 +59,7 @@
 
 /obj/machinery/ship_weapon/railgun/attack_hand(mob/user)
 	. = ..()
-	if(!do_after(user, 2 SECONDS, target=src))
+	if((!maint_state == MSTATE_PRIEDOUT) || !do_after(user, 2 SECONDS, target=src))
 		return
 
 	var/obj/W = (locate(/obj/item/ship_weapon/parts/loading_tray) in component_parts)
