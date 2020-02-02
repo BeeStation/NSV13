@@ -48,9 +48,6 @@
 			to_chat(user, "<span class='warning'>[src] is fully loaded!</span>")
 
 /obj/structure/munitions_trolley/proc/load_trolley(atom/movable/A, mob/user)
-//	if(istype(A, /obj/item))
-	//	if(!user.transferItemToLoc(A, src))
-	//		return
 	playsound(src, 'nsv13/sound/effects/ship/mac_load.ogg', 100, 1)
 	if(istype(A, /obj/item/ship_weapon/ammunition/torpedo))
 		A.forceMove(src)
