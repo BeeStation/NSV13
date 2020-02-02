@@ -35,8 +35,10 @@
 	chamber_delay_rapid = 0
 	chamber_delay = 0
 
-/obj/machinery/ship_weapon/pdc_mount/Initialize()
+/obj/machinery/ship_weapon/pdc_mount/New(loc, ndir=dir)
 	. = ..()
+	if(ndir)
+		setDir(ndir)
 	adjust_sprite_direction()
 
 /obj/machinery/ship_weapon/pdc_mount/setDir(newdir)

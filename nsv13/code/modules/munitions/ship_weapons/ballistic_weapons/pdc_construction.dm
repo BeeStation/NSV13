@@ -23,7 +23,7 @@
 	else if(state == 1)
 		. += "The <i>bolts</i> are loose. You could probably <b>lift</b> it off."
 
-/obj/structure/frame/machine/ship_weapon/pdc_mount/New(loc, ndir, nbuild)
+/obj/structure/frame/machine/ship_weapon/pdc_mount/New(loc, ndir=dir)
 	. = ..()
 	if(ndir)
 		setDir(ndir)
@@ -51,9 +51,6 @@
 	if(circuit)
 		to_chat(user, "<span class='warning'>Remove the circuitboard first!</span>")
 		return TRUE
-	else if(state == 2)
-		to_chat(user, "<span class='warning'>Remove the wires first!</span>")
-		return TRUE
 	. = ..()
 
 /obj/structure/frame/machine/ship_weapon/pdc_mount/attack_robot(mob/user)
@@ -69,4 +66,10 @@
 		to_chat(user, "<span class='notice'>You remove the frame from the wall.</span>")
 		new /obj/item/wallframe/pdc_frame(loc)
 		qdel(src)
+		return TRUE
+	else if((state == 2) && !anchored)
+		to_chat(user, "<span class='warning'>Remove the wires first!</span>")
+		return TRUE
+	else if(state == 2)
+		to_chat(user, "<span class='warning'>You need to unbolt the frame to do that!</span>")
 		return TRUE

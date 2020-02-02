@@ -180,8 +180,7 @@
 						break
 				if(component_check)
 					P.play_tool_sound(src)
-					var/obj/machinery/new_machine = new circuit.build_path(loc)
-					new_machine.setDir(dir) //NSV13 - set machine's dir to frame's dir
+					var/obj/machinery/new_machine = new circuit.build_path(loc, ndir=dir) //NSV13 - added ndir argument
 					new_machine.setAnchored(anchored)
 					new_machine.on_construction()
 					for(var/obj/O in new_machine.component_parts)
