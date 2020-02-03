@@ -1,5 +1,9 @@
 //Metals
 
+GLOBAL_LIST_INIT(duranium_recipes, list (\
+	new/datum/stack_recipe("railgun rail", /obj/item/ship_weapon/parts/railgun_rail, 1, time = 20, one_per_turf = FALSE, on_floor = TRUE) \
+	))
+
 /obj/item/stack/sheet/duranium
 	name = "duranium sheet"
 	desc = "This sheet is an extra durable alloy of durasteel and plasteel."
@@ -12,6 +16,10 @@
 	resistance_flags = FIRE_PROOF
 	merge_type = /obj/item/stack/sheet/duranium
 	turf_type = /turf/closed/wall/r_wall/ship
+
+/obj/item/stack/sheet/duranium/Initialize(mapload, new_amount, merge = TRUE)
+	recipes = GLOB.duranium_recipes
+	return ..()
 
 /obj/item/stack/sheet/duranium/twenty
 	amount = 20

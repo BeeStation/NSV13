@@ -360,10 +360,10 @@
 		update_icon()
 
 /obj/item/twohanded/shockpaddles/update_icon()
-	icon_state = "defibpaddles[wielded]"
-	item_state = "defibpaddles[wielded]"
+	icon_state = "defibpaddles[is_wielded()]"
+	item_state = "defibpaddles[is_wielded()]"
 	if(cooldown)
-		icon_state = "defibpaddles[wielded]_cooldown"
+		icon_state = "defibpaddles[is_wielded()]_cooldown"
 	if(iscarbon(loc))
 		var/mob/living/carbon/C = loc
 		C.update_inv_hands()
@@ -412,7 +412,7 @@
 		user.visible_message("<span class='notice'>[defib] beeps: Unit is unpowered.</span>")
 		playsound(src, 'sound/machines/defib_failed.ogg', 50, 0)
 		return
-	if(!wielded)
+	if(!is_wielded())
 		if(iscyborg(user))
 			to_chat(user, "<span class='warning'>You must activate the paddles in your active module before you can use them on someone!</span>")
 		else

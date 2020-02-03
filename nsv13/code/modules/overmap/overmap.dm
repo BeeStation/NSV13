@@ -91,10 +91,8 @@
 	var/obj/machinery/computer/ship/dradis/dradis //So that pilots can check the radar easily
 
 	// Ship weapons
-	var/list/railguns = list() //Every railgun present on the ship
-	var/list/torpedo_tubes = list() //every torpedo tube present on the ship.
-	var/list/pdcs = list() //Every PDC ammo rack that we have.
-	var/list/ship_lasers = list() //Every ship-to-ship laser gun we have
+	var/list/weapons[3][] //All of the weapons linked to us
+	var/list/weapon_types[3]
 
 	var/fire_mode = FIRE_MODE_PDC //What gun do we want to fire? Defaults to railgun, with PDCs there for flak
 	var/weapon_safety = FALSE //Like a gun safety. Entirely un-used except for fighters to stop brainlets from shooting people on the ship unintentionally :)
@@ -104,8 +102,8 @@
 	var/fire_delay = 5
 	var/next_firetime = 0
 
-	var/obj/weapon_overlay/railgun/railgun_overlay
-	var/obj/weapon_overlay/laser/laser_overlay
+	var/list/weapon_overlays = list()
+	var/obj/weapon_overlay/last_fired //Last weapon overlay that fired, so we can rotate guns independently
 	var/atom/last_target //Last thing we shot at, used to point the railgun at an enemy.
 
 	var/torpedoes = 15 //Prevent infinite torp spam
@@ -122,25 +120,38 @@
 	mouse_opacity = FALSE
 	var/angle = 0 //Debug
 
+/obj/weapon_overlay/proc/do_animation()
+	return
+
 /obj/weapon_overlay/railgun //Railgun sits on top of the ship and swivels to face its target
 	name = "Railgun"
 	icon_state = "railgun"
+
+/obj/weapon_overlay/railgun_overlay/do_animation()
+	flick("railgun_charge",src)
 
 /obj/weapon_overlay/laser
 	name = "Laser cannon"
 	icon = 'icons/obj/hand_of_god_structures.dmi'
 	icon_state = "conduit-red"
 
+/obj/structure/overmap/proc/add_weapon_overlay(type)
+	var/path = text2path(type)
+	var/obj/weapon_overlay/OL = new path
+	OL.icon = icon
+	OL.appearance_flags |= KEEP_APART
+	OL.appearance_flags |= RESET_TRANSFORM
+	vis_contents += OL
+	weapon_overlays += OL
+	return OL
+
+/obj/weapon_overlay/laser/do_animation()
+	flick("laser",src)
+
 /obj/structure/overmap/Initialize()
 	. = ..()
 	GLOB.overmap_objects += src
 	START_PROCESSING(SSovermap, src)
-
-	railgun_overlay = new()
-	railgun_overlay.icon = icon
-	railgun_overlay.appearance_flags |= KEEP_APART
-	railgun_overlay.appearance_flags |= RESET_TRANSFORM
-	vis_contents += railgun_overlay
 
 	update_icon()
 	max_range = initial(weapon_range)+20 //Range of the maximum possible attack (torpedo)
@@ -181,6 +192,16 @@
 		name = "[station_name()]"
 	current_system = GLOB.starsystem_controller.find_system(src)
 	addtimer(CALLBACK(src, .proc/check_armour), 20 SECONDS)
+
+	weapon_types[FIRE_MODE_PDC] = new/datum/ship_weapon/pdc_mount
+	weapon_types[FIRE_MODE_TORPEDO] = new/datum/ship_weapon/torpedo_launcher
+	weapon_types[FIRE_MODE_RAILGUN] = new/datum/ship_weapon/railgun
+
+/obj/structure/overmap/proc/add_weapon(obj/machinery/ship_weapon/weapon)
+	if(!weapons[weapon.fire_mode])
+		weapons[weapon.fire_mode] = list(weapon)
+	else
+		weapons[weapon.fire_mode] += weapon
 
 /obj/structure/overmap/Destroy()
 	if(cabin_air)
@@ -258,11 +279,9 @@
 	cut_overlays()
 	apply_damage_states()
 
-	if(railgun_overlay && (fire_mode == FIRE_MODE_RAILGUN)) //Swivel the railgun to aim at the last thing we hit
-		railgun_overlay.icon = icon
-		railgun_overlay.setDir(get_dir(src, last_target))
-	else if(laser_overlay && (fire_mode == FIRE_MODE_LASER))
-		laser_overlay.setDir(get_dir(src, last_target))
+	if(last_fired) //Swivel the most recently fired gun's overlay to aim at the last thing we hit
+		last_fired.icon = icon
+		last_fired.setDir(get_dir(src, last_target))
 
 	if(angle == desired_angle)
 		return //No RCS needed if we're already facing where we want to go
@@ -431,4 +450,3 @@
 		return
 	move_by_mouse = !move_by_mouse
 	to_chat(usr, "<span class='notice'>You [move_by_mouse ? "activate" : "deactivate"] [src]'s laser guided movement system.</span>")
-
