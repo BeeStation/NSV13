@@ -22,7 +22,7 @@
 				ACCESS_VIROLOGY, ACCESS_SURGERY, ACCESS_THEATRE, ACCESS_RESEARCH,
 				ACCESS_MINING, ACCESS_MECH_MEDICAL, ACCESS_MINING_STATION, ACCESS_XENOBIOLOGY,
 				ACCESS_GATEWAY, ACCESS_MINERAL_STOREROOM, ACCESS_CLONING, ACCESS_MUNITIONS)
-	minimal_access = list(ACCESS_MEDICAL, ACCESS_MORGUE, ACCESS_CLONING, ACCESS_MECH_MEDICAL, ACCESS_MAINT_TUNNELS)
+	minimal_access = list(ACCESS_MEDICAL, ACCESS_MORGUE, ACCESS_CLONING, ACCESS_MECH_MEDICAL, ACCESS_MAINT_TUNNELS, ACCESS_SURGERY)
 	paycheck = PAYCHECK_MEDIUM
 	paycheck_department = ACCOUNT_MED
 
@@ -37,7 +37,7 @@
 	ears = /obj/item/radio/headset/headset_med
 	uniform = /obj/item/clothing/under/ship/medical
 	shoes = /obj/item/clothing/shoes/sneakers/white
-	head = /obj/item/clothing/head/beret/durathread
+	head = /obj/item/clothing/head/soft/emt //NSV13 - Fashion Matters
 	suit =  /obj/item/clothing/suit/toggle/labcoat/emt
 	l_hand = /obj/item/storage/firstaid/regular
 	l_pocket = /obj/item/pinpointer/crew
