@@ -90,13 +90,21 @@ def main(settings):
         try:
             old_map = DMM.from_file(fname + ".backup")
         except FileNotFoundError:
+            if input("Have you already committed or staged this map without running mapmerge? (y/n)") == "y":
+                print("You did not create a backup file. You need to get one from before your changes to compare against.")
             try:
-                # git show HEAD:path/to/map.dmm > path/to/map.dmm.backup
-                subprocess.Popen("git show HEAD:" + fname + " > " + (fname + ".backup"), stdout=subprocess.PIPE, shell=True)
+                # git show HEAD^:path/to/map.dmm > path/to/map.dmm.backup
+                gitfilename = fname.replace("\\","/") # Convert from windows backslash if needed
+                print("Path to backup from: " + gitfilename)
+                p = subprocess.Popen("git show HEAD^:" + gitfilename + " > " + (fname + ".backup"), stdout=subprocess.PIPE, shell=True)
+                p.wait()
+                old_map = DMM.from_file(fname + ".backup")
             except OSError:
                 print("Git not detected and no backup file - aborting.")
                 return
-            old_map = DMM.from_file(fname + ".backup")
+            except FileNotFoundError:
+                print("Backup file not found and could not create a backup.")
+                return
         new_map = DMM.from_file(fname)
         merge_map(new_map, old_map).to_file(fname, settings.tgm)
 
