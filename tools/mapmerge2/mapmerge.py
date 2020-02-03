@@ -86,11 +86,7 @@ def merge_map(new_map, old_map, delete_unused=False):
 def main(settings):
     for fname in frontend.process(settings, "merge", backup=True):
         shutil.copyfile(fname, fname + ".before")
-        try:
-            old_map = DMM.from_file(fname + ".backup")
-        except FileNotFoundError:
-            shutil.copyfile(fname, fname + ".backup")
-            old_map = DMM.from_file(fname + ".backup")
+        old_map = DMM.from_file(fname + ".backup")
         new_map = DMM.from_file(fname)
         merge_map(new_map, old_map).to_file(fname, settings.tgm)
 
