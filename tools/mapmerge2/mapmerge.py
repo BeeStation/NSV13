@@ -90,19 +90,23 @@ def main(settings):
         try:
             old_map = DMM.from_file(fname + ".backup")
         except FileNotFoundError:
-            if input("Have you already committed or staged this map without running mapmerge? (y/n) ").lower() == "n":
-                try:
-                    # git show HEAD^:path/to/map.dmm > path/to/map.dmm.backup
-                    gitfilename = fname.replace("\\","/") # Convert from windows backslash if needed
-                    p = subprocess.Popen("git show HEAD^:" + gitfilename + " > " + (fname + ".backup"), stdout=subprocess.PIPE, shell=True)
-                    p.wait()
-                    old_map = DMM.from_file(fname + ".backup")
-                except OSError: # command git not found
-                    print("Git not detected and no backup file - aborting.")
-                    return
-            else:
-                print("You need to retrieve the previous version of the map to use as a .backup!\n")
-                raise
+            print("\nError: Could not find a backup file!\n")
+            print("If you have already committed your changes, enter the git hash PREVIOUS to the commit.\n" \
+                  + "    Otherwise, enter \"HEAD\".\n" \
+                  + "    Enter \"(q)uit\" to exit.")
+            githash = input(">> ")
+            if (githash.lower() == "q") or (githash.lower() == "quit"):
+                return
+            
+            try:
+                # git show 123abc^:path/to/map.dmm > path/to/map.dmm.backup
+                gitfilename = fname.replace("\\","/") # Convert from windows backslash if needed
+                p = subprocess.Popen("git show " + githash + "^:" + gitfilename + " > " + (fname + ".backup"), stdout=subprocess.PIPE, shell=True)
+                p.wait()
+                old_map = DMM.from_file(fname + ".backup")
+            except OSError: # command git not found
+                print("Git not detected and no backup file - aborting.")
+                return
         new_map = DMM.from_file(fname)
         merge_map(new_map, old_map).to_file(fname, settings.tgm)
 
