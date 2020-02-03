@@ -46,6 +46,14 @@
 	name = "FTL Control Room"
 	icon_state = "maint_bridge"
 
+/area/nsv/engine/engine_room/core
+	name = "Engine Core"
+	icon_state = "engine_foyer"
+
+/area/nsv/engine/engine_room/auxiliary
+	name = "Engine Auxiliary Equipment"
+	icon_state = "engine_foyer"
+
 /area/maintenance/nsv/deck1/airlock/forward/port
 	name = "Deck 1 Port Forward Airlock"
 	icon_state = "maint_bridge"
