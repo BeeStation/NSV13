@@ -105,7 +105,8 @@ def main(settings):
                 p.wait()
                 old_map = DMM.from_file(fname + ".backup")
             except OSError: # command git not found
-                print("Git not detected and no backup file - aborting.")
+                print("An error occurred. Is Git installed?")
+                print(p.communicate())
                 return
         new_map = DMM.from_file(fname)
         merge_map(new_map, old_map).to_file(fname, settings.tgm)
