@@ -91,10 +91,10 @@ def main(settings):
             old_map = DMM.from_file(fname + ".backup")
         except FileNotFoundError:
             try:
-                # git show HEAD^:path/to/map.dmm > path/to/map.dmm.backup
-                subprocess.Popen("git show HEAD^:" + fname + " > " + fname + ".backup", stdout=subprocess.PIPE, shell=True)
+                # git show HEAD:path/to/map.dmm > path/to/map.dmm.backup
+                subprocess.Popen("git show HEAD:" + fname + " > " + (fname + ".backup"), stdout=subprocess.PIPE, shell=True)
             except OSError:
-                print("Git not detected and no backup file - aborting."
+                print("Git not detected and no backup file - aborting.")
                 return
             old_map = DMM.from_file(fname + ".backup")
         new_map = DMM.from_file(fname)
