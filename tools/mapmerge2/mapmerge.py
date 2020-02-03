@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import frontend
 import shutil
+import subprocess
 from dmm import *
 from collections import defaultdict
 
@@ -86,7 +87,16 @@ def merge_map(new_map, old_map, delete_unused=False):
 def main(settings):
     for fname in frontend.process(settings, "merge", backup=True):
         shutil.copyfile(fname, fname + ".before")
-        old_map = DMM.from_file(fname + ".backup")
+        try:
+            old_map = DMM.from_file(fname + ".backup")
+        except FileNotFoundError:
+            try:
+                # git show HEAD^:path/to/map.dmm > path/to/map.dmm.backup
+                subprocess.Popen("git show HEAD^:" + fname + " > " + fname + ".backup", stdout=subprocess.PIPE, shell=True)
+            except OSError:
+                print("Git not detected and no backup file - aborting."
+                return
+            old_map = DMM.from_file(fname + ".backup")
         new_map = DMM.from_file(fname)
         merge_map(new_map, old_map).to_file(fname, settings.tgm)
 
