@@ -457,7 +457,7 @@
 				else
 					if((ACCESS_HOP in auth_card.access) && ((target_dept==1) || !target_dept))
 						region_access |= 1
-						region_access |= 7
+						region_access |= 7 //NSV13
 						get_subordinates("Head of Personnel")
 					if((ACCESS_HOS in auth_card.access) && ((target_dept==2) || !target_dept))
 						region_access |= 2
