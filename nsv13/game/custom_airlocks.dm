@@ -116,11 +116,9 @@ odir = EAST / WEST. We need it to face forwards so you can get through
 /obj/machinery/door/airlock/ship/command
 	name = "Command"
 	icon = 'nsv13/goonstation/icons/command.dmi'
-	req_one_access_txt = "19"
 
 /obj/machinery/door/airlock/highsecurity/ship
 	icon = 'nsv13/icons/obj/machinery/doors/vault.dmi'
-	req_one_access_txt = "19"
 
 /obj/machinery/door/airlock/highsecurity/ship/Initialize()
 	. = ..()
@@ -146,7 +144,6 @@ odir = EAST / WEST. We need it to face forwards so you can get through
 /obj/machinery/door/airlock/ship/engineering
 	name = "Engineering wing"
 	icon = 'nsv13/goonstation/icons/engineering.dmi'
-	req_one_access_txt = "10"
 
 /obj/machinery/door/airlock/ship/engineering/glass
 	icon = 'nsv13/goonstation/icons/engineering_glass.dmi'
@@ -156,19 +153,16 @@ odir = EAST / WEST. We need it to face forwards so you can get through
 /obj/machinery/door/airlock/ship/external
 	name = "External airlock"
 	icon = 'nsv13/goonstation/icons/external.dmi'
-	req_one_access_txt = "13"
 
 /obj/machinery/door/airlock/ship/external/glass
 	name = "External airlock"
 	icon = 'nsv13/goonstation/icons/external.dmi'
-	req_one_access_txt = "13"
 	opacity = 0
 	glass = TRUE
 
 /obj/machinery/door/airlock/ship/maintenance
 	name = "Maintenance tunnels"
 	icon = 'nsv13/goonstation/icons/maintenance.dmi'
-	req_one_access_txt = "12"
 
 /obj/machinery/door/airlock/ship/public
 	name = "Public airlock"
@@ -186,12 +180,10 @@ odir = EAST / WEST. We need it to face forwards so you can get through
 /obj/machinery/door/airlock/ship/medical
 	name = "Infirmary"
 	icon = 'nsv13/goonstation/icons/medical.dmi'
-	req_one_access_txt = "5"
 
 /obj/machinery/door/airlock/ship/security
 	name = "Brig"
 	icon = 'nsv13/goonstation/icons/security.dmi'
-	req_one_access_txt = "63"
 
 /obj/machinery/door/airlock/ship/security/glass
 	opacity = 0
@@ -199,4 +191,3 @@ odir = EAST / WEST. We need it to face forwards so you can get through
 
 /obj/machinery/door/airlock/ship/cargo
 	name = "Cargo bay"
-	req_one_access_txt = "31"
