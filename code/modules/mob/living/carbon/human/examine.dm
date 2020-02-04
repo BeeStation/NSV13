@@ -19,10 +19,10 @@
 		display_name = "Unknown"
 	else
 		if (CONFIG_GET(flag/show_ranks))
-			var/assignment = get_assignment()
+			var/assignment = get_assignment("", "")
 			if (assignment)
 				var/datum/job/J = SSjob.GetJob(assignment)
-				display_name+= "[J.get_rank()] "
+				display_name+= "[J ? "[J.get_rank()] " : ""] "
 		display_name += "[name]"
 	. = list("<span class='info'>*---------*\nThis is <EM>[display_name]</EM>!")
 
