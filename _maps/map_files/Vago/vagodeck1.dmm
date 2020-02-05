@@ -109,7 +109,8 @@
 "aj" = (
 /obj/machinery/door/airlock/ship/command{
 	dir = 4;
-	name = "Centcom Dock"
+	name = "Centcom Dock";
+	req_one_access_txt = "101"
 	},
 /turf/open/floor/plating,
 /area/bridge)
@@ -238,8 +239,10 @@
 /turf/closed/wall/r_wall/ship,
 /area/maintenance/nsv/deck1/airlock/forward/port)
 "ax" = (
-/obj/machinery/door/airlock/ship/external,
 /obj/effect/mapping_helpers/airlock/cyclelink_helper,
+/obj/machinery/door/airlock/ship/external{
+	req_one_access_txt = "13"
+	},
 /turf/open/floor/plasteel/ship/padded,
 /area/maintenance/nsv/deck1/airlock/forward/port)
 "ay" = (
@@ -554,8 +557,10 @@
 /turf/closed/wall/r_wall/ship,
 /area/maintenance/nsv/deck1/airlock/aft/port)
 "be" = (
-/obj/machinery/door/airlock/ship/external,
 /obj/effect/mapping_helpers/airlock/cyclelink_helper,
+/obj/machinery/door/airlock/ship/external{
+	req_one_access_txt = "13"
+	},
 /turf/open/floor/plasteel/ship/padded,
 /area/maintenance/nsv/deck1/airlock/aft/port)
 "bf" = (
@@ -601,9 +606,11 @@
 /turf/closed/wall/r_wall/ship,
 /area/hallway/nsv/deck1/frame2/central)
 "bn" = (
-/obj/machinery/door/airlock/ship/external,
 /obj/effect/mapping_helpers/airlock/unres{
 	dir = 1
+	},
+/obj/machinery/door/airlock/ship/external{
+	req_one_access_txt = "13"
 	},
 /turf/open/floor/plasteel/ship/padded,
 /area/hallway/nsv/deck1/frame2/central)
@@ -616,9 +623,11 @@
 /turf/closed/wall/r_wall/ship,
 /area/hallway/nsv/deck1/frame2/port)
 "bq" = (
-/obj/machinery/door/airlock/ship/external,
 /obj/effect/mapping_helpers/airlock/unres{
 	dir = 1
+	},
+/obj/machinery/door/airlock/ship/external{
+	req_one_access_txt = "13"
 	},
 /turf/open/floor/plasteel/ship/padded,
 /area/hallway/nsv/deck1/frame2/port)
@@ -656,9 +665,11 @@
 /turf/open/floor/plasteel/ship/padded,
 /area/crew_quarters/heads/hop)
 "bt" = (
-/obj/machinery/door/airlock/ship/external,
 /obj/effect/mapping_helpers/airlock/cyclelink_helper{
 	dir = 1
+	},
+/obj/machinery/door/airlock/ship/external{
+	req_one_access_txt = "13"
 	},
 /turf/open/floor/plasteel/ship/padded,
 /area/maintenance/nsv/deck1/airlock/forward/port)
@@ -667,7 +678,8 @@
 /area/hallway/nsv/deck1/frame1/central)
 "bv" = (
 /obj/machinery/door/airlock/ship/command{
-	name = "CIC"
+	name = "CIC";
+	req_one_access_txt = "19"
 	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
@@ -1136,6 +1148,7 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 10
 	},
+/obj/effect/landmark/nuclear_waste_spawner,
 /turf/open/floor/plasteel,
 /area/engine/atmos)
 "dc" = (
@@ -1146,9 +1159,11 @@
 /turf/open/floor/plasteel,
 /area/engine/atmos)
 "dd" = (
-/obj/machinery/door/airlock/ship/external,
 /obj/effect/mapping_helpers/airlock/cyclelink_helper{
 	dir = 1
+	},
+/obj/machinery/door/airlock/ship/external{
+	req_one_access_txt = "13"
 	},
 /turf/open/floor/plasteel/ship/padded,
 /area/maintenance/nsv/deck1/airlock/aft/port)
@@ -1189,6 +1204,7 @@
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3{
 	dir = 8
 	},
+/obj/effect/landmark/nuclear_waste_spawner,
 /turf/open/floor/plasteel,
 /area/quartermaster/miningdock)
 "di" = (
@@ -2333,6 +2349,7 @@
 /obj/machinery/atmospherics/pipe/simple/general/visible{
 	dir = 6
 	},
+/obj/effect/landmark/nuclear_waste_spawner,
 /turf/open/floor/plasteel/dark/telecomms,
 /area/science/server)
 "fY" = (
@@ -2496,9 +2513,6 @@
 /turf/open/floor/plasteel,
 /area/quartermaster/office)
 "gr" = (
-/obj/machinery/door/airlock/ship/cargo{
-	dir = 4
-	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	icon_state = "pipe11-1";
 	dir = 4
@@ -2511,6 +2525,10 @@
 	},
 /obj/structure/disposalpipe/segment{
 	dir = 4
+	},
+/obj/machinery/door/airlock/ship/cargo{
+	dir = 4;
+	req_one_access_txt = "31"
 	},
 /turf/open/floor/plasteel,
 /area/quartermaster/office)
@@ -2854,7 +2872,8 @@
 /area/quartermaster/office)
 "hh" = (
 /obj/machinery/door/airlock/ship/cargo{
-	dir = 4
+	dir = 4;
+	req_one_access_txt = "31"
 	},
 /turf/open/floor/plasteel,
 /area/quartermaster/office)
@@ -3781,14 +3800,16 @@
 /turf/open/floor/plating,
 /area/maintenance/department/bridge)
 "jx" = (
-/obj/machinery/door/airlock/ship/cargo,
+/obj/machinery/door/airlock/ship/cargo{
+	req_one_access_txt = "31"
+	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /obj/structure/cable{
 	icon_state = "1-2"
 	},
 /obj/structure/disposalpipe/segment,
-/turf/closed/wall/ship,
+/turf/open/floor/plasteel,
 /area/quartermaster/office)
 "jy" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
@@ -3926,9 +3947,12 @@
 /turf/open/floor/plasteel/ship/techfloor/alt,
 /area/hallway/nsv/deck1/frame4/central)
 "jP" = (
-/obj/machinery/door/airlock/ship/maintenance,
 /obj/structure/cable{
 	icon_state = "1-2"
+	},
+/obj/machinery/door/airlock/ship/maintenance{
+	name = "Maintenance";
+	req_one_access_txt = "12"
 	},
 /turf/open/floor/plating,
 /area/maintenance/department/cargo)
@@ -4424,7 +4448,11 @@
 	},
 /obj/machinery/door/airlock/ship/command{
 	dir = 4;
-	name = "Command Maintenance"
+	name = "Command Maintenance";
+	normalspeed = 0;
+	req_one_access_txt = "19";
+	safe = 0;
+	security_level = 6
 	},
 /obj/structure/cable{
 	icon_state = "4-8"
@@ -4432,12 +4460,13 @@
 /turf/open/floor/plasteel/ship/padded,
 /area/maintenance/department/bridge)
 "kF" = (
+/obj/machinery/door/firedoor,
 /obj/machinery/door/airlock/ship{
 	dir = 8;
 	icon_state = "closed";
-	name = "Weapons Bay"
+	name = "Weapons Bay";
+	req_one_access_txt = "69"
 	},
-/obj/machinery/door/firedoor,
 /turf/open/floor/plasteel/ship/padded,
 /area/nsv/weapons)
 "kG" = (
@@ -4580,6 +4609,7 @@
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer1{
 	dir = 1
 	},
+/obj/effect/landmark/nuclear_waste_spawner,
 /turf/open/floor/plasteel/ship/padded,
 /area/hallway/nsv/deck1/frame3/central)
 "kZ" = (
@@ -4773,6 +4803,7 @@
 /obj/structure/cable{
 	icon_state = "4-8"
 	},
+/obj/effect/landmark/nuclear_waste_spawner,
 /turf/open/floor/plasteel/dark,
 /area/ai_monitored/turret_protected/ai)
 "ln" = (
@@ -4824,11 +4855,6 @@
 /turf/open/floor/plasteel/ship/padded,
 /area/hallway/nsv/deck1/frame1/central)
 "lr" = (
-/obj/machinery/door/airlock/ship{
-	dir = 8;
-	icon_state = "closed";
-	name = "Weapons Bay"
-	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 4
 	},
@@ -4842,6 +4868,12 @@
 	},
 /obj/structure/disposalpipe/segment{
 	dir = 4
+	},
+/obj/machinery/door/airlock/ship{
+	dir = 8;
+	icon_state = "closed";
+	name = "Weapons Bay";
+	req_one_access_txt = "69"
 	},
 /turf/open/floor/plasteel/ship/padded,
 /area/nsv/weapons)
@@ -5080,6 +5112,7 @@
 /obj/structure/cable{
 	icon_state = "2-8"
 	},
+/obj/effect/landmark/nuclear_waste_spawner/strong,
 /turf/open/floor/plasteel,
 /area/engine/atmos)
 "lJ" = (
@@ -5146,7 +5179,9 @@
 /area/hallway/nsv/deck1/frame2/central)
 "lT" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
-/obj/machinery/door/airlock/ship/security,
+/obj/machinery/door/airlock/ship/security{
+	req_one_access_txt = "1"
+	},
 /obj/structure/cable{
 	icon_state = "1-2"
 	},
@@ -5333,7 +5368,9 @@
 /area/engine/atmos)
 "mo" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
-/obj/machinery/door/airlock/ship/security,
+/obj/machinery/door/airlock/ship/security{
+	req_one_access_txt = "1"
+	},
 /turf/open/floor/plasteel/ship/padded,
 /area/security/brig)
 "mp" = (
@@ -5742,9 +5779,11 @@
 /area/ai_monitored/nuke_storage)
 "mS" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
-/obj/machinery/door/airlock/ship/security,
 /obj/structure/cable{
 	icon_state = "1-2"
+	},
+/obj/machinery/door/airlock/ship/security{
+	req_one_access_txt = "1"
 	},
 /turf/open/floor/plasteel/dark,
 /area/security/brig)
@@ -6182,7 +6221,9 @@
 /area/ai_monitored/turret_protected/ai_upload)
 "nI" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
-/obj/machinery/door/airlock/ship/security,
+/obj/machinery/door/airlock/ship/security{
+	req_one_access_txt = "1"
+	},
 /turf/open/floor/plasteel/dark,
 /area/security/brig)
 "nJ" = (
@@ -6561,7 +6602,8 @@
 "om" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /obj/machinery/door/airlock/ship/security{
-	name = "Security Equipment"
+	name = "Security Equipment";
+	req_one_access_txt = "1"
 	},
 /obj/structure/cable{
 	icon_state = "1-2"
@@ -6992,6 +7034,7 @@
 /obj/machinery/camera/autoname{
 	dir = 1
 	},
+/obj/effect/landmark/nuclear_waste_spawner,
 /turf/open/floor/plasteel/dark,
 /area/security/brig)
 "pd" = (
@@ -7266,7 +7309,8 @@
 "pE" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /obj/machinery/door/airlock/ship/security{
-	name = "Security Equipment"
+	name = "Security Equipment";
+	req_one_access_txt = "1"
 	},
 /turf/open/floor/plasteel/dark,
 /area/security/brig)
@@ -7405,6 +7449,7 @@
 	dir = 10
 	},
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer1,
+/obj/effect/landmark/nuclear_waste_spawner,
 /turf/open/floor/plasteel/dark,
 /area/nsv/magazine/starboard)
 "pQ" = (
@@ -8112,14 +8157,17 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 9
 	},
+/obj/effect/landmark/nuclear_waste_spawner,
 /turf/open/floor/plasteel,
 /area/engine/atmos)
 "rt" = (
 /turf/closed/wall/r_wall/ship,
 /area/maintenance/nsv/deck1/airlock/aft/starboard)
 "ru" = (
-/obj/machinery/door/airlock/ship/external,
 /obj/effect/mapping_helpers/airlock/cyclelink_helper,
+/obj/machinery/door/airlock/ship/external{
+	req_one_access_txt = "13"
+	},
 /turf/open/floor/plasteel/ship/padded,
 /area/maintenance/nsv/deck1/airlock/aft/starboard)
 "rv" = (
@@ -8247,7 +8295,6 @@
 /turf/open/floor/plasteel/dark,
 /area/security/brig)
 "rF" = (
-/obj/machinery/door/airlock/ship/maintenance,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /obj/structure/cable{
@@ -8257,6 +8304,10 @@
 	icon_state = "1-2"
 	},
 /obj/structure/disposalpipe/segment,
+/obj/machinery/door/airlock/ship/maintenance{
+	name = "Maintenance";
+	req_one_access_txt = "12"
+	},
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck1/airlock/forward/starboard)
 "rG" = (
@@ -8536,6 +8587,7 @@
 /obj/structure/table/wood,
 /obj/item/paper_bin,
 /obj/item/pen,
+/obj/effect/landmark/nuclear_waste_spawner,
 /turf/open/floor/plasteel/dark,
 /area/crew_quarters/heads/hos)
 "sm" = (
@@ -9144,9 +9196,11 @@
 /turf/open/floor/plating,
 /area/chapel/main)
 "tC" = (
-/obj/machinery/door/airlock/ship/external,
 /obj/effect/mapping_helpers/airlock/cyclelink_helper{
 	dir = 1
+	},
+/obj/machinery/door/airlock/ship/external{
+	req_one_access_txt = "13"
 	},
 /turf/open/floor/plasteel/ship/padded,
 /area/maintenance/nsv/deck1/airlock/aft/starboard)
@@ -9246,8 +9300,10 @@
 /area/maintenance/nsv/deck1/airlock/forward/starboard)
 "tQ" = (
 /obj/machinery/door/airlock/ship/maintenance{
+	dir = 8;
 	icon_state = "closed";
-	dir = 8
+	name = "Maintenance";
+	req_one_access_txt = "12"
 	},
 /turf/open/floor/plating,
 /area/chapel/main)
@@ -9498,7 +9554,11 @@
 	},
 /obj/machinery/door/airlock/ship/command{
 	dir = 4;
-	name = "Command Maintenance"
+	name = "Command Maintenance";
+	normalspeed = 0;
+	req_one_access_txt = "19";
+	safe = 0;
+	security_level = 6
 	},
 /obj/structure/cable{
 	icon_state = "4-8"
@@ -9545,7 +9605,7 @@
 /obj/structure/sign/directions/security{
 	dir = 8
 	},
-/turf/closed/wall/ship,
+/turf/closed/wall/r_wall/ship,
 /area/maintenance/department/bridge)
 "vy" = (
 /obj/structure/cable{
@@ -9621,6 +9681,11 @@
 /obj/structure/disposalpipe/segment{
 	dir = 4
 	},
+/turf/open/floor/plasteel/dark,
+/area/nsv/weapons)
+"xt" = (
+/obj/structure/disposalpipe/segment,
+/obj/effect/landmark/nuclear_waste_spawner,
 /turf/open/floor/plasteel/dark,
 /area/nsv/weapons)
 "xG" = (
@@ -9707,7 +9772,10 @@
 /turf/open/space/basic,
 /area/maintenance/ship_exterior)
 "yP" = (
-/obj/machinery/door/airlock/ship/maintenance,
+/obj/machinery/door/airlock/ship/maintenance{
+	name = "Maintenance";
+	req_one_access_txt = "12"
+	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /obj/structure/cable{
@@ -9836,6 +9904,10 @@
 "Ao" = (
 /turf/open/floor/plating,
 /area/nsv/hanger/notkmcstupidhanger/launchtube/left)
+"Ar" = (
+/obj/effect/landmark/nuclear_waste_spawner,
+/turf/open/floor/plasteel/dark,
+/area/security/warden)
 "AH" = (
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3,
 /obj/structure/disposalpipe/segment,
@@ -9869,6 +9941,11 @@
 	},
 /turf/open/floor/plasteel/ship/techfloor/alt,
 /area/hallway/nsv/deck1/frame2/port)
+"AV" = (
+/obj/effect/turf_decal/box,
+/obj/effect/landmark/nuclear_waste_spawner,
+/turf/open/floor/plasteel,
+/area/quartermaster/storage)
 "Bk" = (
 /obj/structure/reagent_dispensers/foamtank,
 /turf/open/floor/plating,
@@ -10096,6 +10173,10 @@
 	},
 /turf/open/floor/plasteel,
 /area/quartermaster/storage)
+"EF" = (
+/obj/effect/landmark/nuclear_waste_spawner,
+/turf/open/floor/plasteel/dark,
+/area/tcommsat/server)
 "EJ" = (
 /obj/structure/cable{
 	icon_state = "4-8"
@@ -10140,9 +10221,6 @@
 /obj/machinery/light/runway/delay5,
 /turf/open/space/basic,
 /area/maintenance/ship_exterior)
-"Gk" = (
-/turf/closed/wall/ship,
-/area/maintenance/department/bridge)
 "Gz" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 4
@@ -10262,6 +10340,13 @@
 	},
 /turf/open/floor/plasteel/dark,
 /area/security/brig)
+"HN" = (
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
+/obj/effect/landmark/nuclear_waste_spawner,
+/turf/open/floor/plasteel/ship/padded,
+/area/hallway/nsv/deck1/frame2/starboard)
 "HS" = (
 /obj/machinery/door/poddoor/ship{
 	id = "launch2"
@@ -10275,6 +10360,13 @@
 	},
 /turf/closed/wall/r_wall/ship,
 /area/nsv/hanger/notkmcstupidhanger/launchtube/left)
+"Id" = (
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
+/obj/machinery/atmospherics/pipe/simple/green/visible,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/obj/effect/landmark/nuclear_waste_spawner/strong,
+/turf/open/floor/engine,
+/area/engine/atmos)
 "Io" = (
 /obj/structure/hull_plate/end{
 	icon_state = "tgmc_outerhull_dir";
@@ -10577,6 +10669,10 @@
 /obj/structure/disposalpipe/trunk/multiz/down,
 /turf/closed/wall/r_wall/ship,
 /area/tcommsat/computer)
+"NX" = (
+/obj/effect/landmark/nuclear_waste_spawner/strong,
+/turf/open/floor/engine,
+/area/engine/atmos)
 "Ow" = (
 /obj/structure/cable{
 	icon_state = "1-8"
@@ -10623,6 +10719,13 @@
 "Pj" = (
 /turf/closed/wall/ship,
 /area/chapel/main)
+"Pm" = (
+/obj/machinery/atmospherics/pipe/manifold/orange/visible{
+	dir = 4
+	},
+/obj/effect/landmark/nuclear_waste_spawner/strong,
+/turf/open/floor/engine,
+/area/engine/atmos)
 "Pt" = (
 /obj/structure/disposalpipe/segment,
 /turf/open/floor/plasteel/chapel{
@@ -10783,6 +10886,10 @@
 	},
 /turf/open/floor/plating/airless,
 /area/maintenance/ship_exterior)
+"St" = (
+/obj/effect/landmark/nuclear_waste_spawner,
+/turf/open/floor/plasteel,
+/area/quartermaster/office)
 "Su" = (
 /obj/effect/spawner/structure/window/reinforced,
 /turf/open/floor/plating,
@@ -10808,6 +10915,10 @@
 /obj/structure/sign/nanotrasen,
 /turf/closed/wall/r_wall/ship,
 /area/nsv/hanger/notkmcstupidhanger/launchtube/right)
+"SW" = (
+/obj/effect/landmark/nuclear_waste_spawner,
+/turf/open/floor/plasteel/ship/techfloor/alt,
+/area/hallway/nsv/deck1/frame2/port)
 "SZ" = (
 /obj/structure/cable{
 	icon_state = "1-2"
@@ -10827,6 +10938,16 @@
 	},
 /turf/open/floor/plating,
 /area/nsv/hanger/notkmcstupidhanger/hangar)
+"Tx" = (
+/obj/machinery/door/airlock/ship{
+	dir = 8;
+	icon_state = "closed";
+	name = "Weapons Bay";
+	req_one_access_txt = "69"
+	},
+/obj/machinery/door/firedoor,
+/turf/open/floor/plasteel/ship/padded,
+/area/nsv/weapons)
 "TC" = (
 /obj/structure/cable{
 	icon_state = "2-8"
@@ -10847,7 +10968,7 @@
 /obj/structure/sign/directions/science{
 	pixel_y = -8
 	},
-/turf/closed/wall/ship,
+/turf/closed/wall/r_wall/ship,
 /area/maintenance/department/bridge)
 "TN" = (
 /obj/structure/sign/poster/random,
@@ -10997,6 +11118,15 @@
 	},
 /turf/open/floor/plasteel/ship/techfloor/alt,
 /area/hallway/nsv/deck1/frame3/central)
+"VE" = (
+/obj/machinery/atmospherics/pipe/simple/green/visible,
+/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer3{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/obj/effect/landmark/nuclear_waste_spawner/strong,
+/turf/open/floor/engine,
+/area/engine/atmos)
 "VG" = (
 /obj/structure/cable{
 	icon_state = "4-8"
@@ -11166,6 +11296,7 @@
 /obj/structure/cable{
 	icon_state = "1-4"
 	},
+/obj/effect/landmark/nuclear_waste_spawner,
 /turf/open/floor/plasteel/dark,
 /area/ai_monitored/nuke_storage)
 "YA" = (
@@ -11185,6 +11316,15 @@
 	},
 /turf/open/floor/plating,
 /area/nsv/hanger/notkmcstupidhanger/launchtube/left)
+"YH" = (
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
+/obj/effect/landmark/nuclear_waste_spawner,
+/turf/open/floor/plasteel/dark,
+/area/engine/atmos)
 "YI" = (
 /turf/open/space/basic,
 /area/maintenance/ship_exterior)
@@ -11244,6 +11384,18 @@
 "ZD" = (
 /turf/closed/wall/r_wall/ship,
 /area/nsv/hanger/notkmcstupidhanger/launchtube/left)
+"ZF" = (
+/obj/effect/landmark/nuclear_waste_spawner,
+/turf/open/floor/plasteel/dark,
+/area/bridge)
+"ZN" = (
+/obj/effect/turf_decal/stripes/line,
+/obj/machinery/atmospherics/pipe/simple/general/hidden{
+	dir = 4
+	},
+/obj/effect/landmark/nuclear_waste_spawner,
+/turf/open/floor/plasteel/ship/techfloor/alt,
+/area/nsv/hanger/notkmcstupidhanger/hangar)
 "ZO" = (
 /obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1,
 /obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer3,
@@ -19441,7 +19593,7 @@ cr
 cr
 dJ
 em
-fk
+Pm
 gc
 gc
 fo
@@ -19951,13 +20103,13 @@ gS
 hH
 ip
 hH
-hH
+Id
 kg
 bb
 lB
 hH
 hH
-ip
+VE
 hH
 nV
 oN
@@ -21220,7 +21372,7 @@ mA
 fr
 fr
 nX
-fr
+NX
 fn
 pY
 dK
@@ -21964,7 +22116,7 @@ es
 fn
 fr
 fr
-fr
+NX
 fr
 fr
 fr
@@ -23473,7 +23625,7 @@ cv
 cv
 dO
 eB
-fr
+NX
 fr
 gU
 bb
@@ -24742,7 +24894,7 @@ jc
 ha
 ha
 kS
-ha
+YH
 ha
 zA
 Dc
@@ -27256,7 +27408,7 @@ XY
 fD
 go
 hf
-he
+St
 he
 ji
 jN
@@ -30778,7 +30930,7 @@ YI
 bj
 bX
 bX
-bX
+AV
 bV
 GG
 fJ
@@ -31305,7 +31457,7 @@ pG
 no
 rb
 rJ
-no
+Ar
 tg
 yv
 NR
@@ -32827,7 +32979,7 @@ rR
 uv
 ux
 Xl
-wK
+ZN
 Ru
 Gz
 Gz
@@ -33058,16 +33210,16 @@ ee
 ee
 ee
 uN
-Gk
-Gk
-Gk
-Gk
-Gk
-Gk
-Gk
-Gk
-Gk
-Gk
+ef
+ef
+ef
+ef
+ef
+ef
+ef
+ef
+ef
+ef
 pC
 sw
 rB
@@ -33319,7 +33471,7 @@ lU
 lU
 lU
 qx
-Gk
+ef
 pD
 sx
 tm
@@ -33554,7 +33706,7 @@ du
 ee
 eP
 fO
-fO
+EF
 hq
 hY
 fO
@@ -33571,7 +33723,7 @@ lV
 lV
 lV
 qy
-Gk
+ef
 pF
 sx
 tn
@@ -33823,9 +33975,9 @@ ms
 pk
 lV
 qy
-Gk
+ef
 pL
-sx
+HN
 tn
 tD
 tK
@@ -34075,7 +34227,7 @@ ow
 ms
 lV
 qy
-Gk
+ef
 pF
 sx
 tn
@@ -34327,7 +34479,7 @@ Yk
 pl
 lV
 qz
-Gk
+ef
 pF
 sx
 tn
@@ -34556,7 +34708,7 @@ YI
 YI
 YI
 TW
-ce
+SW
 WI
 dw
 ee
@@ -34579,7 +34731,7 @@ VG
 ms
 lV
 qy
-Gk
+ef
 pF
 sx
 tn
@@ -34831,7 +34983,7 @@ VG
 pm
 lV
 qy
-Gk
+ef
 pF
 sx
 tn
@@ -35083,7 +35235,7 @@ nA
 lV
 lV
 qy
-Gk
+ef
 pM
 sy
 to
@@ -35335,7 +35487,7 @@ PW
 lU
 lU
 qA
-Gk
+ef
 pN
 sz
 tp
@@ -35587,7 +35739,7 @@ nC
 nt
 nt
 mT
-Gk
+ef
 pF
 sx
 tn
@@ -35839,7 +35991,7 @@ nE
 pn
 nt
 mT
-Gk
+ef
 pF
 sx
 tn
@@ -36091,7 +36243,7 @@ nG
 po
 nt
 mU
-Gk
+ef
 pF
 sx
 tn
@@ -36343,7 +36495,7 @@ nH
 pp
 nt
 mT
-Gk
+ef
 pF
 sx
 tn
@@ -36595,7 +36747,7 @@ nK
 pn
 nt
 qB
-Gk
+ef
 pL
 sx
 tn
@@ -36847,7 +36999,7 @@ nO
 nt
 nt
 mT
-Gk
+ef
 pD
 sx
 tn
@@ -37098,7 +37250,7 @@ jY
 nT
 mT
 mT
-Gk
+ef
 vw
 pF
 sx
@@ -37338,18 +37490,18 @@ eg
 eg
 eg
 eg
-Gk
-Gk
-Gk
+ef
+ef
+ef
 kE
-Gk
-Gk
-Gk
-Gk
-Gk
-Gk
-Gk
-Gk
+ef
+ef
+ef
+ef
+ef
+ef
+ef
+ef
 TL
 re
 pC
@@ -38350,7 +38502,7 @@ ek
 ek
 kF
 lr
-kF
+Tx
 ek
 ek
 ek
@@ -39589,7 +39741,7 @@ Mq
 zO
 ac
 ag
-al
+ZF
 al
 as
 al
@@ -39862,7 +40014,7 @@ OQ
 kb
 OQ
 Nz
-OQ
+xt
 OQ
 OQ
 OQ
