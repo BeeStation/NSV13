@@ -31,26 +31,6 @@
 	gloves = /obj/item/clothing/gloves/color/brown
 	l_pocket = /obj/item/pda
 
-/obj/item/clothing/under/rank/munitions_tech
-	name = "camouflage fatigues"
-	desc = "A green military camouflage uniform worn by specialists."
-	icon_state = "camogreen"
-	item_state = "g_suit"
-	item_color = "camogreen"
-	can_adjust = FALSE
-
 /obj/effect/landmark/start/munitions_tech
 	name = "Munitions Technician"
 	icon_state = "Munitions Technician"
-
-/obj/item/encryptionkey/munitions_tech
-	name = "munitions department encryption key"
-	icon_state = "sec_cypherkey"
-	channels = list(RADIO_CHANNEL_MUNITIONS = 1, RADIO_CHANNEL_SUPPLY = 1)
-	independent = TRUE
-
-/obj/item/radio/headset/headset_sec/alt/munitions_tech
-	name = "munitions technician radio headset"
-	desc = "Use :w to access the department frequency. Use :u to access the supply frequency."
-	icon_state = "sec_headset"
-	keyslot = new /obj/item/encryptionkey/munitions_tech
