@@ -102,8 +102,11 @@ GLOBAL_DATUM_INIT(starsystem_controller, /datum/starsystem_controller, new)
 /datum/starsystem/proc/check_completion() //Method to check if the ship has completed their active mission or not
 	if(!enemies_in_system.len)
 		priority_announce("All Syndicate targets in [src] have been dispatched. Return to standard patrol duties. A completion bonus of [reward] credits has been credited to your allowance.", "Naval Command")
+		var/split_reward = reward / 2
 		var/datum/bank_account/D = SSeconomy.get_dep_account(ACCOUNT_CAR)
-		D.adjust_money(reward)
+		D.adjust_money(split_reward)
+		var/datum/bank_account/DD = SSeconomy.get_dep_account(ACCOUNT_MUN)
+		DD.adjust_money(split_reward)
 		GLOB.starsystem_controller?.set_timer()
 		return TRUE
 	else
