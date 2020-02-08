@@ -25,7 +25,7 @@
 	RegisterSignal(parent, COMSIG_ITEM_EQUIPPED, .proc/equipped)
 	RegisterSignal(parent, COMSIG_ITEM_IS_WIELDED, .proc/check_wielded)
 
-/datum/component/twohanded/proc/unwield(mob/living/carbon/user, show_message = TRUE)
+/datum/component/twohanded/proc/unwield(mob/living/user, show_message = TRUE)
 	if(!wielded)
 		return
 	wielded = FALSE
@@ -55,7 +55,7 @@
 		O.unwield()
 	return
 
-/datum/component/twohanded/proc/wield(mob/living/carbon/user)
+/datum/component/twohanded/proc/wield(mob/living/user)
 	if(wielded)
 		return
 	if(ismonkey(user))
@@ -170,12 +170,12 @@
 	unwield(user, show_message)
 	..()
 
-/datum/component/twohanded/required/wield(mob/living/carbon/user)
+/datum/component/twohanded/required/wield(mob/living/user)
 	..()
 	if(!wielded)
 		user.dropItemToGround(parent)
 
-/datum/component/twohanded/required/unwield(mob/living/carbon/user, show_message = TRUE)
+/datum/component/twohanded/required/unwield(mob/living/user, show_message = TRUE)
 	if(!wielded)
 		return
 	if(show_message)

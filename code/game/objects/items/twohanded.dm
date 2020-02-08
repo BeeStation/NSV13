@@ -31,10 +31,10 @@
 	if(!T && !TR)
 		AddComponent(/datum/component/twohanded, force_unwielded, force_wielded, wieldsound, unwieldsound)
 
-/obj/item/proc/unwield(mob/user, message=TRUE)
+/obj/item/proc/unwield(mob/user, show_message=TRUE)
 	var/datum/component/twohanded/T = GetComponent(/datum/component/twohanded)
 	if(T)
-		. = T.unwield(user, show_message=message)
+		. = T.unwield(user, show_message)
 
 /obj/item/proc/wield(mob/user)
 	var/datum/component/twohanded/T = GetComponent(/datum/component/twohanded)
@@ -63,7 +63,7 @@
 	if(!QDELETED(src))
 		qdel(src)
 
-/obj/item/twohanded/offhand/unwield(mob/user)
+/obj/item/twohanded/offhand/unwield(mob/user, show_message=FALSE)
 	if(SEND_SIGNAL(src, COMSIG_ITEM_IS_WIELDED) & COMPONENT_WIELDED)//Only delete if we're wielded
 		qdel(src)
 
@@ -71,7 +71,7 @@
 	if(SEND_SIGNAL(src, COMSIG_ITEM_IS_WIELDED) & COMPONENT_WIELDED)//Only delete if we're wielded
 		qdel(src)
 
-/obj/item/twohanded/offhand/attack_self(mob/living/carbon/user)		//You should never be able to do this in standard use of two handed items. This is a backup for lingering offhands.
+/obj/item/twohanded/offhand/attack_self(mob/living/user)		//You should never be able to do this in standard use of two handed items. This is a backup for lingering offhands.
 	var/obj/item/twohanded/O = user.get_inactive_held_item()
 	if (istype(O) && !istype(O, /obj/item/twohanded/offhand/))		//If you have a proper item in your other hand that the offhand is for, do nothing. This should never happen.
 		return
