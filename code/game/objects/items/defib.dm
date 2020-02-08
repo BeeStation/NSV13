@@ -119,7 +119,7 @@
 
 /obj/item/defibrillator/attackby(obj/item/W, mob/user, params)
 	if(W == paddles)
-		paddles.unwield()
+		paddles.unwield(user)
 		toggle_paddles()
 	else if(istype(W, /obj/item/stock_parts/cell))
 		var/obj/item/stock_parts/cell/C = W
@@ -184,7 +184,7 @@
 			return
 	else
 		//Remove from their hands and back onto the defib unit
-		paddles.unwield()
+		paddles.unwield(user)
 		remove_paddles(user)
 
 	update_icon()
@@ -276,7 +276,7 @@
 
 /obj/item/defibrillator/compact/combat/loaded/attackby(obj/item/W, mob/user, params)
 	if(W == paddles)
-		paddles.unwield()
+		paddles.unwield(user)
 		toggle_paddles()
 		update_icon()
 		return
@@ -360,10 +360,13 @@
 		update_icon()
 
 /obj/item/twohanded/shockpaddles/update_icon()
-	icon_state = "defibpaddles[is_wielded()]"
-	item_state = "defibpaddles[is_wielded()]"
+	var/flag = SEND_SIGNAL(src, COMSIG_ITEM_IS_WIELDED) & COMPONENT_WIELDED
+	if(flag)
+		flag = 1
+	icon_state = "defibpaddles[flag]"
+	item_state = "defibpaddles[flag]"
 	if(cooldown)
-		icon_state = "defibpaddles[is_wielded()]_cooldown"
+		icon_state = "defibpaddles[flag]_cooldown"
 	if(iscarbon(loc))
 		var/mob/living/carbon/C = loc
 		C.update_inv_hands()
@@ -383,7 +386,7 @@
 	if(user)
 		var/obj/item/twohanded/offhand/O = user.get_inactive_held_item()
 		if(istype(O))
-			O.unwield()
+			O.unwield(user, show_message=FALSE)
 		to_chat(user, "<span class='notice'>The paddles snap back into the main unit.</span>")
 		snap_back()
 	return unwield(user)
@@ -412,7 +415,7 @@
 		user.visible_message("<span class='notice'>[defib] beeps: Unit is unpowered.</span>")
 		playsound(src, 'sound/machines/defib_failed.ogg', 50, 0)
 		return
-	if(!is_wielded())
+	if(!(SEND_SIGNAL(src, COMSIG_ITEM_IS_WIELDED) & COMPONENT_WIELDED)) // Not wielded
 		if(iscyborg(user))
 			to_chat(user, "<span class='warning'>You must activate the paddles in your active module before you can use them on someone!</span>")
 		else

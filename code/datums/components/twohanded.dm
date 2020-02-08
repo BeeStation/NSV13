@@ -23,9 +23,10 @@
 	RegisterSignal(parent, COMSIG_ITEM_ATTACK_SELF, .proc/attack_self)
 	RegisterSignal(parent, COMSIG_ITEM_DROPPED, .proc/dropped)
 	RegisterSignal(parent, COMSIG_ITEM_EQUIPPED, .proc/equipped)
+	RegisterSignal(parent, COMSIG_ITEM_IS_WIELDED, .proc/check_wielded)
 
 /datum/component/twohanded/proc/unwield(mob/living/carbon/user, show_message = TRUE)
-	if(!wielded || !user)
+	if(!wielded)
 		return
 	wielded = FALSE
 	if(!isnull(force_unwielded))
@@ -36,6 +37,8 @@
 	else //something wrong
 		master.name = "[initial(master.name)]"
 	master.update_icon()
+	if(!user)
+		return
 	if(user.get_item_by_slot(SLOT_BACK) == parent)
 		user.update_inv_back()
 	else
@@ -105,6 +108,19 @@
 /datum/component/twohanded/proc/equipped(obj/item/I, mob/user, slot)
 	if(!user.is_holding(master) && wielded && !master.GetComponent(/datum/component/twohanded/required))
 		unwield(user)
+
+/datum/component/twohanded/proc/check_wielded()
+	if(wielded)
+		return COMPONENT_WIELDED
+	return 0
+
+/datum/component/twohanded/proc/set_force(_force_unwielded, _force_wielded)
+	force_unwielded = _force_unwielded
+	force_wielded = _force_wielded
+
+/datum/component/twohanded/proc/increase_force(unwielded_increase=0, wielded_increase=0)
+	force_unwielded += unwielded_increase
+	force_wielded += wielded_increase
 
 ///// TWO-HANDED REQUIRED /////
 /datum/component/twohanded/required

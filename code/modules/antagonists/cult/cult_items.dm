@@ -680,7 +680,10 @@
 	..()
 
 /obj/item/twohanded/cult_spear/update_icon()
-	icon_state = "bloodspear[is_wielded()]"
+	var/flag = SEND_SIGNAL(src, COMSIG_ITEM_IS_WIELDED) & COMPONENT_WIELDED
+	if(flag)
+		flag = 1
+	icon_state = "bloodspear[flag]"
 
 /obj/item/twohanded/cult_spear/throw_impact(atom/hit_atom, datum/thrownthing/throwingdatum)
 	var/turf/T = get_turf(hit_atom)
@@ -714,7 +717,7 @@
 	qdel(src)
 
 /obj/item/twohanded/cult_spear/hit_reaction(mob/living/carbon/human/owner, atom/movable/hitby, attack_text = "the attack", final_block_chance = 0, damage = 0, attack_type = MELEE_ATTACK)
-	if(is_wielded())
+	if(SEND_SIGNAL(src, COMSIG_ITEM_IS_WIELDED) & COMPONENT_WIELDED)
 		final_block_chance *= 2
 	if(prob(final_block_chance))
 		if(attack_type == PROJECTILE_ATTACK)
