@@ -31,10 +31,10 @@
 	if(!T && !TR)
 		AddComponent(/datum/component/twohanded, force_unwielded, force_wielded, wieldsound, unwieldsound)
 
-/obj/item/proc/unwield(mob/user)
+/obj/item/proc/unwield(mob/user, message=TRUE)
 	var/datum/component/twohanded/T = GetComponent(/datum/component/twohanded)
 	if(T)
-		. = T.unwield(user)
+		. = T.unwield(user, show_message=message)
 
 /obj/item/proc/wield(mob/user)
 	var/datum/component/twohanded/T = GetComponent(/datum/component/twohanded)
