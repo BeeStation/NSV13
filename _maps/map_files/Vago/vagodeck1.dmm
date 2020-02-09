@@ -388,6 +388,12 @@
 	dir = 6
 	},
 /obj/effect/landmark/start/head_of_personnel,
+/obj/machinery/button/door{
+	id = "xo";
+	name = "XO's Blast Doors";
+	pixel_x = -25;
+	pixel_y = -10
+	},
 /turf/open/floor/plasteel/ship/padded,
 /area/crew_quarters/heads/hop)
 "aO" = (
@@ -3533,6 +3539,7 @@
 	name = "HAZMATmos Interchange";
 	req_one_access_txt = "24"
 	},
+/obj/effect/mapping_helpers/airlock/cyclelink_helper,
 /turf/open/floor/engine,
 /area/engine/atmos)
 "iW" = (
@@ -5152,6 +5159,7 @@
 /obj/structure/cable{
 	icon_state = "1-2"
 	},
+/obj/effect/mapping_helpers/airlock/cyclelink_helper,
 /turf/open/floor/plasteel/ship/padded,
 /area/security/brig)
 "lU" = (
@@ -5338,6 +5346,7 @@
 /obj/machinery/door/airlock/ship/security{
 	req_one_access_txt = "1"
 	},
+/obj/effect/mapping_helpers/airlock/cyclelink_helper,
 /turf/open/floor/plasteel/ship/padded,
 /area/security/brig)
 "mp" = (
@@ -5458,6 +5467,9 @@
 /obj/machinery/door/airlock/ship/engineering{
 	name = "Atmos Interchange";
 	req_one_access_txt = "24"
+	},
+/obj/effect/mapping_helpers/airlock/cyclelink_helper{
+	dir = 1
 	},
 /turf/open/floor/engine,
 /area/engine/atmos)
@@ -5751,6 +5763,9 @@
 	},
 /obj/machinery/door/airlock/ship/security{
 	req_one_access_txt = "1"
+	},
+/obj/effect/mapping_helpers/airlock/cyclelink_helper{
+	dir = 1
 	},
 /turf/open/floor/plasteel/dark,
 /area/security/brig)
@@ -6190,6 +6205,9 @@
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /obj/machinery/door/airlock/ship/security{
 	req_one_access_txt = "1"
+	},
+/obj/effect/mapping_helpers/airlock/cyclelink_helper{
+	dir = 1
 	},
 /turf/open/floor/plasteel/dark,
 /area/security/brig)
