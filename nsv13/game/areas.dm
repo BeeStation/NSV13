@@ -350,6 +350,9 @@
 	name = "Briefing Room"
 	icon_state = "hallP"
 
+/area/nsv/shuttle
+	overmap_type = /obj/structure/overmap/nanotrasen/mining_cruiser/nostromo
+
 /area/nsv/shuttle/bridge
 	name = "Mining Shuttle Bridge"
 	icon_state = "bridge"
