@@ -62,7 +62,7 @@
 		return ..()
 
 /obj/item/twohanded/kinetic_crusher/attack(mob/living/target, mob/living/carbon/user)
-	if(!wielded)
+	if(!is_wielded())
 		to_chat(user, "<span class='warning'>[src] is too heavy to use with one hand. You fumble and drop everything.")
 		user.drop_all_held_items()
 		return
@@ -78,7 +78,7 @@
 
 /obj/item/twohanded/kinetic_crusher/afterattack(atom/target, mob/living/user, proximity_flag, clickparams)
 	. = ..()
-	if(!wielded)
+	if(!is_wielded())
 		return
 	if(!proximity_flag && charged)//Mark a target, or mine a tile.
 		var/turf/proj_turf = user.loc
@@ -152,7 +152,7 @@
 		for(var/X in actions)
 			var/datum/action/A = X
 			A.UpdateButtonIcon()
-	item_state = "crusher[wielded]"
+	item_state = "crusher[is_wielded()]"
 
 //destablizing force
 /obj/item/projectile/destabilizer

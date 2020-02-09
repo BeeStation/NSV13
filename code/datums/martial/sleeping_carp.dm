@@ -48,7 +48,7 @@
 		D.apply_damage(5, BRUTE, pick(BODY_ZONE_L_ARM, BODY_ZONE_R_ARM))
 		D.Stun(60)
 		return 1
-	
+
 	return basic_hit(A,D)
 
 /datum/martial_art/the_sleeping_carp/proc/backKick(mob/living/carbon/human/A, mob/living/carbon/human/D)
@@ -167,8 +167,6 @@
 	force = 10
 	w_class = WEIGHT_CLASS_BULKY
 	slot_flags = ITEM_SLOT_BACK
-	force_unwielded = 10
-	force_wielded = 24
 	throwforce = 20
 	throw_speed = 2
 	attack_verb = list("smashed", "slammed", "whacked", "thwacked")
@@ -177,9 +175,11 @@
 	lefthand_file = 'icons/mob/inhands/weapons/staves_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/weapons/staves_righthand.dmi'
 	block_chance = 50
+	force_unwielded = 10
+	force_wielded = 24
 
 /obj/item/twohanded/bostaff/update_icon()
-	icon_state = "bostaff[wielded]"
+	icon_state = "bostaff[is_wielded()]"
 	return
 
 /obj/item/twohanded/bostaff/attack(mob/target, mob/living/user)
@@ -202,7 +202,7 @@
 		to_chat(user, "<span class='warning'>It would be dishonorable to attack a foe while they cannot retaliate.</span>")
 		return
 	if(user.a_intent == INTENT_DISARM)
-		if(!wielded)
+		if(!is_wielded())
 			return ..()
 		if(!ishuman(target))
 			return ..()
@@ -232,6 +232,6 @@
 		return ..()
 
 /obj/item/twohanded/bostaff/hit_reaction(mob/living/carbon/human/owner, atom/movable/hitby, attack_text = "the attack", final_block_chance = 0, damage = 0, attack_type = MELEE_ATTACK)
-	if(wielded)
+	if(is_wielded())
 		return ..()
 	return 0

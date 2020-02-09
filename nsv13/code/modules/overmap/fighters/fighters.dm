@@ -527,12 +527,8 @@ After going through this checklist, you're ready to go!
 							/obj/item/twohanded/required/fighter_component/engine,
 							/obj/item/twohanded/required/fighter_component/engine,
 							/obj/item/twohanded/required/fighter_component/primary_cannon)
-	munitions += new /obj/structure/munition/fast(src)
-	munitions += new /obj/structure/munition/fast(src)
-	munitions += new /obj/structure/munition/fast(src)
-	munitions += new /obj/structure/munition/fast(src)
-	munitions += new /obj/structure/munition/fast(src)
-	munitions += new /obj/structure/munition/fast(src)
+	for(var/I = 0, I <= max_torpedoes, I++)
+		munitions += new /obj/item/ship_weapon/ammunition/torpedo/fast(src)
 	for(var/item in components)
 		new item(src)
 	torpedoes = munitions.len
@@ -659,7 +655,7 @@ After going through this checklist, you're ready to go!
 			A.forceMove(src)
 			internal_tank = A
 		return
-	if(istype(A, /obj/structure/munition))
+	if(istype(A, /obj/item/ship_weapon/ammunition/torpedo))
 		if(maint_state == MS_OPEN)
 			var/munition_count = munitions.len
 			if(munition_count < max_torpedoes)
@@ -687,8 +683,8 @@ After going through this checklist, you're ready to go!
 	if(!munitions.len)
 		return
 	torpedoes = munitions.len
-	var/obj/structure/munition/thirtymillimetertorpedo = pick(munitions)
-	proj_type = thirtymillimetertorpedo.torpedo_type
+	var/obj/item/ship_weapon/ammunition/torpedo/thirtymillimetertorpedo = pick(munitions)
+	proj_type = thirtymillimetertorpedo.projectile_type
 	proj_speed = thirtymillimetertorpedo.speed
 	munitions -= thirtymillimetertorpedo
 	qdel(thirtymillimetertorpedo)
@@ -855,7 +851,7 @@ After going through this checklist, you're ready to go!
 		dat += "<a href='?src=[REF(src)]:primary_weapon=1'>[pw?.name]</a><br>"
 	dat += "<p>Ammo Capacity:</p>"
 	var/unfilled_slots = max_torpedoes
-	for(var/obj/structure/munition/mu in contents)
+	for(var/obj/item/ship_weapon/ammunition/torpedo/mu in contents)
 		dat += "<a href='?src=[REF(src)];torpedo=1'>[mu?.name]</a><br>"
 		unfilled_slots--
 	if(unfilled_slots > 0)
@@ -910,7 +906,7 @@ After going through this checklist, you're ready to go!
 	var/atom/movable/ts = get_part(/obj/item/fighter_component/targeting_sensor)
 	var/atom/movable/en = get_part(/obj/item/twohanded/required/fighter_component/engine)
 	var/atom/movable/pw = get_part(/obj/item/twohanded/required/fighter_component/primary_cannon)
-	var/atom/movable/tr = get_part(/obj/structure/munition)
+	var/atom/movable/tr = get_part(/obj/item/ship_weapon/ammunition/torpedo)
 	if(href_list["armour_plating"])
 		if(ap)
 			to_chat(user, "<span class='notice'>You start uninstalling [ap.name] from [src].</span>")
@@ -1191,7 +1187,6 @@ How to make fuel:
 				relay('nsv13/sound/effects/fighters/switch.ogg')
 				ejecting = FALSE
 				return
-
 		if("docking_mode")
 			to_chat(usr, "<span class='notice'>You [docking_mode ? "disengage" : "engage"] [src]'s docking computer.</span>")
 			docking_mode = !docking_mode
@@ -1203,6 +1198,10 @@ How to make fuel:
 			return //Dodge the cooldown because these actions should be instant
 		if("weapon_safety")
 			toggle_safety()
+			relay('nsv13/sound/effects/fighters/switch.ogg')
+			return //Dodge the cooldown because these actions should be instant
+		if("target_lock")
+			relinquish_target_lock()
 			relay('nsv13/sound/effects/fighters/switch.ogg')
 			return //Dodge the cooldown because these actions should be instant
 	warmup_cooldown = TRUE
@@ -1279,6 +1278,7 @@ How to make fuel:
 	data["canopy_lock"] = canopy_open
 	data["brakes"] = brakes
 	data["weapon_safety"] = weapon_safety
+	data["target_lock"] = target_lock != null ? TRUE : FALSE
 	data["max_integrity"] = max_integrity
 	data["integrity"] = obj_integrity
 	data["max_fuel"] = get_max_fuel()
