@@ -31,7 +31,7 @@
 	return
 
 /obj/item/twohanded/singularityhammer/update_icon()  //Currently only here to fuck with the on-mob icons.
-	icon_state = "mjollnir[wielded]"
+	icon_state = "mjollnir[is_wielded()]"
 	return
 
 /obj/item/twohanded/singularityhammer/proc/vortex(turf/pull, mob/wielder)
@@ -60,7 +60,7 @@
 	. = ..()
 	if(!proximity)
 		return
-	if(wielded)
+	if(is_wielded())
 		if(charged == 5)
 			charged = 0
 			if(istype(A, /mob/living/))
@@ -99,7 +99,7 @@
 
 /obj/item/twohanded/mjollnir/attack(mob/living/M, mob/user)
 	..()
-	if(wielded)
+	if(is_wielded())
 		playsound(src.loc, "sparks", 50, 1)
 		shock(M)
 
@@ -109,5 +109,5 @@
 		shock(hit_atom)
 
 /obj/item/twohanded/mjollnir/update_icon()  //Currently only here to fuck with the on-mob icons.
-	icon_state = "mjollnir[wielded]"
+	icon_state = "mjollnir[is_wielded()]"
 	return
