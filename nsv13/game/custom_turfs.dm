@@ -246,3 +246,6 @@
 
 /obj/structure/sign/solgov_flag/right
 	icon_state = "solgovflag-right"
+
+/turf/open/floor/monotile/dark/airless
+	initial_gas_mix = AIRLESS_ATMOS

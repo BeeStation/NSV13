@@ -58,6 +58,12 @@
 	anchored = FALSE
 	build_state = 0
 
+/obj/structure/peacekeeper_barricade/metal/plasteel/deployable/active
+	icon_state = "plasteel_1"
+	density = TRUE
+	anchored = TRUE
+	build_state = 2 // 2 = Fully built.
+
 /obj/structure/peacekeeper_barricade/do_climb(var/mob/living/user)
 	if(is_wired) //Ohhh boy this is gonna hurt...
 		user.apply_damage(10)
