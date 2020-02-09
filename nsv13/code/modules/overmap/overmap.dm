@@ -154,7 +154,7 @@
 			max_angular_acceleration = 5
 	if(main_overmap)
 		name = "[station_name()]"
-	current_system = GLOB.starsystem_controller.find_system(src)
+	current_system = SSstarsystem.find_system(src)
 	addtimer(CALLBACK(src, .proc/check_armour), 20 SECONDS)
 
 /obj/structure/overmap/Destroy()
