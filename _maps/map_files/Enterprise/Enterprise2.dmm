@@ -205,8 +205,8 @@
 /turf/open/floor/carpet/ship,
 /area/nsv/hanger/deck2)
 "aaN" = (
-/obj/structure/munition,
-/obj/structure/munition{
+/obj/item/ship_weapon/ammunition/torpedo,
+/obj/item/ship_weapon/ammunition/torpedo{
 	pixel_y = 8
 	},
 /obj/effect/turf_decal/stripes/line{
@@ -238,6 +238,7 @@
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
 	},
+/obj/structure/reagent_dispensers/fueltank/aviation_fuel,
 /turf/open/floor/plating,
 /area/nsv/hanger/deck2)
 "aaS" = (
@@ -408,7 +409,7 @@
 /turf/open/floor/monotile/steel,
 /area/nsv/hanger/deck2)
 "aby" = (
-/obj/structure/munition/fast,
+/obj/item/ship_weapon/ammunition/torpedo/fast,
 /obj/effect/turf_decal/stripes/line{
 	dir = 4
 	},
@@ -2359,7 +2360,7 @@
 /turf/open/floor/monotile/steel,
 /area/nsv/weapons/fore)
 "agq" = (
-/obj/structure/pdc_mount,
+/obj/machinery/ship_weapon/pdc_mount,
 /obj/effect/turf_decal/delivery/white,
 /turf/open/floor/monotile/steel,
 /area/nsv/weapons/fore)
@@ -2447,7 +2448,8 @@
 /area/crew_quarters/dorms/nsv/dorms_1)
 "agB" = (
 /obj/machinery/computer/ship/munitions_computer{
-	dir = 4
+	icon_state = "munitions_console";
+	dir = 8
 	},
 /turf/open/floor/monotile/dark,
 /area/nsv/weapons/fore)
@@ -15697,7 +15699,7 @@
 /turf/open/floor/monotile/dark,
 /area/medical/surgery)
 "aME" = (
-/obj/structure/ship_weapon/torpedo_launcher,
+/obj/machinery/ship_weapon/torpedo_launcher,
 /obj/effect/turf_decal/loading_area{
 	dir = 4
 	},
@@ -18506,7 +18508,8 @@
 "aTe" = (
 /obj/effect/turf_decal/solgov,
 /obj/machinery/computer/ship/munitions_computer{
-	dir = 4
+	icon_state = "munitions_console";
+	dir = 8
 	},
 /turf/open/floor/monotile/dark,
 /area/nsv/weapons/fore)
@@ -18520,16 +18523,20 @@
 /turf/open/floor/monotile/steel,
 /area/maintenance/central)
 "aTh" = (
-/obj/structure/reagent_dispensers/fueltank,
+/obj/machinery/computer/lore_terminal,
 /obj/effect/turf_decal/box,
-/obj/machinery/computer/ship/viewscreen,
+/obj/machinery/camera/autoname,
+/obj/machinery/light{
+	dir = 1
+	},
+/obj/structure/reagent_dispensers/fueltank/aviation_fuel,
 /turf/open/floor/plasteel/grid/steel,
 /area/nsv/hanger/deck2)
 "aTi" = (
 /obj/effect/turf_decal/solgov{
 	icon_state = "center-right"
 	},
-/obj/structure/ship_weapon/torpedo_launcher,
+/obj/machinery/ship_weapon/torpedo_launcher,
 /obj/effect/turf_decal/loading_area{
 	dir = 4
 	},
@@ -18613,7 +18620,7 @@
 /turf/open/floor/plating,
 /area/nsv/weapons/fore)
 "aTt" = (
-/obj/structure/munition/nuke,
+/obj/item/ship_weapon/ammunition/torpedo/nuke,
 /obj/effect/turf_decal/stripes/line{
 	dir = 4
 	},
@@ -18630,14 +18637,14 @@
 /area/nsv/weapons/fore)
 "aTw" = (
 /obj/structure/table/reinforced,
-/obj/item/torpedo/guidance_system,
-/obj/item/torpedo/guidance_system,
-/obj/item/torpedo/guidance_system,
-/obj/item/torpedo/guidance_system,
-/obj/item/torpedo/iff_card,
-/obj/item/torpedo/iff_card,
-/obj/item/torpedo/iff_card,
-/obj/item/torpedo/iff_card,
+/obj/item/ship_weapon/parts/torpedo/guidance_system,
+/obj/item/ship_weapon/parts/torpedo/guidance_system,
+/obj/item/ship_weapon/parts/torpedo/guidance_system,
+/obj/item/ship_weapon/parts/torpedo/guidance_system,
+/obj/item/ship_weapon/parts/torpedo/iff_card,
+/obj/item/ship_weapon/parts/torpedo/iff_card,
+/obj/item/ship_weapon/parts/torpedo/iff_card,
+/obj/item/ship_weapon/parts/torpedo/iff_card,
 /turf/open/floor/plasteel/tech/grid,
 /area/nsv/weapons/fore)
 "aTx" = (
@@ -18661,10 +18668,10 @@
 /area/nsv/weapons/fore)
 "aTz" = (
 /obj/structure/table/reinforced,
-/obj/item/torpedo/propulsion_system,
-/obj/item/torpedo/propulsion_system,
-/obj/item/torpedo/propulsion_system,
-/obj/item/torpedo/propulsion_system,
+/obj/item/ship_weapon/parts/torpedo/propulsion_system,
+/obj/item/ship_weapon/parts/torpedo/propulsion_system,
+/obj/item/ship_weapon/parts/torpedo/propulsion_system,
+/obj/item/ship_weapon/parts/torpedo/propulsion_system,
 /turf/open/floor/plasteel/tech/grid,
 /area/nsv/weapons/fore)
 "aTA" = (
@@ -19778,32 +19785,32 @@
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
 	},
-/obj/structure/munition/torpedo_casing,
+/obj/item/ship_weapon/ammunition/torpedo/torpedo_casing,
 /turf/open/floor/plating,
 /area/nsv/weapons/fore)
 "aWj" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 4
 	},
-/obj/structure/munition,
+/obj/item/ship_weapon/ammunition/torpedo,
 /turf/open/floor/plating,
 /area/nsv/weapons/fore)
 "aWk" = (
-/obj/structure/munition/torpedo_casing,
+/obj/item/ship_weapon/ammunition/torpedo/torpedo_casing,
 /obj/effect/turf_decal/stripes/line{
 	dir = 9
 	},
 /turf/open/floor/plating,
 /area/nsv/weapons/fore)
 "aWl" = (
-/obj/structure/munition/torpedo_casing,
+/obj/item/ship_weapon/ammunition/torpedo/torpedo_casing,
 /obj/effect/turf_decal/stripes/line{
 	dir = 1
 	},
 /turf/open/floor/plating,
 /area/nsv/weapons/fore)
 "aWm" = (
-/obj/structure/munition/torpedo_casing,
+/obj/item/ship_weapon/ammunition/torpedo/torpedo_casing,
 /obj/effect/turf_decal/stripes/line{
 	dir = 5
 	},
@@ -19813,10 +19820,10 @@
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
 	},
-/obj/item/torpedo/warhead,
-/obj/item/torpedo/warhead,
-/obj/item/torpedo/warhead,
-/obj/item/torpedo/warhead,
+/obj/item/ship_weapon/parts/torpedo/warhead,
+/obj/item/ship_weapon/parts/torpedo/warhead,
+/obj/item/ship_weapon/parts/torpedo/warhead,
+/obj/item/ship_weapon/parts/torpedo/warhead,
 /obj/structure/closet/crate/secure/weapon{
 	name = "torpedo warheads";
 	req_one_access_txt = "69"
@@ -21571,7 +21578,7 @@
 /obj/effect/turf_decal/stripes/line{
 	dir = 4
 	},
-/obj/structure/munition,
+/obj/item/ship_weapon/ammunition/torpedo,
 /obj/machinery/power/apc/auto_name/north,
 /obj/structure/cable/yellow{
 	icon_state = "0-2"
@@ -21585,7 +21592,7 @@
 /turf/open/floor/carpet/ship,
 /area/nsv/hanger/deck2)
 "bak" = (
-/obj/structure/munition/nuke,
+/obj/item/ship_weapon/ammunition/torpedo/nuke,
 /obj/effect/turf_decal/stripes/line{
 	dir = 4
 	},
@@ -25000,17 +25007,13 @@
 /turf/open/floor/plasteel/grid/steel,
 /area/nsv/hanger/deck2)
 "bgJ" = (
-/obj/structure/reagent_dispensers/fueltank,
-/obj/machinery/computer/lore_terminal,
 /obj/effect/turf_decal/box,
-/obj/machinery/camera/autoname,
-/obj/machinery/light{
-	dir = 1
-	},
+/obj/machinery/computer/ship/viewscreen,
+/obj/structure/reagent_dispensers/fueltank/aviation_fuel,
 /turf/open/floor/plasteel/grid/steel,
 /area/nsv/hanger/deck2)
 "bgK" = (
-/obj/structure/munition/torpedo_casing,
+/obj/item/ship_weapon/ammunition/torpedo/torpedo_casing,
 /obj/effect/turf_decal/stripes/line{
 	dir = 1
 	},
@@ -25055,8 +25058,8 @@
 /turf/open/floor/monotile/steel,
 /area/nsv/hanger/deck2)
 "bgR" = (
-/obj/structure/munition,
-/obj/structure/munition{
+/obj/item/ship_weapon/ammunition/torpedo,
+/obj/item/ship_weapon/ammunition/torpedo{
 	pixel_y = 8
 	},
 /obj/effect/turf_decal/stripes/line{
@@ -70418,7 +70421,7 @@ agr
 agr
 agr
 agr
-bgJ
+aTh
 agh
 abx
 abx
@@ -70675,7 +70678,7 @@ agv
 agv
 aTb
 agr
-aTh
+bgJ
 agh
 abx
 abx

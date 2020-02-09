@@ -29,7 +29,7 @@
 		if(TH.force_wielded >= max)
 			to_chat(user, "<span class='warning'>[TH] is much too powerful to sharpen further!</span>")
 			return
-		if(TH.wielded)
+		if(TH.is_wielded())
 			to_chat(user, "<span class='warning'>[TH] must be unwielded before it can be sharpened!</span>")
 			return
 		if(TH.force_wielded > initial(TH.force_wielded))
