@@ -3,9 +3,9 @@
 //defaults to box
 //  -Cyberboss
 
-/datum/map_config
+/datum/map_config //NSV EDITED START
 	// Metadata
-	var/config_filename = "_maps/boxstation.json"
+	var/config_filename = "_maps/hammerhead.json"
 	var/defaulted = TRUE  // set to FALSE by LoadConfig() succeeding
 	// Config from maps.txt
 	var/config_max_users = 0
@@ -13,20 +13,24 @@
 	var/voteweight = 1
 	var/votable = FALSE
 
-	// Config actually from the JSON - should default to Box
-	var/map_name = "Box Station"
-	var/map_link = null
-	var/map_path = "map_files/BoxStation"
-	var/map_file = "BoxStation.dmm"
+	// Config actually from the JSON - should default to Hammerhead //NSV EDITS
+	var/map_name = "NSV Hammerhead - DEFAULTED"
+	var/map_link = "Hammerhead"
+	var/map_path = "map_files/Hammerhead"
+	var/map_file = "Hammerhead.dmm"
 
 	var/traits = null
-	var/space_ruin_levels = 7
+	var/space_ruin_levels = -1
 	var/space_empty_levels = 1
 
-	var/minetype = "lavaland"
+	var/minetype = "nostromo"
 
-	var/overmap = null //NSV13 Stuff with overmap code
-	var/over_traits = null //NSV13 Stuff with overmap code
+	var/overmap = "overmap.dmm" //NSV13 Stuff with overmap code
+	var/over_traits = list(
+		list( ZTRAIT_ASTRAEUS = TRUE, ZTRAIT_STATION = FALSE),
+		list( ZTRAIT_HYPERSPACE = TRUE, ZTRAIT_STATION = FALSE),
+		list( ZTRAIT_CORVI = TRUE, ZTRAIT_STATION = FALSE))
+	//NSV13 Stuff with overmap code
 
 	var/allow_custom_shuttles = TRUE
 	var/shuttles = list(
@@ -34,6 +38,8 @@
 		"ferry" = "ferry_fancy",
 		"whiteship" = "whiteship_box",
 		"emergency" = "emergency_box")
+
+//NSV EDITED END
 
 /proc/load_map_config(filename = "data/next_map.json", default_to_box, delete_after, error_if_missing = TRUE)
 	var/datum/map_config/config = new

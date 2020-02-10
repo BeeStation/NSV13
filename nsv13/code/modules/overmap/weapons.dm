@@ -178,7 +178,7 @@
 
 	return TRUE
 
-/obj/structure/overmap/proc/fire_weapon(atom/target, mode=fire_mode, lateral=TRUE) //"Lateral" means that your ship doesnt have to face the target
+/obj/structure/overmap/proc/fire_weapon(atom/target, mode=fire_mode, lateral=(fire_mode == FIRE_MODE_PDC && mass > MASS_TINY) ? TRUE : FALSE) //"Lateral" means that your ship doesnt have to face the target
 	if(ai_controlled || (!linked_areas.len && !main_overmap)) //AI ships and fighters don't have interiors
 		if(fire_mode == FIRE_MODE_TORPEDO) //because fighter torpedoes are special
 			if(fire_torpedo(target))
@@ -211,6 +211,9 @@
 			return
 		fire_projectile(/obj/item/projectile/bullet/torpedo, target, homing = TRUE, speed=1, explosive = TRUE)
 		torpedoes --
+		var/obj/structure/overmap/OM = target
+		if(istype(OM, /obj/structure/overmap) && OM.dradis)
+			OM.dradis?.relay_sound('nsv13/sound/effects/fighters/launchwarning.ogg')
 		return TRUE
 
 /obj/structure/overmap/proc/shake_everyone(severity)
