@@ -16590,23 +16590,16 @@
 /turf/open/floor/plating,
 /area/quartermaster/miningdock)
 "aOE" = (
-/obj/machinery/door/airlock/ship/external{
-	name = "Mining Shuttle Airlock";
-	req_one_access_txt = "31;48"
-	},
-/obj/effect/mapping_helpers/airlock/cyclelink_helper{
-	dir = 4
-	},
+/obj/machinery/airalarm/directional/north,
+/obj/machinery/camera/autoname,
+/obj/structure/closet/secure_closet/miner,
 /turf/open/floor/plating,
 /area/quartermaster/miningdock)
 "aOF" = (
-/obj/machinery/door/airlock/ship/external{
-	name = "Mining Shuttle Airlock";
-	req_one_access_txt = "31;48"
-	},
-/obj/effect/mapping_helpers/airlock/cyclelink_helper{
+/obj/machinery/light{
 	dir = 8
 	},
+/obj/structure/closet/secure_closet/miner,
 /turf/open/floor/plating,
 /area/quartermaster/miningdock)
 "aOG" = (
@@ -21668,9 +21661,7 @@
 /area/nsv/hanger/deck2)
 "bat" = (
 /obj/effect/turf_decal/stripes/line,
-/obj/structure/disposalpipe/segment{
-	dir = 4
-	},
+/obj/machinery/light,
 /turf/open/floor/monotile/dark,
 /area/nsv/hanger/deck2)
 "bau" = (
@@ -22582,10 +22573,10 @@
 /turf/open/floor/carpet/blue,
 /area/hallway/secondary/exit/departure_lounge)
 "bcj" = (
-/obj/structure/cable/yellow{
-	icon_state = "1-4"
+/obj/structure/disposalpipe/segment{
+	dir = 6
 	},
-/turf/open/floor/carpet/blue,
+/turf/open/floor/monotile/dark,
 /area/hallway/secondary/exit/departure_lounge)
 "bck" = (
 /obj/effect/turf_decal/tile/neutral,
@@ -24724,9 +24715,10 @@
 /turf/open/floor/monotile/dark,
 /area/hallway/secondary/exit/departure_lounge)
 "bgc" = (
-/obj/machinery/airalarm/directional/north,
-/obj/machinery/computer/shuttle/mining,
-/obj/machinery/camera/autoname,
+/obj/machinery/door/airlock/ship/external{
+	name = "Mining Shuttle Airlock";
+	req_one_access_txt = "31;48"
+	},
 /turf/open/floor/plating,
 /area/quartermaster/miningdock)
 "bgd" = (
@@ -26343,7 +26335,8 @@
 /turf/open/floor/monotile/steel,
 /area/hallway/secondary/exit)
 "bjB" = (
-/obj/machinery/light{
+/obj/machinery/computer/shuttle/mining{
+	icon_state = "computer";
 	dir = 8
 	},
 /turf/open/floor/plating,
@@ -28300,8 +28293,8 @@
 /turf/open/floor/plating,
 /area/maintenance/port)
 "bnn" = (
-/obj/structure/cable/yellow{
-	icon_state = "2-4"
+/obj/machinery/light{
+	dir = 4
 	},
 /turf/open/floor/plating,
 /area/maintenance/port)
@@ -30846,13 +30839,10 @@
 /turf/open/floor/monotile/steel,
 /area/hallway/secondary/exit)
 "bsg" = (
-/obj/structure/cable/yellow{
-	icon_state = "4-8"
-	},
 /obj/structure/disposalpipe/segment{
-	dir = 6
+	dir = 4
 	},
-/turf/open/floor/monotile/dark,
+/turf/open/floor/carpet/blue,
 /area/hallway/secondary/exit/departure_lounge)
 "bsh" = (
 /obj/machinery/door/airlock/ship/maintenance,
@@ -37375,6 +37365,69 @@
 /turf/open/floor/monotile/steel,
 /area/nsv/hanger/deck2)
 "bDL" = (
+/obj/effect/turf_decal/stripes/line{
+	dir = 8
+	},
+/turf/open/floor/plating,
+/area/quartermaster/miningdock)
+"bDM" = (
+/obj/effect/turf_decal/stripes/line{
+	dir = 4
+	},
+/turf/open/floor/plating,
+/area/quartermaster/miningdock)
+"bDN" = (
+/obj/structure/cable/yellow{
+	icon_state = "1-4"
+	},
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
+/turf/open/floor/carpet/blue,
+/area/hallway/secondary/exit/departure_lounge)
+"bDO" = (
+/obj/structure/cable/yellow{
+	icon_state = "4-8"
+	},
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
+/turf/open/floor/monotile/dark,
+/area/hallway/secondary/exit/departure_lounge)
+"bDP" = (
+/obj/machinery/light,
+/turf/open/floor/monotile/dark,
+/area/hallway/secondary/exit/departure_lounge)
+"bDQ" = (
+/obj/structure/cable/yellow{
+	icon_state = "2-4"
+	},
+/obj/machinery/light{
+	dir = 8
+	},
+/turf/open/floor/plating,
+/area/maintenance/port)
+"bDR" = (
+/obj/effect/turf_decal/stripes/line,
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
+/obj/machinery/light,
+/turf/open/floor/monotile/dark,
+/area/nsv/hanger/deck2)
+"bDS" = (
+/obj/machinery/light{
+	dir = 4
+	},
+/turf/open/floor/monotile/steel,
+/area/nsv/hanger/deck2)
+"bDT" = (
+/obj/machinery/light{
+	dir = 4
+	},
+/turf/open/floor/plating,
+/area/maintenance/department/cargo)
+"bDU" = (
 /obj/structure/disposalpipe/segment{
 	dir = 9
 	},
@@ -37383,7 +37436,7 @@
 	icon_state = "platingdmg2"
 	},
 /area/maintenance/disposal)
-"bDM" = (
+"bDV" = (
 /obj/machinery/button/door{
 	id = "Disposal Exit";
 	name = "Disposal Vent Control";
@@ -62252,7 +62305,7 @@ bsv
 bsA
 bsF
 bsF
-bDM
+bDV
 bsO
 bsQ
 aaa
@@ -62505,7 +62558,7 @@ brQ
 brW
 bsk
 bsr
-bDL
+bDU
 bsB
 bre
 bre
@@ -63530,7 +63583,7 @@ brl
 bre
 bre
 bnm
-bnn
+bDQ
 bsl
 brZ
 bzZ
@@ -64296,7 +64349,7 @@ bpL
 bne
 bnm
 brm
-bnm
+bnn
 bnm
 brB
 brm
@@ -67913,7 +67966,7 @@ aOd
 aOf
 aOh
 aOi
-acf
+aaa
 aaa
 aaa
 aaa
@@ -69143,7 +69196,7 @@ aar
 aar
 aar
 bar
-aex
+bat
 aam
 aeT
 bce
@@ -69969,7 +70022,7 @@ aOd
 aOf
 aOh
 aOi
-aaa
+acf
 aaa
 aaa
 aaa
@@ -71713,7 +71766,7 @@ aar
 aar
 aar
 bar
-bat
+bDR
 aam
 aeT
 bcy
@@ -71754,8 +71807,8 @@ aff
 afj
 beW
 afj
-afj
-afj
+bcj
+bso
 aNM
 aaa
 aaa
@@ -72011,7 +72064,7 @@ afg
 ajz
 bDr
 ajC
-ajz
+bsg
 afj
 aNM
 aaa
@@ -72209,7 +72262,7 @@ aam
 aam
 bDK
 abx
-abx
+bDS
 abx
 bBy
 abx
@@ -72268,11 +72321,11 @@ bgb
 ajz
 aJX
 aNq
-ajz
-afj
+bsg
+bDP
 aem
-aNM
-aem
+aaa
+aaa
 aaa
 aaa
 aaa
@@ -72525,12 +72578,11 @@ aMU
 aOk
 bci
 bci
-bcj
+bDN
 afj
-aNN
-bjE
-aNQ
-afk
+aem
+aNM
+aem
 aaa
 aaa
 aaa
@@ -72542,7 +72594,8 @@ aaa
 aaa
 aaa
 aaa
-bAe
+aaa
+aaa
 aaa
 aaa
 aaa
@@ -72782,12 +72835,12 @@ afo
 afj
 bjD
 afj
-bsg
-bso
-aem
-aNM
-aem
-aaa
+bDO
+afj
+aNN
+bjE
+aNQ
+afk
 aaa
 aaa
 aaa
@@ -73042,8 +73095,8 @@ aOA
 bsh
 aih
 aih
-aaa
-aaa
+aNM
+aem
 aaa
 aaa
 aaa
@@ -73292,9 +73345,9 @@ bqR
 aOv
 bcv
 aci
-bgc
-bjB
-aOD
+aOE
+aOF
+aOC
 aOA
 bny
 aNP
@@ -74065,16 +74118,16 @@ bqS
 aci
 aOA
 aOA
-aOE
+bgc
 aOA
-aih
+aOA
 aih
 aih
 aih
 aih
 bny
 aim
-aim
+bDT
 aim
 atf
 aih
@@ -74322,9 +74375,9 @@ bqc
 aci
 aaa
 aOA
+bDL
 aOC
 aOA
-aaa
 aaa
 aaa
 aaa
@@ -74579,9 +74632,9 @@ bqT
 aci
 aaa
 aOA
-aOF
+aOC
+aOC
 aOA
-aaa
 aaa
 aaa
 aaa
@@ -74835,10 +74888,10 @@ bqc
 bqU
 aci
 aaa
-aaa
-ajt
-aaa
-aaa
+aOA
+bjB
+bDM
+aOA
 aaa
 aaa
 aaa
@@ -75092,10 +75145,10 @@ bnO
 bqV
 aci
 aaa
-aaa
-aaa
-aaa
-aaa
+aOA
+aOA
+bgc
+aOA
 aaa
 aaa
 aaa
@@ -75351,7 +75404,7 @@ aci
 aaa
 aaa
 aaa
-aaa
+ajt
 aaa
 aaa
 aaa
