@@ -32,6 +32,7 @@
 	head = /obj/item/clothing/head/beret/ship/pilot
 	gloves = /obj/item/clothing/gloves/color/brown
 	shoes = /obj/item/clothing/shoes/jackboots
+	r_pocket = /obj/item/flashlight/atc_wavy_sticks
 
 /obj/effect/landmark/start/air_traffic_controller
 	name = "Air Traffic Controller"

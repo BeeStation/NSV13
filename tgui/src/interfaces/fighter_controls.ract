@@ -1,0 +1,61 @@
+<ui-display title='Ignition controls'>
+  <ui-button icon='{{data.ignition ? "power-off" : "square-o"}}'
+	style='{{data.ignition ? "selected" : null}}'
+	action='ignition'>
+	"I1 - Master ignition toggle"</ui-button><br/>
+  <ui-button icon='{{data.fuel_pump ? "power-off" : "square-o"}}'
+	style='{{data.fuel_pump ? "selected" : null}}'
+	action='fuel_pump'>
+	"I2 - Fuel pump switch"</ui-button><br/>
+  <ui-button icon='{{data.battery ? "power-off" : "square-o"}}'
+	style='{{data.battery ? "selected" : null}}'
+	action='battery'>
+	"I3 - Battery"</ui-button><br/>
+  <ui-button icon='{{data.apu ? "power-off" : "square-o"}}'
+	style='{{data.apu ? "selected" : null}}'
+	action='apu'>
+	"I4 - APU"</ui-button><br/>
+  <ui-button icon='{{data.throttle_lock ? "power-off" : "square-o"}}'
+	style='{{data.throttle_lock ? "selected" : null}}'
+	action='throttle_lock'>
+	"I5 - Throttle lock"</ui-button><br/>
+  <ui-button icon='power-off'
+	style='caution'
+	action='shutdown'>
+	"I6 - Shut down"</ui-button><br/>
+</ui-display>
+<ui-display title='Flight ops'>
+  <ui-button icon='{{data.docking_mode ? "power-off" : "square-o"}}'
+	style='{{data.docking_mode ? "selected" : null}}'
+	action='docking_mode'>
+	"O1 - Docking mode"</ui-button><br/>
+  <ui-button icon='{{data.canopy_lock ? "square-o" : "power-off"}}'
+	style='{{data.canopy_lock ? null : "selected"}}'
+	action='canopy_lock'>
+	"O2 - Canopy lock"</ui-button><br/>
+  <ui-button icon='{{data.brakes ? "power-off" : "square-o"}}'
+	style='{{data.brakes ? "selected" : null}}'
+	action='brakes'>
+	"O3 - Inertial dampener"</ui-button><br/>
+  <ui-button icon='{{data.weapon_safety ? "power-off" : "square-o"}}'
+	style='{{data.weapon_safety ? "selected" : null}}'
+	action='weapon_safety'>
+	"W1 - Weapon safeties"</ui-button><br/>
+  <ui-button icon='{{data.target_lock ? "power-off" : "square-o"}}'
+	style='{{data.target_lock ? "selected" : null}}'
+	action='target_lock'>
+	"W2 - Target lock"</ui-button><br/>
+  <ui-button icon='{{"square-o"}}'
+	style='caution'
+	action='eject'>
+	"W3 - Eject"</ui-button><br/>
+</ui-display>
+
+<ui-display title='Statistics'>
+  <ui-section label='Hull integrity'>
+    <ui-bar min='0' max='{{data.max_integrity}}' value='{{data.integrity}}' state='{{data.integrity}}'>{{Math.fixed(adata.integrity)}}</ui-bar>
+  </ui-section>
+  <ui-section label='Fuel level'>
+    <ui-bar min='0' max='{{data.max_fuel}}' value='{{data.fuel}}' state='{{data.fuel}}'>{{Math.fixed(data.fuel)}}</ui-bar>
+  </ui-section>
+</ui-display>
