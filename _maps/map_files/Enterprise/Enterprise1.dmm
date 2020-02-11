@@ -560,6 +560,10 @@
 	icon_state = "pipe11-1";
 	dir = 4
 	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	icon_state = "pipe11-3";
+	dir = 8
+	},
 /turf/open/floor/carpet/ship,
 /area/crew_quarters/heads/captain)
 "bH" = (
@@ -772,6 +776,10 @@
 /obj/structure/disposalpipe/segment{
 	dir = 4
 	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	icon_state = "pipe11-1";
+	dir = 6
+	},
 /turf/open/floor/carpet/ship,
 /area/crew_quarters/heads/captain)
 "cj" = (
@@ -906,9 +914,7 @@
 /area/ai_monitored/turret_protected/aisat)
 "cC" = (
 /obj/machinery/porta_turret/ai,
-/obj/effect/turf_decal/stripes/line{
-	dir = 10
-	},
+/obj/effect/turf_decal/stripes/box,
 /turf/open/floor/circuit/red,
 /area/ai_monitored/turret_protected/aisat)
 "cD" = (
@@ -1118,8 +1124,11 @@
 /obj/structure/disposalpipe/segment{
 	dir = 10
 	},
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
+/obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1{
+	icon_state = "manifold-1";
+	dir = 4
+	},
 /turf/open/floor/carpet/ship,
 /area/crew_quarters/heads/captain)
 "dk" = (
@@ -1332,6 +1341,7 @@
 	icon_state = "1-2"
 	},
 /obj/machinery/door/firedoor,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /turf/open/floor/plating,
 /area/crew_quarters/heads/captain)
 "dE" = (
@@ -1598,12 +1608,9 @@
 /turf/open/floor/circuit,
 /area/ai_monitored/turret_protected/aisat)
 "en" = (
-/obj/machinery/porta_turret/ai,
-/obj/effect/turf_decal/stripes/line{
-	dir = 9
-	},
-/turf/open/floor/circuit/red,
-/area/ai_monitored/turret_protected/aisat)
+/obj/machinery/atmospherics/pipe/layer_manifold,
+/turf/closed/wall/ship,
+/area/maintenance/department/bridge)
 "eo" = (
 /obj/effect/turf_decal/tile/red,
 /obj/effect/turf_decal/tile/red{
@@ -2967,6 +2974,10 @@
 /turf/open/floor/monotile/dark,
 /area/hallway/primary/aft)
 "hg" = (
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	icon_state = "pipe11-3";
+	dir = 6
+	},
 /turf/closed/wall/r_wall/ship,
 /area/maintenance/department/bridge)
 "hh" = (
@@ -3602,9 +3613,19 @@
 /turf/open/floor/monotile/dark,
 /area/hallway/primary/aft)
 "iQ" = (
-/obj/machinery/power/apc/auto_name/north,
 /obj/structure/cable/yellow{
-	icon_state = "0-4"
+	icon_state = "1-2"
+	},
+/obj/machinery/door/firedoor,
+/obj/structure/disposalpipe/segment,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	icon_state = "pipe11-1";
+	dir = 1
+	},
+/obj/machinery/door/airlock/ship/maintenance/defaultaccess,
+/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer3{
+	icon_state = "manifold-3";
+	dir = 4
 	},
 /turf/open/floor/plating,
 /area/maintenance/department/bridge)
@@ -3666,17 +3687,11 @@
 /turf/open/floor/monotile/steel,
 /area/bridge)
 "iV" = (
+/obj/machinery/power/apc/auto_name/north,
 /obj/structure/cable/yellow{
-	icon_state = "1-2"
+	icon_state = "0-4"
 	},
-/obj/machinery/door/firedoor,
-/obj/structure/disposalpipe/segment,
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
-	icon_state = "pipe11-1";
-	dir = 1
-	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
-/obj/machinery/door/airlock/ship/maintenance/defaultaccess,
+/obj/machinery/atmospherics/pipe/layer_manifold,
 /turf/open/floor/plating,
 /area/maintenance/department/bridge)
 "iW" = (
@@ -29772,13 +29787,13 @@ hJ
 an
 hX
 ce
-cy
+cC
 gc
 dg
 gs
 ct
 cQ
-cy
+cC
 ce
 hX
 an
@@ -30029,13 +30044,13 @@ hJ
 an
 hX
 ce
-cC
+cy
 gd
 dU
 gj
 ll
 cy
-en
+cy
 ce
 hX
 an
@@ -34146,7 +34161,7 @@ bE
 gM
 gD
 hg
-iQ
+iV
 je
 jg
 fq
@@ -34395,14 +34410,14 @@ bf
 bX
 by
 ci
-bF
+en
 cS
 lh
 di
 gp
 gP
 gR
-iV
+iQ
 iW
 jf
 jh
