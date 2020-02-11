@@ -164,6 +164,9 @@ odir = EAST / WEST. We need it to face forwards so you can get through
 	name = "Maintenance tunnels"
 	icon = 'nsv13/goonstation/icons/maintenance.dmi'
 
+/obj/machinery/door/airlock/ship/maintenance/defaultaccess //Default maint door if you don't want to set up departmental maint access.
+	req_one_access_txt = "12"
+
 /obj/machinery/door/airlock/ship/public
 	name = "Public airlock"
 	icon = 'nsv13/goonstation/icons/public.dmi'

@@ -1,3 +1,7 @@
+/obj/machinery/turbolift_button
+	name = "Lift call button"
+	desc = "A button used to call turbolifts to your floor. You feel like mashing it incessently..."
+
 /obj/machinery/door/airlock/turbolift/ship
 	name = "turbolift blast door"
 	icon = 'nsv13/goonstation/icons/turbolift_blast_door.dmi'
