@@ -1,3 +1,322 @@
+////////Common Components///////
+/obj/item/fighter_component //something something - AddComponent(/datum/component/twohanded, force_unwielded, force_wielded, wieldsound, unwieldsound)
+	name = "Fight Component - PARENT"
+	desc = "THIS IS A PARENT ITEM AND SHOULD NOT BE SPAWNED"
+	icon = 'icons/obj/crates.dmi'
+	w_class = WEIGHT_CLASS_GIGANTIC
+
+/obj/item/fighter_component/fuel_tank
+	name = "Fighter Fuel Tank"
+	desc = "The fuel tank of a fighter"
+	icon_state = "secgearcrate"
+	var/capacity = 1000 //Fuel Capacity
+
+/obj/item/fighter_component/fuel_tank/extended
+	name = "Fighter Extended Fuel Tank"
+	desc = "The extended fuel tank of a fighter"
+	icon_state = "secgearcrate"
+	capacity = 1500
+
+/obj/item/fighter_component/avionics
+	name = "Fighter Avionics"
+	desc = "Avionics for a fighter"
+	icon_state = "freezer"
+
+/obj/item/fighter_component/avionics/burntout //Disables DRADIS, FL directional indicator and velocity vector overlay
+	name = "Burntout Fighter Avionics"
+	desc = "Avionics for a fighter, it looks charred"
+	icon_state = "freezer"
+
+/obj/item/fighter_component/apu
+	name = "Fighter Auxiliary Power Unit"
+	desc = "An Auxiliary Power Unit for a fighter"
+	icon_state = "radiation"
+
+/obj/item/fighter_component/apu/burntout //Cannot Start APU
+	name = "Burntout Fighter Auxiliary Power Unit"
+	desc = "An Auxiliary Power Unit for a fighter, it looks charred"
+	icon_state = "radiation"
+
+/obj/item/fighter_component/armour_plating
+	name = "Fighter Armour Plating - PARENT"
+	desc = "THIS IS A PARENT ITEM AND SHOULD NOT BE SPAWNED"
+	icon_state = "engi_secure_crate"
+	var/armour = 2 //HP Modifier
+
+/obj/item/fighter_component/targeting_sensor
+	name = "Fighter Targeting Sensors - PARENT"
+	desc = "THIS IS A PARENT ITEM AND SHOULD NOT BE SPAWNED"
+	icon_state = "weaponcrate"
+	var/targeting_speed = 1 //Target lock speed modifier
+
+/obj/item/fighter_component/engine
+	name = Fighter Engine - PARENT"
+	desc = "THISS IS A PARENT ITEM AND SHOULD NOT BE SPAWNED"
+	icon_state = "hydrocrate"
+	var/speed = 0 //Speed modifier
+	var/consumption = 0 //How fast we burn fuel
+
+////////Light Components///////
+
+/obj/structure/fighter_component/light_chassis_crate
+	name = "Light Fighter Chassis Components Crate"
+	desc = "A crate full of chassis components for a NOT-VIPER Light Fighter"
+	icon = 'icons/obj/crate.dmi'
+	icon_state = "crate"
+	anchored = FALSE
+	density = TRUE
+	climbable = TRUE
+
+/obj/item/fighter_component/armour_plating/light/t1
+	name = "Light Fighter Armour Plating"
+	desc = "Armour Plating for a Light Fighter"
+	icon_state = "engi_secure_crate"
+
+/obj/item/fighter_component/armour_plating/light/t2
+	name = "Hardened Light Fighter Armour Plating"
+	desc = "Hardened Armour Plating for a Light Fighter"
+	icon_state = "engi_secure_crate"
+	armour = 2.5
+
+/obj/item/fighter_component/armour_plating/light/t3
+	name = "Reinforced Light Fighter Armour Plating"
+	desc = "Reinforced Armour Plating for a Light Fighter"
+	icon_state = "engi_secure_crate"
+	armour = 3
+
+/obj/item/fighter_component/targeting_sensor/light/burntout //Prevents target locking and use of missiles/torpedoes
+	name = "Burntout Light Fighter Targeting Sensors"
+	desc = "Targeting Sensors for a Light Fighter, it looks charred"
+	icon_state = "weaponcrate"
+	targeting_speed = 0
+
+/obj/item/fighter_component/targeting_sensor/light/t1
+	name = "Light Fighter Targeting Sensors"
+	desc = "Targening Sensors for a Light Fighter"
+	icon_state = "weaponcrate"
+
+/obj/item/fighter_component/targeting_sensor/light/t2
+	name = "Improved Light Fighter Targeting Sensors"
+	desc = "Improved Targeting Sensors for a Light Fighter"
+	icon_state = "weaponcrate"
+	targeting_speed = 1.25
+
+/obj/item/fighter_component/targeting_sensor/light/t3
+	name = "Enhanced Light Fighter Targeting Sensors"
+	desc = "Enhanced Targeting Sensors for a Light Fighter"
+	icon_state = "weaponcrate"
+	targeting_speed = 1.5
+
+/obj/item/fighter_component/engine/light/t1
+	name = "Light Fighter Engine"
+	desc = "An engine for a Light Fighter"
+	icon_state = "hydrocrate"
+	speed = 1
+	consumption = 1
+
+/obj/item/fighter_component/engine/light/t2
+	name = "Improved Light Fighter Engine"
+	desc = "An improved engine for a Light Fighter"
+	icon_state = "hydrocrate"
+	speed = 1.2
+	consumption = 1.4
+
+/obj/item/fighter_component/engine/light/t3
+	name = "Enhanced Light Fighter Engine"
+	desc = "An enhanced engine for a Light Fighter"
+	icon_state = "hydrocrate"
+	speed = 1.4
+	consumption = 1.8
+
+/obj/item/fighter_component/missile_rack/t1
+	name = "Light Fighter Missile Rack"
+	desc = "A missile rack for a light fighter"
+	icon_state = "weaponcrate"
+	var/missiles = 2
+
+/obj/item/fighter_component/missile_rack/t2
+	name = "Large Light Fighter Missile Rack"
+	desc = "A large missile rack for a light fighter"
+	icon_state = "weaponcrate"
+	var/missiles = 4
+
+/obj/item/fighter_component/missile_rack/t3
+	name = "Extra Large Light Fighter Missile Rack"
+	desc = "An extra large missile rack for a light fighter"
+	icon_state = "weaponcrate"
+	var/missiles = 6
+
+////////Heavy Components///////
+
+/obj/structure/fighter_component/heavy_chassis_crate
+	name = "Heavy Fighter Chassis Components Crate"
+	desc = "A crate full of chassis components for an A-395 Chelyabinsk Heavy Fighter"
+	icon = 'icons/obj/crate.dmi'
+	icon_state = "crate"
+	anchored = FALSE
+	density = TRUE
+	climbable = TRUE
+
+/obj/item/fighter_component/armour_plating/heavy/t1
+	name = "Heavy Fighter Armour Plating"
+	desc = "Armour Plating for a Heavy Fighter"
+	icon_state = "engi_secure_crate"
+
+/obj/item/fighter_component/armour_plating/heavy/t2
+	name = "Hardened Heavy Fighter Armour Plating"
+	desc = "Hardened Armour Plating for a Heavy Fighter"
+	icon_state = "engi_secure_crate"
+	armour = 2.5
+
+/obj/item/fighter_component/armour_plating/heavy/t3
+	name = "Reinforced Light Fighter Armour Plating"
+	desc = "Reinforced Armour Plating for a Light Fighter"
+	icon_state = "engi_secure_crate"
+	armour = 3
+
+/obj/item/fighter_component/targeting_sensor/heavy/burntout //Prevents target locking and use of missiles/torpedoes
+	name = "Burntout Heavy Fighter Targeting Sensors"
+	desc = "Targeting Sensors for a Heavy Fighter, it looks charred"
+	icon_state = "weaponcrate"
+	targeting_speed = 0
+
+/obj/item/fighter_component/targeting_sensor/heavy/t1
+	name = "Heavy Fighter Targeting Sensors"
+	desc = "Targening Sensors for a Heavy Fighter"
+	icon_state = "weaponcrate"
+	targeting_speed = 0.9
+
+/obj/item/fighter_component/targeting_sensor/heavy/t2
+	name = "Improved Heavy Fighter Targeting Sensors"
+	desc = "Improved Targeting Sensors for a Heavy Fighter"
+	icon_state = "weaponcrate"
+	targeting_speed = 1.15
+
+/obj/item/fighter_component/targeting_sensor/heavy/t3
+	name = "Enhanced Heavy Fighter Targeting Sensors"
+	desc = "Enhanced Targeting Sensors for a Heavy Fighter"
+	icon_state = "weaponcrate"
+	targeting_speed = 1.40
+
+/obj/item/fighter_component/engine/heavy/t1
+	name = "Heavy Fighter Engine"
+	desc = "An engine for a Heavy Fighter"
+	icon_state = "hydrocrate"
+	speed = 1
+	consumption = 1
+
+/obj/item/fighter_component/engine/heavy/t2
+	name = "Improved Heavy Fighter Engine"
+	desc = "An improved engine for a Heavy Fighter"
+	icon_state = "hydrocrate"
+	speed = 1.1
+	consumption = 1.2
+
+/obj/item/fighter_component/engine/heavy/t3
+	name = "Enhanced Heavy Fighter Engine"
+	desc = "An enhanced engine for a Heavy Fighter"
+	icon_state = "hydrocrate"
+	speed = 1.2
+	consumption = 1.4
+
+/obj/item/fighter_component/torpedo_rack/t1
+	name = "Heavy Fighter Torpedo Rack"
+	desc = "A torpedo rack for a heavy fighter"
+	icon_state = "weaponcrate"
+	var/torpedoes = 2
+
+/obj/item/fighter_component/missile_rack/t2
+	name = "Large Heavy Fighter Torpedo Rack"
+	desc = "A large torpedo rack for a heavy fighter"
+	icon_state = "weaponcrate"
+	var/torpedoes = 3
+	var/missiles = 1
+
+/obj/item/fighter_component/missile_rack/t3
+	name = "Extra Large Heavy Fighter Torpedo Rack"
+	desc = "An extra large torpedo rack for a heavy fighter"
+	icon_state = "weaponcrate"
+	var/torpedoes = 4
+	var/missiles = 2
+
+////////Utility Components////////
+
+/obj/structure/fighter_component/utility_chassis_crate
+	name = "Utility Vessel Chassis Components Crate"
+	desc = "A crate full of chassis components for a NOT-RAPTOR Utility Vessel"
+	icon = 'icons/obj/crate.dmi'
+	icon_state = "crate"
+	anchored = FALSE
+	density = TRUE
+	climbable = TRUE
+
+/obj/item/fighter_component/armour_plating/utility/t1
+	name = "Utility Vessel Armour Plating"
+	desc = "Armour Plating for a Utility Vessel"
+	icon_state = "engi_secure_crate"
+
+/obj/item/fighter_component/armour_plating/utility/t2
+	name = "Hardened Utility Vessel Armour Plating"
+	desc = "Hardened Armour Plating for a Utility Vessel"
+	icon_state = "engi_secure_crate"
+	armour = 2.5
+
+/obj/item/fighter_component/armour_plating/utility/t3
+	name = "Reinforced Utility Vessel Armour Plating"
+	desc = "Reinforced Armour Plating for a Utility Vessel"
+	icon_state = "engi_secure_crate"
+	armour = 3
+
+/obj/item/fighter_component/engine/utility/t1
+	name = "Utility Vessel Engine"
+	desc = "An engine for a Utility Vessel"
+	icon_state = "hydrocrate"
+	speed = 1
+	consumption = 1
+
+/obj/item/fighter_component/engine/utility/t2
+	name = "Improved Utility Vessel Engine"
+	desc = "An improved engine for a Utility Vessel"
+	icon_state = "hydrocrate"
+	speed = 1.05
+	consumption = 0.9
+
+/obj/item/fighter_component/engine/utility/t3
+	name = "Enhanced Utility Vessel Engine"
+	desc = "An enhanced engine for a Utility Vessel"
+	icon_state = "hydrocrate"
+	speed = 1.1
+	consumption = 0.8
+
+/obj/item/fighter_component/refueling_system
+	name = "Utility Vessel Refueling System"
+	desc = "A refueling system for a Utility Vessel"
+	icon_state = "crate"
+
+/obj/item/fighter_component/refueling_system/burnout
+	name = "Burntout Utility Vessel Refueling System"
+	desc = "A refueling system for a Utility Vessel, it looks charred"
+	icon_state = "crate"
+
+/obj/item/fighter_component/auxiliary_fuel_tank/t1
+	name = "Utility Vessel Auxiliary Fuel Tank"
+	desc = "An auxiliary fuel tank for a Utility Vessel"
+	icon_state = "crate"
+	var/aux_capacity = 3000
+
+/obj/item/fighter_component/auxiliary_fuel_tank/t2
+	name = "Large Utility Vessel Auxiliary Fuel Tank"
+	desc = "A large auxiliary fuel tank for a Utility Vessel"
+	icon_state = "crate"
+	var/aux_capacity = 4000
+
+/obj/item/fighter_component/auxiliary_fuel_tank/t3
+	name = "Extra Large Utility Vessel Auxiliary Fuel Tank"
+	desc = "An extra large auxiliary fuel tank for a Utility Vessel"
+	icon_state = "crate"
+	var/aux_capacity = 5000
+
+/////LEGACY BEGINS HERE/////
 //Fighter Components
 
 /obj/structure/fighter_component/fuselage_crate
