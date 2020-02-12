@@ -290,13 +290,13 @@
 /turf/open/floor/plasteel/showroomfloor,
 /area/crew_quarters/heads/captain)
 "aS" = (
-/obj/machinery/firealarm{
-	pixel_y = 24
-	},
 /obj/structure/cable/yellow{
 	icon_state = "2-4"
 	},
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3,
+/obj/machinery/requests_console{
+	pixel_y = 26
+	},
 /turf/open/floor/plasteel/showroomfloor,
 /area/crew_quarters/heads/captain)
 "aT" = (
@@ -1512,6 +1512,10 @@
 	dir = 1
 	},
 /obj/structure/chair,
+/obj/item/radio/intercom{
+	name = "intra ship intercom";
+	pixel_y = 26
+	},
 /turf/open/floor/monotile/dark,
 /area/hallway/primary/aft)
 "eb" = (
@@ -1543,6 +1547,7 @@
 	dir = 8
 	},
 /obj/machinery/camera/motion{
+	c_tag = "AI Upload";
 	dir = 1
 	},
 /turf/open/floor/plasteel/ship/techfloor/alt,
@@ -1816,12 +1821,19 @@
 /area/maintenance/ship_exterior)
 "eP" = (
 /obj/structure/table/reinforced,
+/obj/item/radio/intercom{
+	name = "intra ship intercom";
+	pixel_y = 26
+	},
 /turf/open/floor/plasteel/showroomfloor,
 /area/crew_quarters/heads/hop{
 	name = "Executive officer's Office"
 	})
 "eQ" = (
 /obj/structure/toilet,
+/obj/machinery/requests_console{
+	pixel_y = 26
+	},
 /turf/open/floor/plasteel/showroomfloor,
 /area/crew_quarters/heads/hop{
 	name = "Executive officer's Office"
@@ -4973,6 +4985,7 @@
 	dir = 1
 	},
 /obj/machinery/camera/motion{
+	c_tag = "vault";
 	dir = 1
 	},
 /turf/open/floor/monotile/steel,
@@ -5237,6 +5250,24 @@
 	},
 /turf/open/floor/monotile/dark,
 /area/maintenance/department/bridge)
+"lP" = (
+/obj/machinery/light{
+	dir = 1
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	icon_state = "pipe11-1";
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer3{
+	icon_state = "manifold-3";
+	dir = 1
+	},
+/obj/item/radio/intercom{
+	name = "intra ship intercom";
+	pixel_y = 26
+	},
+/turf/open/floor/monotile/dark,
+/area/hallway/primary/aft)
 
 (1,1,1) = {"
 aa
@@ -32356,7 +32387,7 @@ bQ
 cf
 cE
 bE
-ft
+lP
 kS
 dR
 dR
