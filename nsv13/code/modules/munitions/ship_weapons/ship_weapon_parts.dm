@@ -11,6 +11,7 @@
 /obj/item/circuitboard/machine/pdc_mount
 	name = "circuit board (pdc mount)"
 	build_path = /obj/machinery/ship_weapon/pdc_mount
+	directional_build = TRUE
 	req_components = list(
 		/obj/item/stock_parts/manipulator = 4,
 		/obj/item/stock_parts/capacitor = 2,
