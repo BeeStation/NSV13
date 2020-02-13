@@ -66,17 +66,6 @@
 		return
 	qdel(src)																//If it's another offhand, or literally anything else, qdel. If I knew how to add logging messages I'd put one here.
 
-///////////Two hand required objects///////////////
-//This is for objects that require two hands to even pick up
-/obj/item/twohanded/required
-
-/obj/item/twohanded/required/Initialize()
-	var/datum/component/twohanded/T = GetComponent(/datum/component/twohanded)
-	var/datum/component/twohanded/required/TR = GetComponent(/datum/component/twohanded/required)
-	if(!T && !TR)
-		AddComponent(/datum/component/twohanded/required)
-	..()
-
 /*
  * Fireaxe
  */
@@ -362,9 +351,7 @@
 /obj/item/twohanded/spear/CheckParts(list/parts_list)
 	var/obj/item/shard/tip = locate() in parts_list
 	if (istype(tip, /obj/item/shard/plasma))
-		var/datum/component/twohanded/TH = GetComponent(/datum/component/twohanded)
-		if(TH)
-			TH.set_force(11, 19)
+		SEND_SIGNAL(src, COMSIG_ITEM_SET_WIELD_FORCE, 11, 19)
 		throwforce = 21
 		icon_prefix = "spearplasma"
 	update_icon()
@@ -374,7 +361,7 @@
 		var/obj/item/twohanded/spear/explosive/lance = new /obj/item/twohanded/spear/explosive(src.loc, G)
 		var/datum/component/twohanded/TH = GetComponent(/datum/component/twohanded)
 		if(TH)
-			lance.AddComponent(/datum/component/twohanded, TH.force_unwielded=10, TH.force_wielded)
+			SEND_SIGNAL(lance, COMSIG_ITEM_SET_WIELD_FORCE, 10, TH.force_wielded)
 		lance.throwforce = throwforce
 		lance.icon_prefix = icon_prefix
 		parts_list -= G

@@ -24,6 +24,8 @@
 	RegisterSignal(parent, COMSIG_ITEM_DROPPED, .proc/dropped)
 	RegisterSignal(parent, COMSIG_ITEM_EQUIPPED, .proc/equipped)
 	RegisterSignal(parent, COMSIG_ITEM_IS_WIELDED, .proc/check_wielded)
+	RegisterSignal(parent, COMSIG_ITEM_SET_WIELD_FORCE, .proc/set_force)
+	RegisterSignal(parent, COMSIG_ITEM_MODIFY_WIELD_FORCE, .proc/modify_force)
 
 /datum/component/twohanded/proc/unwield(mob/living/user, show_message = TRUE)
 	if(!wielded)
@@ -118,9 +120,12 @@
 	force_unwielded = _force_unwielded
 	force_wielded = _force_wielded
 
-/datum/component/twohanded/proc/increase_force(unwielded_increase=0, wielded_increase=0)
+/datum/component/twohanded/proc/modify_force(unwielded_increase=0, wielded_increase=0, maximum)
 	force_unwielded += unwielded_increase
 	force_wielded += wielded_increase
+	if(maximum)
+		force_unwielded = CLAMP(force_wielded, 0, maximum)
+		force_wielded = CLAMP(force_wielded, 0, maximum)
 
 ///// TWO-HANDED REQUIRED /////
 /datum/component/twohanded/required
