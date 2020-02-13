@@ -308,6 +308,9 @@
 
 	var/mob/listeningTo
 
+/obj/item/twohanded/shockpaddles/Initialize()
+	AddComponent(/datum/component/twohanded)
+
 /obj/item/twohanded/shockpaddles/equipped(mob/user, slot)
 	. = ..()
 	if(!req_defib || listeningTo == user)

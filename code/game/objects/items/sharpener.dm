@@ -25,7 +25,7 @@
 		to_chat(user, "<span class='warning'>You don't think \the [I] will be the thing getting modified if you use it on \the [src]!</span>")
 		return
 	if(istype(I, /obj/item/twohanded))//some twohanded items should still be sharpenable, but handle force differently. therefore i need this stuff
-		var/obj/item/twohanded/TH = I
+		var/datum/component/twohanded/TH = I.GetComponent(/datum/component/twohanded)
 		if(TH.force_wielded >= max)
 			to_chat(user, "<span class='warning'>[TH] is much too powerful to sharpen further!</span>")
 			return

@@ -175,8 +175,9 @@
 	lefthand_file = 'icons/mob/inhands/weapons/staves_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/weapons/staves_righthand.dmi'
 	block_chance = 50
-	force_unwielded = 10
-	force_wielded = 24
+
+/obj/item/twohanded/bostaff/Initialize()
+	AddComponent(/datum/component/twohanded, _force_unwielded=10, _force_wielded=24)
 
 /obj/item/twohanded/bostaff/update_icon()
 	var/flag = SEND_SIGNAL(src, COMSIG_ITEM_IS_WIELDED) & COMPONENT_WIELDED

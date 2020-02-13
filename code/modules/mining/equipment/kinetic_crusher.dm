@@ -11,8 +11,6 @@
 	force = 0 //You can't hit stuff unless wielded
 	w_class = WEIGHT_CLASS_BULKY
 	slot_flags = ITEM_SLOT_BACK
-	force_unwielded = 20 //It's never not wielded so these are the same
-	force_wielded = 0
 	throwforce = 5
 	throw_speed = 4
 	armour_penetration = 10
@@ -31,6 +29,7 @@
 
 /obj/item/twohanded/kinetic_crusher/Initialize()
 	. = ..()
+	AddComponent(/datum/component/twohanded, _force_unwielded=20, _force_wielded=0)
 	AddComponent(/datum/component/butchering, 60, 110) //technically it's huge and bulky, but this provides an incentive to use it
 
 /obj/item/twohanded/kinetic_crusher/Destroy()
@@ -371,17 +370,19 @@
 /obj/item/crusher_trophy/demon_claws/add_to(obj/item/twohanded/kinetic_crusher/H, mob/living/user)
 	. = ..()
 	if(.)
+		var/datum/component/twohanded/TH = GetComponent(/datum/component/twohanded)
+		if(TH)
+			TH.increase_force(bonus_value * 0.2, bonus_value * 0.2)
 		H.force += bonus_value * 0.2
-		H.force_unwielded += bonus_value * 0.2
-		H.force_wielded += bonus_value * 0.2
 		H.detonation_damage += bonus_value * 0.8
 
 /obj/item/crusher_trophy/demon_claws/remove_from(obj/item/twohanded/kinetic_crusher/H, mob/living/user)
 	. = ..()
 	if(.)
+		var/datum/component/twohanded/TH = GetComponent(/datum/component/twohanded)
+		if(TH)
+			TH.increase_force(bonus_value * -0.2, bonus_value * -0.2)
 		H.force -= bonus_value * 0.2
-		H.force_unwielded -= bonus_value * 0.2
-		H.force_wielded -= bonus_value * 0.2
 		H.detonation_damage -= bonus_value * 0.8
 
 /obj/item/crusher_trophy/demon_claws/on_melee_hit(mob/living/target, mob/living/user)

@@ -7,8 +7,6 @@
 	flags_1 = CONDUCT_1
 	slot_flags = ITEM_SLOT_BACK
 	force = 5
-	force_unwielded = 5
-	force_wielded = 20
 	throwforce = 15
 	throw_range = 1
 	w_class = WEIGHT_CLASS_HUGE
@@ -19,6 +17,7 @@
 
 /obj/item/twohanded/singularityhammer/New()
 	..()
+	AddComponent(/datum/component/twohanded, _force_unwielded=5, _force_wielded=20)
 	START_PROCESSING(SSobj, src)
 
 /obj/item/twohanded/singularityhammer/Destroy()
@@ -82,11 +81,13 @@
 	flags_1 = CONDUCT_1
 	slot_flags = ITEM_SLOT_BACK
 	force = 5
-	force_unwielded = 5
-	force_wielded = 25
 	throwforce = 30
 	throw_range = 7
 	w_class = WEIGHT_CLASS_HUGE
+
+/obj/item/twohanded/mjollnir/Initialize()
+	. = ..()
+	AddComponent(/datum/component/twohanded, _force_unwielded=5, _force_wielded=25)
 
 /obj/item/twohanded/mjollnir/proc/shock(mob/living/target)
 	target.Stun(60)

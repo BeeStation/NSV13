@@ -18,19 +18,6 @@
 /*
  * Twohanded
  */
-/obj/item/twohanded
-	var/force_unwielded = 0
-	var/force_wielded = 0
-	var/wieldsound = null
-	var/unwieldsound = null
-
-/obj/item/twohanded/Initialize()
-	..()
-	var/datum/component/twohanded/T = GetComponent(/datum/component/twohanded)
-	var/datum/component/twohanded/required/TR = GetComponent(/datum/component/twohanded/required)
-	if(!T && !TR)
-		AddComponent(/datum/component/twohanded, force_unwielded, force_wielded, wieldsound, unwieldsound)
-
 /obj/item/proc/unwield(mob/user, show_message=TRUE)
 	var/datum/component/twohanded/T = GetComponent(/datum/component/twohanded)
 	if(T)
@@ -103,8 +90,6 @@
 	throwforce = 15
 	w_class = WEIGHT_CLASS_BULKY
 	slot_flags = ITEM_SLOT_BACK
-	force_unwielded = 5
-	force_wielded = 24
 	attack_verb = list("attacked", "chopped", "cleaved", "torn", "cut")
 	hitsound = 'sound/weapons/bladeslice.ogg'
 	sharpness = IS_SHARP
@@ -114,6 +99,7 @@
 
 /obj/item/twohanded/fireaxe/Initialize()
 	. = ..()
+	AddComponent(/datum/component/twohanded, _force_unwielded=5, _force_wielded=24)
 	AddComponent(/datum/component/butchering, 100, 80, 0 , hitsound) //axes are not known for being precision butchering tools
 
 /obj/item/twohanded/fireaxe/update_icon()  //Currently only here to fuck with the on-mob icons.
@@ -156,10 +142,6 @@
 	throw_range = 5
 	w_class = WEIGHT_CLASS_SMALL
 	var/w_class_on = WEIGHT_CLASS_BULKY
-	force_unwielded = 3
-	force_wielded = 34
-	wieldsound = 'sound/weapons/saberon.ogg'
-	unwieldsound = 'sound/weapons/saberoff.ogg'
 	hitsound = "swing_hit"
 	armour_penetration = 35
 	item_color = "green"
@@ -200,6 +182,7 @@
 
 /obj/item/twohanded/dualsaber/Initialize()
 	. = ..()
+	AddComponent(/datum/component/twohanded, _force_unwielded=3, _force_wielded=24, _wieldsound='sound/weapons/saberon.ogg', _unwieldsound='sound/weapons/saberoff.ogg')
 	if(LAZYLEN(possible_colors))
 		item_color = pick(possible_colors)
 		switch(item_color)
@@ -347,8 +330,6 @@
 	force = 10
 	w_class = WEIGHT_CLASS_BULKY
 	slot_flags = ITEM_SLOT_BACK
-	force_unwielded = 10
-	force_wielded = 18
 	throwforce = 20
 	throw_speed = 4
 	embedding = list("embedded_impact_pain_multiplier" = 3)
@@ -364,6 +345,7 @@
 
 /obj/item/twohanded/spear/Initialize()
 	. = ..()
+	AddComponent(/datum/component/twohanded, _force_unwielded=10, _force_wielded=18)
 	AddComponent(/datum/component/butchering, 100, 70) //decent in a pinch, but pretty bad.
 
 /obj/item/twohanded/spear/suicide_act(mob/living/carbon/user)
@@ -380,8 +362,9 @@
 /obj/item/twohanded/spear/CheckParts(list/parts_list)
 	var/obj/item/shard/tip = locate() in parts_list
 	if (istype(tip, /obj/item/shard/plasma))
-		force_wielded = 19
-		force_unwielded = 11
+		var/datum/component/twohanded/TH = GetComponent(/datum/component/twohanded)
+		if(TH)
+			TH.set_force(11, 19)
 		throwforce = 21
 		icon_prefix = "spearplasma"
 	update_icon()
@@ -389,8 +372,9 @@
 	var/obj/item/grenade/G = locate() in parts_list
 	if(G)
 		var/obj/item/twohanded/spear/explosive/lance = new /obj/item/twohanded/spear/explosive(src.loc, G)
-		lance.force_wielded = force_wielded
-		lance.force_unwielded = force_unwielded
+		var/datum/component/twohanded/TH = GetComponent(/datum/component/twohanded)
+		if(TH)
+			lance.AddComponent(/datum/component/twohanded, TH.force_unwielded=10, TH.force_wielded)
 		lance.throwforce = throwforce
 		lance.icon_prefix = icon_prefix
 		parts_list -= G
@@ -472,6 +456,7 @@
 
 /obj/item/twohanded/required/chainsaw/Initialize()
 	. = ..()
+	AddComponent(/datum/component/twohanded/required)
 	AddComponent(/datum/component/butchering, 30, 100, 0, 'sound/weapons/chainsawhit.ogg', TRUE)
 
 /obj/item/twohanded/required/chainsaw/suicide_act(mob/living/carbon/user)
@@ -528,14 +513,13 @@
 	icon_state = "spearglass0"
 	name = "\improper Grey Tide"
 	desc = "Recovered from the aftermath of a revolt aboard Defense Outpost Theta Aegis, in which a seemingly endless tide of Assistants caused heavy casualities among Nanotrasen military forces."
-	force_unwielded = 15
-	force_wielded = 25
 	throwforce = 20
 	throw_speed = 4
 	attack_verb = list("gored")
 
 /obj/item/twohanded/spear/grey_tide/afterattack(atom/movable/AM, mob/living/user, proximity)
 	. = ..()
+	AddComponent(/datum/component/twohanded, _force_unwielded=15, _force_wielded=25)
 	if(!proximity)
 		return
 	user.faction |= "greytide([REF(user)])"
@@ -558,8 +542,6 @@
 	force = 7
 	throwforce = 15
 	w_class = WEIGHT_CLASS_BULKY
-	force_unwielded = 7
-	force_wielded = 15
 	attack_verb = list("attacked", "impaled", "pierced")
 	hitsound = 'sound/weapons/bladeslice.ogg'
 	sharpness = IS_SHARP
@@ -567,29 +549,36 @@
 	armor = list("melee" = 0, "bullet" = 0, "laser" = 0, "energy" = 0, "bomb" = 0, "bio" = 0, "rad" = 0, "fire" = 100, "acid" = 30)
 	resistance_flags = FIRE_PROOF
 
+/obj/item/twohanded/pitchfork/Initialize()
+	. = ..()
+	AddComponent(/datum/component/twohanded, _force_unwielded=7, _force_wielded=15)
+
 /obj/item/twohanded/pitchfork/demonic
 	name = "demonic pitchfork"
 	desc = "A red pitchfork, it looks like the work of the devil."
 	force = 19
 	throwforce = 24
-	force_unwielded = 19
-	force_wielded = 25
 
 /obj/item/twohanded/pitchfork/demonic/Initialize()
 	. = ..()
+	AddComponent(/datum/component/twohanded, _force_unwielded=19, _force_wielded=25)
 	set_light(3,6,LIGHT_COLOR_RED)
 
 /obj/item/twohanded/pitchfork/demonic/greater
 	force = 24
 	throwforce = 50
-	force_unwielded = 24
-	force_wielded = 34
+
+/obj/item/twohanded/pitchfork/demonic/greater/Initialize()
+	. = ..()
+	AddComponent(/datum/component/twohanded, _force_unwielded=24, _force_wielded=34)
 
 /obj/item/twohanded/pitchfork/demonic/ascended
 	force = 100
 	throwforce = 100
-	force_unwielded = 100
-	force_wielded = 500000 // Kills you DEAD.
+
+/obj.item/twohanded/pitchfork/demonic/ascended/Initialize()
+	. = ..()
+	AddComponent(/datum/component/twohanded, _force_unwielded=100, _force_wielded=500000)
 
 /obj/item/twohanded/pitchfork/update_icon()
 	var/flag = SEND_SIGNAL(src, COMSIG_ITEM_IS_WIELDED) & COMPONENT_WIELDED
@@ -639,8 +628,6 @@
 	righthand_file = 'icons/mob/inhands/weapons/swords_righthand.dmi'
 	name = "vibro sword"
 	desc = "A potent weapon capable of cutting through nearly anything. Wielding it in two hands will allow you to deflect gunfire."
-	force_unwielded = 20
-	force_wielded = 40
 	armour_penetration = 100
 	block_chance = 40
 	throwforce = 20
@@ -653,6 +640,7 @@
 
 /obj/item/twohanded/vibro_weapon/Initialize()
 	. = ..()
+	AddComponent(/datum/component/twohanded, _force_unwielded=20, _force_wielded=40)
 	AddComponent(/datum/component/butchering, 20, 105)
 
 /obj/item/twohanded/vibro_weapon/hit_reaction(mob/living/carbon/human/owner, atom/movable/hitby, attack_text = "the attack", final_block_chance = 0, damage = 0, attack_type = MELEE_ATTACK)
@@ -684,7 +672,10 @@
 	icon_state = "bone_axe0"
 	name = "bone axe"
 	desc = "A large, vicious axe crafted out of several sharpened bone plates and crudely tied together. Made of monsters, by killing monsters, for killing monsters."
-	force_wielded = 23
+
+/obj/item/twohanded/fireaxe/boneaxe/Initialize()
+	. = ..()
+	AddComponent(/datum/component/twohanded, _force_wielded=23)
 
 /obj/item/twohanded/fireaxe/boneaxe/update_icon()
 	var/flag = SEND_SIGNAL(src, COMSIG_ITEM_IS_WIELDED) & COMPONENT_WIELDED
@@ -705,8 +696,6 @@
 	force = 11
 	w_class = WEIGHT_CLASS_BULKY
 	slot_flags = ITEM_SLOT_BACK
-	force_unwielded = 11
-	force_wielded = 20					//I have no idea how to balance
 	throwforce = 22
 	throw_speed = 4
 	embedding = list("embedded_impact_pain_multiplier" = 3)
@@ -714,6 +703,10 @@
 	hitsound = 'sound/weapons/bladeslice.ogg'
 	attack_verb = list("attacked", "poked", "jabbed", "torn", "gored")
 	sharpness = IS_SHARP
+
+/obj/item/twohanded/bonespear/Initialize()
+	. = ..()
+	AddComponent(/datum/component/twohanded, _force_unwielded=11, _force_wielded=20)
 
 /obj/item/twohanded/bonespear/update_icon()
 	var/flag = SEND_SIGNAL(src, COMSIG_ITEM_IS_WIELDED) & COMPONENT_WIELDED
@@ -789,8 +782,6 @@
 	force = 10
 	w_class = WEIGHT_CLASS_BULKY
 	slot_flags = ITEM_SLOT_BACK
-	force_unwielded = 10
-	force_wielded = 18
 	throwforce = 22
 	throw_speed = 4
 	embedding = list("embedded_impact_pain_multiplier" = 2)
@@ -798,6 +789,10 @@
 	hitsound = 'sound/weapons/bladeslice.ogg'
 	attack_verb = list("attacked", "poked", "jabbed", "torn", "gored")
 	sharpness = IS_SHARP
+
+/obj/item/twohanded/bamboospear/Initialize()
+	. = ..()
+	AddComponent(/datum/component/twohanded, _force_unwielded=10, _force_wielded=18)
 
 /obj/item/twohanded/bamboospear/update_icon()
 	var/flag = SEND_SIGNAL(src, COMSIG_ITEM_IS_WIELDED) & COMPONENT_WIELDED

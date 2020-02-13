@@ -116,6 +116,7 @@
 	set_light(4)
 	jaunt = new(src)
 	linked_action = new(src)
+	AddComponent(/datum/component/twohanded/required)
 	AddComponent(/datum/component/butchering, 50, 80)
 
 /obj/item/twohanded/required/cult_bastard/examine(mob/user)
@@ -660,7 +661,6 @@
 	righthand_file = 'icons/mob/inhands/weapons/polearms_righthand.dmi'
 	slot_flags = 0
 	force = 17
-	force_wielded = 24
 	throwforce = 40
 	throw_speed = 2
 	armour_penetration = 30
@@ -672,6 +672,7 @@
 
 /obj/item/twohanded/cult_spear/Initialize()
 	. = ..()
+	AddComponent(/datum/component/twohanded, _force_unwielded=17, _force_wielded=24)
 	AddComponent(/datum/component/butchering, 100, 90)
 
 /obj/item/twohanded/cult_spear/Destroy()

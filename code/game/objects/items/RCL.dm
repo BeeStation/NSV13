@@ -23,6 +23,9 @@
 	var/datum/radial_menu/persistent/wiring_gui_menu
 	var/mob/listeningTo
 
+/obj/item/twohanded/rcl/Initialize()
+	AddComponent(/datum/component/twohanded)
+
 /obj/item/twohanded/rcl/attackby(obj/item/W, mob/user)
 	if(istype(W, /obj/item/stack/cable_coil))
 		var/obj/item/stack/cable_coil/C = W
