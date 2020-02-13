@@ -26,8 +26,10 @@
 	RegisterSignal(parent, COMSIG_ITEM_IS_WIELDED, .proc/check_wielded)
 	RegisterSignal(parent, COMSIG_ITEM_SET_WIELD_FORCE, .proc/set_force)
 	RegisterSignal(parent, COMSIG_ITEM_MODIFY_WIELD_FORCE, .proc/modify_force)
+	RegisterSignal(parent, COMSIG_ITEM_WIELD, .proc/wield)
+	RegisterSignal(parent, COMSIG_ITEM_UNWIELD, .proc/unwield)
 
-/datum/component/twohanded/proc/unwield(mob/living/user, show_message = TRUE)
+/datum/component/twohanded/proc/unwield(obj/item/I, mob/living/user, show_message = TRUE)
 	if(!wielded)
 		return
 	wielded = FALSE
@@ -54,10 +56,10 @@
 		playsound(master.loc, unwieldsound, 50, 1)
 	var/obj/item/twohanded/offhand/O = user.get_inactive_held_item()
 	if(O && istype(O))
-		O.unwield()
+		SEND_SIGNAL(O, COMSIG_ITEM_UNWIELD, user, FALSE)
 	return
 
-/datum/component/twohanded/proc/wield(mob/living/user)
+/datum/component/twohanded/proc/wield(obj/item/I, mob/living/user)
 	if(wielded)
 		return
 	if(ismonkey(user))
@@ -92,24 +94,24 @@
 	//handles unwielding a twohanded weapon when dropped as well as clearing up the offhand
 	if(!wielded)
 		return
-	unwield(user)
+	SEND_SIGNAL(I, COMSIG_ITEM_UNWIELD, user)
 
 /datum/component/twohanded/proc/attack_self(obj/item/I, mob/user)
 	if(wielded) //Trying to unwield it
-		unwield(user)
+		SEND_SIGNAL(I, COMSIG_ITEM_UNWIELD, user)
 	else //Trying to wield it
-		wield(user)
+		SEND_SIGNAL(I, COMSIG_ITEM_WIELD, user)
 
 /datum/component/twohanded/proc/equip_to_best_slot(obj/item/I, mob/M)
 	if(I.equip_to_best_slot(M))
 		if(master.GetComponent(/datum/component/twohanded/required))
 			return // unwield forces twohanded-required items to be dropped.
-		unwield(M)
+		SEND_SIGNAL(I, COMSIG_ITEM_UNWIELD, M)
 		return
 
 /datum/component/twohanded/proc/equipped(obj/item/I, mob/user, slot)
 	if(!user.is_holding(master) && wielded && !master.GetComponent(/datum/component/twohanded/required))
-		unwield(user)
+		SEND_SIGNAL(I, COMSIG_ITEM_UNWIELD, user)
 
 /datum/component/twohanded/proc/check_wielded()
 	if(wielded)
@@ -155,7 +157,7 @@
 		to_chat(user, "<span class='notice'>[parent] is too cumbersome to carry in one hand!</span>")
 		return
 	if(master.loc != user)
-		wield(user)
+		SEND_SIGNAL(I, COMSIG_ITEM_WIELD, user)
 	return
 
 /datum/component/twohanded/required/equipped(obj/item/I, mob/user, slot)
@@ -167,12 +169,12 @@
 		qdel(O)
 		return
 	if(slot == SLOT_HANDS)
-		wield(user)
+		SEND_SIGNAL(I, COMSIG_ITEM_WIELD, user)
 	else
-		unwield(user)
+		SEND_SIGNAL(I, COMSIG_ITEM_UNWIELD, user, FALSE)
 
 /datum/component/twohanded/required/dropped(obj/item/I, mob/living/user, show_message = TRUE)
-	unwield(user, show_message)
+	SEND_SIGNAL(I, COMSIG_ITEM_UNWIELD, user, show_message)
 	..()
 
 /datum/component/twohanded/required/wield(mob/living/user)

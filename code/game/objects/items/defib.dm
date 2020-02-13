@@ -119,7 +119,7 @@
 
 /obj/item/defibrillator/attackby(obj/item/W, mob/user, params)
 	if(W == paddles)
-		paddles.unwield(user)
+		SEND_SIGNAL(paddles, COMSIG_ITEM_UNWIELD, user)
 		toggle_paddles()
 	else if(istype(W, /obj/item/stock_parts/cell))
 		var/obj/item/stock_parts/cell/C = W
@@ -184,7 +184,7 @@
 			return
 	else
 		//Remove from their hands and back onto the defib unit
-		paddles.unwield(user)
+		SEND_SIGNAL(paddles, COMSIG_ITEM_UNWIELD, user)
 		remove_paddles(user)
 
 	update_icon()
@@ -276,7 +276,7 @@
 
 /obj/item/defibrillator/compact/combat/loaded/attackby(obj/item/W, mob/user, params)
 	if(W == paddles)
-		paddles.unwield(user)
+		SEND_SIGNAL(paddles, COMSIG_ITEM_UNWIELD, user)
 		toggle_paddles()
 		update_icon()
 		return
@@ -389,10 +389,10 @@
 	if(user)
 		var/obj/item/twohanded/offhand/O = user.get_inactive_held_item()
 		if(istype(O))
-			O.unwield(user, show_message=FALSE)
+			SEND_SIGNAL(O, COMSIG_ITEM_UNWIELD, user, FALSE)
 		to_chat(user, "<span class='notice'>The paddles snap back into the main unit.</span>")
 		snap_back()
-	return unwield(user)
+	return SEND_SIGNAL(src, COMSIG_ITEM_UNWIELD, user)
 
 /obj/item/twohanded/shockpaddles/proc/snap_back()
 	if(!defib)

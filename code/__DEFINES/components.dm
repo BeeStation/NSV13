@@ -210,6 +210,8 @@
 
 #define COMSIG_ITEM_IS_WIELDED "item_is_wielded"				//! used to check if an item is two-handed and wielded
 	#define COMPONENT_WIELDED 1
+#define COMSIG_ITEM_WIELD "wield_item"							//! wield a two-handed item: (mob/user)
+#define COMSIG_ITEM_UNWIELD	"unwield_item"						//! unwield a two-handed item: (mob/user, show_message = TRUE)
 #define COMSIG_ITEM_SET_WIELD_FORCE "set_wield_force"			//! set the wielded and unwielded force of a two-handed item: (force_unwielded, force_wielded)
 #define COMSIG_ITEM_MODIFY_WIELD_FORCE "modify_wield_force"		//! increase/decrease the wielded/unwielded force of the item by an amount: (unwielded_change, wielded_change)
 

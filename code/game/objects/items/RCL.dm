@@ -121,7 +121,7 @@
 			QDEL_NULL(loaded)
 			loaded = null
 		QDEL_NULL(wiring_gui_menu)
-		unwield(user, show_message=FALSE)
+		SEND_SIGNAL(src, COMSIG_ITEM_UNWIELD, user, FALSE)
 		active = SEND_SIGNAL(src, COMSIG_ITEM_IS_WIELDED) & COMPONENT_WIELDED
 		return TRUE
 	return FALSE

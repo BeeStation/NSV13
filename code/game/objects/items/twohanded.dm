@@ -15,19 +15,6 @@
 //Rewrote TwoHanded weapons stuff and put it all here. Just copypasta fireaxe to make new ones ~Carn
 //Made two-handed-ness into a component (see datums/components/twohanded.dm)
 
-/*
- * Twohanded
- */
-/obj/item/proc/unwield(mob/user, show_message=TRUE)
-	var/datum/component/twohanded/T = GetComponent(/datum/component/twohanded)
-	if(T)
-		. = T.unwield(user, show_message)
-
-/obj/item/proc/wield(mob/user)
-	var/datum/component/twohanded/T = GetComponent(/datum/component/twohanded)
-	if(T)
-		. = T.wield(user)
-
 ///////////OFFHAND///////////////
 /obj/item/twohanded/offhand
 	name = "offhand"
@@ -36,25 +23,30 @@
 	item_flags = ABSTRACT
 	resistance_flags = INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | UNACIDABLE | ACID_PROOF
 
+/obj/item/twohanded/offhand/Initialize()
+	. = ..()
+	RegisterSignal(src, COMSIG_ITEM_WIELD, .proc/wield)
+	RegisterSignal(src, COMSIG_ITEM_UNWIELD, .proc/unwield)
+
 /obj/item/twohanded/offhand/Destroy()
-	unwield()
+	SEND_SIGNAL(src, COMSIG_ITEM_UNWIELD, null, FALSE)
 	return ..()
 
 /obj/item/twohanded/offhand/dropped(mob/living/user, show_message = TRUE) //Only utilized by dismemberment since you can't normally switch to the offhand to drop it.
 	var/obj/I = user.get_active_held_item()
 	if(I && istype(I, /obj/item/twohanded))
 		var/obj/item/twohanded/thw = I
-		thw.unwield(user, show_message)
+		SEND_SIGNAL(thw, COMSIG_ITEM_UNWIELD, user, show_message)
 		if(istype(thw, /obj/item/twohanded/required))
 			user.dropItemToGround(thw)
 	if(!QDELETED(src))
 		qdel(src)
 
-/obj/item/twohanded/offhand/unwield(mob/user, show_message=FALSE)
+/obj/item/twohanded/offhand/proc/unwield(obj/item/I, mob/user, show_message=FALSE)
 	if(SEND_SIGNAL(src, COMSIG_ITEM_IS_WIELDED) & COMPONENT_WIELDED)//Only delete if we're wielded
 		qdel(src)
 
-/obj/item/twohanded/offhand/wield()
+/obj/item/twohanded/offhand/proc/wield(obj/item/I, mob/user)
 	if(SEND_SIGNAL(src, COMSIG_ITEM_IS_WIELDED) & COMPONENT_WIELDED)//Only delete if we're wielded
 		qdel(src)
 
@@ -172,6 +164,9 @@
 /obj/item/twohanded/dualsaber/Initialize()
 	. = ..()
 	AddComponent(/datum/component/twohanded, _force_unwielded=3, _force_wielded=24, _wieldsound='sound/weapons/saberon.ogg', _unwieldsound='sound/weapons/saberoff.ogg')
+	RegisterSignal(src, COMSIG_ITEM_WIELD, .proc/wield)
+	RegisterSignal(src, COMSIG_ITEM_UNWIELD, .proc/unwield)
+
 	if(LAZYLEN(possible_colors))
 		item_color = pick(possible_colors)
 		switch(item_color)
@@ -203,7 +198,7 @@
 	if(user.has_dna())
 		if(user.dna.check_mutation(HULK))
 			to_chat(user, "<span class='warning'>You grip the blade too hard and accidentally close it!</span>")
-			unwield(user)
+			SEND_SIGNAL(src, COMSIG_ITEM_UNWIELD, user)
 			return
 	..()
 	var/wielded  = SEND_SIGNAL(src, COMSIG_ITEM_IS_WIELDED) & COMPONENT_WIELDED
@@ -237,12 +232,13 @@
 		to_chat(user, "<span class='warning'>You can't pick up such dangerous item with your meaty hands without losing fingers, better not to!</span>")
 		return 1
 
-/obj/item/twohanded/dualsaber/wield(mob/living/carbon/M) //Specific wield () hulk checks due to reflection chance for balance issues and switches hitsounds.
+/obj/item/twohanded/dualsaber/proc/wield(obj/item/I, mob/living/carbon/M) //Specific wield () hulk checks due to reflection chance for balance issues and switches hitsounds.
 	if(M.has_dna())
 		if(M.dna.check_mutation(HULK))
 			to_chat(M, "<span class='warning'>You lack the grace to wield this!</span>")
+			SEND_SIGNAL(src, COMSIG_ITEM_UNWIELD, M, FALSE)
 			return
-	..()
+	sleep(1) //Let the component go first
 	if(SEND_SIGNAL(src, COMSIG_ITEM_IS_WIELDED) & COMPONENT_WIELDED)
 		sharpness = IS_SHARP
 		w_class = w_class_on
@@ -250,10 +246,9 @@
 		START_PROCESSING(SSobj, src)
 		set_light(brightness_on)
 
-/obj/item/twohanded/dualsaber/unwield(mob/user) //Specific unwield () to switch hitsounds.
+/obj/item/twohanded/dualsaber/proc/unwield(obj/item/I, mob/user) //Specific unwield () to switch hitsounds.
 	sharpness = initial(sharpness)
 	w_class = initial(w_class)
-	..()
 	hitsound = "swing_hit"
 	STOP_PROCESSING(SSobj, src)
 	set_light(0)
@@ -715,12 +710,16 @@
 	var/zoom_out_amt = 6
 	var/zoom_amt = 10
 
+/obj/item/twohanded/binoculars/Initialize()
+	RegisterSignal(src, COMSIG_ITEM_WIELD, .proc/wield)
+	RegisterSignal(src, COMSIG_ITEM_UNWIELD, .proc/unwield)
+
 /obj/item/twohanded/binoculars/Destroy()
 	listeningTo = null
 	return ..()
 
-/obj/item/twohanded/binoculars/wield(mob/user)
-	. = ..()
+/obj/item/twohanded/binoculars/proc/wield(obj/item/I, mob/user)
+	sleep(1) //Let the component go first
 	if(!(SEND_SIGNAL(src, COMSIG_ITEM_IS_WIELDED) & COMPONENT_WIELDED))
 		return
 	RegisterSignal(user, COMSIG_MOVABLE_MOVED, .proc/unwield)
@@ -746,8 +745,8 @@
 	C.pixel_x = world.icon_size*_x
 	C.pixel_y = world.icon_size*_y
 
-/obj/item/twohanded/binoculars/unwield(mob/user)
-	. = ..()
+/obj/item/twohanded/binoculars/proc/unwield(obj/item/I, mob/user)
+	sleep(1) //Let the component go first
 	UnregisterSignal(listeningTo, COMSIG_MOVABLE_MOVED)
 	listeningTo = null
 	user.visible_message("[user] lowers [src].","You lower [src].")

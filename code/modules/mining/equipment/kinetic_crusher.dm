@@ -370,14 +370,14 @@
 /obj/item/crusher_trophy/demon_claws/add_to(obj/item/twohanded/kinetic_crusher/H, mob/living/user)
 	. = ..()
 	if(.)
-		SEND_SIGNAL(I, COMSIG_ITEM_MODIFY_WIELD_FORCE, bonus_value * 0.2, bonus_value * 0.2)
+		SEND_SIGNAL(H, COMSIG_ITEM_MODIFY_WIELD_FORCE, bonus_value * 0.2, bonus_value * 0.2)
 		H.force += bonus_value * 0.2
 		H.detonation_damage += bonus_value * 0.8
 
 /obj/item/crusher_trophy/demon_claws/remove_from(obj/item/twohanded/kinetic_crusher/H, mob/living/user)
 	. = ..()
 	if(.)
-		SEND_SIGNAL(I, COMSIG_ITEM_MODIFY_WIELD_FORCE, bonus_value * -0.2, bonus_value * -0.2)
+		SEND_SIGNAL(H, COMSIG_ITEM_MODIFY_WIELD_FORCE, bonus_value * -0.2, bonus_value * -0.2)
 		H.force -= bonus_value * 0.2
 		H.detonation_damage -= bonus_value * 0.8
 
