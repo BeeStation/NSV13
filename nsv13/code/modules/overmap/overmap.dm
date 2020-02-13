@@ -110,6 +110,9 @@
 
 	var/pdc_miss_chance = 20 //In %, how often do PDCs fire inaccurately when aiming at missiles. This is ignored for ships as theyre bigger targets.
 	var/list/torpedoes_to_target = list() //Torpedoes that have been fired explicitly at us, and that the PDCs need to worry about.
+	var/atom/target_lock = null
+	var/can_lock = TRUE //Can we lock on to people or not
+	var/lockon_time = 2 SECONDS
 
 /obj/structure/overmap/can_be_pulled(user) // no :)
 	return FALSE
@@ -153,6 +156,11 @@
 	GLOB.overmap_objects += src
 	START_PROCESSING(SSovermap, src)
 
+	vector_overlay = new()
+	vector_overlay.appearance_flags |= KEEP_APART
+	vector_overlay.appearance_flags |= RESET_TRANSFORM
+	vector_overlay.icon = icon
+	vis_contents += vector_overlay
 	update_icon()
 	max_range = initial(weapon_range)+20 //Range of the maximum possible attack (torpedo)
 	find_area()
@@ -168,26 +176,32 @@
 			cabin_air.add_gases(/datum/gas/oxygen, /datum/gas/nitrogen)
 			cabin_air.gases[/datum/gas/oxygen][MOLES] = O2STANDARD*cabin_air.volume/(R_IDEAL_GAS_EQUATION*cabin_air.temperature)
 			cabin_air.gases[/datum/gas/nitrogen][MOLES] = N2STANDARD*cabin_air.volume/(R_IDEAL_GAS_EQUATION*cabin_air.temperature)
+			move_by_mouse = TRUE //You'll want this. Trust.
+
 		if(MASS_SMALL)
 			forward_maxthrust = 3
 			backward_maxthrust = 3
-			side_maxthrust = 2
+			side_maxthrust = 3
 			max_angular_acceleration = 110
+
 		if(MASS_MEDIUM)
 			forward_maxthrust = 2
-			backward_maxthrust = 1
-			side_maxthrust = 1
-			max_angular_acceleration = 120
+			backward_maxthrust = 2
+			side_maxthrust = 2
+			max_angular_acceleration = 15
+
 		if(MASS_LARGE)
 			forward_maxthrust = 0.3
 			backward_maxthrust = 0.3
-			side_maxthrust = 0.2
-			max_angular_acceleration = 15
+			side_maxthrust = 0.75
+			max_angular_acceleration = 1
+
 		if(MASS_TITAN)
 			forward_maxthrust = 0.1
 			backward_maxthrust = 0.1
-			side_maxthrust = 0.1
-			max_angular_acceleration = 5
+			side_maxthrust = 0.3
+			max_angular_acceleration = 0.5
+
 	if(main_overmap)
 		name = "[station_name()]"
 	current_system = GLOB.starsystem_controller.find_system(src)
@@ -223,16 +237,71 @@
 	var/list/params_list = params2list(params)
 	if(user.incapacitated() || !isliving(user))
 		return FALSE
-	if(target == src || istype(target, /obj/screen) || (target && (target in user.GetAllContents())) || user != gunner || params_list["shift"] || params_list["alt"] || params_list["ctrl"])
+	if(target == src || istype(target, /obj/screen) || (target && (target in user.GetAllContents())) || user != gunner || params_list["alt"] || params_list["ctrl"])
 		return FALSE
 	if(tactical && prob(80))
 		var/sound = pick(GLOB.computer_beeps)
 		playsound(tactical, sound, 100, 1)
+	if(params_list["shift"]) //Shift click to lock on to people
+		start_lockon(target)
+		return TRUE
+	if(target_lock && mass <= MASS_TINY)
+		fire(target_lock) //Fighters get an aimbot to help them out.
+		return TRUE
 	fire(target)
 	return TRUE
 
+/obj/structure/overmap/proc/start_lockon(atom/target)
+	if(!istype(target, /obj/structure/overmap))
+		return FALSE
+	if(target == target_lock)
+		relinquish_target_lock()
+		return
+	if(!can_lock)
+		to_chat(gunner, "<span class='warning'>Target acquisition already in progress. Please wait.</span>")
+		return
+	if(target_lock)
+		target_lock = null
+		stop_relay(CHANNEL_IMPORTANT_SHIP_ALERT)
+		if(mass > MASS_TINY)
+			update_gunner_cam(src)
+	can_lock = FALSE
+	relay('nsv13/sound/effects/fighters/locking.ogg', message=null, loop=TRUE, channel=CHANNEL_IMPORTANT_SHIP_ALERT)
+	addtimer(CALLBACK(src, .proc/finish_lockon, target), lockon_time)
+
+/obj/structure/overmap/proc/relinquish_target_lock()
+	if(!target_lock)
+		return
+	to_chat(gunner, "<span class='warning'>Target lock on [target_lock] cancelled. Returning manual fire control.</span>")
+	update_gunner_cam(src)
+	target_lock = null
+	return
+
+/obj/structure/overmap/proc/finish_lockon(atom/target)
+	if(!gunner)
+		return
+	can_lock = TRUE
+	target_lock = target
+	if(mass > MASS_TINY)
+		update_gunner_cam(target)
+	else
+		to_chat(gunner, "<span class='notice'>Target lock established. All weapons will now automatically lock on to your chosen target instead of where you specifically aim them. </span>")
+	stop_relay(CHANNEL_IMPORTANT_SHIP_ALERT)
+	relay('nsv13/sound/effects/fighters/locked.ogg', message=null, loop=FALSE, channel=CHANNEL_IMPORTANT_SHIP_ALERT)
+
+/obj/structure/overmap/proc/update_gunner_cam(atom/target)
+	if(target == src)
+		target = null //Snap cams back to us.
+	for(var/mob/living/carbon/human/M in operators)
+		if(M != gunner) //Don't snap the pilot's view...
+			continue
+		var/mob/camera/aiEye/remote/overmap_observer/cam = M.remote_control
+		cam.override_origin = target //Tell the camera that we're now going to track our currently target lock'd ship over our own ship.
+		cam.update()
+
 /obj/structure/overmap/onMouseMove(object,location,control,params)
-	if(!pilot || !pilot.client || pilot.incapacitated() || !move_by_mouse || control !="mapwindow.map") //Check pilot status, if we're meant to follow the mouse, and if theyre actually moving over a tile rather than in a menu
+
+	if(!pilot || !pilot.client || pilot.incapacitated() || !move_by_mouse || control !="mapwindow.map" ||!can_move()) //Check pilot status, if we're meant to follow the mouse, and if theyre actually moving over a tile rather than in a menu
 		return // I don't know what's going on.
 	var/list/params_list = params2list(params)
 	var/sl_list = splittext(params_list["screen-loc"],",")
@@ -245,6 +314,7 @@
 		desired_angle = 90 - ATAN2(dx, dy)
 	else
 		desired_angle = null
+	update_icon()
 
 /obj/structure/overmap/take_damage()
 	..()
@@ -257,28 +327,15 @@
 	update_icon()
 
 /obj/structure/overmap/relaymove(mob/user, direction)
-	if(user != pilot || pilot.incapacitated() || !can_move())
+	if(user != pilot || pilot.incapacitated())
 		return
-	if(rcs_mode || move_by_mouse) //They don't want to turn the ship, or theyre using mouse movement mode.
-		user_thrust_dir = direction
-	else
-		switch(direction)
-			if(NORTH || SOUTH || NORTHEAST || SOUTHEAST || NORTHWEST || SOUTHWEST) //Forward or backwards means we don't want to turn
-				user_thrust_dir = direction
-			if(EAST) //Left or right means we do want to turn
-				desired_angle += max_angular_acceleration*0.1
-			if(WEST)
-				desired_angle -= max_angular_acceleration*0.1
+	user_thrust_dir = direction
 
-/obj/structure/overmap/proc/can_move()
-	return TRUE//Used mostly for fighters. If we ever get engines, change this.
-
-//	relay('nsv13/sound/effects/ship/rcs.ogg')
+//relay('nsv13/sound/effects/ship/rcs.ogg')
 
 /obj/structure/overmap/update_icon() //Adds an rcs overlay
 	cut_overlays()
 	apply_damage_states()
-
 	if(last_fired) //Swivel the most recently fired gun's overlay to aim at the last thing we hit
 		last_fired.icon = icon
 		last_fired.setDir(get_dir(src, last_target))
@@ -385,15 +442,14 @@
 			if(helm && prob(80))
 				var/sound = pick(GLOB.computer_beeps)
 				playsound(helm, sound, 100, 1)
-			return TRUE
+
 		if("Ctrl")
 			if(themob == gunner)
 				cycle_firemode()
 			if(tactical && prob(80))
 				var/sound = pick(GLOB.computer_beeps)
 				playsound(tactical, sound, 100, 1)
-			return TRUE
-	return FALSE
+
 
 /obj/structure/overmap/verb/toggle_brakes()
 	set name = "Toggle Handbrake"
