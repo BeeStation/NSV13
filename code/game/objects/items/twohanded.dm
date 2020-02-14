@@ -16,47 +16,28 @@
 //Made two-handed-ness into a component (see datums/components/twohanded.dm)
 
 ///////////OFFHAND///////////////
-/obj/item/twohanded/offhand
+/obj/item/offhand
 	name = "offhand"
 	icon_state = "offhand"
 	w_class = WEIGHT_CLASS_HUGE
 	item_flags = ABSTRACT
 	resistance_flags = INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | UNACIDABLE | ACID_PROOF
 
-/obj/item/twohanded/offhand/Initialize()
-	. = ..()
-	RegisterSignal(src, COMSIG_ITEM_WIELD, .proc/wield)
-	RegisterSignal(src, COMSIG_ITEM_UNWIELD, .proc/unwield)
-
-/obj/item/twohanded/offhand/Destroy()
-	SEND_SIGNAL(src, COMSIG_ITEM_UNWIELD, null, FALSE)
-	return ..()
-
-/obj/item/twohanded/offhand/dropped(mob/living/user, show_message = TRUE) //Only utilized by dismemberment since you can't normally switch to the offhand to drop it.
+/obj/item/offhand/dropped(mob/living/user, show_message = TRUE) //Only utilized by dismemberment since you can't normally switch to the offhand to drop it.
 	var/obj/I = user.get_active_held_item()
-	if(I && istype(I, /obj/item/twohanded))
-		var/obj/item/twohanded/thw = I
-		SEND_SIGNAL(thw, COMSIG_ITEM_UNWIELD, user, show_message)
-		if(istype(thw, /obj/item/twohanded/required))
-			user.dropItemToGround(thw)
+	if(I)
+		SEND_SIGNAL(I, COMSIG_ITEM_UNWIELD, user, show_message)
 	if(!QDELETED(src))
 		qdel(src)
 
-/obj/item/twohanded/offhand/proc/unwield(obj/item/I, mob/user, show_message=FALSE)
-	if(SEND_SIGNAL(src, COMSIG_ITEM_IS_WIELDED) & COMPONENT_WIELDED)//Only delete if we're wielded
-		qdel(src)
-
-/obj/item/twohanded/offhand/proc/wield(obj/item/I, mob/user)
-	if(SEND_SIGNAL(src, COMSIG_ITEM_IS_WIELDED) & COMPONENT_WIELDED)//Only delete if we're wielded
-		qdel(src)
-
-/obj/item/twohanded/offhand/attack_self(mob/living/user)		//You should never be able to do this in standard use of two handed items. This is a backup for lingering offhands.
-	var/obj/item/twohanded/O = user.get_inactive_held_item()
-	if (istype(O) && !istype(O, /obj/item/twohanded/offhand/))		//If you have a proper item in your other hand that the offhand is for, do nothing. This should never happen.
+/obj/item/offhand/attack_self(mob/living/user)	//You should never be able to do this in standard use of two handed items. This is a backup for lingering offhands.
+	var/obj/item/O = user.get_inactive_held_item()
+	if(istype(O) && !istype(O, /obj/item/offhand))	//If you have a proper item in your other hand that the offhand is for, do nothing. This should never happen.
 		return
-	if (QDELETED(src))
+	if(QDELETED(src))
 		return
-	qdel(src)																//If it's another offhand, or literally anything else, qdel. If I knew how to add logging messages I'd put one here.
+	message_admins("Deleting offhand for [O] on user [user]")
+	qdel(src)									//If it's another offhand, or literally anything else, qdel. If I knew how to add logging messages I'd put one here.
 
 /*
  * Fireaxe
@@ -80,7 +61,7 @@
 
 /obj/item/twohanded/fireaxe/Initialize()
 	. = ..()
-	AddComponent(/datum/component/twohanded, _force_unwielded=5, _force_wielded=24)
+	AddComponent(/datum/component/twohanded, 5, 24)
 	AddComponent(/datum/component/butchering, 100, 80, 0 , hitsound) //axes are not known for being precision butchering tools
 
 /obj/item/twohanded/fireaxe/update_icon()  //Currently only here to fuck with the on-mob icons.
@@ -163,7 +144,7 @@
 
 /obj/item/twohanded/dualsaber/Initialize()
 	. = ..()
-	AddComponent(/datum/component/twohanded, _force_unwielded=3, _force_wielded=24, _wieldsound='sound/weapons/saberon.ogg', _unwieldsound='sound/weapons/saberoff.ogg')
+	AddComponent(/datum/component/twohanded, 3, 24, 'sound/weapons/saberon.ogg', 'sound/weapons/saberoff.ogg')
 	RegisterSignal(src, COMSIG_ITEM_WIELD, .proc/wield)
 	RegisterSignal(src, COMSIG_ITEM_UNWIELD, .proc/unwield)
 
@@ -329,7 +310,7 @@
 
 /obj/item/twohanded/spear/Initialize()
 	. = ..()
-	AddComponent(/datum/component/twohanded, _force_unwielded=10, _force_wielded=18)
+	AddComponent(/datum/component/twohanded, 10, 18)
 	AddComponent(/datum/component/butchering, 100, 70) //decent in a pinch, but pretty bad.
 
 /obj/item/twohanded/spear/suicide_act(mob/living/carbon/user)
@@ -501,7 +482,7 @@
 
 /obj/item/twohanded/spear/grey_tide/afterattack(atom/movable/AM, mob/living/user, proximity)
 	. = ..()
-	AddComponent(/datum/component/twohanded, _force_unwielded=15, _force_wielded=25)
+	AddComponent(/datum/component/twohanded, 15, 25)
 	if(!proximity)
 		return
 	user.faction |= "greytide([REF(user)])"
@@ -533,7 +514,7 @@
 
 /obj/item/twohanded/pitchfork/Initialize()
 	. = ..()
-	AddComponent(/datum/component/twohanded, _force_unwielded=7, _force_wielded=15)
+	AddComponent(/datum/component/twohanded, 7, 15)
 
 /obj/item/twohanded/pitchfork/demonic
 	name = "demonic pitchfork"
@@ -543,7 +524,7 @@
 
 /obj/item/twohanded/pitchfork/demonic/Initialize()
 	. = ..()
-	AddComponent(/datum/component/twohanded, _force_unwielded=19, _force_wielded=25)
+	AddComponent(/datum/component/twohanded, 19, 25)
 	set_light(3,6,LIGHT_COLOR_RED)
 
 /obj/item/twohanded/pitchfork/demonic/greater
@@ -552,7 +533,7 @@
 
 /obj/item/twohanded/pitchfork/demonic/greater/Initialize()
 	. = ..()
-	AddComponent(/datum/component/twohanded, _force_unwielded=24, _force_wielded=34)
+	AddComponent(/datum/component/twohanded, 24, 34)
 
 /obj/item/twohanded/pitchfork/demonic/ascended
 	force = 100
@@ -560,7 +541,7 @@
 
 /obj.item/twohanded/pitchfork/demonic/ascended/Initialize()
 	. = ..()
-	AddComponent(/datum/component/twohanded, _force_unwielded=100, _force_wielded=500000)
+	AddComponent(/datum/component/twohanded, 100, 500000)
 
 /obj/item/twohanded/pitchfork/update_icon()
 	var/flag = SEND_SIGNAL(src, COMSIG_ITEM_IS_WIELDED) & COMPONENT_WIELDED
@@ -622,7 +603,7 @@
 
 /obj/item/twohanded/vibro_weapon/Initialize()
 	. = ..()
-	AddComponent(/datum/component/twohanded, _force_unwielded=20, _force_wielded=40)
+	AddComponent(/datum/component/twohanded, 20, 40)
 	AddComponent(/datum/component/butchering, 20, 105)
 
 /obj/item/twohanded/vibro_weapon/hit_reaction(mob/living/carbon/human/owner, atom/movable/hitby, attack_text = "the attack", final_block_chance = 0, damage = 0, attack_type = MELEE_ATTACK)
@@ -688,7 +669,7 @@
 
 /obj/item/twohanded/bonespear/Initialize()
 	. = ..()
-	AddComponent(/datum/component/twohanded, _force_unwielded=11, _force_wielded=20)
+	AddComponent(/datum/component/twohanded, 11, 20)
 
 /obj/item/twohanded/bonespear/update_icon()
 	var/flag = SEND_SIGNAL(src, COMSIG_ITEM_IS_WIELDED) & COMPONENT_WIELDED
@@ -778,7 +759,7 @@
 
 /obj/item/twohanded/bamboospear/Initialize()
 	. = ..()
-	AddComponent(/datum/component/twohanded, _force_unwielded=10, _force_wielded=18)
+	AddComponent(/datum/component/twohanded, 10, 18)
 
 /obj/item/twohanded/bamboospear/update_icon()
 	var/flag = SEND_SIGNAL(src, COMSIG_ITEM_IS_WIELDED) & COMPONENT_WIELDED

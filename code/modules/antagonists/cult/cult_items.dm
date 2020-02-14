@@ -672,7 +672,7 @@
 
 /obj/item/twohanded/cult_spear/Initialize()
 	. = ..()
-	AddComponent(/datum/component/twohanded, _force_unwielded=17, _force_wielded=24)
+	AddComponent(/datum/component/twohanded, 17, 24)
 	AddComponent(/datum/component/butchering, 100, 90)
 
 /obj/item/twohanded/cult_spear/Destroy()

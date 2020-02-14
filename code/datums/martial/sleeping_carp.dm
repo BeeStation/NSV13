@@ -177,7 +177,8 @@
 	block_chance = 50
 
 /obj/item/twohanded/bostaff/Initialize()
-	AddComponent(/datum/component/twohanded, _force_unwielded=10, _force_wielded=24)
+	. = ..()
+	AddComponent(/datum/component/twohanded, 10, 24)
 
 /obj/item/twohanded/bostaff/update_icon()
 	var/flag = SEND_SIGNAL(src, COMSIG_ITEM_IS_WIELDED) & COMPONENT_WIELDED

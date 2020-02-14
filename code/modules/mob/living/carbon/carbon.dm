@@ -27,7 +27,7 @@
 		held_index = (active_hand_index % held_items.len)+1
 
 	var/obj/item/item_in_hand = src.get_active_held_item()
-	if(SEND_SIGNAL(src, COMSIG_ITEM_IS_WIELDED) & COMPONENT_WIELDED) //this segment checks if the item in your hand is occupying both hands.
+	if(SEND_SIGNAL(item_in_hand, COMSIG_ITEM_IS_WIELDED) & COMPONENT_WIELDED) //this segment checks if the item in your hand is occupying both hands.
 		to_chat(usr, "<span class='warning'>Your other hand is too busy holding [item_in_hand].</span>")
 		return
 	var/oindex = active_hand_index

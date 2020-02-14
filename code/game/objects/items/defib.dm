@@ -387,12 +387,9 @@
 	if(listeningTo)
 		UnregisterSignal(listeningTo, COMSIG_MOVABLE_MOVED)
 	if(user)
-		var/obj/item/twohanded/offhand/O = user.get_inactive_held_item()
-		if(istype(O))
-			SEND_SIGNAL(O, COMSIG_ITEM_UNWIELD, user, FALSE)
+		SEND_SIGNAL(src, COMSIG_ITEM_UNWIELD, user)
 		to_chat(user, "<span class='notice'>The paddles snap back into the main unit.</span>")
 		snap_back()
-	return SEND_SIGNAL(src, COMSIG_ITEM_UNWIELD, user)
 
 /obj/item/twohanded/shockpaddles/proc/snap_back()
 	if(!defib)

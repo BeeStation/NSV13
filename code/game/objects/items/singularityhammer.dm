@@ -17,7 +17,7 @@
 
 /obj/item/twohanded/singularityhammer/New()
 	..()
-	AddComponent(/datum/component/twohanded, _force_unwielded=5, _force_wielded=20)
+	AddComponent(/datum/component/twohanded, 5, 20)
 	START_PROCESSING(SSobj, src)
 
 /obj/item/twohanded/singularityhammer/Destroy()
@@ -87,7 +87,7 @@
 
 /obj/item/twohanded/mjollnir/Initialize()
 	. = ..()
-	AddComponent(/datum/component/twohanded, _force_unwielded=5, _force_wielded=25)
+	AddComponent(/datum/component/twohanded, 5, 25)
 
 /obj/item/twohanded/mjollnir/proc/shock(mob/living/target)
 	target.Stun(60)

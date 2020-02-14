@@ -29,7 +29,7 @@
 
 /obj/item/twohanded/kinetic_crusher/Initialize()
 	. = ..()
-	AddComponent(/datum/component/twohanded, _force_unwielded=20, _force_wielded=0)
+	AddComponent(/datum/component/twohanded, 0, 20)
 	AddComponent(/datum/component/butchering, 60, 110) //technically it's huge and bulky, but this provides an incentive to use it
 
 /obj/item/twohanded/kinetic_crusher/Destroy()

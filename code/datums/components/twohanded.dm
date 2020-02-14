@@ -30,8 +30,10 @@
 	RegisterSignal(parent, COMSIG_ITEM_UNWIELD, .proc/unwield)
 
 /datum/component/twohanded/proc/unwield(obj/item/I, mob/living/user, show_message = TRUE)
+	//Can we unwield it?
 	if(!wielded)
 		return
+	//Update stats and icon
 	wielded = FALSE
 	if(!isnull(force_unwielded))
 		master.force = force_unwielded
@@ -41,6 +43,7 @@
 	else //something wrong
 		master.name = "[initial(master.name)]"
 	master.update_icon()
+	//User interaction
 	if(!user)
 		return
 	if(user.get_item_by_slot(SLOT_BACK) == parent)
@@ -54,12 +57,16 @@
 			to_chat(user, "<span class='notice'>You are now carrying [parent] with one hand.</span>")
 	if(unwieldsound)
 		playsound(master.loc, unwieldsound, 50, 1)
-	var/obj/item/twohanded/offhand/O = user.get_inactive_held_item()
-	if(O && istype(O))
-		SEND_SIGNAL(O, COMSIG_ITEM_UNWIELD, user, FALSE)
-	return
+	//Offhand
+	var/obj/item/offhand/O = user.get_inactive_held_item()
+	message_admins("Unwielded with offhand: [O]")
+	if(O)
+		qdel(O)
+	else
+		message_admins("Error: wielded item [parent] had no offhand")
 
 /datum/component/twohanded/proc/wield(obj/item/I, mob/living/user)
+	//Can we wield it?
 	if(wielded)
 		return
 	if(ismonkey(user))
@@ -71,29 +78,28 @@
 	if(user.get_num_arms() < 2)
 		to_chat(user, "<span class='warning'>You don't have enough intact hands.</span>")
 		return
+	//Update stats and icon
 	wielded = TRUE
-	if(force_wielded)
+	if(!isnull(force_wielded))
 		master.force = force_wielded
 	master.name = "[master.name] (Wielded)"
 	master.update_icon()
+	//User interaction
 	if(iscyborg(user))
 		to_chat(user, "<span class='notice'>You dedicate your module to [parent].</span>")
 	else
 		to_chat(user, "<span class='notice'>You grab [parent] with both hands.</span>")
 	if (wieldsound)
 		playsound(master.loc, wieldsound, 50, 1)
-	var/obj/item/twohanded/offhand/O = new(user) ////Let's reserve his other hand~
+	//Offhand
+	var/obj/item/offhand/O = new(user) ////Let's reserve his other hand~
 	O.name = "[master.name] - offhand"
 	O.desc = "Your second grip on [master]."
-	var/datum/component/twohanded/T = O.GetComponent(/datum/component/twohanded)
-	T.wielded = TRUE
 	user.put_in_inactive_hand(O)
 	return
 
 /datum/component/twohanded/proc/dropped(obj/item/I, mob/user)
 	//handles unwielding a twohanded weapon when dropped as well as clearing up the offhand
-	if(!wielded)
-		return
 	SEND_SIGNAL(I, COMSIG_ITEM_UNWIELD, user)
 
 /datum/component/twohanded/proc/attack_self(obj/item/I, mob/user)
@@ -163,7 +169,7 @@
 /datum/component/twohanded/required/equipped(obj/item/I, mob/user, slot)
 	var/slotbit = slotdefine2slotbit(slot)
 	if(master.slot_flags & slotbit)
-		var/datum/O = user.is_holding_item_of_type(/obj/item/twohanded/offhand)
+		var/datum/O = user.is_holding_item_of_type(/obj/item/offhand)
 		if(!O || QDELETED(O))
 			return
 		qdel(O)
@@ -177,14 +183,15 @@
 	SEND_SIGNAL(I, COMSIG_ITEM_UNWIELD, user, show_message)
 	..()
 
-/datum/component/twohanded/required/wield(mob/living/user)
+/datum/component/twohanded/required/wield(obj/item/I, mob/living/user)
 	..()
 	if(!wielded)
 		user.dropItemToGround(parent)
 
-/datum/component/twohanded/required/unwield(mob/living/user, show_message = TRUE)
+/datum/component/twohanded/required/unwield(obj/item/I, mob/living/user, show_message = TRUE)
 	if(!wielded)
 		return
 	if(show_message)
 		to_chat(user, "<span class='notice'>You drop [parent].</span>")
-	..(user, FALSE)
+	..(I, user, FALSE)
+	user.dropItemToGround(parent)
