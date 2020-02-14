@@ -308,9 +308,6 @@
 
 	var/mob/listeningTo
 
-/obj/item/twohanded/shockpaddles/Initialize()
-	AddComponent(/datum/component/twohanded)
-
 /obj/item/twohanded/shockpaddles/equipped(mob/user, slot)
 	. = ..()
 	if(!req_defib || listeningTo == user)
@@ -323,7 +320,6 @@
 /obj/item/twohanded/shockpaddles/Moved()
 	. = ..()
 	check_range()
-
 
 /obj/item/twohanded/shockpaddles/fire_act(exposed_temperature, exposed_volume)
 	. = ..()
@@ -356,6 +352,7 @@
 
 /obj/item/twohanded/shockpaddles/New(mainunit)
 	..()
+	AddComponent(/datum/component/twohanded)
 	if(check_defib_exists(mainunit, src) && req_defib)
 		defib = mainunit
 		forceMove(defib)
