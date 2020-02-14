@@ -15,6 +15,18 @@
 //Rewrote TwoHanded weapons stuff and put it all here. Just copypasta fireaxe to make new ones ~Carn
 //Made two-handed-ness into a component (see datums/components/twohanded.dm)
 
+/obj/item/twohanded/attack_hand(mob/user)
+	if(!GetComponent(/datum/component/twohanded/required) && !GetComponent(/datum/component/twohanded))
+		AddComponent(/datum/component/twohanded)
+		message_admins("Deprecated use of the /obj/item/twohanded path for [src]. Applying default component.")
+	. = ..()
+
+/obj/item/twohanded/required/attack_hand(mob/user)
+	if(!GetComponent(/datum/component/twohanded/required) && !GetComponent(/datum/component/twohanded))
+		AddComponent(/datum/component/twohanded/required)
+		message_admins("Deprecated use of the /obj/item/twohanded/required path for [src]. Applying default component.")
+	. = ..()
+
 ///////////OFFHAND///////////////
 /obj/item/offhand
 	name = "offhand"
