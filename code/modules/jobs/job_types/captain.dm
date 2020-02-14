@@ -39,7 +39,7 @@
 
 	id = /obj/item/card/id/gold
 	belt = /obj/item/melee/classic_baton/telescopic/stunsword
-	r_pocket = /obj/item/pda/captain
+	l_pocket = /obj/item/pda/captain
 	glasses = /obj/item/clothing/glasses/sunglasses
 	ears = /obj/item/radio/headset/heads/captain/alt
 	gloves = /obj/item/clothing/gloves/color/captain
@@ -52,6 +52,8 @@
 	backpack = /obj/item/storage/backpack/captain
 	satchel = /obj/item/storage/backpack/satchel/cap
 	duffelbag = /obj/item/storage/backpack/duffelbag/captain
+
+	pda_slot = SLOT_L_STORE
 
 	implants = list(/obj/item/implant/mindshield)
 	accessory = /obj/item/clothing/accessory/medal/gold/captain
