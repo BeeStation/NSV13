@@ -638,7 +638,7 @@
 
 /obj/item/twohanded/fireaxe/boneaxe/Initialize()
 	. = ..()
-	AddComponent(/datum/component/twohanded, _force_wielded=23)
+	AddComponent(/datum/component/twohanded, initial(force), 23)
 
 /obj/item/twohanded/fireaxe/boneaxe/update_icon()
 	var/flag = SEND_SIGNAL(src, COMSIG_ITEM_IS_WIELDED) & COMPONENT_WIELDED
