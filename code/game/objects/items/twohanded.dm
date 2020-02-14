@@ -539,7 +539,7 @@
 	force = 100
 	throwforce = 100
 
-/obj.item/twohanded/pitchfork/demonic/ascended/Initialize()
+/obj/item/twohanded/pitchfork/demonic/ascended/Initialize()
 	. = ..()
 	AddComponent(/datum/component/twohanded, 100, 500000)
 
