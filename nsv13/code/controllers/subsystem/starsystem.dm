@@ -1,7 +1,7 @@
 //Subsystem to control overmap events and the greater gameworld
 SUBSYSTEM_DEF(starsystem)
 	name = "Starsystem"
-	wait = 50
+	wait = 10
 	flags = SS_NO_INIT
 	var/last_combat_enter = 0
 	var/modifier = 0
@@ -24,15 +24,6 @@ SUBSYSTEM_DEF(starsystem)
 	var/datum/round_event_control/overmap_test_one/OM = locate(/datum/round_event_control/overmap_test_one) in SSevents.control
 	message_admins("Current time: [world.time] | Last Combat: [last_combat_enter] | Modifier: [modifier] | [OM.name]: [OM.weight]")
 
-/datum/controller/subsystem/starsystem/proc/find_system(obj/structure/overmap/OM) //Used to determine what system a ship is currently in. Famously used to determine the starter system that you've put the ship in.
-	var/datum/starsystem/found
-	for(var/datum/starsystem/S in systems)
-		for(var/thez in SSmapping.levels_by_trait(S.level_trait))
-			if(thez == OM.z)
-				found = S
-				break
-	return found
-
 /datum/controller/subsystem/starsystem/New()
 	. = ..()
 	instantiate_systems()
@@ -44,6 +35,15 @@ SUBSYSTEM_DEF(starsystem)
 	for(var/instance in subtypesof(/datum/starsystem))
 		var/datum/starsystem/S = new instance
 		systems += S
+
+/datum/controller/subsystem/starsystem/proc/find_system(obj/structure/overmap/OM) //Used to determine what system a ship is currently in. Famously used to determine the starter system that you've put the ship in.
+	var/datum/starsystem/found
+	for(var/datum/starsystem/S in systems)
+		for(var/thez in SSmapping.levels_by_trait(S.level_trait))
+			if(thez == OM.z)
+				found = S
+				break
+	return found
 
 /datum/controller/subsystem/starsystem/proc/set_timer()
 	addtimer(CALLBACK(src, .proc/spawn_enemies), rand(10 MINUTES, 15 MINUTES)) //Mr Gaeta, start the clock.
@@ -60,6 +60,16 @@ SUBSYSTEM_DEF(starsystem)
 			continue
 		if(SS.spawn_enemies())
 			priority_announce("Attention all ships, set condition 1 throughout the fleet. Syndicate incursion detected in: [SS]. All ships must repel the invasion.", "Naval Command")
+
+/datum/controller/subsystem/starsystem/proc/modular_spawn_enemies(obj/structure/overmap/OM, var/location)//Select Ship to Spawn and Location
+//	if(mops == ZTRAIT_HYPERSPACE)
+//		wait(30)
+//		restart???
+	for(var/datum/starsystem/starsys in systems)
+		for(location in SSmapping.levels_by_trait(starsys.level_trait))
+			var/turf/exit = get_turf(locate(round(world.maxx * 0.5, 1), round(world.maxy * 0.5, 1), location)) //Plop them bang in the center of the system.
+			var/turf/destination = get_turf(pick(orange(20,exit)))
+			var/obj/structure/overmap/enemy = new OM(destination)
 
 /datum/starsystem
 	var/name = "Hyperspace"
