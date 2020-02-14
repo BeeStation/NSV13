@@ -59,7 +59,6 @@
 		playsound(master.loc, unwieldsound, 50, 1)
 	//Offhand
 	var/obj/item/offhand/O = user.get_inactive_held_item()
-	message_admins("Unwielded with offhand: [O]")
 	if(O)
 		qdel(O)
 	else
