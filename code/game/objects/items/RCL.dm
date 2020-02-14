@@ -24,6 +24,7 @@
 	var/mob/listeningTo
 
 /obj/item/twohanded/rcl/Initialize()
+	. = ..()
 	AddComponent(/datum/component/twohanded)
 
 /obj/item/twohanded/rcl/attackby(obj/item/W, mob/user)
