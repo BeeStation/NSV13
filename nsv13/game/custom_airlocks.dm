@@ -119,6 +119,7 @@ odir = EAST / WEST. We need it to face forwards so you can get through
 
 /obj/machinery/door/airlock/highsecurity/ship
 	icon = 'nsv13/icons/obj/machinery/doors/vault.dmi'
+	overlays_file = 'nsv13/icons/obj/machinery/doors/overlays.dmi'
 
 /obj/machinery/door/airlock/highsecurity/ship/Initialize()
 	. = ..()
