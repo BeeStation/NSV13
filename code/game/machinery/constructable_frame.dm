@@ -181,12 +181,8 @@
 				if(component_check)
 					P.play_tool_sound(src)
 					var/obj/machinery/new_machine = new circuit.build_path(loc)
-					//NSV13 - start directional machine handling
-					if(circuit.directional_build == TRUE)
-						new_machine.setDir(dir)
-					//NSV13 - end directional machine handling
 					new_machine.setAnchored(anchored)
-					new_machine.on_construction()
+					new_machine.on_construction(dir) //NSV13 - added dir argument for pdc on_construction
 					for(var/obj/O in new_machine.component_parts)
 						qdel(O)
 					new_machine.component_parts = list()
