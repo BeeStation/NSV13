@@ -131,6 +131,9 @@
 "ar" = (
 /obj/structure/rack,
 /obj/item/storage/toolbox/emergency,
+/obj/structure/extinguisher_cabinet{
+	pixel_y = 26
+	},
 /turf/open/floor/monotile/steel,
 /area/nsv/hanger/deck3{
 	name = "Air traffic control pod"
@@ -387,6 +390,7 @@
 /obj/structure/table/reinforced,
 /obj/item/paper_bin,
 /obj/item/pen/fountain/captain,
+/obj/item/stamp/captain,
 /turf/open/floor/carpet/blue,
 /area/crew_quarters/heads/captain)
 "bi" = (
@@ -1819,6 +1823,9 @@
 	dir = 1
 	},
 /obj/effect/turf_decal/bot,
+/obj/structure/extinguisher_cabinet{
+	pixel_y = 26
+	},
 /turf/open/floor/monotile/dark/airless,
 /area/maintenance/ship_exterior)
 "eN" = (
@@ -1860,6 +1867,7 @@
 "eS" = (
 /obj/structure/closet/secure_closet/hop,
 /obj/machinery/airalarm/directional/north,
+/obj/item/storage/box/ids,
 /turf/open/floor/carpet/ship,
 /area/crew_quarters/heads/hop{
 	name = "Executive officer's Office"
@@ -1873,6 +1881,7 @@
 /area/bridge)
 "eU" = (
 /obj/machinery/computer/lore_terminal/command,
+/obj/structure/filingcabinet,
 /turf/open/floor/carpet/ship,
 /area/crew_quarters/heads/hop{
 	name = "Executive officer's Office"
@@ -2049,7 +2058,7 @@
 /area/maintenance/department/bridge)
 "fr" = (
 /obj/structure/table/reinforced,
-/obj/item/folder,
+/obj/machinery/recharger,
 /turf/open/floor/carpet/blue,
 /area/crew_quarters/heads/hop{
 	name = "Executive officer's Office"
@@ -2072,6 +2081,9 @@
 /obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer3{
 	icon_state = "manifold-3";
 	dir = 1
+	},
+/obj/structure/extinguisher_cabinet{
+	pixel_y = 26
 	},
 /turf/open/floor/monotile/dark,
 /area/hallway/primary/aft)
@@ -2999,6 +3011,15 @@
 	},
 /turf/closed/wall/r_wall/ship,
 /area/maintenance/department/bridge)
+"hh" = (
+/obj/machinery/computer/ship/dradis/minor{
+	icon_state = "computer";
+	dir = 1
+	},
+/turf/open/floor/monotile/steel,
+/area/nsv/hanger/deck3{
+	name = "Air traffic control pod"
+	})
 "hi" = (
 /obj/machinery/door/airlock/ship,
 /obj/structure/cable{
@@ -3211,12 +3232,11 @@
 /turf/open/floor/monotile/dark/airless,
 /area/maintenance/ship_exterior)
 "hM" = (
-/obj/structure/table/reinforced,
-/obj/machinery/recharger,
+/obj/structure/extinguisher_cabinet{
+	pixel_y = 26
+	},
 /turf/open/floor/monotile/steel,
-/area/nsv/hanger/deck3{
-	name = "Air traffic control pod"
-	})
+/area/maintenance/department/bridge)
 "hN" = (
 /obj/structure/railing{
 	icon_state = "railing0";
@@ -4040,12 +4060,12 @@
 	icon_state = "1-4"
 	},
 /obj/structure/disposalpipe/segment,
+/obj/structure/filingcabinet,
 /turf/open/floor/monotile/steel,
 /area/crew_quarters/heads/hop{
 	name = "Executive officer's Office"
 	})
 "jB" = (
-/obj/machinery/modular_computer/console/preset/command,
 /obj/machinery/button/door{
 	id = "hop";
 	name = "Privacy Shutters Control";
@@ -4072,6 +4092,7 @@
 /obj/structure/cable{
 	icon_state = "4-8"
 	},
+/obj/machinery/computer/card,
 /turf/open/floor/monotile/steel,
 /area/crew_quarters/heads/hop{
 	name = "Executive officer's Office"
@@ -4163,9 +4184,11 @@
 	name = "Executive officer's Office"
 	})
 "jJ" = (
-/obj/machinery/photocopier,
 /obj/structure/cable{
 	icon_state = "4-8"
+	},
+/obj/machinery/modular_computer/console/preset/command{
+	dir = 1
 	},
 /turf/open/floor/monotile/steel,
 /area/crew_quarters/heads/hop{
@@ -5284,6 +5307,17 @@
 /area/nsv/hanger/deck3{
 	name = "Air traffic control pod"
 	})
+"lR" = (
+/obj/item/twohanded/required/kirbyplants{
+	icon_state = "plant-21";
+	pixel_x = -3;
+	pixel_y = 3
+	},
+/obj/structure/extinguisher_cabinet{
+	pixel_y = 26
+	},
+/turf/open/floor/monotile/dark,
+/area/hallway/primary/aft)
 
 (1,1,1) = {"
 aa
@@ -30603,7 +30637,7 @@ hV
 an
 hX
 cD
-fW
+lR
 fY
 gi
 cR
@@ -34977,7 +35011,7 @@ bF
 gS
 bF
 bF
-fO
+hM
 fS
 fO
 bF
@@ -42398,7 +42432,7 @@ aC
 ih
 hE
 hC
-hM
+hh
 aB
 ly
 hK
