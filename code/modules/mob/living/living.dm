@@ -1,3 +1,6 @@
+/mob/living
+	var/obj/structure/overmap/gunning_ship = null //NSV13 - reference to overmap for aim helper
+
 /mob/living/Initialize()
 	. = ..()
 	if(unique_name)
@@ -613,7 +616,7 @@
 	return
 
 /mob/living/Move(atom/newloc, direct)
-	if(lying) 
+	if(lying)
 		if(direct & EAST)
 			lying = 90
 		if(direct & WEST)
