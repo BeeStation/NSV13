@@ -3,26 +3,27 @@ SUBSYSTEM_DEF(starsystem)
 	name = "Starsystem"
 	wait = 10
 	flags = SS_NO_INIT
-	var/last_combat_enter = 0
+	var/last_combat_enter = 0 //Last time an AI controlled ship attacked the players
 	var/modifier = 0
 	var/list/systems = list()
 	var/datum/starsystem/hyperspace //The transit level for ships
+	var/bounty_pool = 0 //Bounties pool to be delivered for destroying syndicate ships
 
 /datum/controller/subsystem/starsystem/fire()
 	if(last_combat_enter + (5000 + (1000 * modifier)) < world.time) //Checking the last time we started combat with the current time
-		var/datum/round_event_control/overmap_test_one/OM = locate(/datum/round_event_control/overmap_test_one) in SSevents.control //Overmap combat events
-		if(istype(OM))
-			OM.weight += 1 //Increment probabilty via SSEvent
+		var/datum/round_event_control/overmap_test_one/OTO = locate(/datum/round_event_control/overmap_test_one) in SSevents.control //Overmap combat events
+		if(istype(OTO))
+			OTO.weight += 1 //Increment probabilty via SSEvent
 			modifier += 1 //Increment time step
-			if(modifier == 5)
+			if(modifier == 10)
 				priority_announce("PLACEHOLDER") //Warn players for taking too long
-			if(OM.weight % 5 == 0)
-				message_admins("The ship has been out of combat for [last_combat_enter]. The weight of Overmap Test One is now [OM.weight]")
-				log_game("The ship has been out of combat for [last_combat_enter]. The weight of Overmap Test One is now [OM.weight]")
+			if(OTO.weight % 5 == 0)
+				message_admins("The ship has been out of combat for [last_combat_enter]. The weight of [OTO.name] is now [OTO.weight]")
+				log_game("The ship has been out of combat for [last_combat_enter]. The weight of [OTO.name] is now [OTO.weight]")
 
 /datum/controller/subsystem/starsystem/proc/event_info() //debugging output
-	var/datum/round_event_control/overmap_test_one/OM = locate(/datum/round_event_control/overmap_test_one) in SSevents.control
-	message_admins("Current time: [world.time] | Last Combat: [last_combat_enter] | Modifier: [modifier] | [OM.name]: [OM.weight]")
+	var/datum/round_event_control/overmap_test_one/OTO = locate(/datum/round_event_control/overmap_test_one) in SSevents.control
+	message_admins("Current time: [world.time] | Last Combat: [last_combat_enter] | Modifier: [modifier] | [OTO.name]: [OTO.weight]")
 
 /datum/controller/subsystem/starsystem/New()
 	. = ..()
@@ -30,11 +31,24 @@ SUBSYSTEM_DEF(starsystem)
 
 /datum/controller/subsystem/starsystem/proc/instantiate_systems()
 	set_timer()
+	cycle_bounty_timer()
 	var/datum/starsystem/SS = new
 	hyperspace = SS //First system defaults to "hyperspace" AKA transit.
 	for(var/instance in subtypesof(/datum/starsystem))
 		var/datum/starsystem/S = new instance
 		systems += S
+
+///////SPAWN SYSTEM///////
+
+/datum/controller/subsystem/starsystem/proc/find_main_overmap()
+	for(var/obj/structure/overmap/OM in GLOB.overmap_objects)
+		if(OM.main_overmap)
+			return OM
+
+/datum/controller/subsystem/starsystem/proc/find_main_miner()
+	for(var/obj/structure/overmap/OM in GLOB.overmap_objects)
+		if(OM.main_miner)
+			return OM
 
 /datum/controller/subsystem/starsystem/proc/find_system(obj/structure/overmap/OM) //Used to determine what system a ship is currently in. Famously used to determine the starter system that you've put the ship in.
 	var/datum/starsystem/found
@@ -44,6 +58,32 @@ SUBSYSTEM_DEF(starsystem)
 				found = S
 				break
 	return found
+
+/datum/controller/subsystem/starsystem/proc/modular_spawn_enemies(obj/structure/overmap/OM, var/location)//Select Ship to Spawn and Location via Z-Trait
+	for(var/datum/starsystem/starsys in systems)
+		for(location in SSmapping.levels_by_trait(starsys.level_trait))
+			var/turf/exit = get_turf(locate(round(world.maxx * 0.5, 1), round(world.maxy * 0.5, 1), location)) //Plop them bang in the center of the system.
+			var/turf/destination = get_turf(pick(orange(20,exit)))
+			new OM(destination)
+
+///////BOUNTIES//////
+
+/datum/controller/subsystem/starsystem/proc/bounty_payout()
+	cycle_bounty_timer()
+	if(bounty_pool == 0) //No need to spam when there is no cashola payout
+		return
+	priority_announce("Bounty Payment Processed") //Temp - replace words and methods
+	var/split_bounty = bounty_pool / 2 //Split between our two accounts
+	var/datum/bank_account/D = SSeconomy.get_dep_account(ACCOUNT_CAR)
+	D.adjust_money(split_bounty)
+	var/datum/bank_account/DD = SSeconomy.get_dep_account(ACCOUNT_MUN)
+	DD.adjust_money(split_bounty)
+	bounty_pool = 0
+
+/datum/controller/subsystem/starsystem/proc/cycle_bounty_timer()
+	addtimer(CALLBACK(src, .proc/bounty_payout), 20 MINUTES) //Cycle bounty payments every 20 minutes
+
+//////OLD GAMEPLAY LOOP///////
 
 /datum/controller/subsystem/starsystem/proc/set_timer()
 	addtimer(CALLBACK(src, .proc/spawn_enemies), rand(10 MINUTES, 15 MINUTES)) //Mr Gaeta, start the clock.
@@ -61,15 +101,7 @@ SUBSYSTEM_DEF(starsystem)
 		if(SS.spawn_enemies())
 			priority_announce("Attention all ships, set condition 1 throughout the fleet. Syndicate incursion detected in: [SS]. All ships must repel the invasion.", "Naval Command")
 
-/datum/controller/subsystem/starsystem/proc/modular_spawn_enemies(obj/structure/overmap/OM, var/location)//Select Ship to Spawn and Location
-//	if(mops == ZTRAIT_HYPERSPACE)
-//		wait(30)
-//		restart???
-	for(var/datum/starsystem/starsys in systems)
-		for(location in SSmapping.levels_by_trait(starsys.level_trait))
-			var/turf/exit = get_turf(locate(round(world.maxx * 0.5, 1), round(world.maxy * 0.5, 1), location)) //Plop them bang in the center of the system.
-			var/turf/destination = get_turf(pick(orange(20,exit)))
-			var/obj/structure/overmap/enemy = new OM(destination)
+//////STARSYSTEM DATUM///////
 
 /datum/starsystem
 	var/name = "Hyperspace"
@@ -130,12 +162,14 @@ SUBSYSTEM_DEF(starsystem)
 
 /datum/starsystem/proc/check_completion() //Method to check if the ship has completed their active mission or not
 	if(!enemies_in_system.len)
-		priority_announce("All Syndicate targets in [src] have been dispatched. Return to standard patrol duties. A completion bonus of [reward] credits has been credited to your allowance.", "Naval Command")
+		priority_announce("All Syndicate targets in [src] have been dispatched. Return to standard patrol duties.", "Naval Command")
+/*
 		var/split_reward = reward / 2
 		var/datum/bank_account/D = SSeconomy.get_dep_account(ACCOUNT_CAR)
 		D.adjust_money(split_reward)
 		var/datum/bank_account/DD = SSeconomy.get_dep_account(ACCOUNT_MUN)
 		DD.adjust_money(split_reward)
+*/
 		SSstarsystem?.set_timer()
 		return TRUE
 	else

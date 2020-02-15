@@ -80,6 +80,7 @@
 
 /obj/structure/overmap/nanotrasen/mining_cruiser/nostromo
 	name = "NSV Nostromo"
+	main_miner = TRUE //Player controlled variant
 
 /obj/structure/overmap/nanotrasen/missile_cruiser/starter //VAGO. Sergei use me!
 	main_overmap = TRUE //Player controlled variant
@@ -129,6 +130,10 @@
 	faction = "syndicate"
 	interior_maps = list("Corvette.dmm")
 
+/obj/structure/overmap/syndicate/ai/Destroy()
+	SSstarsystem.bounty_pool += bounty //Adding payment for services rendered
+	. = ..()
+
 /obj/structure/overmap/syndicate/ai //Generic bad guy #10000. GRR.
 	icon = 'nsv13/icons/overmap/syndicate/syn_light_cruiser.dmi'
 	icon_state = "cruiser"
@@ -140,6 +145,7 @@
 	sprite_size = 96
 	damage_states = TRUE
 	area_type = /area/ruin/powered/nsv13/gunship
+	var/bounty = 1000
 
 /obj/structure/overmap/syndicate/ai/carrier
 	name = "syndicate carrier"
@@ -156,6 +162,7 @@
 	pixel_w = -96
 	max_integrity = 700 //Tanky so that it can survive to deploy multiple fighter waves.
 	integrity_failure = 700
+	bounty = 2000
 
 /obj/structure/overmap/syndicate/ai/carrier/get_max_firemode() //This boy really doesn't need a railgun
 	return FIRE_MODE_TORPEDO
@@ -172,3 +179,4 @@
 	pixel_w = -96
 	max_integrity = 800 //Max health
 	integrity_failure = 800
+	bounty = 500
