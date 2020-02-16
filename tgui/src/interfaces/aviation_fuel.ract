@@ -1,0 +1,16 @@
+<ui-display title='Statistics'>
+  <ui-section label='Current fuel levels:'>
+    <ui-bar min='0' max='{{data.maxfuel}}' value='{{data.fuel}}' state='{{data.fuel}}'>{{Math.fixed(adata.fuel)}}</ui-bar>
+  </ui-section>
+  <ui-section label='Target fuel level'>
+    <ui-bar min='0' max='{{data.targetmaxfuel}}' value='{{data.targetfuel}}' state='{{data.targetfuel}}'>{{Math.fixed(data.targetfuel)}}</ui-bar>
+  </ui-section>
+  <ui-button icon='{{"close"}}'
+	style='caution'
+	action='stopfuel'>
+	Stop fuelling</ui-button><br/>
+  <ui-button icon='{{data.transfer_mode ? "power-off" : "square-o"}}'
+	style='{{data.transfer_mode ? "selected" : null}}'
+	action='transfer_mode'>
+	"Fuel inlet"</ui-button><br/>
+</ui-display>

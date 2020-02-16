@@ -30,7 +30,9 @@
 		"Head of Security",
 		"Chief Engineer",
 		"Research Director",
-		"Chief Medical Officer")
+		"Chief Medical Officer",
+		"Master At Arms")
+//NSV13 - Added MAA to blacklist
 
 	//The scaling factor of max total positions in relation to the total amount of people on board the station in %
 	var/max_relative_positions = 30 //30%: Seems reasonable, limit of 6 @ 20 players
@@ -393,7 +395,7 @@
 				data["all_centcom_access"] = all_centcom_access
 			else
 				var/list/regions = list()
-				for(var/i = 1; i <= 7; i++)
+				for(var/i = 1; i <= 8; i++) //NSV13
 					if((minor || target_dept) && !(i in region_access))
 						continue
 
@@ -455,7 +457,7 @@
 				else
 					if((ACCESS_HOP in auth_card.access) && ((target_dept==1) || !target_dept))
 						region_access |= 1
-						region_access |= 6
+						region_access |= 7 //NSV13
 						get_subordinates("Head of Personnel")
 					if((ACCESS_HOS in auth_card.access) && ((target_dept==2) || !target_dept))
 						region_access |= 2
@@ -469,6 +471,9 @@
 					if((ACCESS_CE in auth_card.access) && ((target_dept==5) || !target_dept))
 						region_access |= 5
 						get_subordinates("Chief Engineer")
+					if((ACCESS_MAA in auth_card.access) && ((target_dept==5) || !target_dept)) //NSV13
+						region_access |= 6
+						get_subordinates("Master At Arms")
 					if(region_access.len)
 						minor = 1
 						authenticated = 1

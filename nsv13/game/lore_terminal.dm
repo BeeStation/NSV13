@@ -215,7 +215,7 @@ SPECIAL KEYS RESPOND AS FOLLOWS:
 	name = "stormdrive_operation.ntdoc"
 	title = "Setting up power"
 	path = null
-	content = "-Assemble constrictors with a wrench, screwdriver, and welder ` -Activate constrictors with an open hand ` -Open 'plasma input' valves to constrictors and set their pressure to 'MAX' ` -Assemble particle accelerator with a wrench, coil of wire and screwdriver. ` -Open reactor inlet valves and set their pressure to 'MAX'` -Use the reactor control console and open the release valve. `-Use the particle accelerator control console, set the setting to '2' and toggle its power `-When you have successfully started the reactor, it will begin emitting cherenkov radiation, giving off a 'blue glow' around the core. When the reactor is activated, turn off the particle accelerator to prevent power waste. `-It is recommended that engineers use control rod setting '2' for optimal power generation, however the control rods are not rated to withstand temperatures of over 200 degrees for long, and will thus require reinforcement with sheets of plasteel. ` If fuel fails to fill into the reactor, a backpressure surge has occurred. Turn off all inputs to the reactor and open the waste release valve with the reactor console to flush any air out of the system. When this is done, close the valve again and re-enable fuel supplies."
+	content = "-Activate constrictors with an open hand ` -Open 'plasma input' valves to constrictors and set their pressure to 'MAX' ` -Assemble particle accelerator with a wrench, coil of wire and screwdriver. ` -Open reactor inlet valves and set their pressure to 'MAX'` `-Use the particle accelerator control console, set the setting to '2' and toggle its power `-When you have successfully started the reactor, it will begin emitting cherenkov radiation, giving off a 'blue glow' around the core. When the reactor is activated, turn off the particle accelerator to prevent power waste. `-It is recommended that engineers use control rod setting '2' for optimal power generation, however the control rods are not rated to withstand temperatures of over 200 degrees for long, and will thus require reinforcement with sheets of plasteel. ` If fuel fails to fill into the reactor, a backpressure surge has occurred. Turn off all inputs to the reactor and open the waste release valve with the reactor console to flush any air out of the system. When this is done, close the valve again and re-enable fuel supplies."
 
 /datum/lore_entry/nt/meltdown_proceedures
 	name = "meltdown_proceedures.ntmail"
@@ -242,6 +242,31 @@ SPECIAL KEYS RESPOND AS FOLLOWS:
 	path = null
 	content = "Welcome to the NT Guide for Production and Assembly of Fighter Craft 101 `This step by step guide will familiarise you with the process of producing fighter craft components and assembling them into a serviceable fighter for the NT fleet.` `WORD OF CAUTION: This proceedure requires cooperation from several departments.` `EXTRA WORD OF CAUTION: Spreading of rumours regarding this proceedure will lead to personal redaction of REDACTED` `@#g#!&40((%%%% -=FILE CORRUPTION DETECTED=- Let me make this simpler for you to read. ~PMV` `Start by ensuring the research division of your assigned vessel has the latest and most up to date blueprints available.` `Generate a requision request for required components (APPENDIX A) and deliver it to cargo for fabrication.` `Await requision delivery at arranged location.` `` `Step by step assembly proccedure follows:` `-Open and assemble Fighter Fuselage.` `-Wrench bolts on Fighter Fuselage.` `-Weld joints together on Fighter Fuselage.` `-Locate and attach Fighter Empennage.` `-Wrench bolts on Fighter Empennage.` `-Weld joints together on Fighter Empennage.` `-Locate and attach first Fighter Wing.` `-Wrench bolts on Fighter Wing.` `-Weld joints together on Fighter Wing.` `-Locate and attach second Fighter Wing.` `-Wrench bolts on Fighter Wing.` `-Weld joints together on Fighter Wing.` `-Locate and install Fighter Landing Gear.` `-Wrench bolts on Fighter Landing Gear.` `-Locate and install Fighter Armour Plating.` `-Screw Fighter Armour Plating in place.` `-Weld joints on Fighter Armour Plating.` `-Install wiring into the Fighter.` `-Calibrate wiring with Multitool.` `-Locate and install Fighter Fuel Tank.` `-Wrench bolts on Fighter Fuel Tank.` `-Locate and install Fighter Fuel Lines.` `-Wrench bolts on Fighter Fuel Lines.` `-Locate and install first Fighter Engine.` `-Weld joints on Fighter Engine.` `-Locate and install second Fighter Engine.` `-Calibrate both Fighter Engines with a multitool.` `-Locate and install Fighter Cockpit.` `-Screw Fighter Cockpit in place.` `-Wrench bolts on Fighter Cockpit.` `-Install additional wiring into the Fighter.` `-Locate and install Fighter Avionics.` `-Screw the Fighter Avionics in place.` `-Calibrate the Fighter Avionics with a multitool.` `-Locate and install Fighter Targeting Sensors.` `-Screw the Fighter Targeting Sensors in place.` `-Calibrate the Fighter Targeting Sensors with a multitool.` `-Apply paint scheme of choice for the Fighter.` `-Choose a name for the Fighter.` `` `Your new fighter should now be complete.` `Enter maintenance mode to install ship ordinance, make repairs and refuel the vessel.` `____________` `APPENDIX A` `____________` `Fighter Components:` `-Fighter Fuselage Components Crate x1` `-Fighter Cockpit Components Box x1` `-Fighter Wing Components Box x2` `-Fighter Empennage Components Box x1` `-Fighter Landing Gear Components Box x1` `-Fighter Armour Plating x1` `-Fighter Fuel Tank x1` `-Fighter Avionics x1` `-Fighter Targeting Sensors x1` `-Fighter Fuel Line Kit x1` `-Fighter Engine x2`"
 
+/datum/lore_entry/nt/fighters
+	name = "fighter_operations.ntdoc"
+	title = "Fighter operational proceedures"
+	path = null
+	content = "Pre flight checklist:`\
+	Hit ignition switch`\
+	Fuel pump switch`\
+	Engage battery`\
+	Engage APU`\
+	Disengage throttle lock`\
+	Throttle up VERY gently with brakes on so that engine takes over but you're still not moving.`\
+	Lock canopy to avoid hazardous space exposure`\
+	APU will automatically suspend, you are now flight ready.```\
+	-------------------`\
+	Shutdown sequence:`\
+	Throttle off + brakes on`\
+	Throttle lock on`\
+	Disengage battery`\
+	Disengage fuel pump (or engine gets flooded)`\
+	Turn off ignition```\
+	Vipers, Raptors and other small fighter craft run off of Tyrosene. This is standard fuel that's been enriched with extra hydrocarbons.`\
+	If you run out of fuel:`\
+	Activate the brakes and begin a shutdown of your fighter. Once you have received more fuel, begin startup sequence as expected. If you run out of fuel, you will be stuck adrift. It is highly recommended that you RTB when you hit 100 fuel as you'll have 30 seconds or so more burn time before you fizzle out.`\
+	Tyrosene production:`\
+	1 part hydrogen : 1 part carbon to make hydrocarbon heated to 333K. Mix hydrocarbon and welding fuel to produce tyrosene fuel and apply to tyrosene fuel tanks to allow for fighter refuel ops."
 
 /datum/lore_entry/away_example
 	title = "Intercepted log file"

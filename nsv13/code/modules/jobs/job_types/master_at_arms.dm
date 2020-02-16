@@ -11,7 +11,7 @@
 	supervisors = "the Captain"
 	selection_color = "#cc8899"
 	minimal_player_age = 7
-	exp_requirements = 300
+	exp_requirements = 180
 	exp_type = EXP_TYPE_CREW
 	exp_type_department = EXP_TYPE_MUNITIONS
 
@@ -43,28 +43,12 @@
 	head = /obj/item/clothing/head/soft
 	glasses = /obj/item/clothing/glasses/sunglasses
 	l_pocket = /obj/item/pda
+	backpack_contents = list(/obj/item/melee/classic_baton/telescopic=1)
 
 	backpack = /obj/item/storage/backpack/security
 	satchel = /obj/item/storage/backpack/satchel/sec
 	duffelbag = /obj/item/storage/backpack/duffelbag/sec
 	box = /obj/item/storage/box/security
-
-/obj/machinery/telecomms/server/presets/munitions //TELECOMMS HELL
-	id = "Munitions Server"
-	freq_listening = list(FREQ_MUNITIONS)
-	autolinkers = list("munitions")
-
-/obj/item/encryptionkey/master_at_arms
-	name = "master at arms radio encryption key"
-	icon_state = "sec_cypherkey"
-	channels = list(RADIO_CHANNEL_MUNITIONS = 1, RADIO_CHANNEL_SUPPLY = 1, RADIO_CHANNEL_COMMAND = 1, RADIO_CHANNEL_ATC = 1)
-	independent = TRUE
-
-/obj/item/radio/headset/headset_sec/alt/master_at_arms
-	name = "master at arms radio headset"
-	desc = "Use :w to access the department frequency. Use :u to access the supply frequency. Use :c to access the command frequency. Use :q to access the ATC frequency."
-	icon_state = "sec_headset"
-	keyslot = new /obj/item/encryptionkey/master_at_arms
 
 /obj/effect/landmark/start/master_at_arms
 	name = "Master At Arms"

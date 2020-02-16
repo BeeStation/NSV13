@@ -8,6 +8,8 @@
 	spawn_positions = 1
 	supervisors = "the Master At Arms"
 	selection_color = "#d692a3"
+	exp_requirements = 30
+	exp_type = EXP_TYPE_CREW
 	exp_type_department = EXP_TYPE_MUNITIONS
 
 	outfit = /datum/outfit/job/air_traffic_controller
@@ -30,19 +32,8 @@
 	head = /obj/item/clothing/head/beret/ship/pilot
 	gloves = /obj/item/clothing/gloves/color/brown
 	shoes = /obj/item/clothing/shoes/jackboots
+	r_pocket = /obj/item/flashlight/atc_wavy_sticks
 
 /obj/effect/landmark/start/air_traffic_controller
 	name = "Air Traffic Controller"
 	icon_state = "Air Traffic Controller"
-
-/obj/item/encryptionkey/atc
-	name = "air traffic control radio encryption key"
-	icon_state = "sec_cypherkey"
-	channels = list(RADIO_CHANNEL_ATC = 1, RADIO_CHANNEL_MUNITIONS = 1, RADIO_CHANNEL_COMMAND = 1)
-	independent = TRUE
-
-/obj/item/radio/headset/headset_sec/alt/atc
-	name = "air traffic controller radio headset"
-	desc = "A headset capable of accessing the Nanotrasen blue channel via a special DRADIS satellite uplink, allowing fighter pilots to communicate from anywhere inside of Nanotrasen's airspace. Use :q to access the air traffic control frequency. Use :w to access the department frequency. Use :c to access the command department frequency."
-	icon_state = "sec_headset"
-	keyslot = new /obj/item/encryptionkey/atc

@@ -11,7 +11,8 @@ SUBSYSTEM_DEF(economy)
 										ACCOUNT_MED = ACCOUNT_MED_NAME,
 										ACCOUNT_SRV = ACCOUNT_SRV_NAME,
 										ACCOUNT_CAR = ACCOUNT_CAR_NAME,
-										ACCOUNT_SEC = ACCOUNT_SEC_NAME)
+										ACCOUNT_SEC = ACCOUNT_SEC_NAME,
+										ACCOUNT_MUN = ACCOUNT_MUN_NAME) //NSV13 Munitions Department added
 	var/list/generated_accounts = list()
 	var/full_ancap = FALSE // Enables extra money charges for things that normally would be free, such as sleepers/cryo/cloning.
 							//Take care when enabling, as players will NOT respond well if the economy is set up for low cash flows.
@@ -59,6 +60,7 @@ SUBSYSTEM_DEF(economy)
 	boring_sci_payout() // Payout based on slimes.
 	boring_secmedsrv_payout() // Payout based on crew safety, health, and mood.
 	boring_civ_payout() // Payout based on ??? Profit
+	boring_mun_payout() // NSV13 Munitions Department - based on ???
 	for(var/A in bank_accounts)
 		var/datum/bank_account/B = A
 		B.payday(1)
@@ -105,11 +107,11 @@ SUBSYSTEM_DEF(economy)
 						D.adjust_money(medical_cash)
 		if(ishostile(m))
 			var/mob/living/simple_animal/hostile/H = m
-			if(H.stat == DEAD && H.z in SSmapping.levels_by_trait(ZTRAIT_STATION))
+			if(H.stat == DEAD && (H.z in SSmapping.levels_by_trait(ZTRAIT_STATION)))
 				dead_monsters++
 		CHECK_TICK
-	var/fuck = alive_crew / crew
-	cash_to_grant = (crew_safety_bounty * fuck) + (monster_bounty * dead_monsters)
+	var/alive_check = alive_crew / crew //NSV13 - Watch your language
+	cash_to_grant = (crew_safety_bounty * alive_check) + (monster_bounty * dead_monsters) //NSV13 - Watch your language
 	var/datum/bank_account/D = get_dep_account(ACCOUNT_SEC)
 	if(D)
 		D.adjust_money(cash_to_grant)
@@ -128,3 +130,9 @@ SUBSYSTEM_DEF(economy)
 	var/datum/bank_account/D = get_dep_account(ACCOUNT_CIV)
 	if(D)
 		D.adjust_money((rand(1,5) * 500))
+
+/datum/controller/subsystem/economy/proc/boring_mun_payout()
+	var/munitions_cash = 3000
+	var/datum/bank_account/D = get_dep_account(ACCOUNT_MUN)
+	if(D)
+		D.adjust_money(munitions_cash)

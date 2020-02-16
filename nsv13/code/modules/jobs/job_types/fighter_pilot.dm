@@ -6,8 +6,10 @@
 	faction = "Station"
 	total_positions = 4
 	spawn_positions = 4
-	supervisors = "the CAG"
+	supervisors = "the Flight Leader"
 	selection_color = "#d692a3"
+	exp_requirements = 60
+	exp_type = EXP_TYPE_CREW
 	exp_type_department = EXP_TYPE_MUNITIONS
 
 	outfit = /datum/outfit/job/fighter_pilot
@@ -19,18 +21,6 @@
 
 	display_order = JOB_DISPLAY_ORDER_FIGHTER_PILOT
 //add support for callsigns here
-
-/obj/item/encryptionkey/pilot
-	name = "fighter pilot radio encryption key"
-	icon_state = "sec_cypherkey"
-	channels = list(RADIO_CHANNEL_ATC = 1, RADIO_CHANNEL_MUNITIONS = 1)
-	independent = TRUE
-
-/obj/item/radio/headset/headset_sec/alt/pilot
-	name = "pilot radio headset"
-	desc = "A headset capable of accessing the Nanotrasen blue channel via a special DRADIS satellite uplink, allowing fighter pilots to communicate from anywhere inside of Nanotrasen's airspace. Use :q to access the air traffic control frequency. Use :w to access the department frequency while on the ship."
-	icon_state = "sec_headset"
-	keyslot = new /obj/item/encryptionkey/pilot
 
 /datum/outfit/job/fighter_pilot
 	name = "Fighter Pilot"
@@ -53,8 +43,8 @@
 	name = "Fighter Pilot"
 	icon_state = "Fighter Pilot"
 
-/datum/job/cag //"Commander Air Group" AKA chief fighter pilot
-	title = "CAG"
+/datum/job/cag //"Commander Air Group" AKA chief fighter pilot - We can't have nice things
+	title = "Flight Leader"
 	flag = CAG
 	department_head = list("Master At Arms")
 	department_flag = ENGSEC
@@ -63,6 +53,8 @@
 	spawn_positions = 1
 	supervisors = "the Master At Arms"
 	selection_color = "#d692a3"
+	exp_requirements = 120
+	exp_type = EXP_TYPE_CREW
 	exp_type_department = EXP_TYPE_MUNITIONS
 
 	outfit = /datum/outfit/job/cag
@@ -75,7 +67,7 @@
 	display_order = JOB_DISPLAY_ORDER_CAG
 
 /datum/outfit/job/cag
-	name = "CAG"
+	name = "Flight Leader"
 	jobtype = /datum/job/cag
 
 	ears = /obj/item/radio/headset/headset_sec/alt/pilot
@@ -94,10 +86,5 @@
 	r_pocket = /obj/item/tank/internals/emergency_oxygen/double
 
 /obj/effect/landmark/start/cag
-	name = "CAG"
+	name = "Flight Leader"
 	icon_state = "CAG"
-
-/obj/machinery/suit_storage_unit/pilot
-	suit_type = /obj/item/clothing/suit/space/hardsuit/pilot
-	mask_type = /obj/item/clothing/mask/breath
-	storage_type = /obj/item/tank/internals/emergency_oxygen/double

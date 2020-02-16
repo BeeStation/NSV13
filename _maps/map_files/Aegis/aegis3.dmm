@@ -11,6 +11,19 @@
 /obj/machinery/light/runway,
 /turf/open/space/basic,
 /area/space/nearstation)
+"ad" = (
+/obj/machinery/camera/autoname,
+/obj/machinery/light{
+	dir = 1
+	},
+/obj/machinery/computer/ship/munitions_computer{
+	dir = 8;
+	icon_state = "munitions_console"
+	},
+/turf/open/floor/engine,
+/area/hallway/secondary/construction{
+	name = "Munitions"
+	})
 "ae" = (
 /obj/structure/lattice,
 /obj/machinery/light/runway/delay2,
@@ -389,6 +402,15 @@
 /obj/structure/sign/warning/vacuum,
 /turf/closed/wall/ship,
 /area/hallway/secondary/entry)
+"be" = (
+/obj/machinery/computer/ship/munitions_computer{
+	dir = 8;
+	icon_state = "munitions_console"
+	},
+/turf/open/floor/engine,
+/area/hallway/secondary/construction{
+	name = "Munitions"
+	})
 "bf" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
@@ -773,6 +795,15 @@
 /area/nsv/hanger/deck2/starboard{
 	name = "Launch tubes 1 and 2"
 	})
+"bV" = (
+/obj/machinery/computer/ship/munitions_computer{
+	dir = 8;
+	icon_state = "munitions_console"
+	},
+/turf/open/floor/plating,
+/area/hallway/secondary/construction{
+	name = "Munitions"
+	})
 "bW" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
@@ -1059,6 +1090,16 @@
 	},
 /turf/open/floor/plasteel/ship/padded,
 /area/hallway/nsv/deck3/frame3/port)
+"cs" = (
+/obj/machinery/light,
+/obj/machinery/computer/ship/munitions_computer{
+	dir = 8;
+	icon_state = "munitions_console"
+	},
+/turf/open/floor/engine,
+/area/hallway/secondary/construction{
+	name = "Munitions"
+	})
 "cu" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	icon_state = "pipe11-1";
@@ -4165,26 +4206,13 @@
 	name = "Hangar bay"
 	})
 "iW" = (
-/obj/structure/pdc_mount,
-/turf/open/floor/engine,
-/area/hallway/secondary/construction{
-	name = "Munitions"
-	})
-"iX" = (
-/obj/machinery/camera/autoname,
-/obj/machinery/light{
-	dir = 1
-	},
-/obj/machinery/computer/ship/munitions_computer{
-	icon_state = "munitions_console";
-	dir = 4
-	},
+/obj/machinery/ship_weapon/pdc_mount,
 /turf/open/floor/engine,
 /area/hallway/secondary/construction{
 	name = "Munitions"
 	})
 "iY" = (
-/obj/structure/ship_weapon/torpedo_launcher{
+/obj/machinery/ship_weapon/torpedo_launcher{
 	pixel_y = -72
 	},
 /turf/open/floor/engine,
@@ -4766,7 +4794,6 @@
 /turf/open/floor/plating,
 /area/engine/engineering)
 "kp" = (
-/obj/machinery/power/magnetic_constrictor,
 /obj/effect/turf_decal/stripes/line{
 	dir = 1
 	},
@@ -5398,14 +5425,14 @@
 /obj/machinery/light{
 	dir = 1
 	},
-/obj/item/torpedo/guidance_system,
-/obj/item/torpedo/guidance_system,
-/obj/item/torpedo/guidance_system,
-/obj/item/torpedo/guidance_system,
-/obj/item/torpedo/iff_card,
-/obj/item/torpedo/iff_card,
-/obj/item/torpedo/iff_card,
-/obj/item/torpedo/iff_card,
+/obj/item/ship_weapon/parts/torpedo/guidance_system,
+/obj/item/ship_weapon/parts/torpedo/guidance_system,
+/obj/item/ship_weapon/parts/torpedo/guidance_system,
+/obj/item/ship_weapon/parts/torpedo/guidance_system,
+/obj/item/ship_weapon/parts/torpedo/iff_card,
+/obj/item/ship_weapon/parts/torpedo/iff_card,
+/obj/item/ship_weapon/parts/torpedo/iff_card,
+/obj/item/ship_weapon/parts/torpedo/iff_card,
 /turf/open/floor/plasteel/ship/padded,
 /area/hallway/secondary/construction{
 	name = "Munitions"
@@ -5413,16 +5440,16 @@
 "lr" = (
 /obj/structure/table/reinforced,
 /obj/item/stack/sheet/iron/twenty,
-/obj/item/torpedo/propulsion_system,
-/obj/item/torpedo/propulsion_system,
-/obj/item/torpedo/propulsion_system,
-/obj/item/torpedo/propulsion_system,
-/obj/item/torpedo/warhead,
-/obj/item/torpedo/warhead,
-/obj/item/torpedo/warhead/decoy,
-/obj/item/torpedo/warhead/decoy,
-/obj/item/torpedo/warhead/decoy,
-/obj/item/torpedo/warhead/lightweight,
+/obj/item/ship_weapon/parts/torpedo/propulsion_system,
+/obj/item/ship_weapon/parts/torpedo/propulsion_system,
+/obj/item/ship_weapon/parts/torpedo/propulsion_system,
+/obj/item/ship_weapon/parts/torpedo/propulsion_system,
+/obj/item/ship_weapon/parts/torpedo/warhead,
+/obj/item/ship_weapon/parts/torpedo/warhead,
+/obj/item/ship_weapon/parts/torpedo/warhead/decoy,
+/obj/item/ship_weapon/parts/torpedo/warhead/decoy,
+/obj/item/ship_weapon/parts/torpedo/warhead/decoy,
+/obj/item/ship_weapon/parts/torpedo/warhead/lightweight,
 /obj/structure/sign/warning/explosives/alt{
 	pixel_y = 26
 	},
@@ -5478,7 +5505,7 @@
 /obj/machinery/light{
 	dir = 1
 	},
-/obj/structure/munition/torpedo_casing,
+/obj/item/ship_weapon/ammunition/torpedo/torpedo_casing,
 /obj/machinery/requests_console{
 	pixel_y = 26
 	},
@@ -5505,15 +5532,6 @@
 	name = "Munitions"
 	})
 "lz" = (
-/turf/open/floor/engine,
-/area/hallway/secondary/construction{
-	name = "Munitions"
-	})
-"lA" = (
-/obj/machinery/computer/ship/munitions_computer{
-	icon_state = "munitions_console";
-	dir = 4
-	},
 /turf/open/floor/engine,
 /area/hallway/secondary/construction{
 	name = "Munitions"
@@ -8714,17 +8732,8 @@
 /area/hallway/secondary/construction{
 	name = "Munitions"
 	})
-"qR" = (
-/obj/machinery/computer/ship/munitions_computer{
-	icon_state = "munitions_console";
-	dir = 4
-	},
-/turf/open/floor/plating,
-/area/hallway/secondary/construction{
-	name = "Munitions"
-	})
 "qS" = (
-/obj/structure/ship_weapon/railgun{
+/obj/machinery/ship_weapon/railgun{
 	icon_state = "OBC";
 	dir = 4
 	},
@@ -9569,11 +9578,11 @@
 	})
 "sA" = (
 /obj/structure/closet/crate,
-/obj/item/twohanded/required/railgun_ammo,
-/obj/item/twohanded/required/railgun_ammo,
-/obj/item/twohanded/required/railgun_ammo,
-/obj/item/twohanded/required/railgun_ammo,
-/obj/item/twohanded/required/railgun_ammo,
+/obj/item/ship_weapon/ammunition/railgun_ammo,
+/obj/item/ship_weapon/ammunition/railgun_ammo,
+/obj/item/ship_weapon/ammunition/railgun_ammo,
+/obj/item/ship_weapon/ammunition/railgun_ammo,
+/obj/item/ship_weapon/ammunition/railgun_ammo,
 /obj/structure/sign/warning/explosives/alt{
 	pixel_y = 26
 	},
@@ -9582,11 +9591,11 @@
 	name = "Munitions"
 	})
 "sB" = (
-/obj/item/twohanded/required/railgun_ammo,
-/obj/item/twohanded/required/railgun_ammo{
+/obj/item/ship_weapon/ammunition/railgun_ammo,
+/obj/item/ship_weapon/ammunition/railgun_ammo{
 	pixel_y = 8
 	},
-/obj/item/twohanded/required/railgun_ammo{
+/obj/item/ship_weapon/ammunition/railgun_ammo{
 	pixel_y = -8
 	},
 /obj/structure/rack,
@@ -9595,11 +9604,11 @@
 	name = "Munitions"
 	})
 "sC" = (
-/obj/item/twohanded/required/railgun_ammo,
-/obj/item/twohanded/required/railgun_ammo{
+/obj/item/ship_weapon/ammunition/railgun_ammo,
+/obj/item/ship_weapon/ammunition/railgun_ammo{
 	pixel_y = 8
 	},
-/obj/item/twohanded/required/railgun_ammo{
+/obj/item/ship_weapon/ammunition/railgun_ammo{
 	pixel_y = -8
 	},
 /obj/structure/rack,
@@ -9632,12 +9641,12 @@
 	})
 "sF" = (
 /obj/structure/closet/crate,
-/obj/item/twohanded/required/railgun_ammo,
-/obj/item/twohanded/required/railgun_ammo,
-/obj/item/twohanded/required/railgun_ammo,
-/obj/item/twohanded/required/railgun_ammo,
-/obj/item/twohanded/required/railgun_ammo,
-/obj/item/twohanded/required/railgun_ammo,
+/obj/item/ship_weapon/ammunition/railgun_ammo,
+/obj/item/ship_weapon/ammunition/railgun_ammo,
+/obj/item/ship_weapon/ammunition/railgun_ammo,
+/obj/item/ship_weapon/ammunition/railgun_ammo,
+/obj/item/ship_weapon/ammunition/railgun_ammo,
+/obj/item/ship_weapon/ammunition/railgun_ammo,
 /turf/open/floor/plating,
 /area/hallway/secondary/construction{
 	name = "Munitions"
@@ -10473,7 +10482,6 @@
 /turf/open/floor/plating,
 /area/engine/engineering)
 "ug" = (
-/obj/machinery/power/magnetic_constrictor,
 /obj/effect/turf_decal/stripes/line,
 /obj/machinery/atmospherics/components/binary/pump/on{
 	dir = 8;
@@ -10836,12 +10844,12 @@
 	})
 "va" = (
 /obj/structure/closet/crate,
-/obj/item/twohanded/required/railgun_ammo,
-/obj/item/twohanded/required/railgun_ammo,
-/obj/item/twohanded/required/railgun_ammo,
-/obj/item/twohanded/required/railgun_ammo,
-/obj/item/twohanded/required/railgun_ammo,
-/obj/item/twohanded/required/railgun_ammo,
+/obj/item/ship_weapon/ammunition/railgun_ammo,
+/obj/item/ship_weapon/ammunition/railgun_ammo,
+/obj/item/ship_weapon/ammunition/railgun_ammo,
+/obj/item/ship_weapon/ammunition/railgun_ammo,
+/obj/item/ship_weapon/ammunition/railgun_ammo,
+/obj/item/ship_weapon/ammunition/railgun_ammo,
 /obj/item/ammo_box/magazine/pdc{
 	pixel_y = 8
 	},
@@ -10859,9 +10867,9 @@
 	name = "Munitions"
 	})
 "vb" = (
-/obj/structure/munition,
+/obj/item/ship_weapon/ammunition/torpedo,
 /obj/machinery/light,
-/obj/structure/munition{
+/obj/item/ship_weapon/ammunition/torpedo{
 	pixel_y = 8
 	},
 /turf/open/floor/plating,
@@ -10878,8 +10886,8 @@
 	name = "Munitions"
 	})
 "vd" = (
-/obj/structure/munition,
-/obj/structure/munition{
+/obj/item/ship_weapon/ammunition/torpedo,
+/obj/item/ship_weapon/ammunition/torpedo{
 	pixel_y = 8
 	},
 /turf/open/floor/plating,
@@ -10900,11 +10908,11 @@
 	})
 "vf" = (
 /obj/structure/closet/crate,
-/obj/item/twohanded/required/railgun_ammo,
-/obj/item/twohanded/required/railgun_ammo,
-/obj/item/twohanded/required/railgun_ammo,
-/obj/item/twohanded/required/railgun_ammo,
-/obj/item/twohanded/required/railgun_ammo,
+/obj/item/ship_weapon/ammunition/railgun_ammo,
+/obj/item/ship_weapon/ammunition/railgun_ammo,
+/obj/item/ship_weapon/ammunition/railgun_ammo,
+/obj/item/ship_weapon/ammunition/railgun_ammo,
+/obj/item/ship_weapon/ammunition/railgun_ammo,
 /obj/item/ammo_box/magazine/pdc{
 	pixel_y = 8
 	},
@@ -11885,16 +11893,6 @@
 /turf/open/floor/plasteel/ship/padded,
 /area/nsv/hanger{
 	name = "Hangar bay"
-	})
-"xp" = (
-/obj/machinery/light,
-/obj/machinery/computer/ship/munitions_computer{
-	icon_state = "munitions_console";
-	dir = 4
-	},
-/turf/open/floor/engine,
-/area/hallway/secondary/construction{
-	name = "Munitions"
 	})
 "xq" = (
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on{
@@ -68313,7 +68311,7 @@ kb
 lz
 mW
 oS
-qR
+bV
 oS
 tV
 lz
@@ -68565,17 +68563,17 @@ QA
 GR
 XM
 hq
-iX
+ad
 kb
-lA
+be
 mW
 oS
 qS
 oS
 tV
-lA
+be
 kb
-xp
+cs
 hq
 JJ
 LS
