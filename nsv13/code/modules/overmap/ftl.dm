@@ -1,3 +1,13 @@
+/datum/starsystem/proc/transfer_ship(obj/structure/overmap/OM)
+	var/turf/destination
+	for(var/z in SSmapping.levels_by_trait(level_trait))
+		destination = get_turf(locate(round(world.maxx * 0.5, 1), round(world.maxy * 0.5, 1), z)) //Plop them bang in the center of the system.
+	if(!destination)
+		message_admins("WARNING: The [name] system has no exit point for ships! You probably forgot to set the [level_trait]:1 setting for that Z in your map's JSON file.")
+		return
+	OM.forceMove(destination)
+	OM.current_system = src
+
 /obj/structure/overmap/proc/begin_jump(datum/starsystem/target_system)
 	relay_to_nearby('nsv13/sound/effects/ship/FTL.ogg', null, ignore_self=TRUE)//Ships just hear a small "crack" when another one jumps
 	relay('nsv13/sound/effects/ship/FTL_long.ogg')

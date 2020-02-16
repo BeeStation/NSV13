@@ -9,21 +9,34 @@ SUBSYSTEM_DEF(starsystem)
 	var/datum/starsystem/hyperspace //The transit level for ships
 	var/bounty_pool = 0 //Bounties pool to be delivered for destroying syndicate ships
 
-/datum/controller/subsystem/starsystem/fire()
+/datum/controller/subsystem/starsystem/fire() //Overmap combat events control system, adds weight to combat events over time spent out of combat
 	if(last_combat_enter + (5000 + (1000 * modifier)) < world.time) //Checking the last time we started combat with the current time
-		var/datum/round_event_control/overmap_test_one/OTO = locate(/datum/round_event_control/overmap_test_one) in SSevents.control //Overmap combat events
-		if(istype(OTO))
-			OTO.weight += 1 //Increment probabilty via SSEvent
-			modifier += 1 //Increment time step
-			if(modifier == 10)
-				priority_announce("PLACEHOLDER") //Warn players for taking too long
-			if(OTO.weight % 5 == 0)
-				message_admins("The ship has been out of combat for [last_combat_enter]. The weight of [OTO.name] is now [OTO.weight]")
-				log_game("The ship has been out of combat for [last_combat_enter]. The weight of [OTO.name] is now [OTO.weight]")
+		var/datum/round_event_control/lone_hunter/LH = locate(/datum/round_event_control/lone_hunter) in SSevents.control
+		var/datum/round_event_control/belt_rats/BR = locate(/datum/round_event_control/belt_rats) in SSevents.control
+		modifier += 1 //Increment time step
+		if(modifier == 10)
+			priority_announce("PLACEHOLDER") //Warn players for idleing too long
+		if(istype(LH))
+			LH.weight += 1 //Increment probabilty via SSEvent
+			if(LH.weight % 5 == 0)
+				message_admins("The ship has been out of combat for [last_combat_enter]. The weight of [LH.name] is now [LH.weight]")
+				log_game("The ship has been out of combat for [last_combat_enter]. The weight of [LH.name] is now [LH.weight]")
+		if(istype(BR))
+			BR.weight += 1 //Increment probabilty via SSEvent
+			if(BR.weight % 5 == 0)
+				message_admins("The ship has been out of combat for [last_combat_enter]. The weight of [BR.name] is now [BR.weight]")
+				log_game("The ship has been out of combat for [last_combat_enter]. The weight of [BR.name] is now [BR.weight]")
 
 /datum/controller/subsystem/starsystem/proc/event_info() //debugging output
-	var/datum/round_event_control/overmap_test_one/OTO = locate(/datum/round_event_control/overmap_test_one) in SSevents.control
-	message_admins("Current time: [world.time] | Last Combat: [last_combat_enter] | Modifier: [modifier] | [OTO.name]: [OTO.weight]")
+	var/datum/round_event_control/lone_hunter/LH = locate(/datum/round_event_control/lone_hunter) in SSevents.control
+	var/datum/round_event_control/belt_rats/BR = locate(/datum/round_event_control/belt_rats) in SSevents.control
+	message_admins("Current time: [world.time] | Last Combat: [last_combat_enter] | Modifier: [modifier] | [LH.name]: [LH.weight] | [BR.name]: [BR.weight]")
+
+/datum/controller/subsystem/starsystem/proc/weighting_reset() //All overmap combat events need to be populated in this proc
+	var/datum/round_event_control/lone_hunter/LH = locate(/datum/round_event_control/lone_hunter) in SSevents.control
+	var/datum/round_event_control/belt_rats/BR = locate(/datum/round_event_control/belt_rats) in SSevents.control
+	LH.weight = 0
+	BR.weight = 0
 
 /datum/controller/subsystem/starsystem/New()
 	. = ..()
@@ -59,12 +72,16 @@ SUBSYSTEM_DEF(starsystem)
 				break
 	return found
 
-/datum/controller/subsystem/starsystem/proc/modular_spawn_enemies(obj/structure/overmap/OM, var/location)//Select Ship to Spawn and Location via Z-Trait
+/datum/controller/subsystem/starsystem/proc/modular_spawn_enemies(obj/structure/overmap/OM, datum/starsystem/target_sys)//Select Ship to Spawn and Location via Z-Trait
+	message_admins("OM = [OM]")
+	message_admins("target_sys = [target_sys]")
 	for(var/datum/starsystem/starsys in systems)
-		for(location in SSmapping.levels_by_trait(starsys.level_trait))
-			var/turf/exit = get_turf(locate(round(world.maxx * 0.5, 1), round(world.maxy * 0.5, 1), location)) //Plop them bang in the center of the system.
-			var/turf/destination = get_turf(pick(orange(20,exit)))
-			new OM(destination)
+		for(var/datum/starsystem/starsys_ztrait in SSmapping.levels_by_trait(starsys.level_trait))
+			if(starsys_ztrait == target_sys)
+				var/turf/exit = get_turf(locate(round(world.maxx * 0.5, 1), round(world.maxy * 0.5, 1), target_sys)) //Plop them bang in the center of the system.
+				var/turf/destination = get_turf(pick(orange(20,exit)))
+				var/obj/structure/overmap/enemy = new OM(destination)
+				target_sys.add_enemy(enemy)
 
 ///////BOUNTIES//////
 
@@ -72,7 +89,7 @@ SUBSYSTEM_DEF(starsystem)
 	cycle_bounty_timer()
 	if(bounty_pool == 0) //No need to spam when there is no cashola payout
 		return
-	priority_announce("Bounty Payment Processed") //Temp - replace words and methods
+	priority_announce("Bounty Payment Processed", "Naval Command") //Temp - replace words and methods
 	var/split_bounty = bounty_pool / 2 //Split between our two accounts
 	var/datum/bank_account/D = SSeconomy.get_dep_account(ACCOUNT_CAR)
 	D.adjust_money(split_bounty)
@@ -156,6 +173,10 @@ SUBSYSTEM_DEF(starsystem)
 			RegisterSignal(enemy, COMSIG_PARENT_QDELETING , .proc/remove_enemy, enemy) //Add a listener component to check when a ship is killed, and thus check if the incursion is cleared.
 	return TRUE
 
+/datum/starsystem/proc/add_enemy(obj/structure/overmap/OM)
+	enemies_in_system += OM
+	RegisterSignal(OM, COMSIG_PARENT_QDELETING , .proc/remove_enemy, OM)
+
 /datum/starsystem/proc/remove_enemy(var/obj/structure/overmap/OM) //Method to remove an enemy from the list of active threats in a system
 	enemies_in_system -= OM
 	check_completion()
@@ -163,17 +184,12 @@ SUBSYSTEM_DEF(starsystem)
 /datum/starsystem/proc/check_completion() //Method to check if the ship has completed their active mission or not
 	if(!enemies_in_system.len)
 		priority_announce("All Syndicate targets in [src] have been dispatched. Return to standard patrol duties.", "Naval Command")
-/*
-		var/split_reward = reward / 2
-		var/datum/bank_account/D = SSeconomy.get_dep_account(ACCOUNT_CAR)
-		D.adjust_money(split_reward)
-		var/datum/bank_account/DD = SSeconomy.get_dep_account(ACCOUNT_MUN)
-		DD.adjust_money(split_reward)
-*/
 		SSstarsystem?.set_timer()
 		return TRUE
 	else
 		return FALSE
+
+//////STARSYSTEM LIST///////
 
 /datum/starsystem/astraeus
 	name = "Astraeus"
@@ -186,13 +202,3 @@ SUBSYSTEM_DEF(starsystem)
 	parallax_property = "icefield"
 	level_trait = ZTRAIT_CORVI
 	visitable = TRUE
-
-/datum/starsystem/proc/transfer_ship(obj/structure/overmap/OM)
-	var/turf/destination
-	for(var/z in SSmapping.levels_by_trait(level_trait))
-		destination = get_turf(locate(round(world.maxx * 0.5, 1), round(world.maxy * 0.5, 1), z)) //Plop them bang in the center of the system.
-	if(!destination)
-		message_admins("WARNING: The [name] system has no exit point for ships! You probably forgot to set the [level_trait]:1 setting for that Z in your map's JSON file.")
-		return
-	OM.forceMove(destination)
-	OM.current_system = src
