@@ -14,7 +14,6 @@
 	w_class = WEIGHT_CLASS_SMALL
 	grind_results = list(/datum/reagent/silicon = 20)
 	var/build_path = null
-	var/directional_build = FALSE //NSV13 - do we want the machine to have the frame's dir?
 
 /obj/item/circuitboard/proc/apply_default_parts(obj/machinery/M)
 	return
