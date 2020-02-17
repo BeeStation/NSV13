@@ -5,7 +5,7 @@
 	ask_verb = "puffs inquisitively"
 	exclaim_verb = "poofs loudly"
 	whisper_verb = "puffs quietly"
-	sing_verb = "puffs musically"
+	sing_verb = "puffs musically" //nsv13
 	key = "y"
 	sentence_chance = 0
 	default_priority = 80

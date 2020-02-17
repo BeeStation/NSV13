@@ -4,7 +4,7 @@
 	speech_verb = "chimpers"
 	ask_verb = "chimpers"
 	exclaim_verb = "screeches"
-	sing_verb = "chimpers tunefully"
+	sing_verb = "chimpers tunefully" //nsv13
 	key = "1"
 	space_chance = 100
 	syllables = list("oop", "aak", "chee", "eek")

@@ -4,7 +4,7 @@
 	speech_verb = "says"
 	ask_verb = "asks"
 	exclaim_verb = "exclaims"
-	sing_verb = "shanties"
+	sing_verb = "shanties" //nsv13
 	key = "p"
 	space_chance = 100
 	default_priority = 90

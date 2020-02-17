@@ -4,7 +4,7 @@
 	speech_verb = "hisses"
 	ask_verb = "hisses"
 	exclaim_verb = "hisses"
-	sing_verb = "hisses musically"
+	sing_verb = "hisses musically" //nsv13
 	key = "4"
 	syllables = list("sss","sSs","SSS")
 	default_priority = 50

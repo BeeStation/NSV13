@@ -3,8 +3,8 @@
 	desc = "The ancient, blood-soaked, impossibly complex language of Nar'Sian cultists."
 	speech_verb = "intones"
 	ask_verb = "inquires"
-	exclaim_verb = "invokes"
-	sing_verb = "intones"
+	exclaim_verb = "invokes" 
+	sing_verb = "intones" //nsv13
 	key = "n"
 	sentence_chance = 8
 	space_chance = 95 //very high due to the potential length of each syllable

@@ -4,7 +4,7 @@
 	speech_verb = "chitters"
 	ask_verb = "chitters inquisitively"
 	exclaim_verb = "chitters loudly"
-	sing_verb = "chimes"
+	sing_verb = "chimes" //nsv13
 	spans = list(SPAN_ROBOT)
 	key = "d"
 	flags = NO_STUTTER

@@ -45,7 +45,7 @@
 
 #define MODE_MONKEY "monkeyhive"
 
-#define MODE_SING "%"
+#define MODE_SING "%" //nsv13
 
 //Spans. Robot speech, italics, etc. Applied in compose_message().
 #define SPAN_ROBOT "robot"
@@ -56,7 +56,7 @@
 #define SPAN_REALLYBIG "reallybig"
 #define SPAN_COMMAND "command_headset"
 #define SPAN_CLOWN "clown"
-#define SPAN_SINGING "singing"
+#define SPAN_SINGING "singing" //nsv13
 
 //bitflag #defines for return value of the radio() proc.
 #define ITALICS 1
