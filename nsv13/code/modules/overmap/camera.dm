@@ -60,6 +60,7 @@
 	if(eyeobj?.off_action)
 		qdel(eyeobj.off_action)
 	M.cancel_camera()
+	M.remote_control = null
 	return TRUE
 
 /obj/structure/overmap/proc/CreateEye(mob/user)
