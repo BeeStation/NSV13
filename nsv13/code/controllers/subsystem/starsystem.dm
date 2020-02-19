@@ -4,7 +4,7 @@ SUBSYSTEM_DEF(starsystem)
 	wait = 10
 	flags = SS_NO_INIT
 	var/last_combat_enter = 0 //Last time an AI controlled ship attacked the players
-	var/modifier = 0
+	var/modifier = 0 //Time step modifier for overmap combat
 	var/list/systems = list()
 	var/datum/starsystem/hyperspace //The transit level for ships
 	var/bounty_pool = 0 //Bounties pool to be delivered for destroying syndicate ships
@@ -15,7 +15,10 @@ SUBSYSTEM_DEF(starsystem)
 		var/datum/round_event_control/belt_rats/BR = locate(/datum/round_event_control/belt_rats) in SSevents.control
 		modifier += 1 //Increment time step
 		if(modifier == 10)
-			priority_announce("PLACEHOLDER") //Warn players for idleing too long
+			var/message = pick(	"This is Centcomm to all vessels assigned to patrol the Astraeus-Corvi routes, please continue on your patrol route", \
+								"This is Centcomm to all vessels assigned to patrol the Astraeus-Corvi routes, we are not paying you to idle in space during your assigned patrol schedule", \
+								"This is Centcomm to the patrol vessel currently assigned to the Astraeus-Corvi route, you are expected to fulfill your assigned mission")
+			priority_announce("[message]", "Naval Command") //Warn players for idleing too long
 		if(istype(LH))
 			LH.weight += 1 //Increment probabilty via SSEvent
 			if(LH.weight % 5 == 0)
@@ -27,7 +30,7 @@ SUBSYSTEM_DEF(starsystem)
 				message_admins("The ship has been out of combat for [last_combat_enter]. The weight of [BR.name] is now [BR.weight]")
 				log_game("The ship has been out of combat for [last_combat_enter]. The weight of [BR.name] is now [BR.weight]")
 
-/datum/controller/subsystem/starsystem/proc/event_info() //debugging output
+/datum/controller/subsystem/starsystem/proc/event_info() //Admin command for debugging output
 	var/datum/round_event_control/lone_hunter/LH = locate(/datum/round_event_control/lone_hunter) in SSevents.control
 	var/datum/round_event_control/belt_rats/BR = locate(/datum/round_event_control/belt_rats) in SSevents.control
 	message_admins("Current time: [world.time] | Last Combat: [last_combat_enter] | Modifier: [modifier] | [LH.name]: [LH.weight] | [BR.name]: [BR.weight]")
@@ -43,8 +46,8 @@ SUBSYSTEM_DEF(starsystem)
 	instantiate_systems()
 
 /datum/controller/subsystem/starsystem/proc/instantiate_systems()
-	set_timer()
-	cycle_bounty_timer()
+	cycle_gameplay_loop() //Start the gameplay loop
+	cycle_bounty_timer() //Start the bounty timers
 	var/datum/starsystem/SS = new
 	hyperspace = SS //First system defaults to "hyperspace" AKA transit.
 	for(var/instance in subtypesof(/datum/starsystem))
@@ -73,15 +76,18 @@ SUBSYSTEM_DEF(starsystem)
 	return found
 
 /datum/controller/subsystem/starsystem/proc/modular_spawn_enemies(obj/structure/overmap/OM, datum/starsystem/target_sys)//Select Ship to Spawn and Location via Z-Trait
-	message_admins("OM = [OM]")
-	message_admins("target_sys = [target_sys]")
-	for(var/datum/starsystem/starsys in systems)
-		for(var/datum/starsystem/starsys_ztrait in SSmapping.levels_by_trait(starsys.level_trait))
-			if(starsys_ztrait == target_sys)
-				var/turf/exit = get_turf(locate(round(world.maxx * 0.5, 1), round(world.maxy * 0.5, 1), target_sys)) //Plop them bang in the center of the system.
-				var/turf/destination = get_turf(pick(orange(20,exit)))
-				var/obj/structure/overmap/enemy = new OM(destination)
-				target_sys.add_enemy(enemy)
+	var/list/levels = SSmapping.levels_by_trait(target_sys.level_trait)
+	if(levels?.len == 1)
+		var/turf/exit = get_turf(locate(round(world.maxx * 0.5, 1), round(world.maxy * 0.5, 1), levels[1])) //Plop them bang in the center of the system.
+		var/turf/destination = get_turf(pick(orange(20,exit)))
+		var/obj/structure/overmap/enemy = new OM(destination)
+		target_sys.add_enemy(enemy)
+	else if(levels?.len > 1)
+		message_admins("More than one level found for [target_sys]!")
+		return
+	else
+		message_admins("No levels forund for [target_sys]!")
+		return
 
 ///////BOUNTIES//////
 
@@ -89,7 +95,7 @@ SUBSYSTEM_DEF(starsystem)
 	cycle_bounty_timer()
 	if(bounty_pool == 0) //No need to spam when there is no cashola payout
 		return
-	priority_announce("Bounty Payment Processed", "Naval Command") //Temp - replace words and methods
+	minor_announce("Bounty Payment Processed", "Naval Command") //Temp - replace words and methods
 	var/split_bounty = bounty_pool / 2 //Split between our two accounts
 	var/datum/bank_account/D = SSeconomy.get_dep_account(ACCOUNT_CAR)
 	D.adjust_money(split_bounty)
@@ -98,25 +104,28 @@ SUBSYSTEM_DEF(starsystem)
 	bounty_pool = 0
 
 /datum/controller/subsystem/starsystem/proc/cycle_bounty_timer()
-	addtimer(CALLBACK(src, .proc/bounty_payout), 20 MINUTES) //Cycle bounty payments every 20 minutes
+	addtimer(CALLBACK(src, .proc/bounty_payout), 15 MINUTES) //Cycle bounty payments every 15 minutes
 
-//////OLD GAMEPLAY LOOP///////
+//////NEW GAMEPLAY LOOP///////
 
-/datum/controller/subsystem/starsystem/proc/set_timer()
-	addtimer(CALLBACK(src, .proc/spawn_enemies), rand(10 MINUTES, 15 MINUTES)) //Mr Gaeta, start the clock.
+/datum/controller/subsystem/starsystem/proc/cycle_gameplay_loop()
+	addtimer(CALLBACK(src, .proc/gameplay_loop), rand(10 MINUTES, 15 MINUTES))
 
-/datum/controller/subsystem/starsystem/proc/spawn_enemies() //A very simple way of having a gameplay loop. Every couple of minutes, the Syndicate appear in a system, the ship has to chase them.
+/datum/controller/subsystem/starsystem/proc/gameplay_loop() //A very simple way of having a gameplay loop. Every couple of minutes, the Syndicate appear in a system, the ship has to destroy them.
 	var/datum/starsystem/current_system //Dont spawn enemies where theyre currently at
-	for(var/obj/structure/overmap/OM in GLOB.overmap_objects)
+	for(var/obj/structure/overmap/OM in GLOB.overmap_objects) //The ship doesnt start with a system assigned by default
 		if(!OM.main_overmap)
 			continue
 		OM.current_system = find_system(OM) //The ship doesnt start with a system assigned by default
 		current_system = OM?.current_system
-	for(var/datum/starsystem/SS in systems)
-		if(SS == current_system)
-			continue
-		if(SS.spawn_enemies())
-			priority_announce("Attention all ships, set condition 1 throughout the fleet. Syndicate incursion detected in: [SS]. All ships must repel the invasion.", "Naval Command")
+	for(var/datum/starsystem/starsys in systems)
+		if(starsys != current_system)
+			starsys.mission_sector = TRUE //set this sector to be the active mission
+			starsys.spawn_asteroids() //refresh asteroids in the system
+			for(var/i = 0, i < starsys.difficulty_budget, i++) //number of enemies is set via the starsystem vars
+				var/enemy_type = pick(subtypesof(/obj/structure/overmap/syndicate)) //Spawn a random set of enemies.
+				modular_spawn_enemies(enemy_type, starsys)
+			priority_announce("Attention all ships, set condition 1 throughout the fleet. Syndicate incursion detected in: [starsys]. All ships must repel the invasion.", "Naval Command")
 
 //////STARSYSTEM DATUM///////
 
@@ -129,7 +138,7 @@ SUBSYSTEM_DEF(starsystem)
 	var/reward = 5000 //Small cash bonus when you clear a system, allows you to buy more ammo
 	var/difficulty_budget = 2
 	var/list/asteroids = list() //Keep track of how many asteroids are in system. Don't want to spam the system full of them
-
+	var/mission_sector = FALSE
 /datum/starsystem/New()
 	. = ..()
 	addtimer(CALLBACK(src, .proc/spawn_asteroids), 30 SECONDS)
@@ -157,22 +166,6 @@ SUBSYSTEM_DEF(starsystem)
 /datum/starsystem/proc/remove_asteroid(obj/structure/asteroid/AS)
 	asteroids -= AS
 
-/datum/starsystem/proc/spawn_enemies() //Method for spawning enemies in a random distribution in the center of the system.
-	enemies_in_system = list()
-	spawn_asteroids()
-	for(var/i = 0, i< rand(1,difficulty_budget), i++)
-		var/enemy_type = pick(subtypesof(/obj/structure/overmap/syndicate)) //Spawn a random set of enemies.
-		for(var/z in SSmapping.levels_by_trait(level_trait))
-			var/turf/exit = get_turf(locate(round(world.maxx * 0.5, 1), round(world.maxy * 0.5, 1), z)) //Plop them bang in the center of the system.
-			var/turf/destination = get_turf(pick(orange(20,exit)))
-			if(!destination)
-				message_admins("WARNING: The [name] system has no exit point for ships! You probably forgot to set the [level_trait]:1 setting for that Z in your map's JSON file.")
-				return
-			var/obj/structure/overmap/enemy = new enemy_type(destination)
-			enemies_in_system += enemy
-			RegisterSignal(enemy, COMSIG_PARENT_QDELETING , .proc/remove_enemy, enemy) //Add a listener component to check when a ship is killed, and thus check if the incursion is cleared.
-	return TRUE
-
 /datum/starsystem/proc/add_enemy(obj/structure/overmap/OM)
 	enemies_in_system += OM
 	RegisterSignal(OM, COMSIG_PARENT_QDELETING , .proc/remove_enemy, OM)
@@ -184,7 +177,9 @@ SUBSYSTEM_DEF(starsystem)
 /datum/starsystem/proc/check_completion() //Method to check if the ship has completed their active mission or not
 	if(!enemies_in_system.len)
 		priority_announce("All Syndicate targets in [src] have been dispatched. Return to standard patrol duties.", "Naval Command")
-		SSstarsystem?.set_timer()
+		if(mission_sector == TRUE)
+			SSstarsystem?.cycle_gameplay_loop()
+			mission_sector = FALSE
 		return TRUE
 	else
 		return FALSE

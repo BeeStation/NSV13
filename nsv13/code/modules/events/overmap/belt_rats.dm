@@ -11,15 +11,17 @@
 /datum/round_event/belt_rats/start()
 	var/opponent = /obj/structure/overmap/fighter/ai/syndicate //Lone Syndie Fighter
 	var/target = SSstarsystem.find_main_miner() //Find the Mining Cruiser
-	message_admins("target = [target]")
-	var/current_sys = SSstarsystem.find_system(target)
-	message_admins("current_sys = [current_sys]")
-	for(var/datum/starsystem/S in SSstarsystem.systems)
-		for(current_sys in SSmapping.levels_by_trait(S.level_trait))
-			if(current_sys == "ZTRAIT_HYPERSPACE") //Delay spawn if MC is in hyperspace
-				addtimer(CALLBACK(src, .proc/start, 2 MINUTES))
-				message_admins("'belt 'rats delayed for 2 minutes due to the target currently being in Hyperspace")
-				return
+	var/datum/starsystem/current_sys = SSstarsystem.find_system(target)
+	var/list/levels = SSmapping.levels_by_trait(current_sys.level_trait)
+	if(levels?.len == 1)
+		var/datum/space_level/target_z = SSmapping.get_level(levels[1])
+		if(ZTRAIT_HYPERSPACE in target_z.traits)
+			addtimer(CALLBACK(src, .proc/start, 2 MINUTES))
+			message_admins("'Belt 'Rats delayed for 2 minutes due to the target currently being in Hyperspace")
+			return
+	else if(levels?.len > 1)
+		message_admins("More than one level found for [current_sys]!")
+		return
 	SSstarsystem.modular_spawn_enemies(opponent, current_sys)
 	if(prob(20))
 		SSstarsystem.modular_spawn_enemies(opponent, current_sys) //20% prob to spawn a second
