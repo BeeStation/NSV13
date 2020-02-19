@@ -71,6 +71,10 @@
 
 	update_icon()
 
+/obj/machinery/ship_weapon/pdc_mount/on_construction(ndir)
+	if(!isnull(ndir))
+		setDir(ndir)
+
 // Update the icon to reflect how far our magazine is depleted
 /obj/machinery/ship_weapon/pdc_mount/update_icon()
 	if(!magazine)

@@ -94,7 +94,7 @@
  */
 /obj/machinery/ship_weapon/Initialize()
 	. = ..()
-	get_ship()
+	get_ship(error_log=FALSE)
 	if(maintainable)
 		maint_req = rand(15,25) //Setting initial number of cycles until maintenance is required
 		create_reagents(50)
@@ -112,14 +112,14 @@
 /**
  * Tries to link the ship to an overmap by finding the overmap linked it the area we are in.
  */
-/obj/machinery/ship_weapon/proc/get_ship()
+/obj/machinery/ship_weapon/proc/get_ship(error_log=TRUE)
 	var/area/AR = get_area(src)
 	if(AR && AR.linked_overmap)
 		linked = AR.linked_overmap
 		set_position(linked)
-	else if(!AR)
+	else if(!AR && error_log)
 		message_admins("Could not get area for [src].")
-	else
+	else if(error_log)
 		message_admins("[AR] not linked to an overmap - [src] will not be linked.")
 
 /**
