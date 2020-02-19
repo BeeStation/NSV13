@@ -182,7 +182,7 @@
 					P.play_tool_sound(src)
 					var/obj/machinery/new_machine = new circuit.build_path(loc)
 					new_machine.setAnchored(anchored)
-					new_machine.on_construction()
+					new_machine.on_construction(dir) //NSV13 - added dir argument for pdc on_construction
 					for(var/obj/O in new_machine.component_parts)
 						qdel(O)
 					new_machine.component_parts = list()
