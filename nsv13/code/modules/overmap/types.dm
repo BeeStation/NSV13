@@ -180,3 +180,20 @@
 	max_integrity = 800 //Max health
 	integrity_failure = 800
 	bounty = 500
+
+/obj/structure/overmap/fighter/ai/syndicate
+	name = "Syndicate interceptor"
+	desc = "A space faring fighter craft."
+	icon = 'nsv13/icons/overmap/syndicate/syn_fighter.dmi'
+	icon_state = "fighter"
+	brakes = FALSE
+	max_integrity = 100 //Super squishy!
+	bound_width = 32 //Change this on a per ship basis
+	bound_height = 32
+	sprite_size = 32
+	faction = "syndicate"
+	var/bounty = 250
+
+/obj/structure/overmap/fighter/ai/syndicate/Destroy()
+	SSstarsystem.bounty_pool += bounty //Adding payment for services rendered
+	. = ..()
