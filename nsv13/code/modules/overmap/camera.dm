@@ -59,10 +59,8 @@
 	if(M.client)
 		M.client.check_view()
 	M.overmap_ship = null
-	var/mob/camera/aiEye/remote/overmap_observer/eyeobj = M.remote_control
-	if(eyeobj?.off_action)
-		qdel(eyeobj.off_action)
 	M.cancel_camera()
+	QDEL_NULL(M.remote_control)
 	return TRUE
 
 /obj/structure/overmap/proc/CreateEye(mob/user)
