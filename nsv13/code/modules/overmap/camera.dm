@@ -65,8 +65,7 @@
 			hal.all_eyes -= eyeobj
 		var/mob/camera/aiEye/cam = pick(hal.all_eyes)
 		hal.remote_control = cam
-	M.remote_control = null
-	qdel(eyeobj)
+	QDEL_NULL(M.remote_control)
 	M.set_focus(M)
 	return TRUE
 
