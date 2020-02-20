@@ -60,3 +60,11 @@
 		/obj/item/instrument/bikehorn = 1,
 		/obj/item/storage/box/hug/clown_uniform = 1,
 		)
+
+/datum/outfit/job/assistant_ship
+	name = "Assistant (ship)"
+	jobtype = /datum/job/assistant
+	uniform = /obj/item/clothing/under/ship/assistant
+	head = /obj/item/clothing/head/soft/assistant_soft
+	suit = /obj/item/clothing/suit/ship/assistant_jacket
+	shoes = /obj/item/clothing/shoes/sneakers/black

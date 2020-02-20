@@ -15,14 +15,6 @@
 	damage = 60
 	impact_effect_type = /obj/effect/temp_visual/impact_effect/torpedo
 
-/obj/effect/temp_visual/impact_effect/torpedo
-	icon_state = "impact_torpedo"
-	duration = 10
-
-/obj/effect/temp_visual/impact_effect/torpedo/nuke
-	icon_state = "explosion"
-	duration = 10
-
 /obj/effect/temp_visual/overmap_explosion
 	icon = 'nsv13/goonstation/icons/hugeexplosion.dmi'
 	icon_state = "explosion"
