@@ -120,6 +120,13 @@
 	sprite_size = 48
 	damage_states = TRUE
 
+/obj/structure/overmap/fighter/ai
+	ai_controlled = TRUE
+	ai_behaviour = AI_AGGRESSIVE
+	weapon_safety = FALSE
+	prebuilt = TRUE
+	faction = "nanotrasen"
+
 //Syndicate ships
 
 /obj/structure/overmap/syndicate
