@@ -31,7 +31,8 @@
 	if(diff < AIMING_BEAM_ANGLE_CHANGE_THRESHOLD && !force_update)
 		return
 	aiming_lastangle = lastangle
-	var/obj/item/projectile/beam/beam_rifle/hitscan/aiming_beam/P = new
+	var/obj/item/projectile/beam/overmap/hitscan/aiming_beam/P = new
+	P.gun = src
 	if(aiming_time)
 		var/percent = ((100/aiming_time)*aiming_time_left)
 		P.color = rgb(255 * percent,255 * ((100 - percent) / 100),0)
@@ -43,17 +44,17 @@
 		if(!istype(curloc))
 			return
 		targloc = get_turf_in_angle(lastangle, curloc, 10)
-
 	P.preparePixelProjectile(targloc, src, gunner.client.mouseParams, 0)
 	P.fire(lastangle)
 
 /obj/structure/overmap/proc/do_aim_processing()
 	if(!aiming)
+		last_tracer_process = world.time
 		return
 	check_user()
-	aiming_time_left = max(0, aiming_time_left - (world.time - last_process))
+	aiming_time_left = max(0, aiming_time_left - (world.time - last_tracer_process))
 	aiming_beam(TRUE)
-	last_process = world.time
+	last_tracer_process = world.time
 
 /obj/structure/overmap/proc/check_user(automatic_cleanup = TRUE)
 	if(!istype(gunner) || gunner.incapacitated())
@@ -87,15 +88,78 @@
 	if(user == gunner)
 		return
 	stop_aiming(gunner)
-	if(listeningTo)
-		listeningTo = null
-	if(istype(gunner))
-		LAZYREMOVE(gunner.mousemove_intercept_objects, src)
-	if(istype(user))
-		LAZYOR(gunner.mousemove_intercept_objects, src)
-		listeningTo = user
 
 /obj/structure/overmap/CanPass(atom/movable/mover, turf/target)
-	if(istype(mover, /obj/item/projectile/beam/beam_rifle/hitscan/aiming_beam))
+	if(istype(mover, /obj/item/projectile/beam/overmap/hitscan/aiming_beam) || istype(mover, /obj/item/projectile/beam/overmap/hitscan))
 		return TRUE
 	. = ..()
+
+///////////////// AMMO /////////////////////
+/obj/item/projectile/beam/overmap/hitscan
+	name = "particle beam"
+	icon = null
+	hitsound = 'sound/effects/explosion3.ogg'
+	damage = 0				//Handled manually.
+	damage_type = BURN
+	flag = "energy"
+	range = 150
+	jitter = 10
+	var/obj/structure/overmap/gun
+	var/structure_pierce_amount = 0				//All set to 0 so the gun can manually set them during firing.
+	var/structure_bleed_coeff = 0
+	var/structure_pierce = 0
+	var/do_pierce = TRUE
+	var/wall_pierce_amount = 0
+	var/wall_pierce = 0
+	var/wall_devastate = 0
+	var/aoe_structure_range = 0
+	var/aoe_structure_damage = 0
+	var/aoe_fire_range = 0
+	var/aoe_fire_chance = 0
+	var/aoe_mob_range = 0
+	var/aoe_mob_damage = 0
+	var/impact_structure_damage = 0
+	var/impact_direct_damage = 0
+	var/turf/cached
+	var/list/pierced = list()
+	icon_state = ""
+	hitscan = TRUE
+	tracer_type = /obj/effect/projectile/tracer/tracer/beam_rifle
+	var/constant_tracer = FALSE
+
+/obj/item/projectile/beam/overmap/hitscan/generate_hitscan_tracers(cleanup = TRUE, duration = 5, impacting = TRUE, highlander)
+	set waitfor = FALSE
+	if(isnull(highlander))
+		highlander = constant_tracer
+	if(highlander && istype(gun))
+		QDEL_LIST(gun.current_tracers)
+		for(var/datum/point/p in beam_segments)
+			gun.current_tracers += generate_tracer_between_points(p, beam_segments[p], tracer_type, color, 0, hitscan_light_range, hitscan_light_color_override, hitscan_light_intensity)
+	else
+		for(var/datum/point/p in beam_segments)
+			generate_tracer_between_points(p, beam_segments[p], tracer_type, color, duration, hitscan_light_range, hitscan_light_color_override, hitscan_light_intensity)
+	if(cleanup)
+		QDEL_LIST(beam_segments)
+		beam_segments = null
+		QDEL_NULL(beam_index)
+
+/obj/item/projectile/beam/overmap/hitscan/aiming_beam
+	tracer_type = /obj/effect/projectile/tracer/tracer/aiming
+	name = "aiming beam"
+	hitsound = null
+	hitsound_wall = null
+	nodamage = TRUE
+	damage = 0
+	constant_tracer = TRUE
+	hitscan_light_range = 0
+	hitscan_light_intensity = 0
+	hitscan_light_color_override = "#99ff99"
+	reflectable = REFLECT_FAKEPROJECTILE
+
+/obj/item/projectile/beam/overmap/hitscan/aiming_beam/prehit(atom/target)
+	qdel(src)
+	return FALSE
+
+/obj/item/projectile/beam/overmap/hitscan/aiming_beam/on_hit()
+	qdel(src)
+	return BULLET_ACT_HIT

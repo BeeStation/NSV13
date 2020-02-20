@@ -115,6 +115,7 @@
 	var/lockon_time = 2 SECONDS
 
 	// Railgun aim helper
+	var/last_tracer_process = 0
 	var/aiming = FALSE
 	var/aiming_time = 12
 	var/aiming_time_fire_threshold = 5
@@ -167,6 +168,7 @@
 
 /obj/structure/overmap/Initialize()
 	. = ..()
+	current_tracers = list()
 	GLOB.overmap_objects += src
 	START_PROCESSING(SSovermap, src)
 
@@ -232,6 +234,7 @@
 		weapons[weapon.fire_mode] += weapon
 
 /obj/structure/overmap/Destroy()
+	QDEL_LIST(current_tracers)
 	if(cabin_air)
 		QDEL_NULL(cabin_air)
 	. = ..()

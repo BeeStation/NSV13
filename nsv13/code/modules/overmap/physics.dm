@@ -23,6 +23,8 @@
 	time /= 10 // fuck off with your deciseconds
 	last_process = world.time
 
+	do_aim_processing()
+
 	if(world.time > last_slowprocess + 10)
 		last_slowprocess = world.time
 		slowprocess()
@@ -312,7 +314,6 @@
 		M.visible_message("<span class='warning'>The force of the impact knocks [M] down!</span>","<span class='userdanger'>The force of the impact knocks you down!</span>")
 		log_combat(pilot, M, "impacted", src, "with velocity of [bump_velocity]")
 
-	do_aim_processing()
 	return ..()
 
 /obj/structure/overmap/proc/fire_projectile(proj_type, atom/target, homing = FALSE, speed=10, explosive = FALSE) //Fire one shot. Used for big, hyper accelerated shots rather than PDCs
