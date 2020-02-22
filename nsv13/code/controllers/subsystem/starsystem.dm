@@ -20,9 +20,12 @@ SUBSYSTEM_DEF(starsystem)
 								"This is Centcomm to the patrol vessel currently assigned to the Astraeus-Corvi route, you are expected to fulfill your assigned mission")
 			priority_announce("[message]", "Naval Command") //Warn players for idleing too long
 		if(modifier == 22) // 45 minutes
-			var/datum/bank_account/D = SSeconomy.get_dep_account(ACCOUNT_CAR)
-			D.adjust_money(-D)
-			priority_announce("Significant damage has been caused to NanoTrasen assets due to the inactivity of your vessel. Funds have been deducted from the cargo budget to cover expenses.")
+			var/total_deductions
+			for(var/account in SSeconomy.department_accounts)
+				var/datum/bank_account/D = SSeconomy.get_dep_account(account)
+				total_deductions += D.account_balance / 2
+				D.account_balance = D.account_balance / 2
+			priority_announce("Significant damage has been caused to NanoTrasen assets due to the inactivity of your vessel. [total_deductions] credits have been deducted across all departmental budgets to cover expenses.")
 		if(istype(LH))
 			LH.weight += 1 //Increment probabilty via SSEvent
 			if(LH.weight % 5 == 0)
