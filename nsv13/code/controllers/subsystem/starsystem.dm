@@ -14,11 +14,15 @@ SUBSYSTEM_DEF(starsystem)
 		var/datum/round_event_control/lone_hunter/LH = locate(/datum/round_event_control/lone_hunter) in SSevents.control
 		var/datum/round_event_control/belt_rats/BR = locate(/datum/round_event_control/belt_rats) in SSevents.control
 		modifier += 1 //Increment time step
-		if(modifier == 10)
+		if(modifier == 13) // 30 minutes
 			var/message = pick(	"This is Centcomm to all vessels assigned to patrol the Astraeus-Corvi routes, please continue on your patrol route", \
 								"This is Centcomm to all vessels assigned to patrol the Astraeus-Corvi routes, we are not paying you to idle in space during your assigned patrol schedule", \
 								"This is Centcomm to the patrol vessel currently assigned to the Astraeus-Corvi route, you are expected to fulfill your assigned mission")
 			priority_announce("[message]", "Naval Command") //Warn players for idleing too long
+		if(modifier == 22) // 45 minutes
+			var/datum/bank_account/D = SSeconomy.get_dep_account(ACCOUNT_CAR)
+			D.adjust_money(-D)
+			priority_announce("Significant damage has been caused to NanoTrasen assets due to the inactivity of your vessel. Funds have been deducted from the cargo budget to cover expenses.")
 		if(istype(LH))
 			LH.weight += 1 //Increment probabilty via SSEvent
 			if(LH.weight % 5 == 0)
@@ -35,7 +39,7 @@ SUBSYSTEM_DEF(starsystem)
 	var/datum/round_event_control/belt_rats/BR = locate(/datum/round_event_control/belt_rats) in SSevents.control
 	message_admins("Current time: [world.time] | Last Combat: [last_combat_enter] | Modifier: [modifier] | [LH.name]: [LH.weight] | [BR.name]: [BR.weight]")
 
-/datum/controller/subsystem/starsystem/proc/weighting_reset() //All overmap combat events need to be populated in this proc
+/datum/controller/subsystem/starsystem/proc/weighting_reset() //All overmap combat events need to be populated in this proc - this is used to reset the weight of every combat encounter once an encounter is spawned
 	var/datum/round_event_control/lone_hunter/LH = locate(/datum/round_event_control/lone_hunter) in SSevents.control
 	var/datum/round_event_control/belt_rats/BR = locate(/datum/round_event_control/belt_rats) in SSevents.control
 	LH.weight = 0
@@ -56,12 +60,12 @@ SUBSYSTEM_DEF(starsystem)
 
 ///////SPAWN SYSTEM///////
 
-/datum/controller/subsystem/starsystem/proc/find_main_overmap()
+/datum/controller/subsystem/starsystem/proc/find_main_overmap() //Find the main ship
 	for(var/obj/structure/overmap/OM in GLOB.overmap_objects)
 		if(OM.main_overmap)
 			return OM
 
-/datum/controller/subsystem/starsystem/proc/find_main_miner()
+/datum/controller/subsystem/starsystem/proc/find_main_miner() //Find the mining ship
 	for(var/obj/structure/overmap/OM in GLOB.overmap_objects)
 		if(OM.main_miner)
 			return OM
@@ -93,9 +97,9 @@ SUBSYSTEM_DEF(starsystem)
 
 /datum/controller/subsystem/starsystem/proc/bounty_payout()
 	cycle_bounty_timer()
-	if(bounty_pool == 0) //No need to spam when there is no cashola payout
+	if(!bounty_pool) //No need to spam when there is no cashola payout
 		return
-	minor_announce("Bounty Payment Processed", "Naval Command") //Temp - replace words and methods
+	minor_announce("Bounty Payment Of [bounty_pool] Credits Processed", "Naval Command")
 	var/split_bounty = bounty_pool / 2 //Split between our two accounts
 	var/datum/bank_account/D = SSeconomy.get_dep_account(ACCOUNT_CAR)
 	D.adjust_money(split_bounty)
@@ -106,10 +110,10 @@ SUBSYSTEM_DEF(starsystem)
 /datum/controller/subsystem/starsystem/proc/cycle_bounty_timer()
 	addtimer(CALLBACK(src, .proc/bounty_payout), 15 MINUTES) //Cycle bounty payments every 15 minutes
 
-//////NEW GAMEPLAY LOOP///////
+//////GAMEPLAY LOOP///////
 
 /datum/controller/subsystem/starsystem/proc/cycle_gameplay_loop()
-	addtimer(CALLBACK(src, .proc/gameplay_loop), rand(10 MINUTES, 15 MINUTES))
+	addtimer(CALLBACK(src, .proc/gameplay_loop), rand(10 MINUTES, 15 MINUTES)) //Cycle the gameplay loop 10 to 15 minutes after the previous sector is cleared
 
 /datum/controller/subsystem/starsystem/proc/gameplay_loop() //A very simple way of having a gameplay loop. Every couple of minutes, the Syndicate appear in a system, the ship has to destroy them.
 	var/datum/starsystem/current_system //Dont spawn enemies where theyre currently at

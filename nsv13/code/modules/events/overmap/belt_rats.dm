@@ -1,3 +1,6 @@
+//OVERMAP Event - This will alter the state of the OVERMAP Z-LEVELS
+//This event will spawn 1 to 2 syndicate fighters on the same overmap z-level as the mining ship
+
 /datum/round_event_control/belt_rats
 	name = "OVERMAP: 'Belt 'Rats"
 	typepath = /datum/round_event/belt_rats
@@ -24,6 +27,6 @@
 		return
 	SSstarsystem.modular_spawn_enemies(opponent, current_sys)
 	if(prob(20))
-		SSstarsystem.modular_spawn_enemies(opponent, current_sys) //20% prob to spawn a second
+		SSstarsystem.modular_spawn_enemies(opponent, current_sys) //20% prob to spawn a second fighter - no officer mods drops
 	SSstarsystem.modifier = 0 //Reset spawn modifier
 	SSstarsystem.weighting_reset() //Resets all weightings
