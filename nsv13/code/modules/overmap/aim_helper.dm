@@ -1,7 +1,7 @@
 /obj/structure/overmap/proc/onMouseDrag(src_object, over_object, src_location, over_location, params, mob)
 	if(aiming)
 		process_aim(params, mob)
-		aiming_beam()
+		draw_beam()
 	return ..()
 
 /obj/structure/overmap/proc/onMouseDown(object, location, params, mob/mob)
@@ -25,13 +25,13 @@
 /obj/structure/overmap/proc/delay_penalty(amount)
 	aiming_time_left = CLAMP(aiming_time_left + amount, 0, aiming_time)
 
-/obj/structure/overmap/proc/aiming_beam(force_update = FALSE)
+/obj/structure/overmap/proc/draw_beam(force_update = FALSE)
 	var/diff = abs(aiming_lastangle - lastangle)
 	check_user()
 	if(diff < AIMING_BEAM_ANGLE_CHANGE_THRESHOLD && !force_update)
 		return
 	aiming_lastangle = lastangle
-	var/obj/item/projectile/beam/beam_rifle/hitscan/aiming_beam/P = new
+	var/obj/item/projectile/beam/overmap/hitscan/aiming_beam/P = new
 	P.gun = src
 	if(aiming_time)
 		var/percent = ((100/aiming_time)*aiming_time_left)
@@ -53,7 +53,7 @@
 		return
 	check_user()
 	aiming_time_left = max(0, aiming_time_left - (world.time - last_tracer_process))
-	aiming_beam(TRUE)
+	draw_beam(TRUE)
 	last_tracer_process = world.time
 
 /obj/structure/overmap/proc/check_user(automatic_cleanup = TRUE)
@@ -76,7 +76,7 @@
 	aiming_time_left = aiming_time
 	aiming = TRUE
 	process_aim()
-	aiming_beam(TRUE)
+	draw_beam(TRUE)
 
 /obj/structure/overmap/proc/stop_aiming(mob/user)
 	set waitfor = FALSE
@@ -90,6 +90,55 @@
 	stop_aiming(gunner)
 
 /obj/structure/overmap/CanPass(atom/movable/mover, turf/target)
-	if(istype(mover, /obj/item/projectile/beam/beam_rifle/hitscan/aiming_beam) || istype(mover, /obj/item/projectile/beam/beam_rifle/hitscan))
+	if(istype(mover, /obj/item/projectile/beam/overmap/hitscan/aiming_beam) || istype(mover, /obj/item/projectile/beam/overmap/hitscan))
 		return TRUE
 	. = ..()
+
+
+/obj/item/projectile/beam/overmap/hitscan
+	name = "particle beam"
+	icon = null
+	hitsound = 'sound/effects/explosion3.ogg'
+	damage = 0				//Handled manually.
+	damage_type = BURN
+	flag = "energy"
+	range = 150
+	jitter = 10
+	var/obj/structure/overmap/gun
+	icon_state = ""
+	hitscan = TRUE
+	tracer_type = /obj/effect/projectile/tracer/tracer/beam_rifle
+	var/constant_tracer = FALSE
+
+/obj/item/projectile/beam/overmap/hitscan/generate_hitscan_tracers(cleanup = TRUE, duration = 5, impacting = TRUE, highlander)
+	set waitfor = FALSE
+	if(isnull(highlander))
+		highlander = constant_tracer
+	if(highlander && istype(gun))
+		var/list/obj/item/projectile/beam/overmap/hitscan/new_tracers = list()
+		for(var/datum/point/p in beam_segments)
+			if((pixel_length_between_points(p, beam_segments[p]) / world.icon_size) >= 100)
+				new_tracers += generate_tracer_between_points(p, beam_segments[p], tracer_type, color, 0, hitscan_light_range, hitscan_light_color_override, hitscan_light_intensity)
+		if(new_tracers.len)
+			QDEL_LIST(gun.current_tracers)
+			gun.current_tracers += new_tracers
+	else
+		for(var/datum/point/p in beam_segments)
+			generate_tracer_between_points(p, beam_segments[p], tracer_type, color, duration, hitscan_light_range, hitscan_light_color_override, hitscan_light_intensity)
+	if(cleanup)
+		QDEL_LIST(beam_segments)
+		beam_segments = null
+		QDEL_NULL(beam_index)
+
+/obj/item/projectile/beam/overmap/hitscan/aiming_beam
+	tracer_type = /obj/effect/projectile/tracer/tracer/aiming
+	name = "aiming beam"
+	hitsound = null
+	hitsound_wall = null
+	nodamage = TRUE
+	damage = 0
+	constant_tracer = TRUE
+	hitscan_light_range = 0
+	hitscan_light_intensity = 0
+	hitscan_light_color_override = "#99ff99"
+	reflectable = REFLECT_FAKEPROJECTILE
