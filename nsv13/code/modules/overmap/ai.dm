@@ -83,7 +83,6 @@
 		return FALSE
 	if(SSovermap.next_boarding_time <= world.time)
 		SSovermap.next_boarding_time = world.time + 30 MINUTES
-		to_chat(world, "boarding [ship]")
 		ship.spawn_boarders()
 		return TRUE
 	return FALSE
