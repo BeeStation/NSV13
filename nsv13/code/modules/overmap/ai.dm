@@ -73,10 +73,20 @@
 		if(get_dist(ship, src) <= 3)
 			user_thrust_dir = 0 //Don't thrust towards ships we're already close to.
 			brakes = TRUE
+			try_board(ship)
 		else
 			user_thrust_dir = 1
 			brakes = FALSE
 
+/obj/structure/overmap/proc/try_board(obj/structure/overmap/ship)
+	if(mass <= 1)
+		return FALSE
+	if(SSovermap.next_boarding_time <= world.time)
+		SSovermap.next_boarding_time = world.time + 30 MINUTES
+		to_chat(world, "boarding [ship]")
+		ship.spawn_boarders()
+		return TRUE
+	return FALSE
 
 /obj/structure/overmap/proc/retreat()
 	if(!last_target)

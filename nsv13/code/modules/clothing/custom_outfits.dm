@@ -33,6 +33,7 @@
 	mask = /obj/item/clothing/mask/gas/syndicate
 	ears = /obj/item/radio/headset/syndicate/alt
 	id = /obj/item/card/id/syndicate
+	l_pocket = /obj/item/tank/internals/emergency_oxygen/double
 	backpack_contents = list(/obj/item/storage/box/syndie=1,/obj/item/kitchen/knife/combat/survival=1)
 	tc = 0
 

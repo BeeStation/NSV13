@@ -326,6 +326,9 @@ After going through this checklist, you're ready to go!
 					OM = O
 		if(!OM)
 			return FALSE
+		var/saved_layer = layer
+		layer = LOW_OBJ_LAYER
+		addtimer(VARSET_CALLBACK(src, layer, saved_layer), 1 SECONDS) //Gives fighters a small window of immunity from collisions with other overmaps
 		forceMove(get_turf(OM))
 		docking_cooldown = TRUE
 		addtimer(VARSET_CALLBACK(src, docking_cooldown, FALSE), 5 SECONDS) //Prevents jank.
