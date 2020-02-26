@@ -5087,6 +5087,7 @@
 /obj/machinery/light{
 	dir = 4
 	},
+/obj/structure/tank_dispenser/oxygen,
 /turf/open/floor/monotile,
 /area/storage/eva)
 "mk" = (
@@ -5167,7 +5168,20 @@
 /turf/open/floor/monotile,
 /area/storage/eva)
 "mU" = (
-/obj/structure/tank_dispenser/oxygen,
+/obj/structure/rack,
+/obj/item/clothing/shoes/magboots{
+	pixel_x = 4;
+	pixel_y = -3
+	},
+/obj/item/clothing/shoes/magboots,
+/obj/item/clothing/shoes/magboots{
+	pixel_x = -4;
+	pixel_y = 3
+	},
+/obj/machinery/door/window/eastright{
+	name = "Magboot Storage"
+	},
+/obj/structure/window/reinforced/spawner/north,
 /turf/open/floor/monotile,
 /area/storage/eva)
 "mV" = (
@@ -5444,24 +5458,6 @@
 /obj/item/pen/fourcolor,
 /turf/open/floor/monotile/dark,
 /area/ai_monitored/turret_protected/aisat)
-"Rl" = (
-/obj/machinery/door/window/northright{
-	name = "Magboot Storage"
-	},
-/obj/structure/rack,
-/obj/item/clothing/shoes/magboots{
-	pixel_x = 4;
-	pixel_y = -3
-	},
-/obj/item/clothing/shoes/magboots,
-/obj/item/clothing/shoes/magboots{
-	pixel_x = -4;
-	pixel_y = 3
-	},
-/obj/structure/window/reinforced/spawner/west,
-/obj/structure/window/reinforced/spawner/east,
-/turf/open/floor/monotile,
-/area/storage/eva)
 "Rm" = (
 /obj/effect/turf_decal/tile/neutral{
 	dir = 4
@@ -39462,7 +39458,7 @@ mf
 mg
 mh
 my
-Rl
+mT
 Gv
 hT
 hZ
