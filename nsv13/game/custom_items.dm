@@ -133,3 +133,12 @@
 	if(start_turf)
 		start_turf = null
 		to_chat(user, "<span class='warning'>Cleared target selection</span>")
+		add_fingerprint(user)
+
+/obj/item/reagent_containers/food/drinks/solgovcup //Credit to baystation for this sprite!
+	name = "solgov branded drinks cup"
+	desc = "A cup with solgov's logo clearly stamped on it. 'to remind them of whom they serve'"
+	icon = 'nsv13/icons/obj/drinks.dmi'
+	icon_state = "solgov"
+	volume = 30
+	spillable = TRUE
