@@ -341,10 +341,10 @@ After going through this checklist, you're ready to go!
 		docking_cooldown = TRUE
 		addtimer(VARSET_CALLBACK(src, docking_cooldown, FALSE), 5 SECONDS) //Prevents jank.
 		resize = 1 //Scale down!
-		pixel_w = 0
-		pixel_z = 0
-		bound_width = 0
-		bound_height = 0
+		pixel_w = -30
+		pixel_z = -32
+		bound_width = 32
+		bound_height = 32
 		if(pilot)
 			to_chat(pilot, "<span class='notice'>Docking mode disabled. Use the 'Ship' verbs tab to re-enable docking mode, then fly into an allied ship to complete docking proceedures.</span>")
 			docking_mode = FALSE
