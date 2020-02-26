@@ -42,9 +42,6 @@
 	name = "Deck 2 Medical Clinic"
 	icon_state = "medbay"
 
-/area/maintenance/nsv/ftlroom
-	name = "FTL Control Room"
-	icon_state = "maint_bridge"
 
 /area/nsv/engine/engine_room/core
 	name = "Engine Core"
@@ -53,6 +50,10 @@
 /area/nsv/engine/engine_room/auxiliary
 	name = "Engine Auxiliary Equipment"
 	icon_state = "engine_foyer"
+
+/area/maintenance/nsv/ftlroom
+	name = "FTL Control Room"
+	icon_state = "maint_bridge"
 
 /area/maintenance/nsv/deck1/airlock/forward/port
 	name = "Deck 1 Port Forward Airlock"
@@ -69,6 +70,14 @@
 /area/maintenance/nsv/deck1/airlock/aft/starboard
 	name = "Deck 1 Starboard Aft Airlock"
 	icon_state = "maint_bridge"
+
+/area/maintenance/nsv/deck1/port
+	name = "Deck 1 Port Maintenance"
+	icon_state = "pmaint"
+
+/area/maintenance/nsv/deck1/starboard
+	name = "Deck 1 Starboard Maintenance"
+	icon_state = "smaint"
 
 /area/maintenance/nsv/deck2/airlock/forward/port
 	name = "Deck 2 Port Forward Airlock"
