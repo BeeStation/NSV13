@@ -4,6 +4,8 @@
 	icon = 'nsv13/icons/obj/items_and_weapons.dmi'
 	icon_state = "stunsword"
 	item_state = "stunsword"
+	lefthand_file = 'nsv13/icons/mob/inhands/weapons/melee_lefthand.dmi'
+	righthand_file = 'nsv13/icons/mob/inhands/weapons/melee_righthand.dmi'
 	slot_flags = ITEM_SLOT_BELT
 	w_class = WEIGHT_CLASS_BULKY
 	force = 10
@@ -28,8 +30,8 @@
 	. += "<span class='notice'>This blade has a serial number: [serial_number] of [max_serial_number]</span>"
 
 /obj/item/melee/classic_baton/telescopic/stunsword/suicide_act(mob/user)
-	user.visible_message("<span class='suicide'>[user] raises [src] and drives it into their heart!.</span>")
-	return MANUAL_SUICIDE
+	user.visible_message("<span class='suicide'>[user] raises [src] and drives it into their heart! It looks like [user.p_theyre()] trying to commit suicide!</span>")
+	return BRUTELOSS
 
 /obj/item/melee/classic_baton/telescopic/stunsword/attack_self(mob/user)
 	on = !on
