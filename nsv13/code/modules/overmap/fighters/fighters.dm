@@ -65,6 +65,12 @@ After going through this checklist, you're ready to go!
 	var/warmup_cooldown = FALSE //So you cant blitz the fighter ignition in 2 seconds
 	var/ejecting = FALSE
 	var/throttle_lock = FALSE
+	var/obj/structure/overmap/fighter/prebuilt/escapepod/escape_pod
+
+/obj/structure/overmap/fighter/Initialize()
+	. = ..()
+	if(ispath(escape_pod))
+		escape_pod = new /obj/structure/overmap/fighter/prebuilt/escapepod(src)
 
 /obj/machinery/computer/ship/fighter_launcher
 	name = "Mag-cat control console"
@@ -978,12 +984,12 @@ After going through this checklist, you're ready to go!
 /obj/structure/overmap/fighter/proc/eject()
 	if(istype(src, /obj/structure/overmap/fighter/prebuilt/escapepod))
 		return FALSE
-	var/obj/structure/overmap/fighter/prebuilt/escapepod/ep = new /obj/structure/overmap/fighter/prebuilt/escapepod(get_turf(src))
-	ep.set_fuel(get_fuel()) //No infinite tyrosene for you!
-	transfer_occupants_to(ep)
-	ep.desired_angle = pick(0,360)
-	ep.user_thrust_dir = NORTH
-	qdel(src)
+	if(escape_pod && escape_pod.loc == src)
+		escape_pod.forceMove(get_turf(src))
+		escape_pod.set_fuel(get_fuel()) //No infinite tyrosene for you!
+		transfer_occupants_to(escape_pod)
+		escape_pod.desired_angle = pick(0,360)
+		escape_pod.user_thrust_dir = NORTH
 
 /obj/structure/overmap/fighter/prebuilt/escapepod
 	name = "Escape Pod"
@@ -1001,6 +1007,7 @@ After going through this checklist, you're ready to go!
 	max_torpedoes = 0
 	flight_state = FLIGHT_READY
 	canopy_open = FALSE
+	escape_pod = FALSE
 
 /obj/structure/overmap/fighter/prebuilt/escapepod/attack_hand(mob/user)
 	return
@@ -1139,6 +1146,7 @@ How to make fuel:
 			to_chat(usr, "You flip the APU switch.</span>")
 			flight_state = APU_SPUN
 			playsound(src, 'nsv13/sound/effects/fighters/apu_start.ogg', 100, FALSE)
+			throttle_lock = FALSE
 			addtimer(VARSET_CALLBACK(src, warmup_cooldown, FALSE), 15 SECONDS)
 			addtimer(CALLBACK(src, .proc/check_start), 16 SECONDS) //Throttle up now....
 			return
