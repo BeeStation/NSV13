@@ -35,8 +35,8 @@ After going through this checklist, you're ready to go!
 	icon_state = "fighter"
 	brakes = TRUE
 	armor = list("melee" = 80, "bullet" = 50, "laser" = 80, "energy" = 50, "bomb" = 50, "bio" = 100, "rad" = 100, "fire" = 100, "acid" = 80) //temp to stop easy destruction from small arms
-	bound_width = 40 //Change this on a per ship basis
-	bound_height = 40
+	bound_width = 64 //Change this on a per ship basis
+	bound_height = 64
 	mass = MASS_TINY
 	sprite_size = 32
 	damage_states = TRUE
@@ -45,8 +45,8 @@ After going through this checklist, you're ready to go!
 	torpedoes = 0
 	speed_limit = 6 //We want fighters to be way more maneuverable
 	weapon_safety = TRUE //This happens wayy too much for my liking. Starts OFF.
-	pixel_w = -26
-	pixel_z = -28
+	pixel_w = -16
+	pixel_z = -20
 	var/maint_state = MS_CLOSED
 	var/prebuilt = FALSE
 	var/weapon_efficiency = 0
@@ -341,8 +341,10 @@ After going through this checklist, you're ready to go!
 		docking_cooldown = TRUE
 		addtimer(VARSET_CALLBACK(src, docking_cooldown, FALSE), 5 SECONDS) //Prevents jank.
 		resize = 1 //Scale down!
-		pixel_w = -20
-		pixel_z = -40
+		pixel_w = 0
+		pixel_z = 0
+		bound_width = 0
+		bound_height = 0
 		if(pilot)
 			to_chat(pilot, "<span class='notice'>Docking mode disabled. Use the 'Ship' verbs tab to re-enable docking mode, then fly into an allied ship to complete docking proceedures.</span>")
 			docking_mode = FALSE
