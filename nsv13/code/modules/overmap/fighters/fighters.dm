@@ -979,11 +979,13 @@ After going through this checklist, you're ready to go!
 		relay('nsv13/sound/effects/computer/alarm_3.ogg', "<span class=userdanger>EJECT! EJECT! EJECT!</span>")
 		relay_to_nearby('nsv13/sound/effects/ship/fighter_launch_short.ogg')
 		visible_message("<span class=userdanger>Auto-Ejection Sequence Enabled! Escape Pod Launched!</span>")
+		ejecting = FALSE
 		if(eject())
 			sleep(20)
 		else
 			for(var/atom/X in contents) //Pilot unable to eject. Murder them.
 				QDEL_NULL(X)
+			return ..()
 	. = ..()
 
 /obj/structure/overmap/fighter/proc/eject()
