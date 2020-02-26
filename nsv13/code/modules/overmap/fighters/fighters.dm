@@ -65,11 +65,12 @@ After going through this checklist, you're ready to go!
 	var/warmup_cooldown = FALSE //So you cant blitz the fighter ignition in 2 seconds
 	var/ejecting = FALSE
 	var/throttle_lock = FALSE
+	var/has_escape_pod = /obj/structure/overmap/fighter/prebuilt/escapepod
 	var/obj/structure/overmap/fighter/prebuilt/escapepod/escape_pod
 
 /obj/structure/overmap/fighter/Initialize()
 	. = ..()
-	if(ispath(escape_pod))
+	if(ispath(has_escape_pod))
 		escape_pod = new /obj/structure/overmap/fighter/prebuilt/escapepod(src)
 
 /obj/machinery/computer/ship/fighter_launcher
@@ -1007,7 +1008,7 @@ After going through this checklist, you're ready to go!
 	max_torpedoes = 0
 	flight_state = FLIGHT_READY
 	canopy_open = FALSE
-	escape_pod = FALSE
+	has_escape_pod = FALSE
 
 /obj/structure/overmap/fighter/prebuilt/escapepod/attack_hand(mob/user)
 	return

@@ -182,7 +182,7 @@
 	faction = "nanotrasen"
 	flight_state = 6
 	torpedoes = 1
-	escape_pod = FALSE
+	has_escape_pod = FALSE
 /**
 
 	Gives AI fighters some basic hit and run behaviour. This override aims to make AI fighters more survivable whilst also giving players a window to shoot them as they run back for a new strafe.
