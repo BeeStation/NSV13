@@ -72,6 +72,7 @@ After going through this checklist, you're ready to go!
 	. = ..()
 	if(ispath(has_escape_pod))
 		escape_pod = new /obj/structure/overmap/fighter/prebuilt/escapepod(src)
+		escape_pod.name = "[name] - escape pod"
 
 /obj/machinery/computer/ship/fighter_launcher
 	name = "Mag-cat control console"
@@ -978,19 +979,25 @@ After going through this checklist, you're ready to go!
 		relay('nsv13/sound/effects/computer/alarm_3.ogg', "<span class=userdanger>EJECT! EJECT! EJECT!</span>")
 		relay_to_nearby('nsv13/sound/effects/ship/fighter_launch_short.ogg')
 		visible_message("<span class=userdanger>Auto-Ejection Sequence Enabled! Escape Pod Launched!</span>")
-		eject()
-		sleep(20)
+		if(eject())
+			sleep(20)
+		else
+			for(var/atom/X in contents) //Pilot unable to eject. Murder them.
+				QDEL_NULL(X)
 	. = ..()
 
 /obj/structure/overmap/fighter/proc/eject()
-	if(istype(src, /obj/structure/overmap/fighter/prebuilt/escapepod))
-		return FALSE
 	if(escape_pod && escape_pod.loc == src)
 		escape_pod.forceMove(get_turf(src))
 		escape_pod.set_fuel(get_fuel()) //No infinite tyrosene for you!
 		transfer_occupants_to(escape_pod)
 		escape_pod.desired_angle = pick(0,360)
 		escape_pod.user_thrust_dir = NORTH
+		escape_pod = null
+		return TRUE
+	else
+		if(pilot) to_chat(pilot, "<span class='warning'>This ship is not equipped with an escape pod! Unable to eject.</span>")
+		return FALSE
 
 /obj/structure/overmap/fighter/prebuilt/escapepod
 	name = "Escape Pod"
