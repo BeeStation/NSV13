@@ -35,8 +35,8 @@ After going through this checklist, you're ready to go!
 	icon_state = "fighter"
 	brakes = TRUE
 	armor = list("melee" = 80, "bullet" = 50, "laser" = 80, "energy" = 50, "bomb" = 50, "bio" = 100, "rad" = 100, "fire" = 100, "acid" = 80) //temp to stop easy destruction from small arms
-	bound_width = 64 //Change this on a per ship basis
-	bound_height = 96
+	bound_width = 40 //Change this on a per ship basis
+	bound_height = 40
 	mass = MASS_TINY
 	sprite_size = 32
 	damage_states = TRUE
@@ -463,7 +463,7 @@ After going through this checklist, you're ready to go!
 /obj/structure/overmap/fighter/slowprocess()
 	. = ..()
 	use_fuel()
-	if(canopy_breached || (canopy_open && pilot)) //Leak.
+	if(canopy_breached) //Leak air if the canopy is breached.
 		var/datum/gas_mixture/removed = cabin_air.remove(5)
 		qdel(removed)
 
@@ -662,6 +662,19 @@ After going through this checklist, you're ready to go!
 		else
 			to_chat(user, "<span class='notice'>You require [src] to be in maintenance mode to load munitions!.</span>")
 			return
+	if(istype(A, /obj/structure/overmap/fighter/prebuilt/escapepod) && ispath(has_escape_pod) && (!escape_pod || escape_pod?.loc != src))
+		if(maint_state != MS_OPEN)
+			to_chat(user, "<span class='warning'>You cannot load an escape pod into [src] without putting it into maintenance mode.</span>")
+			return
+		var/obj/structure/overmap/fighter/prebuilt/escapepod/EP = A
+		if(EP.operators.len)
+			to_chat(user, "<span class='notice'>There are people inside of [EP], so you can't load it into something else</span>")
+			return
+		if(do_after_mob(user, list(A, src), 50))
+			to_chat(user, "<span class='notice'>You insert [EP] into [src], fitting it with an escape pod.</span>")
+			EP.forceMove(src)
+			escape_pod = EP
+			EP.flight_state = NO_IGNITION
 
 /obj/structure/overmap/fighter/fire_torpedo(atom/target)
 	if(ai_controlled) //AI ships don't have interiors
@@ -975,7 +988,7 @@ After going through this checklist, you're ready to go!
 		attack_hand(user) //Refresh UI.
 
 /obj/structure/overmap/fighter/Destroy()
-	if(operators.len && !istype(src, /obj/structure/overmap/fighter/prebuilt/escapepod))
+	if(operators.len && escape_pod && escape_pod.loc == src)
 		relay('nsv13/sound/effects/computer/alarm_3.ogg', "<span class=userdanger>EJECT! EJECT! EJECT!</span>")
 		relay_to_nearby('nsv13/sound/effects/ship/fighter_launch_short.ogg')
 		visible_message("<span class=userdanger>Auto-Ejection Sequence Enabled! Escape Pod Launched!</span>")
@@ -1177,6 +1190,11 @@ How to make fuel:
 		if("canopy_lock")
 			toggle_canopy()
 		if("eject")
+			if(is_station_level(z))
+				canopy_open = FALSE
+				playsound(src, 'nsv13/sound/effects/fighters/canopy.ogg', 100, 1)
+				to_chat(usr, "<span class='notice'>You jump out of [src] in one smooth motion.</span>")
+				return
 			if(!ejecting)
 				to_chat(usr, "<span class='notice'>WARNING AUTO-EJECT SEQUENCE COMMENCING IN T-5 SECONDS. USE THIS SWITCH AGAIN TO CANCEL THIS ACTION.</span>")
 				relay('nsv13/sound/effects/fighters/switch.ogg')
@@ -1207,7 +1225,7 @@ How to make fuel:
 			relay('nsv13/sound/effects/fighters/switch.ogg')
 			return //Dodge the cooldown because these actions should be instant
 	warmup_cooldown = TRUE
-	addtimer(VARSET_CALLBACK(src, warmup_cooldown, FALSE), 3 SECONDS)
+	addtimer(VARSET_CALLBACK(src, warmup_cooldown, FALSE), 1 SECONDS)
 	relay('nsv13/sound/effects/fighters/switch.ogg')
 
 /obj/structure/overmap/fighter/proc/get_fuel()
@@ -1241,7 +1259,7 @@ How to make fuel:
 /obj/structure/overmap/fighter/proc/use_fuel()
 	if(flight_state < APU_SPUN) //No fuel? don't spam them with master cautions / use any fuel
 		return FALSE
-	var/amount = fuel_consumption
+	var/amount = (user_thrust_dir) ? fuel_consumption+0.25 : fuel_consumption //When you're thrusting : fuel consumption doubles. Idling is cheap.
 	var/obj/item/twohanded/required/fighter_component/fuel_tank/sft = get_part(/obj/item/twohanded/required/fighter_component/fuel_tank)
 	if(!sft)
 		flight_state = NO_FUEL

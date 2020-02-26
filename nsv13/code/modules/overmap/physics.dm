@@ -263,7 +263,7 @@
 		var/obj/structure/overmap/fighter/F = A
 		F.docking_act(src)
 		return FALSE
-	if(brakes) //No :)
+	if(brakes || ismob(A)) //No :)
 		return FALSE
 	if(A.dir & NORTH)
 		velocity_y += bump_impulse
@@ -296,7 +296,7 @@
 		return ..()
 	// if a bump is that fast then it's not a bump. It's a collision.
 	if(bump_velocity >= 5 && !ismob(A))
-		var/strength = bump_velocity / 10
+		var/strength = bump_velocity / 5
 		strength = strength * strength
 		strength = min(strength, 5) // don't want the explosions *too* big
 		// wew lad, might wanna slow down there

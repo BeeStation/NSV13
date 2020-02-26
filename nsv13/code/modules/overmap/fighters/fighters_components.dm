@@ -141,7 +141,7 @@
 	righthand_file = ""
 	w_class = WEIGHT_CLASS_GIGANTIC
 	var/speed = 1 //Speed modifier
-	var/consumption = 0.5 //How fast we burn fuel
+	var/consumption = 0.25 //How fast we burn fuel
 
 /obj/item/twohanded/required/fighter_component/engine/Initialize()
 	. = ..()
