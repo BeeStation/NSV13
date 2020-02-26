@@ -770,7 +770,7 @@ After going through this checklist, you're ready to go!
 		to_chat(user, "<span class='warning'>[src]'s canopy isn't open.</span>")
 		return
 	if(maint_state < MS_UNSECURE)
-		if(alert("Enter what seat?",name,"Pilot seat","Passenger seat") !="Passenger seat")
+		if(max_passengers > 0 && alert("Enter what seat?",name,"Pilot seat","Passenger seat") !="Passenger seat")
 			if(!pilot)
 				to_chat(user, "<span class='notice'>You begin climbing into [src]'s cockpit...</span>")
 				if(!do_after(user, 5 SECONDS, target=src))
