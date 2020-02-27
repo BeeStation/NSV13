@@ -23,8 +23,6 @@
 	time /= 10 // fuck off with your deciseconds
 	last_process = world.time
 
-	do_aim_processing()
-
 	if(world.time > last_slowprocess + 10)
 		last_slowprocess = world.time
 		slowprocess()

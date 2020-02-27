@@ -31,7 +31,7 @@
 	if(diff < AIMING_BEAM_ANGLE_CHANGE_THRESHOLD && !force_update)
 		return
 	aiming_lastangle = lastangle
-	var/obj/item/projectile/beam/overmap/hitscan/aiming_beam/P = new
+	var/obj/item/projectile/beam/overmap/aiming_beam/P = new
 	P.gun = src
 	if(aiming_time)
 		var/percent = ((100/aiming_time)*aiming_time_left)
@@ -90,16 +90,18 @@
 	stop_aiming(gunner)
 
 /obj/structure/overmap/CanPass(atom/movable/mover, turf/target)
-	if(istype(mover, /obj/item/projectile/beam/overmap/hitscan/aiming_beam) || istype(mover, /obj/item/projectile/beam/overmap/hitscan))
+	if(istype(mover, /obj/item/projectile/beam/overmap/aiming_beam))
 		return TRUE
 	. = ..()
 
 
-/obj/item/projectile/beam/overmap/hitscan
-	name = "particle beam"
+/obj/item/projectile/beam/overmap/aiming_beam
+	name = "aiming beam"
 	icon = null
-	hitsound = 'sound/effects/explosion3.ogg'
+	hitsound = null
+	hitsound_wall = null
 	damage = 0				//Handled manually.
+	nodamage = TRUE
 	damage_type = BURN
 	flag = "energy"
 	range = 150
@@ -107,15 +109,19 @@
 	var/obj/structure/overmap/gun
 	icon_state = ""
 	hitscan = TRUE
-	tracer_type = /obj/effect/projectile/tracer/tracer/beam_rifle
-	var/constant_tracer = FALSE
+	tracer_type = /obj/effect/projectile/tracer/tracer/aiming
+	reflectable = REFLECT_FAKEPROJECTILE
+	hitscan_light_range = 0
+	hitscan_light_intensity = 0
+	hitscan_light_color_override = "#99ff99"
+	var/constant_tracer = TRUE
 
-/obj/item/projectile/beam/overmap/hitscan/generate_hitscan_tracers(cleanup = TRUE, duration = 5, impacting = TRUE, highlander)
+/obj/item/projectile/beam/overmap/aiming_beam/generate_hitscan_tracers(cleanup = TRUE, duration = 5, impacting = TRUE, highlander)
 	set waitfor = FALSE
 	if(isnull(highlander))
 		highlander = constant_tracer
 	if(highlander && istype(gun))
-		var/list/obj/item/projectile/beam/overmap/hitscan/new_tracers = list()
+		var/list/obj/item/projectile/beam/overmap/aiming_beam/new_tracers = list()
 		for(var/datum/point/p in beam_segments)
 			if((pixel_length_between_points(p, beam_segments[p]) / world.icon_size) >= 100)
 				new_tracers += generate_tracer_between_points(p, beam_segments[p], tracer_type, color, 0, hitscan_light_range, hitscan_light_color_override, hitscan_light_intensity)
@@ -129,16 +135,3 @@
 		QDEL_LIST(beam_segments)
 		beam_segments = null
 		QDEL_NULL(beam_index)
-
-/obj/item/projectile/beam/overmap/hitscan/aiming_beam
-	tracer_type = /obj/effect/projectile/tracer/tracer/aiming
-	name = "aiming beam"
-	hitsound = null
-	hitsound_wall = null
-	nodamage = TRUE
-	damage = 0
-	constant_tracer = TRUE
-	hitscan_light_range = 0
-	hitscan_light_intensity = 0
-	hitscan_light_color_override = "#99ff99"
-	reflectable = REFLECT_FAKEPROJECTILE
