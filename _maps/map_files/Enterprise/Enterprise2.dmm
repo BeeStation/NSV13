@@ -16987,10 +16987,7 @@
 /obj/structure/window/reinforced{
 	dir = 4
 	},
-/obj/structure/window/reinforced{
-	dir = 1;
-	layer = 2.9
-	},
+/obj/machinery/door/firedoor,
 /turf/open/floor/plasteel/ship,
 /area/quartermaster/storage)
 "aOt" = (
@@ -40320,6 +40317,17 @@
 	},
 /turf/open/floor/plasteel/ship,
 /area/security/prison)
+"ddi" = (
+/obj/effect/spawner/structure/window/reinforced,
+/obj/machinery/door/poddoor/shutters/preopen{
+	id = "hor_window";
+	name = "privacy shutter"
+	},
+/obj/structure/cable{
+	icon_state = "0-8"
+	},
+/turf/open/floor/plating,
+/area/crew_quarters/heads/hor)
 "dnd" = (
 /obj/machinery/gateway{
 	dir = 8
@@ -40333,18 +40341,6 @@
 	},
 /turf/closed/wall/r_wall/ship,
 /area/engine/atmospherics_engine)
-"dFB" = (
-/obj/machinery/door/airlock/ship/public/glass{
-	name = "Patient Room B"
-	},
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
-	dir = 4
-	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
-	dir = 8
-	},
-/turf/open/floor/monotile,
-/area/medical/medbay/central)
 "dIo" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 8
@@ -40540,6 +40536,13 @@
 	},
 /turf/open/floor/monotile/dark,
 /area/crew_quarters/kitchen)
+"gkW" = (
+/obj/structure/rack,
+/obj/effect/spawner/lootdrop/maintenance,
+/obj/item/storage/toolbox/emergency,
+/obj/item/clothing/gloves/color/fyellow,
+/turf/open/floor/plating,
+/area/nsv/briefingroom)
 "glh" = (
 /obj/structure/disposalpipe/segment{
 	dir = 4
@@ -40565,18 +40568,6 @@
 /obj/effect/mapping_helpers/airlock/cyclelink_helper,
 /turf/open/floor/plating,
 /area/maintenance/department/science)
-"gtt" = (
-/obj/docking_port/stationary/turbolift{
-	dir = 2;
-	dwidth = 7;
-	height = 6;
-	id = "turbolift_primary";
-	name = "aircraft hangar";
-	roundstart_template = /datum/map_template/shuttle/turbolift/nsv/enterprise;
-	width = 15
-	},
-/turf/closed/wall/r_wall/ship,
-/area/maintenance/central)
 "gFl" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 8
@@ -40625,17 +40616,6 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/central)
-"gVr" = (
-/obj/effect/spawner/structure/window/reinforced,
-/obj/machinery/door/poddoor/shutters/preopen{
-	id = "hor_window";
-	name = "privacy shutter"
-	},
-/obj/structure/cable{
-	icon_state = "0-8"
-	},
-/turf/open/floor/plating,
-/area/crew_quarters/heads/hor)
 "gXS" = (
 /obj/machinery/space_heater,
 /turf/open/floor/plating,
@@ -40718,6 +40698,13 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/department/cargo)
+"hRy" = (
+/obj/structure/closet/crate{
+	icon_state = "crateopen"
+	},
+/obj/effect/spawner/lootdrop/maintenance,
+/turf/open/floor/plating,
+/area/maintenance/department/medical)
 "ini" = (
 /obj/machinery/portable_atmospherics/canister/air,
 /turf/open/floor/plating,
@@ -40746,13 +40733,18 @@
 /area/science/mixing{
 	name = "Prototype munitions bay"
 	})
-"iBf" = (
-/obj/structure/closet/crate{
-	icon_state = "crateopen"
+"iEG" = (
+/obj/docking_port/stationary/turbolift{
+	dir = 2;
+	dwidth = 7;
+	height = 6;
+	id = "turbolift_primary";
+	name = "aircraft hangar";
+	roundstart_template = /datum/map_template/shuttle/turbolift/nsv/enterprise;
+	width = 15
 	},
-/obj/effect/spawner/lootdrop/maintenance,
-/turf/open/floor/plating,
-/area/maintenance/department/medical)
+/turf/closed/wall/r_wall/ship,
+/area/maintenance/central)
 "iMe" = (
 /obj/effect/turf_decal/tile/purple{
 	dir = 4
@@ -40806,13 +40798,6 @@
 /obj/structure/closet/firecloset,
 /turf/open/floor/plating,
 /area/maintenance/port)
-"juf" = (
-/obj/structure/rack,
-/obj/effect/spawner/lootdrop/maintenance,
-/obj/item/storage/toolbox/emergency,
-/obj/item/clothing/gloves/color/fyellow,
-/turf/open/floor/plating,
-/area/nsv/briefingroom)
 "jAE" = (
 /obj/effect/turf_decal/tile/yellow{
 	dir = 4
@@ -40858,10 +40843,6 @@
 /area/science/mixing{
 	name = "Prototype munitions bay"
 	})
-"jTF" = (
-/obj/structure/closet/toolcloset,
-/turf/open/floor/plating,
-/area/nsv/briefingroom)
 "jYW" = (
 /obj/effect/turf_decal/tile/neutral{
 	dir = 1
@@ -40896,16 +40877,6 @@
 	},
 /turf/open/floor/monotile/dark,
 /area/security/execution/transfer)
-"krj" = (
-/obj/structure/rack,
-/obj/effect/spawner/lootdrop/maintenance,
-/obj/item/stack/sheet/glass/fifty,
-/obj/item/stack/sheet/iron/fifty{
-	pixel_x = 3;
-	pixel_y = 3
-	},
-/turf/open/floor/plating,
-/area/nsv/briefingroom)
 "kyA" = (
 /obj/structure/table,
 /obj/item/disk/design_disk,
@@ -41027,6 +40998,10 @@
 	},
 /turf/open/floor/monotile/light,
 /area/medical/medbay/lobby)
+"lXB" = (
+/obj/effect/spawner/lootdrop/maintenance,
+/turf/open/floor/plating,
+/area/maintenance/department/medical)
 "mbD" = (
 /obj/machinery/airalarm{
 	pixel_y = 23
@@ -41081,17 +41056,6 @@
 	},
 /turf/open/floor/plating,
 /area/engine/engineering/hangar)
-"mHq" = (
-/obj/effect/spawner/structure/window/reinforced,
-/obj/machinery/door/poddoor/shutters/preopen{
-	id = "hor_window";
-	name = "privacy shutter"
-	},
-/obj/structure/cable{
-	icon_state = "0-4"
-	},
-/turf/open/floor/plating,
-/area/crew_quarters/heads/hor)
 "mIw" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 6
@@ -41124,6 +41088,18 @@
 	},
 /turf/open/floor/engine,
 /area/engine/atmospherics_engine)
+"nqq" = (
+/obj/machinery/door/airlock/ship/public/glass{
+	name = "Patient Room B"
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	dir = 8
+	},
+/turf/open/floor/monotile,
+/area/medical/medbay/central)
 "nqx" = (
 /obj/machinery/airalarm/mixingchamber{
 	dir = 4;
@@ -41166,10 +41142,6 @@
 	},
 /turf/open/floor/monotile/dark,
 /area/science/xenobiology)
-"nZq" = (
-/obj/effect/spawner/lootdrop/maintenance,
-/turf/open/floor/plating,
-/area/maintenance/department/medical)
 "oqq" = (
 /obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer3{
 	dir = 1
@@ -41315,6 +41287,16 @@
 /obj/effect/turf_decal/bot_white/right,
 /turf/open/floor/monotile,
 /area/gateway)
+"qPk" = (
+/obj/structure/rack,
+/obj/effect/spawner/lootdrop/maintenance,
+/obj/item/stack/sheet/glass/fifty,
+/obj/item/stack/sheet/iron/fifty{
+	pixel_x = 3;
+	pixel_y = 3
+	},
+/turf/open/floor/plating,
+/area/nsv/briefingroom)
 "qQR" = (
 /obj/effect/turf_decal/tile/purple,
 /obj/effect/turf_decal/tile/purple{
@@ -41474,6 +41456,17 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/department/cargo)
+"tkP" = (
+/obj/effect/spawner/structure/window/reinforced,
+/obj/machinery/door/poddoor/shutters/preopen{
+	id = "hor_window";
+	name = "privacy shutter"
+	},
+/obj/structure/cable{
+	icon_state = "0-4"
+	},
+/turf/open/floor/plating,
+/area/crew_quarters/heads/hor)
 "tnm" = (
 /obj/effect/turf_decal/tile/yellow{
 	dir = 1
@@ -41646,6 +41639,10 @@
 /area/science/mixing{
 	name = "Prototype munitions bay"
 	})
+"vYJ" = (
+/obj/structure/closet/toolcloset,
+/turf/open/floor/plating,
+/area/nsv/briefingroom)
 "wgS" = (
 /obj/structure/table,
 /obj/item/storage/firstaid/toxin,
@@ -41715,7 +41712,7 @@
 	},
 /turf/open/floor/monotile/dark,
 /area/crew_quarters/nsv/observation)
-"xbm" = (
+"wZC" = (
 /obj/structure/cable{
 	icon_state = "2-8"
 	},
@@ -59458,11 +59455,11 @@ bzA
 aKr
 aLb
 abB
-mHq
-mHq
-mHq
-mHq
-mHq
+tkP
+tkP
+tkP
+tkP
+tkP
 aXi
 alK
 lRd
@@ -60490,7 +60487,7 @@ bjU
 bqK
 aLc
 aLc
-xbm
+wZC
 aaC
 bxf
 aKS
@@ -61001,10 +60998,10 @@ aKY
 bpG
 abB
 bdx
-gVr
-gVr
-gVr
-gVr
+ddi
+ddi
+ddi
+ddi
 aXi
 bgr
 aKS
@@ -63279,7 +63276,7 @@ anb
 anb
 aZa
 akL
-nZq
+lXB
 aZa
 ayX
 bCZ
@@ -65838,7 +65835,7 @@ afw
 ahm
 ahK
 ahm
-dFB
+nqq
 ahm
 ahm
 bfw
@@ -65849,7 +65846,7 @@ aic
 aUx
 afw
 aXN
-iBf
+hRy
 agP
 agW
 aki
@@ -74817,7 +74814,7 @@ ini
 aae
 bFQ
 aZO
-gtt
+iEG
 bip
 bip
 bip
@@ -77935,9 +77932,9 @@ bcy
 aMv
 aaj
 acI
-krj
+qPk
 abJ
-juf
+gkW
 aaj
 buQ
 ada
@@ -78962,7 +78959,7 @@ ahz
 bcy
 aMv
 abf
-jTF
+vYJ
 abs
 aaf
 acm
