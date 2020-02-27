@@ -85,6 +85,8 @@
 #define COMSIG_ATOM_ATTACK_HAND "atom_attack_hand"				//! from base of atom/attack_hand(): (mob/user)
 #define COMSIG_ATOM_ATTACK_PAW "atom_attack_paw"				//! from base of atom/attack_paw(): (mob/user)
 	#define COMPONENT_NO_ATTACK_HAND 1							//works on all 3.
+	//This signal return value bitflags can be found in __DEFINES/misc.dm
+#define COMSIG_ATOM_INTERCEPT_Z_FALL "movable_intercept_z_impact"	//called for each movable in a turf contents on /turf/zImpact(): (atom/movable/A, levels)
 /////////////////
 
 #define COMSIG_ENTER_AREA "enter_area" 							//! from base of area/Entered(): (/area)
@@ -207,6 +209,13 @@
 #define COMSIG_ITEM_HIT_REACT "item_hit_react"					//! from base of obj/item/hit_reaction(): (list/args)
 #define COMSIG_ITEM_MOB_CAN_EQUIP "mob_can_equip"				//! from base of obj/item/mob_can_equip(): (mob/living/M, mob/living/equipper, slot, disable_warning = FALSE, bypass_equip_delay_self = FALSE)
 #define COMSIG_ITEM_EQUIP_TO_BEST_SLOT "equip_to_best_slot"		//! from base of obj/item/equip_to_best_slot() (from modules/mob/inventory.dm): (mob/M)
+
+#define COMSIG_ITEM_IS_WIELDED "item_is_wielded"				//! used to check if an item is two-handed and wielded
+	#define COMPONENT_WIELDED 1
+#define COMSIG_ITEM_WIELD "wield_item"							//! wield a two-handed item: (mob/user)
+#define COMSIG_ITEM_UNWIELD	"unwield_item"						//! unwield a two-handed item: (mob/user, show_message = TRUE)
+#define COMSIG_ITEM_SET_WIELD_FORCE "set_wield_force"			//! set the wielded and unwielded force of a two-handed item: (force_unwielded, force_wielded)
+#define COMSIG_ITEM_MODIFY_WIELD_FORCE "modify_wield_force"		//! increase/decrease the wielded/unwielded force of the item by an amount: (unwielded_change, wielded_change)
 
 // /obj/item/clothing signals
 #define COMSIG_SHOES_STEP_ACTION "shoes_step_action"			//! from base of obj/item/clothing/shoes/proc/step_action(): ()
