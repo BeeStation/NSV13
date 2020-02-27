@@ -11,7 +11,8 @@
 		return
 	if((object in mob.contents) || (object == mob))
 		return
-	start_aiming(object, location, params, mob)
+	if(fire_mode == FIRE_MODE_RAILGUN)
+		start_aiming(object, location, params, mob)
 	return ..()
 
 /obj/structure/overmap/proc/onMouseUp(object, location, params, mob/M)
@@ -123,7 +124,7 @@
 	if(highlander && istype(gun))
 		var/list/obj/item/projectile/beam/overmap/aiming_beam/new_tracers = list()
 		for(var/datum/point/p in beam_segments)
-			if((pixel_length_between_points(p, beam_segments[p]) / world.icon_size) >= 100)
+			if((pixel_length_between_points(p, beam_segments[p]) / world.icon_size) >= 100) // I hate this but it works
 				new_tracers += generate_tracer_between_points(p, beam_segments[p], tracer_type, color, 0, hitscan_light_range, hitscan_light_color_override, hitscan_light_intensity)
 		if(new_tracers.len)
 			QDEL_LIST(gun.current_tracers)
