@@ -322,7 +322,7 @@ After going through this checklist, you're ready to go!
 			last_overmap = null
 		else
 			for(var/obj/structure/overmap/O in GLOB.overmap_objects)
-				if(O.main_overmap)
+				if(O.role == MAIN_OVERMAP)
 					OM = O
 		if(!OM)
 			return FALSE

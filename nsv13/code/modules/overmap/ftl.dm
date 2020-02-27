@@ -15,7 +15,7 @@
 	addtimer(CALLBACK(src, .proc/jump, target_system, TRUE), 30 SECONDS)
 
 /obj/structure/overmap/proc/jump(datum/starsystem/target_system, ftl_start) //FTL start IE, are we beginning a jump? Or ending one?
-	if(main_overmap)
+	if(role == MAIN_OVERMAP)
 		var/list/areas = list()
 		areas = GLOB.teleportlocs.Copy()
 		for(var/A in areas)
@@ -130,7 +130,7 @@
 	radio.talk_into(src, "Initiating FTL jump.", engineering_channel)
 	playsound(src, 'nsv13/sound/effects/ship/freespace2/computer/escape.wav', 100, 1)
 	visible_message("<span class='notice'>Initiating FTL jump.</span>")
-	if(linked.main_overmap)
+	if(linked.role == MAIN_OVERMAP)
 		priority_announce("Attention: All hands brace for FTL translation. Destination: [target_system]. Projected ETA: 2:45 minutes","Automated announcement") //TEMP! Remove this shit when we move ruin spawns off-z
 	else
 		minor_announce("[linked] has begun an FTL jump. Target: [target_system]. Projected ETA: 2:45 minutes", "Bluespace hyperlane governor")

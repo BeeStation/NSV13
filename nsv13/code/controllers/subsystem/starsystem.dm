@@ -65,12 +65,12 @@ SUBSYSTEM_DEF(starsystem)
 
 /datum/controller/subsystem/starsystem/proc/find_main_overmap() //Find the main ship
 	for(var/obj/structure/overmap/OM in GLOB.overmap_objects)
-		if(OM.main_overmap)
+		if(OM.role == MAIN_OVERMAP)
 			return OM
 
 /datum/controller/subsystem/starsystem/proc/find_main_miner() //Find the mining ship
 	for(var/obj/structure/overmap/OM in GLOB.overmap_objects)
-		if(OM.main_miner)
+		if(OM.role == MAIN_MINING_SHIP)
 			return OM
 
 /datum/controller/subsystem/starsystem/proc/find_system(obj/structure/overmap/OM) //Used to determine what system a ship is currently in. Famously used to determine the starter system that you've put the ship in.
@@ -121,7 +121,7 @@ SUBSYSTEM_DEF(starsystem)
 /datum/controller/subsystem/starsystem/proc/gameplay_loop() //A very simple way of having a gameplay loop. Every couple of minutes, the Syndicate appear in a system, the ship has to destroy them.
 	var/datum/starsystem/current_system //Dont spawn enemies where theyre currently at
 	for(var/obj/structure/overmap/OM in GLOB.overmap_objects) //The ship doesnt start with a system assigned by default
-		if(!OM.main_overmap)
+		if(OM.role != MAIN_OVERMAP)
 			continue
 		OM.current_system = find_system(OM) //The ship doesnt start with a system assigned by default
 		current_system = OM?.current_system

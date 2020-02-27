@@ -80,20 +80,20 @@
 
 /obj/structure/overmap/nanotrasen/mining_cruiser/nostromo
 	name = "NSV Nostromo"
-	main_miner = TRUE //Player controlled variant
+	role = MAIN_MINING_SHIP
 
 /obj/structure/overmap/nanotrasen/missile_cruiser/starter //VAGO. Sergei use me!
-	main_overmap = TRUE //Player controlled variant
+	role = MAIN_OVERMAP
 	max_integrity = 1800 //Buffed health due to ship internal damage existing
 	integrity_failure = 1800
 
 /obj/structure/overmap/nanotrasen/patrol_cruiser/starter
-	main_overmap = TRUE //Player controlled variant
+	role = MAIN_OVERMAP //Player controlled variant
 	max_integrity = 1800 //Buffed health due to ship internal damage existing
 	integrity_failure = 1800
 
 /obj/structure/overmap/nanotrasen/heavy_cruiser/starter
-	main_overmap = TRUE //Player controlled variant
+	role = MAIN_OVERMAP //Player controlled variant
 	max_integrity = 1800 //Buffed health due to ship internal damage existing
 	integrity_failure = 1800
 
