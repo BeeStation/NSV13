@@ -32,3 +32,7 @@ GLOBAL_VAR(holy_armor_type)
 GLOBAL_VAR_INIT(total_cube_monkeys, 0)
 GLOBAL_VAR_INIT(total_chickens, 0)
 GLOBAL_VAR_INIT(total_slimes, 0)
+
+//Managed by byond_extools.dll
+//Var is updated every tick, used to reduce lag
+GLOBAL_VAR_INIT(internal_tick_usage, 0.2 * world.tick_lag)
