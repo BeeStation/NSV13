@@ -42,8 +42,8 @@
 	operators -= M
 	if(M.click_intercept == src)
 		M.click_intercept = null
+	LAZYREMOVE(M.mousemove_intercept_objects, src)
 	if(pilot && M == pilot)
-		LAZYREMOVE(M.mousemove_intercept_objects, src)
 		pilot = null
 		if(helm)
 			playsound(helm, 'nsv13/sound/effects/computer/hum.ogg', 100, 1)
@@ -67,6 +67,7 @@
 		hal.remote_control = cam
 	QDEL_NULL(M.remote_control)
 	M.set_focus(M)
+	M.cancel_camera()
 	return TRUE
 
 /obj/structure/overmap/proc/CreateEye(mob/user)
