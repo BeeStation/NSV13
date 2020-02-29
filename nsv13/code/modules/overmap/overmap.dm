@@ -117,15 +117,8 @@
 	// Railgun aim helper
 	var/last_tracer_process = 0
 	var/aiming = FALSE
-	var/aiming_time = 12
-	var/aiming_time_fire_threshold = 5
-	var/aiming_time_left = 12
-	var/aiming_time_increase_user_movement = 3
-	var/scoped_slow = 1
-	var/aiming_time_increase_angle_multiplier = 0.3
-	var/lastangle = 0
 	var/aiming_lastangle = 0
-	var/mob/current_user = null
+	var/lastangle = 0
 	var/list/obj/effect/projectile/tracer/current_tracers
 	var/mob/listeningTo
 

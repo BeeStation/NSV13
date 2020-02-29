@@ -5,8 +5,6 @@
 	return ..()
 
 /obj/structure/overmap/proc/onMouseDown(object, location, params, mob/M)
-	if(istype(M))
-		set_user(M)
 	if(istype(object, /obj/screen) && !istype(object, /obj/screen/click_catcher))
 		return
 	if((object in M.contents) || (object == M))
@@ -42,44 +40,21 @@
 	P.layer = BULLET_HOLE_LAYER
 	P.fire(lastangle)
 
-/obj/structure/overmap/proc/do_aim_processing()
-	if(!aiming)
-		last_tracer_process = world.time
-		return
-	check_user()
-	aiming_time_left = max(0, aiming_time_left - (world.time - last_tracer_process))
-	draw_beam(TRUE)
-	last_tracer_process = world.time
-
 /obj/structure/overmap/proc/check_user(automatic_cleanup = TRUE)
 	if(!istype(gunner) || gunner.incapacitated())
 		if(automatic_cleanup)
 			stop_aiming()
-			set_user(null)
 		return FALSE
 	return TRUE
 
-/obj/structure/overmap/proc/process_aim(params, mob)
-	if(istype(gunner) && gunner.client && gunner.client.mouseParams)
-		var/mouse_angle = getMouseAngle(params, mob)
-		lastangle = mouse_angle
-
 /obj/structure/overmap/proc/start_aiming(params, mob/M)
 	lastangle = getMouseAngle(params, M)
-	aiming_time_left = aiming_time
 	aiming = TRUE
 	draw_beam(TRUE)
 
-/obj/structure/overmap/proc/stop_aiming(mob/user)
-	set waitfor = FALSE
-	aiming_time_left = aiming_time
+/obj/structure/overmap/proc/stop_aiming()
 	aiming = FALSE
 	QDEL_LIST(current_tracers)
-
-/obj/structure/overmap/proc/set_user(mob/living/user)
-	if(user == gunner)
-		return
-	stop_aiming(gunner)
 
 /obj/structure/overmap/CanPass(atom/movable/mover, turf/target)
 	if(istype(mover, /obj/item/projectile/beam/overmap/aiming_beam))
