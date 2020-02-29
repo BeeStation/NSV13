@@ -5,7 +5,6 @@
 	if(aiming)
 		lastangle = getMouseAngle(params, M)
 		draw_beam()
-	return ..()
 
 /obj/structure/overmap/proc/onMouseDown(object, location, params, mob/M)
 	if(istype(object, /obj/screen) && !istype(object, /obj/screen/click_catcher))
@@ -14,7 +13,6 @@
 		return
 	if(fire_mode == FIRE_MODE_RAILGUN)
 		start_aiming(params, M)
-	return ..()
 
 /obj/structure/overmap/proc/onMouseUp(object, location, params, mob/M)
 	if(istype(object, /obj/screen) && !istype(object, /obj/screen/click_catcher))
@@ -22,7 +20,6 @@
 	lastangle = getMouseAngle(params, M)
 	stop_aiming()
 	QDEL_LIST(current_tracers)
-	return ..()
 
 /obj/structure/overmap/proc/draw_beam(force_update = FALSE)
 	var/diff = abs(aiming_lastangle - lastangle)
