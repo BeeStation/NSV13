@@ -41,7 +41,6 @@
 	user.click_intercept = src
 
 /obj/structure/overmap/proc/stop_piloting(mob/living/M)
-	M.focus = M
 	operators -= M
 	if(M.click_intercept == src)
 		M.click_intercept = null
@@ -59,8 +58,18 @@
 	if(M.client)
 		M.client.check_view()
 	M.overmap_ship = null
+	var/mob/camera/aiEye/remote/overmap_observer/eyeobj = M.remote_control
+	if(eyeobj?.off_action)
+		qdel(eyeobj.off_action)
 	M.cancel_camera()
+	if(istype(M, /mob/living/silicon/ai))
+		var/mob/living/silicon/ai/hal = M
+		if((locate(eyeobj) in hal.all_eyes))
+			hal.all_eyes -= eyeobj
+		var/mob/camera/aiEye/cam = pick(hal.all_eyes)
+		hal.remote_control = cam
 	QDEL_NULL(M.remote_control)
+	M.set_focus(M)
 	return TRUE
 
 /obj/structure/overmap/proc/CreateEye(mob/user)
@@ -110,7 +119,7 @@
 /obj/structure/overmap/proc/remove_eye_control(mob/living/user)
 
 /mob/camera/aiEye/remote/overmap_observer/relaymove(mob/user,direct)
-	origin.relaymove(user,direct) //Move the ship. Means our pilots don't fucking suffocate because space is C O L D
+	origin?.relaymove(user,direct) //Move the ship. Means our pilots don't fucking suffocate because space is C O L D
 	return
 
 /mob/camera/aiEye/remote/overmap_observer/proc/add_relay() //Add a signal to move us
