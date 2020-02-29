@@ -53,6 +53,7 @@
 		else if(istype(active_mousedown_item, /obj/structure/overmap))
 			var/obj/structure/overmap/OM = active_mousedown_item
 			OM.onMouseDown(object, location, params, mob)
+		//NSV13 end
 
 /client/MouseUp(object, location, control, params)
 	if (mouse_up_icon)
@@ -155,6 +156,7 @@
 		else if(istype(active_mousedown_item, /obj/structure/overmap))
 			var/obj/structure/overmap/OM = active_mousedown_item
 			OM.onMouseDrag(src_object, over_object, src_location, over_location, params, mob)
+		//NSV13 end
 
 /obj/item/proc/onMouseDrag(src_object, over_object, src_location, over_location, params, mob)
 	return

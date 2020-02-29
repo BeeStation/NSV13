@@ -545,11 +545,6 @@
 		QDEL_LIST(gun.current_tracers)
 		for(var/datum/point/p in beam_segments)
 			gun.current_tracers += generate_tracer_between_points(p, beam_segments[p], tracer_type, color, 0, hitscan_light_range, hitscan_light_color_override, hitscan_light_intensity)
-	else if(istype(gun, /obj/structure/overmap))
-		var/obj/structure/overmap/OM = gun
-		QDEL_LIST(OM.current_tracers)
-		for(var/datum/point/p in beam_segments)
-			OM.current_tracers += generate_tracer_between_points(p, beam_segments[p], tracer_type, color, duration, hitscan_light_range, hitscan_light_color_override, hitscan_light_intensity)
 	else
 		for(var/datum/point/p in beam_segments)
 			generate_tracer_between_points(p, beam_segments[p], tracer_type, color, duration, hitscan_light_range, hitscan_light_color_override, hitscan_light_intensity)

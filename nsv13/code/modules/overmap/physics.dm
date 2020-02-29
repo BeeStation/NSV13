@@ -311,7 +311,6 @@
 		M.Knockdown(bump_velocity * 2)
 		M.visible_message("<span class='warning'>The force of the impact knocks [M] down!</span>","<span class='userdanger'>The force of the impact knocks you down!</span>")
 		log_combat(pilot, M, "impacted", src, "with velocity of [bump_velocity]")
-
 	return ..()
 
 /obj/structure/overmap/proc/fire_projectile(proj_type, atom/target, homing = FALSE, speed=10, explosive = FALSE) //Fire one shot. Used for big, hyper accelerated shots rather than PDCs
