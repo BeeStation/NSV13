@@ -1,30 +1,27 @@
-/obj/structure/overmap/proc/onMouseDrag(src_object, over_object, src_location, over_location, params, mob)
+/obj/structure/overmap/proc/onMouseDrag(src_object, over_object, src_location, over_location, params, mob/M)
 	if(aiming)
-		process_aim(params, mob)
+		lastangle = getMouseAngle(params, M)
 		draw_beam()
 	return ..()
 
-/obj/structure/overmap/proc/onMouseDown(object, location, params, mob/mob)
-	if(istype(mob))
-		set_user(mob)
+/obj/structure/overmap/proc/onMouseDown(object, location, params, mob/M)
+	if(istype(M))
+		set_user(M)
 	if(istype(object, /obj/screen) && !istype(object, /obj/screen/click_catcher))
 		return
-	if((object in mob.contents) || (object == mob))
+	if((object in M.contents) || (object == M))
 		return
 	if(fire_mode == FIRE_MODE_RAILGUN)
-		start_aiming(object, location, params, mob)
+		start_aiming(params, M)
 	return ..()
 
 /obj/structure/overmap/proc/onMouseUp(object, location, params, mob/M)
 	if(istype(object, /obj/screen) && !istype(object, /obj/screen/click_catcher))
 		return
-	process_aim(params, M)
+	lastangle = getMouseAngle(params, M)
 	stop_aiming()
 	QDEL_LIST(current_tracers)
 	return ..()
-
-/obj/structure/overmap/proc/delay_penalty(amount)
-	aiming_time_left = CLAMP(aiming_time_left + amount, 0, aiming_time)
 
 /obj/structure/overmap/proc/draw_beam(force_update = FALSE)
 	var/diff = abs(aiming_lastangle - lastangle)
@@ -65,15 +62,12 @@
 /obj/structure/overmap/proc/process_aim(params, mob)
 	if(istype(gunner) && gunner.client && gunner.client.mouseParams)
 		var/mouse_angle = getMouseAngle(params, mob)
-		gunner.setDir(angle2dir_cardinal(mouse_angle))
-		var/difference = abs(closer_angle_difference(lastangle, mouse_angle))
-		delay_penalty(difference * aiming_time_increase_angle_multiplier)
 		lastangle = mouse_angle
 
-/obj/structure/overmap/proc/start_aiming()
+/obj/structure/overmap/proc/start_aiming(params, mob/M)
+	lastangle = getMouseAngle(params, M)
 	aiming_time_left = aiming_time
 	aiming = TRUE
-	process_aim()
 	draw_beam(TRUE)
 
 /obj/structure/overmap/proc/stop_aiming(mob/user)
@@ -121,7 +115,7 @@
 	if(highlander && istype(gun))
 		var/list/obj/item/projectile/beam/overmap/aiming_beam/new_tracers = list()
 		for(var/datum/point/p in beam_segments)
-			if((pixel_length_between_points(p, beam_segments[p]) / world.icon_size) >= 100) // I hate this but it works
+			if((pixel_length_between_points(p, beam_segments[p]) / world.icon_size) >= 50) // I hate this but it works
 				new_tracers += generate_tracer_between_points(p, beam_segments[p], tracer_type, color, 0, hitscan_light_range, hitscan_light_color_override, hitscan_light_intensity)
 		if(new_tracers.len)
 			QDEL_LIST(gun.current_tracers)
