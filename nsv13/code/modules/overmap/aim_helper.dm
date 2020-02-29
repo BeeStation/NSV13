@@ -58,7 +58,9 @@
 
 /obj/structure/overmap/CanPass(atom/movable/mover, turf/target)
 	if(istype(mover, /obj/item/projectile/beam/overmap/aiming_beam))
-		return TRUE
+		var/obj/item/projectile/beam/overmap/aiming_beam/AB = mover
+		if (src == AB.gun)
+			return TRUE
 	. = ..()
 
 
@@ -90,7 +92,8 @@
 	if(highlander && istype(gun))
 		var/list/obj/item/projectile/beam/overmap/aiming_beam/new_tracers = list()
 		for(var/datum/point/p in beam_segments)
-			if((pixel_length_between_points(p, beam_segments[p]) / world.icon_size) >= 50) // I hate this but it works
+			// I don't know why these "dead zones" appear and override the normal lines, but there is a pattern, so I'm gonna use it
+			if((p.x != 273) && (p.x != 7889) && (p.y != 273) && (p.y != 7889))
 				new_tracers += generate_tracer_between_points(p, beam_segments[p], tracer_type, color, 0, hitscan_light_range, hitscan_light_color_override, hitscan_light_intensity)
 		if(new_tracers.len)
 			QDEL_LIST(gun.current_tracers)
