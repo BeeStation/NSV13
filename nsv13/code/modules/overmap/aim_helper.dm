@@ -34,11 +34,7 @@
 	aiming_lastangle = lastangle
 	var/obj/item/projectile/beam/overmap/aiming_beam/P = new
 	P.gun = src
-	if(aiming_time)
-		var/percent = ((100/aiming_time)*aiming_time_left)
-		P.color = rgb(255 * percent,255 * ((100 - percent) / 100),0)
-	else
-		P.color = rgb(0, 255, 0)
+	P.color = "#99ff99"
 	var/turf/curloc = get_turf(src)
 	var/turf/targloc = get_turf(gunner.client.mouseObject)
 	if(!istype(targloc))
@@ -46,6 +42,7 @@
 			return
 		targloc = get_turf_in_angle(lastangle, curloc, 10)
 	P.preparePixelProjectile(targloc, src, gunner.client.mouseParams, 0)
+	P.layer = BULLET_HOLE_LAYER
 	P.fire(lastangle)
 
 /obj/structure/overmap/proc/do_aim_processing()
