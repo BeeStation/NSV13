@@ -329,7 +329,6 @@
 /turf/open/floor/monotile,
 /area/crew_quarters/heads/captain)
 "aX" = (
-/obj/machinery/camera/autoname,
 /obj/structure/sign/plaques/golden/captain{
 	pixel_y = 26
 	},
@@ -588,6 +587,10 @@
 	dir = 4
 	},
 /obj/machinery/holopad,
+/obj/item/radio/intercom{
+	name = "intra ship intercom";
+	pixel_y = -26
+	},
 /turf/open/floor/carpet/ship,
 /area/crew_quarters/heads/captain)
 "bL" = (
@@ -830,6 +833,10 @@
 /obj/structure/disposalpipe/trunk{
 	dir = 4
 	},
+/obj/item/radio/intercom{
+	name = "intra ship intercom";
+	pixel_y = -26
+	},
 /turf/open/floor/monotile,
 /area/crew_quarters/heads/captain)
 "cJ" = (
@@ -967,6 +974,9 @@
 /obj/structure/table/glass,
 /turf/open/floor/circuit/red,
 /area/ai_monitored/turret_protected/ai_upload)
+"de" = (
+/turf/closed/wall/r_wall/ship,
+/area/hallway/nsv/deck1/hallway)
 "df" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer1{
 	dir = 4
@@ -2318,6 +2328,9 @@
 	pixel_y = 24
 	},
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer1,
+/obj/machinery/camera/autoname{
+	dir = 4
+	},
 /turf/open/floor/monotile/dark,
 /area/hallway/primary/aft)
 "gq" = (
@@ -3319,6 +3332,10 @@
 	},
 /obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1,
 /obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer3,
+/obj/item/radio/intercom{
+	name = "intra ship intercom";
+	pixel_y = -26
+	},
 /turf/open/floor/monotile/dark,
 /area/hallway/primary/aft)
 "iK" = (
@@ -4176,9 +4193,9 @@
 	},
 /obj/machinery/requests_console{
 	announcementConsole = 1;
-	department = "Bridge";
+	department = "CIC";
 	departmentType = 5;
-	name = "Bridge RC";
+	name = "CIC RC";
 	pixel_y = -32
 	},
 /turf/open/floor/monotile,
@@ -4889,9 +4906,6 @@
 /obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer3{
 	dir = 4
 	},
-/obj/machinery/camera/autoname{
-	dir = 8
-	},
 /turf/open/floor/monotile/dark,
 /area/hallway/primary/aft)
 "lP" = (
@@ -5197,6 +5211,11 @@
 	},
 /turf/open/floor/monotile/dark,
 /area/ai_monitored/turret_protected/ai_upload)
+"qd" = (
+/obj/effect/turf_decal/bot,
+/obj/machinery/door/airlock/turbolift/ship,
+/turf/open/floor/monotile/dark/airless,
+/area/maintenance/ship_exterior)
 "qB" = (
 /obj/machinery/camera/autoname{
 	dir = 8
@@ -5238,8 +5257,19 @@
 	},
 /turf/open/floor/plating,
 /area/bridge)
-"uy" = (
-/turf/closed/wall/r_wall/ship,
+"uj" = (
+/obj/structure/railing{
+	dir = 4
+	},
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/obj/item/radio/intercom{
+	name = "intra ship intercom";
+	pixel_x = -26
+	},
+/turf/open/floor/monotile/dark,
 /area/hallway/nsv/deck1/hallway)
 "vi" = (
 /obj/structure/cable{
@@ -5273,9 +5303,6 @@
 /area/nsv/hanger/deck3{
 	name = "Air traffic control pod"
 	})
-"xy" = (
-/turf/closed/wall/r_wall/ship,
-/area/maintenance/department/bridge)
 "yn" = (
 /obj/machinery/newscaster/security_unit{
 	pixel_x = -32;
@@ -5327,11 +5354,6 @@
 	},
 /turf/open/floor/circuit,
 /area/ai_monitored/turret_protected/ai_upload)
-"Bw" = (
-/obj/effect/turf_decal/bot,
-/obj/machinery/door/airlock/turbolift/ship,
-/turf/open/floor/monotile/dark/airless,
-/area/maintenance/ship_exterior)
 "CA" = (
 /obj/machinery/camera/motion{
 	dir = 1
@@ -5440,6 +5462,9 @@
 	},
 /turf/open/floor/monotile,
 /area/ai_monitored/turret_protected/ai_upload)
+"PI" = (
+/turf/closed/wall/r_wall/ship,
+/area/maintenance/department/bridge)
 "Qx" = (
 /obj/structure/table,
 /obj/item/stack/packageWrap,
@@ -5589,6 +5614,9 @@
 "Xd" = (
 /turf/closed/wall/r_wall/ship,
 /area/maintenance/central)
+"Xv" = (
+/turf/closed/wall/r_wall/ship,
+/area/crew_quarters/heads/captain)
 "XX" = (
 /obj/effect/landmark/start/ai,
 /obj/item/radio/intercom{
@@ -5652,9 +5680,6 @@
 	},
 /turf/open/floor/monotile/dark,
 /area/teleporter)
-"ZR" = (
-/turf/closed/wall/r_wall/ship,
-/area/crew_quarters/heads/captain)
 
 (1,1,1) = {"
 aa
@@ -32762,13 +32787,13 @@ at
 ak
 hz
 hT
-ZR
-ZR
-ZR
-ZR
-ZR
-ZR
-ZR
+Xv
+Xv
+Xv
+Xv
+Xv
+Xv
+Xv
 bE
 bE
 bE
@@ -33019,10 +33044,10 @@ hK
 ak
 hz
 hT
-ZR
+Xv
 aR
 be
-ZR
+Xv
 bm
 bv
 yP
@@ -33276,7 +33301,7 @@ hJ
 iy
 hz
 hT
-ZR
+Xv
 aS
 bb
 bo
@@ -33533,10 +33558,10 @@ hK
 hJ
 hz
 hT
-ZR
+Xv
 aT
 aY
-ZR
+Xv
 bw
 kY
 bA
@@ -33790,10 +33815,10 @@ hK
 hJ
 hz
 hT
-ZR
-ZR
-ZR
-ZR
+Xv
+Xv
+Xv
+Xv
 bG
 aP
 aP
@@ -35332,14 +35357,14 @@ hK
 hJ
 hz
 hT
-ZR
-ZR
-ZR
-ZR
+Xv
+Xv
+Xv
+Xv
 cn
-ZR
-ZR
-xy
+Xv
+Xv
+PI
 bF
 bF
 bF
@@ -35589,16 +35614,16 @@ hK
 iy
 hz
 hT
-ZR
+Xv
 aU
 dh
 iK
 cG
 bz
 bB
-ZR
+Xv
 gx
-gz
+uj
 gz
 kX
 gA
@@ -36624,7 +36649,7 @@ bi
 bt
 aZ
 aV
-ZR
+Xv
 bY
 cl
 cl
@@ -36881,7 +36906,7 @@ aZ
 bu
 aZ
 cI
-ZR
+Xv
 es
 es
 es
@@ -37112,7 +37137,7 @@ aJ
 aJ
 aJ
 aJ
-Bw
+qd
 lC
 hK
 iC
@@ -37369,7 +37394,7 @@ aJ
 aJ
 aJ
 aJ
-Bw
+qd
 lC
 hK
 hK
@@ -37626,7 +37651,7 @@ aJ
 aJ
 aJ
 aJ
-Bw
+qd
 lC
 hK
 hK
@@ -37645,7 +37670,7 @@ hK
 iy
 hz
 hT
-ZR
+Xv
 aX
 aV
 aV
@@ -37883,7 +37908,7 @@ aJ
 aJ
 aJ
 aJ
-Bw
+qd
 lC
 hK
 iC
@@ -37902,14 +37927,14 @@ hK
 hJ
 hz
 hT
-ZR
-ZR
+Xv
+Xv
 aQ
 aQ
 aQ
 aQ
-ZR
-ZR
+Xv
+Xv
 eg
 gJ
 ck
@@ -38140,7 +38165,7 @@ aJ
 aJ
 aJ
 aJ
-Bw
+qd
 lC
 hK
 hK
@@ -38397,7 +38422,7 @@ aJ
 aJ
 aJ
 aJ
-Bw
+qd
 lC
 hK
 hK
@@ -38654,7 +38679,7 @@ aJ
 aJ
 aJ
 aJ
-Bw
+qd
 lC
 hK
 hK
@@ -38911,7 +38936,7 @@ aJ
 aJ
 aJ
 aJ
-Bw
+qd
 lC
 hK
 hK
@@ -38949,14 +38974,14 @@ ck
 ck
 kg
 cb
-uy
+de
 es
 es
 es
 es
 es
-uy
-uy
+de
+de
 hT
 hZ
 hK
@@ -39168,7 +39193,7 @@ aJ
 aJ
 aJ
 aJ
-Bw
+qd
 lC
 hK
 hK
@@ -39425,7 +39450,7 @@ aJ
 aJ
 aJ
 aJ
-Bw
+qd
 lC
 hK
 iC
@@ -39682,7 +39707,7 @@ aJ
 aJ
 aJ
 aJ
-Bw
+qd
 lC
 hK
 hK
@@ -39939,7 +39964,7 @@ aJ
 aJ
 aJ
 aJ
-Bw
+qd
 lC
 hK
 hK
@@ -40196,7 +40221,7 @@ aJ
 aJ
 aJ
 aJ
-Bw
+qd
 lC
 hK
 iC
@@ -40736,7 +40761,7 @@ hK
 hK
 hz
 hT
-uy
+de
 ev
 dp
 kF
@@ -40993,7 +41018,7 @@ hK
 hK
 hz
 hT
-uy
+de
 ew
 eH
 dq
@@ -41005,9 +41030,9 @@ kK
 lf
 kk
 lr
-uy
-uy
-uy
+de
+de
+de
 hT
 hT
 hT
@@ -41250,7 +41275,7 @@ hK
 hK
 hz
 hT
-uy
+de
 iH
 cb
 cb
@@ -41262,7 +41287,7 @@ dK
 kf
 kO
 cb
-uy
+de
 hT
 hT
 hU
@@ -41507,19 +41532,19 @@ hK
 hK
 hz
 hT
-uy
-uy
-uy
-uy
+de
+de
+de
+de
 fH
 fZ
-uy
+de
 iL
 iT
-uy
-uy
-uy
-uy
+de
+de
+de
+de
 iA
 hZ
 hK
