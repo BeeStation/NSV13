@@ -4,16 +4,15 @@ SUBSYSTEM_DEF(starsystem)
 	wait = 10
 	flags = SS_NO_INIT
 	var/last_combat_enter = 0 //Last time an AI controlled ship attacked the players
-	var/modifier = 0 //Time step modifier for overmap combat
+	var/modifier = 0 //Time step modifier for overmap combat - also matches curreny OEH weight
 	var/list/systems = list()
 	var/datum/starsystem/hyperspace //The transit level for ships
 	var/bounty_pool = 0 //Bounties pool to be delivered for destroying syndicate ships
 
 /datum/controller/subsystem/starsystem/fire() //Overmap combat events control system, adds weight to combat events over time spent out of combat
 	if(last_combat_enter + (5000 + (1000 * modifier)) < world.time) //Checking the last time we started combat with the current time
-		var/datum/round_event_control/lone_hunter/LH = locate(/datum/round_event_control/lone_hunter) in SSevents.control
-		var/datum/round_event_control/belt_rats/BR = locate(/datum/round_event_control/belt_rats) in SSevents.control
-		modifier += 1 //Increment time step
+		var/datum/round_event_control/_overmap_event_handler/OEH = locate(/datum/round_event_control/_overmap_event_handler) in SSevents.control
+		modifier ++ //Increment time step
 		if(modifier == 13) // 30 minutes
 			var/message = pick(	"This is Centcomm to all vessels assigned to patrol the Astraeus-Corvi routes, please continue on your patrol route", \
 								"This is Centcomm to all vessels assigned to patrol the Astraeus-Corvi routes, we are not paying you to idle in space during your assigned patrol schedule", \
@@ -25,28 +24,9 @@ SUBSYSTEM_DEF(starsystem)
 				var/datum/bank_account/D = SSeconomy.get_dep_account(account)
 				total_deductions += D.account_balance / 2
 				D.account_balance = D.account_balance / 2
-			priority_announce("Significant damage has been caused to NanoTrasen assets due to the inactivity of your vessel. [total_deductions] credits have been deducted across all departmental budgets to cover expenses.")
-		if(istype(LH))
-			LH.weight += 1 //Increment probabilty via SSEvent
-			if(LH.weight % 5 == 0)
-				message_admins("The ship has been out of combat for [last_combat_enter]. The weight of [LH.name] is now [LH.weight]")
-				log_game("The ship has been out of combat for [last_combat_enter]. The weight of [LH.name] is now [LH.weight]")
-		if(istype(BR))
-			BR.weight += 1 //Increment probabilty via SSEvent
-			if(BR.weight % 5 == 0)
-				message_admins("The ship has been out of combat for [last_combat_enter]. The weight of [BR.name] is now [BR.weight]")
-				log_game("The ship has been out of combat for [last_combat_enter]. The weight of [BR.name] is now [BR.weight]")
-
-/datum/controller/subsystem/starsystem/proc/event_info() //Admin command for debugging output
-	var/datum/round_event_control/lone_hunter/LH = locate(/datum/round_event_control/lone_hunter) in SSevents.control
-	var/datum/round_event_control/belt_rats/BR = locate(/datum/round_event_control/belt_rats) in SSevents.control
-	message_admins("Current time: [world.time] | Last Combat: [last_combat_enter] | Modifier: [modifier] | [LH.name]: [LH.weight] | [BR.name]: [BR.weight]")
-
-/datum/controller/subsystem/starsystem/proc/weighting_reset() //All overmap combat events need to be populated in this proc - this is used to reset the weight of every combat encounter once an encounter is spawned
-	var/datum/round_event_control/lone_hunter/LH = locate(/datum/round_event_control/lone_hunter) in SSevents.control
-	var/datum/round_event_control/belt_rats/BR = locate(/datum/round_event_control/belt_rats) in SSevents.control
-	LH.weight = 0
-	BR.weight = 0
+			priority_announce("Significant damage has been caused to NanoTrasen assets due to the inactivity of your vessel. [total_deductions] credits have been deducted across all departmental budgets to cover expenses.", "Naval Command")
+		if(istype(OEH))
+			OEH.weight ++ //Increment probabilty via SSEvent
 
 /datum/controller/subsystem/starsystem/New()
 	. = ..()
