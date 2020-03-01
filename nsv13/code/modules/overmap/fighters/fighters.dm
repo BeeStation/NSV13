@@ -1193,9 +1193,11 @@ How to make fuel:
 			toggle_canopy()
 		if("eject")
 			if(is_station_level(z))
-				canopy_open = FALSE
-				playsound(src, 'nsv13/sound/effects/fighters/canopy.ogg', 100, 1)
+				if(!canopy_open)
+					canopy_open = TRUE
+					playsound(src, 'nsv13/sound/effects/fighters/canopy.ogg', 100, 1)
 				to_chat(usr, "<span class='notice'>You jump out of [src] in one smooth motion.</span>")
+				stop_piloting(usr)
 				return
 			if(!ejecting)
 				to_chat(usr, "<span class='notice'>WARNING AUTO-EJECT SEQUENCE COMMENCING IN T-5 SECONDS. USE THIS SWITCH AGAIN TO CANCEL THIS ACTION.</span>")
