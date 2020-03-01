@@ -974,9 +974,6 @@
 /obj/structure/table/glass,
 /turf/open/floor/circuit/red,
 /area/ai_monitored/turret_protected/ai_upload)
-"de" = (
-/turf/closed/wall/r_wall/ship,
-/area/hallway/nsv/deck1/hallway)
 "df" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer1{
 	dir = 4
@@ -1585,6 +1582,10 @@
 /obj/structure/chair{
 	dir = 4
 	},
+/obj/item/radio/intercom{
+	name = "intra ship intercom";
+	pixel_x = -26
+	},
 /turf/open/floor/monotile,
 /area/bridge)
 "eM" = (
@@ -2032,6 +2033,10 @@
 /obj/item/twohanded/required/kirbyplants{
 	icon_state = "plant-10"
 	},
+/obj/item/radio/intercom{
+	name = "intra ship intercom";
+	pixel_x = -26
+	},
 /turf/open/floor/monotile,
 /area/crew_quarters/heads/hop{
 	name = "Executive officer's Office"
@@ -2423,6 +2428,10 @@
 	icon_state = "1-2"
 	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/obj/item/radio/intercom{
+	name = "intra ship intercom";
+	pixel_x = -26
+	},
 /turf/open/floor/monotile/dark,
 /area/hallway/nsv/deck1/hallway)
 "gA" = (
@@ -2573,6 +2582,9 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 5
 	},
+/obj/machinery/status_display/ai{
+	pixel_x = -32
+	},
 /turf/open/floor/monotile/dark,
 /area/hallway/nsv/deck1/hallway)
 "gP" = (
@@ -2719,6 +2731,10 @@
 	dir = 8
 	},
 /obj/structure/disposalpipe/segment,
+/obj/machinery/firealarm{
+	dir = 4;
+	pixel_x = -26
+	},
 /turf/open/floor/monotile,
 /area/bridge)
 "hc" = (
@@ -2979,6 +2995,10 @@
 "hM" = (
 /obj/structure/extinguisher_cabinet{
 	pixel_y = 26
+	},
+/obj/item/radio/intercom{
+	name = "intra ship intercom";
+	pixel_x = -26
 	},
 /turf/open/floor/monotile,
 /area/hallway/nsv/deck1/hallway)
@@ -4969,6 +4989,7 @@
 /turf/open/floor/monotile,
 /area/hallway/nsv/deck1/hallway)
 "lV" = (
+/obj/machinery/status_display/ai,
 /turf/closed/wall/r_wall/ship,
 /area/storage/eva)
 "lW" = (
@@ -5047,6 +5068,7 @@
 	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
+/obj/machinery/door/firedoor,
 /turf/open/floor/monotile,
 /area/storage/eva)
 "mf" = (
@@ -5211,11 +5233,6 @@
 	},
 /turf/open/floor/monotile/dark,
 /area/ai_monitored/turret_protected/ai_upload)
-"qd" = (
-/obj/effect/turf_decal/bot,
-/obj/machinery/door/airlock/turbolift/ship,
-/turf/open/floor/monotile/dark/airless,
-/area/maintenance/ship_exterior)
 "qB" = (
 /obj/machinery/camera/autoname{
 	dir = 8
@@ -5257,7 +5274,7 @@
 	},
 /turf/open/floor/plating,
 /area/bridge)
-"uj" = (
+"tE" = (
 /obj/structure/railing{
 	dir = 4
 	},
@@ -5265,9 +5282,8 @@
 	icon_state = "1-2"
 	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
-/obj/item/radio/intercom{
-	name = "intra ship intercom";
-	pixel_x = -26
+/obj/machinery/status_display/evac{
+	pixel_x = -32
 	},
 /turf/open/floor/monotile/dark,
 /area/hallway/nsv/deck1/hallway)
@@ -5332,6 +5348,10 @@
 	},
 /turf/open/floor/monotile/dark,
 /area/teleporter)
+"zv" = (
+/obj/machinery/status_display/evac,
+/turf/closed/wall/r_wall/ship,
+/area/hallway/nsv/deck1/hallway)
 "AF" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 4
@@ -5354,6 +5374,9 @@
 	},
 /turf/open/floor/circuit,
 /area/ai_monitored/turret_protected/ai_upload)
+"BY" = (
+/turf/closed/wall/r_wall/ship,
+/area/maintenance/department/bridge)
 "CA" = (
 /obj/machinery/camera/motion{
 	dir = 1
@@ -5404,6 +5427,9 @@
 	},
 /turf/open/floor/monotile/dark/airless,
 /area/maintenance/ship_exterior)
+"Iz" = (
+/turf/closed/wall/r_wall/ship,
+/area/crew_quarters/heads/captain)
 "IC" = (
 /obj/machinery/door/airlock/ship/external/glass{
 	req_one_access_txt = "13"
@@ -5462,9 +5488,6 @@
 	},
 /turf/open/floor/monotile,
 /area/ai_monitored/turret_protected/ai_upload)
-"PI" = (
-/turf/closed/wall/r_wall/ship,
-/area/maintenance/department/bridge)
 "Qx" = (
 /obj/structure/table,
 /obj/item/stack/packageWrap,
@@ -5573,6 +5596,21 @@
 /obj/item/paper_bin,
 /turf/open/floor/monotile/dark,
 /area/ai_monitored/turret_protected/aisat)
+"Vf" = (
+/obj/machinery/firealarm{
+	dir = 8;
+	pixel_x = 24
+	},
+/turf/open/floor/monotile,
+/area/storage/eva)
+"Vm" = (
+/turf/closed/wall/r_wall/ship,
+/area/hallway/nsv/deck1/hallway)
+"VA" = (
+/obj/effect/turf_decal/bot,
+/obj/machinery/door/airlock/turbolift/ship,
+/turf/open/floor/monotile/dark/airless,
+/area/maintenance/ship_exterior)
 "Wi" = (
 /obj/structure/grille,
 /obj/structure/window/reinforced/fulltile/ship,
@@ -5602,6 +5640,9 @@
 /obj/item/beacon,
 /turf/open/floor/monotile/dark,
 /area/teleporter)
+"WJ" = (
+/turf/closed/wall/r_wall/ship,
+/area/storage/eva)
 "WV" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	dir = 10
@@ -5614,9 +5655,6 @@
 "Xd" = (
 /turf/closed/wall/r_wall/ship,
 /area/maintenance/central)
-"Xv" = (
-/turf/closed/wall/r_wall/ship,
-/area/crew_quarters/heads/captain)
 "XX" = (
 /obj/effect/landmark/start/ai,
 /obj/item/radio/intercom{
@@ -32787,13 +32825,13 @@ at
 ak
 hz
 hT
-Xv
-Xv
-Xv
-Xv
-Xv
-Xv
-Xv
+Iz
+Iz
+Iz
+Iz
+Iz
+Iz
+Iz
 bE
 bE
 bE
@@ -33044,10 +33082,10 @@ hK
 ak
 hz
 hT
-Xv
+Iz
 aR
 be
-Xv
+Iz
 bm
 bv
 yP
@@ -33301,7 +33339,7 @@ hJ
 iy
 hz
 hT
-Xv
+Iz
 aS
 bb
 bo
@@ -33558,10 +33596,10 @@ hK
 hJ
 hz
 hT
-Xv
+Iz
 aT
 aY
-Xv
+Iz
 bw
 kY
 bA
@@ -33815,10 +33853,10 @@ hK
 hJ
 hz
 hT
-Xv
-Xv
-Xv
-Xv
+Iz
+Iz
+Iz
+Iz
 bG
 aP
 aP
@@ -35357,14 +35395,14 @@ hK
 hJ
 hz
 hT
-Xv
-Xv
-Xv
-Xv
+Iz
+Iz
+Iz
+Iz
 cn
-Xv
-Xv
-PI
+Iz
+Iz
+BY
 bF
 bF
 bF
@@ -35614,17 +35652,17 @@ hK
 iy
 hz
 hT
-Xv
+Iz
 aU
 dh
 iK
 cG
 bz
 bB
-Xv
+Iz
 gx
-uj
 gz
+tE
 kX
 gA
 iR
@@ -36649,7 +36687,7 @@ bi
 bt
 aZ
 aV
-Xv
+Iz
 bY
 cl
 cl
@@ -36906,7 +36944,7 @@ aZ
 bu
 aZ
 cI
-Xv
+Iz
 es
 es
 es
@@ -37137,7 +37175,7 @@ aJ
 aJ
 aJ
 aJ
-qd
+VA
 lC
 hK
 iC
@@ -37394,7 +37432,7 @@ aJ
 aJ
 aJ
 aJ
-qd
+VA
 lC
 hK
 hK
@@ -37651,7 +37689,7 @@ aJ
 aJ
 aJ
 aJ
-qd
+VA
 lC
 hK
 hK
@@ -37670,7 +37708,7 @@ hK
 iy
 hz
 hT
-Xv
+Iz
 aX
 aV
 aV
@@ -37908,7 +37946,7 @@ aJ
 aJ
 aJ
 aJ
-qd
+VA
 lC
 hK
 iC
@@ -37927,14 +37965,14 @@ hK
 hJ
 hz
 hT
-Xv
-Xv
+Iz
+Iz
 aQ
 aQ
 aQ
 aQ
-Xv
-Xv
+Iz
+Iz
 eg
 gJ
 ck
@@ -38165,7 +38203,7 @@ aJ
 aJ
 aJ
 aJ
-qd
+VA
 lC
 hK
 hK
@@ -38422,7 +38460,7 @@ aJ
 aJ
 aJ
 aJ
-qd
+VA
 lC
 hK
 hK
@@ -38679,7 +38717,7 @@ aJ
 aJ
 aJ
 aJ
-qd
+VA
 lC
 hK
 hK
@@ -38936,7 +38974,7 @@ aJ
 aJ
 aJ
 aJ
-qd
+VA
 lC
 hK
 hK
@@ -38974,14 +39012,14 @@ ck
 ck
 kg
 cb
-de
+zv
 es
 es
 es
 es
 es
-de
-de
+Vm
+Vm
 hT
 hZ
 hK
@@ -39193,7 +39231,7 @@ aJ
 aJ
 aJ
 aJ
-qd
+VA
 lC
 hK
 hK
@@ -39450,7 +39488,7 @@ aJ
 aJ
 aJ
 aJ
-qd
+VA
 lC
 hK
 iC
@@ -39707,7 +39745,7 @@ aJ
 aJ
 aJ
 aJ
-qd
+VA
 lC
 hK
 hK
@@ -39964,7 +40002,7 @@ aJ
 aJ
 aJ
 aJ
-qd
+VA
 lC
 hK
 hK
@@ -40221,7 +40259,7 @@ aJ
 aJ
 aJ
 aJ
-qd
+VA
 lC
 hK
 iC
@@ -40263,7 +40301,7 @@ bM
 lZ
 mi
 mj
-mT
+Vf
 lZ
 Gv
 hT
@@ -40517,12 +40555,12 @@ ck
 ma
 cb
 lV
-lV
-lV
-lV
-lV
-lV
-lV
+WJ
+WJ
+WJ
+WJ
+WJ
+WJ
 hT
 hZ
 hK
@@ -40761,7 +40799,7 @@ hK
 hK
 hz
 hT
-de
+Vm
 ev
 dp
 kF
@@ -41018,7 +41056,7 @@ hK
 hK
 hz
 hT
-de
+Vm
 ew
 eH
 dq
@@ -41030,9 +41068,9 @@ kK
 lf
 kk
 lr
-de
-de
-de
+Vm
+Vm
+Vm
 hT
 hT
 hT
@@ -41275,7 +41313,7 @@ hK
 hK
 hz
 hT
-de
+Vm
 iH
 cb
 cb
@@ -41287,7 +41325,7 @@ dK
 kf
 kO
 cb
-de
+Vm
 hT
 hT
 hU
@@ -41532,19 +41570,19 @@ hK
 hK
 hz
 hT
-de
-de
-de
-de
+Vm
+Vm
+Vm
+Vm
 fH
 fZ
-de
+Vm
 iL
 iT
-de
-de
-de
-de
+Vm
+Vm
+Vm
+Vm
 iA
 hZ
 hK
