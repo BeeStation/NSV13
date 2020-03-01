@@ -79,7 +79,7 @@
 			brakes = FALSE
 
 /obj/structure/overmap/proc/try_board(obj/structure/overmap/ship)
-	if(mass <= 1)
+	if(mass <= MASS_TINY)
 		return FALSE
 	if(SSovermap.next_boarding_time <= world.time)
 		SSovermap.next_boarding_time = world.time + 30 MINUTES

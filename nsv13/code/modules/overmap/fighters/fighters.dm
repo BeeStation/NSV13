@@ -664,7 +664,7 @@ After going through this checklist, you're ready to go!
 		else
 			to_chat(user, "<span class='notice'>You require [src] to be in maintenance mode to load munitions!.</span>")
 			return
-	if(istype(A, /obj/structure/overmap/fighter/prebuilt/escapepod) && ispath(has_escape_pod) && (!escape_pod || escape_pod?.loc != src))
+	if(istype(A, /obj/structure/overmap/fighter/prebuilt/escapepod) && has_escape_pod && (!escape_pod || escape_pod?.loc != src))
 		if(maint_state != MS_OPEN)
 			to_chat(user, "<span class='warning'>You cannot load an escape pod into [src] without putting it into maintenance mode.</span>")
 			return
@@ -777,7 +777,7 @@ After going through this checklist, you're ready to go!
 		to_chat(user, "<span class='warning'>[src]'s canopy isn't open.</span>")
 		return
 	if(maint_state < MS_UNSECURE)
-		if(alert("Enter what seat?",name,"Pilot seat","Passenger seat") == "Pilot seat")
+		if(max_passengers <= 0 || alert("Enter what seat?",name,"Pilot seat","Passenger seat") == "Pilot seat")
 			if(!pilot)
 				to_chat(user, "<span class='notice'>You begin climbing into [src]'s cockpit...</span>")
 				if(!do_after(user, 5 SECONDS, target=src))

@@ -147,6 +147,5 @@ GLOBAL_LIST_INIT(drop_trooper_teams, list("Noble", "Helljumper","Red", "Black", 
 		message_admins("[ADMIN_LOOKUPFLW(H)] became a syndicate drop trooper.")
 		to_chat(H, "<span class='danger'>You are a syndicate drop trooper! Your mission is to sabotage [station_name()] so that our ships can dispose of it. For Abassi!")
 		H.mind?.special_role = "Syndicate Drop Trooper"
-//	new /obj/effect/DPtarget(target, toLaunch)
 	relay_to_nearby('nsv13/sound/effects/ship/boarding_pod.ogg')
 	return TRUE
