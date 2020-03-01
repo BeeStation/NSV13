@@ -63,6 +63,21 @@
 	max_integrity = 1500 //Max health
 	integrity_failure = 1500
 
+/obj/structure/overmap/nanotrasen/carrier
+	name = "enterprise class carrier"
+	desc = "A gigantic ship which is capable of staying deployed in space for extended periods while supporting an impressive complement of fighters."
+	icon = 'nsv13/icons/overmap/nanotrasen/enterprise.dmi'
+	icon_state = "enterprise"
+	bound_width = 128 //Change this on a per ship basis
+	bound_height = 128
+	mass = MASS_LARGE
+	sprite_size = 48
+	damage_states = FALSE //TODO
+	pixel_z = -170
+	pixel_w = -112
+	max_integrity = 1500 //Max health
+	integrity_failure = 1500
+
 /obj/structure/overmap/nanotrasen/mining_cruiser
 	name = "Mining hauler"
 	desc = "A medium sized ship which has been retrofitted countless times. These ships are often relegated to mining duty."
@@ -95,6 +110,11 @@
 	main_overmap = TRUE //Player controlled variant
 	max_integrity = 1800 //Buffed health due to ship internal damage existing
 	integrity_failure = 1800
+
+/obj/structure/overmap/nanotrasen/carrier/starter
+	main_overmap = TRUE //Player controlled variant
+	max_integrity = 2000 //Compensates for lack of offensive weaponry
+	integrity_failure = 2000
 
 /obj/structure/overmap/nanotrasen/patrol_cruiser/ai
 	ai_controlled = TRUE
