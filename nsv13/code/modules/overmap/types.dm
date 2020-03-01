@@ -156,9 +156,10 @@
 	pixel_w = -96
 	max_integrity = 700 //Tanky so that it can survive to deploy multiple fighter waves.
 	integrity_failure = 700
+	torpedoes = 0
 
 /obj/structure/overmap/syndicate/ai/carrier/get_max_firemode() //This boy really doesn't need a railgun
-	return FIRE_MODE_TORPEDO
+	return FIRE_MODE_PDC
 
 /obj/structure/overmap/syndicate/ai/patrol_cruiser //Larger ship which is much harder to kill
 	icon = 'nsv13/icons/overmap/syndicate/syn_patrol_cruiser.dmi'
