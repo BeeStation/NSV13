@@ -1,5 +1,5 @@
 /obj/item/radio/intercom
-	name = "intra ship intercom"
+	name = "intra ship intercom" //NSV13 - Intercoms renamed
 	desc = "Talk through this."
 	icon_state = "intercom"
 	anchored = TRUE
