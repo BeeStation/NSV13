@@ -27,12 +27,9 @@
 		held_index = (active_hand_index % held_items.len)+1
 
 	var/obj/item/item_in_hand = src.get_active_held_item()
-	if(item_in_hand) //this segment checks if the item in your hand is twohanded.
-		var/obj/item/twohanded/TH = item_in_hand
-		if(istype(TH))
-			if(TH.wielded == 1)
-				to_chat(usr, "<span class='warning'>Your other hand is too busy holding [TH].</span>")
-				return
+	if(item_in_hand && SEND_SIGNAL(item_in_hand, COMSIG_ITEM_IS_WIELDED) & COMPONENT_WIELDED) //this segment checks if the item in your hand is occupying both hands.
+		to_chat(usr, "<span class='warning'>Your other hand is too busy holding [item_in_hand].</span>")
+		return
 	var/oindex = active_hand_index
 	active_hand_index = held_index
 	if(hud_used)
@@ -434,7 +431,7 @@
 /mob/living/carbon/proc/vomit(lost_nutrition = 10, blood = FALSE, stun = TRUE, distance = 1, message = TRUE, toxic = FALSE)
 	if(HAS_TRAIT(src, TRAIT_NOHUNGER))
 		return 1
-	
+
 	if(!has_mouth())
 		return 1
 
@@ -901,7 +898,7 @@
 /mob/living/carbon/has_mouth()
 	for(var/obj/item/bodypart/head/head in bodyparts)
 		if(head.mouth)
-			return TRUE 
+			return TRUE
 
 /mob/living/carbon/can_resist()
 	return bodyparts.len > 2 && ..()

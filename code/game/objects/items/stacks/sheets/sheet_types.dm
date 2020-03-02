@@ -16,7 +16,7 @@
 /*
  * Metal
  */
-//nsv13 - Torpedo Casing added to the end of this list
+//nsv13 - Torpedo Casing, PDC frame, railgun tray added to the end of this list
 GLOBAL_LIST_INIT(metal_recipes, list ( \
 	new/datum/stack_recipe("stool", /obj/structure/chair/stool, one_per_turf = TRUE, on_floor = TRUE), \
 	new/datum/stack_recipe("bar stool", /obj/structure/chair/stool/bar, one_per_turf = TRUE, on_floor = TRUE), \
@@ -92,8 +92,12 @@ GLOBAL_LIST_INIT(metal_recipes, list ( \
 	null, \
 	new/datum/stack_recipe("iron door", /obj/structure/mineral_door/iron, 20, one_per_turf = TRUE, on_floor = TRUE), \
 	new/datum/stack_recipe("floodlight frame", /obj/structure/floodlight_frame, 5, one_per_turf = TRUE, on_floor = TRUE), \
+	//NSV13 start
 	null, \
-	new/datum/stack_recipe("torpedo casing", /obj/structure/munition/torpedo_casing, 15, one_per_turf = TRUE, on_floor = TRUE), \
+	new/datum/stack_recipe("torpedo casing", /obj/item/ship_weapon/ammunition/torpedo/torpedo_casing, 15, one_per_turf = TRUE, on_floor = TRUE), \
+	new/datum/stack_recipe("pdc mount frame", /obj/item/wallframe/pdc_frame, 5), \
+	new/datum/stack_recipe("railgun loading tray", /obj/item/ship_weapon/parts/loading_tray, 10), \
+	//NSV13 end
 ))
 
 /obj/item/stack/sheet/iron
@@ -156,6 +160,12 @@ GLOBAL_LIST_INIT(plasteel_recipes, list ( \
 		new/datum/stack_recipe("high security airlock assembly", /obj/structure/door_assembly/door_assembly_highsecurity, 4, time = 50, one_per_turf = 1, on_floor = 1), \
 		new/datum/stack_recipe("vault door assembly", /obj/structure/door_assembly/door_assembly_vault, 6, time = 50, one_per_turf = 1, on_floor = 1), \
 	)), \
+	//NSV13 start
+	new /datum/stack_recipe_list("ship weapon frames", list( \
+		new/datum/stack_recipe("railgun frame", /obj/structure/ship_weapon/railgun_assembly, 4, time = 50, one_per_turf = TRUE, on_floor = TRUE), \
+		new/datum/stack_recipe("torpedo tube frame", /obj/structure/ship_weapon/torpedo_launcher_assembly, 4, time = 50, one_per_turf = TRUE, on_floor = TRUE), \
+	)), \
+	//NSV13 end
 ))
 
 /obj/item/stack/sheet/plasteel

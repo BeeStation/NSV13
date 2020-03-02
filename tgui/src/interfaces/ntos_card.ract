@@ -171,6 +171,14 @@
 			</td>
 		  </tr>
 		  <tr>
+			<th style="color: '#cc6600';">Munitions</th>
+			<td>
+			  {{#each data.munitions_jobs}}
+				<ui-button action='PRG_assign' params='{"assign_target" : "{{job}}"}' state='{{data.id_rank == job ? "selected" : null}}'>{{display_name}}</ui-button>
+			  {{/each}}
+			</td>
+		  </tr>
+		  <tr>
 			<th style="color: '#808080';">Civilian</th>
 			<td>
 			  {{#each data.civilian_jobs}}
