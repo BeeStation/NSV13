@@ -15,7 +15,7 @@
 
 	// Config actually from the JSON - should default to Hammerhead //NSV EDITS
 	var/map_name = "NSV Hammerhead - DEFAULTED"
-	var/map_link = "Hammerhead"
+	var/map_link = null //This is intentionally wrong, this will make it not link to webmap.
 	var/map_path = "map_files/Hammerhead"
 	var/map_file = "Hammerhead.dmm"
 
