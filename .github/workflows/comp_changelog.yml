@@ -3,6 +3,7 @@ name: Compile changelogs
 on:
   schedule:
   - cron: "0 0 * * *"
+  - cron: "17"
 
 jobs:
   compile:
@@ -32,7 +33,5 @@ jobs:
           git commit -m "Automatic changelog compile [ci skip]" -a || true
       - name: "Push"
         uses: ad-m/github-push-action@master
-        env:
-          GITHUB_ACTOR: comfyorange
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
