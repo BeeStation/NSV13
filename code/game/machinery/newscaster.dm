@@ -1059,18 +1059,18 @@ GLOBAL_LIST_EMPTY(allCasters)
 	dir = EAST
 	pixel_x = 30
 
-/obj/machinery/newscaster/security_unit/directional/north
+/obj/machinery/newscaster/security_unit/north
 	dir = NORTH
 	pixel_y = 30
 
-/obj/machinery/newscaster/security_unit/directional/south
+/obj/machinery/newscaster/security_unit/south
 	dir = SOUTH
 	pixel_y = -30
 	
-/obj/machinery/newscaster/security_unit/directional/west
+/obj/machinery/newscaster/security_unit/west
 	dir = WEST
 	pixel_x = -30
 	
-/obj/machinery/newscaster/security_unit/directional/east
+/obj/machinery/newscaster/security_unit/east
 	dir = EAST
 	pixel_x = 30 //NSV13 End
