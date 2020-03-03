@@ -1,28 +1,40 @@
 ////////Common Components///////
-/obj/item/fighter_component //something something - AddComponent(/datum/component/twohanded, force_unwielded, force_wielded, wieldsound, unwieldsound)
+/obj/item/fighter_component
 	name = "Fight Component - PARENT"
 	desc = "THIS IS A PARENT ITEM AND SHOULD NOT BE SPAWNED"
 	icon = 'icons/obj/crates.dmi'
 	w_class = WEIGHT_CLASS_GIGANTIC
 
+/obj/item/fighter_component/Initialize()
+	.=..()
+	AddComponent(/datum/component/twohanded) //These all require two hands to pick up
+
 /obj/item/fighter_component/fuel_tank
+	name = "Fighter Fuel Tank - PARENT"
+	icon_state = "secgearcrate"
+	var/fuel_capacity = 0 //Fuel Capacity
+
+/obj/item/fighter_component/fuel_tank/t1
 	name = "Fighter Fuel Tank"
 	desc = "The fuel tank of a fighter"
-	icon_state = "secgearcrate"
-	var/capacity = 1000 //Fuel Capacity
+	fuel_capacity = 1000
 
-/obj/item/fighter_component/fuel_tank/extended
+/obj/item/fighter_component/fuel_tank/t2
 	name = "Fighter Extended Fuel Tank"
 	desc = "The extended fuel tank of a fighter"
-	icon_state = "secgearcrate"
-	capacity = 1500
+	fuel_capacity = 1500
+
+/obj/item/fighter_component/fuel_tank/t3
+	name = "Fighter Double Fuel Tank"
+	desc = "The double fuel tank fo a fighter"
+	fuel_capacity = 2000
 
 /obj/item/fighter_component/avionics
 	name = "Fighter Avionics"
 	desc = "Avionics for a fighter"
 	icon_state = "freezer"
 
-/obj/item/fighter_component/avionics/burntout //Disables DRADIS, FL directional indicator and velocity vector overlay
+/obj/item/fighter_component/avionics/burntout //Disables DRADIS, Flight Leader directional indicator and velocity vector overlay
 	name = "Burntout Fighter Avionics"
 	desc = "Avionics for a fighter, it looks charred"
 	icon_state = "freezer"
@@ -39,28 +51,50 @@
 
 /obj/item/fighter_component/armour_plating
 	name = "Fighter Armour Plating - PARENT"
-	desc = "THIS IS A PARENT ITEM AND SHOULD NOT BE SPAWNED"
 	icon_state = "engi_secure_crate"
 	var/armour = 2 //HP Modifier
 
 /obj/item/fighter_component/targeting_sensor
 	name = "Fighter Targeting Sensors - PARENT"
-	desc = "THIS IS A PARENT ITEM AND SHOULD NOT BE SPAWNED"
 	icon_state = "weaponcrate"
 	var/targeting_speed = 1 //Target lock speed modifier
 
 /obj/item/fighter_component/engine
-	name = Fighter Engine - PARENT"
-	desc = "THISS IS A PARENT ITEM AND SHOULD NOT BE SPAWNED"
+	name = "Fighter Engine - PARENT"
 	icon_state = "hydrocrate"
 	var/speed = 0 //Speed modifier
 	var/consumption = 0 //How fast we burn fuel
+
+/obj/item/fighter_component/countermeasure_dispensor
+	name = "Fighter Countermeasure Dispensor - PARENT"
+	icon_state = "o2crate"
+	var/countermeasure_capacity = 4
+
+/obj/item/fighter_component/countermeasure_dispensor/burntout //Prevents launching chaff clouds
+	name = "Burntout Fighter Countermeasure Dispensor"
+	desc = "A Countermeasure Dispensor for a fighter, it looks charred"
+	icon_state = "o2crate"
+	countermeasure_capacity = 0
+
+/obj/item/fighter_component/countermeasure_dispensor/t1
+	name = "Fighter Countermeasure Dispensor"
+	desc = "A Countermeasure Dispensor for a fighter"
+
+/obj/item/fighter_component/countermeasure_dispensor/t2
+	name = "Expanded Fighter Countermeasure Dispensor"
+	desc = "An Expanded Countermeasure Dispensor for a fighter"
+	countermeasure_capacity = 6
+
+/obj/item/fighter_component/countermeasure_dispensor/t3
+	name = "Double Fighter Countermeasure Dispensor"
+	desc = "A Double Countermeasure Dispensor for a fighter"
+	countmeasure_capacity = 8
 
 ////////Light Components///////
 
 /obj/structure/fighter_component/light_chassis_crate
 	name = "Light Fighter Chassis Components Crate"
-	desc = "A crate full of chassis components for a NOT-VIPER Light Fighter"
+	desc = "A crate full of chassis components for a F-614B NOT-VIPER Light Fighter"
 	icon = 'icons/obj/crate.dmi'
 	icon_state = "crate"
 	anchored = FALSE
@@ -70,18 +104,15 @@
 /obj/item/fighter_component/armour_plating/light/t1
 	name = "Light Fighter Armour Plating"
 	desc = "Armour Plating for a Light Fighter"
-	icon_state = "engi_secure_crate"
 
 /obj/item/fighter_component/armour_plating/light/t2
 	name = "Hardened Light Fighter Armour Plating"
 	desc = "Hardened Armour Plating for a Light Fighter"
-	icon_state = "engi_secure_crate"
 	armour = 2.5
 
 /obj/item/fighter_component/armour_plating/light/t3
 	name = "Reinforced Light Fighter Armour Plating"
 	desc = "Reinforced Armour Plating for a Light Fighter"
-	icon_state = "engi_secure_crate"
 	armour = 3
 
 /obj/item/fighter_component/targeting_sensor/light/burntout //Prevents target locking and use of missiles/torpedoes
@@ -93,58 +124,84 @@
 /obj/item/fighter_component/targeting_sensor/light/t1
 	name = "Light Fighter Targeting Sensors"
 	desc = "Targening Sensors for a Light Fighter"
-	icon_state = "weaponcrate"
 
 /obj/item/fighter_component/targeting_sensor/light/t2
 	name = "Improved Light Fighter Targeting Sensors"
 	desc = "Improved Targeting Sensors for a Light Fighter"
-	icon_state = "weaponcrate"
 	targeting_speed = 1.25
 
 /obj/item/fighter_component/targeting_sensor/light/t3
 	name = "Enhanced Light Fighter Targeting Sensors"
 	desc = "Enhanced Targeting Sensors for a Light Fighter"
-	icon_state = "weaponcrate"
 	targeting_speed = 1.5
 
 /obj/item/fighter_component/engine/light/t1
 	name = "Light Fighter Engine"
 	desc = "An engine for a Light Fighter"
-	icon_state = "hydrocrate"
 	speed = 1
 	consumption = 1
 
 /obj/item/fighter_component/engine/light/t2
 	name = "Improved Light Fighter Engine"
 	desc = "An improved engine for a Light Fighter"
-	icon_state = "hydrocrate"
 	speed = 1.2
 	consumption = 1.4
 
 /obj/item/fighter_component/engine/light/t3
 	name = "Enhanced Light Fighter Engine"
 	desc = "An enhanced engine for a Light Fighter"
-	icon_state = "hydrocrate"
 	speed = 1.4
 	consumption = 1.8
+
+/obj/item/fighter_component/missile_rack
+	name = "Light Fighter Missile Rack - PARENT"
+	icon_state = 'weaponcrate'
+	var/missile_capacity = 2
 
 /obj/item/fighter_component/missile_rack/t1
 	name = "Light Fighter Missile Rack"
 	desc = "A missile rack for a light fighter"
-	icon_state = "weaponcrate"
-	var/missiles = 2
 
 /obj/item/fighter_component/missile_rack/t2
 	name = "Large Light Fighter Missile Rack"
 	desc = "A large missile rack for a light fighter"
-	icon_state = "weaponcrate"
-	var/missiles = 4
+	missile_capacity = 4
 
 /obj/item/fighter_component/missile_rack/t3
 	name = "Extra Large Light Fighter Missile Rack"
 	desc = "An extra large missile rack for a light fighter"
-	icon_state = "weaponcrate"
-	var/missiles = 6
+	missile_capacity = 6
+
+/obj/item/fighter_component/light_cannon
+	name = "Light Fighter Light Cannon - PARENT"
+	icon_state = 'plasmacrate'
+	var/fire_rate = 0
+	var/ammo_capacity = 0
+	var/projectile = null
+
+/obj/item/fighter_component/light_cannon/burntout //Prevents firing the cannon
+	name = "Burntout Light Fighter Light Cannon"
+	desc = "A light cannon for a light fighter, it looks charred"
+	icon_state = 'plasmacrate'
+	fire_rate = 0
+
+/obj/item/fighter_component/light_cannon/t1
+	name = "Light Fighter Light Cannon"
+	desc = "A light cannon for a light fighter"
+	fire_rate = 0
+	ammo_capacity = 0
+
+/obj/item/fighter_component/light_cannon/t2
+	name = "Improved Light Fighter Light Cannon"
+	desc = "An improved light cannon for a light fighter"
+	fire_rate = 0
+	ammo_capacity = 0
+
+/obj/item/fighter_component/light_cannon/t3
+	name = "Enhanced Light Fighter Light Cannon"
+	desc = "An enhanced light cannon for a light fighter"
+	fire_rate = 0
+	ammo_capacity = 0
 
 ////////Heavy Components///////
 
@@ -160,18 +217,15 @@
 /obj/item/fighter_component/armour_plating/heavy/t1
 	name = "Heavy Fighter Armour Plating"
 	desc = "Armour Plating for a Heavy Fighter"
-	icon_state = "engi_secure_crate"
 
 /obj/item/fighter_component/armour_plating/heavy/t2
 	name = "Hardened Heavy Fighter Armour Plating"
 	desc = "Hardened Armour Plating for a Heavy Fighter"
-	icon_state = "engi_secure_crate"
 	armour = 2.5
 
 /obj/item/fighter_component/armour_plating/heavy/t3
 	name = "Reinforced Light Fighter Armour Plating"
 	desc = "Reinforced Armour Plating for a Light Fighter"
-	icon_state = "engi_secure_crate"
 	armour = 3
 
 /obj/item/fighter_component/targeting_sensor/heavy/burntout //Prevents target locking and use of missiles/torpedoes
@@ -183,61 +237,88 @@
 /obj/item/fighter_component/targeting_sensor/heavy/t1
 	name = "Heavy Fighter Targeting Sensors"
 	desc = "Targening Sensors for a Heavy Fighter"
-	icon_state = "weaponcrate"
 	targeting_speed = 0.9
 
 /obj/item/fighter_component/targeting_sensor/heavy/t2
 	name = "Improved Heavy Fighter Targeting Sensors"
 	desc = "Improved Targeting Sensors for a Heavy Fighter"
-	icon_state = "weaponcrate"
 	targeting_speed = 1.15
 
 /obj/item/fighter_component/targeting_sensor/heavy/t3
 	name = "Enhanced Heavy Fighter Targeting Sensors"
 	desc = "Enhanced Targeting Sensors for a Heavy Fighter"
-	icon_state = "weaponcrate"
 	targeting_speed = 1.40
 
 /obj/item/fighter_component/engine/heavy/t1
 	name = "Heavy Fighter Engine"
 	desc = "An engine for a Heavy Fighter"
-	icon_state = "hydrocrate"
 	speed = 1
 	consumption = 1
 
 /obj/item/fighter_component/engine/heavy/t2
 	name = "Improved Heavy Fighter Engine"
 	desc = "An improved engine for a Heavy Fighter"
-	icon_state = "hydrocrate"
 	speed = 1.1
 	consumption = 1.2
 
 /obj/item/fighter_component/engine/heavy/t3
 	name = "Enhanced Heavy Fighter Engine"
 	desc = "An enhanced engine for a Heavy Fighter"
-	icon_state = "hydrocrate"
 	speed = 1.2
 	consumption = 1.4
+
+/obj/item/fighter_component/torpedo_rack
+	name = "Heavy Fighter Torpedo Rack
+	icon_state = "weaponcrate"
+	var/missile_capacity = 0
+	var/torpedo_capacity = 2
 
 /obj/item/fighter_component/torpedo_rack/t1
 	name = "Heavy Fighter Torpedo Rack"
 	desc = "A torpedo rack for a heavy fighter"
-	icon_state = "weaponcrate"
-	var/torpedoes = 2
 
 /obj/item/fighter_component/missile_rack/t2
 	name = "Large Heavy Fighter Torpedo Rack"
 	desc = "A large torpedo rack for a heavy fighter"
-	icon_state = "weaponcrate"
-	var/torpedoes = 3
-	var/missiles = 1
+	missile_capacity = 1
+	torpedo_capacity = 3
 
 /obj/item/fighter_component/missile_rack/t3
 	name = "Extra Large Heavy Fighter Torpedo Rack"
 	desc = "An extra large torpedo rack for a heavy fighter"
-	icon_state = "weaponcrate"
-	var/torpedoes = 4
-	var/missiles = 2
+	missile_capacity = 2
+	torpedo_capacity = 4
+
+/obj/item/fighter_component/heavy_cannon
+	name = "Heavy Fighter Heavt Cannon - PARENT"
+	icon_state = 'plasmacrate'
+	var/fire_rate = 0
+	var/ammo_capacity = 0
+	var/projectile = null
+
+/obj/item/fighter_component/heavy_cannon/burntout //Prevents firing the cannon
+	name = "Burntout Heavy Fighter Heavy Cannon"
+	desc = "A heavy cannon for a heavy fighter, it looks charred"
+	icon_state = 'plasmacrate'
+	fire_rate = 0
+
+/obj/item/fighter_component/heavy_cannon/t1
+	name = "Heavy Fighter Heavy Cannon"
+	desc = "A heavy cannon for a heavy fighter"
+	fire_rate = 0
+	ammo_capacity = 0
+
+/obj/item/fighter_component/heavy_cannon/t2
+	name = "Improved Heavy Fighter Heavy Cannon"
+	desc = "An improved heavy cannon for a heavy fighter"
+	fire_rate = 0
+	ammo_capacity = 0
+
+/obj/item/fighter_component/heavy_cannon/t3
+	name = "Enhanced Heavy Fighter Heavy Cannon"
+	desc = "An enhanced heavy cannon for a heavy fighter"
+	fire_rate = 0
+	ammo_capacity = 0
 
 ////////Utility Components////////
 
@@ -253,38 +334,32 @@
 /obj/item/fighter_component/armour_plating/utility/t1
 	name = "Utility Vessel Armour Plating"
 	desc = "Armour Plating for a Utility Vessel"
-	icon_state = "engi_secure_crate"
 
 /obj/item/fighter_component/armour_plating/utility/t2
 	name = "Hardened Utility Vessel Armour Plating"
 	desc = "Hardened Armour Plating for a Utility Vessel"
-	icon_state = "engi_secure_crate"
 	armour = 2.5
 
 /obj/item/fighter_component/armour_plating/utility/t3
 	name = "Reinforced Utility Vessel Armour Plating"
 	desc = "Reinforced Armour Plating for a Utility Vessel"
-	icon_state = "engi_secure_crate"
 	armour = 3
 
 /obj/item/fighter_component/engine/utility/t1
 	name = "Utility Vessel Engine"
 	desc = "An engine for a Utility Vessel"
-	icon_state = "hydrocrate"
 	speed = 1
 	consumption = 1
 
 /obj/item/fighter_component/engine/utility/t2
 	name = "Improved Utility Vessel Engine"
 	desc = "An improved engine for a Utility Vessel"
-	icon_state = "hydrocrate"
 	speed = 1.05
 	consumption = 0.9
 
 /obj/item/fighter_component/engine/utility/t3
 	name = "Enhanced Utility Vessel Engine"
 	desc = "An enhanced engine for a Utility Vessel"
-	icon_state = "hydrocrate"
 	speed = 1.1
 	consumption = 0.8
 
@@ -298,23 +373,682 @@
 	desc = "A refueling system for a Utility Vessel, it looks charred"
 	icon_state = "crate"
 
+/obj/item/fighter_component/auxiliary_fuel_tank
+	name = "Utility Vessel Auxiliary Fuel Tank - PARENT"
+	desc = "THIS IS A PARENT ITEM AND SHOULD NOT BE SPAWNED"
+	var/aux_capacity = 3000
+
 /obj/item/fighter_component/auxiliary_fuel_tank/t1
 	name = "Utility Vessel Auxiliary Fuel Tank"
 	desc = "An auxiliary fuel tank for a Utility Vessel"
-	icon_state = "crate"
-	var/aux_capacity = 3000
 
 /obj/item/fighter_component/auxiliary_fuel_tank/t2
 	name = "Large Utility Vessel Auxiliary Fuel Tank"
 	desc = "A large auxiliary fuel tank for a Utility Vessel"
-	icon_state = "crate"
-	var/aux_capacity = 4000
+	aux_capacity = 4000
 
 /obj/item/fighter_component/auxiliary_fuel_tank/t3
 	name = "Extra Large Utility Vessel Auxiliary Fuel Tank"
 	desc = "An extra large auxiliary fuel tank for a Utility Vessel"
-	icon_state = "crate"
-	var/aux_capacity = 5000
+	aux_capacity = 5000
+
+/////COMPONENT TECHWEB/////
+
+/datum/techweb_node/fighter_fabrication
+	id = "fighter_fabrication"
+	display_name = "Fighter Fabrication"
+	description = "The precursor step into fabricating new fighter & utility craft."
+	prereq_ids = list("explosive_weapons")
+	design_ids = list("")
+	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 5000)
+	export_price = 1000
+
+/datum/techweb_node/fighter_common_component_fabrication_t1
+	id = "fighter_common_component_fabrication_t1"
+	display_name = "Fighter Common Component Fabrication"
+	description = "Access to common components required for fighter fabrication."
+	prereq_ids = list("fighter_fabrication")
+	design_ids = list("fuel_tank_t1", "fighter_countermeasure_dispensor_t1", "fighter_avionics", "fighter_apu")
+	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 5000)
+	export_price = 1000
+
+/datum/techweb_node/fighter_common_component_fabrication_t2
+	id = "fighter_common_component_fabrication_t2"
+	display_name = "Improved Fighter Common Component Fabrication"
+	description = "Improved common components required for fighter fabrication."
+	prereq_ids = list("fighter_common_component_fabrication_t1")
+	design_ids = list("fuel_tank_t2", "fighter_countermeasure_dispensor_t2")
+	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 10000)
+	export_price = 2000
+
+/datum/techweb_node/fighter_common_component_fabrication_t3
+	id = "fighter_common_component_fabrication_t3"
+	display_name = "Enhanced Fighter Common Component Fabrication"
+	description = "Enhanced common components required for fighter fabrication."
+	prereq_ids = list("fighter_common_component_fabrication_t2")
+	design_ids = list("fuel_tank_t3", "fighter_countermeasure_dispensor_t3")
+	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 15000)
+	export_price = 3000
+
+/datum/techweb_node/light_fighter_fabrication
+	id = "light_fighter_fabrication
+	display_name = "Light Fighter Fabrication"
+	description = "Lightweight Fighters designed for space superiority duties"
+	prereq_ids = list("fighter_fabrication", "fighter_common_component_fabrication_t1")
+	design_ids = list("light_chassis_crate")
+	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 5000)
+	export_price = 1000
+
+/datum/techweb_node/light_fighter_component_fabrication_t1
+	id = "light_fighter_component_fabrication_t1"
+	display_name = "Light Fighter Component Fabrication"
+	description = "Access to components required for light fighter fabrication."
+	prereq_ids = list("light_fighter_fabrication")
+	design_ids = list("light_fighter_armour_plating_t1", "light_targeting_sensor_t1", "light_engine_t1", "fighter_missile_rack_t1", "light_fighter_light_cannon_t1")
+	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 5000)
+	export_price = 1000
+
+/datum/techweb_node/light_fighter_component_fabrication_t2
+	id = "light_fighter_component_fabrication_t2"
+	display_name = "Improved Light Fighter Component Fabrication"
+	description = "Improved components required for light fighter fabrication."
+	prereq_ids = list("light_fighter_component_fabrication_t1")
+	design_ids = list("light_fighter_armour_plating_t2", "light_targeting_sensor_t2", "light_engine_t2", "fighter_missile_rack_t2", "light_fighter_light_cannon_t2")
+	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 10000)
+	export_price = 2000
+
+/datum/techweb_node/light_fighter_component_fabrication_t3
+	id = "light_fighter_component_fabrication_t3"
+	display_name = "Enhanced Light Fighter Component Fabrication"
+	description = "Enhanced components required for light fighter fabrication."
+	prereq_ids = list("light_fighter_component_fabrication_t2")
+	design_ids = list("light_fighter_armour_plating_t3", "light_targeting_sensor_t3", "light_engine_t3", "fighter_missile_rack_t3", "light_fighter_light_cannon_t3")
+	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 15000)
+	export_price = 3000
+
+/datum/techweb_node/heavy_fighter_fabrication
+	id = "heavy_fighter_fabrication
+	display_name = "Heavy Fighter Fabrication"
+	description = "Heavyweight Fighters designed for clearing soft target and hard targets alike"
+	prereq_ids = list("fighter_fabrication", "fighter_common_component_fabrication_t1")
+	design_ids = list("heavy_chassis_crate")
+	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 5000)
+	export_price = 1000
+
+/datum/techweb_node/heavy_fighter_component_fabrication_t1
+	id = "heavy_fighter_component_fabrication_t1"
+	display_name = "Heavy Fighter Component Fabrication"
+	description = "Access to components required for heavy fighter fabrication."
+	prereq_ids = list("heavy_fighter_fabrication")
+	design_ids = list("heavy_fighter_armour_plating_t1", "heavy_targeting_sensor_t1", "heavy_engine_t1", "heavy_torpedo_rack_t1", "heavy_fighter_heavy_cannon_t1")
+	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 5000)
+	export_price = 1000
+
+/datum/techweb_node/heavy_fighter_component_fabrication_t2
+	id = "heavy_fighter_component_fabrication_t2"
+	display_name = "Improved Heavy Fighter Component Fabrication"
+	description = "Improved components required for heavy fighter fabrication."
+	prereq_ids = list("heavy_fighter_component_fabrication_t1")
+	design_ids = list("heavy_fighter_armour_plating_t2", "heavy_targeting_sensor_t2", "heavy_engine_t2", "heavy_torpedo_rack_t2", "heavy_fighter_heavy_cannon_t2")
+	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 10000)
+	export_price = 2000
+
+/datum/techweb_node/heavy_fighter_component_fabrication_t3
+	id = "heavy_fighter_component_fabrication_t3"
+	display_name = "Enhanced Heavy Fighter Component Fabrication"
+	description = "Enhanced components required for heavy fighter fabrication."
+	prereq_ids = list("heavy_fighter_component_fabrication_t2")
+	design_ids = list("heavy_fighter_armour_plating_t3", "heavy_targeting_sensor_t3", "heavy_engine_t3", "heavy_torpedo_rack_t3", "heavy_fighter_heavy_cannon_t3")
+	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 15000)
+	export_price = 3000
+
+/datum/techweb_node/utility_craft_fabrication
+	id = "utility_craft_fabrication
+	display_name = "Utility Craft Fabrication"
+	description = "Utility Craft designed for support duties"
+	prereq_ids = list("fighter_fabrication", "fighter_common_component_fabrication_t1")
+	design_ids = list("utility_chassis_crate")
+	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 5000)
+	export_price = 1000
+
+/datum/techweb_node/utility_craft_component_fabrication_t1
+	id = "utility_craft_component_fabrication_t1"
+	display_name = "Utlility Craft Component Fabrication"
+	description = "Access to components required for utility craft fabrication."
+	prereq_ids = list("utility_craft_fabrication")
+	design_ids = list("utility_craft_armour_plating_t1", "utility_engine_t1", "utility_refueling_system", "utility_auxiliary_fuel_tank_t1")
+	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 5000)
+	export_price = 1000
+
+/datum/techweb_node/utility_craft_component_fabrication_t2
+	id = "utility_craft_component_fabrication_t2"
+	display_name = "Improved Utility Craft Component Fabrication"
+	description = "Improved components required for utility craft fabrication."
+	prereq_ids = list("utility_craft_component_fabrication_t1")
+	design_ids = list("utility_craft_armour_plating_t2", "utility_engine_t2", "utility_auxiliary_fuel_tank_t2")
+	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 10000)
+	export_price = 2000
+
+/datum/techweb_node/utility_craft_component_fabrication_t3
+	id = "utility_craft_component_fabrication_t3"
+	display_name = "Enhanced Utility Craft Component Fabrication"
+	description = "Enhanced components required for utility craft fabrication."
+	prereq_ids = list("utility_craft_component_fabrication_t2")
+	design_ids = list("utility_craft_armour_plating_t3", "utility_engine_t3", "utility_auxiliary_fuel_tank_t3")
+	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 15000)
+	export_price = 3000
+
+/////COMPONENT DESIGNS/////
+
+/datum/design/light_chassis_crate
+	name = "Light Fighter Chassis Crate"
+	desc = "A crate full of components for the construction of a light fighter chassis"
+	id = "light_chassis_crate"
+	build_type = PROTOLATHE
+	materials = list(/datum/material/iron = 25000, /datum/material/silver = 5000)
+	build_path = /obj/structure/fighter_component/light_chassis_crate
+	category = list("Ship Components")
+	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+
+/datum/design/heavy_chassis_crate
+	name = "Heavy Fighter Chassis Crate"
+	desc = "A crate full of components for the construction of a heavy fighter chassis"
+	id = "heavy_chassis_crate"
+	build_type = PROTOLATHE
+	materials = list(/datum/material/iron = 25000, /datum/material/silver = 5000)
+	build_path = /obj/structure/fighter_component/heavy_chassis_crate
+	category = list("Ship Components")
+	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+
+/datum/design/utility_chassis_crate
+	name = "Utility Craft Chassis Crate"
+	desc = "A crate full of components for the construction of a utility craft chassis"
+	id = "utility_chassis_crate"
+	build_type = PROTOLATHE
+	materials = list(/datum/material/iron = 25000, /datum/material/silver = 5000)
+	build_path = /obj/structure/fighter_component/utility_chassis_crate
+	category = list("Ship Components")
+	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+
+/datum/design/fighter_fuel_tank_t1
+	name = "Fighter Fuel Tank"
+	desc = "A fuel tank for a fighter"
+	id = "fuel_tank_t1"
+	build_type = PROTOLATHE
+	materials = list(/datum/material/iron = 5000)
+	build_path = /obj/item/fighter_component/fuel_tank/t1
+	category = list("Ship Components")
+	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+
+/datum/design/fighter_fuel_tank_t2
+	name = "Extended Fuel Tank"
+	desc = "An extended fuel tank for a fighter"
+	id = "fuel_tank_t2"
+	build_type = PROTOLATHE
+	materials = list(/datum/material/iron = 10000)
+	build_path = /obj/item/fighter_component/fuel_tank/t3
+	category = list("Ship Components")
+	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+
+/datum/design/fighter_fuel_tank_t3
+	name = "Double Fuel Tank"
+	desc = "A double fuel tank for a fighter"
+	id = "fuel_tank_t3"
+	build_type = PROTOLATHE
+	materials = list(/datum/material/iron = 15000)
+	build_path = /obj/item/fighter_component/fuel_tank/t3
+	category = list("Ship Components")
+	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+
+/datum/design/fighter_avionics
+	name = "Fighter Avionics"
+	desc = "Avionics for a fighter"
+	id = "fighter_avionics"
+	build_type = PROTOLATHE
+	materials = list(/datum/material/iron = 5000)
+	build_path = /obj/item/fighter_component/avionics
+	category = list("Ship Components")
+	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+
+/datum/design/fighter_apu
+	name = "Fighter Auxiliary Power Unit"
+	desc = "An Auxiliary Power Unit for a fighter"
+	id = "fighter_apu"
+	build_type = PROTOLATHE
+	materials = list(/datum/material/iron = 5000)
+	build_path = /obj/item/fighter_component/apu
+	category = list("Ship Components")
+	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+
+/datum/design/fighter_countermeasure_dispensor_t1
+	name = "Fighter Countermeasure Dispensor"
+	desc = "A Countermeasure Dispensor for a fighter"
+	id = "fighter_countermeasure_dispensor_t1"
+	build_type = PROTOLATHE
+	materials = list(/datum/material/iron = 5000)
+	build_path = /obj/item/fighter_component/countermeasure_dispensor/t1
+	category = list("Ship Components")
+	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+
+/datum/design/fighter_countermeasure_dispensor_t2
+	name = "Expanded Fighter Countermeasure Dispensor"
+	desc = "An Expanded Countermeasure Dispensor for a fighter"
+	id = "fighter_countermeasure_dispensor_t2"
+	build_type = PROTOLATHE
+	materials = list(/datum/material/iron = 10000)
+	build_path = /obj/item/fighter_component/countermeasure_dispensor/t2
+	category = list("Ship Components")
+	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+
+/datum/design/fighter_countermeasure_dispensor_t3
+	name = "Double Fighter Countermeasure Dispensor"
+	desc = "A Double Fighter Countermeasure Dispensor"
+	id = "fighter_countermeasure_dispensor_t3"
+	build_type = PROTOLATHE
+	materials = list(/datum/material/iron = 15000)
+	build_path = /obj/item/fighter_component/countermeasure_dispensor/t3
+	category = list("Ship Components")
+	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+
+/datum/design/light_fighter_armour_plating_t1
+	name = "Light Fighter Armour Plating"
+	desc = "Armour Plating for a Light Fighter"
+	id = "light_fighter_armour_plating_t1"
+	build_type = PROTOLATHE
+	materials = list(/datum/material/iron = 5000)
+	build_path = /obj/item/fighter_component/armour_plating/light/t1
+	category = list("Ship Components")
+	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+
+/datum/design/light_fighter_armour_plating_t2
+	name = "Hardened Light Fighter Armour Plating"
+	desc = "Hardened Armour Plating for a Light Fighter"
+	id = "light_fighter_armour_plating_t2"
+	build_type = PROTOLATHE
+	materials = list(/datum/material/iron = 10000)
+	build_path = /obj/item/fighter_component/armour_plating/light/t2
+	category = list("Ship Components")
+	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+
+/datum/design/light_fighter_armour_plating_t3
+	name = "Reinforced Light Fighter Armour Plating"
+	desc = "Reinforced Armour Plating for a Light Fighter"
+	id = "light_fighter_armour_plating_t3"
+	build_type = PROTOLATHE
+	materials = list(/datum/material/iron = 15000)
+	build_path = /obj/item/fighter_component/armour_plating/light/t3
+	category = list("Ship Components")
+	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+
+/datum/design/light_targeting_sensor_t1
+	name = "Light Fighter Targeting Sensors"
+	desc = "Targening Sensors for a Light Fighter"
+	id = "light_targeting_sensor_t1"
+	build_type = PROTOLATHE
+	materials = list(/datum/material/iron = 5000)
+	build_path = /obj/item/fighter_component/targeting_sensor/light/t1
+	category = list("Ship Components")
+	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+
+/datum/design/light_targeting_sensor_t2
+	name = "Improved Light Fighter Targeting Sensors"
+	desc = "Improved Targening Sensors for a Light Fighter"
+	id = "light_targeting_sensor_t2"
+	build_type = PROTOLATHE
+	materials = list(/datum/material/iron = 10000)
+	build_path = /obj/item/fighter_component/targeting_sensor/light/t2
+	category = list("Ship Components")
+	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+
+/datum/design/light_targeting_sensor_t3
+	name = "Enhanced Light Fighter Targeting Sensors"
+	desc = "Enhanced Targening Sensors for a Light Fighter"
+	id = "light_targeting_sensor_t3"
+	build_type = PROTOLATHE
+	materials = list(/datum/material/iron = 15000)
+	build_path = /obj/item/fighter_component/targeting_sensor/light/t3
+	category = list("Ship Components")
+	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+
+/datum/design/light_engine_t1
+	name = "Light Fighter Engine"
+	desc = "An engine for a Light Fighter"
+	id = "light_engine_t1"
+	build_type = PROTOLATHE
+	materials = list(/datum/material/iron = 5000)
+	build_path = /obj/item/fighter_component/engine/light/t1
+	category = list("Ship Components")
+	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+
+/datum/design/light_engine_t2
+	name = "Improved Light Fighter Engine"
+	desc = "An improved engine for a Light Fighter
+	id = "light_engine_t2"
+	build_type = PROTOLATHE
+	materials = list(/datum/material/iron = 10000)
+	build_path = /obj/item/fighter_component/engine/light/t2
+	category = list("Ship Components")
+	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+
+/datum/design/light_engine_t3
+	name = "Enhanced Light Fighter Engine"
+	desc = "An enhanced engine for a Light Fighter"
+	id = "light_engine_t3"
+	build_type = PROTOLATHE
+	materials = list(/datum/material/iron = 15000)
+	build_path = /obj/item/fighter_component/engine/light/t3
+	category = list("Ship Components")
+	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+
+/datum/design/fighter_missile_rack_t1
+	name = "Light Fighter Missile Rack"
+	desc = "A missile rack for a light fighter"
+	id = "fighter_missile_rack_t1"
+	build_type = PROTOLATHE
+	materials = list(/datum/material/iron = 5000)
+	build_path = /obj/item/fighter_component/missile_rack/t1
+	category = list("Ship Components")
+	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+
+/datum/design/fighter_missile_rack_t2
+	name = "Large Light Fighter Missile Rack"
+	desc = "A large missile rack for a light fighter"
+	id = "fighter_missile_rack_t2"
+	build_type = PROTOLATHE
+	materials = list(/datum/material/iron = 10000)
+	build_path = /obj/item/fighter_component/missile_rack/t2
+	category = list("Ship Components")
+	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+
+/datum/design/fighter_missile_rack_t3
+	name = "Extra Large Light Fighter Missile Rack"
+	desc = "An extra large missile rack for a light fighter"
+	id = "fighter_missile_rack_t3"
+	build_type = PROTOLATHE
+	materials = list(/datum/material/iron = 15000)
+	build_path = /obj/item/fighter_component/missile_rack/t3
+	category = list("Ship Components")
+	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+
+/datum/design/light_fighter_light_cannon_t1
+	name = "Light Fighter Light Cannon"
+	desc = "A light cannon for a light fighter"
+	id = "light_fighter_light_cannon_t1"
+	build_type = PROTOLATHE
+	materials = list(/datum/material/iron = 5000)
+	build_path = /obj/item/fighter_component/light_cannon/t1
+	category = list("Ship Components")
+	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+
+/datum/design/light_fighter_light_cannon_t2
+	name = "Improved Light Fighter Light Cannon"
+	desc = "An Improved light cannon for a light fighter"
+	id = "light_fighter_light_cannon_t2"
+	build_type = PROTOLATHE
+	materials = list(/datum/material/iron = 10000)
+	build_path = /obj/item/fighter_component/light_cannon/t2
+	category = list("Ship Components")
+	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+
+/datum/design/light_fighter_light_cannon_t3
+	name = "Enhanced Light Fighter Light Cannon"
+	desc = "An enhanced light cannon for a light fighter"
+	id = "light_fighter_light_cannon_t3"
+	build_type = PROTOLATHE
+	materials = list(/datum/material/iron = 15000)
+	build_path = /obj/item/fighter_component/light_cannon/t3
+	category = list("Ship Components")
+	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+
+/datum/design/heavy_fighter_armour_plating_t1
+	name = "Heavy Fighter Armour Plating"
+	desc = "Armour Plating for a Heavy Fighter"
+	id = "heavy_fighter_armour_plating_t1"
+	build_type = PROTOLATHE
+	materials = list(/datum/material/iron = 5000)
+	build_path = /obj/item/fighter_component/armour_plating/heavy/t1
+	category = list("Ship Components")
+	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+
+/datum/design/heavy_fighter_armour_plating_t2
+	name = "Hardened Heavy Fighter Armour Plating"
+	desc = "Hardened Armour Plating for a Heavy Fighter"
+	id = "heavy_fighter_armour_plating_t2"
+	build_type = PROTOLATHE
+	materials = list(/datum/material/iron = 10000)
+	build_path = /obj/item/fighter_component/armour_plating/heavy/t2
+	category = list("Ship Components")
+	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+
+/datum/design/heavy_fighter_armour_plating_t3
+	name = "Reinforced Heavy Fighter Armour Plating"
+	desc = "Reinforced Armour Plating for a Heavy Fighter"
+	id = "heavy_fighter_armour_plating_t3"
+	build_type = PROTOLATHE
+	materials = list(/datum/material/iron = 15000)
+	build_path = /obj/item/fighter_component/armour_plating/heavy/t3
+	category = list("Ship Components")
+	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+
+/datum/design/heavy_targeting_sensor_t1
+	name = "Heavy Fighter Targeting Sensors"
+	desc = "Targening Sensors for a Heavy Fighter"
+	id = "heavy_targeting_sensor_t1"
+	build_type = PROTOLATHE
+	materials = list(/datum/material/iron = 5000)
+	build_path = /obj/item/fighter_component/targeting_sensor/heavy/t1
+	category = list("Ship Components")
+	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+
+/datum/design/heavy_targeting_sensor_t2
+	name = "Improved Heavy Fighter Targeting Sensors"
+	desc = "Improved Targening Sensors for a Heavy Fighter"
+	id = "light_targeting_sensor_t2"
+	build_type = PROTOLATHE
+	materials = list(/datum/material/iron = 10000)
+	build_path = /obj/item/fighter_component/targeting_sensor/heavy/t2
+	category = list("Ship Components")
+	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+
+/datum/design/heavy_targeting_sensor_t3
+	name = "Enhanced Heavy Fighter Targeting Sensors"
+	desc = "Enhanced Targening Sensors for a Heavy Fighter"
+	id = "light_targeting_sensor_t3"
+	build_type = PROTOLATHE
+	materials = list(/datum/material/iron = 15000)
+	build_path = /obj/item/fighter_component/targeting_sensor/heavy/t3
+	category = list("Ship Components")
+	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+
+/datum/design/heavy_engine_t1
+	name = "Heavy Fighter Engine"
+	desc = "An engine for a Heavy Fighter"
+	id = "heavy_engine_t1"
+	build_type = PROTOLATHE
+	materials = list(/datum/material/iron = 5000)
+	build_path = /obj/item/fighter_component/engine/heavy/t1
+	category = list("Ship Components")
+	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+
+/datum/design/heavy_engine_t2
+	name = "Improved Heavy Fighter Engine"
+	desc = "An improved engine for a Heavy Fighter"
+	id = "heavy_engine_t2"
+	build_type = PROTOLATHE
+	materials = list(/datum/material/iron = 10000)
+	build_path = /obj/item/fighter_component/engine/heavy/t2
+	category = list("Ship Components")
+	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+
+/datum/design/heavy_engine_t3
+	name = "Enhanced Heavy Fighter Engine"
+	desc = "An enhanced engine for a Heavy Fighter"
+	id = "heavy_engine_t3"
+	build_type = PROTOLATHE
+	materials = list(/datum/material/iron = 15000)
+	build_path = /obj/item/fighter_component/engine/heavy/t3
+	category = list("Ship Components")
+	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+
+/datum/design/heavy_torpedo_rack_t1
+	name = "Heavy Fighter Torpedo Rack"
+	desc = "A torpedo rack for a heavy fighter"
+	id = "heavy_torpedo_rack_t1"
+	build_type = PROTOLATHE
+	materials = list(/datum/material/iron = 5000)
+	build_path = /obj/item/fighter_component/torpedo_rack/t1
+	category = list("Ship Components")
+	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+
+/datum/design/heavy_torpedo_rack_t2
+	name = "Large Heavy Fighter Torpedo Rack"
+	desc = "A large torpedo rack for a heavy fighter"
+	id = "heavy_torpedo_rack_t2"
+	build_type = PROTOLATHE
+	materials = list(/datum/material/iron = 10000)
+	build_path = /obj/item/fighter_component/torpedo_rack/t2
+	category = list("Ship Components")
+	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+
+/datum/design/heavy_torpedo_rack_t3
+	name = "Extra Large Heavy Fighter Torpedo Rack"
+	desc = "An extra large torpedo rack for a heavy fighter"
+	id = "heavy_torpedo_rack_t3"
+	build_type = PROTOLATHE
+	materials = list(/datum/material/iron = 15000)
+	build_path = /obj/item/fighter_component/torpedo_rack/t3
+	category = list("Ship Components")
+	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+
+/datum/design/heavy_fighter_heavy_cannon_t1
+	name = "Heavy Fighter Heavy Cannon"
+	desc = "A heavy cannon for a heavy fighter"
+	id = "heavy_fighter_heavy_cannon_t1"
+	build_type = PROTOLATHE
+	materials = list(/datum/material/iron = 5000)
+	build_path = /obj/item/fighter_component/heavy_cannon/t1
+	category = list("Ship Components")
+	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+
+/datum/design/heavy_fighter_heavy_cannon_t2
+	name = "Improved Heavy Fighter Heavy Cannon"
+	desc = "An improved heavy cannon for a heavy fighter"
+	id = "heavy_fighter_heavy_cannon_t2"
+	build_type = PROTOLATHE
+	materials = list(/datum/material/iron = 10000)
+	build_path = /obj/item/fighter_component/heavy_cannon/t2
+	category = list("Ship Components")
+	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+
+/datum/design/heavy_fighter_heavy_cannon_t3"
+	name = "Enhanced Heavy Fighter Heavy Cannon"
+	desc = "An enhanced heavy cannon for a heavy fighter"
+	id = "heavy_fighter_heavy_cannon_t3"
+	build_type = PROTOLATHE
+	materials = list(/datum/material/iron = 15000)
+	build_path = /obj/item/fighter_component/heavy_cannon/t3
+	category = list("Ship Components")
+	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+
+/datum/design/utility_craft_armour_plating_t1
+	name = "Utility Vessel Armour Plating"
+	desc = "Armour Plating for a Utility Vessel"
+	id = "utility_craft_armour_plating_t1"
+	build_type = PROTOLATHE
+	materials = list(/datum/material/iron = 5000)
+	build_path = /obj/item/fighter_component/armour_plating/utility/t1
+	category = list("Ship Components")
+	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+
+/datum/design/utility_craft_armour_plating_t2
+	name = "Hardened Utility Vessel Armour Plating"
+	desc = "Hardened Armour Plating for a Utility Vessel"
+	id = "utility_craft_armour_plating_t2"
+	build_type = PROTOLATHE
+	materials = list(/datum/material/iron = 10000)
+	build_path = /obj/item/fighter_component/armour_plating/utility/t2
+	category = list("Ship Components")
+	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+
+/datum/design/utility_craft_armour_plating_t3
+	name = "Reinforced Utility Vessel Armour Plating"
+	desc = "Reinforced Armour Plating for a Utility Vessel"
+	id = "utility_craft_armour_plating_t3"
+	build_type = PROTOLATHE
+	materials = list(/datum/material/iron = 15000)
+	build_path = /obj/item/fighter_component/armour_plating/utility/t3
+	category = list("Ship Components")
+	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+
+/datum/design/utility_engine_t1
+	name = "Utility Vessel Engine"
+	desc = "An engine for a Utility Vessel"
+	id = "utility_engine_t1"
+	build_type = PROTOLATHE
+	materials = list(/datum/material/iron = 5000)
+	build_path = /obj/item/fighter_component/engine/utility/t1
+	category = list("Ship Components")
+	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+
+/datum/design/utility_engine_t2
+	name = "Improved Utility Vessel Engine"
+	desc = "An improved engine for a Utility Vessel"
+	id = "utility_engine_t2"
+	build_type = PROTOLATHE
+	materials = list(/datum/material/iron = 10000)
+	build_path = /obj/item/fighter_component/engine/utility/t2
+	category = list("Ship Components")
+	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+
+/datum/design/utility_engine_t3
+	name = "Enhanced Utility Vessel Engine"
+	desc = "An enhanced engine for a Utility Vessel"
+	id = "utility_engine_t3"
+	build_type = PROTOLATHE
+	materials = list(/datum/material/iron = 15000)
+	build_path = /obj/item/fighter_component/engine/utility/t3
+	category = list("Ship Components")
+	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+
+/datum/design/utility_refueling_system
+	name = "Utility Vessel Refueling System"
+	desc = "A refueling system for a Utility Vessel"
+	id = "utility_refueling_system"
+	build_type = PROTOLATHE
+	materials = list(/datum/material/iron = 5000)
+	build_path = /obj/item/fighter_component/refueling_system
+	category = list("Ship Components")
+	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+
+/datum/design/utility_auxiliary_fuel_tank_t1
+	name = "Utility Vessel Auxiliary Fuel Tank"
+	desc = "An auxiliary fuel tank for a Utility Vessel"
+	id = "utility_auxiliary_fuel_tank_t1"
+	build_type = PROTOLATHE
+	materials = list(/datum/material/iron = 5000)
+	build_path = /obj/item/fighter_component/auxiliary_fuel_tank/t1
+	category = list("Ship Components")
+	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+
+/datum/design/utility_auxiliary_fuel_tank_t2
+	name = "Large Utility Vessel Auxiliary Fuel Tank"
+	desc = "A large auxiliary fuel tank for a Utility Vessel"
+	id = "utility_auxiliary_fuel_tank_t2"
+	build_type = PROTOLATHE
+	materials = list(/datum/material/iron = 10000)
+	build_path = /obj/item/fighter_component/auxiliary_fuel_tank/t2
+	category = list("Ship Components")
+	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+
+/datum/design/utility_auxiliary_fuel_tank_t3
+	name = "Extra Large Utility Vessel Auxiliary Fuel Tank"
+	desc = "An extra large auxiliary fuel tank for a Utility Vessel"
+	id = "utility_auxiliary_fuel_tank_t3"
+	build_type = PROTOLATHE
+	materials = list(/datum/material/iron = 15000)
+	build_path = /obj/item/fighter_component/auxiliary_fuel_tank/t3
+	category = list("Ship Components")
+	departmental_flags = DEPARTMENTAL_FLAG_CARGO
 
 /////LEGACY BEGINS HERE/////
 //Fighter Components
