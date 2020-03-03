@@ -158,6 +158,7 @@ GLOBAL_LIST_INIT(scarySounds, list('sound/weapons/thudswoosh.ogg','sound/weapons
 30 Detective's Office
 31 Hangar Bay //NSV13
 32 MAA Office //NSV13
+33 Weapons Bay //NSV13
 */
 
 //The whole system for the sorttype var is determined based on the order of this list,
@@ -173,7 +174,7 @@ GLOBAL_LIST_INIT(TAGGERLOCATIONS, list("Disposals",
 	"Robotics", "XO Office", "Library", "Chapel", "Theatre", //NSV13 - HoP renamed to XO
 	"Bar", "Kitchen", "Hydroponics", "Janitor Closet","Genetics",
 	"Testing Range", "Toxins", "Dormitories", "Virology",
-	"Xenobiology", "Law Office","Detective's Office","Hangar Bay","MAA Office")) //NSV13 - Added munitions department
+	"Xenobiology", "Law Office","Detective's Office","Hangar Bay","MAA Office","Weapons Bay")) //NSV13 - Added munitions department
 
 GLOBAL_LIST_INIT(station_prefixes, world.file2list("strings/station_prefixes.txt") + "")
 
