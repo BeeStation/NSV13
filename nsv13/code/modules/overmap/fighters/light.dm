@@ -2,7 +2,7 @@
 //Fast, nimble, flimsy
 //Uses Light Cannons and Missiles
 /obj/structure/overmap/fighter/light
-	name = "F-614B Quebec"
+	name = "F-614B Quebec" //need better name
 	desc = "A space faring fighter craft."
 	icon = 'nsv13/icons/overmap/nanotrasen/fighter.dmi'
 	icon_state = "fighter"
