@@ -166,7 +166,7 @@
 	dir = 4
 	},
 /obj/machinery/atmospherics/components/binary/volume_pump/on,
-/turf/open/floor/plating/airless,
+/turf/open/floor/plating,
 /area/nostromo/maintenance)
 "aE" = (
 /obj/machinery/atmospherics/components/unary/portables_connector{
@@ -741,6 +741,7 @@
 "cw" = (
 /obj/structure/table/reinforced,
 /obj/machinery/computer/lore_terminal,
+/obj/item/storage/box/donkpockets,
 /turf/open/floor/plasteel/ridged/steel,
 /area/nostromo)
 "cx" = (
@@ -1519,6 +1520,9 @@
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	dir = 4
 	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	dir = 4
+	},
 /turf/open/floor/plasteel/white,
 /area/nostromo/medbay)
 "ew" = (
@@ -1800,6 +1804,9 @@
 	name = "Crew quarters"
 	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	dir = 1
+	},
 /turf/open/floor/plasteel/ridged/steel,
 /area/nostromo)
 "fg" = (
@@ -1999,8 +2006,9 @@
 /turf/open/floor/plasteel/grid/steel,
 /area/nostromo/bridge)
 "fH" = (
+/obj/structure/grille,
 /obj/structure/window/reinforced/fulltile/ship,
-/turf/open/floor/plasteel/techmaint,
+/turf/open/floor/plating,
 /area/nostromo/bridge)
 "fI" = (
 /obj/machinery/door/airlock/ship{
@@ -2464,7 +2472,7 @@
 	},
 /obj/machinery/portable_atmospherics/pump,
 /obj/item/wrench,
-/turf/open/floor/plating/airless,
+/turf/open/floor/plating,
 /area/nostromo/maintenance)
 "gX" = (
 /obj/effect/turf_decal/stripes/line{
@@ -3463,8 +3471,14 @@
 /turf/open/floor/plating/airless,
 /area/nostromo/maintenance/exterior)
 "od" = (
-/turf/closed/wall/ship,
-/area/nostromo/maintenance/exterior)
+/obj/machinery/light{
+	dir = 1
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	dir = 6
+	},
+/turf/open/floor/carpet/ship,
+/area/nostromo)
 "oj" = (
 /obj/structure/cable{
 	icon_state = "1-2"
@@ -3629,7 +3643,7 @@
 	dir = 8
 	},
 /turf/open/floor/plasteel/tech/grid,
-/area/nostromo/maintenance/exterior)
+/area/nostromo/maintenance)
 "vE" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
@@ -3638,7 +3652,7 @@
 	dir = 5
 	},
 /turf/open/floor/plasteel/tech/grid,
-/area/nostromo/maintenance/exterior)
+/area/nostromo/maintenance)
 "wv" = (
 /obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1{
 	dir = 8
@@ -3669,6 +3683,9 @@
 /area/nostromo)
 "xb" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	dir = 9
+	},
 /turf/open/floor/carpet/ship,
 /area/nostromo)
 "xT" = (
@@ -3712,6 +3729,9 @@
 	dir = 1
 	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	dir = 1
+	},
 /turf/open/floor/plasteel/ridged/steel,
 /area/nostromo)
 "yP" = (
@@ -3837,7 +3857,7 @@
 /obj/machinery/atmospherics/pipe/simple/general/visible{
 	dir = 9
 	},
-/turf/open/floor/plating/airless,
+/turf/open/floor/plating,
 /area/nostromo/maintenance)
 "EU" = (
 /obj/structure/hull_plate,
@@ -3932,10 +3952,8 @@
 /area/nostromo/maintenance/exterior)
 "Ho" = (
 /obj/machinery/atmospherics/pipe/simple/general/hidden,
-/obj/structure/window/reinforced/fulltile/ship/interior{
-	layer = 2.9
-	},
-/turf/open/floor/plating/airless,
+/obj/effect/spawner/structure/window/reinforced,
+/turf/open/floor/plating,
 /area/nostromo/maintenance)
 "HA" = (
 /obj/structure/cable{
@@ -4009,10 +4027,8 @@
 /turf/open/floor/plasteel/tech/grid,
 /area/nostromo/maintenance)
 "Ju" = (
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
-	dir = 5
-	},
 /obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer3,
+/obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1,
 /turf/open/floor/plasteel/ridged/steel,
 /area/nostromo)
 "Jw" = (
@@ -4035,6 +4051,12 @@
 	},
 /turf/open/floor/plasteel/tiled,
 /area/nostromo/medbay)
+"JT" = (
+/obj/machinery/atmospherics/components/unary/vent_pump/on/layer1{
+	dir = 1
+	},
+/turf/open/floor/carpet/ship,
+/area/nostromo)
 "Kn" = (
 /obj/structure/cable{
 	icon_state = "1-2"
@@ -4062,7 +4084,7 @@
 	dir = 4
 	},
 /turf/open/floor/plasteel/tech/grid,
-/area/nostromo/maintenance/exterior)
+/area/nostromo/maintenance)
 "Lw" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 1
@@ -4168,7 +4190,7 @@
 /obj/machinery/atmospherics/pipe/manifold/general/visible{
 	dir = 1
 	},
-/turf/open/floor/plating/airless,
+/turf/open/floor/plating,
 /area/nostromo/maintenance)
 "Rh" = (
 /obj/effect/turf_decal/stripes/line{
@@ -4203,7 +4225,7 @@
 /obj/structure/window/reinforced/fulltile/ship,
 /obj/structure/grille,
 /turf/open/floor/plasteel/tech/grid,
-/area/nostromo/maintenance/exterior)
+/area/nostromo/maintenance)
 "TK" = (
 /obj/structure/sign/warning/vacuum/external,
 /turf/closed/wall/ship,
@@ -4289,6 +4311,9 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 6
 	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	dir = 6
+	},
 /turf/open/floor/plasteel/ridged/steel,
 /area/nostromo)
 "VM" = (
@@ -4312,7 +4337,7 @@
 	dir = 8
 	},
 /obj/machinery/portable_atmospherics/canister,
-/turf/open/floor/plating/airless,
+/turf/open/floor/plating,
 /area/nostromo/maintenance)
 "WM" = (
 /obj/structure/cable{
@@ -4378,13 +4403,13 @@
 /obj/machinery/atmospherics/components/trinary/filter/atmos/flipped/o2{
 	dir = 4
 	},
-/turf/open/floor/plating/airless,
+/turf/open/floor/plating,
 /area/nostromo/maintenance)
 "ZS" = (
 /obj/machinery/atmospherics/pipe/simple/general/visible{
 	dir = 5
 	},
-/turf/open/floor/plating/airless,
+/turf/open/floor/plating,
 /area/nostromo/maintenance)
 
 (1,1,1) = {"
@@ -27403,8 +27428,8 @@ aY
 aY
 aY
 aY
-od
-od
+aY
+aY
 ad
 ad
 ad
@@ -27661,7 +27686,7 @@ gZ
 aC
 TM
 vE
-od
+aY
 ad
 ad
 ad
@@ -28175,7 +28200,7 @@ Nl
 gX
 ge
 uN
-od
+aY
 ad
 ad
 ad
@@ -34084,8 +34109,8 @@ ap
 ap
 ap
 ap
-bw
-bo
+od
+JT
 fk
 ad
 aY
