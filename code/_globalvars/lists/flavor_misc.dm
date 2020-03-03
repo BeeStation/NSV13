@@ -156,8 +156,8 @@ GLOBAL_LIST_INIT(scarySounds, list('sound/weapons/thudswoosh.ogg','sound/weapons
 28 Xenobiology
 29 Law Office
 30 Detective's Office
-31 Hangar Bay //NSV13 - Added munitions department
-32 MAA Office
+31 Hangar Bay //NSV13
+32 MAA Office //NSV13
 */
 
 //The whole system for the sorttype var is determined based on the order of this list,
