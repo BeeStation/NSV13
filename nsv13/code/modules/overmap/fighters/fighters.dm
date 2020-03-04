@@ -322,7 +322,7 @@ After going through this checklist, you're ready to go!
 			last_overmap = null
 		else
 			for(var/obj/structure/overmap/O in GLOB.overmap_objects)
-				if(O.main_overmap)
+				if(O.role == MAIN_OVERMAP)
 					OM = O
 		if(!OM)
 			return FALSE
@@ -387,25 +387,6 @@ After going through this checklist, you're ready to go!
 		add_overlay(image(icon = icon, icon_state = "canopy_breach", dir = 1))
 	else if(canopy_open)
 		add_overlay("canopy_open")
-
-/obj/structure/overmap/fighter/ai
-	ai_controlled = TRUE
-	ai_behaviour = AI_AGGRESSIVE
-	weapon_safety = FALSE
-	prebuilt = TRUE
-	faction = "nanotrasen"
-
-/obj/structure/overmap/fighter/ai/syndicate
-	name = "Syndicate interceptor"
-	desc = "A space faring fighter craft."
-	icon = 'nsv13/icons/overmap/syndicate/syn_fighter.dmi'
-	icon_state = "fighter"
-	brakes = FALSE
-	max_integrity = 100 //Super squishy!
-	bound_width = 32 //Change this on a per ship basis
-	bound_height = 32
-	sprite_size = 32
-	faction = "syndicate"
 
 /obj/structure/overmap/fighter/prebuilt
 	prebuilt = TRUE
@@ -770,7 +751,7 @@ After going through this checklist, you're ready to go!
 		to_chat(user, "<span class='warning'>[src]'s canopy isn't open.</span>")
 		return
 	if(maint_state < MS_UNSECURE)
-		if(alert("Enter what seat?",name,"Pilot seat","Passenger seat") !="Passenger seat")
+		if(max_passengers > 0 && alert("Enter what seat?",name,"Pilot seat","Passenger seat") !="Passenger seat")
 			if(!pilot)
 				to_chat(user, "<span class='notice'>You begin climbing into [src]'s cockpit...</span>")
 				if(!do_after(user, 5 SECONDS, target=src))

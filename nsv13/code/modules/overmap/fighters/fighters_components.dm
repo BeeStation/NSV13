@@ -1071,6 +1071,10 @@
 	righthand_file = ""
 	w_class = WEIGHT_CLASS_GIGANTIC
 
+/obj/item/twohanded/required/fighter_component/cockpit/Initialize()
+	. = ..()
+	AddComponent(/datum/component/twohanded/required)
+
 /obj/item/twohanded/required/fighter_component/wing
 	name = "Fighter Wing Components"
 	desc = "A box of wing components for a fighter"
@@ -1079,6 +1083,10 @@
 	lefthand_file = ""
 	righthand_file = ""
 	w_class = WEIGHT_CLASS_GIGANTIC
+
+/obj/item/twohanded/required/fighter_component/wing/Initialize()
+	. = ..()
+	AddComponent(/datum/component/twohanded/required)
 
 /obj/item/twohanded/required/fighter_component/empennage
 	name = "Fighter Empennage Componets"
@@ -1089,6 +1097,10 @@
 	righthand_file = ""
 	w_class = WEIGHT_CLASS_GIGANTIC
 
+/obj/item/twohanded/required/fighter_component/empennage/Initialize()
+	. = ..()
+	AddComponent(/datum/component/twohanded/required)
+
 /obj/item/twohanded/required/fighter_component/landing_gear
 	name = "Fighter Landing Gear Componets"
 	desc = "A box of landing gear components for a fighter"
@@ -1097,6 +1109,10 @@
 	lefthand_file = ""
 	righthand_file = ""
 	w_class = WEIGHT_CLASS_GIGANTIC
+
+/obj/item/twohanded/required/fighter_component/landing_gear/Initialize()
+	. = ..()
+	AddComponent(/datum/component/twohanded/required)
 
 /obj/item/twohanded/required/fighter_component/armour_plating
 	name = "Fighter Armour Plating"
@@ -1107,6 +1123,10 @@
 	righthand_file = ""
 	w_class = WEIGHT_CLASS_GIGANTIC
 	var/armour = 1.25 //HP Modifier
+
+/obj/item/twohanded/required/fighter_component/armour_plating/Initialize()
+	. = ..()
+	AddComponent(/datum/component/twohanded/required)
 
 /obj/item/twohanded/required/fighter_component/armour_plating/improved
 	name = "Fighter Improved Armour Plating"
@@ -1122,6 +1142,10 @@
 	righthand_file = ""
 	w_class = WEIGHT_CLASS_GIGANTIC
 	var/capacity = 1000 //Fuel Capacity
+
+/obj/item/twohanded/required/fighter_component/fuel_tank/Initialize()
+	. = ..()
+	AddComponent(/datum/component/twohanded/required)
 
 /obj/item/twohanded/required/fighter_component/fuel_tank/extended
 	name = "Fighter Extended Fuel Tank"
@@ -1172,6 +1196,10 @@
 	var/speed = 1 //Speed modifier
 	var/consumption = 1 //How fast we burn fuel
 
+/obj/item/twohanded/required/fighter_component/engine/Initialize()
+	. = ..()
+	AddComponent(/datum/component/twohanded/required)
+
 /obj/item/twohanded/required/fighter_component/engine/overclocked
 	name = "Fighter Overclocked Engine"
 	desc = "An overclocked engine assembly for a fighter"
@@ -1186,6 +1214,10 @@
 	lefthand_file = ""
 	righthand_file = ""
 	w_class = WEIGHT_CLASS_GIGANTIC
+
+/obj/item/twohanded/required/fighter_component/primary_cannon/Initialize()
+	. = ..()
+	AddComponent(/datum/component/twohanded/required)
 
 //Component Fabrication
 
