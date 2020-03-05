@@ -24,10 +24,10 @@
 	if(!current_mob)
 		return
 	var/obj/structure/overmap/OM = current_mob?.get_overmap()
-	if(!istype(OM, /obj/structure/overmap))
+	if(!OM || !istype(OM, /obj/structure/overmap))
 		return
 	var/area/AR = get_area(current_mob)
-	if(OM && AR.parallax_movedir)
+	if(OM && AR?.parallax_movedir)
 		icon_state = "transit"
 		dir = AR.parallax_movedir
 		return
