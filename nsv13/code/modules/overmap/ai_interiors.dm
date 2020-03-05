@@ -46,7 +46,7 @@
 	else
 		new /obj/effect/temp_visual/overmap_explosion/alt(get_turf(src))
 	sleep(20)
-	if(main_overmap)
+	if(role == MAIN_OVERMAP)
 		priority_announce("WARNING: ([rand(10,100)]) Attempts to establish DRADIS uplink with [station_name()] have failed. Unable to ascertain operational status. Presumed status: TERMINATED","Central Intelligence Unit", 'nsv13/sound/effects/ship/reactor/explode.ogg')
 		SSticker.mode.check_finished(TRUE)
 		SSticker.force_ending = TRUE
@@ -59,7 +59,7 @@
 /obj/structure/overmap/proc/decimate_area()
 	if(!linked_areas.len)
 		return TRUE
-	if(main_overmap)
+	if(role == MAIN_OVERMAP)
 		Cinematic(CINEMATIC_ANNIHILATION,world)
 		SSticker.mode.check_finished(TRUE)
 		SSticker.force_ending = 1
@@ -114,7 +114,7 @@ GLOBAL_LIST_INIT(drop_trooper_teams, list("Noble", "Helljumper","Red", "Black", 
 	resistance_flags = INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | UNACIDABLE | ACID_PROOF
 
 /obj/structure/overmap/proc/spawn_boarders(amount)
-	if(!main_overmap)
+	if(role != MAIN_OVERMAP)
 		return FALSE
 	if(!amount)
 		amount = rand(2,4)

@@ -221,7 +221,7 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 /obj/machinery/power/stormdrive_reactor/proc/do_meltdown_effects()
 	explosion(get_turf(src), 5, 10, 19, 10, TRUE, TRUE)
 	var/obj/structure/overmap/OM = get_overmap()
-	if(OM?.main_overmap) //Irradiate the shit out of the player ship
+	if(OM?.role == MAIN_OVERMAP) //Irradiate the shit out of the player ship
 		SSweather.run_weather("nuclear fallout")
 	for(var/X in GLOB.landmarks_list)
 		if(istype(X, /obj/effect/landmark/nuclear_waste_spawner))
