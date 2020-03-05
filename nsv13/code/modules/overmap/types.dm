@@ -63,6 +63,21 @@
 	max_integrity = 1500 //Max health
 	integrity_failure = 1500
 
+/obj/structure/overmap/nanotrasen/carrier
+	name = "enterprise class carrier"
+	desc = "A gigantic ship which is capable of staying deployed in space for extended periods while supporting an impressive complement of fighters."
+	icon = 'nsv13/icons/overmap/nanotrasen/enterprise.dmi'
+	icon_state = "enterprise"
+	bound_width = 128 //Change this on a per ship basis
+	bound_height = 128
+	mass = MASS_LARGE
+	sprite_size = 48
+	damage_states = FALSE //TODO
+	pixel_z = -170
+	pixel_w = -112
+	max_integrity = 1500 //Max health
+	integrity_failure = 1500
+
 /obj/structure/overmap/nanotrasen/mining_cruiser
 	name = "Mining hauler"
 	desc = "A medium sized ship which has been retrofitted countless times. These ships are often relegated to mining duty."
@@ -96,6 +111,11 @@
 	role = MAIN_OVERMAP //Player controlled variant
 	max_integrity = 1800 //Buffed health due to ship internal damage existing
 	integrity_failure = 1800
+
+/obj/structure/overmap/nanotrasen/carrier/starter
+	role = MAIN_OVERMAP //Player controlled variant
+	max_integrity = 2000 //Compensates for lack of offensive weaponry
+	integrity_failure = 2000
 
 /obj/structure/overmap/nanotrasen/patrol_cruiser/ai
 	ai_controlled = TRUE
@@ -170,9 +190,10 @@
 	max_integrity = 700 //Tanky so that it can survive to deploy multiple fighter waves.
 	integrity_failure = 700
 	bounty = 2000
+	torpedoes = 0
 
 /obj/structure/overmap/syndicate/ai/carrier/get_max_firemode() //This boy really doesn't need a railgun
-	return FIRE_MODE_TORPEDO
+	return FIRE_MODE_PDC
 
 /obj/structure/overmap/syndicate/ai/patrol_cruiser //Larger ship which is much harder to kill
 	icon = 'nsv13/icons/overmap/syndicate/syn_patrol_cruiser.dmi'
@@ -188,6 +209,11 @@
 	integrity_failure = 800
 	bounty = 500
 
+/obj/structure/overmap/fighter/ai
+	prebuilt = TRUE
+	has_escape_pod = FALSE
+	var/bounty = 250
+
 /obj/structure/overmap/fighter/ai/syndicate
 	name = "Syndicate interceptor"
 	desc = "A space faring fighter craft."
@@ -199,7 +225,6 @@
 	bound_height = 32
 	sprite_size = 32
 	faction = "syndicate"
-	var/bounty = 250
 
 /obj/structure/overmap/fighter/ai/syndicate/Destroy()
 	SSstarsystem.bounty_pool += bounty //Adding payment for services rendered

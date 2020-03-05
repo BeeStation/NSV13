@@ -15,14 +15,6 @@
 	damage = 60
 	impact_effect_type = /obj/effect/temp_visual/impact_effect/torpedo
 
-/obj/effect/temp_visual/impact_effect/torpedo
-	icon_state = "impact_torpedo"
-	duration = 10
-
-/obj/effect/temp_visual/impact_effect/torpedo/nuke
-	icon_state = "explosion"
-	duration = 10
-
 /obj/effect/temp_visual/overmap_explosion
 	icon = 'nsv13/goonstation/icons/hugeexplosion.dmi'
 	icon_state = "explosion"
@@ -87,6 +79,8 @@
 					var/turf/T = get_turf(pick(orange(4,target))) //Pick a random tile within 6 turfs, this isn't a flat out miss 100% of the time though
 					fire_weapon(T, mode=FIRE_MODE_PDC, lateral=TRUE)
 				else
+					if(!target || QDELETED(target))
+						continue
 					fire_weapon(target, mode=FIRE_MODE_PDC, lateral=TRUE)
 	if(!found_target) //Can't see a torpedo to shoot, try find an enemy ship to shoot
 		for(var/obj/structure/overmap/ship in GLOB.overmap_objects)
