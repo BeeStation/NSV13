@@ -1,8 +1,3 @@
-#define MASS_TINY 1
-#define MASS_SMALL 2
-#define MASS_MEDIUM 3
-#define MASS_LARGE 4
-#define MASS_TITAN 5
 
 /////////////////////////////////////////////////////////////////////////////////
 // ACKNOWLEDGEMENTS:  Credit to yogstation (Monster860) for the movement code. //
@@ -36,7 +31,6 @@
 	var/list/docking_points = list() //Where we can land on this ship. Usually right at the edge of a z-level.
 	var/last_slowprocess = 0
 
-	var/main_overmap = FALSE //There can only be one of these per game! This denotes that this ship is the "hero ship" and what the players fly. This links it to all the station areas by default
 	var/list/linked_areas = list() //List of all areas that we control
 	var/datum/gas_mixture/cabin_air //Cabin air mix used for small ships like fighters (see overmap/fighters/fighters.dm)
 	var/obj/machinery/portable_atmospherics/canister/internal_tank //Internal air tank reference. Used mostly in small ships. If you want to sabotage a fighter, load a plasma tank into its cockpit :)
@@ -113,6 +107,8 @@
 	var/atom/target_lock = null
 	var/can_lock = TRUE //Can we lock on to people or not
 	var/lockon_time = 2 SECONDS
+
+	var/role = NORMAL_OVERMAP
 
 /obj/structure/overmap/can_be_pulled(user) // no :)
 	return FALSE
@@ -202,9 +198,9 @@
 			side_maxthrust = 0.3
 			max_angular_acceleration = 0.5
 
-	if(main_overmap)
+	if(role == MAIN_OVERMAP)
 		name = "[station_name()]"
-	current_system = GLOB.starsystem_controller.find_system(src)
+	current_system = SSstarsystem.find_system(src)
 	addtimer(CALLBACK(src, .proc/check_armour), 20 SECONDS)
 
 	weapon_types[FIRE_MODE_PDC] = new/datum/ship_weapon/pdc_mount
@@ -223,7 +219,7 @@
 	. = ..()
 
 /obj/structure/overmap/proc/find_area()
-	if(main_overmap) //We're the hero ship, link us to every ss13 area.
+	if(role == MAIN_OVERMAP) //We're the hero ship, link us to every ss13 area.
 		for(var/X in GLOB.teleportlocs) //Teleportlocs = ss13 areas that aren't special / centcom
 			var/area/area = GLOB.teleportlocs[X] //Pick a station area and yeet it.
 			area.linked_overmap = src
