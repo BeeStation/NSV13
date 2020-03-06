@@ -1,6 +1,3 @@
-/mob/living
-	var/obj/structure/overmap/gunning_ship = null //NSV13 - reference to overmap for aim helper
-
 /obj/structure/overmap/proc/onMouseDrag(src_object, over_object, src_location, over_location, params, mob/M)
 	if(aiming)
 		lastangle = getMouseAngle(params, M)

@@ -85,8 +85,8 @@
 	var/obj/item/H = get_active_held_item()
 	if(H)
 		. = H.canItemMouseDown(object, location, params)
-	else if(src.gunning_ship) //NSV13 - let us mouse-down if we're a gunner
-		. = src.gunning_ship
+	else if(src.overmap_ship && (src.overmap_ship.gunner == src)) //NSV13 - let us mouse-down if we're a gunner
+		. = src.overmap_ship
 
 /obj/item/proc/CanItemAutoclick(object, location, params)
 

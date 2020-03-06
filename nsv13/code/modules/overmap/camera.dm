@@ -27,11 +27,9 @@
 				to_chat(gunner, "<span class='warning'>[user] has kicked you off the ship controls!</span>")
 				stop_piloting(gunner)
 			gunner = user
-			user.gunning_ship = src
 		if("all_positions")
 			pilot = user
 			gunner = user
-			user.gunning_ship = src
 			LAZYOR(user.mousemove_intercept_objects, src)
 	user.set_focus(src)
 	operators += user
@@ -52,7 +50,6 @@
 	if(gunner && M == gunner)
 		if(tactical)
 			playsound(tactical, 'nsv13/sound/effects/computer/hum.ogg', 100, 1)
-		gunner.gunning_ship = null
 		gunner = null
 		target_lock = null
 	if(M.client)
