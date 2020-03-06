@@ -73,10 +73,19 @@
 		if(get_dist(ship, src) <= 3)
 			user_thrust_dir = 0 //Don't thrust towards ships we're already close to.
 			brakes = TRUE
+			try_board(ship)
 		else
 			user_thrust_dir = 1
 			brakes = FALSE
 
+/obj/structure/overmap/proc/try_board(obj/structure/overmap/ship)
+	if(mass <= MASS_TINY)
+		return FALSE
+	if(SSovermap.next_boarding_time <= world.time)
+		SSovermap.next_boarding_time = world.time + 30 MINUTES
+		ship.spawn_boarders()
+		return TRUE
+	return FALSE
 
 /obj/structure/overmap/proc/retreat()
 	if(!last_target)
@@ -102,8 +111,9 @@
 		if(target == X)
 			return
 	enemies += target
-	if(OM.main_overmap)
+	if(OM.role == MAIN_OVERMAP)
 		set_security_level(SEC_LEVEL_RED) //Action stations when the ship is under attack, if it's the main overmap.
+		SSstarsystem.last_combat_enter = world.time //Tag the combat on the SS
 	if(OM.tactical)
 		var/sound = pick('nsv13/sound/effects/computer/alarm.ogg','nsv13/sound/effects/computer/alarm_3.ogg','nsv13/sound/effects/computer/alarm_4.ogg')
 		var/message = "<span class='warning'>DANGER: [src] is now targeting [OM].</span>"
