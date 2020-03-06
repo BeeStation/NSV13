@@ -16,6 +16,8 @@
 		return
 	lastangle = getMouseAngle(params, M)
 	stop_aiming()
+	if(fire_mode == FIRE_MODE_RAILGUN)
+		fire_weapon(object)
 	QDEL_LIST(current_tracers)
 
 /obj/structure/overmap/proc/draw_beam(force_update = FALSE)
