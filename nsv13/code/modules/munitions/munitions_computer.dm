@@ -28,8 +28,7 @@
 
 /obj/machinery/computer/ship/munitions_computer/Initialize()
 	. = ..()
-	var/opposite_dir = turn(dir, 180)
-	var/atom/adjacent = locate(/obj/machinery/ship_weapon) in get_turf(get_step(src, opposite_dir)) //Look at what dir we're facing, find a gun in that turf
+	var/atom/adjacent = locate(/obj/machinery/ship_weapon) in get_turf(get_step(src, dir)) //Look at what dir we're facing, find a gun in that turf
 	if(adjacent && istype(adjacent, /obj/machinery/ship_weapon))
 		SW = adjacent
 		SW.linked_computer = src
