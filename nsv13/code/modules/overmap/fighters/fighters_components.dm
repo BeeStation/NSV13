@@ -88,14 +88,14 @@
 /obj/item/fighter_component/countermeasure_dispensor/t3
 	name = "Double Fighter Countermeasure Dispensor"
 	desc = "A Double Countermeasure Dispensor for a fighter"
-	countmeasure_capacity = 8
+	countermeasure_capacity = 8
 
 ////////Light Components///////
 
 /obj/structure/fighter_component/light_chassis_crate
 	name = "Light Fighter Chassis Components Crate"
 	desc = "A crate full of chassis components for a F-614B NOT-VIPER Light Fighter"
-	icon = 'icons/obj/crate.dmi'
+	icon = 'icons/obj/crates.dmi'
 	icon_state = "crate"
 	anchored = FALSE
 	density = TRUE
@@ -208,7 +208,7 @@
 /obj/structure/fighter_component/heavy_chassis_crate
 	name = "Heavy Fighter Chassis Components Crate"
 	desc = "A crate full of chassis components for an A-395 Chelyabinsk Heavy Fighter"
-	icon = 'icons/obj/crate.dmi'
+	icon = 'icons/obj/crates.dmi'
 	icon_state = "crate"
 	anchored = FALSE
 	density = TRUE
@@ -268,7 +268,7 @@
 	consumption = 1.4
 
 /obj/item/fighter_component/torpedo_rack
-	name = "Heavy Fighter Torpedo Rack
+	name = "Heavy Fighter Torpedo Rack"
 	icon_state = "weaponcrate"
 	var/missile_capacity = 0
 	var/torpedo_capacity = 2
@@ -277,20 +277,20 @@
 	name = "Heavy Fighter Torpedo Rack"
 	desc = "A torpedo rack for a heavy fighter"
 
-/obj/item/fighter_component/missile_rack/t2
+/obj/item/fighter_component/torpedo_rack/t2
 	name = "Large Heavy Fighter Torpedo Rack"
 	desc = "A large torpedo rack for a heavy fighter"
 	missile_capacity = 1
 	torpedo_capacity = 3
 
-/obj/item/fighter_component/missile_rack/t3
+/obj/item/fighter_component/torpedo_rack/t3
 	name = "Extra Large Heavy Fighter Torpedo Rack"
 	desc = "An extra large torpedo rack for a heavy fighter"
 	missile_capacity = 2
 	torpedo_capacity = 4
 
 /obj/item/fighter_component/heavy_cannon
-	name = "Heavy Fighter Heavt Cannon - PARENT"
+	name = "Heavy Fighter Heavy Cannon - PARENT"
 	icon_state = 'plasmacrate'
 	var/fire_rate = 0
 	var/ammo_capacity = 0
@@ -325,7 +325,7 @@
 /obj/structure/fighter_component/utility_chassis_crate
 	name = "Utility Vessel Chassis Components Crate"
 	desc = "A crate full of chassis components for a NOT-RAPTOR Utility Vessel"
-	icon = 'icons/obj/crate.dmi'
+	icon = 'icons/obj/crates.dmi'
 	icon_state = "crate"
 	anchored = FALSE
 	density = TRUE
@@ -392,6 +392,25 @@
 	desc = "An extra large auxiliary fuel tank for a Utility Vessel"
 	aux_capacity = 5000
 
+/obj/item/fighter_component/passenger_compartment_module
+	name = "Utility Vessel Passenger Compartment Module - PARENT"
+	icon_state = "crate"
+	var/passenger_capacity = 3
+
+/obj/item/fighter_component/passenger_compartment_module/t1
+	name = "Utility Vessel Passenger Compartment Module"
+	desc = "A passenger compartment module and recovery system for a Utility Vessel"
+
+/obj/item/fighter_component/passenger_compartment_module/t2
+	name = "Expanded Utility Vessel Passenger Compartment Module"
+	desc = "An expanded passenger compartment module and recovery system for a Utility Vessel"
+	passenger_capacity = 4
+
+/obj/item/fighter_component/passenger_compartment_module/t3
+	name = "Extended Utility Vessel Passenger Compartment Module"
+	desc = "An extended passenger compartment module and recovery system for a Utility Vessel"
+	passenger_capacity = 5
+
 /////COMPONENT TECHWEB/////
 
 /datum/techweb_node/fighter_fabrication
@@ -431,7 +450,7 @@
 	export_price = 3000
 
 /datum/techweb_node/light_fighter_fabrication
-	id = "light_fighter_fabrication
+	id = "light_fighter_fabrication"
 	display_name = "Light Fighter Fabrication"
 	description = "Lightweight Fighters designed for space superiority duties"
 	prereq_ids = list("fighter_fabrication", "fighter_common_component_fabrication_t1")
@@ -467,7 +486,7 @@
 	export_price = 3000
 
 /datum/techweb_node/heavy_fighter_fabrication
-	id = "heavy_fighter_fabrication
+	id = "heavy_fighter_fabrication"
 	display_name = "Heavy Fighter Fabrication"
 	description = "Heavyweight Fighters designed for clearing soft target and hard targets alike"
 	prereq_ids = list("fighter_fabrication", "fighter_common_component_fabrication_t1")
@@ -503,7 +522,7 @@
 	export_price = 3000
 
 /datum/techweb_node/utility_craft_fabrication
-	id = "utility_craft_fabrication
+	id = "utility_craft_fabrication"
 	display_name = "Utility Craft Fabrication"
 	description = "Utility Craft designed for support duties"
 	prereq_ids = list("fighter_fabrication", "fighter_common_component_fabrication_t1")
@@ -516,7 +535,7 @@
 	display_name = "Utlility Craft Component Fabrication"
 	description = "Access to components required for utility craft fabrication."
 	prereq_ids = list("utility_craft_fabrication")
-	design_ids = list("utility_craft_armour_plating_t1", "utility_engine_t1", "utility_refueling_system", "utility_auxiliary_fuel_tank_t1")
+	design_ids = list("utility_craft_armour_plating_t1", "utility_engine_t1", "utility_refueling_system", "utility_auxiliary_fuel_tank_t1", "passenge_compartment_module_t1")
 	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 5000)
 	export_price = 1000
 
@@ -525,7 +544,7 @@
 	display_name = "Improved Utility Craft Component Fabrication"
 	description = "Improved components required for utility craft fabrication."
 	prereq_ids = list("utility_craft_component_fabrication_t1")
-	design_ids = list("utility_craft_armour_plating_t2", "utility_engine_t2", "utility_auxiliary_fuel_tank_t2")
+	design_ids = list("utility_craft_armour_plating_t2", "utility_engine_t2", "utility_auxiliary_fuel_tank_t2", "passenge_compartment_module_t2")
 	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 10000)
 	export_price = 2000
 
@@ -534,7 +553,7 @@
 	display_name = "Enhanced Utility Craft Component Fabrication"
 	description = "Enhanced components required for utility craft fabrication."
 	prereq_ids = list("utility_craft_component_fabrication_t2")
-	design_ids = list("utility_craft_armour_plating_t3", "utility_engine_t3", "utility_auxiliary_fuel_tank_t3")
+	design_ids = list("utility_craft_armour_plating_t3", "utility_engine_t3", "utility_auxiliary_fuel_tank_t3", "passenge_compartment_module_t3")
 	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 15000)
 	export_price = 3000
 
@@ -722,7 +741,7 @@
 
 /datum/design/light_engine_t2
 	name = "Improved Light Fighter Engine"
-	desc = "An improved engine for a Light Fighter
+	desc = "An improved engine for a Light Fighter"
 	id = "light_engine_t2"
 	build_type = PROTOLATHE
 	materials = list(/datum/material/iron = 10000)
@@ -940,7 +959,7 @@
 	category = list("Ship Components")
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO
 
-/datum/design/heavy_fighter_heavy_cannon_t3"
+/datum/design/heavy_fighter_heavy_cannon_t3
 	name = "Enhanced Heavy Fighter Heavy Cannon"
 	desc = "An enhanced heavy cannon for a heavy fighter"
 	id = "heavy_fighter_heavy_cannon_t3"
@@ -1047,6 +1066,36 @@
 	build_type = PROTOLATHE
 	materials = list(/datum/material/iron = 15000)
 	build_path = /obj/item/fighter_component/auxiliary_fuel_tank/t3
+	category = list("Ship Components")
+	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+
+/datum/design/passenger_compartment_module_t1
+	name = "Passenger Compartment Module"
+	desc = "A passenger compartment module and recovery system for a Utility Vessel"
+	id = "passenge_compartment_module_t1"
+	build_type = PROTOLATHE
+	materials = list(/datum/material/iron = 5000)
+	build_path = /obj/item/fighter_component/passenger_compartment_module/t1
+	category = list("Ship Components")
+	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+
+/datum/design/passenger_compartment_module_t2
+	name = "Expanded Passenger Compartment Module"
+	desc = "An expanded passenger compartment module and recovery system for a Utility Vessel"
+	id = "passenge_compartment_module_t2"
+	build_type = PROTOLATHE
+	materials = list(/datum/material/iron = 10000)
+	build_path = /obj/item/fighter_component/passenger_compartment_module/t2
+	category = list("Ship Components")
+	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+
+/datum/design/passenger_compartment_module_t3
+	name = "Extended Passenger Compartment Module"
+	desc = "An Extended passenger compartment module and recovery system for a Utility Vessel"
+	id = "passenge_compartment_module_t3"
+	build_type = PROTOLATHE
+	materials = list(/datum/material/iron = 15000)
+	build_path = /obj/item/fighter_component/passenger_compartment_module/t3
 	category = list("Ship Components")
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO
 
