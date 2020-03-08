@@ -1,4 +1,6 @@
-FROM tgstation/byond:513.1490 as base
+FROM beestation/byond:513.1513 as base
+ONBUILD ENV BYOND_MAJOR=513
+ONBUILD ENV BYOND_MINOR=1513
 
 FROM base as build_base
 
@@ -40,7 +42,7 @@ RUN apt-get install -y --no-install-recommends software-properties-common \
     g++-7 \
     libmariadb-client-lgpl-dev \
     && git init \
-    && git remote add origin https://github.com/tgstation/BSQL 
+    && git remote add origin https://github.com/tgstation/BSQL
 
 COPY dependencies.sh .
 
