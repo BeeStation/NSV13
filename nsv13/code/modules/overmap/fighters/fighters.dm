@@ -809,37 +809,16 @@ After going through this checklist, you're ready to go!
 	if(!SSmapping.level_trait(z, ZTRAIT_BOARDABLE) && !force)
 		to_chat(M, "<span class='warning'>DANGER: You may not exit [src] while flying alongside other large ships.</span>")
 		return FALSE //No jumping out into the overmap :)
-	if(!canopy_open)
+	if(!canopy_open && !force)
 		to_chat(M, "<span class='warning'>[src]'s canopy isn't open.</span>")
 		if(prob(50))
 			playsound(src, 'sound/effects/glasshit.ogg', 75, 1)
 			to_chat(M, "<span class='warning'>You bump your head on [src]'s canopy.</span>")
 			visible_message("<span class='warning'>You hear a muffled thud.</span>")
 		return
-	M.focus = M
-	operators -= M
 	mobs_in_ship -= M
-	LAZYREMOVE(M.mousemove_intercept_objects, src)
-	if(M.click_intercept == src)
-		M.click_intercept = null
-	if(M == pilot)
-		pilot = null
-		if(helm)
-			playsound(helm, 'nsv13/sound/effects/computer/hum.ogg', 100, 1)
-		dradis?.soundloop?.stop()
-	if(M == gunner)
-		if(tactical)
-			playsound(tactical, 'nsv13/sound/effects/computer/hum.ogg', 100, 1)
-		gunner = null
-	if(M.client)
-		M.client.check_view()
+	. = ..()
 	M.stop_sound_channel(CHANNEL_SHIP_ALERT)
-	M.overmap_ship = null
-	var/mob/camera/aiEye/remote/overmap_observer/eyeobj = M.remote_control
-	if(eyeobj?.off_action)
-		qdel(eyeobj.off_action)
-	M.cancel_camera()
-	M.remote_control = null
 	M.forceMove(get_turf(src))
 	return TRUE
 
