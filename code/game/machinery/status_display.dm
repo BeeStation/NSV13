@@ -364,6 +364,54 @@
 		return PROCESS_KILL
 
 
+/obj/machinery/status_display/evac/north //NSV13 - Directional status displays for mapping
+	pixel_y = 32
+
+/obj/machinery/status_display/evac/south
+	pixel_y = -32
+	
+/obj/machinery/status_display/evac/west
+	pixel_x = -32
+	
+/obj/machinery/status_display/evac/east
+	pixel_x = 32	
+
+/obj/machinery/status_display/ai/north
+	pixel_y = 32
+
+/obj/machinery/status_display/ai/south
+	pixel_y = -32
+	
+/obj/machinery/status_display/ai/west
+	pixel_x = -32
+	
+/obj/machinery/status_display/ai/east
+	pixel_x = 32
+	
+/obj/machinery/status_display/supply/north
+	pixel_y = 32
+	
+/obj/machinery/status_display/supply/south
+	pixel_y = -32
+	
+/obj/machinery/status_display/supply/west
+	pixel_x = -32
+	
+/obj/machinery/status_display/supply/east
+	pixel_x = 32
+
+/obj/machinery/status_display/shuttle/north
+	pixel_y = 32
+	
+/obj/machinery/status_display/shuttle/south
+	pixel_y = -32
+	
+/obj/machinery/status_display/shuttle/west
+	pixel_x = -32
+	
+/obj/machinery/status_display/shuttle/east
+	pixel_x = 32 //NSV13 End
+
 #undef CHARS_PER_LINE
 #undef FONT_SIZE
 #undef FONT_COLOR
