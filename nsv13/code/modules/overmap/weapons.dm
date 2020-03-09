@@ -216,6 +216,8 @@
 			shake_camera(M, severity, 1)
 
 /obj/structure/overmap/bullet_act(obj/item/projectile/P)
+	if(istype(P, /obj/item/projectile/beam/overmap/aiming_beam))
+		return
 	relay_damage(P?.type)
 	. = ..()
 
