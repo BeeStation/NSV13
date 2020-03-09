@@ -107,6 +107,11 @@
 	var/msg = "[key_name_admin(usr)] teleported [ADMIN_LOOKUPFLW(M)] to [ADMIN_VERBOSEJMP(loc)]"
 	message_admins(msg)
 	admin_ticket_log(M, msg)
+	//NSV13 - support for getting mobs out of fighters
+	var/obj/structure/overmap/OM = M.loc
+	if(istype(OM))
+		OM.stop_piloting(M)
+	//NSV13 end
 	M.forceMove(loc)
 	SSblackbox.record_feedback("tally", "admin_verb", 1, "Get Mob") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
 
