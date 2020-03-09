@@ -15,14 +15,6 @@
 	damage = 60
 	impact_effect_type = /obj/effect/temp_visual/impact_effect/torpedo
 
-/obj/effect/temp_visual/impact_effect/torpedo
-	icon_state = "impact_torpedo"
-	duration = 10
-
-/obj/effect/temp_visual/impact_effect/torpedo/nuke
-	icon_state = "explosion"
-	duration = 10
-
 /obj/effect/temp_visual/overmap_explosion
 	icon = 'nsv13/goonstation/icons/hugeexplosion.dmi'
 	icon_state = "explosion"
@@ -87,6 +79,8 @@
 					var/turf/T = get_turf(pick(orange(4,target))) //Pick a random tile within 6 turfs, this isn't a flat out miss 100% of the time though
 					fire_weapon(T, mode=FIRE_MODE_PDC, lateral=TRUE)
 				else
+					if(!target || QDELETED(target))
+						continue
 					fire_weapon(target, mode=FIRE_MODE_PDC, lateral=TRUE)
 	if(!found_target) //Can't see a torpedo to shoot, try find an enemy ship to shoot
 		for(var/obj/structure/overmap/ship in GLOB.overmap_objects)
@@ -161,7 +155,7 @@
 	return FIRE_MODE_RAILGUN
 
 /obj/structure/overmap/proc/swap_to(what=FIRE_MODE_PDC)
-	if(ai_controlled || (!linked_areas.len && !main_overmap)) //AI ships and fighters don't have interiors
+	if(ai_controlled || (!linked_areas.len && role != MAIN_OVERMAP)) //AI ships and fighters don't have interiors
 		if((what == FIRE_MODE_TORPEDO) && !torpedoes) //Out of torpedoes
 			return FALSE
 		if((mass < MASS_MEDIUM) && (what > FIRE_MODE_TORPEDO)) //Little ships don't have railguns or lasers
@@ -179,7 +173,7 @@
 	return TRUE
 
 /obj/structure/overmap/proc/fire_weapon(atom/target, mode=fire_mode, lateral=(fire_mode == FIRE_MODE_PDC && mass > MASS_TINY) ? TRUE : FALSE) //"Lateral" means that your ship doesnt have to face the target
-	if(ai_controlled || (!linked_areas.len && !main_overmap)) //AI ships and fighters don't have interiors
+	if(ai_controlled || (!linked_areas.len && role != MAIN_OVERMAP)) //AI ships and fighters don't have interiors
 		if(fire_mode == FIRE_MODE_TORPEDO) //because fighter torpedoes are special
 			if(fire_torpedo(target))
 				return TRUE
@@ -204,7 +198,7 @@
 	return FALSE
 
 /obj/structure/overmap/proc/fire_torpedo(atom/target)
-	if(!linked_areas.len && !main_overmap) //AI ships and fighters don't have interiors
+	if(!linked_areas.len && role != MAIN_OVERMAP) //AI ships and fighters don't have interiors
 		if(torpedoes <= 0)
 			if(ai_controlled)
 				addtimer(VARSET_CALLBACK(src, torpedoes, initial(src.torpedoes)), 60 SECONDS)
@@ -222,11 +216,13 @@
 			shake_camera(M, severity, 1)
 
 /obj/structure/overmap/bullet_act(obj/item/projectile/P)
+	if(istype(P, /obj/item/projectile/beam/overmap/aiming_beam))
+		return
 	relay_damage(P?.type)
 	. = ..()
 
 /obj/structure/overmap/proc/relay_damage(proj_type)
-	if(!main_overmap)
+	if(role != MAIN_OVERMAP)
 		return
 	var/turf/pickedstart
 	var/turf/pickedgoal
@@ -258,7 +254,7 @@
 	. = ..()
 
 /obj/structure/overmap/proc/is_player_ship() //Should this ship be considered a player ship? This doesnt count fighters because they need to actually die.
-	if(linked_areas.len || main_overmap)
+	if(linked_areas.len || role == MAIN_OVERMAP)
 		return TRUE
 	return FALSE
 
@@ -276,7 +272,7 @@
 	explosion_cooldown = TRUE
 	addtimer(VARSET_CALLBACK(src, explosion_cooldown, FALSE), 5 SECONDS)
 	var/area/target = null
-	if(main_overmap)
+	if(role == MAIN_OVERMAP)
 		var/name = pick(GLOB.teleportlocs) //Time to kill everyone
 		target = GLOB.teleportlocs[name]
 	else

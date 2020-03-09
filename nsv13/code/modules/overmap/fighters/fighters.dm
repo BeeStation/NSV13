@@ -36,7 +36,7 @@ After going through this checklist, you're ready to go!
 	brakes = TRUE
 	armor = list("melee" = 80, "bullet" = 50, "laser" = 80, "energy" = 50, "bomb" = 50, "bio" = 100, "rad" = 100, "fire" = 100, "acid" = 80) //temp to stop easy destruction from small arms
 	bound_width = 64 //Change this on a per ship basis
-	bound_height = 96
+	bound_height = 64
 	mass = MASS_TINY
 	sprite_size = 32
 	damage_states = TRUE
@@ -45,8 +45,8 @@ After going through this checklist, you're ready to go!
 	torpedoes = 0
 	speed_limit = 6 //We want fighters to be way more maneuverable
 	weapon_safety = TRUE //This happens wayy too much for my liking. Starts OFF.
-	pixel_w = -26
-	pixel_z = -28
+	pixel_w = -16
+	pixel_z = -20
 	var/maint_state = MS_CLOSED
 	var/prebuilt = FALSE
 	var/weapon_efficiency = 0
@@ -65,6 +65,14 @@ After going through this checklist, you're ready to go!
 	var/warmup_cooldown = FALSE //So you cant blitz the fighter ignition in 2 seconds
 	var/ejecting = FALSE
 	var/throttle_lock = FALSE
+	var/has_escape_pod = /obj/structure/overmap/fighter/prebuilt/escapepod
+	var/obj/structure/overmap/fighter/prebuilt/escapepod/escape_pod
+
+/obj/structure/overmap/fighter/Initialize()
+	. = ..()
+	if(ispath(has_escape_pod))
+		escape_pod = new /obj/structure/overmap/fighter/prebuilt/escapepod(src)
+		escape_pod.name = "[name] - escape pod"
 
 /obj/machinery/computer/ship/fighter_launcher
 	name = "Mag-cat control console"
@@ -322,16 +330,21 @@ After going through this checklist, you're ready to go!
 			last_overmap = null
 		else
 			for(var/obj/structure/overmap/O in GLOB.overmap_objects)
-				if(O.main_overmap)
+				if(O.role == MAIN_OVERMAP)
 					OM = O
 		if(!OM)
 			return FALSE
+		var/saved_layer = layer
+		layer = LOW_OBJ_LAYER
+		addtimer(VARSET_CALLBACK(src, layer, saved_layer), 1 SECONDS) //Gives fighters a small window of immunity from collisions with other overmaps
 		forceMove(get_turf(OM))
 		docking_cooldown = TRUE
 		addtimer(VARSET_CALLBACK(src, docking_cooldown, FALSE), 5 SECONDS) //Prevents jank.
 		resize = 1 //Scale down!
-		pixel_w = -20
-		pixel_z = -40
+		pixel_w = -30
+		pixel_z = -32
+		bound_width = 32
+		bound_height = 32
 		if(pilot)
 			to_chat(pilot, "<span class='notice'>Docking mode disabled. Use the 'Ship' verbs tab to re-enable docking mode, then fly into an allied ship to complete docking proceedures.</span>")
 			docking_mode = FALSE
@@ -387,25 +400,6 @@ After going through this checklist, you're ready to go!
 		add_overlay(image(icon = icon, icon_state = "canopy_breach", dir = 1))
 	else if(canopy_open)
 		add_overlay("canopy_open")
-
-/obj/structure/overmap/fighter/ai
-	ai_controlled = TRUE
-	ai_behaviour = AI_AGGRESSIVE
-	weapon_safety = FALSE
-	prebuilt = TRUE
-	faction = "nanotrasen"
-
-/obj/structure/overmap/fighter/ai/syndicate
-	name = "Syndicate interceptor"
-	desc = "A space faring fighter craft."
-	icon = 'nsv13/icons/overmap/syndicate/syn_fighter.dmi'
-	icon_state = "fighter"
-	brakes = FALSE
-	max_integrity = 100 //Super squishy!
-	bound_width = 32 //Change this on a per ship basis
-	bound_height = 32
-	sprite_size = 32
-	faction = "syndicate"
 
 /obj/structure/overmap/fighter/prebuilt
 	prebuilt = TRUE
@@ -471,7 +465,7 @@ After going through this checklist, you're ready to go!
 /obj/structure/overmap/fighter/slowprocess()
 	. = ..()
 	use_fuel()
-	if(canopy_breached || (canopy_open && pilot)) //Leak.
+	if(canopy_breached) //Leak air if the canopy is breached.
 		var/datum/gas_mixture/removed = cabin_air.remove(5)
 		qdel(removed)
 
@@ -670,6 +664,19 @@ After going through this checklist, you're ready to go!
 		else
 			to_chat(user, "<span class='notice'>You require [src] to be in maintenance mode to load munitions!.</span>")
 			return
+	if(istype(A, /obj/structure/overmap/fighter/prebuilt/escapepod) && has_escape_pod && (!escape_pod || escape_pod?.loc != src))
+		if(maint_state != MS_OPEN)
+			to_chat(user, "<span class='warning'>You cannot load an escape pod into [src] without putting it into maintenance mode.</span>")
+			return
+		var/obj/structure/overmap/fighter/prebuilt/escapepod/EP = A
+		if(EP.operators.len)
+			to_chat(user, "<span class='notice'>There are people inside of [EP], so you can't load it into something else</span>")
+			return
+		if(do_after_mob(user, list(A, src), 50))
+			to_chat(user, "<span class='notice'>You insert [EP] into [src], fitting it with an escape pod.</span>")
+			EP.forceMove(src)
+			escape_pod = EP
+			EP.flight_state = NO_IGNITION
 
 /obj/structure/overmap/fighter/fire_torpedo(atom/target)
 	if(ai_controlled) //AI ships don't have interiors
@@ -770,7 +777,7 @@ After going through this checklist, you're ready to go!
 		to_chat(user, "<span class='warning'>[src]'s canopy isn't open.</span>")
 		return
 	if(maint_state < MS_UNSECURE)
-		if(alert("Enter what seat?",name,"Pilot seat","Passenger seat") !="Passenger seat")
+		if(max_passengers <= 0 || alert("Enter what seat?",name,"Pilot seat","Passenger seat") == "Pilot seat")
 			if(!pilot)
 				to_chat(user, "<span class='notice'>You begin climbing into [src]'s cockpit...</span>")
 				if(!do_after(user, 5 SECONDS, target=src))
@@ -802,37 +809,16 @@ After going through this checklist, you're ready to go!
 	if(!SSmapping.level_trait(z, ZTRAIT_BOARDABLE) && !force)
 		to_chat(M, "<span class='warning'>DANGER: You may not exit [src] while flying alongside other large ships.</span>")
 		return FALSE //No jumping out into the overmap :)
-	if(!canopy_open)
+	if(!canopy_open && !force)
 		to_chat(M, "<span class='warning'>[src]'s canopy isn't open.</span>")
 		if(prob(50))
 			playsound(src, 'sound/effects/glasshit.ogg', 75, 1)
 			to_chat(M, "<span class='warning'>You bump your head on [src]'s canopy.</span>")
 			visible_message("<span class='warning'>You hear a muffled thud.</span>")
 		return
-	M.focus = M
-	operators -= M
 	mobs_in_ship -= M
-	LAZYREMOVE(M.mousemove_intercept_objects, src)
-	if(M.click_intercept == src)
-		M.click_intercept = null
-	if(M == pilot)
-		pilot = null
-		if(helm)
-			playsound(helm, 'nsv13/sound/effects/computer/hum.ogg', 100, 1)
-		dradis?.soundloop?.stop()
-	if(M == gunner)
-		if(tactical)
-			playsound(tactical, 'nsv13/sound/effects/computer/hum.ogg', 100, 1)
-		gunner = null
-	if(M.client)
-		M.client.check_view()
+	. = ..()
 	M.stop_sound_channel(CHANNEL_SHIP_ALERT)
-	M.overmap_ship = null
-	var/mob/camera/aiEye/remote/overmap_observer/eyeobj = M.remote_control
-	if(eyeobj?.off_action)
-		qdel(eyeobj.off_action)
-	M.cancel_camera()
-	M.remote_control = null
 	M.forceMove(get_turf(src))
 	return TRUE
 
@@ -983,23 +969,31 @@ After going through this checklist, you're ready to go!
 		attack_hand(user) //Refresh UI.
 
 /obj/structure/overmap/fighter/Destroy()
-	if(operators.len && !istype(src, /obj/structure/overmap/fighter/prebuilt/escapepod))
+	if(operators.len && escape_pod && escape_pod.loc == src)
 		relay('nsv13/sound/effects/computer/alarm_3.ogg', "<span class=userdanger>EJECT! EJECT! EJECT!</span>")
 		relay_to_nearby('nsv13/sound/effects/ship/fighter_launch_short.ogg')
 		visible_message("<span class=userdanger>Auto-Ejection Sequence Enabled! Escape Pod Launched!</span>")
-		eject()
-		sleep(20)
+		ejecting = FALSE
+		if(eject())
+			sleep(20)
+		else
+			for(var/atom/X in contents) //Pilot unable to eject. Murder them.
+				QDEL_NULL(X)
+			return ..()
 	. = ..()
 
 /obj/structure/overmap/fighter/proc/eject()
-	if(istype(src, /obj/structure/overmap/fighter/prebuilt/escapepod))
+	if(escape_pod && escape_pod.loc == src)
+		escape_pod.forceMove(get_turf(src))
+		escape_pod.set_fuel(get_fuel()) //No infinite tyrosene for you!
+		transfer_occupants_to(escape_pod)
+		escape_pod.desired_angle = pick(0,360)
+		escape_pod.user_thrust_dir = NORTH
+		escape_pod = null
+		return TRUE
+	else
+		if(pilot) to_chat(pilot, "<span class='warning'>This ship is not equipped with an escape pod! Unable to eject.</span>")
 		return FALSE
-	var/obj/structure/overmap/fighter/prebuilt/escapepod/ep = new /obj/structure/overmap/fighter/prebuilt/escapepod(get_turf(src))
-	ep.set_fuel(get_fuel()) //No infinite tyrosene for you!
-	transfer_occupants_to(ep)
-	ep.desired_angle = pick(0,360)
-	ep.user_thrust_dir = NORTH
-	qdel(src)
 
 /obj/structure/overmap/fighter/prebuilt/escapepod
 	name = "Escape Pod"
@@ -1017,6 +1011,7 @@ After going through this checklist, you're ready to go!
 	max_torpedoes = 0
 	flight_state = FLIGHT_READY
 	canopy_open = FALSE
+	has_escape_pod = FALSE
 
 /obj/structure/overmap/fighter/prebuilt/escapepod/attack_hand(mob/user)
 	return
@@ -1155,6 +1150,7 @@ How to make fuel:
 			to_chat(usr, "You flip the APU switch.</span>")
 			flight_state = APU_SPUN
 			playsound(src, 'nsv13/sound/effects/fighters/apu_start.ogg', 100, FALSE)
+			throttle_lock = FALSE
 			addtimer(VARSET_CALLBACK(src, warmup_cooldown, FALSE), 15 SECONDS)
 			addtimer(CALLBACK(src, .proc/check_start), 16 SECONDS) //Throttle up now....
 			return
@@ -1175,6 +1171,13 @@ How to make fuel:
 		if("canopy_lock")
 			toggle_canopy()
 		if("eject")
+			if(is_station_level(z))
+				if(!canopy_open)
+					canopy_open = TRUE
+					playsound(src, 'nsv13/sound/effects/fighters/canopy.ogg', 100, 1)
+				to_chat(usr, "<span class='notice'>You jump out of [src] in one smooth motion.</span>")
+				stop_piloting(usr)
+				return
 			if(!ejecting)
 				to_chat(usr, "<span class='notice'>WARNING AUTO-EJECT SEQUENCE COMMENCING IN T-5 SECONDS. USE THIS SWITCH AGAIN TO CANCEL THIS ACTION.</span>")
 				relay('nsv13/sound/effects/fighters/switch.ogg')
@@ -1205,7 +1208,7 @@ How to make fuel:
 			relay('nsv13/sound/effects/fighters/switch.ogg')
 			return //Dodge the cooldown because these actions should be instant
 	warmup_cooldown = TRUE
-	addtimer(VARSET_CALLBACK(src, warmup_cooldown, FALSE), 3 SECONDS)
+	addtimer(VARSET_CALLBACK(src, warmup_cooldown, FALSE), 1 SECONDS)
 	relay('nsv13/sound/effects/fighters/switch.ogg')
 
 /obj/structure/overmap/fighter/proc/get_fuel()
@@ -1239,7 +1242,7 @@ How to make fuel:
 /obj/structure/overmap/fighter/proc/use_fuel()
 	if(flight_state < APU_SPUN) //No fuel? don't spam them with master cautions / use any fuel
 		return FALSE
-	var/amount = fuel_consumption
+	var/amount = (user_thrust_dir) ? fuel_consumption+0.25 : fuel_consumption //When you're thrusting : fuel consumption doubles. Idling is cheap.
 	var/obj/item/twohanded/required/fighter_component/fuel_tank/sft = get_part(/obj/item/twohanded/required/fighter_component/fuel_tank)
 	if(!sft)
 		flight_state = NO_FUEL

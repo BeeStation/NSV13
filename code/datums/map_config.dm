@@ -15,7 +15,7 @@
 
 	// Config actually from the JSON - should default to Hammerhead //NSV EDITS
 	var/map_name = "NSV Hammerhead - DEFAULTED"
-	var/map_link = "Hammerhead"
+	var/map_link = null //This is intentionally wrong, this will make it not link to webmap.
 	var/map_path = "map_files/Hammerhead"
 	var/map_file = "Hammerhead.dmm"
 
@@ -112,8 +112,8 @@
 		// "Station" is set by default, but it's assumed if you're setting
 		// traits you want to customize which level is cross-linked
 		for (var/level in traits)
-			if (!(ZTRAIT_STATION in level))
-				level[ZTRAIT_STATION] = TRUE
+			if (!(ZTRAITS_STATION in level))
+				level += ZTRAITS_STATION
 	// "traits": null or absent -> default
 	else if (!isnull(traits))
 		log_world("map_config traits is not a list!")
