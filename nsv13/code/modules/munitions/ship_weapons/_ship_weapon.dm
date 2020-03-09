@@ -137,15 +137,30 @@
 	if(!linked)
 		get_ship()
 
+	if(I.tool_behaviour == TOOL_MULTITOOL)
+		var/obj/item/multitool/P = null
+		// Let's double check
+		if(!issilicon(user) && istype(user.get_active_held_item(), /obj/item/multitool))
+			P = user.get_active_held_item()
+		else if(isAI(user))
+			var/mob/living/silicon/ai/U = user
+			P = U.aiMulti
+		else if(iscyborg(user) && in_range(user, src))
+			if(istype(user.get_active_held_item(), /obj/item/multitool))
+				P = user.get_active_held_item()
+		P.buffer = src
+		to_chat(user, "<span class='notice'>-% Successfully stored [REF(P.buffer)] [P.buffer.name] in buffer %-</span>")
+		return TRUE
+
 	if(ammo_type && istype(I, ammo_type))
 		load(I, user)
-		return
+		return TRUE
 	else if(magazine_type && istype(I, magazine_type))
 		load_magazine(I, user)
-		return
+		return TRUE
 	else if(istype(I, /obj/item/reagent_containers))
 		oil(I, user)
-		return
+		return TRUE
 	..()
 
 /**
