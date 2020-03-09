@@ -137,21 +137,6 @@
 	if(!linked)
 		get_ship()
 
-	if(I.tool_behaviour == TOOL_MULTITOOL)
-		var/obj/item/multitool/P = null
-		// Let's double check
-		if(!issilicon(user) && istype(user.get_active_held_item(), /obj/item/multitool))
-			P = user.get_active_held_item()
-		else if(isAI(user))
-			var/mob/living/silicon/ai/U = user
-			P = U.aiMulti
-		else if(iscyborg(user) && in_range(user, src))
-			if(istype(user.get_active_held_item(), /obj/item/multitool))
-				P = user.get_active_held_item()
-		P.buffer = src
-		to_chat(user, "<span class='notice'>-% Successfully stored [REF(P.buffer)] [P.buffer.name] in buffer %-</span>")
-		return TRUE
-
 	if(ammo_type && istype(I, ammo_type))
 		load(I, user)
 		return TRUE
@@ -162,6 +147,17 @@
 		oil(I, user)
 		return TRUE
 	..()
+
+/**
+ * Store ID in multitool buffer for linking to munitions consoles
+ */
+/obj/machinery/ship_weapon/multitool_act(mob/living/user, obj/item/I)
+	if(!multitool_check_buffer(user, I))
+		return
+	var/obj/item/multitool/P = I
+	P.buffer = src
+	to_chat(user, "<span class='notice'>-% Successfully stored [REF(P.buffer)] [P.buffer.name] in buffer %-</span>")
+	return TRUE
 
 /**
  * Unload magazine or just-loaded rounds.

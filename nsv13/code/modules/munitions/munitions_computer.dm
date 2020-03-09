@@ -48,12 +48,10 @@
 	if(SW)
 		SW.linked_computer = null
 
-/obj/machinery/computer/ship/munitions_computer/attackby(obj/item/P, mob/user, params)
+/obj/machinery/computer/ship/munitions_computer/multitool_act(mob/user, obj/item/tool)
 	// Using a multitool lets you link stuff
-	if(P.tool_behaviour == TOOL_MULTITOOL)
-		attack_hand(user)
-	else
-		return ..()
+	attack_hand(user)
+	return TRUE
 
 /obj/machinery/computer/ship/munitions_computer/attack_ai(mob/user)
 	. = ..()
@@ -69,7 +67,7 @@
 
 	if(!SW)
 		get_linked_weapon()
-	if(!SW.linked)
+	else if(!SW.linked)
 		SW.get_ship()
 	var/dat
 	dat += "<br>[temp]<br>"
