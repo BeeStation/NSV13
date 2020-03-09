@@ -398,6 +398,37 @@
 	name = "Mining Shuttle Starboard Airlock"
 	icon_state = "hallS"
 
+/area/nsv/shuttle/fob
+	has_gravity = STANDARD_GRAVITY //good luck trying to fit a gen here.
+
+/area/nsv/shuttle/fob/bridge
+	name = "Mining Shuttle Bridge"
+	icon_state = "bridge"
+
+/area/nsv/shuttle/fob/central
+	name = "Mining Shuttle"
+	icon_state = "hallC"
+
+/area/nsv/shuttle/fob/storage
+	name = "Mining Shuttle Equipment Storage"
+	icon_state = "storage"
+
+/area/nsv/shuttle/fob/atmospherics
+	name = "Mining Shuttle Maintenance"
+	icon_state = "atmos"
+
+/area/nsv/shuttle/fob/airlock/aft
+	name = "Mining Shuttle Aft Airlock"
+	icon_state = "hallA"
+
+/area/nsv/shuttle/fob/airlock/port
+	name = "Mining Shuttle Port Airlock"
+	icon_state = "hallP"
+
+/area/nsv/shuttle/fob/airlock/starboard
+	name = "Mining Shuttle Starboard Airlock"
+	icon_state = "hallS"
+
 /area/ruin/powered/nsv13/prisonship
 	name = "Syndicate prison ship"
 
