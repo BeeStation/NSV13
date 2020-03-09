@@ -97,7 +97,7 @@
 	if(P)
 		var/obj/machinery/ship_weapon/T = P.buffer
 		if(istype(T))
-			dat += "Multitool buffer: [T]<BR><a href='?src=[REF(src)];link=1'>\[Link\]</a> <a href='?src=[REF(src)];flush=1'>\[Flush\]</a>"
+			dat += "<BR>Multitool buffer: [T]<BR><a href='?src=[REF(src)];link=1'>\[Link\]</a> <a href='?src=[REF(src)];flush=1'>\[Flush\]</a>"
 
 	temp = ""
 	var/datum/browser/popup = new(user, "Fire control systems", name, 400, 500)
