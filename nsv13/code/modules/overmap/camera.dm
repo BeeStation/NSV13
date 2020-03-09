@@ -63,8 +63,10 @@
 			hal.all_eyes -= eyeobj
 		var/mob/camera/aiEye/cam = pick(hal.all_eyes)
 		hal.eyeobj = cam
+	QDEL_NULL(eyeobj?.off_action)
 	QDEL_NULL(M.remote_control)
 	M.set_focus(M)
+	M.cancel_camera()
 	return TRUE
 
 /obj/structure/overmap/proc/CreateEye(mob/user)
