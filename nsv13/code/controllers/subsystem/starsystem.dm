@@ -163,6 +163,7 @@ SUBSYSTEM_DEF(starsystem)
 
 /datum/starsystem/proc/check_completion() //Method to check if the ship has completed their active mission or not
 	if(!enemies_in_system.len)
+		set_security_level("blue")
 		priority_announce("All Syndicate targets in [src] have been dispatched. Return to standard patrol duties.", "Naval Command")
 		if(mission_sector == TRUE)
 			SSstarsystem?.cycle_gameplay_loop()
