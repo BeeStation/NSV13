@@ -65,27 +65,27 @@
 	var/speed = 0 //Speed modifier
 	var/consumption = 0 //How fast we burn fuel
 
-/obj/item/fighter_component/countermeasure_dispensor
+/obj/item/fighter_component/countermeasure_dispenser
 	name = "Fighter Countermeasure Dispensor - PARENT"
 	icon_state = "o2crate"
 	var/countermeasure_capacity = 4
 
-/obj/item/fighter_component/countermeasure_dispensor/burntout //Prevents launching chaff clouds
+/obj/item/fighter_component/countermeasure_dispenser/burntout //Prevents launching chaff clouds
 	name = "Burntout Fighter Countermeasure Dispensor"
 	desc = "A Countermeasure Dispensor for a fighter, it looks charred"
 	icon_state = "o2crate"
 	countermeasure_capacity = 0
 
-/obj/item/fighter_component/countermeasure_dispensor/t1
+/obj/item/fighter_component/countermeasure_dispenser/t1
 	name = "Fighter Countermeasure Dispensor"
 	desc = "A Countermeasure Dispensor for a fighter"
 
-/obj/item/fighter_component/countermeasure_dispensor/t2
+/obj/item/fighter_component/countermeasure_dispenser/t2
 	name = "Expanded Fighter Countermeasure Dispensor"
 	desc = "An Expanded Countermeasure Dispensor for a fighter"
 	countermeasure_capacity = 6
 
-/obj/item/fighter_component/countermeasure_dispensor/t3
+/obj/item/fighter_component/countermeasure_dispenser/t3
 	name = "Double Fighter Countermeasure Dispensor"
 	desc = "A Double Countermeasure Dispensor for a fighter"
 	countermeasure_capacity = 8
@@ -155,7 +155,7 @@
 
 /obj/item/fighter_component/missile_rack
 	name = "Light Fighter Missile Rack - PARENT"
-	icon_state = 'weaponcrate'
+	icon_state = "weaponcrate"
 	var/missile_capacity = 2
 
 /obj/item/fighter_component/missile_rack/t1
@@ -174,7 +174,7 @@
 
 /obj/item/fighter_component/light_cannon
 	name = "Light Fighter Light Cannon - PARENT"
-	icon_state = 'plasmacrate'
+	icon_state = "plasmacrate"
 	var/fire_rate = 0
 	var/ammo_capacity = 0
 	var/projectile = null
@@ -182,7 +182,7 @@
 /obj/item/fighter_component/light_cannon/burntout //Prevents firing the cannon
 	name = "Burntout Light Fighter Light Cannon"
 	desc = "A light cannon for a light fighter, it looks charred"
-	icon_state = 'plasmacrate'
+	icon_state = "plasmacrate"
 	fire_rate = 0
 
 /obj/item/fighter_component/light_cannon/t1
@@ -291,7 +291,7 @@
 
 /obj/item/fighter_component/heavy_cannon
 	name = "Heavy Fighter Heavy Cannon - PARENT"
-	icon_state = 'plasmacrate'
+	icon_state = "plasmacrate"
 	var/fire_rate = 0
 	var/ammo_capacity = 0
 	var/projectile = null
@@ -299,7 +299,7 @@
 /obj/item/fighter_component/heavy_cannon/burntout //Prevents firing the cannon
 	name = "Burntout Heavy Fighter Heavy Cannon"
 	desc = "A heavy cannon for a heavy fighter, it looks charred"
-	icon_state = 'plasmacrate'
+	icon_state = "plasmacrate"
 	fire_rate = 0
 
 /obj/item/fighter_component/heavy_cannon/t1
@@ -427,7 +427,7 @@
 	display_name = "Fighter Common Component Fabrication"
 	description = "Access to common components required for fighter fabrication."
 	prereq_ids = list("fighter_fabrication")
-	design_ids = list("fuel_tank_t1", "fighter_countermeasure_dispensor_t1", "fighter_avionics", "fighter_apu")
+	design_ids = list("fuel_tank_t1", "fighter_countermeasure_dispenser_t1", "fighter_avionics", "fighter_apu")
 	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 5000)
 	export_price = 1000
 
@@ -436,7 +436,7 @@
 	display_name = "Improved Fighter Common Component Fabrication"
 	description = "Improved common components required for fighter fabrication."
 	prereq_ids = list("fighter_common_component_fabrication_t1")
-	design_ids = list("fuel_tank_t2", "fighter_countermeasure_dispensor_t2")
+	design_ids = list("fuel_tank_t2", "fighter_countermeasure_dispenser_t2")
 	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 10000)
 	export_price = 2000
 
@@ -445,7 +445,7 @@
 	display_name = "Enhanced Fighter Common Component Fabrication"
 	description = "Enhanced common components required for fighter fabrication."
 	prereq_ids = list("fighter_common_component_fabrication_t2")
-	design_ids = list("fuel_tank_t3", "fighter_countermeasure_dispensor_t3")
+	design_ids = list("fuel_tank_t3", "fighter_countermeasure_dispenser_t3")
 	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 15000)
 	export_price = 3000
 
@@ -639,33 +639,33 @@
 	category = list("Ship Components")
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO
 
-/datum/design/fighter_countermeasure_dispensor_t1
+/datum/design/fighter_countermeasure_dispenser_t1
 	name = "Fighter Countermeasure Dispensor"
 	desc = "A Countermeasure Dispensor for a fighter"
-	id = "fighter_countermeasure_dispensor_t1"
+	id = "fighter_countermeasure_dispenser_t1"
 	build_type = PROTOLATHE
 	materials = list(/datum/material/iron = 5000)
-	build_path = /obj/item/fighter_component/countermeasure_dispensor/t1
+	build_path = /obj/item/fighter_component/countermeasure_dispenser/t1
 	category = list("Ship Components")
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO
 
-/datum/design/fighter_countermeasure_dispensor_t2
+/datum/design/fighter_countermeasure_dispenser_t2
 	name = "Expanded Fighter Countermeasure Dispensor"
 	desc = "An Expanded Countermeasure Dispensor for a fighter"
-	id = "fighter_countermeasure_dispensor_t2"
+	id = "fighter_countermeasure_dispenser_t2"
 	build_type = PROTOLATHE
 	materials = list(/datum/material/iron = 10000)
-	build_path = /obj/item/fighter_component/countermeasure_dispensor/t2
+	build_path = /obj/item/fighter_component/countermeasure_dispenser/t2
 	category = list("Ship Components")
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO
 
-/datum/design/fighter_countermeasure_dispensor_t3
+/datum/design/fighter_countermeasure_dispenser_t3
 	name = "Double Fighter Countermeasure Dispensor"
 	desc = "A Double Fighter Countermeasure Dispensor"
-	id = "fighter_countermeasure_dispensor_t3"
+	id = "fighter_countermeasure_dispenser_t3"
 	build_type = PROTOLATHE
 	materials = list(/datum/material/iron = 15000)
-	build_path = /obj/item/fighter_component/countermeasure_dispensor/t3
+	build_path = /obj/item/fighter_component/countermeasure_dispenser/t3
 	category = list("Ship Components")
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO
 

@@ -13,8 +13,8 @@
 #define LBS_AVIONICS_SCREW					12
 #define LBS_TARGETING_SENSOR				13
 #define LBS_TARGETING_SENSOR_SCREW			14
-#define LBS_COUNTERMEASURE_DISPENSOR		15
-#define LBS_COUNTERMEASURE_DISPENSOR_BOLT	16
+#define LBS_COUNTERMEASURE_DISPENSER		15
+#define LBS_COUNTERMEASURE_DISPENSER_BOLT	16
 #define LBS_ARMOUR_PLATING					17
 #define LBS_ARMOUR_PLATING_BOLT				18
 #define LBS_ARMOUR_PLATING_WELD				19
@@ -66,9 +66,9 @@
 			. += "<span class='notice'>13</span>"
 		if(LBS_TARGETING_SENSOR_SCREW)
 			. += "<span class='notice'>14</span>"
-		if(LBS_COUNTERMEASURE_DISPENSOR)
+		if(LBS_COUNTERMEASURE_DISPENSER)
 			. += "<span class='notice'>15</span>"
-		if(LBS_COUNTERMEASURE_DISPENSOR_BOLT)
+		if(LBS_COUNTERMEASURE_DISPENSER_BOLT)
 			. += "<span class='notice'>16</span>"
 		if(LBS_ARMOUR_PLATING)
 			. += "<span class='notice'>17</span>"
@@ -130,7 +130,7 @@
 			update_icon()
 			W.forceMove(src)
 	else if(istype(W, /obj/item/fighter_component/armour_plating/light))
-		if(build_state == LBS_COUNTERMEASURE_DISPENSOR_BOLT)
+		if(build_state == LBS_COUNTERMEASURE_DISPENSER_BOLT)
 			to_chat(user, "<span class='notice'>You start adding [W] to [src]...</span>")
 			if(!do_after(user, 5 SECONDS, target=src))
 				return
@@ -156,13 +156,13 @@
 			build_state = LBS_ENGINE
 			update_icon()
 			W.forceMove(src)
-	else if(istype(W, /obj/item/fighter_component/countermeasure_dispensor))
+	else if(istype(W, /obj/item/fighter_component/countermeasure_dispenser))
 		if(build_state == LBS_TARGETING_SENSOR_SCREW)
 			to_chat(user, "<span class='notice'>You start adding [W] to [src]...</span>")
 			if(!do_after(user, 5 SECONDS, target=src))
 				return
 			to_chat(user, "<spawn class='notice'>You add [W] to [src].</span>")
-			build_state = LBS_COUNTERMEASURE_DISPENSOR
+			build_state = LBS_COUNTERMEASURE_DISPENSER
 			update_icon()
 			W.forceMove(src)
 	else if(istype(W, /obj/item/fighter_component/missile_rack))
@@ -268,18 +268,18 @@
 				build_state = LBS_FUEL_TANK
 				update_icon()
 				return TRUE
-		if(LBS_COUNTERMEASURE_DISPENSOR)
-			to_chat(user, "<span class='notice'>You start to bolt the countermeasure dispensor to the chassis...</span>")
+		if(LBS_COUNTERMEASURE_DISPENSER)
+			to_chat(user, "<span class='notice'>You start to bolt the countermeasure dispenser to the chassis...</span>")
 			if(tool.use_tool(src, user, 40, volume=100))
-				to_chat(user, "<span class='notice'>You bolt the countermeasur dispensor to the chassis.</span>")
-				build_state = LBS_COUNTERMEASURE_DISPENSOR
+				to_chat(user, "<span class='notice'>You bolt the countermeasur dispenser to the chassis.</span>")
+				build_state = LBS_COUNTERMEASURE_DISPENSER
 				update_icon()
 				return TRUE
-		if(LBS_COUNTERMEASURE_DISPENSOR_BOLT)
-			to_chat(user, "<span class='notice'>You start to unbolt the countermeasure dispensor from the chassis...</span>")
+		if(LBS_COUNTERMEASURE_DISPENSER_BOLT)
+			to_chat(user, "<span class='notice'>You start to unbolt the countermeasure dispenser from the chassis...</span>")
 			if(tool.use_tool(src, user, 40, volume=100))
-				to_chat(user, "<span class='notice'>You unbolt the countermeasure dispensor from the chassis.</span>")
-				build_state = LBS_COUNTERMEASURE_DISPENSOR
+				to_chat(user, "<span class='notice'>You unbolt the countermeasure dispenser from the chassis.</span>")
+				build_state = LBS_COUNTERMEASURE_DISPENSER
 				update_icon()
 				return TRUE
 		if(LBS_ARMOUR_PLATING)
@@ -299,7 +299,7 @@
 		if(LBS_CANNON)
 			to_chat(user, "<span class='notice'>You start to bolt the light cannon to the chassis...</span>")
 			if(tool.use_tool(src, user, 40, volume=100))
-				to_chat(user, "<span class='notice'>You bolt the armour plating to the chassis.</span>")
+				to_chat(user, "<span class='notice'>You bolt the light cannon to the chassis.</span>")
 				build_state = LBS_CANNON_BOLT
 				update_icon()
 				return TRUE
@@ -473,22 +473,22 @@
 				build_state = LBS_AVIONICS_SCREW
 				update_icon()
 				return TRUE
-		if(LBS_COUNTERMEASURE_DISPENSOR)
-			to_chat(user, "<span class='notice'>You start removing the countermeasure dispensor from [src]...</span>")
+		if(LBS_COUNTERMEASURE_DISPENSER)
+			to_chat(user, "<span class='notice'>You start removing the countermeasure dispenser from [src]...</span>")
 			if(tool.use_tool(src, user, 40, volume=100))
-				to_chat(user, "<span class='notice'>You remove the countermeasure dispensor from [src].</span>")
-				var/atom/movable/ts = get_part(/obj/item/fighter_component/countermeasure_dispensor)
+				to_chat(user, "<span class='notice'>You remove the countermeasure dispenser from [src].</span>")
+				var/atom/movable/ts = get_part(/obj/item/fighter_component/countermeasure_dispenser)
 				ts?.forceMove(get_turf(src))
 				build_state = LBS_TARGETING_SENSOR_SCREW
 				update_icon()
 				return TRUE
 		if(LBS_ARMOUR_PLATING)
-			to_chat(user, "<span class='notice'>You start removing the engine from [src]...</span>")
+			to_chat(user, "<span class='notice'>You start removing the armour plating from [src]...</span>")
 			if(tool.use_tool(src, user, 40, volume=100))
-				to_chat(user, "<span class='notice'>You remove the engine from [src].</span>")
+				to_chat(user, "<span class='notice'>You remove the armour plating from [src].</span>")
 				var/atom/movable/ts = get_part(/obj/item/fighter_component/armour_plating)
 				ts?.forceMove(get_turf(src))
-				build_state = LBS_COUNTERMEASURE_DISPENSOR_BOLT
+				build_state = LBS_COUNTERMEASURE_DISPENSER_BOLT
 				update_icon()
 				return TRUE
 		if(LBS_CANNON)
@@ -563,9 +563,9 @@
 			icon_state = "mop"
 		if(LBS_TARGETING_SENSOR_SCREW)
 			icon_state = "mop"
-		if(LBS_COUNTERMEASURE_DISPENSOR)
+		if(LBS_COUNTERMEASURE_DISPENSER)
 			icon_state = "mop"
-		if(LBS_COUNTERMEASURE_DISPENSOR_BOLT)
+		if(LBS_COUNTERMEASURE_DISPENSER_BOLT)
 			icon_state = "mop"
 		if(LBS_ARMOUR_PLATING)
 			icon_state = "mop"
@@ -601,8 +601,8 @@
 #undef LBS_AVIONICS_SCREW
 #undef LBS_TARGETING_SENSOR
 #undef LBS_TARGETING_SENSOR_SCREW
-#undef LBS_COUNTERMEASURE_DISPENSOR
-#undef LBS_COUNTERMEASURE_DISPENSOR_BOLT
+#undef LBS_COUNTERMEASURE_DISPENSER
+#undef LBS_COUNTERMEASURE_DISPENSER_BOLT
 #undef LBS_ARMOUR_PLATING
 #undef LBS_ARMOUR_PLATING_BOLT
 #undef LBS_ARMOUR_PLATING_WELD
