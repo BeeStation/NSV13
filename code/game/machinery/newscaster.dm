@@ -1042,3 +1042,35 @@ GLOBAL_LIST_EMPTY(allCasters)
 			attack_self(user)
 	else
 		return ..()
+
+/obj/machinery/newscaster/directional/north //NSV13 Start - directional newscasters for mapping
+	dir = NORTH
+	pixel_y = 30
+	
+/obj/machinery/newscaster/directional/south
+	dir = SOUTH
+	pixel_y = -30
+	
+/obj/machinery/newscaster/directional/west
+	dir = WEST
+	pixel_x = -30
+	
+/obj/machinery/newscaster/directional/east
+	dir = EAST
+	pixel_x = 30
+
+/obj/machinery/newscaster/security_unit/north
+	dir = NORTH
+	pixel_y = 30
+
+/obj/machinery/newscaster/security_unit/south
+	dir = SOUTH
+	pixel_y = -30
+	
+/obj/machinery/newscaster/security_unit/west
+	dir = WEST
+	pixel_x = -30
+	
+/obj/machinery/newscaster/security_unit/east
+	dir = EAST
+	pixel_x = 30 //NSV13 End
