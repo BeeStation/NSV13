@@ -123,7 +123,7 @@ GLOBAL_LIST_INIT(drop_trooper_teams, list("Noble", "Helljumper","Red", "Black", 
 		return FALSE //Cut off here to avoid polling people for a spawn that will never work.
 	var/list/candidates = pollCandidatesForMob("Do you want to play as a Syndicate drop trooper?", ROLE_OPERATIVE, null, ROLE_OPERATIVE, 10 SECONDS, src)
 	var/pod_type = /obj/structure/closet/supplypod/syndicate_odst
-	var/obj/structure/closet/supplypod/toLaunch = new pod_type()
+	var/obj/structure/closet/supplypod/toLaunch = new pod_type(target)
 	toLaunch.update_icon()//we update_icon() here so that the door doesnt "flicker on" right after it lands
 	if(!LAZYLEN(candidates))
 		return FALSE
@@ -135,6 +135,7 @@ GLOBAL_LIST_INIT(drop_trooper_teams, list("Noble", "Helljumper","Red", "Black", 
 		var/mob/living/carbon/human/H = new(toLaunch)
 		H.equipOutfit(/datum/outfit/syndicate/odst)
 		H.key = C.key
+		H.forceMove(target)
 		if(team_name) //If there is an available "team name", give them a callsign instead of a placeholder name
 			var/callsign = I
 			if(callsign <= 0)
@@ -146,7 +147,5 @@ GLOBAL_LIST_INIT(drop_trooper_teams, list("Noble", "Helljumper","Red", "Black", 
 		message_admins("[ADMIN_LOOKUPFLW(H)] became a syndicate drop trooper.")
 		to_chat(H, "<span class='danger'>You are a syndicate drop trooper! Your mission is to sabotage [station_name()] so that our ships can dispose of it. For Abassi!")
 		H.mind?.special_role = "Syndicate Drop Trooper"
-
 	relay_to_nearby('nsv13/sound/effects/ship/boarding_pod.ogg')
-	new /obj/effect/DPtarget(target, toLaunch)
 	return TRUE
