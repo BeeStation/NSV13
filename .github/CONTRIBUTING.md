@@ -405,6 +405,7 @@ Do not add any of the following in a Pull Request or risk getting the PR closed:
 * National Socialist Party of Germany content, National Socialist Party of Germany related content, or National Socialist Party of Germany references
 * Code where one line of code is split across mutiple lines (except for multiple, separate strings and comments; in those cases, existing longer lines must not be split up)
 * Code adding, removing, or updating the availability of alien races/species/human mutants without prior approval. Pull requests attempting to add or remove features from said races/species/mutants require prior approval as well.
+* PRs adding rank config lists, Place them on the forums [Here](https://nsv.beestation13.com/phpBB3/viewforum.php?f=20).
 
 Just because something isn't on this list doesn't mean that it's acceptable. Use common sense above all else.
 
