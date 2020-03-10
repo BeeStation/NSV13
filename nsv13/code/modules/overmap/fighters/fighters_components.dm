@@ -1243,7 +1243,7 @@
 	righthand_file = ""
 	w_class = WEIGHT_CLASS_GIGANTIC
 	var/speed = 1 //Speed modifier
-	var/consumption = 1 //How fast we burn fuel
+	var/consumption = 0.25 //How fast we burn fuel
 
 /obj/item/twohanded/required/fighter_component/engine/Initialize()
 	. = ..()
@@ -1253,7 +1253,7 @@
 	name = "Fighter Overclocked Engine"
 	desc = "An overclocked engine assembly for a fighter"
 	speed = 1.2
-	consumption = 1.2
+	consumption = 1
 
 /obj/item/twohanded/required/fighter_component/primary_cannon
 	name = "Fighter Cannon"
