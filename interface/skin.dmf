@@ -134,6 +134,8 @@ window "mapwindow"
 		anchor1 = none
 		anchor2 = none
 		saved-params = "pos;size;is-minimized;is-maximized"
+		can-close = false
+		can-minimize = false
 		is-pane = true
 	elem "map"
 		type = MAP
@@ -147,6 +149,17 @@ window "mapwindow"
 		is-default = true
 		saved-params = "icon-size"
 		zoom-mode = distort
+	elem "credits"
+		type = BROWSER
+		pos = 0,0
+		size = 640x480
+		anchor1 = 0,0
+		anchor2 = 100,100
+		text-color = #ffffff
+		background-color = #000000
+		is-visible = false
+		saved-params = ""
+		auto-format = false
 
 window "infowindow"
 	elem "infowindow"

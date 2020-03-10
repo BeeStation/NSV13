@@ -203,13 +203,13 @@
 						if(CO.check_completion())
 							C.inc_metabalance(METACOIN_CO_REWARD, reason="Completed your crew objective!")
 							break
-					
+
 	to_chat(world, "<BR><BR><BR><span class='big bold'>The round has ended.</span>")
 	log_game("The round has ended.")
 	if(LAZYLEN(GLOB.round_end_notifiees))
 		send2irc("Notice", "[GLOB.round_end_notifiees.Join(", ")] the round has ended.")
-	
-	RollCredits()
+
+	//RollCredits()
 
 	var/popcount = gather_roundend_feedback()
 	display_report(popcount)

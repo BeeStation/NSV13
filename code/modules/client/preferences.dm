@@ -46,6 +46,7 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 	var/pda_style = MONO
 	var/pda_color = "#808000"
 	var/show_credits = TRUE
+	var/credits_music = JINGLE_CLASSIC
 
 	// Custom Keybindings
 	var/list/key_bindings = null

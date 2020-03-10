@@ -72,10 +72,10 @@
 			src << output(list2params(list(link, TRUE)), "[end_credits.control]:setAudio")
 		src << output(list2params(list(50)), "[end_credits.control]:setVolume")//prefs.credits_volume
 
-/*
+
 /client/verb/credits_debug()
 	set name = "Debug Credits"
 	set category = "OOC"
-	src << output("", "[end_credits.control]:debugMe")
+	src << output(end_credits.file, end_credits.control)
 	winset(src, end_credits.control, "is-visible=true")
-*/
+

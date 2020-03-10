@@ -144,7 +144,7 @@ var/global/datum/credits/end_credits = new
 	for(var/client/C in GLOB.clients)
 		//if(!C.prefs)
 		//	continue
-		switch(C.prefs.credits)
+		switch(C.prefs.show_credits)
 			if(CREDITS_ALWAYS)
 				C.credits_audio()
 			if(CREDITS_NO_RERUNS) //The time has come to decide. Shall we play credits audio, or preload the jingle audio instead?
@@ -155,7 +155,7 @@ var/global/datum/credits/end_credits = new
 			if(CREDITS_NEVER)
 				C.jingle_audio(preload_only = TRUE)
 			else
-				log_runtime("[C] somehow had an unknown credits preference of: [C.prefs.credits]")
+				log_runtime("[C] somehow had an unknown credits preference of: [C.prefs.show_credits]")
 
 /*
  * on_world_reboot_end:
@@ -187,7 +187,7 @@ var/global/datum/credits/end_credits = new
 
 /datum/credits/proc/finalize_episodestring()
 	var/season = time2text(world.realtime,"YY")
-	var/episode_count_data = null //SSpersistence_misc.read_data(/datum/persistence_task/round_count)
+	//var/episode_count_data = null //SSpersistence_misc.read_data(/datum/persistence_task/round_count)
 	var/episodenum = null // episode_count_data[season]
 	episode_string = "<h1><span id='episodenumber'>SEASON [season] EPISODE [episodenum]</span><br><span id='episodename'>[episode_name]</span></h1><br><div style='padding-bottom: 75px;'></div>"
 	log_game("So ends [is_rerun() ? "another rerun of " : ""]SEASON [season] EPISODE [episodenum] - [episode_name]")
@@ -200,10 +200,10 @@ var/global/datum/credits/end_credits = new
 
 /datum/credits/proc/draft_producerstring()
 	var/list/staff = list("<h1>PRODUCTION STAFF</h1><br>")
-	var/list/staffjobs = list("Coffee Fetcher", "Cameraman", "Angry Yeller", "Chair Operator", "Choreographer", "Historical Consultant", "Costume Designer", "Chief Editor", "Executive Assistant", "Key Grip")
-	if(!GLOB.admins.len)
-		staff += "<h2>PRODUCER - Alan Smithee</h2><br>"
-	for(var/client/C in GLOB.admins)
+//	var/list/staffjobs = list("Coffee Fetcher", "Cameraman", "Angry Yeller", "Chair Operator", "Choreographer", "Historical Consultant", "Costume Designer", "Chief Editor", "Executive Assistant", "Key Grip")
+//	if(!GLOB.admins.len)
+	staff += "<h2>PRODUCER - Alan Smithee</h2><br>"
+/*	for(var/client/C in GLOB.admins)
 		if(!C.holder)
 			continue
 		if(C.holder.rights & (R_DEBUG|R_ADMIN))
@@ -212,7 +212,7 @@ var/global/datum/credits/end_credits = new
 				var/mob/dead/observer/O = C.mob
 				if(O.started_as_observer)
 					observername = "[O.real_name] a.k.a. "
-			staff += "<h2>[uppertext(pick(staffjobs))] - [observername]'[C.key]'</h2><br>"
+			staff += "<h2>[uppertext(pick(staffjobs))] - [observername]'[C.key]'</h2><br>"*/
 
 	producers = list("<h1>Directed by</br>[uppertext(director)]</h1>","[jointext(staff,"")]")
 /*	for(var/head in data_core.get_manifest_json()["heads"])
@@ -223,13 +223,13 @@ var/global/datum/credits/end_credits = new
 		producers_string += "[producer]%<splashbreak>" //%<splashbreak> being an arbitrary "new splash card" char we use to split this string back in the javascript
 
 /datum/credits/proc/draft_star()
-	var/mob/living/carbon/human/most_talked
+	//var/mob/living/carbon/human/most_talked
 	for(var/mob/living/carbon/human/H in GLOB.player_list)
-		if(!H.key || H.iscorpse)
+		if(!H.key /*|| H.iscorpse*/)
 			continue
-		if(!most_talked || H.talkcount > most_talked.talkcount)
-			most_talked = H
-	star = thebigstar(most_talked)
+		/*if(!most_talked || H.talkcount > most_talked.talkcount)
+			most_talked = H*/
+	star = "kmc9001"
 
 /datum/credits/proc/finalize_starstring()
 	if(customized_star == "" && star == "")
@@ -240,7 +240,7 @@ var/global/datum/credits/end_credits = new
 	cast_string = "<h1>CAST:</h1><br><h2>(in order of appearance)</h2><br>"
 	cast_string += "<table class='crewtable'>"
 	for(var/mob/living/carbon/human/H in GLOB.player_list)
-		if(!H.key || H.iscorpse)
+		if(!H.key /*|| H.iscorpse*/)
 			continue
 		cast_string += "[gender_credits(H)]"
 
@@ -253,7 +253,7 @@ var/global/datum/credits/end_credits = new
 	cast_string += "<div class='disclaimers'>"
 	var/list/corpses = list()
 	for(var/mob/living/carbon/human/H in GLOB.player_list)
-		if(!H.key || H.iscorpse)
+		if(!H.key /*|| H.iscorpse*/)
 			continue
 		else if(H.real_name)
 			corpses += H.real_name
