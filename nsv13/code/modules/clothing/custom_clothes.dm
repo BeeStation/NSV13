@@ -44,10 +44,24 @@
 	item_color = "medical"
 	item_state = "bl_suit"
 
+/obj/item/clothing/under/ship/assistant
+	name = "Utilitarian coveralls"
+	desc = "A slightly ragged but reliable jumpsuit fitted with padding and a few small pockets which has been designed with cost-effectiveness in mind."
+	icon_state = "assistant"
+	item_color = "assistant"
+	item_state = "bl_suit"
+
 /obj/item/clothing/suit/ship
 	name = "Placeholder"
 	icon = 'nsv13/icons/obj/clothing/suits.dmi' //Placeholder subtype for our own iconsets
 	alternate_worn_icon = 'nsv13/icons/mob/suit.dmi'
+
+/obj/item/clothing/suit/ship/assistant_jacket
+	name = "Utility jacket"
+	icon_state = "assistant_jacket"
+	item_color = "assistant_jacket"
+	desc = "A stylish but heavy jacket designed to protect its wearer from common hazards when serving aboard a ship."
+	armor = list("melee" = 0, "bullet" = 0, "laser" = 0, "energy" = 0, "bomb" = 10, "bio" = 0, "rad" = 10, "fire" = 10, "acid" = 10)
 
 /obj/item/clothing/suit/ship/peacekeeper
 	name = "Peacekeer vest"
@@ -100,6 +114,14 @@
 	alternate_worn_icon = 'nsv13/icons/mob/head.dmi'
 	icon_state = "beret"
 	item_color = null
+
+/obj/item/clothing/head/soft/assistant_soft
+	name = "Utility cap"
+	desc = "A rough and uncomfortable cap worn by the unwashed masses of Nanotrasen's naval forces."
+	icon = 'nsv13/icons/obj/clothing/hats.dmi' //Placeholder subtype for our own iconsets
+	alternate_worn_icon = 'nsv13/icons/mob/head.dmi'
+	icon_state = "assistantsoft"
+	item_color = "assistant"
 
 /obj/item/clothing/head/ship/marine
 	name = "Nt-4 Marine helmet"
