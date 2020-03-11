@@ -125,6 +125,9 @@
 	smooth = TRUE
 	canSmoothWith = list(/obj/structure/window/reinforced/fulltile/ship,/turf/closed/wall/ship,/turf/closed/wall/r_wall/ship,/obj/machinery/door/airlock/ship,/obj/structure/window/reinforced/fulltile/ship/interior)
 
+/obj/structure/window/reinforced/fulltile/ship/interior/unanchored	
+	anchored = FALSE
+
 /obj/effect/spawner/structure/window/reinforced
 	name = "reinforced window spawner"
 	icon_state = "rwindow_spawner"
@@ -246,5 +249,5 @@
 /obj/structure/sign/solgov_flag/right
 	icon_state = "solgovflag-right"
 
-/turf/open/floor/monotile/dark/airless
+/turf/open/floor/plasteel/monotile/dark/airless
 	initial_gas_mix = AIRLESS_ATMOS

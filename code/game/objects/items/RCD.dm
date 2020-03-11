@@ -219,7 +219,7 @@ RLD
 /obj/item/construction/rcd/proc/toggle_window_type(mob/user)
 	var/window_type_name
 	if (window_type == /obj/structure/window/fulltile)
-		window_type = /obj/structure/window/reinforced/fulltile
+		window_type = /obj/structure/window/reinforced/fulltile/ship/interior
 		window_type_name = "reinforced glass"
 	else
 		window_type = /obj/structure/window/fulltile
