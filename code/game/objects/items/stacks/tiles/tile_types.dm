@@ -370,21 +370,21 @@
 	desc = "A solid, heavy set of flooring plates."
 	icon_state = "tile"
 	materials = list(/datum/material/iron=500)
-	turf_type = /turf/open/floor/plasteel/monotile
+	turf_type = /turf/open/floor/monotile
 
 /obj/item/stack/tile/mono/dark
 	name = "dark mono tile"
 	singular_name = "dark mono tile"
 	icon_state = "tile"
 	materials = list(/datum/material/iron=500)
-	turf_type = /turf/open/floor/plasteel/monotile/dark
+	turf_type = /turf/open/floor/monotile/dark
 
 /obj/item/stack/tile/mono/light
 	name = "light mono tile"
 	singular_name = "light mono tile"
 	icon_state = "tile"
 	materials = list(/datum/material/iron=500)
-	turf_type = /turf/open/floor/plasteel/monotile/light
+	turf_type = /turf/open/floor/monotile/light
 
 //Bay grids
 /obj/item/stack/tile/grid

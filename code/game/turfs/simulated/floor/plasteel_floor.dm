@@ -198,18 +198,3 @@
 /turf/open/floor/plasteel/techmaint
 	icon_state = "techmaint"
 	floor_tile = /obj/item/stack/tile/techmaint
-
-/turf/open/floor/plasteel/monotile //NSV13 - Monotiles used on the SGC Enterprise
-	icon_state = "steel_monotile"
-	floor_tile = /obj/item/stack/tile/mono
-
-/turf/open/floor/plasteel/monotile/dark
-	icon_state = "dark_monotile"
-	floor_tile = /obj/item/stack/tile/mono/dark
-
-/turf/open/floor/plasteel/monotile/light
-	icon_state = "light_monotile"
-	floor_tile = /obj/item/stack/tile/mono/light 
-
-/turf/open/floor/plasteel/monofloor
-	icon_state = "steel_monofloor" //NSV13 End
