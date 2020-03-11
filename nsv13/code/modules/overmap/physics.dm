@@ -15,6 +15,14 @@
 /obj/structure/overmap
 	var/last_process = 0
 	var/obj/vector_overlay/vector_overlay
+	var/pixel_collision_size_x = 0
+	var/pixel_collision_size_y = 0
+
+/obj/structure/overmap/Initialize()
+	. = ..()
+	var/icon/I = icon(icon,icon_state,SOUTH) //SOUTH because all overmaps only ever face right, no other dirs.
+	pixel_collision_size_x = I.Width()
+	pixel_collision_size_y = I.Height()
 
 /obj/structure/overmap/proc/can_move()
 	return TRUE //Placeholder for everything but fighters. We can later extend this if / when we want to code in ship engines.
@@ -22,11 +30,9 @@
 /obj/structure/overmap/process(time)
 	time /= 10 // fuck off with your deciseconds
 	last_process = world.time
-
 	if(world.time > last_slowprocess + 10)
 		last_slowprocess = world.time
 		slowprocess()
-
 	var/last_offset_x = offset_x
 	var/last_offset_y = offset_y
 	var/last_angle = angle
@@ -238,6 +244,12 @@
 	transform = mat_from
 	pixel_x = last_offset_x*32
 	pixel_y = last_offset_y*32
+	for(var/atom/inbound in obounds(src, pixel_x + pixel_collision_size_x/4, pixel_y + pixel_collision_size_y/4, pixel_x  + -pixel_collision_size_x/4, pixel_y + -pixel_collision_size_x/4) )//Forms a zone of 4 quadrants around the desired overmap using some math fuckery.
+		if(!inbound.density || !inbound.mouse_opacity)
+			continue
+		Bump(inbound)
+		if(pilot)
+			to_chat(world, "bumped [inbound]")
 	animate(src, transform=mat_to, pixel_x = offset_x*32, pixel_y = offset_y*32, time = time*10, flags=ANIMATION_END_NOW)
 	if(last_target)
 		var/target_angle = Get_Angle(src,last_target)
@@ -257,6 +269,12 @@
 		animate(C, pixel_x = offset_x*32, pixel_y = offset_y*32, time = time*10, flags=ANIMATION_END_NOW)
 	user_thrust_dir = 0
 	update_icon()
+
+
+/obj/structure/overmap/proc/show_hitbox()
+	for(var/turf/T in obounds(src, pixel_x + pixel_collision_size_x/4, pixel_y + pixel_collision_size_y/4, pixel_x  + -pixel_collision_size_x/4, pixel_y + -pixel_collision_size_x/4) )//Forms a zone of 4 quadrants around the desired overmap using some math fuckery.
+		T.SpinAnimation()
+
 
 /obj/structure/overmap/Bumped(atom/movable/A)
 	if(istype(A, /obj/structure/overmap/fighter))

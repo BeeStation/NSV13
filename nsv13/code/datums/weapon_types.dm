@@ -47,3 +47,15 @@
 		'nsv13/sound/effects/ship/pdc3.ogg')
 	select_alert = "<span class='notice'>Defensive flak screens: <b>OFFLINE</b>. Activating manual point defense cannon control.</span>"
 	failure_alert = "<span class='warning'>DANGER: Point defense emplacements are unable to fire due to lack of ammunition.</span>"
+
+//You don't ever actually select this. Crew act as gunners.
+
+/datum/ship_weapon/gauss
+	default_projectile_type = /obj/item/projectile/bullet/gauss_slug
+	burst_size = 2
+	fire_delay = 10
+	range_modifier = 20
+	select_alert = "<span class='notice'>Activating gauss weapon systems...</span>"
+	failure_alert = "<span class='warning'>DANGER: Gauss gun systems not loaded.</span>"
+	overmap_firing_sounds = list('nsv13/sound/effects/ship/gauss.ogg')
+	overmap_select_sound = 'nsv13/sound/effects/ship/railgun_ready.ogg'

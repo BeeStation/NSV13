@@ -9,6 +9,11 @@
 	damage = 80
 	movement_type = FLYING | UNSTOPPABLE //Railguns punch straight through your ship
 
+/obj/item/projectile/bullet/gauss_slug
+	icon_state = "gauss"
+	name = "tungsten round"
+	damage = 20
+
 /obj/item/projectile/bullet/torpedo
 	icon_state = "torpedo"
 	name = "plasma torpedo"

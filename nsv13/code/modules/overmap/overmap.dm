@@ -15,8 +15,6 @@
 	density = TRUE
 	dir = NORTH
 	layer = HIGH_OBJ_LAYER
-	bound_width = 64 //Change this on a per ship basis
-	bound_height = 64
 	animate_movement = NO_STEPS // Override the inbuilt movement engine to avoid bouncing
 	req_one_access = list(ACCESS_HEADS, ACCESS_MUNITIONS, ACCESS_SEC_DOORS, ACCESS_ENGINE) //Bridge officers/heads, munitions techs / fighter pilots, security officers, engineering personnel all have access.
 
