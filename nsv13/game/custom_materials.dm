@@ -60,7 +60,7 @@ GLOBAL_LIST_INIT(durasteel_recipes, list ( \
 	return ..()
 
 GLOBAL_LIST_INIT(nanocarbon_glass_recipes, list (\
-	new/datum/stack_recipe("nanocarbon reinforced fulltile window", /obj/structure/window/reinforced/fulltile/ship, 2, time = 0, on_floor = TRUE, window_checks = TRUE) \
+	new/datum/stack_recipe("nanocarbon reinforced fulltile window", /obj/structure/window/reinforced/fulltile/ship/unanchored, 2, time = 0, on_floor = TRUE, window_checks = TRUE) \
 	))
 
 /obj/item/stack/sheet/nanocarbon_glass
