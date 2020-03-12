@@ -60,11 +60,12 @@ GLOBAL_LIST_INIT(durasteel_recipes, list ( \
 	return ..()
 
 GLOBAL_LIST_INIT(nanocarbon_glass_recipes, list (\
-	new/datum/stack_recipe("nanocarbon reinforced fulltile window", /obj/structure/window/reinforced/fulltile/ship, 2, time = 60, one_per_turf = TRUE, on_floor = TRUE) \
+	new/datum/stack_recipe("nanocarbon reinforced fulltile window", /obj/structure/window/reinforced/fulltile/ship, 2, time = 0, on_floor = TRUE, window_checks = TRUE) \
 	))
 
 /obj/item/stack/sheet/nanocarbon_glass
 	name = "nanocarbon glass"
+	singular_name = "nanocarbon glass sheet"
 	desc = "This glass sheet is reinforced with a nanocarbon weave."
 	icon = 'nsv13/icons/obj/custom_stack_objects.dmi'
 	icon_state = "sheet-nanocarbon-glass"

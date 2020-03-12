@@ -189,6 +189,8 @@
 					WD = new/obj/structure/window/shuttle(drop_location())
 				else if(istype(W, /obj/item/stack/sheet/plastitaniumglass))
 					WD = new/obj/structure/window/plastitanium(drop_location())
+				else if(istype(W, /obj/item/stack/sheet/nanocarbon_glass)) //NSV13
+					WD = new/obj/structure/window/reinforced/fulltile/ship(drop_location()) //NSV13
 				else
 					WD = new/obj/structure/window/fulltile(drop_location()) //normal window
 				WD.setDir(dir_to_set)
