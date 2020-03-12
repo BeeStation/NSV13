@@ -114,6 +114,9 @@
 	smooth = TRUE
 	canSmoothWith = list(/obj/structure/window/reinforced/fulltile/ship,/turf/closed/wall/ship,/turf/closed/wall/r_wall/ship,/obj/machinery/door/airlock/ship,/obj/structure/window/reinforced/fulltile/ship/interior)
 
+/obj/structure/window/reinforced/fulltile/ship/unanchored
+	anchored = FALSE
+	
 /obj/structure/window/reinforced/fulltile/ship/interior
 	name = "Interior reinforced window"
 	desc = "A heavyset window reinforced with tiny carbon structures which is designed to take a beating."
