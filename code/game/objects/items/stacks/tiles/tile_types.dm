@@ -364,7 +364,7 @@
 	is_cyborg = 1
 	cost = 125
 //Monotiles
-/obj/item/stack/tile/mono
+/obj/item/stack/tile/mono //NSV13 Start
 	name = "steel mono tile"
 	singular_name = "steel mono tile"
 	desc = "A solid, heavy set of flooring plates."
@@ -426,4 +426,4 @@
 	desc = "A solid, heavy set of flooring plates."
 	icon_state = "tile_tech_maint"
 	materials = list(/datum/material/iron=500)
-	turf_type = /turf/open/floor/plasteel/techmaint
+	turf_type = /turf/open/floor/plasteel/techmaint //NSV13 End
