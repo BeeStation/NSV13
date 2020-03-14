@@ -1171,7 +1171,7 @@ How to make fuel:
 		if("canopy_lock")
 			toggle_canopy()
 		if("eject")
-			if(is_station_level(z))
+			if(is_station_level(z) || SSmapping.level_trait(z, ZTRAIT_BOARDABLE))
 				if(!canopy_open)
 					canopy_open = TRUE
 					playsound(src, 'nsv13/sound/effects/fighters/canopy.ogg', 100, 1)
