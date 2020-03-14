@@ -34,7 +34,7 @@ SUBSYSTEM_DEF(starsystem)
 	. = ..()
 	instantiate_systems()
 	for(var/type in subtypesof(/obj/structure/overmap/syndicate/ai))
-		if(!(locate(type in enemy_blacklist)))
+		if(!(locate(type) in enemy_blacklist))
 			enemy_types += type
 
 
@@ -42,7 +42,7 @@ SUBSYSTEM_DEF(starsystem)
 	enemy_types = list()
 	enemy_blacklist += what
 	for(var/type in subtypesof(/obj/structure/overmap/syndicate/ai))
-		if(!(locate(type in enemy_blacklist)))
+		if(!(locate(type) in enemy_blacklist))
 			enemy_types += type
 
 /datum/controller/subsystem/starsystem/proc/instantiate_systems()

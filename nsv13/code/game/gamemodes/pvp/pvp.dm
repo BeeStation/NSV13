@@ -13,8 +13,10 @@ GLOBAL_LIST_EMPTY(syndi_crew_leader_spawns)
 	config_tag = "pvp"
 	report_type = "nuclear"
 	false_report_weight = 10
-	required_players = 30 // 30 players initially, with 15 crewing the hammurabi and 15 crewing the larger, more powerful hammerhead
-	required_enemies = 14
+//	required_players = 30 // 30 players initially, with 15 crewing the hammurabi and 15 crewing the larger, more powerful hammerhead
+//	required_enemies = 14
+	required_players = 0
+	required_enemies = 1
 	recommended_enemies = 20
 	antag_flag = ROLE_SYNDI_CREW
 	enemy_minimum_age = 14
@@ -76,10 +78,8 @@ Method to spawn in the Syndi ship on a brand new Z-level with the "boardable" tr
 	to_chat(world, n_agents)
 	if(n_agents >= required_enemies)
 		for(var/i = 0, i < n_agents, i++)
-			to_chat(world, "Foo.")
 			var/datum/mind/new_op = pick_n_take(antag_candidates)
 			pre_nukeops += new_op
-			to_chat(world, "newcop")
 			new_op.assigned_role = "Syndicate crewmember"
 			new_op.special_role = "Syndicate crewmember"
 			log_game("[key_name(new_op)] has been selected as a syndicate crewmember")
@@ -175,6 +175,10 @@ Method to spawn in the Syndi ship on a brand new Z-level with the "boardable" tr
 	gloves = /obj/item/clothing/gloves/krav_maga/combatglovesplus
 	r_hand = /obj/item/nuclear_challenge
 	head = /obj/item/clothing/head/beret/durathread
+	suit = /obj/item/clothing/suit/space/officer
+	backpack_contents = list(/obj/item/storage/box/syndie=1,\
+	/obj/item/kitchen/knife/combat/survival=1,\
+	/obj/item/pvp_nuke_spawner)
 	command_radio = TRUE
 
 /datum/antagonist/nukeop/leader/syndi_crew/greet()
@@ -184,9 +188,34 @@ Method to spawn in the Syndi ship on a brand new Z-level with the "boardable" tr
 	to_chat(owner, "<span class='notice'>You have numerous options at your disposal. You can attempt to weaken [station_name()] in open combat ahead of boarding it, or remain silent and await a chance to stealthily board it.</span>")
 	to_chat(owner, "<span class='notice'>You have a number of raptors at your disposal, these are how your team can board the enemy, as each Raptor can hold up to 8 people..</span>")
 	to_chat(owner, "<span class='notice'><b>Your destination will be announced when performing FTL jumps due to DRADIS tracking. Be very aware of this when considering an engagement, as NT will be warned.</b></span>")
+	to_chat(owner, "<span class='notice'><b>You have been given a device to summon a nuke to your location. Use this to destroy the enemy.</b></span>")
 	to_chat(owner, "<span class='warning'>Ensure the destruction of [station_name()], no matter what. Eliminate Nanotrasen's presence in the Abassi ridge before they can establish a foothold. The fleet is counting on you!</span>")
 	addtimer(CALLBACK(src, .proc/nuketeam_name_assign), 1)
 	owner.announce_objectives()
+
+/obj/item/pvp_nuke_spawner
+	name = "Nuclear summon device"
+	desc = "A small device that will summon the Hammurabi's nuclear warhead to your location. Click it in your hand to use it."
+	icon = 'icons/obj/device.dmi'
+	icon_state = "gangtool-green"
+	req_one_access_txt = "150"
+
+/obj/item/pvp_nuke_spawner/attack_self(mob/user)
+	if(!allowed(user))
+		var/sound = pick('nsv13/sound/effects/computer/error.ogg','nsv13/sound/effects/computer/error2.ogg','nsv13/sound/effects/computer/error3.ogg')
+		playsound(src, sound, 100, 1)
+		to_chat(user, "<span class='warning'>Access denied</span>")
+		return
+	if(!is_station_level(user.z))
+		to_chat(user, "<span class='notice'>A message crackles in your ear: Operative. You have not yet reached [station_name()], ensure you are on the enemy ship before you attempt to summon a nuke.</span>")
+		return
+	if(alert("Are you sure you want to summon a nuke to your location?",name,"Yes","No") == "Yes")
+		to_chat(user, "<span class='notice'>You press a button on [src] and a nuke appears.</span>")
+		var/obj/machinery/nuclearbomb/syndicate/nuke = locate() in GLOB.nuke_list
+		nuke.visible_message("<span class='warning'>[src] fizzles out of existence!</span>")
+		nuke?.forceMove(get_turf(user))
+		do_sparks(1, TRUE, src)
+		qdel(src)
 
 /datum/antagonist/nukeop/syndi_crew/move_to_spawnpoint()
 	owner.current.forceMove(pick(GLOB.syndi_crew_spawns))
