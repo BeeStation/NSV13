@@ -1043,14 +1043,11 @@
 /area/hammurabi)
 "dw" = (
 /obj/machinery/power/stormdrive_reactor,
-/obj/machinery/atmospherics/components/binary/pump/on{
-	dir = 8;
-	icon_state = "pump_map-2";
-	name = "Reactor inlet";
-	on = 0;
-	target_pressure = 4500
-	},
 /obj/structure/cable/yellow,
+/obj/machinery/atmospherics/components/binary/pump/reactor_manifold{
+	icon_state = "pump_map-2";
+	dir = 8
+	},
 /turf/open/floor/engine,
 /area/hammurabi)
 "dx" = (
@@ -1095,6 +1092,7 @@
 	icon_state = "fuel_chamber";
 	dir = 8
 	},
+/obj/effect/landmark/nuclear_waste_spawner,
 /turf/open/floor/monotile/dark,
 /area/hammurabi)
 "dC" = (
@@ -1749,6 +1747,7 @@
 	desc = "A torpedo with hastily applied syndicate colourings and a pair of googly eyes taped onto it. The perfect munitions mascot.";
 	name = "Evil antonio"
 	},
+/obj/effect/landmark/nuclear_waste_spawner,
 /turf/open/floor/mineral/plastitanium/red,
 /area/hammurabi)
 "fz" = (
@@ -2916,6 +2915,47 @@
 	pixel_y = 26
 	},
 /turf/open/floor/plasteel/tech/grid,
+/area/hammurabi)
+"ph" = (
+/obj/effect/landmark/nuclear_waste_spawner,
+/turf/closed/wall/ship,
+/area/hammurabi/hangar)
+"rk" = (
+/obj/effect/turf_decal/delivery,
+/obj/effect/landmark/nuclear_waste_spawner,
+/turf/open/floor/mineral/plastitanium,
+/area/hammurabi)
+"rH" = (
+/obj/machinery/atmospherics/pipe/simple/general/visible,
+/obj/effect/landmark/nuclear_waste_spawner,
+/turf/open/floor/monotile/dark,
+/area/hammurabi/medbay)
+"rJ" = (
+/obj/effect/landmark/nuclear_waste_spawner,
+/turf/open/floor/carpet/red,
+/area/hammurabi)
+"tG" = (
+/obj/structure/window/reinforced/fulltile/ship/interior,
+/obj/structure/grille,
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
+/obj/structure/cable{
+	icon_state = "0-2"
+	},
+/obj/structure/cable{
+	icon_state = "2-8"
+	},
+/obj/effect/landmark/nuclear_waste_spawner,
+/turf/open/floor/plasteel/tech/grid,
+/area/hammurabi)
+"HX" = (
+/obj/effect/landmark/nuclear_waste_spawner,
+/turf/open/floor/mineral/plastitanium,
+/area/hammurabi/bridge)
+"On" = (
+/obj/effect/landmark/nuclear_waste_spawner,
+/turf/open/floor/mineral/plastitanium/red,
 /area/hammurabi)
 
 (1,1,1) = {"
@@ -27718,7 +27758,7 @@ ab
 cD
 cK
 cK
-cK
+rH
 cW
 cJ
 fX
@@ -27728,7 +27768,7 @@ aY
 aX
 be
 be
-be
+rJ
 be
 be
 aX
@@ -27737,7 +27777,7 @@ aX
 hP
 hR
 hR
-hU
+tG
 hV
 hV
 hU
@@ -29527,7 +29567,7 @@ aK
 ab
 gc
 aY
-aY
+On
 aY
 gd
 an
@@ -29793,7 +29833,7 @@ bT
 eT
 bT
 bT
-fl
+rk
 hL
 fl
 bT
@@ -31828,7 +31868,7 @@ aJ
 aJ
 fO
 az
-az
+ph
 az
 fO
 aJ
@@ -32097,7 +32137,7 @@ bE
 aY
 aY
 aY
-aY
+On
 aY
 aY
 aY
@@ -34924,7 +34964,7 @@ be
 bC
 bT
 be
-be
+rJ
 be
 bT
 cn
@@ -38008,7 +38048,7 @@ ii
 id
 cH
 cH
-cH
+HX
 cH
 cH
 db
