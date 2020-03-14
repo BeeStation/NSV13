@@ -326,3 +326,19 @@
 	if (!party_overlay)
 		party_overlay = iconstate2appearance('icons/turf/areas.dmi', "party")
 	A.add_overlay(party_overlay)
+
+/obj/machinery/firealarm/directional/north //NSV13 Start - Directional fire alarms for mapping
+	dir = NORTH
+	pixel_y = 24
+	
+/obj/machinery/firealarm/directional/south
+	dir = SOUTH
+	pixel_y = -24
+	
+/obj/machinery/firealarm/directional/west
+	dir = WEST
+	pixel_x = -24
+	
+/obj/machinery/firealarm/directional/east
+	dir = EAST
+	pixel_x = 24 //NSV13 End
