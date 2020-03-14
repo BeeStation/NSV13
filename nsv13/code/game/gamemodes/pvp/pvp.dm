@@ -14,10 +14,10 @@ GLOBAL_LIST_EMPTY(syndi_crew_leader_spawns)
 	report_type = "nuclear"
 	false_report_weight = 10
 	required_players = 30 // 30 players initially, with 15 crewing the hammurabi and 15 crewing the larger, more powerful hammerhead
-	required_enemies = 14
+	required_enemies = 15
 	recommended_enemies = 20
 	antag_flag = ROLE_SYNDI_CREW
-	enemy_minimum_age = 14
+	enemy_minimum_age = 0
 
 	announce_span = "danger"
 	announce_text = "Nanotrasen's incursions into Syndicate space have not gone unnoticed!\n\
@@ -26,7 +26,6 @@ GLOBAL_LIST_EMPTY(syndi_crew_leader_spawns)
 
 	title_icon = "nukeops"
 
-	var/const/agents_possible = 15 //If we ever need more syndicate agents.
 	var/list/pre_nukeops = list()
 
 	var/nukes_left = 1
@@ -36,7 +35,7 @@ GLOBAL_LIST_EMPTY(syndi_crew_leader_spawns)
 	var/operative_antag_datum_type = /datum/antagonist/nukeop/syndi_crew
 	var/leader_antag_datum_type = /datum/antagonist/nukeop/leader/syndi_crew
 	var/time_limit
-	var/list/syndi_ships = list('_maps/map_files/PVP/Hammurabi.dmm') //Update this list if you make more PVP ships :) ~Kmc
+	var/list/syndi_ships = list("Hammurabi.dmm") //Update this list if you make more PVP ships :) ~Kmc
 
 
 /**
@@ -44,35 +43,22 @@ GLOBAL_LIST_EMPTY(syndi_crew_leader_spawns)
 Method to spawn in the Syndi ship on a brand new Z-level with the "boardable" trait active so we can fly to it.
 
 */
-/datum/game_mode/pvp/proc/make_syndi_ship()
-//	set waitfor = FALSE
-	message_admins("Spawning in syndi ship map, this may take a while. No the game hasn't crashed, I'm just loading a map before we start.") //Warn the admins. This shit takes a while.
-	var/map_file = pick(syndi_ships)
-	var/datum/map_template/template = new(map_file, "Syndicate space vessel")
-	template.load_new_z()
-
-	var/x = round((world.maxx - 255)/2)
-	var/y = round((world.maxy - 255)/2)
-
-	var/datum/space_level/level = SSmapping.add_new_zlevel(name, list(ZTRAIT_AWAY = TRUE, ZTRAIT_BOARDABLE = TRUE, ZTRAIT_STATION = FALSE))
-	var/datum/parsed_map/parsed = load_map(file(map_file), x, y, level?.z_value, no_changeturf=(SSatoms.initialized == INITIALIZATION_INSSATOMS), placeOnTop=TRUE)
-	var/list/bounds = parsed.bounds
-	if(!bounds)
-		return FALSE
-
-	repopulate_sorted_areas()
-
-	//initialize things that are normally initialized after map load
-	parsed.initTemplateBounds()
-	smooth_zlevel(world.maxz)
-	log_game("Syndicate space ship loaded at [x],[y],[world.maxz]")
-	for(var/z in SSmapping.levels_by_trait(ZTRAIT_CORVI))
-		new /obj/structure/overmap/syndicate/hammurabi(get_turf(locate(round(world.maxx * 0.5, 1), round(world.maxy * 0.5, 1), z))) //Make a new syndie ship object in Corvi.
-	return level
 
 /datum/game_mode/pvp/pre_setup()
-	make_syndi_ship() //Spawn our syndie vessel. GOT THIS FAR LASTNIGHT
-	var/n_agents = num_players() > 1 ? min(round(num_players() / 10), antag_candidates.len, agents_possible) : 1
+	var/map_file = pick(syndi_ships)
+	message_admins("Spawning in syndi ship map, this may take a while. No the game hasn't crashed, I'm just loading a map before we start.") //Warn the admins. This shit takes a while.
+	var/list/errorList = list()
+	var/list/loaded = SSmapping.LoadGroup(errorList, "Syndicate ship", "map_files/PVP", map_file, default_traits = ZTRAITS_MINING_SHIP, silent = FALSE)
+	if(errorList.len)	// reebe failed to load
+		message_admins("Syndie ship failed to load!")
+		log_game("Syndie ship failed to load!")
+		return FALSE
+	for(var/datum/parsed_map/PM in loaded)
+		to_chat(world, "BBB")
+		PM.initTemplateBounds()
+		to_chat(world, "AAA")
+	repopulate_sorted_areas()
+	var/n_agents = antag_candidates.len
 	to_chat(world, n_agents)
 	if(n_agents >= required_enemies)
 		for(var/i = 0, i < n_agents, i++)
@@ -81,12 +67,21 @@ Method to spawn in the Syndi ship on a brand new Z-level with the "boardable" tr
 			new_op.assigned_role = "Syndicate crewmember"
 			new_op.special_role = "Syndicate crewmember"
 			log_game("[key_name(new_op)] has been selected as a syndicate crewmember")
+		for(var/z in SSmapping.levels_by_trait(ZTRAIT_CORVI))
+			var/obj/structure/overmap/hammurabi = new /obj/structure/overmap/syndicate/hammurabi(get_turf(locate(round(world.maxx * 0.5, 1), round(world.maxy * 0.5, 1), z))) //Make a new syndie ship object in Corvi.
+			addtimer(CALLBACK(src, .proc/force_lighting, hammurabi), 3 SECONDS)
 		return TRUE
 	else
-		setup_error = "Not enough nuke op candidates"
+		setup_error = "Not enough syndicate crew candidates"
 		return FALSE
 ////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////
+/datum/game_mode/pvp/proc/force_lighting(obj/structure/overmap/hammurabi)
+	for(var/area/AR in hammurabi.linked_areas) //Fucking force a lighting update IDEK why we have to do this but it just works
+		to_chat(world, "FOOOOOO")
+		AR.set_dynamic_lighting(DYNAMIC_LIGHTING_DISABLED)
+		sleep(1)
+		AR.set_dynamic_lighting(DYNAMIC_LIGHTING_ENABLED)
 
 /datum/game_mode/pvp/post_setup()
 	//Assign leader
