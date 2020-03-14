@@ -13,10 +13,8 @@ GLOBAL_LIST_EMPTY(syndi_crew_leader_spawns)
 	config_tag = "pvp"
 	report_type = "nuclear"
 	false_report_weight = 10
-//	required_players = 30 // 30 players initially, with 15 crewing the hammurabi and 15 crewing the larger, more powerful hammerhead
-//	required_enemies = 14
-	required_players = 0
-	required_enemies = 1
+	required_players = 30 // 30 players initially, with 15 crewing the hammurabi and 15 crewing the larger, more powerful hammerhead
+	required_enemies = 14
 	recommended_enemies = 20
 	antag_flag = ROLE_SYNDI_CREW
 	enemy_minimum_age = 14
