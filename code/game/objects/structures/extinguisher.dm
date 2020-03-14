@@ -163,8 +163,8 @@
 	
 /obj/structure/extinguisher_cabinet/west
 	dir = WEST
-	pixel_x = 27
+	pixel_x = -27
 	
 /obj/structure/extinguisher_cabinet/east
 	dir = EAST
-	pixel_x = -27 //NSV13 End
+	pixel_x = 27 //NSV13 End
