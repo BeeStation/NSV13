@@ -1,8 +1,3 @@
-#define MASS_TINY 1
-#define MASS_SMALL 2
-#define MASS_MEDIUM 3
-#define MASS_LARGE 4
-#define MASS_TITAN 5
 
 /////////////////////////////////////////////////////////////////////////////////
 // ACKNOWLEDGEMENTS:  Credit to yogstation (Monster860) for the movement code. //
@@ -113,6 +108,14 @@
 	var/can_lock = TRUE //Can we lock on to people or not
 	var/lockon_time = 2 SECONDS
 
+	// Railgun aim helper
+	var/last_tracer_process = 0
+	var/aiming = FALSE
+	var/aiming_lastangle = 0
+	var/lastangle = 0
+	var/list/obj/effect/projectile/tracer/current_tracers
+	var/mob/listeningTo
+
 	var/role = NORMAL_OVERMAP
 
 /obj/structure/overmap/can_be_pulled(user) // no :)
@@ -154,6 +157,7 @@
 
 /obj/structure/overmap/Initialize()
 	. = ..()
+	current_tracers = list()
 	GLOB.overmap_objects += src
 	START_PROCESSING(SSovermap, src)
 
@@ -219,6 +223,7 @@
 		weapons[weapon.fire_mode] += weapon
 
 /obj/structure/overmap/Destroy()
+	QDEL_LIST(current_tracers)
 	if(cabin_air)
 		QDEL_NULL(cabin_air)
 	. = ..()
@@ -304,18 +309,23 @@
 
 	if(!pilot || !pilot.client || pilot.incapacitated() || !move_by_mouse || control !="mapwindow.map" ||!can_move()) //Check pilot status, if we're meant to follow the mouse, and if theyre actually moving over a tile rather than in a menu
 		return // I don't know what's going on.
+	desired_angle = getMouseAngle(params, pilot)
+	update_icon()
+
+/obj/structure/overmap/proc/getMouseAngle(params, mob/M)
 	var/list/params_list = params2list(params)
-	var/sl_list = splittext(params_list["screen-loc"],",")
-	var/sl_x_list = splittext(sl_list[1], ":")
-	var/sl_y_list = splittext(sl_list[2], ":")
-	var/view_list = isnum(pilot.client.view) ? list("[pilot.client.view*2+1]","[pilot.client.view*2+1]") : splittext(pilot.client.view, "x")
+	var/list/sl_list = splittext(params_list["screen-loc"],",")
+	if(!sl_list.len)
+		return
+	var/list/sl_x_list = splittext(sl_list[1], ":")
+	var/list/sl_y_list = splittext(sl_list[2], ":")
+	var/view_list = isnum(M.client.view) ? list("[M.client.view*2+1]","[M.client.view*2+1]") : splittext(M.client.view, "x")
 	var/dx = text2num(sl_x_list[1]) + (text2num(sl_x_list[2]) / world.icon_size) - 1 - text2num(view_list[1]) / 2
 	var/dy = text2num(sl_y_list[1]) + (text2num(sl_y_list[2]) / world.icon_size) - 1 - text2num(view_list[2]) / 2
 	if(sqrt(dx*dx+dy*dy) > 1)
-		desired_angle = 90 - ATAN2(dx, dy)
+		return 90 - ATAN2(dx, dy)
 	else
-		desired_angle = null
-	update_icon()
+		return null
 
 /obj/structure/overmap/take_damage()
 	..()
