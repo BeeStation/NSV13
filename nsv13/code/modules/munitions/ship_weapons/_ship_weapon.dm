@@ -94,6 +94,15 @@
  */
 /obj/machinery/ship_weapon/Initialize()
 	. = ..()
+	return INITIALIZE_HINT_LATELOAD
+
+/**
+*
+*	Late initialize'd these weapons as they're dependant on areas + overmaps being initialized first. This way, they're initialized after everything else in the game.
+*
+*/
+
+/obj/machinery/ship_weapon/LateInitialize()
 	get_ship(error_log=FALSE)
 	if(maintainable)
 		maint_req = rand(15,25) //Setting initial number of cycles until maintenance is required

@@ -86,7 +86,7 @@
 		for(var/obj/structure/overmap/ship in GLOB.overmap_objects)
 			if(!ship || !istype(ship, /obj/structure/overmap))
 				continue
-			if(ship == src || ship.faction == faction || ship.wrecked) //No friendly fire, don't blow up wrecks that the crew may wish to loot.
+			if(ship == src || ship.faction == faction || ship.wrecked || ship.z != z) //No friendly fire, don't blow up wrecks that the crew may wish to loot.
 				continue
 			var/target_range = get_dist(ship,src)
 			if(target_range > initial(weapon_range)) //If the target is out of PDC range, don't shoot. This prevents OP shit like spamming torps AND PDC flak all over a target.
@@ -188,6 +188,7 @@
 				sleep(1)
 			return TRUE
 	else if(weapons[mode] && weapons[mode].len) //It's the main ship, see if any part of our battery can fire
+		add_enemy(target) //So that PVP holds up the spawning of AI enemies somewhat.
 		for(var/obj/machinery/ship_weapon/SW in weapons[mode])
 			if(SW.can_fire() && SW.fire(target, manual=(mode == fire_mode)))
 				return TRUE

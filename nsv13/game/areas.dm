@@ -330,6 +330,50 @@
 	looping_ambience = 'nsv13/sound/ambience/bridge.ogg'
 	icon_state = "bridge"
 
+//Syndie PVP ship
+
+/area/hammurabi
+	name = "SSV Hammurabi"
+	ambientsounds = list('nsv13/sound/ambience/leit_motif.ogg','nsv13/sound/ambience/wind.ogg','nsv13/sound/ambience/wind2.ogg','nsv13/sound/ambience/wind3.ogg','nsv13/sound/ambience/wind4.ogg','nsv13/sound/ambience/wind5.ogg','nsv13/sound/ambience/wind6.ogg')
+	noteleport = TRUE
+	overmap_type = /obj/structure/overmap/syndicate/hammurabi
+	icon_state = "syndie-ship"
+	has_gravity = TRUE
+
+/area/hammurabi/medbay
+	name = "Hammurabi sickbay"
+	looping_ambience = 'nsv13/sound/ambience/medbay.ogg'
+	icon_state = "medbay"
+
+/area/hammurabi/tcomms
+	name = "Hammurabi TE/LE/COMM core"
+	looping_ambience = 'nsv13/sound/ambience/computer_core.ogg'
+	icon_state = "tcomsatcham"
+
+/area/hammurabi/bridge
+	name = "Hammurabi flight deck"
+	looping_ambience = 'nsv13/sound/ambience/bridge.ogg'
+	icon_state = "syndie-control"
+
+/area/hammurabi/armoury
+	name = "Hammurabi armoury"
+	icon_state = "syndie-elite"
+
+/area/hammurabi/hangar
+	name = "Hammurabi hangar bay"
+	looping_ambience = 'nsv13/sound/ambience/maintenance.ogg'
+	icon_state = "shuttlered"
+
+/area/hammurabi/maintenance
+	name = "Hammurabi maintenance"
+	looping_ambience = 'nsv13/sound/ambience/maintenance.ogg'
+	icon_state = "maintcentral"
+
+/area/hammurabi/maintenance/exterior
+	name = "Hammurabi exterior"
+	icon_state = "space_near"
+
+
 /area/Entered(atom/movable/M)
 	// Ambience goes down here -- make sure to list each area separately for ease of adding things in later, thanks! Note: areas adjacent to each other should have the same sounds to prevent cutoff when possible.- LastyScratch
 	set waitfor = FALSE
