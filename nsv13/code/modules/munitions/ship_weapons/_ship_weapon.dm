@@ -94,7 +94,7 @@
  */
 /obj/machinery/ship_weapon/Initialize()
 	. = ..()
-	return INITIALIZE_HINT_LATELOAD
+	addtimer(CALLBACK(src, .proc/PostInitialize), 5 SECONDS)
 
 /**
 *
@@ -102,7 +102,7 @@
 *
 */
 
-/obj/machinery/ship_weapon/LateInitialize()
+/obj/machinery/ship_weapon/proc/PostInitialize()
 	get_ship(error_log=FALSE)
 	if(maintainable)
 		maint_req = rand(15,25) //Setting initial number of cycles until maintenance is required
