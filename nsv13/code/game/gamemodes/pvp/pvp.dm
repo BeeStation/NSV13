@@ -86,7 +86,8 @@ Method to spawn in the Syndi ship on a brand new Z-level with the "boardable" tr
 	var/datum/antagonist/nukeop/L = leader_mind.add_antag_datum(leader_antag_datum_type)
 	nuke_team = L.nuke_team
 	//Assign the remaining operatives
-	for(var/datum/mind/nuke_mind in pre_nukeops.len)
+	for(var/I in 2 to pre_nukeops.len)
+		var/datum/mind/nuke_mind = pre_nukeops[I]
 		nuke_mind?.add_antag_datum(operative_antag_datum_type)
 	time_limit = world.time + 45 MINUTES //Puts a hard cap on the time limit to avoid boredom.
 	addtimer(CALLBACK(src, .proc/check_win), 45.5 MINUTES)
@@ -107,7 +108,7 @@ Method to spawn in the Syndi ship on a brand new Z-level with the "boardable" tr
 
 /datum/game_mode/pvp/check_finished()
 	//Keep the round going if ops are dead but bomb is ticking.
-	if(nuke_team.operatives_dead())
+	if(nuke_team?.operatives_dead())
 		for(var/obj/machinery/nuclearbomb/N in GLOB.nuke_list)
 			if(N.proper_bomb && (N.timing || N.exploding))
 				return FALSE
