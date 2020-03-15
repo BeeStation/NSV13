@@ -54,14 +54,12 @@ Method to spawn in the Syndi ship on a brand new Z-level with the "boardable" tr
 		log_game("Syndie ship failed to load!")
 		return FALSE
 	for(var/datum/parsed_map/PM in loaded)
-		to_chat(world, "BBB")
 		PM.initTemplateBounds()
-		to_chat(world, "AAA")
 	repopulate_sorted_areas()
 	var/n_agents = antag_candidates.len
 	to_chat(world, n_agents)
 	if(n_agents >= required_enemies)
-		for(var/i = 0, i < n_agents, i++)
+		for(var/i = 0, i < required_enemies, i++)
 			var/datum/mind/new_op = pick_n_take(antag_candidates)
 			pre_nukeops += new_op
 			new_op.assigned_role = "Syndicate crewmember"
@@ -78,7 +76,6 @@ Method to spawn in the Syndi ship on a brand new Z-level with the "boardable" tr
 ////////////////////////////////////////////////////////////////////////////////////////
 /datum/game_mode/pvp/proc/force_lighting(obj/structure/overmap/hammurabi)
 	for(var/area/AR in hammurabi.linked_areas) //Fucking force a lighting update IDEK why we have to do this but it just works
-		to_chat(world, "FOOOOOO")
 		AR.set_dynamic_lighting(DYNAMIC_LIGHTING_DISABLED)
 		sleep(1)
 		AR.set_dynamic_lighting(DYNAMIC_LIGHTING_ENABLED)
