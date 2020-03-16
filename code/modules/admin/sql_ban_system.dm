@@ -556,7 +556,7 @@
 			if(roles_to_ban[1] == "Server" && (!is_admin || (is_admin && applies_to_admins)))
 				qdel(i)
 
-/datum/admins/proc/unban_panel(player_key, admin_key, player_ip, player_cid, global_ban, page = 0)
+/datum/admins/proc/unban_panel(player_key, admin_key, player_ip, player_cid, page = 0)
 	if(!check_rights(R_BAN))
 		return
 	if(!SSdbcore.Connect())
@@ -576,7 +576,7 @@
 	</div>
 	<div class='main'>
 	"}
-	if(player_key || admin_key || player_ip || player_cid || global_ban)
+	if(player_key || admin_key || player_ip || player_cid)
 		var/list/searchlist = list()
 		if(player_key)
 			searchlist += "ckey = '[sanitizeSQL(ckey(player_key))]'"
@@ -602,7 +602,7 @@
 			var/pagecount = 1
 			var/list/pagelist = list()
 			while(bancount > 0)
-				pagelist += "<a href='?_src_=holder;[HrefToken()];unbanpagecount=[pagecount - 1];unbankey=[player_key];unbanadminkey=[admin_key];unbanip=[player_ip];unbancid=[player_cid]'>[pagecount == page ? "<b>\[[pagecount]\]</b>" : "\[[pagecount]\]"]</a>"
+				pagelist += "<a href='?_src_=holder;[HrefToken()];unbanpagecount=[pagecount - 1];unbankey=[player_key];unbanadminkey=[admin_key];unbanip=[player_ip];unbancid=[player_cid]'>[pagecount == (page + 1) ? "<b>\[[pagecount]\]</b>" : "\[[pagecount]\]"]</a>"
 				bancount -= bansperpage
 				pagecount++
 			output += pagelist.Join(" | ")
