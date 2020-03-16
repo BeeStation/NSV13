@@ -4,11 +4,28 @@
 /area/shuttle/supply)
 "e" = (
 /obj/machinery/door/airlock/titanium/glass,
-/turf/open/floor/noslip,
+/turf/open/floor/plasteel/dark,
+/area/shuttle/supply)
+"f" = (
+/obj/machinery/button/door{
+	dir = 8;
+	id = "ss_hh_cargodoor_bottom";
+	name = "Cargo Door";
+	pixel_x = 22;
+	req_one_access_txt = "31"
+	},
+/obj/machinery/door/poddoor/shutters{
+	id = "ss_hh_cargodoor_bottom";
+	name = "Supply Shutter"
+	},
+/turf/open/floor/plasteel/dark,
 /area/shuttle/supply)
 "j" = (
-/obj/effect/spawner/structure/window/shuttle,
-/turf/open/floor/plating,
+/obj/machinery/door/poddoor/shutters{
+	id = "ss_hh_cargodoor_bottom";
+	name = "Supply Shutter"
+	},
+/turf/open/floor/plasteel/dark,
 /area/shuttle/supply)
 "k" = (
 /obj/machinery/light,
@@ -16,24 +33,24 @@
 /area/shuttle/supply)
 "l" = (
 /obj/machinery/door/poddoor/shutters{
-	id = "ss_hh_cargodoor";
+	id = "ss_hh_cargodoor_top";
 	name = "Supply Shutter"
 	},
-/turf/open/floor/noslip,
+/turf/open/floor/plasteel/dark,
 /area/shuttle/supply)
 "o" = (
-/obj/machinery/door/poddoor/shutters{
-	id = "ss_hh_cargodoor";
-	name = "Supply Shutter"
-	},
 /obj/machinery/button/door{
 	dir = 8;
-	id = "ss_hh_cargodoor";
+	id = "ss_hh_cargodoor_top";
 	name = "Cargo Door";
 	pixel_x = 22;
 	req_one_access_txt = "31"
 	},
-/turf/open/floor/noslip,
+/obj/machinery/door/poddoor/shutters{
+	id = "ss_hh_cargodoor_top";
+	name = "Supply Shutter"
+	},
+/turf/open/floor/plasteel/dark,
 /area/shuttle/supply)
 "t" = (
 /obj/effect/turf_decal/delivery,
@@ -51,17 +68,17 @@
 	width = 11
 	},
 /obj/machinery/door/poddoor/shutters{
-	id = "ss_hh_cargodoor";
+	id = "ss_hh_cargodoor_top";
 	name = "Supply Shutter"
 	},
-/turf/open/floor/noslip,
+/turf/open/floor/plasteel/dark,
 /area/shuttle/supply)
 "E" = (
 /obj/machinery/door/airlock/titanium/glass{
 	name = "Cargo Shuttle";
 	req_one_access_txt = "31"
 	},
-/turf/open/floor/noslip,
+/turf/open/floor/plasteel/dark,
 /area/shuttle/supply)
 "K" = (
 /obj/effect/turf_decal/delivery,
@@ -233,7 +250,7 @@ P
 K
 t
 Q
-j
+f
 "}
 (11,1,1) = {"
 O
