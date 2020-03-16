@@ -28,7 +28,7 @@
 	channels = list(RADIO_CHANNEL_ATC = 1, RADIO_CHANNEL_MUNITIONS = 1)
 	independent = TRUE
 
-/obj/item/encryptionkey/master_at_arms
+/obj/item/encryptionkey/heads/master_at_arms
 	name = "master at arms radio encryption key"
 	icon_state = "sec_cypherkey"
 	channels = list(RADIO_CHANNEL_MUNITIONS = 1, RADIO_CHANNEL_SUPPLY = 1, RADIO_CHANNEL_COMMAND = 1, RADIO_CHANNEL_ATC = 1)
@@ -54,11 +54,11 @@
 	icon_state = "sec_headset"
 	keyslot = new /obj/item/encryptionkey/pilot
 
-/obj/item/radio/headset/headset_sec/alt/master_at_arms
-	name = "master at arms radio headset"
+/obj/item/radio/headset/heads/master_at_arms
+	name = "\proper the master at arms' headset"
 	desc = "Use :w to access the department frequency. Use :u to access the supply frequency. Use :c to access the command frequency. Use :q to access the ATC frequency."
 	icon_state = "sec_headset"
-	keyslot = new /obj/item/encryptionkey/master_at_arms
+	keyslot = new /obj/item/encryptionkey/heads/master_at_arms
 
 /obj/item/radio/headset/headset_sec/alt/munitions_tech
 	name = "munitions technician radio headset"
