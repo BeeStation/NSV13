@@ -319,6 +319,10 @@
 	for(var/i in 1 to 6)
 		new /obj/item/soulstone/anybody/chaplain(src)
 
+/obj/item/storage/belt/soulstone/full/purified/PopulateContents()
+	for(var/i in 1 to 6)
+		new /obj/item/soulstone/anybody/purified(src)
+
 /obj/item/storage/belt/champion
 	name = "championship belt"
 	desc = "Proves to the world that you are the strongest!"
@@ -635,6 +639,13 @@
 	icon_state = "fannypack_yellow"
 	item_state = "fannypack_yellow"
 	item_color = "yellow"
+
+/obj/item/storage/belt/fannypack/bustin
+	name = "exterminator's belt"
+	desc = " "
+	icon_state = "bustinbelt"
+	item_state = "bustinbelt"
+	item_color = "bustinbelt"
 
 /obj/item/storage/belt/sabre
 	name = "sabre sheath"

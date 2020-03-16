@@ -13,7 +13,7 @@
 	desc = "It's watching you suspiciously."
 
 /obj/structure/closet/crate/necropolis/tendril/PopulateContents()
-	var/loot = rand(1,29)
+	var/loot = rand(1,30)
 	switch(loot)
 		if(1)
 			new /obj/item/shared_storage/red(src)
@@ -81,6 +81,8 @@
 			new /obj/item/clothing/neck/necklace/memento_mori(src)
 		if(29)
 			new /obj/item/reagent_containers/glass/waterbottle/relic(src)
+		if(30)
+			new /obj/item/reagent_containers/glass/bottle/necropolis_seed(src)
 
 //KA modkit design discs
 /obj/item/disk/design_disk/modkit_disc
@@ -449,6 +451,20 @@
 	qdel(chain)
 	return ..()
 
+//just a nerfed version of the real thing for the bounty hunters.
+/obj/item/gun/magic/hook/bounty
+	name = "hook"
+	ammo_type = /obj/item/ammo_casing/magic/hook/bounty
+
+/obj/item/gun/magic/hook/bounty/shoot_with_empty_chamber(mob/living/user)
+	to_chat(user, "<span class='warning'>The [src] isn't ready to fire yet!</span>")
+
+/obj/item/ammo_casing/magic/hook/bounty
+	projectile_type = /obj/item/projectile/hook/bounty
+
+/obj/item/projectile/hook/bounty
+	damage = 0
+	paralyze = 20
 
 //Immortality Talisman
 /obj/item/immortality_talisman
