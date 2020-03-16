@@ -367,6 +367,10 @@
 	name = "Briefing Room"
 	icon_state = "hallP"
 
+/area/nsv/crew_quarters/heads/maa
+	name = "Master At Arms' Office"
+	icon_state = "shuttlegrn"
+	
 /area/nsv/shuttle
 	overmap_type = /obj/structure/overmap/nanotrasen/mining_cruiser/nostromo
 
