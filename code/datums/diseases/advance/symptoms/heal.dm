@@ -428,7 +428,7 @@ obj/effect/sweatsplash/proc/splash()
 		user.visible_message("<span class='warning'>[usr.name] destroys [src].</span>",
 			"<span class='notice'>You hold the welder to [src], and it violently bursts!</span>",
 			"<span class='italics'>You hear a gurgling noise</span>")
-		new /obj/effect/gibspawner/human(get_turf(src))
+		new /obj/effect/gibspawner/human(get_turf(src), src)
 		qdel(src)
 	else
 		..()
