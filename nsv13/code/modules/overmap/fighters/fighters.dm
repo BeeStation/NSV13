@@ -29,8 +29,8 @@ After going through this checklist, you're ready to go!
 */
 
 /obj/structure/overmap/fighter
-	name = "Fighter"
-	desc = "A space faring fighter craft."
+	name = "Fighter - PARENT"
+	desc = "THIS IS A PARENT STRUCTURE AND SHOULD NOT BE SPAWNED"
 	icon = 'nsv13/icons/overmap/nanotrasen/fighter.dmi'
 	icon_state = "fighter"
 	brakes = TRUE
@@ -49,9 +49,11 @@ After going through this checklist, you're ready to go!
 	pixel_z = -20
 	var/maint_state = MS_CLOSED
 	var/prebuilt = FALSE
-	var/weapon_efficiency = 0
 	var/fuel_consumption = 0
-	var/max_torpedoes = 6 //Decent payload.
+	var/max_torpedoes = 0
+	var/max_missiles = 0
+	var/max_cannon = 0
+	var/max_countermeasures = 0
 	var/mag_lock = FALSE //Mag locked by a launch pad. Cheaper to use than locate()
 	var/max_passengers = 0 //Maximum capacity for passengers, INCLUDING pilot (EG: 1 pilot, 4 passengers).
 	var/docking_mode = FALSE
@@ -65,13 +67,14 @@ After going through this checklist, you're ready to go!
 	var/warmup_cooldown = FALSE //So you cant blitz the fighter ignition in 2 seconds
 	var/ejecting = FALSE
 	var/throttle_lock = FALSE
-	var/has_escape_pod = /obj/structure/overmap/fighter/prebuilt/escapepod
-	var/obj/structure/overmap/fighter/prebuilt/escapepod/escape_pod
+	var/has_escape_pod = /obj/structure/overmap/fighter/escapepod
+	var/obj/structure/overmap/fighter/escapepod/escape_pod
+	var/list/components = null
 
 /obj/structure/overmap/fighter/Initialize()
 	. = ..()
 	if(ispath(has_escape_pod))
-		escape_pod = new /obj/structure/overmap/fighter/prebuilt/escapepod(src)
+		escape_pod = new /obj/structure/overmap/fighter/escapepod(src)
 		escape_pod.name = "[name] - escape pod"
 
 /obj/machinery/computer/ship/fighter_launcher
@@ -413,6 +416,7 @@ After going through this checklist, you're ready to go!
 	max_passengers = 5 //Raptors can fit multiple people
 	max_integrity = 150 //Squishy!
 
+/*
 /obj/structure/overmap/fighter/prebuilt/raptor/docking_act(obj/structure/overmap/OM)
 	if(docking_cooldown)
 		return
@@ -431,6 +435,7 @@ After going through this checklist, you're ready to go!
 			else
 				if(pilot)
 					to_chat(pilot,"<span class='warning'>[src]'s passenger cabin is full, you'd need [max_passengers+1-OM.mobs_in_ship.len] more seats to retrieve everyone!</span>")
+*/
 
 /obj/structure/overmap/slowprocess()
 	. = ..()
@@ -500,7 +505,6 @@ After going through this checklist, you're ready to go!
 	dradis = new /obj/machinery/computer/ship/dradis/internal(src) //Fighters need a way to find their way home.
 	dradis?.soundloop?.stop()
 	update_stats()
-	fuel_setup()
 	obj_integrity = max_integrity
 	RegisterSignal(src, COMSIG_MOVABLE_MOVED, .proc/check_overmap_elegibility) //Used to smoothly transition from ship to overmap
 	RegisterSignal(src, COMSIG_AREA_ENTERED, .proc/update_overmap) //Used to smoothly transition from ship to overmap
@@ -508,6 +512,7 @@ After going through this checklist, you're ready to go!
 
 /obj/structure/overmap/fighter/proc/prebuilt_setup()
 	name = new_prebuilt_fighter_name() //pulling from NSV13 ship name list currently
+/*
 	var/list/components = list(/obj/item/twohanded/required/fighter_component/empennage,
 							/obj/item/twohanded/required/fighter_component/wing,
 							/obj/item/twohanded/required/fighter_component/wing,
@@ -521,6 +526,7 @@ After going through this checklist, you're ready to go!
 							/obj/item/twohanded/required/fighter_component/engine,
 							/obj/item/twohanded/required/fighter_component/engine,
 							/obj/item/twohanded/required/fighter_component/primary_cannon)
+*/
 	for(var/I = 0, I <= max_torpedoes, I++)
 		munitions += new /obj/item/ship_weapon/ammunition/torpedo/fast(src)
 	for(var/item in components)
@@ -529,6 +535,35 @@ After going through this checklist, you're ready to go!
 	internal_tank = new /obj/machinery/portable_atmospherics/canister/air(src)
 
 /obj/structure/overmap/fighter/proc/update_stats() //PLACEHOLDER JANK SYSTEM
+	var/obj/item/fighter_component/armour_plating/ap = get_part(/obj/item/fighter_component/armour_plating)
+	var/obj/item/fighter_component/engine/en = get_part(/obj/item/fighter_component/engine)
+	var/obj/item/fighter_component/fuel_tank/ft = get_part(/obj/item/fighter_component/fuel_tank)
+	var/obj/item/fighter_component/targeting_sensor/ts = get_part(/obj/item/fighter_component/targeting_sensor)
+	var/obj/item/fighter_component/countermeasure_dispenser/cd = get_part(/obj/item/fighter_component/countermeasure_dispenser)
+	var/obj/item/fighter_component/light/secondary/missile_rack/mr = get_part(/obj/item/fighter_component/light/secondary/missile_rack)
+	var/obj/item/fighter_component/heavy/secondary/torpedo_rack/tr = get_part(/obj/item/fighter_component/heavy/secondary/torpedo_rack)
+	var/obj/item/fighter_component/light/primary/light_cannon/lc = get_part(/obj/item/fighter_component/light/primary/light_cannon)
+	var/obj/item/fighter_component/heavy/primary/heavy_cannon/hc = get_part(/obj/item/fighter_component/heavy/primary/heavy_cannon)
+	var/obj/item/fighter_component/utility/secondary/passenger_compartment_module/pc = get_part(/obj/item/fighter_component/utility/secondary/passenger_compartment_module)
+	var/obj/item/fighter_component/utility/secondary/auxiliary_fuel_tank/aft = get_part(/obj/item/fighter_component/utility/secondary/auxiliary_fuel_tank)
+	var/obj/item/fighter_component/utility/secondary/rbs_reagent_tank/rrt = get_part(/obj/item/fighter_component/utility/secondary/rbs_reagent_tank)
+
+	max_integrity = initial(max_integrity) * ap?.armour
+	speed_limit = initial(speed_limit) * en?.speed
+	fuel_consumption = en?.consumption
+	ft?.fuel_setup()
+	aft?.fuel_setup()
+	rrt?.reagent_setup()
+//	??? = ts?.targeting_speed
+	max_countermeasures = cd?.countermeasure_capacity
+	max_missiles = mr?.missile_capacity && tr?.missile_capacity
+	max_torpedoes = tr?.torpedo_capacity
+	max_cannon = lc?.ammo_capacity && hc?.ammo_capacity
+	max_passengers = pc?.passenger_capacity
+
+
+
+/*
 	var/obj/item/twohanded/required/fighter_component/armour_plating/sap = get_part(/obj/item/twohanded/required/fighter_component/armour_plating)
 	var/obj/item/fighter_component/targeting_sensor/sts = get_part(/obj/item/fighter_component/targeting_sensor)
 	var/obj/item/fighter_component/fuel_lines/sfl = get_part(/obj/item/fighter_component/fuel_lines)
@@ -546,18 +581,21 @@ After going through this checklist, you're ready to go!
 		fuel_consumption = sene + sfl?.fuel_efficiency / 2
 	weapon_efficiency = sts?.weapon_efficiency
 	max_integrity = initial(max_integrity) * sap?.armour
+*/
 
 /obj/structure/overmap/fighter/proc/fuel_setup()
-	var/obj/item/twohanded/required/fighter_component/fuel_tank/sft = get_part(/obj/item/twohanded/required/fighter_component/fuel_tank)
-	sft.fuel_setup()
+	var/obj/item/fighter_component/fuel_tank/fft = get_part(/obj/item/fighter_component/fuel_tank)
+	fft.fuel_setup()
 
-/obj/item/twohanded/required/fighter_component/fuel_tank/proc/fuel_setup()
-	create_reagents(capacity, DRAINABLE | AMOUNT_VISIBLE)
-	reagents.add_reagent(/datum/reagent/aviation_fuel, capacity)
+/obj/item/fighter_component/fuel_tank/proc/fuel_setup()
+	create_reagents(fuel_capacity, DRAINABLE | AMOUNT_VISIBLE)
+	reagents.add_reagent(/datum/reagent/aviation_fuel, fuel_capacity)
 
-//obj/structure/overmap/fighter/slowprocess()
-//	if(reagents?.total_volume/reagents.maximum_volume*(100) < 10 && piloted) //too much spam currently - fix me
-//		visible_message("<span class=userdanger>BINGO FUEL!</span>")
+/obj/item/fighter_component/utility/secondary/auxiliary_fuel_tank/proc/fuel_setup()
+	create_reagents(aux_capacity, DRAINABLE | AMOUNT_VISIBLE)
+	reagents.add_reagent(/datum/reagent/aviation_fuel, aux_capacity)
+
+/obj/item/fighter_component/utility/secondary/rbs_reagent_tank/proc/reagent_setup()
 
 //Fighter Maintenance
 /obj/structure/overmap/fighter/proc/get_part(type)
@@ -664,11 +702,11 @@ After going through this checklist, you're ready to go!
 		else
 			to_chat(user, "<span class='notice'>You require [src] to be in maintenance mode to load munitions!.</span>")
 			return
-	if(istype(A, /obj/structure/overmap/fighter/prebuilt/escapepod) && has_escape_pod && (!escape_pod || escape_pod?.loc != src))
+	if(istype(A, /obj/structure/overmap/fighter/escapepod) && has_escape_pod && (!escape_pod || escape_pod?.loc != src))
 		if(maint_state != MS_OPEN)
 			to_chat(user, "<span class='warning'>You cannot load an escape pod into [src] without putting it into maintenance mode.</span>")
 			return
-		var/obj/structure/overmap/fighter/prebuilt/escapepod/EP = A
+		var/obj/structure/overmap/fighter/escapepod/EP = A
 		if(EP.operators.len)
 			to_chat(user, "<span class='notice'>There are people inside of [EP], so you can't load it into something else</span>")
 			return
@@ -995,27 +1033,6 @@ After going through this checklist, you're ready to go!
 		if(pilot) to_chat(pilot, "<span class='warning'>This ship is not equipped with an escape pod! Unable to eject.</span>")
 		return FALSE
 
-/obj/structure/overmap/fighter/prebuilt/escapepod
-	name = "Escape Pod"
-	desc = "An escape pod launched from a space faring vessel. It only has very limited thrusters and is thus very slow."
-	icon = 'nsv13/icons/overmap/nanotrasen/escape_pod.dmi'
-	icon_state = "escape_pod"
-	damage_states = FALSE
-	bound_width = 32 //Change this on a per ship basis
-	bound_height = 32
-	pixel_z = 0
-	pixel_w = 0
-	mass = MASS_TINY
-	max_integrity = 100 //Able to withstand more punishment so that people inside it don't get yeeted as hard
-	speed_limit = 2 //This, for reference, will feel suuuuper slow, but this is intentional
-	max_torpedoes = 0
-	flight_state = FLIGHT_READY
-	canopy_open = FALSE
-	has_escape_pod = FALSE
-
-/obj/structure/overmap/fighter/prebuilt/escapepod/attack_hand(mob/user)
-	return
-
 /obj/structure/overmap/fighter/proc/transfer_occupants_to(obj/structure/overmap/what)
 	if(!operators.len)
 		return
@@ -1212,21 +1229,21 @@ How to make fuel:
 	relay('nsv13/sound/effects/fighters/switch.ogg')
 
 /obj/structure/overmap/fighter/proc/get_fuel()
-	var/obj/item/twohanded/required/fighter_component/fuel_tank/sft = get_part(/obj/item/twohanded/required/fighter_component/fuel_tank)
-	if(!sft)
+	var/obj/item/fighter_component/fuel_tank/ft = get_part(/obj/item/fighter_component/fuel_tank)
+	if(!ft)
 		return 0
 	var/return_amt = 0
-	for(var/datum/reagent/aviation_fuel/F in sft.reagents.reagent_list)
+	for(var/datum/reagent/aviation_fuel/F in ft.reagents.reagent_list)
 		if(!istype(F))
 			continue
 		return_amt += F.volume
 	return return_amt
 
 /obj/structure/overmap/fighter/proc/set_fuel(amount)
-	var/obj/item/twohanded/required/fighter_component/fuel_tank/sft = get_part(/obj/item/twohanded/required/fighter_component/fuel_tank)
-	if(!sft)
+	var/obj/item/fighter_component/fuel_tank/ft = get_part(/obj/item/fighter_component/fuel_tank)
+	if(!ft)
 		return FALSE
-	for(var/datum/reagent/aviation_fuel/F in sft.reagents.reagent_list)
+	for(var/datum/reagent/aviation_fuel/F in ft.reagents.reagent_list)
 		if(!istype(F))
 			continue
 		F.volume = amount
@@ -1243,12 +1260,12 @@ How to make fuel:
 	if(flight_state < APU_SPUN) //No fuel? don't spam them with master cautions / use any fuel
 		return FALSE
 	var/amount = (user_thrust_dir) ? fuel_consumption+0.25 : fuel_consumption //When you're thrusting : fuel consumption doubles. Idling is cheap.
-	var/obj/item/twohanded/required/fighter_component/fuel_tank/sft = get_part(/obj/item/twohanded/required/fighter_component/fuel_tank)
-	if(!sft)
+	var/obj/item/fighter_component/fuel_tank/ft = get_part(/obj/item/fighter_component/fuel_tank)
+	if(!ft)
 		flight_state = NO_FUEL
 		set_master_caution(TRUE)
 		return FALSE
-	sft.reagents.remove_reagent(/datum/reagent/aviation_fuel, amount)
+	ft.reagents.remove_reagent(/datum/reagent/aviation_fuel, amount)
 	if(get_fuel() >= amount)
 		set_master_caution(FALSE)
 		return TRUE
@@ -1258,17 +1275,17 @@ How to make fuel:
 	return FALSE
 
 /obj/structure/overmap/fighter/proc/empty_fuel_tank()//Debug purposes, for when you need to drain a fighter's tank entirely.
-	var/obj/item/twohanded/required/fighter_component/fuel_tank/sft = get_part(/obj/item/twohanded/required/fighter_component/fuel_tank)
-	if(!sft)
+	var/obj/item/fighter_component/fuel_tank/ft = get_part(/obj/item/fighter_component/fuel_tank)
+	if(!ft)
 		return FALSE
-	sft.reagents.clear_reagents()
+	ft.reagents.clear_reagents()
 	say("Fuel tank emptied!")
 
 /obj/structure/overmap/fighter/proc/get_max_fuel()
-	var/obj/item/twohanded/required/fighter_component/fuel_tank/sft = get_part(/obj/item/twohanded/required/fighter_component/fuel_tank)
-	if(!sft)
+	var/obj/item/fighter_component/fuel_tank/ft = get_part(/obj/item/fighter_component/fuel_tank)
+	if(!ft)
 		return 0
-	return sft.reagents.maximum_volume
+	return ft.reagents.maximum_volume
 
 /obj/structure/overmap/fighter/ui_data(mob/user)
 	var/list/data = list()

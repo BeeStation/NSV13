@@ -15,10 +15,10 @@
 #define HBS_TARGETING_SENSOR_SCREW			14
 #define HBS_COUNTERMEASURE_DISPENSER		15
 #define HBS_COUNTERMEASURE_DISPENSER_BOLT	16
-#define HBS_CANNON							17
-#define HBS_CANNON_BOLT						18
-#define HBS_TORPEDO_RACK					19
-#define HBS_TORPEDO_RACK_BOLT				20
+#define HBS_PRIMARY							17
+#define HBS_PRIMARY_BOLT					18
+#define HBS_SECONDARY						19
+#define HBS_SECONDARY_BOLT					20
 #define HBS_ARMOUR_PLATING					21
 #define HBS_ARMOUR_PLATING_BOLT				22
 #define HBS_ARMOUR_PLATING_WELD				23
@@ -70,13 +70,13 @@
 			. += "<span class='notice'>15</span>"
 		if(HBS_COUNTERMEASURE_DISPENSER_BOLT)
 			. += "<span class='notice'>16</span>"
-		if(HBS_CANNON)
+		if(HBS_PRIMARY)
 			. += "<span class='notice'>17</span>"
-		if(HBS_CANNON_BOLT)
+		if(HBS_PRIMARY_BOLT)
 			. += "<span class='notice'>18</span>"
-		if(HBS_TORPEDO_RACK)
+		if(HBS_SECONDARY)
 			. += "<span class='notice'>19</span>"
-		if(HBS_TORPEDO_RACK_BOLT)
+		if(HBS_SECONDARY_BOLT)
 			. += "<span class='notice'>20</span>"
 		if(HBS_ARMOUR_PLATING)
 			. += "<span class='notice'>21</span>"
@@ -130,7 +130,7 @@
 			update_icon()
 			W.forceMove(src)
 	else if(istype(W, /obj/item/fighter_component/armour_plating/heavy))
-		if(build_state == HBS_TORPEDO_RACK_BOLT)
+		if(build_state == HBS_SECONDARY_BOLT)
 			to_chat(user, "<span class='notice'>You start adding [W] to [src]...</span>")
 			if(!do_after(user, 5 SECONDS, target=src))
 				return
@@ -165,22 +165,22 @@
 			build_state = HBS_COUNTERMEASURE_DISPENSER
 			update_icon()
 			W.forceMove(src)
-	else if(istype(W, /obj/item/fighter_component/torpedo_rack))
-		if(build_state == HBS_CANNON_BOLT)
+	else if(istype(W, /obj/item/fighter_component/heavy/secondary))
+		if(build_state == HBS_PRIMARY_BOLT)
 			to_chat(user, "<span class='notice'>You start adding [W] to [src]...</span>")
 			if(!do_after(user, 5 SECONDS, target=src))
 				return
 			to_chat(user, "<spawn class='notice'>You add [W] to [src].</span>")
-			build_state = HBS_TORPEDO_RACK
+			build_state = HBS_SECONDARY
 			update_icon()
 			W.forceMove(src)
-	else if(istype(W, /obj/item/fighter_component/heavy_cannon))
+	else if(istype(W, /obj/item/fighter_component/heavy/primary))
 		if(build_state == HBS_COUNTERMEASURE_DISPENSER_BOLT)
 			to_chat(user, "<span class='notice'>You start adding [W] to [src]...</span>")
 			if(!do_after(user, 5 SECONDS, target=src))
 				return
 			to_chat(user, "<spawn class='notice'>You add [W] to [src].</span>")
-			build_state = HBS_CANNON
+			build_state = HBS_PRIMARY
 			update_icon()
 			W.forceMove(src)
 	else if(istype(W, /obj/item/stack/cable_coil))
@@ -271,8 +271,8 @@
 		if(HBS_COUNTERMEASURE_DISPENSER)
 			to_chat(user, "<span class='notice'>You start to bolt the countermeasure dispenser to the chassis...</span>")
 			if(tool.use_tool(src, user, 40, volume=100))
-				to_chat(user, "<span class='notice'>You bolt the countermeasur dispenser to the chassis.</span>")
-				build_state = HBS_COUNTERMEASURE_DISPENSER
+				to_chat(user, "<span class='notice'>You bolt the countermeasure dispenser to the chassis.</span>")
+				build_state = HBS_COUNTERMEASURE_DISPENSER_BOLT
 				update_icon()
 				return TRUE
 		if(HBS_COUNTERMEASURE_DISPENSER_BOLT)
@@ -296,32 +296,32 @@
 				build_state = HBS_ARMOUR_PLATING_BOLT
 				update_icon()
 				return TRUE
-		if(HBS_CANNON)
+		if(HBS_PRIMARY)
 			to_chat(user, "<span class='notice'>You start to bolt the heavy cannon to the chassis...</span>")
 			if(tool.use_tool(src, user, 40, volume=100))
 				to_chat(user, "<span class='notice'>You bolt the heavy cannon to the chassis.</span>")
-				build_state = HBS_CANNON_BOLT
+				build_state = HBS_PRIMARY_BOLT
 				update_icon()
 				return TRUE
-		if(HBS_CANNON_BOLT)
+		if(HBS_PRIMARY_BOLT)
 			to_chat(user, "<span class='notice'>You start to unbolt the heavy cannon from the chassis...</span>")
 			if(tool.use_tool(src, user, 40, volume=100))
 				to_chat(user, "<span class='notice'>You unbolt the heavy cannon from the chassis.</span>")
-				build_state = HBS_CANNON
+				build_state = HBS_PRIMARY
 				update_icon()
 				return TRUE
-		if(HBS_TORPEDO_RACK)
+		if(HBS_SECONDARY)
 			to_chat(user, "<span class='notice'>You start to bolt the torpedo rack to the chassis...</span>")
 			if(tool.use_tool(src, user, 40, volume=100))
 				to_chat(user, "<span class='notice'>You bolt the torpedo rack to the chassis.</span>")
-				build_state = HBS_TORPEDO_RACK_BOLT
+				build_state = HBS_SECONDARY_BOLT
 				update_icon()
 				return TRUE
-		if(HBS_TORPEDO_RACK_BOLT)
+		if(HBS_SECONDARY_BOLT)
 			to_chat(user, "<span class='notice'>You start to unbolt the torpedo rack from the chassis...</span>")
 			if(tool.use_tool(src, user, 40, volume=100))
 				to_chat(user, "<span class='notice'>You unbolt the torpedo rack from the chassis.</span>")
-				build_state = HBS_TORPEDO_RACK
+				build_state = HBS_SECONDARY
 				update_icon()
 				return TRUE
 
@@ -474,25 +474,25 @@
 				to_chat(user, "<span class='notice'>You remove the armour plating from [src].</span>")
 				var/atom/movable/ts = get_part(/obj/item/fighter_component/armour_plating)
 				ts?.forceMove(get_turf(src))
-				build_state = HBS_TORPEDO_RACK_BOLT
+				build_state = HBS_SECONDARY_BOLT
 				update_icon()
 				return TRUE
-		if(HBS_CANNON)
-			to_chat(user, "<span class='notice'>You start removing the heavy cannon from [src]...</span>")
+		if(HBS_PRIMARY)
+			to_chat(user, "<span class='notice'>You start removing the primary armament from [src]...</span>")
 			if(tool.use_tool(src, user, 40, volume=100))
-				to_chat(user, "<span class='notice'>You remove the heavy cannon from [src].</span>")
-				var/atom/movable/ts = get_part(/obj/item/fighter_component/heavy_cannon)
+				to_chat(user, "<span class='notice'>You remove the primary armament from [src].</span>")
+				var/atom/movable/ts = get_part(/obj/item/fighter_component/heavy/primary)
 				ts?.forceMove(get_turf(src))
 				build_state = HBS_COUNTERMEASURE_DISPENSER_BOLT
 				update_icon()
 				return TRUE
-		if(HBS_TORPEDO_RACK)
-			to_chat(user, "<span class='notice'>You start removing the torpedo rack from [src]...</span>")
+		if(HBS_SECONDARY)
+			to_chat(user, "<span class='notice'>You start removing the secondary armament from [src]...</span>")
 			if(tool.use_tool(src, user, 40, volume=100))
-				to_chat(user, "<span class='notice'>You remove the torpedo rack from [src].</span>")
-				var/atom/movable/ts = get_part(/obj/item/fighter_component/torpedo_rack)
+				to_chat(user, "<span class='notice'>You remove the secondary armament from [src].</span>")
+				var/atom/movable/ts = get_part(/obj/item/fighter_component/heavy/secondary)
 				ts?.forceMove(get_turf(src))
-				build_state = HBS_CANNON_BOLT
+				build_state = HBS_PRIMARY_BOLT
 				update_icon()
 				return TRUE
 		if(HBS_CHASSIS)
@@ -571,13 +571,13 @@
 			icon_state = "advmop"
 		if(HBS_COUNTERMEASURE_DISPENSER_BOLT)
 			icon_state = "advmop"
-		if(HBS_CANNON)
+		if(HBS_PRIMARY)
 			icon_state = "advmop"
-		if(HBS_CANNON_BOLT)
+		if(HBS_PRIMARY_BOLT)
 			icon_state = "advmop"
-		if(HBS_TORPEDO_RACK)
+		if(HBS_SECONDARY)
 			icon_state = "advmop"
-		if(HBS_TORPEDO_RACK_BOLT)
+		if(HBS_SECONDARY_BOLT)
 			icon_state = "advmop"
 		if(HBS_ARMOUR_PLATING)
 			icon_state = "advmop"
@@ -607,10 +607,10 @@
 #undef HBS_TARGETING_SENSOR_SCREW
 #undef HBS_COUNTERMEASURE_DISPENSER
 #undef HBS_COUNTERMEASURE_DISPENSER_BOLT
-#undef HBS_CANNON
-#undef HBS_CANNON_BOLT
-#undef HBS_TORPEDO_RACK
-#undef HBS_TORPEDO_RACK_BOLT
+#undef HBS_PRIMARY
+#undef HBS_PRIMARY_BOLT
+#undef HBS_SECONDARY
+#undef HBS_SECONDARY_BOLT
 #undef HBS_ARMOUR_PLATING
 #undef HBS_ARMOUR_PLATING_BOLT
 #undef HBS_ARMOUR_PLATING_WELD

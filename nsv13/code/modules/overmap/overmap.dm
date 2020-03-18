@@ -101,6 +101,7 @@
 	var/atom/last_target //Last thing we shot at, used to point the railgun at an enemy.
 
 	var/torpedoes = 15 //Prevent infinite torp spam
+	var/missiles = 0 //Nothing should start with missiles
 
 	var/pdc_miss_chance = 20 //In %, how often do PDCs fire inaccurately when aiming at missiles. This is ignored for ships as theyre bigger targets.
 	var/list/torpedoes_to_target = list() //Torpedoes that have been fired explicitly at us, and that the PDCs need to worry about.

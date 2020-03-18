@@ -1,3 +1,5 @@
+/*
+
 #define BS_FUSE 		0
 #define BS_FUSE_BOLT 	1
 #define BS_FUSE_WELD 	2
@@ -38,6 +40,8 @@
 #define BS_TARS_MULTI	37
 #define BS_PAINT		38
 
+*/
+
 //Fighter Build Path - The MaA will kill you if you make them have to go through this
 
 /obj/structure/fighter_component/underconstruction_fighter
@@ -48,9 +52,10 @@
 	anchored = TRUE
 	density = TRUE
 	climbable = TRUE
-	var/build_state = BS_FUSE
+	var/build_state = null
 	var/fighter_name = null
 
+/*
 /obj/structure/fighter_component/underconstruction_fighter/examine(mob/user)
 	. = ..()
 	switch(build_state)
@@ -133,12 +138,15 @@
 		if(BS_PAINT)
 			. += "<span class='notice'>Base applied, details highlighted, decals paintstakingly traced, perfection achieved. Inevitably to be ruined once a pilot touches it. Should give it a name while you still can.</span>"
 
+*/
+
 /obj/structure/fighter_component/underconstruction_fighter/proc/get_part(type)
 	if(!type)
 		return
 	var/atom/movable/desired = locate(type) in contents
 	return desired
 
+/*
 /obj/structure/fighter_component/fuselage_crate/attack_hand(mob/user)
 	.=..()
 	if(alert(user, "Begin constructing a new fighter?",, "Yes", "No")!="Yes")
@@ -915,3 +923,5 @@
 #undef BS_TARS_SCREW
 #undef BS_TARS_MULTI
 #undef BS_PAINT
+
+*/

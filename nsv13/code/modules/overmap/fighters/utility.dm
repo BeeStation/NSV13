@@ -2,7 +2,7 @@
 //Slow, Reasonably Nimble, Robust
 //Pickups up pods, refuels in space
 /obj/structure/overmap/fighter/utility
-	name = "A-77DL Arroyomolinos"
+	name = "ADL-77U Arroyomolinos"
 	desc = "A space faring fighter craft."
 	icon = 'nsv13/icons/overmap/nanotrasen/carrier.dmi'
 	icon_state = "carrier"
@@ -12,11 +12,72 @@
 	bound_height = 96
 	mass = MASS_TINY
 	sprite_size = 32
-	damage_states = TRUE
+	damage_states = FALSE
 	faction = "nanotrasen"
-	max_integrity = 120 //Really really squishy!
+	max_integrity = 150 //Squishy!
+	max_passengers = 1
 	torpedoes = 0
 	speed_limit = 6 //We want fighters to be way more maneuverable
 	weapon_safety = TRUE //This happens wayy too much for my liking. Starts OFF.
 	pixel_w = -26
 	pixel_z = -28
+
+/obj/structure/overmap/fighter/utility/prebuilt/tanker //refueling other fighters in space
+	prebuilt = TRUE
+	components = list(/obj/item/fighter_component/fuel_tank/t1,
+						/obj/item/fighter_component/avionics,
+						/obj/item/fighter_component/apu,
+						/obj/item/fighter_component/armour_plating/utility/t1,
+						/obj/item/fighter_component/engine/utility/t1,
+						/obj/item/fighter_component/countermeasure_dispenser/t1,
+						/obj/item/fighter_component/utility/primary/refueling_system,
+						/obj/item/fighter_component/utility/secondary/auxiliary_fuel_tank/t1)
+
+/obj/structure/overmap/fighter/utility/prebuilt/carrier //search and recovery of pilots in space, and troop transport
+	prebuilt = TRUE
+	components = list(/obj/item/fighter_component/fuel_tank/t1,
+						/obj/item/fighter_component/avionics,
+						/obj/item/fighter_component/apu,
+						/obj/item/fighter_component/armour_plating/utility/t1,
+						/obj/item/fighter_component/engine/utility/t1,
+						/obj/item/fighter_component/countermeasure_dispenser/t1,
+						/obj/item/fighter_component/utility/primary/search_rescue_module,
+						/obj/item/fighter_component/utility/secondary/passenger_compartment_module/t1)
+
+/obj/structure/overmap/fighter/utility/prebuilt/repair //exterior repair of the main ship
+	prebuilt = TRUE
+	components = list(/obj/item/fighter_component/fuel_tank/t1,
+						/obj/item/fighter_component/avionics,
+						/obj/item/fighter_component/apu,
+						/obj/item/fighter_component/armour_plating/utility/t1,
+						/obj/item/fighter_component/engine/utility/t1,
+						/obj/item/fighter_component/countermeasure_dispenser/t1,
+						/obj/item/fighter_component/utility/primary/rapid_breach_sealing_module,
+						/obj/item/fighter_component/utility/secondary/rbs_reagent_tank/t1)
+
+/obj/structure/overmap/fighter/utility/docking_act(obj/structure/overmap/OM)
+	if(docking_cooldown)
+		return
+	if(mass < OM.mass && OM.docking_points.len && docking_mode) //If theyre smaller than us,and we have docking points, and they want to dock
+		transfer_from_overmap(OM)
+	if(mass >= OM.mass && docking_mode) //Looks like theyre smaller than us, and need rescue.
+		if(istype(OM, /obj/structure/overmap/fighter/escapepod)) //Can we take them aboard?
+			if(OM.operators.len <= max_passengers+1-OM.mobs_in_ship.len) //Max passengers + 1 to allow for one raptor crew rescuing another. Imagine that theyre being cramped into the footwell or something.
+				docking_cooldown = TRUE
+				addtimer(VARSET_CALLBACK(src, docking_cooldown, FALSE), 5 SECONDS) //Prevents jank.
+				var/obj/structure/overmap/fighter/escapepod/ep = OM
+				relay_to_nearby('nsv13/sound/effects/ship/boarding_pod.ogg')
+				to_chat(pilot,"<span class='warning'>Extending docking armatures...</span>")
+				ep.transfer_occupants_to(src)
+				qdel(ep)
+			else
+				if(pilot)
+					to_chat(pilot,"<span class='warning'>[src]'s passenger cabin is full, you'd need [max_passengers+1-OM.mobs_in_ship.len] more seats to retrieve everyone!</span>")
+
+/obj/structure/overmap/fighter/utility/verb/space_to_space_refueling()
+	set name = "Toggle Space-to-Space Refueling Mode"
+	set category = "Ship"
+	set src = usr.loc
+
+	if(!verb_check())
+		return

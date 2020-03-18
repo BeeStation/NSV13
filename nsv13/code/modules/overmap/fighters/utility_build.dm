@@ -8,32 +8,32 @@
 #define UBS_APU_MULTI						7
 #define UBS_FUEL_TANK						8
 #define UBS_FUEL_TANK_BOLT					9
-#define UBS_AUX_FUEL_TANK					10
-#define UBS_AUX_FUEL_TANK_BOLT				11
-#define UBS_REFUELING_SYSTEM				12
-#define UBS_REFUELING_SYSTEM_BOLT			13
-#define UBS_REFUELING_SYSTEM_MULTI			14
-#define UBS_PASSENGER_COMPARTMENT			15
-#define UBS_PASSENGER_COMPARTMENT_BOLT		16
-#define UBS_COUNTERMEASURE_DISPENSER		17
-#define UBS_COUNTERMEASURE_DISPENSER_BOLT	18
-#define UBS_AVIONICS						19
-#define UBS_AVIONICS_WIRE					20
+#define UBS_PRIMARY							10
+#define UBS_PRIMARY_BOLT					11
+#define UBS_PRIMARY_MULTI					12
+#define UBS_SECONDARY						13
+#define UBS_SECONDARY_BOLT					14
+#define UBS_SECONDARY_MULTI					15
+#define UBS_COUNTERMEASURE_DISPENSER		16
+#define UBS_COUNTERMEASURE_DISPENSER_BOLT	17
+#define UBS_AVIONICS						18
+#define UBS_AVIONICS_WIRE					19
+#define UBS_AVIONICS_MULTI					20
 #define UBS_ARMOUR_PLATING					21
 #define UBS_ARMOUR_PLATING_BOLT				22
 #define UBS_ARMOUR_PLATING_WELD				23
 #define UBS_PAINT_PRIMER					24
 #define UBS_PAINT_DETAILING					25
 
-/obj/structure/fighter_component/underconstruction_fighter/utility_craft_frame
-	name = "Utility Craft Frame"
-	desc = "An Incomplete Utility Craft"
+/obj/structure/fighter_component/underconstruction_fighter/utility_vessel_frame
+	name = "Utility Vessel Frame"
+	desc = "An Incomplete Utility Vessel"
 	icon = 'icons/obj/janitor.dmi'
 	icon_state = "smmop"
 	build_state = UBS_CHASSIS
 	fighter_name = null
 
-/obj/structure/fighter_component/underconstruction_fighter/utility_craft_frame/examine(mob/user)
+/obj/structure/fighter_component/underconstruction_fighter/utility_vessel_frame/examine(mob/user)
 	. = ..()
 	switch(build_state)
 		if(UBS_CHASSIS)
@@ -56,27 +56,27 @@
 			. += "<span class='notice'>8</span>"
 		if(UBS_FUEL_TANK_BOLT)
 			. += "<span class='notice'>9</span>"
-		if(UBS_AUX_FUEL_TANK)
+		if(UBS_PRIMARY)
 			. += "<span class='notice'>10</span>"
-		if(UBS_AUX_FUEL_TANK_BOLT)
+		if(UBS_PRIMARY_BOLT)
 			. += "<span class='notice'>11</span>"
-		if(UBS_REFUELING_SYSTEM)
+		if(UBS_PRIMARY_MULTI)
 			. += "<span class='notice'>12</span>"
-		if(UBS_REFUELING_SYSTEM_BOLT)
+		if(UBS_SECONDARY)
 			. += "<span class='notice'>13</span>"
-		if(UBS_REFUELING_SYSTEM_MULTI)
+		if(UBS_SECONDARY_BOLT)
 			. += "<span class='notice'>14</span>"
-		if(UBS_PASSENGER_COMPARTMENT)
+		if(UBS_SECONDARY_MULTI)
 			. += "<span class='notice'>15</span>"
-		if(UBS_PASSENGER_COMPARTMENT_BOLT)
-			. += "<span class='notice'>16</span>"
 		if(UBS_COUNTERMEASURE_DISPENSER)
-			. += "<span class='notice'>17</span>"
+			. += "<span class='notice'>16</span>"
 		if(UBS_COUNTERMEASURE_DISPENSER_BOLT)
-			. += "<span class='notice'>18</span>"
+			. += "<span class='notice'>17</span>"
 		if(UBS_AVIONICS)
-			. += "<span class='notice'>19</span>"
+			. += "<span class='notice'>18</span>"
 		if(UBS_AVIONICS_WIRE)
+			. += "<span class='notice'>19</span>"
+		if(UBS_AVIONICS_MULTI)
 			. += "<span class='notice'>20</span>"
 		if(UBS_ARMOUR_PLATING)
 			. += "<span class='notice'>21</span>"
@@ -91,16 +91,16 @@
 
 /obj/structure/fighter_component/utility_chassis_crate/attack_hand(mob/user)
 	.=..()
-	if(alert(user, "Begin constructing an somethingsomething Utility Craft?",, "Yes", "No")!="Yes")
+	if(alert(user, "Begin constructing an ADL-77U Arroyomolinos Utility Vessel?",, "Yes", "No")!="Yes")
 		return
-	to_chat(user, "<span class='notice'>You begin constructing the chassis of a utility craft.</span>")
+	to_chat(user, "<span class='notice'>You begin constructing the chassis of a utility vessel.</span>")
 	if(!do_after(user, 10 SECONDS, target=src))
 		return
-	to_chat(user, "<span class='notice'>You construct the chassis of a utility craft.</span>")
-	new/obj/structure/fighter_component/underconstruction_fighter/utility_craft_frame (loc, 1)
+	to_chat(user, "<span class='notice'>You construct the chassis of a utility vessel.</span>")
+	new/obj/structure/fighter_component/underconstruction_fighter/utility_vessel_frame (loc, 1)
 	qdel(src)
 
-/obj/structure/fighter_component/underconstruction_fighter/utility_craft_frame/attackby(obj/item/W, mob/user, params)
+/obj/structure/fighter_component/underconstruction_fighter/utility_vessel_frame/attackby(obj/item/W, mob/user, params)
 	add_fingerprint(user)
 	if(istype(W, /obj/item/fighter_component/fuel_tank))
 		if(build_state == UBS_APU_MULTI)
@@ -112,7 +112,7 @@
 			update_icon()
 			W.forceMove(src)
 	else if(istype(W, /obj/item/fighter_component/avionics))
-		if(build_state == UBS_PASSENGER_COMPARTMENT_BOLT)
+		if(build_state == UBS_SECONDARY_BOLT)
 			to_chat(user, "<span class='notice'>You start adding [W] to [src]...</span>")
 			if(!do_after(user, 5 SECONDS, target=src))
 				return
@@ -148,7 +148,7 @@
 			update_icon()
 			W.forceMove(src)
 	else if(istype(W, /obj/item/fighter_component/countermeasure_dispenser))
-		if(build_state == UBS_PASSENGER_COMPARTMENT_BOLT)
+		if(build_state == UBS_SECONDARY_BOLT)
 			to_chat(user, "<span class='notice'>You start adding [W] to [src]...</span>")
 			if(!do_after(user, 5 SECONDS, target=src))
 				return
@@ -156,31 +156,22 @@
 			build_state = UBS_COUNTERMEASURE_DISPENSER
 			update_icon()
 			W.forceMove(src)
-	else if(istype(W, /obj/item/fighter_component/refueling_system))
-		if(build_state == UBS_AUX_FUEL_TANK_BOLT)
-			to_chat(user, "<span class='notice'>You start adding [W] to [src]...</span>")
-			if(!do_after(user, 5 SECONDS, target=src))
-				return
-			to_chat(user, "<spawn class='notice'>You add [W] to [src].</span>")
-			build_state = UBS_REFUELING_SYSTEM
-			update_icon()
-			W.forceMove(src)
-	else if(istype(W, /obj/item/fighter_component/passenger_compartment_module))
-		if(build_state == UBS_REFUELING_SYSTEM_MULTI)
-			to_chat(user, "<span class='notice'>You start adding [W] to [src]...</span>")
-			if(!do_after(user, 5 SECONDS, target=src))
-				return
-			to_chat(user, "<spawn class='notice'>You add [W] to [src].</span>")
-			build_state = UBS_PASSENGER_COMPARTMENT
-			update_icon()
-			W.forceMove(src)
-	else if(istype(W, /obj/item/fighter_component/auxiliary_fuel_tank))
+	else if(istype(W, /obj/item/fighter_component/utility/primary))
 		if(build_state == UBS_FUEL_TANK_BOLT)
 			to_chat(user, "<span class='notice'>You start adding [W] to [src]...</span>")
 			if(!do_after(user, 5 SECONDS, target=src))
 				return
 			to_chat(user, "<spawn class='notice'>You add [W] to [src].</span>")
-			build_state = UBS_AUX_FUEL_TANK
+			build_state = UBS_PRIMARY
+			update_icon()
+			W.forceMove(src)
+	else if(istype(W, /obj/item/fighter_component/utility/secondary))
+		if(build_state == UBS_PRIMARY_MULTI)
+			to_chat(user, "<span class='notice'>You start adding [W] to [src]...</span>")
+			if(!do_after(user, 5 SECONDS, target=src))
+				return
+			to_chat(user, "<spawn class='notice'>You add [W] to [src].</span>")
+			build_state = UBS_SECONDARY
 			update_icon()
 			W.forceMove(src)
 	else if(istype(W, /obj/item/stack/cable_coil))
@@ -223,7 +214,7 @@
 			build_state = UBS_PAINT_DETAILING
 			update_icon()
 
-/obj/structure/fighter_component/underconstruction_fighter/utility_craft_frame/wrench_act(mob/user, obj/item/tool)
+/obj/structure/fighter_component/underconstruction_fighter/utility_vessel_frame/wrench_act(mob/user, obj/item/tool)
 	. = FALSE
 	switch(build_state)
 		if(UBS_CHASSIS)
@@ -271,8 +262,8 @@
 		if(UBS_COUNTERMEASURE_DISPENSER)
 			to_chat(user, "<span class='notice'>You start to bolt the countermeasure dispenser to the chassis...</span>")
 			if(tool.use_tool(src, user, 40, volume=100))
-				to_chat(user, "<span class='notice'>You bolt the countermeasur dispenser to the chassis.</span>")
-				build_state = UBS_COUNTERMEASURE_DISPENSER
+				to_chat(user, "<span class='notice'>You bolt the countermeasure dispenser to the chassis.</span>")
+				build_state = UBS_COUNTERMEASURE_DISPENSER_BOLT
 				update_icon()
 				return TRUE
 		if(UBS_COUNTERMEASURE_DISPENSER_BOLT)
@@ -296,36 +287,36 @@
 				build_state = UBS_ARMOUR_PLATING_BOLT
 				update_icon()
 				return TRUE
-		if(UBS_AUX_FUEL_TANK)
-			to_chat(user, "<span class='notice'>You start to bolt the auxiliary fuel tank to the chassis...</span>")
+		if(UBS_PRIMARY)
+			to_chat(user, "<span class='notice'>You start to bolt the primary module to the chassis...</span>")
 			if(tool.use_tool(src, user, 40, volume=100))
-				to_chat(user, "<span class='notice'>You bolt the auxiliary fuel tank to the chassis.</span>")
-				build_state = UBS_AUX_FUEL_TANK_BOLT
+				to_chat(user, "<span class='notice'>You bolt the primary module to the chassis.</span>")
+				build_state = UBS_PRIMARY_BOLT
 				update_icon()
 				return TRUE
-		if(UBS_AUX_FUEL_TANK_BOLT)
-			to_chat(user, "<span class='notice'>You start to unbolt the auxiliary fuel tank from the chassis...</span>")
+		if(UBS_PRIMARY_BOLT)
+			to_chat(user, "<span class='notice'>You start to unbolt the primary module from the chassis...</span>")
 			if(tool.use_tool(src, user, 40, volume=100))
-				to_chat(user, "<span class='notice'>You unbolt the auxiliary fuel tank from the chassis.</span>")
-				build_state = UBS_AUX_FUEL_TANK
+				to_chat(user, "<span class='notice'>You unbolt the primary module from the chassis.</span>")
+				build_state = UBS_PRIMARY
 				update_icon()
 				return TRUE
-		if(UBS_REFUELING_SYSTEM)
-			to_chat(user, "<span class='notice'>You start to bolt the refueling system to the chassis...</span>")
+		if(UBS_SECONDARY)
+			to_chat(user, "<span class='notice'>You start to bolt the secondary module to the chassis...</span>")
 			if(tool.use_tool(src, user, 40, volume=100))
-				to_chat(user, "<span class='notice'>You bolt the refueling system to the chassis.</span>")
-				build_state = UBS_REFUELING_SYSTEM_BOLT
+				to_chat(user, "<span class='notice'>You bolt the secondary module to the chassis.</span>")
+				build_state = UBS_SECONDARY_BOLT
 				update_icon()
 				return TRUE
-		if(UBS_REFUELING_SYSTEM_BOLT)
-			to_chat(user, "<span class='notice'>You start to unbolt the refueling system from the chassis...</span>")
+		if(UBS_SECONDARY_BOLT)
+			to_chat(user, "<span class='notice'>You start to unbolt the secondary module from the chassis...</span>")
 			if(tool.use_tool(src, user, 40, volume=100))
-				to_chat(user, "<span class='notice'>You unbolt the refueling system from the chassis.</span>")
-				build_state = UBS_REFUELING_SYSTEM
+				to_chat(user, "<span class='notice'>You unbolt the secondary module from the chassis.</span>")
+				build_state = UBS_SECONDARY
 				update_icon()
 				return TRUE
 
-/obj/structure/fighter_component/underconstruction_fighter/utility_craft_frame/welder_act(mob/user, obj/item/tool)
+/obj/structure/fighter_component/underconstruction_fighter/utility_vessel_frame/welder_act(mob/user, obj/item/tool)
 	. = FALSE
 	switch(build_state)
 		if(UBS_CHASSIS_BOLT)
@@ -357,7 +348,7 @@
 				update_icon()
 				return TRUE
 
-/obj/structure/fighter_component/underconstruction_fighter/utility_craft_frame/wirecutter_act(mob/user, obj/item/tool)
+/obj/structure/fighter_component/underconstruction_fighter/utility_vessel_frame/wirecutter_act(mob/user, obj/item/tool)
 	. = FALSE
 	switch(build_state)
 		if(UBS_APU_WIRE)
@@ -379,7 +370,7 @@
 				update_icon()
 				return TRUE
 
-/obj/structure/fighter_component/underconstruction_fighter/utility_craft_frame/crowbar_act(mob/user, obj/item/tool)
+/obj/structure/fighter_component/underconstruction_fighter/utility_vessel_frame/crowbar_act(mob/user, obj/item/tool)
 	. = FALSE
 	switch(build_state)
 		if(UBS_ENGINE)
@@ -418,13 +409,13 @@
 				build_state = UBS_COUNTERMEASURE_DISPENSER_BOLT
 				update_icon()
 				return TRUE
-		if(UBS_REFUELING_SYSTEM)
-			to_chat(user, "<span class='notice'>You start removing the refueling system from [src]...</span>")
+		if(UBS_PRIMARY)
+			to_chat(user, "<span class='notice'>You start removing the primary module from [src]...</span>")
 			if(tool.use_tool(src, user, 40, volume=100))
-				to_chat(user, "<span class='notice'>You remove the refueling system from [src].</span>")
-				var/atom/movable/ts = get_part(/obj/item/fighter_component/refueling_system)
+				to_chat(user, "<span class='notice'>You remove the primary module from [src].</span>")
+				var/atom/movable/ts = get_part(/obj/item/fighter_component/utility/primary)
 				ts?.forceMove(get_turf(src))
-				build_state = UBS_AUX_FUEL_TANK_BOLT
+				build_state = UBS_FUEL_TANK_BOLT
 				update_icon()
 				return TRUE
 		if(UBS_COUNTERMEASURE_DISPENSER)
@@ -433,7 +424,7 @@
 				to_chat(user, "<span class='notice'>You remove the countermeasure dispenser from [src].</span>")
 				var/atom/movable/ts = get_part(/obj/item/fighter_component/countermeasure_dispenser)
 				ts?.forceMove(get_turf(src))
-				build_state = UBS_PASSENGER_COMPARTMENT_BOLT
+				build_state = UBS_SECONDARY_BOLT
 				update_icon()
 				return TRUE
 		if(UBS_ARMOUR_PLATING)
@@ -445,22 +436,13 @@
 				build_state = UBS_AVIONICS_WIRE
 				update_icon()
 				return TRUE
-		if(UBS_AUX_FUEL_TANK)
-			to_chat(user, "<span class='notice'>You start removing the auxiliary fuel tank from [src]...</span>")
+		if(UBS_SECONDARY)
+			to_chat(user, "<span class='notice'>You start removing the secondary module from [src]...</span>")
 			if(tool.use_tool(src, user, 40, volume=100))
-				to_chat(user, "<span class='notice'>You remove the auxiliary fuel tank from [src].</span>")
-				var/atom/movable/ts = get_part(/obj/item/fighter_component/auxiliary_fuel_tank)
+				to_chat(user, "<span class='notice'>You remove the secondary module from [src].</span>")
+				var/atom/movable/ts = get_part(/obj/item/fighter_component/utility/secondary)
 				ts?.forceMove(get_turf(src))
-				build_state = UBS_FUEL_TANK_BOLT
-				update_icon()
-				return TRUE
-		if(UBS_PASSENGER_COMPARTMENT)
-			to_chat(user, "<span class='notice'>You start removing the passenger compartment from [src]...</span>")
-			if(tool.use_tool(src, user, 40, volume=100))
-				to_chat(user, "<span class='notice'>You remove the passenger compartment from [src].</span>")
-				var/atom/movable/ts = get_part(/obj/item/fighter_component/passenger_compartment_module)
-				ts?.forceMove(get_turf(src))
-				build_state = UBS_REFUELING_SYSTEM_MULTI
+				build_state = UBS_PRIMARY_MULTI
 				update_icon()
 				return TRUE
 		if(UBS_CHASSIS)
@@ -471,7 +453,7 @@
 				qdel(src)
 				return TRUE
 
-/obj/structure/fighter_component/underconstruction_fighter/utilty_craft_frame/multitool_act(mob/user, obj/item/tool)
+/obj/structure/fighter_component/underconstruction_fighter/utility_vessel_frame/multitool_act(mob/user, obj/item/tool)
 	. = FALSE
 	switch(build_state)
 		if(UBS_APU_WIRE)
@@ -488,35 +470,63 @@
 				build_state = UBS_APU_WIRE
 				update_icon()
 				return TRUE
-		if(UBS_REFUELING_SYSTEM_BOLT)
-			to_chat(user, "<span class='notice'>You start calibrating the refueling system in [src]...</span>")
+		if(UBS_PRIMARY_BOLT)
+			to_chat(user, "<span class='notice'>You start calibrating the primary module in [src]...</span>")
 			if(tool.use_tool(src, user, 40, volume=100))
-				to_chat(user, "<span class='notice'>You calibrate the refueling system in [src].</span>")
-				build_state = UBS_REFUELING_SYSTEM_MULTI
+				to_chat(user, "<span class='notice'>You calibrate the primary module in [src].</span>")
+				build_state = UBS_PRIMARY_MULTI
 				update_icon()
 				return TRUE
-		if(UBS_REFUELING_SYSTEM_MULTI)
-			to_chat(user, "<span class='notice'>You start resetting the refueling system in [src]...</span>")
+		if(UBS_PRIMARY_MULTI)
+			to_chat(user, "<span class='notice'>You start resetting the primary module in [src]...</span>")
 			if(tool.use_tool(src, user, 40, volume=100))
-				to_chat(user, "<span class='notice'>You reset the refueling system in [src].</span>")
-				build_state = UBS_REFUELING_SYSTEM_BOLT
+				to_chat(user, "<span class='notice'>You reset the primary module in [src].</span>")
+				build_state = UBS_PRIMARY_BOLT
+				update_icon()
+				return TRUE
+		if(UBS_SECONDARY_BOLT)
+			to_chat(user, "<span class='notice'>You start calibrating the secondary module in [src]...</span>")
+			if(tool.use_tool(src, user, 40, volume=100))
+				to_chat(user, "<span class='notice'>You calibrate the secondary module in [src].</span>")
+				build_state = UBS_SECONDARY_MULTI
+				update_icon()
+				return TRUE
+		if(UBS_SECONDARY_MULTI)
+			to_chat(user, "<span class='notice'>You start resetting the secondary module in [src]...</span>")
+			if(tool.use_tool(src, user, 40, volume=100))
+				to_chat(user, "<span class='notice'>You reset the secondary module in [src].</span>")
+				build_state = UBS_SECONDARY_BOLT
+				update_icon()
+				return TRUE
+		if(UBS_AVIONICS_WIRE)
+			to_chat(user, "<span class='notice'>You start calibrating the avionics in [src]...</span>")
+			if(tool.use_tool(src, user, 40, volume=100))
+				to_chat(user, "<span class='notice'>You calibrate the avionics in [src].</span>")
+				build_state = UBS_AVIONICS_MULTI
+				update_icon()
+				return TRUE
+		if(UBS_AVIONICS_MULTI)
+			to_chat(user, "<span class='notice'>You start resetting the avionics in [src]...</span>")
+			if(tool.use_tool(src, user, 40, volume=100))
+				to_chat(user, "<span class='notice'>You reset the avionics in [src].</span>")
+				build_state = UBS_AVIONICS_WIRE
 				update_icon()
 				return TRUE
 
-/obj/structure/fighter_component/underconstruction_fighter/utility_craft_frame/attack_hand(mob/user)
+/obj/structure/fighter_component/underconstruction_fighter/utility_vessel_frame/attack_hand(mob/user)
 	.=..()
 	if(build_state == UBS_PAINT_DETAILING)
-		fighter_name = input(user, "Name Utility Craft:","Finalize Utility Craft Construction","")
+		fighter_name = input(user, "Name Utility Vessel:","Finalize Utility Vessel Construction","")
 		new_fighter(fighter_name)
 		qdel(src)
 
-/obj/structure/fighter_component/underconstruction_fighter/utility_craft_frame/proc/new_fighter(fighter_name)
+/obj/structure/fighter_component/underconstruction_fighter/utility_vessel_frame/proc/new_fighter(fighter_name)
 	var/obj/structure/overmap/fighter/utility/UC = new/obj/structure/overmap/fighter/utility (loc, 1)
 	UC.name = fighter_name
 	for(var/atom/movable/C in contents)
 		C.forceMove(UC)
 
-/obj/structure/fighter_component/underconstruction_fighter/utility_craft_frame/update_icon()
+/obj/structure/fighter_component/underconstruction_fighter/utility_vessel_frame/update_icon()
 	cut_overlays()
 	switch(build_state)
 		if(UBS_CHASSIS)
@@ -539,19 +549,17 @@
 			icon_state = "smmop"
 		if(UBS_FUEL_TANK_BOLT)
 			icon_state = "smmop"
-		if(UBS_AUX_FUEL_TANK)
+		if(UBS_PRIMARY)
 			icon_state = "smmop"
-		if(UBS_AUX_FUEL_TANK_BOLT)
+		if(UBS_PRIMARY_BOLT)
 			icon_state = "smmop"
-		if(UBS_REFUELING_SYSTEM)
+		if(UBS_PRIMARY_MULTI)
 			icon_state = "smmop"
-		if(UBS_REFUELING_SYSTEM_BOLT)
+		if(UBS_SECONDARY)
 			icon_state = "smmop"
-		if(UBS_REFUELING_SYSTEM_MULTI)
+		if(UBS_SECONDARY_BOLT)
 			icon_state = "smmop"
-		if(UBS_PASSENGER_COMPARTMENT)
-			icon_state = "smmop"
-		if(UBS_PASSENGER_COMPARTMENT_BOLT)
+		if(UBS_SECONDARY_MULTI)
 			icon_state = "smmop"
 		if(UBS_COUNTERMEASURE_DISPENSER)
 			icon_state = "smmop"
@@ -560,6 +568,8 @@
 		if(UBS_AVIONICS)
 			icon_state = "smmop"
 		if(UBS_AVIONICS_WIRE)
+			icon_state = "smmop"
+		if(UBS_AVIONICS_MULTI)
 			icon_state = "smmop"
 		if(UBS_ARMOUR_PLATING)
 			icon_state = "smmop"
@@ -582,17 +592,17 @@
 #undef UBS_APU_MULTI
 #undef UBS_FUEL_TANK
 #undef UBS_FUEL_TANK_BOLT
-#undef UBS_AUX_FUEL_TANK
-#undef UBS_AUX_FUEL_TANK_BOLT
-#undef UBS_REFUELING_SYSTEM
-#undef UBS_REFUELING_SYSTEM_BOLT
-#undef UBS_REFUELING_SYSTEM_MULTI
-#undef UBS_PASSENGER_COMPARTMENT
-#undef UBS_PASSENGER_COMPARTMENT_BOLT
+#undef UBS_PRIMARY
+#undef UBS_PRIMARY_BOLT
+#undef UBS_PRIMARY_MULTI
+#undef UBS_SECONDARY
+#undef UBS_SECONDARY_BOLT
+#undef UBS_SECONDARY_MULTI
 #undef UBS_COUNTERMEASURE_DISPENSER
 #undef UBS_COUNTERMEASURE_DISPENSER_BOLT
 #undef UBS_AVIONICS
 #undef UBS_AVIONICS_WIRE
+#undef UBS_AVIONICS_MULTI
 #undef UBS_ARMOUR_PLATING
 #undef UBS_ARMOUR_PLATING_BOLT
 #undef UBS_ARMOUR_PLATING_WELD

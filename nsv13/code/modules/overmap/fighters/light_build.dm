@@ -18,10 +18,10 @@
 #define LBS_ARMOUR_PLATING					17
 #define LBS_ARMOUR_PLATING_BOLT				18
 #define LBS_ARMOUR_PLATING_WELD				19
-#define LBS_CANNON							20
-#define LBS_CANNON_BOLT						21
-#define LBS_MISSILE_RACK					22
-#define LBS_MISSILE_RACK_BOLT				23
+#define LBS_PRIMARY							20
+#define LBS_PRIMARY_BOLT					21
+#define LBS_SECONDARY						22
+#define LBS_SECONDARY_BOLT					23
 #define LBS_PAINT_PRIMER					24
 #define LBS_PAINT_DETAILING					25
 
@@ -76,13 +76,13 @@
 			. += "<span class='notice'>18</span>"
 		if(LBS_ARMOUR_PLATING_WELD)
 			. += "<span class='notice'>19</span>"
-		if(LBS_CANNON)
+		if(LBS_PRIMARY)
 			. += "<span class='notice'>20</span>"
-		if(LBS_CANNON_BOLT)
+		if(LBS_PRIMARY_BOLT)
 			. += "<span class='notice'>21</span>"
-		if(LBS_MISSILE_RACK)
+		if(LBS_SECONDARY)
 			. += "<span class='notice'>22</span>"
-		if(LBS_MISSILE_RACK_BOLT)
+		if(LBS_SECONDARY_BOLT)
 			. += "<span class='notice'>23</span>"
 		if(LBS_PAINT_PRIMER)
 			. += "<span class='notice'>24</span>"
@@ -165,22 +165,22 @@
 			build_state = LBS_COUNTERMEASURE_DISPENSER
 			update_icon()
 			W.forceMove(src)
-	else if(istype(W, /obj/item/fighter_component/missile_rack))
-		if(build_state == LBS_CANNON_BOLT)
+	else if(istype(W, /obj/item/fighter_component/light/secondary))
+		if(build_state == LBS_PRIMARY_BOLT)
 			to_chat(user, "<span class='notice'>You start adding [W] to [src]...</span>")
 			if(!do_after(user, 5 SECONDS, target=src))
 				return
 			to_chat(user, "<spawn class='notice'>You add [W] to [src].</span>")
-			build_state = LBS_MISSILE_RACK
+			build_state = LBS_SECONDARY
 			update_icon()
 			W.forceMove(src)
-	else if(istype(W, /obj/item/fighter_component/light_cannon))
+	else if(istype(W, /obj/item/fighter_component/light/primary))
 		if(build_state == LBS_ARMOUR_PLATING_WELD)
 			to_chat(user, "<span class='notice'>You start adding [W] to [src]...</span>")
 			if(!do_after(user, 5 SECONDS, target=src))
 				return
 			to_chat(user, "<spawn class='notice'>You add [W] to [src].</span>")
-			build_state = LBS_CANNON
+			build_state = LBS_PRIMARY
 			update_icon()
 			W.forceMove(src)
 	else if(istype(W, /obj/item/stack/cable_coil))
@@ -208,7 +208,7 @@
 			build_state = LBS_APU_WIRE
 			update_icon()
 	else if(istype(W, /obj/item/airlock_painter)) //replace with an aircraft painter
-		if(build_state == LBS_MISSILE_RACK_BOLT) //check mode later
+		if(build_state == LBS_SECONDARY_BOLT) //check mode later
 			to_chat(user, "<span class='notice'>You start painting primer on [src]...</span>")
 			if(!do_after(user, 5 SECONDS, target=src))
 				return
@@ -271,8 +271,8 @@
 		if(LBS_COUNTERMEASURE_DISPENSER)
 			to_chat(user, "<span class='notice'>You start to bolt the countermeasure dispenser to the chassis...</span>")
 			if(tool.use_tool(src, user, 40, volume=100))
-				to_chat(user, "<span class='notice'>You bolt the countermeasur dispenser to the chassis.</span>")
-				build_state = LBS_COUNTERMEASURE_DISPENSER
+				to_chat(user, "<span class='notice'>You bolt the countermeasure dispenser to the chassis.</span>")
+				build_state = LBS_COUNTERMEASURE_DISPENSER_BOLT
 				update_icon()
 				return TRUE
 		if(LBS_COUNTERMEASURE_DISPENSER_BOLT)
@@ -296,32 +296,32 @@
 				build_state = LBS_ARMOUR_PLATING_BOLT
 				update_icon()
 				return TRUE
-		if(LBS_CANNON)
+		if(LBS_PRIMARY)
 			to_chat(user, "<span class='notice'>You start to bolt the light cannon to the chassis...</span>")
 			if(tool.use_tool(src, user, 40, volume=100))
 				to_chat(user, "<span class='notice'>You bolt the light cannon to the chassis.</span>")
-				build_state = LBS_CANNON_BOLT
+				build_state = LBS_PRIMARY_BOLT
 				update_icon()
 				return TRUE
-		if(LBS_CANNON_BOLT)
+		if(LBS_PRIMARY_BOLT)
 			to_chat(user, "<span class='notice'>You start to unbolt the light cannon from the chassis...</span>")
 			if(tool.use_tool(src, user, 40, volume=100))
 				to_chat(user, "<span class='notice'>You unbolt the light cannon from the chassis.</span>")
-				build_state = LBS_CANNON
+				build_state = LBS_PRIMARY
 				update_icon()
 				return TRUE
-		if(LBS_MISSILE_RACK)
+		if(LBS_SECONDARY)
 			to_chat(user, "<span class='notice'>You start to bolt the missle rack to the chassis...</span>")
 			if(tool.use_tool(src, user, 40, volume=100))
 				to_chat(user, "<span class='notice'>You bolt the missile rack to the chassis.</span>")
-				build_state = LBS_MISSILE_RACK_BOLT
+				build_state = LBS_SECONDARY_BOLT
 				update_icon()
 				return TRUE
-		if(LBS_MISSILE_RACK_BOLT)
+		if(LBS_SECONDARY_BOLT)
 			to_chat(user, "<span class='notice'>You start to unbolt the missle rack from the chassis...</span>")
 			if(tool.use_tool(src, user, 40, volume=100))
 				to_chat(user, "<span class='notice'>You unbolt the missile rack from the chassis.</span>")
-				build_state = LBS_MISSILE_RACK
+				build_state = LBS_SECONDARY
 				update_icon()
 				return TRUE
 
@@ -359,7 +359,7 @@
 		if(LBS_TARGETING_SENSOR)
 			to_chat(user, "<span class='notice'>You start to screw the targeting sensor to the chassis...</span>")
 			if(tool.use_tool(src, user, 40, volume=100))
-				to_chat(user, "<span class='notice'>You screw the APU to the chassis.</span>")
+				to_chat(user, "<span class='notice'>You screw the targeting to the chassis.</span>")
 				build_state = LBS_TARGETING_SENSOR_SCREW
 				update_icon()
 				return TRUE
@@ -491,22 +491,22 @@
 				build_state = LBS_COUNTERMEASURE_DISPENSER_BOLT
 				update_icon()
 				return TRUE
-		if(LBS_CANNON)
-			to_chat(user, "<span class='notice'>You start removing the light cannon from [src]...</span>")
+		if(LBS_PRIMARY)
+			to_chat(user, "<span class='notice'>You start removing the primary armament from [src]...</span>")
 			if(tool.use_tool(src, user, 40, volume=100))
-				to_chat(user, "<span class='notice'>You remove the light cannon from [src].</span>")
-				var/atom/movable/ts = get_part(/obj/item/fighter_component/light_cannon)
+				to_chat(user, "<span class='notice'>You remove the primary armament from [src].</span>")
+				var/atom/movable/ts = get_part(/obj/item/fighter_component/light/primary)
 				ts?.forceMove(get_turf(src))
 				build_state = LBS_ARMOUR_PLATING_WELD
 				update_icon()
 				return TRUE
-		if(LBS_MISSILE_RACK)
-			to_chat(user, "<span class='notice'>You start removing the missle rack from [src]...</span>")
+		if(LBS_SECONDARY)
+			to_chat(user, "<span class='notice'>You start removing the secondary armament from [src]...</span>")
 			if(tool.use_tool(src, user, 40, volume=100))
-				to_chat(user, "<span class='notice'>You remove the missile rack from [src].</span>")
-				var/atom/movable/ts = get_part(/obj/item/fighter_component/missile_rack)
+				to_chat(user, "<span class='notice'>You remove the secondary armament from [src].</span>")
+				var/atom/movable/ts = get_part(/obj/item/fighter_component/light/secondary)
 				ts?.forceMove(get_turf(src))
-				build_state = LBS_CANNON_BOLT
+				build_state = LBS_PRIMARY_BOLT
 				update_icon()
 				return TRUE
 		if(LBS_CHASSIS)
@@ -573,13 +573,13 @@
 			icon_state = "mop"
 		if(LBS_ARMOUR_PLATING_WELD)
 			icon_state = "mop"
-		if(LBS_CANNON)
+		if(LBS_PRIMARY)
 			icon_state = "mop"
-		if(LBS_CANNON_BOLT)
+		if(LBS_PRIMARY_BOLT)
 			icon_state = "mop"
-		if(LBS_MISSILE_RACK)
+		if(LBS_SECONDARY)
 			icon_state = "mop"
-		if(LBS_MISSILE_RACK_BOLT)
+		if(LBS_SECONDARY_BOLT)
 			icon_state = "mop"
 		if(LBS_PAINT_PRIMER)
 			icon_state = "mop"
@@ -606,9 +606,9 @@
 #undef LBS_ARMOUR_PLATING
 #undef LBS_ARMOUR_PLATING_BOLT
 #undef LBS_ARMOUR_PLATING_WELD
-#undef LBS_CANNON
-#undef LBS_CANNON_BOLT
-#undef LBS_MISSILE_RACK
-#undef LBS_MISSILE_RACK_BOLT
+#undef LBS_PRIMARY
+#undef LBS_PRIMARY_BOLT
+#undef LBS_SECONDARY
+#undef LBS_SECONDARY_BOLT
 #undef LBS_PAINT_PRIMER
 #undef LBS_PAINT_DETAILING
