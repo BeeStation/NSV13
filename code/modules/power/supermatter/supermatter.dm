@@ -170,6 +170,9 @@ GLOBAL_DATUM(main_supermatter_engine, /obj/machinery/power/supermatter_crystal)
 	if(is_main_engine)
 		GLOB.main_supermatter_engine = src
 
+	AddElement(/datum/element/bsa_blocker)
+	RegisterSignal(src, COMSIG_ATOM_BSA_BEAM, .proc/call_explode)
+
 	soundloop = new(list(src), TRUE)
 
 /obj/machinery/power/supermatter_crystal/Destroy()
@@ -301,6 +304,10 @@ GLOBAL_DATUM(main_supermatter_engine, /obj/machinery/power/supermatter_crystal)
 			E.energy = power
 		qdel(src)
 
+//this is here to eat arguments
+/obj/machinery/power/supermatter_crystal/proc/call_explode()
+	explode()
+
 /obj/machinery/power/supermatter_crystal/process_atmos()
 	var/turf/T = loc
 
@@ -309,6 +316,12 @@ GLOBAL_DATUM(main_supermatter_engine, /obj/machinery/power/supermatter_crystal)
 
 	if(!istype(T)) 	//We are in a crate or somewhere that isn't turf, if we return to turf resume processing but for now.
 		return  //Yeah just stop.
+
+	if(isclosedturf(T))
+		var/turf/did_it_melt = T.Melt()
+		if(!isclosedturf(did_it_melt)) //In case some joker finds way to place these on indestructible walls
+			visible_message("<span class='warning'>[src] melts through [T]!</span>")
+		return
 
 	if(power)
 		soundloop.volume = min(40, (round(power/100)/50)+1) // 5 +1 volume per 20 power. 2500 power is max
@@ -698,6 +711,13 @@ GLOBAL_DATUM(main_supermatter_engine, /obj/machinery/power/supermatter_crystal)
 				"<span class='danger'>The unearthly ringing subsides and you notice you have new radiation burns.</span>", 2)
 		else
 			L.show_message("<span class='italics'>You hear an unearthly ringing and notice your skin is covered in fresh radiation burns.</span>", 2)
+
+//Do not blow up our internal radio
+/obj/machinery/power/supermatter_crystal/contents_explosion(severity, target)
+	return
+
+/obj/machinery/power/supermatter_crystal/prevent_content_explosion()
+	return TRUE
 
 /obj/machinery/power/supermatter_crystal/engine
 	is_main_engine = TRUE
