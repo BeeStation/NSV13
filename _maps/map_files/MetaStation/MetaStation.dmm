@@ -1937,6 +1937,13 @@
 /obj/machinery/iv_drip,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden,
 /obj/machinery/iv_drip,
+/obj/item/reagent_containers/blood,
+/obj/item/reagent_containers/blood/AMinus,
+/obj/item/reagent_containers/blood/APlus,
+/obj/item/reagent_containers/blood/BMinus,
+/obj/item/reagent_containers/blood/BPlus,
+/obj/item/reagent_containers/blood/OMinus,
+/obj/item/reagent_containers/blood/OPlus,
 /obj/effect/turf_decal/tile/red,
 /obj/effect/turf_decal/tile/red{
 	dir = 8
@@ -3711,10 +3718,14 @@
 /obj/item/storage/box/rubbershot,
 /obj/item/storage/box/rubbershot,
 /obj/item/storage/box/rubbershot,
+/obj/item/storage/box/breacherslug,
+/obj/item/storage/box/breacherslug,
+/obj/item/storage/box/breacherslug,
 /obj/item/gun/ballistic/shotgun/riot{
 	pixel_x = -3;
 	pixel_y = 3
 	},
+/obj/item/gun/ballistic/shotgun/riot,
 /obj/item/gun/ballistic/shotgun/riot,
 /obj/item/gun/ballistic/shotgun/riot,
 /obj/effect/turf_decal/tile/neutral{
@@ -3898,9 +3909,7 @@
 /obj/effect/turf_decal/tile/blue{
 	dir = 8
 	},
-/obj/machinery/sleeper{
-	dir = 8
-	},
+/obj/machinery/stasis,
 /obj/effect/turf_decal/stripes/line{
 	dir = 9
 	},
@@ -4086,6 +4095,7 @@
 	pixel_x = 1;
 	pixel_y = -2
 	},
+/obj/item/gun/grenadelauncher,
 /obj/effect/turf_decal/tile/neutral{
 	dir = 1
 	},
@@ -7359,6 +7369,10 @@
 /area/security/warden)
 "ano" = (
 /obj/structure/rack,
+/obj/item/clothing/mask/gas/sechailer,
+/obj/item/clothing/mask/gas/sechailer,
+/obj/item/clothing/mask/gas/sechailer,
+/obj/item/clothing/mask/gas/sechailer,
 /obj/item/storage/box/handcuffs,
 /obj/item/storage/box/flashbangs{
 	pixel_x = -2;
@@ -34439,7 +34453,10 @@
 /area/bridge)
 "boD" = (
 /obj/structure/displaycase/captain{
-	pixel_y = 5
+	pixel_y = 5;
+	req_access = null;
+	req_access_txt = "20";
+	req_one_access_txt = "0"
 	},
 /obj/machinery/status_display/evac{
 	pixel_y = 32
@@ -55647,6 +55664,9 @@
 /obj/machinery/atmospherics/pipe/simple/supply/hidden{
 	dir = 10
 	},
+/obj/structure/cable/yellow{
+	icon_state = "1-2"
+	},
 /mob/living/simple_animal/bot/cleanbot{
 	name = "Scrubs, MD";
 	trash = 1
@@ -63694,7 +63714,7 @@
 /turf/open/floor/plasteel/dark,
 /area/medical/genetics/cloning)
 "cvw" = (
-/obj/machinery/clonepod{
+/obj/machinery/clonepod/prefilled{
 	pixel_y = 2
 	},
 /obj/item/radio/intercom{

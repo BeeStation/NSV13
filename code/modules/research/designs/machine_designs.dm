@@ -459,6 +459,14 @@
 	category = list ("Misc. Machinery")
 	departmental_flags = DEPARTMENTAL_FLAG_SCIENCE | DEPARTMENTAL_FLAG_CARGO | DEPARTMENTAL_FLAG_ENGINEERING
 
+/datum/design/board/bluespace_miner
+	name = "Machine Design (Bluespace Miner)"
+	desc = "The circuit board for a Bluespace Miner."
+	id = "bluespace_miner"
+	build_path = /obj/item/circuitboard/machine/bluespace_miner
+	category = list ("Misc. Machinery")
+	departmental_flags = DEPARTMENTAL_FLAG_SCIENCE | DEPARTMENTAL_FLAG_CARGO | DEPARTMENTAL_FLAG_ENGINEERING
+
 /datum/design/board/mining_equipment_vendor
 	name = "Machine Design (Mining Rewards Vendor Board)"
 	desc = "The circuit board for a Mining Rewards Vendor."
@@ -600,6 +608,14 @@
 	desc = "The circuit board for a stasis unit."
 	id = "stasis"
 	build_path = /obj/item/circuitboard/machine/stasis
+	category = list("Medical Machinery")
+	departmental_flags = DEPARTMENTAL_FLAG_MEDICAL
+
+/datum/design/board/autodoc
+	name = "Machine Design (Autodoc)"
+	desc = "The circuit board for an Autodoc."
+	id = "autodoc"
+	build_path = /obj/item/circuitboard/machine/autodoc
 	category = list("Medical Machinery")
 	departmental_flags = DEPARTMENTAL_FLAG_MEDICAL
 
