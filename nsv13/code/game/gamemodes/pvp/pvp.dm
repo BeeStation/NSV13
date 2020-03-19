@@ -13,8 +13,8 @@ GLOBAL_LIST_EMPTY(syndi_crew_leader_spawns)
 	config_tag = "pvp"
 	report_type = "nuclear"
 	false_report_weight = 10
-	required_players = 30 // 30 players initially, with 15 crewing the hammurabi and 15 crewing the larger, more powerful hammerhead
-	required_enemies = 10
+	required_players = 1 // 30 players initially, with 15 crewing the hammurabi and 15 crewing the larger, more powerful hammerhead
+	required_enemies = 5
 	recommended_enemies = 10
 	antag_flag = ROLE_SYNDI_CREW
 	enemy_minimum_age = 0
@@ -31,7 +31,7 @@ GLOBAL_LIST_EMPTY(syndi_crew_leader_spawns)
 	var/nukes_left = 1
 
 	var/datum/team/nuclear/nuke_team
-	var/highpop_threshold = 50 //At what player count does the round enter "highpop" mode, and spawn the Syndicate a larger ship to compensate.
+	var/highpop_threshold = 10 //At what player count does the round enter "highpop" mode, and spawn the Syndicate a larger ship to compensate.
 
 	var/operative_antag_datum_type = /datum/antagonist/nukeop/syndi_crew
 	var/leader_antag_datum_type = /datum/antagonist/nukeop/leader/syndi_crew
