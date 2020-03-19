@@ -14,8 +14,8 @@ GLOBAL_LIST_EMPTY(syndi_crew_leader_spawns)
 	report_type = "nuclear"
 	false_report_weight = 10
 	required_players = 30 // 30 players initially, with 15 crewing the hammurabi and 15 crewing the larger, more powerful hammerhead
-	required_enemies = 15
-	recommended_enemies = 20
+	required_enemies = 10
+	recommended_enemies = 10
 	antag_flag = ROLE_SYNDI_CREW
 	enemy_minimum_age = 0
 
@@ -31,12 +31,13 @@ GLOBAL_LIST_EMPTY(syndi_crew_leader_spawns)
 	var/nukes_left = 1
 
 	var/datum/team/nuclear/nuke_team
+	var/highpop_threshold = 50 //At what player count does the round enter "highpop" mode, and spawn the Syndicate a larger ship to compensate.
 
 	var/operative_antag_datum_type = /datum/antagonist/nukeop/syndi_crew
 	var/leader_antag_datum_type = /datum/antagonist/nukeop/leader/syndi_crew
 	var/time_limit
-	var/list/syndi_ships = list("Hammurabi.dmm") //Update this list if you make more PVP ships :) ~Kmc
-
+	var/list/standard_ships = list("Hammurabi.dmm") //Update this list if you make more PVP ships :) ~Kmc
+	var/list/highpop_ships = list("Hulk.dmm") //Update this list if you make a big PVP ship
 
 /**
 
@@ -45,7 +46,13 @@ Method to spawn in the Syndi ship on a brand new Z-level with the "boardable" tr
 */
 
 /datum/game_mode/pvp/pre_setup()
-	var/map_file = pick(syndi_ships)
+	var/pop = num_players()
+	var/enemies_to_spawn = required_enemies + round((pop-required_enemies)/10) //Syndicates scale with pop. On a standard 30 pop, this'll be 30 - 10 -> 20 / 10 -> 2 floored = 2, where FLOOR rounds the number to a whole number.
+	var/map_file = pop < highpop_threshold ? pick(standard_ships) : pick(highpop_ships) //Scale the ship map to suit player pop. Larger crews need more space.
+	var/ship_type = pop < highpop_threshold ? /obj/structure/overmap/syndicate/pvp : /obj/structure/overmap/syndicate/pvp/hulk
+	var/obj/structure/overmap/syndiship
+	for(var/z in SSmapping.levels_by_trait(ZTRAIT_CORVI))
+		syndiship = new ship_type(get_turf(locate(round(world.maxx * 0.5, 1), round(world.maxy * 0.5, 1), z))) //Make a new syndie ship object in Corvi.
 	message_admins("Spawning in syndi ship map, this may take a while. No the game hasn't crashed, I'm just loading a map before we start.") //Warn the admins. This shit takes a while.
 	var/list/errorList = list()
 	var/list/loaded = SSmapping.LoadGroup(errorList, "Syndicate ship", "map_files/PVP", map_file, default_traits = ZTRAITS_MINING_SHIP, silent = FALSE)
@@ -57,19 +64,17 @@ Method to spawn in the Syndi ship on a brand new Z-level with the "boardable" tr
 		PM.initTemplateBounds()
 	repopulate_sorted_areas()
 	var/n_agents = antag_candidates.len
-	to_chat(world, n_agents)
-	if(n_agents >= required_enemies)
-		for(var/i = 0, i < required_enemies, i++)
+	if(n_agents >= enemies_to_spawn)
+		for(var/i = 0, i < enemies_to_spawn, i++)
 			var/datum/mind/new_op = pick_n_take(antag_candidates)
 			pre_nukeops += new_op
 			new_op.assigned_role = "Syndicate crewmember"
 			new_op.special_role = "Syndicate crewmember"
 			log_game("[key_name(new_op)] has been selected as a syndicate crewmember")
-		for(var/z in SSmapping.levels_by_trait(ZTRAIT_CORVI))
-			var/obj/structure/overmap/hammurabi = new /obj/structure/overmap/syndicate/hammurabi(get_turf(locate(round(world.maxx * 0.5, 1), round(world.maxy * 0.5, 1), z))) //Make a new syndie ship object in Corvi.
-			addtimer(CALLBACK(src, .proc/force_lighting, hammurabi), 3 SECONDS)
+		addtimer(CALLBACK(src, .proc/force_lighting, syndiship), 6 SECONDS)
 		return TRUE
 	else
+		qdel(syndiship)
 		setup_error = "Not enough syndicate crew candidates"
 		return FALSE
 ////////////////////////////////////////////////////////////////////////////////////////
@@ -189,6 +194,7 @@ Method to spawn in the Syndi ship on a brand new Z-level with the "boardable" tr
 	desc = "A small device that will summon the Hammurabi's nuclear warhead to your location. Click it in your hand to use it."
 	icon = 'icons/obj/device.dmi'
 	icon_state = "gangtool-green"
+	resistance_flags = INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | UNACIDABLE | ACID_PROOF
 	req_one_access_txt = "150"
 
 /obj/item/pvp_nuke_spawner/attack_self(mob/user)

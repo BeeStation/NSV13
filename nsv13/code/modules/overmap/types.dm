@@ -96,6 +96,10 @@
 /obj/structure/overmap/nanotrasen/mining_cruiser/nostromo
 	name = "NSV Nostromo"
 	role = MAIN_MINING_SHIP
+	area_type = /area/nostromo
+
+/obj/structure/overmap/nanotrasen/mining_cruiser/nostromo/fob
+	area_type = /area/nsv/shuttle
 
 /obj/structure/overmap/nanotrasen/missile_cruiser/starter //VAGO. Sergei use me!
 	role = MAIN_OVERMAP
@@ -161,7 +165,7 @@
 	SSstarsystem.bounty_pool += bounty //Adding payment for services rendered
 	. = ..()
 
-/obj/structure/overmap/syndicate/hammurabi //Syndie PVP ship.
+/obj/structure/overmap/syndicate/pvp //Syndie PVP ship.
 	name = "SSV Hammurabi"
 	icon = 'nsv13/icons/overmap/syndicate/syn_light_cruiser.dmi'
 	icon_state = "cruiser"
@@ -176,6 +180,19 @@
 	pixel_z = -32
 	pixel_w = -32
 	ai_controlled = FALSE
+
+
+/obj/structure/overmap/syndicate/pvp/hulk //Larger PVP ship for larger pops.
+	icon = 'nsv13/icons/overmap/syndicate/syn_patrol_cruiser.dmi'
+	icon_state = "patrol_cruiser"
+	bound_width = 128
+	bound_height = 256
+	mass = MASS_LARGE
+	sprite_size = 48
+	pixel_z = -96
+	pixel_w = -96
+	max_integrity = 1500 //Max health
+	integrity_failure = 1500
 
 /obj/structure/overmap/fighter/syndicate //Syndie PVP fighter
 	name = "Syndicate Fighter"
