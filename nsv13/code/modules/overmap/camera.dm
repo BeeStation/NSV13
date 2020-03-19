@@ -21,7 +21,6 @@
 				to_chat(pilot, "<span class='warning'>[user] has kicked you off the ship controls!</span>")
 				stop_piloting(pilot)
 			pilot = user
-			show_flight_ui()
 			LAZYOR(user.mousemove_intercept_objects, src)
 		if("gunner")
 			if(gunner)
@@ -40,7 +39,6 @@
 	user.click_intercept = src
 
 /obj/structure/overmap/proc/stop_piloting(mob/living/M)
-	M.focus = M
 	operators -= M
 	if(M.click_intercept == src)
 		M.click_intercept = null
@@ -53,11 +51,22 @@
 		if(tactical)
 			playsound(tactical, 'nsv13/sound/effects/computer/hum.ogg', 100, 1)
 		gunner = null
+		target_lock = null
 	if(M.client)
 		M.client.check_view()
 	M.overmap_ship = null
+	var/mob/camera/aiEye/remote/overmap_observer/eyeobj = M.remote_control
 	M.cancel_camera()
-	M.remote_control = null
+	if(istype(M, /mob/living/silicon/ai))
+		var/mob/living/silicon/ai/hal = M
+		if((locate(eyeobj) in hal.all_eyes))
+			hal.all_eyes -= eyeobj
+		var/mob/camera/aiEye/cam = pick(hal.all_eyes)
+		hal.eyeobj = cam
+	QDEL_NULL(eyeobj?.off_action)
+	QDEL_NULL(M.remote_control)
+	M.set_focus(M)
+	M.cancel_camera()
 	return TRUE
 
 /obj/structure/overmap/proc/CreateEye(mob/user)
@@ -84,6 +93,7 @@
 	var/datum/action/innate/camera_off/overmap/off_action
 	animate_movement = 0 //Stops glitching with overmap movement
 	use_static = USE_STATIC_NONE
+	var/obj/structure/overmap/override_origin = null //Lets gunners lock on to their targets for accurate shooting.
 
 /datum/action/innate/camera_off/overmap
 	name = "Stop observing"
@@ -95,7 +105,7 @@
 /datum/action/innate/camera_off/overmap/Activate()
 	if(!target || !isliving(target))
 		return
-	if(!remote_eye.origin)
+	if(!remote_eye?.origin)
 		qdel(src)
 		qdel(remote_eye)
 	var/obj/structure/overmap/ship = remote_eye.origin
@@ -106,11 +116,16 @@
 /obj/structure/overmap/proc/remove_eye_control(mob/living/user)
 
 /mob/camera/aiEye/remote/overmap_observer/relaymove(mob/user,direct)
-	origin.relaymove(user,direct) //Move the ship. Means our pilots don't fucking suffocate because space is C O L D
+	origin?.relaymove(user,direct) //Move the ship. Means our pilots don't fucking suffocate because space is C O L D
 	return
 
 /mob/camera/aiEye/remote/overmap_observer/proc/add_relay() //Add a signal to move us
 	RegisterSignal(origin, COMSIG_MOVABLE_MOVED, .proc/update)
 
 /mob/camera/aiEye/remote/overmap_observer/proc/update()
+	if(override_origin)
+		forceMove(override_origin) //This only happens for gunner cams
+		eye_user.client.pixel_x = override_origin.pixel_x
+		eye_user.client.pixel_y = override_origin.pixel_y
+		return
 	forceMove(get_turf(origin))
