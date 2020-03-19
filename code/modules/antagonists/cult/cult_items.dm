@@ -260,6 +260,7 @@
 	name = "\improper Nar'Sien bola"
 	desc = "A strong bola, bound with dark magic that allows it to pass harmlessly through Nar'Sien cultists. Throw it to trip and slow your victim."
 	icon_state = "bola_cult"
+	item_state = "bola_cult"
 	breakouttime = 60
 	knockdown = 20
 
@@ -495,7 +496,7 @@
 	desc = "You peer within this smokey orb and glimpse terrible fates befalling the escape shuttle."
 	icon = 'icons/obj/cult.dmi'
 	icon_state ="shuttlecurse"
-	var/global/curselimit = 0
+	var/static/curselimit = 0
 
 /obj/item/shuttle_curse/attack_self(mob/living/user)
 	if(!iscultist(user))
@@ -530,7 +531,7 @@
 		playsound(user.loc, 'sound/effects/glassbr1.ogg', 50, 1)
 		qdel(src)
 		sleep(20)
-		var/global/list/curses
+		var/static/list/curses
 		if(!curses)
 			curses = list("A fuel technician just slit his own throat and begged for death.",
 			"The shuttle's navigation programming was replaced by a file containing just two words: IT COMES.",

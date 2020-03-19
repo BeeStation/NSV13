@@ -250,8 +250,10 @@ SUBSYSTEM_DEF(mapping)
 	// load mining
 	if(config.minetype == "lavaland")
 		LoadGroup(FailedZs, "Lavaland", "map_files/Mining", "Lavaland.dmm", default_traits = ZTRAITS_LAVALAND)
-	if(config.minetype == "nostromo")
+	if(config.minetype == "nostromo") //nsv13 mining type
 		LoadGroup(FailedZs, "nostromo", "map_files/Mining/nsv13", "nostromo.dmm", default_traits = ZTRAITS_MINING_SHIP)
+	if(config.minetype == "FOB") //nsv13 mining type
+		LoadGroup(FailedZs, "FOB", "map_files/Mining/nsv13", "FOB_Shuttle.dmm", default_traits = ZTRAITS_MINING_SHIP)
 	else if (!isnull(config.minetype))
 		INIT_ANNOUNCE("WARNING: An unknown minetype '[config.minetype]' was set! This is being ignored! Update the maploader code!")
 #endif
