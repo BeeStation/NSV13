@@ -429,6 +429,7 @@
 	sharpness = IS_SHARP
 	actions_types = list(/datum/action/item_action/startchainsaw)
 	var/on = FALSE
+	tool_behaviour = TOOL_SAW
 	toolspeed = 0.5
 
 /obj/item/twohanded/required/chainsaw/Initialize()
