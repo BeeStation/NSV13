@@ -36,7 +36,7 @@
 
 	belt = /obj/item/storage/belt/utility/full/engi
 	ears = /obj/item/radio/headset/heads/master_at_arms
-	uniform = /obj/item/clothing/under/syndicate/tacticool
+	uniform = /obj/item/clothing/under/rank/master_at_arms
 	shoes = /obj/item/clothing/shoes/jackboots
 	suit = /obj/item/clothing/suit/hazardvest
 	gloves = /obj/item/clothing/gloves/color/black
