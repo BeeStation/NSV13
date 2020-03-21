@@ -34,6 +34,9 @@ GLOBAL_LIST_INIT(durasteel_recipes, list ( \
 	new/datum/stack_recipe("padded steel hull plating", /obj/item/stack/tile/plasteel/padded, 1, 4, 20), \
 	new/datum/stack_recipe("embossed hull plating", /obj/item/stack/tile/plasteel/ship/techfloor, 1, 4, 20), \
 	new/datum/stack_recipe("embossed hull plating - alt", /obj/item/stack/tile/plasteel/ship/techfloor/alt, 1, 4, 20), \
+	new/datum/stack_recipe("steel monotile", /obj/item/stack/tile/mono/steel, 1, 4, 20), \
+	new/datum/stack_recipe("dark monotile", /obj/item/stack/tile/mono/dark, 1, 4, 20), \
+	new/datum/stack_recipe("light monotile", /obj/item/stack/tile/mono/light, 1, 4, 20), \
 	))
 
 /obj/item/stack/sheet/durasteel
