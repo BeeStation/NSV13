@@ -61,6 +61,7 @@
 
 /obj/item/ammo_box/magazine/peacekeeper
 	name = "M2A45 pulse rifle magazine (nonlethal)"
+	icon = 'nsv13/icons/obj/ammo.dmi'
 	icon_state = "peacekeeper_stun"
 	ammo_type = /obj/item/ammo_casing/peacekeeper
 	caliber = "6mm"
