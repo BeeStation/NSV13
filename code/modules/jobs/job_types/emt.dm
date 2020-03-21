@@ -35,7 +35,7 @@
 	id = /obj/item/card/id/job/med
 	belt = /obj/item/pda/medical
 	ears = /obj/item/radio/headset/headset_med
-	uniform = /obj/item/clothing/under/ship/medical
+	uniform = /obj/item/clothing/under/ship/medical //NSV13 - ship jumpsuit
 	shoes = /obj/item/clothing/shoes/sneakers/white
 	head = /obj/item/clothing/head/soft/emt //NSV13 - Fashion Matters
 	suit =  /obj/item/clothing/suit/toggle/labcoat/emt
