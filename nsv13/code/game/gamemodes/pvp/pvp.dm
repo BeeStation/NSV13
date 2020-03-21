@@ -165,6 +165,9 @@ Method to spawn in the Syndi ship on a brand new Z-level with the "boardable" tr
 	else
 		owner.current.real_name = "Syndicate [title]"
 
+/datum/outfit/syndicate/no_crystals
+	implants = list()
+
 /datum/outfit/syndicate/no_crystals/leader
 	name = "Syndicate captain"
 	id = /obj/item/card/id/syndicate/nuke_leader
@@ -176,6 +179,7 @@ Method to spawn in the Syndi ship on a brand new Z-level with the "boardable" tr
 	/obj/item/kitchen/knife/combat/survival=1,\
 	/obj/item/pvp_nuke_spawner)
 	command_radio = TRUE
+	implants = list()
 
 /datum/antagonist/nukeop/leader/syndi_crew/greet()
 	owner.current.playsound_local(get_turf(owner.current), 'sound/ambience/antag/ops.ogg',100,0)
