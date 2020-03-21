@@ -537,7 +537,8 @@
 		qdel(N)
 		to_chat(user, "<span class='warning'>You don't have any free hands to high-five with.</span>")
 
-/datum/emote/living/snap //nsv13 Start
+
+/datum/emote/living/snap
 	key = "snap"
 	key_third_person = "snaps"
 	message = "snaps their fingers."
@@ -545,4 +546,4 @@
 	emote_type = EMOTE_AUDIBLE
 
 /datum/emote/living/snap/get_sound(mob/living/user)
-	return pick('nsv13/sound/misc/fingersnap1.ogg', 'nsv13/sound/misc/fingersnap2.ogg') //nsv13 End
+	return pick('sound/misc/fingersnap1.ogg', 'sound/misc/fingersnap2.ogg')
