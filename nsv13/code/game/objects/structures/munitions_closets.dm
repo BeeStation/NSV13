@@ -9,7 +9,7 @@
 	..()
 	new /obj/item/card/id/departmental_budget/mun(src)
 	new /obj/item/door_remote/master_at_arms(src)
-	new /obj/item/radio/headset/headset_sec/alt/master_at_arms(src)
+	new /obj/item/radio/headset/heads/master_at_arms(src)
 	new /obj/item/clothing/under/trek/engsec(src)
 	new /obj/item/clothing/head/bomb_hood(src)
 	new /obj/item/clothing/suit/bomb_suit(src)
