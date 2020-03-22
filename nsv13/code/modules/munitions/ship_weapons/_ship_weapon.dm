@@ -338,7 +338,7 @@
 		if("[initial(icon_state)]_chambered" in icon_state_list)
 			icon_state = "[initial(icon_state)]_chambered"
 		chambered = ammo[1]
-		if(chamber_sound)
+		if(chamber_sound && !rapidfire) //This got super annoying on gauss guns, so i've made it only work for the initial "ready to fire" warning.
 			playsound(src, chamber_sound, 100, 1)
 		state = STATE_CHAMBERED
 

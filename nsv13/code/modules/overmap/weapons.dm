@@ -10,7 +10,7 @@
 	movement_type = FLYING | UNSTOPPABLE //Railguns punch straight through your ship
 
 /obj/item/projectile/bullet/gauss_slug
-	icon_state = "gauss"
+	icon_state = "gaussgun"
 	name = "tungsten round"
 	damage = 20
 
