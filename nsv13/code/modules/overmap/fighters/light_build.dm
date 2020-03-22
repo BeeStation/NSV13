@@ -165,7 +165,7 @@
 			build_state = LBS_COUNTERMEASURE_DISPENSER
 			update_icon()
 			W.forceMove(src)
-	else if(istype(W, /obj/item/fighter_component/light/secondary))
+	else if(istype(W, /obj/item/fighter_component/secondary/light))
 		if(build_state == LBS_PRIMARY_BOLT)
 			to_chat(user, "<span class='notice'>You start adding [W] to [src]...</span>")
 			if(!do_after(user, 5 SECONDS, target=src))
@@ -174,7 +174,7 @@
 			build_state = LBS_SECONDARY
 			update_icon()
 			W.forceMove(src)
-	else if(istype(W, /obj/item/fighter_component/light/primary))
+	else if(istype(W, /obj/item/fighter_component/primary/light))
 		if(build_state == LBS_ARMOUR_PLATING_WELD)
 			to_chat(user, "<span class='notice'>You start adding [W] to [src]...</span>")
 			if(!do_after(user, 5 SECONDS, target=src))
@@ -495,7 +495,7 @@
 			to_chat(user, "<span class='notice'>You start removing the primary armament from [src]...</span>")
 			if(tool.use_tool(src, user, 40, volume=100))
 				to_chat(user, "<span class='notice'>You remove the primary armament from [src].</span>")
-				var/atom/movable/ts = get_part(/obj/item/fighter_component/light/primary)
+				var/atom/movable/ts = get_part(/obj/item/fighter_component/primary/light)
 				ts?.forceMove(get_turf(src))
 				build_state = LBS_ARMOUR_PLATING_WELD
 				update_icon()
@@ -504,7 +504,7 @@
 			to_chat(user, "<span class='notice'>You start removing the secondary armament from [src]...</span>")
 			if(tool.use_tool(src, user, 40, volume=100))
 				to_chat(user, "<span class='notice'>You remove the secondary armament from [src].</span>")
-				var/atom/movable/ts = get_part(/obj/item/fighter_component/light/secondary)
+				var/atom/movable/ts = get_part(/obj/item/fighter_component/secondary/light)
 				ts?.forceMove(get_turf(src))
 				build_state = LBS_PRIMARY_BOLT
 				update_icon()

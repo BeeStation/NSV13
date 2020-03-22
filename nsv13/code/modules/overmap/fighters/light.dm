@@ -29,5 +29,44 @@
 						/obj/item/fighter_component/targeting_sensor/light/t1,
 						/obj/item/fighter_component/engine/light/t1,
 						/obj/item/fighter_component/countermeasure_dispenser/t1,
-						/obj/item/fighter_component/light/secondary/missile_rack/t1,
-						/obj/item/fighter_component/light/primary/light_cannon/t1)
+						/obj/item/fighter_component/secondary/light/missile_rack/t1,
+						/obj/item/fighter_component/primary/light/light_cannon/t1)
+
+/obj/structure/overmap/fighter/light/attackby(obj/item/W, mob/user, params) //changing light equipment - used in fighters.dm maintenance mode
+	.=..()
+	if(maint_state == 2)  //MS_OPEN == 2
+		if(istype(W, /obj/item/fighter_component/armour_plating/light) && !get_part(/obj/item/fighter_component/armour_plating/light))
+			to_chat(user, "<span class='notice'>You start installing [W] in [src]...</span>")
+			if(!do_after(user, 5 SECONDS, target=src))
+				return
+			to_chat(user, "<span class='notice'>You install [W] in [src].</span>")
+			W.forceMove(src)
+			fuel_setup()
+		else if(istype(W, /obj/item/fighter_component/targeting_sensor/light) && !get_part(/obj/item/fighter_component/targeting_sensor/light))
+			to_chat(user, "<span class='notice'>You start installing [W] in [src]...</span>")
+			if(!do_after(user, 5 SECONDS, target=src))
+				return
+			to_chat(user, "<span class='notice'>You install [W] in [src].</span>")
+			W.forceMove(src)
+			update_stats()
+		else if(istype(W, /obj/item/fighter_component/engine/light) && !get_part(/obj/item/fighter_component/engine/light))
+			to_chat(user, "<span class='notice'>You start installing [W] in [src]...</span>")
+			if(!do_after(user, 5 SECONDS, target=src))
+				return
+			to_chat(user, "<span class='notice'>You install [W] in [src].</span>")
+			W.forceMove(src)
+			update_stats()
+		else if(istype(W, /obj/item/fighter_component/secondary/light) && !get_part(/obj/item/fighter_component/secondary/light))
+			to_chat(user, "<span class='notice'>You start installing [W] in [src]...</span>")
+			if(!do_after(user, 5 SECONDS, target=src))
+				return
+			to_chat(user, "<span class='notice'>You install [W] in [src].</span>")
+			W.forceMove(src)
+			update_stats()
+		else if(istype(W, /obj/item/fighter_component/primary/light) && !get_part(/obj/item/fighter_component/primary/light))
+			to_chat(user, "<span class='notice'>You start installing [W] in [src]...</span>")
+			if(!do_after(user, 5 SECONDS, target=src))
+				return
+			to_chat(user, "<span class='notice'>You install [W] in [src].</span>")
+			W.forceMove(src)
+			update_stats()

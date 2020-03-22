@@ -540,13 +540,13 @@ After going through this checklist, you're ready to go!
 	var/obj/item/fighter_component/fuel_tank/ft = get_part(/obj/item/fighter_component/fuel_tank)
 	var/obj/item/fighter_component/targeting_sensor/ts = get_part(/obj/item/fighter_component/targeting_sensor)
 	var/obj/item/fighter_component/countermeasure_dispenser/cd = get_part(/obj/item/fighter_component/countermeasure_dispenser)
-	var/obj/item/fighter_component/light/secondary/missile_rack/mr = get_part(/obj/item/fighter_component/light/secondary/missile_rack)
-	var/obj/item/fighter_component/heavy/secondary/torpedo_rack/tr = get_part(/obj/item/fighter_component/heavy/secondary/torpedo_rack)
-	var/obj/item/fighter_component/light/primary/light_cannon/lc = get_part(/obj/item/fighter_component/light/primary/light_cannon)
-	var/obj/item/fighter_component/heavy/primary/heavy_cannon/hc = get_part(/obj/item/fighter_component/heavy/primary/heavy_cannon)
-	var/obj/item/fighter_component/utility/secondary/passenger_compartment_module/pc = get_part(/obj/item/fighter_component/utility/secondary/passenger_compartment_module)
-	var/obj/item/fighter_component/utility/secondary/auxiliary_fuel_tank/aft = get_part(/obj/item/fighter_component/utility/secondary/auxiliary_fuel_tank)
-	var/obj/item/fighter_component/utility/secondary/rbs_reagent_tank/rrt = get_part(/obj/item/fighter_component/utility/secondary/rbs_reagent_tank)
+	var/obj/item/fighter_component/secondary/light/missile_rack/mr = get_part(/obj/item/fighter_component/secondary/light/missile_rack)
+	var/obj/item/fighter_component/secondary/heavy/torpedo_rack/tr = get_part(/obj/item/fighter_component/secondary/heavy/torpedo_rack)
+	var/obj/item/fighter_component/primary/light/light_cannon/lc = get_part(/obj/item/fighter_component/primary/light/light_cannon)
+	var/obj/item/fighter_component/primary/heavy/heavy_cannon/hc = get_part(/obj/item/fighter_component/primary/heavy/heavy_cannon)
+	var/obj/item/fighter_component/secondary/utility/passenger_compartment_module/pc = get_part(/obj/item/fighter_component/secondary/utility/passenger_compartment_module)
+	var/obj/item/fighter_component/secondary/utility/auxiliary_fuel_tank/aft = get_part(/obj/item/fighter_component/secondary/utility/auxiliary_fuel_tank)
+	var/obj/item/fighter_component/secondary/utility/rbs_reagent_tank/rrt = get_part(/obj/item/fighter_component/secondary/utility/rbs_reagent_tank)
 
 	max_integrity = initial(max_integrity) * ap?.armour
 	speed_limit = initial(speed_limit) * en?.speed
@@ -589,13 +589,19 @@ After going through this checklist, you're ready to go!
 
 /obj/item/fighter_component/fuel_tank/proc/fuel_setup()
 	create_reagents(fuel_capacity, DRAINABLE | AMOUNT_VISIBLE)
-	reagents.add_reagent(/datum/reagent/aviation_fuel, fuel_capacity)
+	reagents.add_reagent(/datum/reagent/aviation_fuel, fuel_capacity) //KMC BAD, THIS IS EXPLOITABLE
 
-/obj/item/fighter_component/utility/secondary/auxiliary_fuel_tank/proc/fuel_setup()
+/obj/item/fighter_component/secondary/utility/auxiliary_fuel_tank/proc/fuel_setup()
 	create_reagents(aux_capacity, DRAINABLE | AMOUNT_VISIBLE)
-	reagents.add_reagent(/datum/reagent/aviation_fuel, aux_capacity)
 
-/obj/item/fighter_component/utility/secondary/rbs_reagent_tank/proc/reagent_setup()
+/obj/item/fighter_component/secondary/utility/rbs_reagent_tank/proc/reagent_setup()
+/*
+//	var/tanks = list(fueltank["reagentype"])
+	var/tank1 = create_reagents(rbs_capacity, DRAINABLE | AMOUNT_VISIBLE)
+	var/tank2 = create_reagents(rbs_capacity, DRAINABLE | AMOUNT_VISIBLE)
+	tank1.reagents.add_reagent(/datum/reagent/fuel, rbs_capacity)
+	tank2.reagents.add_reagent(/datum/reagent/fuel, rbs_capacity)
+*/
 
 //Fighter Maintenance
 /obj/structure/overmap/fighter/proc/get_part(type)
@@ -744,7 +750,7 @@ After going through this checklist, you're ready to go!
 	else
 		to_chat(gunner, "<span class='warning'>DANGER: Launch failure! Torpedo tubes are not loaded.</span>")
 
-/obj/structure/overmap/fighter/attackby(obj/item/W, mob/user, params)   //fueling and changing equipment
+/obj/structure/overmap/fighter/attackby(obj/item/W, mob/user, params) //changing equipment
 	add_fingerprint(user)
 	if (istype(W, /obj/item/card/id)||istype(W, /obj/item/pda) && operators.len)
 		if(!allowed(user))
@@ -759,45 +765,34 @@ After going through this checklist, you're ready to go!
 				stop_piloting(M)
 				to_chat(M, "<span class='warning'>[user] has forcibly ejected you from [src]!.</span>")
 	if(maint_state == MS_OPEN)
-		if(istype(W, /obj/item/fighter_component/fuel_lines) && !get_part(/obj/item/fighter_component/fuel_lines))
+		if(istype(W, /obj/item/fighter_component/fuel_tank) && !get_part(/obj/item/fighter_component/fuel_tank))
 			to_chat(user, "<span class='notice'>You start installing [W] in [src]...</span>")
-			if(!do_after(user, 2 SECONDS, target=src))
-				return
-			to_chat(user, "<span class='notice'>You install [W] in [src].</span>")
-			W.forceMove(src)
-			update_stats()
-		else if(istype(W, /obj/item/twohanded/required/fighter_component/fuel_tank) && !get_part(/obj/item/twohanded/required/fighter_component/fuel_tank))
-			to_chat(user, "<span class='notice'>You start installing [W] in [src]...</span>")
-			if(!do_after(user, 2 SECONDS, target=src))
+			if(!do_after(user, 10 SECONDS, target=src))
 				return
 			to_chat(user, "<span class='notice'>You install [W] in [src].</span>")
 			W.forceMove(src)
 			fuel_setup()
-		else if(istype(W, /obj/item/fighter_component/targeting_sensor) && !get_part(/obj/item/fighter_component/targeting_sensor))
+		else if(istype(W, /obj/item/fighter_component/avionics) && !get_part(/obj/item/fighter_component/avionics))
 			to_chat(user, "<span class='notice'>You start installing [W] in [src]...</span>")
-			if(!do_after(user, 2 SECONDS, target=src))
+			if(!do_after(user, 10 SECONDS, target=src))
 				return
 			to_chat(user, "<span class='notice'>You install [W] in [src].</span>")
 			W.forceMove(src)
 			update_stats()
-		else if(istype(W, /obj/item/twohanded/required/fighter_component/armour_plating) && !get_part(/obj/item/twohanded/required/fighter_component/armour_plating))
+		else if(istype(W, /obj/item/fighter_component/apu) && !get_part(/obj/item/fighter_component/apu))
 			to_chat(user, "<span class='notice'>You start installing [W] in [src]...</span>")
-			if(!do_after(user, 2 SECONDS, target=src))
+			if(!do_after(user, 10 SECONDS, target=src))
 				return
 			to_chat(user, "<span class='notice'>You install [W] in [src].</span>")
 			W.forceMove(src)
 			update_stats()
-		else if(istype(W, /obj/item/twohanded/required/fighter_component/engine))
-			var/e = 0
-			for(var/obj/item/twohanded/required/fighter_component/engine/en in contents)
-				e++
-			if(e < 2)
-				to_chat(user, "<span class='notice'>You start installing [W] in [src]...</span>")
-				if(!do_after(user, 2 SECONDS, target=src))
-					return
-				to_chat(user, "<span class='notice'>You install [W] in [src].</span>")
-				W.forceMove(src)
-				update_stats()
+		else if(istype(W, /obj/item/fighter_component/countermeasure_dispenser) && !get_part(/obj/item/fighter_component/countermeasure_dispenser))
+			to_chat(user, "<span class='notice'>You start installing [W] in [src]...</span>")
+			if(!do_after(user, 10 SECONDS, target=src))
+				return
+			to_chat(user, "<span class='notice'>You install [W] in [src].</span>")
+			W.forceMove(src)
+			update_stats()
 
 /obj/structure/overmap/fighter/attack_hand(mob/user)
 	.=..()
@@ -809,7 +804,8 @@ After going through this checklist, you're ready to go!
 		to_chat(user, "<span class='warning'>Access denied</span>")
 		return
 	if(maint_state == MS_OPEN)
-		display_maint_popup(user)
+//		display_maint_popup(user)
+		ui_interact(user)
 		return TRUE
 	if(!canopy_open)
 		to_chat(user, "<span class='warning'>[src]'s canopy isn't open.</span>")
@@ -860,6 +856,7 @@ After going through this checklist, you're ready to go!
 	M.forceMove(get_turf(src))
 	return TRUE
 
+/*
 /obj/structure/overmap/fighter/proc/display_maint_popup(mob/user)
 	user.set_machine(src)
 	var/dat
@@ -917,6 +914,8 @@ After going through this checklist, you're ready to go!
 	var/datum/browser/popup = new(user, "fighter", name, 400, 600)
 	popup.set_content(dat)
 	popup.open()
+
+
 
 /obj/structure/overmap/fighter/Topic(href, href_list)
 	if(!in_range(src, usr))
@@ -1006,6 +1005,8 @@ After going through this checklist, you're ready to go!
 		internal_tank = null
 		attack_hand(user) //Refresh UI.
 
+*/
+
 /obj/structure/overmap/fighter/Destroy()
 	if(operators.len && escape_pod && escape_pod.loc == src)
 		relay('nsv13/sound/effects/computer/alarm_3.ogg', "<span class=userdanger>EJECT! EJECT! EJECT!</span>")
@@ -1091,15 +1092,21 @@ How to make fuel:
 	ui_interact(usr)
 
 /obj/structure/overmap/fighter/ui_interact(mob/user, ui_key = "main", datum/tgui/ui = null, force_open = 0, datum/tgui/master_ui = null, datum/ui_state/state = GLOB.default_state) // Remember to use the appropriate state.
-	if(user != pilot)
+	if(user != pilot && maint_state != MS_OPEN)
 		return
+	if(user != pilot && maint_state == MS_OPEN)
+		ui = SStgui.try_update_ui(user, src, ui_key, ui, force_open)
+		if(!ui)
+			ui = new(user, src, ui_key, "fighter_maintenance", name, 560, 600, master_ui, state)
+			ui.open()
 	ui = SStgui.try_update_ui(user, src, ui_key, ui, force_open)
 	if(!ui)
-		ui = new(user, src, ui_key, "fighter_controls", name, 560, 600, master_ui, state)
-		ui.open()
+		if(maint_state == MS_CLOSED)
+			ui = new(user, src, ui_key, "fighter_controls", name, 560, 600, master_ui, state)
+			ui.open()
 
 /obj/structure/overmap/fighter/can_move()
-	var/obj/item/twohanded/required/fighter_component/engine/engine = get_part(/obj/item/twohanded/required/fighter_component/engine)
+	var/obj/item/fighter_component/engine/engine = get_part(/obj/item/fighter_component/engine)
 	if(!engine)
 		if(pilot)
 			to_chat(pilot, "<span class='warning'>WARNING: This fighter doesn't have any engines!</span>")
@@ -1126,11 +1133,24 @@ How to make fuel:
 	flight_state = NO_IGNITION
 	return FALSE
 
+/*
+/obj/item/fighter_component/proc/uninstall_component(obj/item/fighter_component/part)
+	to_chat(user, "<span class='notice'>You start uninstalling [part.name] from [src].</span>")
+	if(!do_after(user, 5 SECONDS, target=src))
+		return
+	to_chat(user, "<span class='notice>You uninstall [part.name] from [src].</span>")
+	part.forceMove(get_turf(src))
+*/
+
 /obj/structure/overmap/fighter/ui_act(action, params, datum/tgui/ui)
 	if(..())
 		return
-	if(!in_range(src, usr) || !pilot || usr != pilot) //Topic check
-		return
+	if(ui == "fighter_controls")
+		if(!in_range(src, usr) || !pilot || usr != pilot) //Topic check
+			return
+	if(ui == "fighter_maintenance")
+		if(!in_range(src, usr))
+			return
 	if(warmup_cooldown)
 		to_chat(usr, "You need to wait for [src] to finish its last action.</span>")
 		return
@@ -1224,6 +1244,78 @@ How to make fuel:
 			relinquish_target_lock()
 			relay('nsv13/sound/effects/fighters/switch.ogg')
 			return //Dodge the cooldown because these actions should be instant
+		if("component_fuel_tank")
+			var/atom/movable/part = get_part(/obj/item/fighter_component/fuel_tank)
+			to_chat(usr, "<span class='notice'>You start uninstalling [part.name] from [src].</span>")
+			if(!do_after(usr, 5 SECONDS, target=src))
+				return
+			to_chat(usr, "<span class='notice>You uninstall [part.name] from [src].</span>")
+			part?.forceMove(get_turf(src))
+			update_stats()
+		if("component_avionics")
+			var/atom/movable/part = get_part(/obj/item/fighter_component/avionics)
+			to_chat(usr, "<span class='notice'>You start uninstalling [part.name] from [src].</span>")
+			if(!do_after(usr, 5 SECONDS, target=src))
+				return
+			to_chat(usr, "<span class='notice>You uninstall [part.name] from [src].</span>")
+			part?.forceMove(get_turf(src))
+			update_stats()
+		if("component_apu")
+			var/atom/movable/part = get_part(/obj/item/fighter_component/apu)
+			to_chat(usr, "<span class='notice'>You start uninstalling [part.name] from [src].</span>")
+			if(!do_after(usr, 5 SECONDS, target=src))
+				return
+			to_chat(usr, "<span class='notice>You uninstall [part.name] from [src].</span>")
+			part?.forceMove(get_turf(src))
+			update_stats()
+		if("component_armour_plating")
+			var/atom/movable/part = get_part(/obj/item/fighter_component/armour_plating)
+			to_chat(usr, "<span class='notice'>You start uninstalling [part.name] from [src].</span>")
+			if(!do_after(usr, 5 SECONDS, target=src))
+				return
+			to_chat(usr, "<span class='notice>You uninstall [part.name] from [src].</span>")
+			part?.forceMove(get_turf(src))
+			update_stats()
+		if("component_targeting_sensor")
+			var/atom/movable/part = get_part(/obj/item/fighter_component/targeting_sensor)
+			to_chat(usr, "<span class='notice'>You start uninstalling [part.name] from [src].</span>")
+			if(!do_after(usr, 5 SECONDS, target=src))
+				return
+			to_chat(usr, "<span class='notice>You uninstall [part.name] from [src].</span>")
+			part?.forceMove(get_turf(src))
+			update_stats()
+		if("component_engine")
+			var/atom/movable/part = get_part(/obj/item/fighter_component/engine)
+			to_chat(usr, "<span class='notice'>You start uninstalling [part.name] from [src].</span>")
+			if(!do_after(usr, 5 SECONDS, target=src))
+				return
+			to_chat(usr, "<span class='notice>You uninstall [part.name] from [src].</span>")
+			part?.forceMove(get_turf(src))
+			update_stats()
+		if("component_countermeasure_dispenser")
+			var/atom/movable/part = get_part(/obj/item/fighter_component/countermeasure_dispenser)
+			to_chat(usr, "<span class='notice'>You start uninstalling [part.name] from [src].</span>")
+			if(!do_after(usr, 5 SECONDS, target=src))
+				return
+			to_chat(usr, "<span class='notice>You uninstall [part.name] from [src].</span>")
+			part?.forceMove(get_turf(src))
+			update_stats()
+		if("component_primary")
+			var/atom/movable/part = get_part(/obj/item/fighter_component/primary)
+			to_chat(usr, "<span class='notice'>You start uninstalling [part.name] from [src].</span>")
+			if(!do_after(usr, 5 SECONDS, target=src))
+				return
+			to_chat(usr, "<span class='notice>You uninstall [part.name] from [src].</span>")
+			part?.forceMove(get_turf(src))
+			update_stats()
+		if("component_secondary")
+			var/atom/movable/part = get_part(/obj/item/fighter_component/secondary)
+			to_chat(usr, "<span class='notice'>You start uninstalling [part.name] from [src].</span>")
+			if(!do_after(usr, 5 SECONDS, target=src))
+				return
+			to_chat(usr, "<span class='notice>You uninstall [part.name] from [src].</span>")
+			part?.forceMove(get_turf(src))
+			update_stats()
 	warmup_cooldown = TRUE
 	addtimer(VARSET_CALLBACK(src, warmup_cooldown, FALSE), 1 SECONDS)
 	relay('nsv13/sound/effects/fighters/switch.ogg')
@@ -1311,6 +1403,15 @@ How to make fuel:
 		data["battery"] = TRUE
 	if(flight_state == APU_SPUN)
 		data["apu"] = TRUE
+	data["c_fuel_tank"] = get_part(/obj/item/fighter_component/fuel_tank)
+	data["c_avionics"] = get_part(/obj/item/fighter_component/avionics)
+	data["c_apu"] = get_part(/obj/item/fighter_component/apu)
+	data["c_armour_plating"] = get_part(/obj/item/fighter_component/armour_plating)
+	data["c_targeting_sensor"] = get_part(/obj/item/fighter_component/targeting_sensor)
+	data["c_engine"] = get_part(/obj/item/fighter_component/engine)
+	data["c_countermeasure_dispenser"] = get_part(/obj/item/fighter_component/countermeasure_dispenser)
+	data["c_primary"] = get_part(/obj/item/fighter_component/primary)
+	data["c_secondary"] = get_part(/obj/item/fighter_component/secondary)
 	return data
 
 #undef NO_IGNITION

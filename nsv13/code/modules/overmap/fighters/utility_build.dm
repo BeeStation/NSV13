@@ -156,7 +156,7 @@
 			build_state = UBS_COUNTERMEASURE_DISPENSER
 			update_icon()
 			W.forceMove(src)
-	else if(istype(W, /obj/item/fighter_component/utility/primary))
+	else if(istype(W, /obj/item/fighter_component/primary/utility))
 		if(build_state == UBS_FUEL_TANK_BOLT)
 			to_chat(user, "<span class='notice'>You start adding [W] to [src]...</span>")
 			if(!do_after(user, 5 SECONDS, target=src))
@@ -165,7 +165,7 @@
 			build_state = UBS_PRIMARY
 			update_icon()
 			W.forceMove(src)
-	else if(istype(W, /obj/item/fighter_component/utility/secondary))
+	else if(istype(W, /obj/item/fighter_component/secondary/utility))
 		if(build_state == UBS_PRIMARY_MULTI)
 			to_chat(user, "<span class='notice'>You start adding [W] to [src]...</span>")
 			if(!do_after(user, 5 SECONDS, target=src))
@@ -413,7 +413,7 @@
 			to_chat(user, "<span class='notice'>You start removing the primary module from [src]...</span>")
 			if(tool.use_tool(src, user, 40, volume=100))
 				to_chat(user, "<span class='notice'>You remove the primary module from [src].</span>")
-				var/atom/movable/ts = get_part(/obj/item/fighter_component/utility/primary)
+				var/atom/movable/ts = get_part(/obj/item/fighter_component/primary/utility)
 				ts?.forceMove(get_turf(src))
 				build_state = UBS_FUEL_TANK_BOLT
 				update_icon()
@@ -440,7 +440,7 @@
 			to_chat(user, "<span class='notice'>You start removing the secondary module from [src]...</span>")
 			if(tool.use_tool(src, user, 40, volume=100))
 				to_chat(user, "<span class='notice'>You remove the secondary module from [src].</span>")
-				var/atom/movable/ts = get_part(/obj/item/fighter_component/utility/secondary)
+				var/atom/movable/ts = get_part(/obj/item/fighter_component/secondary/utility)
 				ts?.forceMove(get_turf(src))
 				build_state = UBS_PRIMARY_MULTI
 				update_icon()

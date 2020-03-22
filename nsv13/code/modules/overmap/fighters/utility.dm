@@ -1,6 +1,6 @@
 //Utility is as Raptor
 //Slow, Reasonably Nimble, Robust
-//Pickups up pods, refuels in space
+//Pickups up pods, refuels in space, repairs things, module module modules
 /obj/structure/overmap/fighter/utility
 	name = "ADL-77U Arroyomolinos"
 	desc = "A space faring fighter craft."
@@ -30,8 +30,8 @@
 						/obj/item/fighter_component/armour_plating/utility/t1,
 						/obj/item/fighter_component/engine/utility/t1,
 						/obj/item/fighter_component/countermeasure_dispenser/t1,
-						/obj/item/fighter_component/utility/primary/refueling_system,
-						/obj/item/fighter_component/utility/secondary/auxiliary_fuel_tank/t1)
+						/obj/item/fighter_component/primary/utility/refueling_system,
+						/obj/item/fighter_component/secondary/utility/auxiliary_fuel_tank/t1)
 
 /obj/structure/overmap/fighter/utility/prebuilt/carrier //search and recovery of pilots in space, and troop transport
 	prebuilt = TRUE
@@ -41,8 +41,8 @@
 						/obj/item/fighter_component/armour_plating/utility/t1,
 						/obj/item/fighter_component/engine/utility/t1,
 						/obj/item/fighter_component/countermeasure_dispenser/t1,
-						/obj/item/fighter_component/utility/primary/search_rescue_module,
-						/obj/item/fighter_component/utility/secondary/passenger_compartment_module/t1)
+						/obj/item/fighter_component/primary/utility/search_rescue_module,
+						/obj/item/fighter_component/secondary/utility/passenger_compartment_module/t1)
 
 /obj/structure/overmap/fighter/utility/prebuilt/repair //exterior repair of the main ship
 	prebuilt = TRUE
@@ -52,8 +52,40 @@
 						/obj/item/fighter_component/armour_plating/utility/t1,
 						/obj/item/fighter_component/engine/utility/t1,
 						/obj/item/fighter_component/countermeasure_dispenser/t1,
-						/obj/item/fighter_component/utility/primary/rapid_breach_sealing_module,
-						/obj/item/fighter_component/utility/secondary/rbs_reagent_tank/t1)
+						/obj/item/fighter_component/primary/utility/rapid_breach_sealing_module,
+						/obj/item/fighter_component/secondary/utility/rbs_reagent_tank/t1)
+
+/obj/structure/overmap/fighter/utility/attackby(obj/item/W, mob/user, params) //changing utility equipment - used in fighters.dm maintenance mode
+	.=..()
+	if(maint_state == 2)  //MS_OPEN == 2
+		if(istype(W, /obj/item/fighter_component/armour_plating/utility) && !get_part(/obj/item/fighter_component/armour_plating/utility))
+			to_chat(user, "<span class='notice'>You start installing [W] in [src]...</span>")
+			if(!do_after(user, 5 SECONDS, target=src))
+				return
+			to_chat(user, "<span class='notice'>You install [W] in [src].</span>")
+			W.forceMove(src)
+			fuel_setup()
+		else if(istype(W, /obj/item/fighter_component/engine/utility) && !get_part(/obj/item/fighter_component/engine/utility))
+			to_chat(user, "<span class='notice'>You start installing [W] in [src]...</span>")
+			if(!do_after(user, 5 SECONDS, target=src))
+				return
+			to_chat(user, "<span class='notice'>You install [W] in [src].</span>")
+			W.forceMove(src)
+			update_stats()
+		else if(istype(W, /obj/item/fighter_component/secondary/utility) && !get_part(/obj/item/fighter_component/secondary/utility))
+			to_chat(user, "<span class='notice'>You start installing [W] in [src]...</span>")
+			if(!do_after(user, 5 SECONDS, target=src))
+				return
+			to_chat(user, "<span class='notice'>You install [W] in [src].</span>")
+			W.forceMove(src)
+			update_stats()
+		else if(istype(W, /obj/item/fighter_component/primary/utility) && !get_part(/obj/item/fighter_component/primary/utility))
+			to_chat(user, "<span class='notice'>You start installing [W] in [src]...</span>")
+			if(!do_after(user, 5 SECONDS, target=src))
+				return
+			to_chat(user, "<span class='notice'>You install [W] in [src].</span>")
+			W.forceMove(src)
+			update_stats()
 
 /obj/structure/overmap/fighter/utility/docking_act(obj/structure/overmap/OM)
 	if(docking_cooldown)

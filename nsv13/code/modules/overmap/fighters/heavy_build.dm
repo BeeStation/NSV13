@@ -165,7 +165,7 @@
 			build_state = HBS_COUNTERMEASURE_DISPENSER
 			update_icon()
 			W.forceMove(src)
-	else if(istype(W, /obj/item/fighter_component/heavy/secondary))
+	else if(istype(W, /obj/item/fighter_component/secondary/heavy))
 		if(build_state == HBS_PRIMARY_BOLT)
 			to_chat(user, "<span class='notice'>You start adding [W] to [src]...</span>")
 			if(!do_after(user, 5 SECONDS, target=src))
@@ -174,7 +174,7 @@
 			build_state = HBS_SECONDARY
 			update_icon()
 			W.forceMove(src)
-	else if(istype(W, /obj/item/fighter_component/heavy/primary))
+	else if(istype(W, /obj/item/fighter_component/primary/heavy))
 		if(build_state == HBS_COUNTERMEASURE_DISPENSER_BOLT)
 			to_chat(user, "<span class='notice'>You start adding [W] to [src]...</span>")
 			if(!do_after(user, 5 SECONDS, target=src))
@@ -481,7 +481,7 @@
 			to_chat(user, "<span class='notice'>You start removing the primary armament from [src]...</span>")
 			if(tool.use_tool(src, user, 40, volume=100))
 				to_chat(user, "<span class='notice'>You remove the primary armament from [src].</span>")
-				var/atom/movable/ts = get_part(/obj/item/fighter_component/heavy/primary)
+				var/atom/movable/ts = get_part(/obj/item/fighter_component/primary/heavy)
 				ts?.forceMove(get_turf(src))
 				build_state = HBS_COUNTERMEASURE_DISPENSER_BOLT
 				update_icon()
@@ -490,7 +490,7 @@
 			to_chat(user, "<span class='notice'>You start removing the secondary armament from [src]...</span>")
 			if(tool.use_tool(src, user, 40, volume=100))
 				to_chat(user, "<span class='notice'>You remove the secondary armament from [src].</span>")
-				var/atom/movable/ts = get_part(/obj/item/fighter_component/heavy/secondary)
+				var/atom/movable/ts = get_part(/obj/item/fighter_component/secondary/heavy)
 				ts?.forceMove(get_turf(src))
 				build_state = HBS_PRIMARY_BOLT
 				update_icon()

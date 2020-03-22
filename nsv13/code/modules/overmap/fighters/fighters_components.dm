@@ -157,49 +157,49 @@
 	speed = 1.4
 	consumption = 1.8
 
-/obj/item/fighter_component/light/secondary/missile_rack
+/obj/item/fighter_component/secondary/light/missile_rack
 	name = "Light Fighter Missile Rack - PARENT"
 	icon_state = "weaponcrate"
 	var/missile_capacity = 2
 
-/obj/item/fighter_component/light/secondary/missile_rack/t1
+/obj/item/fighter_component/secondary/light/missile_rack/t1
 	name = "Light Fighter Missile Rack"
 	desc = "A missile rack for a light fighter"
 
-/obj/item/fighter_component/light/secondary/missile_rack/t2
+/obj/item/fighter_component/secondary/light/missile_rack/t2
 	name = "Large Light Fighter Missile Rack"
 	desc = "A large missile rack for a light fighter"
 	missile_capacity = 4
 
-/obj/item/fighter_component/light/secondary/missile_rack/t3
+/obj/item/fighter_component/secondary/light/missile_rack/t3
 	name = "Extra Large Light Fighter Missile Rack"
 	desc = "An extra large missile rack for a light fighter"
 	missile_capacity = 6
 
-/obj/item/fighter_component/light/primary/light_cannon
+/obj/item/fighter_component/primary/light/light_cannon
 	name = "Light Fighter Light Cannon - PARENT"
 	icon_state = "plasmacrate"
 	var/fire_rate = 1
 	var/ammo_capacity = 1
 	var/projectile = null
 
-/obj/item/fighter_component/light/primary/light_cannon/burntout //Prevents firing the cannon
+/obj/item/fighter_component/primary/light/light_cannon/burntout //Prevents firing the cannon
 	name = "Burntout Light Fighter Light Cannon"
 	desc = "A light cannon for a light fighter, it looks charred"
 	icon_state = "plasmacrate"
 	burntout = TRUE
 
-/obj/item/fighter_component/light/primary/light_cannon/t1
+/obj/item/fighter_component/primary/light/light_cannon/t1
 	name = "Light Fighter Light Cannon"
 	desc = "A light cannon for a light fighter"
 
-/obj/item/fighter_component/light/primary/light_cannon/t2
+/obj/item/fighter_component/primary/light/light_cannon/t2
 	name = "Improved Light Fighter Light Cannon"
 	desc = "An improved light cannon for a light fighter"
 	fire_rate = 1.1
 	ammo_capacity = 1
 
-/obj/item/fighter_component/light/primary/light_cannon/t3
+/obj/item/fighter_component/primary/light/light_cannon/t3
 	name = "Enhanced Light Fighter Light Cannon"
 	desc = "An enhanced light cannon for a light fighter"
 	fire_rate = 1.2
@@ -269,52 +269,52 @@
 	speed = 1.2
 	consumption = 1.4
 
-/obj/item/fighter_component/heavy/secondary/torpedo_rack
+/obj/item/fighter_component/secondary/heavy/torpedo_rack
 	name = "Heavy Fighter Torpedo Rack"
 	icon_state = "weaponcrate"
 	var/missile_capacity = 0
 	var/torpedo_capacity = 2
 
-/obj/item/fighter_component/heavy/secondary/torpedo_rack/t1
+/obj/item/fighter_component/secondary/heavy/torpedo_rack/t1
 	name = "Heavy Fighter Torpedo Rack"
 	desc = "A torpedo rack for a heavy fighter"
 
-/obj/item/fighter_component/heavy/secondary/torpedo_rack/t2
+/obj/item/fighter_component/secondary/heavy/torpedo_rack/t2
 	name = "Large Heavy Fighter Torpedo Rack"
 	desc = "A large torpedo rack for a heavy fighter"
 	missile_capacity = 1
 	torpedo_capacity = 3
 
-/obj/item/fighter_component/heavy/secondary/torpedo_rack/t3
+/obj/item/fighter_component/secondary/heavy/torpedo_rack/t3
 	name = "Extra Large Heavy Fighter Torpedo Rack"
 	desc = "An extra large torpedo rack for a heavy fighter"
 	missile_capacity = 2
 	torpedo_capacity = 4
 
-/obj/item/fighter_component/heavy/primary/heavy_cannon
+/obj/item/fighter_component/primary/heavy/heavy_cannon
 	name = "Heavy Fighter Heavy Cannon - PARENT"
 	icon_state = "plasmacrate"
 	var/fire_rate = 1
 	var/ammo_capacity = 1
 	var/projectile = null
 
-/obj/item/fighter_component/heavy/primary/heavy_cannon/burntout //Prevents firing the cannon
+/obj/item/fighter_component/primary/heavy/heavy_cannon/burntout //Prevents firing the cannon
 	name = "Burntout Heavy Fighter Heavy Cannon"
 	desc = "A heavy cannon for a heavy fighter, it looks charred"
 	icon_state = "plasmacrate"
 	burntout = TRUE
 
-/obj/item/fighter_component/heavy/primary/heavy_cannon/t1
+/obj/item/fighter_component/primary/heavy/heavy_cannon/t1
 	name = "Heavy Fighter Heavy Cannon"
 	desc = "A heavy cannon for a heavy fighter"
 
-/obj/item/fighter_component/heavy/primary/heavy_cannon/t2
+/obj/item/fighter_component/primary/heavy/heavy_cannon/t2
 	name = "Improved Heavy Fighter Heavy Cannon"
 	desc = "An improved heavy cannon for a heavy fighter"
 	fire_rate = 1.1
 	ammo_capacity = 1
 
-/obj/item/fighter_component/heavy/primary/heavy_cannon/t3
+/obj/item/fighter_component/primary/heavy/heavy_cannon/t3
 	name = "Enhanced Heavy Fighter Heavy Cannon"
 	desc = "An enhanced heavy cannon for a heavy fighter"
 	fire_rate = 1.2
@@ -363,93 +363,93 @@
 	speed = 1.1
 	consumption = 0.8
 
-/obj/item/fighter_component/utility/primary/refueling_system
+/obj/item/fighter_component/primary/utility/refueling_system
 	name = "Utility Vessel Refueling System"
 	desc = "A refueling system for a Utility Vessel"
 	icon_state = "crate"
 
-/obj/item/fighter_component/utility/primary/refueling_system/burnout
+/obj/item/fighter_component/primary/utility/refueling_system/burnout
 	name = "Burntout Utility Vessel Refueling System"
 	desc = "A refueling system for a Utility Vessel, it looks charred"
 	icon_state = "crate"
 	burntout = TRUE
 
-/obj/item/fighter_component/utility/primary/search_rescue_module
+/obj/item/fighter_component/primary/utility/search_rescue_module
 	name = "Utility Vessel Search And Rescue Module"
 	desc = "A search and rescue module for a Utility vessel"
 	icon_state = "crate"
 
-/obj/item/fighter_component/utility/primary/search_rescue_module/burntout
+/obj/item/fighter_component/primary/utility/search_rescue_module/burntout
 	name = "Burntout Utility Vessel Search And Rescue Module"
 	desc = "A search and rescue module for a utility vessel"
 	icon_state = "crate"
 	burntout = TRUE
 
-/obj/item/fighter_component/utility/secondary/auxiliary_fuel_tank
+/obj/item/fighter_component/secondary/utility/auxiliary_fuel_tank
 	name = "Utility Vessel Auxiliary Fuel Tank - PARENT"
 	desc = "THIS IS A PARENT ITEM AND SHOULD NOT BE SPAWNED"
 	icon_state = "crate"
 	var/aux_capacity = 3000
 
-/obj/item/fighter_component/utility/secondary/auxiliary_fuel_tank/t1
+/obj/item/fighter_component/secondary/utility/auxiliary_fuel_tank/t1
 	name = "Utility Vessel Auxiliary Fuel Tank"
 	desc = "An auxiliary fuel tank for a Utility Vessel"
 
-/obj/item/fighter_component/utility/secondary/auxiliary_fuel_tank/t2
+/obj/item/fighter_component/secondary/utility/auxiliary_fuel_tank/t2
 	name = "Large Utility Vessel Auxiliary Fuel Tank"
 	desc = "A large auxiliary fuel tank for a Utility Vessel"
 	aux_capacity = 4000
 
-/obj/item/fighter_component/utility/secondary/auxiliary_fuel_tank/t3
+/obj/item/fighter_component/secondary/utility/auxiliary_fuel_tank/t3
 	name = "Extra Large Utility Vessel Auxiliary Fuel Tank"
 	desc = "An extra large auxiliary fuel tank for a Utility Vessel"
 	aux_capacity = 5000
 
-/obj/item/fighter_component/utility/primary/rapid_breach_sealing_module
+/obj/item/fighter_component/primary/utility/rapid_breach_sealing_module
 	name = "Rapid Breach Sealing Module"
 	desc = "A rapid breach sealing module for a Utility Vessel" //welder and smart foam
 	icon_state = "crate"
 
-/obj/item/fighter_component/utility/primary/rapid_breach_sealing_module/burntout
+/obj/item/fighter_component/primary/utility/rapid_breach_sealing_module/burntout
 	name = "Burntout Rapid Breach Sealing Module"
 	desc = "A rapid breach sealing module for a Utility Vessel, it looks charred"
 	icon_state = "crate"
 	burntout = TRUE
 
-/obj/item/fighter_component/utility/secondary/rbs_reagent_tank
+/obj/item/fighter_component/secondary/utility/rbs_reagent_tank
 	name = "RBS Reagent Tank - PARENT"
 	icon_state = "crate"
 	var/rbs_capacity = 200
 
-/obj/item/fighter_component/utility/secondary/rbs_reagent_tank/t1
+/obj/item/fighter_component/secondary/utility/rbs_reagent_tank/t1
 	name = "RBS Reagent Tank"
 	desc = "A reagent tank for the RBS module for a Utility Vessel"
 
-/obj/item/fighter_component/utility/secondary/rbs_reagent_tank/t2
+/obj/item/fighter_component/secondary/utility/rbs_reagent_tank/t2
 	name = "Large RBS Reagent Tank"
 	desc = "A large reagent tank for the RBS module for a Utility Vessel"
 	rbs_capacity = 300
 
-/obj/item/fighter_component/utility/secondary/rbs_reagent_tank/t3
+/obj/item/fighter_component/secondary/utility/rbs_reagent_tank/t3
 	name = "RBS Reagent Tank"
 	desc = "An extra large reagent tank for the RBS module for a Utility Vessel"
 	rbs_capacity = 400
 
-/obj/item/fighter_component/utility/secondary/passenger_compartment_module
+/obj/item/fighter_component/secondary/utility/passenger_compartment_module
 	name = "Utility Vessel Passenger Compartment Module - PARENT"
 	icon_state = "crate"
 	var/passenger_capacity = 4
 
-/obj/item/fighter_component/utility/secondary/passenger_compartment_module/t1
+/obj/item/fighter_component/secondary/utility/passenger_compartment_module/t1
 	name = "Utility Vessel Passenger Compartment Module"
 	desc = "A passenger compartment module and recovery system for a Utility Vessel"
 
-/obj/item/fighter_component/utility/secondary/passenger_compartment_module/t2
+/obj/item/fighter_component/secondary/utility/passenger_compartment_module/t2
 	name = "Expanded Utility Vessel Passenger Compartment Module"
 	desc = "An expanded passenger compartment module and recovery system for a Utility Vessel"
 	passenger_capacity = 5
 
-/obj/item/fighter_component/utility/secondary/passenger_compartment_module/t3
+/obj/item/fighter_component/secondary/utility/passenger_compartment_module/t3
 	name = "Extended Utility Vessel Passenger Compartment Module"
 	desc = "An extended passenger compartment module and recovery system for a Utility Vessel"
 	passenger_capacity = 6
@@ -807,7 +807,7 @@
 	id = "fighter_missile_rack_t1"
 	build_type = PROTOLATHE
 	materials = list(/datum/material/iron = 5000)
-	build_path = /obj/item/fighter_component/light/secondary/missile_rack/t1
+	build_path = /obj/item/fighter_component/secondary/light/missile_rack/t1
 	category = list("Ship Components")
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO
 
@@ -817,7 +817,7 @@
 	id = "fighter_missile_rack_t2"
 	build_type = PROTOLATHE
 	materials = list(/datum/material/iron = 10000)
-	build_path = /obj/item/fighter_component/light/secondary/missile_rack/t2
+	build_path = /obj/item/fighter_component/secondary/light/missile_rack/t2
 	category = list("Ship Components")
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO
 
@@ -827,7 +827,7 @@
 	id = "fighter_missile_rack_t3"
 	build_type = PROTOLATHE
 	materials = list(/datum/material/iron = 15000)
-	build_path = /obj/item/fighter_component/light/secondary/missile_rack/t3
+	build_path = /obj/item/fighter_component/secondary/light/missile_rack/t3
 	category = list("Ship Components")
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO
 
@@ -837,7 +837,7 @@
 	id = "light_fighter_light_cannon_t1"
 	build_type = PROTOLATHE
 	materials = list(/datum/material/iron = 5000)
-	build_path = /obj/item/fighter_component/light/primary/light_cannon/t1
+	build_path = /obj/item/fighter_component/primary/light/light_cannon/t1
 	category = list("Ship Components")
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO
 
@@ -847,7 +847,7 @@
 	id = "light_fighter_light_cannon_t2"
 	build_type = PROTOLATHE
 	materials = list(/datum/material/iron = 10000)
-	build_path = /obj/item/fighter_component/light/primary/light_cannon/t2
+	build_path = /obj/item/fighter_component/primary/light/light_cannon/t2
 	category = list("Ship Components")
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO
 
@@ -857,7 +857,7 @@
 	id = "light_fighter_light_cannon_t3"
 	build_type = PROTOLATHE
 	materials = list(/datum/material/iron = 15000)
-	build_path = /obj/item/fighter_component/light/primary/light_cannon/t3
+	build_path = /obj/item/fighter_component/primary/light/light_cannon/t3
 	category = list("Ship Components")
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO
 
@@ -957,7 +957,7 @@
 	id = "heavy_torpedo_rack_t1"
 	build_type = PROTOLATHE
 	materials = list(/datum/material/iron = 5000)
-	build_path = /obj/item/fighter_component/heavy/secondary/torpedo_rack/t1
+	build_path = /obj/item/fighter_component/secondary/heavy/torpedo_rack/t1
 	category = list("Ship Components")
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO
 
@@ -967,7 +967,7 @@
 	id = "heavy_torpedo_rack_t2"
 	build_type = PROTOLATHE
 	materials = list(/datum/material/iron = 10000)
-	build_path = /obj/item/fighter_component/heavy/secondary/torpedo_rack/t2
+	build_path = /obj/item/fighter_component/secondary/heavy/torpedo_rack/t2
 	category = list("Ship Components")
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO
 
@@ -977,7 +977,7 @@
 	id = "heavy_torpedo_rack_t3"
 	build_type = PROTOLATHE
 	materials = list(/datum/material/iron = 15000)
-	build_path = /obj/item/fighter_component/heavy/secondary/torpedo_rack/t3
+	build_path = /obj/item/fighter_component/secondary/heavy/torpedo_rack/t3
 	category = list("Ship Components")
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO
 
@@ -987,7 +987,7 @@
 	id = "heavy_fighter_heavy_cannon_t1"
 	build_type = PROTOLATHE
 	materials = list(/datum/material/iron = 5000)
-	build_path = /obj/item/fighter_component/heavy/primary/heavy_cannon/t1
+	build_path = /obj/item/fighter_component/primary/heavy/heavy_cannon/t1
 	category = list("Ship Components")
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO
 
@@ -997,7 +997,7 @@
 	id = "heavy_fighter_heavy_cannon_t2"
 	build_type = PROTOLATHE
 	materials = list(/datum/material/iron = 10000)
-	build_path = /obj/item/fighter_component/heavy/primary/heavy_cannon/t2
+	build_path = /obj/item/fighter_component/primary/heavy/heavy_cannon/t2
 	category = list("Ship Components")
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO
 
@@ -1007,7 +1007,7 @@
 	id = "heavy_fighter_heavy_cannon_t3"
 	build_type = PROTOLATHE
 	materials = list(/datum/material/iron = 15000)
-	build_path = /obj/item/fighter_component/heavy/primary/heavy_cannon/t3
+	build_path = /obj/item/fighter_component/primary/heavy/heavy_cannon/t3
 	category = list("Ship Components")
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO
 
@@ -1077,7 +1077,7 @@
 	id = "utility_refueling_system"
 	build_type = PROTOLATHE
 	materials = list(/datum/material/iron = 5000)
-	build_path = /obj/item/fighter_component/utility/primary/refueling_system
+	build_path = /obj/item/fighter_component/primary/utility/refueling_system
 	category = list("Ship Components")
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO
 
@@ -1087,7 +1087,7 @@
 	id = "utility_auxiliary_fuel_tank_t1"
 	build_type = PROTOLATHE
 	materials = list(/datum/material/iron = 5000)
-	build_path = /obj/item/fighter_component/utility/secondary/auxiliary_fuel_tank/t1
+	build_path = /obj/item/fighter_component/secondary/utility/auxiliary_fuel_tank/t1
 	category = list("Ship Components")
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO
 
@@ -1097,7 +1097,7 @@
 	id = "utility_auxiliary_fuel_tank_t2"
 	build_type = PROTOLATHE
 	materials = list(/datum/material/iron = 10000)
-	build_path = /obj/item/fighter_component/utility/secondary/auxiliary_fuel_tank/t2
+	build_path = /obj/item/fighter_component/secondary/utility/auxiliary_fuel_tank/t2
 	category = list("Ship Components")
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO
 
@@ -1107,7 +1107,7 @@
 	id = "utility_auxiliary_fuel_tank_t3"
 	build_type = PROTOLATHE
 	materials = list(/datum/material/iron = 15000)
-	build_path = /obj/item/fighter_component/utility/secondary/auxiliary_fuel_tank/t3
+	build_path = /obj/item/fighter_component/secondary/utility/auxiliary_fuel_tank/t3
 	category = list("Ship Components")
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO
 
@@ -1117,7 +1117,7 @@
 	id = "utility_search_rescue_module"
 	build_type = PROTOLATHE
 	materials = list(/datum/material/iron = 5000)
-	build_path = /obj/item/fighter_component/utility/primary/search_rescue_module
+	build_path = /obj/item/fighter_component/primary/utility/search_rescue_module
 	category = list("Ship Components")
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO
 
@@ -1127,7 +1127,7 @@
 	id = "utility_passenger_compartment_module_t1"
 	build_type = PROTOLATHE
 	materials = list(/datum/material/iron = 5000)
-	build_path = /obj/item/fighter_component/utility/secondary/passenger_compartment_module/t1
+	build_path = /obj/item/fighter_component/secondary/utility/passenger_compartment_module/t1
 	category = list("Ship Components")
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO
 
@@ -1137,7 +1137,7 @@
 	id = "utility_passenger_compartment_module_t2"
 	build_type = PROTOLATHE
 	materials = list(/datum/material/iron = 10000)
-	build_path = /obj/item/fighter_component/utility/secondary/passenger_compartment_module/t2
+	build_path = /obj/item/fighter_component/secondary/utility/passenger_compartment_module/t2
 	category = list("Ship Components")
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO
 
@@ -1147,7 +1147,7 @@
 	id = "utility_passenger_compartment_module_t3"
 	build_type = PROTOLATHE
 	materials = list(/datum/material/iron = 15000)
-	build_path = /obj/item/fighter_component/utility/secondary/passenger_compartment_module/t3
+	build_path = /obj/item/fighter_component/secondary/utility/passenger_compartment_module/t3
 	category = list("Ship Components")
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO
 
@@ -1157,7 +1157,7 @@
 	id = "utility_rapid_breach_sealing_module"
 	build_type = PROTOLATHE
 	materials = list(/datum/material/iron = 5000)
-	build_path = /obj/item/fighter_component/utility/primary/rapid_breach_sealing_module
+	build_path = /obj/item/fighter_component/primary/utility/rapid_breach_sealing_module
 	category = list("Ship Components")
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO
 
@@ -1167,7 +1167,7 @@
 	id = "utility_rbs_reagent_tank_t1"
 	build_type = PROTOLATHE
 	materials = list(/datum/material/iron = 5000)
-	build_path = /obj/item/fighter_component/utility/secondary/rbs_reagent_tank/t1
+	build_path = /obj/item/fighter_component/secondary/utility/rbs_reagent_tank/t1
 	category = list("Ship Components")
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO
 
@@ -1177,7 +1177,7 @@
 	id = "utility_rbs_reagent_tank_t2"
 	build_type = PROTOLATHE
 	materials = list(/datum/material/iron = 10000)
-	build_path = /obj/item/fighter_component/utility/secondary/rbs_reagent_tank/t2
+	build_path = /obj/item/fighter_component/secondary/utility/rbs_reagent_tank/t2
 	category = list("Ship Components")
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO
 
@@ -1187,7 +1187,7 @@
 	id = "utility_rbs_reagent_tank_t3"
 	build_type = PROTOLATHE
 	materials = list(/datum/material/iron = 15000)
-	build_path = /obj/item/fighter_component/utility/secondary/rbs_reagent_tank/t3
+	build_path = /obj/item/fighter_component/secondary/utility/rbs_reagent_tank/t3
 	category = list("Ship Components")
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO
 
