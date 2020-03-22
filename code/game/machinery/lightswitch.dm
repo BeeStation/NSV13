@@ -61,3 +61,15 @@
 		return
 	if(!(stat & (BROKEN|NOPOWER)))
 		power_change()
+
+/obj/machinery/light_switch/north //NSV13 Start
+	pixel_y = 24
+
+/obj/machinery/light_switch/south
+	pixel_y = -24
+
+/obj/machinery/light_switch/east
+	pixel_x = 24
+
+/obj/machinery/light_switch/west
+	pixel_x = -24 //NSV13 End

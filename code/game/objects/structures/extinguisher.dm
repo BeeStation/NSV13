@@ -152,3 +152,19 @@
 	desc = "Used for building wall-mounted extinguisher cabinets."
 	icon_state = "extinguisher"
 	result_path = /obj/structure/extinguisher_cabinet
+	
+/obj/structure/extinguisher_cabinet/north //NSV13 Start - Directional extinguisher cabinets for mapping
+	dir = NORTH
+	pixel_y = 27
+	
+/obj/structure/extinguisher_cabinet/south
+	dir = SOUTH
+	pixel_y = -27
+	
+/obj/structure/extinguisher_cabinet/west
+	dir = WEST
+	pixel_x = -27
+	
+/obj/structure/extinguisher_cabinet/east
+	dir = EAST
+	pixel_x = 27 //NSV13 End
