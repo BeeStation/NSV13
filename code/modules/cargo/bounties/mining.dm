@@ -1,4 +1,3 @@
-/*
 /datum/bounty/item/mining/goliath_steaks
 	name = "Lava-Cooked Goliath Steaks"
 	description = "Admiral Pavlov has gone on hunger strike ever since the canteen started serving only monkey and monkey byproducts. She is demanding lava-cooked Goliath steaks."
@@ -70,4 +69,3 @@
 	reward = 4500
 	required_count = 3
 	wanted_types = list(/obj/item/reagent_containers/food/snacks/grown/ash_flora/mushroom_leaf)
-*/ //NSV13
