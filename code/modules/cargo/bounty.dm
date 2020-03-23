@@ -132,7 +132,7 @@ GLOBAL_LIST_EMPTY(bounties_list)
 											/datum/bounty/item/security = 1,
 											/datum/bounty/virus = 1,
 											/datum/bounty/item/engineering = 1,
-											/datum/bounty/item/mining = 2,
+											///datum/bounty/item/mining = 2, // NSV13
 											/datum/bounty/item/medical = 2,
 											/datum/bounty/item/botany = 2)
 
