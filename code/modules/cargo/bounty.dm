@@ -110,13 +110,13 @@ GLOBAL_LIST_EMPTY(bounties_list)
 		if(10)
 			var/subtype = pick(subtypesof(/datum/bounty/item/engineering))
 			return new subtype
+		/*if(11)
+			var/subtype = pick(subtypesof(/datum/bounty/item/mining)) //NSV13
+			return new subtype*/
 		if(11)
-			var/subtype = pick(subtypesof(/datum/bounty/item/mining))
-			return new subtype
-		if(12)
 			var/subtype = pick(subtypesof(/datum/bounty/item/medical))
 			return new subtype
-		if(13)
+		if(12)
 			var/subtype = pick(subtypesof(/datum/bounty/item/botany))
 			return new subtype
 
