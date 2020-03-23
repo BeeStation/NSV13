@@ -70,4 +70,4 @@
 	reward = 4500
 	required_count = 3
 	wanted_types = list(/obj/item/reagent_containers/food/snacks/grown/ash_flora/mushroom_leaf)
-*/
+*/ //NSV13
