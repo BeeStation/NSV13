@@ -247,15 +247,21 @@ SUBSYSTEM_DEF(mapping)
 		++space_levels_so_far
 		add_new_zlevel("Empty Area [space_levels_so_far]", ZTRAITS_SPACE)
 
-	// load mining
-	if(config.minetype == "lavaland")
-		LoadGroup(FailedZs, "Lavaland", "map_files/Mining", "Lavaland.dmm", default_traits = ZTRAITS_LAVALAND)
-	if(config.minetype == "nostromo") //nsv13 mining type
-		LoadGroup(FailedZs, "nostromo", "map_files/Mining/nsv13", "nostromo.dmm", default_traits = ZTRAITS_MINING_SHIP)
-	if(config.minetype == "FOB") //nsv13 mining type
-		LoadGroup(FailedZs, "FOB", "map_files/Mining/nsv13", "FOB_Shuttle.dmm", default_traits = ZTRAITS_MINING_SHIP)
-	else if (!isnull(config.minetype))
-		INIT_ANNOUNCE("WARNING: An unknown minetype '[config.minetype]' was set! This is being ignored! Update the maploader code!")
+
+///NSV13 RECODE OF MINING LOAD SELECTION
+	//Load Mining
+	switch(config.minetype)
+		if("lavaland")
+			LoadGroup(FailedZs, "Lavaland", "map_files/Mining", "Lavaland.dmm", default_traits = ZTRAITS_LAVALAND)
+		if("nostromo") //nsv13 mining type
+			LoadGroup(FailedZs, "nostromo", "map_files/Mining/nsv13", "nostromo.dmm", default_traits = ZTRAITS_MINING_SHIP)
+		if("FOB") //nsv13 mining type
+			LoadGroup(FailedZs, "FOB", "map_files/Mining/nsv13", "FOB_Shuttle.dmm", default_traits = ZTRAITS_MINING_SHIP)
+		if(null)
+			INIT_ANNOUNCE("WARNING: A null minetype was set! Inspect the map definition JSON!")
+		else
+			INIT_ANNOUNCE("WARNING: An unknown minetype '[config.minetype]' was set! This is being ignored! Update the maploader code!")
+///NSV13 END
 #endif
 
 	if(LAZYLEN(FailedZs))	//but seriously, unless the server's filesystem is messed up this will never happen
