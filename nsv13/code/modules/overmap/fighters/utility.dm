@@ -3,11 +3,11 @@
 //Pickups up pods, refuels in space, repairs things, module module modules
 /obj/structure/overmap/fighter/utility
 	name = "ADL-77U Arroyomolinos"
-	desc = "A space faring fighter craft."
+	desc = "An ADL-77U Arroymolinos utility vessel. Designed for robustness in deep space and as a highly modular platform, able to be fitted out for any situation."
 	icon = 'nsv13/icons/overmap/nanotrasen/carrier.dmi'
 	icon_state = "carrier"
 	brakes = TRUE
-	armor = list("melee" = 80, "bullet" = 50, "laser" = 80, "energy" = 50, "bomb" = 50, "bio" = 100, "rad" = 100, "fire" = 100, "acid" = 80) //temp to stop easy destruction from small arms
+	armor = list("melee" = 70, "bullet" = 40, "laser" = 70, "energy" = 40, "bomb" = 40, "bio" = 100, "rad" = 90, "fire" = 90, "acid" = 80, "overmap_light" = 20)
 	bound_width = 64 //Change this on a per ship basis
 	bound_height = 96
 	mass = MASS_TINY

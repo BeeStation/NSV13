@@ -27,7 +27,7 @@
 
 /obj/structure/fighter_component/underconstruction_fighter/light_fighter_frame
 	name = "Light Fighter Frame"
-	desc = "An Incomplete Light Fighter"
+	desc = "An Incomplete F-614B Quebec Light Fighter"
 	icon = 'icons/obj/janitor.dmi'
 	icon_state = "mop"
 	build_state = LBS_CHASSIS

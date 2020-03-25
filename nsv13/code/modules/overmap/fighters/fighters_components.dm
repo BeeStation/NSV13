@@ -1,3 +1,5 @@
+#define INELIGIBLE 2
+
 ////////Common Components///////
 /obj/item/fighter_component
 	name = "Fight Component - PARENT"
@@ -10,10 +12,23 @@
 	.=..()
 	AddComponent(/datum/component/twohanded/required) //These all require two hands to pick up
 
+/obj/item/fighter_component/examine(mob/user)
+	.=..()
+	if(burntout)
+		. += "<span class='notice'>It looks less than functional.</notice>"
+
+/obj/item/fighter_component/proc/burn_out()
+	if(burntout != FALSE)
+		return
+	var/prefix = pick("Burntout", "Charred", "Singed", "Scorched", "Mangled", "Damaged", "Warped", "Corroded", "Deformed")
+	name = "[prefix] [name]"
+	burntout = TRUE
+
 /obj/item/fighter_component/fuel_tank
 	name = "Fighter Fuel Tank - PARENT"
 	icon_state = "secgearcrate"
 	var/fuel_capacity = 0 //Fuel Capacity
+	burntout = INELIGIBLE
 
 /obj/item/fighter_component/fuel_tank/t1
 	name = "Fighter Fuel Tank"
@@ -35,27 +50,16 @@
 	desc = "Avionics for a fighter"
 	icon_state = "freezer"
 
-/obj/item/fighter_component/avionics/burntout //Disables DRADIS, Flight Leader directional indicator and velocity vector overlay
-	name = "Burntout Fighter Avionics"
-	desc = "Avionics for a fighter, it looks charred"
-	icon_state = "freezer"
-	burntout = TRUE
-
 /obj/item/fighter_component/apu
 	name = "Fighter Auxiliary Power Unit"
 	desc = "An Auxiliary Power Unit for a fighter"
 	icon_state = "radiation"
 
-/obj/item/fighter_component/apu/burntout //Cannot Start APU
-	name = "Burntout Fighter Auxiliary Power Unit"
-	desc = "An Auxiliary Power Unit for a fighter, it looks charred"
-	icon_state = "radiation"
-	burntout = TRUE
-
 /obj/item/fighter_component/armour_plating
 	name = "Fighter Armour Plating - PARENT"
 	icon_state = "engi_secure_crate"
 	var/armour = 1 //HP Modifier
+	burntout = INELIGIBLE
 
 /obj/item/fighter_component/targeting_sensor
 	name = "Fighter Targeting Sensors - PARENT"
@@ -72,13 +76,6 @@
 	name = "Fighter Countermeasure Dispensor - PARENT"
 	icon_state = "o2crate"
 	var/countermeasure_capacity = 4
-
-/obj/item/fighter_component/countermeasure_dispenser/burntout //Prevents launching chaff clouds
-	name = "Burntout Fighter Countermeasure Dispensor"
-	desc = "A Countermeasure Dispensor for a fighter, it looks charred"
-	icon_state = "o2crate"
-	countermeasure_capacity = 0
-	burntout = TRUE
 
 /obj/item/fighter_component/countermeasure_dispenser/t1
 	name = "Fighter Countermeasure Dispensor"
@@ -119,12 +116,6 @@
 	desc = "Reinforced Armour Plating for a Light Fighter"
 	armour = 2
 
-/obj/item/fighter_component/targeting_sensor/light/burntout //Prevents target locking and use of missiles/torpedoes
-	name = "Burntout Light Fighter Targeting Sensors"
-	desc = "Targeting Sensors for a Light Fighter, it looks charred"
-	icon_state = "weaponcrate"
-	targeting_speed = 0
-
 /obj/item/fighter_component/targeting_sensor/light/t1
 	name = "Light Fighter Targeting Sensors"
 	desc = "Targening Sensors for a Light Fighter"
@@ -161,6 +152,7 @@
 	name = "Light Fighter Missile Rack - PARENT"
 	icon_state = "weaponcrate"
 	var/missile_capacity = 2
+	burntout = INELIGIBLE
 
 /obj/item/fighter_component/secondary/light/missile_rack/t1
 	name = "Light Fighter Missile Rack"
@@ -182,12 +174,6 @@
 	var/fire_rate = 1
 	var/ammo_capacity = 1
 	var/projectile = null
-
-/obj/item/fighter_component/primary/light/light_cannon/burntout //Prevents firing the cannon
-	name = "Burntout Light Fighter Light Cannon"
-	desc = "A light cannon for a light fighter, it looks charred"
-	icon_state = "plasmacrate"
-	burntout = TRUE
 
 /obj/item/fighter_component/primary/light/light_cannon/t1
 	name = "Light Fighter Light Cannon"
@@ -230,12 +216,6 @@
 	desc = "Reinforced Armour Plating for a Light Fighter"
 	armour = 2
 
-/obj/item/fighter_component/targeting_sensor/heavy/burntout //Prevents target locking and use of missiles/torpedoes
-	name = "Burntout Heavy Fighter Targeting Sensors"
-	desc = "Targeting Sensors for a Heavy Fighter, it looks charred"
-	icon_state = "weaponcrate"
-	burntout = TRUE
-
 /obj/item/fighter_component/targeting_sensor/heavy/t1
 	name = "Heavy Fighter Targeting Sensors"
 	desc = "Targening Sensors for a Heavy Fighter"
@@ -274,6 +254,7 @@
 	icon_state = "weaponcrate"
 	var/missile_capacity = 0
 	var/torpedo_capacity = 2
+	burntout = INELIGIBLE
 
 /obj/item/fighter_component/secondary/heavy/torpedo_rack/t1
 	name = "Heavy Fighter Torpedo Rack"
@@ -297,12 +278,6 @@
 	var/fire_rate = 1
 	var/ammo_capacity = 1
 	var/projectile = null
-
-/obj/item/fighter_component/primary/heavy/heavy_cannon/burntout //Prevents firing the cannon
-	name = "Burntout Heavy Fighter Heavy Cannon"
-	desc = "A heavy cannon for a heavy fighter, it looks charred"
-	icon_state = "plasmacrate"
-	burntout = TRUE
 
 /obj/item/fighter_component/primary/heavy/heavy_cannon/t1
 	name = "Heavy Fighter Heavy Cannon"
@@ -368,28 +343,17 @@
 	desc = "A refueling system for a Utility Vessel"
 	icon_state = "crate"
 
-/obj/item/fighter_component/primary/utility/refueling_system/burnout
-	name = "Burntout Utility Vessel Refueling System"
-	desc = "A refueling system for a Utility Vessel, it looks charred"
-	icon_state = "crate"
-	burntout = TRUE
-
 /obj/item/fighter_component/primary/utility/search_rescue_module
 	name = "Utility Vessel Search And Rescue Module"
 	desc = "A search and rescue module for a Utility vessel"
 	icon_state = "crate"
-
-/obj/item/fighter_component/primary/utility/search_rescue_module/burntout
-	name = "Burntout Utility Vessel Search And Rescue Module"
-	desc = "A search and rescue module for a utility vessel"
-	icon_state = "crate"
-	burntout = TRUE
 
 /obj/item/fighter_component/secondary/utility/auxiliary_fuel_tank
 	name = "Utility Vessel Auxiliary Fuel Tank - PARENT"
 	desc = "THIS IS A PARENT ITEM AND SHOULD NOT BE SPAWNED"
 	icon_state = "crate"
 	var/aux_capacity = 3000
+	burntout = INELIGIBLE
 
 /obj/item/fighter_component/secondary/utility/auxiliary_fuel_tank/t1
 	name = "Utility Vessel Auxiliary Fuel Tank"
@@ -410,16 +374,11 @@
 	desc = "A rapid breach sealing module for a Utility Vessel" //welder and smart foam
 	icon_state = "crate"
 
-/obj/item/fighter_component/primary/utility/rapid_breach_sealing_module/burntout
-	name = "Burntout Rapid Breach Sealing Module"
-	desc = "A rapid breach sealing module for a Utility Vessel, it looks charred"
-	icon_state = "crate"
-	burntout = TRUE
-
 /obj/item/fighter_component/secondary/utility/rbs_reagent_tank
 	name = "RBS Reagent Tank - PARENT"
 	icon_state = "crate"
 	var/rbs_capacity = 200
+	burntout = INELIGIBLE
 
 /obj/item/fighter_component/secondary/utility/rbs_reagent_tank/t1
 	name = "RBS Reagent Tank"
@@ -439,6 +398,7 @@
 	name = "Utility Vessel Passenger Compartment Module - PARENT"
 	icon_state = "crate"
 	var/passenger_capacity = 4
+	burntout = INELIGIBLE
 
 /obj/item/fighter_component/secondary/utility/passenger_compartment_module/t1
 	name = "Utility Vessel Passenger Compartment Module"
@@ -576,7 +536,7 @@
 	id = "utility_craft_component_fabrication_t1"
 	display_name = "Utility Vessel Component Fabrication"
 	description = "Access to components required for utility vessel fabrication."
-	prereq_ids = list("utility_craft_fabrication")
+	prereq_ids = list("utility_craft_fabrication", "exp_tools")
 	design_ids = list("utility_craft_armour_plating_t1", "utility_engine_t1", "utility_refueling_system", "utility_auxiliary_fuel_tank_t1", "utility_passenger_compartment_module_t1", "utility_rapid_breach_sealing_module", "utility_search_rescue_module", "utility_rbs_reagent_tank_t1")
 	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 5000)
 	export_price = 1000
@@ -606,7 +566,7 @@
 	desc = "A crate full of components for the construction of a light fighter chassis"
 	id = "light_chassis_crate"
 	build_type = PROTOLATHE
-	materials = list(/datum/material/iron = 25000, /datum/material/silver = 5000)
+	materials = list(/datum/material/iron = 15000, /datum/material/titanium = 10000, /datum/material/copper = 7500, /datum/material/glass = 7500, /datum/material/plasma = 2500)
 	build_path = /obj/structure/fighter_component/light_chassis_crate
 	category = list("Ship Components")
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO
@@ -616,7 +576,7 @@
 	desc = "A crate full of components for the construction of a heavy fighter chassis"
 	id = "heavy_chassis_crate"
 	build_type = PROTOLATHE
-	materials = list(/datum/material/iron = 25000, /datum/material/silver = 5000)
+	materials = list(/datum/material/iron = 10000, /datum/material/titanium = 25000, /datum/material/copper = 17500, /datum/material/glass = 12500, /datum/material/plasma = 5000)
 	build_path = /obj/structure/fighter_component/heavy_chassis_crate
 	category = list("Ship Components")
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO
@@ -626,7 +586,7 @@
 	desc = "A crate full of components for the construction of a utility vessel chassis"
 	id = "utility_chassis_crate"
 	build_type = PROTOLATHE
-	materials = list(/datum/material/iron = 25000, /datum/material/silver = 5000)
+	materials = list(/datum/material/iron = 12500, /datum/material/titanium = 12500, /datum/material/copper = 12500, /datum/material/glass = 17500, /datum/material/plasma = 3500)
 	build_path = /obj/structure/fighter_component/utility_chassis_crate
 	category = list("Ship Components")
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO
@@ -636,7 +596,7 @@
 	desc = "A fuel tank for a fighter"
 	id = "fuel_tank_t1"
 	build_type = PROTOLATHE
-	materials = list(/datum/material/iron = 5000)
+	materials = list(/datum/material/iron = 10000, /datum/material/copper = 1000, /datum/material/plasma = 500)
 	build_path = /obj/item/fighter_component/fuel_tank/t1
 	category = list("Ship Components")
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO
@@ -646,7 +606,7 @@
 	desc = "An extended fuel tank for a fighter"
 	id = "fuel_tank_t2"
 	build_type = PROTOLATHE
-	materials = list(/datum/material/iron = 10000)
+	materials = list(/datum/material/iron = 10000, /datum/material/titanium = 2000, /datum/material/copper = 1000, /datum/material/plasma = 2500, /datum/material/silver = 2000)
 	build_path = /obj/item/fighter_component/fuel_tank/t3
 	category = list("Ship Components")
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO
@@ -656,7 +616,7 @@
 	desc = "A double fuel tank for a fighter"
 	id = "fuel_tank_t3"
 	build_type = PROTOLATHE
-	materials = list(/datum/material/iron = 15000)
+	materials = list(/datum/material/iron = 15000, /datum/material/titanium = 2500, /datum/material/copper = 2000, /datum/material/plasma = 5000, /datum/material/silver = 4000)
 	build_path = /obj/item/fighter_component/fuel_tank/t3
 	category = list("Ship Components")
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO
@@ -666,7 +626,7 @@
 	desc = "Avionics for a fighter"
 	id = "fighter_avionics"
 	build_type = PROTOLATHE
-	materials = list(/datum/material/iron = 5000)
+	materials = list(/datum/material/iron = 1000, /datum/material/copper = 5000, /datum/material/glass = 5000)
 	build_path = /obj/item/fighter_component/avionics
 	category = list("Ship Components")
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO
@@ -676,7 +636,7 @@
 	desc = "An Auxiliary Power Unit for a fighter"
 	id = "fighter_apu"
 	build_type = PROTOLATHE
-	materials = list(/datum/material/iron = 5000)
+	materials = list(/datum/material/iron = 5000, /datum/material/copper = 7500, /datum/material/glass = 3000, /datum/material/plasma = 1250)
 	build_path = /obj/item/fighter_component/apu
 	category = list("Ship Components")
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO
@@ -686,7 +646,7 @@
 	desc = "A Countermeasure Dispensor for a fighter"
 	id = "fighter_countermeasure_dispenser_t1"
 	build_type = PROTOLATHE
-	materials = list(/datum/material/iron = 5000)
+	materials = list(/datum/material/iron = 3000, /datum/material/titanium = 1000, /datum/material/copper = 5000, /datum/material/glass = 5000)
 	build_path = /obj/item/fighter_component/countermeasure_dispenser/t1
 	category = list("Ship Components")
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO
@@ -696,7 +656,7 @@
 	desc = "An Expanded Countermeasure Dispensor for a fighter"
 	id = "fighter_countermeasure_dispenser_t2"
 	build_type = PROTOLATHE
-	materials = list(/datum/material/iron = 10000)
+	materials = list(/datum/material/iron = 4000, /datum/material/titanium = 1500, /datum/material/copper = 5000, /datum/material/glass = 5000, /datum/material/gold = 2500)
 	build_path = /obj/item/fighter_component/countermeasure_dispenser/t2
 	category = list("Ship Components")
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO
@@ -706,7 +666,7 @@
 	desc = "A Double Fighter Countermeasure Dispensor"
 	id = "fighter_countermeasure_dispenser_t3"
 	build_type = PROTOLATHE
-	materials = list(/datum/material/iron = 15000)
+	materials = list(/datum/material/iron = 3000, /datum/material/titanium = 1000, /datum/material/copper = 5000, /datum/material/glass = 5000, /datum/material/gold = 3000, /datum/material/uranium = 2000)
 	build_path = /obj/item/fighter_component/countermeasure_dispenser/t3
 	category = list("Ship Components")
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO
@@ -716,7 +676,7 @@
 	desc = "Armour Plating for a Light Fighter"
 	id = "light_fighter_armour_plating_t1"
 	build_type = PROTOLATHE
-	materials = list(/datum/material/iron = 5000)
+	materials = list(/datum/material/iron = 5000, /datum/material/titanium = 5000, /datum/material/plasma = 5000)
 	build_path = /obj/item/fighter_component/armour_plating/light/t1
 	category = list("Ship Components")
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO
@@ -726,7 +686,7 @@
 	desc = "Hardened Armour Plating for a Light Fighter"
 	id = "light_fighter_armour_plating_t2"
 	build_type = PROTOLATHE
-	materials = list(/datum/material/iron = 10000)
+	materials = list(/datum/material/iron = 5000, /datum/material/titanium = 7500, /datum/material/plasma = 7500, /datum/material/silver = 7500)
 	build_path = /obj/item/fighter_component/armour_plating/light/t2
 	category = list("Ship Components")
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO
@@ -736,7 +696,7 @@
 	desc = "Reinforced Armour Plating for a Light Fighter"
 	id = "light_fighter_armour_plating_t3"
 	build_type = PROTOLATHE
-	materials = list(/datum/material/iron = 15000)
+	materials = list(/datum/material/iron = 5000, /datum/material/titanium = 10000, /datum/material/plasma = 10000, /datum/material/silver = 7500, /datum/material/uranium = 7500)
 	build_path = /obj/item/fighter_component/armour_plating/light/t3
 	category = list("Ship Components")
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO
@@ -746,7 +706,7 @@
 	desc = "Targening Sensors for a Light Fighter"
 	id = "light_targeting_sensor_t1"
 	build_type = PROTOLATHE
-	materials = list(/datum/material/iron = 5000)
+	materials = list(/datum/material/iron = 2000, /datum/material/copper = 5000, /datum/material/glass = 5000)
 	build_path = /obj/item/fighter_component/targeting_sensor/light/t1
 	category = list("Ship Components")
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO
@@ -756,7 +716,7 @@
 	desc = "Improved Targening Sensors for a Light Fighter"
 	id = "light_targeting_sensor_t2"
 	build_type = PROTOLATHE
-	materials = list(/datum/material/iron = 10000)
+	materials = list(/datum/material/iron = 2000, /datum/material/copper = 6500, /datum/material/glass = 5000, /datum/material/gold = 3000)
 	build_path = /obj/item/fighter_component/targeting_sensor/light/t2
 	category = list("Ship Components")
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO
@@ -766,7 +726,7 @@
 	desc = "Enhanced Targening Sensors for a Light Fighter"
 	id = "light_targeting_sensor_t3"
 	build_type = PROTOLATHE
-	materials = list(/datum/material/iron = 15000)
+	materials = list(/datum/material/iron = 2000, /datum/material/copper = 7000, /datum/material/glass = 5000, /datum/material/gold = 4000, /datum/material/bluespace = 2000)
 	build_path = /obj/item/fighter_component/targeting_sensor/light/t3
 	category = list("Ship Components")
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO
@@ -776,7 +736,7 @@
 	desc = "An engine for a Light Fighter"
 	id = "light_engine_t1"
 	build_type = PROTOLATHE
-	materials = list(/datum/material/iron = 5000)
+	materials = list(/datum/material/iron = 5000, /datum/material/copper = 5000, /datum/material/titanium = 5000, /datum/material/plasma = 5000)
 	build_path = /obj/item/fighter_component/engine/light/t1
 	category = list("Ship Components")
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO
@@ -786,7 +746,7 @@
 	desc = "An improved engine for a Light Fighter"
 	id = "light_engine_t2"
 	build_type = PROTOLATHE
-	materials = list(/datum/material/iron = 10000)
+	materials = list(/datum/material/iron = 3000, /datum/material/copper = 4000, /datum/material/titanium = 7500, /datum/material/plasma = 10000, /datum/material/silver = 5000, /datum/material/gold = 2500)
 	build_path = /obj/item/fighter_component/engine/light/t2
 	category = list("Ship Components")
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO
@@ -796,7 +756,7 @@
 	desc = "An enhanced engine for a Light Fighter"
 	id = "light_engine_t3"
 	build_type = PROTOLATHE
-	materials = list(/datum/material/iron = 15000)
+	materials = list(/datum/material/iron = 2000, /datum/material/copper = 3000, /datum/material/titanium = 7500, /datum/material/plasma = 10000, /datum/material/silver = 5000, /datum/material/gold = 2500, /datum/material/diamond = 5000, /datum/material/uranium = 7500)
 	build_path = /obj/item/fighter_component/engine/light/t3
 	category = list("Ship Components")
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO
@@ -806,7 +766,7 @@
 	desc = "A missile rack for a light fighter"
 	id = "fighter_missile_rack_t1"
 	build_type = PROTOLATHE
-	materials = list(/datum/material/iron = 5000)
+	materials = list(/datum/material/iron = 5000, /datum/material/copper = 2500, /datum/material/glass = 500)
 	build_path = /obj/item/fighter_component/secondary/light/missile_rack/t1
 	category = list("Ship Components")
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO
@@ -816,7 +776,7 @@
 	desc = "A large missile rack for a light fighter"
 	id = "fighter_missile_rack_t2"
 	build_type = PROTOLATHE
-	materials = list(/datum/material/iron = 10000)
+	materials = list(/datum/material/iron = 10000, /datum/material/copper = 3000, /datum/material/glass = 1000)
 	build_path = /obj/item/fighter_component/secondary/light/missile_rack/t2
 	category = list("Ship Components")
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO
@@ -826,7 +786,7 @@
 	desc = "An extra large missile rack for a light fighter"
 	id = "fighter_missile_rack_t3"
 	build_type = PROTOLATHE
-	materials = list(/datum/material/iron = 15000)
+	materials = list(/datum/material/iron = 15000, /datum/material/copper = 3500, /datum/material/glass = 1500)
 	build_path = /obj/item/fighter_component/secondary/light/missile_rack/t3
 	category = list("Ship Components")
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO
@@ -836,7 +796,7 @@
 	desc = "A light cannon for a light fighter"
 	id = "light_fighter_light_cannon_t1"
 	build_type = PROTOLATHE
-	materials = list(/datum/material/iron = 5000)
+	materials = list(/datum/material/iron = 1000, /datum/material/titanium = 5000, /datum/material/copper = 1500, /datum/material/glass = 1000, /datum/material/plasma = 2000)
 	build_path = /obj/item/fighter_component/primary/light/light_cannon/t1
 	category = list("Ship Components")
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO
@@ -846,7 +806,7 @@
 	desc = "An Improved light cannon for a light fighter"
 	id = "light_fighter_light_cannon_t2"
 	build_type = PROTOLATHE
-	materials = list(/datum/material/iron = 10000)
+	materials = list(/datum/material/iron = 1000, /datum/material/titanium = 6500, /datum/material/copper = 2500, /datum/material/glass = 1500, /datum/material/plasma = 2500, /datum/material/uranium = 1500)
 	build_path = /obj/item/fighter_component/primary/light/light_cannon/t2
 	category = list("Ship Components")
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO
@@ -856,7 +816,7 @@
 	desc = "An enhanced light cannon for a light fighter"
 	id = "light_fighter_light_cannon_t3"
 	build_type = PROTOLATHE
-	materials = list(/datum/material/iron = 15000)
+	materials = list(/datum/material/iron = 1000, /datum/material/titanium = 7500, /datum/material/copper = 3500, /datum/material/glass = 2000, /datum/material/plasma = 3000, /datum/material/uranium = 2500, /datum/material/diamond = 2500)
 	build_path = /obj/item/fighter_component/primary/light/light_cannon/t3
 	category = list("Ship Components")
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO
@@ -866,7 +826,7 @@
 	desc = "Armour Plating for a Heavy Fighter"
 	id = "heavy_fighter_armour_plating_t1"
 	build_type = PROTOLATHE
-	materials = list(/datum/material/iron = 5000)
+	materials = list(/datum/material/iron = 7500, /datum/material/titanium = 7500, /datum/material/plasma = 7500)
 	build_path = /obj/item/fighter_component/armour_plating/heavy/t1
 	category = list("Ship Components")
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO
@@ -876,7 +836,7 @@
 	desc = "Hardened Armour Plating for a Heavy Fighter"
 	id = "heavy_fighter_armour_plating_t2"
 	build_type = PROTOLATHE
-	materials = list(/datum/material/iron = 10000)
+	materials = list(/datum/material/iron = 7500, /datum/material/titanium = 10000, /datum/material/plasma = 10000, /datum/material/silver = 12500)
 	build_path = /obj/item/fighter_component/armour_plating/heavy/t2
 	category = list("Ship Components")
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO
@@ -886,7 +846,7 @@
 	desc = "Reinforced Armour Plating for a Heavy Fighter"
 	id = "heavy_fighter_armour_plating_t3"
 	build_type = PROTOLATHE
-	materials = list(/datum/material/iron = 15000)
+	materials = list(/datum/material/iron = 7500, /datum/material/titanium = 11500, /datum/material/plasma = 12500, /datum/material/silver = 17500, /datum/material/uranium = 7500, /datum/material/diamond = 2000)
 	build_path = /obj/item/fighter_component/armour_plating/heavy/t3
 	category = list("Ship Components")
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO
@@ -896,7 +856,7 @@
 	desc = "Targening Sensors for a Heavy Fighter"
 	id = "heavy_targeting_sensor_t1"
 	build_type = PROTOLATHE
-	materials = list(/datum/material/iron = 5000)
+	materials = list(/datum/material/iron = 2000, /datum/material/copper = 5000, /datum/material/glass = 5000)
 	build_path = /obj/item/fighter_component/targeting_sensor/heavy/t1
 	category = list("Ship Components")
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO
@@ -906,7 +866,7 @@
 	desc = "Improved Targening Sensors for a Heavy Fighter"
 	id = "heavy_targeting_sensor_t2"
 	build_type = PROTOLATHE
-	materials = list(/datum/material/iron = 10000)
+	materials = list(/datum/material/iron = 2000, /datum/material/copper = 6500, /datum/material/glass = 5000, /datum/material/gold = 3000)
 	build_path = /obj/item/fighter_component/targeting_sensor/heavy/t2
 	category = list("Ship Components")
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO
@@ -916,7 +876,7 @@
 	desc = "Enhanced Targening Sensors for a Heavy Fighter"
 	id = "heavy_targeting_sensor_t3"
 	build_type = PROTOLATHE
-	materials = list(/datum/material/iron = 15000)
+	materials = list(/datum/material/iron = 2000, /datum/material/copper = 7000, /datum/material/glass = 5000, /datum/material/gold = 4000, /datum/material/bluespace = 2000)
 	build_path = /obj/item/fighter_component/targeting_sensor/heavy/t3
 	category = list("Ship Components")
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO
@@ -926,7 +886,7 @@
 	desc = "An engine for a Heavy Fighter"
 	id = "heavy_engine_t1"
 	build_type = PROTOLATHE
-	materials = list(/datum/material/iron = 5000)
+	materials = list(/datum/material/iron = 5000, /datum/material/copper = 5000, /datum/material/titanium = 5000, /datum/material/plasma = 5000)
 	build_path = /obj/item/fighter_component/engine/heavy/t1
 	category = list("Ship Components")
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO
@@ -936,7 +896,7 @@
 	desc = "An improved engine for a Heavy Fighter"
 	id = "heavy_engine_t2"
 	build_type = PROTOLATHE
-	materials = list(/datum/material/iron = 10000)
+	materials = list(/datum/material/iron = 3000, /datum/material/copper = 4000, /datum/material/titanium = 7500, /datum/material/plasma = 10000, /datum/material/silver = 5000, /datum/material/gold = 2500)
 	build_path = /obj/item/fighter_component/engine/heavy/t2
 	category = list("Ship Components")
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO
@@ -946,7 +906,7 @@
 	desc = "An enhanced engine for a Heavy Fighter"
 	id = "heavy_engine_t3"
 	build_type = PROTOLATHE
-	materials = list(/datum/material/iron = 15000)
+	materials = list(/datum/material/iron = 2000, /datum/material/copper = 3000, /datum/material/titanium = 7500, /datum/material/plasma = 10000, /datum/material/silver = 5000, /datum/material/gold = 2500, /datum/material/diamond = 5000, /datum/material/uranium = 7500)
 	build_path = /obj/item/fighter_component/engine/heavy/t3
 	category = list("Ship Components")
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO
@@ -956,7 +916,7 @@
 	desc = "A torpedo rack for a heavy fighter"
 	id = "heavy_torpedo_rack_t1"
 	build_type = PROTOLATHE
-	materials = list(/datum/material/iron = 5000)
+	materials = list(/datum/material/iron = 5000, /datum/material/copper = 2500, /datum/material/glass = 500, /datum/material/titanium = 5000)
 	build_path = /obj/item/fighter_component/secondary/heavy/torpedo_rack/t1
 	category = list("Ship Components")
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO
@@ -966,7 +926,7 @@
 	desc = "A large torpedo rack for a heavy fighter"
 	id = "heavy_torpedo_rack_t2"
 	build_type = PROTOLATHE
-	materials = list(/datum/material/iron = 10000)
+	materials = list(/datum/material/iron = 10000, /datum/material/copper = 3000, /datum/material/glass = 1000, /datum/material/titanium = 10000)
 	build_path = /obj/item/fighter_component/secondary/heavy/torpedo_rack/t2
 	category = list("Ship Components")
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO
@@ -976,7 +936,7 @@
 	desc = "An extra large torpedo rack for a heavy fighter"
 	id = "heavy_torpedo_rack_t3"
 	build_type = PROTOLATHE
-	materials = list(/datum/material/iron = 15000)
+	materials = list(/datum/material/iron = 15000, /datum/material/copper = 3500, /datum/material/glass = 1500, /datum/material/titanium = 15000)
 	build_path = /obj/item/fighter_component/secondary/heavy/torpedo_rack/t3
 	category = list("Ship Components")
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO
@@ -986,7 +946,7 @@
 	desc = "A heavy cannon for a heavy fighter"
 	id = "heavy_fighter_heavy_cannon_t1"
 	build_type = PROTOLATHE
-	materials = list(/datum/material/iron = 5000)
+	materials = list(/datum/material/iron = 5000, /datum/material/titanium = 10000, /datum/material/copper = 1500, /datum/material/glass = 1000, /datum/material/plasma = 5000)
 	build_path = /obj/item/fighter_component/primary/heavy/heavy_cannon/t1
 	category = list("Ship Components")
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO
@@ -996,7 +956,7 @@
 	desc = "An improved heavy cannon for a heavy fighter"
 	id = "heavy_fighter_heavy_cannon_t2"
 	build_type = PROTOLATHE
-	materials = list(/datum/material/iron = 10000)
+	materials = list(/datum/material/iron = 5000, /datum/material/titanium = 12000, /datum/material/copper = 2500, /datum/material/glass = 1500, /datum/material/plasma = 7500, /datum/material/uranium = 2500)
 	build_path = /obj/item/fighter_component/primary/heavy/heavy_cannon/t2
 	category = list("Ship Components")
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO
@@ -1006,7 +966,7 @@
 	desc = "An enhanced heavy cannon for a heavy fighter"
 	id = "heavy_fighter_heavy_cannon_t3"
 	build_type = PROTOLATHE
-	materials = list(/datum/material/iron = 15000)
+	materials = list(/datum/material/iron = 5000, /datum/material/titanium = 14000, /datum/material/copper = 3500, /datum/material/glass = 2000, /datum/material/plasma = 10000, /datum/material/uranium = 5000, /datum/material/diamond = 5000)
 	build_path = /obj/item/fighter_component/primary/heavy/heavy_cannon/t3
 	category = list("Ship Components")
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO
@@ -1016,7 +976,7 @@
 	desc = "Armour Plating for a Utility Vessel"
 	id = "utility_craft_armour_plating_t1"
 	build_type = PROTOLATHE
-	materials = list(/datum/material/iron = 5000)
+	materials = list(/datum/material/iron = 10000, /datum/material/titanium = 5000, /datum/material/plasma = 5000)
 	build_path = /obj/item/fighter_component/armour_plating/utility/t1
 	category = list("Ship Components")
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO
@@ -1026,7 +986,7 @@
 	desc = "Hardened Armour Plating for a Utility Vessel"
 	id = "utility_craft_armour_plating_t2"
 	build_type = PROTOLATHE
-	materials = list(/datum/material/iron = 10000)
+	materials = list(/datum/material/iron = 10000, /datum/material/titanium = 7500, /datum/material/plasma = 7500, /datum/material/silver = 7500)
 	build_path = /obj/item/fighter_component/armour_plating/utility/t2
 	category = list("Ship Components")
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO
@@ -1036,7 +996,7 @@
 	desc = "Reinforced Armour Plating for a Utility Vessel"
 	id = "utility_craft_armour_plating_t3"
 	build_type = PROTOLATHE
-	materials = list(/datum/material/iron = 15000)
+	materials = list(/datum/material/iron = 10000, /datum/material/titanium = 10000, /datum/material/plasma = 10000, /datum/material/silver = 7500, /datum/material/uranium = 7500)
 	build_path = /obj/item/fighter_component/armour_plating/utility/t3
 	category = list("Ship Components")
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO
@@ -1046,7 +1006,7 @@
 	desc = "An engine for a Utility Vessel"
 	id = "utility_engine_t1"
 	build_type = PROTOLATHE
-	materials = list(/datum/material/iron = 5000)
+	materials = list(/datum/material/iron = 5000, /datum/material/copper = 5000, /datum/material/titanium = 5000, /datum/material/plasma = 5000)
 	build_path = /obj/item/fighter_component/engine/utility/t1
 	category = list("Ship Components")
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO
@@ -1056,7 +1016,7 @@
 	desc = "An improved engine for a Utility Vessel"
 	id = "utility_engine_t2"
 	build_type = PROTOLATHE
-	materials = list(/datum/material/iron = 10000)
+	materials = list(/datum/material/iron = 8000, /datum/material/copper = 6000, /datum/material/titanium = 5000, /datum/material/plasma = 10000, /datum/material/silver = 5000, /datum/material/gold = 2500)
 	build_path = /obj/item/fighter_component/engine/utility/t2
 	category = list("Ship Components")
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO
@@ -1066,7 +1026,7 @@
 	desc = "An enhanced engine for a Utility Vessel"
 	id = "utility_engine_t3"
 	build_type = PROTOLATHE
-	materials = list(/datum/material/iron = 15000)
+	materials = list(/datum/material/iron = 12000, /datum/material/copper = 7000, /datum/material/titanium = 5000, /datum/material/plasma = 10000, /datum/material/silver = 5000, /datum/material/gold = 2500, /datum/material/diamond = 5000, /datum/material/uranium = 7500)
 	build_path = /obj/item/fighter_component/engine/utility/t3
 	category = list("Ship Components")
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO
@@ -1076,7 +1036,7 @@
 	desc = "A refueling system for a Utility Vessel"
 	id = "utility_refueling_system"
 	build_type = PROTOLATHE
-	materials = list(/datum/material/iron = 5000)
+	materials = list(/datum/material/iron = 25000, /datum/material/titanium = 20000, /datum/material/copper = 12000, /datum/material/glass = 7500)
 	build_path = /obj/item/fighter_component/primary/utility/refueling_system
 	category = list("Ship Components")
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO
@@ -1086,7 +1046,7 @@
 	desc = "An auxiliary fuel tank for a Utility Vessel"
 	id = "utility_auxiliary_fuel_tank_t1"
 	build_type = PROTOLATHE
-	materials = list(/datum/material/iron = 5000)
+	materials = list(/datum/material/iron = 20000, /datum/material/copper = 5000, /datum/material/glass = 2500)
 	build_path = /obj/item/fighter_component/secondary/utility/auxiliary_fuel_tank/t1
 	category = list("Ship Components")
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO
@@ -1096,7 +1056,7 @@
 	desc = "A large auxiliary fuel tank for a Utility Vessel"
 	id = "utility_auxiliary_fuel_tank_t2"
 	build_type = PROTOLATHE
-	materials = list(/datum/material/iron = 10000)
+	materials = list(/datum/material/iron = 30000, /datum/material/copper = 7500, /datum/material/glass = 3500, /datum/material/titanium = 1000)
 	build_path = /obj/item/fighter_component/secondary/utility/auxiliary_fuel_tank/t2
 	category = list("Ship Components")
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO
@@ -1106,7 +1066,7 @@
 	desc = "An extra large auxiliary fuel tank for a Utility Vessel"
 	id = "utility_auxiliary_fuel_tank_t3"
 	build_type = PROTOLATHE
-	materials = list(/datum/material/iron = 15000)
+	materials = list(/datum/material/iron = 40000, /datum/material/copper = 10000, /datum/material/glass = 4500, /datum/material/titanium = 2000, /datum/material/silver = 2000)
 	build_path = /obj/item/fighter_component/secondary/utility/auxiliary_fuel_tank/t3
 	category = list("Ship Components")
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO
@@ -1116,7 +1076,7 @@
 	desc = "A search and rescue module for a Utility Vessel"
 	id = "utility_search_rescue_module"
 	build_type = PROTOLATHE
-	materials = list(/datum/material/iron = 5000)
+	materials = list(/datum/material/iron = 5000, /datum/material/titanium = 10000, /datum/material/copper = 15000, /datum/material/glass = 10000)
 	build_path = /obj/item/fighter_component/primary/utility/search_rescue_module
 	category = list("Ship Components")
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO
@@ -1126,7 +1086,7 @@
 	desc = "A passenger compartment module and recovery system for a Utility Vessel"
 	id = "utility_passenger_compartment_module_t1"
 	build_type = PROTOLATHE
-	materials = list(/datum/material/iron = 5000)
+	materials = list(/datum/material/iron = 15000, /datum/material/titanium = 2000)
 	build_path = /obj/item/fighter_component/secondary/utility/passenger_compartment_module/t1
 	category = list("Ship Components")
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO
@@ -1136,7 +1096,7 @@
 	desc = "An expanded passenger compartment module and recovery system for a Utility Vessel"
 	id = "utility_passenger_compartment_module_t2"
 	build_type = PROTOLATHE
-	materials = list(/datum/material/iron = 10000)
+	materials = list(/datum/material/iron = 30000, /datum/material/titanium = 2000, /datum/material/silver = 2000)
 	build_path = /obj/item/fighter_component/secondary/utility/passenger_compartment_module/t2
 	category = list("Ship Components")
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO
@@ -1146,7 +1106,7 @@
 	desc = "An Extended passenger compartment module and recovery system for a Utility Vessel"
 	id = "utility_passenger_compartment_module_t3"
 	build_type = PROTOLATHE
-	materials = list(/datum/material/iron = 15000)
+	materials = list(/datum/material/iron = 45000, /datum/material/titanium = 3000, /datum/material/silver = 3000, /datum/material/diamond = 5000)
 	build_path = /obj/item/fighter_component/secondary/utility/passenger_compartment_module/t3
 	category = list("Ship Components")
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO
@@ -1156,7 +1116,7 @@
 	desc = "A rapid breach sealing module for a Utility Vessel"
 	id = "utility_rapid_breach_sealing_module"
 	build_type = PROTOLATHE
-	materials = list(/datum/material/iron = 5000)
+	materials = list(/datum/material/iron = 5000, /datum/material/titanium = 5000, /datum/material/copper = 25000, /datum/material/glass = 25000, /datum/material/gold = 10000)
 	build_path = /obj/item/fighter_component/primary/utility/rapid_breach_sealing_module
 	category = list("Ship Components")
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO
@@ -1166,7 +1126,7 @@
 	desc = "A reagent tank for the RBS module for a Utility Vessel"
 	id = "utility_rbs_reagent_tank_t1"
 	build_type = PROTOLATHE
-	materials = list(/datum/material/iron = 5000)
+	materials = list(/datum/material/iron = 15000, /datum/material/titanium = 15000, /datum/material/glass = 3000, /datum/material/copper = 1500)
 	build_path = /obj/item/fighter_component/secondary/utility/rbs_reagent_tank/t1
 	category = list("Ship Components")
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO
@@ -1176,7 +1136,7 @@
 	desc = "A large reagent tank for the RBS module for a Utility Vessel"
 	id = "utility_rbs_reagent_tank_t2"
 	build_type = PROTOLATHE
-	materials = list(/datum/material/iron = 10000)
+	materials = list(/datum/material/iron = 25000, /datum/material/titanium = 25000, /datum/material/glass = 4500, /datum/material/copper = 3000, /datum/material/silver = 3000)
 	build_path = /obj/item/fighter_component/secondary/utility/rbs_reagent_tank/t2
 	category = list("Ship Components")
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO
@@ -1186,7 +1146,7 @@
 	desc = "A extra large reagent tank for the RBS module for a Utility Vessel"
 	id = "utility_rbs_reagent_tank_t3"
 	build_type = PROTOLATHE
-	materials = list(/datum/material/iron = 15000)
+	materials = list(/datum/material/iron = 35000, /datum/material/titanium = 35000, /datum/material/glass = 6000, /datum/material/copper = 4500, /datum/material/silver = 3000, /datum/material/bluespace = 5000)
 	build_path = /obj/item/fighter_component/secondary/utility/rbs_reagent_tank/t3
 	category = list("Ship Components")
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO
@@ -1704,3 +1664,5 @@
 	name = "Aviation fuel"
 	desc = "One Tyrosene fuel pump, capable of fully refuelling 3 fighters."
 	cost = 1500
+
+#undef INELIGIBLE

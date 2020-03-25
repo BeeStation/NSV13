@@ -1,13 +1,13 @@
 //Heavy Fighter
-//High Max Speed, Slow turn, Slow accelerationba, Robust
+//High Max Speed, Slow turn, Slow acceleration, Robust
 //Uses Heavy Cannons and Torps (upgrades for Missiles)
 /obj/structure/overmap/fighter/heavy
 	name = "Su-395 Chelyabinsk"
-	desc = "A space faring fighter craft."
+	desc = "A Su-395 Chelyabinsk heavy attack craft. Designed for broad strafing runs, punishing soft and hard targets alike."
 	icon = 'nsv13/icons/overmap/nanotrasen/fighter.dmi' //temp
 	icon_state = "fighter" //temp
 	brakes = TRUE
-	armor = list("melee" = 80, "bullet" = 50, "laser" = 80, "energy" = 50, "bomb" = 50, "bio" = 100, "rad" = 100, "fire" = 100, "acid" = 80) //temp to stop easy destruction from small arms
+	armor = list("melee" = 80, "bullet" = 50, "laser" = 80, "energy" = 50, "bomb" = 50, "bio" = 100, "rad" = 90, "fire" = 90, "acid" = 80, "overmap_light" = 25)
 	bound_width = 64 //Change this on a per ship basis
 	bound_height = 96
 	mass = MASS_TINY

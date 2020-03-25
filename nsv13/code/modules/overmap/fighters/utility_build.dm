@@ -27,7 +27,7 @@
 
 /obj/structure/fighter_component/underconstruction_fighter/utility_vessel_frame
 	name = "Utility Vessel Frame"
-	desc = "An Incomplete Utility Vessel"
+	desc = "An Incomplete ADL-77U Arroyomolinos Utility Vessel"
 	icon = 'icons/obj/janitor.dmi'
 	icon_state = "smmop"
 	build_state = UBS_CHASSIS

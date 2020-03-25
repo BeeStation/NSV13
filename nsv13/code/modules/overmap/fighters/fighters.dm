@@ -77,6 +77,12 @@ After going through this checklist, you're ready to go!
 		escape_pod = new /obj/structure/overmap/fighter/escapepod(src)
 		escape_pod.name = "[name] - escape pod"
 
+/*
+/obj/strucutre/overmap/fighter/proc/set_fighter_type(type)
+	light -> primary_module = new cannon(src), secondary = new missileRack(src)
+	heavy -> ...
+*/
+
 /obj/machinery/computer/ship/fighter_launcher
 	name = "Mag-cat control console"
 	desc = "A computer which is capable of remotely activating fighter launch / arrestor systems."
@@ -379,7 +385,7 @@ After going through this checklist, you're ready to go!
 			docking_mode = FALSE
 		return TRUE
 
-/obj/structure/overmap/fighter/take_damage()
+/obj/structure/overmap/fighter/take_damage(damage_amount)
 	..()
 	var/canopy_warn_threshold = max_integrity/10*4 //Get 40% of max_integrity
 	var/canopy_breach_threshold = max_integrity/10*3 //Get 30% of max_integrity
@@ -396,6 +402,28 @@ After going through this checklist, you're ready to go!
 		warning_cooldown = TRUE
 		addtimer(VARSET_CALLBACK(src, warning_cooldown, FALSE), 5 SECONDS)
 		return
+	if(damage_amount > max_integrity/2) //Taking a single hit that does over 50% of your max HP is BAD
+		var/destroyed = pick(1, 2, 3, 4) //May as well go AWOL at this point, MAA is going to lynch you
+		for(var/I = 0, I < destroyed, I++)
+			burnout_component()
+		return
+	else if(damage_amount >= 50)
+		if(prob(50))
+			burnout_component()
+		return
+	else if(damage_amount >= 10)
+		if(prob(5))
+			burnout_component()
+		return
+
+/obj/structure/overmap/fighter/proc/burnout_component()
+	var/list/candidate_list = list()
+	for(var/obj/item/fighter_component/candidate in contents)
+		if(candidate.burntout == FALSE)
+			candidate_list = list(candidate)
+	var/obj/item/fighter_component/selection = pick(candidate_list)
+	selection.burn_out()
+	set_master_caution(TRUE)
 
 /obj/structure/overmap/fighter/update_icon()
 	. =..()
@@ -512,22 +540,7 @@ After going through this checklist, you're ready to go!
 
 /obj/structure/overmap/fighter/proc/prebuilt_setup()
 	name = new_prebuilt_fighter_name() //pulling from NSV13 ship name list currently
-/*
-	var/list/components = list(/obj/item/twohanded/required/fighter_component/empennage,
-							/obj/item/twohanded/required/fighter_component/wing,
-							/obj/item/twohanded/required/fighter_component/wing,
-							/obj/item/twohanded/required/fighter_component/landing_gear,
-							/obj/item/twohanded/required/fighter_component/cockpit,
-							/obj/item/twohanded/required/fighter_component/armour_plating,
-							/obj/item/twohanded/required/fighter_component/fuel_tank,
-							/obj/item/fighter_component/avionics,
-							/obj/item/fighter_component/fuel_lines,
-							/obj/item/fighter_component/targeting_sensor,
-							/obj/item/twohanded/required/fighter_component/engine,
-							/obj/item/twohanded/required/fighter_component/engine,
-							/obj/item/twohanded/required/fighter_component/primary_cannon)
-*/
-	for(var/I = 0, I <= max_torpedoes, I++)
+	for(var/I = 0, I < max_torpedoes, I++)
 		munitions += new /obj/item/ship_weapon/ammunition/torpedo/fast(src)
 	for(var/item in components)
 		new item(src)
@@ -550,6 +563,8 @@ After going through this checklist, you're ready to go!
 
 	max_integrity = initial(max_integrity) * ap?.armour
 	speed_limit = initial(speed_limit) * en?.speed
+	if(en?.burntout)
+		speed_limit = speed_limit/2
 	fuel_consumption = en?.consumption
 	ft?.fuel_setup()
 	aft?.fuel_setup()
@@ -560,28 +575,6 @@ After going through this checklist, you're ready to go!
 	max_torpedoes = tr?.torpedo_capacity
 	max_cannon = lc?.ammo_capacity && hc?.ammo_capacity
 	max_passengers = pc?.passenger_capacity
-
-
-
-/*
-	var/obj/item/twohanded/required/fighter_component/armour_plating/sap = get_part(/obj/item/twohanded/required/fighter_component/armour_plating)
-	var/obj/item/fighter_component/targeting_sensor/sts = get_part(/obj/item/fighter_component/targeting_sensor)
-	var/obj/item/fighter_component/fuel_lines/sfl = get_part(/obj/item/fighter_component/fuel_lines)
-	var/senc = 0
-	var/sens = 0
-	var/sene = 0
-	for(var/obj/item/twohanded/required/fighter_component/engine/sen in contents)
-		senc++
-		sens = sens + sen?.speed
-		sene = sene + sen?.consumption
-	if(senc > 0)
-		sens = sens / senc
-		sene = sene / senc
-	if(sfl?.fuel_efficiency > 0)
-		fuel_consumption = sene + sfl?.fuel_efficiency / 2
-	weapon_efficiency = sts?.weapon_efficiency
-	max_integrity = initial(max_integrity) * sap?.armour
-*/
 
 /obj/structure/overmap/fighter/proc/fuel_setup()
 	var/obj/item/fighter_component/fuel_tank/fft = get_part(/obj/item/fighter_component/fuel_tank)
@@ -693,12 +686,12 @@ After going through this checklist, you're ready to go!
 			A.forceMove(src)
 			internal_tank = A
 		return
-	if(istype(A, /obj/item/ship_weapon/ammunition/torpedo))
+	else if(istype(A, /obj/item/ship_weapon/ammunition/torpedo))
 		if(maint_state == MS_OPEN)
 			var/munition_count = munitions.len
 			if(munition_count < max_torpedoes)
 				to_chat(user, "<span class='notice'>You start adding [A] to [src]...</span>")
-				if(!do_after(user, 2 SECONDS, target=src))
+				if(!do_after(user, 5 SECONDS, target=src))
 					return
 				to_chat(user, "<span class='notice'>You add [A] to [src].</span>")
 				A.forceMove(src)
@@ -708,7 +701,22 @@ After going through this checklist, you're ready to go!
 		else
 			to_chat(user, "<span class='notice'>You require [src] to be in maintenance mode to load munitions!.</span>")
 			return
-	if(istype(A, /obj/structure/overmap/fighter/escapepod) && has_escape_pod && (!escape_pod || escape_pod?.loc != src))
+	else if(istype(A, /obj/item/ship_weapon/ammunition/missile))
+		if(maint_state == MS_OPEN)
+			var/munition_count = munitions.len
+			if(munition_count < max_missiles)
+				to_chat(user, "<span class='notice'>You start adding [A] to [src]...</span>")
+				if(!do_after(user, 5 SECONDS, target=src))
+					return
+				to_chat(user, "<span class='notice'>You add [A] to [src].</span>")
+				A.forceMove(src)
+				munitions += A
+				missiles ++
+				playsound(src, 'nsv13/sound/effects/ship/mac_load.ogg', 100, 1)  //placeholder
+		else
+			to_chat(user, "<span class='notice'>You require [src] to be in maintenance mode to load munitions!.</span>")
+			return
+	else if(istype(A, /obj/structure/overmap/fighter/escapepod) && has_escape_pod && (!escape_pod || escape_pod?.loc != src))
 		if(maint_state != MS_OPEN)
 			to_chat(user, "<span class='warning'>You cannot load an escape pod into [src] without putting it into maintenance mode.</span>")
 			return
@@ -749,6 +757,34 @@ After going through this checklist, you're ready to go!
 			fire_projectile(proj_type, target, homing = TRUE, speed=proj_speed, explosive = TRUE)
 	else
 		to_chat(gunner, "<span class='warning'>DANGER: Launch failure! Torpedo tubes are not loaded.</span>")
+
+/obj/structure/overmap/fighter/fire_missile(atom/target) //copy-paste
+	if(ai_controlled) //AI ships don't have interiors
+		if(missiles <= 0)
+			return
+		fire_projectile(/obj/item/projectile/bullet/missile, target, homing = TRUE, speed=1, explosive = TRUE)
+		missiles --
+		return
+	var/proj_type = null //If this is true, we've got a launcher shipside that's been able to fire.
+	var/proj_speed = 1
+	if(!munitions.len)
+		return
+	torpedoes = munitions.len
+	var/obj/item/ship_weapon/ammunition/torpedo/thirtymillimetermissile = pick(munitions)
+	proj_type = thirtymillimetermissile.projectile_type
+	proj_speed = thirtymillimetermissile.speed
+	munitions -= thirtymillimetermissile
+	qdel(thirtymillimetermissile)
+	missiles = munitions.len
+	if(proj_type)
+		var/sound/chosen = pick('nsv13/sound/effects/ship/torpedo.ogg','nsv13/sound/effects/ship/freespace2/m_shrike.wav','nsv13/sound/effects/ship/freespace2/m_stiletto.wav','nsv13/sound/effects/ship/freespace2/m_tsunami.wav','nsv13/sound/effects/ship/freespace2/m_wasp.wav')
+		relay_to_nearby(chosen)
+		if(proj_type == /obj/item/projectile/bullet/torpedo/dud) //Some brainlet MAA loaded an incomplete torp
+			fire_projectile(proj_type, target, homing = FALSE, speed=proj_speed, explosive = TRUE)
+		else
+			fire_projectile(proj_type, target, homing = TRUE, speed=proj_speed, explosive = TRUE)
+	else
+		to_chat(gunner, "<span class='warning'>DANGER: Launch failure! Missile tubes are not loaded.</span>")
 
 /obj/structure/overmap/fighter/attackby(obj/item/W, mob/user, params) //changing equipment
 	add_fingerprint(user)
@@ -856,156 +892,6 @@ After going through this checklist, you're ready to go!
 	M.forceMove(get_turf(src))
 	return TRUE
 
-/*
-/obj/structure/overmap/fighter/proc/display_maint_popup(mob/user)
-	user.set_machine(src)
-	var/dat
-	dat += "<h2> Overview: </h2><br>"
-//HP, fuel etc go here
-	dat += "<p>Structural Integrity: [obj_integrity/max_integrity*(100)]%</p><br>"
-	dat += "<h2> Payload: </h2><br>"
-//Guns, ammo and torpedos
-	var/atom/movable/pw = get_part(/obj/item/twohanded/required/fighter_component/primary_cannon)
-	if(pw == null)
-		dat += "<p><b>PRIMARY WEAPON NOT INSTALLED</font></p><br>"
-	else
-		dat += "<a href='?src=[REF(src)]:primary_weapon=1'>[pw?.name]</a><br>"
-	dat += "<p>Ammo Capacity:</p>"
-	var/unfilled_slots = max_torpedoes
-	for(var/obj/item/ship_weapon/ammunition/torpedo/mu in contents)
-		dat += "<a href='?src=[REF(src)];torpedo=1'>[mu?.name]</a><br>"
-		unfilled_slots--
-	if(unfilled_slots > 0)
-		dat += "<p><b>[num2text(unfilled_slots)] TORPEDO PYLONS EMPTY</font></p><br>"
-	dat += "<h2> Components: </h2>"
-	var/atom/movable/ap = get_part(/obj/item/twohanded/required/fighter_component/armour_plating)
-	if(ap == null)
-		dat += "<p><b>ARMOUR PLATING NOT INSTALLED</font></p><br>"
-	else
-		dat += "<a href='?src=[REF(src)];armour_plating=1'>[ap?.name]</a><br>"
-	var/atom/movable/ft = get_part(/obj/item/twohanded/required/fighter_component/fuel_tank)
-	if(ft == null)
-		dat += "<p><b>FUEL TANK NOT INSTALLED</font></p><br>"
-	else
-		dat += "<a href='?src=[REF(src)];fuel_tank=1'>[ft?.name]</a><br>"
-	var/atom/movable/fl = get_part(/obj/item/fighter_component/fuel_lines)
-	if(fl == null)
-		dat += "<p><b>FUEL LINES NOT INSTALLED</font></p><br>"
-	else
-		dat += "<a href='?src=[REF(src)];fuel_lines=1'>[fl?.name]</a><br>"
-	var/atom/movable/ts = get_part(/obj/item/fighter_component/targeting_sensor)
-	if(ts == null)
-		dat += "<p><b>TARGETING SENSOR NOT INSTALLED</font></p><br>"
-	else
-		dat += "<a href='?src=[REF(src)];targeting_sensor=1'>[ts?.name]</a><br>"
-	var/engine_count = 0
-	for(var/obj/item/twohanded/required/fighter_component/engine/en in contents)
-		dat += "<a href='?src=[REF(src)];engine=1'>[en?.name]</a><br>"
-		engine_count++
-	switch(engine_count)
-		if(1)
-			dat += "<p><b>ONE ENGINE NOT INSTALLED</font></p><br>"
-		if(0)
-			dat += "<p><b>TWO ENGINES NOT INSTALLED</font></p><br>"
-	if(internal_tank)
-		dat += "<a href='?src=[REF(src)];remove_tank=1'>Atmospherics supply tank: [internal_tank.name]</a><br>"
-	else
-		dat += "<p><b>Internal air tank not installed.</p><br>"
-	var/datum/browser/popup = new(user, "fighter", name, 400, 600)
-	popup.set_content(dat)
-	popup.open()
-
-
-
-/obj/structure/overmap/fighter/Topic(href, href_list)
-	if(!in_range(src, usr))
-		return
-	if(!isliving(usr))
-		return
-	var/mob/living/user = usr
-	var/atom/movable/ap = get_part(/obj/item/twohanded/required/fighter_component/armour_plating)
-	var/atom/movable/ft = get_part(/obj/item/twohanded/required/fighter_component/fuel_tank)
-	var/atom/movable/fl = get_part(/obj/item/fighter_component/fuel_lines)
-	var/atom/movable/ts = get_part(/obj/item/fighter_component/targeting_sensor)
-	var/atom/movable/en = get_part(/obj/item/twohanded/required/fighter_component/engine)
-	var/atom/movable/pw = get_part(/obj/item/twohanded/required/fighter_component/primary_cannon)
-	var/atom/movable/tr = get_part(/obj/item/ship_weapon/ammunition/torpedo)
-	if(href_list["armour_plating"])
-		if(ap)
-			to_chat(user, "<span class='notice'>You start uninstalling [ap.name] from [src].</span>")
-			if(!do_after(user, 2 SECONDS, target=src))
-				return
-			to_chat(user, "<span class='notice'>You uninstall [ap.name] from [src].</span>")
-			ap?.forceMove(get_turf(src))
-			update_stats()
-			attack_hand(user) //Refresh UI.
-	if(href_list["fuel_tank"])
-		if(ft)
-			to_chat(user, "<span class='notice'>You start uninstalling [ft.name] from [src].</span>")
-			if(!do_after(user, 2 SECONDS, target=src))
-				return
-			to_chat(user, "<span class='notice'>You uninstall [ft.name] from [src].</span>")
-			ft?.forceMove(get_turf(src))
-			update_stats()
-			attack_hand(user) //Refresh UI.
-	if(href_list["fuel_lines"])
-		if(fl)
-			to_chat(user, "<span class='notice'>You start uninstalling [fl.name] from [src].</span>")
-			if(!do_after(user, 2 SECONDS, target=src))
-				return
-			to_chat(user, "<span class='notice'>You uninstall [fl.name] from [src].</span>")
-			fl?.forceMove(get_turf(src))
-			update_stats()
-			attack_hand(user) //Refresh UI.
-	if(href_list["targeting_sensor"])
-		if(ts)
-			to_chat(user, "<span class='notice'>You start uninstalling [ts.name] from [src].</span>")
-			if(!do_after(user, 2 SECONDS, target=src))
-				return
-			to_chat(user, "<span class='notice'>You uninstall [ts.name] from [src].</span>")
-			ts?.forceMove(get_turf(src))
-			update_stats()
-			attack_hand(user) //Refresh UI.
-	if(href_list["engine"])
-		if(en)
-			to_chat(user, "<span class='notice'>You start uninstalling [en.name] from [src].</span>")
-			if(!do_after(user, 2 SECONDS, target=src))
-				return
-			to_chat(user, "<span class='notice'>You uninstall [en.name] from [src].</span>")
-			en?.forceMove(get_turf(src))
-			update_stats()
-			attack_hand(user) //Refresh UI.
-	if(href_list["primary_weapon"])
-		if(pw)
-			to_chat(user, "<span class='notice'>You start uninstalling [pw.name] from [src].</span>")
-			if(!do_after(user, 2 SECONDS, target=src))
-				return
-			to_chat(user, "<span class='notice'>You uninstall [pw.name] from [src].</span>")
-			pw?.forceMove(get_turf(src))
-			update_stats()
-			attack_hand(user) //Refresh UI.
-	if(href_list["torpedo"])
-		if(tr)
-			to_chat(user, "<span class='notice'>You start uninstalling [tr.name] from [src].</span>")
-			if(!do_after(user, 2 SECONDS, target=src))
-				return
-			to_chat(user, "<span class='notice'>You uninstall [tr.name] from [src].</span>")
-			tr?.forceMove(get_turf(src))
-			munitions -= tr
-			torpedoes = munitions.len
-			attack_hand(user) //Refresh UI.
-	if(href_list["remove_tank"])
-		if(!internal_tank)
-			return
-		to_chat(user, "<span class='notice'>You start uninstalling [internal_tank.name] from [src].</span>")
-		if(!do_after(user, 5 SECONDS, target=src))
-			return
-		to_chat(user, "<span class='notice'>You uninstall [internal_tank.name] from [src].</span>")
-		internal_tank?.forceMove(get_turf(src))
-		internal_tank = null
-		attack_hand(user) //Refresh UI.
-
-*/
 
 /obj/structure/overmap/fighter/Destroy()
 	if(operators.len && escape_pod && escape_pod.loc == src)
@@ -1133,15 +1019,6 @@ How to make fuel:
 	flight_state = NO_IGNITION
 	return FALSE
 
-/*
-/obj/item/fighter_component/proc/uninstall_component(obj/item/fighter_component/part)
-	to_chat(user, "<span class='notice'>You start uninstalling [part.name] from [src].</span>")
-	if(!do_after(user, 5 SECONDS, target=src))
-		return
-	to_chat(user, "<span class='notice>You uninstall [part.name] from [src].</span>")
-	part.forceMove(get_turf(src))
-*/
-
 /obj/structure/overmap/fighter/ui_act(action, params, datum/tgui/ui)
 	if(..())
 		return
@@ -1183,6 +1060,10 @@ How to make fuel:
 				return
 			if(flight_state < NO_APU)
 				to_chat(usr, "You can't flip this switch without first engaging the battery.</span>")
+				return
+			var/obj/item/fighter_component/apu/au = get_part(/obj/item/fighter_component/apu)
+			if(au.burntout)
+				to_chat(usr, "The sharp smell of ozone and burning plastic fills the air.</span>")
 				return
 			to_chat(usr, "You flip the APU switch.</span>")
 			flight_state = APU_SPUN

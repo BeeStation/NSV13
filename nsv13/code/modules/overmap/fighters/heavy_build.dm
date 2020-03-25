@@ -27,7 +27,7 @@
 
 /obj/structure/fighter_component/underconstruction_fighter/heavy_fighter_frame
 	name = "Heavy Fighter Frame"
-	desc = "An Incomplete Heavy Fighter"
+	desc = "An Incomplete Su-395 Chelyabinsk Heavy Attacker"
 	icon = 'icons/obj/janitor.dmi'
 	icon_state = "advmop"
 	build_state = HBS_CHASSIS

@@ -3,10 +3,10 @@
 //Uses Light Cannons and Missiles
 /obj/structure/overmap/fighter/light
 	name = "F-614B Quebec" //need better name
-	desc = "A space faring fighter craft."
+	desc = "A F-614B Quebec space superiorty fighter craft. Designed for high maneuvreability and maximum combat effectivness against other similar weight classes."
 	icon = 'nsv13/icons/overmap/nanotrasen/fighter.dmi'
 	brakes = TRUE
-	armor = list("melee" = 80, "bullet" = 50, "laser" = 80, "energy" = 50, "bomb" = 50, "bio" = 100, "rad" = 100, "fire" = 100, "acid" = 80) //temp to stop easy destruction from small arms
+	armor = list("melee" = 60, "bullet" = 30, "laser" = 60, "energy" = 30, "bomb" = 30, "bio" = 100, "rad" = 90, "fire" = 90, "acid" = 80)
 	bound_width = 64 //Change this on a per ship basis
 	bound_height = 64
 	mass = MASS_TINY

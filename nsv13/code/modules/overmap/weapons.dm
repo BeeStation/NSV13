@@ -9,10 +9,30 @@
 	damage = 80
 	movement_type = FLYING | UNSTOPPABLE //Railguns punch straight through your ship
 
+/obj/item/projectile/bullet/light_cannon_round
+	icon_state = "pdc"
+	name = "light cannon round"
+	damage = 20
+	flag = "overmap_light"
+
+/obj/item/projectile/bullet/heavy_cannon_round
+	icon_state = "pdc"
+	name = "heavy cannon round"
+	damage = 20
+	flag = "overmap_heavy"
+
 /obj/item/projectile/bullet/torpedo
 	icon_state = "torpedo"
 	name = "plasma torpedo"
-	damage = 60
+	damage = 100
+	flag = "overmap_heavy"
+	impact_effect_type = /obj/effect/temp_visual/impact_effect/torpedo
+
+/obj/item/projectile/bullet/missile
+	icon_state = "torpedo"
+	name = "conventinal missile"
+	damage = 100
+	flag = "overmap_light"
 	impact_effect_type = /obj/effect/temp_visual/impact_effect/torpedo
 
 /obj/effect/temp_visual/overmap_explosion
@@ -209,6 +229,23 @@
 		if(istype(OM, /obj/structure/overmap) && OM.dradis)
 			OM.dradis?.relay_sound('nsv13/sound/effects/fighters/launchwarning.ogg')
 		return TRUE
+
+/obj/structure/overmap/proc/fire_missile(atom/target)
+	if(!linked_areas.len && role != MAIN_OVERMAP) //AI ships and fighters don't have interiors
+		if(missiles <= 0)
+			if(ai_controlled)
+				addtimer(VARSET_CALLBACK(src, missiles, initial(src.missiles)), 60 SECONDS)
+			return
+		fire_projectile(/obj/item/projectile/bullet/missile, target, homing = TRUE, speed=1, explosive = TRUE)
+		missiles --
+		var/obj/structure/overmap/OM = target
+		if(istype(OM, /obj/structure/overmap) && OM.dradis)
+			OM.dradis?.relay_sound('nsv13/sound/effects/fighters/launchwarning.ogg')
+		return TRUE
+
+/obj/structure/overmap/proc/fire_primary(atom/target)
+
+/obj/structure/overmap/proc/fire_secondary(atom/target)
 
 /obj/structure/overmap/proc/shake_everyone(severity)
 	for(var/mob/M in mobs_in_ship)
