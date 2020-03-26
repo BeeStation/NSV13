@@ -425,12 +425,11 @@
 		spawn()
 			proj.fire(angle)
 
-/obj/structure/overmap/proc/fire_lateral_projectile(proj_type,target,speed=null)
+/obj/structure/overmap/proc/fire_lateral_projectile(proj_type,target,speed=null, mob/living/user_override=null)
 	var/turf/T = get_turf(src)
 	var/obj/item/projectile/proj = new proj_type(T)
 	proj.starting = T
-	if(gunner)
-		proj.firer = gunner
+	proj.firer = (!user_override && gunner) ? gunner : user_override
 	proj.def_zone = "chest"
 	proj.original = target
 	proj.pixel_x = round(pixel_x)

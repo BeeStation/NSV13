@@ -248,6 +248,9 @@
 		var/obj/machinery/ship_weapon/gauss_gun/user_gun = user.loc
 		if(!istype(user_gun))
 			return FALSE
+		if(user_gun.safety)
+			to_chat(user, "<span class='warning'>Gun safeties are engaged.</span>")
+			return FALSE
 		user_gun.fire(target)
 		return TRUE
 	if(user != gunner)

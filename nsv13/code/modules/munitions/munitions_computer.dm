@@ -56,46 +56,77 @@
 			SW.linked_computer = src
 	if(!SW.linked)
 		SW.get_ship()
-	var/dat
-	if(SW.malfunction)
-		dat += "<p><b><font color='#FF0000'>MALFUNCTION DETECTED!</font></p>"
-	dat += "<h2> Tray: </h2>"
-	if(SW.state <= STATE_FED)
-		dat += "<A href='?src=\ref[src];load_tray=1'>Load Tray</font></A><BR>" //STEP 1: Move the tray into the railgun
-	else
-		dat += "<A href='?src=\ref[src];unload_tray=1'>Unload Tray</font></A><BR>" //OPTIONAL: Cancel loading
-	dat += "<h2> Firing chamber: </h2>"
-	if(SW.state != STATE_CHAMBERED)
-		dat += "<A href='?src=\ref[src];chamber_tray=1'>Chamber Tray Payload</font></A><BR>" //Step 2: Chamber the round
-	else
-		dat += "<A href='?src=\ref[src];tray_notif=1'>'[SW.chambered.name]' is ready for deployment</font></A><BR>" //Tell them that theyve chambered something
-	dat += "<h2> Safeties: </h2>"
-	if(SW.safety)
-		dat += "<A href='?src=\ref[src];disengage_safeties=1'>Disengage safeties</font></A><BR>" //Step 3: Disengage safeties. This allows the helm to fire the weapon.
-	else
-		dat += "<A href='?src=\ref[src];engage_safeties=1'>Engage safeties</font></A><BR>" //OPTIONAL: Re-engage safeties. Use this if some disaster happens in the tubes, and you need to forbid the helm from firing
-	var/datum/browser/popup = new(user, "Fire control systems", name, 400, 500)
-	popup.set_content(dat)
-	popup.open()
 
-/obj/machinery/computer/ship/munitions_computer/Topic(href, href_list)
-	if(!in_range(src, usr))
+	ui_interact(user)
+
+/obj/machinery/computer/ship/munitions_computer/ui_interact(mob/user, ui_key = "main", datum/tgui/ui = null, force_open = 0, datum/tgui/master_ui = null, datum/ui_state/state = GLOB.default_state) // Remember to use the appropriate state.
+	ui = SStgui.try_update_ui(user, src, ui_key, ui, force_open)
+	if(!ui)
+		ui = new(user, src, ui_key, "munitions_computer", name, 560, 600, master_ui, state)
+		ui.open()
+
+/obj/machinery/computer/ship/munitions_computer/ui_act(action, params, datum/tgui/ui)
+	if(..() || !SW)
 		return
+	playsound(src.loc,'nsv13/sound/effects/fighters/switch.ogg', 50, FALSE)
+	switch(action)
+		if("toggle_load")
+			if(SW.state == STATE_LOADED)
+				SW.feed()
+			else
+				SW.unload()
+		if("chamber")
+			SW.chamber()
+		if("toggle_safety")
+			SW.safety = !SW.safety
+
+/obj/machinery/computer/ship/munitions_computer/ui_data(mob/user)
 	if(!SW)
 		return
-	if(href_list["load_tray"])
-		SW.feed()
-	if(href_list["unload_tray"])
-		SW.unload()
-	if(href_list["chamber_tray"])
-		SW.chamber()
-	if(href_list["disengage_safeties"])
-		SW.safety = FALSE
-	if(href_list["engage_safeties"])
-		SW.safety = TRUE
+	var/list/data = list()
+	data["loaded"] = (SW.state > STATE_LOADED) ? TRUE : FALSE
+	data["chambered"] = (SW.state > STATE_FED) ? TRUE : FALSE
+	data["safety"] = SW.safety
+	data["ammo"] = SW.ammo.len
+	data["max_ammo"] = SW.max_ammo
+	data["maint_req"] = (SW.maintainable) ? SW.maint_req : 25
+	data["max_maint_req"] = 25
+	return data
 
-	attack_hand(usr) //Refresh window
+//Gauss overrides
+//The gaussgun is its own computer here because it needs to be interactible by people who are inside it, and I'm done with arsing around getting that to work ~Kmc after 3 hours of debugging TGUI
 
+/obj/machinery/ship_weapon/gauss_gun/ui_interact(mob/user, ui_key = "main", datum/tgui/ui = null, force_open = 0, datum/tgui/master_ui = null, datum/ui_state/state = GLOB.contained_state) // Remember to use the appropriate state.
+	ui = SStgui.try_update_ui(user, src, ui_key, ui, force_open)
+	if(!ui)
+		ui = new(user, src, ui_key, "munitions_computer", name, 560, 600, master_ui, state)
+		ui.open()
+
+/obj/machinery/ship_weapon/gauss_gun/ui_act(action, params, datum/tgui/ui)
+	if(..())
+		return
+	playsound(src.loc,'nsv13/sound/effects/fighters/switch.ogg', 50, FALSE)
+	switch(action)
+		if("toggle_load")
+			if(state == STATE_LOADED)
+				feed()
+			else
+				unload()
+		if("chamber")
+			chamber()
+		if("toggle_safety")
+			safety = !safety
+
+/obj/machinery/ship_weapon/gauss_gun/ui_data(mob/user)
+	var/list/data = list()
+	data["loaded"] = (state > STATE_LOADED) ? TRUE : FALSE
+	data["chambered"] = (state > STATE_FED) ? TRUE : FALSE
+	data["safety"] = safety
+	data["ammo"] = ammo.len
+	data["max_ammo"] = max_ammo
+	data["maint_req"] = (maintainable) ? maint_req : 25
+	data["max_maint_req"] = 25
+	return data
 
 #undef STATE_NOTLOADED
 #undef STATE_LOADED

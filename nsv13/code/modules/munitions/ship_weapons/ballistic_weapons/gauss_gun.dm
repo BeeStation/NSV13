@@ -33,7 +33,7 @@
 
 	if(gunner.incapacitated() || !isliving(gunner))
 		return
-	linked_computer.attack_hand(gunner)
+	ui_interact(gunner)
 	to_chat(gunner, "<span class='notice'>You reach for [src]'s control panel.</span>")
 
 /obj/machinery/ship_weapon/gauss_gun/verb/show_view()
@@ -41,8 +41,9 @@
 	set category = "Gauss gun"
 	set src = usr.loc
 
-	if(gunner.incapacitated() || !isliving(gunner))
+	if(usr.incapacitated())
 		return
+	gunner = usr //failsafe.
 	linked.start_piloting(usr, "gauss_gunner")
 	to_chat(gunner, "<span class='notice'>You reach for [src]'s gun camera controls.</span>")
 
@@ -59,8 +60,9 @@
 
 /obj/machinery/ship_weapon/gauss_gun/Initialize()
 	. = ..()
-	linked_computer = new /obj/machinery/computer/ship/munitions_computer(src)
-	linked_computer.SW = src
+//	linked_computer = new /obj/machinery/computer/ship/munitions_computer/internal()
+//	linked_computer.forceMove(src)
+	//linked_computer.SW = src
 	ammo_rack = new /obj/structure/gauss_rack(src)
 	ammo_rack.gun = src
 	cabin_air = new
@@ -112,7 +114,7 @@
 /obj/machinery/ship_weapon/gauss_gun/proc/set_gunner(mob/user)
 	user.forceMove(src)
 	gunner = user
-	linked_computer.attack_hand(user)
+	ui_interact(user)
 	linked.start_piloting(user, "gauss_gunner")
 
 /obj/machinery/ship_weapon/gauss_gun/proc/remove_gunner()
@@ -141,6 +143,12 @@
 	if(overlay)
 		overlay.do_animation()
 	animate_projectile(target)
+
+/**
+ * Animates an overmap projectile matching whatever we're shooting.
+ */
+/obj/machinery/ship_weapon/gauss_gun/animate_projectile(atom/target)
+	linked.fire_lateral_projectile(weapon_type.default_projectile_type, target, user_override=gunner)
 
 //Atmos handling
 
@@ -237,6 +245,7 @@
 		vis_contents += A
 		capacity ++
 		A.layer = ABOVE_MOB_LAYER
+		A.mouse_opacity = FALSE //Nope, not letting you pick this up :)
 	loading = FALSE
 
 /obj/structure/gauss_rack/proc/unload(atom/movable/A)
@@ -244,6 +253,7 @@
 	A.forceMove(get_turf(src))
 	A.pixel_y = initial(A.pixel_y) //Remove our offset
 	A.layer = initial(A.layer)
+	A.mouse_opacity = TRUE
 	to_chat(usr, "<span class='notice'>You unload [A] from [src].</span>")
 	if(istype(A, gun.ammo_type)) //If a munition, allow them to load other munitions onto us.
 		capacity --
@@ -326,6 +336,8 @@ Chair + rack handling
 		var/sound = pick('nsv13/sound/effects/computer/error.ogg','nsv13/sound/effects/computer/error2.ogg','nsv13/sound/effects/computer/error3.ogg')
 		playsound(src, sound, 100, 1)
 		to_chat(user, "<span class='warning'>Access denied</span>")
+		return
+	if(M.loc != src.loc || user != M)
 		return
 	to_chat(M, "<span class='warning'>[src]'s restraints clamp down onto you!</span>")
 	occupant = M

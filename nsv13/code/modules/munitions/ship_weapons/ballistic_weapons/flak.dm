@@ -75,7 +75,6 @@
 	if(mass <= MASS_MEDIUM) //This is for big boys only.
 		return
 
-
 /obj/effect/temp_visual/flak
 	icon = 'nsv13/goonstation/icons/effects/explosions/80x80.dmi'
 	icon_state = "explosion"

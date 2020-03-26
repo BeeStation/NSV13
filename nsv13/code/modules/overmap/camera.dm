@@ -13,7 +13,7 @@
 		eye = mob
 
 /obj/structure/overmap/proc/start_piloting(mob/living/carbon/user, position)
-	if(!position || (locate(user) in operators))
+	if(!position || user.overmap_ship == src || (locate(user) in operators))
 		return
 	switch(position)
 		if("pilot")
@@ -42,6 +42,7 @@
 
 /obj/structure/overmap/proc/stop_piloting(mob/living/M)
 	LAZYREMOVE(operators,M)
+	M.overmap_ship = null
 	if(M.click_intercept == src)
 		M.click_intercept = null
 	if(pilot && M == pilot)
@@ -58,7 +59,6 @@
 		gauss_gunners -= M
 	if(M.client)
 		M.client.check_view()
-	M.overmap_ship = null
 	var/mob/camera/aiEye/remote/overmap_observer/eyeobj = M.remote_control
 	M.cancel_camera()
 	if(istype(M, /mob/living/silicon/ai))
@@ -67,6 +67,7 @@
 			hal.all_eyes -= eyeobj
 		var/mob/camera/aiEye/cam = pick(hal.all_eyes)
 		hal.eyeobj = cam
+	QDEL_NULL(eyeobj)
 	QDEL_NULL(eyeobj?.off_action)
 	QDEL_NULL(M.remote_control)
 	M.set_focus(M)
