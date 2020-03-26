@@ -12,8 +12,13 @@
 		pixel_y = 0
 		eye = mob
 
+/obj/structure/overmap/proc/gauss_test()
+	var/mob/living/carbon/human/M = new(src)
+	start_piloting(M, "gauss_gunner")
+
 /obj/structure/overmap/proc/start_piloting(mob/living/carbon/user, position)
-	if(!position || user.overmap_ship == src || (locate(user) in operators))
+	if(!position || user.overmap_ship == src || LAZYFIND(operators, user))
+		to_chat(world, "No fuck off")
 		return
 	switch(position)
 		if("pilot")
