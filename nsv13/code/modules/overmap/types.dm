@@ -104,6 +104,8 @@
 	role = MAIN_OVERMAP //Player controlled variant
 	max_integrity = 2000 //Compensates for lack of offensive weaponry
 	integrity_failure = 2000
+	bound_width = 256
+	bound_height = 256
 
 /obj/structure/overmap/nanotrasen/patrol_cruiser/ai
 	ai_controlled = TRUE

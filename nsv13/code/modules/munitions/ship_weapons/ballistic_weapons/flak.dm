@@ -21,39 +21,46 @@
  * Handles automatic firing of the PDCs to shoot down torpedoes
  */
 /obj/structure/overmap/proc/handle_pdcs()
-	if(fire_mode == FIRE_MODE_FLAK) //If theyre aiming the PDCs manually, don't automatically flak.
+	if(fire_mode == FIRE_MODE_FLAK) //If theyre aiming the flak manually.
 		return
 	if(mass <= MASS_TINY && !ai_controlled) //Small ships don't get to use PDCs. AIs still need to aim like this, though
 		return
 	if(!last_target || QDELETED(last_target))
 		last_target = null
+	else
+		fire_weapon(last_target, mode=FIRE_MODE_FLAK, lateral=TRUE)
+		return
 	for(var/obj/structure/overmap/ship in GLOB.overmap_objects)
-		if(!ship || !istype(ship, /obj/structure/overmap))
+		if(!ship || !istype(ship))
 			continue
 		if(ship == src || ship.faction == faction || ship.wrecked) //No friendly fire, don't blow up wrecks that the crew may wish to loot.
 			continue
 		var/target_range = get_dist(ship,src)
-	//	if(target_range > initial(weapon_range)) //If the target is out of PDC range, don't shoot. This prevents OP shit like spamming torps AND PDC flak all over a target.
-	//		continue
+		if(target_range > initial(weapon_range)+30)
+			continue
 		if(!QDELETED(ship) && isovermap(ship))
-			fire_weapon(ship, mode=FIRE_MODE_FLAK, lateral=TRUE)
-			break
+			if(mass >= MASS_MEDIUM)
+				fire_weapon(ship, mode=FIRE_MODE_FLAK, lateral=TRUE)
+				break
+			else
+				fire_weapon(ship, mode=FIRE_MODE_PDC, lateral=TRUE)
 
 /obj/structure/overmap/proc/get_flak_range(atom/target)
 	if(!target)
 		target = src
-	var/dist = get_dist(src, target) / 2
-	dist = (dist >= 5) ? dist : dist+5 //Stops you flak-ing yourself
-	return (flak_range_override <= 0) ? dist : flak_range_override //By default, we like to create a flak deadzone halfway inbetween both ships
+	var/dist = (get_dist(src, target) / 2)
+	var/minimum_safe_distance = pixel_collision_size_y / 32
+	return (dist >= minimum_safe_distance) ? dist : minimum_safe_distance //Stops you flak-ing yourself
 
 /obj/structure/overmap/proc/fire_flak(target,speed=null)
 	var/turf/T = get_turf(src)
 	var/flak_range = get_flak_range(target)
-	to_chat(world, "[flak_range]")
 	var/obj/item/projectile/proj = new /obj/item/projectile/bullet/flak(T, flak_range)
 	proj.starting = T
 	if(gunner)
 		proj.firer = gunner
+	else
+		proj.firer = src
 	proj.def_zone = "chest"
 	proj.original = target
 	proj.pixel_x = round(pixel_x)
@@ -81,7 +88,7 @@
 	icon_state = "flak"
 	name = "flak round"
 	damage = 2
-	mouse_opacity = TRUE
+	alpha = 0
 	var/steps_left = 0 //Flak range, AKA how many tiles can we move before we go kaboom
 
 /obj/item/projectile/bullet/flak/Initialize(mapload, range=10)
@@ -90,18 +97,27 @@
 	RegisterSignal(src, COMSIG_MOVABLE_MOVED, .proc/check_range)
 
 /obj/item/projectile/bullet/flak/proc/explode()
-	new /obj/effect/temp_visual/flak(get_turf(src))
-	var/mob/checking = firer
-	if(checking && checking.overmap_ship)
-		checking.overmap_ship.relay_to_nearby(pick('nsv13/sound/effects/ship/flak/flakhit1.ogg','nsv13/sound/effects/ship/flak/flakhit2.ogg','nsv13/sound/effects/ship/flak/flakhit3.ogg'))
+	new /obj/effect/flak_handler(get_turf(src))
 	qdel(src)
+
+//Small object to make flak "flicker" a bit. Kills itself after spawning flak
+/obj/effect/flak_handler/Initialize()
+	. = ..()
+	for(var/I = 0, I < rand(2,5), I++)
+		var/edir = pick(GLOB.alldirs)
+		new /obj/effect/temp_visual/flak(get_turf(get_step(src, edir)))
+		sleep(rand(0, 2))
+	return INITIALIZE_HINT_QDEL
 
 /obj/effect/temp_visual/flak/Initialize()
 	if(prob(50))
 		icon = 'nsv13/goonstation/icons/effects/explosions/96x96.dmi'
-	for(var/atom/movable/X in view(flak_range, src))
+	for(var/obj/X in view(flak_range, src))
 		var/severity = flak_range-get_dist(X, src)
-		X.ex_act(severity)
+		if(istype(X, /obj/structure))
+			X.take_damage(severity*10, damage_type = "overmap_light")
+		else
+			X.ex_act(severity)
 	. = ..()
 
 /obj/item/projectile/bullet/flak/on_hit(atom/target, blocked = 0)

@@ -129,6 +129,8 @@
 				return TRUE
 		else
 			var/datum/ship_weapon/weapon_type = weapon_types[mode]
+			if(!weapon_type)
+				return FALSE
 			var/obj/proj_type = weapon_type.default_projectile_type
 			for(var/i; i < weapon_type.burst_size; i++)
 				if(lateral)

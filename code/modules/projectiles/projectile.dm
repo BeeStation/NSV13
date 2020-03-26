@@ -242,8 +242,9 @@
 		var/mob/checking = firer
 		if(istype(A, /obj/structure/overmap))
 			var/obj/structure/overmap/ship_target = A
-			if(checking.overmap_ship)
-				if(checking.overmap_ship.faction == ship_target.faction)
+			var/obj/structure/overmap/source = (ismob(firer) || !istype(firer, /obj/structure/overmap)) ? checking.overmap_ship : firer
+			if(source)
+				if(source.faction == ship_target.faction)
 					trajectory_ignore_forcemove = TRUE
 					var/turf/TT = trajectory.return_turf()
 					if(!istype(TT))

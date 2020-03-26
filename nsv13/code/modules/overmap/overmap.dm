@@ -84,8 +84,8 @@
 	var/obj/machinery/computer/ship/dradis/dradis //So that pilots can check the radar easily
 
 	// Ship weapons
-	var/list/weapons[3][] //All of the weapons linked to us
-	var/list/weapon_types[3]
+	var/list/weapons[MAX_POSSIBLE_FIREMODE][] //All of the weapons linked to us
+	var/list/weapon_types[MAX_POSSIBLE_FIREMODE]
 
 	var/fire_mode = FIRE_MODE_PDC //What gun do we want to fire? Defaults to railgun, with PDCs there for flak
 	var/weapon_safety = FALSE //Like a gun safety. Entirely un-used except for fighters to stop brainlets from shooting people on the ship unintentionally :)
@@ -106,7 +106,6 @@
 	var/atom/target_lock = null
 	var/can_lock = TRUE //Can we lock on to people or not
 	var/lockon_time = 2 SECONDS
-	var/flak_range_override = 0 //Has the helm
 
 	// Railgun aim helper
 	var/last_tracer_process = 0
@@ -434,7 +433,7 @@
 			ship.relay(sound,message)
 	for(var/Y in GLOB.dead_mob_list)
 		var/mob/dead/M = Y
-		if(M.z == z) //Ghosts get to hear explosions too for clout.
+		if(M.z == z || is_station_level(M.z)) //Ghosts get to hear explosions too for clout.
 			SEND_SOUND(M,sound)
 
 /obj/structure/overmap/proc/verb_check(require_pilot = TRUE, mob/user = null)

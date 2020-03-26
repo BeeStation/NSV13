@@ -18,11 +18,27 @@
 	var/pixel_collision_size_x = 0
 	var/pixel_collision_size_y = 0
 
+//Helper proc to get the actual center of the ship, if the ship's hitbox is placed in the bottom left corner like they usually are.
+
+/obj/structure/overmap/proc/get_center()
+	return get_turf(locate((src.x+(pixel_collision_size_x/32)/2), src.y+((pixel_collision_size_y/32)/2), z))
+
+/obj/structure/overmap/proc/get_pixel_bounds()
+	for(var/turf/T in obounds(src, pixel_x + pixel_collision_size_x/4, pixel_y + pixel_collision_size_y/4, pixel_x  + -pixel_collision_size_x/4, pixel_y + -pixel_collision_size_x/4) )//Forms a zone of 4 quadrants around the desired overmap using some math fuckery.
+		to_chat(world, "FOO!")
+		T.SpinAnimation()
+
+/obj/structure/overmap/proc/show_bounds()
+	for(var/turf/T in locs)
+		T.SpinAnimation()
+
 /obj/structure/overmap/Initialize()
 	. = ..()
 	var/icon/I = icon(icon,icon_state,SOUTH) //SOUTH because all overmaps only ever face right, no other dirs.
 	pixel_collision_size_x = I.Width()
 	pixel_collision_size_y = I.Height()
+//	bound_width = pixel_collision_size_x
+//	bound_height = pixel_collision_size_y
 
 /obj/structure/overmap/proc/can_move()
 	return TRUE //Placeholder for everything but fighters. We can later extend this if / when we want to code in ship engines.
@@ -244,12 +260,6 @@
 	transform = mat_from
 	pixel_x = last_offset_x*32
 	pixel_y = last_offset_y*32
-	for(var/atom/inbound in obounds(src, pixel_x + pixel_collision_size_x/4, pixel_y + pixel_collision_size_y/4, pixel_x  + -pixel_collision_size_x/4, pixel_y + -pixel_collision_size_x/4) )//Forms a zone of 4 quadrants around the desired overmap using some math fuckery.
-		if(!inbound.density || !inbound.mouse_opacity)
-			continue
-		Bump(inbound)
-		if(pilot)
-			to_chat(world, "bumped [inbound]")
 	animate(src, transform=mat_to, pixel_x = offset_x*32, pixel_y = offset_y*32, time = time*10, flags=ANIMATION_END_NOW)
 	if(last_target)
 		var/target_angle = Get_Angle(src,last_target)

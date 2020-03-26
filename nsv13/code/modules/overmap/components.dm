@@ -104,16 +104,6 @@ GLOBAL_LIST_INIT(computer_beeps, list('nsv13/sound/effects/computer/beep.ogg','n
 	if(..() || !linked)
 		return
 	switch(action)
-		if("manual_flak_range")
-			var/tune = params["editflak"]
-			var/adjust = text2num(params["adjust"])
-			if(tune == "input")
-				tune = input("Tune flak detonation range: (0-[MAX_FLAK_RANGE]):", name, linked.flak_range_override) as num
-				linked.flak_range_override = (tune <= MAX_FLAK_RANGE) ? tune : MAX_FLAK_RANGE
-			if(isnum(adjust))
-				linked.flak_range_override = (adjust <= MAX_FLAK_RANGE) ? linked.flak_range_override+adjust : MAX_FLAK_RANGE
-		if("auto_flak_range")
-			linked.flak_range_override = 0
 		if("target_lock")
 			linked.target_lock = null
 		if("target_ship")
@@ -128,7 +118,6 @@ GLOBAL_LIST_INIT(computer_beeps, list('nsv13/sound/effects/computer/beep.ogg','n
 		return
 	var/list/data = list()
 	data["flakrange"] = linked.get_flak_range(linked.last_target)
-	data["autoflak"] = (linked.flak_range_override <= 0) ? TRUE : FALSE
 	data["integrity"] = linked.obj_integrity
 	data["max_integrity"] = linked.max_integrity
 	data["hullplates"] = linked.armour_plates

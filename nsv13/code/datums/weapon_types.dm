@@ -52,16 +52,6 @@
 	select_alert = "<span class='notice'>Activating point defense emplacements..</span>"
 	failure_alert = "<span class='warning'>DANGER: Point defense emplacements are unable to fire due to lack of ammunition.</span>"
 
-/datum/ship_weapon/flak
-	name = "Flak cannon"
-	default_projectile_type = /obj/item/projectile/bullet/gauss_slug
-	burst_size = 1
-	fire_delay = 5 SECONDS
-	range_modifier = 30
-	overmap_select_sound = 'nsv13/sound/effects/ship/freespace2/computer/escape.wav'
-	overmap_firing_sounds = list('nsv13/sound/effects/ship/flak/flak_fire.ogg')
-	select_alert = "<span class='notice'>Defensive flak screens: <b>OFFLINE</b>. Activating manual flak control.</span>"
-	failure_alert = "<span class='warning'>DANGER: flak guns unable to fire due to lack of ammunition.</span>"
 
 //You don't ever actually select this. Crew act as gunners.
 
@@ -75,3 +65,14 @@
 	failure_alert = "<span class='warning'>DANGER: Gauss gun systems not loaded.</span>"
 	overmap_firing_sounds = list('nsv13/sound/effects/ship/gauss.ogg')
 	overmap_select_sound = 'nsv13/sound/effects/ship/railgun_ready.ogg'
+
+/datum/ship_weapon/flak
+	name = "Flak cannon"
+	default_projectile_type = /obj/item/projectile/bullet/gauss_slug
+	burst_size = 1
+	fire_delay = 5 SECONDS
+	range_modifier = 30
+	overmap_select_sound = 'nsv13/sound/effects/ship/freespace2/computer/escape.wav'
+	overmap_firing_sounds = list('nsv13/sound/effects/ship/flak/flakhit1.ogg','nsv13/sound/effects/ship/flak/flakhit2.ogg','nsv13/sound/effects/ship/flak/flakhit3.ogg')
+	select_alert = "<span class='notice'>Defensive flak screens: <b>OFFLINE</b>. Activating manual flak control.</span>"
+	failure_alert = "<span class='warning'>DANGER: flak guns unable to fire due to lack of ammunition.</span>"
