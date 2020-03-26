@@ -1,5 +1,7 @@
 GLOBAL_LIST_INIT(computer_beeps, list('nsv13/sound/effects/computer/beep.ogg','nsv13/sound/effects/computer/beep2.ogg','nsv13/sound/effects/computer/beep3.ogg','nsv13/sound/effects/computer/beep4.ogg','nsv13/sound/effects/computer/beep5.ogg','nsv13/sound/effects/computer/beep6.ogg','nsv13/sound/effects/computer/beep7.ogg','nsv13/sound/effects/computer/beep8.ogg','nsv13/sound/effects/computer/beep9.ogg','nsv13/sound/effects/computer/beep10.ogg','nsv13/sound/effects/computer/beep11.ogg','nsv13/sound/effects/computer/beep12.ogg'))
 
+#define MAX_FLAK_RANGE 75 //Stops resource waste
+
 /obj/machinery/computer/ship
 	name = "A ship component"
 	icon_keyboard = "helm_key"
@@ -76,6 +78,77 @@ GLOBAL_LIST_INIT(computer_beeps, list('nsv13/sound/effects/computer/beep.ogg','n
 	icon_screen = "tactical"
 	position = "gunner"
 	resistance_flags = INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | UNACIDABLE | ACID_PROOF | FREEZE_PROOF
+
+/obj/machinery/computer/ship/tactical/attack_hand(mob/user)
+	if(!allowed(user))
+		var/sound = pick('nsv13/sound/effects/computer/error.ogg','nsv13/sound/effects/computer/error2.ogg','nsv13/sound/effects/computer/error3.ogg')
+		playsound(src, sound, 100, 1)
+		to_chat(user, "<span class='warning'>Access denied</span>")
+		return
+	if(!has_overmap())
+		var/sound = pick('nsv13/sound/effects/computer/error.ogg','nsv13/sound/effects/computer/error2.ogg','nsv13/sound/effects/computer/error3.ogg')
+		playsound(src, sound, 100, 1)
+		to_chat(user, "<span class='warning'>A warning flashes across [src]'s screen: Unable to locate thrust parameters, no registered ship stored in microprocessor.</span>")
+		return
+	ui_interact(user)
+	playsound(src, 'nsv13/sound/effects/computer/startup.ogg', 75, 1)
+	return linked.start_piloting(user, position)
+
+/obj/machinery/computer/ship/tactical/ui_interact(mob/user, ui_key = "main", datum/tgui/ui = null, force_open = 0, datum/tgui/master_ui = null, datum/ui_state/state = GLOB.default_state) // Remember to use the appropriate state.
+	ui = SStgui.try_update_ui(user, src, ui_key, ui, force_open)
+	if(!ui)
+		ui = new(user, src, ui_key, "tactical", name, 560, 600, master_ui, state)
+		ui.open()
+
+/obj/machinery/computer/ship/tactical/ui_act(action, params, datum/tgui/ui)
+	if(..() || !linked)
+		return
+	switch(action)
+		if("manual_flak_range")
+			var/tune = params["editflak"]
+			var/adjust = text2num(params["adjust"])
+			if(tune == "input")
+				tune = input("Tune flak detonation range: (0-[MAX_FLAK_RANGE]):", name, linked.flak_range_override) as num
+				linked.flak_range_override = (tune <= MAX_FLAK_RANGE) ? tune : MAX_FLAK_RANGE
+			if(isnum(adjust))
+				linked.flak_range_override = (adjust <= MAX_FLAK_RANGE) ? linked.flak_range_override+adjust : MAX_FLAK_RANGE
+		if("auto_flak_range")
+			linked.flak_range_override = 0
+		if("target_lock")
+			linked.target_lock = null
+		if("target_ship")
+			var/target_name = params["target"]
+			for(var/obj/structure/overmap/OM in GLOB.overmap_objects)
+				if(OM.name == target_name)
+					linked.start_lockon(OM)
+					break
+
+/obj/machinery/computer/ship/tactical/ui_data(mob/user)
+	if(!linked)
+		return
+	var/list/data = list()
+	data["flakrange"] = linked.get_flak_range(linked.last_target)
+	data["autoflak"] = (linked.flak_range_override <= 0) ? TRUE : FALSE
+	data["integrity"] = linked.obj_integrity
+	data["max_integrity"] = linked.max_integrity
+	data["hullplates"] = linked.armour_plates
+	data["max_hullplates"] = linked.max_armour_plates
+	data["weapons"] = list()
+	data["target_name"] = (linked.target_lock) ? linked.target_lock.name : "none"
+	for(var/list/L in linked.weapons)
+		var/ammo = 0
+		var/max_ammo = 0
+		var/thename = "none"
+		for(var/obj/machinery/ship_weapon/SW in L)
+			max_ammo += SW.max_ammo
+			ammo += SW.ammo.len
+			thename = SW.weapon_type.name
+		data["weapons"].Add(list(list("name" = thename, "ammo" = ammo, "maxammo" = max_ammo)))
+	data["ships"] = list()
+	for(var/obj/structure/overmap/OM in GLOB.overmap_objects)
+		if(OM.z == linked.z && OM.faction != linked.faction)
+			data["ships"].Add(list(list("name" = OM.name, "integrity" = OM.obj_integrity, "max_integrity" = OM.max_integrity, "faction" = OM.faction)))
+	return data
 
 /obj/machinery/computer/ship/tactical/set_position(obj/structure/overmap/OM)
 	OM.tactical = src
@@ -237,6 +310,7 @@ GLOBAL_LIST_INIT(computer_beeps, list('nsv13/sound/effects/computer/beep.ogg','n
 /obj/structure/hull_plate/LateInitialize()
 	parent = get_overmap()
 	parent.armour_plates ++
+	parent.max_armour_plates ++
 	RegisterSignal(parent, COMSIG_DAMAGE_TAKEN, .proc/relay_damage)
 
 /obj/structure/hull_plate/Destroy()
@@ -316,4 +390,6 @@ GLOBAL_LIST_INIT(computer_beeps, list('nsv13/sound/effects/computer/beep.ogg','n
 	. = ..()
 
 /obj/structure/overmap/proc/get_repair_efficiency()
-	return 100*(armour_plates/max_armour_plates)
+	return (max_armour_plates > 0) ? 100*(armour_plates/max_armour_plates) : 100
+
+#undef MAX_FLAK_RANGE

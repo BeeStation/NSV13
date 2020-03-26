@@ -143,6 +143,10 @@
 	faction = "syndicate"
 	interior_maps = list("Corvette.dmm")
 
+/obj/structure/overmap/syndicate/ai/Initialize()
+	. = ..()
+	name = "[name] ([rand(0,999)])"
+
 /obj/structure/overmap/syndicate/ai/Destroy()
 	SSstarsystem.bounty_pool += bounty //Adding payment for services rendered
 	. = ..()

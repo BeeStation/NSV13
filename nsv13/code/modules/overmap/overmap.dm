@@ -37,7 +37,7 @@
 	max_integrity = 300 //Max health
 	integrity_failure = 0
 	var/armour_plates = 0 //You lose max integrity when you lose armour plates.
-	var/max_armour_plates = 500 //Placeholder. Set by counting in game objects.
+	var/max_armour_plates = 0
 	var/list/dent_decals = list() //Ships get visibly damaged as they get shot
 	var/damage_states = FALSE //Did you sprite damage states for this ship? If yes, set this to true
 
@@ -106,6 +106,7 @@
 	var/atom/target_lock = null
 	var/can_lock = TRUE //Can we lock on to people or not
 	var/lockon_time = 2 SECONDS
+	var/flak_range_override = 0 //Has the helm
 
 	// Railgun aim helper
 	var/last_tracer_process = 0

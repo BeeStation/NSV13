@@ -1,9 +1,10 @@
 //Weapon modes
 
 #define FIRE_MODE_PDC 1
-#define FIRE_MODE_TORPEDO 2
-#define FIRE_MODE_RAILGUN 3
-#define FIRE_MODE_GAUSS 4
+#define FIRE_MODE_FLAK 2
+#define FIRE_MODE_TORPEDO 3
+#define FIRE_MODE_RAILGUN 4
+#define FIRE_MODE_GAUSS 5
 
 //AI behaviour
 

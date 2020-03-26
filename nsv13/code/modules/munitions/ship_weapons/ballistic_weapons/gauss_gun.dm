@@ -43,7 +43,7 @@
 
 	if(gunner.incapacitated() || !isliving(gunner))
 		return
-	linked_computer.attack_hand(gunner)
+	linked.start_piloting(usr, "gauss_gunner")
 	to_chat(gunner, "<span class='notice'>You reach for [src]'s gun camera controls.</span>")
 
 /obj/machinery/ship_weapon/gauss_gun/verb/exit()
@@ -73,7 +73,6 @@
 	START_PROCESSING(SSobj, src)
 	lower_rack()
 
-
 /obj/machinery/ship_weapon/gauss_gun/attack_hand(mob/user)
 	if(climbing_in)
 		return FALSE
@@ -88,6 +87,9 @@
 				remove_gunner()
 			climbing_in = FALSE //Stop it. Just stop.
 			return FALSE
+	if(gunner_chair)
+		to_chat(user, "<span class='notice'>[src]'s hatch is locked. Try using its gunner chair on the deck below?</span>")
+		return FALSE
 	climbing_in = TRUE //Stop it. Just stop.
 	to_chat(user, "<span class='notice'>You start to climb into [src]...</span>")
 	if(do_after(user, 3 SECONDS, target=src))
@@ -198,7 +200,7 @@
 
 /obj/structure/gauss_rack
 	name = "Deck gun loading rack"
-	icon = 'nsv13/icons/obj/chairs.dmi'
+	icon = 'nsv13/icons/obj/munitions_large.dmi'
 	icon_state = "loading_rack"
 	desc = "A large rack used as an ammunition feed for deck guns. The rack will automatically feed the deck gun above it with ammunition."
 	anchored = TRUE
@@ -235,7 +237,6 @@
 		vis_contents += A
 		capacity ++
 		A.layer = ABOVE_MOB_LAYER
-		return
 	loading = FALSE
 
 /obj/structure/gauss_rack/proc/unload(atom/movable/A)
@@ -262,7 +263,7 @@
 		return
 	user.set_machine(src)
 	var/dat
-	dat += "<a href='?src=[REF(src)];sendup=1'>Load rack into gun.<br></a>"
+	dat += "<a href='?src=[REF(src)];sendup=1'>Load rack into gun.</a><br>"
 	if(contents.len)
 		for(var/X in contents) //Allows you to remove things individually
 			var/atom/content = X
@@ -283,7 +284,6 @@
 			unload(A)
 	if(href_list["sendup"] && !loading)
 		gun.raise_rack()
-		loading = TRUE
 	attack_hand(usr)
 
 /*
@@ -364,9 +364,9 @@ Chair + rack handling
 	gunner_chair.visible_message("<span class='notice'>[gunner_chair] starts to raise into the ceiling!</span>")
 	animate(gunner_chair, pixel_y = 60, time = 4 SECONDS)
 	animate(M, pixel_y = 60, time = 4 SECONDS)
-	sleep(3 SECONDS)
+	sleep(2 SECONDS)
 	gunner_chair.animate_swivel(NORTH)
-	sleep(1 SECONDS)
+	sleep(2 SECONDS)
 	gunner_chair.pixel_y = 0
 	M.pixel_y = 0
 	if(M.loc != gunner_chair.loc) //They got out of the chair somehow. Probably admin fuckery.
@@ -409,9 +409,7 @@ Chair + rack handling
 	animate(ammo_rack, pixel_y = 60, time = 4 SECONDS)
 	sleep(4 SECONDS)
 	ammo_rack.forceMove(src)
-	ammo_rack.loading = FALSE
 	rackLoad()
-
 
 /obj/machinery/ship_weapon/gauss_gun/proc/rackLoad()
 	loading = TRUE
@@ -424,7 +422,7 @@ Chair + rack handling
 		playsound(src, load_sound, 100, 1)
 	state = 2
 	loading = FALSE
-	ammo_rack.loading = FALSE
+	sleep(3 SECONDS)
 	lower_rack()
 
 /obj/machinery/ship_weapon/gauss_gun/proc/lower_rack()

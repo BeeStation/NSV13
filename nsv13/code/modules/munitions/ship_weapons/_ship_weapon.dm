@@ -87,18 +87,27 @@
 
 /**
  * Constructor for /obj/machinery/ship_weapon
-
  * Attempts to link the weapon to an overmap ship.
  * If the weapon requires maintenance, generates initial maintenance countdown.
  * Caches icon state list for sanity checking when updating icons.
  */
 /obj/machinery/ship_weapon/Initialize()
 	. = ..()
+	addtimer(CALLBACK(src, .proc/PostInitialize), 5 SECONDS)
+
+/**
+*
+*	Late initialize'd these weapons as they're dependant on areas + overmaps being initialized first. This way, they're initialized after everything else in the game.
+*
+*/
+
+/obj/machinery/ship_weapon/proc/PostInitialize()
 	get_ship(error_log=FALSE)
 	if(maintainable)
 		maint_req = rand(15,25) //Setting initial number of cycles until maintenance is required
 		create_reagents(50)
 	icon_state_list = icon_states(icon)
+
 
 /**
  * Destructor for /obj/machinery/ship_weapon
