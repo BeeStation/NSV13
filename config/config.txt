@@ -7,7 +7,7 @@ $include antag_rep.txt
 
 # You can use the @ character at the beginning of a config option to lock it from being edited in-game
 # Example usage:
-# @SERVERNAME tgstation
+# @SERVERNAME nsv13
 # Which sets the SERVERNAME, and disallows admins from being able to change it using View Variables.
 # @LOG_TWITTER 0
 # Which explicitly disables LOG_TWITTER, as well as locking it.
@@ -190,7 +190,7 @@ NORESPAWN
 # DONT_DEL_NEWMOB
 
 ## set a hosted by name for unix platforms
-HOSTEDBY CthulhuOnIce
+HOSTEDBY Crossedfall
 
 ## Set to jobban "Guest-" accounts from Captain, HoS, HoP, CE, RD, CMO, Warden, Security, Detective, and AI positions.
 ## Set to 1 to jobban them from those positions, set to 0 to allow them.
@@ -231,16 +231,16 @@ CHECK_RANDOMIZER
 SERVER  byond://golden.beestation13.com:7777
 
 ## forum address
-FORUMURL https://nsv.ddmers.com/fluxbb/index.php
+FORUMURL https://nsv.beestation13.com/phpBB3
 
 ## Wiki address
-WIKIURL https://nsv.ddmers.com/wiki/Main_Page
+WIKIURL https://nsv.beestation13.com/wiki/Main_Page
 
 ## Rules address
-RULESURL https://nsv.ddmers.com/wiki/Rules
+RULESURL https://nsv.beestation13.com/wiki/Rules
 
 ## Github address
-GITHUBURL https://github.com/DDMers/NSV13
+GITHUBURL https://github.com/BeeStation/NSV13
 
 ## Donation URL
 DONATEURL https://www.patreon.com/user?u=10639001
@@ -265,7 +265,7 @@ DISCORDURL https://discord.gg/8rrttjN
 GITHUBREPOID 199051995
 
 ## Ban appeals URL - usually for a forum or wherever people should go to contact your admins.
-BANAPPEALS https://nsv.ddmers.com/fluxbb/viewforum.php?id=5
+BANAPPEALS https://nsv.beestation13.com/phpBB3/viewforum.php?f=9
 
 ## System command that invokes youtube-dl, used by Play Internet Sound.
 ## You can install youtube-dl with
@@ -487,5 +487,34 @@ GRANT_METACURRENCY
 ## Comment this out to ignore global bans
 RESPECT_GLOBAL_BANS
 
+## NSV13 - ranks. Comment out SHOW_RANKS to disable. RANK_FILE gives default rank list.
 SHOW_RANKS
 RANK_FILE military.txt
+
+## Mob spam prevention. The number of each mobtype that can be alive at once. Stops people from crashing the server with chickens/monkeycubes/slimes. Altering these values is recommended based on server hardware.
+MAX_CUBE_MONKEYS 60
+MAX_CHICKENS 60
+MAX_SLIMES 60
+
+### Fail2Topic settings
+### fail2topic is a system for automating IP bans for abusers of the world/Topic API.
+### Note that this subsystem respects the IPs listed in topic_rate_limit_whitelist.txt. They will not be considered for a ban.
+## Topic rate limit in *seconds*
+TOPIC_RATE_LIMIT 5
+## Topic max fails
+TOPIC_MAX_FAILS 5
+## Firewall rule name
+TOPIC_RULE_NAME "_DD_Fail2topic"
+## Max world/Topic payload size
+TOPIC_MAX_SIZE 500
+## Uncomment to enable Fail2Topic, comment-out to disable
+#TOPIC_ENABLED
+
+##Default view size, in tiles. Should *always* be square.
+## The alternative square viewport size if you're using a widescreen view size
+## You probably shouldn't ever be changing this, but it's here if you want to.
+DEFAULT_VIEW_SQUARE 15x15
+
+
+## Enable automatic profiling - Byond 513.1506 and newer only.
+#AUTO_PROFILE

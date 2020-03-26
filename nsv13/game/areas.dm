@@ -42,6 +42,67 @@
 	name = "Deck 2 Medical Clinic"
 	icon_state = "medbay"
 
+
+/area/nsv/engine/engine_room/core
+	name = "Engine Core"
+	icon_state = "engine_foyer"
+
+/area/nsv/engine/engine_room/auxiliary
+	name = "Engine Auxiliary Equipment"
+	icon_state = "engine_foyer"
+
+/area/maintenance/nsv/ftlroom
+	name = "FTL Control Room"
+	icon_state = "maint_bridge"
+
+/area/maintenance/nsv/deck1/airlock/forward/port
+	name = "Deck 1 Port Forward Airlock"
+	icon_state = "maint_bridge"
+
+/area/maintenance/nsv/deck1/airlock/forward/starboard
+	name = "Deck 1 Starboard Forward Airlock"
+	icon_state = "maint_bridge"
+
+/area/maintenance/nsv/deck1/airlock/aft/port
+	name = "Deck 1 Port Aft Airlock"
+	icon_state = "maint_bridge"
+
+/area/maintenance/nsv/deck1/airlock/aft/starboard
+	name = "Deck 1 Starboard Aft Airlock"
+	icon_state = "maint_bridge"
+
+/area/maintenance/nsv/deck1/port
+	name = "Deck 1 Port Maintenance"
+	icon_state = "pmaint"
+
+/area/maintenance/nsv/deck1/starboard
+	name = "Deck 1 Starboard Maintenance"
+	icon_state = "smaint"
+
+/area/maintenance/nsv/deck2/port
+	name = "Deck 2 Port Maintenance"
+	icon_state = "pmaint"
+
+/area/maintenance/nsv/deck2/starboard
+	name = "Deck 2 Starboard Maintenance"
+	icon_state = "smaint"
+
+/area/maintenance/nsv/deck2/airlock/forward/port
+	name = "Deck 2 Port Forward Airlock"
+	icon_state = "maint_bridge"
+
+/area/maintenance/nsv/deck2/airlock/forward/starboard
+	name = "Deck 2 Starboard Forward Airlock"
+	icon_state = "maint_bridge"
+
+/area/maintenance/nsv/deck2/airlock/aft/port
+	name = "Deck 2 Port Aft Airlock"
+	icon_state = "maint_bridge"
+
+/area/maintenance/nsv/deck2/airlock/aft/starboard
+	name = "Deck 2 Starboard Aft Airlock"
+	icon_state = "maint_bridge"
+
 /area/maintenance/nsv/deck2/frame1/port
 	name = "Deck 2 Frame 1 Port Maintenence"
 	icon_state = "pmaint"
@@ -134,12 +195,20 @@
 	name = "Deck 2 Frame 2 Port Hallway"
 	icon_state = "hallP"
 
+/area/hallway/nsv/deck2/frame2/central
+	name = "Deck 2 Frame 2 Central Hallway"
+	icon_state = "hallC"
+
 /area/hallway/nsv/deck2/frame2/starboard
 	name = "Deck 2 Frame 2 Starboard Hallway"
 	icon_state = "hallS"
 
 /area/hallway/nsv/deck2/frame3/port
 	name = "Deck 2 Frame 3 Port Hallway"
+	icon_state = "hallC"
+
+/area/hallway/nsv/deck2/frame3/central
+	name = "Deck 2 Frame 3 Central Hallway"
 	icon_state = "hallC"
 
 /area/hallway/nsv/deck2/frame3/starboard
@@ -214,6 +283,30 @@
 	name = "Deck 1 Primary Hallway"
 	icon_state = "hallC"
 
+/area/hallway/nsv/deck1/frame1/central
+	name = "Deck 1 Frame 1 Central Hallway"
+	icon_state = "hallC"
+
+/area/hallway/nsv/deck1/frame2/port
+	name = "Deck 1 Frame 2 Port Hallway"
+	icon_state = "hallP"
+
+/area/hallway/nsv/deck1/frame2/central
+	name = "Deck 1 Frame 2 Central Hallway"
+	icon_state = "hallC"
+
+/area/hallway/nsv/deck1/frame2/starboard
+	name = "Deck 1 Frame 2 Starboard Hallway"
+	icon_state = "hallS"
+
+/area/hallway/nsv/deck1/frame3/central
+	name = "Deck 1 Frame 3 Central Hallway"
+	icon_state = "hallC"
+
+/area/hallway/nsv/deck1/frame4/central
+	name = "Deck 1 Frame 4 Central Hallway"
+	icon_state = "hallC"
+
 /area/crew_quarters/nsv/observation
 	name = "Observation Lounge"
 	icon_state = "Sleep"
@@ -226,6 +319,18 @@
 	name = "Deck 3 Starboard Hanger Bay"
 	icon_state = "hallS"
 
+/area/nsv/hanger/notkmcstupidhanger/launchtube/left
+	name = "Launch Tubes 1 & 2"
+	icon_state = "hallP"
+
+/area/nsv/hanger/notkmcstupidhanger/launchtube/right
+	name = "Launch Tubes 3 & 4"
+	icon_state = "hallS"
+
+/area/nsv/hanger/notkmcstupidhanger/hangar
+	name = "Hangar Bay"
+	icon_state = "hallC"
+
 /area/nsv/hanger/deck2/port
 	name = "Deck 2 Port Hanger Bay"
 	icon_state = "hallP"
@@ -233,6 +338,10 @@
 /area/nsv/hanger/deck2/starboard
 	name = "Deck 2 Starboard Hanger Bay"
 	icon_state = "hallS"
+
+/area/nsv/weapons
+	name = "Weapons Bay"
+	icon_state = "hallC"
 
 /area/nsv/weapons/port
 	name = "Port Weapons Bay"
@@ -257,6 +366,9 @@
 /area/nsv/briefingroom
 	name = "Briefing Room"
 	icon_state = "hallP"
+
+/area/nsv/shuttle
+	overmap_type = /obj/structure/overmap/nanotrasen/mining_cruiser/nostromo
 
 /area/nsv/shuttle/bridge
 	name = "Mining Shuttle Bridge"
@@ -283,6 +395,37 @@
 	icon_state = "hallP"
 
 /area/nsv/shuttle/airlock/starboard
+	name = "Mining Shuttle Starboard Airlock"
+	icon_state = "hallS"
+
+/area/nsv/shuttle/fob
+	has_gravity = STANDARD_GRAVITY //good luck trying to fit a gen here.
+
+/area/nsv/shuttle/fob/bridge
+	name = "Mining Shuttle Bridge"
+	icon_state = "bridge"
+
+/area/nsv/shuttle/fob/central
+	name = "Mining Shuttle"
+	icon_state = "hallC"
+
+/area/nsv/shuttle/fob/storage
+	name = "Mining Shuttle Equipment Storage"
+	icon_state = "storage"
+
+/area/nsv/shuttle/fob/atmospherics
+	name = "Mining Shuttle Maintenance"
+	icon_state = "atmos"
+
+/area/nsv/shuttle/fob/airlock/aft
+	name = "Mining Shuttle Aft Airlock"
+	icon_state = "hallA"
+
+/area/nsv/shuttle/fob/airlock/port
+	name = "Mining Shuttle Port Airlock"
+	icon_state = "hallP"
+
+/area/nsv/shuttle/fob/airlock/starboard
 	name = "Mining Shuttle Starboard Airlock"
 	icon_state = "hallS"
 
