@@ -28,7 +28,7 @@
 				stop_piloting(gunner)
 			gunner = user
 		if("gauss_gunner")
-			gauss_gunners += user
+			LAZYADD(gauss_gunners, user)
 		if("all_positions")
 			pilot = user
 			gunner = user
@@ -55,8 +55,8 @@
 			playsound(tactical, 'nsv13/sound/effects/computer/hum.ogg', 100, 1)
 		gunner = null
 		target_lock = null
-	if((locate(M) in gauss_gunners))
-		gauss_gunners -= M
+	if(LAZYFIND(gauss_gunners, M))
+		LAZYREMOVE(gauss_gunners, M)
 	if(M.client)
 		M.client.check_view()
 	var/mob/camera/aiEye/remote/overmap_observer/eyeobj = M.remote_control
