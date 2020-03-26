@@ -55,9 +55,11 @@
 	var/build_state = null
 	var/fighter_name = null
 
-/*
+
 /obj/structure/fighter_component/underconstruction_fighter/examine(mob/user)
 	. = ..()
+	. + = "<span class='notice'>There is an open instruction manual sitting on the [src], the next step reads:</span>"
+/*
 	switch(build_state)
 		if(BS_FUSE)
 			. += "<span class='notice'>The unadorned husk of a newly constructed fighter fuselage, held together purely by friction and good intentions. Bolting together should fix this.</span>"

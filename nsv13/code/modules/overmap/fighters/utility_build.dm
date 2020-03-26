@@ -37,57 +37,57 @@
 	. = ..()
 	switch(build_state)
 		if(UBS_CHASSIS)
-			. += "<span class='notice'>0</span>"
+			. += "<span class='notice'>Secure the chassis with bolts.</span>"
 		if(UBS_CHASSIS_BOLT)
-			. += "<span class='notice'>1</span>"
+			. += "<span class='notice'>Reinforce the chassis joints.</span>"
 		if(UBS_CHASSIS_WELD)
-			. += "<span class='notice'>2</span>"
+			. += "<span class='notice'>Install the engine into slot H.</span>"
 		if(UBS_ENGINE)
-			. += "<span class='notice'>3</span>"
+			. += "<span class='notice'>Secure the engine to the chassis with bolts.</span>"
 		if(UBS_ENGINE_BOLT)
-			. += "<span class='notice'>4</span>"
+			. += "<span class='notice'>Install the auxillary power unit into slot E.</span>"
 		if(UBS_APU)
-			. += "<span class='notice'>5</span>"
+			. += "<span class='notice'>Follow the wiring diagram to connect the auxillary power unit to the engine.</span>"
 		if(UBS_APU_WIRE)
-			. += "<span class='notice'>6</span>"
+			. += "<span class='notice'>Calibrate the power systems.</span>"
 		if(UBS_APU_MULTI)
-			. += "<span class='notice'>7</span>"
+			. += "<span class='notice'>Install the fuel tank into slot C.</span>"
 		if(UBS_FUEL_TANK)
-			. += "<span class='notice'>8</span>"
+			. += "<span class='notice'>Secure the fuel tank to the chassis with bolts.</span>"
 		if(UBS_FUEL_TANK_BOLT)
-			. += "<span class='notice'>9</span>"
+			. += "<span class='notice'>Install the primary utility module into the primary utility arm.</span>"
 		if(UBS_PRIMARY)
-			. += "<span class='notice'>10</span>"
+			. += "<span class='notice'>Secure the primary utility module to the primary utility arm with bolts.</span>"
 		if(UBS_PRIMARY_BOLT)
-			. += "<span class='notice'>11</span>"
+			. += "<span class='notice'>Calibrate the primary utility module.</span>"
 		if(UBS_PRIMARY_MULTI)
-			. += "<span class='notice'>12</span>"
+			. += "<span class='notice'>Install the secondary utility module into the secondary utility slot.</span>"
 		if(UBS_SECONDARY)
-			. += "<span class='notice'>13</span>"
+			. += "<span class='notice'>Secure the secondary utility module to the chassis with bolts.</span>"
 		if(UBS_SECONDARY_BOLT)
-			. += "<span class='notice'>14</span>"
+			. += "<span class='notice'>Calibrate the secondary utility module.</span>"
 		if(UBS_SECONDARY_MULTI)
-			. += "<span class='notice'>15</span>"
+			. += "<span class='notice'>Install the countermeasure dispenser into slot K.</span>"
 		if(UBS_COUNTERMEASURE_DISPENSER)
-			. += "<span class='notice'>16</span>"
+			. += "<span class='notice'>Secure the countermeasure dispenser to the chassis with bolts.</span>"
 		if(UBS_COUNTERMEASURE_DISPENSER_BOLT)
-			. += "<span class='notice'>17</span>"
+			. += "<span class='notice'>Install the avionics into slot K+.</span>"
 		if(UBS_AVIONICS)
-			. += "<span class='notice'>18</span>"
+			. += "<span class='notice'>Follow the wiring diagram to connect the avionics to the flight controls and thrusters.</span>"
 		if(UBS_AVIONICS_WIRE)
-			. += "<span class='notice'>19</span>"
+			. += "<span class='notice'>Calibrate the flight control systems.</span>"
 		if(UBS_AVIONICS_MULTI)
-			. += "<span class='notice'>20</span>"
+			. += "<span class='notice'>Install the armour plating in all indicated place on the diagram.</span>"
 		if(UBS_ARMOUR_PLATING)
-			. += "<span class='notice'>21</span>"
+			. += "<span class='notice'>Secure the armour plating to the chassis with bolts.</span>"
 		if(UBS_ARMOUR_PLATING_BOLT)
-			. += "<span class='notice'>22</span>"
+			. += "<span class='notice'>Reinforce the armour plating bonds with the chassis.</span>"
 		if(UBS_ARMOUR_PLATING_WELD)
-			. += "<span class='notice'>23</span>"
+			. += "<span class='notice'>Paint the surface of the [src] with primer.</span>"
 		if(UBS_PAINT_PRIMER)
-			. += "<span class='notice'>24</span>"
+			. += "<span class='notice'>Paint the surface of [src] and apply approved detailing as the diagrams.</span>"
 		if(UBS_PAINT_DETAILING)
-			. += "<span class='notice'>25</span>"
+			. += "<span class='notice'>Choose a name for the new ADL-77U Arroyomolinos.</span>"
 
 /obj/structure/fighter_component/utility_chassis_crate/attack_hand(mob/user)
 	.=..()

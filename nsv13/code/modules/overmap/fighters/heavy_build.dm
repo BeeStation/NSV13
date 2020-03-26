@@ -37,57 +37,57 @@
 	. = ..()
 	switch(build_state)
 		if(HBS_CHASSIS)
-			. += "<span class='notice'>0</span>"
+			. += "<span class='notice'>Secure the chassis with bolts.</span>"
 		if(HBS_CHASSIS_BOLT)
-			. += "<span class='notice'>1</span>"
+			. += "<span class='notice'>Reinforce the chassis joints.</span>"
 		if(HBS_CHASSIS_WELD)
-			. += "<span class='notice'>2</span>"
+			. += "<span class='notice'>Install the fuel tank into slot H.</span>"
 		if(HBS_FUEL_TANK)
-			. += "<span class='notice'>3</span>"
+			. += "<span class='notice'>Secure the fuel tank to the chassis with bolts.</span>"
 		if(HBS_FUEL_TANK_BOLT)
-			. += "<span class='notice'>4</span>"
+			. += "<span class='notice'>Install the engine into slot O.</span>"
 		if(HBS_ENGINE)
-			. += "<span class='notice'>5</span>"
+			. += "<span class='notice'>Secure the engine to the chassis with bolts,</span>"
 		if(HBS_ENGINE_BOLT)
-			. += "<span class='notice'>6</span>"
+			. += "<span class='notice'>Install the auxillary power unit into slot R.</span>"
 		if(HBS_APU)
-			. += "<span class='notice'>7</span>"
+			. += "<span class='notice'>Follow the wiring diagram to connect the auxillary power unit to the engine.</span>"
 		if(HBS_APU_WIRE)
-			. += "<span class='notice'>8</span>"
+			. += "<span class='notice'>Secure the auxillary power unit connections with screws.</span>"
 		if(HBS_APU_SCREW)
-			. += "<span class='notice'>9</span>"
+			. += "<span class='notice'>Install the avionics into slot R+.</span>"
 		if(HBS_AVIONICS)
-			. += "<span class='notice'>10</span>"
+			. += "<span class='notice'>Follow the wiring diagram to connect the avionics to the flight controls and thrusters.</span>"
 		if(HBS_AVIONICS_WIRE)
-			. += "<span class='notice'>11</span>"
+			. += "<span class='notice'>Calibrate the avionics systems.</span>"
 		if(HBS_AVIONICS_MULTI)
-			. += "<span class='notice'>12</span>"
+			. += "<span class='notice'>Install the targeting sensor into slot O.</span>"
 		if(HBS_TARGETING_SENSOR)
-			. += "<span class='notice'>13</span>"
+			. += "<span class='notice'>Secure the targeting sensor to the chassis with screws.</span>"
 		if(HBS_TARGETING_SENSOR_SCREW)
-			. += "<span class='notice'>14</span>"
+			. += "<span class='notice'>Install the countermeasure dispenser into slot R-.</span>"
 		if(HBS_COUNTERMEASURE_DISPENSER)
-			. += "<span class='notice'>15</span>"
+			. += "<span class='notice'>Secure the countermeasure dispenser to the chassis with bolts.</span>"
 		if(HBS_COUNTERMEASURE_DISPENSER_BOLT)
-			. += "<span class='notice'>16</span>"
+			. += "<span class='notice'>Install the primary weapon module into the forward weapon mount.</span>"
 		if(HBS_PRIMARY)
-			. += "<span class='notice'>17</span>"
+			. += "<span class='notice'>Secure the primary weapon module to the forwarwd weapon mount with bolts.</span>"
 		if(HBS_PRIMARY_BOLT)
-			. += "<span class='notice'>18</span>"
+			. += "<span class='notice'>Install the secondary weapon module into the belly weapon mount.</span>"
 		if(HBS_SECONDARY)
-			. += "<span class='notice'>19</span>"
+			. += "<span class='notice'>Secure the secondary weapon module to the belly weapon mount with bolts.</span>"
 		if(HBS_SECONDARY_BOLT)
-			. += "<span class='notice'>20</span>"
+			. += "<span class='notice'>Install the armour plating in all indicated place on the diagram.</span>"
 		if(HBS_ARMOUR_PLATING)
-			. += "<span class='notice'>21</span>"
+			. += "<span class='notice'>Secure the armour plating to chassis with bolts.</span>"
 		if(HBS_ARMOUR_PLATING_BOLT)
-			. += "<span class='notice'>22</span>"
+			. += "<span class='notice'>Reinforce the armour plating bonds with the chassis.</span>"
 		if(HBS_ARMOUR_PLATING_WELD)
-			. += "<span class='notice'>23</span>"
+			. += "<span class='notice'>Paint the surface of the [src] with primer.</span>"
 		if(HBS_PAINT_PRIMER)
-			. += "<span class='notice'>24</span>"
+			. += "<span class='notice'>Paint the surface of [src] and apply approved detailing as the diagrams.</span>"
 		if(HBS_PAINT_DETAILING)
-			. += "<span class='notice'>25</span>"
+			. += "<span class='notice'>Choose a name for the new Su-395 Chelyabinsk Heavy Fighter.</span>"
 
 /obj/structure/fighter_component/heavy_chassis_crate/attack_hand(mob/user)
 	.=..()
