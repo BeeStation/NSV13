@@ -48,6 +48,7 @@
 	if(ftl_start)
 		relay('nsv13/sound/effects/ship/FTL_loop.ogg', "<span class='warning'>You feel the ship lurch forward</span>", loop=TRUE, channel = CHANNEL_SHIP_ALERT)
 		addtimer(CALLBACK(src, .proc/jump, target_system, FALSE), 2 MINUTES)
+		SEND_SIGNAL(src, COMSIG_FTL_STATE_CHANGE)
 		SSstarsystem?.hyperspace?.transfer_ship(src) //Get the system to transfer us to its location.
 		if(structure_crit) //Tear the ship apart if theyre trying to limp away.
 			for(var/i = 0, i < rand(4,8), i++)
@@ -56,6 +57,7 @@
 				var/turf/T = pick(get_area_turfs(target))
 				new /obj/effect/temp_visual/explosion_telegraph(T)
 	else
+		SEND_SIGNAL(src, COMSIG_FTL_STATE_CHANGE)
 		relay('nsv13/sound/effects/ship/freespace2/warp_close.wav', "<span class='warning'>You feel the ship lurch to a halt</span>", loop=FALSE, channel = CHANNEL_SHIP_ALERT)
 		target_system.transfer_ship(src) //Get the system to transfer us to its location.
 

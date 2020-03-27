@@ -8,11 +8,13 @@
 	name = "hyper accelerated tungsten slug"
 	damage = 80
 	movement_type = FLYING | UNSTOPPABLE //Railguns punch straight through your ship
+	impact_effect_type = /obj/effect/temp_visual/impact_effect/torpedo
 
 /obj/item/projectile/bullet/gauss_slug
 	icon_state = "gaussgun"
 	name = "tungsten round"
 	damage = 20
+	impact_effect_type = /obj/effect/temp_visual/impact_effect/torpedo
 
 /obj/item/projectile/bullet/torpedo
 	icon_state = "torpedo"

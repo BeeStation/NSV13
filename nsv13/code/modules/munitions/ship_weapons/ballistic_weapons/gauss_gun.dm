@@ -60,9 +60,6 @@
 
 /obj/machinery/ship_weapon/gauss_gun/Initialize()
 	. = ..()
-//	linked_computer = new /obj/machinery/computer/ship/munitions_computer/internal()
-//	linked_computer.forceMove(src)
-	//linked_computer.SW = src
 	ammo_rack = new /obj/structure/gauss_rack(src)
 	ammo_rack.gun = src
 	cabin_air = new
@@ -84,10 +81,7 @@
 			return FALSE
 		else
 			to_chat(user, "<span class='notice'>You start to climb out of [src]...</span>")
-			climbing_in = TRUE //Stop it. Just stop.
-			if(do_after(user, 3 SECONDS, target=src))
-				remove_gunner()
-			climbing_in = FALSE //Stop it. Just stop.
+			remove_gunner()
 			return FALSE
 	if(gunner_chair)
 		to_chat(user, "<span class='notice'>[src]'s hatch is locked. Try using its gunner chair on the deck below?</span>")
@@ -210,7 +204,7 @@
 	name = "Deck gun loading rack"
 	icon = 'nsv13/icons/obj/munitions_large.dmi'
 	icon_state = "loading_rack"
-	desc = "A large rack used as an ammunition feed for deck guns. The rack will automatically feed the deck gun above it with ammunition."
+	desc = "A large rack used as an ammunition feed for deck guns. The rack will automatically feed the deck gun above it with ammunition. You can load a crate with ammo and click+drag it onto the rack to speedload, or manually load it with rounds by hand."
 	anchored = TRUE
 	density = TRUE
 	layer = 3
@@ -227,7 +221,7 @@
 		if(capacity < max_capacity)
 			to_chat(user, "<span class='notice'>You start to load [I] onto [src]...</span>")
 			loading = TRUE
-			if(do_after(user,20, target = src))
+			if(do_after(user,10, target = src))
 				load(I, src)
 				to_chat(user, "<span class='notice'>You load [I] onto [src].</span>")
 				loading = FALSE
@@ -237,8 +231,26 @@
 			to_chat(user, "<span class='warning'>[src] is fully loaded!</span>")
 	. = ..()
 
+/obj/structure/gauss_rack/MouseDrop_T(obj/structure/A, mob/user)
+	. = ..()
+	if(istype(A, /obj/structure/closet))
+		if(!LAZYFIND(A.contents, /obj/item/ship_weapon/ammunition/gauss))
+			to_chat(user, "<span class='warning'>There's nothing in [A] that can be loaded into [src]...</span>")
+			return FALSE
+		to_chat(user, "<span class='notice'>You start to load [src] with the contents of [A]...</span>")
+		if(do_after(user, 6 SECONDS , target = src))
+			for(var/obj/item/ship_weapon/ammunition/gauss/G in A)
+				if(load(G, user))
+					continue
+				else
+					break
+
 /obj/structure/gauss_rack/proc/load(atom/movable/A, mob/user)
 	playsound(src, 'nsv13/sound/effects/ship/mac_load.ogg', 100, 1)
+	if(capacity >= max_capacity)
+		to_chat(user, "<span class='warning'>[src] is full!</span>")
+		loading = FALSE
+		return FALSE
 	if(istype(A, gun.ammo_type))
 		A.forceMove(src)
 		A.pixel_y = 10+(capacity*10)
@@ -246,7 +258,12 @@
 		capacity ++
 		A.layer = ABOVE_MOB_LAYER
 		A.mouse_opacity = FALSE //Nope, not letting you pick this up :)
-	loading = FALSE
+		loading = FALSE
+		return TRUE
+	else
+		loading = FALSE
+		return FALSE
+
 
 /obj/structure/gauss_rack/proc/unload(atom/movable/A)
 	vis_contents -= A
@@ -254,7 +271,6 @@
 	A.pixel_y = initial(A.pixel_y) //Remove our offset
 	A.layer = initial(A.layer)
 	A.mouse_opacity = TRUE
-	to_chat(usr, "<span class='notice'>You unload [A] from [src].</span>")
 	if(istype(A, gun.ammo_type)) //If a munition, allow them to load other munitions onto us.
 		capacity --
 	if(contents.len)
