@@ -18,7 +18,6 @@
 
 /obj/structure/overmap/proc/start_piloting(mob/living/carbon/user, position)
 	if(!position || user.overmap_ship == src || LAZYFIND(operators, user))
-		to_chat(world, "No fuck off")
 		return
 	switch(position)
 		if("pilot")

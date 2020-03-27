@@ -382,6 +382,8 @@ GLOBAL_LIST_INIT(computer_beeps, list('nsv13/sound/effects/computer/beep.ogg','n
 	. = ..()
 
 /obj/structure/overmap/proc/get_repair_efficiency()
+	if(max_armour_plates <= 0)
+		return 25 //Very slow heal for AIs
 	return (max_armour_plates > 0) ? 100*(armour_plates/max_armour_plates) : 100
 
 #undef MAX_FLAK_RANGE
