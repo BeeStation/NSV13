@@ -6,6 +6,8 @@
 	anchored = TRUE
 	density = FALSE
 	pixel_y = 26
+	maintainable = FALSE
+	bang = FALSE
 
 	circuit = /obj/item/circuitboard/machine/pdc_mount
 
