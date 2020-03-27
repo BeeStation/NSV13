@@ -337,12 +337,13 @@
 	else
 		return null
 
-/obj/structure/overmap/take_damage()
+/obj/structure/overmap/take_damage(amount)
 	..()
 	if(!impact_sound_cooldown)
 		var/sound = pick(GLOB.overmap_impact_sounds)
 		relay(sound)
-		shake_everyone(5)
+		if(amount >= 15) //Flak begone
+			shake_everyone(5)
 		impact_sound_cooldown = TRUE
 		addtimer(VARSET_CALLBACK(src, impact_sound_cooldown, FALSE), 10)
 	update_icon()
