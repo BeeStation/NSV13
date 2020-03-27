@@ -1,4 +1,22 @@
-/obj/machinery/ship_weapon/flak
+/obj/item/ammo_box/magazine/pdc/flak
+	name = "40mm flak rounds"
+	icon_state = "flak"
+	ammo_type = /obj/item/ammo_casing/flak
+	caliber = "mm40"
+	max_ammo = 100
+
+/obj/item/ammo_box/magazine/pdc/update_icon()
+	if(ammo_count() > 10)
+		icon_state = initial(icon_state)
+	else
+		icon_state = "[initial(icon_state)]_empty"
+
+/obj/item/ammo_casing/flak
+	name = "mm40 flak round casing"
+	desc = "A 30.12x82mm bullet casing."
+	projectile_type = /obj/item/projectile/bullet/pdc_round
+
+/obj/machinery/ship_weapon/pdc_mount/flak
 	name = "Flak loading rack"
 	icon = 'nsv13/icons/obj/munitions.dmi'
 	icon_state = "pdc"
@@ -9,16 +27,36 @@
 	maintainable = FALSE
 	bang = FALSE
 
-	circuit = /obj/item/circuitboard/machine/pdc_mount
+//	circuit = /obj/item/circuitboard/machine/pdc_mount
 
 	fire_mode = FIRE_MODE_FLAK
 	weapon_type = new/datum/ship_weapon/flak
+	magazine_type = /obj/item/ammo_box/magazine/pdc/flak
 
-/obj/machinery/ship_weapon/flak/animate_projectile(atom/target)
+	auto_load = TRUE
+	semi_auto = TRUE
+	maintainable = FALSE
+	max_ammo = 100
+
+	// We're fully automatic, so just the loading sound is enough
+	mag_load_sound = 'sound/weapons/autoguninsert.ogg'
+	mag_unload_sound = 'sound/weapons/autoguninsert.ogg'
+	feeding_sound = null
+	fed_sound = null
+	chamber_sound = null
+
+	load_delay = 50
+	unload_delay = 50
+
+	// No added delay between shots or for feeding rounds
+	feed_delay = 0
+	chamber_delay_rapid = 0
+	chamber_delay = 0
+	bang = FALSE
+
+
+/obj/machinery/ship_weapon/pdc_mount/flak/animate_projectile(atom/target)
 	linked.fire_flak(target)
-
-/obj/machinery/ship_weapon/flak/can_fire(shots)
-	return TRUE //Placeholder
 /**
  * Handles automatic firing of the PDCs to shoot down torpedoes
  */
@@ -46,6 +84,7 @@
 				break
 			else
 				fire_weapon(ship, mode=FIRE_MODE_PDC, lateral=TRUE)
+				break
 
 /obj/structure/overmap/proc/get_flak_range(atom/target)
 	if(!target)
