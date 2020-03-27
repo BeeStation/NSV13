@@ -405,7 +405,7 @@
 	switch(passed_mode)
 		if(RCD_FLOORWALL)
 			to_chat(user, "<span class='notice'>You finish a wall.</span>")
-			T.PlaceOnTop(/turf/closed/wall)
+			T.PlaceOnTop(/turf/closed/wall/ship) //NSV13 - Ship wall construction
 			qdel(src)
 			return TRUE
 		if(RCD_DECONSTRUCT)
