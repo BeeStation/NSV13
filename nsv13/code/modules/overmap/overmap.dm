@@ -306,17 +306,10 @@
 	relay('nsv13/sound/effects/fighters/locked.ogg', message=null, loop=FALSE, channel=CHANNEL_IMPORTANT_SHIP_ALERT)
 
 /obj/structure/overmap/proc/update_gunner_cam(atom/target)
-	if(target == src)
-		target = null //Snap cams back to us.
-	for(var/mob/living/carbon/human/M in operators)
-		if(M != gunner) //Don't snap the pilot's view...
-			continue
-		var/mob/camera/aiEye/remote/overmap_observer/cam = M.remote_control
-		cam.override_origin = target //Tell the camera that we're now going to track our currently target lock'd ship over our own ship.
-		cam.update()
+	var/mob/camera/aiEye/remote/overmap_observer/cam = gunner.remote_control
+	cam.track_target(target)
 
 /obj/structure/overmap/onMouseMove(object,location,control,params)
-
 	if(!pilot || !pilot.client || pilot.incapacitated() || !move_by_mouse || control !="mapwindow.map" ||!can_move()) //Check pilot status, if we're meant to follow the mouse, and if theyre actually moving over a tile rather than in a menu
 		return // I don't know what's going on.
 	desired_angle = getMouseAngle(params, pilot)

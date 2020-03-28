@@ -90,6 +90,7 @@
 	eyeobj.name = "[name] observer"
 	eyeobj.off_action.target = user
 	eyeobj.off_action.user = user
+	eyeobj.off_action.ship = src
 	eyeobj.off_action.Grant(user)
 	eyeobj.setLoc(eyeobj.loc)
 	eyeobj.add_relay()
@@ -102,7 +103,7 @@
 	var/datum/action/innate/camera_off/overmap/off_action
 	animate_movement = 0 //Stops glitching with overmap movement
 	use_static = USE_STATIC_NONE
-	var/obj/structure/overmap/override_origin = null //Lets gunners lock on to their targets for accurate shooting.
+	var/obj/structure/overmap/last_target = null //Lets gunners lock on to their targets for accurate shooting.
 
 /datum/action/innate/camera_off/overmap
 	name = "Stop observing"
@@ -110,6 +111,7 @@
 	button_icon_state = "camera_off"
 	var/mob/camera/aiEye/remote/overmap_observer/remote_eye
 	var/mob/living/user
+	var/obj/structure/overmap/ship = null
 
 /datum/action/innate/camera_off/overmap/Activate()
 	if(!target || !isliving(target))
@@ -117,7 +119,6 @@
 	if(!remote_eye?.origin)
 		qdel(src)
 		qdel(remote_eye)
-	var/obj/structure/overmap/ship = remote_eye.origin
 	if(ship.stop_piloting(target))
 		qdel(remote_eye)
 		qdel(src)
@@ -129,12 +130,29 @@
 	return
 
 /mob/camera/aiEye/remote/overmap_observer/proc/add_relay() //Add a signal to move us
-	RegisterSignal(origin, COMSIG_MOVABLE_MOVED, .proc/update)
+	RegisterSignal(origin, COMSIG_MOVABLE_MOVED, .proc/update, origin)
 
-/mob/camera/aiEye/remote/overmap_observer/proc/update()
-	if(override_origin)
-		forceMove(override_origin) //This only happens for gunner cams
-		eye_user.client.pixel_x = override_origin.pixel_x
-		eye_user.client.pixel_y = override_origin.pixel_y
-		return
-	forceMove(get_turf(origin))
+/mob/camera/aiEye/remote/overmap_observer/proc/set_override(state, obj/structure/overmap/override)
+	if(state)
+		track_target(override)
+	else
+		var/obj/structure/overmap/ship = origin
+		to_chat(eye_user, "<span class='notice'>Target lock relinquished.</span>")
+		ship.CreateEye(eye_user)
+		QDEL_NULL(off_action)
+		QDEL_NULL(src)
+
+/mob/camera/aiEye/remote/overmap_observer/proc/update(obj/structure/overmap/target)
+	if(!target)
+		target = origin
+	last_target = target
+	forceMove(get_turf(target)) //This only happens for gunner cams
+	eye_user.client.pixel_x = origin.pixel_x
+	eye_user.client.pixel_y = origin.pixel_y
+	return TRUE
+
+/mob/camera/aiEye/remote/overmap_observer/proc/track_target(obj/structure/overmap/target)
+	UnregisterSignal(last_target, COMSIG_MOVABLE_MOVED)
+	RegisterSignal(target, COMSIG_MOVABLE_MOVED, .proc/update, target)
+	update()
+	return TRUE
