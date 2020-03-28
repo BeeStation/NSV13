@@ -104,6 +104,7 @@
 	var/dismemberment = 0 //The higher the number, the greater the bonus to dismembering. 0 will not dismember at all.
 	var/impact_effect_type //what type of impact effect to show when hitting something
 	var/log_override = FALSE //is this type spammed enough to not log? (KAs)
+	var/faction = null //NSV13 - bullets need factions for collision checks
 
 	var/temporary_unstoppable_movement = FALSE
 
@@ -238,22 +239,20 @@
 			if(hitscan)
 				store_hitscan_collision(pcache)
 			return TRUE
-	if(firer && !ignore_source_check)//nsv13 start - multitile objects
+	if(faction && !ignore_source_check)//nsv13 start - multitile objects
 		var/mob/checking = firer
 		if(istype(A, /obj/structure/overmap))
 			var/obj/structure/overmap/ship_target = A
-			var/obj/structure/overmap/source = (ismob(firer) || !istype(firer, /obj/structure/overmap)) ? checking.overmap_ship : firer
-			if(source)
-				if(source.faction == ship_target.faction)
-					trajectory_ignore_forcemove = TRUE
-					var/turf/TT = trajectory.return_turf()
-					if(!istype(TT))
-						qdel(src)
-						return
-					if(TT != loc)
-						forceMove(get_step_towards(src, TT))
-					trajectory_ignore_forcemove = FALSE
-					return FALSE
+			if(faction == ship_target.faction)
+				trajectory_ignore_forcemove = TRUE
+				var/turf/TT = trajectory.return_turf()
+				if(!istype(TT))
+					qdel(src)
+					return
+				if(TT != loc)
+					forceMove(get_step_towards(src, TT))
+				trajectory_ignore_forcemove = FALSE
+				return FALSE
 		if((A == firer) || (((A in firer.buckled_mobs) || (istype(checking) && (A == checking.buckled))) && (A != original)) || (A == firer.loc && (ismecha(A) || istype(A, /obj/structure/overmap)))) //cannot shoot yourself or your mech //nsv13 - or your ship
 			trajectory_ignore_forcemove = TRUE
 			var/turf/TT = trajectory.return_turf()

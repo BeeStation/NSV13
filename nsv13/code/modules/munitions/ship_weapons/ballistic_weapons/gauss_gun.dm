@@ -23,6 +23,7 @@
 	var/datum/gas_mixture/cabin_air //Cabin air mix used for small ships like fighters (see overmap/fighters/fighters.dm)
 	var/climbing_in = FALSE //Stop it. Just stop.
 	var/obj/machinery/portable_atmospherics/canister/internal_tank //Internal air tank reference. Used mostly in small ships. If you want to sabotage a fighter, load a plasma tank into its cockpit :)
+	var/pdc_mode = FALSE
 
 //Verbs//
 
@@ -55,6 +56,19 @@
 	if(gunner.incapacitated() || !isliving(gunner))
 		return
 	remove_gunner()
+
+/obj/machinery/ship_weapon/gauss_gun/verb/swap_firemode()
+	set name = "Cycle firemode"
+	set category = "Gauss gun"
+	set src = usr.loc
+
+	if(gunner.incapacitated() || !isliving(gunner))
+		return
+	cycle_firemode()
+
+/obj/machinery/ship_weapon/gauss_gun/proc/cycle_firemode()
+	to_chat(gunner, "<span class='warning'>[pdc_mode ? "You swap back to gauss mode" : "You swap to point defense mode"]</span>")
+	pdc_mode = !pdc_mode
 
 //Overrides
 
@@ -128,6 +142,12 @@
 
 /obj/machinery/ship_weapon/gauss_gun/west
 	dir = WEST
+
+/obj/machinery/ship_weapon/gauss_gun/proc/onClick(atom/target)
+	if(pdc_mode)
+		linked.fire_weapon(target=target, mode=FIRE_MODE_PDC)
+		return
+	fire(target)
 
 /obj/machinery/ship_weapon/gauss_gun/overmap_fire(atom/target)
 	if(world.time >= next_sound) //Prevents ear destruction from soundspam

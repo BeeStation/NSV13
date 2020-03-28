@@ -422,6 +422,7 @@
 		proj.original = target
 		proj.pixel_x = round(this_x)
 		proj.pixel_y = round(this_y)
+		proj.faction = faction
 		spawn()
 			proj.fire(angle)
 
@@ -434,6 +435,7 @@
 	proj.original = target
 	proj.pixel_x = round(pixel_x)
 	proj.pixel_y = round(pixel_y)
+	proj.faction = faction
 	var/theangle = Get_Angle(src,target)
 	spawn()
 		proj.fire(theangle)

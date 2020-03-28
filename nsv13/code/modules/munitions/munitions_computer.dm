@@ -99,7 +99,7 @@
 /obj/machinery/ship_weapon/gauss_gun/ui_interact(mob/user, ui_key = "main", datum/tgui/ui = null, force_open = 0, datum/tgui/master_ui = null, datum/ui_state/state = GLOB.contained_state) // Remember to use the appropriate state.
 	ui = SStgui.try_update_ui(user, src, ui_key, ui, force_open)
 	if(!ui)
-		ui = new(user, src, ui_key, "munitions_computer", name, 560, 600, master_ui, state)
+		ui = new(user, src, ui_key, "gauss_gun", name, 560, 600, master_ui, state)
 		ui.open()
 
 /obj/machinery/ship_weapon/gauss_gun/ui_act(action, params, datum/tgui/ui)
@@ -116,6 +116,8 @@
 			chamber()
 		if("toggle_safety")
 			safety = !safety
+		if("toggle_pdc_mode")
+			cycle_firemode()
 
 /obj/machinery/ship_weapon/gauss_gun/ui_data(mob/user)
 	var/list/data = list()
@@ -126,6 +128,7 @@
 	data["max_ammo"] = max_ammo
 	data["maint_req"] = (maintainable) ? maint_req : 25
 	data["max_maint_req"] = 25
+	data["pdc_mode"] = pdc_mode
 	return data
 
 #undef STATE_NOTLOADED
