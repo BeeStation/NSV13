@@ -249,7 +249,7 @@
 	switch(passed_mode)
 		if(RCD_FLOORWALL)
 			to_chat(user, "<span class='notice'>You build a wall.</span>")
-			PlaceOnTop(/turf/closed/wall)
+			PlaceOnTop(/turf/closed/wall/ship) //NSV13 - Ship construction
 			return TRUE
 		if(RCD_LADDER)
 			to_chat(user, "<span class='notice'>You build a ladder.</span>")
