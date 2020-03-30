@@ -10787,18 +10787,6 @@
 /obj/machinery/light/runway/delay4,
 /turf/open/space/basic,
 /area/maintenance/ship_exterior)
-"yP" = (
-/obj/machinery/door/airlock/ship/maintenance{
-	name = "Maintenance";
-	req_one_access_txt = "12"
-	},
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
-/obj/structure/cable{
-	icon_state = "1-2"
-	},
-/turf/open/floor/plating,
-/area/maintenance/nsv/deck1/airlock/forward/starboard)
 "yQ" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 4
@@ -12330,6 +12318,13 @@
 	},
 /turf/open/floor/plating/airless,
 /area/maintenance/ship_exterior)
+"To" = (
+/obj/machinery/atmospherics/pipe/manifold/orange/visible{
+	dir = 4
+	},
+/obj/machinery/meter,
+/turf/open/floor/plating,
+/area/engine/atmos)
 "Tv" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
@@ -12479,6 +12474,22 @@
 /obj/structure/sign/departments/minsky/engineering/atmospherics,
 /turf/closed/wall/r_wall/ship,
 /area/engine/atmos)
+"UP" = (
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	icon_state = "pipe11-1";
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	dir = 4
+	},
+/obj/machinery/door/airlock/ship/maintenance{
+	dir = 8;
+	icon_state = "closed";
+	name = "Maintenance";
+	req_one_access_txt = "12"
+	},
+/turf/open/floor/plating,
+/area/maintenance/nsv/deck1/airlock/forward/starboard)
 "US" = (
 /obj/machinery/light/small{
 	dir = 1
@@ -22409,7 +22420,7 @@ fp
 gf
 gf
 gf
-ir
+To
 iW
 fq
 kh
@@ -39060,8 +39071,8 @@ pC
 sw
 tq
 tD
-tK
-tW
+tD
+UP
 Yj
 sA
 uv
@@ -39563,7 +39574,7 @@ cQ
 rT
 qq
 rC
-yP
+HD
 HD
 rO
 rP
