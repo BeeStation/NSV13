@@ -27,7 +27,7 @@
 
 /obj/structure/fighter_component/underconstruction_fighter/light_fighter_frame
 	name = "Light Fighter Frame"
-	desc = "An Incomplete F-614B Quebec Light Fighter"
+	desc = "An Incomplete Su-818 Rapier Light Fighter"
 	icon = 'icons/obj/janitor.dmi'
 	icon_state = "mop"
 	build_state = LBS_CHASSIS
@@ -45,11 +45,11 @@
 		if(LBS_ENGINE)
 			. += "<span class='notice'>Secure the engine to the chassis with bolts.</span>"
 		if(LBS_ENGINE_BOLT)
-			. += "<span class='notice'>Install the auxillary power unit into slot S.</span>"
+			. += "<span class='notice'>Install the auxiliary power unit into slot S.</span>"
 		if(LBS_APU)
-			. += "<span class='notice'>Follow the wiring diagram to connect the auxillary power unit to the engine.</span>"
+			. += "<span class='notice'>Follow the wiring diagram to connect the auxiliary power unit to the engine.</span>"
 		if(LBS_APU_WIRE)
-			. += "<span class='notice'>Secure the auxillary power unit connections with screws.</span>"
+			. += "<span class='notice'>Secure the auxiliary power unit connections with screws.</span>"
 		if(LBS_APU_SCREW)
 			. += "<span class='notice'>Install the fuel tank into slot G.</span>"
 		if(LBS_FUEL_TANK)
@@ -87,11 +87,11 @@
 		if(LBS_PAINT_PRIMER)
 			. += "<span class='notice'>Paint the surface of [src] and apply approved detailing as the diagrams.</span>"
 		if(LBS_PAINT_DETAILING)
-			. += "<span class='notice'>Choose a name for the new F-614B Quebec.</span>"
+			. += "<span class='notice'>Choose a name for the new Su-818 Rapier.</span>"
 
 /obj/structure/fighter_component/light_chassis_crate/attack_hand(mob/user)
 	.=..()
-	if(alert(user, "Begin constructing an F-614B Quebec Light Fighter?",, "Yes", "No")!="Yes")
+	if(alert(user, "Begin constructing an Su-818 Rapier Light Fighter?",, "Yes", "No")!="Yes")
 		return
 	to_chat(user, "<span class='notice'>You begin constructing the chassis of a new fighter.</span>")
 	if(!do_after(user, 10 SECONDS, target=src))

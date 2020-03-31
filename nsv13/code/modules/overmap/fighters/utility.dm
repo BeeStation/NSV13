@@ -2,25 +2,25 @@
 //Slow, Reasonably Nimble, Robust
 //Pickups up pods, refuels in space, repairs things, module module modules
 /obj/structure/overmap/fighter/utility
-	name = "ADL-77U Arroyomolinos"
-	desc = "An ADL-77U Arroymolinos utility vessel. Designed for robustness in deep space and as a highly modular platform, able to be fitted out for any situation."
+	name = "Su-437 Sabre"
+	desc = "An Su-437 Sabre utility vessel. Designed for robustness in deep space and as a highly modular platform, able to be fitted out for any situation."
 	icon = 'nsv13/icons/overmap/nanotrasen/carrier.dmi'
 	icon_state = "carrier"
-	brakes = TRUE
 	armor = list("melee" = 70, "bullet" = 40, "laser" = 70, "energy" = 40, "bomb" = 40, "bio" = 100, "rad" = 90, "fire" = 90, "acid" = 80, "overmap_light" = 20)
 	bound_width = 64 //Change this on a per ship basis
-	bound_height = 96
+	bound_height = 64
 	mass = MASS_TINY
 	sprite_size = 32
-	damage_states = FALSE
-	faction = "nanotrasen"
+	damage_states = FALSE //temp
 	max_integrity = 150 //Squishy!
 	max_passengers = 1
-	torpedoes = 0
-	speed_limit = 6 //We want fighters to be way more maneuverable
-	weapon_safety = TRUE //This happens wayy too much for my liking. Starts OFF.
-	pixel_w = -26
-	pixel_z = -28
+	speed_limit = 3 //Slower than fighters
+	pixel_w = -16
+	pixel_z = -20
+
+	forward_maxthrust = 2
+	backward_maxthrust = 2
+	side_maxthrust = 2
 
 /obj/structure/overmap/fighter/utility/prebuilt/tanker //refueling other fighters in space
 	prebuilt = TRUE

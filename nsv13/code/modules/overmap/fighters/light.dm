@@ -2,21 +2,17 @@
 //Fast, nimble, flimsy
 //Uses Light Cannons and Missiles
 /obj/structure/overmap/fighter/light
-	name = "F-614B Quebec" //need better name
-	desc = "A F-614B Quebec space superiorty fighter craft. Designed for high maneuvreability and maximum combat effectivness against other similar weight classes."
+	name = "Su-818 Rapier" //need better name
+	desc = "An Su-818 Rapier space superiorty fighter craft. Designed for high maneuvreability and maximum combat effectivness against other similar weight classes."
 	icon = 'nsv13/icons/overmap/nanotrasen/fighter.dmi'
-	brakes = TRUE
 	armor = list("melee" = 60, "bullet" = 30, "laser" = 60, "energy" = 30, "bomb" = 30, "bio" = 100, "rad" = 90, "fire" = 90, "acid" = 80)
 	bound_width = 64 //Change this on a per ship basis
 	bound_height = 64
 	mass = MASS_TINY
 	sprite_size = 32
-	damage_states = TRUE
-	faction = "nanotrasen"
+	damage_states = FALSE //temp
 	max_integrity = 120 //Really really squishy!
-	torpedoes = 0
 	speed_limit = 6 //We want fighters to be way more maneuverable
-	weapon_safety = TRUE //This happens wayy too much for my liking. Starts OFF.
 	pixel_w = -16
 	pixel_z = -20
 

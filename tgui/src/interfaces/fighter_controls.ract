@@ -58,4 +58,7 @@
   <ui-section label='Fuel level'>
     <ui-bar min='0' max='{{data.max_fuel}}' value='{{data.fuel}}' state='{{data.fuel}}'>{{Math.fixed(data.fuel)}}</ui-bar>
   </ui-section>
+  <ui-section label='Countermeasure Charges'>
+    <ui-bar min='0' max='{{data.max_countermeasures}}' value='{{data.current_countermeasures}}' state='{{data.current_countermeasures}}'>{{Math.fixed(data.current_countermeasures)}}</ui-bar>
+  </ui-section>
 </ui-display>

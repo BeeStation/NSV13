@@ -95,7 +95,7 @@
 
 /obj/structure/fighter_component/light_chassis_crate
 	name = "Light Fighter Chassis Components Crate"
-	desc = "A crate full of chassis components for a F-614B NOT-VIPER Light Fighter"
+	desc = "A crate full of chassis components for an Su-818 Rapier Light Fighter"
 	icon = 'icons/obj/crates.dmi'
 	icon_state = "crate"
 	anchored = FALSE
@@ -195,7 +195,7 @@
 
 /obj/structure/fighter_component/heavy_chassis_crate
 	name = "Heavy Fighter Chassis Components Crate"
-	desc = "A crate full of chassis components for an A-395 Chelyabinsk Heavy Fighter"
+	desc = "A crate full of chassis components for an A-395 Scimitar Heavy Attacker"
 	icon = 'icons/obj/crates.dmi'
 	icon_state = "crate"
 	anchored = FALSE
@@ -299,7 +299,7 @@
 
 /obj/structure/fighter_component/utility_chassis_crate
 	name = "Utility Vessel Chassis Components Crate"
-	desc = "A crate full of chassis components for a NOT-RAPTOR Utility Vessel"
+	desc = "A crate full of chassis components for an Su-437 Sabre Utility Vessel"
 	icon = 'icons/obj/crates.dmi'
 	icon_state = "crate"
 	anchored = FALSE

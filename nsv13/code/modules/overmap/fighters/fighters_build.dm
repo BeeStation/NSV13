@@ -58,7 +58,7 @@
 
 /obj/structure/fighter_component/underconstruction_fighter/examine(mob/user)
 	. = ..()
-	. + = "<span class='notice'>There is an open instruction manual sitting on the [src], the next step reads:</span>"
+	. += "<span class='notice'>There is an open instruction manual sitting on the [src], the next step reads:</span>"
 /*
 	switch(build_state)
 		if(BS_FUSE)

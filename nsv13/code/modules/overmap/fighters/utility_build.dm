@@ -27,7 +27,7 @@
 
 /obj/structure/fighter_component/underconstruction_fighter/utility_vessel_frame
 	name = "Utility Vessel Frame"
-	desc = "An Incomplete ADL-77U Arroyomolinos Utility Vessel"
+	desc = "An Incomplete Su-437 Sabre Utility Vessel"
 	icon = 'icons/obj/janitor.dmi'
 	icon_state = "smmop"
 	build_state = UBS_CHASSIS
@@ -87,11 +87,11 @@
 		if(UBS_PAINT_PRIMER)
 			. += "<span class='notice'>Paint the surface of [src] and apply approved detailing as the diagrams.</span>"
 		if(UBS_PAINT_DETAILING)
-			. += "<span class='notice'>Choose a name for the new ADL-77U Arroyomolinos.</span>"
+			. += "<span class='notice'>Choose a name for the new Su-437 Sabre.</span>"
 
 /obj/structure/fighter_component/utility_chassis_crate/attack_hand(mob/user)
 	.=..()
-	if(alert(user, "Begin constructing an ADL-77U Arroyomolinos Utility Vessel?",, "Yes", "No")!="Yes")
+	if(alert(user, "Begin constructing an Su-437 Sabre Utility Vessel?",, "Yes", "No")!="Yes")
 		return
 	to_chat(user, "<span class='notice'>You begin constructing the chassis of a utility vessel.</span>")
 	if(!do_after(user, 10 SECONDS, target=src))

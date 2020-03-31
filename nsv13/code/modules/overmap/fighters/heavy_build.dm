@@ -27,7 +27,7 @@
 
 /obj/structure/fighter_component/underconstruction_fighter/heavy_fighter_frame
 	name = "Heavy Fighter Frame"
-	desc = "An Incomplete Su-395 Chelyabinsk Heavy Attacker"
+	desc = "An Incomplete Su-395 Scimitar Heavy Attacker"
 	icon = 'icons/obj/janitor.dmi'
 	icon_state = "advmop"
 	build_state = HBS_CHASSIS
@@ -49,11 +49,11 @@
 		if(HBS_ENGINE)
 			. += "<span class='notice'>Secure the engine to the chassis with bolts,</span>"
 		if(HBS_ENGINE_BOLT)
-			. += "<span class='notice'>Install the auxillary power unit into slot R.</span>"
+			. += "<span class='notice'>Install the auxiliary power unit into slot R.</span>"
 		if(HBS_APU)
-			. += "<span class='notice'>Follow the wiring diagram to connect the auxillary power unit to the engine.</span>"
+			. += "<span class='notice'>Follow the wiring diagram to connect the auxiliary power unit to the engine.</span>"
 		if(HBS_APU_WIRE)
-			. += "<span class='notice'>Secure the auxillary power unit connections with screws.</span>"
+			. += "<span class='notice'>Secure the auxiliary power unit connections with screws.</span>"
 		if(HBS_APU_SCREW)
 			. += "<span class='notice'>Install the avionics into slot R+.</span>"
 		if(HBS_AVIONICS)
@@ -87,11 +87,11 @@
 		if(HBS_PAINT_PRIMER)
 			. += "<span class='notice'>Paint the surface of [src] and apply approved detailing as the diagrams.</span>"
 		if(HBS_PAINT_DETAILING)
-			. += "<span class='notice'>Choose a name for the new Su-395 Chelyabinsk Heavy Fighter.</span>"
+			. += "<span class='notice'>Choose a name for the new Su-395 Scimitar Heavy Fighter.</span>"
 
 /obj/structure/fighter_component/heavy_chassis_crate/attack_hand(mob/user)
 	.=..()
-	if(alert(user, "Begin constructing an Su-395 Chelyabinsk Heavy Fighter?",, "Yes", "No")!="Yes")
+	if(alert(user, "Begin constructing an Su-395 Scimitar Heavy Fighter?",, "Yes", "No")!="Yes")
 		return
 	to_chat(user, "<span class='notice'>You begin constructing the chassis of a new fighter.</span>")
 	if(!do_after(user, 10 SECONDS, target=src))

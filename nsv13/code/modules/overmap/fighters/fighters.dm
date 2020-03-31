@@ -43,6 +43,7 @@ After going through this checklist, you're ready to go!
 	faction = "nanotrasen"
 	max_integrity = 120 //Really really squishy!
 	torpedoes = 0
+	missiles = 0
 	speed_limit = 6 //We want fighters to be way more maneuverable
 	weapon_safety = TRUE //This happens wayy too much for my liking. Starts OFF.
 	pixel_w = -16
@@ -54,13 +55,16 @@ After going through this checklist, you're ready to go!
 	var/max_missiles = 0
 	var/max_cannon = 0
 	var/max_countermeasures = 0
+	var/countermeasures = 0
 	var/mag_lock = FALSE //Mag locked by a launch pad. Cheaper to use than locate()
 	var/max_passengers = 0 //Maximum capacity for passengers, INCLUDING pilot (EG: 1 pilot, 4 passengers).
 	var/docking_mode = FALSE
 	var/warning_cooldown = FALSE
 	var/canopy_breached = FALSE //Canopy will breach if you take too much damage, causing your air to leak out.
 	var/docking_cooldown = FALSE
-	var/list/munitions = list()
+	var/list/mun_torps = list()
+	var/list/mun_missiles = list()
+	var/list/mun_countermeasures = list()
 	var/obj/structure/overmap/last_overmap = null //Last overmap we were attached to
 	var/canopy_open = TRUE //Is the canopy open?
 	var/flight_state = NO_IGNITION
@@ -417,6 +421,8 @@ After going through this checklist, you're ready to go!
 		return
 
 /obj/structure/overmap/fighter/proc/burnout_component()
+	if(src == /obj/structure/overmap/fighter/escapepod)
+		return
 	var/list/candidate_list = list()
 	for(var/obj/item/fighter_component/candidate in contents)
 		if(candidate.burntout == FALSE)
@@ -424,6 +430,7 @@ After going through this checklist, you're ready to go!
 	var/obj/item/fighter_component/selection = pick(candidate_list)
 	selection.burn_out()
 	set_master_caution(TRUE)
+	update_stats()
 
 /obj/structure/overmap/fighter/update_icon()
 	. =..()
@@ -540,11 +547,17 @@ After going through this checklist, you're ready to go!
 
 /obj/structure/overmap/fighter/proc/prebuilt_setup()
 	name = new_prebuilt_fighter_name() //pulling from NSV13 ship name list currently
-	for(var/I = 0, I < max_torpedoes, I++)
-		munitions += new /obj/item/ship_weapon/ammunition/torpedo/fast(src)
 	for(var/item in components)
 		new item(src)
-	torpedoes = munitions.len
+	for(var/I = 0, I < max_torpedoes, I++)
+		mun_torps += new /obj/item/ship_weapon/ammunition/torpedo/fast(src)
+	for(var/I = 0, I < max_missiles, I++)
+		mun_missiles += new /obj/item/ship_weapon/ammunition/missile(src)
+	for(var/I = 0, I < max_countermeasures, I++)
+		mun_countermeasures += new /obj/item/ship_weapon/ammunition/countermeasure_charge
+	torpedoes = mun_torps.len
+	missiles = mun_missiles.len
+	countermeasures = mun_countermeasures.len
 	internal_tank = new /obj/machinery/portable_atmospherics/canister/air(src)
 
 /obj/structure/overmap/fighter/proc/update_stats() //PLACEHOLDER JANK SYSTEM
@@ -688,14 +701,14 @@ After going through this checklist, you're ready to go!
 		return
 	else if(istype(A, /obj/item/ship_weapon/ammunition/torpedo))
 		if(maint_state == MS_OPEN)
-			var/munition_count = munitions.len
+			var/munition_count = mun_torps.len
 			if(munition_count < max_torpedoes)
 				to_chat(user, "<span class='notice'>You start adding [A] to [src]...</span>")
 				if(!do_after(user, 5 SECONDS, target=src))
 					return
 				to_chat(user, "<span class='notice'>You add [A] to [src].</span>")
 				A.forceMove(src)
-				munitions += A
+				mun_torps += A
 				torpedoes ++
 				playsound(src, 'nsv13/sound/effects/ship/mac_load.ogg', 100, 1)  //placeholder
 		else
@@ -703,14 +716,14 @@ After going through this checklist, you're ready to go!
 			return
 	else if(istype(A, /obj/item/ship_weapon/ammunition/missile))
 		if(maint_state == MS_OPEN)
-			var/munition_count = munitions.len
+			var/munition_count = mun_missiles.len
 			if(munition_count < max_missiles)
 				to_chat(user, "<span class='notice'>You start adding [A] to [src]...</span>")
 				if(!do_after(user, 5 SECONDS, target=src))
 					return
 				to_chat(user, "<span class='notice'>You add [A] to [src].</span>")
 				A.forceMove(src)
-				munitions += A
+				mun_missiles += A
 				missiles ++
 				playsound(src, 'nsv13/sound/effects/ship/mac_load.ogg', 100, 1)  //placeholder
 		else
@@ -739,15 +752,15 @@ After going through this checklist, you're ready to go!
 		return
 	var/proj_type = null //If this is true, we've got a launcher shipside that's been able to fire.
 	var/proj_speed = 1
-	if(!munitions.len)
+	if(!mun_torps.len)
 		return
-	torpedoes = munitions.len
-	var/obj/item/ship_weapon/ammunition/torpedo/thirtymillimetertorpedo = pick(munitions)
+	torpedoes = mun_torps.len
+	var/obj/item/ship_weapon/ammunition/torpedo/thirtymillimetertorpedo = pick(mun_torps)
 	proj_type = thirtymillimetertorpedo.projectile_type
 	proj_speed = thirtymillimetertorpedo.speed
-	munitions -= thirtymillimetertorpedo
+	mun_torps -= thirtymillimetertorpedo
 	qdel(thirtymillimetertorpedo)
-	torpedoes = munitions.len
+	torpedoes = mun_torps.len
 	if(proj_type)
 		var/sound/chosen = pick('nsv13/sound/effects/ship/torpedo.ogg','nsv13/sound/effects/ship/freespace2/m_shrike.wav','nsv13/sound/effects/ship/freespace2/m_stiletto.wav','nsv13/sound/effects/ship/freespace2/m_tsunami.wav','nsv13/sound/effects/ship/freespace2/m_wasp.wav')
 		relay_to_nearby(chosen)
@@ -767,15 +780,15 @@ After going through this checklist, you're ready to go!
 		return
 	var/proj_type = null //If this is true, we've got a launcher shipside that's been able to fire.
 	var/proj_speed = 1
-	if(!munitions.len)
+	if(!mun_missiles.len)
 		return
-	torpedoes = munitions.len
-	var/obj/item/ship_weapon/ammunition/torpedo/thirtymillimetermissile = pick(munitions)
+	torpedoes = mun_missiles.len
+	var/obj/item/ship_weapon/ammunition/missile/thirtymillimetermissile = pick(mun_missiles)
 	proj_type = thirtymillimetermissile.projectile_type
 	proj_speed = thirtymillimetermissile.speed
-	munitions -= thirtymillimetermissile
+	mun_missiles -= thirtymillimetermissile
 	qdel(thirtymillimetermissile)
-	missiles = munitions.len
+	missiles = mun_missiles.len
 	if(proj_type)
 		var/sound/chosen = pick('nsv13/sound/effects/ship/torpedo.ogg','nsv13/sound/effects/ship/freespace2/m_shrike.wav','nsv13/sound/effects/ship/freespace2/m_stiletto.wav','nsv13/sound/effects/ship/freespace2/m_tsunami.wav','nsv13/sound/effects/ship/freespace2/m_wasp.wav')
 		relay_to_nearby(chosen)
@@ -1293,6 +1306,10 @@ How to make fuel:
 	data["c_countermeasure_dispenser"] = get_part(/obj/item/fighter_component/countermeasure_dispenser)
 	data["c_primary"] = get_part(/obj/item/fighter_component/primary)
 	data["c_secondary"] = get_part(/obj/item/fighter_component/secondary)
+	data["max_countermeasures"] = max_countermeasures
+	for(locate(/obj/item/ship_weapon/ammunition/countermeasure_charge) in contents)
+		countermeasures ++
+	data["current_countermeasures"] = countermeasures
 	return data
 
 #undef NO_IGNITION

@@ -5,7 +5,11 @@
   <ui-section label='Fuel level'>
     <ui-bar min='0' max='{{data.max_fuel}}' value='{{data.fuel}}' state='{{data.fuel}}'>{{Math.fixed(data.fuel)}}</ui-bar>
   </ui-section>
+  <ui-section label='Countermeasure Charges'>
+    <ui-bar min='0' max='{{data.max_countermeasures}}' value='{{data.current_countermeasures}}' state='{{data.current_countermeasures}}'>{{Math.fixed(data.current_countermeasures)}}</ui-bar>
+  </ui-section>
 </ui-display>
+
 <ui-display title='Modules'>
   <ui-section label='Primary Module'>
     <ui-button icon='{{data.c_primary ? "chevron-up" : "chevron-down"}}'
@@ -27,23 +31,11 @@
 	action='component_armour_plating'>
 	{{data.c_armour_plating}}</ui-button><br/>
   </ui-section>
-  <ui-section label='Engine'>
-    <ui-button icon='{{data.c_engine ? "chevron-up" : "chevron-down"}}'
-	style='{{data.c_engine ? "selected" : null}}'
-	action='component_engine'>
-	{{data.c_engine}}</ui-button><br/>
-  </ui-section>
-  <ui-section label='Targeting Sensor'>
-    <ui-button icon='{{data.c_targeting_sensor ? "chevron-up" : "chevron-down"}}'
-	style='{{data.c_targeting_sensor ? "selected" : null}}'
-	action='component_targeting_sensor'>
-	{{data.c_targeting_sensor}}</ui-button><br/>
-  </ui-section>
-  <ui-section label='Fuel Tank'>
-    <ui-button icon='{{data.c_fuel_tank? "chevron-up" : "chevron-down"}}'
-	style='{{data.c_fuel_tank ? "selected" : null}}'
-	action='component_fuel_tank'>
-	{{data.c_fuel_tank}}</ui-button><br/>
+  <ui-section label='Auxillary Power Unit'>
+    <ui-button icon='{{data.c_apu ? "chevron-up" : "chevron-down"}}'
+	style='{{data.c_apu ? "selected" : null}}'
+	action='component_apu'>
+	{{data.c_apu}}</ui-button><br/>
   </ui-section>
   <ui-section label='Avionics'>
     <ui-button icon='{{data.c_avionics ? "chevron-up" : "chevron-down"}}'
@@ -51,10 +43,30 @@
 	action='component_avionics'>
 	{{data.c_avionics}}</ui-button><br/>
   </ui-section>
-  <ui-section label='Auxillary Power Unit'>
-    <ui-button icon='{{data.c_apu ? "chevron-up" : "chevron-down"}}'
-	style='{{data.c_apu ? "selected" : null}}'
-	action='component_apu'>
-	{{data.c_apu}}</ui-button><br/>
+  <ui-section label='Countermeasure Dispenser'>
+    <ui-button icon='{{data.c_countermeasure_dispenser ? "chevron-up" : "chevron-down"}}'
+	style='{{data.c_countermeasure_dispenser ? "selected" : null}}'
+	action='component_countermeasure_dispenser'>
+	{{data.c_avionics}}</ui-button><br/>
   </ui-section>
+  <ui-section label='Engine'>
+    <ui-button icon='{{data.c_engine ? "chevron-up" : "chevron-down"}}'
+	style='{{data.c_engine ? "selected" : null}}'
+	action='component_engine'>
+	{{data.c_engine}}</ui-button><br/>
+  </ui-section>
+  <ui-section label='Fuel Tank'>
+    <ui-button icon='{{data.c_fuel_tank? "chevron-up" : "chevron-down"}}'
+	style='{{data.c_fuel_tank ? "selected" : null}}'
+	action='component_fuel_tank'>
+	{{data.c_fuel_tank}}</ui-button><br/>
+  </ui-section>
+  <ui-section label='Targeting Sensor'>
+    <ui-button icon='{{data.c_targeting_sensor ? "chevron-up" : "chevron-down"}}'
+	style='{{data.c_targeting_sensor ? "selected" : null}}'
+	action='component_targeting_sensor'>
+	{{data.c_targeting_sensor}}</ui-button><br/>
+  </ui-section>
+
+
 </ui-display>
