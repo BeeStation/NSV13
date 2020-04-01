@@ -17,6 +17,9 @@
 
 /obj/structure/munitions_trolley/AltClick(mob/user)
 	. = ..()
+	if(!Adjacent(user))
+		to_chat(user, "<span class='notice'> You arent close enough to the [src] to toggle the brakes</span>")
+		return
 	add_fingerprint(user)
 	if(!anchored)
 		to_chat(user, "<span class='notice'>You toggle the brakes on [src], fixing it in place.</span>")
@@ -24,7 +27,7 @@
 	else
 		to_chat(user, "<span class='notice'>You toggle the brakes on [src], allowing it to move freely.</span>")
 		anchored = FALSE
-
+		
 /obj/structure/munitions_trolley/examine(mob/user)
 	. = ..()
 	if(anchored)
