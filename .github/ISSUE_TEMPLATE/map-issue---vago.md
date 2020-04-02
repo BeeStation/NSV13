@@ -2,7 +2,7 @@
 name: Map Issue - Vago
 about: Bugs related to the Vago Map
 title: ''
-labels: Vago
+labels: Map Issue, Vago
 assignees: ''
 
 ---
