@@ -14,13 +14,14 @@
 	cast_sound = null
 	human_req = TRUE
 
-	action_icon_state = "mime"
+	action_icon = 'icons/mob/actions/actions_mime.dmi'
+	action_icon_state = "invisible_wall"
 	action_background_icon_state = "bg_mime"
 
 /obj/effect/proc_holder/spell/aoe_turf/conjure/mime_wall/Click()
 	if(usr && usr.mind)
 		if(!usr.mind.miming)
-			to_chat(usr, "<span class='warning'>You must dedicate yourself to silence first!</span>")
+			to_chat(usr, "<span class='notice'>You must dedicate yourself to silence first.</span>")
 			return
 		invocation = "<B>[usr.real_name]</B> looks as if a wall is in front of [usr.p_them()]."
 	else
@@ -43,13 +44,14 @@
 	cast_sound = null
 	human_req = TRUE
 
-	action_icon_state = "mime"
+	action_icon = 'icons/mob/actions/actions_mime.dmi'
+	action_icon_state = "invisible_chair"
 	action_background_icon_state = "bg_mime"
 
 /obj/effect/proc_holder/spell/aoe_turf/conjure/mime_chair/Click()
 	if(usr && usr.mind)
 		if(!usr.mind.miming)
-			to_chat(usr, "<span class='warning'>You must dedicate yourself to silence first!</span>")
+			to_chat(usr, "<span class='notice'>You must dedicate yourself to silence first.</span>")
 			return
 		invocation = "<B>[usr.real_name]</B> pulls out an invisible chair and sits down."
 	else
@@ -80,7 +82,8 @@
 	cast_sound = null
 	human_req = TRUE
 
-	action_icon_state = "mime"
+	action_icon = 'icons/mob/actions/actions_mime.dmi'
+	action_icon_state = "invisible_box"
 	action_background_icon_state = "bg_mime"
 
 /obj/effect/proc_holder/spell/aoe_turf/conjure/mime_box/cast(list/targets,mob/user = usr)
@@ -94,7 +97,7 @@
 /obj/effect/proc_holder/spell/aoe_turf/conjure/mime_box/Click()
 	if(usr && usr.mind)
 		if(!usr.mind.miming)
-			to_chat(usr, "<span class='warning'>You must dedicate yourself to silence first!</span>")
+			to_chat(usr, "<span class='notice'>You must dedicate yourself to silence first.</span>")
 			return
 		invocation = "<B>[usr.real_name]</B> moves [usr.p_their()] hands in the shape of a cube, pressing a box out of the air."
 	else
@@ -114,7 +117,8 @@
 	range = -1
 	include_user = TRUE
 
-	action_icon_state = "mime"
+	action_icon = 'icons/mob/actions/actions_mime.dmi'
+	action_icon_state = "mime_speech"
 	action_background_icon_state = "bg_mime"
 
 /obj/effect/proc_holder/spell/targeted/mime/speak/Click()
@@ -156,13 +160,14 @@
 	range = -1
 	include_user = TRUE
 
-	action_icon_state = "mime"
+	action_icon = 'icons/mob/actions/actions_mime.dmi'
+	action_icon_state = "invisible_blockade"
 	action_background_icon_state = "bg_mime"
 
 /obj/effect/proc_holder/spell/targeted/forcewall/mime/Click()
 	if(usr && usr.mind)
 		if(!usr.mind.miming)
-			to_chat(usr, "<span class='warning'>You must dedicate yourself to silence first!</span>")
+			to_chat(usr, "<span class='notice'>You must dedicate yourself to silence first.</span>")
 			return
 		invocation = "<B>[usr.real_name]</B> looks as if a blockade is in front of [usr.p_them()]."
 	else
@@ -187,9 +192,10 @@
 	deactive_msg = "You put your fingers at ease. Another time."
 	active = FALSE
 
-	action_icon_state = "mime"
+	action_icon = 'icons/mob/actions/actions_mime.dmi'
+	action_icon_state = "finger_guns0"
 	action_background_icon_state = "bg_mime"
-	base_icon_state = "mime"
+	base_icon_state = "finger_guns"
 
 
 /obj/effect/proc_holder/spell/aimed/finger_guns/Click()
@@ -197,9 +203,9 @@
 	if(owner.incapacitated())
 		to_chat(owner, "<span class='warning'>You can't properly point your fingers while incapacitated.</span>")
 		return
-	if(usr && usr.mind)
+	if(usr?.mind)
 		if(!usr.mind.miming)
-			to_chat(usr, "<span class='warning'>You must dedicate yourself to silence first!</span>")
+			to_chat(usr, "<span class='notice'>You must dedicate yourself to silence first.</span>")
 			return
 		invocation = "<B>[usr.real_name]</B> fires [usr.p_their()] finger gun!"
 	else

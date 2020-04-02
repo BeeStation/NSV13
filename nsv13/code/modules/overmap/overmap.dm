@@ -1,8 +1,3 @@
-#define MASS_TINY 1
-#define MASS_SMALL 2
-#define MASS_MEDIUM 3
-#define MASS_LARGE 4
-#define MASS_TITAN 5
 
 /////////////////////////////////////////////////////////////////////////////////
 // ACKNOWLEDGEMENTS:  Credit to yogstation (Monster860) for the movement code. //
@@ -23,19 +18,32 @@
 	bound_width = 64 //Change this on a per ship basis
 	bound_height = 64
 	animate_movement = NO_STEPS // Override the inbuilt movement engine to avoid bouncing
+	req_one_access = list(ACCESS_HEADS, ACCESS_MUNITIONS, ACCESS_SEC_DOORS, ACCESS_ENGINE) //Bridge officers/heads, munitions techs / fighter pilots, security officers, engineering personnel all have access.
 
 	anchored = FALSE
 	resistance_flags = LAVA_PROOF | FIRE_PROOF | UNACIDABLE | ACID_PROOF // Overmap ships represent massive craft that don't burn
 
-	max_integrity = 300 //Max health
-	integrity_failure = 300
-
-	var/next_firetime = 0
+	var/sprite_size = 64 //Pixels. This represents 64x64 and allows for the bullets that you fire to align properly.
+	var/area_type = null //Set the type of the desired area you want a ship to link to, assuming it's not the main player ship.
+	var/impact_sound_cooldown = FALSE //Avoids infinite spamming of the ship taking damage.
+	var/datum/starsystem/current_system //What starsystem are we currently in? Used for parallax.
+	var/resize = 0 //Factor by which we should shrink a ship down. 0 means don't shrink it.
+	var/list/docking_points = list() //Where we can land on this ship. Usually right at the edge of a z-level.
 	var/last_slowprocess = 0
-	var/mob/living/pilot //Physical mob that's piloting us. Cameras come later
+
+	var/list/linked_areas = list() //List of all areas that we control
+	var/datum/gas_mixture/cabin_air //Cabin air mix used for small ships like fighters (see overmap/fighters/fighters.dm)
+	var/obj/machinery/portable_atmospherics/canister/internal_tank //Internal air tank reference. Used mostly in small ships. If you want to sabotage a fighter, load a plasma tank into its cockpit :)
+
+	// Health, armor, and damage
+	max_integrity = 300 //Max health
+	integrity_failure = 0
+	var/armour_plates = 0 //You lose max integrity when you lose armour plates.
+	var/max_armour_plates = 500 //Placeholder. Set by counting in game objects.
+	var/list/dent_decals = list() //Ships get visibly damaged as they get shot
+	var/damage_states = FALSE //Did you sprite damage states for this ship? If yes, set this to true
 
 	//Movement Variables
-
 	var/velocity_x = 0 // tiles per second.
 	var/velocity_y = 0
 	var/offset_x = 0 // like pixel_x/y but in tiles
@@ -44,6 +52,7 @@
 	var/desired_angle = null // set by pilot moving his mouse
 	var/angular_velocity = 0 // degrees per second
 	var/max_angular_acceleration = 180 // in degrees per second per second
+	var/speed_limit = 5 //Stops ships from going too damn fast. This can be overridden by things like fighters launching from tubes, so it's not a const.
 	var/last_thrust_forward = 0
 	var/last_thrust_right = 0
 	var/last_rotate = 0
@@ -51,7 +60,6 @@
 	var/user_thrust_dir = 0
 
 	//Movement speed variables
-
 	var/forward_maxthrust = 6
 	var/backward_maxthrust = 3
 	var/side_maxthrust = 1
@@ -60,121 +68,264 @@
 	var/bump_impulse = 0.6
 	var/bounce_factor = 0.2 // how much of our velocity to keep on collision
 	var/lateral_bounce_factor = 0.95 // mostly there to slow you down when you drive (pilot?) down a 2x2 corridor
+
 	var/brakes = FALSE //Helps you stop the ship
-	var/fire_delay = 5
-	var/weapon_range = 10 //Range changes based on what weapon youre using.
-	var/obj/railgun_overlay/railgun_overlay
-	var/atom/last_target //Last thing we shot at, used to point the railgun at an enemy.
 	var/rcs_mode = FALSE //stops you from swivelling on mouse move
-	var/fire_mode = FIRE_MODE_PDC //What gun do we want to fire? Defaults to railgun, with PDCs there for flak
 	var/move_by_mouse = TRUE //It's way easier this way, but people can choose.
-	var/faction = null //Used for target acquisition by AIs
-	var/sprite_size = 64 //Pixels. This represents 64x64 and allows for the bullets that you fire to align properly.
-	var/torpedoes = 15 //Prevent infinite torp spam
-	var/pdc_miss_chance = 20 //In %, how often do PDCs fire inaccurately when aiming at missiles. This is ignored for ships as theyre bigger targets.
-	var/list/dent_decals = list() //Ships get visibly damaged as they get shot
-	var/damage_states = FALSE //Did you sprite damage states for this ship? If yes, set this to true
-	var/list/torpedoes_to_target = list() //Torpedoes that have been fired explicitly at us, and that the PDCs need to worry about.
-	var/main_overmap = FALSE //There can only be one of these per game! This denotes that this ship is the "hero ship" and what the players fly. This links it to all the station areas by default
-	var/area_type = null //Set the type of the desired area you want a ship to link to, assuming it's not the main player ship.
-	var/area/linked_area = null //The area to which we're linked. This is for Ai / small ships only.
-	var/list/mobs_in_ship = list() //A list of mobs which is inside the ship. This is generated by our areas.dm file as they enter / exit areas
-	var/impact_sound_cooldown = FALSE //Avoids infinite spamming of the ship taking damage.
+
+	// Mobs
+	var/mob/living/pilot //Physical mob that's piloting us. Cameras come later
 	var/mob/living/gunner //The person who fires the guns.
 	var/list/operators = list() //Everyone who needs their client updating when we move.
+	var/list/mobs_in_ship = list() //A list of mobs which is inside the ship. This is generated by our areas.dm file as they enter / exit areas
+
+	// Controlling equipment
 	var/obj/machinery/computer/ship/helm //Relay beeping noises when we act
 	var/obj/machinery/computer/ship/tactical
-	var/obj/machinery/computer/ship/dradis //So that pilots can check the radar easily
-	var/list/railguns = list() //Every railgun present on the ship
-	var/list/torpedo_tubes = list() //every torpedo tube present on the ship.
-	var/list/pdcs = list() //Every PDC ammo rack that we have.
-	var/datum/starsystem/current_system //What starsystem are we currently in? Used for parallax.
+	var/obj/machinery/computer/ship/dradis/dradis //So that pilots can check the radar easily
 
+	// Ship weapons
+	var/list/weapons[3][] //All of the weapons linked to us
+	var/list/weapon_types[3]
 
-/obj/railgun_overlay //Railgun sits on top of the ship and swivels to face its target
-	name = "Railgun"
-	icon_state = "railgun"
+	var/fire_mode = FIRE_MODE_PDC //What gun do we want to fire? Defaults to railgun, with PDCs there for flak
+	var/weapon_safety = FALSE //Like a gun safety. Entirely un-used except for fighters to stop brainlets from shooting people on the ship unintentionally :)
+	var/faction = null //Used for target acquisition by AIs
+
+	var/weapon_range = 10 //Range changes based on what weapon youre using.
+	var/fire_delay = 5
+	var/next_firetime = 0
+
+	var/list/weapon_overlays = list()
+	var/obj/weapon_overlay/last_fired //Last weapon overlay that fired, so we can rotate guns independently
+	var/atom/last_target //Last thing we shot at, used to point the railgun at an enemy.
+
+	var/torpedoes = 15 //Prevent infinite torp spam
+
+	var/pdc_miss_chance = 20 //In %, how often do PDCs fire inaccurately when aiming at missiles. This is ignored for ships as theyre bigger targets.
+	var/list/torpedoes_to_target = list() //Torpedoes that have been fired explicitly at us, and that the PDCs need to worry about.
+	var/atom/target_lock = null
+	var/can_lock = TRUE //Can we lock on to people or not
+	var/lockon_time = 2 SECONDS
+
+	// Railgun aim helper
+	var/last_tracer_process = 0
+	var/aiming = FALSE
+	var/aiming_lastangle = 0
+	var/lastangle = 0
+	var/list/obj/effect/projectile/tracer/current_tracers
+	var/mob/listeningTo
+
+	var/role = NORMAL_OVERMAP
+
+/obj/structure/overmap/can_be_pulled(user) // no :)
+	return FALSE
+
+/obj/weapon_overlay
+	name = "Weapon overlay"
 	layer = 4
 	mouse_opacity = FALSE
 	var/angle = 0 //Debug
 
+/obj/weapon_overlay/proc/do_animation()
+	return
+
+/obj/weapon_overlay/railgun //Railgun sits on top of the ship and swivels to face its target
+	name = "Railgun"
+	icon_state = "railgun"
+
+/obj/weapon_overlay/railgun_overlay/do_animation()
+	flick("railgun_charge",src)
+
+/obj/weapon_overlay/laser
+	name = "Laser cannon"
+	icon = 'icons/obj/hand_of_god_structures.dmi'
+	icon_state = "conduit-red"
+
+/obj/structure/overmap/proc/add_weapon_overlay(type)
+	var/path = text2path(type)
+	var/obj/weapon_overlay/OL = new path
+	OL.icon = icon
+	OL.appearance_flags |= KEEP_APART
+	OL.appearance_flags |= RESET_TRANSFORM
+	vis_contents += OL
+	weapon_overlays += OL
+	return OL
+
+/obj/weapon_overlay/laser/do_animation()
+	flick("laser",src)
+
 /obj/structure/overmap/Initialize()
 	. = ..()
+	current_tracers = list()
 	GLOB.overmap_objects += src
-	START_PROCESSING(SSfastprocess, src)
-	railgun_overlay = new()
-	railgun_overlay.appearance_flags |= KEEP_APART
-	railgun_overlay.appearance_flags |= RESET_TRANSFORM
-	vis_contents += railgun_overlay
+	START_PROCESSING(SSovermap, src)
+
+	vector_overlay = new()
+	vector_overlay.appearance_flags |= KEEP_APART
+	vector_overlay.appearance_flags |= RESET_TRANSFORM
+	vector_overlay.icon = icon
+	vis_contents += vector_overlay
 	update_icon()
 	max_range = initial(weapon_range)+20 //Range of the maximum possible attack (torpedo)
 	find_area()
 	switch(mass) //Scale speed with mass (tonnage)
-		if(MASS_TINY)
-			forward_maxthrust = 5
+		if(MASS_TINY) //Tiny ships are manned by people, so they need air.
+			forward_maxthrust = 4
 			backward_maxthrust = 4
-			side_maxthrust = 6
-			max_angular_acceleration = 120
+			side_maxthrust = 3
+			max_angular_acceleration = 180
+			cabin_air = new
+			cabin_air.temperature = T20C
+			cabin_air.volume = 200
+			cabin_air.add_gases(/datum/gas/oxygen, /datum/gas/nitrogen)
+			cabin_air.gases[/datum/gas/oxygen][MOLES] = O2STANDARD*cabin_air.volume/(R_IDEAL_GAS_EQUATION*cabin_air.temperature)
+			cabin_air.gases[/datum/gas/nitrogen][MOLES] = N2STANDARD*cabin_air.volume/(R_IDEAL_GAS_EQUATION*cabin_air.temperature)
+			move_by_mouse = TRUE //You'll want this. Trust.
+
 		if(MASS_SMALL)
 			forward_maxthrust = 3
 			backward_maxthrust = 3
-			side_maxthrust = 2
+			side_maxthrust = 3
 			max_angular_acceleration = 110
+
 		if(MASS_MEDIUM)
 			forward_maxthrust = 2
-			backward_maxthrust = 1
-			side_maxthrust = 1
-			max_angular_acceleration = 120
+			backward_maxthrust = 2
+			side_maxthrust = 2
+			max_angular_acceleration = 15
+
 		if(MASS_LARGE)
 			forward_maxthrust = 0.3
 			backward_maxthrust = 0.3
-			side_maxthrust = 0.2
-			max_angular_acceleration = 5
+			side_maxthrust = 0.75
+			max_angular_acceleration = 1
+
 		if(MASS_TITAN)
 			forward_maxthrust = 0.1
 			backward_maxthrust = 0.1
-			side_maxthrust = 0.1
-			max_angular_acceleration = 2
-	if(main_overmap)
+			side_maxthrust = 0.3
+			max_angular_acceleration = 0.5
+
+	if(role == MAIN_OVERMAP)
 		name = "[station_name()]"
-	current_system = GLOB.starsystem_controller.find_system(src)
+	current_system = SSstarsystem.find_system(src)
+	addtimer(CALLBACK(src, .proc/check_armour), 20 SECONDS)
+
+	weapon_types[FIRE_MODE_PDC] = new/datum/ship_weapon/pdc_mount
+	weapon_types[FIRE_MODE_TORPEDO] = new/datum/ship_weapon/torpedo_launcher
+	weapon_types[FIRE_MODE_RAILGUN] = new/datum/ship_weapon/railgun
+
+/obj/structure/overmap/proc/add_weapon(obj/machinery/ship_weapon/weapon)
+	if(!weapons[weapon.fire_mode])
+		weapons[weapon.fire_mode] = list(weapon)
+	else
+		weapons[weapon.fire_mode] += weapon
+
+/obj/structure/overmap/Destroy()
+	QDEL_LIST(current_tracers)
+	if(cabin_air)
+		QDEL_NULL(cabin_air)
+	. = ..()
 
 /obj/structure/overmap/proc/find_area()
-	if(main_overmap) //We're the hero ship, link us to every ss13 area.
+	if(role == MAIN_OVERMAP) //We're the hero ship, link us to every ss13 area.
 		for(var/X in GLOB.teleportlocs) //Teleportlocs = ss13 areas that aren't special / centcom
 			var/area/area = GLOB.teleportlocs[X] //Pick a station area and yeet it.
 			area.linked_overmap = src
-	for(var/area/AR in GLOB.sortedAreas) //Otherwise, look for an area with the same "class" var as us.
-		if(!area_type) //No area type set? Break the loop.
-			return
-		if(istype(AR, area_type))
-			AR.linked_overmap = src
-			linked_area = AR
+	else
+		for(var/area/AR in GLOB.sortedAreas) //Otherwise, look for areas with that point to our type.
+			if(istype(src, AR.overmap_type))
+				AR.linked_overmap = src
+				linked_areas += AR
 
 /obj/structure/overmap/proc/InterceptClickOn(mob/user, params, atom/target)
 	var/list/params_list = params2list(params)
-	if(target == src || istype(target, /obj/screen) || (target && (target in user.GetAllContents())) || user != gunner || params_list["shift"] || params_list["alt"] || params_list["ctrl"])
+	if(user.incapacitated() || !isliving(user))
+		return FALSE
+	if(target == src || istype(target, /obj/screen) || (target && (target in user.GetAllContents())) || user != gunner || params_list["alt"] || params_list["ctrl"])
 		return FALSE
 	if(tactical && prob(80))
 		var/sound = pick(GLOB.computer_beeps)
 		playsound(tactical, sound, 100, 1)
+	if(params_list["shift"]) //Shift click to lock on to people
+		start_lockon(target)
+		return TRUE
+	if(target_lock && mass <= MASS_TINY)
+		fire(target_lock) //Fighters get an aimbot to help them out.
+		return TRUE
 	fire(target)
 	return TRUE
 
+/obj/structure/overmap/proc/start_lockon(atom/target)
+	if(!istype(target, /obj/structure/overmap))
+		return FALSE
+	if(target == target_lock)
+		relinquish_target_lock()
+		return
+	if(!can_lock)
+		to_chat(gunner, "<span class='warning'>Target acquisition already in progress. Please wait.</span>")
+		return
+	if(target_lock)
+		target_lock = null
+		stop_relay(CHANNEL_IMPORTANT_SHIP_ALERT)
+		if(mass > MASS_TINY)
+			update_gunner_cam(src)
+	can_lock = FALSE
+	relay('nsv13/sound/effects/fighters/locking.ogg', message=null, loop=TRUE, channel=CHANNEL_IMPORTANT_SHIP_ALERT)
+	addtimer(CALLBACK(src, .proc/finish_lockon, target), lockon_time)
+
+/obj/structure/overmap/proc/relinquish_target_lock()
+	if(!target_lock)
+		return
+	to_chat(gunner, "<span class='warning'>Target lock on [target_lock] cancelled. Returning manual fire control.</span>")
+	update_gunner_cam(src)
+	target_lock = null
+	return
+
+/obj/structure/overmap/proc/finish_lockon(atom/target)
+	if(!gunner)
+		return
+	can_lock = TRUE
+	target_lock = target
+	if(mass > MASS_TINY)
+		update_gunner_cam(target)
+	else
+		to_chat(gunner, "<span class='notice'>Target lock established. All weapons will now automatically lock on to your chosen target instead of where you specifically aim them. </span>")
+	stop_relay(CHANNEL_IMPORTANT_SHIP_ALERT)
+	relay('nsv13/sound/effects/fighters/locked.ogg', message=null, loop=FALSE, channel=CHANNEL_IMPORTANT_SHIP_ALERT)
+
+/obj/structure/overmap/proc/update_gunner_cam(atom/target)
+	if(target == src)
+		target = null //Snap cams back to us.
+	for(var/mob/living/carbon/human/M in operators)
+		if(M != gunner) //Don't snap the pilot's view...
+			continue
+		var/mob/camera/aiEye/remote/overmap_observer/cam = M.remote_control
+		cam.override_origin = target //Tell the camera that we're now going to track our currently target lock'd ship over our own ship.
+		cam.update()
+
 /obj/structure/overmap/onMouseMove(object,location,control,params)
-	if(!pilot || !pilot.client || pilot.incapacitated() || !move_by_mouse || control !="mapwindow.map") //Check pilot status, if we're meant to follow the mouse, and if theyre actually moving over a tile rather than in a menu
+
+	if(!pilot || !pilot.client || pilot.incapacitated() || !move_by_mouse || control !="mapwindow.map" ||!can_move()) //Check pilot status, if we're meant to follow the mouse, and if theyre actually moving over a tile rather than in a menu
 		return // I don't know what's going on.
+	desired_angle = getMouseAngle(params, pilot)
+	update_icon()
+
+/obj/structure/overmap/proc/getMouseAngle(params, mob/M)
 	var/list/params_list = params2list(params)
-	var/sl_list = splittext(params_list["screen-loc"],",")
-	var/sl_x_list = splittext(sl_list[1], ":")
-	var/sl_y_list = splittext(sl_list[2], ":")
-	var/view_list = isnum(pilot.client.view) ? list("[pilot.client.view*2+1]","[pilot.client.view*2+1]") : splittext(pilot.client.view, "x")
+	var/list/sl_list = splittext(params_list["screen-loc"],",")
+	if(!sl_list.len)
+		return
+	var/list/sl_x_list = splittext(sl_list[1], ":")
+	var/list/sl_y_list = splittext(sl_list[2], ":")
+	var/view_list = isnum(M.client.view) ? list("[M.client.view*2+1]","[M.client.view*2+1]") : splittext(M.client.view, "x")
 	var/dx = text2num(sl_x_list[1]) + (text2num(sl_x_list[2]) / world.icon_size) - 1 - text2num(view_list[1]) / 2
 	var/dy = text2num(sl_y_list[1]) + (text2num(sl_y_list[2]) / world.icon_size) - 1 - text2num(view_list[2]) / 2
 	if(sqrt(dx*dx+dy*dy) > 1)
-		desired_angle = 90 - ATAN2(dx, dy)
+		return 90 - ATAN2(dx, dy)
 	else
-		desired_angle = null
+		return null
 
 /obj/structure/overmap/take_damage()
 	..()
@@ -189,40 +340,17 @@
 /obj/structure/overmap/relaymove(mob/user, direction)
 	if(user != pilot || pilot.incapacitated())
 		return
-	if(rcs_mode || move_by_mouse) //They don't want to turn the ship, or theyre using mouse movement mode.
-		user_thrust_dir = direction
-	else
-		switch(direction)
-			if(NORTH || SOUTH || NORTHEAST || SOUTHEAST || NORTHWEST || SOUTHWEST) //Forward or backwards means we don't want to turn
-				user_thrust_dir = direction
-			if(EAST) //Left or right means we do want to turn
-				desired_angle += max_angular_acceleration*0.1
-			if(WEST)
-				desired_angle -= max_angular_acceleration*0.1
+	user_thrust_dir = direction
 
-//	relay('nsv13/sound/effects/ship/rcs.ogg')
-
-/obj/structure/overmap/onMouseMove(object,location,control,params)
-	if(!pilot || !pilot.client || pilot.incapacitated() || !move_by_mouse)//TEST REMOVE ME
-		return // I don't know what's going on.
-	var/list/params_list = params2list(params)
-	var/sl_list = splittext(params_list["screen-loc"],",")
-	var/sl_x_list = splittext(sl_list[1], ":")
-	var/sl_y_list = splittext(sl_list[2], ":")
-	var/view_list = isnum(pilot.client.view) ? list("[pilot.client.view*2+1]","[pilot.client.view*2+1]") : splittext(pilot.client.view, "x")
-	var/dx = text2num(sl_x_list[1]) + (text2num(sl_x_list[2]) / world.icon_size) - 1 - text2num(view_list[1]) / 2
-	var/dy = text2num(sl_y_list[1]) + (text2num(sl_y_list[2]) / world.icon_size) - 1 - text2num(view_list[2]) / 2
-	if(sqrt(dx*dx+dy*dy) > 1)
-		desired_angle = 90 - ATAN2(dx, dy)
-	else
-		desired_angle = null
+//relay('nsv13/sound/effects/ship/rcs.ogg')
 
 /obj/structure/overmap/update_icon() //Adds an rcs overlay
 	cut_overlays()
 	apply_damage_states()
-	if(railgun_overlay) //Swivel the railgun to aim at the last thing we hit
-		railgun_overlay.icon = icon
-		railgun_overlay.setDir(get_dir(src, last_target))
+	if(last_fired) //Swivel the most recently fired gun's overlay to aim at the last thing we hit
+		last_fired.icon = icon
+		last_fired.setDir(get_dir(src, last_target))
+
 	if(angle == desired_angle)
 		return //No RCS needed if we're already facing where we want to go
 	if(prob(20) && desired_angle)
@@ -309,41 +437,62 @@
 		return FALSE
 	return !user.incapacitated() && isliving(user)
 
-/obj/structure/overmap/proc/handle_hotkeys(key, client/C)
-	var/mob/user = C.mob
+/obj/structure/overmap/key_down(key, client/user)
+	var/mob/themob = user.mob
 	switch(key)
 		if("Space")
-			if(user == pilot)
+			if(themob == pilot)
 				toggle_move_mode()
 			if(helm && prob(80))
 				var/sound = pick(GLOB.computer_beeps)
 				playsound(helm, sound, 100, 1)
 			return TRUE
 		if("Alt")
-			if(user == pilot)
+			if(themob == pilot)
 				toggle_brakes()
 			if(helm && prob(80))
 				var/sound = pick(GLOB.computer_beeps)
 				playsound(helm, sound, 100, 1)
-			return TRUE
+
 		if("Ctrl")
-			if(user == gunner)
+			if(themob == gunner)
 				cycle_firemode()
 			if(tactical && prob(80))
 				var/sound = pick(GLOB.computer_beeps)
 				playsound(tactical, sound, 100, 1)
-			return TRUE
-	return FALSE
+
 
 /obj/structure/overmap/verb/toggle_brakes()
-	set name = "Toggle Brakes"
+	set name = "Toggle Handbrake"
 	set category = "Ship"
 	set src = usr.loc
 
-	if(!verb_check())
+	if(!verb_check() || !can_brake())
 		return
 	brakes = !brakes
 	to_chat(usr, "<span class='notice'>You toggle the brakes [brakes ? "on" : "off"].</span>")
+
+/obj/structure/overmap/verb/toggle_safety()
+	set name = "Toggle Gun Safeties"
+	set category = "Ship"
+	set src = usr.loc
+
+	if(!verb_check() || !can_brake())
+		return
+	weapon_safety = !weapon_safety
+	to_chat(usr, "<span class='notice'>You toggle [src]'s weapon safeties [weapon_safety ? "on" : "off"].</span>")
+
+/obj/structure/overmap/verb/show_dradis()
+	set name = "Show DRADIS"
+	set category = "Ship"
+	set src = usr.loc
+
+	if(!verb_check() || !dradis)
+		return
+	dradis.attack_hand(usr)
+
+/obj/structure/overmap/proc/can_brake()
+	return TRUE //See fighters.dm
 
 /obj/structure/overmap/verb/overmap_help()
 	set name = "Help"
@@ -356,18 +505,8 @@
 	to_chat(usr, "<span class='notice'>Use the <b>scroll wheel</b> to zoom in / out.</span>")
 	to_chat(usr, "<span class='notice'>Use tab to activate hotkey mode, then:</span>")
 	to_chat(usr, "<span class='notice'>Press <b>space</b> to make the ship follow your mouse (or stop following your mouse).</span>")
-	to_chat(usr, "<span class='notice'>Press <b>Alt<b> to engage inertial dampeners</span>")
+	to_chat(usr, "<span class='notice'>Press <b>Alt<b> to engage handbrake</span>")
 	to_chat(usr, "<span class='notice'>Press <b>Ctrl<b> to cycle fire modes</span>")
-
-/obj/structure/overmap/verb/toggle_rcs()
-	set name = "Toggle RCS maneuvering jets"
-	set category = "Ship"
-	set src = usr.loc
-
-	if(!verb_check())
-		return
-	rcs_mode = !rcs_mode
-	to_chat(usr, "<span class='notice'>You [rcs_mode ? "activate" : "deactivate"] [src]'s reaction control systems.</span>")
 
 /obj/structure/overmap/verb/toggle_move_mode()
 	set name = "Change movement mode"
@@ -378,4 +517,3 @@
 		return
 	move_by_mouse = !move_by_mouse
 	to_chat(usr, "<span class='notice'>You [move_by_mouse ? "activate" : "deactivate"] [src]'s laser guided movement system.</span>")
-

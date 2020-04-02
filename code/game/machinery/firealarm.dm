@@ -125,7 +125,7 @@
 	last_alarm = world.time
 	var/area/A = get_area(src)
 	A.firealert(src)
-	playsound(loc, 'goon/sound/machinery/FireAlarm.ogg', 75)
+	playsound(loc, 'nsv13/sound/effects/computer/alarm.ogg', 100)//NSV13 - Fire alarm sound change.
 	if(user)
 		log_game("[user] triggered a fire alarm at [COORD(src)]")
 
@@ -258,20 +258,6 @@
 
 	return ..()
 
-/obj/machinery/firealarm/rcd_vals(mob/user, obj/item/construction/rcd/the_rcd)
-	if((buildstage == 0) && (the_rcd.upgrade & RCD_UPGRADE_SIMPLE_CIRCUITS))
-		return list("mode" = RCD_UPGRADE_SIMPLE_CIRCUITS, "delay" = 20, "cost" = 1)	
-	return FALSE
-
-/obj/machinery/firealarm/rcd_act(mob/user, obj/item/construction/rcd/the_rcd, passed_mode)
-	switch(passed_mode)
-		if(RCD_UPGRADE_SIMPLE_CIRCUITS)
-			user.visible_message("<span class='notice'>[user] fabricates a circuit and places it into [src].</span>", \
-			"<span class='notice'>You adapt a fire alarm circuit and slot it into the assembly.</span>")
-			buildstage = 1
-			update_icon()
-			return TRUE
-	return FALSE
 
 /obj/machinery/firealarm/take_damage(damage_amount, damage_type = BRUTE, damage_flag = 0, sound_effect = 1, attack_dir)
 	. = ..()
@@ -293,7 +279,7 @@
 
 /obj/machinery/firealarm/deconstruct(disassembled = TRUE)
 	if(!(flags_1 & NODECONSTRUCT_1))
-		new /obj/item/stack/sheet/metal(loc, 1)
+		new /obj/item/stack/sheet/iron(loc, 1)
 		if(!(stat & BROKEN))
 			var/obj/item/I = new /obj/item/electronics/firealarm(loc)
 			if(!disassembled)
@@ -340,3 +326,19 @@
 	if (!party_overlay)
 		party_overlay = iconstate2appearance('icons/turf/areas.dmi', "party")
 	A.add_overlay(party_overlay)
+
+/obj/machinery/firealarm/directional/north //NSV13 Start - Directional fire alarms for mapping
+	dir = NORTH
+	pixel_y = 24
+	
+/obj/machinery/firealarm/directional/south
+	dir = SOUTH
+	pixel_y = -24
+	
+/obj/machinery/firealarm/directional/west
+	dir = WEST
+	pixel_x = -24
+	
+/obj/machinery/firealarm/directional/east
+	dir = EAST
+	pixel_x = 24 //NSV13 End

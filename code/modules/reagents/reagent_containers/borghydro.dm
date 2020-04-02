@@ -26,7 +26,7 @@ Borg Hypospray
 	var/bypass_protection = 0 //If the hypospray can go through armor or thick material
 
 	var/list/datum/reagents/reagent_list = list()
-	var/list/reagent_ids = list(/datum/reagent/medicine/dexalin, /datum/reagent/medicine/sanguiose, /datum/reagent/medicine/ferveatium, /datum/reagent/medicine/frogenite, /datum/reagent/medicine/epinephrine, /datum/reagent/medicine/spaceacillin, /datum/reagent/medicine/salglu_solution)
+	var/list/reagent_ids = list(/datum/reagent/medicine/dexalin, /datum/reagent/medicine/kelotane, /datum/reagent/medicine/bicaridine, /datum/reagent/medicine/antitoxin, /datum/reagent/medicine/epinephrine, /datum/reagent/medicine/spaceacillin, /datum/reagent/medicine/salglu_solution)
 	var/accepts_reagent_upgrades = TRUE //If upgrades can increase number of reagents dispensed.
 	var/list/modes = list() //Basically the inverse of reagent_ids. Instead of having numbers as "keys" and strings as values it has strings as keys and numbers as values.
 								//Used as list for input() in shakers.
@@ -98,15 +98,17 @@ Borg Hypospray
 /obj/item/reagent_containers/borghypo/attack(mob/living/carbon/M, mob/user)
 	var/datum/reagents/R = reagent_list[mode]
 	if(!R.total_volume)
-		to_chat(user, "<span class='warning'>The injector is empty!</span>")
+		to_chat(user, "<span class='notice'>The injector is empty.</span>")
 		return
 	if(!istype(M))
 		return
 	if(R.total_volume && M.can_inject(user, 1, user.zone_selected,bypass_protection))
 		to_chat(M, "<span class='warning'>You feel a tiny prick!</span>")
 		to_chat(user, "<span class='notice'>You inject [M] with the injector.</span>")
+		var/fraction = min(amount_per_transfer_from_this/R.total_volume, 1)
+		R.reaction(M, INJECT, fraction)
 		if(M.reagents)
-			var/trans = R.trans_to(M, amount_per_transfer_from_this, transfered_by = user, method = INJECT)
+			var/trans = R.trans_to(M, amount_per_transfer_from_this, transfered_by = user)
 			to_chat(user, "<span class='notice'>[trans] unit\s injected.  [R.total_volume] unit\s remaining.</span>")
 
 	var/list/injected = list()
@@ -181,7 +183,33 @@ Borg Shaker
 	recharge_time = 3
 	accepts_reagent_upgrades = FALSE
 
-	reagent_ids = list(/datum/reagent/consumable/ethanol/beer, /datum/reagent/consumable/orangejuice, /datum/reagent/consumable/grenadine, /datum/reagent/consumable/limejuice, /datum/reagent/consumable/tomatojuice, /datum/reagent/consumable/space_cola, /datum/reagent/consumable/tonic, /datum/reagent/consumable/sodawater, /datum/reagent/consumable/ice, /datum/reagent/consumable/cream, /datum/reagent/consumable/ethanol/whiskey, /datum/reagent/consumable/ethanol/vodka, /datum/reagent/consumable/ethanol/rum, /datum/reagent/consumable/ethanol/gin, /datum/reagent/consumable/ethanol/tequila, /datum/reagent/consumable/ethanol/vermouth, /datum/reagent/consumable/ethanol/wine, /datum/reagent/consumable/ethanol/kahlua, /datum/reagent/consumable/ethanol/cognac, /datum/reagent/consumable/ethanol/ale, /datum/reagent/consumable/milk, /datum/reagent/consumable/coffee, /datum/reagent/consumable/banana, /datum/reagent/consumable/lemonjuice)
+	reagent_ids = list(
+			/datum/reagent/consumable/ethanol/absinthe,
+			/datum/reagent/consumable/ethanol/ale, 
+			/datum/reagent/consumable/ethanol/beer, 
+			/datum/reagent/consumable/ethanol/cognac,
+			/datum/reagent/consumable/ethanol/gin,
+			/datum/reagent/consumable/ethanol/kahlua,
+			/datum/reagent/consumable/ethanol/rum,
+			/datum/reagent/consumable/ethanol/tequila,
+			/datum/reagent/consumable/ethanol/triple_sec,
+			/datum/reagent/consumable/ethanol/vermouth,
+			/datum/reagent/consumable/ethanol/vodka,
+			/datum/reagent/consumable/ethanol/whiskey,
+			/datum/reagent/consumable/ethanol/wine,
+			/datum/reagent/consumable/banana,
+			/datum/reagent/consumable/coffee,
+			/datum/reagent/consumable/cream,
+			/datum/reagent/consumable/grenadine,
+			/datum/reagent/consumable/ice,
+			/datum/reagent/consumable/lemonjuice,
+			/datum/reagent/consumable/limejuice,
+			/datum/reagent/consumable/milk,
+			/datum/reagent/consumable/orangejuice, 
+			/datum/reagent/consumable/sodawater, 
+			/datum/reagent/consumable/space_cola, 
+			/datum/reagent/consumable/tomatojuice, 
+			/datum/reagent/consumable/tonic)
 
 /obj/item/reagent_containers/borghypo/borgshaker/attack(mob/M, mob/user)
 	return //Can't inject stuff with a shaker, can we? //not with that attitude
@@ -189,7 +217,7 @@ Borg Shaker
 /obj/item/reagent_containers/borghypo/borgshaker/regenerate_reagents()
 	if(iscyborg(src.loc))
 		var/mob/living/silicon/robot/R = src.loc
-		if(R && R.cell)
+		if(R?.cell)
 			for(var/i in modes) //Lots of reagents in this one, so it's best to regenrate them all at once to keep it from being tedious.
 				var/valueofi = modes[i]
 				var/datum/reagents/RG = reagent_list[valueofi]

@@ -15,7 +15,7 @@
 
 /obj/structure/frame/deconstruct(disassembled = TRUE)
 	if(!(flags_1 & NODECONSTRUCT_1))
-		new /obj/item/stack/sheet/metal(loc, 5)
+		new /obj/item/stack/sheet/iron(loc, 5)
 		if(circuit)
 			circuit.forceMove(loc)
 			circuit = null
@@ -97,7 +97,7 @@
 				if(P.use_tool(src, user, 40, volume=50))
 					if(state == 1)
 						to_chat(user, "<span class='notice'>You disassemble the frame.</span>")
-						var/obj/item/stack/sheet/metal/M = new (loc, 5)
+						var/obj/item/stack/sheet/iron/M = new (loc, 5)
 						M.add_fingerprint(user)
 						qdel(src)
 				return
@@ -181,17 +181,17 @@
 				if(component_check)
 					P.play_tool_sound(src)
 					var/obj/machinery/new_machine = new circuit.build_path(loc)
+					if(new_machine.circuit)
+						QDEL_NULL(new_machine.circuit)
+					new_machine.circuit = circuit
 					new_machine.setAnchored(anchored)
-					new_machine.on_construction()
+					new_machine.on_construction(dir) //NSV13 - added dir argument for pdc on_construction
 					for(var/obj/O in new_machine.component_parts)
 						qdel(O)
 					new_machine.component_parts = list()
 					for(var/obj/O in src)
 						O.moveToNullspace()
 						new_machine.component_parts += O
-					if(new_machine.circuit)
-						QDEL_NULL(new_machine.circuit)
-					new_machine.circuit = circuit
 					circuit.moveToNullspace()
 					new_machine.RefreshParts()
 					qdel(src)

@@ -5,7 +5,7 @@
 	sexes = 0
 	meat = /obj/item/stack/sheet/mineral/plasma
 	species_traits = list(NOBLOOD,NOTRANSSTING)
-	inherent_traits = list(TRAIT_RESISTCOLD,TRAIT_RADIMMUNE,TRAIT_NOHUNGER,TRAIT_ALWAYS_CLEAN)
+	inherent_traits = list(TRAIT_RESISTCOLD,TRAIT_RADIMMUNE,TRAIT_NOHUNGER,TRAIT_CALCIUM_HEALER,TRAIT_ALWAYS_CLEAN)
 	inherent_biotypes = list(MOB_INORGANIC, MOB_HUMANOID)
 	mutantlungs = /obj/item/organ/lungs/plasmaman
 	mutanttongue = /obj/item/organ/tongue/bone/plasmaman
@@ -30,7 +30,7 @@
 		var/obj/item/clothing/CH = H.head
 		if (CS.clothing_flags & CH.clothing_flags & STOPSPRESSUREDAMAGE)
 			atmos_sealed = TRUE
-	if((!istype(H.w_uniform, /obj/item/clothing/under/plasmaman) || !istype(H.head, /obj/item/clothing/head/helmet/space/plasmaman)) && !atmos_sealed)
+	if((!istype(H.w_uniform, /obj/item/clothing/under/plasmaman) || !istype(H.head, /obj/item/clothing/head/foilhat/plasmaman) && !istype(H.head, /obj/item/clothing/head/helmet/space/plasmaman)) && !atmos_sealed)
 		if(environment)
 			if(environment.total_moles())
 				if(environment.gases[/datum/gas/oxygen] && (environment.gases[/datum/gas/oxygen][MOLES]) >= 1) //Same threshhold that extinguishes fire
@@ -79,6 +79,9 @@
 		if("Security Officer")
 			O = new /datum/outfit/plasmaman/security
 
+		if("Brig Physician")
+			O = new /datum/outfit/plasmaman/secmed
+
 		if("Detective")
 			O = new /datum/outfit/plasmaman/detective
 
@@ -93,6 +96,9 @@
 
 		if("Medical Doctor")
 			O = new /datum/outfit/plasmaman/medical
+
+		if("Paramedic")
+			O = new /datum/outfit/plasmaman/emt
 
 		if("Chemist")
 			O = new /datum/outfit/plasmaman/chemist
@@ -115,16 +121,41 @@
 		if("Atmospheric Technician")
 			O = new /datum/outfit/plasmaman/atmospherics
 
-		if("Mime")
-			O = new /datum/outfit/plasmaman/mime
+		if("Captain")
+			O = new /datum/outfit/plasmaman/command
+
+		if("Chief Engineer")
+			O = new /datum/outfit/plasmaman/ce
+
+		if("Chief Medical Officer")
+			O = new /datum/outfit/plasmaman/cmo
+
+		if("Head of Security")
+			O = new /datum/outfit/plasmaman/hos
+
+		if("Research Director")
+			O = new /datum/outfit/plasmaman/rd
+
+		if("Head of Personnel")
+			O = new /datum/outfit/plasmaman/hop
 
 		if("Clown")
-			O = new /datum/outfit/plasmaman/clown
+			O = new /datum/outfit/plasmaman/honk
+
+		if("Mime")
+			O = new /datum/outfit/plasmaman/mime
 
 	H.equipOutfit(O, visualsOnly)
 	H.internal = H.get_item_for_held_index(2)
 	H.update_internals_hud_icon(1)
 	return 0
+
+/datum/species/plasmaman/qualifies_for_rank(rank, list/features)
+	if(rank in GLOB.security_positions)
+		return 0
+	if(rank == "Clown" || rank == "Mime")//No funny bussiness
+		return 0
+	return ..()
 
 /datum/species/plasmaman/random_name(gender,unique,lastname)
 	if(unique)
@@ -136,18 +167,3 @@
 		randname += " [lastname]"
 
 	return randname
-
-/datum/species/plasmaman/handle_chemicals(datum/reagent/chem, mob/living/carbon/human/H)
-	. = ..()
-	if(chem.type == /datum/reagent/consumable/milk)
-		if(chem.volume >= 6)
-			H.reagents.remove_reagent(chem.type, chem.volume - 5)
-			to_chat(H, "<span class='warning'>The excess milk is dripping off your bones!</span>")
-		H.heal_bodypart_damage(1.5,0, 0)
-		H.reagents.remove_reagent(chem.type, REAGENTS_METABOLISM)
-		return TRUE
-
-	if(chem.type == /datum/reagent/toxin/bonehurtingjuice)
-		H.adjustBruteLoss(0.5, 0)
-		H.reagents.remove_reagent(chem.type, REAGENTS_METABOLISM)
-		return TRUE

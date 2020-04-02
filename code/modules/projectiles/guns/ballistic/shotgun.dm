@@ -23,7 +23,7 @@
 
 /obj/item/gun/ballistic/shotgun/blow_up(mob/user)
 	. = 0
-	if(chambered && chambered.BB)
+	if(chambered?.BB)
 		process_fire(user, user, FALSE)
 		. = 1
 
@@ -38,7 +38,15 @@
 	icon_state = "riotshotgun"
 	mag_type = /obj/item/ammo_box/magazine/internal/shot/riot
 	sawn_desc = "Come with me if you want to live."
-	can_be_sawn_off  = TRUE
+
+/obj/item/gun/ballistic/shotgun/riot/attackby(obj/item/A, mob/user, params)
+	..()
+	if(istype(A, /obj/item/circular_saw) || istype(A, /obj/item/gun/energy/plasmacutter))
+		sawoff(user)
+	if(istype(A, /obj/item/melee/transforming/energy))
+		var/obj/item/melee/transforming/energy/W = A
+		if(W.active)
+			sawoff(user)
 
 // Automatic Shotguns//
 
@@ -59,6 +67,15 @@
 	icon_state = "cshotgunc"
 	mag_type = /obj/item/ammo_box/magazine/internal/shot/com/compact
 	w_class = WEIGHT_CLASS_BULKY
+
+// Breaching Shotgun //
+
+/obj/item/gun/ballistic/shotgun/automatic/breaching
+	name = "tactical breaching shotgun"
+	desc = "A compact semi-auto shotgun designed to fire breaching slugs and create rapid entry points."
+	icon_state = "breachingshotgun"
+	mag_type = /obj/item/ammo_box/magazine/internal/shot/breaching
+	w_class = WEIGHT_CLASS_NORMAL //compact so it fits in backpacks
 
 //Dual Feed Shotgun
 
@@ -156,12 +173,21 @@
 						)
 	semi_auto = TRUE
 	bolt_type = BOLT_TYPE_NO_BOLT
-	can_be_sawn_off  = TRUE
 
 /obj/item/gun/ballistic/shotgun/doublebarrel/AltClick(mob/user)
 	. = ..()
 	if(unique_reskin && !current_skin && user.canUseTopic(src, BE_CLOSE, NO_DEXTERY))
 		reskin_obj(user)
+
+/obj/item/gun/ballistic/shotgun/doublebarrel/attackby(obj/item/A, mob/user, params)
+	..()
+	if(istype(A, /obj/item/melee/transforming/energy))
+		var/obj/item/melee/transforming/energy/W = A
+		if(W.active)
+			sawoff(user)
+	if(istype(A, /obj/item/circular_saw) || istype(A, /obj/item/gun/energy/plasmacutter))
+		sawoff(user)
+
 // IMPROVISED SHOTGUN //
 
 /obj/item/gun/ballistic/shotgun/doublebarrel/improvised
@@ -209,6 +235,7 @@
 	w_class = WEIGHT_CLASS_NORMAL
 	sawn_off = TRUE
 	slot_flags = ITEM_SLOT_BELT
+	recoil = SAWN_OFF_RECOIL
 
 /obj/item/gun/ballistic/shotgun/doublebarrel/hook
 	name = "hook modified sawn-off shotgun"
@@ -219,7 +246,6 @@
 	mag_type = /obj/item/ammo_box/magazine/internal/shot/bounty
 	w_class = WEIGHT_CLASS_BULKY
 	weapon_weight = WEAPON_MEDIUM
-	can_be_sawn_off = FALSE
 	force = 10 //it has a hook on it
 	attack_verb = list("slashed", "hooked", "stabbed")
 	hitsound = 'sound/weapons/bladeslice.ogg'
@@ -254,3 +280,4 @@
 		hook.afterattack(target, user, flag, params)
 	else
 		return ..()
+

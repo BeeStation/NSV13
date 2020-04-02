@@ -88,14 +88,18 @@ GLOBAL_LIST_EMPTY(announcement_systems)
 		message = CompileText(arrival, user, rank)
 	else if(message_type == "NEWHEAD" && newheadToggle)
 		message = CompileText(newhead, user, rank)
+	else if(message_type == "AIWIPE" && newheadToggle)
+		message = CompileText("%PERSON has been moved to intelligence storage.", user, rank)
+	else if(message_type == "CRYOSTORAGE")
+		message = CompileText("%PERSON, %RANK has been moved to cryo storage.", user, rank)
 	else if(message_type == "ARRIVALS_BROKEN")
 		message = "The arrivals shuttle has been damaged. Docking for repairs..."
 
 	if(channels.len == 0)
-		radio.talk_into(src, message, null)
+		radio.talk_into(src, message, null, list(SPAN_ROBOT), get_default_language())
 	else
 		for(var/channel in channels)
-			radio.talk_into(src, message, channel)
+			radio.talk_into(src, message, channel, list(SPAN_ROBOT), get_default_language())
 
 //config stuff
 

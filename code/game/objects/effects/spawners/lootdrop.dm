@@ -9,7 +9,7 @@
 
 /obj/effect/spawner/lootdrop/Initialize(mapload)
 	..()
-	if(loot && loot.len)
+	if(loot?.len)
 		var/turf/T = get_turf(src)
 		var/loot_spawned = 0
 		while((lootcount-loot_spawned) && loot.len)
@@ -161,13 +161,69 @@
 		/obj/item/organ/heart/gland/chem = 5,
 		/obj/item/organ/heart/gland/mindshock = 5,
 		/obj/item/organ/heart/gland/plasma = 7,
-		/obj/item/organ/heart/gland/transform = 5,
+		/obj/item/organ/heart/gland/pop = 5,
 		/obj/item/organ/heart/gland/slime = 4,
 		/obj/item/organ/heart/gland/spiderman = 5,
 		/obj/item/organ/heart/gland/ventcrawling = 1,
 		/obj/item/organ/body_egg/alien_embryo = 1,
 		/obj/item/organ/regenerative_core = 2)
 	lootcount = 3
+
+/obj/effect/spawner/lootdrop/teratoma/minor
+	name = "teratoma spawner"
+	loot = list(
+		/obj/item/organ/tongue = 5,
+		/obj/item/organ/tongue/lizard = 1,
+		/obj/item/organ/tail/cat = 1,
+		/obj/item/organ/stomach = 5,
+		/obj/item/organ/tongue/zombie = 1,
+		/obj/item/organ/tongue/fly = 1,
+		/obj/item/organ/stomach/fly = 1,
+		/obj/item/organ/ears = 5,
+		/obj/item/organ/ears/cat = 1,
+		/obj/item/organ/eyes/snail = 1,
+		/obj/item/organ/eyes/moth = 1,
+		/obj/item/organ/eyes = 5,
+		/obj/item/organ/heart = 5,
+		/obj/item/organ/liver = 5,
+		/obj/item/organ/tail/lizard = 1,
+		/obj/item/organ/tongue/snail = 1,
+		/obj/item/organ/appendix = 5,
+		/obj/effect/gibspawner/human = 1)
+
+/obj/effect/spawner/lootdrop/teratoma/major
+	name = "advanced teratoma spawner"
+	loot = list(
+		/obj/item/organ/adamantine_resonator = 2,,
+		/obj/item/organ/ears/penguin = 2,
+		/obj/item/organ/heart/gland/viral = 1,
+		/obj/item/organ/eyes/night_vision = 1,
+		/obj/item/organ/liver/plasmaman = 3,
+		/obj/item/organ/liver/alien = 3,
+		/obj/item/organ/stomach/plasmaman = 3,
+		/obj/item/organ/lungs/plasmaman = 3,
+		/obj/item/organ/lungs/slime = 3,
+		/obj/item/organ/tongue/abductor = 1,
+		/obj/item/organ/tongue/alien = 1,
+		/obj/item/organ/tongue/bone = 3,
+		/obj/item/organ/tongue/bone/plasmaman = 1,
+		/obj/item/organ/vocal_cords/adamantine = 1,
+		/obj/effect/gibspawner/xeno = 1,
+		/obj/effect/mob_spawn/human/corpse/assistant = 1,
+		/obj/effect/mob_spawn/teratomamonkey = 5)
+
+/obj/effect/spawner/lootdrop/teratoma/major/clown
+	name = "funny teratoma spawner"
+	loot = list(
+		/mob/living/simple_animal/cluwne = 1,
+		/mob/living/simple_animal/hostile/retaliate/clown/lube = 1,
+		/mob/living/simple_animal/hostile/retaliate/clown/fleshclown = 1,
+		/mob/living/simple_animal/hostile/retaliate/clown/mutant = 1,
+		/obj/item/clothing/mask/gas/clown_hat = 4,
+		/obj/item/clothing/shoes/clown_shoes = 3,
+		/obj/item/bikehorn = 5,
+		/obj/item/reagent_containers/food/snacks/pie/cream = 3)
+
 
 /obj/effect/spawner/lootdrop/two_percent_xeno_egg_spawner
 	name = "2% chance xeno egg spawner"
@@ -221,6 +277,7 @@
 	loot = list(
 				/obj/item/aiModule/core/full/asimov,
 				/obj/item/aiModule/core/full/asimovpp,
+				/obj/item/aiModule/core/full/crewsimov, // NSV change
 				/obj/item/aiModule/core/full/hippocratic,
 				/obj/item/aiModule/core/full/paladin_devotion,
 				/obj/item/aiModule/core/full/paladin

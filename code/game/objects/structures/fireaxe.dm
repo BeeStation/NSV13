@@ -51,7 +51,7 @@
 	else if(open || broken)
 		if(istype(I, /obj/item/twohanded/fireaxe) && !fireaxe)
 			var/obj/item/twohanded/fireaxe/F = I
-			if(F.wielded)
+			if(SEND_SIGNAL(F, COMSIG_ITEM_IS_WIELDED) & COMPONENT_WIELDED)
 				to_chat(user, "<span class='warning'>Unwield the [F.name] first.</span>")
 				return
 			if(!user.transferItemToLoc(F, src))
@@ -95,7 +95,7 @@
 		if(fireaxe && loc)
 			fireaxe.forceMove(loc)
 			fireaxe = null
-		new /obj/item/stack/sheet/metal(loc, 2)
+		new /obj/item/stack/sheet/iron(loc, 2)
 	qdel(src)
 
 /obj/structure/fireaxecabinet/blob_act(obj/structure/blob/B)
@@ -166,7 +166,7 @@
 		add_overlay("glass_raised")
 
 /obj/structure/fireaxecabinet/proc/toggle_lock(mob/user)
-	to_chat(user, "<span class='caution'> Resetting circuitry...</span>")
+	to_chat(user, "<span class = 'caution'> Resetting circuitry...</span>")
 	playsound(src, 'sound/machines/locktoggle.ogg', 50, 1)
 	if(do_after(user, 20, target = src))
 		to_chat(user, "<span class='caution'>You [locked ? "disable" : "re-enable"] the locking modules.</span>")

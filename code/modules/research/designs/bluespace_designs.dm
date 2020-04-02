@@ -39,7 +39,7 @@
 	desc = "Little thingie that can track its position at all times."
 	id = "telesci_gps"
 	build_type = PROTOLATHE
-	materials = list(/datum/material/iron = 500, /datum/material/glass = 1000)
+	materials = list(/datum/material/iron = 500, /datum/material/glass = 1000, /datum/material/copper = 100)
 	build_path = /obj/item/gps
 	category = list("Bluespace Designs")
 	departmental_flags = DEPARTMENTAL_FLAG_SCIENCE | DEPARTMENTAL_FLAG_ENGINEERING | DEPARTMENTAL_FLAG_CARGO

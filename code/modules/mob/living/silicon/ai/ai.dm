@@ -29,7 +29,6 @@
 	sec_hud = DATA_HUD_SECURITY_BASIC
 	d_hud = DATA_HUD_DIAGNOSTIC_ADVANCED
 	mob_size = MOB_SIZE_LARGE
-	radio = /obj/item/radio/headset/silicon/ai
 	var/battery = 200 //emergency power if the AI's APC is off
 	var/list/network = list("ss13")
 	var/obj/machinery/camera/current
@@ -149,6 +148,7 @@
 	aiPDA.name = real_name + " (" + aiPDA.ownjob + ")"
 
 	aiMulti = new(src)
+	radio = new /obj/item/radio/headset/silicon/ai(src)
 	aicamera = new/obj/item/camera/siliconcam/ai_camera(src)
 
 	deploy_action.Grant(src)
@@ -191,7 +191,7 @@
 	SSshuttle.autoEvac()
 	qdel(eyeobj) // No AI, no Eye
 	malfhack = null
-
+	ShutOffDoomsdayDevice()
 	. = ..()
 
 /mob/living/silicon/ai/IgniteMob()
@@ -325,6 +325,38 @@
 
 /mob/living/silicon/ai/cancel_camera()
 	view_core()
+
+/mob/living/silicon/ai/verb/wipe_core()
+	set name = "Wipe Core"
+	set category = "OOC"
+	set desc = "Wipe your core. This is functionally equivalent to cryo, freeing up your job slot."
+
+	// Guard against misclicks, this isn't the sort of thing we want happening accidentally
+	if(alert("WARNING: This will immediately wipe your core and ghost you, removing your character from the round permanently (similar to cryo). Are you entirely sure you want to do this?",
+					"Wipe Core", "No", "No", "Yes") != "Yes")
+		return
+
+	// We warned you.
+	var/obj/structure/AIcore/latejoin_inactive/inactivecore = New(loc)
+	transfer_fingerprints_to(inactivecore)
+
+	if(GLOB.announcement_systems.len)
+		var/obj/machinery/announcement_system/announcer = pick(GLOB.announcement_systems)
+		announcer.announce("AIWIPE", real_name, mind.assigned_role, list())
+
+	SSjob.FreeRole(mind.assigned_role)
+
+	if(mind.objectives.len)
+		mind.objectives.Cut()
+		mind.special_role = null
+
+	if(!get_ghost(1))
+		if(world.time < 30 * 600)//before the 30 minute mark
+			ghostize(0) // Players despawned too early may not re-enter the game
+	else
+		ghostize(1)
+
+	QDEL_NULL(src)
 
 /mob/living/silicon/ai/verb/toggle_anchor()
 	set category = "AI Commands"
@@ -550,7 +582,7 @@
 	if (O)
 		if (C && C.can_use())
 			queueAlarm("--- [class] alarm detected in [A.name]! (<A HREF=?src=[REF(src)];switchcamera=[REF(C)]>[C.c_tag]</A>)", class)
-		else if (CL && CL.len)
+		else if (CL?.len)
 			var/foo = 0
 			var/dat2 = ""
 			for (var/obj/machinery/camera/I in CL)

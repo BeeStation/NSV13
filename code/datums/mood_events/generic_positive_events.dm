@@ -48,11 +48,9 @@
 	description = "<span class='nicegreen'>\The [animal.name] is adorable! I can't stop petting [animal.p_them()]!</span>\n"
 
 /datum/mood_event/honk
-	description = "<span class='nicegreen'>I've been honked!</span>\n"
+	description = "<span class='nicegreen'>Maybe clowns aren't so bad after all. Honk!</span>\n"
 	mood_change = 2
 	timeout = 4 MINUTES
-	special_screen_obj = "honked_nose"
-	special_screen_replace = FALSE
 
 /datum/mood_event/perform_cpr
 	description = "<span class='nicegreen'>It feels good to save a life.</span>\n"
@@ -122,7 +120,6 @@
 /datum/mood_event/religiously_comforted
 	description = "<span class='nicegreen'>You are comforted by the presence of a holy person.</span>\n"
 	mood_change = 3
-	timeout = 5 MINUTES
 
 /datum/mood_event/clownshoes
 	description = "<span class='nicegreen'>The shoes are a clown's legacy, I never want to take them off!</span>\n"
@@ -147,6 +144,22 @@
 	description = "<span class='nicegreen'>That work of art was so great it made me believe in the goodness of humanity. Says a lot in a place like this.</span>\n"
 	mood_change = 6
 	timeout = 5 MINUTES
+
+/datum/mood_event/bottle_flip
+	description = "<span class='nicegreen'>The bottle landing like that was satisfying.</span>\n"
+	mood_change = 2
+	timeout = 3 MINUTES
+  
+/datum/mood_event/hope_lavaland
+	description = "<span class='nicegreen'>What a peculiar emblem.  It makes me feel hopeful for my future.</span>\n"
+	mood_change = 5
+  
+/datum/mood_event/nanite_happiness
+	description = "<span class='nicegreen robot'>+++++++HAPPINESS ENHANCEMENT+++++++</span>\n"
+	mood_change = 7
+
+/datum/mood_event/nanite_happiness/add_effects(message)
+	description = "<span class='nicegreen robot'>+++++++[message]+++++++</span>\n"
 
 /datum/mood_event/area
 	description = "" //Fill this out in the area

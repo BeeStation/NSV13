@@ -81,15 +81,35 @@
 							addclientmessage(ckey,"<span class='adminnotice'>Admin [key] has been allowed to bypass a matching non-admin ban on [i["key"]] [i["ip"]]-[i["computerid"]].</span>")
 						continue
 				var/expires = "This is a permanent ban."
+				var/global_ban = "This is a global ban from all of our servers."
 				if(i["expiration_time"])
 					expires = " The ban is for [DisplayTimeText(text2num(i["duration"]) MINUTES)] and expires on [i["expiration_time"]] (server time)."
+				if(!text2num(i["global_ban"]))
+					global_ban = "This is a single-server ban, and only applies to [i["server_name"]]."
 				var/desc = {"You, or another user of this computer or connection ([i["key"]]) is banned from playing here.
-				The ban reason is: [i["reason"]]
+				The ban reason is: [i["reason"]].
 				This ban (BanID #[i["id"]]) was applied by [i["admin_key"]] on [i["bantime"]] during round ID [i["round_id"]].
+				[global_ban]
 				[expires]"}
-				log_access("Failed Login: [key] [computer_id] [address] - Banned (#[i["id"]])")
+				log_access("Failed Login: [key] [computer_id] [address] - Banned (#[i["id"]]) [text2num(i["global_ban"]) ? "globally" : "locally"]")
 				return list("reason"="Banned","desc"="[desc]")
+	if (admin)
+		if (GLOB.directory[ckey])
+			return
 
+		//oh boy, so basically, because of a bug in byond, sometimes stickyban matches don't trigger here, so we can't exempt admins.
+		//	Whitelisting the ckey with the byond whitelist field doesn't work.
+		//	So we instead have to remove every stickyban than later re-add them.
+		if (!length(GLOB.stickybanadminexemptions))
+			for (var/banned_ckey in world.GetConfig("ban"))
+				GLOB.stickybanadmintexts[banned_ckey] = world.GetConfig("ban", banned_ckey)
+				world.SetConfig("ban", banned_ckey, null)
+		if (!SSstickyban.initialized)
+			return
+		GLOB.stickybanadminexemptions[ckey] = world.time
+		stoplag() // sleep a byond tick
+		GLOB.stickbanadminexemptiontimerid = addtimer(CALLBACK(GLOBAL_PROC, /proc/restore_stickybans), 5 SECONDS, TIMER_STOPPABLE|TIMER_UNIQUE|TIMER_OVERRIDE)
+		return
 	var/list/ban = ..()	//default pager ban stuff
 
 	if (ban)
@@ -191,7 +211,7 @@
 			return null
 
 		if (C) //user is already connected!.
-			to_chat(C, "You are about to get disconnected for matching a sticky ban after you connected. If this turns out to be the ban evasion detection system going haywire, we will automatically detect this and revert the matches. if you feel that this is the case, please wait EXACTLY 6 seconds then reconnect using file -> reconnect to see if the match was automatically reversed.")
+			to_chat(C, "<span class='redtext'>You are about to get disconnected for matching a sticky ban after you connected. If this turns out to be the ban evasion detection system going haywire, we will automatically detect this and revert the matches. if you feel that this is the case, please wait EXACTLY 6 seconds then reconnect using file -> reconnect to see if the match was automatically reversed.</span>")
 
 		var/desc = "\nReason:(StickyBan) You, or another user of this computer or connection ([bannedckey]) is banned from playing here. The ban reason is:\n[ban["message"]]\nThis ban was applied by [ban["admin"]]\nThis is a BanEvasion Detection System ban, if you think this ban is a mistake, please wait EXACTLY 6 seconds, then try again before filing an appeal.\n"
 		. = list("reason" = "Stickyban", "desc" = desc)
@@ -199,6 +219,14 @@
 
 	return .
 
+/proc/restore_stickybans()
+	for (var/banned_ckey in GLOB.stickybanadmintexts)
+		world.SetConfig("ban", banned_ckey, GLOB.stickybanadmintexts[banned_ckey])
+	GLOB.stickybanadminexemptions = list()
+	GLOB.stickybanadmintexts = list()
+	if (GLOB.stickbanadminexemptiontimerid)
+		deltimer(GLOB.stickbanadminexemptiontimerid)
+	GLOB.stickbanadminexemptiontimerid = null
 
 #undef STICKYBAN_MAX_MATCHES
 #undef STICKYBAN_MAX_EXISTING_USER_MATCHES

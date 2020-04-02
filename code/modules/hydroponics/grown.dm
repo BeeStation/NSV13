@@ -117,11 +117,18 @@
 	if(seed)
 		for(var/datum/plant_gene/trait/trait in seed.genes)
 			trait.on_squash(src, target)
-
-	reagents.reaction(T)
-	for(var/A in T)
-		reagents.reaction(A)
-
+	if(!seed.get_gene(/datum/plant_gene/trait/noreact))
+		reagents.reaction(T)
+		for(var/A in T)
+			reagents.reaction(A)
+		qdel(src)
+	if(seed.get_gene(/datum/plant_gene/trait/noreact))
+		visible_message("<span class='warning'>[src] crumples, and bubbles ominously as its contents mix.</span>")
+		addtimer(CALLBACK(src, .proc/squashreact), 20)
+		
+/obj/item/reagent_containers/food/snacks/grown/proc/squashreact()
+	for(var/datum/plant_gene/trait/trait in seed.genes)
+		trait.on_squashreact(src)
 	qdel(src)
 
 /obj/item/reagent_containers/food/snacks/grown/On_Consume()
@@ -154,27 +161,17 @@
 
 /obj/item/reagent_containers/food/snacks/grown/on_juice()
 	var/nutriment = reagents.get_reagent_amount(/datum/reagent/consumable/nutriment)
-	if(juice_results&&juice_results.len)
+	if(juice_results?.len)
 		for(var/i in 1 to juice_results.len)
 			juice_results[juice_results[i]] = nutriment
 		reagents.del_reagent(/datum/reagent/consumable/nutriment)
 		reagents.del_reagent(/datum/reagent/consumable/nutriment/vitamin)
 
-/*
- * Attack self for growns
- *
- * Spawns the trash item at the growns drop_location()
- * 
- * Then deletes the grown object
- *
- * Then puts trash item into the hand of user attack selfing, or drops it back on the ground
- */
+// For item-containing growns such as eggy or gatfruit
 /obj/item/reagent_containers/food/snacks/grown/shell/attack_self(mob/user)
 	var/obj/item/T
 	if(trash)
-		T = generate_trash(drop_location())
-		//Delete grown so our hand is free
+		T = generate_trash()
 		qdel(src)
-		//put trash obj in hands or drop to ground
-		user.put_in_hands(T, user.active_hand_index, TRUE)
+		user.putItemFromInventoryInHandIfPossible(T, user.active_hand_index, TRUE)
 		to_chat(user, "<span class='notice'>You open [src]\'s shell, revealing \a [T].</span>")

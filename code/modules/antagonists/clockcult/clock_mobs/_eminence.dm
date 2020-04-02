@@ -56,7 +56,7 @@
 	..()
 	add_servant_of_ratvar(src, TRUE)
 	var/datum/antagonist/clockcult/C = mind.has_antag_datum(/datum/antagonist/clockcult,TRUE)
-	if(C && C.clock_team)
+	if(C?.clock_team)
 		if(C.clock_team.eminence && C.clock_team.eminence != src)
 			remove_servant_of_ratvar(src,TRUE)
 			qdel(src)
@@ -208,10 +208,10 @@
 	wall.turn_up_the_heat()
 	if(wall.heated)
 		superheated_walls++
-		to_chat(src, "<span class='neovgre_small'>You superheat [wall]. <b>Superheated walls:</b> [superheated_walls]/[SUPERHEATED_CLOCKWORK_WALL_LIMIT]</span>")
+		to_chat(src, "<span class='neovgre_small'>You superheat [wall]. <b>Superheated walls:</b> [superheated_walls]/[SUPERHEATED_CLOCKWORK_WALL_LIMIT]")
 	else
 		superheated_walls--
-		to_chat(src, "<span class='neovgre_small'>You cool [wall]. <b>Superheated walls:</b> [superheated_walls]/[SUPERHEATED_CLOCKWORK_WALL_LIMIT]</span>")
+		to_chat(src, "<span class='neovgre_small'>You cool [wall]. <b>Superheated walls:</b> [superheated_walls]/[SUPERHEATED_CLOCKWORK_WALL_LIMIT]")
 
 /mob/camera/eminence/proc/eminence_help()
 	to_chat(src, "<span class='bold alloy'>You can make use of certain shortcuts to perform different actions:</span>")

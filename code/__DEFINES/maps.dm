@@ -37,36 +37,38 @@ require only minor tweaks.
 #define ZTRAIT_AWAY "Away Mission"
 #define ZTRAIT_SPACE_RUINS "Space Ruins"
 #define ZTRAIT_LAVA_RUINS "Lava Ruins"
+#define ZTRAIT_OVERMAP "Overmap" //NSV13
 #define ZTRAIT_ASTRAEUS "Astraeus System" //NSV13 - System defines for moving ships around
 #define ZTRAIT_CORVI "Corvi System"//NSV13 - System defines for moving ships around
 #define ZTRAIT_HYPERSPACE "Hyperspace" //NSV13 - System defines for moving ships around
+#define ZTRAIT_BOARDABLE "Boardable Ship" //NSV13 - System defines blah
 
-// number - bombcap is multiplied by this before being applied to bombs
+/// number - bombcap is multiplied by this before being applied to bombs
 #define ZTRAIT_BOMBCAP_MULTIPLIER "Bombcap Multiplier"
 
-// number - default gravity if there's no gravity generators or area overrides present
+/// number - default gravity if there's no gravity generators or area overrides present
 #define ZTRAIT_GRAVITY "Gravity"
 
 // numeric offsets - e.g. {"Down": -1} means that chasms will fall to z - 1 rather than oblivion
 #define ZTRAIT_UP "Up"
 #define ZTRAIT_DOWN "Down"
 
-// enum - how space transitions should affect this level
+/// enum - how space transitions should affect this level
 #define ZTRAIT_LINKAGE "Linkage"
-    // UNAFFECTED if absent - no space transitions
+    /// UNAFFECTED if absent - no space transitions
     #define UNAFFECTED null
-    // SELFLOOPING - space transitions always self-loop
+    /// SELFLOOPING - space transitions always self-loop
     #define SELFLOOPING "Self"
-    // CROSSLINKED - mixed in with the cross-linked space pool
+    /// CROSSLINKED - mixed in with the cross-linked space pool
     #define CROSSLINKED "Cross"
 
-// string - type path of the z-level's baseturf (defaults to space)
+/// string - type path of the z-level's baseturf (defaults to space)
 #define ZTRAIT_BASETURF "Baseturf"
 
-// default trait definitions, used by SSmapping
+/// default trait definitions, used by SSmapping
 #define ZTRAITS_CENTCOM list(ZTRAIT_CENTCOM = TRUE)
-#define ZTRAITS_STATION list(ZTRAIT_LINKAGE = CROSSLINKED, ZTRAIT_STATION = TRUE)
-#define ZTRAITS_SPACE list(ZTRAIT_LINKAGE = CROSSLINKED, ZTRAIT_SPACE_RUINS = TRUE)
+#define ZTRAITS_STATION list(ZTRAIT_LINKAGE = SELFLOOPING, ZTRAIT_STATION = TRUE, ZTRAIT_BOARDABLE = TRUE) //Nsv13 - Added ZTRAIT_BOARDABLE HERE, changed default to "selflooping" z levels for multiZ ships.
+#define ZTRAITS_SPACE list(ZTRAIT_LINKAGE = CROSSLINKED, ZTRAIT_SPACE_RUINS = TRUE, ZTRAIT_BOARDABLE = TRUE)//Nsv13 - Added ZTRAIT_BOARDABLE HERE
 #define ZTRAITS_LAVALAND list(\
     ZTRAIT_MINING = TRUE, \
     ZTRAIT_LAVA_RUINS = TRUE, \
@@ -74,11 +76,14 @@ require only minor tweaks.
     ZTRAIT_BASETURF = /turf/open/lava/smooth/lava_land_surface)
 #define ZTRAITS_REEBE list(ZTRAIT_REEBE = TRUE, ZTRAIT_BOMBCAP_MULTIPLIER = 0.5)
 
+#define ZTRAITS_OVERMAP list(ZTRAIT_LINKAGE = SELFLOOPING, ZTRAIT_BOARDABLE = FALSE) //NSV13
+#define ZTRAITS_MINING_SHIP list(ZTRAIT_LINKAGE = SELFLOOPING, ZTRAIT_STATION = FALSE, ZTRAIT_BOARDABLE = TRUE) //NSV13
+
 #define DL_NAME "name"
 #define DL_TRAITS "traits"
 #define DECLARE_LEVEL(NAME, TRAITS) list(DL_NAME = NAME, DL_TRAITS = TRAITS)
 
-// must correspond to _basemap.dm for things to work correctly
+/// must correspond to _basemap.dm for things to work correctly
 #define DEFAULT_MAP_TRAITS list(\
     DECLARE_LEVEL("CentCom", ZTRAITS_CENTCOM),\
 )
@@ -89,12 +94,12 @@ require only minor tweaks.
 #define CAMERA_LOCK_CENTCOM 4
 #define CAMERA_LOCK_REEBE 8
 
-//Reserved/Transit turf type
+/// Reserved/Transit turf type
 #define RESERVED_TURF_TYPE /turf/open/space/basic			//What the turf is when not being used
 
 //Ruin Generation
 
-#define PLACEMENT_TRIES 100 //How many times we try to fit the ruin somewhere until giving up (really should just swap to some packing algo)
+#define PLACEMENT_TRIES 100 //! How many times we try to fit the ruin somewhere until giving up (really should just swap to some packing algo)
 
 #define PLACE_DEFAULT "random"
 #define PLACE_SAME_Z "same"

@@ -10,9 +10,11 @@ GLOBAL_LIST_INIT(channel_tokens, list(
 	RADIO_CHANNEL_SYNDICATE = RADIO_TOKEN_SYNDICATE,
 	RADIO_CHANNEL_SUPPLY = RADIO_TOKEN_SUPPLY,
 	RADIO_CHANNEL_SERVICE = RADIO_TOKEN_SERVICE,
+	RADIO_CHANNEL_ATC = RADIO_TOKEN_ATC,
+	RADIO_CHANNEL_MUNITIONS = RADIO_TOKEN_MUNITIONS,
 	MODE_BINARY = MODE_TOKEN_BINARY,
 	RADIO_CHANNEL_AI_PRIVATE = RADIO_TOKEN_AI_PRIVATE
-))
+)) //Nsv13 - Atc chat & munitions
 
 /obj/item/radio/headset
 	name = "radio headset"
@@ -106,6 +108,12 @@ GLOBAL_LIST_INIT(channel_tokens, list(
 	desc = "This is used by your elite security force."
 	icon_state = "sec_headset"
 	keyslot = new /obj/item/encryptionkey/headset_sec
+
+/obj/item/radio/headset/headset_medsec
+	name = "medical-security radio headset"
+	desc = "Used to hear how many security officers need to be stiched back together."
+	icon_state = "medsec_headset"
+	keyslot = new /obj/item/encryptionkey/headset_medsec
 
 /obj/item/radio/headset/headset_sec/alt
 	name = "security bowman headset"
@@ -213,7 +221,7 @@ GLOBAL_LIST_INIT(channel_tokens, list(
 	keyslot = new /obj/item/encryptionkey/heads/cmo
 
 /obj/item/radio/headset/heads/hop
-	name = "\proper the Executive Officer's headset"
+	name = "\proper the head of personnel's headset"
 	desc = "The headset of the guy who will one day be captain."
 	icon_state = "com_headset"
 	keyslot = new /obj/item/encryptionkey/heads/hop
@@ -283,14 +291,12 @@ GLOBAL_LIST_INIT(channel_tokens, list(
 				SSradio.remove_object(src, GLOB.radiochannels[ch_name])
 				secure_radio_connections[ch_name] = null
 
-			var/turf/T = user.drop_location()
-			if(T)
-				if(keyslot)
-					keyslot.forceMove(T)
-					keyslot = null
-				if(keyslot2)
-					keyslot2.forceMove(T)
-					keyslot2 = null
+			if(keyslot)
+				user.put_in_hands(keyslot)
+				keyslot = null
+			if(keyslot2)
+				user.put_in_hands(keyslot2)
+				keyslot2 = null
 
 			recalculateChannels()
 			to_chat(user, "<span class='notice'>You pop out the encryption keys in the headset.</span>")

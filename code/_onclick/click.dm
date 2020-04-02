@@ -291,7 +291,7 @@
 /mob/living/carbon/MiddleClickOn(atom/A)
 	if(!stat && mind && iscarbon(A) && A != src)
 		var/datum/antagonist/changeling/C = mind.has_antag_datum(/datum/antagonist/changeling)
-		if(C && C.chosen_sting)
+		if(C?.chosen_sting)
 			C.chosen_sting.try_to_sting(src,A)
 			next_click = world.time + 5
 			return
@@ -412,7 +412,7 @@
 	playsound(usr.loc, 'sound/weapons/taser2.ogg', 75, 1)
 
 	LE.firer = src
-	LE.def_zone = ran_zone(zone_selected)
+	LE.def_zone = get_organ_target()
 	LE.preparePixelProjectile(A, src, params)
 	LE.fire()
 

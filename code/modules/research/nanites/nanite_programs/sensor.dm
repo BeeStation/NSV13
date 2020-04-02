@@ -345,13 +345,6 @@
 	var/sentence = ""
 	var/inclusive = TRUE
 
-/datum/nanite_program/sensor/voice/on_mob_add()
-	. = ..()
-	RegisterSignal(host_mob, COMSIG_MOVABLE_HEAR, .proc/on_hear)
-
-/datum/nanite_program/sensor/voice/on_mob_remove()
-	UnregisterSignal(host_mob, COMSIG_MOVABLE_HEAR, .proc/on_hear)
-
 /datum/nanite_program/sensor/voice/set_extra_setting(user, setting)
 	if(setting == "Sent Code")
 		var/new_code = input(user, "Set the sent code (1-9999):", name, null) as null|num
@@ -385,12 +378,15 @@
 	target.sentence = sentence
 	target.inclusive = inclusive
 
-/datum/nanite_program/sensor/voice/proc/on_hear(datum/source, list/hearing_args)
+/datum/nanite_program/sensor/voice/on_hear(message, atom/movable/speaker, message_language, raw_message, radio_freq, list/spans, message_mode)
 	if(!sentence)
 		return
+	//To make it not case sensitive
+	var/low_message = lowertext(raw_message)
+	var/low_sentence = lowertext(sentence)
 	if(inclusive)
-		if(findtextEx(hearing_args[HEARING_RAW_MESSAGE], sentence))
+		if(findtext(low_message, low_sentence))
 			send_code()
 	else
-		if(hearing_args[HEARING_RAW_MESSAGE] == sentence)
+		if(low_message == low_sentence)
 			send_code()

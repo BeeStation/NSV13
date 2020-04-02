@@ -42,7 +42,7 @@
 	var/original_angle = 0		//Angle at firing
 	var/nondirectional_sprite = FALSE //Set TRUE to prevent projectiles from having their sprites rotated based on firing angle
 	var/spread = 0			//amount (in degrees) of projectile spread
-	animate_movement = 0	//Use SLIDE_STEPS in conjunction with legacy
+	animate_movement = NO_STEPS	//Use SLIDE_STEPS in conjunction with legacy
 	var/ricochets = 0
 	var/ricochets_max = 2
 	var/ricochet_chance = 30
@@ -136,7 +136,7 @@
 
 /obj/item/projectile/proc/on_hit(atom/target, blocked = FALSE)
 	if(fired_from)
-		SEND_SIGNAL(fired_from, COMSIG_PROJECTILE_ON_HIT, firer, target, Angle)
+		SEND_SIGNAL(fired_from, COMSIG_PROJECTILE_BEFORE_FIRE, src, original)
 	var/turf/target_loca = get_turf(target)
 
 	var/hitx
@@ -171,6 +171,11 @@
 				splatter_dir = get_dir(starting, target_loca)
 			if(isalien(L))
 				new /obj/effect/temp_visual/dir_setting/bloodsplatter/xenosplatter(target_loca, splatter_dir)
+			var/obj/item/bodypart/B = L.get_bodypart(def_zone)
+			if(B.status == BODYPART_ROBOTIC) // So if you hit a robotic, it sparks instead of bloodspatters
+				do_sparks(2, FALSE, target.loc)
+				if(prob(25))
+					new /obj/effect/decal/cleanable/oil(target_loca)
 			else
 				new /obj/effect/temp_visual/dir_setting/bloodsplatter(target_loca, splatter_dir)
 			if(prob(33))
@@ -190,11 +195,11 @@
 				var/volume = vol_by_damage()
 				playsound(loc, hitsound, volume, 1, -1)
 			L.visible_message("<span class='danger'>[L] is hit by \a [src][organ_hit_text]!</span>", \
-					"<span class='userdanger'>[L] is hit by \a [src][organ_hit_text]!</span>", null, COMBAT_MESSAGE_RANGE)
+					"<span class='userdanger'>You're hit by \a [src][organ_hit_text]!</span>", null, COMBAT_MESSAGE_RANGE)
 		L.on_hit(src)
 
 	var/reagent_note
-	if(reagents && reagents.reagent_list)
+	if(reagents?.reagent_list)
 		reagent_note = " REAGENTS:"
 		for(var/datum/reagent/R in reagents.reagent_list)
 			reagent_note += "[R.name] ([num2text(R.volume)])"
@@ -233,35 +238,31 @@
 			if(hitscan)
 				store_hitscan_collision(pcache)
 			return TRUE
-	if(firer && !ignore_source_check)
+	if(firer && !ignore_source_check)//nsv13 start - multitile objects
 		var/mob/checking = firer
 		if(istype(A, /obj/structure/overmap))
 			var/obj/structure/overmap/ship_target = A
 			if(checking.overmap_ship)
 				if(checking.overmap_ship.faction == ship_target.faction)
 					trajectory_ignore_forcemove = TRUE
-					//nsv13 start - multitile objects
 					var/turf/TT = trajectory.return_turf()
 					if(!istype(TT))
 						qdel(src)
 						return
 					if(TT != loc)
 						forceMove(get_step_towards(src, TT))
-					//nsv13 end
 					trajectory_ignore_forcemove = FALSE
 					return FALSE
 		if((A == firer) || (((A in firer.buckled_mobs) || (istype(checking) && (A == checking.buckled))) && (A != original)) || (A == firer.loc && (ismecha(A) || istype(A, /obj/structure/overmap)))) //cannot shoot yourself or your mech //nsv13 - or your ship
 			trajectory_ignore_forcemove = TRUE
-			//nsv13 start - multitile objects
 			var/turf/TT = trajectory.return_turf()
 			if(!istype(TT))
 				qdel(src)
 				return
 			if(TT != loc)
 				forceMove(get_step_towards(src, TT))
-			//nsv13 end
 			trajectory_ignore_forcemove = FALSE
-			return FALSE
+			return FALSE			//nsv13 end
 	var/distance = get_dist(T, starting) // Get the distance between the turf shot from and the mob we hit and use that for the calculations.
 	def_zone = ran_zone(def_zone, max(100-(7*distance), 5)) //Lower accurancy/longer range tradeoff. 7 is a balanced number to use.
 

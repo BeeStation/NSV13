@@ -5,6 +5,7 @@
 	reagent_state = SOLID
 	color = "#550000"
 	taste_description = "sweet tasting metal"
+	process_flags = ORGANIC | SYNTHETIC
 
 /datum/reagent/thermite/reaction_turf(turf/T, reac_volume)
 	if(reac_volume >= 1)
@@ -27,6 +28,7 @@
 	reagent_state = LIQUID
 	color = "#FFFF00"
 	taste_description = "metal"
+	random_unrestricted = FALSE
 
 /datum/reagent/clf3
 	name = "Chlorine Trifluoride"
@@ -35,6 +37,7 @@
 	color = "#FFC8C8"
 	metabolization_rate = 4
 	taste_description = "burning"
+	process_flags = ORGANIC | SYNTHETIC
 
 /datum/reagent/clf3/on_mob_life(mob/living/carbon/M)
 	M.adjust_fire_stacks(2)
@@ -133,6 +136,7 @@
 	color = "#FA00AF"
 	taste_description = "burning"
 	self_consuming = TRUE
+	process_flags = ORGANIC | SYNTHETIC
 
 /datum/reagent/phlogiston/reaction_mob(mob/living/M, method=TOUCH, reac_volume)
 	M.adjust_fire_stacks(1)
@@ -155,6 +159,7 @@
 	color = "#FA00AF"
 	taste_description = "burning"
 	self_consuming = TRUE
+	process_flags = ORGANIC | SYNTHETIC
 
 /datum/reagent/napalm/on_mob_life(mob/living/carbon/M)
 	M.adjust_fire_stacks(1)
@@ -172,6 +177,8 @@
 	metabolization_rate = 0.5 * REAGENTS_METABOLISM
 	taste_description = "bitterness"
 	self_consuming = TRUE
+	process_flags = ORGANIC | SYNTHETIC
+	random_unrestricted = FALSE
 
 
 /datum/reagent/cryostylane/on_mob_life(mob/living/carbon/M) //TODO: code freezing into an ice cube
@@ -192,6 +199,8 @@
 	metabolization_rate = 0.5 * REAGENTS_METABOLISM
 	taste_description = "bitterness"
 	self_consuming = TRUE
+	process_flags = ORGANIC | SYNTHETIC
+	random_unrestricted = FALSE
 
 /datum/reagent/pyrosium/on_mob_life(mob/living/carbon/M)
 	if(M.reagents.has_reagent(/datum/reagent/oxygen))
@@ -208,6 +217,7 @@
 	taste_description = "charged metal"
 	self_consuming = TRUE
 	var/shock_timer = 0
+	process_flags = ORGANIC | SYNTHETIC
 
 /datum/reagent/teslium/on_mob_life(mob/living/carbon/M)
 	shock_timer++
@@ -216,18 +226,6 @@
 		M.electrocute_act(rand(5,20), "Teslium in their body", 1, 1) //Override because it's caused from INSIDE of you
 		playsound(M, "sparks", 50, 1)
 	..()
-
-/datum/reagent/teslium/on_mob_metabolize(mob/living/carbon/human/L)
-	. = ..()
-	if(!istype(L))
-		return
-	L.physiology.siemens_coeff *= 2
-
-/datum/reagent/teslium/on_mob_end_metabolize(mob/living/carbon/human/L)
-	. = ..()
-	if(!istype(L))
-		return
-	L.physiology.siemens_coeff *= 0.5
 
 /datum/reagent/teslium/energized_jelly
 	name = "Energized Jelly"

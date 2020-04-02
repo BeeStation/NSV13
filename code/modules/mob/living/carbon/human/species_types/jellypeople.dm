@@ -227,6 +227,13 @@
 	spare.domutcheck()
 	spare.Move(get_step(H.loc, pick(NORTH,SOUTH,EAST,WEST)))
 
+	var/datum/component/nanites/owner_nanites = H.GetComponent(/datum/component/nanites)
+	if(owner_nanites)
+		//copying over nanite programs/cloud sync with 50% saturation in host and spare
+		owner_nanites.nanite_volume *= 0.5
+		spare.AddComponent(/datum/component/nanites, owner_nanites.nanite_volume)
+		SEND_SIGNAL(spare, COMSIG_NANITE_SYNC, owner_nanites, TRUE, TRUE) //The trues are to copy activation as well
+
 	H.blood_volume *= 0.45
 	H.notransform = 0
 
@@ -476,7 +483,7 @@
 
 /datum/action/innate/integrate_extract/ApplyIcon(obj/screen/movable/action_button/current_button, force)
 	..(current_button, TRUE)
-	if(species && species.current_extract)
+	if(species?.current_extract)
 		current_button.add_overlay(mutable_appearance(species.current_extract.icon, species.current_extract.icon_state))
 
 /datum/action/innate/integrate_extract/Activate()
@@ -592,8 +599,6 @@
 		return FALSE
 	if(HAS_TRAIT(M, TRAIT_MINDSHIELD)) //mindshield implant, no dice
 		return FALSE
-	if(M.anti_magic_check(FALSE, FALSE, TRUE, 0))
-		return FALSE
 	if(M in linked_mobs)
 		return FALSE
 	linked_mobs.Add(M)
@@ -679,14 +684,9 @@
 	var/mob/living/M = input("Select who to send your message to:","Send thought to?",null) as null|mob in options
 	if(!M)
 		return
-	if(M.anti_magic_check(FALSE, FALSE, TRUE, 0))
-		to_chat(H, "<span class='notice'>As you try to communicate with [M], you're suddenly stopped by a vision of a massive tinfoil wall that streches beyond visible range. It seems you've been foiled.</span>")
-		return
+
 	var/msg = sanitize(input("Message:", "Telepathy") as text|null)
 	if(msg)
-		if(M.anti_magic_check(FALSE, FALSE, TRUE, 0))
-			to_chat(H, "<span class='notice'>As you try to communicate with [M], you're suddenly stopped by a vision of a massive tinfoil wall that streches beyond visible range. It seems you've been foiled.</span>")
-			return
 		log_directed_talk(H, M, msg, LOG_SAY, "slime telepathy")
 		to_chat(M, "<span class='notice'>You hear an alien voice in your head... </span><font color=#008CA2>[msg]</font>")
 		to_chat(H, "<span class='notice'>You telepathically said: \"[msg]\" to [M]</span>")

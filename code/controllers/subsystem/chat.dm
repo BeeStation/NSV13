@@ -1,6 +1,6 @@
 SUBSYSTEM_DEF(chat)
 	name = "Chat"
-	flags = SS_TICKER|SS_NO_INIT
+	flags = SS_TICKER
 	wait = 1
 	priority = FIRE_PRIORITY_CHAT
 	init_order = INIT_ORDER_CHAT
@@ -34,7 +34,7 @@ SUBSYSTEM_DEF(chat)
 	message = replacetext(message, "\proper", "")
 	if(handle_whitespace)
 		message = replacetext(message, "\n", "<br>")
-		message = replacetext(message, "\t", "[FOURSPACES][FOURSPACES]")
+		message = replacetext(message, "\t", "[GLOB.TAB][GLOB.TAB]")
 	message += "<br>"
 
 
@@ -45,7 +45,7 @@ SUBSYSTEM_DEF(chat)
 	if(islist(target))
 		for(var/I in target)
 			var/client/C = CLIENT_FROM_VAR(I) //Grab us a client if possible
-
+			
 			if(!C?.chatOutput || C.chatOutput.broken) //A player who hasn't updated his skin file.
 				continue
 

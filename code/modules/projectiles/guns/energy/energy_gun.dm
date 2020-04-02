@@ -9,6 +9,7 @@
 	ammo_x_offset = 3
 	flight_x_offset = 15
 	flight_y_offset = 10
+	dual_wield_spread = 60
 
 /obj/item/gun/energy/e_gun/mini
 	name = "miniature energy gun"
@@ -27,7 +28,7 @@
 
 /obj/item/gun/energy/e_gun/mini/update_icon()
 	..()
-	if(gun_light && gun_light.on)
+	if(gun_light?.on)
 		add_overlay("mini-light")
 
 /obj/item/gun/energy/e_gun/stun
@@ -56,7 +57,7 @@
 	cell_type = /obj/item/stock_parts/cell{charge = 1200; maxcharge = 1200}
 	icon_state = "hoslaser"
 	force = 10
-	ammo_type = list(/obj/item/ammo_casing/energy/disabler/hos, /obj/item/ammo_casing/energy/laser/hos, /obj/item/ammo_casing/energy/ion/hos)
+	ammo_type = list(/obj/item/ammo_casing/energy/electrode/hos, /obj/item/ammo_casing/energy/laser/hos, /obj/item/ammo_casing/energy/disabler/hos)
 	ammo_x_offset = 4
 	resistance_flags = INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | ACID_PROOF
 

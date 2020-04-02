@@ -472,7 +472,7 @@ GLOBAL_LIST_EMPTY(parasites) //all currently existing/living guardians
 	var/used_message = "<span class='holoparasite'>All the cards seem to be blank now.</span>"
 	var/failure_message = "<span class='holoparasite bold'>..And draw a card! It's...blank? Maybe you should try again later.</span>"
 	var/ling_failure = "<span class='holoparasite bold'>The deck refuses to respond to a souless creature such as you.</span>"
-	var/list/possible_guardians = list("Assassin", "Chaos", "Charger", "Explosive", "Lightning", "Protector", "Ranged", "Standard", "Support", "Gravitokinetic")
+	var/list/possible_guardians = list("Assassin", "Chaos", "Charger", "Explosive", "Lightning", "Protector", "Ranged", "Standard", "Support", "Gravity")
 	var/random = TRUE
 	var/allowmultiple = FALSE
 	var/allowling = TRUE
@@ -546,9 +546,12 @@ GLOBAL_LIST_EMPTY(parasites) //all currently existing/living guardians
 
 		if("Dextrous")
 			pickedtype = /mob/living/simple_animal/hostile/guardian/dextrous
-
-		if("Gravitokinetic")
-			pickedtype = /mob/living/simple_animal/hostile/guardian/gravitokinetic
+			
+		if("Gravity")
+			pickedtype = /mob/living/simple_animal/hostile/guardian/gravity
+			
+		if("Toy")
+			pickedtype = /mob/living/simple_animal/hostile/guardian/toy
 
 	var/list/guardians = user.hasparasites()
 	if(guardians.len && !allowmultiple)
@@ -576,12 +579,19 @@ GLOBAL_LIST_EMPTY(parasites) //all currently existing/living guardians
 
 /obj/item/guardiancreator/choose
 	random = FALSE
+	
+/obj/item/guardiancreator/toy
+	name = "funny tarot card"
+	desc = "An enchanted deck tarot card. This one looks like it was printed as a joke."
+	icon_state = "deck_clown_empty"
+	possible_guardians = list("Toy")
+	custom_premium_price = 10000
 
 /obj/item/guardiancreator/choose/dextrous
-	possible_guardians = list("Assassin", "Chaos", "Charger", "Dextrous", "Explosive", "Lightning", "Protector", "Ranged", "Standard", "Support", "Gravitokinetic")
+	possible_guardians = list("Assassin", "Chaos", "Charger", "Dextrous", "Explosive", "Lightning", "Protector", "Ranged", "Standard", "Support", "Gravity")
 
 /obj/item/guardiancreator/choose/wizard
-	possible_guardians = list("Assassin", "Chaos", "Charger", "Dextrous", "Explosive", "Lightning", "Protector", "Ranged", "Standard", "Gravitokinetic")
+	possible_guardians = list("Assassin", "Chaos", "Charger", "Dextrous", "Explosive", "Lightning", "Protector", "Ranged", "Standard", "Gravity")
 	allowmultiple = TRUE
 
 /obj/item/guardiancreator/tech
@@ -597,13 +607,19 @@ GLOBAL_LIST_EMPTY(parasites) //all currently existing/living guardians
 	ling_failure = "<span class='holoparasite bold'>The holoparasites recoil in horror. They want nothing to do with a creature like you.</span>"
 
 /obj/item/guardiancreator/tech/choose/traitor
-	possible_guardians = list("Assassin", "Chaos", "Charger", "Explosive", "Lightning", "Protector", "Ranged", "Standard", "Support", "Gravitokinetic")
+	possible_guardians = list("Assassin", "Chaos", "Charger", "Explosive", "Lightning", "Protector", "Ranged", "Standard", "Support", "Gravity")
 
 /obj/item/guardiancreator/tech/choose
 	random = FALSE
 
 /obj/item/guardiancreator/tech/choose/dextrous
-	possible_guardians = list("Assassin", "Chaos", "Charger", "Dextrous", "Explosive", "Lightning", "Protector", "Ranged", "Standard", "Support", "Gravitokinetic")
+	possible_guardians = list("Assassin", "Chaos", "Charger", "Dextrous", "Explosive", "Lightning", "Protector", "Ranged", "Standard", "Support", "Gravity")
+
+/obj/item/guardiancreator/tech/toy
+	name = "plastic holoparasite injector"
+	desc = "a cheap replica of a real holoparasite injector."
+	icon_state = "clown_hypo"
+	possible_guardians = list("Toy")
 
 /obj/item/paper/guides/antag/guardian
 	name = "Holoparasite Guide"
@@ -626,8 +642,6 @@ GLOBAL_LIST_EMPTY(parasites) //all currently existing/living guardians
  <b>Ranged</b>: Has two modes. Ranged; which fires a constant stream of weak, armor-ignoring projectiles. Scout; Cannot attack, but can move through walls and is quite hard to see. Can lay surveillance snares, which alert it when crossed, in either mode.<br>
  <br>
  <b>Standard</b>: Devastating close combat attacks and high damage resist. Can smash through weak walls.<br>
- <br>
- <b>Gravitokinetic</b>: Attacks will apply crushing gravity to the target. Can target the ground as well to slow targets advancing on you, but this will affect the user.<br>
  <br>
 "}
 
@@ -657,8 +671,6 @@ GLOBAL_LIST_EMPTY(parasites) //all currently existing/living guardians
  <br>
  <b>Standard</b>: Devastating close combat attacks and high damage resist. Can smash through weak walls.<br>
  <br>
- <b>Gravitokinetic</b>: Attacks will apply crushing gravity to the target. Can target the ground as well to slow targets advancing on you, but this will affect the user.<br>
- <br>
 "}
 
 
@@ -686,3 +698,14 @@ GLOBAL_LIST_EMPTY(parasites) //all currently existing/living guardians
 
 /obj/item/guardiancreator/carp/choose
 	random = FALSE
+
+/obj/item/guardiancreator/carp/toy
+	possible_guardians = list("Toy")
+
+/obj/item/storage/box/syndie_kit/carpian
+	name = "Holocarp fishstick kit"
+	
+/obj/item/storage/box/syndie_kit/carpian/PopulateContents()
+	new /obj/item/guardiancreator/carp/choose(src)
+	new /obj/item/paper/guides/antag/guardian(src)
+

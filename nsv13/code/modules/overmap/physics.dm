@@ -3,9 +3,25 @@
 // I had no part in writing this movement engine, that's his work      //
 /////////////////////////////////////////////////////////////////////////
 
+/obj/vector_overlay
+	name = "Vector overlay for overmap ships"
+	desc = "Report this to a coder"
+	icon = 'nsv13/icons/overmap/thrust_vector.dmi'
+	icon_state = "thrust_low"
+	mouse_opacity = FALSE
+	alpha = 0
+	layer = HIGH_OBJ_LAYER
+
+/obj/structure/overmap
+	var/last_process = 0
+	var/obj/vector_overlay/vector_overlay
+
+/obj/structure/overmap/proc/can_move()
+	return TRUE //Placeholder for everything but fighters. We can later extend this if / when we want to code in ship engines.
 
 /obj/structure/overmap/process(time)
 	time /= 10 // fuck off with your deciseconds
+	last_process = world.time
 
 	if(world.time > last_slowprocess + 10)
 		last_slowprocess = world.time
@@ -80,8 +96,6 @@
 	last_thrust_forward = 0
 	last_thrust_right = 0
 	if(brakes) //If our brakes are engaged, attempt to slow them down
-		if(user_thrust_dir)
-			to_chat(pilot, "<span class='warning'>Inertial dampeners are online.</span>")
 		// basically calculates how much we can brake using the thrust
 		var/forward_thrust = -((fx * velocity_x) + (fy * velocity_y)) / time
 		var/right_thrust = -((sx * velocity_x) + (sy * velocity_y)) / time
@@ -92,31 +106,38 @@
 		last_thrust_forward = forward_thrust
 		last_thrust_right = right_thrust
 	else // Add our thrust to the movement vector
-		if(user_thrust_dir & NORTH)
-			thrust_x += fx * forward_maxthrust
-			thrust_y += fy * forward_maxthrust
-			last_thrust_forward = forward_maxthrust
-		if(user_thrust_dir & SOUTH)
-			thrust_x -= fx * backward_maxthrust
-			thrust_y -= fy * backward_maxthrust
-			last_thrust_forward = -backward_maxthrust
-		if(user_thrust_dir & EAST)
-			thrust_x += sx * side_maxthrust
-			thrust_y += sy * side_maxthrust
-			last_thrust_right = side_maxthrust
-		if(user_thrust_dir & WEST)
-			thrust_x -= sx * side_maxthrust
-			thrust_y -= sy * side_maxthrust
-			last_thrust_right = -side_maxthrust
-
-	var/speedlimit = 5 //Stops you yeeting off at lightspeed. This made AI ships really frustrating to play against.
-	if(velocity_x > speedlimit)
-		velocity_x = speedlimit
-	if(velocity_y > speedlimit)
-		velocity_y = speedlimit
+		if(can_move())
+			if(user_thrust_dir & NORTH)
+				thrust_x += fx * forward_maxthrust
+				thrust_y += fy * forward_maxthrust
+				last_thrust_forward = forward_maxthrust
+			if(user_thrust_dir & SOUTH)
+				thrust_x -= fx * backward_maxthrust
+				thrust_y -= fy * backward_maxthrust
+				last_thrust_forward = -backward_maxthrust
+			if(user_thrust_dir & EAST)
+				thrust_x += sx * side_maxthrust
+				thrust_y += sy * side_maxthrust
+				last_thrust_right = side_maxthrust
+			if(user_thrust_dir & WEST)
+				thrust_x -= sx * side_maxthrust
+				thrust_y -= sy * side_maxthrust
+				last_thrust_right = -side_maxthrust
+	 //Stops you yeeting off at lightspeed. This made AI ships really frustrating to play against.
+	if(velocity_x > speed_limit)
+		velocity_x = speed_limit
+	if(velocity_y > speed_limit)
+		velocity_y = speed_limit
+	if(velocity_x < -speed_limit)
+		velocity_x = -speed_limit
+	if(velocity_y < -speed_limit)
+		velocity_y = -speed_limit
 	velocity_x += thrust_x * time //And speed us up based on how long we've been thrusting (up to a point)
 	velocity_y += thrust_y * time
-
+	if(pilot?.client?.keys_held["Q"] && can_move()) //While theyre pressing E || Q, turn.
+		desired_angle -= 15 //Otherwise it feels sluggish as all hell
+	if(pilot?.client?.keys_held["E"] && can_move())
+		desired_angle += 15
 	offset_x += velocity_x * time
 	offset_y += velocity_y * time
 	// alright so now we reconcile the offsets with the in-world position.
@@ -201,17 +222,32 @@
 	mat_from.Turn(last_angle)
 	var/matrix/mat_to = new()
 	mat_to.Turn(angle)
+	var/matrix/targetAngle = new() //Indicate where the ship wants to go.
+	targetAngle.Turn(desired_angle)
+	if(resize > 0)
+		for(var/i = 0, i < resize, i++) //We have to resize by 0.5 to shrink. So shrink down by a factor of "resize"
+			mat_from.Scale(0.5,0.5)
+			mat_to.Scale(0.5,0.5)
+			targetAngle.Scale(0.5,0.5) //Scale down their movement indicator too so it doesnt look comically big
+	if(pilot?.client && desired_angle && !move_by_mouse)//Preconditions: Pilot is logged in and exists, there is a desired angle, we are NOT moving by mouse (dont need to see where we're steering if it follows mousemovement)
+		vector_overlay.transform = targetAngle
+		vector_overlay.alpha = 255
+	else
+		vector_overlay.alpha = 0
+		targetAngle = null
 	transform = mat_from
 	pixel_x = last_offset_x*32
 	pixel_y = last_offset_y*32
 	animate(src, transform=mat_to, pixel_x = offset_x*32, pixel_y = offset_y*32, time = time*10, flags=ANIMATION_END_NOW)
 	if(last_target)
-		var/target_railgun_angle = Get_Angle(src,last_target)
+		var/target_angle = Get_Angle(src,last_target)
 		var/matrix/final = matrix()
-		final.Turn(target_railgun_angle)
-		railgun_overlay.transform = final
-	else
-		railgun_overlay.transform = mat_to
+		final.Turn(target_angle)
+		if(last_fired)
+			last_fired.transform = final
+	else if(last_fired)
+		last_fired.transform = mat_to
+
 	for(var/mob/living/M in operators)
 		var/client/C = M.client
 		if(!C)
@@ -223,6 +259,12 @@
 	update_icon()
 
 /obj/structure/overmap/Bumped(atom/movable/A)
+	if(istype(A, /obj/structure/overmap/fighter))
+		var/obj/structure/overmap/fighter/F = A
+		F.docking_act(src)
+		return FALSE
+	if(brakes || ismob(A)) //No :)
+		return FALSE
 	if(A.dir & NORTH)
 		velocity_y += bump_impulse
 	if(A.dir & SOUTH)
@@ -250,18 +292,20 @@
 	var/atom/movable/AM = A
 	if(istype(AM) && !AM.anchored && bump_velocity > 1)
 		step(AM, dir)
+	if(layer < A.layer) //Allows ships to "Layer under" things and not hit them. Especially useful for fighters.
+		return ..()
 	// if a bump is that fast then it's not a bump. It's a collision.
-	if(bump_velocity > 10 && !ismob(A))
-		var/strength = bump_velocity / 10
+	if(bump_velocity >= 5 && !ismob(A))
+		var/strength = bump_velocity / 7.5
 		strength = strength * strength
 		strength = min(strength, 5) // don't want the explosions *too* big
 		// wew lad, might wanna slow down there
 		explosion(A, -1, round((strength - 1) / 2), round(strength))
-		message_admins("[key_name_admin(pilot)] has impacted a spacepod into [A] with velocity [bump_velocity]")
+		message_admins("[key_name_admin(pilot)] has impacted an overmap ship into [A] with velocity [bump_velocity]")
 		take_damage(strength*10, BRUTE, "melee", TRUE)
 		log_game("[key_name(pilot)] has impacted a spacepod into [A] with velocity [bump_velocity]")
 		visible_message("<span class='danger'>The force of the impact causes a shockwave</span>")
-	else if(isliving(A) && bump_velocity > 5)
+	else if(isliving(A) && bump_velocity > 2)
 		var/mob/living/M = A
 		M.apply_damage(bump_velocity * 2)
 		take_damage(bump_velocity, BRUTE, "melee", FALSE)

@@ -6,12 +6,12 @@
 
 /datum/surgery_step/replace
 	name = "sever muscles"
-	implements = list(/obj/item/scalpel = 100, TOOL_WIRECUTTER = 55)
+	implements = list(TOOL_SCALPEL = 100, TOOL_WIRECUTTER = 55)
 	time = 32
 
 
 /datum/surgery_step/replace/preop(mob/user, mob/living/carbon/target, target_zone, obj/item/tool, datum/surgery/surgery)
-	display_results(user, target, "<span class='notice'>You begin to sever the muscles on [target]'s [parse_zone(user.zone_selected)]...</span>",
+	display_results(user, target, "<span class ='notice'>You begin to sever the muscles on [target]'s [parse_zone(user.zone_selected)]...</span>",
 		"[user] begins to sever the muscles on [target]'s [parse_zone(user.zone_selected)].",
 		"[user] begins an incision on [target]'s [parse_zone(user.zone_selected)].")
 
@@ -34,17 +34,17 @@
 		return -1
 	L = surgery.operated_bodypart
 	if(L)
-		display_results(user, target, "<span class='notice'>You begin to augment [target]'s [parse_zone(user.zone_selected)]...</span>",
+		display_results(user, target, "<span class ='notice'>You begin to augment [target]'s [parse_zone(user.zone_selected)]...</span>",
 			"[user] begins to augment [target]'s [parse_zone(user.zone_selected)] with [aug].",
 			"[user] begins to augment [target]'s [parse_zone(user.zone_selected)].")
 	else
-		user.visible_message("[user] looks for [target]'s [parse_zone(user.zone_selected)].", "<span class='notice'>You look for [target]'s [parse_zone(user.zone_selected)]...</span>")
+		user.visible_message("[user] looks for [target]'s [parse_zone(user.zone_selected)].", "<span class ='notice'>You look for [target]'s [parse_zone(user.zone_selected)]...</span>")
 
 
 //ACTUAL SURGERIES
 
 /datum/surgery/augmentation
-	name = "Augmentation"
+	name = "augmentation"
 	steps = list(/datum/surgery_step/incise, /datum/surgery_step/clamp_bleeders, /datum/surgery_step/retract_skin, /datum/surgery_step/replace, /datum/surgery_step/saw, /datum/surgery_step/replace_limb)
 	target_mobtypes = list(/mob/living/carbon/human)
 	possible_locs = list(BODY_ZONE_R_ARM,BODY_ZONE_L_ARM,BODY_ZONE_R_LEG,BODY_ZONE_L_LEG,BODY_ZONE_CHEST,BODY_ZONE_HEAD)

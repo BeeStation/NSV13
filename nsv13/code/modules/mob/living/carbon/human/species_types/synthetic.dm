@@ -23,7 +23,7 @@ Synths follow the AIs laws, this means you can hack the captain if you play your
 	damage_overlay_type = "synth"
 	species_traits = list(AGENDER, NO_UNDERWEAR)
 	changesource_flags = MIRROR_BADMIN | WABBAJACK | MIRROR_PRIDE | MIRROR_MAGIC | RACE_SWAP | ERT_SPAWN | SLIME_EXTRACT
-	inherent_traits = list(TRAIT_BINARY_SPEAKER,TRAIT_VIRUSIMMUNE,TRAIT_NODIGEST,TRAIT_NOMETABOLISM,TRAIT_TOXIMMUNE,TRAIT_NOBREATH,TRAIT_RESISTCOLD,TRAIT_RESISTHIGHPRESSURE,TRAIT_RESISTLOWPRESSURE,TRAIT_LIMBATTACHMENT)//Can still simulate eating, but wont get fed off it
+	inherent_traits = list(TRAIT_BINARY_SPEAKER,TRAIT_VIRUSIMMUNE,TRAIT_NODIGEST,NOZOMBIE,TRAIT_NOBREATH,TRAIT_RESISTCOLD,TRAIT_RESISTHIGHPRESSURE,TRAIT_RESISTLOWPRESSURE,TRAIT_LIMBATTACHMENT,TRAIT_RADIMMUNE)//Can still simulate eating, but wont get fed off it
 	inherent_biotypes = list(MOB_ROBOTIC, MOB_HUMANOID)
 	toxic_food = NONE
 	limbs_id = "synthetic"

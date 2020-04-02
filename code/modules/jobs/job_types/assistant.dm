@@ -12,7 +12,7 @@ Assistant
 	selection_color = "#dddddd"
 	access = list()			//See /datum/job/assistant/get_access()
 	minimal_access = list()	//See /datum/job/assistant/get_access()
-	outfit = /datum/outfit/job/assistant
+	outfit = /datum/outfit/job/assistant_ship //Nsv13 - Assistant resprite
 	antag_rep = 7
 	paycheck = PAYCHECK_ASSISTANT // Get a job. Job reassignment changes your paycheck now. Get over it.
 	paycheck_department = ACCOUNT_CIV
@@ -32,12 +32,6 @@ Assistant
 /datum/outfit/job/assistant/pre_equip(mob/living/carbon/human/H)
 	..()
 	if (CONFIG_GET(flag/grey_assistants))
-		if(H.jumpsuit_style == PREF_SUIT)
-			uniform = /obj/item/clothing/under/color/grey
-		else
-			uniform = /obj/item/clothing/under/skirt/color/grey
+		uniform = /obj/item/clothing/under/color/grey
 	else
-		if(H.jumpsuit_style == PREF_SUIT)
-			uniform = /obj/item/clothing/under/color/random
-		else
-			uniform = /obj/item/clothing/under/skirt/color/random
+		uniform = /obj/item/clothing/under/color/random

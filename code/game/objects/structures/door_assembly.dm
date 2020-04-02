@@ -17,7 +17,7 @@
 	var/heat_proof_finished = 0 //whether to heat-proof the finished airlock
 	var/previous_assembly = /obj/structure/door_assembly
 	var/noglass = FALSE //airlocks with no glass version, also cannot be modified with sheets
-	var/material_type = /obj/item/stack/sheet/metal
+	var/material_type = /obj/item/stack/sheet/iron
 	var/material_amt = 4
 
 /obj/structure/door_assembly/Initialize()
@@ -312,3 +312,17 @@
 			var/obj/item/stack/sheet/mineral/mineral_path = text2path("/obj/item/stack/sheet/mineral/[mineral]")
 			new mineral_path(T, 2)
 	qdel(src)
+
+
+/obj/structure/door_assembly/rcd_vals(mob/user, obj/item/construction/rcd/the_rcd)
+	if(the_rcd.mode == RCD_DECONSTRUCT)
+		return list("mode" = RCD_DECONSTRUCT, "delay" = 50, "cost" = 16)
+	return FALSE
+
+/obj/structure/door_assembly/rcd_act(mob/user, obj/item/construction/rcd/the_rcd, passed_mode)
+	switch(passed_mode)
+		if(RCD_DECONSTRUCT)
+			to_chat(user, "<span class='notice'>You deconstruct [src].</span>")
+			qdel(src)
+			return TRUE
+	return FALSE

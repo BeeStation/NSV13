@@ -60,7 +60,7 @@
 		else
 			if(isliving(target))
 				var/mob/living/L = target
-				if(!L.anti_magic_check(chargecost = 0))
+				if(!L.anti_magic_check(major = FALSE))
 					if(isrevenant(L))
 						var/mob/living/simple_animal/revenant/R = L
 						if(R.revealed)
@@ -120,7 +120,7 @@
 				continue
 		if(ishostile(L))
 			var/mob/living/simple_animal/hostile/H = L
-			if(("ratvar" in H.faction) || (!H.mind && "neutral" in H.faction))
+			if(("ratvar" in H.faction) || (!H.mind && ("neutral" in H.faction)))
 				continue
 			if(ismegafauna(H) || (!H.mind && H.AIStatus == AI_OFF))
 				continue

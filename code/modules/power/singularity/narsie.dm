@@ -37,6 +37,7 @@
 		var/mutable_appearance/alert_overlay = mutable_appearance('icons/effects/cult_effects.dmi', "ghostalertsie")
 		notify_ghosts("Nar'Sie has risen in \the [A.name]. Reach out to the Geometer to be given a new shell for your soul.", source = src, alert_overlay = alert_overlay, action=NOTIFY_ATTACK)
 	INVOKE_ASYNC(src, .proc/narsie_spawn_animation)
+	UnregisterSignal(src, COMSIG_ATOM_BSA_BEAM) //set up in /singularity/Initialize()
 
 /obj/singularity/narsie/large/cult  // For the new cult ending, guaranteed to end the round within 3 minutes
 	var/list/souls_needed = list()
@@ -188,9 +189,9 @@
 	to_chat(target, "<span class='cultsmall'>NAR'SIE HAS LOST INTEREST IN YOU.</span>")
 	target = food
 	if(ishuman(target))
-		to_chat(target, "<span class='cult'>NAR'SIE HUNGERS FOR YOUR SOUL.</span>")
+		to_chat(target, "<span class ='cult'>NAR'SIE HUNGERS FOR YOUR SOUL.</span>")
 	else
-		to_chat(target, "<span class='cult'>NAR'SIE HAS CHOSEN YOU TO LEAD HER TO HER NEXT MEAL.</span>")
+		to_chat(target, "<span class ='cult'>NAR'SIE HAS CHOSEN YOU TO LEAD HER TO HER NEXT MEAL.</span>")
 
 //Wizard narsie
 /obj/singularity/narsie/wizard

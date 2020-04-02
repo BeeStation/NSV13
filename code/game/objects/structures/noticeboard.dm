@@ -86,7 +86,7 @@
 
 /obj/structure/noticeboard/deconstruct(disassembled = TRUE)
 	if(!(flags_1 & NODECONSTRUCT_1))
-		new /obj/item/stack/sheet/metal (loc, 1)
+		new /obj/item/stack/sheet/iron (loc, 1)
 	qdel(src)
 
 // Notice boards for the heads of staff (plus the qm)
@@ -97,8 +97,8 @@
 	req_access = list(ACCESS_CAPTAIN)
 
 /obj/structure/noticeboard/hop
-	name = "Executive Officer's Notice Board"
-	desc = "Important notices from the Executive Officer."
+	name = "Head of Personnel's Notice Board"
+	desc = "Important notices from the Head of Personnel."
 	req_access = list(ACCESS_HOP)
 
 /obj/structure/noticeboard/ce

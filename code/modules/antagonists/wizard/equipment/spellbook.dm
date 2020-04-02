@@ -34,7 +34,7 @@
 	for(var/obj/effect/proc_holder/spell/aspell in user.mind.spell_list)
 		if(initial(S.name) == initial(aspell.name)) // Not using directly in case it was learned from one spellbook then upgraded in another
 			if(aspell.spell_level >= aspell.level_max)
-				to_chat(user,  "<span class='warning'>This spell cannot be improved further!</span>")
+				to_chat(user,  "<span class='warning'>This spell cannot be improved further.</span>")
 				return FALSE
 			else
 				aspell.name = initial(aspell.name)
@@ -56,7 +56,7 @@
 						to_chat(user, "<span class='notice'>You have further improved [aspell.name] into Instant [aspell.name].</span>")
 						aspell.name = "Instant [aspell.name]"
 				if(aspell.spell_level >= aspell.level_max)
-					to_chat(user, "<span class='warning'>This spell cannot be strengthened any further!</span>")
+					to_chat(user, "<span class='notice'>This spell cannot be strengthened any further.</span>")
 				SSblackbox.record_feedback("nested tally", "wizard_spell_improved", 1, list("[name]", "[aspell.spell_level]"))
 				return TRUE
 	//No same spell found - just learn it
@@ -78,7 +78,7 @@
 /datum/spellbook_entry/proc/Refund(mob/living/carbon/human/user,obj/item/spellbook/book) //return point value or -1 for failure
 	var/area/wizard_station/A = GLOB.areas_by_type[/area/wizard_station]
 	if(!(user in A.contents))
-		to_chat(user, "<span class='warning'>You can only refund spells at the wizard lair!</span>")
+		to_chat(user, "<span class='warning'>You can only refund spells at the wizard lair</span>")
 		return -1
 	if(!S)
 		S = new spell_type()
@@ -109,6 +109,7 @@
 /datum/spellbook_entry/spell_cards
 	name = "Spell Cards"
 	spell_type = /obj/effect/proc_holder/spell/aimed/spell_cards
+	cost = 1
 
 /datum/spellbook_entry/rod_form
 	name = "Rod Form"
@@ -205,6 +206,7 @@
 	name = "Bind Soul"
 	spell_type = /obj/effect/proc_holder/spell/targeted/lichdom
 	category = "Defensive"
+	cost = 3
 
 /datum/spellbook_entry/teslablast
 	name = "Tesla Blast"
@@ -213,7 +215,6 @@
 /datum/spellbook_entry/lightningbolt
 	name = "Lightning Bolt"
 	spell_type = /obj/effect/proc_holder/spell/aimed/lightningbolt
-	cost = 3
 
 /datum/spellbook_entry/lightningbolt/Buy(mob/living/carbon/human/user,obj/item/spellbook/book) //return TRUE on success
 	. = ..()
@@ -228,7 +229,6 @@
 /datum/spellbook_entry/arcane_barrage
 	name = "Arcane Barrage"
 	spell_type = /obj/effect/proc_holder/spell/targeted/infinite_guns/arcane_barrage
-	cost = 3
 	no_coexistance_typecache = /obj/effect/proc_holder/spell/targeted/infinite_guns/gun
 
 /datum/spellbook_entry/barnyard
@@ -251,7 +251,7 @@
 	name = "Soul Tap"
 	spell_type = /obj/effect/proc_holder/spell/self/tap
 	category = "Assistance"
-	cost = 3
+	cost = 1
 
 /datum/spellbook_entry/spacetime_dist
 	name = "Spacetime Distortion"
@@ -369,6 +369,8 @@
 	if(.)
 		new /obj/item/clothing/shoes/sandal/magic(get_turf(user)) //In case they've lost them.
 		new /obj/item/clothing/gloves/color/purple(get_turf(user))//To complete the outfit
+		new /obj/item/clothing/mask/breath(get_turf(user)) // so the air gets to your mouth. Just an average mask.
+		new /obj/item/tank/internals/emergency_oxygen/magic_oxygen(get_turf(user)) // so you have something to actually breathe. Near infinite.
 
 /datum/spellbook_entry/item/contract
 	name = "Contract of Apprenticeship"
@@ -599,23 +601,17 @@
 			to_chat(user, "<span class='warning'>The contract has been used, you can't get your points back now!</span>")
 		else
 			to_chat(user, "<span class='notice'>You feed the contract back into the spellbook, refunding your points.</span>")
-			uses += 2
+			uses++
 			for(var/datum/spellbook_entry/item/contract/CT in entries)
 				if(!isnull(CT.limit))
 					CT.limit++
 			qdel(O)
 	else if(istype(O, /obj/item/antag_spawner/slaughter_demon))
 		to_chat(user, "<span class='notice'>On second thought, maybe summoning a demon is a bad idea. You refund your points.</span>")
-		if(istype(O, /obj/item/antag_spawner/slaughter_demon/laughter))
-			uses += 1
-			for(var/datum/spellbook_entry/item/hugbottle/HB in entries)
-				if(!isnull(HB.limit))
-					HB.limit++
-		else
-			uses += 2
-			for(var/datum/spellbook_entry/item/bloodbottle/BB in entries)
-				if(!isnull(BB.limit))
-					BB.limit++
+		uses++
+		for(var/datum/spellbook_entry/item/bloodbottle/BB in entries)
+			if(!isnull(BB.limit))
+				BB.limit++
 		qdel(O)
 
 /obj/item/spellbook/proc/GetCategoryHeader(category)
@@ -738,7 +734,7 @@
 					uses -= E.cost
 		else if(href_list["refund"])
 			E = entries[text2num(href_list["refund"])]
-			if(E && E.refundable)
+			if(E?.refundable)
 				var/result = E.Refund(H,src)
 				if(result > 0)
 					if(!isnull(E.limit))

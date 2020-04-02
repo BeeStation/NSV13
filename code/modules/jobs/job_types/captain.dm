@@ -25,7 +25,6 @@
 	mind_traits = list(TRAIT_DISK_VERIFIER)
 
 	display_order = JOB_DISPLAY_ORDER_CAPTAIN
-	display_rank = "CPT" //nsv13 - Displays the player's actual rank alongside their name, such as GSGT Sergei Koralev
 
 /datum/job/captain/get_access()
 	return get_all_accesses()
@@ -40,7 +39,7 @@
 
 	id = /obj/item/card/id/gold
 	belt = /obj/item/melee/classic_baton/telescopic/stunsword
-	r_pocket = /obj/item/pda/captain
+	l_pocket = /obj/item/pda/captain
 	glasses = /obj/item/clothing/glasses/sunglasses
 	ears = /obj/item/radio/headset/heads/captain/alt
 	gloves = /obj/item/clothing/gloves/color/captain
@@ -53,6 +52,8 @@
 	backpack = /obj/item/storage/backpack/captain
 	satchel = /obj/item/storage/backpack/satchel/cap
 	duffelbag = /obj/item/storage/backpack/duffelbag/captain
+
+	pda_slot = SLOT_L_STORE
 
 	implants = list(/obj/item/implant/mindshield)
 	accessory = /obj/item/clothing/accessory/medal/gold/captain

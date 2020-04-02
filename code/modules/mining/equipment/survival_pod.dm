@@ -151,6 +151,13 @@
 /obj/machinery/stasis/survival_pod/update_icon()
 	return
 
+//NanoMed
+/obj/machinery/vending/wallmed/survival_pod
+	name = "survival pod medical supply"
+	desc = "Wall-mounted Medical Equipment dispenser. This one seems just a tiny bit smaller."
+	refill_canister = null
+	onstation = FALSE
+
 //Computer
 /obj/item/gps/computer
 	name = "pod computer"
@@ -229,7 +236,7 @@
 	desc = "A large machine releasing a constant gust of air."
 	anchored = TRUE
 	density = TRUE
-	var/buildstacktype = /obj/item/stack/sheet/metal
+	var/buildstacktype = /obj/item/stack/sheet/iron
 	var/buildstackamount = 5
 	CanAtmosPass = ATMOS_PASS_NO
 

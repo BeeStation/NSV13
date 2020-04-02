@@ -26,7 +26,7 @@
 	return TRUE
 
 /datum/surgery_step/revive
-	name = "shock body"
+	name = "revive body"
 	implements = list(/obj/item/twohanded/shockpaddles = 100, /obj/item/melee/baton = 75, /obj/item/gun/energy = 60)
 	time = 120
 
@@ -34,7 +34,8 @@
 	. = TRUE
 	if(istype(tool, /obj/item/twohanded/shockpaddles))
 		var/obj/item/twohanded/shockpaddles/S = tool
-		if((S.req_defib && !S.defib.powered) || !S.wielded || S.cooldown || S.busy)
+		var/wielded = SEND_SIGNAL(S, COMSIG_ITEM_IS_WIELDED) & COMPONENT_WIELDED
+		if((S.req_defib && !S.defib.powered) || !wielded || S.cooldown || S.busy)
 			to_chat(user, "<span class='warning'>You need to wield both paddles, and [S.defib] must be powered!</span>")
 			return FALSE
 	if(istype(tool, /obj/item/melee/baton))

@@ -261,9 +261,13 @@
 			H.lip_color = initial(H.lip_color)
 			H.wash_cream()
 			H.regenerate_icons()
+			H.adjust_hygiene(10)
 		user.drowsyness = max(user.drowsyness - rand(2,3), 0) //Washing your face wakes you up if you're falling asleep
 	else
 		SEND_SIGNAL(user, COMSIG_COMPONENT_CLEAN_ACT, CLEAN_STRENGTH_BLOOD)
+		if(ishuman(user))
+			var/mob/living/carbon/human/dirtyboy = user
+			dirtyboy.adjust_hygiene(10)
 
 /obj/structure/sink/attackby(obj/item/O, mob/living/user, params)
 	if(busy)
@@ -331,7 +335,7 @@
 		return ..()
 
 /obj/structure/sink/deconstruct(disassembled = TRUE)
-	new /obj/item/stack/sheet/metal (loc, 3)
+	new /obj/item/stack/sheet/iron (loc, 3)
 	qdel(src)
 
 

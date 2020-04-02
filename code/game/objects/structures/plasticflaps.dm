@@ -6,6 +6,7 @@
 	armor = list("melee" = 100, "bullet" = 80, "laser" = 80, "energy" = 100, "bomb" = 50, "bio" = 100, "rad" = 100, "fire" = 50, "acid" = 50)
 	density = FALSE
 	anchored = TRUE
+	layer = BELOW_OBJ_LAYER
 	CanAtmosPass = ATMOS_PASS_NO
 
 /obj/structure/plasticflaps/opaque
@@ -65,7 +66,7 @@
 		if(!M.ventcrawler && M.mob_size != MOB_SIZE_TINY)
 			return FALSE
 	var/atom/movable/M = caller
-	if(M && M.pulling)
+	if(M?.pulling)
 		return CanAStarPass(ID, to_dir, M.pulling)
 	return TRUE //diseases, stings, etc can pass
 

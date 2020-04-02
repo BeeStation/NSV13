@@ -54,21 +54,14 @@
 	required_other = TRUE
 	required_container = /obj/item/slime_extract/green
 
-/datum/chemical_reaction/slime/slimehuman
-	name = "Human Mutation Toxin"
-	id = "humanmuttoxin"
-	results = list(/datum/reagent/mutationtoxin = 1)
-	required_reagents = list(/datum/reagent/blood = 1)
-	required_other = TRUE
-	required_container = /obj/item/slime_extract/green
-
-/datum/chemical_reaction/slime/slimelizard
-	name = "Lizard Mutation Toxin"
-	id = "lizardmuttoxin"
-	results = list(/datum/reagent/mutationtoxin/lizard = 1)
+/datum/chemical_reaction/slime/unstabletoxin
+	name = "Unstable Mutation Toxin"
+	id = "unstablemuttoxin"
+	results = list(/datum/reagent/mutationtoxin/unstable = 1)
 	required_reagents = list(/datum/reagent/uranium/radium = 1)
 	required_other = TRUE
 	required_container = /obj/item/slime_extract/green
+
 
 //Metal
 /datum/chemical_reaction/slime/slimemetal
@@ -81,7 +74,7 @@
 /datum/chemical_reaction/slime/slimemetal/on_reaction(datum/reagents/holder)
 	var/turf/location = get_turf(holder.my_atom)
 	new /obj/item/stack/sheet/plasteel(location, 5)
-	new /obj/item/stack/sheet/metal(location, 15)
+	new /obj/item/stack/sheet/iron(location, 15)
 	..()
 
 /datum/chemical_reaction/slime/slimeglass
@@ -459,7 +452,7 @@
 	M.qdel_timer = addtimer(CALLBACK(src, .proc/delete_extract, holder), 55, TIMER_STOPPABLE)
 
 /datum/chemical_reaction/slime/slimeexplosion/proc/boom(datum/reagents/holder)
-	if(holder && holder.my_atom)
+	if(holder?.my_atom)
 		explosion(get_turf(holder.my_atom), 1 ,3, 6)
 
 

@@ -15,6 +15,12 @@
 	projectile_type = /obj/item/projectile/bullet/shotgun_beanbag
 	materials = list(/datum/material/iron=250)
 
+/obj/item/ammo_casing/shotgun/sleepytime
+	name = "soporific shell"
+	desc = "A shotgun shell loaded with a hypodermic needle containing a low strength sleeping agent."
+	icon_state = "sleepy"
+	projectile_type = /obj/item/projectile/bullet/sleepy
+
 /obj/item/ammo_casing/shotgun/incendiary
 	name = "incendiary slug"
 	desc = "An incendiary-coated shotgun slug."
@@ -148,3 +154,10 @@
 	reagents.add_reagent(/datum/reagent/toxin/mutetoxin, 6) //;HELP OPS IN MAINT
 	reagents.add_reagent(/datum/reagent/toxin/coniine, 6)
 	reagents.add_reagent(/datum/reagent/toxin/sodium_thiopental, 6)
+
+/obj/item/ammo_casing/shotgun/breacher
+	name = "breaching slug"
+	desc = "A 12 gauge anti-material slug. Great for breaching airlocks and windows with minimal shots."
+	icon_state = "breacher"
+	projectile_type = /obj/item/projectile/bullet/shotgun_breaching
+	materials = list(/datum/material/iron=4000)

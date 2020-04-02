@@ -45,6 +45,8 @@
 
 #define MODE_MONKEY "monkeyhive"
 
+#define MODE_SING "%"
+
 //Spans. Robot speech, italics, etc. Applied in compose_message().
 #define SPAN_ROBOT "robot"
 #define SPAN_YELL "yell"
@@ -54,6 +56,7 @@
 #define SPAN_REALLYBIG "reallybig"
 #define SPAN_COMMAND "command_headset"
 #define SPAN_CLOWN "clown"
+#define SPAN_SINGING "singing"
 
 //bitflag #defines for return value of the radio() proc.
 #define ITALICS 1
@@ -61,7 +64,7 @@
 #define NOPASS 4
 
 //Eavesdropping
-#define EAVESDROP_EXTRA_RANGE 1 //how much past the specified message_range does the message get starred, whispering only
+#define EAVESDROP_EXTRA_RANGE 1 //! how much past the specified message_range does the message get starred, whispering only
 
 // A link given to ghost alice to follow bob
 #define FOLLOW_LINK(alice, bob) "<a href=?src=[REF(alice)];follow=[REF(bob)]>(F)</a>"
@@ -73,8 +76,13 @@
 #define LINGHIVE_LING 2
 #define LINGHIVE_LINK 3
 
-//Don't set this very much higher then 1024 unless you like inviting people in to dos your server with message spam
+/// Don't set this very much higher then 1024 unless you like inviting people in to dos your server with message spam
 #define MAX_MESSAGE_LEN			1024
 #define MAX_NAME_LEN			42
 #define MAX_BROADCAST_LEN		512
 #define MAX_CHARTER_LEN			80
+
+// Is something in the IC chat filter? This is config dependent.
+#define CHAT_FILTER_CHECK(T) (config.ic_filter_regex && findtext(T, config.ic_filter_regex))
+// Is something in the OOC chat filter?
+#define OOC_FILTER_CHECK(T) (config.ooc_filter_regex && findtext(T, config.ooc_filter_regex))

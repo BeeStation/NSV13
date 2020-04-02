@@ -9,6 +9,7 @@ Mineral Sheets
 		- Plasma
 		- Gold
 		- Silver
+		- Copper
 		- Clown
 		- Titanium
 		- Plastitanium
@@ -231,6 +232,7 @@ GLOBAL_LIST_INIT(gold_recipes, list ( \
 	grind_results = list(/datum/reagent/silver = 20)
 	point_value = 20
 	merge_type = /obj/item/stack/sheet/mineral/silver
+	tableVariant = /obj/structure/table/optable
 
 GLOBAL_LIST_INIT(silver_recipes, list ( \
 	new/datum/stack_recipe("silver door", /obj/structure/mineral_door/silver, 10, one_per_turf = 1, on_floor = 1), \
@@ -244,6 +246,30 @@ GLOBAL_LIST_INIT(silver_recipes, list ( \
 
 /obj/item/stack/sheet/mineral/silver/Initialize(mapload, new_amount, merge = TRUE)
 	recipes = GLOB.silver_recipes
+	. = ..()
+
+/*
+ * Copper
+ */
+/obj/item/stack/sheet/mineral/copper
+	name = "copper"
+	icon_state = "sheet-copper"
+	item_state = "sheet-copper"
+	singular_name = "copper bar"
+	sheettype = "copper"
+	materials = list(/datum/material/copper=MINERAL_MATERIAL_AMOUNT)
+	grind_results = list(/datum/reagent/copper = 20)
+	point_value = 3
+	merge_type = /obj/item/stack/sheet/mineral/copper
+
+GLOBAL_LIST_INIT(copper_recipes, list ( \
+	new/datum/stack_recipe("Copper Door", /obj/structure/mineral_door/copper, 10, one_per_turf = 1, on_floor = 1), \
+	new/datum/stack_recipe("Copper Tile", /obj/item/stack/tile/mineral/copper, 1, 4, 20), \
+	new/datum/stack_recipe("Quartermaster Statue", /obj/structure/statue/copper/dimas, 10, one_per_turf = 1, on_floor = 1), \
+	))
+
+/obj/item/stack/sheet/mineral/copper/Initialize(mapload, new_amount, merge = TRUE)
+	recipes = GLOB.copper_recipes
 	. = ..()
 
 /*
@@ -366,6 +392,7 @@ GLOBAL_LIST_INIT(adamantine_recipes, list(
 	item_state = "sheet-adamantine"
 	singular_name = "adamantine sheet"
 	merge_type = /obj/item/stack/sheet/mineral/adamantine
+	grind_results = list(/datum/reagent/liquidadamantine = 10)
 
 /obj/item/stack/sheet/mineral/adamantine/Initialize(mapload, new_amount, merge = TRUE)
 	recipes = GLOB.adamantine_recipes

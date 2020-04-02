@@ -38,6 +38,15 @@
 	category = list("Ammo")
 	departmental_flags = DEPARTMENTAL_FLAG_SECURITY
 
+/datum/design/sleepy/sec
+	name = "Soporific Shell"
+	id = "sleepy"
+	build_type = PROTOLATHE
+	category = list("Ammo")
+	materials = list(/datum/material/iron = 4000, /datum/material/silver = 400, /datum/material/copper = 400)
+	build_path = /obj/item/ammo_casing/shotgun/sleepytime
+	departmental_flags = DEPARTMENTAL_FLAG_SECURITY
+
 /datum/design/rubbershot/sec
 	id = "sec_rshot"
 	build_type = PROTOLATHE
@@ -71,6 +80,16 @@
 /datum/design/incendiary_slug/sec
 	id = "sec_Islug"
 	build_type = PROTOLATHE
+	category = list("Ammo")
+	departmental_flags = DEPARTMENTAL_FLAG_SECURITY
+
+/datum/design/breaching_slug/sec
+	name = "Breaching Slug"
+	desc = "A 12 gauge anti-material slug. Great for breaching airlocks and windows with minimal shots."
+	id = "sec_Brslug"
+	build_type = PROTOLATHE
+	materials = list(/datum/material/iron = 4000)
+	build_path = /obj/item/ammo_casing/shotgun/breacher
 	category = list("Ammo")
 	departmental_flags = DEPARTMENTAL_FLAG_SECURITY
 

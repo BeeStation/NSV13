@@ -129,7 +129,7 @@
 				if(!M.eye_blind)
 					return M
 		for(var/obj/mecha/M in view(world.view + 1, check)) //assuming if you can see them they can see you
-			if(M.occupant && M.occupant.client)
+			if(M.occupant?.client)
 				if(!M.occupant.eye_blind)
 					return M.occupant
 	return null
@@ -190,7 +190,7 @@
 /obj/effect/proc_holder/spell/aoe_turf/blindness/cast(list/targets,mob/user = usr)
 	for(var/mob/living/L in GLOB.alive_mob_list)
 		var/turf/T = get_turf(L.loc)
-		if(T && T in targets)
+		if(T && (T in targets))
 			L.blind_eyes(4)
 	return
 

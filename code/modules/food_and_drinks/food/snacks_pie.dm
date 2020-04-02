@@ -39,7 +39,7 @@
 		return
 	var/turf/T = get_turf(hit_atom)
 	new/obj/effect/decal/cleanable/food/pie_smudge(T)
-	if(reagents && reagents.total_volume)
+	if(reagents?.total_volume)
 		reagents.reaction(hit_atom, TOUCH)
 	if(ishuman(hit_atom))
 		var/mob/living/carbon/human/H = hit_atom
@@ -61,6 +61,28 @@
 
 /obj/item/reagent_containers/food/snacks/pie/cream/nostun
 	stunning = FALSE
+
+/obj/item/reagent_containers/food/snacks/pie/cream/body
+
+/obj/item/reagent_containers/food/snacks/pie/cream/body/Destroy()
+	var/turf/T = get_turf(src)
+	for(var/atom/movable/A in contents)
+		A.forceMove(T)
+		A.throw_at(T, 1, 1)
+	. = ..()
+
+/obj/item/reagent_containers/food/snacks/pie/cream/body/On_Consume(mob/living/carbon/M)
+	if(!reagents.total_volume) //so that it happens on the last bite
+		if(iscarbon(M) && contents.len)
+			var/turf/T = get_turf(src)
+			for(var/atom/movable/A in contents)
+				A.forceMove(T)
+				A.throw_at(T, 1, 1)
+				M.visible_message("[src] bursts out of [M]!</span>")
+			M.emote("scream")
+			M.Knockdown(40)
+			M.adjustBruteLoss(60)
+	return ..()
 
 /obj/item/reagent_containers/food/snacks/pie/berryclafoutis
 	name = "berry clafoutis"

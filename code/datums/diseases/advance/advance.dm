@@ -31,45 +31,14 @@
 	var/id = ""
 	var/processing = FALSE
 	var/mutable = TRUE //set to FALSE to prevent most in-game methods of altering the disease via virology
-	var/oldres	//To prevent setting new cures unless resistance changes.
-
-	// The order goes from easy to cure to hard to cure. Keep in mind that sentient diseases pick two cures from tier 6 and up, ensure they wont react away in bodies.
+	var/oldres
+	// The order goes from easy to cure to hard to cure.
 	var/static/list/advance_cures = 	list(
-									list(	// level 1
-										/datum/reagent/copper, /datum/reagent/silver, /datum/reagent/iodine, /datum/reagent/iron, /datum/reagent/carbon
-									),
-									list(	// level 2
-										/datum/reagent/potassium, /datum/reagent/consumable/ethanol, /datum/reagent/lithium, /datum/reagent/silicon, /datum/reagent/bromine
-									),
-									list(	// level 3
-										/datum/reagent/consumable/sodiumchloride, /datum/reagent/consumable/sugar, /datum/reagent/consumable/orangejuice, /datum/reagent/consumable/tomatojuice, /datum/reagent/consumable/milk
-									),
-									list(	//level 4
-										/datum/reagent/medicine/spaceacillin, /datum/reagent/medicine/salglu_solution, /datum/reagent/medicine/epinephrine, /datum/reagent/medicine/charcoal
-									),
-									list(	//level 5
-										/datum/reagent/oil, /datum/reagent/medicine/synaptizine, /datum/reagent/medicine/mannitol, /datum/reagent/drug/space_drugs, /datum/reagent/cryptobiolin
-									),
-									list(	// level 6
-										/datum/reagent/phenol, /datum/reagent/medicine/inacusiate, /datum/reagent/medicine/oculine, /datum/reagent/medicine/antihol
-									),
-									list(	// level 7
-										/datum/reagent/medicine/leporazine, /datum/reagent/toxin/mindbreaker, /datum/reagent/medicine/corazone
-									),
-									list(	// level 8
-										/datum/reagent/pax, /datum/reagent/drug/happiness, /datum/reagent/medicine/ephedrine
-									),
-									list(	// level 9
-										/datum/reagent/toxin/lipolicide, /datum/reagent/medicine/sal_acid
-									),
-									list(	// level 10
-										/datum/reagent/medicine/haloperidol, /datum/reagent/drug/aranesp, /datum/reagent/medicine/diphenhydramine
-									),
-									list(	//level 11
-										/datum/reagent/medicine/modafinil, /datum/reagent/toxin/anacea
-									)
+																/datum/reagent/consumable/sugar, /datum/reagent/consumable/ethanol, /datum/reagent/consumable/sodiumchloride, 
+									/datum/reagent/medicine/spaceacillin, /datum/reagent/medicine/salglu_solution, /datum/reagent/medicine/mine_salve,
+									/datum/reagent/medicine/leporazine, /datum/reagent/concentrated_barbers_aid, /datum/reagent/toxin/lipolicide,
+									/datum/reagent/medicine/haloperidol, /datum/reagent/drug/krokodil
 								)
-
 /*
 
 	OLD PROCS
@@ -109,7 +78,7 @@
 	if(carrier)
 		return
 
-	if(symptoms && symptoms.len)
+	if(symptoms?.len)
 
 		if(!processing)
 			processing = TRUE
@@ -144,7 +113,6 @@
 	A.properties = properties.Copy()
 	A.id = id
 	A.mutable = mutable
-	A.oldres = oldres
 	//this is a new disease starting over at stage 1, so processing is not copied
 	return A
 
@@ -290,14 +258,12 @@
 			severity = "Unknown"
 
 
-// Will generate a random cure, the more resistance the symptoms have, the harder the cure.
+// Will generate a random cure, the less resistance the symptoms have, the harder the cure.
 /datum/disease/advance/proc/GenerateCure()
 	if(properties && properties.len)
 		var/res = CLAMP(properties["resistance"] - (symptoms.len / 2), 1, advance_cures.len)
-		if(res == oldres)
-			return
-		cures = list(pick(advance_cures[res]))
-		oldres = res
+		cures = list(advance_cures[res])
+
 		// Get the cure name from the cure_id
 		var/datum/reagent/D = GLOB.chemical_reagents_list[cures[1]]
 		cure_text = D.name
@@ -334,8 +300,11 @@
 
 // Name the disease.
 /datum/disease/advance/proc/AssignName(name = "Unknown")
+	Refresh()
 	var/datum/disease/advance/A = SSdisease.archive_diseases[GetDiseaseID()]
 	A.name = name
+	for(var/datum/disease/advance/AD in SSdisease.active_diseases)
+		AD.Refresh()
 
 // Return a unique ID of the disease.
 /datum/disease/advance/GetDiseaseID()
@@ -427,7 +396,7 @@
 
 	var/i = VIRUS_SYMPTOM_LIMIT
 
-	var/datum/disease/advance/D = new()
+	var/datum/disease/advance/D = new(0, null)
 	D.symptoms = list()
 
 	var/list/symptoms = list()
@@ -454,6 +423,9 @@
 			return
 		D.AssignName(new_name)
 		D.Refresh()
+
+		for(var/datum/disease/advance/AD in SSdisease.active_diseases)
+			AD.Refresh()
 
 		for(var/mob/living/carbon/human/H in shuffle(GLOB.alive_mob_list))
 			if(!is_station_level(H.z))

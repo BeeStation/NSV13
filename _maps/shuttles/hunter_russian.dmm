@@ -13,6 +13,7 @@
 /area/shuttle/hunter)
 "d" = (
 /obj/structure/shuttle/engine/heater{
+	icon_state = "heater";
 	dir = 8
 	},
 /obj/structure/window/reinforced{
@@ -82,6 +83,7 @@
 /area/shuttle/hunter)
 "r" = (
 /obj/effect/turf_decal/arrows{
+	icon_state = "arrows";
 	dir = 4
 	},
 /turf/open/floor/mineral/plastitanium/red,
@@ -122,6 +124,7 @@
 /area/shuttle/hunter)
 "z" = (
 /obj/structure/chair{
+	icon_state = "chair";
 	dir = 4
 	},
 /turf/open/floor/mineral/plastitanium/red,
@@ -152,8 +155,6 @@
 "E" = (
 /obj/machinery/computer/camera_advanced/shuttle_docker/syndicate/hunter{
 	dir = 8;
-	jumpto_ports = list("huntership_home" = 1);
-	view_range = 12;
 	x_offset = 0;
 	y_offset = 3
 	},
@@ -192,6 +193,7 @@
 /obj/machinery/door/airlock/security/glass,
 /obj/structure/fans/tiny,
 /obj/docking_port/stationary{
+	dir = 1;
 	dwidth = 11;
 	height = 16;
 	id = "pirateship_home";
@@ -200,6 +202,7 @@
 	},
 /obj/docking_port/mobile{
 	dheight = 3;
+	dir = 1;
 	dwidth = 3;
 	height = 13;
 	id = "huntership";

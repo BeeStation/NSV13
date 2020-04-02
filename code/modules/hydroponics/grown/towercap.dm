@@ -50,7 +50,7 @@
 	/obj/item/reagent_containers/food/snacks/grown/wheat))
 
 /obj/item/grown/log/attackby(obj/item/W, mob/user, params)
-	if(W.is_sharp())
+	if(W.sharpness)
 		user.show_message("<span class='notice'>You make [plank_name] out of \the [src]!</span>", 1)
 		var/seed_modifier = 0
 		if(seed)
@@ -75,7 +75,7 @@
 			qdel(src)
 			return
 		else
-			to_chat(usr, "<span class='warning'>You must dry this first!</span>")
+			to_chat(usr, "<span class ='warning'>You must dry this first!</span>")
 	else
 		return ..()
 
@@ -97,8 +97,7 @@
 
 /obj/item/grown/log/steel/CheckAccepted(obj/item/I)
 	return FALSE
-
-/obj/item/seeds/bamboo
+obj/item/seeds/bamboo
 	name = "pack of bamboo seeds"
 	desc = "Plant known for their flexible and resistant logs."
 	icon_state = "seed-bamboo"
@@ -119,7 +118,7 @@
 /obj/item/grown/log/bamboo
 	seed = /obj/item/seeds/bamboo
 	name = "bamboo log"
-	desc = "An long and resistant bamboo log."
+	desc = "A long and resistant bamboo log."
 	icon_state = "bamboo"
 	plank_type = /obj/item/stack/sheet/mineral/bamboo
 	plank_name = "bamboo sticks"
@@ -129,7 +128,7 @@
 
 /obj/structure/punji_sticks
 	name = "punji sticks"
-	desc = "Dont step on this."
+	desc = "Don't step on this."
 	icon = 'icons/obj/hydroponics/equipment.dmi'
 	icon_state = "punji"
 	resistance_flags = FLAMMABLE
@@ -180,14 +179,14 @@
 				R.use(1)
 				can_buckle = TRUE
 				buckle_requires_restraints = TRUE
-				to_chat(user, "<span class='italics'>You add a rod to \the [src].</span>")
+				to_chat(user, "<span class='italics'>You add a rod to \the [src].")
 				var/mutable_appearance/rod_underlay = mutable_appearance('icons/obj/hydroponics/equipment.dmi', "bonfire_rod")
 				rod_underlay.pixel_y = 16
 				underlays += rod_underlay
 			if("Grill")
 				R.use(1)
 				grill = TRUE
-				to_chat(user, "<span class='italics'>You add a grill to \the [src].</span>")
+				to_chat(user, "<span class='italics'>You add a grill to \the [src].")
 				add_overlay("bonfire_grill")
 			else
 				return ..()

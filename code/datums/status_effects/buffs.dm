@@ -285,6 +285,7 @@
 /datum/status_effect/blooddrunk/on_apply()
 	. = ..()
 	if(.)
+		ADD_TRAIT(owner, TRAIT_IGNOREDAMAGESLOWDOWN, "blooddrunk")
 		owner.maxHealth *= 10
 		owner.bruteloss *= 10
 		owner.fireloss *= 10
@@ -309,7 +310,6 @@
 		last_staminaloss = owner.getStaminaLoss()
 		owner.log_message("gained blood-drunk stun immunity", LOG_ATTACK)
 		owner.add_stun_absorption("blooddrunk", INFINITY, 4)
-		ADD_TRAIT(owner, TRAIT_IGNOREDAMAGESLOWDOWN, "blooddrunk");
 		owner.playsound_local(get_turf(owner), 'sound/effects/singlebeat.ogg', 40, 1)
 
 /datum/status_effect/blooddrunk/tick() //multiply the effect of healing by 10
@@ -434,9 +434,9 @@
 		return
 	else
 		linked_alert.icon_state = "fleshmend"
-	owner.adjustBruteLoss(-10, FALSE)
+	owner.adjustBruteLoss(-6, FALSE)
 	owner.adjustFireLoss(-5, FALSE)
-	owner.adjustOxyLoss(-10)
+	owner.adjustOxyLoss(-6)
 
 /obj/screen/alert/status_effect/fleshmend
 	name = "Fleshmend"
@@ -487,7 +487,7 @@
 		else
 			owner.visible_message("[owner]'s soul is absorbed into the rod, relieving the previous snake of its duty.")
 			var/mob/living/simple_animal/hostile/retaliate/poison/snake/healSnake = new(owner.loc)
-			var/list/chems = list(/datum/reagent/medicine/sal_acid, /datum/reagent/medicine/perfluorodecalin, /datum/reagent/medicine/oxandrolone)
+			var/list/chems = list(/datum/reagent/medicine/bicaridine, /datum/reagent/medicine/salbutamol, /datum/reagent/medicine/kelotane, /datum/reagent/medicine/antitoxin)
 			healSnake.poison_type = pick(chems)
 			healSnake.name = "Asclepius's Snake"
 			healSnake.real_name = "Asclepius's Snake"
@@ -546,6 +546,48 @@
 				var/mob/living/simple_animal/SM = L
 				SM.adjustHealth(-3.5, forced = TRUE)
 
+/obj/screen/alert/status_effect/regenerative_core
+	name = "Blessing of the Necropolis"
+	desc = "The power of the necropolis flows through you. You could get used to this..."
+	icon_state = "regenerative_core"
+	name = "Blessing of the Necropolis"
+
+/datum/status_effect/regenerative_core
+	id = "Regenerative Core"
+	duration = 300
+	status_type = STATUS_EFFECT_REPLACE
+	alert_type = /obj/screen/alert/status_effect/regenerative_core
+	var/power = 1
+	var/alreadyinfected = FALSE
+
+/datum/status_effect/regenerative_core/on_apply()
+	if(!HAS_TRAIT(owner, TRAIT_NECROPOLIS_INFECTED))
+		to_chat(owner, "<span class='userdanger'>Tendrils of vile corruption knit your flesh together and strengthen your sinew. You resist the temptation of giving in to the corruption.</span>")
+	else
+		alreadyinfected = TRUE
+	ADD_TRAIT(owner, TRAIT_IGNOREDAMAGESLOWDOWN, "legion_core_trait")
+	ADD_TRAIT(owner, TRAIT_NECROPOLIS_INFECTED, "legion_core_trait")
+	if(owner.z == 5)
+		power = 2
+	owner.adjustBruteLoss(-50 * power)
+	owner.adjustFireLoss(-50 * power)
+	owner.cure_nearsighted()
+	owner.ExtinguishMob()
+	owner.fire_stacks = 0
+	owner.set_blindness(0)
+	owner.set_blurriness(0)
+	owner.restore_blood()
+	owner.bodytemperature = BODYTEMP_NORMAL
+	owner.restoreEars()
+	duration = rand(150, 450) * power
+	return TRUE
+
+/datum/status_effect/regenerative_core/on_remove()
+	REMOVE_TRAIT(owner, TRAIT_IGNOREDAMAGESLOWDOWN, "legion_core_trait")
+	REMOVE_TRAIT(owner, TRAIT_NECROPOLIS_INFECTED, "legion_core_trait")
+	if(!alreadyinfected)
+		to_chat(owner, "<span class='userdanger'>You feel empty as the vile tendrils slink out of your flesh and leave you, a fragile human once more.</span>")
+
 /datum/status_effect/good_music
 	id = "Good Music"
 	alert_type = null
@@ -558,29 +600,6 @@
 	owner.jitteriness = max(0, owner.jitteriness - 2)
 	owner.confused = max(0, owner.confused - 1)
 	SEND_SIGNAL(owner, COMSIG_ADD_MOOD_EVENT, "goodmusic", /datum/mood_event/goodmusic)
-
-/obj/screen/alert/status_effect/regenerative_core
-	name = "Reinforcing Tendrils"
-	desc = "You can move faster than your broken body could normally handle!"
-	icon_state = "regenerative_core"
-	name = "Regenerative Core Tendrils"
-
-/datum/status_effect/regenerative_core
-	id = "Regenerative Core"
-	duration = 1 MINUTES
-	status_type = STATUS_EFFECT_REPLACE
-	alert_type = /obj/screen/alert/status_effect/regenerative_core
-
-/datum/status_effect/regenerative_core/on_apply()
-	ADD_TRAIT(owner, TRAIT_IGNOREDAMAGESLOWDOWN, id)
-	owner.adjustBruteLoss(-25)
-	owner.adjustFireLoss(-25)
-	owner.remove_CC()
-	owner.bodytemperature = BODYTEMP_NORMAL
-	return TRUE
-
-/datum/status_effect/regenerative_core/on_remove()
-	REMOVE_TRAIT(owner, TRAIT_IGNOREDAMAGESLOWDOWN, id)
 
 /datum/status_effect/antimagic
 	id = "antimagic"

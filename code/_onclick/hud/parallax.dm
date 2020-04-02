@@ -8,7 +8,7 @@
 	var/last_parallax_shift //world.time of last update
 	var/parallax_throttle = 0 //ds between updates
 	var/parallax_movedir = 0
-	var/parallax_layers_max = 3
+	var/parallax_layers_max = 4
 	var/parallax_animate_timer
 
 /datum/hud/proc/create_parallax(mob/viewmob)
@@ -64,7 +64,7 @@
 		switch(C.prefs.parallax)
 			if (PARALLAX_INSANE)
 				C.parallax_throttle = FALSE
-				C.parallax_layers_max = 4
+				C.parallax_layers_max = 5
 				return TRUE
 
 			if (PARALLAX_MED)
@@ -80,6 +80,7 @@
 			if (PARALLAX_DISABLE)
 				return FALSE
 
+	//This is high parallax.
 	C.parallax_throttle = PARALLAX_DELAY_DEFAULT
 	C.parallax_layers_max = 4 //Nsv13 - Tweaked so that the bluespace effects show up correctly by default. Lower settings if you experience lag.
 	return TRUE
@@ -257,7 +258,7 @@
 	mouse_opacity = MOUSE_OPACITY_TRANSPARENT
 
 
-/obj/screen/parallax_layer/Initialize(mapload, view, mob/our_mob)
+/obj/screen/parallax_layer/Initialize(mapload, view)
 	. = ..()
 	if (!view)
 		view = world.view
@@ -284,21 +285,36 @@
 
 /obj/screen/parallax_layer/proc/update_status(mob/M)
 	current_mob = M //Nsv13 - FTL parallax
+	return
 
 /obj/screen/parallax_layer/layer_1
 	icon_state = "layer1"
-	speed = 0.3
+	speed = 0.6
 	layer = 1
 
 /obj/screen/parallax_layer/layer_2
 	icon_state = "layer2"
-	speed = 0.6
+	speed = 1
 	layer = 2
 
 /obj/screen/parallax_layer/layer_3
 	icon_state = "layer3"
-	speed = 1
+	speed = 1.4
 	layer = 3
+
+/obj/screen/parallax_layer/random
+	blend_mode = BLEND_OVERLAY
+	speed = 3
+	layer = 3
+
+/obj/screen/parallax_layer/random/space_gas
+	icon_state = "random_layer1"
+
+/obj/screen/parallax_layer/random/space_gas/Initialize(mapload, view)
+	src.add_atom_colour(SSparallax.random_parallax_color, ADMIN_COLOUR_PRIORITY)
+
+/obj/screen/parallax_layer/random/asteroids
+	icon_state = "random_layer2"
 
 /obj/screen/parallax_layer/planet
 	icon_state = "planet"

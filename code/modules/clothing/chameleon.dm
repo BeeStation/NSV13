@@ -100,9 +100,8 @@
 	var/outfit_type = outfit_options[selected]
 	if(!outfit_type)
 		return FALSE
-	var/datum/outfit/job/O = new outfit_type()
+	var/datum/outfit/O = new outfit_type()
 	var/list/outfit_types = O.get_chameleon_disguise_info()
-	var/datum/job/job_datum = SSjob.GetJobType(O.jobtype)
 
 	for(var/V in user.chameleon_item_actions)
 		var/datum/action/item_action/chameleon/change/A = V
@@ -110,14 +109,12 @@
 		for(var/T in outfit_types)
 			for(var/name in A.chameleon_list)
 				if(A.chameleon_list[name] == T)
-					A.apply_job_data(job_datum)
 					A.update_look(user, T)
 					outfit_types -= T
 					done = TRUE
 					break
 			if(done)
 				break
-
 	//hardsuit helmets/suit hoods
 	if(O.toggle_helmet && (ispath(O.suit, /obj/item/clothing/suit/space/hardsuit) || ispath(O.suit, /obj/item/clothing/suit/hooded)) && ishuman(user))
 		var/mob/living/carbon/human/H = user
@@ -249,42 +246,6 @@
 		STOP_PROCESSING(SSprocessing, src)
 		return
 	random_look(owner)
-
-/datum/action/item_action/chameleon/change/proc/apply_job_data(datum/job/job_datum)
-	return
-
-/datum/action/item_action/chameleon/change/id/update_item(obj/item/picked_item)
-	..()
-	var/obj/item/card/id/agent_card = target
-	if(istype(agent_card))
-		var/obj/item/card/id/copied_card = picked_item
-		if(istype(copied_card))
-			agent_card.uses_overlays = copied_card.uses_overlays
-			agent_card.id_type_name = copied_card.id_type_name
-		else
-			agent_card.uses_overlays = FALSE
-			agent_card.id_type_name = copied_card.name
-		agent_card.update_label()
-
-/datum/action/item_action/chameleon/change/id/apply_job_data(datum/job/job_datum)
-	..()
-	var/obj/item/card/id/agent_card = target
-	if(istype(agent_card) && istype(job_datum))
-		agent_card.assignment = job_datum.title
-
-/datum/action/item_action/chameleon/change/pda/update_item(obj/item/picked_item)
-	..()
-	var/obj/item/pda/agent_pda = target
-	if(istype(agent_pda))
-		agent_pda.update_label()
-		agent_pda.update_icon()
-
-/datum/action/item_action/chameleon/change/pda/apply_job_data(datum/job/job_datum)
-	..()
-	var/obj/item/pda/agent_pda = target
-	if(istype(agent_pda) && istype(job_datum))
-		agent_pda.ownjob = job_datum.title
-
 
 /obj/item/clothing/under/chameleon
 //starts off as black
@@ -624,7 +585,7 @@
 
 /obj/item/pda/chameleon
 	name = "PDA"
-	var/datum/action/item_action/chameleon/change/pda/chameleon_action
+	var/datum/action/item_action/chameleon/change/chameleon_action
 
 /obj/item/pda/chameleon/Initialize()
 	. = ..()
@@ -657,3 +618,26 @@
 /obj/item/stamp/chameleon/broken/Initialize()
 	. = ..()
 	chameleon_action.emp_randomise(INFINITY)
+
+/obj/item/clothing/neck/cloak/chameleon
+	name = "black tie"
+	desc = "A neosilk clip-on tie."
+	icon_state = "blacktie"
+	resistance_flags = NONE
+	armor = list("melee" = 0, "bullet" = 0, "laser" = 0, "energy" = 0, "bomb" = 0, "bio" = 0, "rad" = 0, "fire" = 50, "acid" = 50)
+
+/obj/item/clothing/neck/cloak/chameleon
+	var/datum/action/item_action/chameleon/change/chameleon_action
+
+/obj/item/clothing/neck/cloak/chameleon/Initialize()
+	. = ..()
+	chameleon_action = new(src)
+	chameleon_action.chameleon_type = /obj/item/clothing/neck
+	chameleon_action.chameleon_name = "Cloak"
+	chameleon_action.initialize_disguises()
+
+/obj/item/clothing/neck/cloak/chameleon/emp_act(severity)
+	. = ..()
+	if(. & EMP_PROTECT_SELF)
+		return
+	chameleon_action.emp_randomise()

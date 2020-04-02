@@ -1,5 +1,5 @@
 /datum/surgery/core_removal
-	name = "Core removal"
+	name = "core removal"
 	steps = list(/datum/surgery_step/incise, /datum/surgery_step/extract_core)
 	target_mobtypes = list(/mob/living/simple_animal/slime)
 	possible_locs = list(BODY_ZONE_R_ARM,BODY_ZONE_L_ARM,BODY_ZONE_R_LEG,BODY_ZONE_L_LEG,BODY_ZONE_CHEST,BODY_ZONE_HEAD)
@@ -14,7 +14,7 @@
 //extract brain
 /datum/surgery_step/extract_core
 	name = "extract core"
-	implements = list(/obj/item/hemostat = 100, TOOL_CROWBAR = 100)
+	implements = list(TOOL_HEMOSTAT = 100, TOOL_CROWBAR = 100)
 	time = 16
 
 /datum/surgery_step/extract_core/preop(mob/user, mob/living/carbon/target, target_zone, obj/item/tool, datum/surgery/surgery)

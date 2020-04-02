@@ -34,6 +34,7 @@
 	var/lip_style = null
 	var/lip_color = "white"
 
+	var/mouth = TRUE
 
 /obj/item/bodypart/head/Destroy()
 	QDEL_NULL(brainmob) //order is sensitive, see warning in handle_atom_del() below
@@ -246,6 +247,10 @@
 	icon = 'icons/mob/animal_parts.dmi'
 	icon_state = "default_monkey_head"
 	animal_origin = MONKEY_BODYPART
+
+/obj/item/bodypart/head/monkey/teratoma
+	icon_state = "teratoma_head"
+	animal_origin = TERATOMA_BODYPART
 
 /obj/item/bodypart/head/alien
 	icon = 'icons/mob/animal_parts.dmi'

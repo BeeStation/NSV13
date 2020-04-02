@@ -15,11 +15,12 @@
 								"Research Machinery",
 								"Misc. Machinery",
 								"Computer Parts",
-								"Advanced Munitions"
+								"Advanced Munitions",
+								"Ship Components"
 								)
 	production_animation = "circuit_imprinter_ani"
 	allowed_buildtypes = IMPRINTER
-//nsv13 added Advanced Munitions list above
+//nsv13 added Advanced Munitions, Ship Components list above
 
 /obj/machinery/rnd/production/circuit_imprinter/disconnect_console()
 	linked_console.linked_imprinter = null

@@ -139,6 +139,8 @@
 	w_class = WEIGHT_CLASS_NORMAL
 	sharpness = IS_SHARP
 	light_color = "#40ceff"
+	tool_behaviour = TOOL_SAW
+	toolspeed = 0.7 //faster as a saw
 
 /obj/item/melee/transforming/energy/sword/cyborg/saw/cyborg_unequip(mob/user)
 	if(!active)
@@ -192,6 +194,16 @@
 			to_chat(user, "<span class='warning'>It's already fabulous!</span>")
 	else
 		return ..()
+
+/obj/item/melee/transforming/energy/sword/bee  //yeah its fucking stupid but I wanted a yellow esword which is weaker than what we have
+	name = "Bee Sword"
+	desc = "Channel the might of the bees with this powerful sword"
+	force = 0
+	throwforce = 0
+	force_on = 22
+	throwforce_on = 16
+	item_color = "yellow"
+	light_color = "#ffff00"
 
 /obj/item/melee/transforming/energy/sword/pirate
 	name = "energy cutlass"

@@ -225,7 +225,7 @@
 	. = ..()
 	if(.)
 		node.on_research()
-
+	
 /datum/techweb/proc/unresearch_node_id(id)
 	return unresearch_node(SSresearch.techweb_node_by_id(id))
 

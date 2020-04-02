@@ -170,3 +170,30 @@
 	else
 		var/time_left = max(0, (H.finish_time - world.time) / 10)
 		return round(time_left)
+
+/obj/effect/countdown/dominator
+	name = "dominator countdown"
+	text_size = 1
+	color = "#ff00ff" // Overwritten when the dominator starts
+
+/obj/effect/countdown/dominator/get_value()
+	var/obj/machinery/dominator/D = attached_to
+	if(!istype(D))
+		return
+	else if(D.gang && D.gang.domination_time != NOT_DOMINATING)
+		return D.gang.domination_time_remaining()
+	else
+		return "OFFLINE"
+
+/obj/effect/countdown/arena
+	invisibility = 0
+	name = "arena countdown"
+
+/obj/effect/countdown/arena/get_value()
+	var/obj/machinery/arena_spawn/A = attached_to
+	if(!istype(A))
+		return
+	else
+		var/obj/machinery/computer/arena/C = A.get_controller()
+		var/time_left = max(0, (C.start_time - world.time) / 10)
+		return round(time_left)

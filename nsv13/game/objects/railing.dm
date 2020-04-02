@@ -1,4 +1,14 @@
 //Port from CEV eris
+/*
+
+This code is still horrifically inefficient, however I've moved it over to the icon smoothing subsystem to improve on it a bit. Please for the love of fuck..
+
+FIX THIS...
+
+Kmc ~01/11/2019
+
+*/
+
 /obj/structure/railing
 	name = "railing"
 	desc = "A standard steel railing. Prevents stupid people from falling to their doom. Drag yourself onto it to climb over, or click it with an open hand whilst pulling something to dump it over the edge."
@@ -9,7 +19,9 @@
 	icon_state = "railing0"
 	layer = 3.2//Just above doors
 	var/check = FALSE
-	smooth = FALSE
+	legacy_smooth = TRUE
+	smooth = SMOOTH_TRUE
+	canSmoothWith = list(/obj/structure/railing)
 
 /obj/structure/railing/attack_hand(mob/user)
 	. = ..()
@@ -37,10 +49,9 @@
 /obj/structure/railing/Initialize(constructed=0)
 	. = ..()
 	if(anchored)
-		START_PROCESSING(SSobj,src)
 		update_icon(0)
 
-/obj/structure/railing/process()
+/obj/structure/railing/legacy_smooth()
 	. = ..()
 	update_icon(0)
 

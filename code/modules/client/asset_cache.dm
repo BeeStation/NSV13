@@ -21,10 +21,13 @@ You can set verify to TRUE if you want send() to sleep until the client has the 
 #define ASSET_CACHE_PRELOAD_CONCURRENT 3
 
 /client
-	var/list/cache = list() // List of all assets sent to this client by the asset cache.
-	var/list/completed_asset_jobs = list() // List of all completed jobs, awaiting acknowledgement.
+	/// List of all assets sent to this client by the asset cache.
+	var/list/cache = list()
+	/// List of all completed asset jobs, awaiting acknowledgement.
+	var/list/completed_asset_jobs = list() 
 	var/list/sending = list()
-	var/last_asset_job = 0 // Last job done.
+	/// The last asset job done.
+	var/last_asset_job = 0 
 
 //This proc sends the asset to the client, but only if it needs it.
 //This proc blocks(sleeps) unless verify is set to false
@@ -325,6 +328,13 @@ GLOBAL_LIST_EMPTY(asset_datums)
 	var/size_id = sprite[SPR_SIZE]
 	return {"<span class="[name][size_id] [sprite_name]"></span>"}
 
+/datum/asset/spritesheet/proc/icon_class_name(sprite_name)
+	var/sprite = sprites[sprite_name]
+	if (!sprite)
+		return null
+	var/size_id = sprite[SPR_SIZE]
+	return {"[name][size_id] [sprite_name]"}
+
 #undef SPR_SIZE
 #undef SPR_IDX
 #undef SPRSZ_COUNT
@@ -381,8 +391,18 @@ GLOBAL_LIST_EMPTY(asset_datums)
 
 /datum/asset/simple/tgui
 	assets = list(
-		"tgui.css"	= 'tgui/assets/tgui.css',
-		"tgui.js"	= 'tgui/assets/tgui.js',
+		// tgui
+		"tgui.css" = 'tgui/assets/tgui.css',
+		"tgui.js" = 'tgui/assets/tgui.js',
+		// tgui-next
+		"tgui-main.html" = 'tgui-next/packages/tgui/public/tgui-main.html',
+		"tgui-fallback.html" = 'tgui-next/packages/tgui/public/tgui-fallback.html',
+		"tgui.bundle.js" = 'tgui-next/packages/tgui/public/tgui.bundle.js',
+		"tgui.bundle.css" = 'tgui-next/packages/tgui/public/tgui.bundle.css',
+		"shim-html5shiv.js" = 'tgui-next/packages/tgui/public/shim-html5shiv.js',
+		"shim-ie8.js" = 'tgui-next/packages/tgui/public/shim-ie8.js',
+		"shim-dom4.js" = 'tgui-next/packages/tgui/public/shim-dom4.js',
+		"shim-css-om.js" = 'tgui-next/packages/tgui/public/shim-css-om.js',
 	)
 
 /datum/asset/group/tgui
@@ -522,6 +542,7 @@ GLOBAL_LIST_EMPTY(asset_datums)
 	verify = FALSE
 	assets = list(
 		"json2.min.js"             = 'code/modules/goonchat/browserassets/js/json2.min.js',
+		"errorHandler.js"          = 'code/modules/goonchat/browserassets/js/errorHandler.js',
 		"browserOutput.js"         = 'code/modules/goonchat/browserassets/js/browserOutput.js',
 		"browserOutput.css"	       = 'code/modules/goonchat/browserassets/css/browserOutput.css',
 		"browserOutput_white.css"  = 'code/modules/goonchat/browserassets/css/browserOutput_white.css',
@@ -710,3 +731,41 @@ GLOBAL_LIST_EMPTY(asset_datums)
 		"dna_undiscovered.png"	= 'html/dna_undiscovered.png',
 		"dna_extra.png" 		= 'html/dna_extra.png'
 )
+
+/datum/asset/simple/bee_antags
+	assets = list(
+		"traitor.png" = 'html/img/traitor.png',
+		"bloodcult.png" = 'html/img/bloodcult.png',
+		"dagger.png" = 'html/img/dagger.png',
+		"sacrune.png" = 'html/img/sacrune.png',
+		"archives.png" = 'html/img/archives.png',
+		"xeno.png" = 'html/img/xeno.png',
+		"xenoqueen.png" = 'html/img/xenoqueen.png',
+		"facehugger.png" = 'html/img/facehugger.png',
+		"xenolarva.png" = 'html/img/xenolarva.png',
+		"blobcore.png" = 'html/img/blobcore.png',
+		"blobnode.png" = 'html/img/blobnode.png',
+		"blobresource.png" = 'html/img/blobresource.png',
+		"blobfactory.png" = 'html/img/blobfactory.png',
+		"changeling.gif" = 'html/img/changeling.gif',
+		"emporium.gif" = 'html/img/emporium.gif',
+		"absorb.png" = 'html/img/absorb.png',
+		"tentacle.png" = 'html/img/tentacle.png',
+		"hivemind.png" = 'html/img/hivemind.png',
+		"sting_extract.png" = 'html/img/sting_extract.png',
+		"wizard.png" = 'html/img/wizard.png',
+		"nukie.png" = 'html/img/nukie.png',
+		"ayylmao.png" = 'html/img/ayylmao.png',
+		"headset.png" = 'html/img/headset.png',
+		"pen.png" = 'html/img/pen.png',
+		"pda.png" = 'html/img/pda.png',
+		"spellbook.png" = 'html/img/spellbook.png',
+		"scroll.png" = 'html/img/scroll.png',
+		"disk.png" = 'html/img/disk.png',
+		"nuke.png" = 'html/img/nuke.png',
+		"eshield.png" = 'html/img/eshield.png',
+		"mech.png" = 'html/img/mech.png',
+		"scitool.png" = 'html/img/scitool.png',
+		"alienorgan.png"= 'html/img/alienorgan.png',
+		"abaton.png"= 'html/img/abaton.png'
+	)

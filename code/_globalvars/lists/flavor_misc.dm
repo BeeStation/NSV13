@@ -36,6 +36,10 @@ GLOBAL_LIST_EMPTY(wings_open_list)
 GLOBAL_LIST_EMPTY(r_wings_list)
 GLOBAL_LIST_EMPTY(moth_wings_list)
 GLOBAL_LIST_EMPTY(caps_list)
+GLOBAL_LIST_EMPTY(ipc_screens_list)
+GLOBAL_LIST_EMPTY(ipc_antennas_list)
+GLOBAL_LIST_EMPTY(ipc_chassis_list)
+GLOBAL_LIST_EMPTY(insect_type_list)
 
 GLOBAL_LIST_INIT(color_list_ethereal, list("F Class(Green)" = "97ee63", "F2 Class (Light Green)" = "00fa9a", "F3 Class (Dark Green)" = "37835b", "M Class (Red)" = "9c3030", "M1 Class (Purple)" = "ee82ee", "G Class (Yellow)" = "fbdf56", "O Class (Blue)" = "3399ff", "A Class (Cyan)" = "00ffff"))
 
@@ -101,11 +105,6 @@ GLOBAL_LIST_INIT(security_depts_prefs, list(SEC_DEPT_RANDOM, SEC_DEPT_NONE, SEC_
 #define DDUFFELBAG "Department Duffel Bag"
 GLOBAL_LIST_INIT(backbaglist, list(DBACKPACK, DSATCHEL, DDUFFELBAG, GBACKPACK, GSATCHEL, GDUFFELBAG, LSATCHEL))
 
-	//Suit/Skirt
-#define PREF_SUIT "Jumpsuit"
-#define PREF_SKIRT "Jumpskirt"
-GLOBAL_LIST_INIT(jumpsuitlist, list(PREF_SUIT, PREF_SKIRT))
-
 //Uplink spawn loc
 #define UPLINK_PDA		"PDA"
 #define UPLINK_RADIO	"Radio"
@@ -141,7 +140,7 @@ GLOBAL_LIST_INIT(scarySounds, list('sound/weapons/thudswoosh.ogg','sound/weapons
 12 Research
 13 RD Office
 14 Robotics
-15 HoP Office
+15 XO Office //NSV13 - HoP renamed to XO
 16 Library
 17 Chapel
 18 Theatre
@@ -157,6 +156,9 @@ GLOBAL_LIST_INIT(scarySounds, list('sound/weapons/thudswoosh.ogg','sound/weapons
 28 Xenobiology
 29 Law Office
 30 Detective's Office
+31 Hangar Bay //NSV13
+32 MAA Office //NSV13
+33 Weapons Bay //NSV13
 */
 
 //The whole system for the sorttype var is determined based on the order of this list,
@@ -169,10 +171,10 @@ GLOBAL_LIST_INIT(TAGGERLOCATIONS, list("Disposals",
 	"Cargo Bay", "QM Office", "Engineering", "CE Office",
 	"Atmospherics", "Security", "HoS Office", "Medbay",
 	"CMO Office", "Chemistry", "Research", "RD Office",
-	"Robotics", "HoP Office", "Library", "Chapel", "Theatre",
+	"Robotics", "XO Office", "Library", "Chapel", "Theatre", //NSV13 - HoP renamed to XO
 	"Bar", "Kitchen", "Hydroponics", "Janitor Closet","Genetics",
 	"Testing Range", "Toxins", "Dormitories", "Virology",
-	"Xenobiology", "Law Office","Detective's Office"))
+	"Xenobiology", "Law Office","Detective's Office","Hangar Bay","MAA Office","Weapons Bay")) //NSV13 - Added munitions department
 
 GLOBAL_LIST_INIT(station_prefixes, world.file2list("strings/station_prefixes.txt") + "")
 

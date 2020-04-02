@@ -76,6 +76,7 @@
 	var/max_equip = 3
 	var/datum/events/events
 
+	var/step_silent = FALSE //Used for disabling mech step sounds while using thrusters or pushing off lockers
 	var/stepsound = 'sound/mecha/mechstep.ogg'
 	var/turnsound = 'sound/mecha/mechturn.ogg'
 
@@ -97,7 +98,6 @@
 	var/datum/action/innate/mecha/mech_cycle_equip/cycle_action = new
 	var/datum/action/innate/mecha/mech_toggle_lights/lights_action = new
 	var/datum/action/innate/mecha/mech_view_stats/stats_action = new
-	var/datum/action/innate/mecha/mech_toggle_thrusters/thrusters_action = new
 	var/datum/action/innate/mecha/mech_defense_mode/defense_action = new
 	var/datum/action/innate/mecha/mech_overload_mode/overload_action = new
 	var/datum/effect_system/smoke_spread/smoke_system = new //not an action, but trigged by one
@@ -108,7 +108,7 @@
 	var/datum/action/innate/mecha/strafe/strafing_action = new
 
 	//Action vars
-	var/thrusters_active = FALSE
+	var/obj/item/mecha_parts/mecha_equipment/thrusters/active_thrusters
 	var/defense_mode = FALSE
 	var/leg_overload_mode = FALSE
 	var/leg_overload_coeff = 100
@@ -514,9 +514,8 @@
 		if(!melee_can_hit || !istype(target, /atom))
 			return
 		target.mech_melee_attack(src)
-		melee_can_hit = 0
-		spawn(melee_cooldown)
-			melee_can_hit = 1
+		melee_can_hit = FALSE
+		addtimer(VARSET_CALLBACK(src, melee_can_hit, TRUE), melee_cooldown)
 
 
 /obj/mecha/proc/range_action(atom/target)
@@ -538,17 +537,22 @@
 /obj/mecha/Process_Spacemove(var/movement_dir = 0)
 	. = ..()
 	if(.)
-		return 1
-	if(thrusters_active && movement_dir && use_power(step_energy_drain))
-		return 1
+		return TRUE
 
 	var/atom/movable/backup = get_spacemove_backup()
 	if(backup)
 		if(istype(backup) && movement_dir && !backup.anchored)
 			if(backup.newtonian_move(turn(movement_dir, 180)))
+				step_silent = TRUE
 				if(occupant)
 					to_chat(occupant, "<span class='info'>You push off of [backup] to propel yourself.</span>")
-		return 1
+		return TRUE
+
+	if(can_move <= world.time && active_thrusters && movement_dir && active_thrusters.thrust(movement_dir))
+		step_silent = TRUE
+		return TRUE
+
+	return FALSE
 
 /obj/mecha/relaymove(mob/user,direction)
 	if(completely_disabled)
@@ -599,7 +603,7 @@
 /obj/mecha/proc/mechturn(direction)
 	setDir(direction)
 	if(turnsound)
-		playsound(src,turnsound,40,1)
+		playsound(src,turnsound,40,TRUE)
 	return 1
 
 /obj/mecha/proc/mechstep(direction)
@@ -607,14 +611,16 @@
 	var/result = step(src,direction)
 	if(strafe)
 		setDir(current_dir)
-	if(result && stepsound)
+	if(result && !step_silent)
 		playsound(src,stepsound,40,1)
+	step_silent = FALSE
 	return result
 
 /obj/mecha/proc/mechsteprand()
 	var/result = step_rand(src)
-	if(result && stepsound)
+	if(result && !step_silent)
 		playsound(src,stepsound,40,1)
+	step_silent = FALSE
 	return result
 
 /obj/mecha/Bump(var/atom/obstacle)
@@ -854,6 +860,10 @@
 		. = t_air.return_temperature()
 	return
 
+/obj/mecha/portableConnectorReturnAir()
+	return internal_tank.return_air()
+
+
 /obj/mecha/MouseDrop_T(mob/M, mob/user)
 	if((user != M) || user.incapacitated() || !Adjacent(user))
 		return
@@ -905,7 +915,7 @@
 	return
 
 /obj/mecha/proc/moved_inside(mob/living/carbon/human/H)
-	if(H && H.client && H in range(1))
+	if(H && H.client && (H in range(1)))
 		occupant = H
 		H.forceMove(src)
 		H.update_mouse_pointer()
@@ -979,12 +989,12 @@
 
 /obj/mecha/container_resist(mob/living/user)
 	is_currently_ejecting = TRUE
-	to_chat(occupant, "<span class='notice'>You begin the ejection procedure. Equipment is disabled during this process. Hold still to finish ejecting.</span>")
-	if(do_after(occupant, has_gravity() ? exit_delay : 0 , target = src))
-		to_chat(occupant, "<span class='notice'>You exit the mech.</span>")
+	to_chat(occupant, "<span class='notice'>You begin the ejection procedure. Equipment is disabled during this process. Hold still to finish ejecting.<span>")
+	if(do_after(occupant,exit_delay, target = src))
+		to_chat(occupant, "<span class='notice'>You exit the mech.<span>")
 		go_out()
 	else
-		to_chat(occupant, "<span class='notice'>You stop exiting the mech. Weapons are enabled again.</span>")
+		to_chat(occupant, "<span class='notice'>You stop exiting the mech. Weapons are enabled again.<span>")
 	is_currently_ejecting = FALSE
 
 /obj/mecha/Exited(atom/movable/M, atom/newloc)
@@ -1044,7 +1054,7 @@
 		icon_state = initial(icon_state)+"-open"
 		setDir(dir_in)
 
-	if(L && L.client)
+	if(L?.client)
 		L.update_mouse_pointer()
 		L.client.check_view()
 		zoom_mode = 0
@@ -1108,53 +1118,3 @@ GLOBAL_VAR_INIT(year_integer, text2num(year)) // = 2013???
 	if(occupant_sight_flags)
 		if(user == occupant)
 			user.sight |= occupant_sight_flags
-
-///////////////////////
-////// Ammo stuff /////
-///////////////////////
-
-/obj/mecha/proc/ammo_resupply(var/obj/item/mecha_ammo/A, mob/user,var/fail_chat_override = FALSE)
-	if(!A.rounds)
-		if(!fail_chat_override)
-			to_chat(user, "<span class='warning'>This box of ammo is empty!</span>")
-		return FALSE
-	var/ammo_needed
-	var/found_gun
-	for(var/obj/item/mecha_parts/mecha_equipment/weapon/ballistic/gun in equipment)
-		ammo_needed = 0
-
-		if(istype(gun, /obj/item/mecha_parts/mecha_equipment/weapon/ballistic) && gun.ammo_type == A.ammo_type)
-			found_gun = TRUE
-			if(A.direct_load)
-				ammo_needed = initial(gun.projectiles) - gun.projectiles
-			else
-				ammo_needed = gun.projectiles_cache_max - gun.projectiles_cache
-
-			if(ammo_needed)
-				if(ammo_needed < A.rounds)
-					if(A.direct_load)
-						gun.projectiles = gun.projectiles + ammo_needed
-					else
-						gun.projectiles_cache = gun.projectiles_cache + ammo_needed
-					playsound(get_turf(user),A.load_audio,50,1)
-					to_chat(user, "<span class='notice'>You add [ammo_needed] [A.round_term][ammo_needed > 1?"s":""] to the [gun.name]</span>")
-					A.rounds = A.rounds - ammo_needed
-					A.update_name()
-					return TRUE
-
-				else
-					if(A.direct_load)
-						gun.projectiles = gun.projectiles + A.rounds
-					else
-						gun.projectiles_cache = gun.projectiles_cache + A.rounds
-					playsound(get_turf(user),A.load_audio,50,1)
-					to_chat(user, "<span class='notice'>You add [A.rounds] [A.round_term][A.rounds > 1?"s":""] to the [gun.name]</span>")
-					A.rounds = 0
-					A.update_name()
-					return TRUE
-	if(!fail_chat_override)
-		if(found_gun)
-			to_chat(user, "<span class='notice'>You can't fit any more ammo of this type!</span>")
-		else
-			to_chat(user, "<span class='notice'>None of the equipment on this exosuit can use this ammo!</span>")
-	return FALSE

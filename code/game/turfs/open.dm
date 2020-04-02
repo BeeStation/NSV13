@@ -1,5 +1,8 @@
 /turf/open
 	plane = FLOOR_PLANE
+	FASTDMM_PROP(\
+		pipe_astar_cost = 1.5\
+	)
 	var/slowdown = 0 //negative for faster, positive for slower
 
 	var/postdig_icon_change = FALSE
@@ -226,7 +229,7 @@
 			if(!(lube&GALOSHES_DONT_HELP)) //can't slip while buckled unless it's lube.
 				return 0
 		else
-			if(!(lube&SLIP_WHEN_CRAWLING) && (!(C.mobility_flags & MOBILITY_STAND) || !(C.status_flags & CANKNOCKDOWN))) // can't slip unbuckled mob if they're lying or can't fall.
+			if(!(C.mobility_flags & MOBILITY_STAND) || !(C.status_flags & CANKNOCKDOWN)) // can't slip unbuckled mob if they're lying or can't fall.
 				return 0
 			if(C.m_intent == MOVE_INTENT_WALK && (lube&NO_SLIP_WHEN_WALKING))
 				return 0
@@ -246,7 +249,7 @@
 			C.Paralyze(paralyze_amount)
 			C.stop_pulling()
 		else
-			C.Knockdown(20)
+			C.Knockdown(15)
 
 		if(buckled_obj)
 			buckled_obj.unbuckle_mob(C)

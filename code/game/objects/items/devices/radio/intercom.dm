@@ -1,5 +1,5 @@
 /obj/item/radio/intercom
-	name = "station intercom"
+	name = "intra ship intercom" //NSV13 - Intercoms renamed
 	desc = "Talk through this."
 	icon_state = "intercom"
 	anchored = TRUE
@@ -23,7 +23,7 @@
 
 /obj/item/radio/intercom/ratvar/attackby(obj/item/I, mob/living/user, params)
 	if(I.tool_behaviour == TOOL_SCREWDRIVER)
-		to_chat(user, "<span class='warning'>[src] is fastened to the wall with [is_servant_of_ratvar(user) ? "replicant alloy" : "some material you've never seen"], and can't be removed.</span>")
+		to_chat(user, "<span class='danger'>[src] is fastened to the wall with [is_servant_of_ratvar(user) ? "replicant alloy" : "some material you've never seen"], and can't be removed.</span>")
 		return //no unfastening!
 	. = ..()
 
@@ -148,3 +148,19 @@
 	pixel_shift = 29
 	inverse = TRUE
 	materials = list(/datum/material/iron = 75, /datum/material/glass = 25)
+
+/obj/item/radio/intercom/directional/north //NSV13 Start - Directional intercoms for mapping
+	dir = NORTH
+	pixel_y = 20
+
+/obj/item/radio/intercom/directional/south
+	dir = SOUTH
+	pixel_y = -28
+	
+/obj/item/radio/intercom/directional/west
+	dir = WEST
+	pixel_x = -27
+	
+/obj/item/radio/intercom/directional/east
+	dir = EAST
+	pixel_x = 27 //NSV13 End

@@ -108,11 +108,11 @@
 	if(prob(20))
 		new /obj/item/storage/belt/utility(src)
 	if(prob(30))
-		new /obj/item/stack/cable_coil(src)
+		new /obj/item/stack/cable_coil/random(src)
 	if(prob(30))
-		new /obj/item/stack/cable_coil(src)
+		new /obj/item/stack/cable_coil/random(src)
 	if(prob(30))
-		new /obj/item/stack/cable_coil(src)
+		new /obj/item/stack/cable_coil/random(src)
 	if(prob(20))
 		new /obj/item/multitool(src)
 	if(prob(5))
@@ -135,6 +135,10 @@
 	new /obj/item/geiger_counter(src)
 	new /obj/item/clothing/suit/radiation(src)
 	new /obj/item/clothing/head/radiation(src)
+	if(prob(50))
+		new /obj/item/storage/firstaid/radbgone(src)
+	else
+		new /obj/item/storage/pill_bottle/antirad(src)
 
 /*
  * Bombsuit closet

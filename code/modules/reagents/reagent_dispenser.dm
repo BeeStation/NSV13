@@ -107,6 +107,11 @@
 
 			log_bomber(user, "detonated a", src, "via welding tool")
 
+			
+			if (user.client)
+				SSmedals.UnlockMedal(MEDAL_DETONATE_WELDERBOMB,user.client)
+			
+
 			boom()
 		return
 	return ..()

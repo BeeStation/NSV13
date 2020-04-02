@@ -75,12 +75,17 @@
 	if(prob(5))
 		var/high_message = pick("You feel jittery.", "You feel like you gotta go fast.", "You feel like you need to step it up.")
 		to_chat(M, "<span class='notice'>[high_message]</span>")
-	SEND_SIGNAL(M, COMSIG_ADD_MOOD_EVENT, "tweaking", /datum/mood_event/stimulant_medium, name)
+	if(prob(8))
+		M.adjustBruteLoss(rand(1,4))
+		M.Stun(5, 0)
+		to_chat(M, "<span class='notice'>You stop to furiously scratch at your skin.</span>")
 	M.AdjustStun(-20, FALSE)
 	M.AdjustKnockdown(-20, FALSE)
 	M.AdjustUnconscious(-20, FALSE)
 	M.AdjustImmobilized(-20, FALSE)
 	M.AdjustParalyzed(-20, FALSE)
+	M.adjustToxLoss(0.75, 0)
+	M.adjustStaminaLoss(-18, 0)
 	..()
 	. = 1
 
@@ -125,7 +130,6 @@
 	var/high_message = pick("You feel calm.", "You feel collected.", "You feel like you need to relax.")
 	if(prob(5))
 		to_chat(M, "<span class='notice'>[high_message]</span>")
-	SEND_SIGNAL(M, COMSIG_ADD_MOOD_EVENT, "smacked out", /datum/mood_event/narcotic_heavy, name)
 	..()
 
 /datum/reagent/drug/krokodil/overdose_process(mob/living/M)
@@ -174,6 +178,9 @@
 
 /datum/reagent/drug/methamphetamine/on_mob_metabolize(mob/living/L)
 	..()
+	if (L.client)
+		SSmedals.UnlockMedal(MEDAL_APPLY_REAGENT_METH,L.client)
+
 	L.add_movespeed_modifier(type, update=TRUE, priority=100, multiplicative_slowdown=-2, blacklisted_movetypes=(FLYING|FLOATING))
 
 /datum/reagent/drug/methamphetamine/on_mob_end_metabolize(mob/living/L)
@@ -184,13 +191,12 @@
 	var/high_message = pick("You feel hyper.", "You feel like you need to go faster.", "You feel like you can run the world.")
 	if(prob(5))
 		to_chat(M, "<span class='notice'>[high_message]</span>")
-	SEND_SIGNAL(M, COMSIG_ADD_MOOD_EVENT, "tweaking", /datum/mood_event/stimulant_medium, name)
 	M.AdjustStun(-40, FALSE)
 	M.AdjustKnockdown(-40, FALSE)
 	M.AdjustUnconscious(-40, FALSE)
 	M.AdjustParalyzed(-40, FALSE)
 	M.AdjustImmobilized(-40, FALSE)
-	M.adjustStaminaLoss(-2, 0)
+	M.adjustStaminaLoss(-30, 0)
 	M.Jitter(2)
 	M.adjustBrainLoss(rand(1,4))
 	if(prob(5))
@@ -261,6 +267,9 @@
 	..()
 	ADD_TRAIT(L, TRAIT_STUNIMMUNE, type)
 	ADD_TRAIT(L, TRAIT_SLEEPIMMUNE, type)
+	ADD_TRAIT(L, TRAIT_IGNOREDAMAGESLOWDOWN, type)
+	ADD_TRAIT(L, TRAIT_NOSTAMCRIT, type)
+	ADD_TRAIT(L, TRAIT_NOLIMBDISABLE, type)
 	if(iscarbon(L))
 		var/mob/living/carbon/C = L
 		rage = new()
@@ -269,6 +278,9 @@
 /datum/reagent/drug/bath_salts/on_mob_end_metabolize(mob/living/L)
 	REMOVE_TRAIT(L, TRAIT_STUNIMMUNE, type)
 	REMOVE_TRAIT(L, TRAIT_SLEEPIMMUNE, type)
+	REMOVE_TRAIT(L, TRAIT_IGNOREDAMAGESLOWDOWN, type)
+	REMOVE_TRAIT(L, TRAIT_NOSTAMCRIT, type)
+	REMOVE_TRAIT(L, TRAIT_NOLIMBDISABLE, type)
 	if(rage)
 		QDEL_NULL(rage)
 	..()
@@ -277,7 +289,6 @@
 	var/high_message = pick("You feel amped up.", "You feel ready.", "You feel like you can push it to the limit.")
 	if(prob(5))
 		to_chat(M, "<span class='notice'>[high_message]</span>")
-	SEND_SIGNAL(M, COMSIG_ADD_MOOD_EVENT, "salted", /datum/mood_event/stimulant_heavy, name)
 	M.adjustStaminaLoss(-5, 0)
 	M.adjustBrainLoss(4)
 	M.hallucination += 5
@@ -357,7 +368,7 @@
 	var/high_message = pick("You feel amped up.", "You feel ready.", "You feel like you can push it to the limit.")
 	if(prob(5))
 		to_chat(M, "<span class='notice'>[high_message]</span>")
-	M.adjustStaminaLoss(-18, 0)
+	M.adjustStaminaLoss(-20, 0)
 	M.adjustToxLoss(0.5, 0)
 	if(prob(50))
 		M.losebreath++

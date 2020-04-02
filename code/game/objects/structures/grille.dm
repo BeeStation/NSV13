@@ -1,5 +1,5 @@
 /obj/structure/grille
-	desc = "A flimsy framework of metal rods."
+	desc = "A flimsy framework of iron rods."
 	name = "grille"
 	icon = 'icons/obj/structures.dmi'
 	icon_state = "grille"
@@ -7,6 +7,7 @@
 	anchored = TRUE
 	flags_1 = CONDUCT_1
 	pressure_resistance = 5*ONE_ATMOSPHERE
+	layer = BELOW_OBJ_LAYER
 	armor = list("melee" = 50, "bullet" = 70, "laser" = 70, "energy" = 100, "bomb" = 10, "bio" = 100, "rad" = 100, "fire" = 0, "acid" = 0)
 	max_integrity = 50
 	integrity_failure = 20
@@ -16,13 +17,13 @@
 	var/grille_type = null
 	var/broken_type = /obj/structure/grille/broken
 	rad_flags = RAD_PROTECT_CONTENTS | RAD_NO_CONTAMINATE
-
-/obj/structure/grille/Destroy()
-	update_cable_icons_on_turf(get_turf(src))
-	return ..()
+	FASTDMM_PROP(\
+		pipe_astar_cost = 1\
+	)
 
 /obj/structure/grille/take_damage(damage_amount, damage_type = BRUTE, damage_flag = 0, sound_effect = 1, attack_dir)
 	. = ..()
+	shake_animation()
 	update_icon()
 
 /obj/structure/grille/update_icon()
@@ -51,7 +52,7 @@
 		if(RCD_DECONSTRUCT)
 			return list("mode" = RCD_DECONSTRUCT, "delay" = 20, "cost" = 5)
 		if(RCD_WINDOWGRILLE)
-			if(the_rcd.window_type == /obj/structure/window/reinforced/fulltile)
+			if(the_rcd.window_type == /obj/structure/window/reinforced/fulltile/ship/interior) //NSV13
 				return list("mode" = RCD_WINDOWGRILLE, "delay" = 40, "cost" = 12)
 			else
 				return list("mode" = RCD_WINDOWGRILLE, "delay" = 20, "cost" = 8)
@@ -186,11 +187,13 @@
 				else if(istype(W, /obj/item/stack/sheet/plasmaglass))
 					WD = new/obj/structure/window/plasma/fulltile(drop_location()) //plasma window
 				else if(istype(W, /obj/item/stack/sheet/rglass))
-					WD = new/obj/structure/window/reinforced/fulltile(drop_location()) //reinforced window
+					WD = new/obj/structure/window/reinforced/fulltile/ship/interior(drop_location()) //NSV13 - reinforced window
 				else if(istype(W, /obj/item/stack/sheet/titaniumglass))
 					WD = new/obj/structure/window/shuttle(drop_location())
 				else if(istype(W, /obj/item/stack/sheet/plastitaniumglass))
 					WD = new/obj/structure/window/plastitanium(drop_location())
+				else if(istype(W, /obj/item/stack/sheet/nanocarbon_glass)) //NSV13
+					WD = new/obj/structure/window/reinforced/fulltile/ship(drop_location()) //NSV13
 				else
 					WD = new/obj/structure/window/fulltile(drop_location()) //normal window
 				WD.setDir(dir_to_set)

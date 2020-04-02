@@ -15,7 +15,9 @@
 		/obj/item/reagent_containers/glass/bottle/morphine = 2,
 		/obj/item/reagent_containers/glass/bottle/epinephrine= 3,
 		/obj/item/reagent_containers/glass/bottle/charcoal = 3,
-		/obj/item/storage/box/rxglasses = 1)
+		/obj/item/storage/box/rxglasses = 1,
+		/obj/item/stack/ducts/fifty = 4,			
+		/obj/item/construction/plumbing = 2)
 	generate_items_inside(items_inside,src)
 
 /obj/structure/closet/secure_closet/medical2
@@ -37,6 +39,7 @@
 
 /obj/structure/closet/secure_closet/medical3/PopulateContents()
 	..()
+	new /obj/item/clothing/head/beret/med(src)
 	new /obj/item/radio/headset/headset_med(src)
 	new /obj/item/defibrillator/loaded(src)
 	new /obj/item/clothing/gloves/color/latex/nitrile(src)
@@ -51,13 +54,13 @@
 
 /obj/structure/closet/secure_closet/CMO/PopulateContents()
 	..()
+	new /obj/item/clothing/head/beret/cmo(src)
 	new /obj/item/clothing/neck/cloak/cmo(src)
 	new /obj/item/storage/backpack/duffelbag/med(src)
 	new /obj/item/clothing/suit/bio_suit/cmo(src)
 	new /obj/item/clothing/head/bio_hood/cmo(src)
 	new /obj/item/clothing/suit/toggle/labcoat/cmo(src)
 	new /obj/item/clothing/under/rank/chief_medical_officer(src)
-	new /obj/item/clothing/under/rank/chief_medical_officer/skirt(src)
 	new /obj/item/clothing/shoes/sneakers/brown	(src)
 	new /obj/item/cartridge/cmo(src)
 	new /obj/item/radio/headset/heads/cmo(src)
@@ -75,6 +78,7 @@
 	new /obj/item/wallframe/defib_mount(src)
 	new /obj/item/circuitboard/machine/techfab/department/medical(src)
 	new /obj/item/storage/photo_album/CMO(src)
+	new /obj/item/reagent_containers/food/drinks/bottle/synthflesh(src)
 	new /obj/item/card/id/departmental_budget/med(src)
 
 /obj/structure/closet/secure_closet/animal
@@ -97,8 +101,14 @@
 	..()
 	new /obj/item/storage/box/pillbottles(src)
 	new /obj/item/storage/box/pillbottles(src)
-	new /obj/item/storage/box/medigels(src)
-	new /obj/item/storage/box/medigels(src)
+	new /obj/item/storage/box/medsprays(src)
+	new /obj/item/storage/box/medsprays(src)
+	new /obj/item/stack/ducts/fifty(src)
+	new /obj/item/stack/ducts/fifty(src)
+	new /obj/item/stack/ducts/fifty(src)
+	new /obj/item/stack/ducts/fifty(src)			
+	new /obj/item/construction/plumbing(src)
+	new /obj/item/construction/plumbing(src)
 
 /obj/structure/closet/secure_closet/chemical/heisenberg //contains one of each beaker, syringe etc.
 	name = "advanced chemical closet"
@@ -110,3 +120,9 @@
 	new /obj/item/storage/box/syringes/variety(src)
 	new /obj/item/storage/box/beakers/variety(src)
 	new /obj/item/clothing/glasses/science(src)
+	new /obj/item/stack/ducts/fifty(src)
+	new /obj/item/stack/ducts/fifty(src)
+	new /obj/item/stack/ducts/fifty(src)
+	new /obj/item/stack/ducts/fifty(src)			
+	new /obj/item/construction/plumbing(src)
+	new /obj/item/construction/plumbing(src)

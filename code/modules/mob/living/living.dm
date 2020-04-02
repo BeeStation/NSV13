@@ -41,11 +41,12 @@
 	return ..()
 
 /mob/living/onZImpact(turf/T, levels)
-	ZImpactDamage(T, levels)
+	if(!isgroundlessturf(T))
+		ZImpactDamage(T, levels)
 	return ..()
 
 /mob/living/proc/ZImpactDamage(turf/T, levels)
-	visible_message("<span class='danger'>[src] crashes into [T] with a sickening noise!</span>")
+	visible_message("<span class='danger'>[src] falls [levels] level[levels > 1 ? "s" : ""] into [T] with a sickening noise!</span>")
 	adjustBruteLoss((levels * 5) ** 1.5)
 	Knockdown(levels * 50)
 
@@ -58,6 +59,13 @@
 		return
 	if (buckled || now_pushing)
 		return
+	if(!ismovableatom(A) || is_blocked_turf(A))  // ported from VORE, sue me
+		if((confused || is_blind()) && stat == CONSCIOUS && m_intent=="run")
+			playsound(get_turf(src), "punch", 25, 1, -1)
+			visible_message("<span class='warning'>[src] [pick("ran", "slammed")] into \the [A]!</span>")
+			apply_damage(5, BRUTE)
+			Paralyze(40)
+
 	if(ismob(A))
 		var/mob/M = A
 		if(MobBump(M))
@@ -277,7 +285,9 @@
 
 		log_combat(src, M, "grabbed", addition="passive grab")
 		if(!supress_message && !(iscarbon(AM) && HAS_TRAIT(src, TRAIT_STRONG_GRABBER)))
-			visible_message("<span class='warning'>[src] has grabbed [M] passively!</span>")
+			M.visible_message("<span class='warning'>[src] grabs [M] [(zone_selected == "l_arm" || zone_selected == "r_arm")? "by their hands":"passively"]!</span>", \
+							"<span class='warning'>[src] grabs you [(zone_selected == "l_arm" || zone_selected == "r_arm")? "by your hands":"passively"]!</span>", null, null, src)
+			to_chat(src, "<span class='notice'>You grab [M] [(zone_selected == "l_arm" || zone_selected == "r_arm")? "by their hands":"passively"]!</span>")
 		if(!iscarbon(src))
 			M.LAssailant = null
 		else
@@ -383,10 +393,14 @@
 		updatehealth()
 		if(!whispered)
 			to_chat(src, "<span class='notice'>You have given up life and succumbed to death.</span>")
+
+		if (src.client)
+			SSmedals.UnlockMedal(MEDAL_SUCCUMB,src.client)
+
 		death()
 
 /mob/living/incapacitated(ignore_restraints = FALSE, ignore_grab = FALSE, check_immobilized = FALSE, ignore_stasis = FALSE)
-	if(stat || IsUnconscious() || IsStun() || IsParalyzed() || (check_immobilized && IsImmobilized()) || (!ignore_restraints && restrained(ignore_grab)) || (!ignore_stasis && IS_IN_STASIS(src)))
+	if(stat || IsUnconscious() || IsStun() || IsParalyzed() || (check_immobilized && IsImmobilized()) || (!ignore_restraints && restrained(ignore_grab)) || (!ignore_stasis && IsInStasis()))
 		return TRUE
 
 /mob/living/canUseStorage()
@@ -436,7 +450,7 @@
 	set category = "IC"
 
 	if(IsSleeping())
-		to_chat(src, "<span class='warning'>You are already sleeping!</span>")
+		to_chat(src, "<span class='notice'>You are already sleeping.</span>")
 		return
 	else
 		if(alert(src, "You sure you want to sleep for a while?", "Sleep", "Yes", "No") == "Yes")
@@ -455,7 +469,7 @@
 		if(do_after(src, 10, target = src))
 			set_resting(FALSE, FALSE)
 		else
-			to_chat(src, "<span class='warning'>You fail to get up!</span>")
+			to_chat(src, "<span class='notice'>You fail to get up.</span>")
 
 /mob/living/proc/set_resting(rest, silent = TRUE)
 	if(!silent)
@@ -481,6 +495,14 @@
 		ret |= F.contents
 	return ret
 
+/mob/living/proc/check_contents_for(A)
+	var/list/L = get_contents()
+
+	for(var/obj/B in L)
+		if(B.type == A)
+			return TRUE
+	return FALSE
+
 // Living mobs use can_inject() to make sure that the mob is not syringe-proof in general.
 /mob/living/proc/can_inject()
 	return TRUE
@@ -490,6 +512,15 @@
 
 /mob/living/is_drawable(mob/user, allowmobs = TRUE)
 	return (allowmobs && reagents && can_inject(user))
+
+/mob/living/proc/get_organ_target()
+	var/mob/shooter = src
+	var/t = shooter.zone_selected
+	if ((t in list( BODY_ZONE_PRECISE_EYES, BODY_ZONE_PRECISE_MOUTH )))
+		t = BODY_ZONE_HEAD
+	var/def_zone = ran_zone(t)
+	return def_zone
+
 
 /mob/living/proc/updatehealth()
 	if(status_flags & GODMODE)
@@ -501,8 +532,7 @@
 	med_hud_set_status()
 
 //proc used to ressuscitate a mob
-/mob/living/proc/revive(full_heal = FALSE, admin_revive = FALSE)
-	SEND_SIGNAL(src, COMSIG_LIVING_REVIVE, full_heal, admin_revive)
+/mob/living/proc/revive(full_heal = 0, admin_revive = 0)
 	if(full_heal)
 		fully_heal(admin_revive)
 	if(stat == DEAD && can_be_revived()) //in some cases you can't revive (e.g. no brain)
@@ -540,8 +570,14 @@
 	setOxyLoss(0, 0)
 	setCloneLoss(0, 0)
 	setBrainLoss(0)
-	remove_CC(FALSE)
+	setStaminaLoss(0, 0)
+	SetUnconscious(0, FALSE)
 	set_disgust(0)
+	SetStun(0, FALSE)
+	SetKnockdown(0, FALSE)
+	SetImmobilized(0, FALSE)
+	SetParalyzed(0, FALSE)
+	SetSleeping(0, FALSE)
 	radiation = 0
 	set_nutrition(NUTRITION_LEVEL_FED + 50)
 	bodytemperature = BODYTEMP_NORMAL
@@ -562,6 +598,9 @@
 	stuttering = 0
 	slurring = 0
 	jitteriness = 0
+	var/datum/component/mood/mood = GetComponent(/datum/component/mood)
+	if (mood)
+		mood.remove_temp_moods(admin_revive)
 	update_mobility()
 	stop_sound_channel(CHANNEL_HEARTBEAT)
 
@@ -575,6 +614,13 @@
 	return
 
 /mob/living/Move(atom/newloc, direct)
+	if(lying) 
+		if(direct & EAST)
+			lying = 90
+		if(direct & WEST)
+			lying = 270
+		update_transform()
+		lying_prev = lying
 	if (buckled && buckled.loc != newloc) //not updating position
 		if (!buckled.anchored)
 			return buckled.Move(newloc, direct)
@@ -716,6 +762,8 @@
 		var/altered_grab_state = pulledby.grab_state
 		if((resting || HAS_TRAIT(src, TRAIT_GRABWEAKNESS)) && pulledby.grab_state < GRAB_KILL) //If resting, resisting out of a grab is equivalent to 1 grab state higher. wont make the grab state exceed the normal max, however
 			altered_grab_state++
+		else if(is_species(pulledby, /datum/species/squid) && pulledby.grab_state < GRAB_KILL) // If the puller is a squid, suction cups make it harder to break free
+			altered_grab_state++
 		var/resist_chance = BASE_GRAB_RESIST_CHANCE // see defines/combat.dm
 		resist_chance = max(resist_chance/altered_grab_state-sqrt((getStaminaLoss()+getBruteLoss()/2)*(3-altered_grab_state)), 0) // https://i.imgur.com/6yAT90T.png for sample output values
 		if(prob(resist_chance))
@@ -782,7 +830,7 @@
 		to_chat(src, "<span class='warning'>You can't remove \the [what.name], it appears to be stuck!</span>")
 		return
 	who.visible_message("<span class='danger'>[src] tries to remove [who]'s [what.name].</span>", \
-					"<span class='userdanger'>[src] tries to remove [who]'s [what.name].</span>")
+					"<span class='userdanger'>[src] tries to remove your [what.name].</span>")
 	what.add_fingerprint(src)
 	if(do_mob(src, who, what.strip_delay))
 		if(what && Adjacent(who))
@@ -799,6 +847,8 @@
 		who.show_inv(src)
 	else
 		src << browse(null,"window=mob[REF(who)]")
+	
+	who.update_equipment_speed_mods() // Updates speed in case stripped speed affecting item
 
 // The src mob is trying to place an item on someone
 // Override if a certain mob should be behave differently when placing items (can't, for example)
@@ -821,7 +871,8 @@
 			to_chat(src, "<span class='warning'>\The [what.name] doesn't fit in that place!</span>")
 			return
 
-		visible_message("<span class='notice'>[src] tries to put [what] on [who].</span>")
+		who.visible_message("<span class='notice'>[src] tries to put [what] on [who].</span>", \
+					"<span class='notice'>[src] tries to put [what] on you.</span>")
 		if(do_mob(src, who, what.equip_delay_other))
 			if(what && Adjacent(who) && what.mob_can_equip(who, src, final_where, TRUE, TRUE))
 				if(temporarilyRemoveItemFromInventory(what))
@@ -898,7 +949,7 @@
 	return 1
 
 //used in datum/reagents/reaction() proc
-/mob/living/proc/get_permeability_protection(list/target_zones)
+/mob/living/proc/get_permeability_protection()
 	return 0
 
 /mob/living/proc/harvest(mob/living/user) //used for extra objects etc. in butchering
@@ -955,7 +1006,7 @@
 		return TRUE
 	return FALSE
 
-/mob/living/throw_at(atom/target, range, speed, mob/thrower, spin=1, diagonals_first = 0, datum/callback/callback, force)
+/mob/living/throw_at(atom/target, range, speed, mob/thrower, spin=1, diagonals_first = 0, datum/callback/callback)
 	stop_pulling()
 	. = ..()
 
@@ -991,7 +1042,7 @@
 
 	apply_effect((amount*RAD_MOB_COEFFICIENT)/max(1, (radiation**2)*RAD_OVERDOSE_REDUCTION), EFFECT_IRRADIATE, blocked)
 
-/mob/living/anti_magic_check(magic = TRUE, holy = FALSE, tinfoil = FALSE, chargecost = 1, self = FALSE)
+/mob/living/anti_magic_check(magic = TRUE, holy = FALSE, major = TRUE, self = FALSE)
 	. = ..()
 	if(.)
 		return
@@ -1004,8 +1055,7 @@
 /mob/living/proc/fakefire()
 	return
 
-/mob/living/proc/unfry_mob() //Callback proc to tone down spam from multiple sizzling frying oil dipping.
-	REMOVE_TRAIT(src, TRAIT_OIL_FRIED, "cooking_oil_react")
+
 
 //Mobs on Fire
 /mob/living/proc/IgniteMob()
@@ -1094,7 +1144,8 @@
 	var/stun = IsStun()
 	var/knockdown = IsKnockdown()
 	var/ignore_legs = get_leg_ignore()
-	var/canmove = !IsImmobilized() && !stun && conscious && !paralyzed && !buckled && (!stat_softcrit || !pulledby) && !chokehold && !IsFrozen() && !IS_IN_STASIS(src) && (has_arms || ignore_legs || has_legs)
+	var/in_stasis = IsInStasis()
+	var/canmove = !IsImmobilized() && !stun && conscious && !paralyzed && !buckled && (!stat_softcrit || !pulledby) && !chokehold && !IsFrozen() && !in_stasis && (has_arms || ignore_legs || has_legs)
 	if(canmove)
 		mobility_flags |= MOBILITY_MOVE
 	else
@@ -1153,6 +1204,19 @@
 			client.move_delay = world.time + movement_delay()
 	lying_prev = lying
 
+	// Movespeed mods based on arms/legs quantity
+	if(!get_leg_ignore())
+		var/limbless_slowdown = 0
+		// These checks for <2 should be swapped out for something else if we ever end up with a species with more than 2
+		if(has_legs < 2)
+			limbless_slowdown += 6 - (has_legs * 3)
+			if(!has_legs && has_arms < 2)
+				limbless_slowdown += 6 - (has_arms * 3)
+		if(limbless_slowdown)
+			add_movespeed_modifier(MOVESPEED_ID_LIVING_LIMBLESS, update=TRUE, priority=100, override=TRUE, multiplicative_slowdown=limbless_slowdown, movetypes=GROUND)
+		else
+			remove_movespeed_modifier(MOVESPEED_ID_LIVING_LIMBLESS, update=TRUE)
+
 /mob/living/proc/fall(forced)
 	if(!(mobility_flags & MOBILITY_USE))
 		drop_all_held_items()
@@ -1180,7 +1244,7 @@
 			if(changeling.changeling_speak)
 				return LINGHIVE_LING
 			return LINGHIVE_OUTSIDER
-	if(mind && mind.linglink)
+	if(mind?.linglink)
 		return LINGHIVE_LINK
 	return LINGHIVE_NONE
 

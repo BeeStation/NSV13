@@ -152,6 +152,7 @@
 	if (canSmoothWith)
 		canSmoothWith = typelist("canSmoothWith", canSmoothWith)
 
+
 	if(custom_materials && custom_materials.len)
 		var/temp_list = list()
 		for(var/i in custom_materials)
@@ -160,7 +161,6 @@
 
 		custom_materials = null //Null the list to prepare for applying the materials properly
 		set_custom_materials(temp_list)
-		
 
 	ComponentInitialize()
 
@@ -280,25 +280,6 @@
 
 	return FALSE
 
-/**
-  * Is the atom in an away mission
-  *
-  * Must be in the away mission z-level to return TRUE
-  *
-  * Also used in gamemode code for win conditions
-  */
-/atom/proc/onAwayMission()
-	var/turf/T = get_turf(src)
-	if(!T)
-		return FALSE
-
-	if(is_away_level(T.z))
-		return TRUE
-
-	return FALSE
-
-
-
 ///This atom has been hit by a hulkified mob in hulk mode (user)
 /atom/proc/attack_hulk(mob/living/carbon/human/user, does_attack_animation = 0)
 	SEND_SIGNAL(src, COMSIG_ATOM_HULK_ATTACK, user)
@@ -364,7 +345,6 @@
 
 /atom/proc/Bumped(atom/movable/AM)
 	set waitfor = FALSE
-	SEND_SIGNAL(src, COMSIG_ATOM_BUMPED, AM)
 
 /// Convenience proc to see if a container is open for chemistry handling
 /atom/proc/is_open_container()
@@ -716,7 +696,7 @@
 	while (do_after(user, 10, TRUE, src, FALSE, CALLBACK(STR, /datum/component/storage.proc/handle_mass_item_insertion, things, src_object, user, progress)))
 		stoplag(1)
 	qdel(progress)
-	to_chat(user, "<span class='notice'>You dump as much of [src_object.parent]'s contents [STR.insert_preposition]to [src] as you can.</span>")
+	to_chat(user, "<span class='notice'>You dump as much of [src_object.parent]'s contents into [STR.insert_preposition]to [src] as you can.</span>")
 	STR.orient2hud(user)
 	src_object.orient2hud(user)
 	if(user.active_storage) //refresh the HUD to show the transfered contents
@@ -921,32 +901,30 @@
 /atom/proc/tool_act(mob/living/user, obj/item/I, tool_type)
 	switch(tool_type)
 		if(TOOL_CROWBAR)
-			. |= crowbar_act(user, I)
+			return crowbar_act(user, I)
 		if(TOOL_MULTITOOL)
-			. |= multitool_act(user, I)
+			return multitool_act(user, I)
 		if(TOOL_SCREWDRIVER)
-			. |= screwdriver_act(user, I)
+			return screwdriver_act(user, I)
 		if(TOOL_WRENCH)
-			. |= wrench_act(user, I)
+			return wrench_act(user, I)
 		if(TOOL_WIRECUTTER)
-			. |= wirecutter_act(user, I)
+			return wirecutter_act(user, I)
 		if(TOOL_WELDER)
-			. |= welder_act(user, I)
+			return welder_act(user, I)
 		if(TOOL_ANALYZER)
-			. |= analyzer_act(user, I)
-	if(. & COMPONENT_BLOCK_TOOL_ATTACK)
-		return TRUE
+			return analyzer_act(user, I)
 
-//! Tool-specific behavior procs. They send signals, so try to call ..()
+//! Tool-specific behavior procs. To be overridden in subtypes.
 ///
 
 ///Crowbar act
 /atom/proc/crowbar_act(mob/living/user, obj/item/I)
-	return SEND_SIGNAL(src, COMSIG_ATOM_CROWBAR_ACT, user, I)
+	return
 
 ///Multitool act
 /atom/proc/multitool_act(mob/living/user, obj/item/I)
-	return SEND_SIGNAL(src, COMSIG_ATOM_MULTITOOL_ACT, user, I)
+	return
 
 ///Check if the multitool has an item in it's data buffer
 /atom/proc/multitool_check_buffer(user, obj/item/I, silent = FALSE)
@@ -958,23 +936,23 @@
 
 ///Screwdriver act
 /atom/proc/screwdriver_act(mob/living/user, obj/item/I)
-	return SEND_SIGNAL(src, COMSIG_ATOM_SCREWDRIVER_ACT, user, I)
+	SEND_SIGNAL(src, COMSIG_ATOM_SCREWDRIVER_ACT, user, I)
 
 ///Wrench act
 /atom/proc/wrench_act(mob/living/user, obj/item/I)
-	return SEND_SIGNAL(src, COMSIG_ATOM_WRENCH_ACT, user, I)
+	return
 
 ///Wirecutter act
 /atom/proc/wirecutter_act(mob/living/user, obj/item/I)
-	return SEND_SIGNAL(src, COMSIG_ATOM_WIRECUTTER_ACT, user, I)
+	return
 
 ///Welder act
 /atom/proc/welder_act(mob/living/user, obj/item/I)
-	return SEND_SIGNAL(src, COMSIG_ATOM_WELDER_ACT, user, I)
+	return
 
 ///Analyzer act
 /atom/proc/analyzer_act(mob/living/user, obj/item/I)
-	return SEND_SIGNAL(src, COMSIG_ATOM_ANALYSER_ACT, user, I)
+	return
 
 ///Generate a tag for this atom
 /atom/proc/GenerateTag()
@@ -1097,7 +1075,7 @@
 		return filters[filter_data.Find(name)]
 
 /atom/proc/intercept_zImpact(atom/movable/AM, levels = 1)
-	return FALSE
+	. |= SEND_SIGNAL(src, COMSIG_ATOM_INTERCEPT_Z_FALL, AM, levels)
 
 ///Sets the custom materials for an item.
 /atom/proc/set_custom_materials(var/list/materials, multiplier = 1)
@@ -1105,6 +1083,9 @@
 		for(var/i in custom_materials)
 			var/datum/material/custom_material = i
 			custom_material.on_removed(src, material_flags) //Remove the current materials
+
+	if(!length(materials))
+		return
 
 	custom_materials = list() //Reset the list
 

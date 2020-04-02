@@ -20,7 +20,7 @@
   *
   * make sure you add an update to the schema_version stable in the db changelog
   */
-#define DB_MINOR_VERSION 3
+#define DB_MINOR_VERSION 4
 
 
 //! ## Timing subsystem
@@ -98,6 +98,8 @@
 // Subsystems shutdown in the reverse of the order they initialize in
 // The numbers just define the ordering, they are meaningless otherwise.
 
+#define INIT_ORDER_FAIL2TOPIC		102
+#define INIT_ORDER_PROFILER			101
 #define INIT_ORDER_TITLE			100
 #define INIT_ORDER_GARBAGE			99
 #define INIT_ORDER_DBCORE			95
@@ -131,9 +133,8 @@
 #define INIT_ORDER_SHUTTLE			-21
 #define INIT_ORDER_MINOR_MAPPING	-40
 #define INIT_ORDER_PATH				-50
-#define INIT_ORDER_DISCORD			-60
-#define INIT_ORDER_PERSISTENCE		-95
-#define INIT_ORDER_CHAT				-100 //Should be last to ensure chat remains smooth during init.
+#define INIT_ORDER_PERSISTENCE		-100
+#define INIT_ORDER_CHAT				-150 //Should be last to ensure chat remains smooth during init.
 
 // Subsystem fire priority, from lowest to highest priority
 // If the subsystem isn't listed here it's either DEFAULT or PROCESS (if it's a processing subsystem child)
@@ -156,6 +157,7 @@
 #define FIRE_PRIORITY_OBJ			40
 #define FIRE_PRIORITY_ACID			40
 #define FIRE_PRIOTITY_BURNING		40
+#define FIRE_PRIORITY_OVERMAP		40 //NSV13 - Overmap SS.
 #define FIRE_PRIORITY_DEFAULT		50
 #define FIRE_PRIORITY_PARALLAX		65
 #define FIRE_PRIORITY_MOBS			100
@@ -180,7 +182,7 @@
 
 //! ## Overlays subsystem
 
-///Compile all the overlays for an atom from the cache lists
+/// Compile all the overlays for an atom from the cache lists
 #define COMPILE_OVERLAYS(A)\
 	if (TRUE) {\
 		var/list/ad = A.add_overlays;\

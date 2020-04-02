@@ -17,6 +17,7 @@ GLOBAL_LIST_EMPTY(telecomms_list)
 /obj/machinery/telecomms
 	icon = 'icons/obj/machines/telecomms.dmi'
 	critical_machine = TRUE
+	light_color = LIGHT_COLOR_CYAN
 	var/list/links = list() // list of machines this machine is linked to
 	var/traffic = 0 // value increases as traffic increases
 	var/netspeed = 5 // how much traffic to lose per tick (50 gigabytes/second * netspeed)
@@ -131,6 +132,8 @@ GLOBAL_LIST_EMPTY(telecomms_list)
 			on = TRUE
 	else
 		on = FALSE
+	
+	set_light(on)
 
 /obj/machinery/telecomms/process()
 	update_power()
@@ -149,6 +152,14 @@ GLOBAL_LIST_EMPTY(telecomms_list)
 		stat |= EMPED
 		var/duration = (300 * 10)/severity
 		addtimer(CALLBACK(src, .proc/de_emp), rand(duration - 20, duration + 20))
+
+/obj/machinery/telecomms/obj_break(damage_flag)
+	. = ..()
+	update_power()
+
+/obj/machinery/telecomms/power_change()
+	..()
+	update_power()
 
 /obj/machinery/telecomms/proc/de_emp()
 	stat &= ~EMPED

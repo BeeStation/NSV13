@@ -199,16 +199,22 @@
 /datum/config_entry/string/banappeals
 
 /datum/config_entry/string/wikiurl
-	config_entry_value = "http://www.tgstation13.org/wiki"
+	config_entry_value = "https://nsv.ddmers.com/wiki/Main_Page"
 
 /datum/config_entry/string/forumurl
-	config_entry_value = "http://tgstation13.org/phpBB/index.php"
+	config_entry_value = "https://nsv.ddmers.com/fluxbb/index.php"
 
 /datum/config_entry/string/rulesurl
-	config_entry_value = "http://www.tgstation13.org/wiki/Rules"
+	config_entry_value = "https://nsv.ddmers.com/wiki/Rules"
 
 /datum/config_entry/string/githuburl
-	config_entry_value = "https://www.github.com/tgstation/-tg-station"
+	config_entry_value = "https://github.com/BeeStation/NSV13"
+
+/datum/config_entry/string/donateurl
+	config_entry_value = "https://www.patreon.com/user?u=10639001"
+
+/datum/config_entry/string/discordurl
+	config_entry_value = "https://discord.gg/8rrttjN"
 
 /datum/config_entry/string/roundstatsurl
 
@@ -281,6 +287,8 @@
 	integer = FALSE
 
 /datum/config_entry/flag/maprotation
+
+/datum/config_entry/flag/automapvote
 
 /datum/config_entry/number/maprotatechancedelta
 	config_entry_value = 0.75
@@ -470,9 +478,6 @@
 /datum/config_entry/string/default_view
 	config_entry_value = "15x15"
 
-/datum/config_entry/string/default_view_square
-	config_entry_value = "15x15"
-
 /datum/config_entry/flag/log_pictures
 
 /datum/config_entry/flag/picture_logging_camera
@@ -487,3 +492,28 @@
 
 /datum/config_entry/flag/reopen_roundstart_suicide_roles_command_report
 
+/datum/config_entry/string/metacurrency_name
+	config_entry_value = "MetaCoin"
+
+/datum/config_entry/flag/grant_metacurrency
+
+/datum/config_entry/flag/respect_global_bans
+
+//Fail2Topic settings.
+/datum/config_entry/number/topic_rate_limit
+	config_entry_value = 5
+	min_val = 1
+
+/datum/config_entry/number/topic_max_fails
+	config_entry_value = 5
+	min_val = 1
+
+/datum/config_entry/string/topic_rule_name
+	config_entry_value = "_DD_Fail2topic"
+
+/datum/config_entry/number/topic_max_size
+	config_entry_value = 500
+
+/datum/config_entry/flag/topic_enabled
+
+/datum/config_entry/flag/auto_profile

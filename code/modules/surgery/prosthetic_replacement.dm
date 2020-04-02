@@ -1,10 +1,11 @@
 /datum/surgery/prosthetic_replacement
-	name = "Prosthetic replacement"
+	name = "prosthetic replacement"
 	steps = list(/datum/surgery_step/incise, /datum/surgery_step/clamp_bleeders, /datum/surgery_step/retract_skin, /datum/surgery_step/add_prosthetic)
 	target_mobtypes = list(/mob/living/carbon/human, /mob/living/carbon/monkey)
 	possible_locs = list(BODY_ZONE_R_ARM, BODY_ZONE_L_ARM, BODY_ZONE_L_LEG, BODY_ZONE_R_LEG, BODY_ZONE_HEAD)
 	requires_bodypart = FALSE //need a missing limb
 	requires_bodypart_type = 0
+	self_operable = TRUE
 
 /datum/surgery/prosthetic_replacement/can_start(mob/user, mob/living/carbon/target)
 	if(!iscarbon(target))
@@ -24,11 +25,11 @@
 /datum/surgery_step/add_prosthetic/preop(mob/user, mob/living/carbon/target, target_zone, obj/item/tool, datum/surgery/surgery)
 	if(istype(tool, /obj/item/organ_storage))
 		if(!tool.contents.len)
-			to_chat(user, "<span class='warning'>There is nothing inside [tool]!</span>")
+			to_chat(user, "<span class='notice'>There is nothing inside [tool]!</span>")
 			return -1
 		var/obj/item/I = tool.contents[1]
 		if(!isbodypart(I))
-			to_chat(user, "<span class='warning'>[I] cannot be attached!</span>")
+			to_chat(user, "<span class='notice'>[I] cannot be attached!</span>")
 			return -1
 		tool = I
 	if(istype(tool, /obj/item/bodypart))
@@ -48,7 +49,7 @@
 					organ_rejection_dam = 30
 
 		if(target_zone == BP.body_zone) //so we can't replace a leg with an arm, or a human arm with a monkey arm.
-			display_results(user, target, "<span class='notice'>You begin to replace [target]'s [parse_zone(target_zone)] with [tool]...</span>",
+			display_results(user, target, "<span class ='notice'>You begin to replace [target]'s [parse_zone(target_zone)] with [tool]...</span>",
 				"[user] begins to replace [target]'s [parse_zone(target_zone)] with [tool].",
 				"[user] begins to replace [target]'s [parse_zone(target_zone)].")
 		else
@@ -94,3 +95,4 @@
 			var/obj/item/melee/arm_blade/new_arm = new(target,TRUE,TRUE)
 			target_zone == BODY_ZONE_R_ARM ? target.put_in_r_hand(new_arm) : target.put_in_l_hand(new_arm)
 			return 1
+

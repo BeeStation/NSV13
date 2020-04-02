@@ -283,9 +283,9 @@
 		if(!(stat & BROKEN))
 			canister_break()
 		if(disassembled)
-			new /obj/item/stack/sheet/metal (loc, 10)
+			new /obj/item/stack/sheet/iron (loc, 10)
 		else
-			new /obj/item/stack/sheet/metal (loc, 5)
+			new /obj/item/stack/sheet/iron (loc, 5)
 	qdel(src)
 
 /obj/machinery/portable_atmospherics/canister/welder_act(mob/living/user, obj/item/I)
@@ -299,7 +299,7 @@
 		if(I.use_tool(src, user, 30, volume=50))
 			deconstruct(TRUE)
 	else
-		to_chat(user, "<span class='warning'>You cannot slice [src] apart when it isn't broken!</span>")
+		to_chat(user, "<span class='notice'>You cannot slice [src] apart when it isn't broken.</span>")
 
 	return TRUE
 

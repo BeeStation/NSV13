@@ -8,9 +8,8 @@
 	var/repeatable = FALSE				//can this step be repeated? Make shure it isn't last step, or it used in surgery with `can_cancel = 1`. Or surgion will be stuck in the loop
 	var/list/chems_needed = list()  //list of chems needed to complete the step. Even on success, the step will have no effect if there aren't the chems required in the mob.
 	var/require_all_chems = TRUE    //any on the list or all on the list?
-	var/silicons_obey_prob = FALSE
 
-/datum/surgery_step/proc/try_op(mob/user, mob/living/target, target_zone, obj/item/tool, datum/surgery/surgery, try_to_fail = FALSE)
+/datum/surgery_step/proc/try_op(mob/user, mob/living/carbon/target, target_zone, obj/item/tool, datum/surgery/surgery, try_to_fail = FALSE)
 	var/success = FALSE
 	if(accept_hand)
 		if(!tool)
@@ -40,10 +39,10 @@
 	if(success)
 		if(target_zone == surgery.location)
 			if(get_location_accessible(target, target_zone) || surgery.ignore_clothes)
-				initiate(user, target, target_zone, tool, surgery, try_to_fail)
+				return initiate(user, target, target_zone, tool, surgery, try_to_fail)
 			else
 				to_chat(user, "<span class='warning'>You need to expose [target]'s [parse_zone(target_zone)] to perform surgery on it!</span>")
-			return TRUE	//returns TRUE so we don't stab the guy in the dick or wherever.
+				return TRUE	//returns TRUE so we don't stab the guy in the dick or wherever.
 
 	if(repeatable)
 		var/datum/surgery_step/next_step = surgery.get_surgery_next_step()
@@ -57,7 +56,7 @@
 	return FALSE
 
 
-/datum/surgery_step/proc/initiate(mob/user, mob/living/target, target_zone, obj/item/tool, datum/surgery/surgery, try_to_fail = FALSE)
+/datum/surgery_step/proc/initiate(mob/user, mob/living/carbon/target, target_zone, obj/item/tool, datum/surgery/surgery, try_to_fail = FALSE)
 	surgery.step_in_progress = TRUE
 	var/speed_mod = 1
 	var/advance = FALSE
@@ -74,9 +73,9 @@
 
 		if(implement_type)	//this means it isn't a require hand or any item step.
 			prob_chance = implements[implement_type]
-		prob_chance *= surgery.get_propability_multiplier()
+		prob_chance *= surgery.get_propability_multiplier(user)
 
-		if((prob(prob_chance) || (iscyborg(user) && !silicons_obey_prob)) && chem_check(target) && !try_to_fail)
+		if((prob(prob_chance) || iscyborg(user)) && chem_check(target) && !try_to_fail)
 			if(success(user, target, target_zone, tool, surgery))
 				advance = TRUE
 		else
@@ -91,27 +90,37 @@
 	surgery.step_in_progress = FALSE
 	return advance
 
+
 /datum/surgery_step/proc/preop(mob/user, mob/living/target, target_zone, obj/item/tool, datum/surgery/surgery)
 	display_results(user, target, "<span class='notice'>You begin to perform surgery on [target]...</span>",
-		"[user] begins to perform surgery on [target].",
-		"[user] begins to perform surgery on [target].")
+		"<span class='notice'>[user] begins to perform surgery on [target].</span>",
+		"<span class='notice'>[user] begins to perform surgery on [target].</span>")
 
 /datum/surgery_step/proc/success(mob/user, mob/living/target, target_zone, obj/item/tool, datum/surgery/surgery)
 	display_results(user, target, "<span class='notice'>You succeed.</span>",
-		"[user] succeeds!",
-		"[user] finishes.")
+		"<span class='notice'>[user] succeeds!</span>",
+		"<span class='notice'>[user] finishes.</span>")
 	return TRUE
 
-/datum/surgery_step/proc/failure(mob/user, mob/living/target, target_zone, obj/item/tool, datum/surgery/surgery)
-	display_results(user, target, "<span class='warning'>You screw up!</span>",
+/datum/surgery_step/proc/failure(mob/user, mob/living/target, target_zone, obj/item/tool, datum/surgery/surgery, var/fail_prob = 0)
+	var/screwedmessage = ""
+	switch(fail_prob)
+		if(0 to 24)
+			screwedmessage = " You almost had it, though."
+		if(50 to 74)//25 to 49 = no extra text
+			screwedmessage = " This is hard to get right in these conditions..."
+		if(75 to 99)
+			screwedmessage = " This is practically impossible in these conditions..."
+
+	display_results(user, target, "<span class='warning'>You screw up![screwedmessage]</span>",
 		"<span class='warning'>[user] screws up!</span>",
-		"[user] finishes.", TRUE) //By default the patient will notice if the wrong thing has been cut
+		"<span class='notice'>[user] finishes.</span>", TRUE) //By default the patient will notice if the wrong thing has been cut
 	return FALSE
 
 /datum/surgery_step/proc/tool_check(mob/user, obj/item/tool)
 	return TRUE
 
-/datum/surgery_step/proc/chem_check(mob/living/target)
+/datum/surgery_step/proc/chem_check(mob/living/carbon/target)
 	if(!LAZYLEN(chems_needed))
 		return TRUE
 

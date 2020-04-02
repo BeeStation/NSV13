@@ -2,10 +2,6 @@
 #define COLLECT_EVERYTHING 1
 #define COLLECT_SAME 2
 
-#define DROP_NOTHING 0
-#define DROP_AT_PARENT 1
-#define DROP_AT_LOCATION 2
-
 // External storage-related logic:
 // /mob/proc/ClickOn() in /_onclick/click.dm - clicking items in storages
 // /mob/living/Move() in /modules/mob/living/living.dm - hiding storage boxes on mob movement
@@ -14,11 +10,8 @@
 	dupe_mode = COMPONENT_DUPE_UNIQUE
 	var/datum/component/storage/concrete/master		//If not null, all actions act on master and this is just an access point.
 
-	var/list/can_hold								//if this is set, only items, and their children, will fit
-	var/list/cant_hold								//if this is set, items, and their children, won't fit
-	var/list/exception_hold           //if set, these items will be the exception to the max size of object that can fit.
-
-	var/can_hold_description
+	var/list/can_hold								//if this is set, only things in this typecache will fit.
+	var/list/cant_hold								//if this is set, anything in this typecache will not be able to fit.
 
 	var/list/mob/is_using							//lazy list of mobs looking at the contents of this storage.
 
@@ -84,8 +77,6 @@
 	RegisterSignal(parent, COMSIG_TRY_STORAGE_HIDE_ALL, .proc/close_all)
 	RegisterSignal(parent, COMSIG_TRY_STORAGE_RETURN_INVENTORY, .proc/signal_return_inv)
 
-	RegisterSignal(parent, COMSIG_TOPIC, .proc/topic_handle)
-
 	RegisterSignal(parent, COMSIG_PARENT_ATTACKBY, .proc/attackby)
 
 	RegisterSignal(parent, COMSIG_ATOM_ATTACK_HAND, .proc/on_attack_hand)
@@ -118,24 +109,6 @@
 
 /datum/component/storage/PreTransfer()
 	update_actions()
-
-/datum/component/storage/proc/set_holdable(can_hold_list, cant_hold_list)
-	can_hold_description = generate_hold_desc(can_hold_list)
-
-	if (can_hold_list != null)
-		can_hold = typecacheof(can_hold_list)
-
-	if (cant_hold_list != null)
-		cant_hold = typecacheof(cant_hold_list)
-
-/datum/component/storage/proc/generate_hold_desc(can_hold_list)
-	var/list/desc = list()
-
-	for(var/valid_type in can_hold_list)
-		var/obj/item/valid_item = valid_type
-		desc += "\a [initial(valid_item.name)]"
-
-	return "\n\t<span class='notice'>[desc.Join("\n\t")]</span>"
 
 /datum/component/storage/proc/update_actions()
 	QDEL_NULL(modeswitch_action)
@@ -211,7 +184,7 @@
 		things = typecache_filter_list(things, typecacheof(I.type))
 	var/len = length(things)
 	if(!len)
-		to_chat(M, "<span class='warning'>You failed to pick up anything with [parent]!</span>")
+		to_chat(M, "<span class='notice'>You failed to pick up anything with [parent].</span>")
 		return
 	var/datum/progressbar/progress = new(M, len, I.loc)
 	var/list/rejections = list()
@@ -284,8 +257,6 @@
 		if(I.loc != real_location)
 			continue
 		remove_from_storage(I, target)
-		I.pixel_x = rand(-10,10)
-		I.pixel_y = rand(-10,10)
 		if(trigger_on_found && I.on_found())
 			return FALSE
 		if(TICK_CHECK)
@@ -526,38 +497,33 @@
 	interface |= return_inv(recursive)
 	return TRUE
 
-/datum/component/storage/proc/topic_handle(datum/source, user, href_list)
-	if(href_list["show_valid_pocket_items"])
-		handle_show_valid_items(source, user)
-
-/datum/component/storage/proc/handle_show_valid_items(datum/source, user)
-	to_chat(user, "<span class='notice'>[source] can hold: [can_hold_description]</span>")
-
 /datum/component/storage/proc/mousedrop_onto(datum/source, atom/over_object, mob/M)
 	set waitfor = FALSE
 	. = COMPONENT_NO_MOUSEDROP
+	if(!ismob(M))
+		return
+	if(!over_object)
+		return
+	if(ismecha(M.loc)) // stops inventory actions in a mech
+		return
+	if(M.incapacitated() || !M.canUseStorage())
+		return
 	var/atom/A = parent
-	if(ismob(M)) //all the check for item manipulation are in other places, you can safely open any storages as anything and its not buggy, i checked
-		A.add_fingerprint(M)
-		if(!over_object)
-			return FALSE
-		if(ismecha(M.loc)) // stops inventory actions in a mech
-			return FALSE
-		// this must come before the screen objects only block, dunno why it wasn't before
-		if(over_object == M)
-			user_show_to_mob(M)
-		if(!M.incapacitated())
-			if(!istype(over_object, /obj/screen))
-				dump_content_at(over_object, M)
-				return
-			if(A.loc != M)
-				return
-			playsound(A, "rustle", 50, 1, -5)
-			if(istype(over_object, /obj/screen/inventory/hand))
-				var/obj/screen/inventory/hand/H = over_object
-				M.putItemFromInventoryInHandIfPossible(A, H.held_index)
-				return
-			A.add_fingerprint(M)
+	A.add_fingerprint(M)
+	// this must come before the screen objects only block, dunno why it wasn't before
+	if(over_object == M)
+		user_show_to_mob(M)
+	if(!istype(over_object, /obj/screen))
+		dump_content_at(over_object, M)
+		return
+	if(A.loc != M)
+		return
+	playsound(A, "rustle", 50, 1, -5)
+	if(istype(over_object, /obj/screen/inventory/hand))
+		var/obj/screen/inventory/hand/H = over_object
+		M.putItemFromInventoryInHandIfPossible(A, H.held_index)
+		return
+	A.add_fingerprint(M)
 
 /datum/component/storage/proc/user_show_to_mob(mob/M, force = FALSE)
 	var/atom/A = parent
@@ -608,7 +574,7 @@
 		if(!stop_messages)
 			to_chat(M, "<span class='warning'>[host] cannot hold [I]!</span>")
 		return FALSE
-	if(I.w_class > max_w_class && !is_type_in_typecache(I, exception_hold))
+	if(I.w_class > max_w_class)
 		if(!stop_messages)
 			to_chat(M, "<span class='warning'>[I] is too big for [host]!</span>")
 		return FALSE
@@ -733,22 +699,18 @@
 	if(rustle_sound)
 		playsound(A, "rustle", 50, 1, -5)
 
-	// This functionality overrides default slot behaviours, to make items in your pocket go straight into your hand when clicked on.
-	// This was commented out for pouches (https://github.com/DDMers/NSV13/pull/43) to enable them to work like backpacks (so inventory pops open on click)
-	//if(ishuman(user))
-	//	var/mob/living/carbon/human/H = user
-	//	if(H.l_store == A && !H.get_active_held_item())	//Prevents opening if it's in a pocket.
-	//		. = COMPONENT_NO_ATTACK_HAND
-	//		H.put_in_hands(A)
-	//		H.l_store = null
-	//		return
-	//	if(H.r_store == A && !H.get_active_held_item())
-	//		. = COMPONENT_NO_ATTACK_HAND
-	//		H.put_in_hands(A)
-	//		H.r_store = null
-	//		return
-
-
+	if(ishuman(user))
+		var/mob/living/carbon/human/H = user
+		if(H.l_store == A && !H.get_active_held_item())	//Prevents opening if it's in a pocket.
+			. = COMPONENT_NO_ATTACK_HAND
+			H.put_in_hands(A)
+			H.l_store = null
+			return
+		if(H.r_store == A && !H.get_active_held_item())
+			. = COMPONENT_NO_ATTACK_HAND
+			H.put_in_hands(A)
+			H.r_store = null
+			return
 
 	if(A.loc == user)
 		. = COMPONENT_NO_ATTACK_HAND

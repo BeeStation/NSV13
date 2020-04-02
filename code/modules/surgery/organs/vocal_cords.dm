@@ -76,8 +76,10 @@
 		return FALSE
 	if(!owner)
 		return FALSE
-	if(!owner.can_speak())
-		return FALSE
+	if(isliving(owner))
+		var/mob/living/L = owner
+		if(!L.can_speak_vocal())
+			return FALSE
 	if(check_flags & AB_CHECK_CONSCIOUS)
 		if(owner.stat)
 			return FALSE
@@ -102,7 +104,7 @@
 		return FALSE
 	if(!owner)
 		return FALSE
-	if(!owner.can_speak())
+	if(!owner.can_speak_vocal())
 		to_chat(owner, "<span class='warning'>You are unable to speak!</span>")
 		return FALSE
 	return TRUE
@@ -550,7 +552,7 @@
 	else if((findtext(message, honk_words)))
 		cooldown = COOLDOWN_MEME
 		addtimer(CALLBACK(GLOBAL_PROC, .proc/playsound, get_turf(user), 'sound/items/bikehorn.ogg', 300, 1), 25)
-		if(user.mind && user.mind.assigned_role == "Clown")
+		if(user.mind?.assigned_role == "Clown")
 			for(var/mob/living/carbon/C in listeners)
 				C.slip(140 * power_multiplier)
 			cooldown = COOLDOWN_MEME

@@ -26,11 +26,13 @@
 		"Assistant",
 		"Cyborg",
 		"Captain",
-		"Executive Officer",
+		"Head of Personnel",
 		"Head of Security",
 		"Chief Engineer",
 		"Research Director",
-		"Chief Medical Officer")
+		"Chief Medical Officer",
+		"Master At Arms")
+//NSV13 - Added MAA to blacklist
 
 	//The scaling factor of max total positions in relation to the total amount of people on board the station in %
 	var/max_relative_positions = 30 //30%: Seems reasonable, limit of 6 @ 20 players
@@ -197,7 +199,6 @@
 			if(computer && ((id_card.assignment in head_subordinates) || id_card.assignment == "Assistant"))
 				id_card.assignment = "Unassigned"
 				remove_nt_access(id_card)
-				id_card.update_label()
 
 		if("PRG_edit")
 			if(computer && authorized())
@@ -205,7 +206,6 @@
 					var/temp_name = reject_bad_name(input("Enter name.", "Name", id_card.registered_name))
 					if(temp_name)
 						id_card.registered_name = temp_name
-						id_card.update_label()
 					else
 						computer.visible_message("<span class='notice'>[computer] buzzes rudely.</span>")
 				//else if(params["account"])
@@ -239,7 +239,6 @@
 					remove_nt_access(id_card)
 					apply_access(id_card, access)
 					id_card.assignment = t1
-					id_card.update_label()
 
 		if("PRG_access")
 			if(params["allowed"] && computer && authorized())
@@ -280,6 +279,9 @@
 				reg_ids -= regsel
 			else
 				reg_ids += regsel
+
+	if(id_card)
+		id_card.name = text("[id_card.registered_name]'s ID Card ([id_card.assignment])")
 
 	return 1
 
@@ -376,7 +378,9 @@
 				data["security_jobs"] = format_jobs(GLOB.security_positions)
 				data["cargo_jobs"] = format_jobs(GLOB.supply_positions)
 				data["civilian_jobs"] = format_jobs(GLOB.civilian_positions)
+				data["munitions_jobs"] = format_jobs(GLOB.munitions_positions) //NSV13 Munitions Department
 				data["centcom_jobs"] = format_jobs(get_all_centcom_jobs())
+
 
 
 		if(card_slot.stored_card)
@@ -391,7 +395,7 @@
 				data["all_centcom_access"] = all_centcom_access
 			else
 				var/list/regions = list()
-				for(var/i = 1; i <= 7; i++)
+				for(var/i = 1; i <= 8; i++) //NSV13
 					if((minor || target_dept) && !(i in region_access))
 						continue
 
@@ -453,8 +457,8 @@
 				else
 					if((ACCESS_HOP in auth_card.access) && ((target_dept==1) || !target_dept))
 						region_access |= 1
-						region_access |= 6
-						get_subordinates("Executive Officer")
+						region_access |= 7 //NSV13
+						get_subordinates("Head of Personnel")
 					if((ACCESS_HOS in auth_card.access) && ((target_dept==2) || !target_dept))
 						region_access |= 2
 						get_subordinates("Head of Security")
@@ -467,6 +471,9 @@
 					if((ACCESS_CE in auth_card.access) && ((target_dept==5) || !target_dept))
 						region_access |= 5
 						get_subordinates("Chief Engineer")
+					if((ACCESS_MAA in auth_card.access) && ((target_dept==5) || !target_dept)) //NSV13
+						region_access |= 6
+						get_subordinates("Master At Arms")
 					if(region_access.len)
 						minor = 1
 						authenticated = 1

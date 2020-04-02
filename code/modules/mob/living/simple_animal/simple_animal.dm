@@ -171,7 +171,7 @@
 	set waitfor = FALSE
 	if(speak_chance)
 		if(prob(speak_chance) || override)
-			if(speak && speak.len)
+			if(speak?.len)
 				if((emote_hear && emote_hear.len) || (emote_see && emote_see.len))
 					var/length = speak.len
 					if(emote_hear && emote_hear.len)
@@ -267,10 +267,15 @@
 		adjustHealth(unsuitable_atmos_damage)
 
 /mob/living/simple_animal/gib()
-	if(butcher_results)
+	if(butcher_results || guaranteed_butcher_results)
+		var/list/butcher = list()
+		if(butcher_results)
+			butcher += butcher_results
+		if(guaranteed_butcher_results)
+			butcher += guaranteed_butcher_results
 		var/atom/Tsec = drop_location()
-		for(var/path in butcher_results)
-			for(var/i in 1 to butcher_results[path])
+		for(var/path in butcher)
+			for(var/i in 1 to butcher[path])
 				new path(Tsec)
 	..()
 
@@ -504,11 +509,9 @@
 		hand_index = (active_hand_index % held_items.len)+1
 	var/obj/item/held_item = get_active_held_item()
 	if(held_item)
-		if(istype(held_item, /obj/item/twohanded))
-			var/obj/item/twohanded/T = held_item
-			if(T.wielded == 1)
-				to_chat(usr, "<span class='warning'>Your other hand is too busy holding [T].</span>")
-				return
+		if(SEND_SIGNAL(held_item, COMSIG_ITEM_IS_WIELDED) & COMPONENT_WIELDED)
+			to_chat(usr, "<span class='warning'>Your other hand is too busy holding [held_item].</span>")
+			return
 	var/oindex = active_hand_index
 	active_hand_index = hand_index
 	if(hud_used)

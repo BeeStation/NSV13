@@ -66,13 +66,13 @@
 		if(iswallturf(T))
 			T.attackby(src, user, params)
 
-	var/metal_amt = round(materials[/datum/material/iron]/MINERAL_MATERIAL_AMOUNT) //Replace this shit later
+	var/iron_amt = round(materials[/datum/material/iron]/MINERAL_MATERIAL_AMOUNT) //Replace this shit later
 	var/glass_amt = round(materials[/datum/material/glass]/MINERAL_MATERIAL_AMOUNT) //Replace this shit later
 
-	if(W.tool_behaviour == TOOL_WRENCH && (metal_amt || glass_amt))
+	if(W.tool_behaviour == TOOL_WRENCH && (iron_amt || glass_amt))
 		to_chat(user, "<span class='notice'>You dismantle [src].</span>")
-		if(metal_amt)
-			new /obj/item/stack/sheet/metal(get_turf(src), metal_amt)
+		if(iron_amt)
+			new /obj/item/stack/sheet/iron(get_turf(src), iron_amt)
 		if(glass_amt)
 			new /obj/item/stack/sheet/glass(get_turf(src), glass_amt)
 		qdel(src)
@@ -92,7 +92,7 @@
 	if(!..())
 		return
 	var/turf/T = get_turf(on_wall) //the user is not where it needs to be.
-	var/area/A = get_area(T)
+	var/area/A = get_area(user)
 	if(A.get_apc())
 		to_chat(user, "<span class='warning'>This area already has an APC!</span>")
 		return //only one APC per area

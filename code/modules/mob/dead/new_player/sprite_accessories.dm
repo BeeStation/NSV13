@@ -24,7 +24,9 @@
 	if(!istype(female))
 		female = list()
 
-	for(var/path in subtypesof(prototype))
+	for(var/path in typesof(prototype))
+		if(path == prototype)
+			continue
 		if(roundstart)
 			var/datum/sprite_accessory/P = path
 			if(initial(P.locked))
@@ -52,12 +54,15 @@
 	var/name			//the preview name of the accessory
 	var/gender = NEUTER	//Determines if the accessory will be skipped or included in random hair generations
 	var/gender_specific //Something that can be worn by either gender, but looks different on each
+	var/use_static		//determines if the accessory will be skipped by color preferences
 	var/color_src = MUTCOLORS	//Currently only used by mutantparts so don't worry about hair and stuff. This is the source that this accessory will get its color from. Default is MUTCOLOR, but can also be HAIR, FACEHAIR, EYECOLOR and 0 if none.
 	var/hasinner		//Decides if this sprite has an "inner" part, such as the fleshy parts on ears.
 	var/locked = FALSE		//Is this part locked from roundstart selection? Used for parts that apply effects
 	var/dimension_x = 32
 	var/dimension_y = 32
 	var/center = FALSE	//Should we center the sprite?
+	var/metacoin_locked = FALSE // if it needs to be bought with metacoins to have it
+	var/limbs_id // The limbs id supplied for full-body replacing features.
 
 //////////////////////
 // Hair Definitions //
@@ -944,62 +949,26 @@
 ///////////////////////////
 // Underwear Definitions //
 ///////////////////////////
+
 /datum/sprite_accessory/underwear
 	icon = 'icons/mob/underwear.dmi'
+	use_static = FALSE
 
+
+//MALE UNDERWEAR
 /datum/sprite_accessory/underwear/nude
 	name = "Nude"
 	icon_state = null
 	gender = NEUTER
 
-/datum/sprite_accessory/underwear/male_mankini
-	name = "Mankini"
-	icon_state = "male_mankini"
+/datum/sprite_accessory/underwear/male_briefs
+	name = "Men's Briefs"
+	icon_state = "male_briefs"
 	gender = MALE
 
-/datum/sprite_accessory/underwear/male_black
-	name = "Men's Black"
-	icon_state = "male_black"
-	gender = MALE
-
-/datum/sprite_accessory/underwear/male_blackalt
-	name = "Men's Black Boxer"
-	icon_state = "male_blackalt"
-	gender = MALE
-
-/datum/sprite_accessory/underwear/male_blue
-	name = "Men's Blue"
-	icon_state = "male_blue"
-	gender = MALE
-
-/datum/sprite_accessory/underwear/male_green
-	name = "Men's Green"
-	icon_state = "male_green"
-	gender = MALE
-
-/datum/sprite_accessory/underwear/male_grey
-	name = "Men's Grey"
-	icon_state = "male_grey"
-	gender = MALE
-
-/datum/sprite_accessory/underwear/male_greyalt
-	name = "Men's Grey Boxer"
-	icon_state = "male_greyalt"
-	gender = MALE
-
-/datum/sprite_accessory/underwear/male_hearts
-	name = "Men's Hearts Boxer"
-	icon_state = "male_hearts"
-	gender = MALE
-
-/datum/sprite_accessory/underwear/male_kinky
-	name = "Men's Kinky"
-	icon_state = "male_kinky"
-	gender = MALE
-
-/datum/sprite_accessory/underwear/male_red
-	name = "Men's Red"
-	icon_state = "male_red"
+/datum/sprite_accessory/underwear/male_boxers
+	name = "Men's Boxer"
+	icon_state = "male_boxers"
 	gender = MALE
 
 /datum/sprite_accessory/underwear/male_stripe
@@ -1007,109 +976,70 @@
 	icon_state = "male_stripe"
 	gender = MALE
 
+/datum/sprite_accessory/underwear/male_midway
+	name = "Men's Midway Boxer"
+	icon_state = "male_midway"
+	gender = MALE
+
+/datum/sprite_accessory/underwear/male_longjohns
+	name = "Men's Long Johns"
+	icon_state = "male_longjohns"
+	gender = MALE
+
+/datum/sprite_accessory/underwear/male_kinky
+	name = "Men's Kinky"
+	icon_state = "male_kinky"
+	gender = MALE
+
+/datum/sprite_accessory/underwear/male_mankini
+	name = "Mankini"
+	icon_state = "male_mankini"
+	gender = MALE
+
+/datum/sprite_accessory/underwear/male_hearts
+	name = "Men's Hearts Boxer"
+	icon_state = "male_hearts"
+	gender = MALE
+	use_static = TRUE
+
 /datum/sprite_accessory/underwear/male_commie
 	name = "Men's Striped Commie Boxer"
 	icon_state = "male_commie"
 	gender = MALE
+	use_static = TRUE
 
 /datum/sprite_accessory/underwear/male_usastripe
 	name = "Men's Striped Freedom Boxer"
 	icon_state = "male_assblastusa"
 	gender = MALE
+	use_static = TRUE
 
 /datum/sprite_accessory/underwear/male_uk
 	name = "Men's Striped UK Boxer"
 	icon_state = "male_uk"
 	gender = MALE
+	use_static = TRUE
 
-/datum/sprite_accessory/underwear/male_white
-	name = "Men's White"
-	icon_state = "male_white"
-	gender = MALE
 
-/datum/sprite_accessory/underwear/female_babydoll
-	name = "Babydoll"
-	icon_state = "female_babydoll"
+//FEMALE UNDERWEAR
+/datum/sprite_accessory/underwear/female_bikini
+	name = "Ladies' Bikini"
+	icon_state = "female_bikini"
 	gender = FEMALE
 
-/datum/sprite_accessory/underwear/female_babyblue
-	name = "Ladies' Baby-Blue"
-	icon_state = "female_babyblue"
+/datum/sprite_accessory/underwear/female_lace
+	name = "Ladies' Lace"
+	icon_state = "female_lace"
 	gender = FEMALE
 
-/datum/sprite_accessory/underwear/female_black
-	name = "Ladies' Black"
-	icon_state = "female_black"
+/datum/sprite_accessory/underwear/female_bralette
+	name = "Ladies' Bralette"
+	icon_state = "female_bralette"
 	gender = FEMALE
 
-/datum/sprite_accessory/underwear/female_black_neko
-	name = "Ladies' Black Neko"
-	icon_state = "female_neko_black"
-	gender = FEMALE
-
-/datum/sprite_accessory/underwear/female_blackalt
-	name = "Ladies' Black Sport"
-	icon_state = "female_blackalt"
-	gender = FEMALE
-
-/datum/sprite_accessory/underwear/female_blue
-	name = "Ladies' Blue"
-	icon_state = "female_blue"
-	gender = FEMALE
-
-/datum/sprite_accessory/underwear/female_commie
-	name = "Ladies' Commie"
-	icon_state = "female_commie"
-	gender = FEMALE
-
-/datum/sprite_accessory/underwear/female_usastripe
-	name = "Ladies' Freedom"
-	icon_state = "female_assblastusa"
-	gender = FEMALE
-
-/datum/sprite_accessory/underwear/female_green
-	name = "Ladies' Green"
-	icon_state = "female_green"
-	gender = FEMALE
-
-/datum/sprite_accessory/underwear/female_kinky
-	name = "Ladies' Kinky"
-	icon_state = "female_kinky"
-	gender = FEMALE
-
-/datum/sprite_accessory/underwear/female_pink
-	name = "Ladies' Pink"
-	icon_state = "female_pink"
-	gender = FEMALE
-
-/datum/sprite_accessory/underwear/female_red
-	name = "Ladies' Red"
-	icon_state = "female_red"
-	gender = FEMALE
-
-/datum/sprite_accessory/underwear/swimsuit
-	name = "Ladies' Swimsuit (Black)"
-	icon_state = "swim_black"
-	gender = FEMALE
-
-/datum/sprite_accessory/underwear/swimsuit_blue
-	name = "Ladies' Swimsuit (Blue)"
-	icon_state = "swim_blue"
-	gender = FEMALE
-
-/datum/sprite_accessory/underwear/swimsuit_green
-	name = "Ladies' Swimsuit (Green)"
-	icon_state = "swim_green"
-	gender = FEMALE
-
-/datum/sprite_accessory/underwear/swimsuit_purple
-	name = "Ladies' Swimsuit (Purple)"
-	icon_state = "swim_purple"
-	gender = FEMALE
-
-/datum/sprite_accessory/underwear/swimsuit_red
-	name = "Ladies' Swimsuit (Red)"
-	icon_state = "swim_red"
+/datum/sprite_accessory/underwear/female_sport
+	name = "Ladies' Sport"
+	icon_state = "female_sport"
 	gender = FEMALE
 
 /datum/sprite_accessory/underwear/female_thong
@@ -1117,30 +1047,81 @@
 	icon_state = "female_thong"
 	gender = FEMALE
 
-/datum/sprite_accessory/underwear/female_uk
-	name = "Ladies' UK"
-	icon_state = "female_uk"
+/datum/sprite_accessory/underwear/female_strapless
+	name = "Ladies' Strapless"
+	icon_state = "female_strapless"
 	gender = FEMALE
 
-/datum/sprite_accessory/underwear/female_white
-	name = "Ladies' White"
-	icon_state = "female_white"
+/datum/sprite_accessory/underwear/female_babydoll
+	name = "Babydoll"
+	icon_state = "female_babydoll"
+	gender = FEMALE
+
+/datum/sprite_accessory/underwear/swimsuit_onepiece
+	name = "Ladies' One Piece Swimsuit"
+	icon_state = "swim_onepiece"
+	gender = FEMALE
+
+/datum/sprite_accessory/underwear/swimsuit_strapless_onepiece
+	name = "Ladies' Strapless One Piece Swimsuit"
+	icon_state = "swim_strapless_onepiece"
+	gender = FEMALE
+
+/datum/sprite_accessory/underwear/swimsuit_twopiece
+	name = "Ladies' Two Piece Swimsuit"
+	icon_state = "swim_twopiece"
+	gender = FEMALE
+
+/datum/sprite_accessory/underwear/swimsuit_strapless_twopiece
+	name = "Ladies' Strapless Two Piece Swimsuit"
+	icon_state = "swim_strapless_twopiece"
+	gender = FEMALE
+
+/datum/sprite_accessory/underwear/swimsuit_stripe
+	name = "Ladies' Stripe Swimsuit"
+	icon_state = "swim_stripe"
+	gender = FEMALE
+
+/datum/sprite_accessory/underwear/swimsuit_halter
+	name = "Ladies' Halter Swimsuit"
+	icon_state = "swim_halter"
 	gender = FEMALE
 
 /datum/sprite_accessory/underwear/female_white_neko
 	name = "Ladies' White Neko"
 	icon_state = "female_neko_white"
 	gender = FEMALE
+	use_static = TRUE
 
-/datum/sprite_accessory/underwear/female_whitealt
-	name = "Ladies' White Sport"
-	icon_state = "female_whitealt"
+/datum/sprite_accessory/underwear/female_black_neko
+	name = "Ladies' Black Neko"
+	icon_state = "female_neko_black"
 	gender = FEMALE
+	use_static = TRUE
 
-/datum/sprite_accessory/underwear/female_yellow
-	name = "Ladies' Yellow"
-	icon_state = "female_yellow"
+/datum/sprite_accessory/underwear/female_commie
+	name = "Ladies' Commie"
+	icon_state = "female_commie"
 	gender = FEMALE
+	use_static = TRUE
+
+/datum/sprite_accessory/underwear/female_usastripe
+	name = "Ladies' Freedom"
+	icon_state = "female_assblastusa"
+	gender = FEMALE
+	use_static = TRUE
+
+/datum/sprite_accessory/underwear/female_uk
+	name = "Ladies' UK"
+	icon_state = "female_uk"
+	gender = FEMALE
+	use_static = TRUE
+
+/datum/sprite_accessory/underwear/female_kinky
+	name = "Ladies' Kinky"
+	icon_state = "female_kinky"
+	gender = FEMALE
+	use_static = TRUE
 
 ////////////////////////////
 // Undershirt Definitions //
@@ -1474,7 +1455,7 @@
 /datum/sprite_accessory/socks/bee_knee
 	name = "Knee-high (Bee)"
 	icon_state = "bee_knee"
-
+	
 /datum/sprite_accessory/socks/black_norm
 	name = "Normal (Black)"
 	icon_state = "black_norm"
@@ -1494,38 +1475,6 @@
 /datum/sprite_accessory/socks/white_short
 	name = "Short (White)"
 	icon_state = "white_short"
-
-/datum/sprite_accessory/socks/stockings_blue
-	name = "Stockings (Blue)"
-	icon_state = "stockings_blue"
-
-/datum/sprite_accessory/socks/stockings_cyan
-	name = "Stockings (Cyan)"
-	icon_state = "stockings_cyan"
-
-/datum/sprite_accessory/socks/stockings_dpink
-	name = "Stockings (Dark Pink)"
-	icon_state = "stockings_dpink"
-
-/datum/sprite_accessory/socks/stockings_green
-	name = "Stockings (Green)"
-	icon_state = "stockings_black"
-
-/datum/sprite_accessory/socks/stockings_orange
-	name = "Stockings (Orange)"
-	icon_state = "stockings_orange"
-
-/datum/sprite_accessory/socks/stockings_programmer
-	name = "Stockings (Programmer)"
-	icon_state = "stockings_lpink"
-
-/datum/sprite_accessory/socks/stockings_purple
-	name = "Stockings (Purple)"
-	icon_state = "stockings_purple"
-
-/datum/sprite_accessory/socks/stockings_yellow
-	name = "Stockings (Yellow)"
-	icon_state = "stockings_yellow"
 
 /datum/sprite_accessory/socks/black_thigh
 	name = "Thigh-high (Black)"
@@ -1562,7 +1511,7 @@
 /datum/sprite_accessory/socks/bee_thigh
 	name = "Thigh-high (Bee)"
 	icon_state = "bee_thigh"
-
+	
 //////////.//////////////////
 // MutantParts Definitions //
 /////////////////////////////
@@ -1889,3 +1838,254 @@
 /datum/sprite_accessory/moth_wings/snow
 	name = "Snow"
 	icon_state = "snow"
+
+/datum/sprite_accessory/moth_wings/angel
+	name = "Angel"
+	icon_state = "angel"
+	color_src = 0
+	dimension_x = 46
+	center = TRUE
+	dimension_y = 34
+	metacoin_locked = TRUE
+
+// IPC accessories.
+
+/datum/sprite_accessory/ipc_screens
+	icon = 'icons/mob/ipc_accessories.dmi'
+	color_src = EYECOLOR
+
+/datum/sprite_accessory/ipc_screens/blue
+	name = "Blue"
+	icon_state = "blue"
+	color_src = 0
+
+/datum/sprite_accessory/ipc_screens/bsod
+	name = "BSOD"
+	icon_state = "bsod"
+	color_src = 0
+
+/datum/sprite_accessory/ipc_screens/breakout
+	name = "Breakout"
+	icon_state = "breakout"
+
+/datum/sprite_accessory/ipc_screens/console
+	name = "Console"
+	icon_state = "console"
+
+/datum/sprite_accessory/ipc_screens/ecgwave
+	name = "ECG Wave"
+	icon_state = "ecgwave"
+
+/datum/sprite_accessory/ipc_screens/eight
+	name = "Eight"
+	icon_state = "eight"
+
+/datum/sprite_accessory/ipc_screens/eyes
+	name = "Eyes"
+	icon_state = "eyes"
+
+/datum/sprite_accessory/ipc_screens/glider
+	name = "Glider"
+	icon_state = "glider"
+
+/datum/sprite_accessory/ipc_screens/goggles
+	name = "Goggles"
+	icon_state = "goggles"
+
+/datum/sprite_accessory/ipc_screens/green
+	name = "Green"
+	icon_state = "green"
+
+/datum/sprite_accessory/ipc_screens/heart
+	name = "Heart"
+	icon_state = "heart"
+	color_src = 0
+
+/datum/sprite_accessory/ipc_screens/monoeye
+	name = "Mono-eye"
+	icon_state = "monoeye"
+
+/datum/sprite_accessory/ipc_screens/nature
+	name = "Nature"
+	icon_state = "nature"
+
+/datum/sprite_accessory/ipc_screens/orange
+	name = "Orange"
+	icon_state = "orange"
+
+/datum/sprite_accessory/ipc_screens/pink
+	name = "Pink"
+	icon_state = "pink"
+
+/datum/sprite_accessory/ipc_screens/purple
+	name = "Purple"
+	icon_state = "purple"
+
+/datum/sprite_accessory/ipc_screens/rainbow
+	name = "Rainbow"
+	icon_state = "rainbow"
+	color_src = 0
+
+/datum/sprite_accessory/ipc_screens/red
+	name = "Red"
+	icon_state = "red"
+
+/datum/sprite_accessory/ipc_screens/redtext
+	name = "Red Text"
+	icon_state = "redtext"
+	color_src = 0
+
+/datum/sprite_accessory/ipc_screens/rgb
+	name = "RGB"
+	icon_state = "rgb"
+
+/datum/sprite_accessory/ipc_screens/scroll
+	name = "Scanline"
+	icon_state = "scroll"
+
+/datum/sprite_accessory/ipc_screens/shower
+	name = "Shower"
+	icon_state = "shower"
+
+/datum/sprite_accessory/ipc_screens/sinewave
+	name = "Sinewave"
+	icon_state = "sinewave"
+
+/datum/sprite_accessory/ipc_screens/squarewave
+	name = "Square wave"
+	icon_state = "squarewave"
+
+/datum/sprite_accessory/ipc_screens/static_screen
+	name = "Static"
+	icon_state = "static"
+
+/datum/sprite_accessory/ipc_screens/yellow
+	name = "Yellow"
+	icon_state = "yellow"
+
+/datum/sprite_accessory/ipc_screens/textdrop
+	name = "Text drop"
+	icon_state = "textdrop"
+
+/datum/sprite_accessory/ipc_screens/stars
+	name = "Stars"
+	icon_state = "stars"
+
+/datum/sprite_accessory/ipc_screens/loading
+	name = "Loading"
+	icon_state = "loading"
+
+/datum/sprite_accessory/ipc_screens/windowsxp
+	name = "Windows XP"
+	icon_state = "windowsxp"
+
+/datum/sprite_accessory/ipc_screens/tetris
+	name = "Tetris"
+	icon_state = "tetris"
+
+/datum/sprite_accessory/ipc_screens/tv
+	name = "Color Test"
+	icon_state = "tv"
+
+/datum/sprite_accessory/ipc_antennas
+	icon = 'icons/mob/ipc_accessories.dmi'
+	color_src = HAIR
+
+/datum/sprite_accessory/ipc_antennas/none
+	name = "None"
+	icon_state = "None"
+
+/datum/sprite_accessory/ipc_antennas/angled
+	name = "Angled"
+	icon_state = "antennae"
+
+/datum/sprite_accessory/ipc_antennas/antlers
+	name = "Antlers"
+	icon_state = "antlers"
+
+/datum/sprite_accessory/ipc_antennas/crowned
+	name = "Crowned"
+	icon_state = "crowned"
+
+/datum/sprite_accessory/ipc_antennas/cyberhead
+	name = "Cyberhead"
+	icon_state = "cyberhead"
+
+/datum/sprite_accessory/ipc_antennas/droneeyes
+	name = "Drone Eyes"
+	icon_state = "droneeyes"
+
+/datum/sprite_accessory/ipc_antennas/light
+	name = "Light"
+	icon_state = "light"
+
+/datum/sprite_accessory/ipc_antennas/sidelights
+	name = "Sidelights"
+	icon_state = "sidelights"
+
+/datum/sprite_accessory/ipc_antennas/tesla
+	name = "Tesla"
+	icon_state = "tesla"
+
+/datum/sprite_accessory/ipc_antennas/tv
+	name = "TV Antenna"
+	icon_state = "tvantennae"
+
+/datum/sprite_accessory/ipc_chassis // Used for changing limb icons, doesn't need to hold the actual icon. That's handled in ipc.dm
+	icon = null
+	icon_state = "who cares fuck you" // In order to pull the chassis correctly, we need AN icon_state(see line 36-39). It doesn't have to be useful, because it isn't used.
+	color_src = 0
+
+/datum/sprite_accessory/insect_type
+	icon = null
+	icon_state = "NULL"
+	color_src = 0
+
+/datum/sprite_accessory/insect_type/fly
+	name = "Common Fly"
+	limbs_id = "fly"
+
+/datum/sprite_accessory/insect_type/bee
+	name = "Hoverfly"
+	limbs_id = "bee"
+
+/datum/sprite_accessory/ipc_chassis/mcgreyscale
+	name = "Morpheus Cyberkinetics(Greyscale)"
+	limbs_id = "mcgipc"
+	color_src = MUTCOLORS
+
+/datum/sprite_accessory/ipc_chassis/bishopcyberkinetics
+	name = "Bishop Cyberkinetics"
+	limbs_id = "bshipc"
+
+/datum/sprite_accessory/ipc_chassis/bishopcyberkinetics2
+	name = "Bishop Cyberkinetics 2.0"
+	limbs_id = "bs2ipc"
+
+/datum/sprite_accessory/ipc_chassis/hephaestussindustries
+	name = "Hephaestus Industries"
+	limbs_id = "hsiipc"
+
+/datum/sprite_accessory/ipc_chassis/hephaestussindustries2
+	name = "Hephaestus Industries 2.0"
+	limbs_id = "hi2ipc"
+
+/datum/sprite_accessory/ipc_chassis/shellguardmunitions
+	name = "Shellguard Munitions Standard Series"
+	limbs_id = "sgmipc"
+
+/datum/sprite_accessory/ipc_chassis/wardtakahashimanufacturing
+	name = "Ward-Takahashi Manufacturing"
+	limbs_id = "wtmipc"
+
+/datum/sprite_accessory/ipc_chassis/xionmanufacturinggroup
+	name = "Xion Manufacturing Group"
+	limbs_id = "xmgipc"
+
+/datum/sprite_accessory/ipc_chassis/xionmanufacturinggroup2
+	name = "Xion Manufacturing Group 2.0"
+	limbs_id = "xm2ipc"
+
+/datum/sprite_accessory/ipc_chassis/zenghupharmaceuticals
+	name = "Zeng-Hu Pharmaceuticals"
+	limbs_id = "zhpipc"

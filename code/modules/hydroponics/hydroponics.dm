@@ -49,7 +49,7 @@
 /obj/machinery/hydroponics/constructable/examine(mob/user)
 	. = ..()
 	if(in_range(user, src) || isobserver(user))
-		. += "<span class='notice'>The status display reads: Tray efficiency at <b>[rating*100]%</b>.</span>"
+		. += "<span class='notice'>The status display reads: Tray efficiency at <b>[rating*100]%</b>.<span>"
 
 
 /obj/machinery/hydroponics/Destroy()
@@ -313,8 +313,8 @@
 		. += "<span class='info'>It's empty.</span>"
 
 	if(!self_sustaining)
-		. += "<span class='info'>Water: [waterlevel]/[maxwater].</span>\n"+\
-		"<span class='info'>Nutrient: [nutrilevel]/[maxnutri].</span>"
+		. += {"<span class='info'>Water: [waterlevel]/[maxwater].</span>\n
+		<span class='info'>Nutrient: [nutrilevel]/[maxnutri].</span>"}
 		if(self_sufficiency_progress > 0)
 			var/percent_progress = round(self_sufficiency_progress * 100 / self_sufficiency_req)
 			. += "<span class='info'>Treatment for self-sustenance are [percent_progress]% complete.</span>"
@@ -362,6 +362,7 @@
 	pestlevel = 0 // Reset
 	update_icon()
 	visible_message("<span class='warning'>The [oldPlantName] is overtaken by some [myseed.plantname]!</span>")
+	update_name()
 
 
 /obj/machinery/hydroponics/proc/mutate(lifemut = 2, endmut = 5, productmut = 1, yieldmut = 2, potmut = 25, wrmut = 2, wcmut = 5, traitmut = 0) // Mutates the current seed
@@ -396,6 +397,7 @@
 	sleep(5) // Wait a while
 	update_icon()
 	visible_message("<span class='warning'>[oldPlantName] suddenly mutates into [myseed.plantname]!</span>")
+	update_name()
 
 
 /obj/machinery/hydroponics/proc/mutateweed() // If the weeds gets the mutagent instead. Mind you, this pretty much destroys the old plant
@@ -416,6 +418,7 @@
 		sleep(5) // Wait a while
 		update_icon()
 		visible_message("<span class='warning'>The mutated weeds in [src] spawn some [myseed.plantname]!</span>")
+		update_name()
 	else
 		to_chat(usr, "<span class='warning'>The few weeds in [src] seem to react, but only for a moment...</span>")
 
@@ -602,11 +605,6 @@
 		adjustToxic(round(S.get_reagent_amount(/datum/reagent/toxin/pestkiller) * 0.5))
 		adjustPests(-rand(1,2))
 
-	//Nicotine is used as a pesticide IRL.
-	if(S.has_reagent(/datum/reagent/drug/nicotine, 1))
-		adjustToxic(round(S.get_reagent_amount(/datum/reagent/drug/nicotine)))
-		adjustPests(-rand(1,2))
-
 	// Healing
 	if(S.has_reagent(/datum/reagent/medicine/cryoxadone, 1))
 		adjustHealth(round(S.get_reagent_amount(/datum/reagent/medicine/cryoxadone) * 3))
@@ -689,7 +687,7 @@
 				return
 
 		if(!reagent_source.reagents.total_volume)
-			to_chat(user, "<span class='warning'>[reagent_source] is empty!</span>")
+			to_chat(user, "<span class='notice'>[reagent_source] is empty.</span>")
 			return 1
 
 		var/list/trays = list(src)//makes the list just this in cases of syringes and compost etc
@@ -761,6 +759,7 @@
 			to_chat(user, "<span class='notice'>You plant [O].</span>")
 			dead = 0
 			myseed = O
+			update_name()
 			age = 1
 			plant_health = myseed.endurance
 			lastcycle = world.time
@@ -827,6 +826,7 @@
 					harvest = FALSE //To make sure they can't just put in another seed and insta-harvest it
 				qdel(myseed)
 				myseed = null
+				update_name()
 			weedlevel = 0 //Has a side effect of cleaning up those nasty weeds
 			update_icon()
 
@@ -858,6 +858,7 @@
 		to_chat(user, "<span class='notice'>You remove the dead plant from [src].</span>")
 		qdel(myseed)
 		myseed = null
+		update_name()
 		update_icon()
 	else
 		if(user)
@@ -875,6 +876,7 @@
 	if(!myseed.get_gene(/datum/plant_gene/trait/repeated_harvest))
 		qdel(myseed)
 		myseed = null
+		update_name()
 		dead = 0
 	update_icon()
 
@@ -911,6 +913,12 @@
 	visible_message("<span class='boldnotice'>[src] begins to glow with a beautiful light!</span>")
 	self_sustaining = TRUE
 	update_icon()
+
+/obj/machinery/hydroponics/proc/update_name()
+	if(myseed)
+		name = "[initial(name)] ([myseed.plantname])"
+	else
+		name = initial(name)
 
 ///////////////////////////////////////////////////////////////////////////////
 /obj/machinery/hydroponics/soil //Not actually hydroponics at all! Honk!

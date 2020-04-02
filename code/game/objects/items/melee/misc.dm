@@ -129,36 +129,6 @@
 		user.death(FALSE)
 	REMOVE_TRAIT(src, TRAIT_NODROP, SABRE_SUICIDE_TRAIT)
 
-/obj/item/melee/beesword
-	name = "The Stinger"
-	desc = "Taken from a giant bee and folded over one thousand times in pure honey. Can sting through anything."
-	icon = 'icons/obj/items_and_weapons.dmi'
-	icon_state = "beesword"
-	item_state = "stinger"
-	lefthand_file = 'icons/mob/inhands/weapons/melee_lefthand.dmi'
-	righthand_file = 'icons/mob/inhands/weapons/melee_righthand.dmi'
-	slot_flags = ITEM_SLOT_BELT
-	force = 5
-	w_class = WEIGHT_CLASS_BULKY
-	sharpness = IS_SHARP
-	throwforce = 10
-	block_chance = 20
-	armour_penetration = 65
-	attack_verb = list("slashed", "stung", "prickled", "poked")
-	hitsound = 'sound/weapons/rapierhit.ogg'
-
-/obj/item/melee/beesword/afterattack(atom/target, mob/user, proximity = TRUE)
-	. = ..()
-	user.changeNext_move(CLICK_CD_RAPID)
-	if(iscarbon(target))
-		var/mob/living/carbon/H = target
-		H.reagents.add_reagent(/datum/reagent/toxin, 4)
-
-/obj/item/melee/beesword/suicide_act(mob/living/user)
-	user.visible_message("<span class='suicide'>[user] is stabbing [user.p_them()]self in the throat with [src]! It looks like [user.p_theyre()] trying to commit suicide!</span>")
-	playsound(get_turf(src), hitsound, 75, 1, -1)
-	return TOXLOSS
-
 /obj/item/melee/classic_baton
 	name = "police baton"
 	desc = "A wooden truncheon for beating criminal scum."
@@ -174,12 +144,13 @@
 	var/cooldown_check = 0 // Used interally, you don't want to modify
 
 	var/cooldown = 40 // Default wait time until can stun again.
-	var/stun_time_carbon = 60 // How long we stun for - 6 seconds.
-	var/stun_time_silicon = 0.60 // Multiplier for stunning silicons; if enabled, is 60% of human stun time.
+	var/knockdown_time_carbon = (1.5 SECONDS) // Knockdown length for carbons.
+	var/stun_time_silicon = (5 SECONDS) // If enabled, how long do we stun silicons.
+	var/stamina_damage = 55 // Do we deal stamina damage.
 	var/affect_silicon = FALSE // Does it stun silicons.
 	var/on_sound // "On" sound, played when switching between able to stun or not.
 	var/on_stun_sound = "sound/effects/woodhit.ogg" // Default path to sound for when we stun.
-	var/stun_animation = TRUE // Do we animate the "hit" when stunning.
+	var/stun_animation = FALSE // Do we animate the "hit" when stunning.
 	var/on = TRUE // Are we on or off
 
 	var/on_icon_state // What is our sprite when turned on
@@ -188,12 +159,6 @@
 	var/force_on // Damage when on - not stunning
 	var/force_off // Damage when off - not stunning
 	var/weight_class_on // What is the new size class when turned on
-
-/obj/item/melee/classic_baton/Initialize()
-	. = ..()
-
-	// Derive stun time from multiplier.
-	stun_time_silicon = stun_time_carbon * stun_time_silicon
 
 // Description for trying to stun when still on cooldown.
 /obj/item/melee/classic_baton/proc/get_wait_description()
@@ -213,7 +178,7 @@
 	. = list()
 
 	.["visible"] =  "<span class ='danger'>[user] has knocked down [target] with [src]!</span>"
-	.["local"] = "<span class ='danger'>[user] has knocked down [target] with [src]!</span>"
+	.["local"] = "<span class ='danger'>[user] knocks you down with [src]!</span>"
 
 	return .
 
@@ -241,7 +206,10 @@
 	add_fingerprint(user)
 	if((HAS_TRAIT(user, TRAIT_CLUMSY)) && prob(50))
 		to_chat(user, "<span class ='danger'>You hit yourself over the head.</span>")
-		user.Paralyze(stun_time_carbon * force)
+
+		user.Paralyze(knockdown_time_carbon * force)
+		user.adjustStaminaLoss(stamina_damage)
+
 		additional_effects_carbon(user) // user is the target here
 		if(ishuman(user))
 			var/mob/living/carbon/human/H = user
@@ -291,7 +259,8 @@
 				user.do_attack_animation(target)
 
 			playsound(get_turf(src), on_stun_sound, 75, 1, -1)
-			target.Paralyze(stun_time_carbon)
+			target.Knockdown(knockdown_time_carbon)
+			target.adjustStaminaLoss(stamina_damage)
 			additional_effects_carbon(target, user)
 
 			log_combat(user, target, "stunned", src)
@@ -311,7 +280,7 @@
 
 /obj/item/melee/classic_baton/telescopic
 	name = "telescopic baton"
-	desc = "A compact yet robust personal defense weapon. Can be concealed when folded."
+	desc = "A compact and harmless personal defense weapon. Can be concealed when folded."
 	icon = 'icons/obj/items_and_weapons.dmi'
 	icon_state = "telebaton_0"
 	lefthand_file = 'icons/mob/inhands/weapons/melee_lefthand.dmi'
@@ -327,9 +296,10 @@
 	on_icon_state = "telebaton_1"
 	off_icon_state = "telebaton_0"
 	on_item_state = "nullrod"
-	force_on = 10
+	force_on = 0
 	force_off = 0
 	weight_class_on = WEIGHT_CLASS_BULKY
+	knockdown_time_carbon = (2.5 SECONDS)
 
 /obj/item/melee/classic_baton/telescopic/suicide_act(mob/user)
 	var/mob/living/carbon/human/H = user
@@ -386,15 +356,16 @@
 	force = 5
 
 	cooldown = 20
-	stun_time_carbon = 85 
+	stamina_damage = 85
 	affect_silicon = TRUE 
 	on_sound = 'sound/weapons/contractorbatonextend.ogg'
 	on_stun_sound = 'sound/effects/contractorbatonhit.ogg'
+	stun_animation = TRUE
 
 	on_icon_state = "contractor_baton_1"
 	off_icon_state = "contractor_baton_0"
 	on_item_state = "contractor_baton"
-	force_on = 16
+	force_on = 10
 	force_off = 5
 	weight_class_on = WEIGHT_CLASS_NORMAL
 
@@ -632,3 +603,39 @@
 	held_sausage.name = "[target.name]-roasted [held_sausage.name]"
 	held_sausage.desc = "[held_sausage.desc] It has been cooked to perfection on \a [target]."
 	update_icon()
+
+/obj/item/melee/knockback_stick
+	name = "Knockback Stick"
+	desc = "An portable anti-gravity generator which knocks people back upon contact."
+	icon = 'icons/obj/items_and_weapons.dmi'
+	icon_state = "telebaton_1"
+	item_state = "nullrod"
+	lefthand_file = 'icons/mob/inhands/equipment/security_lefthand.dmi'
+	righthand_file = 'icons/mob/inhands/equipment/security_righthand.dmi'
+	slot_flags = ITEM_SLOT_BELT
+	force = 0
+	throwforce = 0
+	w_class = WEIGHT_CLASS_NORMAL
+	attack_verb = list("repelled")
+	var/cooldown = 0
+	var/knockbackpower = 6
+
+/obj/item/melee/knockback_stick/attack(mob/living/target, mob/living/user)
+	add_fingerprint(user)
+
+	if(cooldown <= world.time)
+		playsound(get_turf(src), 'sound/effects/woodhit.ogg', 75, 1, -1)
+		log_combat(user, target, "knockedbacked", src)
+		target.visible_message("<span class ='danger'>[user] has knocked back [target] with [src]!</span>", \
+			"<span class ='userdanger'>[user] has knocked you back [target] with [src]!</span>")
+
+		var/throw_dir = get_dir(user,target)
+		var/turf/throw_at = get_ranged_target_turf(target, throw_dir, knockbackpower)
+		target.throw_at(throw_at, throw_range, 3)
+
+		if(!iscarbon(user))
+			target.LAssailant = null
+		else
+			target.LAssailant = user
+
+		cooldown = world.time + 15

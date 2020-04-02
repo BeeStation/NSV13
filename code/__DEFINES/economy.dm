@@ -3,14 +3,11 @@
 #define PAYCHECK_ASSISTANT 5
 #define PAYCHECK_MINIMAL 5
 #define PAYCHECK_EASY 20
-#define PAYCHECK_MEDIUM 30
-#define PAYCHECK_HARD 40
-#define PAYCHECK_COMMAND 100
+#define PAYCHECK_MEDIUM 50
+#define PAYCHECK_HARD 100
+#define PAYCHECK_COMMAND 200
 
-#define MAX_GRANT_CIV 2500
-#define MAX_GRANT_ENG 3000
-#define MAX_GRANT_SCI 5000
-#define MAX_GRANT_SECMEDSRV 3000
+#define PAYCHECK_WELFARE 20 //NEETbucks
 
 #define ACCOUNT_CIV "CIV"
 #define ACCOUNT_CIV_NAME "Civil Budget"
@@ -26,5 +23,7 @@
 #define ACCOUNT_CAR_NAME "Cargo Budget"
 #define ACCOUNT_SEC "SEC"
 #define ACCOUNT_SEC_NAME "Defense Budget"
+#define ACCOUNT_MUN "MUN" //NSV13 Munitions Department
+#define ACCOUNT_MUN_NAME "Munitions Budget" //NSV13 Munitions Department
 
 #define NO_FREEBIES "commies go home"

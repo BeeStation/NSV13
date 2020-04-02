@@ -67,12 +67,14 @@
 		return
 	var/turf/here = get_turf(src)
 	var/turf/there = get_turf(target)
-	if(here.z != there.z) //Nsv13 - multiz pinpointer
-		if(here.z > there.z)
-			add_overlay("pinon_below[icon_suffix]")
-		else
-			add_overlay("pinon_above[icon_suffix]")
-		return
+
+	if(here.z != there.z)
+		if(here.z != there.z) //Nsv13 - multiz pinpointer
+			if(here.z > there.z)
+				add_overlay("pinon_below")
+			else
+				add_overlay("pinon_above")
+			return
 	if(get_dist_euclidian(here,there) <= minimum_range)
 		add_overlay("pinon[alert ? "alert" : ""]direct[icon_suffix]")
 	else
@@ -130,7 +132,7 @@
 		var/crewmember_name = "Unknown"
 		if(H.wear_id)
 			var/obj/item/card/id/I = H.wear_id.GetID()
-			if(I && I.registered_name)
+			if(I?.registered_name)
 				crewmember_name = I.registered_name
 
 		while(crewmember_name in name_counts)

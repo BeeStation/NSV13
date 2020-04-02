@@ -29,7 +29,7 @@
 	icon_state = "metal_0"
 	max_integrity = 200
 	barricade_resistance = 10
-	stack_type = /obj/item/stack/sheet/metal
+	stack_type = /obj/item/stack/sheet/iron
 	stack_amount = 4
 	destroyed_stack_amount = 2
 	barricade_hitsound = "sound/effects/metalhit.ogg"

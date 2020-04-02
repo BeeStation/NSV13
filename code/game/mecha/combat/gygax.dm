@@ -26,12 +26,14 @@
 	operation_req_access = list(ACCESS_SYNDICATE)
 	internals_req_access = list(ACCESS_SYNDICATE)
 	wreckage = /obj/structure/mecha_wreckage/gygax/dark
-	max_equip = 4
+	max_equip = 5
 	destruction_sleep_duration = 20
 
 /obj/mecha/combat/gygax/dark/loaded/Initialize()
 	. = ..()
-	var/obj/item/mecha_parts/mecha_equipment/ME = new /obj/item/mecha_parts/mecha_equipment/weapon/ballistic/carbine
+	var/obj/item/mecha_parts/mecha_equipment/ME = new /obj/item/mecha_parts/mecha_equipment/thrusters/ion(src)
+	ME.attach(src)
+	ME = new /obj/item/mecha_parts/mecha_equipment/weapon/ballistic/carbine
 	ME.attach(src)
 	ME = new /obj/item/mecha_parts/mecha_equipment/weapon/ballistic/launcher/flashbang
 	ME.attach(src)
@@ -39,7 +41,6 @@
 	ME.attach(src)
 	ME = new /obj/item/mecha_parts/mecha_equipment/tesla_energy_relay
 	ME.attach(src)
-	max_ammo()
 
 /obj/mecha/combat/gygax/dark/add_cell(obj/item/stock_parts/cell/C=null)
 	if(C)
@@ -53,10 +54,6 @@
 	..()
 	overload_action.Grant(user, src)
 
-/obj/mecha/combat/gygax/dark/GrantActions(mob/living/user, human_occupant = 0)
-	..()
-	thrusters_action.Grant(user, src)
-
 
 /obj/mecha/combat/gygax/RemoveActions(mob/living/user, human_occupant = 0)
 	..()
@@ -64,5 +61,4 @@
 
 /obj/mecha/combat/gygax/dark/RemoveActions(mob/living/user, human_occupant = 0)
 	..()
-	thrusters_action.Remove(user)
 

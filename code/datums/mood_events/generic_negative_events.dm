@@ -85,6 +85,11 @@
 			description =  "<span class='nicegreen'>They want to play on the table!</span>\n"
 			mood_change = 2
 
+/datum/mood_event/table_headsmash
+	description = "<span class='warning'>My fucking head, that hurt...</span>"
+	mood_change = -3
+	timeout = 3 MINUTES
+
 /datum/mood_event/brain_damage
   mood_change = -3
 
@@ -110,7 +115,7 @@
 	mood_change = -4
 
 /datum/mood_event/healsbadman
-	description = "<span class='warning'>I feel like I'm held together by flimsy string, and could fall apart at any moment!</span>\n"
+	description = "<span class='warning'>I feel a lot better, but wow that was disgusting.</span>\n" //when you read the latest felinid removal PR and realize you're really not that much of a degenerate
 	mood_change = -4
 	timeout = 2 MINUTES
 

@@ -27,11 +27,12 @@
 								"Research Machinery",
 								"Misc. Machinery",
 								"Computer Parts",
-								"Advanced Munitions"
+								"Advanced Munitions",
+								"Ship Components"
 								)
 	console_link = FALSE
 	production_animation = "protolathe_n"
 	requires_console = FALSE
 	consoleless_interface = TRUE
 	allowed_buildtypes = PROTOLATHE | IMPRINTER
-//nsv13 added Advanced Munitions list above
+//nsv13 added Advanced Munitions, Ship Components list above

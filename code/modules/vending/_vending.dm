@@ -16,7 +16,7 @@
 IF YOU MODIFY THE PRODUCTS LIST OF A MACHINE, MAKE SURE TO UPDATE ITS RESUPPLY CANISTER CHARGES in vending_items.dm
 */
 
-#define MAX_VENDING_INPUT_AMOUNT 30
+
 /**
   * # vending record datum
   *
@@ -55,6 +55,9 @@ IF YOU MODIFY THE PRODUCTS LIST OF A MACHINE, MAKE SURE TO UPDATE ITS RESUPPLY C
 	armor = list("melee" = 20, "bullet" = 0, "laser" = 0, "energy" = 0, "bomb" = 0, "bio" = 0, "rad" = 0, "fire" = 50, "acid" = 70)
 	circuit = /obj/item/circuitboard/machine/vendor
 	payment_department = ACCOUNT_SRV
+
+	light_color = LIGHT_COLOR_BLUE
+
 	/// Is the machine active (No sales pitches if off)!
 	var/active = 1
 	///Are we ready to vend?? Is it time??
@@ -63,8 +66,14 @@ IF YOU MODIFY THE PRODUCTS LIST OF A MACHINE, MAKE SURE TO UPDATE ITS RESUPPLY C
 	var/purchase_message_cooldown
 	///Last mob to shop with us
 	var/last_shopper
+	var/tilted = FALSE
+	var/tiltable = TRUE
+	var/squish_damage = 75
+	var/forcecrit = 0
+	var/num_shards = 7
+	var/list/pinned_mobs = list()
 
-	
+
 	/**
 	  * List of products this machine sells
 	  *
@@ -130,14 +139,22 @@ IF YOU MODIFY THE PRODUCTS LIST OF A MACHINE, MAKE SURE TO UPDATE ITS RESUPPLY C
 	var/default_price = 25
 	///Default price of premium items if not overridden
 	var/extra_price = 50
-	/**
+
+  	/**
 	  * Is this item on station or not
 	  *
 	  * if it doesn't originate from off-station during mapload, everything is free
 	  */
 	var/onstation = TRUE
+
+	var/dish_quants = list()  //used by the snack machine's custom compartment to count dishes.
+
+	///A variable to change on a per instance basis on the map that allows the instance to force cost and ID requirements
+	var/onstation_override = FALSE //change this on the object on the map to override the onstation check. DO NOT APPLY THIS GLOBALLY.
+
 	///ID's that can load this vending machine wtih refills
 	var/list/canload_access_list
+
 
 	var/list/vending_machine_input = list()
 	///Display header on the input view
@@ -178,6 +195,9 @@ IF YOU MODIFY THE PRODUCTS LIST OF A MACHINE, MAKE SURE TO UPDATE ITS RESUPPLY C
 	last_slogan = world.time + rand(0, slogan_delay)
 	power_change()
 
+	if(onstation_override) //overrides the checks if true.
+		onstation = TRUE
+		return
 	if(mapload) //check if it was initially created off station during mapload.
 		if(!is_station_level(z))
 			onstation = FALSE
@@ -211,7 +231,7 @@ IF YOU MODIFY THE PRODUCTS LIST OF A MACHINE, MAKE SURE TO UPDATE ITS RESUPPLY C
 /obj/machinery/vending/deconstruct(disassembled = TRUE)
 	if(!refill_canister) //the non constructable vendors drop metal instead of a machine frame.
 		if(!(flags_1 & NODECONSTRUCT_1))
-			new /obj/item/stack/sheet/metal(loc, 3)
+			new /obj/item/stack/sheet/iron(loc, 3)
 		qdel(src)
 	else
 		..()
@@ -220,7 +240,7 @@ IF YOU MODIFY THE PRODUCTS LIST OF A MACHINE, MAKE SURE TO UPDATE ITS RESUPPLY C
 	if(!(stat & BROKEN) && !(flags_1 & NODECONSTRUCT_1))
 		stat |= BROKEN
 		icon_state = "[initial(icon_state)]-broken"
-
+		set_light(0)
 		var/dump_amount = 0
 		var/found_anything = TRUE
 		while (found_anything)
@@ -342,6 +362,7 @@ GLOBAL_LIST_EMPTY(vending_products)
 /obj/machinery/vending/wrench_act(mob/living/user, obj/item/I)
 	if(panel_open)
 		default_unfasten_wrench(user, I, time = 60)
+		unbuckle_all_mobs(TRUE)
 	return TRUE
 
 /obj/machinery/vending/screwdriver_act(mob/living/user, obj/item/I)
@@ -363,58 +384,153 @@ GLOBAL_LIST_EMPTY(vending_products)
 		return
 	if(refill_canister && istype(I, refill_canister))
 		if (!panel_open)
-			to_chat(user, "<span class='warning'>You should probably unscrew the service panel first!</span>")
+			to_chat(user, "<span class='notice'>You should probably unscrew the service panel first.</span>")
 		else if (stat & (BROKEN|NOPOWER))
 			to_chat(user, "<span class='notice'>[src] does not respond.</span>")
 		else
 			//if the panel is open we attempt to refill the machine
 			var/obj/item/vending_refill/canister = I
 			if(canister.get_part_rating() == 0)
-				to_chat(user, "<span class='warning'>[canister] is empty!</span>")
+				to_chat(user, "<span class='notice'>[canister] is empty!</span>")
 			else
 				// instantiate canister if needed
 				var/transferred = restock(canister)
 				if(transferred)
 					to_chat(user, "<span class='notice'>You loaded [transferred] items in [src].</span>")
 				else
-					to_chat(user, "<span class='warning'>There's nothing to restock!</span>")
+					to_chat(user, "<span class='notice'>There's nothing to restock!</span>")
 			return
-	if(compartmentLoadAccessCheck(user))
-		if(canLoadItem(I))
-			loadingAttempt(I,user)
-			updateUsrDialog() //can't put this on the proc above because we spam it below
-
-		if(istype(I, /obj/item/storage/bag)) //trays USUALLY
-			var/obj/item/storage/T = I
-			var/loaded = 0
-			var/denied_items = 0
-			for(var/obj/item/the_item in T.contents)
-				if(contents.len >= MAX_VENDING_INPUT_AMOUNT) // no more than 30 item can fit inside, legacy from snack vending although not sure why it exists
-					to_chat(user, "<span class='warning'>[src]'s chef compartment is full.</span>")
-					break
-				if(canLoadItem(the_item) && loadingAttempt(the_item,user))
-					SEND_SIGNAL(T, COMSIG_TRY_STORAGE_TAKE, the_item, src, TRUE)
-					loaded++
-				else
-					denied_items++
-			if(denied_items)
-				to_chat(user, "<span class='warning'>[src] refuses some items!</span>")
-			if(loaded)
-				to_chat(user, "<span class='notice'>You insert [loaded] dishes into [src]'s chef compartment.</span>")
-				updateUsrDialog()
 	else
-		..()
+		. = ..()
+		if(tiltable && !tilted && I.force)
+			switch(rand(1, 100))
+				if(1 to 5)
+					freebie(user, 3)
+				if(6 to 15)
+					freebie(user, 2)
+				if(16 to 25)
+					freebie(user, 1)
+				if(76 to 90)
+					tilt(user)
+				if(91 to 100)
+					tilt(user, crit=TRUE)
 
-/obj/machinery/vending/proc/loadingAttempt(obj/item/I,mob/user)
-  . = TRUE
-  if(!user.transferItemToLoc(I, src))
-    return FALSE
-  if(vending_machine_input[I.name])
-    vending_machine_input[I.name]++
-  else
-    vending_machine_input[I.name] = 1
-  to_chat(user, "<span class='notice'>You insert [I] into [src]'s input compartment.</span>")
+/obj/machinery/vending/proc/freebie(mob/fatty, freebies)
+	visible_message("<span class='notice'>[src] yields [freebies > 1 ? "several free goodies" : "a free goody"]!</span>")
 
+	for(var/i in 1 to freebies)
+		for(var/datum/data/vending_product/R in shuffle(product_records))
+
+			if(R.amount <= 0) //Try to use a record that actually has something to dump.
+				continue
+			var/dump_path = R.product_path
+			if(!dump_path)
+				continue
+
+			R.amount--
+			new dump_path(get_turf(src))
+			break
+
+/obj/machinery/vending/proc/tilt(mob/fatty, crit=FALSE)
+	visible_message("<span class='danger'>[src] tips over!</span>")
+	tilted = TRUE
+	layer = ABOVE_MOB_LAYER
+
+	var/crit_case
+	if(crit)
+		crit_case = rand(1,5)
+
+	if(forcecrit)
+		crit_case = forcecrit
+
+	if(in_range(fatty, src))
+		for(var/mob/living/L in get_turf(fatty))
+			var/mob/living/carbon/C = L
+
+			if(istype(C))
+				var/crit_rebate = 0 // lessen the normal damage we deal for some of the crits
+
+				if(crit_case != 5) // the head asplode case has its own description
+					C.visible_message("<span class='danger'>[C] is crushed by [src]!</span>", \
+						"<span class='userdanger'>You are crushed by [src]!</span>")
+
+				switch(crit_case) // only carbons can have the fun crits
+					if(1) // shatter their legs and bleed 'em
+						crit_rebate = 60
+						C.bleed(150)
+						var/obj/item/bodypart/l_leg/l = C.get_bodypart(BODY_ZONE_L_LEG)
+						if(l)
+							l.receive_damage(brute=200, updating_health=TRUE)
+						var/obj/item/bodypart/r_leg/r = C.get_bodypart(BODY_ZONE_R_LEG)
+						if(r)
+							r.receive_damage(brute=200, updating_health=TRUE)
+						if(l || r)
+							C.visible_message("<span class='danger'>[C]'s legs shatter with a sickening crunch!</span>", \
+								"<span class='userdanger'>Your legs shatter with a sickening crunch!</span>")
+					if(2) // pin them beneath the machine until someone untilts it
+						forceMove(get_turf(C))
+						buckle_mob(C, force=TRUE)
+						C.visible_message("<span class='danger'>[C] is pinned underneath [src]!</span>", \
+							"<span class='userdanger'>You are pinned down by [src]!</span>")
+					if(3) // glass candy
+						crit_rebate = 50
+						for(var/i = 0, i < num_shards, i++)
+							var/obj/item/shard/shard = new /obj/item/shard(get_turf(C))
+							shard.embedding = shard.embedding.setRating(embed_chance = 100, embedded_ignore_throwspeed_threshold = TRUE, embedded_impact_pain_multiplier=1,embedded_pain_chance=5)
+							C.hitby(shard, skipcatch = TRUE, hitpush = FALSE)
+							shard.embedding = shard.embedding.setRating(embed_chance = EMBED_CHANCE, embedded_ignore_throwspeed_threshold = FALSE)
+					if(4) // paralyze this binch
+						// the new paraplegic gets like 4 lines of losing their legs so skip them
+						visible_message("<span class='danger'>[C]'s spinal cord is obliterated with a sickening crunch!</span>")
+						C.gain_trauma(/datum/brain_trauma/severe/paralysis/paraplegic)
+					if(5) // skull squish!
+						var/obj/item/bodypart/head/O = C.get_bodypart(BODY_ZONE_HEAD)
+						if(O)
+							C.visible_message("<span class='danger'>[O] explodes in a shower of gore beneath [src]!</span>", \
+								"<span class='userdanger'>Oh f-</span>")
+							O.dismember()
+							O.drop_organs()
+							qdel(O)
+							new /obj/effect/gibspawner/human/bodypartless(get_turf(C))
+
+				C.apply_damage(max(0, squish_damage - crit_rebate), forced=TRUE)
+				C.AddElement(/datum/element/squish, 18 SECONDS)
+			else
+				L.visible_message("<span class='danger'>[L] is crushed by [src]!</span>", \
+				"<span class='userdanger'>You are crushed by [src]!</span>")
+				L.apply_damage(squish_damage, forced=TRUE)
+				if(crit_case)
+					L.apply_damage(squish_damage, forced=TRUE)
+
+			L.Paralyze(60)
+			L.emote("scream")
+			playsound(L, 'sound/effects/blobattack.ogg', 40, TRUE)
+			playsound(L, 'sound/effects/splat.ogg', 50, TRUE)
+
+	var/matrix/M = matrix()
+	M.Turn(pick(90, 270))
+	transform = M
+
+	if(get_turf(fatty) != get_turf(src))
+		throw_at(get_turf(fatty), 1, 1, spin=FALSE)
+
+/obj/machinery/vending/proc/untilt(mob/user)
+	user.visible_message("<span class='notice'>[user] rights [src].", \
+		"<span class='notice'>You right [src].")
+
+	unbuckle_all_mobs(TRUE)
+
+	tilted = FALSE
+	layer = initial(layer)
+
+	var/matrix/M = matrix()
+	M.Turn(0)
+	transform = M
+
+/obj/machinery/vending/unbuckle_mob(mob/living/buckled_mob, force=FALSE)
+	if(!force)
+		return
+	. = ..()
 
 /obj/machinery/vending/exchange_parts(mob/user, obj/item/storage/part_replacer/W)
 	if(!istype(W))
@@ -452,6 +568,13 @@ GLOBAL_LIST_EMPTY(vending_products)
 	if(seconds_electrified && !(stat & NOPOWER))
 		if(shock(user, 100))
 			return
+
+	if(tilted && !user.buckled && !isAI(user))
+		to_chat(user, "<span class='notice'>You begin righting [src].")
+		if(do_after(user, 50, target=src))
+			untilt(user)
+		return
+
 	return ..()
 
 /obj/machinery/vending/ui_interact(mob/user)
@@ -469,19 +592,8 @@ GLOBAL_LIST_EMPTY(vending_products)
 		dat += "<font color = 'red'><h3>No account on registered ID card!</h3></font>"
 	if(onstation && C && C.registered_account)
 		account = C.registered_account
-	if(vending_machine_input.len)
-		dat += "<h3>[input_display_header]</h3>"
-		dat += "<div class='statusDisplay'>"
-		for (var/O in vending_machine_input)
-			if(vending_machine_input[O] > 0)
-				var/N = vending_machine_input[O]
-				dat += "<a href='byond://?src=[REF(src)];dispense=[sanitize(O)]'>Dispense</A> "
-				dat += "<B>[capitalize(O)] ($[default_price]): [N]</B><br>"
-		dat += "</div>"
-
 	dat += {"<h3>Select an item</h3>
 					<div class='statusDisplay'>"}
-
 	if(!product_records.len)
 		dat += "<font color = 'red'>No product loaded!</font>"
 	else
@@ -511,6 +623,15 @@ GLOBAL_LIST_EMPTY(vending_products)
 	dat += "</div>"
 	if(onstation && C && C.registered_account)
 		dat += "<b>Balance: $[account.account_balance]</b>"
+	if(istype(src, /obj/machinery/vending/snack))
+		dat += "<h3>Chef's Food Selection</h3>"
+		dat += "<div class='statusDisplay'>"
+		for (var/O in dish_quants)
+			if(dish_quants[O] > 0)
+				var/N = dish_quants[O]
+				dat += "<a href='byond://?src=[REF(src)];dispense=[sanitize(O)]'>Dispense</A> "
+				dat += "<B>[capitalize(O)] ($[default_price]): [N]</B><br>"
+		dat += "</div>"
 
 	var/datum/browser/popup = new(user, "vending", (name))
 	popup.add_stylesheet(get_asset_datum(/datum/asset/spritesheet/vending))
@@ -526,7 +647,7 @@ GLOBAL_LIST_EMPTY(vending_products)
 
 	if((href_list["dispense"]) && (vend_ready))
 		var/N = href_list["dispense"]
-		if(vending_machine_input[N] <= 0) // Sanity check, there are probably ways to press the button when it shouldn't be possible.
+		if(dish_quants[N] <= 0) // Sanity check, there are probably ways to press the button when it shouldn't be possible.
 			return
 		vend_ready = 0
 		if(ishuman(usr) && onstation)
@@ -551,10 +672,10 @@ GLOBAL_LIST_EMPTY(vending_products)
 			D.adjust_money(chef_price)
 		use_power(5)
 
-		vending_machine_input[N] = max(vending_machine_input[N] - 1, 0)
+		dish_quants[N] = max(dish_quants[N] - 1, 0)
 		for(var/obj/O in contents)
 			if(O.name == N)
-				say("Thank you for buying local and purchasing [O]!")
+				say("Thank you for supporting your local kitchen and purchasing [O]!")
 				O.forceMove(drop_location())
 				break
 		vend_ready = 1
@@ -563,7 +684,7 @@ GLOBAL_LIST_EMPTY(vending_products)
 
 	if((href_list["vend"]) && (vend_ready))
 		if(panel_open)
-			to_chat(usr, "<span class='warning'>The vending machine cannot dispense products while its service panel is open!</span>")
+			to_chat(usr, "<span class='notice'>The vending machine cannot dispense products while its service panel is open!</span>")
 			return
 
 		vend_ready = 0 //One thing at a time!!
@@ -678,9 +799,11 @@ GLOBAL_LIST_EMPTY(vending_products)
 			icon_state = initial(icon_state)
 			stat &= ~NOPOWER
 			START_PROCESSING(SSmachines, src)
+			set_light(2)
 		else
 			icon_state = "[initial(icon_state)]-off"
 			stat |= NOPOWER
+			set_light(0)
 
 //Somebody cut an important wire and now we're following a new definition of "pitch."
 /**
@@ -744,40 +867,6 @@ GLOBAL_LIST_EMPTY(vending_products)
 		return TRUE
 	else
 		return FALSE
-/**
-  * Are we able to load the item passed in
-  *
-  * Arguments:
-  * * I - the item being loaded
-  * * user - the user doing the loading
-  */
-/obj/machinery/vending/proc/canLoadItem(obj/item/I,mob/user)
-	return FALSE
-/**
-  * Is the passed in user allowed to load this vending machines compartments
-  *
-  * Arguments:
-  * * user - mob that is doing the loading of the vending machine
-  */
-/obj/machinery/vending/proc/compartmentLoadAccessCheck(mob/user)
-	if(!canload_access_list)
-		return TRUE
-	else
-		var/do_you_have_access = FALSE
-		var/req_access_txt_holder = req_access_txt
-		for(var/i in canload_access_list)
-			req_access_txt = i
-			if(!allowed(user) && !(obj_flags & EMAGGED) && scan_id)
-				continue
-			else
-				do_you_have_access = TRUE
-				break //you passed don't bother looping anymore
-		req_access_txt = req_access_txt_holder // revert to normal (before the proc ran)
-		if(do_you_have_access)
-			return TRUE
-		else
-			to_chat(user, "<span class='warning'>[src]'s input compartment blinks red: Access denied.</span>")
-			return FALSE
 
 /obj/machinery/vending/onTransitZ()
 	return

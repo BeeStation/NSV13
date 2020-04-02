@@ -38,20 +38,20 @@
 	return ..()
 
 
-/datum/surgery/proc/can_start(mob/user, mob/living/patient) //FALSE to not show in list
+/datum/surgery/proc/can_start(mob/user, mob/living/carbon/target) //FALSE to not show in list
 	. = TRUE
 	if(replaced_by == /datum/surgery)
 		return FALSE
 
-	// True surgeons (like abductor scientists) need no instructions
-	if(HAS_TRAIT(user, TRAIT_SURGEON) || HAS_TRAIT(user.mind, TRAIT_SURGEON))
-		if(replaced_by) // only show top-level surgeries
+	if(HAS_TRAIT(user, TRAIT_SURGEON))
+		if(replaced_by)
 			return FALSE
 		else
 			return TRUE
 
 	if(!requires_tech && !replaced_by)
 		return TRUE
+	// True surgeons (like abductor scientists) need no instructions
 
 	if(requires_tech)
 		. = FALSE
@@ -60,20 +60,29 @@
 		var/mob/living/silicon/robot/R = user
 		var/obj/item/surgical_processor/SP = locate() in R.module.modules
 		if(!SP || (replaced_by in SP.advanced_surgeries))
-			return FALSE
+			return .
 		if(type in SP.advanced_surgeries)
 			return TRUE
 
-	var/turf/T = get_turf(patient)
+
+	var/turf/T = get_turf(target)
 	var/obj/structure/table/optable/table = locate(/obj/structure/table/optable, T)
 	if(table)
 		if(!table.computer)
-			return FALSE
+			return .
 		if(table.computer.stat & (NOPOWER|BROKEN) || (replaced_by in table.computer.advanced_surgeries))
-			return FALSE
+			return .
 		if(type in table.computer.advanced_surgeries)
 			return TRUE
 
+	var/obj/machinery/stasis/the_stasis_bed = locate(/obj/machinery/stasis, T)
+	if(the_stasis_bed?.op_computer)
+		if(the_stasis_bed.op_computer.stat & (NOPOWER|BROKEN))
+			return .
+		if(replaced_by in the_stasis_bed.op_computer.advanced_surgeries)
+			return FALSE
+		if(type in the_stasis_bed.op_computer.advanced_surgeries)
+			return TRUE
 
 /datum/surgery/proc/next_step(mob/user, intent)
 	if(step_in_progress)
@@ -85,11 +94,9 @@
 
 	var/datum/surgery_step/S = get_surgery_step()
 	if(S)
-		var/obj/item/tool = user.get_active_held_item()
-		if(S.try_op(user, target, user.zone_selected, tool, src, try_to_fail))
+		if(S.try_op(user, target, user.zone_selected, user.get_active_held_item(), src, try_to_fail))
 			return TRUE
-		if(tool?.item_flags & SURGICAL_TOOL) //Just because you used the wrong tool it doesn't mean you meant to whack the patient with it
-			to_chat(user, "<span class='warning'>This step requires a different tool!</span>")
+		if(iscyborg(user) && user.a_intent != INTENT_HARM) //to save asimov borgs a LOT of heartache
 			return TRUE
 	return FALSE
 
@@ -108,24 +115,56 @@
 	SSblackbox.record_feedback("tally", "surgeries_completed", 1, type)
 	qdel(src)
 
-/datum/surgery/proc/get_propability_multiplier()
-	var/propability = 0.5
+/datum/surgery/proc/get_propability_multiplier(mob/user)
+	var/propability = 0.3
 	var/turf/T = get_turf(target)
-
+	var/selfpenalty = 0
+	var/sleepbonus = 0
+	if(target == user)
+		if(locate(/obj/structure/mirror) in range(1, T))
+			selfpenalty = 0.4
+		else
+			selfpenalty = 0.6
+	if(target.stat != CONSCIOUS)
+		sleepbonus = 0.5
+	if(locate(/obj/structure/table/optable/abductor, T))
+		propability = 1.2
 	if(locate(/obj/structure/table/optable, T))
-		propability = 1
-	else if(locate(/obj/machinery/stasis, T))
-		propability = 0.9
-	else if(locate(/obj/structure/table, T))
 		propability = 0.8
+	else if(locate(/obj/structure/table, T))
+		propability = 0.6
 	else if(locate(/obj/structure/bed, T))
-		propability = 0.7
+		propability = 0.5
 
-	return propability + success_multiplier
+	return propability + success_multiplier + sleepbonus - selfpenalty
 
 /datum/surgery/advanced
 	name = "advanced surgery"
 	requires_tech = TRUE
+
+/datum/surgery/advanced/can_start(mob/user, mob/living/carbon/target)
+	if(!..())
+		return FALSE
+	// True surgeons (like abductor scientists) need no instructions
+	if(HAS_TRAIT(user, TRAIT_SURGEON) || HAS_TRAIT(user.mind, TRAIT_SURGEON))
+		return TRUE
+
+	if(iscyborg(user))
+		var/mob/living/silicon/robot/R = user
+		var/obj/item/surgical_processor/SP = locate() in R.module.modules
+		if(!SP)
+			return FALSE
+		if(type in SP.advanced_surgeries)
+			return TRUE
+
+	var/turf/T = get_turf(target)
+	var/obj/structure/table/optable/table = locate(/obj/structure/table/optable, T)
+	if(!table || !table.computer)
+		return FALSE
+	if(table.computer.stat & (NOPOWER|BROKEN))
+		return FALSE
+	if(type in table.computer.advanced_surgeries)
+		return TRUE
 
 /obj/item/disk/surgery
 	name = "Surgery Procedure Disk"

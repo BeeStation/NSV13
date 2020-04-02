@@ -34,7 +34,7 @@
 	if(.)
 		return
 	if(obj_flags & IN_USE)
-		to_chat(user, "<span class='warning'>It's already in use - wait a bit!</span>")
+		to_chat(user, "It's already in use - wait a bit.")
 		return
 	else
 		obj_flags |= IN_USE
@@ -50,6 +50,12 @@
 		obj_flags &= ~IN_USE
 		user.pixel_y = 0
 		var/finishmessage = pick("You feel stronger!","You feel like you can take on the world!","You feel robust!","You feel indestructible!")
+
+		
+		if (user.client)
+			SSmedals.UnlockMedal(MEDAL_USE_WEIGHT_MACHINE,user.client)
+		
+
 		SEND_SIGNAL(user, COMSIG_ADD_MOOD_EVENT, "exercise", /datum/mood_event/exercise)
 		icon_state = initial(icon_state)
 		to_chat(user, finishmessage)
