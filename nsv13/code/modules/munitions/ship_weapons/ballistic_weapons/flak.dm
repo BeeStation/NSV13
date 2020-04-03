@@ -65,7 +65,7 @@
 		return
 	if(mass <= MASS_TINY && !ai_controlled) //Small ships don't get to use PDCs. AIs still need to aim like this, though
 		return
-	if(!last_target || QDELETED(last_target))
+	if(!last_target || QDELETED(last_target) || !isovermap(last_target) || last_target == src) //Stop hitting yourself enterprise
 		last_target = null
 	else
 		fire_weapon(last_target, mode=FIRE_MODE_FLAK, lateral=TRUE)

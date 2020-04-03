@@ -86,6 +86,14 @@
 	START_PROCESSING(SSobj, src)
 	lower_rack()
 
+/obj/machinery/ship_weapon/gauss_gun/Destroy() //Yeet them out before we die.
+	remove_gunner()
+	QDEL_NULL(gunner_chair)
+	QDEL_NULL(ammo_rack)
+	QDEL_NULL(cabin_air)
+	QDEL_NULL(internal_tank)
+	. = ..()
+
 /obj/machinery/ship_weapon/gauss_gun/attack_hand(mob/user)
 	if(climbing_in)
 		return FALSE
