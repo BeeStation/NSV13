@@ -1,7 +1,12 @@
 ---
-name: Bug report
-about: Create a report to help reproduce and fix the issue
+name: Map Issue - Enterprise
+about: Bugs related to the Enterprise Map
+title: ''
+labels: Map Issue, Enterprise
+assignees: ''
+
 ---
+
 <!-- Write **BELOW** The Headers and **ABOVE** The comments else it may not be viewable -->
 ## Round ID:
 
