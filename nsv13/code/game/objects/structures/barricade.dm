@@ -414,7 +414,7 @@
 		wired_overlay = image('nsv13/icons/obj/barricades.dmi', icon_state = "[src.barricade_type]_closed_wire")
 	overlays += wired_overlay
 
-/obj/structure/peacekeeper_barricade/take_damage(amount)
+/obj/structure/peacekeeper_barricade/take_damage(damage_amount, damage_type = BRUTE, damage_flag = 0, sound_effect = 1, attack_dir, armour_penetration = 0)
 	. = ..()
 	update_health()
 	playsound(src, "ricochet", 50, TRUE)

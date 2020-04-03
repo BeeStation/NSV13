@@ -378,7 +378,7 @@ After going through this checklist, you're ready to go!
 		SEND_SIGNAL(src, COMSIG_FTL_STATE_CHANGE)
 		return TRUE
 
-/obj/structure/overmap/fighter/take_damage()
+/obj/structure/overmap/fighter/take_damage(damage_amount, damage_type = BRUTE, damage_flag = 0, sound_effect = 1, attack_dir, armour_penetration = 0)
 	..()
 	var/canopy_warn_threshold = max_integrity/10*4 //Get 40% of max_integrity
 	var/canopy_breach_threshold = max_integrity/10*3 //Get 30% of max_integrity
