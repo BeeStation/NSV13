@@ -28,16 +28,16 @@
 		)
 
 /obj/machinery/ship_weapon/railgun/north // South-facing monitor looks for a gun to its north that's probably facing north
-	dir = SOUTH
-
-/obj/machinery/ship_weapon/railgun/south
 	dir = NORTH
 
+/obj/machinery/ship_weapon/railgun/south
+	dir = SOUTH
+
 /obj/machinery/ship_weapon/railgun/east
-	dir = WEST
+	dir = EAST
 
 /obj/machinery/ship_weapon/railgun/west
-	dir = EAST
+	dir = WEST
 
 /obj/machinery/ship_weapon/railgun/Initialize()
 	..()
@@ -71,17 +71,17 @@
 
 /obj/machinery/ship_weapon/railgun/attack_hand(mob/user)
 	. = ..()
-	if((!maint_state == MSTATE_PRIEDOUT) || !do_after(user, 2 SECONDS, target=src))
+	if(!(maint_state == MSTATE_PRIEDOUT))
 		return
 
-	var/obj/W = (locate(/obj/item/ship_weapon/parts/loading_tray) in component_parts)
-	if(W)
-		W.forceMove(src)
-		component_parts -= W
-	to_chat(user, "<span class='notice'>You remove the loading tray from the [src].</span>")
-	spawn_frame(TRUE)
-
-	return
+	to_chat(user, "<span class='notice'>You start removing the loading tray from the [src].</span>")
+	if(do_after(user, 2 SECONDS, target=src))
+		var/obj/W = (locate(/obj/item/ship_weapon/parts/loading_tray) in component_parts)
+		if(W)
+			W.forceMove(user.loc)
+			component_parts -= W
+		to_chat(user, "<span class='notice'>You remove the loading tray from the [src].</span>")
+		spawn_frame(TRUE)
 
 /obj/machinery/ship_weapon/railgun/spawn_frame(disassembled)
 	var/obj/structure/ship_weapon/railgun_assembly/M = new /obj/structure/ship_weapon/railgun_assembly(loc)
@@ -92,6 +92,7 @@
 
 	. = M
 	M.setAnchored(anchored)
+	M.setDir(dir)
 	M.set_final_state()
 	if(!disassembled)
 		M.obj_integrity = M.max_integrity * 0.5 //the frame is already half broken

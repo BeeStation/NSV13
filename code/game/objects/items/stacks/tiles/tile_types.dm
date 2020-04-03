@@ -364,9 +364,10 @@
 	is_cyborg = 1
 	cost = 125
 //Monotiles
-/obj/item/stack/tile/mono
+/obj/item/stack/tile/mono/steel //NSV13 Start
 	name = "steel mono tile"
 	singular_name = "steel mono tile"
+	desc = "A solid, heavy set of flooring plates."
 	icon_state = "tile"
 	materials = list(/datum/material/iron=500)
 	turf_type = /turf/open/floor/monotile
@@ -374,6 +375,7 @@
 /obj/item/stack/tile/mono/dark
 	name = "dark mono tile"
 	singular_name = "dark mono tile"
+	desc = "A solid, heavy set of flooring plates."
 	icon_state = "tile"
 	materials = list(/datum/material/iron=500)
 	turf_type = /turf/open/floor/monotile/dark
@@ -381,6 +383,7 @@
 /obj/item/stack/tile/mono/light
 	name = "light mono tile"
 	singular_name = "light mono tile"
+	desc = "A solid, heavy set of flooring plates."
 	icon_state = "tile"
 	materials = list(/datum/material/iron=500)
 	turf_type = /turf/open/floor/monotile/light
@@ -389,6 +392,7 @@
 /obj/item/stack/tile/grid
 	name = "grey grid tile"
 	singular_name = "grey grid tile"
+	desc = "A solid, heavy set of flooring plates."
 	icon_state = "tile_grid"
 	materials = list(/datum/material/iron=500)
 	turf_type = /turf/open/floor/plasteel/grid
@@ -396,6 +400,7 @@
 /obj/item/stack/tile/ridge
 	name = "grey ridge tile"
 	singular_name = "grey ridge tile"
+	desc = "A solid, heavy set of flooring plates."
 	icon_state = "tile_ridged"
 	materials = list(/datum/material/iron=500)
 	turf_type = /turf/open/floor/plasteel/ridged
@@ -404,6 +409,7 @@
 /obj/item/stack/tile/techgrey
 	name = "grey techfloor tile"
 	singular_name = "grey techfloor tile"
+	desc = "A solid, heavy set of flooring plates."
 	icon_state = "tile_tech_grey"
 	materials = list(/datum/material/iron=500)
 	turf_type = /turf/open/floor/plasteel/tech
@@ -411,6 +417,7 @@
 /obj/item/stack/tile/techgrid
 	name = "grid techfloor tile"
 	singular_name = "grid techfloor tile"
+	desc = "A solid, heavy set of flooring plates."
 	icon_state = "tile_tech_grid"
 	materials = list(/datum/material/iron=500)
 	turf_type = /turf/open/floor/plasteel/tech/grid
@@ -418,6 +425,7 @@
 /obj/item/stack/tile/techmaint
 	name = "dark techfloor tile"
 	singular_name = "dark techfloor tile"
+	desc = "A solid, heavy set of flooring plates."
 	icon_state = "tile_tech_maint"
 	materials = list(/datum/material/iron=500)
-	turf_type = /turf/open/floor/plasteel/techmaint
+	turf_type = /turf/open/floor/plasteel/techmaint //NSV13 End

@@ -34,6 +34,9 @@ GLOBAL_LIST_INIT(durasteel_recipes, list ( \
 	new/datum/stack_recipe("padded steel hull plating", /obj/item/stack/tile/plasteel/padded, 1, 4, 20), \
 	new/datum/stack_recipe("embossed hull plating", /obj/item/stack/tile/plasteel/ship/techfloor, 1, 4, 20), \
 	new/datum/stack_recipe("embossed hull plating - alt", /obj/item/stack/tile/plasteel/ship/techfloor/alt, 1, 4, 20), \
+	new/datum/stack_recipe("steel monotile", /obj/item/stack/tile/mono/steel, 1, 4, 20), \
+	new/datum/stack_recipe("dark monotile", /obj/item/stack/tile/mono/dark, 1, 4, 20), \
+	new/datum/stack_recipe("light monotile", /obj/item/stack/tile/mono/light, 1, 4, 20), \
 	))
 
 /obj/item/stack/sheet/durasteel
@@ -60,11 +63,12 @@ GLOBAL_LIST_INIT(durasteel_recipes, list ( \
 	return ..()
 
 GLOBAL_LIST_INIT(nanocarbon_glass_recipes, list (\
-	new/datum/stack_recipe("nanocarbon reinforced fulltile window", /obj/structure/window/reinforced/fulltile/ship, 2, time = 60, one_per_turf = TRUE, on_floor = TRUE) \
+	new/datum/stack_recipe("nanocarbon reinforced fulltile window", /obj/structure/window/reinforced/fulltile/ship/unanchored, 2, time = 0, on_floor = TRUE, window_checks = TRUE) \
 	))
 
 /obj/item/stack/sheet/nanocarbon_glass
 	name = "nanocarbon glass"
+	singular_name = "nanocarbon glass sheet"
 	desc = "This glass sheet is reinforced with a nanocarbon weave."
 	icon = 'nsv13/icons/obj/custom_stack_objects.dmi'
 	icon_state = "sheet-nanocarbon-glass"
