@@ -178,7 +178,7 @@
 	if(ai_controlled || (!linked_areas.len && role != MAIN_OVERMAP)) //AI ships and fighters don't have interiors
 		if((what == FIRE_MODE_TORPEDO) && !torpedoes) //Out of torpedoes
 			return FALSE
-		if((mass < MASS_MEDIUM) && (what > FIRE_MODE_TORPEDO)) //Little ships don't have railguns or lasers
+		if(!(weapon_types[what]))
 			return FALSE
 	else if(!weapons || !weapons[what] || !weapons[what].len) //Hero ship doesn't have any weapons of this type
 		return FALSE
@@ -242,10 +242,6 @@
 		if(istype(OM, /obj/structure/overmap) && OM.dradis)
 			OM.dradis?.relay_sound('nsv13/sound/effects/fighters/launchwarning.ogg')
 		return TRUE
-
-/obj/structure/overmap/proc/fire_primary(atom/target)
-
-/obj/structure/overmap/proc/fire_secondary(atom/target)
 
 /obj/structure/overmap/proc/shake_everyone(severity)
 	for(var/mob/M in mobs_in_ship)

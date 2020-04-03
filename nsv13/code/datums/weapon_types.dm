@@ -47,3 +47,102 @@
 		'nsv13/sound/effects/ship/pdc3.ogg')
 	select_alert = "<span class='notice'>Defensive flak screens: <b>OFFLINE</b>. Activating manual point defense cannon control.</span>"
 	failure_alert = "<span class='warning'>DANGER: Point defense emplacements are unable to fire due to lack of ammunition.</span>"
+
+/datum/ship_weapon/missile_launcher
+	default_projectile_type = /obj/item/projectile/bullet/missile
+	burst_size = 1
+	fire_delay = 5
+	range_modifier = 30
+	select_alert = "<span class='notice'>Long range target acquisition systems: online.</span>"
+	failure_alert = "<span class='warning'>DANGER: Launch failure! Torpedo tubes are not loaded.</span>"
+	overmap_firing_sounds = list(
+		'nsv13/sound/effects/ship/torpedo.ogg',
+		'nsv13/sound/effects/ship/freespace2/m_shrike.wav',
+		'nsv13/sound/effects/ship/freespace2/m_stiletto.wav',
+		'nsv13/sound/effects/ship/freespace2/m_tsunami.wav',
+		'nsv13/sound/effects/ship/freespace2/m_wasp.wav')
+	overmap_select_sound = 'nsv13/sound/effects/ship/reload.ogg'
+
+/datum/ship_weapon/light_cannon
+	default_projectile_type = /obj/item/projectile/bullet/pdc_round
+	burst_size = 3
+	fire_delay = 0
+	range_modifier = 0
+	overmap_select_sound = 'nsv13/sound/effects/ship/pdc_start.ogg'
+	overmap_firing_sounds = list('nsv13/sound/effects/ship/pdc.ogg',
+		'nsv13/sound/effects/ship/pdc2.ogg',
+		'nsv13/sound/effects/ship/pdc3.ogg')
+	select_alert = "<span class='notice'>Defensive flak screens: <b>OFFLINE</b>. Activating manual point defense cannon control.</span>"
+	failure_alert = "<span class='warning'>DANGER: Point defense emplacements are unable to fire due to lack of ammunition.</span>"
+
+/datum/ship_weapon/heavy_cannon
+	default_projectile_type = /obj/item/projectile/bullet/pdc_round
+	burst_size = 3
+	fire_delay = 0
+	range_modifier = 0
+	overmap_select_sound = 'nsv13/sound/effects/ship/pdc_start.ogg'
+	overmap_firing_sounds = list('nsv13/sound/effects/ship/pdc.ogg',
+		'nsv13/sound/effects/ship/pdc2.ogg',
+		'nsv13/sound/effects/ship/pdc3.ogg')
+	select_alert = "<span class='notice'>Defensive flak screens: <b>OFFLINE</b>. Activating manual point defense cannon control.</span>"
+	failure_alert = "<span class='warning'>DANGER: Point defense emplacements are unable to fire due to lack of ammunition.</span>"
+
+/datum/ship_weapon/search_rescue_scoop
+	default_projectile_type = /obj/item/projectile/bullet/pdc_round
+	burst_size = 1
+	fire_delay = 0
+	range_modifier = 0
+	overmap_select_sound = 'nsv13/sound/effects/ship/pdc_start.ogg'
+	overmap_firing_sounds = list('nsv13/sound/effects/ship/pdc.ogg',
+		'nsv13/sound/effects/ship/pdc2.ogg',
+		'nsv13/sound/effects/ship/pdc3.ogg')
+	select_alert = "<span class='notice'>Defensive flak screens: <b>OFFLINE</b>. Activating manual point defense cannon control.</span>"
+	failure_alert = "<span class='warning'>DANGER: Point defense emplacements are unable to fire due to lack of ammunition.</span>"
+
+/datum/ship_weapon/search_rescue_extractor
+	default_projectile_type = /obj/item/projectile/bullet/pdc_round
+	burst_size = 1
+	fire_delay = 0
+	range_modifier = 0
+	overmap_select_sound = 'nsv13/sound/effects/ship/pdc_start.ogg'
+	overmap_firing_sounds = list('nsv13/sound/effects/ship/pdc.ogg',
+		'nsv13/sound/effects/ship/pdc2.ogg',
+		'nsv13/sound/effects/ship/pdc3.ogg')
+	select_alert = "<span class='notice'>Defensive flak screens: <b>OFFLINE</b>. Activating manual point defense cannon control.</span>"
+	failure_alert = "<span class='warning'>DANGER: Point defense emplacements are unable to fire due to lack of ammunition.</span>"
+
+/datum/ship_weapon/rapid_breach_sealing_welder
+	default_projectile_type = /obj/item/projectile/bullet/pdc_round
+	burst_size = 1
+	fire_delay = 0
+	range_modifier = 0
+	overmap_select_sound = 'nsv13/sound/effects/ship/pdc_start.ogg'
+	overmap_firing_sounds = list('nsv13/sound/effects/ship/pdc.ogg',
+		'nsv13/sound/effects/ship/pdc2.ogg',
+		'nsv13/sound/effects/ship/pdc3.ogg')
+	select_alert = "<span class='notice'>Defensive flak screens: <b>OFFLINE</b>. Activating manual point defense cannon control.</span>"
+	failure_alert = "<span class='warning'>DANGER: Point defense emplacements are unable to fire due to lack of ammunition.</span>"
+
+/datum/ship_weapon/rapid_breach_sealing_foam
+	default_projectile_type = /obj/item/projectile/bullet/pdc_round
+	burst_size = 1
+	fire_delay = 0
+	range_modifier = 0
+	overmap_select_sound = 'nsv13/sound/effects/ship/pdc_start.ogg'
+	overmap_firing_sounds = list('nsv13/sound/effects/ship/pdc.ogg',
+		'nsv13/sound/effects/ship/pdc2.ogg',
+		'nsv13/sound/effects/ship/pdc3.ogg')
+	select_alert = "<span class='notice'>Defensive flak screens: <b>OFFLINE</b>. Activating manual point defense cannon control.</span>"
+	failure_alert = "<span class='warning'>DANGER: Point defense emplacements are unable to fire due to lack of ammunition.</span>"
+
+/datum/ship_weapon/refueling_system
+	default_projectile_type = /obj/item/projectile/bullet/pdc_round
+	burst_size = 2
+	fire_delay = 0
+	range_modifier = 0
+	overmap_select_sound = 'nsv13/sound/effects/ship/pdc_start.ogg'
+	overmap_firing_sounds = list('nsv13/sound/effects/ship/pdc.ogg',
+		'nsv13/sound/effects/ship/pdc2.ogg',
+		'nsv13/sound/effects/ship/pdc3.ogg')
+	select_alert = "<span class='notice'>Defensive flak screens: <b>OFFLINE</b>. Activating manual point defense cannon control.</span>"
+	failure_alert = "<span class='warning'>DANGER: Point defense emplacements are unable to fire due to lack of ammunition.</span>"

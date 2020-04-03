@@ -2,7 +2,7 @@
 
 ////////Common Components///////
 /obj/item/fighter_component
-	name = "Fight Component - PARENT"
+	name = "Fighter Component - PARENT"
 	desc = "THIS IS A PARENT ITEM AND SHOULD NOT BE SPAWNED"
 	icon = 'icons/obj/crates.dmi'
 	w_class = WEIGHT_CLASS_GIGANTIC
@@ -23,6 +23,11 @@
 	var/prefix = pick("Burntout", "Charred", "Singed", "Scorched", "Mangled", "Damaged", "Warped", "Corroded", "Deformed")
 	name = "[prefix] [name]"
 	burntout = TRUE
+
+/obj/item/fighter_component/primary
+	name = "Fighter Component Primary - PARENT"
+	var/weapon_type_path_one = null
+	var/weapon_type_path_two = null
 
 /obj/item/fighter_component/fuel_tank
 	name = "Fighter Fuel Tank - PARENT"
@@ -171,6 +176,7 @@
 /obj/item/fighter_component/primary/light/light_cannon
 	name = "Light Fighter Light Cannon - PARENT"
 	icon_state = "plasmacrate"
+	weapon_type_path_one = /datum/ship_weapon/light_cannon
 	var/fire_rate = 1
 	var/ammo_capacity = 1
 	var/projectile = null
@@ -275,6 +281,7 @@
 /obj/item/fighter_component/primary/heavy/heavy_cannon
 	name = "Heavy Fighter Heavy Cannon - PARENT"
 	icon_state = "plasmacrate"
+	weapon_type_path_one = /datum/ship_weapon/heavy_cannon
 	var/fire_rate = 1
 	var/ammo_capacity = 1
 	var/projectile = null
@@ -342,11 +349,14 @@
 	name = "Utility Vessel Refueling System"
 	desc = "A refueling system for a Utility Vessel"
 	icon_state = "crate"
+	weapon_type_path_one = /datum/ship_weapon/refueling_system
 
 /obj/item/fighter_component/primary/utility/search_rescue_module
 	name = "Utility Vessel Search And Rescue Module"
 	desc = "A search and rescue module for a Utility vessel"
 	icon_state = "crate"
+	weapon_type_path_one = /datum/ship_weapon/search_rescue_scoop
+	weapon_type_path_two = /datum/ship_weapon/search_rescue_extractor
 
 /obj/item/fighter_component/secondary/utility/auxiliary_fuel_tank
 	name = "Utility Vessel Auxiliary Fuel Tank - PARENT"
@@ -373,6 +383,8 @@
 	name = "Rapid Breach Sealing Module"
 	desc = "A rapid breach sealing module for a Utility Vessel" //welder and smart foam
 	icon_state = "crate"
+	weapon_type_path_one = /datum/ship_weapon/rapid_breach_sealing_welder
+	weapon_type_path_two = /datum/ship_weapon/rapid_breach_sealing_foam
 
 /obj/item/fighter_component/secondary/utility/rbs_reagent_tank
 	name = "RBS Reagent Tank - PARENT"
