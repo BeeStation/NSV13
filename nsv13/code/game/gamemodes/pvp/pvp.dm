@@ -38,6 +38,7 @@ GLOBAL_LIST_EMPTY(syndi_crew_leader_spawns)
 	var/time_limit
 	var/list/standard_ships = list("Hammurabi.dmm") //Update this list if you make more PVP ships :) ~Kmc
 	var/list/highpop_ships = list("Hulk.dmm") //Update this list if you make a big PVP ship
+	var/list/jobs = list()
 
 /**
 
@@ -65,6 +66,9 @@ Method to spawn in the Syndi ship on a brand new Z-level with the "boardable" tr
 	repopulate_sorted_areas()
 	var/n_agents = antag_candidates.len
 	if(n_agents >= enemies_to_spawn)
+		jobs["pilots"] = list() //Dictionary to store who's doing what job.
+		jobs["shipside"] = list()
+		jobs["marines"] = list()
 		for(var/i = 0, i < enemies_to_spawn, i++)
 			var/datum/mind/new_op = pick_n_take(antag_candidates)
 			pre_nukeops += new_op
@@ -93,12 +97,32 @@ Method to spawn in the Syndi ship on a brand new Z-level with the "boardable" tr
 	//Assign the remaining operatives
 	for(var/I in 2 to pre_nukeops.len)
 		var/datum/mind/nuke_mind = pre_nukeops[I]
-		nuke_mind?.add_antag_datum(operative_antag_datum_type)
+		var/datum/antagonist/selected = get_job_for(nuke_mind)
+		nuke_mind?.add_antag_datum(selected)
 	time_limit = world.time + 45 MINUTES //Puts a hard cap on the time limit to avoid boredom.
 	addtimer(CALLBACK(src, .proc/check_win), 45.5 MINUTES)
 	SSstarsystem.add_blacklist(/obj/structure/overmap/syndicate/ai/carrier) //No. Just no. Please. God no.
 	SSstarsystem.add_blacklist(/obj/structure/overmap/syndicate/ai/patrol_cruiser) //Syndies only get LIGHT reinforcements.
 	return ..()
+
+/**
+
+Method to assign a job, in order of descending priority. We REALLY need people to at least fly the ship and maintain it, then pilots, then standard marines.
+
+*/
+
+/datum/game_mode/pvp/proc/get_job_for(datum/mind/M)
+	var/list/pilots = jobs["pilots"]
+	var/list/shipsides = jobs["shipside"]
+	var/list/marines = jobs["marines"]
+	if(shipsides.len < 2)
+		LAZYADD(shipsides, M)
+		return /datum/antagonist/nukeop/syndi_crew/shipside
+	if(pilots.len < 3)
+		LAZYADD(pilots, M)
+		return /datum/antagonist/nukeop/syndi_crew/pilot
+	LAZYADD(marines, M) //If nothing else, make them a marine.
+	return operative_antag_datum_type
 
 /datum/game_mode/pvp/OnNukeExplosion(off_station)
 	..()
@@ -156,6 +180,12 @@ Method to spawn in the Syndi ship on a brand new Z-level with the "boardable" tr
 	to_chat(owner, "<span class='warning'>Ensure the destruction of [station_name()], no matter what. Eliminate Nanotrasen's presence in the Abassi ridge before they can establish a foothold. The fleet is counting on you!</span>")
 	owner.announce_objectives()
 
+/datum/antagonist/nukeop/syndi_crew/greet()
+	owner.current.playsound_local(get_turf(owner.current), 'sound/ambience/antag/ops.ogg',100,0)
+	to_chat(owner, "<span class='notice'>You are a crewman aboard a Syndicate vessel!</span>")
+	to_chat(owner, "<span class='warning'>Ensure the destruction of [station_name()], no matter what. Eliminate Nanotrasen's presence in the Abassi ridge before they can establish a foothold. The fleet is counting on you!</span>")
+	owner.announce_objectives()
+
 /datum/antagonist/nukeop/leader/syndi_crew
 	name = "Syndicate captain"
 	nukeop_outfit = /datum/outfit/syndicate/no_crystals/leader
@@ -169,6 +199,42 @@ Method to spawn in the Syndi ship on a brand new Z-level with the "boardable" tr
 
 /datum/outfit/syndicate/no_crystals
 	implants = list()
+
+/datum/outfit/syndicate/no_crystals/shipside
+	name = "Syndicate engineer"
+	head = /obj/item/clothing/head/beret/ship/engineer
+	glasses = /obj/item/clothing/glasses/meson/engine
+	gloves = /obj/item/clothing/gloves/color/yellow
+	belt = /obj/item/storage/belt/utility/full/engi
+
+
+/datum/antagonist/nukeop/syndi_crew/shipside
+	name = "Syndicate crew (shipside)"
+	nukeop_outfit = /datum/outfit/syndicate/no_crystals/shipside
+	job_rank = ROLE_SYNDI_CREW
+
+/datum/antagonist/nukeop/syndi_crew/shipside/greet()
+	owner.current.playsound_local(get_turf(owner.current), 'sound/ambience/antag/ops.ogg',100,0)
+	to_chat(owner, "<span class='notice'>You are an engineer aboard a Syndicate vessel!</span>")
+	to_chat(owner, "<span class='warning'>You are responsible for shipside duties such as flying the ship, handling the ship's fighters, and maintaining the stormdrive / superstructure. You should not deviate from this job unless you find someone who's willing to trade with you!</span>")
+	owner.announce_objectives()
+
+/datum/outfit/syndicate/no_crystals/pilot
+	name = "Syndicate fighter pilot"
+	head = /obj/item/clothing/head/beret/ship/pilot
+	glasses = /obj/item/clothing/glasses/hud/security/sunglasses
+	suit = /obj/item/clothing/suit/jacket //Bomber jacket
+
+/datum/antagonist/nukeop/syndi_crew/pilot
+	name = "Syndicate crew (fighter pilot)"
+	nukeop_outfit = /datum/outfit/syndicate/no_crystals/pilot
+	job_rank = ROLE_SYNDI_CREW
+
+/datum/antagonist/nukeop/syndi_crew/pilot/greet()
+	owner.current.playsound_local(get_turf(owner.current), 'sound/ambience/antag/ops.ogg',100,0)
+	to_chat(owner, "<span class='notice'>You are a Syndicate fighter pilot!</span>")
+	to_chat(owner, "<span class='warning'>You are responsible for flying the ship's boarding craft and fighters, coordinate with the marines to find out which of these two are needed. You should not deviate from this job unless you find someone who's willing to trade with you!</span>")
+	owner.announce_objectives()
 
 /datum/outfit/syndicate/no_crystals/leader
 	name = "Syndicate captain"
