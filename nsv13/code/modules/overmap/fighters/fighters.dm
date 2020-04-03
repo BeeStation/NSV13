@@ -52,7 +52,7 @@ After going through this checklist, you're ready to go!
 	var/weapon_efficiency = 0
 	var/fuel_consumption = 0
 	var/max_torpedoes = 6 //Decent payload.
-	var/mag_lock = FALSE //Mag locked by a launch pad. Cheaper to use than locate()
+	var/obj/structure/fighter_launcher/mag_lock = null //Mag locked by a launch pad. Cheaper to use than locate()
 	var/max_passengers = 0 //Maximum capacity for passengers, INCLUDING pilot (EG: 1 pilot, 4 passengers).
 	var/docking_mode = FALSE
 	var/warning_cooldown = FALSE
@@ -162,7 +162,7 @@ After going through this checklist, you're ready to go!
 /obj/structure/overmap/fighter/can_brake()
 	if(mag_lock)
 		if(pilot)
-			to_chat(pilot, "<span class='warning'>WARNING: Ship is magnetically arrested by an arrestor. Awaiting decoupling by fighter technicians.</span>")
+			to_chat(pilot, "<span class='warning'>WARNING: Ship is magnetically arrested by an arrestor. Awaiting decoupling signal (O4).</span>")
 		return FALSE
 	return TRUE
 
@@ -175,7 +175,7 @@ After going through this checklist, you're ready to go!
 		OM.brakes = TRUE
 		OM.velocity_x = 0
 		OM.velocity_y = 0 //Full stop.
-		OM.mag_lock = TRUE
+		OM.mag_lock = src
 		var/turf/center = get_turf(src)
 		switch(dir) //Do some fuckery to make sure the fighter lines up on the pad in a halfway sensible manner.
 			if(NORTH)
@@ -290,7 +290,7 @@ After going through this checklist, you're ready to go!
 
 /obj/structure/overmap/fighter/proc/release_maglock()
 	brakes = FALSE
-	mag_lock = FALSE
+	mag_lock = null
 
 /obj/structure/overmap/fighter/proc/prime_launch()
 	release_maglock()
@@ -1207,6 +1207,10 @@ How to make fuel:
 			relinquish_target_lock()
 			relay('nsv13/sound/effects/fighters/switch.ogg')
 			return //Dodge the cooldown because these actions should be instant
+		if("mag_release")
+			if(!mag_lock)
+				return
+			mag_lock.abort_launch()
 	warmup_cooldown = TRUE
 	addtimer(VARSET_CALLBACK(src, warmup_cooldown, FALSE), 1 SECONDS)
 	relay('nsv13/sound/effects/fighters/switch.ogg')
@@ -1286,6 +1290,7 @@ How to make fuel:
 	data["integrity"] = obj_integrity
 	data["max_fuel"] = get_max_fuel()
 	data["fuel"] = get_fuel()
+	data["mag_locked"] = (mag_lock != null) ? TRUE : FALSE
 	if(flight_state > NO_IGNITION)
 		data["ignition"] = TRUE
 	if(flight_state > NO_FUEL_PUMP)

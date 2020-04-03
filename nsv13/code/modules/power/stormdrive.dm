@@ -81,6 +81,10 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 	var/last_power_produced = 0 //For UI tracking. Shows your power output.
 	var/theoretical_maximum_power = 100000 //Placeholder.
 
+/obj/machinery/power/stormdrive_reactor/syndicate
+	radio_key = /obj/item/encryptionkey/syndicate
+	engineering_channel = "Syndicate"
+
 /obj/machinery/power/stormdrive_reactor/attackby(obj/item/I, mob/user)
 	if(istype(I, /obj/item/stack/sheet/plasteel) && user.a_intent != INTENT_HARM)
 		if(state != REACTOR_STATE_MAINTENANCE)
