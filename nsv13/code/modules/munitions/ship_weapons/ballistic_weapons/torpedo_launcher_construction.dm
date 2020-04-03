@@ -19,7 +19,7 @@
 	bound_width = 96
 	pixel_y = -72
 	pixel_x = -32
-	anchored = FALSE
+	anchored = TRUE
 	density = TRUE
 
 	var/state = BS_MOUNT_UNBOLTED
@@ -164,7 +164,7 @@
 	. = ..()
 	switch(state)
 		if(BS_MOUNT_UNBOLTED)
-			if(!anchored && tool.use_tool(src, user, 2 SECONDS, volume=100))
+			if(tool.use_tool(src, user, 2 SECONDS, volume=100))
 				to_chat(user, "<span class='notice'>You bolt the [src] to the floor.</span>")
 				anchored = TRUE
 				state = BS_MOUNT_BOLTED
