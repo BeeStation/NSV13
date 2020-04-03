@@ -37,13 +37,10 @@ SUBSYSTEM_DEF(starsystem)
 		if(!(locate(type) in enemy_blacklist))
 			enemy_types += type
 
-
 /datum/controller/subsystem/starsystem/proc/add_blacklist(what)
-	enemy_types = list()
 	enemy_blacklist += what
-	for(var/type in subtypesof(/obj/structure/overmap/syndicate/ai))
-		if(!(locate(type) in enemy_blacklist))
-			enemy_types += type
+	if(locate(what) in enemy_types)
+		enemy_types -= what
 
 /datum/controller/subsystem/starsystem/proc/instantiate_systems()
 	cycle_gameplay_loop() //Start the gameplay loop

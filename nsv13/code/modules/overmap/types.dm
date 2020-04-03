@@ -183,6 +183,7 @@
 
 
 /obj/structure/overmap/syndicate/pvp/hulk //Larger PVP ship for larger pops.
+	name = "SSV Hulk"
 	icon = 'nsv13/icons/overmap/syndicate/syn_patrol_cruiser.dmi'
 	icon_state = "patrol_cruiser"
 	bound_width = 128

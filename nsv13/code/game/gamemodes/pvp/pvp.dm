@@ -117,6 +117,8 @@ Method to spawn in the Syndi ship on a brand new Z-level with the "boardable" tr
 		for(var/obj/machinery/nuclearbomb/N in GLOB.nuke_list)
 			if(N.proper_bomb && (N.timing || N.exploding))
 				return FALSE
+	if(world.time >= time_limit)
+		return TRUE
 	return ..()
 
 /datum/game_mode/pvp/set_round_result()
