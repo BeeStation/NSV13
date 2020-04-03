@@ -28,16 +28,31 @@
 
 /obj/machinery/computer/ship/munitions_computer/Initialize()
 	. = ..()
-	var/opposite_dir = turn(dir, 180)
-	var/atom/adjacent = locate(/obj/machinery/ship_weapon) in get_turf(get_step(src, opposite_dir)) //Look at what dir we're facing, find a gun in that turf
-	if(adjacent && istype(adjacent, /obj/machinery/ship_weapon))
-		SW = adjacent
-		SW.linked_computer = src
+	get_linked_weapon()
+
+/obj/machinery/computer/ship/munitions_computer/setDir(dir)
+	. = ..()
+	get_linked_weapon()
+
+/obj/machinery/computer/ship/munitions_computer/proc/get_linked_weapon()
+	if(!SW)
+		var/opposite_dir = turn(dir, 180)
+		var/atom/adjacent = locate(/obj/machinery/ship_weapon) in get_turf(get_step(src, opposite_dir)) //Look at what dir we're facing, find a gun in that turf
+		if(adjacent && istype(adjacent, /obj/machinery/ship_weapon))
+			SW = adjacent
+			SW.linked_computer = src
+			if(!SW.linked)
+				SW.get_ship()
 
 /obj/machinery/computer/ship/munitions_computer/Destroy()
 	. = ..()
 	if(SW)
 		SW.linked_computer = null
+
+/obj/machinery/computer/ship/munitions_computer/multitool_act(mob/user, obj/item/tool)
+	// Using a multitool lets you link stuff
+	attack_hand(user)
+	return TRUE
 
 /obj/machinery/computer/ship/munitions_computer/attack_ai(mob/user)
 	. = ..()
@@ -49,14 +64,6 @@
 
 /obj/machinery/computer/ship/munitions_computer/attack_hand(mob/user)
 	. = ..()
-	if(!SW)
-		var/atom/adjacent = locate(/obj/machinery/ship_weapon) in get_turf(get_step(src, dir)) //Look at what dir we're facing, find a gun in that turf
-		if(adjacent && istype(adjacent, /obj/machinery/ship_weapon))
-			SW = adjacent
-			SW.linked_computer = src
-	if(!SW.linked)
-		SW.get_ship()
-
 	ui_interact(user)
 
 /obj/machinery/computer/ship/munitions_computer/ui_interact(mob/user, ui_key = "main", datum/tgui/ui = null, force_open = 0, datum/tgui/master_ui = null, datum/ui_state/state = GLOB.default_state) // Remember to use the appropriate state.
@@ -66,8 +73,9 @@
 		ui.open()
 
 /obj/machinery/computer/ship/munitions_computer/ui_act(action, params, datum/tgui/ui)
-	if(..() || !SW)
+	if(..())
 		return
+	var/obj/item/multitool/tool = get_multitool(ui.user)
 	playsound(src.loc,'nsv13/sound/effects/fighters/switch.ogg', 50, FALSE)
 	switch(action)
 		if("toggle_load")
@@ -79,19 +87,51 @@
 			SW.chamber()
 		if("toggle_safety")
 			SW.safety = !SW.safety
+		//Sudo mode.
+		if("fflush") //Flush multitool buffer. fflush that buffer
+			if(!tool)
+				return
+			tool.buffer = null
+		if("unlink")
+			SW = null
+		if("link")
+			if(!tool)
+				return
+			var/obj/machinery/ship_weapon/T = tool.buffer
+			if(T && istype(T))
+				SW = T
+		if("search")
+			get_linked_weapon()
 
 /obj/machinery/computer/ship/munitions_computer/ui_data(mob/user)
-	if(!SW)
-		return
 	var/list/data = list()
-	data["loaded"] = (SW.state > STATE_LOADED) ? TRUE : FALSE
-	data["chambered"] = (SW.state > STATE_FED) ? TRUE : FALSE
-	data["safety"] = SW.safety
-	data["ammo"] = SW.ammo.len
-	data["max_ammo"] = SW.max_ammo
-	data["maint_req"] = (SW.maintainable) ? SW.maint_req : 25
-	data["max_maint_req"] = 25
+	var/obj/item/multitool/tool = get_multitool(user)
+	data["sudo_mode"] = (tool != null || SW == null) ? TRUE : FALSE //Hold a multitool to enter sudo mode and modify linkages.
+	data["tool_buffer"] = (tool && tool.buffer != null) ? TRUE : FALSE
+	data["tool_buffer_name"] = (tool && tool.buffer) ? tool.buffer.name : "/dev/null"
+	data["has_linked_gun"] =  (SW) ? TRUE : FALSE
+	data["linked_gun"] =  (SW && SW.name) ? SW.name : "NO WEAPON LINKED"
+	data["loaded"] = (SW && SW.state > STATE_LOADED) ? TRUE : FALSE
+	data["chambered"] = (SW && SW.state > STATE_FED) ? TRUE : FALSE
+	data["safety"] = (SW) ? SW.safety : FALSE
+	data["ammo"] = (SW) ? SW.ammo.len : 0
+	data["max_ammo"] = (SW) ? SW.max_ammo : 0
+	data["maint_req"] = (SW && SW.maintainable) ? SW.maint_req : 25
+	data["max_maint_req"] = (SW) ? 25 : 0
 	return data
+
+/obj/machinery/computer/ship/munitions_computer/proc/get_multitool(mob/user)
+	var/obj/item/multitool/P = null
+	// Let's double check
+	if(!issilicon(user) && istype(user.get_active_held_item(), /obj/item/multitool))
+		P = user.get_active_held_item()
+	else if(isAI(user))
+		var/mob/living/silicon/ai/U = user
+		P = U.aiMulti
+	else if(iscyborg(user) && in_range(user, src))
+		if(istype(user.get_active_held_item(), /obj/item/multitool))
+			P = user.get_active_held_item()
+	return P
 
 //Gauss overrides
 //The gaussgun is its own computer here because it needs to be interactible by people who are inside it, and I'm done with arsing around getting that to work ~Kmc after 3 hours of debugging TGUI
