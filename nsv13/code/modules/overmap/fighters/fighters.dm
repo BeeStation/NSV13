@@ -149,9 +149,29 @@ After going through this checklist, you're ready to go!
 	pixel_x = 38
 	anchored = TRUE
 	density = FALSE
+	var/place_landing_waypoint = TRUE
 	var/obj/structure/overmap/fighter/mag_locked = null
 	var/obj/structure/overmap/linked = null
 	var/ready = TRUE
+
+/obj/structure/fighter_launcher/launch_only //If you don't want them to also land here.
+	place_landing_waypoint = FALSE
+
+/obj/structure/fighter_launcher/arrestor //If it shouldn't actually launch people. But should just catch them.
+	name = "electromagnetic arrestor"
+	desc = "A large rail which rapidly decelerates approaching ships to a safe velocity."
+
+/obj/structure/fighter_launcher/arrestor/Crossed(atom/movable/AM)
+	var/obj/structure/overmap/link = get_overmap()
+	link?.relay('nsv13/sound/effects/fighters/magcat.ogg')
+	if(istype(AM, /obj/structure/overmap/fighter) && ready) //Are we able to catch this ship?
+		var/obj/structure/overmap/fighter/OM = AM
+		if(OM.pilot)
+			to_chat(OM.pilot, "<span class='warning'>Magnetically assisted deceleration in progress...</span>")
+		OM.brakes = TRUE
+		icon_state = "launcher_charge"
+		ready = FALSE
+		addtimer(CALLBACK(src, .proc/recharge), 15 SECONDS) //Give them time to get out of there.
 
 /obj/structure/fighter_launcher/Initialize()
 	. = ..()
@@ -258,6 +278,8 @@ After going through this checklist, you're ready to go!
 
 /obj/structure/fighter_launcher/proc/linkup()
 	linked = get_overmap()
+	if(!place_landing_waypoint)
+		return
 	if(linked) //If we have a linked overmap, translate our position into a point where fighters should be returning to our Z-level.
 		switch(dir)
 			if(NORTH)
