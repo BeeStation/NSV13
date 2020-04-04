@@ -81,6 +81,21 @@
 	desc = "A direction sign, pointing out which way the Command department is."
 	icon_state = "minskydirection_bridge"
 
+/obj/structure/sign/directions/plaque/hangar
+	name = "ship's hanger"
+	desc = "A direction sign, pointing out which way the hangar bay is."
+	icon_state = "minskydirection_hangar"
+
+/obj/structure/sign/directions/plaque/munitions
+	name = "munitions bay"
+	desc = "A direction sign, pointing out which way the munitions bay is."
+	icon_state = "minskydirection_munitions"
+
+/obj/structure/sign/directions/plaque/cag
+	name = "Commander, Air Group"
+	desc = "A direction sign, pointing out which way the Air Group Command is."
+	icon_state = "minskydirection_cag"
+
 /obj/structure/sign/directions/plaque/ladder
 	name = "ship's ladder"
 	desc = "A direction sign, pointing out which way the nearest ship's ladder is."
