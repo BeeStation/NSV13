@@ -91,10 +91,10 @@
 	desc = "A direction sign, pointing out which way the munitions bay is."
 	icon_state = "minskydirection_munitions"
 
-/obj/structure/sign/directions/plaque/cag
-	name = "Commander, Air Group"
-	desc = "A direction sign, pointing out which way the Air Group Command is."
-	icon_state = "minskydirection_cag"
+/obj/structure/sign/directions/plaque/atc
+	name = "air traffic control"
+	desc = "A direction sign, pointing out which way air traffic control is."
+	icon_state = "minskydirection_atc"
 
 /obj/structure/sign/directions/plaque/ladder
 	name = "ship's ladder"
