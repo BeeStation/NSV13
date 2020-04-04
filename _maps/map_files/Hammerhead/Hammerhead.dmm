@@ -21469,8 +21469,8 @@
 /area/storage/primary)
 "aYN" = (
 /obj/machinery/camera/autoname,
-/obj/machinery/ship_weapon/pdc_mount,
 /obj/effect/turf_decal/delivery/white,
+/obj/machinery/ship_weapon/pdc_mount,
 /turf/open/floor/plasteel/ship/techfloor/alt,
 /area/nsv/weapons/fore)
 "aYO" = (
@@ -29252,12 +29252,6 @@
 	},
 /turf/open/floor/plating,
 /area/quartermaster/miningoffice)
-"foU" = (
-/obj/effect/turf_decal/delivery/white,
-/obj/machinery/ship_weapon/pdc_mount,
-/obj/structure/munitions_trolley,
-/turf/open/floor/plasteel/ship,
-/area/nsv/weapons/fore)
 "fpf" = (
 /obj/machinery/modular_computer/console/preset/civilian,
 /obj/structure/cable{
@@ -33431,6 +33425,12 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/department/chapel)
+"iKz" = (
+/obj/item/ship_weapon/ammunition/torpedo/nuke{
+	name = "Antonio"
+	},
+/turf/open/floor/plating,
+/area/nsv/weapons/fore)
 "iLR" = (
 /obj/structure/reagent_dispensers/fueltank,
 /turf/open/floor/plating,
@@ -34586,6 +34586,9 @@
 /obj/item/multitool,
 /turf/open/floor/plasteel,
 /area/storage/primary)
+"jHV" = (
+/turf/open/floor/plating,
+/area/nsv/weapons/fore)
 "jIa" = (
 /obj/structure/tank_dispenser/oxygen,
 /turf/open/floor/plasteel,
@@ -35623,6 +35626,15 @@
 	},
 /turf/open/floor/plasteel/ship,
 /area/quartermaster/storage)
+"kzL" = (
+/obj/structure/cable{
+	icon_state = "0-8"
+	},
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/turf/open/floor/plating,
+/area/nsv/weapons/fore)
 "kzU" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer1{
 	dir = 8
@@ -40313,6 +40325,7 @@
 /area/ai_monitored/turret_protected/ai)
 "oBE" = (
 /obj/machinery/computer/ship/viewscreen,
+/obj/structure/munitions_trolley,
 /turf/open/floor/plasteel/ship,
 /area/nsv/weapons/fore)
 "oDp" = (
@@ -41837,6 +41850,16 @@
 	},
 /turf/open/floor/plasteel/ship/techfloor/alt,
 /area/hallway/secondary/exit)
+"pVK" = (
+/obj/structure/cable{
+	icon_state = "0-8"
+	},
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/obj/structure/closet/secure_closet/master_at_arms,
+/turf/open/floor/plating,
+/area/nsv/weapons/fore)
 "pVN" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer3{
 	dir = 8
@@ -42234,6 +42257,13 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/department/medical/morgue)
+"qnc" = (
+/obj/machinery/door/airlock/ship/command/glass{
+	name = "Master At Arms' Locker";
+	req_one_access_txt = "70"
+	},
+/turf/open/floor/plasteel/ship,
+/area/nsv/weapons/fore)
 "qoL" = (
 /obj/machinery/status_display/ai{
 	pixel_x = 32
@@ -109426,10 +109456,10 @@ aLn
 wMX
 auh
 arv
-aIf
-gbL
-arv
-foU
+jHV
+kzL
+qnc
+aBu
 mws
 aso
 aBu
@@ -109683,8 +109713,8 @@ aeI
 aoI
 auh
 arv
-aIf
-gbL
+jHV
+kzL
 arv
 aYN
 afw
@@ -109940,8 +109970,8 @@ oWQ
 aoI
 auh
 arv
-aIf
-gbL
+jHV
+kzL
 arv
 oBE
 aee
@@ -110197,8 +110227,8 @@ jzA
 aoI
 auh
 arv
-aIf
-gbL
+iKz
+pVK
 arv
 baa
 aWZ
