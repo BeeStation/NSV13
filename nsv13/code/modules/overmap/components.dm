@@ -135,11 +135,11 @@ GLOBAL_LIST_INIT(computer_beeps, list('nsv13/sound/effects/computer/beep.ogg','n
 			max_ammo += SW.max_ammo
 			ammo += SW.ammo.len
 			thename = SW.weapon_type.name
-		data["weapons"].Add(list(list("name" = thename, "ammo" = ammo, "maxammo" = max_ammo)))
+		data["weapons"] += list(list("name" = thename, "ammo" = ammo, "maxammo" = max_ammo))
 	data["ships"] = list()
 	for(var/obj/structure/overmap/OM in GLOB.overmap_objects)
 		if(OM.z == linked.z && OM.faction != linked.faction)
-			data["ships"].Add(list(list("name" = OM.name, "integrity" = OM.obj_integrity, "max_integrity" = OM.max_integrity, "faction" = OM.faction)))
+			data["ships"] += list(list("name" = OM.name, "integrity" = OM.obj_integrity, "max_integrity" = OM.max_integrity, "faction" = OM.faction))
 	return data
 
 /obj/machinery/computer/ship/tactical/set_position(obj/structure/overmap/OM)

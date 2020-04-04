@@ -159,7 +159,7 @@
 	data["systems"] = list()
 	for(var/datum/starsystem/S in SSstarsystem.systems)
 		if(S.visitable && S != linked.current_system)
-			data["systems"].Add(list(list("name" = S.name, "distance" = "2 minutes")))
+			data["systems"] += list(list("name" = S.name, "distance" = "2 minutes"))
 	return data
 
 /obj/machinery/computer/ship/ftl_computer/proc/check_active(state)
