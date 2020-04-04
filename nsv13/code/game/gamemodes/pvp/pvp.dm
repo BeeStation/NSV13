@@ -63,6 +63,8 @@ Method to spawn in the Syndi ship on a brand new Z-level with the "boardable" tr
 	if(errorList.len)	// reebe failed to load
 		message_admins("Syndie ship failed to load!")
 		log_game("Syndie ship failed to load!")
+		for(var/X in errorList)
+			message_admins("The following failed to load: [X]")
 		return FALSE
 	for(var/datum/parsed_map/PM in loaded)
 		PM.initTemplateBounds()
