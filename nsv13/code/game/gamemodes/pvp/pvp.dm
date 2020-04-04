@@ -52,6 +52,9 @@ Method to spawn in the Syndi ship on a brand new Z-level with the "boardable" tr
 	var/map_file = pop < highpop_threshold ? pick(standard_ships) : pick(highpop_ships) //Scale the ship map to suit player pop. Larger crews need more space.
 	var/ship_type = pop < highpop_threshold ? /obj/structure/overmap/syndicate/pvp : /obj/structure/overmap/syndicate/pvp/hulk
 	var/obj/structure/overmap/syndiship
+	if(!map_file) //Don't ask me why this would happen.
+		map_file = "Hammurabi.dmm"
+		ship_type = /obj/structure/overmap/syndicate/pvp
 	for(var/z in SSmapping.levels_by_trait(ZTRAIT_CORVI))
 		syndiship = new ship_type(get_turf(locate(round(world.maxx * 0.5, 1), round(world.maxy * 0.5, 1), z))) //Make a new syndie ship object in Corvi.
 	message_admins("Spawning in syndi ship map, this may take a while. No the game hasn't crashed, I'm just loading a map before we start.") //Warn the admins. This shit takes a while.
@@ -95,7 +98,7 @@ Method to spawn in the Syndi ship on a brand new Z-level with the "boardable" tr
 	var/datum/antagonist/nukeop/L = leader_mind.add_antag_datum(leader_antag_datum_type)
 	nuke_team = L.nuke_team
 	//Assign the remaining operatives
-	for(var/I in 2 to pre_nukeops.len)
+	for(var/I in 1 to pre_nukeops.len)
 		var/datum/mind/nuke_mind = pre_nukeops[I]
 		var/datum/antagonist/selected = get_job_for(nuke_mind)
 		nuke_mind?.add_antag_datum(selected)
