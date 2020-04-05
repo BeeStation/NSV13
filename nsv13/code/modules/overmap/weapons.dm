@@ -172,6 +172,11 @@
 
 	return TRUE
 
+/obj/structure/overmap/proc/firemode2text(mode)
+	if(!weapons[mode][1])
+		return "Weapon type not found"
+	return "[weapons[mode][1].name]"
+
 /obj/structure/overmap/proc/fire_weapon(atom/target, mode=fire_mode, lateral=(fire_mode == FIRE_MODE_PDC && mass > MASS_TINY) ? TRUE : FALSE) //"Lateral" means that your ship doesnt have to face the target
 	if(ai_controlled || (!linked_areas.len && role != MAIN_OVERMAP)) //AI ships and fighters don't have interiors
 		if(fire_mode == FIRE_MODE_TORPEDO) //because fighter torpedoes are special
@@ -187,6 +192,8 @@
 					fire_projectile(proj_type, target)
 				sleep(1)
 			return TRUE
+	if(gunner)
+		LAZYADD(weapon_log, "[station_time_timestamp()] [gunner] ([(gunner.mind && gunner.mind.antag_datums) ? "<b>Antagonist</b>" : "Non-Antagonist"]) fired [firemode2text(fire_mode)] at [target]")
 	else if(weapons[mode] && weapons[mode].len) //It's the main ship, see if any part of our battery can fire
 		for(var/obj/machinery/ship_weapon/SW in weapons[mode])
 			if(SW.can_fire() && SW.fire(target, manual=(mode == fire_mode)))

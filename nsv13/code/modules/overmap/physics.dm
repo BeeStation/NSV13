@@ -281,7 +281,7 @@
 		bump_velocity = abs(velocity_y) + (abs(velocity_x) / 15)
 	else
 		bump_velocity = abs(velocity_x) + (abs(velocity_y) / 15)
-	if(istype(A, /obj/machinery/door/airlock)) // try to open doors
+	if(istype(A, /obj/machinery/door/airlock) && should_open_doors) // try to open doors
 		var/obj/machinery/door/D = A
 		if(!D.operating)
 			if(D.allowed(D.requiresID() ? pilot : null))
