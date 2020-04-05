@@ -174,6 +174,7 @@
 
 /obj/structure/overmap/proc/show_flight_ui()
 	return //Ignore this shit for now
+	/*
 	var/mob/user = pilot
 	var/datum/asset/assets = get_asset_datum(/datum/asset/simple/overmap_flight)
 	assets.send(user)
@@ -208,3 +209,4 @@
 	var/datum/browser/popup = new(user, "Flight console", name, 400, 400)
 	popup.set_content(dat)
 	popup.open()
+	*/
