@@ -16,7 +16,7 @@
 /*
  * Metal
  */
-//NSV13 - Torpedo Casing, PDC frame, railgun tray added to the end of this list. Barbed wire and metal cade added.
+//NSV13 - Torpedo Casing, PDC frame, railgun tray added to the end of this list. Barbed wire and metal cade added, gauss gunner chair added to the end of this list
 GLOBAL_LIST_INIT(metal_recipes, list ( \
 	new/datum/stack_recipe("stool", /obj/structure/chair/stool, one_per_turf = TRUE, on_floor = TRUE), \
 	new/datum/stack_recipe("bar stool", /obj/structure/chair/stool/bar, one_per_turf = TRUE, on_floor = TRUE), \
@@ -103,6 +103,7 @@ GLOBAL_LIST_INIT(metal_recipes, list ( \
 	new/datum/stack_recipe("torpedo casing", /obj/item/ship_weapon/ammunition/torpedo/torpedo_casing, 15, one_per_turf = TRUE, on_floor = TRUE), \
 	new/datum/stack_recipe("pdc mount frame", /obj/item/wallframe/pdc_frame, 5), \
 	new/datum/stack_recipe("railgun loading tray", /obj/item/ship_weapon/parts/loading_tray, 10), \
+	new/datum/stack_recipe("gauss gunner chair", /obj/structure/chair/comfy/gauss, 10), \
 	//NSV13 end
 ))
 
