@@ -104,6 +104,7 @@
 	var/dismemberment = 0 //The higher the number, the greater the bonus to dismembering. 0 will not dismember at all.
 	var/impact_effect_type //what type of impact effect to show when hitting something
 	var/log_override = FALSE //is this type spammed enough to not log? (KAs)
+	var/faction = null //NSV13 - bullets need factions for collision checks
 
 	var/temporary_unstoppable_movement = FALSE
 
@@ -238,31 +239,30 @@
 			if(hitscan)
 				store_hitscan_collision(pcache)
 			return TRUE
-	if(firer && !ignore_source_check)//nsv13 start - multitile objects
-		var/mob/checking = firer
+	var/mob/checking = firer
+	if(faction && !ignore_source_check)//nsv13 start - multitile objects
 		if(istype(A, /obj/structure/overmap))
 			var/obj/structure/overmap/ship_target = A
-			if(checking.overmap_ship)
-				if(checking.overmap_ship.faction == ship_target.faction)
-					trajectory_ignore_forcemove = TRUE
-					var/turf/TT = trajectory.return_turf()
-					if(!istype(TT))
-						qdel(src)
-						return
-					if(TT != loc)
-						forceMove(get_step_towards(src, TT))
-					trajectory_ignore_forcemove = FALSE
-					return FALSE
-		if((A == firer) || (((A in firer.buckled_mobs) || (istype(checking) && (A == checking.buckled))) && (A != original)) || (A == firer.loc && (ismecha(A) || istype(A, /obj/structure/overmap)))) //cannot shoot yourself or your mech //nsv13 - or your ship
-			trajectory_ignore_forcemove = TRUE
-			var/turf/TT = trajectory.return_turf()
-			if(!istype(TT))
-				qdel(src)
-				return
-			if(TT != loc)
-				forceMove(get_step_towards(src, TT))
-			trajectory_ignore_forcemove = FALSE
-			return FALSE			//nsv13 end
+			if(faction == ship_target.faction)
+				trajectory_ignore_forcemove = TRUE
+				var/turf/TT = trajectory.return_turf()
+				if(!istype(TT))
+					qdel(src)
+					return
+				if(TT != loc)
+					forceMove(get_step_towards(src, TT))
+				trajectory_ignore_forcemove = FALSE
+				return FALSE
+	if((A == firer) || (((A in firer.buckled_mobs) || (istype(checking) && (A == checking.buckled))) && (A != original)) || (A == firer.loc && (ismecha(A) || istype(A, /obj/structure/overmap)))) //cannot shoot yourself or your mech //nsv13 - or your ship
+		trajectory_ignore_forcemove = TRUE
+		var/turf/TT = trajectory.return_turf()
+		if(!istype(TT))
+			qdel(src)
+			return
+		if(TT != loc)
+			forceMove(get_step_towards(src, TT))
+		trajectory_ignore_forcemove = FALSE
+		return FALSE			//nsv13 end
 	var/distance = get_dist(T, starting) // Get the distance between the turf shot from and the mob we hit and use that for the calculations.
 	def_zone = ran_zone(def_zone, max(100-(7*distance), 5)) //Lower accurancy/longer range tradeoff. 7 is a balanced number to use.
 
