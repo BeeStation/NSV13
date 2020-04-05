@@ -341,6 +341,9 @@
 "aaQ" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer1,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer3,
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
 /turf/open/floor/carpet,
 /area/security/courtroom)
 "aaR" = (
@@ -4317,11 +4320,11 @@
 /obj/effect/turf_decal/loading_area/red{
 	dir = 8
 	},
-/obj/machinery/conveyor/auto{
-	dir = 8;
+/obj/machinery/door/firedoor,
+/obj/machinery/conveyor{
+	dir = 4;
 	id = "atmos_belt"
 	},
-/obj/machinery/door/firedoor,
 /turf/open/floor/plasteel/ship,
 /area/engine/atmos)
 "ajP" = (
@@ -9050,7 +9053,7 @@
 /turf/open/floor/plasteel/white,
 /area/medical/genetics/cloning)
 "auC" = (
-/obj/machinery/conveyor_switch/oneway{
+/obj/machinery/conveyor_switch{
 	id = "atmos_belt"
 	},
 /turf/open/floor/plasteel,
@@ -10887,6 +10890,7 @@
 	dir = 1
 	},
 /obj/structure/closet/crate/rcd,
+/obj/item/hand_tele,
 /turf/open/floor/plasteel,
 /area/storage/eva)
 "ayG" = (
@@ -11388,12 +11392,12 @@
 /turf/open/floor/plasteel/ship,
 /area/nsv/weapons/fore)
 "azP" = (
-/obj/machinery/conveyor/auto{
-	dir = 8;
-	id = "atmos_belt"
-	},
 /obj/effect/turf_decal/stripes/red/line{
 	dir = 1
+	},
+/obj/machinery/conveyor{
+	dir = 4;
+	id = "atmos_belt"
 	},
 /turf/open/floor/plasteel,
 /area/engine/atmos)
@@ -11618,7 +11622,6 @@
 "aAl" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer1,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer3,
-/obj/machinery/airalarm/directional/west,
 /obj/structure/disposalpipe/segment,
 /obj/machinery/door/firedoor,
 /obj/machinery/door/airlock/ship{
@@ -15991,6 +15994,7 @@
 /obj/structure/cable{
 	icon_state = "1-2"
 	},
+/obj/machinery/airalarm/directional/west,
 /turf/open/floor/plasteel/white,
 /area/science/xenobiology)
 "aLi" = (
@@ -17401,6 +17405,7 @@
 /area/crew_quarters/heads/captain/private)
 "aOB" = (
 /obj/machinery/computer/camera_advanced/xenobio,
+/obj/machinery/airalarm/directional/west,
 /turf/open/floor/plasteel/white,
 /area/science/xenobiology)
 "aOC" = (
@@ -20553,14 +20558,14 @@
 /turf/open/floor/plasteel/ship,
 /area/hallway/primary/central)
 "aWp" = (
-/obj/machinery/conveyor/auto{
-	dir = 8;
-	id = "atmos_belt"
-	},
 /obj/effect/turf_decal/stripes/red/line{
 	dir = 1
 	},
 /obj/machinery/light,
+/obj/machinery/conveyor{
+	dir = 4;
+	id = "atmos_belt"
+	},
 /turf/open/floor/plasteel,
 /area/engine/atmos)
 "aWq" = (
@@ -21350,12 +21355,12 @@
 /turf/open/floor/plating,
 /area/engine/atmos)
 "aYs" = (
-/obj/machinery/conveyor/auto{
-	dir = 8;
-	id = "atmos_belt"
-	},
 /obj/structure/window{
 	dir = 1
+	},
+/obj/machinery/conveyor{
+	dir = 4;
+	id = "atmos_belt"
 	},
 /turf/open/floor/plasteel,
 /area/engine/atmos)
@@ -21493,7 +21498,8 @@
 /area/storage/primary)
 "aYN" = (
 /obj/machinery/camera/autoname,
-/obj/machinery/computer/ship/viewscreen,
+/obj/effect/turf_decal/delivery/white,
+/obj/machinery/ship_weapon/pdc_mount,
 /turf/open/floor/plasteel/ship/techfloor/alt,
 /area/nsv/weapons/fore)
 "aYO" = (
@@ -24610,10 +24616,6 @@
 /obj/effect/turf_decal/stripes/line,
 /turf/open/floor/plating/airless,
 /area/maintenance/ship_exterior)
-"bfX" = (
-/obj/structure/hull_plate/end,
-/turf/open/space,
-/area/maintenance/ship_exterior)
 "bfY" = (
 /obj/structure/disposalpipe/segment{
 	dir = 4
@@ -27343,6 +27345,7 @@
 	departmentType = 4;
 	pixel_y = 32
 	},
+/obj/item/hand_tele,
 /turf/open/floor/carpet/ship,
 /area/crew_quarters/heads/captain/private)
 "dww" = (
@@ -28319,14 +28322,14 @@
 /turf/open/floor/plating,
 /area/maintenance/department/crew_quarters/dorms)
 "esI" = (
-/obj/machinery/conveyor/auto{
-	dir = 8;
-	id = "atmos_belt"
-	},
 /obj/effect/turf_decal/stripes/red/line{
 	dir = 1
 	},
 /obj/structure/disposalpipe/segment,
+/obj/machinery/conveyor{
+	dir = 4;
+	id = "atmos_belt"
+	},
 /turf/open/floor/plasteel,
 /area/engine/atmos)
 "esJ" = (
@@ -29270,12 +29273,6 @@
 	},
 /turf/open/floor/plating,
 /area/quartermaster/miningoffice)
-"foU" = (
-/obj/effect/turf_decal/delivery/white,
-/obj/machinery/ship_weapon/pdc_mount,
-/obj/structure/munitions_trolley,
-/turf/open/floor/plasteel/ship,
-/area/nsv/weapons/fore)
 "fpf" = (
 /obj/machinery/modular_computer/console/preset/civilian,
 /obj/structure/cable{
@@ -33449,6 +33446,12 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/department/chapel)
+"iKz" = (
+/obj/item/ship_weapon/ammunition/torpedo/nuke{
+	name = "Antonio"
+	},
+/turf/open/floor/plating,
+/area/nsv/weapons/fore)
 "iLR" = (
 /obj/structure/reagent_dispensers/fueltank,
 /turf/open/floor/plating,
@@ -34604,6 +34607,9 @@
 /obj/item/multitool,
 /turf/open/floor/plasteel,
 /area/storage/primary)
+"jHV" = (
+/turf/open/floor/plating,
+/area/nsv/weapons/fore)
 "jIa" = (
 /obj/structure/tank_dispenser/oxygen,
 /turf/open/floor/plasteel,
@@ -35641,6 +35647,15 @@
 	},
 /turf/open/floor/plasteel/ship,
 /area/quartermaster/storage)
+"kzL" = (
+/obj/structure/cable{
+	icon_state = "0-8"
+	},
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/turf/open/floor/plating,
+/area/nsv/weapons/fore)
 "kzU" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer1{
 	dir = 8
@@ -40321,6 +40336,11 @@
 /obj/structure/lattice,
 /turf/open/space,
 /area/ai_monitored/turret_protected/ai)
+"oBE" = (
+/obj/machinery/computer/ship/viewscreen,
+/obj/structure/munitions_trolley,
+/turf/open/floor/plasteel/ship,
+/area/nsv/weapons/fore)
 "oDp" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer3{
 	dir = 8
@@ -41843,6 +41863,16 @@
 	},
 /turf/open/floor/plasteel/ship/techfloor/alt,
 /area/hallway/secondary/exit)
+"pVK" = (
+/obj/structure/cable{
+	icon_state = "0-8"
+	},
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/obj/structure/closet/secure_closet/master_at_arms,
+/turf/open/floor/plating,
+/area/nsv/weapons/fore)
 "pVN" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer3{
 	dir = 8
@@ -42240,6 +42270,13 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/department/medical/morgue)
+"qnc" = (
+/obj/machinery/door/airlock/ship/command/glass{
+	name = "Master At Arms' Locker";
+	req_one_access_txt = "70"
+	},
+/turf/open/floor/plasteel/ship,
+/area/nsv/weapons/fore)
 "qoL" = (
 /obj/machinery/status_display/ai{
 	pixel_x = 32
@@ -48097,7 +48134,8 @@
 /turf/open/floor/plasteel/white,
 /area/medical/medbay/central)
 "vqt" = (
-/obj/machinery/computer/card{
+/obj/machinery/modular_computer/console/preset/command{
+	icon_state = "console";
 	dir = 1
 	},
 /turf/open/floor/carpet/ship,
@@ -50566,6 +50604,9 @@
 	},
 /obj/machinery/door/firedoor,
 /obj/machinery/atmospherics/pipe/layer_manifold,
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
 /turf/open/floor/plasteel/dark,
 /area/hallway/secondary/service)
 "xFt" = (
@@ -86596,10 +86637,10 @@ otg
 alt
 aAq
 bfY
-bfD
-bfD
-bfD
-bfX
+bfQ
+bfQ
+bfQ
+bfR
 aVE
 aux
 gHG
@@ -109420,10 +109461,10 @@ aLn
 wMX
 auh
 arv
-aIf
-gbL
-arv
-foU
+jHV
+kzL
+qnc
+aBu
 mws
 aso
 aBu
@@ -109677,8 +109718,8 @@ aeI
 aoI
 auh
 arv
-aIf
-gbL
+jHV
+kzL
 arv
 aYN
 afw
@@ -109934,10 +109975,10 @@ oWQ
 aoI
 auh
 arv
-aIf
-gbL
+jHV
+kzL
 arv
-aSx
+oBE
 aee
 afw
 amy
@@ -110191,8 +110232,8 @@ jzA
 aoI
 auh
 arv
-aIf
-gbL
+iKz
+pVK
 arv
 baa
 aWZ
