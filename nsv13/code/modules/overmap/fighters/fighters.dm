@@ -62,6 +62,7 @@ After going through this checklist, you're ready to go!
 	var/warning_cooldown = FALSE
 	var/canopy_breached = FALSE //Canopy will breach if you take too much damage, causing your air to leak out.
 	var/docking_cooldown = FALSE
+	var/list/mun_cannon = list()
 	var/list/mun_torps = list()
 	var/list/mun_missiles = list()
 	var/list/mun_countermeasures = list()
@@ -80,13 +81,6 @@ After going through this checklist, you're ready to go!
 	if(ispath(has_escape_pod))
 		escape_pod = new /obj/structure/overmap/fighter/escapepod(src)
 		escape_pod.name = "[name] - escape pod"
-
-/*
-/obj/strucutre/overmap/fighter/proc/set_fighter_type(type)
-	light -> primary_module = new cannon(src), secondary = new missileRack(src)
-	heavy -> ...
-*/
-
 
 /obj/structure/overmap/fighter/take_damage(damage_amount)
 	..()
@@ -149,27 +143,6 @@ After going through this checklist, you're ready to go!
 	damage_states = FALSE
 	max_passengers = 5 //Raptors can fit multiple people
 	max_integrity = 150 //Squishy!
-
-/*
-/obj/structure/overmap/fighter/prebuilt/raptor/docking_act(obj/structure/overmap/OM)
-	if(docking_cooldown)
-		return
-	if(mass < OM.mass && OM.docking_points.len && docking_mode) //If theyre smaller than us,and we have docking points, and they want to dock
-		transfer_from_overmap(OM)
-	if(mass >= OM.mass && docking_mode) //Looks like theyre smaller than us, and need rescue.
-		if(istype(OM, /obj/structure/overmap/fighter/prebuilt/escapepod)) //Can we take them aboard?
-			if(OM.operators.len <= max_passengers+1-OM.mobs_in_ship.len) //Max passengers + 1 to allow for one raptor crew rescuing another. Imagine that theyre being cramped into the footwell or something.
-				docking_cooldown = TRUE
-				addtimer(VARSET_CALLBACK(src, docking_cooldown, FALSE), 5 SECONDS) //Prevents jank.
-				var/obj/structure/overmap/fighter/prebuilt/escapepod/ep = OM
-				relay_to_nearby('nsv13/sound/effects/ship/boarding_pod.ogg')
-				to_chat(pilot,"<span class='warning'>Extending docking armatures...</span>")
-				ep.transfer_occupants_to(src)
-				qdel(ep)
-			else
-				if(pilot)
-					to_chat(pilot,"<span class='warning'>[src]'s passenger cabin is full, you'd need [max_passengers+1-OM.mobs_in_ship.len] more seats to retrieve everyone!</span>")
-*/
 
 /obj/structure/overmap/slowprocess()
 	. = ..()
@@ -248,6 +221,7 @@ After going through this checklist, you're ready to go!
 	name = new_prebuilt_fighter_name() //pulling from NSV13 ship name list currently
 	for(var/item in components)
 		new item(src)
+	update_stats()
 	for(var/I = 0, I < max_torpedoes, I++)
 		mun_torps += new /obj/item/ship_weapon/ammunition/torpedo/fast(src)
 	for(var/I = 0, I < max_missiles, I++)
@@ -268,8 +242,6 @@ After going through this checklist, you're ready to go!
 	var/obj/item/fighter_component/countermeasure_dispenser/cd = get_part(/obj/item/fighter_component/countermeasure_dispenser)
 	var/obj/item/fighter_component/secondary/light/missile_rack/mr = get_part(/obj/item/fighter_component/secondary/light/missile_rack)
 	var/obj/item/fighter_component/secondary/heavy/torpedo_rack/tr = get_part(/obj/item/fighter_component/secondary/heavy/torpedo_rack)
-	var/obj/item/fighter_component/primary/light/light_cannon/lc = get_part(/obj/item/fighter_component/primary/light/light_cannon)
-	var/obj/item/fighter_component/primary/heavy/heavy_cannon/hc = get_part(/obj/item/fighter_component/primary/heavy/heavy_cannon)
 	var/obj/item/fighter_component/primary/py = get_part(/obj/item/fighter_component/primary)
 	var/obj/item/fighter_component/secondary/utility/passenger_compartment_module/pc = get_part(/obj/item/fighter_component/secondary/utility/passenger_compartment_module)
 	var/obj/item/fighter_component/secondary/utility/auxiliary_fuel_tank/aft = get_part(/obj/item/fighter_component/secondary/utility/auxiliary_fuel_tank)
@@ -288,7 +260,7 @@ After going through this checklist, you're ready to go!
 	max_countermeasures = cd?.countermeasure_capacity
 	max_missiles = mr?.missile_capacity && tr?.missile_capacity
 	max_torpedoes = tr?.torpedo_capacity
-	max_cannon = lc?.ammo_capacity && hc?.ammo_capacity
+	max_cannon = py?.ammo_capacity
 	max_passengers = pc?.passenger_capacity
 
 
@@ -521,6 +493,14 @@ After going through this checklist, you're ready to go!
 			fire_projectile(proj_type, target, homing = TRUE, speed=proj_speed, explosive = TRUE)
 	else
 		to_chat(gunner, "<span class='warning'>DANGER: Launch failure! Missile tubes are not loaded.</span>")
+
+/*
+/obj/structure/overmap/fighter/fire_cannon(atom/target)
+	if(!mun_cannon.len)
+		return
+
+
+*/
 
 /obj/structure/overmap/fighter/attackby(obj/item/W, mob/user, params) //changing equipment
 	add_fingerprint(user)

@@ -28,6 +28,7 @@
 	name = "Fighter Component Primary - PARENT"
 	var/weapon_type_path_one = null
 	var/weapon_type_path_two = null
+	var/ammo_capacity = 0
 
 /obj/item/fighter_component/fuel_tank
 	name = "Fighter Fuel Tank - PARENT"
@@ -178,7 +179,7 @@
 	icon_state = "plasmacrate"
 	weapon_type_path_one = /datum/ship_weapon/light_cannon
 	var/fire_rate = 1
-	var/ammo_capacity = 1
+	ammo_capacity = 1
 	var/projectile = null
 
 /obj/item/fighter_component/primary/light/light_cannon/t1
@@ -283,7 +284,7 @@
 	icon_state = "plasmacrate"
 	weapon_type_path_one = /datum/ship_weapon/heavy_cannon
 	var/fire_rate = 1
-	var/ammo_capacity = 1
+	ammo_capacity = 1
 	var/projectile = null
 
 /obj/item/fighter_component/primary/heavy/heavy_cannon/t1

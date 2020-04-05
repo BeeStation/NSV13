@@ -75,3 +75,9 @@
 /obj/item/projectile/bullet/torpedo/dud
 	icon_state = "torpedo_dud"
 	damage = 0
+
+/obj/item/ship_weapon/ammunition/torpedo/antonio
+	name = "Antonio"
+
+/obj/item/ship_weapon/ammunition/torpedo/fabio
+	name = "Fabio"

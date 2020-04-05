@@ -42,3 +42,5 @@
 
 	var/obj/item/ship_weapon/ammunition/countermeasure_charge/cmc = locate(/obj/item/ship_weapon/ammunition/countermeasure_charge) in contents //remove charge
 	qdel(cmc)
+	countermeasures --
+

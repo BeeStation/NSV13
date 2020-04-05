@@ -2,7 +2,7 @@
 //Fast, nimble, flimsy
 //Uses Light Cannons and Missiles
 /obj/structure/overmap/fighter/light
-	name = "Su-818 Rapier" //need better name
+	name = "Su-818 Rapier"
 	desc = "An Su-818 Rapier space superiorty fighter craft. Designed for high maneuvreability and maximum combat effectivness against other similar weight classes."
 	icon = 'nsv13/icons/overmap/nanotrasen/fighter.dmi'
 	armor = list("melee" = 60, "bullet" = 30, "laser" = 60, "energy" = 30, "bomb" = 30, "bio" = 100, "rad" = 90, "fire" = 90, "acid" = 80)

@@ -77,7 +77,7 @@
 	desc = "The stock standard warhead design for torpedos"
 	id = "warhead"
 	build_type = PROTOLATHE
-	materials = list(/datum/material/iron = 20000, /datum/material/glass = 5000)
+	materials = list(/datum/material/iron = 10000, /datum/material/glass = 2500, /datum/material/copper = 2500, /datum/material/plasma = 10000)
 	build_path = /obj/item/ship_weapon/parts/torpedo/warhead
 	category = list("Advanced Munitions")
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO
@@ -87,7 +87,7 @@
 	desc = "A bunker buster warhead design for torpedos"
 	id = "bb_warhead"
 	build_type = PROTOLATHE
-	materials = list(/datum/material/iron = 15000, /datum/material/plasma = 5000, /datum/material/glass = 5000)
+	materials = list(/datum/material/iron = 10000, /datum/material/glass = 2500, /datum/material/copper = 2500, /datum/material/plasma = 20000, /datum/material/gold = 2500)
 	build_path = /obj/item/ship_weapon/parts/torpedo/warhead/bunker_buster
 	category = list("Advanced Munitions")
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO
@@ -97,7 +97,7 @@
 	desc = "A lightweight warhead design for torpedos"
 	id = "lw_warhead"
 	build_type = PROTOLATHE
-	materials = list(/datum/material/iron = 10000, /datum/material/glass = 2500)
+	materials = list(/datum/material/iron = 7500, /datum/material/glass = 2500, /datum/material/copper = 2500, /datum/material/plasma = 5000)
 	build_path = /obj/item/ship_weapon/parts/torpedo/warhead/lightweight
 	category = list("Advanced Munitions")
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO
@@ -107,7 +107,7 @@
 	desc = "A decoy warhead design for torpedos"
 	id = "decoy_warhead"
 	build_type = PROTOLATHE
-	materials = list(/datum/material/iron = 5000)
+	materials = list(/datum/material/iron = 5000, /datum/material/glass = 2500, /datum/material/copper = 2500)
 	build_path = /obj/item/ship_weapon/parts/torpedo/warhead/decoy
 	category = list("Advanced Munitions")
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO
@@ -117,7 +117,7 @@
 	desc = "A nuclear warhead design for torpedos"
 	id = "nuke_warhead"
 	build_type = PROTOLATHE
-	materials = list(/datum/material/iron = 20000, /datum/material/plasma = 10000, /datum/material/uranium = 5000)
+	materials = list(/datum/material/iron = 20000, /datum/material/glass = 5000, /datum/material/copper = 5000, /datum/material/plasma = 20000, /datum/material/gold = 5000, /datum/material/uranium = 10000)
 	build_path = /obj/item/ship_weapon/parts/torpedo/warhead/nuclear
 	category = list("Advanced Munitions")
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO
@@ -127,7 +127,7 @@
 	desc = "The stock standard guidance system design for torpedos"
 	id = "guidance_system"
 	build_type = PROTOLATHE
-	materials = list(/datum/material/iron = 10000, /datum/material/glass = 5000)
+	materials = list(/datum/material/iron = 1000, /datum/material/glass = 2500, /datum/material/gold = 3000, /datum/material/copper = 2500)
 	build_path = /obj/item/ship_weapon/parts/torpedo/guidance_system
 	category = list("Advanced Munitions")
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO
@@ -137,7 +137,7 @@
 	desc = "The stock standard propulsion system design for torpedos"
 	id = "propulsion_system"
 	build_type = PROTOLATHE
-	materials = list(/datum/material/iron = 10000, /datum/material/glass = 5000)
+	materials = list(/datum/material/iron = 10000, /datum/material/glass = 5000, /datum/material/titanium = 2500, /datum/material/plasma = 2500)
 	build_path = /obj/item/ship_weapon/parts/torpedo/propulsion_system
 	category = list("Advanced Munitions")
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO
@@ -147,7 +147,7 @@
 	desc = "The stock standard IFF card design for torpedos"
 	id = "iff_card"
 	build_type = IMPRINTER
-	materials = list(/datum/material/glass = 20000, /datum/material/iron = 5000)
+	materials = list(/datum/material/glass = 20000, /datum/material/copper = 5000, /datum/material/gold = 5000)
 	build_path = /obj/item/ship_weapon/parts/torpedo/iff_card
 	category = list("Advanced Munitions")
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO

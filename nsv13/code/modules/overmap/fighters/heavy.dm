@@ -17,9 +17,10 @@
 	pixel_w = -16
 	pixel_z = -20
 
-	forward_maxthrust = 1
-	backward_maxthrust = 0.5
-	side_maxthrust = 0.5
+	forward_maxthrust = 2
+	backward_maxthrust = 2
+	side_maxthrust = 2
+	max_angular_acceleration = 80
 
 /obj/structure/overmap/fighter/heavy/prebuilt
 	prebuilt = TRUE

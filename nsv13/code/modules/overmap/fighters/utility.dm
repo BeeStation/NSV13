@@ -18,9 +18,10 @@
 	pixel_w = -16
 	pixel_z = -20
 
-	forward_maxthrust = 2
-	backward_maxthrust = 2
-	side_maxthrust = 2
+	forward_maxthrust = 3
+	backward_maxthrust = 3
+	side_maxthrust = 3
+	max_angular_acceleration = 110
 
 /obj/structure/overmap/fighter/utility/prebuilt/tanker //refueling other fighters in space
 	prebuilt = TRUE

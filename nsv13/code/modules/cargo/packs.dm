@@ -6,7 +6,7 @@
 /datum/supply_pack/munitions/railgun
 	name = "300mm railgun slugs (x10)"
 	desc = "A set of 10 tungsten railgun slugs, guaranteed to pierce through enemy hulls or your money back!"
-	cost = 1000
+	cost = 2500
 	contains = list(/obj/item/ship_weapon/ammunition/railgun_ammo,
 					/obj/item/ship_weapon/ammunition/railgun_ammo,
 					/obj/item/ship_weapon/ammunition/railgun_ammo,
@@ -22,7 +22,7 @@
 /datum/supply_pack/munitions/pdc
 	name = "PDC rounds (x5)"
 	desc = "5 boxes of PDC ammunition. Typically used to shoot down oncoming ordnance."
-	cost = 1000
+	cost = 2500
 	contains = list(/obj/item/ammo_box/magazine/pdc,
 					/obj/item/ammo_box/magazine/pdc,
 					/obj/item/ammo_box/magazine/pdc,
@@ -40,7 +40,7 @@
 /datum/supply_pack/munitions/torpedo_construction
 	name = "Torpedo construction kit"
 	desc = "Due to the volatility of torpedoes, we are unable to offer pre-built munitions, however this kit contains common torpedo parts and some casings to put them in. Included: 2x standard warhead, 1x decoy warhead, 3x torpedo casings (trolley sold separately), 3x guidance system modules, 3x propulsion modules, 3x IFF cards."
-	cost = 3000
+	cost = 9000
 	contains = list(/obj/item/ship_weapon/ammunition/torpedo/torpedo_casing,
 					/obj/item/ship_weapon/ammunition/torpedo/torpedo_casing,
 					/obj/item/ship_weapon/ammunition/torpedo/torpedo_casing,
@@ -61,7 +61,7 @@
 /datum/supply_pack/munitions/torpedo_casings
 	name = "Torpedo casings"
 	desc = "A set of 5 torpedo casings, prebuilt but not pre-assembled. Ideal when used with our line of torpedo components."
-	cost = 500
+	cost = 1500
 	contains = list(/obj/item/ship_weapon/ammunition/torpedo/torpedo_casing,
 					/obj/item/ship_weapon/ammunition/torpedo/torpedo_casing,
 					/obj/item/ship_weapon/ammunition/torpedo/torpedo_casing,
@@ -72,7 +72,7 @@
 /datum/supply_pack/munitions/torpedo_construction
 	name = "Torpedo components"
 	desc = "A set of torpedo guidance modules, propulsion units and IFF cards. Warheads sold separately!"
-	cost = 1000
+	cost = 1500
 	contains = list(/obj/item/ship_weapon/parts/torpedo/guidance_system,
 					/obj/item/ship_weapon/parts/torpedo/guidance_system,
 					/obj/item/ship_weapon/parts/torpedo/guidance_system,
@@ -87,7 +87,7 @@
 /datum/supply_pack/munitions/standard_warheads
 	name = "Torpedo warheads (standard)"
 	desc = "A pack of 5 standard torpedo warheads with a 40 isotonne yield, ideal for general usage."
-	cost = 1000
+	cost = 3000
 	contains = list(/obj/item/ship_weapon/parts/torpedo/warhead,
 					/obj/item/ship_weapon/parts/torpedo/warhead,
 					/obj/item/ship_weapon/parts/torpedo/warhead,
@@ -98,7 +98,7 @@
 /datum/supply_pack/munitions/lightweight_warheads
 	name = "Torpedo warheads (lightweight)"
 	desc = "A pack of 5 lightweight torpedo warheads with a 30 isotonne yield, ideal for long range combat, or tracking fast moving targets."
-	cost = 1000
+	cost = 3000
 	contains = list(/obj/item/ship_weapon/parts/torpedo/warhead/lightweight,
 					/obj/item/ship_weapon/parts/torpedo/warhead/lightweight,
 					/obj/item/ship_weapon/parts/torpedo/warhead/lightweight,
@@ -109,7 +109,7 @@
 /datum/supply_pack/munitions/bb_warheads
 	name = "Torpedo warheads (armour piercing)"
 	desc = "A pack of 5 armour piercing torpedo warheads with a 80 isotonne combined yield, these warheads excel at dealing massive damage to a target."
-	cost = 3000
+	cost = 9000
 	contains = list(/obj/item/ship_weapon/parts/torpedo/warhead/bunker_buster,
 					/obj/item/ship_weapon/parts/torpedo/warhead/bunker_buster,
 					/obj/item/ship_weapon/parts/torpedo/warhead/bunker_buster,
@@ -120,46 +120,13 @@
 /datum/supply_pack/munitions/decoy_warheads
 	name = "Torpedo warheads (decoy)"
 	desc = "A pack of 5 electronic countermeasure warheads which excel at distracting enemy PDC emplacements."
-	cost = 500
+	cost = 1500
 	contains = list(/obj/item/ship_weapon/parts/torpedo/warhead/decoy,
 					/obj/item/ship_weapon/parts/torpedo/warhead/decoy,
 					/obj/item/ship_weapon/parts/torpedo/warhead/decoy,
 					/obj/item/ship_weapon/parts/torpedo/warhead/decoy,
 					/obj/item/ship_weapon/parts/torpedo/warhead/decoy)
 	crate_name = "Decoy torpedo warheads"
-
-/datum/supply_pack/munitions/peacekeeper_rifles
-	name = "M2A45 pulse rifles (x5)"
-	desc = "A pack of 5 M2A45 pulse rifles, preloaded with nonlethal stun slugs."
-	cost = 2000
-	contains = list(/obj/item/gun/ballistic/automatic/peacekeeper,
-					/obj/item/gun/ballistic/automatic/peacekeeper,
-					/obj/item/gun/ballistic/automatic/peacekeeper,
-					/obj/item/gun/ballistic/automatic/peacekeeper,
-					/obj/item/gun/ballistic/automatic/peacekeeper)
-	crate_name = "M2A45 pulse rifles"
-
-/datum/supply_pack/munitions/peacekeeper_ammo
-	name = "M2A45 pulse rifle ammo (nonlethal)"
-	desc = "5 magazines of nonlethal ammo for peacekeeper rifles."
-	cost = 500
-	contains = list(/obj/item/ammo_box/magazine/peacekeeper,
-					/obj/item/ammo_box/magazine/peacekeeper,
-					/obj/item/ammo_box/magazine/peacekeeper,
-					/obj/item/ammo_box/magazine/peacekeeper,
-					/obj/item/ammo_box/magazine/peacekeeper)
-	crate_name = "M2A45 pulse rifle ammunition (nonlethal)"
-
-/datum/supply_pack/munitions/peacekeeper_ammo_lethal
-	name = "M2A45 pulse rifle ammo (lethal)"
-	desc = "5 magazines of lethal ammunition for peacekeeper rifles."
-	cost = 800
-	contains = list(/obj/item/ammo_box/magazine/peacekeeper/lethal,
-					/obj/item/ammo_box/magazine/peacekeeper/lethal,
-					/obj/item/ammo_box/magazine/peacekeeper/lethal,
-					/obj/item/ammo_box/magazine/peacekeeper/lethal,
-					/obj/item/ammo_box/magazine/peacekeeper/lethal)
-	crate_name = "M2A45 pulse rifle ammunition (lethal)"
 
 /datum/supply_pack/munitions/pilot_outfitting
 	name = "Pilot Outfitting Crate"
@@ -171,3 +138,68 @@
 					/obj/item/clothing/head/beret/ship/pilot,
 					/obj/item/radio/headset/headset_sec/alt/pilot,
 					/obj/item/clothing/suit/space/hardsuit/pilot)
+
+/datum/supply_pack/munitions/missile_construction
+	name = "Missile construction kit"
+	desc = "Due to the volatility of missiles, we are unable to offer pre-built munitions, however this kit contains common missile parts and some casings to put them in. Included: 3x standard warhead, 3x missile casings (trolley sold separately), 3x guidance system modules, 3x propulsion modules, 3x IFF cards."
+	cost = 2500
+	contains = list(/obj/item/ship_weapon/ammunition/missile/missile_casing,
+					/obj/item/ship_weapon/ammunition/missile/missile_casing,
+					/obj/item/ship_weapon/ammunition/missile/missile_casing,
+					/obj/item/ship_weapon/parts/missile/warhead,
+					/obj/item/ship_weapon/parts/missile/warhead,
+					/obj/item/ship_weapon/parts/missile/warhead,
+					/obj/item/ship_weapon/parts/missile/guidance_system,
+					/obj/item/ship_weapon/parts/missile/guidance_system,
+					/obj/item/ship_weapon/parts/missile/guidance_system,
+					/obj/item/ship_weapon/parts/missile/propulsion_system,
+					/obj/item/ship_weapon/parts/missile/propulsion_system,
+					/obj/item/ship_weapon/parts/missile/propulsion_system,
+					/obj/item/ship_weapon/parts/missile/iff_card,
+					/obj/item/ship_weapon/parts/missile/iff_card,
+					/obj/item/ship_weapon/parts/missile/iff_card)
+	crate_name = "Basic missile construction kit"
+
+/datum/supply_pack/munitions/countermeasure_charges
+	name = "Fighter countermeasure tri-charges (x5)"
+	desc = "5 tri-charges of chaff countermeasures for a fighter."
+	cost = 3500
+	contains = list(/obj/item/ship_weapon/ammunition/countermeasure_charge,
+					/obj/item/ship_weapon/ammunition/countermeasure_charge,
+					/obj/item/ship_weapon/ammunition/countermeasure_charge,
+					/obj/item/ship_weapon/ammunition/countermeasure_charge,
+					/obj/item/ship_weapon/ammunition/countermeasure_charge)
+	crate_name = "Fighter Countermeasure Charges"
+
+/datum/supply_pack/security/peacekeeper_rifles
+	name = "M2A45 pulse rifles (x5)"
+	desc = "A pack of 5 M2A45 pulse rifles, preloaded with nonlethal stun slugs."
+	cost = 2000
+	contains = list(/obj/item/gun/ballistic/automatic/peacekeeper,
+					/obj/item/gun/ballistic/automatic/peacekeeper,
+					/obj/item/gun/ballistic/automatic/peacekeeper,
+					/obj/item/gun/ballistic/automatic/peacekeeper,
+					/obj/item/gun/ballistic/automatic/peacekeeper)
+	crate_name = "M2A45 pulse rifles"
+
+/datum/supply_pack/security/peacekeeper_ammo
+	name = "M2A45 pulse rifle ammo (nonlethal)"
+	desc = "5 magazines of nonlethal ammo for peacekeeper rifles."
+	cost = 500
+	contains = list(/obj/item/ammo_box/magazine/peacekeeper,
+					/obj/item/ammo_box/magazine/peacekeeper,
+					/obj/item/ammo_box/magazine/peacekeeper,
+					/obj/item/ammo_box/magazine/peacekeeper,
+					/obj/item/ammo_box/magazine/peacekeeper)
+	crate_name = "M2A45 pulse rifle ammunition (nonlethal)"
+
+/datum/supply_pack/security/peacekeeper_ammo_lethal
+	name = "M2A45 pulse rifle ammo (lethal)"
+	desc = "5 magazines of lethal ammunition for peacekeeper rifles."
+	cost = 800
+	contains = list(/obj/item/ammo_box/magazine/peacekeeper/lethal,
+					/obj/item/ammo_box/magazine/peacekeeper/lethal,
+					/obj/item/ammo_box/magazine/peacekeeper/lethal,
+					/obj/item/ammo_box/magazine/peacekeeper/lethal,
+					/obj/item/ammo_box/magazine/peacekeeper/lethal)
+	crate_name = "M2A45 pulse rifle ammunition (lethal)"
