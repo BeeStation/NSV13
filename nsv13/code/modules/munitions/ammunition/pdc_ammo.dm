@@ -10,9 +10,9 @@
 
 /obj/item/ammo_box/magazine/pdc/update_icon()
 	if(ammo_count() > 10)
-		icon_state = "pdc"
+		icon_state = initial(icon_state)
 	else
-		icon_state = "pdc_empty"
+		icon_state = "[initial(icon_state)]_empty"
 
 /obj/item/ammo_casing/pdc
 	name = "30.12x82mm bullet casing"
