@@ -66,10 +66,11 @@
 	projectile_type = /obj/item/projectile/bullet/torpedo/nuclear
 
 /obj/item/projectile/bullet/torpedo/nuclear
-	icon_state = "torpedo_shredder"
+	icon_state = "torpedo_nuke"
 	name = "thermonuclear cruise missile"
 	damage = 300
 	impact_effect_type = /obj/effect/temp_visual/nuke_impact
+	shotdown_effect_type = /obj/effect/temp_visual/nuke_impact
 
 //What you get from an incomplete torpedo.
 /obj/item/projectile/bullet/torpedo/dud
