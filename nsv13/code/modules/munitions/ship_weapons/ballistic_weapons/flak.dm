@@ -155,7 +155,7 @@
 	for(var/obj/X in view(flak_range, src))
 		var/severity = flak_range-get_dist(X, src)
 		if(istype(X, /obj/structure))
-			X.take_damage(severity*10, damage_type = "overmap_light")
+			X.take_damage(severity*10, damage_type = BRUTE)
 		else
 			X.ex_act(severity)
 	. = ..()
