@@ -65,6 +65,7 @@
 	var/backward_maxthrust = 3
 	var/side_maxthrust = 1
 	var/mass = MASS_SMALL //The "mass" variable will scale the movespeed according to how large the ship is.
+	var/landing_gear = FALSE //Allows you to move in atmos without scraping the hell outta your ship
 
 	var/bump_impulse = 0.6
 	var/bounce_factor = 0.2 // how much of our velocity to keep on collision
