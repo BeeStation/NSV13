@@ -10,8 +10,6 @@
 	desc = "A small and agile vessel which is designed for escort missions and independant patrols. This ship class is the backbone of Nanotrasen's navy."
 	icon = 'nsv13/icons/overmap/nanotrasen/light_cruiser.dmi'
 	icon_state = "cruiser"
-	bound_width = 96 //Change this on a per ship basis
-	bound_height = 96
 	mass = MASS_MEDIUM
 	sprite_size = 96
 	damage_states = TRUE
@@ -23,8 +21,6 @@
 	desc = "A medium sized ship with an advanced railgun, long range torpedo systems and multiple PDCs. This ship is still somewhat agile, but excels at bombarding targets from extreme range."
 	icon = 'nsv13/icons/overmap/nanotrasen/patrol_cruiser.dmi'
 	icon_state = "patrol_cruiser"
-	bound_width = 128 //Change this on a per ship basis
-	bound_height = 256
 	mass = MASS_LARGE
 	sprite_size = 48
 	damage_states = TRUE
@@ -38,8 +34,6 @@
 	desc = "A medium sized ship with an advanced railgun, long range torpedo systems and multiple PDCs. This ship is fast, responsive, and able to deliver copious amounts of torpedo bombardment at a moment's notice."
 	icon = 'nsv13/icons/overmap/nanotrasen/missile_cruiser.dmi'
 	icon_state = "patrol_cruiser"
-	bound_width = 128 //Change this on a per ship basis
-	bound_height = 128
 	mass = MASS_MEDIUM
 	sprite_size = 48
 	damage_states = TRUE
@@ -53,8 +47,6 @@
 	desc = "A large ship with an advanced railgun, long range torpedo systems and multiple PDCs. It is slow, heavy and frighteningly powerful, excelling at sustained combat over short distances."
 	icon = 'nsv13/icons/overmap/nanotrasen/heavy_Cruiser.dmi'
 	icon_state = "heavy_cruiser"
-	bound_width = 128 //Change this on a per ship basis
-	bound_height = 256
 	mass = MASS_LARGE
 	sprite_size = 48
 	damage_states = TRUE
@@ -68,8 +60,6 @@
 	desc = "A gigantic ship which is capable of staying deployed in space for extended periods while supporting an impressive complement of fighters."
 	icon = 'nsv13/icons/overmap/nanotrasen/enterprise.dmi'
 	icon_state = "enterprise"
-	bound_width = 128 //Change this on a per ship basis
-	bound_height = 128
 	mass = MASS_LARGE
 	sprite_size = 48
 	damage_states = FALSE //TODO
@@ -83,8 +73,6 @@
 	desc = "A medium sized ship which has been retrofitted countless times. These ships are often relegated to mining duty."
 	icon = 'nsv13/icons/overmap/nanotrasen/light_cruiser.dmi'
 	icon_state = "cruiser"
-	bound_width = 96 //Change this on a per ship basis
-	bound_height = 96
 	mass = MASS_MEDIUM
 	sprite_size = 96
 	damage_states = TRUE
@@ -116,6 +104,8 @@
 	role = MAIN_OVERMAP //Player controlled variant
 	max_integrity = 2000 //Compensates for lack of offensive weaponry
 	integrity_failure = 2000
+	bound_width = 256
+	bound_height = 256
 
 /obj/structure/overmap/nanotrasen/patrol_cruiser/ai
 	ai_controlled = TRUE
@@ -134,8 +124,6 @@
 	icon_state = "cruiser"
 	ai_controlled = TRUE
 	ai_behaviour = AI_AGGRESSIVE
-	bound_width = 96 //Change this on a per ship basis
-	bound_height = 96
 	mass = MASS_MEDIUM
 	sprite_size = 48
 	damage_states = TRUE
@@ -157,6 +145,10 @@
 	faction = "syndicate"
 	interior_maps = list("Corvette.dmm")
 
+/obj/structure/overmap/syndicate/ai/Initialize()
+	. = ..()
+	name = "[name] ([rand(0,999)])"
+
 /obj/structure/overmap/syndicate/ai/Destroy()
 	SSstarsystem.bounty_pool += bounty //Adding payment for services rendered
 	. = ..()
@@ -166,8 +158,6 @@
 	icon_state = "cruiser"
 	ai_controlled = TRUE
 	ai_behaviour = AI_AGGRESSIVE
-	bound_width = 96 //Change this on a per ship basis
-	bound_height = 96
 	mass = MASS_MEDIUM
 	sprite_size = 96
 	damage_states = TRUE
@@ -178,8 +168,6 @@
 	name = "syndicate carrier"
 	icon = 'nsv13/icons/overmap/syndicate/syn_carrier.dmi'
 	icon_state = "carrier"
-	bound_width = 128 //Change this on a per ship basis
-	bound_height = 256
 	mass = MASS_LARGE
 	ai_can_launch_fighters = TRUE //AI variable. Allows your ai ships to spawn fighter craft
 	ai_fighter_type = /obj/structure/overmap/fighter/ai/syndicate
@@ -198,8 +186,6 @@
 /obj/structure/overmap/syndicate/ai/patrol_cruiser //Larger ship which is much harder to kill
 	icon = 'nsv13/icons/overmap/syndicate/syn_patrol_cruiser.dmi'
 	icon_state = "patrol_cruiser"
-	bound_width = 128 //Change this on a per ship basis
-	bound_height = 256
 	mass = MASS_LARGE
 	sprite_size = 48
 	damage_states = TRUE
@@ -221,8 +207,6 @@
 	icon_state = "fighter"
 	brakes = FALSE
 	max_integrity = 100 //Super squishy!
-	bound_width = 32 //Change this on a per ship basis
-	bound_height = 32
 	sprite_size = 32
 	faction = "syndicate"
 

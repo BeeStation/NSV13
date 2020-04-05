@@ -364,6 +364,7 @@ You need to fire emag the fighter's IFF board. This makes it list as "ENEMY" on 
 		if(pilot)
 			to_chat(pilot, "<span class='notice'>Docking mode disabled. Use the 'Ship' verbs tab to re-enable docking mode, then fly into an allied ship to complete docking proceedures.</span>")
 			docking_mode = FALSE
+		SEND_SIGNAL(src, COMSIG_FTL_STATE_CHANGE) //Let dradis comps update their status too
 		return TRUE
 
 /obj/structure/overmap/fighter/proc/update_overmap()
@@ -393,10 +394,11 @@ You need to fire emag the fighter's IFF board. This makes it list as "ENEMY" on 
 		docking_mode = FALSE
 		if(pilot)
 			to_chat(pilot, "<span class='notice'>Docking complete. <b>Gun safeties have been engaged automatically.</b></span>")
+		SEND_SIGNAL(src, COMSIG_FTL_STATE_CHANGE)
 		return TRUE
 
-/obj/structure/overmap/fighter/take_damage(amount)
-	. = ..()
+/obj/structure/overmap/fighter/take_damage(damage_amount, damage_type = BRUTE, damage_flag = 0, sound_effect = 1, attack_dir, armour_penetration = 0)
+	..()
 	var/canopy_warn_threshold = max_integrity/10*4 //Get 40% of max_integrity
 	var/canopy_breach_threshold = max_integrity/10*3 //Get 30% of max_integrity
 	if(obj_integrity <= canopy_breach_threshold && !canopy_breached)
@@ -543,7 +545,6 @@ You need to fire emag the fighter's IFF board. This makes it list as "ENEMY" on 
 	if(prebuilt)
 		prebuilt_setup()
 	dradis = new /obj/machinery/computer/ship/dradis/internal(src) //Fighters need a way to find their way home.
-	dradis?.soundloop?.stop()
 	update_stats()
 	fuel_setup()
 	obj_integrity = max_integrity
@@ -837,8 +838,6 @@ You need to fire emag the fighter's IFF board. This makes it list as "ENEMY" on 
 				user.forceMove(src)
 				start_piloting(user, "all_positions")
 				ui_interact(user)
-				if(user?.client?.prefs.toggles & SOUND_AMBIENCE) //Disable ambient sounds to shut up the noises.
-					dradis?.soundloop?.start()
 				mobs_in_ship += user
 				if(user?.client?.prefs.toggles & SOUND_AMBIENCE && flight_state >= FLIGHT_READY) //Disable ambient sounds to shut up the noises.
 					SEND_SOUND(user, sound('nsv13/sound/effects/fighters/cockpit.ogg', repeat = TRUE, wait = 0, volume = 50, channel=CHANNEL_SHIP_ALERT))

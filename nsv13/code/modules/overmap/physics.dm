@@ -15,6 +15,30 @@
 /obj/structure/overmap
 	var/last_process = 0
 	var/obj/vector_overlay/vector_overlay
+	var/pixel_collision_size_x = 0
+	var/pixel_collision_size_y = 0
+
+//Helper proc to get the actual center of the ship, if the ship's hitbox is placed in the bottom left corner like they usually are.
+
+/obj/structure/overmap/proc/get_center()
+	return get_turf(locate((src.x+(pixel_collision_size_x/32)/2), src.y+((pixel_collision_size_y/32)/2), z))
+
+/obj/structure/overmap/proc/get_pixel_bounds()
+	for(var/turf/T in obounds(src, pixel_x + pixel_collision_size_x/4, pixel_y + pixel_collision_size_y/4, pixel_x  + -pixel_collision_size_x/4, pixel_y + -pixel_collision_size_x/4) )//Forms a zone of 4 quadrants around the desired overmap using some math fuckery.
+		to_chat(world, "FOO!")
+		T.SpinAnimation()
+
+/obj/structure/overmap/proc/show_bounds()
+	for(var/turf/T in locs)
+		T.SpinAnimation()
+
+/obj/structure/overmap/Initialize()
+	. = ..()
+	var/icon/I = icon(icon,icon_state,SOUTH) //SOUTH because all overmaps only ever face right, no other dirs.
+	pixel_collision_size_x = I.Width()
+	pixel_collision_size_y = I.Height()
+//	bound_width = pixel_collision_size_x
+//	bound_height = pixel_collision_size_y
 
 /obj/structure/overmap/proc/can_move()
 	return TRUE //Placeholder for everything but fighters. We can later extend this if / when we want to code in ship engines.
@@ -22,11 +46,9 @@
 /obj/structure/overmap/process(time)
 	time /= 10 // fuck off with your deciseconds
 	last_process = world.time
-
 	if(world.time > last_slowprocess + 10)
 		last_slowprocess = world.time
 		slowprocess()
-
 	var/last_offset_x = offset_x
 	var/last_offset_y = offset_y
 	var/last_angle = angle
@@ -259,6 +281,12 @@
 	user_thrust_dir = 0
 	update_icon()
 
+
+/obj/structure/overmap/proc/show_hitbox()
+	for(var/turf/T in obounds(src, pixel_x + pixel_collision_size_x/4, pixel_y + pixel_collision_size_y/4, pixel_x  + -pixel_collision_size_x/4, pixel_y + -pixel_collision_size_x/4) )//Forms a zone of 4 quadrants around the desired overmap using some math fuckery.
+		T.SpinAnimation()
+
+
 /obj/structure/overmap/Bumped(atom/movable/A)
 	if(istype(A, /obj/structure/overmap/fighter))
 		var/obj/structure/overmap/fighter/F = A
@@ -395,19 +423,20 @@
 		proj.original = target
 		proj.pixel_x = round(this_x)
 		proj.pixel_y = round(this_y)
+		proj.faction = faction
 		spawn()
 			proj.fire(angle)
 
-/obj/structure/overmap/proc/fire_lateral_projectile(proj_type,target,speed=null)
+/obj/structure/overmap/proc/fire_lateral_projectile(proj_type,target,speed=null, mob/living/user_override=null)
 	var/turf/T = get_turf(src)
 	var/obj/item/projectile/proj = new proj_type(T)
 	proj.starting = T
-	if(gunner)
-		proj.firer = gunner
+	proj.firer = (!user_override && gunner) ? gunner : user_override
 	proj.def_zone = "chest"
 	proj.original = target
 	proj.pixel_x = round(pixel_x)
 	proj.pixel_y = round(pixel_y)
+	proj.faction = faction
 	var/theangle = Get_Angle(src,target)
 	spawn()
 		proj.fire(theangle)

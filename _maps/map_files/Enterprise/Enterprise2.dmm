@@ -26,7 +26,7 @@
 	dir = 9
 	},
 /turf/open/floor/plating,
-/area/maintenance/port)
+/area/maintenance/department/engine)
 "aah" = (
 /turf/closed/wall/ship,
 /area/maintenance/department/science)
@@ -51,11 +51,25 @@
 /turf/open/floor/plasteel/dark,
 /area/nsv/briefingroom)
 "aal" = (
-/obj/effect/turf_decal/stripes/line{
-	dir = 1
+/obj/item/ship_weapon/ammunition/gauss{
+	pixel_y = -4
 	},
-/turf/open/floor/plating,
-/area/maintenance/port)
+/obj/item/ship_weapon/ammunition/gauss{
+	pixel_y = 6
+	},
+/obj/item/ship_weapon/ammunition/gauss,
+/obj/structure/rack,
+/obj/effect/turf_decal/stripes/line{
+	dir = 4
+	},
+/obj/machinery/power/apc/auto_name/north,
+/obj/structure/cable{
+	icon_state = "0-2"
+	},
+/turf/open/floor/monotile/dark,
+/area/maintenance/starboard/secondary{
+	name = "Gauss gun rack"
+	})
 "aam" = (
 /turf/closed/wall/r_wall/ship,
 /area/nsv/hanger/deck2)
@@ -203,11 +217,13 @@
 /turf/open/floor/carpet/ship,
 /area/nsv/hanger/deck2)
 "aaM" = (
-/obj/structure/table/reinforced,
-/obj/item/folder/blue,
 /obj/item/radio/intercom{
 	name = "intra ship intercom";
 	pixel_x = 26
+	},
+/obj/machinery/computer/ship/fighter_controller{
+	icon_state = "computer";
+	dir = 1
 	},
 /turf/open/floor/carpet/ship,
 /area/nsv/hanger/deck2)
@@ -1268,6 +1284,13 @@
 /obj/structure/chair,
 /turf/open/floor/plasteel/dark,
 /area/chapel/main)
+"adF" = (
+/obj/effect/spawner/structure/window/reinforced,
+/obj/machinery/door/firedoor,
+/turf/open/floor/monotile,
+/area/maintenance/starboard/secondary{
+	name = "Gauss gun rack"
+	})
 "adG" = (
 /obj/item/twohanded/required/kirbyplants/random,
 /obj/machinery/power/apc/auto_name/north,
@@ -1878,6 +1901,11 @@
 	},
 /turf/open/floor/monotile,
 /area/hydroponics)
+"afa" = (
+/turf/closed/wall/r_wall/ship,
+/area/maintenance/starboard/secondary{
+	name = "Gauss gun rack"
+	})
 "afb" = (
 /obj/effect/turf_decal/tile/neutral{
 	dir = 1
@@ -2020,6 +2048,11 @@
 	},
 /turf/open/floor/carpet/blue,
 /area/hallway/secondary/exit)
+"afs" = (
+/turf/open/floor/monotile,
+/area/maintenance/starboard/secondary{
+	name = "Gauss gun rack"
+	})
 "aft" = (
 /obj/effect/turf_decal/tile/yellow{
 	dir = 1
@@ -2479,10 +2512,15 @@
 /turf/open/floor/monotile/dark,
 /area/nsv/weapons/fore)
 "agC" = (
-/mob/living/simple_animal/parrot/Poly,
-/obj/machinery/holopad,
-/turf/open/floor/carpet/blue,
-/area/crew_quarters/heads/chief)
+/obj/machinery/door/airlock/highsecurity/ship{
+	name = "Suit storage";
+	req_one_access_txt = "3;69"
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
+/turf/open/floor/monotile/dark,
+/area/maintenance/starboard/secondary{
+	name = "Gauss gun rack"
+	})
 "agD" = (
 /obj/effect/turf_decal/tile/yellow{
 	dir = 4
@@ -3030,6 +3068,25 @@
 	},
 /turf/open/floor/engine,
 /area/medical/medbay/lobby)
+"ahU" = (
+/obj/item/ship_weapon/ammunition/gauss{
+	pixel_y = -4
+	},
+/obj/item/ship_weapon/ammunition/gauss{
+	pixel_y = 6
+	},
+/obj/item/ship_weapon/ammunition/gauss,
+/obj/structure/rack,
+/obj/effect/turf_decal/stripes/line{
+	dir = 4
+	},
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
+/turf/open/floor/monotile/dark,
+/area/maintenance/starboard/secondary{
+	name = "Gauss gun rack"
+	})
 "ahV" = (
 /obj/machinery/computer/crew,
 /obj/machinery/power/apc/auto_name/north,
@@ -3163,12 +3220,14 @@
 /turf/closed/wall/r_wall/ship,
 /area/maintenance/department/cargo)
 "aik" = (
-/obj/item/twohanded/required/kirbyplants/random,
 /obj/effect/turf_decal/stripes/line{
 	dir = 1
 	},
+/obj/machinery/light{
+	dir = 1
+	},
 /turf/open/floor/plating,
-/area/maintenance/port)
+/area/maintenance/department/engine)
 "ail" = (
 /obj/structure/cable{
 	icon_state = "1-2"
@@ -3266,9 +3325,14 @@
 /turf/open/floor/plating,
 /area/maintenance/starboard/fore)
 "aiz" = (
-/obj/structure/disposalpipe/segment,
+/obj/effect/spawner/structure/window/reinforced,
+/obj/machinery/door/firedoor,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /turf/open/floor/monotile,
-/area/nsv/hanger/deck2)
+/area/maintenance/starboard/secondary{
+	name = "Gauss gun rack"
+	})
 "aiA" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
 	dir = 4
@@ -3334,11 +3398,12 @@
 	},
 /area/chapel/main)
 "aiH" = (
+/obj/item/twohanded/required/kirbyplants/random,
 /obj/effect/turf_decal/stripes/line{
-	dir = 5
+	dir = 1
 	},
 /turf/open/floor/plating,
-/area/maintenance/port)
+/area/maintenance/department/engine)
 "aiI" = (
 /obj/machinery/atmospherics/pipe/simple/dark/visible{
 	dir = 10
@@ -3370,12 +3435,11 @@
 /turf/open/floor/plating,
 /area/maintenance/starboard/fore)
 "aiM" = (
-/obj/item/twohanded/required/kirbyplants/random,
 /obj/effect/turf_decal/stripes/line{
-	dir = 8
+	dir = 5
 	},
 /turf/open/floor/plating,
-/area/maintenance/port)
+/area/maintenance/department/engine)
 "aiN" = (
 /obj/structure/table,
 /obj/item/stock_parts/manipulator,
@@ -3396,8 +3460,11 @@
 /area/maintenance/starboard/fore)
 "aiQ" = (
 /obj/item/twohanded/required/kirbyplants/random,
+/obj/effect/turf_decal/stripes/line{
+	dir = 8
+	},
 /turf/open/floor/plating,
-/area/maintenance/port)
+/area/maintenance/department/engine)
 "aiR" = (
 /obj/effect/spawner/structure/window/reinforced,
 /obj/structure/curtain/obscuring/grey,
@@ -5154,6 +5221,23 @@
 /obj/structure/grille,
 /turf/open/floor/plating,
 /area/engine/engineering/hangar)
+"anl" = (
+/obj/item/ship_weapon/ammunition/gauss{
+	pixel_y = -4
+	},
+/obj/item/ship_weapon/ammunition/gauss{
+	pixel_y = 6
+	},
+/obj/item/ship_weapon/ammunition/gauss,
+/obj/structure/rack,
+/obj/effect/turf_decal/stripes/line{
+	dir = 8
+	},
+/obj/machinery/computer/lore_terminal,
+/turf/open/floor/monotile/dark,
+/area/maintenance/starboard/secondary{
+	name = "Gauss gun rack"
+	})
 "anm" = (
 /turf/open/floor/monotile,
 /area/engine/engineering/hangar)
@@ -5921,6 +6005,18 @@
 	icon_state = "panelscorched"
 	},
 /area/maintenance/starboard/fore)
+"apm" = (
+/obj/machinery/door/airlock/highsecurity/ship{
+	name = "Gauss gun access";
+	req_one_access_txt = "3;69"
+	},
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
+/turf/open/floor/plating,
+/area/maintenance/starboard/secondary{
+	name = "Gauss gun rack"
+	})
 "apn" = (
 /obj/structure/rack,
 /obj/effect/spawner/lootdrop/techstorage/medical,
@@ -5958,6 +6054,11 @@
 /obj/structure/lattice,
 /turf/open/space,
 /area/engine/atmos)
+"apu" = (
+/turf/closed/wall/ship,
+/area/maintenance/starboard/secondary{
+	name = "Gauss gun rack"
+	})
 "apv" = (
 /obj/structure/cable{
 	icon_state = "1-2"
@@ -6341,6 +6442,17 @@
 	},
 /turf/open/floor/plating,
 /area/engine/storage)
+"aqt" = (
+/obj/effect/turf_decal/stripes/line{
+	dir = 1
+	},
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
+/turf/open/floor/monotile/dark,
+/area/maintenance/starboard/secondary{
+	name = "Gauss gun rack"
+	})
 "aqu" = (
 /obj/machinery/camera/autoname{
 	dir = 1
@@ -6359,6 +6471,11 @@
 /obj/machinery/camera/autoname,
 /turf/open/floor/monotile,
 /area/engine/gravity_generator)
+"aqx" = (
+/obj/machinery/holopad,
+/mob/living/simple_animal/parrot/Poly,
+/turf/open/floor/carpet/blue,
+/area/crew_quarters/heads/chief)
 "aqy" = (
 /turf/open/floor/carpet/ship,
 /area/crew_quarters/dorms)
@@ -7562,6 +7679,18 @@
 /obj/item/clothing/mask/cigarette/cigar,
 /turf/open/floor/carpet/blue,
 /area/crew_quarters/nsv/observation)
+"atj" = (
+/obj/structure/bed/dogbed/runtime,
+/obj/machinery/requests_console{
+	announcementConsole = 1;
+	department = "Chief Medical Officer's Desk";
+	departmentType = 5;
+	name = "Chief Medical Officer RC";
+	pixel_x = 30
+	},
+/mob/living/simple_animal/pet/cat/Runtime,
+/turf/open/floor/carpet/blue,
+/area/crew_quarters/heads/cmo)
 "atk" = (
 /obj/machinery/atmospherics/pipe/simple/green/visible,
 /obj/machinery/atmospherics/components/binary/pump/on{
@@ -7995,6 +8124,14 @@
 /obj/structure/sign/solgov_seal,
 /turf/open/floor/monotile,
 /area/crew_quarters/dorms)
+"auj" = (
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
+/turf/closed/wall/r_wall/ship,
+/area/maintenance/starboard/secondary{
+	name = "Gauss gun rack"
+	})
 "auk" = (
 /obj/structure/punching_bag,
 /obj/machinery/light{
@@ -8039,6 +8176,20 @@
 /obj/item/storage/firstaid/brute,
 /turf/open/floor/monotile,
 /area/crew_quarters/fitness/recreation)
+"auq" = (
+/obj/effect/turf_decal/stripes/line{
+	dir = 10
+	},
+/obj/machinery/gauss_dispenser{
+	pixel_y = 26
+	},
+/obj/structure/closet/crate{
+	icon_state = "crateopen"
+	},
+/turf/open/floor/monotile/dark,
+/area/maintenance/starboard/secondary{
+	name = "Gauss gun rack"
+	})
 "aur" = (
 /obj/machinery/atmospherics/pipe/simple/yellow/visible{
 	dir = 6
@@ -8110,6 +8261,28 @@
 /obj/structure/window/reinforced/fulltile/ship,
 /turf/open/floor/plating,
 /area/engine/atmos)
+"aux" = (
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
+/turf/open/floor/monotile,
+/area/maintenance/starboard/secondary{
+	name = "Gauss gun rack"
+	})
+"auy" = (
+/obj/item/ship_weapon/ammunition/gauss{
+	pixel_y = -4
+	},
+/obj/item/ship_weapon/ammunition/gauss{
+	pixel_y = 6
+	},
+/obj/item/ship_weapon/ammunition/gauss,
+/obj/structure/rack,
+/obj/effect/turf_decal/stripes/line{
+	dir = 10
+	},
+/turf/open/floor/monotile/dark,
+/area/maintenance/starboard/secondary{
+	name = "Gauss gun rack"
+	})
 "auz" = (
 /obj/machinery/door/window/eastright{
 	base_state = "left";
@@ -8244,6 +8417,24 @@
 	},
 /turf/open/floor/monotile,
 /area/crew_quarters/dorms)
+"auQ" = (
+/obj/item/ship_weapon/ammunition/gauss{
+	pixel_y = -4
+	},
+/obj/item/ship_weapon/ammunition/gauss{
+	pixel_y = 6
+	},
+/obj/item/ship_weapon/ammunition/gauss,
+/obj/structure/rack,
+/obj/effect/turf_decal/stripes/line,
+/obj/machinery/computer/ship/viewscreen,
+/obj/machinery/light{
+	dir = 1
+	},
+/turf/open/floor/monotile/dark,
+/area/maintenance/starboard/secondary{
+	name = "Gauss gun rack"
+	})
 "auR" = (
 /obj/structure/cable{
 	icon_state = "1-2"
@@ -10503,6 +10694,22 @@
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer1,
 /turf/open/floor/monotile/dark,
 /area/nsv/briefingroom)
+"azE" = (
+/obj/item/ship_weapon/ammunition/gauss{
+	pixel_y = -4
+	},
+/obj/item/ship_weapon/ammunition/gauss{
+	pixel_y = 6
+	},
+/obj/item/ship_weapon/ammunition/gauss,
+/obj/structure/rack,
+/obj/effect/turf_decal/stripes/line{
+	dir = 6
+	},
+/turf/open/floor/monotile/dark,
+/area/maintenance/starboard/secondary{
+	name = "Gauss gun rack"
+	})
 "azF" = (
 /obj/machinery/atmospherics/pipe/simple/green/visible,
 /obj/machinery/atmospherics/pipe/simple/dark/visible{
@@ -10694,6 +10901,22 @@
 	},
 /turf/open/floor/monotile,
 /area/hallway/nsv/deck2/frame1/central)
+"aAg" = (
+/obj/item/ship_weapon/ammunition/gauss{
+	pixel_y = -4
+	},
+/obj/item/ship_weapon/ammunition/gauss{
+	pixel_y = 6
+	},
+/obj/item/ship_weapon/ammunition/gauss,
+/obj/structure/rack,
+/obj/effect/turf_decal/stripes/line{
+	dir = 8
+	},
+/turf/open/floor/monotile/dark,
+/area/maintenance/starboard/secondary{
+	name = "Gauss gun rack"
+	})
 "aAh" = (
 /obj/structure/table/reinforced,
 /obj/structure/cable{
@@ -10721,47 +10944,51 @@
 /turf/open/floor/plating,
 /area/maintenance/central)
 "aAl" = (
+/obj/item/twohanded/required/kirbyplants/random,
+/turf/open/floor/plating,
+/area/maintenance/department/engine)
+"aAm" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 4
 	},
 /turf/open/floor/plating,
-/area/maintenance/port)
-"aAm" = (
+/area/maintenance/department/engine)
+"aAn" = (
 /obj/item/twohanded/required/kirbyplants/random,
 /obj/effect/turf_decal/stripes/line{
 	dir = 10
 	},
 /turf/open/floor/plating,
-/area/maintenance/port)
-"aAn" = (
+/area/maintenance/department/engine)
+"aAo" = (
 /obj/effect/turf_decal/stripes/line,
 /turf/open/floor/plating,
-/area/maintenance/port)
-"aAo" = (
+/area/maintenance/department/engine)
+"aAp" = (
 /obj/item/twohanded/required/kirbyplants/random,
 /obj/effect/turf_decal/stripes/line,
 /turf/open/floor/plating,
-/area/maintenance/port)
-"aAp" = (
+/area/maintenance/department/engine)
+"aAq" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 6
 	},
 /turf/open/floor/plating,
-/area/maintenance/port)
-"aAq" = (
-/obj/structure/grille,
-/obj/structure/window/reinforced/tinted,
-/obj/structure/window/reinforced/tinted{
-	dir = 1
-	},
-/turf/open/floor/plating,
-/area/maintenance/port)
+/area/maintenance/department/engine)
 "aAr" = (
-/obj/machinery/door/airlock/ship/maintenance{
-	name = "Potted plant storage"
+/turf/closed/wall/ship,
+/area/maintenance/department/engine)
+"aAs" = (
+/obj/effect/turf_decal/stripes/line{
+	dir = 6
+	},
+/obj/structure/cable{
+	icon_state = "1-2"
 	},
 /turf/open/floor/plating,
-/area/maintenance/port)
+/area/maintenance/starboard/secondary{
+	name = "Gauss gun rack"
+	})
 "aAt" = (
 /obj/structure/cable{
 	icon_state = "4-8"
@@ -13172,6 +13399,14 @@
 "aFJ" = (
 /turf/open/space/basic,
 /area/security/execution/transfer)
+"aFK" = (
+/obj/structure/cable{
+	icon_state = "1-4"
+	},
+/turf/open/floor/monotile,
+/area/maintenance/starboard/secondary{
+	name = "Gauss gun rack"
+	})
 "aFL" = (
 /obj/machinery/door/airlock/ship/external/glass{
 	req_one_access_txt = "13"
@@ -14038,6 +14273,19 @@
 /obj/machinery/computer/security,
 /turf/open/floor/monotile,
 /area/security/brig)
+"aHR" = (
+/obj/effect/turf_decal/stripes/line,
+/obj/structure/rack,
+/obj/machinery/computer/ship/viewscreen,
+/obj/item/ammo_box/magazine/pdc/flak{
+	pixel_y = 6
+	},
+/obj/item/ammo_box/magazine/pdc/flak,
+/obj/item/ammo_box/magazine/pdc/flak,
+/turf/open/floor/monotile/dark,
+/area/maintenance/starboard/secondary{
+	name = "Gauss gun rack"
+	})
 "aHS" = (
 /obj/machinery/computer/security,
 /turf/open/floor/carpet/red,
@@ -14933,14 +15181,12 @@
 	name = "Prototype munitions bay"
 	})
 "aKg" = (
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
-	dir = 5
-	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
-	dir = 5
-	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /turf/open/floor/monotile,
-/area/nsv/hanger/deck2)
+/area/maintenance/starboard/secondary{
+	name = "Gauss gun rack"
+	})
 "aKh" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
@@ -15562,14 +15808,13 @@
 /turf/open/floor/monotile/dark,
 /area/hallway/nsv/deck2/frame1/central)
 "aLu" = (
-/obj/effect/turf_decal/stripes/line{
-	dir = 1
-	},
-/obj/machinery/light{
+/obj/structure/grille,
+/obj/structure/window/reinforced/tinted,
+/obj/structure/window/reinforced/tinted{
 	dir = 1
 	},
 /turf/open/floor/plating,
-/area/maintenance/port)
+/area/maintenance/department/engine)
 "aLv" = (
 /obj/effect/landmark/start/station_engineer,
 /obj/structure/cable{
@@ -16028,6 +16273,20 @@
 	},
 /turf/open/floor/monotile/light,
 /area/medical/medbay/lobby)
+"aMt" = (
+/obj/effect/turf_decal/stripes/line{
+	dir = 6
+	},
+/obj/machinery/gauss_dispenser{
+	pixel_y = 26
+	},
+/obj/structure/closet/crate{
+	icon_state = "crateopen"
+	},
+/turf/open/floor/monotile/dark,
+/area/maintenance/starboard/secondary{
+	name = "Gauss gun rack"
+	})
 "aMu" = (
 /turf/closed/wall/ship,
 /area/engine/engineering)
@@ -16206,6 +16465,22 @@
 	},
 /turf/open/floor/monotile,
 /area/security/brig)
+"aMM" = (
+/obj/item/ship_weapon/ammunition/gauss{
+	pixel_y = -4
+	},
+/obj/item/ship_weapon/ammunition/gauss{
+	pixel_y = 6
+	},
+/obj/item/ship_weapon/ammunition/gauss,
+/obj/structure/rack,
+/obj/effect/turf_decal/stripes/line{
+	dir = 9
+	},
+/turf/open/floor/monotile/dark,
+/area/maintenance/starboard/secondary{
+	name = "Gauss gun rack"
+	})
 "aMN" = (
 /obj/item/paicard,
 /obj/structure/table,
@@ -16847,6 +17122,10 @@
 /obj/structure/grille,
 /turf/open/floor/plating,
 /area/hallway/secondary/exit)
+"aOh" = (
+/obj/effect/spawner/lootdrop/maintenance,
+/turf/open/floor/plating,
+/area/maintenance/department/engine)
 "aOi" = (
 /obj/effect/turf_decal/delivery,
 /obj/effect/mapping_helpers/airlock/cyclelink_helper{
@@ -18212,6 +18491,12 @@
 	},
 /turf/open/floor/monotile/light,
 /area/crew_quarters/dorms/nsv/dorms_2)
+"aRs" = (
+/obj/machinery/door/airlock/ship/maintenance{
+	name = "Potted plant storage"
+	},
+/turf/open/floor/plating,
+/area/maintenance/department/engine)
 "aRt" = (
 /obj/machinery/button/door{
 	id = "erp2";
@@ -18287,6 +18572,12 @@
 	},
 /turf/open/floor/carpet/ship,
 /area/crew_quarters/dorms)
+"aRD" = (
+/obj/machinery/atmospherics/components/unary/vent_pump/on/layer1,
+/turf/open/floor/monotile,
+/area/maintenance/starboard/secondary{
+	name = "Gauss gun rack"
+	})
 "aRE" = (
 /obj/effect/turf_decal/tile/yellow,
 /obj/effect/turf_decal/tile/yellow{
@@ -18965,6 +19256,16 @@
 	},
 /turf/open/floor/plasteel/grid/steel,
 /area/nsv/hanger/deck2)
+"aTg" = (
+/obj/machinery/door/airlock/highsecurity/ship{
+	name = "Suit storage";
+	req_one_access_txt = "3;69"
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/turf/open/floor/monotile/dark,
+/area/maintenance/starboard/secondary{
+	name = "Gauss gun rack"
+	})
 "aTh" = (
 /obj/machinery/computer/lore_terminal,
 /obj/effect/turf_decal/box,
@@ -19136,12 +19437,19 @@
 /turf/open/floor/plating,
 /area/nsv/hanger/deck2)
 "aTD" = (
-/obj/machinery/power/apc/auto_name/north,
 /obj/structure/cable{
-	icon_state = "0-2"
+	icon_state = "2-4"
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/obj/machinery/firealarm{
+	dir = 4;
+	pixel_x = -26
 	},
 /turf/open/floor/monotile,
-/area/nsv/hanger/deck2)
+/area/maintenance/starboard/secondary{
+	name = "Gauss gun rack"
+	})
 "aTE" = (
 /obj/structure/table/reinforced,
 /turf/open/floor/plasteel/techmaint,
@@ -21080,17 +21388,24 @@
 /turf/open/floor/monotile/dark,
 /area/hallway/nsv/deck2/frame1/port)
 "aXP" = (
-/obj/structure/bed/dogbed/runtime,
-/mob/living/simple_animal/pet/cat/Runtime,
-/obj/machinery/requests_console{
-	announcementConsole = 1;
-	department = "Chief Medical Officer's Desk";
-	departmentType = 5;
-	name = "Chief Medical Officer RC";
-	pixel_x = 30
+/obj/item/ship_weapon/ammunition/gauss{
+	pixel_y = -4
 	},
-/turf/open/floor/carpet/blue,
-/area/crew_quarters/heads/cmo)
+/obj/item/ship_weapon/ammunition/gauss{
+	pixel_y = 6
+	},
+/obj/item/ship_weapon/ammunition/gauss,
+/obj/structure/rack,
+/obj/effect/turf_decal/stripes/line{
+	dir = 1
+	},
+/obj/machinery/camera/autoname{
+	dir = 1
+	},
+/turf/open/floor/monotile/dark,
+/area/maintenance/starboard/secondary{
+	name = "Gauss gun rack"
+	})
 "aXQ" = (
 /obj/structure/table,
 /turf/open/floor/monotile/dark,
@@ -21440,6 +21755,22 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/department/engine)
+"aYL" = (
+/obj/item/ship_weapon/ammunition/gauss{
+	pixel_y = -4
+	},
+/obj/item/ship_weapon/ammunition/gauss{
+	pixel_y = 6
+	},
+/obj/item/ship_weapon/ammunition/gauss,
+/obj/structure/rack,
+/obj/effect/turf_decal/stripes/line{
+	dir = 5
+	},
+/turf/open/floor/monotile/dark,
+/area/maintenance/starboard/secondary{
+	name = "Gauss gun rack"
+	})
 "aYM" = (
 /obj/structure/cable{
 	icon_state = "1-4"
@@ -21538,6 +21869,14 @@
 	},
 /turf/open/floor/wood,
 /area/library)
+"aYX" = (
+/obj/effect/turf_decal/stripes/line{
+	dir = 10
+	},
+/turf/open/floor/plating,
+/area/maintenance/starboard/secondary{
+	name = "Gauss gun rack"
+	})
 "aYY" = (
 /obj/structure/rack,
 /turf/open/floor/plating,
@@ -21650,6 +21989,12 @@
 /obj/structure/disposalpipe/segment,
 /turf/open/floor/monotile/dark,
 /area/nsv/hanger/deck2)
+"aZl" = (
+/obj/machinery/light,
+/turf/open/floor/monotile,
+/area/maintenance/starboard/secondary{
+	name = "Gauss gun rack"
+	})
 "aZm" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 8
@@ -21733,6 +22078,13 @@
 	},
 /turf/open/floor/carpet/ship,
 /area/crew_quarters/dorms)
+"aZt" = (
+/obj/effect/turf_decal/stripes/line,
+/obj/structure/chair/comfy/gauss/east,
+/turf/open/floor/plating,
+/area/maintenance/starboard/secondary{
+	name = "Gauss gun rack"
+	})
 "aZu" = (
 /obj/effect/turf_decal/tile/neutral{
 	dir = 8
@@ -21966,14 +22318,13 @@
 /turf/open/floor/plating,
 /area/maintenance/port)
 "aZV" = (
-/obj/structure/cable{
-	icon_state = "1-2"
-	},
 /obj/machinery/light{
-	dir = 8
+	dir = 1
 	},
-/turf/open/floor/plating,
-/area/maintenance/port)
+/turf/open/floor/monotile,
+/area/maintenance/starboard/secondary{
+	name = "Gauss gun rack"
+	})
 "aZW" = (
 /obj/structure/cable{
 	icon_state = "4-8"
@@ -24057,6 +24408,38 @@
 	},
 /turf/open/floor/monotile,
 /area/science/xenobiology)
+"bdS" = (
+/obj/structure/rack,
+/obj/item/ship_weapon/ammunition/gauss{
+	pixel_y = -4
+	},
+/obj/item/ship_weapon/ammunition/gauss{
+	pixel_y = 6
+	},
+/obj/item/ship_weapon/ammunition/gauss,
+/obj/machinery/light{
+	dir = 1
+	},
+/obj/effect/turf_decal/stripes/line{
+	dir = 10
+	},
+/turf/open/floor/plating,
+/area/maintenance/starboard/secondary{
+	name = "Gauss gun rack"
+	})
+"bdT" = (
+/obj/effect/turf_decal/stripes/line,
+/obj/structure/chair/comfy/gauss/west,
+/turf/open/floor/plating,
+/area/maintenance/starboard/secondary{
+	name = "Gauss gun rack"
+	})
+"bdU" = (
+/obj/machinery/ship_weapon/pdc_mount/flak,
+/turf/open/floor/monotile,
+/area/maintenance/starboard/secondary{
+	name = "Gauss gun rack"
+	})
 "bdV" = (
 /obj/structure/cable{
 	icon_state = "4-8"
@@ -24589,6 +24972,11 @@
 	},
 /turf/open/floor/carpet/ship,
 /area/quartermaster/qm)
+"beU" = (
+/turf/open/floor/plating,
+/area/maintenance/starboard/secondary{
+	name = "Gauss gun rack"
+	})
 "beV" = (
 /obj/effect/spawner/structure/window/reinforced,
 /obj/machinery/door/firedoor,
@@ -25731,6 +26119,20 @@
 /obj/structure/ladder,
 /turf/open/floor/monotile/dark,
 /area/maintenance/port)
+"bhl" = (
+/obj/structure/cable{
+	icon_state = "2-4"
+	},
+/obj/effect/turf_decal/stripes/line{
+	dir = 4
+	},
+/obj/machinery/airalarm{
+	pixel_y = 26
+	},
+/turf/open/floor/monotile,
+/area/maintenance/starboard/secondary{
+	name = "Gauss gun rack"
+	})
 "bhm" = (
 /obj/machinery/light{
 	dir = 1
@@ -25754,13 +26156,9 @@
 /turf/open/floor/plating,
 /area/maintenance/port)
 "bhp" = (
-/obj/structure/cable{
-	icon_state = "1-2"
-	},
-/obj/structure/cable{
-	icon_state = "1-8"
-	},
-/turf/open/floor/plating,
+/obj/machinery/door/firedoor,
+/obj/effect/spawner/structure/window/reinforced,
+/turf/open/floor/monotile,
 /area/maintenance/port)
 "bhq" = (
 /obj/structure/cable{
@@ -31656,6 +32054,15 @@
 	},
 /turf/open/floor/plasteel/grid/steel,
 /area/hallway/secondary/exit)
+"bsV" = (
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/obj/machinery/door/airlock/ship/maintenance/defaultaccess,
+/turf/open/floor/monotile/dark,
+/area/maintenance/starboard/secondary{
+	name = "Gauss gun rack"
+	})
 "bsW" = (
 /obj/machinery/light{
 	dir = 8
@@ -35841,6 +36248,12 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /turf/open/floor/monotile/dark,
 /area/nsv/hanger/deck2)
+"bBa" = (
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/turf/open/floor/monotile,
+/area/maintenance/starboard/secondary{
+	name = "Gauss gun rack"
+	})
 "bBb" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 1
@@ -37221,10 +37634,15 @@
 /area/maintenance/port)
 "bDI" = (
 /obj/structure/cable{
-	icon_state = "1-8"
+	icon_state = "4-8"
 	},
-/turf/open/floor/plating,
-/area/maintenance/port)
+/obj/structure/cable{
+	icon_state = "1-4"
+	},
+/turf/open/floor/monotile/dark,
+/area/maintenance/starboard/secondary{
+	name = "Gauss gun rack"
+	})
 "bDJ" = (
 /obj/structure/cable{
 	icon_state = "1-4"
@@ -38396,6 +38814,14 @@
 	},
 /turf/open/floor/monotile,
 /area/crew_quarters/fitness/recreation)
+"bFQ" = (
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/turf/open/floor/monotile/dark,
+/area/maintenance/starboard/secondary{
+	name = "Gauss gun rack"
+	})
 "bFR" = (
 /obj/structure/cable{
 	icon_state = "4-8"
@@ -38878,6 +39304,14 @@
 	},
 /turf/open/floor/monotile,
 /area/maintenance/port)
+"bGR" = (
+/obj/structure/cable{
+	icon_state = "1-8"
+	},
+/turf/open/floor/monotile/dark,
+/area/maintenance/starboard/secondary{
+	name = "Gauss gun rack"
+	})
 "bGS" = (
 /obj/effect/turf_decal/tile/yellow{
 	dir = 1
@@ -39501,6 +39935,14 @@
 /obj/machinery/atmospherics/pipe/manifold/orange/visible,
 /turf/open/space/basic,
 /area/engine/engineering)
+"bIk" = (
+/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer3{
+	dir = 4
+	},
+/turf/open/floor/monotile,
+/area/maintenance/starboard/secondary{
+	name = "Gauss gun rack"
+	})
 "bIl" = (
 /obj/structure/closet/radiation,
 /turf/open/floor/plating,
@@ -39522,6 +39964,27 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/port)
+"bIp" = (
+/turf/open/floor/monotile/dark,
+/area/maintenance/starboard/secondary{
+	name = "Gauss gun rack"
+	})
+"bIq" = (
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
+/obj/structure/cable{
+	icon_state = "1-8"
+	},
+/obj/effect/turf_decal/stripes/line{
+	dir = 8
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/turf/open/floor/monotile,
+/area/maintenance/starboard/secondary{
+	name = "Gauss gun rack"
+	})
 "bIr" = (
 /obj/structure/cable{
 	icon_state = "1-2"
@@ -40181,6 +40644,15 @@
 /obj/machinery/atmospherics/pipe/layer_manifold,
 /turf/closed/wall/r_wall/ship,
 /area/medical/virology)
+"bJL" = (
+/obj/machinery/door/airlock/ship/maintenance/defaultaccess,
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/turf/open/floor/plating,
+/area/maintenance/starboard/secondary{
+	name = "Gauss gun rack"
+	})
 "bJM" = (
 /obj/structure/disposalpipe/segment,
 /turf/open/floor/monotile/dark,
@@ -40229,6 +40701,296 @@
 	},
 /turf/open/floor/monotile/light,
 /area/medical/virology)
+"bJV" = (
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/turf/open/floor/monotile,
+/area/maintenance/starboard/secondary{
+	name = "Gauss gun rack"
+	})
+"bJW" = (
+/obj/structure/cable{
+	icon_state = "2-4"
+	},
+/obj/effect/turf_decal/stripes/line,
+/turf/open/floor/monotile/dark,
+/area/maintenance/starboard/secondary{
+	name = "Gauss gun rack"
+	})
+"bJX" = (
+/obj/structure/closet/crate{
+	icon_state = "crateopen"
+	},
+/obj/item/ammo_box/magazine/pdc/flak,
+/obj/item/ammo_box/magazine/pdc/flak,
+/obj/item/ammo_box/magazine/pdc/flak,
+/obj/item/ammo_box/magazine/pdc/flak,
+/turf/open/floor/monotile/dark,
+/area/maintenance/starboard/secondary{
+	name = "Gauss gun rack"
+	})
+"bJY" = (
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
+/obj/machinery/door/airlock/highsecurity/ship{
+	name = "Gauss gun access";
+	req_one_access_txt = "3;69"
+	},
+/turf/open/floor/monotile/dark,
+/area/maintenance/starboard/secondary{
+	name = "Gauss gun rack"
+	})
+"bJZ" = (
+/obj/machinery/door/airlock/highsecurity/ship{
+	name = "Secondary ammunition store";
+	req_one_access_txt = "3;69"
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
+/turf/open/floor/monotile,
+/area/maintenance/starboard/secondary{
+	name = "Gauss gun rack"
+	})
+"bKa" = (
+/obj/machinery/camera/autoname,
+/turf/open/floor/monotile,
+/area/maintenance/starboard/secondary{
+	name = "Gauss gun rack"
+	})
+"bKb" = (
+/obj/structure/cable{
+	icon_state = "1-8"
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/turf/open/floor/monotile/dark,
+/area/maintenance/starboard/secondary{
+	name = "Gauss gun rack"
+	})
+"bKc" = (
+/obj/machinery/door/firedoor,
+/obj/effect/spawner/structure/window/reinforced,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/turf/open/floor/monotile,
+/area/maintenance/starboard/secondary{
+	name = "Gauss gun rack"
+	})
+"bKd" = (
+/obj/machinery/camera/autoname{
+	dir = 8
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	dir = 5
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	dir = 5
+	},
+/turf/open/floor/monotile,
+/area/maintenance/port)
+"bKe" = (
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	dir = 8
+	},
+/turf/closed/wall/r_wall/ship,
+/area/maintenance/port)
+"bKf" = (
+/obj/machinery/power/apc/auto_name/north,
+/obj/structure/cable{
+	icon_state = "0-2"
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	dir = 8
+	},
+/turf/open/floor/monotile,
+/area/nsv/hanger/deck2)
+"bKg" = (
+/obj/structure/disposalpipe/segment,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	dir = 8
+	},
+/turf/open/floor/monotile,
+/area/nsv/hanger/deck2)
+"bKh" = (
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	dir = 8
+	},
+/turf/open/floor/monotile,
+/area/nsv/hanger/deck2)
+"bKi" = (
+/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer3,
+/obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1,
+/turf/open/floor/monotile,
+/area/nsv/hanger/deck2)
+"bKj" = (
+/obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1{
+	dir = 8
+	},
+/turf/open/floor/monotile,
+/area/maintenance/starboard/secondary{
+	name = "Gauss gun rack"
+	})
+"bKk" = (
+/obj/machinery/atmospherics/components/unary/vent_pump/on/layer1{
+	dir = 8
+	},
+/turf/open/floor/monotile,
+/area/maintenance/starboard/secondary{
+	name = "Gauss gun rack"
+	})
+"bKl" = (
+/obj/machinery/door/airlock/highsecurity/ship{
+	name = "Secondary ammunition store";
+	req_one_access_txt = "3;69"
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/turf/open/floor/monotile,
+/area/maintenance/starboard/secondary{
+	name = "Gauss gun rack"
+	})
+"bKm" = (
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	dir = 5
+	},
+/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3{
+	dir = 4
+	},
+/turf/open/floor/monotile,
+/area/maintenance/starboard/secondary{
+	name = "Gauss gun rack"
+	})
+"bKn" = (
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1{
+	dir = 1
+	},
+/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer3{
+	dir = 1
+	},
+/turf/open/floor/monotile,
+/area/maintenance/starboard/secondary{
+	name = "Gauss gun rack"
+	})
+"bKo" = (
+/obj/structure/cable{
+	icon_state = "2-8"
+	},
+/obj/machinery/atmospherics/components/unary/vent_pump/on/layer1{
+	dir = 8
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	dir = 8
+	},
+/turf/open/floor/monotile,
+/area/maintenance/starboard/secondary{
+	name = "Gauss gun rack"
+	})
+"bKp" = (
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
+/obj/machinery/camera/autoname{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
+/obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1{
+	dir = 8
+	},
+/turf/open/floor/monotile,
+/area/maintenance/starboard/secondary{
+	name = "Gauss gun rack"
+	})
+"bKq" = (
+/obj/machinery/atmospherics/components/unary/vent_pump/on/layer1{
+	dir = 8
+	},
+/turf/open/floor/monotile/dark,
+/area/maintenance/starboard/secondary{
+	name = "Gauss gun rack"
+	})
+"bKr" = (
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
+/obj/machinery/light{
+	dir = 8
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer3{
+	dir = 8
+	},
+/turf/open/floor/monotile,
+/area/maintenance/starboard/secondary{
+	name = "Gauss gun rack"
+	})
+"bKs" = (
+/obj/machinery/camera/autoname{
+	dir = 1
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	dir = 8
+	},
+/turf/open/floor/monotile,
+/area/maintenance/starboard/secondary{
+	name = "Gauss gun rack"
+	})
+"bKt" = (
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	dir = 9
+	},
+/turf/open/floor/monotile,
+/area/maintenance/starboard/secondary{
+	name = "Gauss gun rack"
+	})
+"bKu" = (
+/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3,
+/turf/open/floor/monotile,
+/area/maintenance/starboard/secondary{
+	name = "Gauss gun rack"
+	})
+"bKv" = (
+/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3{
+	dir = 4
+	},
+/turf/open/floor/monotile,
+/area/maintenance/starboard/secondary{
+	name = "Gauss gun rack"
+	})
+"bKw" = (
+/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3{
+	dir = 8
+	},
+/turf/open/floor/monotile/dark,
+/area/maintenance/starboard/secondary{
+	name = "Gauss gun rack"
+	})
+"bKx" = (
+/obj/machinery/door/firedoor,
+/obj/effect/spawner/structure/window/reinforced,
+/turf/open/floor/monotile,
+/area/maintenance/starboard/secondary{
+	name = "Gauss gun rack"
+	})
 "bLb" = (
 /obj/machinery/camera/autoname{
 	dir = 8
@@ -42900,13 +43662,6 @@
 /obj/structure/reagent_dispensers/watertank,
 /turf/open/floor/plating,
 /area/maintenance/department/medical)
-"uqS" = (
-/obj/machinery/door/airlock/ship/maintenance/defaultaccess,
-/obj/structure/cable{
-	icon_state = "1-2"
-	},
-/turf/open/floor/plating,
-/area/maintenance/port)
 "uts" = (
 /obj/machinery/atmospherics/pipe/simple/dark/visible,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
@@ -43263,12 +44018,6 @@
 /obj/structure/reagent_dispensers/fueltank,
 /turf/open/floor/plating,
 /area/maintenance/starboard/fore)
-"wXk" = (
-/obj/machinery/camera/autoname{
-	dir = 8
-	},
-/turf/open/floor/monotile,
-/area/maintenance/port)
 "wZc" = (
 /obj/structure/cable{
 	icon_state = "2-4"
@@ -68797,7 +69546,7 @@ bld
 akj
 alM
 bJm
-aXP
+atj
 acF
 bFT
 bmC
@@ -71833,10 +72582,10 @@ aaJ
 aaJ
 aaJ
 aaJ
-aaJ
-aaJ
-aaJ
-aaJ
+afa
+afa
+afa
+afa
 aaJ
 bHp
 bHp
@@ -72084,16 +72833,16 @@ aaJ
 aaJ
 aaJ
 aaJ
-aaJ
-aaJ
-aaJ
-aaJ
-aaJ
-aaJ
-aaJ
-aaJ
-aaJ
-bHp
+afa
+afa
+afa
+afa
+afa
+afa
+afa
+aZt
+afs
+afa
 bHp
 bHp
 aAu
@@ -72338,28 +73087,28 @@ aaa
 aaa
 aaa
 aaJ
-aaJ
-aaJ
-aaJ
-aaJ
-aaJ
-aaJ
-aaJ
-aaJ
-aaJ
-aaJ
-aaJ
-aaJ
-bHp
+afa
+bKx
+bKx
+afa
+aal
+ahU
+ahU
+ahU
+ahU
+auj
+aAs
+aFK
+afa
 sSl
 brB
 bnm
 aYR
 bDJ
-bne
-bne
-bne
-bne
+apu
+apu
+apu
+bhp
 qth
 bne
 aAt
@@ -72595,27 +73344,27 @@ aaa
 aaa
 aaa
 aaJ
-aaJ
-aaJ
-aaJ
-aaJ
-aaJ
-aaJ
-bHp
-bHp
-bHp
-bHp
-bHp
-bHp
-bHp
-bne
-bne
-bne
-bne
-pPw
-bne
-wZc
-uqS
+afa
+afs
+aRD
+aTg
+bBa
+bBa
+bBa
+bKj
+bBa
+bKl
+bBa
+bKm
+afa
+apu
+apu
+apu
+apu
+bJL
+apu
+bJW
+bJY
 hOZ
 ajN
 anu
@@ -72852,28 +73601,28 @@ aaa
 aaa
 aaa
 aaJ
-aaJ
-aaJ
-aaJ
-aaJ
-aaJ
-aaJ
-bHp
-aag
-aiM
-aAm
-bne
-bnm
-bne
-bIm
-wZc
-cer
-aZV
-bhp
-cer
-bDI
-bne
-wXk
+afa
+auq
+afs
+adF
+auy
+afs
+bIp
+bKk
+aMM
+afa
+bdS
+bKn
+aiz
+aKg
+aTD
+bKp
+bKr
+bIq
+bJV
+bKb
+bKc
+bKd
 akc
 bne
 baB
@@ -73109,28 +73858,28 @@ aaa
 aaa
 aaa
 aaJ
-aaJ
-aaJ
-aaJ
-aaJ
-aaJ
-aaJ
-bHp
-aLu
-aiQ
-aAn
-aAq
-aAn
-aAr
-aal
-aZO
-bnm
-bnm
-bnm
-bnm
-cuG
-bHp
-bHp
+afa
+aHR
+aZl
+afa
+auQ
+afs
+bIp
+afs
+aXP
+afa
+aZt
+bKo
+apm
+aqt
+bDI
+bKq
+bKw
+bIp
+bIp
+bJX
+afa
+bKe
 bsT
 bHp
 bHp
@@ -73366,28 +74115,28 @@ aaa
 aaa
 aaa
 aaJ
-aaJ
-aaJ
-aaJ
-aaJ
-aaJ
-aaJ
-bHp
-aik
-bnm
-aAo
-aAq
-bnm
-bne
-bnm
-aZO
-bHp
-bHp
-bHp
-bHp
-bHp
-bHp
-aTD
+afa
+aMt
+afs
+adF
+azE
+afs
+bIp
+bKv
+aYL
+afa
+beU
+bKs
+adF
+bKa
+bFQ
+afa
+afa
+afa
+afa
+afa
+afa
+bKf
 akR
 abx
 iDb
@@ -73623,28 +74372,28 @@ aaa
 aaa
 aaa
 aaJ
-aaJ
-aaJ
-aaJ
-aaJ
-aaJ
-aaJ
-bHp
-aiH
-aAl
-aAp
-bne
-sSl
-bne
-bhm
-aZO
-bHp
+afa
+afs
+bKu
+agC
+aux
+aux
+aux
+bIk
+aux
+bJZ
+aux
+bKt
+adF
+aZV
+bFQ
+afa
 aan
 baj
 aaO
 agV
 ain
-aiz
+bKg
 akT
 aat
 aeW
@@ -73880,28 +74629,28 @@ aaa
 aaa
 aaa
 aaJ
-aaJ
-aaJ
-aaJ
-aaJ
-aaJ
-aaJ
-bHp
-bHp
-bHp
-bHp
-bHp
-bHp
-bHp
-bnm
-aZO
-bHp
+afa
+bKx
+bKx
+afa
+anl
+aAg
+aAg
+aAg
+aAg
+afa
+aYX
+afs
+afa
+bdU
+bFQ
+afa
 aao
 aaH
 aaH
 aaH
 aaW
-abx
+bKh
 abA
 adY
 aex
@@ -74140,25 +74889,25 @@ aaJ
 aaJ
 aaJ
 aaJ
-aaJ
-aaJ
-aaJ
-aaJ
-aaJ
-aaJ
-aaJ
-aaJ
-aaJ
-bHp
-bnm
-aZO
-bHp
+afa
+afa
+afa
+afa
+afa
+afa
+afa
+bdT
+afs
+afa
+bdU
+bFQ
+afa
 aap
 aaL
 cgt
 aaH
 aaW
-abx
+bKh
 abA
 aev
 aex
@@ -74403,19 +75152,19 @@ aaJ
 aaJ
 aaJ
 aaJ
-aaJ
-aaJ
-bHp
-bHp
-wZc
-bDI
-bHp
+afa
+afa
+afa
+afa
+bhl
+bGR
+afa
 aaq
 aaM
 aaQ
 aaX
 adI
-aKg
+bKi
 abC
 aav
 afd
@@ -74663,10 +75412,10 @@ aaJ
 aaJ
 aaJ
 bHp
-bnm
-aZO
-bHp
-aam
+afa
+bsV
+afa
+afa
 aam
 aam
 aam
@@ -74920,7 +75669,7 @@ bHp
 bHp
 bHp
 bHp
-bnm
+bIm
 aZO
 bHp
 bip
@@ -80575,7 +81324,7 @@ aaJ
 bHp
 rCB
 bHp
-bnm
+cuG
 aZO
 bHp
 bIy
@@ -85959,11 +86708,11 @@ aaa
 aaa
 aaa
 aaJ
-aaJ
-aaJ
-aaJ
-aaJ
-aaJ
+asL
+asL
+asL
+asL
+asL
 asL
 asL
 aoZ
@@ -86216,14 +86965,14 @@ aaa
 aaa
 aaa
 aaJ
-aaJ
-aaJ
-aaJ
-aaJ
-aaJ
-aaJ
 asL
-aoZ
+aag
+aiQ
+aAn
+aAr
+csB
+asL
+osW
 aJp
 haf
 gMB
@@ -86473,14 +87222,14 @@ aaa
 aaa
 aaa
 aaJ
-aaJ
-aaJ
-aaJ
-aaJ
-aaJ
-aaJ
 asL
-osW
+aik
+aAl
+aAo
+aLu
+aAo
+aRs
+aoZ
 aJp
 haf
 eRG
@@ -86730,12 +87479,12 @@ aaa
 aaa
 aaa
 aaJ
-aaJ
-aaJ
-aaJ
-aaJ
-aaJ
-aaJ
+asL
+aiH
+aoZ
+aAp
+aLu
+aoZ
 asL
 aoZ
 aJp
@@ -86987,12 +87736,12 @@ aaa
 aaa
 aaa
 aaJ
-aaJ
-aaJ
-aaJ
-aaJ
-aaJ
-aaJ
+asL
+aiM
+aAm
+aAq
+aAr
+aOh
 asL
 aoZ
 aYN
@@ -87244,12 +87993,12 @@ aaa
 aaa
 aaa
 aaJ
-aaJ
-aaJ
-aaJ
-aaJ
-aaJ
-aaJ
+asL
+asL
+asL
+asL
+asL
+asL
 asL
 asL
 iov
@@ -89061,7 +89810,7 @@ aJp
 aoZ
 asL
 apP
-agC
+aqx
 ayS
 aSl
 ksY

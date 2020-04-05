@@ -189,7 +189,7 @@ the shield is disabled by means other than the action button (like running out o
 		invisibility = INVISIBILITY_MAXIMUM //no showing on right-click
 	switching = FALSE
 
-/obj/durand_shield/take_damage()
+/obj/durand_shield/take_damage(damage_amount, damage_type = BRUTE, damage_flag = 0, sound_effect = 1, attack_dir, armour_penetration = 0)
 	if(!chassis)
 		qdel(src)
 		return
