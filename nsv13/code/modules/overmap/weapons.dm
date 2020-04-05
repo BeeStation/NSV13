@@ -146,13 +146,11 @@
 					fire_projectile(proj_type, target)
 				sleep(1)
 			return TRUE
-	if(gunner)
-		LAZYADD(weapon_log, "[station_time_timestamp()] [gunner] ([(gunner.mind && gunner.mind.antag_datums) ? "<b>Antagonist</b>" : "Non-Antagonist"]) fired [firemode2text(fire_mode)] at [target]")
 	else if(weapons[mode] && weapons[mode].len) //It's the main ship, see if any part of our battery can fire
 		for(var/obj/machinery/ship_weapon/SW in weapons[mode])
 			if(SW.can_fire() && SW.fire(target, manual=(mode == fire_mode)))
+				LAZYADD(weapon_log, "[station_time_timestamp()] [gunner] ([(gunner.mind && gunner.mind.antag_datums) ? "<b>Antagonist</b>" : "Non-Antagonist"]) fired [firemode2text(fire_mode)] at [target]")
 				return TRUE
-
 	if(gunner) //Tell them we failed
 		var/datum/ship_weapon/SW = weapon_types[fire_mode]
 		to_chat(gunner, SW.failure_alert)
