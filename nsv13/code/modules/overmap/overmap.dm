@@ -14,7 +14,7 @@
 	icon_state = "default"
 	density = TRUE
 	dir = NORTH
-	layer = HIGH_OBJ_LAYER
+	layer = ABOVE_MOB_LAYER
 	animate_movement = NO_STEPS // Override the inbuilt movement engine to avoid bouncing
 	req_one_access = list(ACCESS_HEADS, ACCESS_MUNITIONS, ACCESS_SEC_DOORS, ACCESS_ENGINE) //Bridge officers/heads, munitions techs / fighter pilots, security officers, engineering personnel all have access.
 
@@ -121,9 +121,6 @@
 	var/mob/listeningTo
 
 	var/role = NORMAL_OVERMAP
-
-/obj/structure/overmap/can_be_pulled(user) // no :)
-	return FALSE
 
 /obj/weapon_overlay
 	name = "Weapon overlay"
@@ -482,7 +479,7 @@
 	to_chat(usr, "<span class='notice'>You toggle the brakes [brakes ? "on" : "off"].</span>")
 
 /obj/structure/overmap/proc/can_change_safeties()
-	return (obj_flags & EMAGGED || !is_station_level(src.z))
+	return (obj_flags & EMAGGED || !is_station_level(loc.z))
 
 /obj/structure/overmap/verb/toggle_safety()
 	set name = "Toggle Gun Safeties"

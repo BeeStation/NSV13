@@ -102,6 +102,9 @@ You need to fire emag the fighter's IFF board. This makes it list as "ENEMY" on 
 	var/area/AR = get_area(src)
 	for(var/obj/structure/fighter_launcher/FL in AR)
 		launchers += FL
+	for(var/obj/vehicle/sealed/car/realistic/fighter_tug/FT in AR)
+		if(FT.can_launch_fighters())
+			launchers += FT
 
 /obj/machinery/computer/ship/fighter_launcher/attack_hand(mob/user)
 	if(!allowed(user))
@@ -856,7 +859,7 @@ You need to fire emag the fighter's IFF board. This makes it list as "ENEMY" on 
 				return TRUE
 
 /obj/structure/overmap/fighter/stop_piloting(mob/living/M, force=FALSE)
-	if(!SSmapping.level_trait(z, ZTRAIT_BOARDABLE) && !force)
+	if(!SSmapping.level_trait(loc.z, ZTRAIT_BOARDABLE) && !force)
 		to_chat(M, "<span class='warning'>DANGER: You may not exit [src] while flying alongside other large ships.</span>")
 		return FALSE //No jumping out into the overmap :)
 	if(!canopy_open && !force)
@@ -1221,7 +1224,7 @@ How to make fuel:
 		if("canopy_lock")
 			toggle_canopy()
 		if("eject")
-			if(is_station_level(z) || SSmapping.level_trait(z, ZTRAIT_BOARDABLE))
+			if(is_station_level(loc.z) || SSmapping.level_trait(loc.z, ZTRAIT_BOARDABLE))
 				if(!canopy_open)
 					canopy_open = TRUE
 					playsound(src, 'nsv13/sound/effects/fighters/canopy.ogg', 100, 1)

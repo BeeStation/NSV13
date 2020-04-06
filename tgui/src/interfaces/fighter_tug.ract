@@ -1,0 +1,12 @@
+<ui-display title='Loading controls'>
+  <ui-button icon='{{data.loaded ? "power-off" : "square-o"}}'
+	style='{{data.loaded ? "selected" : null}}'
+	action='load'>
+	"I1 - {{data.loaded ? "Unload Fighter" : "Load Fighter"}}"</ui-button><br/>
+  {{#if data.loaded}}
+    <ui-button icon='{{data.ready ? "power-off" : "square-o"}}'
+	  style='{{data.ready ? "selected" : null}}'
+	  action='launch'>
+	  "I2 - Launch fighter"</ui-button><br/>
+  {{/if}}
+</ui-display>
