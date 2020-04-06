@@ -67,6 +67,20 @@ MASSIVE THANKS TO MONSTER860 FOR HELP WITH THIS. HE EXPLAINED PHYSICS AND MATH T
 
 				*/
 
+/obj/effect/decal/cleanable/tyre_marks
+	name = "Tyre tracks"
+	desc = "The remnants of a vehicle skidding"
+	icon = 'nsv13/icons/obj/vehicles.dmi'
+	icon_state = "tyre_tracks"
+	alpha = 10
+
+/obj/effect/decal/cleanable/tyre_marks/Initialize(mapload, angle)
+	. = ..()
+	animate(src, alpha = 255, time = 1 SECONDS, easing = EASE_OUT)
+	var/matrix/ntransform = new()
+	ntransform.Turn(angle)
+	transform = ntransform
+
 /obj/vehicle/sealed/car/realistic/proc/slowprocess()
 	return
 
@@ -93,6 +107,10 @@ MASSIVE THANKS TO MONSTER860 FOR HELP WITH THIS. HE EXPLAINED PHYSICS AND MATH T
 	if(world.time > last_slowprocess + 10)
 		last_slowprocess = world.time
 		slowprocess()
+	if(!canmove)
+		velocity_x = 0
+		velocity_y = 0
+		return
 	//Are we about to skid?
 	var/pre_fx = cos(90 - angle)
 	var/pre_fy = sin(90 - angle) //This appears to be a vector.
@@ -101,13 +119,14 @@ MASSIVE THANKS TO MONSTER860 FOR HELP WITH THIS. HE EXPLAINED PHYSICS AND MATH T
 	var/pre_forward_movement = ((pre_fx * velocity_x) + (pre_fy * velocity_y)) //Forward/Backward movement dot product here.
 	var/pre_side_movement = ((pre_sx * velocity_x) + (pre_sy * velocity_y)) //Side movement dot product here.
 	var/friction = (pre_side_movement >= 0.01) ? kinetic_traction : static_traction
-	var/braking_efficiency = 0.5
+	var/braking_efficiency = 2
 	var/acceleration = max_acceleration
 	if(friction <= kinetic_traction)
 		if(world.time >= last_squeak + 0.3 SECONDS)
 			last_squeak = world.time
 			playsound(src, pick('nsv13/sound/effects/tyres1.ogg','nsv13/sound/effects/tyres2.ogg'), 100, TRUE)
-		braking_efficiency = 0.25
+			new /obj/effect/decal/cleanable/tyre_marks(src.loc, angle)
+		braking_efficiency = 0.5
 		acceleration = 0.5*max_acceleration
 
 	var/last_offset_x = offset_x
@@ -126,6 +145,8 @@ MASSIVE THANKS TO MONSTER860 FOR HELP WITH THIS. HE EXPLAINED PHYSICS AND MATH T
 	else
 		last_rotate = 0
 	angle += angular_velocity * time
+	if(angle >= 360 || angle <= -360)
+		angle = 0
 
 	// calculate drag and shit
 

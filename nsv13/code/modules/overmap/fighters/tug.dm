@@ -15,16 +15,16 @@
 	pixel_x = -16
 	pixel_y = -19
 	layer = HIGH_OBJ_LAYER
-	var/datum/gas_mixture/cabin_air //Cabin air mix used for small ships like fighters (see overmap/fighters/fighters.dm)
-	var/obj/machinery/portable_atmospherics/canister/internal_tank //Internal air tank reference. Used mostly in small ships. If you want to sabotage a fighter, load a plasma tank into its cockpit :)
-	var/ready = TRUE
 	//Movement speed variables, configure these per car.
 	max_acceleration = 2
 	max_turnspeed = 40
 	turnspeed = 40
 	static_traction = 9.8 //How good are the tyres?. THis behaves somewhat like acceleration, but it shouldnt be more efficient than 9.8, which is the gravity on earth
 	kinetic_traction = 5 //if you are moving sideways and the static traction wasnt enough to kill it, you skid and you will have less traction, but allowing you to drift. KINETIC IE moving traction
-
+	var/datum/gas_mixture/cabin_air //Cabin air mix used for small ships like fighters (see overmap/fighters/fighters.dm)
+	var/obj/machinery/portable_atmospherics/canister/internal_tank //Internal air tank reference. Used mostly in small ships. If you want to sabotage a fighter, load a plasma tank into its cockpit :)
+	var/ready = TRUE
+	var/launch_dir = EAST
 
 /obj/vehicle/sealed/car/realistic/fighter_tug/emp_act(severity)
 	. = ..()
@@ -59,6 +59,7 @@
 	data["loaded"] = (loaded) ? TRUE : FALSE
 	data["loaded_name"] = (loaded) ? loaded.name : "No fighter loaded"
 	data["ready"] = ready
+	data["launch_dir"] = dir2text(launch_dir)
 	return data
 
 /obj/vehicle/sealed/car/realistic/fighter_tug/ui_act(action, params, datum/tgui/ui)
@@ -70,7 +71,15 @@
 	switch(action)
 		if("launch")
 			start_launch()
+		if("launch_dir")
+			launch_dir = input(ui.user, "Set fighter launch direction", "[name]", launch_dir) as null|anything in GLOB.cardinals
+			if(!launch_dir)
+				launch_dir = initial(launch_dir)
 		if("load")
+			var/obj/structure/overmap/load = locate(/obj/structure/overmap/fighter) in contents
+			if(load)
+				abort_launch()
+				return
 			load()
 	update_icon() // Not applicable to all objects.
 
@@ -89,6 +98,7 @@
 
 /obj/vehicle/sealed/car/realistic/fighter_tug/Initialize()
 	. = ..()
+	set_light(3)
 	add_overlay("hitch")
 
 /obj/vehicle/sealed/car/realistic/fighter_tug/proc/hitch(obj/structure/overmap/fighter/target)
@@ -108,30 +118,47 @@
 /obj/vehicle/sealed/car/realistic/fighter_tug/proc/start_launch()
 	if(!ready)
 		return
+	canmove = FALSE
 	playsound(src.loc, 'nsv13/sound/effects/ship/fighter_launch.ogg', 100, FALSE)
 	add_overlay("launcher_charge")
 	for(var/obj/structure/overmap/fighter/target in contents)
-		target.angle = angle
 		target.relay('nsv13/sound/effects/ship/fighter_launch.ogg')
 		ready = FALSE
 		addtimer(CALLBACK(src, .proc/finish_launch), 10 SECONDS)
 
 /obj/vehicle/sealed/car/realistic/fighter_tug/proc/finish_launch()
 	ready = TRUE
-	anchored = TRUE
 	density = FALSE
-	for(var/obj/structure/overmap/fighter/mag_locked in contents)
+	var/stored_layer = layer
+	layer = LOW_OBJ_LAYER
+	for(var/obj/structure/overmap/fighter/target in contents)
 		abort_launch(silent=TRUE)
-		mag_locked.prime_launch() //Gets us ready to move at PACE.
-		mag_locked.angle = angle
-		mag_locked.desired_angle = angle
+		sleep(0.5)
+		target.prime_launch() //Gets us ready to move at PACE.
+		switch(launch_dir) //Just handling north / south..FOR NOW!
+			if(NORTH) //PILOTS. REMEMBER TO FACE THE RIGHT WAY WHEN YOU LAUNCH, OR YOU WILL HAVE A TERRIBLE TIME.
+				target.desired_angle = 0
+				target.angle = target.desired_angle
+				target.velocity_y = 20
+			if(SOUTH)
+				target.desired_angle = 180
+				target.angle = target.desired_angle
+				target.velocity_y = -20
+			if(EAST)
+				target.desired_angle = 90
+				target.angle = target.desired_angle
+				target.velocity_x = 20
+			if(WEST)
+				target.desired_angle = -90
+				target.angle = target.desired_angle
+				target.velocity_x = -20
 		var/obj/structure/overmap/our_overmap = get_overmap()
 		if(our_overmap)
 			our_overmap.relay('nsv13/sound/effects/ship/fighter_launch_short.ogg')
-		mag_locked.velocity_x = 20
 		sleep(1 SECONDS)
-		anchored = FALSE
 		density = TRUE
+		layer = stored_layer
+	canmove = TRUE
 
 /obj/vehicle/sealed/car/realistic/fighter_tug/proc/abort_launch(silent=FALSE)
 	for(var/obj/structure/overmap/fighter/target in contents)

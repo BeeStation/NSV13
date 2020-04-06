@@ -3,10 +3,14 @@
 	style='{{data.loaded ? "selected" : null}}'
 	action='load'>
 	"I1 - {{data.loaded ? "Unload Fighter" : "Load Fighter"}}"</ui-button><br/>
+  <ui-button icon='pencil'
+	style='null'
+	action='launch_dir'>
+	"I2 - Launch Direction: {{data.launch_dir}}"</ui-button><br/>
   {{#if data.loaded}}
     <ui-button icon='{{data.ready ? "power-off" : "square-o"}}'
 	  style='{{data.ready ? "selected" : null}}'
 	  action='launch'>
-	  "I2 - Launch fighter"</ui-button><br/>
+	  "I3 - Launch fighter"</ui-button><br/>
   {{/if}}
 </ui-display>
