@@ -28,8 +28,8 @@
 /obj/structure/fighter_component/underconstruction_fighter/light_fighter_frame
 	name = "Light Fighter Frame"
 	desc = "An Incomplete Su-818 Rapier Light Fighter"
-	icon = 'icons/obj/janitor.dmi'
-	icon_state = "mop"
+	icon = 'nsv13/icons/overmap/nanotrasen/fighter_construction.dmi'
+	icon_state = "fighter"
 	build_state = LBS_CHASSIS
 	fighter_name = null
 
@@ -529,62 +529,6 @@
 	LF.name = fighter_name
 	for(var/atom/movable/C in contents)
 		C.forceMove(LF)
-
-/obj/structure/fighter_component/underconstruction_fighter/light_fighter_frame/update_icon()
-	cut_overlays()
-	switch(build_state)
-		if(LBS_CHASSIS)
-			icon_state = "mop"
-		if(LBS_CHASSIS_BOLT)
-			icon_state = "mop"
-		if(LBS_CHASSIS_WELD)
-			icon_state = "mop"
-		if(LBS_ENGINE)
-			icon_state = "mop"
-		if(LBS_ENGINE_BOLT)
-			icon_state = "mop"
-		if(LBS_APU)
-			icon_state = "mop"
-		if(LBS_APU_WIRE)
-			icon_state = "mop"
-		if(LBS_APU_SCREW)
-			icon_state = "mop"
-		if(LBS_FUEL_TANK)
-			icon_state = "mop"
-		if(LBS_FUEL_TANK_BOLT)
-			icon_state = "mop"
-		if(LBS_AVIONICS)
-			icon_state = "mop"
-		if(LBS_AVIONICS_WIRE)
-			icon_state = "mop"
-		if(LBS_AVIONICS_SCREW)
-			icon_state = "mop"
-		if(LBS_TARGETING_SENSOR)
-			icon_state = "mop"
-		if(LBS_TARGETING_SENSOR_SCREW)
-			icon_state = "mop"
-		if(LBS_COUNTERMEASURE_DISPENSER)
-			icon_state = "mop"
-		if(LBS_COUNTERMEASURE_DISPENSER_BOLT)
-			icon_state = "mop"
-		if(LBS_ARMOUR_PLATING)
-			icon_state = "mop"
-		if(LBS_ARMOUR_PLATING_BOLT)
-			icon_state = "mop"
-		if(LBS_ARMOUR_PLATING_WELD)
-			icon_state = "mop"
-		if(LBS_PRIMARY)
-			icon_state = "mop"
-		if(LBS_PRIMARY_BOLT)
-			icon_state = "mop"
-		if(LBS_SECONDARY)
-			icon_state = "mop"
-		if(LBS_SECONDARY_BOLT)
-			icon_state = "mop"
-		if(LBS_PAINT_PRIMER)
-			icon_state = "mop"
-		if(LBS_PAINT_DETAILING)
-			icon_state = "mop"
 
 #undef LBS_CHASSIS
 #undef LBS_CHASSIS_BOLT

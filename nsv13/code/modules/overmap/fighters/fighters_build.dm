@@ -148,6 +148,10 @@
 	var/atom/movable/desired = locate(type) in contents
 	return desired
 
+/obj/structure/fighter_component/underconstruction_fighter/update_icon()
+	cut_overlays()
+	icon_state = "[initial(icon_state)][build_state]"
+
 /*
 /obj/structure/fighter_component/fuselage_crate/attack_hand(mob/user)
 	.=..()

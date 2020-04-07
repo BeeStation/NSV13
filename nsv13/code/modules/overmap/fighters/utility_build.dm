@@ -526,62 +526,6 @@
 	for(var/atom/movable/C in contents)
 		C.forceMove(UC)
 
-/obj/structure/fighter_component/underconstruction_fighter/utility_vessel_frame/update_icon()
-	cut_overlays()
-	switch(build_state)
-		if(UBS_CHASSIS)
-			icon_state = "smmop"
-		if(UBS_CHASSIS_BOLT)
-			icon_state = "smmop"
-		if(UBS_CHASSIS_WELD)
-			icon_state = "smmop"
-		if(UBS_ENGINE)
-			icon_state = "smmop"
-		if(UBS_ENGINE_BOLT)
-			icon_state = "smmop"
-		if(UBS_APU)
-			icon_state = "smmop"
-		if(UBS_APU_WIRE)
-			icon_state = "smmop"
-		if(UBS_APU_MULTI)
-			icon_state = "smmop"
-		if(UBS_FUEL_TANK)
-			icon_state = "smmop"
-		if(UBS_FUEL_TANK_BOLT)
-			icon_state = "smmop"
-		if(UBS_PRIMARY)
-			icon_state = "smmop"
-		if(UBS_PRIMARY_BOLT)
-			icon_state = "smmop"
-		if(UBS_PRIMARY_MULTI)
-			icon_state = "smmop"
-		if(UBS_SECONDARY)
-			icon_state = "smmop"
-		if(UBS_SECONDARY_BOLT)
-			icon_state = "smmop"
-		if(UBS_SECONDARY_MULTI)
-			icon_state = "smmop"
-		if(UBS_COUNTERMEASURE_DISPENSER)
-			icon_state = "smmop"
-		if(UBS_COUNTERMEASURE_DISPENSER_BOLT)
-			icon_state = "smmop"
-		if(UBS_AVIONICS)
-			icon_state = "smmop"
-		if(UBS_AVIONICS_WIRE)
-			icon_state = "smmop"
-		if(UBS_AVIONICS_MULTI)
-			icon_state = "smmop"
-		if(UBS_ARMOUR_PLATING)
-			icon_state = "smmop"
-		if(UBS_ARMOUR_PLATING_BOLT)
-			icon_state = "smmop"
-		if(UBS_ARMOUR_PLATING_WELD)
-			icon_state = "smmop"
-		if(UBS_PAINT_PRIMER)
-			icon_state = "smmop"
-		if(UBS_PAINT_DETAILING)
-			icon_state = "smmop"
-
 #undef UBS_CHASSIS
 #undef UBS_CHASSIS_BOLT
 #undef UBS_CHASSIS_WELD

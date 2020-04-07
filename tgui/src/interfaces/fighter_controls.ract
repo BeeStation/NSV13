@@ -1,3 +1,9 @@
+<ui-display title = ''>
+  <ui-button icon='{{data.master_caution ? "warning" : "square-o"}}'
+	style='{{data.master_caution ? "caution" : "disabled"}}'
+	action='master_caution'>
+	"Master Caution"</ui-button><br/>
+</ui-display>
 <ui-display title='Ignition controls'>
   <ui-button icon='{{data.ignition ? "power-off" : "square-o"}}'
 	style='{{data.ignition ? "selected" : null}}'
@@ -58,7 +64,25 @@
   <ui-section label='Fuel level'>
     <ui-bar min='0' max='{{data.max_fuel}}' value='{{data.fuel}}' state='{{data.fuel}}'>{{Math.fixed(data.fuel)}}</ui-bar>
   </ui-section>
-  <ui-section label='Countermeasure Charges'>
+  <ui-section label='Countermeasure charges'>
     <ui-bar min='0' max='{{data.max_countermeasures}}' value='{{data.current_countermeasures}}' state='{{data.current_countermeasures}}'>{{Math.fixed(data.current_countermeasures)}}</ui-bar>
   </ui-section>
+  {{#if.data.max_passengers}}
+    <ui-section label='Passengers'>
+      <ui-bar min='0' max='{{data.max_passengers}}' value='{{data.passengers}}' state='{{data.passengers}}'>{{Math.fixed(data.passengers)}}</ui-bar>
+    </ui-section>
+  {{/if}}
+  {{#if.data.max_aux_fuel}}
+    <ui-section label='Auxiliary fuel level'>
+      <ui-bar min='0' max='{{data.max_aux_fuel}}' value='{{data.aux_fuel}}' state='{{data.aux_fuel}}'>{{Math.fixed(data.aux_fuel)}}</ui-bar>
+    </ui-section>
+  {{/if}}
+  {{#if.data.max_rbs}}
+    <ui-section label='RBS welder fuel level'>
+      <ui-bar min='0' max='{{data.max_rbs}}' value='{{data.rbs_welder}}' state='{{data.rbs_welder}}'>{{Math.fixed(data.rbs_welder)}}</ui-bar>
+     </ui-section>
+    <ui-section label='RBS foamer tank level'>
+      <ui-bar min='0' max='{{data.max_rbs}}' value='{{data.rbs_foamer}}' state='{{data.rbs_foamer}}'>{{Math.fixed(data.rbs_foamer)}}</ui-bar>
+    </ui-section>
+  {{/if}}
 </ui-display>

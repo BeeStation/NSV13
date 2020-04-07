@@ -48,6 +48,7 @@ After going through this checklist, you're ready to go!
 	weapon_safety = TRUE //This happens wayy too much for my liking. Starts OFF.
 	pixel_w = -16
 	pixel_z = -20
+	req_access = list(ACCESS_MUNITIONS)
 	var/maint_state = MS_CLOSED
 	var/prebuilt = FALSE
 	var/fuel_consumption = 0
@@ -75,6 +76,7 @@ After going through this checklist, you're ready to go!
 	var/has_escape_pod = /obj/structure/overmap/fighter/escapepod
 	var/obj/structure/overmap/fighter/escapepod/escape_pod
 	var/list/components = null
+	var/master_caution = FALSE
 
 /obj/structure/overmap/fighter/Initialize()
 	. = ..()
@@ -232,20 +234,22 @@ After going through this checklist, you're ready to go!
 	missiles = mun_missiles.len
 	countermeasures = mun_countermeasures.len
 	internal_tank = new /obj/machinery/portable_atmospherics/canister/air(src)
+	var/obj/item/fighter_component/fuel_tank/ft = get_part(/obj/item/fighter_component/fuel_tank)
+	var/obj/item/fighter_component/secondary/utility/auxiliary_fuel_tank/aft = get_part(/obj/item/fighter_component/secondary/utility/auxiliary_fuel_tank)
+	var/obj/item/fighter_component/secondary/utility/rbs_reagent_tank/rrt = get_part(/obj/item/fighter_component/secondary/utility/rbs_reagent_tank)
+	ft?.fuel_setup()
+	aft?.fuel_setup()
+	rrt?.reagent_setup()
 
 /obj/structure/overmap/fighter/proc/update_stats() //PLEASE SOMEONE MAKE A LESS JANK SYSTEM
 	//Get all the possible components that we need variables from
 	var/obj/item/fighter_component/armour_plating/ap = get_part(/obj/item/fighter_component/armour_plating)
 	var/obj/item/fighter_component/engine/en = get_part(/obj/item/fighter_component/engine)
-	var/obj/item/fighter_component/fuel_tank/ft = get_part(/obj/item/fighter_component/fuel_tank)
 	var/obj/item/fighter_component/targeting_sensor/ts = get_part(/obj/item/fighter_component/targeting_sensor)
 	var/obj/item/fighter_component/countermeasure_dispenser/cd = get_part(/obj/item/fighter_component/countermeasure_dispenser)
-	var/obj/item/fighter_component/secondary/light/missile_rack/mr = get_part(/obj/item/fighter_component/secondary/light/missile_rack)
-	var/obj/item/fighter_component/secondary/heavy/torpedo_rack/tr = get_part(/obj/item/fighter_component/secondary/heavy/torpedo_rack)
+	var/obj/item/fighter_component/secondary/sy = get_part(/obj/item/fighter_component/secondary)
 	var/obj/item/fighter_component/primary/py = get_part(/obj/item/fighter_component/primary)
 	var/obj/item/fighter_component/secondary/utility/passenger_compartment_module/pc = get_part(/obj/item/fighter_component/secondary/utility/passenger_compartment_module)
-	var/obj/item/fighter_component/secondary/utility/auxiliary_fuel_tank/aft = get_part(/obj/item/fighter_component/secondary/utility/auxiliary_fuel_tank)
-	var/obj/item/fighter_component/secondary/utility/rbs_reagent_tank/rrt = get_part(/obj/item/fighter_component/secondary/utility/rbs_reagent_tank)
 
 	//Assign variables
 	max_integrity = initial(max_integrity) * ap?.armour
@@ -253,16 +257,12 @@ After going through this checklist, you're ready to go!
 	if(en?.burntout)
 		speed_limit = speed_limit/2
 	fuel_consumption = en?.consumption
-	ft?.fuel_setup()
-	aft?.fuel_setup()
-	rrt?.reagent_setup()
 //	??? = ts?.targeting_speed
 	max_countermeasures = cd?.countermeasure_capacity
-	max_missiles = mr?.missile_capacity && tr?.missile_capacity
-	max_torpedoes = tr?.torpedo_capacity
+	max_missiles = sy?.missile_capacity
+	max_torpedoes = sy?.torpedo_capacity
 	max_cannon = py?.ammo_capacity
 	max_passengers = pc?.passenger_capacity
-
 
 	//Setup weapon datums and fire modes
 	weapon_types = list() //Hard reset
@@ -289,20 +289,19 @@ After going through this checklist, you're ready to go!
 	fft.fuel_setup()
 
 /obj/item/fighter_component/fuel_tank/proc/fuel_setup()
-	create_reagents(fuel_capacity, DRAINABLE | AMOUNT_VISIBLE)
-	reagents.add_reagent(/datum/reagent/aviation_fuel, fuel_capacity) //KMC BAD, THIS IS EXPLOITABLE
+	reagents.add_reagent(/datum/reagent/aviation_fuel, fuel_capacity)
 
 /obj/item/fighter_component/secondary/utility/auxiliary_fuel_tank/proc/fuel_setup()
-	create_reagents(aux_capacity, DRAINABLE | AMOUNT_VISIBLE)
+	reagents.add_reagent(/datum/reagent/aviation_fuel, aux_capacity)
 
 /obj/item/fighter_component/secondary/utility/rbs_reagent_tank/proc/reagent_setup()
-/*
-//	var/tanks = list(fueltank["reagentype"])
-	var/tank1 = create_reagents(rbs_capacity, DRAINABLE | AMOUNT_VISIBLE)
-	var/tank2 = create_reagents(rbs_capacity, DRAINABLE | AMOUNT_VISIBLE)
-	tank1.reagents.add_reagent(/datum/reagent/fuel, rbs_capacity)
-	tank2.reagents.add_reagent(/datum/reagent/fuel, rbs_capacity)
-*/
+	var/obj/item/reagent_containers/rbs_welder_tank/WT = locate(/obj/item/reagent_containers/rbs_welder_tank) in contents
+	var/obj/item/reagent_containers/rbs_foamer_tank/FT = locate(/obj/item/reagent_containers/rbs_foamer_tank) in contents
+	var/foam_division = rbs_capacity / 5
+	WT.reagents.add_reagent(/datum/reagent/fuel, rbs_capacity)
+	FT.reagents.add_reagent(/datum/reagent/aluminium, foam_division * 3)
+	FT.reagents.add_reagent(/datum/reagent/foaming_agent, foam_division)
+	FT.reagents.add_reagent(/datum/reagent/toxin/acid/fluacid, foam_division)
 
 //Fighter Maintenance
 /obj/structure/overmap/fighter/proc/get_part(type)
@@ -556,7 +555,12 @@ After going through this checklist, you're ready to go!
 		to_chat(user, "<span class='warning'>Access denied</span>")
 		return
 	if(maint_state == MS_OPEN)
-//		display_maint_popup(user)
+/* use if_check_access() instead?
+		if(!allowed(user))
+			var/sound = pick('nsv13/sound/effects/computer/error.ogg','nsv13/sound/effects/computer/error2.ogg','nsv13/sound/effects/computer/error3.ogg')
+			playsound(src, sound, 100, 1)
+			to_chat(user, "<span class='warning'>Access denied</span>")
+			return */
 		ui_interact(user)
 		return TRUE
 	if(!canopy_open)
@@ -734,6 +738,114 @@ How to make fuel:
 	visible_message("<span class='warning'>[src]'s engine fizzles out!</span>")
 	flight_state = NO_IGNITION
 	return FALSE
+
+/obj/structure/overmap/fighter/proc/set_master_caution(state)
+	var/master_caution_switch = state
+	if(master_caution_switch)
+		to_chat(usr, "<span class='warning'>WARNING: Master caution.</span>")
+		relay('nsv13/sound/effects/fighters/master_caution.ogg', null, loop=TRUE, channel=CHANNEL_BUZZ)
+		master_caution = TRUE
+	else
+		stop_relay(CHANNEL_BUZZ)
+		master_caution = FALSE
+
+/obj/structure/overmap/fighter/proc/get_fuel()
+	var/obj/item/fighter_component/fuel_tank/ft = get_part(/obj/item/fighter_component/fuel_tank)
+	if(!ft)
+		return 0
+	var/return_amt = 0
+	for(var/datum/reagent/aviation_fuel/F in ft.reagents.reagent_list)
+		if(!istype(F))
+			continue
+		return_amt += F.volume
+	return return_amt
+
+/obj/structure/overmap/fighter/proc/get_aux_fuel()
+	var/obj/item/fighter_component/secondary/utility/auxiliary_fuel_tank/aft = get_part(/obj/item/fighter_component/secondary/utility/auxiliary_fuel_tank)
+	if(!aft)
+		return 0
+	var/return_amt = 0
+	for(var/datum/reagent/aviation_fuel/F in aft.reagents.reagent_list)
+		if(!istype(F))
+			continue
+		return_amt += F.volume
+	return return_amt
+
+/obj/structure/overmap/fighter/proc/get_rbs_welder()
+	var/obj/item/fighter_component/secondary/utility/rbs_reagent_tank/rbs = get_part(/obj/item/fighter_component/secondary/utility/rbs_reagent_tank)
+	if(!rbs)
+		return 0
+	var/return_amt = 0
+	var/obj/item/reagent_containers/rbs_welder_tank/WT = locate(/obj/item/reagent_containers/rbs_welder_tank) in rbs.contents
+	for(var/datum/reagent/fuel/F in WT.reagents.reagent_list)
+		if(!istype(F))
+			continue
+		return_amt += F.volume
+	return return_amt
+
+/obj/structure/overmap/fighter/proc/get_rbs_foamer()
+	var/obj/item/fighter_component/secondary/utility/rbs_reagent_tank/rbs = get_part(/obj/item/fighter_component/secondary/utility/rbs_reagent_tank)
+	if(!rbs)
+		return 0
+	var/return_amt = 0
+	var/obj/item/reagent_containers/rbs_foamer_tank/FT = locate(/obj/item/reagent_containers/rbs_foamer_tank) in rbs.contents
+	return_amt += FT.reagents.total_volume
+	return return_amt
+
+/obj/structure/overmap/fighter/proc/set_fuel(amount)
+	var/obj/item/fighter_component/fuel_tank/ft = get_part(/obj/item/fighter_component/fuel_tank)
+	if(!ft)
+		return FALSE
+	for(var/datum/reagent/aviation_fuel/F in ft.reagents.reagent_list)
+		if(!istype(F))
+			continue
+		F.volume = amount
+	return amount
+
+/obj/structure/overmap/fighter/proc/use_fuel()
+	if(flight_state < APU_SPUN) //No fuel? don't spam them with master cautions / use any fuel
+		return FALSE
+	var/amount = (user_thrust_dir) ? fuel_consumption+0.25 : fuel_consumption //When you're thrusting : fuel consumption doubles. Idling is cheap.
+	var/obj/item/fighter_component/fuel_tank/ft = get_part(/obj/item/fighter_component/fuel_tank)
+	if(!ft)
+		flight_state = NO_FUEL
+		set_master_caution(TRUE)
+		return FALSE
+	ft.reagents.remove_reagent(/datum/reagent/aviation_fuel, amount)
+	if(get_fuel() >= amount)
+		return TRUE
+	if(flight_state < NO_FUEL) //Stops people from getting spammed
+		flight_state = NO_FUEL
+		set_master_caution(TRUE)
+	return FALSE
+
+/obj/structure/overmap/fighter/proc/empty_fuel_tank()//Debug purposes, for when you need to drain a fighter's tank entirely.
+	var/obj/item/fighter_component/fuel_tank/ft = get_part(/obj/item/fighter_component/fuel_tank)
+	if(!ft)
+		return FALSE
+	ft.reagents.clear_reagents()
+	say("Fuel tank emptied!")
+
+/obj/structure/overmap/fighter/proc/get_max_fuel()
+	var/obj/item/fighter_component/fuel_tank/ft = get_part(/obj/item/fighter_component/fuel_tank)
+	if(!ft)
+		return 0
+	return ft.reagents.maximum_volume
+
+/obj/structure/overmap/fighter/proc/get_max_aux_fuel()
+	var/obj/item/fighter_component/secondary/utility/auxiliary_fuel_tank/aft = get_part(/obj/item/fighter_component/secondary/utility/auxiliary_fuel_tank)
+	if(!aft)
+		return 0
+	return aft.reagents.maximum_volume
+
+/obj/structure/overmap/fighter/proc/get_max_rbs()
+	var/obj/item/fighter_component/secondary/utility/rbs_reagent_tank/rbs = get_part(/obj/item/fighter_component/secondary/utility/rbs_reagent_tank)
+	if(!rbs)
+		return 0
+	var/obj/item/reagent_containers/rbs_welder_tank/WT = locate(/obj/item/reagent_containers/rbs_welder_tank) in rbs.contents
+	return WT.reagents.maximum_volume
+
+//UI
 
 /obj/structure/overmap/fighter/ui_act(action, params, datum/tgui/ui)
 	if(..())
@@ -913,68 +1025,12 @@ How to make fuel:
 			to_chat(usr, "<span class='notice>You uninstall [part.name] from [src].</span>")
 			part?.forceMove(get_turf(src))
 			update_stats()
+		if("master_caution")
+			set_master_caution(FALSE)
+			return
 	warmup_cooldown = TRUE
 	addtimer(VARSET_CALLBACK(src, warmup_cooldown, FALSE), 1 SECONDS)
 	relay('nsv13/sound/effects/fighters/switch.ogg')
-
-/obj/structure/overmap/fighter/proc/get_fuel()
-	var/obj/item/fighter_component/fuel_tank/ft = get_part(/obj/item/fighter_component/fuel_tank)
-	if(!ft)
-		return 0
-	var/return_amt = 0
-	for(var/datum/reagent/aviation_fuel/F in ft.reagents.reagent_list)
-		if(!istype(F))
-			continue
-		return_amt += F.volume
-	return return_amt
-
-/obj/structure/overmap/fighter/proc/set_fuel(amount)
-	var/obj/item/fighter_component/fuel_tank/ft = get_part(/obj/item/fighter_component/fuel_tank)
-	if(!ft)
-		return FALSE
-	for(var/datum/reagent/aviation_fuel/F in ft.reagents.reagent_list)
-		if(!istype(F))
-			continue
-		F.volume = amount
-	return amount
-
-/obj/structure/overmap/fighter/proc/set_master_caution(state)
-	var/master_caution = state
-	if(master_caution)
-		relay('nsv13/sound/effects/fighters/master_caution.ogg', "<span class='warning'>WARNING: Master caution.</span>", loop=FALSE, channel=CHANNEL_BUZZ)
-	else
-		stop_relay(CHANNEL_BUZZ)
-
-/obj/structure/overmap/fighter/proc/use_fuel()
-	if(flight_state < APU_SPUN) //No fuel? don't spam them with master cautions / use any fuel
-		return FALSE
-	var/amount = (user_thrust_dir) ? fuel_consumption+0.25 : fuel_consumption //When you're thrusting : fuel consumption doubles. Idling is cheap.
-	var/obj/item/fighter_component/fuel_tank/ft = get_part(/obj/item/fighter_component/fuel_tank)
-	if(!ft)
-		flight_state = NO_FUEL
-		set_master_caution(TRUE)
-		return FALSE
-	ft.reagents.remove_reagent(/datum/reagent/aviation_fuel, amount)
-	if(get_fuel() >= amount)
-		set_master_caution(FALSE)
-		return TRUE
-	if(flight_state < NO_FUEL) //Stops people from getting spammed
-		flight_state = NO_FUEL
-		set_master_caution(TRUE)
-	return FALSE
-
-/obj/structure/overmap/fighter/proc/empty_fuel_tank()//Debug purposes, for when you need to drain a fighter's tank entirely.
-	var/obj/item/fighter_component/fuel_tank/ft = get_part(/obj/item/fighter_component/fuel_tank)
-	if(!ft)
-		return FALSE
-	ft.reagents.clear_reagents()
-	say("Fuel tank emptied!")
-
-/obj/structure/overmap/fighter/proc/get_max_fuel()
-	var/obj/item/fighter_component/fuel_tank/ft = get_part(/obj/item/fighter_component/fuel_tank)
-	if(!ft)
-		return 0
-	return ft.reagents.maximum_volume
 
 /obj/structure/overmap/fighter/ui_data(mob/user)
 	var/list/data = list()
@@ -1013,6 +1069,17 @@ How to make fuel:
 	for(locate(/obj/item/ship_weapon/ammunition/countermeasure_charge) in contents)
 		countermeasures ++
 	data["current_countermeasures"] = countermeasures
+	data["master_caution"] = master_caution
+	if(get_max_aux_fuel())
+		data["max_aux_fuel"] = get_max_aux_fuel()
+		data["aux_fuel"] = get_aux_fuel()
+	if(get_max_rbs())
+		data["max_rbs"] = get_max_rbs()
+		data["rbs_welder"] = get_rbs_welder()
+		data["rbs_foamer"] = get_rbs_foamer()
+	if(max_passengers)
+		data["max_passengers"] = max_passengers
+		data["passengers"] = mobs_in_ship.len
 	return data
 
 #undef NO_IGNITION

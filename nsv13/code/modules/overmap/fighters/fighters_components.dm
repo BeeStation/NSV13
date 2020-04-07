@@ -30,11 +30,20 @@
 	var/weapon_type_path_two = null
 	var/ammo_capacity = 0
 
+/obj/item/fighter_component/secondary
+	name = "Fighter Component Secondary - PARENT"
+	var/missile_capacity = 0
+	var/torpedo_capacity = 0
+
 /obj/item/fighter_component/fuel_tank
 	name = "Fighter Fuel Tank - PARENT"
 	icon_state = "secgearcrate"
 	var/fuel_capacity = 0 //Fuel Capacity
 	burntout = INELIGIBLE
+
+/obj/item/fighter_component/fuel_tank/Initialize()
+	.=..()
+	create_reagents(fuel_capacity, DRAINABLE | AMOUNT_VISIBLE)
 
 /obj/item/fighter_component/fuel_tank/t1
 	name = "Fighter Fuel Tank"
@@ -157,7 +166,7 @@
 /obj/item/fighter_component/secondary/light/missile_rack
 	name = "Light Fighter Missile Rack - PARENT"
 	icon_state = "weaponcrate"
-	var/missile_capacity = 2
+	missile_capacity = 2
 	burntout = INELIGIBLE
 
 /obj/item/fighter_component/secondary/light/missile_rack/t1
@@ -259,8 +268,8 @@
 /obj/item/fighter_component/secondary/heavy/torpedo_rack
 	name = "Heavy Fighter Torpedo Rack"
 	icon_state = "weaponcrate"
-	var/missile_capacity = 0
-	var/torpedo_capacity = 2
+	missile_capacity = 0
+	torpedo_capacity = 2
 	burntout = INELIGIBLE
 
 /obj/item/fighter_component/secondary/heavy/torpedo_rack/t1
@@ -366,6 +375,10 @@
 	var/aux_capacity = 3000
 	burntout = INELIGIBLE
 
+/obj/item/fighter_component/secondary/utility/auxiliary_fuel_tank/Initialize()
+	.=..()
+	create_reagents(aux_capacity, DRAINABLE | AMOUNT_VISIBLE)
+
 /obj/item/fighter_component/secondary/utility/auxiliary_fuel_tank/t1
 	name = "Utility Vessel Auxiliary Fuel Tank"
 	desc = "An auxiliary fuel tank for a Utility Vessel"
@@ -392,6 +405,21 @@
 	icon_state = "crate"
 	var/rbs_capacity = 200
 	burntout = INELIGIBLE
+
+/obj/item/reagent_containers/rbs_welder_tank
+	name = "Rapid Breach Sealing Welder Tank"
+	reagent_flags = NO_REACT
+
+/obj/item/reagent_containers/rbs_foamer_tank
+	name = "Rapid Breach Sealing Foamer Tank"
+	reagent_flags = NO_REACT
+
+/obj/item/fighter_component/secondary/utility/rbs_reagent_tank/Initialize()
+	.=..()
+	var/obj/item/reagent_containers/rbs_welder_tank/welder_reagent_tank = new(src)
+	var/obj/item/reagent_containers/rbs_foamer_tank/foam_reagent_tank = new(src)
+	welder_reagent_tank.reagents.maximum_volume = rbs_capacity
+	foam_reagent_tank.reagents.maximum_volume = rbs_capacity
 
 /obj/item/fighter_component/secondary/utility/rbs_reagent_tank/t1
 	name = "RBS Reagent Tank"

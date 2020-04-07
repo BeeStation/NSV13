@@ -534,62 +534,6 @@
 	for(var/atom/movable/C in contents)
 		C.forceMove(HF)
 
-/obj/structure/fighter_component/underconstruction_fighter/heavy_fighter_frame/update_icon()
-	cut_overlays()
-	switch(build_state)
-		if(HBS_CHASSIS)
-			icon_state = "advmop"
-		if(HBS_CHASSIS_BOLT)
-			icon_state = "advmop"
-		if(HBS_CHASSIS_WELD)
-			icon_state = "advmop"
-		if(HBS_FUEL_TANK)
-			icon_state = "advmop"
-		if(HBS_FUEL_TANK_BOLT)
-			icon_state = "advmop"
-		if(HBS_ENGINE)
-			icon_state = "advmop"
-		if(HBS_ENGINE_BOLT)
-			icon_state = "advmop"
-		if(HBS_APU)
-			icon_state = "advmop"
-		if(HBS_APU_WIRE)
-			icon_state = "advmop"
-		if(HBS_APU_SCREW)
-			icon_state = "advmop"
-		if(HBS_AVIONICS)
-			icon_state = "advmop"
-		if(HBS_AVIONICS_WIRE)
-			icon_state = "advmop"
-		if(HBS_AVIONICS_MULTI)
-			icon_state = "advmop"
-		if(HBS_TARGETING_SENSOR)
-			icon_state = "advmop"
-		if(HBS_TARGETING_SENSOR_SCREW)
-			icon_state = "advmop"
-		if(HBS_COUNTERMEASURE_DISPENSER)
-			icon_state = "advmop"
-		if(HBS_COUNTERMEASURE_DISPENSER_BOLT)
-			icon_state = "advmop"
-		if(HBS_PRIMARY)
-			icon_state = "advmop"
-		if(HBS_PRIMARY_BOLT)
-			icon_state = "advmop"
-		if(HBS_SECONDARY)
-			icon_state = "advmop"
-		if(HBS_SECONDARY_BOLT)
-			icon_state = "advmop"
-		if(HBS_ARMOUR_PLATING)
-			icon_state = "advmop"
-		if(HBS_ARMOUR_PLATING_BOLT)
-			icon_state = "advmop"
-		if(HBS_ARMOUR_PLATING_WELD)
-			icon_state = "advmop"
-		if(HBS_PAINT_PRIMER)
-			icon_state = "advmop"
-		if(HBS_PAINT_DETAILING)
-			icon_state = "advmop"
-
 #undef HBS_CHASSIS
 #undef HBS_CHASSIS_BOLT
 #undef HBS_CHASSIS_WELD
