@@ -8,4 +8,4 @@
 	name = "M105 Medical Transport"
 	desc = "A large ambulance which is designed to transport patients around a battlefield."
 	max_occupants = 4
-	default_hardpoints = list(/obj/item/vehicle_hardpoint/engine, /obj/item/vehicle_hardpoint/wheels, /obj/item/vehicle_hardpoint/cryo_stasis) //What does it start with, if anything.
+	default_hardpoints = list(/obj/item/vehicle_hardpoint/engine, /obj/item/vehicle_hardpoint/wheels/sports, /obj/item/vehicle_hardpoint/cryo_stasis) //What does it start with, if anything.

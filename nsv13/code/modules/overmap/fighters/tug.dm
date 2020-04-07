@@ -109,6 +109,12 @@
 	for(var/obj/structure/overmap/fighter/target in contents)
 		target.desired_angle = 0
 		target.angle = 0
+		for(var/mob/living/M in target.operators)
+			var/mob/camera/aiEye/remote/overmap_observer/eyeobj = M.remote_control
+			eyeobj.forceMove(get_turf(src))
+			if(M.client)
+				M.client.pixel_x = pixel_x
+				M.client.pixel_y = pixel_y
 
 /obj/vehicle/sealed/car/realistic/fighter_tug/proc/start_launch()
 	if(!ready)
