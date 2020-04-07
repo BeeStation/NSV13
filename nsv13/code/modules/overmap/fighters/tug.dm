@@ -21,8 +21,7 @@
 	turnspeed = 40
 	static_traction = 9.8 //How good are the tyres?. THis behaves somewhat like acceleration, but it shouldnt be more efficient than 9.8, which is the gravity on earth
 	kinetic_traction = 5 //if you are moving sideways and the static traction wasnt enough to kill it, you skid and you will have less traction, but allowing you to drift. KINETIC IE moving traction
-	var/datum/gas_mixture/cabin_air //Cabin air mix used for small ships like fighters (see overmap/fighters/fighters.dm)
-	var/obj/machinery/portable_atmospherics/canister/internal_tank //Internal air tank reference. Used mostly in small ships. If you want to sabotage a fighter, load a plasma tank into its cockpit :)
+	default_hardpoints = list(/obj/item/vehicle_hardpoint/engine/pathetic, /obj/item/vehicle_hardpoint/wheels/heavy) //What does it start with, if anything.
 	var/ready = TRUE
 	var/launch_dir = EAST
 
@@ -32,11 +31,9 @@
 		return
 	switch(severity)
 		if(1)
-			take_damage(30)
 			if(prob(40))
 				abort_launch()
 		if(2)
-			take_damage(25)
 			if(prob(20))
 				abort_launch()
 
@@ -44,17 +41,14 @@
 	abort_launch()
 	. = ..()
 
-/obj/vehicle/sealed/car/realistic/fighter_tug/attack_hand(mob/user)
-	ui_interact(user)
-
 /obj/vehicle/sealed/car/realistic/fighter_tug/ui_interact(mob/user, ui_key = "main", datum/tgui/ui = null, force_open = 0, datum/tgui/master_ui = null, datum/ui_state/state = GLOB.contained_state) // Remember to use the appropriate state.
   ui = SStgui.try_update_ui(user, src, ui_key, ui, force_open)
   if(!ui)
-    ui = new(user, src, ui_key, "fighter_tug", name, 300, 300, master_ui, state)
+    ui = new(user, src, ui_key, "fighter_tug", name, 400, 400, master_ui, state)
     ui.open()
 
 /obj/vehicle/sealed/car/realistic/fighter_tug/ui_data(mob/user)
-	var/list/data = list()
+	var/list/data = ..()
 	var/obj/structure/overmap/loaded = locate(/obj/structure/overmap/fighter) in contents
 	data["loaded"] = (loaded) ? TRUE : FALSE
 	data["loaded_name"] = (loaded) ? loaded.name : "No fighter loaded"
@@ -68,6 +62,7 @@
 	if(!LAZYFIND(return_drivers(), ui.user))
 		to_chat(ui.user, "<span class='warning'>You can't reach the controls from back here...</span>")
 		return
+	var/target_name = params["target"]
 	switch(action)
 		if("launch")
 			start_launch()
@@ -81,11 +76,11 @@
 				abort_launch()
 				return
 			load()
+		if("remove_hardpoint")
+			remove_hardpoint(target_name, ui.user)
+		if("interact")
+			interact_with_hardpoint(target_name, ui.user)
 	update_icon() // Not applicable to all objects.
-
-/obj/vehicle/sealed/car/realistic/fighter_tug/after_add_occupant(mob/M)
-	. = ..()
-	ui_interact(M)
 
 /obj/vehicle/sealed/car/realistic/fighter_tug/proc/can_launch_fighters()
 	return TRUE
@@ -176,68 +171,3 @@
 	icon = 'nsv13/icons/obj/vehicles32.dmi'
 	icon_state = "key"
 	w_class = WEIGHT_CLASS_TINY
-
-//Atmos handling copypasta
-
-/obj/vehicle/sealed/car/realistic/fighter_tug/Initialize()
-	. = ..()
-	cabin_air = new
-	cabin_air.temperature = T20C
-	cabin_air.volume = 200
-	cabin_air.add_gases(/datum/gas/oxygen, /datum/gas/nitrogen)
-	cabin_air.gases[/datum/gas/oxygen][MOLES] = O2STANDARD*cabin_air.volume/(R_IDEAL_GAS_EQUATION*cabin_air.temperature)
-	cabin_air.gases[/datum/gas/nitrogen][MOLES] = N2STANDARD*cabin_air.volume/(R_IDEAL_GAS_EQUATION*cabin_air.temperature)
-	internal_tank = new /obj/machinery/portable_atmospherics/canister/air(src)
-
-
-/obj/vehicle/sealed/car/realistic/fighter_tug/return_air()
-	return cabin_air
-
-/obj/vehicle/sealed/car/realistic/fighter_tug/remove_air(amount)
-	return cabin_air.remove(amount)
-
-/obj/vehicle/sealed/car/realistic/fighter_tug/return_analyzable_air()
-	return cabin_air
-
-/obj/vehicle/sealed/car/realistic/fighter_tug/return_temperature()
-	var/datum/gas_mixture/t_air = return_air()
-	if(t_air)
-		. = t_air.return_temperature()
-	return
-
-/obj/vehicle/sealed/car/realistic/fighter_tug/portableConnectorReturnAir()
-	return return_air()
-
-/obj/vehicle/sealed/car/realistic/fighter_tug/assume_air(datum/gas_mixture/giver)
-	var/datum/gas_mixture/t_air = return_air()
-	return t_air.merge(giver)
-
-/obj/vehicle/sealed/car/realistic/fighter_tug/slowprocess()
-	. = ..()
-	if(cabin_air && cabin_air.volume > 0)
-		var/delta = cabin_air.temperature - T20C
-		cabin_air.temperature -= max(-10, min(10, round(delta/4,0.1)))
-	if(internal_tank && cabin_air)
-		var/datum/gas_mixture/tank_air = internal_tank.return_air()
-		var/release_pressure = ONE_ATMOSPHERE
-		var/cabin_pressure = cabin_air.return_pressure()
-		var/pressure_delta = min(release_pressure - cabin_pressure, (tank_air.return_pressure() - cabin_pressure)/2)
-		var/transfer_moles = 0
-		if(pressure_delta > 0) //cabin pressure lower than release pressure
-			if(tank_air.return_temperature() > 0)
-				transfer_moles = pressure_delta*cabin_air.return_volume()/(cabin_air.return_temperature() * R_IDEAL_GAS_EQUATION)
-				var/datum/gas_mixture/removed = tank_air.remove(transfer_moles)
-				cabin_air.merge(removed)
-		else if(pressure_delta < 0) //cabin pressure higher than release pressure
-			var/turf/T = get_turf(src)
-			var/datum/gas_mixture/t_air = T.return_air()
-			pressure_delta = cabin_pressure - release_pressure
-			if(t_air)
-				pressure_delta = min(cabin_pressure - t_air.return_pressure(), pressure_delta)
-			if(pressure_delta > 0) //if location pressure is lower than cabin pressure
-				transfer_moles = pressure_delta*cabin_air.return_volume()/(cabin_air.return_temperature() * R_IDEAL_GAS_EQUATION)
-				var/datum/gas_mixture/removed = cabin_air.remove(transfer_moles)
-				if(T)
-					T.assume_air(removed)
-				else //just delete the cabin gas, we're in space or some shit
-					qdel(removed)

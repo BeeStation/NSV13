@@ -44,13 +44,31 @@ MASSIVE THANKS TO MONSTER860 FOR HELP WITH THIS. HE EXPLAINED PHYSICS AND MATH T
 	var/last_process = 0
 	var/last_slowprocess = 0
 	var/last_squeak = 0
+	var/datum/gas_mixture/cabin_air //Cabin air mix used for small ships like fighters (see overmap/fighters/fighters.dm)
+	var/obj/machinery/portable_atmospherics/canister/internal_tank //Internal air tank reference. Used mostly in small ships. If you want to sabotage a fighter, load a plasma tank into its cockpit :)
+
+/obj/vehicle/sealed/car/realistic/emp_act(severity)
+	. = ..()
+	if(. & EMP_PROTECT_SELF)
+		return
+	switch(severity)
+		if(1)
+			take_damage(30)
+		if(2)
+			take_damage(25)
 
 /obj/vehicle/sealed/car/realistic/Initialize()
 	. = ..()
 	START_PROCESSING(SSfastprocess, src)
+	for(var/HPtype in default_hardpoints)
+		var/obj/item/vehicle_hardpoint/HP = new HPtype(src)
+		hardpoints[HP.type] = HP
+		HP.on_insertion(src)
+		update_icon()
 
 /obj/vehicle/sealed/car/realistic/after_add_occupant(mob/M)
 	. = ..()
+	ui_interact(M)
 	M.set_focus(src)
 
 /obj/vehicle/sealed/car/realistic/after_remove_occupant(mob/M)
@@ -113,15 +131,15 @@ MASSIVE THANKS TO MONSTER860 FOR HELP WITH THIS. HE EXPLAINED PHYSICS AND MATH T
 		return
 	//Are we about to skid?
 	var/pre_fx = cos(90 - angle)
-	var/pre_fy = sin(90 - angle) //This appears to be a vector.
-	var/pre_sx = pre_fy
+	var/pre_fy = sin(90 - angle) //Forward vector
+	var/pre_sx = pre_fy //Side movement
 	var/pre_sy = -pre_fx
 	var/pre_forward_movement = ((pre_fx * velocity_x) + (pre_fy * velocity_y)) //Forward/Backward movement dot product here.
 	var/pre_side_movement = ((pre_sx * velocity_x) + (pre_sy * velocity_y)) //Side movement dot product here.
 	var/friction = (pre_side_movement >= 0.01) ? kinetic_traction : static_traction
 	var/braking_efficiency = 2
 	var/acceleration = max_acceleration
-	if(friction <= kinetic_traction)
+	if(friction <= kinetic_traction && friction > 0) //Cars with no tyres don't squeak
 		if(world.time >= last_squeak + 0.3 SECONDS)
 			last_squeak = world.time
 			playsound(src, pick('nsv13/sound/effects/tyres1.ogg','nsv13/sound/effects/tyres2.ogg'), 100, TRUE)
@@ -341,7 +359,9 @@ MASSIVE THANKS TO MONSTER860 FOR HELP WITH THIS. HE EXPLAINED PHYSICS AND MATH T
 		bump_velocity = abs(velocity_y) + (abs(velocity_x) / 15)
 	else
 		bump_velocity = abs(velocity_x) + (abs(velocity_y) / 15)
-	if(istype(A, /obj/machinery/door/airlock) && should_open_doors) // try to open doors
+	if(istype(A, /obj/machinery/door/airlock)) // try to open doors
+		if(!should_open_doors)
+			return ..()
 		var/obj/machinery/door/D = A
 		if(!D.operating)
 			if(D.allowed(D.requiresID() ? return_drivers()[1] : null))
@@ -371,3 +391,69 @@ MASSIVE THANKS TO MONSTER860 FOR HELP WITH THIS. HE EXPLAINED PHYSICS AND MATH T
 		M.Knockdown(bump_velocity * 2)
 		M.visible_message("<span class='warning'>The force of the impact knocks [M] down!</span>","<span class='userdanger'>The force of the impact knocks you down!</span>")
 	return ..()
+
+
+//Atmos handling copypasta
+
+/obj/vehicle/sealed/car/realistic/Initialize()
+	. = ..()
+	cabin_air = new
+	cabin_air.temperature = T20C
+	cabin_air.volume = 200
+	cabin_air.add_gases(/datum/gas/oxygen, /datum/gas/nitrogen)
+	cabin_air.gases[/datum/gas/oxygen][MOLES] = O2STANDARD*cabin_air.volume/(R_IDEAL_GAS_EQUATION*cabin_air.temperature)
+	cabin_air.gases[/datum/gas/nitrogen][MOLES] = N2STANDARD*cabin_air.volume/(R_IDEAL_GAS_EQUATION*cabin_air.temperature)
+	internal_tank = new /obj/machinery/portable_atmospherics/canister/air(src)
+
+
+/obj/vehicle/sealed/car/realistic/return_air()
+	return cabin_air
+
+/obj/vehicle/sealed/car/realistic/remove_air(amount)
+	return cabin_air.remove(amount)
+
+/obj/vehicle/sealed/car/realistic/return_analyzable_air()
+	return cabin_air
+
+/obj/vehicle/sealed/car/realistic/return_temperature()
+	var/datum/gas_mixture/t_air = return_air()
+	if(t_air)
+		. = t_air.return_temperature()
+	return
+
+/obj/vehicle/sealed/car/realistic/portableConnectorReturnAir()
+	return return_air()
+
+/obj/vehicle/sealed/car/realistic/assume_air(datum/gas_mixture/giver)
+	var/datum/gas_mixture/t_air = return_air()
+	return t_air.merge(giver)
+
+/obj/vehicle/sealed/car/realistic/slowprocess()
+	. = ..()
+	if(cabin_air && cabin_air.volume > 0)
+		var/delta = cabin_air.temperature - T20C
+		cabin_air.temperature -= max(-10, min(10, round(delta/4,0.1)))
+	if(internal_tank && cabin_air)
+		var/datum/gas_mixture/tank_air = internal_tank.return_air()
+		var/release_pressure = ONE_ATMOSPHERE
+		var/cabin_pressure = cabin_air.return_pressure()
+		var/pressure_delta = min(release_pressure - cabin_pressure, (tank_air.return_pressure() - cabin_pressure)/2)
+		var/transfer_moles = 0
+		if(pressure_delta > 0) //cabin pressure lower than release pressure
+			if(tank_air.return_temperature() > 0)
+				transfer_moles = pressure_delta*cabin_air.return_volume()/(cabin_air.return_temperature() * R_IDEAL_GAS_EQUATION)
+				var/datum/gas_mixture/removed = tank_air.remove(transfer_moles)
+				cabin_air.merge(removed)
+		else if(pressure_delta < 0) //cabin pressure higher than release pressure
+			var/turf/T = get_turf(src)
+			var/datum/gas_mixture/t_air = T.return_air()
+			pressure_delta = cabin_pressure - release_pressure
+			if(t_air)
+				pressure_delta = min(cabin_pressure - t_air.return_pressure(), pressure_delta)
+			if(pressure_delta > 0) //if location pressure is lower than cabin pressure
+				transfer_moles = pressure_delta*cabin_air.return_volume()/(cabin_air.return_temperature() * R_IDEAL_GAS_EQUATION)
+				var/datum/gas_mixture/removed = cabin_air.remove(transfer_moles)
+				if(T)
+					T.assume_air(removed)
+				else //just delete the cabin gas, we're in space or some shit
+					qdel(removed)
