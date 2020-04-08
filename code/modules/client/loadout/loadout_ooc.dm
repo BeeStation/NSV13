@@ -6,7 +6,7 @@
 
 /datum/gear/ooc/char_slot/purchase(var/client/C)
 	C?.prefs?.max_save_slots += 1
-
+/* NSV START
 /datum/gear/ooc/real_antagtoken
 	display_name = "antag token"
 	sort_category = "OOC"
@@ -17,3 +17,4 @@
 	C.inc_antag_token_count(1)
 	message_admins("[C.ckey] has purchased a genuine antag token.")
 	log_game("[C.ckey] has purchased a genuine antag token.")
+NSV END*/
