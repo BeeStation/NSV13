@@ -225,7 +225,7 @@ After going through this checklist, you're ready to go!
 		new item(src)
 	update_stats()
 	for(var/I = 0, I < max_torpedoes, I++)
-		mun_torps += new /obj/item/ship_weapon/ammunition/torpedo/fast(src)
+		mun_torps += new /obj/item/ship_weapon/ammunition/torpedo(src)
 	for(var/I = 0, I < max_missiles, I++)
 		mun_missiles += new /obj/item/ship_weapon/ammunition/missile(src)
 	for(var/I = 0, I < max_countermeasures, I++)
@@ -451,7 +451,6 @@ After going through this checklist, you're ready to go!
 	torpedoes = mun_torps.len
 	var/obj/item/ship_weapon/ammunition/torpedo/thirtymillimetertorpedo = pick(mun_torps)
 	proj_type = thirtymillimetertorpedo.projectile_type
-	proj_speed = thirtymillimetertorpedo.speed
 	mun_torps -= thirtymillimetertorpedo
 	qdel(thirtymillimetertorpedo)
 	torpedoes = mun_torps.len
@@ -465,7 +464,7 @@ After going through this checklist, you're ready to go!
 	else
 		to_chat(gunner, "<span class='warning'>DANGER: Launch failure! Torpedo tubes are not loaded.</span>")
 
-/obj/structure/overmap/fighter/fire_missile(atom/target) //copy-paste
+/obj/structure/overmap/fighter/fire_missile(atom/target)
 	if(ai_controlled) //AI ships don't have interiors
 		if(missiles <= 0)
 			return
@@ -476,10 +475,9 @@ After going through this checklist, you're ready to go!
 	var/proj_speed = 1
 	if(!mun_missiles.len)
 		return
-	torpedoes = mun_missiles.len
+	missiles = mun_missiles.len
 	var/obj/item/ship_weapon/ammunition/missile/thirtymillimetermissile = pick(mun_missiles)
 	proj_type = thirtymillimetermissile.projectile_type
-	proj_speed = thirtymillimetermissile.speed
 	mun_missiles -= thirtymillimetermissile
 	qdel(thirtymillimetermissile)
 	missiles = mun_missiles.len

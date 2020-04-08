@@ -12,12 +12,6 @@
 	icon_state = "warhead_shredder"
 	desc = "An extremely heavy warhead designed to be fitted to a torpedo. This one has an inbuilt plasma charge to amplify its damage."
 
-/obj/item/ship_weapon/parts/torpedo/warhead/lightweight
-	name = "NTP-1 'SPD' lightweight torpedo warhead"
-	desc = "a lightweight torpedo warhead"
-	icon_state = "warhead_highvelocity"
-	desc = "A stripped down warhead designed to be fitted to a torpedo. Due to its reduced weight, torpedoes with these equipped will travel more quickly."
-
 /obj/item/ship_weapon/parts/torpedo/warhead/decoy
 	name = "NTP-0x 'DCY' electronic countermeasure torpedo payload"
 	desc = "a decoy torpedo warhead"
@@ -89,16 +83,6 @@
 	build_type = PROTOLATHE
 	materials = list(/datum/material/iron = 10000, /datum/material/glass = 2500, /datum/material/copper = 2500, /datum/material/plasma = 20000, /datum/material/gold = 2500)
 	build_path = /obj/item/ship_weapon/parts/torpedo/warhead/bunker_buster
-	category = list("Advanced Munitions")
-	departmental_flags = DEPARTMENTAL_FLAG_CARGO
-
-/datum/design/lw_warhead
-	name = "Lightweight Torpedo Warhead"
-	desc = "A lightweight warhead design for torpedos"
-	id = "lw_warhead"
-	build_type = PROTOLATHE
-	materials = list(/datum/material/iron = 7500, /datum/material/glass = 2500, /datum/material/copper = 2500, /datum/material/plasma = 5000)
-	build_path = /obj/item/ship_weapon/parts/torpedo/warhead/lightweight
 	category = list("Advanced Munitions")
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO
 

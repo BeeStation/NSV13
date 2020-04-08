@@ -13,26 +13,29 @@
 	icon_state = "pdc"
 	name = "light cannon round"
 	damage = 20
-	flag = "overmap_light"
+//	flag = "overmap_light"
 
 /obj/item/projectile/bullet/heavy_cannon_round
 	icon_state = "pdc"
 	name = "heavy cannon round"
 	damage = 20
-	flag = "overmap_heavy"
+//	flag = "overmap_heavy"
 
 /obj/item/projectile/bullet/torpedo
 	icon_state = "torpedo"
 	name = "plasma torpedo"
+	speed = 0.5
+	homing_turn_speed = 5
 	damage = 100
-	flag = "overmap_heavy"
+//	flag = "overmap_heavy"
 	impact_effect_type = /obj/effect/temp_visual/impact_effect/torpedo
 
 /obj/item/projectile/bullet/missile
 	icon_state = "torpedo"
 	name = "conventinal missile"
+	speed = 3
 	damage = 100
-	flag = "overmap_light"
+//	flag = "overmap_light"
 	impact_effect_type = /obj/effect/temp_visual/impact_effect/torpedo
 
 /obj/effect/temp_visual/overmap_explosion

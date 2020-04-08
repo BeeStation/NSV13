@@ -291,9 +291,6 @@
 			if(/obj/item/ship_weapon/parts/torpedo/warhead/bunker_buster)
 				return new /obj/item/ship_weapon/ammunition/torpedo/hull_shredder(get_turf(src))
 
-			if(/obj/item/ship_weapon/parts/torpedo/warhead/lightweight)
-				return new /obj/item/ship_weapon/ammunition/torpedo/fast(get_turf(src))
-
 			if(/obj/item/ship_weapon/parts/torpedo/warhead/decoy)
 				return new /obj/item/ship_weapon/ammunition/torpedo/decoy(get_turf(src))
 

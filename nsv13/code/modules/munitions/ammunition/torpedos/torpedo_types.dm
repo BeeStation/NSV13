@@ -7,7 +7,7 @@
 	density = TRUE
 	projectile_type = /obj/item/projectile/bullet/torpedo //What torpedo type we fire
 	pixel_x = -17
-	var/speed = 1 //Placeholder, allows upgrading speed with better propulsion
+//	var/speed = 1 //Placeholder, allows upgrading speed with better propulsion
 
 /obj/item/ship_weapon/ammunition/torpedo/CtrlClick(mob/user)
 	. = ..()
@@ -30,20 +30,6 @@
 	name = "plasma charge"
 	damage = 120
 
-//Gap closer, weaker but quick.
-/obj/item/ship_weapon/ammunition/torpedo/fast
-	name = "NTP-1 'SPD' 430mm high velocity torpedo"
-	icon = 'nsv13/icons/obj/munition_types.dmi'
-	icon_state = "highvelocity"
-	desc = "A small torpedo which is fitted with an advanced propulsion system, allowing it to rapidly travel long distances. Due to its smaller frame however, it packs less of a punch."
-	projectile_type = /obj/item/projectile/bullet/torpedo/fast
-	speed = 3
-
-/obj/item/projectile/bullet/torpedo/fast
-	icon_state = "torpedo_fast"
-	name = "high velocity torpedo"
-	damage = 40
-
 //A dud missile designed to exhaust flak
 /obj/item/ship_weapon/ammunition/torpedo/decoy
 	name = "NTP-0x 'DCY' 530mm electronic countermeasure"
@@ -51,7 +37,6 @@
 	icon_state = "decoy"
 	desc = "A simple electronic countermeasure packed inside a standard torpedo casing. This model excels at diverting enemy PDC emplacements away from friendly ships, or even another barrage of missiles."
 	projectile_type = /obj/item/projectile/bullet/torpedo/decoy
-	speed = 2
 
 /obj/item/projectile/bullet/torpedo/decoy
 	icon_state = "torpedo"

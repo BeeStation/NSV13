@@ -95,17 +95,6 @@
 					/obj/item/ship_weapon/parts/torpedo/warhead)
 	crate_name = "Standard torpedo warheads"
 
-/datum/supply_pack/munitions/lightweight_warheads
-	name = "Torpedo warheads (lightweight)"
-	desc = "A pack of 5 lightweight torpedo warheads with a 30 isotonne yield, ideal for long range combat, or tracking fast moving targets."
-	cost = 3000
-	contains = list(/obj/item/ship_weapon/parts/torpedo/warhead/lightweight,
-					/obj/item/ship_weapon/parts/torpedo/warhead/lightweight,
-					/obj/item/ship_weapon/parts/torpedo/warhead/lightweight,
-					/obj/item/ship_weapon/parts/torpedo/warhead/lightweight,
-					/obj/item/ship_weapon/parts/torpedo/warhead/lightweight)
-	crate_name = "Lightweight torpedo warheads"
-
 /datum/supply_pack/munitions/bb_warheads
 	name = "Torpedo warheads (armour piercing)"
 	desc = "A pack of 5 armour piercing torpedo warheads with a 80 isotonne combined yield, these warheads excel at dealing massive damage to a target."
