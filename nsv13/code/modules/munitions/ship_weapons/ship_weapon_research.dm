@@ -55,3 +55,12 @@
 	build_path = /obj/item/ship_weapon/parts/railgun_rail
 	category = list("Advanced Munitions")
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO | DEPARTMENTAL_FLAG_SCIENCE
+
+/datum/design/board/gauss_dispenser_circuit
+	name = "Machine Design (Gauss Dispenser)"
+	desc = "Allows you to construct a machine that lets you access the ship's internal ammo stores to retrieve gauss gun ammunition."
+	id = "gauss_dispenser_circuit"
+	materials = list(/datum/material/glass = 2000, /datum/material/copper = 200, /datum/material/gold = 500)
+	build_path = /obj/item/circuitboard/machine/gauss_dispenser
+	category = list("Advanced Munitions")
+	departmental_flags = DEPARTMENTAL_FLAG_CARGO | DEPARTMENTAL_FLAG_SCIENCE
