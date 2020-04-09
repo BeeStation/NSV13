@@ -34,6 +34,7 @@
 	feed_delay = 0
 	chamber_delay_rapid = 0
 	chamber_delay = 0
+	bang = FALSE
 
 /obj/machinery/ship_weapon/pdc_mount/north //Things mounted on a north wall face south, etc.
 	dir = SOUTH
