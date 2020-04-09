@@ -2288,7 +2288,10 @@
 /turf/open/floor/plasteel,
 /area/quartermaster/warehouse)
 "afT" = (
-/obj/structure/displaycase/captain,
+/obj/structure/displaycase/captain{
+	req_access = null;
+	req_access_txt = "20"
+	},
 /turf/open/floor/carpet,
 /area/crew_quarters/heads/captain/private)
 "afU" = (
@@ -13780,7 +13783,7 @@
 /turf/open/floor/plasteel/white,
 /area/medical/genetics/cloning)
 "aGh" = (
-/obj/machinery/clonepod,
+/obj/machinery/clonepod/prefilled,
 /turf/open/floor/plasteel/white,
 /area/medical/genetics/cloning)
 "aGi" = (
@@ -21884,7 +21887,7 @@
 /obj/machinery/firealarm{
 	pixel_y = 24
 	},
-/obj/machinery/sleeper,
+/obj/machinery/stasis,
 /turf/open/floor/plasteel,
 /area/medical/sleeper)
 "aYp" = (
@@ -56926,7 +56929,7 @@
 /turf/open/floor/plasteel/dark,
 /area/engine/engineering)
 "wMM" = (
-/obj/machinery/sleeper,
+/obj/machinery/stasis,
 /obj/machinery/airalarm{
 	pixel_y = 25
 	},

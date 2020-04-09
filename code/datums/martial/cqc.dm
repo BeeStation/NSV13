@@ -10,6 +10,7 @@
 	help_verb = /mob/living/carbon/human/proc/CQC_help
 	block_chance = 75
 	var/just_a_cook = FALSE
+	smashes_tables = TRUE
 
 /datum/martial_art/cqc/under_siege
 	name = "Close Quarters Cooking"
@@ -132,7 +133,7 @@
 		D.grabbedby(A, 1)
 		if(A.grab_state == GRAB_PASSIVE)
 			D.drop_all_held_items()
-			A.grab_state = GRAB_AGGRESSIVE //Instant agressive grab if on grab intent
+			A.setGrabState(GRAB_AGGRESSIVE) //Instant agressive grab if on grab intent
 			log_combat(A, D, "grabbed", addition="aggressively")
 			D.visible_message("<span class='warning'>[A] violently grabs [D]!</span>", \
 								"<span class='userdanger'>[A] violently grabs you!</span>")
@@ -199,7 +200,7 @@
 		D.SetSleeping(400)
 		restraining = FALSE
 		if(A.grab_state < GRAB_NECK)
-			A.grab_state = GRAB_NECK
+			A.setGrabState(GRAB_NECK)
 	else
 		restraining = FALSE
 		return FALSE

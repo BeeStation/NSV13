@@ -12,8 +12,12 @@
 		pixel_y = 0
 		eye = mob
 
+/obj/structure/overmap/proc/gauss_test()
+	var/mob/living/carbon/human/M = new(src)
+	start_piloting(M, "gauss_gunner")
+
 /obj/structure/overmap/proc/start_piloting(mob/living/carbon/user, position)
-	if(!position)
+	if(!position || user.overmap_ship == src || LAZYFIND(operators, user))
 		return
 	switch(position)
 		if("pilot")
@@ -27,19 +31,22 @@
 				to_chat(gunner, "<span class='warning'>[user] has kicked you off the ship controls!</span>")
 				stop_piloting(gunner)
 			gunner = user
+		if("gauss_gunner")
+			LAZYADD(gauss_gunners, user)
 		if("all_positions")
 			pilot = user
 			gunner = user
 			LAZYOR(user.mousemove_intercept_objects, src)
 	user.set_focus(src)
-	operators += user
+	LAZYADD(operators,user)
 	CreateEye(user) //Your body stays there but your mind stays with me - 6 (Battlestar galactica)
 	user.overmap_ship = src
 	dradis?.attack_hand(user)
 	user.click_intercept = src
 
 /obj/structure/overmap/proc/stop_piloting(mob/living/M)
-	operators -= M
+	LAZYREMOVE(operators,M)
+	M.overmap_ship = null
 	if(M.click_intercept == src)
 		M.click_intercept = null
 	if(pilot && M == pilot)
@@ -52,9 +59,10 @@
 			playsound(tactical, 'nsv13/sound/effects/computer/hum.ogg', 100, 1)
 		gunner = null
 		target_lock = null
+	if(LAZYFIND(gauss_gunners, M))
+		LAZYREMOVE(gauss_gunners, M)
 	if(M.client)
 		M.client.check_view()
-	M.overmap_ship = null
 	var/mob/camera/aiEye/remote/overmap_observer/eyeobj = M.remote_control
 	M.cancel_camera()
 	if(istype(M, /mob/living/silicon/ai))
@@ -63,6 +71,7 @@
 			hal.all_eyes -= eyeobj
 		var/mob/camera/aiEye/cam = pick(hal.all_eyes)
 		hal.eyeobj = cam
+	QDEL_NULL(eyeobj)
 	QDEL_NULL(eyeobj?.off_action)
 	QDEL_NULL(M.remote_control)
 	M.set_focus(M)
@@ -81,6 +90,7 @@
 	eyeobj.name = "[name] observer"
 	eyeobj.off_action.target = user
 	eyeobj.off_action.user = user
+	eyeobj.off_action.ship = src
 	eyeobj.off_action.Grant(user)
 	eyeobj.setLoc(eyeobj.loc)
 	eyeobj.add_relay()
@@ -93,7 +103,7 @@
 	var/datum/action/innate/camera_off/overmap/off_action
 	animate_movement = 0 //Stops glitching with overmap movement
 	use_static = USE_STATIC_NONE
-	var/obj/structure/overmap/override_origin = null //Lets gunners lock on to their targets for accurate shooting.
+	var/obj/structure/overmap/last_target = null //Lets gunners lock on to their targets for accurate shooting.
 
 /datum/action/innate/camera_off/overmap
 	name = "Stop observing"
@@ -101,6 +111,7 @@
 	button_icon_state = "camera_off"
 	var/mob/camera/aiEye/remote/overmap_observer/remote_eye
 	var/mob/living/user
+	var/obj/structure/overmap/ship = null
 
 /datum/action/innate/camera_off/overmap/Activate()
 	if(!target || !isliving(target))
@@ -108,7 +119,6 @@
 	if(!remote_eye?.origin)
 		qdel(src)
 		qdel(remote_eye)
-	var/obj/structure/overmap/ship = remote_eye.origin
 	if(ship.stop_piloting(target))
 		qdel(remote_eye)
 		qdel(src)
@@ -120,12 +130,29 @@
 	return
 
 /mob/camera/aiEye/remote/overmap_observer/proc/add_relay() //Add a signal to move us
-	RegisterSignal(origin, COMSIG_MOVABLE_MOVED, .proc/update)
+	RegisterSignal(origin, COMSIG_MOVABLE_MOVED, .proc/update, origin)
 
-/mob/camera/aiEye/remote/overmap_observer/proc/update()
-	if(override_origin)
-		forceMove(override_origin) //This only happens for gunner cams
-		eye_user.client.pixel_x = override_origin.pixel_x
-		eye_user.client.pixel_y = override_origin.pixel_y
-		return
-	forceMove(get_turf(origin))
+/mob/camera/aiEye/remote/overmap_observer/proc/set_override(state, obj/structure/overmap/override)
+	if(state)
+		track_target(override)
+	else
+		var/obj/structure/overmap/ship = origin
+		to_chat(eye_user, "<span class='notice'>Target lock relinquished.</span>")
+		ship.CreateEye(eye_user)
+		QDEL_NULL(off_action)
+		QDEL_NULL(src)
+
+/mob/camera/aiEye/remote/overmap_observer/proc/update(obj/structure/overmap/target)
+	if(!target)
+		target = origin
+	last_target = target
+	forceMove(get_turf(target)) //This only happens for gunner cams
+	eye_user.client.pixel_x = origin.pixel_x
+	eye_user.client.pixel_y = origin.pixel_y
+	return TRUE
+
+/mob/camera/aiEye/remote/overmap_observer/proc/track_target(obj/structure/overmap/target)
+	UnregisterSignal(last_target, COMSIG_MOVABLE_MOVED)
+	RegisterSignal(target, COMSIG_MOVABLE_MOVED, .proc/update, target)
+	update()
+	return TRUE

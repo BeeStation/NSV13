@@ -8,6 +8,11 @@ GLOBAL_VAR(restart_counter)
 	if(fexists("byond-extools.dll"))
 		call("byond-extools.dll", "maptick_initialize")()
 
+	//Early profile for auto-profiler - will be stopped on profiler init if necessary.
+#if DM_VERSION >= 513 && DM_BUILD >= 1506
+	world.Profile(PROFILE_START)
+#endif
+
 	log_world("World loaded at [time_stamp()]!")
 
 	SetupExternalRSC()
@@ -151,6 +156,18 @@ GLOBAL_VAR(restart_counter)
 	log_runtime(GLOB.revdata.get_log_message())
 
 /world/Topic(T, addr, master, key)
+
+	var/list/response[] = list()
+	if (SSfail2topic?.IsRateLimited(addr))
+		response["statuscode"] = 429
+		response["response"] = "Rate limited."
+		return json_encode(response)
+
+	if (length(T) > CONFIG_GET(number/topic_max_size))
+		response["statuscode"] = 413
+		response["response"] = "Payload too large."
+		return json_encode(response)
+
 	TGS_TOPIC	//redirect to server tools if necessary
 
 	var/static/list/topic_handlers = TopicHandlers()
@@ -169,7 +186,7 @@ GLOBAL_VAR(restart_counter)
 		return
 
 	handler = new handler()
-	return handler.TryRun(input)
+	return handler.TryRun(input, addr)
 
 /world/proc/AnnouncePR(announcement, list/payload)
 	var/static/list/PRcounts = list()	//PR id -> number of times announced this round
@@ -267,7 +284,7 @@ GLOBAL_VAR(restart_counter)
 		hostedby = CONFIG_GET(string/hostedby)
 
 	s += "<b>[station_name()]</b>";
-	s += "(<a href='https://discord.gg/z9ttAvA'>Discord</a>|<a href='http://beestation13.com'>Website</a>)"
+	s += "(<a href='https://nsv.beestation13.com/discord'>Discord</a>|<a href='http://nsv.beestation13.com'>Website</a>)" //NSV13 URIs
 
 	var/players = GLOB.clients.len
 
