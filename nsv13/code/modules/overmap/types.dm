@@ -55,6 +55,19 @@
 	max_integrity = 1500 //Max health
 	integrity_failure = 1500
 
+/obj/structure/overmap/nanotrasen/battleship
+	name = "judgement class battlestar"
+	desc = "A gigantic battleship capable of pummelling entire enemy fleets into the ground with its advanced firepower. Ships like these are extremely expensive to produce, and are thus rarely seen in actual combat these days."
+	icon = 'nsv13/icons/overmap/nanotrasen/battleship.dmi'
+	icon_state = "battleship"
+	mass = MASS_TITAN
+	sprite_size = 48
+	damage_states = FALSE
+	pixel_z = -170
+	pixel_w = -112
+	max_integrity = 2000 //Max health
+	integrity_failure = 2000
+
 /obj/structure/overmap/nanotrasen/carrier
 	name = "enterprise class carrier"
 	desc = "A gigantic ship which is capable of staying deployed in space for extended periods while supporting an impressive complement of fighters."
@@ -106,6 +119,9 @@
 	integrity_failure = 2000
 	bound_width = 256
 	bound_height = 256
+
+/obj/structure/overmap/nanotrasen/battleship/starter
+	role = MAIN_OVERMAP //Player controlled variant
 
 /obj/structure/overmap/nanotrasen/patrol_cruiser/ai
 	ai_controlled = TRUE
