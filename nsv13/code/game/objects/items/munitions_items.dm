@@ -40,6 +40,11 @@
 	channels = list(RADIO_CHANNEL_MUNITIONS = 1, RADIO_CHANNEL_SUPPLY = 1)
 	independent = TRUE
 
+/obj/item/encryptionkey/headset_bridge
+	name = "bridge radio encryption key"
+	icon_state = "com_cypherkey"
+	channels = list(RADIO_CHANNEL_SUPPLY = 1, RADIO_CHANNEL_SERVICE = 1, RADIO_CHANNEL_COMMAND = 1)
+
 ///////RADIO HEADSETS//////
 
 /obj/item/radio/headset/headset_sec/alt/atc
@@ -69,6 +74,12 @@
 	desc = "Use :w to access the department frequency. Use :u to access the supply frequency."
 	icon_state = "sec_headset"
 	keyslot = new /obj/item/encryptionkey/munitions_tech
+
+/obj/item/radio/headset/headset_bridge
+	name = "bridge radio headset"
+	desc = "A headset used by those who think they have power, but don't."
+	icon_state = "com_headset"
+	keyslot = new /obj/item/encryptionkey/headset_bridge
 
 ////////CLOTHING//////
 
