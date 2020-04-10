@@ -220,11 +220,17 @@ GLOBAL_LIST_INIT(channel_tokens, list(
 	icon_state = "com_headset"
 	keyslot = new /obj/item/encryptionkey/heads/cmo
 
-/obj/item/radio/headset/heads/hop
-	name = "\proper the head of personnel's headset"
+/obj/item/radio/headset/heads/xo
+	name = "\proper the executive officer's headset"
 	desc = "The headset of the guy who will one day be captain."
 	icon_state = "com_headset"
-	keyslot = new /obj/item/encryptionkey/heads/hop
+	keyslot = new /obj/item/encryptionkey/heads/xo
+
+/obj/item/radio/headset/headset_bridge
+	name = "bridge radio headset"
+	desc = "A headset used by those who think they have power, but don't."
+	icon_state = "com_headset"
+	keyslot = new /obj/item/encryptionkey/headset_bridge
 
 /obj/item/radio/headset/headset_cargo
 	name = "supply radio headset"
