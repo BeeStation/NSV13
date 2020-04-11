@@ -220,7 +220,7 @@ GLOBAL_LIST_INIT(channel_tokens, list(
 	icon_state = "com_headset"
 	keyslot = new /obj/item/encryptionkey/heads/cmo
 
-/obj/item/radio/headset/heads/xo
+/obj/item/radio/headset/heads/xo //nsv13 - changed HoP to XO
 	name = "\proper the executive officer's headset"
 	desc = "The headset of the guy who will one day be captain."
 	icon_state = "com_headset"
