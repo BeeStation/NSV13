@@ -8021,7 +8021,9 @@
 /turf/open/floor/engine/air,
 /area/engine/atmos)
 "asJ" = (
-/obj/machinery/atmospherics/components/binary/magnetic_constrictor,
+/obj/machinery/atmospherics/components/binary/magnetic_constrictor{
+	dir = 1
+	},
 /turf/open/floor/monotile,
 /area/engine/atmos)
 "asK" = (
@@ -8059,10 +8061,12 @@
 /turf/open/floor/monotile,
 /area/engine/atmos)
 "asO" = (
-/obj/machinery/atmospherics/components/binary/magnetic_constrictor,
 /obj/machinery/airalarm{
 	dir = 8;
 	pixel_x = 24
+	},
+/obj/machinery/atmospherics/components/binary/magnetic_constrictor{
+	dir = 1
 	},
 /turf/open/floor/monotile,
 /area/engine/atmos)
@@ -8671,6 +8675,7 @@
 	icon_state = "pipe11-2";
 	dir = 5
 	},
+/obj/machinery/meter,
 /turf/open/floor/monotile,
 /area/engine/atmos)
 "atY" = (
@@ -8685,19 +8690,13 @@
 /turf/open/floor/monotile,
 /area/engine/atmos)
 "atZ" = (
-/obj/machinery/atmospherics/pipe/manifold/purple/visible{
-	icon_state = "manifold-2";
-	dir = 4
+/obj/machinery/atmospherics/pipe/simple/purple/visible{
+	dir = 8
 	},
-/obj/machinery/newscaster{
-	dir = 4;
-	pixel_x = 32
-	},
-/obj/machinery/light{
-	dir = 4
-	},
-/turf/open/floor/monotile,
-/area/engine/atmos)
+/obj/structure/lattice/catwalk,
+/obj/machinery/meter,
+/turf/open/space/basic,
+/area/maintenance/ship_exterior)
 "aua" = (
 /obj/machinery/atmospherics/pipe/manifold/scrubbers/visible/layer3{
 	icon_state = "manifold-3";
@@ -9475,11 +9474,10 @@
 /turf/closed/wall/r_wall/ship,
 /area/maintenance/nsv/deck2/frame1/starboard)
 "avw" = (
-/obj/structure/grille,
-/turf/open/floor/plating{
-	icon_state = "platingdmg3"
-	},
-/area/maintenance/nsv/deck2/frame3/starboard)
+/obj/machinery/atmospherics/pipe/simple/orange/visible,
+/obj/machinery/meter,
+/turf/open/space/basic,
+/area/maintenance/ship_exterior)
 "avx" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /obj/structure/cable{
@@ -17134,6 +17132,34 @@
 "aNz" = (
 /turf/open/floor/plating,
 /area/engine/engine_room)
+"aNA" = (
+/obj/machinery/atmospherics/pipe/manifold/purple/visible{
+	icon_state = "manifold-2";
+	dir = 4
+	},
+/obj/machinery/newscaster{
+	dir = 4;
+	pixel_x = 32
+	},
+/obj/machinery/light{
+	dir = 4
+	},
+/obj/machinery/meter,
+/turf/open/floor/monotile,
+/area/engine/atmos)
+"aNB" = (
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	dir = 8
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	dir = 8
+	},
+/obj/machinery/light,
+/turf/open/floor/monotile/dark,
+/area/engine/break_room)
 "aNC" = (
 /obj/machinery/door/airlock/ship/engineering{
 	dir = 8;
@@ -17247,6 +17273,37 @@
 	},
 /turf/open/floor/monotile,
 /area/engine/engine_room)
+"aNO" = (
+/obj/machinery/light{
+	dir = 8
+	},
+/turf/open/floor/plating,
+/area/maintenance/nsv/deck2/frame4/port)
+"aNP" = (
+/obj/machinery/door/airlock/ship/security/glass{
+	name = "Armoury Access"
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/turf/open/floor/monotile/dark,
+/area/security/brig)
+"aNQ" = (
+/obj/machinery/light{
+	dir = 4
+	},
+/turf/open/floor/monotile,
+/area/security/brig)
+"aNR" = (
+/obj/machinery/light,
+/turf/open/floor/monotile/dark,
+/area/security/brig)
+"aNS" = (
+/obj/machinery/light,
+/turf/open/floor/monotile,
+/area/security/brig)
 "aNT" = (
 /obj/machinery/shower{
 	dir = 8;
@@ -31216,15 +31273,6 @@
 	},
 /turf/open/floor/plasteel/ship,
 /area/ai_monitored/security/armory)
-"bzG" = (
-/obj/machinery/door/airlock/ship/security/glass,
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
-/obj/structure/cable{
-	icon_state = "1-2"
-	},
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
-/turf/open/floor/monotile/dark,
-/area/security/brig)
 "bzH" = (
 /obj/machinery/door/airlock/ship/security/glass{
 	name = "Riot Armory";
@@ -32380,10 +32428,6 @@
 /obj/structure/window/reinforced/fulltile/ship,
 /turf/open/floor/monotile,
 /area/engine/engine_room)
-"bCf" = (
-/obj/machinery/atmospherics/pipe/simple/orange/visible,
-/turf/open/space/basic,
-/area/maintenance/ship_exterior)
 "bCg" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/visible/layer3,
 /obj/structure/cable{
@@ -49122,7 +49166,7 @@ bdN
 bdX
 arq
 ajp
-bBS
+atZ
 bCa
 ajp
 bCj
@@ -51180,7 +51224,7 @@ ajp
 ajp
 bBN
 bCb
-bCf
+avw
 asd
 arF
 bCl
@@ -51442,7 +51486,7 @@ bqd
 arr
 asf
 asO
-atZ
+aNA
 auu
 auO
 avb
@@ -54259,7 +54303,7 @@ aJL
 aos
 aos
 aos
-aos
+aNO
 aos
 alh
 aos
@@ -55025,7 +55069,7 @@ ayc
 bUV
 aJL
 bAF
-bNI
+aNB
 aJL
 aos
 aos
@@ -62728,7 +62772,7 @@ aHK
 aYW
 bfI
 bzQ
-bzG
+aNP
 bzQ
 bzQ
 bzQ
@@ -66317,12 +66361,12 @@ ajp
 anJ
 bat
 bat
-bat
+aNR
 aza
 aKh
 aJs
 bPj
-aEx
+aNS
 aIw
 aJY
 aKq
@@ -67607,7 +67651,7 @@ aDf
 aEx
 aEw
 aJS
-aEx
+aNS
 aza
 aKa
 aKv
@@ -67858,7 +67902,7 @@ ajp
 ajp
 aza
 aKh
-aEx
+aNQ
 aEx
 aDf
 aEx
@@ -73730,7 +73774,6 @@ aaa
 aaa
 ajp
 ajp
-ajp
 bqb
 bqb
 bqb
@@ -73740,7 +73783,8 @@ bqb
 bqb
 bqb
 bqb
-ajp
+aaa
+aaa
 ajp
 ajp
 ajp
@@ -73987,7 +74031,6 @@ aaa
 aaa
 ajp
 ajp
-ajp
 bqb
 ajp
 ajp
@@ -73997,7 +74040,8 @@ ajp
 ajp
 ajp
 bqb
-ajp
+aaa
+aaa
 ajp
 bls
 bls
@@ -74244,7 +74288,6 @@ aaa
 aaa
 ajp
 ajp
-ajp
 bqb
 ajp
 ajp
@@ -74254,7 +74297,8 @@ ajp
 ajp
 ajp
 bqb
-ajp
+aaa
+aaa
 ajp
 bls
 bMr
@@ -74501,7 +74545,6 @@ aaa
 aaa
 ajp
 ajp
-ajp
 bqb
 ajp
 ajp
@@ -74511,7 +74554,8 @@ ajp
 ajp
 ajp
 bqb
-ajp
+adM
+aaa
 ajp
 bls
 bMr
@@ -74758,8 +74802,8 @@ aaa
 aaa
 ajp
 ajp
-ajp
 bqb
+ajp
 ajp
 ajp
 ajp
@@ -75015,7 +75059,6 @@ aaa
 aaa
 ajp
 ajp
-ajp
 bqb
 ajp
 ajp
@@ -75024,8 +75067,9 @@ ajp
 ajp
 ajp
 ajp
+ajp
 bls
-avw
+bMx
 btM
 bMq
 btM
@@ -75272,7 +75316,6 @@ aaa
 aaa
 ajp
 ajp
-ajp
 bqb
 ajp
 ajp
@@ -75281,8 +75324,9 @@ ajp
 ajp
 ajp
 ajp
+ajp
 bls
-btM
+bMr
 avD
 agI
 bMp
@@ -75529,7 +75573,6 @@ aaa
 aaa
 ajp
 ajp
-ajp
 bqb
 ajp
 ajp
@@ -75538,8 +75581,9 @@ ajp
 aAS
 ajp
 ajp
+ajp
 bls
-btM
+bMr
 ayG
 bMq
 bMq
@@ -75786,7 +75830,6 @@ aaa
 aaa
 ajp
 ajp
-ajp
 bqb
 bqb
 bqb
@@ -75795,6 +75838,7 @@ abb
 aly
 abb
 abb
+bls
 bls
 bMr
 bMA
@@ -76047,11 +76091,11 @@ ajp
 ajp
 ajp
 ajp
-ajp
 abb
 aoA
 aoL
 abb
+bMx
 aqX
 bMr
 bMy
@@ -76304,11 +76348,11 @@ ajp
 ajp
 ajp
 ajp
-ajp
 abb
 aoB
 aqu
 abb
+bMx
 arn
 bMr
 bMy

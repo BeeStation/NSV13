@@ -446,11 +446,8 @@
 /turf/open/floor/plating,
 /area/maintenance/department/engine)
 "bG" = (
-/obj/effect/turf_decal/tile/neutral{
-	dir = 8
-	},
-/obj/effect/turf_decal/tile/neutral,
-/obj/structure/closet/secure_closet/medical3,
+/obj/machinery/computer/crew,
+/obj/machinery/computer/ship/viewscreen,
 /turf/open/floor/monotile,
 /area/medical/storage)
 "bH" = (
@@ -547,9 +544,6 @@
 /area/maintenance/department/engine)
 "bS" = (
 /obj/machinery/portable_atmospherics/canister/air,
-/obj/structure/cable{
-	icon_state = "2-4"
-	},
 /turf/open/floor/monotile,
 /area/maintenance/department/engine)
 "bT" = (
@@ -664,10 +658,14 @@
 /turf/closed/wall/r_wall/ship,
 /area/engine/gravity_generator)
 "ck" = (
-/obj/structure/cable{
-	icon_state = "4-8"
+/obj/machinery/power/smes{
+	charge = 5e+006
 	},
-/turf/closed/wall/r_wall/ship,
+/obj/machinery/camera/autoname,
+/obj/structure/cable{
+	icon_state = "0-4"
+	},
+/turf/open/floor/monotile,
 /area/engine/gravity_generator)
 "cl" = (
 /obj/structure/lattice/catwalk,
@@ -937,31 +935,39 @@
 /turf/closed/wall/ship,
 /area/bridge)
 "cV" = (
-/obj/machinery/power/apc/auto_name/north,
+/obj/machinery/telecomms/relay/preset/station,
 /obj/structure/cable{
-	icon_state = "0-8"
-	},
-/obj/machinery/power/terminal{
-	dir = 8
+	icon_state = "2-8"
 	},
 /turf/open/floor/monotile,
 /area/engine/gravity_generator)
 "cW" = (
-/obj/machinery/door/airlock/ship/command{
-	name = "Gravity Generator";
-	req_one_access_txt = "56"
+/obj/machinery/atmospherics/components/unary/vent_pump/on/layer1{
+	icon_state = "vent_map_on-1";
+	dir = 8
+	},
+/obj/machinery/light,
+/obj/structure/cable{
+	icon_state = "1-4"
 	},
 /turf/open/floor/monotile/dark,
 /area/engine/gravity_generator)
 "cX" = (
-/obj/machinery/power/smes{
-	charge = 5e+006
+/obj/machinery/door/airlock/ship/command{
+	name = "Gravity Generator";
+	req_one_access_txt = "56"
 	},
-/obj/machinery/camera/autoname,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	icon_state = "pipe11-3";
+	dir = 8
+	},
 /obj/structure/cable{
-	icon_state = "0-8"
+	icon_state = "4-8"
 	},
-/turf/open/floor/monotile,
+/turf/open/floor/monotile/dark,
 /area/engine/gravity_generator)
 "cY" = (
 /turf/open/floor/monotile/dark,
@@ -1793,10 +1799,12 @@
 /turf/open/floor/monotile,
 /area/medical/surgery)
 "fu" = (
-/obj/structure/closet/secure_closet/medical2,
-/obj/effect/turf_decal/box,
+/obj/structure/bodycontainer/morgue{
+	dir = 2
+	},
+/obj/machinery/computer/ship/viewscreen,
 /turf/open/floor/monotile,
-/area/medical/surgery)
+/area/medical/morgue)
 "fv" = (
 /obj/machinery/light{
 	dir = 1
@@ -2117,17 +2125,9 @@
 /area/medical)
 "gn" = (
 /obj/structure/table/reinforced,
-/obj/machinery/light{
-	dir = 1
-	},
-/obj/item/reagent_containers/syringe/epinephrine{
-	pixel_x = 3;
-	pixel_y = -2
-	},
-/obj/item/reagent_containers/dropper,
-/obj/effect/turf_decal/stripes/white/line,
-/turf/open/floor/engine,
-/area/medical/cryo)
+/obj/machinery/computer/ship/viewscreen,
+/turf/open/floor/carpet/blue,
+/area/medical)
 "go" = (
 /obj/structure/grille,
 /obj/structure/window/reinforced/fulltile/ship,
@@ -3123,6 +3123,7 @@
 	dir = 1
 	},
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer1,
+/obj/machinery/computer/ship/viewscreen,
 /turf/open/floor/carpet/ship,
 /area/maintenance/ship_exterior)
 "iT" = (
@@ -5255,6 +5256,7 @@
 /obj/structure/cable{
 	icon_state = "4-8"
 	},
+/obj/machinery/computer/ship/viewscreen,
 /turf/open/floor/monotile/dark,
 /area/medical)
 "on" = (
@@ -5799,18 +5801,20 @@
 /turf/open/floor/monotile/dark,
 /area/maintenance/department/engine)
 "pI" = (
+/obj/machinery/power/terminal{
+	dir = 1
+	},
+/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3{
+	dir = 8
+	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	dir = 4
 	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
-	icon_state = "pipe11-3";
-	dir = 8
-	},
 /obj/structure/cable{
-	icon_state = "1-8"
+	icon_state = "0-8"
 	},
 /turf/open/floor/monotile/dark,
-/area/maintenance/department/engine)
+/area/engine/gravity_generator)
 "pJ" = (
 /obj/structure/railing{
 	icon_state = "railing0";
@@ -5973,26 +5977,16 @@
 	name = "Gravity Generator";
 	req_one_access_txt = "56"
 	},
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
-	dir = 4
-	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
-	icon_state = "pipe11-3";
-	dir = 8
+/obj/structure/cable{
+	icon_state = "4-8"
 	},
 /turf/open/floor/monotile/dark,
 /area/engine/gravity_generator)
 "pZ" = (
-/obj/machinery/power/terminal{
-	dir = 1
+/obj/structure/cable{
+	icon_state = "4-8"
 	},
-/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3{
-	dir = 8
-	},
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
-	dir = 4
-	},
-/turf/open/floor/monotile/dark,
+/turf/open/floor/monotile,
 /area/engine/gravity_generator)
 "qa" = (
 /obj/effect/turf_decal/tile/neutral{
@@ -8948,12 +8942,11 @@
 /turf/open/floor/monotile,
 /area/security/main)
 "vO" = (
-/obj/machinery/atmospherics/components/unary/vent_pump/on/layer1{
-	icon_state = "vent_map_on-1";
-	dir = 8
+/obj/machinery/power/apc/auto_name/north,
+/obj/structure/cable{
+	icon_state = "0-8"
 	},
-/obj/machinery/light,
-/turf/open/floor/monotile/dark,
+/turf/open/floor/monotile,
 /area/engine/gravity_generator)
 "vP" = (
 /obj/machinery/light{
@@ -9289,6 +9282,54 @@
 	},
 /turf/open/openspace,
 /area/nsv/hanger)
+"wI" = (
+/obj/machinery/computer/ship/viewscreen,
+/turf/open/floor/monotile/dark,
+/area/medical/morgue)
+"wJ" = (
+/obj/structure/closet/secure_closet/medical2,
+/obj/effect/turf_decal/box,
+/obj/machinery/computer/ship/viewscreen,
+/turf/open/floor/monotile,
+/area/medical/surgery)
+"wK" = (
+/obj/effect/turf_decal/tile/neutral{
+	dir = 8
+	},
+/obj/effect/turf_decal/tile/neutral,
+/obj/structure/closet/secure_closet/medical3,
+/obj/machinery/computer/ship/viewscreen,
+/turf/open/floor/monotile,
+/area/medical/storage)
+"wL" = (
+/obj/structure/table/reinforced,
+/obj/machinery/light{
+	dir = 1
+	},
+/obj/item/reagent_containers/syringe/epinephrine{
+	pixel_x = 3;
+	pixel_y = -2
+	},
+/obj/item/reagent_containers/dropper,
+/obj/effect/turf_decal/stripes/white/line,
+/obj/machinery/computer/ship/viewscreen,
+/turf/open/floor/engine,
+/area/medical/cryo)
+"wM" = (
+/obj/machinery/computer/ship/viewscreen,
+/turf/open/floor/monotile,
+/area/bridge)
+"wN" = (
+/obj/item/twohanded/required/kirbyplants{
+	icon_state = "plant-10"
+	},
+/obj/machinery/computer/ship/viewscreen,
+/turf/open/floor/monotile,
+/area/bridge/meeting_room)
+"wO" = (
+/obj/machinery/computer/ship/viewscreen,
+/turf/open/floor/monotile/light,
+/area/medical/cryo)
 "zE" = (
 /obj/structure/table/glass,
 /obj/item/folder/white{
@@ -17200,7 +17241,7 @@ bx
 bh
 aK
 bS
-pI
+pH
 eG
 gV
 pm
@@ -17456,8 +17497,8 @@ bp
 bx
 bh
 cj
-ck
-pY
+cj
+cX
 dw
 hl
 hl
@@ -17713,8 +17754,8 @@ bx
 bx
 bh
 cj
-cX
-pZ
+ck
+pI
 dw
 hR
 hR
@@ -17971,7 +18012,7 @@ bh
 bh
 cj
 cV
-vO
+cW
 dw
 hR
 hR
@@ -18228,7 +18269,7 @@ bx
 bh
 cj
 cj
-cW
+pY
 cj
 cj
 cj
@@ -18485,7 +18526,7 @@ bx
 bh
 bh
 cj
-cZ
+pZ
 cZ
 cZ
 cZ
@@ -18742,7 +18783,7 @@ bx
 bh
 bh
 cj
-cZ
+vO
 dx
 cY
 dZ
@@ -32620,7 +32661,7 @@ aB
 vk
 aI
 aI
-dD
+fu
 eO
 eg
 fH
@@ -34419,7 +34460,7 @@ vj
 vh
 vi
 aI
-eg
+wI
 fN
 re
 wv
@@ -36212,7 +36253,7 @@ aP
 bl
 bl
 aP
-bG
+wK
 cq
 ra
 dL
@@ -36465,7 +36506,7 @@ aH
 aH
 aH
 aI
-aQ
+bG
 wu
 bm
 bw
@@ -37246,7 +37287,7 @@ bw
 nJ
 aP
 aP
-fu
+wJ
 fQ
 fI
 nz
@@ -41105,13 +41146,13 @@ eW
 rY
 hz
 bD
-gn
+wL
 sd
 hO
 hO
 ns
 fU
-hd
+wO
 no
 nr
 fU
@@ -41614,7 +41655,7 @@ aH
 aH
 aH
 aI
-eq
+gn
 tV
 sa
 hN
@@ -45730,7 +45771,7 @@ ci
 ci
 ci
 dr
-gp
+wN
 ev
 ev
 wf
@@ -48553,7 +48594,7 @@ bT
 ci
 ci
 aA
-dS
+wM
 ew
 eB
 eB
@@ -50609,7 +50650,7 @@ bT
 ci
 ci
 aA
-dS
+wM
 ew
 eB
 eB
