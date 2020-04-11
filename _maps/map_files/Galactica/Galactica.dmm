@@ -3682,6 +3682,9 @@
 "ko" = (
 /obj/structure/table/glass,
 /obj/item/trash/popcorn,
+/obj/machinery/light{
+	dir = 1
+	},
 /turf/open/floor/carpet/ship,
 /area/medical/virology)
 "kp" = (
@@ -3746,6 +3749,9 @@
 "ky" = (
 /obj/effect/turf_decal/tile/neutral{
 	dir = 8
+	},
+/obj/machinery/light{
+	dir = 1
 	},
 /turf/open/floor/monotile,
 /area/bridge/showroom/corporate)
@@ -4333,6 +4339,7 @@
 "mb" = (
 /obj/item/disk/holodisk/galactica_history,
 /obj/structure/table/wood,
+/obj/machinery/light,
 /turf/open/floor/carpet/blue,
 /area/bridge/showroom/corporate)
 "mc" = (
@@ -4397,14 +4404,6 @@
 	req_access_txt = "39"
 	},
 /obj/effect/mapping_helpers/airlock/locked,
-/obj/machinery/doorButtons/access_button{
-	idDoor = "virology_airlock_interior";
-	idSelf = "virology_airlock_control";
-	name = "Virology Access Button";
-	pixel_x = -26;
-	pixel_y = 28;
-	req_access_txt = "39"
-	},
 /obj/structure/disposalpipe/segment,
 /obj/structure/cable{
 	icon_state = "1-2"
@@ -5375,6 +5374,7 @@
 /obj/machinery/atmospherics/components/binary/pump/reactor_manifold{
 	dir = 8
 	},
+/obj/machinery/light,
 /turf/open/floor/carpet/blue,
 /area/bridge/showroom/corporate)
 "oD" = (
@@ -6816,6 +6816,9 @@
 /obj/structure/cable{
 	icon_state = "1-2"
 	},
+/obj/machinery/light{
+	dir = 8
+	},
 /turf/open/floor/monotile/dark,
 /area/medical/virology)
 "rC" = (
@@ -8161,6 +8164,9 @@
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3{
 	dir = 1
 	},
+/obj/machinery/light{
+	dir = 4
+	},
 /turf/open/floor/plasteel/freezer,
 /area/medical/virology)
 "ul" = (
@@ -8372,6 +8378,9 @@
 	},
 /obj/effect/turf_decal/tile/neutral,
 /obj/machinery/airalarm/directional/west,
+/obj/machinery/light{
+	dir = 8
+	},
 /turf/open/floor/monotile/dark,
 /area/medical/virology)
 "uH" = (
@@ -8380,6 +8389,9 @@
 	},
 /obj/effect/turf_decal/tile/neutral,
 /obj/machinery/airalarm/directional/north,
+/obj/machinery/light{
+	dir = 1
+	},
 /turf/open/floor/monotile,
 /area/bridge/showroom/corporate)
 "uI" = (
@@ -8834,6 +8846,9 @@
 /obj/structure/cable{
 	icon_state = "1-4"
 	},
+/obj/machinery/light{
+	dir = 8
+	},
 /turf/open/floor/monotile/light,
 /area/medical/virology)
 "vD" = (
@@ -9274,6 +9289,77 @@
 	},
 /turf/open/openspace,
 /area/nsv/hanger)
+"zE" = (
+/obj/structure/table/glass,
+/obj/item/folder/white{
+	pixel_y = 4
+	},
+/obj/item/pen/red,
+/obj/machinery/light,
+/obj/machinery/light{
+	dir = 4
+	},
+/turf/open/floor/plasteel/freezer,
+/area/medical/virology)
+"Ag" = (
+/obj/structure/railing{
+	dir = 8
+	},
+/obj/machinery/light{
+	dir = 4
+	},
+/turf/open/floor/carpet/blue,
+/area/bridge/showroom/corporate)
+"GN" = (
+/obj/structure/table/glass,
+/obj/machinery/reagentgrinder{
+	pixel_y = 8
+	},
+/obj/machinery/light{
+	dir = 4
+	},
+/turf/open/floor/monotile/light,
+/area/medical/virology)
+"ND" = (
+/obj/machinery/light{
+	dir = 1
+	},
+/turf/open/floor/monotile,
+/area/bridge/showroom/corporate)
+"Pr" = (
+/obj/structure/disposalpipe/segment,
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
+/obj/machinery/doorButtons/airlock_controller{
+	idExterior = "virology_airlock_exterior";
+	idInterior = "virology_airlock_interior";
+	idSelf = "virology_airlock_control";
+	name = "Virology Access Console";
+	pixel_x = -26;
+	pixel_y = -26;
+	req_access_txt = "39"
+	},
+/turf/open/floor/monotile/dark,
+/area/medical/virology)
+"Ts" = (
+/obj/machinery/light{
+	dir = 1
+	},
+/turf/open/floor/monotile/light,
+/area/medical/virology)
+"Ud" = (
+/obj/machinery/light{
+	dir = 8
+	},
+/turf/open/floor/plasteel/freezer,
+/area/medical/virology)
+"Wf" = (
+/obj/machinery/light{
+	dir = 1
+	},
+/turf/open/floor/plasteel/freezer,
+/area/medical/virology)
 
 (1,1,1) = {"
 aa
@@ -37185,7 +37271,7 @@ aW
 iJ
 kk
 kk
-kk
+Ud
 kk
 kk
 aW
@@ -37696,7 +37782,7 @@ bD
 ae
 ae
 bB
-kk
+Wf
 kk
 kk
 aW
@@ -38723,7 +38809,7 @@ ll
 lt
 lw
 wD
-lN
+Pr
 mk
 rB
 lN
@@ -38985,13 +39071,13 @@ km
 kr
 kr
 km
-eS
+Ts
 tP
 lv
 lI
 lK
 lP
-lW
+zE
 aW
 aW
 ow
@@ -40791,7 +40877,7 @@ cB
 aj
 aW
 ma
-mh
+GN
 ov
 oA
 bB
@@ -41298,7 +41384,7 @@ uH
 sE
 kT
 kB
-lh
+Ag
 lh
 lC
 cB
@@ -42840,7 +42926,7 @@ kx
 td
 kW
 cI
-lo
+ND
 sy
 lM
 mb
@@ -43873,7 +43959,7 @@ lA
 lS
 me
 cI
-lo
+ND
 oD
 lo
 oI
