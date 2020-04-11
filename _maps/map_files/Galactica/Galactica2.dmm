@@ -1099,7 +1099,8 @@
 	})
 "acH" = (
 /obj/machinery/door/airlock/highsecurity/ship{
-	name = "Railgun systems"
+	name = "Railgun systems";
+	req_one_access_txt = "69"
 	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
@@ -5886,7 +5887,7 @@
 	name = "security shutters"
 	},
 /turf/open/floor/plating,
-/area/security/brig)
+/area/security/execution/education)
 "anK" = (
 /obj/effect/turf_decal/tile/neutral{
 	dir = 1
@@ -6026,7 +6027,7 @@
 /obj/structure/table/reinforced,
 /obj/item/clothing/glasses/blindfold/white,
 /turf/open/floor/monotile/dark,
-/area/security/brig)
+/area/security/execution/education)
 "aoa" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
@@ -6177,8 +6178,11 @@
 /obj/machinery/firealarm{
 	pixel_y = 24
 	},
+/obj/structure/cable{
+	icon_state = "2-4"
+	},
 /turf/open/floor/monotile/dark,
-/area/security/brig)
+/area/security/execution/education)
 "aoo" = (
 /obj/machinery/conveyor{
 	dir = 6;
@@ -6349,6 +6353,9 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1{
 	dir = 4
+	},
+/obj/structure/cable{
+	icon_state = "1-2"
 	},
 /turf/open/floor/monotile,
 /area/security/brig)
@@ -10003,11 +10010,12 @@
 /turf/open/floor/monotile,
 /area/science/robotics)
 "awJ" = (
-/obj/machinery/door/airlock/ship/station/mining{
-	name = "Mining Equipment"
-	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/obj/machinery/door/airlock/ship/station/mining{
+	name = "Mining Equipment";
+	req_one_access_txt = "48"
+	},
 /turf/open/floor/monotile,
 /area/quartermaster/storage)
 "awK" = (
@@ -11492,7 +11500,8 @@
 /area/crew_quarters/heads/hor)
 "aAd" = (
 /obj/machinery/door/airlock/ship/station/mining{
-	name = "Mining Equipment"
+	name = "Mining Equipment";
+	req_one_access_txt = "48"
 	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /obj/structure/cable{
@@ -12613,7 +12622,7 @@
 	},
 /obj/effect/turf_decal/delivery/red,
 /turf/open/floor/monotile/dark,
-/area/security/brig)
+/area/security/execution/education)
 "aCS" = (
 /obj/structure/reagent_dispensers/watertank,
 /obj/item/extinguisher,
@@ -12622,7 +12631,7 @@
 "aCT" = (
 /obj/effect/turf_decal/bot_white,
 /turf/open/floor/monotile,
-/area/security/brig)
+/area/security/execution/education)
 "aCU" = (
 /obj/effect/turf_decal/tile/red,
 /turf/open/floor/monotile,
@@ -12636,19 +12645,22 @@
 	req_one_access_txt = "3"
 	},
 /turf/open/floor/monotile/dark,
-/area/security/brig)
+/area/security/execution/education)
 "aCW" = (
 /obj/effect/turf_decal/loading_area{
 	dir = 1
 	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer1,
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
 /turf/open/floor/monotile/dark,
-/area/security/brig)
+/area/security/execution/education)
 "aCX" = (
 /obj/effect/turf_decal/bot_red/left,
 /turf/open/floor/monotile,
-/area/security/brig)
+/area/security/execution/education)
 "aCY" = (
 /obj/machinery/computer/nanite_cloud_controller,
 /turf/open/floor/monotile/dark,
@@ -12664,8 +12676,11 @@
 	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
 /turf/open/floor/monotile/dark,
-/area/security/brig)
+/area/security/execution/education)
 "aDb" = (
 /obj/effect/decal/cleanable/blood/drip,
 /turf/open/floor/plating,
@@ -12693,7 +12708,7 @@
 	name = "security shutters"
 	},
 /turf/open/floor/monotile/dark,
-/area/security/brig)
+/area/security/execution/education)
 "aDg" = (
 /obj/effect/turf_decal/tile/red{
 	dir = 8
@@ -13809,6 +13824,9 @@
 /obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1{
 	dir = 4
 	},
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
 /turf/open/floor/monotile/dark,
 /area/security/brig)
 "aFA" = (
@@ -14789,6 +14807,7 @@
 	},
 /obj/machinery/hydroponics/constructable,
 /obj/item/seeds/glowshroom,
+/obj/item/reagent_containers/glass/bucket,
 /turf/open/floor/monotile,
 /area/security/prison)
 "aHN" = (
@@ -14802,6 +14821,7 @@
 /obj/item/seeds/glowshroom,
 /obj/item/plant_analyzer,
 /obj/item/cultivator,
+/obj/item/reagent_containers/glass/bucket,
 /turf/open/floor/monotile,
 /area/security/prison)
 "aHO" = (
@@ -15622,6 +15642,9 @@
 	dir = 4
 	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
 /turf/open/floor/monotile/dark,
 /area/security/brig)
 "aJD" = (
@@ -15733,6 +15756,9 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1{
 	dir = 4
+	},
+/obj/structure/cable{
+	icon_state = "1-2"
 	},
 /turf/open/floor/monotile/dark,
 /area/security/brig)
@@ -15917,6 +15943,9 @@
 	dir = 4
 	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
 /turf/open/floor/monotile/dark,
 /area/security/brig)
 "aKt" = (
@@ -17295,11 +17324,11 @@
 	dir = 4
 	},
 /turf/open/floor/monotile,
-/area/security/brig)
+/area/security/execution/education)
 "aNR" = (
 /obj/machinery/light,
 /turf/open/floor/monotile/dark,
-/area/security/brig)
+/area/security/execution/education)
 "aNS" = (
 /obj/machinery/light,
 /turf/open/floor/monotile,
@@ -18379,7 +18408,8 @@
 /area/nsv/weapons)
 "aYk" = (
 /obj/machinery/door/airlock/highsecurity/ship{
-	name = "Gauss cannon"
+	name = "Gauss cannon";
+	req_one_access_txt = "69"
 	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 8
@@ -18953,6 +18983,9 @@
 	},
 /obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1{
 	dir = 4
+	},
+/obj/structure/cable{
+	icon_state = "1-4"
 	},
 /turf/open/floor/monotile/dark,
 /area/security/brig)
@@ -21675,8 +21708,11 @@
 /area/security/brig)
 "bfG" = (
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3,
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
 /turf/open/floor/monotile/dark,
-/area/security/brig)
+/area/security/execution/education)
 "bfH" = (
 /obj/structure/cable{
 	icon_state = "2-4"
@@ -21708,6 +21744,9 @@
 /obj/structure/chair/stool,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
 /turf/open/floor/monotile/dark,
 /area/security/brig)
 "bfL" = (
@@ -22936,7 +22975,8 @@
 /area/nsv/magazine/port)
 "bio" = (
 /obj/machinery/door/airlock/highsecurity/ship{
-	name = "Gauss cannon"
+	name = "Gauss cannon";
+	req_one_access_txt = "69"
 	},
 /turf/open/floor/monotile,
 /area/nsv/weapons)
@@ -23445,7 +23485,8 @@
 /area/chapel/office)
 "bjv" = (
 /obj/machinery/door/airlock/ship/hatch{
-	name = "Funeral Parlour"
+	name = "Funeral Parlour";
+	req_one_access_txt = "22"
 	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 8
@@ -25310,7 +25351,8 @@
 /area/nsv/weapons)
 "bnm" = (
 /obj/machinery/door/airlock/highsecurity/ship{
-	name = "Manufacturing"
+	name = "Manufacturing";
+	req_one_access_txt = "69"
 	},
 /turf/open/floor/monotile/dark,
 /area/nsv/magazine/port)
@@ -25326,7 +25368,8 @@
 /area/nsv/magazine/port)
 "bno" = (
 /obj/machinery/door/airlock/highsecurity/ship{
-	name = "Manufacturing"
+	name = "Manufacturing";
+	req_one_access_txt = "69"
 	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 8
@@ -25438,7 +25481,7 @@
 	name = "Terrible Joke Emergency Button";
 	pixel_x = -4;
 	pixel_y = 26;
-	req_access_txt = "28"
+	req_access_txt = "46"
 	},
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer1{
 	icon_state = "vent_map_on-1";
@@ -27301,7 +27344,8 @@
 /area/nsv/weapons)
 "brk" = (
 /obj/machinery/door/airlock/highsecurity/ship{
-	name = "torpedo tubes"
+	name = "torpedo tubes";
+	req_one_access_txt = "69"
 	},
 /obj/structure/disposalpipe/segment,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
@@ -27368,15 +27412,16 @@
 /turf/open/floor/monotile/dark,
 /area/nsv/weapons)
 "brs" = (
-/obj/machinery/door/airlock/highsecurity/ship{
-	name = "Manufacturing"
-	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 8
 	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	icon_state = "pipe11-1";
 	dir = 4
+	},
+/obj/machinery/door/airlock/highsecurity/ship{
+	name = "Manufacturing";
+	req_one_access_txt = "69"
 	},
 /turf/open/floor/monotile/dark,
 /area/nsv/magazine/port)
@@ -27562,9 +27607,6 @@
 /turf/open/floor/plating,
 /area/nsv/magazine/port)
 "brP" = (
-/obj/machinery/door/airlock/highsecurity/ship{
-	name = "torpedo tubes"
-	},
 /obj/structure/disposalpipe/segment{
 	dir = 4
 	},
@@ -27574,6 +27616,10 @@
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	icon_state = "pipe11-1";
 	dir = 4
+	},
+/obj/machinery/door/airlock/highsecurity/ship{
+	name = "torpedo tubes";
+	req_one_access_txt = "69"
 	},
 /turf/open/floor/monotile/dark,
 /area/nsv/weapons)
@@ -29647,7 +29693,8 @@
 /area/quartermaster/storage)
 "bwi" = (
 /obj/machinery/door/airlock/ship/station/mining{
-	name = "QM's waiting room"
+	name = "QM's waiting room";
+	req_one_access_txt = "41"
 	},
 /obj/structure/disposalpipe/segment{
 	dir = 4
@@ -31010,6 +31057,9 @@
 	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
 /turf/open/floor/monotile,
 /area/security/brig)
 "bzd" = (
@@ -36384,7 +36434,9 @@
 /obj/machinery/door/airlock/ship/maintenance{
 	req_one_access_txt = "25"
 	},
-/turf/closed/wall/ship,
+/turf/open/floor/plating{
+	icon_state = "panelscorched"
+	},
 /area/maintenance/nsv/deck2/frame2/port)
 "bLz" = (
 /obj/machinery/navbeacon{
@@ -36459,6 +36511,7 @@
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/frame1/port)
 "bLL" = (
+/obj/structure/grille,
 /turf/open/floor/plating{
 	icon_state = "platingdmg2"
 	},
@@ -36479,11 +36532,6 @@
 "bLO" = (
 /obj/structure/rack,
 /obj/effect/spawner/lootdrop/maintenance,
-/turf/open/floor/plating,
-/area/maintenance/nsv/deck2/frame1/port)
-"bLP" = (
-/obj/structure/rack,
-/obj/effect/spawner/lootdrop/maintenance/four,
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/frame1/port)
 "bLQ" = (
@@ -37974,6 +38022,9 @@
 /obj/machinery/door/firedoor,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
 /turf/open/floor/monotile,
 /area/security/brig)
 "bPs" = (
@@ -39987,15 +40038,16 @@
 /turf/open/floor/monotile,
 /area/nsv/weapons)
 "bTK" = (
-/obj/machinery/door/airlock/highsecurity/ship{
-	name = "Gauss cannon"
-	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 8
 	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	icon_state = "pipe11-1";
 	dir = 4
+	},
+/obj/machinery/door/airlock/highsecurity/ship{
+	name = "Gauss cannon";
+	req_one_access_txt = "69"
 	},
 /turf/open/floor/monotile,
 /area/nsv/weapons)
@@ -43363,6 +43415,117 @@
 	},
 /turf/open/floor/monotile,
 /area/hallway/nsv/deck2/frame3/port)
+"dSK" = (
+/turf/closed/wall/r_wall/ship,
+/area/security/execution/education)
+"fTS" = (
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
+/obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1{
+	dir = 4
+	},
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
+/turf/open/floor/monotile,
+/area/security/brig)
+"hfT" = (
+/obj/effect/turf_decal/stripes/line{
+	dir = 1
+	},
+/turf/open/floor/plating,
+/area/maintenance/nsv/deck2/frame1/port)
+"hoI" = (
+/obj/machinery/airalarm{
+	pixel_y = 23
+	},
+/turf/open/floor/monotile,
+/area/security/execution/education)
+"jdv" = (
+/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer3{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
+/turf/open/floor/monotile,
+/area/security/brig)
+"jLS" = (
+/obj/structure/sink{
+	dir = 4;
+	pixel_x = 11
+	},
+/turf/open/floor/monotile,
+/area/security/prison)
+"jRR" = (
+/obj/effect/turf_decal/stripes/full,
+/obj/machinery/door/poddoor/ship{
+	id = "launchbay_tube2";
+	name = "Launch tube 2 access"
+	},
+/turf/open/floor/plating,
+/area/nsv/hanger/deck2/starboard)
+"jYh" = (
+/obj/effect/turf_decal/stripes/line{
+	dir = 6
+	},
+/obj/machinery/door/poddoor/ship{
+	id = "launch2"
+	},
+/turf/open/floor/plating,
+/area/nsv/hanger/deck2/starboard)
+"lCF" = (
+/turf/open/floor/monotile,
+/area/security/execution/education)
+"mZA" = (
+/obj/machinery/firealarm/directional/north,
+/turf/open/floor/monotile,
+/area/security/execution/education)
+"nac" = (
+/obj/effect/spawner/lootdrop/maintenance/four,
+/obj/structure/rack,
+/turf/open/floor/plating{
+	icon_state = "platingdmg3"
+	},
+/area/maintenance/nsv/deck2/frame1/port)
+"ntr" = (
+/obj/effect/turf_decal/stripes/line,
+/turf/open/floor/plating,
+/area/maintenance/nsv/deck2/frame1/port)
+"ohG" = (
+/obj/effect/turf_decal/stripes/line,
+/obj/machinery/door/poddoor/ship{
+	id = "launch2"
+	},
+/turf/open/floor/plating,
+/area/nsv/hanger/deck2/starboard)
+"pnb" = (
+/obj/machinery/power/apc/auto_name/north,
+/obj/structure/cable{
+	icon_state = "0-8"
+	},
+/turf/open/floor/monotile,
+/area/security/execution/education)
+"qdO" = (
+/obj/effect/turf_decal/stripes/line{
+	dir = 10
+	},
+/obj/machinery/door/poddoor/ship{
+	id = "launch2"
+	},
+/turf/open/floor/plating,
+/area/nsv/hanger/deck2/starboard)
+"uhD" = (
+/obj/machinery/door/poddoor{
+	id = "chapelgun";
+	name = "Chapel Launcher Door"
+	},
+/obj/structure/fans/tiny,
+/turf/open/floor/plating,
+/area/maintenance/nsv/deck2/frame1/port)
+"wSK" = (
+/turf/open/floor/monotile/dark,
+/area/security/execution/education)
 
 (1,1,1) = {"
 aaa
@@ -60719,7 +60882,7 @@ aHt
 aGN
 aHh
 aHq
-aHh
+jLS
 bUS
 aHM
 aHN
@@ -64095,7 +64258,7 @@ aGH
 azf
 bdb
 bdo
-bei
+jRR
 beP
 bEF
 bEF
@@ -64113,7 +64276,7 @@ bEF
 bEF
 bEF
 aFT
-aGa
+qdO
 ajp
 ajp
 ajp
@@ -64352,7 +64515,7 @@ aGO
 bOu
 bOD
 bdp
-bei
+jRR
 beR
 bEG
 bEG
@@ -64370,7 +64533,7 @@ bEG
 bEG
 bEG
 bEG
-aGb
+ohG
 ajp
 ajp
 ajp
@@ -64609,7 +64772,7 @@ aGH
 azf
 bcX
 bdq
-bei
+jRR
 beV
 bEH
 bEH
@@ -64627,7 +64790,7 @@ bEH
 bEH
 bEH
 aFV
-aGc
+jYh
 ajp
 ajp
 ajp
@@ -65334,7 +65497,7 @@ anJ
 anJ
 anJ
 anJ
-aza
+dSK
 aEw
 aEy
 bPp
@@ -65588,10 +65751,10 @@ bls
 ajp
 ajp
 anJ
-bat
-bat
-bat
-aza
+wSK
+wSK
+wSK
+dSK
 aEw
 aIG
 aJR
@@ -65845,10 +66008,10 @@ bls
 ajp
 ajp
 anJ
-bat
-bat
-bat
-aza
+wSK
+wSK
+wSK
+dSK
 aza
 aIG
 bzO
@@ -66102,10 +66265,10 @@ bls
 ajp
 ajp
 anJ
-bat
+wSK
 aCR
-bat
-aza
+wSK
+dSK
 aEx
 aIG
 aJR
@@ -66359,10 +66522,10 @@ bls
 ajp
 ajp
 anJ
-bat
-bat
+wSK
+wSK
 aNR
-aza
+dSK
 aKh
 aJs
 bPj
@@ -66616,10 +66779,10 @@ bls
 ajp
 ajp
 anJ
-bat
-bat
-bat
-aza
+wSK
+wSK
+wSK
+dSK
 bSQ
 aJs
 bPj
@@ -66874,9 +67037,9 @@ ajp
 ajp
 anJ
 anZ
-bat
+wSK
 aCV
-aza
+dSK
 bPp
 aJs
 bPk
@@ -67129,15 +67292,15 @@ bMr
 bls
 ajp
 ajp
-aza
+dSK
 aon
 bfG
 aCW
 aDa
-bOQ
+fTS
 aJC
 aJT
-bfz
+jdv
 bPr
 aoI
 aKs
@@ -67386,8 +67549,8 @@ bMr
 bls
 ajp
 ajp
-aza
-aEx
+dSK
+pnb
 aCT
 aCX
 aDf
@@ -67643,10 +67806,10 @@ bMr
 bls
 ajp
 ajp
-aza
-bSQ
-aEx
-aEx
+dSK
+hoI
+lCF
+lCF
 aDf
 aEx
 aEw
@@ -67900,10 +68063,10 @@ bMr
 bls
 ajp
 ajp
-aza
-aKh
+dSK
+mZA
 aNQ
-aEx
+lCF
 aDf
 aEx
 aEx
@@ -68157,11 +68320,11 @@ bMr
 bls
 ajp
 ajp
-aza
-aza
-aza
-aza
-aza
+dSK
+dSK
+dSK
+dSK
+dSK
 aza
 aJQ
 aJU
@@ -90820,13 +90983,13 @@ bHL
 bHQ
 aaa
 aaa
-avJ
+uhD
+hfT
 avG
 avG
-avJ
 bLH
-avG
-avJ
+ntr
+uhD
 ajp
 ajp
 ajp
@@ -91080,9 +91243,9 @@ aaa
 avJ
 avG
 avG
-avJ
+bLF
 avG
-bLP
+avG
 avJ
 ajp
 ajp
@@ -91337,9 +91500,9 @@ aaa
 avJ
 avG
 avG
-avJ
+bLF
 bLL
-avG
+bLF
 avJ
 ajp
 ajp
@@ -91595,7 +91758,7 @@ avJ
 bLI
 avG
 avJ
-bLH
+nac
 avG
 avJ
 ajp
@@ -93607,7 +93770,7 @@ aaI
 bTV
 abq
 acm
-abj
+abt
 aaI
 aaI
 aaI
@@ -93864,7 +94027,7 @@ aaI
 abv
 abq
 acm
-abv
+abt
 aaI
 acU
 afO
@@ -94121,7 +94284,7 @@ aaI
 abq
 abq
 acm
-abq
+abt
 aaI
 ada
 abq
