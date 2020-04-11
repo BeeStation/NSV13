@@ -157,21 +157,24 @@ After going through this checklist, you're ready to go!
 /obj/structure/fighter_launcher/launch_only //If you don't want them to also land here.
 	place_landing_waypoint = FALSE
 
-/obj/structure/fighter_launcher/arrestor //If it shouldn't actually launch people. But should just catch them.
+/obj/structure/fighter_launcher/galactica //If it shouldn't actually launch people. But should just catch them.
 	name = "electromagnetic arrestor"
 	desc = "A large rail which rapidly decelerates approaching ships to a safe velocity."
 
-/obj/structure/fighter_launcher/arrestor/Crossed(atom/movable/AM)
-	var/obj/structure/overmap/link = get_overmap()
-	link?.relay('nsv13/sound/effects/fighters/magcat.ogg')
-	if(istype(AM, /obj/structure/overmap/fighter) && ready) //Are we able to catch this ship?
-		var/obj/structure/overmap/fighter/OM = AM
-		if(OM.pilot)
-			to_chat(OM.pilot, "<span class='warning'>Magnetically assisted deceleration in progress...</span>")
-		OM.brakes = TRUE
-		icon_state = "launcher_charge"
-		ready = FALSE
-		addtimer(CALLBACK(src, .proc/recharge), 15 SECONDS) //Give them time to get out of there.
+/obj/structure/fighter_launcher/galactica/linkup() //Tweaks the offsets so that fighters don't experience crippling visual issues on Galactica.
+	linked = get_overmap()
+	if(!place_landing_waypoint)
+		return
+	if(linked) //If we have a linked overmap, translate our position into a point where fighters should be returning to our Z-level.
+		switch(dir)
+			if(NORTH)
+				linked.docking_points += get_turf(locate(x, 250, z))
+			if(SOUTH)
+				linked.docking_points += get_turf(locate(x, 10, z))
+			if(EAST)
+				linked.docking_points += get_turf(locate(200, y, z))
+			if(WEST)
+				linked.docking_points += get_turf(locate(25, y, z))
 
 /obj/structure/fighter_launcher/Initialize()
 	. = ..()

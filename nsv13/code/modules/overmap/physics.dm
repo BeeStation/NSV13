@@ -84,8 +84,6 @@
 			if(isspaceturf(T))
 				continue
 			drag += 0.001
-			if(locate(/obj/structure/fighter_launcher/arrestor) in T)
-				drag += 0.5
 			var/floating = FALSE
 			if(T.has_gravity() && velocity_mag > 0.1)
 				floating = TRUE // Increase drag when not in space.

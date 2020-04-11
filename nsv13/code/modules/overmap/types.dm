@@ -63,10 +63,10 @@
 	mass = MASS_TITAN
 	sprite_size = 48
 	damage_states = FALSE
-	pixel_z = -170
+	pixel_z = -225
 	pixel_w = -112
-	max_integrity = 2000 //Max health
-	integrity_failure = 2000
+	max_integrity = 3000 //Max health
+	integrity_failure = 3000
 
 /obj/structure/overmap/nanotrasen/carrier
 	name = "enterprise class carrier"
