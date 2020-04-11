@@ -346,6 +346,8 @@ GLOBAL_LIST_INIT(computer_beeps, list('nsv13/sound/effects/computer/beep.ogg','n
 	icon_state = "[initial(icon_state)][progress]"
 
 /obj/structure/overmap/proc/check_armour() //Get the "max" armour plates value when all the armour plates have been initialized.
+	if(!linked_areas || !linked_areas.len)
+		return
 	if(armour_plates <= 0)
 		addtimer(CALLBACK(src, .proc/check_armour), 20 SECONDS) //Recursively call the function until we've generated the armour plates value to account for lag / late initializations.
 		return
