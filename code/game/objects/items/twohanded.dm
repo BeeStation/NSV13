@@ -324,6 +324,7 @@
 	. = ..()
 	AddComponent(/datum/component/twohanded, 10, 18)
 	AddComponent(/datum/component/butchering, 100, 70) //decent in a pinch, but pretty bad.
+	AddComponent(/datum/component/jousting)
 
 /obj/item/twohanded/spear/suicide_act(mob/living/carbon/user)
 	user.visible_message("<span class='suicide'>[user] begins to sword-swallow \the [src]! It looks like [user.p_theyre()] trying to commit suicide!</span>")
@@ -428,6 +429,8 @@
 	sharpness = IS_SHARP
 	actions_types = list(/datum/action/item_action/startchainsaw)
 	var/on = FALSE
+	tool_behaviour = TOOL_SAW
+	toolspeed = 0.5
 
 /obj/item/twohanded/required/chainsaw/Initialize()
 	. = ..()
@@ -704,6 +707,8 @@
 	var/zoom_amt = 10
 
 /obj/item/twohanded/binoculars/Initialize()
+	..()
+	AddComponent(/datum/component/twohanded)
 	RegisterSignal(src, COMSIG_ITEM_WIELD, .proc/wield)
 	RegisterSignal(src, COMSIG_ITEM_UNWIELD, .proc/unwield)
 
@@ -739,16 +744,19 @@
 	C.pixel_y = world.icon_size*_y
 
 /obj/item/twohanded/binoculars/proc/unwield(obj/item/I, mob/user)
+	if(!istype(user))
+		return
 	sleep(1) //Let the component go first
-	UnregisterSignal(listeningTo, COMSIG_MOVABLE_MOVED)
-	listeningTo = null
+	if(listeningTo)
+		UnregisterSignal(listeningTo, COMSIG_MOVABLE_MOVED)
+		listeningTo = null
 	user.visible_message("[user] lowers [src].","You lower [src].")
 	item_state = "binoculars"
 	user.regenerate_icons()
 	if(user?.client)
 		user.regenerate_icons()
 		var/client/C = user.client
-		C.check_view()
+		C.change_view(CONFIG_GET(string/default_view))
 		user.client.pixel_x = 0
 		user.client.pixel_y = 0
 

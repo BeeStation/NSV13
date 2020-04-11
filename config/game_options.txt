@@ -71,8 +71,8 @@ HUMANS_NEED_SURNAMES
 
 ## ALERT LEVELS ###
 ALERT_GREEN All threats to the ship have passed. All non essential personnel are free to use recreational facilities.
-ALERT_BLUE_UPTO The ship is likely to enter an immediately dangerous situation, or there is a credible internal threat at this time. 
-ALERT_BLUE_DOWNTO The immediate threat to the ship has passed. All nonessential personnel may return to their stations.
+ALERT_BLUE_UPTO The ship is likely to enter an immediately dangerous situation, or there is a credible internal threat at this time.
+ALERT_BLUE_DOWNTO Stand down action stations. The immediate threat to the ship has passed. All nonessential personnel may return to their stations.
 ALERT_RED_UPTO Action stations, action stations. Set condition 1 throughout the ship, this is not a drill. All nonessential personnel must immediately report to duty stations for assignment.
 ALERT_RED_DOWNTO The emergency destruct sequence has been overridden. General quarters is still in effect. All staff report to duty stations and await further orders.
 ALERT_DELTA DANGER: The emergency destruct sequence is now activated. The ship will detonate in T-10 minutes. The option to override the auto-destruct sequence expires in T-5 minutes. All hands:Abandon ship. Repeat: Abandon ship.
@@ -252,6 +252,12 @@ DEFAULT_ANTAG_TICKETS 100
 
 ## The maximum amount of extra tickets a user may use from their ticket bank in addition to the default tickets
 MAX_TICKETS_PER_ROLL 100
+
+## Uncomment to weigh all jobs equally for antag rep.
+EQUAL_JOB_WEIGHT
+
+## Default antag rep value for jobs
+DEFAULT_REP_VALUE 5
 
 ## Uncomment to allow players to see the set odds of different rounds in secret/random in the get server revision screen. This will NOT tell the current roundtype.
 #SHOW_GAME_TYPE_ODDS
@@ -564,5 +570,8 @@ MAX_CUBE_MONKEYS 100
 MAX_CHICKENS 100
 MAX_SLIMES 100
 
-## Enable widescreen mode on your server. This has balance implications
+## NSV13 - Enable widescreen mode on your server. This has balance implications
 WIDESCREEN
+
+## Uncomment to restrict suiciding. Adds an additional confirmation dialogue, additional logging, and prevents suicide within the first 15 minutes of the round.
+#RESTRICTED_SUICIDE

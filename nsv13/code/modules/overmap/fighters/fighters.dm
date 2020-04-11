@@ -348,6 +348,7 @@ After going through this checklist, you're ready to go!
 		if(pilot)
 			to_chat(pilot, "<span class='notice'>Docking mode disabled. Use the 'Ship' verbs tab to re-enable docking mode, then fly into an allied ship to complete docking proceedures.</span>")
 			docking_mode = FALSE
+		SEND_SIGNAL(src, COMSIG_FTL_STATE_CHANGE) //Let dradis comps update their status too
 		return TRUE
 
 /obj/structure/overmap/fighter/proc/update_overmap()
@@ -374,9 +375,10 @@ After going through this checklist, you're ready to go!
 		if(pilot)
 			to_chat(pilot, "<span class='notice'>Docking complete.</span>")
 			docking_mode = FALSE
+		SEND_SIGNAL(src, COMSIG_FTL_STATE_CHANGE)
 		return TRUE
 
-/obj/structure/overmap/fighter/take_damage()
+/obj/structure/overmap/fighter/take_damage(damage_amount, damage_type = BRUTE, damage_flag = 0, sound_effect = 1, attack_dir, armour_penetration = 0)
 	..()
 	var/canopy_warn_threshold = max_integrity/10*4 //Get 40% of max_integrity
 	var/canopy_breach_threshold = max_integrity/10*3 //Get 30% of max_integrity
@@ -498,7 +500,6 @@ After going through this checklist, you're ready to go!
 	if(prebuilt)
 		prebuilt_setup()
 	dradis = new /obj/machinery/computer/ship/dradis/internal(src) //Fighters need a way to find their way home.
-	dradis?.soundloop?.stop()
 	update_stats()
 	fuel_setup()
 	obj_integrity = max_integrity
@@ -786,8 +787,6 @@ After going through this checklist, you're ready to go!
 				user.forceMove(src)
 				start_piloting(user, "all_positions")
 				ui_interact(user)
-				if(user?.client?.prefs.toggles & SOUND_AMBIENCE) //Disable ambient sounds to shut up the noises.
-					dradis?.soundloop?.start()
 				mobs_in_ship += user
 				if(user?.client?.prefs.toggles & SOUND_AMBIENCE && flight_state >= FLIGHT_READY) //Disable ambient sounds to shut up the noises.
 					SEND_SOUND(user, sound('nsv13/sound/effects/fighters/cockpit.ogg', repeat = TRUE, wait = 0, volume = 50, channel=CHANNEL_SHIP_ALERT))
@@ -809,37 +808,16 @@ After going through this checklist, you're ready to go!
 	if(!SSmapping.level_trait(z, ZTRAIT_BOARDABLE) && !force)
 		to_chat(M, "<span class='warning'>DANGER: You may not exit [src] while flying alongside other large ships.</span>")
 		return FALSE //No jumping out into the overmap :)
-	if(!canopy_open)
+	if(!canopy_open && !force)
 		to_chat(M, "<span class='warning'>[src]'s canopy isn't open.</span>")
 		if(prob(50))
 			playsound(src, 'sound/effects/glasshit.ogg', 75, 1)
 			to_chat(M, "<span class='warning'>You bump your head on [src]'s canopy.</span>")
 			visible_message("<span class='warning'>You hear a muffled thud.</span>")
 		return
-	M.focus = M
-	operators -= M
 	mobs_in_ship -= M
-	LAZYREMOVE(M.mousemove_intercept_objects, src)
-	if(M.click_intercept == src)
-		M.click_intercept = null
-	if(M == pilot)
-		pilot = null
-		if(helm)
-			playsound(helm, 'nsv13/sound/effects/computer/hum.ogg', 100, 1)
-		dradis?.soundloop?.stop()
-	if(M == gunner)
-		if(tactical)
-			playsound(tactical, 'nsv13/sound/effects/computer/hum.ogg', 100, 1)
-		gunner = null
-	if(M.client)
-		M.client.check_view()
+	. = ..()
 	M.stop_sound_channel(CHANNEL_SHIP_ALERT)
-	M.overmap_ship = null
-	var/mob/camera/aiEye/remote/overmap_observer/eyeobj = M.remote_control
-	if(eyeobj?.off_action)
-		qdel(eyeobj.off_action)
-	M.cancel_camera()
-	M.remote_control = null
 	M.forceMove(get_turf(src))
 	return TRUE
 
