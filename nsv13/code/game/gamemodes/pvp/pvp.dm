@@ -59,7 +59,7 @@ Method to spawn in the Syndi ship on a brand new Z-level with the "boardable" tr
 		syndiship = new ship_type(get_turf(locate(round(world.maxx * 0.5, 1), round(world.maxy * 0.5, 1), z))) //Make a new syndie ship object in Corvi.
 	message_admins("Spawning in syndi ship map, this may take a while. No the game hasn't crashed, I'm just loading a map before we start.") //Warn the admins. This shit takes a while.
 	var/list/errorList = list()
-	var/list/loaded = SSmapping.LoadGroup(errorList, "Syndicate ship", "map_files/PVP", map_file, default_traits = ZTRAITS_MINING_SHIP, silent = FALSE)
+	var/list/loaded = SSmapping.LoadGroup(errorList, "Syndicate ship", "map_files/PVP", map_file, default_traits = ZTRAITS_BOARADABLE_SHIP, silent = FALSE)
 	if(errorList.len)	// reebe failed to load
 		message_admins("Syndie ship failed to load!")
 		log_game("Syndie ship failed to load!")
