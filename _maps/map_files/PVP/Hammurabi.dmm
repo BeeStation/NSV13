@@ -266,11 +266,14 @@
 /turf/open/floor/mineral/plastitanium/red,
 /area/hammurabi)
 "aZ" = (
-/obj/machinery/door/airlock/ship{
-	name = "Hangar bay"
+/obj/structure/cable{
+	icon_state = "4-8"
 	},
-/turf/open/floor/plasteel/stairs/medium,
-/area/hammurabi)
+/obj/structure/cable{
+	icon_state = "2-4"
+	},
+/turf/open/floor/mineral/plastitanium/red,
+/area/hammurabi/hangar)
 "ba" = (
 /obj/machinery/door/airlock/ship{
 	name = "TE/LE/COM core"
@@ -461,15 +464,15 @@
 /turf/open/floor/plasteel/tech/grid,
 /area/hammurabi)
 "bE" = (
-/obj/effect/turf_decal/stripes/line{
-	dir = 1
-	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden{
 	icon_state = "pipe11-2";
-	dir = 1
+	dir = 4
+	},
+/obj/structure/cable{
+	icon_state = "1-4"
 	},
 /turf/open/floor/mineral/plastitanium/red,
-/area/hammurabi)
+/area/hammurabi/hangar)
 "bF" = (
 /obj/effect/turf_decal/stripes/line,
 /obj/structure/cable{
@@ -1259,6 +1262,17 @@
 	},
 /turf/open/floor/plating,
 /area/hammurabi)
+"dT" = (
+/obj/machinery/portable_atmospherics/scrubber,
+/turf/open/floor/monotile/dark,
+/area/hammurabi)
+"dU" = (
+/obj/structure/ship_weapon/railgun_assembly{
+	icon_state = "railgun_platform";
+	dir = 4
+	},
+/turf/open/floor/mineral/plastitanium/red,
+/area/hammurabi)
 "dV" = (
 /obj/structure/closet/radiation,
 /obj/item/clothing/mask/gas,
@@ -1658,7 +1672,9 @@
 /turf/open/floor/plasteel/tech/grid,
 /area/hammurabi)
 "ff" = (
-/obj/machinery/ship_weapon/railgun/west,
+/obj/machinery/ship_weapon/railgun/west{
+	dir = 4
+	},
 /turf/open/floor/mineral/plastitanium/red,
 /area/hammurabi)
 "fg" = (
@@ -1923,22 +1939,21 @@
 /turf/open/floor/plating,
 /area/hammurabi/maintenance)
 "fT" = (
-/obj/effect/turf_decal/stripes/line,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden{
 	icon_state = "pipe11-2";
-	dir = 1
+	dir = 4
+	},
+/obj/structure/cable{
+	icon_state = "4-8"
 	},
 /turf/open/floor/mineral/plastitanium/red,
 /area/hammurabi/hangar)
 "fU" = (
-/obj/machinery/atmospherics/pipe/simple/supply/hidden{
-	icon_state = "pipe11-2";
-	dir = 1
+/obj/machinery/atmospherics/pipe/manifold4w/supply/hidden,
+/obj/structure/cable{
+	icon_state = "2-8"
 	},
-/turf/open/floor/plasteel/stairs/medium{
-	icon_state = "stairs-m";
-	dir = 1
-	},
+/turf/open/floor/mineral/plastitanium/red,
 /area/hammurabi/hangar)
 "fV" = (
 /obj/machinery/computer/ship/viewscreen,
@@ -2496,15 +2511,16 @@
 /turf/open/floor/mineral/plastitanium/red,
 /area/hammurabi)
 "ho" = (
-/obj/structure/cable{
-	icon_state = "1-8"
-	},
+/obj/effect/turf_decal/stripes/line,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden{
 	icon_state = "pipe11-2";
-	dir = 4
+	dir = 1
+	},
+/obj/structure/cable{
+	icon_state = "1-2"
 	},
 /turf/open/floor/mineral/plastitanium/red,
-/area/hammurabi)
+/area/hammurabi/hangar)
 "hp" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 4
@@ -3017,6 +3033,125 @@
 /obj/machinery/porta_turret/syndicate/pod,
 /turf/open/floor/plating/airless,
 /area/hammurabi/maintenance/exterior)
+"iC" = (
+/obj/machinery/atmospherics/pipe/simple/supply/hidden{
+	icon_state = "pipe11-2";
+	dir = 1
+	},
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
+/turf/open/floor/plasteel/stairs/medium{
+	icon_state = "stairs-m";
+	dir = 1
+	},
+/area/hammurabi/hangar)
+"iD" = (
+/obj/machinery/door/airlock/ship{
+	name = "Hangar bay"
+	},
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
+/turf/open/floor/plasteel/stairs/medium,
+/area/hammurabi)
+"iE" = (
+/obj/structure/cable{
+	icon_state = "1-8"
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden{
+	icon_state = "pipe11-2";
+	dir = 4
+	},
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/turf/open/floor/mineral/plastitanium/red,
+/area/hammurabi)
+"iF" = (
+/obj/machinery/atmospherics/pipe/simple/supply/hidden{
+	icon_state = "pipe11-2";
+	dir = 4
+	},
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/turf/open/floor/mineral/plastitanium/red,
+/area/hammurabi)
+"iG" = (
+/obj/machinery/atmospherics/pipe/manifold/supply/hidden,
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/turf/open/floor/mineral/plastitanium/red,
+/area/hammurabi)
+"iH" = (
+/obj/machinery/atmospherics/pipe/manifold4w/supply/hidden,
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/turf/open/floor/mineral/plastitanium/red,
+/area/hammurabi)
+"iI" = (
+/obj/machinery/atmospherics/pipe/simple/supply/hidden{
+	icon_state = "pipe11-2";
+	dir = 10
+	},
+/obj/structure/cable{
+	icon_state = "2-8"
+	},
+/turf/open/floor/plasteel/tech/grid,
+/area/hammurabi)
+"iJ" = (
+/obj/effect/turf_decal/stripes/line{
+	dir = 1
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden{
+	icon_state = "pipe11-2";
+	dir = 1
+	},
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
+/turf/open/floor/mineral/plastitanium/red,
+/area/hammurabi)
+"iK" = (
+/obj/machinery/door/airlock/ship{
+	name = "Aft frame"
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden,
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
+/turf/open/floor/plasteel/tech/grid,
+/area/hammurabi)
+"iL" = (
+/obj/machinery/atmospherics/pipe/manifold/supply/hidden{
+	icon_state = "manifold-2";
+	dir = 4
+	},
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
+/turf/open/floor/mineral/plastitanium/red,
+/area/hammurabi)
+"iM" = (
+/obj/machinery/atmospherics/pipe/simple/supply/hidden,
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
+/turf/open/floor/plasteel/tech/grid,
+/area/hammurabi)
+"iN" = (
+/obj/machinery/atmospherics/pipe/simple/supply/hidden{
+	icon_state = "pipe11-2";
+	dir = 1
+	},
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
+/turf/open/floor/mineral/plastitanium/red,
+/area/hammurabi)
 "iO" = (
 /obj/structure/cable{
 	icon_state = "1-2"
@@ -3027,6 +3162,44 @@
 	},
 /turf/open/floor/mineral/plastitanium/red,
 /area/hammurabi/bridge)
+"iP" = (
+/obj/machinery/atmospherics/pipe/simple/supply/hidden,
+/obj/structure/cable{
+	icon_state = "1-4"
+	},
+/turf/open/floor/plasteel/tech/grid,
+/area/hammurabi)
+"iQ" = (
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/turf/open/floor/plasteel/tech/grid,
+/area/hammurabi)
+"iR" = (
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/turf/open/floor/mineral/plastitanium/red,
+/area/hammurabi)
+"iS" = (
+/obj/machinery/door/airlock/ship{
+	name = "Central frame"
+	},
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/turf/open/floor/plasteel/tech/grid,
+/area/hammurabi)
+"iT" = (
+/obj/machinery/atmospherics/pipe/simple/supply/hidden{
+	icon_state = "pipe11-2";
+	dir = 1
+	},
+/obj/structure/cable{
+	icon_state = "1-8"
+	},
+/turf/open/floor/mineral/plastitanium/red,
+/area/hammurabi)
 "jh" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 1
@@ -3445,13 +3618,6 @@
 	},
 /turf/open/floor/mineral/plastitanium,
 /area/hammurabi)
-"GP" = (
-/obj/machinery/atmospherics/pipe/simple/supply/hidden{
-	icon_state = "pipe11-2";
-	dir = 10
-	},
-/turf/open/floor/plasteel/tech/grid,
-/area/hammurabi)
 "GW" = (
 /obj/machinery/atmospherics/pipe/simple/orange/visible,
 /obj/machinery/meter,
@@ -3641,10 +3807,6 @@
 /obj/machinery/atmospherics/pipe/manifold4w/supply/hidden,
 /turf/open/floor/mineral/plastitanium/red,
 /area/hammurabi)
-"Tg" = (
-/obj/machinery/atmospherics/pipe/manifold4w/supply/hidden,
-/turf/open/floor/mineral/plastitanium/red,
-/area/hammurabi/hangar)
 "Ts" = (
 /obj/machinery/atmospherics/pipe/manifold/supply/hidden{
 	icon_state = "manifold-2";
@@ -26783,7 +26945,7 @@ aS
 ig
 aS
 aS
-aS
+dT
 ab
 aK
 aK
@@ -27040,7 +27202,7 @@ wF
 dS
 aS
 aS
-aS
+dT
 ab
 aK
 ii
@@ -27545,7 +27707,7 @@ gb
 gD
 gT
 hk
-ho
+iE
 an
 cB
 dj
@@ -27802,7 +27964,7 @@ ab
 ab
 ab
 aX
-NS
+iF
 an
 an
 an
@@ -28059,7 +28221,7 @@ cZ
 fW
 aq
 ns
-IT
+iG
 bN
 cG
 dk
@@ -28316,7 +28478,7 @@ cW
 fX
 aR
 aX
-NS
+iF
 bO
 be
 be
@@ -28573,7 +28735,7 @@ sR
 LF
 fZ
 Pi
-Sx
+iH
 zI
 EF
 rr
@@ -28830,7 +28992,7 @@ cJ
 fX
 aR
 aX
-NS
+iF
 an
 cG
 dl
@@ -29087,7 +29249,7 @@ eI
 cY
 aq
 RI
-NS
+iF
 an
 an
 an
@@ -29344,10 +29506,10 @@ ab
 ab
 ab
 aX
-GP
-bR
-zI
-zI
+iI
+iK
+iM
+iP
 nX
 Fx
 zI
@@ -29604,7 +29766,7 @@ ab
 ab
 ab
 aY
-aX
+iQ
 aY
 Pk
 aY
@@ -29861,7 +30023,7 @@ ac
 ac
 ab
 aX
-aY
+iR
 aY
 NS
 aX
@@ -30118,7 +30280,7 @@ aK
 aK
 bZ
 aX
-aY
+iR
 aY
 NS
 aX
@@ -30375,7 +30537,7 @@ aK
 aK
 ab
 gc
-aY
+iR
 Qo
 IT
 gd
@@ -30632,7 +30794,7 @@ eq
 eq
 ab
 bD
-aY
+iR
 aY
 NS
 aX
@@ -30889,7 +31051,7 @@ ab
 ab
 ab
 aX
-aY
+iR
 aY
 NS
 aX
@@ -31146,7 +31308,7 @@ aK
 aK
 ab
 aX
-aY
+iR
 aY
 NS
 aX
@@ -31403,7 +31565,7 @@ ab
 ab
 ab
 aY
-aX
+iQ
 aY
 Pk
 aY
@@ -31660,7 +31822,7 @@ aa
 aa
 an
 an
-dm
+iS
 an
 jM
 an
@@ -31917,7 +32079,7 @@ aa
 ap
 ap
 bT
-aX
+iQ
 gt
 Pk
 bT
@@ -32165,16 +32327,16 @@ aJ
 aJ
 aJ
 aJ
-hh
-aJ
-zq
+aZ
+ha
+bE
 aJ
 az
 aa
 ap
 bT
 bT
-aX
+iQ
 aY
 Pk
 bT
@@ -32424,14 +32586,14 @@ gO
 hf
 hj
 aJ
-zq
+fT
 aJ
 az
 an
 an
 bT
 bT
-aX
+iQ
 aY
 Pk
 bT
@@ -32681,14 +32843,14 @@ UD
 az
 fO
 aJ
-zq
+fT
 aJ
 aJ
 an
 bD
 Rq
 aX
-aX
+iQ
 aY
 Pk
 aX
@@ -32938,14 +33100,14 @@ ib
 fR
 fN
 EK
-Tg
-fT
 fU
-aZ
-bE
-pK
-TS
-TS
+ho
+iC
+iD
+iJ
+iL
+iN
+iT
 YD
 Sx
 TS
@@ -34242,11 +34404,11 @@ ff
 aY
 aV
 eO
-ff
+dU
 aY
 aV
 eO
-ff
+dU
 aY
 ab
 aK
