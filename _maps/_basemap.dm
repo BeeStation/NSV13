@@ -17,7 +17,7 @@
 		#include "map_files\Valkyrie\valkyrie3.dmm"
 		#include "map_files\Hammerhead\Hammerhead.dmm"
 		#include "map_files\Galactica\Galactica2.dmm"
-		#include "map_files\Hammerhead\Galactica.dmm"
+		#include "map_files\Galactica\Galactica.dmm"
 
 		#ifdef TRAVISBUILDING
 			#include "templates.dm"
