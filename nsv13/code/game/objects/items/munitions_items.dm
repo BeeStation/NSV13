@@ -60,6 +60,10 @@
 	icon_state = "sec_headset"
 	keyslot = new /obj/item/encryptionkey/heads/master_at_arms
 
+/obj/item/radio/headset/heads/master_at_arms/ComponentInitialize()
+	. = ..()
+	AddComponent(/datum/component/wearertargeting/earprotection, list(SLOT_EARS))
+	
 /obj/item/radio/headset/headset_sec/alt/munitions_tech
 	name = "munitions technician radio headset"
 	desc = "Use :w to access the department frequency. Use :u to access the supply frequency."
