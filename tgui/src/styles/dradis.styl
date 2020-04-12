@@ -16,6 +16,15 @@ body.dradis
     animation blink 2s linear forwards
     animation-iteration-count:infinite
     opacity 1
+	
+  .point .tooltip
+    visibility: hidden
+    position: absolute
+    z-index: 1
+
+  .point:hover .tooltip 
+    visibility: visible
+
   @keyframes blink
     50%
       opacity:0
