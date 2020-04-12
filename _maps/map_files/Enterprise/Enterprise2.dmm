@@ -1317,7 +1317,8 @@
 "adJ" = (
 /obj/effect/turf_decal/delivery,
 /obj/machinery/door/airlock/ship{
-	name = "Pilot Lounge"
+	name = "Pilot Lounge";
+	req_access_txt = "69"
 	},
 /obj/machinery/door/firedoor,
 /turf/open/floor/monotile,
@@ -2954,11 +2955,6 @@
 /obj/effect/turf_decal/stripes/white/line,
 /turf/open/floor/engine,
 /area/medical/genetics)
-"ahD" = (
-/obj/effect/spawner/structure/window/reinforced,
-/obj/machinery/door/firedoor,
-/turf/open/floor/monotile/light,
-/area/medical/virology)
 "ahE" = (
 /obj/structure/table/glass,
 /obj/item/storage/firstaid/o2,
@@ -3310,7 +3306,7 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 8
 	},
-/turf/open/floor/monotile/light,
+/turf/open/floor/plating,
 /area/medical/virology)
 "aiw" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden{
@@ -4101,17 +4097,6 @@
 /obj/machinery/door/firedoor,
 /turf/open/floor/monotile,
 /area/hydroponics)
-"akw" = (
-/obj/structure/table/reinforced,
-/obj/effect/turf_decal/tile/neutral{
-	dir = 8
-	},
-/obj/effect/turf_decal/tile/neutral{
-	dir = 1
-	},
-/obj/machinery/door/firedoor,
-/turf/open/floor/monotile,
-/area/medical/morgue)
 "akx" = (
 /obj/structure/chair{
 	dir = 4
@@ -12740,7 +12725,7 @@
 /turf/open/floor/monotile,
 /area/security/prison)
 "aEp" = (
-/obj/machinery/door/poddoor/shutters{
+/obj/machinery/door/poddoor/shutters/ship{
 	id = "firingsquad";
 	name = "security shutters"
 	},
@@ -13744,7 +13729,7 @@
 /obj/effect/mapping_helpers/airlock/cyclelink_helper{
 	dir = 1
 	},
-/obj/machinery/door/poddoor/shutters{
+/obj/machinery/door/poddoor/shutters/ship/preopen{
 	id = "cell4_ld";
 	name = "Cell 4 Lockdown"
 	},
@@ -13757,7 +13742,7 @@
 /obj/effect/mapping_helpers/airlock/cyclelink_helper{
 	dir = 1
 	},
-/obj/machinery/door/poddoor/shutters{
+/obj/machinery/door/poddoor/shutters/ship/preopen{
 	id = "cell3_ld";
 	name = "Cell 3 Lockdown"
 	},
@@ -14008,7 +13993,7 @@
 /obj/effect/mapping_helpers/airlock/cyclelink_helper{
 	dir = 1
 	},
-/obj/machinery/door/poddoor/shutters{
+/obj/machinery/door/poddoor/shutters/ship/preopen{
 	id = "cell1_ld";
 	name = "Cell 1 Lockdown"
 	},
@@ -15794,6 +15779,7 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 8
 	},
+/obj/machinery/door/firedoor,
 /turf/open/floor/monotile/dark,
 /area/hallway/nsv/deck2/frame1/central)
 "aLs" = (
@@ -23488,9 +23474,6 @@
 /obj/machinery/door/airlock/ship/public/glass{
 	name = "Examination Room"
 	},
-/obj/machinery/door/poddoor/shutters/preopen{
-	id = "medical_traitor_murder_hole"
-	},
 /obj/machinery/door/firedoor,
 /obj/structure/cable{
 	icon_state = "4-8"
@@ -23500,6 +23483,10 @@
 	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 8
+	},
+/obj/machinery/door/poddoor/shutters/ship/preopen{
+	dir = 4;
+	id = "medical_traitor_murder_hole"
 	},
 /turf/open/floor/carpet/ship,
 /area/medical/medbay/lobby)
@@ -36514,7 +36501,8 @@
 "bBz" = (
 /obj/effect/turf_decal/delivery,
 /obj/machinery/door/airlock/ship{
-	name = "Pilot Lounge"
+	name = "Pilot Lounge";
+	req_access_txt = "69"
 	},
 /obj/machinery/door/firedoor,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
@@ -38209,14 +38197,14 @@
 /obj/effect/mapping_helpers/airlock/cyclelink_helper{
 	dir = 1
 	},
-/obj/machinery/door/poddoor/shutters{
-	id = "cell2_ld";
-	name = "Cell 2 Lockdown"
-	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /obj/structure/cable{
 	icon_state = "1-2"
+	},
+/obj/machinery/door/poddoor/shutters/ship/preopen{
+	id = "cell2_ld";
+	name = "Cell 2 Lockdown"
 	},
 /turf/open/floor/plasteel/ship,
 /area/security/prison)
@@ -42081,6 +42069,9 @@
 	},
 /turf/open/floor/carpet/blue,
 /area/nsv/hanger/deck2)
+"ilj" = (
+/turf/closed/wall/r_wall/ship,
+/area/nsv/crew_quarters/heads/maa)
 "ilA" = (
 /obj/structure/window/reinforced/fulltile/ship,
 /obj/structure/grille,
@@ -43710,9 +43701,6 @@
 /obj/structure/disposalpipe/segment,
 /turf/open/floor/plasteel/grid/steel,
 /area/nsv/hanger/deck2)
-"thb" = (
-/turf/closed/wall/r_wall/ship,
-/area/nsv/crew_quarters/heads/maa)
 "tiu" = (
 /obj/machinery/requests_console{
 	department = "Genetics";
@@ -69011,7 +68999,7 @@ bvN
 aTX
 ahm
 aid
-akw
+ahO
 aky
 aUk
 ahO
@@ -71042,7 +71030,7 @@ aaJ
 aaJ
 aaJ
 abY
-ahD
+aot
 alA
 aiv
 abY
@@ -74389,12 +74377,12 @@ bKs
 adF
 bKa
 bFQ
-thb
-thb
-thb
-thb
-thb
-thb
+ilj
+ilj
+ilj
+ilj
+ilj
+ilj
 bKf
 akR
 abx
@@ -74646,7 +74634,7 @@ bKt
 adF
 aZV
 bFQ
-thb
+ilj
 aan
 baj
 aaO
@@ -74903,7 +74891,7 @@ afs
 afa
 bdU
 bFQ
-thb
+ilj
 aao
 aaH
 aaH
@@ -75160,7 +75148,7 @@ afs
 afa
 bdU
 bFQ
-thb
+ilj
 aap
 aaL
 cgt
@@ -75417,7 +75405,7 @@ afa
 afa
 bhl
 bGR
-thb
+ilj
 aaq
 aaM
 aaQ
@@ -75674,12 +75662,12 @@ bHp
 afa
 bsV
 afa
-thb
-thb
-thb
-thb
-thb
-thb
+ilj
+ilj
+ilj
+ilj
+ilj
+ilj
 bAU
 abx
 aew
