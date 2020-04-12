@@ -90,7 +90,6 @@
 /obj/effect/turf_decal/tile/yellow{
 	dir = 1
 	},
-/obj/effect/turf_decal/tile/yellow,
 /turf/open/floor/monotile/dark/airless,
 /area/maintenance/ship_exterior)
 "an" = (
@@ -109,17 +108,11 @@
 /turf/open/floor/monotile/dark/airless,
 /area/maintenance/ship_exterior)
 "aq" = (
-/obj/machinery/computer/ship/viewscreen,
-/obj/structure/cable{
-	icon_state = "4-8"
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	dir = 6
 	},
-/obj/machinery/light{
-	dir = 1
-	},
-/turf/open/floor/monotile/dark,
-/area/nsv/hanger/deck3{
-	name = "Air traffic control pod"
-	})
+/turf/open/floor/engine/airless,
+/area/maintenance/ship_exterior)
 "ar" = (
 /obj/structure/rack,
 /obj/item/storage/toolbox/emergency,
@@ -166,13 +159,11 @@
 	name = "Air traffic control pod"
 	})
 "ax" = (
-/obj/structure/cable{
-	icon_state = "1-8"
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	dir = 8
 	},
-/turf/open/floor/monotile,
-/area/nsv/hanger/deck3{
-	name = "Air traffic control pod"
-	})
+/turf/open/floor/engine/airless,
+/area/maintenance/ship_exterior)
 "ay" = (
 /obj/effect/turf_decal/delivery,
 /turf/open/floor/monotile/dark/airless,
@@ -345,8 +336,7 @@
 /area/crew_quarters/heads/captain)
 "ba" = (
 /obj/machinery/ship_weapon/gauss_gun/north{
-	pixel_x = -44;
-	
+	pixel_x = -44
 	},
 /turf/open/floor/engine/airless,
 /area/maintenance/ship_exterior)
@@ -623,6 +613,68 @@
 /obj/structure/grille,
 /turf/closed/wall/r_wall/ship,
 /area/maintenance/ship_exterior)
+"bQ" = (
+/obj/machinery/atmospherics/pipe/simple/multiz,
+/turf/open/floor/plating,
+/area/maintenance/central)
+"bR" = (
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	dir = 8
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	dir = 6
+	},
+/turf/open/floor/engine/airless,
+/area/maintenance/ship_exterior)
+"bS" = (
+/obj/machinery/power/deck_relay,
+/obj/structure/cable{
+	icon_state = "0-2"
+	},
+/turf/open/floor/plating,
+/area/maintenance/central)
+"bT" = (
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	dir = 8
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	dir = 8
+	},
+/turf/open/floor/engine/airless,
+/area/maintenance/ship_exterior)
+"bU" = (
+/obj/effect/turf_decal/stripes/line{
+	dir = 8
+	},
+/obj/machinery/atmospherics/components/unary/vent_pump/on/layer1{
+	dir = 4
+	},
+/turf/open/floor/monotile/dark,
+/area/nsv/hanger/deck3{
+	name = "Air traffic control pod"
+	})
+"bV" = (
+/obj/effect/turf_decal/stripes/line{
+	dir = 4
+	},
+/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3{
+	dir = 8
+	},
+/turf/open/floor/monotile/dark,
+/area/nsv/hanger/deck3{
+	name = "Air traffic control pod"
+	})
+"bW" = (
+/obj/structure/cable{
+	icon_state = "1-8"
+	},
+/obj/machinery/atmospherics/components/unary/vent_pump/on/layer1{
+	dir = 4
+	},
+/turf/open/floor/monotile/dark,
+/area/nsv/hanger/deck3{
+	name = "Air traffic control pod"
+	})
 "bX" = (
 /obj/structure/cable{
 	icon_state = "4-8"
@@ -678,6 +730,36 @@
 "ce" = (
 /turf/closed/wall/r_wall/ship,
 /area/ai_monitored/turret_protected/aisat)
+"cf" = (
+/obj/effect/turf_decal/stripes/line,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	dir = 8
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	dir = 8
+	},
+/turf/open/floor/engine/airless,
+/area/maintenance/ship_exterior)
+"cg" = (
+/obj/effect/turf_decal/stripes/line,
+/obj/machinery/light,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	dir = 8
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	dir = 8
+	},
+/turf/open/floor/engine/airless,
+/area/maintenance/ship_exterior)
+"ch" = (
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	dir = 10
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	dir = 10
+	},
+/turf/open/floor/engine/airless,
+/area/maintenance/ship_exterior)
 "ci" = (
 /obj/structure/chair{
 	dir = 8
@@ -730,10 +812,10 @@
 /turf/open/floor/monotile,
 /area/crew_quarters/heads/captain)
 "co" = (
-/obj/structure/grille,
-/obj/structure/window/reinforced/fulltile/ship,
-/turf/open/floor/plating,
-/area/bridge)
+/obj/effect/turf_decal/bot_white,
+/obj/machinery/light/runway,
+/turf/open/floor/monotile/dark/airless,
+/area/maintenance/ship_exterior)
 "cp" = (
 /turf/closed/wall/r_wall/ship,
 /area/bridge)
@@ -817,6 +899,14 @@
 "cD" = (
 /turf/closed/wall/r_wall/ship,
 /area/ai_monitored/turret_protected/ai_upload_foyer)
+"cE" = (
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/turf/open/floor/engine/airless,
+/area/maintenance/ship_exterior)
+"cF" = (
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
+/turf/open/floor/engine/airless,
+/area/maintenance/ship_exterior)
 "cG" = (
 /obj/structure/cable{
 	icon_state = "4-8"
@@ -981,6 +1071,16 @@
 /obj/structure/table/glass,
 /turf/open/floor/circuit/red,
 /area/ai_monitored/turret_protected/ai_upload)
+"dd" = (
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
+/turf/open/floor/engine/airless,
+/area/maintenance/ship_exterior)
+"de" = (
+/obj/effect/turf_decal/stripes/line,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/turf/open/floor/engine/airless,
+/area/maintenance/ship_exterior)
 "df" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer1{
 	dir = 4
@@ -1127,12 +1227,23 @@
 	},
 /turf/open/floor/monotile/dark,
 /area/ai_monitored/turret_protected/aisat)
+"dw" = (
+/obj/effect/turf_decal/stripes/line,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
+/turf/open/floor/engine/airless,
+/area/maintenance/ship_exterior)
 "dx" = (
 /obj/structure/chair/office{
 	dir = 8
 	},
 /turf/open/floor/plasteel/ship/techfloor/alt,
 /area/ai_monitored/turret_protected/aisat)
+"dy" = (
+/obj/effect/turf_decal/stripes/line{
+	dir = 6
+	},
+/turf/open/floor/engine/airless,
+/area/space)
 "dz" = (
 /obj/structure/cable{
 	icon_state = "4-8"
@@ -1157,6 +1268,10 @@
 	},
 /turf/open/floor/plasteel/ship/techfloor/alt,
 /area/ai_monitored/turret_protected/aisat)
+"dC" = (
+/obj/machinery/atmospherics/pipe/layer_manifold,
+/turf/closed/wall/r_wall/ship,
+/area/maintenance/central)
 "dD" = (
 /obj/machinery/door/airlock/ship/command{
 	name = "Captain's Office";
@@ -1199,6 +1314,12 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /turf/open/floor/plating,
 /area/maintenance/department/bridge)
+"dI" = (
+/obj/effect/turf_decal/stripes/line,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
+/turf/open/floor/engine/airless,
+/area/maintenance/ship_exterior)
 "dJ" = (
 /obj/machinery/light{
 	dir = 4
@@ -1256,6 +1377,9 @@
 "dR" = (
 /turf/closed/wall/r_wall/ship,
 /area/ai_monitored/nuke_storage)
+"dS" = (
+/turf/open/floor/plating,
+/area/maintenance/central)
 "dT" = (
 /obj/structure/cable{
 	icon_state = "1-2"
@@ -1348,6 +1472,11 @@
 /obj/machinery/door/airlock/ship/maintenance/defaultaccess,
 /turf/open/floor/plating,
 /area/maintenance/department/bridge)
+"ee" = (
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
+/turf/open/floor/monotile/dark/airless,
+/area/maintenance/ship_exterior)
 "ef" = (
 /obj/structure/closet/secure_closet/freezer/money,
 /obj/item/storage/belt/champion,
@@ -1599,7 +1728,6 @@
 /obj/effect/turf_decal/stripes/line{
 	dir = 1
 	},
-/obj/machinery/camera/autoname,
 /obj/machinery/light{
 	dir = 1
 	},
@@ -1909,6 +2037,12 @@
 	},
 /turf/open/floor/monotile,
 /area/hallway/nsv/deck1/hallway)
+"fz" = (
+/obj/machinery/atmospherics/pipe/layer_manifold,
+/turf/closed/wall/r_wall/ship,
+/area/nsv/hanger/deck3{
+	name = "Air traffic control pod"
+	})
 "fA" = (
 /obj/structure/railing{
 	dir = 8
@@ -1974,10 +2108,21 @@
 /turf/open/floor/plasteel/grid/steel,
 /area/hallway/nsv/deck1/hallway)
 "fG" = (
-/obj/effect/turf_decal/stripes/line,
-/obj/machinery/light,
-/turf/open/floor/engine/airless,
-/area/maintenance/ship_exterior)
+/obj/machinery/computer/ship/viewscreen,
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/obj/machinery/light{
+	dir = 1
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	dir = 6
+	},
+/turf/open/floor/monotile/dark,
+/area/nsv/hanger/deck3{
+	name = "Air traffic control pod"
+	})
 "fH" = (
 /obj/machinery/door/firedoor,
 /obj/structure/disposalpipe/segment{
@@ -2157,6 +2302,17 @@
 	},
 /turf/open/floor/monotile/dark,
 /area/ai_monitored/turret_protected/ai_upload)
+"fY" = (
+/obj/structure/cable{
+	icon_state = "1-8"
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	dir = 4
+	},
+/turf/open/floor/monotile,
+/area/nsv/hanger/deck3{
+	name = "Air traffic control pod"
+	})
 "fZ" = (
 /obj/structure/cable{
 	icon_state = "4-8"
@@ -2464,6 +2620,14 @@
 	},
 /turf/closed/wall/r_wall/ship,
 /area/ai_monitored/turret_protected/ai_upload)
+"gC" = (
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	dir = 9
+	},
+/turf/closed/wall/r_wall/ship,
+/area/nsv/hanger/deck3{
+	name = "Air traffic control pod"
+	})
 "gD" = (
 /obj/machinery/door/airlock/glass_large/ship{
 	bound_height = 64;
@@ -2594,6 +2758,14 @@
 	},
 /turf/open/floor/monotile/dark,
 /area/hallway/nsv/deck1/hallway)
+"gO" = (
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	dir = 10
+	},
+/turf/open/floor/monotile/dark,
+/area/nsv/hanger/deck3{
+	name = "Air traffic control pod"
+	})
 "gP" = (
 /obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1,
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3,
@@ -2776,6 +2948,14 @@
 	},
 /turf/open/floor/monotile/dark,
 /area/hallway/nsv/deck1/hallway)
+"hf" = (
+/obj/effect/turf_decal/delivery/red,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
+/turf/open/floor/monotile/dark/airless,
+/area/nsv/hanger/deck3{
+	name = "Air traffic control pod"
+	})
 "hg" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 6
@@ -2838,16 +3018,20 @@
 	name = "Air traffic control pod"
 	})
 "ho" = (
-/obj/structure/ladder,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /turf/open/floor/monotile/dark,
 /area/nsv/hanger/deck3{
 	name = "Air traffic control pod"
 	})
 "hp" = (
-/obj/machinery/door/airlock/ship{
-	name = "Spare suit storage"
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	dir = 1
 	},
-/turf/open/floor/monotile,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	dir = 6
+	},
+/turf/open/floor/monotile/dark,
 /area/nsv/hanger/deck3{
 	name = "Air traffic control pod"
 	})
@@ -3130,11 +3314,11 @@
 /turf/open/floor/monotile/dark/airless,
 /area/maintenance/ship_exterior)
 "ih" = (
-/obj/machinery/computer/ship/viewscreen,
-/obj/machinery/light{
-	dir = 1
-	},
-/turf/open/floor/monotile,
+/obj/effect/spawner/structure/window/reinforced,
+/obj/machinery/door/firedoor,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
+/turf/open/floor/plating,
 /area/nsv/hanger/deck3{
 	name = "Air traffic control pod"
 	})
@@ -3195,8 +3379,10 @@
 	name = "Air traffic control pod"
 	})
 "io" = (
-/obj/structure/cable{
-	icon_state = "1-8"
+/obj/structure/ladder,
+/obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1,
+/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer3{
+	dir = 8
 	},
 /turf/open/floor/monotile/dark,
 /area/nsv/hanger/deck3{
@@ -3403,6 +3589,17 @@
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3,
 /turf/open/floor/plasteel/grid/steel,
 /area/bridge)
+"iP" = (
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	dir = 8
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	dir = 4
+	},
+/turf/open/floor/monotile/dark,
+/area/nsv/hanger/deck3{
+	name = "Air traffic control pod"
+	})
 "iQ" = (
 /obj/structure/cable{
 	icon_state = "1-2"
@@ -4521,6 +4718,21 @@
 /obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer3,
 /turf/open/floor/carpet/blue,
 /area/bridge)
+"kR" = (
+/obj/machinery/door/airlock/ship{
+	name = "Spare Suit Storage";
+	req_access_txt = "69"
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	dir = 8
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	dir = 4
+	},
+/turf/open/floor/monotile,
+/area/nsv/hanger/deck3{
+	name = "Air traffic control pod"
+	})
 "kS" = (
 /obj/structure/cable{
 	icon_state = "4-8"
@@ -4656,11 +4868,16 @@
 /turf/open/floor/plating,
 /area/maintenance/department/bridge)
 "li" = (
-/obj/effect/turf_decal/stripes/line{
-	dir = 6
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	dir = 8
 	},
-/turf/open/floor/engine/airless,
-/area/space)
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	dir = 4
+	},
+/turf/open/floor/monotile,
+/area/nsv/hanger/deck3{
+	name = "Air traffic control pod"
+	})
 "lj" = (
 /obj/structure/table/reinforced,
 /obj/item/twohanded/binoculars{
@@ -4679,7 +4896,7 @@
 	dir = 1
 	},
 /obj/machinery/camera/motion{
-	c_tag = "vault";
+	c_tag = "Vault";
 	dir = 1
 	},
 /turf/open/floor/monotile,
@@ -4823,18 +5040,11 @@
 /turf/open/floor/monotile/dark/airless,
 /area/maintenance/ship_exterior)
 "lD" = (
-/obj/machinery/camera/autoname,
-/obj/machinery/turbolift_button{
-	pixel_y = 32;
-	shuttle_id = "turbolift_primary"
-	},
 /obj/effect/turf_decal/stripes/line{
 	dir = 1
 	},
-/obj/machinery/light{
-	dir = 1
-	},
 /obj/effect/turf_decal/bot,
+/obj/machinery/camera/autoname,
 /turf/open/floor/monotile/dark/airless,
 /area/maintenance/ship_exterior)
 "lE" = (
@@ -4963,6 +5173,20 @@
 	dir = 8
 	},
 /turf/open/floor/plasteel/grid/steel,
+/area/nsv/hanger/deck3{
+	name = "Air traffic control pod"
+	})
+"lR" = (
+/obj/effect/turf_decal/stripes/line{
+	dir = 8
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	dir = 8
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	dir = 4
+	},
+/turf/open/floor/monotile/dark,
 /area/nsv/hanger/deck3{
 	name = "Air traffic control pod"
 	})
@@ -5158,6 +5382,62 @@
 /obj/machinery/camera/autoname,
 /turf/open/floor/monotile/dark,
 /area/teleporter)
+"mn" = (
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	dir = 9
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	dir = 9
+	},
+/turf/open/floor/monotile/dark,
+/area/nsv/hanger/deck3{
+	name = "Air traffic control pod"
+	})
+"mo" = (
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	dir = 5
+	},
+/turf/open/floor/monotile,
+/area/nsv/hanger/deck3{
+	name = "Air traffic control pod"
+	})
+"mp" = (
+/obj/machinery/light{
+	dir = 1
+	},
+/obj/machinery/airalarm/directional/north,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	dir = 4
+	},
+/turf/open/floor/monotile,
+/area/nsv/hanger/deck3{
+	name = "Air traffic control pod"
+	})
+"mq" = (
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	dir = 10
+	},
+/turf/open/floor/monotile,
+/area/nsv/hanger/deck3{
+	name = "Air traffic control pod"
+	})
+"mr" = (
+/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3{
+	dir = 1
+	},
+/turf/open/floor/monotile/dark,
+/area/nsv/hanger/deck3{
+	name = "Air traffic control pod"
+	})
+"ms" = (
+/obj/machinery/atmospherics/components/unary/vent_pump/on/layer1{
+	dir = 1
+	},
+/turf/open/floor/monotile,
+/area/nsv/hanger/deck3{
+	name = "Air traffic control pod"
+	})
 "mt" = (
 /obj/structure/table,
 /obj/machinery/cell_charger,
@@ -5175,6 +5455,41 @@
 	},
 /turf/open/floor/monotile/dark,
 /area/teleporter)
+"mu" = (
+/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3{
+	dir = 1
+	},
+/turf/open/floor/monotile,
+/area/nsv/hanger/deck3{
+	name = "Air traffic control pod"
+	})
+"mv" = (
+/obj/effect/turf_decal/stripes/line{
+	dir = 1
+	},
+/obj/effect/turf_decal/bot,
+/obj/machinery/turbolift_button{
+	pixel_y = 32;
+	shuttle_id = "turbolift_primary"
+	},
+/turf/open/floor/monotile/dark/airless,
+/area/maintenance/ship_exterior)
+"mw" = (
+/obj/machinery/camera/autoname,
+/obj/effect/turf_decal/stripes/line{
+	dir = 1
+	},
+/obj/machinery/light{
+	dir = 1
+	},
+/obj/effect/turf_decal/bot,
+/turf/open/floor/monotile/dark/airless,
+/area/maintenance/ship_exterior)
+"mx" = (
+/obj/effect/turf_decal/bot_white,
+/obj/machinery/light/runway/delay2,
+/turf/open/floor/monotile/dark/airless,
+/area/maintenance/ship_exterior)
 "my" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 10
@@ -5187,6 +5502,25 @@
 	},
 /turf/open/floor/monotile,
 /area/teleporter)
+"mA" = (
+/obj/effect/turf_decal/bot_white,
+/obj/machinery/light/runway/delay3,
+/turf/open/floor/monotile/dark/airless,
+/area/maintenance/ship_exterior)
+"mB" = (
+/obj/effect/turf_decal/bot_white,
+/obj/machinery/light/runway/delay4,
+/turf/open/floor/monotile/dark/airless,
+/area/maintenance/ship_exterior)
+"mC" = (
+/obj/effect/turf_decal/bot_white,
+/obj/machinery/light/runway/delay5,
+/turf/open/floor/monotile/dark/airless,
+/area/maintenance/ship_exterior)
+"mD" = (
+/obj/structure/ladder,
+/turf/open/floor/engine/airless,
+/area/maintenance/ship_exterior)
 "mE" = (
 /obj/effect/turf_decal/stripes/line,
 /turf/open/floor/monotile/dark,
@@ -5490,9 +5824,6 @@
 	},
 /turf/open/floor/monotile/dark,
 /area/teleporter)
-"KZ" = (
-/turf/open/floor/plating,
-/area/maintenance/central)
 "LI" = (
 /obj/machinery/flasher{
 	id = "AI";
@@ -5613,21 +5944,6 @@
 /obj/structure/window/reinforced/fulltile/ship,
 /turf/open/floor/plating,
 /area/hallway/nsv/deck1/hallway)
-"Ws" = (
-/obj/structure/cable{
-	icon_state = "2-4"
-	},
-/turf/open/floor/plating,
-/area/maintenance/central)
-"WB" = (
-/obj/machinery/power/deck_relay{
-	pixel_y = 26
-	},
-/obj/structure/cable{
-	icon_state = "0-8"
-	},
-/turf/open/floor/plating,
-/area/maintenance/central)
 "WF" = (
 /obj/structure/table,
 /obj/item/hand_tele,
@@ -19983,11 +20299,11 @@ aM
 aM
 aM
 aM
-aM
-aM
-aM
-aM
-aM
+co
+mx
+mA
+mB
+mC
 aM
 aM
 aM
@@ -33830,11 +34146,11 @@ ic
 ic
 ie
 Xd
-KZ
+dS
 aC
 ag
 av
-io
+bW
 hC
 aB
 hK
@@ -34083,16 +34399,16 @@ ic
 ic
 ic
 ic
-ic
-ic
-ie
-Xd
-KZ
-aC
 aq
-aw
+cE
+de
+dC
+bQ
+fz
+fG
 ho
-aw
+io
+mr
 aB
 hK
 ay
@@ -34340,15 +34656,15 @@ ic
 ic
 ba
 ic
-ic
+ax
 ic
 ie
 Xd
-Ws
+bS
 JA
-ax
+fY
 lz
-aw
+iP
 hC
 aB
 hK
@@ -34597,15 +34913,15 @@ ic
 ic
 ic
 ic
-ic
-ic
-ie
-Xd
-WB
-aC
-aC
+bR
+cF
+dw
+dC
+bQ
+fz
+gC
 aB
-hp
+kR
 aB
 aC
 lw
@@ -34854,7 +35170,7 @@ ic
 ic
 ic
 ic
-ic
+bT
 ic
 ie
 Xd
@@ -34862,7 +35178,7 @@ Xd
 aC
 ar
 lu
-hC
+li
 hq
 aC
 hK
@@ -35111,15 +35427,15 @@ ic
 ic
 ic
 ic
-ic
+bT
 ic
 ie
 aB
 as
 as
+bU
 as
-as
-as
+lR
 as
 aB
 hK
@@ -35368,15 +35684,15 @@ ic
 ic
 ba
 ic
-ic
+bT
 ic
 ie
 hn
 qS
 aw
-aw
-aw
-aw
+gO
+hp
+mn
 wm
 aB
 hK
@@ -35625,14 +35941,14 @@ ic
 ic
 ic
 ic
-ic
+bT
 ic
 ie
 hn
 hk
 hk
 hk
-hk
+bV
 hk
 hk
 aB
@@ -35882,7 +36198,7 @@ ic
 ic
 ic
 ic
-ic
+bT
 ic
 ie
 aC
@@ -36139,7 +36455,7 @@ ic
 ic
 ic
 ic
-ic
+bT
 ic
 ie
 aC
@@ -36396,9 +36712,9 @@ ic
 ic
 ba
 ic
-ic
+bT
 id
-li
+dy
 am
 ap
 ap
@@ -36653,7 +36969,7 @@ ic
 ic
 ic
 ic
-ie
+cf
 an
 an
 an
@@ -36910,7 +37226,7 @@ ic
 ic
 ic
 ic
-fG
+cg
 an
 af
 af
@@ -36919,7 +37235,7 @@ af
 af
 af
 an
-lC
+lD
 hK
 hK
 ay
@@ -37167,7 +37483,7 @@ ic
 ic
 ic
 ic
-ie
+cf
 an
 af
 aJ
@@ -37424,7 +37740,7 @@ ic
 ic
 ic
 ic
-ie
+cf
 an
 af
 aJ
@@ -37681,7 +37997,7 @@ ic
 ic
 ic
 ic
-ie
+cf
 an
 af
 aJ
@@ -37938,7 +38254,7 @@ ic
 ic
 ic
 ic
-ie
+cf
 an
 af
 aJ
@@ -38195,7 +38511,7 @@ ic
 ic
 ic
 ic
-ie
+cf
 an
 af
 aJ
@@ -38452,7 +38768,7 @@ ic
 ic
 ic
 ic
-ie
+cf
 an
 af
 aJ
@@ -38709,7 +39025,7 @@ ic
 ic
 ic
 ic
-fG
+cg
 an
 jj
 aJ
@@ -38966,7 +39282,7 @@ ic
 ic
 ic
 ic
-ie
+cf
 an
 af
 aJ
@@ -39223,7 +39539,7 @@ ic
 ic
 ic
 ic
-ie
+cf
 an
 af
 aJ
@@ -39480,7 +39796,7 @@ ic
 ic
 ic
 ic
-ie
+cf
 an
 af
 aJ
@@ -39737,7 +40053,7 @@ ic
 ic
 ic
 ic
-ie
+cf
 an
 af
 aJ
@@ -39994,7 +40310,7 @@ ic
 ic
 ic
 ic
-ie
+cf
 an
 af
 aJ
@@ -40251,7 +40567,7 @@ ic
 ic
 ic
 ic
-ie
+cf
 an
 af
 aJ
@@ -40508,7 +40824,7 @@ ic
 ic
 ic
 ic
-fG
+cg
 an
 af
 af
@@ -40517,7 +40833,7 @@ af
 af
 af
 an
-lC
+mv
 hK
 hK
 ay
@@ -40765,7 +41081,7 @@ ic
 ic
 ic
 ic
-ie
+cf
 an
 an
 an
@@ -40774,7 +41090,7 @@ an
 an
 an
 an
-lD
+mw
 cP
 cP
 ay
@@ -41022,7 +41338,7 @@ ic
 ic
 ic
 ic
-ic
+bT
 az
 ao
 ao
@@ -41279,7 +41595,7 @@ ic
 ic
 ic
 ic
-ic
+bT
 ic
 aL
 az
@@ -41536,7 +41852,7 @@ ic
 ic
 ic
 ic
-ic
+bT
 ic
 ic
 ie
@@ -41793,7 +42109,7 @@ ic
 ic
 ic
 ic
-ic
+bT
 ic
 ic
 ie
@@ -41837,7 +42153,7 @@ gV
 iM
 ja
 iY
-co
+sF
 hT
 hT
 hZ
@@ -42050,7 +42366,7 @@ ic
 ic
 ic
 ic
-ic
+bT
 ic
 ic
 ie
@@ -42307,7 +42623,7 @@ ic
 ic
 ic
 ic
-ic
+bT
 ic
 ic
 ie
@@ -42564,16 +42880,16 @@ ic
 ic
 ic
 ic
-ic
-ic
-ic
-ie
-hK
-hK
-ij
-aB
-hC
-hC
+ch
+dd
+dd
+dI
+ee
+ee
+hf
+ih
+mo
+ms
 hG
 hI
 aB
@@ -42829,7 +43145,7 @@ hK
 hK
 ij
 aC
-ih
+mp
 hE
 hC
 hh
@@ -43086,8 +43402,8 @@ hK
 hK
 ij
 aB
-hC
-hC
+mq
+mu
 hG
 hI
 aB
@@ -45977,9 +46293,9 @@ ic
 ic
 ic
 ic
-ic
-ic
-ic
+hK
+hK
+hK
 ic
 ic
 ic
@@ -46234,9 +46550,9 @@ ic
 ic
 ic
 ic
-ic
-ic
-ic
+hK
+mD
+hK
 ic
 ic
 ic
@@ -46491,9 +46807,9 @@ ic
 ic
 ic
 ic
-ic
-ic
-ic
+hK
+hK
+hK
 ic
 ic
 ic
