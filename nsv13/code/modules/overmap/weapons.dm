@@ -147,6 +147,7 @@
 				sleep(1)
 			return TRUE
 	else if(weapons[mode] && weapons[mode].len) //It's the main ship, see if any part of our battery can fire
+		add_enemy(target) //So that PVP holds up the spawning of AI enemies somewhat.
 		for(var/obj/machinery/ship_weapon/SW in weapons[mode])
 			if(SW.can_fire() && SW.fire(target, manual=(mode == fire_mode)))
 				LAZYADD(weapon_log, "[station_time_timestamp()] [gunner] ([(gunner.mind && gunner.mind.antag_datums) ? "<b>Antagonist</b>" : "Non-Antagonist"]) fired [firemode2text(fire_mode)] at [target]")
