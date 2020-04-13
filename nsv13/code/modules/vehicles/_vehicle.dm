@@ -175,7 +175,8 @@ MASSIVE THANKS TO MONSTER860 FOR HELP WITH THIS. HE EXPLAINED PHYSICS AND MATH T
 			if(isspaceturf(T))
 				continue
 			if(occupants.len)
-				var/client/C = return_drivers()[1]?.client
+				var/mob/M = return_drivers()[1]
+				var/client/C = M.client
 				if(C && C.keys_held["Alt"])
 					drag += braking_efficiency
 			var/datum/gas_mixture/env = T.return_air()
