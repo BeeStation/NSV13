@@ -413,6 +413,14 @@
 			if(Mech.occupant && !in_faction(Mech.occupant)) //If there is a user and they're not in our faction
 				if(assess_perp(Mech.occupant) >= 4)
 					targets += Mech
+	//Nsv13 start
+	for(var/A in GLOB.overmap_objects)
+		var/obj/structure/overmap/target = A
+		if((get_dist(A, base) < scan_range) && can_see(base, A, scan_range) && istype(A, /obj/structure/overmap) && target.z == z)
+			if(target.pilot && !in_faction(target.pilot)) //If there is a user and they're not in our faction
+				if(assess_perp(target.pilot) >= 4)
+					targets += target
+	//Nsv13 end
 
 	if(check_anomalies && GLOB.blobs.len && (mode == TURRET_LETHAL))
 		for(var/obj/structure/blob/B in view(scan_range, base))

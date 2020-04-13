@@ -10,8 +10,6 @@
 	desc = "A small and agile vessel which is designed for escort missions and independant patrols. This ship class is the backbone of Nanotrasen's navy."
 	icon = 'nsv13/icons/overmap/nanotrasen/light_cruiser.dmi'
 	icon_state = "cruiser"
-	bound_width = 96 //Change this on a per ship basis
-	bound_height = 96
 	mass = MASS_MEDIUM
 	sprite_size = 96
 	damage_states = TRUE
@@ -23,8 +21,6 @@
 	desc = "A medium sized ship with an advanced railgun, long range torpedo systems and multiple PDCs. This ship is still somewhat agile, but excels at bombarding targets from extreme range."
 	icon = 'nsv13/icons/overmap/nanotrasen/patrol_cruiser.dmi'
 	icon_state = "patrol_cruiser"
-	bound_width = 128 //Change this on a per ship basis
-	bound_height = 256
 	mass = MASS_LARGE
 	sprite_size = 48
 	damage_states = TRUE
@@ -38,8 +34,6 @@
 	desc = "A medium sized ship with an advanced railgun, long range torpedo systems and multiple PDCs. This ship is fast, responsive, and able to deliver copious amounts of torpedo bombardment at a moment's notice."
 	icon = 'nsv13/icons/overmap/nanotrasen/missile_cruiser.dmi'
 	icon_state = "patrol_cruiser"
-	bound_width = 128 //Change this on a per ship basis
-	bound_height = 128
 	mass = MASS_MEDIUM
 	sprite_size = 48
 	damage_states = TRUE
@@ -53,8 +47,6 @@
 	desc = "A large ship with an advanced railgun, long range torpedo systems and multiple PDCs. It is slow, heavy and frighteningly powerful, excelling at sustained combat over short distances."
 	icon = 'nsv13/icons/overmap/nanotrasen/heavy_Cruiser.dmi'
 	icon_state = "heavy_cruiser"
-	bound_width = 128 //Change this on a per ship basis
-	bound_height = 256
 	mass = MASS_LARGE
 	sprite_size = 48
 	damage_states = TRUE
@@ -68,8 +60,6 @@
 	desc = "A gigantic ship which is capable of staying deployed in space for extended periods while supporting an impressive complement of fighters."
 	icon = 'nsv13/icons/overmap/nanotrasen/enterprise.dmi'
 	icon_state = "enterprise"
-	bound_width = 128 //Change this on a per ship basis
-	bound_height = 128
 	mass = MASS_LARGE
 	sprite_size = 48
 	damage_states = FALSE //TODO
@@ -83,8 +73,6 @@
 	desc = "A medium sized ship which has been retrofitted countless times. These ships are often relegated to mining duty."
 	icon = 'nsv13/icons/overmap/nanotrasen/light_cruiser.dmi'
 	icon_state = "cruiser"
-	bound_width = 96 //Change this on a per ship basis
-	bound_height = 96
 	mass = MASS_MEDIUM
 	sprite_size = 96
 	damage_states = TRUE
@@ -96,6 +84,10 @@
 /obj/structure/overmap/nanotrasen/mining_cruiser/nostromo
 	name = "NSV Nostromo"
 	role = MAIN_MINING_SHIP
+	area_type = /area/nostromo
+
+/obj/structure/overmap/nanotrasen/mining_cruiser/nostromo/fob
+	area_type = /area/nsv/shuttle
 
 /obj/structure/overmap/nanotrasen/missile_cruiser/starter //VAGO. Sergei use me!
 	role = MAIN_OVERMAP
@@ -116,6 +108,8 @@
 	role = MAIN_OVERMAP //Player controlled variant
 	max_integrity = 2000 //Compensates for lack of offensive weaponry
 	integrity_failure = 2000
+	bound_width = 256
+	bound_height = 256
 
 /obj/structure/overmap/nanotrasen/patrol_cruiser/ai
 	ai_controlled = TRUE
@@ -134,8 +128,6 @@
 	icon_state = "cruiser"
 	ai_controlled = TRUE
 	ai_behaviour = AI_AGGRESSIVE
-	bound_width = 96 //Change this on a per ship basis
-	bound_height = 96
 	mass = MASS_MEDIUM
 	sprite_size = 48
 	damage_states = TRUE
@@ -157,17 +149,92 @@
 	faction = "syndicate"
 	interior_maps = list("Corvette.dmm")
 
+/obj/structure/overmap/syndicate/ai/Initialize()
+	. = ..()
+	name = "[name] ([rand(0,999)])"
+
 /obj/structure/overmap/syndicate/ai/Destroy()
 	SSstarsystem.bounty_pool += bounty //Adding payment for services rendered
 	. = ..()
+
+/obj/structure/overmap/syndicate/pvp //Syndie PVP ship.
+	name = "SSV Hammurabi"
+	icon = 'nsv13/icons/overmap/syndicate/syn_light_cruiser.dmi'
+	icon_state = "cruiser"
+	bound_width = 96 //Change this on a per ship basis
+	bound_height = 96
+	mass = MASS_MEDIUM
+	sprite_size = 96
+	damage_states = TRUE
+	area_type = /area/hammurabi
+	max_integrity = 1200 //Buffed health due to ship internal damage existing
+	integrity_failure = 1200
+	pixel_z = -32
+	pixel_w = -32
+	ai_controlled = FALSE
+
+
+/obj/structure/overmap/syndicate/pvp/hulk //Larger PVP ship for larger pops.
+	name = "SSV Hulk"
+	icon = 'nsv13/icons/overmap/syndicate/syn_patrol_cruiser.dmi'
+	icon_state = "patrol_cruiser"
+	bound_width = 128
+	bound_height = 256
+	mass = MASS_LARGE
+	sprite_size = 48
+	pixel_z = -96
+	pixel_w = -96
+	max_integrity = 1500 //Max health
+	integrity_failure = 1500
+
+/obj/structure/overmap/fighter/syndicate //Syndie PVP fighter
+	name = "Syndicate Fighter"
+	desc = "The Syndicate's answer to Nanotrasen's fighter craft, this fighter is designed to maintain aerial supremacy."
+	icon = 'nsv13/icons/overmap/syndicate/syn_viper.dmi'
+	icon_state = "fighter"
+	damage_states = FALSE
+	prebuilt = TRUE
+	req_one_access = ACCESS_SYNDICATE
+	faction = "syndicate"
+
+/obj/structure/overmap/fighter/syndicate/prebuilt_setup()
+	name = "[pick("Hammerforce", "Shrike", "Anvil", "Viscerator", "Striker", "Immolator", "Redsuit", "Tango", "Wolf", "Viper", "Crusher")]-[rand(100,200)]"
+	var/list/components = list(/obj/item/twohanded/required/fighter_component/empennage,
+							/obj/item/twohanded/required/fighter_component/wing,
+							/obj/item/twohanded/required/fighter_component/wing,
+							/obj/item/twohanded/required/fighter_component/landing_gear,
+							/obj/item/twohanded/required/fighter_component/cockpit,
+							/obj/item/twohanded/required/fighter_component/armour_plating,
+							/obj/item/twohanded/required/fighter_component/fuel_tank,
+							/obj/item/fighter_component/avionics,
+							/obj/item/fighter_component/fuel_lines,
+							/obj/item/fighter_component/targeting_sensor,
+							/obj/item/twohanded/required/fighter_component/engine,
+							/obj/item/twohanded/required/fighter_component/engine,
+							/obj/item/twohanded/required/fighter_component/primary_cannon)
+	for(var/I = 0, I <= max_torpedoes, I++)
+		munitions += new /obj/item/ship_weapon/ammunition/torpedo/fast(src)
+	for(var/item in components)
+		new item(src)
+	torpedoes = munitions.len
+	internal_tank = new /obj/machinery/portable_atmospherics/canister/air(src)
+
+/obj/structure/overmap/fighter/prebuilt/raptor/syndicate
+	name = "Syndicate Raptor"
+	desc = "A boarding craft for rapid troop deployment."
+	icon = 'nsv13/icons/overmap/syndicate/syn_raptor.dmi'
+	icon_state = "carrier"
+	damage_states = FALSE
+	max_passengers = 8 //Damn boi he THICC
+	max_integrity = 150 //Squishy!
+	req_one_access = ACCESS_SYNDICATE
+	faction = "syndicate"
 
 /obj/structure/overmap/syndicate/ai //Generic bad guy #10000. GRR.
 	icon = 'nsv13/icons/overmap/syndicate/syn_light_cruiser.dmi'
 	icon_state = "cruiser"
 	ai_controlled = TRUE
 	ai_behaviour = AI_AGGRESSIVE
-	bound_width = 96 //Change this on a per ship basis
-	bound_height = 96
 	mass = MASS_MEDIUM
 	sprite_size = 96
 	damage_states = TRUE
@@ -178,8 +245,6 @@
 	name = "syndicate carrier"
 	icon = 'nsv13/icons/overmap/syndicate/syn_carrier.dmi'
 	icon_state = "carrier"
-	bound_width = 128 //Change this on a per ship basis
-	bound_height = 256
 	mass = MASS_LARGE
 	ai_can_launch_fighters = TRUE //AI variable. Allows your ai ships to spawn fighter craft
 	ai_fighter_type = /obj/structure/overmap/fighter/ai/syndicate
@@ -198,8 +263,6 @@
 /obj/structure/overmap/syndicate/ai/patrol_cruiser //Larger ship which is much harder to kill
 	icon = 'nsv13/icons/overmap/syndicate/syn_patrol_cruiser.dmi'
 	icon_state = "patrol_cruiser"
-	bound_width = 128 //Change this on a per ship basis
-	bound_height = 256
 	mass = MASS_LARGE
 	sprite_size = 48
 	damage_states = TRUE
@@ -221,8 +284,6 @@
 	icon_state = "fighter"
 	brakes = FALSE
 	max_integrity = 100 //Super squishy!
-	bound_width = 32 //Change this on a per ship basis
-	bound_height = 32
 	sprite_size = 32
 	faction = "syndicate"
 
