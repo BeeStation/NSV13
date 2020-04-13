@@ -215,7 +215,8 @@
 /obj/vehicle/sealed/car/realistic/ui_act(action, params, datum/tgui/ui)
 	if(..())
 		return
-	if(!LAZYFIND(return_drivers(), ui.user))
+	var/list/drivers = return_drivers()
+	if(!LAZYFIND(drivers, ui.user))
 		to_chat(ui.user, "<span class='warning'>You can't reach the controls from back here...</span>")
 		return
 	var/target_name = params["target"]
