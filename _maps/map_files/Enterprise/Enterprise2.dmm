@@ -161,12 +161,12 @@
 /area/janitor)
 "aaC" = (
 /obj/effect/spawner/structure/window/reinforced,
-/obj/machinery/door/poddoor/shutters/preopen{
+/obj/machinery/door/firedoor,
+/obj/structure/cable,
+/obj/machinery/door/poddoor/shutters/ship/preopen{
 	id = "hor_window";
 	name = "privacy shutter"
 	},
-/obj/machinery/door/firedoor,
-/obj/structure/cable,
 /turf/open/floor/plating,
 /area/science/xenobiology)
 "aaD" = (
@@ -3023,7 +3023,7 @@
 /area/medical/medbay/central)
 "ahL" = (
 /obj/effect/spawner/structure/window/reinforced,
-/obj/machinery/door/poddoor/shutters/preopen{
+/obj/machinery/door/poddoor/shutters/ship/preopen{
 	id = "hor_window";
 	name = "privacy shutter"
 	},
@@ -3945,7 +3945,7 @@
 /obj/structure/cable{
 	icon_state = "2-4"
 	},
-/turf/open/floor/plasteel/ship,
+/turf/open/floor/plating,
 /area/quartermaster/qm)
 "akg" = (
 /obj/machinery/light{
@@ -14713,7 +14713,7 @@
 "aIZ" = (
 /obj/effect/spawner/structure/window/reinforced,
 /obj/machinery/door/firedoor,
-/turf/open/floor/monotile/dark,
+/turf/open/floor/plating,
 /area/science/mixing{
 	name = "Prototype munitions bay"
 	})
@@ -24161,15 +24161,16 @@
 /area/security/detectives_office)
 "bdx" = (
 /obj/effect/spawner/structure/window/reinforced,
-/obj/machinery/door/poddoor/shutters/preopen{
-	id = "hor_window";
-	name = "privacy shutter"
-	},
 /obj/structure/cable{
 	icon_state = "4-8"
 	},
 /obj/structure/cable{
 	icon_state = "0-4"
+	},
+/obj/machinery/door/poddoor/shutters/ship/preopen{
+	dir = 4;
+	id = "hor_window";
+	name = "privacy shutter"
 	},
 /turf/open/floor/plating,
 /area/crew_quarters/heads/hor)
@@ -27385,6 +27386,9 @@
 	dir = 1
 	},
 /obj/machinery/atmospherics/components/unary/thermomachine/heater,
+/obj/machinery/airalarm{
+	pixel_y = 23
+	},
 /turf/open/floor/monotile/dark,
 /area/science/mixing{
 	name = "Prototype munitions bay"
@@ -30336,6 +30340,7 @@
 /obj/structure/cable{
 	icon_state = "1-2"
 	},
+/obj/machinery/door/firedoor/heavy,
 /turf/open/floor/monotile/dark,
 /area/science/mixing{
 	name = "Prototype munitions bay"
@@ -30533,7 +30538,7 @@
 /obj/structure/disposalpipe/segment,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
-/turf/open/floor/monotile/dark,
+/turf/open/floor/monotile,
 /area/science)
 "bpU" = (
 /obj/machinery/door/airlock/ship{
@@ -30694,7 +30699,7 @@
 /obj/structure/disposalpipe/segment{
 	dir = 4
 	},
-/turf/open/floor/plasteel/ship,
+/turf/open/floor/plating,
 /area/quartermaster/qm)
 "bqi" = (
 /obj/structure/disposalpipe/segment{
@@ -40175,10 +40180,10 @@
 /area/security/prison)
 "bIO" = (
 /obj/structure/window/reinforced,
-/obj/machinery/iv_drip,
 /obj/structure/extinguisher_cabinet{
 	pixel_x = 27
 	},
+/obj/machinery/stasis,
 /turf/open/floor/monotile/light,
 /area/security/prison)
 "bIP" = (
@@ -40213,6 +40218,7 @@
 	dir = 4
 	},
 /obj/effect/turf_decal/tile/red,
+/obj/machinery/iv_drip,
 /turf/open/floor/monotile/dark,
 /area/security/prison)
 "bIT" = (
@@ -41180,6 +41186,9 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/department/engine)
+"csQ" = (
+/turf/closed/wall/r_wall/ship,
+/area/science/mixing/chamber)
 "cuG" = (
 /obj/structure/closet/crate{
 	icon_state = "crateopen"
@@ -41233,9 +41242,7 @@
 	},
 /obj/machinery/atmospherics/pipe/layer_manifold,
 /turf/open/floor/engine,
-/area/science/mixing{
-	name = "Prototype munitions bay"
-	})
+/area/science/mixing/chamber)
 "cPU" = (
 /obj/item/radio/intercom{
 	name = "intra ship intercom";
@@ -41344,9 +41351,7 @@
 	dir = 4
 	},
 /turf/open/floor/monotile,
-/area/science/mixing{
-	name = "Prototype munitions bay"
-	})
+/area/science/mixing/chamber)
 "dLe" = (
 /obj/effect/turf_decal/tile/red{
 	dir = 1
@@ -41540,6 +41545,14 @@
 	},
 /turf/open/floor/carpet/blue,
 /area/hallway/secondary/exit)
+"eIS" = (
+/obj/machinery/button/door{
+	id = "morgue_desk";
+	name = "desk shutter control";
+	pixel_x = 24
+	},
+/turf/open/floor/monotile/dark,
+/area/medical/morgue)
 "eJW" = (
 /obj/structure/extinguisher_cabinet{
 	pixel_y = -27
@@ -41614,14 +41627,6 @@
 	},
 /turf/open/floor/plasteel/ship,
 /area/security/prison)
-"fcq" = (
-/obj/machinery/button/door{
-	id = "morgue_desk";
-	name = "desk shutter control";
-	pixel_x = 24
-	},
-/turf/open/floor/monotile/dark,
-/area/medical/morgue)
 "fex" = (
 /obj/structure/punching_bag,
 /obj/machinery/light_switch{
@@ -41643,10 +41648,9 @@
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	dir = 4
 	},
+/obj/machinery/door/firedoor/heavy,
 /turf/open/floor/monotile,
-/area/science/mixing{
-	name = "Prototype munitions bay"
-	})
+/area/science/mixing/chamber)
 "fjX" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
@@ -41676,9 +41680,7 @@
 "fxX" = (
 /obj/structure/lattice,
 /turf/open/space,
-/area/science/mixing{
-	name = "Prototype munitions bay"
-	})
+/area/science/mixing/chamber)
 "fEj" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /turf/closed/wall/r_wall/ship,
@@ -41798,6 +41800,16 @@
 /obj/machinery/airalarm/directional/west,
 /turf/open/floor/monotile,
 /area/crew_quarters/bar)
+"gDW" = (
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
+/obj/structure/disposalpipe/segment,
+/obj/machinery/light{
+	dir = 4
+	},
+/turf/open/floor/plating,
+/area/maintenance/central)
 "gFl" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 8
@@ -41829,9 +41841,7 @@
 	dir = 4
 	},
 /turf/open/floor/engine/vacuum,
-/area/science/mixing{
-	name = "Prototype munitions bay"
-	})
+/area/science/mixing/chamber)
 "gMn" = (
 /obj/machinery/requests_console{
 	department = "Medbay";
@@ -41963,9 +41973,7 @@
 	pixel_y = -5
 	},
 /turf/open/floor/monotile/dark,
-/area/science/mixing{
-	name = "Prototype munitions bay"
-	})
+/area/science/mixing/chamber)
 "hhQ" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	dir = 4
@@ -42003,9 +42011,7 @@
 	pixel_x = -24
 	},
 /turf/open/floor/monotile/dark,
-/area/science/mixing{
-	name = "Prototype munitions bay"
-	})
+/area/science/mixing/chamber)
 "hpX" = (
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3{
 	dir = 4
@@ -42090,9 +42096,6 @@
 	},
 /turf/open/floor/carpet/blue,
 /area/nsv/hanger/deck2)
-"igE" = (
-/turf/closed/wall/r_wall/ship,
-/area/nsv/crew_quarters/heads/maa)
 "ilA" = (
 /obj/structure/window/reinforced/fulltile/ship,
 /obj/structure/grille,
@@ -42307,9 +42310,7 @@
 	dir = 5
 	},
 /turf/open/floor/engine,
-/area/science/mixing{
-	name = "Prototype munitions bay"
-	})
+/area/science/mixing/chamber)
 "jmH" = (
 /obj/structure/cable{
 	icon_state = "1-2"
@@ -42362,6 +42363,9 @@
 	},
 /turf/open/floor/monotile,
 /area/nsv/hanger/deck2)
+"jJF" = (
+/turf/closed/wall/r_wall/ship,
+/area/nsv/crew_quarters/heads/maa)
 "jKS" = (
 /obj/machinery/requests_console{
 	department = "Science";
@@ -42507,9 +42511,11 @@
 /area/science/research)
 "kBg" = (
 /obj/structure/closet/wardrobe/science_white,
-/obj/structure/extinguisher_cabinet{
-	pixel_x = -27
+/obj/machinery/power/apc/auto_name/west,
+/obj/structure/cable{
+	icon_state = "0-4"
 	},
+/obj/structure/extinguisher_cabinet/south,
 /turf/open/floor/monotile/dark,
 /area/science/mixing{
 	name = "Prototype munitions bay"
@@ -42653,9 +42659,7 @@
 	dir = 4
 	},
 /turf/open/floor/engine,
-/area/science/mixing{
-	name = "Prototype munitions bay"
-	})
+/area/science/mixing/chamber)
 "lzn" = (
 /obj/structure/disposalpipe/segment{
 	dir = 4
@@ -42685,12 +42689,13 @@
 /area/science/xenobiology)
 "lEy" = (
 /obj/effect/spawner/structure/window/reinforced,
-/obj/machinery/door/poddoor/shutters/preopen{
-	id = "hor_window";
-	name = "privacy shutter"
-	},
 /obj/structure/cable{
 	icon_state = "0-8"
+	},
+/obj/machinery/door/poddoor/shutters/ship/preopen{
+	dir = 4;
+	id = "hor_window";
+	name = "privacy shutter"
 	},
 /turf/open/floor/plating,
 /area/crew_quarters/heads/hor)
@@ -42736,9 +42741,7 @@
 	dir = 6
 	},
 /turf/open/floor/monotile,
-/area/science/mixing{
-	name = "Prototype munitions bay"
-	})
+/area/science/mixing/chamber)
 "mlk" = (
 /obj/machinery/atmospherics/components/unary/outlet_injector/on{
 	dir = 1
@@ -42889,6 +42892,19 @@
 /obj/machinery/light/small,
 /turf/open/floor/plating,
 /area/maintenance/department/cargo)
+"nea" = (
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
+/obj/structure/cable{
+	icon_state = "1-8"
+	},
+/turf/open/floor/monotile/dark,
+/area/science/mixing{
+	name = "Prototype munitions bay"
+	})
 "neD" = (
 /obj/machinery/door/airlock/ship/maintenance/defaultaccess,
 /turf/open/floor/plating,
@@ -42918,9 +42934,7 @@
 	},
 /obj/machinery/atmospherics/pipe/layer_manifold,
 /turf/open/floor/engine,
-/area/science/mixing{
-	name = "Prototype munitions bay"
-	})
+/area/science/mixing/chamber)
 "ntS" = (
 /obj/structure/disposalpipe/segment,
 /turf/closed/wall/ship,
@@ -43052,9 +43066,7 @@
 	},
 /obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1,
 /turf/open/floor/monotile,
-/area/science/mixing{
-	name = "Prototype munitions bay"
-	})
+/area/science/mixing/chamber)
 "osW" = (
 /obj/machinery/light/small{
 	dir = 1
@@ -43114,9 +43126,7 @@
 	dir = 8
 	},
 /turf/open/floor/monotile/dark,
-/area/science/mixing{
-	name = "Prototype munitions bay"
-	})
+/area/science/mixing/chamber)
 "oHz" = (
 /obj/effect/turf_decal/tile/yellow{
 	dir = 1
@@ -43442,9 +43452,7 @@
 "rnf" = (
 /obj/machinery/igniter/incinerator_toxmix,
 /turf/open/floor/engine/vacuum,
-/area/science/mixing{
-	name = "Prototype munitions bay"
-	})
+/area/science/mixing/chamber)
 "rnZ" = (
 /obj/effect/turf_decal/tile/red{
 	dir = 4
@@ -43613,9 +43621,7 @@
 	dir = 4
 	},
 /turf/open/floor/monotile,
-/area/science/mixing{
-	name = "Prototype munitions bay"
-	})
+/area/science/mixing/chamber)
 "ssf" = (
 /obj/structure/closet/emcloset,
 /turf/open/floor/plating,
@@ -43643,13 +43649,11 @@
 /turf/open/floor/plating,
 /area/maintenance/starboard)
 "swR" = (
-/obj/machinery/atmospherics/components/unary/vent_pump/on{
+/obj/machinery/atmospherics/components/unary/outlet_injector/atmos/toxins_mixing_input{
 	dir = 4
 	},
 /turf/open/floor/engine/vacuum,
-/area/science/mixing{
-	name = "Prototype munitions bay"
-	})
+/area/science/mixing/chamber)
 "swX" = (
 /obj/effect/turf_decal/stripes/line,
 /obj/structure/disposalpipe/segment,
@@ -43804,16 +43808,6 @@
 	},
 /turf/open/floor/monotile,
 /area/crew_quarters/fitness/recreation)
-"tHN" = (
-/obj/structure/cable{
-	icon_state = "1-2"
-	},
-/obj/structure/disposalpipe/segment,
-/obj/machinery/light{
-	dir = 4
-	},
-/turf/open/floor/plating,
-/area/maintenance/central)
 "tIg" = (
 /obj/structure/disposalpipe/segment,
 /turf/open/floor/wood,
@@ -43955,6 +43949,18 @@
 /obj/machinery/portable_atmospherics/canister,
 /turf/open/floor/monotile/dark,
 /area/engine/atmospherics_engine)
+"uKz" = (
+/obj/structure/window/reinforced/fulltile/ship,
+/obj/structure/grille,
+/obj/structure/cable,
+/obj/structure/cable{
+	icon_state = "1-4"
+	},
+/obj/structure/cable{
+	icon_state = "1-8"
+	},
+/turf/open/floor/plating,
+/area/security/prison)
 "uMm" = (
 /obj/structure/extinguisher_cabinet{
 	pixel_x = 27
@@ -43986,9 +43992,7 @@
 	dir = 4
 	},
 /turf/closed/wall/ship,
-/area/science/mixing{
-	name = "Prototype munitions bay"
-	})
+/area/science/mixing/chamber)
 "uWe" = (
 /obj/structure/chair{
 	dir = 8
@@ -44030,9 +44034,7 @@
 	pixel_y = -26
 	},
 /turf/open/floor/monotile/dark,
-/area/science/mixing{
-	name = "Prototype munitions bay"
-	})
+/area/science/mixing/chamber)
 "vjc" = (
 /obj/structure/cable{
 	icon_state = "4-8"
@@ -44106,9 +44108,7 @@
 /obj/machinery/door/airlock/research/glass/incinerator/toxmix_exterior,
 /obj/effect/mapping_helpers/airlock/locked,
 /turf/open/floor/engine/vacuum,
-/area/science/mixing{
-	name = "Prototype munitions bay"
-	})
+/area/science/mixing/chamber)
 "vPG" = (
 /obj/structure/lattice,
 /obj/machinery/camera/motion{
@@ -44204,12 +44204,13 @@
 /area/science/xenobiology)
 "wzI" = (
 /obj/effect/spawner/structure/window/reinforced,
-/obj/machinery/door/poddoor/shutters/preopen{
-	id = "hor_window";
-	name = "privacy shutter"
-	},
 /obj/structure/cable{
 	icon_state = "0-4"
+	},
+/obj/machinery/door/poddoor/shutters/ship/preopen{
+	dir = 4;
+	id = "hor_window";
+	name = "privacy shutter"
 	},
 /turf/open/floor/plating,
 /area/crew_quarters/heads/hor)
@@ -44229,9 +44230,7 @@
 	pixel_y = -26
 	},
 /turf/open/floor/monotile,
-/area/science/mixing{
-	name = "Prototype munitions bay"
-	})
+/area/science/mixing/chamber)
 "wId" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 6
@@ -44374,9 +44373,7 @@
 "xDQ" = (
 /obj/machinery/door/poddoor/incinerator_toxmix,
 /turf/open/floor/plating/airless,
-/area/science/mixing{
-	name = "Prototype munitions bay"
-	})
+/area/science/mixing/chamber)
 "xEa" = (
 /obj/machinery/holopad,
 /turf/open/floor/carpet/ship,
@@ -55952,7 +55949,7 @@ aFw
 pSy
 bFm
 bFr
-bFt
+uKz
 anb
 aaJ
 aaJ
@@ -56980,7 +56977,7 @@ aFw
 aFw
 bFm
 bFr
-bFt
+uKz
 anb
 aaJ
 aaJ
@@ -57768,11 +57765,11 @@ aaJ
 aaJ
 aaJ
 aaJ
-aZe
-aZe
+csQ
+csQ
 irj
-aZe
-aZe
+csQ
+csQ
 aaJ
 aaJ
 aaa
@@ -58008,7 +58005,7 @@ bFb
 bFg
 bFo
 bFr
-bFt
+uKz
 anb
 aaJ
 aaJ
@@ -58025,11 +58022,11 @@ aaJ
 aaJ
 aaJ
 aaJ
-aZe
+csQ
 fxX
 fxX
 fxX
-aZe
+csQ
 aaJ
 aaJ
 aaa
@@ -58282,11 +58279,11 @@ aZe
 cJz
 aZe
 aZe
-aZe
+csQ
 xDQ
 xDQ
 xDQ
-aZe
+csQ
 aaJ
 aaJ
 aaa
@@ -58539,11 +58536,11 @@ vlL
 kZu
 wgS
 jMB
-aZe
+csQ
 gJU
 rnf
 swR
-aZe
+csQ
 aaJ
 aaJ
 aaa
@@ -58796,11 +58793,11 @@ aGZ
 aGZ
 aGZ
 lff
-aZe
+csQ
 uTe
 vPd
 uTe
-aZe
+csQ
 aaJ
 aaJ
 aaa
@@ -59036,7 +59033,7 @@ aFw
 aFw
 bFp
 bFr
-bFt
+uKz
 anb
 aaJ
 aaJ
@@ -59053,11 +59050,11 @@ aGZ
 aGZ
 eev
 dUS
-aZe
+csQ
 cOu
 jlu
 nqx
-aZe
+csQ
 aaJ
 aaJ
 aaJ
@@ -59310,11 +59307,11 @@ aIM
 aGZ
 aJl
 aKx
-aZe
+csQ
 uTe
 lwJ
 uTe
-aZe
+csQ
 aaJ
 aaJ
 aaJ
@@ -59567,11 +59564,11 @@ aIP
 bCL
 aJO
 aKL
-aZe
+csQ
 hnv
 dIo
 hhv
-aZe
+csQ
 aaJ
 aaJ
 aaJ
@@ -59824,11 +59821,11 @@ aIY
 bpS
 aKa
 aLg
-aZe
+csQ
 mbD
 oqq
 wEq
-aZe
+csQ
 aaJ
 aaJ
 aaJ
@@ -60076,16 +60073,16 @@ qQR
 aGs
 hAu
 aZe
-abb
+aZe
 aIZ
 bqj
 aIZ
-abb
 aZe
+csQ
 oDq
 srs
 vii
-aZe
+csQ
 aaJ
 aaJ
 aaJ
@@ -60338,11 +60335,11 @@ bif
 bwT
 aKb
 kBg
-aZe
-aZe
+csQ
+csQ
 fjB
-aZe
-aZe
+csQ
+csQ
 aaJ
 aaJ
 aaJ
@@ -60594,7 +60591,7 @@ iyx
 xOP
 bwV
 bdI
-bdI
+nea
 bzS
 bCN
 bxa
@@ -68776,7 +68773,7 @@ aic
 aic
 akx
 aUf
-fcq
+eIS
 aUy
 afw
 aYp
@@ -73930,7 +73927,7 @@ bbn
 bbn
 bdD
 beO
-tHN
+gDW
 aZZ
 bjd
 blH
@@ -74408,12 +74405,12 @@ bKs
 adF
 bKa
 bFQ
-igE
-igE
-igE
-igE
-igE
-igE
+jJF
+jJF
+jJF
+jJF
+jJF
+jJF
 bKf
 akR
 abx
@@ -74665,7 +74662,7 @@ bKt
 adF
 aZV
 bFQ
-igE
+jJF
 aan
 baj
 aaO
@@ -74922,7 +74919,7 @@ afs
 afa
 bdU
 bFQ
-igE
+jJF
 aao
 aaH
 aaH
@@ -75179,7 +75176,7 @@ afs
 afa
 bdU
 bFQ
-igE
+jJF
 aap
 aaL
 cgt
@@ -75436,7 +75433,7 @@ afa
 afa
 bhl
 bGR
-igE
+jJF
 aaq
 aaM
 aaQ
@@ -75693,12 +75690,12 @@ bHp
 afa
 bsV
 afa
-igE
-igE
-igE
-igE
-igE
-igE
+jJF
+jJF
+jJF
+jJF
+jJF
+jJF
 bAU
 abx
 aew
