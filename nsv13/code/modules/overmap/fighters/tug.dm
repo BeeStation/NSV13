@@ -86,17 +86,18 @@
 	return TRUE
 
 /obj/vehicle/sealed/car/realistic/fighter_tug/proc/load()
-	var/obj/structure/overmap/load = locate(/obj/structure/overmap/fighter) in orange(1, src)
+	var/obj/structure/overmap/load = locate(/obj/structure/overmap/fighter) in orange(2, src)
 	if(!load)
 		return
 	hitch(load)
 
 /obj/vehicle/sealed/car/realistic/fighter_tug/Initialize()
 	. = ..()
-	set_light(3)
-	add_overlay("hitch")
+	set_light(5)
 
 /obj/vehicle/sealed/car/realistic/fighter_tug/proc/hitch(obj/structure/overmap/fighter/target)
+	if(LAZYFIND(contents, target))
+		return FALSE
 	LAZYADD(vis_contents, target)
 	playsound(src, 'nsv13/sound/effects/ship/freespace2/crane_1.wav', 100, FALSE)
 	visible_message("<span class='warning'>[target] is loaded onto [src]</span>")
@@ -168,7 +169,10 @@
 			playsound(src, 'nsv13/sound/effects/ship/mac_load.ogg', 100, 1)
 			target.shake_animation()
 		LAZYREMOVE(vis_contents, target)
-		target.forceMove(get_turf(src))
+		var/turf/targetLoc = get_turf(get_step(src, launch_dir))
+		if(!istype(targetLoc, /turf/open))
+			targetLoc = get_turf(src) //Prevents them yeeting fighters through walls.
+		target.forceMove(targetLoc)
 		target.mag_lock = null
 
 /obj/item/key/fighter_tug

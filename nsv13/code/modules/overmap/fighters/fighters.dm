@@ -67,6 +67,7 @@ After going through this checklist, you're ready to go!
 	var/throttle_lock = FALSE
 	var/has_escape_pod = /obj/structure/overmap/fighter/prebuilt/escapepod
 	var/obj/structure/overmap/fighter/prebuilt/escapepod/escape_pod
+	var/start_emagged = FALSE //Do we start emagged? This is so that syndie fighters can shoot people shipside
 
 /**
 
@@ -86,6 +87,8 @@ You need to fire emag the fighter's IFF board. This makes it list as "ENEMY" on 
 
 /obj/structure/overmap/fighter/Initialize()
 	. = ..()
+	if(start_emagged)
+		obj_flags ^= EMAGGED
 	if(ispath(has_escape_pod))
 		escape_pod = new /obj/structure/overmap/fighter/prebuilt/escapepod(src)
 		escape_pod.name = "[name] - escape pod"
@@ -393,9 +396,9 @@ You need to fire emag the fighter's IFF board. This makes it list as "ENEMY" on 
 		forceMove(T)
 		bound_width = initial(bound_width)
 		bound_height = initial(bound_height)
-		weapon_safety = TRUE
 		docking_mode = FALSE
-		if(pilot)
+		if(pilot && faction == OM.faction)
+			weapon_safety = TRUE
 			to_chat(pilot, "<span class='notice'>Docking complete. <b>Gun safeties have been engaged automatically.</b></span>")
 		SEND_SIGNAL(src, COMSIG_FTL_STATE_CHANGE)
 		return TRUE
