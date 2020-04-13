@@ -2717,6 +2717,7 @@
 	dir = 1
 	},
 /obj/item/gun/syringe,
+/obj/item/clothing/suit/straight_jacket,
 /turf/open/floor/carpet/ship,
 /area/medical/exam_room)
 "agX" = (
@@ -4113,6 +4114,10 @@
 	dir = 1
 	},
 /obj/machinery/door/firedoor,
+/obj/machinery/door/poddoor/shutters/ship{
+	dir = 4;
+	id = "morgue_desk"
+	},
 /turf/open/floor/monotile,
 /area/medical/morgue)
 "akz" = (
@@ -4139,6 +4144,7 @@
 	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
+/obj/machinery/door/firedoor,
 /turf/open/floor/monotile/light,
 /area/medical/genetics)
 "akC" = (
@@ -4239,10 +4245,6 @@
 /turf/open/floor/monotile/light,
 /area/medical/medbay/lobby)
 "akP" = (
-/obj/machinery/door/airlock/ship/public/glass{
-	name = "Genetics Lab";
-	req_one_access_txt = "9"
-	},
 /obj/effect/mapping_helpers/airlock/unres{
 	dir = 4
 	},
@@ -4255,6 +4257,11 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 8
 	},
+/obj/machinery/door/airlock/ship/public/glass{
+	name = "Cloning Lab";
+	req_access_txt = "5; 68"
+	},
+/obj/machinery/door/firedoor,
 /turf/open/floor/plasteel/white,
 /area/medical/genetics)
 "akQ" = (
@@ -11793,14 +11800,14 @@
 /turf/closed/wall/r_wall/ship,
 /area/engine/atmospherics_engine)
 "aCf" = (
-/obj/machinery/door/airlock/ship/public/glass{
-	name = "Genetics Lab";
-	req_one_access_txt = "9"
-	},
 /obj/effect/mapping_helpers/airlock/unres{
 	dir = 1
 	},
 /obj/machinery/door/firedoor,
+/obj/machinery/door/airlock/ship/public/glass{
+	name = "Cloning Lab";
+	req_access_txt = "5; 68"
+	},
 /turf/open/floor/monotile/light,
 /area/medical/genetics)
 "aCg" = (
@@ -19678,6 +19685,7 @@
 	name = "Genetics Lab";
 	req_one_access_txt = "9"
 	},
+/obj/machinery/door/firedoor,
 /turf/open/floor/monotile/light,
 /area/medical/genetics)
 "aUj" = (
@@ -19700,6 +19708,10 @@
 	dir = 8
 	},
 /obj/machinery/door/firedoor,
+/obj/machinery/door/poddoor/shutters/ship{
+	dir = 4;
+	id = "morgue_desk"
+	},
 /turf/open/floor/monotile,
 /area/medical/morgue)
 "aUl" = (
@@ -38787,6 +38799,7 @@
 	name = "\improper INTENSIVE CARE UNIT";
 	pixel_y = 26
 	},
+/obj/structure/bed/roller,
 /turf/open/floor/monotile/light,
 /area/medical/medbay/lobby)
 "bFM" = (
@@ -41601,6 +41614,14 @@
 	},
 /turf/open/floor/plasteel/ship,
 /area/security/prison)
+"fcq" = (
+/obj/machinery/button/door{
+	id = "morgue_desk";
+	name = "desk shutter control";
+	pixel_x = 24
+	},
+/turf/open/floor/monotile/dark,
+/area/medical/morgue)
 "fex" = (
 /obj/structure/punching_bag,
 /obj/machinery/light_switch{
@@ -42069,7 +42090,7 @@
 	},
 /turf/open/floor/carpet/blue,
 /area/nsv/hanger/deck2)
-"ilj" = (
+"igE" = (
 /turf/closed/wall/r_wall/ship,
 /area/nsv/crew_quarters/heads/maa)
 "ilA" = (
@@ -43783,6 +43804,16 @@
 	},
 /turf/open/floor/monotile,
 /area/crew_quarters/fitness/recreation)
+"tHN" = (
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
+/obj/structure/disposalpipe/segment,
+/obj/machinery/light{
+	dir = 4
+	},
+/turf/open/floor/plating,
+/area/maintenance/central)
 "tIg" = (
 /obj/structure/disposalpipe/segment,
 /turf/open/floor/wood,
@@ -68745,7 +68776,7 @@ aic
 aic
 akx
 aUf
-aic
+fcq
 aUy
 afw
 aYp
@@ -73899,7 +73930,7 @@ bbn
 bbn
 bdD
 beO
-aZZ
+tHN
 aZZ
 bjd
 blH
@@ -74377,12 +74408,12 @@ bKs
 adF
 bKa
 bFQ
-ilj
-ilj
-ilj
-ilj
-ilj
-ilj
+igE
+igE
+igE
+igE
+igE
+igE
 bKf
 akR
 abx
@@ -74634,7 +74665,7 @@ bKt
 adF
 aZV
 bFQ
-ilj
+igE
 aan
 baj
 aaO
@@ -74891,7 +74922,7 @@ afs
 afa
 bdU
 bFQ
-ilj
+igE
 aao
 aaH
 aaH
@@ -75148,7 +75179,7 @@ afs
 afa
 bdU
 bFQ
-ilj
+igE
 aap
 aaL
 cgt
@@ -75405,7 +75436,7 @@ afa
 afa
 bhl
 bGR
-ilj
+igE
 aaq
 aaM
 aaQ
@@ -75662,12 +75693,12 @@ bHp
 afa
 bsV
 afa
-ilj
-ilj
-ilj
-ilj
-ilj
-ilj
+igE
+igE
+igE
+igE
+igE
+igE
 bAU
 abx
 aew
