@@ -14,8 +14,8 @@
 
 	outfit = /datum/outfit/job/fighter_pilot
 
-	access = list(ACCESS_MAINT_TUNNELS, ACCESS_MUNITIONS) //temp
-	minimal_access = list(ACCESS_MAINT_TUNNELS, ACCESS_MUNITIONS) //temp
+	access = list(ACCESS_MAINT_TUNNELS, ACCESS_MUNITIONS, ACCESS_MUNITIONS_STORAGE, ACCESS_FIGHTER) //temp
+	minimal_access = list(ACCESS_MAINT_TUNNELS, ACCESS_MUNITIONS, ACCESS_FIGHTER) //temp
 	paycheck = PAYCHECK_MEDIUM
 	paycheck_department = ACCOUNT_CAR
 
@@ -59,8 +59,8 @@
 
 	outfit = /datum/outfit/job/cag
 
-	access = list(ACCESS_MAINT_TUNNELS, ACCESS_MUNITIONS) //temp
-	minimal_access = list(ACCESS_MAINT_TUNNELS, ACCESS_MUNITIONS) //temp
+	access = list(ACCESS_MAINT_TUNNELS, ACCESS_MUNITIONS, ACCESS_MUNITIONS_STORAGE, ACCESS_FIGHTER, ACCESS_FL) //temp
+	minimal_access = list(ACCESS_MAINT_TUNNELS, ACCESS_MUNITIONS, ACCESS_FIGHTER, ACCESS_FL) //temp
 	paycheck = PAYCHECK_MEDIUM
 	paycheck_department = ACCOUNT_CAR
 

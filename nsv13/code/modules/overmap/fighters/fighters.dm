@@ -107,7 +107,7 @@ After going through this checklist, you're ready to go!
 			burnout_component()
 		return
 	else if(damage_amount >= 50)
-		if(prob(50))
+		if(prob(20))
 			burnout_component()
 		return
 	else if(damage_amount >= 10)
@@ -126,6 +126,8 @@ After going through this checklist, you're ready to go!
 	selection.burn_out()
 	set_master_caution(TRUE)
 	update_stats()
+	if(selection == /obj/item/fighter_component/secondary/utility/passenger_compartment_module)
+		relay('nsv13/sound/effects/ship/reactor/gasmask.ogg', "<span class='warning'>The air around you rushes out of the breached passenger compartment!</span>", loop = TRUE, channel = CHANNEL_SHIP_ALERT)
 
 /obj/structure/overmap/fighter/update_icon()
 	. =..()
@@ -182,6 +184,21 @@ After going through this checklist, you're ready to go!
 	if(canopy_breached) //Leak air if the canopy is breached.
 		var/datum/gas_mixture/removed = cabin_air.remove(5)
 		qdel(removed)
+
+	var/obj/item/fighter_component/secondary/utility/passenger_compartment_module/pc = get_part(/obj/item/fighter_component/secondary/utility/passenger_compartment_module)
+	if(pc?.burntout)
+		var/datum/gas_mixture/removed = cabin_air.remove(5)
+		qdel(removed)
+
+	var/obj/item/fighter_component/fuel_tank/ft = get_part(/obj/item/fighter_component/fuel_tank)
+	if(ft?.burntout)
+		if(ft.reagents.total_volume > (ft.reagents.maximum_volume / 4))
+			ft.reagents.remove_reagent(/datum/reagent/aviation_fuel, 5)
+
+	var/obj/item/fighter_component/secondary/utility/auxiliary_fuel_tank/aft = get_part(/obj/item/fighter_component/secondary/utility/auxiliary_fuel_tank)
+	if(aft?.burntout)
+		if(aft.reagents.total_volume > (aft.reagents.maximum_volume / 4))
+			aft.reagents.remove_reagent(/datum/reagent/aviation_fuel, 5)
 
 /obj/structure/overmap/fighter/return_air()
 	if(!canopy_open && !canopy_breached)
@@ -441,7 +458,7 @@ After going through this checklist, you're ready to go!
 	if(ai_controlled) //AI ships don't have interiors
 		if(torpedoes <= 0)
 			return
-		fire_projectile(/obj/item/projectile/bullet/torpedo, target, homing = TRUE, speed=1, explosive = TRUE)
+		fire_projectile(/obj/item/projectile/missile/torpedo, target, homing = TRUE, speed=1, explosive = TRUE)
 		torpedoes --
 		return
 	var/proj_type = null //If this is true, we've got a launcher shipside that's been able to fire.
@@ -457,7 +474,7 @@ After going through this checklist, you're ready to go!
 	if(proj_type)
 		var/sound/chosen = pick('nsv13/sound/effects/ship/torpedo.ogg','nsv13/sound/effects/ship/freespace2/m_shrike.wav','nsv13/sound/effects/ship/freespace2/m_stiletto.wav','nsv13/sound/effects/ship/freespace2/m_tsunami.wav','nsv13/sound/effects/ship/freespace2/m_wasp.wav')
 		relay_to_nearby(chosen)
-		if(proj_type == /obj/item/projectile/bullet/torpedo/dud) //Some brainlet MAA loaded an incomplete torp
+		if(proj_type == /obj/item/projectile/missile/torpedo/dud) //Some brainlet MAA loaded an incomplete torp
 			fire_projectile(proj_type, target, homing = FALSE, speed=proj_speed, explosive = TRUE)
 		else
 			fire_projectile(proj_type, target, homing = TRUE, speed=proj_speed, explosive = TRUE)
@@ -468,7 +485,7 @@ After going through this checklist, you're ready to go!
 	if(ai_controlled) //AI ships don't have interiors
 		if(missiles <= 0)
 			return
-		fire_projectile(/obj/item/projectile/bullet/missile, target, homing = TRUE, speed=1, explosive = TRUE)
+		fire_projectile(/obj/item/projectile/missile/missile, target, homing = TRUE, speed=1, explosive = TRUE)
 		missiles --
 		return
 	var/proj_type = null //If this is true, we've got a launcher shipside that's been able to fire.
@@ -484,7 +501,7 @@ After going through this checklist, you're ready to go!
 	if(proj_type)
 		var/sound/chosen = pick('nsv13/sound/effects/ship/torpedo.ogg','nsv13/sound/effects/ship/freespace2/m_shrike.wav','nsv13/sound/effects/ship/freespace2/m_stiletto.wav','nsv13/sound/effects/ship/freespace2/m_tsunami.wav','nsv13/sound/effects/ship/freespace2/m_wasp.wav')
 		relay_to_nearby(chosen)
-		if(proj_type == /obj/item/projectile/bullet/torpedo/dud) //Some brainlet MAA loaded an incomplete torp
+		if(proj_type == /obj/item/projectile/missile/missile/dud) //Some brainlet MAA loaded an incomplete torp
 			fire_projectile(proj_type, target, homing = FALSE, speed=proj_speed, explosive = TRUE)
 		else
 			fire_projectile(proj_type, target, homing = TRUE, speed=proj_speed, explosive = TRUE)
@@ -495,9 +512,32 @@ After going through this checklist, you're ready to go!
 /obj/structure/overmap/fighter/fire_cannon(atom/target)
 	if(!mun_cannon.len)
 		return
-
-
 */
+/obj/structure/overmap/fighter/proc/fire_countermeasure()
+	if(!get_part(/obj/item/fighter_component/countermeasure_dispenser)) //Check for a dispenser
+		to_chat(usr, "<span class='warning'>Countermeasure Dispenser Not Detected!</span>")
+		return
+
+	if(countermeasures == 0) //check to see if we have any countermeasures
+		to_chat(usr, "<span class='warning'>Countermeasures depleted!</span>")
+		return
+
+	var/obj/item/fighter_component/countermeasure_dispenser/cmd = get_part(/obj/item/fighter_component/countermeasure_dispenser)
+	if(cmd.burntout) //check to see if the dispenser is damaged
+		if(prob(85))
+			to_chat(usr, "<span class='warning'>Error detected in Countermeasure System! Process Aborted!</span>")
+			SEND_SOUND(usr, sound('sound/effects/alert.ogg', repeat = FALSE, wait = 0, volume = 100))
+			return
+
+	for(var/I = 0, I < 3, I++) //launch three chaff
+		new /obj/effect/temp_visual/countermeasure_cloud (loc, 1)
+		sleep(5)
+
+	var/obj/item/ship_weapon/ammunition/countermeasure_charge/cmc = locate(/obj/item/ship_weapon/ammunition/countermeasure_charge) in contents //remove charge
+	qdel(cmc)
+	countermeasures --
+
+
 
 /obj/structure/overmap/fighter/attackby(obj/item/W, mob/user, params) //changing equipment
 	add_fingerprint(user)
@@ -842,6 +882,17 @@ How to make fuel:
 		return 0
 	var/obj/item/reagent_containers/rbs_welder_tank/WT = locate(/obj/item/reagent_containers/rbs_welder_tank) in rbs.contents
 	return WT.reagents.maximum_volume
+
+/obj/structure/overmap/fighter/key_down(key, client/user)
+	.=..()
+	var/mob/themob = user.mob
+	switch(key)
+		if("z")
+			if(themob == gunner)
+				fire_countermeasure()
+			if(tactical && prob(80))
+				var/sound = pick(GLOB.computer_beeps)
+				playsound(tactical, sound, 100, 1)
 
 //UI
 

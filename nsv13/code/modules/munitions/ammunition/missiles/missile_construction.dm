@@ -11,7 +11,7 @@
 	var/obj/item/ship_weapon/parts/missile/guidance_system/gs = null
 	var/obj/item/ship_weapon/parts/missile/propulsion_system/ps = null
 	var/obj/item/ship_weapon/parts/missile/iff_card/iff = null
-	projectile_type = /obj/item/projectile/bullet/missile/dud //Forget to finish your missile? You get a dud missile that doesn't do anything
+	projectile_type = /obj/item/projectile/missile/missile/dud //Forget to finish your missile? You get a dud missile that doesn't do anything
 
 /obj/item/ship_weapon/ammunition/missile/missile_casing/examine(mob/user) //No better guide than an in-game play-by-play guide
 	. = ..()

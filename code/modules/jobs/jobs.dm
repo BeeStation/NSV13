@@ -70,6 +70,7 @@ GLOBAL_LIST_INIT(nonhuman_positions, list(
 GLOBAL_LIST_INIT(munitions_positions, list(
 	"Master At Arms",
 	"Munitions Technician",
+	"Fighter Technician",
 	"Flight Leader",
 	"Fighter Pilot",
 	"Air Traffic Controller",

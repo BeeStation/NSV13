@@ -66,7 +66,7 @@
 	// We have different sprites and behaviors for each torpedo
 	var/obj/item/ship_weapon/ammunition/torpedo/T = chambered
 	if(T)
-		if(istype(T, /obj/item/projectile/bullet/torpedo/dud)) //Some brainlet MAA loaded an incomplete torp
+		if(istype(T, /obj/item/projectile/missile/torpedo/dud)) //Some brainlet MAA loaded an incomplete torp
 			linked.fire_projectile(T.projectile_type, target, homing = FALSE, explosive = TRUE)
 		else
 			linked.fire_projectile(T.projectile_type, target, homing = TRUE, explosive = TRUE)

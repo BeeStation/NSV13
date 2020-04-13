@@ -39,7 +39,6 @@
 	name = "Fighter Fuel Tank - PARENT"
 	icon_state = "secgearcrate"
 	var/fuel_capacity = 0 //Fuel Capacity
-	burntout = INELIGIBLE
 
 /obj/item/fighter_component/fuel_tank/Initialize()
 	.=..()
@@ -88,22 +87,22 @@
 	var/consumption = 0 //How fast we burn fuel
 
 /obj/item/fighter_component/countermeasure_dispenser
-	name = "Fighter Countermeasure Dispensor - PARENT"
+	name = "Fighter Countermeasure Dispenser - PARENT"
 	icon_state = "o2crate"
 	var/countermeasure_capacity = 4
 
 /obj/item/fighter_component/countermeasure_dispenser/t1
-	name = "Fighter Countermeasure Dispensor"
-	desc = "A Countermeasure Dispensor for a fighter"
+	name = "Fighter Countermeasure Dispenser"
+	desc = "A Countermeasure Dispenser for a fighter"
 
 /obj/item/fighter_component/countermeasure_dispenser/t2
-	name = "Expanded Fighter Countermeasure Dispensor"
-	desc = "An Expanded Countermeasure Dispensor for a fighter"
+	name = "Expanded Fighter Countermeasure Dispenser"
+	desc = "An Expanded Countermeasure Dispenser for a fighter"
 	countermeasure_capacity = 6
 
 /obj/item/fighter_component/countermeasure_dispenser/t3
-	name = "Double Fighter Countermeasure Dispensor"
-	desc = "A Double Countermeasure Dispensor for a fighter"
+	name = "Double Fighter Countermeasure Dispenser"
+	desc = "A Double Countermeasure Dispenser for a fighter"
 	countermeasure_capacity = 8
 
 ////////Light Components///////
@@ -373,7 +372,6 @@
 	desc = "THIS IS A PARENT ITEM AND SHOULD NOT BE SPAWNED"
 	icon_state = "crate"
 	var/aux_capacity = 3000
-	burntout = INELIGIBLE
 
 /obj/item/fighter_component/secondary/utility/auxiliary_fuel_tank/Initialize()
 	.=..()
@@ -439,7 +437,6 @@
 	name = "Utility Vessel Passenger Compartment Module - PARENT"
 	icon_state = "crate"
 	var/passenger_capacity = 4
-	burntout = INELIGIBLE
 
 /obj/item/fighter_component/secondary/utility/passenger_compartment_module/t1
 	name = "Utility Vessel Passenger Compartment Module"
@@ -683,8 +680,8 @@
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO
 
 /datum/design/fighter_countermeasure_dispenser_t1
-	name = "Fighter Countermeasure Dispensor"
-	desc = "A Countermeasure Dispensor for a fighter"
+	name = "Fighter Countermeasure Dispenser"
+	desc = "A Countermeasure Dispenser for a fighter"
 	id = "fighter_countermeasure_dispenser_t1"
 	build_type = PROTOLATHE
 	materials = list(/datum/material/iron = 3000, /datum/material/titanium = 1000, /datum/material/copper = 5000, /datum/material/glass = 5000)
@@ -693,8 +690,8 @@
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO
 
 /datum/design/fighter_countermeasure_dispenser_t2
-	name = "Expanded Fighter Countermeasure Dispensor"
-	desc = "An Expanded Countermeasure Dispensor for a fighter"
+	name = "Expanded Fighter Countermeasure Dispenser"
+	desc = "An Expanded Countermeasure Dispenser for a fighter"
 	id = "fighter_countermeasure_dispenser_t2"
 	build_type = PROTOLATHE
 	materials = list(/datum/material/iron = 4000, /datum/material/titanium = 1500, /datum/material/copper = 5000, /datum/material/glass = 5000, /datum/material/gold = 2500)
@@ -703,8 +700,8 @@
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO
 
 /datum/design/fighter_countermeasure_dispenser_t3
-	name = "Double Fighter Countermeasure Dispensor"
-	desc = "A Double Fighter Countermeasure Dispensor"
+	name = "Double Fighter Countermeasure Dispenser"
+	desc = "A Double Fighter Countermeasure Dispenser"
 	id = "fighter_countermeasure_dispenser_t3"
 	build_type = PROTOLATHE
 	materials = list(/datum/material/iron = 3000, /datum/material/titanium = 1000, /datum/material/copper = 5000, /datum/material/glass = 5000, /datum/material/gold = 3000, /datum/material/uranium = 2000)

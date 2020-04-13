@@ -17,6 +17,7 @@
 	speed_limit = 3 //Slower than fighters
 	pixel_w = -16
 	pixel_z = -20
+	req_one_access = list(ACCESS_MUNITIONS, ACCESS_ENGINE)
 
 	forward_maxthrust = 3
 	backward_maxthrust = 3

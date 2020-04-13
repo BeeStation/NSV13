@@ -11,7 +11,7 @@
 	var/obj/item/ship_weapon/parts/torpedo/guidance_system/gs = null
 	var/obj/item/ship_weapon/parts/torpedo/propulsion_system/ps = null
 	var/obj/item/ship_weapon/parts/torpedo/iff_card/iff = null
-	projectile_type = /obj/item/projectile/bullet/torpedo/dud //Forget to finish your torpedo? You get a dud torpedo that doesn't do anything
+	projectile_type = /obj/item/projectile/missile/torpedo/dud //Forget to finish your torpedo? You get a dud torpedo that doesn't do anything
 
 /obj/item/ship_weapon/ammunition/torpedo/torpedo_casing/examine(mob/user) //No better guide than an in-game play-by-play guide
 	. = ..()

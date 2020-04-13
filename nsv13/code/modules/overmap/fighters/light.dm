@@ -28,6 +28,9 @@
 						/obj/item/fighter_component/secondary/light/missile_rack/t1,
 						/obj/item/fighter_component/primary/light/light_cannon/t1)
 
+/obj/structure/overmap/fighter/light/prebuilt/flight_leader
+	req_access = list(ACCESS_FL)
+
 /obj/structure/overmap/fighter/light/attackby(obj/item/W, mob/user, params) //changing light equipment - used in fighters.dm maintenance mode
 	.=..()
 	if(maint_state == 2)  //MS_OPEN == 2

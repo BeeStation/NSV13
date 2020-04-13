@@ -76,6 +76,7 @@
 	var/homing_inaccuracy_max = 0
 	var/homing_offset_x = 0
 	var/homing_offset_y = 0
+	var/angle = 0 //NSV13 - required projectile child
 
 	var/ignore_source_check = FALSE
 
@@ -537,7 +538,7 @@
 	var/datum/point/PT = RETURN_PRECISE_POINT(homing_target)
 	PT.x += CLAMP(homing_offset_x, 1, world.maxx)
 	PT.y += CLAMP(homing_offset_y, 1, world.maxy)
-	var/angle = closer_angle_difference(Angle, angle_between_points(RETURN_PRECISE_POINT(src), PT))
+	angle = closer_angle_difference(Angle, angle_between_points(RETURN_PRECISE_POINT(src), PT))
 	setAngle(Angle + CLAMP(angle, -homing_turn_speed, homing_turn_speed))
 
 /obj/item/projectile/proc/set_homing_target(atom/A)

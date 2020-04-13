@@ -21,16 +21,20 @@
 	damage = 20
 //	flag = "overmap_heavy"
 
-/obj/item/projectile/bullet/torpedo
+/obj/item/projectile/missile/torpedo
 	icon_state = "torpedo"
 	name = "plasma torpedo"
 	speed = 0.5
+	maximum_speed = 10
+	acceleration_rate = 0.1
+	valid_angle = 180
 	homing_turn_speed = 5
 	damage = 100
+	range = 1000
 //	flag = "overmap_heavy"
 	impact_effect_type = /obj/effect/temp_visual/impact_effect/torpedo
 
-/obj/item/projectile/bullet/missile
+/obj/item/projectile/missile/missile
 	icon_state = "torpedo"
 	name = "conventinal missile"
 	speed = 3
@@ -48,14 +52,14 @@
 	icon_state = "explosion"
 	duration = 10
 
-/obj/item/projectile/bullet/torpedo/on_hit(atom/target, blocked = FALSE)
+/obj/item/projectile/missile/torpedo/on_hit(atom/target, blocked = FALSE)
 	..()
 	if(istype(target, /obj/structure/overmap)) //Were we to explode on an actual overmap, this would oneshot the ship as it's a powerful explosion.
 		return BULLET_ACT_HIT
 	explosion(target, 2, 4, 4)
 	return BULLET_ACT_HIT
 
-/obj/item/projectile/bullet/torpedo/Crossed(atom/movable/AM) //Here, we check if the bullet that hit us is from a friendly ship. If it's from an enemy ship, we explode as we've been flak'd down.
+/obj/item/projectile/missile/torpedo/Crossed(atom/movable/AM) //Here, we check if the bullet that hit us is from a friendly ship. If it's from an enemy ship, we explode as we've been flak'd down.
 	. = ..()
 	if(istype(AM, /obj/item/projectile))
 		var/obj/item/projectile/proj = AM
@@ -73,7 +77,7 @@
 				qdel(src)
 				return FALSE
 
-/obj/item/projectile/bullet/torpedo/on_hit(atom/target, blocked = 0)
+/obj/item/projectile/missile/torpedo/on_hit(atom/target, blocked = 0)
 	if(isovermap(target))
 		var/obj/structure/overmap/OM = target
 		OM.torpedoes_to_target -= src
@@ -226,7 +230,7 @@
 			if(ai_controlled)
 				addtimer(VARSET_CALLBACK(src, torpedoes, initial(src.torpedoes)), 60 SECONDS)
 			return
-		fire_projectile(/obj/item/projectile/bullet/torpedo, target, homing = TRUE, speed=1, explosive = TRUE)
+		fire_projectile(/obj/item/projectile/missile/torpedo, target, homing = TRUE, speed=1, explosive = TRUE)
 		torpedoes --
 		var/obj/structure/overmap/OM = target
 		if(istype(OM, /obj/structure/overmap) && OM.dradis)
@@ -239,7 +243,7 @@
 			if(ai_controlled)
 				addtimer(VARSET_CALLBACK(src, missiles, initial(src.missiles)), 60 SECONDS)
 			return
-		fire_projectile(/obj/item/projectile/bullet/missile, target, homing = TRUE, speed=1, explosive = TRUE)
+		fire_projectile(/obj/item/projectile/missile/missile, target, homing = TRUE, speed=1, explosive = TRUE)
 		missiles --
 		var/obj/structure/overmap/OM = target
 		if(istype(OM, /obj/structure/overmap) && OM.dradis)

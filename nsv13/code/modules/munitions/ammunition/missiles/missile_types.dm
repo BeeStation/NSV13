@@ -5,7 +5,7 @@
 	desc = "missile."
 	anchored = TRUE
 	density = TRUE
-	projectile_type = /obj/item/projectile/bullet/missile //What torpedo type we fire
+	projectile_type = /obj/item/projectile/missile/missile //What torpedo type we fire
 	pixel_x = -17
 //	var/speed = 1 //Placeholder, allows upgrading speed with better propulsion
 
@@ -21,6 +21,6 @@
 	. += "<span class='warning'>It's far too cumbersome to carry, and dragging it around might set it off!</span>"
 
 //What you get from an incomplete missile.
-/obj/item/projectile/bullet/missile/dud
+/obj/item/projectile/missile/missile/dud
 	icon_state = "torpedo_dud"
 	damage = 0
