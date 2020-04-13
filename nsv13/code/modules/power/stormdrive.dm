@@ -58,7 +58,7 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 	anchored = TRUE
 	resistance_flags = INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | UNACIDABLE | ACID_PROOF | FREEZE_PROOF
 	light_color = LIGHT_COLOR_CYAN
-	var/obj/machinery/atmospherics/components/binary/pump/pipe
+	var/obj/machinery/atmospherics/components/binary/pump/reactor_manifold/pipe
 	var/start_threshold = 20 //N mol of constricted plasma to fire it up. N heat to start it up
 	var/heat = 0 //How hot are we? In Celcius
 	var/target_heat = REACTOR_HEAT_NORMAL //For control rods. How hot do we want the reactor to get? We'll attempt to cool the reactor to this temperature.
@@ -81,6 +81,9 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 	var/last_power_produced = 0 //For UI tracking. Shows your power output.
 	var/theoretical_maximum_power = 100000 //Placeholder.
 
+/obj/machinery/power/stormdrive_reactor/syndicate
+	radio_key = /obj/item/encryptionkey/syndicate
+	engineering_channel = "Syndicate"
 
 /obj/machinery/power/stormdrive_reactor/attackby(obj/item/I, mob/user)
 	if(istype(I, /obj/item/stack/sheet/plasteel) && user.a_intent != INTENT_HARM)
@@ -161,7 +164,7 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 	return FALSE
 
 /obj/machinery/power/stormdrive_reactor/proc/find_pipe()
-	pipe = locate(/obj/machinery/atmospherics/components/binary/pump) in get_turf(src)
+	pipe = locate(/obj/machinery/atmospherics/components/binary/pump/reactor_manifold) in get_turf(src)
 
 /obj/machinery/power/stormdrive_reactor/proc/check_meltdown_warning()
 	if(warning_state >= WARNING_STATE_OVERHEAT)
@@ -407,6 +410,9 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 
 /obj/machinery/computer/ship/reactor_control_computer/Initialize()
 	. = ..()
+	return INITIALIZE_HINT_LATELOAD
+
+/obj/machinery/computer/ship/reactor_control_computer/LateInitialize()
 	var/atom/adjacent = locate(/obj/machinery/power/stormdrive_reactor) in get_area(src) //Locate via area
 	if(adjacent && istype(adjacent, /obj/machinery/power/stormdrive_reactor))
 		reactor = adjacent
