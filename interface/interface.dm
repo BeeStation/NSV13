@@ -53,8 +53,6 @@
 		to_chat(src, "<span class='danger'>The Github URL is not set in the server configuration.</span>")
 	return
 
-
-
 /client/verb/reportissue()
 	set name = "report-issue"
 	set desc = "Report an issue"
