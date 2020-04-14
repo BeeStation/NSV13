@@ -254,9 +254,9 @@ SUBSYSTEM_DEF(mapping)
 		if("lavaland")
 			LoadGroup(FailedZs, "Lavaland", "map_files/Mining", "Lavaland.dmm", default_traits = ZTRAITS_LAVALAND)
 		if("nostromo") //nsv13 mining type
-			LoadGroup(FailedZs, "nostromo", "map_files/Mining/nsv13", "nostromo.dmm", default_traits = ZTRAITS_MINING_SHIP)
+			LoadGroup(FailedZs, "nostromo", "map_files/Mining/nsv13", "nostromo.dmm", default_traits = ZTRAITS_BOARADABLE_SHIP)
 		if("FOB") //nsv13 mining type
-			LoadGroup(FailedZs, "FOB", "map_files/Mining/nsv13", "FOB_Shuttle.dmm", default_traits = ZTRAITS_MINING_SHIP)
+			LoadGroup(FailedZs, "FOB", "map_files/Mining/nsv13", "FOB_Shuttle.dmm", default_traits = ZTRAITS_BOARADABLE_SHIP)
 		if(null)
 			INIT_ANNOUNCE("WARNING: A null minetype was set! Inspect the map definition JSON!")
 		else
