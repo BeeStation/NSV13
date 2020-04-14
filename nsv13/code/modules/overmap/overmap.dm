@@ -232,11 +232,7 @@
 		for(var/X in GLOB.teleportlocs) //Teleportlocs = ss13 areas that aren't special / centcom
 			var/area/area = GLOB.teleportlocs[X] //Pick a station area and yeet it.
 			area.linked_overmap = src
-	else
-		for(var/area/AR in GLOB.sortedAreas) //Otherwise, look for areas with that point to our type.
-			if(istype(src, AR.overmap_type))
-				AR.linked_overmap = src
-				linked_areas += AR
+
 
 /obj/structure/overmap/proc/InterceptClickOn(mob/user, params, atom/target)
 	var/list/params_list = params2list(params)
