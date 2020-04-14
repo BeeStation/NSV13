@@ -1,8 +1,8 @@
 ---
-name: Map Issue - Enterprise
-about: Bugs related to the Enterprise Map
+name: Bug report - Testmerge Issue
+about: Bugs directly caused by testmerged PRs
 title: ''
-labels: Enterprise, Map Issue
+labels: Testmerge Issue
 assignees: ''
 
 ---
