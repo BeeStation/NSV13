@@ -65,6 +65,21 @@
 	new /obj/item/storage/photo_album/HoP(src)
 	new /obj/item/card/id/departmental_budget/srv(src)
 
+//NSV Bridge Officer Locker
+/obj/structure/closet/secure_closet/bridge
+	name = "\proper bridge staff's locker"
+	req_access = list(ACCESS_HEADS)
+	icon_state = "bridge_staff"
+
+/obj/structure/closet/secure_closet/bridge/PopulateContents()
+	..()
+	new /obj/item/clothing/glasses/sunglasses(src)
+	new /obj/item/radio/headset/heads/hop(src)
+	new /obj/item/clothing/under/ship/officer(src)
+	new /obj/item/clothing/shoes/jackboots(src)
+	new /obj/item/clothing/head/beret/durathread
+
+
 /obj/structure/closet/secure_closet/brig_phys
 	name = "\proper brig physician's locker"
 	req_access = list(ACCESS_BRIG)
