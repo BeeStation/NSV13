@@ -470,8 +470,9 @@
 		var/mob/living/silicon/ai/AI = src
 		if(AI.eyeobj)
 			var/turf/T = SSmapping.get_turf_above(get_turf(AI.eyeobj))
-			var/area/X = get_area(T) //Check theyre ON THE STATION and not trying to move down into the overmap
-			if(T && !istype(X, /area/space) && !istype(T, /turf/open/space/basic))
+			if(AI.overmap_ship) //So that they don't get an overmap camera on the ship Z-level.
+				return FALSE
+			if(T && is_station_level(T.z))//Multiz AI viewing of boardable ship is not currently supported.
 				AI.eyeobj.forceMove(T)
 			else
 				to_chat(AI, "<span class='warning'>You cannot move here</span>")
@@ -488,8 +489,9 @@
 		var/mob/living/silicon/ai/AI = src
 		if(AI.eyeobj)
 			var/turf/T = SSmapping.get_turf_below(get_turf(AI.eyeobj))
-			var/area/X = get_area(T) //Check theyre ON THE STATION and not trying to move down into the overmap
-			if(T && !istype(X, /area/space) && !istype(T, /turf/open/space/basic))
+			if(AI.overmap_ship) //So that they don't get an overmap camera on the ship Z-level.
+				return FALSE
+			if(T && is_station_level(T.z))//Multiz AI viewing of boardable ship is not currently supported.
 				AI.eyeobj.forceMove(T)
 			else
 				to_chat(AI, "<span class='warning'>You cannot move here</span>")
