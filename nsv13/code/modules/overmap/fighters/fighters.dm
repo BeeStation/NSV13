@@ -149,9 +149,32 @@ After going through this checklist, you're ready to go!
 	pixel_x = 38
 	anchored = TRUE
 	density = FALSE
+	var/place_landing_waypoint = TRUE
 	var/obj/structure/overmap/fighter/mag_locked = null
 	var/obj/structure/overmap/linked = null
 	var/ready = TRUE
+
+/obj/structure/fighter_launcher/launch_only //If you don't want them to also land here.
+	place_landing_waypoint = FALSE
+
+/obj/structure/fighter_launcher/galactica //If it shouldn't actually launch people. But should just catch them.
+	name = "electromagnetic arrestor"
+	desc = "A large rail which rapidly decelerates approaching ships to a safe velocity."
+
+/obj/structure/fighter_launcher/galactica/linkup() //Tweaks the offsets so that fighters don't experience crippling visual issues on Galactica.
+	linked = get_overmap()
+	if(!place_landing_waypoint)
+		return
+	if(linked) //If we have a linked overmap, translate our position into a point where fighters should be returning to our Z-level.
+		switch(dir)
+			if(NORTH)
+				linked.docking_points += get_turf(locate(x, 250, z))
+			if(SOUTH)
+				linked.docking_points += get_turf(locate(x, 10, z))
+			if(EAST)
+				linked.docking_points += get_turf(locate(200, y, z))
+			if(WEST)
+				linked.docking_points += get_turf(locate(25, y, z))
 
 /obj/structure/fighter_launcher/Initialize()
 	. = ..()
@@ -258,6 +281,8 @@ After going through this checklist, you're ready to go!
 
 /obj/structure/fighter_launcher/proc/linkup()
 	linked = get_overmap()
+	if(!place_landing_waypoint)
+		return
 	if(linked) //If we have a linked overmap, translate our position into a point where fighters should be returning to our Z-level.
 		switch(dir)
 			if(NORTH)
