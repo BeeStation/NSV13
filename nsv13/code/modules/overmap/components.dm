@@ -288,9 +288,10 @@ GLOBAL_LIST_INIT(computer_beeps, list('nsv13/sound/effects/computer/beep.ogg','n
 	plane = FLOOR_PLANE
 	obj_integrity = 100
 	max_integrity = 100
-	var/obj/structure/overmap/parent
+	var/obj/structure/overmap/parent = null
 	var/armour_scale_modifier = 4
 	var/armour_broken = FALSE
+	var/tries = 2 //How many times do we try and locate our parent before giving up? Here to avoid infinite recursion timers.
 
 /obj/structure/hull_plate/end
 	icon_state = "tgmc_outerhull_dir"
@@ -300,7 +301,24 @@ GLOBAL_LIST_INIT(computer_beeps, list('nsv13/sound/effects/computer/beep.ogg','n
 	return INITIALIZE_HINT_LATELOAD
 
 /obj/structure/hull_plate/LateInitialize()
+	try_find_parent()
+
+/**
+
+Method to try locate an overmap object that we should attach to. Recursively calls if we can't find one.
+
+*/
+
+/obj/structure/hull_plate/proc/try_find_parent()
+	if(tries <= 0)
+		message_admins("Hull plates in [get_area(src)] have no overmap object!")
+		qdel(src) //This should be enough of a hint....
+		return
 	parent = get_overmap()
+	if(!parent)
+		tries --
+		addtimer(CALLBACK(src, .proc/try_find_parent), 10 SECONDS)
+		return
 	parent.armour_plates ++
 	parent.max_armour_plates ++
 	RegisterSignal(parent, COMSIG_DAMAGE_TAKEN, .proc/relay_damage)
