@@ -6,7 +6,7 @@ SUBSYSTEM_DEF(lighting)
 	name = "Lighting"
 	wait = 2
 	init_order = INIT_ORDER_LIGHTING
-	flags = SS_TICKER
+//	flags = SS_TICKER Nsv13 change. Credit to https://github.com/Citadel-Station-13/Citadel-Station-13/pull/11848
 
 /datum/controller/subsystem/lighting/stat_entry()
 	..("L:[GLOB.lighting_update_lights.len]|C:[GLOB.lighting_update_corners.len]|O:[GLOB.lighting_update_objects.len]")
