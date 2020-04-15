@@ -1,9 +1,9 @@
 /obj/effect/temp_visual/countermeasure_cloud
-	icon = 'nsv13/goonstation/icons/hugeexplosion2.dmi'
-	icon_state = "explosion"
+	icon = 'nsv13/goonstation/icons/effects/explosions/160x160.dmi'
+	icon_state = "thundercloud"
 	duration = 100
 
-/obj/effect/temp_visual/countermeasure_cloud/Crossed(obj/item/projectile/bullet/B)
+/obj/effect/temp_visual/countermeasure_cloud/Crossed(obj/item/projectile/missile/B)
 	. = ..()
 	if(istype(B, /obj/item/projectile/missile/torpedo || /obj/item/projectile/missile/missile))
 		if(prob(50))

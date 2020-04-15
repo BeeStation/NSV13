@@ -136,18 +136,6 @@ After going through this checklist, you're ready to go!
 	else if(canopy_open)
 		add_overlay("canopy_open")
 
-/obj/structure/overmap/fighter/prebuilt
-	prebuilt = TRUE
-
-/obj/structure/overmap/fighter/prebuilt/raptor
-	name = "Raptor"
-	desc = "This craft is Nanotrasen's offering in the field of search and rescue. It has room for multiple people and allows for deployment of troops, supplies, and more across different ships."
-	icon = 'nsv13/icons/overmap/nanotrasen/carrier.dmi'
-	icon_state = "carrier"
-	damage_states = FALSE
-	max_passengers = 5 //Raptors can fit multiple people
-	max_integrity = 150 //Squishy!
-
 /obj/structure/overmap/slowprocess()
 	. = ..()
 	if(cabin_air && cabin_air.volume > 0)
@@ -508,36 +496,25 @@ After going through this checklist, you're ready to go!
 	else
 		to_chat(gunner, "<span class='warning'>DANGER: Launch failure! Missile tubes are not loaded.</span>")
 
-/*
-/obj/structure/overmap/fighter/fire_cannon(atom/target)
-	if(!mun_cannon.len)
-		return
-*/
 /obj/structure/overmap/fighter/proc/fire_countermeasure()
 	if(!get_part(/obj/item/fighter_component/countermeasure_dispenser)) //Check for a dispenser
 		to_chat(usr, "<span class='warning'>Countermeasure Dispenser Not Detected!</span>")
 		return
-
 	if(countermeasures == 0) //check to see if we have any countermeasures
 		to_chat(usr, "<span class='warning'>Countermeasures depleted!</span>")
 		return
-
 	var/obj/item/fighter_component/countermeasure_dispenser/cmd = get_part(/obj/item/fighter_component/countermeasure_dispenser)
 	if(cmd.burntout) //check to see if the dispenser is damaged
 		if(prob(85))
 			to_chat(usr, "<span class='warning'>Error detected in Countermeasure System! Process Aborted!</span>")
 			SEND_SOUND(usr, sound('sound/effects/alert.ogg', repeat = FALSE, wait = 0, volume = 100))
 			return
-
 	for(var/I = 0, I < 3, I++) //launch three chaff
 		new /obj/effect/temp_visual/countermeasure_cloud (loc, 1)
 		sleep(5)
-
 	var/obj/item/ship_weapon/ammunition/countermeasure_charge/cmc = locate(/obj/item/ship_weapon/ammunition/countermeasure_charge) in contents //remove charge
 	qdel(cmc)
 	countermeasures --
-
-
 
 /obj/structure/overmap/fighter/attackby(obj/item/W, mob/user, params) //changing equipment
 	add_fingerprint(user)
@@ -593,12 +570,6 @@ After going through this checklist, you're ready to go!
 		to_chat(user, "<span class='warning'>Access denied</span>")
 		return
 	if(maint_state == MS_OPEN)
-/* use if_check_access() instead?
-		if(!allowed(user))
-			var/sound = pick('nsv13/sound/effects/computer/error.ogg','nsv13/sound/effects/computer/error2.ogg','nsv13/sound/effects/computer/error3.ogg')
-			playsound(src, sound, 100, 1)
-			to_chat(user, "<span class='warning'>Access denied</span>")
-			return */
 		ui_interact(user)
 		return TRUE
 	if(!canopy_open)
