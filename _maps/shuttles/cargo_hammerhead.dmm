@@ -14,14 +14,14 @@
 	pixel_x = 22;
 	req_one_access_txt = "31"
 	},
-/obj/machinery/door/poddoor/shutters{
+/obj/machinery/door/poddoor/shutters/ship{
 	id = "ss_hh_cargodoor_bottom";
 	name = "Supply Shutter"
 	},
 /turf/open/floor/plasteel/dark,
 /area/shuttle/supply)
 "j" = (
-/obj/machinery/door/poddoor/shutters{
+/obj/machinery/door/poddoor/shutters/ship{
 	id = "ss_hh_cargodoor_bottom";
 	name = "Supply Shutter"
 	},
@@ -29,10 +29,11 @@
 /area/shuttle/supply)
 "k" = (
 /obj/machinery/light,
+/obj/effect/turf_decal/stripes/corner,
 /turf/open/floor/plasteel,
 /area/shuttle/supply)
 "l" = (
-/obj/machinery/door/poddoor/shutters{
+/obj/machinery/door/poddoor/shutters/ship{
 	id = "ss_hh_cargodoor_top";
 	name = "Supply Shutter"
 	},
@@ -46,11 +47,15 @@
 	pixel_x = 22;
 	req_one_access_txt = "31"
 	},
-/obj/machinery/door/poddoor/shutters{
+/obj/machinery/door/poddoor/shutters/ship{
 	id = "ss_hh_cargodoor_top";
 	name = "Supply Shutter"
 	},
 /turf/open/floor/plasteel/dark,
+/area/shuttle/supply)
+"p" = (
+/obj/effect/turf_decal/stripes/line,
+/turf/open/floor/plasteel,
 /area/shuttle/supply)
 "t" = (
 /obj/effect/turf_decal/delivery,
@@ -61,15 +66,12 @@
 /turf/template_noop,
 /area/template_noop)
 "A" = (
-/obj/docking_port/mobile/supply{
-	dir = 2;
-	dwidth = 4;
-	height = 6;
-	width = 11
-	},
-/obj/machinery/door/poddoor/shutters{
+/obj/machinery/door/poddoor/shutters/ship{
 	id = "ss_hh_cargodoor_top";
 	name = "Supply Shutter"
+	},
+/obj/docking_port/mobile/supply{
+	dir = 2
 	},
 /turf/open/floor/plasteel/dark,
 /area/shuttle/supply)
@@ -116,6 +118,9 @@
 	dir = 4
 	},
 /obj/machinery/light,
+/obj/effect/turf_decal/stripes/corner{
+	dir = 8
+	},
 /turf/open/floor/plasteel,
 /area/shuttle/supply)
 "T" = (
@@ -195,7 +200,7 @@ T
 L
 K
 N
-Q
+p
 j
 "}
 (5,1,1) = {"
@@ -204,7 +209,7 @@ T
 d
 d
 d
-Q
+p
 j
 "}
 (6,1,1) = {"
@@ -213,7 +218,7 @@ T
 K
 K
 K
-Q
+p
 j
 "}
 (7,1,1) = {"
@@ -222,7 +227,7 @@ T
 d
 d
 d
-Q
+p
 j
 "}
 (8,1,1) = {"
@@ -231,7 +236,7 @@ T
 K
 K
 K
-Q
+p
 j
 "}
 (9,1,1) = {"
@@ -240,7 +245,7 @@ T
 d
 d
 d
-Q
+p
 j
 "}
 (10,1,1) = {"
@@ -249,7 +254,7 @@ T
 P
 K
 t
-Q
+p
 f
 "}
 (11,1,1) = {"
