@@ -250,7 +250,7 @@ After going through this checklist, you're ready to go!
 	//Get all the possible components that we need variables from
 	var/obj/item/fighter_component/armour_plating/ap = get_part(/obj/item/fighter_component/armour_plating)
 	var/obj/item/fighter_component/engine/en = get_part(/obj/item/fighter_component/engine)
-	var/obj/item/fighter_component/targeting_sensor/ts = get_part(/obj/item/fighter_component/targeting_sensor)
+//	var/obj/item/fighter_component/targeting_sensor/ts = get_part(/obj/item/fighter_component/targeting_sensor)
 	var/obj/item/fighter_component/countermeasure_dispenser/cd = get_part(/obj/item/fighter_component/countermeasure_dispenser)
 	var/obj/item/fighter_component/secondary/sy = get_part(/obj/item/fighter_component/secondary)
 	var/obj/item/fighter_component/primary/py = get_part(/obj/item/fighter_component/primary)

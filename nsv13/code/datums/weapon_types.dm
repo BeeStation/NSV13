@@ -87,62 +87,62 @@
 	select_alert = "<span class='notice'>Cannon selected. DRADIS assisted targeting: online..</span>"
 	failure_alert = "<span class='warning'>DANGER: Cannon ammunition reserves are depleted.</span>"
 
-/datum/ship_weapon/search_rescue_scoop
+/datum/ship_weapon/search_rescue_scoop //not currently enabled
 	default_projectile_type = /obj/item/projectile/bullet/pdc_round
-	burst_size = 1
+	burst_size = 0
 	fire_delay = 0
 	range_modifier = 0
 	overmap_select_sound = 'nsv13/sound/effects/ship/pdc_start.ogg'
 	overmap_firing_sounds = list('nsv13/sound/effects/ship/pdc.ogg',
 		'nsv13/sound/effects/ship/pdc2.ogg',
 		'nsv13/sound/effects/ship/pdc3.ogg')
-	select_alert = "<span class='notice'>Defensive flak screens: <b>OFFLINE</b>. Activating manual point defense cannon control.</span>"
-	failure_alert = "<span class='warning'>DANGER: Point defense emplacements are unable to fire due to lack of ammunition.</span>"
+	select_alert = "<span class='warning'>Feature Not Currently Enabled.</span>"
+	failure_alert = "<span class='warning'>Feature Not Currently Enabled.</span>"
 
-/datum/ship_weapon/search_rescue_extractor
+/datum/ship_weapon/search_rescue_extractor //not currently enabled
 	default_projectile_type = /obj/item/projectile/bullet/pdc_round
-	burst_size = 1
+	burst_size = 0
 	fire_delay = 0
 	range_modifier = 0
 	overmap_select_sound = 'nsv13/sound/effects/ship/pdc_start.ogg'
 	overmap_firing_sounds = list('nsv13/sound/effects/ship/pdc.ogg',
 		'nsv13/sound/effects/ship/pdc2.ogg',
 		'nsv13/sound/effects/ship/pdc3.ogg')
-	select_alert = "<span class='notice'>Defensive flak screens: <b>OFFLINE</b>. Activating manual point defense cannon control.</span>"
-	failure_alert = "<span class='warning'>DANGER: Point defense emplacements are unable to fire due to lack of ammunition.</span>"
+	select_alert = "<span class='warning'>Feature Not Currently Enabled.</span>"
+	failure_alert = "<span class='warning'>Feature Not Currently Enabled.</span>"
 
-/datum/ship_weapon/rapid_breach_sealing_welder
+/datum/ship_weapon/rapid_breach_sealing_welder //not currently enabled
 	default_projectile_type = /obj/item/projectile/bullet/pdc_round
-	burst_size = 1
+	burst_size = 0
 	fire_delay = 0
 	range_modifier = 0
 	overmap_select_sound = 'nsv13/sound/effects/ship/pdc_start.ogg'
 	overmap_firing_sounds = list('nsv13/sound/effects/ship/pdc.ogg',
 		'nsv13/sound/effects/ship/pdc2.ogg',
 		'nsv13/sound/effects/ship/pdc3.ogg')
-	select_alert = "<span class='notice'>Defensive flak screens: <b>OFFLINE</b>. Activating manual point defense cannon control.</span>"
-	failure_alert = "<span class='warning'>DANGER: Point defense emplacements are unable to fire due to lack of ammunition.</span>"
+	select_alert = "<span class='warning'>Feature Not Currently Enabled.</span>"
+	failure_alert = "<span class='warning'>Feature Not Currently Enabled.</span>"
 
-/datum/ship_weapon/rapid_breach_sealing_foam
+/datum/ship_weapon/rapid_breach_sealing_foam //not currently enabled
 	default_projectile_type = /obj/item/projectile/bullet/pdc_round
-	burst_size = 1
+	burst_size = 0
 	fire_delay = 0
 	range_modifier = 0
 	overmap_select_sound = 'nsv13/sound/effects/ship/pdc_start.ogg'
 	overmap_firing_sounds = list('nsv13/sound/effects/ship/pdc.ogg',
 		'nsv13/sound/effects/ship/pdc2.ogg',
 		'nsv13/sound/effects/ship/pdc3.ogg')
-	select_alert = "<span class='notice'>Defensive flak screens: <b>OFFLINE</b>. Activating manual point defense cannon control.</span>"
-	failure_alert = "<span class='warning'>DANGER: Point defense emplacements are unable to fire due to lack of ammunition.</span>"
+	select_alert = "<span class='warning'>Feature Not Currently Enabled.</span>"
+	failure_alert = "<span class='warning'>Feature Not Currently Enabled.</span>"
 
-/datum/ship_weapon/refueling_system
+/datum/ship_weapon/refueling_system //not currently enabled
 	default_projectile_type = /obj/item/projectile/bullet/pdc_round
-	burst_size = 2
+	burst_size = 0
 	fire_delay = 0
 	range_modifier = 0
 	overmap_select_sound = 'nsv13/sound/effects/ship/pdc_start.ogg'
 	overmap_firing_sounds = list('nsv13/sound/effects/ship/pdc.ogg',
 		'nsv13/sound/effects/ship/pdc2.ogg',
 		'nsv13/sound/effects/ship/pdc3.ogg')
-	select_alert = "<span class='notice'>Defensive flak screens: <b>OFFLINE</b>. Activating manual point defense cannon control.</span>"
-	failure_alert = "<span class='warning'>DANGER: Point defense emplacements are unable to fire due to lack of ammunition.</span>"
+	select_alert = "<span class='warning'>Feature Not Currently Enabled.</span>"
+	failure_alert = "<span class='warning'>Feature Not Currently Enabled.</span>"
