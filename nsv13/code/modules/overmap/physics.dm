@@ -17,6 +17,7 @@
 	var/obj/vector_overlay/vector_overlay
 	var/pixel_collision_size_x = 0
 	var/pixel_collision_size_y = 0
+	var/datum/shape/collider2d = null //Our box collider. See the collision module for explanation
 
 //Helper proc to get the actual center of the ship, if the ship's hitbox is placed in the bottom left corner like they usually are.
 
@@ -37,6 +38,7 @@
 	var/icon/I = icon(icon,icon_state,SOUTH) //SOUTH because all overmaps only ever face right, no other dirs.
 	pixel_collision_size_x = I.Width()
 	pixel_collision_size_y = I.Height()
+	collider2d = new /datum/shape()
 //	bound_width = pixel_collision_size_x
 //	bound_height = pixel_collision_size_y
 
