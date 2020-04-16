@@ -155,11 +155,11 @@
 	head = /obj/item/clothing/head/helmet/space/plasmaman/rd
 	uniform = /obj/item/clothing/under/plasmaman/rd
 	
-/datum/outfit/plasmaman/hop
-	name = "Hop plasmaman"
+/datum/outfit/plasmaman/xo
+	name = "XO plasmaman"
 
-	head = /obj/item/clothing/head/helmet/space/plasmaman/hop
-	uniform = /obj/item/clothing/under/plasmaman/hop
+	head = /obj/item/clothing/head/helmet/space/plasmaman/xo
+	uniform = /obj/item/clothing/under/plasmaman/xo
 	
 /datum/outfit/plasmaman/mime
 	name = "Mime plasmaman"
