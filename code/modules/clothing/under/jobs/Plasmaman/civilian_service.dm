@@ -62,12 +62,12 @@
 	item_state = "command_envirosuit"
 	item_color = "command_envirosuit"
 	
-/obj/item/clothing/under/plasmaman/hop
-	name = "head of personnel plasma envirosuit"
-	desc = "The head of personnels blue envirosuit, complete with red trimmings and adorned with various medals."
-	icon_state = "hop_envirosuit"
-	item_state = "hop_envirosuit"
-	item_color = "hop_envirosuit"
+/obj/item/clothing/under/plasmaman/xo
+	name = "executive officer plasma envirosuit"
+	desc = "The executive officer's blue envirosuit, complete with red trimmings and adorned with various medals."
+	icon_state = "xo_envirosuit"
+	item_state = "xo_envirosuit"
+	item_color = "xo_envirosuit"
 
 /obj/item/clothing/under/plasmaman/mime
 	name = "mime envirosuit"
