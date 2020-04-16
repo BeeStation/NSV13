@@ -91,7 +91,7 @@
 	default_cartridge = /obj/item/cartridge/head
 	icon_state = "pda-xo"
 
-/obj/item/pda/heads/xo
+/obj/item/pda/heads/xo //Nsv13 - HoP to XO
 	name = "executive officer PDA"
 	default_cartridge = /obj/item/cartridge/xo
 	icon_state = "pda-xo"
