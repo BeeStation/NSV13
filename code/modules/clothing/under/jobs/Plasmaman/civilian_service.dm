@@ -62,7 +62,7 @@
 	item_state = "command_envirosuit"
 	item_color = "command_envirosuit"
 	
-/obj/item/clothing/under/plasmaman/xo
+/obj/item/clothing/under/plasmaman/xo //Nsv13 - HoP to XO
 	name = "executive officer plasma envirosuit"
 	desc = "The executive officer's blue envirosuit, complete with red trimmings and adorned with various medals."
 	icon_state = "xo_envirosuit"
