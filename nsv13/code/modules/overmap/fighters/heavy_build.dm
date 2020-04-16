@@ -28,8 +28,8 @@
 /obj/structure/fighter_component/underconstruction_fighter/heavy_fighter_frame
 	name = "Heavy Fighter Frame"
 	desc = "An Incomplete Su-410 Scimitar Heavy Attacker"
-	icon = 'icons/obj/janitor.dmi'
-	icon_state = "advmop"
+	icon = 'nsv13/icons/overmap/nanotrasen/heavyfighter_construction.dmi'
+	icon_state = "heavyfighter"
 	build_state = HBS_CHASSIS
 	fighter_name = null
 

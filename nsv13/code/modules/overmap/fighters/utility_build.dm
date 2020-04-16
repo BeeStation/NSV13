@@ -28,8 +28,8 @@
 /obj/structure/fighter_component/underconstruction_fighter/utility_vessel_frame
 	name = "Utility Vessel Frame"
 	desc = "An Incomplete Su-437 Sabre Utility Vessel"
-	icon = 'icons/obj/janitor.dmi'
-	icon_state = "smmop"
+	icon = 'nsv13/icons/overmap/nanotrasen/raptorconstruction.dmi'
+	icon_state = "carrier"
 	build_state = UBS_CHASSIS
 	fighter_name = null
 

@@ -37,7 +37,8 @@
 
 /obj/item/fighter_component/fuel_tank
 	name = "Fighter Fuel Tank - PARENT"
-	icon_state = "secgearcrate"
+	icon = 'nsv13/icons/obj/fighter_components.dmi'
+	icon_state = "fueltank"
 	var/fuel_capacity = 0 //Fuel Capacity
 
 /obj/item/fighter_component/fuel_tank/Initialize()
@@ -62,16 +63,20 @@
 /obj/item/fighter_component/avionics
 	name = "Fighter Avionics"
 	desc = "Avionics for a fighter"
-	icon_state = "freezer"
+	icon = 'nsv13/icons/obj/fighter_components.dmi'
+	icon_state = "avionics"
 
 /obj/item/fighter_component/apu
 	name = "Fighter Auxiliary Power Unit"
 	desc = "An Auxiliary Power Unit for a fighter"
-	icon_state = "radiation"
+	icon = 'nsv13/icons/obj/fighter_components.dmi'
+	icon_state = "apu"
 
 /obj/item/fighter_component/armour_plating
 	name = "Fighter Armour Plating - PARENT"
 	icon_state = "engi_secure_crate"
+	icon = 'nsv13/icons/obj/fighter_components.dmi'
+	icon_state = "armour"
 	var/armour = 1 //HP Modifier
 	burntout = INELIGIBLE
 
@@ -82,13 +87,15 @@
 
 /obj/item/fighter_component/engine
 	name = "Fighter Engine - PARENT"
-	icon_state = "hydrocrate"
+	icon = 'nsv13/icons/obj/fighter_components.dmi'
+	icon_state = "engine"
 	var/speed = 0 //Speed modifier
 	var/consumption = 0 //How fast we burn fuel
 
 /obj/item/fighter_component/countermeasure_dispenser
 	name = "Fighter Countermeasure Dispenser - PARENT"
-	icon_state = "o2crate"
+	icon = 'nsv13/icons/obj/fighter_components.dmi'
+	icon_state = "countermeasure"
 	var/countermeasure_capacity = 4
 
 /obj/item/fighter_component/countermeasure_dispenser/t1
