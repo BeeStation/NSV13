@@ -89,12 +89,12 @@
 
 /obj/item/pda/heads
 	default_cartridge = /obj/item/cartridge/head
-	icon_state = "pda-hop"
+	icon_state = "pda-xo"
 
-/obj/item/pda/heads/hop
-	name = "head of personnel PDA"
-	default_cartridge = /obj/item/cartridge/hop
-	icon_state = "pda-hop"
+/obj/item/pda/heads/xo
+	name = "executive officer PDA"
+	default_cartridge = /obj/item/cartridge/xo
+	icon_state = "pda-xo"
 
 /obj/item/pda/heads/hos
 	name = "head of security PDA"
