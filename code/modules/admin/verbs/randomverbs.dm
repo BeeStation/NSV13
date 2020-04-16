@@ -710,7 +710,7 @@ Traitors and the like can also be revived with the previous role mostly intact.
 	message_admins("[key_name_admin(usr)] has gibbed [key_name_admin(M)]")
 
 	if(isobserver(M))
-		new /obj/effect/gibspawner/generic(get_turf(M))
+		new /obj/effect/gibspawner/generic(get_turf(M), M)
 		return
 	if(confirm == "Yes")
 		M.gib()
@@ -811,6 +811,10 @@ Traitors and the like can also be revived with the previous role mostly intact.
 
 	var/notifyplayers = alert(src, "Do you want to notify the players?", "Options", "Yes", "No", "Cancel")
 	if(notifyplayers == "Cancel")
+		return
+
+	if(SSticker.HasRoundStarted())
+		to_chat(usr, "Nope you can't do this, the game's already started. This only works before rounds!")
 		return
 
 	log_admin("Admin [key_name(src)] has forced the players to have random appearances.")

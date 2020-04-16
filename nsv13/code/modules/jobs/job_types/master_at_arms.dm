@@ -35,8 +35,8 @@
 	jobtype = /datum/job/master_at_arms
 
 	belt = /obj/item/storage/belt/utility/full/engi
-	ears = /obj/item/radio/headset/headset_sec/alt/master_at_arms
-	uniform = /obj/item/clothing/under/syndicate/tacticool
+	ears = /obj/item/radio/headset/heads/master_at_arms
+	uniform = /obj/item/clothing/under/rank/master_at_arms
 	shoes = /obj/item/clothing/shoes/jackboots
 	suit = /obj/item/clothing/suit/hazardvest
 	gloves = /obj/item/clothing/gloves/color/black
@@ -50,6 +50,8 @@
 	duffelbag = /obj/item/storage/backpack/duffelbag/sec
 	box = /obj/item/storage/box/security
 
+	pda_slot = SLOT_L_STORE
+	
 /obj/effect/landmark/start/master_at_arms
 	name = "Master At Arms"
 	icon_state = "Master At Arms"

@@ -16,15 +16,3 @@
 	duration = 5 SECONDS
 	pixel_x = -96
 	pixel_y = -96
-
-/obj/effect/temp_visual/flak
-	icon = 'nsv13/goonstation/icons/effects/explosions/80x80.dmi'
-	icon_state = "explosion"
-	duration = 2 SECONDS
-	pixel_x = -32
-	pixel_y = -32
-
-/obj/effect/temp_visual/flak/Initialize()
-	if(prob(50))
-		icon = 'nsv13/goonstation/icons/effects/explosions/96x96.dmi'
-	. = ..()

@@ -3,9 +3,12 @@
 #define FIRE_MODE_PDC 1
 #define FIRE_MODE_TORPEDO 2
 #define FIRE_MODE_RAILGUN 3
+#define FIRE_MODE_GAUSS 4
+#define FIRE_MODE_FLAK 5
 #define FIRE_MODE_MISSILE 4
 #define FIRE_MODE_FIGHTER_SLOT_ONE 5
 #define FIRE_MODE_FIGHTER_SLOT_TWO 6
+#define MAX_POSSIBLE_FIREMODE 5 //This should relate to the maximum number of weapons a ship can ever have. Keep this up to date please!
 
 //AI behaviour
 

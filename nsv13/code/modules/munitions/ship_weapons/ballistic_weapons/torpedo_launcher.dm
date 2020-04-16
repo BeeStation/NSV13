@@ -55,6 +55,7 @@
 
 	. = M
 	M.setAnchored(anchored)
+	M.setDir(dir)
 	M.set_final_state()
 	if(!disassembled)
 		M.obj_integrity = M.max_integrity * 0.5 //the frame is already half broken
