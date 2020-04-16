@@ -217,11 +217,13 @@
 /turf/open/floor/carpet/ship,
 /area/nsv/crew_quarters/heads/maa)
 "aaM" = (
-/obj/structure/table/reinforced,
-/obj/item/folder/blue,
 /obj/item/radio/intercom{
 	name = "intra ship intercom";
 	pixel_x = 26
+	},
+/obj/machinery/computer/ship/fighter_controller{
+	icon_state = "computer";
+	dir = 1
 	},
 /turf/open/floor/carpet/ship,
 /area/nsv/crew_quarters/heads/maa)
@@ -1767,6 +1769,7 @@
 /area/nsv/hanger/deck2)
 "aeK" = (
 /obj/structure/table/glass,
+/obj/item/key/fighter_tug,
 /turf/open/floor/carpet/blue,
 /area/nsv/hanger/deck2)
 "aeL" = (
@@ -41457,6 +41460,11 @@
 /obj/structure/window/reinforced,
 /turf/open/floor/monotile,
 /area/crew_quarters/fitness/recreation)
+"emz" = (
+/obj/vehicle/sealed/car/realistic/fighter_tug,
+/obj/effect/turf_decal/delivery,
+/turf/open/floor/monotile,
+/area/nsv/hanger/deck2)
 "enx" = (
 /obj/item/reagent_containers/food/drinks/sillycup{
 	pixel_x = -5;
@@ -43069,6 +43077,14 @@
 	},
 /turf/open/floor/plasteel/techmaint,
 /area/quartermaster/warehouse)
+"okx" = (
+/obj/effect/turf_decal/delivery,
+/obj/vehicle/sealed/car/realistic/fighter_tug{
+	icon_state = "tug";
+	dir = 1
+	},
+/turf/open/floor/monotile,
+/area/nsv/hanger/deck2)
 "onI" = (
 /obj/structure/lattice,
 /obj/machinery/camera/motion{
@@ -83379,7 +83395,7 @@ aar
 aex
 abx
 abx
-abx
+okx
 agh
 avz
 agr
@@ -83389,7 +83405,7 @@ agr
 agr
 aTh
 agh
-kPn
+emz
 abx
 abx
 abA
