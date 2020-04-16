@@ -32,10 +32,10 @@
 	icon_state = "stamp-cap"
 	item_color = "captain"
 
-/obj/item/stamp/hop
-	name = "head of personnel's rubber stamp"
-	icon_state = "stamp-hop"
-	item_color = "hop"
+/obj/item/stamp/xo
+	name = "executive officer's rubber stamp"
+	icon_state = "stamp-xo"
+	item_color = "xo"
 
 /obj/item/stamp/hos
 	name = "head of security's rubber stamp"
