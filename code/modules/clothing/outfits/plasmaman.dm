@@ -155,7 +155,7 @@
 	head = /obj/item/clothing/head/helmet/space/plasmaman/rd
 	uniform = /obj/item/clothing/under/plasmaman/rd
 	
-/datum/outfit/plasmaman/xo
+/datum/outfit/plasmaman/xo //Nsv13 - HoP to XO
 	name = "XO plasmaman"
 
 	head = /obj/item/clothing/head/helmet/space/plasmaman/xo
