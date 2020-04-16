@@ -36,19 +36,19 @@
 	new /obj/item/storage/photo_album/Captain(src)
 	new /obj/item/card/id/departmental_budget/civ(src)
 
-/obj/structure/closet/secure_closet/hop
+/obj/structure/closet/secure_closet/xo //NSV13 - HoP to XO
 	name = "\proper head of personnel's locker"
-	req_access = list(ACCESS_HOP)
-	icon_state = "hop"
+	req_access = list(ACCESS_XO)
+	icon_state = "xo"
 
-/obj/structure/closet/secure_closet/hop/PopulateContents()
+/obj/structure/closet/secure_closet/xo/PopulateContents()
 	..()
-	new /obj/item/clothing/neck/cloak/hop(src)
+	new /obj/item/clothing/neck/cloak/xo(src)
 	new /obj/item/storage/lockbox/medal/service(src)
 	new /obj/item/clothing/under/rank/head_of_personnel(src)
-	new /obj/item/clothing/head/hopcap(src)
-	new /obj/item/cartridge/hop(src)
-	new /obj/item/radio/headset/heads/xo(src) //NSV13 - HoP to XO
+	new /obj/item/clothing/head/xocap(src)
+	new /obj/item/cartridge/xo(src)
+	new /obj/item/radio/headset/heads/xo(src) 
 	new /obj/item/clothing/shoes/sneakers/brown(src)
 	new /obj/item/storage/box/ids(src)
 	new /obj/item/storage/box/ids(src)
@@ -62,7 +62,7 @@
 	new /obj/item/pet_carrier(src)
 	new /obj/item/door_remote/civillian(src)
 	new /obj/item/circuitboard/machine/techfab/department/service(src)
-	new /obj/item/storage/photo_album/HoP(src)
+	new /obj/item/storage/photo_album/XO(src)
 	new /obj/item/card/id/departmental_budget/srv(src)
 
 /obj/structure/closet/secure_closet/brig_phys
