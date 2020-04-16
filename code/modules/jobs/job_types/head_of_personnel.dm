@@ -43,11 +43,11 @@
 
 	id = /obj/item/card/id/silver
 	belt = /obj/item/melee/classic_baton/telescopic/stunsword
-	ears = /obj/item/radio/headset/heads/hop
+	ears = /obj/item/radio/headset/heads/xo //NSV13 - update to XO
 	uniform = /obj/item/clothing/under/ship/officer
 	shoes = /obj/item/clothing/shoes/jackboots
 	suit = /obj/item/clothing/suit/ship/officer
-	head = /obj/item/clothing/head/beret/ship/xo
+	head = /obj/item/clothing/head/beret/ship/xo //NSV13 - update to XO
 	l_pocket = /obj/item/pda/heads/hop
 	backpack_contents = list(/obj/item/storage/box/ids=1,\
 		/obj/item/melee/classic_baton/telescopic=1, /obj/item/modular_computer/tablet/preset/advanced = 1)

@@ -48,7 +48,7 @@
 	new /obj/item/clothing/under/rank/head_of_personnel(src)
 	new /obj/item/clothing/head/hopcap(src)
 	new /obj/item/cartridge/hop(src)
-	new /obj/item/radio/headset/heads/hop(src)
+	new /obj/item/radio/headset/heads/xo(src) //NSV13 - HoP to XO
 	new /obj/item/clothing/shoes/sneakers/brown(src)
 	new /obj/item/storage/box/ids(src)
 	new /obj/item/storage/box/ids(src)
