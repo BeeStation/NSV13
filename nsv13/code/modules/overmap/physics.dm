@@ -85,18 +85,19 @@
 				continue
 			drag += 0.001
 			var/floating = FALSE
-			if(T.has_gravity() && velocity_mag > 0.1)
-				floating = TRUE // Increase drag when not in space.
-			if((!floating && T.has_gravity())) // brakes are a kind of magboots okay?
-				drag += is_mining_level(z) ? 0.1 : 0.5 // some serious drag. Damn. Except lavaland, it has less gravity or something
-				if(velocity_mag > 5 && prob(velocity_mag * 4) && istype(T, /turf/open/floor))
-					var/turf/open/floor/TF = T
-					TF.make_plating() // pull up some floor tiles. Stop going so fast, ree.
-					take_damage(3, BRUTE, "melee", FALSE)
+			if(T.has_gravity() && velocity_mag >= 4)
+				floating = TRUE // Count them as "flying" if theyre going fast enough indoors. If you slow down, you start to scrape due to no lift or something
 			var/datum/gas_mixture/env = T.return_air()
-			if(env)
-				var/pressure = env.return_pressure()
-				drag += velocity_mag * pressure * 0.0001 // 1 atmosphere should shave off 1% of velocity per tile
+			var/pressure = env.return_pressure()
+			drag += velocity_mag * pressure * 0.001 // 1 atmosphere should shave off 10% of velocity per tile
+			if(pressure >= 10) //Space doesn't have air resistance or much gravity, so we'll assume theyre floating if theyre in space.
+				if((!floating && T.has_gravity())) // brakes are a kind of magboots okay?
+					drag += 0.5 // some serious drag. Damn.
+					if(velocity_mag <= 2 && istype(T, /turf/open/floor) && prob(30))
+						var/turf/open/floor/TF = T
+						TF.make_plating() // pull up some floor tiles. Stop going so damn slow, ree.
+						take_damage(3, BRUTE, "melee", FALSE)
+
 		if(velocity_mag > 20)
 			drag = max(drag, (velocity_mag - 20) / time)
 		if(drag)
@@ -309,7 +310,7 @@
 		bump_velocity = abs(velocity_y) + (abs(velocity_x) / 15)
 	else
 		bump_velocity = abs(velocity_x) + (abs(velocity_y) / 15)
-	if(istype(A, /obj/machinery/door/airlock)) // try to open doors
+	if(istype(A, /obj/machinery/door/airlock) && should_open_doors) // try to open doors
 		var/obj/machinery/door/D = A
 		if(!D.operating)
 			if(D.allowed(D.requiresID() ? pilot : null))
