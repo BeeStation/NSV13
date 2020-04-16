@@ -196,6 +196,7 @@
 	prebuilt = TRUE
 	req_one_access = ACCESS_SYNDICATE
 	faction = "syndicate"
+	start_emagged = TRUE
 
 /obj/structure/overmap/fighter/syndicate/prebuilt_setup()
 	name = "[pick("Hammerforce", "Shrike", "Anvil", "Viscerator", "Striker", "Immolator", "Redsuit", "Tango", "Wolf", "Viper", "Crusher")]-[rand(100,200)]"
@@ -229,6 +230,7 @@
 	max_integrity = 150 //Squishy!
 	req_one_access = ACCESS_SYNDICATE
 	faction = "syndicate"
+	start_emagged = TRUE
 
 /obj/structure/overmap/syndicate/ai //Generic bad guy #10000. GRR.
 	icon = 'nsv13/icons/overmap/syndicate/syn_light_cruiser.dmi'
