@@ -24,8 +24,8 @@
 /obj/item/clothing/shoes/sneakers/brown/captain
 	item_color = "captain"	//Exists for washing machines. Is not different from brown shoes in any way.
 
-/obj/item/clothing/shoes/sneakers/brown/hop
-	item_color = "hop"		//Exists for washing machines. Is not different from brown shoes in any way.
+/obj/item/clothing/shoes/sneakers/brown/xo //Nsv13 - HoP to XO
+	item_color = "xo"		//Exists for washing machines. Is not different from brown shoes in any way.
 
 /obj/item/clothing/shoes/sneakers/brown/ce
 	item_color = "chief"		//Exists for washing machines. Is not different from brown shoes in any way.
