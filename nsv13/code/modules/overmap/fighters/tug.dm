@@ -1,0 +1,184 @@
+/obj/vehicle/sealed/car/realistic/fighter_tug
+	name = "M575 Aircraft Tug"
+	desc = "A variant of an armoured personnel carrier which is able to tow fighters around. <b>Ctrl</b> click it to grab the hitch"
+	icon = 'nsv13/icons/obj/vehicles.dmi'
+	icon_state = "tug"
+	max_integrity = 150
+	armor = list("melee" = 50, "bullet" = 40, "laser" = 40, "energy" = 0, "bomb" = 30, "bio" = 0, "rad" = 0, "fire" = 80, "acid" = 80)
+	enter_delay = 20
+	max_occupants = 4
+
+	movedelay = 0.6 SECONDS
+	key_type = /obj/item/key/fighter_tug
+	key_type_exact = TRUE
+	engine_sound = 'nsv13/sound/vehicles/tug_engine.ogg'
+	pixel_x = -16
+	pixel_y = -19
+	layer = HIGH_OBJ_LAYER
+	//Movement speed variables, configure these per car.
+	max_acceleration = 2
+	max_turnspeed = 40
+	turnspeed = 40
+	static_traction = 9.8 //How good are the tyres?. THis behaves somewhat like acceleration, but it shouldnt be more efficient than 9.8, which is the gravity on earth
+	kinetic_traction = 5 //if you are moving sideways and the static traction wasnt enough to kill it, you skid and you will have less traction, but allowing you to drift. KINETIC IE moving traction
+	default_hardpoints = list(/obj/item/vehicle_hardpoint/engine/pathetic, /obj/item/vehicle_hardpoint/wheels/heavy) //What does it start with, if anything.
+	var/ready = TRUE
+	var/launch_dir = EAST
+
+/obj/vehicle/sealed/car/realistic/fighter_tug/emp_act(severity)
+	. = ..()
+	if(. & EMP_PROTECT_SELF)
+		return
+	switch(severity)
+		if(1)
+			if(prob(40))
+				abort_launch()
+		if(2)
+			if(prob(20))
+				abort_launch()
+
+/obj/vehicle/sealed/car/realistic/fighter_tug/Destroy()
+	abort_launch()
+	. = ..()
+
+/obj/vehicle/sealed/car/realistic/fighter_tug/ui_interact(mob/user, ui_key = "main", datum/tgui/ui = null, force_open = 0, datum/tgui/master_ui = null, datum/ui_state/state = GLOB.contained_state) // Remember to use the appropriate state.
+  ui = SStgui.try_update_ui(user, src, ui_key, ui, force_open)
+  if(!ui)
+    ui = new(user, src, ui_key, "fighter_tug", name, 400, 400, master_ui, state)
+    ui.open()
+
+/obj/vehicle/sealed/car/realistic/fighter_tug/ui_data(mob/user)
+	var/list/data = ..()
+	var/obj/structure/overmap/loaded = locate(/obj/structure/overmap/fighter) in contents
+	data["loaded"] = (loaded) ? TRUE : FALSE
+	data["loaded_name"] = (loaded) ? loaded.name : "No fighter loaded"
+	data["ready"] = ready
+	data["launch_dir"] = dir2text(launch_dir)
+	return data
+
+/obj/vehicle/sealed/car/realistic/fighter_tug/ui_act(action, params, datum/tgui/ui)
+	if(..())
+		return
+	var/list/drivers = return_drivers()
+	if(!LAZYFIND(drivers, ui.user))
+		to_chat(ui.user, "<span class='warning'>You can't reach the controls from back here...</span>")
+		return
+	var/target_name = params["target"]
+	switch(action)
+		if("launch")
+			start_launch()
+		if("launch_dir")
+			launch_dir = input(ui.user, "Set fighter launch direction", "[name]", launch_dir) as null|anything in GLOB.cardinals
+			if(!launch_dir)
+				launch_dir = initial(launch_dir)
+		if("load")
+			var/obj/structure/overmap/load = locate(/obj/structure/overmap/fighter) in contents
+			if(load)
+				abort_launch()
+				return
+			load()
+		if("remove_hardpoint")
+			remove_hardpoint(target_name, ui.user)
+		if("interact")
+			interact_with_hardpoint(target_name, ui.user)
+	update_icon() // Not applicable to all objects.
+
+/obj/vehicle/sealed/car/realistic/fighter_tug/proc/can_launch_fighters()
+	return TRUE
+
+/obj/vehicle/sealed/car/realistic/fighter_tug/proc/load()
+	var/obj/structure/overmap/load = locate(/obj/structure/overmap/fighter) in orange(2, src)
+	if(!load)
+		return
+	hitch(load)
+
+/obj/vehicle/sealed/car/realistic/fighter_tug/Initialize()
+	. = ..()
+	set_light(5)
+
+/obj/vehicle/sealed/car/realistic/fighter_tug/proc/hitch(obj/structure/overmap/fighter/target)
+	if(LAZYFIND(contents, target))
+		return FALSE
+	LAZYADD(vis_contents, target)
+	playsound(src, 'nsv13/sound/effects/ship/freespace2/crane_1.wav', 100, FALSE)
+	visible_message("<span class='warning'>[target] is loaded onto [src]</span>")
+	target.forceMove(src)
+	target.mag_lock = src
+	target.shake_animation()
+
+/obj/vehicle/sealed/car/realistic/fighter_tug/process(time)
+	. = ..()
+	for(var/obj/structure/overmap/fighter/target in contents)
+		target.desired_angle = 0
+		target.angle = 0
+		for(var/mob/living/M in target.operators)
+			var/mob/camera/aiEye/remote/overmap_observer/eyeobj = M.remote_control
+			eyeobj.forceMove(get_turf(src))
+			if(M.client)
+				M.client.pixel_x = pixel_x
+				M.client.pixel_y = pixel_y
+
+/obj/vehicle/sealed/car/realistic/fighter_tug/proc/start_launch()
+	if(!ready)
+		return
+	canmove = FALSE
+	playsound(src.loc, 'nsv13/sound/effects/ship/fighter_launch.ogg', 100, FALSE)
+	add_overlay("launcher_charge")
+	for(var/obj/structure/overmap/fighter/target in contents)
+		target.relay('nsv13/sound/effects/ship/fighter_launch.ogg')
+		ready = FALSE
+		addtimer(CALLBACK(src, .proc/finish_launch), 10 SECONDS)
+
+/obj/vehicle/sealed/car/realistic/fighter_tug/proc/finish_launch()
+	ready = TRUE
+	density = FALSE
+	var/stored_layer = layer
+	layer = LOW_OBJ_LAYER
+	for(var/obj/structure/overmap/fighter/target in contents)
+		abort_launch(silent=TRUE)
+		sleep(0.5)
+		target.prime_launch() //Gets us ready to move at PACE.
+		switch(launch_dir) //Just handling north / south..FOR NOW!
+			if(NORTH) //PILOTS. REMEMBER TO FACE THE RIGHT WAY WHEN YOU LAUNCH, OR YOU WILL HAVE A TERRIBLE TIME.
+				target.desired_angle = 0
+				target.angle = target.desired_angle
+				target.velocity_y = 20
+			if(SOUTH)
+				target.desired_angle = 180
+				target.angle = target.desired_angle
+				target.velocity_y = -20
+			if(EAST)
+				target.desired_angle = 90
+				target.angle = target.desired_angle
+				target.velocity_x = 20
+			if(WEST)
+				target.desired_angle = -90
+				target.angle = target.desired_angle
+				target.velocity_x = -20
+		var/obj/structure/overmap/our_overmap = get_overmap()
+		if(our_overmap)
+			our_overmap.relay('nsv13/sound/effects/ship/fighter_launch_short.ogg')
+		sleep(1 SECONDS)
+		density = TRUE
+		layer = stored_layer
+	canmove = TRUE
+
+/obj/vehicle/sealed/car/realistic/fighter_tug/proc/abort_launch(silent=FALSE)
+	for(var/obj/structure/overmap/fighter/target in contents)
+		if(!silent)
+			visible_message("<span class='warning'>[target] drops down off of [src]!</span>")
+			playsound(src, 'nsv13/sound/effects/ship/mac_load.ogg', 100, 1)
+			target.shake_animation()
+		LAZYREMOVE(vis_contents, target)
+		var/turf/targetLoc = get_turf(get_step(src, launch_dir))
+		if(!istype(targetLoc, /turf/open))
+			targetLoc = get_turf(src) //Prevents them yeeting fighters through walls.
+		target.forceMove(targetLoc)
+		target.mag_lock = null
+
+/obj/item/key/fighter_tug
+	name = "fighter tug key"
+	desc = "A small grey key with an inscription on it 'keep away from clown'."
+	icon = 'nsv13/icons/obj/vehicles32.dmi'
+	icon_state = "key"
+	w_class = WEIGHT_CLASS_TINY

@@ -124,6 +124,13 @@
 
 	return TRUE
 
+/obj/structure/overmap/proc/firemode2text(mode)
+	if(!weapons[mode][1])
+		return "Weapon type not found"
+	var/list/selected = weapons[mode] //Clunky, but dreamchecker wanted it this way.
+	var/atom/found = selected[1]
+	return "[found.name]"
+
 /obj/structure/overmap/proc/fire_weapon(atom/target, mode=fire_mode, lateral=(fire_mode == FIRE_MODE_PDC && mass > MASS_TINY) ? TRUE : FALSE, mob/user_override=null) //"Lateral" means that your ship doesnt have to face the target
 	if(ai_controlled || (!linked_areas.len && role != MAIN_OVERMAP)) //AI ships and fighters don't have interiors
 		if(fire_mode == FIRE_MODE_TORPEDO) //because fighter torpedoes are special
@@ -145,8 +152,8 @@
 		add_enemy(target) //So that PVP holds up the spawning of AI enemies somewhat.
 		for(var/obj/machinery/ship_weapon/SW in weapons[mode])
 			if(SW.can_fire() && SW.fire(target, manual=(mode == fire_mode)))
+				LAZYADD(weapon_log, "[station_time_timestamp()] [gunner] ([(gunner.mind && gunner.mind.antag_datums) ? "<b>Antagonist</b>" : "Non-Antagonist"]) fired [firemode2text(fire_mode)] at [target]")
 				return TRUE
-
 	if(gunner) //Tell them we failed
 		var/datum/ship_weapon/SW = weapon_types[fire_mode]
 		to_chat(gunner, SW.failure_alert)
