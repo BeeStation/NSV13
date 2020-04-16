@@ -2,7 +2,7 @@
 name: Map Issue - Hammerhead
 about: Bugs related to the Hammerhead Map
 title: "[Hammerhead] Issue"
-labels: Map Issue, Hammerhead
+labels: Hammerhead, Map Issue
 assignees: ''
 
 ---

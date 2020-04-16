@@ -4162,6 +4162,7 @@
 /obj/machinery/atmospherics/pipe/manifold/orange/visible{
 	dir = 8
 	},
+/obj/machinery/meter,
 /turf/open/floor/plasteel/dark,
 /area/nsv/engine/engine_room/auxiliary)
 "jK" = (
@@ -5378,6 +5379,7 @@
 /obj/machinery/atmospherics/pipe/simple/orange/visible{
 	dir = 10
 	},
+/obj/machinery/meter,
 /turf/open/floor/engine,
 /area/engine/engine_room)
 "mo" = (
@@ -5657,6 +5659,7 @@
 /area/engine/engine_room)
 "mV" = (
 /obj/machinery/atmospherics/pipe/manifold/orange/visible,
+/obj/machinery/meter,
 /turf/open/floor/plasteel/dark,
 /area/nsv/engine/engine_room/auxiliary)
 "mW" = (
@@ -7917,7 +7920,6 @@
 /obj/machinery/light{
 	dir = 1
 	},
-/obj/item/storage/belt/utility/full/engi,
 /turf/open/floor/plasteel,
 /area/engine/break_room)
 "rg" = (
@@ -9453,11 +9455,11 @@
 /turf/open/floor/plasteel/dark,
 /area/crew_quarters/heads/chief)
 "tQ" = (
-/obj/structure/closet/radiation,
 /obj/machinery/airalarm{
 	dir = 4;
 	pixel_x = -23
 	},
+/obj/structure/closet/secure_closet/engineering_electrical,
 /turf/open/floor/plasteel,
 /area/engine/break_room)
 "tR" = (
@@ -9941,8 +9943,8 @@
 "uV" = (
 /obj/docking_port/stationary{
 	dir = 2;
-	dwidth = 12;
-	height = 18;
+	dwidth = 18;
+	height = 12;
 	id = "emergency_home";
 	name = "BoxStation emergency evac bay";
 	width = 32
@@ -10056,7 +10058,7 @@
 /obj/effect/turf_decal/tile/blue{
 	dir = 4
 	},
-/obj/machinery/stasis,
+/obj/structure/table/optable,
 /turf/open/floor/plasteel/white,
 /area/medical/surgery)
 "vm" = (
@@ -10140,6 +10142,7 @@
 	dir = 8;
 	pixel_x = 24
 	},
+/obj/machinery/rnd/production/techfab/department/medical,
 /turf/open/floor/plasteel/white,
 /area/medical/storage)
 "vw" = (
@@ -10776,15 +10779,15 @@
 /turf/open/floor/plating,
 /area/maintenance/department/medical/morgue)
 "wT" = (
-/obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1{
-	icon_state = "manifold-1";
-	dir = 1
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	icon_state = "pipe11-1";
+	dir = 10
 	},
-/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer3{
-	dir = 1
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	dir = 10
 	},
 /obj/structure/cable{
-	icon_state = "4-8"
+	icon_state = "2-8"
 	},
 /turf/open/floor/plating,
 /area/maintenance/department/medical/morgue)
@@ -10877,34 +10880,15 @@
 /turf/open/floor/plating,
 /area/maintenance/department/medical/morgue)
 "xg" = (
-/obj/structure/table,
-/turf/open/floor/plating,
-/area/maintenance/department/medical/morgue)
-"xh" = (
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
-	icon_state = "pipe11-1";
-	dir = 5
-	},
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3{
 	dir = 1
 	},
-/turf/open/floor/plating,
-/area/maintenance/department/medical/morgue)
-"xi" = (
-/obj/machinery/atmospherics/components/unary/vent_pump/on/layer1{
-	dir = 8
-	},
-/obj/machinery/light/small,
 /turf/open/floor/plating,
 /area/maintenance/department/medical/morgue)
 "xj" = (
 /obj/machinery/light/small,
 /turf/open/floor/plating,
 /area/maintenance/department/medical/morgue)
-"xk" = (
-/obj/machinery/airalarm/directional/west,
-/turf/open/floor/plasteel/ship/padded,
-/area/maintenance/nsv/deck2/airlock/forward/starboard)
 "xl" = (
 /obj/machinery/light{
 	dir = 4
@@ -11020,6 +11004,10 @@
 /obj/effect/spawner/lootdrop/maintenance,
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/starboard)
+"xH" = (
+/obj/structure/closet/secure_closet/engineering_electrical,
+/turf/open/floor/plasteel,
+/area/engine/break_room)
 "xI" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer1,
@@ -11091,6 +11079,14 @@
 	},
 /turf/open/floor/plasteel/freezer,
 /area/crew_quarters/kitchen/coldroom)
+"ys" = (
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
+/turf/open/floor/plasteel/ship/techfloor/alt,
+/area/maintenance/nsv/deck2/airlock/forward/starboard)
 "yv" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
 	dir = 4
@@ -11167,6 +11163,10 @@
 "yS" = (
 /obj/structure/sign/departments/minsky/engineering/engineering,
 /turf/closed/wall/r_wall/ship,
+/area/engine/break_room)
+"yU" = (
+/obj/structure/closet/secure_closet/engineering_welding,
+/turf/open/floor/plasteel,
 /area/engine/break_room)
 "yZ" = (
 /obj/effect/turf_decal/stripes/red/line{
@@ -11316,6 +11316,13 @@
 /obj/effect/decal/cleanable/blood/gibs/old,
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/starboard)
+"AB" = (
+/obj/machinery/firealarm{
+	dir = 4;
+	pixel_x = -24
+	},
+/turf/open/floor/plasteel/ship/techfloor/alt,
+/area/hallway/nsv/deck2/frame2/starboard)
 "AE" = (
 /turf/closed/wall/ship,
 /area/maintenance/nsv/deck2/frame3/port)
@@ -11623,6 +11630,10 @@
 /obj/machinery/computer/ship/viewscreen,
 /turf/open/floor/plasteel/ship/techfloor/alt,
 /area/hallway/nsv/deck2/frame2/port)
+"DI" = (
+/obj/structure/closet/secure_closet/engineering_personal,
+/turf/open/floor/plasteel,
+/area/engine/break_room)
 "DV" = (
 /obj/structure/cable{
 	icon_state = "1-2"
@@ -11685,6 +11696,13 @@
 /obj/machinery/atmospherics/pipe/manifold4w/orange/hidden,
 /turf/open/floor/plating/airless,
 /area/engine/supermatter)
+"EU" = (
+/obj/effect/turf_decal/tile/blue{
+	dir = 4
+	},
+/obj/effect/turf_decal/tile/blue,
+/turf/open/floor/plasteel/white,
+/area/medical/storage)
 "EZ" = (
 /obj/machinery/light{
 	dir = 4
@@ -11855,6 +11873,14 @@
 	},
 /turf/closed/wall/ship,
 /area/crew_quarters/dorms)
+"GS" = (
+/obj/machinery/light/small,
+/obj/structure/bodycontainer/morgue{
+	icon_state = "morgue1";
+	dir = 1
+	},
+/turf/open/floor/plating,
+/area/maintenance/department/medical/morgue)
 "GU" = (
 /obj/structure/rack,
 /obj/item/mmi,
@@ -12189,7 +12215,6 @@
 /obj/item/radio/intercom{
 	pixel_y = 23
 	},
-/obj/item/storage/belt/utility/full/engi,
 /turf/open/floor/plasteel,
 /area/engine/break_room)
 "JK" = (
@@ -12456,12 +12481,6 @@
 /obj/effect/turf_decal/stripes/line,
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/starboard)
-"Mm" = (
-/obj/structure/bodycontainer/morgue{
-	dir = 2
-	},
-/turf/open/floor/plating,
-/area/maintenance/department/medical/morgue)
 "Mn" = (
 /turf/closed/wall/ship,
 /area/maintenance/nsv/deck2/starboard)
@@ -12569,6 +12588,16 @@
 /obj/machinery/airalarm/directional/west,
 /turf/open/floor/plasteel/ship/padded,
 /area/maintenance/nsv/deck2/starboard)
+"Nt" = (
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	dir = 5
+	},
+/obj/structure/cable{
+	icon_state = "1-4"
+	},
+/obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1,
+/turf/open/floor/plating,
+/area/maintenance/department/medical/morgue)
 "Nz" = (
 /obj/machinery/recharge_station,
 /obj/effect/landmark/start/cyborg,
@@ -13075,6 +13104,12 @@
 	},
 /turf/open/floor/engine/airless,
 /area/engine/supermatter)
+"To" = (
+/obj/machinery/light{
+	dir = 8
+	},
+/turf/open/floor/plasteel,
+/area/engine/break_room)
 "Tu" = (
 /obj/structure/disposalpipe/segment{
 	dir = 9
@@ -13090,12 +13125,6 @@
 	},
 /turf/open/floor/plasteel,
 /area/crew_quarters/cafeteria)
-"Ty" = (
-/obj/structure/cable{
-	icon_state = "1-2"
-	},
-/turf/open/floor/plasteel/ship/padded,
-/area/maintenance/nsv/deck2/airlock/forward/starboard)
 "TB" = (
 /obj/structure/cable{
 	icon_state = "4-8"
@@ -13288,6 +13317,12 @@
 /obj/effect/spawner/lootdrop/costume,
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/starboard)
+"VM" = (
+/obj/structure/rack,
+/obj/item/storage/belt/utility/full/engi,
+/obj/item/clothing/glasses/meson/engine,
+/turf/open/floor/plasteel,
+/area/engine/break_room)
 "VP" = (
 /turf/open/floor/engine/airless,
 /area/engine/supermatter)
@@ -13306,6 +13341,19 @@
 /obj/structure/table,
 /obj/item/storage/backpack/duffelbag/med/surgery,
 /obj/item/kitchen/knife/butcher,
+/turf/open/floor/plating,
+/area/maintenance/department/medical/morgue)
+"Wa" = (
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	icon_state = "pipe11-1";
+	dir = 4
+	},
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer3{
+	dir = 1
+	},
 /turf/open/floor/plating,
 /area/maintenance/department/medical/morgue)
 "Wc" = (
@@ -13415,7 +13463,6 @@
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/port)
 "WY" = (
-/obj/structure/closet/radiation,
 /obj/machinery/camera/autoname{
 	dir = 4
 	},
@@ -13512,10 +13559,22 @@
 	},
 /turf/closed/wall/ship,
 /area/crew_quarters/dorms)
+"XJ" = (
+/obj/machinery/atmospherics/components/unary/vent_pump/on/layer1{
+	dir = 4
+	},
+/turf/open/floor/plating,
+/area/maintenance/department/medical/morgue)
 "XK" = (
 /obj/structure/sign/poster/random,
 /turf/closed/wall/r_wall/ship,
 /area/crew_quarters/heads/chief)
+"XM" = (
+/obj/machinery/airalarm{
+	pixel_y = 23
+	},
+/turf/open/floor/plasteel/ship/padded,
+/area/maintenance/nsv/deck2/airlock/forward/starboard)
 "XT" = (
 /obj/machinery/light{
 	dir = 4
@@ -25203,14 +25262,14 @@ ZJ
 jo
 pJ
 eQ
-hK
+To
 qm
-dr
+dt
 WY
 tQ
-dr
-dr
-dr
+xH
+yU
+yU
 bS
 Iu
 MV
@@ -25707,14 +25766,14 @@ kQ
 jo
 iL
 eQ
-ds
-ds
-ds
+DI
+DI
+DI
 qm
-ds
-ds
-ds
-ds
+dt
+VM
+VM
+dt
 bS
 Qw
 Hu
@@ -30504,13 +30563,13 @@ uy
 vi
 we
 HU
+XJ
+xc
+HU
+wO
+wO
 wO
 xc
-wD
-wO
-wO
-wO
-wO
 wD
 Fr
 Dt
@@ -30756,13 +30815,13 @@ sx
 vj
 wf
 wF
-wP
+Nt
 xc
-wD
+HU
+wO
+wO
 wO
 xc
-Mm
-wO
 wD
 Fr
 Dt
@@ -31010,11 +31069,11 @@ wg
 HU
 wQ
 YB
-wD
+HU
 wO
-xc
-Mm
-xj
+wO
+wO
+GS
 wD
 Fr
 Dt
@@ -31262,11 +31321,11 @@ wh
 HU
 wQ
 xd
-wD
+HU
+wO
+wO
 wO
 xc
-Mm
-wO
 wD
 Fr
 Dt
@@ -31514,11 +31573,11 @@ tW
 HU
 CD
 xc
-wD
+HU
+wO
+wO
 wO
 xc
-Mm
-wO
 wD
 Fr
 Dt
@@ -31766,11 +31825,11 @@ wi
 HU
 wQ
 xc
-wD
+HU
 XW
-xc
-Mm
 wO
+wO
+xc
 wD
 Fr
 Dt
@@ -32018,11 +32077,11 @@ wj
 wG
 wR
 xe
-wD
+HU
+wO
+wO
 wO
 xc
-Mm
-wO
 wD
 Fr
 Dt
@@ -32270,11 +32329,11 @@ wk
 HU
 wS
 xf
-wD
+HU
+wO
+wO
 wO
 xc
-Mm
-wO
 wD
 Fr
 Dt
@@ -32520,13 +32579,13 @@ uF
 vp
 wl
 HU
-wQ
+Wa
 xg
-wD
+HU
+wO
+wO
 wO
 xc
-Mm
-wO
 wD
 Fr
 Dt
@@ -32773,12 +32832,12 @@ vq
 wm
 HU
 wT
-xh
-wD
+wP
+HU
+wO
+wO
 wO
 xc
-Mm
-wO
 wD
 Fr
 Dt
@@ -33023,13 +33082,13 @@ QW
 ua
 ua
 QW
+QW
 HU
 wQ
-xi
-wD
+HU
 XW
-Qz
-Qz
+wO
+wO
 wO
 wD
 Fr
@@ -33274,14 +33333,14 @@ tv
 ua
 uH
 vr
+vr
 wn
 HU
 wQ
+HU
 wO
-wD
 wO
-Qz
-Qz
+wO
 wO
 wD
 Fr
@@ -33526,11 +33585,11 @@ tv
 ua
 uI
 vs
+vs
 wo
 HU
 wQ
-wO
-wD
+HU
 wO
 Qz
 Qz
@@ -33778,10 +33837,10 @@ rX
 ub
 uI
 vt
+vs
 wp
 HU
 wQ
-wO
 Nk
 wO
 wO
@@ -34030,11 +34089,11 @@ rY
 sg
 sG
 vu
+vs
 wo
 HU
 wQ
-wO
-wD
+HU
 wO
 wO
 wO
@@ -34282,11 +34341,11 @@ tz
 QW
 sH
 vv
+EU
 wq
 HU
 wQ
-xj
-wD
+HU
 VZ
 Qz
 HA
@@ -34536,8 +34595,8 @@ tZ
 tZ
 tZ
 wH
-wU
 wH
+wU
 wH
 wD
 wD
@@ -34786,10 +34845,10 @@ fW
 ud
 uL
 vw
-wr
+AB
 wH
+XM
 wV
-xk
 TX
 IK
 IK
@@ -35040,8 +35099,8 @@ sI
 sY
 ty
 tV
+ys
 uc
-Ty
 uA
 uC
 Fk
@@ -44619,7 +44678,7 @@ Bd
 Bd
 Bd
 Bd
-Bd
+aa
 Bd
 Bd
 Bd
