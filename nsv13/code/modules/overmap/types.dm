@@ -187,51 +187,6 @@
 	max_integrity = 1500 //Max health
 	integrity_failure = 1500
 
-/obj/structure/overmap/fighter/syndicate //Syndie PVP fighter
-	name = "Syndicate Fighter"
-	desc = "The Syndicate's answer to Nanotrasen's fighter craft, this fighter is designed to maintain aerial supremacy."
-	icon = 'nsv13/icons/overmap/syndicate/syn_viper.dmi'
-	icon_state = "fighter"
-	damage_states = FALSE
-	prebuilt = TRUE
-	req_one_access = ACCESS_SYNDICATE
-	faction = "syndicate"
-	start_emagged = TRUE
-
-/obj/structure/overmap/fighter/syndicate/prebuilt_setup()
-	name = "[pick("Hammerforce", "Shrike", "Anvil", "Viscerator", "Striker", "Immolator", "Redsuit", "Tango", "Wolf", "Viper", "Crusher")]-[rand(100,200)]"
-	var/list/components = list(/obj/item/twohanded/required/fighter_component/empennage,
-							/obj/item/twohanded/required/fighter_component/wing,
-							/obj/item/twohanded/required/fighter_component/wing,
-							/obj/item/twohanded/required/fighter_component/landing_gear,
-							/obj/item/twohanded/required/fighter_component/cockpit,
-							/obj/item/twohanded/required/fighter_component/armour_plating,
-							/obj/item/twohanded/required/fighter_component/fuel_tank,
-							/obj/item/fighter_component/avionics,
-							/obj/item/fighter_component/fuel_lines,
-							/obj/item/fighter_component/targeting_sensor,
-							/obj/item/twohanded/required/fighter_component/engine,
-							/obj/item/twohanded/required/fighter_component/engine,
-							/obj/item/twohanded/required/fighter_component/primary_cannon)
-	for(var/I = 0, I <= max_torpedoes, I++)
-		munitions += new /obj/item/ship_weapon/ammunition/torpedo/fast(src)
-	for(var/item in components)
-		new item(src)
-	torpedoes = munitions.len
-	internal_tank = new /obj/machinery/portable_atmospherics/canister/air(src)
-
-/obj/structure/overmap/fighter/prebuilt/raptor/syndicate
-	name = "Syndicate Raptor"
-	desc = "A boarding craft for rapid troop deployment."
-	icon = 'nsv13/icons/overmap/syndicate/syn_raptor.dmi'
-	icon_state = "carrier"
-	damage_states = FALSE
-	max_passengers = 8 //Damn boi he THICC
-	max_integrity = 150 //Squishy!
-	req_one_access = ACCESS_SYNDICATE
-	faction = "syndicate"
-	start_emagged = TRUE
-
 /obj/structure/overmap/syndicate/ai //Generic bad guy #10000. GRR.
 	icon = 'nsv13/icons/overmap/syndicate/syn_light_cruiser.dmi'
 	icon_state = "cruiser"

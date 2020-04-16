@@ -1,4 +1,3 @@
-//This file handles all the code getting a fighter to and from the overmap
 /obj/machinery/computer/ship/fighter_launcher
 	name = "Mag-cat control console"
 	desc = "A computer which is capable of remotely activating fighter launch / arrestor systems."
@@ -11,6 +10,9 @@
 	var/area/AR = get_area(src)
 	for(var/obj/structure/fighter_launcher/FL in AR)
 		launchers += FL
+	for(var/obj/vehicle/sealed/car/realistic/fighter_tug/FT in AR)
+		if(FT.can_launch_fighters())
+			launchers += FT
 
 /obj/machinery/computer/ship/fighter_launcher/attack_hand(mob/user)
 	if(!allowed(user))
@@ -87,7 +89,7 @@
 /obj/structure/overmap/fighter/can_brake()
 	if(mag_lock)
 		if(pilot)
-			to_chat(pilot, "<span class='warning'>WARNING: Ship is magnetically arrested by an arrestor. Awaiting decoupling by fighter technicians.</span>")
+			to_chat(pilot, "<span class='warning'>WARNING: Ship is magnetically arrested by an arrestor. Awaiting decoupling signal (O4).</span>")
 		return FALSE
 	return TRUE
 
@@ -100,7 +102,7 @@
 		OM.brakes = TRUE
 		OM.velocity_x = 0
 		OM.velocity_y = 0 //Full stop.
-		OM.mag_lock = TRUE
+		OM.mag_lock = src
 		var/turf/center = get_turf(src)
 		switch(dir) //Do some fuckery to make sure the fighter lines up on the pad in a halfway sensible manner.
 			if(NORTH)
@@ -215,37 +217,14 @@
 
 /obj/structure/overmap/fighter/proc/release_maglock()
 	brakes = FALSE
-	mag_lock = FALSE
+	mag_lock = null
 
 /obj/structure/overmap/fighter/proc/prime_launch()
 	release_maglock()
 	speed_limit = 20 //Let them accelerate to hyperspeed due to the launch, and temporarily break the speed limit.
 	addtimer(VARSET_CALLBACK(src, speed_limit, initial(speed_limit)), 5 SECONDS) //Give them 5 seconds of super speed mode before we take it back from them
 
-/obj/structure/overmap/fighter/verb/cycle_docking_mode()
-	set name = "Toggle Docking Mode"
-	set category = "Ship"
-	set src = usr.loc
-
-	if(!verb_check())
-		return
-	docking_mode = !docking_mode
-	to_chat(usr, "<span class='notice'>Docking mode [docking_mode ? "engaged" : "disengaged"].</span>")
-
-/obj/structure/overmap/fighter/verb/change_name()
-	set name = "Change name"
-	set category = "Ship"
-	set src = usr.loc
-
-	if(!verb_check())
-		return
-	var/new_name = stripped_input(usr, message="What do you want to name \
-		your fighter? Keep in mind that particularly terrible names may be \
-		rejected by your employers.", max_length=MAX_CHARTER_LEN)
-	if(!new_name || length(new_name) <= 0)
-		return
-	message_admins("[key_name_admin(usr)] renamed a fighter to [new_name] [ADMIN_LOOKUPFLW(src)].")
-	name = new_name
+//OVERMAP STUFF
 
 /obj/structure/overmap/fighter/proc/check_overmap_elegibility() //What we're doing here is checking if the fighter's hitting the bounds of the Zlevel. If they are, we need to transfer them to overmap space.
 	if(ready_for_transfer())
@@ -273,6 +252,7 @@
 		if(pilot)
 			to_chat(pilot, "<span class='notice'>Docking mode disabled. Use the 'Ship' verbs tab to re-enable docking mode, then fly into an allied ship to complete docking proceedures.</span>")
 			docking_mode = FALSE
+		SEND_SIGNAL(src, COMSIG_FTL_STATE_CHANGE) //Let dradis comps update their status too
 		return TRUE
 
 /obj/structure/overmap/fighter/proc/update_overmap()
@@ -296,7 +276,11 @@
 		pixel_z = initial(pixel_z)
 		var/turf/T = get_turf(pick(OM.docking_points))
 		forceMove(T)
-		if(pilot)
-			to_chat(pilot, "<span class='notice'>Docking complete.</span>")
-			docking_mode = FALSE
+		bound_width = initial(bound_width)
+		bound_height = initial(bound_height)
+		docking_mode = FALSE
+		if(pilot && faction == OM.faction)
+			weapon_safety = TRUE
+			to_chat(pilot, "<span class='notice'>Docking complete. <b>Gun safeties have been engaged automatically.</b></span>")
+		SEND_SIGNAL(src, COMSIG_FTL_STATE_CHANGE)
 		return TRUE

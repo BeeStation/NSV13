@@ -2,6 +2,7 @@
 	var/valid_angle = 0
 	var/maximum_speed = 0
 	var/acceleration_rate = 0
+	var/shotdown_effect_type = /obj/effect/temp_visual/impact_effect/torpedo
 
 /obj/item/projectile/missile/set_homing_target(atom/A)
 	.=..()

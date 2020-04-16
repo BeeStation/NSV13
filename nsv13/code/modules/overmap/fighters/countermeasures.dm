@@ -8,7 +8,7 @@
 	if(istype(B, /obj/item/projectile/missile/torpedo || /obj/item/projectile/missile/missile))
 		if(prob(50))
 			if(prob(50))
-				B.process_hit() //Kaboom on the chaff
+				B.explode() //Kaboom on the chaff
 			else
 				B.homing = FALSE //Confused by the chaff
 

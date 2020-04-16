@@ -29,7 +29,15 @@
 						/obj/item/fighter_component/primary/light/light_cannon/t1)
 
 /obj/structure/overmap/fighter/light/prebuilt/flight_leader
-	req_access = list(ACCESS_FL)
+	req_one_access = list(ACCESS_FL)
+
+/obj/structure/overmap/fighter/light/prebuilt/syndicate //PVP MODE
+	name = "Syndicate Light Fighter"
+	desc = "The Syndicate's answer to Nanotrasen's light fighter craft, this fighter is designed to maintain aerial supremacy."
+	icon = 'nsv13/icons/overmap/syndicate/syn_viper.dmi'
+	req_one_access = ACCESS_SYNDICATE
+	faction = "syndicate"
+	start_emagged = TRUE
 
 /obj/structure/overmap/fighter/light/attackby(obj/item/W, mob/user, params) //changing light equipment - used in fighters.dm maintenance mode
 	.=..()

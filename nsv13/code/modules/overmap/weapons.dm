@@ -40,7 +40,6 @@
 	range = 1000
 //	flag = "overmap_heavy"
 	impact_effect_type = /obj/effect/temp_visual/impact_effect/torpedo
-	var/shotdown_effect_type = /obj/effect/temp_visual/impact_effect/torpedo
 
 /obj/item/projectile/missile/missile
 	icon_state = "torpedo"

@@ -57,6 +57,14 @@
 						/obj/item/fighter_component/primary/utility/rapid_breach_sealing_module,
 						/obj/item/fighter_component/secondary/utility/rbs_reagent_tank/t1)
 
+/obj/structure/overmap/fighter/utility/prebuilt/carrier/syndicate //PVP MODE
+	name = "Syndicate Utility Vessel"
+	desc = "A boarding craft for rapid troop deployment."
+	icon = 'nsv13/icons/overmap/syndicate/syn_raptor.dmi'
+	req_one_access = ACCESS_SYNDICATE
+	faction = "syndicate"
+	start_emagged = TRUE
+
 /obj/structure/overmap/fighter/utility/attackby(obj/item/W, mob/user, params) //changing utility equipment - used in fighters.dm maintenance mode
 	.=..()
 	if(maint_state == 2)  //MS_OPEN == 2

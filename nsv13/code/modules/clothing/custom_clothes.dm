@@ -421,3 +421,32 @@
 	icon_state = "menacing"
 	randomdir = TRUE
 	duration = 2 SECONDS
+
+/obj/item/clothing/under/rank/munitions_tech
+	name = "camouflage fatigues"
+	desc = "A green military camouflage uniform worn by specialists."
+	icon_state = "camogreen"
+	item_state = "g_suit"
+	item_color = "camogreen"
+	can_adjust = FALSE
+
+/obj/item/clothing/under/rank/master_at_arms
+	name = "master at arms' jumpsuit"
+	desc = "It's a jumpsuit worn by those with the experience to be \"Master At Arms\". It provides minor fire protection."
+	icon_state = "tactifool" //PLACEHOLDER
+	item_state = "bl_suit"
+	armor = list("melee" = 0, "bullet" = 0, "laser" = 0,"energy" = 0, "bomb" = 50, "bio" = 0, "rad" = 0, "fire" = 50, "acid" = 0)
+
+/obj/item/clothing/under/ship/decktech
+	name = "fighter technician overalls"
+	desc = "Overalls worn by fighter technicians."
+	icon_state = "deck_tech"
+	item_state = "deck_tech"
+	can_adjust = FALSE
+
+/obj/item/clothing/head/helmet/decktech
+	name = "Fighter Technician Helmet"
+	desc = "A helmet for protecting technicians in a hazardous environment."
+	icon = 'nsv13/icons/obj/clothing/hats.dmi'
+	icon_state = "decktech_helmet"
+	item_state = "decktech_helmet"
