@@ -1164,9 +1164,7 @@ How to make fuel:
 	data["c_primary"] = get_part(/obj/item/fighter_component/primary)
 	data["c_secondary"] = get_part(/obj/item/fighter_component/secondary)
 	data["max_countermeasures"] = max_countermeasures
-	for(locate(/obj/item/ship_weapon/ammunition/countermeasure_charge) in contents)
-		countermeasures ++
-	data["current_countermeasures"] = countermeasures
+	data["current_countermeasures"] = mun_countermeasures.len
 	data["master_caution"] = master_caution
 	if(get_max_aux_fuel())
 		data["max_aux_fuel"] = get_max_aux_fuel()
