@@ -32,7 +32,7 @@
 	icon_state = "stamp-cap"
 	item_color = "captain"
 
-/obj/item/stamp/xo
+/obj/item/stamp/xo //Nsv13 - HoP to XO
 	name = "executive officer's rubber stamp"
 	icon_state = "stamp-xo"
 	item_color = "xo"
