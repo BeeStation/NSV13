@@ -438,14 +438,14 @@
 	armor = list("melee" = 0, "bullet" = 0, "laser" = 0,"energy" = 0, "bomb" = 50, "bio" = 0, "rad" = 0, "fire" = 50, "acid" = 0)
 
 /obj/item/clothing/under/ship/decktech
-	name = "fighter technician overalls"
-	desc = "Overalls worn by fighter technicians."
+	name = "deck technician overalls"
+	desc = "Overalls worn by deck technicians."
 	icon_state = "deck_tech"
 	item_state = "deck_tech"
 	can_adjust = FALSE
 
 /obj/item/clothing/head/helmet/decktech
-	name = "Fighter Technician Helmet"
+	name = "Deck Technician Helmet"
 	desc = "A helmet for protecting technicians in a hazardous environment."
 	icon = 'nsv13/icons/obj/clothing/hats.dmi'
 	icon_state = "decktech_helmet"
