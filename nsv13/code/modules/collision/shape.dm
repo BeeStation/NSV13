@@ -42,6 +42,7 @@ Method to set our points to a new list of points
 */
 
 /datum/shape/proc/set_points(list/points)
+	to_chat(world, "set points BEGIN")
 	if(!src.base_points.len || src.base_points.len != points.len){
 		src.rel_points.Cut()
 		src.normals.Cut()
@@ -49,7 +50,10 @@ Method to set our points to a new list of points
 			src.rel_points.Add(new /datum/vector2d(0,0))
 			src.normals.Add(new /datum/vector2d(0,0))
 		}
+		to_chat(world, "DONE LIST INIT")
 	}
+	to_chat(world, "REL_POINTS: [src.rel_points.len], FRST: [src.rel_points[1].x],[src.rel_points[1].y]")
+	to_chat(world, "NORMS: [src.normals.len], FRST: [src.normals[1].x],[src.normals[1].y]")
 	src.base_points = points
 	src._recalc()
 	return points
