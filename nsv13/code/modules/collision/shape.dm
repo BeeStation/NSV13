@@ -69,8 +69,13 @@ Method to recalculate our bounding box, adjusting the relative positions accordi
 */
 
 /datum/shape/proc/_recalc()
+	to_chat(world, "STARTING RELPOINT CALC")
 	for(var/i in 1 to src.base_points.len){
+		to_chat(world, "BASEPOINT [i]: [src.base_points[i].x],[src.base_points[i].y]")
 		src.rel_points[i]._set(src.base_points[i].clone().rotate(src._angle))
+		to_chat(world, "CLONED [src.base_points[i].clone().x],[src.base_points[i].clone().y]")
+		to_chat(world, "ROTATED [src.base_points[i].clone().rotate(src._angle).x],[src.base_points[i].clone().rotate(src._angle).y]")
+		to_chat(world, "TO RELPOINT [i]: [src.rel_points[i].x],[src.rel_points[i].y]")
 	}
 	//Clear out our current AABB collision box
 	src.aabb.Cut()
@@ -82,6 +87,9 @@ Method to recalculate our bounding box, adjusting the relative positions accordi
 	for(var/i in 1 to src.rel_points.len){
 		var/datum/vector2d/p1 = src.rel_points[i]
 		var/datum/vector2d/p2 = i < src.base_points.len ? src.rel_points[i+1] : src.rel_points[1]
+
+		to_chat(world, "P1: [p1.x],[p1.y]")
+		to_chat(world, "P2: [p2.x],[p2.y]")
 
 		if(p1.x < min_x){
 			min_x = p1.x
@@ -97,6 +105,9 @@ Method to recalculate our bounding box, adjusting the relative positions accordi
 		}
 
 		var/datum/vector2d/edge = p2 - p1
+		to_chat(world, "EDGE: [edge.x],[edge.y]")
+		to_chat(world, "EDGE PERP: [edge.clone().perp().x],[edge.clone().perp().y]")
+		to_chat(world, "EDGE PERP NORM: [edge.clone().perp().normalize().x],[edge.clone().perp().normalize().y]")
 		src.normals[i]._set(edge.perp().normalize())
 	}
 	aabb.Add(min_x)
