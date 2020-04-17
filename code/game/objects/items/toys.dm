@@ -1301,9 +1301,9 @@
 	icon_state = "geneticist"
 	toysay = "Smash!"
 
-/obj/item/toy/figure/hop
-	name = "Head of Personnel action figure"
-	icon_state = "hop"
+/obj/item/toy/figure/xo //Nsv13 - HoP to XO
+	name = "Executive Officer action figure"
+	icon_state = "xo"
 	toysay = "Giving out all access!"
 
 /obj/item/toy/figure/hos
