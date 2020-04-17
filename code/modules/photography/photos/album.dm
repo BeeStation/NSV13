@@ -63,7 +63,7 @@
 /obj/item/storage/photo_album/RD
 	persistence_id = "RD"
 
-/obj/item/storage/photo_album/XO //Nsv13 - HoP to XO
+/obj/item/storage/photo_album/xo //Nsv13 - HoP to XO
 	persistence_id = "XO"
 
 /obj/item/storage/photo_album/Captain
