@@ -13,9 +13,9 @@ Special thanks to qwertyquerty for explaining and dictating all this! (I've most
 /datum/shape
 	var/datum/vector2d/position = null //Vector to represent our position in the game world. This is updated by whatever's moving us with pixelmovement.
 	var/_angle = 0 //Orientation in radians. You are not meant to use this directly.
-	var/list/base_points = list()
-	var/list/rel_points = list() //The vertices that this collider holds. Relative to the position. If the shape's at 200,200, and we have a vertex at 10,5, the vertex is actually at 210,205 in world. These are pixel coordinates. Counterclockwise order.
-	var/list/normals = list()
+	var/list/datum/vector2d/base_points = list()
+	var/list/datum/vector2d/rel_points = list() //The vertices that this collider holds. Relative to the position. If the shape's at 200,200, and we have a vertex at 10,5, the vertex is actually at 210,205 in world. These are pixel coordinates. Counterclockwise order.
+	var/list/datum/vector2d/normals = list()
 	var/list/aabb = list() //Cached points from AABB collision
 
 //Constructor for shape objects, taking in parameters they may initially need

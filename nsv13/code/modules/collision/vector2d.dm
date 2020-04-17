@@ -34,6 +34,7 @@ Method to turn this vector counter clockwise by a desired angle
 */
 
 /datum/vector2d/proc/rotate(angle)
+	RETURN_TYPE(/datum/vector2d)
 	var/s = sin(angle)
 	var/c = cos(angle)
 	var/newx = c*x + s*y
@@ -41,12 +42,14 @@ Method to turn this vector counter clockwise by a desired angle
 	x = newx
 	y = newy
 	return src
+
 /*
 A method to make a copy of this vector
 @return a new vector2d with the same stats as this one
 */
 
 /datum/vector2d/proc/clone()
+	RETURN_TYPE(/datum/vector2d)
 	return new /datum/vector2d(x,y)
 
 /*
@@ -146,15 +149,18 @@ Method to overload the *= operator to multiply the X,Y coordinates to our own on
 	return sqrt(src.ln2())
 
 /datum/vector2d/proc/normalize()
+	RETURN_TYPE(/datum/vector2d)
 	return src / src.ln()
 
 /datum/vector2d/proc/project(var/datum/vector2d/other)
+	RETURN_TYPE(/datum/vector2d)
 	var/amt = src.dot(other) / other.ln2()
 	src.x = amt * other.x
 	src.y = amt * other.y
 	return src
 
 /datum/vector2d/proc/project_n(var/datum/vector2d/other)
+	RETURN_TYPE(/datum/vector2d)
 	var/amt = src.dot(other)
 	src.x = amt * other.x
 	src.y = amt * other.y
@@ -169,6 +175,7 @@ Method to overload the *= operator to multiply the X,Y coordinates to our own on
 	src *= -2
 
 /datum/vector2d/proc/perp()
+	RETURN_TYPE(/datum/vector2d)
 	var/newx = src.y
 	var/newy = -src.x
 	src.x = newx
