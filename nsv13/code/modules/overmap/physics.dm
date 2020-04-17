@@ -310,6 +310,7 @@
 	update_icon()
 
 /obj/structure/overmap/proc/handle_collisions()
+	color = "#008000"
 	for(var/obj/structure/overmap/OM in GLOB.overmap_objects)
 		if(src == OM) continue // Wondered why objects were always colliding for an entire 9 hours
 		if(src.collider2d.test_aabb(OM.collider2d))
@@ -317,7 +318,6 @@
 		if(src.collider2d.collides(OM.collider2d))
 			color = "#FF0000"
 			return TRUE
-	color = "#008000"
 
 /obj/structure/overmap/proc/show_hitbox()
 	for(var/turf/T in obounds(src, pixel_x + pixel_collision_size_x/4, pixel_y + pixel_collision_size_y/4, pixel_x  + -pixel_collision_size_x/4, pixel_y + -pixel_collision_size_x/4) )//Forms a zone of 4 quadrants around the desired overmap using some math fuckery.
