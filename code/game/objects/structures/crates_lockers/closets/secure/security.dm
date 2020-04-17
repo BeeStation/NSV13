@@ -41,7 +41,7 @@
 	req_access = list(ACCESS_XO)
 	icon_state = "xo"
 
-/obj/structure/closet/secure_closet/xo/PopulateContents()
+/obj/structure/closet/secure_closet/xo/PopulateContents() //Nsv13 - HoP to XO
 	..()
 	new /obj/item/clothing/neck/cloak/xo(src)
 	new /obj/item/storage/lockbox/medal/service(src)
@@ -62,7 +62,7 @@
 	new /obj/item/pet_carrier(src)
 	new /obj/item/door_remote/civillian(src)
 	new /obj/item/circuitboard/machine/techfab/department/service(src)
-	new /obj/item/storage/photo_album/XO(src)
+	new /obj/item/storage/photo_album/xo(src) //Nsv13 - HoP to XO
 	new /obj/item/card/id/departmental_budget/srv(src)
 
 /obj/structure/closet/secure_closet/brig_phys
