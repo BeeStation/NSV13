@@ -45,10 +45,10 @@
 	desc = "Worn by the commander of Space Station 13."
 	icon_state = "capcloak"
 
-/obj/item/clothing/neck/cloak/hop
-	name = "head of personnel's cloak"
-	desc = "Worn by the Head of Personnel. It smells faintly of bureaucracy."
-	icon_state = "hopcloak"
+/obj/item/clothing/neck/cloak/xo //Nsv13 - HoP to XO
+	name = "executive officer's cloak"
+	desc = "Worn by the Executive Officer. It smells faintly of bureaucracy."
+	icon_state = "xocloak"
 
 /obj/item/clothing/suit/hooded/cloak/goliath
 	name = "goliath cloak"
