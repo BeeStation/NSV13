@@ -113,6 +113,8 @@ Simple method to calculate whether we collide with another shape object, lightwe
 */
 
 /datum/shape/proc/test_aabb(var/datum/shape/other)
+	if(!aabb.len || !other.aabb.len) //Sanity
+		return FALSE
 	return ((src.aabb[1] + src.position.x) <= (other.aabb[3] + other.position.x)) && ((src.aabb[2] + src.position.y) <= (other.aabb[4] + other.position.y)) && ((src.aabb[3] + src.position.x) >= (other.aabb[1] + other.position.x)) && ((src.aabb[4] + src.position.y) >= (other.aabb[2] + other.position.y))
 
 /**
