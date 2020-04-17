@@ -103,17 +103,6 @@ Method to overload the / operator to divide this vector by another one
 		return new /datum/vector2d(x / b.x, y / b.y)
 
 /*
-Method to overload the /= operator to divide the X,Y coordinates to our own ones, without making a new vector2d
-*/
-/datum/vector2d/proc/operator/=(datum/vector2d/b)
-	if(isnum(b))
-		x /= b
-		y /= b
-	else if(istype(b, /datum/vector2d))
-		x /= b.x
-		y /= b.y
-
-/*
 Overrides the ~= operator to check if a vector has the same x and y values as another one (equivalency)
 @return 1 if the vectors are equivalent, 0 if not
 */
