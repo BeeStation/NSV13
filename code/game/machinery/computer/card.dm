@@ -30,7 +30,7 @@ GLOBAL_VAR_INIT(time_last_changed_position, 0)
 		"Assistant",
 		"Cyborg",
 		"Captain",
-		"Head of Personnel",
+		"Executive Officer", //Nsv13 - HoP to XO
 		"Head of Security",
 		"Chief Engineer",
 		"Research Director",
@@ -376,10 +376,10 @@ GLOBAL_VAR_INIT(time_last_changed_position, 0)
 						playsound(src, 'sound/machines/terminal_on.ogg', 50, 0)
 
 					else
-						if((ACCESS_HOP in scan.access) && ((target_dept==1) || !target_dept))
+						if((ACCESS_XO in scan.access) && ((target_dept==1) || !target_dept)) //Nsv13 - HoP to XO
 							region_access |= 1
 							region_access |= 6
-							get_subordinates("Head of Personnel")
+							get_subordinates("Executive Officer") //Nsv13 - HoP to XO
 						if((ACCESS_HOS in scan.access) && ((target_dept==2) || !target_dept))
 							region_access |= 2
 							get_subordinates("Head of Security")
