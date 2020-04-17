@@ -20,6 +20,7 @@
 	var/datum/shape/collider2d = null //Our box collider. See the collision module for explanation
 	var/datum/vector2d/offset
 	var/datum/vector2d/last_offset
+	var/datum/vector2d/position
 	var/list/collision_positions = list() //See the collisions doc for how these work. Theyre a pain in the ass.
 
 //Helper proc to get the actual center of the ship, if the ship's hitbox is placed in the bottom left corner like they usually are.
@@ -53,8 +54,9 @@
 	pixel_collision_size_y = I.Height()
 	offset = new /datum/vector2d()
 	last_offset = new /datum/vector2d()
+	position = new /datum/vector2d(x*32,y*32)
 	if(collision_positions.len)
-		collider2d = new /datum/shape(offset, collision_positions, -TORADIANS(src.angle-90))
+		collider2d = new /datum/shape(position, collision_positions, -TORADIANS(src.angle-90))
 	else
 		message_admins("[src] does not have collision points set! It will float through everything.")
 
@@ -68,7 +70,7 @@
 	if(world.time > last_slowprocess + 10)
 		last_slowprocess = world.time
 		slowprocess()
-	last_offset._set(offset.x,offset.y)
+	last_offset.copy(offset)
 	var/last_angle = angle
 	var/desired_angular_velocity = 0
 	if(isnum(desired_angle))
@@ -281,6 +283,7 @@
 	transform = mat_from
 	pixel_x = last_offset.x*32
 	pixel_y = last_offset.y*32
+	position._set(src.x*32, src.y*32)
 	animate(src, transform=mat_to, pixel_x = offset.x*32, pixel_y = offset.y*32, time = time*10, flags=ANIMATION_END_NOW)
 	if(last_target)
 		var/target_angle = Get_Angle(src,last_target)
