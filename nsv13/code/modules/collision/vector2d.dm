@@ -55,15 +55,22 @@ Method to overload the + operator to add a vector to another vector
 */
 
 /datum/vector2d/proc/operator+(datum/vector2d/b)
-	return new /datum/vector2d(x+b.x,y+b.y)
+	if(isnum(b))
+		return new /datum/vector2d(x+b, y+b)
+	else if(istype(b, /datum/vector2d))
+		return new /datum/vector2d(x+b.x, y+b.y)
 
 /*
 Method to overload the += operator to add the X,Y coordinates to our own ones, without making a new vector2d
 */
 
 /datum/vector2d/proc/operator+=(datum/vector2d/b)
-	x += b.x
-	y += b.y
+	if(isnum(b))
+		x += b
+		y += b
+	else if(istype(b, /datum/vector2d))
+		x += b.x
+		y += b.y
 
 /*
 Method to overload the - operator to subtract a vector from this one.
@@ -73,15 +80,21 @@ Method to overload the - operator to subtract a vector from this one.
 /datum/vector2d/proc/operator-(datum/vector2d/b)
 	if(!b)
 		return new /datum/vector2d(-x,-y)
-	return new /datum/vector2d(x-b.x,y-b.y)
-
+	else if(isnum(b))
+		return new /datum/vector2d(x-b, y-b)
+	else if(istype(b, /datum/vector2d))
+		return new /datum/vector2d(x-b.x, y-b.y)
 /*
 Method to overload the += operator to subtract the X,Y coordinates to our own ones, without making a new vector2d
 */
 
 /datum/vector2d/proc/operator-=(datum/vector2d/b)
-	x -= b.x
-	y -= b.y
+	if(isnum(b))
+		x -= b
+		y -= b
+	else if(istype(b, /datum/vector2d))
+		x -= b.x
+		y -= b.y
 
 /*
 Method to overload the * operator to multiply this vector by another one
@@ -92,11 +105,8 @@ Method to overload the * operator to multiply this vector by another one
 /datum/vector2d/proc/operator*(datum/vector2d/b)
 	if(isnum(b))
 		return new /datum/vector2d(x*b, y*b)
-	else if(istype(b, /matrix))
-		var/matrix/m = b
-		return new /datum/vector2d(x*m.a + y*m.b + m.c, x*m.d + y*m.e + m.f)
-	else if(istype(b))
-		return x*b.x + y*b.y
+	else if(istype(b, /datum/vector2d))
+		return new /datum/vector2d(x*b.x, y*b.y)
 
 /*
 Method to overload the / operator to multiply this vector by another one
@@ -106,31 +116,25 @@ Method to overload the / operator to multiply this vector by another one
 /datum/vector2d/proc/operator/(datum/vector2d/b)
 	if(isnum(b))
 		return new /datum/vector2d(x/b, y/b)
-	else if(istype(b, /matrix))
-		var/matrix/m = b
-		return new /datum/vector2d(x/m.a + y/m.b + m.c, x/m.d + y/m.e + m.f)
-	else if(istype(b))
-		return x/b.x + y/b.y
+	else if(istype(b, /datum/vector2d))
+		return new /datum/vector2d(x/b.x, y/b.y)
 
 /*
 Method to overload the *= operator to multiply the X,Y coordinates to our own ones, without making a new vector2d
 */
-/datum/vector2d/proc/operator*=(b)
-	if(istype(b, /matrix))
-		var/matrix/m = b
-		var/newx = x*m.a + y*m.b + m.c
-		var/newy = x*m.d + y*m.e + m.f
-		x = newx
-		y = newy
-	else if(isnum(b))
+/datum/vector2d/proc/operator*=(datum/vector2d/b)
+	if(isnum(b))
 		x *= b
 		y *= b
+	else if(istype(b, /datum/vector2d))
+		x *= b.x
+		y *= b.y
 
 /datum/vector2d/proc/operator~=(datum/vector2d/b)
-	return (istype(b) && x == b.x && y == b.y)
+	return (istype(b, /datum/vector2d) && x == b.x && y == b.y)
 
 /datum/vector2d/proc/to_string()
-	return "([x], [y])"
+	return "([src.x], [src.y])"
 
 /datum/vector2d/proc/dot(var/datum/vector2d/other)
 	return src.x * other.x + src.y * other.y

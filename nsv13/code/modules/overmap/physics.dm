@@ -124,7 +124,7 @@
 
 	// calculate drag and shit
 
-	var/velocity_mag = sqrt(velocity.x*velocity.x+velocity.y*velocity.y) // magnitude
+	var/velocity_mag = velocity.ln() // magnitude
 	if(velocity_mag || angular_velocity)
 		var/drag = 0
 		for(var/turf/T in locs)
@@ -346,7 +346,7 @@
 /obj/structure/overmap/proc/apply_impulse(datum/vector2d/impulse, datum/vector2d/at)
 	var/datum/vector2d/ccw_vector = at - position
 	ccw_vector.rotate(90)
-	angular_velocity += (ccw_vector * impulse) * (1 / mass) //Tweak the "10" as necessary
+	angular_velocity += (ccw_vector.dot(impulse)) * (1 / mass) //Tweak the "10" as necessary
 	if(angular_velocity > 5)
 		angular_velocity = 5
 	if(angular_velocity < -5)
@@ -370,19 +370,23 @@
 
 /obj/structure/overmap/proc/collide(obj/structure/overmap/other, list/collision_normals, collision_velocity)
 	var/datum/vector2d/normal = collision_normals[1]
-	var/datum/vector2d/point = new /datum/vector2d(normal)
-	var/datum/vector2d/penetration = new /datum/vector2d(normal)
+	var/datum/vector2d/point = normal.clone()
+	var/datum/vector2d/penetration = normal.clone()
+
 	var/datum/vector2d/relative_point_momentum = (get_point_velocity(point) * mass) - (other.get_point_velocity(point) * other.mass)
+
 	to_chat(world, "[normal.to_string()] and [relative_point_momentum.to_string()] at [collision_velocity] velocity")
-	var/momentum_along_normal = -(normal * relative_point_momentum)
+	var/momentum_along_normal = -(normal.dot(relative_point_momentum))
+
 	if(momentum_along_normal > 0)
 		var/datum/vector2d/seperation_impulse = normal * (momentum_along_normal * 1.5)
 		apply_impulse(seperation_impulse * 0.5, point)
 		other.apply_impulse(seperation_impulse * -0.5, point)
+
 	var/datum/vector2d/output = penetration * 0.5
-	to_chat(world, "[output.to_string()]")
 	position += output
 	other.position -= output
+	to_chat(world, "FIX BY: [output.to_string()]")
 
 /obj/structure/overmap/Bumped(atom/movable/A)
 	if(brakes || ismob(A)) //No :)
