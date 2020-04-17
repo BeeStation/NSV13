@@ -87,18 +87,27 @@
 
 /**
  * Constructor for /obj/machinery/ship_weapon
-
  * Attempts to link the weapon to an overmap ship.
  * If the weapon requires maintenance, generates initial maintenance countdown.
  * Caches icon state list for sanity checking when updating icons.
  */
 /obj/machinery/ship_weapon/Initialize()
 	. = ..()
+	addtimer(CALLBACK(src, .proc/PostInitialize), 5 SECONDS)
+
+/**
+*
+*	Late initialize'd these weapons as they're dependant on areas + overmaps being initialized first. This way, they're initialized after everything else in the game.
+*
+*/
+
+/obj/machinery/ship_weapon/proc/PostInitialize()
 	get_ship(error_log=FALSE)
 	if(maintainable)
 		maint_req = rand(15,25) //Setting initial number of cycles until maintenance is required
 		create_reagents(50)
 	icon_state_list = icon_states(icon)
+
 
 /**
  * Destructor for /obj/machinery/ship_weapon
@@ -139,14 +148,25 @@
 
 	if(ammo_type && istype(I, ammo_type))
 		load(I, user)
-		return
+		return TRUE
 	else if(magazine_type && istype(I, magazine_type))
 		load_magazine(I, user)
-		return
+		return TRUE
 	else if(istype(I, /obj/item/reagent_containers))
 		oil(I, user)
-		return
+		return TRUE
 	..()
+
+/**
+ * Store ID in multitool buffer for linking to munitions consoles
+ */
+/obj/machinery/ship_weapon/multitool_act(mob/living/user, obj/item/I)
+	if(!multitool_check_buffer(user, I))
+		return
+	var/obj/item/multitool/P = I
+	P.buffer = src
+	to_chat(user, "<span class='notice'>-% Successfully stored [REF(P.buffer)] [P.buffer.name] in buffer %-</span>")
+	return TRUE
 
 /**
  * Unload magazine or just-loaded rounds.
@@ -338,7 +358,7 @@
 		if("[initial(icon_state)]_chambered" in icon_state_list)
 			icon_state = "[initial(icon_state)]_chambered"
 		chambered = ammo[1]
-		if(chamber_sound)
+		if(chamber_sound && !rapidfire) //This got super annoying on gauss guns, so i've made it only work for the initial "ready to fire" warning.
 			playsound(src, chamber_sound, 100, 1)
 		state = STATE_CHAMBERED
 
@@ -429,8 +449,9 @@
  * Handles firing animations and sounds on the overmap.
  */
 /obj/machinery/ship_weapon/proc/overmap_fire(atom/target)
-	var/sound/chosen = pick(weapon_type.overmap_firing_sounds)
-	linked.relay_to_nearby(chosen)
+	if(weapon_type.overmap_firing_sounds)
+		var/sound/chosen = pick(weapon_type.overmap_firing_sounds)
+		linked.relay_to_nearby(chosen)
 	if(overlay)
 		overlay.do_animation()
 	animate_projectile(target)

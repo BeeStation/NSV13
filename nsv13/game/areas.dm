@@ -3,7 +3,19 @@
 /area
 	var/looping_ambience = 'nsv13/sound/ambience/shipambience.ogg' //If you want an ambient sound to play on loop while theyre in a specific area, set this. Defaults to the classic "engine rumble"
 	var/obj/structure/overmap/linked_overmap = null //For relaying damage etc. to the interior.
-	var/overmap_type = null //Set this to the type of your ship object if you want to create a secondary ship to the main one. (EG: /obj/structure/overmap/nanotrasen/patrol_cruiser/starter)
+
+/area/New()
+	. = ..()
+	addtimer(CALLBACK(src, .proc/find_overmap), 5 SECONDS)
+
+/area/proc/find_overmap()
+	for(var/obj/structure/overmap/ship in GLOB.overmap_objects)
+		var/types = subtypesof(ship.area_type)
+		types += ship.area_type //Subtypesof doesnt include the parent type. End me.
+		for(var/path in types)
+			if(src.type == path)
+				linked_overmap = ship
+				ship.linked_areas += src
 
 /area/space
 	looping_ambience = null
@@ -41,7 +53,6 @@
 /area/medical/nsv/clinic
 	name = "Deck 2 Medical Clinic"
 	icon_state = "medbay"
-
 
 /area/nsv/engine/engine_room/core
 	name = "Engine Core"
@@ -367,8 +378,11 @@
 	name = "Briefing Room"
 	icon_state = "hallP"
 
+/area/nsv/crew_quarters/heads/maa
+	name = "Master At Arms' Office"
+	icon_state = "shuttlegrn"
+	
 /area/nsv/shuttle
-	overmap_type = /obj/structure/overmap/nanotrasen/mining_cruiser/nostromo
 
 /area/nsv/shuttle/bridge
 	name = "Mining Shuttle Bridge"
@@ -445,7 +459,6 @@
 	name = "NSV Nostromo"
 	ambientsounds = list('nsv13/sound/ambience/leit_motif.ogg','nsv13/sound/ambience/wind.ogg','nsv13/sound/ambience/wind2.ogg','nsv13/sound/ambience/wind3.ogg','nsv13/sound/ambience/wind4.ogg','nsv13/sound/ambience/wind5.ogg','nsv13/sound/ambience/wind6.ogg')
 	noteleport = TRUE
-	overmap_type = /obj/structure/overmap/nanotrasen/mining_cruiser/nostromo
 	icon_state = "mining"
 	has_gravity = TRUE
 
@@ -472,6 +485,48 @@
 	name = "Nostromo flight deck"
 	looping_ambience = 'nsv13/sound/ambience/bridge.ogg'
 	icon_state = "bridge"
+
+//Syndie PVP ship
+
+/area/hammurabi
+	name = "SSV Hammurabi"
+	ambientsounds = list('nsv13/sound/ambience/leit_motif.ogg','nsv13/sound/ambience/wind.ogg','nsv13/sound/ambience/wind2.ogg','nsv13/sound/ambience/wind3.ogg','nsv13/sound/ambience/wind4.ogg','nsv13/sound/ambience/wind5.ogg','nsv13/sound/ambience/wind6.ogg')
+	noteleport = TRUE
+	icon_state = "syndie-ship"
+	has_gravity = TRUE
+
+/area/hammurabi/medbay
+	name = "Hammurabi sickbay"
+	looping_ambience = 'nsv13/sound/ambience/medbay.ogg'
+	icon_state = "medbay"
+
+/area/hammurabi/tcomms
+	name = "Hammurabi TE/LE/COMM core"
+	looping_ambience = 'nsv13/sound/ambience/computer_core.ogg'
+	icon_state = "tcomsatcham"
+
+/area/hammurabi/bridge
+	name = "Hammurabi flight deck"
+	looping_ambience = 'nsv13/sound/ambience/bridge.ogg'
+	icon_state = "syndie-control"
+
+/area/hammurabi/armoury
+	name = "Hammurabi armoury"
+	icon_state = "syndie-elite"
+
+/area/hammurabi/hangar
+	name = "Hammurabi hangar bay"
+	looping_ambience = 'nsv13/sound/ambience/maintenance.ogg'
+	icon_state = "shuttlered"
+
+/area/hammurabi/maintenance
+	name = "Hammurabi maintenance"
+	looping_ambience = 'nsv13/sound/ambience/maintenance.ogg'
+	icon_state = "maintcentral"
+
+/area/hammurabi/maintenance/exterior
+	name = "Hammurabi exterior"
+	icon_state = "space_near"
 
 /area/Entered(atom/movable/M)
 	// Ambience goes down here -- make sure to list each area separately for ease of adding things in later, thanks! Note: areas adjacent to each other should have the same sounds to prevent cutoff when possible.- LastyScratch
