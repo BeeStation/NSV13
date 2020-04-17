@@ -479,7 +479,7 @@ GLOBAL_LIST_EMPTY(asset_datums)
 		"stamp-clown" = 'icons/stamp_icons/large_stamp-clown.png',
 		"stamp-deny" = 'icons/stamp_icons/large_stamp-deny.png',
 		"stamp-ok" = 'icons/stamp_icons/large_stamp-ok.png',
-		"stamp-hop" = 'icons/stamp_icons/large_stamp-hop.png',
+		"stamp-xo" = 'icons/stamp_icons/large_stamp-xo.png', //Nsv13 - HoP to XO
 		"stamp-cmo" = 'icons/stamp_icons/large_stamp-cmo.png',
 		"stamp-ce" = 'icons/stamp_icons/large_stamp-ce.png',
 		"stamp-hos" = 'icons/stamp_icons/large_stamp-hos.png',
