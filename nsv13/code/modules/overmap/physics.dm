@@ -333,7 +333,6 @@
 	update_icon()
 
 /obj/structure/overmap/proc/handle_collisions()
-	color = "#008000"
 	for(var/obj/structure/overmap/OM in GLOB.overmap_objects)
 		if(src == OM || OM.z != src.z || !OM.collider2d)
 			continue // Wondered why objects were always colliding for an entire 9 hours
