@@ -49,8 +49,8 @@ Method to set our points to a new list of points
 			src.rel_points.Add(new /datum/vector2d(0,0))
 			src.normals.Add(new /datum/vector2d(0,0))
 		}
-		src.base_points = points
 	}
+	src.base_points = points
 	src._recalc()
 	return points
 
