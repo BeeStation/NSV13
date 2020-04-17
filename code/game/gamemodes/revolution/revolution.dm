@@ -13,7 +13,7 @@
 	report_type = "revolution"
 	antag_flag = ROLE_REV
 	false_report_weight = 10
-	restricted_jobs = list("Security Officer", "Warden", "Detective", "AI", "Cyborg","Captain", "Head of Personnel", "Head of Security", "Chief Engineer", "Research Director", "Chief Medical Officer", "Brig Physician", "Master At Arms") //NSV13 - MAA added
+	restricted_jobs = list("Security Officer", "Warden", "Detective", "AI", "Cyborg", "Captain", "Executive Officer", "Head of Security", "Chief Engineer", "Research Director", "Chief Medical Officer", "Brig Physician", "Master At Arms") //NSV13 - MAA added, HoP to XO
 	required_players = 30
 	required_enemies = 2
 	recommended_enemies = 3
@@ -36,8 +36,8 @@
 ///////////////////////////
 /datum/game_mode/revolution/announce()
 	to_chat(world, "<B>The current game mode is - Revolution!</B>")
-	to_chat(world, "<B>Some crewmembers are attempting to start a revolution!<BR>\nRevolutionaries - Kill the Captain, HoP, HoS, CE, RD, CMO and MAA. Convert other crewmembers (excluding the heads of staff, and security officers) to your cause by flashing them. Protect your leaders.<BR>\nPersonnel - Protect the heads of staff. Kill the leaders of the revolution, and brainwash the other revolutionaries (by beating them in the head).</B>")
-
+	to_chat(world, "<B>Some crewmembers are attempting to start a revolution!<BR>\nRevolutionaries - Kill the Captain, XO, HoS, CE, RD, CMO and MAA. Convert other crewmembers (excluding the heads of staff, and security officers) to your cause by flashing them. Protect your leaders.<BR>\nPersonnel - Protect the heads of staff. Kill the leaders of the revolution, and brainwash the other revolutionaries (by beating them in the head).</B>")
+    //Nsv13 - HoP to XO in the above
 
 ///////////////////////////////////////////////////////////////////////////////
 //Gets the round setup, cancelling if there's not enough players at the start//
