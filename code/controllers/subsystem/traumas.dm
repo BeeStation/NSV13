@@ -79,7 +79,7 @@ SUBSYSTEM_DEF(traumas)
 												 /obj/effect/decal/remains/human)),
 				   "conspiracies" = typecacheof(list(/obj/item/clothing/under/rank/captain, /obj/item/clothing/under/rank/head_of_security,
 												 /obj/item/clothing/under/rank/chief_engineer, /obj/item/clothing/under/rank/chief_medical_officer,
-												 /obj/item/clothing/under/rank/head_of_personnel, /obj/item/clothing/under/rank/research_director,
+												 /obj/item/clothing/under/rank/executive_officer, /obj/item/clothing/under/rank/research_director,
 												 /obj/item/clothing/under/rank/head_of_security/white, /obj/item/clothing/under/rank/head_of_security/alt,
 												 /obj/item/clothing/under/rank/research_director/alt, /obj/item/clothing/under/rank/research_director/turtleneck,
 												 /obj/item/clothing/under/captainparade, /obj/item/clothing/under/hosparademale, /obj/item/clothing/under/hosparadefem,
@@ -102,7 +102,7 @@ SUBSYSTEM_DEF(traumas)
 						/obj/item/retractor, /obj/item/hemostat, /obj/item/cautery, /obj/item/surgicaldrill, /obj/item/scalpel, /obj/item/circular_saw,
 						/obj/item/clothing/suit/bio_suit/plaguedoctorsuit, /obj/item/clothing/head/plaguedoctorhat, /obj/item/clothing/mask/gas/plaguedoctor)),
 
-						"authority"   = typecacheof(list(/obj/item/clothing/under/rank/captain,  /obj/item/clothing/under/rank/head_of_personnel,
+						"authority"   = typecacheof(list(/obj/item/clothing/under/rank/captain,  /obj/item/clothing/under/rank/executive_officer,
 						/obj/item/clothing/under/rank/head_of_security, /obj/item/clothing/under/rank/research_director,
 						/obj/item/clothing/under/rank/chief_medical_officer, /obj/item/clothing/under/rank/chief_engineer,
 						/obj/item/clothing/under/rank/centcom_officer, /obj/item/clothing/under/rank/centcom_commander,

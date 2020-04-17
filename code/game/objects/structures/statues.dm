@@ -156,9 +156,9 @@
 	name = "statue of the head of security"
 	icon_state = "hos"
 
-/obj/structure/statue/gold/hop
-	name = "statue of the head of personnel"
-	icon_state = "hop"
+/obj/structure/statue/gold/xo //Nsv13 - HoP to XO
+	name = "statue of the executive officer"
+	icon_state = "xo"
 
 /obj/structure/statue/gold/cmo
 	name = "statue of the chief medical officer"
