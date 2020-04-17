@@ -26,13 +26,13 @@
 		"Assistant",
 		"Cyborg",
 		"Captain",
-		"Head of Personnel",
+		"Executive Officer",
 		"Head of Security",
 		"Chief Engineer",
 		"Research Director",
 		"Chief Medical Officer",
 		"Master At Arms")
-//NSV13 - Added MAA to blacklist
+//NSV13 - Added MAA to blacklist, HoP to XO
 
 	//The scaling factor of max total positions in relation to the total amount of people on board the station in %
 	var/max_relative_positions = 30 //30%: Seems reasonable, limit of 6 @ 20 players
@@ -455,10 +455,10 @@
 					authenticated = 1
 					return 1
 				else
-					if((ACCESS_HOP in auth_card.access) && ((target_dept==1) || !target_dept))
+					if((ACCESS_XO in auth_card.access) && ((target_dept==1) || !target_dept)) //Nsv13 - HoP to XO
 						region_access |= 1
 						region_access |= 7 //NSV13
-						get_subordinates("Head of Personnel")
+						get_subordinates("Executive Officer")
 					if((ACCESS_HOS in auth_card.access) && ((target_dept==2) || !target_dept))
 						region_access |= 2
 						get_subordinates("Head of Security")
