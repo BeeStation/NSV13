@@ -46,7 +46,7 @@
 #define ACCESS_MINING_STATION 54
 #define ACCESS_XENOBIOLOGY 55
 #define ACCESS_CE 56
-#define ACCESS_HOP 57
+#define ACCESS_XO 57 //Nsv13 - HoP to XO
 #define ACCESS_HOS 58
 #define ACCESS_APOTHECARY 59
 /// Request console announcements
