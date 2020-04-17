@@ -42,7 +42,6 @@ Method to set our points to a new list of points
 */
 
 /datum/shape/proc/set_points(list/points)
-	to_chat(world, "set points BEGIN")
 	if(!src.base_points.len || src.base_points.len != points.len){
 		src.rel_points.Cut()
 		src.normals.Cut()
@@ -50,10 +49,7 @@ Method to set our points to a new list of points
 			src.rel_points.Add(new /datum/vector2d(0,0))
 			src.normals.Add(new /datum/vector2d(0,0))
 		}
-		to_chat(world, "DONE LIST INIT")
 	}
-	to_chat(world, "REL_POINTS: [src.rel_points.len], FRST: [src.rel_points[1].x],[src.rel_points[1].y]")
-	to_chat(world, "NORMS: [src.normals.len], FRST: [src.normals[1].x],[src.normals[1].y]")
 	src.base_points = points
 	src._recalc()
 	return points
@@ -73,13 +69,10 @@ Method to recalculate our bounding box, adjusting the relative positions accordi
 */
 
 /datum/shape/proc/_recalc()
-	to_chat(world, "STARTING RELPOINT CALC")
 	for(var/i in 1 to src.base_points.len){
-		to_chat(world, "BASEPOINT [i]: [src.base_points[i].x],[src.base_points[i].y]")
-		src.rel_points[i]._set(src.base_points[i].clone().rotate(src._angle))
-		to_chat(world, "CLONED [src.base_points[i].clone().x],[src.base_points[i].clone().y]")
-		to_chat(world, "ROTATED [src.base_points[i].clone().rotate(src._angle).x],[src.base_points[i].clone().rotate(src._angle).y]")
-		to_chat(world, "TO RELPOINT [i]: [src.rel_points[i].x],[src.rel_points[i].y]")
+		var/datum/vector2d/rel_point = src.base_points[i].clone()
+		rel_point.rotate(src._angle)
+		src.rel_points[i].copy(rel_point)
 	}
 	//Clear out our current AABB collision box
 	src.aabb.Cut()
@@ -91,9 +84,6 @@ Method to recalculate our bounding box, adjusting the relative positions accordi
 	for(var/i in 1 to src.rel_points.len){
 		var/datum/vector2d/p1 = src.rel_points[i]
 		var/datum/vector2d/p2 = i < src.base_points.len ? src.rel_points[i+1] : src.rel_points[1]
-
-		to_chat(world, "P1: [p1.x],[p1.y]")
-		to_chat(world, "P2: [p2.x],[p2.y]")
 
 		if(p1.x < min_x){
 			min_x = p1.x
@@ -109,10 +99,8 @@ Method to recalculate our bounding box, adjusting the relative positions accordi
 		}
 
 		var/datum/vector2d/edge = p2 - p1
-		to_chat(world, "EDGE: [edge.x],[edge.y]")
-		to_chat(world, "EDGE PERP: [edge.clone().perp().x],[edge.clone().perp().y]")
-		to_chat(world, "EDGE PERP NORM: [edge.clone().perp().normalize().x],[edge.clone().perp().normalize().y]")
-		src.normals[i]._set(edge.perp().normalize())
+
+		src.normals[i].copy(edge.perp().normalize())
 	}
 	aabb.Add(min_x)
 	aabb.Add(min_y)
@@ -138,17 +126,15 @@ to say that we don't need the added cost (and extra precision) of SAT.
 */
 
 /datum/shape/proc/collides(var/datum/shape/other)
-	if(!src.test_aabb(other)){
+	if(!src.test_aabb(other))
 		return FALSE
-	}
-	for (var/norm in src.normals){
-		if(is_separating_axis(src.position, other.position, src.rel_points, other.rel_points, norm)){
+
+	for (var/datum/vector2d/norm in src.normals)
+		if(is_separating_axis(src.position, other.position, src.rel_points, other.rel_points, norm))
 			return FALSE
-		}
-	}
-	for (var/norm in other.normals){
-		if(is_separating_axis(src.position, other.position, src.rel_points, other.rel_points, norm)){
+
+	for (var/datum/vector2d/norm in other.normals)
+		if(is_separating_axis(src.position, other.position, src.rel_points, other.rel_points, norm))
 			return FALSE
-		}
-	}
+
 	return TRUE

@@ -56,7 +56,7 @@
 	last_offset = new /datum/vector2d()
 	position = new /datum/vector2d(x*32,y*32)
 	if(collision_positions.len)
-		collider2d = new /datum/shape(position, collision_positions, -TORADIANS(src.angle-90))
+		collider2d = new /datum/shape(position, collision_positions, angle) // -TORADIANS(src.angle-90)
 	else
 		message_admins("[src] does not have collision points set! It will float through everything.")
 
@@ -95,7 +95,7 @@
 		last_rotate = 0
 	angle += angular_velocity * time
 	if(collider2d)
-		collider2d.set_angle(-TORADIANS(angle-90)) //Turn the box collider
+		collider2d.set_angle(angle) //Turn the box collider //-TORADIANS(angle-90)
 
 	// calculate drag and shit
 
@@ -304,17 +304,17 @@
 	user_thrust_dir = 0
 	if(collider2d)
 		collider2d._set(position.x, position.y)
-	handle_collisions()
+		handle_collisions()
+	else
+		color = "#6a0dad"
 	update_icon()
 
 /obj/structure/overmap/proc/handle_collisions()
 	for(var/obj/structure/overmap/OM in GLOB.overmap_objects)
-		if(!OM.collider2d)
-			OM.color = "#6a0dad"
-			continue
-		if(OM.collider2d.test_aabb(src.collider2d))
+		if(src == OM) continue // Wondered why objects were always colliding for an entire 9 hours
+		if(src.collider2d.test_aabb(OM.collider2d))
 			color = "#FFFF00"
-		if(OM.collider2d.collides(src.collider2d))
+		if(src.collider2d.collides(OM.collider2d))
 			color = "#FF0000"
 			return TRUE
 	color = "#008000"
