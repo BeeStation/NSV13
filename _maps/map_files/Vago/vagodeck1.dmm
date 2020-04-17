@@ -6836,7 +6836,7 @@
 /obj/effect/temp_visual/decoy,
 /obj/effect/temp_visual/decoy,
 /obj/effect/temp_visual/decoy,
-/obj/item/ship_weapon/parts/torpedo/warhead/lightweight,
+/obj/item/ship_weapon/parts/torpedo/warhead,
 /obj/structure/sign/warning/explosives/alt{
 	pixel_x = -32
 	},
@@ -7189,7 +7189,7 @@
 /obj/machinery/door/airlock/ship/security{
 	dir = 2;
 	name = "Starboard Magazine";
-	req_one_access_txt = "3"
+	req_one_access_txt = "71"
 	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
@@ -11149,9 +11149,7 @@
 /turf/open/floor/plasteel/dark,
 /area/bridge)
 "CE" = (
-/obj/structure/overmap/fighter/prebuilt{
-	angle = 90
-	},
+/obj/structure/overmap/fighter/light/prebuilt/flight_leader,
 /turf/open/floor/plasteel/ship/padded,
 /area/nsv/hanger/notkmcstupidhanger/hangar)
 "CJ" = (
@@ -11928,6 +11926,12 @@
 	},
 /turf/open/floor/plasteel,
 /area/quartermaster/storage)
+"Nh" = (
+/obj/structure/overmap/fighter/light/prebuilt{
+	angle = 90
+	},
+/turf/open/floor/plasteel/ship/padded,
+/area/nsv/hanger/notkmcstupidhanger/hangar)
 "Nn" = (
 /obj/machinery/computer/ship/viewscreen,
 /obj/effect/turf_decal/stripes/line{
@@ -12024,9 +12028,7 @@
 /area/nsv/hanger/notkmcstupidhanger/hangar)
 "OL" = (
 /obj/structure/table/reinforced,
-/obj/item/ship_weapon/ammunition/torpedo/nuke{
-	name = "Antonio"
-	},
+/obj/item/ship_weapon/ammunition/torpedo/nuke/antonio,
 /turf/open/floor/plasteel,
 /area/nsv/weapons)
 "ON" = (
@@ -12981,6 +12983,7 @@
 /obj/structure/cable{
 	icon_state = "4-8"
 	},
+/obj/effect/landmark/start/deck_tech,
 /turf/open/floor/plasteel/ship/padded,
 /area/nsv/hanger/notkmcstupidhanger/hangar)
 "YK" = (
@@ -13065,7 +13068,7 @@
 /obj/structure/cable{
 	icon_state = "1-2"
 	},
-/obj/structure/overmap/fighter/prebuilt/raptor{
+/obj/structure/overmap/fighter/utility/prebuilt/carrier{
 	angle = 90
 	},
 /turf/open/floor/plating,
@@ -41094,7 +41097,7 @@ Yj
 sm
 MY
 Jo
-CE
+Nh
 tj
 tL
 yd
@@ -42302,7 +42305,7 @@ Yj
 rS
 MY
 Jo
-CE
+Nh
 sX
 tM
 Uq
@@ -44718,7 +44721,7 @@ Yj
 sB
 MY
 Jo
-CE
+Nh
 tl
 tM
 Uq

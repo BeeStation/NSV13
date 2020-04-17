@@ -87,4 +87,4 @@
 
 /obj/effect/landmark/start/flight_leader
 	name = "Flight Leader"
-	icon_state = "FLIGHT_LEADER"
+	icon_state = "Flight Leader"

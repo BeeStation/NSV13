@@ -192,7 +192,12 @@
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
 	},
-/obj/structure/munitions_trolley,
+/obj/structure/closet/secure_closet/engineering_welding{
+	anchored = 1;
+	name = "munitions welding supplies locker";
+	req_access = null;
+	req_one_access_txt = "69"
+	},
 /turf/open/floor/plating,
 /area/nsv/hanger/deck2)
 "aaH" = (
@@ -227,16 +232,6 @@
 	},
 /turf/open/floor/carpet/ship,
 /area/nsv/crew_quarters/heads/maa)
-"aaN" = (
-/obj/item/ship_weapon/ammunition/torpedo,
-/obj/item/ship_weapon/ammunition/torpedo{
-	pixel_y = 8
-	},
-/obj/effect/turf_decal/stripes/line{
-	dir = 4
-	},
-/turf/open/floor/plating,
-/area/nsv/hanger/deck2)
 "aaO" = (
 /obj/structure/chair/office{
 	dir = 4
@@ -262,7 +257,10 @@
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
 	},
-/obj/structure/reagent_dispensers/fueltank/aviation_fuel,
+/obj/structure/table/reinforced,
+/obj/item/storage/belt/utility/full,
+/obj/item/storage/belt/utility/full,
+/obj/item/airlock_painter,
 /turf/open/floor/plating,
 /area/nsv/hanger/deck2)
 "aaS" = (
@@ -302,8 +300,9 @@
 /area/nsv/briefingroom)
 "aba" = (
 /obj/effect/turf_decal/stripes/line{
-	dir = 8
+	dir = 4
 	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3,
 /turf/open/floor/monotile/dark,
 /area/nsv/hanger/deck2)
@@ -343,13 +342,6 @@
 	},
 /turf/open/floor/monotile/light,
 /area/medical/virology)
-"abh" = (
-/obj/effect/turf_decal/stripes/line{
-	dir = 4
-	},
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
-/turf/open/floor/monotile/dark,
-/area/nsv/hanger/deck2)
 "abi" = (
 /obj/item/twohanded/required/kirbyplants/random,
 /turf/open/floor/monotile/dark,
@@ -435,12 +427,8 @@
 /turf/open/floor/monotile,
 /area/nsv/hanger/deck2)
 "aby" = (
-/obj/item/ship_weapon/ammunition/torpedo/fast,
-/obj/effect/turf_decal/stripes/line{
-	dir = 4
-	},
-/obj/machinery/computer/ship/viewscreen,
-/turf/open/floor/plating,
+/obj/structure/munitions_trolley,
+/turf/open/floor/plasteel/tech/grid,
 /area/nsv/hanger/deck2)
 "abz" = (
 /obj/effect/turf_decal/stripes/line{
@@ -468,15 +456,16 @@
 	pixel_y = 26
 	},
 /obj/machinery/camera/autoname,
+/obj/structure/munitions_trolley,
 /turf/open/floor/plasteel/tech/grid,
 /area/nsv/hanger/deck2)
 "abE" = (
-/obj/machinery/door/airlock/glass_large/ship{
-	name = "Pilot Ready Room";
-	req_access_txt = "69"
-	},
 /obj/machinery/door/firedoor,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/obj/effect/turf_decal/stripes/line{
+	dir = 4
+	},
 /turf/open/floor/monotile,
 /area/nsv/hanger/deck2)
 "abF" = (
@@ -1475,10 +1464,8 @@
 /turf/open/floor/monotile/dark,
 /area/nsv/briefingroom)
 "adY" = (
-/obj/structure/overmap/fighter/prebuilt{
-	angle = 90
-	},
 /obj/effect/turf_decal/delivery,
+/obj/structure/overmap/fighter/light/prebuilt/flight_leader,
 /turf/open/floor/monotile/dark,
 /area/nsv/hanger/deck2)
 "adZ" = (
@@ -1731,11 +1718,6 @@
 	},
 /turf/open/floor/carpet/blue,
 /area/hallway/secondary/exit)
-"aeD" = (
-/obj/machinery/door/firedoor,
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
-/turf/open/floor/monotile,
-/area/nsv/hanger/deck2)
 "aeE" = (
 /obj/structure/chair,
 /obj/structure/sign/solgov_flag,
@@ -2305,10 +2287,6 @@
 /turf/open/floor/monotile/dark,
 /area/medical/virology)
 "agb" = (
-/obj/machinery/door/airlock/ship{
-	name = "Fighter Supplies Storage";
-	req_one_access_txt = "69"
-	},
 /obj/machinery/door/firedoor,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
@@ -2352,6 +2330,7 @@
 /obj/effect/turf_decal/tile/neutral{
 	dir = 1
 	},
+/obj/machinery/airalarm/directional/east,
 /turf/open/floor/monotile,
 /area/nsv/hanger/deck2)
 "agh" = (
@@ -2370,9 +2349,8 @@
 /turf/open/floor/monotile/dark,
 /area/security/brig)
 "agj" = (
-/obj/structure/table/reinforced,
 /obj/effect/turf_decal/box,
-/obj/item/storage/belt/utility/full,
+/obj/structure/table/reinforced,
 /turf/open/floor/plasteel/grid/steel,
 /area/nsv/hanger/deck2)
 "agk" = (
@@ -2471,13 +2449,9 @@
 /turf/open/floor/plasteel/grid/steel,
 /area/nsv/hanger/deck2)
 "agv" = (
-/obj/structure/closet/secure_closet/engineering_welding{
-	anchored = 1;
-	name = "munitions welding supplies locker";
-	req_access = null;
-	req_one_access_txt = "69"
-	},
 /obj/effect/turf_decal/box,
+/obj/structure/table/reinforced,
+/obj/item/storage/fancy/donut_box,
 /turf/open/floor/plasteel/grid/steel,
 /area/nsv/hanger/deck2)
 "agw" = (
@@ -7442,6 +7416,7 @@
 	dir = 8
 	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /turf/open/floor/monotile,
 /area/nsv/hanger/deck2)
 "asz" = (
@@ -7985,14 +7960,6 @@
 	},
 /turf/open/floor/engine/vacuum,
 /area/engine/atmos)
-"atO" = (
-/obj/effect/turf_decal/tile/neutral,
-/obj/effect/turf_decal/tile/neutral{
-	dir = 8
-	},
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
-/turf/open/floor/monotile,
-/area/nsv/hanger/deck2)
 "atP" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/visible,
 /obj/structure/cable{
@@ -8078,14 +8045,6 @@
 /obj/machinery/door/firedoor,
 /turf/open/floor/plating,
 /area/engine/atmos)
-"atY" = (
-/obj/structure/chair/comfy/shuttle{
-	dir = 4;
-	name = "briefing room chair"
-	},
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
-/turf/open/floor/carpet/blue,
-/area/nsv/hanger/deck2)
 "atZ" = (
 /obj/machinery/atmospherics/pipe/simple/cyan/visible{
 	dir = 4
@@ -8758,13 +8717,12 @@
 /turf/open/floor/monotile,
 /area/engine/atmos)
 "avz" = (
-/obj/item/airlock_painter,
-/obj/structure/table/reinforced,
 /obj/effect/turf_decal/box,
 /obj/machinery/light,
 /obj/machinery/camera/autoname{
 	dir = 1
 	},
+/obj/structure/table/reinforced,
 /turf/open/floor/plasteel/grid/steel,
 /area/nsv/hanger/deck2)
 "avA" = (
@@ -9821,7 +9779,7 @@
 /turf/open/floor/plasteel/grid/steel,
 /area/engine/atmos)
 "axP" = (
-/obj/structure/overmap/fighter/prebuilt/raptor{
+/obj/structure/overmap/fighter/utility/prebuilt/carrier{
 	req_one_access = null;
 	req_one_access_txt = "10;69"
 	},
@@ -19218,7 +19176,7 @@
 /turf/open/floor/monotile/dark,
 /area/hallway/nsv/deck2/frame2/port)
 "aSV" = (
-/obj/structure/overmap/fighter/prebuilt/raptor{
+/obj/structure/overmap/fighter/utility/prebuilt/carrier{
 	angle = 90
 	},
 /obj/effect/turf_decal/delivery,
@@ -19358,7 +19316,8 @@
 /area/nsv/weapons/fore)
 "aTm" = (
 /obj/machinery/door/airlock/highsecurity/ship{
-	name = "Primary Ammunition Storage"
+	name = "Primary Ammunition Storage";
+	req_one_access_txt = "71"
 	},
 /obj/effect/turf_decal/delivery,
 /obj/machinery/door/firedoor,
@@ -19387,9 +19346,6 @@
 /area/nsv/weapons/fore)
 "aTq" = (
 /obj/effect/turf_decal/tile/neutral,
-/obj/machinery/airalarm{
-	pixel_y = 26
-	},
 /turf/open/floor/monotile,
 /area/nsv/hanger/deck2)
 "aTr" = (
@@ -22052,6 +22008,7 @@
 /obj/structure/disposalpipe/segment{
 	dir = 4
 	},
+/obj/effect/landmark/start/deck_tech,
 /turf/open/floor/plasteel/grid/steel,
 /area/nsv/hanger/deck2)
 "aZm" = (
@@ -25982,19 +25939,6 @@
 	},
 /turf/open/floor/monotile,
 /area/nsv/hanger/deck2)
-"bgR" = (
-/obj/item/ship_weapon/ammunition/torpedo,
-/obj/item/ship_weapon/ammunition/torpedo{
-	pixel_y = 8
-	},
-/obj/effect/turf_decal/stripes/line{
-	dir = 4
-	},
-/obj/machinery/light{
-	dir = 8
-	},
-/turf/open/floor/plating,
-/area/nsv/hanger/deck2)
 "bgS" = (
 /obj/effect/turf_decal/tile/neutral,
 /obj/effect/turf_decal/tile/neutral{
@@ -26757,7 +26701,7 @@
 	dir = 8;
 	name = "briefing room chair"
 	},
-/obj/effect/landmark/start/cag,
+/obj/effect/landmark/start/flight_leader,
 /turf/open/floor/monotile/dark,
 /area/nsv/briefingroom)
 "bix" = (
@@ -34863,6 +34807,7 @@
 /area/hallway/secondary/exit/departure_lounge)
 "bxY" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /turf/open/floor/monotile/dark,
 /area/nsv/hanger/deck2)
 "bxZ" = (
@@ -34924,10 +34869,8 @@
 /turf/open/floor/plasteel/dark,
 /area/chapel/main)
 "byg" = (
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
-	dir = 4
-	},
 /obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer3,
+/obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1,
 /turf/open/floor/monotile/dark,
 /area/nsv/hanger/deck2)
 "byh" = (
@@ -36406,10 +36349,6 @@
 	},
 /turf/open/floor/monotile/dark,
 /area/medical/medbay/central)
-"bBk" = (
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
-/turf/open/floor/monotile/dark,
-/area/nsv/hanger/deck2)
 "bBl" = (
 /obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1{
 	dir = 8
@@ -36590,9 +36529,11 @@
 /turf/open/floor/monotile,
 /area/nsv/hanger/deck2)
 "bBB" = (
-/obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 8
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	dir = 4
 	},
 /turf/open/floor/monotile/dark,
 /area/nsv/hanger/deck2)
@@ -40109,10 +40050,10 @@
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
 	},
-/obj/structure/munitions_trolley,
 /obj/structure/extinguisher_cabinet{
 	pixel_y = 26
 	},
+/obj/structure/reagent_dispensers/fueltank/aviation_fuel,
 /turf/open/floor/plating,
 /area/nsv/hanger/deck2)
 "bIz" = (
@@ -40795,7 +40736,7 @@
 "bJZ" = (
 /obj/machinery/door/airlock/highsecurity/ship{
 	name = "Secondary ammunition store";
-	req_one_access_txt = "3;69"
+	req_one_access_txt = "71"
 	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /turf/open/floor/monotile,
@@ -40905,7 +40846,7 @@
 "bKl" = (
 /obj/machinery/door/airlock/highsecurity/ship{
 	name = "Secondary ammunition store";
-	req_one_access_txt = "3;69"
+	req_one_access_txt = "71"
 	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /turf/open/floor/monotile,
@@ -41324,6 +41265,13 @@
 /obj/effect/turf_decal/bot_white,
 /turf/open/floor/monotile,
 /area/gateway)
+"dqt" = (
+/obj/effect/turf_decal/tile/neutral,
+/obj/effect/turf_decal/tile/neutral{
+	dir = 8
+	},
+/turf/open/floor/monotile,
+/area/nsv/hanger/deck2)
 "duz" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 8
@@ -42115,7 +42063,6 @@
 /turf/open/floor/plating,
 /area/nsv/briefingroom)
 "iey" = (
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /obj/structure/chair/comfy/shuttle{
 	dir = 4;
 	name = "briefing room chair"
@@ -42224,6 +42171,13 @@
 /obj/structure/closet/firecloset,
 /turf/open/floor/plating,
 /area/maintenance/starboard)
+"iPq" = (
+/obj/machinery/door/airlock/glass_large/ship{
+	name = "Fighter Supplies Storage";
+	req_access_txt = "71"
+	},
+/turf/open/floor/plasteel/tech/grid,
+/area/nsv/hanger/deck2)
 "iPw" = (
 /obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1{
 	dir = 4
@@ -42467,6 +42421,13 @@
 /obj/machinery/portable_atmospherics/canister/air,
 /turf/open/floor/plating,
 /area/maintenance/starboard)
+"kgP" = (
+/obj/structure/overmap/fighter/light/prebuilt{
+	angle = 90
+	},
+/obj/effect/turf_decal/delivery,
+/turf/open/floor/monotile/dark,
+/area/nsv/hanger/deck2)
 "khE" = (
 /obj/structure/punching_bag,
 /obj/machinery/power/apc/auto_name/north,
@@ -42577,6 +42538,10 @@
 	},
 /turf/open/floor/monotile,
 /area/medical/chemistry)
+"kIl" = (
+/obj/item/ship_weapon/ammunition/torpedo/nuke/antonio,
+/turf/open/floor/carpet/ship,
+/area/nsv/crew_quarters/heads/maa)
 "kJA" = (
 /obj/structure/extinguisher_cabinet{
 	pixel_x = -27
@@ -42597,10 +42562,6 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/starboard)
-"kPn" = (
-/obj/effect/landmark/nuclear_waste_spawner,
-/turf/open/floor/monotile,
-/area/nsv/hanger/deck2)
 "kSX" = (
 /obj/structure/cable{
 	icon_state = "2-4"
@@ -42630,6 +42591,10 @@
 "laZ" = (
 /turf/closed/wall/ship,
 /area/maintenance/starboard)
+"lbC" = (
+/obj/effect/landmark/start/deck_tech,
+/turf/open/floor/plasteel/grid/steel,
+/area/nsv/hanger/deck2)
 "lcf" = (
 /obj/structure/table/wood,
 /obj/item/camera,
@@ -43115,6 +43080,17 @@
 /area/science/mixing{
 	name = "Prototype munitions bay"
 	})
+"oxL" = (
+/obj/effect/turf_decal/stripes/line{
+	dir = 4
+	},
+/obj/machinery/computer/ship/viewscreen,
+/obj/item/ship_weapon/ammunition/missile{
+	pixel_y = 8
+	},
+/obj/item/ship_weapon/ammunition/missile,
+/turf/open/floor/plating,
+/area/nsv/hanger/deck2)
 "oyf" = (
 /obj/effect/turf_decal/tile/neutral{
 	dir = 1
@@ -43761,6 +43737,11 @@
 /obj/structure/grille,
 /turf/open/floor/plating,
 /area/maintenance/starboard)
+"sIc" = (
+/obj/structure/disposalpipe/segment,
+/obj/effect/landmark/start/deck_tech,
+/turf/open/floor/plasteel/grid/steel,
+/area/nsv/hanger/deck2)
 "sJI" = (
 /obj/machinery/status_display/evac,
 /turf/closed/wall/ship,
@@ -43879,6 +43860,19 @@
 	},
 /turf/open/floor/engine,
 /area/medical/medbay/lobby)
+"tEU" = (
+/obj/effect/turf_decal/stripes/line{
+	dir = 4
+	},
+/obj/machinery/light{
+	dir = 8
+	},
+/obj/item/ship_weapon/ammunition/missile{
+	pixel_y = 8
+	},
+/obj/item/ship_weapon/ammunition/missile,
+/turf/open/floor/plating,
+/area/nsv/hanger/deck2)
 "tGC" = (
 /obj/structure/cable{
 	icon_state = "4-8"
@@ -44075,6 +44069,17 @@
 	},
 /turf/open/floor/monotile/light,
 /area/medical/medbay/lobby)
+"uYz" = (
+/obj/machinery/door/airlock/glass_large/ship{
+	name = "Pilot Ready Room";
+	req_access_txt = "69"
+	},
+/obj/machinery/door/firedoor,
+/obj/effect/turf_decal/stripes/line{
+	dir = 8
+	},
+/turf/open/floor/monotile/dark,
+/area/nsv/hanger/deck2)
 "vew" = (
 /obj/structure/bed{
 	layer = 2.8
@@ -44094,6 +44099,11 @@
 	},
 /turf/open/floor/carpet/ship,
 /area/crew_quarters/dorms/nsv/dorms_2)
+"vfD" = (
+/obj/effect/turf_decal/box,
+/obj/structure/closet/emcloset,
+/turf/open/floor/plasteel/grid/steel,
+/area/nsv/hanger/deck2)
 "vii" = (
 /obj/machinery/atmospherics/components/unary/portables_connector/visible{
 	dir = 1;
@@ -44158,6 +44168,16 @@
 	},
 /turf/open/floor/wood,
 /area/library)
+"vuM" = (
+/obj/effect/turf_decal/stripes/line{
+	dir = 4
+	},
+/obj/item/ship_weapon/ammunition/missile{
+	pixel_y = 8
+	},
+/obj/item/ship_weapon/ammunition/missile,
+/turf/open/floor/plating,
+/area/nsv/hanger/deck2)
 "vAg" = (
 /obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1{
 	dir = 8
@@ -44167,12 +44187,11 @@
 /turf/open/floor/monotile,
 /area/nsv/hanger/deck2)
 "vEp" = (
-/obj/structure/table/reinforced,
 /obj/effect/turf_decal/box,
-/obj/item/storage/belt/utility/full,
 /obj/structure/extinguisher_cabinet{
 	pixel_y = -27
 	},
+/obj/structure/reagent_dispensers/fueltank/aviation_fuel,
 /turf/open/floor/plasteel/grid/steel,
 /area/nsv/hanger/deck2)
 "vPd" = (
@@ -80368,7 +80387,7 @@ lhC
 aao
 aaH
 aaH
-aaH
+kIl
 aaW
 bKh
 abA
@@ -80376,7 +80395,7 @@ adY
 aex
 abx
 abA
-adY
+kgP
 aex
 abx
 abA
@@ -80384,11 +80403,11 @@ aSV
 aex
 abx
 abA
-adY
+kgP
 aex
 abx
 abA
-adY
+kgP
 bao
 bgM
 aam
@@ -82797,7 +82816,7 @@ agh
 bgH
 aZk
 bAc
-agh
+lbC
 bgH
 agh
 agh
@@ -83702,7 +83721,7 @@ agh
 vEp
 agr
 agv
-agv
+vfD
 aTb
 agr
 bgJ
@@ -84003,9 +84022,9 @@ awU
 aOx
 aOx
 bgI
-aOx
+sIc
 tfv
-aOx
+sIc
 bgI
 aOx
 aOx
@@ -85801,10 +85820,10 @@ bHp
 bDH
 bDJ
 bHp
-aam
-aam
-aam
-aam
+aas
+bgQ
+aaz
+aaz
 aam
 agr
 adJ
@@ -86103,11 +86122,11 @@ bHp
 bnm
 aZO
 bHp
-aas
-bgQ
-aaz
-aaz
-aam
+fjX
+aat
+aat
+aat
+uYz
 aTq
 adL
 bgS
@@ -86405,9 +86424,9 @@ bHp
 bnm
 aZO
 bHp
-fjX
-aat
-aat
+aaE
+aav
+bBC
 aba
 abE
 asy
@@ -86707,15 +86726,15 @@ bHp
 bnm
 aZO
 bHp
-aaE
-aav
-bBC
-abh
-aeD
-atO
-bBk
+aaz
+aaz
+aaz
+aaz
+aam
+adH
+aar
 iey
-atY
+iey
 bBB
 age
 agm
@@ -87009,10 +87028,10 @@ bHp
 bhm
 aZO
 bHp
-aaz
-aaz
-aaz
-aaz
+aam
+aam
+aam
+aam
 aam
 abO
 adN
@@ -87311,10 +87330,10 @@ bHp
 bnm
 aZO
 bHp
-aam
-aam
-aam
-aam
+oxL
+tEU
+vuM
+vuM
 aam
 aca
 adN
@@ -87614,11 +87633,11 @@ bnm
 aZO
 bHp
 aby
-bgR
-aaN
-aaN
-aam
-adH
+aaF
+aaF
+aaF
+iPq
+dqt
 aar
 aeV
 aeV
@@ -88219,7 +88238,7 @@ aZO
 bHp
 bIy
 aaG
-aaR
+aaG
 aaR
 aam
 bfj

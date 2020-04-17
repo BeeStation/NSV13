@@ -62,8 +62,8 @@
 	icon_state = "torpedo_dud"
 	damage = 0
 
-/obj/item/ship_weapon/ammunition/torpedo/antonio
+/obj/item/ship_weapon/ammunition/torpedo/nuke/antonio
 	name = "Antonio"
 
-/obj/item/ship_weapon/ammunition/torpedo/fabio
+/obj/item/ship_weapon/ammunition/torpedo/hull_shredder/fabio
 	name = "Fabio"
