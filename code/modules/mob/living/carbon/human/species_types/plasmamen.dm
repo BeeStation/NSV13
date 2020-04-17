@@ -136,8 +136,8 @@
 		if("Research Director")
 			O = new /datum/outfit/plasmaman/rd
 
-		if("Head of Personnel")
-			O = new /datum/outfit/plasmaman/hop
+		if("Executive Officer") //Nsv13 - HoP to XO
+			O = new /datum/outfit/plasmaman/xo
 
 		if("Clown")
 			O = new /datum/outfit/plasmaman/honk
