@@ -71,7 +71,7 @@
 /datum/design/missile_propulsion_system
 	name = "Missile Propulsion System"
 	desc = "The stock standard propulsion system design for missiles"
-	id = "propulsion_system"
+	id = "missile_propulsion_system"
 	build_type = PROTOLATHE
 	materials = list(/datum/material/iron = 2000, /datum/material/glass = 1000, /datum/material/plasma = 500)
 	build_path = /obj/item/ship_weapon/parts/missile/propulsion_system
@@ -81,7 +81,7 @@
 /datum/design/iff_card
 	name = "Missile IFF Card"
 	desc = "The stock standard IFF card design for missiles"
-	id = "iff_card"
+	id = "missile_iff_card"
 	build_type = IMPRINTER
 	materials = list(/datum/material/glass = 3000, /datum/material/copper = 1000)
 	build_path = /obj/item/ship_weapon/parts/missile/iff_card

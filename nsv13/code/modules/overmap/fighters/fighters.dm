@@ -315,7 +315,7 @@ You need to fire emag the fighter's IFF board. This makes it list as "ENEMY" on 
 
 	//Setup weapon datums and fire modes
 	weapon_types = list() //Hard reset
-	weapon_types.len = 6
+	weapon_types.len = MAX_POSSIBLE_FIREMODE
 
 	if(max_missiles > 0)
 		weapon_types[FIRE_MODE_MISSILE] = new/datum/ship_weapon/missile_launcher
