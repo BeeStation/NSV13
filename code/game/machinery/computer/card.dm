@@ -30,12 +30,14 @@ GLOBAL_VAR_INIT(time_last_changed_position, 0)
 		"Assistant",
 		"Cyborg",
 		"Captain",
-		"Executive Officer", //Nsv13 - HoP to XO
+		"Executive Officer",
 		"Head of Security",
 		"Chief Engineer",
 		"Research Director",
 		"Chief Medical Officer",
-		"Brig Physician")
+		"Brig Physician",
+		"Master at Arms")
+		//Nsv13 - HoP to XO, added MAA to blacklist
 
 	//The scaling factor of max total positions in relation to the total amount of people on board the station in %
 	var/max_relative_positions = 30 //30%: Seems reasonable, limit of 6 @ 20 players
