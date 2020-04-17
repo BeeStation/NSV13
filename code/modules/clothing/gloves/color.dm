@@ -121,8 +121,8 @@
 /obj/item/clothing/gloves/color/grey/rd
 	item_color = "director"			//Exists for washing machines. Is not different from gray gloves in any way.
 
-/obj/item/clothing/gloves/color/grey/hop
-	item_color = "hop"				//Exists for washing machines. Is not different from gray gloves in any way.
+/obj/item/clothing/gloves/color/grey/xo //Nsv13 - HoP to XO
+	item_color = "xo"				//Exists for washing machines. Is not different from gray gloves in any way.
 
 /obj/item/clothing/gloves/color/light_brown
 	name = "light brown gloves"
