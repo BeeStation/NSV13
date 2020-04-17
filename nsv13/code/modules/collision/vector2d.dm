@@ -165,8 +165,10 @@ Method to overload the *= operator to multiply the X,Y coordinates to our own on
 	src *= -2
 
 /datum/vector2d/proc/perp()
-	src.x = src.y
-	src.y = -src.x
+	var/newx = src.y
+	var/newy = -src.x
+	src.x = newx
+	src.y = newy
 	return src
 
 /datum/vector2d/proc/copy(var/datum/vector2d/other)
