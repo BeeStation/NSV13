@@ -99,10 +99,10 @@ Method to recalculate our bounding box, adjusting the relative positions accordi
 		var/datum/vector2d/edge = p2 - p1
 		src.normals[i]._set(edge.perp().normalize())
 	}
-	aabb.Add(new /datum/point(min_x, max_y))
-	aabb.Add(new /datum/point(max_x, min_y))
-	aabb.Add(new /datum/point(min_x, min_y))
-	aabb.Add(new /datum/point(min_x, max_y))
+	aabb.Add(min_x)
+	aabb.Add(min_y)
+	aabb.Add(max_x)
+	aabb.Add(max_y)
 
 /**
 

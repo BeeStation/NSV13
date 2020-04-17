@@ -299,7 +299,8 @@
 		C.pixel_y = last_offset.y*32
 		animate(C, pixel_x = offset.x*32, pixel_y = offset.y*32, time = time*10, flags=ANIMATION_END_NOW)
 	user_thrust_dir = 0
-	collider2d._set(offset.x, offset.y)
+	if(collider2d)
+		collider2d._set(offset.x, offset.y)
 	handle_collisions()
 	update_icon()
 
