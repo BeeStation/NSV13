@@ -92,7 +92,8 @@
 	else
 		last_rotate = 0
 	angle += angular_velocity * time
-	collider2d.set_angle(-TORADIANS(angle-90)) //Turn the box collider
+	if(collider2d)
+		collider2d.set_angle(-TORADIANS(angle-90)) //Turn the box collider
 
 	// calculate drag and shit
 
