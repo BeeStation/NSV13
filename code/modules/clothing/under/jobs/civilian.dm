@@ -132,12 +132,12 @@
 	. = ..()
 	AddComponent(/datum/component/squeak, list('sound/items/bikehorn.ogg'=1), 50)
 
-/obj/item/clothing/under/rank/head_of_personnel
-	desc = "It's a jumpsuit worn by someone who works in the position of \"Head of Personnel\"."
-	name = "head of personnel's jumpsuit"
-	icon_state = "hop"
+/obj/item/clothing/under/rank/executive_officer //Nsv13 - HoP to XO
+	desc = "It's a jumpsuit worn by someone who works in the position of \"Executive Officer\"."
+	name = "executive officer's jumpsuit"
+	icon_state = "xo"
 	item_state = "b_suit"
-	item_color = "hop"
+	item_color = "xo"
 	can_adjust = FALSE
 
 /obj/item/clothing/under/rank/hydroponics
