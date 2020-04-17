@@ -98,6 +98,20 @@ Method to overload the * operator to multiply this vector by another one
 		return x*b.x + y*b.y
 
 /*
+Method to overload the / operator to multiply this vector by another one
+@return a vector2d object with the required calculations done.
+*/
+
+/datum/vector2d/proc/operator/(datum/vector2d/b)
+	if(isnum(b))
+		return new /datum/vector2d(x/b, y/b)
+	else if(istype(b, /matrix))
+		var/matrix/m = b
+		return new /datum/vector2d(x/m.a + y/m.b + m.c, x/m.d + y/m.e + m.f)
+	else if(istype(b))
+		return x/b.x + y/b.y
+
+/*
 Method to overload the *= operator to multiply the X,Y coordinates to our own ones, without making a new vector2d
 */
 /datum/vector2d/proc/operator*=(b)

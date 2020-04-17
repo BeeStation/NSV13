@@ -36,7 +36,7 @@
 	for(var/turf/T in locs)
 		T.SpinAnimation()
 
-/obj/structure/overmap/nanotrasen/heavy_cruiser/starter
+/obj/structure/overmap/nanotrasen/heavy_cruiser
 	collision_positions = list(new /datum/vector2d(31,150),\
 		new /datum/vector2d(-32,147),\
 		new /datum/vector2d(-43,133),\
@@ -51,9 +51,13 @@
 	var/icon/I = icon(icon,icon_state,SOUTH) //SOUTH because all overmaps only ever face right, no other dirs.
 	pixel_collision_size_x = I.Width()
 	pixel_collision_size_y = I.Height()
-	collider2d = new /datum/shape(offset, collision_positions, -TORADIANS(src.angle-90))
 	offset = new /datum/vector2d()
 	last_offset = new /datum/vector2d()
+	if(collision_positions.len)
+		collider2d = new /datum/shape(offset, collision_positions, -TORADIANS(src.angle-90))
+	else
+		message_admins("[src] does not have collision points set! It will float through everything.")
+
 
 /obj/structure/overmap/proc/can_move()
 	return TRUE //Placeholder for everything but fighters. We can later extend this if / when we want to code in ship engines.
@@ -300,6 +304,11 @@
 
 /obj/structure/overmap/proc/handle_collisions()
 	for(var/obj/structure/overmap/OM in GLOB.overmap_objects)
+		if(!OM.collider2d)
+			OM.color = "#6a0dad"
+			continue
+		if(OM.collider2d.test_aabb(src.collider2d))
+			color = "#FFFF00"
 		if(OM.collider2d.collides(src.collider2d))
 			color = "#FF0000"
 			return TRUE
