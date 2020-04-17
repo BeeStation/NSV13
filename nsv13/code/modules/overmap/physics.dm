@@ -386,7 +386,7 @@
 	var/datum/vector2d/output = penetration * 0.5
 	position += output
 	other.position -= output
-	to_chat(world, "FIX BY: [output.to_string()]")
+	to_chat(world, "FIX BY: [output.x],[output.y]")
 
 /obj/structure/overmap/Bumped(atom/movable/A)
 	if(brakes || ismob(A)) //No :)
