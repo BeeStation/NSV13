@@ -37,7 +37,7 @@
 	new /obj/item/card/id/departmental_budget/civ(src)
 
 /obj/structure/closet/secure_closet/xo //NSV13 - HoP to XO
-	name = "\proper head of personnel's locker"
+	name = "\proper executive officer's locker"
 	req_access = list(ACCESS_XO)
 	icon_state = "xo"
 
@@ -45,7 +45,7 @@
 	..()
 	new /obj/item/clothing/neck/cloak/xo(src)
 	new /obj/item/storage/lockbox/medal/service(src)
-	new /obj/item/clothing/under/rank/head_of_personnel(src)
+	new /obj/item/clothing/under/rank/executive_officer(src)
 	new /obj/item/clothing/head/xocap(src)
 	new /obj/item/cartridge/xo(src)
 	new /obj/item/radio/headset/heads/xo(src) 
