@@ -208,12 +208,12 @@ GLOBAL_LIST_INIT(gold_recipes, list ( \
 	new/datum/stack_recipe("golden door", /obj/structure/mineral_door/gold, 10, one_per_turf = 1, on_floor = 1), \
 	new/datum/stack_recipe("gold tile", /obj/item/stack/tile/mineral/gold, 1, 4, 20), \
 	new/datum/stack_recipe("HoS Statue", /obj/structure/statue/gold/hos, 5, one_per_turf = 1, on_floor = 1), \
-	new/datum/stack_recipe("XO Statue", /obj/structure/statue/gold/xo, 5, one_per_turf = 1, on_floor = 1), \ //Nsv13 - HoP to XO
+	new/datum/stack_recipe("XO Statue", /obj/structure/statue/gold/xo, 5, one_per_turf = 1, on_floor = 1), \ 
 	new/datum/stack_recipe("CE Statue", /obj/structure/statue/gold/ce, 5, one_per_turf = 1, on_floor = 1), \
 	new/datum/stack_recipe("RD Statue", /obj/structure/statue/gold/rd, 5, one_per_turf = 1, on_floor = 1), \
 	new/datum/stack_recipe("Simple Crown", /obj/item/clothing/head/crown, 5), \
 	new/datum/stack_recipe("CMO Statue", /obj/structure/statue/gold/cmo, 5, one_per_turf = 1, on_floor = 1), \
-	))
+	)) //Nsv13 - HoP to XO
 
 /obj/item/stack/sheet/mineral/gold/Initialize(mapload, new_amount, merge = TRUE)
 	recipes = GLOB.gold_recipes
