@@ -70,7 +70,7 @@ Method to recalculate our bounding box, adjusting the relative positions accordi
 
 /datum/shape/proc/_recalc()
 	for(var/i in 1 to src.base_points.len){
-		src.rel_points[i]._set(src.base_points[i].rotate(src._angle))
+		src.rel_points[i]._set(src.base_points[i].copy().rotate(src._angle))
 	}
 	//Clear out our current AABB collision box
 	src.aabb.Cut()
