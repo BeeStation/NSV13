@@ -40,6 +40,7 @@ Method to turn this vector counter clockwise by a desired angle
 	var/newy = -s*x + c*y
 	x = newx
 	y = newy
+	return src
 /*
 A method to make a copy of this vector
 @return a new vector2d with the same stats as this one
