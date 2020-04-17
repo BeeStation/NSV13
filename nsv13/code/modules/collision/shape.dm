@@ -11,8 +11,9 @@ Special thanks to qwertyquerty for explaining and dictating all this! (I've most
 */
 
 /datum/shape
-	var/position = 0 //Vector to represent our position in the game world. This is updated by whatever's moving us with pixelmovement.
+	var/datum/vector2d/position = null //Vector to represent our position in the game world. This is updated by whatever's moving us with pixelmovement.
 	var/_angle = 0 //Orientation in radians. You are not meant to use this directly.
+	var/list/points = list()
 	var/list/base_points = list()
 	var/list/rel_points = list() //The vertices that this collider holds. Relative to the position. If the shape's at 200,200, and we have a vertex at 10,5, the vertex is actually at 210,205 in world. These are pixel coordinates. Counterclockwise order.
 	var/list/normals = list()
@@ -20,11 +21,21 @@ Special thanks to qwertyquerty for explaining and dictating all this! (I've most
 
 //Constructor for shape objects, taking in parameters they may initially need
 
-/datum/shape/New(position, list/points, _angle=0)
+/datum/shape/New(datum/vector2d/position, list/points, _angle=0)
 	. = ..()
+	if(!position)
+		position = new /datum/vector2d()
 	src.position = position
 	src._angle = _angle
 	set_points(points)
+
+/*
+Method to set our position to a new one.
+*/
+
+/datum/shape/proc/_set(_x, _y)
+	position.x = _x
+	position.y = _y
 
 /*
 Method to set our points to a new list of points
@@ -49,10 +60,10 @@ Method to set our points to a new list of points
 Method to set our angle to a new angle as required, then recalculate our points as necessary.
 */
 /datum/shape/proc/set_angle(var/angle)
-	if(angle == src.angle){ //No need for expensive recalculation for very minor changes.
+	if(angle == src._angle){ //No need for expensive recalculation for very minor changes.
 		return FALSE
 	}
-	src.angle = angle
+	src._angle = angle
 	src._recalc()
 
 /*
@@ -61,18 +72,18 @@ Method to recalculate our bounding box, adjusting the relative positions accordi
 
 /datum/shape/proc/_recalc()
 	for(var/i in 1 to src.base_points.len){
-		src.rel_points[i].set(src.base_points[i].rotate(src._angle))
+		src.rel_points[i]._set(src.base_points[i].rotate(src._angle))
 	}
 	//Clear out our current AABB collision box
 	src.aabb.Cut()
-	var/x_min = INFINITY
-	var/y_min = INFINITY
-	var/x_max = -INFINITY
-	var/y_max = -INFINITY
+	var/min_x = INFINITY
+	var/min_y = INFINITY
+	var/max_x = -INFINITY
+	var/max_y = -INFINITY
 	//Recalculate the points
 	for(var/i in 1 to src.rel_points.len){
-		var/datum/vector/p1 = src.rel_points[i]
-		var/datum/vector/p2 = i < self.base_points.len ? src.rel_points[i+1] : src.rel_points[0]
+		var/datum/vector2d/p1 = src.rel_points[i]
+		var/datum/vector2d/p2 = i < src.base_points.len ? src.rel_points[i+1] : src.rel_points[0]
 
 		if(p1.x < min_x){
 			min_x = p1.x
@@ -87,13 +98,13 @@ Method to recalculate our bounding box, adjusting the relative positions accordi
 			max_y = p1.y
 		}
 
-		var/datum/vector/edge = p2 - p1
-		src.normals[i].set(edge.perp().normalize())
+		var/datum/vector2d/edge = p2 - p1
+		src.normals[i]._set(edge.perp().normalize())
 	}
-	aabb.Add(new /datum/point(x_max, y_max))
-	aabb.Add(new /datum/point(x_max, y_min))
-	aabb.Add(new /datum/point(x_min, y_min))
-	aabb.Add(new /datum/point(x_min, y_max))
+	aabb.Add(new /datum/point(min_x, max_y))
+	aabb.Add(new /datum/point(max_x, min_y))
+	aabb.Add(new /datum/point(min_x, min_y))
+	aabb.Add(new /datum/point(min_x, max_y))
 
 /**
 
@@ -102,10 +113,7 @@ Simple method to calculate whether we collide with another shape object, lightwe
 */
 
 /datum/shape/proc/test_aabb(var/datum/shape/other)
-	return  ((src.aabb[1] + src.position.x) <= (other.aabb[3] + other.position.x)) &&
-			((src.aabb[2] + src.position.y) <= (other.aabb[4] + other.position.y)) &&
-			((src.aabb[3] + src.position.x) >= (other.aabb[1] + other.position.x)) &&
-			((src.aabb[4] + src.position.y) >= (other.aabb[2] + other.position.y))
+	return ((src.aabb[1] + src.position.x) <= (other.aabb[3] + other.position.x)) && ((src.aabb[2] + src.position.y) <= (other.aabb[4] + other.position.y)) && ((src.aabb[3] + src.position.x) >= (other.aabb[1] + other.position.x)) && ((src.aabb[4] + src.position.y) >= (other.aabb[2] + other.position.y))
 
 /**
 
@@ -121,12 +129,12 @@ to say that we don't need the added cost (and extra precision) of SAT.
 		return FALSE
 	}
 	for (var/norm in src.normals){
-		if(is_separating_axis(src.pos, other.pos, src.rel_points, other.rel_points, norm)){
+		if(is_separating_axis(src.position, other.position, src.rel_points, other.rel_points, norm)){
 			return FALSE
 		}
 	}
 	for (var/norm in other.normals){
-		if(is_separating_axis(src.pos, other.pos, src.rel_points, other.rel_points, norm)){
+		if(is_separating_axis(src.position, other.position, src.rel_points, other.rel_points, norm)){
 			return FALSE
 		}
 	}

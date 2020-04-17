@@ -22,14 +22,22 @@ Constructor for vector2d objects, taking a simple X,Y coordinate.
 	..()
 
 /*
+Method to set our position directly
+*/
+
+/datum/vector2d/proc/_set(x,y)
+	src.x = x
+	src.y = y
+
+/*
 Method to turn this vector counter clockwise by a desired angle
 */
 
 /datum/vector2d/proc/rotate(angle)
 	var/s = sin(angle)
 	var/c = cos(angle)
-	newx = c*x + s*y
-	newy = -s*x + c*y
+	var/newx = c*x + s*y
+	var/newy = -s*x + c*y
 	x = newx
 	y = newy
 /*
@@ -128,7 +136,7 @@ Method to overload the *= operator to multiply the X,Y coordinates to our own on
 	return src
 
 /datum/vector2d/proc/project_n(var/datum/vector2d/other)
-	amt = src.dot(other)
+	var/amt = src.dot(other)
 	src.x = amt * other.x
 	src.y = amt * other.y
 	return src

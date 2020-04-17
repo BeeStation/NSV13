@@ -18,6 +18,9 @@
 	var/pixel_collision_size_x = 0
 	var/pixel_collision_size_y = 0
 	var/datum/shape/collider2d = null //Our box collider. See the collision module for explanation
+	var/datum/vector2d/offset
+	var/datum/vector2d/last_offset
+	var/list/collision_positions = list() //See the collisions doc for how these work. Theyre a pain in the ass.
 
 //Helper proc to get the actual center of the ship, if the ship's hitbox is placed in the bottom left corner like they usually are.
 
@@ -33,14 +36,24 @@
 	for(var/turf/T in locs)
 		T.SpinAnimation()
 
+/obj/structure/overmap/nanotrasen/heavy_cruiser/starter
+	collision_positions = list(new /datum/vector2d(31,150),\
+		new /datum/vector2d(-32,147),\
+		new /datum/vector2d(-43,133),\
+		new /datum/vector2d(-43,-93),\
+		new /datum/vector2d(-8,-164),\
+		new /datum/vector2d(11,-164),\
+		new /datum/vector2d(44,-59),\
+		new /datum/vector2d(68,120))
+
 /obj/structure/overmap/Initialize()
 	. = ..()
 	var/icon/I = icon(icon,icon_state,SOUTH) //SOUTH because all overmaps only ever face right, no other dirs.
 	pixel_collision_size_x = I.Width()
 	pixel_collision_size_y = I.Height()
-	collider2d = new /datum/shape()
-//	bound_width = pixel_collision_size_x
-//	bound_height = pixel_collision_size_y
+	collider2d = new /datum/shape(offset, collision_positions, -TORADIANS(src.angle-90))
+	offset = new /datum/vector2d()
+	last_offset = new /datum/vector2d()
 
 /obj/structure/overmap/proc/can_move()
 	return TRUE //Placeholder for everything but fighters. We can later extend this if / when we want to code in ship engines.
@@ -51,8 +64,7 @@
 	if(world.time > last_slowprocess + 10)
 		last_slowprocess = world.time
 		slowprocess()
-	var/last_offset_x = offset_x
-	var/last_offset_y = offset_y
+	last_offset._set(offset.x,offset.y)
 	var/last_angle = angle
 	var/desired_angular_velocity = 0
 	if(isnum(desired_angle))
@@ -76,6 +88,7 @@
 	else
 		last_rotate = 0
 	angle += angular_velocity * time
+	collider2d.set_angle(-TORADIANS(angle-90)) //Turn the box collider
 
 	// calculate drag and shit
 
@@ -163,85 +176,85 @@
 		desired_angle -= 15 //Otherwise it feels sluggish as all hell
 	if(pilot?.client?.keys_held["E"] && can_move())
 		desired_angle += 15
-	offset_x += velocity_x * time
-	offset_y += velocity_y * time
+	offset.x += velocity_x * time
+	offset.y += velocity_y * time
 	// alright so now we reconcile the offsets with the in-world position.
-	while((offset_x > 0 && velocity_x > 0) || (offset_y > 0 && velocity_y > 0) || (offset_x < 0 && velocity_x < 0) || (offset_y < 0 && velocity_y < 0))
+	while((offset.x > 0 && velocity_x > 0) || (offset.y > 0 && velocity_y > 0) || (offset.x < 0 && velocity_x < 0) || (offset.y < 0 && velocity_y < 0))
 		var/failed_x = FALSE
 		var/failed_y = FALSE
-		if(offset_x > 0 && velocity_x > 0)
+		if(offset.x > 0 && velocity_x > 0)
 			dir = EAST
 			if(!Move(get_step(src, EAST)))
-				offset_x = 0
+				offset.x = 0
 				failed_x = TRUE
 				velocity_x *= -bounce_factor
 				velocity_y *= lateral_bounce_factor
 			else
-				offset_x--
-				last_offset_x--
-		else if(offset_x < 0 && velocity_x < 0)
+				offset.x--
+				last_offset.x--
+		else if(offset.x < 0 && velocity_x < 0)
 			dir = WEST
 			if(!Move(get_step(src, WEST)))
-				offset_x = 0
+				offset.x = 0
 				failed_x = TRUE
 				velocity_x *= -bounce_factor
 				velocity_y *= lateral_bounce_factor
 			else
-				offset_x++
-				last_offset_x++
+				offset.x++
+				last_offset.x++
 		else
 			failed_x = TRUE
-		if(offset_y > 0 && velocity_y > 0)
+		if(offset.y > 0 && velocity_y > 0)
 			dir = NORTH
 			if(!Move(get_step(src, NORTH)))
-				offset_y = 0
+				offset.y = 0
 				failed_y = TRUE
 				velocity_y *= -bounce_factor
 				velocity_x *= lateral_bounce_factor
 			else
-				offset_y--
-				last_offset_y--
-		else if(offset_y < 0 && velocity_y < 0)
+				offset.y--
+				last_offset.y--
+		else if(offset.y < 0 && velocity_y < 0)
 			dir = SOUTH
 			if(!Move(get_step(src, SOUTH)))
-				offset_y = 0
+				offset.y = 0
 				failed_y = TRUE
 				velocity_y *= -bounce_factor
 				velocity_x *= lateral_bounce_factor
 			else
-				offset_y++
-				last_offset_y++
+				offset.y++
+				last_offset.y++
 		else
 			failed_y = TRUE
 		if(failed_x && failed_y)
 			break
 	// prevents situations where you go "wtf I'm clearly right next to it" as you enter a stationary spacepod
 	if(velocity_x == 0)
-		if(offset_x > 0.5)
+		if(offset.x > 0.5)
 			if(Move(get_step(src, EAST)))
-				offset_x--
-				last_offset_x--
+				offset.x--
+				last_offset.x--
 			else
-				offset_x = 0
-		if(offset_x < -0.5)
+				offset.x = 0
+		if(offset.x < -0.5)
 			if(Move(get_step(src, WEST)))
-				offset_x++
-				last_offset_x++
+				offset.x++
+				last_offset.x++
 			else
-				offset_x = 0
+				offset.x = 0
 	if(velocity_y == 0)
-		if(offset_y > 0.5)
+		if(offset.y > 0.5)
 			if(Move(get_step(src, NORTH)))
-				offset_y--
-				last_offset_y--
+				offset.y--
+				last_offset.y--
 			else
-				offset_y = 0
-		if(offset_y < -0.5)
+				offset.y = 0
+		if(offset.y < -0.5)
 			if(Move(get_step(src, SOUTH)))
-				offset_y++
-				last_offset_y++
+				offset.y++
+				last_offset.y++
 			else
-				offset_y = 0
+				offset.y = 0
 	dir = NORTH //So that the matrix is always consistent
 	var/matrix/mat_from = new()
 	mat_from.Turn(last_angle)
@@ -261,9 +274,9 @@
 		vector_overlay.alpha = 0
 		targetAngle = null
 	transform = mat_from
-	pixel_x = last_offset_x*32
-	pixel_y = last_offset_y*32
-	animate(src, transform=mat_to, pixel_x = offset_x*32, pixel_y = offset_y*32, time = time*10, flags=ANIMATION_END_NOW)
+	pixel_x = last_offset.x*32
+	pixel_y = last_offset.y*32
+	animate(src, transform=mat_to, pixel_x = offset.x*32, pixel_y = offset.y*32, time = time*10, flags=ANIMATION_END_NOW)
 	if(last_target)
 		var/target_angle = Get_Angle(src,last_target)
 		var/matrix/final = matrix()
@@ -277,17 +290,24 @@
 		var/client/C = M.client
 		if(!C)
 			continue
-		C.pixel_x = last_offset_x*32
-		C.pixel_y = last_offset_y*32
-		animate(C, pixel_x = offset_x*32, pixel_y = offset_y*32, time = time*10, flags=ANIMATION_END_NOW)
+		C.pixel_x = last_offset.x*32
+		C.pixel_y = last_offset.y*32
+		animate(C, pixel_x = offset.x*32, pixel_y = offset.y*32, time = time*10, flags=ANIMATION_END_NOW)
 	user_thrust_dir = 0
+	collider2d._set(offset.x, offset.y)
+	handle_collisions()
 	update_icon()
 
+/obj/structure/overmap/proc/handle_collisions()
+	for(var/obj/structure/overmap/OM in GLOB.overmap_objects)
+		if(OM.collider2d.collides(src.collider2d))
+			color = "#FF0000"
+			return TRUE
+	color = "#008000"
 
 /obj/structure/overmap/proc/show_hitbox()
 	for(var/turf/T in obounds(src, pixel_x + pixel_collision_size_x/4, pixel_y + pixel_collision_size_y/4, pixel_x  + -pixel_collision_size_x/4, pixel_y + -pixel_collision_size_x/4) )//Forms a zone of 4 quadrants around the desired overmap using some math fuckery.
 		T.SpinAnimation()
-
 
 /obj/structure/overmap/Bumped(atom/movable/A)
 	if(istype(A, /obj/structure/overmap/fighter))
@@ -352,8 +372,8 @@
 	var/sx = fy
 	var/sy = -fx
 	var/new_offset = sprite_size/4
-	var/ox = (offset_x * 32) + new_offset
-	var/oy = (offset_y * 32) + new_offset
+	var/ox = (offset.x * 32) + new_offset
+	var/oy = (offset.y * 32) + new_offset
 	var/list/origins = list(list(ox + fx - sx, oy + fy - sy))
 	for(var/list/origin in origins)
 		var/this_x = origin[1]
@@ -396,8 +416,8 @@
 	var/sx = fy
 	var/sy = -fx
 	var/new_offset = sprite_size/4
-	var/ox = (offset_x * 32) + new_offset
-	var/oy = (offset_y * 32) + new_offset
+	var/ox = (offset.x * 32) + new_offset
+	var/oy = (offset.y * 32) + new_offset
 	var/list/origins = list(list(ox + fx*new_offset - sx*new_offset, oy + fy*new_offset - sy*new_offset), list(ox + fx*new_offset + sx*new_offset, oy + fy*new_offset + sy*new_offset))
 	for(var/list/origin in origins)
 		var/this_x = origin[1]
