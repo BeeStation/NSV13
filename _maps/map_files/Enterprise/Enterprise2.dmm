@@ -1056,6 +1056,7 @@
 	},
 /obj/item/gun/ballistic/automatic/peacekeeper,
 /obj/item/gun/ballistic/automatic/peacekeeper,
+/obj/item/gun/energy/ionrifle,
 /turf/open/floor/monotile/dark,
 /area/ai_monitored/security/armory)
 "ade" = (
@@ -4251,6 +4252,7 @@
 "akJ" = (
 /obj/structure/window/reinforced/spawner,
 /obj/structure/window/reinforced/spawner/west,
+/obj/machinery/clonepod/prefilled,
 /turf/open/floor/engine,
 /area/medical/genetics)
 "akK" = (
@@ -6077,6 +6079,7 @@
 /obj/structure/cable{
 	icon_state = "1-2"
 	},
+/obj/machinery/door/firedoor,
 /turf/open/floor/monotile,
 /area/maintenance/starboard/secondary{
 	name = "Gauss gun rack"
@@ -36309,7 +36312,11 @@
 	name = "Engineering section"
 	},
 /obj/machinery/door/firedoor,
-/turf/open/floor/monotile/dark,
+/obj/effect/turf_decal/tile/neutral,
+/obj/effect/turf_decal/tile/neutral{
+	dir = 8
+	},
+/turf/open/floor/monotile,
 /area/hallway/nsv/deck2/frame2/port)
 "bBa" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
@@ -40798,6 +40805,7 @@
 	req_one_access_txt = "3;69"
 	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
+/obj/machinery/door/firedoor,
 /turf/open/floor/monotile,
 /area/maintenance/starboard/secondary{
 	name = "Gauss gun rack"
@@ -40908,6 +40916,7 @@
 	req_one_access_txt = "3;69"
 	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/obj/machinery/door/firedoor,
 /turf/open/floor/monotile,
 /area/maintenance/starboard/secondary{
 	name = "Gauss gun rack"
@@ -42598,9 +42607,18 @@
 /turf/open/floor/plating,
 /area/maintenance/starboard)
 "kPn" = (
-/obj/effect/landmark/nuclear_waste_spawner,
+/obj/machinery/door/airlock/ship/public/glass{
+	name = "Engineering section"
+	},
+/obj/machinery/door/firedoor,
+/obj/effect/turf_decal/tile/neutral{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/neutral{
+	dir = 4
+	},
 /turf/open/floor/monotile,
-/area/nsv/hanger/deck2)
+/area/hallway/nsv/deck2/frame2/port)
 "kSX" = (
 /obj/structure/cable{
 	icon_state = "2-4"
@@ -89747,7 +89765,7 @@ ami
 amm
 bAZ
 aSg
-bAZ
+kPn
 abd
 abd
 abd
