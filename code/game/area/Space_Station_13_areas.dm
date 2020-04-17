@@ -314,9 +314,9 @@ NOTE: there are two lists of areas in the end of this file: centcom and station 
 	name = "Chief Medical Officer's Office"
 	icon_state = "cmo_office"
 
-/area/crew_quarters/heads/hop
-	name = "Head of Personnel's Office"
-	icon_state = "hop_office"
+/area/crew_quarters/heads/xo //Nsv13 - HoP to XO
+	name = "Executive Officer's Office"
+	icon_state = "xo_office"
 
 /area/crew_quarters/heads/hos
 	name = "Head of Security's Office"
