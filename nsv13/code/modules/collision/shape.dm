@@ -122,13 +122,15 @@ to say that we don't need the added cost (and extra precision) of SAT.
 /datum/shape/proc/collides(var/datum/shape/other)
 	if(!src.test_aabb(other))
 		return FALSE
-
+	var/list/collision_normals = list() //Where did we collide at?
 	for (var/datum/vector2d/norm in src.normals)
 		if(is_separating_axis(src.position, other.position, src.rel_points, other.rel_points, norm))
 			return FALSE
+		else
+			collision_normals += norm
 
 	for (var/datum/vector2d/norm in other.normals)
 		if(is_separating_axis(src.position, other.position, src.rel_points, other.rel_points, norm))
 			return FALSE
 
-	return TRUE
+	return collision_normals

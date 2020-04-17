@@ -21,6 +21,7 @@
 	var/datum/vector2d/offset
 	var/datum/vector2d/last_offset
 	var/datum/vector2d/position
+	var/datum/vector2d/velocity
 	var/list/collision_positions = list() //See the collisions doc for how these work. Theyre a pain in the ass.
 
 //Helper proc to get the actual center of the ship, if the ship's hitbox is placed in the bottom left corner like they usually are.
@@ -38,6 +39,7 @@
 		T.SpinAnimation()
 
 /obj/structure/overmap/nanotrasen/heavy_cruiser
+	brakes = TRUE
 	collision_positions = list(new /datum/vector2d(31,150),\
 		new /datum/vector2d(-32,147),\
 		new /datum/vector2d(-43,133),\
@@ -47,6 +49,28 @@
 		new /datum/vector2d(44,-59),\
 		new /datum/vector2d(68,120))
 
+/obj/effect/overmap_hitbox_marker
+	name = "Hitbox display"
+	icon = 'nsv13/icons/overmap/default.dmi'
+	icon_state = "hitbox_marker"
+
+/obj/effect/overmap_hitbox_marker/Initialize(mapload, pixel_x, pixel_y, pixel_z, pixel_w)
+	. = ..()
+	src.pixel_x = pixel_x
+	src.pixel_y = pixel_y
+	src.pixel_z = pixel_z
+	src.pixel_w = pixel_w
+
+//Method to show the hitbox of your current ship to see if youve set it up correctly
+/obj/structure/overmap/proc/display_hitbox()
+	if(!collision_positions.len){
+		return
+	}
+	for(var/datum/vector2d/point in collision_positions){
+		var/obj/effect/overmap_hitbox_marker/H = new(src, point.x, point.y, abs(pixel_z), abs(pixel_w))
+		vis_contents += H
+	}
+
 /obj/structure/overmap/Initialize()
 	. = ..()
 	var/icon/I = icon(icon,icon_state,SOUTH) //SOUTH because all overmaps only ever face right, no other dirs.
@@ -55,6 +79,7 @@
 	offset = new /datum/vector2d()
 	last_offset = new /datum/vector2d()
 	position = new /datum/vector2d(x*32,y*32)
+	velocity = new /datum/vector2d(0, 0)
 	if(collision_positions.len)
 		collider2d = new /datum/shape(position, collision_positions, angle) // -TORADIANS(src.angle-90)
 	else
@@ -99,7 +124,7 @@
 
 	// calculate drag and shit
 
-	var/velocity_mag = sqrt(velocity_x*velocity_x+velocity_y*velocity_y) // magnitude
+	var/velocity_mag = sqrt(velocity.x*velocity.x+velocity.y*velocity.y) // magnitude
 	if(velocity_mag || angular_velocity)
 		var/drag = 0
 		for(var/turf/T in locs)
@@ -125,8 +150,8 @@
 		if(drag)
 			if(velocity_mag)
 				var/drag_factor = 1 - CLAMP(drag * time / velocity_mag, 0, 1)
-				velocity_x *= drag_factor
-				velocity_y *= drag_factor
+				velocity.x *= drag_factor
+				velocity.y *= drag_factor
 			if(angular_velocity != 0)
 				var/drag_factor_spin = 1 - CLAMP(drag * 30 * time / abs(angular_velocity), 0, 1)
 				angular_velocity *= drag_factor_spin
@@ -142,8 +167,8 @@
 	last_thrust_right = 0
 	if(brakes) //If our brakes are engaged, attempt to slow them down
 		// basically calculates how much we can brake using the thrust
-		var/forward_thrust = -((fx * velocity_x) + (fy * velocity_y)) / time
-		var/right_thrust = -((sx * velocity_x) + (sy * velocity_y)) / time
+		var/forward_thrust = -((fx * velocity.x) + (fy * velocity.y)) / time
+		var/right_thrust = -((sx * velocity.x) + (sy * velocity.y)) / time
 		forward_thrust = CLAMP(forward_thrust, -backward_maxthrust, forward_maxthrust)
 		right_thrust = CLAMP(right_thrust, -side_maxthrust, side_maxthrust)
 		thrust_x += forward_thrust * fx + right_thrust * sx;
@@ -169,65 +194,65 @@
 				thrust_y -= sy * side_maxthrust
 				last_thrust_right = -side_maxthrust
 	 //Stops you yeeting off at lightspeed. This made AI ships really frustrating to play against.
-	if(velocity_x > speed_limit)
-		velocity_x = speed_limit
-	if(velocity_y > speed_limit)
-		velocity_y = speed_limit
-	if(velocity_x < -speed_limit)
-		velocity_x = -speed_limit
-	if(velocity_y < -speed_limit)
-		velocity_y = -speed_limit
-	velocity_x += thrust_x * time //And speed us up based on how long we've been thrusting (up to a point)
-	velocity_y += thrust_y * time
+	if(velocity.x > speed_limit)
+		velocity.x = speed_limit
+	if(velocity.y > speed_limit)
+		velocity.y = speed_limit
+	if(velocity.x < -speed_limit)
+		velocity.x = -speed_limit
+	if(velocity.y < -speed_limit)
+		velocity.y = -speed_limit
+	velocity.x += thrust_x * time //And speed us up based on how long we've been thrusting (up to a point)
+	velocity.y += thrust_y * time
 	if(pilot?.client?.keys_held["Q"] && can_move()) //While theyre pressing E || Q, turn.
 		desired_angle -= 15 //Otherwise it feels sluggish as all hell
 	if(pilot?.client?.keys_held["E"] && can_move())
 		desired_angle += 15
-	offset.x += velocity_x * time
-	offset.y += velocity_y * time
+	offset.x += velocity.x * time
+	offset.y += velocity.y * time
 	// alright so now we reconcile the offsets with the in-world position.
-	while((offset.x > 0 && velocity_x > 0) || (offset.y > 0 && velocity_y > 0) || (offset.x < 0 && velocity_x < 0) || (offset.y < 0 && velocity_y < 0))
+	while((offset.x > 0 && velocity.x > 0) || (offset.y > 0 && velocity.y > 0) || (offset.x < 0 && velocity.x < 0) || (offset.y < 0 && velocity.y < 0))
 		var/failed_x = FALSE
 		var/failed_y = FALSE
-		if(offset.x > 0 && velocity_x > 0)
+		if(offset.x > 0 && velocity.x > 0)
 			dir = EAST
 			if(!Move(get_step(src, EAST)))
 				offset.x = 0
 				failed_x = TRUE
-				velocity_x *= -bounce_factor
-				velocity_y *= lateral_bounce_factor
+				velocity.x *= -bounce_factor
+				velocity.y *= lateral_bounce_factor
 			else
 				offset.x--
 				last_offset.x--
-		else if(offset.x < 0 && velocity_x < 0)
+		else if(offset.x < 0 && velocity.x < 0)
 			dir = WEST
 			if(!Move(get_step(src, WEST)))
 				offset.x = 0
 				failed_x = TRUE
-				velocity_x *= -bounce_factor
-				velocity_y *= lateral_bounce_factor
+				velocity.x *= -bounce_factor
+				velocity.y *= lateral_bounce_factor
 			else
 				offset.x++
 				last_offset.x++
 		else
 			failed_x = TRUE
-		if(offset.y > 0 && velocity_y > 0)
+		if(offset.y > 0 && velocity.y > 0)
 			dir = NORTH
 			if(!Move(get_step(src, NORTH)))
 				offset.y = 0
 				failed_y = TRUE
-				velocity_y *= -bounce_factor
-				velocity_x *= lateral_bounce_factor
+				velocity.y *= -bounce_factor
+				velocity.x *= lateral_bounce_factor
 			else
 				offset.y--
 				last_offset.y--
-		else if(offset.y < 0 && velocity_y < 0)
+		else if(offset.y < 0 && velocity.y < 0)
 			dir = SOUTH
 			if(!Move(get_step(src, SOUTH)))
 				offset.y = 0
 				failed_y = TRUE
-				velocity_y *= -bounce_factor
-				velocity_x *= lateral_bounce_factor
+				velocity.y *= -bounce_factor
+				velocity.x *= lateral_bounce_factor
 			else
 				offset.y++
 				last_offset.y++
@@ -236,7 +261,7 @@
 		if(failed_x && failed_y)
 			break
 	// prevents situations where you go "wtf I'm clearly right next to it" as you enter a stationary spacepod
-	if(velocity_x == 0)
+	if(velocity.x == 0)
 		if(offset.x > 0.5)
 			if(Move(get_step(src, EAST)))
 				offset.x--
@@ -249,7 +274,7 @@
 				last_offset.x++
 			else
 				offset.x = 0
-	if(velocity_y == 0)
+	if(velocity.y == 0)
 		if(offset.y > 0.5)
 			if(Move(get_step(src, NORTH)))
 				offset.y--
@@ -305,47 +330,80 @@
 	if(collider2d)
 		collider2d._set(position.x, position.y)
 		handle_collisions()
-	else
-		color = "#6a0dad"
 	update_icon()
 
 /obj/structure/overmap/proc/handle_collisions()
 	color = "#008000"
 	for(var/obj/structure/overmap/OM in GLOB.overmap_objects)
-		if(src == OM) continue // Wondered why objects were always colliding for an entire 9 hours
-		if(src.collider2d.test_aabb(OM.collider2d))
-			color = "#FFFF00"
-		if(src.collider2d.collides(OM.collider2d))
-			color = "#FF0000"
-			return TRUE
+		if(src == OM || OM.z != src.z || !OM.collider2d)
+			continue // Wondered why objects were always colliding for an entire 9 hours
+		var/list/collision_normals = src.collider2d.collides(OM.collider2d)
+		if(collision_normals && collision_normals.len)
+			Bump(OM, collision_normals)
 
-/obj/structure/overmap/proc/show_hitbox()
-	for(var/turf/T in obounds(src, pixel_x + pixel_collision_size_x/4, pixel_y + pixel_collision_size_y/4, pixel_x  + -pixel_collision_size_x/4, pixel_y + -pixel_collision_size_x/4) )//Forms a zone of 4 quadrants around the desired overmap using some math fuckery.
-		T.SpinAnimation()
+
+// Numbers are relative to world
+// at is the location the impulse is applied for rotation purposes
+/obj/structure/overmap/proc/apply_impulse(datum/vector2d/impulse, datum/vector2d/at)
+	var/datum/vector2d/ccw_vector = at - position
+	ccw_vector.rotate(90)
+	angular_velocity += (ccw_vector * impulse) * (1 / mass) //Tweak the "10" as necessary
+	if(angular_velocity > 5)
+		angular_velocity = 5
+	if(angular_velocity < -5)
+		angular_velocity = -5
+	velocity += (impulse * (1 / mass))
+	if(velocity.x > speed_limit)
+		velocity.x = speed_limit
+	if(velocity.x < -speed_limit)
+		velocity.x = -speed_limit
+	if(velocity.y > speed_limit)
+		velocity.y = speed_limit
+	if(velocity.y < -speed_limit)
+		velocity.y = -speed_limit
+
+/obj/structure/overmap/proc/get_point_velocity(datum/vector2d/at)
+	var/datum/vector2d/ccw_vector = at - position
+	ccw_vector.rotate(90)
+	ccw_vector *= (angular_velocity * 0.017453)
+	ccw_vector += velocity
+	return ccw_vector
+
+/obj/structure/overmap/proc/collide(obj/structure/overmap/other, list/collision_normals, collision_velocity)
+	var/datum/vector2d/normal = collision_normals[1]
+	var/datum/vector2d/point = new /datum/vector2d(normal)
+	var/datum/vector2d/penetration = new /datum/vector2d(normal)
+	var/datum/vector2d/relative_point_momentum = (get_point_velocity(point) * mass) - (other.get_point_velocity(point) * other.mass)
+	to_chat(world, "[normal.to_string()] and [relative_point_momentum.to_string()] at [collision_velocity] velocity")
+	var/momentum_along_normal = -(normal * relative_point_momentum)
+	if(momentum_along_normal > 0)
+		var/datum/vector2d/seperation_impulse = normal * (momentum_along_normal * 1.5)
+		apply_impulse(seperation_impulse * 0.5, point)
+		other.apply_impulse(seperation_impulse * -0.5, point)
+	var/datum/vector2d/output = penetration * 0.5
+	to_chat(world, "[output.to_string()]")
+	position += output
+	other.position -= output
 
 /obj/structure/overmap/Bumped(atom/movable/A)
-	if(istype(A, /obj/structure/overmap/fighter))
-		var/obj/structure/overmap/fighter/F = A
-		F.docking_act(src)
-		return FALSE
 	if(brakes || ismob(A)) //No :)
 		return FALSE
 	if(A.dir & NORTH)
-		velocity_y += bump_impulse
+		velocity.y += bump_impulse
 	if(A.dir & SOUTH)
-		velocity_y -= bump_impulse
+		velocity.y -= bump_impulse
 	if(A.dir & EAST)
-		velocity_x += bump_impulse
+		velocity.x += bump_impulse
 	if(A.dir & WEST)
-		velocity_x -= bump_impulse
+		velocity.x -= bump_impulse
 	return ..()
 
-/obj/structure/overmap/Bump(atom/A)
+/obj/structure/overmap/Bump(atom/A, list/collision_normals)
 	var/bump_velocity = 0
 	if(dir & (NORTH|SOUTH))
-		bump_velocity = abs(velocity_y) + (abs(velocity_x) / 15)
+		bump_velocity = abs(velocity.y) + (abs(velocity.x) / 10)
 	else
-		bump_velocity = abs(velocity_x) + (abs(velocity_y) / 15)
+		bump_velocity = abs(velocity.x) + (abs(velocity.y) / 10)
 	if(istype(A, /obj/machinery/door/airlock) && should_open_doors) // try to open doors
 		var/obj/machinery/door/D = A
 		if(!D.operating)
@@ -354,6 +412,12 @@
 					D.open()
 			else
 				D.do_animate("deny")
+	if(istype(A, /obj/structure/overmap) && collision_normals && collision_normals.len)
+		collide(A, collision_normals, bump_velocity)
+		if(istype(A, /obj/structure/overmap/fighter))
+			var/obj/structure/overmap/fighter/F = A
+			F.docking_act(src)
+		return FALSE
 	var/atom/movable/AM = A
 	if(istype(AM) && !AM.anchored && bump_velocity > 1)
 		step(AM, dir)
