@@ -42,7 +42,7 @@ Method to set our points to a new list of points
 */
 
 /datum/shape/proc/set_points(list/points)
-	if(!src.base_points || src.base_points.len != points.len){
+	if(!src.base_points.len || src.base_points.len != points.len){
 		src.rel_points.Cut()
 		src.normals.Cut()
 		for (var/i in 1 to points.len){
@@ -70,7 +70,7 @@ Method to recalculate our bounding box, adjusting the relative positions accordi
 
 /datum/shape/proc/_recalc()
 	for(var/i in 1 to src.base_points.len){
-		src.rel_points[i]._set(src.base_points[i].copy().rotate(src._angle))
+		src.rel_points[i]._set(src.base_points[i].clone().rotate(src._angle))
 	}
 	//Clear out our current AABB collision box
 	src.aabb.Cut()
