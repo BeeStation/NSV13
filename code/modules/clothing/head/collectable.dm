@@ -132,7 +132,7 @@
 	icon_state = "hoscap"
 	dynamic_hair_suffix = ""
 
-/obj/item/clothing/head/collectable/XO //Nsv13 - HoP to XO
+/obj/item/clothing/head/collectable/xo //Nsv13 - HoP to XO, lowercase
 	name = "collectable XO hat"
 	desc = "It's your turn to demand excessive paperwork, signatures, stamps, and hire more clowns! Papers, please!"
 	icon_state = "xocap"
