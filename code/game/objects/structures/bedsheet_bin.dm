@@ -154,12 +154,12 @@ LINEN BINS
 	item_color = "hosred"
 	dream_messages = list("authority", "a silvery ID", "handcuffs", "a baton", "a flashbang", "sunglasses", "the head of security")
 
-/obj/item/bedsheet/hop
-	name = "head of personnel's bedsheet"
+/obj/item/bedsheet/xo //Nsv13 - HoP to XO
+	name = "executive officer's bedsheet"
 	desc = "It is decorated with a key emblem. For those rare moments when you can rest and cuddle with Ian without someone screaming for you over the radio."
-	icon_state = "sheethop"
-	item_color = "hop"
-	dream_messages = list("authority", "a silvery ID", "obligation", "a computer", "an ID", "a corgi", "the head of personnel")
+	icon_state = "sheetxo"
+	item_color = "xo"
+	dream_messages = list("authority", "a silvery ID", "obligation", "a computer", "an ID", "a corgi", "the executive officer")
 
 /obj/item/bedsheet/ce
 	name = "chief engineer's bedsheet"
