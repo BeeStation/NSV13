@@ -24,8 +24,8 @@
 		"Curator" = "pda-library",
 		"Detective" = "pda-detective",
 		"Engineer" = "pda-engineer",
+		"Executive Officer" = "pda-xo", //Nsv13 - HoP to XO
 		"Geneticist" = "pda-genetics",
-		"Head of Personnel" = "pda-hop",
 		"Head of Security" = "pda-hos",
 		"Lawyer" = "pda-lawyer",
 		"Janitor" = "pda-janitor",
@@ -50,7 +50,7 @@
 		"Clown" = "clown",
 		"Detective" = "detective",
 		"Engineering" = "engi",
-		"Head of Personnel" = "silver",
+		"Executive Officer" = "silver", //Nsv13 - HoP to XO
 		"Head of Security" = "hos",
 		"Lawyer" = "lawyer",
 		"Medical" = "med",
