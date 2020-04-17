@@ -284,7 +284,6 @@
 	pixel_x = last_offset.x*32
 	pixel_y = last_offset.y*32
 	position._set(x * 32 + pixel_x, y * 32 + pixel_y)
-	to_chat(world, "foo [name][x*32]")
 	animate(src, transform=mat_to, pixel_x = offset.x*32, pixel_y = offset.y*32, time = time*10, flags=ANIMATION_END_NOW)
 	if(last_target)
 		var/target_angle = Get_Angle(src,last_target)
