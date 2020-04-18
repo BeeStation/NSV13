@@ -210,6 +210,8 @@
 /datum/config_entry/string/githuburl
 	config_entry_value = "https://github.com/BeeStation/NSV13"
 
+/datum/config_entry/string/issue_label //NSV EDIT: Autotag inround issue reports
+
 /datum/config_entry/string/donateurl
 	config_entry_value = "https://www.patreon.com/user?u=10639001"
 
