@@ -214,3 +214,12 @@ Method to turn this vector counter clockwise by a desired angle
 	y = newy
 	return src
 
+/*
+Negate both values of a vector without making a new one
+@return the reversed vector
+*/
+/datum/vector2d/proc/reverse(angle)
+	RETURN_TYPE(/datum/vector2d)
+	src.x = -src.x
+	src.y = -src.y
+	return src

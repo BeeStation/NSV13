@@ -119,18 +119,20 @@ to say that we don't need the added cost (and extra precision) of SAT.
 
 */
 
-/datum/shape/proc/collides(var/datum/shape/other)
+/datum/shape/proc/collides(var/datum/shape/other, var/datum/collision_response/c_response)
 	if(!src.test_aabb(other))
 		return FALSE
-	var/list/collision_normals = list() //Where did we collide at?
+
 	for (var/datum/vector2d/norm in src.normals)
-		if(is_separating_axis(src.position, other.position, src.rel_points, other.rel_points, norm))
+		if(is_separating_axis(src.position, other.position, src.rel_points, other.rel_points, norm, c_response))
 			return FALSE
-		else
-			collision_normals += norm
 
 	for (var/datum/vector2d/norm in other.normals)
-		if(is_separating_axis(src.position, other.position, src.rel_points, other.rel_points, norm))
+		if(is_separating_axis(src.position, other.position, src.rel_points, other.rel_points, norm, c_response))
 			return FALSE
 
-	return collision_normals
+	if (c_response)
+		c_response.overlap_vector.copy(c_response.overlap_normal)
+		c_response.overlap_vector *= c_response.overlap
+
+	return TRUE
