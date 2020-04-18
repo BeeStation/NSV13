@@ -124,7 +124,7 @@
 
 	// calculate drag and shit
 
-	var/velocity_mag = sqrt(velocity.x*velocity.x+velocity.y*velocity.y) // magnitude
+	var/velocity_mag = velocity.ln() // magnitude
 	if(velocity_mag || angular_velocity)
 		var/drag = 0
 		for(var/turf/T in locs)
@@ -336,9 +336,11 @@
 	for(var/obj/structure/overmap/OM in GLOB.overmap_objects)
 		if(src == OM || OM.z != src.z || !OM.collider2d)
 			continue // Wondered why objects were always colliding for an entire 9 hours
-		var/list/collision_normals = src.collider2d.collides(OM.collider2d)
-		if(collision_normals && collision_normals.len)
-			Bump(OM, collision_normals)
+
+		var/datum/collision_response/c_response = new /datum/collision_response()
+
+		if(src.collider2d.collides(OM.collider2d, c_response))
+			Bump(OM, c_response)
 
 
 // Numbers are relative to world
@@ -346,7 +348,7 @@
 /obj/structure/overmap/proc/apply_impulse(datum/vector2d/impulse, datum/vector2d/at)
 	var/datum/vector2d/ccw_vector = at - position
 	ccw_vector.rotate(90)
-	angular_velocity += (ccw_vector * impulse) * (1 / mass) //Tweak the "10" as necessary
+	angular_velocity += (ccw_vector.dot(impulse)) * (1 / mass) //Tweak the "10" as necessary
 	if(angular_velocity > 5)
 		angular_velocity = 5
 	if(angular_velocity < -5)
@@ -368,21 +370,21 @@
 	ccw_vector += velocity
 	return ccw_vector
 
-/obj/structure/overmap/proc/collide(obj/structure/overmap/other, list/collision_normals, collision_velocity)
-	var/datum/vector2d/normal = collision_normals[1]
-	var/datum/vector2d/point = new /datum/vector2d(normal)
-	var/datum/vector2d/penetration = new /datum/vector2d(normal)
-	var/datum/vector2d/relative_point_momentum = (get_point_velocity(point) * mass) - (other.get_point_velocity(point) * other.mass)
-	to_chat(world, "[normal.to_string()] and [relative_point_momentum.to_string()] at [collision_velocity] velocity")
-	var/momentum_along_normal = -(normal * relative_point_momentum)
+/obj/structure/overmap/proc/collide(obj/structure/overmap/other, datum/collision_response/c_response, collision_velocity)
+	var/datum/vector2d/relative_point_momentum = (get_point_velocity(c_response.overlap_normal) * mass) - (other.get_point_velocity(c_response.overlap_normal) * other.mass)
+
+	to_chat(world, "[c_response.overlap_normal.to_string()] and [relative_point_momentum.to_string()] at [collision_velocity] velocity")
+	var/momentum_along_normal = -(c_response.overlap_normal.dot(relative_point_momentum))
+
 	if(momentum_along_normal > 0)
-		var/datum/vector2d/seperation_impulse = normal * (momentum_along_normal * 1.5)
-		apply_impulse(seperation_impulse * 0.5, point)
-		other.apply_impulse(seperation_impulse * -0.5, point)
-	var/datum/vector2d/output = penetration * 0.5
-	to_chat(world, "[output.to_string()]")
-	position += output
-	other.position -= output
+		var/datum/vector2d/seperation_impulse = c_response.overlap_normal * (momentum_along_normal * 1.5)
+		apply_impulse(seperation_impulse * -0.5, c_response.overlap_normal)
+		other.apply_impulse(seperation_impulse * 0.5, c_response.overlap_normal)
+
+	var/datum/vector2d/output = c_response.overlap_vector * (0.5 / 32)
+	offset -= c_response.overlap_normal
+	other.offset += c_response.overlap_normal
+	to_chat(world, "FIX BY: [output.x],[output.y]")
 
 /obj/structure/overmap/Bumped(atom/movable/A)
 	if(brakes || ismob(A)) //No :)
@@ -397,7 +399,7 @@
 		velocity.x -= bump_impulse
 	return ..()
 
-/obj/structure/overmap/Bump(atom/A, list/collision_normals)
+/obj/structure/overmap/Bump(atom/A, datum/collision_response/c_response)
 	var/bump_velocity = 0
 	if(dir & (NORTH|SOUTH))
 		bump_velocity = abs(velocity.y) + (abs(velocity.x) / 10)
@@ -411,8 +413,8 @@
 					D.open()
 			else
 				D.do_animate("deny")
-	if(istype(A, /obj/structure/overmap) && collision_normals && collision_normals.len)
-		collide(A, collision_normals, bump_velocity)
+	if(istype(A, /obj/structure/overmap) && c_response)
+		collide(A, c_response, bump_velocity)
 		if(istype(A, /obj/structure/overmap/fighter))
 			var/obj/structure/overmap/fighter/F = A
 			F.docking_act(src)

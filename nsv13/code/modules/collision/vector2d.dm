@@ -1,6 +1,6 @@
 /*
 
-Vector class written by Monster860, modified by Kmc2000 under Qwerty's guidance.
+Vector class written by qwertyquerty and Kmc2000
 
 This uses operator overloading
 
@@ -15,7 +15,6 @@ Special thanks to qwertyquerty for explaining and dictating a lot of this! (I've
 /*
 Constructor for vector2d objects, taking a simple X,Y coordinate.
 */
-
 /datum/vector2d/New(x = 0, y = 0)
 	src.x = x
 	src.y = y
@@ -24,138 +23,148 @@ Constructor for vector2d objects, taking a simple X,Y coordinate.
 /*
 Method to set our position directly
 */
-
 /datum/vector2d/proc/_set(x,y)
 	src.x = x
 	src.y = y
 
 /*
-Method to turn this vector counter clockwise by a desired angle
-*/
-
-/datum/vector2d/proc/rotate(angle)
-	var/s = sin(angle)
-	var/c = cos(angle)
-	var/newx = c*x + s*y
-	var/newy = -s*x + c*y
-	x = newx
-	y = newy
-	return src
-/*
-A method to make a copy of this vector
-@return a new vector2d with the same stats as this one
-*/
-
-/datum/vector2d/proc/clone()
-	return new /datum/vector2d(x,y)
-
-/*
 Method to overload the + operator to add a vector to another vector
 @return a new vector with the desired x,y after addition
 */
-
 /datum/vector2d/proc/operator+(datum/vector2d/b)
-	return new /datum/vector2d(x+b.x,y+b.y)
+	if(isnum(b))
+		return new /datum/vector2d(x + b, y + b)
+	else if(istype(b, /datum/vector2d))
+		return new /datum/vector2d(x + b.x, y + b.y)
 
 /*
 Method to overload the += operator to add the X,Y coordinates to our own ones, without making a new vector2d
 */
-
 /datum/vector2d/proc/operator+=(datum/vector2d/b)
-	x += b.x
-	y += b.y
+	if(isnum(b))
+		x += b
+		y += b
+	else if(istype(b, /datum/vector2d))
+		x += b.x
+		y += b.y
 
 /*
 Method to overload the - operator to subtract a vector from this one.
 @return a new vector with the desired X,Y after operation performed
 */
-
 /datum/vector2d/proc/operator-(datum/vector2d/b)
 	if(!b)
-		return new /datum/vector2d(-x,-y)
-	return new /datum/vector2d(x-b.x,y-b.y)
+		return new /datum/vector2d(-x, -y)
+	else if(isnum(b))
+		return new /datum/vector2d(x - b, y - b)
+	else if(istype(b, /datum/vector2d))
+		return new /datum/vector2d(x - b.x, y - b.y)
 
 /*
 Method to overload the += operator to subtract the X,Y coordinates to our own ones, without making a new vector2d
 */
-
 /datum/vector2d/proc/operator-=(datum/vector2d/b)
-	x -= b.x
-	y -= b.y
+	if(isnum(b))
+		x -= b
+		y -= b
+	else if(istype(b, /datum/vector2d))
+		x -= b.x
+		y -= b.y
 
 /*
 Method to overload the * operator to multiply this vector by another one
 @return a vector2d object with the required calculations done.
 */
-
-
 /datum/vector2d/proc/operator*(datum/vector2d/b)
 	if(isnum(b))
-		return new /datum/vector2d(x*b, y*b)
-	else if(istype(b, /matrix))
-		var/matrix/m = b
-		return new /datum/vector2d(x*m.a + y*m.b + m.c, x*m.d + y*m.e + m.f)
-	else if(istype(b))
-		return x*b.x + y*b.y
-
-/*
-Method to overload the / operator to multiply this vector by another one
-@return a vector2d object with the required calculations done.
-*/
-
-/datum/vector2d/proc/operator/(datum/vector2d/b)
-	if(isnum(b))
-		return new /datum/vector2d(x/b, y/b)
-	else if(istype(b, /matrix))
-		var/matrix/m = b
-		return new /datum/vector2d(x/m.a + y/m.b + m.c, x/m.d + y/m.e + m.f)
-	else if(istype(b))
-		return x/b.x + y/b.y
+		return new /datum/vector2d(x * b, y * b)
+	else if(istype(b, /datum/vector2d))
+		return new /datum/vector2d(x * b.x, y * b.y)
 
 /*
 Method to overload the *= operator to multiply the X,Y coordinates to our own ones, without making a new vector2d
 */
-/datum/vector2d/proc/operator*=(b)
-	if(istype(b, /matrix))
-		var/matrix/m = b
-		var/newx = x*m.a + y*m.b + m.c
-		var/newy = x*m.d + y*m.e + m.f
-		x = newx
-		y = newy
-	else if(isnum(b))
+/datum/vector2d/proc/operator*=(datum/vector2d/b)
+	if(isnum(b))
 		x *= b
 		y *= b
+	else if(istype(b, /datum/vector2d))
+		x *= b.x
+		y *= b.y
 
+/*
+Method to overload the / operator to divide this vector by another one
+@return a vector2d object with the required calculations done.
+*/
+/datum/vector2d/proc/operator/(datum/vector2d/b)
+	if(isnum(b))
+		return new /datum/vector2d(x / b, y / b)
+	else if(istype(b, /datum/vector2d))
+		return new /datum/vector2d(x / b.x, y / b.y)
+
+/*
+Overrides the ~= operator to check if a vector has the same x and y values as another one (equivalency)
+@return 1 if the vectors are equivalent, 0 if not
+*/
 /datum/vector2d/proc/operator~=(datum/vector2d/b)
-	return (istype(b) && x == b.x && y == b.y)
+	return (istype(b, /datum/vector2d) && x == b.x && y == b.y)
 
+/*
+Convert the vector to a readable format: [x, y]
+@return a string representation of the vector: [x, y]
+*/
 /datum/vector2d/proc/to_string()
-	return "([x], [y])"
+	return "\[[src.x], [src.y]\]"
 
+/*
+Calculate the dot product of two vectors
+@return the dot product of the two vectors
+*/
 /datum/vector2d/proc/dot(var/datum/vector2d/other)
 	return src.x * other.x + src.y * other.y
 
+/*
+Get the magnitude of a vector squared
+@return the magnitude of the vector squared (hypot)^2
+*/
 /datum/vector2d/proc/ln2()
 	return src.dot(src)
 
+/*
+Get the magnitude of a vector
+@return the magnitude of the vector (hypot)
+*/
 /datum/vector2d/proc/ln()
 	return sqrt(src.ln2())
 
+/*
+Normalize the vector so it has a magnitude of 1
+@return a normalized version of the vector
+*/
 /datum/vector2d/proc/normalize()
+	RETURN_TYPE(/datum/vector2d)
 	return src / src.ln()
 
+/*
+Methods for projecting a vector onto another
+*/
 /datum/vector2d/proc/project(var/datum/vector2d/other)
+	RETURN_TYPE(/datum/vector2d)
 	var/amt = src.dot(other) / other.ln2()
 	src.x = amt * other.x
 	src.y = amt * other.y
 	return src
 
 /datum/vector2d/proc/project_n(var/datum/vector2d/other)
+	RETURN_TYPE(/datum/vector2d)
 	var/amt = src.dot(other)
 	src.x = amt * other.x
 	src.y = amt * other.y
 	return src
 
+/*
+Methods for reflecting a vector across an axis
+*/
 /datum/vector2d/proc/reflect(axis)
 	src.project(axis)
 	src *= -2
@@ -164,13 +173,53 @@ Method to overload the *= operator to multiply the X,Y coordinates to our own on
 	src.project_n(axis)
 	src *= -2
 
+/*
+Quickly rotate the vector a 4th turn
+@return the rotated vector
+*/
 /datum/vector2d/proc/perp()
+	RETURN_TYPE(/datum/vector2d)
 	var/newx = src.y
 	var/newy = -src.x
 	src.x = newx
 	src.y = newy
 	return src
 
+/*
+A method to copy the values of another vector onto this one
+*/
 /datum/vector2d/proc/copy(var/datum/vector2d/other)
 	src.x = other.x
 	src.y = other.y
+
+/*
+A method to make a clone of this vector
+@return a new vector2d with the same stats as this one
+*/
+/datum/vector2d/proc/clone()
+	RETURN_TYPE(/datum/vector2d)
+	return new /datum/vector2d(x,y)
+
+/*
+Method to turn this vector counter clockwise by a desired angle
+@return the rotated vector
+*/
+/datum/vector2d/proc/rotate(angle)
+	RETURN_TYPE(/datum/vector2d)
+	var/s = sin(angle)
+	var/c = cos(angle)
+	var/newx = c*x + s*y
+	var/newy = -s*x + c*y
+	x = newx
+	y = newy
+	return src
+
+/*
+Negate both values of a vector without making a new one
+@return the reversed vector
+*/
+/datum/vector2d/proc/reverse(angle)
+	RETURN_TYPE(/datum/vector2d)
+	src.x = -src.x
+	src.y = -src.y
+	return src
