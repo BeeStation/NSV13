@@ -18,11 +18,12 @@
 								"Computer Parts",
 								"Advanced Munitions",
 								"Asteroid Mining",
-								"Ship Components"
+								"Ship Components",
+								"Vehicles"
 								)
 	production_animation = "protolathe_n"
 	allowed_buildtypes = PROTOLATHE
-//nsv13 added Advanced Munitions, Ship Components, Asteroid Mining list above
+//nsv13 added Advanced Munitions, Ship Components, Vehicles Asteroid Mining list above
 
 /obj/machinery/rnd/production/protolathe/disconnect_console()
 	linked_console.linked_lathe = null

@@ -2,7 +2,7 @@
 name: Map Issue - Enterprise
 about: Bugs related to the Enterprise Map
 title: ''
-labels: Map Issue, Enterprise
+labels: Enterprise, Map Issue
 assignees: ''
 
 ---

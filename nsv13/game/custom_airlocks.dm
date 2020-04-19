@@ -113,6 +113,14 @@ odir = EAST / WEST. We need it to face forwards so you can get through
 	density = FALSE
 	opacity = 0
 
+/obj/machinery/door/poddoor/shutters/ship
+	icon = 'nsv13/icons/obj/machinery/doors/shutters.dmi'
+	
+/obj/machinery/door/poddoor/shutters/ship/preopen
+	icon_state = "open"
+	density = FALSE
+	opacity = 0
+
 /obj/machinery/door/airlock/ship/command
 	name = "Command"
 	icon = 'nsv13/goonstation/icons/command.dmi'
