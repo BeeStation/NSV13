@@ -348,33 +348,34 @@
 
 	point_of_collision.angle()
 
-	var/col_angle = c_response.overlap_normal.angle()
-	var/src_vel_mag = src.velocity.ln()
-	var/other_vel_mag = other.velocity.ln()
+	if (point_of_collision)
+		var/col_angle = c_response.overlap_normal.angle()
+		var/src_vel_mag = src.velocity.ln()
+		var/other_vel_mag = other.velocity.ln()
 
-	// Elastic collision equations
-	var/new_src_vel_x = ((																	\
-		(src_vel_mag * cos(src.velocity.angle() - col_angle) * (other.mass - src.mass)) +	\
-		(2 * other.mass * other_vel_mag * cos(other.velocity.angle() - col_angle))			\
-	) / (src.mass + other.mass)) * (cos(col_angle) + (src_vel_mag * sin(src.velocity.angle() - col_angle) * cos(col_angle + 90)))
+		// Elastic collision equations
+		var/new_src_vel_x = ((																	\
+			(src_vel_mag * cos(src.velocity.angle() - col_angle) * (other.mass - src.mass)) +	\
+			(2 * other.mass * other_vel_mag * cos(other.velocity.angle() - col_angle))			\
+		) / (src.mass + other.mass)) * (cos(col_angle) + (src_vel_mag * sin(src.velocity.angle() - col_angle) * cos(col_angle + 90)))
 
-	var/new_src_vel_y = ((																	\
-		(src_vel_mag * cos(src.velocity.angle() - col_angle) * (other.mass - src.mass)) +	\
-		(2 * other.mass * other_vel_mag * cos(other.velocity.angle() - col_angle))			\
-	) / (src.mass + other.mass)) * (sin(col_angle) + (src_vel_mag * sin(src.velocity.angle() - col_angle) * sin(col_angle + 90)))
+		var/new_src_vel_y = ((																	\
+			(src_vel_mag * cos(src.velocity.angle() - col_angle) * (other.mass - src.mass)) +	\
+			(2 * other.mass * other_vel_mag * cos(other.velocity.angle() - col_angle))			\
+		) / (src.mass + other.mass)) * (sin(col_angle) + (src_vel_mag * sin(src.velocity.angle() - col_angle) * sin(col_angle + 90)))
 
-	var/new_other_vel_x = ((																		\
-		(other_vel_mag * cos(other.velocity.angle() - col_angle) * (src.mass - other.mass)) +		\
-		(2 * src.mass * src_vel_mag * cos(src.velocity.angle() - col_angle))						\
-	) / (other.mass + src.mass)) * (cos(col_angle) + (other_vel_mag * sin(other.velocity.angle() - col_angle) * cos(col_angle + 90)))
+		var/new_other_vel_x = ((																		\
+			(other_vel_mag * cos(other.velocity.angle() - col_angle) * (src.mass - other.mass)) +		\
+			(2 * src.mass * src_vel_mag * cos(src.velocity.angle() - col_angle))						\
+		) / (other.mass + src.mass)) * (cos(col_angle) + (other_vel_mag * sin(other.velocity.angle() - col_angle) * cos(col_angle + 90)))
 
-	var/new_other_vel_y = ((																		\
-		(other_vel_mag * cos(other.velocity.angle() - col_angle) * (src.mass - other.mass)) +		\
-		(2 * src.mass * src_vel_mag * cos(src.velocity.angle() - col_angle))						\
-	) / (other.mass + src.mass)) * (sin(col_angle) + (other_vel_mag * sin(other.velocity.angle() - col_angle) * sin(col_angle + 90)))
+		var/new_other_vel_y = ((																		\
+			(other_vel_mag * cos(other.velocity.angle() - col_angle) * (src.mass - other.mass)) +		\
+			(2 * src.mass * src_vel_mag * cos(src.velocity.angle() - col_angle))						\
+		) / (other.mass + src.mass)) * (sin(col_angle) + (other_vel_mag * sin(other.velocity.angle() - col_angle) * sin(col_angle + 90)))
 
-	src.velocity._set(new_src_vel_x, new_src_vel_y)
-	other.velocity._set(new_other_vel_x, new_other_vel_y)
+		src.velocity._set(new_src_vel_x, new_src_vel_y)
+		other.velocity._set(new_other_vel_x, new_other_vel_y)
 
 	var/datum/vector2d/output = c_response.overlap_vector * (0.5 / 32)
 	src.offset -= output
