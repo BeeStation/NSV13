@@ -324,15 +324,13 @@
 
 /obj/structure/overmap/proc/handle_collisions()
 	for(var/obj/structure/overmap/OM in GLOB.overmap_objects)
-		if(src == OM || OM.z != src.z || !OM.collider2d || LAZYFIND(contents, OM))
+		if(src == OM || OM.z != src.z || !OM.collider2d)
 			continue // Wondered why objects were always colliding for an entire 9 hours
 
 		var/datum/collision_response/c_response = new /datum/collision_response()
 
 		if(src.collider2d.collides(OM.collider2d, c_response))
 			Bump(OM, c_response)
-
-
 
 /obj/structure/overmap/proc/collide(obj/structure/overmap/other, datum/collision_response/c_response, collision_velocity)
 	if(istype(other, /obj/structure/overmap/fighter))
