@@ -67,6 +67,7 @@
 	pixel_w = -112
 	max_integrity = 1500 //Max health
 	integrity_failure = 1500
+	collision_positions = list(new /datum/vector2d(-27,220), new /datum/vector2d(-79,79), new /datum/vector2d(-77,-106), new /datum/vector2d(-70,-164), new /datum/vector2d(-28,-214), new /datum/vector2d(13,-211), new /datum/vector2d(45,-194), new /datum/vector2d(47,83), new /datum/vector2d(8,218))
 
 /obj/structure/overmap/nanotrasen/mining_cruiser
 	name = "Mining hauler"
@@ -80,6 +81,11 @@
 	integrity_failure = 800
 	pixel_w = -32
 	pixel_z = -32
+	collision_positions = list(new /datum/vector2d(-8,46), new /datum/vector2d(-17,33), new /datum/vector2d(-25,2), new /datum/vector2d(-14,-45), new /datum/vector2d(9,-46), new /datum/vector2d(22,4), new /datum/vector2d(14,36))
+
+/obj/structure/overmap/Initialize()
+	. = ..()
+//	display_hitbox()
 
 /obj/structure/overmap/nanotrasen/mining_cruiser/nostromo
 	name = "NSV Nostromo"
@@ -186,6 +192,7 @@
 	pixel_w = -96
 	max_integrity = 1500 //Max health
 	integrity_failure = 1500
+	collision_positions = list(new /datum/vector2d(-15,122), new /datum/vector2d(-36,51), new /datum/vector2d(-58,-75), new /datum/vector2d(-55,-97), new /datum/vector2d(-41,-117), new /datum/vector2d(13,-118), new /datum/vector2d(30,-77), new /datum/vector2d(9,71), new /datum/vector2d(-4,106))
 
 /obj/structure/overmap/fighter/syndicate //Syndie PVP fighter
 	name = "Syndicate Fighter"
@@ -273,6 +280,7 @@
 	max_integrity = 800 //Max health
 	integrity_failure = 800
 	bounty = 500
+	collision_positions = list(new /datum/vector2d(-15,122), new /datum/vector2d(-36,51), new /datum/vector2d(-58,-75), new /datum/vector2d(-55,-97), new /datum/vector2d(-41,-117), new /datum/vector2d(13,-118), new /datum/vector2d(30,-77), new /datum/vector2d(9,71), new /datum/vector2d(-4,106))
 
 /obj/structure/overmap/fighter/ai
 	prebuilt = TRUE

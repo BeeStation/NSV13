@@ -475,10 +475,13 @@
 		proj.starting = T
 		if(gunner)
 			proj.firer = gunner
+		else
+			proj.firer = src
 		proj.def_zone = "chest"
 		proj.original = target
 		proj.pixel_x = round(this_x)
 		proj.pixel_y = round(this_y)
+		proj.setup_collider()
 		if(isovermap(target) && explosive) //If we're firing a torpedo, the enemy's PDCs need to worry about it.
 			var/obj/structure/overmap/OM = target
 			OM.torpedoes_to_target += proj //We're firing a torpedo, their PDCs will need to shoot it down, so notify them of its existence
@@ -519,10 +522,13 @@
 		proj.starting = T
 		if(gunner)
 			proj.firer = gunner
+		else
+			proj.firer = src
 		proj.def_zone = "chest"
 		proj.original = target
 		proj.pixel_x = round(this_x)
 		proj.pixel_y = round(this_y)
+		proj.setup_collider()
 		proj.faction = faction
 		spawn()
 			proj.fire(angle)
@@ -536,7 +542,12 @@
 	proj.original = target
 	proj.pixel_x = round(pixel_x)
 	proj.pixel_y = round(pixel_y)
+	proj.setup_collider()
 	proj.faction = faction
+	if(gunner)
+		proj.firer = gunner
+	else
+		proj.firer = src
 	var/theangle = Get_Angle(src,target)
 	spawn()
 		proj.fire(theangle)
