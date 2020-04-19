@@ -18526,10 +18526,17 @@
 /obj/effect/turf_decal/tile/yellow{
 	dir = 8
 	},
-/obj/structure/table,
 /obj/structure/cable{
 	icon_state = "1-2"
 	},
+/obj/item/transfer_valve{
+	pixel_x = 6
+	},
+/obj/item/transfer_valve,
+/obj/item/transfer_valve{
+	pixel_x = -6
+	},
+/obj/structure/table/reinforced,
 /turf/open/floor/plasteel/white,
 /area/science/mixing)
 "aRi" = (
@@ -36197,7 +36204,7 @@
 /turf/open/floor/plasteel,
 /area/science/robotics/lab)
 "kNw" = (
-/obj/machinery/atmospherics/components/unary/vent_pump/on{
+/obj/machinery/atmospherics/components/unary/outlet_injector/atmos/toxins_mixing_input{
 	dir = 4
 	},
 /turf/open/floor/engine/vacuum,
