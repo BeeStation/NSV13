@@ -4356,14 +4356,15 @@
 /obj/effect/turf_decal/stripes/line{
 	dir = 10
 	},
-/obj/structure/sign/warning/deathsposal{
-	pixel_x = -32
-	},
 /obj/machinery/disposal/bin,
 /obj/structure/disposalpipe/trunk{
 	dir = 4
 	},
 /obj/machinery/door/firedoor,
+/obj/machinery/power/apc/auto_name/west,
+/obj/structure/cable{
+	icon_state = "0-2"
+	},
 /turf/open/floor/plasteel,
 /area/space)
 "jQ" = (
@@ -4442,6 +4443,9 @@
 	dir = 4;
 	pixel_x = -22
 	},
+/obj/structure/cable{
+	icon_state = "1-4"
+	},
 /turf/open/floor/plasteel,
 /area/space)
 "jY" = (
@@ -4450,6 +4454,9 @@
 	},
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer1{
 	dir = 4
+	},
+/obj/structure/cable{
+	icon_state = "4-8"
 	},
 /turf/open/floor/plasteel,
 /area/space)
@@ -4460,6 +4467,9 @@
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	icon_state = "pipe11-1";
 	dir = 4
+	},
+/obj/structure/cable{
+	icon_state = "4-8"
 	},
 /turf/open/floor/plasteel,
 /area/space)
@@ -4480,18 +4490,8 @@
 	icon_state = "pipe11-1";
 	dir = 4
 	},
-/turf/open/floor/plasteel,
-/area/space)
-"kc" = (
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
-	dir = 4
-	},
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
-	icon_state = "pipe11-1";
-	dir = 4
-	},
 /obj/structure/cable{
-	icon_state = "2-4"
+	icon_state = "4-8"
 	},
 /turf/open/floor/plasteel,
 /area/space)
@@ -4623,9 +4623,6 @@
 	pixel_x = 27
 	},
 /obj/machinery/door/firedoor,
-/obj/structure/cable{
-	icon_state = "1-2"
-	},
 /turf/open/floor/plasteel,
 /area/space)
 "km" = (
@@ -4635,14 +4632,6 @@
 /obj/structure/window/reinforced{
 	dir = 1
 	},
-/turf/open/floor/plating,
-/area/space)
-"kn" = (
-/obj/structure/window/reinforced{
-	dir = 1
-	},
-/obj/machinery/power/apc/auto_name/east,
-/obj/structure/cable,
 /turf/open/floor/plating,
 /area/space)
 "ko" = (
@@ -4718,6 +4707,15 @@
 	},
 /turf/open/floor/plasteel/white,
 /area/medical/medbay/central)
+"kB" = (
+/obj/machinery/door/airlock/ship/public/glass{
+	dir = 8;
+	icon_state = "closed";
+	name = "Research and Development";
+	req_one_access_txt = "47"
+	},
+/turf/open/floor/plasteel,
+/area/space)
 "kD" = (
 /turf/closed/wall/r_wall/ship,
 /area/crew_quarters/heads/chief)
@@ -5075,6 +5073,13 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /turf/open/floor/plasteel/white,
 /area/medical/medbay/lobby)
+"oF" = (
+/obj/structure/window/reinforced,
+/obj/structure/sign/warning/deathsposal{
+	pixel_x = -32
+	},
+/turf/open/floor/plating,
+/area/space)
 "oI" = (
 /obj/machinery/firealarm/directional/north,
 /turf/open/floor/plasteel/dark,
@@ -5814,6 +5819,10 @@
 "xt" = (
 /turf/open/floor/plasteel/ship/techfloor,
 /area/medical/morgue)
+"xu" = (
+/obj/structure/window/reinforced,
+/turf/open/floor/plasteel,
+/area/space)
 "xO" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
@@ -7081,6 +7090,13 @@
 	},
 /turf/open/floor/plasteel/white,
 /area/medical/sleeper)
+"MF" = (
+/obj/machinery/door/airlock/ship/command/glass{
+	name = "Research Director's Office";
+	req_one_access_txt = "30"
+	},
+/turf/open/floor/plasteel/dark,
+/area/space)
 "MH" = (
 /obj/structure/bed/roller,
 /obj/machinery/iv_drip,
@@ -7142,6 +7158,11 @@
 /obj/structure/closet/radiation,
 /turf/open/floor/plating,
 /area/maintenance/department/medical/central)
+"Ng" = (
+/obj/effect/spawner/structure/window/reinforced,
+/obj/machinery/door/firedoor,
+/turf/open/floor/plating,
+/area/space)
 "Nn" = (
 /obj/structure/cable{
 	icon_state = "1-2"
@@ -7314,6 +7335,15 @@
 /obj/structure/table/glass,
 /turf/open/floor/plasteel/white,
 /area/medical/chemistry)
+"Pq" = (
+/obj/machinery/door/airlock/ship/public/glass{
+	dir = 2;
+	icon_state = "closed";
+	name = "Research and Development";
+	req_one_access_txt = "47"
+	},
+/turf/open/floor/plating,
+/area/space)
 "Pt" = (
 /obj/structure/table/wood,
 /obj/item/paper_bin,
@@ -7694,6 +7724,12 @@
 "TB" = (
 /turf/closed/wall/r_wall/ship,
 /area/medical/virology)
+"TJ" = (
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/turf/open/floor/plasteel,
+/area/space)
 "TL" = (
 /obj/machinery/clonepod,
 /obj/machinery/shower{
@@ -8110,6 +8146,13 @@
 "Zp" = (
 /turf/open/floor/plasteel/dark,
 /area/crew_quarters/heads/chief)
+"Zu" = (
+/obj/machinery/door/airlock/ship/command/glass{
+	name = "RnD Server Room";
+	req_one_access_txt = "30"
+	},
+/turf/open/floor/plasteel/dark,
+/area/space)
 "Zv" = (
 /obj/structure/table/glass,
 /obj/item/clothing/glasses/science,
@@ -33245,8 +33288,8 @@ ab
 ab
 ab
 ab
-ac
-ac
+kB
+kB
 ab
 ab
 ab
@@ -33490,7 +33533,7 @@ ab
 jB
 jE
 jJ
-jI
+oF
 jP
 jX
 kd
@@ -33498,21 +33541,21 @@ jA
 jJ
 ko
 bP
+Ng
+bP
+bP
+ab
+ac
+ac
 kq
-bP
-bP
-ab
-ac
-ac
-bP
 jz
 jz
 jz
 jz
 ab
 ac
-ac
-bP
+xu
+jA
 bP
 ab
 ac
@@ -33749,27 +33792,27 @@ jG
 jK
 jO
 jQ
-ac
+TJ
 ke
 jA
 bP
 ko
 bP
+Ng
+bP
+bP
+Pq
+ac
+ac
 kq
-bP
-bP
-bP
-ac
-ac
-bP
 jz
 jz
 jz
 jz
-bP
+kq
 ac
-ac
-bP
+xu
+jA
 bP
 ab
 ac
@@ -34006,27 +34049,27 @@ jH
 jC
 jH
 jR
-ac
+TJ
 kf
 km
 jC
 kp
 jC
-kq
+Ng
 bP
 bP
-bP
+Pq
 ac
 ac
+MF
 jz
 jz
 jz
 jz
-jz
-jz
+Zu
 ac
-ac
-bP
+xu
+jA
 bP
 ab
 ac
@@ -34269,21 +34312,21 @@ jA
 bP
 ko
 bP
+Ng
+bP
+bP
+Pq
+ac
+ac
 kq
-bP
-bP
-bP
-ac
-ac
-bP
 jz
 jz
 jz
 jz
-bP
+kq
 ac
-ac
-bP
+xu
+jA
 bP
 ab
 ac
@@ -34526,19 +34569,19 @@ km
 jC
 kp
 jC
+Ng
+bP
+bP
+ab
+ac
+ac
+ab
 kq
-bP
-bP
+kq
+kq
+kq
 ab
-ac
-ac
-ab
-bP
-bP
-bP
-bP
-ab
-bP
+kq
 ab
 ab
 ab
@@ -34783,7 +34826,7 @@ jA
 bP
 ko
 bP
-kq
+Ng
 bP
 bP
 ab
@@ -35040,7 +35083,7 @@ km
 jC
 kp
 jC
-kq
+Ng
 bP
 bP
 ab
@@ -35291,13 +35334,13 @@ jI
 jN
 jI
 jW
-kc
+jZ
 kl
-kn
+jA
 jN
 ko
 bP
-kq
+Ng
 bP
 bP
 ab
@@ -35556,7 +35599,7 @@ ab
 ab
 ab
 bP
-bP
+ab
 ab
 bP
 bP
@@ -39683,8 +39726,8 @@ bP
 bP
 bP
 ab
-aa
-aa
+ac
+ac
 Em
 nH
 zy
@@ -39940,8 +39983,8 @@ bP
 bP
 bP
 ab
-aa
-aa
+ac
+ac
 Em
 Fp
 zy
@@ -40197,8 +40240,8 @@ bP
 bP
 bP
 ab
-aa
-aa
+ac
+ac
 Em
 wp
 zy
@@ -40454,8 +40497,8 @@ bP
 bP
 bP
 ab
-aa
-aa
+ac
+ac
 Em
 zd
 PQ
@@ -40711,8 +40754,8 @@ bP
 bP
 bP
 ab
-aa
-aa
+ac
+ac
 Em
 OW
 Jp
@@ -40968,8 +41011,8 @@ ab
 ab
 ab
 ab
-aa
-aa
+ac
+ac
 Em
 Em
 Hm
@@ -41225,8 +41268,8 @@ aa
 aa
 aa
 aa
-aa
-aa
+ac
+ac
 NR
 Yu
 WR
@@ -41482,8 +41525,8 @@ aa
 aa
 aa
 aa
-aa
-aa
+ac
+ac
 NR
 wG
 Yb
@@ -41739,8 +41782,8 @@ aa
 aa
 aa
 aa
-aa
-aa
+ac
+ac
 Wx
 Yb
 Yb
@@ -41996,8 +42039,8 @@ aa
 aa
 aa
 aa
-aa
-aa
+ac
+ac
 yH
 pL
 pL
@@ -42253,8 +42296,8 @@ aa
 aa
 aa
 aa
-aa
-aa
+ac
+ac
 Wx
 Yb
 Yb
@@ -42510,8 +42553,8 @@ aa
 aa
 aa
 aa
-aa
-aa
+ac
+ac
 NR
 ni
 Yb
@@ -42767,8 +42810,8 @@ aa
 aa
 aa
 aa
-aa
-aa
+ac
+ac
 NR
 Yk
 Yb
