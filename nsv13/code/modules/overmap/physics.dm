@@ -346,8 +346,6 @@
 
 	var/datum/vector2d/point_of_collision = src.collider2d.get_collision_point(other.collider2d)
 
-	point_of_collision.angle()
-
 	if (point_of_collision)
 		var/col_angle = c_response.overlap_normal.angle()
 		var/src_vel_mag = src.velocity.ln()
