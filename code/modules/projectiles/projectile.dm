@@ -254,7 +254,7 @@
 					forceMove(get_step_towards(src, TT))
 				trajectory_ignore_forcemove = FALSE
 				return FALSE
-	if((A == firer) || (((A in firer?.buckled_mobs) || (istype(checking) && (A == checking.buckled))) && (A != original)) || (A == firer.loc && (ismecha(A) || istype(A, /obj/structure/overmap)))) //cannot shoot yourself or your mech //nsv13 - or your ship
+	if(firer && (A == firer) || (((A in firer?.buckled_mobs) || (istype(checking) && (A == checking.buckled))) && (A != original)) || (A == firer?.loc && (ismecha(A) || istype(A, /obj/structure/overmap)))) //cannot shoot yourself or your mech //nsv13 - or your ship
 		trajectory_ignore_forcemove = TRUE
 		var/turf/TT = trajectory.return_turf()
 		if(!istype(TT))

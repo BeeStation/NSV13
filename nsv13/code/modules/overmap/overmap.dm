@@ -42,8 +42,6 @@
 	var/damage_states = FALSE //Did you sprite damage states for this ship? If yes, set this to true
 
 	//Movement Variables
-	var/velocity_x = 0 // tiles per second.
-	var/velocity_y = 0
 	var/offset_x = 0 // like pixel_x/y but in tiles
 	var/offset_y = 0
 	var/angle = 0 // degrees, clockwise
