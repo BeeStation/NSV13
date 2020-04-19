@@ -38,17 +38,6 @@
 	for(var/turf/T in locs)
 		T.SpinAnimation()
 
-/obj/structure/overmap/nanotrasen/heavy_cruiser
-	brakes = TRUE
-	collision_positions = list(new /datum/vector2d(31,150),\
-		new /datum/vector2d(-32,147),\
-		new /datum/vector2d(-43,133),\
-		new /datum/vector2d(-43,-93),\
-		new /datum/vector2d(-8,-164),\
-		new /datum/vector2d(11,-164),\
-		new /datum/vector2d(44,-59),\
-		new /datum/vector2d(68,120))
-
 /obj/effect/overmap_hitbox_marker
 	name = "Hitbox display"
 	icon = 'nsv13/icons/overmap/default.dmi'
