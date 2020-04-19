@@ -193,8 +193,8 @@ You need to fire emag the fighter's IFF board. This makes it list as "ENEMY" on 
 		mag_locked = AM
 		visible_message("<span class='warning'>CLUNK.</span>")
 		OM.brakes = TRUE
-		OM.velocity_x = 0
-		OM.velocity_y = 0 //Full stop.
+		OM.velocity.x = 0
+		OM.velocity.y = 0 //Full stop.
 		OM.mag_lock = src
 		var/turf/center = get_turf(src)
 		switch(dir) //Do some fuckery to make sure the fighter lines up on the pad in a halfway sensible manner.
@@ -263,13 +263,13 @@ You need to fire emag the fighter's IFF board. This makes it list as "ENEMY" on 
 		shake_people(mag_locked)
 	switch(dir) //Just handling north / south..FOR NOW!
 		if(NORTH) //PILOTS. REMEMBER TO FACE THE RIGHT WAY WHEN YOU LAUNCH, OR YOU WILL HAVE A TERRIBLE TIME.
-			mag_locked.velocity_y = 20
+			mag_locked.velocity.y = 20
 		if(SOUTH)
-			mag_locked.velocity_y = -20
+			mag_locked.velocity.y = -20
 		if(EAST)
-			mag_locked.velocity_x = 20
+			mag_locked.velocity.x = 20
 		if(WEST)
-			mag_locked.velocity_x = -20
+			mag_locked.velocity.x = -20
 	ready = FALSE
 	mag_locked = null
 	addtimer(CALLBACK(src, .proc/recharge), 10 SECONDS) //Stops us from catching the fighter right after we launch it.
@@ -530,7 +530,7 @@ You need to fire emag the fighter's IFF board. This makes it list as "ENEMY" on 
 	return loc.return_air()
 
 /obj/structure/overmap/fighter/remove_air(amount)
-	return cabin_air.remove(amount)
+	return cabin_air?.remove(amount)
 
 /obj/structure/overmap/fighter/return_analyzable_air()
 	return cabin_air
@@ -1014,7 +1014,7 @@ You need to fire emag the fighter's IFF board. This makes it list as "ENEMY" on 
 		attack_hand(user) //Refresh UI.
 
 /obj/structure/overmap/fighter/Destroy()
-	if(operators.len && ispath(has_escape_pod))
+	if(operators && operators.len && ispath(has_escape_pod))
 		relay('nsv13/sound/effects/computer/alarm_3.ogg', "<span class=userdanger>EJECT! EJECT! EJECT!</span>")
 		relay_to_nearby('nsv13/sound/effects/ship/fighter_launch_short.ogg')
 		visible_message("<span class=userdanger>Auto-Ejection Sequence Enabled! Escape Pod Launched!</span>")

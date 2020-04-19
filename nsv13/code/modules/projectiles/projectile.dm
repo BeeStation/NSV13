@@ -25,4 +25,5 @@ Method to check for whether this bullet should be colliding with an overmap obje
 	for(var/obj/structure/overmap/OM in GLOB.overmap_objects)
 		if(OM.z == z && OM.collider2d)
 			if(src.collider2d.collides(OM.collider2d))
-				Bump(OM) //Bang.
+				if(!faction || faction != OM.faction) //Allow bullets to pass through friendlies
+					Bump(OM) //Bang.

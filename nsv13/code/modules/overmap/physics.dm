@@ -418,7 +418,7 @@
 		// wew lad, might wanna slow down there
 		message_admins("[key_name_admin(pilot)] has impacted an overmap ship into [A] with velocity [bump_velocity]")
 		take_damage(strength*10, BRUTE, "melee", TRUE)
-		O.take_damage(strength*10, BRUTE, "melee", TRUE)
+		O.take_damage(strength*5, BRUTE, "melee", TRUE)
 		log_game("[key_name(pilot)] has impacted an overmap ship into [A] with velocity [bump_velocity]")
 		visible_message("<span class='danger'>The force of the impact causes a shockwave</span>")
 	if(istype(A, /obj/structure/overmap) && c_response)
