@@ -381,11 +381,13 @@ You need to fire emag the fighter's IFF board. This makes it list as "ENEMY" on 
 
 /obj/structure/overmap/fighter/proc/docking_act(obj/structure/overmap/OM)
 	if(mass < OM.mass && OM.docking_points.len && docking_mode) //If theyre smaller than us,and we have docking points, and they want to dock
-		transfer_from_overmap(OM)
+		return transfer_from_overmap(OM)
+	else
+		return FALSE
 
 /obj/structure/overmap/fighter/proc/transfer_from_overmap(obj/structure/overmap/OM)
 	if(docking_cooldown)
-		return
+		return FALSE
 	if(OM.docking_points.len)
 		last_overmap = OM
 		docking_cooldown = TRUE
@@ -403,6 +405,7 @@ You need to fire emag the fighter's IFF board. This makes it list as "ENEMY" on 
 			to_chat(pilot, "<span class='notice'>Docking complete. <b>Gun safeties have been engaged automatically.</b></span>")
 		SEND_SIGNAL(src, COMSIG_FTL_STATE_CHANGE)
 		return TRUE
+	return FALSE
 
 /obj/structure/overmap/fighter/take_damage(damage_amount, damage_type = BRUTE, damage_flag = 0, sound_effect = 1, attack_dir, armour_penetration = 0)
 	..()
@@ -469,9 +472,9 @@ You need to fire emag the fighter's IFF board. This makes it list as "ENEMY" on 
 
 /obj/structure/overmap/fighter/prebuilt/raptor/docking_act(obj/structure/overmap/OM)
 	if(docking_cooldown)
-		return
+		return FALSE
 	if(mass < OM.mass && OM.docking_points.len && docking_mode) //If theyre smaller than us,and we have docking points, and they want to dock
-		transfer_from_overmap(OM)
+		return transfer_from_overmap(OM)
 	if(mass >= OM.mass && docking_mode) //Looks like theyre smaller than us, and need rescue.
 		if(istype(OM, /obj/structure/overmap/fighter/prebuilt/escapepod)) //Can we take them aboard?
 			if(OM.operators.len <= max_passengers+1-OM.mobs_in_ship.len) //Max passengers + 1 to allow for one raptor crew rescuing another. Imagine that theyre being cramped into the footwell or something.
@@ -485,6 +488,7 @@ You need to fire emag the fighter's IFF board. This makes it list as "ENEMY" on 
 			else
 				if(pilot)
 					to_chat(pilot,"<span class='warning'>[src]'s passenger cabin is full, you'd need [max_passengers+1-OM.mobs_in_ship.len] more seats to retrieve everyone!</span>")
+			return TRUE
 
 /obj/structure/overmap/slowprocess()
 	. = ..()

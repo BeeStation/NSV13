@@ -60,7 +60,6 @@
 		var/obj/effect/overmap_hitbox_marker/H = new(src, point.x, point.y, abs(pixel_z), abs(pixel_w))
 		vis_contents += H
 
-
 /obj/structure/overmap/Initialize()
 	. = ..()
 	var/icon/I = icon(icon,icon_state,SOUTH) //SOUTH because all overmaps only ever face right, no other dirs.
@@ -75,7 +74,6 @@
 		collider2d = new /datum/shape(position, collision_positions, angle) // -TORADIANS(src.angle-90)
 	else
 		message_admins("[src] does not have collision points set! It will float through everything.")
-
 
 /obj/structure/overmap/proc/can_move()
 	return TRUE //Placeholder for everything but fighters. We can later extend this if / when we want to code in ship engines.
@@ -326,7 +324,7 @@
 
 /obj/structure/overmap/proc/handle_collisions()
 	for(var/obj/structure/overmap/OM in GLOB.overmap_objects)
-		if(src == OM || OM.z != src.z || !OM.collider2d)
+		if(src == OM || OM.z != src.z || !OM.collider2d || LAZYFIND(contents, OM))
 			continue // Wondered why objects were always colliding for an entire 9 hours
 
 		var/datum/collision_response/c_response = new /datum/collision_response()
@@ -339,8 +337,12 @@
 /obj/structure/overmap/proc/collide(obj/structure/overmap/other, datum/collision_response/c_response, collision_velocity)
 	if(istype(other, /obj/structure/overmap/fighter))
 		var/obj/structure/overmap/fighter/F = other
-		F.docking_act(src)
-		return FALSE
+		if(F.docking_act(src))
+			return FALSE
+	if(istype(src, /obj/structure/overmap/fighter))
+		var/obj/structure/overmap/fighter/F = src
+		if(F.docking_act(other))
+			return FALSE
 
 	var/datum/vector2d/point_of_collision = src.collider2d.get_collision_point(other.collider2d)
 
