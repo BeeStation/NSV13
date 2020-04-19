@@ -280,7 +280,6 @@
 	return FIRE_MODE_PDC
 
 /obj/structure/overmap/syndicate/ai/patrol_cruiser //Larger ship which is much harder to kill
-	ai_controlled = FALSE
 	icon = 'nsv13/icons/overmap/syndicate/syn_patrol_cruiser.dmi'
 	icon_state = "patrol_cruiser"
 	mass = MASS_LARGE
