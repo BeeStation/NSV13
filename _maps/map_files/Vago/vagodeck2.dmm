@@ -2469,14 +2469,15 @@
 /obj/effect/turf_decal/stripes/line{
 	dir = 10
 	},
-/obj/structure/sign/warning/deathsposal{
-	pixel_x = -32
-	},
 /obj/machinery/disposal/bin,
 /obj/structure/disposalpipe/trunk{
 	dir = 4
 	},
 /obj/machinery/door/firedoor,
+/obj/machinery/power/apc/auto_name/west,
+/obj/structure/cable{
+	icon_state = "0-2"
+	},
 /turf/open/floor/plasteel,
 /area/science/xenobiology)
 "fJ" = (
@@ -2793,9 +2794,6 @@
 	pixel_x = 27
 	},
 /obj/machinery/door/firedoor,
-/obj/structure/cable{
-	icon_state = "1-2"
-	},
 /turf/open/floor/plasteel,
 /area/science/xenobiology)
 "gw" = (
@@ -2803,9 +2801,15 @@
 	dir = 4;
 	pixel_x = -22
 	},
+/obj/structure/cable{
+	icon_state = "1-4"
+	},
 /turf/open/floor/plasteel,
 /area/science/xenobiology)
 "gx" = (
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
 /turf/open/floor/plasteel,
 /area/science/xenobiology)
 "gy" = (
@@ -2814,6 +2818,9 @@
 	},
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer1{
 	dir = 4
+	},
+/obj/structure/cable{
+	icon_state = "4-8"
 	},
 /turf/open/floor/plasteel,
 /area/science/xenobiology)
@@ -2825,6 +2832,9 @@
 	icon_state = "pipe11-1";
 	dir = 4
 	},
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
 /turf/open/floor/plasteel,
 /area/science/xenobiology)
 "gA" = (
@@ -2835,6 +2845,9 @@
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	icon_state = "pipe11-1";
 	dir = 4
+	},
+/obj/structure/cable{
+	icon_state = "4-8"
 	},
 /turf/open/floor/plasteel,
 /area/science/xenobiology)
@@ -2857,14 +2870,6 @@
 	},
 /turf/open/floor/plasteel/ship/techfloor/alt,
 /area/hallway/nsv/deck2/frame4/central)
-"gD" = (
-/obj/structure/window/reinforced{
-	dir = 1
-	},
-/obj/machinery/power/apc/auto_name/east,
-/obj/structure/cable,
-/turf/open/floor/plating,
-/area/science/xenobiology)
 "gE" = (
 /obj/structure/disposalpipe/segment,
 /obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer3{
@@ -3357,8 +3362,6 @@
 /area/engine/break_room)
 "hN" = (
 /obj/structure/table,
-/obj/item/stack/sheet/plastic/fifty,
-/obj/item/stack/sheet/plastic/fifty,
 /obj/item/stack/sheet/glass/fifty,
 /obj/item/stack/sheet/glass/fifty,
 /obj/item/stack/sheet/plasteel{
@@ -3372,12 +3375,12 @@
 	pixel_y = -27
 	},
 /obj/item/storage/belt/utility/full/engi,
+/obj/item/stack/sheet/iron/fifty,
+/obj/item/stack/sheet/iron/fifty,
 /turf/open/floor/plasteel,
 /area/engine/break_room)
 "hO" = (
 /obj/structure/table,
-/obj/item/stack/sheet/plastic/fifty,
-/obj/item/stack/sheet/plastic/fifty,
 /obj/item/stack/sheet/glass/fifty,
 /obj/item/stack/sheet/glass/fifty,
 /obj/item/stack/sheet/plasteel{
@@ -3389,6 +3392,8 @@
 /obj/item/stack/sheet/duranium/fifty,
 /obj/machinery/light,
 /obj/item/storage/belt/utility/full/engi,
+/obj/item/stack/sheet/iron/fifty,
+/obj/item/stack/sheet/iron/fifty,
 /turf/open/floor/plasteel,
 /area/engine/break_room)
 "hP" = (
@@ -6748,6 +6753,7 @@
 /obj/machinery/camera/autoname{
 	dir = 4
 	},
+/obj/item/storage/box/pillbottles,
 /turf/open/floor/plasteel/white,
 /area/medical/chemistry)
 "oX" = (
@@ -6831,6 +6837,7 @@
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3{
 	dir = 4
 	},
+/obj/item/storage/box/pillbottles,
 /turf/open/floor/plasteel/white,
 /area/medical/chemistry)
 "pb" = (
@@ -7906,8 +7913,6 @@
 /area/engine/storage)
 "rf" = (
 /obj/structure/table,
-/obj/item/stack/sheet/plastic/fifty,
-/obj/item/stack/sheet/plastic/fifty,
 /obj/item/stack/sheet/glass/fifty,
 /obj/item/stack/sheet/glass/fifty,
 /obj/item/stack/sheet/plasteel{
@@ -7920,6 +7925,8 @@
 /obj/machinery/light{
 	dir = 1
 	},
+/obj/item/stack/sheet/iron/fifty,
+/obj/item/stack/sheet/iron/fifty,
 /turf/open/floor/plasteel,
 /area/engine/break_room)
 "rg" = (
@@ -11045,19 +11052,6 @@
 	},
 /turf/open/floor/carpet/black,
 /area/engine/storage)
-"yc" = (
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
-	dir = 4
-	},
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
-	icon_state = "pipe11-1";
-	dir = 4
-	},
-/obj/structure/cable{
-	icon_state = "2-4"
-	},
-/turf/open/floor/plasteel,
-/area/science/xenobiology)
 "yd" = (
 /obj/machinery/door/airlock/ship/maintenance{
 	dir = 8;
@@ -11458,6 +11452,13 @@
 	},
 /turf/open/floor/plasteel/ship/padded,
 /area/maintenance/nsv/deck2/port)
+"BJ" = (
+/obj/structure/window/reinforced,
+/obj/structure/sign/warning/deathsposal{
+	pixel_x = -32
+	},
+/turf/open/floor/plating,
+/area/science/xenobiology)
 "BL" = (
 /obj/structure/reagent_dispensers/watertank,
 /turf/open/floor/plating,
@@ -12201,8 +12202,6 @@
 /area/maintenance/nsv/deck2/starboard)
 "JC" = (
 /obj/structure/table,
-/obj/item/stack/sheet/plastic/fifty,
-/obj/item/stack/sheet/plastic/fifty,
 /obj/item/stack/sheet/glass/fifty,
 /obj/item/stack/sheet/glass/fifty,
 /obj/item/stack/sheet/plasteel{
@@ -12215,6 +12214,8 @@
 /obj/item/radio/intercom{
 	pixel_y = 23
 	},
+/obj/item/stack/sheet/iron/fifty,
+/obj/item/stack/sheet/iron/fifty,
 /turf/open/floor/plasteel,
 /area/engine/break_room)
 "JK" = (
@@ -12484,6 +12485,12 @@
 "Mn" = (
 /turf/closed/wall/ship,
 /area/maintenance/nsv/deck2/starboard)
+"Mt" = (
+/obj/structure/sign/departments/minsky/research/xenobiology{
+	pixel_x = -32
+	},
+/turf/open/floor/plasteel,
+/area/science/robotics)
 "MC" = (
 /obj/structure/lattice,
 /obj/machinery/airalarm/directional/north,
@@ -12557,6 +12564,13 @@
 	},
 /turf/open/floor/carpet/ship,
 /area/crew_quarters/dorms)
+"Nc" = (
+/obj/machinery/light{
+	dir = 4
+	},
+/obj/machinery/vending/cigarette,
+/turf/open/floor/carpet,
+/area/hallway/secondary/exit/departure_lounge)
 "Nd" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /obj/structure/disposalpipe/segment{
@@ -12689,10 +12703,6 @@
 	},
 /turf/open/floor/plasteel,
 /area/hydroponics)
-"OI" = (
-/obj/structure/sign/departments/minsky/research/xenobiology,
-/turf/closed/wall/r_wall/ship,
-/area/science/xenobiology)
 "OQ" = (
 /obj/structure/rack,
 /obj/item/clothing/neck/tie/red{
@@ -13050,6 +13060,11 @@
 	},
 /turf/open/floor/plating/airless,
 /area/engine/engine_room/external)
+"SC" = (
+/obj/effect/turf_decal/tile/green,
+/obj/machinery/vending/cigarette,
+/turf/open/floor/plasteel,
+/area/crew_quarters/cafeteria)
 "SE" = (
 /obj/machinery/atmospherics/pipe/simple/orange/visible,
 /obj/machinery/airalarm/directional/west,
@@ -32076,7 +32091,7 @@ bd
 cA
 dw
 AT
-dz
+BJ
 fI
 gw
 gX
@@ -34192,9 +34207,9 @@ dz
 LH
 dz
 fP
-yc
+gz
 gv
-gD
+hS
 LH
 jp
 cD
@@ -34495,7 +34510,7 @@ cE
 cE
 cE
 fH
-OI
+cE
 cE
 cE
 cE
@@ -34797,7 +34812,7 @@ ei
 eX
 fQ
 fR
-dB
+Mt
 zh
 iB
 jr
@@ -52010,7 +52025,7 @@ Fr
 Fr
 cb
 cb
-Aj
+SC
 hB
 iu
 SX
@@ -52024,7 +52039,7 @@ oH
 nW
 nW
 qX
-oH
+Nc
 nW
 nW
 nW
