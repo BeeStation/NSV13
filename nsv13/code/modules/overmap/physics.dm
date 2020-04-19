@@ -401,15 +401,6 @@
 					D.open()
 			else
 				D.do_animate("deny")
-	if(istype(A, /obj/structure/overmap) && c_response)
-		collide(A, c_response, bump_velocity)
-		if(istype(A, /obj/structure/overmap/fighter))
-			var/obj/structure/overmap/fighter/F = A
-			F.docking_act(src)
-		return FALSE
-	var/atom/movable/AM = A
-	if(istype(AM) && !AM.anchored && bump_velocity > 1)
-		step(AM, dir)
 	if(layer < A.layer) //Allows ships to "Layer under" things and not hit them. Especially useful for fighters.
 		return ..()
 	// if a bump is that fast then it's not a bump. It's a collision.
@@ -423,7 +414,16 @@
 		take_damage(strength*10, BRUTE, "melee", TRUE)
 		log_game("[key_name(pilot)] has impacted a spacepod into [A] with velocity [bump_velocity]")
 		visible_message("<span class='danger'>The force of the impact causes a shockwave</span>")
-	else if(isliving(A) && bump_velocity > 2)
+	if(istype(A, /obj/structure/overmap) && c_response)
+		collide(A, c_response, bump_velocity)
+		if(istype(A, /obj/structure/overmap/fighter))
+			var/obj/structure/overmap/fighter/F = A
+			F.docking_act(src)
+		return FALSE
+	var/atom/movable/AM = A
+	if(istype(AM) && !AM.anchored && bump_velocity > 1)
+		step(AM, dir)
+	if(isliving(A) && bump_velocity > 2)
 		var/mob/living/M = A
 		M.apply_damage(bump_velocity * 2)
 		take_damage(bump_velocity, BRUTE, "melee", FALSE)
