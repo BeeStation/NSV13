@@ -337,6 +337,10 @@
 
 
 /obj/structure/overmap/proc/collide(obj/structure/overmap/other, datum/collision_response/c_response, collision_velocity)
+	if(istype(other, /obj/structure/overmap/fighter))
+		var/obj/structure/overmap/fighter/F = other
+		F.docking_act(src)
+		return FALSE
 
 	var/datum/vector2d/point_of_collision = src.collider2d.get_collision_point(other.collider2d)
 
@@ -373,7 +377,6 @@
 	var/datum/vector2d/output = c_response.overlap_vector * (0.5 / 32)
 	src.offset -= output
 	other.offset += output
-	to_chat(world, "FIX BY: [output.x],[output.y]")
 
 /obj/structure/overmap/Bumped(atom/movable/A)
 	if(brakes || ismob(A)) //No :)
@@ -417,9 +420,6 @@
 		visible_message("<span class='danger'>The force of the impact causes a shockwave</span>")
 	if(istype(A, /obj/structure/overmap) && c_response)
 		collide(A, c_response, bump_velocity)
-		if(istype(A, /obj/structure/overmap/fighter))
-			var/obj/structure/overmap/fighter/F = A
-			F.docking_act(src)
 		return FALSE
 	var/atom/movable/AM = A
 	if(istype(AM) && !AM.anchored && bump_velocity > 1)

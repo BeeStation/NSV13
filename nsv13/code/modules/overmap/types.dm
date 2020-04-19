@@ -94,10 +94,6 @@
 	pixel_z = -32
 	collision_positions = list(new /datum/vector2d(-8,46), new /datum/vector2d(-17,33), new /datum/vector2d(-25,2), new /datum/vector2d(-14,-45), new /datum/vector2d(9,-46), new /datum/vector2d(22,4), new /datum/vector2d(14,36))
 
-/obj/structure/overmap/Initialize()
-	. = ..()
-	display_hitbox()
-
 /obj/structure/overmap/nanotrasen/mining_cruiser/nostromo
 	name = "NSV Nostromo"
 	role = MAIN_MINING_SHIP

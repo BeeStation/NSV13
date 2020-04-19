@@ -47,6 +47,7 @@ After going through this checklist, you're ready to go!
 	weapon_safety = TRUE //This happens wayy too much for my liking. Starts OFF.
 	pixel_w = -16
 	pixel_z = -20
+	collision_positions = list(new /datum/vector2d(-2,-16), new /datum/vector2d(-13,-3), new /datum/vector2d(-13,10), new /datum/vector2d(-6,15), new /datum/vector2d(8,15), new /datum/vector2d(15,10), new /datum/vector2d(12,-9), new /datum/vector2d(4,-16), new /datum/vector2d(1,-16))
 	var/maint_state = MS_CLOSED
 	var/prebuilt = FALSE
 	var/weapon_efficiency = 0
