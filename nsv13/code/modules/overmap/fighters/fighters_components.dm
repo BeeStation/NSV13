@@ -60,6 +60,11 @@
 	desc = "The double fuel tank fo a fighter"
 	fuel_capacity = 2000
 
+/obj/item/fighter_component/fuel_tank/escapepod
+	name = "Escapepod Fuel Tank"
+	desc = "The fuel tank of a escapepod"
+	fuel_capacity = 250
+
 /obj/item/fighter_component/avionics
 	name = "Fighter Avionics"
 	desc = "Avionics for a fighter"

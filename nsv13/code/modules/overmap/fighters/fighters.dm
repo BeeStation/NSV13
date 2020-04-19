@@ -301,8 +301,10 @@ You need to fire emag the fighter's IFF board. This makes it list as "ENEMY" on 
 	var/obj/item/fighter_component/secondary/utility/passenger_compartment_module/pc = get_part(/obj/item/fighter_component/secondary/utility/passenger_compartment_module)
 
 	//Assign variables
-	max_integrity = initial(max_integrity) * ap?.armour
-	speed_limit = initial(speed_limit) * en?.speed
+	if(ap)
+		max_integrity = initial(max_integrity) * ap?.armour
+	if(en)
+		speed_limit = initial(speed_limit) * en?.speed
 	if(en?.burntout)
 		speed_limit = speed_limit/2
 	fuel_consumption = en?.consumption
@@ -687,10 +689,13 @@ You need to fire emag the fighter's IFF board. This makes it list as "ENEMY" on 
 /obj/structure/overmap/fighter/proc/eject()
 	if(escape_pod && escape_pod.loc == src)
 		escape_pod.forceMove(get_turf(src))
-		escape_pod.set_fuel(get_fuel()) //No infinite tyrosene for you!
+		escape_pod.contents += new /obj/item/fighter_component/fuel_tank/escapepod
+		escape_pod.fuel_setup()
+//		escape_pod.set_fuel(get_fuel()) //No infinite tyrosene for you!
 		transfer_occupants_to(escape_pod)
 		escape_pod.desired_angle = pick(0,360)
 		escape_pod.user_thrust_dir = NORTH
+		escape_pod.internal_tank = new /obj/machinery/portable_atmospherics/canister/air(src)
 		escape_pod = null
 		return TRUE
 	else
@@ -795,10 +800,11 @@ How to make fuel:
 
 /obj/structure/overmap/fighter/can_move()
 	var/obj/item/fighter_component/engine/engine = get_part(/obj/item/fighter_component/engine)
-	if(!engine)
-		if(pilot)
-			to_chat(pilot, "<span class='warning'>WARNING: This fighter doesn't have any engines!</span>")
-		return FALSE
+	if(!istype(src, /obj/structure/overmap/fighter/escapepod))
+		if(!engine)
+			if(pilot)
+				to_chat(pilot, "<span class='warning'>WARNING: This fighter doesn't have any engines!</span>")
+			return FALSE
 	if(flight_state == NO_FUEL)
 		return FALSE
 	if(mag_lock)

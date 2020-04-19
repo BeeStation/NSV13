@@ -30,6 +30,7 @@
 
 /obj/structure/overmap/fighter/light/prebuilt/flight_leader
 	req_one_access = list(ACCESS_FL)
+	icon_state = "ace"
 
 /obj/structure/overmap/fighter/light/prebuilt/syndicate //PVP MODE
 	name = "Syndicate Light Fighter"

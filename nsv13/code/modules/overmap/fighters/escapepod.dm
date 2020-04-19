@@ -9,7 +9,7 @@
 	pixel_z = 0
 	pixel_w = 0
 	mass = MASS_TINY
-	max_integrity = 100 //Able to withstand more punishment so that people inside it don't get yeeted as hard
+	max_integrity = 50 //Able to withstand more punishment so that people inside it don't get yeeted as hard
 	speed_limit = 2 //This, for reference, will feel suuuuper slow, but this is intentional
 	flight_state = 6 //FLIGHT_READY
 	canopy_open = FALSE
