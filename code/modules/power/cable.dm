@@ -480,10 +480,8 @@ By design, d1 is the smallest direction and d2 is the highest
 // Definitions
 ////////////////////////////////
 
-//Nsv13 - lazy cables
 
-GLOBAL_LIST_INIT(cable_coil_recipes, list(new/datum/stack_recipe("cable restraints", /obj/item/restraints/handcuffs/cable, 15),
-											new/datum/stack_recipe("cable bridge", /obj/structure/cable/cable_bridge, 15)))
+GLOBAL_LIST_INIT(cable_coil_recipes, list(new/datum/stack_recipe("cable restraints", /obj/item/restraints/handcuffs/cable, 15),))
 
 /obj/item/stack/cable_coil
 	name = "cable coil"
