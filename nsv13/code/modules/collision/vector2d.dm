@@ -124,6 +124,13 @@ Calculate the dot product of two vectors
 	return src.x * other.x + src.y * other.y
 
 /*
+Calculate the cross product of two vectors
+@return the cross product of the two vectors
+*/
+/datum/vector2d/proc/cross(var/datum/vector2d/other)
+	return src.x * other.y - src.y * other.x
+
+/*
 Get the magnitude of a vector squared
 @return the magnitude of the vector squared (hypot)^2
 */
@@ -136,6 +143,13 @@ Get the magnitude of a vector
 */
 /datum/vector2d/proc/ln()
 	return sqrt(src.ln2())
+
+/*
+Get the angle of a vector
+@return the angle of the vector (atan)
+*/
+/datum/vector2d/proc/angle()
+	return ATAN2(src.x, src.y)
 
 /*
 Normalize the vector so it has a magnitude of 1
