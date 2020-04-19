@@ -90,9 +90,6 @@ You need to fire emag the fighter's IFF board. This makes it list as "ENEMY" on 
 	. = ..()
 	if(start_emagged)
 		obj_flags ^= EMAGGED
-	if(ispath(has_escape_pod))
-		escape_pod = new /obj/structure/overmap/fighter/prebuilt/escapepod(src)
-		escape_pod.name = "[name] - escape pod"
 
 /obj/machinery/computer/ship/fighter_launcher
 	name = "Mag-cat control console"
@@ -359,7 +356,7 @@ You need to fire emag the fighter's IFF board. This makes it list as "ENEMY" on 
 			return FALSE
 		var/saved_layer = layer
 		layer = LOW_OBJ_LAYER
-		addtimer(VARSET_CALLBACK(src, layer, saved_layer), 1 SECONDS) //Gives fighters a small window of immunity from collisions with other overmaps
+		addtimer(VARSET_CALLBACK(src, layer, saved_layer), 2 SECONDS) //Gives fighters a small window of immunity from collisions with other overmaps
 		forceMove(get_turf(OM))
 		docking_cooldown = TRUE
 		addtimer(VARSET_CALLBACK(src, docking_cooldown, FALSE), 5 SECONDS) //Prevents jank.
@@ -721,19 +718,6 @@ You need to fire emag the fighter's IFF board. This makes it list as "ENEMY" on 
 		else
 			to_chat(user, "<span class='notice'>You require [src] to be in maintenance mode to load munitions!.</span>")
 			return
-	if(istype(A, /obj/structure/overmap/fighter/prebuilt/escapepod) && has_escape_pod && (!escape_pod || escape_pod?.loc != src))
-		if(maint_state != MS_OPEN)
-			to_chat(user, "<span class='warning'>You cannot load an escape pod into [src] without putting it into maintenance mode.</span>")
-			return
-		var/obj/structure/overmap/fighter/prebuilt/escapepod/EP = A
-		if(EP.operators.len)
-			to_chat(user, "<span class='notice'>There are people inside of [EP], so you can't load it into something else</span>")
-			return
-		if(do_after_mob(user, list(A, src), 50))
-			to_chat(user, "<span class='notice'>You insert [EP] into [src], fitting it with an escape pod.</span>")
-			EP.forceMove(src)
-			escape_pod = EP
-			EP.flight_state = NO_IGNITION
 
 /obj/structure/overmap/fighter/fire_torpedo(atom/target)
 	if(ai_controlled) //AI ships don't have interiors
@@ -1030,26 +1014,27 @@ You need to fire emag the fighter's IFF board. This makes it list as "ENEMY" on 
 		attack_hand(user) //Refresh UI.
 
 /obj/structure/overmap/fighter/Destroy()
-	if(operators.len && escape_pod && escape_pod.loc == src)
+	if(operators.len && ispath(has_escape_pod))
 		relay('nsv13/sound/effects/computer/alarm_3.ogg', "<span class=userdanger>EJECT! EJECT! EJECT!</span>")
 		relay_to_nearby('nsv13/sound/effects/ship/fighter_launch_short.ogg')
 		visible_message("<span class=userdanger>Auto-Ejection Sequence Enabled! Escape Pod Launched!</span>")
 		ejecting = FALSE
-		if(eject())
-			sleep(20)
-		else
-			for(var/atom/X in contents) //Pilot unable to eject. Murder them.
-				QDEL_NULL(X)
-			return ..()
+		eject()
+		sleep(2)
+		for(var/atom/X in contents) //Pilot unable to eject. Murder them.
+			QDEL_NULL(X)
+		return ..()
 	. = ..()
 
 /obj/structure/overmap/fighter/proc/eject()
-	if(escape_pod && escape_pod.loc == src)
-		escape_pod.forceMove(get_turf(src))
+	if(ispath(has_escape_pod))
+		escape_pod = new /obj/structure/overmap/fighter/prebuilt/escapepod(get_turf(src))
+		escape_pod.name = "[name] - escape pod"
 		escape_pod.set_fuel(get_fuel()) //No infinite tyrosene for you!
 		transfer_occupants_to(escape_pod)
-		escape_pod.desired_angle = pick(0,360)
+		escape_pod.desired_angle = 0
 		escape_pod.user_thrust_dir = NORTH
+		escape_pod.velocity.y = 3
 		escape_pod = null
 		return TRUE
 	else

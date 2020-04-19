@@ -333,6 +333,8 @@
 			Bump(OM, c_response)
 
 /obj/structure/overmap/proc/collide(obj/structure/overmap/other, datum/collision_response/c_response, collision_velocity)
+	if(layer < other.layer || other.layer > layer)
+		return FALSE
 	if(istype(other, /obj/structure/overmap/fighter))
 		var/obj/structure/overmap/fighter/F = other
 		if(F.docking_act(src))
@@ -391,7 +393,7 @@
 		velocity.x -= bump_impulse
 	return ..()
 
-/obj/structure/overmap/Bump(atom/A, datum/collision_response/c_response)
+/obj/structure/overmap/Bump(atom/movable/A, datum/collision_response/c_response)
 	var/bump_velocity = 0
 	if(dir & (NORTH|SOUTH))
 		bump_velocity = abs(velocity.y) + (abs(velocity.x) / 10)
@@ -408,15 +410,16 @@
 	if(layer < A.layer) //Allows ships to "Layer under" things and not hit them. Especially useful for fighters.
 		return ..()
 	// if a bump is that fast then it's not a bump. It's a collision.
-	if(bump_velocity >= 5 && !ismob(A))
-		var/strength = bump_velocity / 7.5
+	if(bump_velocity >= 3 && !impact_sound_cooldown && isobj(A)) //Throttled collision damage a bit
+		var/obj/O = A
+		var/strength = bump_velocity
 		strength = strength * strength
 		strength = min(strength, 5) // don't want the explosions *too* big
 		// wew lad, might wanna slow down there
-		explosion(A, -1, round((strength - 1) / 2), round(strength))
 		message_admins("[key_name_admin(pilot)] has impacted an overmap ship into [A] with velocity [bump_velocity]")
 		take_damage(strength*10, BRUTE, "melee", TRUE)
-		log_game("[key_name(pilot)] has impacted a spacepod into [A] with velocity [bump_velocity]")
+		O.take_damage(strength*10, BRUTE, "melee", TRUE)
+		log_game("[key_name(pilot)] has impacted an overmap ship into [A] with velocity [bump_velocity]")
 		visible_message("<span class='danger'>The force of the impact causes a shockwave</span>")
 	if(istype(A, /obj/structure/overmap) && c_response)
 		collide(A, c_response, bump_velocity)

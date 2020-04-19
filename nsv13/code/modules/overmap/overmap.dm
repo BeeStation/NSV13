@@ -336,7 +336,7 @@
 		if(damage_amount >= 15) //Flak begone
 			shake_everyone(5)
 		impact_sound_cooldown = TRUE
-		addtimer(VARSET_CALLBACK(src, impact_sound_cooldown, FALSE), 10)
+		addtimer(VARSET_CALLBACK(src, impact_sound_cooldown, FALSE), 1 SECONDS)
 	update_icon()
 
 /obj/structure/overmap/relaymove(mob/user, direction)
