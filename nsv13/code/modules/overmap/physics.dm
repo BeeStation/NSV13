@@ -22,6 +22,7 @@
 	var/datum/vector2d/last_offset
 	var/datum/vector2d/position
 	var/datum/vector2d/velocity
+	var/datum/vector2d/overlap // Will be subtracted from the ships offset as soon as possible, then set to 0
 	var/list/collision_positions = list() //See the collisions doc for how these work. Theyre a pain in the ass.
 
 //Helper proc to get the actual center of the ship, if the ship's hitbox is placed in the bottom left corner like they usually are.
@@ -52,13 +53,13 @@
 
 //Method to show the hitbox of your current ship to see if youve set it up correctly
 /obj/structure/overmap/proc/display_hitbox()
-	if(!collision_positions.len){
+	if(!collision_positions.len)
 		return
-	}
-	for(var/datum/vector2d/point in collision_positions){
+
+	for(var/datum/vector2d/point in collision_positions)
 		var/obj/effect/overmap_hitbox_marker/H = new(src, point.x, point.y, abs(pixel_z), abs(pixel_w))
 		vis_contents += H
-	}
+
 
 /obj/structure/overmap/Initialize()
 	. = ..()
@@ -69,6 +70,7 @@
 	last_offset = new /datum/vector2d()
 	position = new /datum/vector2d(x*32,y*32)
 	velocity = new /datum/vector2d(0, 0)
+	overlap = new /datum/vector2d(0, 0)
 	if(collision_positions.len)
 		collider2d = new /datum/shape(position, collision_positions, angle) // -TORADIANS(src.angle-90)
 	else
@@ -79,7 +81,7 @@
 	return TRUE //Placeholder for everything but fighters. We can later extend this if / when we want to code in ship engines.
 
 /obj/structure/overmap/process(time)
-	time /= 10 // fuck off with your deciseconds
+	time /= 1 SECONDS
 	last_process = world.time
 	if(world.time > last_slowprocess + 10)
 		last_slowprocess = world.time
@@ -182,15 +184,11 @@
 				thrust_x -= sx * side_maxthrust
 				thrust_y -= sy * side_maxthrust
 				last_thrust_right = -side_maxthrust
-	 //Stops you yeeting off at lightspeed. This made AI ships really frustrating to play against.
-	if(velocity.x > speed_limit)
-		velocity.x = speed_limit
-	if(velocity.y > speed_limit)
-		velocity.y = speed_limit
-	if(velocity.x < -speed_limit)
-		velocity.x = -speed_limit
-	if(velocity.y < -speed_limit)
-		velocity.y = -speed_limit
+
+	//Stops you yeeting off at lightspeed. This made AI ships really frustrating to play against.
+	velocity.x = max(min(velocity.x, speed_limit), -speed_limit)
+	velocity.y = max(min(velocity.y, speed_limit), -speed_limit)
+
 	velocity.x += thrust_x * time //And speed us up based on how long we've been thrusting (up to a point)
 	velocity.y += thrust_y * time
 	if(pilot?.client?.keys_held["Q"] && can_move()) //While theyre pressing E || Q, turn.
@@ -199,6 +197,13 @@
 		desired_angle += 15
 	offset.x += velocity.x * time
 	offset.y += velocity.y * time
+
+	position._set(x * 32 + offset.x * 32, y * 32 + offset.y * 32)
+
+	if(collider2d)
+		collider2d.position.copy(position)
+		handle_collisions()
+
 	// alright so now we reconcile the offsets with the in-world position.
 	while((offset.x > 0 && velocity.x > 0) || (offset.y > 0 && velocity.y > 0) || (offset.x < 0 && velocity.x < 0) || (offset.y < 0 && velocity.y < 0))
 		var/failed_x = FALSE
@@ -295,9 +300,10 @@
 		vector_overlay.alpha = 0
 		targetAngle = null
 	transform = mat_from
+
 	pixel_x = last_offset.x*32
 	pixel_y = last_offset.y*32
-	position._set(x * 32 + pixel_x, y * 32 + pixel_y)
+
 	animate(src, transform=mat_to, pixel_x = offset.x*32, pixel_y = offset.y*32, time = time*10, flags=ANIMATION_END_NOW)
 	if(last_target)
 		var/target_angle = Get_Angle(src,last_target)
@@ -316,9 +322,6 @@
 		C.pixel_y = last_offset.y*32
 		animate(C, pixel_x = offset.x*32, pixel_y = offset.y*32, time = time*10, flags=ANIMATION_END_NOW)
 	user_thrust_dir = 0
-	if(collider2d)
-		collider2d._set(position.x, position.y)
-		handle_collisions()
 	update_icon()
 
 /obj/structure/overmap/proc/handle_collisions()
@@ -332,47 +335,43 @@
 			Bump(OM, c_response)
 
 
-// Numbers are relative to world
-// at is the location the impulse is applied for rotation purposes
-/obj/structure/overmap/proc/apply_impulse(datum/vector2d/impulse, datum/vector2d/at)
-	var/datum/vector2d/ccw_vector = at - position
-	ccw_vector.rotate(90)
-	angular_velocity += (ccw_vector.dot(impulse)) * (1 / mass) //Tweak the "10" as necessary
-	if(angular_velocity > 5)
-		angular_velocity = 5
-	if(angular_velocity < -5)
-		angular_velocity = -5
-	velocity += (impulse * (1 / mass))
-	if(velocity.x > speed_limit)
-		velocity.x = speed_limit
-	if(velocity.x < -speed_limit)
-		velocity.x = -speed_limit
-	if(velocity.y > speed_limit)
-		velocity.y = speed_limit
-	if(velocity.y < -speed_limit)
-		velocity.y = -speed_limit
-
-/obj/structure/overmap/proc/get_point_velocity(datum/vector2d/at)
-	var/datum/vector2d/ccw_vector = at - position
-	ccw_vector.rotate(90)
-	ccw_vector *= (angular_velocity * 0.017453)
-	ccw_vector += velocity
-	return ccw_vector
 
 /obj/structure/overmap/proc/collide(obj/structure/overmap/other, datum/collision_response/c_response, collision_velocity)
-	var/datum/vector2d/relative_point_momentum = (get_point_velocity(c_response.overlap_normal) * mass) - (other.get_point_velocity(c_response.overlap_normal) * other.mass)
 
-	to_chat(world, "[c_response.overlap_normal.to_string()] and [relative_point_momentum.to_string()] at [collision_velocity] velocity")
-	var/momentum_along_normal = -(c_response.overlap_normal.dot(relative_point_momentum))
+	var/datum/vector2d/point_of_collision = src.collider2d.get_collision_point(other.collider2d)
 
-	if(momentum_along_normal > 0)
-		var/datum/vector2d/seperation_impulse = c_response.overlap_normal * (momentum_along_normal * 1.5)
-		apply_impulse(seperation_impulse * -0.5, c_response.overlap_normal)
-		other.apply_impulse(seperation_impulse * 0.5, c_response.overlap_normal)
+	point_of_collision.angle()
+
+	var/col_angle = c_response.overlap_normal.angle()
+	var/src_vel_mag = src.velocity.ln()
+	var/other_vel_mag = other.velocity.ln()
+
+	var/new_src_vel_x = ((																	\
+		(src_vel_mag * cos(src.velocity.angle() - col_angle) * (src.mass - other.mass)) +	\
+		(2 * other.mass * other_vel_mag * cos(other.velocity.angle() - col_angle))			\
+	) / (src.mass + other.mass)) * (cos(col_angle) + (src_vel_mag * sin(src.velocity.angle() - col_angle) * cos(col_angle + 90)))
+
+	var/new_src_vel_y = ((																	\
+		(src_vel_mag * cos(src.velocity.angle() - col_angle) * (src.mass - other.mass)) +	\
+		(2 * other.mass * other_vel_mag * cos(other.velocity.angle() - col_angle))			\
+	) / (src.mass + other.mass)) * (sin(col_angle) + (src_vel_mag * sin(src.velocity.angle() - col_angle) * sin(col_angle + 90)))
+
+	var/new_other_vel_x = ((																		\
+		(other_vel_mag * cos(other.velocity.angle() - col_angle) * (other.mass - src.mass)) +		\
+		(2 * src.mass * src_vel_mag * cos(src.velocity.angle() - col_angle))						\
+	) / (other.mass + src.mass)) * (cos(col_angle) + (other_vel_mag * sin(other.velocity.angle() - col_angle) * cos(col_angle + 90)))
+
+	var/new_other_vel_y = ((																		\
+		(other_vel_mag * cos(other.velocity.angle() - col_angle) * (other.mass - src.mass)) +		\
+		(2 * src.mass * src_vel_mag * cos(src.velocity.angle() - col_angle))						\
+	) / (other.mass + src.mass)) * (sin(col_angle) + (other_vel_mag * sin(other.velocity.angle() - col_angle) * sin(col_angle + 90)))
+
+	src.velocity._set(new_src_vel_x, new_src_vel_y)
+	other.velocity._set(new_other_vel_x, new_other_vel_y)
 
 	var/datum/vector2d/output = c_response.overlap_vector * (0.5 / 32)
-	offset -= c_response.overlap_normal
-	other.offset += c_response.overlap_normal
+	src.offset -= output
+	other.offset += output
 	to_chat(world, "FIX BY: [output.x],[output.y]")
 
 /obj/structure/overmap/Bumped(atom/movable/A)

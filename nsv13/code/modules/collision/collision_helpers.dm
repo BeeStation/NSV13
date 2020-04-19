@@ -65,3 +65,34 @@ Special thanks to qwertyquerty for explaining and dictating all this! (I've most
 			maxpoint = dot
 
 	return new /datum/vector2d(minpoint, maxpoint)
+
+/proc/get_seg_intersection(datum/vector2d/p0, datum/vector2d/p1, datum/vector2d/p2, datum/vector2d/p3)
+	var/datum/vector2d/s10 = p1 - p0
+	var/datum/vector2d/s32 = p3 - p2
+
+	var/denom = s10.cross(s32)
+
+	if (denom == 0)
+		return FALSE
+
+	var/denom_is_positive = denom > 0
+
+	var/datum/vector2d/s02 = p0 - p2
+
+	var/s_numer = s10.cross(s02)
+
+	if ((s_numer < 0) == denom_is_positive)
+		return FALSE
+
+	var/t_numer = s32.cross(s02)
+
+	if ((t_numer < 0) == denom_is_positive)
+		return FALSE
+
+	if ((s_numer > denom) == denom_is_positive || (t_numer > denom) == denom_is_positive)
+		return FALSE
+
+	var/t = t_numer / denom
+
+	return new /datum/vector2d(p0.x + (t * s10.x), p0.y + (t * s10.y))
+

@@ -7,6 +7,7 @@ collision and store it here
 
 	var/datum/vector2d/overlap_normal = new /datum/vector2d(0, 0)	// A normalized vector of the angle of overlap
 	var/datum/vector2d/overlap_vector = new /datum/vector2d(0, 0)	// The overlap vector; subtracting this from a will cause it to no longer be colliding with b
+	var/datum/vector2d/overlap_point = new/datum/vector2d(0, 0)		// The point of the collision
 
 	var/a_in_b = TRUE												// Is a fully inside of b?
 	var/b_in_a = TRUE												// Is b fully inside of a?
