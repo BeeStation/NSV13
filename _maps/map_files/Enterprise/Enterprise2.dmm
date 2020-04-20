@@ -256,6 +256,10 @@
 	dir = 1
 	},
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer1,
+/obj/machinery/power/apc/auto_name/east,
+/obj/structure/cable{
+	icon_state = "0-2"
+	},
 /turf/open/floor/carpet/ship,
 /area/nsv/crew_quarters/heads/maa)
 "aaR" = (
@@ -290,6 +294,9 @@
 "aaX" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3,
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
 /turf/open/floor/carpet/ship,
 /area/nsv/crew_quarters/heads/maa)
 "aaY" = (
@@ -1056,6 +1063,7 @@
 	},
 /obj/item/gun/ballistic/automatic/peacekeeper,
 /obj/item/gun/ballistic/automatic/peacekeeper,
+/obj/item/gun/energy/ionrifle,
 /turf/open/floor/monotile/dark,
 /area/ai_monitored/security/armory)
 "ade" = (
@@ -1314,6 +1322,9 @@
 /obj/machinery/door/firedoor,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
 /turf/open/floor/monotile/dark,
 /area/nsv/crew_quarters/heads/maa)
 "adJ" = (
@@ -3691,7 +3702,7 @@
 /area/quartermaster/qm)
 "ajt" = (
 /obj/structure/fans/tiny/invisible,
-/turf/open/floor/plating,
+/turf/open/space/basic,
 /area/security/execution/transfer)
 "aju" = (
 /turf/open/floor/monotile/light,
@@ -4251,6 +4262,7 @@
 "akJ" = (
 /obj/structure/window/reinforced/spawner,
 /obj/structure/window/reinforced/spawner/west,
+/obj/machinery/clonepod/prefilled,
 /turf/open/floor/engine,
 /area/medical/genetics)
 "akK" = (
@@ -4334,6 +4346,9 @@
 /obj/structure/disposalpipe/segment{
 	dir = 4
 	},
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
 /turf/open/floor/monotile,
 /area/nsv/hanger/deck2)
 "akS" = (
@@ -4359,6 +4374,9 @@
 	},
 /obj/structure/disposalpipe/segment{
 	dir = 9
+	},
+/obj/structure/cable{
+	icon_state = "4-8"
 	},
 /turf/open/floor/monotile/dark,
 /area/nsv/hanger/deck2)
@@ -6077,6 +6095,7 @@
 /obj/structure/cable{
 	icon_state = "1-2"
 	},
+/obj/machinery/door/firedoor,
 /turf/open/floor/monotile,
 /area/maintenance/starboard/secondary{
 	name = "Gauss gun rack"
@@ -13775,7 +13794,7 @@
 	width = 3
 	},
 /obj/structure/fans/tiny/invisible,
-/turf/open/floor/plating,
+/turf/open/space/basic,
 /area/security/execution/transfer)
 "aGz" = (
 /obj/machinery/camera/autoname{
@@ -16615,6 +16634,7 @@
 	name = "Crew Quarters"
 	},
 /obj/structure/disposalpipe/segment,
+/obj/machinery/door/firedoor,
 /turf/open/floor/carpet/ship,
 /area/crew_quarters/dorms)
 "aMX" = (
@@ -17189,6 +17209,15 @@
 /area/hallway/secondary/exit)
 "aOj" = (
 /obj/structure/table/reinforced,
+/obj/item/cartridge/quartermaster{
+	pixel_x = -4;
+	pixel_y = 7
+	},
+/obj/item/cartridge/quartermaster,
+/obj/item/cartridge/quartermaster{
+	pixel_x = 6;
+	pixel_y = 5
+	},
 /obj/item/reagent_containers/food/drinks/solgovcup,
 /turf/open/floor/carpet/ship,
 /area/quartermaster/qm)
@@ -22333,9 +22362,6 @@
 "aZQ" = (
 /obj/structure/cable{
 	icon_state = "1-8"
-	},
-/obj/structure/cable{
-	icon_state = "1-2"
 	},
 /obj/structure/cable{
 	icon_state = "2-8"
@@ -30317,9 +30343,6 @@
 /obj/structure/cable{
 	icon_state = "2-8"
 	},
-/obj/structure/cable{
-	icon_state = "4-8"
-	},
 /obj/structure/disposalpipe/segment{
 	dir = 4
 	},
@@ -35060,9 +35083,9 @@
 /turf/open/floor/plasteel/ship,
 /area/engine/break_room)
 "byw" = (
-/obj/structure/grille,
-/turf/closed/wall/r_wall/ship,
-/area/engine/storage)
+/obj/structure/fans/tiny/invisible,
+/turf/open/space/basic,
+/area/maintenance/ship_exterior)
 "byx" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer1{
 	dir = 8
@@ -36309,7 +36332,11 @@
 	name = "Engineering section"
 	},
 /obj/machinery/door/firedoor,
-/turf/open/floor/monotile/dark,
+/obj/effect/turf_decal/tile/neutral,
+/obj/effect/turf_decal/tile/neutral{
+	dir = 8
+	},
+/turf/open/floor/monotile,
 /area/hallway/nsv/deck2/frame2/port)
 "bBa" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
@@ -38559,7 +38586,7 @@
 /obj/structure/cable{
 	icon_state = "0-8"
 	},
-/turf/open/floor/monotile/dark,
+/turf/open/floor/plating,
 /area/security/brig)
 "bFj" = (
 /obj/machinery/atmospherics/components/unary/outlet_injector/on,
@@ -40798,6 +40825,7 @@
 	req_one_access_txt = "3;69"
 	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
+/obj/machinery/door/firedoor,
 /turf/open/floor/monotile,
 /area/maintenance/starboard/secondary{
 	name = "Gauss gun rack"
@@ -40884,6 +40912,9 @@
 "bKi" = (
 /obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer3,
 /obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1,
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
 /turf/open/floor/monotile,
 /area/nsv/hanger/deck2)
 "bKj" = (
@@ -40908,6 +40939,7 @@
 	req_one_access_txt = "3;69"
 	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/obj/machinery/door/firedoor,
 /turf/open/floor/monotile,
 /area/maintenance/starboard/secondary{
 	name = "Gauss gun rack"
@@ -41288,6 +41320,15 @@
 	},
 /turf/open/floor/plasteel/ship,
 /area/security/prison)
+"cYZ" = (
+/obj/effect/turf_decal/stripes/line{
+	dir = 5
+	},
+/obj/structure/cable{
+	icon_state = "1-8"
+	},
+/turf/open/floor/monotile/dark,
+/area/nsv/hanger/deck2)
 "cZf" = (
 /obj/structure/chair/comfy/brown{
 	dir = 4
@@ -42128,9 +42169,15 @@
 /turf/open/floor/plating,
 /area/maintenance/starboard/fore)
 "iov" = (
-/obj/structure/lattice,
-/turf/closed/wall/r_wall/ship,
-/area/maintenance/department/engine)
+/obj/docking_port/stationary{
+	dwidth = 1;
+	height = 4;
+	roundstart_template = /datum/map_template/shuttle/escape_pod/default;
+	width = 3
+	},
+/obj/structure/fans/tiny/invisible,
+/turf/open/space/basic,
+/area/maintenance/ship_exterior)
 "irj" = (
 /obj/structure/window/reinforced/fulltile/ship,
 /obj/structure/grille,
@@ -42598,9 +42645,18 @@
 /turf/open/floor/plating,
 /area/maintenance/starboard)
 "kPn" = (
-/obj/effect/landmark/nuclear_waste_spawner,
+/obj/machinery/door/airlock/ship/public/glass{
+	name = "Engineering section"
+	},
+/obj/machinery/door/firedoor,
+/obj/effect/turf_decal/tile/neutral{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/neutral{
+	dir = 4
+	},
 /turf/open/floor/monotile,
-/area/nsv/hanger/deck2)
+/area/hallway/nsv/deck2/frame2/port)
 "kSX" = (
 /obj/structure/cable{
 	icon_state = "2-4"
@@ -42711,6 +42767,11 @@
 /obj/machinery/airalarm/directional/west,
 /turf/open/floor/carpet/ship,
 /area/crew_quarters/dorms)
+"lAT" = (
+/turf/open/floor/plating{
+	icon_state = "platingdmg3"
+	},
+/area/maintenance/department/engine)
 "lAV" = (
 /obj/structure/disposalpipe/segment,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
@@ -42758,6 +42819,12 @@
 /obj/effect/spawner/lootdrop/maintenance,
 /turf/open/floor/plating,
 /area/maintenance/department/science)
+"lVx" = (
+/obj/effect/turf_decal/stripes/line{
+	dir = 1
+	},
+/turf/open/floor/plating,
+/area/maintenance/department/engine)
 "lVV" = (
 /obj/structure/chair{
 	dir = 8
@@ -43602,12 +43669,25 @@
 /area/science/mixing{
 	name = "Prototype munitions bay"
 	})
+"rLI" = (
+/obj/effect/spawner/lootdrop/two_percent_xeno_egg_spawner,
+/turf/open/floor/engine,
+/area/science/xenobiology)
 "rMN" = (
 /obj/machinery/newscaster{
 	pixel_y = -30
 	},
 /turf/open/floor/monotile/dark,
 /area/science/nanite)
+"rST" = (
+/obj/effect/turf_decal/stripes/line{
+	dir = 1
+	},
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/turf/open/floor/monotile/dark,
+/area/nsv/hanger/deck2)
 "rUk" = (
 /obj/structure/reagent_dispensers/watertank,
 /turf/open/floor/plating,
@@ -68663,7 +68743,7 @@ aeI
 aXf
 aJB
 aJB
-aJB
+rLI
 aJB
 aXi
 anb
@@ -80371,7 +80451,7 @@ aaH
 aaH
 aaW
 bKh
-abA
+rST
 adY
 aex
 abx
@@ -80673,7 +80753,7 @@ cgt
 aaH
 aaW
 bKh
-abA
+rST
 aev
 aex
 abx
@@ -80975,7 +81055,7 @@ aaQ
 aaX
 adI
 bKi
-abC
+cYZ
 aav
 afd
 abx
@@ -89747,7 +89827,7 @@ ami
 amm
 bAZ
 aSg
-bAZ
+kPn
 abd
 abd
 abd
@@ -96061,7 +96141,7 @@ asL
 asL
 asL
 asL
-iov
+asL
 asL
 aJp
 haf
@@ -96363,8 +96443,8 @@ aaJ
 aaJ
 aaJ
 aaJ
-aAy
-asL
+byw
+aoZ
 aJp
 haf
 bMO
@@ -96665,8 +96745,8 @@ aaJ
 aaJ
 aaJ
 aaJ
-aAy
-asL
+iov
+lVx
 aJp
 haf
 sBR
@@ -96967,8 +97047,8 @@ aaJ
 aaJ
 aaJ
 aaJ
-aAy
-asL
+byw
+lAT
 aJp
 haf
 gNY
@@ -97267,9 +97347,9 @@ aaJ
 aaJ
 aaJ
 aaJ
-aaJ
-aaJ
-aAy
+asL
+asL
+asL
 asL
 aJp
 haf
@@ -101230,7 +101310,7 @@ aoC
 aEb
 aoC
 amz
-byw
+aqp
 arG
 asb
 asb
