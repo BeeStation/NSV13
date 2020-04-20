@@ -34,18 +34,21 @@
 	speed = 0.5
 	maximum_speed = 10
 	acceleration_rate = 0.1
-	valid_angle = 180
+	valid_angle = 120
 	homing_turn_speed = 5
 	damage = 100
-	range = 1000
+	range = 250
 //	flag = "overmap_heavy"
 	impact_effect_type = /obj/effect/temp_visual/impact_effect/torpedo
 
 /obj/item/projectile/missile/missile
 	icon_state = "torpedo"
 	name = "conventinal missile"
-	speed = 3
-	damage = 100
+	speed = 2
+	damage = 50
+	valid_angle = 180
+	homing_turn_speed = 10
+	range = 250
 //	flag = "overmap_light"
 	impact_effect_type = /obj/effect/temp_visual/impact_effect/torpedo
 
@@ -96,19 +99,27 @@
 			to_chat(gunner, "<span class='warning'>Weapon safety interlocks are active! Use the ship verbs tab to disable them!</span>")
 		return
 	if(ai_controlled) //Let the AI switch weapons according to range
-		var/target_range = get_dist(target,src)
-		if(target_range > max_range) //Our max range is the maximum possible range we can engage in. This is to stop you getting hunted from outside of your view range.
-			last_target = null
-		if(target_range > initial(weapon_range)) //In other words, theyre out of PDC range
-			if(torpedoes > 0) //If we have torpedoes loaded, let's use them
-				swap_to(FIRE_MODE_TORPEDO)
-			else //No torps, we'll have to use the railgun.
-				swap_to(FIRE_MODE_RAILGUN)
-		else
-			if(mass < MASS_LARGE) //Big ships don't use their PDCs like this, and instead let them automatically shoot at the enemy.
-				swap_to(FIRE_MODE_PDC)
-			else
-				swap_to(FIRE_MODE_RAILGUN)
+		if(istype(target, /obj/structure/overmap))
+			var/obj/structure/overmap/OT = target
+			var/target_range = get_dist(OT,src)
+			if(target_range > max_range) //Our max range is the maximum possible range we can engage in. This is to stop you getting hunted from outside of your view range.
+				last_target = null
+			if(target_range > initial(weapon_range)) //In other words, theyre out of PDC range
+				message_admins("Target: [OT.name] - Target Mass:[OT.mass]")
+				if(OT.mass >= MASS_LARGE) //Torps for capitals
+					if(torpedoes > 0) //If we have torpedoes loaded, let's use them
+						swap_to(FIRE_MODE_TORPEDO)
+					else if(mass < MASS_LARGE) //Big ships don't use their PDCs like this, and instead let them automatically shoot at the enemy.
+						swap_to(FIRE_MODE_PDC)
+					else
+						swap_to(FIRE_MODE_RAILGUN)
+				else if(OT.mass < MASS_LARGE) //Missiles for subcapitals
+					if(missiles > 0) //If we have torpedoes loaded, let's use them
+						swap_to(FIRE_MODE_MISSILE)
+					else if(mass < MASS_LARGE) //Big ships don't use their PDCs like this, and instead let them automatically shoot at the enemy.
+						swap_to(FIRE_MODE_PDC)
+					else
+						swap_to(FIRE_MODE_RAILGUN)
 	//end if(ai_controlled)
 	last_target = target
 	if(next_firetime > world.time)

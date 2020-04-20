@@ -1,13 +1,12 @@
 /obj/item/ship_weapon/ammunition/missile //CREDIT TO CM FOR THIS SPRITE
-	name = "Test Missile"
+	name = "Missile"
 	icon = 'nsv13/icons/obj/munition_types.dmi'
-	icon_state = "standard"
-	desc = "missile."
+	icon_state = "highvelocity"
+	desc = "Missile."
 	anchored = TRUE
 	density = TRUE
 	projectile_type = /obj/item/projectile/missile/missile //What torpedo type we fire
 	pixel_x = -17
-//	var/speed = 1 //Placeholder, allows upgrading speed with better propulsion
 
 /obj/item/ship_weapon/ammunition/missile/georgio
 	name = "Georgio"

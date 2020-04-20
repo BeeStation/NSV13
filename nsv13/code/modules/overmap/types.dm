@@ -132,12 +132,14 @@
 	sprite_size = 48
 	damage_states = TRUE
 
-/obj/structure/overmap/fighter/ai
+/*
+/obj/structure/overmap/nanotrasen/ai/fighter
 	ai_controlled = TRUE
 	ai_behaviour = AI_AGGRESSIVE
 	weapon_safety = FALSE
 	prebuilt = TRUE
 	faction = "nanotrasen"
+*/
 
 //Syndicate ships
 
@@ -204,7 +206,7 @@
 	icon_state = "carrier"
 	mass = MASS_LARGE
 	ai_can_launch_fighters = TRUE //AI variable. Allows your ai ships to spawn fighter craft
-	ai_fighter_type = /obj/structure/overmap/fighter/ai/syndicate
+	ai_fighter_type = /obj/structure/overmap/syndicate/ai/fighter
 	sprite_size = 48
 	damage_states = TRUE
 	pixel_z = -96
@@ -229,21 +231,26 @@
 	integrity_failure = 800
 	bounty = 500
 
-/obj/structure/overmap/fighter/ai
-	prebuilt = TRUE
-	has_escape_pod = FALSE
-	var/bounty = 250
-
-/obj/structure/overmap/fighter/ai/syndicate
+/obj/structure/overmap/syndicate/ai/fighter
 	name = "Syndicate interceptor"
 	desc = "A space faring fighter craft."
 	icon = 'nsv13/icons/overmap/syndicate/syn_fighter.dmi'
 	icon_state = "fighter"
+	damage_states = TRUE
 	brakes = FALSE
 	max_integrity = 100 //Super squishy!
 	sprite_size = 32
 	faction = "syndicate"
+	mass = MASS_TINY
+	armor = list("melee" = 80, "bullet" = 50, "laser" = 80, "energy" = 50, "bomb" = 50, "bio" = 100, "rad" = 100, "fire" = 100, "acid" = 80) //temp to stop easy destruction from small arms
+	bound_width = 64 //Change this on a per ship basis
+	bound_height = 64
+	pixel_w = -16
+	pixel_z = -20
+	missiles = 4
+	torpedoes = 0
+	bounty = 250
 
-/obj/structure/overmap/fighter/ai/syndicate/Destroy()
-	SSstarsystem.bounty_pool += bounty //Adding payment for services rendered
-	. = ..()
+/obj/structure/overmap/syndicate/ai/fighter/Initialize()
+	.=..()
+	weapon_types[FIRE_MODE_MISSILE] = new/datum/ship_weapon/missile_launcher

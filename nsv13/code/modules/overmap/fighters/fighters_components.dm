@@ -675,11 +675,11 @@
 	name = "Fighter Avionics"
 	desc = "Avionics for a fighter"
 	id = "fighter_avionics"
-	build_type = PROTOLATHE
+	build_type = IMPRINTER
 	materials = list(/datum/material/iron = 1000, /datum/material/copper = 5000, /datum/material/glass = 5000)
 	build_path = /obj/item/fighter_component/avionics
 	category = list("Ship Components")
-	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+	departmental_flags = DEPARTMENTAL_FLAG_SCIENCE
 
 /datum/design/fighter_apu
 	name = "Fighter Auxiliary Power Unit"
@@ -755,31 +755,31 @@
 	name = "Light Fighter Targeting Sensors"
 	desc = "Targening Sensors for a Light Fighter"
 	id = "light_targeting_sensor_t1"
-	build_type = PROTOLATHE
+	build_type = IMPRINTER
 	materials = list(/datum/material/iron = 2000, /datum/material/copper = 5000, /datum/material/glass = 5000)
 	build_path = /obj/item/fighter_component/targeting_sensor/light/t1
 	category = list("Ship Components")
-	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+	departmental_flags = DEPARTMENTAL_FLAG_SCIENCE
 
 /datum/design/light_targeting_sensor_t2
 	name = "Improved Light Fighter Targeting Sensors"
 	desc = "Improved Targening Sensors for a Light Fighter"
 	id = "light_targeting_sensor_t2"
-	build_type = PROTOLATHE
+	build_type = IMPRINTER
 	materials = list(/datum/material/iron = 2000, /datum/material/copper = 6500, /datum/material/glass = 5000, /datum/material/gold = 3000)
 	build_path = /obj/item/fighter_component/targeting_sensor/light/t2
 	category = list("Ship Components")
-	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+	departmental_flags = DEPARTMENTAL_FLAG_SCIENCE
 
 /datum/design/light_targeting_sensor_t3
 	name = "Enhanced Light Fighter Targeting Sensors"
 	desc = "Enhanced Targening Sensors for a Light Fighter"
 	id = "light_targeting_sensor_t3"
-	build_type = PROTOLATHE
+	build_type = IMPRINTER
 	materials = list(/datum/material/iron = 2000, /datum/material/copper = 7000, /datum/material/glass = 5000, /datum/material/gold = 4000, /datum/material/bluespace = 2000)
 	build_path = /obj/item/fighter_component/targeting_sensor/light/t3
 	category = list("Ship Components")
-	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+	departmental_flags = DEPARTMENTAL_FLAG_SCIENCE
 
 /datum/design/light_engine_t1
 	name = "Light Fighter Engine"
@@ -819,7 +819,7 @@
 	materials = list(/datum/material/iron = 5000, /datum/material/copper = 2500, /datum/material/glass = 500)
 	build_path = /obj/item/fighter_component/secondary/light/missile_rack/t1
 	category = list("Ship Components")
-	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+	departmental_flags = DEPARTMENTAL_FLAG_ENGINEERING
 
 /datum/design/fighter_missile_rack_t2
 	name = "Large Light Fighter Missile Rack"
@@ -829,7 +829,7 @@
 	materials = list(/datum/material/iron = 10000, /datum/material/copper = 3000, /datum/material/glass = 1000)
 	build_path = /obj/item/fighter_component/secondary/light/missile_rack/t2
 	category = list("Ship Components")
-	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+	departmental_flags = DEPARTMENTAL_FLAG_ENGINEERING
 
 /datum/design/fighter_missile_rack_t3
 	name = "Extra Large Light Fighter Missile Rack"
@@ -839,7 +839,7 @@
 	materials = list(/datum/material/iron = 15000, /datum/material/copper = 3500, /datum/material/glass = 1500)
 	build_path = /obj/item/fighter_component/secondary/light/missile_rack/t3
 	category = list("Ship Components")
-	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+	departmental_flags = DEPARTMENTAL_FLAG_ENGINEERING
 
 /datum/design/light_fighter_light_cannon_t1
 	name = "Light Fighter Light Cannon"
@@ -849,7 +849,7 @@
 	materials = list(/datum/material/iron = 1000, /datum/material/titanium = 5000, /datum/material/copper = 1500, /datum/material/glass = 1000, /datum/material/plasma = 2000)
 	build_path = /obj/item/fighter_component/primary/light/light_cannon/t1
 	category = list("Ship Components")
-	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+	departmental_flags = DEPARTMENTAL_FLAG_ENGINEERING
 
 /datum/design/light_fighter_light_cannon_t2
 	name = "Improved Light Fighter Light Cannon"
@@ -859,7 +859,7 @@
 	materials = list(/datum/material/iron = 1000, /datum/material/titanium = 6500, /datum/material/copper = 2500, /datum/material/glass = 1500, /datum/material/plasma = 2500, /datum/material/uranium = 1500)
 	build_path = /obj/item/fighter_component/primary/light/light_cannon/t2
 	category = list("Ship Components")
-	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+	departmental_flags = DEPARTMENTAL_FLAG_ENGINEERING
 
 /datum/design/light_fighter_light_cannon_t3
 	name = "Enhanced Light Fighter Light Cannon"
@@ -869,7 +869,7 @@
 	materials = list(/datum/material/iron = 1000, /datum/material/titanium = 7500, /datum/material/copper = 3500, /datum/material/glass = 2000, /datum/material/plasma = 3000, /datum/material/uranium = 2500, /datum/material/diamond = 2500)
 	build_path = /obj/item/fighter_component/primary/light/light_cannon/t3
 	category = list("Ship Components")
-	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+	departmental_flags = DEPARTMENTAL_FLAG_ENGINEERING
 
 /datum/design/heavy_fighter_armour_plating_t1
 	name = "Heavy Fighter Armour Plating"
@@ -905,31 +905,31 @@
 	name = "Heavy Fighter Targeting Sensors"
 	desc = "Targening Sensors for a Heavy Fighter"
 	id = "heavy_targeting_sensor_t1"
-	build_type = PROTOLATHE
+	build_type = IMPRINTER
 	materials = list(/datum/material/iron = 2000, /datum/material/copper = 5000, /datum/material/glass = 5000)
 	build_path = /obj/item/fighter_component/targeting_sensor/heavy/t1
 	category = list("Ship Components")
-	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+	departmental_flags = DEPARTMENTAL_FLAG_SCIENCE
 
 /datum/design/heavy_targeting_sensor_t2
 	name = "Improved Heavy Fighter Targeting Sensors"
 	desc = "Improved Targening Sensors for a Heavy Fighter"
 	id = "heavy_targeting_sensor_t2"
-	build_type = PROTOLATHE
+	build_type = IMPRINTER
 	materials = list(/datum/material/iron = 2000, /datum/material/copper = 6500, /datum/material/glass = 5000, /datum/material/gold = 3000)
 	build_path = /obj/item/fighter_component/targeting_sensor/heavy/t2
 	category = list("Ship Components")
-	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+	departmental_flags = DEPARTMENTAL_FLAG_SCIENCE
 
 /datum/design/heavy_targeting_sensor_t3
 	name = "Enhanced Heavy Fighter Targeting Sensors"
 	desc = "Enhanced Targening Sensors for a Heavy Fighter"
 	id = "heavy_targeting_sensor_t3"
-	build_type = PROTOLATHE
+	build_type = IMPRINTER
 	materials = list(/datum/material/iron = 2000, /datum/material/copper = 7000, /datum/material/glass = 5000, /datum/material/gold = 4000, /datum/material/bluespace = 2000)
 	build_path = /obj/item/fighter_component/targeting_sensor/heavy/t3
 	category = list("Ship Components")
-	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+	departmental_flags = DEPARTMENTAL_FLAG_SCIENCE
 
 /datum/design/heavy_engine_t1
 	name = "Heavy Fighter Engine"
@@ -969,7 +969,7 @@
 	materials = list(/datum/material/iron = 5000, /datum/material/copper = 2500, /datum/material/glass = 500, /datum/material/titanium = 5000)
 	build_path = /obj/item/fighter_component/secondary/heavy/torpedo_rack/t1
 	category = list("Ship Components")
-	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+	departmental_flags = DEPARTMENTAL_FLAG_ENGINEERING
 
 /datum/design/heavy_torpedo_rack_t2
 	name = "Large Heavy Fighter Torpedo Rack"
@@ -979,7 +979,7 @@
 	materials = list(/datum/material/iron = 10000, /datum/material/copper = 3000, /datum/material/glass = 1000, /datum/material/titanium = 10000)
 	build_path = /obj/item/fighter_component/secondary/heavy/torpedo_rack/t2
 	category = list("Ship Components")
-	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+	departmental_flags = DEPARTMENTAL_FLAG_ENGINEERING
 
 /datum/design/heavy_torpedo_rack_t3
 	name = "Extra Large Heavy Fighter Torpedo Rack"
@@ -989,7 +989,7 @@
 	materials = list(/datum/material/iron = 15000, /datum/material/copper = 3500, /datum/material/glass = 1500, /datum/material/titanium = 15000)
 	build_path = /obj/item/fighter_component/secondary/heavy/torpedo_rack/t3
 	category = list("Ship Components")
-	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+	departmental_flags = DEPARTMENTAL_FLAG_ENGINEERING
 
 /datum/design/heavy_fighter_heavy_cannon_t1
 	name = "Heavy Fighter Heavy Cannon"
@@ -999,7 +999,7 @@
 	materials = list(/datum/material/iron = 5000, /datum/material/titanium = 10000, /datum/material/copper = 1500, /datum/material/glass = 1000, /datum/material/plasma = 5000)
 	build_path = /obj/item/fighter_component/primary/heavy/heavy_cannon/t1
 	category = list("Ship Components")
-	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+	departmental_flags = DEPARTMENTAL_FLAG_ENGINEERING
 
 /datum/design/heavy_fighter_heavy_cannon_t2
 	name = "Improved Heavy Fighter Heavy Cannon"
@@ -1009,7 +1009,7 @@
 	materials = list(/datum/material/iron = 5000, /datum/material/titanium = 12000, /datum/material/copper = 2500, /datum/material/glass = 1500, /datum/material/plasma = 7500, /datum/material/uranium = 2500)
 	build_path = /obj/item/fighter_component/primary/heavy/heavy_cannon/t2
 	category = list("Ship Components")
-	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+	departmental_flags = DEPARTMENTAL_FLAG_ENGINEERING
 
 /datum/design/heavy_fighter_heavy_cannon_t3
 	name = "Enhanced Heavy Fighter Heavy Cannon"
@@ -1019,7 +1019,7 @@
 	materials = list(/datum/material/iron = 5000, /datum/material/titanium = 14000, /datum/material/copper = 3500, /datum/material/glass = 2000, /datum/material/plasma = 10000, /datum/material/uranium = 5000, /datum/material/diamond = 5000)
 	build_path = /obj/item/fighter_component/primary/heavy/heavy_cannon/t3
 	category = list("Ship Components")
-	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+	departmental_flags = DEPARTMENTAL_FLAG_ENGINEERING
 
 /datum/design/utility_craft_armour_plating_t1
 	name = "Utility Vessel Armour Plating"
@@ -1089,7 +1089,7 @@
 	materials = list(/datum/material/iron = 25000, /datum/material/titanium = 20000, /datum/material/copper = 12000, /datum/material/glass = 7500)
 	build_path = /obj/item/fighter_component/primary/utility/refueling_system
 	category = list("Ship Components")
-	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+	departmental_flags = DEPARTMENTAL_FLAG_ENGINEERING
 
 /datum/design/utility_auxiliary_fuel_tank_t1
 	name = "Utility Vessel Auxiliary Fuel Tank"
@@ -1129,7 +1129,7 @@
 	materials = list(/datum/material/iron = 5000, /datum/material/titanium = 10000, /datum/material/copper = 15000, /datum/material/glass = 10000)
 	build_path = /obj/item/fighter_component/primary/utility/search_rescue_module
 	category = list("Ship Components")
-	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+	departmental_flags = DEPARTMENTAL_FLAG_ENGINEERING
 
 /datum/design/utility_passenger_compartment_module_t1
 	name = "Utility Passenger Compartment Module"
@@ -1169,7 +1169,7 @@
 	materials = list(/datum/material/iron = 5000, /datum/material/titanium = 5000, /datum/material/copper = 25000, /datum/material/glass = 25000, /datum/material/gold = 10000)
 	build_path = /obj/item/fighter_component/primary/utility/rapid_breach_sealing_module
 	category = list("Ship Components")
-	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+	departmental_flags = DEPARTMENTAL_FLAG_ENGINEERING
 
 /datum/design/utility_rbs_reagent_tank_t1
 	name = "Utility RBS Reagent Tank"

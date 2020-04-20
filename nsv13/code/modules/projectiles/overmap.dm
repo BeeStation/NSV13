@@ -4,7 +4,7 @@
 	var/acceleration_rate = 0
 	var/shotdown_effect_type = /obj/effect/temp_visual/impact_effect/torpedo
 
-/obj/item/projectile/missile/set_homing_target(atom/A)
+/obj/item/projectile/missile/process_homing(atom/A)
 	.=..()
 	var/simplify_Angle = SIMPLIFY_DEGREES(Angle)
 	var/simplify_angle = SIMPLIFY_DEGREES(angle)
@@ -14,9 +14,11 @@
 		homing = FALSE
 		message_admins("Target Bearing: [target_bearing], Valid Angle: [valid_angle], Lock Broken")
 
+/*
 /obj/item/projectile/missile/process()
 	.=..()
 	if(range % 10 == 0)
 		if(speed <= maximum_speed)
 			var/new_speed = speed + acceleration_rate
 			set_pixel_speed(new_speed)
+*/
