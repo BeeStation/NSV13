@@ -17,7 +17,7 @@
 	outfit = /datum/outfit/job/bridge
 
 	access = list(ACCESS_HEADS, ACCESS_MAINT_TUNNELS, ACCESS_CONSTRUCTION, ACCESS_RC_ANNOUNCE, ACCESS_KEYCARD_AUTH)
-	minimal_access = list(ACCESS_HEADS, ACCESS_MAINT_TUNNELS,ACCESS_RC_ANNOUNCE, ACCESS_KEYCARD_AUTH)
+	minimal_access = list(ACCESS_HEADS, ACCESS_MAINT_TUNNELS, ACCESS_RC_ANNOUNCE, ACCESS_KEYCARD_AUTH)
 	paycheck = PAYCHECK_MEDIUM
 	paycheck_department = ACCOUNT_SEC
 
@@ -29,7 +29,7 @@
 
 	id = /obj/item/card/id/silver
 	glasses = /obj/item/clothing/glasses/sunglasses
-	ears = /obj/item/radio/headset/heads/hop
+	ears = /obj/item/radio/headset/headset_bridge
 	uniform = /obj/item/clothing/under/ship/officer
 	shoes = /obj/item/clothing/shoes/jackboots
 	head = /obj/item/clothing/head/beret/durathread

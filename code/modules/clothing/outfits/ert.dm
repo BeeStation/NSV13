@@ -232,7 +232,7 @@
 		return
 
 	var/obj/item/radio/R = H.ears
-	R.keyslot = new /obj/item/encryptionkey/heads/hop
+	R.keyslot = new /obj/item/encryptionkey/heads/xo //NSV13 - HoP to XO
 	R.recalculateChannels()
 
 /datum/outfit/ert/chaplain

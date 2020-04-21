@@ -378,6 +378,10 @@
 	name = "Briefing Room"
 	icon_state = "hallP"
 
+/area/nsv/crew_quarters/heads/maa
+	name = "Master At Arms' Office"
+	icon_state = "shuttlegrn"
+	
 /area/nsv/shuttle
 
 /area/nsv/shuttle/bridge
