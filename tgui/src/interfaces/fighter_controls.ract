@@ -5,22 +5,24 @@
 	"Master Caution"</ui-button><br/>
 </ui-display>
 <ui-display title='Ignition controls'>
-  <ui-button icon='{{data.ignition ? "power-off" : "square-o"}}'
+  {{#if data.flight_state < 6}}
+    <ui-button icon='{{data.ignition ? "power-off" : "square-o"}}'
 	style='{{data.ignition ? "selected" : null}}'
 	action='ignition'>
 	"I1 - Master ignition toggle"</ui-button><br/>
-  <ui-button icon='{{data.fuel_pump ? "power-off" : "square-o"}}'
+    <ui-button icon='{{data.fuel_pump ? "power-off" : "square-o"}}'
 	style='{{data.fuel_pump ? "selected" : null}}'
 	action='fuel_pump'>
 	"I2 - Fuel pump switch"</ui-button><br/>
-  <ui-button icon='{{data.battery ? "power-off" : "square-o"}}'
+    <ui-button icon='{{data.battery ? "power-off" : "square-o"}}'
 	style='{{data.battery ? "selected" : null}}'
 	action='battery'>
 	"I3 - Battery"</ui-button><br/>
-  <ui-button icon='{{data.apu ? "power-off" : "square-o"}}'
+    <ui-button icon='{{data.apu ? "power-off" : "square-o"}}'
 	style='{{data.apu ? "selected" : null}}'
 	action='apu'>
 	"I4 - APU"</ui-button><br/>
+  {{/if}}
   <ui-button icon='{{data.throttle_lock ? "power-off" : "square-o"}}'
 	style='{{data.throttle_lock ? "selected" : null}}'
 	action='throttle_lock'>

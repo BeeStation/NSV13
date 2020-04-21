@@ -546,7 +546,7 @@ You need to fire emag the fighter's IFF board. This makes it list as "ENEMY" on 
 	if(!get_part(/obj/item/fighter_component/countermeasure_dispenser)) //Check for a dispenser
 		to_chat(usr, "<span class='warning'>Countermeasure Dispenser Not Detected!</span>")
 		return
-	if(countermeasures == 0) //check to see if we have any countermeasures
+	if(!mun_countermeasures.len) //check to see if we have any countermeasures
 		to_chat(usr, "<span class='warning'>Countermeasures depleted!</span>")
 		return
 	var/obj/item/fighter_component/countermeasure_dispenser/cmd = get_part(/obj/item/fighter_component/countermeasure_dispenser)
@@ -555,12 +555,13 @@ You need to fire emag the fighter's IFF board. This makes it list as "ENEMY" on 
 			to_chat(usr, "<span class='warning'>Error detected in Countermeasure System! Process Aborted!</span>")
 			SEND_SOUND(usr, sound('sound/effects/alert.ogg', repeat = FALSE, wait = 0, volume = 100))
 			return
+	var/obj/item/ship_weapon/ammunition/countermeasure_charge/cmc = pick(mun_countermeasures) //select charge
+	mun_countermeasures -= cmc
+	qdel(cmc)
+	countermeasures = mun_countermeasures.len
 	for(var/I = 0, I < 3, I++) //launch three chaff
 		new /obj/effect/temp_visual/countermeasure_cloud (loc, 1)
 		sleep(5)
-	var/obj/item/ship_weapon/ammunition/countermeasure_charge/cmc = locate(/obj/item/ship_weapon/ammunition/countermeasure_charge) in contents //remove charge
-	qdel(cmc)
-	countermeasures --
 
 /obj/structure/overmap/fighter/proc/force_eject()
 	brakes = TRUE
@@ -1182,6 +1183,7 @@ How to make fuel:
 	if(max_passengers)
 		data["max_passengers"] = max_passengers
 		data["passengers"] = mobs_in_ship.len
+	data["flight_state"] = flight_state
 	return data
 
 #undef NO_IGNITION

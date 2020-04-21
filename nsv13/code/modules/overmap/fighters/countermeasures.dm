@@ -2,6 +2,8 @@
 	icon = 'nsv13/goonstation/icons/effects/explosions/160x160.dmi'
 	icon_state = "thundercloud"
 	duration = 100
+	pixel_x = -80
+	pixel_y = -80
 
 /obj/effect/temp_visual/countermeasure_cloud/Crossed(obj/item/projectile/missile/B)
 	. = ..()

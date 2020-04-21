@@ -19,7 +19,7 @@
 /obj/item/projectile/bullet/light_cannon_round
 	icon_state = "pdc"
 	name = "light cannon round"
-	damage = 20
+	damage = 10
 //	flag = "overmap_light"
 
 /obj/item/projectile/bullet/heavy_cannon_round
@@ -44,7 +44,7 @@
 /obj/item/projectile/missile/missile
 	icon_state = "torpedo"
 	name = "conventinal missile"
-	speed = 2
+	speed = 0.5
 	damage = 50
 	valid_angle = 180
 	homing_turn_speed = 10
@@ -105,21 +105,27 @@
 			if(target_range > max_range) //Our max range is the maximum possible range we can engage in. This is to stop you getting hunted from outside of your view range.
 				last_target = null
 			if(target_range > initial(weapon_range)) //In other words, theyre out of PDC range
-				message_admins("Target: [OT.name] - Target Mass:[OT.mass]")
-				if(OT.mass >= MASS_LARGE) //Torps for capitals
+				message_admins("Target: [OT.name] - Target Mass: [OT.mass]")
+				if(OT.mass >= MASS_MEDIUM) //Torps for capitals
 					if(torpedoes > 0) //If we have torpedoes loaded, let's use them
 						swap_to(FIRE_MODE_TORPEDO)
+						message_admins("T:FIRE_MODE_TORPEDO")
 					else if(mass < MASS_LARGE) //Big ships don't use their PDCs like this, and instead let them automatically shoot at the enemy.
 						swap_to(FIRE_MODE_PDC)
+						message_admins("T:FIRE_MODE_PDC < MASS_LARGE")
 					else
 						swap_to(FIRE_MODE_RAILGUN)
-				else if(OT.mass < MASS_LARGE) //Missiles for subcapitals
+						message_admins("T:FIRE_MODE_RAILGUN")
+				else if(OT.mass < MASS_MEDIUM) //Missiles for subcapitals
 					if(missiles > 0) //If we have torpedoes loaded, let's use them
 						swap_to(FIRE_MODE_MISSILE)
+						message_admins("M:FIRE_MODE_MISSILE")
 					else if(mass < MASS_LARGE) //Big ships don't use their PDCs like this, and instead let them automatically shoot at the enemy.
 						swap_to(FIRE_MODE_PDC)
+						message_admins("M:FIRE_MODE_PDC < MASS_LARGE")
 					else
 						swap_to(FIRE_MODE_RAILGUN)
+						message_admins("M:MODE_RAILGUN")
 	//end if(ai_controlled)
 	last_target = target
 	if(next_firetime > world.time)

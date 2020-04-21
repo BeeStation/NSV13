@@ -76,7 +76,7 @@
 	var/homing_inaccuracy_max = 0
 	var/homing_offset_x = 0
 	var/homing_offset_y = 0
-	var/angle = 0 //NSV13 - required projectile child
+	var/targetAngle = 0 //NSV13 - required projectile child
 
 	var/ignore_source_check = FALSE
 
@@ -533,11 +533,11 @@
 	Range()
 
 /obj/item/projectile/proc/process_homing()			//may need speeding up in the future performance wise.
-	if(!homing_target)
+	if(!homing_target) //NSV13 - Changed proc to be less performance intensive
 		return FALSE
 
-	var/targetAngle = Get_Angle(src, homing_target)
-	angle = closer_angle_difference(Angle, targetAngle)
+	targetAngle = Get_Angle(src, homing_target)
+	var/angle = closer_angle_difference(Angle, targetAngle)
 	setAngle(Angle + CLAMP(angle, -homing_turn_speed, homing_turn_speed))
 
 /*
