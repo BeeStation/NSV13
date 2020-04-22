@@ -16,7 +16,7 @@
 	log_admin("[key_name(usr)] made [key_name(M)] drop everything!")
 	var/msg = "[key_name_admin(usr)] made [ADMIN_LOOKUPFLW(M)] drop everything!"
 	message_admins(msg)
-	admin_ticket_log(M, msg)
+	admin_ticket_log(M, "[usr] made [M] drop everything!")
 	SSblackbox.record_feedback("tally", "admin_verb", 1, "Drop Everything") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
 
 /client/proc/cmd_admin_subtle_message(mob/M in GLOB.mob_list)
@@ -40,9 +40,10 @@
 				to_chat(M, "<i>You hear a voice in your head... <b>[msg]</i></b>")
 
 	log_admin("SubtlePM: [key_name(usr)] -> [key_name(M)] : [msg]")
+	var/raw_msg = msg
 	msg = "<span class='adminnotice'><b> SubtleMessage: [key_name_admin(usr)] -> [key_name_admin(M)] :</b> [msg]</span>"
 	message_admins(msg)
-	admin_ticket_log(M, msg)
+	admin_ticket_log(M, "SubtleMessage: [usr] -> [M] :[raw_msg]")
 	SSblackbox.record_feedback("tally", "admin_verb", 1, "Subtle Message") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
 
 /client/proc/cmd_admin_headset_message(mob/M in GLOB.mob_list)
@@ -165,7 +166,7 @@
 	log_admin("DirectNarrate: [key_name(usr)] to ([M.name]/[M.key]): [msg]")
 	msg = "<span class='adminnotice'><b> DirectNarrate: [key_name(usr)] to ([M.name]/[M.key]):</b> [msg]<BR></span>"
 	message_admins(msg)
-	admin_ticket_log(M, msg)
+	admin_ticket_log(M, "DirectNarrate: [usr] -> ([M.name]/[M.key]): [msg]")
 	SSblackbox.record_feedback("tally", "admin_verb", 1, "Direct Narrate") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
 
 /client/proc/cmd_admin_local_narrate(atom/A)
@@ -201,7 +202,7 @@
 	log_admin("[key_name(usr)] has toggled [key_name(M)]'s nodamage to [(M.status_flags & GODMODE) ? "On" : "Off"]")
 	var/msg = "[key_name_admin(usr)] has toggled [ADMIN_LOOKUPFLW(M)]'s nodamage to [(M.status_flags & GODMODE) ? "On" : "Off"]"
 	message_admins(msg)
-	admin_ticket_log(M, msg)
+	admin_ticket_log(M, "[usr] has toggled [M]'s nodamage to [(M.status_flags & GODMODE) ? "On" : "Off"]")
 	SSblackbox.record_feedback("nested tally", "admin_toggle", 1, list("Godmode", "[M.status_flags & GODMODE ? "Enabled" : "Disabled"]")) //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
 
 
@@ -329,7 +330,7 @@
 	new_xeno.ckey = ckey
 	var/msg = "<span class='notice'>[key_name_admin(usr)] has spawned [ckey] as a filthy xeno [alien_caste].</span>"
 	message_admins(msg)
-	admin_ticket_log(new_xeno, msg)
+	admin_ticket_log(new_xeno, "[usr] has spawned [ckey] as a xenomorph [alien_caste]")
 	return 1
 
 /*
@@ -391,7 +392,7 @@ Traitors and the like can also be revived with the previous role mostly intact.
 				to_chat(new_xeno, "You have been fully respawned. Enjoy the game.")
 				var/msg = "<span class='adminnotice'>[key_name_admin(usr)] has respawned [new_xeno.key] as a filthy xeno.</span>"
 				message_admins(msg)
-				admin_ticket_log(new_xeno, msg)
+				admin_ticket_log(new_xeno, "[usr] has respawned [new_xeno.key] as a xeno")
 				return	//all done. The ghost is auto-deleted
 
 		//check if they were a monkey
@@ -404,7 +405,7 @@ Traitors and the like can also be revived with the previous role mostly intact.
 				to_chat(new_monkey, "You have been fully respawned. Enjoy the game.")
 				var/msg = "<span class='adminnotice'>[key_name_admin(usr)] has respawned [new_monkey.key] as a filthy xeno.</span>"
 				message_admins(msg)
-				admin_ticket_log(new_monkey, msg)
+				admin_ticket_log(new_monkey, "[usr] has respawned [new_monkey.key] as a monkey")
 				return	//all done. The ghost is auto-deleted
 
 
@@ -498,7 +499,7 @@ Traitors and the like can also be revived with the previous role mostly intact.
 
 	var/msg = "<span class='adminnotice'>[admin] has respawned [player_key] as [new_character.real_name].</span>"
 	message_admins(msg)
-	admin_ticket_log(new_character, msg)
+	admin_ticket_log(new_character, "[usr] has respawned [player_key] as [new_character.real_name]")
 
 	to_chat(new_character, "You have been fully respawned. Enjoy the game.")
 
@@ -545,7 +546,7 @@ Traitors and the like can also be revived with the previous role mostly intact.
 	log_admin("[key_name(usr)] healed / revived [key_name(M)]")
 	var/msg = "<span class='danger'>Admin [key_name_admin(usr)] healed / revived [ADMIN_LOOKUPFLW(M)]!</span>"
 	message_admins(msg)
-	admin_ticket_log(M, msg)
+	admin_ticket_log(M, "Admin [usr] healed / revived [M]!")
 	SSblackbox.record_feedback("tally", "admin_verb", 1, "Rejuvinate") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
 
 /client/proc/cmd_admin_create_centcom_report()
@@ -1161,7 +1162,7 @@ Traitors and the like can also be revived with the previous role mostly intact.
 /client/proc/punish_log(var/whom, var/punishment)
 	var/msg = "[key_name_admin(usr)] punished [key_name_admin(whom)] with [punishment]."
 	message_admins(msg)
-	admin_ticket_log(whom, msg)
+	admin_ticket_log(whom, "[usr] punished [whom] with [punishment].")
 	log_admin("[key_name(usr)] punished [key_name(whom)] with [punishment].")
 
 /client/proc/trigger_centcom_recall()

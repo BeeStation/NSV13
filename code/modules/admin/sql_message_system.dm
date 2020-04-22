@@ -87,7 +87,7 @@
 	if(logged)
 		log_admin_private(pm)
 		message_admins("[header]:<br>[text]")
-		admin_ticket_log(target_ckey, "<font color='blue'>[header]</font>")
+		admin_ticket_log(target_ckey, "[usr] has created a [type][(type == "note" || type == "message" || type == "watchlist entry") ? " for [target_key]" : ""]")
 		admin_ticket_log(target_ckey, text)
 		if(browse)
 			browse_messages("[type]")

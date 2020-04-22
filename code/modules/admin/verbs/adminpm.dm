@@ -152,14 +152,14 @@
 	else
 		if(recipient.holder)
 			if(holder)	//both are admins
+				if(!recipient.current_ticket)
+					new /datum/admin_help(msg, recipient, TRUE)
 				to_chat(recipient, "<span class='danger'>Admin PM from-<b>[key_name(src, recipient, 1)]</b>: <span class='linkify'>[keywordparsedmsg]</span></span>")
 				to_chat(src, "<span class='notice'>Admin PM to-<b>[key_name(recipient, src, 1)]</b>: <span class='linkify'>[keywordparsedmsg]</span></span>")
 
-				//omg this is dumb, just fill in both their tickets
+				recipient.current_ticket.administrator = src
 				var/interaction_message = "[key] -> [recipient.key]: [rawmsg]"
-				admin_ticket_log(src, interaction_message)
-				if(recipient != src)	//reeee
-					admin_ticket_log(recipient, interaction_message)
+				admin_ticket_log(recipient, interaction_message)
 
 			else		//recipient is an admin but sender is not
 				var/replymsg = "Reply PM from-<b>[key_name(src, recipient, 1)]</b>: <span class='linkify'>[keywordparsedmsg]</span>"
@@ -180,8 +180,8 @@
 				to_chat(recipient, "<span class='adminsay'>Admin PM from-<b>[key_name(src, recipient, 0)]</b>: <span class='linkify'>[msg]</span></span>")
 				to_chat(recipient, "<span class='adminsay'><i>Click on the administrator's name to reply.</i></span>")
 				to_chat(src, "<span class='notice'>Admin PM to-<b>[key_name(recipient, src, 1)]</b>: <span class='linkify'>[msg]</span></span>")
-
-				admin_ticket_log(recipient, "PM From [key_name_admin(src)]: [rawmsg]")
+				recipient.current_ticket.administrator = src
+				admin_ticket_log(recipient, "[key] -> [recipient.key]: [rawmsg]")
 
 				//always play non-admin recipients the adminhelp sound
 				SEND_SOUND(recipient, sound('sound/effects/adminhelp.ogg'))

@@ -46,14 +46,9 @@ export const AdminTicketView = props => {
             act(ref, "flw");
           }} />
         <Button
-          content="(SMITE)"
-          onClick={() => {
-            act(ref, "smite");
-          }} />
-        <Button
-          content="Resolve"
+          content={data.open ? 'Resolve' : 'Re-open'}
           color="good"
-          icon="check-circle"
+          icon={data.open ? 'check-circle' : 'eject'}
           onClick={() => {
             act(ref, "resolve");
           }} />

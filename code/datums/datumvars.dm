@@ -1233,7 +1233,7 @@
 
 			if(result)
 				var/newtype = GLOB.species_list[result]
-				admin_ticket_log("[key_name_admin(usr)] has modified the bodyparts of [H] to [result]")
+				admin_ticket_log("[usr] has modified the bodyparts of [H] to [result]")
 				H.set_species(newtype)
 
 		else if(href_list["editbodypart"])
@@ -1287,7 +1287,7 @@
 								to_chat(usr, "[C] doesn't have such bodypart.")
 						else
 							to_chat(usr, "Only humans can be augmented.")
-			admin_ticket_log("[key_name_admin(usr)] has modified the bodyparts of [C]")
+			admin_ticket_log("[usr] has modified the bodyparts of [C]")
 
 
 		else if(href_list["purrbation"])
@@ -1312,14 +1312,14 @@
 				log_admin("[key_name(usr)] has put [key_name(H)] on purrbation.")
 				var/msg = "<span class='notice'>[key_name_admin(usr)] has put [key_name(H)] on purrbation.</span>"
 				message_admins(msg)
-				admin_ticket_log(H, msg)
+				admin_ticket_log(H, "[usr] has put [H] on purrbation.")
 
 			else
 				to_chat(usr, "Removed [H] from purrbation.")
 				log_admin("[key_name(usr)] has removed [key_name(H)] from purrbation.")
 				var/msg = "<span class='notice'>[key_name_admin(usr)] has removed [key_name(H)] from purrbation.</span>"
 				message_admins(msg)
-				admin_ticket_log(H, msg)
+				admin_ticket_log(H, "[usr] has removed [H] from purrbation.")
 
 		else if(href_list["adjustDamage"] && href_list["mobToDamage"])
 			if(!check_rights(NONE))
@@ -1368,7 +1368,7 @@
 				var/log_msg = "[key_name(usr)] dealt [amount] amount of [Text] damage to [key_name(L)]"
 				message_admins("[key_name(usr)] dealt [amount] amount of [Text] damage to [ADMIN_LOOKUPFLW(L)]")
 				log_admin(log_msg)
-				admin_ticket_log(L, "<font color='blue'>[log_msg]</font>")
+				admin_ticket_log(L, "[usr] dealt [amount] amount of [Text] damage to [L]")
 				vv_update_display(L, Text, "[newamt]")
 		else if(href_list["copyoutfit"])
 			if(!check_rights(R_SPAWN))
