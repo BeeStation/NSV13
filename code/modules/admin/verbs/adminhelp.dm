@@ -10,10 +10,12 @@ GLOBAL_DATUM_INIT(ahelp_tickets, /datum/admin_help_tickets, new)
 /datum/admin_help_tickets
 	var/list/active_tickets = list()
 	var/list/closed_tickets = list()
+	var/list/all_tickets = list()
 
 /datum/admin_help_tickets/Destroy()
 	QDEL_LIST(active_tickets)
 	QDEL_LIST(closed_tickets)
+	QDEL_LIST(all_tickets)
 	return ..()
 
 /datum/admin_help_tickets/proc/TicketByID(id)
@@ -150,19 +152,20 @@ GLOBAL_DATUM_INIT(ahelp_tickets, /datum/admin_help_tickets, new)
 
 	if(is_bwoink)
 		AddInteraction("[usr.client.key] PM'd [initiator_key_name]")
-		message_admins("Ticket [TicketHref("#[id]")] created")
+		message_admins("[tier] Ticket [TicketHref("#[id]")] created")
 	else
 		MessageNoRecipient(msg)
 
 		//send it to irc if nobody is on and tell us how many were on
 		var/admin_number_present = send2irc_adminless_only(initiator_ckey, "Ticket #[id]: [name]")
-		log_admin_private("Ticket #[id]: [key_name(initiator)]: [name] - heard by [admin_number_present] non-AFK admins who have +BAN.")
+		log_admin_private("[tier] Ticket #[id]: [key_name(initiator)]: [name] - heard by [admin_number_present] non-AFK admins who have +BAN.")
 		if(admin_number_present <= 0)
 			to_chat(C, "<span class='notice'>No active admins are online, your adminhelp was sent to the admin irc.</span>")
 			heard_by_no_admins = TRUE
 	if(_state && _state == "mentor")
 		tier = _state
 	GLOB.ahelp_tickets.active_tickets += src
+	GLOB.ahelp_tickets.all_tickets += src
 
 	bwoink = is_bwoink
 	if(!bwoink)
@@ -172,6 +175,7 @@ GLOBAL_DATUM_INIT(ahelp_tickets, /datum/admin_help_tickets, new)
 /datum/admin_help/Destroy()
 	RemoveActive()
 	GLOB.ahelp_tickets.closed_tickets -= src
+	GLOB.ahelp_tickets.all_tickets -= src
 	return ..()
 
 /datum/admin_help/proc/AddInteraction(formatted_message)
@@ -225,7 +229,7 @@ GLOBAL_DATUM_INIT(ahelp_tickets, /datum/admin_help_tickets, new)
 
 //	AddInteraction("<font color='red'>[LinkedReplyName(ref_src)]: [msg]</font>")
 	AddInteraction(msg)
-	log_admin_private("Ticket #[id]: [key_name(initiator)]: [msg]")
+	log_admin_private("[tier] Ticket #[id]: [key_name(initiator)]: [msg]")
 
 	//send this msg to all admins
 	for(var/client/X in GLOB.admins)
@@ -362,23 +366,22 @@ GLOBAL_DATUM_INIT(ahelp_tickets, /datum/admin_help_tickets, new)
 /datum/admin_help/proc/MHelpThis(key_name = key_name_admin(usr))
 	if(state != AHELP_ACTIVE)
 		return
+	if(tier == "mentor")
+		MessageNoRecipient(name)
+		tier = "admin"
+		return
 
-	if(initiator)
-		initiator.giveadminhelpverb()
+	var/show_char = CONFIG_GET(flag/mentors_mobname_only)
+	var/mentor_msg = "<span class='mentornotice'><b><span class='mentorhelp'>MENTORHELP:</b> <b>[key_name_mentor(usr, 1, 0, 1, show_char)]</b>: [name]</span></span>"
+	log_mentor("Adminhelp converted to Mentorhelp: [key_name_mentor(src, 0, 0, 0, 0)]: [name]")
+	AddInteraction("Ticket was forwarded to mentors as a mentor issue.")
+	tier = "mentor"
 
-		SEND_SOUND(initiator, sound('sound/effects/adminhelp.ogg'))
+	for(var/client/X in GLOB.mentors | GLOB.admins)
+		X << 'nsv13/sound/effects/ship/freespace2/computer/escape.wav'
+		to_chat(X, mentor_msg)
 
-		to_chat(initiator, "<font color='red' size='4'><b>- AdminHelp Rejected! -</b></font>")
-		to_chat(initiator, "<font color='red'>This question may regard <b>game mechanics or how-tos</b>. Such questions should be asked with <b>Mentorhelp</b>.</font>")
-
-	SSblackbox.record_feedback("tally", "ahelp_stats", 1, "mhelp this")
-	var/msg = "Ticket [TicketHref("#[id]")] told to mentorhelp by [key_name]"
-	message_admins(msg)
-	log_admin_private(msg)
-	AddInteraction("Told to mentorhelp by [usr.client.key].")
-	if(!bwoink)
-		discordsendmsg("ahelp", "Ticket #[id] told to mentorhelp by [key_name(usr, include_link=0)]")
-	Close(silent = TRUE)
+	to_chat(usr, "<span class='mentornotice'><span class='mentorhelp'>>PM to-<b>Mentors</b>: [name]</span></span>")
 
 
 //Show the ticket panel
@@ -479,7 +482,7 @@ GLOBAL_DATUM_INIT(ahelp_tickets, /datum/admin_help_tickets, new)
 
 	SSblackbox.record_feedback("tally", "admin_verb", 1, "Adminhelp") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
 	if(current_ticket)
-		if(alert(usr, "You already have a ticket open. Is this for the same issue?",,"Yes","No") != "No")
+		if(alert(usr, "You already have a [current_ticket.tier] ticket open. Is this for the same issue?",,"Yes","No") != "No")
 			if(current_ticket)
 				current_ticket.MessageNoRecipient(msg)
 				current_ticket.TimeoutVerb()

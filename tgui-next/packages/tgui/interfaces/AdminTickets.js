@@ -291,11 +291,11 @@ export const AdminTickets = props => {
                   act(ref, "re-class", {id: value.id});
                 }} />
               <Button
-                content="Close"
+                content="Reject"
                 color="bad"
                 icon="exclamation-triangle"
                 onClick={() => {
-                  act(ref, "close", {id: value.id});
+                  act(ref, "reject", {id: value.id});
                 }} />
 
             </Fragment>); 

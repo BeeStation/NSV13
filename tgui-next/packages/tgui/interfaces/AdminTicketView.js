@@ -15,7 +15,7 @@ export const AdminTicketView = props => {
           color={
             "blue"
           }
-          content={`Ticket #${data.currentInfo["id"]}: ${data.currentInfo["initiator"]} (${data.currentInfo["title"]})`}
+          content={`Ticket #${data.id}: ${data.initiator} (${data.title})`}
           onClick={() => {
             act(ref, "reply");
           }} />
@@ -53,23 +53,23 @@ export const AdminTicketView = props => {
             act(ref, "resolve");
           }} />
         <Button
-          content="Re-class"
+          content="Re-classify"
           color="average"
           icon="layer-group"
           onClick={() => {
             act(ref, "re-class");
           }} />
         <Button
-          content="Close"
+          content="Reject"
           color="bad"
           icon="exclamation-triangle"
           onClick={() => {
-            act(ref, "close");
+            act(ref, "reject");
           }} />
       </Section>
       <Section title="Ticket log:">
-        {Object.keys(data.log).map(key => {
-          let value = data.log[key];
+        {Object.keys(data.logs).map(key => {
+          let value = data.logs[key];
           return (
             <Button
               key={key}
