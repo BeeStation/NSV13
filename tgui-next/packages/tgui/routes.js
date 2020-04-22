@@ -1,3 +1,5 @@
+import { AdminTickets } from './interfaces/AdminTickets';
+import { AdminTicketView } from './interfaces/AdminTicketView';
 import { AiAirlock } from './interfaces/AiAirlock';
 import { AirAlarm } from './interfaces/AirAlarm';
 import { AirlockElectronics } from './interfaces/AirlockElectronics';
@@ -72,6 +74,14 @@ import { VaultController } from './interfaces/VaultController';
 import { Wires } from './interfaces/Wires';
 
 const ROUTES = {
+  admintickets: {
+    component: () => AdminTickets,
+    scrollable: true,
+  },
+  adminticketview: {
+    component: () => AdminTicketView,
+    scrollable: true,
+  },
   ai_airlock: {
     component: () => AiAirlock,
     scrollable: false,
