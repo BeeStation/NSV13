@@ -228,8 +228,9 @@ export const AdminTickets = props => {
           content={data.show_resolved ? "Hide Resolved Tickets":" Show Resolved Tickets"}
           icon={data.show_resolved ? 'chevron-up' : 'chevron-down'}
           onClick={() => {
-          act(ref, "toggle_resolved");
-        }} />
+            act(ref, "toggle_resolved");
+          }} 
+        />
         {Object.keys(data.resolved).map(key => {
           let value = data.resolved[key];
           return (
