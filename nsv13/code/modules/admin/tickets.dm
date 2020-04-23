@@ -2,7 +2,7 @@
 	var/datum/admin_ticket_handler/ticket_panel = null
 
 /client/proc/show_tickets() //Creates a verb for admins to open up the ui
-	set category = "Admin"
+	set category = "Tickets"
 	set name = "Show tickets"
 	set desc = "Shows all active support tickets"
 	ticket_panel  = new(usr)//create the datum
@@ -54,12 +54,13 @@ force_open = FALSE, datum/tgui/master_ui = null, datum/ui_state/state = GLOB.men
 	for(var/datum/admin_help/AH in GLOB.ahelp_tickets.all_tickets)
 	{
 		var/list/info = list()
-		info["id"] = AH.id
+		info["id"] = "[AH.id] ([capitalize(AH.tier)])"
 		info["title"] = AH.name
 		info["initiator"] = AH.initiator_key_name
 		info["antag_status"] = (AH.initiator.mob.mind && AH.initiator.mob.mind.special_role) ? AH.initiator.mob.mind?.special_role : "Non-antag"
 		info["ours"] = (AH.administrator == holder) ? TRUE : FALSE
 		info["open"] = (AH.state == AHELP_ACTIVE)
+		info["isAdmin"] = check_rights(R_ADMIN, 0)
 		if(info["open"])
 			if(AH.administrator)
 				if(AH.administrator == holder)
@@ -93,17 +94,19 @@ force_open = FALSE, datum/tgui/master_ui = null, datum/ui_state/state = GLOB.men
 force_open = FALSE, datum/tgui/master_ui = null, datum/ui_state/state = GLOB.mentor_state)//ui_interact is called when the client verb is called.
 	ui = SStgui.try_update_ui(user, src, ui_key, ui, force_open)
 	if(!ui)
-		ui = new(user, src, ui_key, "adminticketview", "Ticket Viewer", 490, 600, master_ui, state)
+		ui = new(user, src, ui_key, "adminticketview", "Ticket Viewer", 520, 600, master_ui, state)
 		ui.open()
 
 /datum/admin_help/ui_data(mob/user)
+	usr = user
 	var/list/data = list()
-	var/client/C = (istype(user, /client.)) ? user : user.client
-	data["id"] = id
+	var/client/C = (istype(user, /client)) ? user : user.client
+	data["id"] = "[id] ([capitalize(tier)])"
 	data["title"] = name
 	data["initiator"] = initiator_key_name
 	data["ours"] = (administrator == C) ? TRUE : FALSE
 	data["open"] = (state == AHELP_ACTIVE)
+	data["isAdmin"] = check_rights(R_ADMIN, 0)
 	var/count = 0
 	var/flipflop = FALSE
 	var/list/logs = list()
@@ -129,6 +132,15 @@ force_open = FALSE, datum/tgui/master_ui = null, datum/ui_state/state = GLOB.men
 	if(..())
 		return
 	try_action(action, usr)
+
+/datum/admin_help/proc/toggle_claim(client/C)
+	if(administrator && administrator == C)
+		administrator = null
+		message_admins("[key_name(usr)] has un-claimed ticket #[id]")
+		return
+	administrator = C
+	message_admins("[key_name(usr)] has claimed ticket #[id]")
+	return
 
 /datum/admin_help/proc/try_action(action, client/user)
 	var/client/C = (istype(usr, /client.)) ? usr : usr.client
@@ -167,14 +179,6 @@ force_open = FALSE, datum/tgui/master_ui = null, datum/ui_state/state = GLOB.men
 			return
 		if("sm")
 			C.cmd_admin_subtle_message(initiator.mob)
-			return
-		if("claim")
-			if(administrator && administrator == C)
-				administrator = null
-				message_admins("[key_name(usr)] has un-claimed ticket #[id]")
-				return
-			administrator = C
-			message_admins("[key_name(usr)] has claimed ticket #[id]")
 			return
 	Action(action)
 

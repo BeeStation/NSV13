@@ -423,6 +423,7 @@ GLOBAL_DATUM_INIT(ahelp_tickets, /datum/admin_help_tickets, new)
 //Forwarded action from admin/Topic
 /datum/admin_help/proc/Action(action)
 	testing("Ahelp action: [action]")
+	var/client/C = (istype(usr, /client)) ? usr : usr.client
 	switch(action)
 		if("retitle")
 			Retitle()
@@ -442,7 +443,8 @@ GLOBAL_DATUM_INIT(ahelp_tickets, /datum/admin_help_tickets, new)
 			MHelpThis()
 		if("ticket")
 			ui_interact(usr)
-
+		if("claim")
+			toggle_claim(C)
 //
 // CLIENT PROCS
 //

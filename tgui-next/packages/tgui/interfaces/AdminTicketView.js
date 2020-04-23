@@ -22,23 +22,36 @@ export const AdminTicketView = props => {
         />
         <Button
           content="(PP)"
+          disabled={!data.isAdmin}
           onClick={() => {
             act(ref, "pp");
           }} />
         <Button
           content="(VV)"
+          disabled={!data.isAdmin}
           onClick={() => {
             act(ref, "vv");
           }} />
         <Button
           content="(SM)"
+          disabled={!data.isAdmin}
           onClick={() => {
             act(ref, "sm");
           }} />
         <Button
           content="(FLW)"
+          disabled={!data.isAdmin}
           onClick={() => {
             act(ref, "flw");
+          }} />
+        <Button
+          icon={data.ours ? 'times-circle' : 'check-circle'}
+          color={
+            "good"
+          }
+          content={data.ours ? 'Un-Claim' : 'Claim'}
+          onClick={() => {
+            act(ref, "claim");
           }} />
         <Button
           content={data.open ? 'Resolve' : 'Re-open'}

@@ -27,21 +27,25 @@ export const AdminTickets = props => {
               />
               <Button
                 content="(PP)"
+                disabled={!value.isAdmin}
                 onClick={() => {
                   act(ref, "pp", {id: value.id});
                 }} />
               <Button
                 content="(VV)"
+                disabled={!value.isAdmin}
                 onClick={() => {
                   act(ref, "vv", {id: value.id});
                 }} />
               <Button
                 content="(SM)"
+                disabled={!value.isAdmin}
                 onClick={() => {
                   act(ref, "sm", {id: value.id});
                 }} />
               <Button
                 content="(FLW)"
+                disabled={!value.isAdmin}
                 onClick={() => {
                   act(ref, "flw", {id: value.id});
                 }} />
@@ -98,21 +102,25 @@ export const AdminTickets = props => {
               />
               <Button
                 content="(PP)"
+                disabled={!value.isAdmin}
                 onClick={() => {
                   act(ref, "pp", {id: value.id});
                 }} />
               <Button
                 content="(VV)"
+                disabled={!value.isAdmin}
                 onClick={() => {
                   act(ref, "vv", {id: value.id});
                 }} />
               <Button
                 content="(SM)"
+                disabled={!value.isAdmin}
                 onClick={() => {
                   act(ref, "sm", {id: value.id});
                 }} />
               <Button
                 content="(FLW)"
+                disabled={!value.isAdmin}
                 onClick={() => {
                   act(ref, "flw", {id: value.id});
                 }} />
@@ -169,21 +177,25 @@ export const AdminTickets = props => {
               />
               <Button
                 content="(PP)"
+                disabled={!value.isAdmin}
                 onClick={() => {
                   act(ref, "pp", {id: value.id});
                 }} />
               <Button
                 content="(VV)"
+                disabled={!value.isAdmin}
                 onClick={() => {
                   act(ref, "vv", {id: value.id});
                 }} />
               <Button
                 content="(SM)"
+                disabled={!value.isAdmin}
                 onClick={() => {
                   act(ref, "sm", {id: value.id});
                 }} />
               <Button
                 content="(FLW)"
+                disabled={!value.isAdmin}
                 onClick={() => {
                   act(ref, "flw", {id: value.id});
                 }} />
@@ -240,21 +252,25 @@ export const AdminTickets = props => {
               />
               <Button
                 content="(PP)"
+                disabled={!value.isAdmin}
                 onClick={() => {
                   act(ref, "pp", {id: value.id});
                 }} />
               <Button
                 content="(VV)"
+                disabled={!value.isAdmin}
                 onClick={() => {
                   act(ref, "vv", {id: value.id});
                 }} />
               <Button
                 content="(SM)"
+                disabled={!value.isAdmin}
                 onClick={() => {
                   act(ref, "sm", {id: value.id});
                 }} />
               <Button
                 content="(FLW)"
+                disabled={!value.isAdmin}
                 onClick={() => {
                   act(ref, "flw", {id: value.id});
                 }} />
@@ -319,21 +335,25 @@ export const AdminTickets = props => {
               />
               <Button
                 content="(PP)"
+                disabled={!value.isAdmin}
                 onClick={() => {
                   act(ref, "pp", {id: value.id});
                 }} />
               <Button
                 content="(VV)"
+                disabled={!value.isAdmin}
                 onClick={() => {
                   act(ref, "vv", {id: value.id});
                 }} />
               <Button
                 content="(SM)"
+                disabled={!value.isAdmin}
                 onClick={() => {
                   act(ref, "sm", {id: value.id});
                 }} />
               <Button
                 content="(FLW)"
+                disabled={!value.isAdmin}
                 onClick={() => {
                   act(ref, "flw", {id: value.id});
                 }} />
