@@ -354,6 +354,10 @@
 	name = "Weapons Bay"
 	icon_state = "hallC"
 
+/area/nsv/weapons/gauss
+	name = "Gauss Bay"
+	icon_state = "hallC"
+
 /area/nsv/weapons/port
 	name = "Port Weapons Bay"
 	icon_state = "hallP"
@@ -365,6 +369,10 @@
 /area/nsv/weapons/fore
 	name = "Fore Weapons Bay"
 	icon_state = "hallF"
+
+/area/nsv/magazine
+	name = "Ship's Magazine"
+	icon_state = "hallC"
 
 /area/nsv/magazine/port
 	name = "Port Magazine"
@@ -381,7 +389,7 @@
 /area/nsv/crew_quarters/heads/maa
 	name = "Master At Arms' Office"
 	icon_state = "shuttlegrn"
-	
+
 /area/nsv/shuttle
 
 /area/nsv/shuttle/bridge
