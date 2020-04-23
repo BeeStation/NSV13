@@ -47,6 +47,7 @@ force_open = FALSE, datum/tgui/master_ui = null, datum/ui_state/state = GLOB.men
 	var/list/ours = list()
 	var/list/unclaimed = list()
 	var/list/resolved = list()
+	var/list/active = list()
 	var/list/mentor = list()
 	if(!holder.is_mentor())//If you're not at least a mentor. You shouldn't be able to see this at all... Admins are by default counted as mentors
 		return
@@ -63,13 +64,17 @@ force_open = FALSE, datum/tgui/master_ui = null, datum/ui_state/state = GLOB.men
 			if(AH.administrator)
 				if(AH.administrator == holder)
 					ours["[AH.id]"] = info
+				if(!check_rights(R_ADMIN, 0)) //Double check that they're..y'know, allowed to see this one.
+					if(AH.tier == "mentor") //If theyre a mentor, and this is a mentor ticket, let them see it. Otherwise, it's an admin ticket, that they shouldn't be able to see.
+						active["[AH.id]"] = info
+						continue
 				else
-					continue
+					active["[AH.id]"] = info
 			else
 				if(AH.tier == "mentor")
 					mentor["[AH.id]"] = info
 					continue
-				if(!check_rights(R_ADMIN)) //Double check that they're..y'know, allowed to see this one.
+				if(!check_rights(R_ADMIN, 0)) //Double check that they're..y'know, allowed to see this one.
 					continue
 				unclaimed["[AH.id]"] = info
 		else if(show_resolved)
@@ -81,6 +86,7 @@ force_open = FALSE, datum/tgui/master_ui = null, datum/ui_state/state = GLOB.men
 	data["resolved"] = resolved
 	data["mentor"] = mentor
 	data["ours"] = ours
+	data["active"] = active
 	return data
 
 /datum/admin_help/ui_interact(mob/user, ui_key = "main", datum/tgui/ui = null, \

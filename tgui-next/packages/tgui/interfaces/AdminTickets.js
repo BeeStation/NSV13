@@ -9,7 +9,7 @@ export const AdminTickets = props => {
 
   return (
     <Fragment>
-      <Section title="Your active tickets:">
+      <Section title="Your claimed tickets:">
         {Object.keys(data.ours).map(key => {
           let value = data.ours[key];
           return (
@@ -80,6 +80,77 @@ export const AdminTickets = props => {
             </Fragment>);
         })}
       </Section>
+      <Section title="Claimed tickets:">
+        {Object.keys(data.active).map(key => {
+          let value = data.active[key];
+          return (
+            <Fragment key={key}>
+              <Button
+                key={key}
+                fluid
+                color={
+                  "blue"
+                }
+                content={`Ticket #${value.id}: ${value.initiator} (${value.title})`}
+                onClick={() => {
+                  act(ref, "view", { id: value.id });
+                }}
+              />
+              <Button
+                content="(PP)"
+                onClick={() => {
+                  act(ref, "pp", {id: value.id});
+                }} />
+              <Button
+                content="(VV)"
+                onClick={() => {
+                  act(ref, "vv", {id: value.id});
+                }} />
+              <Button
+                content="(SM)"
+                onClick={() => {
+                  act(ref, "sm", {id: value.id});
+                }} />
+              <Button
+                content="(FLW)"
+                onClick={() => {
+                  act(ref, "flw", {id: value.id});
+                }} />
+              <Button
+                key={key}
+                icon={value.ours ? 'times-circle' : 'check-circle'}
+                color={
+                  "good"
+                }
+                content={value.ours ? 'Un-Claim' : 'Claim'}
+                onClick={() => {
+                  act(ref, "claim", { id: value.id });
+                }} />
+              <Button
+                content={value.open ? 'Resolve' : 'Re-open'}
+                color="good"
+                icon={value.open ? 'check-circle' : 'eject'}
+                onClick={() => {
+                  act(ref, "resolve", {id: value.id});
+                }} />
+              <Button
+                content="Re-class"
+                color="average"
+                icon="layer-group"
+                onClick={() => {
+                  act(ref, "re-class", {id: value.id});
+                }} />
+              <Button
+                content="Reject"
+                color="bad"
+                icon="exclamation-triangle"
+                onClick={() => {
+                  act(ref, "reject", {id: value.id});
+                }} />
+
+            </Fragment>);
+        })}
+      </Section>
       <Section title="Unclaimed admin tickets:">
         {Object.keys(data.unclaimed).map(key => {
           let value = data.unclaimed[key];
@@ -141,11 +212,11 @@ export const AdminTickets = props => {
                   act(ref, "re-class", {id: value.id});
                 }} />
               <Button
-                content="Close"
+                content="Reject"
                 color="bad"
                 icon="exclamation-triangle"
                 onClick={() => {
-                  act(ref, "close", {id: value.id});
+                  act(ref, "reject", {id: value.id});
                 }} />
 
             </Fragment>);
@@ -212,11 +283,11 @@ export const AdminTickets = props => {
                   act(ref, "re-class", {id: value.id});
                 }} />
               <Button
-                content="Close"
+                content="Reject"
                 color="bad"
                 icon="exclamation-triangle"
                 onClick={() => {
-                  act(ref, "close", {id: value.id});
+                  act(ref, "reject", {id: value.id});
                 }} />
 
             </Fragment>);
