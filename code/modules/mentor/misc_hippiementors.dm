@@ -11,8 +11,7 @@ GLOBAL_PROTECT(mentors)
 
 /client/proc/hippie_client_procs(href_list)
     if(href_list["mentor_msg"])
-        var/mob/M = locate(href_list["mentor_msg"])
-        var/client/C = (istype(M, /client)) ? M : M.client
+        var/client/C = locate(href_list["mentor_msg"])
         src.cmd_admin_pm(C,null)
         return TRUE
 
