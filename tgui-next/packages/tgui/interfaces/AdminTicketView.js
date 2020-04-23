@@ -18,13 +18,8 @@ export const AdminTicketView = props => {
           content={`Ticket #${data.id}: ${data.initiator} (${data.title})`}
           onClick={() => {
             act(ref, "reply");
-          }} />
-        <Button
-          icon="arrow-left"
-          content="Back"
-          onClick={() => {
-            act(ref, "back");
-          }} />
+          }}
+        />
         <Button
           content="(PP)"
           onClick={() => {

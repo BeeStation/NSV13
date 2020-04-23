@@ -18,27 +18,7 @@
 	if(!msg)	return
 	if(!mob)	return						//this doesn't happen
 
-	var/show_char = CONFIG_GET(flag/mentors_mobname_only)
-	var/mentor_msg = "<span class='mentornotice'><b><span class='mentorhelp'>MENTORHELP:</b> <b>[key_name_mentor(src, 1, 0, 1, show_char)]</b>: [msg]</span></span>"
-	log_mentor("MENTORHELP: [key_name_mentor(src, 0, 0, 0, 0)]: [msg]")
-	if(current_ticket)
-		if(alert(usr, "You already have a [current_ticket.tier] ticket open. Is this for the same issue?",,"Yes","No") != "No")
-			if(current_ticket)
-				current_ticket.MessageNoRecipient(msg)
-				current_ticket.TimeoutVerb()
-				return
-			else
-				to_chat(usr, "<span class='warning'>Ticket not found, creating new one...</span>")
-		else
-			current_ticket.AddInteraction("[usr.client.key] opened a new ticket.")
-			current_ticket.Close()
-
-	for(var/client/X in GLOB.mentors | GLOB.admins)
-		X << 'nsv13/sound/effects/ship/freespace2/computer/escape.wav'
-		to_chat(X, mentor_msg)
-
-	to_chat(src, "<span class='mentornotice'><span class='mentorhelp'>>PM to-<b>Mentors</b>: [msg]</span></span>")
-	new /datum/admin_help(msg, src, FALSE, "mentor")
+	new /datum/admin_help(msg, src, FALSE, _state="mentor")
 	return
 
 /proc/get_mentor_counts()

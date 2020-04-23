@@ -149,6 +149,8 @@ GLOBAL_DATUM_INIT(ahelp_tickets, /datum/admin_help_tickets, new)
 	TimeoutVerb()
 
 	_interactions = list()
+	if(_state && _state == "mentor")
+		tier = _state
 
 	if(is_bwoink)
 		AddInteraction("[usr.client.key] PM'd [initiator_key_name]")
@@ -162,8 +164,6 @@ GLOBAL_DATUM_INIT(ahelp_tickets, /datum/admin_help_tickets, new)
 		if(admin_number_present <= 0)
 			to_chat(C, "<span class='notice'>No active admins are online, your adminhelp was sent to the admin irc.</span>")
 			heard_by_no_admins = TRUE
-	if(_state && _state == "mentor")
-		tier = _state
 	GLOB.ahelp_tickets.active_tickets += src
 	GLOB.ahelp_tickets.all_tickets += src
 
@@ -225,21 +225,24 @@ GLOBAL_DATUM_INIT(ahelp_tickets, /datum/admin_help_tickets, new)
 /datum/admin_help/proc/MessageNoRecipient(msg)
 	var/ref_src = "[REF(src)]"
 	//Message to be sent to all admins
-	var/admin_msg = "<span class='adminnotice'><span class='adminhelp'>Ticket [TicketHref("#[id]", ref_src)]</span><b>: [LinkedReplyName(ref_src)] [FullMonty(ref_src)]:</b> <span class='linkify'>[keywords_lookup(msg)]</span></span>"
+	var/admin_msg = "<span class='adminnotice'><span class='adminhelp'>[capitalize(tier)] Ticket [TicketHref("#[id]", ref_src)]</span><b>: [LinkedReplyName(ref_src)] [FullMonty(ref_src)]:</b> <span class='linkify'>[keywords_lookup(msg)]</span></span>"
 
-//	AddInteraction("<font color='red'>[LinkedReplyName(ref_src)]: [msg]</font>")
 	AddInteraction(msg)
-	log_admin_private("[tier] Ticket #[id]: [key_name(initiator)]: [msg]")
+	log_admin_private("[capitalize(tier)] Ticket #[id]: [key_name(initiator)]: [msg]")
 
-	//send this msg to all admins
-	for(var/client/X in GLOB.admins)
-		if(X.prefs.toggles & SOUND_ADMINHELP)
-			SEND_SOUND(X, sound('sound/effects/adminhelp.ogg'))
-		window_flash(X, ignorepref = TRUE)
-		to_chat(X, admin_msg)
-
+	if(tier == "mentor")
+		for(var/client/X in GLOB.mentors | GLOB.admins)
+			SEND_SOUND(X, sound('nsv13/sound/effects/ship/freespace2/computer/escape.wav'))
+			to_chat(X, "<span class='mentornotice'><span class='mentorhelp'>[capitalize(tier)] Ticket [TicketHref("#[id]", ref_src)]</span><b>: [LinkedReplyName(ref_src)]:</b> <span class='linkify'>[msg]</span></span>")
+	else
+		//send this msg to all admins
+		for(var/client/X in GLOB.admins)
+			if(X.prefs.toggles & SOUND_ADMINHELP)
+				SEND_SOUND(X, sound('sound/effects/adminhelp.ogg'))
+			window_flash(X, ignorepref = TRUE)
+			to_chat(X, admin_msg)
 	//show it to the person adminhelping too
-	to_chat(initiator, "<span class='adminnotice'>PM to-<b>Admins</b>: <span class='linkify'>[msg]</span></span>")
+	to_chat(initiator, "<span class='adminnotice'>PM to-<b>[capitalize(tier)]s</b>: <span class='linkify'>[msg]</span></span>")
 
 //Reopen a closed ticket
 /datum/admin_help/proc/Reopen()
@@ -367,21 +370,15 @@ GLOBAL_DATUM_INIT(ahelp_tickets, /datum/admin_help_tickets, new)
 	if(state != AHELP_ACTIVE)
 		return
 	if(tier == "mentor")
-		MessageNoRecipient(name)
 		tier = "admin"
+		AddInteraction("Ticket was forwarded to admins as an administrative issue.")
+		MessageNoRecipient(name)
 		return
 
-	var/show_char = CONFIG_GET(flag/mentors_mobname_only)
-	var/mentor_msg = "<span class='mentornotice'><b><span class='mentorhelp'>MENTORHELP:</b> <b>[key_name_mentor(usr, 1, 0, 1, show_char)]</b>: [name]</span></span>"
 	log_mentor("Adminhelp converted to Mentorhelp: [key_name_mentor(src, 0, 0, 0, 0)]: [name]")
 	AddInteraction("Ticket was forwarded to mentors as a mentor issue.")
 	tier = "mentor"
-
-	for(var/client/X in GLOB.mentors | GLOB.admins)
-		X << 'nsv13/sound/effects/ship/freespace2/computer/escape.wav'
-		to_chat(X, mentor_msg)
-
-	to_chat(usr, "<span class='mentornotice'><span class='mentorhelp'>>PM to-<b>Mentors</b>: [name]</span></span>")
+	MessageNoRecipient(name)
 
 
 //Show the ticket panel
@@ -444,7 +441,7 @@ GLOBAL_DATUM_INIT(ahelp_tickets, /datum/admin_help_tickets, new)
 		if("mhelp")
 			MHelpThis()
 		if("ticket")
-			usr.client.view_ticket(src)
+			ui_interact(usr)
 
 //
 // CLIENT PROCS
