@@ -47,7 +47,7 @@
 	else if(istype(whom, /client))
 		C = whom
 	if(!C)
-		if(holder)
+		if(is_mentor())
 			to_chat(src, "<span class='danger'>Error: Admin-PM: Client not found.</span>")
 		return
 
@@ -94,14 +94,14 @@
 
 		if(!msg)
 			return
-		if(holder)
+		if(is_mentor())
 			to_chat(src, "<span class='danger'>Error: Use the admin IRC channel, nerd.</span>")
 			return
 
 
 	else
 		if(!recipient)
-			if(holder)
+			if(is_mentor())
 				to_chat(src, "<span class='danger'>Error: Admin-PM: Client not found.</span>")
 				if(msg)
 					to_chat(src, msg)
@@ -122,7 +122,7 @@
 				return
 
 			if(!recipient)
-				if(holder)
+				if(is_mentor())
 					to_chat(src, "<span class='danger'>Error: Admin-PM: Client not found.</span>")
 				else
 					current_ticket.MessageNoRecipient(msg)
@@ -139,7 +139,7 @@
 
 	var/rawmsg = msg
 
-	if(holder)
+	if(is_mentor())
 		msg = emoji_parse(msg)
 
 	var/keywordparsedmsg = keywords_lookup(msg)
@@ -150,8 +150,8 @@
 		ircreplyamount--
 		send2irc("[AH ? "#[AH.id] " : ""]Reply: [ckey]", rawmsg)
 	else
-		if(recipient.holder)
-			if(holder)	//both are admins
+		if(recipient.is_mentor())
+			if(is_mentor())	//both are admins
 				if(!recipient.current_ticket)
 					new /datum/admin_help(msg, recipient, TRUE)
 				to_chat(recipient, "<span class='danger'>Admin PM from-<b>[key_name(src, recipient, 1)]</b>: <span class='linkify'>[keywordparsedmsg]</span></span>")
@@ -172,7 +172,7 @@
 				SEND_SOUND(recipient, sound('sound/effects/adminhelp.ogg'))
 
 		else
-			if(holder)	//sender is an admin but recipient is not. Do BIG RED TEXT
+			if(is_mentor())	//sender is an admin but recipient is not. Do BIG RED TEXT
 				if(!recipient.current_ticket)
 					new /datum/admin_help(msg, recipient, TRUE)
 
