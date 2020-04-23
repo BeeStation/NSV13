@@ -152,14 +152,14 @@
 	else
 		if(recipient.is_mentor())
 			if(is_mentor())	//both are admins
-				if(!recipient.current_ticket)
-					new /datum/admin_help(msg, recipient, TRUE)
 				to_chat(recipient, "<span class='danger'>Admin PM from-<b>[key_name(src, recipient, 1)]</b>: <span class='linkify'>[keywordparsedmsg]</span></span>")
 				to_chat(src, "<span class='notice'>Admin PM to-<b>[key_name(recipient, src, 1)]</b>: <span class='linkify'>[keywordparsedmsg]</span></span>")
 
-				recipient.current_ticket.administrator = src
+				//omg this is dumb, just fill in both their tickets
 				var/interaction_message = "[key] -> [recipient.key]: [rawmsg]"
 				admin_ticket_log(recipient, interaction_message)
+				if(recipient != src)	//reeee
+					admin_ticket_log(recipient, interaction_message)
 
 			else		//recipient is an admin but sender is not
 				var/replymsg = "Reply PM from-<b>[key_name(src, recipient, 1)]</b>: <span class='linkify'>[keywordparsedmsg]</span>"
