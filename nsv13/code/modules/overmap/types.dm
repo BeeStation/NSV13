@@ -87,6 +87,8 @@
 	area_type = /area/nostromo
 
 /obj/structure/overmap/nanotrasen/mining_cruiser/nostromo/fob
+	name = "NSV FOB"
+	mass = MASS_SMALL //providing a real difference between nostromo and fob
 	area_type = /area/nsv/shuttle
 
 /obj/structure/overmap/nanotrasen/missile_cruiser/starter //VAGO. Sergei use me!
