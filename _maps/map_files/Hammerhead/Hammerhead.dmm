@@ -857,9 +857,7 @@
 	pixel_x = -28
 	},
 /turf/open/floor/plasteel/white,
-/area/science/mixing{
-	pixel_x = -28
-	})
+/area/science/mixing)
 "aca" = (
 /obj/structure/closet/secure_closet/personal/cabinet,
 /turf/open/floor/carpet,
@@ -2855,38 +2853,12 @@
 /turf/open/floor/plasteel/dark,
 /area/bridge)
 "agx" = (
-/obj/item/transfer_valve{
-	pixel_x = -5
-	},
-/obj/item/transfer_valve{
-	pixel_x = -5
-	},
-/obj/item/transfer_valve,
-/obj/item/transfer_valve,
-/obj/item/transfer_valve{
-	pixel_x = 5
-	},
-/obj/item/transfer_valve{
-	pixel_x = 5
-	},
-/obj/structure/table/reinforced,
+/obj/effect/turf_decal/tile/yellow,
 /obj/effect/turf_decal/tile/yellow{
 	dir = 4
 	},
-/obj/structure/cable{
-	icon_state = "0-2"
-	},
-/turf/open/floor/plating,
-/area/nsv/hanger)
-"agx" = (
-/obj/structure/cable{
-	icon_state = "0-8"
-	},
-/obj/structure/cable{
-	icon_state = "4-8"
-	},
-/turf/open/floor/plasteel/ship,
-/area/nsv/weapons/fore)
+/turf/open/floor/plasteel/white,
+/area/science/mixing)
 "agy" = (
 /obj/effect/turf_decal/stripes/full,
 /obj/machinery/atmospherics/pipe/manifold/general/visible{
@@ -4404,15 +4376,14 @@
 /turf/open/floor/wood,
 /area/crew_quarters/theatre)
 "ajM" = (
-/obj/structure/cable{
-	icon_state = "0-8"
+/obj/effect/turf_decal/tile/yellow{
+	dir = 8
 	},
-/obj/structure/cable{
-	icon_state = "4-8"
+/obj/effect/turf_decal/tile/yellow{
+	dir = 1
 	},
-/obj/structure/closet/secure_closet/master_at_arms,
-/turf/open/floor/plasteel/ship/techfloor/alt,
-/area/nsv/weapons/fore)
+/turf/open/floor/plasteel/white,
+/area/medical/chemistry)
 "ajN" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer1,
 /turf/open/floor/plasteel,
@@ -15576,8 +15547,8 @@
 /area/medical/sleeper)
 "aJJ" = (
 /obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer1,
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer3{
-	dir = 10
+/obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer3{
+	dir = 1
 	},
 /turf/open/floor/plasteel/white,
 /area/medical/virology)
@@ -17874,11 +17845,11 @@
 	},
 /area/chapel/main)
 "aPn" = (
-/obj/machinery/atmospherics/pipe/layer_manifold/visible,
 /obj/structure/chair/office/light{
 	dir = 4
 	},
 /obj/effect/landmark/start/virologist,
+/obj/machinery/atmospherics/pipe/layer_manifold,
 /turf/open/floor/plasteel/white,
 /area/medical/virology)
 "aPo" = (
@@ -18554,9 +18525,23 @@
 /obj/effect/turf_decal/tile/yellow{
 	dir = 8
 	},
-/obj/structure/table,
 /obj/structure/cable{
 	icon_state = "1-2"
+	},
+/obj/item/transfer_valve{
+	pixel_x = 6
+	},
+/obj/item/transfer_valve,
+/obj/item/transfer_valve{
+	pixel_x = -6
+	},
+/obj/structure/table/reinforced,
+/obj/item/transfer_valve{
+	pixel_x = -6
+	},
+/obj/item/transfer_valve,
+/obj/item/transfer_valve{
+	pixel_x = 6
 	},
 /turf/open/floor/plasteel/white,
 /area/science/mixing)
@@ -22636,9 +22621,6 @@
 /obj/structure/disposalpipe/segment{
 	dir = 4
 	},
-/obj/item/radio/intercom{
-	pixel_y = 26
-	},
 /turf/open/floor/plasteel/dark,
 /area/security)
 "bba" = (
@@ -26339,7 +26321,7 @@
 "cBX" = (
 /obj/structure/window/reinforced/spawner,
 /obj/structure/window/reinforced/spawner/west,
-/obj/machinery/clonepod,
+/obj/machinery/clonepod/prefilled,
 /turf/open/floor/engine,
 /area/medical/genetics/cloning)
 "cCg" = (
@@ -26847,6 +26829,12 @@
 /obj/machinery/door/firedoor,
 /obj/structure/cable{
 	icon_state = "1-2"
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer3{
+	dir = 8
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer1{
+	dir = 8
 	},
 /turf/open/floor/plasteel/white,
 /area/medical/virology)
@@ -32599,6 +32587,7 @@
 /obj/structure/disposalpipe/segment{
 	dir = 4
 	},
+/obj/item/folder/blue,
 /turf/open/floor/carpet/ship,
 /area/nsv/crew_quarters/heads/maa)
 "hUl" = (
@@ -33911,6 +33900,11 @@
 "iXK" = (
 /obj/structure/table/reinforced,
 /obj/item/storage/toolbox/mechanical,
+/obj/item/key/fighter_tug,
+/obj/item/key/fighter_tug{
+	pixel_y = 3;
+	pixel_x = 3
+	},
 /turf/open/floor/plating,
 /area/nsv/hanger)
 "iYh" = (
@@ -35159,6 +35153,9 @@
 /area/maintenance/starboard/central)
 "jUf" = (
 /obj/machinery/light/small,
+/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer1{
+	dir = 1
+	},
 /turf/open/floor/plasteel/white,
 /area/medical/virology)
 "jUy" = (
@@ -36053,6 +36050,15 @@
 	},
 /turf/open/floor/plasteel/white,
 /area/science/research)
+"kFm" = (
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer3{
+	dir = 8
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer1{
+	dir = 8
+	},
+/turf/open/floor/plasteel/white,
+/area/medical/virology)
 "kFM" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer1{
 	dir = 8
@@ -36204,7 +36210,7 @@
 /turf/open/floor/plasteel,
 /area/science/robotics/lab)
 "kNw" = (
-/obj/machinery/atmospherics/components/unary/vent_pump/on{
+/obj/machinery/atmospherics/components/unary/outlet_injector/atmos/toxins_mixing_input{
 	dir = 4
 	},
 /turf/open/floor/engine/vacuum,
@@ -37826,6 +37832,13 @@
 	},
 /turf/open/floor/plasteel/ship,
 /area/hallway/secondary/exit)
+"miI" = (
+/obj/vehicle/sealed/car/realistic/fighter_tug{
+	icon_state = "tug";
+	dir = 1
+	},
+/turf/open/floor/plasteel/ship,
+/area/nsv/hanger)
 "miQ" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer3,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer1,
@@ -39689,6 +39702,9 @@
 /obj/machinery/disposal/bin,
 /turf/open/floor/plating,
 /area/maintenance/department/security)
+"nTd" = (
+/turf/open/floor/circuit/telecomms,
+/area/science/xenobiology)
 "nTy" = (
 /obj/structure/table,
 /obj/effect/turf_decal/tile/yellow{
@@ -40586,6 +40602,12 @@
 /area/crew_quarters/kitchen)
 "oAX" = (
 /obj/effect/landmark/start/virologist,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer3{
+	dir = 8
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer1{
+	dir = 8
+	},
 /turf/open/floor/plasteel/dark,
 /area/medical/virology)
 "oBf" = (
@@ -42244,6 +42266,10 @@
 	},
 /turf/open/floor/plasteel/ship/padded,
 /area/maintenance/starboard/central)
+"pZs" = (
+/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer1,
+/turf/open/floor/plasteel/dark,
+/area/medical/virology)
 "pZy" = (
 /obj/machinery/vending/cola/random,
 /turf/open/floor/plasteel/dark,
@@ -43769,8 +43795,9 @@
 /turf/open/floor/plasteel/dark,
 /area/crew_quarters/heads/hos)
 "rkE" = (
-/obj/structure/table/reinforced,
-/obj/item/folder/blue,
+/obj/machinery/computer/ship/fighter_controller{
+	dir = 4
+	},
 /turf/open/floor/carpet/ship,
 /area/nsv/crew_quarters/heads/maa)
 "rlF" = (
@@ -45889,7 +45916,6 @@
 /area/engine/engine_room)
 "tkb" = (
 /obj/structure/closet/secure_closet/chemical,
-/obj/item/pipe_dispenser/plumbing,
 /obj/item/storage/box/beakers,
 /obj/machinery/firealarm{
 	dir = 1;
@@ -47443,6 +47469,12 @@
 	},
 /turf/open/floor/wood,
 /area/security/detectives_office/private_investigators_office)
+"uyo" = (
+/obj/machinery/atmospherics/components/unary/vent_pump/on/layer3{
+	dir = 1
+	},
+/turf/open/floor/plasteel/dark,
+/area/medical/virology)
 "uyq" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer3{
 	dir = 8
@@ -47894,6 +47926,15 @@
 "uPW" = (
 /turf/closed/wall/r_wall/ship,
 /area/science/nanite)
+"uQn" = (
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer3{
+	dir = 8
+	},
+/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer1{
+	dir = 1
+	},
+/turf/open/floor/plasteel/white,
+/area/medical/virology)
 "uQr" = (
 /obj/effect/turf_decal/tile/brown{
 	dir = 8
@@ -48368,6 +48409,16 @@
 	},
 /turf/open/floor/plasteel/ship,
 /area/hallway/primary/fore)
+"vmw" = (
+/mob/living/carbon/monkey,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer3{
+	dir = 10
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer1{
+	dir = 9
+	},
+/turf/open/floor/plasteel/dark,
+/area/medical/virology)
 "vmC" = (
 /obj/structure/disposalpipe/segment{
 	dir = 4
@@ -48763,6 +48814,7 @@
 /obj/item/gun/ballistic/automatic/peacekeeper,
 /obj/item/gun/ballistic/automatic/peacekeeper,
 /obj/item/gun/ballistic/automatic/peacekeeper,
+/obj/item/gun/energy/ionrifle,
 /turf/open/floor/plasteel/dark,
 /area/ai_monitored/security/armory/security)
 "vKa" = (
@@ -49385,7 +49437,7 @@
 /area/engine/atmospherics_engine)
 "wjE" = (
 /obj/machinery/light,
-/turf/open/floor/plasteel/freezer/airless,
+/turf/open/floor/circuit/telecomms,
 /area/science/xenobiology)
 "wjY" = (
 /obj/structure/table/wood,
@@ -51368,6 +51420,7 @@
 /obj/structure/disposalpipe/segment{
 	dir = 4
 	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer1,
 /turf/open/floor/plasteel/dark,
 /area/medical/virology)
 "xXp" = (
@@ -69180,7 +69233,7 @@ aux
 aux
 aux
 jxt
-aXb
+nTd
 wjE
 jxt
 bRg
@@ -69482,8 +69535,8 @@ aux
 aux
 aux
 jxt
-aXb
-aXb
+nTd
+nTd
 jxt
 afp
 amR
@@ -90385,7 +90438,7 @@ amF
 amF
 amF
 bfb
-aTa
+uQn
 jUf
 amF
 baO
@@ -91291,7 +91344,7 @@ ejS
 eaD
 amF
 amr
-asP
+kFm
 asJ
 amF
 asc
@@ -92195,10 +92248,10 @@ byo
 amF
 aZL
 aqF
-aqF
+pZs
 xXf
-pPn
-aqF
+vmw
+uyo
 amF
 aQp
 aQp
@@ -103959,7 +104012,7 @@ hmw
 ovP
 jCp
 bdN
-hmw
+miI
 hmw
 nqC
 rmD
@@ -108187,7 +108240,7 @@ hmw
 ovP
 jCp
 bdN
-hmw
+miI
 hmw
 cOx
 rmD
