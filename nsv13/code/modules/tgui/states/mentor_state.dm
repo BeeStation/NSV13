@@ -8,6 +8,7 @@
 GLOBAL_DATUM_INIT(mentor_state, /datum/ui_state/admin_state, new)
 
 /datum/ui_state/admin_state/can_use_topic(src_object, mob/user)
-	if(check_rights_for(user.client, R_ADMIN,0))
+	var/client/C = (istype(user, /client.)) ? user : user.client
+	if(C.is_mentor())
 		return UI_INTERACTIVE
 	return UI_CLOSE
