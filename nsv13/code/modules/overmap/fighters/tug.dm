@@ -142,19 +142,19 @@
 			if(NORTH) //PILOTS. REMEMBER TO FACE THE RIGHT WAY WHEN YOU LAUNCH, OR YOU WILL HAVE A TERRIBLE TIME.
 				target.desired_angle = 0
 				target.angle = target.desired_angle
-				target.velocity_y = 20
+				target.velocity.y = 20
 			if(SOUTH)
 				target.desired_angle = 180
 				target.angle = target.desired_angle
-				target.velocity_y = -20
+				target.velocity.y = -20
 			if(EAST)
 				target.desired_angle = 90
 				target.angle = target.desired_angle
-				target.velocity_x = 20
+				target.velocity.x = 20
 			if(WEST)
 				target.desired_angle = -90
 				target.angle = target.desired_angle
-				target.velocity_x = -20
+				target.velocity.x = -20
 		var/obj/structure/overmap/our_overmap = get_overmap()
 		if(our_overmap)
 			our_overmap.relay('nsv13/sound/effects/ship/fighter_launch_short.ogg')
