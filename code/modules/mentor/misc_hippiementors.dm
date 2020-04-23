@@ -11,8 +11,12 @@ GLOBAL_PROTECT(mentors)
 
 /client/proc/hippie_client_procs(href_list)
     if(href_list["mentor_msg"])
-        var/client/C = locate(href_list["mentor_msg"])
-        src.cmd_admin_pm(C,null)
+        var/datum/admin_help/AH = locate(href_list["mentor_msg"])
+        AH.try_action("reply", src)
+        return TRUE
+    if(href_list["mentor_view"])
+        var/client/C = locate(href_list["mentor_view"])
+        C.current_ticket.try_action("ticket", src)
         return TRUE
 
 

@@ -233,7 +233,7 @@ GLOBAL_DATUM_INIT(ahelp_tickets, /datum/admin_help_tickets, new)
 	if(tier == "mentor")
 		for(var/client/X in GLOB.mentors | GLOB.admins)
 			SEND_SOUND(X, sound('nsv13/sound/effects/ship/freespace2/computer/escape.wav'))
-			to_chat(X, "<span class='mentornotice'><b><span class='mentorhelp'>[capitalize(tier)] Ticket [TicketHref("#[id]", ref_src)]:</b> <b>[LinkedReplyName(ref_src)]</b>: [msg]</span></span>")
+			to_chat(X, "<span class='mentornotice'><b><span class='mentorhelp'>[capitalize(tier)] Ticket <a href='?_src_=mentor;mentor_view=[REF(initiator)];[MentorHrefToken(TRUE)]'>#[id]</a>:</b> <b>[key_name_mentor(initiator, 1, 0, 1, TRUE)]</b>: [msg]</span></span>")
 			//to_chat(X, "<span class='mentornotice'><span class='adminhelp'>[capitalize(tier)] Ticket [TicketHref("#[id]", ref_src)]</span><b>: [LinkedReplyName(ref_src)]:</b> <span class='linkify'>[msg]</span></span>")
 	else
 		//send this msg to all admins
@@ -374,11 +374,13 @@ GLOBAL_DATUM_INIT(ahelp_tickets, /datum/admin_help_tickets, new)
 		tier = "admin"
 		AddInteraction("Ticket was forwarded to admins as an administrative issue.")
 		MessageNoRecipient(name)
+		administrator = null //Un-claim the ticket so that a mentor no longer sees it when admins want to respond to it.
 		return
 
 	log_mentor("Adminhelp converted to Mentorhelp: [key_name_mentor(src, 0, 0, 0, 0)]: [name]")
 	AddInteraction("Ticket was forwarded to mentors as a mentor issue.")
 	tier = "mentor"
+	administrator = null
 	MessageNoRecipient(name)
 
 

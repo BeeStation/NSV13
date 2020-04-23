@@ -152,8 +152,8 @@
 	else
 		if(recipient.is_mentor())
 			if(is_mentor())	//both are admins
-				to_chat(recipient, "<span class='danger'>Admin PM from-<b>[key_name(src, recipient, 1)]</b>: <span class='linkify'>[keywordparsedmsg]</span></span>")
-				to_chat(src, "<span class='notice'>Admin PM to-<b>[key_name(recipient, src, 1)]</b>: <span class='linkify'>[keywordparsedmsg]</span></span>")
+				to_chat(recipient, "<span class='danger'>[capitalize(recipient.current_ticket.tier)] PM from-<b>[key_name(src, recipient, 1)]</b>: <span class='linkify'>[keywordparsedmsg]</span></span>")
+				to_chat(src, "<span class='notice'>[capitalize(recipient.current_ticket.tier)] PM to-<b>[key_name(recipient, src, 1)]</b>: <span class='linkify'>[keywordparsedmsg]</span></span>")
 
 				//omg this is dumb, just fill in both their tickets
 				var/interaction_message = "[key] -> [recipient.key]: [rawmsg]"

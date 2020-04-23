@@ -142,6 +142,14 @@ force_open = FALSE, datum/tgui/master_ui = null, datum/ui_state/state = GLOB.men
 	message_admins("[key_name(usr)] has claimed ticket #[id]")
 	return
 
+/mob/proc/mentor_me() //Simple bodge fix to get mentor status when you're deadminned for testing purposes. Why didn't we have this before urgh.
+	var/client/C = client
+	if(!C.mentor_datum)
+		new /datum/mentors(C.ckey)
+	C.mentor_datum.owner = C
+	C.add_mentor_verbs()
+
+
 /datum/admin_help/proc/try_action(action, client/user)
 	var/client/C = (istype(usr, /client.)) ? usr : usr.client
 	if(!C.is_mentor())//Admins are by default counted as mentors
