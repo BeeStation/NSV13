@@ -1,5 +1,4 @@
 GLOBAL_LIST_EMPTY(asteroid_spawn_markers)		//handles mining asteroids, kind of shitcode but i cant think of what else to do
-GLOBAL_LIST_EMPTY(overmap_asteroids) //For dradis to be able to track asteroids.
 
 //Credit to floyd for the backbone of this code
 
@@ -61,41 +60,43 @@ GLOBAL_LIST_EMPTY(overmap_asteroids) //For dradis to be able to track asteroids.
 	category = list("Asteroid Mining")
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO | DEPARTMENTAL_FLAG_SCIENCE
 
-/obj/structure/asteroid
+/obj/structure/overmap/asteroid
 	name = "Asteroid (Ferrous)"
 	desc = "A huge asteroid...IN SPACE"
 	icon = 'nsv13/icons/overmap/stellarbodies/asteroidfield/icefield/asteroid_ice_32x.dmi'
 	icon_state = "1"
 	obj_integrity = 100
 	max_integrity = 100
-	density = TRUE
-	anchored = TRUE
+	wrecked = TRUE //Stops it from shooting at you. Disables spawning wreck maps too.
+	collision_positions = list(new /datum/vector2d(-2,-16), new /datum/vector2d(-13,-3), new /datum/vector2d(-13,10), new /datum/vector2d(-6,15), new /datum/vector2d(8,15), new /datum/vector2d(15,10), new /datum/vector2d(12,-9), new /datum/vector2d(4,-16), new /datum/vector2d(1,-16))
 	var/list/core_composition = list(/turf/closed/mineral/iron, /turf/closed/mineral/titanium)
 	var/required_tier = 1
 
-/obj/structure/asteroid/medium
+/obj/structure/overmap/asteroid/medium
 	name = "Asteroid (Non Ferrous)"
 	icon = 'nsv13/icons/overmap/stellarbodies/asteroidfield/icefield/asteroid_ice_96x.dmi'
 	core_composition = list(/turf/closed/mineral/copper, /turf/closed/mineral/silver, /turf/closed/mineral/gold, /turf/closed/mineral/plasma)
 	required_tier = 2
-	bound_x = 64
-	bound_y = 64
+	pixel_z = -32
+	pixel_w = -32
+	collision_positions = list(new /datum/vector2d(-14,36), new /datum/vector2d(-38,20), new /datum/vector2d(-36,-11), new /datum/vector2d(-7,-38), new /datum/vector2d(37,-24), new /datum/vector2d(40,11), new /datum/vector2d(19,31))
 
-/obj/structure/asteroid/large
+/obj/structure/overmap/asteroid/large
 	name = "Asteroid (Exotic Composition)"
-	icon = 'nsv13/icons/overmap/stellarbodies/asteroidfield/icefield/asteroid_ice_192x.dmi'
+	icon = 'nsv13/icons/overmap/stellarbodies/asteroidfield/icefield/asteroid_ice_128x.dmi'
 	core_composition = list(/turf/closed/mineral/diamond, /turf/closed/mineral/uranium, /turf/closed/mineral/bscrystal)
 	required_tier = 3
-	bound_x = 96
-	bound_y = 96
+	pixel_z = -32
+	pixel_w = -32
+	collision_positions = list(new /datum/vector2d(-11,23), new /datum/vector2d(-22,15), new /datum/vector2d(-26,-20), new /datum/vector2d(-16,-56), new /datum/vector2d(1,-50), new /datum/vector2d(11,-19), new /datum/vector2d(11,-2), new /datum/vector2d(3,22))
 
-/obj/structure/asteroid/Initialize()
+/obj/structure/overmap/asteroid/Initialize()
 	. = ..()
 	icon_state = "[rand(1,5)]"
-	GLOB.overmap_asteroids += src
+	angle = rand(0,360)
+	desired_angle = angle
 
-/obj/structure/asteroid/Destroy()
-	GLOB.overmap_asteroids -= src
+/obj/structure/overmap/asteroid/Destroy()
 	. = ..()
 
 /datum/map_template/asteroid
@@ -221,7 +222,7 @@ GLOBAL_LIST_EMPTY(overmap_asteroids) //For dradis to be able to track asteroids.
 		playsound(src, sound, 100, 1)
 		return FALSE
 	var/list/asteroids = list()
-	for(var/obj/structure/asteroid/AS in orange(5, linked))
+	for(var/obj/structure/overmap/asteroid/AS in orange(5, linked))
 		if(AS.required_tier <= tier)
 			asteroids += AS
 	if(!asteroids.len)
@@ -229,7 +230,7 @@ GLOBAL_LIST_EMPTY(overmap_asteroids) //For dradis to be able to track asteroids.
 		playsound(src, sound, 100, 1)
 		to_chat(user, "<span class='notice'>Cannot lock on to any asteroids near [linked]</span>")
 		return FALSE
-	var/obj/structure/asteroid/AS = input(usr, "Select target:", "Target") as null|anything in asteroids
+	var/obj/structure/overmap/asteroid/AS = input(usr, "Select target:", "Target") as null|anything in asteroids
 	if(!AS || !AS.core_composition)
 		return FALSE
 	linked.relay('nsv13/sound/effects/ship/tractor.ogg', "<span class='warning'>DANGER: Magnet has locked on to an asteroid. Vacate the asteroid cage immediately.</span>")
