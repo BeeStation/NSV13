@@ -31,7 +31,7 @@
 /obj/item/projectile/missile/torpedo
 	icon_state = "torpedo"
 	name = "plasma torpedo"
-	speed = 0.5
+	speed = 1
 	maximum_speed = 10
 	acceleration_rate = 0.1
 	valid_angle = 120
@@ -43,11 +43,11 @@
 
 /obj/item/projectile/missile/missile
 	icon_state = "torpedo"
-	name = "conventinal missile"
-	speed = 0.5
+	name = "conventional missile"
+	speed = 3
 	damage = 50
-	valid_angle = 180
-	homing_turn_speed = 10
+	valid_angle = 90
+	homing_turn_speed = 5
 	range = 250
 //	flag = "overmap_light"
 	impact_effect_type = /obj/effect/temp_visual/impact_effect/torpedo
@@ -105,27 +105,20 @@
 			if(target_range > max_range) //Our max range is the maximum possible range we can engage in. This is to stop you getting hunted from outside of your view range.
 				last_target = null
 			if(target_range > initial(weapon_range)) //In other words, theyre out of PDC range
-				message_admins("Target: [OT.name] - Target Mass: [OT.mass]")
 				if(OT.mass >= MASS_MEDIUM) //Torps for capitals
 					if(torpedoes > 0) //If we have torpedoes loaded, let's use them
 						swap_to(FIRE_MODE_TORPEDO)
-						message_admins("T:FIRE_MODE_TORPEDO")
 					else if(mass < MASS_LARGE) //Big ships don't use their PDCs like this, and instead let them automatically shoot at the enemy.
 						swap_to(FIRE_MODE_PDC)
-						message_admins("T:FIRE_MODE_PDC < MASS_LARGE")
 					else
 						swap_to(FIRE_MODE_RAILGUN)
-						message_admins("T:FIRE_MODE_RAILGUN")
-				else if(OT.mass < MASS_MEDIUM) //Missiles for subcapitals
+				if(OT.mass < MASS_MEDIUM) //Missiles for subcapitals
 					if(missiles > 0) //If we have torpedoes loaded, let's use them
 						swap_to(FIRE_MODE_MISSILE)
-						message_admins("M:FIRE_MODE_MISSILE")
 					else if(mass < MASS_LARGE) //Big ships don't use their PDCs like this, and instead let them automatically shoot at the enemy.
 						swap_to(FIRE_MODE_PDC)
-						message_admins("M:FIRE_MODE_PDC < MASS_LARGE")
 					else
 						swap_to(FIRE_MODE_RAILGUN)
-						message_admins("M:MODE_RAILGUN")
 	//end if(ai_controlled)
 	last_target = target
 	if(next_firetime > world.time)
@@ -196,8 +189,8 @@
 
 /obj/structure/overmap/proc/fire_weapon(atom/target, mode=fire_mode, lateral=(fire_mode == FIRE_MODE_PDC && mass > MASS_TINY) ? TRUE : FALSE, mob/user_override=null) //"Lateral" means that your ship doesnt have to face the target
 	if(ai_controlled || (!linked_areas.len && role != MAIN_OVERMAP)) //AI ships and fighters don't have interiors
-		if(fire_mode == FIRE_MODE_TORPEDO) //because fighter torpedoes are special
-			if(fire_torpedo(target))
+		if(fire_mode == FIRE_MODE_TORPEDO || fire_mode == FIRE_MODE_MISSILE) //because fighter torpedoes are special
+			if(fire_ordnance(target))
 				return TRUE
 		else
 			var/datum/ship_weapon/weapon_type = weapon_types[mode]
@@ -222,6 +215,13 @@
 		to_chat(gunner, SW.failure_alert)
 	return FALSE
 
+/obj/structure/overmap/proc/fire_ordnance(atom/target)
+	if(fire_mode == FIRE_MODE_TORPEDO)
+		return fire_torpedo(target)
+	if(fire_mode == FIRE_MODE_MISSILE)
+		return fire_missile(target)
+	return FALSE
+
 /obj/structure/overmap/proc/fire_torpedo(atom/target)
 	if(!linked_areas.len && role != MAIN_OVERMAP) //AI ships and fighters don't have interiors
 		if(torpedoes <= 0)
@@ -241,7 +241,7 @@
 			if(ai_controlled)
 				addtimer(VARSET_CALLBACK(src, missiles, initial(src.missiles)), 60 SECONDS)
 			return
-		fire_projectile(/obj/item/projectile/missile/missile, target, homing = TRUE, speed=1, explosive = TRUE)
+		fire_projectile(/obj/item/projectile/missile/missile, target, homing = TRUE, speed=3, explosive = TRUE)
 		missiles --
 		var/obj/structure/overmap/OM = target
 		if(istype(OM, /obj/structure/overmap) && OM.dradis)

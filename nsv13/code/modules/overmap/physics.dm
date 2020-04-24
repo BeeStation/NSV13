@@ -78,6 +78,36 @@
 /obj/structure/overmap/proc/can_move()
 	return TRUE //Placeholder for everything but fighters. We can later extend this if / when we want to code in ship engines.
 
+/obj/structure/overmap/slowprocess()
+	. = ..()
+	if(cabin_air && cabin_air.volume > 0)
+		var/delta = cabin_air.temperature - T20C
+		cabin_air.temperature -= max(-10, min(10, round(delta/4,0.1)))
+	if(internal_tank && cabin_air)
+		var/datum/gas_mixture/tank_air = internal_tank.return_air()
+		var/release_pressure = ONE_ATMOSPHERE
+		var/cabin_pressure = cabin_air.return_pressure()
+		var/pressure_delta = min(release_pressure - cabin_pressure, (tank_air.return_pressure() - cabin_pressure)/2)
+		var/transfer_moles = 0
+		if(pressure_delta > 0) //cabin pressure lower than release pressure
+			if(tank_air.return_temperature() > 0)
+				transfer_moles = pressure_delta*cabin_air.return_volume()/(cabin_air.return_temperature() * R_IDEAL_GAS_EQUATION)
+				var/datum/gas_mixture/removed = tank_air.remove(transfer_moles)
+				cabin_air.merge(removed)
+		else if(pressure_delta < 0) //cabin pressure higher than release pressure
+			var/turf/T = get_turf(src)
+			var/datum/gas_mixture/t_air = T.return_air()
+			pressure_delta = cabin_pressure - release_pressure
+			if(t_air)
+				pressure_delta = min(cabin_pressure - t_air.return_pressure(), pressure_delta)
+			if(pressure_delta > 0) //if location pressure is lower than cabin pressure
+				transfer_moles = pressure_delta*cabin_air.return_volume()/(cabin_air.return_temperature() * R_IDEAL_GAS_EQUATION)
+				var/datum/gas_mixture/removed = cabin_air.remove(transfer_moles)
+				if(T)
+					T.assume_air(removed)
+				else //just delete the cabin gas, we're in space or some shit
+					qdel(removed)
+
 /obj/structure/overmap/process(time)
 	time /= 1 SECONDS
 	last_process = world.time

@@ -465,15 +465,13 @@ You need to fire emag the fighter's IFF board. This makes it list as "ENEMY" on 
 		return
 	var/proj_type = null //If this is true, we've got a launcher shipside that's been able to fire.
 	var/proj_speed = 1
-	if(!mun_torps.len)
+	to_chat(world, "fire torp")
+	if(!mun_torps || !mun_torps.len)
 		return
-	torpedoes = mun_torps.len
-	var/obj/item/ship_weapon/ammunition/torpedo/thirtymillimetertorpedo = pick(mun_torps)
+	var/obj/item/ship_weapon/ammunition/torpedo/thirtymillimetertorpedo = pick_n_take(mun_torps)
 	proj_type = thirtymillimetertorpedo.projectile_type
-	mun_torps -= thirtymillimetertorpedo
 	qdel(thirtymillimetertorpedo)
-	torpedoes = mun_torps.len
-	if(proj_type)
+	if(thirtymillimetertorpedo && proj_type)
 		var/sound/chosen = pick('nsv13/sound/effects/ship/torpedo.ogg','nsv13/sound/effects/ship/freespace2/m_shrike.wav','nsv13/sound/effects/ship/freespace2/m_stiletto.wav','nsv13/sound/effects/ship/freespace2/m_tsunami.wav','nsv13/sound/effects/ship/freespace2/m_wasp.wav')
 		relay_to_nearby(chosen)
 		if(proj_type == /obj/item/projectile/missile/torpedo/dud) //Some brainlet MAA loaded an incomplete torp
@@ -492,15 +490,14 @@ You need to fire emag the fighter's IFF board. This makes it list as "ENEMY" on 
 		return
 	var/proj_type = null //If this is true, we've got a launcher shipside that's been able to fire.
 	var/proj_speed = 1
-	if(!mun_missiles.len)
+	to_chat(world, "fire missile")
+	if(!mun_missiles | !mun_missiles.len)
 		return
-	missiles = mun_missiles.len
-	var/obj/item/ship_weapon/ammunition/missile/thirtymillimetermissile = pick(mun_missiles)
+	var/obj/item/ship_weapon/ammunition/thirtymillimetermissile = pick_n_take(mun_missiles)
 	proj_type = thirtymillimetermissile.projectile_type
-	mun_missiles -= thirtymillimetermissile
+	to_chat(world, proj_type)
 	qdel(thirtymillimetermissile)
-	missiles = mun_missiles.len
-	if(proj_type)
+	if(thirtymillimetermissile && proj_type)
 		var/sound/chosen = pick('nsv13/sound/effects/ship/torpedo.ogg','nsv13/sound/effects/ship/freespace2/m_shrike.wav','nsv13/sound/effects/ship/freespace2/m_stiletto.wav','nsv13/sound/effects/ship/freespace2/m_tsunami.wav','nsv13/sound/effects/ship/freespace2/m_wasp.wav')
 		relay_to_nearby(chosen)
 		if(proj_type == /obj/item/projectile/missile/missile/dud) //Some brainlet MAA loaded an incomplete torp
@@ -523,12 +520,11 @@ You need to fire emag the fighter's IFF board. This makes it list as "ENEMY" on 
 			to_chat(usr, "<span class='warning'>Error detected in Countermeasure System! Process Aborted!</span>")
 			SEND_SOUND(usr, sound('sound/effects/alert.ogg', repeat = FALSE, wait = 0, volume = 100))
 			return
-	var/obj/item/ship_weapon/ammunition/countermeasure_charge/cmc = pick(mun_countermeasures) //select charge
-	mun_countermeasures -= cmc
+	var/obj/item/ship_weapon/ammunition/countermeasure_charge/cmc = pick_n_take(mun_countermeasures) //select charge
 	qdel(cmc)
 	countermeasures = mun_countermeasures.len
 	for(var/I = 0, I < 3, I++) //launch three chaff
-		new /obj/effect/temp_visual/countermeasure_cloud (loc, 1)
+		new /obj/effect/temp_visual/countermeasure_cloud(get_turf(src))
 		sleep(5)
 
 /obj/structure/overmap/fighter/proc/force_eject()
@@ -658,13 +654,12 @@ You need to fire emag the fighter's IFF board. This makes it list as "ENEMY" on 
 	if(ispath(has_escape_pod))
 		escape_pod = new /obj/structure/overmap/fighter/escapepod(get_turf(src))
 		escape_pod.name = "[name] - escape pod"
-		escape_pod.contents += new /obj/item/fighter_component/fuel_tank/escapepod
+		new /obj/item/fighter_component/fuel_tank/escapepod(escape_pod)
 		escape_pod.fuel_setup()
-//		escape_pod.set_fuel(get_fuel()) //No infinite tyrosene for you!
 		transfer_occupants_to(escape_pod)
 		escape_pod.desired_angle = 0
 		escape_pod.user_thrust_dir = NORTH
-		escape_pod.internal_tank = new /obj/machinery/portable_atmospherics/canister/air(src)
+		escape_pod.internal_tank = new /obj/machinery/portable_atmospherics/canister/air(escape_pod)
 		escape_pod.velocity.y = 3
 		escape_pod = null
 		return TRUE

@@ -8,11 +8,8 @@
 	.=..()
 	var/simplify_Angle = SIMPLIFY_DEGREES(Angle)
 	var/simplify_targetAngle = SIMPLIFY_DEGREES(targetAngle)
-	message_admins("Angle: [Angle], simplify_Angle: [simplify_Angle], targetAngle: [targetAngle], simplify_targetAngle: [simplify_targetAngle]")
-	var/target_bearing = SIMPLIFY_DEGREES(Angle) - SIMPLIFY_DEGREES(targetAngle)
-	if(target_bearing > valid_angle)
+	if(simplify_targetAngle > simplify_Angle + valid_angle)
 		homing = FALSE
-		message_admins("Target Bearing: [target_bearing], Valid Angle: [valid_angle], Lock Broken")
 
 /*
 /obj/item/projectile/missile/process()

@@ -1,7 +1,7 @@
 /obj/effect/temp_visual/countermeasure_cloud
-	icon = 'nsv13/goonstation/icons/effects/explosions/160x160.dmi'
+	icon = 'nsv13/goonstation/icons/effects/explosions/countermeasures.dmi'
 	icon_state = "thundercloud"
-	duration = 100
+	duration = 10 SECONDS
 	pixel_x = -80
 	pixel_y = -80
 
