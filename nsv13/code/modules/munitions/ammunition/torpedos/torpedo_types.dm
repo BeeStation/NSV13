@@ -5,9 +5,8 @@
 	desc = "A fairly standard torpedo which is designed to cause massive structural damage to a target. It is fitted with a basic homing mechanism to ensure it always hits the mark."
 	anchored = TRUE
 	density = TRUE
-	projectile_type = /obj/item/projectile/missile/torpedo //What torpedo type we fire
+	projectile_type = /obj/item/projectile/guided_munition/torpedo //What torpedo type we fire
 	pixel_x = -17
-//	var/speed = 1 //Placeholder, allows upgrading speed with better propulsion
 
 /obj/item/ship_weapon/ammunition/torpedo/CtrlClick(mob/user)
 	. = ..()
@@ -23,9 +22,9 @@
 	icon = 'nsv13/icons/obj/munition_types.dmi'
 	icon_state = "hull_shredder"
 	desc = "A heavy torpedo which is packed with a high energy plasma charge, allowing it to impact a target with massive force."
-	projectile_type = /obj/item/projectile/missile/torpedo/shredder
+	projectile_type = /obj/item/projectile/guided_munition/torpedo/shredder
 
-/obj/item/projectile/missile/torpedo/shredder
+/obj/item/projectile/guided_munition/torpedo/shredder
 	icon_state = "torpedo_shredder"
 	name = "plasma charge"
 	damage = 120
@@ -36,9 +35,9 @@
 	icon = 'nsv13/icons/obj/munition_types.dmi'
 	icon_state = "decoy"
 	desc = "A simple electronic countermeasure packed inside a standard torpedo casing. This model excels at diverting enemy PDC emplacements away from friendly ships, or even another barrage of missiles."
-	projectile_type = /obj/item/projectile/missile/torpedo/decoy
+	projectile_type = /obj/item/projectile/guided_munition/torpedo/decoy
 
-/obj/item/projectile/missile/torpedo/decoy
+/obj/item/projectile/guided_munition/torpedo/decoy
 	icon_state = "torpedo"
 	damage = 0
 
@@ -48,9 +47,9 @@
 	icon = 'nsv13/icons/obj/munition_types.dmi'
 	icon_state = "nuke"
 	desc = "The NTX-class IV nuclear torpedo carries a radiological payload which is capable of inflicting catastrophic damage against enemy ships, stations or dense population centers. These weapons are utterly without mercy and will annihilate indiscriminately, use with EXTREME caution."
-	projectile_type = /obj/item/projectile/missile/torpedo/nuclear
+	projectile_type = /obj/item/projectile/guided_munition/torpedo/nuclear
 
-/obj/item/projectile/missile/torpedo/nuclear
+/obj/item/projectile/guided_munition/torpedo/nuclear
 	icon_state = "torpedo_nuke"
 	name = "thermonuclear cruise missile"
 	damage = 300
@@ -58,7 +57,7 @@
 	shotdown_effect_type = /obj/effect/temp_visual/nuke_impact
 
 //What you get from an incomplete torpedo.
-/obj/item/projectile/missile/torpedo/dud
+/obj/item/projectile/guided_munition/torpedo/dud
 	icon_state = "torpedo_dud"
 	damage = 0
 

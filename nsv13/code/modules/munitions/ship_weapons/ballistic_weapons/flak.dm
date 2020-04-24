@@ -169,7 +169,7 @@
 	if(steps_left <= 0)
 		explode()
 
-/obj/item/projectile/missile/Crossed(atom/movable/AM) //Here, we check if the bullet that hit us is from a friendly ship. If it's from an enemy ship, we explode as we've been flak'd down.
+/obj/item/projectile/guided_munition/Crossed(atom/movable/AM) //Here, we check if the bullet that hit us is from a friendly ship. If it's from an enemy ship, we explode as we've been flak'd down.
 	. = ..()
 	if(istype(AM, /obj/item/projectile/))
 		var/obj/item/projectile/proj = AM
@@ -184,10 +184,10 @@
 				explode()
 				return FALSE
 
-/obj/item/projectile/missile/ex_act(severity)
+/obj/item/projectile/guided_munition/ex_act(severity)
 	explode()
 
-/obj/item/projectile/missile/proc/explode()
+/obj/item/projectile/guided_munition/proc/explode()
 	if(firer)
 		var/mob/checking = firer
 		var/obj/structure/overmap/OM = checking.overmap_ship

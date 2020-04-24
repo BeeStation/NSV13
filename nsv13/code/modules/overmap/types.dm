@@ -148,14 +148,11 @@
 	damage_states = TRUE
 	collision_positions = list(new /datum/vector2d(-8,46), new /datum/vector2d(-17,33), new /datum/vector2d(-25,2), new /datum/vector2d(-14,-45), new /datum/vector2d(9,-46), new /datum/vector2d(22,4), new /datum/vector2d(14,36))
 
-/*
 /obj/structure/overmap/nanotrasen/ai/fighter
 	ai_controlled = TRUE
 	ai_behaviour = AI_AGGRESSIVE
 	weapon_safety = FALSE
-	prebuilt = TRUE
 	faction = "nanotrasen"
-*/
 
 //Syndicate ships
 

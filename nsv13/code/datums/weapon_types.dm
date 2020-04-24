@@ -25,7 +25,7 @@
 
 /datum/ship_weapon/torpedo_launcher
 	name = "Torpedo tubes"
-	default_projectile_type = /obj/item/projectile/missile/torpedo
+	default_projectile_type = /obj/item/projectile/guided_munition/torpedo
 	burst_size = 1
 	fire_delay = 5
 	range_modifier = 30
@@ -53,7 +53,7 @@
 	failure_alert = "<span class='warning'>DANGER: Point defense emplacements are unable to fire due to lack of ammunition.</span>"
 
 /datum/ship_weapon/missile_launcher
-	default_projectile_type = /obj/item/projectile/missile/missile
+	default_projectile_type = /obj/item/projectile/guided_munition/missile
 	burst_size = 1
 	fire_delay = 5
 	range_modifier = 30

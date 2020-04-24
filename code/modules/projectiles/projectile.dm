@@ -538,18 +538,9 @@
 /obj/item/projectile/proc/process_homing()			//may need speeding up in the future performance wise.
 	if(!homing_target) //NSV13 - Changed proc to be less performance intensive
 		return FALSE
-
 	targetAngle = Get_Angle(src, homing_target)
 	var/angle = closer_angle_difference(Angle, targetAngle)
 	setAngle(Angle + CLAMP(angle, -homing_turn_speed, homing_turn_speed))
-
-/*
-	var/datum/point/PT = RETURN_PRECISE_POINT(homing_target)
-	PT.x += CLAMP(homing_offset_x, 1, world.maxx)
-	PT.y += CLAMP(homing_offset_y, 1, world.maxy)
-	angle = closer_angle_difference(Angle, angle_between_points(RETURN_PRECISE_POINT(src), PT))
-	setAngle(Angle + CLAMP(angle, -homing_turn_speed, homing_turn_speed))
-*/
 
 /obj/item/projectile/proc/set_homing_target(atom/A)
 	if(!A || (!isturf(A) && !isturf(A.loc)))

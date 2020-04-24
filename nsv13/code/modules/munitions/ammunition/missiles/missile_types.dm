@@ -5,7 +5,7 @@
 	desc = "Missile."
 	anchored = TRUE
 	density = TRUE
-	projectile_type = /obj/item/projectile/missile/missile //What torpedo type we fire
+	projectile_type = /obj/item/projectile/guided_munition/missile //What torpedo type we fire
 	pixel_x = -17
 
 /obj/item/ship_weapon/ammunition/missile/georgio
@@ -20,6 +20,6 @@
 	. += "<span class='warning'>It's far too cumbersome to carry, and dragging it around might set it off!</span>"
 
 //What you get from an incomplete missile.
-/obj/item/projectile/missile/missile/dud
+/obj/item/projectile/guided_munition/missile/dud
 	icon_state = "torpedo_dud"
 	damage = 0

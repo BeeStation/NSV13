@@ -460,7 +460,7 @@ You need to fire emag the fighter's IFF board. This makes it list as "ENEMY" on 
 	if(ai_controlled) //AI ships don't have interiors
 		if(torpedoes <= 0)
 			return
-		fire_projectile(/obj/item/projectile/missile/torpedo, target, homing = TRUE, speed=1, explosive = TRUE)
+		fire_projectile(/obj/item/projectile/guided_munition/torpedo, target, homing = TRUE, speed=1, explosive = TRUE)
 		torpedoes --
 		return
 	var/proj_type = null //If this is true, we've got a launcher shipside that's been able to fire.
@@ -474,7 +474,7 @@ You need to fire emag the fighter's IFF board. This makes it list as "ENEMY" on 
 	if(thirtymillimetertorpedo && proj_type)
 		var/sound/chosen = pick('nsv13/sound/effects/ship/torpedo.ogg','nsv13/sound/effects/ship/freespace2/m_shrike.wav','nsv13/sound/effects/ship/freespace2/m_stiletto.wav','nsv13/sound/effects/ship/freespace2/m_tsunami.wav','nsv13/sound/effects/ship/freespace2/m_wasp.wav')
 		relay_to_nearby(chosen)
-		if(proj_type == /obj/item/projectile/missile/torpedo/dud) //Some brainlet MAA loaded an incomplete torp
+		if(proj_type == /obj/item/projectile/guided_munition/torpedo/dud) //Some brainlet MAA loaded an incomplete torp
 			fire_projectile(proj_type, target, homing = FALSE, speed=proj_speed, explosive = TRUE)
 		else
 			fire_projectile(proj_type, target, homing = TRUE, speed=proj_speed, explosive = TRUE)
@@ -485,7 +485,7 @@ You need to fire emag the fighter's IFF board. This makes it list as "ENEMY" on 
 	if(ai_controlled) //AI ships don't have interiors
 		if(missiles <= 0)
 			return
-		fire_projectile(/obj/item/projectile/missile/missile, target, homing = TRUE, speed=1, explosive = TRUE)
+		fire_projectile(/obj/item/projectile/guided_munition/missile, target, homing = TRUE, speed=1, explosive = TRUE)
 		missiles --
 		return
 	var/proj_type = null //If this is true, we've got a launcher shipside that's been able to fire.
@@ -500,32 +500,12 @@ You need to fire emag the fighter's IFF board. This makes it list as "ENEMY" on 
 	if(thirtymillimetermissile && proj_type)
 		var/sound/chosen = pick('nsv13/sound/effects/ship/torpedo.ogg','nsv13/sound/effects/ship/freespace2/m_shrike.wav','nsv13/sound/effects/ship/freespace2/m_stiletto.wav','nsv13/sound/effects/ship/freespace2/m_tsunami.wav','nsv13/sound/effects/ship/freespace2/m_wasp.wav')
 		relay_to_nearby(chosen)
-		if(proj_type == /obj/item/projectile/missile/missile/dud) //Some brainlet MAA loaded an incomplete torp
+		if(proj_type == /obj/item/projectile/guided_munition/missile/dud) //Some brainlet MAA loaded an incomplete torp
 			fire_projectile(proj_type, target, homing = FALSE, speed=proj_speed, explosive = TRUE)
 		else
 			fire_projectile(proj_type, target, homing = TRUE, speed=proj_speed, explosive = TRUE)
 	else
 		to_chat(gunner, "<span class='warning'>DANGER: Launch failure! Missile tubes are not loaded.</span>")
-
-/obj/structure/overmap/fighter/proc/fire_countermeasure()
-	if(!get_part(/obj/item/fighter_component/countermeasure_dispenser)) //Check for a dispenser
-		to_chat(usr, "<span class='warning'>Countermeasure Dispenser Not Detected!</span>")
-		return
-	if(!mun_countermeasures.len) //check to see if we have any countermeasures
-		to_chat(usr, "<span class='warning'>Countermeasures depleted!</span>")
-		return
-	var/obj/item/fighter_component/countermeasure_dispenser/cmd = get_part(/obj/item/fighter_component/countermeasure_dispenser)
-	if(cmd.burntout) //check to see if the dispenser is damaged
-		if(prob(85))
-			to_chat(usr, "<span class='warning'>Error detected in Countermeasure System! Process Aborted!</span>")
-			SEND_SOUND(usr, sound('sound/effects/alert.ogg', repeat = FALSE, wait = 0, volume = 100))
-			return
-	var/obj/item/ship_weapon/ammunition/countermeasure_charge/cmc = pick_n_take(mun_countermeasures) //select charge
-	qdel(cmc)
-	countermeasures = mun_countermeasures.len
-	for(var/I = 0, I < 3, I++) //launch three chaff
-		new /obj/effect/temp_visual/countermeasure_cloud(get_turf(src))
-		sleep(5)
 
 /obj/structure/overmap/fighter/proc/force_eject()
 	brakes = TRUE
@@ -796,10 +776,10 @@ How to make fuel:
 	var/master_caution_switch = state
 	if(master_caution_switch)
 		to_chat(usr, "<span class='warning'>WARNING: Master caution.</span>")
-		relay('nsv13/sound/effects/fighters/master_caution.ogg', null, loop=TRUE, channel=CHANNEL_BUZZ)
+		relay('nsv13/sound/effects/fighters/master_caution.ogg', null, loop=TRUE, channel=CHANNEL_HEARTBEAT)
 		master_caution = TRUE
 	else
-		stop_relay(CHANNEL_BUZZ)
+		stop_relay(CHANNEL_HEARTBEAT) //CONSIDER MAKING OWN CHANNEL
 		master_caution = FALSE
 
 /obj/structure/overmap/fighter/proc/get_fuel()
@@ -1096,6 +1076,9 @@ How to make fuel:
 		if("master_caution")
 			set_master_caution(FALSE)
 			return
+		if("deploy_countermeasure")
+			fire_countermeasure()
+			return
 	warmup_cooldown = TRUE
 	addtimer(VARSET_CALLBACK(src, warmup_cooldown, FALSE), 1 SECONDS)
 	relay('nsv13/sound/effects/fighters/switch.ogg')
@@ -1137,6 +1120,10 @@ How to make fuel:
 	data["max_countermeasures"] = max_countermeasures
 	data["current_countermeasures"] = mun_countermeasures.len
 	data["master_caution"] = master_caution
+	data["max_torpedoes"] = max_torpedoes
+	data["current_torpedoes"] = mun_torps.len
+	data["max_missiles"] = max_missiles
+	data["current_missiles"] = mun_missiles.len
 	if(get_max_aux_fuel())
 		data["max_aux_fuel"] = get_max_aux_fuel()
 		data["aux_fuel"] = get_aux_fuel()
