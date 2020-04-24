@@ -4,5 +4,5 @@ PROCESSING_SUBSYSTEM_DEF(overmap)
 	name = "Overmap Processing"
 	wait = 2
 	stat_tag = "OP"
-	priority = FIRE_PRIORITY_PROCESS
+	priority = 10
 	var/next_boarding_time = 0
