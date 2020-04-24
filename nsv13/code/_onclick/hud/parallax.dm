@@ -7,7 +7,7 @@
 /area/maintenance/ship_exterior //Used so that the FTL effect doesnt go away when you step outside.
 	name = "Ship exterior"
 	icon_state = "space_near"
-	dynamic_lighting = DYNAMIC_LIGHTING_IFSTARLIGHT
+	dynamic_lighting = DYNAMIC_LIGHTING_DISABLED
 
 /obj/screen/parallax_layer/layer_3
  	speed = 1
