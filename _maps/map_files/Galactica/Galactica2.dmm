@@ -14888,9 +14888,6 @@
 	},
 /turf/open/floor/monotile/dark,
 /area/medical/medbay)
-"aIi" = (
-/turf/open/space/basic,
-/area/crew_quarters/heads/chief)
 "aIj" = (
 /obj/machinery/computer/apc_control{
 	dir = 4
@@ -15542,8 +15539,7 @@
 	departmentType = 4;
 	dir = 4;
 	name = "Chief Engineer RC";
-	pixel_x = -32;
-	
+	pixel_x = -32
 	},
 /turf/open/floor/carpet/black,
 /area/crew_quarters/heads/chief)
@@ -22843,12 +22839,6 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/frame3/port)
-"aYO" = (
-/obj/structure/cable{
-	icon_state = "1-4"
-	},
-/turf/closed/wall/ship,
-/area/maintenance/nsv/deck2/frame3/port)
 "aYP" = (
 /obj/structure/cable{
 	icon_state = "1-4"
@@ -27489,7 +27479,7 @@
 /obj/item/aiModule/supplied/freeform,
 /obj/item/aiModule/core/full/damaged,
 /turf/open/floor/plasteel/ship/techfloor/alt,
-/area/maintenance/ship_exterior)
+/area/ai_monitored/turret_protected/ai_upload)
 "bhW" = (
 /obj/machinery/computer/ship/viewscreen,
 /turf/open/floor/monotile,
@@ -27502,6 +27492,9 @@
 /obj/structure/table/reinforced,
 /obj/machinery/status_display/evac/north{
 	pixel_y = 26
+	},
+/obj/machinery/light{
+	dir = 1
 	},
 /turf/open/floor/monotile,
 /area/ai_monitored/turret_protected/ai_upload)
@@ -28361,7 +28354,7 @@
 /obj/effect/spawner/lootdrop/aimodule_harmless,
 /obj/effect/spawner/lootdrop/aimodule_harmless,
 /turf/open/floor/monotile/dark,
-/area/maintenance/ship_exterior)
+/area/ai_monitored/turret_protected/ai_upload)
 "bjF" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer1{
 	dir = 4
@@ -29750,7 +29743,7 @@
 /obj/item/aiModule/core/full/asimov,
 /obj/item/aiModule/supplied/protectStation,
 /turf/open/floor/plasteel/ship/techfloor/alt,
-/area/maintenance/ship_exterior)
+/area/ai_monitored/turret_protected/ai_upload)
 "bmg" = (
 /obj/item/radio/intercom{
 	freerange = 1;
@@ -30001,6 +29994,9 @@
 	frequency = 1447;
 	name = "Private Channel";
 	pixel_y = -25
+	},
+/obj/machinery/light{
+	dir = 8
 	},
 /turf/open/floor/monotile/dark,
 /area/ai_monitored/turret_protected/ai_upload)
@@ -30986,11 +30982,6 @@
 	},
 /turf/open/floor/plasteel/techmaint,
 /area/engine/engine_smes)
-"boD" = (
-/obj/machinery/porta_turret/ai,
-/obj/effect/turf_decal/stripes/box,
-/turf/open/floor/circuit/red,
-/area/maintenance/ship_exterior)
 "boE" = (
 /obj/machinery/ai_slipper,
 /turf/open/floor/plasteel/ship/techfloor/alt,
@@ -31424,12 +31415,17 @@
 /obj/item/clothing/suit/radiation,
 /obj/item/clothing/head/radiation,
 /obj/item/storage/toolbox/electrical,
-/obj/machinery/power/apc/auto_name/north,
 /obj/item/radio/intercom{
 	pixel_x = -30
 	},
 /obj/structure/cable{
 	icon_state = "0-2"
+	},
+/obj/machinery/power/apc/highcap/fifteen_k{
+	areastring = "/area/engine/engine_room";
+	dir = 1;
+	name = "Engineering APC";
+	pixel_y = 26
 	},
 /turf/open/floor/monotile/dark,
 /area/engine/engine_room)
@@ -32419,9 +32415,6 @@
 	dir = 4
 	},
 /turf/open/floor/plasteel/ship/techfloor/alt,
-/area/ai_monitored/turret_protected/ai)
-"brH" = (
-/turf/open/space/basic,
 /area/ai_monitored/turret_protected/ai)
 "brI" = (
 /obj/structure/reagent_dispensers/fueltank,
@@ -36018,8 +36011,11 @@
 /turf/open/floor/monotile/dark,
 /area/hallway/secondary/exit/departure_lounge)
 "bzf" = (
+/obj/machinery/light{
+	dir = 1
+	},
 /turf/open/floor/monotile/dark,
-/area/maintenance/ship_exterior)
+/area/ai_monitored/turret_protected/ai)
 "bzg" = (
 /obj/structure/cable,
 /obj/effect/spawner/structure/window/reinforced,
@@ -36630,12 +36626,6 @@
 	},
 /turf/open/floor/monotile/dark,
 /area/engine/atmos)
-"bAw" = (
-/obj/machinery/camera/autoname{
-	dir = 8
-	},
-/turf/open/space/basic,
-/area/ai_monitored/turret_protected/ai)
 "bAx" = (
 /obj/machinery/door/airlock/ship/external/glass{
 	name = "Escape Shuttle Dock"
@@ -47321,6 +47311,7 @@
 	icon_state = "0-4"
 	},
 /obj/machinery/power/apc/highcap/fifteen_k{
+	dir = 1;
 	name = "Deck 2 Starboard Hanger Bay APC";
 	pixel_y = 26
 	},
@@ -51809,6 +51800,62 @@
 /obj/item/beacon,
 /turf/open/floor/mineral/plastitanium/red/airless,
 /area/science/test_area)
+"cKE" = (
+/obj/machinery/light{
+	dir = 8
+	},
+/turf/open/floor/monotile/dark,
+/area/engine/break_room)
+"cPP" = (
+/obj/machinery/light{
+	dir = 1
+	},
+/turf/open/floor/plasteel/ship/techfloor/alt,
+/area/ai_monitored/turret_protected/ai_upload)
+"ebM" = (
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/turf/closed/wall/r_wall/ship,
+/area/maintenance/ship_exterior)
+"eqf" = (
+/obj/machinery/light,
+/turf/open/floor/plasteel/ship/techfloor/alt,
+/area/ai_monitored/turret_protected/ai)
+"euw" = (
+/obj/machinery/door/airlock/ship/maintenance{
+	name = "Research Maintenance";
+	req_one_access_txt = "47"
+	},
+/turf/open/floor/plating,
+/area/maintenance/nsv/deck2/frame3/port)
+"fvd" = (
+/obj/machinery/light,
+/turf/open/floor/monotile/dark,
+/area/ai_monitored/turret_protected/ai)
+"fvu" = (
+/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3{
+	dir = 1
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/turf/open/floor/circuit,
+/area/ai_monitored/turret_protected/ai)
+"iML" = (
+/obj/machinery/light{
+	dir = 8
+	},
+/turf/open/space/basic,
+/area/maintenance/ship_exterior)
+"rKI" = (
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/turf/open/floor/plasteel/ship/techfloor/alt,
+/area/ai_monitored/turret_protected/ai)
+"vMQ" = (
+/obj/machinery/light{
+	dir = 1
+	},
+/turf/open/floor/monotile/dark,
+/area/ai_monitored/turret_protected/ai_upload)
 
 (1,1,1) = {"
 aaa
@@ -62222,7 +62269,7 @@ aab
 aab
 aab
 aJu
-aGP
+aRH
 acG
 acG
 acG
@@ -62524,7 +62571,7 @@ aab
 aab
 aab
 aab
-aGP
+aRH
 aRH
 aRH
 aRH
@@ -62819,14 +62866,14 @@ ahM
 ahM
 ahM
 ahM
-aGP
-aGP
-aGP
-aGP
+ahM
+aDV
+aDV
+aDV
 aab
 aab
 aab
-aGP
+aRH
 aWy
 aRH
 aYb
@@ -63121,9 +63168,9 @@ aCH
 aln
 aEV
 aiG
-aGP
-aIi
-aIi
+ahM
+aab
+aab
 aGP
 aGP
 aGP
@@ -63423,9 +63470,9 @@ aiB
 aDD
 aiB
 aiG
-aGP
-aIi
-aIi
+ahM
+aab
+aab
 aGP
 aMV
 aJx
@@ -63725,9 +63772,9 @@ aCI
 aDE
 aiB
 aiG
-aGP
-aIi
-aIi
+ahM
+aab
+aab
 aGP
 aMW
 aOK
@@ -64027,9 +64074,9 @@ aAm
 aDF
 aiB
 aiG
-aGP
-aIi
-aIi
+ahM
+aab
+aab
 aGP
 aMX
 aOL
@@ -69781,7 +69828,7 @@ ban
 ban
 bhj
 ban
-ban
+cKE
 ban
 blj
 aQs
@@ -89406,7 +89453,7 @@ aSk
 aFg
 aVG
 aQN
-aYO
+aFg
 baO
 bda
 bda
@@ -89708,7 +89755,7 @@ aLr
 aFg
 aVG
 aXp
-aYO
+aFg
 baP
 bda
 bda
@@ -90010,7 +90057,7 @@ aLr
 aFg
 aVG
 aLr
-aYP
+euw
 baQ
 bdb
 beX
@@ -97870,14 +97917,14 @@ aab
 aab
 aab
 aab
-aDV
 bpD
 bpD
 bpD
 bpD
 bpD
 bpD
-brH
+bpD
+aab
 aab
 aDf
 bCF
@@ -98166,20 +98213,20 @@ aab
 aab
 aab
 aab
-aab
+iML
 bTW
 aab
 aab
 aab
 aLJ
-aDV
-bqA
 bpD
 bqA
 bpD
 bqA
 bpD
-bAw
+bqA
+bpD
+aLJ
 aab
 aDf
 bCF
@@ -98469,12 +98516,12 @@ aab
 aab
 aab
 aab
-aDV
-aDV
-aDV
-aDV
-aDV
-aDV
+bfo
+bfo
+bfo
+bfo
+bfo
+bpD
 bqB
 bqB
 bqB
@@ -98771,12 +98818,12 @@ aab
 aab
 aab
 aab
-aDV
+bfo
 bhV
 bjE
 bmf
-aDV
-boD
+bfo
+brO
 brE
 btA
 buW
@@ -99073,18 +99120,18 @@ aGr
 bcs
 bbl
 bcs
-aGr
-bzf
-bzf
-bzf
-aDV
+bfo
+biV
+biV
+biV
+bfo
 bzf
 bqC
 btx
 buX
 bty
 bqB
-brE
+fvd
 bpD
 aab
 aDf
@@ -100286,13 +100333,13 @@ bhZ
 bjG
 bkD
 bfo
-biV
+vMQ
 brw
-bty
-btA
+fvu
+rKI
 bxx
 bqB
-brE
+fvd
 bpD
 aab
 aDf
@@ -101494,13 +101541,13 @@ bia
 bjI
 bmK
 bfo
-boF
+cPP
 bqD
 bqB
 bvd
 bqB
 bqB
-btA
+eqf
 bpD
 aab
 aDf
@@ -102701,8 +102748,8 @@ bho
 aab
 aab
 aab
-aDV
-aDV
+bpD
+bpD
 bpD
 bpD
 bpD
@@ -103005,13 +103052,13 @@ aab
 aab
 bTW
 aab
-brH
-brH
-brH
-brH
-brH
-buY
-brH
+aab
+aab
+aab
+aab
+aab
+ebM
+aab
 aab
 aDf
 bCI
