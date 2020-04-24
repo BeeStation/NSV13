@@ -49,6 +49,7 @@ After going through this checklist, you're ready to go!
 	pixel_w = -16
 	pixel_z = -20
 	req_one_access = list(ACCESS_FIGHTER)
+	collision_positions = list(new /datum/vector2d(-2,-16), new /datum/vector2d(-13,-3), new /datum/vector2d(-13,10), new /datum/vector2d(-6,15), new /datum/vector2d(8,15), new /datum/vector2d(15,10), new /datum/vector2d(12,-9), new /datum/vector2d(4,-16), new /datum/vector2d(1,-16))
 	var/maint_state = MS_CLOSED
 	var/prebuilt = FALSE
 	var/fuel_consumption = 0
@@ -83,9 +84,6 @@ After going through this checklist, you're ready to go!
 	. = ..()
 	if(start_emagged)
 		obj_flags ^= EMAGGED
-	if(ispath(has_escape_pod))
-		escape_pod = new /obj/structure/overmap/fighter/escapepod(src)
-		escape_pod.name = "[name] - escape pod"
 
 /**
 
@@ -181,36 +179,6 @@ You need to fire emag the fighter's IFF board. This makes it list as "ENEMY" on 
 	else if(canopy_open)
 		add_overlay("canopy_open")
 
-/obj/structure/overmap/slowprocess()
-	. = ..()
-	if(cabin_air && cabin_air.volume > 0)
-		var/delta = cabin_air.temperature - T20C
-		cabin_air.temperature -= max(-10, min(10, round(delta/4,0.1)))
-	if(internal_tank && cabin_air)
-		var/datum/gas_mixture/tank_air = internal_tank.return_air()
-		var/release_pressure = ONE_ATMOSPHERE
-		var/cabin_pressure = cabin_air.return_pressure()
-		var/pressure_delta = min(release_pressure - cabin_pressure, (tank_air.return_pressure() - cabin_pressure)/2)
-		var/transfer_moles = 0
-		if(pressure_delta > 0) //cabin pressure lower than release pressure
-			if(tank_air.return_temperature() > 0)
-				transfer_moles = pressure_delta*cabin_air.return_volume()/(cabin_air.return_temperature() * R_IDEAL_GAS_EQUATION)
-				var/datum/gas_mixture/removed = tank_air.remove(transfer_moles)
-				cabin_air.merge(removed)
-		else if(pressure_delta < 0) //cabin pressure higher than release pressure
-			var/turf/T = get_turf(src)
-			var/datum/gas_mixture/t_air = T.return_air()
-			pressure_delta = cabin_pressure - release_pressure
-			if(t_air)
-				pressure_delta = min(cabin_pressure - t_air.return_pressure(), pressure_delta)
-			if(pressure_delta > 0) //if location pressure is lower than cabin pressure
-				transfer_moles = pressure_delta*cabin_air.return_volume()/(cabin_air.return_temperature() * R_IDEAL_GAS_EQUATION)
-				var/datum/gas_mixture/removed = cabin_air.remove(transfer_moles)
-				if(T)
-					T.assume_air(removed)
-				else //just delete the cabin gas, we're in space or some shit
-					qdel(removed)
-
 /obj/structure/overmap/fighter/slowprocess()
 	. = ..()
 	use_fuel()
@@ -239,7 +207,7 @@ You need to fire emag the fighter's IFF board. This makes it list as "ENEMY" on 
 	return loc.return_air()
 
 /obj/structure/overmap/fighter/remove_air(amount)
-	return cabin_air.remove(amount)
+	return cabin_air?.remove(amount)
 
 /obj/structure/overmap/fighter/return_analyzable_air()
 	return cabin_air
@@ -674,29 +642,30 @@ You need to fire emag the fighter's IFF board. This makes it list as "ENEMY" on 
 
 
 /obj/structure/overmap/fighter/Destroy()
-	if(operators.len && escape_pod && escape_pod.loc == src)
+	if(operators && operators.len && ispath(has_escape_pod))
 		relay('nsv13/sound/effects/computer/alarm_3.ogg', "<span class=userdanger>EJECT! EJECT! EJECT!</span>")
 		relay_to_nearby('nsv13/sound/effects/ship/fighter_launch_short.ogg')
 		visible_message("<span class=userdanger>Auto-Ejection Sequence Enabled! Escape Pod Launched!</span>")
 		ejecting = FALSE
-		if(eject())
-			sleep(20)
-		else
-			for(var/atom/X in contents) //Pilot unable to eject. Murder them.
-				QDEL_NULL(X)
-			return ..()
+		eject()
+		sleep(2)
+		for(var/atom/X in contents) //Pilot unable to eject. Murder them.
+			QDEL_NULL(X)
+		return ..()
 	. = ..()
 
 /obj/structure/overmap/fighter/proc/eject()
-	if(escape_pod && escape_pod.loc == src)
-		escape_pod.forceMove(get_turf(src))
+	if(ispath(has_escape_pod))
+		escape_pod = new /obj/structure/overmap/fighter/escapepod(get_turf(src))
+		escape_pod.name = "[name] - escape pod"
 		escape_pod.contents += new /obj/item/fighter_component/fuel_tank/escapepod
 		escape_pod.fuel_setup()
 //		escape_pod.set_fuel(get_fuel()) //No infinite tyrosene for you!
 		transfer_occupants_to(escape_pod)
-		escape_pod.desired_angle = pick(0,360)
+		escape_pod.desired_angle = 0
 		escape_pod.user_thrust_dir = NORTH
 		escape_pod.internal_tank = new /obj/machinery/portable_atmospherics/canister/air(src)
+		escape_pod.velocity.y = 3
 		escape_pod = null
 		return TRUE
 	else

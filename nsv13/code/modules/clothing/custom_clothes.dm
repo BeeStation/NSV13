@@ -441,12 +441,14 @@
 	name = "deck technician overalls"
 	desc = "Overalls worn by deck technicians."
 	icon_state = "deck_tech"
-	item_state = "deck_tech"
-	can_adjust = FALSE
+	item_state = "bl_suit"
+	item_color = "deck_tech"
+	can_adjust = TRUE
 
 /obj/item/clothing/head/helmet/decktech
 	name = "Deck Technician Helmet"
 	desc = "A helmet for protecting technicians in a hazardous environment."
 	icon = 'nsv13/icons/obj/clothing/hats.dmi'
+	alternate_worn_icon = 'nsv13/icons/mob/head.dmi'
 	icon_state = "decktech_helmet"
 	item_state = "decktech_helmet"

@@ -43,8 +43,6 @@
 	var/damage_states = FALSE //Did you sprite damage states for this ship? If yes, set this to true
 
 	//Movement Variables
-	var/velocity_x = 0 // tiles per second.
-	var/velocity_y = 0
 	var/offset_x = 0 // like pixel_x/y but in tiles
 	var/offset_y = 0
 	var/angle = 0 // degrees, clockwise
@@ -338,7 +336,7 @@
 		if(damage_amount >= 15) //Flak begone
 			shake_everyone(5)
 		impact_sound_cooldown = TRUE
-		addtimer(VARSET_CALLBACK(src, impact_sound_cooldown, FALSE), 10)
+		addtimer(VARSET_CALLBACK(src, impact_sound_cooldown, FALSE), 1 SECONDS)
 	update_icon()
 
 /obj/structure/overmap/relaymove(mob/user, direction)

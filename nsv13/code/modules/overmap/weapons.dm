@@ -176,6 +176,8 @@
 	else if(!weapons || !weapons[what] || !weapons[what].len) //Hero ship doesn't have any weapons of this type
 		return FALSE
 
+	if(!weapon_types[what])
+		return
 	var/datum/ship_weapon/SW = weapon_types[what]
 	fire_delay = initial(fire_delay) + SW.fire_delay
 	weapon_range = initial(weapon_range) + SW.fire_delay
@@ -213,7 +215,7 @@
 		add_enemy(target) //So that PVP holds up the spawning of AI enemies somewhat.
 		for(var/obj/machinery/ship_weapon/SW in weapons[mode])
 			if(SW.can_fire() && SW.fire(target, manual=(mode == fire_mode)))
-				LAZYADD(weapon_log, "[station_time_timestamp()] [gunner] ([(gunner.mind && gunner.mind.antag_datums) ? "<b>Antagonist</b>" : "Non-Antagonist"]) fired [firemode2text(fire_mode)] at [target]")
+				LAZYADD(weapon_log, "[station_time_timestamp()] [gunner] ([(gunner && gunner.mind && gunner.mind.antag_datums) ? "<b>Antagonist</b>" : "Non-Antagonist"]) fired [firemode2text(fire_mode)] at [target]")
 				return TRUE
 	if(gunner) //Tell them we failed
 		var/datum/ship_weapon/SW = weapon_types[fire_mode]

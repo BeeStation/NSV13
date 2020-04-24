@@ -100,8 +100,8 @@
 		mag_locked = AM
 		visible_message("<span class='warning'>CLUNK.</span>")
 		OM.brakes = TRUE
-		OM.velocity_x = 0
-		OM.velocity_y = 0 //Full stop.
+		OM.velocity.x = 0
+		OM.velocity.y = 0 //Full stop.
 		OM.mag_lock = src
 		var/turf/center = get_turf(src)
 		switch(dir) //Do some fuckery to make sure the fighter lines up on the pad in a halfway sensible manner.
@@ -170,13 +170,13 @@
 		shake_people(mag_locked)
 	switch(dir) //Just handling north / south..FOR NOW!
 		if(NORTH) //PILOTS. REMEMBER TO FACE THE RIGHT WAY WHEN YOU LAUNCH, OR YOU WILL HAVE A TERRIBLE TIME.
-			mag_locked.velocity_y = 20
+			mag_locked.velocity.y = 20
 		if(SOUTH)
-			mag_locked.velocity_y = -20
+			mag_locked.velocity.y = -20
 		if(EAST)
-			mag_locked.velocity_x = 20
+			mag_locked.velocity.x = 20
 		if(WEST)
-			mag_locked.velocity_x = -20
+			mag_locked.velocity.x = -20
 	ready = FALSE
 	mag_locked = null
 	addtimer(CALLBACK(src, .proc/recharge), 10 SECONDS) //Stops us from catching the fighter right after we launch it.
@@ -240,7 +240,7 @@
 			return FALSE
 		var/saved_layer = layer
 		layer = LOW_OBJ_LAYER
-		addtimer(VARSET_CALLBACK(src, layer, saved_layer), 1 SECONDS) //Gives fighters a small window of immunity from collisions with other overmaps
+		addtimer(VARSET_CALLBACK(src, layer, saved_layer), 2 SECONDS) //Gives fighters a small window of immunity from collisions with other overmaps
 		forceMove(get_turf(OM))
 		docking_cooldown = TRUE
 		addtimer(VARSET_CALLBACK(src, docking_cooldown, FALSE), 5 SECONDS) //Prevents jank.
@@ -255,18 +255,20 @@
 		SEND_SIGNAL(src, COMSIG_FTL_STATE_CHANGE) //Let dradis comps update their status too
 		return TRUE
 
+/obj/structure/overmap/fighter/proc/docking_act(obj/structure/overmap/OM)
+	if(mass < OM.mass && OM.docking_points.len && docking_mode) //If theyre smaller than us,and we have docking points, and they want to dock
+		return transfer_from_overmap(OM)
+	else
+		return FALSE
+
 /obj/structure/overmap/fighter/proc/update_overmap()
 	var/area/A = get_area(src)
 	if(A.linked_overmap)
 		last_overmap = A.linked_overmap
 
-/obj/structure/overmap/fighter/proc/docking_act(obj/structure/overmap/OM)
-	if(mass < OM.mass && OM.docking_points.len && docking_mode) //If theyre smaller than us,and we have docking points, and they want to dock
-		transfer_from_overmap(OM)
-
 /obj/structure/overmap/fighter/proc/transfer_from_overmap(obj/structure/overmap/OM)
 	if(docking_cooldown)
-		return
+		return FALSE
 	if(OM.docking_points.len)
 		last_overmap = OM
 		docking_cooldown = TRUE
@@ -284,3 +286,4 @@
 			to_chat(pilot, "<span class='notice'>Docking complete. <b>Gun safeties have been engaged automatically.</b></span>")
 		SEND_SIGNAL(src, COMSIG_FTL_STATE_CHANGE)
 		return TRUE
+	return FALSE

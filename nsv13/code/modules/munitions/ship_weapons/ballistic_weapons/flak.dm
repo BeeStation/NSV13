@@ -73,7 +73,7 @@
 	for(var/obj/structure/overmap/ship in GLOB.overmap_objects)
 		if(!ship || !istype(ship))
 			continue
-		if(ship == src || ship.faction == faction || ship.wrecked || ship.z != z) //No friendly fire, don't blow up wrecks that the crew may wish to loot.
+		if(ship == src || ship.faction == faction || wrecked || ship.wrecked || ship.z != z) //No friendly fire, don't blow up wrecks that the crew may wish to loot.
 			continue
 		var/target_range = get_dist(ship,src)
 		if(target_range > initial(weapon_range)+30)

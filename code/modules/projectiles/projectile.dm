@@ -109,10 +109,11 @@
 
 	var/temporary_unstoppable_movement = FALSE
 
-/obj/item/projectile/Initialize()
+/obj/item/projectile/Initialize(mapload)
 	. = ..()
 	permutated = list()
 	decayedRange = range
+
 
 /obj/item/projectile/proc/Range()
 	range--
@@ -254,7 +255,7 @@
 					forceMove(get_step_towards(src, TT))
 				trajectory_ignore_forcemove = FALSE
 				return FALSE
-	if((A == firer) || (((A in firer.buckled_mobs) || (istype(checking) && (A == checking.buckled))) && (A != original)) || (A == firer.loc && (ismecha(A) || istype(A, /obj/structure/overmap)))) //cannot shoot yourself or your mech //nsv13 - or your ship
+	if(firer && (A == firer) || (((A in firer?.buckled_mobs) || (istype(checking) && (A == checking.buckled))) && (A != original)) || (A == firer?.loc && (ismecha(A) || istype(A, /obj/structure/overmap)))) //cannot shoot yourself or your mech //nsv13 - or your ship
 		trajectory_ignore_forcemove = TRUE
 		var/turf/TT = trajectory.return_turf()
 		if(!istype(TT))
@@ -382,6 +383,8 @@
 			required_moves = SSprojectiles.global_max_tick_moves
 			time_offset += overrun * speed
 		time_offset += MODULUS(elapsed_time_deciseconds, speed)
+	if(collider2d) //Nsv13 change.
+		check_overmap_collisions()
 
 	for(var/i in 1 to required_moves)
 		pixel_move(1, FALSE)
@@ -567,7 +570,7 @@
 		return FALSE
 	if(!ignore_source_check && firer)
 		var/mob/M = firer
-		if((target == firer) || ((target == firer.loc) && ismecha(firer.loc)) || (target in firer.buckled_mobs) || (istype(M) && (M.buckled == target)))
+		if((target == firer) || ((target == firer.loc) && ismecha(firer.loc)) || (target in firer?.buckled_mobs) || (istype(M) && (M.buckled == target)))
 			return FALSE
 	if(!ignore_loc && (loc != target.loc))
 		return FALSE
@@ -663,6 +666,8 @@
 /obj/item/projectile/Destroy()
 	if(hitscan)
 		finalize_hitscan_and_generate_tracers()
+	if(collider2d) //Nsv13
+		QDEL_NULL(collider2d)
 	STOP_PROCESSING(SSprojectiles, src)
 	cleanup_beam_segments()
 	qdel(trajectory)

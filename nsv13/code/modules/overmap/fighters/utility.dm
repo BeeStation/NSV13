@@ -99,9 +99,9 @@
 
 /obj/structure/overmap/fighter/utility/docking_act(obj/structure/overmap/OM)
 	if(docking_cooldown)
-		return
+		return FALSE
 	if(mass < OM.mass && OM.docking_points.len && docking_mode) //If theyre smaller than us,and we have docking points, and they want to dock
-		transfer_from_overmap(OM)
+		return transfer_from_overmap(OM)
 	if(mass >= OM.mass && docking_mode) //Looks like theyre smaller than us, and need rescue.
 		if(istype(OM, /obj/structure/overmap/fighter/escapepod)) //Can we take them aboard?
 			if(OM.operators.len <= max_passengers+1-OM.mobs_in_ship.len) //Max passengers + 1 to allow for one raptor crew rescuing another. Imagine that theyre being cramped into the footwell or something.
@@ -115,6 +115,7 @@
 			else
 				if(pilot)
 					to_chat(pilot,"<span class='warning'>[src]'s passenger cabin is full, you'd need [max_passengers+1-OM.mobs_in_ship.len] more seats to retrieve everyone!</span>")
+			return TRUE
 
 /obj/structure/overmap/fighter/utility/verb/space_to_space_refueling()
 	set name = "Toggle Space-to-Space Refueling Mode"

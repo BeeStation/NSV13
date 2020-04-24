@@ -379,10 +379,6 @@
 	for(var/obj/structure/cable/C in src)
 		if(C.d1 == 0)
 			return C
-		if(istype(C, /obj/structure/cable/auto))
-			var/obj/structure/cable/auto/A = C
-			if(A.node)
-				return A
 	return null
 
 /area/proc/get_apc()
