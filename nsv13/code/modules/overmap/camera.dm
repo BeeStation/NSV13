@@ -147,8 +147,9 @@
 		target = origin
 	last_target = target
 	forceMove(get_turf(target)) //This only happens for gunner cams
-	eye_user.client.pixel_x = origin.pixel_x
-	eye_user.client.pixel_y = origin.pixel_y
+	if(eye_user.client)
+		eye_user.client.pixel_x = origin.pixel_x
+		eye_user.client.pixel_y = origin.pixel_y
 	return TRUE
 
 /mob/camera/aiEye/remote/overmap_observer/proc/track_target(obj/structure/overmap/target)
