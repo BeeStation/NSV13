@@ -107,13 +107,26 @@
 	for(var/obj/structure/overmap/OM in GLOB.overmap_objects) //Iterate through overmaps in the world!
 		if(OM.z == linked.z)
 			var/thecolour = "#FFFFFF"
-			if(OM == linked)
-				thecolour = "#00FFFF"
-			else if(OM.faction == linked.faction)
-				thecolour = "#32CD32"
+			if(istype(OM, /obj/structure/overmap/asteroid))
+				if(!show_asteroids)
+					continue
+				var/obj/structure/overmap/asteroid/AS = OM
+				if(AS.required_tier > mining_sensor_tier)
+					continue
+				thecolour = "#80523c"
+				switch(AS.required_tier) //Better asteroids show up in different colours
+					if(2)
+						thecolour = "#ffcc00"
+					if(3)
+						thecolour = "#cc66ff"
 			else
-				thecolour = "#FF0000"
-				ship_count ++
+				if(OM == linked)
+					thecolour = "#00FFFF"
+				else if(OM.faction == linked.faction)
+					thecolour = "#32CD32"
+				else
+					thecolour = "#FF0000"
+					ship_count ++
 			var/OMx = OM.x/6 //We're now going to scale down the X,Y coords into something we can display
 			var/OMy = OM.y/6 //THESE NUMBERS ARE BASED ON TRIAL AND ERROR. DON'T ARGUE WITH ME JUST DEAL WITH IT
 			if(OMx < 5) //This chain of IFs stops the dots from going off the screen. Simple as.
@@ -130,26 +143,6 @@
 		last_ship_count = ship_count
 		visible_message("<span class='warning'>[icon2html(src, viewers(src))] [delta <= 1 ? "DRADIS contact" : "Multiple DRADIS contacts"]</span>")
 		playsound(src, 'nsv13/sound/effects/ship/contact.ogg', 100, FALSE)
-	if(show_asteroids)
-		for(var/obj/structure/asteroid/AS in GLOB.overmap_asteroids)
-			if(AS.z == linked.z && AS.required_tier <= mining_sensor_tier)
-				var/thecolor = "#80523c"
-				switch(AS.required_tier) //Better asteroids show up in different colours
-					if(2)
-						thecolor = "#ffcc00"
-					if(3)
-						thecolor = "#cc66ff"
-				var/OMx = AS.x/6 //We're now going to scale down the X,Y coords into something we can display
-				var/OMy = AS.y/6 //THESE NUMBERS ARE BASED ON TRIAL AND ERROR. DON'T ARGUE WITH ME JUST DEAL WITH IT
-				if(OMx < 5) //This chain of IFs stops the dots from going off the screen. Simple as.
-					OMx = 5
-				if(OMx > 235)
-					OMx = 235
-				if(OMy < 5)
-					OMy = 5
-				if(OMy > 39)
-					OMy = 39
-				blips.Add(list(list("x" = OMx, "y" = OMy, "colour" = thecolor, "name"=AS.name))) //So now make a 2-d array that TGUI can iterate through. This is just a list within a list.
 	data["ships"] = blips //Create a category in data called "ships" with our 2-d arrays.
 	return data
 
