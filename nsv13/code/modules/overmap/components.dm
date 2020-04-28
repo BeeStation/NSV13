@@ -11,6 +11,13 @@ GLOBAL_LIST_INIT(computer_beeps, list('nsv13/sound/effects/computer/beep.ogg','n
 	var/sound_cooldown = 10 SECONDS //For big warnings like enemies firing on you, that we don't want repeating over and over
 	req_access = list(ACCESS_HEADS)
 
+/obj/machinery/computer/ship/Initialize()
+	. = ..()
+	return INITIALIZE_HINT_LATELOAD
+
+/obj/machinery/computer/ship/LateInitialize()
+	has_overmap()
+
 /obj/machinery/computer/ship/proc/relay_sound(sound, message)
 	if(!can_sound)
 		return

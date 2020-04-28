@@ -106,8 +106,8 @@ Method to spawn in the Syndi ship on a brand new Z-level with the "boardable" tr
 		nuke_mind?.add_antag_datum(selected)
 	time_limit = world.time + 45 MINUTES //Puts a hard cap on the time limit to avoid boredom.
 	addtimer(CALLBACK(src, .proc/check_win), 45.5 MINUTES)
-	SSstarsystem.add_blacklist(/obj/structure/overmap/syndicate/ai/carrier) //No. Just no. Please. God no.
-	SSstarsystem.add_blacklist(/obj/structure/overmap/syndicate/ai/patrol_cruiser) //Syndies only get LIGHT reinforcements.
+	SSstar_system.add_blacklist(/obj/structure/overmap/syndicate/ai/carrier) //No. Just no. Please. God no.
+	SSstar_system.add_blacklist(/obj/structure/overmap/syndicate/ai/patrol_cruiser) //Syndies only get LIGHT reinforcements.
 	return ..()
 
 /**

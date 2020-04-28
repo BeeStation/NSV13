@@ -24,7 +24,7 @@
 	var/sprite_size = 64 //Pixels. This represents 64x64 and allows for the bullets that you fire to align properly.
 	var/area_type = null //Set the type of the desired area you want a ship to link to, assuming it's not the main player ship.
 	var/impact_sound_cooldown = FALSE //Avoids infinite spamming of the ship taking damage.
-	var/datum/starsystem/current_system //What starsystem are we currently in? Used for parallax.
+	var/datum/star_system/current_system //What star_system are we currently in? Used for parallax.
 	var/resize = 0 //Factor by which we should shrink a ship down. 0 means don't shrink it.
 	var/list/docking_points = list() //Where we can land on this ship. Usually right at the edge of a z-level.
 	var/last_slowprocess = 0
@@ -118,6 +118,10 @@
 	var/list/obj/effect/projectile/tracer/current_tracers
 	var/mob/listeningTo
 
+	var/uid = 0 //Unique identification code
+	var/starting_system = null //Where do we start in the world?
+	var/obj/machinery/computer/ship/ftl_computer/ftl_drive
+
 	var/role = NORMAL_OVERMAP
 
 /obj/weapon_overlay
@@ -156,6 +160,8 @@
 
 /obj/structure/overmap/Initialize()
 	. = ..()
+	if(role > NORMAL_OVERMAP)
+		SSstar_system.add_ship(src)
 	current_tracers = list()
 	GLOB.overmap_objects += src
 	START_PROCESSING(SSovermap, src)
@@ -208,7 +214,7 @@
 
 	if(role == MAIN_OVERMAP)
 		name = "[station_name()]"
-	current_system = SSstarsystem.find_system(src)
+	current_system = SSstar_system.find_system(src)
 	addtimer(CALLBACK(src, .proc/check_armour), 20 SECONDS)
 
 	weapon_types[FIRE_MODE_PDC] = new/datum/ship_weapon/pdc_mount

@@ -98,6 +98,7 @@
 	name = "NSV Nostromo"
 	role = MAIN_MINING_SHIP
 	area_type = /area/nostromo
+	starting_system = "Sol"
 
 /obj/structure/overmap/nanotrasen/mining_cruiser/nostromo/fob
 	area_type = /area/nsv/shuttle
@@ -116,6 +117,7 @@
 	role = MAIN_OVERMAP //Player controlled variant
 	max_integrity = 1800 //Buffed health due to ship internal damage existing
 	integrity_failure = 1800
+	starting_system = "Sol"
 
 /obj/structure/overmap/nanotrasen/carrier/starter
 	role = MAIN_OVERMAP //Player controlled variant
@@ -168,7 +170,7 @@
 	name = "[name] ([rand(0,999)])"
 
 /obj/structure/overmap/syndicate/ai/Destroy()
-	SSstarsystem.bounty_pool += bounty //Adding payment for services rendered
+	SSstar_system.bounty_pool += bounty //Adding payment for services rendered
 	. = ..()
 
 /obj/structure/overmap/syndicate/pvp //Syndie PVP ship.
@@ -187,6 +189,7 @@
 	pixel_w = -32
 	ai_controlled = FALSE
 	collision_positions = list(new /datum/vector2d(-3,45), new /datum/vector2d(-17,29), new /datum/vector2d(-22,-12), new /datum/vector2d(-11,-45), new /datum/vector2d(7,-47), new /datum/vector2d(22,-12), new /datum/vector2d(9,30))
+	role = PVP_SHIP
 
 /obj/structure/overmap/syndicate/pvp/hulk //Larger PVP ship for larger pops.
 	name = "SSV Hulk"
@@ -201,6 +204,7 @@
 	max_integrity = 1500 //Max health
 	integrity_failure = 1500
 	collision_positions = list(new /datum/vector2d(-7,124), new /datum/vector2d(-26,67), new /datum/vector2d(-46,-75), new /datum/vector2d(-45,-95), new /datum/vector2d(-30,-116), new /datum/vector2d(25,-119), new /datum/vector2d(36,-94), new /datum/vector2d(41,-76), new /datum/vector2d(19,71))
+	role = PVP_SHIP
 
 /obj/structure/overmap/fighter/syndicate //Syndie PVP fighter
 	name = "Syndicate Fighter"
@@ -308,5 +312,5 @@
 	faction = "syndicate"
 
 /obj/structure/overmap/fighter/ai/syndicate/Destroy()
-	SSstarsystem.bounty_pool += bounty //Adding payment for services rendered
+	SSstar_system.bounty_pool += bounty //Adding payment for services rendered
 	. = ..()

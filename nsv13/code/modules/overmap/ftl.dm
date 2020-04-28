@@ -1,4 +1,4 @@
-/datum/starsystem/proc/transfer_ship(obj/structure/overmap/OM)
+/datum/star_system/proc/transfer_ship(obj/structure/overmap/OM)
 	var/turf/destination
 	for(var/z in SSmapping.levels_by_trait(level_trait))
 		destination = get_turf(locate(round(world.maxx * 0.5, 1), round(world.maxy * 0.5, 1), z)) //Plop them bang in the center of the system.
@@ -8,13 +8,13 @@
 	OM.forceMove(destination)
 	OM.current_system = src
 
-/obj/structure/overmap/proc/begin_jump(datum/starsystem/target_system)
+/obj/structure/overmap/proc/begin_jump(datum/star_system/target_system)
 	relay_to_nearby('nsv13/sound/effects/ship/FTL.ogg', null, ignore_self=TRUE)//Ships just hear a small "crack" when another one jumps
 	relay('nsv13/sound/effects/ship/FTL_long.ogg')
 	desired_angle = 90 //90 degrees AKA face EAST to match the FTL parallax.
 	addtimer(CALLBACK(src, .proc/jump, target_system, TRUE), 30 SECONDS)
 
-/obj/structure/overmap/proc/jump(datum/starsystem/target_system, ftl_start) //FTL start IE, are we beginning a jump? Or ending one?
+/obj/structure/overmap/proc/jump(datum/star_system/target_system, ftl_start) //FTL start IE, are we beginning a jump? Or ending one?
 	if(role == MAIN_OVERMAP)
 		var/list/areas = list()
 		areas = GLOB.teleportlocs.Copy()
@@ -47,9 +47,16 @@
 		shake_camera(M, 4, 1)
 	if(ftl_start)
 		relay('nsv13/sound/effects/ship/FTL_loop.ogg', "<span class='warning'>You feel the ship lurch forward</span>", loop=TRUE, channel = CHANNEL_SHIP_ALERT)
-		addtimer(CALLBACK(src, .proc/jump, target_system, FALSE), 2 MINUTES)
 		SEND_SIGNAL(src, COMSIG_FTL_STATE_CHANGE)
-		SSstarsystem?.hyperspace?.transfer_ship(src) //Get the system to transfer us to its location.
+		var/speed = (SSstar_system.ships[src]["current_system"].dist(target_system) / 10) //TODO: FTL drive speed upgrades.
+		if(role == MAIN_OVERMAP)
+			priority_announce("Attention: All hands brace for FTL translation. Destination: [target_system]. Projected arrival time: [add_zero(num2text((round((world.time + speed MINUTES-world.time)/10) / 60) % 60),2)]:[add_zero(num2text(round((world.time + speed MINUTES-world.time)/10) % 60), 2)].","Automated announcement") //TEMP! Remove this shit when we move ruin spawns off-z
+		SSstar_system.ships[src]["target_system"] = target_system
+		SSstar_system.ships[src]["to_time"] = world.time + speed MINUTES
+		SSstar_system.ships[src]["from_time"] = world.time
+		SSstar_system.ships[src]["current_system"] = null
+		addtimer(CALLBACK(src, .proc/jump, target_system, FALSE), speed MINUTES)
+		SSstar_system?.hyperspace?.transfer_ship(src) //Get the system to transfer us to its location.
 		if(structure_crit) //Tear the ship apart if theyre trying to limp away.
 			for(var/i = 0, i < rand(4,8), i++)
 				var/name = pick(GLOB.teleportlocs)
@@ -59,6 +66,11 @@
 	else
 		SEND_SIGNAL(src, COMSIG_FTL_STATE_CHANGE)
 		relay('nsv13/sound/effects/ship/freespace2/warp_close.wav', "<span class='warning'>You feel the ship lurch to a halt</span>", loop=FALSE, channel = CHANNEL_SHIP_ALERT)
+		SSstar_system.ships[src]["target_system"] = null
+		SSstar_system.ships[src]["current_system"] = target_system
+		SSstar_system.ships[src]["last_system"] = target_system
+		SSstar_system.ships[src]["from_time"] = 0
+		SSstar_system.ships[src]["to_time"] = 0
 		target_system.transfer_ship(src) //Get the system to transfer us to its location.
 
 #define FTL_STATE_IDLE 1
@@ -84,6 +96,8 @@
 	var/progress_rate = 1 SECONDS
 	var/spoolup_time = 2 MINUTES
 	var/screen = 1
+	var/can_cancel_jump = TRUE //Defaults to true. TODO: Make emagging disable this
+	var/max_range = 100 //max jump range. This is _very_ long distance
 
 /obj/machinery/computer/ship/ftl_computer/Initialize()
 	. = ..()
@@ -104,7 +118,13 @@
 		use_power = 300 //Keeping the FTL spooled requires a fair bit of power
 		return PROCESS_KILL
 
+/obj/machinery/computer/ship/ftl_computer/has_overmap()
+	. = ..()
+	linked.ftl_drive = src
+
 /obj/machinery/computer/ship/ftl_computer/attack_hand(mob/user)
+	if(!has_overmap())
+		return
 	if(!allowed(user))
 		var/sound = pick('nsv13/sound/effects/computer/error.ogg','nsv13/sound/effects/computer/error2.ogg','nsv13/sound/effects/computer/error3.ogg')
 		playsound(src, sound, 100, 1)
@@ -120,8 +140,6 @@
 
 /obj/machinery/computer/ship/ftl_computer/ui_act(action, params, datum/tgui/ui)
 	if(..())
-		return
-	if(!in_range(src, usr) || !is_operational())
 		return
 	if(!has_overmap())
 		return
@@ -141,7 +159,7 @@
 				visible_message("<span class='warning'>[icon2html(src, viewers(src))] Unable to comply. FTL vector calculation still in progress. 'Blind' FTL jumps are prohibited by the system administrative policy.</span>")
 				return
 			var/target_name = params["target"]
-			for(var/datum/starsystem/S in SSstarsystem.systems)
+			for(var/datum/star_system/S in SSstar_system.systems)
 				if(S.visitable && S.name == target_name)
 					jump(S)
 					check_active(FALSE)
@@ -155,7 +173,7 @@
 	data["ready"] = (ftl_state == FTL_STATE_READY) ? TRUE : FALSE
 	data["mode"] = screen
 	data["systems"] = list()
-	for(var/datum/starsystem/S in SSstarsystem.systems)
+	for(var/datum/star_system/S in SSstar_system.systems)
 		if(S.visitable && S != linked.current_system)
 			data["systems"] += list(list("name" = S.name, "distance" = "2 minutes"))
 	return data
@@ -168,19 +186,15 @@
 		depower()
 		STOP_PROCESSING(SSmachines, src)
 
-/obj/machinery/computer/ship/ftl_computer/proc/jump(datum/starsystem/target_system)
+/obj/machinery/computer/ship/ftl_computer/proc/jump(datum/star_system/target_system)
 	if(!target_system)
-		radio.talk_into(src, "ERROR. Specified starsystem no longer exists.", engineering_channel)
+		radio.talk_into(src, "ERROR. Specified star_system no longer exists.", engineering_channel)
 		return
 	linked?.begin_jump(target_system)
 	say("Initiating FTL jump...")
 	radio.talk_into(src, "Initiating FTL jump.", engineering_channel)
 	playsound(src, 'nsv13/sound/effects/ship/freespace2/computer/escape.wav', 100, 1)
 	visible_message("<span class='notice'>Initiating FTL jump.</span>")
-	if(linked.role == MAIN_OVERMAP)
-		priority_announce("Attention: All hands brace for FTL translation. Destination: [target_system]. Projected ETA: 2:45 minutes","Automated announcement") //TEMP! Remove this shit when we move ruin spawns off-z
-	else
-		minor_announce("[linked] has begun an FTL jump. Target: [target_system]. Projected ETA: 2:45 minutes", "Bluespace hyperlane governor")
 	depower()
 
 /obj/machinery/computer/ship/ftl_computer/proc/ready_ftl()

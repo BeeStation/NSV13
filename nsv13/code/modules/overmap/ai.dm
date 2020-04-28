@@ -22,6 +22,7 @@
 
 /obj/structure/overmap/proc/slowprocess() //For ai ships, this allows for target acquisition, tactics etc.
 	handle_pdcs()
+	SSstar_system.update_pos(src)
 	if(!ai_controlled)
 		return
 	if(!pilot) //AI ships need a pilot so that they aren't hit by their own bullets. Projectiles.dm's can_hit needs a mob to be the firer, so here we are.
@@ -113,7 +114,7 @@
 	enemies += target
 	if(OM.role == MAIN_OVERMAP)
 		set_security_level(SEC_LEVEL_RED) //Action stations when the ship is under attack, if it's the main overmap.
-		SSstarsystem.last_combat_enter = world.time //Tag the combat on the SS
+		SSstar_system.last_combat_enter = world.time //Tag the combat on the SS
 	if(OM.tactical)
 		var/sound = pick('nsv13/sound/effects/computer/alarm.ogg','nsv13/sound/effects/computer/alarm_3.ogg','nsv13/sound/effects/computer/alarm_4.ogg')
 		var/message = "<span class='warning'>DANGER: [src] is now targeting [OM].</span>"

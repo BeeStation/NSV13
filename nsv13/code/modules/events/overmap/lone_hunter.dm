@@ -13,8 +13,8 @@
 
 /datum/round_event/lone_hunter/start()
 	var/opponent = /obj/structure/overmap/syndicate/ai //generic bad guy
-	var/target = SSstarsystem.find_main_overmap() //find the "hero" ship
-	var/datum/starsystem/current_sys = SSstarsystem.find_system(target)
+	var/target = SSstar_system.find_main_overmap() //find the "hero" ship
+	var/datum/star_system/current_sys = SSstar_system.find_system(target)
 	var/list/levels = SSmapping.levels_by_trait(current_sys.level_trait)
 	if(levels?.len == 1)
 		var/datum/space_level/target_z = SSmapping.get_level(levels[1])
@@ -27,4 +27,4 @@
 		return
 	minor_announce("Bluespace Signature Detected", "DRADIS Uplink") //Hot Drop
 	sleep(rand(30, 60)) // 3 to 6 seconds to spill your coffee all over the weapons console
-	SSstarsystem.modular_spawn_enemies(opponent, current_sys)
+	SSstar_system.modular_spawn_enemies(opponent, current_sys)
