@@ -190,6 +190,18 @@
 	name = "Deck 3 Frame 4 Central Maintenance"
 	icon_state = "maintcentral"
 
+/area/hallway/nsv/deck2/forward
+	name = "Deck 2 Forward Hallway"
+	icon_state = "hallF"
+
+/area/hallway/nsv/deck2/primary
+	name = "Deck 2 Primary Hallway"
+	icon_state = "hallP"
+
+/area/hallway/nsv/deck2/aft
+	name = "Deck 2 Aft Hallway"
+	icon_state = "hallP"
+
 /area/hallway/nsv/deck2/frame1/port
 	name = "Deck 2 Frame 1 Port Hallway"
 	icon_state = "hallF"
