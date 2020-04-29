@@ -75,11 +75,11 @@ SUBSYSTEM_DEF(star_system)
 	ships[OM]["current_system"] = system
 	return system
 
-/datum/controller/subsystem/star_system/proc/modular_spawn_enemies(obj/structure/overmap/OM, datum/star_system/target_sys)//Select Ship to Spawn and Location via Z-Trait
+/datum/controller/subsystem/star_system/proc/spawn_ship(obj/structure/overmap/OM, datum/star_system/target_sys)//Select Ship to Spawn and Location via Z-Trait
 	if(target_sys.occupying_z)
-		message_admins("Enemy [OM] successfully spawned in [target_sys]")
+		message_admins("Ship [OM] successfully spawned in [target_sys]")
 		var/turf/exit = get_turf(locate(round(world.maxx * 0.5, 1), round(world.maxy * 0.5, 1), target_sys.occupying_z)) //Plop them bang in the center of the system.
-		var/turf/destination = get_turf(pick(orange(20,exit)))
+		var/turf/destination = get_turf(pick(orange(40,exit)))
 		var/obj/structure/overmap/enemy = new OM(destination)
 		target_sys.add_enemy(enemy)
 	else
@@ -115,12 +115,12 @@ SUBSYSTEM_DEF(star_system)
 			continue
 		current_system = ships[OM]["current_system"]
 	for(var/datum/star_system/starsys in systems)
-		if(starsys != current_system && starsys.alignment != "nanotrasen") //Spawn is a safe zone.
+		if(starsys != current_system && starsys.alignment == "unaligned") //Spawn is a safe zone.
 			starsys.mission_sector = TRUE //set this sector to be the active mission
 			starsys.spawn_asteroids() //refresh asteroids in the system
 			for(var/i = 0, i < starsys.difficulty_budget, i++) //number of enemies is set via the star_system vars
 				var/enemy_type = pick(enemy_types) //Spawn a random set of enemies.
-				modular_spawn_enemies(enemy_type, starsys)
+				spawn_ship(enemy_type, starsys)
 			priority_announce("Attention all ships, set condition 1 throughout the fleet. Syndicate incursion detected in: [starsys]. All ships must repel the invasion.", "Naval Command")
 			return
 
@@ -186,7 +186,7 @@ SUBSYSTEM_DEF(star_system)
 /datum/star_system/proc/spawn_asteroids()
 	for(var/I = 0; I < rand(2, 6); I++)
 	var/roid_type = pick(/obj/structure/overmap/asteroid, /obj/structure/overmap/asteroid/medium, /obj/structure/overmap/asteroid/large)
-	SSstar_system.modular_spawn_enemies(roid_type, src) //Todo.
+	SSstar_system.spawn_ship(roid_type, src) //Todo.
 
 /datum/star_system/proc/add_enemy(obj/structure/overmap/OM)
 	if(!istype(OM, /obj/structure/overmap/asteroid))
@@ -220,67 +220,207 @@ SUBSYSTEM_DEF(star_system)
 /datum/star_system/sol
 	name = "Sol"
 	is_capital = TRUE
-	x = 40
+	x = 0
 	y = 10
 	alignment = "nanotrasen"
 	adjacency_list = list("Alpha Centauri")
 
 /datum/star_system/alpha_centauri
 	name = "Alpha Centauri"
-	x = 40
+	x = 20
 	y = 15
 	alignment = "nanotrasen"
 	adjacency_list = list("Sol","Wolf 359")
 
 /datum/star_system/wolf359
 	name = "Wolf 359"
-	x = 60
+	x = 40
 	y = 20
 	alignment = "nanotrasen"
-	adjacency_list = list("Lalande 21185","Tau Ceti")
+	adjacency_list = list("Alpha Centauri", "Lalande 21185","Tau Ceti")
 
 /datum/star_system/lalande21185
 	name = "Lalande 21185"
-	x = 40
+	x = 25
 	y = 25
+	parallax_property = "icefield"
 	alignment = "nanotrasen"
 	adjacency_list = list("Tau Ceti", "Wolf 359")
 
 /datum/star_system/tau_ceti
 	name = "Tau Ceti"
-	x = 80
+	x = 60
 	y = 30
+	parallax_property = "ice_planet"
 	alignment = "nanotrasen"
 	adjacency_list = list("Canis Majoris","Lalande 21185","Wolf 359", "Eridani")
 
 /datum/star_system/canis_majoris
 	name = "Canis Majoris"
-	x = 70
+	x = 50
 	y = 35
 	alignment = "unaligned"
 	adjacency_list = list("Tau Ceti","Scorvio")
 
 /datum/star_system/scorvio
 	name = "Scorvio"
-	x = 85
+	x = 55
 	y = 40
+	parallax_property = "gas"
 	alignment = "syndicate"
-	adjacency_list = list("Canis Majoris")
+	adjacency_list = list("Canis Majoris", "Cygni")
 
+/datum/star_system/cygni
+	name = "Cygni"
+	x = 80
+	y = 45
+	alignment = "unaligned"
+	adjacency_list = list("Eridani","Scorvio", "Antares")
 
 /datum/star_system/eridani
 	name = "Eridani"
-	x = 100
+	x = 70
 	y = 50
-	alignment = "nanotrasen"
-	adjacency_list = list("Tau Ceti")
+	alignment = "unaligned"
+	adjacency_list = list("Rubicon", "Theta Hydri","Tau Ceti", "Cygni")
 
-/datum/star_system/capital/syndicate
-	name = "Dolos"
-	is_capital = TRUE
+/datum/star_system/theta_hydri
+	name = "Theta Hydri"
+	x = 85
+	y = 55
+	alignment = "unaligned"
+	adjacency_list = list("Eridani", "Cygni")
+
+/datum/star_system/canis_minoris
+	name = "Canis Minoris"
 	x = 80
-	y = 70
+	y = 30
+	alignment = "unaligned"
+	adjacency_list = list("Tau Ceti","Antares")
+
+/datum/star_system/antares
+	name = "Antares"
+	x = 100
+	y = 45
+	alignment = "unaligned"
+	adjacency_list = list("Cygni", "Canis Minoris", "Tortuga")
+
+/datum/star_system/tortuga
+	name = "Tortuga"
+	x = 110
+	y = 45
 	alignment = "syndicate"
+	adjacency_list = list("P9X-334", "Antares")
+
+/datum/star_system/p9x334
+	name = "P9X-334"
+	x = 105
+	y = 50
+	alignment = "uncharted"
+	adjacency_list = list("P7X-294", "Tortuga")
+
+/datum/star_system/p7x294
+	name = "P7X-294"
+	x = 120
+	y = 70
+	alignment = "uncharted"
+	adjacency_list = list("P9X-334", "N64-775")
+
+/datum/star_system/n64775
+	name = "N64-775"
+	x = 135
+	y = 80
+	parallax_property = "nebula"
+	alignment = "uncharted"
+	adjacency_list = list("P7X-294")
+
+/datum/star_system/rubicon
+	name = "Rubicon"
+	x = 80
+	y = 60
+	alignment = "syndicate"
+	adjacency_list = list("Eridani", "Theta Hydri", "Vorash")
+
+/datum/star_system/vorash
+	name = "Vorash"
+	x = 70
+	y = 63
+	alignment = "syndicate"
+	adjacency_list = list("Rubicon", "Solaris A","Solaris B", "Solaris C")
+
+/datum/star_system/solarisA
+	name = "Solaris A"
+	x = 50
+	y = 55
+	alignment = "syndicate"
+	adjacency_list = list("Solaris B", "Solaris C", "Vorash")
+
+/datum/star_system/solarisB
+	name = "Solaris B"
+	x = 55
+	y = 50
+	alignment = "syndicate"
+	adjacency_list = list("Solaris A", "Solaris C", "Vorash", "P3X-754")
+
+/datum/star_system/p3x754
+	name = "P3X-754"
+	x = 40
+	y = 50
+	alignment = "uncharted"
+	adjacency_list = list("Solaris B","P59-723")
+
+/datum/star_system/solarisC
+	name = "Solaris C"
+	x = 60
+	y = 45
+	alignment = "syndicate"
+	adjacency_list = list("Solaris A", "Solaris B", "Vorash", "Scorvio")
+
+/datum/star_system/p59723
+	name = "P59-723"
+	x = 40
+	y = 60
+	alignment = "uncharted"
+	adjacency_list = list("N94-19X", "P3X-754")
+
+/datum/star_system/n9419x
+	name = "N94-19X"
+	x = 70
+	y = 70
+	parallax_property = "nebula"
+	alignment = "uncharted"
+	adjacency_list = list("P59-723", "P32-901", "Dolos", "DATA EXPUNGED") //Links to dolos, only unlocks on special occasions.)
+
+/datum/star_system/p32901
+	name = "P32-901"
+	x = 100
+	y = 60
+	alignment = "uncharted"
+	adjacency_list = list("N94-19X")
+
+/datum/star_system/blacksite
+	name = "DATA EXPUNGED"
+	x = 150
+	y = 100
+	alignment = "uncharted"
+	adjacency_list = list("N94-19X")
+
+/datum/star_system/dolos
+	name = "Dolos"
+	x = 60
+	y = 80
+	alignment = "syndicate"
+	adjacency_list = list("Abassi") //No going back from here...
+	hidden = TRUE
+
+/datum/star_system/abassi
+	name = "Abassi"
+	is_capital = TRUE
+	x = 40
+	y = 100
+	alignment = "syndicate"
+	adjacency_list = list("Dolos")
+	hidden = TRUE
 
 /*
 

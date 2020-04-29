@@ -13,7 +13,8 @@
 /datum/star_system/proc/restore_contents()
 	if(enemy_queue)
 		for(var/X in enemy_queue)
-			SSstar_system.modular_spawn_enemies(X, src)
+			SSstar_system.spawn_ship(X, src)
+			enemy_queue -= X
 	if(!contents_positions.len)
 		return //Nothing stored, no need to restore.
 	for(var/obj/structure/overmap/ship in system_contents){
@@ -98,7 +99,7 @@
 		SEND_SIGNAL(src, COMSIG_FTL_STATE_CHANGE)
 		var/speed = (SSstar_system.ships[src]["current_system"].dist(target_system) / 10) //TODO: FTL drive speed upgrades.
 		if(role == MAIN_OVERMAP) //Scuffed please fix
-			priority_announce("Attention: All hands brace for FTL translation. Destination: [target_system]. Projected arrival time: [station_time_timestamp("hh:mm", world.time + speed MINUTES)].","Automated announcement") //TEMP! Remove this shit when we move ruin spawns off-z
+			priority_announce("Attention: All hands brace for FTL translation. Destination: [target_system]. Projected arrival time: [station_time_timestamp("hh:mm", world.time + speed MINUTES)] (Local time)","Automated announcement") //TEMP! Remove this shit when we move ruin spawns off-z
 		SSstar_system.ships[src]["target_system"] = target_system
 		SSstar_system.ships[src]["current_system"].remove_ship(src)
 		SSstar_system.ships[src]["to_time"] = world.time + speed MINUTES
@@ -142,7 +143,7 @@
 	var/active = FALSE
 	var/progress = 0 SECONDS
 	var/progress_rate = 1 SECONDS
-	var/spoolup_time = 2 MINUTES
+	var/spoolup_time = 1 MINUTES
 	var/screen = 1
 	var/can_cancel_jump = TRUE //Defaults to true. TODO: Make emagging disable this
 	var/max_range = 100 //max jump range. This is _very_ long distance

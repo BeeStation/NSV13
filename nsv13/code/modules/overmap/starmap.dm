@@ -107,8 +107,11 @@
 			system_list["label"] = label
 			for(var/thename in system.adjacency_list) //Draw the lines joining our systems
 				var/datum/star_system/sys = SSstar_system.system_by_id(thename)
+				var/is_bidirectional = (LAZYFIND(sys.adjacency_list, system.name) && LAZYFIND(system.adjacency_list, sys.name))
 				if(!sys)
-					message_admins("[sys.name] exists in a system adjacency list, but does not exist. Go create a starsystem datum for it.")
+					message_admins("[thename] exists in a system adjacency list, but does not exist. Go create a starsystem datum for it.")
+					continue
+				if(!is_bidirectional || sys.hidden) //Secret One way wormholes don't show as valid hyperlanes, go find them for yourself!
 					continue
 				var/thecolour = (system != current_system) ? "white" : "lightblue"
 				var/list/line = list()
