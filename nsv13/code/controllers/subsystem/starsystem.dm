@@ -6,7 +6,6 @@ SUBSYSTEM_DEF(star_system)
 	var/last_combat_enter = 0 //Last time an AI controlled ship attacked the players
 	var/modifier = 0 //Time step modifier for overmap combat - also matches curreny OEH weight
 	var/list/systems = list()
-	var/datum/star_system/hyperspace //The transit level for ships
 	var/bounty_pool = 0 //Bounties pool to be delivered for destroying syndicate ships
 	var/list/enemy_types = list()
 	var/list/enemy_blacklist = list()
@@ -47,12 +46,10 @@ SUBSYSTEM_DEF(star_system)
 /datum/controller/subsystem/star_system/proc/instantiate_systems()
 	cycle_gameplay_loop() //Start the gameplay loop
 	cycle_bounty_timer() //Start the bounty timers
-	var/datum/star_system/SS = new
-	hyperspace = SS //First system defaults to "hyperspace" AKA transit.
-	SS.hidden = TRUE
 	for(var/instance in subtypesof(/datum/star_system))
 		var/datum/star_system/S = new instance
-		systems += S
+		if(S.name)
+			systems += S
 
 ///////SPAWN SYSTEM///////
 
@@ -79,18 +76,15 @@ SUBSYSTEM_DEF(star_system)
 	return system
 
 /datum/controller/subsystem/star_system/proc/modular_spawn_enemies(obj/structure/overmap/OM, datum/star_system/target_sys)//Select Ship to Spawn and Location via Z-Trait
-	var/list/levels = SSmapping.levels_by_trait(target_sys.level_trait)
-	if(levels?.len == 1)
-		var/turf/exit = get_turf(locate(round(world.maxx * 0.5, 1), round(world.maxy * 0.5, 1), levels[1])) //Plop them bang in the center of the system.
+	if(target_sys.occupying_z)
+		message_admins("Enemy [OM] successfully spawned in [target_sys]")
+		var/turf/exit = get_turf(locate(round(world.maxx * 0.5, 1), round(world.maxy * 0.5, 1), target_sys.occupying_z)) //Plop them bang in the center of the system.
 		var/turf/destination = get_turf(pick(orange(20,exit)))
 		var/obj/structure/overmap/enemy = new OM(destination)
 		target_sys.add_enemy(enemy)
-	else if(levels?.len > 1)
-		message_admins("More than one level found for [target_sys]!")
-		return
 	else
-		message_admins("No levels forund for [target_sys]!")
-		return
+		message_admins("Enqued a [OM] for spawning in [target_sys]")
+		target_sys.enemy_queue += OM
 
 ///////BOUNTIES//////
 
@@ -119,23 +113,24 @@ SUBSYSTEM_DEF(star_system)
 	for(var/obj/structure/overmap/OM in GLOB.overmap_objects) //The ship doesnt start with a system assigned by default
 		if(OM.role != MAIN_OVERMAP)
 			continue
-		OM.current_system = find_system(OM) //The ship doesnt start with a system assigned by default
-		current_system = OM?.current_system
+		current_system = ships[OM]["current_system"]
 	for(var/datum/star_system/starsys in systems)
-		if(starsys != current_system)
+		if(starsys != current_system && starsys.alignment != "nanotrasen") //Spawn is a safe zone.
 			starsys.mission_sector = TRUE //set this sector to be the active mission
 			starsys.spawn_asteroids() //refresh asteroids in the system
 			for(var/i = 0, i < starsys.difficulty_budget, i++) //number of enemies is set via the star_system vars
 				var/enemy_type = pick(enemy_types) //Spawn a random set of enemies.
 				modular_spawn_enemies(enemy_type, starsys)
 			priority_announce("Attention all ships, set condition 1 throughout the fleet. Syndicate incursion detected in: [starsys]. All ships must repel the invasion.", "Naval Command")
+			return
 
 /datum/controller/subsystem/star_system/proc/add_ship(obj/structure/overmap/OM)
-	ships[OM] = list("ship" = OM, "x" = 0, "y" = 0, "current_system" = system_by_id(OM.starting_system), "last_system" = system_by_id(OM.starting_system), "target_system" = null, "from_time" = 0, "to_time" = 0)
+	ships[OM] = list("ship" = OM, "x" = 0, "y" = 0, "current_system" = system_by_id(OM.starting_system), "last_system" = system_by_id(OM.starting_system), "target_system" = null, "from_time" = 0, "to_time" = 0, "occupying_z" = OM.z)
+	ships[OM]["current_system"].add_ship(OM)
 
 //Welcome to bracket hell.
 
-//Updates the position of a given ship
+//Updates the position of a given ship on the starmap
 
 /datum/controller/subsystem/star_system/proc/update_pos(obj/structure/overmap/OM)
 	if(!ships[OM])
@@ -152,9 +147,9 @@ SUBSYSTEM_DEF(star_system)
 //////star_system DATUM///////
 
 /datum/star_system
-	var/name = "Hyperspace"
+	var/name = null //Parent type, please ignore
 	var/parallax_property = null //If you want things to appear in the background when you jump to this system, do this.
-	var/level_trait = ZTRAIT_HYPERSPACE //The Ztrait of the zlevel that this system leads to
+	var/level_trait = null //The Ztrait of the zlevel that this system leads to
 	var/visitable = FALSE //Can you directly travel to this system? (You shouldnt be able to jump directly into hyperspace)
 	var/list/enemies_in_system = list() //For mission completion.
 	var/reward = 5000 //Small cash bonus when you clear a system, allows you to buy more ammo
@@ -169,12 +164,15 @@ SUBSYSTEM_DEF(star_system)
 	var/visited = FALSE
 	var/hidden = FALSE //Secret systems
 
-	var/list/ships = list()
+	var/list/contents_positions = list()
+	var/list/system_contents = list()
+	var/list/enemy_queue = list()
 
 	var/danger_level = 0
 	var/system_traits = NONE
 	var/is_capital = FALSE
 	var/list/adjacency_list = list() //Which systems are near us, by name
+	var/occupying_z = 0 //What Z-level is this  currently stored on? This will always be a number, as Z-levels are "held" by ships.
 
 /datum/star_system/proc/dist(datum/star_system/other)
 	var/dx = other.x - x
@@ -186,35 +184,20 @@ SUBSYSTEM_DEF(star_system)
 	addtimer(CALLBACK(src, .proc/spawn_asteroids), 30 SECONDS)
 
 /datum/star_system/proc/spawn_asteroids()
-	if(asteroids.len >= 6)
-		message_admins("Asteroids failed to spawn in [src] due to over population of asteroids. Tell the ship to do mining or shoot them down.")
-		return //Too many asteroids mane
-	var/turf/destination = null
-	for(var/z in SSmapping.levels_by_trait(level_trait))
-		var/turf/exit = get_turf(locate(round(world.maxx * 0.5, 1), round(world.maxy * 0.5, 1), z)) //Plop them bang in the center of the system.
-		destination = get_turf(pick(orange(20,exit)))
-		if(!destination)
-			message_admins("WARNING: The [name] system has no exit point for ships! You probably forgot to set the [level_trait]:1 setting for that Z in your map's JSON file.")
-			return
-	new /obj/structure/overmap/asteroid(get_turf(pick(orange(5, destination)))) //Guaranteed at least some asteroids that they can pull in to start with.
-	new /obj/structure/overmap/asteroid(get_turf(pick(orange(5, destination))))
-	for(var/i = 0, i< rand(3,6), i++)
-		var/roid_type = pick(/obj/structure/overmap/asteroid, /obj/structure/overmap/asteroid/medium, /obj/structure/overmap/asteroid/large)
-		var/turf/random_dest = get_turf(locate(rand(20,220), rand(20,220), destination.z))
-		var/obj/structure/overmap/asteroid/roid = new roid_type(random_dest)
-		asteroids += roid
-		RegisterSignal(roid, COMSIG_PARENT_QDELETING , .proc/remove_asteroid, roid) //Add a listener component to check when a ship is killed, and thus check if the incursion is cleared.
-
-/datum/star_system/proc/remove_asteroid(obj/structure/overmap/asteroid/AS)
-	asteroids -= AS
+	for(var/I = 0; I < rand(2, 6); I++)
+	var/roid_type = pick(/obj/structure/overmap/asteroid, /obj/structure/overmap/asteroid/medium, /obj/structure/overmap/asteroid/large)
+	SSstar_system.modular_spawn_enemies(roid_type, src) //Todo.
 
 /datum/star_system/proc/add_enemy(obj/structure/overmap/OM)
-	enemies_in_system += OM
-	RegisterSignal(OM, COMSIG_PARENT_QDELETING , .proc/remove_enemy, OM)
+	if(!istype(OM, /obj/structure/overmap/asteroid))
+		enemies_in_system += OM
+		RegisterSignal(OM, COMSIG_PARENT_QDELETING , .proc/remove_enemy, OM)
+	add_ship(OM)
 
 /datum/star_system/proc/remove_enemy(var/obj/structure/overmap/OM) //Method to remove an enemy from the list of active threats in a system
-	enemies_in_system -= OM
-	check_completion()
+	if(LAZYFIND(enemies_in_system, OM))
+		enemies_in_system -= OM
+		check_completion()
 
 /datum/star_system/proc/check_completion() //Method to check if the ship has completed their active mission or not
 	if(!enemies_in_system.len)
@@ -233,21 +216,73 @@ SUBSYSTEM_DEF(star_system)
 /datum/star_system/proc/lerp_y(datum/star_system/other, t)
 	return y + (t * (other.y - y))
 
-//////star_system LIST///////
+//////star_system LIST (order of appearance)///////
 /datum/star_system/sol
 	name = "Sol"
 	is_capital = TRUE
-	x = 70
-	y = 45
+	x = 40
+	y = 10
 	alignment = "nanotrasen"
-	adjacency_list = list("Astraeus","Corvi")
+	adjacency_list = list("Alpha Centauri")
+
+/datum/star_system/alpha_centauri
+	name = "Alpha Centauri"
+	x = 40
+	y = 15
+	alignment = "nanotrasen"
+	adjacency_list = list("Sol","Wolf 359")
+
+/datum/star_system/wolf359
+	name = "Wolf 359"
+	x = 60
+	y = 20
+	alignment = "nanotrasen"
+	adjacency_list = list("Lalande 21185","Tau Ceti")
+
+/datum/star_system/lalande21185
+	name = "Lalande 21185"
+	x = 40
+	y = 25
+	alignment = "nanotrasen"
+	adjacency_list = list("Tau Ceti", "Wolf 359")
+
+/datum/star_system/tau_ceti
+	name = "Tau Ceti"
+	x = 80
+	y = 30
+	alignment = "nanotrasen"
+	adjacency_list = list("Canis Majoris","Lalande 21185","Wolf 359", "Eridani")
+
+/datum/star_system/canis_majoris
+	name = "Canis Majoris"
+	x = 70
+	y = 35
+	alignment = "unaligned"
+	adjacency_list = list("Tau Ceti","Scorvio")
+
+/datum/star_system/scorvio
+	name = "Scorvio"
+	x = 85
+	y = 40
+	alignment = "syndicate"
+	adjacency_list = list("Canis Majoris")
+
+
+/datum/star_system/eridani
+	name = "Eridani"
+	x = 100
+	y = 50
+	alignment = "nanotrasen"
+	adjacency_list = list("Tau Ceti")
 
 /datum/star_system/capital/syndicate
 	name = "Dolos"
 	is_capital = TRUE
-	x = 28
+	x = 80
 	y = 70
 	alignment = "syndicate"
+
+/*
 
 /datum/star_system/astraeus
 	name = "Astraeus"
@@ -268,3 +303,5 @@ SUBSYSTEM_DEF(star_system)
 	y = 100 //Maximum: 1000 for now
 	alignment = "unaligned"
 	adjacency_list = list("Dolos")
+
+*/

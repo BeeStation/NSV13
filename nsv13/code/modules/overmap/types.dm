@@ -98,7 +98,7 @@
 	name = "NSV Nostromo"
 	role = MAIN_MINING_SHIP
 	area_type = /area/nostromo
-	starting_system = "Sol"
+	starting_system = "Alpha Centauri"
 
 /obj/structure/overmap/nanotrasen/mining_cruiser/nostromo/fob
 	area_type = /area/nsv/shuttle

@@ -1,12 +1,60 @@
-/datum/star_system/proc/transfer_ship(obj/structure/overmap/OM)
-	var/turf/destination
-	for(var/z in SSmapping.levels_by_trait(level_trait))
-		destination = get_turf(locate(round(world.maxx * 0.5, 1), round(world.maxy * 0.5, 1), z)) //Plop them bang in the center of the system.
+/datum/star_system/proc/add_ship(obj/structure/overmap/OM)
+	system_contents += OM
+	if(!occupying_z && OM.z) //Does this system have a physical existence? if not, we'll set this now so that any inbound ships jump to the same Z-level that we're on.
+		occupying_z = OM.z
+		restore_contents()
+	var/turf/destination = get_turf(locate(round(world.maxx * 0.5, 1), round(world.maxy * 0.5, 1), occupying_z)) //Plop them bang in the center of the system.
 	if(!destination)
 		message_admins("WARNING: The [name] system has no exit point for ships! You probably forgot to set the [level_trait]:1 setting for that Z in your map's JSON file.")
 		return
 	OM.forceMove(destination)
 	OM.current_system = src
+
+/datum/star_system/proc/restore_contents()
+	if(enemy_queue)
+		for(var/X in enemy_queue)
+			SSstar_system.modular_spawn_enemies(X, src)
+	if(!contents_positions.len)
+		return //Nothing stored, no need to restore.
+	for(var/obj/structure/overmap/ship in system_contents){
+		var/list/info = contents_positions[ship]
+		ship.forceMove(get_turf(locate(info["x"], info["y"], occupying_z))) //Let's unbox that ship. Nice.
+		START_PROCESSING(SSovermap, ship) //And let's stop it from processing too.
+	}
+	contents_positions = null
+	contents_positions = list()
+
+/datum/star_system/proc/remove_ship(obj/structure/overmap/OM)
+	message_admins("Removing a ship from [src].")
+	var/list/other_player_ships = list()
+	for(var/obj/structure/overmap/ship in system_contents)
+		if(ship.role > NORMAL_OVERMAP && ship != OM)
+			other_player_ships += ship
+	if(OM.reserved_z == occupying_z && other_player_ships.len) //Alright, this is our Z-level but we're jumping out of it and there are still people here.
+		var/obj/structure/overmap/ship = pick(other_player_ships)
+		message_admins("Swapping [OM] and [ship]'s reserved Zs, as they overlap.")
+		var/temp = ship.reserved_z
+		ship.reserved_z = OM.reserved_z
+		OM.reserved_z = temp
+		OM.forceMove(locate(OM.x, OM.y, OM.reserved_z)) //Annnd actually kick them out of the current system.
+		system_contents -= OM
+		return //Early return here. This means that another player ship is already holding the system, and we really don't need to double-check for this.
+	else
+		message_admins("Successfully removed [OM] from [src]")
+		OM.forceMove(locate(OM.x, OM.y, OM.reserved_z)) //Annnd actually kick them out of the current system.
+		system_contents -= OM
+	for(var/obj/structure/overmap/ship in system_contents)
+		if(ship.role > NORMAL_OVERMAP) //If there's a player ship left to hold the system, early return and keep this Z loaded.
+			return
+		if(ship.operators.len && !ship.ai_controlled) //Alright, now we handle the small ships. If there is no longer a large ship to hold the system, we just get caught up its wake and travel along with it.
+			ship.relay("<span class='warning'>You're caught in [OM]'s bluespace wake!</span>")
+			ship.forceMove(locate(ship.x, ship.y, OM.reserved_z))
+			system_contents -= ship
+		else
+			contents_positions[ship] = list("x" = ship.x, "y" = ship.y) //Cache the ship's position so we can regenerate it later.
+			ship.moveToNullspace() //Anything that's an NPC should be stored safely in nullspace until we return.
+			STOP_PROCESSING(SSovermap, ship) //And let's stop it from processing too.
+	occupying_z = 0 //Alright, no ships are holding it anymore. Stop holding the Z-level
 
 /obj/structure/overmap/proc/begin_jump(datum/star_system/target_system)
 	relay_to_nearby('nsv13/sound/effects/ship/FTL.ogg', null, ignore_self=TRUE)//Ships just hear a small "crack" when another one jumps
@@ -49,14 +97,14 @@
 		relay('nsv13/sound/effects/ship/FTL_loop.ogg', "<span class='warning'>You feel the ship lurch forward</span>", loop=TRUE, channel = CHANNEL_SHIP_ALERT)
 		SEND_SIGNAL(src, COMSIG_FTL_STATE_CHANGE)
 		var/speed = (SSstar_system.ships[src]["current_system"].dist(target_system) / 10) //TODO: FTL drive speed upgrades.
-		if(role == MAIN_OVERMAP)
-			priority_announce("Attention: All hands brace for FTL translation. Destination: [target_system]. Projected arrival time: [add_zero(num2text((round((world.time + speed MINUTES-world.time)/10) / 60) % 60),2)]:[add_zero(num2text(round((world.time + speed MINUTES-world.time)/10) % 60), 2)].","Automated announcement") //TEMP! Remove this shit when we move ruin spawns off-z
+		if(role == MAIN_OVERMAP) //Scuffed please fix
+			priority_announce("Attention: All hands brace for FTL translation. Destination: [target_system]. Projected arrival time: [station_time_timestamp("hh:mm", world.time + speed MINUTES)].","Automated announcement") //TEMP! Remove this shit when we move ruin spawns off-z
 		SSstar_system.ships[src]["target_system"] = target_system
+		SSstar_system.ships[src]["current_system"].remove_ship(src)
 		SSstar_system.ships[src]["to_time"] = world.time + speed MINUTES
 		SSstar_system.ships[src]["from_time"] = world.time
 		SSstar_system.ships[src]["current_system"] = null
 		addtimer(CALLBACK(src, .proc/jump, target_system, FALSE), speed MINUTES)
-		SSstar_system?.hyperspace?.transfer_ship(src) //Get the system to transfer us to its location.
 		if(structure_crit) //Tear the ship apart if theyre trying to limp away.
 			for(var/i = 0, i < rand(4,8), i++)
 				var/name = pick(GLOB.teleportlocs)
@@ -71,7 +119,7 @@
 		SSstar_system.ships[src]["last_system"] = target_system
 		SSstar_system.ships[src]["from_time"] = 0
 		SSstar_system.ships[src]["to_time"] = 0
-		target_system.transfer_ship(src) //Get the system to transfer us to its location.
+		target_system.add_ship(src) //Get the system to transfer us to its location.
 
 #define FTL_STATE_IDLE 1
 #define FTL_STATE_SPOOLING 2
@@ -150,8 +198,8 @@
 			ftl_state = FTL_STATE_IDLE
 			progress = 0
 			check_active(active)
-		if("show_systems")
-			screen = 2
+	//	if("show_systems")
+	//		screen = 2
 		if("go_back")
 			screen = 1
 		if("jump")

@@ -121,6 +121,7 @@
 	var/uid = 0 //Unique identification code
 	var/starting_system = null //Where do we start in the world?
 	var/obj/machinery/computer/ship/ftl_computer/ftl_drive
+	var/reserved_z = 0 //The Z level we were spawned on, and thus inhabit. This can be changed if we "swap" positions with another ship.
 
 	var/role = NORMAL_OVERMAP
 
@@ -162,6 +163,7 @@
 	. = ..()
 	if(role > NORMAL_OVERMAP)
 		SSstar_system.add_ship(src)
+		reserved_z = src.z //Our "reserved" Z will always be kept for us, no matter what. If we, for example, visit a system that another player is on and then jump away, we are returned to our own Z.
 	current_tracers = list()
 	GLOB.overmap_objects += src
 	START_PROCESSING(SSovermap, src)

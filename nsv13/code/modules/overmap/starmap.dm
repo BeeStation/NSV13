@@ -103,11 +103,14 @@
 			if(system.is_capital && !label)
 				label = "CAPITAL"
 			if(system.mission_sector)
-				label += " | OBJECTIVE"
+				label += " OBJECTIVE"
 			system_list["label"] = label
 			for(var/thename in system.adjacency_list) //Draw the lines joining our systems
 				var/datum/star_system/sys = SSstar_system.system_by_id(thename)
-				var/thecolour = (LAZYFIND(sys.adjacency_list, system.name)) ? "white" : "lightblue"
+				if(!sys)
+					message_admins("[sys.name] exists in a system adjacency list, but does not exist. Go create a starsystem datum for it.")
+					continue
+				var/thecolour = (system != current_system) ? "white" : "lightblue"
 				var/list/line = list()
 				var/dx = sys.x - system.x
 				var/dy = sys.y - system.y
@@ -136,7 +139,7 @@
 		data["alignment"] = capitalize(selected_system.alignment)
 		if(info["current_system"])
 			data["star_dist"] = info["current_system"].dist(selected_system)
-			data["can_jump"] = current_system.dist(selected_system) < linked.ftl_drive.max_range && linked.ftl_drive.ftl_state == FTL_STATE_READY
+			data["can_jump"] = current_system.dist(selected_system) < linked.ftl_drive.max_range && linked.ftl_drive.ftl_state == FTL_STATE_READY && LAZYFIND(current_system.adjacency_list, selected_system.name)
 			data["can_cancel"] = linked.ftl_drive.ftl_state == FTL_STATE_IDLE && linked.ftl_drive.can_cancel_jump
 	data["screen"] = screen
 	return data
