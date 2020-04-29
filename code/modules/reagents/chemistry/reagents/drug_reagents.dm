@@ -41,7 +41,7 @@
 	addiction_threshold = 10
 	taste_description = "smoke"
 	trippy = FALSE
-	overdose_threshold=35 //NSV13: usual cigarette leaves you with 5u of nicotine after smoking, Havanian cigs contain 15u, premium - 25u, cohiba robusto contains 40u, usual cigs contain 15-20u
+	overdose_threshold=35 //NSV13
 	metabolization_rate = 0.125 * REAGENTS_METABOLISM
 
 /datum/reagent/drug/nicotine/on_mob_life(mob/living/carbon/M)
