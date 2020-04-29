@@ -246,7 +246,7 @@ You need to fire emag the fighter's IFF board. This makes it list as "ENEMY" on 
 	for(var/I = 0, I < max_missiles, I++)
 		mun_missiles += new /obj/item/ship_weapon/ammunition/missile(src)
 	for(var/I = 0, I < max_countermeasures, I++)
-		mun_countermeasures += new /obj/item/ship_weapon/ammunition/countermeasure_charge
+		mun_countermeasures += new /obj/item/ship_weapon/ammunition/countermeasure_charge(src)
 	torpedoes = mun_torps.len
 	missiles = mun_missiles.len
 	countermeasures = mun_countermeasures.len
@@ -556,6 +556,13 @@ You need to fire emag the fighter's IFF board. This makes it list as "ENEMY" on 
 			to_chat(user, "<span class='notice'>You install [W] in [src].</span>")
 			W.forceMove(src)
 			update_stats()
+		else if(istype(W, /obj/item/ship_weapon/ammunition/countermeasure_charge))
+			if(mun_countermeasures.len < max_countermeasures)
+				to_chat(user, "<span class='notice'>You start loading [W] into [src]...</span>")
+				if(!do_after(user, 10 SECONDS, target=src))
+					return
+				to_chat(user, "<span class='notice'>You load [W] into [src].</span>")
+				W.forceMove(mun_countermeasures)
 
 /obj/structure/overmap/fighter/attack_hand(mob/user)
 	.=..()
@@ -1055,10 +1062,15 @@ How to make fuel:
 			if(!do_after(usr, 5 SECONDS, target=src))
 				return
 			to_chat(usr, "<span class='notice>You uninstall [part.name] from [src].</span>")
+			for(var/obj/item/ship_weapon/ammunition/countermeasure_charge/CMC in mun_countermeasures)
+				CMC?.forceMove(get_turf(src))
 			part?.forceMove(get_turf(src))
 			update_stats()
 		if("component_primary")
 			var/atom/movable/part = get_part(/obj/item/fighter_component/primary)
+			if(mun_cannon.len != 0)
+				to_chat(usr, "<span class='warning'>You must first unload your primary munitions before removing [part.name]")
+				return
 			to_chat(usr, "<span class='notice'>You start uninstalling [part.name] from [src].</span>")
 			if(!do_after(usr, 5 SECONDS, target=src))
 				return
@@ -1067,6 +1079,9 @@ How to make fuel:
 			update_stats()
 		if("component_secondary")
 			var/atom/movable/part = get_part(/obj/item/fighter_component/secondary)
+			if(mun_missiles.len != 0 || mun_torps.len != 0)
+				to_chat(usr, "<span class='warning'>You must first unload your secondary munitions before removing [part.name]")
+				return
 			to_chat(usr, "<span class='notice'>You start uninstalling [part.name] from [src].</span>")
 			if(!do_after(usr, 5 SECONDS, target=src))
 				return
@@ -1078,6 +1093,14 @@ How to make fuel:
 			return
 		if("deploy_countermeasure")
 			fire_countermeasure()
+			return
+		if("remove_munition")
+			var/atom/movable/muni = locate(params["mun_id"])
+			to_chat(usr, "<span class='notice'>You start unloading [muni.name] from [src].</span>")
+			if(!do_after(usr, 5 SECONDS, target=src))
+				return
+			to_chat(usr, "<span class='notice'>You unload [muni.name] from [src].</span>")
+			muni?.forceMove(get_turf(src))
 			return
 	warmup_cooldown = TRUE
 	addtimer(VARSET_CALLBACK(src, warmup_cooldown, FALSE), 1 SECONDS)
@@ -1135,6 +1158,21 @@ How to make fuel:
 		data["max_passengers"] = max_passengers
 		data["passengers"] = mobs_in_ship.len
 	data["flight_state"] = flight_state
+	data["loaded_munitions"] = list()
+	var/list/l_missiles = list()
+	var/list/l_torps = list()
+	for(var/obj/item/ship_weapon/ammunition/M in mun_missiles)
+		var/list/torp_info = list()
+		torp_info["name"] = M.name
+		torp_info["mun_id"] = "\ref[M.name]"
+		l_missiles += torp_info
+	data["loaded_munitions"] += l_missiles
+	for(var/obj/item/ship_weapon/ammunition/M in mun_torps)
+		var/list/torp_info = list()
+		torp_info["name"] = M.name
+		torp_info["mun_id"] = "\ref[M.name]"
+		l_torps += torp_info
+	data["loaded_munitions"] += l_torps
 	return data
 
 #undef NO_IGNITION
