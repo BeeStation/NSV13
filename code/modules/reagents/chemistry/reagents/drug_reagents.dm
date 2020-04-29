@@ -41,7 +41,7 @@
 	addiction_threshold = 10
 	taste_description = "smoke"
 	trippy = FALSE
-	overdose_threshold=15
+	overdose_threshold=50 // usual cigarette leaves you with 5u of nicotine after smoking, Havanian cigs contain 15u, premium - 25u, cohiba robusto contain 40u, usual cigs contain 15-20u
 	metabolization_rate = 0.125 * REAGENTS_METABOLISM
 
 /datum/reagent/drug/nicotine/on_mob_life(mob/living/carbon/M)
