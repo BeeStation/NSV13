@@ -41,9 +41,11 @@
 /datum/star_system/proc/remove_ship(obj/structure/overmap/OM)
 	message_admins("Removing a ship from [src].")
 	var/list/other_player_ships = list()
-	for(var/obj/structure/overmap/ship in system_contents)
-		if(istype(ship, /obj/structure/overmap) && ship.role > NORMAL_OVERMAP && ship != OM)
-			other_player_ships += ship
+	for(var/atom/X in system_contents)
+		if(istype(X, /obj/structure/overmap))
+			var/obj/structure/overmap/ship = X
+			if(ship.role > NORMAL_OVERMAP && ship != OM)
+				other_player_ships += ship
 	if(OM.reserved_z == occupying_z && other_player_ships.len) //Alright, this is our Z-level but we're jumping out of it and there are still people here.
 		var/obj/structure/overmap/ship = pick(other_player_ships)
 		message_admins("Swapping [OM] and [ship]'s reserved Zs, as they overlap.")
@@ -57,18 +59,20 @@
 		message_admins("Successfully removed [OM] from [src]")
 		OM.forceMove(locate(OM.x, OM.y, OM.reserved_z)) //Annnd actually kick them out of the current system.
 		system_contents -= OM
-	for(var/obj/structure/overmap/ship in system_contents)
-		if(istype(ship, /obj/structure/overmap) && ship != OM && ship.role > NORMAL_OVERMAP) //If there's a player ship left to hold the system, early return and keep this Z loaded.
-			return
-		if(istype(ship, /obj/structure/overmap) && (ship.operators.len && !ship.ai_controlled)) //Alright, now we handle the small ships. If there is no longer a large ship to hold the system, we just get caught up its wake and travel along with it.
-			ship.relay("<span class='warning'>You're caught in [OM]'s bluespace wake!</span>")
-			ship.forceMove(locate(ship.x, ship.y, OM.reserved_z))
-			system_contents -= ship
-			continue
-		contents_positions[ship] = list("x" = ship.x, "y" = ship.y) //Cache the ship's position so we can regenerate it later.
-		ship.moveToNullspace() //Anything that's an NPC should be stored safely in nullspace until we return.
-		if(istype(ship, /obj/structure/overmap))
-			STOP_PROCESSING(SSovermap, ship) //And let's stop it from processing too.
+	for(var/atom/movable/X in system_contents)
+		if(istype(X, /obj/structure/overmap))
+			var/obj/structure/overmap/ship = X
+			if(ship != OM && ship.role > NORMAL_OVERMAP) //If there's a player ship left to hold the system, early return and keep this Z loaded.
+				return
+			if(ship.operators.len && !ship.ai_controlled) //Alright, now we handle the small ships. If there is no longer a large ship to hold the system, we just get caught up its wake and travel along with it.
+				ship.relay("<span class='warning'>You're caught in [OM]'s bluespace wake!</span>")
+				ship.forceMove(locate(ship.x, ship.y, OM.reserved_z))
+				system_contents -= ship
+				continue
+		contents_positions[X] = list("x" = X.x, "y" = X.y) //Cache the ship's position so we can regenerate it later.
+		X.moveToNullspace() //Anything that's an NPC should be stored safely in nullspace until we return.
+		if(istype(X, /obj/structure/overmap))
+			STOP_PROCESSING(SSovermap, X) //And let's stop it from processing too.
 	occupying_z = 0 //Alright, no ships are holding it anymore. Stop holding the Z-level
 
 /obj/structure/overmap/proc/begin_jump(datum/star_system/target_system)
