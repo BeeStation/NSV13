@@ -125,6 +125,21 @@
 
 	var/role = NORMAL_OVERMAP
 
+/**
+Proc to spool up a new Z-level for a player ship and assign it a treadmill.
+@return OM, a newly spawned overmap sitting on its treadmill as it ought to be.
+*/
+
+/proc/instance_overmap(path)
+	RETURN_TYPE(/obj/structure/overmap)
+	SSmapping.add_new_zlevel("Overmap ship level [++world.maxz]", list(ZTRAIT_STATION = FALSE))
+	repopulate_sorted_areas()
+	smooth_zlevel(world.maxz)
+	log_game("Z-level [world.maxz] loaded for overmap treadmills.")
+	var/turf/exit = get_turf(locate(round(world.maxx * 0.5, 1), round(world.maxy * 0.5, 1), world.maxz)) //Plop them bang in the center of the system.
+	var/obj/structure/overmap/OM = new path(exit) //Ship'll pick up the info it needs, so just domp eet at the exit turf.
+	return OM
+
 /obj/weapon_overlay
 	name = "Weapon overlay"
 	layer = 4

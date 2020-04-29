@@ -2,13 +2,25 @@
 	system_contents += OM
 	if(!occupying_z && OM.z) //Does this system have a physical existence? if not, we'll set this now so that any inbound ships jump to the same Z-level that we're on.
 		occupying_z = OM.z
+		if(OM.role == MAIN_OVERMAP) //As these events all happen to the main ship, let's check that it's not say, the nomi that's triggering this system load...
+			try_spawn_event()
 		restore_contents()
-	var/turf/destination = get_turf(locate(round(world.maxx * 0.5, 1), round(world.maxy * 0.5, 1), occupying_z)) //Plop them bang in the center of the system.
+	var/turf/destination = get_turf(locate(round(world.maxx * 0.5, 1), round(world.maxy * 0.5, 1), occupying_z)) //Plop them near the center of the system.
 	if(!destination)
 		message_admins("WARNING: The [name] system has no exit point for ships! You probably forgot to set the [level_trait]:1 setting for that Z in your map's JSON file.")
 		return
-	OM.forceMove(destination)
-	OM.current_system = src
+	var/turf/exit = get_turf(pick(orange(20, destination)))
+	OM.forceMove(exit)
+	if(istype(OM, /obj/structure/overmap))
+		OM.current_system = src //Debugging purposes only
+
+/datum/star_system/proc/try_spawn_event()
+	if(possible_events && prob(event_chance))
+		var/event_type = pick(possible_events)
+		for(var/datum/round_event_control/E in SSevents.control)
+			if(istype(E, event_type))
+				SSevents.TriggerEvent(E)
+				break
 
 /datum/star_system/proc/restore_contents()
 	if(enemy_queue)
@@ -20,7 +32,8 @@
 	for(var/obj/structure/overmap/ship in system_contents){
 		var/list/info = contents_positions[ship]
 		ship.forceMove(get_turf(locate(info["x"], info["y"], occupying_z))) //Let's unbox that ship. Nice.
-		START_PROCESSING(SSovermap, ship) //And let's stop it from processing too.
+		if(istype(ship, /obj/structure/overmap))
+			START_PROCESSING(SSovermap, ship) //And let's stop it from processing too.
 	}
 	contents_positions = null
 	contents_positions = list()
@@ -29,7 +42,7 @@
 	message_admins("Removing a ship from [src].")
 	var/list/other_player_ships = list()
 	for(var/obj/structure/overmap/ship in system_contents)
-		if(ship.role > NORMAL_OVERMAP && ship != OM)
+		if(istype(ship, /obj/structure/overmap) && ship.role > NORMAL_OVERMAP && ship != OM)
 			other_player_ships += ship
 	if(OM.reserved_z == occupying_z && other_player_ships.len) //Alright, this is our Z-level but we're jumping out of it and there are still people here.
 		var/obj/structure/overmap/ship = pick(other_player_ships)
@@ -45,15 +58,16 @@
 		OM.forceMove(locate(OM.x, OM.y, OM.reserved_z)) //Annnd actually kick them out of the current system.
 		system_contents -= OM
 	for(var/obj/structure/overmap/ship in system_contents)
-		if(ship.role > NORMAL_OVERMAP) //If there's a player ship left to hold the system, early return and keep this Z loaded.
+		if(istype(ship, /obj/structure/overmap) && ship != OM && ship.role > NORMAL_OVERMAP) //If there's a player ship left to hold the system, early return and keep this Z loaded.
 			return
-		if(ship.operators.len && !ship.ai_controlled) //Alright, now we handle the small ships. If there is no longer a large ship to hold the system, we just get caught up its wake and travel along with it.
+		if(istype(ship, /obj/structure/overmap) && (ship.operators.len && !ship.ai_controlled)) //Alright, now we handle the small ships. If there is no longer a large ship to hold the system, we just get caught up its wake and travel along with it.
 			ship.relay("<span class='warning'>You're caught in [OM]'s bluespace wake!</span>")
 			ship.forceMove(locate(ship.x, ship.y, OM.reserved_z))
 			system_contents -= ship
-		else
-			contents_positions[ship] = list("x" = ship.x, "y" = ship.y) //Cache the ship's position so we can regenerate it later.
-			ship.moveToNullspace() //Anything that's an NPC should be stored safely in nullspace until we return.
+			continue
+		contents_positions[ship] = list("x" = ship.x, "y" = ship.y) //Cache the ship's position so we can regenerate it later.
+		ship.moveToNullspace() //Anything that's an NPC should be stored safely in nullspace until we return.
+		if(istype(ship, /obj/structure/overmap))
 			STOP_PROCESSING(SSovermap, ship) //And let's stop it from processing too.
 	occupying_z = 0 //Alright, no ships are holding it anymore. Stop holding the Z-level
 
@@ -96,13 +110,13 @@
 		shake_camera(M, 4, 1)
 	if(ftl_start)
 		relay('nsv13/sound/effects/ship/FTL_loop.ogg', "<span class='warning'>You feel the ship lurch forward</span>", loop=TRUE, channel = CHANNEL_SHIP_ALERT)
+		var/speed = (SSstar_system.ships[src]["current_system"].dist(target_system) / (ftl_drive.jump_speed_factor*10)) //TODO: FTL drive speed upgrades.
+		SSstar_system.ships[src]["to_time"] = world.time + speed MINUTES
 		SEND_SIGNAL(src, COMSIG_FTL_STATE_CHANGE)
-		var/speed = (SSstar_system.ships[src]["current_system"].dist(target_system) / 10) //TODO: FTL drive speed upgrades.
 		if(role == MAIN_OVERMAP) //Scuffed please fix
 			priority_announce("Attention: All hands brace for FTL translation. Destination: [target_system]. Projected arrival time: [station_time_timestamp("hh:mm", world.time + speed MINUTES)] (Local time)","Automated announcement") //TEMP! Remove this shit when we move ruin spawns off-z
 		SSstar_system.ships[src]["target_system"] = target_system
 		SSstar_system.ships[src]["current_system"].remove_ship(src)
-		SSstar_system.ships[src]["to_time"] = world.time + speed MINUTES
 		SSstar_system.ships[src]["from_time"] = world.time
 		SSstar_system.ships[src]["current_system"] = null
 		addtimer(CALLBACK(src, .proc/jump, target_system, FALSE), speed MINUTES)
@@ -113,13 +127,13 @@
 				var/turf/T = pick(get_area_turfs(target))
 				new /obj/effect/temp_visual/explosion_telegraph(T)
 	else
-		SEND_SIGNAL(src, COMSIG_FTL_STATE_CHANGE)
-		relay('nsv13/sound/effects/ship/freespace2/warp_close.wav', "<span class='warning'>You feel the ship lurch to a halt</span>", loop=FALSE, channel = CHANNEL_SHIP_ALERT)
 		SSstar_system.ships[src]["target_system"] = null
 		SSstar_system.ships[src]["current_system"] = target_system
 		SSstar_system.ships[src]["last_system"] = target_system
 		SSstar_system.ships[src]["from_time"] = 0
 		SSstar_system.ships[src]["to_time"] = 0
+		SEND_SIGNAL(src, COMSIG_FTL_STATE_CHANGE)
+		relay('nsv13/sound/effects/ship/freespace2/warp_close.wav', "<span class='warning'>You feel the ship lurch to a halt</span>", loop=FALSE, channel = CHANNEL_SHIP_ALERT)
 		target_system.add_ship(src) //Get the system to transfer us to its location.
 
 #define FTL_STATE_IDLE 1
@@ -136,6 +150,8 @@
 	icon_screen = null
 	icon_keyboard = null
 	req_access = list(ACCESS_ENGINE_EQUIP)
+	var/faction = "nanotrasen" //For ship tracking. The tracking feature of the FTL compy is entirely so that antagonists can hunt the NT ships down
+	var/jump_speed_factor = 1 //How quickly do we jump? Larger is faster.
 	var/ftl_state = FTL_STATE_IDLE //Mr Gaeta, spool up the FTLs.
 	var/obj/item/radio/radio //For engineering alerts.
 	var/radio_key = /obj/item/encryptionkey/headset_eng
@@ -147,6 +163,43 @@
 	var/screen = 1
 	var/can_cancel_jump = TRUE //Defaults to true. TODO: Make emagging disable this
 	var/max_range = 100 //max jump range. This is _very_ long distance
+	var/list/tracking = list() //What ships are we tracking, if any? Used for antag FTLs so they can always find you.
+
+/obj/machinery/computer/ship/ftl_computer/syndicate
+	name = "Syndicate FTL computer"
+	jump_speed_factor = 2 //Twice as fast as NT's shit so they can hunt the ship down or get ahead of them to set up an ambush of raptors
+	radio_key = /obj/item/encryptionkey/syndicate
+	engineering_channel = "Syndicate"
+	faction = "syndicate"
+	req_access = list(ACCESS_SYNDICATE)
+
+/obj/machinery/computer/ship/ftl_computer/syndicate/Initialize()
+	. = ..()
+	return INITIALIZE_HINT_LATELOAD
+
+/obj/machinery/computer/ship/ftl_computer/syndicate/LateInitialize()
+	. = ..()
+	for(var/obj/structure/overmap/OM in GLOB.overmap_objects)
+		if(OM.role > NORMAL_OVERMAP && OM.faction != faction)
+			start_monitoring(OM)
+
+//Tell the FTL computer to start tracking a ship, regardless of how far apart you both are.
+/obj/machinery/computer/ship/ftl_computer/proc/start_monitoring(obj/structure/overmap/OM)
+	tracking[OM] = list("ship" = OM, "name" = OM.name, "current_system" = OM.starting_system, "target_system" = null)
+	RegisterSignal(OM, COMSIG_FTL_STATE_CHANGE, .proc/announce_jump)
+
+/*
+A way for syndies to track where the player ship is going in advance, so they can get ahead of them and hunt them down.
+*/
+
+/obj/machinery/computer/ship/ftl_computer/proc/announce_jump()
+	radio.talk_into(src, "TRACKING: FTL signature detected. Tracking information updated.",engineering_channel)
+	for(var/list/L in tracking)
+		var/obj/structure/overmap/target = L["ship"]
+		to_chat(world, target)
+		var/datum/star_system/target_system = SSstar_system.ships[target]["target_system"]
+		var/datum/star_system/current_system = SSstar_system.ships[target]["current_system"]
+		tracking[target] = list("name" = target.name, "current_system" = current_system.name, "target_system" = target_system.name)
 
 /obj/machinery/computer/ship/ftl_computer/Initialize()
 	. = ..()
@@ -199,8 +252,8 @@
 			ftl_state = FTL_STATE_IDLE
 			progress = 0
 			check_active(active)
-	//	if("show_systems")
-	//		screen = 2
+		if("show_tracking")
+			screen = 2
 		if("go_back")
 			screen = 1
 		if("jump")
@@ -222,6 +275,14 @@
 	data["ready"] = (ftl_state == FTL_STATE_READY) ? TRUE : FALSE
 	data["mode"] = screen
 	data["systems"] = list()
+	var/list/ships = list()
+	for(var/X in tracking)
+		var/list/ship_info = list()
+		ship_info["name"] = tracking[X]["name"]
+		ship_info["current_system"] = tracking[X]["current_system"]
+		ship_info["target_system"] = tracking[X]["target_system"]
+		ships[++ships.len] = ship_info
+	data["tracking"] = ships
 	for(var/datum/star_system/S in SSstar_system.systems)
 		if(S.visitable && S != linked.current_system)
 			data["systems"] += list(list("name" = S.name, "distance" = "2 minutes"))

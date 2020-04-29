@@ -13,9 +13,9 @@ GLOBAL_LIST_EMPTY(syndi_crew_leader_spawns)
 	config_tag = "pvp"
 	report_type = "nuclear"
 	false_report_weight = 10
-	required_players = 30 // 30 players initially, with 15 crewing the hammurabi and 15 crewing the larger, more powerful hammerhead
-	required_enemies = 10
-	recommended_enemies = 10
+	required_players = 0 // 30 players initially, with 15 crewing the hammurabi and 15 crewing the larger, more powerful hammerhead
+	required_enemies = 1
+	recommended_enemies = 1
 	antag_flag = ROLE_SYNDI_CREW
 	enemy_minimum_age = 0
 
@@ -55,8 +55,7 @@ Method to spawn in the Syndi ship on a brand new Z-level with the "boardable" tr
 	if(!map_file) //Don't ask me why this would happen.
 		map_file = "Hammurabi.dmm"
 		ship_type = /obj/structure/overmap/syndicate/pvp
-	for(var/z in SSmapping.levels_by_trait(ZTRAIT_CORVI))
-		syndiship = new ship_type(get_turf(locate(round(world.maxx * 0.5, 1), round(world.maxy * 0.5, 1), z))) //Make a new syndie ship object in Corvi.
+	syndiship = instance_overmap(ship_type)
 	message_admins("Spawning in syndi ship map, this may take a while. No the game hasn't crashed, I'm just loading a map before we start.") //Warn the admins. This shit takes a while.
 	var/list/errorList = list()
 	var/list/loaded = SSmapping.LoadGroup(errorList, "Syndicate ship", "map_files/PVP", map_file, default_traits = ZTRAITS_BOARADABLE_SHIP, silent = TRUE)
@@ -161,8 +160,7 @@ Method to assign a job, in order of descending priority. We REALLY need people t
 		SSticker.news_report = OPERATIVE_SKIRMISH
 
 /datum/game_mode/pvp/generate_report()
-	priority_announce("[station_name()]. Our incursion into Syndicate space has not gone unnoticed. Your orders are to establish a foothold and survive until the NSV Agatha King, Solaris and Typhoon can reach you. All other orders are secondary to this. We estimate they'll take around 45 minutes to get to you. Good luck, and be on your toes.")
-	return "Long range DRADIS uplinks show a massive Syndicate force is en-route to your location. Hold out until we can send reinforcements to you."
+	return "Deep space scanners are showing a heightened level of Syndicate activity in your AO. Be on high alert for Syndicate strike teams."
 
 /datum/game_mode/pvp/generate_credit_text()
 	var/list/round_credits = list()

@@ -31,7 +31,6 @@
 		return
 	if(!has_overmap())
 		return
-	to_chat(world, action)
 	switch(action)
 		if("map")
 			screen = STARMAP

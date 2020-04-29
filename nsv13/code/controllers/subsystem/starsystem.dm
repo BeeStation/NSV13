@@ -50,6 +50,14 @@ SUBSYSTEM_DEF(star_system)
 		var/datum/star_system/S = new instance
 		if(S.name)
 			systems += S
+	generate_anomalies()
+
+/datum/controller/subsystem/star_system/proc/generate_anomalies()
+	for(var/datum/star_system/S in systems)
+		if(S.system_type)
+			S.apply_system_effects()
+		else
+			S.generate_anomaly()
 
 ///////SPAWN SYSTEM///////
 
@@ -75,11 +83,14 @@ SUBSYSTEM_DEF(star_system)
 	ships[OM]["current_system"] = system
 	return system
 
-/datum/controller/subsystem/star_system/proc/spawn_ship(obj/structure/overmap/OM, datum/star_system/target_sys)//Select Ship to Spawn and Location via Z-Trait
+/datum/controller/subsystem/star_system/proc/spawn_ship(obj/structure/overmap/OM, datum/star_system/target_sys, center=FALSE)//Select Ship to Spawn and Location via Z-Trait
 	if(target_sys.occupying_z)
-		message_admins("Ship [OM] successfully spawned in [target_sys]")
-		var/turf/exit = get_turf(locate(round(world.maxx * 0.5, 1), round(world.maxy * 0.5, 1), target_sys.occupying_z)) //Plop them bang in the center of the system.
-		var/turf/destination = get_turf(pick(orange(40,exit)))
+		message_admins("[OM] successfully spawned in [target_sys]")
+		var/turf/destination = null
+		if(center)
+			destination = get_turf(locate(round(world.maxx * 0.5, 1), round(world.maxy * 0.5, 1), target_sys.occupying_z)) //Plop them bang in the center of the system as requested. This is usually saved for wormholes.
+		else
+			destination = get_turf(locate(rand(50, world.maxx), rand(50, world.maxy), target_sys.occupying_z)) //Spawn them somewhere in the system. I don't really care where.
 		var/obj/structure/overmap/enemy = new OM(destination)
 		target_sys.add_enemy(enemy)
 	else
@@ -146,6 +157,10 @@ SUBSYSTEM_DEF(star_system)
 
 //////star_system DATUM///////
 
+#define THREAT_LEVEL_NONE 0
+#define THREAT_LEVEL_UNSAFE 1
+#define THREAT_LEVEL_DANGEROUS 2
+
 /datum/star_system
 	var/name = null //Parent type, please ignore
 	var/parallax_property = null //If you want things to appear in the background when you jump to this system, do this.
@@ -156,13 +171,16 @@ SUBSYSTEM_DEF(star_system)
 	var/difficulty_budget = 2
 	var/list/asteroids = list() //Keep track of how many asteroids are in system. Don't want to spam the system full of them
 	var/mission_sector = FALSE
-
+	var/threat_level = THREAT_LEVEL_NONE
 
 	var/x = 0 //Maximum: 1000 for now
 	var/y = 0 //Maximum: 1000 for now
 	var/alignment = "unaligned"
 	var/visited = FALSE
 	var/hidden = FALSE //Secret systems
+	var/system_type = null //Set this to pre-spawn systems as a specific type.
+	var/event_chance = 0
+	var/list/possible_events = list()
 
 	var/list/contents_positions = list()
 	var/list/system_contents = list()
@@ -183,13 +201,123 @@ SUBSYSTEM_DEF(star_system)
 	. = ..()
 	addtimer(CALLBACK(src, .proc/spawn_asteroids), 30 SECONDS)
 
+/datum/star_system/proc/create_wormhole()
+	for(var/datum/star_system/S in SSstar_system.systems)
+		if(LAZYFIND(adjacency_list, S)) //We're already linked to that one. Skip it.
+			continue
+		adjacency_list += S.name
+		SSstar_system.spawn_ship(/obj/effect/overmap_anomaly/wormhole, src, center=TRUE)
+		var/oneway = "One-way"
+		if(!LAZYFIND(S.adjacency_list, src) && prob(30)) //Two-directional wormholes, AKA valid hyperlanes, are exceedingly rare.
+			S.adjacency_list += name
+			oneway = "Two-way"
+			SSstar_system.spawn_ship(/obj/effect/overmap_anomaly/wormhole, S, center=TRUE) //Wormholes are cool.
+		message_admins("[oneway] wormhole created between [S] and [src]")
+		break
+
+//Anomalies
+
+
+/datum/round_event_control/radiation_storm/deadly
+	max_occurrences = 1000
+
+/obj/effect/overmap_anomaly
+	name = "Placeholder"
+	var/research_points = 0
+
+/obj/effect/overmap_anomaly/wormhole
+	name = "Wormhole"
+	desc = "A huge tear in the fabric of space-time that can fling you to faraway places. I wonder where it leads?"
+	icon = 'nsv13/goonstation/icons/effects/overmap_anomalies/tearhuge.dmi'
+	icon_state = "tear"
+	research_points = 5000 //These things are really valuable.
+
+/obj/effect/overmap_anomaly/singularity
+	name = "Black hole"
+	desc = "A peek into the void between worlds. These stellar demons consume everything in their path. Including you."
+	icon = 'nsv13/goonstation/icons/effects/overmap_anomalies/blackhole.dmi'
+	icon_state = "blackhole"
+	research_points = 3000 //These things are pretty damn valuable, for their risk of course.
+
+/obj/effect/overmap_anomaly/wormhole/New()
+	. = ..()
+	icon = pick('nsv13/goonstation/icons/effects/overmap_anomalies/tearhuge.dmi', 'nsv13/goonstation/icons/effects/overmap_anomalies/tearmed.dmi', 'nsv13/goonstation/icons/effects/overmap_anomalies/tearsmall.dmi')
+
+/obj/effect/overmap_anomaly/safe
+	name = "Placeholder"
+
+/obj/effect/overmap_anomaly/safe/sun
+	name = "Star"
+	desc = "A huge ball of burning hydrogen that lights up space around it. Don't get too close...."
+	icon = 'nsv13/goonstation/icons/effects/overmap_anomalies/stellarbodies.dmi'
+	icon_state = "sun"
+
+/obj/effect/overmap_anomaly/safe/sun/red_giant
+	name = "Red Giant"
+	desc = "A large star that is nearing the end of its life. Burns extremely hot."
+	icon_state = "redgiant"
+
+/datum/star_system/proc/apply_system_effects()
+	event_chance = 10 //Very low chance of an event happening
+	var/anomaly_type = null
+	switch(system_type)
+		if("safe")
+			possible_events = list(/datum/round_event_control/aurora_caelus)
+		if("hazardous") //TODO: Make better anomalies spawn in hazardous systems scaling with threat level.
+			possible_events = list(/datum/round_event_control/carp_migration, /datum/round_event_control/electrical_storm, /datum/round_event_control/belt_rats, /datum/round_event_control/lone_hunter)
+		if("wormhole")
+			possible_events = list(/datum/round_event_control/wormholes, /datum/round_event/anomaly) //Wormhole systems are unstable in bluespace
+			event_chance = 50 //Highly unstable region of space.
+			create_wormhole()
+			return
+		if("pirate")
+			possible_events = list(/datum/round_event_control/pirates) //Well what did you think was gonna happen when you jumped into a pirate system?
+		if("radioactive")
+			parallax_property = "radiation_cloud" //All credit goes to https://www.filterforge.com/filters/11427.html
+			possible_events = list(/datum/round_event_control/radiation_storm/deadly)
+			event_chance = 100 //Radioactive systems are just that: Radioactive
+		if("nebula")
+			parallax_property = "nebula-thick" //All credit goes to https://www.filterforge.com/filters/11427.html
+		if("quasar")
+			parallax_property = "quasar" //All credit goes to https://www.filterforge.com/filters/11427.html
+			possible_events = list(/datum/round_event_control/grey_tide, /datum/round_event_control/ion_storm, /datum/round_event_control/communications_blackout)
+			event_chance = 50 //Quasars are screwy.
+		if("debris")
+			parallax_property = "rocks"
+			possible_events = list(/datum/round_event_control/space_dust, /datum/round_event_control/meteor_wave)
+		if("icefield")
+			parallax_property = "icefield"
+		if("gas")
+			parallax_property = "gas"
+		if("ice_planet")
+			parallax_property = "ice_planet"
+		if("blackhole")
+			anomaly_type = /obj/effect/overmap_anomaly/singularity
+
+	if(!anomaly_type)
+		anomaly_type = pick(subtypesof(/obj/effect/overmap_anomaly/safe))
+		SSstar_system.spawn_ship(anomaly_type, src)
+
+/datum/star_system/proc/generate_anomaly()
+	if(prob(15)) //Low chance of spawning a wormhole twixt us and another system.
+		create_wormhole()
+	switch(threat_level)
+		if(THREAT_LEVEL_NONE)
+			system_type = pick("safe", "nebula", "gas", "icefield", "ice_planet") //Threat level 0 denotes starter systems, so they just have "fluff" anomalies like gas clouds and whatever.
+		if(THREAT_LEVEL_UNSAFE) //Unaligned and Syndicate systems have a chance to spawn threats. But nothing major.
+			system_type = pick("debris", "pirate", "nebula", "hazardous")
+		if(THREAT_LEVEL_DANGEROUS) //Extreme threat level. Time to break out the most round destroying anomalies.
+			system_type = pick("quasar", "radioactive", "blackhole")
+	message_admins("[src] was selected as a [system_type] system.")
+	apply_system_effects()
+
 /datum/star_system/proc/spawn_asteroids()
 	for(var/I = 0; I < rand(2, 6); I++)
 	var/roid_type = pick(/obj/structure/overmap/asteroid, /obj/structure/overmap/asteroid/medium, /obj/structure/overmap/asteroid/large)
-	SSstar_system.spawn_ship(roid_type, src) //Todo.
+	SSstar_system.spawn_ship(roid_type, src)
 
 /datum/star_system/proc/add_enemy(obj/structure/overmap/OM)
-	if(!istype(OM, /obj/structure/overmap/asteroid))
+	if(istype(OM, /obj/structure/overmap) && OM.ai_controlled)
 		enemies_in_system += OM
 		RegisterSignal(OM, COMSIG_PARENT_QDELETING , .proc/remove_enemy, OM)
 	add_ship(OM)
@@ -243,7 +371,7 @@ SUBSYSTEM_DEF(star_system)
 	name = "Lalande 21185"
 	x = 25
 	y = 25
-	parallax_property = "icefield"
+	system_type = "icefield"
 	alignment = "nanotrasen"
 	adjacency_list = list("Tau Ceti", "Wolf 359")
 
@@ -251,23 +379,24 @@ SUBSYSTEM_DEF(star_system)
 	name = "Tau Ceti"
 	x = 60
 	y = 30
-	parallax_property = "ice_planet"
+	system_type = "ice_planet"
 	alignment = "nanotrasen"
-	adjacency_list = list("Canis Majoris","Lalande 21185","Wolf 359", "Eridani")
+	adjacency_list = list("Canis Minoris", "Canis Majoris","Lalande 21185","Wolf 359", "Eridani")
 
 /datum/star_system/canis_majoris
 	name = "Canis Majoris"
 	x = 50
 	y = 35
 	alignment = "unaligned"
+	threat_level = THREAT_LEVEL_UNSAFE
 	adjacency_list = list("Tau Ceti","Scorvio")
 
 /datum/star_system/scorvio
 	name = "Scorvio"
 	x = 55
 	y = 40
-	parallax_property = "gas"
 	alignment = "syndicate"
+	threat_level = THREAT_LEVEL_UNSAFE
 	adjacency_list = list("Canis Majoris", "Cygni")
 
 /datum/star_system/cygni
@@ -275,6 +404,7 @@ SUBSYSTEM_DEF(star_system)
 	x = 80
 	y = 45
 	alignment = "unaligned"
+	threat_level = THREAT_LEVEL_UNSAFE
 	adjacency_list = list("Eridani","Scorvio", "Antares")
 
 /datum/star_system/eridani
@@ -282,6 +412,7 @@ SUBSYSTEM_DEF(star_system)
 	x = 70
 	y = 50
 	alignment = "unaligned"
+	threat_level = THREAT_LEVEL_UNSAFE
 	adjacency_list = list("Rubicon", "Theta Hydri","Tau Ceti", "Cygni")
 
 /datum/star_system/theta_hydri
@@ -289,6 +420,7 @@ SUBSYSTEM_DEF(star_system)
 	x = 85
 	y = 55
 	alignment = "unaligned"
+	threat_level = THREAT_LEVEL_UNSAFE
 	adjacency_list = list("Eridani", "Cygni")
 
 /datum/star_system/canis_minoris
@@ -296,6 +428,7 @@ SUBSYSTEM_DEF(star_system)
 	x = 80
 	y = 30
 	alignment = "unaligned"
+	threat_level = THREAT_LEVEL_UNSAFE
 	adjacency_list = list("Tau Ceti","Antares")
 
 /datum/star_system/antares
@@ -303,6 +436,7 @@ SUBSYSTEM_DEF(star_system)
 	x = 100
 	y = 45
 	alignment = "unaligned"
+	threat_level = THREAT_LEVEL_UNSAFE
 	adjacency_list = list("Cygni", "Canis Minoris", "Tortuga")
 
 /datum/star_system/tortuga
@@ -310,6 +444,8 @@ SUBSYSTEM_DEF(star_system)
 	x = 110
 	y = 45
 	alignment = "syndicate"
+	system_type = "pirate" //Guranteed piratical action!
+	threat_level = THREAT_LEVEL_UNSAFE
 	adjacency_list = list("P9X-334", "Antares")
 
 /datum/star_system/p9x334
@@ -317,6 +453,7 @@ SUBSYSTEM_DEF(star_system)
 	x = 105
 	y = 50
 	alignment = "uncharted"
+	threat_level = THREAT_LEVEL_DANGEROUS
 	adjacency_list = list("P7X-294", "Tortuga")
 
 /datum/star_system/p7x294
@@ -324,14 +461,16 @@ SUBSYSTEM_DEF(star_system)
 	x = 120
 	y = 70
 	alignment = "uncharted"
+	threat_level = THREAT_LEVEL_DANGEROUS
 	adjacency_list = list("P9X-334", "N64-775")
 
 /datum/star_system/n64775
 	name = "N64-775"
 	x = 135
 	y = 80
-	parallax_property = "nebula"
+	system_type = "nebula"
 	alignment = "uncharted"
+	threat_level = THREAT_LEVEL_DANGEROUS
 	adjacency_list = list("P7X-294")
 
 /datum/star_system/rubicon
@@ -339,6 +478,7 @@ SUBSYSTEM_DEF(star_system)
 	x = 80
 	y = 60
 	alignment = "syndicate"
+	threat_level = THREAT_LEVEL_UNSAFE
 	adjacency_list = list("Eridani", "Theta Hydri", "Vorash")
 
 /datum/star_system/vorash
@@ -346,6 +486,7 @@ SUBSYSTEM_DEF(star_system)
 	x = 70
 	y = 63
 	alignment = "syndicate"
+	threat_level = THREAT_LEVEL_UNSAFE
 	adjacency_list = list("Rubicon", "Solaris A","Solaris B", "Solaris C")
 
 /datum/star_system/solarisA
@@ -353,6 +494,7 @@ SUBSYSTEM_DEF(star_system)
 	x = 50
 	y = 55
 	alignment = "syndicate"
+	threat_level = THREAT_LEVEL_UNSAFE
 	adjacency_list = list("Solaris B", "Solaris C", "Vorash")
 
 /datum/star_system/solarisB
@@ -360,6 +502,7 @@ SUBSYSTEM_DEF(star_system)
 	x = 55
 	y = 50
 	alignment = "syndicate"
+	threat_level = THREAT_LEVEL_UNSAFE
 	adjacency_list = list("Solaris A", "Solaris C", "Vorash", "P3X-754")
 
 /datum/star_system/p3x754
@@ -367,6 +510,7 @@ SUBSYSTEM_DEF(star_system)
 	x = 40
 	y = 50
 	alignment = "uncharted"
+	threat_level = THREAT_LEVEL_UNSAFE
 	adjacency_list = list("Solaris B","P59-723")
 
 /datum/star_system/solarisC
@@ -374,6 +518,7 @@ SUBSYSTEM_DEF(star_system)
 	x = 60
 	y = 45
 	alignment = "syndicate"
+	threat_level = THREAT_LEVEL_UNSAFE
 	adjacency_list = list("Solaris A", "Solaris B", "Vorash", "Scorvio")
 
 /datum/star_system/p59723
@@ -381,14 +526,16 @@ SUBSYSTEM_DEF(star_system)
 	x = 40
 	y = 60
 	alignment = "uncharted"
+	threat_level = THREAT_LEVEL_DANGEROUS
 	adjacency_list = list("N94-19X", "P3X-754")
 
 /datum/star_system/n9419x
 	name = "N94-19X"
 	x = 70
 	y = 70
-	parallax_property = "nebula"
+	system_type = "nebula"
 	alignment = "uncharted"
+	threat_level = THREAT_LEVEL_DANGEROUS
 	adjacency_list = list("P59-723", "P32-901", "Dolos", "DATA EXPUNGED") //Links to dolos, only unlocks on special occasions.)
 
 /datum/star_system/p32901
@@ -396,6 +543,7 @@ SUBSYSTEM_DEF(star_system)
 	x = 100
 	y = 60
 	alignment = "uncharted"
+	threat_level = THREAT_LEVEL_DANGEROUS
 	adjacency_list = list("N94-19X")
 
 /datum/star_system/blacksite
@@ -403,6 +551,8 @@ SUBSYSTEM_DEF(star_system)
 	x = 150
 	y = 100
 	alignment = "uncharted"
+	system_type = "wormhole" //here's your guaranteed wormhole boyos. Expect chaos
+	threat_level = THREAT_LEVEL_DANGEROUS
 	adjacency_list = list("N94-19X")
 
 /datum/star_system/dolos
@@ -411,6 +561,7 @@ SUBSYSTEM_DEF(star_system)
 	y = 80
 	alignment = "syndicate"
 	adjacency_list = list("Abassi") //No going back from here...
+	threat_level = THREAT_LEVEL_DANGEROUS
 	hidden = TRUE
 
 /datum/star_system/abassi
@@ -420,6 +571,7 @@ SUBSYSTEM_DEF(star_system)
 	y = 100
 	alignment = "syndicate"
 	adjacency_list = list("Dolos")
+	threat_level = THREAT_LEVEL_DANGEROUS
 	hidden = TRUE
 
 /*
