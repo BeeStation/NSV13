@@ -673,7 +673,6 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 
 				if((G.unlocktype == GEAR_DONATOR) && !(usr.ckey == G.key))
 					continue //Not assigned to this user, skip.
-
 				dat += "<tr style='vertical-align:top;'><td width=15%>[G.display_name]\n"
 				if(G.display_name in purchased_gear)
 					if(G.sort_category == "OOC")
@@ -1196,7 +1195,15 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 					else
 						to_chat(user, "<span class='warning'>You don't have enough [CONFIG_GET(string/metacurrency_name)]s to purchase \the [TG.display_name]!</span>")
 				if(GEAR_DONATOR)
-					CRASH("!!Unimplimented!! (Metacoin Shop Type:GEAR_DONATOR) {L1196//code/modules/client/preferences.dm}")
+					if(usr.ckey != TG.key)
+						//The fuck are you playing at?
+						log_href_exploit(usr)
+						return
+					if(usr.ckey in config.active_donators)
+						//Do grant
+					else
+						to_chat(user,"<span class='warning'>Your donation has expired or not yet validated. Donation status is refreshed at round end.</span>")
+					//CRASH("!!Unimplimented!! (Metacoin Shop Type:GEAR_DONATOR) {L1196//code/modules/client/preferences.dm}")
 		if(href_list["toggle_gear"])
 			var/datum/gear/TG = GLOB.gear_datums[href_list["toggle_gear"]]
 			if(TG.display_name in equipped_gear)

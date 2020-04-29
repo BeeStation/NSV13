@@ -432,3 +432,16 @@
 	ic_filter_regex = in_character_filter.len ? regex("\\b([jointext(in_character_filter, "|")])\\b", "i") : null
 
 	syncChatRegexes()
+
+/datum/controller/configuration/proc/LoadDonators()
+//Temporary local config hook for testing
+	active_donators = list()
+	for(var/line in world.file2list("[global.config.directory]/donators.txt"))
+		if(!line)
+			continue
+		if(findtextEx(line,"#",1,2))
+			continue
+		active_donators += ckey(line)
+
+	if(!active_donators.len)
+		active_donators = null
