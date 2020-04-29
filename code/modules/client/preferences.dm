@@ -671,6 +671,9 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 				var/datum/gear/G = LC.gear[gear_name]
 				var/ticked = (G.display_name in equipped_gear)
 
+				if((G.unlocktype == GEAR_DONATOR) && !(usr.ckey == G.key))
+					continue //Not assigned to this user, skip.
+
 				dat += "<tr style='vertical-align:top;'><td width=15%>[G.display_name]\n"
 				if(G.display_name in purchased_gear)
 					if(G.sort_category == "OOC")

@@ -48,6 +48,7 @@ GLOBAL_LIST_EMPTY(gear_datums)
 	var/unlocktype                 //How is this item unlocked, May also cause the item to be hidden.
 	var/path                       //Path to item.
 	var/cost = INFINITY            //Number of metacoins (If GEAR_METACOIN)
+	var/key                        //Control Key of the donator the item is assigned to. (GEAR_DONATOR)
 	var/slot                       //Slot to equip to.
 	var/list/allowed_roles         //Roles that can spawn with this item.
 	var/list/species_blacklist     //Stop certain species from receiving this gear
