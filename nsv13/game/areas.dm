@@ -66,6 +66,10 @@
 	name = "FTL Control Room"
 	icon_state = "maint_bridge"
 
+/area/maintenance/nsv/turbolift/abandonedshaft
+	name = "Abandoned Elevator Shaft"
+	icon_state = "maint_bridge"
+
 /area/maintenance/nsv/deck1/airlock/forward/port
 	name = "Deck 1 Port Forward Airlock"
 	icon_state = "maint_bridge"
@@ -300,6 +304,14 @@
 
 /area/hallway/nsv/deck3/frame4/starboard
 	name = "Deck 3 Frame 4 Starboard Hallway"
+	icon_state = "hallS"
+
+/area/hallway/nsv/stairwell/lower
+	name = "Lower Stairwell"
+	icon_state = "hallS"
+
+/area/hallway/nsv/stairwell/upper
+	name = "Upper Stairwell"
 	icon_state = "hallS"
 
 /area/hallway/nsv/deck1/hallway
