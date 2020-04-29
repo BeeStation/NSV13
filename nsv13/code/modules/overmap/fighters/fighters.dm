@@ -29,7 +29,7 @@ After going through this checklist, you're ready to go!
 */
 
 /obj/structure/overmap/fighter
-	name = "Fighter"
+	name = "Viper"
 	desc = "A space faring fighter craft."
 	icon = 'nsv13/icons/overmap/nanotrasen/fighter.dmi'
 	icon_state = "fighter"
@@ -47,12 +47,13 @@ After going through this checklist, you're ready to go!
 	weapon_safety = TRUE //This happens wayy too much for my liking. Starts OFF.
 	pixel_w = -16
 	pixel_z = -20
+	collision_positions = list(new /datum/vector2d(-2,-16), new /datum/vector2d(-13,-3), new /datum/vector2d(-13,10), new /datum/vector2d(-6,15), new /datum/vector2d(8,15), new /datum/vector2d(15,10), new /datum/vector2d(12,-9), new /datum/vector2d(4,-16), new /datum/vector2d(1,-16))
 	var/maint_state = MS_CLOSED
 	var/prebuilt = FALSE
 	var/weapon_efficiency = 0
 	var/fuel_consumption = 0
 	var/max_torpedoes = 6 //Decent payload.
-	var/mag_lock = FALSE //Mag locked by a launch pad. Cheaper to use than locate()
+	var/obj/structure/fighter_launcher/mag_lock = null //Mag locked by a launch pad. Cheaper to use than locate()
 	var/max_passengers = 0 //Maximum capacity for passengers, INCLUDING pilot (EG: 1 pilot, 4 passengers).
 	var/docking_mode = FALSE
 	var/warning_cooldown = FALSE
@@ -67,12 +68,28 @@ After going through this checklist, you're ready to go!
 	var/throttle_lock = FALSE
 	var/has_escape_pod = /obj/structure/overmap/fighter/prebuilt/escapepod
 	var/obj/structure/overmap/fighter/prebuilt/escapepod/escape_pod
+	var/start_emagged = FALSE //Do we start emagged? This is so that syndie fighters can shoot people shipside
+
+/**
+
+Fighter emagging!
+You can no longer fire fighter weapons on a ship so easily...
+You need to fire emag the fighter's IFF board. This makes it list as "ENEMY" on DRADIS and allows it to be shot down by ANY other fighter, INCLUDING Syndicate ships too!
+
+*/
+
+/obj/structure/overmap/fighter/emag_act(mob/user)
+	if(obj_flags & EMAGGED)
+		return
+	if(alert("Do you want to nullify [src]'s safeties and IFF chip? (THIS IS VERY OBVIOUS)",name,"Yes","No") == "Yes" && Adjacent(user))
+		to_chat(user, "<span class='warning'>You override [src]'s IFF chip. It will now register as rogue on all local DRADIS systems (Including Syndicate ones)....</span>")
+		faction = name //Yep. This means ANYONE can shoot it down.
+		obj_flags |= EMAGGED
 
 /obj/structure/overmap/fighter/Initialize()
 	. = ..()
-	if(ispath(has_escape_pod))
-		escape_pod = new /obj/structure/overmap/fighter/prebuilt/escapepod(src)
-		escape_pod.name = "[name] - escape pod"
+	if(start_emagged)
+		obj_flags ^= EMAGGED
 
 /obj/machinery/computer/ship/fighter_launcher
 	name = "Mag-cat control console"
@@ -86,6 +103,9 @@ After going through this checklist, you're ready to go!
 	var/area/AR = get_area(src)
 	for(var/obj/structure/fighter_launcher/FL in AR)
 		launchers += FL
+	for(var/obj/vehicle/sealed/car/realistic/fighter_tug/FT in AR)
+		if(FT.can_launch_fighters())
+			launchers += FT
 
 /obj/machinery/computer/ship/fighter_launcher/attack_hand(mob/user)
 	if(!allowed(user))
@@ -162,7 +182,7 @@ After going through this checklist, you're ready to go!
 /obj/structure/overmap/fighter/can_brake()
 	if(mag_lock)
 		if(pilot)
-			to_chat(pilot, "<span class='warning'>WARNING: Ship is magnetically arrested by an arrestor. Awaiting decoupling by fighter technicians.</span>")
+			to_chat(pilot, "<span class='warning'>WARNING: Ship is magnetically arrested by an arrestor. Awaiting decoupling signal (O4).</span>")
 		return FALSE
 	return TRUE
 
@@ -173,9 +193,9 @@ After going through this checklist, you're ready to go!
 		mag_locked = AM
 		visible_message("<span class='warning'>CLUNK.</span>")
 		OM.brakes = TRUE
-		OM.velocity_x = 0
-		OM.velocity_y = 0 //Full stop.
-		OM.mag_lock = TRUE
+		OM.velocity.x = 0
+		OM.velocity.y = 0 //Full stop.
+		OM.mag_lock = src
 		var/turf/center = get_turf(src)
 		switch(dir) //Do some fuckery to make sure the fighter lines up on the pad in a halfway sensible manner.
 			if(NORTH)
@@ -243,13 +263,13 @@ After going through this checklist, you're ready to go!
 		shake_people(mag_locked)
 	switch(dir) //Just handling north / south..FOR NOW!
 		if(NORTH) //PILOTS. REMEMBER TO FACE THE RIGHT WAY WHEN YOU LAUNCH, OR YOU WILL HAVE A TERRIBLE TIME.
-			mag_locked.velocity_y = 20
+			mag_locked.velocity.y = 20
 		if(SOUTH)
-			mag_locked.velocity_y = -20
+			mag_locked.velocity.y = -20
 		if(EAST)
-			mag_locked.velocity_x = 20
+			mag_locked.velocity.x = 20
 		if(WEST)
-			mag_locked.velocity_x = -20
+			mag_locked.velocity.x = -20
 	ready = FALSE
 	mag_locked = null
 	addtimer(CALLBACK(src, .proc/recharge), 10 SECONDS) //Stops us from catching the fighter right after we launch it.
@@ -290,7 +310,7 @@ After going through this checklist, you're ready to go!
 
 /obj/structure/overmap/fighter/proc/release_maglock()
 	brakes = FALSE
-	mag_lock = FALSE
+	mag_lock = null
 
 /obj/structure/overmap/fighter/proc/prime_launch()
 	release_maglock()
@@ -336,7 +356,7 @@ After going through this checklist, you're ready to go!
 			return FALSE
 		var/saved_layer = layer
 		layer = LOW_OBJ_LAYER
-		addtimer(VARSET_CALLBACK(src, layer, saved_layer), 1 SECONDS) //Gives fighters a small window of immunity from collisions with other overmaps
+		addtimer(VARSET_CALLBACK(src, layer, saved_layer), 2 SECONDS) //Gives fighters a small window of immunity from collisions with other overmaps
 		forceMove(get_turf(OM))
 		docking_cooldown = TRUE
 		addtimer(VARSET_CALLBACK(src, docking_cooldown, FALSE), 5 SECONDS) //Prevents jank.
@@ -358,11 +378,13 @@ After going through this checklist, you're ready to go!
 
 /obj/structure/overmap/fighter/proc/docking_act(obj/structure/overmap/OM)
 	if(mass < OM.mass && OM.docking_points.len && docking_mode) //If theyre smaller than us,and we have docking points, and they want to dock
-		transfer_from_overmap(OM)
+		return transfer_from_overmap(OM)
+	else
+		return FALSE
 
 /obj/structure/overmap/fighter/proc/transfer_from_overmap(obj/structure/overmap/OM)
 	if(docking_cooldown)
-		return
+		return FALSE
 	if(OM.docking_points.len)
 		last_overmap = OM
 		docking_cooldown = TRUE
@@ -372,11 +394,15 @@ After going through this checklist, you're ready to go!
 		pixel_z = initial(pixel_z)
 		var/turf/T = get_turf(pick(OM.docking_points))
 		forceMove(T)
-		if(pilot)
-			to_chat(pilot, "<span class='notice'>Docking complete.</span>")
-			docking_mode = FALSE
+		bound_width = initial(bound_width)
+		bound_height = initial(bound_height)
+		docking_mode = FALSE
+		if(pilot && faction == OM.faction)
+			weapon_safety = TRUE
+			to_chat(pilot, "<span class='notice'>Docking complete. <b>Gun safeties have been engaged automatically.</b></span>")
 		SEND_SIGNAL(src, COMSIG_FTL_STATE_CHANGE)
 		return TRUE
+	return FALSE
 
 /obj/structure/overmap/fighter/take_damage(damage_amount, damage_type = BRUTE, damage_flag = 0, sound_effect = 1, attack_dir, armour_penetration = 0)
 	..()
@@ -395,6 +421,32 @@ After going through this checklist, you're ready to go!
 		warning_cooldown = TRUE
 		addtimer(VARSET_CALLBACK(src, warning_cooldown, FALSE), 5 SECONDS)
 		return
+
+/obj/structure/overmap/fighter/emp_act(severity)
+	. = ..()
+	if(pilot)
+		to_chat(pilot, "<span class='danger'>Warning: Electromagnetic surge detected. System stability compromised.</span>")
+	if(. & EMP_PROTECT_SELF)
+		return
+	switch(severity)
+		if(1)
+			take_damage(50)
+		if(2)
+			take_damage(40)
+	update_icon()
+	if(prob(30)) //EMP malfunctions aren't fun, alright?
+		toggle_canopy()
+	if(prob(20))
+		brakes = !brakes
+	if(prob(10))
+		weapon_safety = !weapon_safety
+	if(severity >= 2 && prob(5) && flight_state > NO_IGNITION) //And let's be REALLY mean.
+		brakes = TRUE
+		flight_state = NO_IGNITION
+		playsound(src, 'nsv13/sound/effects/ship/rcs.ogg', 100, TRUE)
+		visible_message("<span class='warning'>[src]'s engine fizzles out violently!</span>")
+		to_chat(pilot, "<span class='danger'>DANGER: INVALID MEMORY ADDRESS IN MODULE FLIGHTCOMP03x1500. INITIATING EMERGENCY SYSTEM SHUTDOWN.</span>")
+		stop_relay(CHANNEL_SHIP_ALERT)
 
 /obj/structure/overmap/fighter/update_icon()
 	. =..()
@@ -417,9 +469,9 @@ After going through this checklist, you're ready to go!
 
 /obj/structure/overmap/fighter/prebuilt/raptor/docking_act(obj/structure/overmap/OM)
 	if(docking_cooldown)
-		return
+		return FALSE
 	if(mass < OM.mass && OM.docking_points.len && docking_mode) //If theyre smaller than us,and we have docking points, and they want to dock
-		transfer_from_overmap(OM)
+		return transfer_from_overmap(OM)
 	if(mass >= OM.mass && docking_mode) //Looks like theyre smaller than us, and need rescue.
 		if(istype(OM, /obj/structure/overmap/fighter/prebuilt/escapepod)) //Can we take them aboard?
 			if(OM.operators.len <= max_passengers+1-OM.mobs_in_ship.len) //Max passengers + 1 to allow for one raptor crew rescuing another. Imagine that theyre being cramped into the footwell or something.
@@ -433,6 +485,7 @@ After going through this checklist, you're ready to go!
 			else
 				if(pilot)
 					to_chat(pilot,"<span class='warning'>[src]'s passenger cabin is full, you'd need [max_passengers+1-OM.mobs_in_ship.len] more seats to retrieve everyone!</span>")
+			return TRUE
 
 /obj/structure/overmap/slowprocess()
 	. = ..()
@@ -477,7 +530,7 @@ After going through this checklist, you're ready to go!
 	return loc.return_air()
 
 /obj/structure/overmap/fighter/remove_air(amount)
-	return cabin_air.remove(amount)
+	return cabin_air?.remove(amount)
 
 /obj/structure/overmap/fighter/return_analyzable_air()
 	return cabin_air
@@ -665,19 +718,6 @@ After going through this checklist, you're ready to go!
 		else
 			to_chat(user, "<span class='notice'>You require [src] to be in maintenance mode to load munitions!.</span>")
 			return
-	if(istype(A, /obj/structure/overmap/fighter/prebuilt/escapepod) && has_escape_pod && (!escape_pod || escape_pod?.loc != src))
-		if(maint_state != MS_OPEN)
-			to_chat(user, "<span class='warning'>You cannot load an escape pod into [src] without putting it into maintenance mode.</span>")
-			return
-		var/obj/structure/overmap/fighter/prebuilt/escapepod/EP = A
-		if(EP.operators.len)
-			to_chat(user, "<span class='notice'>There are people inside of [EP], so you can't load it into something else</span>")
-			return
-		if(do_after_mob(user, list(A, src), 50))
-			to_chat(user, "<span class='notice'>You insert [EP] into [src], fitting it with an escape pod.</span>")
-			EP.forceMove(src)
-			escape_pod = EP
-			EP.flight_state = NO_IGNITION
 
 /obj/structure/overmap/fighter/fire_torpedo(atom/target)
 	if(ai_controlled) //AI ships don't have interiors
@@ -707,6 +747,15 @@ After going through this checklist, you're ready to go!
 	else
 		to_chat(gunner, "<span class='warning'>DANGER: Launch failure! Torpedo tubes are not loaded.</span>")
 
+/obj/structure/overmap/fighter/proc/force_eject()
+	brakes = TRUE
+	if(!canopy_open)
+		canopy_open = TRUE
+		playsound(src, 'nsv13/sound/effects/fighters/canopy.ogg', 100, 1)
+	for(var/mob/M in operators)
+		stop_piloting(M)
+		to_chat(M, "<span class='warning'>You have been remotely ejected from [src]!.</span>")
+
 /obj/structure/overmap/fighter/attackby(obj/item/W, mob/user, params)   //fueling and changing equipment
 	add_fingerprint(user)
 	if (istype(W, /obj/item/card/id)||istype(W, /obj/item/pda) && operators.len)
@@ -717,10 +766,7 @@ After going through this checklist, you're ready to go!
 			return
 		if(alert("Eject all current occupants from [src]?",name,"Yes","No") == "Yes" && Adjacent(user))
 			to_chat(user, "<span class='warning'>Ejecting all current occupants from [src] and activating inertial dampeners...</span>")
-			brakes = TRUE
-			for(var/mob/M in operators)
-				stop_piloting(M)
-				to_chat(M, "<span class='warning'>[user] has forcibly ejected you from [src]!.</span>")
+			force_eject()
 	if(maint_state == MS_OPEN)
 		if(istype(W, /obj/item/fighter_component/fuel_lines) && !get_part(/obj/item/fighter_component/fuel_lines))
 			to_chat(user, "<span class='notice'>You start installing [W] in [src]...</span>")
@@ -805,7 +851,7 @@ After going through this checklist, you're ready to go!
 				return TRUE
 
 /obj/structure/overmap/fighter/stop_piloting(mob/living/M, force=FALSE)
-	if(!SSmapping.level_trait(z, ZTRAIT_BOARDABLE) && !force)
+	if(!SSmapping.level_trait(loc.z, ZTRAIT_BOARDABLE) && !force)
 		to_chat(M, "<span class='warning'>DANGER: You may not exit [src] while flying alongside other large ships.</span>")
 		return FALSE //No jumping out into the overmap :)
 	if(!canopy_open && !force)
@@ -968,26 +1014,27 @@ After going through this checklist, you're ready to go!
 		attack_hand(user) //Refresh UI.
 
 /obj/structure/overmap/fighter/Destroy()
-	if(operators.len && escape_pod && escape_pod.loc == src)
+	if(operators && operators.len && ispath(has_escape_pod))
 		relay('nsv13/sound/effects/computer/alarm_3.ogg', "<span class=userdanger>EJECT! EJECT! EJECT!</span>")
 		relay_to_nearby('nsv13/sound/effects/ship/fighter_launch_short.ogg')
 		visible_message("<span class=userdanger>Auto-Ejection Sequence Enabled! Escape Pod Launched!</span>")
 		ejecting = FALSE
-		if(eject())
-			sleep(20)
-		else
-			for(var/atom/X in contents) //Pilot unable to eject. Murder them.
-				QDEL_NULL(X)
-			return ..()
+		eject()
+		sleep(2)
+		for(var/atom/X in contents) //Pilot unable to eject. Murder them.
+			QDEL_NULL(X)
+		return ..()
 	. = ..()
 
 /obj/structure/overmap/fighter/proc/eject()
-	if(escape_pod && escape_pod.loc == src)
-		escape_pod.forceMove(get_turf(src))
+	if(ispath(has_escape_pod))
+		escape_pod = new /obj/structure/overmap/fighter/prebuilt/escapepod(get_turf(src))
+		escape_pod.name = "[name] - escape pod"
 		escape_pod.set_fuel(get_fuel()) //No infinite tyrosene for you!
 		transfer_occupants_to(escape_pod)
-		escape_pod.desired_angle = pick(0,360)
+		escape_pod.desired_angle = 0
 		escape_pod.user_thrust_dir = NORTH
+		escape_pod.velocity.y = 3
 		escape_pod = null
 		return TRUE
 	else
@@ -1170,7 +1217,7 @@ How to make fuel:
 		if("canopy_lock")
 			toggle_canopy()
 		if("eject")
-			if(is_station_level(z))
+			if(is_station_level(loc.z) || SSmapping.level_trait(loc.z, ZTRAIT_BOARDABLE))
 				if(!canopy_open)
 					canopy_open = TRUE
 					playsound(src, 'nsv13/sound/effects/fighters/canopy.ogg', 100, 1)
@@ -1206,6 +1253,10 @@ How to make fuel:
 			relinquish_target_lock()
 			relay('nsv13/sound/effects/fighters/switch.ogg')
 			return //Dodge the cooldown because these actions should be instant
+		if("mag_release")
+			if(!mag_lock)
+				return
+			mag_lock.abort_launch()
 	warmup_cooldown = TRUE
 	addtimer(VARSET_CALLBACK(src, warmup_cooldown, FALSE), 1 SECONDS)
 	relay('nsv13/sound/effects/fighters/switch.ogg')
@@ -1285,6 +1336,7 @@ How to make fuel:
 	data["integrity"] = obj_integrity
 	data["max_fuel"] = get_max_fuel()
 	data["fuel"] = get_fuel()
+	data["mag_locked"] = (mag_lock != null) ? TRUE : FALSE
 	if(flight_state > NO_IGNITION)
 		data["ignition"] = TRUE
 	if(flight_state > NO_FUEL_PUMP)
