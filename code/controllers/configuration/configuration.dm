@@ -25,6 +25,8 @@
 
 	var/list/fail2topic_whitelisted_ips
 
+	var/list/active_donators
+
 /datum/controller/configuration/proc/admin_reload()
 	if(IsAdminAdvancedProcCall())
 		return
