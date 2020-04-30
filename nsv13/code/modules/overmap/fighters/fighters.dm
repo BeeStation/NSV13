@@ -642,13 +642,13 @@ You need to fire emag the fighter's IFF board. This makes it list as "ENEMY" on 
 	. = FALSE
 	switch(maint_state)
 		if(MS_UNSECURE)
-			to_chat(user, "<span class='notice'>You start pry open the maintenance hatch on [src]...</span>")
+			to_chat(user, "<span class='notice'>You start to pry open the maintenance hatch on [src]...</span>")
 			if(tool.use_tool(src, user, 40, volume=100))
 				to_chat(user, "<span class='notice'>You pry open the maintenance hatch on [src].</span>")
 				maint_state = MS_OPEN
 				return TRUE
 		if(MS_OPEN)
-			to_chat(user, "<span class='notice'>You start replace the maintenance hatch on [src]...</span>")
+			to_chat(user, "<span class='notice'>You start replacing the maintenance hatch on [src]...</span>")
 			if(tool.use_tool(src, user, 40, volume=100))
 				to_chat(user, "<span class='notice'>You replace the maintenance hatch on [src].</span>")
 				maint_state = MS_UNSECURE
