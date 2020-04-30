@@ -5915,15 +5915,19 @@
 /turf/open/floor/monotile/dark,
 /area/medical/virology)
 "aoN" = (
-/obj/structure/lattice/catwalk,
-/obj/machinery/atmospherics/pipe/simple/orange/visible{
-	dir = 10
-	},
-/obj/structure/cable/yellow{
+/obj/structure/cable{
 	icon_state = "1-2"
 	},
-/turf/open/space/basic,
-/area/maintenance/ship_exterior)
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
+/obj/machinery/door/airlock/ship/public/glass{
+	name = "Atmospherics";
+	req_one_access_txt = "10; 24"
+	},
+/obj/machinery/door/firedoor,
+/turf/open/floor/plasteel,
+/area/engine/atmos)
 "aoO" = (
 /obj/structure/table/optable,
 /obj/machinery/camera/autoname{
@@ -6117,38 +6121,13 @@
 /turf/open/floor/plating,
 /area/engine/storage)
 "apq" = (
-/obj/structure/lattice/catwalk,
-/obj/structure/cable/yellow{
-	icon_state = "4-8"
-	},
-/obj/machinery/atmospherics/pipe/simple/purple/visible{
-	dir = 8
-	},
-/turf/open/space/basic,
-/area/maintenance/ship_exterior)
-"apr" = (
-/obj/structure/lattice/catwalk,
-/obj/machinery/atmospherics/components/trinary/filter/atmos/plasma{
-	dir = 8
-	},
-/obj/structure/cable/yellow{
-	icon_state = "4-8"
-	},
-/turf/open/space/basic,
+/obj/structure/lattice,
+/obj/machinery/atmospherics/pipe/simple/orange/visible,
+/turf/open/space,
 /area/maintenance/ship_exterior)
 "aps" = (
 /turf/open/space/basic,
 /area/engine/atmos)
-"apt" = (
-/obj/structure/lattice/catwalk,
-/obj/machinery/atmospherics/pipe/simple/orange/visible{
-	dir = 4
-	},
-/obj/structure/cable/yellow{
-	icon_state = "4-8"
-	},
-/turf/open/space/basic,
-/area/maintenance/ship_exterior)
 "apu" = (
 /turf/closed/wall/ship,
 /area/maintenance/starboard/secondary{
@@ -7250,14 +7229,12 @@
 /turf/open/floor/plating,
 /area/engine/atmos)
 "arT" = (
-/obj/structure/lattice/catwalk,
-/obj/machinery/atmospherics/pipe/manifold/orange/visible{
-	dir = 1
+/obj/structure/lattice,
+/obj/machinery/atmospherics/pipe/simple/purple/visible{
+	dir = 4
 	},
-/obj/structure/cable/yellow{
-	icon_state = "4-8"
-	},
-/turf/open/space/basic,
+/obj/machinery/atmospherics/pipe/simple/orange/visible,
+/turf/open/space,
 /area/maintenance/ship_exterior)
 "arU" = (
 /obj/machinery/atmospherics/pipe/manifold/supply/hidden{
@@ -7990,14 +7967,12 @@
 /turf/open/floor/carpet/blue,
 /area/crew_quarters/nsv/observation)
 "atK" = (
-/obj/structure/lattice/catwalk,
-/obj/machinery/atmospherics/pipe/simple/orange/visible{
-	dir = 10
+/obj/structure/lattice,
+/obj/machinery/atmospherics/pipe/simple/green/visible{
+	dir = 4
 	},
-/obj/structure/cable/yellow{
-	icon_state = "4-8"
-	},
-/turf/open/space/basic,
+/obj/machinery/atmospherics/pipe/simple/orange/visible,
+/turf/open/space,
 /area/maintenance/ship_exterior)
 "atL" = (
 /obj/machinery/meter,
@@ -8700,12 +8675,12 @@
 /turf/open/floor/monotile/dark,
 /area/crew_quarters/dorms)
 "avl" = (
-/obj/structure/lattice/catwalk,
-/obj/machinery/atmospherics/pipe/simple/orange/visible,
-/obj/structure/cable/yellow{
-	icon_state = "1-8"
+/obj/structure/lattice,
+/obj/machinery/atmospherics/pipe/simple/yellow/visible{
+	dir = 4
 	},
-/turf/open/space/basic,
+/obj/machinery/atmospherics/pipe/simple/orange/visible,
+/turf/open/space,
 /area/maintenance/ship_exterior)
 "avm" = (
 /obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1{
@@ -8766,11 +8741,6 @@
 /obj/structure/disposalpipe/segment,
 /turf/open/floor/plating,
 /area/crew_quarters/dorms)
-"avv" = (
-/obj/machinery/atmospherics/pipe/simple/orange/visible,
-/obj/structure/lattice/catwalk,
-/turf/open/space/basic,
-/area/maintenance/ship_exterior)
 "avw" = (
 /obj/structure/lattice/catwalk,
 /obj/machinery/light/runway,
@@ -9181,9 +9151,11 @@
 /turf/open/floor/plating,
 /area/engine/atmos)
 "awu" = (
-/obj/structure/lattice/catwalk,
-/obj/machinery/atmospherics/pipe/simple/orange/visible,
-/turf/open/space/basic,
+/obj/structure/lattice,
+/obj/machinery/atmospherics/pipe/simple/orange/visible{
+	dir = 9
+	},
+/turf/open/space,
 /area/maintenance/ship_exterior)
 "awv" = (
 /obj/structure/cable{
@@ -9310,15 +9282,12 @@
 /turf/open/floor/monotile,
 /area/engine/atmos)
 "awH" = (
-/obj/machinery/door/airlock/glass_large/ship{
-	name = "Engineering Wing";
-	req_one_access_txt = "10; 24"
+/obj/structure/lattice,
+/obj/machinery/atmospherics/pipe/simple/yellow/visible{
+	dir = 4
 	},
-/obj/machinery/door/firedoor,
-/obj/structure/disposalpipe/segment,
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
-/turf/open/floor/monotile/dark,
-/area/engine/engineering)
+/turf/open/space,
+/area/maintenance/ship_exterior)
 "awI" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/siphon/atmos/toxin_output{
 	dir = 8
@@ -9458,12 +9427,11 @@
 /turf/open/floor/monotile,
 /area/engine/atmos)
 "awZ" = (
-/obj/structure/lattice/catwalk,
-/obj/machinery/meter,
-/obj/machinery/atmospherics/pipe/manifold/orange/visible{
-	dir = 8
+/obj/structure/lattice,
+/obj/machinery/atmospherics/pipe/simple/green/visible{
+	dir = 4
 	},
-/turf/open/space/basic,
+/turf/open/space,
 /area/maintenance/ship_exterior)
 "axa" = (
 /obj/machinery/atmospherics/components/unary/outlet_injector/atmos/toxin_input{
@@ -10738,16 +10706,13 @@
 /turf/open/floor/monotile/light,
 /area/engine/atmos)
 "azw" = (
-/obj/structure/lattice/catwalk,
-/obj/machinery/atmospherics/pipe/manifold/orange/visible,
-/turf/open/space/basic,
+/obj/structure/window/reinforced,
+/obj/structure/lattice,
+/turf/open/space,
 /area/maintenance/ship_exterior)
 "azx" = (
-/obj/machinery/atmospherics/pipe/simple/orange/visible{
-	dir = 9
-	},
-/obj/structure/lattice/catwalk,
-/turf/open/space/basic,
+/obj/structure/window/reinforced,
+/turf/open/space,
 /area/maintenance/ship_exterior)
 "azy" = (
 /obj/structure/closet/crate/bin,
@@ -11793,11 +11758,12 @@
 /turf/open/floor/plating,
 /area/engine/atmos)
 "aBS" = (
-/obj/machinery/atmospherics/pipe/simple/orange/visible{
-	dir = 6
+/obj/structure/window/reinforced{
+	dir = 1;
+	layer = 2.9
 	},
-/obj/structure/lattice/catwalk,
-/turf/open/space/basic,
+/obj/structure/lattice,
+/turf/open/space,
 /area/maintenance/ship_exterior)
 "aBT" = (
 /obj/structure/window/reinforced{
@@ -11827,52 +11793,46 @@
 /turf/open/space,
 /area/engine/atmos)
 "aBW" = (
-/obj/machinery/atmospherics/pipe/simple/orange/visible{
-	dir = 4
-	},
-/obj/structure/lattice/catwalk,
-/turf/open/space/basic,
+/obj/structure/lattice,
+/obj/machinery/atmospherics/pipe/simple/green/visible,
+/turf/open/space,
 /area/maintenance/ship_exterior)
 "aBX" = (
 /obj/structure/lattice,
-/obj/machinery/atmospherics/pipe/simple/orange/visible,
+/obj/machinery/atmospherics/pipe/simple/yellow/visible,
 /turf/open/space,
 /area/maintenance/ship_exterior)
 "aBY" = (
 /obj/structure/lattice,
-/obj/machinery/atmospherics/pipe/simple/purple/visible{
-	dir = 4
+/obj/machinery/atmospherics/pipe/manifold/yellow/visible{
+	dir = 8
 	},
-/obj/machinery/atmospherics/pipe/simple/orange/visible,
 /turf/open/space,
 /area/maintenance/ship_exterior)
 "aBZ" = (
 /obj/structure/lattice,
-/obj/machinery/atmospherics/pipe/simple/green/visible{
-	dir = 4
+/obj/machinery/atmospherics/pipe/simple/yellow/visible{
+	dir = 9
 	},
-/obj/machinery/atmospherics/pipe/simple/orange/visible,
 /turf/open/space,
 /area/maintenance/ship_exterior)
 "aCa" = (
 /obj/structure/lattice,
-/obj/machinery/atmospherics/pipe/simple/yellow/visible{
-	dir = 4
-	},
-/obj/machinery/atmospherics/pipe/simple/orange/visible,
+/obj/machinery/atmospherics/pipe/simple/cyan/visible,
 /turf/open/space,
 /area/maintenance/ship_exterior)
 "aCb" = (
+/obj/structure/window/reinforced{
+	dir = 4
+	},
 /obj/structure/lattice,
-/obj/machinery/atmospherics/pipe/simple/orange/visible,
-/obj/machinery/meter,
 /turf/open/space,
 /area/maintenance/ship_exterior)
 "aCc" = (
-/obj/structure/lattice,
-/obj/machinery/atmospherics/pipe/simple/orange/visible{
-	dir = 9
+/obj/structure/window/reinforced{
+	dir = 8
 	},
+/obj/structure/lattice,
 /turf/open/space,
 /area/maintenance/ship_exterior)
 "aCd" = (
@@ -11940,11 +11900,14 @@
 /turf/open/floor/monotile/dark,
 /area/tcommsat/computer)
 "aCl" = (
-/obj/structure/lattice,
-/obj/machinery/atmospherics/pipe/simple/yellow/visible{
-	dir = 4
+/obj/structure/lattice/catwalk,
+/obj/structure/cable/yellow{
+	icon_state = "4-8"
 	},
-/turf/open/space,
+/obj/machinery/atmospherics/pipe/simple/purple/visible{
+	dir = 8
+	},
+/turf/open/space/basic,
 /area/maintenance/ship_exterior)
 "aCm" = (
 /obj/machinery/atmospherics/components/binary/pump/on{
@@ -12613,20 +12576,23 @@
 /turf/open/floor/monotile/dark,
 /area/engine/engineering)
 "aDQ" = (
-/obj/structure/lattice,
-/obj/machinery/atmospherics/pipe/simple/green/visible{
-	dir = 4
-	},
-/turf/open/space,
+/obj/machinery/atmospherics/pipe/simple/orange/visible,
+/obj/structure/lattice/catwalk,
+/turf/open/space/basic,
 /area/maintenance/ship_exterior)
 "aDR" = (
-/obj/structure/window/reinforced,
-/obj/structure/lattice,
-/turf/open/space,
+/obj/machinery/atmospherics/pipe/simple/orange/visible{
+	dir = 6
+	},
+/obj/structure/lattice/catwalk,
+/turf/open/space/basic,
 /area/maintenance/ship_exterior)
 "aDS" = (
-/obj/structure/window/reinforced,
-/turf/open/space,
+/obj/machinery/atmospherics/pipe/simple/orange/visible{
+	dir = 4
+	},
+/obj/structure/lattice/catwalk,
+/turf/open/space/basic,
 /area/maintenance/ship_exterior)
 "aDT" = (
 /obj/machinery/telecomms/processor/preset_four,
@@ -19674,19 +19640,6 @@
 /obj/machinery/door/firedoor,
 /turf/open/floor/monotile/light,
 /area/medical/medbay/lobby)
-"aTU" = (
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
-	dir = 10
-	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
-	dir = 6
-	},
-/obj/machinery/door/airlock/ship/hatch{
-	name = "Flight Deck Ladder Access";
-	req_one_access_txt = "3; 69"
-	},
-/turf/open/floor/plating,
-/area/maintenance/port)
 "aTV" = (
 /obj/structure/table/glass,
 /obj/item/wrench/medical,
@@ -19734,12 +19687,14 @@
 /turf/open/floor/monotile,
 /area/medical/medbay/central)
 "aUb" = (
-/obj/structure/window/reinforced{
-	dir = 1;
-	layer = 2.9
+/obj/structure/lattice/catwalk,
+/obj/machinery/atmospherics/pipe/simple/orange/visible{
+	dir = 10
 	},
-/obj/structure/lattice,
-/turf/open/space,
+/obj/structure/cable/yellow{
+	icon_state = "1-2"
+	},
+/turf/open/space/basic,
 /area/maintenance/ship_exterior)
 "aUc" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
@@ -22115,18 +22070,6 @@
 	},
 /turf/open/floor/plasteel/grid/steel,
 /area/nsv/hanger/deck2)
-"aZl" = (
-/obj/structure/cable{
-	icon_state = "1-2"
-	},
-/obj/machinery/door/airlock/ship/hatch{
-	name = "Flight Deck Ladder Access";
-	req_one_access_txt = "3; 69"
-	},
-/turf/open/floor/monotile/dark,
-/area/maintenance/starboard/secondary{
-	name = "Gauss gun rack"
-	})
 "aZm" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 8
@@ -23455,16 +23398,6 @@
 /obj/structure/table/reinforced,
 /turf/open/floor/monotile,
 /area/hydroponics)
-"bca" = (
-/obj/effect/mapping_helpers/airlock/cyclelink_helper{
-	dir = 4
-	},
-/obj/machinery/door/airlock/ship/hatch{
-	name = "Flight Deck Ladder Access";
-	req_one_access_txt = "3; 69"
-	},
-/turf/open/floor/monotile,
-/area/maintenance/port)
 "bcb" = (
 /obj/effect/turf_decal/tile/neutral,
 /obj/effect/turf_decal/tile/neutral{
@@ -27685,9 +27618,14 @@
 /turf/open/floor/monotile/dark,
 /area/engine/break_room)
 "bkl" = (
-/obj/structure/lattice,
-/obj/machinery/atmospherics/pipe/simple/green/visible,
-/turf/open/space,
+/obj/structure/lattice/catwalk,
+/obj/machinery/atmospherics/pipe/simple/orange/visible{
+	dir = 4
+	},
+/obj/structure/cable/yellow{
+	icon_state = "4-8"
+	},
+/turf/open/space/basic,
 /area/maintenance/ship_exterior)
 "bkm" = (
 /obj/machinery/light{
@@ -32315,20 +32253,15 @@
 /turf/open/floor/monotile/dark,
 /area/engine/engineering)
 "btk" = (
-/obj/structure/cable{
-	icon_state = "1-2"
-	},
-/obj/machinery/door/airlock/ship/public/glass{
-	name = "Atmospherics";
+/obj/machinery/door/airlock/glass_large/ship{
+	name = "Engineering Wing";
 	req_one_access_txt = "10; 24"
 	},
 /obj/machinery/door/firedoor,
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
-	dir = 1
-	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
-/turf/open/floor/plasteel/ship,
-/area/engine/break_room)
+/obj/structure/disposalpipe/segment,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/turf/open/floor/monotile/dark,
+/area/engine/engineering)
 "btl" = (
 /obj/effect/turf_decal/tile/yellow,
 /obj/effect/turf_decal/tile/yellow{
@@ -35017,9 +34950,14 @@
 	},
 /area/chapel/main)
 "byj" = (
-/obj/structure/lattice,
-/obj/machinery/atmospherics/pipe/simple/yellow/visible,
-/turf/open/space,
+/obj/structure/lattice/catwalk,
+/obj/machinery/atmospherics/components/trinary/filter/atmos/plasma{
+	dir = 8
+	},
+/obj/structure/cable/yellow{
+	icon_state = "4-8"
+	},
+/turf/open/space/basic,
 /area/maintenance/ship_exterior)
 "byk" = (
 /obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1{
@@ -35882,13 +35820,6 @@
 /obj/effect/landmark/nuclear_waste_spawner,
 /turf/closed/wall/r_wall/ship,
 /area/maintenance/department/science)
-"bzY" = (
-/obj/structure/lattice,
-/obj/machinery/atmospherics/pipe/manifold/yellow/visible{
-	dir = 8
-	},
-/turf/open/space,
-/area/maintenance/ship_exterior)
 "bzZ" = (
 /obj/effect/landmark/nuclear_waste_spawner,
 /turf/closed/wall/ship,
@@ -35954,23 +35885,32 @@
 /turf/open/floor/monotile/dark,
 /area/engine/engineering)
 "bAj" = (
-/obj/structure/lattice,
-/obj/machinery/atmospherics/pipe/simple/yellow/visible{
-	dir = 9
+/obj/structure/lattice/catwalk,
+/obj/machinery/atmospherics/pipe/manifold/orange/visible{
+	dir = 1
 	},
-/turf/open/space,
+/obj/structure/cable/yellow{
+	icon_state = "4-8"
+	},
+/turf/open/space/basic,
 /area/maintenance/ship_exterior)
 "bAk" = (
-/obj/structure/lattice,
-/obj/machinery/atmospherics/pipe/simple/cyan/visible,
-/turf/open/space,
+/obj/structure/lattice/catwalk,
+/obj/machinery/atmospherics/pipe/simple/orange/visible{
+	dir = 10
+	},
+/obj/structure/cable/yellow{
+	icon_state = "4-8"
+	},
+/turf/open/space/basic,
 /area/maintenance/ship_exterior)
 "bAl" = (
-/obj/structure/window/reinforced{
-	dir = 4
+/obj/structure/lattice/catwalk,
+/obj/machinery/atmospherics/pipe/simple/orange/visible,
+/obj/structure/cable/yellow{
+	icon_state = "1-8"
 	},
-/obj/structure/lattice,
-/turf/open/space,
+/turf/open/space/basic,
 /area/maintenance/ship_exterior)
 "bAm" = (
 /obj/effect/turf_decal/tile/yellow,
@@ -36077,16 +36017,17 @@
 /obj/structure/cable{
 	icon_state = "1-2"
 	},
-/obj/structure/cable{
-	icon_state = "1-2"
-	},
 /obj/machinery/door/airlock/ship/public/glass{
 	name = "Atmospherics";
 	req_one_access_txt = "10; 24"
 	},
 /obj/machinery/door/firedoor,
-/turf/open/floor/plasteel,
-/area/engine/atmos)
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	dir = 1
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
+/turf/open/floor/plasteel/ship,
+/area/engine/break_room)
 "bAy" = (
 /obj/effect/turf_decal/tile/yellow,
 /obj/effect/turf_decal/tile/yellow{
@@ -37054,13 +36995,6 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /turf/open/floor/monotile/light,
 /area/medical/medbay/lobby)
-"bCt" = (
-/obj/structure/window/reinforced{
-	dir = 8
-	},
-/obj/structure/lattice,
-/turf/open/space,
-/area/maintenance/ship_exterior)
 "bCu" = (
 /obj/effect/turf_decal/tile/green,
 /obj/effect/turf_decal/tile/green{
@@ -38759,6 +38693,19 @@
 /obj/machinery/meter,
 /turf/open/space/basic,
 /area/engine/engineering)
+"bFw" = (
+/obj/machinery/atmospherics/pipe/simple/orange/visible{
+	dir = 9
+	},
+/obj/structure/lattice/catwalk,
+/turf/open/space/basic,
+/area/maintenance/ship_exterior)
+"bFx" = (
+/obj/structure/lattice,
+/obj/machinery/atmospherics/pipe/simple/orange/visible,
+/obj/machinery/meter,
+/turf/open/space,
+/area/maintenance/ship_exterior)
 "bFy" = (
 /obj/structure/chair{
 	dir = 8
@@ -38863,6 +38810,14 @@
 /area/hallway/nsv/deck2/frame1/central)
 "bFJ" = (
 /obj/structure/grille,
+/turf/open/space/basic,
+/area/maintenance/ship_exterior)
+"bFK" = (
+/obj/structure/lattice/catwalk,
+/obj/machinery/meter,
+/obj/machinery/atmospherics/pipe/manifold/orange/visible{
+	dir = 8
+	},
 /turf/open/space/basic,
 /area/maintenance/ship_exterior)
 "bFL" = (
@@ -39697,6 +39652,7 @@
 /obj/machinery/firealarm{
 	pixel_y = 22
 	},
+/obj/structure/ladder,
 /turf/open/floor/monotile,
 /area/nsv/briefingroom)
 "bHw" = (
@@ -39893,6 +39849,11 @@
 	},
 /turf/open/space/basic,
 /area/maintenance/ship_exterior)
+"bHU" = (
+/obj/structure/lattice/catwalk,
+/obj/machinery/atmospherics/pipe/simple/orange/visible,
+/turf/open/space/basic,
+/area/maintenance/ship_exterior)
 "bHV" = (
 /obj/effect/turf_decal/stripes/line,
 /obj/structure/cable{
@@ -40022,6 +39983,11 @@
 	},
 /turf/open/floor/monotile,
 /area/hydroponics)
+"bIj" = (
+/obj/structure/lattice/catwalk,
+/obj/machinery/atmospherics/pipe/manifold/orange/visible,
+/turf/open/space/basic,
+/area/maintenance/ship_exterior)
 "bIk" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 10
@@ -40817,6 +40783,18 @@
 /area/maintenance/starboard/secondary{
 	name = "Gauss gun rack"
 	})
+"bJY" = (
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
+/obj/machinery/door/airlock/ship/hatch{
+	name = "Flight Deck Ladder Access";
+	req_one_access_txt = "3; 69"
+	},
+/turf/open/floor/monotile/dark,
+/area/maintenance/starboard/secondary{
+	name = "Gauss gun rack"
+	})
 "bJZ" = (
 /obj/machinery/door/airlock/highsecurity/ship{
 	name = "Secondary ammunition store";
@@ -40853,6 +40831,19 @@
 /area/maintenance/starboard/secondary{
 	name = "Gauss gun rack"
 	})
+"bKd" = (
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	dir = 10
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	dir = 6
+	},
+/obj/machinery/door/airlock/ship/hatch{
+	name = "Flight Deck Ladder Access";
+	req_one_access_txt = "3; 69"
+	},
+/turf/open/floor/plating,
+/area/maintenance/port)
 "bKe" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	dir = 4
@@ -43418,6 +43409,16 @@
 	},
 /turf/open/floor/monotile/dark,
 /area/engine/atmospherics_engine)
+"qth" = (
+/obj/effect/mapping_helpers/airlock/cyclelink_helper{
+	dir = 4
+	},
+/obj/machinery/door/airlock/ship/hatch{
+	name = "Flight Deck Ladder Access";
+	req_one_access_txt = "3; 69"
+	},
+/turf/open/floor/monotile,
+/area/maintenance/port)
 "qvd" = (
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3{
 	dir = 4
@@ -78308,7 +78309,7 @@ aSF
 bnm
 aYS
 bDJ
-aTU
+bKd
 bKz
 bKz
 bKA
@@ -78614,7 +78615,7 @@ bKy
 apu
 apu
 bKB
-bca
+qth
 bne
 aAt
 bne
@@ -78914,7 +78915,7 @@ apu
 bJL
 apu
 bJW
-aZl
+bJY
 bKC
 ajN
 anu
@@ -97962,14 +97963,14 @@ aPB
 bte
 bys
 bys
-btk
+bAx
 bys
 bAz
 bAA
 bAB
 aEc
 aEc
-bAx
+aoN
 apb
 apv
 apv
@@ -98295,7 +98296,7 @@ ayj
 ayx
 azF
 aBP
-bkl
+aBW
 aCv
 aCA
 aCM
@@ -98899,7 +98900,7 @@ ayl
 ayz
 azH
 aBQ
-byj
+aBX
 aCv
 aCC
 aCO
@@ -99161,7 +99162,7 @@ aIB
 azp
 aNV
 btj
-awH
+btk
 btl
 btm
 btm
@@ -99503,7 +99504,7 @@ ayn
 ayB
 azI
 aBP
-bkl
+aBW
 aCv
 aCD
 aCP
@@ -100107,7 +100108,7 @@ ayo
 ayD
 azH
 aBQ
-bzY
+aBY
 aCv
 aCF
 aDo
@@ -100409,7 +100410,7 @@ ayr
 ayE
 azH
 aBQ
-bAj
+aBZ
 aqk
 aqk
 aqk
@@ -100711,7 +100712,7 @@ ayo
 azs
 avK
 aBR
-bAk
+aCa
 aCw
 aCG
 aDz
@@ -101315,7 +101316,7 @@ ays
 azu
 azK
 aBR
-bAk
+aCa
 aCx
 aCI
 aPO
@@ -102497,27 +102498,27 @@ aaJ
 aaJ
 aaJ
 anb
-aBS
-avv
-avv
-aBX
-aBX
-aBX
-aBY
-aBX
-aBZ
-aBX
-aCa
-aCb
-aBZ
-aCc
-aCl
-aoV
+aDR
 aDQ
-aoV
-aCl
-aoV
 aDQ
+apq
+apq
+apq
+arT
+apq
+atK
+apq
+avl
+bFx
+atK
+awu
+awH
+aoV
+awZ
+aoV
+awH
+aoV
+awZ
 aoV
 aoV
 aml
@@ -102799,7 +102800,7 @@ aaJ
 aaJ
 aaJ
 anb
-aBW
+aDS
 anb
 anb
 anb
@@ -103101,7 +103102,7 @@ aaJ
 aaJ
 aaJ
 anb
-aBW
+aDS
 anb
 aAy
 aAy
@@ -103124,9 +103125,9 @@ axD
 axU
 aqk
 aoV
-aDR
+azw
 aAc
-aUb
+aBS
 aoV
 aps
 aoV
@@ -103386,7 +103387,7 @@ aRc
 aaa
 aAy
 anb
-apq
+aCl
 anb
 aAy
 amz
@@ -103403,7 +103404,7 @@ aaJ
 aaJ
 aaJ
 anb
-aBW
+aDS
 anb
 aAy
 aaJ
@@ -103426,10 +103427,10 @@ axE
 axt
 aqk
 aoV
-aDS
+azx
 aAc
 aBT
-bAl
+aCb
 aCy
 aCK
 aPP
@@ -103688,7 +103689,7 @@ aRc
 aaa
 aAy
 anb
-apq
+aCl
 anb
 aAy
 amz
@@ -103705,7 +103706,7 @@ aaJ
 aaJ
 aaJ
 anb
-aBW
+aDS
 anb
 aAy
 aoV
@@ -103728,7 +103729,7 @@ axF
 axV
 aqk
 aoV
-aDR
+azw
 aAc
 aAc
 aAc
@@ -103990,7 +103991,7 @@ aRc
 aaa
 aAy
 bHS
-apr
+byj
 anb
 aAy
 amz
@@ -104007,7 +104008,7 @@ aaJ
 aaJ
 aaJ
 anb
-aBW
+aDS
 anb
 aAy
 aaJ
@@ -104030,10 +104031,10 @@ aqk
 aqk
 aqk
 aoV
-aDS
+azx
 aAc
 aBU
-bCt
+aCc
 aCz
 aCL
 aPR
@@ -104292,7 +104293,7 @@ aRc
 aaa
 aAy
 bHT
-apt
+bkl
 anb
 aAy
 amz
@@ -104309,7 +104310,7 @@ anb
 anb
 anb
 anb
-aBW
+aDS
 anb
 aAy
 aoV
@@ -104332,9 +104333,9 @@ aoV
 aoV
 aoV
 aoV
-aDR
+azw
 aBN
-aUb
+aBS
 aoV
 aps
 aoV
@@ -104594,24 +104595,24 @@ aey
 aAy
 aAy
 bHT
-arT
-avv
+bAj
+aDQ
 aBr
-awZ
-avv
-avv
-avv
-avv
-avv
-avv
-avv
-avv
-avv
-avv
-avv
-avv
-avv
-azx
+bFK
+aDQ
+aDQ
+aDQ
+aDQ
+aDQ
+aDQ
+aDQ
+aDQ
+aDQ
+aDQ
+aDQ
+aDQ
+aDQ
+bFw
 anb
 aAy
 bFJ
@@ -104896,10 +104897,10 @@ aey
 aey
 aey
 bHT
-atK
-avv
+bAk
+aDQ
 aBr
-azw
+bIj
 anb
 anb
 anb
@@ -105197,11 +105198,11 @@ aBE
 aBF
 aKG
 aBF
-aoN
-avl
-avv
-awu
-azx
+aUb
+bAl
+aDQ
+bHU
+bFw
 aAy
 aAy
 aAy

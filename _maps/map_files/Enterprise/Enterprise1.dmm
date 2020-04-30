@@ -254,13 +254,6 @@
 	},
 /turf/open/floor/monotile/dark/airless,
 /area/maintenance/ship_exterior)
-"aO" = (
-/obj/effect/turf_decal/delivery/white,
-/obj/machinery/camera/autoname{
-	dir = 1
-	},
-/turf/open/floor/monotile/dark/airless,
-/area/maintenance/ship_exterior)
 "aP" = (
 /turf/closed/wall/ship,
 /area/crew_quarters/heads/captain)
@@ -610,11 +603,6 @@
 /area/hallway/nsv/deck1/hallway)
 "bO" = (
 /obj/structure/overmap/fighter/prebuilt,
-/turf/open/floor/monotile/dark/airless,
-/area/maintenance/ship_exterior)
-"bP" = (
-/obj/effect/turf_decal/delivery/white,
-/obj/machinery/camera/autoname,
 /turf/open/floor/monotile/dark/airless,
 /area/maintenance/ship_exterior)
 "bQ" = (
@@ -1242,18 +1230,6 @@
 	},
 /turf/open/floor/plasteel/ship/techfloor/alt,
 /area/ai_monitored/turret_protected/aisat)
-"dy" = (
-/obj/structure/table/glass,
-/obj/structure/window/reinforced/spawner/east,
-/obj/machinery/door/window/brigdoor/northleft{
-	name = "Core Modules";
-	req_access_txt = "20"
-	},
-/obj/item/aiModule/remove,
-/obj/item/aiModule/reset,
-/obj/item/aiModule/core/full/custom,
-/turf/open/floor/circuit,
-/area/ai_monitored/turret_protected/ai_upload)
 "dz" = (
 /obj/structure/cable{
 	icon_state = "4-8"
@@ -3335,6 +3311,7 @@
 "ii" = (
 /obj/structure/sign/solgov_seal,
 /obj/machinery/camera/autoname,
+/obj/structure/ladder,
 /turf/open/floor/monotile,
 /area/hallway/nsv/deck1/hallway)
 "ij" = (
@@ -5605,6 +5582,18 @@
 /area/nsv/hanger/deck3{
 	name = "Air traffic control pod"
 	})
+"ri" = (
+/obj/structure/table/glass,
+/obj/structure/window/reinforced/spawner/east,
+/obj/machinery/door/window/brigdoor/northleft{
+	name = "Core Modules";
+	req_access_txt = "20"
+	},
+/obj/item/aiModule/remove,
+/obj/item/aiModule/reset,
+/obj/item/aiModule/core/full/custom,
+/turf/open/floor/circuit,
+/area/ai_monitored/turret_protected/ai_upload)
 "rS" = (
 /obj/structure/table/glass,
 /obj/item/aiModule/core/full/asimov,
@@ -5634,6 +5623,13 @@
 	},
 /turf/open/floor/monotile/dark,
 /area/hallway/primary/aft)
+"vD" = (
+/obj/effect/turf_decal/delivery/white,
+/obj/machinery/camera/autoname{
+	dir = 1
+	},
+/turf/open/floor/monotile/dark/airless,
+/area/maintenance/ship_exterior)
 "vQ" = (
 /obj/structure/cable{
 	icon_state = "4-8"
@@ -5938,6 +5934,11 @@
 /obj/item/paper_bin,
 /turf/open/floor/monotile/dark,
 /area/ai_monitored/turret_protected/aisat)
+"UD" = (
+/obj/effect/turf_decal/delivery/white,
+/obj/machinery/camera/autoname,
+/turf/open/floor/monotile/dark/airless,
+/area/maintenance/ship_exterior)
 "Wi" = (
 /obj/structure/grille,
 /obj/structure/window/reinforced/fulltile/ship,
@@ -32180,7 +32181,7 @@ aM
 hT
 aM
 hT
-aO
+vD
 ce
 ct
 cy
@@ -32190,7 +32191,7 @@ QL
 cy
 ct
 ce
-bP
+UD
 hT
 aM
 hT
@@ -35812,7 +35813,7 @@ fT
 ec
 cR
 gi
-dy
+ri
 cs
 hV
 hV
