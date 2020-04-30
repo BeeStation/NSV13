@@ -88,7 +88,7 @@
 			var/list/system_list = list()
 			system_list["name"] = system.name
 			if(current_system)
-				system_list["in_range"] = LAZYFIND(system.adjacency_list, current_system.name)
+				system_list["in_range"] = LAZYFIND(current_system.adjacency_list, system.name)
 				system_list["distance"] = "[current_system.dist(system)]"
 			else
 				system_list["in_range"] = 0

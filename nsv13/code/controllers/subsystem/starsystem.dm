@@ -126,7 +126,7 @@ SUBSYSTEM_DEF(star_system)
 			continue
 		current_system = ships[OM]["current_system"]
 	for(var/datum/star_system/starsys in systems)
-		if(starsys != current_system && starsys.alignment == "unaligned") //Spawn is a safe zone.
+		if(starsys != current_system && !starsys.hidden && starsys.alignment == "unaligned") //Spawn is a safe zone.
 			starsys.mission_sector = TRUE //set this sector to be the active mission
 			starsys.spawn_asteroids() //refresh asteroids in the system
 			for(var/i = 0, i < starsys.difficulty_budget, i++) //number of enemies is set via the star_system vars
@@ -238,8 +238,57 @@ SUBSYSTEM_DEF(star_system)
 	icon = 'nsv13/goonstation/icons/effects/overmap_anomalies/blackhole.dmi'
 	icon_state = "blackhole"
 	research_points = 3000 //These things are pretty damn valuable, for their risk of course.
+	pixel_x = -64
+	pixel_y = -64
+	var/list/affecting = list()
+	var/list/cached_colours = list()
+	var/event_horizon_range = 15 //Point of no return. Getting this close will require an emergency FTL jump or shuttle call.
+	var/redshift_range = 30
+	var/influence_range = 40
+	var/base_pull_strength = 0.10
 
-/obj/effect/overmap_anomaly/wormhole/New()
+/obj/effect/overmap_anomaly/singularity/Initialize()
+	. = ..()
+	START_PROCESSING(SSfastprocess, src)
+
+/obj/effect/overmap_anomaly/singularity/process()
+	if(!z) //Not in nullspace
+		return
+	for(var/obj/structure/overmap/OM in GLOB.overmap_objects)
+		if(LAZYFIND(affecting, OM))
+			continue
+		if(get_dist(src, OM) <= influence_range)
+			affecting += OM
+			cached_colours[OM] = OM.color //So that say, a yellow fighter doesnt get its paint cleared by redshifting
+			OM.relay(sound='nsv13/sound/effects/ship/falling.ogg', message="<span class='warning'>You feel weighed down.</span>", loop=TRUE, channel=CHANNEL_HEARTBEAT)
+	for(var/obj/structure/overmap/OM in affecting)
+		if(get_dist(src, OM) > influence_range)
+			OM.stop_relay(CHANNEL_HEARTBEAT)
+			affecting -= OM
+			OM.color = cached_colours[OM]
+			cached_colours[OM] = null
+			continue
+		var/incidence = get_dir(OM, src)
+		var/dist = get_dist(src, OM)
+		if(dist <= redshift_range)
+			var/redshift ="#[num2hex(130-dist,2)][num2hex(0,2)][num2hex(0,2)]"
+			OM.color = redshift
+		if(dist <= 2)
+			affecting -= OM
+			OM.Destroy()
+		dist = (dist > 0) ? dist : 1
+		var/pull_strength = (dist > event_horizon_range) ? 0.003 : base_pull_strength
+		var/succ_impulse = pull_strength/dist*dist
+		if(incidence & NORTH)
+			OM.velocity.y += succ_impulse
+		if(incidence & SOUTH)
+			OM.velocity.y -= succ_impulse
+		if(incidence & EAST)
+			OM.velocity.x += succ_impulse
+		if(incidence & WEST)
+			OM.velocity.x -= succ_impulse
+
+/obj/effect/overmap_anomaly/wormhole/Initialize()
 	. = ..()
 	icon = pick('nsv13/goonstation/icons/effects/overmap_anomalies/tearhuge.dmi', 'nsv13/goonstation/icons/effects/overmap_anomalies/tearmed.dmi', 'nsv13/goonstation/icons/effects/overmap_anomalies/tearsmall.dmi')
 
@@ -281,7 +330,7 @@ SUBSYSTEM_DEF(star_system)
 		if("quasar")
 			parallax_property = "quasar" //All credit goes to https://www.filterforge.com/filters/11427.html
 			possible_events = list(/datum/round_event_control/grey_tide, /datum/round_event_control/ion_storm, /datum/round_event_control/communications_blackout)
-			event_chance = 50 //Quasars are screwy.
+			event_chance = 100 //Quasars are screwy.
 		if("debris")
 			parallax_property = "rocks"
 			possible_events = list(/datum/round_event_control/space_dust, /datum/round_event_control/meteor_wave)
@@ -293,10 +342,11 @@ SUBSYSTEM_DEF(star_system)
 			parallax_property = "ice_planet"
 		if("blackhole")
 			anomaly_type = /obj/effect/overmap_anomaly/singularity
+			parallax_property = "pitchblack"
 
 	if(!anomaly_type)
 		anomaly_type = pick(subtypesof(/obj/effect/overmap_anomaly/safe))
-		SSstar_system.spawn_ship(anomaly_type, src)
+	SSstar_system.spawn_ship(anomaly_type, src)
 
 /datum/star_system/proc/generate_anomaly()
 	if(prob(15)) //Low chance of spawning a wormhole twixt us and another system.
@@ -542,6 +592,7 @@ SUBSYSTEM_DEF(star_system)
 	name = "P32-901"
 	x = 100
 	y = 60
+	system_type = "blackhole"
 	alignment = "uncharted"
 	threat_level = THREAT_LEVEL_DANGEROUS
 	adjacency_list = list("N94-19X")
