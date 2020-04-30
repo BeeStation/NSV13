@@ -20,7 +20,7 @@
 /obj/item/fighter_component/proc/burn_out()
 	if(burntout != FALSE)
 		return
-	var/prefix = pick("Burntout", "Charred", "Singed", "Scorched", "Mangled", "Damaged", "Warped", "Corroded", "Deformed")
+	var/prefix = pick("Burned Out", "Charred", "Singed", "Scorched", "Mangled", "Damaged", "Warped", "Corroded", "Deformed")
 	name = "[prefix] [name]"
 	burntout = TRUE
 
@@ -131,16 +131,17 @@
 /obj/item/fighter_component/armour_plating/light/t1
 	name = "Light Fighter Armour Plating"
 	desc = "Armour Plating for a Light Fighter"
+	armour = 2
 
 /obj/item/fighter_component/armour_plating/light/t2
 	name = "Hardened Light Fighter Armour Plating"
 	desc = "Hardened Armour Plating for a Light Fighter"
-	armour = 1.5
+	armour = 2.25
 
 /obj/item/fighter_component/armour_plating/light/t3
 	name = "Reinforced Light Fighter Armour Plating"
 	desc = "Reinforced Armour Plating for a Light Fighter"
-	armour = 2
+	armour = 3
 
 /obj/item/fighter_component/targeting_sensor/light/t1
 	name = "Light Fighter Targeting Sensors"
@@ -232,16 +233,17 @@
 /obj/item/fighter_component/armour_plating/heavy/t1
 	name = "Heavy Fighter Armour Plating"
 	desc = "Armour Plating for a Heavy Fighter"
+	armour = 2
 
 /obj/item/fighter_component/armour_plating/heavy/t2
 	name = "Hardened Heavy Fighter Armour Plating"
 	desc = "Hardened Armour Plating for a Heavy Fighter"
-	armour = 1.5
+	armour = 2.25
 
 /obj/item/fighter_component/armour_plating/heavy/t3
 	name = "Reinforced Light Fighter Armour Plating"
 	desc = "Reinforced Armour Plating for a Light Fighter"
-	armour = 2
+	armour = 2.5
 
 /obj/item/fighter_component/targeting_sensor/heavy/t1
 	name = "Heavy Fighter Targeting Sensors"
@@ -337,16 +339,17 @@
 /obj/item/fighter_component/armour_plating/utility/t1
 	name = "Utility Vessel Armour Plating"
 	desc = "Armour Plating for a Utility Vessel"
+	armour = 2
 
 /obj/item/fighter_component/armour_plating/utility/t2
 	name = "Hardened Utility Vessel Armour Plating"
 	desc = "Hardened Armour Plating for a Utility Vessel"
-	armour = 1.5
+	armour = 2.25
 
 /obj/item/fighter_component/armour_plating/utility/t3
 	name = "Reinforced Utility Vessel Armour Plating"
 	desc = "Reinforced Armour Plating for a Utility Vessel"
-	armour = 2
+	armour = 2.5
 
 /obj/item/fighter_component/engine/utility/t1
 	name = "Utility Vessel Engine"

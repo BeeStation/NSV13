@@ -1,8 +1,8 @@
 /obj/item/ship_weapon/ammunition/missile //CREDIT TO CM FOR THIS SPRITE
-	name = "Missile"
+	name = "NTM 44-A 230mm missile"
 	icon = 'nsv13/icons/obj/munition_types.dmi'
 	icon_state = "highvelocity"
-	desc = "Missile."
+	desc = "A standard pattern Nanotrasen anti-fighter missile."
 	anchored = TRUE
 	density = TRUE
 	projectile_type = /obj/item/projectile/guided_munition/missile //What torpedo type we fire
@@ -10,6 +10,9 @@
 
 /obj/item/ship_weapon/ammunition/missile/georgio
 	name = "Georgio"
+
+/obj/item/ship_weapon/ammunition/missile/georgio/examine(mob/user)
+	. += "<span class='notice'>This is Georgio, Antonio's little brother.</span>"
 
 /obj/item/ship_weapon/ammunition/missile/CtrlClick(mob/user)
 	. = ..()

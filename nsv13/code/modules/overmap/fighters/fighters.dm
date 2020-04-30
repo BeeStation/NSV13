@@ -127,10 +127,6 @@ You need to fire emag the fighter's IFF board. This makes it list as "ENEMY" on 
 		if(prob(20))
 			burnout_component()
 		return
-	else if(damage_amount >= 10)
-		if(prob(5))
-			burnout_component()
-		return
 
 /obj/structure/overmap/fighter/proc/burnout_component()
 	if(src == /obj/structure/overmap/fighter/escapepod)
@@ -271,6 +267,10 @@ You need to fire emag the fighter's IFF board. This makes it list as "ENEMY" on 
 	//Assign variables
 	if(ap)
 		max_integrity = initial(max_integrity) * ap?.armour
+	else
+		max_integrity = initial(max_integrity)
+	if(obj_integrity > max_integrity)
+		obj_integrity = max_integrity
 	if(en)
 		speed_limit = initial(speed_limit) * en?.speed
 	if(en?.burntout)
@@ -518,7 +518,7 @@ You need to fire emag the fighter's IFF board. This makes it list as "ENEMY" on 
 
 /obj/structure/overmap/fighter/attackby(obj/item/W, mob/user, params)   //fueling and changing equipment
 	add_fingerprint(user)
-	if (istype(W, /obj/item/card/id)||istype(W, /obj/item/pda) && operators.len)
+	if(istype(W, /obj/item/card/id)||istype(W, /obj/item/pda) && operators.len)
 		if(!allowed(user))
 			var/sound = pick('nsv13/sound/effects/computer/error.ogg','nsv13/sound/effects/computer/error2.ogg','nsv13/sound/effects/computer/error3.ogg')
 			playsound(src, sound, 100, 1)
@@ -549,6 +549,34 @@ You need to fire emag the fighter's IFF board. This makes it list as "ENEMY" on 
 			to_chat(user, "<span class='notice'>You install [W] in [src].</span>")
 			W.forceMove(src)
 			update_stats()
+		else if(istype(W, /obj/item/fighter_component/armour_plating) && !get_part(/obj/item/fighter_component/armour_plating))
+			to_chat(user, "<span class='notice'>You start installing [W] in [src]...</span>")
+			if(!do_after(user, 10 SECONDS, target=src))
+				return
+			to_chat(user, "<span class='notice'>You install [W] in [src].</span>")
+			W.forceMove(src)
+			update_stats()
+		else if(istype(W, /obj/item/fighter_component/targeting_sensor) && !get_part(/obj/item/fighter_component/targeting_sensor))
+			to_chat(user, "<span class='notice'>You start installing [W] in [src]...</span>")
+			if(!do_after(user, 10 SECONDS, target=src))
+				return
+			to_chat(user, "<span class='notice'>You install [W] in [src].</span>")
+			W.forceMove(src)
+			update_stats()
+		else if(istype(W, /obj/item/fighter_component/primary) && !get_part(/obj/item/fighter_component/primary))
+			to_chat(user, "<span class='notice'>You start installing [W] in [src]...</span>")
+			if(!do_after(user, 10 SECONDS, target=src))
+				return
+			to_chat(user, "<span class='notice'>You install [W] in [src].</span>")
+			W.forceMove(src)
+			update_stats()
+		else if(istype(W, /obj/item/fighter_component/secondary) && !get_part(/obj/item/fighter_component/secondary))
+			to_chat(user, "<span class='notice'>You start installing [W] in [src]...</span>")
+			if(!do_after(user, 10 SECONDS, target=src))
+				return
+			to_chat(user, "<span class='notice'>You install [W] in [src].</span>")
+			W.forceMove(src)
+			update_stats()
 		else if(istype(W, /obj/item/fighter_component/countermeasure_dispenser) && !get_part(/obj/item/fighter_component/countermeasure_dispenser))
 			to_chat(user, "<span class='notice'>You start installing [W] in [src]...</span>")
 			if(!do_after(user, 10 SECONDS, target=src))
@@ -562,7 +590,8 @@ You need to fire emag the fighter's IFF board. This makes it list as "ENEMY" on 
 				if(!do_after(user, 10 SECONDS, target=src))
 					return
 				to_chat(user, "<span class='notice'>You load [W] into [src].</span>")
-				W.forceMove(mun_countermeasures)
+				W.forceMove(src)
+				mun_countermeasures += W
 
 /obj/structure/overmap/fighter/attack_hand(mob/user)
 	.=..()
@@ -885,17 +914,6 @@ How to make fuel:
 	var/obj/item/reagent_containers/rbs_welder_tank/WT = locate(/obj/item/reagent_containers/rbs_welder_tank) in rbs.contents
 	return WT.reagents.maximum_volume
 
-/obj/structure/overmap/fighter/key_down(key, client/user)
-	.=..()
-	var/mob/themob = user.mob
-	switch(key)
-		if("z")
-			if(themob == gunner)
-				fire_countermeasure()
-			if(tactical && prob(80))
-				var/sound = pick(GLOB.computer_beeps)
-				playsound(tactical, sound, 100, 1)
-
 //UI
 
 /obj/structure/overmap/fighter/ui_act(action, params, datum/tgui/ui)
@@ -1064,6 +1082,7 @@ How to make fuel:
 			to_chat(usr, "<span class='notice>You uninstall [part.name] from [src].</span>")
 			for(var/obj/item/ship_weapon/ammunition/countermeasure_charge/CMC in mun_countermeasures)
 				CMC?.forceMove(get_turf(src))
+				mun_countermeasures -= CMC
 			part?.forceMove(get_turf(src))
 			update_stats()
 		if("component_primary")
@@ -1095,11 +1114,15 @@ How to make fuel:
 			fire_countermeasure()
 			return
 		if("remove_munition")
-			var/atom/movable/muni = locate(params["mun_id"])
+			var/atom/movable/muni = locate(params["target"])
 			to_chat(usr, "<span class='notice'>You start unloading [muni.name] from [src].</span>")
 			if(!do_after(usr, 5 SECONDS, target=src))
 				return
 			to_chat(usr, "<span class='notice'>You unload [muni.name] from [src].</span>")
+			if(istype(muni, /obj/item/ship_weapon/ammunition/torpedo))
+				mun_torps -= muni
+			else if(istype(muni, /obj/item/ship_weapon/ammunition/missile))
+				mun_missiles -= muni
 			muni?.forceMove(get_turf(src))
 			return
 	warmup_cooldown = TRUE
@@ -1159,20 +1182,19 @@ How to make fuel:
 		data["passengers"] = mobs_in_ship.len
 	data["flight_state"] = flight_state
 	data["loaded_munitions"] = list()
-	var/list/l_missiles = list()
-	var/list/l_torps = list()
+	var/list/munitions = list()
 	for(var/obj/item/ship_weapon/ammunition/M in mun_missiles)
 		var/list/torp_info = list()
 		torp_info["name"] = M.name
-		torp_info["mun_id"] = "\ref[M.name]"
-		l_missiles += torp_info
-	data["loaded_munitions"] += l_missiles
+		torp_info["mun_id"] = "\ref[M]"
+		munitions[++munitions.len] = torp_info
 	for(var/obj/item/ship_weapon/ammunition/M in mun_torps)
 		var/list/torp_info = list()
 		torp_info["name"] = M.name
-		torp_info["mun_id"] = "\ref[M.name]"
-		l_torps += torp_info
-	data["loaded_munitions"] += l_torps
+		torp_info["mun_id"] = "\ref[M]"
+		munitions[++munitions.len] = torp_info
+	data["loaded_munitions"] = munitions
+
 	return data
 
 #undef NO_IGNITION

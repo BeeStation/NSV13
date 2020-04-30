@@ -69,9 +69,7 @@
   </ui-section>
 </ui-display>
 <ui-display title='Loaded Munitions'>
-  {{#each data.loaded_munitions}}
-    <ui-section label='{{name}}'>
-	  <ui-button icon='eject' action='remove_munition' style='null' params='{"target": {{name}} {{mun_id}}}'>Eject Munition</ui-button>
-    </ui-section>
+  {{#each data.loaded_munitions:munition_value}}
+	<ui-button icon='eject' action='remove_munition' style='null' params='{"target": {{mun_id}}}'>Eject {{name}}</ui-button><br/>
   {{/each}}
 </ui-display>

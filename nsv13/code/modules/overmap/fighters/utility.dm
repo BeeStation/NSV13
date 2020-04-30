@@ -12,7 +12,7 @@
 	mass = MASS_TINY
 	sprite_size = 32
 	damage_states = FALSE //temp
-	max_integrity = 150 //Squishy!
+	max_integrity = 75 //Squishy!
 	max_passengers = 1
 	speed_limit = 3 //Slower than fighters
 	pixel_w = -16

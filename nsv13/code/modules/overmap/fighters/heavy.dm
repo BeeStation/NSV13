@@ -12,7 +12,7 @@
 	mass = MASS_TINY
 	sprite_size = 32
 	damage_states = FALSE //TEMP
-	max_integrity = 200 //Really really squishy!
+	max_integrity = 100 //Really really squishy!
 	speed_limit = 6 //We want fighters to be way more maneuverable
 	pixel_w = -16
 	pixel_z = -20
