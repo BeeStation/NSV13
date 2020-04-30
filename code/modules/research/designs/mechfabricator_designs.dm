@@ -766,14 +766,23 @@
 	build_path = /obj/item/borg/upgrade/beaker_app
 	materials = list(/datum/material/iron = 2000, /datum/material/glass = 2250) //Need glass for the new beaker too
 	construction_time = 120
-	category = list("Cyborg Upgrade Modules")	
-	
+	category = list("Cyborg Upgrade Modules")
+
 /datum/design/borg_upgrade_pinpointer
 	name = "Cyborg Upgrade (Crew pinpointer)"
 	id = "borg_upgrade_pinpointer"
 	build_type = MECHFAB
 	build_path = /obj/item/borg/upgrade/pinpointer
 	materials = list(/datum/material/iron = 1000, /datum/material/glass = 500)
+	construction_time = 120
+	category = list("Cyborg Upgrade Modules")
+
+/datum/design/borg_upgrade_expwelder
+	name = "Cyborg Upgrade (Experimental Welder)"
+	id = "borg_upgrade_exwelder"
+	build_type = MECHFAB
+	build_path = /obj/item/borg/upgrade/exp_welder
+	materials = list(/datum/material/iron = 1000, /datum/material/glass = 500, /datum/material/plasma = 1500, /datum/material/uranium = 200)
 	construction_time = 120
 	category = list("Cyborg Upgrade Modules")
 
@@ -860,4 +869,4 @@
 	build_path = /obj/item/organ/cyberimp/arm/power_cord
 	materials = list(/datum/material/iron = 2000, /datum/material/glass = 1000)
 	construction_time = 100
-	category = list("IPC Components") 
+	category = list("IPC Components")
