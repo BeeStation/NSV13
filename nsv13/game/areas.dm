@@ -2,20 +2,6 @@
 
 /area
 	var/looping_ambience = 'nsv13/sound/ambience/shipambience.ogg' //If you want an ambient sound to play on loop while theyre in a specific area, set this. Defaults to the classic "engine rumble"
-	var/obj/structure/overmap/linked_overmap = null //For relaying damage etc. to the interior.
-
-/area/New()
-	. = ..()
-	addtimer(CALLBACK(src, .proc/find_overmap), 5 SECONDS)
-
-/area/proc/find_overmap()
-	for(var/obj/structure/overmap/ship in GLOB.overmap_objects)
-		var/types = subtypesof(ship.area_type)
-		types += ship.area_type //Subtypesof doesnt include the parent type. End me.
-		for(var/path in types)
-			if(src.type == path)
-				linked_overmap = ship
-				ship.linked_areas += src
 
 /area/space
 	looping_ambience = null
@@ -381,7 +367,7 @@
 /area/nsv/crew_quarters/heads/maa
 	name = "Master At Arms' Office"
 	icon_state = "shuttlegrn"
-	
+
 /area/nsv/shuttle
 
 /area/nsv/shuttle/bridge
@@ -533,13 +519,7 @@
 	set waitfor = FALSE
 	SEND_SIGNAL(src, COMSIG_AREA_ENTERED, M)
 	SEND_SIGNAL(M, COMSIG_ENTER_AREA, src) //The atom that enters the area
-	if(ismob(M) && linked_overmap)
-		linked_overmap.mobs_in_ship += M
-	if(istype(M, /obj/structure/overmap))
-		var/obj/structure/overmap/OM = M
-		if(OM.mobs_in_ship.len) //Relays area exits and enters. This is so that fighter pilots and crews arent registered as being still inside their carrier vessel, and thus hear its sounds.
-			for(var/mob/LM in OM.mobs_in_ship)
-				Entered(LM)
+
 	if(!isliving(M))
 		return
 
@@ -554,6 +534,8 @@
 		L.client.ambience_playing = 1
 		SEND_SOUND(L, sound(looping_ambience, repeat = 1, wait = 0, volume = 100, channel = CHANNEL_BUZZ))
 		L.client.last_ambience = looping_ambience
+	var/atom/foo = pick(contents) //We need something with a z-level attached to it.
+	var/obj/structure/linked_overmap = foo.get_overmap()
 	if(linked_overmap && !L.client.played)
 		var/progress = linked_overmap.obj_integrity
 		var/goal = linked_overmap.max_integrity
@@ -576,13 +558,18 @@
 			L.client.played = TRUE
 			addtimer(CALLBACK(L.client, /client/proc/ResetAmbiencePlayed), 600)
 
+/area/New()
+	. = ..()
+	addtimer(CALLBACK(src, .proc/find_overmap), 5 SECONDS)
+
+/area/proc/find_overmap()
+	for(var/obj/structure/overmap/ship in GLOB.overmap_objects)
+		var/types = subtypesof(ship.area_type)
+		types += ship.area_type //Subtypesof doesnt include the parent type. End me.
+		for(var/path in types)
+			if(src.type == path)
+				ship.linked_areas += src
+
 /area/Exited(atom/movable/M)
 	SEND_SIGNAL(src, COMSIG_AREA_EXITED, M)
 	SEND_SIGNAL(M, COMSIG_EXIT_AREA, src) //The atom that exits the area
-	if(ismob(M) && linked_overmap)
-		linked_overmap.mobs_in_ship -= M
-	if(istype(M, /obj/structure/overmap))
-		var/obj/structure/overmap/OM = M
-		if(OM.mobs_in_ship.len)
-			for(var/mob/LM in OM.mobs_in_ship)
-				Exited(LM)

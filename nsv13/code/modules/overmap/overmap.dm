@@ -130,14 +130,47 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 @return OM, a newly spawned overmap sitting on its treadmill as it ought to be.
 */
 
-/proc/instance_overmap(path)
+/proc/instance_overmap(_path, folder = null, interior_map_files = null)
+	if(!islist(interior_map_files))
+		interior_map_files = list(interior_map_files)
+	if(!_path)
+		_path = /obj/structure/overmap/nanotrasen/heavy_cruiser/starter
 	RETURN_TYPE(/obj/structure/overmap)
-	SSmapping.add_new_zlevel("Overmap ship level [++world.maxz]", list(ZTRAIT_STATION = FALSE))
+	SSmapping.add_new_zlevel("Overmap ship level [++world.maxz]", ZTRAITS_OVERMAP)
 	repopulate_sorted_areas()
 	smooth_zlevel(world.maxz)
 	log_game("Z-level [world.maxz] loaded for overmap treadmills.")
 	var/turf/exit = get_turf(locate(round(world.maxx * 0.5, 1), round(world.maxy * 0.5, 1), world.maxz)) //Plop them bang in the center of the system.
-	var/obj/structure/overmap/OM = new path(exit) //Ship'll pick up the info it needs, so just domp eet at the exit turf.
+	var/obj/structure/overmap/OM = new _path(exit) //Ship'll pick up the info it needs, so just domp eet at the exit turf.
+
+	if(OM.role == MAIN_OVERMAP)
+		for(var/A in SSmapping.z_list)
+			var/datum/space_level/SL = A
+			if(SSmapping.level_trait(SL.z_value, ZTRAIT_STATION))
+				SL.linked_overmap = OM
+
+	if(folder && interior_map_files){ //If this thing comes with an interior.
+		var/previous_maxz = world.maxz //Ok. Store the current number of Zs. Anything that we add on top of this due to this proc will then be conted as decks of our ship.
+		var/list/errorList = list()
+		var/list/loaded = SSmapping.LoadGroup(errorList, "Ship interior Z level", "[folder]", interior_map_files, default_traits = ZTRAITS_BOARDABLE_SHIP, silent=TRUE)
+		if(errorList.len)	// failed to load :(
+			message_admins("[_path]'s interior failed to load! Check you used instance_overmap correctly...")
+			log_game("[_path]'s interior failed to load! Check you used instance_overmap correctly...")
+			return OM
+		for(var/datum/parsed_map/PM in loaded)
+			PM.initTemplateBounds()
+		repopulate_sorted_areas()
+		var/list/occupying = list()
+		for(var/I = ++previous_maxz; I <= world.maxz; I++){ //So let's say we started loading interior Z-levels at Z index 4 and we have 2 decks. That means that Z 5 and 6 belong to this ship's interior, so link them
+			occupying += I;
+		}
+		for(var/A in SSmapping.z_list)
+			var/datum/space_level/SL = A
+			if(LAZYFIND(occupying, SL.z_value)) //And if the Z-level's value is one of ours, associate it.
+				SL.linked_overmap = OM
+				log_game("Z-level [SL] linked to [OM].")
+		repopulate_sorted_areas()
+	}
 	return OM
 
 /obj/weapon_overlay
@@ -254,8 +287,7 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 	if(role == MAIN_OVERMAP) //We're the hero ship, link us to every ss13 area.
 		for(var/X in GLOB.teleportlocs) //Teleportlocs = ss13 areas that aren't special / centcom
 			var/area/area = GLOB.teleportlocs[X] //Pick a station area and yeet it.
-			area.linked_overmap = src
-
+			linked_areas += area
 
 /obj/structure/overmap/proc/InterceptClickOn(mob/user, params, atom/target)
 	var/list/params_list = params2list(params)
@@ -447,10 +479,6 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 				continue
 		if(get_dist(src, ship) <= 20) //Sound doesnt really travel in space, but space combat with no kaboom is LAME
 			ship.relay(sound,message)
-	for(var/Y in GLOB.dead_mob_list)
-		var/mob/dead/M = Y
-		if(M.z == z || is_station_level(M.z)) //Ghosts get to hear explosions too for clout.
-			SEND_SOUND(M,sound)
 
 /obj/structure/overmap/proc/verb_check(require_pilot = TRUE, mob/user = null)
 	if(!user)

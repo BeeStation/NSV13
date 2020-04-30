@@ -372,9 +372,7 @@ You need to fire emag the fighter's IFF board. This makes it list as "ENEMY" on 
 		return TRUE
 
 /obj/structure/overmap/fighter/proc/update_overmap()
-	var/area/A = get_area(src)
-	if(A.linked_overmap)
-		last_overmap = A.linked_overmap
+	last_overmap = get_overmap()
 
 /obj/structure/overmap/fighter/proc/docking_act(obj/structure/overmap/OM)
 	if(mass < OM.mass && OM.docking_points.len && docking_mode) //If theyre smaller than us,and we have docking points, and they want to dock

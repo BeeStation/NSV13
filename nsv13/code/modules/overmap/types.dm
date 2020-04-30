@@ -107,11 +107,13 @@
 	role = MAIN_OVERMAP
 	max_integrity = 1800 //Buffed health due to ship internal damage existing
 	integrity_failure = 1800
+	starting_system = "Sol"
 
 /obj/structure/overmap/nanotrasen/patrol_cruiser/starter
 	role = MAIN_OVERMAP //Player controlled variant
 	max_integrity = 1800 //Buffed health due to ship internal damage existing
 	integrity_failure = 1800
+	starting_system = "Sol"
 
 /obj/structure/overmap/nanotrasen/heavy_cruiser/starter
 	role = MAIN_OVERMAP //Player controlled variant
@@ -123,6 +125,7 @@
 	role = MAIN_OVERMAP //Player controlled variant
 	max_integrity = 2000 //Compensates for lack of offensive weaponry
 	integrity_failure = 2000
+	starting_system = "Sol"
 //	bound_width = 256
 //	bound_height = 256
 

@@ -13,7 +13,7 @@ GLOBAL_LIST_EMPTY(syndi_crew_leader_spawns)
 	config_tag = "pvp"
 	report_type = "nuclear"
 	false_report_weight = 10
-	required_players = 0 // 30 players initially, with 15 crewing the hammurabi and 15 crewing the larger, more powerful hammerhead
+	required_players = 0 // 30 players initially, with 15 crewing the hammurabi and 15 crewing the larger, more powerful hulk
 	required_enemies = 1
 	recommended_enemies = 1
 	antag_flag = ROLE_SYNDI_CREW
@@ -55,19 +55,8 @@ Method to spawn in the Syndi ship on a brand new Z-level with the "boardable" tr
 	if(!map_file) //Don't ask me why this would happen.
 		map_file = "Hammurabi.dmm"
 		ship_type = /obj/structure/overmap/syndicate/pvp
-	syndiship = instance_overmap(ship_type)
-	message_admins("Spawning in syndi ship map, this may take a while. No the game hasn't crashed, I'm just loading a map before we start.") //Warn the admins. This shit takes a while.
-	var/list/errorList = list()
-	var/list/loaded = SSmapping.LoadGroup(errorList, "Syndicate ship", "map_files/PVP", map_file, default_traits = ZTRAITS_BOARADABLE_SHIP, silent = TRUE)
-	if(errorList.len)	// reebe failed to load
-		message_admins("Syndie ship failed to load!")
-		log_game("Syndie ship failed to load!")
-		for(var/X in errorList)
-			message_admins("The following failed to load: [X]")
-		return FALSE
-	for(var/datum/parsed_map/PM in loaded)
-		PM.initTemplateBounds()
-	repopulate_sorted_areas()
+
+	syndiship = instance_overmap(_path=ship_type, folder= "map_files/PVP" ,interior_map_files = map_file)
 	var/n_agents = antag_candidates.len
 	if(n_agents >= enemies_to_spawn)
 		jobs["pilots"] = list() //Dictionary to store who's doing what job.
