@@ -17,6 +17,5 @@
 		if(AR.redalert == state)
 			continue
 		AR.redalert = state
-		spawn(0) //We're branching here so that looping through the areas doesnt depend on the lighting loop finishing. Makes me wish for multithreading :(
 		for(var/obj/machinery/light/L in AR)
-			L.update()
+			L.update_icon()
