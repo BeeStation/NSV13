@@ -12,5 +12,5 @@
 /datum/gear/donator/example
 	display_name = "Example Donator Item"
 	description = "Example Donator Description"
-	ckey = "francinum" //ckey should be in canonical format.
-	path = /obj/item/storage/toolbox/mechanical
+	ckey = "jimthefish" //ckey should be in canonical format.
+	path = /obj/item/toy/plush/carpplushie

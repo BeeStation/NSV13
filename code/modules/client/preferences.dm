@@ -1204,7 +1204,7 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 						TG.purchase(user.client)
 						save_preferences()
 					else
-						to_chat(user,"<span class='warning'>Your donation has expired or not yet validated. Donation status is refreshed at round end.</span>")
+						to_chat(user,"<span class='warning'>Your donation has expired or is not yet valid! Donation status is refreshed at round end.</span>")
 		if(href_list["toggle_gear"])
 			var/datum/gear/TG = GLOB.gear_datums[href_list["toggle_gear"]]
 			if(TG.display_name in equipped_gear)
