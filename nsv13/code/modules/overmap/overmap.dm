@@ -183,7 +183,6 @@
 			cabin_air.gases[/datum/gas/oxygen][MOLES] = O2STANDARD*cabin_air.volume/(R_IDEAL_GAS_EQUATION*cabin_air.temperature)
 			cabin_air.gases[/datum/gas/nitrogen][MOLES] = N2STANDARD*cabin_air.volume/(R_IDEAL_GAS_EQUATION*cabin_air.temperature)
 			move_by_mouse = TRUE //You'll want this. Trust.
-			inertial_dampeners = FALSE //Fighters by default let you move around smoothly. Big ships will want to start with IAS.
 
 		if(MASS_SMALL)
 			forward_maxthrust = 3
