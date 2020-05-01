@@ -23918,6 +23918,7 @@
 /turf/open/floor/carpet/purple,
 /area/science)
 "baQ" = (
+/obj/machinery/vending/wardrobe/science_wardrobe,
 /turf/open/floor/monotile,
 /area/science)
 "baR" = (
@@ -26030,10 +26031,6 @@
 /obj/machinery/door/firedoor,
 /turf/open/floor/plating,
 /area/security/brig)
-"beW" = (
-/obj/structure/reagent_dispensers/water_cooler,
-/turf/open/floor/carpet/purple,
-/area/science)
 "beX" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer1{
 	icon_state = "vent_map_on-1";
@@ -30658,6 +30655,7 @@
 /obj/effect/turf_decal/stripes/line{
 	dir = 4
 	},
+/obj/machinery/aug_manipulator,
 /turf/open/floor/monotile/dark,
 /area/science/robotics)
 "bnQ" = (
@@ -52326,13 +52324,6 @@
 /obj/item/radio/intercom/directional/east,
 /turf/open/floor/monotile,
 /area/hallway/nsv/deck2/frame3/port)
-"euw" = (
-/obj/machinery/door/airlock/ship/maintenance{
-	name = "Research Maintenance";
-	req_one_access_txt = "47"
-	},
-/turf/open/floor/plating,
-/area/maintenance/nsv/deck2/frame3/port)
 "ewI" = (
 /obj/structure/cable{
 	icon_state = "2-8"
@@ -52369,6 +52360,13 @@
 /obj/machinery/holopad,
 /turf/open/floor/plasteel/tech/grid,
 /area/nsv/magazine/port)
+"eKd" = (
+/obj/machinery/door/airlock/ship/maintenance{
+	name = "Research Maintenance";
+	req_one_access_txt = "47"
+	},
+/turf/open/floor/plating,
+/area/science)
 "eNM" = (
 /obj/structure/table/reinforced,
 /obj/item/phone,
@@ -91911,7 +91909,7 @@ aFg
 aFg
 baM
 baM
-baM
+eKd
 baM
 biK
 bki
@@ -92213,7 +92211,7 @@ aSj
 aFg
 baN
 bcZ
-beW
+bda
 bgL
 biK
 bkj
@@ -93116,7 +93114,7 @@ aLr
 aFg
 aVG
 aLr
-euw
+aFg
 baQ
 bdb
 beX
