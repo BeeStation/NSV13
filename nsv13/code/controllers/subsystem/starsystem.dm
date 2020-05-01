@@ -125,15 +125,21 @@ SUBSYSTEM_DEF(star_system)
 		if(OM.role != MAIN_OVERMAP)
 			continue
 		current_system = ships[OM]["current_system"]
+	var/list/possible_spawns = list()
 	for(var/datum/star_system/starsys in systems)
-		if(starsys != current_system && !starsys.hidden && starsys.alignment == "unaligned") //Spawn is a safe zone.
-			starsys.mission_sector = TRUE //set this sector to be the active mission
-			starsys.spawn_asteroids() //refresh asteroids in the system
-			for(var/i = 0, i < starsys.difficulty_budget, i++) //number of enemies is set via the star_system vars
-				var/enemy_type = pick(enemy_types) //Spawn a random set of enemies.
-				spawn_ship(enemy_type, starsys)
-			priority_announce("Attention all ships, set condition 1 throughout the fleet. Syndicate incursion detected in: [starsys]. All ships must repel the invasion.", "Naval Command")
-			return
+		if(starsys != current_system && !starsys.hidden && !starsys.mission_sector && starsys.alignment != "nanotrasen" && starsys.alignment != "uncharted") //Spawn is a safe zone. Uncharted systems are dangerous enough and don't need more murder.
+			possible_spawns += starsys
+	if(!possible_spawns.len)
+		message_admins("Failed to spawn an overmap mission as all sectors were occupied. Tell the crew to get a move on...")
+		return
+	var/datum/star_system/starsys = pick(possible_spawns)
+	starsys.mission_sector = TRUE //set this sector to be the active mission
+	starsys.spawn_asteroids() //refresh asteroids in the system
+	for(var/i = 0, i < starsys.difficulty_budget, i++) //number of enemies is set via the star_system vars
+		var/enemy_type = pick(enemy_types) //Spawn a random set of enemies.
+		spawn_ship(enemy_type, starsys)
+	priority_announce("Attention all ships, set condition 1 throughout the fleet. Syndicate incursion detected in: [starsys]. All ships must repel the invasion.", "Naval Command")
+	return
 
 /datum/controller/subsystem/star_system/proc/add_ship(obj/structure/overmap/OM)
 	ships[OM] = list("ship" = OM, "x" = 0, "y" = 0, "current_system" = system_by_id(OM.starting_system), "last_system" = system_by_id(OM.starting_system), "target_system" = null, "from_time" = 0, "to_time" = 0, "occupying_z" = OM.z)
@@ -566,7 +572,7 @@ SUBSYSTEM_DEF(star_system)
 	x = 40
 	y = 50
 	alignment = "uncharted"
-	threat_level = THREAT_LEVEL_UNSAFE
+	threat_level = THREAT_LEVEL_DANGEROUS
 	adjacency_list = list("Solaris B","P59-723")
 
 /datum/star_system/solarisC

@@ -143,7 +143,7 @@
 		data["alignment"] = capitalize(selected_system.alignment)
 		if(info["current_system"])
 			data["star_dist"] = info["current_system"].dist(selected_system)
-			data["can_jump"] = current_system.dist(selected_system) < linked.ftl_drive.max_range && linked.ftl_drive.ftl_state == FTL_STATE_READY && LAZYFIND(current_system.adjacency_list, selected_system.name)
+			data["can_jump"] = current_system.dist(selected_system) < linked.ftl_drive?.max_range && linked.ftl_drive.ftl_state == FTL_STATE_READY && LAZYFIND(current_system.adjacency_list, selected_system.name)
 			data["can_cancel"] = linked.ftl_drive.ftl_state == FTL_STATE_IDLE && linked.ftl_drive.can_cancel_jump
 	data["screen"] = screen
 	return data

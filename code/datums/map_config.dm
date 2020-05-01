@@ -24,13 +24,9 @@
 	var/mine_path = "map_files/Mining/nsv13"
 	var/mine_traits = null
 
-
-
 	var/traits = null
 	var/space_ruin_levels = -1
 	var/space_empty_levels = 1
-
-	var/minetype = "nostromo.dmm"
 
 	var/allow_custom_shuttles = TRUE
 	var/shuttles = list(
@@ -133,17 +129,15 @@
 		log_world("map_config space_empty_levels is not a number!")
 		return
 
-	CHECK_EXISTS("mine_file")
 	mine_file = json["mine_file"]
 	CHECK_EXISTS("mine_path")
 	mine_path = json["mine_path"]
-	mine_traits = json["mine_traits"]
-
+	// "map_file": "BoxStation.dmm"
 	if (istext(mine_file))
 		if (!fexists("_maps/[mine_path]/[mine_file]"))
-			log_world("FOO 1: Map file ([mine_path]/[mine_file]) does not exist!")
+			log_world("Map file ([mine_path]/[mine_file]) does not exist!")
 			return
-
+	// "map_file": ["Lower.dmm", "Upper.dmm"]
 	else if (islist(mine_file))
 		for (var/file in mine_file)
 			if (!fexists("_maps/[mine_path]/[file]"))
@@ -165,6 +159,19 @@
 		mining_ship_type = text2path(json["mining_ship_type"])
 	else
 		log_world("mining_ship_type missing from json!")
+		return
+
+	mine_traits = json["mine_traits"]
+	// "traits": [{"Linkage": "Cross"}, {"Space Ruins": true}]
+	if (islist(mine_traits))
+		// "Station" is set by default, but it's assumed if you're setting
+		// traits you want to customize which level is cross-linked
+		for (var/level in mine_traits)
+			if (!(ZTRAITS_BOARDABLE_SHIP in level))
+				level += ZTRAITS_BOARDABLE_SHIP
+	// "traits": null or absent -> default
+	else if (!isnull(mine_traits))
+		log_world("mine_traits is not a list!")
 		return
 
 	allow_custom_shuttles = json["allow_custom_shuttles"] != FALSE

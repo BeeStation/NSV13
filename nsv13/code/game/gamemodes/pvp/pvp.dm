@@ -172,12 +172,6 @@ Method to assign a job, in order of descending priority. We REALLY need people t
 	to_chat(owner, "<span class='warning'>Ensure the destruction of [station_name()], no matter what. Eliminate Nanotrasen's presence in the Abassi ridge before they can establish a foothold. The fleet is counting on you!</span>")
 	owner.announce_objectives()
 
-/datum/antagonist/nukeop/syndi_crew/greet()
-	owner.current.playsound_local(get_turf(owner.current), 'sound/ambience/antag/ops.ogg',100,0)
-	to_chat(owner, "<span class='notice'>You are a crewman aboard a Syndicate vessel!</span>")
-	to_chat(owner, "<span class='warning'>Ensure the destruction of [station_name()], no matter what. Eliminate Nanotrasen's presence in the Abassi ridge before they can establish a foothold. The fleet is counting on you!</span>")
-	owner.announce_objectives()
-
 /datum/antagonist/nukeop/leader/syndi_crew
 	name = "Syndicate captain"
 	nukeop_outfit = /datum/outfit/syndicate/no_crystals/leader

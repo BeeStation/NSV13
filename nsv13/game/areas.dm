@@ -558,18 +558,6 @@
 			L.client.played = TRUE
 			addtimer(CALLBACK(L.client, /client/proc/ResetAmbiencePlayed), 600)
 
-/area/New()
-	. = ..()
-	addtimer(CALLBACK(src, .proc/find_overmap), 5 SECONDS)
-
-/area/proc/find_overmap()
-	for(var/obj/structure/overmap/ship in GLOB.overmap_objects)
-		var/types = subtypesof(ship.area_type)
-		types += ship.area_type //Subtypesof doesnt include the parent type. End me.
-		for(var/path in types)
-			if(src.type == path)
-				ship.linked_areas += src
-
 /area/Exited(atom/movable/M)
 	SEND_SIGNAL(src, COMSIG_AREA_EXITED, M)
 	SEND_SIGNAL(M, COMSIG_EXIT_AREA, src) //The atom that exits the area

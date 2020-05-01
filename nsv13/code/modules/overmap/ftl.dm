@@ -7,7 +7,7 @@
 		restore_contents()
 	var/turf/destination = get_turf(locate(rand(50, world.maxx), rand(50, world.maxy), occupying_z)) //Spawn them somewhere in the system. I don't really care where.
 	if(!destination)
-		message_admins("WARNING: The [name] system has no exit point for ships! You probably forgot to set the [level_trait]:1 setting for that Z in your map's JSON file.")
+		message_admins("WARNING: The [name] system has no exit point for ships! Something has caused this Z-level to despawn erroneously, please contact Kmc immediately!.")
 		return
 	var/turf/exit = get_turf(pick(orange(20, destination)))
 	OM.forceMove(exit)
@@ -16,6 +16,8 @@
 
 /datum/star_system/proc/try_spawn_event()
 	if(possible_events && prob(event_chance))
+		if(!possible_events.len)
+			return FALSE
 		var/event_type = pick(possible_events)
 		for(var/datum/round_event_control/E in SSevents.control)
 			if(istype(E, event_type))
@@ -207,6 +209,7 @@ A way for syndies to track where the player ship is going in advance, so they ca
 
 /obj/machinery/computer/ship/ftl_computer/Initialize()
 	. = ..()
+	addtimer(CALLBACK(src, .proc/has_overmap), 5 SECONDS)
 	STOP_PROCESSING(SSmachines, src)
 
 /obj/machinery/computer/ship/ftl_computer/process()
@@ -226,7 +229,8 @@ A way for syndies to track where the player ship is going in advance, so they ca
 
 /obj/machinery/computer/ship/ftl_computer/has_overmap()
 	. = ..()
-	linked.ftl_drive = src
+	if(linked)
+		linked.ftl_drive = src
 
 /obj/machinery/computer/ship/ftl_computer/attack_hand(mob/user)
 	if(!has_overmap())
@@ -338,6 +342,7 @@ A way for syndies to track where the player ship is going in advance, so they ca
 	return //Override computer updates
 
 /obj/machinery/computer/ship/ftl_computer/proc/depower()
+	active = FALSE
 	icon_state = "ftl_off"
 	ftl_state = FTL_STATE_IDLE
 	progress = 0
