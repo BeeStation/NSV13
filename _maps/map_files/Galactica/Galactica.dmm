@@ -1649,6 +1649,9 @@
 /obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1{
 	dir = 4
 	},
+/obj/structure/disposalpipe/segment{
+	dir = 10
+	},
 /turf/open/floor/monotile,
 /area/bridge/meeting_room)
 "eU" = (
@@ -1912,6 +1915,9 @@
 /obj/machinery/door/airlock/ship/maintenance/defaultaccess{
 	req_access_txt = "19";
 	req_one_access_txt = "0"
+	},
+/obj/structure/disposalpipe/segment{
+	dir = 4
 	},
 /turf/open/floor/plating,
 /area/maintenance/department/bridge)
@@ -2543,6 +2549,7 @@
 /obj/structure/cable{
 	icon_state = "1-2"
 	},
+/obj/structure/disposalpipe/segment,
 /turf/open/floor/monotile,
 /area/bridge/meeting_room)
 "hh" = (
@@ -2551,6 +2558,7 @@
 	dir = 8;
 	name = "War Room Chair"
 	},
+/obj/structure/disposalpipe/segment,
 /turf/open/floor/carpet/blue,
 /area/bridge/meeting_room)
 "hi" = (
@@ -2915,6 +2923,9 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /obj/structure/cable{
 	icon_state = "1-8"
+	},
+/obj/structure/disposalpipe/segment{
+	dir = 5
 	},
 /turf/open/floor/monotile,
 /area/bridge/meeting_room)
@@ -5785,6 +5796,7 @@
 	icon_state = "pipe11-3";
 	dir = 8
 	},
+/obj/structure/disposalpipe/segment,
 /turf/open/floor/carpet/blue,
 /area/bridge/meeting_room)
 "oQ" = (
@@ -5826,14 +5838,6 @@
 	icon_state = "railing0";
 	dir = 1
 	},
-/turf/open/floor/monotile/dark,
-/area/bridge)
-"oV" = (
-/obj/structure/railing{
-	icon_state = "railing0";
-	dir = 1
-	},
-/obj/structure/disposalpipe/trunk/multiz/down,
 /turf/open/floor/monotile/dark,
 /area/bridge)
 "oW" = (
@@ -7706,15 +7710,15 @@
 /turf/open/floor/monotile/dark,
 /area/bridge/showroom/corporate)
 "te" = (
-/obj/structure/disposalpipe/junction/yjunction{
-	dir = 1
-	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	dir = 4
 	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	icon_state = "pipe11-3";
 	dir = 8
+	},
+/obj/structure/disposalpipe/segment{
+	dir = 4
 	},
 /turf/open/floor/monotile,
 /area/bridge)
@@ -10283,6 +10287,10 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/ship_exterior)
+"BH" = (
+/obj/structure/disposalpipe/segment,
+/turf/open/floor/carpet/blue,
+/area/bridge/meeting_room)
 "BJ" = (
 /obj/structure/cable{
 	icon_state = "1-8"
@@ -10374,6 +10382,12 @@
 	},
 /turf/open/floor/carpet/red,
 /area/maintenance/department/engine)
+"DJ" = (
+/obj/structure/disposalpipe/junction{
+	dir = 1
+	},
+/turf/open/floor/carpet/blue,
+/area/bridge/meeting_room)
 "DN" = (
 /obj/structure/cable{
 	icon_state = "1-2"
@@ -10467,6 +10481,9 @@
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	dir = 8
 	},
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
 /turf/open/floor/plating,
 /area/maintenance/department/bridge)
 "Fq" = (
@@ -10533,6 +10550,9 @@
 	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	dir = 8
+	},
+/obj/structure/disposalpipe/segment{
+	dir = 4
 	},
 /turf/open/floor/plating,
 /area/maintenance/department/bridge)
@@ -10746,6 +10766,9 @@
 	},
 /obj/structure/rack,
 /obj/item/storage/toolbox/emergency,
+/obj/structure/disposalpipe/trunk/multiz/down{
+	dir = 4
+	},
 /turf/open/floor/plating,
 /area/maintenance/department/bridge)
 "JX" = (
@@ -11335,6 +11358,12 @@
 /obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer3,
 /turf/open/floor/carpet/red,
 /area/security/warden)
+"VA" = (
+/obj/structure/disposalpipe/segment{
+	dir = 10
+	},
+/turf/open/floor/monotile,
+/area/bridge/meeting_room)
 "VF" = (
 /obj/structure/cable{
 	icon_state = "1-4"
@@ -62475,11 +62504,11 @@ xC
 ey
 IS
 fy
-ev
-gr
+VA
+BH
 oP
 hh
-oM
+DJ
 oQ
 ta
 go
@@ -66710,7 +66739,7 @@ eB
 eB
 eB
 eB
-oV
+oU
 te
 aA
 ci
