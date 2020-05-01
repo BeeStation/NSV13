@@ -3290,6 +3290,17 @@
 	},
 /turf/open/floor/plasteel/dark,
 /area/science/server)
+"ij" = (
+/obj/machinery/door/airlock/ship/engineering{
+	dir = 4;
+	name = "HAZMATmospherics";
+	req_one_access_txt = "10; 24"
+	},
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/turf/open/floor/plasteel,
+/area/engine/atmos)
 "ik" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
@@ -3521,6 +3532,33 @@
 /obj/machinery/ship_weapon/pdc_mount/west,
 /turf/open/floor/plasteel/dark,
 /area/nsv/weapons)
+"iR" = (
+/obj/structure/rack,
+/obj/item/aiModule/supplied/freeform,
+/obj/item/aiModule/supplied/oxygen,
+/obj/item/aiModule/supplied/protectStation,
+/obj/item/aiModule/supplied/quarantine,
+/obj/item/aiModule/supplied/safeguard,
+/obj/item/aiModule/reset/purge,
+/obj/item/aiModule/reset,
+/obj/item/aiModule/core/full/antimov,
+/obj/item/aiModule/core/full/asimov,
+/obj/item/aiModule/core/full/asimovpp,
+/obj/item/aiModule/core/full/corp,
+/obj/item/aiModule/core/full/drone,
+/obj/item/aiModule/core/full/paladin,
+/obj/item/aiModule/core/full/reporter,
+/obj/item/aiModule/core/full/tyrant,
+/obj/machinery/power/apc/auto_name/north,
+/obj/machinery/camera/autoname{
+	dir = 8
+	},
+/obj/structure/cable{
+	icon_state = "0-2"
+	},
+/obj/item/aiModule/core/full/custom,
+/turf/open/floor/plasteel/dark,
+/area/ai_monitored/turret_protected/ai_upload)
 "iS" = (
 /obj/machinery/ship_weapon/railgun,
 /turf/open/floor/plasteel/dark,
@@ -4201,17 +4239,6 @@
 	icon_state = "1-8"
 	},
 /turf/open/floor/plating,
-/area/engine/atmos)
-"kl" = (
-/obj/machinery/door/airlock/ship/engineering{
-	dir = 4;
-	name = "HAZMATmospherics";
-	req_one_access_txt = "24"
-	},
-/obj/structure/cable{
-	icon_state = "4-8"
-	},
-/turf/open/floor/plasteel,
 /area/engine/atmos)
 "km" = (
 /obj/structure/chair/comfy,
@@ -5825,32 +5852,6 @@
 /obj/machinery/vending/coffee,
 /turf/open/floor/plasteel,
 /area/engine/atmos)
-"na" = (
-/obj/structure/rack,
-/obj/item/aiModule/supplied/freeform,
-/obj/item/aiModule/supplied/oxygen,
-/obj/item/aiModule/supplied/protectStation,
-/obj/item/aiModule/supplied/quarantine,
-/obj/item/aiModule/supplied/safeguard,
-/obj/item/aiModule/reset/purge,
-/obj/item/aiModule/reset,
-/obj/item/aiModule/core/full/antimov,
-/obj/item/aiModule/core/full/asimov,
-/obj/item/aiModule/core/full/asimovpp,
-/obj/item/aiModule/core/full/corp,
-/obj/item/aiModule/core/full/drone,
-/obj/item/aiModule/core/full/paladin,
-/obj/item/aiModule/core/full/reporter,
-/obj/item/aiModule/core/full/tyrant,
-/obj/machinery/power/apc/auto_name/north,
-/obj/machinery/camera/autoname{
-	dir = 8
-	},
-/obj/structure/cable{
-	icon_state = "0-2"
-	},
-/turf/open/floor/plasteel/dark,
-/area/ai_monitored/turret_protected/ai_upload)
 "nb" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 4
@@ -11563,13 +11564,6 @@
 	},
 /turf/open/floor/plasteel/dark,
 /area/nsv/weapons)
-"Id" = (
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
-/obj/machinery/atmospherics/pipe/simple/green/visible,
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
-/obj/effect/landmark/nuclear_waste_spawner/strong,
-/turf/open/floor/plating,
-/area/engine/atmos)
 "Ij" = (
 /obj/effect/landmark/start/master_at_arms,
 /turf/open/floor/plasteel/dark,
@@ -23558,7 +23552,7 @@ gS
 hH
 ip
 hH
-Id
+hH
 kg
 bb
 lB
@@ -25077,7 +25071,7 @@ mA
 fr
 fr
 nX
-NX
+fr
 fn
 pY
 dK
@@ -25971,7 +25965,7 @@ wZ
 fn
 fr
 fr
-NX
+fr
 fr
 fr
 fr
@@ -26579,7 +26573,7 @@ bb
 bb
 bb
 bb
-kl
+ij
 bb
 lG
 bb
@@ -43497,7 +43491,7 @@ lY
 jX
 mT
 nt
-na
+iR
 nK
 pn
 nt
