@@ -1,9 +1,5 @@
 #define INELIGIBLE 2
 
-#define LIGHT		1
-#define HEAVY		2
-#define UTILITY		3
-
 ////////Common Components///////
 /obj/item/fighter_component
 	name = "Fighter Component - PARENT"
@@ -145,64 +141,64 @@
 	name = "Light Fighter Armour Plating"
 	desc = "Armour Plating for a Light Fighter"
 	armour = 2
-	for_chassis = LIGHT
+	for_chassis = 1
 
 /obj/item/fighter_component/armour_plating/light/t2
 	name = "Hardened Light Fighter Armour Plating"
 	desc = "Hardened Armour Plating for a Light Fighter"
 	armour = 2.25
-	for_chassis = LIGHT
+	for_chassis = 1
 
 /obj/item/fighter_component/armour_plating/light/t3
 	name = "Reinforced Light Fighter Armour Plating"
 	desc = "Reinforced Armour Plating for a Light Fighter"
 	armour = 3
-	for_chassis = LIGHT
+	for_chassis = 1
 
 /obj/item/fighter_component/targeting_sensor/light/t1
 	name = "Light Fighter Targeting Sensors"
 	desc = "Targening Sensors for a Light Fighter"
-	for_chassis = LIGHT
+	for_chassis = 1
 
 /obj/item/fighter_component/targeting_sensor/light/t2
 	name = "Improved Light Fighter Targeting Sensors"
 	desc = "Improved Targeting Sensors for a Light Fighter"
 	targeting_speed = 1.25
-	for_chassis = LIGHT
+	for_chassis = 1
 
 /obj/item/fighter_component/targeting_sensor/light/t3
 	name = "Enhanced Light Fighter Targeting Sensors"
 	desc = "Enhanced Targeting Sensors for a Light Fighter"
 	targeting_speed = 1.5
-	for_chassis = LIGHT
+	for_chassis = 1
 
 /obj/item/fighter_component/engine/light/t1
 	name = "Light Fighter Engine"
 	desc = "An engine for a Light Fighter"
 	speed = 1
 	consumption = 1
-	for_chassis = LIGHT
+	for_chassis = 1
 
 /obj/item/fighter_component/engine/light/t2
 	name = "Improved Light Fighter Engine"
 	desc = "An improved engine for a Light Fighter"
 	speed = 1.2
 	consumption = 1.4
-	for_chassis = LIGHT
+	for_chassis = 1
 
 /obj/item/fighter_component/engine/light/t3
 	name = "Enhanced Light Fighter Engine"
 	desc = "An enhanced engine for a Light Fighter"
 	speed = 1.4
 	consumption = 1.8
-	for_chassis = LIGHT
+	for_chassis = 1
 
 /obj/item/fighter_component/secondary/light/missile_rack
 	name = "Light Fighter Missile Rack - PARENT"
 	icon_state = "weaponcrate"
 	missile_capacity = 2
 	burntout = INELIGIBLE
-	for_chassis = LIGHT
+	for_chassis = 1
 
 /obj/item/fighter_component/secondary/light/missile_rack/t1
 	name = "Light Fighter Missile Rack"
@@ -225,7 +221,7 @@
 	var/fire_rate = 1
 	ammo_capacity = 1
 	var/projectile = null
-	for_chassis = LIGHT
+	for_chassis = 1
 
 /obj/item/fighter_component/primary/light/light_cannon/t1
 	name = "Light Fighter Light Cannon"
@@ -258,58 +254,58 @@
 	name = "Heavy Fighter Armour Plating"
 	desc = "Armour Plating for a Heavy Fighter"
 	armour = 2
-	for_chassis = HEAVY
+	for_chassis = 2
 
 /obj/item/fighter_component/armour_plating/heavy/t2
 	name = "Hardened Heavy Fighter Armour Plating"
 	desc = "Hardened Armour Plating for a Heavy Fighter"
 	armour = 2.25
-	for_chassis = HEAVY
+	for_chassis = 2
 
 /obj/item/fighter_component/armour_plating/heavy/t3
 	name = "Reinforced Light Fighter Armour Plating"
 	desc = "Reinforced Armour Plating for a Light Fighter"
 	armour = 2.5
-	for_chassis = HEAVY
+	for_chassis = 2
 
 /obj/item/fighter_component/targeting_sensor/heavy/t1
 	name = "Heavy Fighter Targeting Sensors"
 	desc = "Targening Sensors for a Heavy Fighter"
 	targeting_speed = 0.9
-	for_chassis = HEAVY
+	for_chassis = 2
 
 /obj/item/fighter_component/targeting_sensor/heavy/t2
 	name = "Improved Heavy Fighter Targeting Sensors"
 	desc = "Improved Targeting Sensors for a Heavy Fighter"
 	targeting_speed = 1.15
-	for_chassis = HEAVY
+	for_chassis = 2
 
 /obj/item/fighter_component/targeting_sensor/heavy/t3
 	name = "Enhanced Heavy Fighter Targeting Sensors"
 	desc = "Enhanced Targeting Sensors for a Heavy Fighter"
 	targeting_speed = 1.40
-	for_chassis = HEAVY
+	for_chassis = 2
 
 /obj/item/fighter_component/engine/heavy/t1
 	name = "Heavy Fighter Engine"
 	desc = "An engine for a Heavy Fighter"
 	speed = 1
 	consumption = 1
-	for_chassis = HEAVY
+	for_chassis = 2
 
 /obj/item/fighter_component/engine/heavy/t2
 	name = "Improved Heavy Fighter Engine"
 	desc = "An improved engine for a Heavy Fighter"
 	speed = 1.1
 	consumption = 1.2
-	for_chassis = HEAVY
+	for_chassis = 2
 
 /obj/item/fighter_component/engine/heavy/t3
 	name = "Enhanced Heavy Fighter Engine"
 	desc = "An enhanced engine for a Heavy Fighter"
 	speed = 1.2
 	consumption = 1.4
-	for_chassis = HEAVY
+	for_chassis = 2
 
 /obj/item/fighter_component/secondary/heavy/torpedo_rack
 	name = "Heavy Fighter Torpedo Rack"
@@ -317,7 +313,7 @@
 	missile_capacity = 0
 	torpedo_capacity = 2
 	burntout = INELIGIBLE
-	for_chassis = HEAVY
+	for_chassis = 2
 
 /obj/item/fighter_component/secondary/heavy/torpedo_rack/t1
 	name = "Heavy Fighter Torpedo Rack"
@@ -342,7 +338,7 @@
 	var/fire_rate = 1
 	ammo_capacity = 1
 	var/projectile = null
-	for_chassis = HEAVY
+	for_chassis = 2
 
 /obj/item/fighter_component/primary/heavy/heavy_cannon/t1
 	name = "Heavy Fighter Heavy Cannon"
@@ -375,47 +371,47 @@
 	name = "Utility Vessel Armour Plating"
 	desc = "Armour Plating for a Utility Vessel"
 	armour = 2
-	for_chassis = UTILITY
+	for_chassis = 3
 
 /obj/item/fighter_component/armour_plating/utility/t2
 	name = "Hardened Utility Vessel Armour Plating"
 	desc = "Hardened Armour Plating for a Utility Vessel"
 	armour = 2.25
-	for_chassis = UTILITY
+	for_chassis = 3
 
 /obj/item/fighter_component/armour_plating/utility/t3
 	name = "Reinforced Utility Vessel Armour Plating"
 	desc = "Reinforced Armour Plating for a Utility Vessel"
 	armour = 2.5
-	for_chassis = UTILITY
+	for_chassis = 3
 
 /obj/item/fighter_component/engine/utility/t1
 	name = "Utility Vessel Engine"
 	desc = "An engine for a Utility Vessel"
 	speed = 1
 	consumption = 1
-	for_chassis = UTILITY
+	for_chassis = 3
 
 /obj/item/fighter_component/engine/utility/t2
 	name = "Improved Utility Vessel Engine"
 	desc = "An improved engine for a Utility Vessel"
 	speed = 1.05
 	consumption = 0.9
-	for_chassis = UTILITY
+	for_chassis = 3
 
 /obj/item/fighter_component/engine/utility/t3
 	name = "Enhanced Utility Vessel Engine"
 	desc = "An enhanced engine for a Utility Vessel"
 	speed = 1.1
 	consumption = 0.8
-	for_chassis = UTILITY
+	for_chassis = 3
 
 /obj/item/fighter_component/primary/utility/refueling_system
 	name = "Utility Vessel Refueling System"
 	desc = "A refueling system for a Utility Vessel"
 	icon_state = "crate"
 	weapon_type_path_one = /datum/ship_weapon/refueling_system
-	for_chassis = UTILITY
+	for_chassis = 3
 
 /obj/item/fighter_component/primary/utility/search_rescue_module
 	name = "Utility Vessel Search And Rescue Module"
@@ -423,14 +419,14 @@
 	icon_state = "crate"
 	weapon_type_path_one = /datum/ship_weapon/search_rescue_scoop
 	weapon_type_path_two = /datum/ship_weapon/search_rescue_extractor
-	for_chassis = UTILITY
+	for_chassis = 3
 
 /obj/item/fighter_component/secondary/utility/auxiliary_fuel_tank
 	name = "Utility Vessel Auxiliary Fuel Tank - PARENT"
 	desc = "THIS IS A PARENT ITEM AND SHOULD NOT BE SPAWNED"
 	icon_state = "crate"
 	var/aux_capacity = 3000
-	for_chassis = UTILITY
+	for_chassis = 3
 
 /obj/item/fighter_component/secondary/utility/auxiliary_fuel_tank/Initialize()
 	.=..()
@@ -456,14 +452,14 @@
 	icon_state = "crate"
 	weapon_type_path_one = /datum/ship_weapon/rapid_breach_sealing_welder
 	weapon_type_path_two = /datum/ship_weapon/rapid_breach_sealing_foam
-	for_chassis = UTILITY
+	for_chassis = 3
 
 /obj/item/fighter_component/secondary/utility/rbs_reagent_tank
 	name = "RBS Reagent Tank - PARENT"
 	icon_state = "crate"
 	var/rbs_capacity = 200
 	burntout = INELIGIBLE
-	for_chassis = UTILITY
+	for_chassis = 3
 
 /obj/item/reagent_containers/rbs_welder_tank
 	name = "Rapid Breach Sealing Welder Tank"
@@ -498,7 +494,7 @@
 	name = "Utility Vessel Passenger Compartment Module - PARENT"
 	icon_state = "crate"
 	var/passenger_capacity = 4
-	for_chassis = UTILITY
+	for_chassis = 3
 
 /obj/item/fighter_component/secondary/utility/passenger_compartment_module/t1
 	name = "Utility Vessel Passenger Compartment Module"
@@ -1468,7 +1464,3 @@
 	cost = 1500
 
 #undef INELIGIBLE
-
-#undef LIGHT
-#undef HEAVY
-#undef UTILITY
