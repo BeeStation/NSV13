@@ -13,6 +13,13 @@
 /obj/machinery/computer/ship/salvage/console/end
 	icon_state = "computer_end"
 
+/obj/machinery/computer/ship/navigation/console
+	icon = 'nsv13/goonstation/icons/obj/computer.dmi'
+	icon_keyboard = null
+
+/obj/machinery/computer/ship/navigation/console/end
+	icon_state = "computer_end"
+
 /obj/machinery/computer/ship/dradis/console
 	icon = 'nsv13/goonstation/icons/obj/computer.dmi'
 	icon_keyboard = null

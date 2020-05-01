@@ -144,6 +144,7 @@
 
 /obj/structure/overmap/nanotrasen/battleship/starter
 	role = MAIN_OVERMAP //Player controlled variant
+	starting_system = "Sol"
 
 /obj/structure/overmap/nanotrasen/patrol_cruiser/ai
 	ai_controlled = TRUE
