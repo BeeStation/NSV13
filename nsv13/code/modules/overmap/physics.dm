@@ -167,7 +167,7 @@ The while loop runs at a programatic level and is thus separated from any thrott
 	// calculate drag and shit
 
 	var/velocity_mag = velocity.ln() // magnitude
-	if(velocity_mag || angular_velocity)
+	if(velocity_mag)
 		var/drag = 0
 		for(var/turf/T in locs)
 			if(isspaceturf(T))
