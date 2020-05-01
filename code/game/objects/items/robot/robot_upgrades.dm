@@ -697,4 +697,4 @@
 	if (.)
 		var/obj/item/borg/apparatus/beaker/extra/E = locate() in R.module.modules
 		if (E)
-			R.module.remove_module(E, TRUE)
+			R.module.remove_module(E, TRUE) 
