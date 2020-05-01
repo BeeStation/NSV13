@@ -116,7 +116,7 @@
 
 /obj/structure/window/reinforced/fulltile/ship/unanchored
 	anchored = FALSE
-	
+
 /obj/structure/window/reinforced/fulltile/ship/interior
 	name = "Interior reinforced window"
 	desc = "A heavyset window reinforced with tiny carbon structures which is designed to take a beating."
@@ -128,7 +128,7 @@
 	smooth = TRUE
 	canSmoothWith = list(/obj/structure/window/reinforced/fulltile/ship,/turf/closed/wall/ship,/turf/closed/wall/r_wall/ship,/obj/machinery/door/airlock/ship,/obj/structure/window/reinforced/fulltile/ship/interior)
 
-/obj/structure/window/reinforced/fulltile/ship/interior/unanchored	
+/obj/structure/window/reinforced/fulltile/ship/interior/unanchored
 	anchored = FALSE
 
 /obj/effect/spawner/structure/window/reinforced
@@ -253,4 +253,10 @@
 	icon_state = "solgovflag-right"
 
 /turf/open/floor/monotile/dark/airless
+	initial_gas_mix = AIRLESS_ATMOS
+
+/turf/open/floor/monotile/airless
+	initial_gas_mix = AIRLESS_ATMOS
+
+/turf/open/floor/monotile/light/airless
 	initial_gas_mix = AIRLESS_ATMOS
