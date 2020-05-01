@@ -1205,7 +1205,6 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 						save_preferences()
 					else
 						to_chat(user,"<span class='warning'>Your donation has expired or not yet validated. Donation status is refreshed at round end.</span>")
-					//CRASH("!!Unimplimented!! (Metacoin Shop Type:GEAR_DONATOR) {L1196//code/modules/client/preferences.dm}")
 		if(href_list["toggle_gear"])
 			var/datum/gear/TG = GLOB.gear_datums[href_list["toggle_gear"]]
 			if(TG.display_name in equipped_gear)

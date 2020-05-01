@@ -189,7 +189,6 @@
 
 /datum/controller/configuration/vv_edit_var(var_name, var_value)
 	var/list/banned_edits = list(NAMEOF(src, entries_by_type), NAMEOF(src, entries), NAMEOF(src, directory), NAMEOF(src, active_donators))
-	log_world("Config edit attempt: [var_name]")
 	return !(var_name in banned_edits) && ..()
 
 /datum/controller/configuration/stat_entry()
@@ -435,7 +434,9 @@
 	syncChatRegexes()
 
 /datum/controller/configuration/proc/LoadDonators()
-//Temporary local config hook for testing
+//"temporary" he says...
+//This is going to have to be the only way to load this for now.
+//Thanks KMC
 	active_donators = list()
 	for(var/line in world.file2list("[global.config.directory]/donators.txt"))
 		if(!line)

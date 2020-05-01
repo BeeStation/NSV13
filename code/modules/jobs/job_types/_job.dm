@@ -95,9 +95,10 @@
 
 				if(G.species_whitelist && !(human.dna.species.id in G.species_whitelist))
 					permitted = FALSE
-					if(G.unlocktype == GEAR_DONATOR) //Special dehook cases
+					if(G.unlocktype == GEAR_DONATOR) //Strip out donation items if the patreon has expired or they somehow have someone else's gear datum.
 						if(M.client.ckey != G.ckey)
 							to_chat(M, "<span class='warning'>You somehow have someone else's donator item! Call a coder. Item: [gear]</span>")
+							message_admins("[ADMIN_LOOKUPFLW(M)] Somehow equipped the donator gear of [G.ckey]. It has been removed.")
 							M.client.prefs.equipped_gear -= gear
 							M.client.prefs.purchased_gear -= gear
 							permitted = FALSE
