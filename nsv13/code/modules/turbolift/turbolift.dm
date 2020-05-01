@@ -14,3 +14,17 @@
 	suffix = "enterprise"
 	name = "aircraft elevator (SGC Enterprise)"
 	can_be_bought = FALSE
+
+/datum/map_template/shuttle/turbolift/nsv/galactica
+	prefix = "_maps/shuttles/turbolifts/nsv/"
+	port_id = "turbolift"
+	suffix = "galactica"
+	name = "aircraft elevator (NSV Galactica)"
+	can_be_bought = FALSE
+
+/datum/map_template/shuttle/turbolift/nsv/galactica/secondary
+	prefix = "_maps/shuttles/turbolifts/nsv/"
+	port_id = "turbolift"
+	suffix = "galactica_secondary"
+	name = "aircraft elevator (NSV Galactica, Secondary)"
+	can_be_bought = FALSE
