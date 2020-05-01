@@ -79,6 +79,8 @@ After going through this checklist, you're ready to go!
 	var/list/components = null
 	var/master_caution = FALSE
 	var/start_emagged = FALSE //Do we start emagged? This is so that syndie fighters can shoot people shipside
+	var/installing = FALSE //Are we currently having parts installed?
+	var/chassis = 0 //Which chassis we are for part checking
 
 /obj/structure/overmap/fighter/Initialize()
 	. = ..()
@@ -351,13 +353,13 @@ You need to fire emag the fighter's IFF board. This makes it list as "ENEMY" on 
 	. = FALSE
 	switch(maint_state)
 		if(MS_UNSECURE)
-			to_chat(user, "<span class='notice'>You start pry open the maintenance hatch on [src]...</span>")
+			to_chat(user, "<span class='notice'>You start prying open the maintenance hatch on [src]...</span>")
 			if(tool.use_tool(src, user, 40, volume=100))
 				to_chat(user, "<span class='notice'>You pry open the maintenance hatch on [src].</span>")
 				maint_state = MS_OPEN
 				return TRUE
 		if(MS_OPEN)
-			to_chat(user, "<span class='notice'>You start replace the maintenance hatch on [src]...</span>")
+			to_chat(user, "<span class='notice'>You start replacing the maintenance hatch on [src]...</span>")
 			if(tool.use_tool(src, user, 40, volume=100))
 				to_chat(user, "<span class='notice'>You replace the maintenance hatch on [src].</span>")
 				maint_state = MS_UNSECURE
@@ -465,7 +467,6 @@ You need to fire emag the fighter's IFF board. This makes it list as "ENEMY" on 
 		return
 	var/proj_type = null //If this is true, we've got a launcher shipside that's been able to fire.
 	var/proj_speed = 1
-	to_chat(world, "fire torp")
 	if(!mun_torps || !mun_torps.len)
 		return
 	var/obj/item/ship_weapon/ammunition/torpedo/thirtymillimetertorpedo = pick_n_take(mun_torps)
@@ -528,70 +529,116 @@ You need to fire emag the fighter's IFF board. This makes it list as "ENEMY" on 
 			to_chat(user, "<span class='warning'>Ejecting all current occupants from [src] and activating inertial dampeners...</span>")
 			force_eject()
 	if(maint_state == MS_OPEN)
+		if(installing)
+			to_chat(user, "<span class='notice'>You're already installing something into [src]!.</span>")
+			return
 		if(istype(W, /obj/item/fighter_component/fuel_tank) && !get_part(/obj/item/fighter_component/fuel_tank))
 			to_chat(user, "<span class='notice'>You start installing [W] in [src]...</span>")
-			if(!do_after(user, 10 SECONDS, target=src))
+			installing = TRUE
+			if(!do_after(user, 10 SECONDS, target=src) || !Adjacent(user))
+				installing = FALSE
 				return
 			to_chat(user, "<span class='notice'>You install [W] in [src].</span>")
 			W.forceMove(src)
 			fuel_setup()
+			installing = FALSE
 		else if(istype(W, /obj/item/fighter_component/avionics) && !get_part(/obj/item/fighter_component/avionics))
 			to_chat(user, "<span class='notice'>You start installing [W] in [src]...</span>")
-			if(!do_after(user, 10 SECONDS, target=src))
+			installing = TRUE
+			if(!do_after(user, 10 SECONDS, target=src) || !Adjacent(user))
+				installing = FALSE
 				return
 			to_chat(user, "<span class='notice'>You install [W] in [src].</span>")
 			W.forceMove(src)
 			update_stats()
+			installing = FALSE
 		else if(istype(W, /obj/item/fighter_component/apu) && !get_part(/obj/item/fighter_component/apu))
 			to_chat(user, "<span class='notice'>You start installing [W] in [src]...</span>")
-			if(!do_after(user, 10 SECONDS, target=src))
+			installing = TRUE
+			if(!do_after(user, 10 SECONDS, target=src) || !Adjacent(user))
+				installing = FALSE
 				return
 			to_chat(user, "<span class='notice'>You install [W] in [src].</span>")
 			W.forceMove(src)
 			update_stats()
+			installing = FALSE
 		else if(istype(W, /obj/item/fighter_component/armour_plating) && !get_part(/obj/item/fighter_component/armour_plating))
-			to_chat(user, "<span class='notice'>You start installing [W] in [src]...</span>")
-			if(!do_after(user, 10 SECONDS, target=src))
+			var/obj/item/fighter_component/armour_plating/AP = W
+			if(AP.for_chassis != chassis)
+				to_chat(user, "<span class='warning'>[AP] won't fit in this chassis!</span>")
 				return
-			to_chat(user, "<span class='notice'>You install [W] in [src].</span>")
-			W.forceMove(src)
+			to_chat(user, "<span class='notice'>You start installing [AP] in [src]...</span>")
+			installing = TRUE
+			if(!do_after(user, 10 SECONDS, target=src) || !Adjacent(user))
+				installing = FALSE
+				return
+			to_chat(user, "<span class='notice'>You install [AP] in [src].</span>")
+			AP.forceMove(src)
 			update_stats()
+			installing = FALSE
 		else if(istype(W, /obj/item/fighter_component/targeting_sensor) && !get_part(/obj/item/fighter_component/targeting_sensor))
-			to_chat(user, "<span class='notice'>You start installing [W] in [src]...</span>")
-			if(!do_after(user, 10 SECONDS, target=src))
+			var/obj/item/fighter_component/targeting_sensor/TS = W
+			if(TS.for_chassis != chassis)
+				to_chat(user, "<span class='warning'>[TS] won't fit in this chassis!</span>")
 				return
-			to_chat(user, "<span class='notice'>You install [W] in [src].</span>")
-			W.forceMove(src)
+			to_chat(user, "<span class='notice'>You start installing [TS] in [src]...</span>")
+			installing = TRUE
+			if(!do_after(user, 10 SECONDS, target=src) || !Adjacent(user))
+				installing = FALSE
+				return
+			to_chat(user, "<span class='notice'>You install [TS] in [src].</span>")
+			TS.forceMove(src)
 			update_stats()
+			installing = FALSE
 		else if(istype(W, /obj/item/fighter_component/primary) && !get_part(/obj/item/fighter_component/primary))
-			to_chat(user, "<span class='notice'>You start installing [W] in [src]...</span>")
-			if(!do_after(user, 10 SECONDS, target=src))
+			var/obj/item/fighter_component/primary/PY = W
+			if(PY.for_chassis != chassis)
+				to_chat(user, "<span class='warning'>[PY] won't fit in this chassis!</span>")
 				return
-			to_chat(user, "<span class='notice'>You install [W] in [src].</span>")
-			W.forceMove(src)
+			to_chat(user, "<span class='notice'>You start installing [PY] in [src]...</span>")
+			installing = TRUE
+			if(!do_after(user, 10 SECONDS, target=src) || !Adjacent(user))
+				installing = FALSE
+				return
+			to_chat(user, "<span class='notice'>You install [PY] in [src].</span>")
+			PY.forceMove(src)
 			update_stats()
+			installing = FALSE
 		else if(istype(W, /obj/item/fighter_component/secondary) && !get_part(/obj/item/fighter_component/secondary))
-			to_chat(user, "<span class='notice'>You start installing [W] in [src]...</span>")
-			if(!do_after(user, 10 SECONDS, target=src))
+			var/obj/item/fighter_component/secondary/SY = W
+			if(SY.for_chassis != chassis)
+				to_chat(user, "<span class='warning'>[SY] won't fit in this chassis!</span>")
 				return
-			to_chat(user, "<span class='notice'>You install [W] in [src].</span>")
-			W.forceMove(src)
+			to_chat(user, "<span class='notice'>You start installing [SY] in [src]...</span>")
+			installing = TRUE
+			if(!do_after(user, 10 SECONDS, target=src) || !Adjacent(user))
+				installing = FALSE
+				return
+			to_chat(user, "<span class='notice'>You install [SY] in [src].</span>")
+			SY.forceMove(src)
 			update_stats()
+			installing = FALSE
 		else if(istype(W, /obj/item/fighter_component/countermeasure_dispenser) && !get_part(/obj/item/fighter_component/countermeasure_dispenser))
 			to_chat(user, "<span class='notice'>You start installing [W] in [src]...</span>")
-			if(!do_after(user, 10 SECONDS, target=src))
+			installing = TRUE
+			if(!do_after(user, 10 SECONDS, target=src) || !Adjacent(user))
+				installing = FALSE
 				return
 			to_chat(user, "<span class='notice'>You install [W] in [src].</span>")
 			W.forceMove(src)
 			update_stats()
+			installing = FALSE
 		else if(istype(W, /obj/item/ship_weapon/ammunition/countermeasure_charge))
 			if(mun_countermeasures.len < max_countermeasures)
 				to_chat(user, "<span class='notice'>You start loading [W] into [src]...</span>")
-				if(!do_after(user, 10 SECONDS, target=src))
+				installing = TRUE
+				if(!do_after(user, 5 SECONDS, target=src) || !Adjacent(user))
+					installing = FALSE
 					return
 				to_chat(user, "<span class='notice'>You load [W] into [src].</span>")
 				W.forceMove(src)
 				mun_countermeasures += W
+				installing = FALSE
 
 /obj/structure/overmap/fighter/attack_hand(mob/user)
 	.=..()
@@ -765,6 +812,14 @@ How to make fuel:
 	message_admins("[key_name_admin(usr)] renamed a fighter to [new_name] [ADMIN_LOOKUPFLW(src)].")
 	name = new_name
 
+/obj/structure/overmap/fighter/key_down(key, client/user)
+	.=..()
+	switch(key)
+		if("C" || "c")
+			fire_countermeasure()
+		if("T" || "t")
+			relinquish_target_lock()
+
 /obj/structure/overmap/fighter/ui_interact(mob/user, ui_key = "main", datum/tgui/ui = null, force_open = 0, datum/tgui/master_ui = null, datum/ui_state/state = GLOB.default_state) // Remember to use the appropriate state.
 	if(user != pilot && maint_state != MS_OPEN)
 		return
@@ -776,6 +831,7 @@ How to make fuel:
 	ui = SStgui.try_update_ui(user, src, ui_key, ui, force_open)
 	if(!ui)
 		if(maint_state == MS_CLOSED)
+			state = GLOB.contained_state
 			ui = new(user, src, ui_key, "fighter_controls", name, 560, 600, master_ui, state)
 			ui.open()
 
@@ -1124,6 +1180,9 @@ How to make fuel:
 			else if(istype(muni, /obj/item/ship_weapon/ammunition/missile))
 				mun_missiles -= muni
 			muni?.forceMove(get_turf(src))
+			return
+		if("show_dradis")
+			dradis.attack_hand(usr)
 			return
 	warmup_cooldown = TRUE
 	addtimer(VARSET_CALLBACK(src, warmup_cooldown, FALSE), 1 SECONDS)

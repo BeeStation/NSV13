@@ -16,6 +16,7 @@
 	speed_limit = 6 //We want fighters to be way more maneuverable
 	pixel_w = -16
 	pixel_z = -20
+	chassis = 2
 
 	forward_maxthrust = 2
 	backward_maxthrust = 0.5

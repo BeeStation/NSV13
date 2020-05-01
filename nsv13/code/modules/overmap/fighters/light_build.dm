@@ -32,6 +32,8 @@
 	icon_state = "fighter"
 	build_state = LBS_CHASSIS
 	fighter_name = null
+	pixel_x = -32
+	pixel_y = -12
 
 /obj/structure/fighter_component/underconstruction_fighter/light_fighter_frame/examine(mob/user)
 	. = ..()
@@ -39,7 +41,7 @@
 		if(LBS_CHASSIS)
 			. += "<span class='notice'>Secure the chassis with bolts.</span>"
 		if(LBS_CHASSIS_BOLT)
-			. += "<span class='notice'>Reinforce the chassis joints.</span>"
+			. += "<span class='notice'>Reinforce the chassis joints with a welder.</span>"
 		if(LBS_CHASSIS_WELD)
 			. += "<span class='notice'>Install the engine into slot B.</span>"
 		if(LBS_ENGINE)
@@ -69,11 +71,11 @@
 		if(LBS_COUNTERMEASURE_DISPENSER)
 			. += "<span class='notice'>Secure the countermeasure dispenser to the chassis with bolts.</span>"
 		if(LBS_COUNTERMEASURE_DISPENSER_BOLT)
-			. += "<span class='notice'>Install the armour plating in all indicated place on the diagram.</span>"
+			. += "<span class='notice'>Install the armour plating in all indicated places on the diagram.</span>"
 		if(LBS_ARMOUR_PLATING)
 			. += "<span class='notice'>Secure the armour plating to chassis with bolts.</span>"
 		if(LBS_ARMOUR_PLATING_BOLT)
-			. += "<span class='notice'>Reinforce the armour plating bonds with the chassis.</span>"
+			. += "<span class='notice'>Reinforce the armour plating bonds with the chassis with a welder.</span>"
 		if(LBS_ARMOUR_PLATING_WELD)
 			. += "<span class='notice'>Install the primary weapon module into the forward weapon mount.</span>"
 		if(LBS_PRIMARY)
@@ -81,7 +83,7 @@
 		if(LBS_PRIMARY_BOLT)
 			. += "<span class='notice'>Install the secondary weapon module into the belly weapon mount.</span>"
 		if(LBS_SECONDARY)
-			. += "<span class='notice'>Secure the secondary weapon module to the belly weapon mount.</span>"
+			. += "<span class='notice'>Secure the secondary weapon module to the belly weapon mount with bolts.</span>"
 		if(LBS_SECONDARY_BOLT)
 			. += "<span class='notice'>Paint the surface of the [src] with primer.</span>"
 		if(LBS_PAINT_PRIMER)
@@ -102,87 +104,117 @@
 
 /obj/structure/fighter_component/underconstruction_fighter/light_fighter_frame/attackby(obj/item/W, mob/user, params)
 	add_fingerprint(user)
+	if(building)
+		to_chat(user, "<span class='notice'>You're already installing something into [src]!.</span>")
+		return
 	if(istype(W, /obj/item/fighter_component/fuel_tank))
 		if(build_state == LBS_APU_SCREW)
 			to_chat(user, "<span class='notice'>You start adding [W] to [src]...</span>")
-			if(!do_after(user, 5 SECONDS, target=src))
+			building = TRUE
+			if(!do_after(user, 5 SECONDS, target=src) || !Adjacent(user))
+				building = FALSE
 				return
 			to_chat(user, "<spawn class='notice'>You add [W] to [src].</span>")
 			build_state = LBS_FUEL_TANK
 			update_icon()
 			W.forceMove(src)
+			building = FALSE
 	else if(istype(W, /obj/item/fighter_component/avionics))
 		if(build_state == LBS_FUEL_TANK_BOLT)
 			to_chat(user, "<span class='notice'>You start adding [W] to [src]...</span>")
-			if(!do_after(user, 5 SECONDS, target=src))
+			building = TRUE
+			if(!do_after(user, 5 SECONDS, target=src) || !Adjacent(user))
+				building = FALSE
 				return
 			to_chat(user, "<spawn class='notice'>You add [W] to [src].</span>")
 			build_state = LBS_AVIONICS
 			update_icon()
 			W.forceMove(src)
+			building = FALSE
 	else if(istype(W, /obj/item/fighter_component/apu))
 		if(build_state == LBS_ENGINE_BOLT)
 			to_chat(user, "<span class='notice'>You start adding [W] to [src]...</span>")
-			if(!do_after(user, 5 SECONDS, target=src))
+			building = TRUE
+			if(!do_after(user, 5 SECONDS, target=src) || !Adjacent(user))
+				building = FALSE
 				return
 			to_chat(user, "<spawn class='notice'>You add [W] to [src].</span>")
 			build_state = LBS_APU
 			update_icon()
 			W.forceMove(src)
+			building = FALSE
 	else if(istype(W, /obj/item/fighter_component/armour_plating/light))
 		if(build_state == LBS_COUNTERMEASURE_DISPENSER_BOLT)
 			to_chat(user, "<span class='notice'>You start adding [W] to [src]...</span>")
-			if(!do_after(user, 5 SECONDS, target=src))
+			building = TRUE
+			if(!do_after(user, 5 SECONDS, target=src) || !Adjacent(user))
+				building = FALSE
 				return
 			to_chat(user, "<spawn class='notice'>You add [W] to [src].</span>")
 			build_state = LBS_ARMOUR_PLATING
 			update_icon()
 			W.forceMove(src)
+			building = FALSE
 	else if(istype(W, /obj/item/fighter_component/targeting_sensor/light))
 		if(build_state == LBS_AVIONICS_SCREW)
 			to_chat(user, "<span class='notice'>You start adding [W] to [src]...</span>")
-			if(!do_after(user, 5 SECONDS, target=src))
+			building = TRUE
+			if(!do_after(user, 5 SECONDS, target=src) || !Adjacent(user))
+				building = FALSE
 				return
 			to_chat(user, "<spawn class='notice'>You add [W] to [src].</span>")
 			build_state = LBS_TARGETING_SENSOR
 			update_icon()
 			W.forceMove(src)
+			building = FALSE
 	else if(istype(W, /obj/item/fighter_component/engine/light))
 		if(build_state == LBS_CHASSIS_WELD)
 			to_chat(user, "<span class='notice'>You start adding [W] to [src]...</span>")
-			if(!do_after(user, 5 SECONDS, target=src))
+			building = TRUE
+			if(!do_after(user, 5 SECONDS, target=src) || !Adjacent(user))
+				building = FALSE
 				return
 			to_chat(user, "<spawn class='notice'>You add [W] to [src].</span>")
 			build_state = LBS_ENGINE
 			update_icon()
 			W.forceMove(src)
+			building = FALSE
 	else if(istype(W, /obj/item/fighter_component/countermeasure_dispenser))
 		if(build_state == LBS_TARGETING_SENSOR_SCREW)
 			to_chat(user, "<span class='notice'>You start adding [W] to [src]...</span>")
-			if(!do_after(user, 5 SECONDS, target=src))
+			building = TRUE
+			if(!do_after(user, 5 SECONDS, target=src) || !Adjacent(user))
+				building = FALSE
 				return
 			to_chat(user, "<spawn class='notice'>You add [W] to [src].</span>")
 			build_state = LBS_COUNTERMEASURE_DISPENSER
 			update_icon()
 			W.forceMove(src)
+			building = FALSE
 	else if(istype(W, /obj/item/fighter_component/secondary/light))
 		if(build_state == LBS_PRIMARY_BOLT)
 			to_chat(user, "<span class='notice'>You start adding [W] to [src]...</span>")
-			if(!do_after(user, 5 SECONDS, target=src))
+			building = TRUE
+			if(!do_after(user, 5 SECONDS, target=src) || !Adjacent(user))
+				building = FALSE
 				return
 			to_chat(user, "<spawn class='notice'>You add [W] to [src].</span>")
 			build_state = LBS_SECONDARY
 			update_icon()
 			W.forceMove(src)
+			building = FALSE
 	else if(istype(W, /obj/item/fighter_component/primary/light))
 		if(build_state == LBS_ARMOUR_PLATING_WELD)
 			to_chat(user, "<span class='notice'>You start adding [W] to [src]...</span>")
-			if(!do_after(user, 5 SECONDS, target=src))
+			building = TRUE
+			if(!do_after(user, 5 SECONDS, target=src) || !Adjacent(user))
+				building = FALSE
 				return
 			to_chat(user, "<spawn class='notice'>You add [W] to [src].</span>")
 			build_state = LBS_PRIMARY
 			update_icon()
 			W.forceMove(src)
+			building = FALSE
 	else if(istype(W, /obj/item/stack/cable_coil))
 		var/obj/item/stack/cable_coil/C = W
 		if(build_state == LBS_AVIONICS)
@@ -190,38 +222,52 @@
 				to_chat(user, "<span class='notice'>You need at least five cable pieces to wire [src]!</span>")
 				return
 			to_chat(user, "<span class='notice'>You start wiring [src]...</span>")
-			if(!do_after(user, 5 SECONDS, target=src))
+			building = TRUE
+			if(!do_after(user, 5 SECONDS, target=src) || !Adjacent(user))
+				building = FALSE
 				return
 			W.use(5)
 			to_chat(user, "<spawn class='notice'>You wire [src].</span>")
 			build_state = LBS_AVIONICS_WIRE
 			update_icon()
+			building = FALSE
 		if(build_state == LBS_APU)
 			if(C.get_amount() <5)
 				to_chat(user, "<span class='notice'>You need at least five cable pieces to wire [src]!</span>")
 				return
 			to_chat(user, "<span class='notice'>You start wiring [src]...</span>")
-			if(!do_after(user, 5 SECONDS, target=src))
+			building = TRUE
+			if(!do_after(user, 5 SECONDS, target=src) || !Adjacent(user))
+				building = FALSE
 				return
 			W.use(5)
 			to_chat(user, "<spawn class='notice'>You wire [src].</span>")
 			build_state = LBS_APU_WIRE
 			update_icon()
+			building = FALSE
 	else if(istype(W, /obj/item/airlock_painter)) //replace with an aircraft painter
 		if(build_state == LBS_SECONDARY_BOLT) //check mode later
 			to_chat(user, "<span class='notice'>You start painting primer on [src]...</span>")
-			if(!do_after(user, 5 SECONDS, target=src))
+			building = TRUE
+			if(!do_after(user, 5 SECONDS, target=src) || !Adjacent(user))
+				building = FALSE
 				return
 			to_chat(user, "<spawn class='notice'>You prime [src].</span>")
+			playsound(src, 'sound/effects/spray.ogg', 100, 1)
 			build_state = LBS_PAINT_PRIMER
 			update_icon()
+			building = FALSE
 		else if(build_state == LBS_PAINT_PRIMER) //check mode later
 			to_chat(user, "<span class='notice'>You start painting details on [src]...</span>")
-			if(!do_after(user, 5 SECONDS, target=src))
+			building = TRUE
+			if(!do_after(user, 5 SECONDS, target=src) || !Adjacent(user))
+				building = FALSE
 				return
-			to_chat(user, "<spawn class='notice'>You complete painting [src].</span>")
+			to_chat(user, "<spawn class='notice'>You finish painting [src].</span>")
+			playsound(src, 'sound/effects/spray.ogg', 100, 1)
 			build_state = LBS_PAINT_DETAILING
 			update_icon()
+			building = FALSE
 
 /obj/structure/fighter_component/underconstruction_fighter/light_fighter_frame/wrench_act(mob/user, obj/item/tool)
 	. = FALSE
@@ -521,6 +567,8 @@
 	.=..()
 	if(build_state == LBS_PAINT_DETAILING)
 		fighter_name = input(user, "Name Light Fighter:","Finalize Light Fighter Construction","")
+		if(!fighter_name)
+			fighter_name = "Su-818 Rapier Light Fighter"
 		new_fighter(fighter_name)
 		qdel(src)
 
@@ -529,6 +577,8 @@
 	LF.name = fighter_name
 	for(var/atom/movable/C in contents)
 		C.forceMove(LF)
+	LF.update_stats()
+	LF.obj_integrity = LF.max_integrity
 
 #undef LBS_CHASSIS
 #undef LBS_CHASSIS_BOLT

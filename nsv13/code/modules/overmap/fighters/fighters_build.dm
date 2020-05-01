@@ -8,6 +8,7 @@
 	climbable = TRUE
 	var/build_state = null
 	var/fighter_name = null
+	var/building = FALSE //Are we currently actively being built by someone?
 
 
 /obj/structure/fighter_component/underconstruction_fighter/examine(mob/user)

@@ -171,6 +171,21 @@
 					/obj/item/ship_weapon/ammunition/countermeasure_charge)
 	crate_name = "Fighter Countermeasure Charges"
 
+/datum/supply_pack/munitions/light_fighter_starter_kit
+	name = "Light Fighter Starter Kit"
+	desc = "This kit contains all the parts needed to start your own fleet like the space admiral of your dreams."
+	cost = 25000
+	contains = list(/obj/structure/fighter_component/light_chassis_crate,
+					/obj/item/fighter_component/fuel_tank/t1,
+					/obj/item/fighter_component/avionics,
+					/obj/item/fighter_component/apu,
+					/obj/item/fighter_component/armour_plating/light/t1,
+					/obj/item/fighter_component/targeting_sensor/light/t1,
+					/obj/item/fighter_component/engine/light/t1,
+					/obj/item/fighter_component/countermeasure_dispenser/t1,
+					/obj/item/fighter_component/secondary/light/missile_rack/t1,
+					/obj/item/fighter_component/primary/light/light_cannon/t1)
+
 /datum/supply_pack/security/peacekeeper_rifles
 	name = "M2A45 pulse rifles (x5)"
 	desc = "A pack of 5 M2A45 pulse rifles, preloaded with nonlethal stun slugs."

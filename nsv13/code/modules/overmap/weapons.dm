@@ -102,7 +102,7 @@
 			var/target_range = get_dist(OT,src)
 			if(target_range > max_range) //Our max range is the maximum possible range we can engage in. This is to stop you getting hunted from outside of your view range.
 				last_target = null
-			if(target_range > initial(weapon_range)) //In other words, theyre out of PDC range
+			if(target_range > 30) //In other words, theyre out of PDC range - Magic number pulled from the aether
 				if(OT.mass >= MASS_MEDIUM) //Torps for capitals
 					if(torpedoes > 0) //If we have torpedoes loaded, let's use them
 						swap_to(FIRE_MODE_TORPEDO)
@@ -121,11 +121,6 @@
 	last_target = target
 	if(next_firetime > world.time)
 		to_chat(pilot, "<span class='warning'>WARNING: Weapons cooldown in effect to prevent overheat.</span>")
-		return
-	var/target_range = get_dist(target,src)
-	if(target_range > weapon_range)
-		var/out_of_range = target_range-weapon_range //EG. If he's 20 tiles away and my range is 15, say WARNING, he's 5 tiles out of range!
-		to_chat(pilot, "<span class='notice'>Target acquisition failed. Target is [out_of_range] km out of effective weapons range.</span>")
 		return
 	if(istype(target, /obj/structure/overmap))
 		var/obj/structure/overmap/ship = target
@@ -171,7 +166,6 @@
 		return
 	var/datum/ship_weapon/SW = weapon_types[what]
 	fire_delay = initial(fire_delay) + SW.fire_delay
-	weapon_range = initial(weapon_range) + SW.fire_delay
 	fire_mode = what
 	if(ai_controlled)
 		fire_delay += 10 //Make it fair on the humans who have to actually reload and stuff.

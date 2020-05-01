@@ -29,9 +29,11 @@
 	name = "Heavy Fighter Frame"
 	desc = "An Incomplete Su-410 Scimitar Heavy Attacker"
 	icon = 'nsv13/icons/overmap/nanotrasen/heavyfighter_construction.dmi'
-	icon_state = "heavyfighter"
+	icon_state = "heavy_fighter"
 	build_state = HBS_CHASSIS
 	fighter_name = null
+	pixel_x = -32
+	pixel_y = -12
 
 /obj/structure/fighter_component/underconstruction_fighter/heavy_fighter_frame/examine(mob/user)
 	. = ..()
@@ -39,7 +41,7 @@
 		if(HBS_CHASSIS)
 			. += "<span class='notice'>Secure the chassis with bolts.</span>"
 		if(HBS_CHASSIS_BOLT)
-			. += "<span class='notice'>Reinforce the chassis joints.</span>"
+			. += "<span class='notice'>Reinforce the chassis joints with a welder.</span>"
 		if(HBS_CHASSIS_WELD)
 			. += "<span class='notice'>Install the fuel tank into slot H.</span>"
 		if(HBS_FUEL_TANK)
@@ -71,17 +73,17 @@
 		if(HBS_COUNTERMEASURE_DISPENSER_BOLT)
 			. += "<span class='notice'>Install the primary weapon module into the forward weapon mount.</span>"
 		if(HBS_PRIMARY)
-			. += "<span class='notice'>Secure the primary weapon module to the forwarwd weapon mount with bolts.</span>"
+			. += "<span class='notice'>Secure the primary weapon module to the forward weapon mount with bolts.</span>"
 		if(HBS_PRIMARY_BOLT)
 			. += "<span class='notice'>Install the secondary weapon module into the belly weapon mount.</span>"
 		if(HBS_SECONDARY)
 			. += "<span class='notice'>Secure the secondary weapon module to the belly weapon mount with bolts.</span>"
 		if(HBS_SECONDARY_BOLT)
-			. += "<span class='notice'>Install the armour plating in all indicated place on the diagram.</span>"
+			. += "<span class='notice'>Install the armour plating in all indicated places on the diagram.</span>"
 		if(HBS_ARMOUR_PLATING)
 			. += "<span class='notice'>Secure the armour plating to chassis with bolts.</span>"
 		if(HBS_ARMOUR_PLATING_BOLT)
-			. += "<span class='notice'>Reinforce the armour plating bonds with the chassis.</span>"
+			. += "<span class='notice'>Reinforce the armour plating bonds with the chassis with a welder.</span>"
 		if(HBS_ARMOUR_PLATING_WELD)
 			. += "<span class='notice'>Paint the surface of the [src] with primer.</span>"
 		if(HBS_PAINT_PRIMER)
@@ -102,87 +104,117 @@
 
 /obj/structure/fighter_component/underconstruction_fighter/heavy_fighter_frame/attackby(obj/item/W, mob/user, params)
 	add_fingerprint(user)
+	if(building)
+		to_chat(user, "<span class='notice'>You're already installing something into [src]!.</span>")
+		return
 	if(istype(W, /obj/item/fighter_component/fuel_tank))
 		if(build_state == HBS_CHASSIS_WELD)
 			to_chat(user, "<span class='notice'>You start adding [W] to [src]...</span>")
-			if(!do_after(user, 5 SECONDS, target=src))
+			building = TRUE
+			if(!do_after(user, 5 SECONDS, target=src) || !Adjacent(user))
+				building = FALSE
 				return
 			to_chat(user, "<spawn class='notice'>You add [W] to [src].</span>")
 			build_state = HBS_FUEL_TANK
 			update_icon()
 			W.forceMove(src)
-	else if(istype(W, /obj/item/fighter_component/avionics))
+			building = FALSE
+	else if(istype(W, /obj/item/fighter_component/avionics) || !Adjacent(user))
 		if(build_state == HBS_APU_SCREW)
 			to_chat(user, "<span class='notice'>You start adding [W] to [src]...</span>")
-			if(!do_after(user, 5 SECONDS, target=src))
+			building = TRUE
+			if(!do_after(user, 5 SECONDS, target=src) || !Adjacent(user))
+				building = FALSE
 				return
 			to_chat(user, "<spawn class='notice'>You add [W] to [src].</span>")
 			build_state = HBS_AVIONICS
 			update_icon()
 			W.forceMove(src)
+			building = FALSE
 	else if(istype(W, /obj/item/fighter_component/apu))
 		if(build_state == HBS_ENGINE_BOLT)
 			to_chat(user, "<span class='notice'>You start adding [W] to [src]...</span>")
-			if(!do_after(user, 5 SECONDS, target=src))
+			building = TRUE
+			if(!do_after(user, 5 SECONDS, target=src) || !Adjacent(user))
+				building = FALSE
 				return
 			to_chat(user, "<spawn class='notice'>You add [W] to [src].</span>")
 			build_state = HBS_APU
 			update_icon()
 			W.forceMove(src)
+			building = FALSE
 	else if(istype(W, /obj/item/fighter_component/armour_plating/heavy))
 		if(build_state == HBS_SECONDARY_BOLT)
 			to_chat(user, "<span class='notice'>You start adding [W] to [src]...</span>")
-			if(!do_after(user, 5 SECONDS, target=src))
+			building = TRUE
+			if(!do_after(user, 5 SECONDS, target=src) || !Adjacent(user))
+				building = FALSE
 				return
 			to_chat(user, "<spawn class='notice'>You add [W] to [src].</span>")
 			build_state = HBS_ARMOUR_PLATING
 			update_icon()
 			W.forceMove(src)
+			building = FALSE
 	else if(istype(W, /obj/item/fighter_component/targeting_sensor/heavy))
 		if(build_state == HBS_AVIONICS_MULTI)
 			to_chat(user, "<span class='notice'>You start adding [W] to [src]...</span>")
-			if(!do_after(user, 5 SECONDS, target=src))
+			building = TRUE
+			if(!do_after(user, 5 SECONDS, target=src) || !Adjacent(user))
+				building = FALSE
 				return
 			to_chat(user, "<spawn class='notice'>You add [W] to [src].</span>")
 			build_state = HBS_TARGETING_SENSOR
 			update_icon()
 			W.forceMove(src)
+			building = FALSE
 	else if(istype(W, /obj/item/fighter_component/engine/heavy))
 		if(build_state == HBS_FUEL_TANK_BOLT)
 			to_chat(user, "<span class='notice'>You start adding [W] to [src]...</span>")
-			if(!do_after(user, 5 SECONDS, target=src))
+			building = TRUE
+			if(!do_after(user, 5 SECONDS, target=src) || !Adjacent(user))
+				building = FALSE
 				return
 			to_chat(user, "<spawn class='notice'>You add [W] to [src].</span>")
 			build_state = HBS_ENGINE
 			update_icon()
 			W.forceMove(src)
+			building = FALSE
 	else if(istype(W, /obj/item/fighter_component/countermeasure_dispenser))
 		if(build_state == HBS_TARGETING_SENSOR_SCREW)
 			to_chat(user, "<span class='notice'>You start adding [W] to [src]...</span>")
-			if(!do_after(user, 5 SECONDS, target=src))
+			building = TRUE
+			if(!do_after(user, 5 SECONDS, target=src) || !Adjacent(user))
+				building = FALSE
 				return
 			to_chat(user, "<spawn class='notice'>You add [W] to [src].</span>")
 			build_state = HBS_COUNTERMEASURE_DISPENSER
 			update_icon()
 			W.forceMove(src)
+			building = FALSE
 	else if(istype(W, /obj/item/fighter_component/secondary/heavy))
 		if(build_state == HBS_PRIMARY_BOLT)
 			to_chat(user, "<span class='notice'>You start adding [W] to [src]...</span>")
-			if(!do_after(user, 5 SECONDS, target=src))
+			building = TRUE
+			if(!do_after(user, 5 SECONDS, target=src) || !Adjacent(user))
+				building = FALSE
 				return
 			to_chat(user, "<spawn class='notice'>You add [W] to [src].</span>")
 			build_state = HBS_SECONDARY
 			update_icon()
 			W.forceMove(src)
+			building = FALSE
 	else if(istype(W, /obj/item/fighter_component/primary/heavy))
 		if(build_state == HBS_COUNTERMEASURE_DISPENSER_BOLT)
 			to_chat(user, "<span class='notice'>You start adding [W] to [src]...</span>")
-			if(!do_after(user, 5 SECONDS, target=src))
+			building = TRUE
+			if(!do_after(user, 5 SECONDS, target=src) || !Adjacent(user))
+				building = FALSE
 				return
 			to_chat(user, "<spawn class='notice'>You add [W] to [src].</span>")
 			build_state = HBS_PRIMARY
 			update_icon()
 			W.forceMove(src)
+			building = FALSE
 	else if(istype(W, /obj/item/stack/cable_coil))
 		var/obj/item/stack/cable_coil/C = W
 		if(build_state == HBS_AVIONICS)
@@ -190,38 +222,52 @@
 				to_chat(user, "<span class='notice'>You need at least five cable pieces to wire [src]!</span>")
 				return
 			to_chat(user, "<span class='notice'>You start wiring [src]...</span>")
-			if(!do_after(user, 5 SECONDS, target=src))
+			building = TRUE
+			if(!do_after(user, 5 SECONDS, target=src) || !Adjacent(user))
+				building = FALSE
 				return
 			W.use(5)
 			to_chat(user, "<spawn class='notice'>You wire [src].</span>")
 			build_state = HBS_AVIONICS_WIRE
 			update_icon()
+			building = FALSE
 		if(build_state == HBS_APU)
 			if(C.get_amount() <5)
 				to_chat(user, "<span class='notice'>You need at least five cable pieces to wire [src]!</span>")
 				return
 			to_chat(user, "<span class='notice'>You start wiring [src]...</span>")
-			if(!do_after(user, 5 SECONDS, target=src))
+			building = TRUE
+			if(!do_after(user, 5 SECONDS, target=src) || !Adjacent(user))
+				building = FALSE
 				return
 			W.use(5)
 			to_chat(user, "<spawn class='notice'>You wire [src].</span>")
 			build_state = HBS_APU_WIRE
 			update_icon()
+			building = FALSE
 	else if(istype(W, /obj/item/airlock_painter)) //replace with an aircraft painter
 		if(build_state == HBS_ARMOUR_PLATING_WELD) //check mode later
 			to_chat(user, "<span class='notice'>You start painting primer on [src]...</span>")
-			if(!do_after(user, 5 SECONDS, target=src))
+			building = TRUE
+			if(!do_after(user, 5 SECONDS, target=src) || !Adjacent(user))
+				building = FALSE
 				return
 			to_chat(user, "<spawn class='notice'>You prime [src].</span>")
+			playsound(src, 'sound/effects/spray.ogg', 100, 1)
 			build_state = HBS_PAINT_PRIMER
 			update_icon()
+			building = FALSE
 		else if(build_state == HBS_PAINT_PRIMER) //check mode later
 			to_chat(user, "<span class='notice'>You start painting details on [src]...</span>")
-			if(!do_after(user, 5 SECONDS, target=src))
+			building = TRUE
+			if(!do_after(user, 5 SECONDS, target=src) || !Adjacent(user))
+				building = FALSE
 				return
-			to_chat(user, "<spawn class='notice'>You complete painting [src].</span>")
+			to_chat(user, "<spawn class='notice'>You finish painting [src].</span>")
+			playsound(src, 'sound/effects/spray.ogg', 100, 1)
 			build_state = HBS_PAINT_DETAILING
 			update_icon()
+			building = FALSE
 
 /obj/structure/fighter_component/underconstruction_fighter/heavy_fighter_frame/wrench_act(mob/user, obj/item/tool)
 	. = FALSE
@@ -290,9 +336,9 @@
 				update_icon()
 				return TRUE
 		if(HBS_ARMOUR_PLATING_BOLT)
-			to_chat(user, "<span class='notice'>You start to bolt the armour plating to the chassis...</span>")
+			to_chat(user, "<span class='notice'>You start to unbolt the armour plating to the chassis...</span>")
 			if(tool.use_tool(src, user, 40, volume=100))
-				to_chat(user, "<span class='notice'>You bolt the armour plating to the chassis.</span>")
+				to_chat(user, "<span class='notice'>You unbolt the armour plating from the chassis.</span>")
 				build_state = HBS_ARMOUR_PLATING_BOLT
 				update_icon()
 				return TRUE
@@ -525,6 +571,8 @@
 	.=..()
 	if(build_state == HBS_PAINT_DETAILING)
 		fighter_name = input(user, "Name Heavy Fighter:","Finalize Heavy Fighter Construction","")
+		if(!fighter_name)
+			fighter_name = "Su-410 Scimitar Heavy Attacker"
 		new_fighter(fighter_name)
 		qdel(src)
 
@@ -533,6 +581,8 @@
 	HF.name = fighter_name
 	for(var/atom/movable/C in contents)
 		C.forceMove(HF)
+	HF.update_stats()
+	HF.obj_integrity = HF.max_integrity
 
 #undef HBS_CHASSIS
 #undef HBS_CHASSIS_BOLT

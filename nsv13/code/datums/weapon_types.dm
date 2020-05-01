@@ -81,7 +81,7 @@
 
 /datum/ship_weapon/heavy_cannon
 	default_projectile_type = /obj/item/projectile/bullet/heavy_cannon_round
-	burst_size = 1
+	burst_size = 3
 	fire_delay = 0
 	range_modifier = 0
 	overmap_select_sound = 'nsv13/sound/effects/ship/pdc_start.ogg'

@@ -32,6 +32,8 @@
 	icon_state = "carrier"
 	build_state = UBS_CHASSIS
 	fighter_name = null
+	pixel_x = -32
+	pixel_y = -12
 
 /obj/structure/fighter_component/underconstruction_fighter/utility_vessel_frame/examine(mob/user)
 	. = ..()
@@ -39,7 +41,7 @@
 		if(UBS_CHASSIS)
 			. += "<span class='notice'>Secure the chassis with bolts.</span>"
 		if(UBS_CHASSIS_BOLT)
-			. += "<span class='notice'>Reinforce the chassis joints.</span>"
+			. += "<span class='notice'>Reinforce the chassis joints with a welder.</span>"
 		if(UBS_CHASSIS_WELD)
 			. += "<span class='notice'>Install the engine into slot H.</span>"
 		if(UBS_ENGINE)
@@ -77,11 +79,11 @@
 		if(UBS_AVIONICS_WIRE)
 			. += "<span class='notice'>Calibrate the flight control systems.</span>"
 		if(UBS_AVIONICS_MULTI)
-			. += "<span class='notice'>Install the armour plating in all indicated place on the diagram.</span>"
+			. += "<span class='notice'>Install the armour plating in all indicated places on the diagram.</span>"
 		if(UBS_ARMOUR_PLATING)
 			. += "<span class='notice'>Secure the armour plating to the chassis with bolts.</span>"
 		if(UBS_ARMOUR_PLATING_BOLT)
-			. += "<span class='notice'>Reinforce the armour plating bonds with the chassis.</span>"
+			. += "<span class='notice'>Reinforce the armour plating bonds with the chassis with a welder.</span>"
 		if(UBS_ARMOUR_PLATING_WELD)
 			. += "<span class='notice'>Paint the surface of the [src] with primer.</span>"
 		if(UBS_PAINT_PRIMER)
@@ -102,78 +104,105 @@
 
 /obj/structure/fighter_component/underconstruction_fighter/utility_vessel_frame/attackby(obj/item/W, mob/user, params)
 	add_fingerprint(user)
-	if(istype(W, /obj/item/fighter_component/fuel_tank))
+	if(building)
+		to_chat(user, "<span class='notice'>You're already installing something into [src]!.</span>")
+		return
+	if(istype(W, /obj/item/fighter_component/fuel_tank) || !Adjacent(user))
 		if(build_state == UBS_APU_MULTI)
 			to_chat(user, "<span class='notice'>You start adding [W] to [src]...</span>")
+			building = TRUE
 			if(!do_after(user, 5 SECONDS, target=src))
+				building = FALSE
 				return
 			to_chat(user, "<spawn class='notice'>You add [W] to [src].</span>")
 			build_state = UBS_FUEL_TANK
 			update_icon()
 			W.forceMove(src)
-	else if(istype(W, /obj/item/fighter_component/avionics))
-		if(build_state == UBS_SECONDARY_BOLT)
+			building = FALSE
+	else if(istype(W, /obj/item/fighter_component/avionics) || !Adjacent(user))
+		if(build_state == UBS_COUNTERMEASURE_DISPENSER_BOLT)
 			to_chat(user, "<span class='notice'>You start adding [W] to [src]...</span>")
+			building = TRUE
 			if(!do_after(user, 5 SECONDS, target=src))
+				building = FALSE
 				return
 			to_chat(user, "<spawn class='notice'>You add [W] to [src].</span>")
 			build_state = UBS_AVIONICS
 			update_icon()
 			W.forceMove(src)
-	else if(istype(W, /obj/item/fighter_component/apu))
+			building = FALSE
+	else if(istype(W, /obj/item/fighter_component/apu) || !Adjacent(user))
 		if(build_state == UBS_ENGINE_BOLT)
 			to_chat(user, "<span class='notice'>You start adding [W] to [src]...</span>")
+			building = TRUE
 			if(!do_after(user, 5 SECONDS, target=src))
+				building = FALSE
 				return
 			to_chat(user, "<spawn class='notice'>You add [W] to [src].</span>")
 			build_state = UBS_APU
 			update_icon()
 			W.forceMove(src)
+			building = FALSE
 	else if(istype(W, /obj/item/fighter_component/armour_plating/utility))
-		if(build_state == UBS_AVIONICS_WIRE)
+		if(build_state == UBS_AVIONICS_MULTI)
 			to_chat(user, "<span class='notice'>You start adding [W] to [src]...</span>")
-			if(!do_after(user, 5 SECONDS, target=src))
+			building = TRUE
+			if(!do_after(user, 5 SECONDS, target=src) || !Adjacent(user))
+				building = FALSE
 				return
 			to_chat(user, "<spawn class='notice'>You add [W] to [src].</span>")
 			build_state = UBS_ARMOUR_PLATING
 			update_icon()
 			W.forceMove(src)
+			building = FALSE
 	else if(istype(W, /obj/item/fighter_component/engine/utility))
 		if(build_state == UBS_CHASSIS_WELD)
 			to_chat(user, "<span class='notice'>You start adding [W] to [src]...</span>")
-			if(!do_after(user, 5 SECONDS, target=src))
+			building = TRUE
+			if(!do_after(user, 5 SECONDS, target=src) || !Adjacent(user))
+				building = FALSE
 				return
 			to_chat(user, "<spawn class='notice'>You add [W] to [src].</span>")
 			build_state = UBS_ENGINE
 			update_icon()
 			W.forceMove(src)
+			building = FALSE
 	else if(istype(W, /obj/item/fighter_component/countermeasure_dispenser))
-		if(build_state == UBS_SECONDARY_BOLT)
+		if(build_state == UBS_SECONDARY_MULTI)
 			to_chat(user, "<span class='notice'>You start adding [W] to [src]...</span>")
-			if(!do_after(user, 5 SECONDS, target=src))
+			building = TRUE
+			if(!do_after(user, 5 SECONDS, target=src) || !Adjacent(user))
+				building = FALSE
 				return
 			to_chat(user, "<spawn class='notice'>You add [W] to [src].</span>")
 			build_state = UBS_COUNTERMEASURE_DISPENSER
 			update_icon()
 			W.forceMove(src)
+			building = FALSE
 	else if(istype(W, /obj/item/fighter_component/primary/utility))
 		if(build_state == UBS_FUEL_TANK_BOLT)
 			to_chat(user, "<span class='notice'>You start adding [W] to [src]...</span>")
-			if(!do_after(user, 5 SECONDS, target=src))
+			building = TRUE
+			if(!do_after(user, 5 SECONDS, target=src) || !Adjacent(user))
+				building = FALSE
 				return
 			to_chat(user, "<spawn class='notice'>You add [W] to [src].</span>")
 			build_state = UBS_PRIMARY
 			update_icon()
 			W.forceMove(src)
+			building = FALSE
 	else if(istype(W, /obj/item/fighter_component/secondary/utility))
 		if(build_state == UBS_PRIMARY_MULTI)
 			to_chat(user, "<span class='notice'>You start adding [W] to [src]...</span>")
-			if(!do_after(user, 5 SECONDS, target=src))
+			building = TRUE
+			if(!do_after(user, 5 SECONDS, target=src) || !Adjacent(user))
+				building = FALSE
 				return
 			to_chat(user, "<spawn class='notice'>You add [W] to [src].</span>")
 			build_state = UBS_SECONDARY
 			update_icon()
 			W.forceMove(src)
+			building = FALSE
 	else if(istype(W, /obj/item/stack/cable_coil))
 		var/obj/item/stack/cable_coil/C = W
 		if(build_state == UBS_AVIONICS)
@@ -181,38 +210,52 @@
 				to_chat(user, "<span class='notice'>You need at least five cable pieces to wire [src]!</span>")
 				return
 			to_chat(user, "<span class='notice'>You start wiring [src]...</span>")
-			if(!do_after(user, 5 SECONDS, target=src))
+			building = TRUE
+			if(!do_after(user, 5 SECONDS, target=src) || !Adjacent(user))
+				building = FALSE
 				return
 			W.use(5)
 			to_chat(user, "<spawn class='notice'>You wire [src].</span>")
 			build_state = UBS_AVIONICS_WIRE
 			update_icon()
+			building = FALSE
 		if(build_state == UBS_APU)
 			if(C.get_amount() <5)
 				to_chat(user, "<span class='notice'>You need at least five cable pieces to wire [src]!</span>")
 				return
 			to_chat(user, "<span class='notice'>You start wiring [src]...</span>")
-			if(!do_after(user, 5 SECONDS, target=src))
+			building = TRUE
+			if(!do_after(user, 5 SECONDS, target=src) || !Adjacent(user))
+				building = FALSE
 				return
 			W.use(5)
 			to_chat(user, "<spawn class='notice'>You wire [src].</span>")
 			build_state = UBS_APU_WIRE
 			update_icon()
+			building = FALSE
 	else if(istype(W, /obj/item/airlock_painter)) //replace with an aircraft painter
 		if(build_state == UBS_ARMOUR_PLATING_WELD) //check mode later
 			to_chat(user, "<span class='notice'>You start painting primer on [src]...</span>")
-			if(!do_after(user, 5 SECONDS, target=src))
+			building = TRUE
+			if(!do_after(user, 5 SECONDS, target=src) || !Adjacent(user))
+				building = FALSE
 				return
 			to_chat(user, "<spawn class='notice'>You prime [src].</span>")
+			playsound(src, 'sound/effects/spray.ogg', 100, 1)
 			build_state = UBS_PAINT_PRIMER
 			update_icon()
+			building = FALSE
 		else if(build_state == UBS_PAINT_PRIMER) //check mode later
 			to_chat(user, "<span class='notice'>You start painting details on [src]...</span>")
-			if(!do_after(user, 5 SECONDS, target=src))
+			building = TRUE
+			if(!do_after(user, 5 SECONDS, target=src) || !Adjacent(user))
+				building = FALSE
 				return
-			to_chat(user, "<spawn class='notice'>You complete painting [src].</span>")
+			to_chat(user, "<spawn class='notice'>You finish painting [src].</span>")
+			playsound(src, 'sound/effects/spray.ogg', 100, 1)
 			build_state = UBS_PAINT_DETAILING
 			update_icon()
+			building = FALSE
 
 /obj/structure/fighter_component/underconstruction_fighter/utility_vessel_frame/wrench_act(mob/user, obj/item/tool)
 	. = FALSE
@@ -517,6 +560,8 @@
 	.=..()
 	if(build_state == UBS_PAINT_DETAILING)
 		fighter_name = input(user, "Name Utility Vessel:","Finalize Utility Vessel Construction","")
+		if(!fighter_name)
+			fighter_name = "Su-437 Sabre Utility Vessel"
 		new_fighter(fighter_name)
 		qdel(src)
 
@@ -525,6 +570,8 @@
 	UC.name = fighter_name
 	for(var/atom/movable/C in contents)
 		C.forceMove(UC)
+	UC.update_stats()
+	UC.obj_integrity = UC.max_integrity
 
 #undef UBS_CHASSIS
 #undef UBS_CHASSIS_BOLT

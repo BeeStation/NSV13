@@ -95,7 +95,6 @@
 	var/weapon_safety = FALSE //Like a gun safety. Entirely un-used except for fighters to stop brainlets from shooting people on the ship unintentionally :)
 	var/faction = null //Used for target acquisition by AIs
 
-	var/weapon_range = 10 //Range changes based on what weapon youre using.
 	var/fire_delay = 5
 	var/next_firetime = 0
 
@@ -168,7 +167,7 @@
 	vector_overlay.icon = icon
 	vis_contents += vector_overlay
 	update_icon()
-	max_range = initial(weapon_range)+20 //Range of the maximum possible attack (torpedo)
+	max_range = 50 //Range of the maximum possible attack (torpedo) - Magic number pulled from the aether
 	find_area()
 	switch(mass) //Scale speed with mass (tonnage)
 		if(MASS_TINY) //Tiny ships are manned by people, so they need air.

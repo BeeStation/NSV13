@@ -15,6 +15,7 @@
 	speed_limit = 6 //We want fighters to be way more maneuverable
 	pixel_w = -16
 	pixel_z = -20
+	chassis = 1
 
 /obj/structure/overmap/fighter/light/prebuilt
 	prebuilt = TRUE

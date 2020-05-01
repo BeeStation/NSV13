@@ -3,6 +3,10 @@
 	style='{{data.master_caution ? "caution" : "disabled"}}'
 	action='master_caution'>
 	"Master Caution"</ui-button>
+  <ui-button icon='{{"bullseye"}}'
+	style='null'
+	action='show_dradis'>
+	"D1 - DRADIS"</ui-button>
   <ui-button icon='{{data.current_countermeasures ? "warning" : "square-o"}}'
 	style='{{data.current_countermeasures ? "caution" : "disabled"}}'
 	action='deploy_countermeasure'>
@@ -61,13 +65,11 @@
 	style='{{data.target_lock ? "selected" : null}}'
 	action='target_lock'>
 	"W2 - Target lock"</ui-button><br/>
-	
   <ui-button icon='{{"square-o"}}'
 	style='caution'
 	action='eject'>
 	"W3 - Eject"</ui-button><br/>
 </ui-display>
-
 <ui-display title='Statistics'>
   <ui-section label='Hull integrity'>
     <ui-bar min='0' max='{{data.max_integrity}}' value='{{data.integrity}}' state='{{data.integrity}}'>{{Math.fixed(adata.integrity)}}</ui-bar>

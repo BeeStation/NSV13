@@ -452,3 +452,11 @@
 	alternate_worn_icon = 'nsv13/icons/mob/head.dmi'
 	icon_state = "decktech_helmet"
 	item_state = "decktech_helmet"
+	actions_types = list(/datum/action/item_action/toggle)
+	visor_flags_inv = HIDEEARS|HIDEEYES
+	visor_flags_cover = HEADCOVERSEYES
+	flash_protect = 2
+	tint = 2
+
+/obj/item/clothing/head/helmet/decktech/attack_self(mob/user)
+	weldingvisortoggle(user)

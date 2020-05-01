@@ -76,7 +76,7 @@
 		if(ship == src || ship.faction == faction || wrecked || ship.wrecked || ship.z != z) //No friendly fire, don't blow up wrecks that the crew may wish to loot.
 			continue
 		var/target_range = get_dist(ship,src)
-		if(target_range > initial(weapon_range)+30)
+		if(target_range > 50) //Random pulled from the aether
 			continue
 		if(!QDELETED(ship) && isovermap(ship))
 			if(mass >= MASS_MEDIUM)

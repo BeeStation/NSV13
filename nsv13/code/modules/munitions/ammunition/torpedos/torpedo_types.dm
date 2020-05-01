@@ -65,10 +65,12 @@
 	name = "Antonio"
 
 /obj/item/ship_weapon/ammunition/torpedo/nuke/antonio/examine(mob/user)
+	.=..()
 	. += "<span class='notice'> This is Antonio, the MAA's loyal companion.</span>"
 
 /obj/item/ship_weapon/ammunition/torpedo/nuke/fabio
 	name = "Fabio"
 
 /obj/item/ship_weapon/ammunition/torpedo/nuke/fabio/examine(mob/user)
+	.=..()
 	. += "<span class='notice'> This is Fabio, Antonio's Evil Brother.</span>"
