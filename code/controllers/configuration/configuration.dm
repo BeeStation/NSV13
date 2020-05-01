@@ -25,7 +25,7 @@
 
 	var/list/fail2topic_whitelisted_ips
 
-	var/list/active_donators
+	var/list/active_donators //PROTECTED
 
 /datum/controller/configuration/proc/admin_reload()
 	if(IsAdminAdvancedProcCall())
@@ -60,7 +60,7 @@
 	LoadTopicRateWhitelist()
 	LoadMOTD()
 	LoadChatFilter()
-
+	LoadDonators()
 /datum/controller/configuration/proc/full_wipe()
 	if(IsAdminAdvancedProcCall())
 		return
@@ -188,7 +188,8 @@
 	return (var_name != NAMEOF(src, entries_by_type) || !hiding_entries_by_type) && ..()
 
 /datum/controller/configuration/vv_edit_var(var_name, var_value)
-	var/list/banned_edits = list(NAMEOF(src, entries_by_type), NAMEOF(src, entries), NAMEOF(src, directory))
+	var/list/banned_edits = list(NAMEOF(src, entries_by_type), NAMEOF(src, entries), NAMEOF(src, directory), NAMEOF(src, active_donators))
+	log_world("Config edit attempt: [var_name]")
 	return !(var_name in banned_edits) && ..()
 
 /datum/controller/configuration/stat_entry()
