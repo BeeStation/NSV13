@@ -58,8 +58,9 @@
 #define RADIO_CHANNEL_CTF_BLUE "Blue Team"
 
 
-#define MIN_FREE_FREQ 1201 // -------------------------------------------------
+#define MIN_FREE_FREQ 1221 // -------------------------------------------------
 // Frequencies are always odd numbers and range from 1201 to 1599.
+//(NSV13) Free frequency minimum was increased to 1221 to avoid the AI using comms to access syndicate and CTF channels
 
 #define FREQ_SYNDICATE 1213  //!  Nuke op comms frequency, dark brown
 #define FREQ_CTF_RED 1215  //!  CTF red team comms frequency, red
