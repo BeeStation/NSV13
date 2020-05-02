@@ -161,9 +161,9 @@
 					radios += R
 
 		if (TRANSMISSION_SUPERSPACE)
-			// Only radios which are independent
+			// Only radios which are independent //NSV13 - or atc radios
 			for(var/obj/item/radio/R in GLOB.all_radios["[frequency]"])
-				if(R.independent && R.can_receive(frequency, levels))
+				if(R.independent && R.can_receive(frequency, levels) || R.atc && R.can_receive(frequency, levels))
 					radios += R
 
 	// From the list of radios, find all mobs who can hear those.
