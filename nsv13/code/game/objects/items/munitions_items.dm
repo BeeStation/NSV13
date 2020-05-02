@@ -20,25 +20,25 @@
 	name = "air traffic control radio encryption key"
 	icon_state = "sec_cypherkey"
 	channels = list(RADIO_CHANNEL_ATC = 1, RADIO_CHANNEL_MUNITIONS = 1, RADIO_CHANNEL_COMMAND = 1)
-	independent = TRUE
+	atc = TRUE
 
 /obj/item/encryptionkey/pilot
 	name = "fighter pilot radio encryption key"
 	icon_state = "sec_cypherkey"
 	channels = list(RADIO_CHANNEL_ATC = 1, RADIO_CHANNEL_MUNITIONS = 1)
-	independent = TRUE
+	atc = TRUE
 
 /obj/item/encryptionkey/heads/master_at_arms
 	name = "master at arms radio encryption key"
 	icon_state = "sec_cypherkey"
 	channels = list(RADIO_CHANNEL_MUNITIONS = 1, RADIO_CHANNEL_SUPPLY = 1, RADIO_CHANNEL_COMMAND = 1, RADIO_CHANNEL_ATC = 1)
-	independent = TRUE
+	atc = TRUE
 
 /obj/item/encryptionkey/munitions_tech
 	name = "munitions department encryption key"
 	icon_state = "sec_cypherkey"
 	channels = list(RADIO_CHANNEL_MUNITIONS = 1, RADIO_CHANNEL_SUPPLY = 1)
-	independent = TRUE
+	atc = TRUE
 
 ///////RADIO HEADSETS//////
 
@@ -63,7 +63,7 @@
 /obj/item/radio/headset/heads/master_at_arms/ComponentInitialize()
 	. = ..()
 	AddComponent(/datum/component/wearertargeting/earprotection, list(SLOT_EARS))
-	
+
 /obj/item/radio/headset/headset_sec/alt/munitions_tech
 	name = "munitions technician radio headset"
 	desc = "Use :w to access the department frequency. Use :u to access the supply frequency."
@@ -79,7 +79,7 @@
 	item_state = "g_suit"
 	item_color = "camogreen"
 	can_adjust = FALSE
-	
+
 /obj/item/clothing/under/rank/master_at_arms
 	name = "master at arms' jumpsuit"
 	desc = "It's a jumpsuit worn by those with the experience to be \"Master At Arms\". It provides minor fire protection."
