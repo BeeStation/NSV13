@@ -130,3 +130,74 @@
 	SAY SECURITY CLASS: CLASSIFIED
 	SAY END METADATA
 "}
+
+/datum/preset_holoimage/curator
+	outfit_type = /datum/outfit/job/curator
+
+/obj/item/disk/holodisk/galactica_history
+	name = "SGC Solaria History #1 - A battleship to surpass them all!"
+	desc = "An informational holodisk carrying information about the history of the SGV Solaria."
+	preset_image_type = /datum/preset_holoimage/curator
+	preset_record_text = {"
+	SAY LOADING INFORMATIONAL HOLOTAPE #1
+	SAY WELCOME TO THE SOLARIA.
+	NAME Joe 'Schlomo' Speedwagon
+	SAY Welcome to the SGV Solaria! I'm Joe, and I'll be your guide.
+	DELAY 30
+	SAY This is the first of several informational holotapes recorded by VICKER media on behalf of the Solarian Government.
+	DELAY 30
+	SAY We start our journey 30 years ago, when this ship was first built. She was designed as a battleship to head the SolGov fleet in a response to Nanotrasen's aggressive military expansion in the 2210s, and boasted an impressive amount of firepower.
+	DELAY 30
+	SAY Estimates put this ship's firepower on par with three Nanotrasen Aegis class light cruisers, however it has since been decommissioned and turned into a museum due to its historical significance!
+	DELAY 30
+	SAY In the next installment, you can find out about the Solaria's importance in several key conflicts. But for now, goodbye! And please, enjoy the museum...
+	DELAY 30
+	SAY END OF RECORDING. PLEASE INSERT NEXT FLOPPY DISK.
+"}
+
+/obj/item/disk/holodisk/galactica_history/history
+	name = "SGC Solaria History #2 - Historical significance"
+	desc = "An informational holodisk carrying information about the history of the SGV Solaria, part 2 in the series."
+	preset_image_type = /datum/preset_holoimage/curator
+	preset_record_text = {"
+	SAY LOADING INFORMATIONAL HOLOTAPE #2
+	SAY WELCOME TO THE SOLARIA.
+	NAME Joe 'Schlomo' Speedwagon
+	SAY Welcome to the SGV Solaria! I'm Joe, and I'll be your guide.
+	DELAY 30
+	SAY This is the second installment of several informational holotapes recorded by VICKER media on behalf of the Solarian Government.
+	DELAY 30
+	SAY The Solaria participated in many border skirmishes, however as she was created primarily as a peacekeeping ship, she rarely saw heavy combat.
+	DELAY 30
+	SAY Most famously, the Solaria dealt a crushing blow to the Jovian felinid-abduction rings, taking on an entire fleet of transport ships by itself!
+	DELAY 30
+	SAY Unfortunately, that's all I've got time for today. Tune in to the next installment to find out all about the Solaria's technical specifications. For now, goodbye! And please, enjoy the museum...
+	DELAY 30
+	SAY END OF RECORDING. PLEASE INSERT NEXT FLOPPY DISK.
+"}
+
+/obj/item/disk/holodisk/galactica_history/tech_specs
+	name = "SGC Solaria History #3 - Technical Specifications"
+	desc = "An informational holodisk carrying information about the history of the SGV Solaria, the final part in the series."
+	preset_image_type = /datum/preset_holoimage/curator
+	preset_record_text = {"
+	SAY LOADING INFORMATIONAL HOLOTAPE #3
+	SAY WELCOME TO THE SOLARIA.
+	NAME Joe 'Schlomo' Speedwagon
+	SAY Welcome to the SGV Solaria! I'm Joe, and I'll be your guide.
+	DELAY 30
+	SAY This is the final installment of several informational holotapes recorded by VICKER media on behalf of the Solarian Government.
+	DELAY 30
+	SAY Last installment, I told you all about the Solaria's rich history, but now it's time to talk tech!
+	DELAY 30
+	SAY The Solaria boasts 8 Gauss cannon, 4 electromagnetic railguns, and even more torpedo tubes!
+	DELAY 30
+	SAY She's rated to withstand a thermonuclear blast of up to 200MT, though this has never been tested!
+	DELAY 30
+	SAY The Solaria is capable of long range faster-than-light travel, and boasted an experimental class 2 stormdrive at its peak, capable of delivering megawatts of power! Though unfortunately, after decomissioning, the Solaria's stormdrive was replaced with a more stable fission reactor.
+	DELAY 30
+	SAY Thank you for joining me on this journey, and hopefully your quest for knowledge doesn't end here! There's plenty of reading material for you around the museum, or you can look at some of the ship's departments - preserved exactly as they would've been used 30 years ago!.
+	DELAY 30
+	SAY This is me, Joe Speedwagon, Signing off.
+	SAY END OF SERIES.
+"}

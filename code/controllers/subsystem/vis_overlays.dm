@@ -31,18 +31,18 @@ SUBSYSTEM_DEF(vis_overlays)
 			return
 
 //the "thing" var can be anything with vis_contents which includes images
-/datum/controller/subsystem/vis_overlays/proc/add_vis_overlay(atom/movable/thing, icon, iconstate, layer, plane, dir, alpha = 255, add_appearance_flags = NONE, unique = FALSE)
+/datum/controller/subsystem/vis_overlays/proc/add_vis_overlay(atom/movable/thing, icon, iconstate, layer, plane, dir, alpha = 255, add_appearance_flags = NONE, unique = FALSE, pixel_x, pixel_y)
 	var/obj/effect/overlay/vis/overlay
 	if(!unique)
 		. = "[icon]|[iconstate]|[layer]|[plane]|[dir]|[alpha]|[add_appearance_flags]"
 		overlay = vis_overlay_cache[.]
 		if(!overlay)
-			overlay = _create_new_vis_overlay(icon, iconstate, layer, plane, dir, alpha, add_appearance_flags)
+			overlay = _create_new_vis_overlay(icon, iconstate, layer, plane, dir, alpha, add_appearance_flags, pixel_x, pixel_y)
 			vis_overlay_cache[.] = overlay
 		else
 			overlay.unused = 0
 	else
-		overlay = _create_new_vis_overlay(icon, iconstate, layer, plane, dir, alpha, add_appearance_flags)
+		overlay = _create_new_vis_overlay(icon, iconstate, layer, plane, dir, alpha, add_appearance_flags, pixel_x, pixel_y)
 		overlay.cache_expiration = -1
 		var/cache_id = "\ref[overlay]@{[world.time]}"
 		unique_vis_overlays += overlay
@@ -59,7 +59,7 @@ SUBSYSTEM_DEF(vis_overlays)
 	else
 		thing.managed_vis_overlays += overlay
 
-/datum/controller/subsystem/vis_overlays/proc/_create_new_vis_overlay(icon, iconstate, layer, plane, dir, alpha, add_appearance_flags)
+/datum/controller/subsystem/vis_overlays/proc/_create_new_vis_overlay(icon, iconstate, layer, plane, dir, alpha, add_appearance_flags, pixel_x=0, pixel_y=0)
 	var/obj/effect/overlay/vis/overlay = new
 	overlay.icon = icon
 	overlay.icon_state = iconstate
@@ -68,6 +68,8 @@ SUBSYSTEM_DEF(vis_overlays)
 	overlay.dir = dir
 	overlay.alpha = alpha
 	overlay.appearance_flags |= add_appearance_flags
+	overlay.pixel_x = pixel_x
+	overlay.pixel_y = pixel_y
 	return overlay
 
 
@@ -87,7 +89,7 @@ SUBSYSTEM_DEF(vis_overlays)
 	var/list/overlays_to_remove = list()
 	for(var/i in thing.managed_vis_overlays - unique_vis_overlays)
 		var/obj/effect/overlay/vis/overlay = i
-		add_vis_overlay(thing, overlay.icon, overlay.icon_state, overlay.layer, overlay.plane, turn(overlay.dir, rotation), overlay.alpha, overlay.appearance_flags)
+		add_vis_overlay(thing, overlay.icon, overlay.icon_state, overlay.layer, overlay.plane, turn(overlay.dir, rotation), overlay.alpha, overlay.appearance_flags, overlay.pixel_x, overlay.pixel_y)
 		overlays_to_remove += overlay
 	for(var/i in thing.managed_vis_overlays & unique_vis_overlays)
 		var/obj/effect/overlay/vis/overlay = i

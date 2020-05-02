@@ -835,7 +835,6 @@ GLOBAL_LIST_EMPTY(allCasters)
 		scanned_user = "[ai_user.name] ([ai_user.job])"
 	else
 		CRASH("Invalid user for this proc")
-		return
 
 /obj/machinery/newscaster/proc/print_paper()
 	SSblackbox.record_feedback("amount", "newspapers_printed", 1)
@@ -1046,15 +1045,15 @@ GLOBAL_LIST_EMPTY(allCasters)
 /obj/machinery/newscaster/directional/north //NSV13 Start - directional newscasters for mapping
 	dir = NORTH
 	pixel_y = 30
-	
+
 /obj/machinery/newscaster/directional/south
 	dir = SOUTH
 	pixel_y = -30
-	
+
 /obj/machinery/newscaster/directional/west
 	dir = WEST
 	pixel_x = -30
-	
+
 /obj/machinery/newscaster/directional/east
 	dir = EAST
 	pixel_x = 30
@@ -1066,11 +1065,11 @@ GLOBAL_LIST_EMPTY(allCasters)
 /obj/machinery/newscaster/security_unit/south
 	dir = SOUTH
 	pixel_y = -30
-	
+
 /obj/machinery/newscaster/security_unit/west
 	dir = WEST
 	pixel_x = -30
-	
+
 /obj/machinery/newscaster/security_unit/east
 	dir = EAST
 	pixel_x = 30 //NSV13 End
