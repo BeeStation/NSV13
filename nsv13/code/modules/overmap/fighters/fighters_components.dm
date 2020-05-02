@@ -316,6 +316,9 @@
 	var/datum/beam/current_beam
 	var/allow_refuel = FALSE
 
+/obj/structure/reagent_dispensers/fueltank/aviation_fuel/empty
+	tank_volume = 0
+	
 /obj/structure/reagent_dispensers/fueltank/aviation_fuel/ui_act(action, params, datum/tgui/ui)
 	if(..())
 		return
@@ -505,8 +508,3 @@
 		else
 			to_chat(user, "<span class='notice'>[f16]'s fuel tank is already full.</span>")
 			return
-
-/datum/supply_pack/munitions/aviation_fuel
-	name = "Aviation fuel"
-	desc = "One Tyrosene fuel pump, capable of fully refuelling 3 fighters."
-	cost = 1500

@@ -182,3 +182,9 @@
 					/obj/item/clothing/head/beret/ship/pilot,
 					/obj/item/radio/headset/headset_sec/alt/pilot,
 					/obj/item/clothing/suit/space/hardsuit/pilot)
+
+/datum/supply_pack/munitions/aviation_fuel
+	name = "Aviation fuel"
+	desc = "One empty Tyrosene fuel pump. Due to the volatility of tyrosene fuel, we are unable to ship full tanks."
+	cost = 1500
+	contains = list(/obj/structure/reagent_dispensers/fueltank/aviation_fuel/empty)
