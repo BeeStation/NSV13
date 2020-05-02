@@ -1,8 +1,8 @@
 ---
-name: Bug report - General
-about: Create a report to help reproduce and fix the issue
+name: Map Issue - Galactica
+about: Bugs related to the Galactica Map
 title: ''
-labels: bug
+labels: Map Issue, Galactica
 assignees: ''
 
 ---
