@@ -35,6 +35,7 @@
 	var/translate_binary = FALSE  // If true, can hear the special binary channel.
 	var/independent = FALSE  // If true, can say/hear on the special CentCom channel.
 	var/syndie = FALSE  // If true, hears all well-known channels automatically, and can say/hear on the Syndicate channel.
+	var/atc = FALSE //NSV13 - Allows headsets to use the ATC radio over different Z levels.
 	var/list/channels = list()  // Map from name (see communications.dm) to on/off. First entry is current department (:h).
 	var/list/secure_radio_connections
 	var/list/radio_sounds = list('nsv13/sound/effects/radio1.ogg','nsv13/sound/effects/radio2.ogg') //nsv13 - Radios make small static noises now
@@ -56,6 +57,7 @@
 	translate_binary = FALSE
 	syndie = FALSE
 	independent = FALSE
+	atc = FALSE
 
 	if(keyslot)
 		for(var/ch_name in keyslot.channels)
@@ -68,6 +70,8 @@
 			syndie = TRUE
 		if(keyslot.independent)
 			independent = TRUE
+		if(keyslot.atc)
+			atc = TRUE
 
 	for(var/ch_name in channels)
 		secure_radio_connections[ch_name] = add_radio(src, GLOB.radiochannels[ch_name])
@@ -255,10 +259,18 @@
 	var/datum/signal/subspace/vocal/signal = new(src, freq, speaker, language, message, spans)
 
 	// Independent radios, on the CentCom frequency, reach all independent radios
-	if (independent && (freq == FREQ_CENTCOM || freq == FREQ_CTF_RED || freq == FREQ_CTF_BLUE || freq == FREQ_ATC)) //Nsv13 - atc channel
+	if (independent && (freq == FREQ_CENTCOM || freq == FREQ_CTF_RED || freq == FREQ_CTF_BLUE))
 		signal.data["compression"] = 0
 		signal.transmission_method = TRANSMISSION_SUPERSPACE
 		signal.levels = list(0)  // reaches all Z-levels
+		signal.broadcast()
+		return
+
+	// NSV13 - works the same as independent radios allowing them to send/receive across Z-levels
+	if (atc && (freq == FREQ_ATC))
+		signal.data["compression"] = 0
+		signal.transmission_method = TRANSMISSION_SUPERSPACE
+		signal.levels = list(0) //unlimited
 		signal.broadcast()
 		return
 
@@ -310,8 +322,10 @@
 		return FALSE
 	if (freq == FREQ_SYNDICATE && !syndie)
 		return FALSE
-	if (freq == FREQ_CENTCOM || freq == FREQ_ATC)
+	if (freq == FREQ_CENTCOM)
 		return independent  // hard-ignores the z-level check
+	if (freq == FREQ_ATC) //NSV13 - atc radio
+		return atc //NSV13 - hard-ignores z-level check for atc radio
 	if (!(0 in level))
 		var/turf/position = get_turf(src)
 		if(!position || !(position.z in level))
