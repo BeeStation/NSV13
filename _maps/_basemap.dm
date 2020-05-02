@@ -12,10 +12,11 @@
 		#include "map_files\Aegis\ao1.dmm"
 		#include "map_files\Aegis\ao2.dmm"
 		#include "map_files\Aegis\ao3.dmm"
-		#include "map_files\Valkyrie\valkyrie1.dmm"
-		#include "map_files\Valkyrie\valkyrie2.dmm"
-		#include "map_files\Valkyrie\valkyrie3.dmm"
+		#include "map_files\Enterprise\Enterprise1.dmm"
+		#include "map_files\Enterprise\Enterprise2.dmm"
 		#include "map_files\Hammerhead\Hammerhead.dmm"
+		#include "map_files\Galactica\Galactica2.dmm"
+		#include "map_files\Galactica\Galactica.dmm"
 
 		#ifdef TRAVISBUILDING
 			#include "templates.dm"

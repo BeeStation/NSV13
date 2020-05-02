@@ -103,8 +103,6 @@
 		ready_ftl()
 		use_power = 300 //Keeping the FTL spooled requires a fair bit of power
 		return PROCESS_KILL
-	depower() //If it's not ready or spooling, it doesn't need to eat power.
-	return PROCESS_KILL
 
 /obj/machinery/computer/ship/ftl_computer/attack_hand(mob/user)
 	if(!allowed(user))

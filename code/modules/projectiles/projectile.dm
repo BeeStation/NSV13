@@ -105,13 +105,16 @@
 	var/impact_effect_type //what type of impact effect to show when hitting something
 	var/log_override = FALSE //is this type spammed enough to not log? (KAs)
 	var/faction = null //NSV13 - bullets need factions for collision checks
+	var/next_homing_process = 0 //Nsv13 - performance enhancements
+	var/homing_delay = 0.7 SECONDS //Nsv13 - performance enhancements. 1 second delay is noticeably slow
 
 	var/temporary_unstoppable_movement = FALSE
 
-/obj/item/projectile/Initialize()
+/obj/item/projectile/Initialize(mapload)
 	. = ..()
 	permutated = list()
 	decayedRange = range
+
 
 /obj/item/projectile/proc/Range()
 	range--
@@ -253,7 +256,7 @@
 					forceMove(get_step_towards(src, TT))
 				trajectory_ignore_forcemove = FALSE
 				return FALSE
-	if((A == firer) || (((A in firer.buckled_mobs) || (istype(checking) && (A == checking.buckled))) && (A != original)) || (A == firer.loc && (ismecha(A) || istype(A, /obj/structure/overmap)))) //cannot shoot yourself or your mech //nsv13 - or your ship
+	if(firer && (A == firer) || (((A in firer?.buckled_mobs) || (istype(checking) && (A == checking.buckled))) && (A != original)) || (A == firer?.loc && (ismecha(A) || istype(A, /obj/structure/overmap)))) //cannot shoot yourself or your mech //nsv13 - or your ship
 		trajectory_ignore_forcemove = TRUE
 		var/turf/TT = trajectory.return_turf()
 		if(!istype(TT))
@@ -381,6 +384,8 @@
 			required_moves = SSprojectiles.global_max_tick_moves
 			time_offset += overrun * speed
 		time_offset += MODULUS(elapsed_time_deciseconds, speed)
+	if(collider2d) //Nsv13 change.
+		check_overmap_collisions()
 
 	for(var/i in 1 to required_moves)
 		pixel_move(1, FALSE)
@@ -499,7 +504,7 @@
 		var/matrix/M = new
 		M.Turn(Angle)
 		transform = M
-	if(homing)
+	if(homing && world.time >= next_homing_process) //Nsv13 performance enhancements
 		process_homing()
 	var/forcemoved = FALSE
 	for(var/i in 1 to SSprojectiles.global_iterations_per_move)
@@ -531,13 +536,12 @@
 		animate(src, pixel_x = trajectory.return_px(), pixel_y = trajectory.return_py(), time = 1, flags = ANIMATION_END_NOW)
 	Range()
 
-/obj/item/projectile/proc/process_homing()			//may need speeding up in the future performance wise.
-	if(!homing_target)
+/obj/item/projectile/proc/process_homing() //Nsv13 - Enhanced the performance of this entire proc.
+	if(!homing_target) //NSV13 - Changed proc to be less performance intensive
 		return FALSE
-	var/datum/point/PT = RETURN_PRECISE_POINT(homing_target)
-	PT.x += CLAMP(homing_offset_x, 1, world.maxx)
-	PT.y += CLAMP(homing_offset_y, 1, world.maxy)
-	var/angle = closer_angle_difference(Angle, angle_between_points(RETURN_PRECISE_POINT(src), PT))
+	next_homing_process = world.time + homing_delay
+	var/targetAngle = Get_Angle(src, homing_target)
+	var/angle = closer_angle_difference(Angle, targetAngle)
 	setAngle(Angle + CLAMP(angle, -homing_turn_speed, homing_turn_speed))
 
 /obj/item/projectile/proc/set_homing_target(atom/A)
@@ -559,7 +563,7 @@
 		return FALSE
 	if(!ignore_source_check && firer)
 		var/mob/M = firer
-		if((target == firer) || ((target == firer.loc) && ismecha(firer.loc)) || (target in firer.buckled_mobs) || (istype(M) && (M.buckled == target)))
+		if((target == firer) || ((target == firer.loc) && ismecha(firer.loc)) || (target in firer?.buckled_mobs) || (istype(M) && (M.buckled == target)))
 			return FALSE
 	if(!ignore_loc && (loc != target.loc))
 		return FALSE
@@ -655,6 +659,8 @@
 /obj/item/projectile/Destroy()
 	if(hitscan)
 		finalize_hitscan_and_generate_tracers()
+	if(collider2d) //Nsv13
+		QDEL_NULL(collider2d)
 	STOP_PROCESSING(SSprojectiles, src)
 	cleanup_beam_segments()
 	qdel(trajectory)

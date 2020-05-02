@@ -2,7 +2,7 @@
 name: Map Issue - Enterprise
 about: Bugs related to the Enterprise Map
 title: ''
-labels: Map Issue, Enterprise
+labels: Enterprise, Map Issue
 assignees: ''
 
 ---
@@ -12,7 +12,7 @@ assignees: ''
 
 <!--- **INCLUDE THE ROUND ID**
 If you discovered this issue from playing tgstation hosted servers:
-[Round ID]: # (It can be found in the Status panel or retrieved from https://atlantaned.space/statbus/round.php ! The round id let's us look up valuable information and logs for the round the bug happened.)-->
+[Round ID]: # (It can be found in the Status panel! The round id let's us look up valuable information and logs for the round the bug happened.)-->
 
 ## Testmerges:
 

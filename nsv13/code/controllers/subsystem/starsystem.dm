@@ -8,6 +8,8 @@ SUBSYSTEM_DEF(starsystem)
 	var/list/systems = list()
 	var/datum/starsystem/hyperspace //The transit level for ships
 	var/bounty_pool = 0 //Bounties pool to be delivered for destroying syndicate ships
+	var/list/enemy_types = list()
+	var/list/enemy_blacklist = list()
 
 /datum/controller/subsystem/starsystem/fire() //Overmap combat events control system, adds weight to combat events over time spent out of combat
 	if(last_combat_enter + (5000 + (1000 * modifier)) < world.time) //Checking the last time we started combat with the current time
@@ -31,6 +33,15 @@ SUBSYSTEM_DEF(starsystem)
 /datum/controller/subsystem/starsystem/New()
 	. = ..()
 	instantiate_systems()
+	enemy_types = subtypesof(/obj/structure/overmap/syndicate/ai)
+	for(var/type in enemy_blacklist)
+		enemy_types -= type
+
+
+/datum/controller/subsystem/starsystem/proc/add_blacklist(what)
+	enemy_blacklist += what
+	if(locate(what) in enemy_types)
+		enemy_types -= what
 
 /datum/controller/subsystem/starsystem/proc/instantiate_systems()
 	cycle_gameplay_loop() //Start the gameplay loop
@@ -110,7 +121,7 @@ SUBSYSTEM_DEF(starsystem)
 			starsys.mission_sector = TRUE //set this sector to be the active mission
 			starsys.spawn_asteroids() //refresh asteroids in the system
 			for(var/i = 0, i < starsys.difficulty_budget, i++) //number of enemies is set via the starsystem vars
-				var/enemy_type = pick(subtypesof(/obj/structure/overmap/syndicate)) //Spawn a random set of enemies.
+				var/enemy_type = pick(enemy_types) //Spawn a random set of enemies.
 				modular_spawn_enemies(enemy_type, starsys)
 			priority_announce("Attention all ships, set condition 1 throughout the fleet. Syndicate incursion detected in: [starsys]. All ships must repel the invasion.", "Naval Command")
 
@@ -141,16 +152,16 @@ SUBSYSTEM_DEF(starsystem)
 		if(!destination)
 			message_admins("WARNING: The [name] system has no exit point for ships! You probably forgot to set the [level_trait]:1 setting for that Z in your map's JSON file.")
 			return
-	new /obj/structure/asteroid(get_turf(pick(orange(5, destination)))) //Guaranteed at least some asteroids that they can pull in to start with.
-	new /obj/structure/asteroid(get_turf(pick(orange(5, destination))))
+	new /obj/structure/overmap/asteroid(get_turf(pick(orange(5, destination)))) //Guaranteed at least some asteroids that they can pull in to start with.
+	new /obj/structure/overmap/asteroid(get_turf(pick(orange(5, destination))))
 	for(var/i = 0, i< rand(3,6), i++)
-		var/roid_type = pick(/obj/structure/asteroid, /obj/structure/asteroid/medium, /obj/structure/asteroid/large)
+		var/roid_type = pick(/obj/structure/overmap/asteroid, /obj/structure/overmap/asteroid/medium, /obj/structure/overmap/asteroid/large)
 		var/turf/random_dest = get_turf(locate(rand(20,220), rand(20,220), destination.z))
-		var/obj/structure/asteroid/roid = new roid_type(random_dest)
+		var/obj/structure/overmap/asteroid/roid = new roid_type(random_dest)
 		asteroids += roid
 		RegisterSignal(roid, COMSIG_PARENT_QDELETING , .proc/remove_asteroid, roid) //Add a listener component to check when a ship is killed, and thus check if the incursion is cleared.
 
-/datum/starsystem/proc/remove_asteroid(obj/structure/asteroid/AS)
+/datum/starsystem/proc/remove_asteroid(obj/structure/overmap/asteroid/AS)
 	asteroids -= AS
 
 /datum/starsystem/proc/add_enemy(obj/structure/overmap/OM)
