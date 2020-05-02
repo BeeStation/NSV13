@@ -14,7 +14,7 @@
 	icon_state = "default"
 	density = TRUE
 	dir = NORTH
-	layer = HIGH_OBJ_LAYER
+	layer = ABOVE_MOB_LAYER
 	animate_movement = NO_STEPS // Override the inbuilt movement engine to avoid bouncing
 	req_one_access = list(ACCESS_HEADS, ACCESS_MUNITIONS, ACCESS_SEC_DOORS, ACCESS_ENGINE) //Bridge officers/heads, munitions techs / fighter pilots, security officers, engineering personnel all have access.
 
@@ -42,8 +42,6 @@
 	var/damage_states = FALSE //Did you sprite damage states for this ship? If yes, set this to true
 
 	//Movement Variables
-	var/velocity_x = 0 // tiles per second.
-	var/velocity_y = 0
 	var/offset_x = 0 // like pixel_x/y but in tiles
 	var/offset_y = 0
 	var/angle = 0 // degrees, clockwise
@@ -54,6 +52,8 @@
 	var/last_thrust_forward = 0
 	var/last_thrust_right = 0
 	var/last_rotate = 0
+	var/should_open_doors = FALSE //Should we open airlocks? This is off by default because it was HORRIBLE.
+	var/inertial_dampeners = TRUE
 
 	var/user_thrust_dir = 0
 
@@ -62,6 +62,7 @@
 	var/backward_maxthrust = 3
 	var/side_maxthrust = 1
 	var/mass = MASS_SMALL //The "mass" variable will scale the movespeed according to how large the ship is.
+	var/landing_gear = FALSE //Allows you to move in atmos without scraping the hell outta your ship
 
 	var/bump_impulse = 0.6
 	var/bounce_factor = 0.2 // how much of our velocity to keep on collision
@@ -70,6 +71,9 @@
 	var/brakes = FALSE //Helps you stop the ship
 	var/rcs_mode = FALSE //stops you from swivelling on mouse move
 	var/move_by_mouse = TRUE //It's way easier this way, but people can choose.
+
+	//Logging
+	var/list/weapon_log = list() //Shows who did the firing thing
 
 	// Mobs
 	var/mob/living/pilot //Physical mob that's piloting us. Cameras come later
@@ -117,13 +121,11 @@
 
 	var/role = NORMAL_OVERMAP
 
-/obj/structure/overmap/can_be_pulled(user) // no :)
-	return FALSE
-
 /obj/weapon_overlay
 	name = "Weapon overlay"
 	layer = 4
 	mouse_opacity = FALSE
+	layer = WALL_OBJ_LAYER
 	var/angle = 0 //Debug
 
 /obj/weapon_overlay/proc/do_animation()
@@ -334,7 +336,7 @@
 		if(damage_amount >= 15) //Flak begone
 			shake_everyone(5)
 		impact_sound_cooldown = TRUE
-		addtimer(VARSET_CALLBACK(src, impact_sound_cooldown, FALSE), 10)
+		addtimer(VARSET_CALLBACK(src, impact_sound_cooldown, FALSE), 1 SECONDS)
 	update_icon()
 
 /obj/structure/overmap/relaymove(mob/user, direction)
@@ -447,20 +449,33 @@
 				var/sound = pick(GLOB.computer_beeps)
 				playsound(helm, sound, 100, 1)
 			return TRUE
+		if("Shift")
+			if(themob == pilot)
+				toggle_inertia()
+			if(helm && prob(80))
+				var/sound = pick(GLOB.computer_beeps)
+				playsound(helm, sound, 100, 1)
+			return TRUE
 		if("Alt")
 			if(themob == pilot)
 				toggle_brakes()
 			if(helm && prob(80))
 				var/sound = pick(GLOB.computer_beeps)
 				playsound(helm, sound, 100, 1)
-
+			return TRUE
 		if("Ctrl")
 			if(themob == gunner)
 				cycle_firemode()
 			if(tactical && prob(80))
 				var/sound = pick(GLOB.computer_beeps)
 				playsound(tactical, sound, 100, 1)
-
+			return TRUE
+		if("Q" || "q")
+			if(!move_by_mouse)
+				desired_angle -= 15
+		if("E" || "e")
+			if(!move_by_mouse)
+				desired_angle += 15
 
 /obj/structure/overmap/verb/toggle_brakes()
 	set name = "Toggle Handbrake"
@@ -472,12 +487,25 @@
 	brakes = !brakes
 	to_chat(usr, "<span class='notice'>You toggle the brakes [brakes ? "on" : "off"].</span>")
 
+/obj/structure/overmap/verb/toggle_inertia()
+	set name = "Toggle IAS"
+	set category = "Ship"
+	set src = usr.loc
+
+	if(!verb_check() || !can_brake())
+		return
+	inertial_dampeners = !inertial_dampeners
+	to_chat(usr, "<span class='notice'>Inertial assistance system [inertial_dampeners ? "ONLINE" : "OFFLINE"].</span>")
+
+/obj/structure/overmap/proc/can_change_safeties()
+	return (obj_flags & EMAGGED || !is_station_level(loc.z))
+
 /obj/structure/overmap/verb/toggle_safety()
 	set name = "Toggle Gun Safeties"
 	set category = "Ship"
 	set src = usr.loc
 
-	if(!verb_check() || !can_brake())
+	if(!verb_check() || !can_change_safeties())
 		return
 	weapon_safety = !weapon_safety
 	to_chat(usr, "<span class='notice'>You toggle [src]'s weapon safeties [weapon_safety ? "on" : "off"].</span>")
