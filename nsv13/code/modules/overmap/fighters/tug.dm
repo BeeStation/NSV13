@@ -116,6 +116,7 @@
 		if(target.loc != src)
 			vis_contents -= target
 			loaded -= target
+			target.mag_lock = null
 			continue
 		target.desired_angle = 0
 		target.angle = 0
