@@ -185,6 +185,6 @@
 
 /datum/supply_pack/munitions/aviation_fuel
 	name = "Aviation fuel"
-	desc = "One empty Tyrosene fuel pump. Due to the volatility of Tyrosene fuel, we are unable to ship full tanks."
+	desc = "One Tyrosene fuel pump, capable of fully refuelling 3 fighters."
 	cost = 1500
-	contains = list(/obj/structure/reagent_dispensers/fueltank/aviation_fuel/empty)
+	contains = list(/obj/structure/reagent_dispensers/fueltank/aviation_fuel)

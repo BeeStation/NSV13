@@ -315,9 +315,6 @@
 	var/max_range = 2
 	var/datum/beam/current_beam
 	var/allow_refuel = FALSE
-
-/obj/structure/reagent_dispensers/fueltank/aviation_fuel/empty
-	tank_volume = 0
 	
 /obj/structure/reagent_dispensers/fueltank/aviation_fuel/ui_act(action, params, datum/tgui/ui)
 	if(..())
