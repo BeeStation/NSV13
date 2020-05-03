@@ -25,7 +25,7 @@
 /obj/item/projectile/bullet/heavy_cannon_round
 	icon_state = "pdc"
 	name = "heavy cannon round"
-	damage = 20
+	damage = 10
 //	flag = "overmap_heavy"
 
 /obj/item/projectile/guided_munition/torpedo
