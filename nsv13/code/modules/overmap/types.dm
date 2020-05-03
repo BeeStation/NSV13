@@ -79,6 +79,7 @@
 	max_integrity = 3000 //Max health
 	integrity_failure = 3000
 	collision_positions = list(new /datum/vector2d(-21,223), new /datum/vector2d(-85,72), new /datum/vector2d(-92,46), new /datum/vector2d(-91,-107), new /datum/vector2d(-80,-135), new /datum/vector2d(-52,-220), new /datum/vector2d(-27,-227), new /datum/vector2d(27,-228), new /datum/vector2d(52,-220), new /datum/vector2d(81,-136), new /datum/vector2d(92,-106), new /datum/vector2d(92,44), new /datum/vector2d(84,73), new /datum/vector2d(20,222), new /datum/vector2d(0,225))
+
 /obj/structure/overmap/nanotrasen/carrier
 	name = "enterprise class carrier"
 	desc = "A gigantic ship which is capable of staying deployed in space for extended periods while supporting an impressive complement of fighters."
@@ -95,20 +96,20 @@
 
 /obj/structure/overmap/nanotrasen/mining_cruiser
 	name = "Mining hauler"
-	desc = "A medium sized ship which has been retrofitted countless times. These ships are often relegated to mining duty."
-	icon = 'nsv13/icons/overmap/nanotrasen/light_cruiser.dmi'
-	icon_state = "cruiser"
+	desc = "A large industrial freighter with asteroid capture systems. It is designed for long range exploratory missions and asteroid mining."
+	icon = 'nsv13/icons/overmap/nanotrasen/hephaistus.dmi'
+	icon_state = "mining_cruiser"
 	mass = MASS_MEDIUM
-	sprite_size = 96
+	sprite_size = 48
 	damage_states = TRUE
 	max_integrity = 800 //Max health
 	integrity_failure = 800
-	pixel_w = -32
-	pixel_z = -32
-	collision_positions = list(new /datum/vector2d(-8,46), new /datum/vector2d(-17,33), new /datum/vector2d(-25,2), new /datum/vector2d(-14,-45), new /datum/vector2d(9,-46), new /datum/vector2d(22,4), new /datum/vector2d(14,36))
+	pixel_w = -64
+	pixel_z = -64
+	collision_positions = list(new /datum/vector2d(-8,59), new /datum/vector2d(-13,19), new /datum/vector2d(-13,-58), new /datum/vector2d(-7,-66), new /datum/vector2d(6,-66), new /datum/vector2d(12,-59), new /datum/vector2d(13,20), new /datum/vector2d(7,59))
 
 /obj/structure/overmap/nanotrasen/mining_cruiser/nostromo
-	name = "NSV Nostromo"
+	name = "NSV Hephaistus"
 	role = MAIN_MINING_SHIP
 	area_type = /area/nostromo
 	starting_system = "Lalande 21185"
