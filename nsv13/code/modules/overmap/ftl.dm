@@ -167,7 +167,7 @@
 	id = "ftl_slipstream_chip"
 	build_type = PROTOLATHE
 	materials = list(/datum/material/plasma = 25000,/datum/material/diamond = 15000, /datum/material/silver = 20000)
-	build_path = /obj/item/mining_sensor_upgrade
+	build_path = /obj/item/ftl_slipstream_chip
 	category = list("Ship Components")
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO | DEPARTMENTAL_FLAG_SCIENCE
 

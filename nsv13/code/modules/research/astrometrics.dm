@@ -110,10 +110,11 @@ Clean override of the navigation computer to provide scan functionality.
 			scanned += scan_target.name
 			if(istype(scan_target, /obj/effect/overmap_anomaly))
 				var/obj/effect/overmap_anomaly/OA = scan_target
-				var/reward = OA.research_points/2
-				OA.research_points -= reward
+				if(OA.research_points > 0 && !OA.scanned) //In case someone else did a scan on it already.
+					var/reward = OA.research_points/2
+					OA.research_points -= reward
+					linked_techweb.add_point_type(TECHWEB_POINT_TYPE_DEFAULT, reward)
 				OA.scanned = TRUE
-				linked_techweb.add_point_type(TECHWEB_POINT_TYPE_DEFAULT, reward)
 			scan_target = null
 			scan_progress = 0
 			return
