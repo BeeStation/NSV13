@@ -8,6 +8,18 @@ you build.
 
 */
 
+/datum/design/board/astrometrics
+	name = "Computer Design (Astrometrics computer)"
+	desc = "Allows for the construction of circuit boards used to build a new astrometrics computer."
+	id = "astrometrics_console"
+	build_path = /obj/item/circuitboard/computer/scan_consolenew
+	category = list("Computer Boards")
+	departmental_flags = DEPARTMENTAL_FLAG_MEDICAL | DEPARTMENTAL_FLAG_SCIENCE
+
+/obj/item/circuitboard/computer/astrometrics
+	name = "Astrometrics Computer (Computer Board)"
+	build_path = /obj/machinery/computer/ship/navigation/astrometrics
+
 /obj/machinery/computer/ship/navigation/astrometrics
 	name = "Astrometrics computer"
 	desc = "A computer which is capable of interfacing with subspace sensor arrays to gather intel on starsystems. It is capable of performing rudimentary, long range analysis on anomalies, however a probe torpedo will need to be constructed and fired at the anomaly to fully collect its available research."

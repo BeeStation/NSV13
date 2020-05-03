@@ -264,6 +264,9 @@ SUBSYSTEM_DEF(star_system)
 		research_points = 0
 		scanned = TRUE
 		minor_announce("Successfully received probe telemetry. Full astrological survey of [name] complete.", "WAYFARER subsystem")
+		for(var/obj/structure/overmap/OM in GLOB.overmap_objects)
+			if(OM && OM.z == z)
+				OM.relay('nsv13/sound/effects/ship/FTL.ogg')
 		qdel(AM)
 
 /obj/effect/overmap_anomaly/wormhole
@@ -357,7 +360,7 @@ SUBSYSTEM_DEF(star_system)
 	research_points = 4000 //Somewhat more interesting than a sun.
 
 /datum/star_system/proc/apply_system_effects()
-	event_chance = 10 //Very low chance of an event happening
+	event_chance = 15 //Very low chance of an event happening
 	var/anomaly_type = null
 	switch(system_type)
 		if("safe")
@@ -366,7 +369,7 @@ SUBSYSTEM_DEF(star_system)
 			possible_events = list(/datum/round_event_control/carp_migration, /datum/round_event_control/electrical_storm, /datum/round_event_control/belt_rats, /datum/round_event_control/lone_hunter)
 		if("wormhole")
 			possible_events = list(/datum/round_event_control/wormholes, /datum/round_event/anomaly) //Wormhole systems are unstable in bluespace
-			event_chance = 50 //Highly unstable region of space.
+			event_chance = 70 //Highly unstable region of space.
 			create_wormhole()
 			return
 		if("pirate")
@@ -383,6 +386,7 @@ SUBSYSTEM_DEF(star_system)
 			event_chance = 100 //Quasars are screwy.
 		if("debris")
 			parallax_property = "rocks"
+			event_chance = 30 //Space rocks!
 			possible_events = list(/datum/round_event_control/space_dust, /datum/round_event_control/meteor_wave)
 		if("icefield")
 			parallax_property = "icefield"
