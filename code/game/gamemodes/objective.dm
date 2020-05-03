@@ -60,7 +60,7 @@ GLOBAL_LIST_EMPTY(objectives)
 	if(SSshuttle.emergency.mode != SHUTTLE_ENDGAME)
 		return FALSE
 	var/turf/location = get_turf(M.current)
-	if(!location || istype(location, /turf/open/floor/plasteel/shuttle/red) || istype(location, /turf/open/floor/mineral/plastitanium/red/brig)) // Fails if they are in the shuttle brig
+	if(!location || istype(get_area(M.current), /area/security/prison) || istype(location, /turf/open/floor/plasteel/shuttle/red) || istype(location, /turf/open/floor/mineral/plastitanium/red/brig)) // Fails if they are in the shuttle brig -Nsv13 or in the permabrig
 		return FALSE
 	return location.onCentCom() || location.onSyndieBase()
 
@@ -365,8 +365,8 @@ GLOBAL_LIST_EMPTY(objectives)
 
 /datum/objective/escape
 	name = "escape"
-	explanation_text = "Escape on the shuttle or an escape pod alive and without being in custody."
-	team_explanation_text = "Have all members of your team escape on a shuttle or pod alive, without being in custody."
+	explanation_text = "Return to central command via escape shuttle, pod, or crew transfer alive and without being in custody."
+	team_explanation_text = "Have all members of your team return to central command via escape shuttle, pod, or crew transfer, without being in custody."
 
 /datum/objective/escape/check_completion()
 	// Require all owners escape safely.

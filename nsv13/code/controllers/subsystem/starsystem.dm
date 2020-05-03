@@ -1,3 +1,5 @@
+GLOBAL_VAR_INIT(crew_transfer_risa, FALSE)
+
 //Subsystem to control overmap events and the greater gameworld
 SUBSYSTEM_DEF(star_system)
 	name = "star_system"
@@ -10,17 +12,18 @@ SUBSYSTEM_DEF(star_system)
 	var/list/enemy_types = list()
 	var/list/enemy_blacklist = list()
 	var/list/ships = list() //2-d array. Format: list("ship" = ship, "x" = 0, "y" = 0, "current_system" = null, "target_system" = null, "transit_time" = 0)
+	var/patrols_left = 5 //Around 1 hour : 15 minutes
 
 /datum/controller/subsystem/star_system/fire() //Overmap combat events control system, adds weight to combat events over time spent out of combat
 	if(last_combat_enter + (5000 + (1000 * modifier)) < world.time) //Checking the last time we started combat with the current time
 		var/datum/round_event_control/_overmap_event_handler/OEH = locate(/datum/round_event_control/_overmap_event_handler) in SSevents.control
 		modifier ++ //Increment time step
-		if(modifier == 13) // 30 minutes
-			var/message = pick(	"This is Centcomm to all vessels assigned to patrol the Astraeus-Corvi routes, please continue on your patrol route", \
-								"This is Centcomm to all vessels assigned to patrol the Astraeus-Corvi routes, we are not paying you to idle in space during your assigned patrol schedule", \
-								"This is Centcomm to the patrol vessel currently assigned to the Astraeus-Corvi route, you are expected to fulfill your assigned mission")
+		if(modifier == 13 && patrols_left > 0) // 30 minutes
+			var/message = pick(	"This is Centcomm to all vessels assigned to patrol the Abassi Ridge, please continue on your patrol route", \
+								"This is Centcomm to all vessels assigned to patrol the Abassi Ridge, we are not paying you to idle in space during your assigned patrol schedule", \
+								"This is Centcomm to the patrol vessel currently assigned to the Abassi Ridge, you are expected to fulfill your assigned mission")
 			priority_announce("[message]", "Naval Command") //Warn players for idleing too long
-		if(modifier == 22) // 45 minutes
+		if(modifier == 22 && patrols_left > 0) // 45 minutes of inactivity, or they've ended their official patrol
 			var/total_deductions
 			for(var/account in SSeconomy.department_accounts)
 				var/datum/bank_account/D = SSeconomy.get_dep_account(account)
@@ -129,6 +132,16 @@ SUBSYSTEM_DEF(star_system)
 	addtimer(CALLBACK(src, .proc/gameplay_loop), rand(10 MINUTES, 15 MINUTES)) //Cycle the gameplay loop 10 to 15 minutes after the previous sector is cleared
 
 /datum/controller/subsystem/star_system/proc/gameplay_loop() //A very simple way of having a gameplay loop. Every couple of minutes, the Syndicate appear in a system, the ship has to destroy them.
+	if(patrols_left <= 0)
+		priority_announce("Attention [station_name()]. You have completed your assigned patrol and are now eligible for a crew transfer. \
+		Your navigational computers have been programmed with the coordinates of the nearest starbase where you may claim your allotted shore leave. \
+		You are under no obligation to remain in this sector, and you have been taken off of active patrol status. If you wish to continue with exploratory missions or other activities you are free to do so.", "Naval Command")
+		last_combat_enter = world.time
+		for(var/datum/star_system/SS in systems)
+			if(SS.name == "Risa Station")
+				SS.hidden = FALSE
+		return
+
 	var/datum/star_system/current_system //Dont spawn enemies where theyre currently at
 	for(var/obj/structure/overmap/OM in GLOB.overmap_objects) //The ship doesnt start with a system assigned by default
 		if(OM.role != MAIN_OVERMAP)
@@ -148,6 +161,7 @@ SUBSYSTEM_DEF(star_system)
 		var/enemy_type = pick(enemy_types) //Spawn a random set of enemies.
 		spawn_ship(enemy_type, starsys)
 	priority_announce("Attention all ships, set condition 1 throughout the fleet. Syndicate incursion detected in: [starsys]. All ships must repel the invasion.", "Naval Command")
+	patrols_left --
 	return
 
 /datum/controller/subsystem/star_system/proc/add_ship(obj/structure/overmap/OM)
@@ -452,13 +466,31 @@ SUBSYSTEM_DEF(star_system)
 	return y + (t * (other.y - y))
 
 //////star_system LIST (order of appearance)///////
+
+/datum/star_system/risa
+	name = "Risa Station"
+	hidden = TRUE //Initially hidden, unlocked when the players complete their patrol.
+	mission_sector = TRUE
+	x = 5
+	y = 30
+	alignment = "nanotrasen"
+	adjacency_list = list("Sol")
+
+/datum/star_system/risa/after_enter(obj/structure/overmap/OM)
+	if(OM.role == MAIN_OVERMAP)
+		priority_announce("[station_name()] has successfully returned to [src] for resupply and crew transfer, excellent work crew.", "Naval Command")
+		GLOB.crew_transfer_risa = TRUE
+		SSticker.mode.check_finished()
+	//	SSticker.force_ending = TRUE
+	return
+
 /datum/star_system/sol
 	name = "Sol"
 	is_capital = TRUE
 	x = 0
 	y = 10
 	alignment = "nanotrasen"
-	adjacency_list = list("Alpha Centauri")
+	adjacency_list = list("Alpha Centauri", "Risa Station")
 
 /datum/star_system/alpha_centauri
 	name = "Alpha Centauri"

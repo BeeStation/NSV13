@@ -13,6 +13,10 @@
 	OM.forceMove(exit)
 	if(istype(OM, /obj/structure/overmap))
 		OM.current_system = src //Debugging purposes only
+	after_enter(OM)
+
+/datum/star_system/proc/after_enter(obj/structure/overmap/OM)
+	return
 
 /datum/star_system/proc/try_spawn_event()
 	if(possible_events && prob(event_chance))
@@ -105,6 +109,7 @@
 			for(var/area/linked_area in linked_areas)
 				linked_area.parallax_movedir = null
 	if(ftl_start)
+		SSstar_system.last_combat_enter = world.time //To allow for time spent FTL jumping
 		relay(ftl_drive.ftl_loop, "<span class='warning'>You feel the ship lurch forward</span>", loop=TRUE, channel = CHANNEL_SHIP_ALERT)
 		var/speed = (SSstar_system.ships[src]["current_system"].dist(target_system) / (ftl_drive.jump_speed_factor*10)) //TODO: FTL drive speed upgrades.
 		SSstar_system.ships[src]["to_time"] = world.time + speed MINUTES
@@ -123,6 +128,7 @@
 				var/turf/T = pick(get_area_turfs(target))
 				new /obj/effect/temp_visual/explosion_telegraph(T)
 	else
+		SSstar_system.last_combat_enter = world.time //To allow for time spent FTL jumping
 		SSstar_system.ships[src]["target_system"] = null
 		SSstar_system.ships[src]["current_system"] = target_system
 		SSstar_system.ships[src]["last_system"] = target_system
@@ -178,7 +184,7 @@
 	prereq_ids = list("base")
 	design_ids = list("ftl_slipstream_chip")
 	research_costs = list(TECHWEB_POINT_TYPE_WORMHOLE = 5000) //You need to have fully probed a wormhole to unlock this.
-	export_price = 50000 //This is EXTREMELY valuable to NT because it'll let their ships go super fast.
+	export_price = 15000 //This is EXTREMELY valuable to NT because it'll let their ships go super fast.
 
 /obj/machinery/computer/ship/ftl_computer
 	name = "Seegson FTL drive computer"
