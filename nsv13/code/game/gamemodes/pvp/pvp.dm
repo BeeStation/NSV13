@@ -163,8 +163,14 @@ Method to assign a job, in order of descending priority. We REALLY need people t
 
 /datum/antagonist/nukeop/syndi_crew
 	name = "Syndicate crew"
-	nukeop_outfit = /datum/outfit/syndicate/no_crystals
+	nukeop_outfit = /datum/outfit/syndicate/no_crystals/syndi_crew
 	job_rank = ROLE_SYNDI_CREW
+
+/datum/outfit/syndicate/no_crystals/syndi_crew
+	name = "Syndicate marine"
+	head = /obj/item/clothing/head/HoS/beret/syndicate
+	suit = /obj/item/clothing/suit/ship/syndicate_crew
+	uniform = /obj/item/clothing/under/ship/pilot/syndicate
 
 /datum/antagonist/nukeop/syndi_crew/greet()
 	owner.current.playsound_local(get_turf(owner.current), 'sound/ambience/antag/ops.ogg',100,0)
@@ -188,11 +194,11 @@ Method to assign a job, in order of descending priority. We REALLY need people t
 
 /datum/outfit/syndicate/no_crystals/shipside
 	name = "Syndicate engineer"
-	head = /obj/item/clothing/head/beret/ship/engineer
+	head = /obj/item/clothing/head/HoS/beret/syndicate
 	glasses = /obj/item/clothing/glasses/meson/engine
-	gloves = /obj/item/clothing/gloves/color/yellow
+	gloves = /obj/item/clothing/gloves/combat
 	belt = /obj/item/storage/belt/utility/full/engi
-
+	uniform = /obj/item/clothing/under/ship/syndicate_tech
 
 /datum/antagonist/nukeop/syndi_crew/shipside
 	name = "Syndicate crew (shipside)"

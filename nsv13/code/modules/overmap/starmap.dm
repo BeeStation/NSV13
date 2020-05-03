@@ -90,7 +90,7 @@
 			var/list/system_list = list()
 			system_list["name"] = system.name
 			if(current_system)
-				system_list["in_range"] = LAZYFIND(current_system.adjacency_list, system.name)
+				system_list["in_range"] = is_in_range(current_system, system)
 				system_list["distance"] = "[current_system.dist(system)]"
 			else
 				system_list["in_range"] = 0
@@ -99,7 +99,7 @@
 			system_list["star_id"] = "\ref[system]"
 			system_list["is_current"] = (system == current_system)
 			system_list["alignment"] = system.alignment
-			system_list["visited"] = system.visited
+			system_list["visited"] = is_visited(system)
 			var/label = ""
 			if(system.is_capital && !label)
 				label = "CAPITAL"
@@ -147,6 +147,12 @@
 			data["can_cancel"] = linked.ftl_drive.ftl_state == FTL_STATE_IDLE && linked.ftl_drive.can_cancel_jump
 	data["screen"] = screen
 	return data
+
+/obj/machinery/computer/ship/navigation/proc/is_in_range(datum/star_system/current_system, datum/star_system/system)
+	return LAZYFIND(current_system?.adjacency_list, system?.name)
+
+/obj/machinery/computer/ship/navigation/proc/is_visited(datum/star_system/system)
+	return system.visited
 
 #undef SHIPINFO
 #undef STARMAP

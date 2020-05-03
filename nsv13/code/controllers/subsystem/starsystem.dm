@@ -97,6 +97,20 @@ SUBSYSTEM_DEF(star_system)
 		message_admins("Enqued a [OM] for spawning in [target_sys]")
 		target_sys.enemy_queue += OM
 
+//Specific case for anomalies. They need to be spawned in for research to scan them, so we have to make
+
+/datum/controller/subsystem/star_system/proc/spawn_anomaly(anomaly_type, datum/star_system/target_sys, center=FALSE)
+	var/turf/destination = null
+	if(center)
+		destination = get_turf(locate(round(world.maxx * 0.5, 1), round(world.maxy * 0.5, 1), 1))
+	else
+		destination = get_turf(locate(rand(50, world.maxx), rand(50, world.maxy), 1))
+	var/obj/effect/overmap_anomaly/anomaly = new anomaly_type(destination)
+	target_sys.contents_positions[anomaly] = list("x" = anomaly.x, "y" = anomaly.y) //Cache the ship's position so we can regenerate it later.
+	target_sys.system_contents += anomaly
+	anomaly.moveToNullspace() //Anything that's an NPC should be stored safely in nullspace until we return.
+	message_admins("[anomaly] successfully created in [target_sys]")
+
 ///////BOUNTIES//////
 
 /datum/controller/subsystem/star_system/proc/bounty_payout()
@@ -212,45 +226,59 @@ SUBSYSTEM_DEF(star_system)
 		if(LAZYFIND(adjacency_list, S)) //We're already linked to that one. Skip it.
 			continue
 		adjacency_list += S.name
-		SSstar_system.spawn_ship(/obj/effect/overmap_anomaly/wormhole, src, center=TRUE)
+		SSstar_system.spawn_anomaly(/obj/effect/overmap_anomaly/wormhole, src, center=TRUE)
 		var/oneway = "One-way"
 		if(!LAZYFIND(S.adjacency_list, src) && prob(30)) //Two-directional wormholes, AKA valid hyperlanes, are exceedingly rare.
 			S.adjacency_list += name
 			oneway = "Two-way"
-			SSstar_system.spawn_ship(/obj/effect/overmap_anomaly/wormhole, S, center=TRUE) //Wormholes are cool.
+			SSstar_system.spawn_anomaly(/obj/effect/overmap_anomaly/wormhole, S, center=TRUE) //Wormholes are cool.
 		message_admins("[oneway] wormhole created between [S] and [src]")
 		break
 
 //Anomalies
 
+/datum/star_system/proc/get_info()
+	var/list/anomalies = list()
+	for(var/obj/effect/overmap_anomaly/OA in system_contents)
+		if(istype(OA))
+			var/list/anomaly_info = list()
+			anomaly_info["name"] = OA.name
+			anomaly_info["desc"] = OA.desc
+			anomaly_info["points"] = OA.research_points
+			anomaly_info["scannable"] = !OA.scanned
+			anomaly_info["anomaly_id"] = "\ref[OA]"
+			anomalies[++anomalies.len] = anomaly_info
+	return anomalies
 
 /datum/round_event_control/radiation_storm/deadly
 	max_occurrences = 1000
 
 /obj/effect/overmap_anomaly
 	name = "Placeholder"
+	desc = "You shouldn't see this."
 	var/research_points = 0
+	var/scanned = FALSE
 
 /obj/effect/overmap_anomaly/wormhole
 	name = "Wormhole"
-	desc = "A huge tear in the fabric of space-time that can fling you to faraway places. I wonder where it leads?"
+	desc = "A huge tear in the fabric of space-time that can fling you to faraway places. A scan of this anomaly could advance the field of space-travel by years!"
 	icon = 'nsv13/goonstation/icons/effects/overmap_anomalies/tearhuge.dmi'
 	icon_state = "tear"
-	research_points = 5000 //These things are really valuable.
+	research_points = 15000 //These things are really valuable.
 
 /obj/effect/overmap_anomaly/singularity
 	name = "Black hole"
-	desc = "A peek into the void between worlds. These stellar demons consume everything in their path. Including you."
+	desc = "A peek into the void between worlds. These stellar demons consume everything in their path. Including you. Scanning this singularity could lead to groundbreaking discoveries in the field of quantum physics!"
 	icon = 'nsv13/goonstation/icons/effects/overmap_anomalies/blackhole.dmi'
 	icon_state = "blackhole"
-	research_points = 3000 //These things are pretty damn valuable, for their risk of course.
+	research_points = 20000 //These things are pretty damn valuable, for their risk of course.
 	pixel_x = -64
 	pixel_y = -64
 	var/list/affecting = list()
 	var/list/cached_colours = list()
 	var/event_horizon_range = 15 //Point of no return. Getting this close will require an emergency FTL jump or shuttle call.
 	var/redshift_range = 30
-	var/influence_range = 40
+	var/influence_range = 100
 	var/base_pull_strength = 0.10
 
 /obj/effect/overmap_anomaly/singularity/Initialize()
@@ -263,19 +291,18 @@ SUBSYSTEM_DEF(star_system)
 	for(var/obj/structure/overmap/OM in GLOB.overmap_objects)
 		if(LAZYFIND(affecting, OM))
 			continue
-		if(get_dist(src, OM) <= influence_range)
+		if(get_dist(src, OM) <= influence_range && OM.z == z)
 			affecting += OM
 			cached_colours[OM] = OM.color //So that say, a yellow fighter doesnt get its paint cleared by redshifting
 			OM.relay(sound='nsv13/sound/effects/ship/falling.ogg', message="<span class='warning'>You feel weighed down.</span>", loop=TRUE, channel=CHANNEL_HEARTBEAT)
 	for(var/obj/structure/overmap/OM in affecting)
-		if(get_dist(src, OM) > influence_range)
+		if(get_dist(src, OM) > influence_range || OM.z != z)
 			OM.stop_relay(CHANNEL_HEARTBEAT)
 			affecting -= OM
 			OM.color = cached_colours[OM]
 			cached_colours[OM] = null
 			for(var/mob/M in OM.mobs_in_ship)
-				var/client/C = M.client
-				C.color = null
+				M?.client?.color = null
 			continue
 		var/incidence = get_dir(OM, src)
 		var/dist = get_dist(src, OM)
@@ -283,8 +310,7 @@ SUBSYSTEM_DEF(star_system)
 			var/redshift ="#[num2hex(130-dist,2)][num2hex(0,2)][num2hex(0,2)]"
 			OM.color = redshift
 			for(var/mob/M in OM.mobs_in_ship)
-				var/client/C = M.client
-				C.color = redshift
+				M?.client?.color = redshift
 		if(dist <= 2)
 			affecting -= OM
 			OM.Destroy()
@@ -309,14 +335,16 @@ SUBSYSTEM_DEF(star_system)
 
 /obj/effect/overmap_anomaly/safe/sun
 	name = "Star"
-	desc = "A huge ball of burning hydrogen that lights up space around it. Don't get too close...."
+	desc = "A huge ball of burning hydrogen that lights up space around it. Scanning its corona could yield useful information."
 	icon = 'nsv13/goonstation/icons/effects/overmap_anomalies/stellarbodies.dmi'
 	icon_state = "sun"
+	research_points = 3000 //Pretty meagre, but a sustainable source of points.
 
 /obj/effect/overmap_anomaly/safe/sun/red_giant
 	name = "Red Giant"
-	desc = "A large star that is nearing the end of its life. Burns extremely hot."
+	desc = "A large star that is nearing the end of its life. A scan of its stellar core could lead to useful conclusions."
 	icon_state = "redgiant"
+	research_points = 4000 //Somewhat more interesting than a sun.
 
 /datum/star_system/proc/apply_system_effects()
 	event_chance = 10 //Very low chance of an event happening
@@ -358,7 +386,7 @@ SUBSYSTEM_DEF(star_system)
 
 	if(!anomaly_type)
 		anomaly_type = pick(subtypesof(/obj/effect/overmap_anomaly/safe))
-	SSstar_system.spawn_ship(anomaly_type, src)
+	SSstar_system.spawn_anomaly(anomaly_type, src)
 
 /datum/star_system/proc/generate_anomaly()
 	if(prob(15)) //Low chance of spawning a wormhole twixt us and another system.
