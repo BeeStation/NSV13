@@ -42,8 +42,6 @@
 	var/damage_states = FALSE //Did you sprite damage states for this ship? If yes, set this to true
 
 	//Movement Variables
-	var/velocity_x = 0 // tiles per second.
-	var/velocity_y = 0
 	var/offset_x = 0 // like pixel_x/y but in tiles
 	var/offset_y = 0
 	var/angle = 0 // degrees, clockwise
@@ -55,6 +53,7 @@
 	var/last_thrust_right = 0
 	var/last_rotate = 0
 	var/should_open_doors = FALSE //Should we open airlocks? This is off by default because it was HORRIBLE.
+	var/inertial_dampeners = TRUE
 
 	var/user_thrust_dir = 0
 
@@ -126,6 +125,7 @@
 	name = "Weapon overlay"
 	layer = 4
 	mouse_opacity = FALSE
+	layer = WALL_OBJ_LAYER
 	var/angle = 0 //Debug
 
 /obj/weapon_overlay/proc/do_animation()
@@ -336,7 +336,7 @@
 		if(damage_amount >= 15) //Flak begone
 			shake_everyone(5)
 		impact_sound_cooldown = TRUE
-		addtimer(VARSET_CALLBACK(src, impact_sound_cooldown, FALSE), 10)
+		addtimer(VARSET_CALLBACK(src, impact_sound_cooldown, FALSE), 1 SECONDS)
 	update_icon()
 
 /obj/structure/overmap/relaymove(mob/user, direction)
@@ -449,20 +449,33 @@
 				var/sound = pick(GLOB.computer_beeps)
 				playsound(helm, sound, 100, 1)
 			return TRUE
+		if("Shift")
+			if(themob == pilot)
+				toggle_inertia()
+			if(helm && prob(80))
+				var/sound = pick(GLOB.computer_beeps)
+				playsound(helm, sound, 100, 1)
+			return TRUE
 		if("Alt")
 			if(themob == pilot)
 				toggle_brakes()
 			if(helm && prob(80))
 				var/sound = pick(GLOB.computer_beeps)
 				playsound(helm, sound, 100, 1)
-
+			return TRUE
 		if("Ctrl")
 			if(themob == gunner)
 				cycle_firemode()
 			if(tactical && prob(80))
 				var/sound = pick(GLOB.computer_beeps)
 				playsound(tactical, sound, 100, 1)
-
+			return TRUE
+		if("Q" || "q")
+			if(!move_by_mouse)
+				desired_angle -= 15
+		if("E" || "e")
+			if(!move_by_mouse)
+				desired_angle += 15
 
 /obj/structure/overmap/verb/toggle_brakes()
 	set name = "Toggle Handbrake"
@@ -473,6 +486,16 @@
 		return
 	brakes = !brakes
 	to_chat(usr, "<span class='notice'>You toggle the brakes [brakes ? "on" : "off"].</span>")
+
+/obj/structure/overmap/verb/toggle_inertia()
+	set name = "Toggle IAS"
+	set category = "Ship"
+	set src = usr.loc
+
+	if(!verb_check() || !can_brake())
+		return
+	inertial_dampeners = !inertial_dampeners
+	to_chat(usr, "<span class='notice'>Inertial assistance system [inertial_dampeners ? "ONLINE" : "OFFLINE"].</span>")
 
 /obj/structure/overmap/proc/can_change_safeties()
 	return (obj_flags & EMAGGED || !is_station_level(loc.z))

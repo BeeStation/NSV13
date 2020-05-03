@@ -65,6 +65,9 @@
 		M.client.check_view()
 	var/mob/camera/aiEye/remote/overmap_observer/eyeobj = M.remote_control
 	M.cancel_camera()
+	if(M.client) //Reset px, y
+		M.client.pixel_x = 0
+		M.client.pixel_y = 0
 	if(istype(M, /mob/living/silicon/ai))
 		var/mob/living/silicon/ai/hal = M
 		if((locate(eyeobj) in hal.all_eyes))
@@ -147,8 +150,9 @@
 		target = origin
 	last_target = target
 	forceMove(get_turf(target)) //This only happens for gunner cams
-	eye_user.client.pixel_x = origin.pixel_x
-	eye_user.client.pixel_y = origin.pixel_y
+	if(eye_user.client)
+		eye_user.client.pixel_x = origin.pixel_x
+		eye_user.client.pixel_y = origin.pixel_y
 	return TRUE
 
 /mob/camera/aiEye/remote/overmap_observer/proc/track_target(obj/structure/overmap/target)

@@ -47,6 +47,7 @@ After going through this checklist, you're ready to go!
 	weapon_safety = TRUE //This happens wayy too much for my liking. Starts OFF.
 	pixel_w = -16
 	pixel_z = -20
+	collision_positions = list(new /datum/vector2d(-2,-16), new /datum/vector2d(-13,-3), new /datum/vector2d(-13,10), new /datum/vector2d(-6,15), new /datum/vector2d(8,15), new /datum/vector2d(15,10), new /datum/vector2d(12,-9), new /datum/vector2d(4,-16), new /datum/vector2d(1,-16))
 	var/maint_state = MS_CLOSED
 	var/prebuilt = FALSE
 	var/weapon_efficiency = 0
@@ -89,9 +90,6 @@ You need to fire emag the fighter's IFF board. This makes it list as "ENEMY" on 
 	. = ..()
 	if(start_emagged)
 		obj_flags ^= EMAGGED
-	if(ispath(has_escape_pod))
-		escape_pod = new /obj/structure/overmap/fighter/prebuilt/escapepod(src)
-		escape_pod.name = "[name] - escape pod"
 
 /obj/machinery/computer/ship/fighter_launcher
 	name = "Mag-cat control console"
@@ -171,9 +169,32 @@ You need to fire emag the fighter's IFF board. This makes it list as "ENEMY" on 
 	pixel_x = 38
 	anchored = TRUE
 	density = FALSE
+	var/place_landing_waypoint = TRUE
 	var/obj/structure/overmap/fighter/mag_locked = null
 	var/obj/structure/overmap/linked = null
 	var/ready = TRUE
+
+/obj/structure/fighter_launcher/launch_only //If you don't want them to also land here.
+	place_landing_waypoint = FALSE
+
+/obj/structure/fighter_launcher/galactica //If it shouldn't actually launch people. But should just catch them.
+	name = "electromagnetic arrestor"
+	desc = "A large rail which rapidly decelerates approaching ships to a safe velocity."
+
+/obj/structure/fighter_launcher/galactica/linkup() //Tweaks the offsets so that fighters don't experience crippling visual issues on Galactica.
+	linked = get_overmap()
+	if(!place_landing_waypoint)
+		return
+	if(linked) //If we have a linked overmap, translate our position into a point where fighters should be returning to our Z-level.
+		switch(dir)
+			if(NORTH)
+				linked.docking_points += get_turf(locate(x, 250, z))
+			if(SOUTH)
+				linked.docking_points += get_turf(locate(x, 10, z))
+			if(EAST)
+				linked.docking_points += get_turf(locate(200, y, z))
+			if(WEST)
+				linked.docking_points += get_turf(locate(25, y, z))
 
 /obj/structure/fighter_launcher/Initialize()
 	. = ..()
@@ -195,8 +216,8 @@ You need to fire emag the fighter's IFF board. This makes it list as "ENEMY" on 
 		mag_locked = AM
 		visible_message("<span class='warning'>CLUNK.</span>")
 		OM.brakes = TRUE
-		OM.velocity_x = 0
-		OM.velocity_y = 0 //Full stop.
+		OM.velocity.x = 0
+		OM.velocity.y = 0 //Full stop.
 		OM.mag_lock = src
 		var/turf/center = get_turf(src)
 		switch(dir) //Do some fuckery to make sure the fighter lines up on the pad in a halfway sensible manner.
@@ -265,13 +286,13 @@ You need to fire emag the fighter's IFF board. This makes it list as "ENEMY" on 
 		shake_people(mag_locked)
 	switch(dir) //Just handling north / south..FOR NOW!
 		if(NORTH) //PILOTS. REMEMBER TO FACE THE RIGHT WAY WHEN YOU LAUNCH, OR YOU WILL HAVE A TERRIBLE TIME.
-			mag_locked.velocity_y = 20
+			mag_locked.velocity.y = 20
 		if(SOUTH)
-			mag_locked.velocity_y = -20
+			mag_locked.velocity.y = -20
 		if(EAST)
-			mag_locked.velocity_x = 20
+			mag_locked.velocity.x = 20
 		if(WEST)
-			mag_locked.velocity_x = -20
+			mag_locked.velocity.x = -20
 	ready = FALSE
 	mag_locked = null
 	addtimer(CALLBACK(src, .proc/recharge), 10 SECONDS) //Stops us from catching the fighter right after we launch it.
@@ -280,6 +301,8 @@ You need to fire emag the fighter's IFF board. This makes it list as "ENEMY" on 
 
 /obj/structure/fighter_launcher/proc/linkup()
 	linked = get_overmap()
+	if(!place_landing_waypoint)
+		return
 	if(linked) //If we have a linked overmap, translate our position into a point where fighters should be returning to our Z-level.
 		switch(dir)
 			if(NORTH)
@@ -358,7 +381,7 @@ You need to fire emag the fighter's IFF board. This makes it list as "ENEMY" on 
 			return FALSE
 		var/saved_layer = layer
 		layer = LOW_OBJ_LAYER
-		addtimer(VARSET_CALLBACK(src, layer, saved_layer), 1 SECONDS) //Gives fighters a small window of immunity from collisions with other overmaps
+		addtimer(VARSET_CALLBACK(src, layer, saved_layer), 2 SECONDS) //Gives fighters a small window of immunity from collisions with other overmaps
 		forceMove(get_turf(OM))
 		docking_cooldown = TRUE
 		addtimer(VARSET_CALLBACK(src, docking_cooldown, FALSE), 5 SECONDS) //Prevents jank.
@@ -380,11 +403,13 @@ You need to fire emag the fighter's IFF board. This makes it list as "ENEMY" on 
 
 /obj/structure/overmap/fighter/proc/docking_act(obj/structure/overmap/OM)
 	if(mass < OM.mass && OM.docking_points.len && docking_mode) //If theyre smaller than us,and we have docking points, and they want to dock
-		transfer_from_overmap(OM)
+		return transfer_from_overmap(OM)
+	else
+		return FALSE
 
 /obj/structure/overmap/fighter/proc/transfer_from_overmap(obj/structure/overmap/OM)
 	if(docking_cooldown)
-		return
+		return FALSE
 	if(OM.docking_points.len)
 		last_overmap = OM
 		docking_cooldown = TRUE
@@ -402,6 +427,7 @@ You need to fire emag the fighter's IFF board. This makes it list as "ENEMY" on 
 			to_chat(pilot, "<span class='notice'>Docking complete. <b>Gun safeties have been engaged automatically.</b></span>")
 		SEND_SIGNAL(src, COMSIG_FTL_STATE_CHANGE)
 		return TRUE
+	return FALSE
 
 /obj/structure/overmap/fighter/take_damage(damage_amount, damage_type = BRUTE, damage_flag = 0, sound_effect = 1, attack_dir, armour_penetration = 0)
 	..()
@@ -468,9 +494,9 @@ You need to fire emag the fighter's IFF board. This makes it list as "ENEMY" on 
 
 /obj/structure/overmap/fighter/prebuilt/raptor/docking_act(obj/structure/overmap/OM)
 	if(docking_cooldown)
-		return
+		return FALSE
 	if(mass < OM.mass && OM.docking_points.len && docking_mode) //If theyre smaller than us,and we have docking points, and they want to dock
-		transfer_from_overmap(OM)
+		return transfer_from_overmap(OM)
 	if(mass >= OM.mass && docking_mode) //Looks like theyre smaller than us, and need rescue.
 		if(istype(OM, /obj/structure/overmap/fighter/prebuilt/escapepod)) //Can we take them aboard?
 			if(OM.operators.len <= max_passengers+1-OM.mobs_in_ship.len) //Max passengers + 1 to allow for one raptor crew rescuing another. Imagine that theyre being cramped into the footwell or something.
@@ -484,6 +510,7 @@ You need to fire emag the fighter's IFF board. This makes it list as "ENEMY" on 
 			else
 				if(pilot)
 					to_chat(pilot,"<span class='warning'>[src]'s passenger cabin is full, you'd need [max_passengers+1-OM.mobs_in_ship.len] more seats to retrieve everyone!</span>")
+			return TRUE
 
 /obj/structure/overmap/slowprocess()
 	. = ..()
@@ -528,7 +555,7 @@ You need to fire emag the fighter's IFF board. This makes it list as "ENEMY" on 
 	return loc.return_air()
 
 /obj/structure/overmap/fighter/remove_air(amount)
-	return cabin_air.remove(amount)
+	return cabin_air?.remove(amount)
 
 /obj/structure/overmap/fighter/return_analyzable_air()
 	return cabin_air
@@ -716,19 +743,6 @@ You need to fire emag the fighter's IFF board. This makes it list as "ENEMY" on 
 		else
 			to_chat(user, "<span class='notice'>You require [src] to be in maintenance mode to load munitions!.</span>")
 			return
-	if(istype(A, /obj/structure/overmap/fighter/prebuilt/escapepod) && has_escape_pod && (!escape_pod || escape_pod?.loc != src))
-		if(maint_state != MS_OPEN)
-			to_chat(user, "<span class='warning'>You cannot load an escape pod into [src] without putting it into maintenance mode.</span>")
-			return
-		var/obj/structure/overmap/fighter/prebuilt/escapepod/EP = A
-		if(EP.operators.len)
-			to_chat(user, "<span class='notice'>There are people inside of [EP], so you can't load it into something else</span>")
-			return
-		if(do_after_mob(user, list(A, src), 50))
-			to_chat(user, "<span class='notice'>You insert [EP] into [src], fitting it with an escape pod.</span>")
-			EP.forceMove(src)
-			escape_pod = EP
-			EP.flight_state = NO_IGNITION
 
 /obj/structure/overmap/fighter/fire_torpedo(atom/target)
 	if(ai_controlled) //AI ships don't have interiors
@@ -1025,26 +1039,27 @@ You need to fire emag the fighter's IFF board. This makes it list as "ENEMY" on 
 		attack_hand(user) //Refresh UI.
 
 /obj/structure/overmap/fighter/Destroy()
-	if(operators.len && escape_pod && escape_pod.loc == src)
+	if(operators && operators.len && ispath(has_escape_pod))
 		relay('nsv13/sound/effects/computer/alarm_3.ogg', "<span class=userdanger>EJECT! EJECT! EJECT!</span>")
 		relay_to_nearby('nsv13/sound/effects/ship/fighter_launch_short.ogg')
 		visible_message("<span class=userdanger>Auto-Ejection Sequence Enabled! Escape Pod Launched!</span>")
 		ejecting = FALSE
-		if(eject())
-			sleep(20)
-		else
-			for(var/atom/X in contents) //Pilot unable to eject. Murder them.
-				QDEL_NULL(X)
-			return ..()
+		eject()
+		sleep(2)
+		for(var/atom/X in contents) //Pilot unable to eject. Murder them.
+			QDEL_NULL(X)
+		return ..()
 	. = ..()
 
 /obj/structure/overmap/fighter/proc/eject()
-	if(escape_pod && escape_pod.loc == src)
-		escape_pod.forceMove(get_turf(src))
+	if(ispath(has_escape_pod))
+		escape_pod = new /obj/structure/overmap/fighter/prebuilt/escapepod(get_turf(src))
+		escape_pod.name = "[name] - escape pod"
 		escape_pod.set_fuel(get_fuel()) //No infinite tyrosene for you!
 		transfer_occupants_to(escape_pod)
-		escape_pod.desired_angle = pick(0,360)
+		escape_pod.desired_angle = 0
 		escape_pod.user_thrust_dir = NORTH
+		escape_pod.velocity.y = 3
 		escape_pod = null
 		return TRUE
 	else
