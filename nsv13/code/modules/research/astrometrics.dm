@@ -12,7 +12,7 @@ you build.
 	name = "Computer Design (Astrometrics computer)"
 	desc = "Allows for the construction of circuit boards used to build a new astrometrics computer."
 	id = "astrometrics_console"
-	build_path = /obj/item/circuitboard/computer/scan_consolenew
+	build_path = /obj/item/circuitboard/computer/astrometrics
 	category = list("Computer Boards")
 	departmental_flags = DEPARTMENTAL_FLAG_MEDICAL | DEPARTMENTAL_FLAG_SCIENCE
 
@@ -23,6 +23,7 @@ you build.
 /obj/machinery/computer/ship/navigation/astrometrics
 	name = "Astrometrics computer"
 	desc = "A computer which is capable of interfacing with subspace sensor arrays to gather intel on starsystems. It is capable of performing rudimentary, long range analysis on anomalies, however a probe torpedo will need to be constructed and fired at the anomaly to fully collect its available research."
+	req_access = list(ACCESS_RESEARCH)
 	var/max_range = 40 //In light years, the range at which we can scan systems for data. This is quite short.
 	var/scan_progress = 0
 	var/scan_goal = 2 MINUTES
