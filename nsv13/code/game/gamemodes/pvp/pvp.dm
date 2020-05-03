@@ -11,11 +11,11 @@ GLOBAL_LIST_EMPTY(syndi_crew_leader_spawns)
 /datum/game_mode/pvp
 	name = "PVP"
 	config_tag = "pvp"
-	report_type = "nuclear"
+	report_type = "pvp"
 	false_report_weight = 10
-	required_players = 0 // 30 players initially, with 15 crewing the hammurabi and 15 crewing the larger, more powerful hulk
-	required_enemies = 1
-	recommended_enemies = 1
+	required_players = 30 // 30 players initially, with 15 crewing the hammurabi and 15 crewing the larger, more powerful hammerhead
+	required_enemies = 10
+	recommended_enemies = 10
 	antag_flag = ROLE_SYNDI_CREW
 	enemy_minimum_age = 0
 
@@ -56,7 +56,7 @@ Method to spawn in the Syndi ship on a brand new Z-level with the "boardable" tr
 		map_file = "Hammurabi.dmm"
 		ship_type = /obj/structure/overmap/syndicate/pvp
 
-	syndiship = instance_overmap(_path=ship_type, folder= "map_files/PVP" ,interior_map_files = map_file)
+	syndiship = instance_overmap(_path=ship_type, folder= "map_files/PVP" ,interior_map_files = map_file, default_traits=ZTRAITS_BOARDABLE_SHIP)
 	var/n_agents = antag_candidates.len
 	if(n_agents >= enemies_to_spawn)
 		jobs["pilots"] = list() //Dictionary to store who's doing what job.

@@ -301,6 +301,8 @@ SUBSYSTEM_DEF(star_system)
 	research_points = 20000 //These things are pretty damn valuable, for their risk of course.
 	pixel_x = -64
 	pixel_y = -64
+	bound_width = 64
+	bound_height = 64
 	var/list/affecting = list()
 	var/list/cached_colours = list()
 	var/event_horizon_range = 15 //Point of no return. Getting this close will require an emergency FTL jump or shuttle call.

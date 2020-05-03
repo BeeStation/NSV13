@@ -89,12 +89,14 @@ Clean override of the navigation computer to provide scan functionality.
 		return
 	switch(action)
 		if("scan")
+			scan_goal = initial(scan_goal)
 			scan_target = selected_system
 			radio.talk_into(src, "Commencing scan of: [scan_target]", channel)
 		if("scan_anomaly")
 			var/obj/effect/overmap_anomaly/target = locate(params["anomaly_id"])
 			if(!istype(target))
 				return
+			scan_goal = initial(scan_goal) / 2
 			scan_target = target
 			radio.talk_into(src, "Commencing scan of: [scan_target]", channel)
 		if("cancel_scan")

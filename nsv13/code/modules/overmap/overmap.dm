@@ -130,7 +130,7 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 @return OM, a newly spawned overmap sitting on its treadmill as it ought to be.
 */
 
-/proc/instance_overmap(_path, folder = null, interior_map_files = null, traits = ZTRAITS_BOARDABLE_SHIP)
+/proc/instance_overmap(_path, folder = null, interior_map_files = null, traits = null, default_traits = null)
 	if(!islist(interior_map_files))
 		interior_map_files = list(interior_map_files)
 	if(!_path)
@@ -142,7 +142,6 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 	log_game("Z-level [world.maxz] loaded for overmap treadmills.")
 	var/turf/exit = get_turf(locate(round(world.maxx * 0.5, 1), round(world.maxy * 0.5, 1), world.maxz)) //Plop them bang in the center of the system.
 	var/obj/structure/overmap/OM = new _path(exit) //Ship'll pick up the info it needs, so just domp eet at the exit turf.
-
 	if(OM.role == MAIN_OVERMAP) //If we're the main overmap, we'll cheat a lil' and apply our status to all of the Zs under "station"
 		for(var/z in SSmapping.levels_by_trait(ZTRAIT_STATION))
 			var/datum/space_level/SL = SSmapping.z_list[z]
@@ -151,7 +150,7 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 	if(folder && interior_map_files){ //If this thing comes with an interior.
 		var/previous_maxz = world.maxz //Ok. Store the current number of Zs. Anything that we add on top of this due to this proc will then be conted as decks of our ship.
 		var/list/errorList = list()
-		var/list/loaded = SSmapping.LoadGroup(errorList, "[OM.name] interior Z level", "[folder]", interior_map_files, traits = traits, silent=TRUE)
+		var/list/loaded = SSmapping.LoadGroup(errorList, "[OM.name] interior Z level", "[folder]", interior_map_files, traits = traits, default_traits=default_traits, silent=TRUE)
 		if(errorList.len)	// failed to load :(
 			message_admins("[_path]'s interior failed to load! Check you used instance_overmap correctly...")
 			log_game("[_path]'s interior failed to load! Check you used instance_overmap correctly...")
