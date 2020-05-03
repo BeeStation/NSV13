@@ -9,6 +9,8 @@ you build.
 */
 
 /obj/machinery/computer/ship/navigation/astrometrics
+	name = "Astrometrics computer"
+	desc = "A computer which is capable of interfacing with subspace sensor arrays to gather intel on starsystems. It is capable of performing rudimentary, long range analysis on anomalies, however a probe torpedo will need to be constructed and fired at the anomaly to fully collect its available research."
 	var/max_range = 40 //In light years, the range at which we can scan systems for data. This is quite short.
 	var/scan_progress = 0
 	var/scan_goal = 2 MINUTES

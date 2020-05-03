@@ -31,7 +31,9 @@
 			enemy_queue -= X
 	if(!contents_positions.len)
 		return //Nothing stored, no need to restore.
-	for(var/obj/structure/overmap/ship in system_contents){
+	for(var/atom/movable/ship in system_contents){
+		if(!contents_positions[ship])
+			continue
 		var/list/info = contents_positions[ship]
 		ship.forceMove(get_turf(locate(info["x"], info["y"], occupying_z))) //Let's unbox that ship. Nice.
 		if(istype(ship, /obj/structure/overmap))
@@ -79,9 +81,9 @@
 
 /obj/structure/overmap/proc/begin_jump(datum/star_system/target_system)
 	relay_to_nearby('nsv13/sound/effects/ship/FTL.ogg', null, ignore_self=TRUE)//Ships just hear a small "crack" when another one jumps
-	relay('nsv13/sound/effects/ship/FTL_long.ogg')
+	relay(ftl_drive.ftl_start)
 	desired_angle = 90 //90 degrees AKA face EAST to match the FTL parallax.
-	addtimer(CALLBACK(src, .proc/jump, target_system, TRUE), 30 SECONDS)
+	addtimer(CALLBACK(src, .proc/jump, target_system, TRUE), ftl_drive.ftl_startup_time)
 
 /obj/structure/overmap/proc/jump(datum/star_system/target_system, ftl_start) //FTL start IE, are we beginning a jump? Or ending one?
 	if(role == MAIN_OVERMAP)
@@ -102,20 +104,8 @@
 		else
 			for(var/area/linked_area in linked_areas)
 				linked_area.parallax_movedir = null
-	for(var/mob/M in mobs_in_ship)
-		if(M && M.client && M.hud_used && length(M.client.parallax_layers))
-			M.hud_used.update_parallax(forced = TRUE)
-		if(iscarbon(M))
-			var/mob/living/carbon/L = M
-			if(HAS_TRAIT(L, TRAIT_SEASICK))
-				to_chat(L, "<span class='warning'>You can feel your head start to swim...</span>")
-				if(prob(40)) //Take a roll! First option makes you puke and feel terrible. Second one makes you feel iffy.
-					L.adjust_disgust(60)
-				else
-					L.adjust_disgust(40)
-		shake_camera(M, 4, 1)
 	if(ftl_start)
-		relay('nsv13/sound/effects/ship/FTL_loop.ogg', "<span class='warning'>You feel the ship lurch forward</span>", loop=TRUE, channel = CHANNEL_SHIP_ALERT)
+		relay(ftl_drive.ftl_loop, "<span class='warning'>You feel the ship lurch forward</span>", loop=TRUE, channel = CHANNEL_SHIP_ALERT)
 		var/speed = (SSstar_system.ships[src]["current_system"].dist(target_system) / (ftl_drive.jump_speed_factor*10)) //TODO: FTL drive speed upgrades.
 		SSstar_system.ships[src]["to_time"] = world.time + speed MINUTES
 		SEND_SIGNAL(src, COMSIG_FTL_STATE_CHANGE)
@@ -139,12 +129,56 @@
 		SSstar_system.ships[src]["from_time"] = 0
 		SSstar_system.ships[src]["to_time"] = 0
 		SEND_SIGNAL(src, COMSIG_FTL_STATE_CHANGE)
-		relay('nsv13/sound/effects/ship/freespace2/warp_close.wav', "<span class='warning'>You feel the ship lurch to a halt</span>", loop=FALSE, channel = CHANNEL_SHIP_ALERT)
+		relay(ftl_drive.ftl_exit, "<span class='warning'>You feel the ship lurch to a halt</span>", loop=FALSE, channel = CHANNEL_SHIP_ALERT)
 		target_system.add_ship(src) //Get the system to transfer us to its location.
+	for(var/mob/M in mobs_in_ship)
+		if(M && M.client && M.hud_used && length(M.client.parallax_layers))
+			M.hud_used.update_parallax(forced = TRUE)
+		if(iscarbon(M))
+			var/mob/living/carbon/L = M
+			if(HAS_TRAIT(L, TRAIT_SEASICK))
+				to_chat(L, "<span class='warning'>You can feel your head start to swim...</span>")
+				if(prob(40)) //Take a roll! First option makes you puke and feel terrible. Second one makes you feel iffy.
+					L.adjust_disgust(60)
+				else
+					L.adjust_disgust(40)
+		shake_camera(M, 4, 1)
 
 #define FTL_STATE_IDLE 1
 #define FTL_STATE_SPOOLING 2
 #define FTL_STATE_READY 3
+
+/obj/item/ftl_slipstream_chip
+	name = "Quantum slipstream field generation matrix (tier II)"
+	desc = "An upgrade to the ship's FTL computer, allowing it to benefit from cutting edge calculation technologies to result in faster jump times by changing the way in which it allows the ship to incurse into bluespace."
+	icon = 'nsv13/icons/obj/computers.dmi'
+	icon_state = "quantum_slipstream"
+	var/tier = 2
+
+/obj/item/ftl_slipstream_chip/warp
+	name = "Warp drive chip"
+	desc = "A highly experimental chip which appears to be able to accelerate starships to ludicrous speeds without the use of bluespace. Further testing required."
+	icon_state = "warpchip"
+	tier = 3
+
+/datum/design/ftl_slipstream_chip
+	name = "Quantum slipstream field generation matrix"
+	desc = "An upgrade for FTL drive computers which allows for much more efficient FTL translations."
+	id = "ftl_slipstream_chip"
+	build_type = PROTOLATHE
+	materials = list(/datum/material/plasma = 25000,/datum/material/diamond = 15000, /datum/material/silver = 20000)
+	build_path = /obj/item/mining_sensor_upgrade
+	category = list("Ship Components")
+	departmental_flags = DEPARTMENTAL_FLAG_CARGO | DEPARTMENTAL_FLAG_SCIENCE
+
+/datum/techweb_node/ftl_slipstream
+	id = "ftl_slipstream"
+	display_name = "Quantum slipstream technology"
+	description = "Cutting edge upgrades for the FTL drive computer, allowing for more efficient FTL travel."
+	prereq_ids = list("base")
+	design_ids = list("ftl_slipstream_chip")
+	research_costs = list(TECHWEB_POINT_TYPE_WORMHOLE = 5000) //You need to have fully probed a wormhole to unlock this.
+	export_price = 50000 //This is EXTREMELY valuable to NT because it'll let their ships go super fast.
 
 /obj/machinery/computer/ship/ftl_computer
 	name = "Seegson FTL drive computer"
@@ -156,6 +190,7 @@
 	icon_screen = null
 	icon_keyboard = null
 	req_access = list(ACCESS_ENGINE_EQUIP)
+	var/tier = 1
 	var/faction = "nanotrasen" //For ship tracking. The tracking feature of the FTL compy is entirely so that antagonists can hunt the NT ships down
 	var/jump_speed_factor = 1 //How quickly do we jump? Larger is faster.
 	var/ftl_state = FTL_STATE_IDLE //Mr Gaeta, spool up the FTLs.
@@ -170,6 +205,47 @@
 	var/can_cancel_jump = TRUE //Defaults to true. TODO: Make emagging disable this
 	var/max_range = 100 //max jump range. This is _very_ long distance
 	var/list/tracking = list() //What ships are we tracking, if any? Used for antag FTLs so they can always find you.
+	var/ftl_loop = 'nsv13/sound/effects/ship/FTL_loop.ogg'
+	var/ftl_start = 'nsv13/sound/effects/ship/FTL_long.ogg'
+	var/ftl_exit = 'nsv13/sound/effects/ship/freespace2/warp_close.wav'
+	var/ftl_startup_time = 30 SECONDS
+	var/auto_spool = FALSE //For lazy admins
+
+/obj/machinery/computer/ship/ftl_computer/attackby(obj/item/I, mob/user) //Allows you to upgrade dradis consoles to show asteroids, as well as revealing more valuable ones.
+	. = ..()
+	if(istype(I, /obj/item/ftl_slipstream_chip))
+		var/obj/item/ftl_slipstream_chip/FI = I
+		if(FI.tier > tier)
+			playsound(src, 'sound/machines/terminal_insert_disc.ogg', 100, 0)
+			to_chat(user, "<span class='notice'>You slot [I] into [src], updating its vector calculation systems.</span>")
+			tier = FI.tier
+			qdel(FI)
+			upgrade()
+		else
+			to_chat(user, "<span class='notice'>[src] has already been upgraded to a higher tier than [FI] can offer.</span>")
+
+/obj/machinery/computer/ship/ftl_computer/proc/upgrade()
+	switch(tier)
+		if(1)
+			return
+		if(2)
+			name = "Quantum slipstream drive computer"
+			desc = "A supercomputer using absolutely cutting edge wormhole research. It is able to project a streamlined field of constrained wormhole particles to cut through bluespace cleanly. This drive eliminates the lengthy FTL charge up process, and can see a ship jump almost instantaneously, after it generates a suitable wormhole."
+			ftl_loop = 'nsv13/sound/effects/ship/slipstream.ogg'
+			ftl_start = 'nsv13/sound/effects/ship/slipstream_start.ogg'
+			ftl_startup_time = 6 SECONDS
+			spoolup_time = 30 SECONDS
+			jump_speed_factor = 2
+		if(3) //Admin only so I can test things more easily, or maybe dropped from an EXTREMELY RARE, copyright free ruin.
+			name = "Warp drive computer"
+			desc = "A computer that is impossibly advanced for this time period. It uses unknown technology harvested by unknown means to accelerate a starship to unheard of speeds. Ardata operatives have as yet been unable to ascertain how it functions, but field testing shows that this eliminates the need for spooling entirely in favour of distorting space."
+			ftl_loop = 'nsv13/sound/effects/ship/warp_loop.ogg'
+			ftl_start = 'nsv13/sound/effects/ship/warp.ogg'
+			ftl_exit = 'nsv13/sound/effects/ship/warp_exit.ogg'
+			ftl_startup_time = 5 SECONDS
+			spoolup_time = 1 SECONDS
+			auto_spool = TRUE
+			jump_speed_factor = 5
 
 /obj/machinery/computer/ship/ftl_computer/syndicate
 	name = "Syndicate FTL computer"
@@ -347,3 +423,7 @@ A way for syndies to track where the player ship is going in advance, so they ca
 	ftl_state = FTL_STATE_IDLE
 	progress = 0
 	use_power = 0
+	if(auto_spool)
+		active = TRUE
+		spoolup()
+		START_PROCESSING(SSmachines, src)

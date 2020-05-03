@@ -474,6 +474,7 @@
 		proj.pixel_x = round(this_x)
 		proj.pixel_y = round(this_y)
 		proj.setup_collider()
+		proj.faction = faction
 		if(isovermap(target) && explosive) //If we're firing a torpedo, the enemy's PDCs need to worry about it.
 			var/obj/structure/overmap/OM = target
 			OM.torpedoes_to_target += proj //We're firing a torpedo, their PDCs will need to shoot it down, so notify them of its existence

@@ -104,6 +104,19 @@
 	var/list/data = list()
 	var/blips[0] //2-d array declaration
 	var/ship_count = 0
+	for(var/obj/effect/overmap_anomaly/OA in linked?.current_system?.system_contents)
+		if(OA && istype(OA) && OA.z == linked?.z)
+			var/OMx = OA.x/6 //We're now going to scale down the X,Y coords into something we can display
+			var/OMy = OA.y/6 //THESE NUMBERS ARE BASED ON TRIAL AND ERROR. DON'T ARGUE WITH ME JUST DEAL WITH IT
+			if(OMx < 5) //This chain of IFs stops the dots from going off the screen. Simple as.
+				OMx = 5
+			if(OMx > 275)
+				OMx = 275
+			if(OMy < 5)
+				OMy = 5
+			if(OMy > 39)
+				OMy = 39
+			blips.Add(list(list("x" = OMx, "y" = OMy, "colour" = "#eb9534", "name" = "[(OA.scanned) ? OA.name : "anomaly"]")))
 	for(var/obj/structure/overmap/OM in GLOB.overmap_objects) //Iterate through overmaps in the world!
 		if(OM.z == linked.z)
 			var/thecolour = "#FFFFFF"
@@ -131,8 +144,8 @@
 			var/OMy = OM.y/6 //THESE NUMBERS ARE BASED ON TRIAL AND ERROR. DON'T ARGUE WITH ME JUST DEAL WITH IT
 			if(OMx < 5) //This chain of IFs stops the dots from going off the screen. Simple as.
 				OMx = 5
-			if(OMx > 235)
-				OMx = 235
+			if(OMx > 255)
+				OMx = 255
 			if(OMy < 5)
 				OMy = 5
 			if(OMy > 39)

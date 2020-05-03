@@ -50,14 +50,6 @@ SUBSYSTEM_DEF(star_system)
 		var/datum/star_system/S = new instance
 		if(S.name)
 			systems += S
-	generate_anomalies()
-
-/datum/controller/subsystem/star_system/proc/generate_anomalies()
-	for(var/datum/star_system/S in systems)
-		if(S.system_type)
-			S.apply_system_effects()
-		else
-			S.generate_anomaly()
 
 ///////SPAWN SYSTEM///////
 
@@ -97,9 +89,12 @@ SUBSYSTEM_DEF(star_system)
 		message_admins("Enqued a [OM] for spawning in [target_sys]")
 		target_sys.enemy_queue += OM
 
-//Specific case for anomalies. They need to be spawned in for research to scan them, so we have to make
+//Specific case for anomalies. They need to be spawned in for research to scan them.
 
 /datum/controller/subsystem/star_system/proc/spawn_anomaly(anomaly_type, datum/star_system/target_sys, center=FALSE)
+	if(target_sys.occupying_z)
+		spawn_ship(anomaly_type, target_sys, center)
+		return
 	var/turf/destination = null
 	if(center)
 		destination = get_turf(locate(round(world.maxx * 0.5, 1), round(world.maxy * 0.5, 1), 1))
@@ -109,7 +104,7 @@ SUBSYSTEM_DEF(star_system)
 	target_sys.contents_positions[anomaly] = list("x" = anomaly.x, "y" = anomaly.y) //Cache the ship's position so we can regenerate it later.
 	target_sys.system_contents += anomaly
 	anomaly.moveToNullspace() //Anything that's an NPC should be stored safely in nullspace until we return.
-	message_admins("[anomaly] successfully created in [target_sys]")
+	message_admins("[anomaly] successfully queued for [target_sys]")
 
 ///////BOUNTIES//////
 
@@ -219,7 +214,8 @@ SUBSYSTEM_DEF(star_system)
 
 /datum/star_system/New()
 	. = ..()
-	addtimer(CALLBACK(src, .proc/spawn_asteroids), 30 SECONDS)
+	addtimer(CALLBACK(src, .proc/spawn_asteroids), 15 SECONDS)
+	addtimer(CALLBACK(src, .proc/generate_anomaly), 15 SECONDS)
 
 /datum/star_system/proc/create_wormhole()
 	for(var/datum/star_system/S in SSstar_system.systems)
@@ -258,13 +254,27 @@ SUBSYSTEM_DEF(star_system)
 	desc = "You shouldn't see this."
 	var/research_points = 0
 	var/scanned = FALSE
+	var/specialist_research_type = null //Special techweb node unlocking.
+
+/obj/effect/overmap_anomaly/Crossed(atom/movable/AM)
+	if(istype(AM, /obj/item/projectile/bullet/torpedo/probe))
+		SSresearch.science_tech.add_point_type(TECHWEB_POINT_TYPE_DEFAULT, research_points)
+		if(specialist_research_type)
+			SSresearch.science_tech.add_point_type(specialist_research_type, research_points)
+		research_points = 0
+		scanned = TRUE
+		minor_announce("Successfully received probe telemetry. Full astrological survey of [name] complete.", "WAYFARER subsystem")
+		qdel(AM)
 
 /obj/effect/overmap_anomaly/wormhole
 	name = "Wormhole"
 	desc = "A huge tear in the fabric of space-time that can fling you to faraway places. A scan of this anomaly could advance the field of space-travel by years!"
 	icon = 'nsv13/goonstation/icons/effects/overmap_anomalies/tearhuge.dmi'
 	icon_state = "tear"
-	research_points = 15000 //These things are really valuable.
+	research_points = 15000 //These things are really valuable and give you upgraded jumpdrive tech.
+	pixel_x = -64
+	pixel_y = -64
+	specialist_research_type = TECHWEB_POINT_TYPE_WORMHOLE
 
 /obj/effect/overmap_anomaly/singularity
 	name = "Black hole"
@@ -391,6 +401,9 @@ SUBSYSTEM_DEF(star_system)
 /datum/star_system/proc/generate_anomaly()
 	if(prob(15)) //Low chance of spawning a wormhole twixt us and another system.
 		create_wormhole()
+	if(system_type) //Already have a preset system type. Apply its effects.
+		apply_system_effects()
+		return
 	switch(threat_level)
 		if(THREAT_LEVEL_NONE)
 			system_type = pick("safe", "nebula", "gas", "icefield", "ice_planet") //Threat level 0 denotes starter systems, so they just have "fluff" anomalies like gas clouds and whatever.

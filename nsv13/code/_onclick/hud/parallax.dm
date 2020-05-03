@@ -13,6 +13,7 @@
  	speed = 1
 
 /obj/screen/parallax_layer/layer_3/update_status(mob/M)
+ 	check_ftl_state()
  	. = ..()
  	update_o()
 
@@ -21,15 +22,18 @@
 	. = ..(view)
 
 /obj/screen/parallax_layer/layer_3/proc/check_ftl_state()
-	if(!current_mob)
-		return
 	var/obj/structure/overmap/OM = current_mob?.get_overmap()
 	if(!OM || !istype(OM, /obj/structure/overmap))
 		return
-	var/area/AR = get_area(current_mob)
-	if(OM && AR?.parallax_movedir)
+	var/area/AR = null
+	if(current_mob)
+		AR = get_area(current_mob)
+	if(SSstar_system.ships[OM]["target_system"] != null)
 		icon_state = "transit"
-		dir = AR.parallax_movedir
+		if(AR && AR.parallax_movedir)
+			dir = AR.parallax_movedir
+		else
+			dir = EAST
 		return
 	if(OM?.current_system?.parallax_property)
 		icon_state = OM?.current_system?.parallax_property

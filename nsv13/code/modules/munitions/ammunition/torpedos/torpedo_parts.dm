@@ -24,6 +24,12 @@
 	icon_state = "warhead_decoy"
 	desc = "A simple electronic countermeasure wrapped in a metal casing. While these form inert torpedoes, they can be used to distract enemy PDC emplacements to divert their flak away from other targets."
 
+/obj/item/ship_weapon/parts/torpedo/warhead/probe
+	name = "NTX 'Voyager' astrological probe payload"
+	desc = "An advanced sensor suite specially kitted to collect information about astrological phenomena."
+	icon_state = "warhead_probe"
+	desc = "A simple electronic countermeasure wrapped in a metal casing. While these form inert torpedoes, they can be used to distract enemy PDC emplacements to divert their flak away from other targets."
+
 /obj/item/ship_weapon/parts/torpedo/warhead/nuclear
 	name = "nuclear torpedo warhead"
 	desc = "a nuclear torpedo warhead"
@@ -68,7 +74,7 @@
 	display_name = "Basic Torpedo Components"
 	description = "A how-to guide of fabricating torpedos while out in the depths of space."
 	prereq_ids = list("explosive_weapons")
-	design_ids = list("warhead", "bb_warhead", "lw_warhead", "decoy_warhead", "nuke_warhead", "guidance_system", "propulsion_system", "iff_card")
+	design_ids = list("warhead", "bb_warhead", "lw_warhead", "decoy_warhead", "nuke_warhead", "probe_warhead", "guidance_system", "propulsion_system", "iff_card")
 	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 2500)
 	export_price = 5000
 
@@ -119,6 +125,16 @@
 	build_type = PROTOLATHE
 	materials = list(/datum/material/iron = 20000, /datum/material/plasma = 10000, /datum/material/uranium = 5000)
 	build_path = /obj/item/ship_weapon/parts/torpedo/warhead/nuclear
+	category = list("Advanced Munitions")
+	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+
+/datum/design/probe_warhead
+	name = "Astrometrics probe warhead"
+	desc = "A sensor suite that can turn a torpedo casing into an advanced probe for use in astrometrics research."
+	id = "probe_warhead"
+	build_type = PROTOLATHE
+	materials = list(/datum/material/iron = 20000, /datum/material/glass = 5000, /datum/material/titanium=10000, /datum/material/gold=1000)
+	build_path = /obj/item/ship_weapon/parts/torpedo/warhead/probe
 	category = list("Advanced Munitions")
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO
 

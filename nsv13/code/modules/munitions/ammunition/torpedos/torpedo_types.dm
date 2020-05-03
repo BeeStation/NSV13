@@ -76,3 +76,15 @@
 /obj/item/projectile/bullet/torpedo/dud
 	icon_state = "torpedo_dud"
 	damage = 0
+
+//A probe that science builds to scan anomalies. This is a chad move.
+/obj/item/ship_weapon/ammunition/torpedo/probe
+	name = "NTX 'Voyager' astrological probe"
+	icon = 'nsv13/icons/obj/munition_types.dmi'
+	icon_state = "probe"
+	desc = "A chemically propelled probe with a highly sensitive avionics and sensor package at its nosecone. These probes are able to scan astrological phenomena and relay data back to a remote location."
+	projectile_type = /obj/item/projectile/bullet/torpedo/probe
+
+/obj/item/projectile/bullet/torpedo/probe
+	icon_state = "probe"
+	damage = 5
