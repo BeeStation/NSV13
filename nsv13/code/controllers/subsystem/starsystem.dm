@@ -402,7 +402,7 @@ SUBSYSTEM_DEF(star_system)
 			event_chance = 100 //Quasars are screwy.
 		if("debris")
 			parallax_property = "rocks"
-			event_chance = 30 //Space rocks!
+			event_chance = 60 //Space rocks!
 			possible_events = list(/datum/round_event_control/space_dust, /datum/round_event_control/meteor_wave)
 		if("icefield")
 			parallax_property = "icefield"

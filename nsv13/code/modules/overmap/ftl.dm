@@ -104,7 +104,7 @@
 	if(!ftl_start)
 		for(var/mob/M in mobs_in_ship)
 			if(M && M.client && M.hud_used && length(M.client.parallax_layers))
-				M.hud_used.update_parallax()
+				M.hud_used.update_parallax(force=TRUE)
 
 
 /obj/structure/overmap/proc/jump(datum/star_system/target_system, ftl_start) //FTL start IE, are we beginning a jump? Or ending one?

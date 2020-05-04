@@ -165,7 +165,7 @@
 
 		animate(L, transform = matrix(), time = T, loop = -1, flags = ANIMATION_END_NOW)
 
-/datum/hud/proc/update_parallax(forced = FALSE)
+/datum/hud/proc/update_parallax(force = FALSE) //Nsv13 - Allowed force updating parallax via overmap ships
 	var/client/C = mymob.client
 	var/turf/posobj = get_turf(C.eye)
 	if(!posobj)
@@ -178,7 +178,6 @@
 	var/new_parallax_movedir = (SL.parallax_movedir) ? SL.parallax_movedir : get_area(mymob).parallax_movedir //So that shuttles still have parallax.
 	set_parallax_movedir(new_parallax_movedir, FALSE)
 
-	var/force
 	if(!C.previous_turf || (C.previous_turf.z != posobj.z))
 		C.previous_turf = posobj
 		force = TRUE
@@ -203,9 +202,6 @@
 		L.update_status(mymob)
 		if (L.view_sized != C.view)
 			L.update_o(C.view)
-		else //Nsv13 - Ftl parallax
-			if(forced)
-				L.update_o(C.view)
 
 		var/change_x
 		var/change_y
