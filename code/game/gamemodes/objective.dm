@@ -57,12 +57,10 @@ GLOBAL_LIST_EMPTY(objectives)
 		return TRUE
 	if(SSticker.force_ending || SSticker.mode.station_was_nuked) // Just let them win.
 		return TRUE
-	if(SSshuttle.emergency.mode != SHUTTLE_ENDGAME)
-		return FALSE
 	var/turf/location = get_turf(M.current)
 	if(!location || istype(get_area(M.current), /area/security/prison) || istype(location, /turf/open/floor/plasteel/shuttle/red) || istype(location, /turf/open/floor/mineral/plastitanium/red/brig)) // Fails if they are in the shuttle brig -Nsv13 or in the permabrig
 		return FALSE
-	return location.onCentCom() || location.onSyndieBase()
+	return GLOB.crew_transfer_risa || location.onCentCom() || location.onSyndieBase()
 
 /datum/objective/proc/check_completion()
 	return completed

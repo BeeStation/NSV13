@@ -325,9 +325,9 @@ SUBSYSTEM_DEF(star_system)
 			cached_colours[OM] = OM.color //So that say, a yellow fighter doesnt get its paint cleared by redshifting
 			OM.relay(sound='nsv13/sound/effects/ship/falling.ogg', message="<span class='warning'>You feel weighed down.</span>", loop=TRUE, channel=CHANNEL_HEARTBEAT)
 	for(var/obj/structure/overmap/OM in affecting)
-		if(get_dist(src, OM) > influence_range || OM.z != z)
-			OM.stop_relay(CHANNEL_HEARTBEAT)
+		if(get_dist(src, OM) > influence_range || !z || OM.z != z)
 			affecting -= OM
+			OM.stop_relay(CHANNEL_HEARTBEAT)
 			OM.color = cached_colours[OM]
 			cached_colours[OM] = null
 			for(var/mob/M in OM.mobs_in_ship)
@@ -344,8 +344,8 @@ SUBSYSTEM_DEF(star_system)
 			affecting -= OM
 			OM.Destroy()
 		dist = (dist > 0) ? dist : 1
-		var/pull_strength = (dist > event_horizon_range) ? 0.003 : base_pull_strength
-		var/succ_impulse = pull_strength/dist*dist
+		var/pull_strength = (dist > event_horizon_range) ? 0.005 : base_pull_strength
+		var/succ_impulse = (!OM.brakes) ? pull_strength/dist*dist : (OM.forward_maxthrust / 10) + (pull_strength/dist*dist) //STOP RESISTING THE SUCC
 		if(incidence & NORTH)
 			OM.velocity.y += succ_impulse
 		if(incidence & SOUTH)
