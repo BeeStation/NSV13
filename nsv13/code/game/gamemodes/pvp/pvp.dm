@@ -56,7 +56,7 @@ Method to spawn in the Syndi ship on a brand new Z-level with the "boardable" tr
 		map_file = "Hammurabi.dmm"
 		ship_type = /obj/structure/overmap/syndicate/pvp
 
-	syndiship = instance_overmap(_path=ship_type, folder= "map_files/PVP" ,interior_map_files = map_file, default_traits=ZTRAITS_BOARDABLE_SHIP)
+	syndiship = instance_overmap(_path=ship_type, folder= "map_files/PVP" ,interior_map_files = map_file)
 	var/n_agents = antag_candidates.len
 	if(n_agents >= enemies_to_spawn)
 		jobs["pilots"] = list() //Dictionary to store who's doing what job.

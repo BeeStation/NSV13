@@ -249,7 +249,7 @@ SUBSYSTEM_DEF(mapping)
 
 ///NSV13 RECODE OF MINING LOAD SELECTION
 	//Load Mining
-	instance_overmap(_path=config.mining_ship_type, folder= "map_files/Mining/nsv13" ,interior_map_files = config.mine_file, traits=config.mine_traits)
+	instance_overmap(_path=config.mining_ship_type, folder= config.mine_path ,interior_map_files = config.mine_file, traits=config.mine_traits)
 
 ///NSV13 END
 #endif

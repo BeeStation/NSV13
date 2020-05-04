@@ -90,24 +90,11 @@
 	addtimer(CALLBACK(src, .proc/jump, target_system, TRUE), ftl_drive.ftl_startup_time)
 
 /obj/structure/overmap/proc/jump(datum/star_system/target_system, ftl_start) //FTL start IE, are we beginning a jump? Or ending one?
-	if(role == MAIN_OVERMAP)
-		var/list/areas = list()
-		areas = GLOB.teleportlocs.Copy()
-		for(var/A in areas)
-			var/area/AR = areas[A]
-			if(istype(AR, /area/space))
-				continue
-			if(ftl_start)
-				AR.parallax_movedir = EAST
-			else
-				AR.parallax_movedir = null
-	else
+	for(var/datum/space_level/SL in occupying_levels)
 		if(ftl_start)
-			for(var/area/linked_area in linked_areas)
-				linked_area.parallax_movedir = EAST
+			SL.set_parallax("transit", EAST)
 		else
-			for(var/area/linked_area in linked_areas)
-				linked_area.parallax_movedir = null
+			SL.set_parallax( (current_system != null) ?  current_system.parallax_property : target_system.parallax_property, null)
 	if(ftl_start)
 		SSstar_system.last_combat_enter = world.time //To allow for time spent FTL jumping
 		relay(ftl_drive.ftl_loop, "<span class='warning'>You feel the ship lurch forward</span>", loop=TRUE, channel = CHANNEL_SHIP_ALERT)

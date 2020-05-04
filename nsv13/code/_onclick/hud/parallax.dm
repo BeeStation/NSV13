@@ -4,6 +4,14 @@
 // update_o: scales the parallax to fit your viewport             //
 ////////////////////////////////////////////////////////////////////
 
+/datum/space_level
+	var/parallax_movedir = null //Which way doth the parallax go?
+	var/parallax_property = null //A wacky parallax space background character! Used for system parallax.
+
+/datum/space_level/proc/set_parallax(parallax_property, parallax_movedir = null)
+	src.parallax_property = parallax_property
+	src.parallax_movedir = parallax_movedir
+
 /area/maintenance/ship_exterior //Used so that the FTL effect doesnt go away when you step outside.
 	name = "Ship exterior"
 	icon_state = "space_near"
@@ -22,25 +30,11 @@
 	. = ..(view)
 
 /obj/screen/parallax_layer/layer_3/proc/check_ftl_state()
-	var/obj/structure/overmap/OM = current_mob?.get_overmap()
-	if(!OM || !istype(OM, /obj/structure/overmap))
-		return
-	var/area/AR = null
-	if(current_mob)
-		AR = get_area(current_mob)
-	if(SSstar_system.ships[OM]["target_system"] != null)
-		icon_state = "transit"
-		if(AR && AR.parallax_movedir)
-			dir = AR.parallax_movedir
-		else
-			dir = EAST
-		return
-	if(OM?.current_system?.parallax_property)
-		icon_state = OM?.current_system?.parallax_property
-		dir = initial(dir)
-		return
-	icon_state = "layer3"
-	dir = initial(dir)
+	if(!current_mob)
+		return //Something has gone horribly wrong.
+	var/datum/space_level/SL = SSmapping.z_list[current_mob.z]
+	icon_state = SL.parallax_property
+	dir = (SL.parallax_movedir) ? SL.parallax_movedir : initial(dir)
 
 /obj/screen/parallax_layer/planet/update_o(view)
 	if(!current_mob)

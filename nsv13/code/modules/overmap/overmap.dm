@@ -122,6 +122,7 @@
 	var/starting_system = null //Where do we start in the world?
 	var/obj/machinery/computer/ship/ftl_computer/ftl_drive
 	var/reserved_z = 0 //The Z level we were spawned on, and thus inhabit. This can be changed if we "swap" positions with another ship.
+	var/list/occupying_levels = list() //Refs to the z-levels we own for setting parallax and that, or for admins to debug things when EVERYTHING INEVITABLY BREAKS
 
 	var/role = NORMAL_OVERMAP
 
@@ -130,7 +131,7 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 @return OM, a newly spawned overmap sitting on its treadmill as it ought to be.
 */
 
-/proc/instance_overmap(_path, folder = null, interior_map_files = null, traits = null, default_traits = null)
+/proc/instance_overmap(_path, folder = null, interior_map_files = null, traits = null, default_traits = ZTRAITS_BOARDABLE_SHIP) //By default we apply the boardable ship traits, as they make fighters and that lark work
 	if(!islist(interior_map_files))
 		interior_map_files = list(interior_map_files)
 	if(!_path)
@@ -146,11 +147,12 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 		for(var/z in SSmapping.levels_by_trait(ZTRAIT_STATION))
 			var/datum/space_level/SL = SSmapping.z_list[z]
 			SL.linked_overmap = OM
+			OM.occupying_levels += SL
 
 	if(folder && interior_map_files){ //If this thing comes with an interior.
 		var/previous_maxz = world.maxz //Ok. Store the current number of Zs. Anything that we add on top of this due to this proc will then be conted as decks of our ship.
 		var/list/errorList = list()
-		var/list/loaded = SSmapping.LoadGroup(errorList, "[OM.name] interior Z level", "[folder]", interior_map_files, traits = traits, default_traits=default_traits, silent=TRUE)
+		var/list/loaded = SSmapping.LoadGroup(errorList, "[OM.name] interior Z level", "[folder]", files=interior_map_files, traits = traits, default_traits=default_traits, silent=TRUE)
 		if(errorList.len)	// failed to load :(
 			message_admins("[_path]'s interior failed to load! Check you used instance_overmap correctly...")
 			log_game("[_path]'s interior failed to load! Check you used instance_overmap correctly...")
@@ -168,6 +170,7 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 			var/datum/space_level/SL = A
 			if(LAZYFIND(occupying, SL.z_value)) //And if the Z-level's value is one of ours, associate it.
 				SL.linked_overmap = OM
+				OM.occupying_levels += SL
 				log_game("Z-level [SL] linked to [OM].")
 		repopulate_sorted_areas()
 	}

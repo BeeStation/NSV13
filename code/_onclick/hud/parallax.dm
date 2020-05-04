@@ -170,10 +170,13 @@
 	var/turf/posobj = get_turf(C.eye)
 	if(!posobj)
 		return
-	var/area/areaobj = posobj.loc
+	if(!mymob)
+		return //Something has gone horribly wrong.
+	var/datum/space_level/SL = SSmapping.z_list[mymob.z]
 
 	// Update the movement direction of the parallax if necessary (for shuttles)
-	set_parallax_movedir(areaobj.parallax_movedir, FALSE)
+	var/new_parallax_movedir = (SL.parallax_movedir) ? SL.parallax_movedir : get_area(mymob).parallax_movedir //So that shuttles still have parallax.
+	set_parallax_movedir(new_parallax_movedir, FALSE)
 
 	var/force
 	if(!C.previous_turf || (C.previous_turf.z != posobj.z))
@@ -226,7 +229,7 @@
 				L.offset_y += 480
 
 
-		if(!areaobj.parallax_movedir && C.dont_animate_parallax <= world.time && (offset_x || offset_y) && abs(offset_x) <= max(C.parallax_throttle/world.tick_lag+1,1) && abs(offset_y) <= max(C.parallax_throttle/world.tick_lag+1,1) && (round(abs(change_x)) > 1 || round(abs(change_y)) > 1))
+		if(!new_parallax_movedir && C.dont_animate_parallax <= world.time && (offset_x || offset_y) && abs(offset_x) <= max(C.parallax_throttle/world.tick_lag+1,1) && abs(offset_y) <= max(C.parallax_throttle/world.tick_lag+1,1) && (round(abs(change_x)) > 1 || round(abs(change_y)) > 1))
 			L.transform = matrix(1, 0, offset_x*L.speed, 0, 1, offset_y*L.speed)
 			animate(L, transform=matrix(), time = last_delay)
 
