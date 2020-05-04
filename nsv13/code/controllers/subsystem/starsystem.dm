@@ -492,6 +492,7 @@ SUBSYSTEM_DEF(star_system)
 	x = 0
 	y = 10
 	alignment = "nanotrasen"
+	system_type = "ice_planet"
 	adjacency_list = list("Alpha Centauri", "Risa Station")
 
 /datum/star_system/alpha_centauri

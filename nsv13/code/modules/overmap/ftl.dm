@@ -89,7 +89,31 @@
 	desired_angle = 90 //90 degrees AKA face EAST to match the FTL parallax.
 	addtimer(CALLBACK(src, .proc/jump, target_system, TRUE), ftl_drive.ftl_startup_time)
 
+/obj/structure/overmap/proc/force_parallax_update(ftl_start)
+	if(reserved_z) //Actual overmap parallax behaviour
+		var/datum/space_level/SL = SSmapping.z_list[reserved_z]
+		if(ftl_start)
+			SL.set_parallax("transit", EAST)
+		else
+			SL.set_parallax(current_system.parallax_property, null)
+	for(var/datum/space_level/SL in occupying_levels)
+		if(ftl_start)
+			SL.set_parallax("transit", EAST)
+		else
+			SL.set_parallax(current_system.parallax_property, null)
+	if(!ftl_start)
+		for(var/mob/M in mobs_in_ship)
+			if(M && M.client && M.hud_used && length(M.client.parallax_layers))
+				M.hud_used.update_parallax()
+
+
 /obj/structure/overmap/proc/jump(datum/star_system/target_system, ftl_start) //FTL start IE, are we beginning a jump? Or ending one?
+	if(reserved_z) //Actual overmap parallax behaviour
+		var/datum/space_level/SL = SSmapping.z_list[reserved_z]
+		if(ftl_start)
+			SL.set_parallax("transit", EAST)
+		else
+			SL.set_parallax( (current_system != null) ?  current_system.parallax_property : target_system.parallax_property, null)
 	for(var/datum/space_level/SL in occupying_levels)
 		if(ftl_start)
 			SL.set_parallax("transit", EAST)
@@ -125,8 +149,6 @@
 		relay(ftl_drive.ftl_exit, "<span class='warning'>You feel the ship lurch to a halt</span>", loop=FALSE, channel = CHANNEL_SHIP_ALERT)
 		target_system.add_ship(src) //Get the system to transfer us to its location.
 	for(var/mob/M in mobs_in_ship)
-		if(M && M.client && M.hud_used && length(M.client.parallax_layers))
-			M.hud_used.update_parallax(forced = TRUE)
 		if(iscarbon(M))
 			var/mob/living/carbon/L = M
 			if(HAS_TRAIT(L, TRAIT_SEASICK))
@@ -136,6 +158,7 @@
 				else
 					L.adjust_disgust(40)
 		shake_camera(M, 4, 1)
+	force_parallax_update(ftl_start)
 
 #define FTL_STATE_IDLE 1
 #define FTL_STATE_SPOOLING 2

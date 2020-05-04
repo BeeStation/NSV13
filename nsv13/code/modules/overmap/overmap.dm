@@ -143,12 +143,12 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 	log_game("Z-level [world.maxz] loaded for overmap treadmills.")
 	var/turf/exit = get_turf(locate(round(world.maxx * 0.5, 1), round(world.maxy * 0.5, 1), world.maxz)) //Plop them bang in the center of the system.
 	var/obj/structure/overmap/OM = new _path(exit) //Ship'll pick up the info it needs, so just domp eet at the exit turf.
+	OM.current_system = SSstar_system.find_system(OM)
 	if(OM.role == MAIN_OVERMAP) //If we're the main overmap, we'll cheat a lil' and apply our status to all of the Zs under "station"
 		for(var/z in SSmapping.levels_by_trait(ZTRAIT_STATION))
 			var/datum/space_level/SL = SSmapping.z_list[z]
 			SL.linked_overmap = OM
 			OM.occupying_levels += SL
-
 	if(folder && interior_map_files){ //If this thing comes with an interior.
 		var/previous_maxz = world.maxz //Ok. Store the current number of Zs. Anything that we add on top of this due to this proc will then be conted as decks of our ship.
 		var/list/errorList = list()
@@ -268,6 +268,7 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 	if(role == MAIN_OVERMAP)
 		name = "[station_name()]"
 	current_system = SSstar_system.find_system(src)
+	addtimer(CALLBACK(src, .proc/force_parallax_update), 20 SECONDS)
 	addtimer(CALLBACK(src, .proc/check_armour), 20 SECONDS)
 
 	weapon_types[FIRE_MODE_PDC] = new/datum/ship_weapon/pdc_mount

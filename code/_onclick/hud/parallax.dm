@@ -170,7 +170,7 @@
 	var/turf/posobj = get_turf(C.eye)
 	if(!posobj)
 		return
-	if(!mymob)
+	if(!mymob || !SSmapping.z_list || !SSmapping.z_list.len)
 		return //Something has gone horribly wrong.
 	var/datum/space_level/SL = SSmapping.z_list[mymob.z]
 
@@ -270,20 +270,20 @@
 /obj/screen/parallax_layer/proc/update_o(view)
 	if (!view)
 		view = world.view
-
-	var/list/viewscales = getviewsize(view)
-	var/countx = CEILING((viewscales[1]/2)/(480/world.icon_size), 1)+1
-	var/county = CEILING((viewscales[2]/2)/(480/world.icon_size), 1)+1
-	var/list/new_overlays = new
-	for(var/x in -countx to countx)
-		for(var/y in -county to county)
-			if(x == 0 && y == 0)
-				continue
-			var/mutable_appearance/texture_overlay = mutable_appearance(icon, icon_state)
-			texture_overlay.transform = matrix(1, 0, x*480, 0, 1, y*480)
-			new_overlays += texture_overlay
 	cut_overlays()
-	add_overlay(new_overlays)
+	if(tesselate)
+		var/list/viewscales = getviewsize(view)
+		var/countx = CEILING((viewscales[1]/2)/(480/world.icon_size), 1)+1
+		var/county = CEILING((viewscales[2]/2)/(480/world.icon_size), 1)+1
+		var/list/new_overlays = new
+		for(var/x in -countx to countx)
+			for(var/y in -county to county)
+				if(x == 0 && y == 0)
+					continue
+				var/mutable_appearance/texture_overlay = mutable_appearance(icon, icon_state)
+				texture_overlay.transform = matrix(1, 0, x*480, 0, 1, y*480)
+				new_overlays += texture_overlay
+		add_overlay(new_overlays)
 	view_sized = view
 
 /obj/screen/parallax_layer/proc/update_status(mob/M)
@@ -325,13 +325,7 @@
 	absolute = TRUE //Status of seperation
 	speed = 3
 	layer = 30
-
-/obj/screen/parallax_layer/planet/update_status(mob/M)
-	var/turf/T = get_turf(M)
-	if(is_station_level(T.z))
-		invisibility = 0
-	else
-		invisibility = INVISIBILITY_ABSTRACT
+	invisibility = INVISIBILITY_ABSTRACT
 
 /obj/screen/parallax_layer/planet/update_o()
 	return //Shit wont move
