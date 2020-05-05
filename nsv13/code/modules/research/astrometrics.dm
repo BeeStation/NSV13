@@ -91,18 +91,21 @@ Clean override of the navigation computer to provide scan functionality.
 		if("scan")
 			scan_goal = initial(scan_goal)
 			scan_target = selected_system
-			say("Commencing scan of: [scan_target]")
-			radio.talk_into(src, "Commencing scan of: [scan_target]", channel)
+			say("Initiating scan of: [scan_target]")
+			playsound(src, 'nsv13/sound/voice/scan_start.wav', 100, FALSE)
+			radio.talk_into(src, "Initiating scan of: [scan_target]", channel)
 		if("scan_anomaly")
 			var/obj/effect/overmap_anomaly/target = locate(params["anomaly_id"])
 			if(!istype(target))
 				return
 			scan_goal = initial(scan_goal) / 2
 			scan_target = target
-			radio.talk_into(src, "Commencing scan of: [scan_target]", channel)
+			say("Initiating scan of: [scan_target]")
+			radio.talk_into(src, "Initiating scan of: [scan_target]", channel)
 		if("cancel_scan")
-			say("Scan of [scan_target] halted!")
-			radio.talk_into(src, "Scan of [scan_target] halted!", channel)
+			say("Scan of [scan_target] cancelled!")
+			playsound(src, 'nsv13/sound/voice/scanning_cancelled.wav', 100, FALSE)
+			radio.talk_into(src, "Scan of [scan_target] cancelled!", channel)
 			scan_progress = 0
 			scan_target = null
 
@@ -111,6 +114,7 @@ Clean override of the navigation computer to provide scan functionality.
 		scan_progress += 1 SECONDS
 		if(scan_progress >= scan_goal)
 			say("Scan of [scan_target] complete!")
+			playsound(src, 'nsv13/sound/voice/scanning_complete.wav', 100, FALSE)
 			radio.talk_into(src, "Scan of [scan_target] complete!", channel)
 			scanned += scan_target.name
 			if(istype(scan_target, /obj/effect/overmap_anomaly))

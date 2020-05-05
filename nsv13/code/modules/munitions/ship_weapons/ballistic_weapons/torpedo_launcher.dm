@@ -67,7 +67,11 @@
 	// We have different sprites and behaviors for each torpedo
 	var/obj/item/ship_weapon/ammunition/torpedo/T = chambered
 	if(T)
-		if(istype(T, /obj/item/projectile/bullet/torpedo/dud)) //Some brainlet MAA loaded an incomplete torp
-			linked.fire_projectile(T.projectile_type, target, homing = FALSE, speed=T.speed, explosive = TRUE)
+		if(istype(T, /obj/item/projectile/guided_munition/torpedo/dud)) //Some brainlet MAA loaded an incomplete torp
+			linked.fire_projectile(T.projectile_type, target, homing = FALSE, explosive = TRUE)
 		else
-			linked.fire_projectile(T.projectile_type, target, homing = TRUE, speed=T.speed, explosive = TRUE)
+			var/obj/item/projectile/P = linked.fire_projectile(T.projectile_type, target, homing = TRUE, explosive = TRUE)
+			if(T.contents.len)
+				for(var/atom/movable/AM in T.contents)
+					to_chat(AM, "<span class='warning'>You feel slightly nauseous as you're shot out into space...</span>")
+					AM.forceMove(P)

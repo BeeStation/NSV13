@@ -10,10 +10,11 @@
 	icon_state = "thrust_low"
 	mouse_opacity = FALSE
 	alpha = 0
-	layer = HIGH_OBJ_LAYER
+	layer = WALL_OBJ_LAYER
 
 /obj/structure/overmap
 	var/last_process = 0
+	var/processing_failsafe = FALSE //Has the game lagged to shit and we need to handle our own processing until it clears up?
 	var/obj/vector_overlay/vector_overlay
 	var/pixel_collision_size_x = 0
 	var/pixel_collision_size_y = 0
@@ -78,8 +79,59 @@
 /obj/structure/overmap/proc/can_move()
 	return TRUE //Placeholder for everything but fighters. We can later extend this if / when we want to code in ship engines.
 
-/obj/structure/overmap/process(time)
-	time /= 1 SECONDS
+/obj/structure/overmap/slowprocess()
+	. = ..()
+	if(cabin_air && cabin_air.volume > 0)
+		var/delta = cabin_air.temperature - T20C
+		cabin_air.temperature -= max(-10, min(10, round(delta/4,0.1)))
+	if(internal_tank && cabin_air)
+		var/datum/gas_mixture/tank_air = internal_tank.return_air()
+		var/release_pressure = ONE_ATMOSPHERE
+		var/cabin_pressure = cabin_air.return_pressure()
+		var/pressure_delta = min(release_pressure - cabin_pressure, (tank_air.return_pressure() - cabin_pressure)/2)
+		var/transfer_moles = 0
+		if(pressure_delta > 0) //cabin pressure lower than release pressure
+			if(tank_air.return_temperature() > 0)
+				transfer_moles = pressure_delta*cabin_air.return_volume()/(cabin_air.return_temperature() * R_IDEAL_GAS_EQUATION)
+				var/datum/gas_mixture/removed = tank_air.remove(transfer_moles)
+				cabin_air.merge(removed)
+		else if(pressure_delta < 0) //cabin pressure higher than release pressure
+			var/turf/T = get_turf(src)
+			var/datum/gas_mixture/t_air = T.return_air()
+			pressure_delta = cabin_pressure - release_pressure
+			if(t_air)
+				pressure_delta = min(cabin_pressure - t_air.return_pressure(), pressure_delta)
+			if(pressure_delta > 0) //if location pressure is lower than cabin pressure
+				transfer_moles = pressure_delta*cabin_air.return_volume()/(cabin_air.return_temperature() * R_IDEAL_GAS_EQUATION)
+				var/datum/gas_mixture/removed = cabin_air.remove(transfer_moles)
+				if(T)
+					T.assume_air(removed)
+				else //just delete the cabin gas, we're in space or some shit
+					qdel(removed)
+
+/*
+
+This proc allows overmaps to survive even in the laggiest of server conditions. Overmaps MUST always process, and sometimes the game will throttle the subsystems during lag. We cannot, however, live without them. That's where this beauty comes into play.
+Basically, when we process, we store the last time we were able to be processed. If the last time we were processed was 1 or more seconds ago, then we take control of our own processing with a while() loop.
+The while loop runs at a programatic level and is thus separated from any throttling that the server may put in place. 5 minutes after starting the failsafe processing, we'll see if the game is ready to take back control or not.
+
+*/
+
+/obj/structure/overmap/proc/start_failsafe_processing()
+	set waitfor = FALSE //Don't hang the process call.
+	processing_failsafe = TRUE
+	addtimer(VARSET_CALLBACK(src, processing_failsafe, FALSE), 10 MINUTES) //At this point, the game is under immense strain. In a few minutes time we'll attempt to hand back control to processing, but for now, we're going to handle it ourselves.
+	while(processing_failsafe)
+		stoplag() //Lock up the thread for a bit, throttle the process down to whatever the server can handle right now.
+		if(last_process < world.time - 0.5 SECONDS)
+			process()
+
+/obj/structure/overmap/process()
+	set waitfor = FALSE
+	var/time = min(world.time - last_process, 10)
+	time /= 10 // fuck off deciseconds
+	if(last_process > 0 && (last_process < world.time - 1 SECONDS) && !processing_failsafe) //Alright looks like the game's shat itself. Time to engage "failsafe mode". The logic of this is that if we've not been processed for over 1 second, then ship piloting starts to become unbearable and we need to step in and do our own processing, until the game's back on its feet again.
+		start_failsafe_processing()
 	last_process = world.time
 	if(world.time > last_slowprocess + 10)
 		last_slowprocess = world.time
@@ -101,6 +153,7 @@
 			desired_angular_velocity = 2 * sqrt((desired_angle - angle) * max_angular_acceleration * 0.25)
 		else
 			desired_angular_velocity = -2 * sqrt((angle - desired_angle) * max_angular_acceleration * 0.25)
+
 	var/angular_velocity_adjustment = CLAMP(desired_angular_velocity - angular_velocity, -max_angular_acceleration*time, max_angular_acceleration*time)
 	if(angular_velocity_adjustment)
 		last_rotate = angular_velocity_adjustment / time
@@ -114,7 +167,7 @@
 	// calculate drag and shit
 
 	var/velocity_mag = velocity.ln() // magnitude
-	if(velocity_mag || angular_velocity)
+	if(velocity_mag)
 		var/drag = 0
 		for(var/turf/T in locs)
 			if(isspaceturf(T))
@@ -189,10 +242,13 @@
 
 	velocity.x += thrust_x * time //And speed us up based on how long we've been thrusting (up to a point)
 	velocity.y += thrust_y * time
-	if(pilot?.client?.keys_held["Q"] && can_move()) //While theyre pressing E || Q, turn.
-		desired_angle -= 15 //Otherwise it feels sluggish as all hell
-	if(pilot?.client?.keys_held["E"] && can_move())
-		desired_angle += 15
+	if(inertial_dampeners) //An optional toggle to make capital ships more "fly by wire" and help you steer in only the direction you want to go.
+		var/side_movement = (sx*velocity.x) + (sy*velocity.y)
+		var/friction_impulse = side_maxthrust * time
+		var/clamped_side_movement = CLAMP(side_movement, -friction_impulse, friction_impulse)
+		velocity.x -= clamped_side_movement * sx
+		velocity.y -= clamped_side_movement * sy
+
 	offset.x += velocity.x * time
 	offset.y += velocity.y * time
 
@@ -471,6 +527,7 @@
 			proj.firer = src
 		proj.def_zone = "chest"
 		proj.original = target
+		proj.overmap_firer = src
 		proj.pixel_x = round(this_x)
 		proj.pixel_y = round(this_y)
 		proj.setup_collider()
@@ -483,6 +540,7 @@
 		spawn()
 			proj.fire(angle)
 			proj.set_pixel_speed(speed)
+		return proj
 
 /obj/structure/overmap/proc/fire_projectiles(proj_type, target) // if spacepods of other sizes are added override this or something
 	var/fx = cos(90 - angle)
@@ -519,6 +577,7 @@
 			proj.firer = src
 		proj.def_zone = "chest"
 		proj.original = target
+		proj.overmap_firer = src
 		proj.pixel_x = round(this_x)
 		proj.pixel_y = round(this_y)
 		proj.setup_collider()
@@ -533,6 +592,7 @@
 	proj.firer = (!user_override && gunner) ? gunner : user_override
 	proj.def_zone = "chest"
 	proj.original = target
+	proj.overmap_firer = src
 	proj.pixel_x = round(pixel_x)
 	proj.pixel_y = round(pixel_y)
 	proj.setup_collider()

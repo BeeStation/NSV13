@@ -2,6 +2,7 @@
 	var/datum/shape/collider2d = null //Our box collider. See the collision module for explanation
 	var/datum/vector2d/position = null //Positional vector, used exclusively for collisions with overmaps
 	var/list/collision_positions = null //The bounding box of this projectile.
+	var/obj/structure/overmap/overmap_firer = null
 
 /obj/item/projectile/proc/setup_collider()
 	collision_positions = list(new /datum/vector2d(-2,16),\
