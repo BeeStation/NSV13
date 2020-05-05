@@ -12,7 +12,7 @@
 /datum/round_event/belt_rats
 
 /datum/round_event/belt_rats/start()
-	var/opponent = /obj/structure/overmap/fighter/ai/syndicate //Lone Syndie Fighter
+	var/opponent = /obj/structure/overmap/syndicate/ai/fighter //Lone Syndie Fighter
 	var/target = SSstarsystem.find_main_miner() //Find the Mining Cruiser
 	var/datum/starsystem/current_sys = SSstarsystem.find_system(target)
 	var/list/levels = SSmapping.levels_by_trait(current_sys.level_trait)
