@@ -1,3 +1,8 @@
+#define FTL_STATE_IDLE 1
+#define FTL_STATE_SPOOLING 2
+#define FTL_STATE_READY 3
+#define FTL_STATE_JUMPING 4
+
 /datum/star_system/proc/add_ship(obj/structure/overmap/OM)
 	system_contents += OM
 	if(!occupying_z && OM.z) //Does this system have a physical existence? if not, we'll set this now so that any inbound ships jump to the same Z-level that we're on.
@@ -84,8 +89,7 @@
 	occupying_z = 0 //Alright, no ships are holding it anymore. Stop holding the Z-level
 
 /obj/structure/overmap/proc/begin_jump(datum/star_system/target_system)
-	relay_to_nearby('nsv13/sound/effects/ship/FTL.ogg', null, ignore_self=TRUE)//Ships just hear a small "crack" when another one jumps
-	relay(ftl_drive.ftl_start)
+	relay(ftl_drive.ftl_start, channel=CHANNEL_IMPORTANT_SHIP_ALERT)
 	desired_angle = 90 //90 degrees AKA face EAST to match the FTL parallax.
 	addtimer(CALLBACK(src, .proc/jump, target_system, TRUE), ftl_drive.ftl_startup_time)
 
@@ -108,6 +112,9 @@
 
 
 /obj/structure/overmap/proc/jump(datum/star_system/target_system, ftl_start) //FTL start IE, are we beginning a jump? Or ending one?
+	if(ftl_start && ftl_drive?.ftl_state != FTL_STATE_JUMPING)
+		return
+	relay_to_nearby('nsv13/sound/effects/ship/FTL.ogg', null, ignore_self=TRUE)//Ships just hear a small "crack" when another one jumps
 	if(reserved_z) //Actual overmap parallax behaviour
 		var/datum/space_level/SL = SSmapping.z_list[reserved_z]
 		if(ftl_start)
@@ -159,10 +166,6 @@
 					L.adjust_disgust(40)
 		shake_camera(M, 4, 1)
 	force_parallax_update(ftl_start)
-
-#define FTL_STATE_IDLE 1
-#define FTL_STATE_SPOOLING 2
-#define FTL_STATE_READY 3
 
 /obj/item/ftl_slipstream_chip
 	name = "Quantum slipstream field generation matrix (tier II)"
@@ -216,7 +219,7 @@
 	var/active = FALSE
 	var/progress = 0 SECONDS
 	var/progress_rate = 1 SECONDS
-	var/spoolup_time = 1 MINUTES
+	var/spoolup_time = 1 MINUTES //Make sure this is always longer than the ftl_startup_time, or you can seriously bug the ship out with cancel jump spam.
 	var/screen = 1
 	var/can_cancel_jump = TRUE //Defaults to true. TODO: Make emagging disable this
 	var/max_range = 100 //max jump range. This is _very_ long distance
@@ -259,9 +262,23 @@
 			ftl_start = 'nsv13/sound/effects/ship/warp.ogg'
 			ftl_exit = 'nsv13/sound/effects/ship/warp_exit.ogg'
 			ftl_startup_time = 5 SECONDS
-			spoolup_time = 1 SECONDS
+			spoolup_time = 10 SECONDS
 			auto_spool = TRUE
 			jump_speed_factor = 5
+
+/*
+Preset classes of FTL drive with pre-programmed behaviours
+*/
+
+/obj/machinery/computer/ship/ftl_computer/preset/Initialize()
+	. = ..()
+	upgrade()
+
+/obj/machinery/computer/ship/ftl_computer/preset/slipstream
+	tier = 2
+
+/obj/machinery/computer/ship/ftl_computer/preset/warp
+	tier = 3
 
 /obj/machinery/computer/ship/ftl_computer/syndicate
 	name = "Syndicate FTL computer"
@@ -401,27 +418,36 @@ A way for syndies to track where the player ship is going in advance, so they ca
 		radio.talk_into(src, "ERROR. Specified star_system no longer exists.", engineering_channel)
 		return
 	linked?.begin_jump(target_system)
-	say("Initiating FTL jump...")
-	radio.talk_into(src, "Initiating FTL jump.", engineering_channel)
+	playsound(src, 'nsv13/sound/voice/ftl_start.wav', 100, FALSE)
+	radio.talk_into(src, "Initiating FTL translation.", engineering_channel)
 	playsound(src, 'nsv13/sound/effects/ship/freespace2/computer/escape.wav', 100, 1)
 	visible_message("<span class='notice'>Initiating FTL jump.</span>")
-	depower()
+	ftl_state = FTL_STATE_JUMPING
+	addtimer(CALLBACK(src, .proc/depower), ftl_startup_time)
 
 /obj/machinery/computer/ship/ftl_computer/proc/ready_ftl()
 	ftl_state = FTL_STATE_READY
 	progress = 0
 	icon_state = "ftl_ready"
-	say("FTL vectors calculated. Drive status: READY.")
-	radio.talk_into(src, "FTL vectors calculated. Drive status: READY.", engineering_channel)
+	playsound(src, 'nsv13/sound/voice/ftl_ready.wav', 100, FALSE)
+	radio.talk_into(src, "FTL vectors calculated. Ready to commence FTL translation.", engineering_channel)
 	playsound(src, 'nsv13/sound/effects/ship/freespace2/computer/escape.wav', 100, 1)
 
 /obj/machinery/computer/ship/ftl_computer/proc/spoolup()
 	if(ftl_state == FTL_STATE_IDLE)
 		playsound(src, 'nsv13/sound/effects/computer/hum3.ogg', 100, 1)
-		say("Calculating bluespace vectors. FTL spoolup initiated.")
-		radio.talk_into(src, "Calculating bluespace vectors. FTL spoolup initiated.", engineering_channel)
+		playsound(src, 'nsv13/sound/voice/ftl_spoolup.wav', 100, FALSE)
+		radio.talk_into(src, "FTL spoolup initiated.", engineering_channel)
 		icon_state = "ftl_charging"
 		ftl_state = FTL_STATE_SPOOLING
+
+/obj/machinery/computer/ship/ftl_computer/proc/cancel_ftl()
+	if(depower())
+		playsound(src, 'nsv13/sound/voice/ftl_cancelled.wav', 100, FALSE)
+		radio.talk_into(src, "FTL translation cancelled.", engineering_channel)
+		return TRUE
+	return FALSE
+
 
 /obj/machinery/computer/ship/ftl_computer/Initialize()
 	. = ..()
@@ -434,12 +460,22 @@ A way for syndies to track where the player ship is going in advance, so they ca
 	return //Override computer updates
 
 /obj/machinery/computer/ship/ftl_computer/proc/depower()
-	active = FALSE
-	icon_state = "ftl_off"
-	ftl_state = FTL_STATE_IDLE
-	progress = 0
-	use_power = 0
-	if(auto_spool)
-		active = TRUE
-		spoolup()
-		START_PROCESSING(SSmachines, src)
+	if(ftl_state > FTL_STATE_IDLE)
+		var/list/timers = active_timers
+		active_timers = null
+		for(var/thing in timers)
+			var/datum/timedevent/timer = thing
+			if (timer.spent)
+				continue
+			qdel(timer)
+		active = FALSE
+		icon_state = "ftl_off"
+		ftl_state = FTL_STATE_IDLE
+		progress = 0
+		use_power = 0
+		if(auto_spool)
+			active = TRUE
+			spoolup()
+			START_PROCESSING(SSmachines, src)
+		return TRUE
+	return FALSE

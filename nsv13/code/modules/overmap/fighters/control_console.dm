@@ -4,7 +4,7 @@
 	icon_screen = "fighter_control"
 	req_access = list(ACCESS_MAA)
 	circuit = /obj/item/circuitboard/computer/ship/fighter_controller
-	var/list/valid_filters = list("Only Occupied Ship", "Raptor", "Viper") //This list works by looking at what the intial value of a fighter's name was to determine its class. We may want to move this over to a "class" var. Karmic when you add P2, you need to change this list. Ty
+	var/list/valid_filters = list("Only Occupied Ship", "Su-818 Rapier", "Su-410 Scimitar", "Su-437 Sabre") //This list works by looking at what the intial value of a fighter's name was to determine its class. We may want to move this over to a "class" var
 	var/faction = "nanotrasen" //Change this to match the faction of your fighters.
 	var/list/current_filters = null //Defaults to showing every kind of fighter. If a fighter type is "in current_filters" then it's visible
 
