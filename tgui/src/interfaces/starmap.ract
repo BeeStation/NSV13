@@ -15,9 +15,7 @@
   </ui-display>
   <ui-display title='FTL Drive Status'>
     <ui-section label='FTL computer'>
-      <ui-bar min='0' max='{{adata.ftl_goal}}' value='{{adata.ftl_progress}}'>
-        {{Math.round(adata.ftl_progress)}}{{#if data.ftl_progress}} (Charging){{/if}}
-      </ui-bar>
+      <ui-bar min='0' max='{{adata.ftl_goal}}' value='{{adata.ftl_progress}}' state='{{data.ftl_progress >= data.ftl_goal ? "good" : "null"}}'></ui-bar>
 	</ui-section>
   </ui-display>
 {{/if}}

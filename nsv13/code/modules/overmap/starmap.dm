@@ -16,6 +16,10 @@
 	icon_screen = "ftl"
 	var/datum/star_system/selected_system = null
 	var/screen = STARMAP
+	var/can_control_ship = TRUE
+
+/obj/machinery/computer/ship/navigation/public
+	can_control_ship = FALSE
 
 /obj/machinery/computer/ship/navigation/attack_hand(mob/user)
 	ui_interact(user)
@@ -48,6 +52,11 @@
 		if("jump")
 			linked.ftl_drive.jump(selected_system)
 			. = TRUE
+		if("cancel_jump")
+			if(linked.ftl_drive.cancel_ftl())
+				linked.stop_relay(CHANNEL_IMPORTANT_SHIP_ALERT)
+				linked.relay('nsv13/sound/effects/ship/ftl_stop.ogg', channel=CHANNEL_IMPORTANT_SHIP_ALERT)
+
 
 /obj/machinery/computer/ship/navigation/ui_data(mob/user)
 	if(!has_overmap())
@@ -61,6 +70,8 @@
 	if(screen == 0) // ship information
 		if(linked.ftl_drive)
 			data["ftl_progress"] = linked.ftl_drive.progress
+			if(linked.ftl_drive.ftl_state == FTL_STATE_READY)
+				data["ftl_progress"] = linked.ftl_drive.spoolup_time
 			data["ftl_goal"] = linked.ftl_drive.spoolup_time //TODO
 		var/datum/star_system/target_system = info["target_system"]
 		if(!target_system)
@@ -144,7 +155,10 @@
 		if(info["current_system"])
 			data["star_dist"] = info["current_system"].dist(selected_system)
 			data["can_jump"] = current_system.dist(selected_system) < linked.ftl_drive?.max_range && linked.ftl_drive.ftl_state == FTL_STATE_READY && LAZYFIND(current_system.adjacency_list, selected_system.name)
-			data["can_cancel"] = linked.ftl_drive.ftl_state == FTL_STATE_IDLE && linked.ftl_drive.can_cancel_jump
+			data["can_cancel"] = linked.ftl_drive.ftl_state == FTL_STATE_JUMPING && linked.ftl_drive.can_cancel_jump
+			if(!can_control_ship) //For public consoles
+				data["can_jump"] = FALSE
+				data["can_cancel"] = FALSE
 	data["screen"] = screen
 	return data
 

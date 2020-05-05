@@ -170,7 +170,7 @@
 	var/turf/posobj = get_turf(C.eye)
 	if(!posobj)
 		return
-	if(!mymob || !SSmapping.z_list || !SSmapping.z_list.len)
+	if(!mymob || !SSmapping.z_list || !SSmapping.z_list.len || !mymob.z)
 		return //Something has gone horribly wrong.
 	var/datum/space_level/SL = SSmapping.z_list[mymob.z]
 

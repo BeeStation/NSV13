@@ -109,10 +109,11 @@
 	collision_positions = list(new /datum/vector2d(-8,59), new /datum/vector2d(-13,19), new /datum/vector2d(-13,-58), new /datum/vector2d(-7,-66), new /datum/vector2d(6,-66), new /datum/vector2d(12,-59), new /datum/vector2d(13,20), new /datum/vector2d(7,59))
 
 /obj/structure/overmap/nanotrasen/mining_cruiser/nostromo
-	name = "NSV Hephaistus"
+	name = "NSV Hephaestus"
 	role = MAIN_MINING_SHIP
 	area_type = /area/nostromo
-	starting_system = "Lalande 21185"
+//	starting_system = "Lalande 21185"
+	starting_system = "Sol"
 
 /obj/structure/overmap/nanotrasen/mining_cruiser/nostromo/fob
 	area_type = /area/nsv/shuttle

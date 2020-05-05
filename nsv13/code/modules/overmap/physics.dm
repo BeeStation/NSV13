@@ -471,6 +471,7 @@
 			proj.firer = src
 		proj.def_zone = "chest"
 		proj.original = target
+		proj.overmap_firer = src
 		proj.pixel_x = round(this_x)
 		proj.pixel_y = round(this_y)
 		proj.setup_collider()
@@ -483,6 +484,7 @@
 		spawn()
 			proj.fire(angle)
 			proj.set_pixel_speed(speed)
+		return proj
 
 /obj/structure/overmap/proc/fire_projectiles(proj_type, target) // if spacepods of other sizes are added override this or something
 	var/fx = cos(90 - angle)
@@ -519,6 +521,7 @@
 			proj.firer = src
 		proj.def_zone = "chest"
 		proj.original = target
+		proj.overmap_firer = src
 		proj.pixel_x = round(this_x)
 		proj.pixel_y = round(this_y)
 		proj.setup_collider()
@@ -533,6 +536,7 @@
 	proj.firer = (!user_override && gunner) ? gunner : user_override
 	proj.def_zone = "chest"
 	proj.original = target
+	proj.overmap_firer = src
 	proj.pixel_x = round(pixel_x)
 	proj.pixel_y = round(pixel_y)
 	proj.setup_collider()
