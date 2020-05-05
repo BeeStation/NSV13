@@ -5,9 +5,8 @@
 	desc = "A fairly standard torpedo which is designed to cause massive structural damage to a target. It is fitted with a basic homing mechanism to ensure it always hits the mark."
 	anchored = TRUE
 	density = TRUE
-	projectile_type = /obj/item/projectile/bullet/torpedo //What torpedo type we fire
+	projectile_type = /obj/item/projectile/guided_munition/torpedo //What torpedo type we fire
 	pixel_x = -17
-	var/speed = 1 //Placeholder, allows upgrading speed with better propulsion
 
 /obj/item/ship_weapon/ammunition/torpedo/CtrlClick(mob/user)
 	. = ..()
@@ -23,26 +22,12 @@
 	icon = 'nsv13/icons/obj/munition_types.dmi'
 	icon_state = "hull_shredder"
 	desc = "A heavy torpedo which is packed with a high energy plasma charge, allowing it to impact a target with massive force."
-	projectile_type = /obj/item/projectile/bullet/torpedo/shredder
+	projectile_type = /obj/item/projectile/guided_munition/torpedo/shredder
 
-/obj/item/projectile/bullet/torpedo/shredder
+/obj/item/projectile/guided_munition/torpedo/shredder
 	icon_state = "torpedo_shredder"
 	name = "plasma charge"
 	damage = 120
-
-//Gap closer, weaker but quick.
-/obj/item/ship_weapon/ammunition/torpedo/fast
-	name = "NTP-1 'SPD' 430mm high velocity torpedo"
-	icon = 'nsv13/icons/obj/munition_types.dmi'
-	icon_state = "highvelocity"
-	desc = "A small torpedo which is fitted with an advanced propulsion system, allowing it to rapidly travel long distances. Due to its smaller frame however, it packs less of a punch."
-	projectile_type = /obj/item/projectile/bullet/torpedo/fast
-	speed = 3
-
-/obj/item/projectile/bullet/torpedo/fast
-	icon_state = "torpedo_fast"
-	name = "high velocity torpedo"
-	damage = 40
 
 //A dud missile designed to exhaust flak
 /obj/item/ship_weapon/ammunition/torpedo/decoy
@@ -50,10 +35,9 @@
 	icon = 'nsv13/icons/obj/munition_types.dmi'
 	icon_state = "decoy"
 	desc = "A simple electronic countermeasure packed inside a standard torpedo casing. This model excels at diverting enemy PDC emplacements away from friendly ships, or even another barrage of missiles."
-	projectile_type = /obj/item/projectile/bullet/torpedo/decoy
-	speed = 2
+	projectile_type = /obj/item/projectile/guided_munition/torpedo/decoy
 
-/obj/item/projectile/bullet/torpedo/decoy
+/obj/item/projectile/guided_munition/torpedo/decoy
 	icon_state = "torpedo"
 	damage = 0
 
@@ -63,9 +47,9 @@
 	icon = 'nsv13/icons/obj/munition_types.dmi'
 	icon_state = "nuke"
 	desc = "The NTX-class IV nuclear torpedo carries a radiological payload which is capable of inflicting catastrophic damage against enemy ships, stations or dense population centers. These weapons are utterly without mercy and will annihilate indiscriminately, use with EXTREME caution."
-	projectile_type = /obj/item/projectile/bullet/torpedo/nuclear
+	projectile_type = /obj/item/projectile/guided_munition/torpedo/nuclear
 
-/obj/item/projectile/bullet/torpedo/nuclear
+/obj/item/projectile/guided_munition/torpedo/nuclear
 	icon_state = "torpedo_nuke"
 	name = "thermonuclear cruise missile"
 	damage = 300
@@ -73,17 +57,30 @@
 	shotdown_effect_type = /obj/effect/temp_visual/nuke_impact
 
 //What you get from an incomplete torpedo.
-/obj/item/projectile/bullet/torpedo/dud
+/obj/item/projectile/guided_munition/torpedo/dud
 	icon_state = "torpedo_dud"
 	damage = 0
 
+
+/obj/item/ship_weapon/ammunition/torpedo/nuke/antonio
+	name = "Antonio"
+
+/obj/item/ship_weapon/ammunition/torpedo/nuke/antonio/examine(mob/user)
+	.=..()
+	. += "<span class='notice'> This is Antonio, the MAA's loyal companion.</span>"
+
+/obj/item/ship_weapon/ammunition/torpedo/nuke/fabio
+	name = "Fabio"
+
+/obj/item/ship_weapon/ammunition/torpedo/nuke/fabio/examine(mob/user)
+	.=..()
+	. += "<span class='notice'> This is Fabio, Antonio's Evil Brother.</span>"
 /obj/item/ship_weapon/ammunition/torpedo/freight
 	name = "NTP-F 530mm freight torpedo"
 	icon = 'nsv13/icons/obj/munition_types.dmi'
 	icon_state = "post_pod"
 	desc = "A letterbox with engines strapped to it and plenty of space inside. Designed as a quick and lazy way to deliver supplies to an allied ship."
-	projectile_type = /obj/item/projectile/bullet/torpedo/post
-	speed = 1
+	projectile_type = /obj/item/projectile/guided_munition/torpedo/post
 	var/max_stuff = 4 //Maximum amount of stuff that we can cram into it
 	var/breaking_out = FALSE
 
@@ -99,6 +96,9 @@
 		to_chat(user, "<span class='warning'>[what] is too heavy for you to lift into [src]!</span>")
 		return
 	if(do_after(user, 5 SECONDS, target = src))
+		if(contents?.len >= max_stuff)
+			to_chat(user, "<span class='warning'>[src] is already full!</span>")
+			return
 		what.forceMove(src)
 		icon_state = "[initial(icon_state)]_[contents.len]"
 
@@ -122,15 +122,14 @@
 	else
 		return FALSE //You can't move a torp from the inside :b1:
 
-/obj/item/projectile/bullet/torpedo/post
+/obj/item/projectile/guided_munition/torpedo/post
 	icon_state = "torpedo_post"
-//	mouse_opacity = TRUE
 	damage = 0
 
-/obj/item/projectile/bullet/torpedo/post/Initialize()
+/obj/item/projectile/guided_munition/torpedo/post/Initialize()
 	. = ..()
 
-/obj/item/projectile/bullet/torpedo/post/proc/foo()
+/obj/item/projectile/guided_munition/torpedo/post/proc/foo()
 	new /mob/living/carbon/human(src)
 	for(var/obj/structure/overmap/OM in orange(5, src))
 		if(istype(OM))
@@ -138,7 +137,7 @@
 			setup_collider()
 			fire(angle)
 
-/obj/item/projectile/bullet/torpedo/post/check_overmap_collisions()
+/obj/item/projectile/guided_munition/torpedo/post/check_overmap_collisions()
 	collider2d.set_angle(Angle) //Turn the box collider
 	position._set(x * 32 + pixel_x, y * 32 + pixel_y)
 	collider2d._set(position.x, position.y)
@@ -152,10 +151,10 @@
 	name = "Freight pod"
 	explosionSize = list(0,0,0,0)
 
-/obj/item/projectile/bullet/torpedo/post/proc/deliver_freight(obj/structure/overmap/OM)
+/obj/item/projectile/guided_munition/torpedo/post/proc/deliver_freight(obj/structure/overmap/OM)
 	var/area/landingzone = null
 	if(OM.role == MAIN_OVERMAP)
-		landingzone = GLOB.areas_by_type[/area/quartermaster/storage]
+		landingzone = GLOB.areas_by_type[/area/quartermaster/warehouse]
 	else
 		if(!OM.linked_areas.len)
 			return FALSE

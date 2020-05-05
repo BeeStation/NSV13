@@ -112,7 +112,12 @@
 
 /obj/vehicle/sealed/car/realistic/fighter_tug/process(time)
 	. = ..()
-	for(var/obj/structure/overmap/fighter/target in contents)
+	for(var/obj/structure/overmap/fighter/target in loaded)
+		if(target.loc != src)
+			vis_contents -= target
+			loaded -= target
+			target.mag_lock = null
+			continue
 		target.desired_angle = 0
 		target.angle = 0
 		for(var/mob/living/M in target.operators)

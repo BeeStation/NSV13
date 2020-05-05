@@ -435,9 +435,10 @@ SUBSYSTEM_DEF(star_system)
 	apply_system_effects()
 
 /datum/star_system/proc/spawn_asteroids()
-	for(var/I = 0; I < rand(2, 6); I++)
-	var/roid_type = pick(/obj/structure/overmap/asteroid, /obj/structure/overmap/asteroid/medium, /obj/structure/overmap/asteroid/large)
-	SSstar_system.spawn_ship(roid_type, src)
+	for(var/I = 0; I <= rand(3, 6); I++){
+		var/roid_type = pick(/obj/structure/overmap/asteroid, /obj/structure/overmap/asteroid/medium, /obj/structure/overmap/asteroid/large)
+		SSstar_system.spawn_ship(roid_type, src)
+	}
 
 /datum/star_system/proc/add_enemy(obj/structure/overmap/OM)
 	if(istype(OM, /obj/structure/overmap) && OM.ai_controlled)

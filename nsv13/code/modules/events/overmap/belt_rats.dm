@@ -12,7 +12,7 @@
 /datum/round_event/belt_rats
 
 /datum/round_event/belt_rats/start()
-	var/opponent = /obj/structure/overmap/fighter/ai/syndicate //Lone Syndie Fighter
+	var/opponent = /obj/structure/overmap/syndicate/ai/fighter //Lone Syndie Fighter
 	var/target = SSstar_system.find_main_miner() //Find the Mining Cruiser
 	var/datum/star_system/current_sys = SSstar_system.find_system(target)
 	SSstar_system.spawn_ship(opponent, current_sys)
