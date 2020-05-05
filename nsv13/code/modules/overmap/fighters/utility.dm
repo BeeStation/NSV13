@@ -66,38 +66,6 @@
 	faction = "syndicate"
 	start_emagged = TRUE
 
-/obj/structure/overmap/fighter/utility/attackby(obj/item/W, mob/user, params) //changing utility equipment - used in fighters.dm maintenance mode
-	.=..()
-	if(maint_state == 2)  //MS_OPEN == 2
-		if(istype(W, /obj/item/fighter_component/armour_plating/utility) && !get_part(/obj/item/fighter_component/armour_plating/utility))
-			to_chat(user, "<span class='notice'>You start installing [W] in [src]...</span>")
-			if(!do_after(user, 5 SECONDS, target=src))
-				return
-			to_chat(user, "<span class='notice'>You install [W] in [src].</span>")
-			W.forceMove(src)
-			fuel_setup()
-		else if(istype(W, /obj/item/fighter_component/engine/utility) && !get_part(/obj/item/fighter_component/engine/utility))
-			to_chat(user, "<span class='notice'>You start installing [W] in [src]...</span>")
-			if(!do_after(user, 5 SECONDS, target=src))
-				return
-			to_chat(user, "<span class='notice'>You install [W] in [src].</span>")
-			W.forceMove(src)
-			update_stats()
-		else if(istype(W, /obj/item/fighter_component/secondary/utility) && !get_part(/obj/item/fighter_component/secondary/utility))
-			to_chat(user, "<span class='notice'>You start installing [W] in [src]...</span>")
-			if(!do_after(user, 5 SECONDS, target=src))
-				return
-			to_chat(user, "<span class='notice'>You install [W] in [src].</span>")
-			W.forceMove(src)
-			update_stats()
-		else if(istype(W, /obj/item/fighter_component/primary/utility) && !get_part(/obj/item/fighter_component/primary/utility))
-			to_chat(user, "<span class='notice'>You start installing [W] in [src]...</span>")
-			if(!do_after(user, 5 SECONDS, target=src))
-				return
-			to_chat(user, "<span class='notice'>You install [W] in [src].</span>")
-			W.forceMove(src)
-			update_stats()
-
 /obj/structure/overmap/fighter/utility/docking_act(obj/structure/overmap/OM)
 	if(docking_cooldown)
 		return FALSE

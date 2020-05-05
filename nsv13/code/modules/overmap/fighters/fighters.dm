@@ -618,6 +618,20 @@ You need to fire emag the fighter's IFF board. This makes it list as "ENEMY" on 
 			SY.forceMove(src)
 			update_stats()
 			installing = FALSE
+		else if(istype(W, /obj/item/fighter_component/engine) && !get_part(/obj/item/fighter_component/engine))
+			var/obj/item/fighter_component/engine/EN = W
+			if(EN.for_chassis != chassis)
+				to_chat(user, "<span class='warning'>[EN] won't fit in this chassis!</span>")
+				return
+			to_chat(user, "<span class='notice'>You start installing [EN] in [src]...</span>")
+			installing = TRUE
+			if(!do_after(user, 10 SECONDS, target=src) || !Adjacent(user))
+				installing = FALSE
+				return
+			to_chat(user, "<span class='notice'>You install [EN] in [src].</span>")
+			EN.forceMove(src)
+			update_stats()
+			installing = FALSE
 		else if(istype(W, /obj/item/fighter_component/countermeasure_dispenser) && !get_part(/obj/item/fighter_component/countermeasure_dispenser))
 			to_chat(user, "<span class='notice'>You start installing [W] in [src]...</span>")
 			installing = TRUE
