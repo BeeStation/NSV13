@@ -76,6 +76,7 @@
 	var/homing_inaccuracy_max = 0
 	var/homing_offset_x = 0
 	var/homing_offset_y = 0
+	var/targetAngle = 0 //NSV13 - required projectile child
 
 	var/ignore_source_check = FALSE
 
@@ -105,6 +106,8 @@
 	var/impact_effect_type //what type of impact effect to show when hitting something
 	var/log_override = FALSE //is this type spammed enough to not log? (KAs)
 	var/faction = null //NSV13 - bullets need factions for collision checks
+	var/next_homing_process = 0 //Nsv13 - performance enhancements
+	var/homing_delay = 0.7 SECONDS //Nsv13 - performance enhancements. 1 second delay is noticeably slow
 
 	var/temporary_unstoppable_movement = FALSE
 
@@ -502,7 +505,7 @@
 		var/matrix/M = new
 		M.Turn(Angle)
 		transform = M
-	if(homing)
+	if(homing && world.time >= next_homing_process) //Nsv13 performance enhancements
 		process_homing()
 	var/forcemoved = FALSE
 	for(var/i in 1 to SSprojectiles.global_iterations_per_move)
@@ -534,13 +537,12 @@
 		animate(src, pixel_x = trajectory.return_px(), pixel_y = trajectory.return_py(), time = 1, flags = ANIMATION_END_NOW)
 	Range()
 
-/obj/item/projectile/proc/process_homing()			//may need speeding up in the future performance wise.
-	if(!homing_target)
+/obj/item/projectile/proc/process_homing() //Nsv13 - Enhanced the performance of this entire proc.
+	if(!homing_target) //NSV13 - Changed proc to be less performance intensive
 		return FALSE
-	var/datum/point/PT = RETURN_PRECISE_POINT(homing_target)
-	PT.x += CLAMP(homing_offset_x, 1, world.maxx)
-	PT.y += CLAMP(homing_offset_y, 1, world.maxy)
-	var/angle = closer_angle_difference(Angle, angle_between_points(RETURN_PRECISE_POINT(src), PT))
+	var/targetAngle = Get_Angle(src, homing_target)
+	var/angle = closer_angle_difference(Angle, targetAngle)
+	next_homing_process = world.time + homing_delay
 	setAngle(Angle + CLAMP(angle, -homing_turn_speed, homing_turn_speed))
 
 /obj/item/projectile/proc/set_homing_target(atom/A)
