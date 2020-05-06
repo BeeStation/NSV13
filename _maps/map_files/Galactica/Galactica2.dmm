@@ -24039,8 +24039,6 @@
 /turf/open/floor/monotile,
 /area/science/robotics)
 "baZ" = (
-/obj/structure/rack,
-/obj/item/storage/belt/utility,
 /obj/effect/turf_decal/tile/purple{
 	dir = 4
 	},
@@ -24051,6 +24049,7 @@
 	pixel_y = 23
 	},
 /obj/machinery/camera/autoname,
+/obj/machinery/vending/wardrobe/robo_wardrobe,
 /turf/open/floor/monotile,
 /area/science/robotics)
 "bba" = (
@@ -50833,9 +50832,7 @@
 	},
 /area/maintenance/nsv/deck2/frame2/port)
 "cep" = (
-/obj/machinery/door/airlock/ship/maintenance{
-	req_one_access_txt = "25"
-	},
+/obj/machinery/door/airlock/ship/maintenance/defaultaccess,
 /turf/open/floor/plating{
 	icon_state = "platingdmg3"
 	},
@@ -52580,6 +52577,15 @@
 /obj/machinery/firealarm/directional/south,
 /turf/open/floor/monotile,
 /area/hallway/nsv/deck2/frame1/central)
+"gkg" = (
+/obj/machinery/cryopod{
+	dir = 8
+	},
+/obj/machinery/camera/autoname{
+	dir = 8
+	},
+/turf/open/floor/monotile/dark,
+/area/security/prison)
 "gla" = (
 /obj/effect/turf_decal/tile/red{
 	dir = 4
@@ -53436,6 +53442,12 @@
 /obj/item/radio/intercom/directional/south,
 /turf/open/floor/monotile,
 /area/hallway/nsv/deck2/frame2/port)
+"lTd" = (
+/obj/machinery/door/airlock/ship/public/glass{
+	name = "Prison Sleepers"
+	},
+/turf/open/floor/monotile/dark,
+/area/security/prison)
 "mam" = (
 /obj/machinery/light_switch/south,
 /turf/open/floor/monotile/dark,
@@ -53487,6 +53499,12 @@
 /obj/item/radio/intercom/directional/south,
 /turf/open/floor/monotile,
 /area/security/brig)
+"mAD" = (
+/obj/machinery/cryopod{
+	dir = 8
+	},
+/turf/open/floor/monotile/dark,
+/area/security/prison)
 "mIk" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer1{
 	icon_state = "vent_map_on-1";
@@ -54062,6 +54080,12 @@
 /obj/item/fighter_component/secondary/light/missile_rack/t1,
 /turf/open/floor/monotile/dark,
 /area/nsv/hanger/deck2/port)
+"qFE" = (
+/obj/machinery/computer/cryopod{
+	pixel_y = 32
+	},
+/turf/open/floor/monotile/dark,
+/area/security/prison)
 "qHL" = (
 /obj/effect/turf_decal/tile/neutral{
 	dir = 4
@@ -54553,6 +54577,13 @@
 /obj/structure/closet/firecloset,
 /turf/open/floor/monotile,
 /area/security/brig)
+"uDP" = (
+/obj/structure/chair/stool,
+/obj/machinery/light{
+	dir = 8
+	},
+/turf/open/floor/monotile/dark,
+/area/security/prison)
 "uHg" = (
 /obj/machinery/cryopod{
 	icon_state = "cryopod-open";
@@ -78953,10 +78984,10 @@ aab
 acG
 aab
 acG
-aGq
-aab
-acG
-aQy
+aQx
+aQx
+aQx
+aQx
 aRN
 aTL
 aVk
@@ -79255,9 +79286,9 @@ acG
 acG
 acG
 acG
-aGq
-aab
-acG
+aQx
+uDP
+aTM
 aQy
 aRO
 aTM
@@ -79557,10 +79588,10 @@ aab
 acG
 aab
 acG
-aGq
-aab
-acG
-aQy
+aQx
+qFE
+aTM
+lTd
 aRO
 aTM
 aTM
@@ -79859,9 +79890,9 @@ acG
 acG
 acG
 acG
-aGq
-aab
-acG
+aQx
+mAD
+gkg
 aQy
 aRP
 aTM
@@ -80161,10 +80192,10 @@ aab
 acG
 aab
 acG
-aGq
-aab
-acG
-aQy
+aQx
+aQx
+aQx
+aQx
 aRQ
 aTM
 aVl
