@@ -27,7 +27,7 @@
 /obj/item/projectile/guided_munition/torpedo/shredder
 	icon_state = "torpedo_shredder"
 	name = "plasma charge"
-	damage = 120
+	damage = 175
 
 //A dud missile designed to exhaust flak
 /obj/item/ship_weapon/ammunition/torpedo/decoy
@@ -52,7 +52,7 @@
 /obj/item/projectile/guided_munition/torpedo/nuclear
 	icon_state = "torpedo_nuke"
 	name = "thermonuclear cruise missile"
-	damage = 300
+	damage = 500
 	impact_effect_type = /obj/effect/temp_visual/nuke_impact
 	shotdown_effect_type = /obj/effect/temp_visual/nuke_impact
 

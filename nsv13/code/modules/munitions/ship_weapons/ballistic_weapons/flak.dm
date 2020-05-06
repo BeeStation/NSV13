@@ -128,6 +128,7 @@
 	icon_state = "flak"
 	name = "flak round"
 	damage = 2
+	flag = "overmap_light"
 	alpha = 0
 	var/steps_left = 0 //Flak range, AKA how many tiles can we move before we go kaboom
 
