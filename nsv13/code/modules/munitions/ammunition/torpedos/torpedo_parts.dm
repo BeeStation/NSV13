@@ -22,7 +22,11 @@
 	name = "NTX 'Voyager' astrological probe payload"
 	desc = "An advanced sensor suite specially kitted to collect information about astrological phenomena."
 	icon_state = "warhead_probe"
-	desc = "A simple electronic countermeasure wrapped in a metal casing. While these form inert torpedoes, they can be used to distract enemy PDC emplacements to divert their flak away from other targets."
+
+/obj/item/ship_weapon/parts/torpedo/warhead/freight
+	name = "NTP-F 530mm freight torpedo"
+	desc = "A hollowed out nosecone that allows torpedoes to carry freight instead of an actual payload."
+	icon_state = "warhead_freight"
 
 /obj/item/ship_weapon/parts/torpedo/warhead/nuclear
 	name = "nuclear torpedo warhead"
@@ -69,7 +73,7 @@
 	description = "A how-to guide of fabricating torpedos while out in the depths of space."
 	prereq_ids = list("explosive_weapons")
 
-	design_ids = list("warhead", "bb_warhead", "lw_warhead", "decoy_warhead", "nuke_warhead", "probe_warhead", "guidance_system", "propulsion_system", "iff_card")
+	design_ids = list("warhead", "bb_warhead", "lw_warhead", "decoy_warhead", "nuke_warhead", "probe_warhead", "freight_warhead", "guidance_system", "propulsion_system", "iff_card")
 	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 2500)
 	export_price = 5000
 
@@ -100,6 +104,16 @@
 	build_type = PROTOLATHE
 	materials = list(/datum/material/iron = 5000, /datum/material/glass = 2500, /datum/material/copper = 2500)
 	build_path = /obj/item/ship_weapon/parts/torpedo/warhead/decoy
+	category = list("Advanced Munitions")
+	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+
+/datum/design/freight_warhead
+	name = "Freight Torpedo Warhead"
+	desc = "A hollowed out nosecone that allows torpedoes to carry freight."
+	id = "freight_warhead"
+	build_type = PROTOLATHE
+	materials = list(/datum/material/iron = 5000, /datum/material/glass = 2500, /datum/material/copper = 2500)
+	build_path = /obj/item/ship_weapon/parts/torpedo/warhead/freight
 	category = list("Advanced Munitions")
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO
 

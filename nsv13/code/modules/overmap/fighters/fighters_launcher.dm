@@ -255,7 +255,6 @@
 		var/obj/structure/overmap/OM = null
 		if(last_overmap)
 			OM = last_overmap
-			last_overmap = null
 		else
 			for(var/obj/structure/overmap/O in GLOB.overmap_objects)
 				if(O.role == MAIN_OVERMAP)

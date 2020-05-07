@@ -299,3 +299,5 @@
 
 			if(/obj/item/ship_weapon/parts/torpedo/warhead/probe)
 				return new /obj/item/ship_weapon/ammunition/torpedo/probe(get_turf(src))
+			if(/obj/item/ship_weapon/parts/torpedo/warhead/freight)
+				return new /obj/item/ship_weapon/ammunition/torpedo/freight(get_turf(src))

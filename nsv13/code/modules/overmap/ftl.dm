@@ -79,6 +79,7 @@
 				return
 			if(ship.operators.len && !ship.ai_controlled) //Alright, now we handle the small ships. If there is no longer a large ship to hold the system, we just get caught up its wake and travel along with it.
 				ship.relay("<span class='warning'>You're caught in [OM]'s bluespace wake!</span>")
+				SEND_SIGNAL(ship, COMSIG_FTL_STATE_CHANGE)
 				ship.forceMove(locate(ship.x, ship.y, OM.reserved_z))
 				system_contents -= ship
 				continue
@@ -255,6 +256,7 @@
 			ftl_startup_time = 6 SECONDS
 			spoolup_time = 30 SECONDS
 			jump_speed_factor = 2
+			max_range = 150
 		if(3) //Admin only so I can test things more easily, or maybe dropped from an EXTREMELY RARE, copyright free ruin.
 			name = "Warp drive computer"
 			desc = "A computer that is impossibly advanced for this time period. It uses unknown technology harvested by unknown means to accelerate a starship to unheard of speeds. Ardata operatives have as yet been unable to ascertain how it functions, but field testing shows that this eliminates the need for spooling entirely in favour of distorting space."
@@ -265,6 +267,7 @@
 			spoolup_time = 10 SECONDS
 			auto_spool = TRUE
 			jump_speed_factor = 5
+			max_range = 300
 
 /*
 Preset classes of FTL drive with pre-programmed behaviours
