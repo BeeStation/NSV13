@@ -232,7 +232,6 @@ You need to fire emag the fighter's IFF board. This makes it list as "ENEMY" on 
 	update_stats()
 	obj_integrity = max_integrity
 	RegisterSignal(src, COMSIG_MOVABLE_MOVED, .proc/check_overmap_elegibility) //Used to smoothly transition from ship to overmap
-	RegisterSignal(src, COMSIG_AREA_ENTERED, .proc/update_overmap) //Used to smoothly transition from ship to overmap
 	add_overlay(image(icon = icon, icon_state = "canopy_open", dir = SOUTH))
 
 /obj/structure/overmap/fighter/proc/prebuilt_setup()

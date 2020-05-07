@@ -347,6 +347,7 @@
 /turf/open/floor/plasteel/dark,
 /area/nostromo/hangar/port)
 "aU" = (
+/obj/structure/overmap/fighter/utility/prebuilt/carrier/mining,
 /turf/open/floor/pod/dark,
 /area/nostromo/hangar/port)
 "aV" = (
@@ -1029,7 +1030,6 @@
 /obj/structure/chair/office{
 	dir = 8
 	},
-/obj/effect/landmark/start/depsec/supply,
 /turf/open/floor/carpet/red,
 /area/nostromo/security)
 "cO" = (
@@ -1372,6 +1372,10 @@
 	},
 /turf/open/floor/carpet/ship,
 /area/nostromo/mining)
+"dM" = (
+/obj/structure/overmap/fighter/utility/prebuilt/carrier/mining,
+/turf/open/floor/pod/dark,
+/area/nostromo/hangar/starboard)
 "dN" = (
 /obj/structure/transit_tube/crossing,
 /turf/open/floor/plasteel/techmaint,
@@ -1549,6 +1553,11 @@
 	dir = 8
 	},
 /turf/open/floor/plasteel/techmaint,
+/area/nostromo/maintenance/aft)
+"em" = (
+/obj/machinery/door/firedoor,
+/obj/effect/spawner/structure/window/reinforced/ship,
+/turf/open/floor/plating,
 /area/nostromo/maintenance/aft)
 "en" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer1{
@@ -1879,6 +1888,7 @@
 /area/nostromo/crew_quarters)
 "ff" = (
 /obj/structure/chair,
+/obj/effect/landmark/start/shaft_miner,
 /turf/open/floor/plasteel/techmaint,
 /area/nostromo/crew_quarters)
 "fg" = (
@@ -2583,9 +2593,10 @@
 /turf/open/floor/plasteel/techmaint,
 /area/nostromo/mining)
 "gz" = (
-/obj/structure/chair{
-	dir = 1
-	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
+/obj/structure/chair,
+/obj/effect/landmark/start/shaft_miner,
 /turf/open/floor/plasteel/techmaint,
 /area/nostromo/crew_quarters)
 "gA" = (
@@ -3243,18 +3254,15 @@
 	icon_state = "sofacorner";
 	dir = 1
 	},
-/obj/effect/landmark/start/shaft_miner,
 /turf/open/floor/carpet/orange,
 /area/nostromo/mining)
 "ie" = (
 /obj/structure/chair/sofa,
-/obj/effect/landmark/start/shaft_miner,
 /turf/open/floor/carpet/orange,
 /area/nostromo/mining)
 "if" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer1,
 /obj/structure/chair/sofa/left,
-/obj/effect/landmark/start/shaft_miner,
 /turf/open/floor/carpet/orange,
 /area/nostromo/mining)
 "ig" = (
@@ -3680,14 +3688,14 @@
 /turf/open/floor/plasteel/techmaint,
 /area/nostromo/hangar/starboard)
 "iY" = (
-/obj/effect/landmark/start/shaft_miner,
-/obj/effect/turf_decal/tile/brown{
-	dir = 8
-	},
-/obj/effect/turf_decal/tile/brown{
+/obj/structure/chair/sofa/right{
+	icon_state = "sofaend_right";
 	dir = 4
 	},
-/turf/open/floor/plasteel/techmaint,
+/obj/machinery/light{
+	dir = 8
+	},
+/turf/open/floor/carpet/orange,
 /area/nostromo/mining)
 "iZ" = (
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3{
@@ -3965,10 +3973,10 @@
 /turf/open/floor/plasteel/techmaint,
 /area/nostromo/mining)
 "jG" = (
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
-/obj/structure/chair,
-/obj/effect/landmark/start/assistant,
+/obj/structure/chair{
+	dir = 1
+	},
+/obj/effect/landmark/start/shaft_miner,
 /turf/open/floor/plasteel/techmaint,
 /area/nostromo/crew_quarters)
 "jH" = (
@@ -4108,10 +4116,21 @@
 /turf/open/floor/plasteel/dark,
 /area/nostromo/hangar/port)
 "jU" = (
-/obj/structure/chair{
+/obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1,
+/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer3{
 	dir = 1
 	},
-/obj/effect/landmark/start/assistant,
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/obj/structure/chair{
+	dir = 4
+	},
+/obj/structure/disposalpipe/segment{
+	icon_state = "pipe";
+	dir = 4
+	},
+/obj/effect/landmark/start/shaft_miner,
 /turf/open/floor/plasteel/techmaint,
 /area/nostromo/crew_quarters)
 "jV" = (
@@ -4805,20 +4824,21 @@
 /turf/open/floor/plasteel/techmaint,
 /area/nostromo/crew_quarters)
 "lq" = (
-/obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1,
-/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer3{
-	dir = 1
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	dir = 8
 	},
+/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer3,
 /obj/structure/cable{
 	icon_state = "4-8"
 	},
 /obj/structure/chair{
-	dir = 4
+	dir = 8
 	},
 /obj/structure/disposalpipe/segment{
 	icon_state = "pipe";
 	dir = 4
 	},
+/obj/effect/landmark/start/shaft_miner,
 /turf/open/floor/plasteel/techmaint,
 /area/nostromo/crew_quarters)
 "lr" = (
@@ -4845,15 +4865,13 @@
 /turf/open/floor/plasteel/dark,
 /area/nostromo/security)
 "lt" = (
-/obj/structure/chair/sofa/right{
-	icon_state = "sofaend_right";
-	dir = 4
-	},
-/obj/machinery/light{
+/obj/effect/turf_decal/tile/brown{
 	dir = 8
 	},
-/obj/effect/landmark/start/shaft_miner,
-/turf/open/floor/carpet/orange,
+/obj/effect/turf_decal/tile/brown{
+	dir = 4
+	},
+/turf/open/floor/plasteel/techmaint,
 /area/nostromo/mining)
 "lu" = (
 /turf/open/floor/carpet/orange,
@@ -4986,23 +5004,6 @@
 /obj/structure/reagent_dispensers/cooking_oil,
 /turf/open/floor/plasteel/freezer,
 /area/nostromo/galley/coldroom)
-"lL" = (
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
-	dir = 8
-	},
-/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer3,
-/obj/structure/cable{
-	icon_state = "4-8"
-	},
-/obj/structure/chair{
-	dir = 8
-	},
-/obj/structure/disposalpipe/segment{
-	icon_state = "pipe";
-	dir = 4
-	},
-/turf/open/floor/plasteel/techmaint,
-/area/nostromo/crew_quarters)
 "lM" = (
 /obj/machinery/light{
 	dir = 8
@@ -5198,6 +5199,7 @@
 /obj/machinery/light{
 	dir = 4
 	},
+/obj/structure/ore_box,
 /turf/open/floor/plating,
 /area/nostromo/maintenance/aft)
 "mi" = (
@@ -5606,8 +5608,14 @@
 /turf/open/floor/plasteel/dark,
 /area/nostromo/hangar/starboard)
 "ng" = (
-/turf/open/floor/pod/dark,
-/area/nostromo/hangar/starboard)
+/obj/machinery/button/door{
+	id = "mine_maint";
+	pixel_x = 10;
+	pixel_y = 22
+	},
+/obj/item/ship_weapon/ammunition/torpedo/freight,
+/turf/open/floor/plating,
+/area/nostromo/maintenance/aft)
 "nh" = (
 /obj/effect/turf_decal/tile/brown{
 	dir = 1
@@ -5678,6 +5686,10 @@
 	},
 /turf/open/floor/plating,
 /area/nostromo/hangar/starboard)
+"nn" = (
+/obj/item/ship_weapon/ammunition/torpedo/freight,
+/turf/open/floor/plating,
+/area/nostromo/maintenance/aft)
 "no" = (
 /obj/machinery/atmospherics/pipe/manifold/general/hidden,
 /obj/effect/turf_decal/arrows,
@@ -6293,7 +6305,8 @@
 	icon_state = "1-2"
 	},
 /obj/machinery/door/poddoor/shutters/ship{
-	id = "mine_maint"
+	id = "mine_maint";
+	name = "warehouse shutters"
 	},
 /turf/open/floor/plating,
 /area/nostromo/maintenance/aft)
@@ -6314,12 +6327,20 @@
 /turf/open/floor/plasteel/techmaint,
 /area/nostromo/security)
 "oG" = (
-/obj/structure/ore_box,
-/obj/machinery/button/door{
-	id = "mine_maint";
-	pixel_x = 10;
-	pixel_y = 22
+/obj/structure/cable{
+	icon_state = "1-8"
 	},
+/obj/structure/disposalpipe/trunk/multiz{
+	icon_state = "pipe-up";
+	dir = 8
+	},
+/obj/structure/closet/crate{
+	icon_state = "crateopen"
+	},
+/obj/item/ship_weapon/parts/torpedo/warhead/freight,
+/obj/item/ship_weapon/parts/torpedo/warhead/freight,
+/obj/item/ship_weapon/parts/torpedo/warhead/freight,
+/obj/item/ship_weapon/parts/torpedo/warhead/freight,
 /turf/open/floor/plating,
 /area/nostromo/maintenance/aft)
 "oH" = (
@@ -6862,10 +6883,11 @@
 /turf/open/floor/plasteel/dark,
 /area/nostromo/mining)
 "pH" = (
-/obj/machinery/door/poddoor/shutters/ship{
-	id = "mine_maint"
-	},
 /obj/structure/disposalpipe/segment,
+/obj/machinery/door/poddoor/shutters/ship{
+	id = "mine_maint";
+	name = "warehouse shutters"
+	},
 /turf/open/floor/plating,
 /area/nostromo/maintenance/aft)
 "pI" = (
@@ -6920,16 +6942,6 @@
 /obj/structure/disposalpipe/segment{
 	icon_state = "pipe";
 	dir = 4
-	},
-/turf/open/floor/plating,
-/area/nostromo/maintenance/aft)
-"pM" = (
-/obj/structure/cable{
-	icon_state = "1-8"
-	},
-/obj/structure/disposalpipe/trunk/multiz{
-	icon_state = "pipe-up";
-	dir = 8
 	},
 /turf/open/floor/plating,
 /area/nostromo/maintenance/aft)
@@ -36904,7 +36916,7 @@ dV
 oQ
 hi
 id
-lt
+iY
 qt
 dj
 iJ
@@ -37189,7 +37201,7 @@ qN
 YG
 Mm
 sK
-bj
+em
 bL
 ca
 bu
@@ -37491,7 +37503,7 @@ Dx
 YG
 Mm
 Dx
-bj
+em
 bu
 bu
 bu
@@ -37793,7 +37805,7 @@ dU
 YG
 Mm
 Dx
-bj
+em
 bu
 bu
 di
@@ -38116,11 +38128,11 @@ pw
 pC
 pF
 cP
-oG
-di
-oH
+ng
+nn
+nn
+nn
 bj
-ao
 ao
 ao
 ao
@@ -38421,8 +38433,8 @@ oE
 iR
 bu
 bu
+bu
 bj
-ao
 ao
 ao
 ao
@@ -38723,7 +38735,7 @@ pH
 pI
 bu
 bu
-bj
+bu
 bj
 ao
 ao
@@ -39321,7 +39333,7 @@ cP
 cP
 pP
 IN
-iY
+lt
 mb
 cP
 iU
@@ -39928,10 +39940,10 @@ do
 do
 cP
 cP
-bu
+oH
 bj
 mh
-pM
+oG
 bj
 ao
 ao
@@ -52618,7 +52630,7 @@ oA
 kj
 kr
 mc
-ng
+dM
 nG
 op
 ot
@@ -71023,7 +71035,7 @@ dx
 eg
 ex
 fe
-lq
+jU
 gx
 ex
 hq
@@ -71326,7 +71338,7 @@ eh
 ex
 ff
 lr
-jU
+jG
 ex
 hr
 hC
@@ -71626,9 +71638,9 @@ cZ
 dA
 eM
 ey
-jG
-ly
 gz
+ly
+jG
 ex
 hs
 hC
@@ -71929,7 +71941,7 @@ dB
 fk
 ex
 fh
-lL
+lq
 gA
 ex
 hp

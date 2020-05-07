@@ -1355,7 +1355,6 @@
 /area/nostromo/engineering/engineering)
 "dR" = (
 /obj/structure/chair/office/light,
-/obj/effect/landmark/start/station_engineer,
 /turf/open/floor/plasteel/dark,
 /area/nostromo/engineering/engineering)
 "dS" = (
@@ -2493,11 +2492,13 @@
 /turf/closed/wall/r_wall/ship,
 /area/nostromo/bridge)
 "gI" = (
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
-/obj/effect/landmark/observer_start,
-/turf/open/floor/plasteel/tech/grid,
-/area/nostromo/tcomms)
+/obj/structure/chair/comfy/shuttle{
+	color = "#696969";
+	dir = 4;
+	name = "captain's chair"
+	},
+/turf/open/floor/plasteel/techmaint,
+/area/nostromo/bridge)
 "gJ" = (
 /obj/machinery/door/airlock/ship/external/glass{
 	req_one_access_txt = "13"
@@ -4610,7 +4611,6 @@
 	dir = 8;
 	name = "shuttle seat"
 	},
-/obj/effect/landmark/start/medical_doctor,
 /turf/open/floor/carpet/blue,
 /area/nostromo/medbay)
 "mb" = (
@@ -5067,14 +5067,13 @@
 /turf/open/floor/plasteel/techmaint,
 /area/nostromo/bridge)
 "nk" = (
-/obj/structure/chair/comfy/shuttle{
-	color = "#696969";
-	dir = 4;
-	name = "captain's chair"
+/obj/structure/chair/office/light{
+	dir = 4
 	},
-/obj/effect/landmark/start/bridge,
-/turf/open/floor/plasteel/techmaint,
-/area/nostromo/bridge)
+/obj/machinery/light,
+/obj/machinery/firealarm/directional/south,
+/turf/open/floor/plasteel/dark,
+/area/nostromo/engineering/atmospherics)
 "nl" = (
 /obj/machinery/atmospherics/pipe/simple/general/hidden{
 	icon_state = "pipe11-2";
@@ -7028,15 +7027,6 @@
 	dir = 1
 	},
 /obj/machinery/firealarm/directional/west,
-/turf/open/floor/plasteel/dark,
-/area/nostromo/engineering/atmospherics)
-"rD" = (
-/obj/structure/chair/office/light{
-	dir = 4
-	},
-/obj/effect/landmark/start/atmospheric_technician,
-/obj/machinery/light,
-/obj/machinery/firealarm/directional/south,
 /turf/open/floor/plasteel/dark,
 /area/nostromo/engineering/atmospherics)
 "rE" = (
@@ -36279,7 +36269,7 @@ km
 kT
 ls
 ia
-rD
+nk
 hJ
 dx
 lH
@@ -52576,7 +52566,7 @@ hx
 eB
 fT
 fP
-gI
+fP
 fP
 ql
 id
@@ -74313,7 +74303,7 @@ bQ
 fp
 hh
 fZ
-nk
+gI
 fZ
 oq
 iw
