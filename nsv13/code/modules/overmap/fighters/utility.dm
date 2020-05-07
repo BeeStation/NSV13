@@ -24,6 +24,7 @@
 	backward_maxthrust = 3
 	side_maxthrust = 3
 	max_angular_acceleration = 110
+	ftl_goal = 30 SECONDS //Raptors can, by default, initiate relative FTL jumps to other ships.
 
 /obj/structure/overmap/fighter/utility/prebuilt/tanker //refueling other fighters in space
 	prebuilt = TRUE

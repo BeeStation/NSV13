@@ -79,6 +79,12 @@ After going through this checklist, you're ready to go!
 	var/installing = FALSE //Are we currently having parts installed?
 	var/chassis = 0 //Which chassis we are for part checking
 
+	//The following vars are a temporary hackjob until the weapons rework is complete. Please rework this when we can! ~Kmc
+	var/ftl_goal = 0 //0 initially if it doesn't have an FTL.
+	var/ftl_progress = 0 //For use of this, see ftl_drive.dm . Sabres are currently the only fighters that can FTL jump.
+	var/max_ftl_range = 80 //light years. 80 means the two targets have to be at least reasonably close together
+	var/spooling_ftl = FALSE
+
 /obj/structure/overmap/fighter/Initialize()
 	. = ..()
 	if(start_emagged)
