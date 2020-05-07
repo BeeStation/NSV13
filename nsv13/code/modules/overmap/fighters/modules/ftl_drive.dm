@@ -5,7 +5,7 @@
 	data["ftl_goal"] = ftl_goal
 	var/list/ships = list()
 	for(var/obj/structure/overmap/OM in GLOB.overmap_objects)
-		if(OM != last_overmap && OM.faction == faction && OM.current_system && OM.reserved_z) //Capital ships only. AKA any ship that's in our faction, and is holding an FTL z-level.
+		if(OM != last_overmap && last_overmap.current_system && OM.current_system && OM.faction == faction && OM.reserved_z) //Capital ships only. AKA any ship that's in our faction, and is holding an FTL z-level. We also cannot jump mid-FTL translation for our host vessel.
 			var/list/ship_info = list()
 			ship_info["name"] = OM.name
 			ship_info["distance"] = last_overmap?.current_system?.dist(OM.current_system)

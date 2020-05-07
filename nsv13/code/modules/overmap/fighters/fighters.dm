@@ -58,6 +58,7 @@ After going through this checklist, you're ready to go!
 	var/obj/structure/fighter_launcher/mag_lock = null //Mag locked by a launch pad. Cheaper to use than locate()
 	var/max_passengers = 0 //Maximum capacity for passengers, INCLUDING pilot (EG: 1 pilot, 4 passengers).
 	var/max_cargo = 0 //Maximum number of crates you've loaded in
+	var/list/allowed_cargo = list(/obj/machinery/nuclearbomb, /obj/structure/closet, /obj/structure/ore_box) //Typepath whitelist for storing stuff in a raptor.
 	var/list/cargo = list() //cargo you've got in here.
 	var/docking_mode = FALSE
 	var/warning_cooldown = FALSE
@@ -89,6 +90,9 @@ After going through this checklist, you're ready to go!
 
 /obj/structure/overmap/fighter/Initialize()
 	. = ..()
+	for(var/X in allowed_cargo)
+		for(var/Y in subtypesof(X))
+			allowed_cargo += Y
 	if(start_emagged)
 		obj_flags ^= EMAGGED
 
@@ -446,11 +450,12 @@ You need to fire emag the fighter's IFF board. This makes it list as "ENEMY" on 
 		else
 			to_chat(user, "<span class='notice'>You require [src] to be in maintenance mode to load munitions!.</span>")
 			return
-	else if(istype(A, /obj/structure/closet) || istype(A, /obj/structure/ore_box))
+
+	else if(LAZYFIND(allowed_cargo, A.type))
 		if(cargo.len >= max_cargo)
 			to_chat(user, "<span class='notice'>[src] cannot hold any [max_cargo > 0 ? "more cargo" : "cargo"].</span>")
 			return
-		if(!do_after(user, 5 SECONDS, target=src))
+		if(!do_after(user, 5 SECONDS, target=src) || A.anchored)
 			return
 		to_chat(user, "<span class='warning'>You load [A] into [src]'s cargo hold...</span>")
 		A.forceMove(src)
@@ -856,7 +861,7 @@ How to make fuel:
 	return TRUE
 
 /obj/structure/overmap/fighter/proc/check_start() //See if we can kick off the engine off of the APU.
-	if(user_thrust_dir)
+	if(!throttle_lock)
 		playsound(src, 'nsv13/sound/effects/fighters/startup.ogg', 100, FALSE)
 		visible_message("<span class='warning'>[src]'s engine bursts into life!</span>")
 		flight_state = FLIGHT_READY
@@ -1026,7 +1031,6 @@ How to make fuel:
 			to_chat(usr, "You flip the APU switch.</span>")
 			flight_state = APU_SPUN
 			playsound(src, 'nsv13/sound/effects/fighters/apu_start.ogg', 100, FALSE)
-			throttle_lock = FALSE
 			addtimer(VARSET_CALLBACK(src, warmup_cooldown, FALSE), 15 SECONDS)
 			addtimer(CALLBACK(src, .proc/check_start), 16 SECONDS) //Throttle up now....
 			return
