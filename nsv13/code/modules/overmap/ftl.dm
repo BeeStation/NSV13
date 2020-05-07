@@ -79,6 +79,7 @@
 				return
 			if(ship.operators.len && !ship.ai_controlled) //Alright, now we handle the small ships. If there is no longer a large ship to hold the system, we just get caught up its wake and travel along with it.
 				ship.relay("<span class='warning'>You're caught in [OM]'s bluespace wake!</span>")
+				SEND_SIGNAL(ship, COMSIG_FTL_STATE_CHANGE)
 				ship.forceMove(locate(ship.x, ship.y, OM.reserved_z))
 				system_contents -= ship
 				continue

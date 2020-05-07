@@ -57,6 +57,8 @@ After going through this checklist, you're ready to go!
 	var/countermeasures = 0
 	var/obj/structure/fighter_launcher/mag_lock = null //Mag locked by a launch pad. Cheaper to use than locate()
 	var/max_passengers = 0 //Maximum capacity for passengers, INCLUDING pilot (EG: 1 pilot, 4 passengers).
+	var/max_cargo = 0 //Maximum number of crates you've loaded in
+	var/list/cargo = list() //cargo you've got in here.
 	var/docking_mode = FALSE
 	var/warning_cooldown = FALSE
 	var/canopy_breached = FALSE //Canopy will breach if you take too much damage, causing your air to leak out.
@@ -444,19 +446,16 @@ You need to fire emag the fighter's IFF board. This makes it list as "ENEMY" on 
 		else
 			to_chat(user, "<span class='notice'>You require [src] to be in maintenance mode to load munitions!.</span>")
 			return
-	else if(istype(A, /obj/structure/overmap/fighter/escapepod) && has_escape_pod && (!escape_pod || escape_pod?.loc != src))
-		if(maint_state != MS_OPEN)
-			to_chat(user, "<span class='warning'>You cannot load an escape pod into [src] without putting it into maintenance mode.</span>")
+	else if(istype(A, /obj/structure/closet) || istype(A, /obj/structure/ore_box))
+		if(cargo.len >= max_cargo)
+			to_chat(user, "<span class='notice'>[src] cannot hold any [max_cargo > 0 ? "more cargo" : "cargo"].</span>")
 			return
-		var/obj/structure/overmap/fighter/escapepod/EP = A
-		if(EP.operators.len)
-			to_chat(user, "<span class='notice'>There are people inside of [EP], so you can't load it into something else</span>")
+		if(!do_after(user, 5 SECONDS, target=src))
 			return
-		if(do_after_mob(user, list(A, src), 50))
-			to_chat(user, "<span class='notice'>You insert [EP] into [src], fitting it with an escape pod.</span>")
-			EP.forceMove(src)
-			escape_pod = EP
-			EP.flight_state = NO_IGNITION
+		to_chat(user, "<span class='warning'>You load [A] into [src]'s cargo hold...</span>")
+		A.forceMove(src)
+		cargo += A
+		playsound(src, 'nsv13/sound/effects/ship/mac_load.ogg', 100, 1)  //placeholder
 
 /obj/structure/overmap/fighter/fire_torpedo(atom/target)
 	if(ai_controlled) //AI ships don't have interiors
@@ -1190,6 +1189,15 @@ How to make fuel:
 		if("show_dradis")
 			dradis.attack_hand(usr)
 			return
+		if("unload_cargo")
+			var/atom/movable/F = locate(params["crate_id"])
+			to_chat(usr, "<span class='notice'>You start unloading [F.name] from [src].</span>")
+			if(!do_after(usr, 3 SECONDS, target=src) || !F)
+				return
+			cargo -= F
+			F.forceMove(get_turf(src))
+			return
+
 	warmup_cooldown = TRUE
 	addtimer(VARSET_CALLBACK(src, warmup_cooldown, FALSE), 1 SECONDS)
 	relay('nsv13/sound/effects/fighters/switch.ogg')
@@ -1259,7 +1267,22 @@ How to make fuel:
 		torp_info["mun_id"] = "\ref[M]"
 		munitions[++munitions.len] = torp_info
 	data["loaded_munitions"] = munitions
-
+	data["has_cargo"] = (cargo.len >= 1)
+	if(cargo.len)
+		var/list/cargo_info = list()
+		for(var/atom/movable/F in cargo)
+			var/list/info = list()
+			info["name"] = F.name
+			var/contentslist = ""
+			for(var/atom/movable/FF in F.contents)
+				contentslist += "[FF.name]"//lazy variable names go me
+			info["contents"] = contentslist
+			info["crate_id"] = "\ref[F]"
+			cargo_info[++cargo_info.len] = info
+		data["cargo_info"] = cargo_info
+		data["cargo"] = cargo.len
+		data["max_cargo"] = max_cargo
+		data["can_unload"] = !SSmapping.level_trait(z, ZTRAIT_OVERMAP) //Hmm gee I wonder why.
 	return data
 
 #undef NO_IGNITION

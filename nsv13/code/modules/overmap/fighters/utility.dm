@@ -3,7 +3,7 @@
 //Pickups up pods, refuels in space, repairs things, module module modules
 /obj/structure/overmap/fighter/utility
 	name = "Su-437 Sabre"
-	desc = "An Su-437 Sabre utility vessel. Designed for robustness in deep space and as a highly modular platform, able to be fitted out for any situation."
+	desc = "An Su-437 Sabre utility vessel. Designed for robustness in deep space and as a highly modular platform, able to be fitted out for any situation. Drag and drop crates / ore boxes to load them into its cargo hold."
 	icon = 'nsv13/icons/overmap/nanotrasen/carrier.dmi'
 	icon_state = "carrier"
 	armor = list("melee" = 70, "bullet" = 70, "laser" = 70, "energy" = 40, "bomb" = 40, "bio" = 100, "rad" = 90, "fire" = 90, "acid" = 80, "overmap_light" = 20)
@@ -19,6 +19,7 @@
 	pixel_z = -20
 	req_one_access = list(ACCESS_MUNITIONS, ACCESS_ENGINE)
 	chassis = 3
+	max_cargo = 4
 
 	forward_maxthrust = 3
 	backward_maxthrust = 3

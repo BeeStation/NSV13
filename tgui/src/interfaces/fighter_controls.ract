@@ -119,3 +119,13 @@
 	  {{/each}}
   </ui-display>
 {{/if}}
+{{#if data.has_cargo}}
+  <ui-display title='Cargo hold'>
+      <ui-section label='Capacity'>
+        <ui-bar min='0' max='{{adata.max_cargo}}' value='{{adata.cargo}}' state='{{data.cargo >= data.max_cargo ? "average" : "null"}}'></ui-bar>
+	  </ui-section>
+	  {{#each data.cargo_info}}
+	    <ui-section label='{{name}}'><ui-button icon='eject' action='unload_cargo' params='{"crate_id": "{{crate_id}}"}' tooltip-side='right' tooltip='{{contents}}' state='{{data.can_unload ? null : "disabled"}}'>Unload</ui-button></ui-section>
+	  {{/each}}
+  </ui-display>
+{{/if}}
