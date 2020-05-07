@@ -73,7 +73,7 @@
 	description = "A how-to guide of fabricating torpedos while out in the depths of space."
 	prereq_ids = list("explosive_weapons")
 
-	design_ids = list("warhead", "bb_warhead", "lw_warhead", "decoy_warhead", "nuke_warhead", "probe_warhead", "freight_warhead", "guidance_system", "propulsion_system", "iff_card")
+	design_ids = list("warhead", "bb_warhead", "decoy_warhead", "nuke_warhead", "probe_warhead", "freight_warhead", "guidance_system", "propulsion_system", "iff_card")
 	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 2500)
 	export_price = 5000
 

@@ -176,6 +176,12 @@
 		new /obj/effect/DPtarget(LZ, toLaunch)
 	qdel(src)
 
+/obj/item/projectile/guided_munition/torpedo/post/Destroy()
+	if(contents.len)
+		for(var/atom/X in contents)
+			qdel(X) //Shooting this torpedo down means death.
+	. = ..()
+
 //A probe that science builds to scan anomalies. This is a chad move.
 /obj/item/ship_weapon/ammunition/torpedo/probe
 	name = "NTX 'Voyager' astrological probe"
