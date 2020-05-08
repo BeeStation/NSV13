@@ -319,7 +319,7 @@
 		openhelp(usr)
 		return
 	if(href_list["write"])
-		next_write_time = world.time + 0.5 SECONDS //Nsv13 - possible paper exploit
+		next_write_time = world.time + 1 SECONDS //Nsv13 - possible paper exploit
 		var/id = href_list["write"]
 		var/t =  stripped_multiline_input("Enter what you want to write:", "Write", no_trim=TRUE)
 		if(!t || !usr.canUseTopic(src, BE_CLOSE, literate))
