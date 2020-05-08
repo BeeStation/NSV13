@@ -313,10 +313,10 @@
 		return
 	..()
 	var/literate = usr.is_literate()
+	if(!usr.canUseTopic(src, BE_CLOSE, literate))
+		return
 	if(href_list["help"])
 		openhelp(usr)
-		return
-	if(!usr.canUseTopic(src, BE_CLOSE, literate))
 		return
 	if(href_list["write"])
 		next_write_time = world.time + 0.5 SECONDS //Nsv13 - possible paper exploit
