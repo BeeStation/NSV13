@@ -309,9 +309,9 @@
 
 
 /obj/item/paper/Topic(href, href_list)
-	..()
 	if(next_write_time > world.time) //Nsv13 possible paper exploit
 		return
+	..()
 	var/literate = usr.is_literate()
 	if(href_list["help"])
 		openhelp(usr)
