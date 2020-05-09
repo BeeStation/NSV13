@@ -1201,9 +1201,6 @@ How to make fuel:
 			cargo -= F
 			F.forceMove(get_turf(src))
 			return
-
-	warmup_cooldown = TRUE
-	addtimer(VARSET_CALLBACK(src, warmup_cooldown, FALSE), 1 SECONDS)
 	relay('nsv13/sound/effects/fighters/switch.ogg')
 
 /obj/structure/overmap/fighter/ui_data(mob/user)

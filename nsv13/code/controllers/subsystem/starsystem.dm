@@ -13,6 +13,7 @@ SUBSYSTEM_DEF(star_system)
 	var/list/enemy_blacklist = list()
 	var/list/ships = list() //2-d array. Format: list("ship" = ship, "x" = 0, "y" = 0, "current_system" = null, "target_system" = null, "transit_time" = 0)
 	var/patrols_left = 5 //Around 1 hour : 15 minutes
+	var/times_cleared = 0
 
 /datum/controller/subsystem/star_system/fire() //Overmap combat events control system, adds weight to combat events over time spent out of combat
 	if(last_combat_enter + (5000 + (1000 * modifier)) < world.time) //Checking the last time we started combat with the current time
@@ -129,19 +130,47 @@ SUBSYSTEM_DEF(star_system)
 //////GAMEPLAY LOOP///////
 
 /datum/controller/subsystem/star_system/proc/cycle_gameplay_loop()
-	addtimer(CALLBACK(src, .proc/gameplay_loop), rand(10 MINUTES, 15 MINUTES)) //Cycle the gameplay loop 10 to 15 minutes after the previous sector is cleared
+	addtimer(CALLBACK(src, .proc/gameplay_loop), rand(10 MINUTES, 15 MINUTES)) //Cycle the gameplay loop 10 to 15 minutes after the previous sector is made hostile.
 
-/datum/controller/subsystem/star_system/proc/gameplay_loop() //A very simple way of having a gameplay loop. Every couple of minutes, the Syndicate appear in a system, the ship has to destroy them.
+/datum/controller/subsystem/star_system/proc/check_completion()
 	if(patrols_left <= 0)
-		priority_announce("Attention [station_name()]. You have completed your assigned patrol and are now eligible for a crew transfer. \
-		Your navigational computers have been programmed with the coordinates of the nearest starbase where you may claim your allotted shore leave. \
-		You are under no obligation to remain in this sector, and you have been taken off of active patrol status. If you wish to continue with exploratory missions or other activities you are free to do so.", "Naval Command")
+		var/medal_type = null //Reward good players.
+		switch(times_cleared)
+			if(0)
+				priority_announce("Attention [station_name()]. You have completed your assigned patrol and are now eligible for a crew transfer. \
+				Your navigational computers have been programmed with the coordinates of the nearest starbase where you may claim your allotted shore leave. \
+				You are under no obligation to remain in this sector, and you have been taken off of active patrol status. If you wish to continue with exploratory missions or other activities you are free to do so.", "Naval Command")
+				medal_type = MEDAL_CREW_COMPETENT
+			if(1)
+				priority_announce("Crew of [station_name()]. Your dedication to your mission is admirable, we commend you for your continued participation in combat.\
+				We remind you that you are still free to return to Risa Station for a crew transfer, and that your continued combat is not necessary.", "Naval Command")
+				medal_type = MEDAL_CREW_VERYCOMPETENT
+			if(2) //Ok..this is kinda impressive
+				priority_announce("Attention [station_name()]. You have proven yourselves extremely competant in the battlefield, and you are all to be commended for this.\
+				Your efforts have severely weakened the Syndicate's presence in this sector and we are mobilising strike force tsunami to clear the rest of the sector. \
+				You can leave the rest to us. Enjoy your shore leave, you've earned it.", "White Rapids Security Council")
+				medal_type = MEDAL_CREW_EXTREMELYCOMPETENT
+			if(3) //By now they've cleared. 20(!) systems.
+				priority_announce("[station_name()]... We are...not quite sure how you're still alive. However, the Syndicate are struggling to mobilise any more ships and we're presented with a unique opportunity to strike at their heartland.\
+				You are ordered to return to home base immediately for re-arming, repair and a crew briefing", "Officer Of Grand Admiral Titanicus")
+				medal_type = MEDAL_CREW_HYPERCOMPETENT
+		for(var/client/C in GLOB.clients)
+			if(!C.mob || !SSmapping.level_trait(C.mob.z, ZTRAIT_BOARDABLE))
+				continue
+			SSmedals.UnlockMedal(medal_type,C)
 		last_combat_enter = world.time
 		for(var/datum/star_system/SS in systems)
 			if(SS.name == "Risa Station")
 				SS.hidden = FALSE
-		return
+			SS.difficulty_budget *= 2 //Double the difficulty if the crew choose to stay.
+		cycle_gameplay_loop()
+		patrols_left = 5
+		times_cleared ++
+		return TRUE
 
+/datum/controller/subsystem/star_system/proc/gameplay_loop() //A very simple way of having a gameplay loop. Every couple of minutes, the Syndicate appear in a system, the ship has to destroy them.
+	if(check_completion())
+		return
 	var/datum/star_system/current_system //Dont spawn enemies where theyre currently at
 	for(var/obj/structure/overmap/OM in GLOB.overmap_objects) //The ship doesnt start with a system assigned by default
 		if(OM.role != MAIN_OVERMAP)
@@ -157,11 +186,10 @@ SUBSYSTEM_DEF(star_system)
 	var/datum/star_system/starsys = pick(possible_spawns)
 	starsys.mission_sector = TRUE //set this sector to be the active mission
 	starsys.spawn_asteroids() //refresh asteroids in the system
-	for(var/i = 0, i < starsys.difficulty_budget, i++) //number of enemies is set via the star_system vars
-		var/enemy_type = pick(enemy_types) //Spawn a random set of enemies.
-		spawn_ship(enemy_type, starsys)
-	priority_announce("Attention all ships, set condition 1 throughout the fleet. Syndicate incursion detected in: [starsys]. All ships must repel the invasion.", "Naval Command")
+	starsys.spawn_enemies()
+	priority_announce("Attention all ships, set condition 1 throughout the fleet. Syndicate incursion detected in: [starsys]. [patrols_left ? "All ships must respond to the threat." : "Ships may optionally assist in repelling the incursion, or return to Risa station for redeployment."]", "Naval Command")
 	patrols_left --
+	cycle_gameplay_loop()
 	return
 
 /datum/controller/subsystem/star_system/proc/add_ship(obj/structure/overmap/OM)
@@ -187,8 +215,8 @@ SUBSYSTEM_DEF(star_system)
 //////star_system DATUM///////
 
 #define THREAT_LEVEL_NONE 0
-#define THREAT_LEVEL_UNSAFE 1
-#define THREAT_LEVEL_DANGEROUS 2
+#define THREAT_LEVEL_UNSAFE 2
+#define THREAT_LEVEL_DANGEROUS 4
 
 /datum/star_system
 	var/name = null //Parent type, please ignore
@@ -266,6 +294,8 @@ SUBSYSTEM_DEF(star_system)
 /obj/effect/overmap_anomaly
 	name = "Placeholder"
 	desc = "You shouldn't see this."
+	bound_width = 64
+	bound_height = 64
 	var/research_points = 0
 	var/scanned = FALSE
 	var/specialist_research_type = null //Special techweb node unlocking.
@@ -289,6 +319,8 @@ SUBSYSTEM_DEF(star_system)
 	icon = 'nsv13/goonstation/icons/effects/overmap_anomalies/tearhuge.dmi'
 	icon_state = "tear"
 	research_points = 15000 //These things are really valuable and give you upgraded jumpdrive tech.
+	bound_width = 64
+	bound_height = 64
 	pixel_x = -64
 	pixel_y = -64
 	specialist_research_type = TECHWEB_POINT_TYPE_WORMHOLE
@@ -301,8 +333,6 @@ SUBSYSTEM_DEF(star_system)
 	research_points = 20000 //These things are pretty damn valuable, for their risk of course.
 	pixel_x = -64
 	pixel_y = -64
-	bound_width = 64
-	bound_height = 64
 	var/list/affecting = list()
 	var/list/cached_colours = list()
 	var/event_horizon_range = 15 //Point of no return. Getting this close will require an emergency FTL jump or shuttle call.
@@ -378,6 +408,7 @@ SUBSYSTEM_DEF(star_system)
 /datum/star_system/proc/apply_system_effects()
 	event_chance = 15 //Very low chance of an event happening
 	var/anomaly_type = null
+	difficulty_budget = threat_level
 	switch(system_type)
 		if("safe")
 			possible_events = list(/datum/round_event_control/aurora_caelus)
@@ -413,7 +444,8 @@ SUBSYSTEM_DEF(star_system)
 		if("blackhole")
 			anomaly_type = /obj/effect/overmap_anomaly/singularity
 			parallax_property = "pitchblack"
-
+	if(alignment == "syndicate")
+		spawn_enemies() //Syndicate systems are even more dangerous, and come pre-loaded with some guaranteed Syndiships.
 	if(!anomaly_type)
 		anomaly_type = pick(subtypesof(/obj/effect/overmap_anomaly/safe))
 	SSstar_system.spawn_anomaly(anomaly_type, src)
@@ -440,6 +472,16 @@ SUBSYSTEM_DEF(star_system)
 		SSstar_system.spawn_ship(roid_type, src)
 	}
 
+/datum/star_system/proc/spawn_enemies(enemy_type, amount)
+	if(!amount)
+		amount = difficulty_budget
+	for(var/i = 0, i < amount, i++){ //number of enemies is set via the star_system vars
+		if(!enemy_type){
+			enemy_type = pick(SSstar_system.enemy_types) //Spawn a random set of enemies.
+		}
+		SSstar_system.spawn_ship(enemy_type, src)
+	}
+
 /datum/star_system/proc/add_enemy(obj/structure/overmap/OM)
 	if(istype(OM, /obj/structure/overmap) && OM.ai_controlled)
 		enemies_in_system += OM
@@ -456,8 +498,9 @@ SUBSYSTEM_DEF(star_system)
 		set_security_level("blue")
 		priority_announce("All Syndicate targets in [src] have been dispatched. Return to standard patrol duties.", "Naval Command")
 		if(mission_sector == TRUE)
-			SSstar_system?.cycle_gameplay_loop()
 			mission_sector = FALSE
+			SSstar_system.patrols_left --
+			SSstar_system.check_completion()
 		return TRUE
 	else
 		return FALSE
@@ -484,7 +527,6 @@ SUBSYSTEM_DEF(star_system)
 		priority_announce("[station_name()] has successfully returned to [src] for resupply and crew transfer, excellent work crew.", "Naval Command")
 		GLOB.crew_transfer_risa = TRUE
 		SSticker.mode.check_finished()
-	//	SSticker.force_ending = TRUE
 	return
 
 /datum/star_system/sol
@@ -694,6 +736,7 @@ SUBSYSTEM_DEF(star_system)
 	name = "DATA EXPUNGED"
 	x = 150
 	y = 100
+	hidden = TRUE
 	alignment = "uncharted"
 	system_type = "wormhole" //here's your guaranteed wormhole boyos. Expect chaos
 	threat_level = THREAT_LEVEL_DANGEROUS
