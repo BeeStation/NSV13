@@ -176,6 +176,23 @@
 	name = "Deck 3 Frame 4 Central Maintenance"
 	icon_state = "maintcentral"
 
+/area/maintenance/nsv/mining_ship
+	has_gravity = TRUE
+	looping_ambience = 'nsv13/sound/ambience/maintenance.ogg'
+	noteleport = TRUE
+
+/area/maintenance/nsv/mining_ship/central
+	name = "Nostromo maintenance"
+	icon_state = "maintcentral"
+
+/area/maintenance/nsv/mining_ship/forward
+	name = "Nostromo forward maintenance"
+	icon_state = "maintcentral"
+
+/area/maintenance/nsv/mining_ship/aft
+	name = "Nostromo aft maintenance"
+	icon_state = "maintcentral"
+
 /area/hallway/nsv/deck2/frame1/port
 	name = "Deck 2 Frame 1 Port Hallway"
 	icon_state = "hallF"
@@ -447,21 +464,6 @@
 	noteleport = TRUE
 	icon_state = "mining"
 	has_gravity = TRUE
-
-/area/nostromo/maintenance
-	name = "Nostromo maintenance"
-	looping_ambience = 'nsv13/sound/ambience/maintenance.ogg'
-	icon_state = "maintcentral"
-
-/area/nostromo/maintenance/forward
-	name = "Nostromo forward maintenance"
-	looping_ambience = 'nsv13/sound/ambience/maintenance.ogg'
-	icon_state = "maintcentral"
-
-/area/nostromo/maintenance/aft
-	name = "Nostromo aft maintenance"
-	looping_ambience = 'nsv13/sound/ambience/maintenance.ogg'
-	icon_state = "maintcentral"
 
 /area/nostromo/maintenance/exterior
 	name = "Nostromo exterior"
