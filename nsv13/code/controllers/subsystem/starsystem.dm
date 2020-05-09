@@ -14,6 +14,7 @@ SUBSYSTEM_DEF(star_system)
 	var/list/ships = list() //2-d array. Format: list("ship" = ship, "x" = 0, "y" = 0, "current_system" = null, "target_system" = null, "transit_time" = 0)
 	var/patrols_left = 5 //Around 1 hour : 15 minutes
 	var/times_cleared = 0
+	var/systems_cleared = 0
 
 /datum/controller/subsystem/star_system/fire() //Overmap combat events control system, adds weight to combat events over time spent out of combat
 	if(last_combat_enter + (5000 + (1000 * modifier)) < world.time) //Checking the last time we started combat with the current time
@@ -133,7 +134,7 @@ SUBSYSTEM_DEF(star_system)
 	addtimer(CALLBACK(src, .proc/gameplay_loop), rand(10 MINUTES, 15 MINUTES)) //Cycle the gameplay loop 10 to 15 minutes after the previous sector is made hostile.
 
 /datum/controller/subsystem/star_system/proc/check_completion()
-	if(patrols_left <= 0)
+	if(patrols_left <= 0 && systems_cleared >= 5)
 		var/medal_type = null //Reward good players.
 		switch(times_cleared)
 			if(0)
@@ -166,6 +167,7 @@ SUBSYSTEM_DEF(star_system)
 		cycle_gameplay_loop()
 		patrols_left = 5
 		times_cleared ++
+		systems_cleared = 0
 		return TRUE
 
 /datum/controller/subsystem/star_system/proc/gameplay_loop() //A very simple way of having a gameplay loop. Every couple of minutes, the Syndicate appear in a system, the ship has to destroy them.
@@ -176,6 +178,7 @@ SUBSYSTEM_DEF(star_system)
 		if(OM.role != MAIN_OVERMAP)
 			continue
 		current_system = ships[OM]["current_system"]
+	cycle_gameplay_loop()
 	var/list/possible_spawns = list()
 	for(var/datum/star_system/starsys in systems)
 		if(starsys != current_system && !starsys.hidden && !starsys.mission_sector && starsys.alignment != "nanotrasen" && starsys.alignment != "uncharted") //Spawn is a safe zone. Uncharted systems are dangerous enough and don't need more murder.
@@ -187,9 +190,8 @@ SUBSYSTEM_DEF(star_system)
 	starsys.mission_sector = TRUE //set this sector to be the active mission
 	starsys.spawn_asteroids() //refresh asteroids in the system
 	starsys.spawn_enemies()
-	priority_announce("Attention all ships, set condition 1 throughout the fleet. Syndicate incursion detected in: [starsys]. [patrols_left ? "All ships must respond to the threat." : "Ships may optionally assist in repelling the incursion, or return to Risa station for redeployment."]", "Naval Command")
+	priority_announce("Attention all ships, set condition 1 throughout the fleet. Syndicate incursion detected in: [starsys]. All ships must respond to the threat.", "Naval Command")
 	patrols_left --
-	cycle_gameplay_loop()
 	return
 
 /datum/controller/subsystem/star_system/proc/add_ship(obj/structure/overmap/OM)
@@ -500,6 +502,7 @@ SUBSYSTEM_DEF(star_system)
 		if(mission_sector == TRUE)
 			mission_sector = FALSE
 			SSstar_system.patrols_left --
+			SSstar_system.systems_cleared ++
 			SSstar_system.check_completion()
 		return TRUE
 	else
