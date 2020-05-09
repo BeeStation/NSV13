@@ -21,6 +21,6 @@
 				current_view_size = 40
 	if(current_view_size > 15) //Bigger than default
 		if(prefs.widescreenpref && CONFIG_GET(flag/widescreen))
-			change_view("[current_view_size+18]x[current_view_size+9]") //Widescreen aspect ratio is 21:9. So we just make every ratio 21:9 so that you dont get C I N E M A T I C black bars whenever you zoom out.
+			change_view("[current_view_size+17]x[current_view_size+9]") //Widescreen aspect ratio is 21:9. So we just make every ratio 21:9 so that you dont get C I N E M A T I C black bars whenever you zoom out.
 		else
 			change_view("[current_view_size]x[current_view_size]") //if theyre not a widescreen user, it's a simple case of just zooming them out
