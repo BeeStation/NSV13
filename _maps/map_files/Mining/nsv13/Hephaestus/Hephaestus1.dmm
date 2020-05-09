@@ -70,7 +70,7 @@
 /area/nostromo/engineering/engineering)
 "ao" = (
 /obj/machinery/door/airlock/ship/maintenance{
-	req_one_access_txt = "74;12"
+	req_one_access_txt = "74;10"
 	},
 /turf/open/floor/plating,
 /area/maintenance/nsv/mining_ship/aft)
@@ -707,7 +707,7 @@
 /area/nostromo/engineering/engineering)
 "cf" = (
 /obj/machinery/door/airlock/ship/engineering/glass{
-	req_one_access_txt = "74"
+	req_one_access_txt = "74;10"
 	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	dir = 4
@@ -786,7 +786,7 @@
 /area/nostromo/hangar/port)
 "cp" = (
 /obj/machinery/door/airlock/ship/maintenance{
-	req_one_access_txt = "10"
+	req_one_access_txt = "74;10"
 	},
 /obj/structure/cable{
 	icon_state = "1-2"
@@ -800,7 +800,7 @@
 /obj/machinery/door/firedoor,
 /obj/machinery/door/airlock/ship/engineering{
 	name = "Spares Bay";
-	req_one_access_txt = "74"
+	req_one_access_txt = "74;10"
 	},
 /turf/open/floor/plasteel/techmaint,
 /area/nostromo/engineering/engineering)
@@ -1680,7 +1680,7 @@
 /obj/machinery/door/firedoor,
 /obj/machinery/door/airlock/ship/engineering{
 	name = "Engineering EVA";
-	req_one_access_txt = "74"
+	req_one_access_txt = "74;10"
 	},
 /turf/open/floor/plasteel/dark,
 /area/nostromo/engineering/engineering)
@@ -1768,7 +1768,7 @@
 	},
 /obj/machinery/door/airlock/ship/engineering{
 	name = "Reactor Core";
-	req_one_access_txt = "74"
+	req_one_access_txt = "74;10"
 	},
 /obj/machinery/door/firedoor,
 /turf/open/floor/plating,
@@ -3560,7 +3560,7 @@
 	},
 /obj/machinery/door/airlock/ship/engineering{
 	name = "Reactor Core";
-	req_one_access_txt = "74"
+	req_one_access_txt = "74;10"
 	},
 /obj/machinery/door/firedoor,
 /turf/open/floor/engine,
@@ -4841,7 +4841,7 @@
 /obj/machinery/door/firedoor,
 /obj/machinery/door/airlock/ship{
 	name = "Tech Storage";
-	req_one_access_txt = "74;47"
+	req_one_access_txt = "74;47;10"
 	},
 /turf/open/floor/plasteel/techmaint,
 /area/nostromo/tcomms)
@@ -5004,7 +5004,7 @@
 /obj/machinery/door/firedoor,
 /obj/machinery/door/airlock/ship/engineering{
 	name = "Engine Compartment";
-	req_one_access_txt = "74"
+	req_one_access_txt = "74;10"
 	},
 /turf/open/floor/plasteel/techmaint,
 /area/nostromo/engineering/engineering)
@@ -5052,7 +5052,7 @@
 "nc" = (
 /obj/machinery/door/airlock/ship{
 	name = "TE/LE/COM core";
-	req_one_access_txt = "74"
+	req_one_access_txt = "74;10"
 	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	dir = 8
@@ -5101,7 +5101,7 @@
 /obj/machinery/door/firedoor,
 /obj/machinery/door/airlock/ship/engineering/glass{
 	name = "Atmospherics Compartment";
-	req_one_access_txt = "74"
+	req_one_access_txt = "74;24"
 	},
 /turf/open/floor/plasteel/techmaint,
 /area/nostromo/engineering/atmospherics)
@@ -5143,10 +5143,10 @@
 /turf/open/floor/plasteel/dark,
 /area/nostromo/engineering/engineering)
 "nn" = (
-/obj/machinery/door/airlock/ship/maintenance{
-	req_one_access_txt = "74;12"
-	},
 /obj/machinery/door/firedoor,
+/obj/machinery/door/airlock/ship/maintenance{
+	req_access_txt = "74;24"
+	},
 /turf/open/floor/plating,
 /area/maintenance/nsv/mining_ship/aft)
 "no" = (
@@ -5229,7 +5229,7 @@
 /obj/machinery/door/firedoor,
 /obj/machinery/door/airlock/ship/engineering/glass{
 	name = "Atmospherics Compartment";
-	req_one_access_txt = "74"
+	req_one_access_txt = "74;24"
 	},
 /turf/open/floor/plasteel/dark,
 /area/nostromo/engineering/atmospherics)
@@ -5283,7 +5283,7 @@
 /area/maintenance/nsv/mining_ship/forward)
 "nB" = (
 /obj/machinery/door/airlock/ship/maintenance{
-	req_access_txt = "74"
+	req_access_txt = "74;24"
 	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
@@ -5330,6 +5330,12 @@
 /obj/effect/turf_decal/tile/yellow,
 /turf/open/floor/plasteel/dark,
 /area/nostromo/engineering/atmospherics)
+"nH" = (
+/obj/machinery/door/airlock/ship/maintenance{
+	req_one_access_txt = "74;12"
+	},
+/turf/open/floor/plating,
+/area/maintenance/nsv/mining_ship/aft)
 "nI" = (
 /obj/machinery/recharge_station,
 /turf/open/floor/plasteel/dark,
@@ -6364,7 +6370,7 @@
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /obj/machinery/door/airlock/ship{
 	name = "Tech Storage";
-	req_one_access_txt = "74;47"
+	req_one_access_txt = "74;47;10"
 	},
 /obj/machinery/door/firedoor,
 /turf/open/floor/plasteel/techmaint,
@@ -7375,7 +7381,7 @@
 "ss" = (
 /obj/machinery/door/airlock/ship/engineering{
 	name = "Reactor Core";
-	req_one_access_txt = "74"
+	req_one_access_txt = "74;10"
 	},
 /obj/machinery/door/firedoor,
 /turf/open/floor/engine,
@@ -7482,34 +7488,62 @@
 	},
 /turf/open/floor/plasteel/dark,
 /area/nostromo/hangar/starboard)
-"tg" = (
+"sV" = (
+/turf/open/floor/engine,
+/area/nostromo/engineering/atmospherics)
+"uJ" = (
 /obj/machinery/door/firedoor,
 /obj/effect/spawner/structure/window/reinforced/ship,
 /turf/open/floor/plating,
 /area/nostromo/engineering/atmospherics)
-"uz" = (
-/obj/structure/hull_plate/end{
-	dir = 1
-	},
-/obj/machinery/light{
-	dir = 1
-	},
+"vx" = (
+/obj/structure/hull_plate/end,
+/obj/machinery/light,
 /turf/open/floor/plating/airless,
 /area/maintenance/nsv/mining_ship/central)
-"vI" = (
-/obj/machinery/light,
-/turf/open/floor/engine,
-/area/nostromo/engineering/atmospherics)
-"xB" = (
+"vD" = (
+/obj/machinery/door/airlock/ship/external/glass{
+	req_one_access_txt = "13;74"
+	},
+/obj/effect/mapping_helpers/airlock/cyclelink_helper{
+	icon_state = "airlock_cyclelink_helper";
+	dir = 8
+	},
+/turf/open/floor/plating,
+/area/nostromo/mining)
+"wr" = (
+/obj/machinery/telecomms/relay,
+/turf/open/floor/plasteel/techmaint,
+/area/nostromo/tcomms)
+"xy" = (
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
+/obj/machinery/computer/ship/navigation{
+	dir = 4
+	},
+/turf/open/floor/plasteel/dark,
+/area/nostromo/bridge)
+"ze" = (
+/obj/machinery/door/airlock/ship/external/glass{
+	req_one_access_txt = "13;74"
+	},
+/obj/effect/mapping_helpers/airlock/cyclelink_helper{
+	icon_state = "airlock_cyclelink_helper";
+	dir = 8
+	},
+/turf/open/floor/plating,
+/area/maintenance/nsv/mining_ship/forward)
+"zz" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	dir = 8
 	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
-	dir = 6
+	dir = 4
 	},
 /turf/open/floor/plasteel/techmaint,
 /area/nostromo/tcomms)
-"yw" = (
+"CZ" = (
 /obj/machinery/door/airlock/ship/external/glass{
 	req_one_access_txt = "10;47"
 	},
@@ -7519,7 +7553,7 @@
 	},
 /turf/open/floor/plating,
 /area/nostromo/tcomms)
-"yV" = (
+"DJ" = (
 /obj/machinery/door/airlock/ship/external/glass{
 	req_one_access_txt = "13;74"
 	},
@@ -7528,25 +7562,8 @@
 	dir = 8
 	},
 /turf/open/floor/plating,
-/area/nostromo/engineering/engineering)
-"zO" = (
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
-	dir = 8
-	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
-	dir = 4
-	},
-/turf/open/floor/plasteel/techmaint,
-/area/nostromo/tcomms)
-"AN" = (
-/obj/machinery/portable_atmospherics/canister,
-/obj/effect/turf_decal/bot,
-/obj/machinery/light{
-	dir = 1
-	},
-/turf/open/floor/plasteel/dark,
-/area/nostromo/engineering/atmospherics)
-"Bf" = (
+/area/nostromo/crew_quarters)
+"Eo" = (
 /obj/machinery/door/airlock/ship/command{
 	name = "Science Quarters";
 	req_one_access_txt = "7"
@@ -7558,63 +7575,23 @@
 /obj/machinery/door/firedoor,
 /turf/open/floor/plasteel/dark,
 /area/nostromo/bridge)
-"De" = (
-/obj/machinery/door/airlock/ship/external/glass{
-	req_one_access_txt = "13;74"
-	},
-/obj/effect/mapping_helpers/airlock/cyclelink_helper{
-	icon_state = "airlock_cyclelink_helper";
-	dir = 8
-	},
-/turf/open/floor/plating,
-/area/nostromo/crew_quarters)
-"DK" = (
-/obj/machinery/door/airlock/ship/external/glass{
-	req_one_access_txt = "13;74"
-	},
-/obj/effect/mapping_helpers/airlock/cyclelink_helper{
-	icon_state = "airlock_cyclelink_helper";
-	dir = 8
+"Fk" = (
+/obj/effect/spawner/structure/window/reinforced/ship,
+/obj/machinery/door/firedoor,
+/obj/machinery/door/poddoor/shutters/ship/preopen{
+	dir = 4;
+	id = "heph_med"
 	},
 /turf/open/floor/plating,
-/area/maintenance/nsv/mining_ship/forward)
-"Ea" = (
+/area/nostromo/medbay)
+"FO" = (
 /obj/machinery/door/airlock/ship/external/glass{
 	req_one_access_txt = "13;74"
 	},
 /obj/effect/mapping_helpers/airlock/cyclelink_helper,
 /turf/open/floor/plating,
 /area/maintenance/nsv/mining_ship/forward)
-"Ix" = (
-/obj/machinery/door/airlock/ship/external/glass{
-	req_one_access_txt = "13;74"
-	},
-/obj/effect/mapping_helpers/airlock/cyclelink_helper{
-	icon_state = "airlock_cyclelink_helper";
-	dir = 8
-	},
-/turf/open/floor/plating,
-/area/nostromo/mining)
-"Jd" = (
-/obj/machinery/door/airlock/ship/external/glass{
-	req_one_access_txt = "13;74"
-	},
-/obj/effect/mapping_helpers/airlock/cyclelink_helper{
-	icon_state = "airlock_cyclelink_helper";
-	dir = 1
-	},
-/turf/open/floor/plating,
-/area/maintenance/nsv/mining_ship/central)
-"KA" = (
-/obj/structure/cable{
-	icon_state = "1-2"
-	},
-/obj/machinery/computer/ship/navigation{
-	dir = 4
-	},
-/turf/open/floor/plasteel/dark,
-/area/nostromo/bridge)
-"On" = (
+"HX" = (
 /obj/machinery/door/airlock/ship/command{
 	name = "Flight Officer Quarters";
 	req_one_access_txt = "75"
@@ -7626,13 +7603,70 @@
 /obj/machinery/door/firedoor,
 /turf/open/floor/plasteel/dark,
 /area/nostromo/bridge)
-"QG" = (
+"JQ" = (
+/obj/machinery/door/airlock/ship/external/glass{
+	req_one_access_txt = "13;74"
+	},
+/obj/effect/mapping_helpers/airlock/cyclelink_helper{
+	icon_state = "airlock_cyclelink_helper";
+	dir = 1
+	},
+/turf/open/floor/plating,
+/area/maintenance/nsv/mining_ship/central)
+"LG" = (
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	dir = 8
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	dir = 6
+	},
+/turf/open/floor/plasteel/techmaint,
+/area/nostromo/tcomms)
+"Mn" = (
+/obj/machinery/light,
+/turf/open/floor/engine,
+/area/nostromo/engineering/atmospherics)
+"QJ" = (
+/obj/structure/hull_plate/end{
+	dir = 1
+	},
+/obj/machinery/light{
+	dir = 1
+	},
+/turf/open/floor/plating/airless,
+/area/maintenance/nsv/mining_ship/central)
+"Sh" = (
 /obj/machinery/door/airlock/ship/external/glass{
 	req_one_access_txt = "13;74"
 	},
 /turf/open/floor/plating,
 /area/maintenance/nsv/mining_ship/central)
-"Ro" = (
+"Uz" = (
+/obj/machinery/portable_atmospherics/canister,
+/obj/effect/turf_decal/bot,
+/obj/machinery/light{
+	dir = 1
+	},
+/turf/open/floor/plasteel/dark,
+/area/nostromo/engineering/atmospherics)
+"VV" = (
+/obj/machinery/door/airlock/ship/external/glass{
+	req_one_access_txt = "13;74"
+	},
+/obj/effect/mapping_helpers/airlock/cyclelink_helper{
+	icon_state = "airlock_cyclelink_helper";
+	dir = 1
+	},
+/turf/open/floor/plating,
+/area/maintenance/nsv/mining_ship/forward)
+"XM" = (
+/obj/item/radio/intercom/directional/west,
+/obj/machinery/atmospherics/components/unary/vent_pump/on/layer1{
+	dir = 4
+	},
+/turf/open/floor/plasteel/techmaint,
+/area/nostromo/tcomms)
+"XW" = (
 /obj/machinery/door/airlock/ship/command{
 	name = "Mining Engineer Quarters";
 	req_one_access_txt = "74"
@@ -7644,44 +7678,16 @@
 /obj/machinery/door/firedoor,
 /turf/open/floor/plasteel/dark,
 /area/nostromo/bridge)
-"SF" = (
-/obj/effect/spawner/structure/window/reinforced/ship,
-/obj/machinery/door/firedoor,
-/obj/machinery/door/poddoor/shutters/ship/preopen{
-	dir = 4;
-	id = "heph_med"
-	},
-/turf/open/floor/plating,
-/area/nostromo/medbay)
-"TG" = (
-/obj/structure/hull_plate/end,
-/obj/machinery/light,
-/turf/open/floor/plating/airless,
-/area/maintenance/nsv/mining_ship/central)
-"UC" = (
-/turf/open/floor/engine,
-/area/nostromo/engineering/atmospherics)
-"Vd" = (
+"Zz" = (
 /obj/machinery/door/airlock/ship/external/glass{
 	req_one_access_txt = "13;74"
 	},
 /obj/effect/mapping_helpers/airlock/cyclelink_helper{
 	icon_state = "airlock_cyclelink_helper";
-	dir = 1
+	dir = 8
 	},
 /turf/open/floor/plating,
-/area/maintenance/nsv/mining_ship/forward)
-"Xm" = (
-/obj/machinery/telecomms/relay,
-/turf/open/floor/plasteel/techmaint,
-/area/nostromo/tcomms)
-"Zg" = (
-/obj/item/radio/intercom/directional/west,
-/obj/machinery/atmospherics/components/unary/vent_pump/on/layer1{
-	dir = 4
-	},
-/turf/open/floor/plasteel/techmaint,
-/area/nostromo/tcomms)
+/area/nostromo/engineering/engineering)
 
 (1,1,1) = {"
 aa
@@ -31686,7 +31692,7 @@ ab
 ac
 an
 an
-yV
+Zz
 an
 an
 an
@@ -31698,16 +31704,16 @@ an
 hJ
 hJ
 lw
-tg
-tg
-tg
+uJ
+uJ
+uJ
 lw
 lw
 ag
 ag
 ag
 ag
-ao
+nH
 ag
 ag
 ac
@@ -31997,7 +32003,7 @@ ek
 gk
 hW
 an
-UC
+sV
 ss
 ia
 ia
@@ -32299,7 +32305,7 @@ fb
 gl
 ek
 ss
-UC
+sV
 hJ
 hJ
 ia
@@ -32601,9 +32607,9 @@ ek
 gn
 ek
 an
-vI
+Mn
 hJ
-AN
+Uz
 ia
 ia
 pm
@@ -41356,7 +41362,7 @@ dx
 dx
 dx
 dw
-Ix
+vD
 dw
 dx
 dx
@@ -43474,7 +43480,7 @@ fu
 fu
 fu
 fu
-TG
+vx
 ap
 ap
 ap
@@ -43767,7 +43773,7 @@ ax
 bK
 ck
 cU
-Jd
+JQ
 dO
 fu
 fu
@@ -43779,7 +43785,7 @@ fu
 mD
 ck
 cU
-Jd
+JQ
 jQ
 ax
 ax
@@ -44070,7 +44076,7 @@ bK
 ap
 ap
 ap
-uz
+QJ
 fu
 fu
 fu
@@ -47702,7 +47708,7 @@ fu
 fu
 fu
 fu
-TG
+vx
 ap
 ap
 ap
@@ -47995,7 +48001,7 @@ ax
 bK
 ck
 cU
-Jd
+JQ
 dO
 fu
 fu
@@ -48007,7 +48013,7 @@ fu
 mD
 ck
 cU
-Jd
+JQ
 jQ
 ax
 ax
@@ -48298,7 +48304,7 @@ bK
 ap
 ap
 ap
-uz
+QJ
 fu
 fu
 fu
@@ -50415,8 +50421,8 @@ ab
 ab
 ac
 bM
-Xm
-Zg
+wr
+XM
 fM
 bM
 ac
@@ -51322,7 +51328,7 @@ dx
 dx
 bM
 fM
-xB
+LG
 pP
 bM
 dx
@@ -52233,7 +52239,7 @@ nN
 qj
 nQ
 ex
-yw
+CZ
 ex
 bM
 bM
@@ -52530,7 +52536,7 @@ ef
 eA
 fS
 fO
-zO
+zz
 fO
 qk
 fO
@@ -54045,7 +54051,7 @@ fc
 fc
 eF
 bM
-yw
+CZ
 bM
 dy
 ab
@@ -57366,7 +57372,7 @@ fu
 fu
 fu
 fu
-TG
+vx
 ap
 ap
 ap
@@ -57659,7 +57665,7 @@ ax
 bK
 ck
 cU
-Jd
+JQ
 dO
 fu
 fu
@@ -57669,9 +57675,9 @@ fu
 fu
 fu
 mD
-QG
+Sh
 cU
-Jd
+JQ
 jQ
 ax
 ax
@@ -57962,7 +57968,7 @@ bK
 ap
 ap
 ap
-uz
+QJ
 fu
 fu
 fu
@@ -61594,7 +61600,7 @@ fu
 fu
 fu
 fu
-TG
+vx
 ap
 ap
 ap
@@ -61887,7 +61893,7 @@ ax
 bK
 ck
 cU
-Jd
+JQ
 dO
 fu
 fu
@@ -61897,9 +61903,9 @@ fu
 fu
 fu
 mD
-QG
+Sh
 cU
-Jd
+JQ
 jQ
 ax
 ax
@@ -62190,7 +62196,7 @@ bK
 ap
 ap
 ap
-uz
+QJ
 fu
 fu
 fu
@@ -64308,7 +64314,7 @@ fd
 fe
 fe
 fd
-De
+DJ
 fd
 fd
 dx
@@ -67935,7 +67941,7 @@ hQ
 gP
 qE
 hR
-SF
+Fk
 hR
 hR
 ka
@@ -72151,7 +72157,7 @@ dx
 dx
 dx
 az
-DK
+ze
 az
 dx
 gH
@@ -72460,11 +72466,11 @@ gH
 ix
 ju
 io
-Bf
+Eo
 ga
 pi
 ga
-Ro
+XW
 ru
 ju
 rI
@@ -73068,7 +73074,7 @@ fl
 ga
 pi
 ga
-On
+HX
 rv
 jN
 hD
@@ -73376,9 +73382,9 @@ np
 eL
 gH
 oY
-Ea
+FO
 bb
-Vd
+VV
 dx
 dx
 dx
@@ -74267,7 +74273,7 @@ gH
 eN
 hg
 hE
-KA
+xy
 om
 op
 ou
