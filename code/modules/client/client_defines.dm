@@ -107,6 +107,3 @@
 	var/next_keysend_reset = 0
 	var/next_keysend_trip_reset = 0
 	var/keysend_tripped = FALSE
-
-	/// Messages currently seen by this client
-	var/list/seen_messages
