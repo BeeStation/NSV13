@@ -495,7 +495,6 @@ GLOBAL_LIST_EMPTY(external_rsc_urls)
 	if(movingmob != null)
 		movingmob.client_mobs_in_contents -= mob
 		UNSETEMPTY(movingmob.client_mobs_in_contents)
-	seen_messages = null
 	Master.UpdateTickRate()
 	return ..()
 

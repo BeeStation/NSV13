@@ -75,6 +75,7 @@
 /obj/item/ship_weapon/ammunition/torpedo/nuke/fabio/examine(mob/user)
 	.=..()
 	. += "<span class='notice'> This is Fabio, Antonio's Evil Brother.</span>"
+
 /obj/item/ship_weapon/ammunition/torpedo/freight
 	name = "NTP-F 530mm freight torpedo"
 	icon = 'nsv13/icons/obj/munition_types.dmi'
@@ -84,6 +85,16 @@
 	var/max_stuff = 4 //Maximum amount of stuff that we can cram into it
 	var/breaking_out = FALSE
 
+/obj/item/ship_weapon/ammunition/torpedo/freight/crowbar_act(mob/living/user, obj/item/I)
+	if(!contents?.len)
+		to_chat(user, "<span class='warning'>[src] has nothing loaded in it!</span>")
+		return FALSE
+	if(do_after(user, 5 SECONDS, target = src))
+		to_chat(user, "<span class='warning'>You pry [src] open!</span>")
+		for(var/atom/X in contents)
+			unload(X)
+	return FALSE
+
 /obj/item/ship_weapon/ammunition/torpedo/freight/MouseDrop_T(atom/dropping, mob/user)
 	. = ..()
 	try_load(dropping, user)
@@ -92,14 +103,20 @@
 	if(contents?.len >= max_stuff)
 		to_chat(user, "<span class='warning'>[src] is already full!</span>")
 		return
-	if(what.anchored || what.move_resist > user.move_force)
+	if(isturf(what) || what.anchored || what.move_resist > user.move_force)
 		to_chat(user, "<span class='warning'>[what] is too heavy for you to lift into [src]!</span>")
 		return
+	visible_message("<span class='danger'>[user] starts to stuff [what] into [src]!</span>",\
+		"<span class='italics'>You start to stuff [user] into [src]...</span>")
 	if(do_after(user, 5 SECONDS, target = src))
 		if(contents?.len >= max_stuff)
 			to_chat(user, "<span class='warning'>[src] is already full!</span>")
 			return
-		what.forceMove(src)
+		if(isitem(what))
+			if(!user.transferItemToLoc(what, src))
+				return FALSE
+		else
+			what.forceMove(src)
 		icon_state = "[initial(icon_state)]_[contents.len]"
 
 /obj/item/ship_weapon/ammunition/torpedo/freight/proc/unload(atom/movable/what)
