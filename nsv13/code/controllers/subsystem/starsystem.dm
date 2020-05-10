@@ -441,6 +441,8 @@ SUBSYSTEM_DEF(star_system)
 			parallax_property = "icefield"
 		if("gas")
 			parallax_property = "gas"
+		if("planet_earth")
+			parallax_property = "planet_earth"
 		if("ice_planet")
 			parallax_property = "ice_planet"
 		if("blackhole")
@@ -538,7 +540,7 @@ SUBSYSTEM_DEF(star_system)
 	x = 0
 	y = 10
 	alignment = "nanotrasen"
-	system_type = "ice_planet"
+	system_type = "planet_earth"
 	adjacency_list = list("Alpha Centauri", "Risa Station")
 
 /datum/star_system/alpha_centauri
