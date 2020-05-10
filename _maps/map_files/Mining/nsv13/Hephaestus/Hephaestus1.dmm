@@ -18,9 +18,17 @@
 /turf/open/floor/plating,
 /area/nostromo/hangar/port)
 "af" = (
-/obj/item/twohanded/required/kirbyplants/random,
 /obj/machinery/light{
 	dir = 1
+	},
+/obj/structure/cable/yellow{
+	icon_state = "4-8"
+	},
+/obj/machinery/power/solar_control{
+	dir = 4
+	},
+/obj/structure/cable/yellow{
+	icon_state = "0-4"
 	},
 /turf/open/floor/plasteel/dark,
 /area/nostromo/hangar/port)
@@ -40,6 +48,12 @@
 /obj/item/toy/plush/lizardplushie,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	dir = 10
+	},
+/obj/structure/cable/yellow{
+	icon_state = "4-8"
+	},
+/obj/structure/cable{
+	icon_state = "1-2"
 	},
 /turf/open/floor/plasteel/techmaint,
 /area/nostromo/hangar/port)
@@ -87,6 +101,9 @@
 "as" = (
 /obj/item/radio/intercom/directional/north,
 /obj/item/twohanded/required/kirbyplants/random,
+/obj/structure/cable/yellow{
+	icon_state = "4-8"
+	},
 /turf/open/floor/plasteel/dark,
 /area/nostromo/hangar/port)
 "at" = (
@@ -157,6 +174,9 @@
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 6
+	},
+/obj/structure/cable{
+	icon_state = "1-2"
 	},
 /turf/open/floor/plasteel/techmaint,
 /area/nostromo/hangar/port)
@@ -281,6 +301,15 @@
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer1{
 	dir = 4
 	},
+/obj/structure/cable/yellow{
+	icon_state = "4-8"
+	},
+/obj/machinery/power/terminal{
+	dir = 1
+	},
+/obj/structure/cable/yellow{
+	icon_state = "0-4"
+	},
 /turf/open/floor/plasteel/techmaint,
 /area/nostromo/hangar/port)
 "ba" = (
@@ -354,6 +383,9 @@
 "bj" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
 /turf/open/floor/plasteel/techmaint,
 /area/nostromo/hangar/port)
 "bk" = (
@@ -426,6 +458,9 @@
 /obj/machinery/door/firedoor,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
 /turf/open/floor/plasteel/techmaint,
 /area/nostromo/hangar/port)
 "bt" = (
@@ -477,14 +512,18 @@
 /obj/structure/cable{
 	icon_state = "0-8"
 	},
-/obj/machinery/power/smes/engineering,
+/obj/machinery/power/smes/engineering{
+	charge = 5e+006
+	},
 /turf/open/floor/plasteel/techmaint,
 /area/nostromo/engineering/engineering)
 "bA" = (
 /obj/structure/cable{
 	icon_state = "0-4"
 	},
-/obj/machinery/power/smes/engineering,
+/obj/machinery/power/smes/engineering{
+	charge = 5e+006
+	},
 /turf/open/floor/plasteel/techmaint,
 /area/nostromo/engineering/engineering)
 "bB" = (
@@ -1315,6 +1354,9 @@
 /obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer3{
 	dir = 8
 	},
+/obj/structure/cable{
+	icon_state = "1-4"
+	},
 /turf/open/floor/plasteel/techmaint,
 /area/nostromo/hangar/port)
 "dJ" = (
@@ -1466,6 +1508,9 @@
 	},
 /obj/structure/cable{
 	icon_state = "4-8"
+	},
+/obj/structure/cable{
+	icon_state = "1-4"
 	},
 /turf/open/floor/plasteel/dark,
 /area/nostromo/engineering/engineering)
@@ -2337,6 +2382,9 @@
 	dir = 8
 	},
 /obj/structure/cable/yellow,
+/obj/structure/cable/yellow{
+	icon_state = "1-2"
+	},
 /turf/open/floor/engine,
 /area/nostromo/engineering/engineering)
 "gm" = (
@@ -2520,15 +2568,6 @@
 "gH" = (
 /turf/closed/wall/r_wall/ship,
 /area/nostromo/bridge)
-"gI" = (
-/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer3{
-	dir = 4
-	},
-/obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1{
-	dir = 4
-	},
-/turf/open/floor/plasteel/tech/grid,
-/area/nostromo/tcomms)
 "gJ" = (
 /obj/machinery/door/airlock/ship/external/glass{
 	req_one_access_txt = "13;74"
@@ -5330,12 +5369,6 @@
 /obj/effect/turf_decal/tile/yellow,
 /turf/open/floor/plasteel/dark,
 /area/nostromo/engineering/atmospherics)
-"nH" = (
-/obj/machinery/door/airlock/ship/maintenance{
-	req_one_access_txt = "74;12"
-	},
-/turf/open/floor/plating,
-/area/maintenance/nsv/mining_ship/aft)
 "nI" = (
 /obj/machinery/recharge_station,
 /turf/open/floor/plasteel/dark,
@@ -7466,7 +7499,62 @@
 	},
 /turf/open/floor/plasteel/dark,
 /area/nostromo/hangar/starboard)
-"tO" = (
+"tY" = (
+/obj/structure/cable/yellow{
+	icon_state = "0-4"
+	},
+/obj/machinery/power/solar{
+	id = "starboardsolar";
+	name = "Starboard Solar Array"
+	},
+/turf/open/floor/plasteel/airless/solarpanel,
+/area/nostromo/maintenance/exterior)
+"ue" = (
+/obj/structure/cable/yellow,
+/obj/structure/cable/yellow{
+	icon_state = "1-4"
+	},
+/obj/machinery/power/solar{
+	id = "starboardsolar";
+	name = "Starboard Solar Array"
+	},
+/obj/structure/cable/yellow{
+	icon_state = "2-4"
+	},
+/turf/open/floor/plasteel/airless/solarpanel,
+/area/nostromo/maintenance/exterior)
+"ul" = (
+/obj/item/radio/intercom/directional/west,
+/obj/machinery/atmospherics/components/unary/vent_pump/on/layer1{
+	dir = 4
+	},
+/turf/open/floor/plasteel/techmaint,
+/area/nostromo/tcomms)
+"uQ" = (
+/obj/machinery/door/airlock/ship/external/glass{
+	req_one_access_txt = "13;74"
+	},
+/obj/effect/mapping_helpers/airlock/cyclelink_helper{
+	icon_state = "airlock_cyclelink_helper";
+	dir = 8
+	},
+/turf/open/floor/plating,
+/area/nostromo/crew_quarters)
+"uR" = (
+/obj/structure/hull_plate,
+/obj/structure/cable/yellow{
+	icon_state = "1-2"
+	},
+/turf/open/floor/plating/airless,
+/area/nostromo/maintenance/exterior)
+"vy" = (
+/obj/machinery/power/smes{
+	charge = 5e+006
+	},
+/obj/structure/cable,
+/turf/open/floor/plasteel/dark,
+/area/nostromo/hangar/port)
+"vN" = (
 /obj/machinery/door/airlock/ship/command{
 	name = "Mining Engineer Quarters";
 	req_one_access_txt = "74"
@@ -7478,16 +7566,141 @@
 /obj/machinery/door/firedoor,
 /turf/open/floor/plasteel/dark,
 /area/nostromo/bridge)
-"xz" = (
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
-	dir = 8
+"wn" = (
+/obj/structure/hull_plate/end{
+	dir = 1
 	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+/obj/structure/cable/yellow{
+	icon_state = "1-2"
+	},
+/turf/open/floor/plating/airless,
+/area/nostromo/maintenance/exterior)
+"ww" = (
+/obj/structure/cable/yellow{
+	icon_state = "0-2"
+	},
+/obj/structure/cable/yellow{
+	icon_state = "1-8"
+	},
+/obj/structure/cable/yellow{
+	icon_state = "1-4"
+	},
+/obj/structure/cable/yellow{
+	icon_state = "1-2"
+	},
+/obj/machinery/power/solar{
+	id = "starboardsolar";
+	name = "Starboard Solar Array"
+	},
+/turf/open/floor/plasteel/airless/solarpanel,
+/area/nostromo/maintenance/exterior)
+"wB" = (
+/obj/machinery/door/airlock/ship/external/glass{
+	req_one_access_txt = "13;74"
+	},
+/turf/open/floor/plating,
+/area/maintenance/nsv/mining_ship/central)
+"xF" = (
+/obj/structure/cable/yellow,
+/obj/structure/cable/yellow{
+	icon_state = "1-8"
+	},
+/obj/machinery/power/solar{
+	id = "starboardsolar";
+	name = "Starboard Solar Array"
+	},
+/turf/open/floor/plasteel/airless/solarpanel,
+/area/nostromo/maintenance/exterior)
+"xK" = (
+/obj/structure/cable/yellow{
+	icon_state = "0-8"
+	},
+/obj/machinery/power/solar{
+	id = "starboardsolar";
+	name = "Starboard Solar Array"
+	},
+/turf/open/floor/plasteel/airless/solarpanel,
+/area/nostromo/maintenance/exterior)
+"yD" = (
+/obj/structure/lattice/catwalk,
+/obj/machinery/power/rtg,
+/obj/structure/cable/yellow{
+	icon_state = "0-4"
+	},
+/obj/structure/cable/yellow{
+	icon_state = "1-4"
+	},
+/turf/open/space/basic,
+/area/nostromo/maintenance/exterior)
+"zl" = (
+/obj/machinery/light,
+/turf/open/floor/engine,
+/area/nostromo/engineering/atmospherics)
+"zP" = (
+/obj/machinery/door/airlock/ship/maintenance{
+	req_one_access_txt = "74;12"
+	},
+/turf/open/floor/plating,
+/area/maintenance/nsv/mining_ship/aft)
+"Au" = (
+/obj/effect/turf_decal/stripes/corner{
+	dir = 1
+	},
+/obj/effect/turf_decal/stripes/corner{
 	dir = 4
 	},
-/turf/open/floor/plasteel/techmaint,
-/area/nostromo/tcomms)
-"AR" = (
+/turf/open/floor/plasteel/dark,
+/area/nostromo/maintenance/exterior)
+"AH" = (
+/obj/structure/hull_plate/end,
+/obj/machinery/light,
+/turf/open/floor/plating/airless,
+/area/maintenance/nsv/mining_ship/central)
+"AY" = (
+/obj/structure/cable/yellow,
+/obj/structure/cable/yellow{
+	icon_state = "1-4"
+	},
+/obj/structure/cable/yellow{
+	icon_state = "1-8"
+	},
+/obj/machinery/power/solar{
+	id = "starboardsolar";
+	name = "Starboard Solar Array"
+	},
+/turf/open/floor/plasteel/airless/solarpanel,
+/area/nostromo/maintenance/exterior)
+"Bo" = (
+/turf/open/floor/plasteel/dark,
+/area/nostromo/hangar/starboard)
+"Bz" = (
+/obj/structure/lattice/catwalk,
+/obj/machinery/power/rtg,
+/obj/structure/cable/yellow{
+	icon_state = "0-4"
+	},
+/obj/structure/cable/yellow{
+	icon_state = "2-4"
+	},
+/turf/open/space/basic,
+/area/nostromo/maintenance/exterior)
+"BT" = (
+/turf/open/floor/engine,
+/area/nostromo/engineering/atmospherics)
+"BY" = (
+/obj/structure/cable/yellow{
+	icon_state = "0-2"
+	},
+/obj/structure/cable/yellow{
+	icon_state = "2-8"
+	},
+/obj/machinery/power/solar{
+	id = "starboardsolar";
+	name = "Starboard Solar Array"
+	},
+/turf/open/floor/plasteel/airless/solarpanel,
+/area/nostromo/maintenance/exterior)
+"Cx" = (
 /obj/structure/hull_plate/end{
 	dir = 1
 	},
@@ -7496,17 +7709,7 @@
 	},
 /turf/open/floor/plating/airless,
 /area/maintenance/nsv/mining_ship/central)
-"AT" = (
-/obj/machinery/door/airlock/ship/external/glass{
-	req_one_access_txt = "13;74"
-	},
-/obj/effect/mapping_helpers/airlock/cyclelink_helper{
-	icon_state = "airlock_cyclelink_helper";
-	dir = 8
-	},
-/turf/open/floor/plating,
-/area/maintenance/nsv/mining_ship/forward)
-"Bl" = (
+"Dm" = (
 /obj/machinery/door/airlock/ship/command{
 	name = "Flight Officer Quarters";
 	req_one_access_txt = "75"
@@ -7518,7 +7721,328 @@
 /obj/machinery/door/firedoor,
 /turf/open/floor/plasteel/dark,
 /area/nostromo/bridge)
-"Bv" = (
+"Dw" = (
+/obj/structure/cable/yellow{
+	icon_state = "0-2"
+	},
+/obj/structure/cable/yellow{
+	icon_state = "2-8"
+	},
+/obj/structure/cable/yellow{
+	icon_state = "4-8"
+	},
+/obj/machinery/power/solar{
+	id = "starboardsolar";
+	name = "Starboard Solar Array"
+	},
+/turf/open/floor/plasteel/airless/solarpanel,
+/area/nostromo/maintenance/exterior)
+"DC" = (
+/obj/structure/lattice/catwalk,
+/obj/structure/cable/yellow{
+	icon_state = "1-2"
+	},
+/turf/open/space/basic,
+/area/nostromo/maintenance/exterior)
+"DY" = (
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	dir = 8
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	dir = 4
+	},
+/turf/open/floor/plasteel/techmaint,
+/area/nostromo/tcomms)
+"Ef" = (
+/obj/structure/cable/yellow{
+	icon_state = "0-2"
+	},
+/obj/structure/cable/yellow{
+	icon_state = "1-8"
+	},
+/obj/structure/cable/yellow{
+	icon_state = "1-2"
+	},
+/obj/machinery/power/solar{
+	id = "starboardsolar";
+	name = "Starboard Solar Array"
+	},
+/turf/open/floor/plasteel/airless/solarpanel,
+/area/nostromo/maintenance/exterior)
+"ES" = (
+/obj/effect/spawner/structure/window/reinforced/ship,
+/obj/machinery/door/firedoor,
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
+/turf/open/floor/plating,
+/area/nostromo/hangar/port)
+"FO" = (
+/obj/machinery/telecomms/relay/preset/station,
+/turf/open/floor/plasteel/techmaint,
+/area/nostromo/tcomms)
+"FS" = (
+/obj/machinery/power/tracker,
+/obj/structure/cable/yellow{
+	icon_state = "0-2"
+	},
+/turf/open/floor/plasteel/airless/solarpanel,
+/area/nostromo/maintenance/exterior)
+"Gf" = (
+/obj/machinery/portable_atmospherics/canister,
+/obj/effect/turf_decal/bot,
+/obj/machinery/light{
+	dir = 1
+	},
+/turf/open/floor/plasteel/dark,
+/area/nostromo/engineering/atmospherics)
+"Gi" = (
+/obj/machinery/door/airlock/ship/external/glass{
+	req_one_access_txt = "13;74"
+	},
+/obj/effect/mapping_helpers/airlock/cyclelink_helper{
+	icon_state = "airlock_cyclelink_helper";
+	dir = 8
+	},
+/turf/open/floor/plating,
+/area/nostromo/engineering/engineering)
+"Gr" = (
+/obj/machinery/door/airlock/ship/external/glass{
+	req_one_access_txt = "13;74"
+	},
+/obj/effect/mapping_helpers/airlock/cyclelink_helper{
+	icon_state = "airlock_cyclelink_helper";
+	dir = 8
+	},
+/turf/open/floor/plating,
+/area/nostromo/mining)
+"Hk" = (
+/obj/structure/cable/yellow{
+	icon_state = "0-2"
+	},
+/obj/structure/cable/yellow{
+	icon_state = "1-4"
+	},
+/obj/structure/cable/yellow{
+	icon_state = "1-2"
+	},
+/obj/machinery/power/solar{
+	id = "starboardsolar";
+	name = "Starboard Solar Array"
+	},
+/turf/open/floor/plasteel/airless/solarpanel,
+/area/nostromo/maintenance/exterior)
+"Ho" = (
+/obj/effect/turf_decal/stripes/line,
+/turf/open/floor/plasteel/techmaint,
+/area/nostromo/maintenance/exterior)
+"HK" = (
+/obj/docking_port/stationary{
+	area_type = /area/nostromo;
+	dir = 1;
+	dwidth = 3;
+	height = 10;
+	id = "mining_away";
+	name = "NSV nostromo";
+	width = 7
+	},
+/turf/open/space/basic,
+/area/nostromo/maintenance/exterior)
+"HP" = (
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
+/obj/machinery/computer/ship/navigation{
+	dir = 4
+	},
+/turf/open/floor/plasteel/dark,
+/area/nostromo/bridge)
+"HQ" = (
+/obj/structure/cable/yellow{
+	icon_state = "4-8"
+	},
+/turf/open/floor/engine,
+/area/nostromo/engineering/engineering)
+"Ik" = (
+/obj/structure/lattice/catwalk,
+/obj/structure/cable/yellow{
+	icon_state = "0-2"
+	},
+/obj/machinery/power/rtg,
+/turf/open/space/basic,
+/area/nostromo/maintenance/exterior)
+"Io" = (
+/obj/structure/cable/yellow{
+	icon_state = "0-2"
+	},
+/obj/structure/cable/yellow{
+	icon_state = "2-4"
+	},
+/obj/structure/cable/yellow{
+	icon_state = "4-8"
+	},
+/obj/machinery/power/solar{
+	id = "starboardsolar";
+	name = "Starboard Solar Array"
+	},
+/turf/open/floor/plasteel/airless/solarpanel,
+/area/nostromo/maintenance/exterior)
+"IF" = (
+/obj/machinery/door/airlock/ship/external/glass{
+	req_one_access_txt = "10;47"
+	},
+/obj/effect/mapping_helpers/airlock/cyclelink_helper{
+	icon_state = "airlock_cyclelink_helper";
+	dir = 8
+	},
+/turf/open/floor/plating,
+/area/nostromo/tcomms)
+"IR" = (
+/obj/effect/turf_decal/stripes/line{
+	dir = 1
+	},
+/turf/open/floor/plasteel/techmaint,
+/area/nostromo/maintenance/exterior)
+"Jj" = (
+/obj/machinery/computer/shuttle/mining,
+/turf/open/floor/plasteel/dark,
+/area/nostromo/hangar/port)
+"Js" = (
+/obj/machinery/door/firedoor,
+/obj/effect/spawner/structure/window/reinforced/ship,
+/obj/structure/cable/yellow{
+	icon_state = "4-8"
+	},
+/turf/open/floor/plating,
+/area/nostromo/engineering/engineering)
+"JP" = (
+/obj/machinery/door/airlock/ship/external/glass{
+	req_one_access_txt = "13;74"
+	},
+/obj/effect/mapping_helpers/airlock/cyclelink_helper,
+/turf/open/floor/plating,
+/area/maintenance/nsv/mining_ship/forward)
+"Ka" = (
+/obj/structure/cable/yellow{
+	icon_state = "0-2"
+	},
+/obj/structure/cable/yellow{
+	icon_state = "1-8"
+	},
+/obj/machinery/power/solar{
+	id = "starboardsolar";
+	name = "Starboard Solar Array"
+	},
+/obj/structure/cable/yellow{
+	icon_state = "2-8"
+	},
+/turf/open/floor/plasteel/airless/solarpanel,
+/area/nostromo/maintenance/exterior)
+"KN" = (
+/obj/structure/cable/yellow{
+	icon_state = "4-8"
+	},
+/turf/open/floor/plasteel/techmaint,
+/area/nostromo/hangar/port)
+"KU" = (
+/obj/effect/turf_decal/stripes/line,
+/obj/structure/cable{
+	icon_state = "2-4"
+	},
+/turf/open/floor/plasteel/techmaint,
+/area/nostromo/maintenance/exterior)
+"MG" = (
+/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer3{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1{
+	dir = 4
+	},
+/turf/open/floor/plasteel/tech/grid,
+/area/nostromo/tcomms)
+"ML" = (
+/obj/structure/cable/yellow,
+/obj/structure/cable/yellow{
+	icon_state = "1-4"
+	},
+/obj/machinery/power/solar{
+	id = "starboardsolar";
+	name = "Starboard Solar Array"
+	},
+/obj/structure/cable/yellow{
+	icon_state = "4-8"
+	},
+/turf/open/floor/plasteel/airless/solarpanel,
+/area/nostromo/maintenance/exterior)
+"Nu" = (
+/obj/structure/cable/yellow,
+/obj/structure/cable/yellow{
+	icon_state = "1-8"
+	},
+/obj/structure/cable/yellow{
+	icon_state = "1-4"
+	},
+/obj/machinery/power/solar{
+	id = "starboardsolar";
+	name = "Starboard Solar Array"
+	},
+/turf/open/floor/plasteel/airless/solarpanel,
+/area/nostromo/maintenance/exterior)
+"NG" = (
+/obj/structure/cable/yellow,
+/obj/structure/cable/yellow{
+	icon_state = "1-4"
+	},
+/obj/machinery/power/solar{
+	id = "starboardsolar";
+	name = "Starboard Solar Array"
+	},
+/turf/open/floor/plasteel/airless/solarpanel,
+/area/nostromo/maintenance/exterior)
+"Oj" = (
+/obj/machinery/power/port_gen/pacman,
+/obj/structure/cable{
+	icon_state = "0-2"
+	},
+/turf/open/floor/plasteel/dark,
+/area/nostromo/engineering/engineering)
+"OD" = (
+/obj/structure/cable/yellow{
+	icon_state = "0-2"
+	},
+/obj/structure/cable/yellow{
+	icon_state = "1-8"
+	},
+/obj/structure/cable/yellow{
+	icon_state = "1-2"
+	},
+/obj/machinery/power/solar{
+	id = "starboardsolar";
+	name = "Starboard Solar Array"
+	},
+/obj/structure/cable/yellow{
+	icon_state = "4-8"
+	},
+/turf/open/floor/plasteel/airless/solarpanel,
+/area/nostromo/maintenance/exterior)
+"OQ" = (
+/obj/structure/cable/yellow,
+/obj/structure/cable/yellow{
+	icon_state = "1-4"
+	},
+/obj/structure/cable/yellow{
+	icon_state = "1-8"
+	},
+/obj/structure/cable/yellow{
+	icon_state = "1-2"
+	},
+/obj/machinery/power/solar{
+	id = "starboardsolar";
+	name = "Starboard Solar Array"
+	},
+/turf/open/floor/plasteel/airless/solarpanel,
+/area/nostromo/maintenance/exterior)
+"PF" = (
 /obj/machinery/door/airlock/ship/external/glass{
 	req_one_access_txt = "13;74"
 	},
@@ -7528,7 +8052,141 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/nsv/mining_ship/forward)
-"Dc" = (
+"Qr" = (
+/obj/structure/cable/yellow{
+	icon_state = "1-2"
+	},
+/obj/structure/cable/yellow{
+	icon_state = "1-8"
+	},
+/turf/open/floor/engine,
+/area/nostromo/engineering/engineering)
+"QP" = (
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
+/turf/open/floor/plasteel/dark,
+/area/nostromo/hangar/port)
+"QX" = (
+/obj/machinery/door/airlock/ship/external/glass{
+	req_one_access_txt = "13;74"
+	},
+/obj/effect/mapping_helpers/airlock/cyclelink_helper{
+	icon_state = "airlock_cyclelink_helper";
+	dir = 1
+	},
+/turf/open/floor/plating,
+/area/maintenance/nsv/mining_ship/central)
+"RE" = (
+/obj/effect/turf_decal/stripes/corner,
+/obj/effect/turf_decal/stripes/corner{
+	dir = 8
+	},
+/obj/structure/cable{
+	icon_state = "2-8"
+	},
+/turf/open/floor/plasteel/dark,
+/area/nostromo/maintenance/exterior)
+"Sa" = (
+/obj/structure/cable/yellow{
+	icon_state = "1-8"
+	},
+/turf/open/floor/engine,
+/area/nostromo/engineering/engineering)
+"Sb" = (
+/obj/machinery/door/airlock/ship/external/glass{
+	name = "Mining Shuttle Dock";
+	req_one_access_txt = "31;48"
+	},
+/obj/effect/mapping_helpers/airlock/cyclelink_helper{
+	icon_state = "airlock_cyclelink_helper";
+	dir = 1
+	},
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
+/turf/open/floor/plating,
+/area/nostromo/hangar/port)
+"SB" = (
+/obj/structure/lattice/catwalk,
+/obj/structure/cable/yellow,
+/obj/machinery/power/rtg,
+/turf/open/space/basic,
+/area/nostromo/maintenance/exterior)
+"SO" = (
+/obj/machinery/door/airlock/ship/external/glass{
+	name = "Mining Shuttle Dock";
+	req_one_access_txt = "31;48"
+	},
+/obj/effect/mapping_helpers/airlock/cyclelink_helper,
+/turf/open/floor/plating,
+/area/nostromo/maintenance/exterior)
+"SS" = (
+/obj/structure/cable/yellow{
+	icon_state = "0-4"
+	},
+/obj/structure/cable/yellow{
+	icon_state = "2-4"
+	},
+/obj/structure/cable/yellow{
+	icon_state = "4-8"
+	},
+/obj/machinery/power/solar{
+	id = "starboardsolar";
+	name = "Starboard Solar Array"
+	},
+/obj/structure/cable/yellow{
+	icon_state = "1-4"
+	},
+/obj/structure/cable/yellow{
+	icon_state = "1-2"
+	},
+/turf/open/floor/plasteel/airless/solarpanel,
+/area/nostromo/maintenance/exterior)
+"Tl" = (
+/obj/item/radio/intercom/directional/west,
+/turf/open/floor/plasteel/dark,
+/area/nostromo/hangar/starboard)
+"TE" = (
+/obj/effect/spawner/structure/window/reinforced/ship,
+/obj/machinery/door/firedoor,
+/turf/open/floor/plating,
+/area/nostromo/maintenance/exterior)
+"TX" = (
+/obj/structure/cable/yellow,
+/obj/structure/cable/yellow{
+	icon_state = "1-8"
+	},
+/obj/structure/cable/yellow{
+	icon_state = "1-2"
+	},
+/obj/machinery/power/solar{
+	id = "starboardsolar";
+	name = "Starboard Solar Array"
+	},
+/turf/open/floor/plasteel/airless/solarpanel,
+/area/nostromo/maintenance/exterior)
+"Uf" = (
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
+/turf/open/floor/plasteel/techmaint,
+/area/nostromo/engineering/engineering)
+"Ui" = (
+/obj/structure/cable/yellow,
+/obj/structure/cable/yellow{
+	icon_state = "1-8"
+	},
+/obj/machinery/power/solar{
+	id = "starboardsolar";
+	name = "Starboard Solar Array"
+	},
+/obj/structure/cable/yellow{
+	icon_state = "4-8"
+	},
+/turf/open/floor/plasteel/airless/solarpanel,
+/area/nostromo/maintenance/exterior)
+"UF" = (
 /obj/machinery/door/airlock/ship/command{
 	name = "Science Quarters";
 	req_one_access_txt = "7"
@@ -7540,124 +8198,34 @@
 /obj/machinery/door/firedoor,
 /turf/open/floor/plasteel/dark,
 /area/nostromo/bridge)
-"DN" = (
-/obj/machinery/door/airlock/ship/external/glass{
-	req_one_access_txt = "10;47"
-	},
-/obj/effect/mapping_helpers/airlock/cyclelink_helper{
-	icon_state = "airlock_cyclelink_helper";
-	dir = 8
-	},
-/turf/open/floor/plating,
-/area/nostromo/tcomms)
-"EY" = (
-/obj/effect/spawner/structure/window/reinforced/ship,
-/obj/machinery/door/firedoor,
-/obj/machinery/door/poddoor/shutters/ship/preopen{
-	dir = 4;
-	id = "heph_med"
-	},
-/turf/open/floor/plating,
-/area/nostromo/medbay)
-"Fb" = (
-/obj/machinery/door/airlock/ship/external/glass{
-	req_one_access_txt = "13;74"
-	},
-/obj/effect/mapping_helpers/airlock/cyclelink_helper{
-	icon_state = "airlock_cyclelink_helper";
-	dir = 8
-	},
-/turf/open/floor/plating,
-/area/nostromo/engineering/engineering)
-"Fn" = (
-/obj/machinery/door/firedoor,
-/obj/effect/spawner/structure/window/reinforced/ship,
-/turf/open/floor/plating,
-/area/nostromo/engineering/atmospherics)
-"FS" = (
-/obj/machinery/portable_atmospherics/canister,
-/obj/effect/turf_decal/bot,
-/obj/machinery/light{
+"UT" = (
+/obj/effect/turf_decal/stripes/line{
 	dir = 1
 	},
-/turf/open/floor/plasteel/dark,
-/area/nostromo/engineering/atmospherics)
-"Gz" = (
-/obj/machinery/light,
-/turf/open/floor/engine,
-/area/nostromo/engineering/atmospherics)
-"GL" = (
-/obj/machinery/door/airlock/ship/external/glass{
-	req_one_access_txt = "13;74"
-	},
-/obj/effect/mapping_helpers/airlock/cyclelink_helper{
-	icon_state = "airlock_cyclelink_helper";
+/obj/structure/closet/emcloset,
+/obj/machinery/light{
 	dir = 8
 	},
-/turf/open/floor/plating,
-/area/nostromo/crew_quarters)
-"Ie" = (
-/turf/open/floor/plasteel/dark,
-/area/nostromo/hangar/starboard)
-"IE" = (
-/obj/structure/cable{
+/turf/open/floor/plasteel/techmaint,
+/area/nostromo/maintenance/exterior)
+"Vt" = (
+/obj/structure/cable/yellow,
+/obj/structure/cable/yellow{
+	icon_state = "1-4"
+	},
+/obj/structure/cable/yellow{
 	icon_state = "1-2"
 	},
-/obj/machinery/computer/ship/navigation{
-	dir = 4
+/obj/machinery/power/solar{
+	id = "starboardsolar";
+	name = "Starboard Solar Array"
 	},
-/turf/open/floor/plasteel/dark,
-/area/nostromo/bridge)
-"Jk" = (
-/obj/machinery/telecomms/relay/preset/station,
-/turf/open/floor/plasteel/techmaint,
-/area/nostromo/tcomms)
-"JC" = (
-/obj/machinery/door/airlock/ship/external/glass{
-	req_one_access_txt = "13;74"
+/obj/structure/cable/yellow{
+	icon_state = "4-8"
 	},
-/obj/effect/mapping_helpers/airlock/cyclelink_helper,
-/turf/open/floor/plating,
-/area/maintenance/nsv/mining_ship/forward)
-"Mz" = (
-/obj/machinery/door/airlock/ship/external/glass{
-	req_one_access_txt = "13;74"
-	},
-/turf/open/floor/plating,
-/area/maintenance/nsv/mining_ship/central)
-"NX" = (
-/obj/machinery/door/airlock/ship/external/glass{
-	req_one_access_txt = "13;74"
-	},
-/obj/effect/mapping_helpers/airlock/cyclelink_helper{
-	icon_state = "airlock_cyclelink_helper";
-	dir = 1
-	},
-/turf/open/floor/plating,
-/area/maintenance/nsv/mining_ship/central)
-"Sk" = (
-/obj/machinery/door/airlock/ship/external/glass{
-	req_one_access_txt = "13;74"
-	},
-/obj/effect/mapping_helpers/airlock/cyclelink_helper{
-	icon_state = "airlock_cyclelink_helper";
-	dir = 8
-	},
-/turf/open/floor/plating,
-/area/nostromo/mining)
-"UY" = (
-/obj/item/radio/intercom/directional/west,
-/turf/open/floor/plasteel/dark,
-/area/nostromo/hangar/starboard)
-"XF" = (
-/turf/open/floor/engine,
-/area/nostromo/engineering/atmospherics)
-"YP" = (
-/obj/structure/hull_plate/end,
-/obj/machinery/light,
-/turf/open/floor/plating/airless,
-/area/maintenance/nsv/mining_ship/central)
-"Zh" = (
+/turf/open/floor/plasteel/airless/solarpanel,
+/area/nostromo/maintenance/exterior)
+"Wz" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	dir = 8
 	},
@@ -7666,13 +8234,72 @@
 	},
 /turf/open/floor/plasteel/techmaint,
 /area/nostromo/tcomms)
-"ZH" = (
-/obj/item/radio/intercom/directional/west,
-/obj/machinery/atmospherics/components/unary/vent_pump/on/layer1{
-	dir = 4
+"Xd" = (
+/obj/machinery/light,
+/obj/structure/cable/yellow{
+	icon_state = "4-8"
 	},
-/turf/open/floor/plasteel/techmaint,
-/area/nostromo/tcomms)
+/turf/open/floor/engine,
+/area/nostromo/engineering/engineering)
+"XL" = (
+/obj/structure/cable/yellow,
+/obj/structure/cable/yellow{
+	icon_state = "1-4"
+	},
+/obj/structure/cable/yellow{
+	icon_state = "1-2"
+	},
+/obj/machinery/power/solar{
+	id = "starboardsolar";
+	name = "Starboard Solar Array"
+	},
+/turf/open/floor/plasteel/airless/solarpanel,
+/area/nostromo/maintenance/exterior)
+"XW" = (
+/obj/machinery/door/airlock/ship/external/glass{
+	req_one_access_txt = "13;74"
+	},
+/obj/effect/mapping_helpers/airlock/cyclelink_helper{
+	icon_state = "airlock_cyclelink_helper";
+	dir = 8
+	},
+/turf/open/floor/plating,
+/area/maintenance/nsv/mining_ship/forward)
+"Ya" = (
+/obj/machinery/door/firedoor,
+/obj/effect/spawner/structure/window/reinforced/ship,
+/turf/open/floor/plating,
+/area/nostromo/engineering/atmospherics)
+"Yv" = (
+/obj/effect/spawner/structure/window/reinforced/ship,
+/obj/machinery/door/firedoor,
+/obj/machinery/door/poddoor/shutters/ship/preopen{
+	dir = 4;
+	id = "heph_med"
+	},
+/turf/open/floor/plating,
+/area/nostromo/medbay)
+"YM" = (
+/obj/effect/spawner/structure/window/reinforced/ship,
+/obj/machinery/door/firedoor,
+/obj/structure/cable/yellow{
+	icon_state = "4-8"
+	},
+/turf/open/floor/plating,
+/area/nostromo/hangar/port)
+"Zm" = (
+/obj/structure/cable/yellow{
+	icon_state = "0-2"
+	},
+/obj/structure/cable/yellow{
+	icon_state = "2-4"
+	},
+/obj/machinery/power/solar{
+	id = "starboardsolar";
+	name = "Starboard Solar Array"
+	},
+/turf/open/floor/plasteel/airless/solarpanel,
+/area/nostromo/maintenance/exterior)
 
 (1,1,1) = {"
 aa
@@ -31379,11 +32006,11 @@ cC
 an
 ac
 ac
-ac
-ac
+Ik
+yD
 gj
-ac
-ac
+Bz
+SB
 ab
 ab
 ab
@@ -31677,28 +32304,28 @@ ab
 ac
 an
 an
-Fb
+Gi
 an
 an
 an
 an
-bg
+Js
 gi
-bg
+Js
 an
 hJ
 hJ
 lw
-Fn
-Fn
-Fn
+Ya
+Ya
+Ya
 lw
 lw
 ag
 ag
 ag
 ag
-nH
+zP
 ag
 ag
 ac
@@ -31984,11 +32611,11 @@ eY
 an
 ek
 an
-ek
+HQ
 gk
-hW
+Xd
 an
-XF
+BT
 ss
 ia
 ia
@@ -32286,11 +32913,11 @@ dl
 eQ
 fb
 jk
-fb
+Qr
 gl
-ek
+Sa
 ss
-XF
+BT
 hJ
 hJ
 ia
@@ -32592,9 +33219,9 @@ ek
 gn
 ek
 an
-Gz
+zl
 hJ
-FS
+Gf
 ia
 ia
 pm
@@ -37415,8 +38042,8 @@ aV
 an
 bC
 ey
-bi
-ar
+Oj
+Uf
 ea
 hA
 bE
@@ -41347,7 +41974,7 @@ dx
 dx
 dx
 dw
-Sk
+Gr
 dw
 dx
 dx
@@ -43465,7 +44092,7 @@ fu
 fu
 fu
 fu
-YP
+AH
 ap
 ap
 ap
@@ -43758,7 +44385,7 @@ ax
 bK
 ck
 cU
-NX
+QX
 dO
 fu
 fu
@@ -43770,7 +44397,7 @@ fu
 mD
 ck
 cU
-NX
+QX
 jQ
 ax
 ax
@@ -44061,7 +44688,7 @@ bK
 ap
 ap
 ap
-AR
+Cx
 fu
 fu
 fu
@@ -47693,7 +48320,7 @@ fu
 fu
 fu
 fu
-YP
+AH
 ap
 ap
 ap
@@ -47986,7 +48613,7 @@ ax
 bK
 ck
 cU
-NX
+QX
 dO
 fu
 fu
@@ -47998,7 +48625,7 @@ fu
 mD
 ck
 cU
-NX
+QX
 jQ
 ax
 ax
@@ -48289,7 +48916,7 @@ bK
 ap
 ap
 ap
-AR
+Cx
 fu
 fu
 fu
@@ -50101,7 +50728,7 @@ ab
 dy
 ab
 ab
-aa
+ab
 ac
 bM
 bM
@@ -50406,8 +51033,8 @@ ab
 ab
 ac
 bM
-Jk
-ZH
+FO
+ul
 fM
 bM
 ac
@@ -50692,9 +51319,9 @@ ab
 ab
 dN
 fu
-fu
-fu
-fu
+ue
+XL
+NG
 fu
 ft
 nd
@@ -50993,10 +51620,10 @@ ab
 ab
 dN
 fu
-fu
-fu
-fu
-fu
+Zm
+Vt
+Vt
+ML
 ad
 ad
 ad
@@ -51292,13 +51919,13 @@ aa
 ab
 ab
 ab
-ab
+ac
 dO
 fu
-fu
-fu
-fu
-fu
+Io
+XL
+OQ
+AY
 ad
 pw
 ad
@@ -51313,7 +51940,7 @@ dx
 dx
 bM
 fM
-Zh
+Wz
 pP
 bM
 dx
@@ -51593,14 +52220,14 @@ aa
 aa
 ab
 ab
-ab
-ac
-dO
-fu
-fu
-fu
-fu
-fu
+FS
+DC
+wn
+uR
+SS
+TX
+OQ
+AY
 ae
 aE
 dS
@@ -51895,14 +52522,14 @@ aa
 aa
 ab
 ab
-ab
+ac
 ac
 dO
 ad
-ae
+YM
 ae
 ad
-fu
+xK
 ae
 aQ
 cs
@@ -51927,7 +52554,7 @@ bM
 ac
 ac
 ly
-UY
+Tl
 sA
 rl
 rS
@@ -52196,9 +52823,9 @@ aa
 aa
 aa
 ab
-ab
-ab
-ac
+dz
+dz
+dz
 ad
 ad
 af
@@ -52224,13 +52851,13 @@ nN
 qj
 nQ
 ex
-DN
+IF
 ex
 bM
 bM
 ly
 of
-Ie
+Bo
 rP
 sm
 ly
@@ -52498,11 +53125,11 @@ aa
 aa
 aa
 ab
-ab
-ab
-ac
-ae
-ay
+TE
+UT
+KU
+ES
+vy
 aZ
 aQ
 bh
@@ -52521,7 +53148,7 @@ ef
 eA
 fS
 fO
-xz
+DY
 fO
 qk
 fO
@@ -52799,12 +53426,12 @@ aa
 aa
 aa
 aa
-ab
-ab
-ab
-ac
-ae
-ay
+HK
+SO
+Au
+RE
+Sb
+QP
 ai
 aG
 bj
@@ -52823,7 +53450,7 @@ hx
 eB
 fT
 fP
-gI
+MG
 fP
 ql
 id
@@ -53102,12 +53729,12 @@ aa
 aa
 aa
 ab
-ab
-ab
-ac
+TE
+IR
+Ho
 ae
-ay
-aQ
+Jj
+KN
 aR
 bv
 bk
@@ -53404,9 +54031,9 @@ aa
 aa
 aa
 ab
-ab
-ab
-ac
+dz
+dz
+dz
 ad
 ad
 as
@@ -53707,14 +54334,14 @@ aa
 aa
 ab
 ab
-ab
+ac
 ac
 dO
 ad
-ae
+YM
 ae
 ad
-fu
+tY
 ae
 aQ
 eD
@@ -54009,14 +54636,14 @@ aa
 aa
 ab
 ab
-ab
+ac
 ac
 dO
 fu
-fu
-fu
-fu
-fu
+Dw
+Hk
+Hk
+Nu
 ae
 bl
 bN
@@ -54036,7 +54663,7 @@ fc
 fc
 eF
 bM
-DN
+IF
 bM
 dy
 ab
@@ -54312,13 +54939,13 @@ aa
 ab
 ab
 ab
-ab
+ac
 dO
 fu
-fu
-fu
-fu
-fu
+Dw
+ww
+ww
+Nu
 ad
 qx
 ad
@@ -54617,10 +55244,10 @@ ab
 ab
 dP
 fu
-fu
-fu
-fu
-fu
+BY
+OD
+OD
+Ui
 ad
 ad
 ad
@@ -54920,9 +55547,9 @@ ab
 ab
 dP
 fu
-fu
-fu
-fu
+Ka
+Ef
+xF
 fu
 fw
 ne
@@ -57357,7 +57984,7 @@ fu
 fu
 fu
 fu
-YP
+AH
 ap
 ap
 ap
@@ -57650,7 +58277,7 @@ ax
 bK
 ck
 cU
-NX
+QX
 dO
 fu
 fu
@@ -57660,9 +58287,9 @@ fu
 fu
 fu
 mD
-Mz
+wB
 cU
-NX
+QX
 jQ
 ax
 ax
@@ -57953,7 +58580,7 @@ bK
 ap
 ap
 ap
-AR
+Cx
 fu
 fu
 fu
@@ -61585,7 +62212,7 @@ fu
 fu
 fu
 fu
-YP
+AH
 ap
 ap
 ap
@@ -61878,7 +62505,7 @@ ax
 bK
 ck
 cU
-NX
+QX
 dO
 fu
 fu
@@ -61888,9 +62515,9 @@ fu
 fu
 fu
 mD
-Mz
+wB
 cU
-NX
+QX
 jQ
 ax
 ax
@@ -62181,7 +62808,7 @@ bK
 ap
 ap
 ap
-AR
+Cx
 fu
 fu
 fu
@@ -64299,7 +64926,7 @@ fd
 fe
 fe
 fd
-GL
+uQ
 fd
 fd
 dx
@@ -67926,7 +68553,7 @@ hQ
 gP
 qE
 hR
-EY
+Yv
 hR
 hR
 ka
@@ -72142,7 +72769,7 @@ dx
 dx
 dx
 az
-AT
+XW
 az
 dx
 gH
@@ -72451,11 +73078,11 @@ gH
 ix
 ju
 io
-Dc
+UF
 ga
 pi
 ga
-tO
+vN
 ru
 ju
 rI
@@ -73059,7 +73686,7 @@ fl
 ga
 pi
 ga
-Bl
+Dm
 rv
 jN
 hD
@@ -73367,9 +73994,9 @@ np
 eL
 gH
 oY
-JC
+JP
 bb
-Bv
+PF
 dx
 dx
 dx
@@ -74258,7 +74885,7 @@ gH
 eN
 hg
 hE
-IE
+HP
 om
 op
 ou

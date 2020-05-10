@@ -410,10 +410,7 @@
 /turf/closed/wall/ship,
 /area/maintenance/nsv/mining_ship/forward)
 "bj" = (
-/obj/structure/disposalpipe/segment,
-/obj/structure/munitions_trolley,
-/obj/effect/turf_decal/delivery,
-/turf/open/floor/plasteel/techmaint,
+/turf/closed/wall/ship,
 /area/maintenance/nsv/mining_ship/aft)
 "bk" = (
 /obj/machinery/light/small{
@@ -490,8 +487,7 @@
 /turf/open/floor/plating,
 /area/maintenance/nsv/mining_ship/forward)
 "bu" = (
-/obj/effect/turf_decal/stripes/line,
-/turf/open/floor/plasteel/ship/techfloor/alt,
+/turf/open/floor/plating,
 /area/maintenance/nsv/mining_ship/aft)
 "bv" = (
 /obj/effect/turf_decal/tile/brown{
@@ -627,21 +623,24 @@
 /turf/closed/wall/ship,
 /area/nostromo/hangar/port)
 "bQ" = (
-/obj/structure/disposalpipe/segment,
-/turf/open/floor/plasteel/techmaint,
+/obj/structure/closet,
+/obj/effect/spawner/lootdrop/maintenance/three,
+/turf/open/floor/plating,
 /area/maintenance/nsv/mining_ship/aft)
 "bR" = (
 /obj/structure/disposalpipe/segment{
 	dir = 5
 	},
+/obj/machinery/telecomms/relay/preset/mining,
 /turf/open/floor/plasteel/techmaint,
 /area/maintenance/nsv/mining_ship/aft)
 "bS" = (
-/obj/structure/disposalpipe/segment{
-	icon_state = "pipe";
-	dir = 4
+/obj/machinery/conveyor/auto{
+	dir = 4;
+	icon_state = "conveyor_map";
+	id = "heph_disposal"
 	},
-/turf/open/floor/plasteel/techmaint,
+/turf/open/floor/plating,
 /area/maintenance/nsv/mining_ship/aft)
 "bU" = (
 /obj/structure/transit_tube/diagonal,
@@ -680,6 +679,15 @@
 "ca" = (
 /obj/effect/turf_decal/stripes/corner{
 	dir = 1
+	},
+/turf/open/floor/plating,
+/area/maintenance/nsv/mining_ship/aft)
+"cb" = (
+/obj/machinery/recycler,
+/obj/machinery/conveyor/auto{
+	dir = 4;
+	icon_state = "conveyor_map";
+	id = "heph_disposal"
 	},
 /turf/open/floor/plating,
 /area/maintenance/nsv/mining_ship/aft)
@@ -787,6 +795,15 @@
 /obj/structure/chair/stool,
 /turf/open/floor/plasteel/dark,
 /area/nostromo/hangar/port)
+"cs" = (
+/obj/machinery/conveyor/auto{
+	dir = 4;
+	icon_state = "conveyor_map";
+	id = "heph_disposal"
+	},
+/obj/machinery/light/small,
+/turf/open/floor/plating,
+/area/maintenance/nsv/mining_ship/aft)
 "ct" = (
 /obj/machinery/door/firedoor,
 /obj/effect/spawner/structure/window/reinforced/ship,
@@ -817,6 +834,15 @@
 	},
 /turf/open/floor/plasteel/dark,
 /area/nostromo/hangar/port)
+"cx" = (
+/obj/structure/disposalpipe/trunk{
+	dir = 4
+	},
+/obj/machinery/disposal/deliveryChute{
+	dir = 8
+	},
+/turf/open/floor/plating,
+/area/maintenance/nsv/mining_ship/aft)
 "cy" = (
 /obj/effect/turf_decal/tile/brown{
 	dir = 1
@@ -840,11 +866,20 @@
 /turf/open/floor/plating,
 /area/maintenance/nsv/mining_ship/forward)
 "cB" = (
+/obj/effect/spawner/structure/window/reinforced/ship,
+/obj/machinery/door/firedoor,
 /obj/structure/disposalpipe/segment{
 	icon_state = "pipe";
-	dir = 10
+	dir = 8
 	},
-/turf/open/floor/plasteel/techmaint,
+/turf/open/floor/plating,
+/area/maintenance/nsv/mining_ship/aft)
+"cC" = (
+/obj/structure/disposalpipe/segment{
+	icon_state = "pipe";
+	dir = 8
+	},
+/turf/open/floor/plating/airless,
 /area/maintenance/nsv/mining_ship/aft)
 "cD" = (
 /obj/structure/closet/crate,
@@ -865,8 +900,8 @@
 /turf/open/floor/plating,
 /area/nostromo/security)
 "cG" = (
-/obj/structure/closet,
-/obj/effect/spawner/lootdrop/maintenance/three,
+/obj/structure/rack,
+/obj/effect/spawner/lootdrop/maintenance,
 /turf/open/floor/plating,
 /area/maintenance/nsv/mining_ship/aft)
 "cH" = (
@@ -1003,6 +1038,16 @@
 /obj/item/radio/intercom/directional/east,
 /turf/open/floor/plasteel/dark,
 /area/nostromo/hangar/port)
+"db" = (
+/obj/structure/disposaloutlet{
+	icon_state = "outlet";
+	dir = 1
+	},
+/obj/structure/disposalpipe/trunk{
+	dir = 8
+	},
+/turf/open/floor/plating/airless,
+/area/maintenance/nsv/mining_ship/aft)
 "dc" = (
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3{
 	dir = 4
@@ -1030,6 +1075,23 @@
 /obj/effect/turf_decal/bot,
 /turf/open/floor/plating/airless,
 /area/nostromo/maintenance/exterior)
+"dg" = (
+/obj/machinery/atmospherics/components/unary/vent_pump/on/layer1{
+	dir = 4
+	},
+/obj/machinery/flasher{
+	id = "pw_1";
+	pixel_x = -24
+	},
+/obj/machinery/computer/ship/viewscreen,
+/obj/effect/turf_decal/tile/red{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/red{
+	dir = 8
+	},
+/turf/open/floor/mineral/plastitanium/red/brig,
+/area/nostromo/security)
 "dh" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
@@ -1085,10 +1147,7 @@
 /turf/open/floor/plasteel/techmaint,
 /area/nostromo/security)
 "ds" = (
-/obj/machinery/door/airlock/ship/maintenance{
-	req_one_access_txt = "12;74;48"
-	},
-/obj/structure/disposalpipe/segment,
+/obj/machinery/space_heater,
 /turf/open/floor/plating,
 /area/maintenance/nsv/mining_ship/aft)
 "dt" = (
@@ -1097,8 +1156,8 @@
 /turf/open/floor/plating/airless,
 /area/maintenance/ship_exterior)
 "du" = (
-/obj/effect/turf_decal/stripes/corner,
-/turf/open/floor/plasteel/ship/techfloor/alt,
+/obj/structure/disposalpipe/segment,
+/turf/open/floor/plating,
 /area/maintenance/nsv/mining_ship/aft)
 "dv" = (
 /obj/machinery/door/firedoor,
@@ -1233,6 +1292,15 @@
 	},
 /turf/open/floor/carpet/ship,
 /area/nostromo/mining)
+"dM" = (
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	dir = 9
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	dir = 5
+	},
+/turf/open/floor/mineral/plastitanium/red/brig,
+/area/nostromo/security)
 "dN" = (
 /obj/structure/transit_tube/crossing,
 /turf/open/floor/plasteel/techmaint,
@@ -1266,7 +1334,14 @@
 /turf/open/floor/plating,
 /area/maintenance/nsv/mining_ship/central)
 "dT" = (
-/obj/machinery/space_heater,
+/obj/structure/reagent_dispensers/fueltank,
+/turf/open/floor/plating,
+/area/maintenance/nsv/mining_ship/aft)
+"dU" = (
+/obj/machinery/mineral/stacking_machine{
+	input_dir = 1;
+	stack_amt = 10
+	},
 /turf/open/floor/plating,
 /area/maintenance/nsv/mining_ship/aft)
 "dV" = (
@@ -1276,6 +1351,13 @@
 	},
 /turf/closed/wall/ship,
 /area/nostromo/mining)
+"dW" = (
+/obj/machinery/mineral/stacking_unit_console{
+	dir = 2;
+	machinedir = 8
+	},
+/turf/closed/wall/ship,
+/area/maintenance/nsv/mining_ship/aft)
 "dX" = (
 /turf/open/floor/plasteel/techmaint,
 /area/nostromo/crew_quarters)
@@ -1397,6 +1479,16 @@
 	},
 /turf/open/floor/plasteel/techmaint,
 /area/maintenance/nsv/mining_ship/aft)
+"em" = (
+/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3{
+	dir = 8
+	},
+/obj/effect/turf_decal/tile/red,
+/obj/effect/turf_decal/tile/red{
+	dir = 4
+	},
+/turf/open/floor/mineral/plastitanium/red/brig,
+/area/nostromo/security)
 "en" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer1{
 	dir = 8
@@ -1879,6 +1971,23 @@
 	},
 /turf/open/floor/plating,
 /area/nostromo/mining)
+"fu" = (
+/obj/structure/closet/secure_closet/brig{
+	id = "nw_1"
+	},
+/obj/effect/turf_decal/tile/red{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/red{
+	dir = 8
+	},
+/obj/machinery/camera/autoname{
+	dir = 1;
+	icon_state = "camera";
+	network = list("Mining_Ship")
+	},
+/turf/open/floor/mineral/plastitanium/red/brig,
+/area/nostromo/security)
 "fv" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 6
@@ -1911,6 +2020,13 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/nsv/mining_ship/forward)
+"fy" = (
+/obj/machinery/door/airlock/ship/maintenance{
+	req_one_access_txt = "12;74;48"
+	},
+/obj/structure/disposalpipe/segment,
+/turf/open/floor/plating,
+/area/maintenance/nsv/mining_ship/aft)
 "fz" = (
 /obj/structure/disposalpipe/segment,
 /turf/open/floor/plating,
@@ -1935,10 +2051,17 @@
 	},
 /turf/open/floor/plating,
 /area/nostromo/mining)
-"fD" = (
+"fC" = (
 /obj/structure/disposalpipe/segment{
 	icon_state = "pipe";
 	dir = 5
+	},
+/turf/open/floor/plating,
+/area/maintenance/nsv/mining_ship/aft)
+"fD" = (
+/obj/structure/disposalpipe/segment{
+	icon_state = "pipe";
+	dir = 8
 	},
 /turf/open/floor/plating,
 /area/maintenance/nsv/mining_ship/aft)
@@ -2000,6 +2123,13 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/nsv/mining_ship/forward)
+"fK" = (
+/obj/machinery/light/small,
+/obj/structure/sign/solgov_seal{
+	pixel_y = -27
+	},
+/turf/open/floor/mineral/plastitanium/red/brig,
+/area/nostromo/security)
 "fL" = (
 /obj/machinery/recharge_station,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
@@ -2390,6 +2520,14 @@
 /obj/effect/landmark/start/shaft_miner,
 /turf/open/floor/plasteel/techmaint,
 /area/nostromo/mining)
+"gz" = (
+/obj/structure/bed,
+/obj/effect/turf_decal/tile/red,
+/obj/effect/turf_decal/tile/red{
+	dir = 4
+	},
+/turf/open/floor/mineral/plastitanium/red/brig,
+/area/nostromo/security)
 "gA" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer1{
 	dir = 4
@@ -2641,6 +2779,9 @@
 /turf/open/floor/plating,
 /area/maintenance/nsv/mining_ship/central)
 "hd" = (
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
 /turf/open/floor/plasteel/dark,
 /area/nostromo/security)
 "he" = (
@@ -2848,41 +2989,15 @@
 /turf/open/floor/plasteel/ship/padded,
 /area/nostromo/crew_quarters)
 "hG" = (
-/obj/machinery/atmospherics/components/unary/vent_pump/on/layer1{
-	dir = 4
-	},
-/obj/machinery/flasher{
-	id = "pw_1";
-	pixel_x = -24
-	},
-/obj/machinery/computer/ship/viewscreen,
-/obj/effect/turf_decal/tile/red{
-	dir = 1
-	},
-/obj/effect/turf_decal/tile/red{
-	dir = 8
-	},
-/turf/open/floor/mineral/plastitanium/red/brig,
+/turf/open/floor/plasteel/dark,
 /area/nostromo/security)
 "hH" = (
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
-	dir = 9
-	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
-	dir = 5
+	dir = 10
 	},
-/turf/open/floor/mineral/plastitanium/red/brig,
-/area/nostromo/security)
-"hI" = (
-/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3{
-	dir = 8
-	},
-/obj/effect/turf_decal/tile/red,
-/obj/effect/turf_decal/tile/red{
-	dir = 4
-	},
-/turf/open/floor/mineral/plastitanium/red/brig,
-/area/nostromo/security)
+/obj/structure/munitions_trolley,
+/turf/open/floor/plating,
+/area/maintenance/nsv/mining_ship/aft)
 "hJ" = (
 /obj/structure/hull_plate/end{
 	dir = 9
@@ -2982,24 +3097,9 @@
 	},
 /turf/open/floor/plasteel/techmaint,
 /area/maintenance/nsv/mining_ship/central)
-"hT" = (
-/obj/machinery/light/small,
-/obj/structure/sign/solgov_seal{
-	pixel_y = -27
-	},
-/turf/open/floor/mineral/plastitanium/red/brig,
-/area/nostromo/security)
-"hU" = (
-/obj/structure/bed,
-/obj/effect/turf_decal/tile/red,
-/obj/effect/turf_decal/tile/red{
-	dir = 4
-	},
-/turf/open/floor/mineral/plastitanium/red/brig,
-/area/nostromo/security)
 "hV" = (
-/obj/machinery/computer/arcade,
 /obj/item/radio/intercom/directional/north,
+/obj/machinery/mineral/equipment_vendor,
 /turf/open/floor/plasteel/dark,
 /area/nostromo/crew_quarters)
 "hW" = (
@@ -3467,13 +3567,6 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 4
 	},
-/turf/open/floor/plating,
-/area/maintenance/nsv/mining_ship/aft)
-"iV" = (
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
-	dir = 10
-	},
-/obj/structure/munitions_trolley,
 /turf/open/floor/plating,
 /area/maintenance/nsv/mining_ship/aft)
 "iW" = (
@@ -5262,12 +5355,6 @@
 	},
 /turf/closed/wall/ship,
 /area/nostromo/hangar/port)
-"mU" = (
-/obj/machinery/door/firedoor,
-/obj/effect/spawner/structure/window/reinforced/ship,
-/obj/machinery/atmospherics/pipe/simple/general/hidden,
-/turf/open/floor/plating,
-/area/nostromo/hangar/starboard)
 "mV" = (
 /obj/effect/turf_decal/tile/brown{
 	dir = 1
@@ -6028,6 +6115,12 @@
 /obj/item/ship_weapon/ammunition/torpedo/freight,
 /turf/open/floor/plating,
 /area/maintenance/nsv/mining_ship/aft)
+"oH" = (
+/obj/structure/closet,
+/obj/effect/spawner/lootdrop/gloves,
+/obj/effect/spawner/lootdrop/costume,
+/turf/open/floor/plating,
+/area/maintenance/nsv/mining_ship/aft)
 "oI" = (
 /obj/structure/chair{
 	dir = 1
@@ -6706,23 +6799,6 @@
 /obj/machinery/firealarm/directional/west,
 /turf/open/floor/plasteel/freezer,
 /area/nostromo/galley/coldroom)
-"pZ" = (
-/obj/structure/closet/secure_closet/brig{
-	id = "nw_1"
-	},
-/obj/effect/turf_decal/tile/red{
-	dir = 1
-	},
-/obj/effect/turf_decal/tile/red{
-	dir = 8
-	},
-/obj/machinery/camera/autoname{
-	dir = 1;
-	icon_state = "camera";
-	network = list("Mining_Ship")
-	},
-/turf/open/floor/mineral/plastitanium/red/brig,
-/area/nostromo/security)
 "qa" = (
 /obj/machinery/atmospherics/pipe/simple/general/hidden{
 	icon_state = "pipe11-2";
@@ -7012,17 +7088,115 @@
 	},
 /turf/open/floor/plasteel/ridged/steel,
 /area/nostromo/hangar/starboard)
-"ro" = (
-/obj/machinery/door/airlock/ship/external/glass{
-	req_one_access_txt = "13;74"
+"qS" = (
+/obj/effect/turf_decal/stripes/corner,
+/turf/open/floor/plasteel/ship/techfloor/alt,
+/area/maintenance/nsv/mining_ship/aft)
+"sf" = (
+/obj/structure/disposalpipe/segment{
+	icon_state = "pipe";
+	dir = 10
+	},
+/turf/open/floor/plasteel/techmaint,
+/area/maintenance/nsv/mining_ship/aft)
+"sP" = (
+/obj/machinery/atmospherics/pipe/manifold/general/hidden{
+	icon_state = "manifold-2";
+	dir = 4
+	},
+/turf/closed/wall/ship,
+/area/nostromo/hangar/port)
+"tZ" = (
+/obj/machinery/telecomms/relay/preset/station,
+/turf/open/floor/plasteel/techmaint,
+/area/maintenance/nsv/mining_ship/forward)
+"ut" = (
+/obj/machinery/conveyor/auto{
+	dir = 4;
+	icon_state = "conveyor_map";
+	id = "heph_disposal"
+	},
+/obj/machinery/light/small{
+	dir = 1
+	},
+/turf/open/floor/plating,
+/area/maintenance/nsv/mining_ship/aft)
+"uB" = (
+/obj/machinery/button/door{
+	id = "stbd_hangar";
+	pixel_x = 10;
+	pixel_y = 22
+	},
+/turf/open/floor/plating/airless,
+/area/nostromo/maintenance/exterior)
+"vO" = (
+/obj/structure/disposalpipe/segment,
+/turf/open/floor/plasteel/techmaint,
+/area/maintenance/nsv/mining_ship/aft)
+"wt" = (
+/turf/open/floor/plasteel/techmaint,
+/area/maintenance/nsv/mining_ship/forward)
+"xf" = (
+/obj/machinery/light/small{
+	dir = 4
+	},
+/obj/structure/disposalpipe/segment,
+/turf/open/floor/plasteel/techmaint,
+/area/maintenance/nsv/mining_ship/aft)
+"xs" = (
+/obj/structure/disposaloutlet{
+	icon_state = "outlet";
+	dir = 4
+	},
+/obj/structure/disposalpipe/trunk,
+/turf/open/floor/plasteel/techmaint,
+/area/maintenance/nsv/mining_ship/aft)
+"yA" = (
+/obj/machinery/light/small{
+	dir = 4
+	},
+/turf/open/floor/plasteel/dark,
+/area/maintenance/nsv/mining_ship/forward)
+"yB" = (
+/obj/effect/turf_decal/tile/brown{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/general/hidden{
+	icon_state = "pipe11-2";
+	dir = 9
+	},
+/turf/open/floor/plasteel/dark,
+/area/nostromo/hangar/port)
+"zL" = (
+/obj/machinery/atmospherics/pipe/manifold/general/hidden{
+	icon_state = "manifold-2";
+	dir = 1
+	},
+/obj/effect/turf_decal/delivery,
+/obj/machinery/door/airlock/ship/external/glass,
+/obj/effect/mapping_helpers/airlock/cyclelink_helper{
+	icon_state = "airlock_cyclelink_helper";
+	dir = 1
+	},
+/turf/open/floor/plasteel/ridged/steel,
+/area/nostromo/hangar/starboard)
+"AO" = (
+/turf/open/floor/plasteel/techmaint,
+/area/maintenance/nsv/mining_ship/aft)
+"AV" = (
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
+/obj/machinery/door/firedoor,
+/obj/machinery/door/airlock/ship/maintenance{
+	name = "Pod 2"
 	},
 /obj/effect/mapping_helpers/airlock/cyclelink_helper{
 	icon_state = "airlock_cyclelink_helper";
-	dir = 8
+	dir = 1
 	},
 /turf/open/floor/plating,
 /area/maintenance/nsv/mining_ship/central)
-"sd" = (
+"BI" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /obj/machinery/door/firedoor,
@@ -7035,17 +7209,71 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/nsv/mining_ship/central)
-"sz" = (
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
-/obj/structure/cable{
-	icon_state = "1-2"
+"Cy" = (
+/obj/machinery/door/firedoor,
+/obj/effect/spawner/structure/window/reinforced/ship,
+/turf/open/floor/plating,
+/area/maintenance/nsv/mining_ship/aft)
+"CA" = (
+/obj/machinery/atmospherics/pipe/manifold/general/hidden,
+/obj/effect/turf_decal/delivery,
+/obj/machinery/door/airlock/ship/external/glass,
+/obj/effect/mapping_helpers/airlock/cyclelink_helper,
+/turf/open/floor/plasteel/ridged/steel,
+/area/nostromo/hangar/port)
+"Dq" = (
+/obj/machinery/door/airlock/ship/external/glass{
+	req_one_access_txt = "13;74"
 	},
-/obj/structure/disposalpipe/segment,
-/obj/effect/turf_decal/tile/brown,
+/obj/effect/mapping_helpers/airlock/cyclelink_helper{
+	icon_state = "airlock_cyclelink_helper";
+	dir = 8
+	},
+/turf/open/floor/plating,
+/area/maintenance/nsv/mining_ship/central)
+"Dw" = (
+/obj/structure/disposalpipe/segment{
+	icon_state = "pipe";
+	dir = 4
+	},
+/turf/open/floor/plasteel/techmaint,
+/area/maintenance/nsv/mining_ship/aft)
+"DG" = (
+/obj/effect/turf_decal/stripes/line,
+/turf/open/floor/plasteel/ship/techfloor/alt,
+/area/maintenance/nsv/mining_ship/aft)
+"DJ" = (
+/turf/closed/wall/r_wall/ship,
+/area/nostromo/crew_quarters)
+"DP" = (
+/obj/structure/fighter_launcher/launch_only{
+	icon_state = "launcher_map";
+	dir = 4
+	},
+/turf/open/floor/plating/airless,
+/area/nostromo/hangar/starboard)
+"Ev" = (
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	dir = 1
+	},
+/obj/machinery/door/firedoor,
+/obj/machinery/door/airlock/ship/maintenance{
+	name = "Pod 6"
+	},
+/obj/effect/mapping_helpers/airlock/cyclelink_helper{
+	icon_state = "airlock_cyclelink_helper";
+	dir = 1
+	},
+/turf/open/floor/plating,
+/area/maintenance/nsv/mining_ship/central)
+"EB" = (
 /turf/open/floor/plasteel/dark,
-/area/nostromo/mining)
-"sB" = (
+/area/nostromo/hangar/port)
+"Gn" = (
+/turf/open/floor/plasteel/dark,
+/area/maintenance/nsv/mining_ship/forward)
+"GC" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 1
@@ -7060,40 +7288,25 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/nsv/mining_ship/central)
-"tg" = (
-/obj/machinery/door/firedoor,
-/obj/effect/spawner/structure/window/reinforced/ship,
-/turf/open/floor/plating,
-/area/maintenance/nsv/mining_ship/aft)
-"vi" = (
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+"Hj" = (
+/obj/machinery/airalarm/all_access{
+	pixel_y = 26
+	},
+/obj/effect/turf_decal/tile/brown{
 	dir = 1
-	},
-/obj/machinery/door/firedoor,
-/obj/machinery/door/airlock/ship/maintenance{
-	name = "Pod 7"
-	},
-/obj/effect/mapping_helpers/airlock/cyclelink_helper{
-	icon_state = "airlock_cyclelink_helper";
-	dir = 1
-	},
-/turf/open/floor/plating,
-/area/maintenance/nsv/mining_ship/central)
-"vW" = (
-/obj/structure/disposalpipe/segment{
-	icon_state = "pipe";
-	dir = 8
-	},
-/turf/open/floor/plating/airless,
-/area/maintenance/nsv/mining_ship/aft)
-"wz" = (
-/obj/machinery/light/small{
-	dir = 4
 	},
 /turf/open/floor/plasteel/dark,
-/area/maintenance/nsv/mining_ship/forward)
-"wN" = (
+/area/nostromo/hangar/starboard)
+"HI" = (
+/obj/structure/cable{
+	icon_state = "1-8"
+	},
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
+/turf/open/floor/plasteel/dark,
+/area/nostromo/security)
+"Iw" = (
 /obj/machinery/door/airlock/ship/external/glass{
 	req_one_access_txt = "13;74"
 	},
@@ -7103,29 +7316,7 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/nsv/mining_ship/forward)
-"zc" = (
-/obj/structure/disposaloutlet{
-	icon_state = "outlet";
-	dir = 4
-	},
-/obj/structure/disposalpipe/trunk,
-/turf/open/floor/plasteel/techmaint,
-/area/maintenance/nsv/mining_ship/aft)
-"zd" = (
-/obj/structure/disposalpipe/trunk{
-	dir = 4
-	},
-/obj/machinery/disposal/deliveryChute{
-	dir = 8
-	},
-/turf/open/floor/plating,
-/area/maintenance/nsv/mining_ship/aft)
-"Af" = (
-/obj/structure/rack,
-/obj/effect/spawner/lootdrop/maintenance,
-/turf/open/floor/plating,
-/area/maintenance/nsv/mining_ship/aft)
-"Ao" = (
+"IB" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /obj/machinery/door/firedoor,
@@ -7138,14 +7329,27 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/nsv/mining_ship/central)
-"AK" = (
-/obj/machinery/mineral/stacking_machine{
-	input_dir = 1;
-	stack_amt = 10
+"IS" = (
+/obj/effect/spawner/structure/window/reinforced/ship,
+/obj/machinery/door/firedoor,
+/obj/structure/cable{
+	icon_state = "0-4"
 	},
 /turf/open/floor/plating,
+/area/nostromo/security)
+"IU" = (
+/obj/effect/turf_decal/stripes/corner{
+	dir = 8
+	},
+/turf/open/floor/plasteel/ship/techfloor/alt,
 /area/maintenance/nsv/mining_ship/aft)
-"Bu" = (
+"JM" = (
+/turf/open/space/basic,
+/area/maintenance/nsv/mining_ship/aft)
+"JW" = (
+/turf/closed/wall/r_wall/ship,
+/area/maintenance/nsv/mining_ship/forward)
+"Lw" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 4
 	},
@@ -7165,24 +7369,7 @@
 /obj/effect/turf_decal/tile/brown,
 /turf/open/floor/plasteel/techmaint,
 /area/nostromo/mining)
-"Bv" = (
-/obj/machinery/door/firedoor,
-/obj/effect/spawner/structure/window/reinforced/ship,
-/obj/machinery/atmospherics/pipe/simple/general/hidden,
-/turf/open/floor/plating,
-/area/nostromo/hangar/port)
-"BT" = (
-/obj/machinery/ship_weapon/torpedo_launcher,
-/obj/effect/turf_decal/loading_area{
-	dir = 4
-	},
-/turf/open/floor/plasteel/techmaint,
-/area/maintenance/nsv/mining_ship/aft)
-"BV" = (
-/obj/item/ship_weapon/ammunition/torpedo/freight,
-/turf/open/floor/plating,
-/area/maintenance/nsv/mining_ship/aft)
-"Cn" = (
+"LB" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /obj/machinery/door/firedoor,
@@ -7195,106 +7382,24 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/nsv/mining_ship/central)
-"CM" = (
-/obj/structure/disposalpipe/segment,
-/turf/open/floor/plating,
-/area/maintenance/nsv/mining_ship/aft)
-"CQ" = (
-/obj/machinery/atmospherics/pipe/manifold/general/hidden{
-	icon_state = "manifold-2";
-	dir = 4
-	},
-/turf/closed/wall/ship,
-/area/nostromo/hangar/port)
-"Df" = (
-/obj/structure/closet,
-/obj/effect/spawner/lootdrop/gloves,
-/obj/effect/spawner/lootdrop/costume,
-/turf/open/floor/plating,
-/area/maintenance/nsv/mining_ship/aft)
-"DG" = (
-/obj/machinery/telecomms/relay/preset/station,
-/turf/open/floor/plasteel/techmaint,
-/area/maintenance/nsv/mining_ship/forward)
-"DS" = (
-/turf/closed/wall/ship,
-/area/maintenance/nsv/mining_ship/aft)
-"Fc" = (
-/obj/structure/reagent_dispensers/fueltank,
-/turf/open/floor/plating,
-/area/maintenance/nsv/mining_ship/aft)
-"Gn" = (
-/obj/effect/spawner/structure/window/reinforced/ship,
+"ML" = (
 /obj/machinery/door/firedoor,
-/obj/structure/disposalpipe/segment{
-	icon_state = "pipe";
-	dir = 8
-	},
+/obj/effect/spawner/structure/window/reinforced/ship,
+/obj/machinery/atmospherics/pipe/simple/general/hidden,
 /turf/open/floor/plating,
-/area/maintenance/nsv/mining_ship/aft)
-"GJ" = (
-/obj/structure/disposalpipe/segment{
-	icon_state = "pipe";
-	dir = 8
-	},
-/turf/open/floor/plating,
-/area/maintenance/nsv/mining_ship/aft)
-"GQ" = (
-/obj/structure/table,
-/turf/open/floor/plasteel/dark,
-/area/maintenance/nsv/mining_ship/forward)
-"GV" = (
-/obj/effect/turf_decal/stripes/corner{
-	dir = 8
-	},
-/turf/open/floor/plasteel/ship/techfloor/alt,
-/area/maintenance/nsv/mining_ship/aft)
-"Hg" = (
-/obj/effect/turf_decal/tile/brown,
-/turf/open/floor/plasteel/techmaint,
-/area/nostromo/mining)
-"HU" = (
-/obj/structure/janitorialcart{
-	dir = 4
-	},
-/turf/open/floor/plating,
-/area/maintenance/nsv/mining_ship/forward)
-"HX" = (
-/obj/machinery/conveyor/auto{
-	dir = 4;
-	icon_state = "conveyor_map";
-	id = "heph_disposal"
-	},
-/turf/open/floor/plating,
-/area/maintenance/nsv/mining_ship/aft)
-"Ii" = (
-/turf/open/floor/plasteel/dark,
 /area/nostromo/hangar/port)
-"Is" = (
-/obj/structure/ore_box,
-/turf/open/floor/plasteel/dark,
-/area/nostromo/hangar/port)
-"Iw" = (
-/obj/machinery/door/airlock/ship/external/glass{
-	req_one_access_txt = "13;74"
-	},
-/obj/effect/mapping_helpers/airlock/cyclelink_helper{
-	icon_state = "airlock_cyclelink_helper";
-	dir = 8
-	},
+"MX" = (
+/obj/item/ship_weapon/ammunition/torpedo/freight,
 /turf/open/floor/plating,
 /area/maintenance/nsv/mining_ship/aft)
-"IT" = (
-/turf/closed/wall/r_wall/ship,
-/area/nostromo/crew_quarters)
-"Jz" = (
+"Nd" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 1
 	},
 /obj/machinery/door/firedoor,
 /obj/machinery/door/airlock/ship/maintenance{
-	name = "Pod 6"
+	name = "Pod 7"
 	},
 /obj/effect/mapping_helpers/airlock/cyclelink_helper{
 	icon_state = "airlock_cyclelink_helper";
@@ -7302,123 +7407,40 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/nsv/mining_ship/central)
-"JC" = (
-/obj/machinery/telecomms/relay/preset/mining/nostromo,
-/turf/open/floor/plasteel/dark,
-/area/maintenance/nsv/mining_ship/forward)
-"JJ" = (
-/obj/machinery/atmospherics/pipe/manifold/general/hidden,
+"NI" = (
+/obj/structure/disposalpipe/segment,
+/obj/structure/munitions_trolley,
 /obj/effect/turf_decal/delivery,
-/obj/machinery/door/airlock/ship/external/glass,
-/obj/effect/mapping_helpers/airlock/cyclelink_helper,
-/turf/open/floor/plasteel/ridged/steel,
-/area/nostromo/hangar/port)
-"KL" = (
-/obj/effect/spawner/structure/window/reinforced/ship,
-/obj/machinery/door/firedoor,
-/obj/structure/cable{
-	icon_state = "0-4"
-	},
-/turf/open/floor/plating,
-/area/nostromo/security)
-"KU" = (
-/obj/structure/cable{
-	icon_state = "1-8"
-	},
-/turf/open/floor/plasteel/dark,
-/area/nostromo/security)
-"LA" = (
-/obj/structure/cable{
-	icon_state = "1-8"
-	},
-/obj/structure/cable{
-	icon_state = "1-2"
-	},
-/turf/open/floor/plasteel/dark,
-/area/nostromo/security)
-"LJ" = (
-/obj/machinery/recycler,
-/obj/machinery/conveyor/auto{
-	dir = 4;
-	icon_state = "conveyor_map";
-	id = "heph_disposal"
-	},
-/turf/open/floor/plating,
-/area/maintenance/nsv/mining_ship/aft)
-"Nc" = (
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
-/obj/machinery/door/firedoor,
-/obj/machinery/door/airlock/ship/maintenance{
-	name = "Pod 2"
-	},
-/obj/effect/mapping_helpers/airlock/cyclelink_helper{
-	icon_state = "airlock_cyclelink_helper";
-	dir = 1
-	},
-/turf/open/floor/plating,
-/area/maintenance/nsv/mining_ship/central)
-"NL" = (
 /turf/open/floor/plasteel/techmaint,
 /area/maintenance/nsv/mining_ship/aft)
 "NW" = (
+/obj/effect/turf_decal/tile/brown{
+	dir = 8
+	},
+/obj/machinery/light,
+/turf/open/floor/plasteel/dark,
+/area/nostromo/hangar/port)
+"NY" = (
+/obj/machinery/door/firedoor,
+/obj/effect/spawner/structure/window/reinforced/ship,
+/obj/machinery/atmospherics/pipe/simple/general/hidden{
+	icon_state = "pipe11-2";
+	dir = 6
+	},
+/turf/open/floor/plating,
+/area/nostromo/hangar/starboard)
+"Ox" = (
+/obj/structure/ore_box,
+/turf/open/floor/plasteel/dark,
+/area/nostromo/hangar/port)
+"OE" = (
 /obj/machinery/door/airlock/ship/external/glass{
 	req_one_access_txt = "13;74"
 	},
 /obj/effect/mapping_helpers/airlock/cyclelink_helper,
 /turf/open/floor/plating,
 /area/maintenance/nsv/mining_ship/forward)
-"Ph" = (
-/obj/machinery/atmospherics/pipe/manifold/general/hidden{
-	icon_state = "manifold-2";
-	dir = 1
-	},
-/obj/effect/turf_decal/delivery,
-/obj/machinery/door/airlock/ship/external/glass,
-/obj/effect/mapping_helpers/airlock/cyclelink_helper{
-	icon_state = "airlock_cyclelink_helper";
-	dir = 1
-	},
-/turf/open/floor/plasteel/ridged/steel,
-/area/nostromo/hangar/starboard)
-"PH" = (
-/obj/machinery/conveyor_switch/oneway{
-	dir = 8;
-	id = "heph_disposal";
-	name = "disposal conveyor"
-	},
-/turf/open/floor/plasteel/techmaint,
-/area/maintenance/nsv/mining_ship/aft)
-"PI" = (
-/obj/structure/cable{
-	icon_state = "1-2"
-	},
-/turf/open/floor/plasteel/dark,
-/area/nostromo/security)
-"PP" = (
-/obj/machinery/airalarm/all_access{
-	pixel_y = 26
-	},
-/obj/effect/turf_decal/tile/brown{
-	dir = 1
-	},
-/turf/open/floor/plasteel/dark,
-/area/nostromo/hangar/starboard)
-"QN" = (
-/obj/machinery/camera/autoname{
-	dir = 1;
-	icon_state = "camera";
-	network = list("Mining_Ship")
-	},
-/obj/structure/chair{
-	dir = 1
-	},
-/turf/open/floor/plasteel/techmaint,
-/area/maintenance/nsv/mining_ship/forward)
-"Re" = (
-/turf/open/floor/plasteel/techmaint,
-/area/maintenance/nsv/mining_ship/forward)
-"Sa" = (
+"OO" = (
 /obj/machinery/button/door{
 	id = "port_hangar";
 	pixel_x = 10;
@@ -7426,44 +7448,7 @@
 	},
 /turf/open/floor/plating/airless,
 /area/nostromo/maintenance/exterior)
-"SG" = (
-/obj/machinery/mineral/stacking_unit_console{
-	dir = 2;
-	machinedir = 8
-	},
-/turf/closed/wall/ship,
-/area/maintenance/nsv/mining_ship/aft)
-"SM" = (
-/obj/machinery/conveyor/auto{
-	dir = 4;
-	icon_state = "conveyor_map";
-	id = "heph_disposal"
-	},
-/obj/machinery/light/small,
-/turf/open/floor/plating,
-/area/maintenance/nsv/mining_ship/aft)
-"SV" = (
-/turf/open/floor/plating,
-/area/maintenance/nsv/mining_ship/aft)
-"Te" = (
-/obj/machinery/button/door{
-	id = "stbd_hangar";
-	pixel_x = 10;
-	pixel_y = 22
-	},
-/turf/open/floor/plating/airless,
-/area/nostromo/maintenance/exterior)
-"TP" = (
-/obj/machinery/light/small{
-	brightness = 3;
-	dir = 8
-	},
-/turf/open/floor/plasteel/dark,
-/area/maintenance/nsv/mining_ship/forward)
-"UB" = (
-/turf/open/floor/plasteel/dark,
-/area/maintenance/nsv/mining_ship/forward)
-"UK" = (
+"OT" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 1
@@ -7477,87 +7462,103 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/nsv/mining_ship/central)
-"UZ" = (
-/obj/effect/turf_decal/tile/brown{
+"Pc" = (
+/obj/structure/janitorialcart{
 	dir = 4
 	},
-/obj/machinery/atmospherics/pipe/simple/general/hidden{
-	icon_state = "pipe11-2";
-	dir = 9
-	},
-/turf/open/floor/plasteel/dark,
-/area/nostromo/hangar/port)
-"Vw" = (
-/obj/machinery/light/small{
-	dir = 4
-	},
-/obj/structure/disposalpipe/segment,
-/turf/open/floor/plasteel/techmaint,
-/area/maintenance/nsv/mining_ship/aft)
-"Wc" = (
-/obj/machinery/atmospherics/pipe/manifold/general/hidden{
-	icon_state = "manifold-2";
-	dir = 4
-	},
-/turf/closed/wall/ship,
-/area/nostromo/hangar/starboard)
-"WA" = (
-/turf/open/space/basic,
-/area/maintenance/nsv/mining_ship/aft)
-"WU" = (
-/turf/closed/wall/r_wall/ship,
+/turf/open/floor/plating,
 /area/maintenance/nsv/mining_ship/forward)
-"Xv" = (
-/obj/structure/disposaloutlet{
-	icon_state = "outlet";
-	dir = 1
-	},
-/obj/structure/disposalpipe/trunk{
-	dir = 8
-	},
-/turf/open/floor/plating/airless,
-/area/maintenance/nsv/mining_ship/aft)
-"XR" = (
+"Pq" = (
+/obj/machinery/door/firedoor,
+/obj/effect/spawner/structure/window/reinforced/ship,
+/obj/machinery/atmospherics/pipe/simple/general/hidden,
+/turf/open/floor/plating,
+/area/nostromo/hangar/starboard)
+"Rr" = (
 /obj/structure/fighter_launcher/galactica{
 	icon_state = "launcher_map";
 	dir = 4
 	},
 /turf/open/floor/plating/airless,
 /area/nostromo/hangar/starboard)
-"XW" = (
-/obj/machinery/conveyor/auto{
-	dir = 4;
-	icon_state = "conveyor_map";
-	id = "heph_disposal"
+"Rw" = (
+/obj/machinery/ship_weapon/torpedo_launcher,
+/obj/effect/turf_decal/loading_area{
+	dir = 4
 	},
-/obj/machinery/light/small{
-	dir = 1
+/turf/open/floor/plasteel/techmaint,
+/area/maintenance/nsv/mining_ship/aft)
+"SU" = (
+/obj/machinery/telecomms/relay/preset/mining/nostromo,
+/turf/open/floor/plasteel/dark,
+/area/maintenance/nsv/mining_ship/forward)
+"SW" = (
+/obj/machinery/door/airlock/ship/external/glass{
+	req_one_access_txt = "13;74"
+	},
+/obj/effect/mapping_helpers/airlock/cyclelink_helper{
+	icon_state = "airlock_cyclelink_helper";
+	dir = 8
 	},
 /turf/open/floor/plating,
 /area/maintenance/nsv/mining_ship/aft)
-"YY" = (
-/obj/machinery/door/firedoor,
-/obj/effect/spawner/structure/window/reinforced/ship,
-/obj/machinery/atmospherics/pipe/simple/general/hidden{
-	icon_state = "pipe11-2";
-	dir = 6
+"SY" = (
+/obj/effect/turf_decal/tile/brown,
+/turf/open/floor/plasteel/techmaint,
+/area/nostromo/mining)
+"WU" = (
+/obj/structure/cable{
+	icon_state = "1-8"
 	},
-/turf/open/floor/plating,
-/area/nostromo/hangar/starboard)
-"Zp" = (
-/obj/structure/fighter_launcher/launch_only{
-	icon_state = "launcher_map";
+/turf/open/floor/plasteel/dark,
+/area/nostromo/security)
+"WY" = (
+/obj/machinery/conveyor_switch/oneway{
+	dir = 8;
+	id = "heph_disposal";
+	name = "disposal conveyor"
+	},
+/turf/open/floor/plasteel/techmaint,
+/area/maintenance/nsv/mining_ship/aft)
+"Xe" = (
+/obj/machinery/atmospherics/pipe/manifold/general/hidden{
+	icon_state = "manifold-2";
 	dir = 4
 	},
-/turf/open/floor/plating/airless,
+/turf/closed/wall/ship,
 /area/nostromo/hangar/starboard)
-"ZD" = (
-/obj/effect/turf_decal/tile/brown{
+"XW" = (
+/obj/structure/table,
+/turf/open/floor/plasteel/dark,
+/area/maintenance/nsv/mining_ship/forward)
+"Zc" = (
+/obj/machinery/light/small{
+	brightness = 3;
 	dir = 8
 	},
-/obj/machinery/light,
 /turf/open/floor/plasteel/dark,
-/area/nostromo/hangar/port)
+/area/maintenance/nsv/mining_ship/forward)
+"ZL" = (
+/obj/machinery/camera/autoname{
+	dir = 1;
+	icon_state = "camera";
+	network = list("Mining_Ship")
+	},
+/obj/structure/chair{
+	dir = 1
+	},
+/turf/open/floor/plasteel/techmaint,
+/area/maintenance/nsv/mining_ship/forward)
+"ZQ" = (
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
+/obj/structure/disposalpipe/segment,
+/obj/effect/turf_decal/tile/brown,
+/turf/open/floor/plasteel/dark,
+/area/nostromo/mining)
 
 (1,1,1) = {"
 aa
@@ -36384,15 +36385,15 @@ ao
 ao
 ao
 ao
-DS
-DS
-DS
-DS
-DS
-DS
-DS
+bj
+bj
+bj
+bj
+bj
+bj
+bj
 bK
-DS
+bj
 df
 df
 cP
@@ -36686,17 +36687,17 @@ ao
 ao
 ao
 ao
-DS
-zc
 bj
+xs
+NI
 bR
-du
+qS
 ek
-DS
-SV
-DS
-DS
-DS
+bj
+bu
+bj
+bj
+bj
 dK
 fB
 hg
@@ -36988,15 +36989,15 @@ ao
 ao
 ao
 ao
-DS
-XW
-NL
-bS
-bu
+bj
+ut
+AO
+Dw
+DG
 el
-DS
-Iw
-DS
+bj
+SW
+bj
 fM
 fM
 dV
@@ -37290,17 +37291,17 @@ ao
 ao
 ao
 ao
-DS
-LJ
-PH
-bS
-bu
-BT
-tg
+bj
+cb
+WY
+Dw
+DG
+Rw
+Cy
 bL
 ca
-SV
-SV
+bu
+bu
 ec
 ft
 ec
@@ -37592,17 +37593,17 @@ ao
 ao
 ao
 ao
-DS
-HX
-NL
+bj
 bS
+AO
+Dw
+DG
+AO
+Cy
 bu
-NL
-tg
-SV
-SV
-SV
-SV
+bu
+bu
+bu
 eH
 dh
 fF
@@ -37894,15 +37895,15 @@ ao
 ao
 ao
 ao
-DS
-HX
-AK
+bj
 bS
+dU
+Dw
+DG
+AO
+Cy
 bu
-NL
-tg
-SV
-SV
+bu
 di
 di
 eI
@@ -37914,11 +37915,11 @@ hE
 oV
 ps
 pi
-sz
+ZQ
 pp
 pj
 pv
-Hg
+SY
 pU
 cP
 cP
@@ -38196,16 +38197,16 @@ ao
 ao
 ao
 ao
-DS
-SM
-SG
-bS
-GV
-DS
-DS
-SV
-SV
-DS
+bj
+cs
+dW
+Dw
+IU
+bj
+bj
+bu
+bu
+bj
 cP
 cP
 cP
@@ -38224,10 +38225,10 @@ pC
 pF
 cP
 oG
-BV
-BV
-BV
-DS
+MX
+MX
+MX
+bj
 ao
 ao
 ao
@@ -38498,15 +38499,15 @@ ao
 ao
 ao
 ac
-DS
-zd
-DS
-cB
-Vw
-bQ
-ds
-CM
-fD
+bj
+cx
+bj
+sf
+xf
+vO
+fy
+du
+fC
 iL
 cP
 cQ
@@ -38526,10 +38527,10 @@ pD
 hh
 oE
 iR
-SV
-SV
-SV
-DS
+bu
+bu
+bu
+bj
 ao
 ao
 ao
@@ -38800,16 +38801,16 @@ ao
 ao
 ac
 ac
-DS
-Gn
-DS
-DS
-DS
-DS
-DS
-SV
-GJ
-Af
+bj
+cB
+bj
+bj
+bj
+bj
+bj
+bu
+fD
+cG
 cP
 eL
 cS
@@ -38828,10 +38829,10 @@ pE
 pG
 pH
 pI
-SV
-SV
-SV
-DS
+bu
+bu
+bu
+bj
 ao
 ao
 ao
@@ -39102,16 +39103,16 @@ al
 al
 al
 al
-DS
-vW
-DS
+bj
+cC
+bj
 ao
-DS
-cG
-dT
-SV
-GJ
-cG
+bj
+bQ
+ds
+bu
+fD
+bQ
 cP
 iI
 iI
@@ -39133,7 +39134,7 @@ pJ
 fH
 fH
 pK
-DS
+bj
 ao
 ao
 ao
@@ -39404,16 +39405,16 @@ ao
 ao
 ao
 ao
-WA
-Xv
-DS
+JM
+db
+bj
 ao
-DS
-SV
-SV
-SV
-GJ
-DS
+bj
+bu
+bu
+bu
+fD
+bj
 cP
 eX
 ee
@@ -39427,7 +39428,7 @@ cP
 cP
 cP
 pP
-Bu
+Lw
 iY
 mb
 cP
@@ -39435,7 +39436,7 @@ iU
 jm
 jD
 pL
-DS
+bj
 ao
 ao
 ao
@@ -39706,14 +39707,14 @@ al
 al
 al
 al
-DS
-DS
-DS
+bj
+bj
+bj
 ac
-DS
-Af
-Fc
-DS
+bj
+cG
+dT
+bj
 fE
 fH
 fQ
@@ -39733,11 +39734,11 @@ pA
 lC
 oD
 cP
-iV
+hH
 jm
 jD
 pL
-DS
+bj
 ao
 ao
 ao
@@ -40012,13 +40013,13 @@ ao
 ao
 ao
 ao
-DS
-DS
-DS
-DS
-DS
-DS
-DS
+bj
+bj
+bj
+bj
+bj
+bj
+bj
 cP
 cP
 cP
@@ -40035,11 +40036,11 @@ do
 do
 cP
 cP
-Df
-DS
+oH
+bj
 mh
 pM
-DS
+bj
 ao
 ao
 ao
@@ -40336,12 +40337,12 @@ ao
 ac
 ao
 ao
-DS
-DS
-DS
-DS
-DS
-DS
+bj
+bj
+bj
+bj
+bj
+bj
 ao
 ao
 ao
@@ -43646,13 +43647,13 @@ cc
 cc
 gl
 dQ
-UK
+OT
 cc
 ix
 cc
 kU
 dQ
-vi
+Nd
 cc
 cc
 cc
@@ -47874,13 +47875,13 @@ cc
 cc
 gr
 dQ
-Jz
+Ev
 cc
 ix
 cc
 kV
 dQ
-sB
+GC
 cc
 cc
 cc
@@ -50013,7 +50014,7 @@ ao
 ao
 al
 an
-XR
+Rr
 an
 al
 ac
@@ -51792,7 +51793,7 @@ ap
 cM
 nz
 cO
-Is
+Ox
 cj
 ao
 bU
@@ -51818,7 +51819,7 @@ jo
 ox
 hZ
 kp
-YY
+NY
 nc
 kC
 hZ
@@ -52118,7 +52119,7 @@ lZ
 lZ
 jp
 oy
-YY
+NY
 kq
 lN
 nd
@@ -52694,7 +52695,7 @@ aK
 aU
 bq
 bf
-JJ
+CA
 nP
 nB
 ns
@@ -52722,7 +52723,7 @@ iN
 qi
 js
 oA
-Ph
+zL
 kr
 mc
 ng
@@ -53291,7 +53292,7 @@ ac
 ad
 am
 ad
-Sa
+OO
 as
 ay
 aD
@@ -53302,7 +53303,7 @@ nL
 nR
 nC
 nF
-ZD
+NW
 ap
 ch
 ct
@@ -53322,7 +53323,7 @@ hZ
 ii
 iy
 hZ
-PP
+Hj
 me
 ne
 kb
@@ -53333,7 +53334,7 @@ iM
 qe
 qE
 os
-Te
+uB
 ad
 am
 ad
@@ -53597,14 +53598,14 @@ an
 av
 bo
 bo
-Bv
-Bv
+ML
+ML
 bo
-CQ
+sP
 gU
-UZ
+yB
 nJ
-Ii
+EB
 cj
 ao
 bZ
@@ -53628,10 +53629,10 @@ pW
 br
 nf
 qb
-Wc
+Xe
 on
-mU
-mU
+Pq
+Pq
 on
 on
 ow
@@ -53939,7 +53940,7 @@ hZ
 an
 an
 an
-Zp
+DP
 an
 ac
 ac
@@ -57538,13 +57539,13 @@ ci
 ci
 gs
 dS
-Cn
+LB
 ci
 ix
 ci
 kX
 dS
-Ao
+IB
 ci
 ci
 ci
@@ -61766,13 +61767,13 @@ ci
 ci
 gv
 dS
-Nc
+AV
 ci
 ix
 ci
 kY
 dS
-sd
+BI
 ci
 ci
 ci
@@ -65390,7 +65391,7 @@ cp
 ac
 aV
 aV
-ro
+Dq
 aV
 jO
 aV
@@ -68402,11 +68403,11 @@ ao
 ao
 ao
 ao
-WU
-WU
-WU
+JW
+JW
+JW
 fd
-IT
+DJ
 cJ
 cJ
 cJ
@@ -68704,11 +68705,11 @@ ao
 ao
 ao
 ao
-WU
-TP
-UB
-DG
-IT
+JW
+Zc
+Gn
+tZ
+DJ
 lS
 eB
 dY
@@ -69006,11 +69007,11 @@ al
 al
 al
 al
-WU
-JC
-UB
-Re
-IT
+JW
+SU
+Gn
+wt
+DJ
 cW
 eC
 dZ
@@ -69308,11 +69309,11 @@ bi
 bi
 bi
 bi
-WU
-UB
-GQ
-QN
-IT
+JW
+Gn
+XW
+ZL
+DJ
 cJ
 cJ
 cJ
@@ -69610,11 +69611,11 @@ bs
 bC
 bI
 ak
-WU
-UB
-UB
-Re
-IT
+JW
+Gn
+Gn
+wt
+DJ
 cW
 ge
 ea
@@ -69913,10 +69914,10 @@ bD
 ef
 eq
 qs
-UB
-wz
-Re
-IT
+Gn
+yA
+wt
+DJ
 lS
 gL
 eb
@@ -70214,11 +70215,11 @@ bs
 bC
 bI
 ev
-WU
-WU
-WU
-WU
-IT
+JW
+JW
+JW
+JW
+DJ
 cJ
 cJ
 cJ
@@ -70516,9 +70517,9 @@ bi
 bi
 bi
 eP
-WU
-HU
-WU
+JW
+Pc
+JW
 fI
 fR
 fR
@@ -70536,9 +70537,9 @@ hA
 hA
 hA
 iE
-NW
+OE
 bk
-wN
+Iw
 ao
 ao
 ao
@@ -73550,8 +73551,8 @@ mk
 fq
 cE
 cE
-hG
-pZ
+dg
+fu
 cE
 bJ
 bJ
@@ -73852,8 +73853,8 @@ mx
 ka
 nD
 hv
-hH
-hT
+dM
+fK
 cE
 bJ
 dD
@@ -74154,8 +74155,8 @@ mJ
 gE
 hb
 hw
-hI
-hU
+em
+gz
 cE
 bJ
 bi
@@ -74456,8 +74457,8 @@ nI
 gF
 ls
 hw
-KL
-KL
+IS
+IS
 cE
 bJ
 iz
@@ -74756,10 +74757,10 @@ eF
 fn
 oo
 gI
-PI
+hd
 om
-LA
-KU
+HI
+WU
 fs
 bJ
 iz
@@ -75054,7 +75055,7 @@ kA
 dC
 hz
 ei
-hd
+hG
 fo
 oC
 gJ
