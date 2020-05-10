@@ -190,7 +190,7 @@ SUBSYSTEM_DEF(star_system)
 	starsys.mission_sector = TRUE //set this sector to be the active mission
 	starsys.spawn_asteroids() //refresh asteroids in the system
 	starsys.spawn_enemies()
-	priority_announce("Attention all ships, set condition 1 throughout the fleet. Syndicate incursion detected in: [starsys]. All ships must respond to the threat.", "Naval Command")
+	priority_announce("Attention all ships, set condition 1 throughout the fleet. Syndicate incursion detected in: [starsys]. [systems_cleared < 5 ? "All combat-ready ships must respond to the threat." : "Ships may optionally clear the system, or return to Risa for crew rotation"]", "Naval Command")
 	patrols_left --
 	return
 
