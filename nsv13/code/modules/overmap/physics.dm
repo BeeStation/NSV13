@@ -130,8 +130,8 @@ The while loop runs at a programatic level and is thus separated from any thrott
 	set waitfor = FALSE
 	var/time = min(world.time - last_process, 10)
 	time /= 10 // fuck off deciseconds
-	if(last_process > 0 && (last_process < world.time - 1 SECONDS) && !processing_failsafe) //Alright looks like the game's shat itself. Time to engage "failsafe mode". The logic of this is that if we've not been processed for over 1 second, then ship piloting starts to become unbearable and we need to step in and do our own processing, until the game's back on its feet again.
-		start_failsafe_processing()
+//	if(last_process > 0 && (last_process < world.time - 1 SECONDS) && !processing_failsafe) //Alright looks like the game's shat itself. Time to engage "failsafe mode". The logic of this is that if we've not been processed for over 1 second, then ship piloting starts to become unbearable and we need to step in and do our own processing, until the game's back on its feet again.
+//		start_failsafe_processing()
 	last_process = world.time
 	if(world.time > last_slowprocess + 10)
 		last_slowprocess = world.time
