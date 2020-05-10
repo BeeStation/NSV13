@@ -35,7 +35,6 @@ GLOBAL_LIST_EMPTY(syndi_crew_leader_spawns)
 
 	var/operative_antag_datum_type = /datum/antagonist/nukeop/syndi_crew
 	var/leader_antag_datum_type = /datum/antagonist/nukeop/leader/syndi_crew
-	var/time_limit
 	var/list/standard_ships = list("Hammurabi.dmm") //Update this list if you make more PVP ships :) ~Kmc
 	var/list/highpop_ships = list("Hulk.dmm") //Update this list if you make a big PVP ship
 	var/list/jobs = list()
@@ -92,8 +91,6 @@ Method to spawn in the Syndi ship on a brand new Z-level with the "boardable" tr
 		var/datum/mind/nuke_mind = pre_nukeops[I]
 		var/datum/antagonist/selected = get_job_for(nuke_mind)
 		nuke_mind?.add_antag_datum(selected)
-	time_limit = world.time + 45 MINUTES //Puts a hard cap on the time limit to avoid boredom.
-	addtimer(CALLBACK(src, .proc/check_win), 45.5 MINUTES)
 	SSstar_system.add_blacklist(/obj/structure/overmap/syndicate/ai/carrier) //No. Just no. Please. God no.
 	SSstar_system.add_blacklist(/obj/structure/overmap/syndicate/ai/patrol_cruiser) //Syndies only get LIGHT reinforcements.
 	return ..()
@@ -124,8 +121,6 @@ Method to assign a job, in order of descending priority. We REALLY need people t
 /datum/game_mode/pvp/check_win()
 	if (nukes_left == 0)
 		return TRUE
-	if(world.time >= time_limit)
-		return FALSE
 	return ..()
 
 /datum/game_mode/pvp/check_finished()
@@ -134,7 +129,6 @@ Method to assign a job, in order of descending priority. We REALLY need people t
 		for(var/obj/machinery/nuclearbomb/N in GLOB.nuke_list)
 			if(N.proper_bomb && (N.timing || N.exploding))
 				return FALSE
-	if(world.time >= time_limit)
 		return TRUE
 	return ..()
 
