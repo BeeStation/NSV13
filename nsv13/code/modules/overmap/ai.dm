@@ -114,6 +114,9 @@
 	if(OM.role == MAIN_OVERMAP)
 		set_security_level(SEC_LEVEL_RED) //Action stations when the ship is under attack, if it's the main overmap.
 		SSstarsystem.last_combat_enter = world.time //Tag the combat on the SS
+		SSstarsystem.modifier = 0 //Reset overmap spawn modifier
+		var/datum/round_event_control/_overmap_event_handler/OEH = locate(/datum/round_event_control/_overmap_event_handler) in SSevents.control
+		OEH.weight = 0 //Reset controller weighting
 	if(OM.tactical)
 		var/sound = pick('nsv13/sound/effects/computer/alarm.ogg','nsv13/sound/effects/computer/alarm_3.ogg','nsv13/sound/effects/computer/alarm_4.ogg')
 		var/message = "<span class='warning'>DANGER: [src] is now targeting [OM].</span>"
