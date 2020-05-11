@@ -47,6 +47,8 @@ MASSIVE THANKS TO MONSTER860 FOR HELP WITH THIS. HE EXPLAINED PHYSICS AND MATH T
 	var/datum/gas_mixture/cabin_air //Cabin air mix used for small ships like fighters (see overmap/fighters/fighters.dm)
 	var/obj/machinery/portable_atmospherics/canister/internal_tank //Internal air tank reference. Used mostly in small ships. If you want to sabotage a fighter, load a plasma tank into its cockpit :)
 
+/obj/vehicle/sealed/car/realistic
+
 /obj/vehicle/sealed/car/realistic/emp_act(severity)
 	. = ..()
 	if(. & EMP_PROTECT_SELF)

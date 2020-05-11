@@ -23,7 +23,6 @@
 	kinetic_traction = 5 //if you are moving sideways and the static traction wasnt enough to kill it, you skid and you will have less traction, but allowing you to drift. KINETIC IE moving traction
 	default_hardpoints = list(/obj/item/vehicle_hardpoint/engine/pathetic, /obj/item/vehicle_hardpoint/wheels/heavy) //What does it start with, if anything.
 	var/ready = TRUE
-	var/launch_dir = EAST
 	var/list/loaded = list() //Loaded fighters
 
 /obj/vehicle/sealed/car/realistic/fighter_tug/emp_act(severity)
@@ -54,7 +53,6 @@
 	data["loaded"] = (tugged) ? TRUE : FALSE
 	data["loaded_name"] = (tugged) ? tugged.name : "No fighter loaded"
 	data["ready"] = ready
-	data["launch_dir"] = dir2text(launch_dir)
 	return data
 
 /obj/vehicle/sealed/car/realistic/fighter_tug/ui_act(action, params, datum/tgui/ui)
@@ -68,10 +66,6 @@
 	switch(action)
 		if("launch")
 			start_launch()
-		if("launch_dir")
-			launch_dir = input(ui.user, "Set fighter launch direction", "[name]", launch_dir) as null|anything in GLOB.cardinals
-			if(!launch_dir)
-				launch_dir = initial(launch_dir)
 		if("load")
 			var/obj/structure/overmap/load = locate(/obj/structure/overmap/fighter) in loaded
 			if(load)

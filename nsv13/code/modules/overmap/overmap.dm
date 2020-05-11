@@ -236,10 +236,12 @@
 			var/area/area = GLOB.teleportlocs[X] //Pick a station area and yeet it.
 			area.linked_overmap = src
 
-
 /obj/structure/overmap/proc/InterceptClickOn(mob/user, params, atom/target)
 	var/list/params_list = params2list(params)
 	if(user.incapacitated() || !isliving(user))
+		return FALSE
+	if(istype(target, /obj/machinery/button/door) || istype(target, /obj/machinery/turbolift_button))
+		target.attack_hand(user)
 		return FALSE
 	if(target == src || istype(target, /obj/screen) || (target && (target in user.GetAllContents())) || params_list["alt"] || params_list["ctrl"])
 		return FALSE

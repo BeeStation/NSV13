@@ -63,23 +63,50 @@ GLOBAL_LIST_INIT(computer_beeps, list('nsv13/sound/effects/computer/beep.ogg','n
 	playsound(src, 'nsv13/sound/effects/computer/startup.ogg', 75, 1)
 	return linked.start_piloting(user, position)
 
+
+/obj/item/circuitboard/computer/ship/helm
+	name = "circuit board (helm computer)"
+	build_path = /obj/machinery/computer/ship/helm
+
+/datum/design/board/helm_circuit
+	name = "Computer Design (Helm Computer)"
+	desc = "Allows for the construction of a helm control console."
+	id = "helm_circuit"
+	materials = list(/datum/material/glass = 5000, /datum/material/copper = 500, /datum/material/gold = 1000)
+	build_path = /obj/item/circuitboard/computer/ship/helm
+	category = list("Ship Components")
+	departmental_flags = DEPARTMENTAL_FLAG_SCIENCE
+
 /obj/machinery/computer/ship/helm
 	name = "Seegson model HLM flight control console"
 	desc = "A computerized ship piloting package which allows a user to set a ship's speed, attitude, bearing and more!"
 	icon_screen = "helm"
 	position = "pilot"
-	resistance_flags = INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | UNACIDABLE | ACID_PROOF | FREEZE_PROOF
+	circuit = /obj/item/circuitboard/computer/ship/helm
 
 /obj/machinery/computer/ship/helm/set_position(obj/structure/overmap/OM)
 	OM.helm = src
 	return
+
+/obj/item/circuitboard/computer/ship/tactical_computer
+	name = "circuit board (tactical computer)"
+	build_path = /obj/machinery/computer/ship/tactical
+
+/datum/design/board/tac_circuit
+	name = "Computer Design (Tactical Computer)"
+	desc = "Allows for the construction of a tactical control console."
+	id = "tactical_comp_circuit"
+	materials = list(/datum/material/glass = 2000, /datum/material/copper = 200, /datum/material/gold = 1000)
+	build_path = /obj/item/circuitboard/computer/ship/munitions_computer
+	category = list("Ship Components")
+	departmental_flags = DEPARTMENTAL_FLAG_SCIENCE
 
 /obj/machinery/computer/ship/tactical
 	name = "Seegson model TAC tactical systems control console"
 	desc = "In ship-to-ship combat, most ship systems are digitalized. This console is networked with every weapon system that its ship has to offer, allowing for easy control. There's a section on the screen showing an exterior gun camera view with a rangefinder."
 	icon_screen = "tactical"
 	position = "gunner"
-	resistance_flags = INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | UNACIDABLE | ACID_PROOF | FREEZE_PROOF
+	circuit = /obj/item/circuitboard/computer/ship/tactical_computer
 
 /obj/machinery/computer/ship/tactical/attack_hand(mob/user)
 	if(!allowed(user))
