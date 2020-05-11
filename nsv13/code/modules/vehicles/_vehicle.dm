@@ -177,7 +177,7 @@ MASSIVE THANKS TO MONSTER860 FOR HELP WITH THIS. HE EXPLAINED PHYSICS AND MATH T
 			if(occupants.len)
 				var/mob/M = return_drivers()[1]
 				var/client/C = M.client
-				if(C && C.keys_held["Alt"])
+				if(!M || C && C.keys_held["Alt"]) //No driver? Brake automatically. Otherwise check if driver wants to break.
 					drag += braking_efficiency
 			var/datum/gas_mixture/env = T.return_air()
 			var/pressure = env.return_pressure()
