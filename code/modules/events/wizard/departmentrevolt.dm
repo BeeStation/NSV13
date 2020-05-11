@@ -21,7 +21,7 @@
 			jobs_to_revolt = list("Chief Medical Officer", "Medical Doctor", "Chemist", "Geneticist", "Virologist", "Paramedic")
 			nation_name = pick("Mede", "Healtha", "Recova", "Chemi", "Geneti", "Viro", "Psych")
 		if("yellow")
-			jobs_to_revolt = list("Chief Engineer", "Station Engineer", "Atmospheric Technician")
+			jobs_to_revolt = list("Chief Engineer", "Ship Engineer", "Atmospheric Technician") //NSV13 Station to Ship Enginer
 			nation_name = pick("Atomo", "Engino", "Power", "Teleco")
 		if("purple")
 			jobs_to_revolt = list("Research Director","Scientist", "Roboticist")

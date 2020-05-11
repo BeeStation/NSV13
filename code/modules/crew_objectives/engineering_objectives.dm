@@ -2,7 +2,7 @@
 
 /datum/objective/crew/integrity //ported from old Hippie
 	explanation_text = "Ensure the station's integrity rating is at least (Something broke, yell on GitHub)% when the shift ends."
-	jobs = "chiefengineer,stationengineer"
+	jobs = "chiefengineer,shipengineer"
 
 /datum/objective/crew/integrity/New()
 	. = ..()

@@ -358,9 +358,9 @@
 		if(ACCESS_CENT_BAR)
 			return "Code Scotch"
 
-/proc/get_all_jobs()//Nsv13 - updated with new jobs
+/proc/get_all_jobs()//Nsv13 - updated with new jobs, Station to Ship Engineer
 	return list("Assistant", "Captain", "Executive Officer", "Bartender", "Cook", "Botanist", "Quartermaster", "Cargo Technician",
-				"Shaft Miner", "Clown", "Mime", "Janitor", "Curator", "Lawyer", "Chaplain", "Chief Engineer", "Station Engineer",
+				"Shaft Miner", "Clown", "Mime", "Janitor", "Curator", "Lawyer", "Chaplain", "Chief Engineer", "Ship Engineer",
 				"Atmospheric Technician", "Chief Medical Officer", "Medical Doctor", "Chemist", "Geneticist", "Virologist", "Paramedic",
 				"Research Director", "Scientist", "Roboticist", "Head of Security", "Warden", "Detective", "Security Officer", "Brig Physician",
 				"Air Traffic Controller", "Flight Leader","Fighter Pilot", "Munitions Technician", "Master At Arms", "Bridge Staff")
