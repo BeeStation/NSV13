@@ -81,34 +81,8 @@
 /obj/vehicle/sealed/car/realistic/fighter_tug/proc/can_launch_fighters()
 	return TRUE
 
-//This proc is cringe. Raw, unadulterated cringe. It'll do for now
-
-/obj/vehicle/sealed/car/realistic/fighter_tug/proc/angle2dir()
-	angle = SIMPLIFY_DEGREES(angle) //fuck you negative angles FUCK YOU
-	var/dir = SOUTH
-	switch(angle)
-		if(0 to 10)
-			dir = NORTH
-		if(11 to 80)
-			dir = NORTHEAST
-		if(81 to 100)
-			dir = EAST
-		if(101 to 160)
-			dir = SOUTHEAST
-		if(161 to 200)
-			dir = SOUTH
-		if(201 to 260)
-			dir = SOUTHWEST
-		if(260 to 280)
-			dir = WEST
-		if(281 to 340)
-			dir = NORTHWEST
-		if(341 to 360)
-			dir = NORTH
-	return dir
-
 /obj/vehicle/sealed/car/realistic/fighter_tug/proc/load()
-	var/obj/structure/overmap/load = locate(/obj/structure/overmap/fighter) in orange(get_turf(get_step(src, angle2dir())), 1)
+	var/obj/structure/overmap/load = locate(/obj/structure/overmap/fighter) in orange(get_turf(get_step(src, angle2dir(angle))), 1)
 	if(!load)
 		load = locate(/obj/structure/overmap/fighter) in orange(1, src) //Failing a dir check, try this
 		return
@@ -168,7 +142,7 @@
 		abort_launch(silent=TRUE)
 		sleep(0.5)
 		target.prime_launch() //Gets us ready to move at PACE.
-		dir = angle2dir()
+		dir = angle2dir(angle)
 		target.desired_angle = 0
 		if(dir & NORTH) //PILOTS. REMEMBER TO FACE THE RIGHT WAY WHEN YOU LAUNCH, OR YOU WILL HAVE A TERRIBLE TIME.
 			target.desired_angle += 0
@@ -202,7 +176,7 @@
 			target.shake_animation()
 		vis_contents -= target
 		loaded -= target
-		var/turf/targetLoc = get_turf(get_step(src, angle2dir()))
+		var/turf/targetLoc = get_turf(get_step(src, angle2dir(angle)))
 		if(!istype(targetLoc, /turf/open))
 			targetLoc = get_turf(src) //Prevents them yeeting fighters through walls.
 		var/obj/structure/fighter_launcher/FL = locate(/obj/structure/fighter_launcher) in orange(targetLoc, 2)
