@@ -68,7 +68,7 @@ GLOBAL_LIST_INIT(computer_beeps, list('nsv13/sound/effects/computer/beep.ogg','n
 	display_name = "Ship computer circuitry"
 	description = "Allows you to rebuild the CIC when it inevitably gets bombed."
 	prereq_ids = list("base")
-	design_ids = list("helm_circuit", "tactical_comp_circuit", "dradis_circuit")
+	design_ids = list("helm_circuit", "tactical_comp_circuit", "dradis_circuit", "mining_dradis_circuit")
 	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 2000)
 	export_price = 2000
 
