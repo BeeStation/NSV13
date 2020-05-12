@@ -17,6 +17,7 @@
 		var/icon/I = icon(getFlatIcon(D), frame = 1) //And finally clone the appearance of our new dummy character.
 		final.Insert(I, "hologram", frame=1, dir=dir) //Then, we add this new icon_state and direction to the icon we're generating. This is then cleanly applied to the dummy mob to give it its appearance.
 	qdel(D)
+	say("Incoming priority one transmission from Central Command.")
 	playsound(src, 'nsv13/sound/effects/computer/admin_holopad_activate.ogg', 100, FALSE)
 	sleep(3.6 SECONDS)
 	var/mob/Hologram = new /mob/living/simple_animal/admin_holopad(get_turf(src))
@@ -68,9 +69,8 @@
 	. = ..()
 
 /obj/machinery/holopad/attack_ghost(mob/user)
-	if(!check_rights_for(user.client, R_FUN))
+	if(!check_rights_for(user.client, R_ADMIN))
 		return
 	if(alert("Appear as a hologram?",src,"Yes","No") == "No")
 		return
 	create_admin_hologram(user.client)
-	say("Incoming priority one transmission from Central Command.")
