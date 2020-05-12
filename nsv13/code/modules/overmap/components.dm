@@ -63,6 +63,14 @@ GLOBAL_LIST_INIT(computer_beeps, list('nsv13/sound/effects/computer/beep.ogg','n
 	playsound(src, 'nsv13/sound/effects/computer/startup.ogg', 75, 1)
 	return linked.start_piloting(user, position)
 
+/datum/techweb_node/ship_circuits
+	id = "ship_circuitry"
+	display_name = "Ship computer circuitry"
+	description = "Allows you to rebuild the CIC when it inevitably gets bombed."
+	prereq_ids = list("base")
+	design_ids = list("helm_circuit", "tactical_comp_circuit")
+	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 2000)
+	export_price = 2000
 
 /obj/item/circuitboard/computer/ship/helm
 	name = "circuit board (helm computer)"

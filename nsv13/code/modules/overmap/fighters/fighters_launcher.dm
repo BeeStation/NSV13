@@ -65,7 +65,6 @@
 			next_message = world.time + 5 SECONDS
 			what = "<span class='boldnotice'>Air Traffic Controller: [what]</span>"
 			to_chat(pilot, what)
-			to_chat(usr, what)
 
 /obj/machinery/computer/ship/fighter_launcher/attack_hand(mob/user)
 	if(!allowed(user))
