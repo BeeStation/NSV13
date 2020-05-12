@@ -66,6 +66,19 @@
 		new /datum/vector2d(44,-59),\
 		new /datum/vector2d(68,120))
 
+/obj/structure/overmap/nanotrasen/battleship
+	name = "judgement class battlestar"
+	desc = "A gigantic battleship capable of pummelling entire enemy fleets into the ground with its advanced firepower. Ships like these are extremely expensive to produce, and are thus rarely seen in actual combat these days."
+	icon = 'nsv13/icons/overmap/nanotrasen/battleship.dmi'
+	icon_state = "battleship"
+	mass = MASS_TITAN
+	sprite_size = 48
+	damage_states = FALSE
+	pixel_z = -225
+	pixel_w = -112
+	max_integrity = 3000 //Max health
+	integrity_failure = 3000
+	collision_positions = list(new /datum/vector2d(-21,223), new /datum/vector2d(-85,72), new /datum/vector2d(-92,46), new /datum/vector2d(-91,-107), new /datum/vector2d(-80,-135), new /datum/vector2d(-52,-220), new /datum/vector2d(-27,-227), new /datum/vector2d(27,-228), new /datum/vector2d(52,-220), new /datum/vector2d(81,-136), new /datum/vector2d(92,-106), new /datum/vector2d(92,44), new /datum/vector2d(84,73), new /datum/vector2d(20,222), new /datum/vector2d(0,225))
 /obj/structure/overmap/nanotrasen/carrier
 	name = "enterprise class carrier"
 	desc = "A gigantic ship which is capable of staying deployed in space for extended periods while supporting an impressive complement of fighters."
@@ -100,6 +113,8 @@
 	area_type = /area/nostromo
 
 /obj/structure/overmap/nanotrasen/mining_cruiser/nostromo/fob
+	name = "NSV FOB"
+	mass = MASS_SMALL //providing a real difference between nostromo and fob
 	area_type = /area/nsv/shuttle
 
 /obj/structure/overmap/nanotrasen/missile_cruiser/starter //VAGO. Sergei use me!
@@ -124,6 +139,9 @@
 //	bound_width = 256
 //	bound_height = 256
 
+/obj/structure/overmap/nanotrasen/battleship/starter
+	role = MAIN_OVERMAP //Player controlled variant
+
 /obj/structure/overmap/nanotrasen/patrol_cruiser/ai
 	ai_controlled = TRUE
 	ai_behaviour = AI_AGGRESSIVE
@@ -146,11 +164,10 @@
 	damage_states = TRUE
 	collision_positions = list(new /datum/vector2d(-8,46), new /datum/vector2d(-17,33), new /datum/vector2d(-25,2), new /datum/vector2d(-14,-45), new /datum/vector2d(9,-46), new /datum/vector2d(22,4), new /datum/vector2d(14,36))
 
-/obj/structure/overmap/fighter/ai
+/obj/structure/overmap/nanotrasen/ai/fighter
 	ai_controlled = TRUE
 	ai_behaviour = AI_AGGRESSIVE
 	weapon_safety = FALSE
-	prebuilt = TRUE
 	faction = "nanotrasen"
 
 //Syndicate ships
@@ -202,51 +219,6 @@
 	integrity_failure = 1500
 	collision_positions = list(new /datum/vector2d(-7,124), new /datum/vector2d(-26,67), new /datum/vector2d(-46,-75), new /datum/vector2d(-45,-95), new /datum/vector2d(-30,-116), new /datum/vector2d(25,-119), new /datum/vector2d(36,-94), new /datum/vector2d(41,-76), new /datum/vector2d(19,71))
 
-/obj/structure/overmap/fighter/syndicate //Syndie PVP fighter
-	name = "Syndicate Fighter"
-	desc = "The Syndicate's answer to Nanotrasen's fighter craft, this fighter is designed to maintain aerial supremacy."
-	icon = 'nsv13/icons/overmap/syndicate/syn_viper.dmi'
-	icon_state = "fighter"
-	damage_states = FALSE
-	prebuilt = TRUE
-	req_one_access = ACCESS_SYNDICATE
-	faction = "syndicate"
-	start_emagged = TRUE
-
-/obj/structure/overmap/fighter/syndicate/prebuilt_setup()
-	name = "[pick("Hammerforce", "Shrike", "Anvil", "Viscerator", "Striker", "Immolator", "Redsuit", "Tango", "Wolf", "Viper", "Crusher")]-[rand(100,200)]"
-	var/list/components = list(/obj/item/twohanded/required/fighter_component/empennage,
-							/obj/item/twohanded/required/fighter_component/wing,
-							/obj/item/twohanded/required/fighter_component/wing,
-							/obj/item/twohanded/required/fighter_component/landing_gear,
-							/obj/item/twohanded/required/fighter_component/cockpit,
-							/obj/item/twohanded/required/fighter_component/armour_plating,
-							/obj/item/twohanded/required/fighter_component/fuel_tank,
-							/obj/item/fighter_component/avionics,
-							/obj/item/fighter_component/fuel_lines,
-							/obj/item/fighter_component/targeting_sensor,
-							/obj/item/twohanded/required/fighter_component/engine,
-							/obj/item/twohanded/required/fighter_component/engine,
-							/obj/item/twohanded/required/fighter_component/primary_cannon)
-	for(var/I = 0, I <= max_torpedoes, I++)
-		munitions += new /obj/item/ship_weapon/ammunition/torpedo/fast(src)
-	for(var/item in components)
-		new item(src)
-	torpedoes = munitions.len
-	internal_tank = new /obj/machinery/portable_atmospherics/canister/air(src)
-
-/obj/structure/overmap/fighter/prebuilt/raptor/syndicate
-	name = "Syndicate Raptor"
-	desc = "A boarding craft for rapid troop deployment."
-	icon = 'nsv13/icons/overmap/syndicate/syn_raptor.dmi'
-	icon_state = "carrier"
-	damage_states = FALSE
-	max_passengers = 8 //Damn boi he THICC
-	max_integrity = 150 //Squishy!
-	req_one_access = ACCESS_SYNDICATE
-	faction = "syndicate"
-	start_emagged = TRUE
-
 /obj/structure/overmap/syndicate/ai //Generic bad guy #10000. GRR.
 	icon = 'nsv13/icons/overmap/syndicate/syn_light_cruiser.dmi'
 	icon_state = "cruiser"
@@ -265,7 +237,7 @@
 	icon_state = "carrier"
 	mass = MASS_LARGE
 	ai_can_launch_fighters = TRUE //AI variable. Allows your ai ships to spawn fighter craft
-	ai_fighter_type = /obj/structure/overmap/fighter/ai/syndicate
+	ai_fighter_type = /obj/structure/overmap/syndicate/ai/fighter
 	sprite_size = 48
 	damage_states = TRUE
 	pixel_z = -96
@@ -292,21 +264,26 @@
 	bounty = 500
 	collision_positions = list(new /datum/vector2d(-7,124), new /datum/vector2d(-26,67), new /datum/vector2d(-46,-75), new /datum/vector2d(-45,-95), new /datum/vector2d(-30,-116), new /datum/vector2d(25,-119), new /datum/vector2d(36,-94), new /datum/vector2d(41,-76), new /datum/vector2d(19,71))
 
-/obj/structure/overmap/fighter/ai
-	prebuilt = TRUE
-	has_escape_pod = FALSE
-	var/bounty = 250
-
-/obj/structure/overmap/fighter/ai/syndicate
+/obj/structure/overmap/syndicate/ai/fighter
 	name = "Syndicate interceptor"
 	desc = "A space faring fighter craft."
 	icon = 'nsv13/icons/overmap/syndicate/syn_fighter.dmi'
 	icon_state = "fighter"
+	damage_states = TRUE
 	brakes = FALSE
 	max_integrity = 100 //Super squishy!
 	sprite_size = 32
 	faction = "syndicate"
+	mass = MASS_TINY
+	armor = list("melee" = 80, "bullet" = 50, "laser" = 80, "energy" = 50, "bomb" = 50, "bio" = 100, "rad" = 100, "fire" = 100, "acid" = 80) //temp to stop easy destruction from small arms
+	bound_width = 64 //Change this on a per ship basis
+	bound_height = 64
+	pixel_w = -16
+	pixel_z = -20
+	missiles = 4
+	torpedoes = 0
+	bounty = 250
 
-/obj/structure/overmap/fighter/ai/syndicate/Destroy()
-	SSstarsystem.bounty_pool += bounty //Adding payment for services rendered
-	. = ..()
+/obj/structure/overmap/syndicate/ai/fighter/Initialize()
+	.=..()
+	weapon_types[FIRE_MODE_MISSILE] = new/datum/ship_weapon/missile_launcher

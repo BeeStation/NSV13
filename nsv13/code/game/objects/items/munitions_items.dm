@@ -63,26 +63,9 @@
 /obj/item/radio/headset/heads/master_at_arms/ComponentInitialize()
 	. = ..()
 	AddComponent(/datum/component/wearertargeting/earprotection, list(SLOT_EARS))
-	
+
 /obj/item/radio/headset/headset_sec/alt/munitions_tech
 	name = "munitions technician radio headset"
 	desc = "Use :w to access the department frequency. Use :u to access the supply frequency."
 	icon_state = "sec_headset"
 	keyslot = new /obj/item/encryptionkey/munitions_tech
-
-////////CLOTHING//////
-
-/obj/item/clothing/under/rank/munitions_tech
-	name = "camouflage fatigues"
-	desc = "A green military camouflage uniform worn by specialists."
-	icon_state = "camogreen"
-	item_state = "g_suit"
-	item_color = "camogreen"
-	can_adjust = FALSE
-	
-/obj/item/clothing/under/rank/master_at_arms
-	name = "master at arms' jumpsuit"
-	desc = "It's a jumpsuit worn by those with the experience to be \"Master At Arms\". It provides minor fire protection."
-	icon_state = "tactifool" //PLACEHOLDER
-	item_state = "bl_suit"
-	armor = list("melee" = 0, "bullet" = 0, "laser" = 0,"energy" = 0, "bomb" = 50, "bio" = 0, "rad" = 0, "fire" = 50, "acid" = 0)
