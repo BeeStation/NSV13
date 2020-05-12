@@ -119,7 +119,7 @@
 	set_light(5)
 
 /obj/vehicle/sealed/car/realistic/fighter_tug/proc/hitch(obj/structure/overmap/fighter/target)
-	if(!target || LAZYFIND(loaded, target))
+	if(!target || LAZYFIND(loaded, target) || target.mag_lock)//No sucking
 		return FALSE
 	loaded += target
 	STOP_PROCESSING(SSovermap, target)

@@ -355,7 +355,9 @@ Method to try locate an overmap object that we should attach to. Recursively cal
 	. = ..()
 
 /obj/structure/hull_plate/proc/relay_damage(datum/source, amount)
-	if(prob(10))
+	if(!amount)
+		return //No 0 damage
+	if(prob(amount/5)) //magic number woo!
 		take_damage(amount)
 
 /obj/structure/hull_plate/take_damage(damage_amount, damage_type = BRUTE, damage_flag = 0, sound_effect = FALSE)
@@ -372,16 +374,16 @@ Method to try locate an overmap object that we should attach to. Recursively cal
 	update_icon()
 
 /obj/structure/hull_plate/proc/try_repair(amount, mob/user)
-	if(obj_integrity+amount >= max_integrity)
-		if(user)
-			to_chat(user, "<span class='warning'>You have fully repaired [src].</span>")
-		parent?.armour_plates ++
+	obj_integrity = (obj_integrity + amount < max_integrity) ? obj_integrity + amount : max_integrity
+	update_icon()
+	if(obj_integrity <= max_integrity)
+		to_chat(user, "<span class='warning'>You have fully repaired [src].</span>")
 		obj_integrity = max_integrity
 		update_icon()
-		armour_broken = FALSE
+		if(armour_broken)
+			parent?.armour_plates ++
+			armour_broken = FALSE
 		return
-	obj_integrity += amount
-	update_icon()
 
 /obj/structure/hull_plate/update_icon()
 	var/progress = obj_integrity
@@ -416,7 +418,7 @@ Method to try locate an overmap object that we should attach to. Recursively cal
 		var/list/plates = list()
 		plates += src
 		for(var/obj/structure/hull_plate/S in orange(1, src))
-			if(S.armour_broken)
+			if(S.obj_integrity < S.max_integrity)
 				plates += S
 				fuel_required ++
 		if(!W.tool_start_check(user, amount=fuel_required))
