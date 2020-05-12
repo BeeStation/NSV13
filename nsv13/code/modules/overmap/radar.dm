@@ -1,8 +1,22 @@
+/obj/item/circuitboard/computer/ship/dradis
+	name = "circuit board (dradis computer)"
+	build_path = /obj/machinery/computer/ship/dradis
+
+/datum/design/board/dradis_circuit
+	name = "Computer Design (Dradis Computer)"
+	desc = "Allows for the construction of a dradis console."
+	id = "dradis_circuit"
+	materials = list(/datum/material/glass = 2000, /datum/material/copper = 500)
+	build_path = /obj/item/circuitboard/computer/ship/dradis
+	category = list("Ship Components")
+	departmental_flags = DEPARTMENTAL_FLAG_SCIENCE
+
 /obj/machinery/computer/ship/dradis
 	name = "DRADIS computer"
 	desc = "The DRADIS system is a series of highly sensitive detection, identification, navigation and tracking systems used to determine the range and speed of objects. This forms the most central component of a spaceship's navigational systems, as it can project the whereabouts of enemies that are out of visual sensor range by tracking their engine signatures."
 	icon_screen = "teleport"
 	req_access = list()
+	circuit = /obj/item/circuitboard/computer/ship/dradis
 	var/stored = "blank"
 	var/on = TRUE //Starts on by default.
 	var/scanning_speed = 2 //Duration of each pulse.
