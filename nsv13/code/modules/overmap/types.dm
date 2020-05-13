@@ -123,31 +123,31 @@
 	role = MAIN_OVERMAP
 	max_integrity = 1800 //Buffed health due to ship internal damage existing
 	integrity_failure = 1800
-	starting_system = "Sol"
+	starting_system = "Wolf 359"
 
 /obj/structure/overmap/nanotrasen/patrol_cruiser/starter
 	role = MAIN_OVERMAP //Player controlled variant
 	max_integrity = 1800 //Buffed health due to ship internal damage existing
 	integrity_failure = 1800
-	starting_system = "Sol"
+	starting_system = "Wolf 359"
 
 /obj/structure/overmap/nanotrasen/heavy_cruiser/starter
 	role = MAIN_OVERMAP //Player controlled variant
 	max_integrity = 1800 //Buffed health due to ship internal damage existing
 	integrity_failure = 1800
-	starting_system = "Sol"
+	starting_system = "Wolf 359"
 
 /obj/structure/overmap/nanotrasen/carrier/starter
 	role = MAIN_OVERMAP //Player controlled variant
 	max_integrity = 2000 //Compensates for lack of offensive weaponry
 	integrity_failure = 2000
-	starting_system = "Sol"
+	starting_system = "Wolf 359"
 //	bound_width = 256
 //	bound_height = 256
 
 /obj/structure/overmap/nanotrasen/battleship/starter
 	role = MAIN_OVERMAP //Player controlled variant
-	starting_system = "Sol"
+	starting_system = "Wolf 359"
 
 /obj/structure/overmap/nanotrasen/patrol_cruiser/ai
 	ai_controlled = TRUE

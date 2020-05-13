@@ -143,11 +143,11 @@
 		if(info["to_time"] > 0)
 			data["freepointer_x"] = info["x"]
 			data["freepointer_y"] = info["y"]
+			var/datum/star_system/last = info["last_system"]
 			var/datum/star_system/targ = info["target_system"]
-			var/datum/star_system/last
 			var/dist = last.dist(targ)
-			var/dx = last.x - targ.x
-			var/dy = last.y - targ.y
+			var/dx = targ.x - last.x
+			var/dy = targ.y - last.y
 			data["freepointer_cos"] = dx / dist
 			data["freepointer_sin"] = dy / dist
 		data["star_systems"] = systems_list

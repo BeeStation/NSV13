@@ -215,7 +215,7 @@ SUBSYSTEM_DEF(star_system)
 /datum/controller/subsystem/star_system/proc/get_transit_progress(obj/structure/overmap/OM)
 	var/list/info = ships[OM]
 	if(info["current_system"])
-		return 0
+		return FALSE
 	return (world.time - info["from_time"])/(info["to_time"] - info["from_time"])
 
 //////star_system DATUM///////
@@ -352,6 +352,9 @@ SUBSYSTEM_DEF(star_system)
 
 /obj/effect/overmap_anomaly/singularity/process()
 	if(!z) //Not in nullspace
+		if(affecting && affecting.len)
+			for(var/obj/structure/overmap/OM in affecting)
+				stop_affecting(OM)
 		return
 	for(var/obj/structure/overmap/OM in GLOB.overmap_objects)
 		if(LAZYFIND(affecting, OM))
@@ -362,12 +365,7 @@ SUBSYSTEM_DEF(star_system)
 			OM.relay(sound='nsv13/sound/effects/ship/falling.ogg', message="<span class='warning'>You feel weighed down.</span>", loop=TRUE, channel=CHANNEL_HEARTBEAT)
 	for(var/obj/structure/overmap/OM in affecting)
 		if(get_dist(src, OM) > influence_range || !z || OM.z != z)
-			affecting -= OM
-			OM.stop_relay(CHANNEL_HEARTBEAT)
-			OM.color = cached_colours[OM]
-			cached_colours[OM] = null
-			for(var/mob/M in OM.mobs_in_ship)
-				M?.client?.color = null
+			stop_affecting(OM)
 			continue
 		var/incidence = get_dir(OM, src)
 		var/dist = get_dist(src, OM)
@@ -378,7 +376,8 @@ SUBSYSTEM_DEF(star_system)
 				M?.client?.color = redshift
 		if(dist <= 2)
 			affecting -= OM
-			OM.Destroy()
+			OM.current_system?.remove_ship(OM)
+			qdel(OM)
 		dist = (dist > 0) ? dist : 1
 		var/pull_strength = (dist > event_horizon_range) ? 0.005 : base_pull_strength
 		var/succ_impulse = (!OM.brakes) ? pull_strength/dist*dist : (OM.forward_maxthrust / 10) + (pull_strength/dist*dist) //STOP RESISTING THE SUCC
@@ -390,6 +389,15 @@ SUBSYSTEM_DEF(star_system)
 			OM.velocity.x += succ_impulse
 		if(incidence & WEST)
 			OM.velocity.x -= succ_impulse
+
+/obj/effect/overmap_anomaly/singularity/proc/stop_affecting(obj/structure/overmap/OM = null)
+	if(OM)
+		affecting -= OM
+		OM.stop_relay(CHANNEL_HEARTBEAT)
+		OM.color = cached_colours[OM]
+		cached_colours[OM] = null
+		for(var/mob/M in OM.mobs_in_ship)
+			M?.client?.color = null
 
 /obj/effect/overmap_anomaly/wormhole/Initialize()
 	. = ..()
@@ -573,7 +581,7 @@ SUBSYSTEM_DEF(star_system)
 	name = "Tau Ceti"
 	x = 60
 	y = 30
-	system_type = "ice_planet"
+	system_type = "blackhole"
 	alignment = "nanotrasen"
 	adjacency_list = list("Canis Minoris", "Canis Majoris","Lalande 21185","Wolf 359", "Eridani")
 
