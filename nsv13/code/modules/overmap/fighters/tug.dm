@@ -24,6 +24,7 @@
 	default_hardpoints = list(/obj/item/vehicle_hardpoint/engine/pathetic, /obj/item/vehicle_hardpoint/wheels/heavy) //What does it start with, if anything.
 	var/ready = TRUE
 	var/launch_dir = EAST
+	var/list/loaded = list() //Loaded fighters
 
 /obj/vehicle/sealed/car/realistic/fighter_tug/emp_act(severity)
 	. = ..()
@@ -49,9 +50,9 @@
 
 /obj/vehicle/sealed/car/realistic/fighter_tug/ui_data(mob/user)
 	var/list/data = ..()
-	var/obj/structure/overmap/loaded = locate(/obj/structure/overmap/fighter) in contents
-	data["loaded"] = (loaded) ? TRUE : FALSE
-	data["loaded_name"] = (loaded) ? loaded.name : "No fighter loaded"
+	var/obj/structure/overmap/tugged = locate(/obj/structure/overmap/fighter) in contents
+	data["loaded"] = (tugged) ? TRUE : FALSE
+	data["loaded_name"] = (tugged) ? tugged.name : "No fighter loaded"
 	data["ready"] = ready
 	data["launch_dir"] = dir2text(launch_dir)
 	return data
@@ -72,7 +73,7 @@
 			if(!launch_dir)
 				launch_dir = initial(launch_dir)
 		if("load")
-			var/obj/structure/overmap/load = locate(/obj/structure/overmap/fighter) in contents
+			var/obj/structure/overmap/load = locate(/obj/structure/overmap/fighter) in loaded
 			if(load)
 				abort_launch()
 				return
@@ -97,9 +98,12 @@
 	set_light(5)
 
 /obj/vehicle/sealed/car/realistic/fighter_tug/proc/hitch(obj/structure/overmap/fighter/target)
-	if(LAZYFIND(contents, target))
+	if(LAZYFIND(loaded, target))
 		return FALSE
-	LAZYADD(vis_contents, target)
+	loaded += target
+	STOP_PROCESSING(SSovermap, target)
+	target.forceMove(src)
+	vis_contents += target
 	playsound(src, 'nsv13/sound/effects/ship/freespace2/crane_1.wav', 100, FALSE)
 	visible_message("<span class='warning'>[target] is loaded onto [src]</span>")
 	target.forceMove(src)
@@ -108,7 +112,12 @@
 
 /obj/vehicle/sealed/car/realistic/fighter_tug/process(time)
 	. = ..()
-	for(var/obj/structure/overmap/fighter/target in contents)
+	for(var/obj/structure/overmap/fighter/target in loaded)
+		if(target.loc != src)
+			vis_contents -= target
+			loaded -= target
+			target.mag_lock = null
+			continue
 		target.desired_angle = 0
 		target.angle = 0
 		for(var/mob/living/M in target.operators)
@@ -164,16 +173,18 @@
 	canmove = TRUE
 
 /obj/vehicle/sealed/car/realistic/fighter_tug/proc/abort_launch(silent=FALSE)
-	for(var/obj/structure/overmap/fighter/target in contents)
+	for(var/obj/structure/overmap/fighter/target in loaded)
 		if(!silent)
 			visible_message("<span class='warning'>[target] drops down off of [src]!</span>")
 			playsound(src, 'nsv13/sound/effects/ship/mac_load.ogg', 100, 1)
 			target.shake_animation()
-		LAZYREMOVE(vis_contents, target)
+		vis_contents -= target
+		loaded -= target
 		var/turf/targetLoc = get_turf(get_step(src, launch_dir))
 		if(!istype(targetLoc, /turf/open))
 			targetLoc = get_turf(src) //Prevents them yeeting fighters through walls.
 		target.forceMove(targetLoc)
+		START_PROCESSING(SSovermap, target)
 		target.mag_lock = null
 
 /obj/item/key/fighter_tug

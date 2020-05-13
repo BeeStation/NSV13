@@ -152,9 +152,9 @@
 	icon_state = "xo"
 	armor = list("melee" = 15, "bullet" = 5, "laser" = 0, "energy" = 5, "bomb" = 10, "bio" = 0, "rad" = 0, "fire" = 30, "acid" = 5)
 
-/obj/item/clothing/head/beret/ship/cag
-	name = "CAG's beret"
-	desc = "A sturdy beret worn by air group commanders, this stunning beret is designed to make CAGs feel confident in their leadership."
+/obj/item/clothing/head/beret/ship/flight_leader
+	name = "Flight Leader's beret"
+	desc = "A sturdy beret worn by air group commanders, this stunning beret is designed to make flight leaders feel confident in their leadership."
 	icon_state = "xo"
 	armor = list("melee" = 15, "bullet" = 5, "laser" = 0, "energy" = 5, "bomb" = 10, "bio" = 0, "rad" = 0, "fire" = 30, "acid" = 5)
 
@@ -421,3 +421,42 @@
 	icon_state = "menacing"
 	randomdir = TRUE
 	duration = 2 SECONDS
+
+/obj/item/clothing/under/rank/munitions_tech
+	name = "camouflage fatigues"
+	desc = "A green military camouflage uniform worn by specialists."
+	icon_state = "camogreen"
+	item_state = "g_suit"
+	item_color = "camogreen"
+	can_adjust = FALSE
+
+/obj/item/clothing/under/rank/master_at_arms
+	name = "master at arms' jumpsuit"
+	desc = "It's a jumpsuit worn by those with the experience to be \"Master At Arms\". It provides minor fire protection."
+	icon_state = "tactifool" //PLACEHOLDER
+	item_state = "bl_suit"
+	armor = list("melee" = 0, "bullet" = 0, "laser" = 0,"energy" = 0, "bomb" = 50, "bio" = 0, "rad" = 0, "fire" = 50, "acid" = 0)
+
+/obj/item/clothing/under/ship/decktech
+	name = "deck technician overalls"
+	desc = "Overalls worn by deck technicians."
+	icon_state = "deck_tech"
+	item_state = "bl_suit"
+	item_color = "deck_tech"
+	can_adjust = TRUE
+
+/obj/item/clothing/head/helmet/decktech
+	name = "Deck Technician Helmet"
+	desc = "A helmet for protecting technicians in a hazardous environment."
+	icon = 'nsv13/icons/obj/clothing/hats.dmi'
+	alternate_worn_icon = 'nsv13/icons/mob/head.dmi'
+	icon_state = "decktech_helmet"
+	item_state = "decktech_helmet"
+	actions_types = list(/datum/action/item_action/toggle)
+	visor_flags_inv = HIDEEARS|HIDEEYES
+	visor_flags_cover = HEADCOVERSEYES
+	flash_protect = 2
+	tint = 2
+
+/obj/item/clothing/head/helmet/decktech/attack_self(mob/user)
+	weldingvisortoggle(user)

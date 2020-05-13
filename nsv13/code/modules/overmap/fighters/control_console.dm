@@ -4,7 +4,7 @@
 	icon_screen = "fighter_control"
 	req_access = list(ACCESS_MAA)
 	circuit = /obj/item/circuitboard/computer/ship/fighter_controller
-	var/list/valid_filters = list("Only Occupied Ship", "Raptor", "Viper") //This list works by looking at what the intial value of a fighter's name was to determine its class. We may want to move this over to a "class" var. Karmic when you add P2, you need to change this list. Ty
+	var/list/valid_filters = list("Only Occupied Ship", "Su-818 Rapier", "Su-410 Scimitar", "Su-437 Sabre") //This list works by looking at what the intial value of a fighter's name was to determine its class. We may want to move this over to a "class" var
 	var/faction = "nanotrasen" //Change this to match the faction of your fighters.
 	var/list/current_filters = null //Defaults to showing every kind of fighter. If a fighter type is "in current_filters" then it's visible
 
@@ -15,6 +15,15 @@
 /obj/item/circuitboard/computer/ship/fighter_controller
 	name = "circuit board (fighter control computer)"
 	build_path = /obj/machinery/computer/ship/fighter_controller
+
+/datum/design/board/fighter_controller
+	name = "Computer Design (Fighter Control Console)"
+	desc = "Allows for the construction of a fighter control console."
+	id = "fighter_computer_circuit"
+	materials = list(/datum/material/glass = 2000, /datum/material/copper = 200, /datum/material/gold = 1000)
+	build_path = /obj/item/circuitboard/computer/ship/fighter_controller
+	category = list("Computer Boards")
+	departmental_flags = DEPARTMENTAL_FLAG_CARGO | DEPARTMENTAL_FLAG_SCIENCE
 
 /obj/machinery/computer/ship/fighter_controller/emag_act(mob/user)
 	if(obj_flags & EMAGGED)
