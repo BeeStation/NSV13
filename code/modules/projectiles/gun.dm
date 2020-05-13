@@ -76,6 +76,7 @@
 		pin = new pin(src)
 	if(gun_light)
 		alight = new(src)
+	canMouseDown = automatic //Nsv13 / Bee change.
 	build_zooming()
 
 /obj/item/gun/Destroy()
