@@ -462,6 +462,9 @@ You need to fire emag the fighter's IFF board. This makes it list as "ENEMY" on 
 	if(istype(M, /mob/living))
 		if(max_passengers <= 0)
 			return
+		if(canopy_open == FALSE)
+			to_chat(user, "<span class='notice'>][src]'s cabin must be open to access the passenger seats.</span>")
+			return
 		if(mobs_in_ship.len < max_passengers)
 			to_chat(user, "<span class='notice'>You begin climbing into one of [src]'s passenger seats.</span>")
 			if(!do_after(user, 5 SECONDS, target=src))
