@@ -32,6 +32,7 @@
 	var/contact_poison // Reagent ID to transfer on contact
 	var/contact_poison_volume = 0
 	var/datum/oracle_ui/ui = null
+	var/next_write_time = 0 //I hate that I have to do this. Nsv13 whatever
 
 /obj/item/paper/pickup(user)
 	if(contact_poison && ishuman(user))
@@ -308,15 +309,17 @@
 
 
 /obj/item/paper/Topic(href, href_list)
+	if(next_write_time > world.time)
+		return
 	..()
 	var/literate = usr.is_literate()
 	if(!usr.canUseTopic(src, BE_CLOSE, literate))
 		return
-
 	if(href_list["help"])
 		openhelp(usr)
 		return
 	if(href_list["write"])
+		next_write_time = world.time + 1 SECONDS
 		var/id = href_list["write"]
 		var/t =  stripped_multiline_input("Enter what you want to write:", "Write", no_trim=TRUE)
 		if(!t || !usr.canUseTopic(src, BE_CLOSE, literate))
