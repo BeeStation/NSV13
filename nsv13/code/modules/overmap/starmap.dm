@@ -80,8 +80,9 @@
 			data["star_name"] = current_system.name
 		else
 			data["in_transit"] = TRUE
-			data["from_star_id"] = "\ref[info["last_system"]]]"
-			data["from_star_name"] = info["last_system"].name
+			var/datum/star_system/last_system = info["last_system"]
+			data["from_star_id"] = "\ref[last_system]"
+			data["from_star_name"] = last_system.name
 			data["to_star_id"] = "\ref[target_system]"
 			data["to_star_name"] = target_system.name
 			data["time_left"] = max(0, (info["to_time"] - world.time) / 1 MINUTES)
@@ -90,8 +91,9 @@
 
 		var/list/systems_list = list()
 		if(info["current_system"])
-			data["focus_x"] = info["current_system"].x
-			data["focus_y"] = info["current_system"].y
+			var/datum/star_system/curr = info["current_system"]
+			data["focus_x"] = curr.x
+			data["focus_y"] = curr.y
 		else
 			data["focus_x"] = info["x"]
 			data["focus_y"] = info["y"]
@@ -141,9 +143,11 @@
 		if(info["to_time"] > 0)
 			data["freepointer_x"] = info["x"]
 			data["freepointer_y"] = info["y"]
-			var/dist = info["last_system"].dist(info["target_system"])
-			var/dx = info["target_system"].x - info["last_system"].x
-			var/dy = info["target_system"].y - info["last_system"].y
+			var/datum/star_system/targ = info["target_system"]
+			var/datum/star_system/last
+			var/dist = last.dist(targ)
+			var/dx = last.x - targ.x
+			var/dy = last.y - targ.y
 			data["freepointer_cos"] = dx / dist
 			data["freepointer_sin"] = dy / dist
 		data["star_systems"] = systems_list
@@ -153,7 +157,8 @@
 		data["star_name"] = selected_system.name
 		data["alignment"] = capitalize(selected_system.alignment)
 		if(info["current_system"])
-			data["star_dist"] = info["current_system"].dist(selected_system)
+			var/datum/star_system/curr = info["current_system"]
+			data["star_dist"] = curr.dist(selected_system)
 			data["can_jump"] = current_system.dist(selected_system) < linked.ftl_drive?.max_range && linked.ftl_drive.ftl_state == FTL_STATE_READY && LAZYFIND(current_system.adjacency_list, selected_system.name)
 			data["can_cancel"] = linked.ftl_drive.ftl_state == FTL_STATE_JUMPING && linked.ftl_drive.can_cancel_jump
 			if(!can_control_ship) //For public consoles

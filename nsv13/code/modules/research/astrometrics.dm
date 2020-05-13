@@ -66,7 +66,8 @@ Clean override of the navigation computer to provide scan functionality.
 		data["alignment"] = capitalize(selected_system.alignment)
 		data["scanned"] = FALSE
 		if(info["current_system"])
-			data["star_dist"] = info["current_system"].dist(selected_system)
+			var/datum/star_system/curr = info["current_system"]
+			data["star_dist"] = curr.dist(selected_system)
 			data["can_scan"] = is_in_range(current_system, selected_system)
 			data["can_cancel"] = (scan_target) ? TRUE : FALSE
 		if(LAZYFIND(scanned, selected_system.name)) //If we've scanned this one before, get me the list of its anomalies.

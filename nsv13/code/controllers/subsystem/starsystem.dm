@@ -196,7 +196,8 @@ SUBSYSTEM_DEF(star_system)
 
 /datum/controller/subsystem/star_system/proc/add_ship(obj/structure/overmap/OM)
 	ships[OM] = list("ship" = OM, "x" = 0, "y" = 0, "current_system" = system_by_id(OM.starting_system), "last_system" = system_by_id(OM.starting_system), "target_system" = null, "from_time" = 0, "to_time" = 0, "occupying_z" = OM.z)
-	ships[OM]["current_system"].add_ship(OM)
+	var/datum/star_system/curr = ships[OM]["current_system"]
+	curr.add_ship(OM)
 
 //Welcome to bracket hell.
 
@@ -205,8 +206,11 @@ SUBSYSTEM_DEF(star_system)
 /datum/controller/subsystem/star_system/proc/update_pos(obj/structure/overmap/OM)
 	if(!ships[OM])
 		return FALSE
-	ships[OM]["x"] = (ships[OM]["current_system"]) ? ships[OM]["current_system"].x : ships[OM]["last_system"].lerp_x(ships[OM]["target_system"], get_transit_progress(OM))
-	ships[OM]["y"] = (ships[OM]["current_system"]) ? ships[OM]["current_system"].y : ships[OM]["last_system"].lerp_y(ships[OM]["target_system"], get_transit_progress(OM))
+	var/datum/star_system/curr = ships[OM]["current_system"]
+	var/datum/star_system/last = ships[OM]["last_system"]
+	var/datum/star_system/targ = ships[OM]["target_system"]
+	ships[OM]["x"] = (curr) ? curr.x : last.lerp_x(targ, get_transit_progress(OM))
+	ships[OM]["y"] = (curr) ? curr.y : last.lerp_y(targ, get_transit_progress(OM))
 
 /datum/controller/subsystem/star_system/proc/get_transit_progress(obj/structure/overmap/OM)
 	var/list/info = ships[OM]
