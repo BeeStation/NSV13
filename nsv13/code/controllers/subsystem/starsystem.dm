@@ -581,7 +581,6 @@ SUBSYSTEM_DEF(star_system)
 	name = "Tau Ceti"
 	x = 60
 	y = 30
-	system_type = "blackhole"
 	alignment = "nanotrasen"
 	adjacency_list = list("Canis Minoris", "Canis Majoris","Lalande 21185","Wolf 359", "Eridani")
 
