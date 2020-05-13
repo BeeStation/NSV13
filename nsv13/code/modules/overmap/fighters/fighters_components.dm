@@ -655,6 +655,15 @@
 	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 15000)
 	export_price = 3000
 
+/datum/techweb_node/fighter_control_console
+	id = "fighter_control_console"
+	display_name = "Remote Monitoring and Control of Fighters"
+	description = "Pesky pilots making a mess of the hangar with their guns? Lock their weapons down with this easy one click console."
+	prereq_ids = list("fighter_fabrication")
+	design_ids = list("fighter_computer_circuit")
+	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 5000)
+	export_price = 500
+
 /////COMPONENT DESIGNS/////
 
 /datum/design/light_chassis_crate
