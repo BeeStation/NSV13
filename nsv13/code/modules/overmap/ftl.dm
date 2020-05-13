@@ -130,13 +130,14 @@
 	if(ftl_start)
 		SSstar_system.last_combat_enter = world.time //To allow for time spent FTL jumping
 		relay(ftl_drive.ftl_loop, "<span class='warning'>You feel the ship lurch forward</span>", loop=TRUE, channel = CHANNEL_SHIP_ALERT)
-		var/speed = (SSstar_system.ships[src]["current_system"].dist(target_system) / (ftl_drive.jump_speed_factor*10)) //TODO: FTL drive speed upgrades.
+		var/datum/star_system/curr = SSstar_system.ships[src]["current_system"]
+		var/speed = (curr.dist(target_system) / (ftl_drive.jump_speed_factor*10)) //TODO: FTL drive speed upgrades.
 		SSstar_system.ships[src]["to_time"] = world.time + speed MINUTES
 		SEND_SIGNAL(src, COMSIG_FTL_STATE_CHANGE)
 		if(role == MAIN_OVERMAP) //Scuffed please fix
 			priority_announce("Attention: All hands brace for FTL translation. Destination: [target_system]. Projected arrival time: [station_time_timestamp("hh:mm", world.time + speed MINUTES)] (Local time)","Automated announcement") //TEMP! Remove this shit when we move ruin spawns off-z
 		SSstar_system.ships[src]["target_system"] = target_system
-		SSstar_system.ships[src]["current_system"].remove_ship(src)
+		curr.remove_ship(src)
 		SSstar_system.ships[src]["from_time"] = world.time
 		SSstar_system.ships[src]["current_system"] = null
 		addtimer(CALLBACK(src, .proc/jump, target_system, FALSE), speed MINUTES)
