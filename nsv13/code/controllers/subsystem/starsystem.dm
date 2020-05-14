@@ -68,7 +68,7 @@ SUBSYSTEM_DEF(star_system)
 		if(OM.role == MAIN_MINING_SHIP)
 			return OM
 
-/datum/controller/subsystem/star_system/proc/system_by_id(id)
+/datum/controller/subsystem/star_system/proc/system_by_id(id) //Find a system by given ID
 	for(var/datum/star_system/sys in systems)
 		if(sys.name == id)
 			return sys
@@ -110,6 +110,17 @@ SUBSYSTEM_DEF(star_system)
 	target_sys.system_contents += anomaly
 	anomaly.moveToNullspace() //Anything that's an NPC should be stored safely in nullspace until we return.
 	message_admins("[anomaly] successfully queued for [target_sys]")
+
+/datum/controller/subsystem/star_system/proc/spawn_planet(obj/structure/overmap/planet, datum/star_system/target_sys) //like spawning ships, but for planets, which are pre-defined
+	if(target_sys.occupying_z)
+		var/turf/destination = null
+		destination = get_turf(locate(rand(50, world.maxx), rand(50, world.maxy), target_sys.occupying_z)) //Spawn them somewhere in the system. I don't really care where.
+		planet.Move(destination)
+		target_sys.add_enemy(planet)
+	else
+		target_sys.enemy_queue += planet
+
+
 
 ///////BOUNTIES//////
 
@@ -248,6 +259,7 @@ SUBSYSTEM_DEF(star_system)
 	var/list/contents_positions = list()
 	var/list/system_contents = list()
 	var/list/enemy_queue = list()
+	var/list/planet_list = list()
 
 	var/danger_level = 0
 	var/system_traits = NONE
@@ -264,6 +276,7 @@ SUBSYSTEM_DEF(star_system)
 	. = ..()
 	addtimer(CALLBACK(src, .proc/spawn_asteroids), 15 SECONDS)
 	addtimer(CALLBACK(src, .proc/generate_anomaly), 15 SECONDS)
+	addtimer(CALLBACK(src, .proc/generate_planets), 15 SECONDS)
 
 /datum/star_system/proc/create_wormhole()
 	for(var/datum/star_system/S in SSstar_system.systems)
@@ -406,14 +419,14 @@ SUBSYSTEM_DEF(star_system)
 /obj/effect/overmap_anomaly/safe
 	name = "Placeholder"
 
-/obj/effect/overmap_anomaly/safe/sun
+/obj/effect/overmap_anomaly/safe/center/sun
 	name = "Star"
 	desc = "A huge ball of burning hydrogen that lights up space around it. Scanning its corona could yield useful information."
 	icon = 'nsv13/goonstation/icons/effects/overmap_anomalies/stellarbodies.dmi'
 	icon_state = "sun"
 	research_points = 3000 //Pretty meagre, but a sustainable source of points.
 
-/obj/effect/overmap_anomaly/safe/sun/red_giant
+/obj/effect/overmap_anomaly/safe/center/sun/red_giant
 	name = "Red Giant"
 	desc = "A large star that is nearing the end of its life. A scan of its stellar core could lead to useful conclusions."
 	icon_state = "redgiant"
@@ -464,7 +477,10 @@ SUBSYSTEM_DEF(star_system)
 		spawn_enemies() //Syndicate systems are even more dangerous, and come pre-loaded with some guaranteed Syndiships.
 	if(!anomaly_type)
 		anomaly_type = pick(subtypesof(/obj/effect/overmap_anomaly/safe))
-	SSstar_system.spawn_anomaly(anomaly_type, src)
+	if(istype(anomaly_type, /obj/effect/overmap_anomaly/safe/center))
+		SSstar_system.spawn_anomaly(anomaly_type, src, TRUE)
+	else
+		SSstar_system.spawn_anomaly(anomaly_type, src)
 
 /datum/star_system/proc/generate_anomaly()
 	if(prob(15)) //Low chance of spawning a wormhole twixt us and another system.
@@ -527,6 +543,26 @@ SUBSYSTEM_DEF(star_system)
 
 /datum/star_system/proc/lerp_y(datum/star_system/other, t)
 	return y + (t * (other.y - y))
+
+
+/datum/star_system/proc/generate_planets()
+	var/gen_num = 8-(round(sqrt(rand(0,64))))
+	var/list/chosen_radii = list()
+
+	for(var/x in 1 to gen_num)
+		var/radius = rand(100, 4200)
+		for(var/r in chosen_radii)
+			if(abs(r - radius) < 100)
+				radius = 0
+		if(!radius) //ignore planets generated with a radius too close to other existing planets that have been generated
+			continue
+		chosen_radii += radius
+		var/planet = pick(subtypesof(/obj/structure/overmap/planet))
+		var/obj/structure/overmap/planet/cur_planet = new planet (null, radius)
+
+		planet_list += cur_planet
+		cur_planet.name = "[src] [gen_num]"
+		SSstar_system.spawn_planet(cur_planet, src)
 
 //////star_system LIST (order of appearance)///////
 

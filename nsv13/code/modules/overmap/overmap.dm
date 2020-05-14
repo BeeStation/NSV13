@@ -223,6 +223,7 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 	GLOB.overmap_objects += src
 	START_PROCESSING(SSovermap, src)
 
+
 	vector_overlay = new()
 	vector_overlay.appearance_flags |= KEEP_APART
 	vector_overlay.appearance_flags |= RESET_TRANSFORM

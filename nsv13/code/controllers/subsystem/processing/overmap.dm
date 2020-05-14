@@ -1,4 +1,4 @@
-//Fires five times every second.
+//Fires 10 times every second.
 
 PROCESSING_SUBSYSTEM_DEF(overmap)
 	name = "Overmap Processing"

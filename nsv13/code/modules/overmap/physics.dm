@@ -126,13 +126,18 @@ The while loop runs at a programatic level and is thus separated from any thrott
 		if(last_process < world.time - 0.5 SECONDS)
 			process()
 
-/obj/structure/overmap/process()
+/obj/structure/overmap/process(force_time = 0)
 	set waitfor = FALSE
-	var/time = min(world.time - last_process, 10)
-	time /= 10 // fuck off deciseconds
-//	if(last_process > 0 && (last_process < world.time - 1 SECONDS) && !processing_failsafe) //Alright looks like the game's shat itself. Time to engage "failsafe mode". The logic of this is that if we've not been processed for over 1 second, then ship piloting starts to become unbearable and we need to step in and do our own processing, until the game's back on its feet again.
-//		start_failsafe_processing()
-	last_process = world.time
+	var/time = 0
+
+	if(!force_time)
+		time = min(world.time - last_process, 10)
+		time /= 10 // fuck off deciseconds
+	//	if(last_process > 0 && (last_process < world.time - 1 SECONDS) && !processing_failsafe) //Alright looks like the game's shat itself. Time to engage "failsafe mode". The logic of this is that if we've not been processed for over 1 second, then ship piloting starts to become unbearable and we need to step in and do our own processing, until the game's back on its feet again.
+	//		start_failsafe_processing()
+		last_process = world.time
+	else
+		time = force_time
 	if(world.time > last_slowprocess + 10)
 		last_slowprocess = world.time
 		slowprocess()
@@ -606,3 +611,16 @@ The while loop runs at a programatic level and is thus separated from any thrott
 		proj.fire(theangle)
 		if(speed)
 			proj.set_pixel_speed(speed)
+
+
+/obj/structure/overmap/proc/set_posi2real(x, y) //sets an overmap object to a realworld object and updates the offset based on a given position vector
+	var/real_x = round(x/32)
+	var/real_y = round(y/32)
+
+	pixel_x = x - real_x * 32
+	pixel_y = y - real_y * 32
+
+	offset.x = pixel_x / 32
+	offset.y = pixel_y / 32
+
+	Move(locate(real_x, real_y))
