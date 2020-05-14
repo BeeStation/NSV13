@@ -16,6 +16,15 @@
 	name = "circuit board (fighter control computer)"
 	build_path = /obj/machinery/computer/ship/fighter_controller
 
+/datum/design/board/fighter_controller
+	name = "Computer Design (Fighter Control Console)"
+	desc = "Allows for the construction of a fighter control console."
+	id = "fighter_computer_circuit"
+	materials = list(/datum/material/glass = 2000, /datum/material/copper = 200, /datum/material/gold = 1000)
+	build_path = /obj/item/circuitboard/computer/ship/fighter_controller
+	category = list("Computer Boards")
+	departmental_flags = DEPARTMENTAL_FLAG_CARGO | DEPARTMENTAL_FLAG_SCIENCE
+
 /obj/machinery/computer/ship/fighter_controller/emag_act(mob/user)
 	if(obj_flags & EMAGGED)
 		return

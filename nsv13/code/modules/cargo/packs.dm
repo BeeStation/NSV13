@@ -200,7 +200,7 @@
 /datum/supply_pack/security/peacekeeper_ammo
 	name = "M2A45 pulse rifle ammo (nonlethal)"
 	desc = "5 magazines of nonlethal ammo for peacekeeper rifles."
-	cost = 500
+	cost = 800
 	contains = list(/obj/item/ammo_box/magazine/peacekeeper,
 					/obj/item/ammo_box/magazine/peacekeeper,
 					/obj/item/ammo_box/magazine/peacekeeper,
@@ -211,10 +211,16 @@
 /datum/supply_pack/security/peacekeeper_ammo_lethal
 	name = "M2A45 pulse rifle ammo (lethal)"
 	desc = "5 magazines of lethal ammunition for peacekeeper rifles."
-	cost = 800
+	cost = 1200
 	contains = list(/obj/item/ammo_box/magazine/peacekeeper/lethal,
 					/obj/item/ammo_box/magazine/peacekeeper/lethal,
 					/obj/item/ammo_box/magazine/peacekeeper/lethal,
 					/obj/item/ammo_box/magazine/peacekeeper/lethal,
 					/obj/item/ammo_box/magazine/peacekeeper/lethal)
 	crate_name = "M2A45 pulse rifle ammunition (lethal)"
+
+/datum/supply_pack/munitions/aviation_fuel
+	name = "Aviation fuel"
+	desc = "One Tyrosene fuel pump, capable of fully refuelling 3 fighters."
+	cost = 1500
+	contains = list(/obj/structure/reagent_dispensers/fueltank/aviation_fuel)
