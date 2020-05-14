@@ -182,15 +182,15 @@
 	noteleport = TRUE
 
 /area/maintenance/nsv/mining_ship/central
-	name = "Nostromo maintenance"
+	name = "Rocinante maintenance"
 	icon_state = "maintcentral"
 
 /area/maintenance/nsv/mining_ship/forward
-	name = "Nostromo forward maintenance"
+	name = "Rocinante forward maintenance"
 	icon_state = "maintcentral"
 
 /area/maintenance/nsv/mining_ship/aft
-	name = "Nostromo aft maintenance"
+	name = "Rocinante aft maintenance"
 	icon_state = "maintcentral"
 
 /area/hallway/nsv/deck2/frame1/port
@@ -459,79 +459,87 @@
 	name = "Luxury yacht"
 
 /area/nostromo
-	name = "NSV Nostromo"
+	name = "DMC Rocinante"
 	ambientsounds = list('nsv13/sound/ambience/leit_motif.ogg','nsv13/sound/ambience/wind.ogg','nsv13/sound/ambience/wind2.ogg','nsv13/sound/ambience/wind3.ogg','nsv13/sound/ambience/wind4.ogg','nsv13/sound/ambience/wind5.ogg','nsv13/sound/ambience/wind6.ogg')
 	noteleport = TRUE
 	icon_state = "mining"
 	has_gravity = TRUE
 
 /area/nostromo/maintenance/exterior
-	name = "Nostromo exterior"
+	name = "Rocinante exterior"
 	icon_state = "space_near"
 
+/area/nostromo/maintenance/hangar
+	name = "Rocinante hangar bay"
+	icon_state = "hallS"
+
 /area/nostromo/medbay
-	name = "Nostromo sickbay"
+	name = "Rocinante sickbay"
 	looping_ambience = 'nsv13/sound/ambience/medbay.ogg'
 	icon_state = "medbay"
 
 /area/nostromo/science
-	name = "Nostromo science"
+	name = "Rocinante science"
 	looping_ambience = 'nsv13/sound/ambience/computer_core.ogg'
 	icon_state = "toxlab"
 
 /area/nostromo/tcomms
-	name = "Nostromo TE/LE/COMM core"
+	name = "Rocinante TE/LE/COMM core"
 	looping_ambience = 'nsv13/sound/ambience/computer_core.ogg'
 	icon_state = "tcomsatcham"
 
 /area/nostromo/bridge
-	name = "Nostromo flight deck"
+	name = "Rocinante flight deck"
 	looping_ambience = 'nsv13/sound/ambience/bridge.ogg'
 	icon_state = "bridge"
 
 /area/nostromo/hangar/port
-	name = "Nostromo port hangar deck"
+	name = "Rocinante port hangar deck"
 	looping_ambience = 'nsv13/sound/ambience/bridge.ogg'
 	icon_state = "hallP"
 
 /area/nostromo/hangar/starboard
-	name = "Nostromo starboard hangar deck"
+	name = "Rocinante starboard hangar deck"
 	looping_ambience = 'nsv13/sound/ambience/bridge.ogg'
 	icon_state = "hallS"
 
-/area/nostromo/engineering/engineering
-	name = "Nostromo engineering"
+/area/nostromo/engineering
+	name = "Rocinante engineering"
 	looping_ambience = 'nsv13/sound/ambience/bridge.ogg'
 	icon_state = "engine"
 
 /area/nostromo/engineering/atmospherics
-	name = "Nostromo engineering"
+	name = "Rocinante engineering"
 	looping_ambience = 'nsv13/sound/ambience/bridge.ogg'
 	icon_state = "atmos"
 
 /area/nostromo/galley
-	name = "Nostromo galley"
+	name = "Rocinante galley"
 	looping_ambience = 'nsv13/sound/ambience/bridge.ogg'
 	icon_state = "kitchen"
 
 /area/nostromo/galley/coldroom
-	name = "Nostromo cold room"
+	name = "Rocinante cold room"
 	icon_state = "kitchen_cold"
 
 /area/nostromo/crew_quarters
-	name = "Nostromo quarters"
+	name = "Rocinante quarters"
 	icon_state = "Sleep"
 	mood_bonus = 3
 	mood_message = "<span class='nicegreen'>There's no place like the dorms!\n</span>"
 
 /area/nostromo/mining
-	name = "Nostromo mining dock"
+	name = "Rocinante mining dock"
 	icon_state = "mining"
 
 /area/nostromo/security
-	name = "Nostromo security"
+	name = "Rocinante security"
 	icon_state = "security"
 	ambientsounds = HIGHSEC
+
+
+
+
 
 //Syndie PVP ship
 
