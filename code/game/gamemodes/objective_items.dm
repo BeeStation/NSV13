@@ -119,7 +119,7 @@
 	name = "28 moles of plasma (full tank)."
 	targetitem = /obj/item/tank
 	difficulty = 3
-	excludefromjob = list("Chief Engineer","Research Director","Ship Engineer","Scientist","Atmospheric Technician")
+	excludefromjob = list("Chief Engineer","Research Director","Ship Engineer","Scientist","Atmospheric Technician") //NSV13 - Station to Ship Engineers
 
 /datum/objective_item/steal/plasma/check_special_completion(obj/item/tank/T)
 	var/target_amount = text2num(name)
