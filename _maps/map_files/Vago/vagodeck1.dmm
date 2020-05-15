@@ -6837,7 +6837,7 @@
 /obj/effect/temp_visual/decoy,
 /obj/effect/temp_visual/decoy,
 /obj/effect/temp_visual/decoy,
-/obj/item/ship_weapon/parts/torpedo/warhead/lightweight,
+/obj/item/ship_weapon/parts/torpedo/warhead,
 /obj/structure/sign/warning/explosives/alt{
 	pixel_x = -32
 	},
@@ -7190,7 +7190,7 @@
 /obj/machinery/door/airlock/ship/security{
 	dir = 2;
 	name = "Starboard Magazine";
-	req_one_access_txt = "3"
+	req_one_access_txt = "71"
 	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
@@ -8724,6 +8724,7 @@
 /obj/structure/cable{
 	icon_state = "0-4"
 	},
+/obj/effect/landmark/start/deck_tech,
 /turf/open/floor/plasteel/ship/padded,
 /area/nsv/hanger/notkmcstupidhanger/hangar)
 "sn" = (
@@ -8762,6 +8763,7 @@
 /obj/structure/cable{
 	icon_state = "4-8"
 	},
+/obj/effect/landmark/start/deck_tech,
 /turf/open/floor/plasteel/ship/padded,
 /area/nsv/hanger/notkmcstupidhanger/hangar)
 "sq" = (
@@ -10851,6 +10853,25 @@
 	},
 /turf/closed/wall/ship,
 /area/quartermaster/office)
+"zd" = (
+/obj/item/ship_weapon/ammunition/missile,
+/obj/item/ship_weapon/ammunition/missile{
+	pixel_y = 2
+	},
+/obj/item/ship_weapon/ammunition/missile{
+	pixel_y = 4
+	},
+/obj/item/ship_weapon/ammunition/missile{
+	pixel_y = 6
+	},
+/obj/item/ship_weapon/ammunition/missile{
+	pixel_y = 8
+	},
+/obj/item/ship_weapon/ammunition/missile{
+	pixel_y = 10
+	},
+/turf/open/floor/plating,
+/area/maintenance/nsv/deck1/airlock/forward/starboard)
 "zi" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 4
@@ -11131,6 +11152,10 @@
 /obj/structure/sign/departments/minsky/security/security,
 /turf/closed/wall/r_wall/ship,
 /area/security/brig)
+"Cp" = (
+/obj/effect/landmark/start/flight_leader,
+/turf/open/floor/plating,
+/area/nsv/hanger/notkmcstupidhanger/hangar)
 "CA" = (
 /obj/structure/grille,
 /obj/structure/window/reinforced/fulltile/ship,
@@ -11150,9 +11175,7 @@
 /turf/open/floor/plasteel/dark,
 /area/bridge)
 "CE" = (
-/obj/structure/overmap/fighter/prebuilt{
-	angle = 90
-	},
+/obj/structure/overmap/fighter/light/prebuilt/flight_leader,
 /turf/open/floor/plasteel/ship/padded,
 /area/nsv/hanger/notkmcstupidhanger/hangar)
 "CJ" = (
@@ -12010,6 +12033,20 @@
 	},
 /turf/open/floor/plasteel,
 /area/engine/atmos)
+"OH" = (
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	icon_state = "pipe11-1";
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	dir = 4
+	},
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/obj/effect/landmark/start/deck_tech,
+/turf/open/floor/plasteel/ship/padded,
+/area/nsv/hanger/notkmcstupidhanger/hangar)
 "OJ" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
@@ -12017,10 +12054,8 @@
 /turf/open/floor/plasteel/ship/padded,
 /area/nsv/hanger/notkmcstupidhanger/hangar)
 "OL" = (
-/obj/structure/table/reinforced,
-/obj/item/ship_weapon/ammunition/torpedo/nuke{
-	name = "Antonio"
-	},
+/obj/structure/bed/dogbed,
+/obj/item/ship_weapon/ammunition/torpedo/nuke/antonio,
 /turf/open/floor/plasteel,
 /area/nsv/weapons)
 "ON" = (
@@ -12309,6 +12344,12 @@
 /obj/machinery/light/runway/delay3,
 /turf/open/space/basic,
 /area/maintenance/ship_exterior)
+"Sa" = (
+/obj/structure/overmap/fighter/light/prebuilt{
+	angle = 90
+	},
+/turf/open/floor/plasteel/ship/padded,
+/area/nsv/hanger/notkmcstupidhanger/hangar)
 "Sj" = (
 /obj/structure/hull_plate/end{
 	icon_state = "tgmc_outerhull_dir";
@@ -12544,6 +12585,25 @@
 	},
 /turf/open/floor/plasteel,
 /area/quartermaster/storage)
+"UE" = (
+/obj/item/ship_weapon/ammunition/missile{
+	pixel_y = 10
+	},
+/obj/item/ship_weapon/ammunition/missile{
+	pixel_y = 8
+	},
+/obj/item/ship_weapon/ammunition/missile{
+	pixel_y = 6
+	},
+/obj/item/ship_weapon/ammunition/missile{
+	pixel_y = 4
+	},
+/obj/item/ship_weapon/ammunition/missile{
+	pixel_y = 2
+	},
+/obj/item/ship_weapon/ammunition/missile,
+/turf/open/floor/plating,
+/area/maintenance/nsv/deck1/airlock/forward/starboard)
 "UF" = (
 /obj/structure/cable{
 	icon_state = "4-8"
@@ -12861,6 +12921,20 @@
 /obj/machinery/seed_extractor,
 /turf/open/floor/plasteel/dark,
 /area/security/prison)
+"XA" = (
+/obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1{
+	icon_state = "manifold-1";
+	dir = 1
+	},
+/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer3{
+	dir = 1
+	},
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/obj/effect/landmark/start/deck_tech,
+/turf/open/floor/plasteel/ship/padded,
+/area/nsv/hanger/notkmcstupidhanger/hangar)
 "XC" = (
 /obj/structure/hull_plate/end,
 /turf/open/floor/plating/airless,
@@ -13059,7 +13133,7 @@
 /obj/structure/cable{
 	icon_state = "1-2"
 	},
-/obj/structure/overmap/fighter/prebuilt/raptor{
+/obj/structure/overmap/fighter/utility/prebuilt/carrier{
 	angle = 90
 	},
 /turf/open/floor/plating,
@@ -37761,7 +37835,7 @@ st
 th
 yv
 PB
-Og
+Cp
 Yj
 Yj
 Yj
@@ -40481,7 +40555,7 @@ tD
 tK
 tY
 Yj
-rS
+OH
 Ve
 yc
 Ds
@@ -40783,7 +40857,7 @@ tD
 tK
 tZ
 Yj
-YJ
+XA
 uv
 ux
 Xl
@@ -41082,13 +41156,13 @@ pF
 sx
 tn
 tD
-tK
+UE
 ua
 Yj
 sm
 MY
 Jo
-CE
+Sa
 tj
 tL
 yd
@@ -42290,13 +42364,13 @@ pF
 sx
 tn
 tD
-tK
+zd
 ua
 Yj
-rS
+OH
 MY
 Jo
-CE
+Sa
 sX
 tM
 Uq
@@ -44712,7 +44786,7 @@ Yj
 sB
 MY
 Jo
-CE
+Sa
 tl
 tM
 Uq
