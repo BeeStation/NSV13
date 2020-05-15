@@ -404,7 +404,6 @@ You need to fire emag the fighter's IFF board. This makes it list as "ENEMY" on 
 		to_chat(user, "<span class='notice'>You must open the maintenance panel to repair the inner components of [src].</span>")
 		return TRUE
 
-
 /obj/structure/overmap/fighter/MouseDrop_T(obj/structure/A, mob/user)
 	. = ..()
 	if(istype(A, /obj/machinery/portable_atmospherics/canister))
@@ -461,6 +460,29 @@ You need to fire emag the fighter's IFF board. This makes it list as "ENEMY" on 
 		A.forceMove(src)
 		cargo += A
 		playsound(src, 'nsv13/sound/effects/ship/mac_load.ogg', 100, 1)  //placeholder
+
+/obj/structure/overmap/fighter/MouseDrop_T(mob/living/M, mob/user) //Passengers get in via dragging themselves
+	.=..()
+	if(istype(M, /mob/living))
+		if(max_passengers <= 0)
+			return
+		if(canopy_open == FALSE)
+			to_chat(user, "<span class='notice'>][src]'s cabin must be open to access the passenger seats.</span>")
+			return
+		if(mobs_in_ship.len < max_passengers)
+			to_chat(user, "<span class='notice'>You begin climbing into one of [src]'s passenger seats.</span>")
+			if(!do_after(user, 5 SECONDS, target=src))
+				return
+			to_chat(user, "<span class='notice'>You climb into one of [src]'s passenger seats.</span>")
+			user.forceMove(src)
+			start_piloting(user, "observer")
+			mobs_in_ship += user
+			if(user?.client?.prefs.toggles & SOUND_AMBIENCE && flight_state >= FLIGHT_READY) //Disable ambient sounds to shut up the noises.
+				SEND_SOUND(user, sound('nsv13/sound/effects/fighters/cockpit.ogg', repeat = TRUE, wait = 0, volume = 100, channel=CHANNEL_SHIP_ALERT))
+			return TRUE
+		if(mobs_in_ship.len >= max_passengers)
+			to_chat(user, "<span class='notice'>[src]'s passenger compartment is full!.</span>")
+			return
 
 /obj/structure/overmap/fighter/fire_torpedo(atom/target)
 	if(ai_controlled) //AI ships don't have interiors
@@ -672,31 +694,18 @@ You need to fire emag the fighter's IFF board. This makes it list as "ENEMY" on 
 		to_chat(user, "<span class='warning'>[src]'s canopy isn't open.</span>")
 		return
 	if(maint_state < MS_UNSECURE)
-		if(max_passengers <= 0 || alert("Enter what seat?",name,"Pilot seat","Passenger seat") == "Pilot seat")
-			if(!pilot)
-				to_chat(user, "<span class='notice'>You begin climbing into [src]'s cockpit...</span>")
-				if(!do_after(user, 5 SECONDS, target=src))
-					return
-				to_chat(user, "<span class='notice'>You climb into [src]'s cockpit.</span>")
-				user.forceMove(src)
-				start_piloting(user, "all_positions")
-				ui_interact(user)
-				mobs_in_ship += user
-				if(user?.client?.prefs.toggles & SOUND_AMBIENCE && flight_state >= FLIGHT_READY) //Disable ambient sounds to shut up the noises.
-					SEND_SOUND(user, sound('nsv13/sound/effects/fighters/cockpit.ogg', repeat = TRUE, wait = 0, volume = 50, channel=CHANNEL_SHIP_ALERT))
-				return TRUE
-		else
-			if(mobs_in_ship.len < max_passengers)
-				to_chat(user, "<span class='notice'>You begin climbing into one of [src]'s passenger seats..</span>")
-				if(!do_after(user, 5 SECONDS, target=src))
-					return
-				to_chat(user, "<span class='notice'>You climb into one of [src]'s passenger seats.</span>")
-				user.forceMove(src)
-				start_piloting(user, "observer")
-				mobs_in_ship += user
-				if(user?.client?.prefs.toggles & SOUND_AMBIENCE && flight_state >= FLIGHT_READY) //Disable ambient sounds to shut up the noises.
-					SEND_SOUND(user, sound('nsv13/sound/effects/fighters/cockpit.ogg', repeat = TRUE, wait = 0, volume = 100, channel=CHANNEL_SHIP_ALERT))
-				return TRUE
+		if(!pilot)
+			to_chat(user, "<span class='notice'>You begin climbing into [src]'s cockpit...</span>")
+			if(!do_after(user, 5 SECONDS, target=src))
+				return
+			to_chat(user, "<span class='notice'>You climb into [src]'s cockpit.</span>")
+			user.forceMove(src)
+			start_piloting(user, "all_positions")
+			ui_interact(user)
+			mobs_in_ship += user
+			if(user?.client?.prefs.toggles & SOUND_AMBIENCE && flight_state >= FLIGHT_READY) //Disable ambient sounds to shut up the noises.
+				SEND_SOUND(user, sound('nsv13/sound/effects/fighters/cockpit.ogg', repeat = TRUE, wait = 0, volume = 50, channel=CHANNEL_SHIP_ALERT))
+			return TRUE
 
 /obj/structure/overmap/fighter/stop_piloting(mob/living/M, force=FALSE)
 	if(!SSmapping.level_trait(loc.z, ZTRAIT_BOARDABLE) && !force)
