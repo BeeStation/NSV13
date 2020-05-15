@@ -3505,6 +3505,10 @@
 	req_access = null;
 	req_one_access_txt = "48"
 	},
+/obj/machinery/cryopod{
+	icon_state = "cryopod-open";
+	dir = 1
+	},
 /turf/open/floor/plasteel/tech/grid,
 /area/nostromo)
 "iP" = (
@@ -3527,6 +3531,7 @@
 /area/nostromo)
 "iS" = (
 /obj/structure/extinguisher_cabinet/north,
+/obj/machinery/cryopod,
 /turf/open/floor/plasteel/tech/grid,
 /area/nostromo)
 "iT" = (
@@ -4708,17 +4713,7 @@
 /obj/machinery/light,
 /turf/open/floor/plasteel/tech/grid,
 /area/nostromo)
-"ms" = (
-/obj/machinery/light/small{
-	dir = 4
-	},
-/turf/open/floor/engine/vacuum,
-/area/maintenance/nsv/mining_ship/aft)
-"mR" = (
-/obj/machinery/computer/ship/viewscreen,
-/turf/open/floor/plasteel/techmaint,
-/area/nostromo/mining)
-"pd" = (
+"nt" = (
 /obj/structure/lattice/catwalk,
 /obj/structure/cable/yellow{
 	icon_state = "4-8"
@@ -4733,32 +4728,22 @@
 	},
 /turf/open/space/basic,
 /area/nostromo/maintenance/exterior)
-"uE" = (
-/obj/machinery/atmospherics/components/unary/vent_pump/on/layer1,
-/obj/machinery/computer/ship/viewscreen,
-/turf/open/floor/plasteel/ridged/steel,
-/area/nostromo)
-"vg" = (
-/turf/open/space/basic,
-/area/nostromo/crew_quarters)
-"Du" = (
-/obj/structure/cable{
-	icon_state = "4-8"
-	},
-/obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1{
-	dir = 1
-	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
-	dir = 8
-	},
-/obj/machinery/computer/ship/viewscreen,
-/turf/open/floor/plasteel/techmaint,
-/area/nostromo)
-"Eq" = (
+"rd" = (
 /obj/machinery/computer/ship/viewscreen,
 /turf/open/floor/plasteel/ridged/steel,
 /area/nostromo/engineering/atmospherics)
-"MY" = (
+"ts" = (
+/obj/machinery/cryopod,
+/turf/open/floor/plasteel/tech/grid,
+/area/nostromo)
+"vJ" = (
+/obj/machinery/cryopod{
+	icon_state = "cryopod-open";
+	dir = 1
+	},
+/turf/open/floor/plasteel/tech/grid,
+/area/nostromo)
+"xw" = (
 /obj/structure/lattice/catwalk,
 /obj/structure/cable{
 	icon_state = "2-4"
@@ -4771,6 +4756,37 @@
 	},
 /turf/open/space/basic,
 /area/nostromo/maintenance/exterior)
+"yd" = (
+/obj/machinery/computer/ship/viewscreen,
+/turf/open/floor/plasteel/techmaint,
+/area/nostromo/mining)
+"DK" = (
+/obj/machinery/light/small{
+	dir = 4
+	},
+/turf/open/floor/engine/vacuum,
+/area/maintenance/nsv/mining_ship/aft)
+"Km" = (
+/turf/open/space/basic,
+/area/nostromo/crew_quarters)
+"Po" = (
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1{
+	dir = 1
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	dir = 8
+	},
+/obj/machinery/computer/ship/viewscreen,
+/turf/open/floor/plasteel/techmaint,
+/area/nostromo)
+"Wu" = (
+/obj/machinery/atmospherics/components/unary/vent_pump/on/layer1,
+/obj/machinery/computer/ship/viewscreen,
+/turf/open/floor/plasteel/ridged/steel,
+/area/nostromo)
 
 (1,1,1) = {"
 aa
@@ -36635,10 +36651,10 @@ aa
 aa
 aa
 lh
-vg
-vg
-vg
-vg
+Km
+Km
+Km
+Km
 lh
 aa
 aa
@@ -39369,7 +39385,7 @@ ap
 ap
 ac
 ac
-ms
+DK
 io
 ac
 cG
@@ -43881,7 +43897,7 @@ ac
 gF
 ac
 bW
-uE
+Wu
 dP
 bg
 bg
@@ -43896,7 +43912,7 @@ cT
 hH
 cT
 cT
-Du
+Po
 jN
 ac
 ac
@@ -44488,7 +44504,7 @@ cQ
 db
 fn
 cT
-Eq
+rd
 fb
 ft
 cT
@@ -47516,7 +47532,7 @@ ch
 fS
 bl
 ab
-mR
+yd
 jm
 ju
 ab
@@ -48125,7 +48141,7 @@ aQ
 ab
 iO
 jI
-jK
+vJ
 aH
 eb
 dV
@@ -48729,7 +48745,7 @@ aQ
 ab
 iS
 jK
-jK
+ts
 aH
 eb
 dV
@@ -71670,7 +71686,7 @@ lh
 la
 as
 dU
-MY
+xw
 eu
 ev
 eH
@@ -71972,13 +71988,13 @@ lh
 la
 as
 dU
-MY
+xw
 eu
 ev
 eH
 ev
 dU
-MY
+xw
 eu
 as
 la
@@ -73485,7 +73501,7 @@ la
 et
 la
 la
-pd
+nt
 la
 la
 et
