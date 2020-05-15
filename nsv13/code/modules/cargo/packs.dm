@@ -218,3 +218,9 @@
 					/obj/item/ammo_box/magazine/peacekeeper/lethal,
 					/obj/item/ammo_box/magazine/peacekeeper/lethal)
 	crate_name = "M2A45 pulse rifle ammunition (lethal)"
+
+/datum/supply_pack/munitions/aviation_fuel
+	name = "Aviation fuel"
+	desc = "One Tyrosene fuel pump, capable of fully refuelling 3 fighters."
+	cost = 1500
+	contains = list(/obj/structure/reagent_dispensers/fueltank/aviation_fuel)
