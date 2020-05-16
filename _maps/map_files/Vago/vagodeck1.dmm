@@ -3290,6 +3290,17 @@
 	},
 /turf/open/floor/plasteel/dark,
 /area/science/server)
+"ij" = (
+/obj/machinery/door/airlock/ship/engineering{
+	dir = 4;
+	name = "HAZMATmospherics";
+	req_one_access_txt = "10; 24"
+	},
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/turf/open/floor/plasteel,
+/area/engine/atmos)
 "ik" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
@@ -3521,6 +3532,33 @@
 /obj/machinery/ship_weapon/pdc_mount/west,
 /turf/open/floor/plasteel/dark,
 /area/nsv/weapons)
+"iR" = (
+/obj/structure/rack,
+/obj/item/aiModule/supplied/freeform,
+/obj/item/aiModule/supplied/oxygen,
+/obj/item/aiModule/supplied/protectStation,
+/obj/item/aiModule/supplied/quarantine,
+/obj/item/aiModule/supplied/safeguard,
+/obj/item/aiModule/reset/purge,
+/obj/item/aiModule/reset,
+/obj/item/aiModule/core/full/antimov,
+/obj/item/aiModule/core/full/asimov,
+/obj/item/aiModule/core/full/asimovpp,
+/obj/item/aiModule/core/full/corp,
+/obj/item/aiModule/core/full/drone,
+/obj/item/aiModule/core/full/paladin,
+/obj/item/aiModule/core/full/reporter,
+/obj/item/aiModule/core/full/tyrant,
+/obj/machinery/power/apc/auto_name/north,
+/obj/machinery/camera/autoname{
+	dir = 8
+	},
+/obj/structure/cable{
+	icon_state = "0-2"
+	},
+/obj/item/aiModule/core/full/custom,
+/turf/open/floor/plasteel/dark,
+/area/ai_monitored/turret_protected/ai_upload)
 "iS" = (
 /obj/machinery/ship_weapon/railgun,
 /turf/open/floor/plasteel/dark,
@@ -4201,17 +4239,6 @@
 	icon_state = "1-8"
 	},
 /turf/open/floor/plating,
-/area/engine/atmos)
-"kl" = (
-/obj/machinery/door/airlock/ship/engineering{
-	dir = 4;
-	name = "HAZMATmospherics";
-	req_one_access_txt = "24"
-	},
-/obj/structure/cable{
-	icon_state = "4-8"
-	},
-/turf/open/floor/plasteel,
 /area/engine/atmos)
 "km" = (
 /obj/structure/chair/comfy,
@@ -5825,32 +5852,6 @@
 /obj/machinery/vending/coffee,
 /turf/open/floor/plasteel,
 /area/engine/atmos)
-"na" = (
-/obj/structure/rack,
-/obj/item/aiModule/supplied/freeform,
-/obj/item/aiModule/supplied/oxygen,
-/obj/item/aiModule/supplied/protectStation,
-/obj/item/aiModule/supplied/quarantine,
-/obj/item/aiModule/supplied/safeguard,
-/obj/item/aiModule/reset/purge,
-/obj/item/aiModule/reset,
-/obj/item/aiModule/core/full/antimov,
-/obj/item/aiModule/core/full/asimov,
-/obj/item/aiModule/core/full/asimovpp,
-/obj/item/aiModule/core/full/corp,
-/obj/item/aiModule/core/full/drone,
-/obj/item/aiModule/core/full/paladin,
-/obj/item/aiModule/core/full/reporter,
-/obj/item/aiModule/core/full/tyrant,
-/obj/machinery/power/apc/auto_name/north,
-/obj/machinery/camera/autoname{
-	dir = 8
-	},
-/obj/structure/cable{
-	icon_state = "0-2"
-	},
-/turf/open/floor/plasteel/dark,
-/area/ai_monitored/turret_protected/ai_upload)
 "nb" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 4
@@ -6836,7 +6837,7 @@
 /obj/effect/temp_visual/decoy,
 /obj/effect/temp_visual/decoy,
 /obj/effect/temp_visual/decoy,
-/obj/item/ship_weapon/parts/torpedo/warhead/lightweight,
+/obj/item/ship_weapon/parts/torpedo/warhead,
 /obj/structure/sign/warning/explosives/alt{
 	pixel_x = -32
 	},
@@ -7189,7 +7190,7 @@
 /obj/machinery/door/airlock/ship/security{
 	dir = 2;
 	name = "Starboard Magazine";
-	req_one_access_txt = "3"
+	req_one_access_txt = "71"
 	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
@@ -8723,6 +8724,7 @@
 /obj/structure/cable{
 	icon_state = "0-4"
 	},
+/obj/effect/landmark/start/deck_tech,
 /turf/open/floor/plasteel/ship/padded,
 /area/nsv/hanger/notkmcstupidhanger/hangar)
 "sn" = (
@@ -8761,6 +8763,7 @@
 /obj/structure/cable{
 	icon_state = "4-8"
 	},
+/obj/effect/landmark/start/deck_tech,
 /turf/open/floor/plasteel/ship/padded,
 /area/nsv/hanger/notkmcstupidhanger/hangar)
 "sq" = (
@@ -10850,6 +10853,25 @@
 	},
 /turf/closed/wall/ship,
 /area/quartermaster/office)
+"zd" = (
+/obj/item/ship_weapon/ammunition/missile,
+/obj/item/ship_weapon/ammunition/missile{
+	pixel_y = 2
+	},
+/obj/item/ship_weapon/ammunition/missile{
+	pixel_y = 4
+	},
+/obj/item/ship_weapon/ammunition/missile{
+	pixel_y = 6
+	},
+/obj/item/ship_weapon/ammunition/missile{
+	pixel_y = 8
+	},
+/obj/item/ship_weapon/ammunition/missile{
+	pixel_y = 10
+	},
+/turf/open/floor/plating,
+/area/maintenance/nsv/deck1/airlock/forward/starboard)
 "zi" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 4
@@ -11130,6 +11152,10 @@
 /obj/structure/sign/departments/minsky/security/security,
 /turf/closed/wall/r_wall/ship,
 /area/security/brig)
+"Cp" = (
+/obj/effect/landmark/start/flight_leader,
+/turf/open/floor/plating,
+/area/nsv/hanger/notkmcstupidhanger/hangar)
 "CA" = (
 /obj/structure/grille,
 /obj/structure/window/reinforced/fulltile/ship,
@@ -11149,9 +11175,7 @@
 /turf/open/floor/plasteel/dark,
 /area/bridge)
 "CE" = (
-/obj/structure/overmap/fighter/prebuilt{
-	angle = 90
-	},
+/obj/structure/overmap/fighter/light/prebuilt/flight_leader,
 /turf/open/floor/plasteel/ship/padded,
 /area/nsv/hanger/notkmcstupidhanger/hangar)
 "CJ" = (
@@ -11565,13 +11589,6 @@
 	},
 /turf/open/floor/plasteel/dark,
 /area/nsv/weapons)
-"Id" = (
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
-/obj/machinery/atmospherics/pipe/simple/green/visible,
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
-/obj/effect/landmark/nuclear_waste_spawner/strong,
-/turf/open/floor/plating,
-/area/engine/atmos)
 "Ij" = (
 /obj/effect/landmark/start/master_at_arms,
 /turf/open/floor/plasteel/dark,
@@ -12016,6 +12033,20 @@
 	},
 /turf/open/floor/plasteel,
 /area/engine/atmos)
+"OH" = (
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	icon_state = "pipe11-1";
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	dir = 4
+	},
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/obj/effect/landmark/start/deck_tech,
+/turf/open/floor/plasteel/ship/padded,
+/area/nsv/hanger/notkmcstupidhanger/hangar)
 "OJ" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
@@ -12023,10 +12054,8 @@
 /turf/open/floor/plasteel/ship/padded,
 /area/nsv/hanger/notkmcstupidhanger/hangar)
 "OL" = (
-/obj/structure/table/reinforced,
-/obj/item/ship_weapon/ammunition/torpedo/nuke{
-	name = "Antonio"
-	},
+/obj/structure/bed/dogbed,
+/obj/item/ship_weapon/ammunition/torpedo/nuke/antonio,
 /turf/open/floor/plasteel,
 /area/nsv/weapons)
 "ON" = (
@@ -12315,6 +12344,12 @@
 /obj/machinery/light/runway/delay3,
 /turf/open/space/basic,
 /area/maintenance/ship_exterior)
+"Sa" = (
+/obj/structure/overmap/fighter/light/prebuilt{
+	angle = 90
+	},
+/turf/open/floor/plasteel/ship/padded,
+/area/nsv/hanger/notkmcstupidhanger/hangar)
 "Sj" = (
 /obj/structure/hull_plate/end{
 	icon_state = "tgmc_outerhull_dir";
@@ -12550,6 +12585,25 @@
 	},
 /turf/open/floor/plasteel,
 /area/quartermaster/storage)
+"UE" = (
+/obj/item/ship_weapon/ammunition/missile{
+	pixel_y = 10
+	},
+/obj/item/ship_weapon/ammunition/missile{
+	pixel_y = 8
+	},
+/obj/item/ship_weapon/ammunition/missile{
+	pixel_y = 6
+	},
+/obj/item/ship_weapon/ammunition/missile{
+	pixel_y = 4
+	},
+/obj/item/ship_weapon/ammunition/missile{
+	pixel_y = 2
+	},
+/obj/item/ship_weapon/ammunition/missile,
+/turf/open/floor/plating,
+/area/maintenance/nsv/deck1/airlock/forward/starboard)
 "UF" = (
 /obj/structure/cable{
 	icon_state = "4-8"
@@ -12867,6 +12921,20 @@
 /obj/machinery/seed_extractor,
 /turf/open/floor/plasteel/dark,
 /area/security/prison)
+"XA" = (
+/obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1{
+	icon_state = "manifold-1";
+	dir = 1
+	},
+/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer3{
+	dir = 1
+	},
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/obj/effect/landmark/start/deck_tech,
+/turf/open/floor/plasteel/ship/padded,
+/area/nsv/hanger/notkmcstupidhanger/hangar)
 "XC" = (
 /obj/structure/hull_plate/end,
 /turf/open/floor/plating/airless,
@@ -13065,7 +13133,7 @@
 /obj/structure/cable{
 	icon_state = "1-2"
 	},
-/obj/structure/overmap/fighter/prebuilt/raptor{
+/obj/structure/overmap/fighter/utility/prebuilt/carrier{
 	angle = 90
 	},
 /turf/open/floor/plating,
@@ -23555,7 +23623,7 @@ gS
 hH
 ip
 hH
-Id
+hH
 kg
 bb
 lB
@@ -25074,7 +25142,7 @@ mA
 fr
 fr
 nX
-NX
+fr
 fn
 pY
 dK
@@ -25968,7 +26036,7 @@ wZ
 fn
 fr
 fr
-NX
+fr
 fr
 fr
 fr
@@ -26576,7 +26644,7 @@ bb
 bb
 bb
 bb
-kl
+ij
 bb
 lG
 bb
@@ -37767,7 +37835,7 @@ st
 th
 yv
 PB
-Og
+Cp
 Yj
 Yj
 Yj
@@ -40487,7 +40555,7 @@ tD
 tK
 tY
 Yj
-rS
+OH
 Ve
 yc
 Ds
@@ -40789,7 +40857,7 @@ tD
 tK
 tZ
 Yj
-YJ
+XA
 uv
 ux
 Xl
@@ -41088,13 +41156,13 @@ pF
 sx
 tn
 tD
-tK
+UE
 ua
 Yj
 sm
 MY
 Jo
-CE
+Sa
 tj
 tL
 yd
@@ -42296,13 +42364,13 @@ pF
 sx
 tn
 tD
-tK
+zd
 ua
 Yj
-rS
+OH
 MY
 Jo
-CE
+Sa
 sX
 tM
 Uq
@@ -43494,7 +43562,7 @@ lY
 jX
 mT
 nt
-na
+iR
 nK
 pn
 nt
@@ -44718,7 +44786,7 @@ Yj
 sB
 MY
 Jo
-CE
+Sa
 tl
 tM
 Uq

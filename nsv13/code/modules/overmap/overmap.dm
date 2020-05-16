@@ -18,6 +18,7 @@
 	animate_movement = NO_STEPS // Override the inbuilt movement engine to avoid bouncing
 	req_one_access = list(ACCESS_HEADS, ACCESS_MUNITIONS, ACCESS_SEC_DOORS, ACCESS_ENGINE) //Bridge officers/heads, munitions techs / fighter pilots, security officers, engineering personnel all have access.
 
+	move_resist = MOVE_FORCE_OVERPOWERING //THIS MAY BE A BAD IDEA - (okay I downgraded from INFINITE)
 	anchored = FALSE
 	resistance_flags = LAVA_PROOF | FIRE_PROOF | UNACIDABLE | ACID_PROOF // Overmap ships represent massive craft that don't burn
 
@@ -53,6 +54,7 @@
 	var/last_thrust_right = 0
 	var/last_rotate = 0
 	var/should_open_doors = FALSE //Should we open airlocks? This is off by default because it was HORRIBLE.
+	var/inertial_dampeners = TRUE
 
 	var/user_thrust_dir = 0
 
@@ -94,7 +96,6 @@
 	var/weapon_safety = FALSE //Like a gun safety. Entirely un-used except for fighters to stop brainlets from shooting people on the ship unintentionally :)
 	var/faction = null //Used for target acquisition by AIs
 
-	var/weapon_range = 10 //Range changes based on what weapon youre using.
 	var/fire_delay = 5
 	var/next_firetime = 0
 
@@ -103,6 +104,7 @@
 	var/atom/last_target //Last thing we shot at, used to point the railgun at an enemy.
 
 	var/torpedoes = 15 //Prevent infinite torp spam
+	var/missiles = 0 //Nothing should start with missiles
 
 	var/pdc_miss_chance = 20 //In %, how often do PDCs fire inaccurately when aiming at missiles. This is ignored for ships as theyre bigger targets.
 	var/list/torpedoes_to_target = list() //Torpedoes that have been fired explicitly at us, and that the PDCs need to worry about.
@@ -124,6 +126,7 @@
 	name = "Weapon overlay"
 	layer = 4
 	mouse_opacity = FALSE
+	layer = WALL_OBJ_LAYER
 	var/angle = 0 //Debug
 
 /obj/weapon_overlay/proc/do_animation()
@@ -166,7 +169,7 @@
 	vector_overlay.icon = icon
 	vis_contents += vector_overlay
 	update_icon()
-	max_range = initial(weapon_range)+20 //Range of the maximum possible attack (torpedo)
+	max_range = 50 //Range of the maximum possible attack (torpedo) - Magic number pulled from the aether
 	find_area()
 	switch(mass) //Scale speed with mass (tonnage)
 		if(MASS_TINY) //Tiny ships are manned by people, so they need air.
@@ -233,10 +236,12 @@
 			var/area/area = GLOB.teleportlocs[X] //Pick a station area and yeet it.
 			area.linked_overmap = src
 
-
 /obj/structure/overmap/proc/InterceptClickOn(mob/user, params, atom/target)
 	var/list/params_list = params2list(params)
 	if(user.incapacitated() || !isliving(user))
+		return FALSE
+	if(istype(target, /obj/machinery/button/door) || istype(target, /obj/machinery/turbolift_button))
+		target.attack_hand(user)
 		return FALSE
 	if(target == src || istype(target, /obj/screen) || (target && (target in user.GetAllContents())) || params_list["alt"] || params_list["ctrl"])
 		return FALSE
@@ -447,20 +452,33 @@
 				var/sound = pick(GLOB.computer_beeps)
 				playsound(helm, sound, 100, 1)
 			return TRUE
+		if("Shift")
+			if(themob == pilot)
+				toggle_inertia()
+			if(helm && prob(80))
+				var/sound = pick(GLOB.computer_beeps)
+				playsound(helm, sound, 100, 1)
+			return TRUE
 		if("Alt")
 			if(themob == pilot)
 				toggle_brakes()
 			if(helm && prob(80))
 				var/sound = pick(GLOB.computer_beeps)
 				playsound(helm, sound, 100, 1)
-
+			return TRUE
 		if("Ctrl")
 			if(themob == gunner)
 				cycle_firemode()
 			if(tactical && prob(80))
 				var/sound = pick(GLOB.computer_beeps)
 				playsound(tactical, sound, 100, 1)
-
+			return TRUE
+		if("Q" || "q")
+			if(!move_by_mouse)
+				desired_angle -= 15
+		if("E" || "e")
+			if(!move_by_mouse)
+				desired_angle += 15
 
 /obj/structure/overmap/verb/toggle_brakes()
 	set name = "Toggle Handbrake"
@@ -471,6 +489,16 @@
 		return
 	brakes = !brakes
 	to_chat(usr, "<span class='notice'>You toggle the brakes [brakes ? "on" : "off"].</span>")
+
+/obj/structure/overmap/verb/toggle_inertia()
+	set name = "Toggle IAS"
+	set category = "Ship"
+	set src = usr.loc
+
+	if(!verb_check() || !can_brake())
+		return
+	inertial_dampeners = !inertial_dampeners
+	to_chat(usr, "<span class='notice'>Inertial assistance system [inertial_dampeners ? "ONLINE" : "OFFLINE"].</span>")
 
 /obj/structure/overmap/proc/can_change_safeties()
 	return (obj_flags & EMAGGED || !is_station_level(loc.z))
