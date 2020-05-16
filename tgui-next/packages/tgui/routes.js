@@ -32,6 +32,7 @@ import { Cryo } from './interfaces/Cryo';
 import { DisposalUnit } from './interfaces/DisposalUnit';
 import { DnaVault } from './interfaces/DnaVault';
 import { EngravedMessage } from './interfaces/EngravedMessage';
+import { FighterLauncher } from './interfaces/FighterLauncher';
 import { Gps } from './interfaces/Gps';
 import { Holodeck } from './interfaces/Holodeck';
 import { ImplantChair } from './interfaces/ImplantChair';
@@ -210,6 +211,10 @@ const ROUTES = {
   },
   engraved_message: {
     component: () => EngravedMessage,
+    scrollable: false,
+  },
+  fighter_launcher: {
+    component: () => FighterLauncher,
     scrollable: false,
   },
   gps: {
