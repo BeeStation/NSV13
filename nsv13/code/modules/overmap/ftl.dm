@@ -128,7 +128,6 @@
 		else
 			SL.set_parallax( (current_system != null) ?  current_system.parallax_property : target_system.parallax_property, null)
 	if(ftl_start)
-		SSstar_system.last_combat_enter = world.time //To allow for time spent FTL jumping
 		relay(ftl_drive.ftl_loop, "<span class='warning'>You feel the ship lurch forward</span>", loop=TRUE, channel = CHANNEL_SHIP_ALERT)
 		var/datum/star_system/curr = SSstar_system.ships[src]["current_system"]
 		var/speed = (curr.dist(target_system) / (ftl_drive.jump_speed_factor*10)) //TODO: FTL drive speed upgrades.
@@ -148,7 +147,6 @@
 				var/turf/T = pick(get_area_turfs(target))
 				new /obj/effect/temp_visual/explosion_telegraph(T)
 	else
-		SSstar_system.last_combat_enter = world.time //To allow for time spent FTL jumping
 		SSstar_system.ships[src]["target_system"] = null
 		SSstar_system.ships[src]["current_system"] = target_system
 		SSstar_system.ships[src]["last_system"] = target_system
