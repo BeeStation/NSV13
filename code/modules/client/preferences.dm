@@ -674,14 +674,16 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 				var/datum/gear/G = LC.gear[gear_name]
 				var/ticked = (G.display_name in equipped_gear)
 
+				if((G.unlocktype == GEAR_DONATOR) && !(usr.ckey == G.ckey))
+					continue //Not assigned to this user, skip.
 				dat += "<tr style='vertical-align:top;'><td width=15%>[G.display_name]\n"
 				if(G.display_name in purchased_gear)
 					if(G.sort_category == "OOC")
-						dat += "<i>Purchased.</i></td>"
+						dat += "<i>[G.unlocktype == GEAR_METACOIN ? "Unlocked" : "Purchased"].</i></td>"
 					else
 						dat += "<a style='white-space:normal;' [ticked ? "class='linkOn' " : ""]href='?_src_=prefs;preference=gear;toggle_gear=[G.display_name]'>Equip</a></td>"
 				else
-					dat += "<a style='white-space:normal;' href='?_src_=prefs;preference=gear;purchase_gear=[G.display_name]'>Purchase</a></td>"
+					dat += "<a style='white-space:normal;' href='?_src_=prefs;preference=gear;purchase_gear=[G.display_name]'>[G.unlocktype == GEAR_METACOIN ? "Unlock" : "Purchase"]</a></td>"
 				dat += "<td width = 5% style='vertical-align:top'>[G.cost]</td><td>"
 				if(G.allowed_roles)
 					dat += "<font size=2>"
@@ -1186,13 +1188,26 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 	if(href_list["preference"] == "gear")
 		if(href_list["purchase_gear"])
 			var/datum/gear/TG = GLOB.gear_datums[href_list["purchase_gear"]]
-			if(TG.cost < user.client.get_metabalance())
-				purchased_gear += TG.display_name
-				TG.purchase(user.client)
-				user.client.inc_metabalance((TG.cost * -1), TRUE, "Purchased [TG.display_name].")
-				save_preferences()
-			else
-				to_chat(user, "<span class='warning'>You don't have enough [CONFIG_GET(string/metacurrency_name)]s to purchase \the [TG.display_name]!</span>")
+			switch(TG.unlocktype)
+				if(GEAR_METACOIN)
+					if(TG.cost < user.client.get_metabalance())
+						purchased_gear += TG.display_name
+						TG.purchase(user.client)
+						user.client.inc_metabalance((TG.cost * -1), TRUE, "Purchased [TG.display_name].")
+						save_preferences()
+					else
+						to_chat(user, "<span class='warning'>You don't have enough [CONFIG_GET(string/metacurrency_name)]s to purchase \the [TG.display_name]!</span>")
+				if(GEAR_DONATOR)
+					if(usr.ckey != TG.ckey)
+						//The fuck are you playing at?
+						log_href_exploit(usr)
+						return
+					if(usr.ckey in config.active_donators)
+						purchased_gear += TG.display_name
+						TG.purchase(user.client)
+						save_preferences()
+					else
+						to_chat(user,"<span class='warning'>Your donation has expired or is not yet valid! Donation status is refreshed at round end.</span>")
 		if(href_list["toggle_gear"])
 			var/datum/gear/TG = GLOB.gear_datums[href_list["toggle_gear"]]
 			if(TG.display_name in equipped_gear)
