@@ -2,7 +2,12 @@
 	. = ..()
 	AddComponent(/datum/component/aiming)
 
+/obj/item/reagent_containers/food/snacks/grown/banana/Initialize() //Yes, you can hold someone at gunpoint with a banana.
+	. = ..()
+	AddComponent(/datum/component/aiming)
+
 /mob/living/proc/aim_react()
+	set waitfor = FALSE
 	var/list/options = list()
 	for(var/option in list("surrender", "ignore"))
 		options[option] = image(icon = 'nsv13/icons/effects/aiming.dmi', icon_state = option)
@@ -110,7 +115,7 @@ There are two main branches, dictated by SOP. If the perp is armed, tell them to
 			possible_actions += "drop_weapon"
 	for(var/option in possible_actions)
 		options[option] = image(icon = 'nsv13/icons/effects/aiming.dmi', icon_state = option)
-	var/choice = show_radial_menu(user, target, options, require_near = FALSE)
+	var/choice = show_radial_menu(user, user, options, require_near = FALSE)
 	act(choice)
 
 /datum/component/aiming/proc/act(choice)
@@ -129,7 +134,9 @@ There are two main branches, dictated by SOP. If the perp is armed, tell them to
 			user.say("DROP YOUR WEAPON!")
 		if("face_wall")
 			user.say("TURN AROUND AND FACE THE WALL. SLOWLY.")
-	show_ui(user, target, choice) //
+		if("drop_to_floor")
+			user.say("ON THE FLOOR, NOW!")
+	show_ui(user, target, choice)
 
 /datum/component/aiming/proc/fire() //Todo
 	if(istype(parent, /obj/item/gun)) //This is mostly for guns. Otherwise you just sort of wave it menacingly at them.
@@ -156,7 +163,7 @@ There are two main branches, dictated by SOP. If the perp is armed, tell them to
 	if(HAS_TRAIT(src, TRAIT_DEATHCOMA))
 		return FALSE
 	var/obj/item/held = get_active_held_item()
-	var/datum/component/aiming/aiming = held.GetComponent(/datum/component/aiming)
+	var/datum/component/aiming/aiming = held?.GetComponent(/datum/component/aiming)
 	if(aiming && isliving(A))
 		aiming.aim(src, A)
 	. = ..()
