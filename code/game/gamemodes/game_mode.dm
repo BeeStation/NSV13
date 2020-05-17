@@ -213,6 +213,8 @@
 		return FALSE
 	if(replacementmode && round_converted == 2)
 		return replacementmode.check_finished()
+	if(GLOB.crew_transfer_risa)
+		return TRUE
 	if(SSshuttle.emergency && (SSshuttle.emergency.mode == SHUTTLE_ENDGAME))
 		return TRUE
 	if(station_was_nuked)

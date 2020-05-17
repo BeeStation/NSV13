@@ -18,19 +18,15 @@
 	var/map_link = null //This is intentionally wrong, this will make it not link to webmap.
 	var/map_path = "map_files/Hammerhead"
 	var/map_file = "Hammerhead.dmm"
+	var/ship_type = /obj/structure/overmap/nanotrasen/heavy_cruiser/starter
+	var/mining_ship_type = /obj/structure/overmap/nanotrasen/mining_cruiser/nostromo
+	var/mine_file = "nostromo.dmm" //Nsv13. Heavy changes to this file
+	var/mine_path = "map_files/Mining/nsv13"
+	var/mine_traits = null
 
 	var/traits = null
 	var/space_ruin_levels = -1
 	var/space_empty_levels = 1
-
-	var/minetype = "nostromo"
-
-	var/overmap = "overmap.dmm" //NSV13 Stuff with overmap code
-	var/over_traits = list(
-		list( ZTRAIT_ASTRAEUS = TRUE, ZTRAIT_STATION = FALSE),
-		list( ZTRAIT_HYPERSPACE = TRUE, ZTRAIT_STATION = FALSE),
-		list( ZTRAIT_CORVI = TRUE, ZTRAIT_STATION = FALSE))
-	//NSV13 Stuff with overmap code
 
 	var/allow_custom_shuttles = TRUE
 	var/shuttles = list(
@@ -133,35 +129,52 @@
 		log_world("map_config space_empty_levels is not a number!")
 		return
 
-	if ("minetype" in json)
-		minetype = json["minetype"]
+	mine_file = json["mine_file"]
+	CHECK_EXISTS("mine_path")
+	mine_path = json["mine_path"]
+	// "map_file": "BoxStation.dmm"
+	if (istext(mine_file))
+		if (!fexists("_maps/[mine_path]/[mine_file]"))
+			log_world("Map file ([mine_path]/[mine_file]) does not exist!")
+			return
+	// "map_file": ["Lower.dmm", "Upper.dmm"]
+	else if (islist(mine_file))
+		for (var/file in mine_file)
+			if (!fexists("_maps/[mine_path]/[file]"))
+				log_world("Map file ([mine_path]/[file]) does not exist!")
+				return
+	else
+		log_world("mine_file missing from json!")
+		return
+
+	CHECK_EXISTS("ship_type")
+	if("ship_type" in json)
+		ship_type = text2path(json["ship_type"])
+	else
+		log_world("ship_type missing from json!")
+		return
+
+	CHECK_EXISTS("mining_ship_type")
+	if("mining_ship_type" in json)
+		mining_ship_type = text2path(json["mining_ship_type"])
+	else
+		log_world("mining_ship_type missing from json!")
+		return
+
+	mine_traits = json["mine_traits"]
+	// "traits": [{"Linkage": "Cross"}, {"Space Ruins": true}]
+	if (islist(mine_traits))
+		// "Station" is set by default, but it's assumed if you're setting
+		// traits you want to customize which level is cross-linked
+		for (var/level in mine_traits)
+			if (!(ZTRAITS_BOARDABLE_SHIP in level))
+				level += ZTRAITS_BOARDABLE_SHIP
+	// "traits": null or absent -> default
+	else if (!isnull(mine_traits))
+		log_world("mine_traits is not a list!")
+		return
 
 	allow_custom_shuttles = json["allow_custom_shuttles"] != FALSE
-
-	overmap = json["overmap"]
-	if (istext(overmap))
-		if (!fexists("_maps/[map_path]/[overmap]"))
-			log_world("Map file ([map_path]/[overmap]) does not exist!")
-			return
-	// BECAUSE I NEED TO MODULARISE THIS AND MOVE IT OUT- Jalleo (I should stop shouting at myself) [Shout at me if I dont do this]
-
-	else if (islist(overmap))
-		for (var/file in overmap)
-			if (!fexists("_maps/[map_path]/[file]"))
-				log_world("Map file ([map_path]/[file]) does not exist!")
-				return
-
-	over_traits = json["over_traits"]
-	if (islist(over_traits))
-		// "overmap" is set by default, but it's assumed if you're setting
-		// traits you want to customize which level is cross-linked
-		for (var/level in over_traits)
-			if (!(ZTRAITS_OVERMAP in level))
-				level += ZTRAITS_OVERMAP
-	// "traits": null or absent -> default
-	else if (!isnull(traits))
-		log_world("map_config over_traits is not a list!")
-		return
 
 	if("map_link" in json)						// NSV Changes begin
 		map_link = json["map_link"]

@@ -14,7 +14,6 @@
 
 
 /*||
-
 FIGHTER PRE-LAUNCH CHECKLIST:
 (Before moving to tube)
 1: CHECK FUEL
@@ -23,9 +22,7 @@ FIGHTER PRE-LAUNCH CHECKLIST:
 3: CHECK FIGHTER IS FACING THE RIGHT WAY FOR ITS LAUNCH TUBE
 4: CHECK FIGHTER IS SECURELY LOCKED ONTO MAG TRACK
 5: ENSURE EXIT DOORS ARE OPEN
-
 After going through this checklist, you're ready to go!
-
 */
 
 /obj/structure/overmap/fighter
@@ -60,6 +57,9 @@ After going through this checklist, you're ready to go!
 	var/countermeasures = 0
 	var/obj/structure/fighter_launcher/mag_lock = null //Mag locked by a launch pad. Cheaper to use than locate()
 	var/max_passengers = 0 //Maximum capacity for passengers, INCLUDING pilot (EG: 1 pilot, 4 passengers).
+	var/max_cargo = 0 //Maximum number of crates you've loaded in
+	var/list/allowed_cargo = list(/obj/machinery/nuclearbomb, /obj/structure/closet, /obj/structure/ore_box) //Typepath whitelist for storing stuff in a raptor.
+	var/list/cargo = list() //cargo you've got in here.
 	var/docking_mode = FALSE
 	var/warning_cooldown = FALSE
 	var/canopy_breached = FALSE //Canopy will breach if you take too much damage, causing your air to leak out.
@@ -82,17 +82,24 @@ After going through this checklist, you're ready to go!
 	var/installing = FALSE //Are we currently having parts installed?
 	var/chassis = 0 //Which chassis we are for part checking
 
+	//The following vars are a temporary hackjob until the weapons rework is complete. Please rework this when we can! ~Kmc
+	var/ftl_goal = 0 //0 initially if it doesn't have an FTL.
+	var/ftl_progress = 0 //For use of this, see ftl_drive.dm . Sabres are currently the only fighters that can FTL jump.
+	var/max_ftl_range = 80 //light years. 80 means the two targets have to be at least reasonably close together
+	var/spooling_ftl = FALSE
+
 /obj/structure/overmap/fighter/Initialize()
 	. = ..()
+	for(var/X in allowed_cargo)
+		for(var/Y in subtypesof(X))
+			allowed_cargo += Y
 	if(start_emagged)
 		obj_flags ^= EMAGGED
 
 /**
-
 Fighter emagging!
 You can no longer fire fighter weapons on a ship so easily...
 You need to fire emag the fighter's IFF board. This makes it list as "ENEMY" on DRADIS and allows it to be shot down by ANY other fighter, INCLUDING Syndicate ships too!
-
 */
 
 /obj/structure/overmap/fighter/emag_act(mob/user)
@@ -231,7 +238,6 @@ You need to fire emag the fighter's IFF board. This makes it list as "ENEMY" on 
 	update_stats()
 	obj_integrity = max_integrity
 	RegisterSignal(src, COMSIG_MOVABLE_MOVED, .proc/check_overmap_elegibility) //Used to smoothly transition from ship to overmap
-	RegisterSignal(src, COMSIG_AREA_ENTERED, .proc/update_overmap) //Used to smoothly transition from ship to overmap
 	add_overlay(image(icon = icon, icon_state = "canopy_open", dir = SOUTH))
 
 /obj/structure/overmap/fighter/proc/prebuilt_setup()
@@ -443,19 +449,17 @@ You need to fire emag the fighter's IFF board. This makes it list as "ENEMY" on 
 		else
 			to_chat(user, "<span class='notice'>You require [src] to be in maintenance mode to load munitions!.</span>")
 			return
-	else if(istype(A, /obj/structure/overmap/fighter/escapepod) && has_escape_pod && (!escape_pod || escape_pod?.loc != src))
-		if(maint_state != MS_OPEN)
-			to_chat(user, "<span class='warning'>You cannot load an escape pod into [src] without putting it into maintenance mode.</span>")
+
+	else if(LAZYFIND(allowed_cargo, A.type))
+		if(cargo.len >= max_cargo)
+			to_chat(user, "<span class='notice'>[src] cannot hold any [max_cargo > 0 ? "more cargo" : "cargo"].</span>")
 			return
-		var/obj/structure/overmap/fighter/escapepod/EP = A
-		if(EP.operators.len)
-			to_chat(user, "<span class='notice'>There are people inside of [EP], so you can't load it into something else</span>")
+		if(!do_after(user, 5 SECONDS, target=src) || A.anchored)
 			return
-		if(do_after_mob(user, list(A, src), 50))
-			to_chat(user, "<span class='notice'>You insert [EP] into [src], fitting it with an escape pod.</span>")
-			EP.forceMove(src)
-			escape_pod = EP
-			EP.flight_state = NO_IGNITION
+		to_chat(user, "<span class='warning'>You load [A] into [src]'s cargo hold...</span>")
+		A.forceMove(src)
+		cargo += A
+		playsound(src, 'nsv13/sound/effects/ship/mac_load.ogg', 100, 1)  //placeholder
 
 /obj/structure/overmap/fighter/MouseDrop_T(mob/living/M, mob/user) //Passengers get in via dragging themselves
 	.=..()
@@ -513,12 +517,10 @@ You need to fire emag the fighter's IFF board. This makes it list as "ENEMY" on 
 		return
 	var/proj_type = null //If this is true, we've got a launcher shipside that's been able to fire.
 	var/proj_speed = 1
-	to_chat(world, "fire missile")
 	if(!mun_missiles | !mun_missiles.len)
 		return
 	var/obj/item/ship_weapon/ammunition/thirtymillimetermissile = pick_n_take(mun_missiles)
 	proj_type = thirtymillimetermissile.projectile_type
-	to_chat(world, proj_type)
 	qdel(thirtymillimetermissile)
 	if(thirtymillimetermissile && proj_type)
 		var/sound/chosen = pick('nsv13/sound/effects/ship/torpedo.ogg','nsv13/sound/effects/ship/freespace2/m_shrike.wav','nsv13/sound/effects/ship/freespace2/m_stiletto.wav','nsv13/sound/effects/ship/freespace2/m_tsunami.wav','nsv13/sound/effects/ship/freespace2/m_wasp.wav')
@@ -769,9 +771,7 @@ You need to fire emag the fighter's IFF board. This makes it list as "ENEMY" on 
 	what.relay('nsv13/sound/effects/fighters/cockpit.ogg', "<span class='warning'>You hear a loud noise as [what]'s engine kicks in.</span>", loop=TRUE, channel = CHANNEL_SHIP_ALERT)
 
 /** CHEATSHEET FOR LAZY PEOPLE
-
 Fighter bootup sequence components.
-
 Steps:
 Hit ignition switch
 Fuel pump switch
@@ -781,20 +781,16 @@ Disengage throttle lock
 Throttle up VERY gently with brakes on so that engine takes over but you're still not moving.
 Disengage APU to let engines take over powergen
 Flight ready.
-
 Shutdown sequence:
 Throttle off + brakes on
 Throttle lock on
 Disengage battery
 Disengage fuel pump (or engine gets flooded)
 Turn off ignition
-
 If you run out of fuel:
 Activate the brakes and begin a shutdown of your fighter. Once you have received more fuel, begin startup sequence as expected. If you run out of fuel, you will be stuck adrift. It is highly recommended that you RTB when you hit 100 fuel as you'll have 30 seconds or so more burn time before you fizzle out.
-
 How to make fuel:
 1 part hydrogen : 1 part carbon to make hydrocarbon. Mix hydrocarbon and welding fuel to produce tyrosene
-
 */
 
 /obj/structure/overmap/fighter/proc/toggle_canopy()
@@ -874,7 +870,7 @@ How to make fuel:
 	return TRUE
 
 /obj/structure/overmap/fighter/proc/check_start() //See if we can kick off the engine off of the APU.
-	if(user_thrust_dir)
+	if(!throttle_lock)
 		playsound(src, 'nsv13/sound/effects/fighters/startup.ogg', 100, FALSE)
 		visible_message("<span class='warning'>[src]'s engine bursts into life!</span>")
 		flight_state = FLIGHT_READY
@@ -1044,7 +1040,6 @@ How to make fuel:
 			to_chat(usr, "You flip the APU switch.</span>")
 			flight_state = APU_SPUN
 			playsound(src, 'nsv13/sound/effects/fighters/apu_start.ogg', 100, FALSE)
-			throttle_lock = FALSE
 			addtimer(VARSET_CALLBACK(src, warmup_cooldown, FALSE), 15 SECONDS)
 			addtimer(CALLBACK(src, .proc/check_start), 16 SECONDS) //Throttle up now....
 			return
@@ -1207,8 +1202,14 @@ How to make fuel:
 		if("show_dradis")
 			dradis.attack_hand(usr)
 			return
-	warmup_cooldown = TRUE
-	addtimer(VARSET_CALLBACK(src, warmup_cooldown, FALSE), 1 SECONDS)
+		if("unload_cargo")
+			var/atom/movable/F = locate(params["crate_id"])
+			to_chat(usr, "<span class='notice'>You start unloading [F.name] from [src].</span>")
+			if(!do_after(usr, 3 SECONDS, target=src) || !F)
+				return
+			cargo -= F
+			F.forceMove(get_turf(src))
+			return
 	relay('nsv13/sound/effects/fighters/switch.ogg')
 
 /obj/structure/overmap/fighter/ui_data(mob/user)
@@ -1276,7 +1277,22 @@ How to make fuel:
 		torp_info["mun_id"] = "\ref[M]"
 		munitions[++munitions.len] = torp_info
 	data["loaded_munitions"] = munitions
-
+	data["has_cargo"] = (cargo.len >= 1)
+	if(cargo.len)
+		var/list/cargo_info = list()
+		for(var/atom/movable/F in cargo)
+			var/list/info = list()
+			info["name"] = F.name
+			var/contentslist = ""
+			for(var/atom/movable/FF in F.contents)
+				contentslist += "[FF.name]"//lazy variable names go me
+			info["contents"] = contentslist
+			info["crate_id"] = "\ref[F]"
+			cargo_info[++cargo_info.len] = info
+		data["cargo_info"] = cargo_info
+		data["cargo"] = cargo.len
+		data["max_cargo"] = max_cargo
+		data["can_unload"] = !SSmapping.level_trait(z, ZTRAIT_OVERMAP) //Hmm gee I wonder why.
 	return data
 
 #undef NO_IGNITION

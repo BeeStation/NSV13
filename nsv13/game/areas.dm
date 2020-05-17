@@ -2,20 +2,6 @@
 
 /area
 	var/looping_ambience = 'nsv13/sound/ambience/shipambience.ogg' //If you want an ambient sound to play on loop while theyre in a specific area, set this. Defaults to the classic "engine rumble"
-	var/obj/structure/overmap/linked_overmap = null //For relaying damage etc. to the interior.
-
-/area/New()
-	. = ..()
-	addtimer(CALLBACK(src, .proc/find_overmap), 5 SECONDS)
-
-/area/proc/find_overmap()
-	for(var/obj/structure/overmap/ship in GLOB.overmap_objects)
-		var/types = subtypesof(ship.area_type)
-		types += ship.area_type //Subtypesof doesnt include the parent type. End me.
-		for(var/path in types)
-			if(src.type == path)
-				linked_overmap = ship
-				ship.linked_areas += src
 
 /area/space
 	looping_ambience = null
@@ -205,6 +191,23 @@
 /area/hallway/nsv/deck2/aft
 	name = "Deck 2 Aft Hallway"
 	icon_state = "hallP"
+
+/area/maintenance/nsv/mining_ship
+	has_gravity = TRUE
+	looping_ambience = 'nsv13/sound/ambience/maintenance.ogg'
+	noteleport = TRUE
+
+/area/maintenance/nsv/mining_ship/central
+	name = "Rocinante maintenance"
+	icon_state = "maintcentral"
+
+/area/maintenance/nsv/mining_ship/forward
+	name = "Rocinante forward maintenance"
+	icon_state = "maintcentral"
+
+/area/maintenance/nsv/mining_ship/aft
+	name = "Rocinante aft maintenance"
+	icon_state = "maintcentral"
 
 /area/hallway/nsv/deck2/frame1/port
 	name = "Deck 2 Frame 1 Port Hallway"
@@ -488,35 +491,87 @@
 	name = "Luxury yacht"
 
 /area/nostromo
-	name = "NSV Nostromo"
+	name = "DMC Rocinante"
 	ambientsounds = list('nsv13/sound/ambience/leit_motif.ogg','nsv13/sound/ambience/wind.ogg','nsv13/sound/ambience/wind2.ogg','nsv13/sound/ambience/wind3.ogg','nsv13/sound/ambience/wind4.ogg','nsv13/sound/ambience/wind5.ogg','nsv13/sound/ambience/wind6.ogg')
 	noteleport = TRUE
 	icon_state = "mining"
 	has_gravity = TRUE
 
-/area/nostromo/maintenance
-	name = "Nostromo maintenance"
-	looping_ambience = 'nsv13/sound/ambience/maintenance.ogg'
-	icon_state = "maintcentral"
-
 /area/nostromo/maintenance/exterior
-	name = "Nostromo exterior"
+	name = "Rocinante exterior"
 	icon_state = "space_near"
 
+/area/nostromo/maintenance/hangar
+	name = "Rocinante hangar bay"
+	icon_state = "hallS"
+
 /area/nostromo/medbay
-	name = "Nostromo sickbay"
+	name = "Rocinante sickbay"
 	looping_ambience = 'nsv13/sound/ambience/medbay.ogg'
 	icon_state = "medbay"
 
+/area/nostromo/science
+	name = "Rocinante science"
+	looping_ambience = 'nsv13/sound/ambience/computer_core.ogg'
+	icon_state = "toxlab"
+
 /area/nostromo/tcomms
-	name = "Nostromo TE/LE/COMM core"
+	name = "Rocinante TE/LE/COMM core"
 	looping_ambience = 'nsv13/sound/ambience/computer_core.ogg'
 	icon_state = "tcomsatcham"
 
 /area/nostromo/bridge
-	name = "Nostromo flight deck"
+	name = "Rocinante flight deck"
 	looping_ambience = 'nsv13/sound/ambience/bridge.ogg'
 	icon_state = "bridge"
+
+/area/nostromo/hangar/port
+	name = "Rocinante port hangar deck"
+	looping_ambience = 'nsv13/sound/ambience/bridge.ogg'
+	icon_state = "hallP"
+
+/area/nostromo/hangar/starboard
+	name = "Rocinante starboard hangar deck"
+	looping_ambience = 'nsv13/sound/ambience/bridge.ogg'
+	icon_state = "hallS"
+
+/area/nostromo/engineering
+	name = "Rocinante engineering"
+	looping_ambience = 'nsv13/sound/ambience/bridge.ogg'
+	icon_state = "engine"
+
+/area/nostromo/engineering/atmospherics
+	name = "Rocinante engineering"
+	looping_ambience = 'nsv13/sound/ambience/bridge.ogg'
+	icon_state = "atmos"
+
+/area/nostromo/galley
+	name = "Rocinante galley"
+	looping_ambience = 'nsv13/sound/ambience/bridge.ogg'
+	icon_state = "kitchen"
+
+/area/nostromo/galley/coldroom
+	name = "Rocinante cold room"
+	icon_state = "kitchen_cold"
+
+/area/nostromo/crew_quarters
+	name = "Rocinante quarters"
+	icon_state = "Sleep"
+	mood_bonus = 3
+	mood_message = "<span class='nicegreen'>There's no place like the dorms!\n</span>"
+
+/area/nostromo/mining
+	name = "Rocinante mining dock"
+	icon_state = "mining"
+
+/area/nostromo/security
+	name = "Rocinante security"
+	icon_state = "security"
+	ambientsounds = HIGHSEC
+
+
+
+
 
 //Syndie PVP ship
 
@@ -565,13 +620,7 @@
 	set waitfor = FALSE
 	SEND_SIGNAL(src, COMSIG_AREA_ENTERED, M)
 	SEND_SIGNAL(M, COMSIG_ENTER_AREA, src) //The atom that enters the area
-	if(ismob(M) && linked_overmap)
-		linked_overmap.mobs_in_ship += M
-	if(istype(M, /obj/structure/overmap))
-		var/obj/structure/overmap/OM = M
-		if(OM.mobs_in_ship.len) //Relays area exits and enters. This is so that fighter pilots and crews arent registered as being still inside their carrier vessel, and thus hear its sounds.
-			for(var/mob/LM in OM.mobs_in_ship)
-				Entered(LM)
+
 	if(!isliving(M))
 		return
 
@@ -586,6 +635,8 @@
 		L.client.ambience_playing = 1
 		SEND_SOUND(L, sound(looping_ambience, repeat = 1, wait = 0, volume = 100, channel = CHANNEL_BUZZ))
 		L.client.last_ambience = looping_ambience
+	var/atom/foo = pick(contents) //We need something with a z-level attached to it.
+	var/obj/structure/linked_overmap = foo.get_overmap()
 	if(linked_overmap && !L.client.played)
 		var/progress = linked_overmap.obj_integrity
 		var/goal = linked_overmap.max_integrity
@@ -611,10 +662,3 @@
 /area/Exited(atom/movable/M)
 	SEND_SIGNAL(src, COMSIG_AREA_EXITED, M)
 	SEND_SIGNAL(M, COMSIG_EXIT_AREA, src) //The atom that exits the area
-	if(ismob(M) && linked_overmap)
-		linked_overmap.mobs_in_ship -= M
-	if(istype(M, /obj/structure/overmap))
-		var/obj/structure/overmap/OM = M
-		if(OM.mobs_in_ship.len)
-			for(var/mob/LM in OM.mobs_in_ship)
-				Exited(LM)
