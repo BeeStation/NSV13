@@ -44,6 +44,21 @@ export function sane (x, y) {
   return {x, y}
 }
 
+export function mapdrag (event) {
+  event.preventDefault()
+
+  if (!this.get('mapdrag')) return
+
+  if (this.get('x')) {
+    let map = document.getElementById('mapContainer')
+    let xDiff = (event.screenX - this.get('x'))
+    let yDiff = (event.screenY - this.get('y'))
+    map.scrollLeft -= xDiff
+    map.scrollTop -= yDiff
+  }
+  this.set({ x: event.screenX, y: event.screenY })
+}
+
 export function resize (event) {
   event.preventDefault()
 

@@ -67,6 +67,8 @@
 #define ACCESS_MUNITIONS_STORAGE 71 //NSV13 - Access to ordinance
 #define ACCESS_FIGHTER 72 //NSV13 - Fighternerds
 #define ACCESS_FL 73 //NSV13 - FL tagged decorated fighter
+#define ACCESS_MINING_ENGINEERING 74
+#define ACCESS_MINING_BRIDGE 75
 
 	//BEGIN CENTCOM ACCESS
 	/*Should leave plenty of room if we need to add more access levels.

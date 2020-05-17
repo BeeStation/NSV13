@@ -262,7 +262,6 @@
 		var/obj/structure/overmap/OM = null
 		if(last_overmap)
 			OM = last_overmap
-			last_overmap = null
 		else
 			for(var/obj/structure/overmap/O in GLOB.overmap_objects)
 				if(O.role == MAIN_OVERMAP)
@@ -287,9 +286,7 @@
 		return TRUE
 
 /obj/structure/overmap/fighter/proc/update_overmap()
-	var/area/A = get_area(src)
-	if(A.linked_overmap)
-		last_overmap = A.linked_overmap
+	last_overmap = get_overmap()
 
 /obj/structure/overmap/fighter/proc/docking_act(obj/structure/overmap/OM)
 	if(mass < OM.mass && OM.docking_points.len && docking_mode) //If theyre smaller than us,and we have docking points, and they want to dock

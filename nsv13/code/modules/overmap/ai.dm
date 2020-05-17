@@ -22,6 +22,7 @@
 
 /obj/structure/overmap/proc/slowprocess() //For ai ships, this allows for target acquisition, tactics etc.
 	handle_pdcs()
+	SSstar_system.update_pos(src)
 	if(!ai_controlled)
 		return
 	if(!pilot) //AI ships need a pilot so that they aren't hit by their own bullets. Projectiles.dm's can_hit needs a mob to be the firer, so here we are.
@@ -113,8 +114,8 @@
 	enemies += target
 	if(OM.role == MAIN_OVERMAP)
 		set_security_level(SEC_LEVEL_RED) //Action stations when the ship is under attack, if it's the main overmap.
-		SSstarsystem.last_combat_enter = world.time //Tag the combat on the SS
-		SSstarsystem.modifier = 0 //Reset overmap spawn modifier
+		SSstar_system.last_combat_enter = world.time //Tag the combat on the SS
+		SSstar_system.modifier = 0 //Reset overmap spawn modifier
 		var/datum/round_event_control/_overmap_event_handler/OEH = locate(/datum/round_event_control/_overmap_event_handler) in SSevents.control
 		OEH.weight = 0 //Reset controller weighting
 	if(OM.tactical)
