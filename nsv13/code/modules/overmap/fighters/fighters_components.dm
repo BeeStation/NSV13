@@ -655,6 +655,15 @@
 	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 15000)
 	export_price = 3000
 
+/datum/techweb_node/fighter_control_console
+	id = "fighter_control_console"
+	display_name = "Remote Monitoring and Control of Fighters"
+	description = "Pesky pilots making a mess of the hangar with their guns? Lock their weapons down with this easy one click console."
+	prereq_ids = list("fighter_fabrication")
+	design_ids = list("fighter_computer_circuit")
+	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 5000)
+	export_price = 500
+
 /////COMPONENT DESIGNS/////
 
 /datum/design/light_chassis_crate
@@ -1267,7 +1276,7 @@
 	var/max_range = 2
 	var/datum/beam/current_beam
 	var/allow_refuel = FALSE
-
+	
 /obj/structure/reagent_dispensers/fueltank/aviation_fuel/ui_act(action, params, datum/tgui/ui)
 	if(..())
 		return
@@ -1457,10 +1466,4 @@
 		else
 			to_chat(user, "<span class='notice'>[f16]'s fuel tank is already full.</span>")
 			return
-
-/datum/supply_pack/munitions/aviation_fuel
-	name = "Aviation fuel"
-	desc = "One Tyrosene fuel pump, capable of fully refuelling 3 fighters."
-	cost = 1500
-
 #undef INELIGIBLE

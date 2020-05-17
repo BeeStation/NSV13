@@ -61,7 +61,7 @@
 		if(HBS_AVIONICS)
 			. += "<span class='notice'>Follow the wiring diagram to connect the avionics to the flight controls and thrusters.</span>"
 		if(HBS_AVIONICS_WIRE)
-			. += "<span class='notice'>Calibrate the avionics systems.</span>"
+			. += "<span class='notice'>Calibrate the avionics systems with a multitool.</span>"
 		if(HBS_AVIONICS_MULTI)
 			. += "<span class='notice'>Install the targeting sensor into slot O-.</span>"
 		if(HBS_TARGETING_SENSOR)

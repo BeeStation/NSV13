@@ -64,13 +64,14 @@
   }
 </script>
 
-<span class='button {{styles}}'
+<span class='{{#if !nostyle}}button {{/if}}{{styles}}'
   unselectable='on'
   {{#clickable}}tabindex='0'{{/}}
   data-tooltip='{{tooltip}}'
   on-mouseover-mousemove='hover'
   on-mouseleave='unhover'
-  on-click-enter='{{#clickable}}press{{/}}'>
+  on-click-enter='{{#clickable}}press{{/}}'
+  style='{{ilstyle}}'>
   {{#if icon}}
     <i class='fa fa-{{icon}}'></i>
   {{/if}}

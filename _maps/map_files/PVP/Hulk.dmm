@@ -906,6 +906,8 @@
 	pixel_y = 3
 	},
 /obj/item/stack/sheet/iron/fifty,
+/obj/item/key/fighter_tug,
+/obj/item/key/fighter_tug,
 /turf/open/floor/plasteel/tech/grid,
 /area/hammurabi/hangar)
 "cp" = (
@@ -2129,6 +2131,11 @@
 	},
 /turf/open/floor/mineral/plastitanium/red,
 /area/hammurabi)
+"ft" = (
+/obj/effect/turf_decal/delivery,
+/obj/vehicle/sealed/car/realistic/fighter_tug,
+/turf/open/floor/mineral/plastitanium,
+/area/hammurabi/hangar)
 "fA" = (
 /obj/structure/cable{
 	icon_state = "1-2"
@@ -2403,8 +2410,8 @@
 /obj/effect/turf_decal/stripes/line{
 	dir = 6
 	},
-/obj/item/ship_weapon/ammunition/torpedo/fast,
-/obj/item/ship_weapon/ammunition/torpedo/fast{
+/obj/item/ship_weapon/ammunition/missile,
+/obj/item/ship_weapon/ammunition/missile{
 	pixel_y = 8
 	},
 /turf/open/floor/plating,
@@ -2498,9 +2505,9 @@
 /turf/open/floor/plasteel/tech/grid,
 /area/hammurabi)
 "lj" = (
-/obj/machinery/computer/ship/ftl_computer{
-	dir = 4;
-	req_one_access_txt = "150"
+/obj/machinery/computer/ship/ftl_computer/syndicate{
+	icon_state = "ftl_off";
+	dir = 4
 	},
 /turf/open/floor/plating,
 /area/hammurabi)
@@ -2736,7 +2743,7 @@
 /area/hammurabi/maintenance/exterior)
 "oa" = (
 /obj/effect/turf_decal/delivery,
-/obj/structure/overmap/fighter/syndicate{
+/obj/structure/overmap/fighter/light/prebuilt/syndicate{
 	angle = 90
 	},
 /obj/structure/cable{
@@ -2958,7 +2965,7 @@
 /area/hammurabi/maintenance/exterior)
 "qW" = (
 /obj/effect/turf_decal/delivery,
-/obj/structure/overmap/fighter/prebuilt/raptor/syndicate,
+/obj/structure/overmap/fighter/utility/prebuilt/carrier/syndicate,
 /turf/open/floor/mineral/plastitanium,
 /area/hammurabi)
 "qY" = (
@@ -2972,8 +2979,8 @@
 /obj/item/ship_weapon/parts/torpedo/warhead/decoy,
 /obj/item/ship_weapon/parts/torpedo/warhead/decoy,
 /obj/item/ship_weapon/parts/torpedo/warhead/decoy,
-/obj/item/ship_weapon/parts/torpedo/warhead/lightweight,
-/obj/item/ship_weapon/parts/torpedo/warhead/lightweight,
+/obj/item/ship_weapon/parts/torpedo/warhead,
+/obj/item/ship_weapon/parts/torpedo/warhead,
 /obj/item/ship_weapon/parts/torpedo/warhead,
 /obj/item/ship_weapon/parts/torpedo/warhead,
 /obj/item/ship_weapon/parts/torpedo/warhead,
@@ -3163,7 +3170,7 @@
 /area/hammurabi)
 "tF" = (
 /obj/effect/turf_decal/delivery,
-/obj/structure/overmap/fighter/prebuilt/raptor/syndicate{
+/obj/structure/overmap/fighter/utility/prebuilt/carrier/syndicate{
 	angle = 90
 	},
 /turf/open/floor/mineral/plastitanium,
@@ -3328,11 +3335,12 @@
 /turf/open/floor/plating,
 /area/hammurabi)
 "vU" = (
-/obj/machinery/computer/ship/dradis{
-	dir = 8
-	},
 /obj/effect/turf_decal/stripes/line{
 	dir = 6
+	},
+/obj/machinery/computer/ship/navigation{
+	icon_state = "computer";
+	dir = 8
 	},
 /turf/open/floor/plating,
 /area/hammurabi)
@@ -3990,7 +3998,7 @@
 /area/hammurabi)
 "EJ" = (
 /obj/effect/turf_decal/delivery,
-/obj/structure/overmap/fighter/syndicate{
+/obj/structure/overmap/fighter/light/prebuilt/syndicate{
 	angle = 90
 	},
 /turf/open/floor/mineral/plastitanium,
@@ -4330,11 +4338,12 @@
 /turf/open/floor/plasteel/tech/grid,
 /area/hammurabi)
 "Jd" = (
-/obj/machinery/computer/ship/dradis{
-	dir = 8
-	},
 /obj/effect/turf_decal/stripes/line{
 	dir = 5
+	},
+/obj/machinery/computer{
+	icon_state = "computer";
+	dir = 8
 	},
 /turf/open/floor/plating,
 /area/hammurabi)
@@ -4443,8 +4452,8 @@
 /turf/open/floor/plasteel/tech/grid,
 /area/hammurabi/hangar)
 "KE" = (
-/obj/item/ship_weapon/ammunition/torpedo/fast,
-/obj/item/ship_weapon/ammunition/torpedo/fast{
+/obj/item/ship_weapon/ammunition/missile,
+/obj/item/ship_weapon/ammunition/missile{
 	pixel_y = 8
 	},
 /obj/effect/turf_decal/stripes/line{
@@ -5297,6 +5306,12 @@
 /obj/structure/hull_plate/end,
 /turf/open/floor/plating/airless,
 /area/hammurabi/maintenance/exterior)
+"VU" = (
+/obj/machinery/computer/ship/dradis{
+	dir = 8
+	},
+/turf/open/floor/mineral/plastitanium/red,
+/area/hammurabi)
 "VZ" = (
 /obj/machinery/door/airlock/ship/maintenance,
 /turf/open/floor/plating,
@@ -5389,8 +5404,8 @@
 /area/hammurabi/armoury)
 "WW" = (
 /obj/effect/turf_decal/stripes/line,
-/obj/item/ship_weapon/ammunition/torpedo/fast,
-/obj/item/ship_weapon/ammunition/torpedo/fast{
+/obj/item/ship_weapon/ammunition/missile,
+/obj/item/ship_weapon/ammunition/missile{
 	pixel_y = 8
 	},
 /turf/open/floor/plating,
@@ -44039,7 +44054,7 @@ eO
 CZ
 cD
 Yg
-EJ
+tF
 MV
 dC
 Ei
@@ -45582,14 +45597,14 @@ gQ
 gQ
 vz
 Yg
-tF
+ft
 dx
 cD
 dC
 cD
 dC
 Yg
-EJ
+ft
 MV
 cD
 ik
@@ -48394,7 +48409,7 @@ hS
 ar
 Oo
 Yc
-cL
+VU
 zT
 Hy
 cL

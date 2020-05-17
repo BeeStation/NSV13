@@ -102,23 +102,30 @@
 
 /obj/structure/overmap/nanotrasen/mining_cruiser
 	name = "Mining hauler"
-	desc = "A medium sized ship which has been retrofitted countless times. These ships are often relegated to mining duty."
-	icon = 'nsv13/icons/overmap/nanotrasen/light_cruiser.dmi'
-	icon_state = "cruiser"
+	desc = "A large industrial freighter with asteroid capture systems. It is designed for long range exploratory missions and asteroid mining."
+	icon = 'nsv13/icons/overmap/nanotrasen/hephaistus.dmi'
+	icon_state = "mining_cruiser"
 	mass = MASS_MEDIUM
-	sprite_size = 96
+	sprite_size = 48
 	damage_states = TRUE
 	max_integrity = 800 //Max health
 	integrity_failure = 800
-	pixel_w = -32
-	pixel_z = -32
-	collision_positions = list(new /datum/vector2d(-8,46), new /datum/vector2d(-17,33), new /datum/vector2d(-25,2), new /datum/vector2d(-14,-45), new /datum/vector2d(9,-46), new /datum/vector2d(22,4), new /datum/vector2d(14,36))
+	pixel_w = -64
+	pixel_z = -64
+	collision_positions = list(new /datum/vector2d(-8,59), new /datum/vector2d(-13,19), new /datum/vector2d(-13,-58), new /datum/vector2d(-7,-66), new /datum/vector2d(6,-66), new /datum/vector2d(12,-59), new /datum/vector2d(13,20), new /datum/vector2d(7,59))
 	armor = list("overmap_light" = 75, "overmap_heavy" = 15)
 
-/obj/structure/overmap/nanotrasen/mining_cruiser/nostromo
-	name = "NSV Nostromo"
+/obj/structure/overmap/nanotrasen/mining_cruiser/rocinante
+	name = "DMC Rocinante"
 	role = MAIN_MINING_SHIP
 	area_type = /area/nostromo
+	starting_system = "Lalande 21185"
+
+/obj/structure/overmap/nanotrasen/mining_cruiser/nostromo
+	name = "NSV Hephaestus"
+	role = MAIN_MINING_SHIP
+	area_type = /area/nostromo
+	starting_system = "Lalande 21185"
 
 /obj/structure/overmap/nanotrasen/mining_cruiser/nostromo/fob
 	name = "NSV FOB"
@@ -130,26 +137,31 @@
 	role = MAIN_OVERMAP
 	max_integrity = 1800 //Buffed health due to ship internal damage existing
 	integrity_failure = 1800
+	starting_system = "Wolf 359"
 
 /obj/structure/overmap/nanotrasen/patrol_cruiser/starter
 	role = MAIN_OVERMAP //Player controlled variant
 	max_integrity = 1800 //Buffed health due to ship internal damage existing
 	integrity_failure = 1800
+	starting_system = "Wolf 359"
 
 /obj/structure/overmap/nanotrasen/heavy_cruiser/starter
 	role = MAIN_OVERMAP //Player controlled variant
 	max_integrity = 1800 //Buffed health due to ship internal damage existing
 	integrity_failure = 1800
+	starting_system = "Wolf 359"
 
 /obj/structure/overmap/nanotrasen/carrier/starter
 	role = MAIN_OVERMAP //Player controlled variant
 	max_integrity = 2000 //Compensates for lack of offensive weaponry
 	integrity_failure = 2000
+	starting_system = "Wolf 359"
 //	bound_width = 256
 //	bound_height = 256
 
 /obj/structure/overmap/nanotrasen/battleship/starter
 	role = MAIN_OVERMAP //Player controlled variant
+	starting_system = "Wolf 359"
 
 /obj/structure/overmap/nanotrasen/patrol_cruiser/ai
 	ai_controlled = TRUE
@@ -195,7 +207,7 @@
 	name = "[name] ([rand(0,999)])"
 
 /obj/structure/overmap/syndicate/ai/Destroy()
-	SSstarsystem.bounty_pool += bounty //Adding payment for services rendered
+	SSstar_system.bounty_pool += bounty //Adding payment for services rendered
 	. = ..()
 
 /obj/structure/overmap/syndicate/pvp //Syndie PVP ship.
@@ -214,6 +226,8 @@
 	pixel_w = -32
 	ai_controlled = FALSE
 	collision_positions = list(new /datum/vector2d(-3,45), new /datum/vector2d(-17,29), new /datum/vector2d(-22,-12), new /datum/vector2d(-11,-45), new /datum/vector2d(7,-47), new /datum/vector2d(22,-12), new /datum/vector2d(9,30))
+	role = PVP_SHIP
+	starting_system = "Vorash"
 	armor = list("overmap_light" = 95, "overmap_heavy" = 20)
 
 /obj/structure/overmap/syndicate/pvp/hulk //Larger PVP ship for larger pops.
@@ -229,6 +243,7 @@
 	max_integrity = 1500 //Max health
 	integrity_failure = 1500
 	collision_positions = list(new /datum/vector2d(-7,124), new /datum/vector2d(-26,67), new /datum/vector2d(-46,-75), new /datum/vector2d(-45,-95), new /datum/vector2d(-30,-116), new /datum/vector2d(25,-119), new /datum/vector2d(36,-94), new /datum/vector2d(41,-76), new /datum/vector2d(19,71))
+	role = PVP_SHIP
 	armor = list("overmap_light" = 95, "overmap_heavy" = 30)
 
 /obj/structure/overmap/syndicate/ai //Generic bad guy #10000. GRR.
@@ -321,5 +336,5 @@
 	armor = list("overmap_light" = 15, "overmap_heavy" = 0)
 
 /obj/structure/overmap/syndicate/ai/fighter/Initialize()
-	.=..()
+	. = ..()
 	weapon_types[FIRE_MODE_MISSILE] = new/datum/ship_weapon/missile_launcher

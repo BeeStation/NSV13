@@ -34,16 +34,11 @@
 	var/middragtime = 0
 	var/atom/middragatom
 
+//Nsv13 - This proc has been extensively changed to handle auto-firing in a slightly more sane way which shouldn't cause people to get kicked by the anti-spam defenses...
+
 /client/MouseDown(object, location, control, params)
 	if (mouse_down_icon)
 		mouse_pointer_icon = mouse_down_icon
-	var/delay = mob.CanMobAutoclick(object, location, params)
-	if(delay)
-		selected_target[1] = object
-		selected_target[2] = params
-		while(selected_target[1])
-			Click(selected_target[1], location, control, selected_target[2])
-			sleep(delay)
 	active_mousedown_item = mob.canMobMousedown(object, location, params)
 	if(active_mousedown_item)
 		//NSV13 type conversion before mousedown - formerly active_mousedown_item.onMouseDown(object, location, params, mob)
@@ -54,6 +49,7 @@
 			var/obj/structure/overmap/OM = active_mousedown_item
 			OM.onMouseDown(object, location, params, mob)
 		//NSV13 end
+
 
 /client/MouseUp(object, location, control, params)
 	if (mouse_up_icon)

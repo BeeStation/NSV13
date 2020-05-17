@@ -375,6 +375,13 @@ Chair + rack handling
 	. = ..()
 	occupant = null
 
+/obj/structure/chair/comfy/gauss/user_unbuckle_mob(mob/living/buckled_mob, mob/living/carbon/human/user)
+	if(locked)
+		to_chat(buckled_mob, "<span class='warning'>[src]'s restraints are clamped down onto you!</span>")
+		return FALSE
+	. = ..()
+	occupant = null
+
 /obj/structure/chair/comfy/gauss/user_buckle_mob(mob/living/M, mob/user, check_loc = TRUE)
 	if(!gun?.allowed(M) || !M.client)
 		var/sound = pick('nsv13/sound/effects/computer/error.ogg','nsv13/sound/effects/computer/error2.ogg','nsv13/sound/effects/computer/error3.ogg')

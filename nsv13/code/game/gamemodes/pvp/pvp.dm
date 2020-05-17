@@ -11,7 +11,7 @@ GLOBAL_LIST_EMPTY(syndi_crew_leader_spawns)
 /datum/game_mode/pvp
 	name = "PVP"
 	config_tag = "pvp"
-	report_type = "nuclear"
+	report_type = "pvp"
 	false_report_weight = 10
 	required_players = 30 // 30 players initially, with 15 crewing the hammurabi and 15 crewing the larger, more powerful hammerhead
 	required_enemies = 10
@@ -35,7 +35,6 @@ GLOBAL_LIST_EMPTY(syndi_crew_leader_spawns)
 
 	var/operative_antag_datum_type = /datum/antagonist/nukeop/syndi_crew
 	var/leader_antag_datum_type = /datum/antagonist/nukeop/leader/syndi_crew
-	var/time_limit
 	var/list/standard_ships = list("Hammurabi.dmm") //Update this list if you make more PVP ships :) ~Kmc
 	var/list/highpop_ships = list("Hulk.dmm") //Update this list if you make a big PVP ship
 	var/list/jobs = list()
@@ -55,20 +54,8 @@ Method to spawn in the Syndi ship on a brand new Z-level with the "boardable" tr
 	if(!map_file) //Don't ask me why this would happen.
 		map_file = "Hammurabi.dmm"
 		ship_type = /obj/structure/overmap/syndicate/pvp
-	for(var/z in SSmapping.levels_by_trait(ZTRAIT_CORVI))
-		syndiship = new ship_type(get_turf(locate(round(world.maxx * 0.5, 1), round(world.maxy * 0.5, 1), z))) //Make a new syndie ship object in Corvi.
-	message_admins("Spawning in syndi ship map, this may take a while. No the game hasn't crashed, I'm just loading a map before we start.") //Warn the admins. This shit takes a while.
-	var/list/errorList = list()
-	var/list/loaded = SSmapping.LoadGroup(errorList, "Syndicate ship", "map_files/PVP", map_file, default_traits = ZTRAITS_BOARADABLE_SHIP, silent = FALSE)
-	if(errorList.len)	// reebe failed to load
-		message_admins("Syndie ship failed to load!")
-		log_game("Syndie ship failed to load!")
-		for(var/X in errorList)
-			message_admins("The following failed to load: [X]")
-		return FALSE
-	for(var/datum/parsed_map/PM in loaded)
-		PM.initTemplateBounds()
-	repopulate_sorted_areas()
+
+	syndiship = instance_overmap(_path=ship_type, folder= "map_files/PVP" ,interior_map_files = map_file)
 	var/n_agents = antag_candidates.len
 	if(n_agents >= enemies_to_spawn)
 		jobs["pilots"] = list() //Dictionary to store who's doing what job.
@@ -104,10 +91,8 @@ Method to spawn in the Syndi ship on a brand new Z-level with the "boardable" tr
 		var/datum/mind/nuke_mind = pre_nukeops[I]
 		var/datum/antagonist/selected = get_job_for(nuke_mind)
 		nuke_mind?.add_antag_datum(selected)
-	time_limit = world.time + 45 MINUTES //Puts a hard cap on the time limit to avoid boredom.
-	addtimer(CALLBACK(src, .proc/check_win), 45.5 MINUTES)
-	SSstarsystem.add_blacklist(/obj/structure/overmap/syndicate/ai/carrier) //No. Just no. Please. God no.
-	SSstarsystem.add_blacklist(/obj/structure/overmap/syndicate/ai/patrol_cruiser) //Syndies only get LIGHT reinforcements.
+	SSstar_system.add_blacklist(/obj/structure/overmap/syndicate/ai/carrier) //No. Just no. Please. God no.
+	SSstar_system.add_blacklist(/obj/structure/overmap/syndicate/ai/patrol_cruiser) //Syndies only get LIGHT reinforcements.
 	return ..()
 
 /**
@@ -136,8 +121,6 @@ Method to assign a job, in order of descending priority. We REALLY need people t
 /datum/game_mode/pvp/check_win()
 	if (nukes_left == 0)
 		return TRUE
-	if(world.time >= time_limit)
-		return FALSE
 	return ..()
 
 /datum/game_mode/pvp/check_finished()
@@ -146,7 +129,6 @@ Method to assign a job, in order of descending priority. We REALLY need people t
 		for(var/obj/machinery/nuclearbomb/N in GLOB.nuke_list)
 			if(N.proper_bomb && (N.timing || N.exploding))
 				return FALSE
-	if(world.time >= time_limit)
 		return TRUE
 	return ..()
 
@@ -161,8 +143,7 @@ Method to assign a job, in order of descending priority. We REALLY need people t
 		SSticker.news_report = OPERATIVE_SKIRMISH
 
 /datum/game_mode/pvp/generate_report()
-	priority_announce("[station_name()]. Our incursion into Syndicate space has not gone unnoticed. Your orders are to establish a foothold and survive until the NSV Agatha King, Solaris and Typhoon can reach you. All other orders are secondary to this. We estimate they'll take around 45 minutes to get to you. Good luck, and be on your toes.")
-	return "Long range DRADIS uplinks show a massive Syndicate force is en-route to your location. Hold out until we can send reinforcements to you."
+	return "Deep space scanners are showing a heightened level of Syndicate activity in your AO. Be on high alert for Syndicate strike teams."
 
 /datum/game_mode/pvp/generate_credit_text()
 	var/list/round_credits = list()
@@ -176,14 +157,14 @@ Method to assign a job, in order of descending priority. We REALLY need people t
 
 /datum/antagonist/nukeop/syndi_crew
 	name = "Syndicate crew"
-	nukeop_outfit = /datum/outfit/syndicate/no_crystals
+	nukeop_outfit = /datum/outfit/syndicate/no_crystals/syndi_crew
 	job_rank = ROLE_SYNDI_CREW
 
-/datum/antagonist/nukeop/syndi_crew/greet()
-	owner.current.playsound_local(get_turf(owner.current), 'sound/ambience/antag/ops.ogg',100,0)
-	to_chat(owner, "<span class='notice'>You are a crewman aboard a Syndicate vessel!</span>")
-	to_chat(owner, "<span class='warning'>Ensure the destruction of [station_name()], no matter what. Eliminate Nanotrasen's presence in the Abassi ridge before they can establish a foothold. The fleet is counting on you!</span>")
-	owner.announce_objectives()
+/datum/outfit/syndicate/no_crystals/syndi_crew
+	name = "Syndicate marine"
+	head = /obj/item/clothing/head/HoS/beret/syndicate
+	suit = /obj/item/clothing/suit/ship/syndicate_crew
+	uniform = /obj/item/clothing/under/ship/pilot/syndicate
 
 /datum/antagonist/nukeop/syndi_crew/greet()
 	owner.current.playsound_local(get_turf(owner.current), 'sound/ambience/antag/ops.ogg',100,0)
@@ -207,11 +188,11 @@ Method to assign a job, in order of descending priority. We REALLY need people t
 
 /datum/outfit/syndicate/no_crystals/shipside
 	name = "Syndicate engineer"
-	head = /obj/item/clothing/head/beret/ship/engineer
+	head = /obj/item/clothing/head/HoS/beret/syndicate
 	glasses = /obj/item/clothing/glasses/meson/engine
-	gloves = /obj/item/clothing/gloves/color/yellow
+	gloves = /obj/item/clothing/gloves/combat
 	belt = /obj/item/storage/belt/utility/full/engi
-
+	uniform = /obj/item/clothing/under/ship/syndicate_tech
 
 /datum/antagonist/nukeop/syndi_crew/shipside
 	name = "Syndicate crew (shipside)"
