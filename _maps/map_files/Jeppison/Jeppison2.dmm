@@ -5324,10 +5324,10 @@
 /turf/closed/wall/r_wall/ship,
 /area/science/mixing)
 "lK" = (
-/obj/machinery/rnd/production/techfab,
 /obj/machinery/firealarm{
 	pixel_y = 27
 	},
+/obj/machinery/computer/ship/navigation/astrometrics,
 /turf/open/floor/plasteel/white,
 /area/science/lab)
 "lL" = (
@@ -5402,10 +5402,6 @@
 /obj/effect/turf_decal/tile/yellow{
 	dir = 4
 	},
-/obj/machinery/light{
-	icon_state = "tube";
-	dir = 1
-	},
 /turf/open/floor/plasteel/white,
 /area/science/mixing)
 "lS" = (
@@ -5477,7 +5473,6 @@
 /obj/effect/turf_decal/tile/yellow{
 	dir = 4
 	},
-/obj/machinery/camera/autoname,
 /turf/open/floor/plasteel/white,
 /area/science/mixing)
 "mc" = (
@@ -5488,7 +5483,6 @@
 /obj/effect/turf_decal/tile/yellow{
 	dir = 4
 	},
-/obj/machinery/firealarm/directional/north,
 /turf/open/floor/plasteel/white,
 /area/science/mixing)
 "md" = (
@@ -8083,16 +8077,6 @@
 /obj/machinery/portable_atmospherics/canister/nitrous_oxide,
 /turf/open/floor/plating,
 /area/science/storage)
-"rl" = (
-/obj/effect/turf_decal/tile/yellow{
-	dir = 1
-	},
-/obj/effect/turf_decal/tile/yellow{
-	dir = 4
-	},
-/obj/machinery/light_switch/north,
-/turf/open/floor/plasteel/white,
-/area/science/mixing)
 "rm" = (
 /obj/structure/cable{
 	icon_state = "1-2"
@@ -17282,6 +17266,15 @@
 /obj/machinery/door/firedoor,
 /turf/open/floor/plasteel/white,
 /area/medical/cryo)
+"NO" = (
+/obj/item/ship_weapon/parts/torpedo/warhead/probe,
+/obj/item/ship_weapon/parts/torpedo/warhead/probe,
+/obj/item/ship_weapon/parts/torpedo/warhead/probe,
+/obj/item/ship_weapon/parts/torpedo/warhead/probe,
+/obj/item/ship_weapon/parts/torpedo/warhead/probe,
+/obj/item/ship_weapon/parts/torpedo/warhead/probe,
+/turf/open/floor/plating,
+/area/science/storage)
 "NP" = (
 /obj/machinery/firealarm/directional/south,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
@@ -17403,6 +17396,9 @@
 /obj/structure/extinguisher_cabinet/east,
 /turf/open/floor/plasteel/white,
 /area/medical/chemistry)
+"OZ" = (
+/turf/closed/wall/r_wall/ship,
+/area/space)
 "Pb" = (
 /obj/effect/turf_decal/tile/blue{
 	dir = 1
@@ -17677,6 +17673,10 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /turf/open/floor/plating,
 /area/engine/engine_room)
+"RS" = (
+/obj/machinery/firealarm/directional/north,
+/turf/open/floor/plasteel/white,
+/area/science/mixing)
 "RT" = (
 /obj/machinery/dna_scannernew,
 /obj/machinery/camera/autoname,
@@ -17939,6 +17939,8 @@
 /obj/machinery/light{
 	dir = 1
 	},
+/obj/machinery/light_switch/north,
+/obj/structure/munitions_trolley,
 /turf/open/floor/plasteel/white,
 /area/science/mixing)
 "UR" = (
@@ -18217,6 +18219,30 @@
 	},
 /turf/open/floor/plasteel/white,
 /area/medical/medbay/central)
+"XR" = (
+/obj/effect/turf_decal/tile/yellow{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/yellow{
+	dir = 4
+	},
+/obj/item/ship_weapon/ammunition/torpedo/probe{
+	pixel_y = -8
+	},
+/obj/item/ship_weapon/ammunition/torpedo/probe,
+/obj/item/ship_weapon/ammunition/torpedo/probe{
+	pixel_y = 8
+	},
+/turf/open/floor/plasteel/white,
+/area/science/mixing)
+"XS" = (
+/obj/machinery/light{
+	icon_state = "tube";
+	dir = 1
+	},
+/obj/machinery/computer/ship/munitions_computer/west,
+/turf/open/floor/plasteel/white,
+/area/science/mixing)
 "XU" = (
 /obj/machinery/atmospherics/components/unary/cryo_cell,
 /turf/open/floor/plasteel/white,
@@ -18316,6 +18342,11 @@
 	},
 /turf/open/floor/plasteel/white,
 /area/medical/medbay/central)
+"Zg" = (
+/obj/machinery/camera/autoname,
+/obj/machinery/ship_weapon/torpedo_launcher/east,
+/turf/open/floor/plasteel/white,
+/area/science/mixing)
 "Zj" = (
 /turf/closed/wall/ship,
 /area/medical/genetics/cloning)
@@ -54185,11 +54216,11 @@ nB
 nM
 nB
 nx
-mg
+XR
 oj
 ox
 og
-on
+NO
 on
 oG
 ph
@@ -54487,7 +54518,7 @@ nJ
 nN
 lD
 nx
-rl
+XR
 nn
 ot
 og
@@ -55085,7 +55116,7 @@ aa
 aa
 aa
 aa
-aa
+OZ
 lI
 lP
 ml
@@ -55387,8 +55418,8 @@ aa
 aa
 aa
 aa
-aa
-lJ
+OZ
+XS
 lR
 mm
 mI
@@ -55689,8 +55720,8 @@ aa
 aa
 aa
 aa
-aa
-lJ
+OZ
+Zg
 mb
 mm
 nh
@@ -55991,8 +56022,8 @@ aa
 aa
 aa
 aa
-aa
-lJ
+OZ
+RS
 mc
 mt
 nk
@@ -56293,8 +56324,8 @@ aa
 aa
 aa
 aa
-aa
-lJ
+OZ
+nn
 mg
 mm
 nn
@@ -56595,7 +56626,7 @@ aa
 aa
 aa
 aa
-aa
+OZ
 lJ
 mj
 mu
