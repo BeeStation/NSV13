@@ -661,7 +661,7 @@
 	if(hitscan)
 		finalize_hitscan_and_generate_tracers()
 	if(collider2d) //Nsv13
-		QDEL_NULL(collider2d)
+		qdel(collider2d)
 	STOP_PROCESSING(SSprojectiles, src)
 	cleanup_beam_segments()
 	qdel(trajectory)

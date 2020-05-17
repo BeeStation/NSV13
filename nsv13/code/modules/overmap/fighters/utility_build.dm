@@ -51,7 +51,7 @@
 		if(UBS_APU)
 			. += "<span class='notice'>Follow the wiring diagram to connect the auxillary power unit to the engine.</span>"
 		if(UBS_APU_WIRE)
-			. += "<span class='notice'>Calibrate the power systems.</span>"
+			. += "<span class='notice'>Calibrate the power systems with a multitool.</span>"
 		if(UBS_APU_MULTI)
 			. += "<span class='notice'>Install the fuel tank into slot C.</span>"
 		if(UBS_FUEL_TANK)
@@ -61,13 +61,13 @@
 		if(UBS_PRIMARY)
 			. += "<span class='notice'>Secure the primary utility module to the primary utility arm with bolts.</span>"
 		if(UBS_PRIMARY_BOLT)
-			. += "<span class='notice'>Calibrate the primary utility module.</span>"
+			. += "<span class='notice'>Calibrate the primary utility module with a multitool.</span>"
 		if(UBS_PRIMARY_MULTI)
 			. += "<span class='notice'>Install the secondary utility module into the secondary utility slot.</span>"
 		if(UBS_SECONDARY)
 			. += "<span class='notice'>Secure the secondary utility module to the chassis with bolts.</span>"
 		if(UBS_SECONDARY_BOLT)
-			. += "<span class='notice'>Calibrate the secondary utility module.</span>"
+			. += "<span class='notice'>Calibrate the secondary utility module with a multitool.</span>"
 		if(UBS_SECONDARY_MULTI)
 			. += "<span class='notice'>Install the countermeasure dispenser into slot K.</span>"
 		if(UBS_COUNTERMEASURE_DISPENSER)
@@ -77,7 +77,7 @@
 		if(UBS_AVIONICS)
 			. += "<span class='notice'>Follow the wiring diagram to connect the avionics to the flight controls and thrusters.</span>"
 		if(UBS_AVIONICS_WIRE)
-			. += "<span class='notice'>Calibrate the flight control systems.</span>"
+			. += "<span class='notice'>Calibrate the flight control systems with a multitool.</span>"
 		if(UBS_AVIONICS_MULTI)
 			. += "<span class='notice'>Install the armour plating in all indicated places on the diagram.</span>"
 		if(UBS_ARMOUR_PLATING)

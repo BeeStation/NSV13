@@ -4,6 +4,7 @@
 	desc = "A computer which is capable of remotely activating fighter launch / arrestor systems."
 	req_access = list()
 	req_one_access_txt = "69"
+	var/next_message = 0 //Stops spam messaging
 	var/list/launchers = list()
 
 /obj/machinery/computer/ship/fighter_launcher/proc/get_launchers()
@@ -15,57 +16,63 @@
 		if(FT.can_launch_fighters())
 			launchers += FT
 
+
+/obj/machinery/computer/ship/fighter_launcher/ui_interact(mob/user, ui_key = "main", datum/tgui/ui = null, force_open = 0, datum/tgui/master_ui = null, datum/ui_state/state = GLOB.default_state) // Remember to use the appropriate state.
+	get_launchers()
+	ui = SStgui.try_update_ui(user, src, ui_key, ui, force_open)
+	if(!ui)
+		ui = new(user, src, ui_key, "fighter_launcher", name, 500, 600, master_ui, state)
+		ui.open()
+
+/obj/machinery/computer/ship/fighter_launcher/ui_data(mob/user)
+	var/list/data = list()
+	var/list/launchers_info = list()
+	for(var/obj/structure/fighter_launcher/FL in launchers)
+		var/list/launcher_info = list()
+		launcher_info["name"] = FL.name
+		launcher_info["id"] = "\ref[FL]"
+		launcher_info["can_launch"] = FALSE
+		var/obj/structure/overmap/fighter/F = FL.mag_locked
+		launcher_info["can_launch"] = FL.ready
+		launcher_info["mag_locked"] = F?.name
+		launcher_info["pilot"] = (F?.pilot) ? F?.pilot.name : "No pilot"
+		launcher_info["pilot_id"] = (F?.pilot) ? "\ref[F.pilot]" : null
+		launcher_info["msg_cooldown"] = (world.time >= next_message)
+		launchers_info[++launchers_info.len] = launcher_info
+	data["launchers_info"] = launchers_info
+	return data
+
+/obj/machinery/computer/ship/fighter_launcher/ui_act(action, params, datum/tgui/ui)
+	if(..())
+		return
+	var/obj/structure/fighter_launcher/FL = locate(params["id"])
+	var/mob/living/pilot = locate(params["pilot_id"])
+	switch(action)
+		if("launch")
+			if(!FL)
+				return
+			FL.start_launch()
+		if("release")
+			if(!FL)
+				return
+			FL.abort_launch()
+		if("message") //Lets you DM a pilot to tell them they're stupid or whatever.
+			if(!pilot)
+				return
+			var/what = stripped_input(usr,"What would you like to tell [pilot]?")
+			if(!what)
+				return
+			next_message = world.time + 5 SECONDS
+			what = "<span class='boldnotice'>Air Traffic Controller: [what]</span>"
+			to_chat(pilot, what)
+
 /obj/machinery/computer/ship/fighter_launcher/attack_hand(mob/user)
 	if(!allowed(user))
 		var/sound = pick('nsv13/sound/effects/computer/error.ogg','nsv13/sound/effects/computer/error2.ogg','nsv13/sound/effects/computer/error3.ogg')
 		playsound(src, sound, 100, 1)
 		to_chat(user, "<span class='warning'>Access denied</span>")
 		return
-	if(!has_overmap())
-		var/sound = pick('nsv13/sound/effects/computer/error.ogg','nsv13/sound/effects/computer/error2.ogg','nsv13/sound/effects/computer/error3.ogg')
-		playsound(src, sound, 100, 1)
-		to_chat(user, "<span class='warning'>A warning flashes across [src]'s screen: Unable to locate thrust parameters, no registered ship stored in microprocessor.</span>")
-		return
-	get_launchers()
-	var/dat = "<html>"
-	dat += "<h1>Fighter launch systems:</h2><br>"
-	for(var/obj/structure/fighter_launcher/FL in launchers)
-		dat += "<h2>[FL]:</h2><br>"
-		if(FL.mag_locked && FL.ready)
-			dat += "<a href='?src=[REF(src)];launch=[REF(FL)]'>Launch: [FL.mag_locked]</a><br>"
-			dat += "<a href='?src=[REF(src)];release=[REF(FL)]'>Release: [FL.mag_locked]</a><br>"
-		else
-			dat += "<p>[FL] 's status: IDLE.</p><br>"
-	dat += "<h2>Pre-flight checklist:</h2><br>"
-	dat += "<ul>Fuel check</ul><br>"
-	dat += "<ul>Fighter canopy check</ul><br>"
-	dat += "<ul>Fighter orientation check</ul><br>"
-	dat += "<ul>Exit doors check</ul><br>"
-	dat += "</html>"
-	var/datum/browser/popup = new(user, "[name]", name, 400, 600)
-	popup.set_content(dat)
-	popup.open()
-
-/obj/machinery/computer/ship/fighter_launcher/Topic(href, href_list)
-	if(!in_range(src, usr))
-		return
-	if(!isliving(usr))
-		return
-	if(href_list["launch"])
-		var/obj/structure/fighter_launcher/FL = locate(href_list["launch"])
-		if(!FL)
-			return
-		FL.start_launch()
-		playsound(src, 'nsv13/sound/effects/computer/alarm_2.ogg', 100, 1)
-		to_chat(usr, "<span class='notice'>Fighter launch sequence initiated.</span>")
-	if(href_list["release"])
-		var/obj/structure/fighter_launcher/FL = locate(href_list["release"])
-		if(!FL)
-			return
-		FL.abort_launch()
-		playsound(src, 'nsv13/sound/effects/computer/alarm_3.ogg', 100, 1)
-		to_chat(usr, "<span class='warning'>Fighter launch sequence aborted. Magnetic interlocks disabled for 15 seconds.</span>")
-	attack_hand(usr)
+	ui_interact(user)
 
 /obj/structure/fighter_launcher //Fighter launch track! This is both an arrestor and an assisted launch system for ease of use.
 	name = "electromagnetic catapult"
@@ -170,6 +177,7 @@
 /obj/structure/fighter_launcher/proc/start_launch()
 	if(!mag_locked || !ready)
 		return
+	ready = FALSE
 	mag_locked.relay('nsv13/sound/effects/ship/fighter_launch.ogg')
 	addtimer(CALLBACK(src, .proc/finish_launch), 10 SECONDS)
 
@@ -201,7 +209,6 @@
 			mag_locked.velocity.x = 20
 		if(WEST)
 			mag_locked.velocity.x = -20
-	ready = FALSE
 	mag_locked = null
 	addtimer(CALLBACK(src, .proc/recharge), 10 SECONDS) //Stops us from catching the fighter right after we launch it.
 
@@ -255,7 +262,6 @@
 		var/obj/structure/overmap/OM = null
 		if(last_overmap)
 			OM = last_overmap
-			last_overmap = null
 		else
 			for(var/obj/structure/overmap/O in GLOB.overmap_objects)
 				if(O.role == MAIN_OVERMAP)
@@ -280,9 +286,7 @@
 		return TRUE
 
 /obj/structure/overmap/fighter/proc/update_overmap()
-	var/area/A = get_area(src)
-	if(A.linked_overmap)
-		last_overmap = A.linked_overmap
+	last_overmap = get_overmap()
 
 /obj/structure/overmap/fighter/proc/docking_act(obj/structure/overmap/OM)
 	if(mass < OM.mass && OM.docking_points.len && docking_mode) //If theyre smaller than us,and we have docking points, and they want to dock

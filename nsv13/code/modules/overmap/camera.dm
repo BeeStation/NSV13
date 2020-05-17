@@ -74,6 +74,8 @@
 			hal.all_eyes -= eyeobj
 		var/mob/camera/aiEye/cam = pick(hal.all_eyes)
 		hal.eyeobj = cam
+		if(hal.client)
+			hal.client.check_view()
 	QDEL_NULL(eyeobj)
 	QDEL_NULL(eyeobj?.off_action)
 	QDEL_NULL(M.remote_control)
