@@ -15,11 +15,35 @@
 	if(choice == "surrender")
 		emote("surrender")
 
+/datum/action/item_action/aim
+	name = "Manually aim"
+	desc = "Aim at a target manually. You can also aim with 'point' or SHIFT + middle mouse while holding a gun."
+	button_icon_state = "aim"
+	icon_icon = 'nsv13/icons/mob/actions/actions.dmi'
+
+/obj/item/ui_action_click(mob/user, action)
+	if(istype(action, /datum/action/item_action/aim))
+		var/datum/component/aiming/aiming = GetComponent(/datum/component/aiming)
+		if(!aiming)
+			return
+		var/list/mobs = list()
+		for(var/mob/living/M in view(user, 15))
+			if(M == user || !isliving(M) || M.invisibility > 0 || !M.alpha)
+				continue
+			mobs += M
+		var/mob/living/A = input(user, "Who do you want to point [src] at?", "[src]", null) as null|anything in mobs
+		if(isliving(A))
+			aiming.aim(user, A)
+		return
+	. = ..()
+
 //Happens before the actual projectile creation
 /obj/item/gun/before_firing(atom/target,mob/user, aimed)
 	if(aimed)
-		if(chambered?.BB)
-			chambered.BB.stamina = 55
+		if(chambered?.BB && !istype(src, /obj/item/gun/ballistic/automatic/toy))
+			chambered.BB.stamina += 55
+			chambered.BB.paralyze += 1 SECONDS
+			chambered.BB.jitter += 2
 			chambered.BB.speed *= 0.5 //Apparently "SPEED" makes the bullet go slower as SPEED increases. THANK YOU SS13.
 	. = ..()
 
@@ -46,6 +70,7 @@
 	. = ..()
 	if(!istype(parent, /obj/item))
 		return COMPONENT_INCOMPATIBLE
+	new /datum/action/item_action/aim(parent)
 	RegisterSignal(parent, COMSIG_ITEM_DROPPED, .proc/stop_aiming)
 
 /datum/component/aiming/proc/aim(mob/user, mob/target)
@@ -64,12 +89,22 @@
 	new /obj/effect/temp_visual/aiming(get_turf(target))
 
 	//Register signals to alert our user if the target does something shifty.
-	RegisterSignal(target, COMSIG_ITEM_DROPPED, .proc/on_drop)
-	RegisterSignal(target, COMSIG_ITEM_EQUIPPED, .proc/on_equip)
-	RegisterSignal(target, COMSIG_LIVING_STATUS_PARALYZE, .proc/on_paralyze)
+	RegisterSignal(src.target, COMSIG_MOB_ITEM_DROPPED, .proc/on_drop)
+	RegisterSignal(src.target, COMSIG_MOB_ITEM_EQUIPPED, .proc/on_equip)
+	RegisterSignal(src.target, COMSIG_LIVING_STATUS_PARALYZE, .proc/on_paralyze)
 	//And show the radials to perp and officer mc space cop...
 	src.target.aim_react()
 	show_ui(user, target, stage="start")
+
+//Helper procs to notify the aiming component of when a mob equips / drops any item.
+
+/obj/item/equipped(mob/equipper, slot)
+	. = ..()
+	SEND_SIGNAL(equipper, COMSIG_MOB_ITEM_EQUIPPED)
+
+/obj/item/dropped(mob/user)
+	. = ..()
+	SEND_SIGNAL(user, COMSIG_MOB_ITEM_DROPPED)
 
 /*
 
@@ -84,9 +119,9 @@ Methods to alert the aimer about events, usually to signify that they're complyi
 	to_chat(user, "<span class='nicegreen'>[target] appears to be surrendering!</span>")
 
 /datum/component/aiming/proc/on_equip()
-	to_chat(user, "<span class='userdanger'>[target] has pulled out something from their storage!</span>")
-	SEND_SOUND(user, 'sound/effects/alert.ogg')
 	new /obj/effect/temp_visual/aiming/suspect_alert(get_turf(target))
+	to_chat(user, "<span class='userdanger'>[target] has pulled out something from their storage!</span>")
+	SEND_SOUND(user, 'sound/machines/chime.ogg')
 
 /**
 
@@ -113,6 +148,10 @@ There are two main branches, dictated by SOP. If the perp is armed, tell them to
 		if("drop_weapon")
 			possible_actions += "drop_to_floor"
 			possible_actions += "drop_weapon"
+		if("drop_to_floor")
+			possible_actions += "drop_to_floor"
+		if("face_wall")
+			possible_actions += "face_wall"
 	for(var/option in possible_actions)
 		options[option] = image(icon = 'nsv13/icons/effects/aiming.dmi', icon_state = option)
 	var/choice = show_radial_menu(user, user, options, require_near = FALSE)
@@ -151,9 +190,10 @@ There are two main branches, dictated by SOP. If the perp is armed, tell them to
 		stop_aiming()
 
 /datum/component/aiming/proc/stop_aiming()
-	UnregisterSignal(target, COMSIG_ITEM_DROPPED)
-	UnregisterSignal(target, COMSIG_ITEM_EQUIPPED)
-	UnregisterSignal(target, COMSIG_LIVING_STATUS_PARALYZE)
+	if(target)
+		UnregisterSignal(target, COMSIG_MOB_ITEM_DROPPED)
+		UnregisterSignal(target, COMSIG_MOB_ITEM_EQUIPPED)
+		UnregisterSignal(target, COMSIG_LIVING_STATUS_PARALYZE)
 	user = null
 	target = null
 

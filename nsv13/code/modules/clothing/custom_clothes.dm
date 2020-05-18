@@ -18,8 +18,8 @@
 	can_adjust = TRUE
 
 /obj/item/clothing/under/ship/peacekeeper
-	name = "Peacekeeper uniform"
-	desc = "A padded jumpsuit worn exclusively by North Star peacekeeper forces. It's designed to be lightweight enough for patrols, but sturdy enough to keep you alive in CQB scenarios."
+	name = "Space cop uniform"
+	desc = "A smart shirt and pants combo with several badges stitched to it, 'To protect and serve'."
 	icon_state = "peacekeeper"
 	item_color = "peacekeeper"
 	item_state = "bl_suit"
