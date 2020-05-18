@@ -384,8 +384,7 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 /obj/machinery/computer/ship/reactor_control_computer
 	name = "Seegson model RBMK reactor control console"
 	desc = "A state of the art terminal which is linked to a nuclear storm drive reactor. It has several buttons labelled 'AZ' on the keyboard."
-	icon = 'nsv13/icons/obj/machinery/reactor_parts.dmi'
-	icon_state = "rodconsole"
+	icon_screen = "reactor_control"
 	density = TRUE
 	anchored = TRUE
 	circuit = /obj/item/circuitboard/computer/stormdrive_reactor_control
@@ -420,7 +419,7 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 /obj/machinery/computer/ship/reactor_control_computer/ui_act(action, params, datum/tgui/ui)
 	if(..())
 		return
-	if(!in_range(src, usr) || !reactor) //Topic check
+	if(!reactor)
 		return
 	if(!reactor.pipe)
 		reactor.find_pipe()
