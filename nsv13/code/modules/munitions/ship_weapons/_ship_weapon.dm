@@ -122,14 +122,11 @@
  * Tries to link the ship to an overmap by finding the overmap linked it the area we are in.
  */
 /obj/machinery/ship_weapon/proc/get_ship(error_log=TRUE)
-	var/area/AR = get_area(src)
-	if(AR && AR.linked_overmap)
-		linked = AR.linked_overmap
+	linked = get_overmap()
+	if(linked)
 		set_position(linked)
-	else if(!AR && error_log)
-		message_admins("Could not get area for [src].")
-	else if(error_log)
-		message_admins("[AR] not linked to an overmap - [src] will not be linked.")
+	else
+		message_admins("[z] not linked to an overmap - [src] will not be linked.")
 
 /**
  * Adds the weapon to the overmap ship's list of weapons of this type

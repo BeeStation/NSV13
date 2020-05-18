@@ -9,7 +9,10 @@
 				else
 					inc_metabalance(METACOIN_ESCAPE_REWARD, reason="Survived the shift and escaped!")
 			else
-				inc_metabalance(METACOIN_ESCAPE_REWARD, reason="Survived the shift.")
+				if(GLOB.crew_transfer_risa) //Nsv13 - added win condition for being competent.
+					inc_metabalance(METACOIN_ESCAPE_REWARD*2, reason="Successfully completed patrol.")
+				else
+					inc_metabalance(METACOIN_ESCAPE_REWARD, reason="Survived the shift.")
 		else
 			inc_metabalance(METACOIN_NOTSURVIVE_REWARD, reason="You tried.")
 

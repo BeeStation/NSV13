@@ -901,13 +901,14 @@
 /turf/open/floor/monotile/dark,
 /area/hammurabi/medbay)
 "cX" = (
-/obj/machinery/computer/ship/dradis{
-	dir = 8
-	},
 /obj/effect/turf_decal/stripes/line{
 	dir = 10
 	},
 /obj/machinery/computer/ship/viewscreen,
+/obj/machinery/computer{
+	icon_state = "computer";
+	dir = 8
+	},
 /turf/open/floor/plating,
 /area/hammurabi/bridge)
 "cY" = (
@@ -1280,11 +1281,12 @@
 /turf/open/floor/mineral/plastitanium,
 /area/hammurabi/bridge)
 "dW" = (
-/obj/machinery/computer/ship/dradis{
-	dir = 8
-	},
 /obj/effect/turf_decal/stripes/line{
 	dir = 9
+	},
+/obj/machinery/computer/ship/navigation{
+	icon_state = "computer";
+	dir = 8
 	},
 /turf/open/floor/plating,
 /area/hammurabi/bridge)
@@ -1451,7 +1453,7 @@
 /turf/open/floor/monotile/dark,
 /area/hammurabi)
 "ey" = (
-/obj/item/ship_weapon/ammunition/torpedo/fast,
+/obj/item/ship_weapon/ammunition/missile,
 /obj/effect/turf_decal/delivery,
 /turf/open/floor/mineral/plastitanium/red,
 /area/hammurabi)
@@ -1826,8 +1828,8 @@
 /obj/item/ship_weapon/parts/torpedo/warhead/decoy,
 /obj/item/ship_weapon/parts/torpedo/warhead/decoy,
 /obj/item/ship_weapon/parts/torpedo/warhead/decoy,
-/obj/item/ship_weapon/parts/torpedo/warhead/lightweight,
-/obj/item/ship_weapon/parts/torpedo/warhead/lightweight,
+/obj/item/ship_weapon/parts/torpedo/warhead,
+/obj/item/ship_weapon/parts/torpedo/warhead,
 /turf/open/floor/mineral/plastitanium/red,
 /area/hammurabi)
 "fC" = (
@@ -1862,7 +1864,7 @@
 /area/hammurabi)
 "fG" = (
 /obj/effect/turf_decal/delivery,
-/obj/item/ship_weapon/ammunition/torpedo/fast,
+/obj/item/ship_weapon/ammunition/missile,
 /turf/open/floor/plasteel/tech/grid,
 /area/hammurabi)
 "fH" = (
@@ -1895,7 +1897,7 @@
 /area/hammurabi)
 "fL" = (
 /obj/effect/turf_decal/delivery,
-/obj/structure/overmap/fighter/syndicate,
+/obj/structure/overmap/fighter/light/prebuilt/syndicate,
 /turf/open/floor/mineral/plastitanium,
 /area/hammurabi/hangar)
 "fM" = (
@@ -2086,9 +2088,11 @@
 /turf/open/floor/mineral/plastitanium/red,
 /area/hammurabi/bridge)
 "go" = (
-/obj/structure/table/reinforced,
 /obj/machinery/light{
 	dir = 4
+	},
+/obj/machinery/computer/ship/dradis{
+	dir = 8
 	},
 /turf/open/floor/mineral/plastitanium,
 /area/hammurabi/bridge)
@@ -2416,6 +2420,7 @@
 /obj/structure/cable{
 	icon_state = "1-2"
 	},
+/obj/item/key/fighter_tug,
 /turf/open/floor/mineral/plastitanium/red,
 /area/hammurabi/hangar)
 "he" = (
@@ -2465,6 +2470,7 @@
 /obj/structure/cable{
 	icon_state = "1-8"
 	},
+/obj/item/key/fighter_tug,
 /turf/open/floor/mineral/plastitanium/red,
 /area/hammurabi/hangar)
 "hk" = (
@@ -2810,7 +2816,7 @@
 /area/hammurabi/maintenance)
 "hX" = (
 /obj/effect/turf_decal/delivery,
-/obj/structure/overmap/fighter/prebuilt/raptor/syndicate,
+/obj/item/implant/radio/syndicate,
 /turf/open/floor/mineral/plastitanium,
 /area/hammurabi/hangar)
 "hY" = (
@@ -2835,9 +2841,7 @@
 /turf/open/floor/carpet/red,
 /area/hammurabi)
 "ia" = (
-/obj/machinery/computer/ship/ftl_computer{
-	req_one_access_txt = "150"
-	},
+/obj/machinery/computer/ship/ftl_computer/syndicate,
 /turf/open/floor/carpet/red,
 /area/hammurabi)
 "ib" = (
@@ -2860,7 +2864,7 @@
 /area/hammurabi/maintenance)
 "ie" = (
 /obj/effect/turf_decal/delivery,
-/obj/item/ship_weapon/ammunition/torpedo/fast,
+/obj/item/ship_weapon/ammunition/missile,
 /obj/machinery/light,
 /turf/open/floor/plasteel/tech/grid,
 /area/hammurabi)
@@ -3213,6 +3217,20 @@
 	},
 /turf/open/floor/carpet/red,
 /area/hammurabi)
+"iV" = (
+/obj/effect/turf_decal/delivery,
+/obj/structure/overmap/fighter/utility/prebuilt/carrier/syndicate,
+/turf/open/floor/mineral/plastitanium,
+/area/hammurabi/hangar)
+"iW" = (
+/obj/machinery/atmospherics/pipe/simple/supply/hidden,
+/obj/vehicle/sealed/car/realistic/fighter_tug,
+/turf/open/floor/mineral/plastitanium,
+/area/hammurabi/hangar)
+"iX" = (
+/obj/vehicle/sealed/car/realistic/fighter_tug,
+/turf/open/floor/mineral/plastitanium,
+/area/hammurabi/hangar)
 "jh" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 1
@@ -31824,7 +31842,7 @@ bB
 Pp
 Xs
 Xs
-Xs
+iW
 Xs
 Hb
 Xs
@@ -33880,7 +33898,7 @@ bB
 bB
 bB
 bB
-bB
+iX
 bB
 bB
 bB
@@ -34647,15 +34665,15 @@ cp
 cp
 az
 bh
-hX
+iV
 bs
 aJ
 bh
-hX
+iV
 bs
 aJ
 bh
-hX
+iV
 bs
 an
 ch

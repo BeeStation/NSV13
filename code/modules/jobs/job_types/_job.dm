@@ -86,17 +86,33 @@
 				else if(!G.allowed_roles)
 					permitted = TRUE
 				else
+					to_chat(M, "<span class='warning'>Your current role does not permit you to spawn with [gear]!</span>")
 					permitted = FALSE
 
 				if(G.species_blacklist && (human.dna.species.id in G.species_blacklist))
+					to_chat(M, "<span class='warning'>Your current species does not permit you to spawn with [gear]!</span>")
 					permitted = FALSE
 
 				if(G.species_whitelist && !(human.dna.species.id in G.species_whitelist))
 					permitted = FALSE
 
+				if(G.unlocktype == GEAR_DONATOR) //Strip out donation items if the patreon has expired or they somehow have someone else's gear datum.
+					if(M.client.ckey != G.ckey)
+						to_chat(M, "<span class='warning'>You somehow have someone else's donator item! Call a coder. Item: [gear]</span>")
+						message_admins("[ADMIN_LOOKUPFLW(M)] Somehow equipped the donator gear of [G.ckey]. It has been removed.")
+						M.client.prefs.equipped_gear -= gear
+						M.client.prefs.purchased_gear -= gear
+						permitted = FALSE
+					if(!(M.client.ckey in config.active_donators))
+						to_chat(M, "<span class='warning'>Your patreon has expired! Your donator item has been removed. Item: [gear]</span>")
+						M.client.prefs.equipped_gear -= gear
+						M.client.prefs.purchased_gear -= gear
+						permitted = FALSE
+
 				if(!permitted)
-					to_chat(M, "<span class='warning'>Your current species or role does not permit you to spawn with [gear]!</span>")
+
 					continue
+
 
 				if(G.slot)
 					if(H.equip_to_slot_or_del(G.spawn_item(H), G.slot))
