@@ -9777,6 +9777,10 @@
 /area/crew_quarters/theatre)
 "vO" = (
 /obj/structure/table/reinforced,
+/obj/machinery/button/flasher{
+	id = "perma";
+	name = "Perma Flasher"
+	},
 /turf/open/floor/plasteel/dark,
 /area/security/warden)
 "vP" = (
@@ -10749,7 +10753,7 @@
 	},
 /obj/effect/turf_decal/bot,
 /obj/machinery/light{
-	dir = 1
+	dir = 2
 	},
 /turf/open/floor/monotile/dark,
 /area/ai_monitored/security/armory)
@@ -11544,6 +11548,10 @@
 /area/security/prison)
 "zK" = (
 /obj/machinery/biogenerator,
+/obj/machinery/flasher{
+	id = "perma";
+	pixel_x = -24
+	},
 /turf/open/floor/plasteel/dark,
 /area/security/prison)
 "zL" = (
@@ -11561,6 +11569,8 @@
 "zN" = (
 /obj/machinery/power/apc/auto_name/east,
 /obj/structure/cable,
+/obj/structure/bed,
+/obj/item/bedsheet/orange,
 /turf/open/floor/plasteel/dark,
 /area/security/prison)
 "zO" = (
@@ -12325,11 +12335,6 @@
 	},
 /turf/open/floor/plasteel/ship/techfloor/alt,
 /area/hallway/primary/central)
-"Fp" = (
-/obj/structure/table/wood,
-/obj/item/flashlight/lamp/green,
-/turf/open/floor/monotile/dark,
-/area/security/brig)
 "Fr" = (
 /obj/structure/sign/warning/vacuum/external,
 /turf/closed/wall/r_wall/ship,
@@ -12502,6 +12507,10 @@
 /mob/living/simple_animal/pet/dog/pug,
 /turf/open/floor/plasteel/dark,
 /area/crew_quarters/heads/hos)
+"Ie" = (
+/obj/machinery/cryopod,
+/turf/open/floor/plasteel/dark,
+/area/security/prison)
 "Im" = (
 /obj/structure/table/wood,
 /obj/item/clothing/under/burial,
@@ -12814,8 +12823,11 @@
 /turf/open/floor/plasteel,
 /area/crew_quarters/cafeteria)
 "OM" = (
-/obj/machinery/computer/secure_data{
-	dir = 8
+/obj/structure/table/wood,
+/obj/machinery/computer/secure_data/laptop,
+/obj/item/flashlight/lamp/green{
+	pixel_x = 10;
+	pixel_y = 10
 	},
 /turf/open/floor/monotile/dark,
 /area/security/brig)
@@ -12896,6 +12908,12 @@
 	},
 /turf/open/floor/plating,
 /area/nsv/hanger)
+"QY" = (
+/obj/machinery/computer/cryopod{
+	pixel_y = 32
+	},
+/turf/open/floor/plasteel/dark,
+/area/security/prison)
 "Rg" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	dir = 8
@@ -13096,6 +13114,10 @@
 	},
 /turf/open/floor/engine,
 /area/engine/gravity_generator)
+"UA" = (
+/obj/machinery/rnd/production/techfab/department/security,
+/turf/open/floor/monotile/dark,
+/area/security/brig)
 "UL" = (
 /obj/structure/cable{
 	icon_state = "4-8"
@@ -46736,9 +46758,9 @@ aa
 aa
 hK
 OM
-Fp
 Zq
 Ke
+UA
 jc
 tw
 tJ
@@ -52471,9 +52493,9 @@ aa
 aa
 aa
 eO
+QY
 jl
-jl
-yW
+Ie
 eO
 aa
 aa
