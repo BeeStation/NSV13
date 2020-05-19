@@ -81,8 +81,7 @@
 
 /obj/item/clothing/suit/ship/peacekeeper/Initialize()
 	. = ..()
-	if(!allowed)
-		allowed = GLOB.security_vest_allowed
+	allowed = GLOB.security_vest_allowed
 
 /obj/item/clothing/suit/ship/peacekeeper/jacket
 	name = "Peacekeeper jacket"

@@ -59,10 +59,11 @@
 		A.visible_message("<span class='warning'>[A] tries to trip [D] up, but they sidestep the attack!</span>","<span class='warning'>[D] sidesteps your attack! Slow them down first.</span>")
 		return FALSE
 	A.do_attack_animation(D, ATTACK_EFFECT_KICK)
-	D.visible_message("<span class='userdanger'>[A] trips [D] up and pins them to the ground!</span>", "<span class='userdanger'>[D] is pinning you to the ground!</span>")
+	D.visible_message("<span class='userdanger'>[A] trips [D] up and pins them to the ground!</span>", "<span class='userdanger'>[A] is pinning you to the ground!</span>")
 	playsound(get_turf(D), 'nsv13/sound/effects/judo_throw.ogg', 100, TRUE)
-	D.Paralyze(10 SECONDS)
+	D.Paralyze(7 SECONDS) //Equivalent to a clown PDA
 	A.shake_animation(10)
+	D.shake_animation(10)
 	A.forceMove(get_turf(D))
 	A.start_pulling(D, supress_message = FALSE)
 	A.setGrabState(GRAB_AGGRESSIVE)
@@ -75,12 +76,15 @@
 	if(!A.pulling || A.pulling != D) //You have to have an active grab on them for this to work!
 		A.shake_animation(10)
 		var/newdir = turn(A.dir, 180)
-		D.forceMove(get_turf(get_step(A, newdir)))
+		var/turf/target = get_turf(get_step(A, newdir))
+		if(is_blocked_turf(target)) //Prevents translocation (sorry coreflare :( )
+			target = get_turf(A)
+		D.forceMove(target)
 		A.setDir(newdir)
 		A.start_pulling(D, supress_message = FALSE)
 		A.setGrabState(GRAB_AGGRESSIVE)
-		D.Paralyze(10 SECONDS)
-		D.visible_message("<span class='userdanger'>[A] throws [D] over their shoulder and pins them down!</span>", "<span class='userdanger'>[D] throws you over their shoulder and pins you to the ground!</span>")
+		D.Paralyze(7 SECONDS) //Equivalent to a clown PDA
+		D.visible_message("<span class='userdanger'>[A] throws [D] over their shoulder and pins them down!</span>", "<span class='userdanger'>[A] throws you over their shoulder and pins you to the ground!</span>")
 		playsound(get_turf(D), 'nsv13/sound/effects/judo_throw.ogg', 100, TRUE)
 		last_move = world.time
 

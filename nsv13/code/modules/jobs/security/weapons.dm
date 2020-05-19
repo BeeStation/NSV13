@@ -1,7 +1,7 @@
 
 /obj/item/gun/ballistic/tazer
 	name = "X24 Tazer"
-	desc = "A stunning weapon developed by Czanek Corp. It can deliver an extremely powerful electric shock via a specialised electrode, though the electrodes must be manually replaced after each shot. <b>It has an effective range of 4 meters</b>"
+	desc = "A stunning weapon developed by Czanek Corp. It can deliver an extremely powerful electric shock via a specialised electrode, though the electrodes must be manually replaced after each shot. <b>It has an effective range of 2 meters</b>"
 	icon = 'nsv13/icons/obj/guns/projectile.dmi'
 	icon_state = "taser"
 	mag_type = /obj/item/ammo_box/magazine/tazer_cartridge
@@ -15,6 +15,64 @@
 	slot_flags = ITEM_SLOT_BELT
 	fire_sound = 'sound/weapons/zapbang.ogg'
 	recoil = 2 //BZZZZTTTTTTT
+	can_flashlight = TRUE
+	flight_x_offset = 15
+	flight_y_offset = 12
+
+/obj/item/gun/ballistic/automatic/pistol/glock
+	name = "Glock-13"
+	desc = "A small 9mm handgun used by Nanotrasen security forces. It has a polymer handle and a full durasteel body construction, giving it a ncie weight."
+	icon = 'nsv13/icons/obj/guns/projectile.dmi'
+	icon_state = "secglock"
+	item_state = "glock"
+	fire_sound = 'nsv13/sound/weapons/glock.ogg'
+	w_class = WEIGHT_CLASS_NORMAL
+	mag_type = /obj/item/ammo_box/magazine/pistolm9mm/rubber
+	can_suppress = TRUE
+	automatic = FALSE
+	can_flashlight = TRUE
+	flight_x_offset = 15
+	flight_y_offset = 12
+
+/obj/item/gun/ballistic/automatic/pistol/glock/command
+	name = "Command Glock-13"
+	desc = "A small 9mm handgun used by high ranking Nanotrasen officers, it's been customized with a nice wooden handle painted with a small emblem and blue stripes."
+	icon_state = "commandglock"
+
+/obj/item/gun/ballistic/automatic/pistol/glock/command/hos
+	name = "Winona"
+	desc = "A handgun that's never let its owner down before. It's got a pleasant wooden grip with plenty of detailing etched into it. A nice, all round weapon to defend yourself with."
+
+/datum/design/rubbershot
+	name = "9mm Glock Round"
+	id = "glock_ammo"
+	build_type = AUTOLATHE
+	materials = list(/datum/material/iron = 500)
+	build_path = /obj/item/ammo_casing/c9mm/rubber
+	category = list("initial", "Security")
+
+/obj/item/ammo_box/magazine/pistolm9mm/rubber
+	name = "9mm glock magazine"
+	icon = 'nsv13/icons/obj/ammo.dmi'
+	ammo_type = /obj/item/ammo_casing/c9mm/rubber
+
+/obj/item/ammo_casing/c9mm/rubber
+	name = "9mm rubber bullet casing"
+	desc = "A 9mm rubber bullet casing."
+	caliber = "9mm"
+	projectile_type = /obj/item/projectile/bullet/c9mm/rubber
+
+/obj/item/ammo_box/c9mm/rubber
+	name = "ammo box (9mm, rubber)"
+	icon_state = "9mmbox"
+	ammo_type = /obj/item/ammo_casing/c9mm/rubber
+	max_ammo = 30
+
+/obj/item/projectile/bullet/c9mm/rubber
+	name = "9mm bullet"
+	damage = 20
+	damage_type = STAMINA
+	icon_state = "pdc"
 
 /obj/item/ammo_box/magazine/tazer_cartridge
 	name = "X24 Tazer cartridge"
@@ -55,7 +113,7 @@
 	harmful = TRUE
 
 /obj/item/projectile/energy/electrode/hitscan
-	range = 4 //Real life tazers have an effective range of 4.5 meters.
+	range = 2 //Real life tazers have an effective range of 4.5 meters.
 	damage = 75 //4 second stun by itself
 	damage_type = STAMINA
 	hitscan = TRUE

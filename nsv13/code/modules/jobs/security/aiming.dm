@@ -41,10 +41,9 @@
 /obj/item/gun/before_firing(atom/target,mob/user, aimed)
 	if(aimed)
 		if(chambered?.BB && !istype(src, /obj/item/gun/ballistic/automatic/toy))
-			chambered.BB.stamina += 55
-			chambered.BB.paralyze += 1 SECONDS
-			chambered.BB.jitter += 2
-			chambered.BB.speed *= 0.5 //Apparently "SPEED" makes the bullet go slower as SPEED increases. THANK YOU SS13.
+			chambered.BB.stamina = initial(chambered.BB.stamina) += 55
+			chambered.BB.jitter = initial(chambered.BB.jitter) += 2
+			chambered.BB.jitter = initial(chambered.BB.speed) *= 0.5 //Apparently "SPEED" makes the bullet go slower as SPEED increases. THANK YOU SS13.
 	. = ..()
 
 /obj/effect/temp_visual/aiming
@@ -178,6 +177,10 @@ There are two main branches, dictated by SOP. If the perp is armed, tell them to
 	show_ui(user, target, choice)
 
 /datum/component/aiming/proc/fire() //Todo
+	var/obj/item/held = user.get_active_held_item()
+	if(held != parent)
+		stop_aiming()
+		return FALSE
 	if(istype(parent, /obj/item/gun)) //This is mostly for guns. Otherwise you just sort of wave it menacingly at them.
 		var/obj/item/gun/G = parent
 		G.afterattack(target, user, null, null, TRUE)
