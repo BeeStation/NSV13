@@ -51,6 +51,14 @@
 	build_path = /obj/item/ammo_casing/c9mm/rubber
 	category = list("initial", "Security")
 
+/datum/design/tazer
+	name = "Tazer Round"
+	id = "tazer_ammo"
+	build_type = AUTOLATHE
+	materials = list(/datum/material/iron = 800)
+	build_path = /obj/item/ammo_casing/tazer
+	category = list("initial", "Security")
+
 /obj/item/ammo_box/magazine/pistolm9mm/rubber
 	name = "9mm glock magazine"
 	icon = 'nsv13/icons/obj/ammo.dmi'
