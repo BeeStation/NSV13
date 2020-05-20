@@ -104,7 +104,7 @@
 	var/obj/weapon_overlay/last_fired //Last weapon overlay that fired, so we can rotate guns independently
 	var/atom/last_target //Last thing we shot at, used to point the railgun at an enemy.
 
-	var/torpedoes = 15 //Prevent infinite torp spam
+	var/torpedoes = 5 //Prevent infinite torp spam
 	var/missiles = 0 //Nothing should start with missiles
 
 	var/pdc_miss_chance = 20 //In %, how often do PDCs fire inaccurately when aiming at missiles. This is ignored for ships as theyre bigger targets.
@@ -283,7 +283,9 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 	if(!weapons[weapon.fire_mode])
 		weapons[weapon.fire_mode] = list(weapon)
 	else
-		weapons[weapon.fire_mode] += weapon
+		if(LAZYFIND(weapons[weapon.fire_mode], weapon))
+			return
+		weapons[weapon.fire_mode][++weapons[weapon.fire_mode].len] = weapon
 
 /obj/structure/overmap/Destroy()
 	QDEL_LIST(current_tracers)

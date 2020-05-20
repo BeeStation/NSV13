@@ -63,7 +63,7 @@
 /obj/structure/overmap/proc/handle_pdcs()
 	if(fire_mode == FIRE_MODE_FLAK) //If theyre aiming the flak manually.
 		return
-	if(mass <= MASS_TINY && !ai_controlled) //Small ships don't get to use PDCs. AIs still need to aim like this, though
+	if(mass < MASS_SMALL) //Sub-capital ships don't get to use flak
 		return
 	if(!last_target || QDELETED(last_target) || !isovermap(last_target) || last_target == src) //Stop hitting yourself enterprise
 		last_target = null
@@ -76,15 +76,12 @@
 		if(ship == src || ship.faction == faction || wrecked || ship.wrecked || ship.z != z) //No friendly fire, don't blow up wrecks that the crew may wish to loot.
 			continue
 		var/target_range = get_dist(ship,src)
-		if(target_range > 50) //Random pulled from the aether
+		if(target_range > 50 || target_range <= 0) //Random pulled from the aether
 			continue
 		if(!QDELETED(ship) && isovermap(ship))
-			if(mass >= MASS_MEDIUM)
-				fire_weapon(ship, mode=FIRE_MODE_FLAK, lateral=TRUE)
-				break
-			else
-				fire_weapon(ship, mode=FIRE_MODE_PDC, lateral=TRUE)
-				break
+			last_target = ship
+			fire_weapon(ship, mode=FIRE_MODE_FLAK, lateral=TRUE)
+			break
 
 /obj/structure/overmap/proc/get_flak_range(atom/target)
 	if(!target)

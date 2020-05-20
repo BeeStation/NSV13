@@ -41,14 +41,12 @@
 
 /datum/ship_weapon/pdc_mount
 	name = "Point defense guns"
-	default_projectile_type = /obj/item/projectile/bullet/pdc_round
-	burst_size = 1
-	fire_delay = 2
+	default_projectile_type = /obj/item/projectile/bullet/pdc_round/heavy
+	burst_size = 3
+	fire_delay = 2 SECONDS
 	range_modifier = 0
 	overmap_select_sound = 'nsv13/sound/effects/ship/pdc_start.ogg'
-	overmap_firing_sounds = list('nsv13/sound/effects/ship/pdc.ogg',
-		'nsv13/sound/effects/ship/pdc2.ogg',
-		'nsv13/sound/effects/ship/pdc3.ogg')
+	overmap_firing_sounds = list('nsv13/sound/weapons/pdc_single.ogg')
 	select_alert = "<span class='notice'>Activating point defense emplacements..</span>"
 	failure_alert = "<span class='warning'>DANGER: Point defense emplacements are unable to fire due to lack of ammunition.</span>"
 
