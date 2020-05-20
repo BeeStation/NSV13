@@ -75,6 +75,9 @@
 /area/nsv/shuttle/fob/central)
 "ak" = (
 /obj/structure/closet/firecloset/full,
+/obj/machinery/light{
+	dir = 1
+	},
 /turf/open/floor/plasteel,
 /area/nsv/shuttle/fob/central)
 "al" = (
@@ -144,6 +147,9 @@
 "ar" = (
 /obj/machinery/atmospherics/pipe/manifold/supply/hidden{
 	icon_state = "manifold-2";
+	dir = 1
+	},
+/obj/machinery/light{
 	dir = 1
 	},
 /turf/open/floor/plasteel,
@@ -530,6 +536,7 @@
 /obj/structure/disposalpipe/trunk{
 	dir = 4
 	},
+/obj/machinery/light,
 /turf/open/floor/plasteel,
 /area/nsv/shuttle/fob/central)
 "bl" = (
@@ -559,6 +566,9 @@
 "bo" = (
 /obj/effect/turf_decal/box,
 /obj/structure/tank_dispenser/oxygen,
+/obj/machinery/light{
+	dir = 1
+	},
 /turf/open/floor/plasteel,
 /area/nsv/shuttle/fob/central)
 "bp" = (
@@ -1202,7 +1212,10 @@
 	icon_state = "warningline";
 	dir = 8
 	},
-/obj/machinery/power/smes,
+/obj/machinery/power/smes{
+	charge = 200000;
+	output_level = 20000
+	},
 /turf/open/floor/plasteel,
 /area/nsv/shuttle/fob/central)
 "cD" = (
@@ -1617,6 +1630,9 @@
 /area/nsv/shuttle/fob/airlock/starboard)
 "dJ" = (
 /obj/structure/tank_dispenser/oxygen,
+/obj/machinery/light{
+	dir = 1
+	},
 /turf/open/floor/pod/light,
 /area/nsv/shuttle/fob/lounge)
 "dK" = (
@@ -1628,6 +1644,9 @@
 "dL" = (
 /obj/structure/chair{
 	dir = 4
+	},
+/obj/machinery/light{
+	dir = 8
 	},
 /turf/open/floor/pod/light,
 /area/nsv/shuttle/fob/quarters)
@@ -1681,6 +1700,9 @@
 /area/nsv/shuttle/fob/lounge)
 "dU" = (
 /obj/machinery/vending/modularpc,
+/obj/machinery/light{
+	dir = 8
+	},
 /turf/open/floor/pod/light,
 /area/nsv/shuttle/fob/lounge)
 "dV" = (
@@ -1851,6 +1873,9 @@
 /area/nsv/shuttle/fob/quarters)
 "fX" = (
 /obj/machinery/atmospherics/components/binary/pump/on/layer1,
+/obj/machinery/light{
+	dir = 4
+	},
 /turf/open/floor/pod/light,
 /area/nsv/shuttle/fob/quarters)
 "fY" = (
@@ -1963,6 +1988,7 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 9
 	},
+/obj/machinery/light,
 /turf/open/floor/plasteel,
 /area/nsv/shuttle/fob/central)
 "gi" = (
@@ -2108,6 +2134,7 @@
 	icon_state = "scrub_map_on-3";
 	dir = 8
 	},
+/obj/machinery/ship_weapon/pdc_mount/north,
 /turf/open/floor/pod/dark,
 /area/nsv/shuttle/fob/lounge)
 "gz" = (
@@ -2224,6 +2251,9 @@
 /obj/structure/cable{
 	icon_state = "1-2"
 	},
+/obj/machinery/light/small{
+	dir = 8
+	},
 /turf/open/floor/pod/light,
 /area/nsv/shuttle/fob/lounge)
 "gI" = (
@@ -2243,12 +2273,31 @@
 /obj/structure/cable{
 	icon_state = "1-4"
 	},
+/obj/machinery/light,
+/obj/structure/closet/crate,
+/obj/item/ammo_box/magazine/pdc/flak,
+/obj/item/ammo_box/magazine/pdc/flak,
+/obj/item/ammo_box/magazine/pdc/flak,
+/obj/item/ammo_box/magazine/pdc/flak,
+/obj/item/ammo_box/magazine/pdc/flak,
+/obj/item/ammo_box/magazine/pdc/flak,
+/obj/item/ammo_box/magazine/pdc/flak,
+/obj/item/ammo_box/magazine/pdc/flak,
 /turf/open/floor/pod/dark,
 /area/nsv/shuttle/fob/lounge)
 "gL" = (
 /obj/structure/cable{
 	icon_state = "4-8"
 	},
+/obj/structure/closet/crate,
+/obj/item/ammo_box/magazine/pdc,
+/obj/item/ammo_box/magazine/pdc,
+/obj/item/ammo_box/magazine/pdc,
+/obj/item/ammo_box/magazine/pdc,
+/obj/item/ammo_box/magazine/pdc,
+/obj/item/ammo_box/magazine/pdc,
+/obj/item/ammo_box/magazine/pdc,
+/obj/item/ammo_box/magazine/pdc,
 /turf/open/floor/pod/dark,
 /area/nsv/shuttle/fob/lounge)
 "gM" = (
@@ -2291,6 +2340,9 @@
 "qz" = (
 /turf/open/floor/plasteel,
 /area/nsv/shuttle/fob/central)
+"qW" = (
+/turf/closed/wall/mineral/titanium/survival/nodiagonal,
+/area/nsv/shuttle/fob/bridge)
 "sm" = (
 /obj/docking_port/stationary{
 	area_type = /area/nostromo;
@@ -2323,6 +2375,10 @@
 	},
 /turf/open/space/basic,
 /area/nostromo/maintenance/exterior)
+"tO" = (
+/obj/machinery/light,
+/turf/open/floor/plating,
+/area/nsv/shuttle/fob/bridge)
 "tX" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	icon_state = "pipe11-1";
@@ -2346,6 +2402,9 @@
 /obj/structure/cable{
 	icon_state = "2-8"
 	},
+/obj/machinery/light{
+	dir = 4
+	},
 /turf/open/floor/plating,
 /area/nsv/shuttle/fob/bridge)
 "vM" = (
@@ -2368,6 +2427,13 @@
 /obj/structure/lattice/catwalk,
 /turf/open/space/basic,
 /area/nostromo/maintenance/exterior)
+"zA" = (
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/obj/machinery/light,
+/turf/open/floor/plasteel,
+/area/nsv/shuttle/fob/central)
 "Bt" = (
 /obj/structure/cable{
 	icon_state = "4-8"
@@ -2375,6 +2441,13 @@
 /obj/structure/lattice/catwalk,
 /turf/open/space/basic,
 /area/nostromo/maintenance/exterior)
+"Dq" = (
+/obj/machinery/light{
+	dir = 1
+	},
+/obj/machinery/ship_weapon/pdc_mount/flak,
+/turf/open/floor/pod/light,
+/area/nsv/shuttle/fob/lounge)
 "DK" = (
 /obj/structure/dresser,
 /turf/open/floor/pod/dark,
@@ -2393,6 +2466,16 @@
 	},
 /turf/open/floor/pod/light,
 /area/nsv/shuttle/fob/lounge)
+"Ix" = (
+/obj/machinery/light,
+/turf/open/floor/monotile/dark/airless,
+/area/nsv/shuttle/fob/airlock/starboard)
+"JU" = (
+/obj/machinery/light{
+	dir = 1
+	},
+/turf/open/floor/plasteel,
+/area/nsv/shuttle/fob/central)
 "KB" = (
 /obj/machinery/door/airlock/survival_pod/glass,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
@@ -2413,11 +2496,24 @@
 /turf/closed/wall/mineral/titanium/survival/pod,
 /area/nsv/shuttle/fob/quarters)
 "LR" = (
+/obj/machinery/ship_weapon/pdc_mount/north,
 /turf/open/floor/pod/dark,
 /area/nsv/shuttle/fob/lounge)
+"Mo" = (
+/obj/machinery/light{
+	dir = 1
+	},
+/turf/open/floor/monotile/dark/airless,
+/area/nsv/shuttle/fob/airlock/starboard)
 "NB" = (
 /obj/machinery/power/apc/auto_name/east,
 /obj/structure/cable,
+/turf/open/floor/pod/light,
+/area/nsv/shuttle/fob/lounge)
+"NI" = (
+/obj/machinery/light{
+	dir = 4
+	},
 /turf/open/floor/pod/light,
 /area/nsv/shuttle/fob/lounge)
 "NW" = (
@@ -2430,6 +2526,10 @@
 "QI" = (
 /turf/open/space/basic,
 /area/nostromo/maintenance/exterior)
+"Rl" = (
+/obj/structure/lattice,
+/turf/closed/wall/mineral/titanium/survival/nodiagonal,
+/area/nsv/shuttle/fob/bridge)
 "Rn" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	icon_state = "pipe11-1";
@@ -2447,6 +2547,10 @@
 	},
 /turf/open/floor/plasteel,
 /area/nsv/shuttle/fob/central)
+"RI" = (
+/obj/machinery/ship_weapon/pdc_mount/flak,
+/turf/open/floor/pod/light,
+/area/nsv/shuttle/fob/lounge)
 "Tb" = (
 /obj/structure/window/shuttle/survival_pod/spawner,
 /turf/open/floor/plating,
@@ -41604,8 +41708,8 @@ QI
 QI
 cJ
 cJ
-dF
-cJ
+Rl
+qW
 dB
 cO
 cO
@@ -42208,8 +42312,8 @@ YP
 Bt
 cJ
 dE
-dF
-cJ
+Rl
+qW
 dn
 dq
 gu
@@ -42509,7 +42613,7 @@ sU
 sU
 yz
 cJ
-dE
+tO
 dF
 cJ
 do
@@ -42826,7 +42930,7 @@ LF
 LF
 LF
 Wx
-xj
+RI
 xj
 xj
 xj
@@ -43128,7 +43232,7 @@ cL
 cL
 cL
 Wx
-dW
+Dq
 dX
 Ih
 xj
@@ -44041,7 +44145,7 @@ xj
 xj
 tX
 NB
-xj
+NI
 dW
 Wx
 cL
@@ -44325,7 +44429,7 @@ dE
 dF
 ac
 ae
-ac
+bc
 aH
 aY
 bj
@@ -44632,7 +44736,7 @@ aI
 aZ
 bk
 ac
-qz
+JU
 qz
 ci
 cs
@@ -47062,7 +47166,7 @@ uG
 eC
 eM
 eZ
-uG
+Ix
 jk
 cL
 aa
@@ -47359,7 +47463,7 @@ cH
 cM
 cL
 jk
-uG
+Mo
 uG
 uG
 eN
@@ -47656,7 +47760,7 @@ bL
 bZ
 cq
 Rn
-bK
+zA
 ac
 gT
 cU
