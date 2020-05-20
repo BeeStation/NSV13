@@ -16,7 +16,7 @@
 	pixel_w = -32
 	pixel_z = -32
 	collision_positions = list(new /datum/vector2d(-8,46), new /datum/vector2d(-17,33), new /datum/vector2d(-25,2), new /datum/vector2d(-14,-45), new /datum/vector2d(9,-46), new /datum/vector2d(22,4), new /datum/vector2d(14,36))
-	armor = list("overmap_light" = 85, "overmap_heavy" = 15)
+	armor = list("overmap_light" = 80, "overmap_heavy" = 15)
 
 /obj/structure/overmap/nanotrasen/patrol_cruiser
 	name = "ragnarok class heavy cruiser"
@@ -31,7 +31,7 @@
 	max_integrity = 1500 //Max health
 	integrity_failure = 1500
 	collision_positions = list(new /datum/vector2d(-12,120), new /datum/vector2d(-28,34), new /datum/vector2d(-25,-60), new /datum/vector2d(-16,-119), new /datum/vector2d(9,-123), new /datum/vector2d(23,-21), new /datum/vector2d(24,36), new /datum/vector2d(10,101))
-	armor = list("overmap_light" = 95, "overmap_heavy" = 25)
+	armor = list("overmap_light" = 90, "overmap_heavy" = 25)
 
 /obj/structure/overmap/nanotrasen/missile_cruiser
 	name = "vago class heavy cruiser"
@@ -46,7 +46,7 @@
 	max_integrity = 1500 //Max health
 	integrity_failure = 1500
 	collision_positions = list(new /datum/vector2d(-13,71), new /datum/vector2d(-25,52), new /datum/vector2d(-24,-25), new /datum/vector2d(-11,-66), new /datum/vector2d(4,-69), new /datum/vector2d(15,-28), new /datum/vector2d(15,38), new /datum/vector2d(6,61))
-	armor = list("overmap_light" = 95, "overmap_heavy" = 25)
+	armor = list("overmap_light" = 90, "overmap_heavy" = 25)
 
 /obj/structure/overmap/nanotrasen/heavy_cruiser
 	name = "sol class heavy cruiser"
@@ -68,7 +68,7 @@
 		new /datum/vector2d(11,-164),\
 		new /datum/vector2d(44,-59),\
 		new /datum/vector2d(68,120))
-	armor = list("overmap_light" = 95, "overmap_heavy" = 30)
+	armor = list("overmap_light" = 90, "overmap_heavy" = 30)
 
 /obj/structure/overmap/nanotrasen/battleship
 	name = "judgement class battlestar"
@@ -83,7 +83,7 @@
 	max_integrity = 3000 //Max health
 	integrity_failure = 3000
 	collision_positions = list(new /datum/vector2d(-21,223), new /datum/vector2d(-85,72), new /datum/vector2d(-92,46), new /datum/vector2d(-91,-107), new /datum/vector2d(-80,-135), new /datum/vector2d(-52,-220), new /datum/vector2d(-27,-227), new /datum/vector2d(27,-228), new /datum/vector2d(52,-220), new /datum/vector2d(81,-136), new /datum/vector2d(92,-106), new /datum/vector2d(92,44), new /datum/vector2d(84,73), new /datum/vector2d(20,222), new /datum/vector2d(0,225))
-	armor = list("overmap_light" = 99, "overmap_heavy" = 40)
+	armor = list("overmap_light" = 90, "overmap_heavy" = 40)
 
 /obj/structure/overmap/nanotrasen/carrier
 	name = "enterprise class carrier"
@@ -98,7 +98,7 @@
 	max_integrity = 1500 //Max health
 	integrity_failure = 1500
 	collision_positions = list(new /datum/vector2d(-27,220), new /datum/vector2d(-79,79), new /datum/vector2d(-77,-106), new /datum/vector2d(-70,-164), new /datum/vector2d(-28,-214), new /datum/vector2d(13,-211), new /datum/vector2d(45,-194), new /datum/vector2d(47,83), new /datum/vector2d(8,218))
-	armor = list("overmap_light" = 95, "overmap_heavy" = 30)
+	armor = list("overmap_light" = 90, "overmap_heavy" = 30)
 
 /obj/structure/overmap/nanotrasen/mining_cruiser
 	name = "Mining hauler"
@@ -228,7 +228,7 @@
 	collision_positions = list(new /datum/vector2d(-3,45), new /datum/vector2d(-17,29), new /datum/vector2d(-22,-12), new /datum/vector2d(-11,-45), new /datum/vector2d(7,-47), new /datum/vector2d(22,-12), new /datum/vector2d(9,30))
 	role = PVP_SHIP
 	starting_system = "Vorash"
-	armor = list("overmap_light" = 95, "overmap_heavy" = 20)
+	armor = list("overmap_light" = 90, "overmap_heavy" = 20)
 
 /obj/structure/overmap/syndicate/pvp/hulk //Larger PVP ship for larger pops.
 	name = "SSV Hulk"
@@ -244,7 +244,7 @@
 	integrity_failure = 1500
 	collision_positions = list(new /datum/vector2d(-7,124), new /datum/vector2d(-26,67), new /datum/vector2d(-46,-75), new /datum/vector2d(-45,-95), new /datum/vector2d(-30,-116), new /datum/vector2d(25,-119), new /datum/vector2d(36,-94), new /datum/vector2d(41,-76), new /datum/vector2d(19,71))
 	role = PVP_SHIP
-	armor = list("overmap_light" = 95, "overmap_heavy" = 30)
+	armor = list("overmap_light" = 90, "overmap_heavy" = 30)
 
 /obj/structure/overmap/syndicate/ai //Generic bad guy #10000. GRR.
 	icon = 'nsv13/icons/overmap/syndicate/syn_light_cruiser.dmi'
@@ -276,7 +276,7 @@
 	bounty = 2000
 	torpedoes = 0
 	collision_positions = list(new /datum/vector2d(-2,96), new /datum/vector2d(-20,57), new /datum/vector2d(-25,-63), new /datum/vector2d(-11,-95), new /datum/vector2d(7,-95), new /datum/vector2d(23,-63), new /datum/vector2d(20,59))
-	armor = list("overmap_light" = 95, "overmap_heavy" = 20)
+	armor = list("overmap_light" = 90, "overmap_heavy" = 20)
 
 /obj/structure/overmap/syndicate/ai/carrier/get_max_firemode() //This boy really doesn't need a railgun
 	return FIRE_MODE_PDC
@@ -293,7 +293,7 @@
 	integrity_failure = 800
 	bounty = 500
 	collision_positions = list(new /datum/vector2d(-7,124), new /datum/vector2d(-26,67), new /datum/vector2d(-46,-75), new /datum/vector2d(-45,-95), new /datum/vector2d(-30,-116), new /datum/vector2d(25,-119), new /datum/vector2d(36,-94), new /datum/vector2d(41,-76), new /datum/vector2d(19,71))
-	armor = list("overmap_light" = 95, "overmap_heavy" = 30)
+	armor = list("overmap_light" = 90, "overmap_heavy" = 30)
 
 /obj/structure/overmap/syndicate/ai/fighter //need custom AI behaviour to escort bombers if applicable
 	name = "Syndicate interceptor"
@@ -302,7 +302,7 @@
 	icon_state = "fighter"
 	damage_states = TRUE
 	brakes = FALSE
-	max_integrity = 100 //Super squishy!
+	max_integrity = 175 //Super squishy!
 	sprite_size = 32
 	faction = "syndicate"
 	mass = MASS_TINY
@@ -322,7 +322,7 @@
 	icon_state = "fighter" //replace with bomber sprite
 	damage_states = TRUE
 	brakes = FALSE
-	max_integrity = 100
+	max_integrity = 175
 	sprite_size = 32
 	faction = "syndicate"
 	mass = MASS_TINY
