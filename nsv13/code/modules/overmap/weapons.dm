@@ -1,32 +1,35 @@
 /obj/item/projectile/bullet/pdc_round
 	icon_state = "pdc"
 	name = "teflon coated tungsten round"
-	damage = 5
+	damage = 10
+	flag = "overmap_light"
 
 /obj/item/projectile/bullet/railgun_slug
 	icon_state = "railgun"
 	name = "hyper accelerated tungsten slug"
-	damage = 80
+	damage = 100
+	flag = "overmap_heavy"
 	movement_type = FLYING | UNSTOPPABLE //Railguns punch straight through your ship
 	impact_effect_type = /obj/effect/temp_visual/impact_effect/torpedo
 
 /obj/item/projectile/bullet/gauss_slug
 	icon_state = "gaussgun"
 	name = "tungsten round"
-	damage = 20
+	damage = 35
+	flag = "overmap_heavy"
 	impact_effect_type = /obj/effect/temp_visual/impact_effect/torpedo
 
 /obj/item/projectile/bullet/light_cannon_round
 	icon_state = "pdc"
 	name = "light cannon round"
 	damage = 10
-//	flag = "overmap_light"
+	flag = "overmap_light"
 
 /obj/item/projectile/bullet/heavy_cannon_round
 	icon_state = "pdc"
 	name = "heavy cannon round"
 	damage = 10
-//	flag = "overmap_heavy"
+	flag = "overmap_heavy" //This really needs a dual armour flag and more tuning
 
 /obj/item/projectile/guided_munition/torpedo
 	icon_state = "torpedo"
@@ -34,20 +37,20 @@
 	speed = 1
 	valid_angle = 120
 	homing_turn_speed = 5
-	damage = 100
+	damage = 125
 	range = 250
-//	flag = "overmap_heavy"
+	flag = "overmap_heavy"
 	impact_effect_type = /obj/effect/temp_visual/impact_effect/torpedo
 
 /obj/item/projectile/guided_munition/missile
 	icon_state = "torpedo"
 	name = "conventional missile"
 	speed = 3
-	damage = 50
+	damage = 75
 	valid_angle = 90
 	homing_turn_speed = 5
 	range = 250
-//	flag = "overmap_light"
+	flag = "overmap_light"
 	impact_effect_type = /obj/effect/temp_visual/impact_effect/torpedo
 
 /obj/effect/temp_visual/overmap_explosion

@@ -128,6 +128,7 @@
 	icon_state = "flak"
 	name = "flak round"
 	damage = 2
+	flag = "overmap_light"
 	alpha = 0
 	var/steps_left = 0 //Flak range, AKA how many tiles can we move before we go kaboom
 
@@ -155,7 +156,7 @@
 	for(var/obj/X in view(flak_range, src))
 		var/severity = flak_range-get_dist(X, src)
 		if(istype(X, /obj/structure))
-			X.take_damage(severity*10, damage_type = BRUTE)
+			X.take_damage(severity*10, BRUTE, "overmap_light")
 		else
 			X.ex_act(severity)
 	. = ..()
