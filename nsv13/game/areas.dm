@@ -478,6 +478,14 @@
 	name = "Mining Shuttle Starboard Airlock"
 	icon_state = "hallS"
 
+/area/nsv/shuttle/fob/quarters
+	name = "Mining Shuttle Crew Quarters"
+	icon_state = "hallC"
+
+/area/nsv/shuttle/fob/lounge
+	name = "Mining Shuttle Lounge"
+	icon_state = "hallP"
+
 /area/ruin/powered/nsv13/prisonship
 	name = "Syndicate prison ship"
 
