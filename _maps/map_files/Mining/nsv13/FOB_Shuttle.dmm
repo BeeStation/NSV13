@@ -296,10 +296,10 @@
 /obj/machinery/airalarm/all_access{
 	pixel_y = 23
 	},
-/obj/machinery/computer/ship/helm{
-	dir = 8;
-	req_access = null;
-	req_one_access_txt = "31;48"
+/obj/machinery/computer/ship/helm/console{
+	dir = 5;
+	icon_state = "computer";
+	req_access = null
 	},
 /turf/open/floor/plasteel/dark,
 /area/nsv/shuttle/fob/bridge)
@@ -401,6 +401,10 @@
 /turf/open/floor/plasteel/dark,
 /area/nsv/shuttle/fob/bridge)
 "bk" = (
+/obj/machinery/computer/ship/dradis/console{
+	icon_state = "computer";
+	dir = 6
+	},
 /turf/open/floor/plasteel/dark,
 /area/nsv/shuttle/fob/bridge)
 "bl" = (
@@ -693,7 +697,7 @@
 /obj/structure/cable{
 	icon_state = "2-8"
 	},
-/obj/machinery/computer/ship/dradis/mining,
+/obj/structure/reagent_dispensers/water_cooler,
 /turf/open/floor/plasteel/dark,
 /area/nsv/shuttle/fob/bridge)
 "bP" = (
@@ -1147,10 +1151,10 @@
 /turf/open/floor/plasteel,
 /area/nsv/shuttle/fob/airlock/aft)
 "qq" = (
-/obj/machinery/computer/ship/tactical{
-	dir = 8;
-	req_access = null;
-	req_one_access_txt = "31;48"
+/obj/machinery/computer/ship/tactical/console{
+	dir = 6;
+	icon_state = "computer";
+	req_access = null
 	},
 /turf/open/floor/plasteel/dark,
 /area/nsv/shuttle/fob/bridge)
@@ -1167,6 +1171,13 @@
 /obj/machinery/ship_weapon/pdc_mount,
 /turf/open/floor/plasteel,
 /area/nsv/shuttle/fob/central)
+"wr" = (
+/obj/machinery/computer/ship/dradis/console{
+	icon_state = "computer";
+	dir = 8
+	},
+/turf/open/floor/plasteel/dark,
+/area/nsv/shuttle/fob/bridge)
 "yn" = (
 /obj/structure/window/reinforced{
 	dir = 4
@@ -1180,6 +1191,11 @@
 	},
 /turf/open/floor/plasteel,
 /area/nsv/shuttle/fob/airlock/starboard)
+"Fl" = (
+/obj/structure/table,
+/obj/machinery/recharger,
+/turf/open/floor/plasteel/dark,
+/area/nsv/shuttle/fob/bridge)
 "Ji" = (
 /obj/structure/chair/comfy/shuttle{
 	color = "#696969";
@@ -7511,8 +7527,8 @@ ao
 aS
 aW
 bk
-bk
-bk
+Fl
+wr
 qq
 aS
 ao
