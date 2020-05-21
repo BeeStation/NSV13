@@ -305,6 +305,8 @@
 /area/nsv/shuttle/fob/bridge)
 "aX" = (
 /obj/machinery/door/airlock/external/glass{
+	name = "quick cycle external airlock";
+	normalspeed = 0;
 	req_one_access_txt = "48"
 	},
 /turf/open/floor/plasteel,
@@ -465,6 +467,8 @@
 	icon_state = "4-8"
 	},
 /obj/machinery/door/airlock/external/glass{
+	name = "quick cycle external airlock";
+	normalspeed = 0;
 	req_one_access_txt = "48"
 	},
 /turf/open/floor/plasteel,
@@ -1191,6 +1195,11 @@
 	},
 /turf/open/floor/plasteel,
 /area/nsv/shuttle/fob/airlock/starboard)
+"yu" = (
+/obj/structure/hull_plate,
+/obj/machinery/light,
+/turf/open/floor/plating/airless,
+/area/nostromo/maintenance/exterior)
 "Fl" = (
 /obj/structure/table,
 /obj/machinery/recharger,
@@ -1205,6 +1214,13 @@
 	},
 /turf/open/floor/plasteel/dark,
 /area/nsv/shuttle/fob/bridge)
+"NO" = (
+/obj/structure/hull_plate,
+/obj/machinery/light{
+	dir = 1
+	},
+/turf/open/floor/plating/airless,
+/area/nostromo/maintenance/exterior)
 "Pc" = (
 /obj/effect/spawner/structure/window/shuttle,
 /turf/open/floor/plating,
@@ -1222,9 +1238,6 @@
 /obj/machinery/ship_weapon/pdc_mount,
 /turf/open/floor/plasteel,
 /area/nsv/shuttle/fob/central)
-"XD" = (
-/turf/open/floor/plating/airless,
-/area/nsv/shuttle/fob/airlock/aft)
 
 (1,1,1) = {"
 aa
@@ -5869,11 +5882,11 @@ cO
 cO
 cO
 cO
-co
-XD
-XD
-XD
-XD
+cP
+cP
+cP
+cP
+cP
 cO
 cO
 cO
@@ -6079,7 +6092,7 @@ aa
 aa
 aa
 cI
-cY
+yu
 aM
 ah
 ah
@@ -6095,7 +6108,7 @@ ah
 ah
 ah
 cE
-cY
+NO
 cX
 aa
 aa
