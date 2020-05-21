@@ -11,6 +11,13 @@ GLOBAL_LIST_INIT(computer_beeps, list('nsv13/sound/effects/computer/beep.ogg','n
 	var/sound_cooldown = 10 SECONDS //For big warnings like enemies firing on you, that we don't want repeating over and over
 	req_access = list(ACCESS_HEADS)
 
+/obj/machinery/computer/ship/Initialize()
+	. = ..()
+	return INITIALIZE_HINT_LATELOAD
+
+/obj/machinery/computer/ship/LateInitialize()
+	has_overmap()
+
 /obj/machinery/computer/ship/proc/relay_sound(sound, message)
 	if(!can_sound)
 		return
@@ -25,14 +32,9 @@ GLOBAL_LIST_INIT(computer_beeps, list('nsv13/sound/effects/computer/beep.ogg','n
 	can_sound = TRUE
 
 /obj/machinery/computer/ship/proc/has_overmap()
-	var/area/AR = get_area(src)
-	if(AR.linked_overmap)
-		linked = AR.linked_overmap
-	if(linked)
-		set_position(linked)
-		return TRUE
-	else
-		return FALSE
+	var/obj/structure/overmap/OM = get_overmap()
+	linked = OM
+	return linked
 
 /obj/machinery/computer/ship/proc/set_position(obj/structure/overmap/OM)
 	return
@@ -63,23 +65,58 @@ GLOBAL_LIST_INIT(computer_beeps, list('nsv13/sound/effects/computer/beep.ogg','n
 	playsound(src, 'nsv13/sound/effects/computer/startup.ogg', 75, 1)
 	return linked.start_piloting(user, position)
 
+/datum/techweb_node/ship_circuits
+	id = "ship_circuitry"
+	display_name = "Ship computer circuitry"
+	description = "Allows you to rebuild the CIC when it inevitably gets bombed."
+	prereq_ids = list("base")
+	design_ids = list("helm_circuit", "tactical_comp_circuit", "dradis_circuit", "mining_dradis_circuit")
+	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 2000)
+	export_price = 2000
+
+/obj/item/circuitboard/computer/ship/helm
+	name = "circuit board (helm computer)"
+	build_path = /obj/machinery/computer/ship/helm
+
+/datum/design/board/helm_circuit
+	name = "Computer Design (Helm Computer)"
+	desc = "Allows for the construction of a helm control console."
+	id = "helm_circuit"
+	materials = list(/datum/material/glass = 5000, /datum/material/copper = 500, /datum/material/gold = 1000)
+	build_path = /obj/item/circuitboard/computer/ship/helm
+	category = list("Ship Components")
+	departmental_flags = DEPARTMENTAL_FLAG_SCIENCE
+
 /obj/machinery/computer/ship/helm
 	name = "Seegson model HLM flight control console"
 	desc = "A computerized ship piloting package which allows a user to set a ship's speed, attitude, bearing and more!"
 	icon_screen = "helm"
 	position = "pilot"
-	resistance_flags = INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | UNACIDABLE | ACID_PROOF | FREEZE_PROOF
+	circuit = /obj/item/circuitboard/computer/ship/helm
 
 /obj/machinery/computer/ship/helm/set_position(obj/structure/overmap/OM)
 	OM.helm = src
 	return
+
+/obj/item/circuitboard/computer/ship/tactical_computer
+	name = "circuit board (tactical computer)"
+	build_path = /obj/machinery/computer/ship/tactical
+
+/datum/design/board/tac_circuit
+	name = "Computer Design (Tactical Computer)"
+	desc = "Allows for the construction of a tactical control console."
+	id = "tactical_comp_circuit"
+	materials = list(/datum/material/glass = 2000, /datum/material/copper = 200, /datum/material/gold = 1000)
+	build_path = /obj/item/circuitboard/computer/ship/munitions_computer
+	category = list("Ship Components")
+	departmental_flags = DEPARTMENTAL_FLAG_SCIENCE
 
 /obj/machinery/computer/ship/tactical
 	name = "Seegson model TAC tactical systems control console"
 	desc = "In ship-to-ship combat, most ship systems are digitalized. This console is networked with every weapon system that its ship has to offer, allowing for easy control. There's a section on the screen showing an exterior gun camera view with a rangefinder."
 	icon_screen = "tactical"
 	position = "gunner"
-	resistance_flags = INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | UNACIDABLE | ACID_PROOF | FREEZE_PROOF
+	circuit = /obj/item/circuitboard/computer/ship/tactical_computer
 
 /obj/machinery/computer/ship/tactical/attack_hand(mob/user)
 	if(!allowed(user))
@@ -328,7 +365,9 @@ Method to try locate an overmap object that we should attach to. Recursively cal
 	. = ..()
 
 /obj/structure/hull_plate/proc/relay_damage(datum/source, amount)
-	if(prob(10))
+	if(!amount)
+		return //No 0 damage
+	if(prob(amount/5)) //magic number woo!
 		take_damage(amount)
 
 /obj/structure/hull_plate/take_damage(damage_amount, damage_type = BRUTE, damage_flag = 0, sound_effect = FALSE)
@@ -345,16 +384,16 @@ Method to try locate an overmap object that we should attach to. Recursively cal
 	update_icon()
 
 /obj/structure/hull_plate/proc/try_repair(amount, mob/user)
-	if(obj_integrity+amount >= max_integrity)
-		if(user)
-			to_chat(user, "<span class='warning'>You have fully repaired [src].</span>")
-		parent?.armour_plates ++
+	obj_integrity = (obj_integrity + amount < max_integrity) ? obj_integrity + amount : max_integrity
+	update_icon()
+	if(obj_integrity <= max_integrity)
+		to_chat(user, "<span class='warning'>You have fully repaired [src].</span>")
 		obj_integrity = max_integrity
 		update_icon()
-		armour_broken = FALSE
+		if(armour_broken)
+			parent?.armour_plates ++
+			armour_broken = FALSE
 		return
-	obj_integrity += amount
-	update_icon()
 
 /obj/structure/hull_plate/update_icon()
 	var/progress = obj_integrity
@@ -373,7 +412,10 @@ Method to try locate an overmap object that we should attach to. Recursively cal
 
 /obj/structure/overmap/slowprocess()
 	. = ..()
-	try_repair(get_repair_efficiency() / 25) //Scale the value. If you have 80% of your armour plates repaired, the ship takes about 7.5 minutes to fully repair. If you only have 25% of your plates operational, it will take half an hour to fully repair the ship.
+	if(istype(src, /obj/structure/overmap/asteroid)) //Shouldn't be repairing over time
+		return
+	if(mass > MASS_TINY) //Prevents fighters regenerating
+		try_repair(get_repair_efficiency() / 25) //Scale the value. If you have 80% of your armour plates repaired, the ship takes about 7.5 minutes to fully repair. If you only have 25% of your plates operational, it will take half an hour to fully repair the ship.
 
 /obj/structure/hull_plate/attackby(obj/item/W, mob/user)
 	if(W.tool_behaviour == TOOL_WELDER)
@@ -386,7 +428,7 @@ Method to try locate an overmap object that we should attach to. Recursively cal
 		var/list/plates = list()
 		plates += src
 		for(var/obj/structure/hull_plate/S in orange(1, src))
-			if(S.armour_broken)
+			if(S.obj_integrity < S.max_integrity)
 				plates += S
 				fuel_required ++
 		if(!W.tool_start_check(user, amount=fuel_required))

@@ -18,13 +18,14 @@
 	animate_movement = NO_STEPS // Override the inbuilt movement engine to avoid bouncing
 	req_one_access = list(ACCESS_HEADS, ACCESS_MUNITIONS, ACCESS_SEC_DOORS, ACCESS_ENGINE) //Bridge officers/heads, munitions techs / fighter pilots, security officers, engineering personnel all have access.
 
+	move_resist = MOVE_FORCE_OVERPOWERING //THIS MAY BE A BAD IDEA - (okay I downgraded from INFINITE)
 	anchored = FALSE
 	resistance_flags = LAVA_PROOF | FIRE_PROOF | UNACIDABLE | ACID_PROOF // Overmap ships represent massive craft that don't burn
 
 	var/sprite_size = 64 //Pixels. This represents 64x64 and allows for the bullets that you fire to align properly.
 	var/area_type = null //Set the type of the desired area you want a ship to link to, assuming it's not the main player ship.
 	var/impact_sound_cooldown = FALSE //Avoids infinite spamming of the ship taking damage.
-	var/datum/starsystem/current_system //What starsystem are we currently in? Used for parallax.
+	var/datum/star_system/current_system //What star_system are we currently in? Used for parallax.
 	var/resize = 0 //Factor by which we should shrink a ship down. 0 means don't shrink it.
 	var/list/docking_points = list() //Where we can land on this ship. Usually right at the edge of a z-level.
 	var/last_slowprocess = 0
@@ -32,6 +33,7 @@
 	var/list/linked_areas = list() //List of all areas that we control
 	var/datum/gas_mixture/cabin_air //Cabin air mix used for small ships like fighters (see overmap/fighters/fighters.dm)
 	var/obj/machinery/portable_atmospherics/canister/internal_tank //Internal air tank reference. Used mostly in small ships. If you want to sabotage a fighter, load a plasma tank into its cockpit :)
+	CanAtmosPass = ATMOS_PASS_YES
 
 	// Health, armor, and damage
 	max_integrity = 300 //Max health
@@ -53,6 +55,7 @@
 	var/last_thrust_right = 0
 	var/last_rotate = 0
 	var/should_open_doors = FALSE //Should we open airlocks? This is off by default because it was HORRIBLE.
+	var/inertial_dampeners = TRUE
 
 	var/user_thrust_dir = 0
 
@@ -94,7 +97,6 @@
 	var/weapon_safety = FALSE //Like a gun safety. Entirely un-used except for fighters to stop brainlets from shooting people on the ship unintentionally :)
 	var/faction = null //Used for target acquisition by AIs
 
-	var/weapon_range = 10 //Range changes based on what weapon youre using.
 	var/fire_delay = 5
 	var/next_firetime = 0
 
@@ -103,6 +105,7 @@
 	var/atom/last_target //Last thing we shot at, used to point the railgun at an enemy.
 
 	var/torpedoes = 15 //Prevent infinite torp spam
+	var/missiles = 0 //Nothing should start with missiles
 
 	var/pdc_miss_chance = 20 //In %, how often do PDCs fire inaccurately when aiming at missiles. This is ignored for ships as theyre bigger targets.
 	var/list/torpedoes_to_target = list() //Torpedoes that have been fired explicitly at us, and that the PDCs need to worry about.
@@ -118,12 +121,69 @@
 	var/list/obj/effect/projectile/tracer/current_tracers
 	var/mob/listeningTo
 
+	var/uid = 0 //Unique identification code
+	var/starting_system = null //Where do we start in the world?
+	var/obj/machinery/computer/ship/ftl_computer/ftl_drive
+	var/reserved_z = 0 //The Z level we were spawned on, and thus inhabit. This can be changed if we "swap" positions with another ship.
+	var/list/occupying_levels = list() //Refs to the z-levels we own for setting parallax and that, or for admins to debug things when EVERYTHING INEVITABLY BREAKS
+
 	var/role = NORMAL_OVERMAP
+
+/**
+Proc to spool up a new Z-level for a player ship and assign it a treadmill.
+@return OM, a newly spawned overmap sitting on its treadmill as it ought to be.
+*/
+
+/proc/instance_overmap(_path, folder = null, interior_map_files = null, traits = null, default_traits = ZTRAITS_BOARDABLE_SHIP) //By default we apply the boardable ship traits, as they make fighters and that lark work
+	if(!islist(interior_map_files))
+		interior_map_files = list(interior_map_files)
+	if(!_path)
+		_path = /obj/structure/overmap/nanotrasen/heavy_cruiser/starter
+	RETURN_TYPE(/obj/structure/overmap)
+	SSmapping.add_new_zlevel("Overmap ship level [++world.maxz]", ZTRAITS_OVERMAP)
+	repopulate_sorted_areas()
+	smooth_zlevel(world.maxz)
+	log_game("Z-level [world.maxz] loaded for overmap treadmills.")
+	var/turf/exit = get_turf(locate(round(world.maxx * 0.5, 1), round(world.maxy * 0.5, 1), world.maxz)) //Plop them bang in the center of the system.
+	var/obj/structure/overmap/OM = new _path(exit) //Ship'll pick up the info it needs, so just domp eet at the exit turf.
+	OM.current_system = SSstar_system.find_system(OM)
+	if(OM.role == MAIN_OVERMAP) //If we're the main overmap, we'll cheat a lil' and apply our status to all of the Zs under "station"
+		for(var/z in SSmapping.levels_by_trait(ZTRAIT_STATION))
+			var/datum/space_level/SL = SSmapping.z_list[z]
+			SL.linked_overmap = OM
+			OM.occupying_levels += SL
+	if(folder && interior_map_files){ //If this thing comes with an interior.
+		var/previous_maxz = world.maxz //Ok. Store the current number of Zs. Anything that we add on top of this due to this proc will then be conted as decks of our ship.
+		var/list/errorList = list()
+		var/list/loaded = SSmapping.LoadGroup(errorList, "[OM.name] interior Z level", "[folder]", files=interior_map_files, traits = traits, default_traits=default_traits, silent=TRUE)
+		if(errorList.len)	// failed to load :(
+			message_admins("[_path]'s interior failed to load! Check you used instance_overmap correctly...")
+			log_game("[_path]'s interior failed to load! Check you used instance_overmap correctly...")
+			return OM
+		for(var/datum/parsed_map/PM in loaded)
+			PM.initTemplateBounds()
+		repopulate_sorted_areas()
+		var/list/occupying = list()
+		for(var/I = ++previous_maxz; I <= world.maxz; I++){ //So let's say we started loading interior Z-levels at Z index 4 and we have 2 decks. That means that Z 5 and 6 belong to this ship's interior, so link them
+			occupying += I;
+			for(var/area/AR in SSmapping.areas_in_z["[I]"])
+				OM.linked_areas += AR
+		}
+		for(var/A in SSmapping.z_list)
+			var/datum/space_level/SL = A
+			if(LAZYFIND(occupying, SL.z_value)) //And if the Z-level's value is one of ours, associate it.
+				SL.linked_overmap = OM
+				OM.occupying_levels += SL
+				log_game("Z-level [SL] linked to [OM].")
+		repopulate_sorted_areas()
+	}
+	return OM
 
 /obj/weapon_overlay
 	name = "Weapon overlay"
 	layer = 4
 	mouse_opacity = FALSE
+	layer = WALL_OBJ_LAYER
 	var/angle = 0 //Debug
 
 /obj/weapon_overlay/proc/do_animation()
@@ -156,6 +216,9 @@
 
 /obj/structure/overmap/Initialize()
 	. = ..()
+	if(role > NORMAL_OVERMAP)
+		SSstar_system.add_ship(src)
+		reserved_z = src.z //Our "reserved" Z will always be kept for us, no matter what. If we, for example, visit a system that another player is on and then jump away, we are returned to our own Z.
 	current_tracers = list()
 	GLOB.overmap_objects += src
 	START_PROCESSING(SSovermap, src)
@@ -166,7 +229,7 @@
 	vector_overlay.icon = icon
 	vis_contents += vector_overlay
 	update_icon()
-	max_range = initial(weapon_range)+20 //Range of the maximum possible attack (torpedo)
+	max_range = 50 //Range of the maximum possible attack (torpedo) - Magic number pulled from the aether
 	find_area()
 	switch(mass) //Scale speed with mass (tonnage)
 		if(MASS_TINY) //Tiny ships are manned by people, so they need air.
@@ -208,7 +271,8 @@
 
 	if(role == MAIN_OVERMAP)
 		name = "[station_name()]"
-	current_system = SSstarsystem.find_system(src)
+	current_system = SSstar_system.find_system(src)
+	addtimer(CALLBACK(src, .proc/force_parallax_update), 20 SECONDS)
 	addtimer(CALLBACK(src, .proc/check_armour), 20 SECONDS)
 
 	weapon_types[FIRE_MODE_PDC] = new/datum/ship_weapon/pdc_mount
@@ -231,12 +295,14 @@
 	if(role == MAIN_OVERMAP) //We're the hero ship, link us to every ss13 area.
 		for(var/X in GLOB.teleportlocs) //Teleportlocs = ss13 areas that aren't special / centcom
 			var/area/area = GLOB.teleportlocs[X] //Pick a station area and yeet it.
-			area.linked_overmap = src
-
+			linked_areas += area
 
 /obj/structure/overmap/proc/InterceptClickOn(mob/user, params, atom/target)
 	var/list/params_list = params2list(params)
 	if(user.incapacitated() || !isliving(user))
+		return FALSE
+	if(istype(target, /obj/machinery/button/door) || istype(target, /obj/machinery/turbolift_button))
+		target.attack_hand(user)
 		return FALSE
 	if(target == src || istype(target, /obj/screen) || (target && (target in user.GetAllContents())) || params_list["alt"] || params_list["ctrl"])
 		return FALSE
@@ -424,10 +490,6 @@
 				continue
 		if(get_dist(src, ship) <= 20) //Sound doesnt really travel in space, but space combat with no kaboom is LAME
 			ship.relay(sound,message)
-	for(var/Y in GLOB.dead_mob_list)
-		var/mob/dead/M = Y
-		if(M.z == z || is_station_level(M.z)) //Ghosts get to hear explosions too for clout.
-			SEND_SOUND(M,sound)
 
 /obj/structure/overmap/proc/verb_check(require_pilot = TRUE, mob/user = null)
 	if(!user)
@@ -447,20 +509,33 @@
 				var/sound = pick(GLOB.computer_beeps)
 				playsound(helm, sound, 100, 1)
 			return TRUE
+		if("Shift")
+			if(themob == pilot)
+				toggle_inertia()
+			if(helm && prob(80))
+				var/sound = pick(GLOB.computer_beeps)
+				playsound(helm, sound, 100, 1)
+			return TRUE
 		if("Alt")
 			if(themob == pilot)
 				toggle_brakes()
 			if(helm && prob(80))
 				var/sound = pick(GLOB.computer_beeps)
 				playsound(helm, sound, 100, 1)
-
+			return TRUE
 		if("Ctrl")
 			if(themob == gunner)
 				cycle_firemode()
 			if(tactical && prob(80))
 				var/sound = pick(GLOB.computer_beeps)
 				playsound(tactical, sound, 100, 1)
-
+			return TRUE
+		if("Q" || "q")
+			if(!move_by_mouse)
+				desired_angle -= 15
+		if("E" || "e")
+			if(!move_by_mouse)
+				desired_angle += 15
 
 /obj/structure/overmap/verb/toggle_brakes()
 	set name = "Toggle Handbrake"
@@ -471,6 +546,16 @@
 		return
 	brakes = !brakes
 	to_chat(usr, "<span class='notice'>You toggle the brakes [brakes ? "on" : "off"].</span>")
+
+/obj/structure/overmap/verb/toggle_inertia()
+	set name = "Toggle IAS"
+	set category = "Ship"
+	set src = usr.loc
+
+	if(!verb_check() || !can_brake())
+		return
+	inertial_dampeners = !inertial_dampeners
+	to_chat(usr, "<span class='notice'>Inertial assistance system [inertial_dampeners ? "ONLINE" : "OFFLINE"].</span>")
 
 /obj/structure/overmap/proc/can_change_safeties()
 	return (obj_flags & EMAGGED || !is_station_level(loc.z))
