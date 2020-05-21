@@ -105,7 +105,6 @@
 /obj/machinery/airalarm/all_access{
 	pixel_y = 23
 	},
-/obj/structure/table,
 /turf/open/floor/plasteel,
 /area/nsv/shuttle/fob/central)
 "ay" = (
@@ -182,7 +181,6 @@
 /obj/machinery/light{
 	dir = 4
 	},
-/obj/structure/table,
 /turf/open/floor/plasteel,
 /area/nsv/shuttle/fob/central)
 "aJ" = (
@@ -208,7 +206,9 @@
 /turf/open/floor/plasteel,
 /area/nsv/shuttle/fob/central)
 "aL" = (
-/obj/machinery/power/smes,
+/obj/machinery/power/smes{
+	output_level = 20000
+	},
 /obj/structure/cable{
 	icon_state = "0-4"
 	},
@@ -281,8 +281,6 @@
 /turf/open/floor/plasteel/dark,
 /area/nsv/shuttle/fob/bridge)
 "aV" = (
-/obj/machinery/power/apc/auto_name/north,
-/obj/structure/cable,
 /obj/structure/cable{
 	icon_state = "1-2"
 	},
@@ -409,18 +407,9 @@
 /obj/effect/spawner/structure/window/shuttle,
 /turf/open/floor/plating/airless,
 /area/nsv/shuttle/fob/bridge)
-"bm" = (
-/obj/structure/cable{
-	icon_state = "4-8"
-	},
-/obj/machinery/door/airlock/external/glass{
-	req_one_access_txt = "48"
-	},
-/turf/open/floor/plasteel,
-/area/nsv/shuttle/fob/airlock/aft)
 "bn" = (
 /obj/structure/cable{
-	icon_state = "4-8"
+	icon_state = "1-4"
 	},
 /turf/open/floor/plasteel,
 /area/nsv/shuttle/fob/airlock/aft)
@@ -697,10 +686,15 @@
 /turf/open/floor/plasteel,
 /area/nsv/shuttle/fob/central)
 "bO" = (
+/obj/machinery/power/apc/auto_name/north,
+/obj/structure/cable{
+	icon_state = "0-8"
+	},
 /obj/structure/cable{
 	icon_state = "2-8"
 	},
-/turf/closed/wall/mineral/titanium/nodiagonal,
+/obj/machinery/computer/ship/dradis/mining,
+/turf/open/floor/plasteel/dark,
 /area/nsv/shuttle/fob/bridge)
 "bP" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer1{
@@ -824,9 +818,9 @@
 	},
 /obj/structure/rack,
 /obj/item/storage/toolbox/mechanical,
-/obj/item/storage/toolbox/mechanical,
 /obj/item/storage/toolbox/electrical,
 /obj/item/stack/sheet/mineral/wood/fifty,
+/obj/item/storage/toolbox/mechanical,
 /turf/open/floor/plating,
 /area/nsv/shuttle/fob/atmospherics)
 "cg" = (
@@ -1129,7 +1123,20 @@
 	},
 /turf/open/floor/plasteel/dark,
 /area/nsv/shuttle/fob/bridge)
-"ol" = (
+"jj" = (
+/obj/machinery/computer/ship/navigation,
+/turf/open/floor/plasteel,
+/area/nsv/shuttle/fob/central)
+"ob" = (
+/obj/machinery/computer/ship/ftl_computer{
+	dir = 4;
+	name = "Nostromo FTL computer";
+	req_access = null;
+	req_one_access_txt = "31;48"
+	},
+/turf/open/floor/plasteel,
+/area/nsv/shuttle/fob/central)
+"pw" = (
 /obj/machinery/computer/ship/mineral_magnet{
 	density = 0;
 	pixel_y = 26
@@ -1137,7 +1144,7 @@
 /obj/structure/cable{
 	icon_state = "0-2"
 	},
-/turf/open/floor/plating/airless,
+/turf/open/floor/plasteel,
 /area/nsv/shuttle/fob/airlock/aft)
 "qq" = (
 /obj/machinery/computer/ship/tactical{
@@ -1173,15 +1180,6 @@
 	},
 /turf/open/floor/plasteel,
 /area/nsv/shuttle/fob/airlock/starboard)
-"GX" = (
-/obj/machinery/computer/ship/ftl_computer{
-	dir = 4;
-	name = "Nostromo FTL computer";
-	req_access = null;
-	req_one_access_txt = "31;48"
-	},
-/turf/open/floor/plasteel/dark,
-/area/nsv/shuttle/fob/bridge)
 "Ji" = (
 /obj/structure/chair/comfy/shuttle{
 	color = "#696969";
@@ -1195,12 +1193,6 @@
 /obj/effect/spawner/structure/window/shuttle,
 /turf/open/floor/plating,
 /area/nsv/shuttle/fob/central)
-"TH" = (
-/obj/structure/cable{
-	icon_state = "1-4"
-	},
-/turf/open/floor/plating/airless,
-/area/nsv/shuttle/fob/airlock/aft)
 "WK" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	dir = 4
@@ -5862,8 +5854,8 @@ cO
 cO
 cO
 co
-ol
-TH
+XD
+XD
 XD
 XD
 cO
@@ -5935,7 +5927,7 @@ ap
 ab
 co
 aX
-bm
+aX
 aX
 co
 ab
@@ -6006,7 +5998,7 @@ cP
 cP
 ag
 co
-aY
+pw
 bn
 aY
 co
@@ -6795,7 +6787,7 @@ cQ
 ab
 ab
 an
-av
+jj
 aH
 aQ
 bg
@@ -6941,7 +6933,7 @@ ab
 aN
 ax
 aI
-aw
+ob
 aN
 bx
 bK
@@ -7520,7 +7512,7 @@ aS
 aW
 bk
 bk
-GX
+bk
 qq
 aS
 ao
