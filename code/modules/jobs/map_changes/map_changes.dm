@@ -4,3 +4,6 @@
 // #include "..\..\..\..\_maps\map_files\map_folder\job_changes.dm"
 
 // #undef JOB_MODIFICATION_MAP_NAME
+
+#define JOB_MODIFICATION_MAP_NAME "NSV Jolly Sausage"
+#include "..\..\..\..\_maps\map_files\jollysausage\job_changes.dm"

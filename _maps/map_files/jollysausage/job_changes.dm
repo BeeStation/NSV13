@@ -44,3 +44,13 @@ MAP_REMOVE_JOB(virologist)	//Redundant
 	..()
 	MAP_JOB_CHECK
 	minimal_access += ACCESS_VIROLOGY
+
+/datum/job/janitor/New()
+	..()
+	MAP_JOB_CHECK
+	total_positions = 1
+
+/datum/job/cook/New()
+	..()
+	MAP_JOB_CHECK
+	total_positions = 1
