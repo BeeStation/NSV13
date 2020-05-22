@@ -5,12 +5,14 @@
 // Guard will only attack if you get too close
 
 #define DECISION_TERMINATOR 2
+#define AI_PDC_RANGE 5
 
 /obj/structure/overmap
 	var/ai_controlled = FALSE //Set this to true to let the computer fly your ship.
 	var/ai_behaviour = null // Determines if the AI ship shoots you first, or if you have to shoot them.
 	var/list/enemies = list() //Things that have attacked us
-	var/max_range = 50 //Range that AI ships can hunt you down in
+	var/max_weapon_range = 30
+	var/max_tracking_range = 50 //Range that AI ships can hunt you down in
 	var/guard_range = 10 //Close range. Encroach on their space and die
 	var/ai_can_launch_fighters = FALSE //AI variable. Allows your ai ships to spawn fighter craft
 	var/list/ai_fighter_type = list()
@@ -22,29 +24,62 @@
 	var/move_mode = 0
 	var/next_boarding_attempt = 0
 
+	var/reloading_torpedoes = FALSE
+	var/reloading_missiles = FALSE
+	var/static/list/warcrime_blacklist = typecacheof(list(/obj/structure/overmap/fighter/escapepod, /obj/structure/overmap/asteroid))//Ok. I'm not THAT mean...yet. (Hello karmic, it's me karmic 2)
 
 /obj/structure/overmap/proc/ai_fire(atom/target)
+	if(next_firetime > world.time)
+		return
 	if(istype(target, /obj/structure/overmap))
 		var/target_range = get_dist(src,target)
 		var/new_firemode = FIRE_MODE_PDC
-		if(target_range > max_range) //Our max range is the maximum possible range we can engage in. This is to stop you getting hunted from outside of your view range.
+		if(target_range > max_weapon_range) //Our max range is the maximum possible range we can engage in. This is to stop you getting hunted from outside of your view range.
 			last_target = null
 			return
-		if(target_range <= 5)
+		if(target_range <= AI_PDC_RANGE)
 			new_firemode = FIRE_MODE_PDC
 		else
 			var/obj/structure/overmap/OM = last_target
 			if(istype(OM) && OM.mass >= MASS_SMALL)
 				if(!torpedoes)
 					new_firemode = (mass > MASS_TINY) ? FIRE_MODE_RAILGUN : FIRE_MODE_PDC
+					if(!reloading_torpedoes && initial(torpedoes) > 0) //Not every fighter needs torps...
+						reloading_torpedoes = TRUE
+						addtimer(CALLBACK(src, .proc/reload_torpedoes), 2 MINUTES)
 				else
 					new_firemode = FIRE_MODE_TORPEDO
 			else //Small target or not actually an overmap. Prefer missiles, as theyre more optimal vs subcapitals
 				if(!missiles)
 					new_firemode = (mass > MASS_TINY) ? FIRE_MODE_RAILGUN : FIRE_MODE_PDC
+					if(!reloading_missiles && initial(missiles) > 0)
+						reloading_missiles = TRUE
+						addtimer(CALLBACK(src, .proc/reload_missiles), 2 MINUTES)
 				else
 					new_firemode = FIRE_MODE_MISSILE
+		if(new_firemode != FIRE_MODE_PDC) //If we're not on PDCs, let's fire off some PDC salvos while we're busy shooting people. This is still affected by weapon cooldowns so that they lay off on their target a bit.
+			for(var/obj/structure/overmap/ship in GLOB.overmap_objects)
+				if(warcrime_blacklist[ship.type])
+					continue
+				if(!ship || QDELETED(ship) || ship == src || get_dist(src, ship) > max_weapon_range || ship.faction == src.faction || ship.z != z)
+					continue
+				fire_weapon(ship, FIRE_MODE_PDC)
+				break
+		swap_to(new_firemode)
 		fire_weapon(target, new_firemode)
+		next_firetime = world.time + fire_delay
+
+//Torpedoes are more heavy hitting, thus you don't get very many.
+
+/obj/structure/overmap/proc/reload_torpedoes()
+	reloading_torpedoes = FALSE
+	torpedoes = ++mass
+
+//Missiles are a lot more spammable, and are for dealing with small craft
+
+/obj/structure/overmap/proc/reload_missiles()
+	reloading_missiles = FALSE
+	missiles = mass*2
 
 //Branch 1 decides if we're a capital ship or not, and whether we're going to be ramming the enemy.
 
@@ -106,6 +141,9 @@
 /obj/structure/overmap/proc/fall_back()
 	if(!last_target)
 		return
+	if(get_dist(src, last_target) > max_weapon_range)
+		resume_targeting()
+		return
 	if(get_dist(src, last_target) >= 15)
 		brakes = TRUE
 		return DECISION_TERMINATOR
@@ -116,10 +154,14 @@
 	return DECISION_TERMINATOR
 
 /obj/structure/overmap/proc/handle_ai_behaviour()
-	for(var/obj/structure/overmap/ship in GLOB.overmap_objects)
-		if(ship == src || ship.faction == faction || ship.z != z)
-			continue
-		target(ship)
+	if(!last_target || QDELETED(last_target))
+		for(var/obj/structure/overmap/ship in GLOB.overmap_objects)
+			if(warcrime_blacklist[ship.type])
+				continue
+			if(!ship || QDELETED(ship) || ship == src || get_dist(src, ship) > max_weapon_range || ship.faction == src.faction || ship.z != z)
+				continue
+			target(ship)
+			break
 	if(world.time >= last_decision + decision_delay)
 		last_decision = world.time
 		decision(.proc/is_low) //Start the decision making process!
@@ -127,6 +169,10 @@
 /obj/structure/overmap/proc/decision(proctype)
 	if(!ai_controlled || !proctype)
 		return FALSE //Only AI ships need to decide stuff.
+	if(!last_target)
+		move_mode = NORTH
+		brakes = FALSE
+		return
 	var/result = CallAsync(src, proctype)
 	if(result != DECISION_TERMINATOR){
 		if(result)
@@ -165,8 +211,8 @@
 		pilot.alpha = FALSE
 		pilot.forceMove(src)
 		gunner = pilot
-	if(last_target || QDELETED(last_target)) //Have we got a target?
-		if(get_dist(last_target, src) > max_range) //Out of range - Give up the chase
+	if(last_target) //Have we got a target?
+		if(get_dist(last_target, src) > max_tracking_range) //Out of range - Give up the chase
 			last_target = null
 			desired_angle = rand(0,360)
 		else //They're in our range. Calculate a path to them and fire.
@@ -187,17 +233,14 @@
 		return TRUE
 	return FALSE
 
-/obj/structure/overmap/proc/target(atom/target)
-	if(!istype(target, /obj/structure/overmap) || istype(target, /obj/structure/overmap/asteroid)) //Don't know why it wouldn't be..but yeah
-		return
+/obj/structure/overmap/proc/target(obj/structure/overmap/target)
 	add_enemy(target)
-	last_target = target
 	if(ai_can_launch_fighters) //Found a new enemy? Launch the CAP.
 		ai_can_launch_fighters = FALSE
 		if(ai_fighter_type.len)
 			for(var/i = 0, i < rand(2,3), i++)
 				var/ai_fighter = pick(ai_fighter_type)
-				new ai_fighter(get_turf(src))
+				new ai_fighter(get_turf(pick(orange(3, src))))
 				relay_to_nearby('nsv13/sound/effects/ship/fighter_launch_short.ogg')
 		addtimer(VARSET_CALLBACK(src, ai_can_launch_fighters, TRUE), 3 MINUTES)
 
@@ -205,10 +248,11 @@
 	if(!istype(target, /obj/structure/overmap)) //Don't know why it wouldn't be..but yeah
 		return
 	var/obj/structure/overmap/OM = target
-	for(var/X in enemies) //If target's in enemies, return
-		if(target == X)
-			return
+	if(LAZYFIND(enemies, OM) || OM.faction == faction) //If target's in enemies, return
+		return
+	to_chat(world, "Add enemy [target]")
 	enemies += target
+	last_target = target
 	if(OM.role == MAIN_OVERMAP)
 		set_security_level(SEC_LEVEL_RED) //Action stations when the ship is under attack, if it's the main overmap.
 		SSstar_system.last_combat_enter = world.time //Tag the combat on the SS

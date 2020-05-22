@@ -48,8 +48,8 @@
 	impact_effect_type = /obj/effect/temp_visual/impact_effect/torpedo
 
 /obj/item/projectile/guided_munition/missile
-	icon_state = "torpedo"
 	name = "conventional missile"
+	icon_state = "conventional_missile"
 	speed = 1
 	damage = 75
 	valid_angle = 90
@@ -206,11 +206,9 @@
 /obj/structure/overmap/proc/fire_torpedo(atom/target)
 	if(ai_controlled || !linked_areas.len && role != MAIN_OVERMAP) //AI ships and fighters don't have interiors
 		if(torpedoes <= 0)
-			if(ai_controlled)
-				addtimer(VARSET_CALLBACK(src, torpedoes, initial(src.torpedoes)), 60 SECONDS)
 			return FALSE
 		torpedoes --
-		fire_projectile(/obj/item/projectile/guided_munition/torpedo, target, homing = TRUE, speed=1, explosive = TRUE)
+		fire_projectile(/obj/item/projectile/guided_munition/torpedo, target, homing = TRUE, speed=3, explosive = TRUE)
 		var/obj/structure/overmap/OM = target
 		if(istype(OM, /obj/structure/overmap) && OM.dradis)
 			OM.dradis?.relay_sound('nsv13/sound/effects/fighters/launchwarning.ogg')
@@ -219,11 +217,9 @@
 /obj/structure/overmap/proc/fire_missile(atom/target)
 	if(ai_controlled || !linked_areas.len && role != MAIN_OVERMAP) //AI ships and fighters don't have interiors
 		if(missiles <= 0)
-			if(ai_controlled)
-				addtimer(VARSET_CALLBACK(src, missiles, initial(src.missiles)), 60 SECONDS)
 			return FALSE
 		missiles --
-		fire_projectile(/obj/item/projectile/guided_munition/missile, target, homing = TRUE, speed=3, explosive = TRUE)
+		fire_projectile(/obj/item/projectile/guided_munition/missile, target, homing = TRUE, speed=1, explosive = TRUE)
 		var/obj/structure/overmap/OM = target
 		if(istype(OM, /obj/structure/overmap) && OM.dradis)
 			OM.dradis?.relay_sound('nsv13/sound/effects/fighters/launchwarning.ogg')
