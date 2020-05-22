@@ -1838,6 +1838,7 @@
 	icon_state = "pipe11-3";
 	dir = 8
 	},
+/obj/structure/rack,
 /turf/open/floor/monotile,
 /area/medical/surgery)
 "ft" = (
@@ -3156,8 +3157,8 @@
 /area/crew_quarters/heads/hos)
 "iL" = (
 /obj/machinery/computer/card/minor/hos{
-	icon_state = "computer";
-	dir = 1
+	dir = 1;
+	icon_state = "computer"
 	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
@@ -3379,6 +3380,7 @@
 	icon_state = "pipe11-3";
 	dir = 8
 	},
+/obj/machinery/door/firedoor,
 /turf/open/floor/monotile,
 /area/medical/medbay)
 "ji" = (
@@ -7052,10 +7054,6 @@
 /obj/machinery/door/firedoor,
 /turf/open/floor/monotile,
 /area/medical/storage)
-"rG" = (
-/obj/effect/decal/cleanable/dirt,
-/turf/open/floor/monotile/dark,
-/area/maintenance/department/medical)
 "rH" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
@@ -10212,9 +10210,21 @@
 	},
 /turf/open/floor/carpet/red,
 /area/crew_quarters/heads/hos)
-"zV" = (
+"zJ" = (
+/obj/effect/spawner/lootdrop/maintenance,
+/obj/item/storage/bag/chemistry,
 /turf/open/floor/plating,
-/area/maintenance/department/science)
+/area/maintenance/department/medical)
+"zK" = (
+/obj/structure/railing,
+/turf/open/floor/plating{
+	icon_state = "platingdmg3"
+	},
+/area/maintenance/department/medical)
+"zT" = (
+/obj/machinery/chem_master,
+/turf/open/floor/plating,
+/area/maintenance/department/medical)
 "Ag" = (
 /obj/structure/railing{
 	dir = 8
@@ -10303,6 +10313,19 @@
 /obj/item/toy/talking/AI,
 /turf/open/floor/plating,
 /area/maintenance/department/engine)
+"Cv" = (
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	icon_state = "pipe11-3";
+	dir = 8
+	},
+/obj/structure/disposalpipe/junction/yjunction{
+	dir = 1
+	},
+/turf/open/floor/monotile,
+/area/bridge)
 "Cy" = (
 /obj/item/toy/figure/clown,
 /obj/structure/table/glass,
@@ -10326,18 +10349,10 @@
 	},
 /turf/open/floor/monotile/dark,
 /area/medical/virology)
-"Di" = (
-/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3,
-/obj/machinery/button/door{
-	desc = "A remote control switch for the medbay foyer.";
-	id = "MedbayFoyer";
-	name = "Medbay Doors Control";
-	normaldoorcontrol = 1;
-	pixel_x = 24;
-	pixel_y = 24
-	},
-/turf/open/floor/carpet/blue,
-/area/medical/medbay)
+"De" = (
+/obj/structure/railing,
+/turf/open/floor/plating,
+/area/maintenance/department/medical)
 "Du" = (
 /obj/machinery/door/airlock/ship/maintenance/defaultaccess,
 /obj/structure/cable{
@@ -10668,6 +10683,13 @@
 /obj/effect/spawner/lootdrop/maintenance/three,
 /turf/open/floor/plating,
 /area/maintenance/department/medical)
+"IG" = (
+/obj/structure/table,
+/obj/machinery/reagentgrinder{
+	pixel_y = 4
+	},
+/turf/open/floor/plating,
+/area/maintenance/department/medical)
 "IH" = (
 /obj/machinery/suit_storage_unit/pilot,
 /turf/open/floor/plating,
@@ -10698,6 +10720,21 @@
 	icon_state = "panelscorched"
 	},
 /area/maintenance/department/medical)
+"Jw" = (
+/obj/structure/sink/kitchen{
+	desc = "A sink used for washing one's hands and face. It looks rusty and home-made";
+	name = "old sink";
+	pixel_y = 28
+	},
+/turf/open/floor/plating,
+/area/maintenance/department/medical)
+"Jz" = (
+/obj/structure/fighter_launcher/galactica{
+	icon_state = "launcher_map";
+	dir = 4
+	},
+/turf/open/floor/engine/airless,
+/area/maintenance/ship_exterior)
 "JC" = (
 /obj/machinery/door/airlock/ship/maintenance{
 	req_one_access_txt = "4"
@@ -10766,6 +10803,16 @@
 /obj/structure/rack,
 /turf/open/floor/plating,
 /area/maintenance/department/medical)
+"Kh" = (
+/obj/machinery/door/airlock/ship/maintenance/defaultaccess{
+	req_one_access_txt = "5"
+	},
+/turf/open/floor/plating,
+/area/maintenance/department/medical)
+"Km" = (
+/obj/effect/decal/cleanable/blood/old,
+/turf/open/floor/plating,
+/area/maintenance/department/medical)
 "Ks" = (
 /obj/effect/spawner/structure/window/reinforced,
 /obj/machinery/door/poddoor/ship/preopen{
@@ -10791,6 +10838,11 @@
 	},
 /turf/open/floor/plating,
 /area/security/main)
+"KO" = (
+/obj/structure/girder,
+/obj/structure/grille,
+/turf/open/floor/plating,
+/area/maintenance/department/medical)
 "KW" = (
 /obj/structure/hull_plate,
 /turf/closed/wall/r_wall/ship,
@@ -10877,6 +10929,12 @@
 /obj/machinery/door/airlock/ship/maintenance/defaultaccess,
 /turf/open/floor/plating,
 /area/maintenance/department/medical)
+"MT" = (
+/obj/structure/table,
+/obj/item/clothing/suit/apron,
+/obj/item/clothing/glasses/hud/health,
+/turf/open/floor/plating,
+/area/maintenance/department/medical)
 "MZ" = (
 /obj/machinery/suit_storage_unit/pilot,
 /turf/open/floor/plating,
@@ -10890,14 +10948,6 @@
 /obj/effect/decal/cleanable/cobweb/cobweb2,
 /turf/open/floor/monotile/dark,
 /area/maintenance/department/medical)
-"Nf" = (
-/obj/machinery/button/door{
-	id = "morgue_desk";
-	name = "desk shutter control";
-	pixel_y = -24
-	},
-/turf/open/floor/monotile/dark,
-/area/medical/morgue)
 "Ni" = (
 /obj/item/candle/infinite,
 /turf/open/floor/carpet/red,
@@ -11046,18 +11096,23 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/ship_exterior)
-"Qn" = (
-/obj/structure/fighter_launcher/galactica{
-	icon_state = "launcher_map";
-	dir = 4
-	},
-/turf/open/floor/engine/airless,
-/area/maintenance/ship_exterior)
 "Qr" = (
 /obj/effect/decal/cleanable/dirt,
 /obj/effect/decal/cleanable/dirt,
 /turf/open/floor/plasteel/techmaint,
 /area/maintenance/department/engine)
+"Qu" = (
+/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3,
+/obj/machinery/button/door{
+	desc = "A remote control switch for the medbay foyer.";
+	id = "MedbayFoyer";
+	name = "Medbay Doors Control";
+	normaldoorcontrol = 1;
+	pixel_x = 24;
+	pixel_y = 24
+	},
+/turf/open/floor/carpet/blue,
+/area/medical/medbay)
 "Qv" = (
 /obj/structure/tank_dispenser/oxygen,
 /obj/machinery/light/small{
@@ -11179,6 +11234,12 @@
 /obj/item/radio/intercom/directional/south,
 /turf/open/floor/monotile,
 /area/science/xenobiology)
+"SB" = (
+/obj/structure/railing,
+/turf/open/floor/plating{
+	icon_state = "panelscorched"
+	},
+/area/maintenance/department/medical)
 "SF" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	dir = 4
@@ -11215,11 +11276,22 @@
 /obj/item/radio/intercom/directional/east,
 /turf/open/floor/monotile,
 /area/bridge/showroom/corporate)
+"Ta" = (
+/obj/machinery/door/airlock/ship/maintenance/defaultaccess,
+/turf/open/floor/plating{
+	icon_state = "platingdmg3"
+	},
+/area/maintenance/department/medical)
 "Tj" = (
 /obj/effect/spawner/lootdrop/maintenance,
 /obj/structure/closet,
 /turf/open/floor/plating,
 /area/maintenance/department/science)
+"To" = (
+/obj/structure/table,
+/obj/structure/bedsheetbin,
+/turf/open/floor/plating,
+/area/maintenance/department/medical)
 "Ty" = (
 /obj/structure/cable{
 	icon_state = "1-2"
@@ -11255,6 +11327,14 @@
 /obj/structure/grille,
 /turf/open/floor/plating,
 /area/maintenance/department/engine)
+"TP" = (
+/obj/machinery/button/door{
+	id = "morgue_desk";
+	name = "desk shutter control";
+	pixel_y = -24
+	},
+/turf/open/floor/monotile/dark,
+/area/medical/morgue)
 "Ud" = (
 /obj/machinery/light{
 	dir = 8
@@ -11271,6 +11351,11 @@
 "Up" = (
 /obj/structure/closet,
 /obj/effect/spawner/lootdrop/maintenance,
+/turf/open/floor/plating,
+/area/maintenance/department/medical)
+"UF" = (
+/obj/structure/bed/roller,
+/obj/machinery/iv_drip,
 /turf/open/floor/plating,
 /area/maintenance/department/medical)
 "UG" = (
@@ -11302,19 +11387,6 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/department/bridge)
-"Vc" = (
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
-	dir = 4
-	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
-	icon_state = "pipe11-3";
-	dir = 8
-	},
-/obj/structure/disposalpipe/junction/yjunction{
-	dir = 1
-	},
-/turf/open/floor/monotile,
-/area/bridge)
 "Ve" = (
 /obj/structure/cable{
 	icon_state = "1-8"
@@ -11439,6 +11511,11 @@
 /obj/machinery/holopad,
 /turf/open/floor/monotile/dark,
 /area/medical/cryo)
+"Xk" = (
+/turf/open/floor/plating{
+	icon_state = "platingdmg3"
+	},
+/area/maintenance/department/medical)
 "Xm" = (
 /obj/effect/spawner/structure/window/reinforced,
 /obj/machinery/door/firedoor,
@@ -11449,6 +11526,14 @@
 	},
 /turf/open/floor/plating,
 /area/science/xenobiology)
+"Xq" = (
+/obj/structure/bed,
+/obj/item/reagent_containers/blood{
+	pixel_x = -3;
+	pixel_y = -3
+	},
+/turf/open/floor/plating,
+/area/maintenance/department/medical)
 "Xr" = (
 /obj/item/trash/candle,
 /turf/open/floor/carpet/red,
@@ -11585,6 +11670,12 @@
 /obj/effect/spawner/lootdrop/maintenance/three,
 /turf/open/floor/plating,
 /area/maintenance/department/science)
+"ZS" = (
+/obj/machinery/light/small{
+	dir = 4
+	},
+/turf/open/floor/plating,
+/area/maintenance/department/medical)
 "ZT" = (
 /obj/machinery/power/deck_relay{
 	pixel_y = 32
@@ -46814,7 +46905,7 @@ la
 ls
 ls
 pe
-zV
+ls
 ls
 xq
 ls
@@ -47701,11 +47792,11 @@ wI
 fN
 re
 wv
-Nf
+TP
 aI
 Nb
 Zr
-rG
+Fe
 cH
 aH
 aI
@@ -48006,7 +48097,7 @@ oZ
 oZ
 aI
 aI
-fn
+Kh
 aI
 aI
 aI
@@ -49778,7 +49869,7 @@ ac
 ac
 ac
 ac
-Qn
+Jz
 ac
 ac
 ac
@@ -49850,7 +49941,7 @@ ac
 ac
 ac
 ac
-Qn
+Jz
 ac
 ac
 ac
@@ -50124,7 +50215,7 @@ aO
 aO
 rV
 tC
-fn
+Kh
 aH
 aI
 jt
@@ -53748,7 +53839,7 @@ rz
 ok
 th
 tO
-aI
+Kh
 aH
 aI
 az
@@ -54353,7 +54444,7 @@ rQ
 aO
 aO
 aI
-aH
+HN
 aI
 az
 az
@@ -54654,13 +54745,13 @@ qS
 qL
 iG
 fU
-aH
+UF
 aH
 aI
-az
-az
-az
-az
+aI
+aI
+aI
+aI
 aI
 aI
 aI
@@ -54945,7 +55036,7 @@ er
 eV
 fo
 gn
-Di
+Qu
 lt
 aQ
 aO
@@ -54956,21 +55047,21 @@ rL
 qT
 iG
 fU
+UF
 aH
+Ta
 aH
-aI
-aI
-aI
-aI
-aI
-aI
+Xk
 aH
+Xk
 aH
-aI
-ax
-ax
-ax
-ad
+WO
+ZS
+Rl
+aj
+aj
+aj
+aj
 aj
 aj
 aj
@@ -55261,13 +55352,13 @@ fU
 fU
 fU
 fU
+Jw
 aH
+Km
 aH
-aH
-aH
-aH
-aH
-aH
+IG
+aI
+aI
 cB
 cB
 cB
@@ -55564,12 +55655,12 @@ no
 nr
 fU
 aH
-aH
-aH
-aH
-aH
-aH
-aH
+Xq
+zT
+MT
+To
+KO
+zJ
 cB
 vE
 sF
@@ -55865,7 +55956,7 @@ nm
 np
 xu
 fU
-aI
+cH
 aI
 aI
 aI
@@ -56167,7 +56258,7 @@ nn
 nq
 nr
 fU
-ae
+De
 ae
 ae
 ae
@@ -56469,7 +56560,7 @@ aI
 aI
 aI
 aI
-ae
+SB
 ae
 ae
 ae
@@ -56771,7 +56862,7 @@ vh
 vh
 vn
 aI
-ae
+zK
 ae
 ae
 ae
@@ -57073,7 +57164,7 @@ aB
 aB
 vk
 aI
-aI
+cH
 aI
 aI
 aI
@@ -66432,7 +66523,7 @@ eB
 eB
 eB
 oV
-Vc
+Cv
 cT
 cC
 ci
