@@ -250,7 +250,6 @@
 	var/obj/structure/overmap/OM = target
 	if(LAZYFIND(enemies, OM) || OM.faction == faction) //If target's in enemies, return
 		return
-	to_chat(world, "Add enemy [target]")
 	enemies += target
 	last_target = target
 	if(OM.role == MAIN_OVERMAP)
