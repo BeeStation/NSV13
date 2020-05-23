@@ -49,5 +49,6 @@ Override this method to apply the unique reskin for your item if you want to cha
 	if(!istype(A))
 		return
 	A.icon = reskin_icon
+	A.AddComponent(/datum/component/donator, ckey)
 	playsound(src, 'sound/effects/spray.ogg', 5, 1, 5)
 	qdel(src)
