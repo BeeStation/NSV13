@@ -266,8 +266,7 @@ SUBSYSTEM_DEF(star_system)
 	addtimer(CALLBACK(src, .proc/generate_anomaly), 15 SECONDS)
 
 /datum/star_system/proc/create_wormhole()
-	var/datum/star_system/S = SSstar_system.systems[(rand(SSstar_systems.systems.len))] //Pick a random system to put the wormhole in.
-
+	var/datum/star_system/S = SSstar_system.systems[(rand(SSstar_system.systems.len))] //Pick a random system to put the wormhole in.
 	if(!(LAZYFIND(adjacency_list, S))) //Makes sure we're not already linked
 		adjacency_list += S.name
 		SSstar_system.spawn_anomaly(/obj/effect/overmap_anomaly/wormhole, src, center=TRUE)
