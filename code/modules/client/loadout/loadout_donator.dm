@@ -13,9 +13,3 @@
 	description = "Example Donator Description"
 	ckey = "jimthefish" //ckey should be in canonical format.
 	path = /obj/item/toy/plush/carpplushie
-
-/datum/gear/donator/ceyella
-	display_name = "Telescopic baton reskin"
-	description = "A paint kit which can turn telescopic batons into extradimensional swords. Neat!"
-	ckey = "ceyella" //ckey should be in canonical format.
-	path = /obj/item/donator_reskin/ceyella
