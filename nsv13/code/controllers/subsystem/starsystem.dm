@@ -266,7 +266,11 @@ SUBSYSTEM_DEF(star_system)
 	addtimer(CALLBACK(src, .proc/generate_anomaly), 15 SECONDS)
 
 /datum/star_system/proc/create_wormhole()
-	for(var/datum/star_system/S in SSstar_system.systems)
+	var/datum/star_system/S = pick(
+			SSstar_system.systems,
+		prob(0.1)
+			/datum/star_system/blacksite
+		)
 		if(LAZYFIND(adjacency_list, S)) //We're already linked to that one. Skip it.
 			continue
 		adjacency_list += S.name
@@ -277,7 +281,6 @@ SUBSYSTEM_DEF(star_system)
 			oneway = "Two-way"
 			SSstar_system.spawn_anomaly(/obj/effect/overmap_anomaly/wormhole, S, center=TRUE) //Wormholes are cool.
 		message_admins("[oneway] wormhole created between [S] and [src]")
-		break
 
 //Anomalies
 
