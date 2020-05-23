@@ -3,10 +3,10 @@
 //Pickups up pods, refuels in space, repairs things, module module modules
 /obj/structure/overmap/fighter/utility
 	name = "Su-437 Sabre"
-	desc = "An Su-437 Sabre utility vessel. Designed for robustness in deep space and as a highly modular platform, able to be fitted out for any situation."
+	desc = "An Su-437 Sabre utility vessel. Designed for robustness in deep space and as a highly modular platform, able to be fitted out for any situation. Drag and drop crates / ore boxes to load them into its cargo hold."
 	icon = 'nsv13/icons/overmap/nanotrasen/carrier.dmi'
 	icon_state = "carrier"
-	armor = list("melee" = 70, "bullet" = 70, "laser" = 70, "energy" = 40, "bomb" = 40, "bio" = 100, "rad" = 90, "fire" = 90, "acid" = 80, "overmap_light" = 20)
+	armor = list("melee" = 70, "bullet" = 70, "laser" = 70, "energy" = 40, "bomb" = 40, "bio" = 100, "rad" = 90, "fire" = 90, "acid" = 80, "overmap_light" = 15, "overmap_heavy" = 0)
 	bound_width = 64 //Change this on a per ship basis
 	bound_height = 64
 	mass = MASS_TINY
@@ -19,11 +19,13 @@
 	pixel_z = -20
 	req_one_access = list(ACCESS_MUNITIONS, ACCESS_ENGINE)
 	chassis = 3
+	max_cargo = 4
 
 	forward_maxthrust = 3
 	backward_maxthrust = 3
 	side_maxthrust = 3
 	max_angular_acceleration = 110
+	ftl_goal = 45 SECONDS //Raptors can, by default, initiate relative FTL jumps to other ships.
 
 /obj/structure/overmap/fighter/utility/prebuilt/tanker //refueling other fighters in space
 	prebuilt = TRUE
@@ -46,6 +48,10 @@
 						/obj/item/fighter_component/countermeasure_dispenser/t1,
 						/obj/item/fighter_component/primary/utility/search_rescue_module,
 						/obj/item/fighter_component/secondary/utility/passenger_compartment_module/t1)
+
+/obj/structure/overmap/fighter/utility/prebuilt/carrier/mining
+	icon = 'nsv13/icons/overmap/nanotrasen/carrier_mining.dmi'
+	req_one_access = list(ACCESS_FIGHTER, ACCESS_MINING)
 
 /obj/structure/overmap/fighter/utility/prebuilt/repair //exterior repair of the main ship
 	prebuilt = TRUE

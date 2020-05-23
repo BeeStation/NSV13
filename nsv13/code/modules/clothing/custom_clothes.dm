@@ -460,3 +460,22 @@
 
 /obj/item/clothing/head/helmet/decktech/attack_self(mob/user)
 	weldingvisortoggle(user)
+
+/obj/item/clothing/under/ship/syndicate_tech
+	name = "Syndicate technician jumpsuit"
+	desc = "A jumpsuit worn by Syndicate technicians, it's been armour plated to protect the wearer in combat scenarios."
+	icon_state = "syndicate_tech"
+	item_color = "syndicate_tech"
+	item_state = "bl_suit"
+	armor = list("melee" = 10, "bullet" = 10, "laser" = 0,"energy" = 0, "bomb" = 0, "bio" = 0, "rad" = 0, "fire" = 30, "acid" = 30)
+	can_adjust = TRUE
+
+/obj/item/clothing/suit/ship/syndicate_crew
+	name = "Syndicate jacket"
+	desc = "A comfortable, but padded jacket worn by elite officers in the Syndicate navy. Where there would likely be medals on its Nanotrasen counterpart, it instead has space for marking kills."
+	icon_state = "syndicate_officer"
+	item_color = "syndicate_officer"
+
+/obj/item/clothing/under/ship/pilot/syndicate
+	name = "Syndicate combat jumpsuit"
+	desc = "A set of camoflauged fatigues which make up part of a Syndicate uniform."

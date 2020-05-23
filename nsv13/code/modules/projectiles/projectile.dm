@@ -2,6 +2,7 @@
 	var/datum/shape/collider2d = null //Our box collider. See the collision module for explanation
 	var/datum/vector2d/position = null //Positional vector, used exclusively for collisions with overmaps
 	var/list/collision_positions = null //The bounding box of this projectile.
+	var/obj/structure/overmap/overmap_firer = null
 
 /obj/item/projectile/proc/setup_collider()
 	collision_positions = list(new /datum/vector2d(-2,16),\
@@ -24,6 +25,6 @@ Method to check for whether this bullet should be colliding with an overmap obje
 	collider2d._set(position.x, position.y)
 	for(var/obj/structure/overmap/OM in GLOB.overmap_objects)
 		if(OM.z == z && OM.collider2d)
-			if(src.collider2d.collides(OM.collider2d))
+			if(src.collider2d?.collides(OM.collider2d))
 				if(!faction || faction != OM.faction) //Allow bullets to pass through friendlies
 					Bump(OM) //Bang.
