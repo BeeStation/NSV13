@@ -266,20 +266,15 @@ SUBSYSTEM_DEF(star_system)
 	addtimer(CALLBACK(src, .proc/generate_anomaly), 15 SECONDS)
 
 /datum/star_system/proc/create_wormhole()
-	var/datum/star_system/S = pick(
-			SSstar_system.systems,
-		prob(0.1)
-			/datum/star_system/blacksite
-		)
-		if(LAZYFIND(adjacency_list, S)) //We're already linked to that one. Skip it.
-			continue
+	var/datum/star_system/S = SSstar_system.systems[(rand(26))] //Pick a random system to put the wormhole in.
+	if(!(LAZYFIND(adjacency_list, S))) //Makes sure we're not already linked
 		adjacency_list += S.name
 		SSstar_system.spawn_anomaly(/obj/effect/overmap_anomaly/wormhole, src, center=TRUE)
 		var/oneway = "One-way"
 		if(!LAZYFIND(S.adjacency_list, src) && prob(30)) //Two-directional wormholes, AKA valid hyperlanes, are exceedingly rare.
 			S.adjacency_list += name
 			oneway = "Two-way"
-			SSstar_system.spawn_anomaly(/obj/effect/overmap_anomaly/wormhole, S, center=TRUE) //Wormholes are cool.
+			SSstar_system.spawn_anomaly(/obj/effect/overmap_anomaly/wormhole, S, center=TRUE) //Wormholes are cool. Like Fezzes. Fezzes are cool.
 		message_admins("[oneway] wormhole created between [S] and [src]")
 
 //Anomalies
