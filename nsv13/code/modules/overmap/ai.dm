@@ -11,7 +11,7 @@
 	var/max_range = 30 //Range that AI ships can hunt you down in
 	var/guard_range = 10 //Close range. Encroach on their space and die
 	var/ai_can_launch_fighters = FALSE //AI variable. Allows your ai ships to spawn fighter craft
-	var/ai_fighter_type = null
+	var/list/ai_fighter_type = list()
 
 /**
 *
@@ -148,8 +148,9 @@
 	. = ..()
 	if(ai_can_launch_fighters) //Found a new enemy? Launch the CAP.
 		ai_can_launch_fighters = FALSE
-		if(ai_fighter_type)
+		if(ai_fighter_type.len)
 			for(var/i = 0, i < rand(2,3), i++)
-				new ai_fighter_type(get_turf(src))
+				var/ai_fighter = pick(ai_fighter_type)
+				new ai_fighter(get_turf(src))
 				relay_to_nearby('nsv13/sound/effects/ship/fighter_launch_short.ogg')
 		addtimer(VARSET_CALLBACK(src, ai_can_launch_fighters, TRUE), 3 MINUTES)

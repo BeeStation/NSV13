@@ -7,6 +7,7 @@
 	canSmoothWith = list(/turf/closed/wall/ship,/turf/closed/wall/r_wall/ship,/obj/machinery/door,/obj/structure/window, /obj/structure/falsewall/duranium, /obj/structure/falsewall/durasteel)
 	sheet_type = /obj/item/stack/sheet/durasteel
 	var/connect_universally = TRUE //Connect to every subtype of the walls?
+	hardness = 20
 
 /obj/structure/falsewall/durasteel
 	icon = 'nsv13/icons/turf/interior_wall.dmi'
@@ -29,6 +30,7 @@
 	sheet_type = /obj/item/stack/sheet/duranium
 	sheet_amount = 2
 	girder_type = /obj/structure/girder
+	hardness = 5
 
 /obj/structure/falsewall/duranium
 	icon = 'nsv13/icons/turf/reinforced_wall.dmi'
@@ -113,6 +115,7 @@
 	legacy_smooth = TRUE //Override /tg/ iconsmooths
 	smooth = TRUE
 	canSmoothWith = list(/obj/structure/window/reinforced/fulltile/ship,/turf/closed/wall/ship,/turf/closed/wall/r_wall/ship,/obj/machinery/door/airlock/ship,/obj/structure/window/reinforced/fulltile/ship/interior)
+	armor = list("melee" = 50, "bullet" = 0, "laser" = 0, "energy" = 0, "bomb" = 25, "bio" = 100, "rad" = 100, "fire" = 80, "acid" = 100, "overmap_light" = 65, "overmap_heavy" = 25)
 
 /obj/structure/window/reinforced/fulltile/ship/unanchored
 	anchored = FALSE
