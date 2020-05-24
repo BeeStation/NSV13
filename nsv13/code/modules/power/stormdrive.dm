@@ -31,14 +31,6 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 
 */
 
-//THESE NEED TO CHANGE - NOT GOING TO WORK - TURNED INTO VARS FOR VARING
-/*
-#define REACTOR_HEAT_NORMAL 200
-#define REACTOR_HEAT_HOT 400
-#define REACTOR_HEAT_VERYHOT 500
-#define REACTOR_HEAT_MELTDOWN 800
-*/
-
 //Gas Interactions
 #define LOW_ROR 0.5
 #define NORMAL_ROR 1
@@ -461,13 +453,26 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 	var/power_produced = base_power
 	last_power_produced = power_produced*input_power
 	theoretical_maximum_power = power_produced*(reactor_temperature_critical/100) //Used to show your power output vs peak power output in the UI.
-//	add_avail(last_power_produced)
+
 	handle_reaction_rate()
 	handle_heat()
 	handle_temperature_reinforcement()
+	handle_ftl_fuel_production()
 	update_icon()
 	radiation_pulse(src, (heat * radiation_modifier), 2)
 	ambient_temp_bleed()
+
+	var/turf/T = src.loc
+	var/obj/structure/cable/C = T.get_cable_node()
+	if(!C || !C.powernet)
+		return
+	else
+		C.powernet.newavail += last_power_produced
+
+//	if(powernet)
+//		powernet.newavail += last_power_produced
+//	add_avail(last_power_produced)
+
 
 /obj/machinery/atmospherics/components/binary/stormdrive_reactor/proc/grav_pull() //HUNGRY!
 	for(var/obj/O in orange(6, src))
@@ -516,6 +521,13 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 	target_reaction_rate = (0.5+(1e-03*(100-control_rod_percent)**2) * reaction_rate_modifier) + 1e-05*(heat**2)  //let the train derail!
 	delta_reaction_rate = target_reaction_rate - reaction_rate
 	reaction_rate += delta_reaction_rate/2
+
+/obj/machinery/atmospherics/components/binary/stormdrive_reactor/proc/handle_ftl_fuel_production()
+	if(heat > initial(reactor_temperature_hot)) //use initial or current?
+		var/datum/gas_mixture/air2 = airs[2]
+		air2.assert_gas(/datum/gas/special_sauce)
+		air2.gases[/datum/gas/special_sauce][MOLES] += 1
+		air2.temperature = heat
 
 /obj/machinery/atmospherics/components/binary/stormdrive_reactor/proc/handle_temperature_reinforcement() //Adjusting temperature thresholds
 	var/delta_rt_nominal = (initial(reactor_temperature_nominal) * reactor_temperature_modifier) - reactor_temperature_nominal
@@ -656,15 +668,18 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 		data["reactor_maintenance"] = TRUE
 	else
 		data["reactor_maintenance"] = FALSE
-	var/moles = 0
+	var/effective_fuel = 0
 	if(reactor)
 		var/datum/gas_mixture/air1 = reactor.airs[1]
-		var/list/cached_gases = air1.gases
-		if(cached_gases[/datum/gas/constricted_plasma])
-			moles = cached_gases[/datum/gas/constricted_plasma][MOLES]
-			if(moles < 0)
-				moles = 0
-	data["fuel"] = moles
+		air1.assert_gases(/datum/gas/plasma, /datum/gas/constricted_plasma, /datum/gas/nitrogen, /datum/gas/water_vapor, /datum/gas/tritium)
+		effective_fuel = air1.gases[/datum/gas/plasma][MOLES] * LOW_ROR + \
+					air1.gases[/datum/gas/constricted_plasma][MOLES] * NORMAL_ROR + \
+					air1.gases[/datum/gas/nitrogen][MOLES] * HINDER_ROR + \
+					air1.gases[/datum/gas/water_vapor][MOLES] * HINDER_ROR + \
+					air1.gases[/datum/gas/tritium][MOLES] * HIGH_ROR
+		if(effective_fuel < 0)
+			effective_fuel = 0
+	data["fuel"] = effective_fuel
 	return data
 
 /obj/item/circuitboard/computer/stormdrive_reactor_control
