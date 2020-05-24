@@ -2039,6 +2039,7 @@
 	},
 /obj/machinery/firealarm/directional/south,
 /obj/machinery/portable_atmospherics/canister,
+/obj/effect/landmark/xeno_spawn,
 /turf/open/floor/plating,
 /area/engine/atmos)
 "er" = (
@@ -2283,6 +2284,7 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 10
 	},
+/obj/machinery/computer/lore_terminal,
 /turf/open/floor/engine,
 /area/engine/engine_room)
 "eX" = (
@@ -5273,7 +5275,7 @@
 /obj/machinery/door/airlock/ship{
 	dir = 2;
 	icon_state = "closed";
-	name = "Robotics";
+	name = "Research and Production";
 	req_one_access_txt = "47, 55"
 	},
 /obj/structure/disposalpipe/segment,
@@ -6706,7 +6708,7 @@
 	},
 /obj/machinery/requests_console{
 	announcementConsole = 1;
-	department = "Medical";
+	department = "Chief Medical Officer's Desk";
 	departmentType = 3;
 	name = "Chief Medical Officer's requests console";
 	pixel_y = -32
@@ -8935,6 +8937,7 @@
 	},
 /obj/structure/cable,
 /obj/machinery/power/apc/auto_name/south,
+/obj/effect/landmark/xeno_spawn,
 /turf/open/floor/plasteel,
 /area/science/test_area)
 "sE" = (
@@ -16428,12 +16431,6 @@
 	},
 /turf/open/floor/plasteel/ship/padded,
 /area/maintenance/nsv/deck2/airlock/aft/port)
-"Ii" = (
-/obj/item/ship_weapon/ammunition/torpedo/decoy{
-	name = "Jorge"
-	},
-/turf/open/floor/plating,
-/area/maintenance/fore)
 "Ij" = (
 /obj/structure/closet/crate,
 /obj/effect/spawner/lootdrop/maintenance/three,
@@ -17093,6 +17090,7 @@
 /area/science/storage)
 "JC" = (
 /obj/machinery/light_switch/south,
+/obj/effect/landmark/xeno_spawn,
 /turf/open/floor/plating,
 /area/quartermaster/warehouse)
 "JD" = (
@@ -17392,6 +17390,10 @@
 	},
 /turf/open/floor/plating,
 /area/quartermaster/storage)
+"Kv" = (
+/obj/effect/landmark/xeno_spawn,
+/turf/open/floor/monotile,
+/area/nsv/weapons/gauss)
 "KB" = (
 /obj/machinery/door/firedoor,
 /obj/machinery/mineral/ore_redemption{
@@ -17545,6 +17547,10 @@
 	},
 /turf/closed/wall/ship,
 /area/medical/medbay/lobby)
+"Mi" = (
+/obj/machinery/computer/lore_terminal,
+/turf/open/floor/plasteel,
+/area/nsv/crew_quarters/heads/maa)
 "Mk" = (
 /obj/structure/cable{
 	icon_state = "1-8"
@@ -18187,6 +18193,13 @@
 /obj/machinery/disposal/bin,
 /turf/open/floor/plasteel,
 /area/hallway/nsv/deck2/aft)
+"Qg" = (
+/obj/machinery/computer/rdconsole/robotics{
+	icon_state = "computer";
+	dir = 8
+	},
+/turf/open/floor/plasteel,
+/area/science/robotics)
 "Qh" = (
 /obj/structure/cable{
 	icon_state = "1-2"
@@ -18363,6 +18376,10 @@
 	},
 /turf/open/floor/plasteel/white,
 /area/medical/storage)
+"Rs" = (
+/obj/structure/reagent_dispensers/watertank,
+/turf/open/floor/plating,
+/area/maintenance/fore)
 "Rv" = (
 /obj/structure/cable{
 	icon_state = "1-2"
@@ -19358,6 +19375,10 @@
 	},
 /turf/closed/wall/ship,
 /area/hallway/nsv/stairwell/lower)
+"YI" = (
+/obj/structure/reagent_dispensers/watertank,
+/turf/open/floor/plating,
+/area/maintenance/department/engine)
 "YJ" = (
 /obj/structure/table,
 /obj/item/book/manual/wiki/surgery,
@@ -19466,6 +19487,18 @@
 	},
 /turf/open/floor/plasteel,
 /area/hallway/nsv/deck2/primary)
+"ZN" = (
+/obj/effect/turf_decal/tile/brown{
+	icon_state = "tile_corner";
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/brown{
+	icon_state = "tile_corner";
+	dir = 4
+	},
+/obj/machinery/computer/lore_terminal,
+/turf/open/floor/plasteel,
+/area/quartermaster/sorting)
 "ZO" = (
 /obj/structure/cable{
 	icon_state = "1-2"
@@ -51709,7 +51742,7 @@ Fd
 FA
 Fs
 Gf
-DY
+YI
 ED
 KV
 KV
@@ -54103,7 +54136,7 @@ jz
 ku
 tK
 pO
-uc
+Qg
 qJ
 jz
 rL
@@ -59540,7 +59573,7 @@ Ad
 BB
 BL
 zj
-vh
+ZN
 xg
 BA
 zk
@@ -63491,7 +63524,7 @@ AR
 DO
 Jk
 xU
-Ii
+Rs
 ab
 ab
 ab
@@ -63783,7 +63816,7 @@ Iv
 JE
 ab
 bP
-bP
+Rs
 ab
 bP
 FU
@@ -63794,7 +63827,7 @@ DP
 uy
 xU
 bP
-ab
+bP
 bP
 Ik
 GM
@@ -64392,7 +64425,7 @@ ab
 Dm
 Um
 xU
-AE
+Mi
 CX
 AE
 DS
@@ -67682,7 +67715,7 @@ xX
 yf
 xZ
 yo
-xZ
+Kv
 yC
 xX
 yP

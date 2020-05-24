@@ -1072,6 +1072,7 @@
 /obj/structure/cable{
 	icon_state = "0-2"
 	},
+/obj/effect/landmark/xeno_spawn,
 /turf/open/floor/carpet/black,
 /area/ai_monitored/turret_protected/aisat/foyer)
 "cp" = (
@@ -2616,6 +2617,7 @@
 "fP" = (
 /obj/item/radio/intercom/directional/south,
 /obj/effect/landmark/start/janitor,
+/obj/effect/landmark/xeno_spawn,
 /turf/open/floor/plating,
 /area/janitor)
 "fQ" = (
@@ -2800,6 +2802,7 @@
 "gs" = (
 /obj/structure/closet/crate/secure/loot,
 /obj/machinery/airalarm/directional/east,
+/obj/effect/landmark/xeno_spawn,
 /turf/open/floor/plasteel/ship,
 /area/ai_monitored/nuke_storage)
 "gt" = (
@@ -6029,6 +6032,7 @@
 /area/hallway/primary/central)
 "nr" = (
 /obj/structure/disposalpipe/segment,
+/obj/effect/landmark/xeno_spawn,
 /turf/open/floor/plating,
 /area/hallway/secondary/service)
 "ns" = (
@@ -7309,6 +7313,7 @@
 	id = "FBO";
 	name = "Outer Doors"
 	},
+/obj/structure/fans/tiny,
 /turf/open/floor/plating,
 /area/nsv/hanger)
 "qw" = (
@@ -7439,6 +7444,7 @@
 /area/hallway/primary/central)
 "qQ" = (
 /obj/structure/tank_dispenser/oxygen,
+/obj/machinery/computer/lore_terminal,
 /turf/open/floor/monotile/dark,
 /area/nsv/hanger)
 "qR" = (
@@ -7548,12 +7554,13 @@
 /turf/open/floor/plasteel,
 /area/hallway/primary/port)
 "ra" = (
-/obj/structure/table,
-/obj/machinery/button{
+/obj/machinery/button/door{
 	id = "FBO";
-	name = "Outer Door Controller";
-	pixel_x = -28;
-	pixel_y = 28
+	pixel_x = -25;
+	pixel_y = 25
+	},
+/obj/machinery/computer/ship/fighter_launcher{
+	dir = 4
 	},
 /turf/open/floor/plating,
 /area/nsv/hanger)
@@ -10453,11 +10460,10 @@
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3{
 	dir = 4
 	},
-/obj/machinery/button{
+/obj/machinery/button/door{
 	id = "FBI";
-	name = "Inner Door Controller";
-	pixel_x = 28;
-	pixel_y = 28
+	pixel_x = 25;
+	pixel_y = 25
 	},
 /turf/open/floor/plating,
 /area/nsv/hanger)
@@ -11517,6 +11523,7 @@
 	c_tag = "Detective's Forensics";
 	dir = 4
 	},
+/obj/effect/landmark/xeno_spawn,
 /turf/open/floor/monotile/dark,
 /area/security/detectives_office)
 "zH" = (
@@ -12167,6 +12174,10 @@
 /obj/machinery/door/firedoor,
 /turf/open/floor/plating/airless,
 /area/maintenance/ship_exterior)
+"CC" = (
+/obj/machinery/computer/lore_terminal,
+/turf/open/floor/plating,
+/area/nsv/hanger)
 "CE" = (
 /obj/structure/cable{
 	icon_state = "4-8"
@@ -12410,6 +12421,12 @@
 	dir = 9
 	},
 /turf/open/floor/monotile/dark,
+/area/nsv/hanger)
+"Gn" = (
+/obj/structure/fighter_launcher{
+	dir = 8
+	},
+/turf/open/floor/plating,
 /area/nsv/hanger)
 "Gt" = (
 /obj/structure/cable{
@@ -13304,6 +13321,10 @@
 	},
 /turf/open/floor/monotile/dark,
 /area/nsv/hanger)
+"YX" = (
+/obj/effect/landmark/xeno_spawn,
+/turf/open/floor/plasteel/ship,
+/area/hallway/secondary/exit/departure_lounge)
 "YZ" = (
 /obj/structure/cable{
 	icon_state = "1-2"
@@ -33186,7 +33207,7 @@ aa
 aa
 qu
 qx
-sc
+Gn
 sc
 qB
 xo
@@ -36809,7 +36830,7 @@ aa
 aa
 aa
 qu
-sc
+CC
 fN
 si
 sc
@@ -49530,7 +49551,7 @@ gS
 gS
 gS
 gS
-gS
+YX
 ql
 aa
 aa
