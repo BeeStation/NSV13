@@ -9263,7 +9263,6 @@
 /turf/open/floor/plasteel/white,
 /area/science/mixing)
 "tp" = (
-/obj/machinery/rnd/production/protolathe,
 /obj/effect/turf_decal/tile/purple{
 	dir = 4
 	},
@@ -9271,6 +9270,7 @@
 	dir = 8
 	},
 /obj/effect/turf_decal/tile/purple,
+/obj/machinery/rnd/production/techfab/department/science,
 /turf/open/floor/plasteel/white,
 /area/science/lab)
 "tq" = (
@@ -14828,6 +14828,7 @@
 	icon_state = "pipe11-1";
 	dir = 10
 	},
+/obj/machinery/computer/ship/viewscreen,
 /turf/open/floor/plasteel,
 /area/hallway/nsv/deck2/primary)
 "Es" = (
@@ -15279,6 +15280,7 @@
 /area/maintenance/department/engine)
 "Fw" = (
 /obj/machinery/light/small,
+/obj/structure/reagent_dispensers/watertank,
 /turf/open/floor/plating,
 /area/maintenance/department/engine)
 "Fx" = (
@@ -17441,6 +17443,10 @@
 	},
 /turf/open/floor/plasteel,
 /area/hallway/nsv/deck2/primary)
+"KL" = (
+/obj/machinery/computer/ship/viewscreen,
+/turf/open/floor/plasteel/white,
+/area/medical/medbay/central)
 "KV" = (
 /obj/structure/hull_plate,
 /turf/open/floor/plating/airless,
@@ -17502,6 +17508,20 @@
 /obj/structure/sign/departments/minsky/medical/chemistry/chemical2{
 	pixel_y = 32
 	},
+/turf/open/floor/plasteel/white,
+/area/medical/medbay/central)
+"LN" = (
+/obj/effect/turf_decal/tile/blue{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/blue{
+	dir = 4
+	},
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/obj/effect/landmark/start/emt,
+/obj/machinery/computer/ship/viewscreen,
 /turf/open/floor/plasteel/white,
 /area/medical/medbay/central)
 "LO" = (
@@ -17584,14 +17604,30 @@
 /turf/open/floor/plasteel/white,
 /area/science/xenobiology)
 "Mz" = (
-/obj/structure/table,
-/obj/item/holosign_creator/medical,
 /obj/effect/turf_decal/tile/blue,
 /obj/effect/turf_decal/tile/blue{
 	dir = 4
 	},
+/obj/machinery/computer/crew{
+	icon_state = "computer";
+	dir = 8
+	},
 /turf/open/floor/plasteel/white,
 /area/medical/sleeper)
+"MC" = (
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	icon_state = "pipe11-1";
+	dir = 4
+	},
+/obj/machinery/computer/ship/viewscreen,
+/turf/open/floor/plasteel,
+/area/hallway/nsv/deck2/aft)
 "ME" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer1{
 	dir = 4
@@ -17682,6 +17718,11 @@
 /obj/structure/closet/radiation,
 /turf/open/floor/plating,
 /area/maintenance/department/medical/central)
+"Ng" = (
+/obj/structure/bed/roller,
+/obj/machinery/computer/ship/viewscreen,
+/turf/open/floor/plasteel,
+/area/quartermaster/miningdock)
 "Ni" = (
 /obj/structure/hull_plate/end{
 	dir = 6
@@ -18142,6 +18183,7 @@
 /obj/machinery/light{
 	dir = 4
 	},
+/obj/item/holosign_creator/medical,
 /turf/open/floor/plasteel/white,
 /area/medical/sleeper)
 "PJ" = (
@@ -18432,6 +18474,10 @@
 	},
 /turf/open/floor/plasteel,
 /area/science)
+"RJ" = (
+/obj/structure/reagent_dispensers/fueltank,
+/turf/open/floor/plating,
+/area/maintenance/fore)
 "RN" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
@@ -18489,6 +18535,10 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /turf/open/floor/plasteel/white,
 /area/crew_quarters/heads/cmo)
+"RZ" = (
+/obj/structure/reagent_dispensers/fueltank,
+/turf/open/floor/plating,
+/area/maintenance/department/engine)
 "Sd" = (
 /turf/open/floor/plasteel/white,
 /area/medical/medbay/central)
@@ -18715,6 +18765,10 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /turf/open/floor/plasteel/white,
 /area/medical/cryo)
+"TQ" = (
+/obj/machinery/computer/ship/viewscreen,
+/turf/open/floor/plating,
+/area/quartermaster/warehouse)
 "TU" = (
 /obj/structure/hull_plate/end{
 	dir = 8
@@ -18825,6 +18879,23 @@
 /obj/structure/munitions_trolley,
 /turf/open/floor/plasteel/white,
 /area/science/mixing)
+"UI" = (
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	icon_state = "pipe11-1";
+	dir = 4
+	},
+/obj/effect/turf_decal/tile/purple{
+	dir = 4
+	},
+/obj/machinery/computer/ship/viewscreen,
+/turf/open/floor/plasteel,
+/area/hallway/nsv/deck2/aft)
 "UN" = (
 /obj/machinery/door/firedoor,
 /obj/machinery/computer/cargo/request,
@@ -19459,6 +19530,20 @@
 	},
 /turf/open/floor/plasteel/white,
 /area/medical/medbay/central)
+"ZE" = (
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	icon_state = "pipe11-1";
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	dir = 8
+	},
+/obj/machinery/computer/ship/viewscreen,
+/turf/open/floor/plasteel,
+/area/hallway/nsv/deck2/primary)
 "ZF" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer1{
 	dir = 8
@@ -48417,7 +48502,7 @@ qL
 Hi
 DY
 ER
-DY
+RZ
 EG
 EI
 Id
@@ -49613,7 +49698,7 @@ rN
 sy
 rj
 jA
-rW
+MC
 Yh
 im
 im
@@ -52044,7 +52129,7 @@ Fs
 FB
 FK
 Gf
-DY
+RZ
 ED
 KV
 KV
@@ -54747,7 +54832,7 @@ lY
 mo
 lB
 lA
-Qx
+UI
 Yh
 qa
 Cj
@@ -55354,7 +55439,7 @@ lA
 YC
 Yh
 Ep
-Sd
+KL
 Uy
 uj
 vt
@@ -58049,7 +58134,7 @@ lJ
 lJ
 aa
 vY
-wi
+TQ
 wu
 wy
 JC
@@ -60496,7 +60581,7 @@ pt
 pf
 pt
 Ep
-Kc
+LN
 Sd
 kX
 SS
@@ -61682,7 +61767,7 @@ vD
 xw
 yX
 zD
-zS
+Ng
 Bb
 Bi
 Bi
@@ -61994,7 +62079,7 @@ Co
 Kq
 JA
 zD
-zx
+ZE
 Hw
 RP
 Ma
@@ -63222,7 +63307,7 @@ ul
 DN
 DQ
 xU
-bP
+RJ
 ab
 Ij
 bP
