@@ -8,6 +8,9 @@
 	if(target == user) //so we can't shoot ourselves with autofire
 		return FALSE
 
+	if(user.stat != CONSCIOUS) //No firing in softcrit
+		return FALSE
+
 	if(user.get_active_held_item() != src)
 		return FALSE
 
