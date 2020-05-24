@@ -86,44 +86,48 @@
 	var/alarm_frequency = FREQ_ATMOS_ALARMS
 	var/datum/radio_frequency/radio_connection
 
-	var/list/TLV = list( // Breathable air.
-		"pressure"					= new/datum/tlv(ONE_ATMOSPHERE * 0.8, ONE_ATMOSPHERE*  0.9, ONE_ATMOSPHERE * 1.1, ONE_ATMOSPHERE * 1.2), // kPa. Values are min2, min1, max1, max2
-		"temperature"				= new/datum/tlv(T0C, T0C+10, T0C+40, T0C+66),
-		/datum/gas/oxygen			= new/datum/tlv(16, 19, 135, 140), // Partial pressure, kpa
-		/datum/gas/nitrogen			= new/datum/tlv(-1, -1, 1000, 1000),
-		/datum/gas/carbon_dioxide	= new/datum/tlv(-1, -1, 5, 10),
-		/datum/gas/miasma			= new/datum/tlv/(-1, -1, 15, 30),
-		/datum/gas/plasma			= new/datum/tlv/dangerous,
-		/datum/gas/nitrous_oxide	= new/datum/tlv/dangerous,
-		/datum/gas/bz				= new/datum/tlv/dangerous,
-		/datum/gas/hypernoblium		= new/datum/tlv(-1, -1, 1000, 1000), // Hyper-Noblium is inert and nontoxic
-		/datum/gas/water_vapor		= new/datum/tlv/dangerous,
-		/datum/gas/tritium			= new/datum/tlv/dangerous,
-		/datum/gas/stimulum			= new/datum/tlv/dangerous,
-		/datum/gas/nitryl			= new/datum/tlv/dangerous,
-		/datum/gas/pluoxium			= new/datum/tlv(-1, -1, 1000, 1000) // Unlike oxygen, pluoxium does not fuel plasma/tritium fires
+	var/list/TLV = list( // Breathable air. NSV13 - Added Constricted Plasma and FTL SPECIAL SAUCE
+		"pressure"						= new/datum/tlv(ONE_ATMOSPHERE * 0.8, ONE_ATMOSPHERE*  0.9, ONE_ATMOSPHERE * 1.1, ONE_ATMOSPHERE * 1.2), // kPa. Values are min2, min1, max1, max2
+		"temperature"					= new/datum/tlv(T0C, T0C+10, T0C+40, T0C+66),
+		/datum/gas/oxygen				= new/datum/tlv(16, 19, 135, 140), // Partial pressure, kpa
+		/datum/gas/nitrogen				= new/datum/tlv(-1, -1, 1000, 1000),
+		/datum/gas/carbon_dioxide		= new/datum/tlv(-1, -1, 5, 10),
+		/datum/gas/miasma				= new/datum/tlv/(-1, -1, 15, 30),
+		/datum/gas/plasma				= new/datum/tlv/dangerous,
+		/datum/gas/nitrous_oxide		= new/datum/tlv/dangerous,
+		/datum/gas/bz					= new/datum/tlv/dangerous,
+		/datum/gas/hypernoblium			= new/datum/tlv(-1, -1, 1000, 1000), // Hyper-Noblium is inert and nontoxic
+		/datum/gas/water_vapor			= new/datum/tlv/dangerous,
+		/datum/gas/tritium				= new/datum/tlv/dangerous,
+		/datum/gas/stimulum				= new/datum/tlv/dangerous,
+		/datum/gas/nitryl				= new/datum/tlv/dangerous,
+		/datum/gas/pluoxium				= new/datum/tlv(-1, -1, 1000, 1000), // Unlike oxygen, pluoxium does not fuel plasma/tritium fires
+		/datum/gas/constricted_plasma	= new/datum/tlv/dangerous,
+		/datum/gas/special_sauce		= new/datum/tlv/dangerous
 	)
 
-/obj/machinery/airalarm/server // No checks here.
+/obj/machinery/airalarm/server // No checks here. NSV13 - Added Constricted Plasma and FTL SPECIAL SAUCE
 	TLV = list(
-		"pressure"					= new/datum/tlv/no_checks,
-		"temperature"				= new/datum/tlv/no_checks,
-		/datum/gas/oxygen			= new/datum/tlv/no_checks,
-		/datum/gas/nitrogen			= new/datum/tlv/no_checks,
-		/datum/gas/carbon_dioxide	= new/datum/tlv/no_checks,
-		/datum/gas/miasma			= new/datum/tlv/no_checks,
-		/datum/gas/plasma			= new/datum/tlv/no_checks,
-		/datum/gas/nitrous_oxide	= new/datum/tlv/no_checks,
-		/datum/gas/bz				= new/datum/tlv/no_checks,
-		/datum/gas/hypernoblium		= new/datum/tlv/no_checks,
-		/datum/gas/water_vapor		= new/datum/tlv/no_checks,
-		/datum/gas/tritium			= new/datum/tlv/no_checks,
-		/datum/gas/stimulum			= new/datum/tlv/no_checks,
-		/datum/gas/nitryl			= new/datum/tlv/no_checks,
-		/datum/gas/pluoxium			= new/datum/tlv/no_checks
+			"pressure"						= new/datum/tlv/no_checks,
+			"temperature"					= new/datum/tlv/no_checks,
+			/datum/gas/oxygen				= new/datum/tlv/no_checks,
+			/datum/gas/nitrogen				= new/datum/tlv/no_checks,
+			/datum/gas/carbon_dioxide		= new/datum/tlv/no_checks,
+			/datum/gas/miasma				= new/datum/tlv/no_checks,
+			/datum/gas/plasma				= new/datum/tlv/no_checks,
+			/datum/gas/nitrous_oxide		= new/datum/tlv/no_checks,
+			/datum/gas/bz					= new/datum/tlv/no_checks,
+			/datum/gas/hypernoblium			= new/datum/tlv/no_checks,
+			/datum/gas/water_vapor			= new/datum/tlv/no_checks,
+			/datum/gas/tritium				= new/datum/tlv/no_checks,
+			/datum/gas/stimulum				= new/datum/tlv/no_checks,
+			/datum/gas/nitryl				= new/datum/tlv/no_checks,
+			/datum/gas/pluoxium				= new/datum/tlv/no_checks,
+			/datum/gas/constricted_plasma 	= new/datum/tlv/no_checks,
+			/datum/gas/special_sauce		= new/datum/tlv/no_checks
 	)
 
-/obj/machinery/airalarm/kitchen_cold_room // Kitchen cold rooms start off at -80°C or 193.15°K.
+/obj/machinery/airalarm/kitchen_cold_room // Kitchen cold rooms start off at -80°C or 193.15°K. NSV13 - Added Constricted Plasma and FTL SPECIAL SAUCE
 	TLV = list(
 		"pressure"					= new/datum/tlv(ONE_ATMOSPHERE * 0.8, ONE_ATMOSPHERE*  0.9, ONE_ATMOSPHERE * 1.1, ONE_ATMOSPHERE * 1.2), // kPa
 		"temperature"				= new/datum/tlv(T0C-273.15, T0C-100, T0C-60, T0C),
@@ -139,7 +143,9 @@
 		/datum/gas/tritium			= new/datum/tlv/dangerous,
 		/datum/gas/stimulum			= new/datum/tlv/dangerous,
 		/datum/gas/nitryl			= new/datum/tlv/dangerous,
-		/datum/gas/pluoxium			= new/datum/tlv(-1, -1, 1000, 1000) // Unlike oxygen, pluoxium does not fuel plasma/tritium fires
+		/datum/gas/pluoxium			= new/datum/tlv(-1, -1, 1000, 1000), // Unlike oxygen, pluoxium does not fuel plasma/tritium fires
+		/datum/gas/constricted_plasma	= new/datum/tlv/dangerous,
+		/datum/gas/special_sauce		= new/datum/tlv/dangerous
 	)
 
 /obj/machinery/airalarm/unlocked
