@@ -76,6 +76,7 @@
 	var/homing_inaccuracy_max = 0
 	var/homing_offset_x = 0
 	var/homing_offset_y = 0
+	var/targetAngle = 0 //NSV13 - required projectile child
 
 	var/ignore_source_check = FALSE
 
@@ -539,9 +540,9 @@
 /obj/item/projectile/proc/process_homing() //Nsv13 - Enhanced the performance of this entire proc.
 	if(!homing_target) //NSV13 - Changed proc to be less performance intensive
 		return FALSE
-	next_homing_process = world.time + homing_delay
 	var/targetAngle = Get_Angle(src, homing_target)
 	var/angle = closer_angle_difference(Angle, targetAngle)
+	next_homing_process = world.time + homing_delay
 	setAngle(Angle + CLAMP(angle, -homing_turn_speed, homing_turn_speed))
 
 /obj/item/projectile/proc/set_homing_target(atom/A)
@@ -660,7 +661,7 @@
 	if(hitscan)
 		finalize_hitscan_and_generate_tracers()
 	if(collider2d) //Nsv13
-		QDEL_NULL(collider2d)
+		qdel(collider2d)
 	STOP_PROCESSING(SSprojectiles, src)
 	cleanup_beam_segments()
 	qdel(trajectory)

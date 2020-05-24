@@ -76,7 +76,7 @@
 		if(ship == src || ship.faction == faction || wrecked || ship.wrecked || ship.z != z) //No friendly fire, don't blow up wrecks that the crew may wish to loot.
 			continue
 		var/target_range = get_dist(ship,src)
-		if(target_range > initial(weapon_range)+30)
+		if(target_range > 50) //Random pulled from the aether
 			continue
 		if(!QDELETED(ship) && isovermap(ship))
 			if(mass >= MASS_MEDIUM)
@@ -128,6 +128,7 @@
 	icon_state = "flak"
 	name = "flak round"
 	damage = 2
+	flag = "overmap_light"
 	alpha = 0
 	var/steps_left = 0 //Flak range, AKA how many tiles can we move before we go kaboom
 
@@ -155,7 +156,7 @@
 	for(var/obj/X in view(flak_range, src))
 		var/severity = flak_range-get_dist(X, src)
 		if(istype(X, /obj/structure))
-			X.take_damage(severity*10, damage_type = BRUTE)
+			X.take_damage(severity*10, BRUTE, "overmap_light")
 		else
 			X.ex_act(severity)
 	. = ..()
@@ -169,9 +170,9 @@
 	if(steps_left <= 0)
 		explode()
 
-/obj/item/projectile/bullet/torpedo/Crossed(atom/movable/AM) //Here, we check if the bullet that hit us is from a friendly ship. If it's from an enemy ship, we explode as we've been flak'd down.
+/obj/item/projectile/guided_munition/Crossed(atom/movable/AM) //Here, we check if the bullet that hit us is from a friendly ship. If it's from an enemy ship, we explode as we've been flak'd down.
 	. = ..()
-	if(istype(AM, /obj/item/projectile))
+	if(istype(AM, /obj/item/projectile/))
 		var/obj/item/projectile/proj = AM
 		if(!ismob(firer) || !ismob(proj.firer)) //Unlikely to ever happen but if it does, ignore.
 			return
@@ -184,10 +185,10 @@
 				explode()
 				return FALSE
 
-/obj/item/projectile/bullet/torpedo/ex_act(severity)
+/obj/item/projectile/guided_munition/ex_act(severity)
 	explode()
 
-/obj/item/projectile/bullet/torpedo/proc/explode()
+/obj/item/projectile/guided_munition/proc/explode()
 	if(firer)
 		var/mob/checking = firer
 		var/obj/structure/overmap/OM = checking.overmap_ship

@@ -79,6 +79,36 @@
 /obj/structure/overmap/proc/can_move()
 	return TRUE //Placeholder for everything but fighters. We can later extend this if / when we want to code in ship engines.
 
+/obj/structure/overmap/slowprocess()
+	. = ..()
+	if(cabin_air && cabin_air.volume > 0)
+		var/delta = cabin_air.temperature - T20C
+		cabin_air.temperature -= max(-10, min(10, round(delta/4,0.1)))
+	if(internal_tank && cabin_air)
+		var/datum/gas_mixture/tank_air = internal_tank.return_air()
+		var/release_pressure = ONE_ATMOSPHERE
+		var/cabin_pressure = cabin_air.return_pressure()
+		var/pressure_delta = min(release_pressure - cabin_pressure, (tank_air.return_pressure() - cabin_pressure)/2)
+		var/transfer_moles = 0
+		if(pressure_delta > 0) //cabin pressure lower than release pressure
+			if(tank_air.return_temperature() > 0)
+				transfer_moles = pressure_delta*cabin_air.return_volume()/(cabin_air.return_temperature() * R_IDEAL_GAS_EQUATION)
+				var/datum/gas_mixture/removed = tank_air.remove(transfer_moles)
+				cabin_air.merge(removed)
+		else if(pressure_delta < 0) //cabin pressure higher than release pressure
+			var/turf/T = get_turf(src)
+			var/datum/gas_mixture/t_air = T.return_air()
+			pressure_delta = cabin_pressure - release_pressure
+			if(t_air)
+				pressure_delta = min(cabin_pressure - t_air.return_pressure(), pressure_delta)
+			if(pressure_delta > 0) //if location pressure is lower than cabin pressure
+				transfer_moles = pressure_delta*cabin_air.return_volume()/(cabin_air.return_temperature() * R_IDEAL_GAS_EQUATION)
+				var/datum/gas_mixture/removed = cabin_air.remove(transfer_moles)
+				if(T)
+					T.assume_air(removed)
+				else //just delete the cabin gas, we're in space or some shit
+					qdel(removed)
+
 /*
 
 This proc allows overmaps to survive even in the laggiest of server conditions. Overmaps MUST always process, and sometimes the game will throttle the subsystems during lag. We cannot, however, live without them. That's where this beauty comes into play.
@@ -100,8 +130,8 @@ The while loop runs at a programatic level and is thus separated from any thrott
 	set waitfor = FALSE
 	var/time = min(world.time - last_process, 10)
 	time /= 10 // fuck off deciseconds
-	if(last_process > 0 && (last_process < world.time - 1 SECONDS) && !processing_failsafe) //Alright looks like the game's shat itself. Time to engage "failsafe mode". The logic of this is that if we've not been processed for over 1 second, then ship piloting starts to become unbearable and we need to step in and do our own processing, until the game's back on its feet again.
-		start_failsafe_processing()
+//	if(last_process > 0 && (last_process < world.time - 1 SECONDS) && !processing_failsafe) //Alright looks like the game's shat itself. Time to engage "failsafe mode". The logic of this is that if we've not been processed for over 1 second, then ship piloting starts to become unbearable and we need to step in and do our own processing, until the game's back on its feet again.
+//		start_failsafe_processing()
 	last_process = world.time
 	if(world.time > last_slowprocess + 10)
 		last_slowprocess = world.time
@@ -137,7 +167,7 @@ The while loop runs at a programatic level and is thus separated from any thrott
 	// calculate drag and shit
 
 	var/velocity_mag = velocity.ln() // magnitude
-	if(velocity_mag || angular_velocity)
+	if(velocity_mag)
 		var/drag = 0
 		for(var/turf/T in locs)
 			if(isspaceturf(T))
@@ -497,9 +527,11 @@ The while loop runs at a programatic level and is thus separated from any thrott
 			proj.firer = src
 		proj.def_zone = "chest"
 		proj.original = target
+		proj.overmap_firer = src
 		proj.pixel_x = round(this_x)
 		proj.pixel_y = round(this_y)
 		proj.setup_collider()
+		proj.faction = faction
 		if(isovermap(target) && explosive) //If we're firing a torpedo, the enemy's PDCs need to worry about it.
 			var/obj/structure/overmap/OM = target
 			OM.torpedoes_to_target += proj //We're firing a torpedo, their PDCs will need to shoot it down, so notify them of its existence
@@ -508,6 +540,7 @@ The while loop runs at a programatic level and is thus separated from any thrott
 		spawn()
 			proj.fire(angle)
 			proj.set_pixel_speed(speed)
+		return proj
 
 /obj/structure/overmap/proc/fire_projectiles(proj_type, target) // if spacepods of other sizes are added override this or something
 	var/fx = cos(90 - angle)
@@ -544,6 +577,7 @@ The while loop runs at a programatic level and is thus separated from any thrott
 			proj.firer = src
 		proj.def_zone = "chest"
 		proj.original = target
+		proj.overmap_firer = src
 		proj.pixel_x = round(this_x)
 		proj.pixel_y = round(this_y)
 		proj.setup_collider()
@@ -558,6 +592,7 @@ The while loop runs at a programatic level and is thus separated from any thrott
 	proj.firer = (!user_override && gunner) ? gunner : user_override
 	proj.def_zone = "chest"
 	proj.original = target
+	proj.overmap_firer = src
 	proj.pixel_x = round(pixel_x)
 	proj.pixel_y = round(pixel_y)
 	proj.setup_collider()

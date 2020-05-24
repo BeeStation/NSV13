@@ -1,8 +1,35 @@
+/obj/item/circuitboard/computer/ship/dradis
+	name = "circuit board (dradis computer)"
+	build_path = /obj/machinery/computer/ship/dradis
+
+/datum/design/board/dradis_circuit
+	name = "Computer Design (Dradis Computer)"
+	desc = "Allows for the construction of a dradis console."
+	id = "dradis_circuit"
+	materials = list(/datum/material/glass = 2000, /datum/material/copper = 500)
+	build_path = /obj/item/circuitboard/computer/ship/dradis
+	category = list("Ship Components")
+	departmental_flags = DEPARTMENTAL_FLAG_SCIENCE
+
+/obj/item/circuitboard/computer/ship/dradis/mining
+	name = "circuit board (minig dradis computer)"
+	build_path = /obj/machinery/computer/ship/dradis/mining
+
+/datum/design/board/mining_dradis_circuit
+	name = "Computer Design (Mining dradis Computer)"
+	desc = "Allows for the construction of a dradis console."
+	id = "mining_dradis_circuit"
+	materials = list(/datum/material/glass = 5000, /datum/material/copper = 1000)
+	build_path = /obj/item/circuitboard/computer/ship/dradis/mining
+	category = list("Ship Components")
+	departmental_flags = DEPARTMENTAL_FLAG_SCIENCE
+
 /obj/machinery/computer/ship/dradis
 	name = "DRADIS computer"
 	desc = "The DRADIS system is a series of highly sensitive detection, identification, navigation and tracking systems used to determine the range and speed of objects. This forms the most central component of a spaceship's navigational systems, as it can project the whereabouts of enemies that are out of visual sensor range by tracking their engine signatures."
 	icon_screen = "teleport"
 	req_access = list()
+	circuit = /obj/item/circuitboard/computer/ship/dradis
 	var/stored = "blank"
 	var/on = TRUE //Starts on by default.
 	var/scanning_speed = 2 //Duration of each pulse.
@@ -19,6 +46,7 @@
 	name = "Nostromo DRADIS computer"
 	desc = "A modified dradis console which links to the Nostromo's mineral scanners, able to pick up asteroids that can be mined."
 	req_one_access_txt = "31;48"
+	circuit = /obj/item/circuitboard/computer/ship/dradis/mining
 	show_asteroids = TRUE
 
 /obj/machinery/computer/ship/dradis/internal
@@ -104,6 +132,19 @@
 	var/list/data = list()
 	var/blips[0] //2-d array declaration
 	var/ship_count = 0
+	for(var/obj/effect/overmap_anomaly/OA in linked?.current_system?.system_contents)
+		if(OA && istype(OA) && OA.z == linked?.z)
+			var/OMx = OA.x/6 //We're now going to scale down the X,Y coords into something we can display
+			var/OMy = OA.y/6 //THESE NUMBERS ARE BASED ON TRIAL AND ERROR. DON'T ARGUE WITH ME JUST DEAL WITH IT
+			if(OMx < 5) //This chain of IFs stops the dots from going off the screen. Simple as.
+				OMx = 5
+			if(OMx > 275)
+				OMx = 275
+			if(OMy < 5)
+				OMy = 5
+			if(OMy > 39)
+				OMy = 39
+			blips.Add(list(list("x" = OMx, "y" = OMy, "colour" = "#eb9534", "name" = "[(OA.scanned) ? OA.name : "anomaly"]")))
 	for(var/obj/structure/overmap/OM in GLOB.overmap_objects) //Iterate through overmaps in the world!
 		if(OM.z == linked.z)
 			var/thecolour = "#FFFFFF"
@@ -131,8 +172,8 @@
 			var/OMy = OM.y/6 //THESE NUMBERS ARE BASED ON TRIAL AND ERROR. DON'T ARGUE WITH ME JUST DEAL WITH IT
 			if(OMx < 5) //This chain of IFs stops the dots from going off the screen. Simple as.
 				OMx = 5
-			if(OMx > 235)
-				OMx = 235
+			if(OMx > 255)
+				OMx = 255
 			if(OMy < 5)
 				OMy = 5
 			if(OMy > 39)

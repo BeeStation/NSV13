@@ -23,7 +23,7 @@
 	kinetic_traction = 5 //if you are moving sideways and the static traction wasnt enough to kill it, you skid and you will have less traction, but allowing you to drift. KINETIC IE moving traction
 	default_hardpoints = list(/obj/item/vehicle_hardpoint/engine/pathetic, /obj/item/vehicle_hardpoint/wheels/heavy) //What does it start with, if anything.
 	var/ready = TRUE
-	var/launch_dir = EAST
+	var/list/loaded = list() //Loaded fighters
 
 /obj/vehicle/sealed/car/realistic/fighter_tug/emp_act(severity)
 	. = ..()
@@ -49,11 +49,10 @@
 
 /obj/vehicle/sealed/car/realistic/fighter_tug/ui_data(mob/user)
 	var/list/data = ..()
-	var/obj/structure/overmap/loaded = locate(/obj/structure/overmap/fighter) in contents
-	data["loaded"] = (loaded) ? TRUE : FALSE
-	data["loaded_name"] = (loaded) ? loaded.name : "No fighter loaded"
+	var/obj/structure/overmap/tugged = locate(/obj/structure/overmap/fighter) in contents
+	data["loaded"] = (tugged) ? TRUE : FALSE
+	data["loaded_name"] = (tugged) ? tugged.name : "No fighter loaded"
 	data["ready"] = ready
-	data["launch_dir"] = dir2text(launch_dir)
 	return data
 
 /obj/vehicle/sealed/car/realistic/fighter_tug/ui_act(action, params, datum/tgui/ui)
@@ -67,12 +66,8 @@
 	switch(action)
 		if("launch")
 			start_launch()
-		if("launch_dir")
-			launch_dir = input(ui.user, "Set fighter launch direction", "[name]", launch_dir) as null|anything in GLOB.cardinals
-			if(!launch_dir)
-				launch_dir = initial(launch_dir)
 		if("load")
-			var/obj/structure/overmap/load = locate(/obj/structure/overmap/fighter) in contents
+			var/obj/structure/overmap/load = locate(/obj/structure/overmap/fighter) in loaded
 			if(load)
 				abort_launch()
 				return
@@ -87,8 +82,9 @@
 	return TRUE
 
 /obj/vehicle/sealed/car/realistic/fighter_tug/proc/load()
-	var/obj/structure/overmap/load = locate(/obj/structure/overmap/fighter) in orange(2, src)
+	var/obj/structure/overmap/load = locate(/obj/structure/overmap/fighter) in orange(get_turf(get_step(src, angle2dir(angle))), 1)
 	if(!load)
+		load = locate(/obj/structure/overmap/fighter) in orange(1, src) //Failing a dir check, try this
 		return
 	hitch(load)
 
@@ -97,9 +93,12 @@
 	set_light(5)
 
 /obj/vehicle/sealed/car/realistic/fighter_tug/proc/hitch(obj/structure/overmap/fighter/target)
-	if(LAZYFIND(contents, target))
+	if(!target || LAZYFIND(loaded, target) || target.mag_lock)//No sucking
 		return FALSE
-	LAZYADD(vis_contents, target)
+	loaded += target
+	STOP_PROCESSING(SSovermap, target)
+	target.forceMove(src)
+	vis_contents += target
 	playsound(src, 'nsv13/sound/effects/ship/freespace2/crane_1.wav', 100, FALSE)
 	visible_message("<span class='warning'>[target] is loaded onto [src]</span>")
 	target.forceMove(src)
@@ -108,7 +107,12 @@
 
 /obj/vehicle/sealed/car/realistic/fighter_tug/process(time)
 	. = ..()
-	for(var/obj/structure/overmap/fighter/target in contents)
+	for(var/obj/structure/overmap/fighter/target in loaded)
+		if(target.loc != src)
+			vis_contents -= target
+			loaded -= target
+			target.mag_lock = null
+			continue
 		target.desired_angle = 0
 		target.angle = 0
 		for(var/mob/living/M in target.operators)
@@ -138,23 +142,24 @@
 		abort_launch(silent=TRUE)
 		sleep(0.5)
 		target.prime_launch() //Gets us ready to move at PACE.
-		switch(launch_dir) //Just handling north / south..FOR NOW!
-			if(NORTH) //PILOTS. REMEMBER TO FACE THE RIGHT WAY WHEN YOU LAUNCH, OR YOU WILL HAVE A TERRIBLE TIME.
-				target.desired_angle = 0
-				target.angle = target.desired_angle
-				target.velocity.y = 20
-			if(SOUTH)
-				target.desired_angle = 180
-				target.angle = target.desired_angle
-				target.velocity.y = -20
-			if(EAST)
-				target.desired_angle = 90
-				target.angle = target.desired_angle
-				target.velocity.x = 20
-			if(WEST)
-				target.desired_angle = -90
-				target.angle = target.desired_angle
-				target.velocity.x = -20
+		dir = angle2dir(angle)
+		target.desired_angle = 0
+		if(dir & NORTH) //PILOTS. REMEMBER TO FACE THE RIGHT WAY WHEN YOU LAUNCH, OR YOU WILL HAVE A TERRIBLE TIME.
+			target.desired_angle += 0
+			target.angle = target.desired_angle
+			target.velocity.y = 20
+		if(dir & SOUTH)
+			target.desired_angle += 180
+			target.angle = target.desired_angle
+			target.velocity.y = -20
+		if(dir & EAST)
+			target.desired_angle += 90
+			target.angle = target.desired_angle
+			target.velocity.x = 20
+		if(dir & WEST)
+			target.desired_angle -= 90
+			target.velocity.x = -20
+		target.angle = target.desired_angle
 		var/obj/structure/overmap/our_overmap = get_overmap()
 		if(our_overmap)
 			our_overmap.relay('nsv13/sound/effects/ship/fighter_launch_short.ogg')
@@ -164,17 +169,22 @@
 	canmove = TRUE
 
 /obj/vehicle/sealed/car/realistic/fighter_tug/proc/abort_launch(silent=FALSE)
-	for(var/obj/structure/overmap/fighter/target in contents)
+	for(var/obj/structure/overmap/fighter/target in loaded)
 		if(!silent)
 			visible_message("<span class='warning'>[target] drops down off of [src]!</span>")
 			playsound(src, 'nsv13/sound/effects/ship/mac_load.ogg', 100, 1)
 			target.shake_animation()
-		LAZYREMOVE(vis_contents, target)
-		var/turf/targetLoc = get_turf(get_step(src, launch_dir))
+		vis_contents -= target
+		loaded -= target
+		var/turf/targetLoc = get_turf(get_step(src, angle2dir(angle)))
 		if(!istype(targetLoc, /turf/open))
 			targetLoc = get_turf(src) //Prevents them yeeting fighters through walls.
-		target.forceMove(targetLoc)
+		var/obj/structure/fighter_launcher/FL = locate(/obj/structure/fighter_launcher) in orange(targetLoc, 2)
 		target.mag_lock = null
+		if(FL)
+			targetLoc = get_turf(FL)
+		target.forceMove(targetLoc)
+		START_PROCESSING(SSovermap, target)
 
 /obj/item/key/fighter_tug
 	name = "fighter tug key"
