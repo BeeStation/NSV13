@@ -23,6 +23,10 @@ GLOBAL_LIST_EMPTY(gear_datums)
 		if(!use_name)
 			WARNING("Loadout - Missing display name: [G]")
 			continue
+
+		if(!initial(G.unlocktype))
+			WARNING("Loadout - No unlock type defined: [G]")
+			continue
 		if(!initial(G.cost) && initial(G.unlocktype) == GEAR_METACOIN)
 			WARNING("Loadout - Metacoin item, Missing cost: [G]")
 			continue
@@ -47,7 +51,7 @@ GLOBAL_LIST_EMPTY(gear_datums)
 /datum/gear
 	var/display_name               //Name/index. Must be unique.
 	var/description                //Description of this gear. If left blank will default to the description of the pathed item.
-	var/unlocktype                 //How is this item unlocked, May also cause the item to be hidden.
+	var/unlocktype = GEAR_METACOIN //How is this item unlocked, May also cause the item to be hidden.
 	var/path                       //Path to item.
 	var/cost = INFINITY            //Number of metacoins (If GEAR_METACOIN)
 	var/ckey                       //Control Key of the donator the item is assigned to. (GEAR_DONATOR)
