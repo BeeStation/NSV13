@@ -5266,6 +5266,7 @@
 /obj/item/stack/sheet/iron/fifty,
 /obj/item/stack/sheet/iron/fifty,
 /obj/item/stack/sheet/iron/fifty,
+/obj/item/stack/sheet/plasteel/twenty,
 /turf/open/floor/plasteel,
 /area/science/robotics)
 "ly" = (
@@ -6037,6 +6038,9 @@
 /area/science/robotics)
 "mY" = (
 /obj/machinery/camera/preset/toxins,
+/obj/machinery/light{
+	dir = 1
+	},
 /turf/open/floor/plating/airless,
 /area/science/test_area)
 "mZ" = (
@@ -9420,6 +9424,7 @@
 	pixel_x = 3;
 	pixel_y = 3
 	},
+/obj/item/storage/firstaid/o2,
 /turf/open/floor/plasteel/white,
 /area/medical/storage)
 "tF" = (
@@ -9468,6 +9473,7 @@
 /obj/machinery/camera/autoname{
 	dir = 8
 	},
+/obj/item/stack/sheet/plasteel/twenty,
 /turf/open/floor/plasteel,
 /area/science/robotics)
 "tL" = (
@@ -9648,12 +9654,14 @@
 /obj/structure/cable{
 	icon_state = "1-2"
 	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /obj/machinery/camera/autoname{
 	dir = 8
 	},
 /obj/effect/turf_decal/tile/yellow{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer3{
 	dir = 4
 	},
 /turf/open/floor/plasteel/white,
@@ -9960,9 +9968,12 @@
 	icon_state = "1-2"
 	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /obj/item/radio/intercom/directional/east,
 /obj/effect/turf_decal/tile/yellow{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1{
+	icon_state = "manifold-1";
 	dir = 4
 	},
 /turf/open/floor/plasteel/white,
@@ -13284,6 +13295,7 @@
 /obj/item/ammo_box/magazine/pdc/flak,
 /obj/item/ammo_box/magazine/pdc/flak,
 /obj/item/ammo_box/magazine/pdc/flak,
+/obj/item/ammo_box/magazine/pdc/flak,
 /turf/open/floor/plasteel/dark,
 /area/nsv/weapons/port)
 "AX" = (
@@ -14538,6 +14550,7 @@
 /obj/item/ammo_box/magazine/pdc{
 	pixel_y = 8
 	},
+/obj/item/ammo_box/magazine/pdc/flak,
 /obj/item/ammo_box/magazine/pdc/flak,
 /obj/item/ammo_box/magazine/pdc/flak,
 /obj/item/ammo_box/magazine/pdc/flak,
@@ -16980,6 +16993,9 @@
 /obj/effect/turf_decal/tile/purple{
 	dir = 8
 	},
+/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3{
+	dir = 4
+	},
 /turf/open/floor/plasteel/white,
 /area/science/mixing)
 "Jp" = (
@@ -17415,8 +17431,10 @@
 /obj/structure/cable{
 	icon_state = "1-2"
 	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer3{
+	dir = 4
+	},
 /turf/open/floor/plasteel/white,
 /area/science/xenobiology)
 "KG" = (
@@ -18150,8 +18168,16 @@
 	pixel_x = 3;
 	pixel_y = 3
 	},
+/obj/item/storage/firstaid/o2,
+/obj/structure/window/reinforced,
 /turf/open/floor/plasteel/white,
 /area/medical/storage)
+"Pw" = (
+/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3{
+	dir = 4
+	},
+/turf/open/floor/plasteel/white,
+/area/science/xenobiology)
 "Py" = (
 /obj/structure/table/glass,
 /obj/item/book/manual/wiki/grenades,
@@ -18587,6 +18613,17 @@
 	},
 /turf/open/floor/plasteel/white,
 /area/medical/medbay/central)
+"Sv" = (
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
+/obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1{
+	icon_state = "manifold-1";
+	dir = 4
+	},
+/turf/open/floor/plasteel/white,
+/area/science/xenobiology)
 "Sw" = (
 /obj/structure/sign/departments/minsky/medical/clone/cloning1,
 /turf/closed/wall/ship,
@@ -18806,6 +18843,18 @@
 	},
 /turf/open/floor/plasteel/white,
 /area/medical/medbay/central)
+"Ug" = (
+/obj/machinery/shower{
+	dir = 4
+	},
+/obj/effect/turf_decal/tile/purple{
+	dir = 8
+	},
+/obj/machinery/atmospherics/components/unary/vent_pump/on/layer1{
+	dir = 4
+	},
+/turf/open/floor/plasteel/white,
+/area/science/mixing)
 "Um" = (
 /obj/structure/cable{
 	icon_state = "1-8"
@@ -18896,6 +18945,12 @@
 /obj/machinery/computer/ship/viewscreen,
 /turf/open/floor/plasteel,
 /area/hallway/nsv/deck2/aft)
+"UJ" = (
+/obj/machinery/atmospherics/components/unary/vent_pump/on/layer1{
+	dir = 4
+	},
+/turf/open/floor/plasteel/white,
+/area/science/xenobiology)
 "UN" = (
 /obj/machinery/door/firedoor,
 /obj/machinery/computer/cargo/request,
@@ -19255,6 +19310,7 @@
 "XA" = (
 /obj/effect/spawner/structure/window/reinforced,
 /obj/machinery/door/firedoor,
+/obj/structure/curtain/obscuring/grey,
 /turf/open/floor/plating,
 /area/medical/surgery)
 "XG" = (
@@ -52098,8 +52154,8 @@ Pr
 tl
 sI
 sK
-lb
-lb
+Pw
+UJ
 NK
 lt
 pS
@@ -52401,7 +52457,7 @@ se
 se
 sL
 KE
-KE
+Sv
 sL
 nG
 pT
@@ -54515,7 +54571,7 @@ rS
 sd
 Om
 Jo
-Om
+Ug
 tn
 lt
 RG
