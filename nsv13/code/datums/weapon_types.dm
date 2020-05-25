@@ -1,16 +1,6 @@
 /**
  * Common information used by both the hero ship and the fighters/AIs
  */
-/datum/ship_weapon
-	var/name = "Ship weapon"
-	var/default_projectile_type
-	var/burst_size
-	var/fire_delay
-	var/range_modifier
-	var/select_alert
-	var/failure_alert
-	var/list/overmap_firing_sounds
-	var/overmap_select_sound
 
 /datum/ship_weapon/railgun
 	name = "Electromagnetic railguns"

@@ -185,14 +185,6 @@
 	else{
 		return
 	}
-
-/obj/structure/overmap/Initialize()
-	. = ..()
-	if(mass <= MASS_TINY)
-		weapon_types[FIRE_MODE_PDC] = new /datum/ship_weapon/light_cannon
-	else
-		if(ai_controlled)
-			weapon_types[FIRE_MODE_GAUSS] = new /datum/ship_weapon/gauss //AI ships want to be able to use gauss too. I say let them...
 /**
 *
 *

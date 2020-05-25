@@ -201,16 +201,6 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 	icon = 'icons/obj/hand_of_god_structures.dmi'
 	icon_state = "conduit-red"
 
-/obj/structure/overmap/proc/add_weapon_overlay(type)
-	var/path = text2path(type)
-	var/obj/weapon_overlay/OL = new path
-	OL.icon = icon
-	OL.appearance_flags |= KEEP_APART
-	OL.appearance_flags |= RESET_TRANSFORM
-	vis_contents += OL
-	weapon_overlays += OL
-	return OL
-
 /obj/weapon_overlay/laser/do_animation()
 	flick("laser",src)
 
@@ -274,17 +264,12 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 	addtimer(CALLBACK(src, .proc/force_parallax_update), 20 SECONDS)
 	addtimer(CALLBACK(src, .proc/check_armour), 20 SECONDS)
 
-	weapon_types[FIRE_MODE_PDC] = new/datum/ship_weapon/pdc_mount
-	weapon_types[FIRE_MODE_TORPEDO] = new/datum/ship_weapon/torpedo_launcher
-	weapon_types[FIRE_MODE_RAILGUN] = new/datum/ship_weapon/railgun
-
-/obj/structure/overmap/proc/add_weapon(obj/machinery/ship_weapon/weapon)
-	if(!weapons[weapon.fire_mode])
-		weapons[weapon.fire_mode] = list(weapon)
-	else
-		if(LAZYFIND(weapons[weapon.fire_mode], weapon))
-			return
-		weapons[weapon.fire_mode][++weapons[weapon.fire_mode].len] = weapon
+	weapon_types[FIRE_MODE_PDC] = (mass > MASS_TINY) ? new/datum/ship_weapon/pdc_mount(src) : new /datum/ship_weapon/light_cannon(src)
+	weapon_types[FIRE_MODE_TORPEDO] = new/datum/ship_weapon/torpedo_launcher(src)
+	weapon_types[FIRE_MODE_RAILGUN] = new/datum/ship_weapon/railgun(src)
+	if(ai_controlled)
+		weapon_types[FIRE_MODE_MISSILE] = new/datum/ship_weapon/missile_launcher(src)
+		weapon_types[FIRE_MODE_GAUSS] = new /datum/ship_weapon/gauss(src) //AI ships want to be able to use gauss too. I say let them...
 
 /obj/structure/overmap/Destroy()
 	QDEL_LIST(current_tracers)

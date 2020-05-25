@@ -486,11 +486,7 @@ You need to fire emag the fighter's IFF board. This makes it list as "ENEMY" on 
 
 /obj/structure/overmap/fighter/fire_torpedo(atom/target)
 	if(ai_controlled) //AI ships don't have interiors
-		if(torpedoes <= 0)
-			return
-		fire_projectile(/obj/item/projectile/guided_munition/torpedo, target, homing = TRUE, speed=1, explosive = TRUE)
-		torpedoes --
-		return
+		return ..()
 	var/proj_type = null //If this is true, we've got a launcher shipside that's been able to fire.
 	var/proj_speed = 1
 	if(!mun_torps || !mun_torps.len)
@@ -510,11 +506,7 @@ You need to fire emag the fighter's IFF board. This makes it list as "ENEMY" on 
 
 /obj/structure/overmap/fighter/fire_missile(atom/target)
 	if(ai_controlled) //AI ships don't have interiors
-		if(missiles <= 0)
-			return
-		fire_projectile(/obj/item/projectile/guided_munition/missile, target, homing = TRUE, speed=1, explosive = TRUE)
-		missiles --
-		return
+		return ..()
 	var/proj_type = null //If this is true, we've got a launcher shipside that's been able to fire.
 	var/proj_speed = 1
 	if(!mun_missiles | !mun_missiles.len)

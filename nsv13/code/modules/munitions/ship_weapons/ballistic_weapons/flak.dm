@@ -26,6 +26,7 @@
 	pixel_y = 26
 	maintainable = FALSE
 	bang = FALSE
+	safety = FALSE
 
 //	circuit = /obj/item/circuitboard/machine/pdc_mount
 
