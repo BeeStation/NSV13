@@ -34,9 +34,9 @@
 		return
 
 	var/stop = fire_mode
-	fire_mode = WRAP_AROUND_VALUE(fire_mode + 1, 1, weapons.len + 1)
+	fire_mode = WRAP_AROUND_VALUE(fire_mode + 1, 1, weapon_types.len + 1)
 
-	for(fire_mode; fire_mode != stop; fire_mode = WRAP_AROUND_VALUE(fire_mode + 1, 1, weapons.len + 1))
+	for(fire_mode; fire_mode != stop; fire_mode = WRAP_AROUND_VALUE(fire_mode + 1, 1, weapon_types.len + 1))
 		if(swap_to(fire_mode))
 			return TRUE
 

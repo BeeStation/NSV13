@@ -90,7 +90,6 @@
 	var/obj/machinery/computer/ship/dradis/dradis //So that pilots can check the radar easily
 
 	// Ship weapons
-	var/list/weapons[MAX_POSSIBLE_FIREMODE][] //All of the weapons linked to us
 	var/list/weapon_types[MAX_POSSIBLE_FIREMODE]
 
 	var/fire_mode = FIRE_MODE_PDC //What gun do we want to fire? Defaults to railgun, with PDCs there for flak

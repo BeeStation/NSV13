@@ -85,6 +85,7 @@
 	internal_tank = new /obj/machinery/portable_atmospherics/canister/air(src)
 	START_PROCESSING(SSobj, src)
 	lower_rack()
+	weapon_type = new /datum/ship_weapon/gauss(src) //Special case because these are individual gunners rather than fired via tac console.
 
 /obj/machinery/ship_weapon/gauss_gun/Destroy() //Yeet them out before we die.
 	remove_gunner()
