@@ -188,7 +188,7 @@
 			return TRUE
 	else if(weapons[mode] && weapons[mode].len) //It's the main ship, see if any part of our battery can fire
 		for(var/obj/machinery/ship_weapon/SW in weapons[mode])
-			if(SW.can_fire(weapons[mode]?.burst_size))
+			if(SW.can_fire())
 				failed = FALSE //Just in case the logging fucks up for whatever godforsaken reason.
 				SW.fire(target, manual=(mode == fire_mode))
 				add_enemy(target) //So that PVP holds up the spawning of AI enemies somewhat.
