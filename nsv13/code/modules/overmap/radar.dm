@@ -137,6 +137,8 @@
 					thecolour = "#00FFFF"
 				else if(OM.faction == linked.faction)
 					thecolour = "#32CD32"
+				else if(OM.faction == "planet")
+					thecolour = "#FFFFFF"
 				else
 					thecolour = "#FF0000"
 					ship_count ++

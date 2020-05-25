@@ -126,7 +126,7 @@ The while loop runs at a programatic level and is thus separated from any thrott
 		if(last_process < world.time - 0.5 SECONDS)
 			process()
 
-/obj/structure/overmap/process(force_time = 0)
+/obj/structure/overmap/process(data, force_time = 0)
 	set waitfor = FALSE
 	var/time = 0
 
@@ -614,8 +614,8 @@ The while loop runs at a programatic level and is thus separated from any thrott
 
 
 /obj/structure/overmap/proc/set_posi2real(x, y) //sets an overmap object to a realworld object and updates the offset based on a given position vector
-	var/real_x = round(x/32)
-	var/real_y = round(y/32)
+	var/real_x = round(x/32, 1)
+	var/real_y = round(y/32, 1)
 
 	pixel_x = x - real_x * 32
 	pixel_y = y - real_y * 32
@@ -623,4 +623,4 @@ The while loop runs at a programatic level and is thus separated from any thrott
 	offset.x = pixel_x / 32
 	offset.y = pixel_y / 32
 
-	Move(locate(real_x, real_y))
+	forceMove(get_turf(locate(real_x, real_y, z)))

@@ -5,6 +5,10 @@
 	icon_state = "default"
 	faction = "nanotrasen"
 
+/obj/structure/overmap/nanotrasen/ComponentInitialize()
+	. = ..()
+	AddComponent(/datum/component/grav_taker) //ships are affected by gravity
+
 /obj/structure/overmap/nanotrasen/light_cruiser
 	name = "loki class light cruiser"
 	desc = "A small and agile vessel which is designed for escort missions and independant patrols. This ship class is the backbone of Nanotrasen's navy."
@@ -194,6 +198,10 @@
 /obj/structure/overmap/syndicate/ai/Destroy()
 	SSstar_system.bounty_pool += bounty //Adding payment for services rendered
 	. = ..()
+
+/obj/structure/overmap/nanotrasen/ComponentInitialize()
+	. = ..()
+	AddComponent(/datum/component/grav_taker) //ships are affected by gravity
 
 /obj/structure/overmap/syndicate/pvp //Syndie PVP ship.
 	name = "SSV Hammurabi"

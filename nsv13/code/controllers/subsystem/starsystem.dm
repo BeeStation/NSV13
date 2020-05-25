@@ -88,8 +88,9 @@ SUBSYSTEM_DEF(star_system)
 			destination = get_turf(locate(round(world.maxx * 0.5, 1), round(world.maxy * 0.5, 1), target_sys.occupying_z)) //Plop them bang in the center of the system as requested. This is usually saved for wormholes.
 		else
 			destination = get_turf(locate(rand(50, world.maxx), rand(50, world.maxy), target_sys.occupying_z)) //Spawn them somewhere in the system. I don't really care where.
-		var/obj/structure/overmap/enemy = new OM(destination)
-		target_sys.add_enemy(enemy)
+		var/enemy = new OM(destination)
+		target_sys.add_enemy(enemy, FALSE) //don't randomize position when we already randomized position, yo (REFACTOR NEEDED: see ftl.dm:13)
+
 	else
 		message_admins("Enqued a [OM] for spawning in [target_sys]")
 		target_sys.enemy_queue += OM
@@ -98,7 +99,7 @@ SUBSYSTEM_DEF(star_system)
 
 /datum/controller/subsystem/star_system/proc/spawn_anomaly(anomaly_type, datum/star_system/target_sys, center=FALSE)
 	if(target_sys.occupying_z)
-		spawn_ship(anomaly_type, target_sys, center)
+		spawn_ship(anomaly_type, target_sys, center=center)
 		return
 	var/turf/destination = null
 	if(center)
@@ -111,14 +112,14 @@ SUBSYSTEM_DEF(star_system)
 	anomaly.moveToNullspace() //Anything that's an NPC should be stored safely in nullspace until we return.
 	message_admins("[anomaly] successfully queued for [target_sys]")
 
-/datum/controller/subsystem/star_system/proc/spawn_planet(obj/structure/overmap/planet, datum/star_system/target_sys) //like spawning ships, but for planets, which are pre-defined
+/datum/controller/subsystem/star_system/proc/spawn_planet(obj/structure/overmap/planet, datum/star_system/target_sys, radius = 100) //like spawning ships, but for planets, which are pre-defined
 	if(target_sys.occupying_z)
 		var/turf/destination = null
 		destination = get_turf(locate(rand(50, world.maxx), rand(50, world.maxy), target_sys.occupying_z)) //Spawn them somewhere in the system. I don't really care where.
-		planet.Move(destination)
-		target_sys.add_enemy(planet)
+		var/obj/structure/overmap/planet/P = new planet (destination, radius)
+		target_sys.add_enemy(P, FALSE)
 	else
-		target_sys.enemy_queue += planet
+		target_sys.enemy_queue += list(planet, radius) //oh god oh fuck
 
 
 
@@ -205,10 +206,10 @@ SUBSYSTEM_DEF(star_system)
 	patrols_left --
 	return
 
-/datum/controller/subsystem/star_system/proc/add_ship(obj/structure/overmap/OM)
+/datum/controller/subsystem/star_system/proc/add_ship(obj/structure/overmap/OM, random = TRUE)
 	ships[OM] = list("ship" = OM, "x" = 0, "y" = 0, "current_system" = system_by_id(OM.starting_system), "last_system" = system_by_id(OM.starting_system), "target_system" = null, "from_time" = 0, "to_time" = 0, "occupying_z" = OM.z)
 	var/datum/star_system/curr = ships[OM]["current_system"]
-	curr.add_ship(OM)
+	curr.add_ship(OM, random)
 
 //Welcome to bracket hell.
 
@@ -363,6 +364,11 @@ SUBSYSTEM_DEF(star_system)
 	. = ..()
 	START_PROCESSING(SSfastprocess, src)
 
+/obj/effect/overmap_anomaly/singularity/ComponentInitialize()
+	. = ..()
+	AddComponent(/datum/component/grav_maker, 50) //I like em big, I like em chunky. I like em big, I like em plumpy.
+
+
 /obj/effect/overmap_anomaly/singularity/process()
 	if(!z) //Not in nullspace
 		if(affecting && affecting.len)
@@ -380,7 +386,7 @@ SUBSYSTEM_DEF(star_system)
 		if(get_dist(src, OM) > influence_range || !z || OM.z != z)
 			stop_affecting(OM)
 			continue
-		var/incidence = get_dir(OM, src)
+//		var/incidence = get_dir(OM, src)
 		var/dist = get_dist(src, OM)
 		if(dist <= redshift_range)
 			var/redshift ="#[num2hex(130-dist,2)][num2hex(0,2)][num2hex(0,2)]"
@@ -391,6 +397,7 @@ SUBSYSTEM_DEF(star_system)
 			affecting -= OM
 			OM.current_system?.remove_ship(OM)
 			qdel(OM)
+		/*
 		dist = (dist > 0) ? dist : 1
 		var/pull_strength = (dist > event_horizon_range) ? 0.005 : base_pull_strength
 		var/succ_impulse = (!OM.brakes) ? pull_strength/dist*dist : (OM.forward_maxthrust / 10) + (pull_strength/dist*dist) //STOP RESISTING THE SUCC
@@ -401,7 +408,8 @@ SUBSYSTEM_DEF(star_system)
 		if(incidence & EAST)
 			OM.velocity.x += succ_impulse
 		if(incidence & WEST)
-			OM.velocity.x -= succ_impulse
+			OM.velocity.x -= succ_impulse */
+
 
 /obj/effect/overmap_anomaly/singularity/proc/stop_affecting(obj/structure/overmap/OM = null)
 	if(OM)
@@ -419,14 +427,24 @@ SUBSYSTEM_DEF(star_system)
 /obj/effect/overmap_anomaly/safe
 	name = "Placeholder"
 
-/obj/effect/overmap_anomaly/safe/center/sun
+/obj/effect/overmap_anomaly/safe/sun
 	name = "Star"
 	desc = "A huge ball of burning hydrogen that lights up space around it. Scanning its corona could yield useful information."
 	icon = 'nsv13/goonstation/icons/effects/overmap_anomalies/stellarbodies.dmi'
 	icon_state = "sun"
 	research_points = 3000 //Pretty meagre, but a sustainable source of points.
 
-/obj/effect/overmap_anomaly/safe/center/sun/red_giant
+
+/obj/effect/overmap_anomaly/safe/sun/Initialize()
+	..()
+
+	transform = transform.Scale(5,5) //stars are big, damnit
+
+/obj/effect/overmap_anomaly/safe/sun/ComponentInitialize()
+	. = ..()
+	AddComponent(/datum/component/grav_maker) //haha star go succc
+
+/obj/effect/overmap_anomaly/safe/sun/red_giant
 	name = "Red Giant"
 	desc = "A large star that is nearing the end of its life. A scan of its stellar core could lead to useful conclusions."
 	icon_state = "redgiant"
@@ -475,12 +493,10 @@ SUBSYSTEM_DEF(star_system)
 			parallax_property = "pitchblack"
 	if(alignment == "syndicate")
 		spawn_enemies() //Syndicate systems are even more dangerous, and come pre-loaded with some guaranteed Syndiships.
-	if(!anomaly_type)
-		anomaly_type = pick(subtypesof(/obj/effect/overmap_anomaly/safe))
-	if(istype(anomaly_type, /obj/effect/overmap_anomaly/safe/center))
-		SSstar_system.spawn_anomaly(anomaly_type, src, TRUE)
-	else
+	if(anomaly_type)
 		SSstar_system.spawn_anomaly(anomaly_type, src)
+
+	SSstar_system.spawn_anomaly(pick(subtypesof(/obj/effect/overmap_anomaly/safe)), src, TRUE) //with the addition of planets, ALL systems should have suns, regardless of other anomalies
 
 /datum/star_system/proc/generate_anomaly()
 	if(prob(15)) //Low chance of spawning a wormhole twixt us and another system.
@@ -514,11 +530,11 @@ SUBSYSTEM_DEF(star_system)
 		SSstar_system.spawn_ship(enemy_type, src)
 	}
 
-/datum/star_system/proc/add_enemy(obj/structure/overmap/OM)
+/datum/star_system/proc/add_enemy(obj/structure/overmap/OM, random = TRUE)
 	if(istype(OM, /obj/structure/overmap) && OM.ai_controlled)
 		enemies_in_system += OM
 		RegisterSignal(OM, COMSIG_PARENT_QDELETING , .proc/remove_enemy, OM)
-	add_ship(OM)
+	add_ship(OM, random)
 
 /datum/star_system/proc/remove_enemy(var/obj/structure/overmap/OM) //Method to remove an enemy from the list of active threats in a system
 	if(LAZYFIND(enemies_in_system, OM))
@@ -550,7 +566,7 @@ SUBSYSTEM_DEF(star_system)
 	var/list/chosen_radii = list()
 
 	for(var/x in 1 to gen_num)
-		var/radius = rand(100, 4200)
+		var/radius = rand(500, 4200)
 		for(var/r in chosen_radii)
 			if(abs(r - radius) < 100)
 				radius = 0
@@ -558,11 +574,11 @@ SUBSYSTEM_DEF(star_system)
 			continue
 		chosen_radii += radius
 		var/planet = pick(subtypesof(/obj/structure/overmap/planet))
-		var/obj/structure/overmap/planet/cur_planet = new planet (null, radius)
 
-		planet_list += cur_planet
-		cur_planet.name = "[src] [gen_num]"
-		SSstar_system.spawn_planet(cur_planet, src)
+
+		//planet_list += cur_planet
+		//cur_planet.name = "[src] [gen_num]"
+		SSstar_system.spawn_planet(planet, src, radius)
 
 //////star_system LIST (order of appearance)///////
 

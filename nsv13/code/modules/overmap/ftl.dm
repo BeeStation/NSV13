@@ -3,19 +3,20 @@
 #define FTL_STATE_READY 3
 #define FTL_STATE_JUMPING 4
 
-/datum/star_system/proc/add_ship(obj/structure/overmap/OM)
+/datum/star_system/proc/add_ship(obj/structure/overmap/OM, random = TRUE)
 	system_contents += OM
 	if(!occupying_z && OM.z) //Does this system have a physical existence? if not, we'll set this now so that any inbound ships jump to the same Z-level that we're on.
 		occupying_z = OM.z
 		if(OM.role == MAIN_OVERMAP) //As these events all happen to the main ship, let's check that it's not say, the nomi that's triggering this system load...
 			try_spawn_event()
 		restore_contents()
-	var/turf/destination = get_turf(locate(rand(50, world.maxx), rand(50, world.maxy), occupying_z)) //Spawn them somewhere in the system. I don't really care where.
-	if(!destination)
-		message_admins("WARNING: The [name] system has no exit point for ships! Something has caused this Z-level to despawn erroneously, please contact Kmc immediately!.")
-		return
-	var/turf/exit = get_turf(pick(orange(20, destination)))
-	OM.forceMove(exit)
+	if(random) //REFACTOR NEEDED: This essentially is just a 4-proc deep parameter chain (yuck!) that determins whether added ships through ship_spawn get their position fudged or not.
+		var/turf/destination = get_turf(locate(rand(50, world.maxx), rand(50, world.maxy), occupying_z)) //Spawn them somewhere in the system. I don't really care where.
+		if(!destination)
+			message_admins("WARNING: The [name] system has no exit point for ships! Something has caused this Z-level to despawn erroneously, please contact Kmc immediately!.")
+			return
+		var/turf/exit = get_turf(pick(orange(20, destination)))
+		OM.forceMove(exit)
 	if(istype(OM, /obj/structure/overmap))
 		OM.current_system = src //Debugging purposes only
 	after_enter(OM)
@@ -36,7 +37,10 @@
 /datum/star_system/proc/restore_contents()
 	if(enemy_queue)
 		for(var/X in enemy_queue)
-			SSstar_system.spawn_ship(X, src)
+			if(istype(X, /list))
+				SSstar_system.spawn_planet(X[1], src, X[2]) //it's not DUMB SHITCODE it's PYTHONIC
+			else
+				SSstar_system.spawn_ship(X, src)
 			enemy_queue -= X
 	if(!contents_positions.len)
 		return //Nothing stored, no need to restore.
