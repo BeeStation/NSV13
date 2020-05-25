@@ -104,8 +104,8 @@
 	var/obj/weapon_overlay/last_fired //Last weapon overlay that fired, so we can rotate guns independently
 	var/atom/last_target //Last thing we shot at, used to point the railgun at an enemy.
 
-	var/torpedoes = 2 //Prevent infinite torp spam
-	var/missiles = 4 //Nothing should start with missiles
+	var/torpedoes = 2 //If this starts at above 0, then the ship can use torpedoes when AI controlled
+	var/missiles = 4 //If this starts at above 0, then the ship can use missiles when AI controlled
 
 	var/pdc_miss_chance = 20 //In %, how often do PDCs fire inaccurately when aiming at missiles. This is ignored for ships as theyre bigger targets.
 	var/list/torpedoes_to_target = list() //Torpedoes that have been fired explicitly at us, and that the PDCs need to worry about.

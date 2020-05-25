@@ -5,14 +5,14 @@
 // Guard will only attack if you get too close
 
 #define DECISION_TERMINATOR 2
-#define AI_PDC_RANGE 5
+#define AI_PDC_RANGE 12
 
 /obj/structure/overmap
 	var/ai_controlled = FALSE //Set this to true to let the computer fly your ship.
 	var/ai_behaviour = null // Determines if the AI ship shoots you first, or if you have to shoot them.
 	var/list/enemies = list() //Things that have attacked us
 	var/max_weapon_range = 30
-	var/max_tracking_range = 50 //Range that AI ships can hunt you down in
+	var/max_tracking_range = 70 //Range that AI ships can hunt you down in
 	var/guard_range = 10 //Close range. Encroach on their space and die
 	var/ai_can_launch_fighters = FALSE //AI variable. Allows your ai ships to spawn fighter craft
 	var/list/ai_fighter_type = list()
@@ -38,7 +38,7 @@
 			last_target = null
 			return
 		if(target_range <= AI_PDC_RANGE)
-			new_firemode = FIRE_MODE_PDC
+			new_firemode = (mass > MASS_MEDIUM) ? FIRE_MODE_GAUSS : FIRE_MODE_PDC //This makes large ships a legitimate threat.
 		else
 			var/obj/structure/overmap/OM = last_target
 			if(istype(OM) && OM.mass >= MASS_SMALL)
@@ -189,8 +189,10 @@
 /obj/structure/overmap/Initialize()
 	. = ..()
 	if(mass <= MASS_TINY)
-		weapons[FIRE_MODE_PDC] = new /datum/ship_weapon/light_cannon
-
+		weapon_types[FIRE_MODE_PDC] = new /datum/ship_weapon/light_cannon
+	else
+		if(ai_controlled)
+			weapon_types[FIRE_MODE_GAUSS] = new /datum/ship_weapon/gauss //AI ships want to be able to use gauss too. I say let them...
 /**
 *
 *
@@ -224,7 +226,7 @@
 		user_thrust_dir = move_mode
 
 /obj/structure/overmap/proc/try_board(obj/structure/overmap/ship)
-	if(mass < MASS_MEDIUM || get_dist(ship, src) > 5)
+	if(mass < MASS_MEDIUM || get_dist(ship, src) > 6)
 		return FALSE
 	next_boarding_attempt = world.time + 5 MINUTES //We very rarely try to board.
 	if(SSovermap.next_boarding_time <= world.time)
@@ -248,7 +250,7 @@
 	if(!istype(target, /obj/structure/overmap)) //Don't know why it wouldn't be..but yeah
 		return
 	var/obj/structure/overmap/OM = target
-	if(LAZYFIND(enemies, OM) || OM.faction == faction) //If target's in enemies, return
+	if(LAZYFIND(enemies, OM) || OM.faction == src.faction) //If target's in enemies, return
 		return
 	enemies += target
 	last_target = target

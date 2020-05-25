@@ -169,6 +169,7 @@
 	return "[found.name]"
 
 /obj/structure/overmap/proc/fire_weapon(atom/target, mode=fire_mode, lateral=(mass > MASS_TINY), mob/user_override=null) //"Lateral" means that your ship doesnt have to face the target
+	var/failed = TRUE //Failsafe var for use in extreme lag. This should avoid situations where weapons tell the gunner that they can't fire.
 	if(ai_controlled || (!linked_areas.len && role != MAIN_OVERMAP)) //AI ships and fighters don't have interiors
 		if(mode == FIRE_MODE_TORPEDO || mode == FIRE_MODE_MISSILE) //because fighter torpedoes are special
 			if(fire_ordnance(target, mode))
@@ -186,12 +187,16 @@
 				sleep(1)
 			return TRUE
 	else if(weapons[mode] && weapons[mode].len) //It's the main ship, see if any part of our battery can fire
-		add_enemy(target) //So that PVP holds up the spawning of AI enemies somewhat.
 		for(var/obj/machinery/ship_weapon/SW in weapons[mode])
-			if(SW.can_fire() && SW.fire(target, manual=(mode == fire_mode)))
-				LAZYADD(weapon_log, "[station_time_timestamp()] [gunner] ([(gunner && gunner.mind && gunner.mind.antag_datums) ? "<b>Antagonist</b>" : "Non-Antagonist"]) fired [firemode2text(fire_mode)] at [target]")
+			if(SW.can_fire(weapons[mode]?.burst_size))
+				failed = FALSE //Just in case the logging fucks up for whatever godforsaken reason.
+				SW.fire(target, manual=(mode == fire_mode))
+				add_enemy(target) //So that PVP holds up the spawning of AI enemies somewhat.
+				LAZYADD(weapon_log, "[station_time_timestamp()] [(gunner) ? gunner.name : "unknown gunner"] ([(gunner && gunner.mind && gunner.mind.antag_datums) ? "<b>Antagonist</b>" : "Non-Antagonist"]) fired [firemode2text(fire_mode)] at [target]")
 				return TRUE
-	if(gunner) //Tell them we failed
+	if(gunner && failed) //Tell them we failed
+		if(world.time < next_firetime) //Silence, SPAM.
+			return FALSE
 		var/datum/ship_weapon/SW = weapon_types[fire_mode]
 		to_chat(gunner, SW.failure_alert)
 	return FALSE

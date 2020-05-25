@@ -320,7 +320,7 @@
 	missiles = 4
 	torpedoes = 0
 	bounty = 250
-	armor = list("overmap_light" = 0, "overmap_heavy" = 0)
+	armor = list("overmap_light" = 5, "overmap_heavy" = 5)
 
 /obj/structure/overmap/syndicate/ai/bomber //need custom AI behaviour to target capitals only
 	name = "Syndicate Bomber"

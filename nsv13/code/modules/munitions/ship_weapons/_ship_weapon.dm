@@ -403,6 +403,7 @@
  * Returns projectile if successfully fired, FALSE otherwise.
  */
 /obj/machinery/ship_weapon/proc/fire(atom/target, shots = weapon_type.burst_size, manual = TRUE)
+	set waitfor = FALSE //As to not hold up any feedback messages.
 	if(can_fire(shots))
 		if(manual)
 			linked.last_fired = overlay
