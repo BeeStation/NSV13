@@ -72,7 +72,8 @@
 		var/obj/structure/overmap/OM = target
 		if(istype(OM, /obj/structure/overmap) && OM.dradis)
 			OM.dradis?.relay_sound('nsv13/sound/effects/fighters/launchwarning.ogg')
-		relay_to_nearby(pick(weapon_types[FIRE_MODE_TORPEDO].overmap_firing_sounds))
+		var/datum/ship_weapon/SW = weapon_types[FIRE_MODE_TORPEDO]
+		relay_to_nearby(pick(SW.overmap_firing_sounds))
 		return TRUE
 
 /obj/structure/overmap/proc/fire_missile(atom/target)
@@ -84,5 +85,6 @@
 		var/obj/structure/overmap/OM = target
 		if(istype(OM, /obj/structure/overmap) && OM.dradis)
 			OM.dradis?.relay_sound('nsv13/sound/effects/fighters/launchwarning.ogg')
-		relay_to_nearby(pick(weapon_types[FIRE_MODE_MISSILE].overmap_firing_sounds))
+		var/datum/ship_weapon/SW = weapon_types[FIRE_MODE_MISSILE]
+		relay_to_nearby(pick(SW.overmap_firing_sounds))
 		return TRUE
