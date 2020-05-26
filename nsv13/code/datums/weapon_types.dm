@@ -164,3 +164,4 @@
 	select_alert = "<span class='notice'>Defensive flak screens: <b>OFFLINE</b>. Activating manual flak control.</span>"
 	failure_alert = "<span class='warning'>DANGER: flak guns unable to fire due to lack of ammunition.</span>"
 	special_fire_proc = /obj/structure/overmap/proc/fire_flak
+	selectable = FALSE
