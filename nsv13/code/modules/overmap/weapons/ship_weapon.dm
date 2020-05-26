@@ -32,9 +32,10 @@
 	lateral = FALSE
 
 /datum/ship_weapon/proc/add_weapon(obj/machinery/ship_weapon/weapon)
-	if(LAZYFIND(weapons["all"], weapon)) //No just no
+	var/list/all_weapons = weapons["all"]
+	if(LAZYFIND(all_weapons, weapon)) //No just no
 		return
-	weapons["all"] += weapon //Record-keeping
+	all_weapons += weapon //Record-keeping
 	weapon.weapon_type = src
 	weapon.update() //Ok is this thing loaded or what.
 
