@@ -21,6 +21,7 @@
 	var/requires_physical_guns = TRUE //Set this to false for any fighter weapons we may have
 	var/lateral = TRUE //Does this weapon need you to face the enemy? Mostly no.
 	var/special_fire_proc = null //Override this if you need to replace the firing weapons behaviour with a custom proc. See torpedoes and missiles for this.
+	var/selectable = TRUE //Is this a gun you can manually fire? Or do you want it for example, be an individually manned thing..?
 
 /datum/ship_weapon/torpedo_launcher
 	special_fire_proc = /obj/structure/overmap/proc/fire_torpedo
@@ -40,12 +41,14 @@
 /datum/ship_weapon/New(obj/structure/overmap/source, ...)
 	. = ..()
 	if(!source)
+		message_admins("OI! [src] doesn't have an attached overmap. Did you do new /datum/ship_weapon(src) on your ship?")
 		qdel(src)
 		return FALSE
 	holder = source
 	weapons["loaded"] = list() //Weapons that are armed and ready.
 	weapons["all"] = list() //All weapons, regardless of ammo state
-	requires_physical_guns = (holder.linked_areas?.len && !holder.ai_controlled) //AIs don't have physical guns, but anything with linked areas is very likely to.
+	if(istype(holder, /obj/structure/overmap))
+		requires_physical_guns = (holder.linked_areas?.len && !holder.ai_controlled) //AIs don't have physical guns, but anything with linked areas is very likely to.
 
 /obj/structure/overmap/proc/fire_weapon(atom/target, mode=fire_mode, lateral=(mass > MASS_TINY), mob/user_override=null) //"Lateral" means that your ship doesnt have to face the target
 	var/datum/ship_weapon/SW = weapon_types[mode]
@@ -59,10 +62,13 @@
 	return FALSE
 
 /datum/ship_weapon/proc/special_fire(atom/target)
+	if(fire_delay)
+		holder.next_firetime = world.time + fire_delay
 	if(!requires_physical_guns)
 		if(special_fire_proc)
 			CallAsync(source=holder, proctype=special_fire_proc, arguments=list(target=target)) //WARNING: The default behaviour of this proc will ALWAYS supply the target method with the parameter "target". Override this proc if your thing doesnt have a target parameter!
 		else
+			weapon_sound()
 			if(lateral)
 				for(var/I = 0; I < burst_size; I++)
 					sleep(1) //Prevents space shotgun
@@ -70,14 +76,24 @@
 			else
 				for(var/I = 0; I < burst_size; I++)
 					sleep(1)
-					holder.fire_projectiles(default_projectile_type, target)
-		holder.next_firetime = world.time + fire_delay
+					holder.fire_projectile(default_projectile_type, target)
 		return FIRE_INTERCEPTED
 	return FALSE
+
+/datum/ship_weapon/proc/weapon_sound()
+	set waitfor = FALSE
+	var/sound/chosen = pick(overmap_firing_sounds)
+	holder.relay(chosen)
 
 /datum/ship_weapon/proc/reload()
 	for(var/obj/machinery/ship_weapon/SW in weapons["all"])
 		SW.lazyload()
+
+/datum/ship_weapon/vv_edit_var(var_name, var_value)
+	switch(var_name)
+		if("special_proctype")
+			return FALSE
+	return ..()
 
 /datum/ship_weapon/proc/fire(atom/target)
 	if(special_fire(target) == FIRE_INTERCEPTED)

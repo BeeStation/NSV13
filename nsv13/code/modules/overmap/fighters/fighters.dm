@@ -235,10 +235,10 @@ You need to fire emag the fighter's IFF board. This makes it list as "ENEMY" on 
 	if(prebuilt)
 		prebuilt_setup()
 	dradis = new /obj/machinery/computer/ship/dradis/internal(src) //Fighters need a way to find their way home.
-	update_stats()
 	obj_integrity = max_integrity
 	RegisterSignal(src, COMSIG_MOVABLE_MOVED, .proc/check_overmap_elegibility) //Used to smoothly transition from ship to overmap
 	add_overlay(image(icon = icon, icon_state = "canopy_open", dir = SOUTH))
+	update_stats()
 
 /obj/structure/overmap/fighter/proc/prebuilt_setup()
 	name = new_prebuilt_fighter_name() //pulling from NSV13 ship name list currently
@@ -292,22 +292,20 @@ You need to fire emag the fighter's IFF board. This makes it list as "ENEMY" on 
 	max_passengers = pc?.passenger_capacity
 
 	//Setup weapon datums and fire modes
-	weapon_types = list() //Hard reset
-	weapon_types.len = MAX_POSSIBLE_FIREMODE
 
-	if(max_missiles > 0)
-		weapon_types[FIRE_MODE_MISSILE] = new/datum/ship_weapon/missile_launcher
-	if(max_torpedoes > 0)
-		weapon_types[FIRE_MODE_TORPEDO] = new/datum/ship_weapon/torpedo_launcher
-
+	if(max_missiles > 0 && !weapon_types[FIRE_MODE_MISSILE])
+		weapon_types[FIRE_MODE_MISSILE] = new/datum/ship_weapon/missile_launcher(src)
+	if(max_torpedoes > 0 && !weapon_types[FIRE_MODE_TORPEDO])
+		weapon_types[FIRE_MODE_TORPEDO] = new/datum/ship_weapon/torpedo_launcher(src)
+	weapon_types[FIRE_MODE_RAILGUN] = null //Hardcoded for now. Change me if you want railgun fighters or some such fuckery
 	if(py)
-		var/path_one = new py.weapon_type_path_one
+		var/path_one = new py.weapon_type_path_one(src)
 		if(path_one)
-			weapon_types[FIRE_MODE_FIGHTER_SLOT_ONE] = path_one
+			weapon_types[FIRE_MODE_PDC] = path_one
 		else
 			return
 		if(py.weapon_type_path_two)
-			var/path_two = new py.weapon_type_path_two
+			var/path_two = new py.weapon_type_path_two(src)
 			if(path_two)
 				weapon_types[FIRE_MODE_FIGHTER_SLOT_TWO] = path_two
 

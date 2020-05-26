@@ -65,7 +65,7 @@
 					continue
 				fire_weapon(ship, FIRE_MODE_PDC)
 				break
-		swap_to(new_firemode)
+		fire_mode = new_firemode
 		fire_weapon(target, new_firemode)
 		next_firetime = world.time + fire_delay
 

@@ -52,8 +52,11 @@
 	if(!weapon_types[what])
 		return FALSE
 	var/datum/ship_weapon/SW = weapon_types[what]
+	if(!SW.selectable)
+		return FALSE
 	fire_delay = initial(fire_delay) + SW.fire_delay
 	fire_mode = what
+	relay(SW.overmap_select_sound)
 	if(gunner)
 		to_chat(gunner, SW.select_alert)
 	if(ai_controlled)
@@ -69,6 +72,7 @@
 		var/obj/structure/overmap/OM = target
 		if(istype(OM, /obj/structure/overmap) && OM.dradis)
 			OM.dradis?.relay_sound('nsv13/sound/effects/fighters/launchwarning.ogg')
+		relay_to_nearby(pick(weapon_types[FIRE_MODE_TORPEDO].overmap_firing_sounds))
 		return TRUE
 
 /obj/structure/overmap/proc/fire_missile(atom/target)
@@ -80,4 +84,5 @@
 		var/obj/structure/overmap/OM = target
 		if(istype(OM, /obj/structure/overmap) && OM.dradis)
 			OM.dradis?.relay_sound('nsv13/sound/effects/fighters/launchwarning.ogg')
+		relay_to_nearby(pick(weapon_types[FIRE_MODE_MISSILE].overmap_firing_sounds))
 		return TRUE
