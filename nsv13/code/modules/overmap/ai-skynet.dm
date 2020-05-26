@@ -32,6 +32,7 @@
 	if(next_firetime > world.time)
 		return
 	if(istype(target, /obj/structure/overmap))
+		add_enemy(target)
 		var/target_range = get_dist(src,target)
 		var/new_firemode = FIRE_MODE_PDC
 		if(target_range > max_weapon_range) //Our max range is the maximum possible range we can engage in. This is to stop you getting hunted from outside of your view range.
@@ -160,7 +161,7 @@
 				continue
 			if(!ship || QDELETED(ship) || ship == src || get_dist(src, ship) > max_weapon_range || ship.faction == src.faction || ship.z != z)
 				continue
-			target(ship)
+			add_enemy(ship)
 			break
 	if(world.time >= last_decision + decision_delay)
 		last_decision = world.time
@@ -227,8 +228,12 @@
 		return TRUE
 	return FALSE
 
-/obj/structure/overmap/proc/target(obj/structure/overmap/target)
-	add_enemy(target)
+/obj/structure/overmap/proc/add_enemy(atom/target)
+	if(!istype(target, /obj/structure/overmap)) //Don't know why it wouldn't be..but yeah
+		return
+	var/obj/structure/overmap/OM = target
+	if(OM.faction == src.faction)
+		return
 	if(ai_can_launch_fighters) //Found a new enemy? Launch the CAP.
 		ai_can_launch_fighters = FALSE
 		if(ai_fighter_type.len)
@@ -237,12 +242,7 @@
 				new ai_fighter(get_turf(pick(orange(3, src))))
 				relay_to_nearby('nsv13/sound/effects/ship/fighter_launch_short.ogg')
 		addtimer(VARSET_CALLBACK(src, ai_can_launch_fighters, TRUE), 3 MINUTES)
-
-/obj/structure/overmap/proc/add_enemy(atom/target)
-	if(!istype(target, /obj/structure/overmap)) //Don't know why it wouldn't be..but yeah
-		return
-	var/obj/structure/overmap/OM = target
-	if(LAZYFIND(enemies, OM) || OM.faction == src.faction) //If target's in enemies, return
+	if(OM in enemies) //If target's in enemies, return
 		return
 	enemies += target
 	last_target = target

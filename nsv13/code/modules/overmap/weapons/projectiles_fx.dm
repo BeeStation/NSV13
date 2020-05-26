@@ -19,6 +19,7 @@ Misc projectile types, effects, think of this as the special FX file.
 	icon_state = "railgun"
 	name = "hyper accelerated tungsten slug"
 	damage = 100
+	speed = 1
 	flag = "overmap_heavy"
 	movement_type = FLYING | UNSTOPPABLE //Railguns punch straight through your ship
 	impact_effect_type = /obj/effect/temp_visual/impact_effect/torpedo
