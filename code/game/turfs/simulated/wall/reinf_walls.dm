@@ -204,8 +204,8 @@
 					to_chat(user, "<span class='notice'>You weld the support rods back together.</span>")
 				return 1
 	return 0
-
-/turf/closed/wall/r_wall/proc/update_icon()
+/*
+/turf/closed/wall/r_wall/update_icon()
 	if(d_state != INTACT)
 		smooth = SMOOTH_FALSE
 		clear_smooth_overlays()
@@ -215,6 +215,7 @@
 		queue_smooth_neighbors(src)
 		queue_smooth(src)
 		icon_state = "r_wall"
+*/ //Nsv13 - Todo: Re-implement this
 
 /turf/closed/wall/r_wall/wall_singularity_pull(current_size)
 	if(current_size >= STAGE_FIVE)
