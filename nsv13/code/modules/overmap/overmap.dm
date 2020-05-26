@@ -90,7 +90,6 @@
 	var/obj/machinery/computer/ship/dradis/dradis //So that pilots can check the radar easily
 
 	// Ship weapons
-	var/list/weapons[MAX_POSSIBLE_FIREMODE][] //All of the weapons linked to us
 	var/list/weapon_types[MAX_POSSIBLE_FIREMODE]
 
 	var/fire_mode = FIRE_MODE_PDC //What gun do we want to fire? Defaults to railgun, with PDCs there for flak
@@ -104,8 +103,8 @@
 	var/obj/weapon_overlay/last_fired //Last weapon overlay that fired, so we can rotate guns independently
 	var/atom/last_target //Last thing we shot at, used to point the railgun at an enemy.
 
-	var/torpedoes = 15 //Prevent infinite torp spam
-	var/missiles = 0 //Nothing should start with missiles
+	var/torpedoes = 2 //If this starts at above 0, then the ship can use torpedoes when AI controlled
+	var/missiles = 4 //If this starts at above 0, then the ship can use missiles when AI controlled
 
 	var/pdc_miss_chance = 20 //In %, how often do PDCs fire inaccurately when aiming at missiles. This is ignored for ships as theyre bigger targets.
 	var/list/torpedoes_to_target = list() //Torpedoes that have been fired explicitly at us, and that the PDCs need to worry about.
@@ -201,16 +200,6 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 	icon = 'icons/obj/hand_of_god_structures.dmi'
 	icon_state = "conduit-red"
 
-/obj/structure/overmap/proc/add_weapon_overlay(type)
-	var/path = text2path(type)
-	var/obj/weapon_overlay/OL = new path
-	OL.icon = icon
-	OL.appearance_flags |= KEEP_APART
-	OL.appearance_flags |= RESET_TRANSFORM
-	vis_contents += OL
-	weapon_overlays += OL
-	return OL
-
 /obj/weapon_overlay/laser/do_animation()
 	flick("laser",src)
 
@@ -229,7 +218,6 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 	vector_overlay.icon = icon
 	vis_contents += vector_overlay
 	update_icon()
-	max_range = 50 //Range of the maximum possible attack (torpedo) - Magic number pulled from the aether
 	find_area()
 	switch(mass) //Scale speed with mass (tonnage)
 		if(MASS_TINY) //Tiny ships are manned by people, so they need air.
@@ -275,15 +263,13 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 	addtimer(CALLBACK(src, .proc/force_parallax_update), 20 SECONDS)
 	addtimer(CALLBACK(src, .proc/check_armour), 20 SECONDS)
 
-	weapon_types[FIRE_MODE_PDC] = new/datum/ship_weapon/pdc_mount
-	weapon_types[FIRE_MODE_TORPEDO] = new/datum/ship_weapon/torpedo_launcher
-	weapon_types[FIRE_MODE_RAILGUN] = new/datum/ship_weapon/railgun
-
-/obj/structure/overmap/proc/add_weapon(obj/machinery/ship_weapon/weapon)
-	if(!weapons[weapon.fire_mode])
-		weapons[weapon.fire_mode] = list(weapon)
-	else
-		weapons[weapon.fire_mode] += weapon
+	weapon_types[FIRE_MODE_PDC] = (mass > MASS_TINY) ? new/datum/ship_weapon/pdc_mount(src) : new /datum/ship_weapon/light_cannon(src)
+	weapon_types[FIRE_MODE_TORPEDO] = new/datum/ship_weapon/torpedo_launcher(src)
+	weapon_types[FIRE_MODE_RAILGUN] = new/datum/ship_weapon/railgun(src)
+	weapon_types[FIRE_MODE_FLAK] = new/datum/ship_weapon/flak(src)
+	weapon_types[FIRE_MODE_GAUSS] = new /datum/ship_weapon/gauss(src) //AI ships want to be able to use gauss too. I say let them...
+	if(ai_controlled)
+		weapon_types[FIRE_MODE_MISSILE] = new/datum/ship_weapon/missile_launcher(src)
 
 /obj/structure/overmap/Destroy()
 	QDEL_LIST(current_tracers)

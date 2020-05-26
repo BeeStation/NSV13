@@ -13,7 +13,6 @@
 	pixel_y = -64
 
 	fire_mode = FIRE_MODE_RAILGUN
-	weapon_type = new/datum/ship_weapon/railgun
 	ammo_type = /obj/item/ship_weapon/ammunition/railgun_ammo
 
 	semi_auto = TRUE
