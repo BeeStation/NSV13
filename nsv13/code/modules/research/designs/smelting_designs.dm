@@ -22,7 +22,7 @@
 	name = "Duranium alloy"
 	id = "duranium"
 	build_type = SMELTER | PROTOLATHE
-	materials = list(/datum/material/iron = 2000, /datum/material/plasma = 1000, /datum/material/silver = 1000)
+	materials = list(/datum/material/iron = MINERAL_MATERIAL_AMOUNT, /datum/material/plasma = MINERAL_MATERIAL_AMOUNT/2, /datum/material/silver = MINERAL_MATERIAL_AMOUNT/2)
 	build_path = /obj/item/stack/sheet/duranium
 	category = list("initial", "Stock Parts")
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO | DEPARTMENTAL_FLAG_SCIENCE | DEPARTMENTAL_FLAG_ENGINEERING

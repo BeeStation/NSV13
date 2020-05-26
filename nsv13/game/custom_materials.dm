@@ -11,7 +11,7 @@ GLOBAL_LIST_INIT(duranium_recipes, list (\
 	icon_state = "sheet-duranium"
 	item_state = "sheet-duranium"
 	sheettype = "duranium"
-	materials = list(/datum/material/iron = 2000, /datum/material/plasma = 1000, /datum/material/silver = 1000)
+	materials = list(/datum/material/iron = MINERAL_MATERIAL_AMOUNT, /datum/material/plasma = MINERAL_MATERIAL_AMOUNT/2, /datum/material/silver = MINERAL_MATERIAL_AMOUNT/2)
 	throwforce = 10
 	flags_1 = CONDUCT_1
 	resistance_flags = FIRE_PROOF
