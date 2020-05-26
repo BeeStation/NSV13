@@ -161,9 +161,9 @@
 			if(HAS_TRAIT(L, TRAIT_SEASICK))
 				to_chat(L, "<span class='warning'>You can feel your head start to swim...</span>")
 				if(prob(40)) //Take a roll! First option makes you puke and feel terrible. Second one makes you feel iffy.
-					L.adjust_disgust(60)
+					L.adjust_disgust(20)
 				else
-					L.adjust_disgust(40)
+					L.adjust_disgust(10)
 		shake_camera(M, 4, 1)
 	force_parallax_update(ftl_start)
 

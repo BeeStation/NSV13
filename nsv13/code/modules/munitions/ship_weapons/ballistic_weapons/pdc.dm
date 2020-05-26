@@ -8,11 +8,11 @@
 	anchored = TRUE
 	density = FALSE
 	pixel_y = 26
+	safety = FALSE
 
 	circuit = /obj/item/circuitboard/machine/pdc_mount
 
 	fire_mode = FIRE_MODE_PDC
-	weapon_type = new/datum/ship_weapon/pdc_mount
 	magazine_type = /obj/item/ammo_box/magazine/pdc
 
 	auto_load = TRUE
@@ -114,10 +114,11 @@
 
 /obj/machinery/ship_weapon/pdc_mount/animate_projectile(atom/target, lateral=TRUE)
 	sleep(1)
+	var/datum/ship_weapon/firemode = linked.weapon_types[FIRE_MODE_PDC]
 	if(lateral)
-		linked.fire_lateral_projectile(/obj/item/projectile/bullet/pdc_round, target)
+		linked.fire_lateral_projectile(firemode.default_projectile_type, target)
 	else
-		linked.fire_projectiles(/obj/item/projectile/bullet/pdc_round, target)
+		linked.fire_projectiles(firemode.default_projectile_type, target)
 
 /obj/machinery/ship_weapon/pdc_mount/examine()
 	. = ..()

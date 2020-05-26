@@ -8,7 +8,6 @@
 	pixel_x = -44
 
 	fire_mode = FIRE_MODE_GAUSS
-	weapon_type = new/datum/ship_weapon/gauss
 	ammo_type = /obj/item/ship_weapon/ammunition/gauss
 
 	semi_auto = TRUE
@@ -24,6 +23,7 @@
 	var/climbing_in = FALSE //Stop it. Just stop.
 	var/obj/machinery/portable_atmospherics/canister/internal_tank //Internal air tank reference. Used mostly in small ships. If you want to sabotage a fighter, load a plasma tank into its cockpit :)
 	var/pdc_mode = FALSE
+	var/last_pdc_fire = 0 //Pdc cooldown
 
 //Verbs//
 
@@ -152,8 +152,9 @@
 	dir = WEST
 
 /obj/machinery/ship_weapon/gauss_gun/proc/onClick(atom/target)
-	if(pdc_mode)
+	if(pdc_mode && world.time >= last_pdc_fire + 2 SECONDS)
 		linked.fire_weapon(target=target, mode=FIRE_MODE_PDC)
+		last_pdc_fire = world.time
 		return
 	fire(target)
 
