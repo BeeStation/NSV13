@@ -68,7 +68,7 @@
 				break
 		fire_mode = new_firemode
 		fire_weapon(target, new_firemode)
-		next_firetime = world.time + fire_delay
+		next_firetime = world.time + (0.5 SECONDS) + (fire_delay*2)
 
 //Torpedoes are more heavy hitting, thus you don't get very many.
 
