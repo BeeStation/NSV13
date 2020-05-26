@@ -54,3 +54,23 @@ MAP_REMOVE_JOB(virologist)	//Redundant
 	..()
 	MAP_JOB_CHECK
 	total_positions = 1
+
+/datum/job/chemist/New()
+	..()
+	MAP_JOB_CHECK
+	total_positions = 1
+	spawn_positions = 1
+
+/datum/job/fighter_pilot/New()
+	..()
+	MAP_JOB_CHECK
+	total_positions = 2
+	spawn_positions = 1
+
+/datum/uplink_item/explosives/syndicate_bomb/New()
+	. = ..()
+	if(SSmapping.config.map_name != JOB_MODIFICATION_MAP_NAME)
+		return
+	limited_stock = 0 //This ship is way too small for this shit.
+	cant_discount = TRUE
+	surplus = 0
