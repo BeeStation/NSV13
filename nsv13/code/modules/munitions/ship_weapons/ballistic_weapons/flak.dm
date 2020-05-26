@@ -26,11 +26,11 @@
 	pixel_y = 26
 	maintainable = FALSE
 	bang = FALSE
+	safety = FALSE
 
 //	circuit = /obj/item/circuitboard/machine/pdc_mount
 
 	fire_mode = FIRE_MODE_FLAK
-	weapon_type = new/datum/ship_weapon/flak
 	magazine_type = /obj/item/ammo_box/magazine/pdc/flak
 
 	auto_load = TRUE
@@ -54,7 +54,6 @@
 	chamber_delay = 0
 	bang = FALSE
 
-
 /obj/machinery/ship_weapon/pdc_mount/flak/animate_projectile(atom/target)
 	linked.fire_flak(target)
 /**
@@ -63,28 +62,27 @@
 /obj/structure/overmap/proc/handle_pdcs()
 	if(fire_mode == FIRE_MODE_FLAK) //If theyre aiming the flak manually.
 		return
-	if(mass <= MASS_TINY && !ai_controlled) //Small ships don't get to use PDCs. AIs still need to aim like this, though
+	if(mass < MASS_SMALL) //Sub-capital ships don't get to use flak
 		return
-	if(!last_target || QDELETED(last_target) || !isovermap(last_target) || last_target == src) //Stop hitting yourself enterprise
-		last_target = null
-	else
-		fire_weapon(last_target, mode=FIRE_MODE_FLAK, lateral=TRUE)
-		return
+	var/datum/ship_weapon/SW = weapon_types[FIRE_MODE_FLAK]
+	if(!ai_controlled)
+		if(!last_target || !istype(last_target, /obj/structure/overmap) || QDELETED(last_target) || !isovermap(last_target) || last_target == src || get_dist(last_target,src) >= SW.range_modifier) //Stop hitting yourself enterprise
+			last_target = null
+		else
+			fire_weapon(last_target, mode=FIRE_MODE_FLAK, lateral=TRUE)
+			return
 	for(var/obj/structure/overmap/ship in GLOB.overmap_objects)
 		if(!ship || !istype(ship))
 			continue
-		if(ship == src || ship.faction == faction || wrecked || ship.wrecked || ship.z != z) //No friendly fire, don't blow up wrecks that the crew may wish to loot.
+		if(ship == src || ship == last_target || ship.faction == faction || wrecked || ship.wrecked || ship.z != z) //No friendly fire, don't blow up wrecks that the crew may wish to loot. For AIs, do not target our active target, and risk blowing up our precious torpedoes / missiles.
 			continue
 		var/target_range = get_dist(ship,src)
-		if(target_range > 50) //Random pulled from the aether
+		if(target_range > SW.range_modifier || target_range <= 0) //Random pulled from the aether
 			continue
 		if(!QDELETED(ship) && isovermap(ship))
-			if(mass >= MASS_MEDIUM)
-				fire_weapon(ship, mode=FIRE_MODE_FLAK, lateral=TRUE)
-				break
-			else
-				fire_weapon(ship, mode=FIRE_MODE_PDC, lateral=TRUE)
-				break
+			last_target = ship
+			fire_weapon(ship, mode=FIRE_MODE_FLAK, lateral=TRUE)
+			break
 
 /obj/structure/overmap/proc/get_flak_range(atom/target)
 	if(!target)
