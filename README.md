@@ -9,6 +9,8 @@
 **Code:** https://github.com/Beestation/NSV13
 **Wiki:** https://nsv.beestation13.com/wiki/Main_Page
 
+## Kmc is a coding torp
+Nothing can stop his coding ability it sinks boring mechanics with ease to bring more enjoyment to all.
 
 ## DOWNLOADING
 
