@@ -82,7 +82,6 @@ SUBSYSTEM_DEF(star_system)
 
 /datum/controller/subsystem/star_system/proc/spawn_ship(obj/structure/overmap/OM, datum/star_system/target_sys, center=FALSE)//Select Ship to Spawn and Location via Z-Trait
 	if(target_sys.occupying_z)
-		message_admins("[OM] successfully spawned in [target_sys]")
 		var/turf/destination = null
 		if(center)
 			destination = get_turf(locate(round(world.maxx * 0.5, 1), round(world.maxy * 0.5, 1), target_sys.occupying_z)) //Plop them bang in the center of the system as requested. This is usually saved for wormholes.
@@ -91,7 +90,6 @@ SUBSYSTEM_DEF(star_system)
 		var/obj/structure/overmap/enemy = new OM(destination)
 		target_sys.add_enemy(enemy)
 	else
-		message_admins("Enqued a [OM] for spawning in [target_sys]")
 		target_sys.enemy_queue += OM
 
 //Specific case for anomalies. They need to be spawned in for research to scan them.
