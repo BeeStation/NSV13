@@ -30,7 +30,9 @@
 	icon_state = "rwindow"
 	icon = 'nsv13/icons/obj/window.dmi'
 
-/obj/structure/grille
+//"wall grilles" that smooth like regular walls do because why not
+
+/obj/structure/grille/wall
 	color = "#707070" //So close to being "nice" that it hurts.
 	smooth = SMOOTH_TRUE
 	legacy_smooth = TRUE //Override /tg/ iconsmooths

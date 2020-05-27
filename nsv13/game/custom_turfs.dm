@@ -5,7 +5,6 @@
 	desc = "A large hull segment designed to create vessels and structures capable of supporting life in even the most hazardous places."
 	legacy_smooth = TRUE //Override /tg/ iconsmooths
 	smooth = TRUE
-	canSmoothWith = list(/turf/closed/wall,/obj/machinery/door,/obj/structure/window/fulltile,/obj/structure/window/reinforced/fulltile, /obj/structure/window/plasma/fulltile, /obj/structure/falsewall)
 	sheet_type = /obj/item/stack/sheet/durasteel
 	hardness = 20
 
@@ -19,10 +18,12 @@
 
 /turf/closed/wall/r_wall/ship
 	icon = 'nsv13/icons/turf/reinforced_wall.dmi'
+	icon_state = "solid"
 	name = "Duranium hull"
 	desc = "A large hull segment designed to create vessels and structures capable of supporting life in even the most hazardous places."
 	legacy_smooth = TRUE //Override /tg/ iconsmooths
 	smooth = TRUE
+	color = null
 	sheet_type = /obj/item/stack/sheet/duranium
 	sheet_amount = 2
 	girder_type = /obj/structure/girder

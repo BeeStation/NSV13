@@ -8,6 +8,7 @@
 	icon_state = "solid"
 	icon = 'nsv13/icons/turf/wall_masks.dmi'
 	legacy_smooth = TRUE //Override /tg/ iconsmooths
+	canSmoothWith = list(/turf/closed/wall,/obj/machinery/door,/obj/structure/window/fulltile,/obj/structure/window/reinforced/fulltile, /obj/structure/window/plasma/fulltile, /obj/structure/falsewall)
 	var/list/wall_connections = list("0", "0", "0", "0")
 	var/list/other_connections = list("0", "0", "0", "0")
 	var/image/texture = null //EG: Concrete. Lets you texture a wall with one texture tile rather than making a new wall..every..single...time
@@ -125,8 +126,8 @@
 	return
 
 /turf/closed/wall/proc/can_join_with(atom/movable/W)
-	if(ismob(W) || istype(W, /obj/machinery/door/window)) //Just...trust me on this
-		return
+	if(ismob(W) || istype(W, /obj/machinery/door/window) || istype(W, /turf/closed/wall/mineral/titanium)) //Just...trust me on this
+		return FALSE
 	if(istype(W, src.type))
 		return CAN_SMOOTH_FULL
 	for(var/_type in canSmoothWith)
