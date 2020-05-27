@@ -65,12 +65,17 @@
 		M.client.check_view()
 	var/mob/camera/aiEye/remote/overmap_observer/eyeobj = M.remote_control
 	M.cancel_camera()
+	if(M.client) //Reset px, y
+		M.client.pixel_x = 0
+		M.client.pixel_y = 0
 	if(istype(M, /mob/living/silicon/ai))
 		var/mob/living/silicon/ai/hal = M
 		if((locate(eyeobj) in hal.all_eyes))
 			hal.all_eyes -= eyeobj
 		var/mob/camera/aiEye/cam = pick(hal.all_eyes)
 		hal.eyeobj = cam
+		if(hal.client)
+			hal.client.check_view()
 	QDEL_NULL(eyeobj)
 	QDEL_NULL(eyeobj?.off_action)
 	QDEL_NULL(M.remote_control)

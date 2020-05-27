@@ -1,7 +1,8 @@
 /obj/item/stack/sheet
 	name = "sheet"
-	lefthand_file = 'icons/mob/inhands/misc/sheets_lefthand.dmi'
-	righthand_file = 'icons/mob/inhands/misc/sheets_righthand.dmi'
+	lefthand_file = 'nsv13/icons/mob/inhands/misc/sheets_lefthand.dmi' //NSV13
+	righthand_file = 'nsv13/icons/mob/inhands/misc/sheets_righthand.dmi' //NSV13
+
 	full_w_class = WEIGHT_CLASS_NORMAL
 	force = 5
 	throwforce = 5
