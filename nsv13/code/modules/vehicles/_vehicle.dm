@@ -47,6 +47,8 @@ MASSIVE THANKS TO MONSTER860 FOR HELP WITH THIS. HE EXPLAINED PHYSICS AND MATH T
 	var/datum/gas_mixture/cabin_air //Cabin air mix used for small ships like fighters (see overmap/fighters/fighters.dm)
 	var/obj/machinery/portable_atmospherics/canister/internal_tank //Internal air tank reference. Used mostly in small ships. If you want to sabotage a fighter, load a plasma tank into its cockpit :)
 
+/obj/vehicle/sealed/car/realistic
+
 /obj/vehicle/sealed/car/realistic/emp_act(severity)
 	. = ..()
 	if(. & EMP_PROTECT_SELF)
@@ -177,7 +179,7 @@ MASSIVE THANKS TO MONSTER860 FOR HELP WITH THIS. HE EXPLAINED PHYSICS AND MATH T
 			if(occupants.len)
 				var/mob/M = return_drivers()[1]
 				var/client/C = M.client
-				if(C && C.keys_held["Alt"])
+				if(!M || C && C.keys_held["Alt"]) //No driver? Brake automatically. Otherwise check if driver wants to break.
 					drag += braking_efficiency
 			var/datum/gas_mixture/env = T.return_air()
 			var/pressure = env.return_pressure()

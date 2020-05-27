@@ -38,10 +38,8 @@ require only minor tweaks.
 #define ZTRAIT_SPACE_RUINS "Space Ruins"
 #define ZTRAIT_LAVA_RUINS "Lava Ruins"
 #define ZTRAIT_OVERMAP "Overmap" //NSV13
-#define ZTRAIT_ASTRAEUS "Astraeus System" //NSV13 - System defines for moving ships around
-#define ZTRAIT_CORVI "Corvi System"//NSV13 - System defines for moving ships around
-#define ZTRAIT_HYPERSPACE "Hyperspace" //NSV13 - System defines for moving ships around
 #define ZTRAIT_BOARDABLE "Boardable Ship" //NSV13 - System defines blah
+#define ZTRAIT_MINING_SHIP "Mining ship" //NSV13 - System defines blah
 
 /// number - bombcap is multiplied by this before being applied to bombs
 #define ZTRAIT_BOMBCAP_MULTIPLIER "Bombcap Multiplier"
@@ -76,8 +74,9 @@ require only minor tweaks.
     ZTRAIT_BASETURF = /turf/open/lava/smooth/lava_land_surface)
 #define ZTRAITS_REEBE list(ZTRAIT_REEBE = TRUE, ZTRAIT_BOMBCAP_MULTIPLIER = 0.5)
 
-#define ZTRAITS_OVERMAP list(ZTRAIT_LINKAGE = SELFLOOPING, ZTRAIT_BOARDABLE = FALSE) //NSV13
-#define ZTRAITS_BOARADABLE_SHIP list(ZTRAIT_LINKAGE = SELFLOOPING, ZTRAIT_STATION = FALSE, ZTRAIT_BOARDABLE = TRUE) //NSV13
+#define ZTRAITS_OVERMAP list(ZTRAIT_LINKAGE = SELFLOOPING, ZTRAIT_OVERMAP = TRUE, ZTRAIT_BOARDABLE = FALSE) //NSV13
+#define ZTRAITS_BOARDABLE_SHIP list(ZTRAIT_LINKAGE = SELFLOOPING, ZTRAIT_STATION = FALSE, ZTRAIT_BOARDABLE = TRUE) //NSV13
+
 
 #define DL_NAME "name"
 #define DL_TRAITS "traits"

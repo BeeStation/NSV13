@@ -130,8 +130,8 @@ The while loop runs at a programatic level and is thus separated from any thrott
 	set waitfor = FALSE
 	var/time = min(world.time - last_process, 10)
 	time /= 10 // fuck off deciseconds
-	if(last_process > 0 && (last_process < world.time - 1 SECONDS) && !processing_failsafe) //Alright looks like the game's shat itself. Time to engage "failsafe mode". The logic of this is that if we've not been processed for over 1 second, then ship piloting starts to become unbearable and we need to step in and do our own processing, until the game's back on its feet again.
-		start_failsafe_processing()
+//	if(last_process > 0 && (last_process < world.time - 1 SECONDS) && !processing_failsafe) //Alright looks like the game's shat itself. Time to engage "failsafe mode". The logic of this is that if we've not been processed for over 1 second, then ship piloting starts to become unbearable and we need to step in and do our own processing, until the game's back on its feet again.
+//		start_failsafe_processing()
 	last_process = world.time
 	if(world.time > last_slowprocess + 10)
 		last_slowprocess = world.time
@@ -527,17 +527,20 @@ The while loop runs at a programatic level and is thus separated from any thrott
 			proj.firer = src
 		proj.def_zone = "chest"
 		proj.original = target
+		proj.overmap_firer = src
 		proj.pixel_x = round(this_x)
 		proj.pixel_y = round(this_y)
 		proj.setup_collider()
+		proj.faction = faction
 		if(isovermap(target) && explosive) //If we're firing a torpedo, the enemy's PDCs need to worry about it.
 			var/obj/structure/overmap/OM = target
 			OM.torpedoes_to_target += proj //We're firing a torpedo, their PDCs will need to shoot it down, so notify them of its existence
 		if(homing)
 			proj.set_homing_target(target)
 		spawn()
+			proj.preparePixelProjectile(target, src, null, round((rand() - 0.5) * proj.spread))
 			proj.fire(angle)
-			proj.set_pixel_speed(speed)
+		return proj
 
 /obj/structure/overmap/proc/fire_projectiles(proj_type, target) // if spacepods of other sizes are added override this or something
 	var/fx = cos(90 - angle)
@@ -574,11 +577,13 @@ The while loop runs at a programatic level and is thus separated from any thrott
 			proj.firer = src
 		proj.def_zone = "chest"
 		proj.original = target
+		proj.overmap_firer = src
 		proj.pixel_x = round(this_x)
 		proj.pixel_y = round(this_y)
 		proj.setup_collider()
 		proj.faction = faction
 		spawn()
+			proj.preparePixelProjectile(target, src, null, round((rand() - 0.5) * proj.spread))
 			proj.fire(angle)
 
 /obj/structure/overmap/proc/fire_lateral_projectile(proj_type,target,speed=null, mob/living/user_override=null)
@@ -588,6 +593,7 @@ The while loop runs at a programatic level and is thus separated from any thrott
 	proj.firer = (!user_override && gunner) ? gunner : user_override
 	proj.def_zone = "chest"
 	proj.original = target
+	proj.overmap_firer = src
 	proj.pixel_x = round(pixel_x)
 	proj.pixel_y = round(pixel_y)
 	proj.setup_collider()
@@ -596,8 +602,6 @@ The while loop runs at a programatic level and is thus separated from any thrott
 		proj.firer = gunner
 	else
 		proj.firer = src
-	var/theangle = Get_Angle(src,target)
 	spawn()
-		proj.fire(theangle)
-		if(speed)
-			proj.set_pixel_speed(speed)
+		proj.preparePixelProjectile(target, src, null, round((rand() - 0.5) * proj.spread))
+		proj.fire()

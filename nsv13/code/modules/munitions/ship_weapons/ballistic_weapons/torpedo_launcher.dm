@@ -13,8 +13,6 @@
 	load_sound = 'nsv13/sound/effects/ship/freespace2/m_load.wav'
 	fire_mode = FIRE_MODE_TORPEDO
 	ammo_type = /obj/item/ship_weapon/ammunition/torpedo
-	fire_mode = 2
-	weapon_type = new/datum/ship_weapon/torpedo_launcher
 
 /obj/machinery/ship_weapon/torpedo_launcher/north
 	dir = NORTH
@@ -70,4 +68,8 @@
 		if(istype(T, /obj/item/projectile/guided_munition/torpedo/dud)) //Some brainlet MAA loaded an incomplete torp
 			linked.fire_projectile(T.projectile_type, target, homing = FALSE, explosive = TRUE)
 		else
-			linked.fire_projectile(T.projectile_type, target, homing = TRUE, explosive = TRUE)
+			var/obj/item/projectile/P = linked.fire_projectile(T.projectile_type, target, homing = TRUE, explosive = TRUE)
+			if(T.contents.len)
+				for(var/atom/movable/AM in T.contents)
+					to_chat(AM, "<span class='warning'>You feel slightly nauseous as you're shot out into space...</span>")
+					AM.forceMove(P)
