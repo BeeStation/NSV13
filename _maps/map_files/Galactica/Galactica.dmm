@@ -1654,6 +1654,7 @@
 /turf/open/floor/monotile,
 /area/bridge)
 "eY" = (
+/obj/effect/turf_decal/delivery/white,
 /obj/effect/turf_decal/stripes{
 	icon_state = "warningline";
 	dir = 9
@@ -1896,6 +1897,7 @@
 /turf/open/floor/carpet/blue,
 /area/bridge)
 "fA" = (
+/obj/effect/turf_decal/delivery/white,
 /obj/effect/turf_decal/stripes{
 	icon_state = "warningline";
 	dir = 8
@@ -2094,20 +2096,20 @@
 /turf/open/floor/carpet/blue,
 /area/bridge)
 "gb" = (
-/obj/effect/turf_decal/solgov{
-	icon_state = "top-left"
+/obj/structure/hull_plate/end{
+	dir = 9
 	},
-/turf/open/floor/monotile/dark/airless,
+/turf/open/floor/engine/airless,
 /area/maintenance/ship_exterior)
 "gc" = (
-/obj/effect/turf_decal/solgov{
-	icon_state = "top-center"
+/obj/structure/hull_plate/end{
+	dir = 5
 	},
-/turf/open/floor/monotile/dark/airless,
+/turf/open/floor/engine/airless,
 /area/maintenance/ship_exterior)
 "gd" = (
 /obj/effect/turf_decal/solgov{
-	icon_state = "top-right"
+	icon_state = "top-left"
 	},
 /turf/open/floor/monotile/dark/airless,
 /area/maintenance/ship_exterior)
@@ -2202,20 +2204,20 @@
 /turf/open/floor/carpet/blue,
 /area/bridge/meeting_room)
 "gs" = (
+/obj/structure/hull_plate/end{
+	dir = 8
+	},
+/turf/open/floor/engine/airless,
+/area/maintenance/ship_exterior)
+"gt" = (
 /obj/effect/turf_decal/solgov{
-	icon_state = "center-left"
+	icon_state = "top-center"
 	},
 /turf/open/floor/monotile/dark/airless,
 /area/maintenance/ship_exterior)
-"gt" = (
-/obj/effect/turf_decal/solgov,
-/turf/open/floor/light{
-	initial_gas_mix = "TEMP=2.7"
-	},
-/area/maintenance/ship_exterior)
 "gu" = (
 /obj/effect/turf_decal/solgov{
-	icon_state = "center-right"
+	icon_state = "center-left"
 	},
 /turf/open/floor/monotile/dark/airless,
 /area/maintenance/ship_exterior)
@@ -2396,26 +2398,27 @@
 /area/bridge/meeting_room)
 "gR" = (
 /obj/effect/turf_decal/solgov{
-	icon_state = "bottom-left"
+	icon_state = "top-right"
 	},
 /turf/open/floor/monotile/dark/airless,
 /area/maintenance/ship_exterior)
 "gS" = (
-/obj/effect/turf_decal/solgov{
-	icon_state = "bottom-center"
+/obj/effect/turf_decal/solgov,
+/turf/open/floor/light{
+	initial_gas_mix = "TEMP=2.7"
 	},
-/turf/open/floor/monotile/dark/airless,
 /area/maintenance/ship_exterior)
 "gT" = (
 /obj/effect/turf_decal/solgov{
-	icon_state = "bottom-right"
+	icon_state = "bottom-left"
 	},
 /turf/open/floor/monotile/dark/airless,
 /area/maintenance/ship_exterior)
 "gU" = (
-/turf/open/floor/light{
-	initial_gas_mix = "TEMP=2.7"
+/obj/effect/turf_decal/solgov{
+	icon_state = "center-right"
 	},
+/turf/open/floor/monotile/dark/airless,
 /area/maintenance/ship_exterior)
 "gV" = (
 /obj/machinery/airalarm/directional/north,
@@ -2563,9 +2566,11 @@
 /area/bridge)
 "hk" = (
 /obj/machinery/ship_weapon/gauss_gun{
-	pixel_y = -64
+	pixel_y = -96
 	},
-/turf/open/floor/monotile/dark/airless,
+/turf/open/floor/light{
+	initial_gas_mix = "TEMP=2.7"
+	},
 /area/maintenance/ship_exterior)
 "hl" = (
 /obj/structure/cable{
@@ -2707,6 +2712,7 @@
 /turf/open/floor/carpet/blue,
 /area/bridge/meeting_room)
 "hB" = (
+/obj/effect/turf_decal/delivery/white,
 /obj/effect/turf_decal/stripes{
 	icon_state = "warningline";
 	dir = 10
@@ -10316,6 +10322,12 @@
 	},
 /turf/open/floor/plasteel/techmaint,
 /area/maintenance/department/engine)
+"BV" = (
+/obj/effect/turf_decal/solgov{
+	icon_state = "bottom-right"
+	},
+/turf/open/floor/monotile/dark/airless,
+/area/maintenance/ship_exterior)
 "Cl" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
@@ -10499,6 +10511,12 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/department/medical)
+"ES" = (
+/obj/structure/hull_plate/end{
+	dir = 6
+	},
+/turf/open/floor/engine/airless,
+/area/maintenance/ship_exterior)
 "EV" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 4
@@ -11013,6 +11031,12 @@
 /obj/item/storage/fancy/donut_box,
 /turf/open/floor/monotile,
 /area/security/warden)
+"ML" = (
+/obj/effect/turf_decal/solgov{
+	icon_state = "bottom-center"
+	},
+/turf/open/floor/monotile/dark/airless,
+/area/maintenance/ship_exterior)
 "MM" = (
 /obj/structure/cable{
 	icon_state = "4-8"
@@ -11093,6 +11117,12 @@
 /obj/effect/spawner/lootdrop/maintenance,
 /turf/open/floor/plating,
 /area/maintenance/department/engine)
+"Oa" = (
+/obj/structure/hull_plate/end{
+	dir = 10
+	},
+/turf/open/floor/engine/airless,
+/area/maintenance/ship_exterior)
 "Oe" = (
 /obj/effect/spawner/lootdrop/maintenance/three,
 /obj/structure/closet/crate,
@@ -60310,8 +60340,8 @@ ac
 ac
 ac
 ac
+ac
 bT
-ci
 ci
 ci
 ci
@@ -60612,8 +60642,8 @@ ac
 ac
 ac
 ac
+ac
 bT
-ci
 ci
 ci
 ci
@@ -60912,9 +60942,9 @@ ac
 ac
 ac
 ac
-bT
-ci
-ci
+ac
+ac
+ac
 GM
 GM
 GM
@@ -61214,9 +61244,9 @@ ac
 ac
 ac
 ac
-bT
-ci
-ci
+ac
+ac
+ac
 GM
 AI
 Ar
@@ -61234,9 +61264,9 @@ FO
 cC
 ci
 ci
-ci
-ci
 iU
+ac
+ac
 ac
 ac
 ac
@@ -61516,9 +61546,9 @@ ac
 ac
 ac
 ac
-bT
-ci
-ci
+ac
+ac
+ac
 GM
 ZT
 FD
@@ -61536,9 +61566,9 @@ FO
 cC
 ci
 ci
-ci
-ci
 iU
+ac
+ac
 ac
 ac
 ac
@@ -61817,10 +61847,10 @@ ac
 ac
 ac
 ac
-bT
-ci
-ci
-ci
+ac
+ac
+ac
+ac
 GM
 AI
 Ar
@@ -61838,10 +61868,10 @@ FO
 cC
 ci
 ci
-ci
-ci
-ci
 iU
+ac
+ac
+ac
 ac
 ac
 ac
@@ -62119,9 +62149,9 @@ ac
 ac
 ac
 ac
-bT
-ci
-ci
+gb
+gs
+gs
 GM
 KW
 dr
@@ -62140,10 +62170,10 @@ dr
 ci
 ci
 ci
-ci
-ci
-ci
 iU
+ac
+ac
+ac
 ac
 ac
 ac
@@ -62442,10 +62472,10 @@ dr
 cC
 ci
 ci
-ci
-ci
-ci
 iU
+ac
+ac
+ac
 ac
 ac
 ac
@@ -62745,9 +62775,9 @@ GM
 GM
 GM
 GM
-ci
-ci
-iU
+gs
+gs
+Oa
 ac
 ac
 ac
@@ -68763,9 +68793,9 @@ ac
 ac
 ac
 ac
-bT
-ci
-ci
+gc
+jx
+jx
 GM
 GM
 GM
@@ -68785,9 +68815,9 @@ fY
 GM
 GM
 GM
-ci
-ci
-iU
+jx
+jx
+ES
 ac
 ac
 ac
@@ -69067,9 +69097,9 @@ ac
 ac
 ac
 ac
-bT
-ci
-ci
+ac
+ac
+ac
 GM
 fY
 aA
@@ -69085,9 +69115,9 @@ aA
 aA
 fY
 GM
-ci
-ci
-iU
+ac
+ac
+ac
 ac
 ac
 ac
@@ -69369,9 +69399,9 @@ ac
 ac
 ac
 ac
-bT
-ci
-ci
+ac
+ac
+ac
 GM
 Va
 xD
@@ -69387,9 +69417,9 @@ xD
 xD
 Es
 GM
-ci
-ci
-iU
+ac
+ac
+ac
 ac
 ac
 ac
@@ -69671,9 +69701,9 @@ ac
 ac
 ac
 ac
-bT
-ci
-ci
+ac
+ac
+ac
 GM
 GM
 GM
@@ -69689,9 +69719,9 @@ GM
 GM
 GM
 GM
-ci
-ci
-iU
+ac
+ac
+ac
 ac
 ac
 ac
@@ -69974,25 +70004,25 @@ ac
 ac
 ac
 ac
-bT
-ci
-ci
-cD
+ac
+ac
+ac
+cE
 dU
-cD
-cD
-cD
-cD
-cD
-cD
-cD
-cD
-cD
 dU
-cD
-ci
-ci
-iU
+dU
+dU
+dU
+dU
+dU
+dU
+dU
+dU
+dU
+ir
+ac
+ac
+ac
 ac
 ac
 ac
@@ -70276,10 +70306,10 @@ ac
 ac
 ac
 ac
-bT
-ci
-ci
-cD
+ac
+ac
+ac
+cE
 dU
 cD
 cD
@@ -70291,10 +70321,10 @@ cD
 cD
 cD
 dU
-cD
-ci
-ci
-iU
+ir
+ac
+ac
+ac
 ac
 ac
 ac
@@ -70586,9 +70616,9 @@ dU
 cD
 cD
 cD
-gb
-gs
-gR
+cD
+cD
+cD
 cD
 cD
 cD
@@ -70888,9 +70918,9 @@ dU
 cD
 cD
 cD
-gc
-gt
-gS
+cD
+cD
+cD
 cD
 cD
 cD
@@ -71492,9 +71522,9 @@ dU
 cD
 cD
 cD
-cD
-cD
-cD
+gt
+gS
+ML
 cD
 cD
 cD
@@ -71794,9 +71824,9 @@ dU
 cD
 cD
 cD
-cD
-cD
-cD
+gR
+gU
+BV
 cD
 cD
 cD
@@ -72999,7 +73029,7 @@ ac
 ac
 cE
 dU
-cD
+dU
 eY
 fA
 fA
@@ -73007,7 +73037,7 @@ fA
 fA
 fA
 hB
-cD
+dU
 dU
 ir
 ac
@@ -73608,7 +73638,7 @@ eZ
 fB
 aj
 aj
-gU
+aj
 hk
 hC
 cD
@@ -74514,7 +74544,7 @@ eZ
 fB
 aj
 aj
-gU
+aj
 hk
 hC
 cD
@@ -76326,7 +76356,7 @@ eZ
 fB
 aj
 aj
-gU
+aj
 hk
 hC
 cD
@@ -77232,7 +77262,7 @@ eZ
 fB
 aj
 aj
-gU
+aj
 hk
 hC
 cD
