@@ -1,0 +1,5 @@
+<ui-display title='Mounted Control Rods'>
+  {{#each data.mounted_control_rods:control_rod_value}}
+	<ui-button icon='eject' action='remove_rod' style='null' params='{"target": {{control_rod_ID}}}'>Eject {{name}}</ui-button><br/>
+  {{/each}}
+</ui-display>

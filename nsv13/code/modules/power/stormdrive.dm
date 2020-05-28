@@ -65,6 +65,8 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 #define WARNING_STATE_OVERHEAT 1
 #define WARNING_STATE_MELTDOWN 2
 
+#define MAX_CONTROL_RODS 5
+
 //////Stormdrive///////
 
 /obj/machinery/atmospherics/components/binary/stormdrive_reactor
@@ -84,6 +86,10 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 	var/cooling_power = 10 //How much heat we can drain per tick. Matches up with target_heat
 	var/cooling_power_modifier = 1 //Modifier to handle gas cooling values
 	var/control_rod_percent = 100 //Handles the insertion depth of the control rods into the reactor
+	var/control_rod_integrity = 0 //Aggrigate of the integrity of all control rods
+	var/control_rod_modifier = 1 //Handles the effective aggrigate of control rods
+	var/control_rod_installation = FALSE //Check for if a rod is being installed or removed
+	var/list/control_rods = list()
 	var/heat_gain = 5
 	var/heat_gain_modifier = 1 //????????????????
 	var/warning_state = WARNING_STATE_NONE //Are we warning people about a meltdown already? If we are, don't spam them with sounds. Also works for when it's actually exploding
@@ -104,7 +110,7 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 	var/last_power_produced = 0 //For UI tracking. Shows your power output.
 	var/theoretical_maximum_power = 100000 //Placeholder.
 	var/radiation_modifier = 1 //Modifier to handle gas radiation values
-	var/reactor_temperature_nominal = 200
+	var/reactor_temperature_nominal = 200 //THIS IS A VARIABLE - LEAVE IT ALONE
 	var/reactor_temperature_hot = 400
 	var/reactor_temperature_critical = 650
 	var/reactor_temperature_meltdown = 800
@@ -114,25 +120,139 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 	radio_key = /obj/item/encryptionkey/syndicate
 	engineering_channel = "Syndicate"
 
-/obj/machinery/atmospherics/components/binary/stormdrive_reactor/attackby(obj/item/I, mob/user)
-	if(istype(I, /obj/item/stack/sheet/plasteel) && user.a_intent != INTENT_HARM)
-		if(state != REACTOR_STATE_MAINTENANCE)
-			to_chat(user, "<span class='danger'>[src] is not in maintenance mode! opening the lid on an active nuclear reaction would probably be fatal...</span>")
+/obj/machinery/atmospherics/components/binary/stormdrive_reactor/attackby(obj/item/I, mob/living/carbon/user)
+	if(istype(I, /obj/item/control_rod))
+		if(control_rod_installation)
+			to_chat(user, "<span class='notice'>A control rod is already being installed into [src].</span>")
+			return
+		if(state == REACTOR_STATE_IDLE)
+			to_chat(user, "<span class='danger'>[src] is not in maintenance mode! Opening the lid on an active nuclear reaction would probably be fatal...</span>")
 			return FALSE
-		var/obj/item/stack/sheet/S = I
-		var/repair_power = 10 //10 rod integrity per 1 sheet of plasteel.
-		if(rod_integrity >= 100)
-			to_chat(user, "<span class='notice'>[src]'s control rods wouldn't benefit from any additional lining right now.</span>")
-			return FALSE
-		to_chat(user, "<span class='notice'>You start to line [src]'s control rods with a reinforced plasteel sheathe...</span>")
-		if(do_after(user,50, target = src))
-			rod_integrity += min(repair_power, 100-rod_integrity)
-			S.use(1)
-			to_chat(user,"<span class='notice'>You reinforce [src]'s control rods.</span>")
-			if(rod_integrity == 100)
-				to_chat(user,"<span class='notice'>[src]'s control rods are fully lined.</span>")
-			return TRUE
-	. = ..()
+		if(state == REACTOR_STATE_MAINTENANCE)
+			if(control_rods.len >= MAX_CONTROL_RODS)
+				to_chat(user, "<span class='notice'>[src] already has [MAX_CONTROL_RODS] mounted.</span>")
+				return
+			else
+				to_chat(user, "<span class='notice'>You begin mounting the [I.name] to the reactor control coupling...</span>")
+				control_rod_installation = TRUE
+				if(!do_after(user, 50, target = src))
+					control_rod_installation = FALSE
+					return
+				to_chat(user, "<span class='notice'>You mount the [I.name] to the reactor control coupleing. </span>")
+				control_rod_installation = FALSE
+				control_rods += I
+				I.forceMove(src)
+				update_icon()
+				handle_control_rod_efficiency()
+		if(state == REACTOR_STATE_RUNNING)
+			if(alert("[src] is not in maintenance mode! Manually inserting a control rod into an active nuclear reaction would probably be fatal.",name,"Continue","Reconsider") == "Continue" && Adjacent(user))
+				if(control_rods.len >= MAX_CONTROL_RODS)
+					to_chat(user, "<span class='notice'>[src] already has [MAX_CONTROL_RODS] installed.</span>")
+					return
+				else //custom to_chat needs to go here, need to insert radiation into the user and emp_act()
+					to_chat(user, "<span class='notice'>You begin mounting the [I.name] to the reactor control coupling...</span>")
+					to_chat(user, "<span class='warning'>A blue glow envelopes your hands!</span>")
+					control_rod_installation = TRUE
+					user.emp_act(25)
+					user.radiation += 250 * radiation_modifier
+					radiation_pulse(src, 1000 * radiation_modifier, 5)
+					if(!do_after(user, 50, target = src))
+						control_rod_installation = FALSE
+						return
+					to_chat(user, "<span class='notice'>You mount the [I.name] to the reactor control coupleing. </span>")
+					control_rod_installation = FALSE
+					control_rods += I
+					I.forceMove(src)
+					update_icon()
+					user.emp_act(25)
+					user.radiation += 250 * radiation_modifier
+					radiation_pulse(src, 1000 * radiation_modifier, 5)
+					handle_control_rod_efficiency()
+
+/obj/machinery/atmospherics/components/binary/stormdrive_reactor/attack_hand(mob/living/carbon/user)
+	.=..()
+	ui_interact(user)
+
+/obj/machinery/atmospherics/components/binary/stormdrive_reactor/ui_interact(mob/user, ui_key = "main", datum/tgui/ui = null, force_open = 0, datum/tgui/master_ui = null, datum/ui_state/state = GLOB.default_state) // Remember to use the appropriate state.
+	ui = SStgui.try_update_ui(user, src, ui_key, ui, force_open)
+	if(!ui)
+		ui = new(user, src, ui_key, "reactor_control_rods", name, 560, 600, master_ui, state)
+		ui.open()
+
+/obj/machinery/atmospherics/components/binary/stormdrive_reactor/ui_act(action, params, datum/tgui/ui)
+	if(..())
+		return
+	if(!in_range(src, usr))
+		return
+	switch(action)
+		if("remove_rod")
+			if(control_rod_installation)
+				to_chat(usr, "<span class='notice'>A control rod is already being removed from [src].</span>")
+				return
+			if(state == REACTOR_STATE_IDLE)
+				to_chat(usr, "<span class='danger'>[src] is not in maintenance mode! Opening the lid on an active nuclear reaction would probably be fatal...</span>")
+				return FALSE
+			if(state == REACTOR_STATE_MAINTENANCE)
+				if(control_rods.len <= 0)
+					to_chat(usr, "<span class='notice'> [src] has no control rods mounted.</span>")
+					return
+				else
+					to_chat(usr, "<span class='notice'>You begin removing a control rod from the [src]...</span>")
+					control_rod_installation = TRUE
+					if(!do_after(usr, 50, target = src))
+						control_rod_installation = FALSE
+						return
+					to_chat(usr, "<span class='notice'>You remove the control rod from the [src].</span>")
+					var/obj/item/control_rod/cr = locate(params["target"])
+					control_rods -= cr
+					cr?.forceMove(get_turf(src))
+					control_rod_installation = FALSE
+					handle_control_rod_efficiency()
+			if(state == REACTOR_STATE_RUNNING)
+				if(alert("[src] is not in maintenance mode! Manually inserting a control rod into an active nuclear reaction would probably be fatal.",name,"Continue","Reconsider") == "Continue" && Adjacent(usr))
+					if(control_rods.len <= 0)
+						to_chat(usr, "<span class='notice'> [src] has no control rods mounted.</span>")
+						return
+				else
+					var/mob/living/carbon/human/H = usr
+					if(!HAS_TRAIT(usr, TRAIT_RESISTHEAT) || !HAS_TRAIT(usr, TRAIT_RESISTHEATHANDS))
+						var/obj/item/bodypart/affecting = H.get_bodypart("[(usr.active_hand_index % 2 == 0) ? "r" : "l" ]_arm")
+						if(affecting && affecting.receive_damage( 0, 75 )) // 75 burn damage should destroy the body part
+							to_chat(usr, "<span class='danger'>The control rod melts through your hand!</span>")
+							H.update_damage_overlays()
+						return
+					else
+						to_chat(usr, "<span class='notice'>You begin removing a control rod from the [src]...</span>")
+						to_chat(usr, "<span class='warning'>A blue glow envelopes your hands!</span>")
+						control_rod_installation = TRUE
+						var/obj/item/bodypart/affecting = H.get_bodypart("[(usr.active_hand_index % 2 == 0) ? "r" : "l" ]_arm")
+						if(affecting && affecting.receive_damage( 0, 20 )) // partially damage the hand
+							H.update_damage_overlays()
+						H.emp_act(25)
+						H.radiation += 250 * radiation_modifier
+						radiation_pulse(src, 1000 * radiation_modifier, 5)
+						if(!do_after(usr, 50, target = src))
+							control_rod_installation = FALSE
+							return
+						to_chat(usr, "<span class='notice'>You remove the control rod from the [src].</span>")
+						var/obj/item/control_rod/cr = locate(params["target"])
+						control_rods -= cr
+						cr?.forceMove(get_turf(src))
+						control_rod_installation = FALSE
+						if(affecting && affecting.receive_damage( 0, 20 )) //damage it even more
+							H.update_damage_overlays()
+						H.emp_act(25)
+						H.radiation += 250 * radiation_modifier
+						radiation_pulse(src, 1000 * radiation_modifier, 5)
+						handle_control_rod_efficiency()
+
+/obj/machinery/atmospherics/components/binary/stormdrive_reactor1/ui_data(mob/user)
+	var/list/data = list()
+	var/list/control_rod_info = list()
+	for(var/obj/item/control_rod/C in contents)
+		control_rod_info["name"] = C.name
+		control_rod_info["control_rod_id"] = "\ref[C]"
+	data["mounted_control_rods"] = control_rod_info
 
 /obj/machinery/atmospherics/components/binary/stormdrive_reactor/proc/engage_maintenance()
 	if(state == REACTOR_STATE_IDLE)
@@ -163,12 +283,15 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 	radio.keyslot = new radio_key
 	radio.listening = 0
 	radio.recalculateChannels()
-//	find_pipe()
+	for(var/I = 0, I < MAX_CONTROL_RODS, I++)
+		control_rods += new /obj/item/control_rod(src)
+	var/control_rod_integrity_total = 0
+	for(var/obj/item/control_rod/cr in contents)
+		control_rod_integrity_total += cr.rod_integrity
+	control_rod_integrity = control_rod_integrity / control_rods.len
 
 /obj/machinery/atmospherics/components/binary/stormdrive_reactor/proc/try_start()
-//	if(!pipe)
-//		find_pipe()
-//		return FALSE
+
 	if(state == REACTOR_STATE_RUNNING || state == REACTOR_STATE_MELTDOWN || state == REACTOR_STATE_MAINTENANCE)
 		return FALSE
 	icon_state = "reactor_starting"
@@ -179,15 +302,9 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 					air1.gases[/datum/gas/nitrogen][MOLES] * HINDER_ROR + \
 					air1.gases[/datum/gas/water_vapor][MOLES] * HINDER_ROR + \
 					air1.gases[/datum/gas/tritium][MOLES] * HIGH_ROR
-/*
-	var/list/cached_gases = air1.gases
-	if(cached_gases[/datum/gas/constricted_plasma])
-		var/moles = cached_gases[/datum/gas/constricted_plasma][MOLES]
-		if(moles >= start_threshold && heat >= start_threshold)
-*/
+
 	if(fuel_check >= start_threshold && heat >= start_threshold) //Checking equivalent of 20 moles of fuel and is hot enough
 		heat = start_threshold+10 //Avoids it getting heated up to 10000 by the PA, then turning it on, then getting insta meltdown.
-		//cached_gases[/datum/gas/constricted_plasma][MOLES] -= start_threshold //Here, we subtract the plasma
 		visible_message("<span class='danger'>[src] starts to glow an ominous blue!</span>")
 		icon_state = "reactor_on"
 		START_PROCESSING(SSmachines,src)
@@ -202,25 +319,6 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 			reaction_rate = 5
 		return TRUE
 	return FALSE
-
-/*
-	var/datum/gas_mixture/air1 = airs[1]
-	var/list/cached_gases = air1.gases //do we actually need this as a list?
-	if(cached_gases)
-		var/moles = 0
-		for(var/total_moles_id in cached_gases) //count the number of moles, could use total_moles() if gas_mixture
-			moles += cached_gases[total_moles_id][MOLES]
-
-			var/chamber_ror_total = reaction_chamber_gases.gases[/datum/gas/plasma][MOLES] * LOW_ROR + \
-									reaction_chamber_gases.gases[/datum/gas/constricted_plasma][MOLES] * NORMAL_ROR + \
-									reaction_chamber_gases.gases[/datum/gas/nitrogen][MOLES] * HINDER_ROR + \
-									reaction_chamber_gases.gases[/datum/gas/water_vapor][MOLES] * HINDER_ROR + \
-									reaction_chamber_gases.gases[/datum/gas/tritium][MOLES] * HIGH_ROR
-			reaction_rate_modifier = chamber_ror_total / reaction_rate
-*/
-
-///obj/machinery/atmospherics/components/binary/stormdrive_reactor/proc/find_pipe()
-//	pipe = locate(/obj/machinery/atmospherics/components/binary/pump/reactor_manifold) in get_turf(src)
 
 /obj/machinery/atmospherics/components/binary/stormdrive_reactor/proc/check_meltdown_warning()
 	if(warning_state >= WARNING_STATE_OVERHEAT)
@@ -239,8 +337,7 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 		return TRUE
 
 /obj/machinery/atmospherics/components/binary/stormdrive_reactor/proc/lazy_startup() //Admin only command to instantly start a reactor
-//	if(!pipe)
-//		find_pipe()
+
 	heat = start_threshold+10
 	var/datum/gas_mixture/air1 = airs[1]
 	air1.assert_gas(/datum/gas/constricted_plasma) //Yeet some plasma into the pipe so it can run for a while
@@ -255,7 +352,10 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 /obj/machinery/atmospherics/components/binary/stormdrive_reactor/proc/start_meltdown()
 	if(warning_state >= WARNING_STATE_MELTDOWN)
 		return
-	rod_integrity = 0 //Burn through the control rods if we haven't already.
+	for(var/obj/item/control_rod/cr in contents) //Burn through the control rods if we haven't already.
+		cr.rod_integrity = 0
+		cr.rod_failure(src)
+		handle_control_rod_efficiency()
 	send_alert("ERROR IN MODULE FISSREAC0 AT ADDRESS 0x12DF. CONTROL RODS HAVE FAILED. IMMEDIATE INTERVENTION REQUIRED.", override=TRUE)
 	warning_state = WARNING_STATE_MELTDOWN
 	var/sound = 'nsv13/sound/effects/ship/reactor/meltdown.ogg'
@@ -339,9 +439,6 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 	if(state != REACTOR_STATE_RUNNING || heat <= start_threshold)
 		deactivate()
 		return ..() //Stop processing if we're not activated, start processing when we're activated.
-//	if(!pipe)
-//		find_pipe()
-//		return
 	var/datum/gas_mixture/air1 = airs[1]
 	var/list/cached_gases = air1.gases //do we actually need this as a list?
 	if(cached_gases)
@@ -422,32 +519,6 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 					shake_camera(M, 2, 1)
 					M.hallucination += 30
 
-/*
-	if(cached_gases[/datum/gas/plasma] && heat >= reactor_temperature_hot)
-		cached_gases[/datum/gas/plasma][MOLES] -= reaction_rate*2 //If there's any plasma in the reactor, burn it off if theyre running the reactor hot. If it's too cold, the reaction gets poisoned by the plasma as constricted plasma can't fill up the chamber.
-		air1.garbage_collect()
-	if(cached_gases[/datum/gas/constricted_plasma])
-		var/moles = cached_gases[/datum/gas/constricted_plasma][MOLES]
-		if(moles >= reaction_rate)
-			cached_gases[/datum/gas/constricted_plasma][MOLES] -= reaction_rate //Here, we subtract the plasma
-			heat_gain = initial(heat_gain)+reaction_rate
-		else
-			heat_gain = -5 //No plasma to react, so the reaction slowly dies off.
-			radiation_pulse(src, (10 * radiation_modifier), 10) //reaction bleedoff
-			if(prob(10))
-				grav_pull()
-				playsound(loc, 'sound/effects/empulse.ogg', 100)
-				for(var/mob/living/M in view(10, src))
-					to_chat(M, "<span class='danger'>The reactor hungers!</span>")
-					shake_camera(M, 2, 1)
-			else if(prob(5))
-				var/growl = pick('sound/hallucinations/growl1.ogg', 'sound/hallucinations/growl2.ogg', 'sound/hallucinations/growl3.ogg')
-				playsound(loc, growl, 100)
-				for(var/mob/living/M in view(10, src))
-					to_chat(M, "<span class='danger'>The reactor growls!</span>")
-					shake_camera(M, 2, 1)
-					M.hallucination += 30
-*/
 	input_power = ((heat/150)**3) * input_power_modifier
 	var/base_power = 500000 //100000 - halfing since > doubling base cap
 	var/power_produced = base_power
@@ -468,11 +539,6 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 		return
 	else
 		C.powernet.newavail += last_power_produced
-
-//	if(powernet)
-//		powernet.newavail += last_power_produced
-//	add_avail(last_power_produced)
-
 
 /obj/machinery/atmospherics/components/binary/stormdrive_reactor/proc/grav_pull() //HUNGRY!
 	for(var/obj/O in orange(6, src))
@@ -497,28 +563,42 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 
 /obj/machinery/atmospherics/components/binary/stormdrive_reactor/proc/can_cool()
 	if(heat > reactor_temperature_nominal) //Only start melting the rods if theyre running it hot. We have a "safe" mode which doesn't need you to check in on the reactor at all.
-		rod_integrity -= input_power_modifier/60 //Assuming youre running it at hot, rods will melt every 30 minutes.
-		if(rod_integrity < 0)
-			rod_integrity = 0
+		var/control_rod_integrity_total = 0
+		for(var/obj/item/control_rod/cr in contents)
+			if(prob(80))
+				cr.rod_integrity -= input_power/60
+			if(cr.rod_integrity <= 0)
+				cr.rod_failure(src)
+				handle_control_rod_efficiency()
+			control_rod_integrity_total += cr.rod_integrity
+		control_rod_integrity = control_rod_integrity / control_rods.len
+		if(control_rod_integrity < 0)
+			control_rod_integrity = 0
 			send_alert("DANGER: Primary control rods have failed!")
 			message_admins("Stormdrive control rods are at 0% integrity.")
 			return FALSE
-		if(rod_integrity <= 10 && warning_state <= WARNING_STATE_NONE) //If there isn't a more important thing to notify them about, engineers should be told that their rods are failing.
-			send_alert("WARNING: Reactor control rods failing at [rod_integrity]% integrity, intervention required to avoid possible meltdown.")
-	if(rod_integrity > 0)
+		if(control_rod_integrity <= 10 && warning_state <= WARNING_STATE_NONE) //If there isn't a more important thing to notify them about, engineers should be told that their rods are failing.
+			send_alert("WARNING: Reactor control rods failing at [control_rod_integrity]% integrity, intervention required to avoid possible meltdown.")
+	if(control_rod_integrity > 0)
 		return TRUE //TODO: Check control rod health
 	else
 		return FALSE
 
+/obj/machinery/atmospherics/components/binary/stormdrive_reactor/proc/handle_control_rod_efficiency()
+	var/control_rod_effectiveness_total = 0
+	for(var/obj/item/control_rod/cr in contents)
+		control_rod_effectiveness_total += cr.rod_effectiveness
+	control_rod_modifier = control_rod_effectiveness_total / control_rods.len
+
 /obj/machinery/atmospherics/components/binary/stormdrive_reactor/proc/handle_heat()
 	heat += heat_gain
-	target_heat = (-1)+2**(0.1*(100-control_rod_percent)) //Let there be math
+	target_heat = (-1)+2**(0.1*((100-control_rod_percent) * control_rod_modifier)) //Let there be math
 	if(heat > target_heat+((cooling_power * cooling_power_modifier)-heat_gain)) //If it's hotter than the desired temperature, + our cooling power, we need to cool it off.
 		if(can_cool())
 			heat -= cooling_power * cooling_power_modifier
 
 /obj/machinery/atmospherics/components/binary/stormdrive_reactor/proc/handle_reaction_rate()
-	target_reaction_rate = (0.5+(1e-03*(100-control_rod_percent)**2) * reaction_rate_modifier) + 1e-05*(heat**2)  //let the train derail!
+	target_reaction_rate = (0.5+(1e-03*((100-control_rod_percent) * control_rod_modifier)**2) * reaction_rate_modifier) + 1e-05*(heat**2)  //let the train derail!
 	delta_reaction_rate = target_reaction_rate - reaction_rate
 	reaction_rate += delta_reaction_rate/2
 
@@ -526,8 +606,9 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 	if(heat > initial(reactor_temperature_hot)) //use initial or current?
 		var/datum/gas_mixture/air2 = airs[2]
 		air2.assert_gas(/datum/gas/special_sauce)
-		air2.gases[/datum/gas/special_sauce][MOLES] += 1
+		air2.gases[/datum/gas/special_sauce][MOLES] += (reaction_rate / 10) * input_power_modifier
 		air2.temperature = heat
+		update_parents()
 
 /obj/machinery/atmospherics/components/binary/stormdrive_reactor/proc/handle_temperature_reinforcement() //Adjusting temperature thresholds
 	var/delta_rt_nominal = (initial(reactor_temperature_nominal) * reactor_temperature_modifier) - reactor_temperature_nominal
@@ -658,7 +739,7 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 /obj/machinery/computer/ship/reactor_control_computer/ui_data(mob/user)
 	var/list/data = list()
 	data["heat"] = reactor.heat
-	data["rod_integrity"] = reactor.rod_integrity
+	data["rod_integrity"] = reactor.control_rod_integrity
 	data["control_rod_percent"] = reactor.control_rod_percent
 	data["pipe_open"] = reactor.on
 	data["last_power_produced"] = reactor.last_power_produced
@@ -970,3 +1051,4 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 #undef WARNING_STATE_NONE
 #undef WARNING_STATE_OVERHEAT
 #undef WARNING_STATE_MELTDOWN
+#undef MAX_CONTROL_RODS
