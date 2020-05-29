@@ -1593,6 +1593,19 @@
 /obj/structure/sign/departments/minsky/engineering/atmospherics,
 /turf/closed/wall/r_wall/ship,
 /area/engine/atmos)
+"dk" = (
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	dir = 8
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	dir = 4
+	},
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/obj/effect/landmark/nuclear_waste_spawner,
+/turf/open/floor/plasteel/dark,
+/area/nsv/magazine)
 "dm" = (
 /obj/effect/spawner/structure/window/reinforced,
 /obj/machinery/door/firedoor,
@@ -2431,10 +2444,6 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /turf/open/floor/engine,
 /area/engine/engine_room)
-"fp" = (
-/obj/effect/landmark/nuclear_waste_spawner,
-/turf/open/floor/plasteel/white,
-/area/medical/genetics/cloning)
 "fq" = (
 /obj/machinery/firealarm/directional/east,
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer1{
@@ -3514,7 +3523,6 @@
 /turf/open/floor/plasteel,
 /area/engine/engineering)
 "hx" = (
-/obj/machinery/power/smes,
 /obj/structure/cable{
 	icon_state = "0-8"
 	},
@@ -3523,20 +3531,20 @@
 	},
 /obj/machinery/door/firedoor/heavy,
 /obj/effect/turf_decal/tile/yellow,
+/obj/machinery/power/smes/engineering,
 /turf/open/floor/plasteel,
 /area/engine/engineering)
 "hy" = (
-/obj/machinery/power/smes,
 /obj/structure/cable{
 	icon_state = "0-4"
 	},
 /obj/machinery/light,
 /obj/machinery/door/firedoor/heavy,
 /obj/effect/turf_decal/tile/yellow,
+/obj/machinery/power/smes/engineering,
 /turf/open/floor/plasteel,
 /area/engine/engineering)
 "hz" = (
-/obj/machinery/power/smes,
 /obj/structure/cable{
 	icon_state = "0-4"
 	},
@@ -3547,6 +3555,7 @@
 	dir = 4
 	},
 /obj/machinery/door/firedoor/heavy,
+/obj/machinery/power/smes/engineering,
 /turf/open/floor/plasteel,
 /area/engine/engineering)
 "hB" = (
@@ -5074,10 +5083,7 @@
 /turf/open/floor/plasteel/white,
 /area/science/xenobiology)
 "le" = (
-/obj/structure/bodycontainer/morgue{
-	icon_state = "morgue1";
-	dir = 1
-	},
+/obj/machinery/vending/wardrobe/gene_wardrobe,
 /turf/open/floor/plasteel/ship/techfloor,
 /area/medical/morgue)
 "lf" = (
@@ -8017,7 +8023,7 @@
 /turf/closed/wall/ship,
 /area/science/robotics)
 "qJ" = (
-/obj/structure/closet/firecloset/full,
+/obj/machinery/vending/wardrobe/robo_wardrobe,
 /turf/open/floor/plasteel,
 /area/science/robotics)
 "qK" = (
@@ -9118,6 +9124,9 @@
 /obj/machinery/camera/autoname{
 	dir = 4
 	},
+/obj/item/mmi,
+/obj/item/mmi,
+/obj/item/mmi,
 /turf/open/floor/plasteel/dark,
 /area/science/robotics)
 "ta" = (
@@ -9673,9 +9682,10 @@
 /turf/open/floor/plasteel/white,
 /area/science/mixing)
 "uc" = (
-/obj/structure/rack,
-/obj/item/mmi,
-/obj/item/mmi,
+/obj/machinery/computer/rdconsole/robotics{
+	icon_state = "computer";
+	dir = 4
+	},
 /turf/open/floor/plasteel,
 /area/science/robotics)
 "ud" = (
@@ -10097,6 +10107,8 @@
 /area/medical/cryo)
 "uU" = (
 /obj/machinery/airalarm/directional/east,
+/obj/structure/bed/dogbed/runtime,
+/mob/living/simple_animal/pet/cat/Runtime,
 /turf/open/floor/plasteel/dark,
 /area/crew_quarters/heads/cmo)
 "uV" = (
@@ -17403,6 +17415,10 @@
 	},
 /turf/open/floor/plasteel/white,
 /area/medical/chemistry)
+"Kt" = (
+/obj/effect/landmark/nuclear_waste_spawner,
+/turf/open/floor/monotile,
+/area/nsv/weapons/gauss)
 "Ku" = (
 /obj/docking_port/stationary{
 	dir = 4;
@@ -17471,19 +17487,6 @@
 /obj/machinery/computer/ship/viewscreen,
 /turf/open/floor/plasteel/white,
 /area/medical/medbay/central)
-"KR" = (
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
-	dir = 8
-	},
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
-	dir = 4
-	},
-/obj/structure/cable{
-	icon_state = "4-8"
-	},
-/obj/effect/landmark/nuclear_waste_spawner,
-/turf/open/floor/plasteel/dark,
-/area/nsv/magazine)
 "KV" = (
 /obj/structure/hull_plate,
 /turf/open/floor/plating/airless,
@@ -17510,6 +17513,10 @@
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /turf/open/floor/plasteel/white,
 /area/medical/virology)
+"Lf" = (
+/obj/effect/landmark/nuclear_waste_spawner,
+/turf/open/floor/plasteel/dark,
+/area/nsv/weapons/starboard)
 "Lj" = (
 /obj/effect/turf_decal/tile/blue,
 /obj/machinery/light,
@@ -17640,13 +17647,6 @@
 	},
 /turf/open/floor/plasteel/white,
 /area/science/xenobiology)
-"Mx" = (
-/obj/effect/turf_decal/tile/yellow{
-	dir = 1
-	},
-/obj/effect/landmark/nuclear_waste_spawner,
-/turf/open/floor/plasteel,
-/area/engine/engineering)
 "Mz" = (
 /obj/effect/turf_decal/tile/blue,
 /obj/effect/turf_decal/tile/blue{
@@ -18081,6 +18081,10 @@
 /obj/structure/extinguisher_cabinet/east,
 /turf/open/floor/plasteel/white,
 /area/medical/chemistry)
+"OY" = (
+/obj/machinery/vending/wardrobe/cargo_wardrobe,
+/turf/open/floor/plating,
+/area/quartermaster/warehouse)
 "OZ" = (
 /turf/closed/wall/r_wall/ship,
 /area/space)
@@ -18090,6 +18094,10 @@
 	},
 /turf/open/floor/plasteel/white,
 /area/medical/surgery)
+"Pd" = (
+/obj/effect/landmark/nuclear_waste_spawner,
+/turf/open/floor/plasteel/white,
+/area/medical/genetics/cloning)
 "Pj" = (
 /obj/structure/cable{
 	icon_state = "1-2"
@@ -18280,6 +18288,11 @@
 	},
 /turf/open/floor/plasteel/white,
 /area/medical/medbay/central)
+"Qe" = (
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
+/obj/effect/landmark/nuclear_waste_spawner,
+/turf/open/floor/plasteel,
+/area/engine/atmos)
 "Qf" = (
 /obj/structure/disposalpipe/trunk{
 	dir = 1
@@ -18358,10 +18371,6 @@
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3,
 /turf/open/floor/plasteel,
 /area/engine/engineering)
-"QH" = (
-/obj/effect/landmark/nuclear_waste_spawner,
-/turf/open/floor/plasteel/dark,
-/area/nsv/weapons/starboard)
 "QI" = (
 /obj/effect/turf_decal/tile/brown{
 	icon_state = "tile_corner";
@@ -18474,10 +18483,6 @@
 	},
 /turf/open/floor/plasteel/white,
 /area/medical/storage)
-"Rl" = (
-/obj/effect/landmark/nuclear_waste_spawner,
-/turf/open/floor/plasteel/ship/padded,
-/area/engine/engineering)
 "Rs" = (
 /obj/structure/reagent_dispensers/watertank,
 /turf/open/floor/plating,
@@ -18662,10 +18667,6 @@
 /obj/structure/sign/departments/minsky/medical/clone/cloning1,
 /turf/closed/wall/ship,
 /area/medical/genetics/cloning)
-"Sy" = (
-/obj/effect/landmark/nuclear_waste_spawner,
-/turf/open/floor/monotile,
-/area/nsv/weapons/gauss)
 "SI" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 9
@@ -19074,13 +19075,13 @@
 /obj/machinery/air_sensor/atmos/mix_tank,
 /turf/open/floor/engine/airless,
 /area/engine/atmos)
-"Vo" = (
-/obj/effect/landmark/nuclear_waste_spawner,
-/turf/open/floor/plasteel/white,
-/area/medical/medbay/lobby)
 "Vs" = (
 /turf/open/floor/plating,
 /area/maintenance/department/medical/central)
+"Vv" = (
+/obj/effect/landmark/nuclear_waste_spawner,
+/turf/open/floor/plasteel,
+/area/hallway/nsv/deck2/primary)
 "Vy" = (
 /obj/effect/turf_decal/tile/green,
 /obj/effect/turf_decal/tile/green{
@@ -19158,10 +19159,11 @@
 	},
 /turf/open/floor/plasteel/ship/padded,
 /area/engine/engineering)
-"Wa" = (
+"Wb" = (
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /obj/effect/landmark/nuclear_waste_spawner,
 /turf/open/floor/plasteel,
-/area/hallway/nsv/deck2/primary)
+/area/quartermaster/storage)
 "Wc" = (
 /obj/machinery/vending/medical,
 /turf/open/floor/plasteel/white,
@@ -19203,6 +19205,13 @@
 /obj/effect/turf_decal/tile/neutral,
 /turf/open/floor/plasteel,
 /area/hallway/nsv/deck2/primary)
+"Wm" = (
+/obj/effect/turf_decal/tile/yellow{
+	dir = 1
+	},
+/obj/effect/landmark/nuclear_waste_spawner,
+/turf/open/floor/plasteel,
+/area/engine/engineering)
 "Wq" = (
 /obj/structure/hull_plate/end{
 	dir = 5
@@ -19236,11 +19245,6 @@
 	},
 /turf/open/floor/plasteel/dark,
 /area/crew_quarters/heads/cmo)
-"WH" = (
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
-/obj/effect/landmark/nuclear_waste_spawner,
-/turf/open/floor/plasteel,
-/area/quartermaster/storage)
 "WI" = (
 /obj/structure/closet/crate/internals,
 /obj/item/storage/firstaid/o2,
@@ -19277,6 +19281,10 @@
 	},
 /turf/open/floor/plasteel/white,
 /area/medical/medbay/lobby)
+"WS" = (
+/obj/effect/landmark/nuclear_waste_spawner,
+/turf/open/floor/plasteel/ship/padded,
+/area/engine/engineering)
 "WY" = (
 /obj/structure/cable{
 	icon_state = "1-2"
@@ -19452,11 +19460,6 @@
 /obj/machinery/disposal/bin,
 /turf/open/floor/plasteel/ship/padded,
 /area/engine/engineering)
-"Yg" = (
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
-/obj/effect/landmark/nuclear_waste_spawner,
-/turf/open/floor/plasteel,
-/area/engine/atmos)
 "Yh" = (
 /obj/structure/disposalpipe/segment{
 	dir = 4
@@ -19502,6 +19505,10 @@
 	dir = 4
 	},
 /obj/machinery/airalarm/directional/north,
+/turf/open/floor/plasteel/white,
+/area/medical/medbay/lobby)
+"Yw" = (
+/obj/effect/landmark/nuclear_waste_spawner,
 /turf/open/floor/plasteel/white,
 /area/medical/medbay/lobby)
 "YA" = (
@@ -42261,7 +42268,7 @@ fE
 eS
 eT
 lV
-Mx
+Wm
 QG
 gY
 ht
@@ -42571,7 +42578,7 @@ EL
 hM
 Ol
 JS
-Rl
+WS
 DR
 jm
 EL
@@ -47682,7 +47689,7 @@ IC
 aA
 kw
 bj
-Yg
+Qe
 bJ
 cK
 IC
@@ -54038,7 +54045,7 @@ Qx
 Yh
 qa
 RT
-fp
+Pd
 sf
 DT
 VA
@@ -57940,7 +57947,7 @@ qS
 lJ
 aa
 vY
-wi
+OY
 wi
 wi
 Lq
@@ -60658,7 +60665,7 @@ vL
 vO
 vV
 wc
-WH
+Wb
 wr
 wK
 wO
@@ -61588,7 +61595,7 @@ Hw
 ZQ
 NR
 oE
-Vo
+Yw
 pF
 pz
 pH
@@ -64302,7 +64309,7 @@ zY
 zY
 zD
 zx
-Wa
+Vv
 ZQ
 Iu
 Iv
@@ -67314,7 +67321,7 @@ us
 Ay
 Ay
 Ay
-KR
+dk
 Ay
 Ay
 Ay
@@ -67339,7 +67346,7 @@ IV
 Du
 DA
 CZ
-QH
+Lf
 CZ
 Du
 DA
@@ -67906,7 +67913,7 @@ aa
 aa
 xX
 yf
-Sy
+Kt
 yo
 Kv
 yC
