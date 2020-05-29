@@ -30,7 +30,7 @@
 	icon_state = "mop"
 	rod_integrity = 200
 
-/obj/item/control_rod/plasma
+/obj/item/control_rod/plasma //Add to TC store under engineering tag
 	name = "Nanocarbon Sheathed Plasma Reactor Control Rod"
 	desc = "A nanocarbon sheet surrounds the plasma core of this reactor control rod."
 	icon_state = "mop"
