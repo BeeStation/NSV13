@@ -11,6 +11,13 @@ GLOBAL_LIST_INIT(computer_beeps, list('nsv13/sound/effects/computer/beep.ogg','n
 	var/sound_cooldown = 10 SECONDS //For big warnings like enemies firing on you, that we don't want repeating over and over
 	req_access = list(ACCESS_HEADS)
 
+/obj/machinery/computer/ship/Initialize()
+	. = ..()
+	return INITIALIZE_HINT_LATELOAD
+
+/obj/machinery/computer/ship/LateInitialize()
+	has_overmap()
+
 /obj/machinery/computer/ship/proc/relay_sound(sound, message)
 	if(!can_sound)
 		return
@@ -25,14 +32,9 @@ GLOBAL_LIST_INIT(computer_beeps, list('nsv13/sound/effects/computer/beep.ogg','n
 	can_sound = TRUE
 
 /obj/machinery/computer/ship/proc/has_overmap()
-	var/area/AR = get_area(src)
-	if(AR.linked_overmap)
-		linked = AR.linked_overmap
-	if(linked)
-		set_position(linked)
-		return TRUE
-	else
-		return FALSE
+	var/obj/structure/overmap/OM = get_overmap()
+	linked = OM
+	return linked
 
 /obj/machinery/computer/ship/proc/set_position(obj/structure/overmap/OM)
 	return
@@ -162,14 +164,15 @@ GLOBAL_LIST_INIT(computer_beeps, list('nsv13/sound/effects/computer/beep.ogg','n
 	data["max_hullplates"] = linked.max_armour_plates
 	data["weapons"] = list()
 	data["target_name"] = (linked.target_lock) ? linked.target_lock.name : "none"
-	for(var/list/L in linked.weapons)
+	for(var/datum/ship_weapon/SW_type in linked.weapon_types)
 		var/ammo = 0
 		var/max_ammo = 0
-		var/thename = "none"
-		for(var/obj/machinery/ship_weapon/SW in L)
+		var/thename = SW_type.name
+		for(var/obj/machinery/ship_weapon/SW in SW_type.weapons["all"])
+			if(!SW)
+				continue
 			max_ammo += SW.max_ammo
 			ammo += SW.ammo.len
-			thename = SW.weapon_type.name
 		data["weapons"] += list(list("name" = thename, "ammo" = ammo, "maxammo" = max_ammo))
 	data["ships"] = list()
 	for(var/obj/structure/overmap/OM in GLOB.overmap_objects)

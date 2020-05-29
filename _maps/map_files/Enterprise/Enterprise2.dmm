@@ -4065,7 +4065,7 @@
 "akp" = (
 /obj/machinery/door/airlock/ship/public/glass{
 	name = "Intensive care";
-	req_one_access_txt = "45"
+	req_one_access_txt = "5"
 	},
 /obj/effect/mapping_helpers/airlock/unres{
 	dir = 1
@@ -5110,7 +5110,7 @@
 "amO" = (
 /obj/machinery/door/airlock/ship/public/glass{
 	name = "Surgery";
-	req_one_access_txt = "45"
+	req_one_access_txt = "5"
 	},
 /obj/machinery/door/firedoor,
 /turf/open/floor/monotile/light,
@@ -13675,6 +13675,11 @@
 	pixel_x = 3;
 	pixel_y = 3
 	},
+/obj/item/ship_weapon/parts/torpedo/warhead/probe,
+/obj/item/ship_weapon/parts/torpedo/warhead/probe,
+/obj/item/ship_weapon/parts/torpedo/warhead/probe,
+/obj/item/ship_weapon/parts/torpedo/warhead/probe,
+/obj/item/ship_weapon/parts/torpedo/warhead/probe,
 /turf/open/floor/plasteel/techmaint,
 /area/science/research)
 "aGq" = (
@@ -14433,18 +14438,8 @@
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3,
 /turf/open/floor/monotile/light,
 /area/security/detectives_office)
-"aIi" = (
-/obj/structure/table,
-/obj/machinery/computer/libraryconsole/bookmanagement,
-/obj/effect/turf_decal/tile/red{
-	dir = 8
-	},
-/obj/effect/turf_decal/tile/red,
-/turf/open/floor/monotile,
-/area/security/prison)
 "aIj" = (
 /obj/machinery/computer/lore_terminal,
-/obj/machinery/computer/arcade,
 /obj/effect/turf_decal/tile/red{
 	dir = 8
 	},
@@ -15397,6 +15392,7 @@
 	name = "Prototype munitions bay"
 	})
 "aKy" = (
+/obj/machinery/computer/ship/navigation/astrometrics,
 /turf/open/floor/monotile/dark,
 /area/science/research)
 "aKz" = (
@@ -21558,17 +21554,10 @@
 /turf/open/floor/plating,
 /area/security/prison)
 "aYb" = (
-/obj/machinery/washing_machine,
-/obj/effect/turf_decal/tile/blue{
-	dir = 4
-	},
-/obj/effect/turf_decal/tile/blue{
+/obj/machinery/cryopod{
 	dir = 8
 	},
-/obj/machinery/light{
-	dir = 4
-	},
-/turf/open/floor/monotile/light,
+/turf/open/floor/monotile/dark,
 /area/security/prison)
 "aYc" = (
 /obj/machinery/computer/med_data{
@@ -21640,12 +21629,6 @@
 "aYl" = (
 /turf/open/floor/carpet/red,
 /area/security/detectives_office)
-"aYm" = (
-/obj/effect/turf_decal/tile/red{
-	dir = 1
-	},
-/turf/open/floor/monotile,
-/area/security/prison)
 "aYn" = (
 /obj/machinery/shower{
 	dir = 8
@@ -33573,7 +33556,7 @@
 "bvJ" = (
 /obj/machinery/door/airlock/ship/public/glass{
 	name = "Surgery";
-	req_one_access_txt = "45"
+	req_one_access_txt = "5"
 	},
 /obj/machinery/door/firedoor,
 /obj/structure/cable{
@@ -38357,16 +38340,6 @@
 /obj/structure/cable{
 	icon_state = "1-2"
 	},
-/obj/structure/cable{
-	icon_state = "1-4"
-	},
-/turf/open/floor/monotile/dark,
-/area/security/prison)
-"bEV" = (
-/obj/structure/chair/stool,
-/obj/structure/cable{
-	icon_state = "4-8"
-	},
 /turf/open/floor/monotile/dark,
 /area/security/prison)
 "bEW" = (
@@ -38375,45 +38348,11 @@
 	},
 /turf/open/floor/monotile/dark,
 /area/security/prison)
-"bEX" = (
-/obj/machinery/vending/sustenance{
-	desc = "A vending machine normally reserved for work camps.";
-	name = "\improper sustenance vendor";
-	product_slogans = "Enjoy your meal.;Enough calories to support any worker."
-	},
-/obj/effect/turf_decal/tile/red{
-	dir = 8
-	},
-/obj/effect/turf_decal/tile/red{
-	dir = 1
-	},
-/obj/machinery/light{
-	dir = 4
-	},
-/obj/structure/cable{
-	icon_state = "4-8"
-	},
-/turf/open/floor/monotile,
-/area/security/prison)
 "bEY" = (
-/obj/structure/window/reinforced/fulltile/ship,
-/obj/structure/grille,
-/obj/structure/cable{
-	icon_state = "0-2"
-	},
 /obj/structure/cable{
 	icon_state = "1-2"
 	},
-/obj/structure/cable{
-	icon_state = "2-8"
-	},
-/obj/structure/cable{
-	icon_state = "1-8"
-	},
-/obj/structure/cable{
-	icon_state = "0-8"
-	},
-/turf/open/floor/plating,
+/turf/closed/wall/r_wall/ship,
 /area/security/prison)
 "bEZ" = (
 /obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1{
@@ -38444,6 +38383,9 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /obj/structure/cable{
 	icon_state = "1-2"
+	},
+/obj/structure/cable{
+	icon_state = "1-4"
 	},
 /turf/open/floor/monotile/dark,
 /area/security/prison)
@@ -41252,6 +41194,20 @@
 /obj/effect/landmark/event_spawn,
 /turf/open/floor/carpet,
 /area/library)
+"cWG" = (
+/obj/effect/turf_decal/tile/red{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/red{
+	dir = 4
+	},
+/obj/machinery/vending/sustenance{
+	desc = "A vending machine normally reserved for work camps.";
+	name = "\improper sustenance vendor";
+	product_slogans = "Enjoy your meal.;Enough calories to support any worker."
+	},
+/turf/open/floor/monotile,
+/area/security/prison)
 "cXV" = (
 /obj/machinery/light/small,
 /obj/structure/bed,
@@ -42603,6 +42559,23 @@
 	},
 /turf/open/floor/monotile,
 /area/medical/chemistry)
+"kHR" = (
+/obj/machinery/washing_machine,
+/obj/effect/turf_decal/tile/blue{
+	dir = 4
+	},
+/obj/effect/turf_decal/tile/blue{
+	dir = 8
+	},
+/obj/machinery/light{
+	dir = 4
+	},
+/obj/machinery/camera/autoname{
+	icon_state = "camera";
+	dir = 10
+	},
+/turf/open/floor/monotile/light,
+/area/security/prison)
 "kJA" = (
 /obj/structure/extinguisher_cabinet{
 	pixel_x = -27
@@ -42847,6 +42820,10 @@
 	},
 /turf/open/floor/monotile,
 /area/science/mixing/chamber)
+"mgt" = (
+/obj/machinery/computer/arcade,
+/turf/open/floor/monotile/dark,
+/area/security/prison)
 "mlk" = (
 /obj/machinery/atmospherics/components/unary/outlet_injector/on{
 	dir = 1
@@ -43019,6 +42996,11 @@
 	},
 /turf/open/floor/engine,
 /area/engine/atmospherics_engine)
+"npB" = (
+/obj/structure/table,
+/obj/machinery/computer/libraryconsole/bookmanagement,
+/turf/open/floor/monotile/dark,
+/area/security/prison)
 "nqx" = (
 /obj/machinery/airalarm/mixingchamber{
 	dir = 4;
@@ -43889,6 +43871,16 @@
 /area/crew_quarters/cafeteria{
 	name = "Mess hall"
 	})
+"sKN" = (
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/obj/machinery/cryopod{
+	dir = 8
+	},
+/obj/machinery/camera/autoname,
+/turf/open/floor/monotile/dark,
+/area/security/prison)
 "sMC" = (
 /obj/effect/turf_decal/tile/neutral{
 	dir = 4
@@ -43969,6 +43961,15 @@
 	},
 /turf/open/floor/monotile/dark,
 /area/engine/break_room)
+"tow" = (
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/obj/machinery/door/airlock/ship/public/glass{
+	name = "Prison Sleepers"
+	},
+/turf/open/floor/monotile/dark,
+/area/security/prison)
 "tux" = (
 /obj/structure/cable{
 	icon_state = "4-8"
@@ -44453,6 +44454,15 @@
 	},
 /turf/open/floor/monotile,
 /area/medical/surgery)
+"wSK" = (
+/obj/structure/cable{
+	icon_state = "2-4"
+	},
+/obj/machinery/computer/cryopod{
+	pixel_y = 32
+	},
+/turf/open/floor/monotile/dark,
+/area/security/prison)
 "wUv" = (
 /obj/effect/turf_decal/tile/purple{
 	dir = 8
@@ -44562,6 +44572,10 @@
 	},
 /turf/open/floor/monotile,
 /area/gateway)
+"xsw" = (
+/obj/machinery/vending/wardrobe/viro_wardrobe,
+/turf/open/floor/monotile/light,
+/area/medical/virology)
 "xsC" = (
 /obj/machinery/door/firedoor,
 /obj/machinery/door/airlock/glass_large/ship{
@@ -44675,6 +44689,12 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /turf/closed/wall/r_wall/ship,
 /area/engine/atmospherics_engine)
+"xXY" = (
+/obj/structure/cable{
+	icon_state = "1-8"
+	},
+/turf/open/floor/monotile/dark,
+/area/security/prison)
 "xYa" = (
 /obj/structure/destructible/cult/tome,
 /obj/item/book/codex_gigas,
@@ -60897,10 +60917,10 @@ aFA
 aGt
 aGz
 aFA
-aIi
-bEV
+aFo
+aIo
 aFw
-aFw
+bEW
 aFw
 bEW
 aYk
@@ -61200,12 +61220,12 @@ aFA
 aFA
 aFA
 aIj
+npB
+mgt
 bEW
 aFw
-aFw
-aFw
 bEW
-aYk
+cWG
 aFA
 anb
 aaa
@@ -61502,12 +61522,12 @@ aFI
 xPD
 aFA
 bgt
+aFA
+aFA
+tow
+aFA
 bEW
-aFw
-aFw
-aFw
-bEW
-aYk
+bib
 bFs
 anb
 aaa
@@ -61804,12 +61824,12 @@ aGg
 aGg
 aHg
 aFo
-bEW
-aFw
-aFw
-aFw
+aFA
+wSK
+xXY
+aFA
 bFp
-bFr
+kHR
 jeX
 anb
 aaa
@@ -62106,12 +62126,12 @@ aGt
 aGz
 aFA
 aIk
-bEX
-aIs
+aFA
+sKN
 aYb
-bib
+aFA
 aYf
-aYm
+aIs
 bFu
 anb
 anb
@@ -75954,7 +75974,7 @@ akZ
 bJS
 baJ
 aju
-aju
+xsw
 abY
 aoD
 aIC

@@ -11,7 +11,12 @@
 	var/max_range = 30 //Range that AI ships can hunt you down in
 	var/guard_range = 10 //Close range. Encroach on their space and die
 	var/ai_can_launch_fighters = FALSE //AI variable. Allows your ai ships to spawn fighter craft
-	var/ai_fighter_type = null
+	var/list/ai_fighter_type = list()
+
+/obj/structure/overmap/Initialize()
+	. = ..()
+	if(mass <= MASS_TINY)
+		weapons[FIRE_MODE_PDC] = new /datum/ship_weapon/light_cannon
 
 /**
 *
@@ -22,6 +27,7 @@
 
 /obj/structure/overmap/proc/slowprocess() //For ai ships, this allows for target acquisition, tactics etc.
 	handle_pdcs()
+	SSstar_system.update_pos(src)
 	if(!ai_controlled)
 		return
 	if(!pilot) //AI ships need a pilot so that they aren't hit by their own bullets. Projectiles.dm's can_hit needs a mob to be the firer, so here we are.
@@ -113,8 +119,8 @@
 	enemies += target
 	if(OM.role == MAIN_OVERMAP)
 		set_security_level(SEC_LEVEL_RED) //Action stations when the ship is under attack, if it's the main overmap.
-		SSstarsystem.last_combat_enter = world.time //Tag the combat on the SS
-		SSstarsystem.modifier = 0 //Reset overmap spawn modifier
+		SSstar_system.last_combat_enter = world.time //Tag the combat on the SS
+		SSstar_system.modifier = 0 //Reset overmap spawn modifier
 		var/datum/round_event_control/_overmap_event_handler/OEH = locate(/datum/round_event_control/_overmap_event_handler) in SSevents.control
 		OEH.weight = 0 //Reset controller weighting
 	if(OM.tactical)
@@ -147,8 +153,9 @@
 	. = ..()
 	if(ai_can_launch_fighters) //Found a new enemy? Launch the CAP.
 		ai_can_launch_fighters = FALSE
-		if(ai_fighter_type)
+		if(ai_fighter_type.len)
 			for(var/i = 0, i < rand(2,3), i++)
-				new ai_fighter_type(get_turf(src))
+				var/ai_fighter = pick(ai_fighter_type)
+				new ai_fighter(get_turf(src))
 				relay_to_nearby('nsv13/sound/effects/ship/fighter_launch_short.ogg')
 		addtimer(VARSET_CALLBACK(src, ai_can_launch_fighters, TRUE), 3 MINUTES)

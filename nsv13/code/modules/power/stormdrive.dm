@@ -419,7 +419,7 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 /obj/machinery/computer/ship/reactor_control_computer/ui_act(action, params, datum/tgui/ui)
 	if(..())
 		return
-	if(!in_range(src, usr) || !reactor) //Topic check
+	if(!reactor)
 		return
 	if(!reactor.pipe)
 		reactor.find_pipe()
