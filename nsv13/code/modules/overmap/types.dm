@@ -85,6 +85,9 @@
 	collision_positions = list(new /datum/vector2d(-21,223), new /datum/vector2d(-85,72), new /datum/vector2d(-92,46), new /datum/vector2d(-91,-107), new /datum/vector2d(-80,-135), new /datum/vector2d(-52,-220), new /datum/vector2d(-27,-227), new /datum/vector2d(27,-228), new /datum/vector2d(52,-220), new /datum/vector2d(81,-136), new /datum/vector2d(92,-106), new /datum/vector2d(92,44), new /datum/vector2d(84,73), new /datum/vector2d(20,222), new /datum/vector2d(0,225))
 	armor = list("overmap_light" = 90, "overmap_heavy" = 40)
 
+/obj/structure/overmap/nanotrasen/battleship/ai
+	ai_controlled = TRUE
+
 /obj/structure/overmap/nanotrasen/carrier
 	name = "enterprise class carrier"
 	desc = "A gigantic ship which is capable of staying deployed in space for extended periods while supporting an impressive complement of fighters."
@@ -186,6 +189,10 @@
 	collision_positions = list(new /datum/vector2d(-8,46), new /datum/vector2d(-17,33), new /datum/vector2d(-25,2), new /datum/vector2d(-14,-45), new /datum/vector2d(9,-46), new /datum/vector2d(22,4), new /datum/vector2d(14,36))
 
 /obj/structure/overmap/nanotrasen/ai/fighter
+	icon = 'nsv13/icons/overmap/nanotrasen/ai_fighter.dmi'
+	icon_state = "fighter"
+	damage_states = FALSE
+	mass = MASS_TINY
 	ai_controlled = TRUE
 	ai_behaviour = AI_AGGRESSIVE
 	weapon_safety = FALSE
@@ -313,13 +320,13 @@
 	missiles = 4
 	torpedoes = 0
 	bounty = 250
-	armor = list("overmap_light" = 0, "overmap_heavy" = 0)
+	armor = list("overmap_light" = 5, "overmap_heavy" = 5)
 
 /obj/structure/overmap/syndicate/ai/bomber //need custom AI behaviour to target capitals only
 	name = "Syndicate Bomber"
 	desc = "A space faring fighter craft."
-	icon = 'nsv13/icons/overmap/syndicate/syn_fighter.dmi' //replace with bomber sprite
-	icon_state = "fighter" //replace with bomber sprite
+	icon = 'nsv13/icons/overmap/syndicate/syn_bomber.dmi' //replace with bomber sprite
+	icon_state = "bomber" //replace with bomber sprite
 	damage_states = TRUE
 	brakes = FALSE
 	max_integrity = 175
@@ -331,7 +338,7 @@
 	pixel_w = -16
 	pixel_z = -20
 	missiles = 0
-	torpedoes = 4
+	torpedoes = 3
 	bounty = 250
 	armor = list("overmap_light" = 15, "overmap_heavy" = 0)
 

@@ -86,7 +86,7 @@
 		if("chamber")
 			SW.chamber()
 		if("toggle_safety")
-			SW.safety = !SW.safety
+			SW.toggle_safety()
 		//Sudo mode.
 		if("fflush") //Flush multitool buffer. fflush that buffer
 			if(!tool)
