@@ -7,6 +7,13 @@
 	flags_1 = CONDUCT_1
 	slot_flags = ITEM_SLOT_BACK
 	force = 5
+<<<<<<< HEAD
+=======
+	attack_weight = 3
+	block_upgrade_walk = 1
+	force_unwielded = 5
+	force_wielded = 20
+>>>>>>> a55acbecf176701d761af6633110609f01b11297
 	throwforce = 15
 	throw_range = 1
 	w_class = WEIGHT_CLASS_HUGE
@@ -83,6 +90,8 @@
 	force = 5
 	throwforce = 30
 	throw_range = 7
+	block_upgrade_walk = 1
+	attack_weight = 3
 	w_class = WEIGHT_CLASS_HUGE
 
 /obj/item/twohanded/mjollnir/Initialize()

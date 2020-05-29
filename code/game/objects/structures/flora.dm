@@ -309,6 +309,11 @@
 	layer = ABOVE_MOB_LAYER
 	w_class = WEIGHT_CLASS_HUGE
 	force = 10
+<<<<<<< HEAD
+=======
+	attack_weight = 2
+	force_wielded = 10
+>>>>>>> a55acbecf176701d761af6633110609f01b11297
 	throwforce = 13
 	throw_speed = 2
 	throw_range = 4

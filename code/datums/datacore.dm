@@ -33,16 +33,47 @@
 	var/crimeDetails = ""
 	var/author = ""
 	var/time = ""
+	var/fine = 0
+	var/paid = 0
 	var/dataId = 0
 
-/datum/datacore/proc/createCrimeEntry(cname = "", cdetails = "", author = "", time = "")
+/datum/datacore/proc/createCrimeEntry(cname = "", cdetails = "", author = "", time = "", fine = 0)
 	var/datum/data/crime/c = new /datum/data/crime
 	c.crimeName = cname
 	c.crimeDetails = cdetails
 	c.author = author
 	c.time = time
+	c.fine = fine
+	c.paid = 0
 	c.dataId = ++securityCrimeCounter
 	return c
+
+/datum/datacore/proc/addCitation(id = "", datum/data/crime/crime)
+	for(var/datum/data/record/R in security)
+		if(R.fields["id"] == id)
+			var/list/crimes = R.fields["citation"]
+			crimes |= crime
+			return
+
+/datum/datacore/proc/removeCitation(id, cDataId)
+	for(var/datum/data/record/R in security)
+		if(R.fields["id"] == id)
+			var/list/crimes = R.fields["citation"]
+			for(var/datum/data/crime/crime in crimes)
+				if(crime.dataId == text2num(cDataId))
+					crimes -= crime
+					return
+
+/datum/datacore/proc/payCitation(id, cDataId, amount)
+	for(var/datum/data/record/R in security)
+		if(R.fields["id"] == id)
+			var/list/crimes = R.fields["citation"]
+			for(var/datum/data/crime/crime in crimes)
+				if(crime.dataId == text2num(cDataId))
+					crime.paid = crime.paid + amount
+					var/datum/bank_account/D = SSeconomy.get_dep_account(ACCOUNT_SEC)
+					D.adjust_money(amount)
+					return
 
 /datum/datacore/proc/addMinorCrime(id = "", datum/data/crime/crime)
 	for(var/datum/data/record/R in security)
@@ -77,7 +108,8 @@
 			return
 
 /datum/datacore/proc/manifest()
-	for(var/mob/dead/new_player/N in GLOB.player_list)
+	for(var/i in GLOB.new_player_list)
+		var/mob/dead/new_player/N = i
 		if(N.new_character)
 			log_manifest(N.ckey,N.new_character.mind,N.new_character)
 		if(ishuman(N.new_character))
@@ -89,6 +121,7 @@
 	if(foundrecord)
 		foundrecord.fields["rank"] = assignment
 
+<<<<<<< HEAD
 /datum/datacore/proc/get_manifest(monochrome, OOC)
 	var/list/heads = list()
 	var/list/sec = list()
@@ -100,6 +133,46 @@
 	var/list/bot = list()
 	var/list/mun = list() //NSV13 Munitions
 	var/list/misc = list()
+=======
+/datum/datacore/proc/get_manifest()
+	var/list/manifest_out = list()
+	var/list/departments = list(
+		"Command" = GLOB.command_positions,
+		"Security" = GLOB.security_positions,
+		"Engineering" = GLOB.engineering_positions,
+		"Medical" = GLOB.medical_positions,
+		"Science" = GLOB.science_positions,
+		"Supply" = GLOB.supply_positions,
+		"Civilian" = GLOB.civilian_positions,
+		"Silicon" = GLOB.nonhuman_positions
+	)
+	for(var/datum/data/record/t in GLOB.data_core.general)
+		var/name = t.fields["name"]
+		var/rank = t.fields["rank"]
+		var/has_department = FALSE
+		for(var/department in departments)
+			var/list/jobs = departments[department]
+			if(rank in jobs)
+				if(!manifest_out[department])
+					manifest_out[department] = list()
+				manifest_out[department] += list(list(
+					"name" = name,
+					"rank" = rank
+				))
+				has_department = TRUE
+				break
+		if(!has_department)
+			if(!manifest_out["Misc"])
+				manifest_out["Misc"] = list()
+			manifest_out["Misc"] += list(list(
+				"name" = name,
+				"rank" = rank
+			))
+	return manifest_out
+
+/datum/datacore/proc/get_manifest_html(monochrome = FALSE)
+	var/list/manifest = get_manifest()
+>>>>>>> a55acbecf176701d761af6633110609f01b11297
 	var/dat = {"
 	<head><style>
 		.manifest {border-collapse:collapse;}
@@ -111,6 +184,7 @@
 	<table class="manifest" width='350px'>
 	<tr class='head'><th>Name</th><th>Rank</th></tr>
 	"}
+<<<<<<< HEAD
 	var/even = 0
 	// sort mobs
 	for(var/datum/data/record/t in GLOB.data_core.general)
@@ -198,6 +272,16 @@
 		dat += "<tr><th colspan=3>Miscellaneous</th></tr>"
 		for(var/name in misc)
 			dat += "<tr[even ? " class='alt'" : ""]><td>[name]</td><td>[misc[name]]</td></tr>"
+=======
+	for(var/department in manifest)
+		var/list/entries = manifest[department]
+		dat += "<tr><th colspan=3>[department]</th></tr>"
+		//JUST
+		var/even = FALSE
+		for(var/entry in entries)
+			var/list/entry_list = entry
+			dat += "<tr[even ? " class='alt'" : ""]><td>[entry_list["name"]]</td><td>[entry_list["rank"]]</td></tr>"
+>>>>>>> a55acbecf176701d761af6633110609f01b11297
 			even = !even
 
 	dat += "</table>"
@@ -272,6 +356,7 @@
 		S.fields["id"]			= id
 		S.fields["name"]		= H.real_name
 		S.fields["criminal"]	= "None"
+		S.fields["citation"]	= list()
 		S.fields["mi_crim"]		= list()
 		S.fields["ma_crim"]		= list()
 		S.fields["notes"]		= "No notes."

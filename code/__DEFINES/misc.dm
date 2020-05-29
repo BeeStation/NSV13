@@ -234,7 +234,7 @@ GLOBAL_LIST_INIT(pda_styles, list(MONO, VT, ORBITRON, SHARE))
 #define MAP_MAXZ 6
 
 // Defib stats
-#define DEFIB_TIME_LIMIT 120
+#define DEFIB_TIME_LIMIT 900
 #define DEFIB_TIME_LOSS 60
 
 // Diagonal movement
@@ -365,6 +365,7 @@ GLOBAL_LIST_INIT(pda_styles, list(MONO, VT, ORBITRON, SHARE))
 #define ION_FILE "ion_laws.json"
 #define PIRATE_NAMES_FILE "pirates.json"
 #define REDPILL_FILE "redpill.json"
+#define WANTED_FILE "wanted_message.json"
 
 
 //Fullscreen overlay resolution in tiles.
@@ -430,6 +431,12 @@ GLOBAL_LIST_INIT(pda_styles, list(MONO, VT, ORBITRON, SHARE))
 #define GRENADE_EMPTY 1
 #define GRENADE_WIRED 2
 #define GRENADE_READY 3
+
+//guardian themes
+#define GUARDIAN_TECH	"tech"
+#define GUARDIAN_CARP	"carp"
+#define GUARDIAN_MAGIC	"magic"
+#define GUARDIAN_HIVE	"hive"
 
 // possible bitflag return values of intercept_zImpact(atom/movable/AM, levels = 1) calls
 #define FALL_INTERCEPTED		(1<<0) //Stops the movable from falling further and crashing on the ground

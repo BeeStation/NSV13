@@ -385,10 +385,6 @@ GLOBAL_LIST_EMPTY(external_rsc_urls)
 	add_verbs_from_config()
 	var/cached_player_age = set_client_age_from_db(tdata) //we have to cache this because other shit may change it and we need it's current value now down below.
 
-
-	update_metacoin_items() // update the cache for the current purchased metacoin items
-
-
 	if (isnum(cached_player_age) && cached_player_age == -1) //first connection
 		player_age = 0
 	var/nnpa = CONFIG_GET(number/notify_new_player_age)
@@ -459,6 +455,18 @@ GLOBAL_LIST_EMPTY(external_rsc_urls)
 			menuitem.Load_checked(src)
 
 	Master.UpdateTickRate()
+
+	if(GLOB.ckey_redirects.Find(ckey))
+		to_chat(src, "<span class='redtext'>The server is full. You will be redirected to [CONFIG_GET(string/redirect_address)] in 10 seconds.</span>")
+		addtimer(CALLBACK(src, .proc/time_to_redirect), (10 SECONDS))
+
+/client/proc/time_to_redirect()
+	var/redirect_address = CONFIG_GET(string/redirect_address)
+	GLOB.ckey_redirects -= ckey
+	if(GLOB.joined_player_list.Find(ckey))
+		GLOB.joined_player_list -= ckey
+	src << link("[redirect_address]")
+	qdel(src)
 
 //////////////
 //DISCONNECT//

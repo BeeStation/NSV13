@@ -1,9 +1,17 @@
 
+
+
 /datum/chemical_reaction/sterilizine
 	name = "Sterilizine"
 	id = /datum/reagent/space_cleaner/sterilizine
 	results = list(/datum/reagent/space_cleaner/sterilizine = 3)
 	required_reagents = list(/datum/reagent/consumable/ethanol = 1, /datum/reagent/medicine/charcoal = 1, /datum/reagent/chlorine = 1)
+
+/datum/chemical_reaction/cooking_oil
+	name = "Cooking Oil"
+	id = /datum/reagent/consumable/cooking_oil
+	results = list(/datum/reagent/consumable/cooking_oil = 4)
+	required_reagents = list(/datum/reagent/hydrogen = 1, /datum/reagent/oil = 1, /datum/reagent/consumable/sugar = 1, /datum/reagent/carbon = 1)
 
 /datum/chemical_reaction/lube
 	name = "Space Lube"
@@ -29,6 +37,18 @@
 	results = list(/datum/reagent/impedrezene = 2)
 	required_reagents = list(/datum/reagent/mercury = 1, /datum/reagent/oxygen = 1, /datum/reagent/consumable/sugar = 1)
 
+/datum/chemical_reaction/concentrated_bz
+	name = "Concentrated BZ"
+	id = "Concentrated BZ"
+	results = list(/datum/reagent/concentrated_bz = 10)
+	required_reagents = list(/datum/reagent/toxin/plasma = 40, /datum/reagent/nitrous_oxide = 10)
+
+/datum/chemical_reaction/fake_cbz
+	name = "Fake CBZ"
+	id = "Fake CBZ"
+	results = list(/datum/reagent/fake_cbz = 1)
+	required_reagents = list(/datum/reagent/concentrated_bz = 1, /datum/reagent/medicine/neurine = 3)
+	
 /datum/chemical_reaction/cryptobiolin
 	name = "Cryptobiolin"
 	id = /datum/reagent/cryptobiolin
@@ -197,19 +217,19 @@
 	name = "Unstable uranium gel"
 	id = "uraniumvirusfood_plasma"
 	results = list(/datum/reagent/uranium/uraniumvirusfood/unstable = 1)
-	required_reagents = list(/datum/reagent/uranium = 5, /datum/reagent/toxin/plasma/plasmavirusfood = 1)
+	required_reagents = list(/datum/reagent/uranium = 2, /datum/reagent/toxin/plasma/plasmavirusfood = 1)
 
 /datum/chemical_reaction/virus_food_uranium_plasma_gold
 	name = "Stable uranium gel"
 	id = "uraniumvirusfood_gold"
 	results = list(/datum/reagent/uranium/uraniumvirusfood/stable = 1)
-	required_reagents = list(/datum/reagent/uranium = 10, /datum/reagent/gold = 10, /datum/reagent/toxin/plasma = 1)
+	required_reagents = list(/datum/reagent/uranium = 5, /datum/reagent/gold = 5, /datum/reagent/toxin/plasma = 5)
 
 /datum/chemical_reaction/virus_food_uranium_plasma_silver
 	name = "Stable uranium gel"
 	id = "uraniumvirusfood_silver"
 	results = list(/datum/reagent/uranium/uraniumvirusfood/stable = 1)
-	required_reagents = list(/datum/reagent/uranium = 10, /datum/reagent/silver = 10, /datum/reagent/toxin/plasma = 1)
+	required_reagents = list(/datum/reagent/uranium = 5, /datum/reagent/silver = 5, /datum/reagent/toxin/plasma = 5)
 
 /datum/chemical_reaction/virus_food_laughter
 	name = "Anomolous virus food"
@@ -375,6 +395,35 @@
 		if(D)
 			D.Neuter()
 
+/datum/chemical_reaction/mix_virus/preserve_virus
+	name = "Preserve Virus"
+	id = "preservevirus"
+	required_reagents = list(/datum/reagent/medicine/cryoxadone = 1)
+	required_catalysts = list(/datum/reagent/blood = 1)
+
+/datum/chemical_reaction/mix_virus/preserve_virus/on_reaction(datum/reagents/holder, created_volume)
+
+	var/datum/reagent/blood/B = locate(/datum/reagent/blood) in holder.reagent_list
+	if(B?.data)
+		var/datum/disease/advance/D = locate(/datum/disease/advance) in B.data["viruses"]
+		if(D)
+			D.mutable = FALSE
+
+/datum/chemical_reaction/mix_virus/falter_virus
+	name = "Falter Virus"
+	id = "faltervirus"
+	required_reagents = list(/datum/reagent/medicine/spaceacillin = 1)
+	required_catalysts = list(/datum/reagent/blood = 1)
+
+/datum/chemical_reaction/mix_virus/falter_virus/on_reaction(datum/reagents/holder, created_volume)
+
+	var/datum/reagent/blood/B = locate(/datum/reagent/blood) in holder.reagent_list
+	if(B?.data)
+		var/datum/disease/advance/D = locate(/datum/disease/advance) in B.data["viruses"]
+		if(D)
+			D.faltered = TRUE
+			D.spread_flags = DISEASE_SPREAD_FALTERED
+			D.spread_text = "Intentional Injection"
 
 
 ////////////////////////////////// foam and foam precursor ///////////////////////////////////////////////////
