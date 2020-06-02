@@ -144,7 +144,7 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 		return FALSE
 	icon_state = "reactor_starting"
 	var/datum/gas_mixture/air1 = pipe.airs[1]
-	var/list/cached_gases = air1.gases
+	var/list/cached_gases = air1.get_gases()
 	if(cached_gases[/datum/gas/constricted_plasma])
 		var/moles = cached_gases[/datum/gas/constricted_plasma][MOLES]
 		if(moles >= start_threshold && heat >= start_threshold)
@@ -187,14 +187,12 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 		find_pipe()
 	heat = start_threshold+10
 	var/datum/gas_mixture/air1 = pipe.airs[1]
-	air1.assert_gas(/datum/gas/constricted_plasma) //Yeet some plasma into the pipe so it can run for a while
-	air1.gases[/datum/gas/constricted_plasma][MOLES] += 300
+	air1.set_moles(/datum/gas/constricted_plasma, 300) //Yeet some plasma into the pipe so it can run for a while
 	try_start()
 
 /obj/machinery/power/stormdrive_reactor/proc/juice_up(var/juice) //Admin command to add a specified amount of CPlas to the drive
 	var/datum/gas_mixture/air1 = pipe.airs[1]
-	air1.assert_gas(/datum/gas/constricted_plasma)
-	air1.gases[/datum/gas/constricted_plasma][MOLES] += juice
+	air1.set_moles(/datum/gas/constricted_plasma, juice)
 
 /obj/machinery/power/stormdrive_reactor/proc/start_meltdown()
 	if(warning_state >= WARNING_STATE_MELTDOWN)
