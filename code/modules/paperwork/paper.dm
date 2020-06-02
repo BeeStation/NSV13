@@ -32,8 +32,6 @@
 	var/contact_poison // Reagent ID to transfer on contact
 	var/contact_poison_volume = 0
 	var/burnt = FALSE
-	var/next_write_time = 0 //I hate that I have to do this. Nsv13 whatever
-
 	var/next_write_time = 0
 
 /obj/item/paper/pickup(user)

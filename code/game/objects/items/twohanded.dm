@@ -15,12 +15,12 @@
 //Rewrote TwoHanded weapons stuff and put it all here. Just copypasta fireaxe to make new ones ~Carn
 //Made two-handed-ness into a component (see datums/components/twohanded.dm)
 
-<<<<<<< HEAD
+/* Reworking it again because this bee update fudged us over.
 /obj/item/twohanded/attack_hand(mob/user)
 	if(!GetComponent(/datum/component/twohanded/required) && !GetComponent(/datum/component/twohanded))
 		AddComponent(/datum/component/twohanded)
 		message_admins("Deprecated use of the /obj/item/twohanded path for [src]. Applying default component.")
-=======
+*/
 
 
 
@@ -64,9 +64,9 @@
 			to_chat(user, "<span class='notice'>You are now carrying [src] with one hand.</span>")
 	if(unwieldsound)
 		playsound(loc, unwieldsound, 50, 1)
-	var/obj/item/twohanded/offhand/O = user.get_inactive_held_item()
+/*	var/obj/item/twohanded/offhand/O = user.get_inactive_held_item()
 	if(O && istype(O))
-		O.unwield()
+		O.unwield()*/
 	return
 
 /obj/item/twohanded/proc/wield(mob/living/carbon/user)
@@ -94,15 +94,14 @@
 		to_chat(user, "<span class='notice'>You grab [src] with both hands.</span>")
 	if (wieldsound)
 		playsound(loc, wieldsound, 50, 1)
-	var/obj/item/twohanded/offhand/O = new(user) ////Let's reserve his other hand~
-	O.name = "[name] - offhand"
-	O.desc = "Your second grip on [src]."
-	O.wielded = TRUE
-	user.put_in_inactive_hand(O)
+//	var/obj/item/twohanded/offhand/O = new(user) ////Let's reserve his other hand~
+//	O.name = "[name] - offhand"
+//	O.desc = "Your second grip on [src]."
+//	O.wielded = TRUE
+//	user.put_in_inactive_hand(O)
 	return
 
 /obj/item/twohanded/dropped(mob/user)
->>>>>>> a55acbecf176701d761af6633110609f01b11297
 	. = ..()
 
 /obj/item/twohanded/required/attack_hand(mob/user)
@@ -203,14 +202,11 @@
 	throw_range = 5
 	w_class = WEIGHT_CLASS_SMALL
 	var/w_class_on = WEIGHT_CLASS_BULKY
-<<<<<<< HEAD
-=======
 	force_unwielded = 3
 	force_wielded = 34
 	block_power_wielded = 75
 	wieldsound = 'sound/weapons/saberon.ogg'
 	unwieldsound = 'sound/weapons/saberoff.ogg'
->>>>>>> a55acbecf176701d761af6633110609f01b11297
 	hitsound = "swing_hit"
 	armour_penetration = 35
 	item_color = "green"
@@ -311,21 +307,18 @@
 		user.adjustStaminaLoss(25)
 
 /obj/item/twohanded/dualsaber/hit_reaction(mob/living/carbon/human/owner, atom/movable/hitby, attack_text = "the attack", final_block_chance = 0, damage = 0, attack_type = MELEE_ATTACK)
-<<<<<<< HEAD
 	if(SEND_SIGNAL(src, COMSIG_ITEM_IS_WIELDED) & COMPONENT_WIELDED)
 		return ..()
 	return 0
-=======
 	if(!wielded)
 		return 0
 	return ..()
->>>>>>> a55acbecf176701d761af6633110609f01b11297
 
 /obj/item/twohanded/dualsaber/attack_hulk(mob/living/carbon/human/user, does_attack_animation = 0)  //In case thats just so happens that it is still activated on the groud, prevents hulk from picking it up
 	if(SEND_SIGNAL(src, COMSIG_ITEM_IS_WIELDED) & COMPONENT_WIELDED)
 		to_chat(user, "<span class='warning'>You can't pick up such dangerous item with your meaty hands without losing fingers, better not to!</span>")
 		return 1
-
+/*
 /obj/item/twohanded/dualsaber/proc/wield(obj/item/I, mob/living/carbon/M) //Specific wield () hulk checks due to reflection chance for balance issues and switches hitsounds.
 	if(M.has_dna())
 		if(M.dna.check_mutation(HULK))
@@ -346,7 +339,7 @@
 	hitsound = "swing_hit"
 	STOP_PROCESSING(SSobj, src)
 	set_light(0)
-
+*/
 /obj/item/twohanded/dualsaber/process()
 	if(SEND_SIGNAL(src, COMSIG_ITEM_IS_WIELDED) & COMPONENT_WIELDED)
 		if(hacked)
@@ -408,13 +401,10 @@
 	force = 10
 	w_class = WEIGHT_CLASS_BULKY
 	slot_flags = ITEM_SLOT_BACK
-<<<<<<< HEAD
-=======
 	force_unwielded = 10
 	force_wielded = 18
 	block_power_wielded = 25
 	block_upgrade_walk = 1
->>>>>>> a55acbecf176701d761af6633110609f01b11297
 	throwforce = 20
 	throw_speed = 4
 	embedding = list("embedded_impact_pain_multiplier" = 3)
@@ -580,14 +570,11 @@
 	for(var/X in actions)
 		var/datum/action/A = X
 		A.UpdateButtonIcon()
-
-<<<<<<< HEAD
+/*
 /obj/item/twohanded/required/chainsaw/get_dismemberment_chance()
 	if(SEND_SIGNAL(src, COMSIG_ITEM_IS_WIELDED) & COMPONENT_WIELDED)
 		. = ..()
-
-=======
->>>>>>> a55acbecf176701d761af6633110609f01b11297
+*/
 /obj/item/twohanded/required/chainsaw/doomslayer
 	name = "THE GREAT COMMUNICATOR"
 	desc = "<span class='warning'>VRRRRRRR!!!</span>"
@@ -667,12 +654,9 @@
 	icon_state = "spearglass0"
 	name = "\improper Grey Tide"
 	desc = "Recovered from the aftermath of a revolt aboard Defense Outpost Theta Aegis, in which a seemingly endless tide of Assistants caused heavy casualities among Nanotrasen military forces."
-<<<<<<< HEAD
-=======
 	force_unwielded = 15
 	force_wielded = 25
 	block_level = 1
->>>>>>> a55acbecf176701d761af6633110609f01b11297
 	throwforce = 20
 	throw_speed = 4
 	attack_verb = list("gored")
@@ -810,7 +794,6 @@
 	AddComponent(/datum/component/twohanded, 20, 40)
 	AddComponent(/datum/component/butchering, 20, 105)
 
-<<<<<<< HEAD
 /obj/item/twohanded/vibro_weapon/hit_reaction(mob/living/carbon/human/owner, atom/movable/hitby, attack_text = "the attack", final_block_chance = 0, damage = 0, attack_type = MELEE_ATTACK)
 	var/wielded = SEND_SIGNAL(src, COMSIG_ITEM_IS_WIELDED) & COMPONENT_WIELDED
 	if(wielded)
@@ -826,8 +809,6 @@
 				return 1
 	return 0
 
-=======
->>>>>>> a55acbecf176701d761af6633110609f01b11297
 /obj/item/twohanded/vibro_weapon/update_icon()
 	var/flag = SEND_SIGNAL(src, COMSIG_ITEM_IS_WIELDED) & COMPONENT_WIELDED
 	if(flag)
@@ -866,13 +847,10 @@
 	force = 11
 	w_class = WEIGHT_CLASS_BULKY
 	slot_flags = ITEM_SLOT_BACK
-<<<<<<< HEAD
-=======
 	block_power_wielded = 25
 	block_upgrade_walk = 1
 	force_unwielded = 11
 	force_wielded = 20					//I have no idea how to balance
->>>>>>> a55acbecf176701d761af6633110609f01b11297
 	throwforce = 22
 	throw_speed = 4
 	embedding = list("embedded_impact_pain_multiplier" = 3)
@@ -915,7 +893,7 @@
 	listeningTo = null
 	return ..()
 
-/obj/item/twohanded/binoculars/proc/wield(obj/item/I, mob/user)
+/obj/item/twohanded/binoculars/wield(obj/item/I, mob/user)
 	sleep(1) //Let the component go first
 	if(!(SEND_SIGNAL(src, COMSIG_ITEM_IS_WIELDED) & COMPONENT_WIELDED))
 		return
@@ -942,7 +920,7 @@
 	C.pixel_x = world.icon_size*_x
 	C.pixel_y = world.icon_size*_y
 
-/obj/item/twohanded/binoculars/proc/unwield(obj/item/I, mob/user)
+/obj/item/twohanded/binoculars/unwield(obj/item/I, mob/user)
 	if(!istype(user))
 		return
 	sleep(1) //Let the component go first
@@ -968,13 +946,10 @@
 	force = 10
 	w_class = WEIGHT_CLASS_BULKY
 	slot_flags = ITEM_SLOT_BACK
-<<<<<<< HEAD
-=======
 	block_power_wielded = 25
 	block_upgrade_walk = 1
 	force_unwielded = 10
 	force_wielded = 18
->>>>>>> a55acbecf176701d761af6633110609f01b11297
 	throwforce = 22
 	throw_speed = 4
 	embedding = list("embedded_impact_pain_multiplier" = 2)

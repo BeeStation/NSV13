@@ -59,10 +59,7 @@
 	desc = "Use :w to access the department frequency. Use :u to access the supply frequency. Use :c to access the command frequency. Use :q to access the ATC frequency."
 	icon_state = "sec_headset"
 	keyslot = new /obj/item/encryptionkey/heads/master_at_arms
-
-/obj/item/radio/headset/heads/master_at_arms/ComponentInitialize()
-	. = ..()
-	AddComponent(/datum/component/wearertargeting/earprotection, list(SLOT_EARS))
+	bang_protect = 1 //Is this a bowman?
 
 /obj/item/radio/headset/headset_sec/alt/munitions_tech
 	name = "munitions technician radio headset"

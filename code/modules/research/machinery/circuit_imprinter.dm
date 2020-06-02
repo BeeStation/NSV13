@@ -15,7 +15,7 @@
 								"Research Machinery",
 								"Misc. Machinery",
 								"Computer Parts",
-								"Shuttle Machinery"
+								"Shuttle Machinery",
 								"Advanced Munitions",//NSV13 ADDED START
 								"Ship Components"
 								)

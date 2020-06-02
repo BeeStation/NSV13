@@ -78,10 +78,5 @@
 		"[user] send a powerful shock to [target]'s brain with [tool], but [target.p_they()] doesn't react.",
 		"[user] send a powerful shock to [target]'s brain with [tool], but [target.p_they()] doesn't react.")
 	playsound(get_turf(target), 'sound/magic/lightningbolt.ogg', 50, 1)
-<<<<<<< HEAD
-	target.adjustBrainLoss(15, 199)
-	return FALSE
-=======
 	target.adjustOrganLoss(ORGAN_SLOT_BRAIN, 15, 180)
 	return FALSE
->>>>>>> a55acbecf176701d761af6633110609f01b11297
