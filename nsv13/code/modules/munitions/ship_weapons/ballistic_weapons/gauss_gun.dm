@@ -76,7 +76,7 @@
 	. = ..()
 	ammo_rack = new /obj/structure/gauss_rack(src)
 	ammo_rack.gun = src
-	cabin_air = new //NSV BROKEN
+	cabin_air = new //NSV (no longer) BROKEN -mark
 	cabin_air.set_temperature(T20C)
 	cabin_air.set_volume(200)
 	cabin_air.set_moles(/datum/gas/oxygen, O2STANDARD*cabin_air.return_volume()/(R_IDEAL_GAS_EQUATION*cabin_air.return_temperature()))

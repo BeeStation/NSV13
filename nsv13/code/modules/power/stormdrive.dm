@@ -337,9 +337,9 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 		return
 	var/datum/gas_mixture/env = L.return_air()
 	var/heat_kelvin = heat + 273.15
-	if(env.temperature <= heat_kelvin)
-		var/delta_env = heat_kelvin - env.temperature
-		env.temperature += delta_env / 2
+	if(env.return_temperature() <= heat_kelvin)
+		var/delta_env = heat_kelvin - env.return_temperature()
+		env.set_temperature(env.return_temperature() += delta_env / 2)
 		air_update_turf()
 
 /obj/machinery/power/stormdrive_reactor/proc/can_cool()
