@@ -284,16 +284,14 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 		find_pipe()
 		return
 	var/datum/gas_mixture/air1 = pipe.airs[1]
-	var/list/cached_gases = air1.gases
+	var/list/cached_gases = air1.get_gases()
 	if(cached_gases[/datum/gas/plasma] && heat >= REACTOR_HEAT_HOT)
-		cached_gases[/datum/gas/plasma][MOLES] -= reaction_rate*2 //If there's any plasma in the reactor, burn it off if theyre running the reactor hot. If it's too cold, the reaction gets poisoned by the plasma as constricted plasma can't fill up the chamber.
-		air1.garbage_collect()
+		air1.adjust_moles(/datum/gas/plasma, -(reaction_rate*2)) //If there's any plasma in the reactor, burn it off if theyre running the reactor hot. If it's too cold, the reaction gets poisoned by the plasma as constricted plasma can't fill up the chamber.
 	if(cached_gases[/datum/gas/constricted_plasma])
 		var/moles = cached_gases[/datum/gas/constricted_plasma][MOLES]
 		if(moles >= reaction_rate)
 			cached_gases[/datum/gas/constricted_plasma][MOLES] -= reaction_rate //Here, we subtract the plasma
 			heat_gain = initial(heat_gain)+reaction_rate
-			air1.garbage_collect()
 		else
 			heat_gain = -5 //No plasma to react, so the reaction slowly dies off.
 			radiation_pulse(src, 10, 10) //reaction bleedoff
@@ -339,7 +337,8 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 	var/heat_kelvin = heat + 273.15
 	if(env.return_temperature() <= heat_kelvin)
 		var/delta_env = heat_kelvin - env.return_temperature()
-		env.set_temperature(env.return_temperature() += delta_env / 2)
+		var/temperature = env.return_temperature()
+		env.set_temperature(temperature += delta_env / 2)
 		air_update_turf()
 
 /obj/machinery/power/stormdrive_reactor/proc/can_cool()
@@ -510,11 +509,8 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 	var/moles = 0
 	if(reactor.pipe)
 		var/datum/gas_mixture/air1 = reactor.pipe.airs[1]
-		var/list/cached_gases = air1.gases
-		if(cached_gases[/datum/gas/constricted_plasma])
-			moles = cached_gases[/datum/gas/constricted_plasma][MOLES]
-			if(moles < 0)
-				moles = 0
+		if(air1.get_moles(/datum/gas/constricted_plasma) < 0)
+			moles = 0
 	data["fuel"] = moles
 	return data
 
@@ -592,15 +588,13 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 	var/output_starting_pressure = air2.return_pressure()
 	if(output_starting_pressure >= max_output_pressure)
 		return
-	var/list/cached_gases = air1.gases
+	var/list/cached_gases = air1.get_gases()
 	if(cached_gases[/datum/gas/plasma])
 		var/plasma_moles = cached_gases[/datum/gas/plasma][MOLES]
 		var/plasma_transfer_moles = min(constriction_rate, plasma_moles)
-		air2.assert_gas(/datum/gas/constricted_plasma)
-		air2.gases[/datum/gas/constricted_plasma][MOLES] += plasma_transfer_moles
-		air2.temperature = air1.temperature
-		air1.gases[/datum/gas/plasma][MOLES] -= plasma_transfer_moles
-		air1.garbage_collect()
+		air2.adjust_moles(/datum/gas/constricted_plasma, plasma_transfer_moles)
+		air2.set_temperature(air1.return_temperature())
+		air1.adjust_moles(/datum/gas/plasma, -plasma_transfer_moles)
 		update_parents()
 
 /obj/machinery/atmospherics/components/binary/magnetic_constrictor/crowbar_act(mob/user, obj/item/I)
