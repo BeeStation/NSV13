@@ -277,6 +277,10 @@ GLOBAL_LIST_INIT(computer_beeps, list('nsv13/sound/effects/computer/beep.ogg','n
 		cancel_salvage()
 	attack_hand(usr)
 
+/obj/effect/ebeam/chain //Blame bee disabling but not removing the guardian shit inside the mob folder
+	name = "lightning chain"
+	layer = LYING_MOB_LAYER
+
 /obj/machinery/computer/ship/salvage/proc/salvage()
 	if(!salvage_target || !can_salvage)
 		salvage_target = null

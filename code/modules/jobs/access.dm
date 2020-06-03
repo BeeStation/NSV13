@@ -368,8 +368,9 @@
 	return list("Assistant", "Captain", "Executive Officer", "Bartender", "Cook", "Botanist", "Quartermaster", "Cargo Technician",
 				"Shaft Miner", "Clown", "Mime", "Janitor", "Curator", "Lawyer", "Chaplain", "Chief Engineer", "Station Engineer",
 				"Atmospheric Technician", "Chief Medical Officer", "Medical Doctor", "Chemist", "Geneticist", "Virologist", "Paramedic",
-				"Research Director", "Scientist", "Roboticist", "Head of Security", "Warden", "Detective", "Security Officer", "Brig Physician",
-				"Air Traffic Controller", "Flight Leader","Fighter Pilot", "Munitions Technician", "Deck Technician", "Master At Arms", "Bridge Staff")
+				"Research Director", "Scientist", "Roboticist", "Head of Security", "Warden", "Detective", "Security Officer", "Brig Physician", 
+				"Deputy", "Air Traffic Controller", "Flight Leader","Fighter Pilot", "Munitions Technician", "Deck Technician", "Master At Arms",
+				"Bridge Staff")
 
 /proc/get_all_job_icons() //For all existing HUD icons
 	return get_all_jobs() + list("Prisoner")

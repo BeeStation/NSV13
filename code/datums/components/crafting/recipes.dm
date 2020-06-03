@@ -108,9 +108,20 @@
 
 /datum/crafting_recipe/tailclub
 	name = "Tail Club"
-	result = /obj/item/tailclub
+	result = /obj/item/club/tailclub
 	reqs = list(/obj/item/organ/tail/lizard = 1,
 	            /obj/item/stack/sheet/iron = 1)
+	time = 40
+	category = CAT_WEAPONRY
+	subcategory = CAT_WEAPON
+
+/datum/crafting_recipe/club
+	name = "improvised maul"
+	result = /obj/item/club/ghettoclub
+	reqs = list(/obj/item/stack/sheet/iron = 1,
+				/obj/item/stack/rods = 1,
+				/obj/item/restraints/handcuffs/cable = 2,
+				/obj/item/stack/sheet/cloth = 3)
 	time = 40
 	category = CAT_WEAPONRY
 	subcategory = CAT_WEAPON
@@ -343,6 +354,41 @@
 				/obj/item/stack/rods = 1)
 	parts = list(/obj/item/shard = 1)
 	time = 40
+	category = CAT_WEAPONRY
+	subcategory = CAT_WEAPON
+
+/datum/crafting_recipe/switchblade_kitchen
+	name = "Iron Switchblade"
+	result = /obj/item/switchblade/kitchen
+	reqs = list(/obj/item/stack/sheet/iron = 2,
+				/obj/item/weaponcrafting/receiver = 1,
+				/obj/item/kitchen/knife = 1,
+				/obj/item/stack/cable_coil = 2)
+	tools = list(TOOL_WELDER)
+	time = 45
+	category = CAT_WEAPONRY
+	subcategory = CAT_WEAPON
+
+/datum/crafting_recipe/switchblade_kitchenupgrade
+	name = "Plastitanium Switchblade"
+	result = /obj/item/switchblade/plastitanium 
+	reqs = list(/obj/item/switchblade/kitchen = 1,
+				/obj/item/stack/sheet/mineral/plastitanium = 2)
+	tools = list(TOOL_WELDER)
+	time = 20
+	category = CAT_WEAPONRY
+	subcategory = CAT_WEAPON
+
+/datum/crafting_recipe/switchblade_plastitanium
+	name = "Plastitanium Switchblade"
+	result = /obj/item/switchblade/plastitanium 
+	reqs = list(/obj/item/weaponcrafting/stock = 1,
+				/obj/item/weaponcrafting/receiver = 1,
+				/obj/item/kitchen/knife = 1,
+				/obj/item/stack/cable_coil = 2,
+				/obj/item/stack/sheet/mineral/plastitanium = 2)
+	tools = list(TOOL_WELDER)
+	time = 65
 	category = CAT_WEAPONRY
 	subcategory = CAT_WEAPON
 
@@ -655,7 +701,7 @@
 
 /datum/crafting_recipe/mummy/body
 	name = "Mummification Bandages (Body)"
-	result = /obj/item/clothing/under/mummy
+	result = /obj/item/clothing/under/costume/mummy
 	reqs = list(/obj/item/stack/sheet/cloth = 5)
 
 /datum/crafting_recipe/chaplain_hood
@@ -711,6 +757,30 @@
 	reqs = list(/obj/item/stack/ducts = 5)
 	category = CAT_MISC
 	tools = list(TOOL_WELDER)
+
+/datum/crafting_recipe/upgraded_gauze
+	name = "Improved Gauze"
+	result = /obj/item/stack/medical/gauze/adv/one
+	time = 1
+	reqs = list(/obj/item/stack/medical/gauze = 1,
+				/datum/reagent/space_cleaner/sterilizine = 10)
+	category = CAT_MISC
+
+/datum/crafting_recipe/bruise_pack
+	name = "Bruise Pack"
+	result = /obj/item/stack/medical/bruise_pack/one
+	time = 1
+	reqs = list(/obj/item/stack/medical/gauze = 1,
+				/datum/reagent/medicine/styptic_powder = 10)
+	category = CAT_MISC
+
+/datum/crafting_recipe/burn_pack
+	name = "Burn Ointment"
+	result = /obj/item/stack/medical/ointment/one
+	time = 1
+	reqs = list(/obj/item/stack/medical/gauze = 1,
+				/datum/reagent/medicine/silver_sulfadiazine = 10)
+	category = CAT_MISC
 
 // Shank - Makeshift weapon that can embed on throw
 /datum/crafting_recipe/shank

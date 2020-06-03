@@ -8,6 +8,7 @@
 	spawn_positions = 1
 	supervisors = "the Executive Officer"
 	selection_color = "#dddddd"
+	chat_color = "#FF83D7"
 
 	outfit = /datum/outfit/job/clown/delinquent //NSV13 - Modded clown outfit to be a jojo reference
 
@@ -29,7 +30,7 @@
 
 	belt = /obj/item/pda/clown
 	ears = /obj/item/radio/headset/headset_srv
-	uniform = /obj/item/clothing/under/rank/clown
+	uniform = /obj/item/clothing/under/rank/civilian/clown
 	shoes = /obj/item/clothing/shoes/clown_shoes
 	mask = /obj/item/clothing/mask/gas/clown_hat
 	l_pocket = /obj/item/bikehorn
