@@ -256,6 +256,13 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 			backward_maxthrust = 0.1
 			side_maxthrust = 0.3
 			max_angular_acceleration = 0.5
+		if(MASS_IMMOBILE)
+			forward_maxthrust = 0
+			backward_maxthrust = 0
+			side_maxthrust = 0
+			max_angular_acceleration = 0
+			brakes = TRUE
+			anchored = TRUE
 
 	if(role == MAIN_OVERMAP)
 		name = "[station_name()]"

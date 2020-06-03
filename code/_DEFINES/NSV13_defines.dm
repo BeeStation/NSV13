@@ -3,3 +3,4 @@
 #define MASS_MEDIUM 3
 #define MASS_LARGE 4
 #define MASS_TITAN 5
+#define MASS_IMMOBILE 6

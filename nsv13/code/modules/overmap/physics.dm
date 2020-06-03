@@ -77,7 +77,7 @@
 		message_admins("[src] does not have collision points set! It will float through everything.")
 
 /obj/structure/overmap/proc/can_move()
-	return TRUE //Placeholder for everything but fighters. We can later extend this if / when we want to code in ship engines.
+	return mass < MASS_IMMOBILE //Placeholder for everything but fighters. We can later extend this if / when we want to code in ship engines.
 
 /obj/structure/overmap/slowprocess()
 	. = ..()
@@ -428,8 +428,10 @@ The while loop runs at a programatic level and is thus separated from any thrott
 			(2 * src.mass * src_vel_mag * cos(src.velocity.angle() - col_angle))						\
 		) / (other.mass + src.mass)) * (sin(col_angle) + (other_vel_mag * sin(other.velocity.angle() - col_angle) * sin(col_angle + 90)))
 
-		src.velocity._set(new_src_vel_x, new_src_vel_y)
-		other.velocity._set(new_other_vel_x, new_other_vel_y)
+		if(mass < MASS_IMMOBILE)
+			src.velocity._set(new_src_vel_x, new_src_vel_y)
+		if(other.mass < MASS_IMMOBILE)
+			other.velocity._set(new_other_vel_x, new_other_vel_y)
 
 	var/datum/vector2d/output = c_response.overlap_vector * (0.5 / 32)
 	src.offset -= output

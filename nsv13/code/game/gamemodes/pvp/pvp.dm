@@ -35,6 +35,8 @@ GLOBAL_LIST_EMPTY(syndi_crew_leader_spawns)
 
 	var/operative_antag_datum_type = /datum/antagonist/nukeop/syndi_crew
 	var/leader_antag_datum_type = /datum/antagonist/nukeop/leader/syndi_crew
+	var/shipside_antag_datum_type = /datum/antagonist/nukeop/syndi_crew/shipside
+	var/pilot_antag_datum_type = /datum/antagonist/nukeop/syndi_crew/pilot
 	var/list/standard_ships = list("Hammurabi.dmm") //Update this list if you make more PVP ships :) ~Kmc
 	var/list/highpop_ships = list("Hulk.dmm") //Update this list if you make a big PVP ship
 	var/list/jobs = list()
@@ -54,8 +56,7 @@ Method to spawn in the Syndi ship on a brand new Z-level with the "boardable" tr
 	if(!map_file) //Don't ask me why this would happen.
 		map_file = "Hammurabi.dmm"
 		ship_type = /obj/structure/overmap/syndicate/pvp
-
-	syndiship = instance_overmap(_path=ship_type, folder= "map_files/PVP" ,interior_map_files = map_file)
+	syndiship = generate_ship(ship_type, map_file)
 	var/n_agents = antag_candidates.len
 	if(n_agents >= enemies_to_spawn)
 		jobs["pilots"] = list() //Dictionary to store who's doing what job.
@@ -73,13 +74,19 @@ Method to spawn in the Syndi ship on a brand new Z-level with the "boardable" tr
 		qdel(syndiship)
 		setup_error = "Not enough syndicate crew candidates"
 		return FALSE
+
+//Overridable method which spawns in the ship we want to use.
+/datum/game_mode/pvp/proc/generate_ship(ship_type, map_file)
+	return instance_overmap(_path=ship_type, folder= "map_files/PVP" ,interior_map_files = map_file)
+
 ////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////
 /datum/game_mode/pvp/proc/force_lighting(obj/structure/overmap/hammurabi)
 	for(var/area/AR in hammurabi.linked_areas) //Fucking force a lighting update IDEK why we have to do this but it just works
-		AR.set_dynamic_lighting(DYNAMIC_LIGHTING_DISABLED)
-		sleep(1)
-		AR.set_dynamic_lighting(DYNAMIC_LIGHTING_ENABLED)
+		if(AR.dynamic_lighting)
+			AR.set_dynamic_lighting(DYNAMIC_LIGHTING_DISABLED)
+			sleep(1)
+			AR.set_dynamic_lighting(DYNAMIC_LIGHTING_ENABLED)
 
 /datum/game_mode/pvp/post_setup()
 	//Assign leader
@@ -107,10 +114,10 @@ Method to assign a job, in order of descending priority. We REALLY need people t
 	var/list/marines = jobs["marines"]
 	if(shipsides.len < 2)
 		LAZYADD(shipsides, M)
-		return /datum/antagonist/nukeop/syndi_crew/shipside
+		return shipside_antag_datum_type
 	if(pilots.len < 3)
 		LAZYADD(pilots, M)
-		return /datum/antagonist/nukeop/syndi_crew/pilot
+		return pilot_antag_datum_type
 	LAZYADD(marines, M) //If nothing else, make them a marine.
 	return operative_antag_datum_type
 
@@ -119,7 +126,7 @@ Method to assign a job, in order of descending priority. We REALLY need people t
 	nukes_left--
 
 /datum/game_mode/pvp/check_win()
-	if (nukes_left == 0)
+	if (nukes_left <= 0)
 		return TRUE
 	return ..()
 
@@ -135,6 +142,9 @@ Method to assign a job, in order of descending priority. We REALLY need people t
 /datum/game_mode/pvp/set_round_result()
 	..()
 	var result = nuke_team.get_result()
+	if(result == NUKE_RESULT_FLUKE)
+		SSticker.mode_result = "loss - syndicate base nuked"
+		SSticker.news_report = OPERATIVE_SKIRMISH
 	if(result == NUKE_RESULT_NUKE_WIN)
 		SSticker.mode_result = "win - syndicate nuke"
 		SSticker.news_report = STATION_NUKED
@@ -159,6 +169,7 @@ Method to assign a job, in order of descending priority. We REALLY need people t
 	name = "Syndicate crew"
 	nukeop_outfit = /datum/outfit/syndicate/no_crystals/syndi_crew
 	job_rank = ROLE_SYNDI_CREW
+	tips = 'html/antagtips/pvp.html'
 
 /datum/outfit/syndicate/no_crystals/syndi_crew
 	name = "Syndicate marine"
@@ -175,6 +186,7 @@ Method to assign a job, in order of descending priority. We REALLY need people t
 /datum/antagonist/nukeop/leader/syndi_crew
 	name = "Syndicate captain"
 	nukeop_outfit = /datum/outfit/syndicate/no_crystals/leader
+	tips = 'html/antagtips/pvp.html'
 
 /datum/antagonist/nukeop/leader/syndi_crew/give_alias()
 	title = pick("Captain", "Commander", "Admiral")
