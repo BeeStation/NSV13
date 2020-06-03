@@ -85,7 +85,7 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 	var/target_heat = 200 //For control rods. How hot do we want the reactor to get? We'll attempt to cool the reactor to this temperature.
 	var/cooling_power = 10 //How much heat we can drain per tick. Matches up with target_heat
 	var/cooling_power_modifier = 1 //Modifier to handle gas cooling values
-	var/control_rod_percent = 100 //Handles the insertion depth of the control rods into the reactor
+	var/control_rod_percent = 0 //Handles the insertion depth of the control rods into the reactor
 	var/control_rod_integrity = 0 //Aggrigate of the integrity of all control rods
 	var/control_rod_modifier = 1 //Handles the effective aggrigate of control rods
 	var/control_rod_installation = FALSE //Check for if a rod is being installed or removed
@@ -97,7 +97,7 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 	var/reaction_rate_modifier = 1 //Modifier to handle gas RoR values
 	var/target_reaction_rate = 0
 	var/delta_reaction_rate = 0
-	var/power_loss = 2 //For subtypes, if you want a less efficient reactor
+	var/power_loss = 2 //For subtypes, if you want a less efficient reactor - Not currently used
 	var/input_power = 0
 	var/input_power_modifier = 1 //Modifier to handle gas power values
 	var/state = REACTOR_STATE_IDLE
@@ -110,11 +110,11 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 	var/last_power_produced = 0 //For UI tracking. Shows your power output.
 	var/theoretical_maximum_power = 100000 //Placeholder.
 	var/radiation_modifier = 1 //Modifier to handle gas radiation values
-	var/reactor_temperature_nominal = 200 //THIS IS A VARIABLE - LEAVE IT ALONE
-	var/reactor_temperature_hot = 400
-	var/reactor_temperature_critical = 650
-	var/reactor_temperature_meltdown = 800
-	var/reactor_temperature_modifier = 1
+	var/reactor_temperature_nominal = 200 //Base state temperature theshold value
+	var/reactor_temperature_hot = 400 //Base state temperature theshold value
+	var/reactor_temperature_critical = 650 //Base state temperature theshold value
+	var/reactor_temperature_meltdown = 800 //Base state temperature theshold value
+	var/reactor_temperature_modifier = 1 //Modidier handling temperature thesholds
 	var/reactor_starvation = 0
 
 /obj/machinery/atmospherics/components/binary/stormdrive_reactor/syndicate
@@ -156,7 +156,7 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 						to_chat(user, "<span class='notice'>You begin mounting the [I.name] to the reactor control coupling...</span>")
 						to_chat(user, "<span class='danger'>A blue glow envelopes your hands!</span>")
 						control_rod_installation = TRUE
-						user.emp_act(25)
+						user.emp_act(25) //replace with empulse()
 						user.radiation += 250 * radiation_modifier
 						radiation_pulse(src, 1000 * radiation_modifier, 5)
 						if(!do_after(user, 50, target = src))
@@ -167,7 +167,7 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 						control_rods += I
 						I.forceMove(src)
 						update_icon()
-						user.emp_act(25)
+						user.emp_act(25) //replace with empulse()
 						user.radiation += 250 * radiation_modifier
 						radiation_pulse(src, 1000 * radiation_modifier, 5)
 						handle_control_rod_efficiency()
@@ -238,7 +238,7 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 							var/obj/item/bodypart/affecting = H.get_bodypart("[(usr.active_hand_index % 2 == 0) ? "r" : "l" ]_arm")
 							if(affecting && affecting.receive_damage( 0, 20 )) // partially damage the hand
 								H.update_damage_overlays()
-							H.emp_act(25)
+							H.emp_act(25) //replace with empulse()
 							H.radiation += 250 * radiation_modifier
 							radiation_pulse(src, 1000 * radiation_modifier, 5)
 							if(!do_after(usr, 50, target = src))
@@ -251,7 +251,7 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 							control_rod_installation = FALSE
 							if(affecting && affecting.receive_damage( 0, 20 )) //damage it even more
 								H.update_damage_overlays()
-							H.emp_act(25)
+							H.emp_act(25) //replace with empulse()
 							H.radiation += 250 * radiation_modifier
 							radiation_pulse(src, 1000 * radiation_modifier, 5)
 							handle_control_rod_efficiency()
@@ -418,7 +418,7 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 			if(50 to 74)
 				add_overlay("rods_[control_rods.len]_3")
 			if(75 to 100)
-				add_overlay("rods_4")
+				add_overlay("rods_[control_rods.len]_4")
 	if(state == REACTOR_STATE_MAINTENANCE)
 		icon_state = "reactor_maintenance" //If we're in maint, don't make it appear hot.
 		return
@@ -514,7 +514,7 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 			reaction_chamber_gases.garbage_collect()
 
 			if(reactor_starvation > 0)
-				reactor_starvation --
+				reactor_starvation -= 0.5 //drops at half the gain rate
 
 		else
 			reactor_starvation ++
@@ -601,7 +601,7 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 	var/control_rod_effectiveness_total = 0
 	for(var/obj/item/control_rod/cr in contents)
 		control_rod_effectiveness_total += cr.rod_effectiveness
-	control_rod_modifier = control_rod_effectiveness_total / control_rods.len
+	control_rod_modifier = control_rod_effectiveness_total / MAX_CONTROL_RODS
 
 /obj/machinery/atmospherics/components/binary/stormdrive_reactor/proc/handle_control_rod_integrity()
 	var/control_rod_integrity_total = 0
