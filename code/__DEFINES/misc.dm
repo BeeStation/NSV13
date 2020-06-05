@@ -215,7 +215,7 @@ GLOBAL_LIST_INIT(ghost_others_options, list(GHOST_OTHERS_SIMPLE, GHOST_OTHERS_DE
 #define ORBITRON	"Orbitron"
 #define SHARE		"Share Tech Mono"
 
-GLOBAL_LIST_INIT(pda_styles, list(MONO, VT, ORBITRON, SHARE))
+GLOBAL_LIST_INIT(pda_styles, sortList(list(MONO, VT, ORBITRON, SHARE)))
 
 
 // Consider these images/atoms as part of the UI/HUD
@@ -437,6 +437,7 @@ GLOBAL_LIST_INIT(pda_styles, list(MONO, VT, ORBITRON, SHARE))
 #define GUARDIAN_CARP	"carp"
 #define GUARDIAN_MAGIC	"magic"
 #define GUARDIAN_HIVE	"hive"
+
 
 // possible bitflag return values of intercept_zImpact(atom/movable/AM, levels = 1) calls
 #define FALL_INTERCEPTED		(1<<0) //Stops the movable from falling further and crashing on the ground

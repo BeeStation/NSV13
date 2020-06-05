@@ -7,13 +7,13 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    if: github.repository == 'BeeStation/BeeStation-Hornet'
+    if: github.repository == 'BeeStation/NSV13'
     steps:
     - uses: actions/checkout@v2
     - name: Publish to Registry
       uses: elgohr/Publish-Docker-Github-Action@master
       with:
-        name: beestation/beestation
+        name: beestation/NSV13
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
         tags: "latest"
