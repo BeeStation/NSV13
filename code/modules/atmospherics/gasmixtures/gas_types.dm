@@ -1,5 +1,4 @@
 GLOBAL_LIST_INIT(hardcoded_gases, list(/datum/gas/oxygen, /datum/gas/nitrogen, /datum/gas/carbon_dioxide, /datum/gas/plasma)) //the main four gases, which were at one time hardcoded
-GLOBAL_LIST_INIT(nonreactive_gases, typecacheof(list(/datum/gas/oxygen, /datum/gas/nitrogen, /datum/gas/carbon_dioxide, /datum/gas/pluoxium, /datum/gas/stimulum, /datum/gas/nitryl))) //unable to react amongst themselves
 
 /proc/meta_gas_list()
 	. = subtypesof(/datum/gas)
@@ -156,11 +155,14 @@ GLOBAL_LIST_INIT(nonreactive_gases, typecacheof(list(/datum/gas/oxygen, /datum/g
 	moles_visible = MOLES_GAS_VISIBLE * 60
 	rarity = 250
 
-/datum/gas/unobtanium //C++ monstermos expects 14 gas types to exist, we only had 13
-	id = "unobtanium"
-	specific_heat = 20
-	name = "Unobtanium"
-	rarity = 2500
+/datum/gas/constricted_plasma //C++ monstermos expects 14 gas types to exist, we only had 13
+	id = "constricted_plasma"
+	specific_heat = 700
+	name = "Constricted plasma"
+	gas_overlay = "constricted_plasma"
+	moles_visible = MOLES_GAS_VISIBLE
+	dangerous = TRUE
+	rarity = 1000
 
 /obj/effect/overlay/gas
 	icon = 'icons/effects/atmospherics.dmi'
@@ -168,6 +170,7 @@ GLOBAL_LIST_INIT(nonreactive_gases, typecacheof(list(/datum/gas/oxygen, /datum/g
 	anchored = TRUE  // should only appear in vis_contents, but to be safe
 	layer = FLY_LAYER
 	appearance_flags = TILE_BOUND
+	vis_flags = NONE
 
 /obj/effect/overlay/gas/New(state, alph)
 	. = ..()

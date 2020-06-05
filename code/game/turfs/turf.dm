@@ -44,6 +44,8 @@
 	/// Should we used the smooth tiled dirt decal or not
 	var/tiled_dirt = FALSE
 
+	vis_flags = VIS_INHERIT_PLANE|VIS_INHERIT_ID	//when this be added to vis_contents of something it inherit something.plane and be associatet with something on clicking, important for visualisation of turf in openspace and interraction with openspace that show you turf.
+
 /turf/vv_edit_var(var_name, new_value)
 	var/static/list/banned_edits = list("x", "y", "z")
 	if(var_name in banned_edits)
@@ -163,7 +165,7 @@
 	if(prev_turf && !(flags & FALL_NO_MESSAGE))
 		prev_turf.visible_message("<span class='danger'>[mov_name] falls through [prev_turf]!</span>")
 	if(flags & FALL_INTERCEPTED)
-		return FALSE
+		return
 	if(zFall(A, ++levels, src))
 		return FALSE
 	A.visible_message("<span class='danger'>[A] crashes into [src]!</span>")
