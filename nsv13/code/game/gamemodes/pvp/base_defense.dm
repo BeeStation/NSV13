@@ -3,16 +3,16 @@
 	config_tag = "planetary_defense"
 	report_type = "planetary_defense"
 	false_report_weight = 10
-	required_players = 0
-	required_enemies = 1
-	recommended_enemies = 10
+	required_players = 35
+	required_enemies = 12
+	recommended_enemies = 15
 	antag_flag = ROLE_SYNDI_CREW
 	enemy_minimum_age = 0
 
 	announce_span = "danger"
-	announce_text = "Rumours tell of a hidden Syndicate fortress in the Abassi Ridge!\n\
+	announce_text = "Rumours tell of a hidden Syndicate fortress in the Scorvio system!\n\
 	<span class='danger'>Operatives</span>: Defend your base from attack.\n\
-	<span class='notice'>Crew</span>: Attack the Syndicate stronghold and retrieve the high value target."
+	<span class='notice'>Crew</span>: Attack and destroy the Syndicate stronghold."
 
 	title_icon = "nukeops"
 	highpop_threshold = 1000 //:))
