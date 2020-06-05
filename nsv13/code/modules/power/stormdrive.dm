@@ -648,15 +648,6 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 
 //////Constricted Plasma//////
 
-/datum/gas/constricted_plasma
-	id = "constricted_plasma"
-	specific_heat = 700
-	name = "Constricted plasma"
-	gas_overlay = "constricted_plasma"
-	moles_visible = MOLES_GAS_VISIBLE
-	dangerous = TRUE
-	rarity = 1000
-
 /obj/machinery/atmospherics/components/trinary/filter/atmos/constricted_plasma
 	name = "constricted plasma filter"
 	filter_type = "constricted_plasma"

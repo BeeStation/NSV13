@@ -15,9 +15,8 @@
 	var/maximum_pressure = 90 * ONE_ATMOSPHERE
 
 /obj/machinery/portable_atmospherics/New()
-	..()
+	. = ..()
 	SSair.atmos_machinery += src
-
 	air_contents = new(volume)
 	air_contents.set_temperature(T20C)
 
