@@ -3,9 +3,9 @@
 	config_tag = "planetary_defense"
 	report_type = "planetary_defense"
 	false_report_weight = 10
-	required_players = 35
+	required_players = 30
 	required_enemies = 12
-	recommended_enemies = 15
+	recommended_enemies = 14
 	antag_flag = ROLE_SYNDI_CREW
 	enemy_minimum_age = 0
 
@@ -62,7 +62,6 @@
 	desc = "A disk which can initiate the Osterhagen protocol and scrub its assigned Syndicate base by triggering a series of nuclear warheads to be launched at the planet's core, causing complete annihilation. <b>It has the activation code stamped on it:</b><i>73556</i>"
 	icon = 'nsv13/icons/obj/items_and_weapons.dmi'
 	fake = FALSE //Yeah this disk is very, very real.
-
 
 //The inverse of stationloving. This forces the Syndicate PVP disk to not be on the station or overmap level.
 
@@ -192,34 +191,20 @@
 	ai_controlled = FALSE
 	role = PVP_SHIP
 
+/obj/structure/overmap/planet/pvp/apply_weapons()
+	weapon_types[FIRE_MODE_PDC] = new/datum/ship_weapon/pdc_mount(src)
+	weapon_types[FIRE_MODE_TORPEDO] = null
+	weapon_types[FIRE_MODE_RAILGUN] = null
+	weapon_types[FIRE_MODE_FLAK] = new/datum/ship_weapon/flak(src)
+	weapon_types[FIRE_MODE_GAUSS] = null
+
 //Overridable method which spawns in the ship we want to use.
 /datum/game_mode/pvp/base_defense/generate_ship(ship_type, map_file)
 	ship_type = /obj/structure/overmap/planet/pvp //Yes. I'm a hack. Sue me Fran.
-	return instance_overmap(_path=ship_type, folder= "map_files/PVP" ,interior_map_files = map_file, traits=list(list(ZTRAIT_UP=1, ZTRAIT_LINKAGE = SELFLOOPING, ZTRAIT_BOARDABLE = 1),list(ZTRAIT_DOWN = -1, ZTRAIT_LINKAGE = SELFLOOPING, ZTRAIT_BOARDABLE = 1)))
+	return instance_overmap(_path=ship_type, folder= "map_files/PVP" ,interior_map_files = map_file, traits=list(list(ZTRAIT_UP=1, ZTRAIT_LINKAGE = SELFLOOPING, ZTRAIT_BOARDABLE = 1, ZTRAIT_BASETURF = /turf/open/floor/plating/asteroid/basalt),list(ZTRAIT_DOWN = -1, ZTRAIT_LINKAGE = SELFLOOPING, ZTRAIT_BOARDABLE = 1, ZTRAIT_BASETURF = /turf/open/floor/plating/asteroid/snow/atmosphere)))
 
+/turf/open/floor/plating/asteroid/snow/atmosphere/tartarus
+	initial_gas_mix = OPENTURF_DEFAULT_ATMOS
 
-/datum/game_mode/pvp/base_defense/force_lighting(obj/structure/overmap/hammurabi)
-	set waitfor = FALSE
-	var/baseturf = /turf/open/floor/plating/asteroid/basalt
-	var/list/baseturf_to_replace = typecacheof(/turf/open/space)
-	baseturf_to_replace += typecacheof(/turf/open/openspace)
-	for(var/area/AR in hammurabi.linked_areas) //Fucking force a lighting update IDEK why we have to do this but it just works
-		if(AR.dynamic_lighting)
-			AR.set_dynamic_lighting(DYNAMIC_LIGHTING_DISABLED)
-			sleep(1)
-			AR.set_dynamic_lighting(DYNAMIC_LIGHTING_ENABLED)
-		//Baseturf editors didn't do the trick. Time to take matters into my own hands...
-		for(var/turf/thing in get_area_turfs(AR))
-			var/list/baseturf_cache = thing.baseturfs
-			if(length(baseturf_cache))
-				for(var/i in baseturf_cache)
-					if(baseturf_to_replace[i])
-						baseturf_cache -= i
-				if(!baseturf_cache.len)
-					thing.assemble_baseturfs(baseturf)
-				else
-					thing.PlaceOnBottom(null, baseturf)
-			else if(baseturf_to_replace[thing.baseturfs])
-				thing.assemble_baseturfs(baseturf)
-			else
-				thing.PlaceOnBottom(null, baseturf)
+/turf/open/floor/plating/snowed/smoothed/tartarus
+	initial_gas_mix = OPENTURF_DEFAULT_ATMOS
