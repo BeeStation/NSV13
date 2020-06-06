@@ -54,6 +54,11 @@
 			var/area/target = GLOB.teleportlocs[X]
 			var/turf/T = pick(get_area_turfs(target))
 			explosion(T,20,20,20)
+	else
+		if(linked_areas && linked_areas.len)
+			for(var/area/X in linked_areas)
+				var/turf/T = pick(get_area_turfs(X))
+				explosion(T,20,20,20)
 	. = ..()
 
 /obj/structure/overmap/proc/decimate_area()

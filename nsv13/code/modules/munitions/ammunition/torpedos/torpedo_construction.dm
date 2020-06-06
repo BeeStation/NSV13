@@ -11,7 +11,7 @@
 	var/obj/item/ship_weapon/parts/torpedo/guidance_system/gs = null
 	var/obj/item/ship_weapon/parts/torpedo/propulsion_system/ps = null
 	var/obj/item/ship_weapon/parts/torpedo/iff_card/iff = null
-	projectile_type = /obj/item/projectile/bullet/torpedo/dud //Forget to finish your torpedo? You get a dud torpedo that doesn't do anything
+	projectile_type = /obj/item/projectile/guided_munition/torpedo/dud //Forget to finish your torpedo? You get a dud torpedo that doesn't do anything
 
 /obj/item/ship_weapon/ammunition/torpedo/torpedo_casing/examine(mob/user) //No better guide than an in-game play-by-play guide
 	. = ..()
@@ -191,6 +191,10 @@
 	. = ..()
 
 /obj/item/ship_weapon/ammunition/torpedo/torpedo_casing/welder_act(mob/user, obj/item/tool)
+	//Fixes #620 (https://github.com/BeeStation/NSV13/issues/620)
+	if(istype(src.loc, /obj/structure))
+		to_chat(user, "<span class='notice'>[src] is loaded in [src.loc]. Unload it first.</span>")
+		return
 	switch(state)
 		if(0)
 			to_chat(user, "<span class='notice'>You start disassembling [src]...</span>")
@@ -291,11 +295,13 @@
 			if(/obj/item/ship_weapon/parts/torpedo/warhead/bunker_buster)
 				return new /obj/item/ship_weapon/ammunition/torpedo/hull_shredder(get_turf(src))
 
-			if(/obj/item/ship_weapon/parts/torpedo/warhead/lightweight)
-				return new /obj/item/ship_weapon/ammunition/torpedo/fast(get_turf(src))
-
 			if(/obj/item/ship_weapon/parts/torpedo/warhead/decoy)
 				return new /obj/item/ship_weapon/ammunition/torpedo/decoy(get_turf(src))
 
 			if(/obj/item/ship_weapon/parts/torpedo/warhead/nuclear)
 				return new /obj/item/ship_weapon/ammunition/torpedo/nuke(get_turf(src))
+
+			if(/obj/item/ship_weapon/parts/torpedo/warhead/probe)
+				return new /obj/item/ship_weapon/ammunition/torpedo/probe(get_turf(src))
+			if(/obj/item/ship_weapon/parts/torpedo/warhead/freight)
+				return new /obj/item/ship_weapon/ammunition/torpedo/freight(get_turf(src))

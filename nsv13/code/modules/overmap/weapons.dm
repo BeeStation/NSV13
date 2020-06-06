@@ -1,80 +1,15 @@
-/obj/item/projectile/bullet/pdc_round
-	icon_state = "pdc"
-	name = "teflon coated tungsten round"
-	damage = 5
-
-/obj/item/projectile/bullet/railgun_slug
-	icon_state = "railgun"
-	name = "hyper accelerated tungsten slug"
-	damage = 80
-	movement_type = FLYING | UNSTOPPABLE //Railguns punch straight through your ship
-	impact_effect_type = /obj/effect/temp_visual/impact_effect/torpedo
-
-/obj/item/projectile/bullet/gauss_slug
-	icon_state = "gaussgun"
-	name = "tungsten round"
-	damage = 20
-	impact_effect_type = /obj/effect/temp_visual/impact_effect/torpedo
-
-/obj/item/projectile/bullet/torpedo
-	icon_state = "torpedo"
-	name = "plasma torpedo"
-	damage = 60
-	impact_effect_type = /obj/effect/temp_visual/impact_effect/torpedo
-	var/shotdown_effect_type = /obj/effect/temp_visual/impact_effect/torpedo
-
-/obj/effect/temp_visual/overmap_explosion
-	icon = 'nsv13/goonstation/icons/hugeexplosion.dmi'
-	icon_state = "explosion"
-	duration = 10
-
-/obj/effect/temp_visual/overmap_explosion/alt
-	icon = 'nsv13/goonstation/icons/hugeexplosion2.dmi'
-	icon_state = "explosion"
-	duration = 10
-
-/obj/item/projectile/bullet/torpedo/on_hit(atom/target, blocked = FALSE)
-	..()
-	if(istype(target, /obj/structure/overmap)) //Were we to explode on an actual overmap, this would oneshot the ship as it's a powerful explosion.
-		return BULLET_ACT_HIT
-	explosion(target, 2, 4, 4)
-	return BULLET_ACT_HIT
-
-/obj/item/projectile/bullet/torpedo/on_hit(atom/target, blocked = 0)
-	if(isovermap(target))
-		var/obj/structure/overmap/OM = target
-		OM.torpedoes_to_target -= src
-	return ..()
-
 /obj/structure/overmap/proc/fire(atom/target)
 	if(weapon_safety)
 		if(gunner)
 			to_chat(gunner, "<span class='warning'>Weapon safety interlocks are active! Use the ship verbs tab to disable them!</span>")
 		return
-	if(ai_controlled) //Let the AI switch weapons according to range
-		var/target_range = get_dist(target,src)
-		if(target_range > max_range) //Our max range is the maximum possible range we can engage in. This is to stop you getting hunted from outside of your view range.
-			last_target = null
-		if(target_range > initial(weapon_range)) //In other words, theyre out of PDC range
-			if(torpedoes > 0) //If we have torpedoes loaded, let's use them
-				swap_to(FIRE_MODE_TORPEDO)
-			else //No torps, we'll have to use the railgun.
-				swap_to(FIRE_MODE_RAILGUN)
-		else
-			if(mass < MASS_LARGE) //Big ships don't use their PDCs like this, and instead let them automatically shoot at the enemy.
-				swap_to(FIRE_MODE_PDC)
-			else
-				swap_to(FIRE_MODE_RAILGUN)
-	//end if(ai_controlled)
 	last_target = target
 	if(next_firetime > world.time)
 		to_chat(pilot, "<span class='warning'>WARNING: Weapons cooldown in effect to prevent overheat.</span>")
 		return
-	var/target_range = get_dist(target,src)
-	if(target_range > weapon_range)
-		var/out_of_range = target_range-weapon_range //EG. If he's 20 tiles away and my range is 15, say WARNING, he's 5 tiles out of range!
-		to_chat(pilot, "<span class='notice'>Target acquisition failed. Target is [out_of_range] km out of effective weapons range.</span>")
-		return
+	if(ai_controlled) //Let the AI switch weapons according to range
+		ai_fire(target)
+		return	//end if(ai_controlled)
 	if(istype(target, /obj/structure/overmap))
 		var/obj/structure/overmap/ship = target
 		ship.add_enemy(src)
@@ -110,7 +45,7 @@
 	if(ai_controlled || (!linked_areas.len && role != MAIN_OVERMAP)) //AI ships and fighters don't have interiors
 		if((what == FIRE_MODE_TORPEDO) && !torpedoes) //Out of torpedoes
 			return FALSE
-		if((mass < MASS_MEDIUM) && (what > FIRE_MODE_TORPEDO)) //Little ships don't have railguns or lasers
+		if(!(weapon_types[what]))
 			return FALSE
 	else if(!weapons || !weapons[what] || !weapons[what].len) //Hero ship doesn't have any weapons of this type
 		return FALSE
@@ -119,7 +54,6 @@
 		return
 	var/datum/ship_weapon/SW = weapon_types[what]
 	fire_delay = initial(fire_delay) + SW.fire_delay
-	weapon_range = initial(weapon_range) + SW.fire_delay
 	fire_mode = what
 	if(ai_controlled)
 		fire_delay += 10 //Make it fair on the humans who have to actually reload and stuff.
@@ -133,10 +67,11 @@
 	var/atom/found = selected[1]
 	return "[found.name]"
 
-/obj/structure/overmap/proc/fire_weapon(atom/target, mode=fire_mode, lateral=(fire_mode == FIRE_MODE_PDC && mass > MASS_TINY) ? TRUE : FALSE, mob/user_override=null) //"Lateral" means that your ship doesnt have to face the target
+/obj/structure/overmap/proc/fire_weapon(atom/target, mode=fire_mode, lateral=(mass > MASS_TINY), mob/user_override=null) //"Lateral" means that your ship doesnt have to face the target
+	var/failed = TRUE //Failsafe var for use in extreme lag. This should avoid situations where weapons tell the gunner that they can't fire.
 	if(ai_controlled || (!linked_areas.len && role != MAIN_OVERMAP)) //AI ships and fighters don't have interiors
-		if(fire_mode == FIRE_MODE_TORPEDO) //because fighter torpedoes are special
-			if(fire_torpedo(target))
+		if(mode == FIRE_MODE_TORPEDO || mode == FIRE_MODE_MISSILE) //because fighter torpedoes are special
+			if(fire_ordnance(target, mode))
 				return TRUE
 		else
 			var/datum/ship_weapon/weapon_type = weapon_types[mode]
@@ -151,24 +86,44 @@
 				sleep(1)
 			return TRUE
 	else if(weapons[mode] && weapons[mode].len) //It's the main ship, see if any part of our battery can fire
-		add_enemy(target) //So that PVP holds up the spawning of AI enemies somewhat.
 		for(var/obj/machinery/ship_weapon/SW in weapons[mode])
-			if(SW.can_fire() && SW.fire(target, manual=(mode == fire_mode)))
-				LAZYADD(weapon_log, "[station_time_timestamp()] [gunner] ([(gunner && gunner.mind && gunner.mind.antag_datums) ? "<b>Antagonist</b>" : "Non-Antagonist"]) fired [firemode2text(fire_mode)] at [target]")
+			if(SW.can_fire())
+				failed = FALSE //Just in case the logging fucks up for whatever godforsaken reason.
+				SW.fire(target, manual=(mode == fire_mode))
+				add_enemy(target) //So that PVP holds up the spawning of AI enemies somewhat.
+				LAZYADD(weapon_log, "[station_time_timestamp()] [(gunner) ? gunner.name : "unknown gunner"] ([(gunner && gunner.mind && gunner.mind.antag_datums) ? "<b>Antagonist</b>" : "Non-Antagonist"]) fired [firemode2text(fire_mode)] at [target]")
 				return TRUE
-	if(gunner) //Tell them we failed
+	if(gunner && failed) //Tell them we failed
+		if(world.time < next_firetime) //Silence, SPAM.
+			return FALSE
 		var/datum/ship_weapon/SW = weapon_types[fire_mode]
 		to_chat(gunner, SW.failure_alert)
 	return FALSE
 
+/obj/structure/overmap/proc/fire_ordnance(atom/target, mode=fire_mode)
+	if(mode == FIRE_MODE_TORPEDO)
+		return fire_torpedo(target)
+	if(mode == FIRE_MODE_MISSILE)
+		return fire_missile(target)
+	return FALSE
+
 /obj/structure/overmap/proc/fire_torpedo(atom/target)
-	if(!linked_areas.len && role != MAIN_OVERMAP) //AI ships and fighters don't have interiors
+	if(ai_controlled || !linked_areas.len && role != MAIN_OVERMAP) //AI ships and fighters don't have interiors
 		if(torpedoes <= 0)
-			if(ai_controlled)
-				addtimer(VARSET_CALLBACK(src, torpedoes, initial(src.torpedoes)), 60 SECONDS)
-			return
-		fire_projectile(/obj/item/projectile/bullet/torpedo, target, homing = TRUE, speed=1, explosive = TRUE)
+			return FALSE
 		torpedoes --
+		fire_projectile(/obj/item/projectile/guided_munition/torpedo, target, homing = TRUE, speed=3, explosive = TRUE)
+		var/obj/structure/overmap/OM = target
+		if(istype(OM, /obj/structure/overmap) && OM.dradis)
+			OM.dradis?.relay_sound('nsv13/sound/effects/fighters/launchwarning.ogg')
+		return TRUE
+
+/obj/structure/overmap/proc/fire_missile(atom/target)
+	if(ai_controlled || !linked_areas.len && role != MAIN_OVERMAP) //AI ships and fighters don't have interiors
+		if(missiles <= 0)
+			return FALSE
+		missiles --
+		fire_projectile(/obj/item/projectile/guided_munition/missile, target, homing = TRUE, speed=1, explosive = TRUE)
 		var/obj/structure/overmap/OM = target
 		if(istype(OM, /obj/structure/overmap) && OM.dradis)
 			OM.dradis?.relay_sound('nsv13/sound/effects/fighters/launchwarning.ogg')
