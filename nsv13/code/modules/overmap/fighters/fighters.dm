@@ -96,6 +96,10 @@ After going through this checklist, you're ready to go!
 	if(start_emagged)
 		obj_flags ^= EMAGGED
 
+/obj/structure/overmap/fighter/ComponentInitialize()
+	. = ..()
+	AddComponent(/datum/component/grav_taker) //ships are affected by gravity
+
 /**
 Fighter emagging!
 You can no longer fire fighter weapons on a ship so easily...

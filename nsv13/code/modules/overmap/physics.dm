@@ -261,7 +261,8 @@ The while loop runs at a programatic level and is thus separated from any thrott
 
 	if(collider2d)
 		collider2d.position.copy(position)
-		handle_collisions()
+		if(!no_collide)
+			handle_collisions()
 
 	// alright so now we reconcile the offsets with the in-world position.
 	while((offset.x > 0 && velocity.x > 0) || (offset.y > 0 && velocity.y > 0) || (offset.x < 0 && velocity.x < 0) || (offset.y < 0 && velocity.y < 0))
@@ -385,7 +386,7 @@ The while loop runs at a programatic level and is thus separated from any thrott
 
 /obj/structure/overmap/proc/handle_collisions()
 	for(var/obj/structure/overmap/OM in GLOB.overmap_objects)
-		if(src == OM || OM.z != src.z || !OM.collider2d)
+		if(src == OM || OM.z != src.z || !OM.collider2d || OM.no_collide)
 			continue // Wondered why objects were always colliding for an entire 9 hours
 
 		var/datum/collision_response/c_response = new /datum/collision_response()

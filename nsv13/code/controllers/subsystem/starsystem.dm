@@ -442,7 +442,7 @@ SUBSYSTEM_DEF(star_system)
 
 /obj/effect/overmap_anomaly/safe/sun/ComponentInitialize()
 	. = ..()
-	AddComponent(/datum/component/grav_maker) //haha star go succc
+	AddComponent(/datum/component/grav_maker, 15) //haha star go succc
 
 /obj/effect/overmap_anomaly/safe/sun/red_giant
 	name = "Red Giant"

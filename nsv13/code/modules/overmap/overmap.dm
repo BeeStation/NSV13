@@ -128,6 +128,7 @@
 	var/list/occupying_levels = list() //Refs to the z-levels we own for setting parallax and that, or for admins to debug things when EVERYTHING INEVITABLY BREAKS
 
 	var/role = NORMAL_OVERMAP
+	var/no_collide = FALSE //mostly just for planets to avoid crashing into them and getting omega lul'd
 
 /**
 Proc to spool up a new Z-level for a player ship and assign it a treadmill.
