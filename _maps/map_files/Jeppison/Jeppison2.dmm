@@ -7911,6 +7911,7 @@
 /area/science/storage)
 "qw" = (
 /obj/machinery/airalarm/directional/west,
+/obj/effect/landmark/xeno_spawn,
 /turf/open/floor/plating,
 /area/science/storage)
 "qx" = (
@@ -9172,6 +9173,7 @@
 /obj/structure/cable{
 	icon_state = "1-2"
 	},
+/obj/effect/landmark/xeno_spawn,
 /turf/open/floor/plasteel/white,
 /area/medical/virology)
 "tg" = (
@@ -13036,6 +13038,7 @@
 /obj/effect/turf_decal/tile/green{
 	dir = 4
 	},
+/obj/item/storage/box/monkeycubes,
 /turf/open/floor/plasteel/white,
 /area/medical/virology)
 "Au" = (
@@ -15043,6 +15046,9 @@
 	},
 /obj/effect/decal/cleanable/blood/old,
 /obj/effect/decal/cleanable/blood/gibs/old,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	dir = 10
+	},
 /turf/open/floor/plating,
 /area/maintenance/department/engine)
 "EW" = (
@@ -15760,6 +15766,7 @@
 /obj/structure/rack,
 /obj/item/tank/internals/anesthetic,
 /obj/item/clothing/mask/gas,
+/obj/item/storage/box/monkeycubes,
 /turf/open/floor/plating,
 /area/maintenance/department/engine)
 "GH" = (
@@ -16926,10 +16933,6 @@
 /obj/structure/cable{
 	icon_state = "1-8"
 	},
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
-	icon_state = "pipe11-1";
-	dir = 9
-	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 9
 	},
@@ -16938,6 +16941,10 @@
 	},
 /obj/structure/disposalpipe/segment{
 	dir = 9
+	},
+/obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1{
+	icon_state = "manifold-1";
+	dir = 4
 	},
 /turf/open/floor/plasteel,
 /area/hallway/nsv/deck2/aft)
@@ -17447,7 +17454,7 @@
 	dir = 8
 	},
 /turf/open/floor/plating/airless,
-/area/asteroid/nearstation)
+/area/space/nearstation)
 "KH" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	dir = 4
@@ -17470,11 +17477,15 @@
 /obj/machinery/computer/ship/viewscreen,
 /turf/open/floor/plasteel/white,
 /area/medical/medbay/central)
+"KU" = (
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/turf/open/floor/plasteel,
+/area/hallway/nsv/deck2/aft)
 "KV" = (
 /obj/structure/hull_plate,
 /obj/effect/landmark/carpspawn,
 /turf/open/floor/plating/airless,
-/area/asteroid/nearstation)
+/area/space/nearstation)
 "KY" = (
 /obj/machinery/door/airlock/ship/medical{
 	dir = 2;
@@ -17757,7 +17768,7 @@
 	dir = 6
 	},
 /turf/open/floor/plating/airless,
-/area/asteroid/nearstation)
+/area/space/nearstation)
 "Nn" = (
 /obj/structure/cable{
 	icon_state = "1-2"
@@ -17852,6 +17863,9 @@
 	},
 /turf/open/floor/plasteel/white,
 /area/science/xenobiology)
+"NL" = (
+/turf/open/space/basic,
+/area/space/nearstation)
 "NM" = (
 /obj/machinery/door/firedoor,
 /turf/open/floor/plasteel/white,
@@ -17897,6 +17911,20 @@
 "NZ" = (
 /obj/effect/turf_decal/tile/purple,
 /turf/open/floor/plasteel/white,
+/area/science/xenobiology)
+"Ob" = (
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	icon_state = "pipe11-1";
+	dir = 4
+	},
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/obj/effect/landmark/xeno_spawn,
+/turf/open/floor/plasteel,
 /area/science/xenobiology)
 "Of" = (
 /obj/structure/cable{
@@ -17980,6 +18008,10 @@
 /obj/structure/disposalpipe/segment,
 /turf/open/floor/plasteel/white,
 /area/medical/medbay/central)
+"Ou" = (
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/turf/open/floor/plating,
+/area/maintenance/department/engine)
 "Ox" = (
 /obj/effect/landmark/nuclear_waste_spawner,
 /turf/open/floor/monotile,
@@ -17989,7 +18021,7 @@
 	dir = 4
 	},
 /turf/open/floor/plating/airless,
-/area/asteroid/nearstation)
+/area/space/nearstation)
 "OE" = (
 /obj/effect/turf_decal/tile/blue,
 /obj/effect/turf_decal/tile/blue{
@@ -18011,7 +18043,7 @@
 "OF" = (
 /obj/structure/hull_plate/end,
 /turf/open/floor/plating/airless,
-/area/asteroid/nearstation)
+/area/space/nearstation)
 "OJ" = (
 /obj/machinery/vending/wardrobe/medi_wardrobe,
 /obj/item/radio/intercom/directional/west,
@@ -18022,7 +18054,7 @@
 	dir = 1
 	},
 /turf/open/floor/plating/airless,
-/area/asteroid/nearstation)
+/area/space/nearstation)
 "OQ" = (
 /obj/machinery/door/firedoor,
 /obj/structure/cable{
@@ -18124,7 +18156,7 @@
 "Po" = (
 /obj/structure/lattice,
 /turf/open/space/basic,
-/area/asteroid/nearstation)
+/area/space/nearstation)
 "Pp" = (
 /obj/effect/turf_decal/box/white,
 /mob/living/simple_animal/slime,
@@ -18243,7 +18275,7 @@
 	dir = 4
 	},
 /turf/open/floor/plating/airless,
-/area/asteroid/nearstation)
+/area/space/nearstation)
 "PQ" = (
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3,
 /obj/structure/disposalpipe/segment,
@@ -18336,9 +18368,21 @@
 	},
 /turf/open/floor/plasteel,
 /area/hallway/nsv/deck2/aft)
+"Qy" = (
+/obj/structure/cable{
+	icon_state = "2-8"
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	dir = 8
+	},
+/turf/open/floor/plating,
+/area/maintenance/department/engine)
 "Qz" = (
 /turf/closed/wall/ship,
 /area/medical/cryo)
+"QB" = (
+/turf/closed/wall/ship,
+/area/medical/virology)
 "QD" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	icon_state = "pipe11-1";
@@ -18450,7 +18494,7 @@
 	dir = 9
 	},
 /turf/open/floor/plating/airless,
-/area/asteroid/nearstation)
+/area/space/nearstation)
 "Rc" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /obj/effect/landmark/nuclear_waste_spawner,
@@ -18473,10 +18517,23 @@
 	},
 /turf/open/floor/plasteel/white,
 /area/medical/storage)
+"Rj" = (
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	dir = 8
+	},
+/turf/open/floor/plating,
+/area/maintenance/department/engine)
 "Rs" = (
 /obj/structure/reagent_dispensers/watertank,
 /turf/open/floor/plating,
 /area/maintenance/fore)
+"Ru" = (
+/obj/effect/landmark/xeno_spawn,
+/turf/open/floor/plasteel/white,
+/area/science/xenobiology)
 "Rv" = (
 /obj/structure/cable{
 	icon_state = "1-2"
@@ -18612,7 +18669,7 @@
 	dir = 10
 	},
 /turf/open/floor/plating/airless,
-/area/asteroid/nearstation)
+/area/space/nearstation)
 "Sm" = (
 /obj/structure/table,
 /obj/machinery/airalarm{
@@ -18657,6 +18714,11 @@
 /obj/structure/sign/departments/minsky/medical/clone/cloning1,
 /turf/closed/wall/ship,
 /area/medical/genetics/cloning)
+"SC" = (
+/obj/machinery/door/airlock/ship/maintenance/defaultaccess,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/turf/open/floor/plating,
+/area/maintenance/department/engine)
 "SD" = (
 /obj/effect/landmark/nuclear_waste_spawner,
 /turf/open/floor/plasteel/dark,
@@ -18668,6 +18730,16 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
 /turf/open/floor/engine,
 /area/engine/engine_room)
+"SP" = (
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	icon_state = "pipe11-1";
+	dir = 5
+	},
+/turf/open/floor/plating,
+/area/maintenance/department/engine)
 "SQ" = (
 /obj/effect/turf_decal/tile/blue{
 	dir = 1
@@ -18751,6 +18823,10 @@
 	},
 /turf/open/floor/plasteel,
 /area/quartermaster/storage)
+"Tj" = (
+/obj/effect/landmark/xeno_spawn,
+/turf/open/floor/plasteel/white,
+/area/science/mixing)
 "Tk" = (
 /obj/machinery/door/firedoor,
 /obj/structure/cable{
@@ -18857,7 +18933,7 @@
 	dir = 8
 	},
 /turf/open/floor/plating/airless,
-/area/asteroid/nearstation)
+/area/space/nearstation)
 "TW" = (
 /obj/effect/landmark/nuclear_waste_spawner,
 /turf/open/floor/plasteel/white,
@@ -18915,7 +18991,7 @@
 "Un" = (
 /obj/structure/hull_plate,
 /turf/open/floor/plating/airless,
-/area/asteroid/nearstation)
+/area/space/nearstation)
 "Up" = (
 /obj/machinery/door/airlock/ship/medical{
 	name = "Clone bay";
@@ -19135,6 +19211,13 @@
 	},
 /turf/open/floor/plasteel/white,
 /area/medical/medbay/central)
+"VQ" = (
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
+/obj/effect/landmark/xeno_spawn,
+/turf/open/floor/plating,
+/area/maintenance/department/engine)
 "VS" = (
 /obj/machinery/computer/operating{
 	icon_state = "computer";
@@ -19156,6 +19239,16 @@
 	},
 /turf/open/floor/plasteel/white,
 /area/science/mixing)
+"VV" = (
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/obj/machinery/atmospherics/components/unary/vent_pump/on/layer1{
+	icon_state = "vent_map_on-1";
+	dir = 1
+	},
+/turf/open/floor/plating,
+/area/maintenance/department/engine)
 "VX" = (
 /obj/structure/table/optable,
 /obj/machinery/iv_drip,
@@ -19206,7 +19299,7 @@
 	dir = 5
 	},
 /turf/open/floor/plating/airless,
-/area/asteroid/nearstation)
+/area/space/nearstation)
 "Ws" = (
 /turf/closed/wall/r_wall/ship,
 /area/storage/tech)
@@ -19496,6 +19589,19 @@
 /obj/machinery/airalarm/directional/north,
 /turf/open/floor/plasteel/white,
 /area/medical/medbay/lobby)
+"Yz" = (
+/obj/machinery/door/airlock/ship/maintenance/defaultaccess{
+	icon_state = "closed";
+	dir = 8
+	},
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	dir = 8
+	},
+/turf/open/floor/plating,
+/area/maintenance/department/engine)
 "YA" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 4
@@ -19571,7 +19677,7 @@
 /area/medical/sleeper)
 "Za" = (
 /turf/open/floor/plating/airless,
-/area/asteroid/nearstation)
+/area/space/nearstation)
 "Zb" = (
 /obj/structure/bed/roller,
 /obj/machinery/iv_drip,
@@ -38323,11 +38429,11 @@ Po
 Za
 Za
 KG
-aa
+NL
 Za
 Za
 KG
-aa
+NL
 Za
 Za
 KG
@@ -38341,11 +38447,11 @@ Po
 Za
 Za
 KG
-aa
+NL
 Za
 Za
 KG
-aa
+NL
 Za
 Za
 KG
@@ -38625,11 +38731,11 @@ Po
 Za
 Za
 Za
-aa
+NL
 Za
 Za
 Za
-aa
+NL
 Za
 Za
 Za
@@ -38643,11 +38749,11 @@ Po
 Za
 Za
 Za
-aa
+NL
 Za
 Za
 Za
-aa
+NL
 Za
 Za
 Za
@@ -38931,7 +39037,7 @@ PM
 Za
 Za
 Za
-aa
+NL
 Za
 Za
 Za
@@ -38945,11 +39051,11 @@ Po
 Za
 Za
 Za
-aa
+NL
 Za
 Za
 Za
-aa
+NL
 Za
 Za
 Za
@@ -48911,10 +49017,10 @@ Hg
 un
 hW
 Jg
-qL
-Ev
-DY
-ER
+KU
+SC
+Ou
+SP
 DY
 EH
 EJ
@@ -49216,7 +49322,7 @@ im
 im
 im
 DY
-ER
+Rj
 Fw
 EG
 EK
@@ -49518,7 +49624,7 @@ im
 DY
 DY
 DY
-ER
+Rj
 Iq
 EG
 EG
@@ -49820,7 +49926,7 @@ Ev
 DY
 im
 im
-ES
+Yz
 ED
 ED
 FX
@@ -50122,7 +50228,7 @@ im
 DY
 rX
 im
-EU
+Qy
 Fy
 FF
 DY
@@ -50425,7 +50531,7 @@ DY
 Ew
 im
 EV
-ER
+VV
 FG
 Gd
 GC
@@ -50692,7 +50798,7 @@ jZ
 jE
 jX
 ki
-kN
+Ob
 lk
 sJ
 PT
@@ -50728,7 +50834,7 @@ Ex
 im
 EX
 EU
-FE
+VQ
 Fy
 GD
 ED
@@ -53713,7 +53819,7 @@ jJ
 jB
 jN
 lb
-lb
+Ru
 tI
 og
 oD
@@ -53745,7 +53851,7 @@ xa
 VA
 Ga
 uS
-TB
+QB
 tD
 vc
 TB
@@ -54047,7 +54153,7 @@ DT
 VA
 Ga
 ud
-TB
+QB
 vi
 Vy
 TB
@@ -54349,7 +54455,7 @@ uJ
 VA
 Gb
 Hs
-TB
+QB
 HU
 tf
 KY
@@ -54651,7 +54757,7 @@ Nx
 HO
 nF
 le
-TB
+QB
 Tu
 kL
 TB
@@ -54953,7 +55059,7 @@ He
 VA
 vK
 ve
-TB
+QB
 QV
 zf
 TB
@@ -55255,7 +55361,7 @@ Sw
 VA
 VA
 VA
-TB
+QB
 tb
 nj
 TB
@@ -57332,7 +57438,7 @@ RS
 mc
 mt
 nk
-nn
+Tj
 nn
 nn
 qx
