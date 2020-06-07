@@ -1001,7 +1001,7 @@ GLOBAL_LIST_INIT(uplink_items, subtypesof(/datum/uplink_item))
 	item = /obj/item/deployablemine/traitor
 	cost = 4
 	include_modes = list(/datum/game_mode/nuclear/clown_ops)
-	
+
 /datum/uplink_item/explosives/virus_grenade
 	name = "Fungal Tuberculosis Grenade"
 	desc = "A primed bio-grenade packed into a compact box. Comes with five Bio Virus Antidote Kit (BVAK) \
@@ -2068,12 +2068,6 @@ datum/uplink_item/role_restricted/superior_honkrender
 	cost = 20
 	cant_discount = TRUE
 	illegal_tech = FALSE
-
-/datum/uplink_item/badass/toy_holoparasites
-	name = "Toy Holoparasites"
-	desc = "A holoparasite colony that is utterly useless. costs as much as real holoparasites."
-	item = /obj/item/guardiancreator/tech/toy
-	cost = 16
 
 /datum/uplink_item/badass/syndiecash
 	name = "Syndicate Briefcase Full of Cash"
