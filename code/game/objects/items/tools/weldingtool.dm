@@ -301,7 +301,7 @@
 	materials = list(/datum/material/glass=60)
 
 /obj/item/weldingtool/largetank/flamethrower_screwdriver()
-	return	
+	return
 
 /obj/item/weldingtool/largetank/cyborg
 	name = "integrated welding tool"
