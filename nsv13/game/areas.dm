@@ -329,6 +329,9 @@
 	name = "Bridge Officer's Quarters"
 	icon_state = "Sleep"
 
+/area/nsv/hanger
+	sound_environment = SOUND_ENV_HANGAR
+
 /area/nsv/hanger/deck3/starboard
 	name = "Deck 3 Starboard Hanger Bay"
 	icon_state = "hallS"
@@ -356,6 +359,7 @@
 /area/nsv/weapons
 	name = "Weapons Bay"
 	icon_state = "hallC"
+	sound_environment = SOUND_ENV_HANGAR
 
 /area/nsv/weapons/port
 	name = "Port Weapons Bay"
@@ -380,6 +384,7 @@
 /area/nsv/briefingroom
 	name = "Briefing Room"
 	icon_state = "hallP"
+	sound_environment = SOUND_ENV_AUDITORIUM
 
 /area/nsv/crew_quarters/heads/maa
 	name = "Master At Arms' Office"
@@ -464,6 +469,10 @@
 	noteleport = TRUE
 	icon_state = "mining"
 	has_gravity = TRUE
+	sound_environment = SOUND_ENV_ROOM
+
+/area/nostromo/maintenance
+	sound_environment = SOUND_ENV_ALLEY
 
 /area/nostromo/maintenance/exterior
 	name = "Rocinante exterior"
@@ -472,16 +481,19 @@
 /area/nostromo/maintenance/hangar
 	name = "Rocinante hangar bay"
 	icon_state = "hallS"
+	sound_environment = SOUND_ENV_HANGAR
 
 /area/nostromo/medbay
 	name = "Rocinante sickbay"
 	looping_ambience = 'nsv13/sound/ambience/medbay.ogg'
 	icon_state = "medbay"
+	sound_environment = SOUND_ENV_AUDITORIUM
 
 /area/nostromo/science
 	name = "Rocinante science"
 	looping_ambience = 'nsv13/sound/ambience/computer_core.ogg'
 	icon_state = "toxlab"
+	sound_environment = SOUND_ENV_AUDITORIUM
 
 /area/nostromo/tcomms
 	name = "Rocinante TE/LE/COMM core"
@@ -492,6 +504,9 @@
 	name = "Rocinante flight deck"
 	looping_ambience = 'nsv13/sound/ambience/bridge.ogg'
 	icon_state = "bridge"
+
+/area/nostromo/hangar
+	sound_environment = SOUND_ENV_HANGAR
 
 /area/nostromo/hangar/port
 	name = "Rocinante port hangar deck"
@@ -517,6 +532,7 @@
 	name = "Rocinante galley"
 	looping_ambience = 'nsv13/sound/ambience/bridge.ogg'
 	icon_state = "kitchen"
+	sound_environment = SOUND_ENV_BATHROOM
 
 /area/nostromo/galley/coldroom
 	name = "Rocinante cold room"
@@ -538,9 +554,6 @@
 	ambientsounds = HIGHSEC
 
 
-
-
-
 //Syndie PVP ship
 
 /area/hammurabi
@@ -549,16 +562,19 @@
 	noteleport = TRUE
 	icon_state = "syndie-ship"
 	has_gravity = TRUE
+	sound_environment = SOUND_ENV_ROOM
 
 /area/hammurabi/medbay
 	name = "Hammurabi sickbay"
 	looping_ambience = 'nsv13/sound/ambience/medbay.ogg'
 	icon_state = "medbay"
+	sound_environment = SOUND_ENV_AUDITORIUM
 
 /area/hammurabi/tcomms
 	name = "Hammurabi TE/LE/COMM core"
 	looping_ambience = 'nsv13/sound/ambience/computer_core.ogg'
 	icon_state = "tcomsatcham"
+	sound_environment = SOUND_ENV_AUDITORIUM
 
 /area/hammurabi/bridge
 	name = "Hammurabi flight deck"
@@ -573,11 +589,13 @@
 	name = "Hammurabi hangar bay"
 	looping_ambience = 'nsv13/sound/ambience/maintenance.ogg'
 	icon_state = "shuttlered"
+	sound_environment = SOUND_ENV_HANGAR
 
 /area/hammurabi/maintenance
 	name = "Hammurabi maintenance"
 	looping_ambience = 'nsv13/sound/ambience/maintenance.ogg'
 	icon_state = "maintcentral"
+	sound_environment = SOUND_ENV_ALLEY
 
 /area/hammurabi/maintenance/exterior
 	name = "Hammurabi exterior"

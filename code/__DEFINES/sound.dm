@@ -73,3 +73,33 @@
 	'sound/hallucinations/growl3.ogg', 'sound/hallucinations/im_here1.ogg', 'sound/hallucinations/im_here2.ogg', 'sound/hallucinations/i_see_you1.ogg', 'sound/hallucinations/i_see_you2.ogg',\
 	'sound/hallucinations/look_up1.ogg', 'sound/hallucinations/look_up2.ogg', 'sound/hallucinations/over_here1.ogg', 'sound/hallucinations/over_here2.ogg', 'sound/hallucinations/over_here3.ogg',\
 	'sound/hallucinations/turn_around1.ogg', 'sound/hallucinations/turn_around2.ogg', 'sound/hallucinations/veryfar_noise.ogg', 'sound/hallucinations/wail.ogg')
+
+//Nsv / Bee change: Soundscape definitions for areas.
+//Definitions are found here: http://www.byond.com/docs/ref/info.html#/sound/var/environment
+
+#define SOUND_ENV_GENERIC 0
+#define SOUND_ENV_PADDED_CELL 1
+#define SOUND_ENV_ROOM 2
+#define SOUND_ENV_BATHROOM 3
+#define SOUND_ENV_LIVINGROOM 4
+#define SOUND_ENV_STONEROOM 5
+#define SOUND_ENV_AUDITORIUM 6
+#define SOUND_ENV_CONCERTHALL 7
+#define SOUND_ENV_CAVE 8
+#define SOUND_ENV_ARENA 9
+#define SOUND_ENV_HANGAR 10
+#define SOUND_ENV_CARPETED_HALLWAY 11
+#define SOUND_ENV_HALLWAY 12
+#define SOUND_ENV_STONE_CORRIDOR 13
+#define SOUND_ENV_ALLEY 14
+#define SOUND_ENV_FOREST 15
+#define SOUND_ENV_CITY 16
+#define SOUND_ENV_MOUNTAINS 17
+#define SOUND_ENV_QUARRY 18
+#define SOUND_ENV_PLAIN 19
+#define SOUND_ENV_PARKINGLOT 20
+#define SOUND_ENV_SEWER_PIPE 21
+#define SOUND_ENV_UNDERWATER 22
+#define SOUND_ENV_DRUGGED 23
+#define SOUND_ENV_DIZZY 24
+#define SOUND_ENV_PSYCHOTIC 25
