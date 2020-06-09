@@ -13,11 +13,11 @@
 /turf/open/floor/engine/airless,
 /area/maintenance/ship_exterior)
 "ad" = (
-/obj/structure/railing{
-	dir = 4
+/obj/structure/railing/corner{
+	dir = 8
 	},
 /obj/structure/railing{
-	dir = 1
+	dir = 5
 	},
 /turf/open/floor/engine/airless,
 /area/maintenance/ship_exterior)
@@ -680,6 +680,9 @@
 "bY" = (
 /obj/structure/sign/solgov_seal,
 /obj/machinery/camera/autoname,
+/obj/structure/railing/corner{
+	dir = 8
+	},
 /turf/open/floor/monotile/dark,
 /area/hallway/nsv/deck1/hallway)
 "bZ" = (
@@ -1149,6 +1152,7 @@
 /obj/structure/cable{
 	icon_state = "4-8"
 	},
+/obj/structure/railing/corner,
 /turf/open/floor/monotile/dark,
 /area/hallway/nsv/deck1/hallway)
 "dp" = (
@@ -1157,6 +1161,9 @@
 	},
 /obj/structure/cable{
 	icon_state = "2-8"
+	},
+/obj/structure/railing/corner{
+	dir = 8
 	},
 /turf/open/floor/monotile/dark,
 /area/hallway/nsv/deck1/hallway)
@@ -1828,6 +1835,9 @@
 	dir = 4
 	},
 /obj/machinery/camera/autoname{
+	dir = 1
+	},
+/obj/structure/railing/corner{
 	dir = 1
 	},
 /turf/open/floor/monotile/dark,
@@ -2593,6 +2603,7 @@
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	dir = 6
 	},
+/obj/structure/railing/corner,
 /turf/open/floor/monotile/dark,
 /area/hallway/nsv/deck1/hallway)
 "gy" = (
@@ -2785,6 +2796,9 @@
 	},
 /obj/machinery/status_display/ai{
 	pixel_x = -32
+	},
+/obj/structure/railing/corner{
+	dir = 4
 	},
 /turf/open/floor/monotile/dark,
 /area/hallway/nsv/deck1/hallway)
@@ -3915,6 +3929,9 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 8
 	},
+/obj/structure/railing/corner{
+	dir = 8
+	},
 /turf/open/floor/carpet/blue,
 /area/hallway/nsv/deck1/hallway)
 "jo" = (
@@ -4756,6 +4773,9 @@
 "kN" = (
 /obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1,
 /obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer3,
+/obj/structure/railing/corner{
+	dir = 4
+	},
 /turf/open/floor/monotile/dark,
 /area/hallway/nsv/deck1/hallway)
 "kO" = (
@@ -5372,6 +5392,9 @@
 	icon_state = "1-8"
 	},
 /obj/machinery/atmospherics/pipe/manifold4w/scrubbers/hidden/layer3,
+/obj/structure/railing/corner{
+	dir = 1
+	},
 /turf/open/floor/monotile/dark,
 /area/hallway/nsv/deck1/hallway)
 "me" = (
@@ -5670,6 +5693,15 @@
 	},
 /turf/open/floor/monotile,
 /area/storage/eva)
+"qf" = (
+/obj/structure/railing/corner{
+	dir = 1
+	},
+/obj/structure/railing/corner{
+	dir = 4
+	},
+/turf/open/floor/engine/airless,
+/area/maintenance/ship_exterior)
 "qB" = (
 /obj/machinery/camera/autoname{
 	dir = 8
@@ -5763,6 +5795,12 @@
 	},
 /turf/open/floor/monotile/dark,
 /area/ai_monitored/turret_protected/ai_upload)
+"vS" = (
+/obj/structure/railing/corner{
+	dir = 4
+	},
+/turf/open/floor/monotile/dark/airless,
+/area/maintenance/ship_exterior)
 "wm" = (
 /obj/machinery/light,
 /turf/open/floor/monotile/dark,
@@ -6093,6 +6131,11 @@
 	},
 /turf/open/floor/monotile,
 /area/hallway/nsv/deck1/hallway)
+"Vm" = (
+/obj/effect/turf_decal/stripes/line,
+/obj/structure/railing/corner,
+/turf/open/floor/engine/airless,
+/area/maintenance/ship_exterior)
 "Wi" = (
 /obj/effect/spawner/structure/window/reinforced/ship,
 /turf/open/floor/plating,
@@ -69746,7 +69789,7 @@ aa
 aa
 aa
 ic
-ie
+Vm
 ae
 ae
 ae
@@ -69756,7 +69799,7 @@ ae
 ae
 ae
 ae
-hK
+vS
 hK
 hK
 hK
@@ -73078,7 +73121,7 @@ ah
 ah
 ah
 ah
-ic
+qf
 hK
 hK
 hK
