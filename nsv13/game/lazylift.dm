@@ -99,7 +99,7 @@ That's it, ok bye!
 	var/list/doors = list()
 	var/turbolift_delay = 4 SECONDS //How long should the turbolift stay on each deck? Don't make this delay higher than a few seconds, or BYOND will start to complain.
 	var/wait_time = 5 SECONDS //Brief cooldown after the lift reaches its destination, to allow people from that floor to board it.
-	var/list/moving_blacklist = list(/obj/machinery/lazylift, /obj/machinery/lazylift/master, /obj/machinery/light, /obj/structure/cable, /obj/machinery/power/apc, /obj/machinery/door, /obj/machinery/airalarm, /obj/machinery/firealarm)
+	var/list/moving_blacklist = list(/obj/machinery/lazylift, /obj/machinery/lazylift/master, /obj/machinery/light, /obj/structure/cable, /obj/machinery/power/apc, /obj/machinery/door, /obj/machinery/airalarm, /obj/machinery/firealarm, /obj/structure/grille, /obj/structure/window)
 
 	//Voice activation.
 	flags_1 = HEAR_1
@@ -127,7 +127,7 @@ That's it, ok bye!
 /obj/machinery/lazylift/Hear(message, atom/movable/speaker, message_language, raw_message, radio_freq, list/spans, message_mode)
 	set waitfor = FALSE
 	. = ..()
-	if(speaker == src || world.time < next_voice_activation || master.in_use)
+	if(speaker == src || world.time < next_voice_activation || master.in_use || get_area(speaker) != get_area(src))
 		return
 	if(!get_language_holder()?.has_language(message_language))
 		say("[pick("I'm sorry, I didn't quite understand that!", "Please speak clearly into the microphone.", "Unable to process voice command")]")
@@ -244,6 +244,9 @@ That's it, ok bye!
 	affected.looping_ambience = what
 
 //Emag the lift to let it crush people. Otherwise, its built in safeties will kick in.
+/obj/machinery/lazylift/emag_act(mob/user)
+	return master.emag_act(user)
+
 /obj/machinery/lazylift/master/emag_act(mob/user)
 	if(obj_flags & EMAGGED)
 		return
@@ -299,9 +302,7 @@ That's it, ok bye!
 	for(var/obj/machinery/lazylift/L in decks) //First pass: Find the target
 		if(L.deck == targetDeck)
 			target = L
-			for(var/turf/T in target.platform)
-				T.ChangeTurf(turf_type)
-			if(target == src) //Bottom floor, time to karmic anyone who was stupid enough as to stand here...
+			if(target == src)
 				for(var/turf/T in platform)
 					for(var/atom/movable/AM in T)
 						if(isturf(AM))
@@ -311,28 +312,43 @@ That's it, ok bye!
 							karmics_victim.gib() //Elevator suicides are...a thing I guess!
 						else
 							AM.ex_act(4) //Crush
-			continue
+			break
 	if(!target)
 		message_admins("Turbolift couldnt find a target..this is bad...")
 		return FALSE
+
+	//First, move the platform.
 	for(var/turf/T in platform_location.platform)
-		for(var/atom/movable/AM in T.contents)
-			if(AM.type in moving_blacklist) //To stop the lift moving itself
-				continue
-			AM.forceMove(get_turf(locate(AM.x, AM.y, target.z)))
-	for(var/obj/machinery/lazylift/next in decks) //Second pass: Turn all the other lift platforms into openspace. I don't hugely care if things fall through, that's a feature.
-		if(next == target)
+		var/obj/machinery/door/airlock/turbolift_door = locate(/obj/machinery/door/airlock) in T
+		if(turbolift_door) //Don't scrape away the doors.
 			continue
-		for(var/turf/open/T in next.platform)
+		var/turf/newT = locate(T.x,T.y,target.z)
+		newT.CopyOnTop(T, 1, INFINITY, TRUE)
+		for(var/atom/movable/AM in T.contents)
+			if(AM.type in moving_blacklist) //To stop the lift moving itself and its components
+				if(AM.anchored)
+					continue
+			AM.forceMove(newT)
+		if(platform_location != src)
+			T.ScrapeAway(2)
+		else
+			T.ScrapeAway()
+	//Then, clear up everything else
+	for(var/obj/machinery/lazylift/next in decks)
+		if(next == platform_location || next == target)
+			continue //Already done these ones in that other loop.
+		for(var/turf/T in next.platform)
 			var/obj/machinery/door/airlock/turbolift_door = locate(/obj/machinery/door/airlock) in T
-			if(!turbolift_door)
-				if(next != src)
-					T.ChangeTurf(/turf/open/openspace)
-				else
-					if(!istype(T, /turf/open/floor/plasteel/elevatorshaft))
-						T.ChangeTurf(/turf/open/floor/plasteel/elevatorshaft, list(/turf/open/openspace, /turf/open/floor/plating))
-						T.icon_state = "elevatorshaft"
+			if(turbolift_door) //Don't scrape away the doors.
+				continue
+			else
+				T.ScrapeAway(2)
 	platform_location = target
+	//Finally, ensure that the bottom floor is always plating.
+	for(var/turf/T in platform)
+		if(src != target)
+			T.ChangeTurf(/turf/open/floor/plasteel/elevatorshaft)
+			T.icon_state = "elevatorshaft" //in case we're using different icons or whatever.
 
 //Special FX and stuff.
 
