@@ -125,10 +125,8 @@
 /obj/item/storage/box/survival/PopulateContents()
 	new /obj/item/clothing/mask/breath(src)
 	new /obj/item/reagent_containers/hypospray/medipen(src)
-	//NSV13 items
 	new /obj/item/clothing/head/helmet/space/skinsuit(src)
 	new /obj/item/clothing/suit/space/skinsuit(src)
-	//NSV13 end of extra items
 
 	if(!isplasmaman(loc))
 		new /obj/item/tank/internals/emergency_oxygen(src)
@@ -144,31 +142,25 @@
 	new /obj/item/clothing/mask/gas/explorer(src)
 	new /obj/item/crowbar/red(src)
 	new /obj/item/reagent_containers/hypospray/medipen(src)
+	new /obj/item/clothing/head/helmet/space/skinsuit(src)
+	new /obj/item/clothing/suit/space/skinsuit(src)
 
 	if(!isplasmaman(loc))
 		new /obj/item/tank/internals/emergency_oxygen(src)
 	else
 		new /obj/item/tank/internals/plasmaman/belt(src)
 
-	//NSV13 items
-	new /obj/item/clothing/head/helmet/space/skinsuit(src)
-	new /obj/item/clothing/suit/space/skinsuit(src)
-	//NSV13 end of extra items
-
 // Engineer survival box
 /obj/item/storage/box/engineer/PopulateContents()
 	new /obj/item/clothing/mask/breath(src)
 	new /obj/item/reagent_containers/hypospray/medipen(src)
+	new /obj/item/clothing/head/helmet/space/skinsuit(src)
+	new /obj/item/clothing/suit/space/skinsuit(src)
 
 	if(!isplasmaman(loc))
 		new /obj/item/tank/internals/emergency_oxygen/engi(src)
 	else
 		new /obj/item/tank/internals/plasmaman/belt(src)
-
-	//NSV13 items
-	new /obj/item/clothing/head/helmet/space/skinsuit(src)
-	new /obj/item/clothing/suit/space/skinsuit(src)
-	//NSV13 end of extra items
 
 /obj/item/storage/box/engineer/radio/PopulateContents()
 	..() // we want the regular items too.
@@ -187,16 +179,13 @@
 /obj/item/storage/box/security/PopulateContents()
 	new /obj/item/clothing/mask/gas/sechailer(src)
 	new /obj/item/reagent_containers/hypospray/medipen(src)
+	new /obj/item/clothing/head/helmet/space/skinsuit(src)
+	new /obj/item/clothing/suit/space/skinsuit(src)
 
 	if(!isplasmaman(loc))
 		new /obj/item/tank/internals/emergency_oxygen(src)
 	else
 		new /obj/item/tank/internals/plasmaman/belt(src)
-
-	//NSV13 items
-	new /obj/item/clothing/head/helmet/space/skinsuit(src)
-	new /obj/item/clothing/suit/space/skinsuit(src)
-	//NSV13 end of extra items
 
 /obj/item/storage/box/security/radio/PopulateContents()
 	..() // we want the regular stuff too
@@ -320,8 +309,10 @@
 	illustration = "flashbang"
 
 /obj/item/storage/box/flashes/PopulateContents()
-	for(var/i in 1 to 6)
+	for(var/i in 1 to 2)
 		new /obj/item/assembly/flash/handheld(src)
+	for(var/i in 1 to 6)
+		new /obj/item/flashbulb(src)
 
 /obj/item/storage/box/wall_flash
 	name = "wall-mounted flash kit"
@@ -886,7 +877,7 @@
 			to_chat(user, "<span class='warning'>You can't modify [src] with items still inside!</span>")
 			return
 		var/list/designs = list(NODESIGN, NANOTRASEN, SYNDI, HEART, SMILEY, "Cancel")
-		var/switchDesign = input("Select a Design:", "Paper Sack Design", designs[1]) in designs
+		var/switchDesign = input("Select a Design:", "Paper Sack Design", designs[1]) in sortList(designs)
 		if(get_dist(usr, src) > 1)
 			to_chat(usr, "<span class='warning'>You have moved too far away!</span>")
 			return
