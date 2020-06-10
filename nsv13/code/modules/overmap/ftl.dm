@@ -485,3 +485,13 @@ A way for syndies to track where the player ship is going in advance, so they ca
 			START_PROCESSING(SSmachines, src)
 		return TRUE
 	return FALSE
+///FTL DRIVE PYLON///
+/obj/machinery/atmospherics/components/uniary/ftl_pylon
+	name = "FTL Drive Pylon"
+	desc = "Words about the spinny boy"
+	icon = 'nsv13/icons/obj/machinery/FTL_drive.dmi'
+	icon_state = "Pylon"
+	density = TRUE
+	anchored = TRUE
+	//idle_power_useage = 250
+	//active_power_useage = 5000
