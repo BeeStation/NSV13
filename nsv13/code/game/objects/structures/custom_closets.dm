@@ -108,3 +108,10 @@
 	new /obj/item/clothing/under/ship/officer(src)
 	new /obj/item/clothing/head/beret/durathread(src)
 	new /obj/item/clothing/glasses/sunglasses(src)
+
+/obj/structure/closet/secure_closet/puce
+	name = "puce closet"
+	req_access = list(ACCESS_MUNITIONS)
+	icon = 'nsv13/icons/obj/custom_closet'
+	icon_state = "definitelynotpuce"
+	anchored = FALSE

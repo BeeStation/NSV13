@@ -136,7 +136,7 @@
 					/obj/item/clothing/shoes/jackboots,
 					/obj/item/clothing/gloves/color/black,
 					/obj/item/clothing/head/beret/ship/pilot,
-					/obj/item/radio/headset/headset_sec/alt/pilot,
+					/obj/item/radio/headset/munitions/pilot,
 					/obj/item/clothing/suit/space/hardsuit/pilot)
 
 /datum/supply_pack/munitions/missile_construction

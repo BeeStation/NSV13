@@ -48,7 +48,7 @@
 
 /obj/item/radio/headset/munitions
 	name = "munitions radio headset"
-	icon = 'nsv/13/icons/obj/custom_radio.dmi'
+	icon = 'nsv13/icons/obj/custom_radio.dmi'
 	desc = "A base model for every munitions headset, even comes with ear protection!"
 	icon_state = "mun_headset"
 	keyslot = new /obj/item/encryptionkey/munitions_tech
