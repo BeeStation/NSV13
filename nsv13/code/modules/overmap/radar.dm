@@ -109,7 +109,7 @@
 		var/datum/asset/assets = get_asset_datum(/datum/asset/simple/dradis)
 		assets.send(user)
 		ui = new(user, src, ui_key, "dradis", name, 560, 600, master_ui, state)
-		ui.set_style("dradis")
+		//ui.set_style("dradis")
 		ui.open()
 
 /obj/machinery/computer/ship/dradis/attackby(obj/item/I, mob/user) //Allows you to upgrade dradis consoles to show asteroids, as well as revealing more valuable ones.
