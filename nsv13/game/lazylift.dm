@@ -190,6 +190,7 @@ That's it, ok bye!
 	start_delay = 1.4 SECONDS
 	end_delay = 2 SECONDS
 	turbolift_delay = 2 SECONDS
+	pixel_y = 32
 	turbolift_loop_sound = 'nsv13/sound/effects/lift/lift_loop.ogg'
 	turbolift_start_sound = 'nsv13/sound/effects/lift/lift_start.ogg'
 	turbolift_end_sound = 'nsv13/sound/effects/lift/lift_end.ogg'
