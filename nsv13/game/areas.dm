@@ -10,6 +10,9 @@
 	looping_ambience = 'nsv13/sound/ambience/maintenance.ogg'
 	ambientsounds = list('nsv13/sound/ambience/leit_motif.ogg','nsv13/sound/ambience/wind.ogg','nsv13/sound/ambience/wind2.ogg','nsv13/sound/ambience/wind3.ogg','nsv13/sound/ambience/wind4.ogg','nsv13/sound/ambience/wind5.ogg','nsv13/sound/ambience/wind6.ogg')
 
+/area/engine
+	sound_environment = SOUND_ENV_HANGAR //Changed from bee's. Our engineering spaces are a lot more open than theirs.
+
 /area/medical
 	looping_ambience = 'nsv13/sound/ambience/medbay.ogg'
 	ambientsounds = list()
