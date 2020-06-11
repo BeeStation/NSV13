@@ -234,6 +234,7 @@
 	var/obj/structure/overmap/OM = target
 	if(OM.faction == src.faction)
 		return
+	OM.add_enemy(src)
 	if(ai_can_launch_fighters) //Found a new enemy? Launch the CAP.
 		ai_can_launch_fighters = FALSE
 		if(ai_fighter_type.len)
