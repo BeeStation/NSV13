@@ -585,7 +585,7 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 
 			dat += "<b>Ambient Occlusion:</b> <a href='?_src_=prefs;preference=ambientocclusion'>[ambientocclusion ? "Enabled" : "Disabled"]</a><br>"
 			dat += "<b>Fit Viewport:</b> <a href='?_src_=prefs;preference=auto_fit_viewport'>[auto_fit_viewport ? "Auto" : "Manual"]</a><br>"
-			if (CONFIG_GET(flag/widescreen))
+			if (CONFIG_GET(flag/widescreen)) //Nsv13 - widescreen
 				dat += "<b>Widescreen:</b> <a href='?_src_=prefs;preference=widescreenpref'>[widescreenpref ? "Enabled" : "Disabled"]</a><br>"
 
 			button_name = pixel_size
@@ -1761,9 +1761,11 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 					if(auto_fit_viewport && parent)
 						parent.fit_viewport()
 
-				if("widescreenpref")
+				if("widescreenpref")//Nsv13 - Widescreen
+					var/client/C = (istype(user, /client)) ? user : user.client
 					widescreenpref = !widescreenpref
-					user.client.check_view()
+					C.change_view(getScreenSize(widescreenpref))
+					C.view_size.default = (widescreenpref) ? CONFIG_GET(string/default_view) : "15x15" // This view size wrapper is extremely inconsistent and we need to finagle it a bit.
 
 				if("pixel_size")
 					switch(pixel_size)
