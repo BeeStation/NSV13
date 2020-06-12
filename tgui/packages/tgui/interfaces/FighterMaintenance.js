@@ -6,7 +6,7 @@ import { Window } from '../layouts';
 export const FighterMaintenance = (props, context) => {
   const { act, data } = useBackend(context);
   return (
-    <Window resizable>
+    <Window resizable theme="hackerman">
       <Window.Content scrollable>
         <Section>
           <Section title="Installed modules:">

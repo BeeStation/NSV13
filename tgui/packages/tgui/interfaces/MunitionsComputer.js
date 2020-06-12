@@ -22,7 +22,7 @@ export const MunitionsComputer = (props, context) => {
     has_linked_gun,
   } = data;
   return (
-    <Window resizable>
+    <Window resizable theme="hackerman">
       <Window.Content>
         {!sudo_mode && (
           <Section title="Weapon system controls:">

@@ -6,7 +6,7 @@ import { Window } from '../layouts';
 export const FighterLauncher = (props, context) => {
   const { act, data } = useBackend(context);
   return (
-    <Window resizable>
+    <Window resizable theme="retro">
       <Window.Content scrollable>
         <Section>
           {Object.keys(data.launchers_info).map(key => {

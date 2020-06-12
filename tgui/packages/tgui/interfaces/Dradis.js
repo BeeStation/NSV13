@@ -1,39 +1,15 @@
 import { Fragment } from 'inferno';
 import { useBackend, useLocalState } from '../backend';
-import { Box, Button, Section, ProgressBar, Knob } from '../components';
+import { Box, Button, Section, ProgressBar, Map } from '../components';
 import { Window } from '../layouts';
 
-export const FighterControls = (props, context) => {
+export const Dradis = (props, context) => {
   const { act, data } = useBackend(context);
   return (
     <Window resizable theme="retro">
       <Window.Content scrollable>
         <Section>
-          <Section 
-            title="Center console:">
-            <Fragment>
-              <Button
-                content="Master caution"
-                color={data.master_caution ? "average" : null}
-                icon="exclamation-triangle"
-                onClick={() => act('master_caution')} />
-              <Button
-                content="Radar Lock"
-                color={data.rwr ? "average" : null}
-                icon="exclamation-triangle"
-                onClick={() => act('master_caution')} />
-              <Button
-                content="DRADIS"
-                icon="satellite-dish"
-                onClick={() => act('show_dradis')} />
-              <Button
-                content="Countermeasures"
-                icon={data.current_countermeasures?"fighter-jet":"times"}
-                color={data.current_countermeasures ? null : "bad"}
-                onClick={() => act('deploy_countermeasure')} />
-            </Fragment>
-          </Section>
-          <Section title="Ignition controls:">
+          <Section title="Settings:">
             IGN:
             <Knob
               inline

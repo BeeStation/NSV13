@@ -137,7 +137,7 @@ GLOBAL_LIST_INIT(computer_beeps, list('nsv13/sound/effects/computer/beep.ogg','n
 /obj/machinery/computer/ship/tactical/ui_interact(mob/user, ui_key = "main", datum/tgui/ui = null, force_open = 0, datum/tgui/master_ui = null, datum/ui_state/state = GLOB.default_state) // Remember to use the appropriate state.
 	ui = SStgui.try_update_ui(user, src, ui_key, ui, force_open)
 	if(!ui)
-		ui = new(user, src, ui_key, "tactical", name, 560, 600, master_ui, state)
+		ui = new(user, src, ui_key, "TacticalConsole", name, 560, 600, master_ui, state)
 		ui.open()
 
 /obj/machinery/computer/ship/tactical/ui_act(action, params, datum/tgui/ui)

@@ -15,7 +15,7 @@
 	desc = "A computer which can interface with the FTL drive to allow the ship to travel vast distances in space."
 	icon_screen = "ftl"
 	var/datum/star_system/selected_system = null
-	var/screen = STARMAP
+	var/screen = 0
 	var/can_control_ship = TRUE
 
 /obj/machinery/computer/ship/navigation/public
@@ -29,7 +29,7 @@
 	if(!ui)
 		var/datum/asset/assets = get_asset_datum(/datum/asset/simple/starmap)
 		assets.send(user)
-		ui = new(user, src, ui_key, "starmap", name, 800, 660, master_ui, state)
+		ui = new(user, src, ui_key, "Starmap", name, 800, 660, master_ui, state)
 		ui.open()
 
 /obj/machinery/computer/ship/navigation/ui_act(action, params, datum/tgui/ui)
@@ -104,7 +104,7 @@
 			system_list["name"] = system.name
 			if(current_system)
 				system_list["in_range"] = is_in_range(current_system, system)
-				system_list["distance"] = "[current_system.dist(system)]"
+				system_list["distance"] = "[current_system.dist(system) > 0 ? "[current_system.dist(system)] LY" : "You are here."]"
 			else
 				system_list["in_range"] = 0
 			system_list["x"] = system.x
