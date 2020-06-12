@@ -6,6 +6,15 @@ import { Window } from '../layouts';
 export const Starmap = (props, context) => {
   const { act, data } = useBackend(context);
   const screen = data.screen;
+  const travelling = data.travelling;
+  let arrowStyle = "position: absolute; left: "+data.freepointer_x*12+"px;";
+  arrowStyle += "bottom: "+data.freepointer_y*12+"px;";
+  arrowStyle += "filter: progid:DXImageTransform.Microsoft.Matrix(sizingMethod='auto expand', M11="+data.freepointer_cos+",";
+  arrowStyle += "M12="+(-data.freepointer_sin)+",M21="+data.freepointer_sin+", M22="+data.freepointer_cos+");"
+  arrowStyle += "ms-filter: progid:DXImageTransform.Microsoft.Matrix(sizingMethod='auto expand', M11="+data.freepointer_cos+",";
+  arrowStyle += "M12="+(-data.freepointer_sin)+",M21="+data.freepointer_sin+", M22="+data.freepointer_cos+");"
+  arrowStyle += "-ms-transform: matrix("+data.freepointer_cos+","+-data.freepointer_sin+","+data.freepointer_sin+","+data.freepointer_cos+", 0, 0);";
+  arrowStyle += "transform: matrix("+data.freepointer_cos+","+-data.freepointer_sin+","+data.freepointer_sin+","+data.freepointer_cos+", 0, 0);";
   return (
     <Window resizable theme="ntos">
       <Window.Content scrollable>
@@ -114,20 +123,29 @@ export const Starmap = (props, context) => {
                 })}
                 {Object.keys(data.lines).map(key => {
                   let value = data.lines[key];
-                  let style = "position: absolute;  background-color: #211; border-color: #211; left:";
+                  let style = "height: 1px; position: absolute; left:";
 				  style += value.x*12;
 				  style += "px; bottom:"
 				  style += value.y*12;
-				  style += "px;len:"
+				  style += "px;width:"
 				  style += value.len*12;
-				  style += "px; transform: rotate("+value.angle+"deg) translate(0px,0px);-ms-transform: rotate("+value.angle+"deg translate(0px,0px);background-color:"+value.color+";border-color:"+value.color+";position:absolute;height:1px;transform-origin:center left;z-index:1";
+				  style += "px; border: 0.5px solid "
+				  style += value.colour + ";"
+				  style += "opacity: "+value.opacity+";"
+                  style += "transform: rotate("+value.angle+"deg) translate(0px,0px);-ms-transform: rotate("+value.angle+"deg) translate(0px, 0px);";
+				  style += "transform-origin: center left;z-index:"+value.priority+";"
+			//	  style += "transform: rotate("+value.angle+"deg) translate(0px,0px);-ms-transform: rotate("+value.angle+"deg translate(0px,0px);background-color:"+value.colour+";border-color:"+value.colour+";position:absolute;height:1px;transform-origin:center left;z-index:1";
                   return (
                     <Fragment key={key}>
-					  <div class="line" style={style}>FOO</div>
+					  <div style={style}></div>
                     </Fragment>);
                 })}
+				
 
-
+                
+				{!!travelling && (
+				  <span unselectable='on' style={arrowStyle}><i class="fa fa-arrow-right"></i></span>
+				)}
 
 				</Fragment>
               </Map>

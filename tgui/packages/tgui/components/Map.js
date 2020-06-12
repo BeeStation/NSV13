@@ -13,9 +13,7 @@ export class Map extends Component {
   }
 
   componentDidMount() {
-	let map = this.mapContainerRef.current;
-	map.scrollLeft = this.focus_x;
-    map.scrollTop = this.focus_y;
+
   }
 
   componentWillUnmount() {
@@ -30,7 +28,7 @@ export class Map extends Component {
       let map = this.mapContainerRef.current;
 	  if(map){
         this.state.focus_x += (e.screenX - curr_x);
-        this.state_focus_y -= (e.screenY + curr_y);
+        this.state_focus_y += (e.screenY - curr_y);
         map.scrollLeft = this.state.focus_x;
         map.scrollTop = this.state.focus_y;
 	    this.state.focus_x = map.scrollLeft;
@@ -46,8 +44,6 @@ export class Map extends Component {
     document.addEventListener("mousemove", mousemove);
     document.addEventListener("mouseup", mouseup);
   }
-
-  
 
   render() {
     return (

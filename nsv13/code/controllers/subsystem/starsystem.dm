@@ -107,7 +107,6 @@ SUBSYSTEM_DEF(star_system)
 	target_sys.contents_positions[anomaly] = list("x" = anomaly.x, "y" = anomaly.y) //Cache the ship's position so we can regenerate it later.
 	target_sys.system_contents += anomaly
 	anomaly.moveToNullspace() //Anything that's an NPC should be stored safely in nullspace until we return.
-	message_admins("[anomaly] successfully queued for [target_sys]")
 
 ///////BOUNTIES//////
 
@@ -459,7 +458,6 @@ SUBSYSTEM_DEF(star_system)
 		if("blacksite") //this a special one!
 			adjacency_list += "Risa Station" //you're going to risa, dammit.
 			SSstar_system.spawn_anomaly(/obj/effect/overmap_anomaly/wormhole, src, center=TRUE)
-			message_admins("Guaranteed oneway wormhole created between Risa Station and DATA EXPUNGED")
 	if(alignment == "syndicate")
 		spawn_enemies() //Syndicate systems are even more dangerous, and come pre-loaded with some guaranteed Syndiships.
 	if(!anomaly_type)
@@ -479,7 +477,6 @@ SUBSYSTEM_DEF(star_system)
 			system_type = pick("debris", "pirate", "nebula", "hazardous")
 		if(THREAT_LEVEL_DANGEROUS) //Extreme threat level. Time to break out the most round destroying anomalies.
 			system_type = pick("quasar", "radioactive", "blackhole")
-	message_admins("[src] was selected as a [system_type] system.")
 	apply_system_effects()
 
 /datum/star_system/proc/spawn_asteroids()

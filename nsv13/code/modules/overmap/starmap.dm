@@ -66,7 +66,7 @@
 	var/list/lines = list()
 	var/datum/star_system/current_system = info["current_system"]
 	SSstar_system.update_pos(linked)
-
+	data["travelling"] = FALSE
 	if(screen == 0) // ship information
 		if(linked.ftl_drive)
 			data["ftl_progress"] = linked.ftl_drive.progress
@@ -125,9 +125,13 @@
 				if(!sys)
 					message_admins("[thename] exists in a system adjacency list, but does not exist. Go create a starsystem datum for it.")
 					continue
-				if(!is_bidirectional || sys.hidden) //Secret One way wormholes don't show as valid hyperlanes, go find them for yourself!
+				if(sys.hidden) //Secret One way wormholes show you faint, purple paths.
 					continue
-				var/thecolour = (system != current_system) ? "white" : "lightblue"
+				var/thecolour = (system != current_system) ? "#FFFFFF" : "#193a7a" //Highlight available routes with blue.
+				var/opacity = 1
+				if(!is_bidirectional && (sys == current_system || system == current_system)) //Don't flood the map with wormhole paths, the idea is that you find them yourself!
+					thecolour = "#BA55D3"
+					opacity = 0.75
 				var/list/line = list()
 				var/dx = sys.x - system.x
 				var/dy = sys.y - system.y
@@ -138,6 +142,8 @@
 				line["len"] = len
 				line["angle"] = -angle
 				line["colour"] = thecolour
+				line["priority"] = (system != current_system) ? 1 : 2
+				line["opacity"] = opacity //Wormholes show faint, purple lines.
 				lines[++lines.len] = line
 			systems_list[++systems_list.len] = system_list
 		if(info["to_time"] > 0)
@@ -150,6 +156,7 @@
 			var/dy = targ.y - last.y
 			data["freepointer_cos"] = dx / dist
 			data["freepointer_sin"] = dy / dist
+			data["travelling"] = TRUE
 		data["star_systems"] = systems_list
 		data["lines"] = lines
 	if(screen == 2) // show info about system screen
