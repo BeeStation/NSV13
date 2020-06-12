@@ -116,8 +116,8 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 	var/reactor_temperature_meltdown = 800 //Base state temperature theshold value
 	var/reactor_temperature_modifier = 1 //Modifier handling temperature thesholds
 	var/reactor_starvation = 0 //Tracking each tick the reactor is still online and without fuel
-	var/souls_devoured = 0 //Players gibbed tally
 	var/sdr_id = null //This should match the rcc_id on the reactor control console during INITALIZATION - and should follow this general guideline for standard gameplay: 1 = primary ship, 2 = secondary ship, 3 = syndicate ship -- alternatively you can make players have to link them manually every round
+	var/souls_devoured = null //Some questions should not be asked
 
 /obj/machinery/atmospherics/components/binary/stormdrive_reactor/syndicate
 	radio_key = /obj/item/encryptionkey/syndicate
@@ -599,6 +599,9 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 	radiation_pulse(src, (heat * radiation_modifier), 2)
 	ambient_temp_bleed()
 
+	if(last_power_produced > 2000000) //2MW
+		handle_overload()
+
 	var/turf/T = get_turf(src)
 	var/obj/structure/cable/C = T.get_cable_node()
 	if(!C || !C.powernet)
@@ -734,7 +737,7 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 				C.gib()
 				playsound(src, 'sound/effects/phasein.ogg', 100, TRUE) //temp - find a better sound
 
-				souls_devoured ++
+				handle_souldrive()
 
 				var/datum/gas_mixture/air1 = airs[1]
 				air1.assert_gas(/datum/gas/plasma)
@@ -749,10 +752,65 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 		radio.talk_into(src, message, engineering_channel)
 		addtimer(VARSET_CALLBACK(src, can_alert, TRUE), alert_cooldown)
 
+/obj/machinery/atmospherics/components/binary/stormdrive_reactor/proc/handle_overload()
+	switch(last_power_produced)
+		if(2000000 to 3000000) //2MW to 3MW
+			if(prob(0.1))
+				for(var/obj/machinery/light/L in orange(8))
+					if(prob(25))
+						L.flicker()
+		if(3000000 to 5000000) //3MW to 5MW
+			if(prob(0.1))
+				for(var/obj/machinery/light/L in orange(25))
+					if(prob(25))
+						L.flicker()
+			if(prob(1))
+				for(var/obj/machinery/light/L in orange(8))
+					if(prob(25))
+						L.flicker()
+		if(5000000 to 10000000) //5MW to 10MW
+			if(prob(0.1))
+				for(var/ar in SSmapping.areas_in_z["[z]"])
+					var/area/AR = ar
+					for(var/obj/machinery/light/L in AR)
+						if(prob(25))
+							L.flicker()
+			if(prob(1))
+				for(var/obj/machinery/light/L in orange(10))
+					if(prob(25))
+						L.burn_out()
+					else
+						L.flicker()
+			if(prob(0.01))
+				tesla_zap(src, 5, input_power/50)
+		if(10000000 to INFINITY) //10MW+
+			if(prob(1))
+				for(var/ar in SSmapping.areas_in_z["[z]"])
+					var/area/AR = ar
+					for(var/obj/machinery/light/L in AR)
+						if(prob(50))
+							L.flicker()
+			if(prob(5))
+				for(var/obj/machinery/light/L in orange(12))
+					L.burn_out() //If there are even any left by this stage
+			if(prob(0.1))
+				tesla_zap(src, 5, input_power/25)
+
 /obj/machinery/atmospherics/components/binary/stormdrive_reactor/Destroy()
 	for(var/atom/X in contents)
 		qdel(X)
 	.=..()
+
+/obj/machinery/atmospherics/components/binary/stormdrive_reactor/proc/handle_souldrive()
+	var/json_file = file("data/npc_saves/Stormdrive.json")
+	if(!fexists(json_file))
+		return
+	var/list/json = json_decode(file2text(json_file))
+	souls_devoured = json["souls_devoured"]
+	souls_devoured ++
+	json["souls_devoured"] = souls_devoured
+	fdel(json_file)
+	WRITE_FILE(json_file, json_encode(json))
 
 //////Reactor Computer//////
 

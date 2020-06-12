@@ -486,12 +486,37 @@ A way for syndies to track where the player ship is going in advance, so they ca
 		return TRUE
 	return FALSE
 ///FTL DRIVE PYLON///
-/obj/machinery/atmospherics/components/uniary/ftl_pylon
+/obj/machinery/atmospherics/components/unary/ftl_drive_pylon
 	name = "FTL Drive Pylon"
 	desc = "Words about the spinny boy"
-	icon = 'nsv13/icons/obj/machinery/FTL_drive.dmi'
-	icon_state = "Pylon"
+	icon = 'nsv13/icons/obj/machinery/FTL_pylon.dmi'
+	icon_state = "pylon"
 	density = TRUE
 	anchored = TRUE
-	//idle_power_useage = 250
-	//active_power_useage = 5000
+	idle_power_usage = 250
+	active_power_usage = 5000
+
+/obj/machinery/atmospherics/components/unary/ftl_drive_pylon/process()
+	if(!on)
+		return
+
+
+//FTL DRIVE CORE
+/obj/machinery/power/ftl_drive_core
+	name = "FTL Drive Core"
+	desc = "Words about the core"
+	icon = 'nsv13/icons/obj/machinery/FTL_drive.dmi'
+	icon_state = "core_idle"
+	density = TRUE
+	anchored = TRUE
+
+//FTL DRIVE SILO
+/obj/machinery/atmospherics/components/binary/ftl_drive_silo
+	name = "FTL Drive Silo"
+	desc = "Words about the vat"
+	icon = 'nsv13/icons/obj/machinery/FTL_silo.dmi'
+	icon_state = "silo"
+	density = TRUE
+	anchored = TRUE
+	idle_power_usage = 50
+	active_power_usage = 1000
