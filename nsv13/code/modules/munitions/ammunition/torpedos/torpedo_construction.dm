@@ -191,6 +191,10 @@
 	. = ..()
 
 /obj/item/ship_weapon/ammunition/torpedo/torpedo_casing/welder_act(mob/user, obj/item/tool)
+	//Fixes #620 (https://github.com/BeeStation/NSV13/issues/620)
+	if(istype(src.loc, /obj/structure))
+		to_chat(user, "<span class='notice'>[src] is loaded in [src.loc]. Unload it first.</span>")
+		return
 	switch(state)
 		if(0)
 			to_chat(user, "<span class='notice'>You start disassembling [src]...</span>")
