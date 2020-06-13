@@ -28,7 +28,7 @@ export const StarButton = props => {
     onclick,
     onClick,
     ilstyle,
-	alignment,
+    alignment,
     ...rest
   } = props;
   const hasContent = !!(content || children);
@@ -227,7 +227,7 @@ export class StarButtonInput extends Component {
           fluid && 'Button--fluid',
           'Button--color--' + color,
         ])}
-		style={ilstyle}
+        style={ilstyle}
         {...rest}
         onClick={() => this.setInInput(true)}>
         {icon && (

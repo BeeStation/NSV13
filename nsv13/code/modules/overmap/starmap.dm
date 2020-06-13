@@ -66,13 +66,13 @@
 	var/list/lines = list()
 	var/datum/star_system/current_system = info["current_system"]
 	SSstar_system.update_pos(linked)
+	if(linked.ftl_drive)
+		data["ftl_progress"] = linked.ftl_drive.progress
+		if(linked.ftl_drive.ftl_state == FTL_STATE_READY)
+			data["ftl_progress"] = linked.ftl_drive.spoolup_time
+		data["ftl_goal"] = linked.ftl_drive.spoolup_time //TODO
 	data["travelling"] = FALSE
 	if(screen == 0) // ship information
-		if(linked.ftl_drive)
-			data["ftl_progress"] = linked.ftl_drive.progress
-			if(linked.ftl_drive.ftl_state == FTL_STATE_READY)
-				data["ftl_progress"] = linked.ftl_drive.spoolup_time
-			data["ftl_goal"] = linked.ftl_drive.spoolup_time //TODO
 		var/datum/star_system/target_system = info["target_system"]
 		if(!target_system)
 			data["in_transit"] = FALSE
@@ -121,7 +121,9 @@
 			system_list["label"] = label
 			for(var/thename in system.adjacency_list) //Draw the lines joining our systems
 				var/datum/star_system/sys = SSstar_system.system_by_id(thename)
-				var/is_bidirectional = (LAZYFIND(sys.adjacency_list, system.name) && LAZYFIND(system.adjacency_list, sys.name))
+				var/is_wormhole = (LAZYFIND(sys.adjacency_list, system.name) && LAZYFIND(system.adjacency_list, sys.name))
+				if(!is_wormhole)
+					is_wormhole = (LAZYFIND(initial(sys.adjacency_list, system.name)) && LAZYFIND(initial(system.adjacency_list, sys.name)))
 				if(!sys)
 					message_admins("[thename] exists in a system adjacency list, but does not exist. Go create a starsystem datum for it.")
 					continue
@@ -129,9 +131,9 @@
 					continue
 				var/thecolour = (system != current_system) ? "#FFFFFF" : "#193a7a" //Highlight available routes with blue.
 				var/opacity = 1
-				if(!is_bidirectional && (sys == current_system || system == current_system)) //Don't flood the map with wormhole paths, the idea is that you find them yourself!
+				if(!is_wormhole && (sys == current_system && system == current_system)) //Don't flood the map with wormhole paths, the idea is that you find them yourself!
 					thecolour = "#BA55D3"
-					opacity = 0.75
+					opacity = 0.85
 				var/list/line = list()
 				var/dx = sys.x - system.x
 				var/dy = sys.y - system.y
@@ -167,11 +169,11 @@
 			var/datum/star_system/curr = info["current_system"]
 			data["star_dist"] = curr.dist(selected_system)
 			data["can_jump"] = current_system.dist(selected_system) < linked.ftl_drive?.max_range && linked.ftl_drive.ftl_state == FTL_STATE_READY && LAZYFIND(current_system.adjacency_list, selected_system.name)
-			data["can_cancel"] = linked.ftl_drive.ftl_state == FTL_STATE_JUMPING && linked.ftl_drive.can_cancel_jump
 			if(!can_control_ship) //For public consoles
 				data["can_jump"] = FALSE
 				data["can_cancel"] = FALSE
 	data["screen"] = screen
+	data["can_cancel"] = linked.ftl_drive.ftl_state == FTL_STATE_JUMPING && linked.ftl_drive.can_cancel_jump
 	return data
 
 /obj/machinery/computer/ship/navigation/proc/is_in_range(datum/star_system/current_system, datum/star_system/system)
