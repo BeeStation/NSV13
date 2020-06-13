@@ -251,6 +251,7 @@ SUBSYSTEM_DEF(star_system)
 	var/is_capital = FALSE
 	var/list/adjacency_list = list() //Which systems are near us, by name
 	var/occupying_z = 0 //What Z-level is this  currently stored on? This will always be a number, as Z-levels are "held" by ships.
+	var/list/wormhole_connections = list() //Where did we dun go do the wormhole to honk
 
 /datum/star_system/proc/dist(datum/star_system/other)
 	var/dx = other.x - x
@@ -266,10 +267,12 @@ SUBSYSTEM_DEF(star_system)
 	var/datum/star_system/S = pick((SSstar_system.systems - src)) //Pick a random system to put the wormhole in. Make sure that's not us.
 	if(!(LAZYFIND(adjacency_list, S))) //Makes sure we're not already linked.
 		adjacency_list += S.name
+		wormhole_connections += S.name
 		SSstar_system.spawn_anomaly(/obj/effect/overmap_anomaly/wormhole, src, center=TRUE)
 		var/oneway = "One-way"
 		if(!(LAZYFIND(S.adjacency_list, src)) && prob(30)) //Two-directional wormholes, AKA valid hyperlanes, are exceedingly rare.
 			S.adjacency_list += name
+			S.wormhole_connections += name
 			oneway = "Two-way"
 			SSstar_system.spawn_anomaly(/obj/effect/overmap_anomaly/wormhole, S, center=TRUE) //Wormholes are cool. Like Fezzes. Fezzes are cool.
 		message_admins("[oneway] wormhole created between [S] and [src]")

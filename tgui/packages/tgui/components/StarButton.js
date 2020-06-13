@@ -101,7 +101,7 @@ StarButton.defaultHooks = pureComponentHooks;
 export const StarButtonCheckbox = props => {
   const { checked, ...rest } = props;
   return (
-    <Button
+    <StarButton
       color="transparent"
       icon={checked ? 'check-square-o' : 'square-o'}
       selected={checked}
@@ -227,7 +227,6 @@ export class StarButtonInput extends Component {
           fluid && 'Button--fluid',
           'Button--color--' + color,
         ])}
-        style={ilstyle}
         {...rest}
         onClick={() => this.setInInput(true)}>
         {icon && (

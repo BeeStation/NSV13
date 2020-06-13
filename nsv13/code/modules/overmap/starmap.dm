@@ -123,7 +123,7 @@
 				var/datum/star_system/sys = SSstar_system.system_by_id(thename)
 				var/is_wormhole = (LAZYFIND(sys.adjacency_list, system.name) && LAZYFIND(system.adjacency_list, sys.name))
 				if(!is_wormhole)
-					is_wormhole = (LAZYFIND(initial(sys.adjacency_list, system.name)) && LAZYFIND(initial(system.adjacency_list, sys.name)))
+					is_wormhole = (LAZYFIND(sys.wormhole_connections, system.name) || LAZYFIND(system.wormhole_connections, sys.name))
 				if(!sys)
 					message_admins("[thename] exists in a system adjacency list, but does not exist. Go create a starsystem datum for it.")
 					continue
@@ -131,7 +131,7 @@
 					continue
 				var/thecolour = (system != current_system) ? "#FFFFFF" : "#193a7a" //Highlight available routes with blue.
 				var/opacity = 1
-				if(!is_wormhole && (sys == current_system && system == current_system)) //Don't flood the map with wormhole paths, the idea is that you find them yourself!
+				if(is_wormhole && (sys == current_system && system == current_system)) //Don't flood the map with wormhole paths, the idea is that you find them yourself!
 					thecolour = "#BA55D3"
 					opacity = 0.85
 				var/list/line = list()
