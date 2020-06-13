@@ -549,7 +549,7 @@ SUBSYSTEM_DEF(star_system)
 /datum/star_system/sol
 	name = "Sol"
 	is_capital = TRUE
-	x = 0
+	x = 4
 	y = 10
 	alignment = "nanotrasen"
 	system_type = "planet_earth"
@@ -606,7 +606,7 @@ SUBSYSTEM_DEF(star_system)
 	y = 45
 	alignment = "unaligned"
 	threat_level = THREAT_LEVEL_UNSAFE
-	adjacency_list = list("Eridani","Scorvio", "Antares")
+	adjacency_list = list("Eridani","Scorvio", "Antares", "Eridani")
 
 /datum/star_system/eridani
 	name = "Eridani"

@@ -121,19 +121,22 @@
 			system_list["label"] = label
 			for(var/thename in system.adjacency_list) //Draw the lines joining our systems
 				var/datum/star_system/sys = SSstar_system.system_by_id(thename)
-				var/is_wormhole = (LAZYFIND(sys.adjacency_list, system.name) && LAZYFIND(system.adjacency_list, sys.name))
-				if(!is_wormhole)
-					is_wormhole = (LAZYFIND(sys.wormhole_connections, system.name) || LAZYFIND(system.wormhole_connections, sys.name))
+				var/is_wormhole = (LAZYFIND(sys.wormhole_connections, system.name) || LAZYFIND(system.wormhole_connections, sys.name))
+				var/is_bidirectional = (LAZYFIND(sys.adjacency_list, system.name) && LAZYFIND(system.adjacency_list, sys.name))
 				if(!sys)
 					message_admins("[thename] exists in a system adjacency list, but does not exist. Go create a starsystem datum for it.")
 					continue
-				if(sys.hidden) //Secret One way wormholes show you faint, purple paths.
+				if((!is_bidirectional && system != current_system) || sys.hidden) //Secret One way wormholes show you faint, purple paths.
 					continue
-				var/thecolour = (system != current_system) ? "#FFFFFF" : "#193a7a" //Highlight available routes with blue.
+				var/thecolour = "#FFFFFF" //Highlight available routes with blue.
 				var/opacity = 1
-				if(is_wormhole && (sys == current_system && system == current_system)) //Don't flood the map with wormhole paths, the idea is that you find them yourself!
-					thecolour = "#BA55D3"
-					opacity = 0.85
+				if(LAZYFIND(current_system.adjacency_list, thename)) //Don't flood the map with wormhole paths, the idea is that you find them yourself!
+					if(is_wormhole)
+						thecolour = "#BA55D3"
+						opacity = 0.85
+				//	else //Couldnt get this to work :/
+					//	to_chat(world, "[thename] is in [current_system]")
+					//	thecolour = "#193a7a"
 				var/list/line = list()
 				var/dx = sys.x - system.x
 				var/dy = sys.y - system.y
@@ -144,7 +147,7 @@
 				line["len"] = len
 				line["angle"] = -angle
 				line["colour"] = thecolour
-				line["priority"] = (system != current_system) ? 1 : 2
+				line["priority"] = (sys != current_system) ? 1 : 2
 				line["opacity"] = opacity //Wormholes show faint, purple lines.
 				lines[++lines.len] = line
 			systems_list[++systems_list.len] = system_list

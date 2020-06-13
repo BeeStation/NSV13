@@ -100,10 +100,13 @@ export const Starmap = (props, context) => {
                 <Fragment>
                   {Object.keys(data.star_systems).map(key => {
                     let value = data.star_systems[key];
+                    let borderType = "star_marker_outline_blue";
+                    let is_current = value.is_current;
+                    let in_range = value.in_range;
                     { !!is_current && (
-                      borderType = "border: 1px solid #193a7a;"
+                      borderType = "1px solid #193a7a"
                     ) || (
-                      borderType = in_range ? "border: 1px solid #008000;" : "border: 1px solid #a30000;"
+                      borderType = in_range ? "1px solid #008000" : "1px solid #a30000"
                     ); }
                     let markerStyle = {
                       height: '1px',
@@ -113,9 +116,6 @@ export const Starmap = (props, context) => {
                       border: borderType,
                     };
                     let markerType = "star_marker"+"_"+value.alignment;
-                    let borderType = "star_marker_outline_blue";
-                    let is_current = value.is_current;
-                    let in_range = value.in_range;
                     let distance = value.distance;
                     let label = value.label;
                     { !!label && (
@@ -124,7 +124,7 @@ export const Starmap = (props, context) => {
                     return (
                       <Fragment key={key}>
                         {!!value.name && (
-                          <StarButton style={markerStyle} className={markerType}
+                          <StarButton unselectable="on" style={markerStyle} className={markerType}
                             content="" tooltip={distance}
                             onClick={() => 
                               act('select_system', { star_id: value.star_id })}>
