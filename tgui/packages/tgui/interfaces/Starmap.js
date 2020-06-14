@@ -27,6 +27,7 @@ export const Starmap = (props, context) => {
   arrowStyle += "transform: matrix("+data.freepointer_cos+",";
   arrowStyle += ""+-data.freepointer_sin+",";
   arrowStyle += ""+data.freepointer_sin+","+data.freepointer_cos+", 0, 0);";
+  arrowStyle += "transition: all 0.5s ease-out;";
   return (
     <Window resizable theme="ntos">
       <Window.Content scrollable>

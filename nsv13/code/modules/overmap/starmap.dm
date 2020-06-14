@@ -15,7 +15,7 @@
 	desc = "A computer which can interface with the FTL drive to allow the ship to travel vast distances in space."
 	icon_screen = "ftl"
 	var/datum/star_system/selected_system = null
-	var/screen = 0
+	var/screen = STARMAP
 	var/can_control_ship = TRUE
 
 /obj/machinery/computer/ship/navigation/public
@@ -88,7 +88,6 @@
 			data["time_left"] = max(0, (info["to_time"] - world.time) / 1 MINUTES)
 
 	else if(screen == 1) // star system map screen thing
-
 		var/list/systems_list = list()
 		if(info["current_system"])
 			var/datum/star_system/curr = info["current_system"]
@@ -130,7 +129,7 @@
 					continue
 				var/thecolour = "#FFFFFF" //Highlight available routes with blue.
 				var/opacity = 1
-				if(LAZYFIND(current_system.adjacency_list, thename)) //Don't flood the map with wormhole paths, the idea is that you find them yourself!
+				if(LAZYFIND(current_system?.adjacency_list, thename)) //Don't flood the map with wormhole paths, the idea is that you find them yourself!
 					if(is_wormhole)
 						thecolour = "#BA55D3"
 						opacity = 0.85

@@ -10,16 +10,32 @@
   overflow: hidden;
   background: url('../../assets/space.png');
   border: 1px solid #40628a;
-  
-}
-.innerbg{
-    position: relative;
-	width: 2000px;
-	height: 2000px;
+  transition: all 0.5s ease-out;
 }
 
-.fuck{
-	left: 200px;
+.innerbg{
+  position: relative;
+  width: 2000px;
+  height: 2000px;
+}
+
+.outerbgdradis{
+  overflow:hidden;
+  position: relative;
+  width: 100%;
+  height: 1000px;
+  overflow: hidden;
+  background: url('../../assets/space.png');
+  border: 1px solid #40628a;
+  transition: all 0.5s ease-out;
+}
+
+.innerbgdradis{
+  position: relative;
+  width: 3500px;
+  height: 3500px;
+  background-size: 40px 40px;
+  background-image: radial-gradient(circle at center, #360 1px, rgba(0, 0, 0, 0) 1px);
 }
 
 div#planetMap {
@@ -38,6 +54,7 @@ div#rangeCircle {
   height: 480px;
   margin-bottom: -240px;
   margin-left: -240px;
+  transition: all 0.5s ease-out;
 }
 .star_marker {
   display: inline-block;
@@ -53,6 +70,7 @@ div#rangeCircle {
   border-radius: 50%;
   z-index: 3;
   background: radial-gradient(ellipse at center, #fff 0%, #fff 20%, rgba(255,255,255,0.71) 40%, rgba(255,255,255,0) 60%);
+  outline: 0px;
 }
 .star_marker_solgov {
   display: inline-block;
@@ -68,6 +86,7 @@ div#rangeCircle {
   border-radius: 50%;
   z-index: 3;
   background: radial-gradient(ellipse at center, #fff 0%, #fff 20%, rgba(255,255,255,0.71) 40%, rgba(255,255,255,0) 60%);
+  outline: 0px;
 }
 .star_marker_syndicate {
   display: inline-block;
@@ -83,6 +102,7 @@ div#rangeCircle {
   border-radius: 50%;
   z-index: 3;
   background: radial-gradient(ellipse at center, #a30000 0%, #a30000 20%, rgba(163,0,0,0.71) 40%, rgba(163,0,0,0) 60%);
+  outline: 0px;
 }
 .star_marker_unaligned {
   display: inline-block;
@@ -98,6 +118,7 @@ div#rangeCircle {
   border-radius: 50%;
   z-index: 3;
   background: radial-gradient(ellipse at center, #a66300 0%, #a66300 20%, rgba(166,99,0,0.71) 40%, rgba(166,99,0,0) 60%);
+  outline: 0px;
 }
 .star_marker_nanotrasen {
   display: inline-block;
@@ -113,6 +134,7 @@ div#rangeCircle {
   border-radius: 50%;
   z-index: 3;
   background: radial-gradient(ellipse at center, #193a7a 0%, #193a7a 20%, rgba(25,58,122,0.71) 40%, rgba(25,58,122,0) 60%);
+  outline: 0px;
 }
 .star_marker_uncharted {
   display: inline-block;
@@ -128,6 +150,7 @@ div#rangeCircle {
   border-radius: 50%;
   z-index: 3;
   background: radial-gradient(ellipse at center, #000 0%, #000 20%, rgba(0,0,0,0.71) 40%, rgba(0,0,0,0) 60%);
+  outline: 0px;
 }
 
 .star_marker_visited_solgov {

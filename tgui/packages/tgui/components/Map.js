@@ -9,19 +9,24 @@ export class Map extends Component {
     const {
       initial_focus_x,
       initial_focus_y,
+      grid,
       ...rest
     } = this.props;
     this.mapContainerRef = createRef();
-    this.state = { focus_x: initial_focus_x, focus_y: initial_focus_y };
+    this.state = { focus_x: initial_focus_x, focus_y: initial_focus_y, grid: grid };
   }
 
   componentDidMount() {
     let map = this.mapContainerRef.current;
     if (map) {
       // Do not question this. It just works.
-      map.scrollLeft = this.state.focus_x * 12 - 300;
-      if (this.state.focus_y >= 45) { map.scrollTop = 1000+this.state.focus_y; }
-      else { map.scrollTop = 2000+this.state.focus_y; }
+      if (!this.state.grid) {
+        map.scrollLeft = this.state.focus_x * 12 - 300;
+        map.scrollTop = (100-this.state.focus_y) * 12 + 500;
+      } else {
+        map.scrollLeft = this.state.focus_x * 12 - 500;
+        map.scrollTop = (100-this.state.focus_y) * 12 + 2000;
+      }
       let updateState = (x, y) => {
         this.setState({
           focus_x: x,
@@ -80,8 +85,8 @@ export class Map extends Component {
         id="mapContainer"
         ref={this.mapContainerRef}
         onMousedown={this.mousedownHandler.bind(this)}
-        unselectable="on" className="outerbg">
-        <div unselectable="on" className="innerbg" id="mapDraggable">
+        unselectable="on" className={this.state.grid ? "outerbgdradis" : "outerbg"}>
+        <div unselectable="on" className={this.state.grid ? "innerbgdradis" : "innerbg"} id="mapDraggable">
           {this.props.children}
         </div>
       </div> 
