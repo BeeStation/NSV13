@@ -12,7 +12,7 @@ SUBSYSTEM_DEF(star_system)
 	var/list/enemy_types = list()
 	var/list/enemy_blacklist = list()
 	var/list/ships = list() //2-d array. Format: list("ship" = ship, "x" = 0, "y" = 0, "current_system" = null, "target_system" = null, "transit_time" = 0)
-	var/patrols_left = 5 //Around 1 hour : 15 minutes
+	var/patrols_left = 3 //Around 1 hour : 15 minutes
 	var/times_cleared = 0
 	var/systems_cleared = 0
 
@@ -130,8 +130,13 @@ SUBSYSTEM_DEF(star_system)
 /datum/controller/subsystem/star_system/proc/cycle_gameplay_loop()
 	addtimer(CALLBACK(src, .proc/gameplay_loop), rand(10 MINUTES, 15 MINUTES)) //Cycle the gameplay loop 10 to 15 minutes after the previous sector is made hostile.
 
+//For extremely robust crews who wish to earn cooler medals.
+/datum/controller/subsystem/star_system/proc/reset_gameplay_loop()
+	patrols_left = initial(patrols_left)
+	systems_cleared = 0
+
 /datum/controller/subsystem/star_system/proc/check_completion()
-	if(patrols_left <= 0 && systems_cleared >= 5)
+	if(patrols_left <= 0 && systems_cleared >= initial(patrols_left))
 		var/medal_type = null //Reward good players.
 		switch(times_cleared)
 			if(0)
@@ -150,7 +155,7 @@ SUBSYSTEM_DEF(star_system)
 				medal_type = MEDAL_CREW_EXTREMELYCOMPETENT
 			if(3) //By now they've cleared. 20(!) systems.
 				priority_announce("[station_name()]... We are...not quite sure how you're still alive. However, the Syndicate are struggling to mobilise any more ships and we're presented with a unique opportunity to strike at their heartland.\
-				You are ordered to return to home base immediately for re-arming, repair and a crew briefing", "Officer Of Grand Admiral Titanicus")
+				You are ordered to return to home base immediately for re-arming, repair and a crew briefing", "The assembled Nanotrasen Admiralty")
 				medal_type = MEDAL_CREW_HYPERCOMPETENT
 		for(var/client/C in GLOB.clients)
 			if(!C.mob || !SSmapping.level_trait(C.mob.z, ZTRAIT_BOARDABLE))
@@ -161,10 +166,8 @@ SUBSYSTEM_DEF(star_system)
 			if(SS.name == "Risa Station")
 				SS.hidden = FALSE
 			SS.difficulty_budget *= 2 //Double the difficulty if the crew choose to stay.
-		cycle_gameplay_loop()
-		patrols_left = 5
 		times_cleared ++
-		systems_cleared = 0
+		addtimer(CALLBACK(src, .proc/reset_gameplay_loop), rand(15 MINUTES, 20 MINUTES)) //Give them plenty of time to go home before we give them any more missions.
 		return TRUE
 
 /datum/controller/subsystem/star_system/proc/gameplay_loop() //A very simple way of having a gameplay loop. Every couple of minutes, the Syndicate appear in a system, the ship has to destroy them.
@@ -180,6 +183,8 @@ SUBSYSTEM_DEF(star_system)
 	for(var/datum/star_system/starsys in systems)
 		if(starsys != current_system && !starsys.hidden && !starsys.mission_sector && starsys.alignment != "nanotrasen" && starsys.alignment != "uncharted") //Spawn is a safe zone. Uncharted systems are dangerous enough and don't need more murder.
 			possible_spawns += starsys
+	if(patrols_left <= 0) //They've had enough missions for one day.
+		return
 	if(!possible_spawns.len)
 		message_admins("Failed to spawn an overmap mission as all sectors were occupied. Tell the crew to get a move on...")
 		return
@@ -187,7 +192,7 @@ SUBSYSTEM_DEF(star_system)
 	starsys.mission_sector = TRUE //set this sector to be the active mission
 	starsys.spawn_asteroids() //refresh asteroids in the system
 	starsys.spawn_enemies()
-	priority_announce("Attention all ships, set condition 1 throughout the fleet. Syndicate incursion detected in: [starsys]. [systems_cleared < 5 ? "All combat-ready ships must respond to the threat." : "Ships may optionally clear the system, or return to Risa for crew rotation"]", "Naval Command")
+	priority_announce("Attention all ships, set condition 1 throughout the fleet. Syndicate incursion detected in: [starsys]. [systems_cleared < initial(patrols_left) ? "All combat-ready ships must respond to the threat." : "Ships may optionally clear the system, or return to Risa for crew rotation"]", "Naval Command")
 	patrols_left --
 	return
 
@@ -515,7 +520,6 @@ SUBSYSTEM_DEF(star_system)
 		priority_announce("All Syndicate targets in [src] have been dispatched. Return to standard patrol duties.", "Naval Command")
 		if(mission_sector == TRUE)
 			mission_sector = FALSE
-			SSstar_system.patrols_left --
 			SSstar_system.systems_cleared ++
 			SSstar_system.check_completion()
 		return TRUE

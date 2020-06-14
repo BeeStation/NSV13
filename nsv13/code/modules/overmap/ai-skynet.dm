@@ -244,7 +244,7 @@
 				var/ai_fighter = pick(ai_fighter_type)
 				var/obj/structure/overmap/newFighter = new ai_fighter(get_turf(pick(orange(3, src))))
 				newFighter.last_target = last_target
-				current_system?.system_contents += newFighter
+				current_system?.add_enemy(newFighter)
 				relay_to_nearby('nsv13/sound/effects/ship/fighter_launch_short.ogg')
 		addtimer(VARSET_CALLBACK(src, ai_can_launch_fighters, TRUE), 3 MINUTES)
 	if(OM in enemies) //If target's in enemies, return
