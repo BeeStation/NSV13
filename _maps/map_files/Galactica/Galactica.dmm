@@ -583,16 +583,6 @@
 /obj/machinery/light_switch/west,
 /turf/open/floor/monotile/light,
 /area/medical/genetics)
-"cc" = (
-/obj/structure/grille,
-/obj/structure/window/reinforced/fulltile/ship,
-/obj/machinery/door/poddoor/ship/preopen{
-	id = "bridge_blast";
-	name = "CIC blast doors"
-	},
-/obj/machinery/door/firedoor,
-/turf/open/floor/plating,
-/area/bridge)
 "cd" = (
 /obj/machinery/dna_scannernew,
 /obj/machinery/power/apc/auto_name/north,
@@ -743,7 +733,6 @@
 	pixel_y = 30
 	},
 /obj/item/storage/pill_bottle/mannitol,
-/obj/item/storage/pill_bottle/mannitol,
 /obj/item/storage/pill_bottle/mutadone,
 /turf/open/floor/monotile/light,
 /area/medical/genetics)
@@ -890,14 +879,15 @@
 /turf/open/floor/plasteel/techmaint,
 /area/maintenance/department/engine)
 "cT" = (
-/obj/structure/window/reinforced/fulltile/ship,
-/obj/machinery/door/poddoor/ship/preopen{
-	id = "bridge_blast";
-	name = "CIC blast doors"
+/obj/structure/cable{
+	icon_state = "2-4"
 	},
-/obj/machinery/door/firedoor,
-/turf/open/floor/plasteel/dark,
-/area/bridge)
+/obj/structure/cable{
+	icon_state = "0-2"
+	},
+/obj/structure/grille,
+/turf/open/floor/plating,
+/area/maintenance/department/bridge)
 "cU" = (
 /obj/structure/sign/warning/radiation{
 	name = "SHELTER"
@@ -956,6 +946,12 @@
 /turf/open/floor/monotile,
 /area/crew_quarters/heads/hos)
 "dc" = (
+/obj/effect/turf_decal/tile/neutral{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/neutral{
+	dir = 8
+	},
 /turf/open/floor/monotile,
 /area/crew_quarters/heads/hos)
 "dd" = (
@@ -1129,11 +1125,11 @@
 	pixel_y = -6
 	},
 /obj/item/radio/intercom/directional/north,
+/obj/effect/turf_decal/tile/neutral,
 /turf/open/floor/monotile,
 /area/crew_quarters/heads/hos)
 "dz" = (
 /obj/structure/table/reinforced,
-/obj/item/folder/blue,
 /obj/machinery/requests_console{
 	announcementConsole = 1;
 	department = "Head of Security's Desk";
@@ -1141,12 +1137,25 @@
 	name = "Head of Security RC";
 	pixel_y = 26
 	},
+/obj/effect/turf_decal/tile/neutral{
+	dir = 8
+	},
+/obj/effect/turf_decal/tile/neutral,
+/obj/item/taperecorder{
+	pixel_x = 3
+	},
+/obj/item/storage/box/deputy,
+/obj/item/flashlight/seclite,
 /turf/open/floor/monotile,
 /area/crew_quarters/heads/hos)
 "dA" = (
 /obj/structure/table/reinforced,
 /obj/machinery/computer/secure_data/laptop,
 /obj/machinery/computer/ship/viewscreen,
+/obj/effect/turf_decal/tile/neutral{
+	dir = 8
+	},
+/obj/effect/turf_decal/tile/neutral,
 /turf/open/floor/monotile,
 /area/crew_quarters/heads/hos)
 "dB" = (
@@ -1302,11 +1311,12 @@
 /turf/open/floor/monotile,
 /area/bridge)
 "dT" = (
-/obj/machinery/door/airlock/ship/command/glass{
-	name = "Fallout Shelter";
-	req_one_access_txt = "19"
-	},
 /obj/machinery/door/firedoor,
+/obj/machinery/door/airlock/ship/command/glass{
+	name = "War Room";
+	req_one_access_txt = "19";
+	security_level = 6
+	},
 /turf/open/floor/monotile,
 /area/bridge)
 "dU" = (
@@ -1361,12 +1371,15 @@
 "ed" = (
 /obj/structure/table/reinforced,
 /obj/item/paper_bin,
-/obj/item/stamp/hos,
 /obj/item/pen/fountain,
 /obj/item/storage/secure/safe/HoS{
 	pixel_x = 8;
 	pixel_y = 24
 	},
+/obj/effect/turf_decal/tile/neutral{
+	dir = 8
+	},
+/obj/effect/turf_decal/tile/neutral,
 /turf/open/floor/monotile,
 /area/crew_quarters/heads/hos)
 "ee" = (
@@ -1632,6 +1645,9 @@
 /obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1{
 	dir = 4
 	},
+/obj/structure/cable{
+	icon_state = "1-8"
+	},
 /turf/open/floor/monotile,
 /area/bridge/meeting_room)
 "eU" = (
@@ -1660,6 +1676,7 @@
 /turf/open/floor/monotile,
 /area/bridge)
 "eY" = (
+/obj/effect/turf_decal/delivery/white,
 /obj/effect/turf_decal/stripes{
 	icon_state = "warningline";
 	dir = 9
@@ -1709,7 +1726,7 @@
 	icon_state = "1-2"
 	},
 /obj/machinery/door/airlock/ship/security{
-	name = "Head of Security";
+	name = "Head of Security's Equipment";
 	req_one_access_txt = "58"
 	},
 /obj/machinery/door/firedoor,
@@ -1765,6 +1782,11 @@
 /obj/structure/cable{
 	icon_state = "0-2"
 	},
+/obj/effect/turf_decal/tile/neutral{
+	dir = 8
+	},
+/obj/effect/turf_decal/tile/neutral,
+/obj/item/storage/fancy/donut_box,
 /turf/open/floor/monotile,
 /area/crew_quarters/heads/hos)
 "fm" = (
@@ -1902,6 +1924,7 @@
 /turf/open/floor/carpet/blue,
 /area/bridge)
 "fA" = (
+/obj/effect/turf_decal/delivery/white,
 /obj/effect/turf_decal/stripes{
 	icon_state = "warningline";
 	dir = 8
@@ -1931,6 +1954,7 @@
 /obj/structure/cable{
 	icon_state = "0-2"
 	},
+/obj/structure/curtain/obscuring/grey,
 /turf/open/floor/plating,
 /area/crew_quarters/heads/hos)
 "fE" = (
@@ -1942,6 +1966,10 @@
 /area/maintenance/department/engine)
 "fG" = (
 /obj/structure/disposalpipe/segment,
+/obj/effect/turf_decal/tile/neutral{
+	dir = 4
+	},
+/obj/effect/turf_decal/tile/neutral,
 /turf/open/floor/monotile,
 /area/crew_quarters/heads/hos)
 "fH" = (
@@ -2077,14 +2105,15 @@
 /turf/open/floor/engine,
 /area/medical/cryo)
 "fY" = (
-/obj/effect/spawner/structure/window/reinforced/ship,
-/obj/machinery/door/poddoor/ship/preopen{
-	id = "bridge_blast";
-	name = "CIC blast doors";
-	dir = 4
+/obj/structure/cable{
+	icon_state = "4-8"
 	},
+/obj/structure/cable{
+	icon_state = "0-8"
+	},
+/obj/structure/grille,
 /turf/open/floor/plating,
-/area/bridge)
+/area/maintenance/department/bridge)
 "fZ" = (
 /obj/structure/chair/comfy/shuttle{
 	name = "briefing room chair"
@@ -2099,20 +2128,20 @@
 /turf/open/floor/carpet/blue,
 /area/bridge)
 "gb" = (
-/obj/effect/turf_decal/solgov{
-	icon_state = "top-left"
+/obj/structure/hull_plate/end{
+	dir = 9
 	},
-/turf/open/floor/monotile/dark/airless,
+/turf/open/floor/engine/airless,
 /area/maintenance/ship_exterior)
 "gc" = (
-/obj/effect/turf_decal/solgov{
-	icon_state = "top-center"
+/obj/structure/hull_plate/end{
+	dir = 5
 	},
-/turf/open/floor/monotile/dark/airless,
+/turf/open/floor/engine/airless,
 /area/maintenance/ship_exterior)
 "gd" = (
 /obj/effect/turf_decal/solgov{
-	icon_state = "top-right"
+	icon_state = "top-left"
 	},
 /turf/open/floor/monotile/dark/airless,
 /area/maintenance/ship_exterior)
@@ -2137,6 +2166,10 @@
 /obj/structure/cable{
 	icon_state = "1-2"
 	},
+/obj/effect/turf_decal/tile/neutral{
+	dir = 8
+	},
+/obj/effect/turf_decal/tile/neutral,
 /turf/open/floor/monotile,
 /area/crew_quarters/heads/hos)
 "gj" = (
@@ -2185,9 +2218,9 @@
 "go" = (
 /obj/effect/spawner/structure/window/reinforced/ship,
 /obj/machinery/door/poddoor/ship/preopen{
+	dir = 4;
 	id = "bridge_blast";
-	name = "CIC blast doors";
-	dir = 4
+	name = "CIC blast doors"
 	},
 /turf/open/floor/plating,
 /area/bridge/meeting_room)
@@ -2201,26 +2234,29 @@
 	name = "blast doors";
 	pixel_y = 26
 	},
+/obj/structure/cable{
+	icon_state = "2-4"
+	},
 /turf/open/floor/monotile,
 /area/bridge/meeting_room)
 "gr" = (
 /turf/open/floor/carpet/blue,
 /area/bridge/meeting_room)
 "gs" = (
-/obj/effect/turf_decal/solgov{
-	icon_state = "center-left"
+/obj/structure/hull_plate/end{
+	dir = 8
 	},
-/turf/open/floor/monotile/dark/airless,
+/turf/open/floor/engine/airless,
 /area/maintenance/ship_exterior)
 "gt" = (
-/obj/effect/turf_decal/solgov,
-/turf/open/floor/light{
-	initial_gas_mix = "TEMP=2.7"
+/obj/structure/cable{
+	icon_state = "1-2"
 	},
-/area/maintenance/ship_exterior)
+/turf/open/floor/carpet/blue,
+/area/bridge/meeting_room)
 "gu" = (
 /obj/effect/turf_decal/solgov{
-	icon_state = "center-right"
+	icon_state = "center-left"
 	},
 /turf/open/floor/monotile/dark/airless,
 /area/maintenance/ship_exterior)
@@ -2233,10 +2269,6 @@
 /area/security/warden)
 "gw" = (
 /obj/structure/rack,
-/obj/item/storage/toolbox/mechanical{
-	pixel_x = -4;
-	pixel_y = 4
-	},
 /obj/item/storage/toolbox/emergency{
 	pixel_x = 2;
 	pixel_y = -3
@@ -2357,6 +2389,9 @@
 /obj/structure/cable{
 	icon_state = "0-4"
 	},
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
 /turf/open/floor/monotile,
 /area/bridge/meeting_room)
 "gN" = (
@@ -2397,27 +2432,31 @@
 	dir = 4;
 	name = "captain's chair"
 	},
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
 /turf/open/floor/carpet/blue,
 /area/bridge/meeting_room)
 "gR" = (
 /obj/effect/turf_decal/solgov{
-	icon_state = "bottom-left"
+	icon_state = "top-center"
 	},
 /turf/open/floor/monotile/dark/airless,
 /area/maintenance/ship_exterior)
 "gS" = (
 /obj/effect/turf_decal/solgov{
-	icon_state = "bottom-center"
+	icon_state = "top-right"
 	},
 /turf/open/floor/monotile/dark/airless,
 /area/maintenance/ship_exterior)
 "gT" = (
 /obj/effect/turf_decal/solgov{
-	icon_state = "bottom-right"
+	icon_state = "bottom-left"
 	},
 /turf/open/floor/monotile/dark/airless,
 /area/maintenance/ship_exterior)
 "gU" = (
+/obj/effect/turf_decal/solgov,
 /turf/open/floor/light{
 	initial_gas_mix = "TEMP=2.7"
 	},
@@ -2530,15 +2569,16 @@
 /turf/open/floor/carpet/blue,
 /area/bridge/meeting_room)
 "hg" = (
-/obj/machinery/door/airlock/ship/command/glass{
-	name = "Fallout Shelter";
-	req_one_access_txt = "19"
-	},
 /obj/machinery/door/firedoor,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /obj/structure/cable{
 	icon_state = "1-2"
+	},
+/obj/machinery/door/airlock/ship/command/glass{
+	name = "War Room";
+	req_one_access_txt = "19";
+	security_level = 6
 	},
 /turf/open/floor/monotile,
 /area/bridge/meeting_room)
@@ -2568,9 +2608,11 @@
 /area/bridge)
 "hk" = (
 /obj/machinery/ship_weapon/gauss_gun{
-	pixel_y = -64
+	pixel_y = -96
 	},
-/turf/open/floor/monotile/dark/airless,
+/turf/open/floor/light{
+	initial_gas_mix = "TEMP=2.7"
+	},
 /area/maintenance/ship_exterior)
 "hl" = (
 /obj/structure/cable{
@@ -2712,6 +2754,7 @@
 /turf/open/floor/carpet/blue,
 /area/bridge/meeting_room)
 "hB" = (
+/obj/effect/turf_decal/delivery/white,
 /obj/effect/turf_decal/stripes{
 	icon_state = "warningline";
 	dir = 10
@@ -2736,6 +2779,9 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 5
 	},
+/obj/structure/table/reinforced,
+/obj/item/folder/red,
+/obj/item/stamp/hos,
 /turf/open/floor/carpet/red,
 /area/crew_quarters/heads/hos)
 "hF" = (
@@ -2812,7 +2858,8 @@
 "hP" = (
 /obj/machinery/door/airlock/ship/command/glass{
 	name = "War Room";
-	req_one_access_txt = "19"
+	req_one_access_txt = "19";
+	security_level = 6
 	},
 /obj/structure/disposalpipe/segment{
 	dir = 4
@@ -2909,6 +2956,9 @@
 	},
 /obj/machinery/light{
 	dir = 8
+	},
+/obj/structure/cable{
+	icon_state = "1-2"
 	},
 /turf/open/floor/monotile/dark,
 /area/bridge/meeting_room)
@@ -3264,7 +3314,7 @@
 "iX" = (
 /obj/machinery/door/airlock/ship/public/glass{
 	name = "Morgue";
-	req_one_access_txt = "6"
+	req_one_access_txt = "5"
 	},
 /obj/machinery/door/firedoor,
 /obj/structure/cable{
@@ -3408,6 +3458,12 @@
 /obj/structure/cable{
 	icon_state = "1-2"
 	},
+/obj/effect/turf_decal/tile/neutral{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/neutral{
+	dir = 4
+	},
 /turf/open/floor/monotile,
 /area/crew_quarters/heads/hos)
 "jk" = (
@@ -3426,6 +3482,9 @@
 /area/crew_quarters/heads/hos)
 "jl" = (
 /obj/structure/extinguisher_cabinet/north,
+/obj/effect/turf_decal/tile/neutral{
+	dir = 8
+	},
 /turf/open/floor/monotile,
 /area/crew_quarters/heads/hos)
 "jm" = (
@@ -4720,6 +4779,16 @@
 /obj/effect/turf_decal/stripes/line,
 /turf/open/floor/monotile/airless,
 /area/nsv/hanger)
+"mo" = (
+/obj/structure/cable{
+	icon_state = "2-4"
+	},
+/obj/structure/cable{
+	icon_state = "0-4"
+	},
+/obj/structure/grille,
+/turf/open/floor/plating,
+/area/maintenance/department/bridge)
 "mp" = (
 /obj/effect/turf_decal/stripes/line,
 /obj/effect/turf_decal/stripes/line{
@@ -4982,17 +5051,36 @@
 /area/crew_quarters/heads/hos)
 "mT" = (
 /obj/structure/table/reinforced,
-/obj/item/storage/fancy/donut_box,
+/obj/item/phone{
+	desc = "Supposedly a direct line to Nanotrasen Central Command. It's not even plugged in.";
+	pixel_x = -3;
+	pixel_y = 3
+	},
+/obj/item/clothing/mask/cigarette/cigar/cohiba{
+	pixel_x = 6
+	},
+/obj/item/clothing/mask/cigarette/cigar/havana{
+	pixel_x = 2
+	},
 /turf/open/floor/carpet/red,
 /area/crew_quarters/heads/hos)
 "mU" = (
 /obj/structure/disposalpipe/segment{
 	dir = 5
 	},
+/obj/effect/turf_decal/tile/neutral{
+	dir = 4
+	},
 /turf/open/floor/monotile,
 /area/crew_quarters/heads/hos)
 "mV" = (
 /obj/structure/disposalpipe/segment{
+	dir = 4
+	},
+/obj/effect/turf_decal/tile/neutral{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/neutral{
 	dir = 4
 	},
 /turf/open/floor/monotile,
@@ -5008,9 +5096,9 @@
 /turf/open/floor/carpet/red,
 /area/crew_quarters/heads/hos)
 "mX" = (
-/obj/effect/spawner/structure/window/reinforced,
-/obj/machinery/door/firedoor,
-/turf/open/floor/plating,
+/obj/structure/table/reinforced,
+/obj/machinery/recharger,
+/turf/open/floor/carpet/red,
 /area/crew_quarters/heads/hos)
 "mY" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
@@ -5018,6 +5106,12 @@
 	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	icon_state = "pipe11-3";
+	dir = 8
+	},
+/obj/effect/turf_decal/tile/neutral{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/neutral{
 	dir = 8
 	},
 /turf/open/floor/monotile,
@@ -5046,6 +5140,7 @@
 "na" = (
 /obj/structure/table/reinforced,
 /obj/machinery/recharger,
+/obj/machinery/light,
 /turf/open/floor/monotile,
 /area/security/warden)
 "nb" = (
@@ -5731,7 +5826,6 @@
 /turf/open/floor/carpet/blue,
 /area/bridge/showroom/corporate)
 "oE" = (
-/obj/structure/table/reinforced,
 /obj/machinery/paystand,
 /turf/open/floor/carpet/blue,
 /area/bridge/showroom/corporate)
@@ -5808,10 +5902,6 @@
 /turf/open/floor/carpet/blue,
 /area/bridge/meeting_room)
 "oR" = (
-/obj/machinery/door/airlock/ship/command/glass{
-	name = "War Room";
-	req_one_access_txt = "19"
-	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	dir = 4
 	},
@@ -5820,6 +5910,11 @@
 	dir = 8
 	},
 /obj/machinery/door/firedoor,
+/obj/machinery/door/airlock/ship/command/glass{
+	name = "War Room";
+	req_one_access_txt = "19";
+	security_level = 6
+	},
 /turf/open/floor/monotile,
 /area/bridge)
 "oS" = (
@@ -5971,6 +6066,13 @@
 	},
 /turf/open/floor/monotile/light,
 /area/medical/medbay)
+"po" = (
+/obj/structure/hull_plate,
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/turf/open/floor/engine/airless,
+/area/maintenance/ship_exterior)
 "pq" = (
 /turf/open/floor/carpet/blue,
 /area/crew_quarters/heads/cmo)
@@ -6388,6 +6490,12 @@
 	},
 /obj/machinery/holopad,
 /obj/machinery/light_switch/south,
+/obj/effect/turf_decal/tile/neutral{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/neutral{
+	dir = 4
+	},
 /turf/open/floor/monotile,
 /area/crew_quarters/heads/hos)
 "qm" = (
@@ -6851,10 +6959,11 @@
 /turf/open/floor/carpet/blue,
 /area/crew_quarters/heads/cmo)
 "rm" = (
-/obj/machinery/door/airlock/ship/public/glass{
-	name = "Morgue"
-	},
 /obj/machinery/door/firedoor,
+/obj/machinery/door/airlock/ship/public/glass{
+	name = "Morgue";
+	req_one_access_txt = "5"
+	},
 /turf/open/floor/monotile/dark,
 /area/medical/morgue)
 "rn" = (
@@ -7440,6 +7549,9 @@
 	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/obj/structure/cable{
+	icon_state = "1-4"
+	},
 /turf/open/floor/plating,
 /area/maintenance/department/medical)
 "su" = (
@@ -7662,6 +7774,9 @@
 /area/bridge)
 "sZ" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer1,
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
 /turf/open/floor/carpet/blue,
 /area/bridge/meeting_room)
 "ta" = (
@@ -7883,6 +7998,9 @@
 	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 5
+	},
+/obj/structure/cable{
+	icon_state = "4-8"
 	},
 /turf/open/floor/monotile,
 /area/bridge/meeting_room)
@@ -8353,12 +8471,18 @@
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	dir = 5
 	},
+/obj/structure/cable{
+	icon_state = "1-8"
+	},
 /turf/open/floor/monotile,
 /area/bridge/meeting_room)
 "uA" = (
 /obj/structure/closet/radiation,
 /obj/item/shovel,
 /obj/machinery/airalarm/directional/north,
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
 /turf/open/floor/monotile,
 /area/bridge/meeting_room)
 "uB" = (
@@ -8956,6 +9080,10 @@
 /obj/machinery/light{
 	dir = 8
 	},
+/obj/effect/turf_decal/tile/neutral{
+	dir = 4
+	},
+/obj/effect/turf_decal/tile/neutral,
 /turf/open/floor/monotile,
 /area/crew_quarters/heads/hos)
 "vJ" = (
@@ -9184,13 +9312,6 @@
 	},
 /turf/open/floor/carpet/blue,
 /area/medical/medbay)
-"wo" = (
-/obj/effect/turf_decal/delivery/white,
-/obj/machinery/light{
-	dir = 8
-	},
-/turf/open/floor/monotile/dark/airless,
-/area/maintenance/ship_exterior)
 "wp" = (
 /obj/effect/turf_decal/tile/purple{
 	dir = 4
@@ -9462,6 +9583,7 @@
 /obj/structure/cable{
 	icon_state = "1-2"
 	},
+/obj/machinery/light_switch/west,
 /turf/open/floor/carpet/red,
 /area/crew_quarters/heads/hos)
 "wU" = (
@@ -9629,6 +9751,7 @@
 /area/maintenance/department/science)
 "xr" = (
 /obj/machinery/airalarm/directional/east,
+/obj/structure/dresser,
 /turf/open/floor/carpet/red,
 /area/crew_quarters/heads/hos)
 "xs" = (
@@ -9758,12 +9881,15 @@
 /turf/open/floor/monotile,
 /area/bridge/meeting_room)
 "xD" = (
-/obj/effect/turf_decal/delivery/white,
-/obj/machinery/camera/autoname{
-	dir = 4
+/obj/structure/cable{
+	icon_state = "1-2"
 	},
-/turf/open/floor/monotile/dark/airless,
-/area/maintenance/ship_exterior)
+/obj/structure/cable{
+	icon_state = "0-2"
+	},
+/obj/structure/grille,
+/turf/open/floor/plating,
+/area/maintenance/department/bridge)
 "xE" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer1,
 /obj/machinery/camera/autoname{
@@ -10218,6 +10344,7 @@
 /area/medical/virology)
 "zI" = (
 /obj/structure/table/reinforced,
+/obj/item/book/manual/wiki/security_space_law,
 /obj/item/toy/plush/snakeplushie{
 	name = "Snek"
 	},
@@ -10247,6 +10374,12 @@
 /obj/machinery/atmospherics/pipe/simple/multiz,
 /turf/open/floor/plating,
 /area/maintenance/department/bridge)
+"Av" = (
+/obj/effect/turf_decal/solgov{
+	icon_state = "center-right"
+	},
+/turf/open/floor/monotile/dark/airless,
+/area/maintenance/ship_exterior)
 "Ay" = (
 /obj/item/radio/intercom/directional/west,
 /turf/open/floor/monotile/dark,
@@ -10308,6 +10441,18 @@
 	},
 /turf/open/floor/plasteel/techmaint,
 /area/maintenance/department/engine)
+"BW" = (
+/obj/machinery/door/airlock/ship/external/glass{
+	req_one_access_txt = "13"
+	},
+/obj/effect/mapping_helpers/airlock/cyclelink_helper{
+	dir = 8
+	},
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/turf/open/floor/plating,
+/area/maintenance/department/medical)
 "Cl" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
@@ -10450,6 +10595,16 @@
 	icon_state = "panelscorched"
 	},
 /area/maintenance/department/medical)
+"Es" = (
+/obj/structure/cable{
+	icon_state = "1-8"
+	},
+/obj/structure/cable{
+	icon_state = "0-8"
+	},
+/obj/structure/grille,
+/turf/open/floor/plating,
+/area/maintenance/department/bridge)
 "Et" = (
 /obj/machinery/light/small,
 /turf/open/floor/plating,
@@ -10461,6 +10616,14 @@
 /obj/structure/rack,
 /turf/open/floor/plating,
 /area/maintenance/department/engine)
+"Ey" = (
+/obj/structure/cable{
+	icon_state = "1-4"
+	},
+/obj/structure/cable,
+/obj/structure/grille,
+/turf/open/floor/plating,
+/area/maintenance/department/bridge)
 "EA" = (
 /obj/item/storage/toolbox/electrical,
 /obj/structure/table,
@@ -10599,6 +10762,15 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/department/medical)
+"Gq" = (
+/obj/effect/turf_decal/tile/neutral{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/neutral{
+	dir = 4
+	},
+/turf/open/floor/monotile,
+/area/crew_quarters/heads/hos)
 "GE" = (
 /turf/open/openspace,
 /area/space)
@@ -10645,6 +10817,12 @@
 	},
 /turf/open/floor/monotile/dark,
 /area/maintenance/department/medical)
+"GP" = (
+/obj/effect/turf_decal/solgov{
+	icon_state = "bottom-right"
+	},
+/turf/open/floor/monotile/dark/airless,
+/area/maintenance/ship_exterior)
 "GQ" = (
 /obj/structure/closet/radiation,
 /obj/item/shovel,
@@ -10694,6 +10872,12 @@
 /obj/effect/spawner/lootdrop/maintenance,
 /turf/open/floor/plating,
 /area/maintenance/department/medical)
+"Hz" = (
+/obj/structure/hull_plate/end{
+	dir = 10
+	},
+/turf/open/floor/engine/airless,
+/area/maintenance/ship_exterior)
 "HA" = (
 /obj/effect/turf_decal/loading_area{
 	dir = 8
@@ -10788,6 +10972,18 @@
 /turf/open/floor/plating{
 	icon_state = "panelscorched"
 	},
+/area/maintenance/department/medical)
+"Jg" = (
+/obj/machinery/door/airlock/ship/external/glass{
+	req_one_access_txt = "13"
+	},
+/obj/effect/mapping_helpers/airlock/cyclelink_helper{
+	dir = 4
+	},
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/turf/open/floor/plating,
 /area/maintenance/department/medical)
 "JC" = (
 /obj/machinery/door/airlock/ship/maintenance{
@@ -10897,6 +11093,12 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/department/medical)
+"Lj" = (
+/obj/structure/hull_plate/end{
+	dir = 6
+	},
+/turf/open/floor/engine/airless,
+/area/maintenance/ship_exterior)
 "Lo" = (
 /obj/item/toy/crayon/spraycan,
 /obj/structure/rack,
@@ -10929,6 +11131,7 @@
 "LU" = (
 /obj/structure/table/reinforced,
 /obj/machinery/light,
+/obj/item/flashlight/lamp,
 /turf/open/floor/carpet/red,
 /area/crew_quarters/heads/hos)
 "Mi" = (
@@ -11020,6 +11223,18 @@
 /obj/effect/decal/cleanable/cobweb/cobweb2,
 /turf/open/floor/monotile/dark,
 /area/maintenance/department/medical)
+"Nh" = (
+/obj/effect/spawner/structure/window/reinforced/ship,
+/obj/machinery/door/poddoor/ship/preopen{
+	dir = 4;
+	id = "bridge_blast";
+	name = "CIC blast doors"
+	},
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/turf/open/floor/plating,
+/area/bridge/meeting_room)
 "Ni" = (
 /obj/item/candle/infinite,
 /turf/open/floor/carpet/red,
@@ -11133,11 +11348,37 @@
 	icon_state = "platingdmg3"
 	},
 /area/maintenance/department/medical)
+"Pz" = (
+/obj/structure/cable{
+	icon_state = "0-2"
+	},
+/obj/structure/grille,
+/turf/open/floor/plating,
+/area/maintenance/department/bridge)
 "PB" = (
 /obj/effect/spawner/structure/window/reinforced,
 /obj/machinery/door/firedoor,
 /turf/open/floor/plating,
 /area/security/warden)
+"PG" = (
+/obj/effect/turf_decal/tile/neutral{
+	dir = 1
+	},
+/obj/structure/bed/dogbed/cayenne,
+/mob/living/simple_animal/hostile/carp/cayenne{
+	desc = "A failed experiment of Nanotrasen to create weaponised carp technology. This less than intimidating carp now serves as an authority figure's pet.";
+	health = 200;
+	icon_dead = "magicarp_dead";
+	icon_gib = "magicarp_gib";
+	icon_living = "magicarp";
+	icon_state = "magicarp";
+	maxHealth = 200;
+	melee_damage_lower = 20;
+	melee_damage_upper = 20;
+	name = "Lia"
+	},
+/turf/open/floor/monotile,
+/area/crew_quarters/heads/hos)
 "PO" = (
 /obj/structure/table,
 /obj/item/retractor,
@@ -11233,6 +11474,12 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/department/medical)
+"Rp" = (
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
+/turf/closed/wall/r_wall/ship,
+/area/bridge/meeting_room)
 "Ry" = (
 /obj/structure/cable{
 	icon_state = "1-2"
@@ -11240,6 +11487,16 @@
 /obj/item/radio/intercom/directional/east,
 /turf/open/floor/monotile/dark,
 /area/medical/medbay)
+"RH" = (
+/obj/structure/cable{
+	icon_state = "1-4"
+	},
+/obj/structure/cable{
+	icon_state = "0-4"
+	},
+/obj/structure/grille,
+/turf/open/floor/plating,
+/area/maintenance/department/bridge)
 "RJ" = (
 /obj/effect/decal/cleanable/blood/old,
 /turf/open/floor/plating,
@@ -11451,6 +11708,16 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/department/bridge)
+"Va" = (
+/obj/structure/cable{
+	icon_state = "2-8"
+	},
+/obj/structure/cable{
+	icon_state = "0-8"
+	},
+/obj/structure/grille,
+/turf/open/floor/plating,
+/area/maintenance/department/bridge)
 "Ve" = (
 /obj/structure/cable{
 	icon_state = "1-8"
@@ -11479,8 +11746,20 @@
 /area/maintenance/department/engine)
 "Vm" = (
 /obj/machinery/airalarm/directional/south,
+/obj/effect/turf_decal/tile/neutral{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/neutral{
+	dir = 4
+	},
 /turf/open/floor/monotile,
 /area/crew_quarters/heads/hos)
+"Vr" = (
+/obj/effect/turf_decal/solgov{
+	icon_state = "bottom-center"
+	},
+/turf/open/floor/monotile/dark/airless,
+/area/maintenance/ship_exterior)
 "Vz" = (
 /obj/structure/disposalpipe/segment{
 	dir = 4
@@ -11554,6 +11833,13 @@
 /obj/effect/decal/cleanable/dirt,
 /turf/open/floor/plasteel/techmaint,
 /area/maintenance/department/engine)
+"Wt" = (
+/obj/effect/turf_decal/delivery/white,
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/turf/open/floor/engine/airless,
+/area/maintenance/ship_exterior)
 "Wv" = (
 /obj/structure/window/reinforced/fulltile/ship,
 /obj/structure/grille,
@@ -11561,6 +11847,7 @@
 /obj/structure/cable{
 	icon_state = "0-8"
 	},
+/obj/structure/curtain/obscuring/grey,
 /turf/open/floor/plating,
 /area/crew_quarters/heads/hos)
 "WA" = (
@@ -11573,6 +11860,7 @@
 /obj/structure/cable{
 	icon_state = "0-8"
 	},
+/obj/structure/curtain/obscuring/grey,
 /turf/open/floor/plating,
 /area/crew_quarters/heads/hos)
 "WG" = (
@@ -39721,9 +40009,9 @@ fd
 gi
 gA
 hE
-gg
-mV
 mX
+mV
+Bx
 fE
 pJ
 Yn
@@ -40930,7 +41218,7 @@ fl
 vd
 mW
 gg
-dc
+Gq
 co
 jU
 tt
@@ -41232,7 +41520,7 @@ jl
 dc
 mY
 dc
-dc
+PG
 co
 mM
 tu
@@ -57244,7 +57532,7 @@ aI
 aH
 aB
 aB
-iq
+Jg
 aB
 aB
 vk
@@ -57546,7 +57834,7 @@ aH
 aH
 aB
 Wg
-aH
+Hg
 EE
 aB
 vm
@@ -57848,7 +58136,7 @@ aB
 aB
 aB
 aB
-of
+BW
 aB
 aB
 aB
@@ -58150,7 +58438,7 @@ ci
 ci
 ci
 ci
-ci
+po
 ci
 ci
 ci
@@ -58452,7 +58740,7 @@ ci
 ci
 ci
 ci
-ci
+po
 ci
 ci
 ci
@@ -58754,7 +59042,7 @@ ci
 ci
 ci
 ci
-ci
+po
 cD
 ci
 ci
@@ -59056,7 +59344,7 @@ ci
 ci
 ci
 ci
-ci
+po
 cD
 ci
 ci
@@ -59358,7 +59646,7 @@ ci
 ci
 ci
 ci
-ci
+po
 cD
 ci
 ci
@@ -59660,7 +59948,7 @@ ci
 ci
 ci
 ci
-ci
+po
 cD
 ci
 ci
@@ -59962,7 +60250,7 @@ ci
 ci
 ci
 ci
-ci
+po
 cD
 ci
 ci
@@ -60251,6 +60539,7 @@ ac
 ac
 ac
 ac
+ac
 bT
 ci
 ci
@@ -60263,8 +60552,7 @@ ci
 ci
 ci
 ci
-ci
-ci
+po
 cD
 ci
 ci
@@ -60553,20 +60841,20 @@ ac
 ac
 ac
 ac
+ac
 bT
 ci
 ci
 ci
 ci
 ci
-ci
 cC
 cC
 cC
 ci
 cC
 cC
-cC
+Wt
 cD
 ci
 ci
@@ -60855,7 +61143,7 @@ ac
 ac
 ac
 ac
-bT
+ac
 GM
 GM
 GM
@@ -60868,7 +61156,7 @@ go
 dr
 go
 go
-go
+Nh
 dr
 ci
 ci
@@ -61157,7 +61445,7 @@ ac
 ac
 ac
 ac
-bT
+ac
 GM
 AI
 Ar
@@ -61459,7 +61747,7 @@ ac
 ac
 ac
 ac
-bT
+ac
 GM
 ZT
 FD
@@ -61467,10 +61755,10 @@ UX
 Fl
 dr
 gq
-gr
-gr
+gt
+gt
 gQ
-gr
+gt
 sZ
 uz
 FO
@@ -61760,8 +62048,8 @@ ac
 ac
 ac
 ac
-bT
-ci
+ac
+ac
 GM
 AI
 Ar
@@ -61779,9 +62067,9 @@ FO
 cC
 ci
 ci
-ci
-ci
 iU
+ac
+ac
 ac
 ac
 ac
@@ -62060,10 +62348,10 @@ ac
 ac
 ac
 ac
-ac
-ac
-bT
-ci
+gb
+gs
+gs
+GM
 KW
 dr
 dr
@@ -62081,9 +62369,9 @@ dr
 ci
 ci
 ci
-ci
-ci
 iU
+ac
+ac
 ac
 ac
 ac
@@ -62362,12 +62650,12 @@ ac
 ac
 ac
 ac
-ac
-ac
 bT
 ci
 ci
-dr
+GM
+cT
+Rp
 uA
 ib
 eT
@@ -62379,13 +62667,13 @@ oW
 oX
 sK
 tc
-FO
+dr
 cC
 ci
 ci
-ci
-ci
 iU
+ac
+ac
 ac
 ac
 ac
@@ -62664,11 +62952,11 @@ ac
 ac
 ac
 ac
-ac
-ac
 bT
 ci
 ci
+GM
+fY
 dr
 xC
 ey
@@ -62681,14 +62969,14 @@ hh
 oM
 oQ
 ta
-FO
-cC
-ci
-ci
-ci
-ci
-iU
-ac
+dr
+GM
+GM
+GM
+GM
+gs
+gs
+Hz
 ac
 ac
 ac
@@ -62966,11 +63254,11 @@ ac
 ac
 ac
 ac
-ac
-ac
 bT
 ci
 ci
+GM
+fY
 dr
 ds
 ev
@@ -62983,14 +63271,14 @@ sV
 oN
 RP
 tL
-FO
-cC
-ci
-ci
+dr
+Pz
+xD
+RH
+GM
 ci
 ci
 iU
-ac
 ac
 ac
 ac
@@ -63268,11 +63556,11 @@ ac
 ac
 ac
 ac
-ac
-ac
 bT
 ci
 ci
+GM
+fY
 aA
 cU
 dT
@@ -63288,11 +63576,11 @@ aA
 aA
 aA
 aA
-ci
+fY
+GM
 ci
 ci
 iU
-ac
 ac
 ac
 ac
@@ -63570,11 +63858,11 @@ ac
 ac
 ac
 ac
-ac
-ac
 bT
 ci
 ci
+GM
+fY
 aA
 eX
 sW
@@ -63590,11 +63878,11 @@ ue
 sU
 xA
 aA
-ci
+fY
+GM
 ci
 ci
 iU
-ac
 ac
 ac
 ac
@@ -63872,11 +64160,11 @@ ac
 ac
 ac
 ac
-ac
-ac
 bT
 ci
 ci
+GM
+fY
 aA
 wR
 el
@@ -63892,11 +64180,11 @@ ui
 sY
 tb
 aA
-ci
+fY
+GM
 ci
 ci
 iU
-ac
 ac
 ac
 ac
@@ -64174,11 +64462,11 @@ ac
 ac
 ac
 ac
-ac
-ac
 bT
 ci
 ci
+GM
+fY
 aA
 uB
 em
@@ -64194,11 +64482,11 @@ eB
 oT
 wj
 aA
-ci
+fY
+GM
 ci
 ci
 iU
-ac
 ac
 ac
 ac
@@ -64476,11 +64764,11 @@ ac
 ac
 ac
 ac
-ac
-ac
 bT
 ci
 ci
+GM
+fY
 aA
 wM
 ew
@@ -64496,11 +64784,11 @@ eB
 oU
 tb
 aA
-ci
+fY
+GM
 ci
 ci
 iU
-ac
 ac
 ac
 ac
@@ -64778,12 +65066,12 @@ ac
 ac
 ac
 ac
-ac
-ac
 bT
 ci
-cC
-cc
+ci
+GM
+fY
+aA
 dS
 ew
 eB
@@ -64797,12 +65085,12 @@ eB
 eB
 oU
 tb
-cc
-cC
+aA
+fY
+GM
 ci
 ci
 iU
-ac
 ac
 ac
 ac
@@ -65080,12 +65368,12 @@ ac
 ac
 ac
 ac
-ac
-ac
 bT
 ci
-cC
-cc
+ci
+GM
+fY
+aA
 dS
 ew
 eB
@@ -65099,12 +65387,12 @@ eB
 eB
 oU
 tb
-cc
-cC
+aA
+fY
+GM
 ci
 ci
 iU
-ac
 ac
 ac
 ac
@@ -65382,12 +65670,12 @@ ac
 ac
 ac
 ac
-ac
-ac
 bT
 ci
-cC
-cT
+ci
+GM
+fY
+aA
 dS
 ew
 eB
@@ -65401,12 +65689,12 @@ eB
 eB
 oU
 tb
-cT
-cC
+aA
+fY
+GM
 ci
 ci
 iU
-ac
 ac
 ac
 ac
@@ -65684,12 +65972,12 @@ ac
 ac
 ac
 ac
-ac
-ac
 bT
 ci
-cC
-cc
+ci
+GM
+fY
+aA
 uB
 ew
 eB
@@ -65703,12 +65991,12 @@ eB
 eB
 oU
 wj
-cc
-cC
+aA
+fY
+GM
 ci
 ci
 iU
-ac
 ac
 ac
 ac
@@ -65986,12 +66274,12 @@ ac
 ac
 ac
 ac
-ac
-ac
 bT
 ci
-cC
-cT
+ci
+GM
+fY
+aA
 dS
 ew
 eB
@@ -66005,12 +66293,12 @@ eB
 eB
 oU
 tb
-cT
-cC
+aA
+fY
+GM
 ci
 ci
 iU
-ac
 ac
 ac
 ac
@@ -66288,12 +66576,12 @@ ac
 ac
 ac
 ac
-ac
-ac
 bT
 ci
-cC
-cT
+ci
+GM
+fY
+aA
 dS
 ew
 eB
@@ -66307,12 +66595,12 @@ eB
 eB
 oV
 DR
-cT
-cC
+aA
+fY
+GM
 ci
 ci
 iU
-ac
 ac
 ac
 ac
@@ -66590,12 +66878,12 @@ ac
 ac
 ac
 ac
-ac
-ac
 bT
 ci
-cC
-cT
+ci
+GM
+fY
+aA
 dS
 ew
 eB
@@ -66609,12 +66897,12 @@ eB
 eB
 oU
 ZI
-cT
-cC
+aA
+fY
+GM
 ci
 ci
 iU
-ac
 ac
 ac
 ac
@@ -66892,11 +67180,11 @@ ac
 ac
 ac
 ac
-ac
-ac
 bT
 ci
 ci
+GM
+fY
 aA
 wM
 ew
@@ -66912,11 +67200,11 @@ eB
 oU
 ZI
 aA
-ci
+fY
+GM
 ci
 ci
 iU
-ac
 ac
 ac
 ac
@@ -67194,11 +67482,11 @@ ac
 ac
 ac
 ac
-ac
-ac
 bT
 ci
 ci
+GM
+fY
 aA
 wh
 em
@@ -67214,11 +67502,11 @@ eB
 oT
 wj
 aA
-ci
+fY
+GM
 ci
 ci
 iU
-ac
 ac
 ac
 ac
@@ -67496,11 +67784,11 @@ ac
 ac
 ac
 ac
-ac
-ac
 bT
 ci
 ci
+GM
+fY
 aA
 wR
 el
@@ -67516,11 +67804,11 @@ eC
 el
 tb
 aA
-ci
+fY
+GM
 ci
 ci
 iU
-ac
 ac
 ac
 ac
@@ -67798,11 +68086,11 @@ ac
 ac
 ac
 ac
-ac
-ac
 bT
 ci
 ci
+GM
+fY
 aA
 eX
 dS
@@ -67818,11 +68106,11 @@ sT
 sL
 xB
 aA
-ci
+fY
+GM
 ci
 ci
 iU
-ac
 ac
 ac
 ac
@@ -68100,11 +68388,11 @@ ac
 ac
 ac
 ac
-ac
-ac
 bT
 ci
-cD
+ci
+GM
+fY
 aA
 aA
 aA
@@ -68120,11 +68408,11 @@ oO
 aA
 aA
 aA
-ci
+fY
+GM
 ci
 ci
 iU
-ac
 ac
 ac
 ac
@@ -68402,13 +68690,13 @@ ac
 ac
 ac
 ac
-ac
-ac
-ac
 bT
-cD
 ci
 ci
+GM
+Va
+xD
+Ey
 aA
 lh
 fz
@@ -68420,13 +68708,13 @@ ia
 fz
 uf
 aA
-ci
+mo
+xD
+Es
+GM
 ci
 ci
 iU
-ac
-ac
-ac
 ac
 ac
 ac
@@ -68704,13 +68992,13 @@ ac
 ac
 ac
 ac
-ac
-ac
-ac
-ac
-cE
-ci
-ci
+gc
+jx
+jx
+GM
+GM
+GM
+fY
 aA
 fk
 fz
@@ -68722,13 +69010,13 @@ fz
 fz
 oS
 aA
-ci
-ci
-iU
-ac
-ac
-ac
-ac
+fY
+GM
+GM
+GM
+jx
+jx
+Lj
 ac
 ac
 ac
@@ -69010,23 +69298,23 @@ ac
 ac
 ac
 ac
-cE
-ci
-ci
-aA
-aA
-fY
-fY
-fY
-fY
-fY
-fY
+ac
+GM
 fY
 aA
 aA
-ci
-ci
-iU
+aA
+aA
+aA
+aA
+aA
+aA
+aA
+aA
+aA
+fY
+GM
+ac
 ac
 ac
 ac
@@ -69313,21 +69601,21 @@ ac
 ac
 ac
 ac
-ac
-cE
-dU
-wo
-dU
-dU
-dU
+GM
+Va
 xD
-dU
-dU
-dU
-wo
-dU
-ir
-ac
+xD
+xD
+xD
+xD
+xD
+xD
+xD
+xD
+xD
+xD
+Es
+GM
 ac
 ac
 ac
@@ -69615,21 +69903,21 @@ ac
 ac
 ac
 ac
-ac
-cE
-dU
-cD
-cD
-cD
-cD
-cD
-cD
-cD
-cD
-cD
-dU
-ir
-ac
+GM
+GM
+GM
+GM
+GM
+GM
+GM
+GM
+GM
+GM
+GM
+GM
+GM
+GM
+GM
 ac
 ac
 ac
@@ -69920,15 +70208,15 @@ ac
 ac
 cE
 dU
-cD
-cD
-cD
-cD
-cD
-cD
-cD
-cD
-cD
+dU
+dU
+dU
+dU
+dU
+dU
+dU
+dU
+dU
 dU
 ir
 ac
@@ -70527,9 +70815,9 @@ dU
 cD
 cD
 cD
-gb
-gs
-gR
+cD
+cD
+cD
 cD
 cD
 cD
@@ -70829,9 +71117,9 @@ dU
 cD
 cD
 cD
-gc
-gt
-gS
+cD
+cD
+cD
 cD
 cD
 cD
@@ -71433,9 +71721,9 @@ dU
 cD
 cD
 cD
-cD
-cD
-cD
+gR
+gU
+Vr
 cD
 cD
 cD
@@ -71735,9 +72023,9 @@ dU
 cD
 cD
 cD
-cD
-cD
-cD
+gS
+Av
+GP
 cD
 cD
 cD
@@ -72940,7 +73228,7 @@ ac
 ac
 cE
 dU
-cD
+dU
 eY
 fA
 fA
@@ -72948,7 +73236,7 @@ fA
 fA
 fA
 hB
-cD
+dU
 dU
 ir
 ac
@@ -73549,7 +73837,7 @@ eZ
 fB
 aj
 aj
-gU
+aj
 hk
 hC
 cD
@@ -74455,7 +74743,7 @@ eZ
 fB
 aj
 aj
-gU
+aj
 hk
 hC
 cD
@@ -76267,7 +76555,7 @@ eZ
 fB
 aj
 aj
-gU
+aj
 hk
 hC
 cD
@@ -77173,7 +77461,7 @@ eZ
 fB
 aj
 aj
-gU
+aj
 hk
 hC
 cD

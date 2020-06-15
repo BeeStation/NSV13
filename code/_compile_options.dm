@@ -31,6 +31,11 @@
 #define FORCE_MAP "_maps/runtimestation.json"
 #endif
 
+//NSV - Donator Items
+// Enable personal donator items. Disabled by default. Might marginally improve compile performance.
+//#define DONATOR_ITEMS
+//End NSV
+
 //Update this whenever you need to take advantage of more recent byond features
 #define MIN_COMPILER_VERSION 512
 #if DM_VERSION < MIN_COMPILER_VERSION
@@ -50,6 +55,7 @@
 
 #ifdef TRAVISBUILDING
 #define UNIT_TESTS
+#define DONATOR_ITEMS //NSV -- Get tested.
 #endif
 
 #ifdef TRAVISTESTING
