@@ -105,7 +105,6 @@
 /obj/machinery/airalarm/all_access{
 	pixel_y = 23
 	},
-/obj/structure/table,
 /turf/open/floor/plasteel,
 /area/nsv/shuttle/fob/central)
 "ay" = (
@@ -182,7 +181,6 @@
 /obj/machinery/light{
 	dir = 4
 	},
-/obj/structure/table,
 /turf/open/floor/plasteel,
 /area/nsv/shuttle/fob/central)
 "aJ" = (
@@ -208,7 +206,9 @@
 /turf/open/floor/plasteel,
 /area/nsv/shuttle/fob/central)
 "aL" = (
-/obj/machinery/power/smes,
+/obj/machinery/power/smes{
+	output_level = 20000
+	},
 /obj/structure/cable{
 	icon_state = "0-4"
 	},
@@ -281,8 +281,6 @@
 /turf/open/floor/plasteel/dark,
 /area/nsv/shuttle/fob/bridge)
 "aV" = (
-/obj/machinery/power/apc/auto_name/north,
-/obj/structure/cable,
 /obj/structure/cable{
 	icon_state = "1-2"
 	},
@@ -298,15 +296,17 @@
 /obj/machinery/airalarm/all_access{
 	pixel_y = 23
 	},
-/obj/machinery/computer/ship/helm{
-	dir = 8;
-	req_access = null;
-	req_one_access_txt = "31;48"
+/obj/machinery/computer/ship/helm/console{
+	dir = 5;
+	icon_state = "computer";
+	req_access = null
 	},
 /turf/open/floor/plasteel/dark,
 /area/nsv/shuttle/fob/bridge)
 "aX" = (
 /obj/machinery/door/airlock/external/glass{
+	name = "quick cycle external airlock";
+	normalspeed = 0;
 	req_one_access_txt = "48"
 	},
 /turf/open/floor/plasteel,
@@ -329,6 +329,13 @@
 	},
 /turf/open/floor/plasteel,
 /area/nsv/shuttle/fob/airlock/aft)
+"bb" = (
+/obj/structure/hull_plate/end{
+	icon_state = "tgmc_outerhull_dir";
+	dir = 9
+	},
+/turf/open/floor/plating/airless,
+/area/nostromo/maintenance/exterior)
 "bc" = (
 /obj/effect/spawner/structure/window/shuttle,
 /turf/open/floor/plasteel,
@@ -396,24 +403,19 @@
 /turf/open/floor/plasteel/dark,
 /area/nsv/shuttle/fob/bridge)
 "bk" = (
+/obj/machinery/computer/ship/dradis/console{
+	icon_state = "computer";
+	dir = 6
+	},
 /turf/open/floor/plasteel/dark,
 /area/nsv/shuttle/fob/bridge)
 "bl" = (
 /obj/effect/spawner/structure/window/shuttle,
 /turf/open/floor/plating/airless,
 /area/nsv/shuttle/fob/bridge)
-"bm" = (
-/obj/structure/cable{
-	icon_state = "4-8"
-	},
-/obj/machinery/door/airlock/external/glass{
-	req_one_access_txt = "48"
-	},
-/turf/open/floor/plasteel,
-/area/nsv/shuttle/fob/airlock/aft)
 "bn" = (
 /obj/structure/cable{
-	icon_state = "4-8"
+	icon_state = "1-4"
 	},
 /turf/open/floor/plasteel,
 /area/nsv/shuttle/fob/airlock/aft)
@@ -465,6 +467,8 @@
 	icon_state = "4-8"
 	},
 /obj/machinery/door/airlock/external/glass{
+	name = "quick cycle external airlock";
+	normalspeed = 0;
 	req_one_access_txt = "48"
 	},
 /turf/open/floor/plasteel,
@@ -690,10 +694,15 @@
 /turf/open/floor/plasteel,
 /area/nsv/shuttle/fob/central)
 "bO" = (
+/obj/machinery/power/apc/auto_name/north,
+/obj/structure/cable{
+	icon_state = "0-8"
+	},
 /obj/structure/cable{
 	icon_state = "2-8"
 	},
-/turf/closed/wall/mineral/titanium/nodiagonal,
+/obj/structure/reagent_dispensers/water_cooler,
+/turf/open/floor/plasteel/dark,
 /area/nsv/shuttle/fob/bridge)
 "bP" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer1{
@@ -817,9 +826,9 @@
 	},
 /obj/structure/rack,
 /obj/item/storage/toolbox/mechanical,
-/obj/item/storage/toolbox/mechanical,
 /obj/item/storage/toolbox/electrical,
 /obj/item/stack/sheet/mineral/wood/fifty,
+/obj/item/storage/toolbox/mechanical,
 /turf/open/floor/plating,
 /area/nsv/shuttle/fob/atmospherics)
 "cg" = (
@@ -1009,6 +1018,13 @@
 /obj/machinery/vending/boozeomat/all_access,
 /turf/open/floor/plasteel,
 /area/nsv/shuttle/fob/central)
+"cI" = (
+/obj/structure/hull_plate/end{
+	icon_state = "tgmc_outerhull_dir";
+	dir = 1
+	},
+/turf/open/floor/plating/airless,
+/area/nostromo/maintenance/exterior)
 "cJ" = (
 /obj/machinery/atmospherics/components/unary/tank/air{
 	dir = 4
@@ -1079,6 +1095,35 @@
 	},
 /turf/open/space/basic,
 /area/nostromo/maintenance/exterior)
+"cV" = (
+/obj/structure/hull_plate/end{
+	icon_state = "tgmc_outerhull_dir";
+	dir = 5
+	},
+/turf/open/floor/plating/airless,
+/area/nostromo/maintenance/exterior)
+"cW" = (
+/obj/structure/hull_plate/end{
+	icon_state = "tgmc_outerhull_dir";
+	dir = 10
+	},
+/turf/open/floor/plating/airless,
+/area/nostromo/maintenance/exterior)
+"cX" = (
+/obj/structure/hull_plate/end,
+/turf/open/floor/plating/airless,
+/area/nostromo/maintenance/exterior)
+"cY" = (
+/obj/structure/hull_plate,
+/turf/open/floor/plating/airless,
+/area/nostromo/maintenance/exterior)
+"cZ" = (
+/obj/structure/hull_plate/end{
+	icon_state = "tgmc_outerhull_dir";
+	dir = 6
+	},
+/turf/open/floor/plating/airless,
+/area/nostromo/maintenance/exterior)
 "eC" = (
 /obj/machinery/computer/ship/dradis/mining{
 	icon_state = "computer";
@@ -1086,7 +1131,20 @@
 	},
 /turf/open/floor/plasteel/dark,
 /area/nsv/shuttle/fob/bridge)
-"ol" = (
+"jj" = (
+/obj/machinery/computer/ship/navigation,
+/turf/open/floor/plasteel,
+/area/nsv/shuttle/fob/central)
+"ob" = (
+/obj/machinery/computer/ship/ftl_computer{
+	dir = 4;
+	name = "Nostromo FTL computer";
+	req_access = null;
+	req_one_access_txt = "31;48"
+	},
+/turf/open/floor/plasteel,
+/area/nsv/shuttle/fob/central)
+"pw" = (
 /obj/machinery/computer/ship/mineral_magnet{
 	density = 0;
 	pixel_y = 26
@@ -1094,13 +1152,13 @@
 /obj/structure/cable{
 	icon_state = "0-2"
 	},
-/turf/open/floor/plating/airless,
+/turf/open/floor/plasteel,
 /area/nsv/shuttle/fob/airlock/aft)
 "qq" = (
-/obj/machinery/computer/ship/tactical{
-	dir = 8;
-	req_access = null;
-	req_one_access_txt = "31;48"
+/obj/machinery/computer/ship/tactical/console{
+	dir = 6;
+	icon_state = "computer";
+	req_access = null
 	},
 /turf/open/floor/plasteel/dark,
 /area/nsv/shuttle/fob/bridge)
@@ -1117,6 +1175,13 @@
 /obj/machinery/ship_weapon/pdc_mount,
 /turf/open/floor/plasteel,
 /area/nsv/shuttle/fob/central)
+"wr" = (
+/obj/machinery/computer/ship/dradis/console{
+	icon_state = "computer";
+	dir = 8
+	},
+/turf/open/floor/plasteel/dark,
+/area/nsv/shuttle/fob/bridge)
 "yn" = (
 /obj/structure/window/reinforced{
 	dir = 4
@@ -1130,13 +1195,14 @@
 	},
 /turf/open/floor/plasteel,
 /area/nsv/shuttle/fob/airlock/starboard)
-"GX" = (
-/obj/machinery/computer/ship/ftl_computer{
-	dir = 4;
-	name = "Nostromo FTL computer";
-	req_access = null;
-	req_one_access_txt = "31;48"
-	},
+"yu" = (
+/obj/structure/hull_plate,
+/obj/machinery/light,
+/turf/open/floor/plating/airless,
+/area/nostromo/maintenance/exterior)
+"Fl" = (
+/obj/structure/table,
+/obj/machinery/recharger,
 /turf/open/floor/plasteel/dark,
 /area/nsv/shuttle/fob/bridge)
 "Ji" = (
@@ -1148,16 +1214,17 @@
 	},
 /turf/open/floor/plasteel/dark,
 /area/nsv/shuttle/fob/bridge)
+"NO" = (
+/obj/structure/hull_plate,
+/obj/machinery/light{
+	dir = 1
+	},
+/turf/open/floor/plating/airless,
+/area/nostromo/maintenance/exterior)
 "Pc" = (
 /obj/effect/spawner/structure/window/shuttle,
 /turf/open/floor/plating,
 /area/nsv/shuttle/fob/central)
-"TH" = (
-/obj/structure/cable{
-	icon_state = "1-4"
-	},
-/turf/open/floor/plating/airless,
-/area/nsv/shuttle/fob/airlock/aft)
 "WK" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	dir = 4
@@ -1171,9 +1238,6 @@
 /obj/machinery/ship_weapon/pdc_mount,
 /turf/open/floor/plasteel,
 /area/nsv/shuttle/fob/central)
-"XD" = (
-/turf/open/floor/plating/airless,
-/area/nsv/shuttle/fob/airlock/aft)
 
 (1,1,1) = {"
 aa
@@ -5811,25 +5875,25 @@ cO
 cO
 cO
 cO
+bb
+cW
 cO
 cO
 cO
 cO
 cO
-cO
-cO
-co
-ol
-TH
-XD
-XD
-cO
+cP
+cP
+cP
+cP
+cP
 cO
 cO
 cO
 cO
 cO
-cO
+bb
+cW
 cO
 cO
 cO
@@ -5883,8 +5947,8 @@ aa
 aa
 aa
 aa
-cQ
-cQ
+cI
+cX
 ab
 cP
 cP
@@ -5892,7 +5956,7 @@ ap
 ab
 co
 aX
-bm
+aX
 aX
 co
 ab
@@ -5900,8 +5964,8 @@ cP
 cP
 ap
 ab
-cQ
-cQ
+cI
+cX
 aa
 aa
 aa
@@ -5955,15 +6019,15 @@ aa
 aa
 aa
 aa
-cQ
-cQ
+cI
+cY
 aM
 cP
 cP
 cP
 ag
 co
-aY
+pw
 bn
 aY
 co
@@ -5972,8 +6036,8 @@ cP
 cP
 cP
 cE
-cQ
-cQ
+cY
+cX
 aa
 aa
 aa
@@ -6027,8 +6091,8 @@ aa
 aa
 aa
 aa
-cQ
-cQ
+cI
+yu
 aM
 ah
 ah
@@ -6044,8 +6108,8 @@ ah
 ah
 ah
 cE
-cQ
-cQ
+NO
+cX
 aa
 aa
 aa
@@ -6099,8 +6163,8 @@ aa
 aa
 aa
 aa
-cQ
-cQ
+cI
+cY
 aM
 ai
 al
@@ -6116,8 +6180,8 @@ cq
 cB
 cJ
 cE
-cQ
-cQ
+cY
+cX
 aa
 aa
 aa
@@ -6171,8 +6235,8 @@ aa
 aa
 aa
 aa
-cQ
-cQ
+cI
+cY
 aM
 ai
 al
@@ -6188,8 +6252,8 @@ cr
 cC
 cK
 cE
-cQ
-cQ
+cY
+cX
 aa
 aa
 aa
@@ -6243,8 +6307,8 @@ aa
 aa
 aa
 aa
-cQ
-cQ
+cV
+cY
 aM
 aj
 al
@@ -6260,8 +6324,8 @@ cs
 cD
 cL
 cE
-cQ
-cQ
+cY
+cZ
 aa
 aa
 aa
@@ -6316,7 +6380,7 @@ aa
 aa
 aa
 cQ
-cQ
+cI
 aM
 ai
 al
@@ -6332,7 +6396,7 @@ ct
 cg
 cM
 cE
-cQ
+cX
 cQ
 aa
 aa
@@ -6388,7 +6452,7 @@ aa
 aa
 aa
 cQ
-cQ
+cV
 ac
 aM
 am
@@ -6404,7 +6468,7 @@ cu
 ad
 cE
 bR
-cQ
+cZ
 cQ
 aa
 aa
@@ -6752,7 +6816,7 @@ cQ
 ab
 ab
 an
-av
+jj
 aH
 aQ
 bg
@@ -6898,7 +6962,7 @@ ab
 aN
 ax
 aI
-aw
+ob
 aN
 bx
 bK
@@ -7476,8 +7540,8 @@ ao
 aS
 aW
 bk
-bk
-GX
+Fl
+wr
 qq
 aS
 ao
