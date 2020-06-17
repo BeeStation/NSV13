@@ -164,14 +164,15 @@ GLOBAL_LIST_INIT(computer_beeps, list('nsv13/sound/effects/computer/beep.ogg','n
 	data["max_hullplates"] = linked.max_armour_plates
 	data["weapons"] = list()
 	data["target_name"] = (linked.target_lock) ? linked.target_lock.name : "none"
-	for(var/list/L in linked.weapons)
+	for(var/datum/ship_weapon/SW_type in linked.weapon_types)
 		var/ammo = 0
 		var/max_ammo = 0
-		var/thename = "none"
-		for(var/obj/machinery/ship_weapon/SW in L)
+		var/thename = SW_type.name
+		for(var/obj/machinery/ship_weapon/SW in SW_type.weapons["all"])
+			if(!SW)
+				continue
 			max_ammo += SW.max_ammo
 			ammo += SW.ammo.len
-			thename = SW.weapon_type.name
 		data["weapons"] += list(list("name" = thename, "ammo" = ammo, "maxammo" = max_ammo))
 	data["ships"] = list()
 	for(var/obj/structure/overmap/OM in GLOB.overmap_objects)

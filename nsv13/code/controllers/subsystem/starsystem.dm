@@ -82,7 +82,6 @@ SUBSYSTEM_DEF(star_system)
 
 /datum/controller/subsystem/star_system/proc/spawn_ship(obj/structure/overmap/OM, datum/star_system/target_sys, center=FALSE)//Select Ship to Spawn and Location via Z-Trait
 	if(target_sys.occupying_z)
-		message_admins("[OM] successfully spawned in [target_sys]")
 		var/turf/destination = null
 		if(center)
 			destination = get_turf(locate(round(world.maxx * 0.5, 1), round(world.maxy * 0.5, 1), target_sys.occupying_z)) //Plop them bang in the center of the system as requested. This is usually saved for wormholes.
@@ -91,7 +90,6 @@ SUBSYSTEM_DEF(star_system)
 		var/obj/structure/overmap/enemy = new OM(destination)
 		target_sys.add_enemy(enemy)
 	else
-		message_admins("Enqued a [OM] for spawning in [target_sys]")
 		target_sys.enemy_queue += OM
 
 //Specific case for anomalies. They need to be spawned in for research to scan them.
@@ -266,18 +264,16 @@ SUBSYSTEM_DEF(star_system)
 	addtimer(CALLBACK(src, .proc/generate_anomaly), 15 SECONDS)
 
 /datum/star_system/proc/create_wormhole()
-	for(var/datum/star_system/S in SSstar_system.systems)
-		if(LAZYFIND(adjacency_list, S)) //We're already linked to that one. Skip it.
-			continue
+	var/datum/star_system/S = pick((SSstar_system.systems - src)) //Pick a random system to put the wormhole in. Make sure that's not us.
+	if(!(LAZYFIND(adjacency_list, S))) //Makes sure we're not already linked.
 		adjacency_list += S.name
 		SSstar_system.spawn_anomaly(/obj/effect/overmap_anomaly/wormhole, src, center=TRUE)
 		var/oneway = "One-way"
-		if(!LAZYFIND(S.adjacency_list, src) && prob(30)) //Two-directional wormholes, AKA valid hyperlanes, are exceedingly rare.
+		if(!(LAZYFIND(S.adjacency_list, src)) && prob(30)) //Two-directional wormholes, AKA valid hyperlanes, are exceedingly rare.
 			S.adjacency_list += name
 			oneway = "Two-way"
-			SSstar_system.spawn_anomaly(/obj/effect/overmap_anomaly/wormhole, S, center=TRUE) //Wormholes are cool.
+			SSstar_system.spawn_anomaly(/obj/effect/overmap_anomaly/wormhole, S, center=TRUE) //Wormholes are cool. Like Fezzes. Fezzes are cool.
 		message_admins("[oneway] wormhole created between [S] and [src]")
-		break
 
 //Anomalies
 
@@ -460,6 +456,10 @@ SUBSYSTEM_DEF(star_system)
 		if("blackhole")
 			anomaly_type = /obj/effect/overmap_anomaly/singularity
 			parallax_property = "pitchblack"
+		if("blacksite") //this a special one!
+			adjacency_list += "Risa Station" //you're going to risa, dammit.
+			SSstar_system.spawn_anomaly(/obj/effect/overmap_anomaly/wormhole, src, center=TRUE)
+			message_admins("Guaranteed oneway wormhole created between Risa Station and DATA EXPUNGED")
 	if(alignment == "syndicate")
 		spawn_enemies() //Syndicate systems are even more dangerous, and come pre-loaded with some guaranteed Syndiships.
 	if(!anomaly_type)
@@ -754,7 +754,7 @@ SUBSYSTEM_DEF(star_system)
 	y = 100
 	hidden = TRUE
 	alignment = "uncharted"
-	system_type = "wormhole" //here's your guaranteed wormhole boyos. Expect chaos
+	system_type = "blacksite" //needs to be specified because we're going FROM blacksite TO risa as a guarantee
 	threat_level = THREAT_LEVEL_DANGEROUS
 	adjacency_list = list("N94-19X")
 

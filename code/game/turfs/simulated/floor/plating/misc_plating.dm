@@ -196,6 +196,7 @@
 	smooth = SMOOTH_MORE | SMOOTH_BORDER
 	canSmoothWith = list(/turf/open/floor/plating/ice/smooth, /turf/open/floor/plating/ice)
 
+
 /turf/open/floor/plating/ice/colder
 	temperature = 140
 
