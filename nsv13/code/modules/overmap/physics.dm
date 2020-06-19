@@ -81,9 +81,9 @@
 
 /obj/structure/overmap/slowprocess()
 	. = ..()
-	if(cabin_air && cabin_air.volume > 0)
-		var/delta = cabin_air.temperature - T20C
-		cabin_air.temperature -= max(-10, min(10, round(delta/4,0.1)))
+	if(cabin_air && cabin_air.return_volume() > 0)
+		var/delta = cabin_air.return_temperature() - T20C
+		cabin_air.set_temperature(cabin_air.return_temperature() - max(-10, min(10, round(delta/4,0.1))))
 	if(internal_tank && cabin_air)
 		var/datum/gas_mixture/tank_air = internal_tank.return_air()
 		var/release_pressure = ONE_ATMOSPHERE
@@ -538,8 +538,8 @@ The while loop runs at a programatic level and is thus separated from any thrott
 		if(homing)
 			proj.set_homing_target(target)
 		spawn()
+			proj.preparePixelProjectile(target, src, null, round((rand() - 0.5) * proj.spread))
 			proj.fire(angle)
-			proj.set_pixel_speed(speed)
 		return proj
 
 /obj/structure/overmap/proc/fire_projectiles(proj_type, target) // if spacepods of other sizes are added override this or something
@@ -583,6 +583,7 @@ The while loop runs at a programatic level and is thus separated from any thrott
 		proj.setup_collider()
 		proj.faction = faction
 		spawn()
+			proj.preparePixelProjectile(target, src, null, round((rand() - 0.5) * proj.spread))
 			proj.fire(angle)
 
 /obj/structure/overmap/proc/fire_lateral_projectile(proj_type,target,speed=null, mob/living/user_override=null)
@@ -601,8 +602,6 @@ The while loop runs at a programatic level and is thus separated from any thrott
 		proj.firer = gunner
 	else
 		proj.firer = src
-	var/theangle = Get_Angle(src,target)
 	spawn()
-		proj.fire(theangle)
-		if(speed)
-			proj.set_pixel_speed(speed)
+		proj.preparePixelProjectile(target, src, null, round((rand() - 0.5) * proj.spread))
+		proj.fire()

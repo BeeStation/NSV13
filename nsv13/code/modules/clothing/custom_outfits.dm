@@ -42,7 +42,7 @@
 	desc = "A comically small box which contains the clown's formal uniform, used only on special occasions."
 
 /obj/item/storage/box/hug/clown_uniform/PopulateContents()
-	new /obj/item/clothing/under/rank/clown(src)
+	new /obj/item/clothing/under/rank/civilian/clown(src)
 	new /obj/item/clothing/shoes/clown_shoes(src)
 
 /datum/outfit/job/clown/delinquent

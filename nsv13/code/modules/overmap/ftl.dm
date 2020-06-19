@@ -161,9 +161,9 @@
 			if(HAS_TRAIT(L, TRAIT_SEASICK))
 				to_chat(L, "<span class='warning'>You can feel your head start to swim...</span>")
 				if(prob(40)) //Take a roll! First option makes you puke and feel terrible. Second one makes you feel iffy.
-					L.adjust_disgust(60)
+					L.adjust_disgust(20)
 				else
-					L.adjust_disgust(40)
+					L.adjust_disgust(10)
 		shake_camera(M, 4, 1)
 	force_parallax_update(ftl_start)
 
@@ -290,6 +290,10 @@ Preset classes of FTL drive with pre-programmed behaviours
 	faction = "syndicate"
 	req_access = list(ACCESS_SYNDICATE)
 
+/obj/machinery/computer/ship/ftl_computer/Initialize()
+	. = ..()
+	start_monitoring(get_overmap()) //I'm a lazy hack that can't actually be assed to deal with an if statement in react right now.
+
 /obj/machinery/computer/ship/ftl_computer/syndicate/Initialize()
 	. = ..()
 	return INITIALIZE_HINT_LATELOAD
@@ -356,7 +360,7 @@ A way for syndies to track where the player ship is going in advance, so they ca
 /obj/machinery/computer/ship/ftl_computer/ui_interact(mob/user, ui_key = "main", datum/tgui/ui = null, force_open = 0, datum/tgui/master_ui = null, datum/ui_state/state = GLOB.default_state) // Remember to use the appropriate state.
 	ui = SStgui.try_update_ui(user, src, ui_key, ui, force_open)
 	if(!ui)
-		ui = new(user, src, ui_key, "ftl_computer", name, 560, 350, master_ui, state)
+		ui = new(user, src, ui_key, "FTLComputer", name, 560, 350, master_ui, state)
 		ui.open()
 
 /obj/machinery/computer/ship/ftl_computer/ui_act(action, params, datum/tgui/ui)

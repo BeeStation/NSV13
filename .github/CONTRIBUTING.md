@@ -1,115 +1,103 @@
-# CONTRIBUTING
 
-## Reporting Issues
+CONTRIBUTING
+===
 
-See [this page](http://tgstation13.org/wiki/Reporting_Issues) for a guide and format to issue reports.
+## Table of Contents
 
-## Introduction
+1. Introduction
+2. Getting Started - Contributing for Dummies
+3. Recommended Tools - Creating a Decent Dev Environment
+4. Code Standards
+5. Codebase-specific Policies
+6. Asset Policy
+7. Banned Content
 
-Hello and welcome to /tg/station's contributing page. You are here because you are curious or interested in contributing - thank you! Everyone is free to contribute to this project as long as they follow the simple guidelines and specifications below; at /tg/station, we strive to maintain code stability and maintainability, and to do that, we need all pull requests to hold up to those specifications. It's in everyone's best interests - including yours! - if the same bug doesn't have to be fixed twice because of duplicated code.
+## 1. Introduction
+Hello and welcome to BeeStation's contributing page. You are presumably here because you are interested in contributing - thank you! Everyone is free to contribute to this project as long as they follow the simple guidelines and specifications below; at BeeStation, we strive to maintain code stability and maintainability, and to do that, we need all pull requests to meet our standards. It's in everyone's best interests - including yours!
 
 First things first, we want to make it clear how you can contribute (if you've never contributed before), as well as the kinds of powers the team has over your additions, to avoid any unpleasant surprises if your pull request is closed for a reason you didn't foresee.
 
-## Getting Started
+## 2. Getting Started - Contributing for Dummies
 
-/tg/station doesn't have a list of goals and features to add; we instead allow freedom for contributors to suggest and create their ideas for the game. That doesn't mean we aren't determined to squash bugs, which unfortunately pop up a lot due to the deep complexity of the game. Here are some useful starting guides, if you want to contribute or if you want to know what challenges you can tackle with zero knowledge about the game's code structure.
+BeeStation doesn't have any kind of design document outlining planned changes; we instead allow freedom for contributors to suggest and create their ideas for the game. That doesn't mean we aren't determined to squash bugs, which unfortunately pop up a lot due to the deep complexity of the game.
 
-If you want to contribute the first thing you'll need to do is [set up Git](http://tgstation13.org/wiki/Setting_up_git) so you can download the source code.
+If you want to contribute the first thing you'll need to do is set up a decent development environment. The default tools for working with BYOND simply aren't sufficient, and the next section explains what we use. We also have a few guides to help you get started with git and making a pull request:
 
-We have a [list of guides on the wiki](http://www.tgstation13.org/wiki/index.php/Guides#Development_and_Contribution_Guides) that will help you get started contributing to /tg/station with Git and Dream Maker. For beginners, it is recommended you work on small projects like bugfixes at first. If you need help learning to program in BYOND, check out this [repository of resources](http://www.byond.com/developer/articles/resources).
+* [Here](https://forums.beestation13.com/t/github-building-the-hive/1334) is a guide for setting up Git and GitKraken.
 
-There is an open list of approachable issues for [your inspiration here](https://github.com/tgstation/-tg-station/issues?q=is%3Aopen+is%3Aissue+label%3A%22Good+First+Issue%22).
+For beginners, it is strongly recommended you work on small projects like bugfixes or very minor features at first. While we are willing to assist you, we have no desire to write your code for you.
 
-You can of course, as always, ask for help at [#coderbus](irc://irc.rizon.net/coderbus) on irc.rizon.net. We're just here to have fun and help out, so please don't expect professional support.
+**Please note that you need to credit any code that you port from other codebases.**
 
-## Meet the Team
+There are a variety of ways to give credit, here is a list of our most strongly preferred method to least preferred:
+1. Cherry-pick (Guide coming soon). May not always be feasible.
+2. Provide a link to the specific pull request(s) in your pull request's description.
+3. Mention the codebase it's from in your pull request description.
 
-**Design Lead**
+You can of course, as always, ask for help on our discord.
 
-The Design Lead has the final say on what gameplay changes get into and out of the game. He or she has full veto power on any feature or balance additions, changes, or removals, and establishes a general, personally-preferred direction for the game.
+## 3. Recommended Tools - Creating a Decent Dev Environment
 
-**Headcoder**
+By default, the only thing BYOND provides people with is Dream Maker. It is hardly sufficient, and few (if any) contributors regularly use it. Instead, we have a variety of alternative tools for different purposes that make our lives a lot easier:
 
-The Headcoder is responsible for controlling, adding, and removing maintainers from the project. In addition to filling the role of a normal maintainer, they have sole authority on who becomes a maintainer, as well as who remains a maintainer and who does not.
+* Git client - [GitKraken](https://www.gitkraken.com/)
+* Code editing - [VSCode](https://code.visualstudio.com/) (NOT THE SAME AS VISUAL STUDIO)
+* VSCode Extensions - [DM syntax highlighting](https://marketplace.visualstudio.com/items?itemName=gbasood.byond-dm-language-support), [DM language support](https://marketplace.visualstudio.com/items?itemName=platymuus.dm-langclient)
+* Map editing - [FastDMM2](https://fastdmm2.ss13.io/) or [StrongDMM](https://github.com/SpaiR/StrongDMM)
 
-**Art Director**
+## 4. Code Standards
+There are a variety of ways you can write valid DM code. However, BeeStation is not as lenient. Maintaining good code standards is important for performance and readability reasons. You can find details about our code standards [here](https://github.com/BeeStation/BeeStation-Hornet/wiki/Code-Standards).
 
-The Art Director controls sprites and aesthetic that get into the game. While sprites for brand-new additions are generally accepted regardless of quality, modified current art assets fall to the Art Director, who can decide whether or not a sprite tweak is both merited and a suitable replacement.
+They are mostly the same as /tg/station's code standards, though we are not quite as strict about enforcing them. A notable example is that we don't require our code to be thoroughly documented for autodoc.
 
-They also control the general "perspective" of the game - how sprites should generally look, especially the angle from which they're viewed. An example of this is the [3/4 perspective](http://static.tvtropes.org/pmwiki/pub/images/kakarikovillage.gif), which is a bird's eye view from above the object being viewed.
+Failure to meet these standards can result in your pull request being closed. The code standards are non-exhaustive and Maintainers have the final say.
 
-**Maintainers**
+## 5. Codebase-specific Policies
+### HippieStation
+HippieStation's code standards are much more lax than BeeStation. Their code typically does not meet our standards. Therefore, you should not attempt to port code from HippieStation unless you have the experience and knowledge necessary to rewrite the code to our standards. Maintainers will not hold your hand for this, instead they will simply close the pull request.
 
-Maintainers are quality control. If a proposed pull request doesn't meet the following specifications, they can request you to change it, or simply just close the pull request. Maintainers are required to give a reason for closing the pull request.
+### Goonstation
+**Attempting to use Goonstation code without using the steps outlined in this section is grounds for an immediate repoban.**
 
-Maintainers can revert your changes if they feel they are not worth maintaining or if they did not live up to the quality specifications.
+Goonstation's code license is not compatible with [AGPLv3](https://www.gnu.org/licenses/agpl-3.0.en.html). Therefore, there are very specific steps that need to be taken in order to use Goonstation code:
+1. Get approval from a BeeStation Maintainer, explaining specifically what you want to port.
+2. Get permission from **EVERY** code author that was involved with writing the code you wish to port.
+3. Open the pull request. It must have "[GOON]" at the start of the pull request title. It must say "CONTAINS CODE FROM GOONSTATION" at the top of the pull request description. List **ALL** of the code authors somewhere in your pull request description.
+4. Have **EVERY** code author from step two comment on your pull request giving you permission to use the code. The specifics of how they should word their comment can vary on a case-by-case basis.
+5. Wait for final approval from a BeeStation Maintainer. This will involve us reaching out to a Goonstation representative for their sign-off.
 
-## Specifications
+Failing to correctly follow any step will result in the pull request being closed. If done maliciously, it will also result in a repoban.
 
-As mentioned before, you are expected to follow these specifications in order to make everyone's lives easier. It'll save both your time and ours, by making sure you don't have to make any changes and we don't have to ask you to. Thank you for reading this section!
+## 6. Asset Policy
+Assets are things such as art, sprites, sounds, music, etc. Different policies apply depending on where the assets are from, so please look at the relevant subsection.
 
-### Object Oriented Code
-As BYOND's Dream Maker (henceforth "DM") is an object-oriented language, code must be object-oriented when possible in order to be more flexible when adding content to it. If you don't know what "object-oriented" means, we highly recommend you do some light research to grasp the basics.
+**If you are the sole creator of the assets and your work is not a derivative, you can ignore the remainder of this section.** Note that by contributing your assets, you are agreeing to license them under [CC-BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/).
 
-### All BYOND paths must contain the full path
-(i.e. absolute pathing)
+**If you are not the sole creator, or if you created a derivative, then regardless of the source, you must give the creator credit in your pull request.**
 
-DM will allow you nest almost any type keyword into a block, such as:
+### Assets from other SS13 servers (other than Goonstation)
+Most Space Station 13 servers, with the notable exception of Goonstation, all use the same asset license: [CC-BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/). However, you always need to double-check. Most asset licenses are mentioned in the codebase's README. Therefore, as long as all assets you are adding are from another SS13 server with the [CC-BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/) asset license, you shouldn't have to worry as long as you give credit in your pull request.
 
-```DM
-datum
-	datum1
-		var
-			varname1 = 1
-			varname2
-			static
-				varname3
-				varname4
-		proc
-			proc1()
-				code
-			proc2()
-				code
+### Assets from Goonstation
+Goonstation uses a similar license, with the exception that their assets cannot be used commercially. All assets from Goonstation should be placed in the `goon` folder, which is licensed under [CC-BY-NC-SA 3.0](https://creativecommons.org/licenses/by-nc-sa/3.0/).
 
-		datum2
-			varname1 = 0
-			proc
-				proc3()
-					code
-			proc2()
-				..()
-				code
-```
+### Assets from external (non-SS13) sources
+All assets must comply with our asset license, [CC-BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/). You should always ask the author for permission to use their work.
 
-The use of this is not allowed in this project as it makes finding definitions via full text searching next to impossible. The only exception is the variables of an object may be nested to the object, but must not nest further.
+If you are adding new assets that are not already explicitly licensed under CC-BY-SA 3.0, you must get permission from the author using a very specific process. Them direct messaging you "Sure, you can use it" is not sufficient. You can speak to a Maintainer on Discord for more details.
 
-The previous code made compliant:
+**Attempting to add assets by falsely claiming it is CC-BY-SA 3.0 is grounds for an immediate repoban. If the offending pull request has been merged, it will immediately be reverted.**
 
-```DM
-/datum/datum1
-	var/varname1
-	var/varname2
-	var/static/varname3
-	var/static/varname4
+If at any point you are confused or unsure of an asset's license or our policy, ask a Maintainer to help you.
 
-/datum/datum1/proc/proc1()
-	code
-/datum/datum1/proc/proc2()
-	code
-/datum/datum1/datum2
-	varname1 = 0
-/datum/datum1/datum2/proc/proc3()
-	code
-/datum/datum1/datum2/proc2()
-	..()
-	code
-```
+## 7. Banned Content
 
-### No overriding type safety checks
-The use of the : operator to override type safety checks is not allowed. You must cast the variable to the proper type.
+Do not add any of the following in a Pull Request or risk getting the PR closed:
 
-### Type paths must begin with a /
-eg: `/datum/thing`, not `datum/thing`
+- Any content that violates GitHub Terms of Service.
+- Racial or homophobic slurs of any kind.
+-  National Socialist Party of Germany content, National Socialist Party of Germany related content, or National Socialist Party of Germany references
+-  Code adding, removing, or updating the availability of alien races/species/human mutants without prior approval. Pull requests attempting to add or remove features from said races/species/mutants require prior approval as well.
 
 ### Type paths must be lowercase
 eg: `/datum/thing/blue`, not `datum/thing/BLUE` or `datum/thing/Blue`
@@ -409,7 +397,4 @@ Do not add any of the following in a Pull Request or risk getting the PR closed:
 
 Just because something isn't on this list doesn't mean that it's acceptable. Use common sense above all else.
 
-## A word on Git
-Yes, we know that the files have a tonne of mixed Windows and Linux line endings. Attempts to fix this have been met with less than stellar success, and as such we have decided to give up caring until there comes a time when it matters.
-
-Therefore, EOF settings of main repo are forbidden territory one must avoid wandering into, at risk of losing body and/or mind to the Git gods.
+Violations of the banned content policy can potentially result in a repoban.

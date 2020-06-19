@@ -1,9 +1,17 @@
 
+
+
 /datum/chemical_reaction/sterilizine
 	name = "Sterilizine"
 	id = /datum/reagent/space_cleaner/sterilizine
 	results = list(/datum/reagent/space_cleaner/sterilizine = 3)
 	required_reagents = list(/datum/reagent/consumable/ethanol = 1, /datum/reagent/medicine/charcoal = 1, /datum/reagent/chlorine = 1)
+
+/datum/chemical_reaction/cooking_oil
+	name = "Cooking Oil"
+	id = /datum/reagent/consumable/cooking_oil
+	results = list(/datum/reagent/consumable/cooking_oil = 4)
+	required_reagents = list(/datum/reagent/hydrogen = 1, /datum/reagent/oil = 1, /datum/reagent/consumable/sugar = 1, /datum/reagent/carbon = 1)
 
 /datum/chemical_reaction/lube
 	name = "Space Lube"
@@ -29,6 +37,18 @@
 	results = list(/datum/reagent/impedrezene = 2)
 	required_reagents = list(/datum/reagent/mercury = 1, /datum/reagent/oxygen = 1, /datum/reagent/consumable/sugar = 1)
 
+/datum/chemical_reaction/concentrated_bz
+	name = "Concentrated BZ"
+	id = "Concentrated BZ"
+	results = list(/datum/reagent/concentrated_bz = 10)
+	required_reagents = list(/datum/reagent/toxin/plasma = 40, /datum/reagent/nitrous_oxide = 10)
+
+/datum/chemical_reaction/fake_cbz
+	name = "Fake CBZ"
+	id = "Fake CBZ"
+	results = list(/datum/reagent/fake_cbz = 1)
+	required_reagents = list(/datum/reagent/concentrated_bz = 1, /datum/reagent/medicine/neurine = 3)
+	
 /datum/chemical_reaction/cryptobiolin
 	name = "Cryptobiolin"
 	id = /datum/reagent/cryptobiolin
@@ -197,19 +217,19 @@
 	name = "Unstable uranium gel"
 	id = "uraniumvirusfood_plasma"
 	results = list(/datum/reagent/uranium/uraniumvirusfood/unstable = 1)
-	required_reagents = list(/datum/reagent/uranium = 5, /datum/reagent/toxin/plasma/plasmavirusfood = 1)
+	required_reagents = list(/datum/reagent/uranium = 2, /datum/reagent/toxin/plasma/plasmavirusfood = 1)
 
 /datum/chemical_reaction/virus_food_uranium_plasma_gold
 	name = "Stable uranium gel"
 	id = "uraniumvirusfood_gold"
 	results = list(/datum/reagent/uranium/uraniumvirusfood/stable = 1)
-	required_reagents = list(/datum/reagent/uranium = 10, /datum/reagent/gold = 10, /datum/reagent/toxin/plasma = 1)
+	required_reagents = list(/datum/reagent/uranium = 5, /datum/reagent/gold = 5, /datum/reagent/toxin/plasma = 5)
 
 /datum/chemical_reaction/virus_food_uranium_plasma_silver
 	name = "Stable uranium gel"
 	id = "uraniumvirusfood_silver"
 	results = list(/datum/reagent/uranium/uraniumvirusfood/stable = 1)
-	required_reagents = list(/datum/reagent/uranium = 10, /datum/reagent/silver = 10, /datum/reagent/toxin/plasma = 1)
+	required_reagents = list(/datum/reagent/uranium = 5, /datum/reagent/silver = 5, /datum/reagent/toxin/plasma = 5)
 
 /datum/chemical_reaction/virus_food_laughter
 	name = "Anomolous virus food"
@@ -224,6 +244,7 @@
 	required_reagents = list(/datum/reagent/consumable/virus_food/viralbase = 1, /datum/reagent/uranium = 20)
 	mix_message = "The mixture turns every colour of the rainbow, soon settling on a bright white. There's no way this isn't a good idea."
 
+//Adds a virus symptom from the level_min to level_max range
 /datum/chemical_reaction/mix_virus
 	name = "Mix Virus"
 	id = "mixvirus"
@@ -243,7 +264,6 @@
 
 
 /datum/chemical_reaction/mix_virus/mix_virus_2
-
 	name = "Mix Virus 2"
 	id = "mixvirus2"
 	required_reagents = list(/datum/reagent/toxin/mutagen = 1)
@@ -251,7 +271,6 @@
 	level_max = 4
 
 /datum/chemical_reaction/mix_virus/mix_virus_3
-
 	name = "Mix Virus 3"
 	id = "mixvirus3"
 	required_reagents = list(/datum/reagent/toxin/plasma = 1)
@@ -259,7 +278,6 @@
 	level_max = 6
 
 /datum/chemical_reaction/mix_virus/mix_virus_4
-
 	name = "Mix Virus 4"
 	id = "mixvirus4"
 	required_reagents = list(/datum/reagent/uranium = 1)
@@ -267,7 +285,6 @@
 	level_max = 6
 
 /datum/chemical_reaction/mix_virus/mix_virus_5
-
 	name = "Mix Virus 5"
 	id = "mixvirus5"
 	required_reagents = list(/datum/reagent/toxin/mutagen/mutagenvirusfood = 1)
@@ -275,7 +292,6 @@
 	level_max = 3
 
 /datum/chemical_reaction/mix_virus/mix_virus_6
-
 	name = "Mix Virus 6"
 	id = "mixvirus6"
 	required_reagents = list(/datum/reagent/toxin/mutagen/mutagenvirusfood/sugar = 1)
@@ -283,7 +299,6 @@
 	level_max = 4
 
 /datum/chemical_reaction/mix_virus/mix_virus_7
-
 	name = "Mix Virus 7"
 	id = "mixvirus7"
 	required_reagents = list(/datum/reagent/toxin/plasma/plasmavirusfood/weak = 1)
@@ -291,7 +306,6 @@
 	level_max = 5
 
 /datum/chemical_reaction/mix_virus/mix_virus_8
-
 	name = "Mix Virus 8"
 	id = "mixvirus8"
 	required_reagents = list(/datum/reagent/toxin/plasma/plasmavirusfood = 1)
@@ -299,7 +313,6 @@
 	level_max = 6
 
 /datum/chemical_reaction/mix_virus/mix_virus_9
-
 	name = "Mix Virus 9"
 	id = "mixvirus9"
 	required_reagents = list(/datum/reagent/medicine/synaptizine/synaptizinevirusfood = 1)
@@ -307,7 +320,6 @@
 	level_max = 1
 
 /datum/chemical_reaction/mix_virus/mix_virus_10
-
 	name = "Mix Virus 10"
 	id = "mixvirus10"
 	required_reagents = list(/datum/reagent/uranium/uraniumvirusfood = 1)
@@ -315,7 +327,6 @@
 	level_max = 7
 
 /datum/chemical_reaction/mix_virus/mix_virus_11
-
 	name = "Mix Virus 11"
 	id = "mixvirus11"
 	required_reagents = list(/datum/reagent/uranium/uraniumvirusfood/unstable = 1)
@@ -323,7 +334,6 @@
 	level_max = 7
 
 /datum/chemical_reaction/mix_virus/mix_virus_12
-
 	name = "Mix Virus 12"
 	id = "mixvirus12"
 	required_reagents = list(/datum/reagent/uranium/uraniumvirusfood/stable = 1)
@@ -331,7 +341,6 @@
 	level_max = 8
 
 /datum/chemical_reaction/mix_virus/mix_virus_13
-
 	name = "Mix Virus 13"
 	id = "mixvirus13"
 	required_reagents = list(/datum/reagent/consumable/laughter/laughtervirusfood = 1)
@@ -339,15 +348,14 @@
 	level_max = 0
 
 /datum/chemical_reaction/mix_virus/mix_virus_14
-
 	name = "Mix Virus 14"
 	id = "mixvirus14"
 	required_reagents = list(/datum/reagent/consumable/virus_food/advvirusfood = 1)
 	level_min = 9
 	level_max = 9
 
+//removes a random disease symptom
 /datum/chemical_reaction/mix_virus/rem_virus
-
 	name = "Devolve Virus"
 	id = "remvirus"
 	required_reagents = list(/datum/reagent/medicine/synaptizine = 1)
@@ -361,6 +369,7 @@
 		if(D)
 			D.Devolve()
 
+//prevents a random symptom from showing while keeping the stats
 /datum/chemical_reaction/mix_virus/neuter_virus
 	name = "Neuter Virus"
 	id = "neutervirus"
@@ -375,6 +384,37 @@
 		if(D)
 			D.Neuter()
 
+//prevents the altering of disease symptoms
+/datum/chemical_reaction/mix_virus/preserve_virus
+	name = "Preserve Virus"
+	id = "preservevirus"
+	required_reagents = list(/datum/reagent/cryostylane = 1)
+	required_catalysts = list(/datum/reagent/blood = 1)
+
+/datum/chemical_reaction/mix_virus/preserve_virus/on_reaction(datum/reagents/holder, created_volume)
+
+	var/datum/reagent/blood/B = locate(/datum/reagent/blood) in holder.reagent_list
+	if(B?.data)
+		var/datum/disease/advance/D = locate(/datum/disease/advance) in B.data["viruses"]
+		if(D)
+			D.mutable = FALSE
+
+//prevents the disease from spreading via symptoms
+/datum/chemical_reaction/mix_virus/falter_virus
+	name = "Falter Virus"
+	id = "faltervirus"
+	required_reagents = list(/datum/reagent/medicine/spaceacillin = 1)
+	required_catalysts = list(/datum/reagent/blood = 1)
+
+/datum/chemical_reaction/mix_virus/falter_virus/on_reaction(datum/reagents/holder, created_volume)
+
+	var/datum/reagent/blood/B = locate(/datum/reagent/blood) in holder.reagent_list
+	if(B?.data)
+		var/datum/disease/advance/D = locate(/datum/disease/advance) in B.data["viruses"]
+		if(D)
+			D.faltered = TRUE
+			D.spread_flags = DISEASE_SPREAD_FALTERED
+			D.spread_text = "Intentional Injection"
 
 
 ////////////////////////////////// foam and foam precursor ///////////////////////////////////////////////////
