@@ -27,6 +27,7 @@ export const Button = props => {
     children,
     onclick,
     onClick,
+    ilstyle,
     ...rest
   } = props;
   const hasContent = !!(content || children);

@@ -55,6 +55,10 @@
 	name = "FTL Control Room"
 	icon_state = "maint_bridge"
 
+/area/maintenance/nsv/turbolift/abandonedshaft
+	name = "Abandoned Elevator Shaft"
+	icon_state = "maint_bridge"
+
 /area/maintenance/nsv/deck1/airlock/forward/port
 	name = "Deck 1 Port Forward Airlock"
 	icon_state = "maint_bridge"
@@ -179,6 +183,18 @@
 	name = "Deck 3 Frame 4 Central Maintenance"
 	icon_state = "maintcentral"
 
+/area/hallway/nsv/deck2/forward
+	name = "Deck 2 Forward Hallway"
+	icon_state = "hallF"
+
+/area/hallway/nsv/deck2/primary
+	name = "Deck 2 Primary Hallway"
+	icon_state = "hallP"
+
+/area/hallway/nsv/deck2/aft
+	name = "Deck 2 Aft Hallway"
+	icon_state = "hallP"
+
 /area/maintenance/nsv/mining_ship
 	has_gravity = TRUE
 	looping_ambience = 'nsv13/sound/ambience/maintenance.ogg'
@@ -296,6 +312,14 @@
 	name = "Deck 3 Frame 4 Starboard Hallway"
 	icon_state = "hallS"
 
+/area/hallway/nsv/stairwell/lower
+	name = "Lower Stairwell"
+	icon_state = "hallS"
+
+/area/hallway/nsv/stairwell/upper
+	name = "Upper Stairwell"
+	icon_state = "hallS"
+
 /area/hallway/nsv/deck1/hallway
 	name = "Deck 1 Primary Hallway"
 	icon_state = "hallC"
@@ -364,6 +388,10 @@
 	icon_state = "hallC"
 	sound_environment = SOUND_ENV_HANGAR
 
+/area/nsv/weapons/gauss
+	name = "Gauss Bay"
+	icon_state = "hallC"
+
 /area/nsv/weapons/port
 	name = "Port Weapons Bay"
 	icon_state = "hallP"
@@ -375,6 +403,10 @@
 /area/nsv/weapons/fore
 	name = "Fore Weapons Bay"
 	icon_state = "hallF"
+
+/area/nsv/magazine
+	name = "Ship's Magazine"
+	icon_state = "hallC"
 
 /area/nsv/magazine/port
 	name = "Port Magazine"
@@ -453,6 +485,14 @@
 /area/nsv/shuttle/fob/airlock/starboard
 	name = "Mining Shuttle Starboard Airlock"
 	icon_state = "hallS"
+
+/area/nsv/shuttle/fob/quarters
+	name = "Mining Shuttle Crew Quarters"
+	icon_state = "hallC"
+
+/area/nsv/shuttle/fob/lounge
+	name = "Mining Shuttle Lounge"
+	icon_state = "hallP"
 
 /area/ruin/powered/nsv13/prisonship
 	name = "Syndicate prison ship"

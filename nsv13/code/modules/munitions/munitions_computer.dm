@@ -69,7 +69,7 @@
 /obj/machinery/computer/ship/munitions_computer/ui_interact(mob/user, ui_key = "main", datum/tgui/ui = null, force_open = 0, datum/tgui/master_ui = null, datum/ui_state/state = GLOB.default_state) // Remember to use the appropriate state.
 	ui = SStgui.try_update_ui(user, src, ui_key, ui, force_open)
 	if(!ui)
-		ui = new(user, src, ui_key, "munitions_computer", name, 560, 600, master_ui, state)
+		ui = new(user, src, ui_key, "MunitionsComputer", name, 560, 600, master_ui, state)
 		ui.open()
 
 /obj/machinery/computer/ship/munitions_computer/ui_act(action, params, datum/tgui/ui)
@@ -106,6 +106,7 @@
 /obj/machinery/computer/ship/munitions_computer/ui_data(mob/user)
 	var/list/data = list()
 	var/obj/item/multitool/tool = get_multitool(user)
+	data["isgaussgun"] = FALSE //Sue me.
 	data["sudo_mode"] = (tool != null || SW == null) ? TRUE : FALSE //Hold a multitool to enter sudo mode and modify linkages.
 	data["tool_buffer"] = (tool && tool.buffer != null) ? TRUE : FALSE
 	data["tool_buffer_name"] = (tool && tool.buffer) ? tool.buffer.name : "/dev/null"
@@ -118,6 +119,7 @@
 	data["max_ammo"] = (SW) ? SW.max_ammo : 0
 	data["maint_req"] = (SW && SW.maintainable) ? SW.maint_req : 25
 	data["max_maint_req"] = (SW) ? 25 : 0
+	data["pdc_mode"] = FALSE //Gauss overrides this behaviour.
 	return data
 
 /obj/machinery/computer/ship/munitions_computer/proc/get_multitool(mob/user)
@@ -139,7 +141,7 @@
 /obj/machinery/ship_weapon/gauss_gun/ui_interact(mob/user, ui_key = "main", datum/tgui/ui = null, force_open = 0, datum/tgui/master_ui = null, datum/ui_state/state = GLOB.contained_state) // Remember to use the appropriate state.
 	ui = SStgui.try_update_ui(user, src, ui_key, ui, force_open)
 	if(!ui)
-		ui = new(user, src, ui_key, "gauss_gun", name, 560, 600, master_ui, state)
+		ui = new(user, src, ui_key, "MunitionsComputer", name, 560, 600, master_ui, state)
 		ui.open()
 
 /obj/machinery/ship_weapon/gauss_gun/ui_act(action, params, datum/tgui/ui)
@@ -161,6 +163,7 @@
 
 /obj/machinery/ship_weapon/gauss_gun/ui_data(mob/user)
 	var/list/data = list()
+	data["isgaussgun"] = TRUE //So what if I'm a hack. Sue me.
 	data["loaded"] = (state > STATE_LOADED) ? TRUE : FALSE
 	data["chambered"] = (state > STATE_FED) ? TRUE : FALSE
 	data["safety"] = safety

@@ -7,6 +7,11 @@ NSV13 Donator Item Definitions
 
 //Ceyella
 
+/datum/gear/donator/ceyella
+	display_name = "Crystalline Sword"
+	ckey = "ceyella"
+	path = /obj/item/donator_reskin/ceyella
+
 /obj/item/donator_reskin/ceyella
 	ckey = "ceyella"
 	requisite_type = /obj/item/melee/classic_baton/telescopic
