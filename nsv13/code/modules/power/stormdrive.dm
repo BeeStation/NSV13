@@ -420,26 +420,16 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 		return
 	if(!reactor.pipe)
 		reactor.find_pipe()
-	var/tune = params["tune"]
 	var/adjust = text2num(params["adjust"])
 	if(action == "control_rod_percent")
-		if(tune == "input")
-			var/min = 0
-			var/max = 100
-			tune = input("Tune control rod insertion percentage: ([min]-[max]):", name, reactor.control_rod_percent) as num
-			if(tune > 100)
-				tune = 100
-			if(tune <0)
-				tune = 0
-			reactor.control_rod_percent = tune
 		if(adjust && isnum(adjust))
-			if(reactor.control_rod_percent >= 100)
+			reactor.control_rod_percent = adjust
+			if(reactor.control_rod_percent > 100)
 				reactor.control_rod_percent = 100
 				return
-			if(reactor.control_rod_percent <= 0)
+			if(reactor.control_rod_percent < 0)
 				reactor.control_rod_percent = 0
 				return
-			reactor.control_rod_percent += adjust
 	switch(action)
 		if("rods_1")
 			reactor.control_rod_percent = 0
@@ -449,7 +439,7 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 			reactor.control_rod_percent = 25
 			reactor.update_icon()
 		if("rods_3")
-			reactor.control_rod_percent = 33.6 //Safe mode?
+			reactor.control_rod_percent = 33.6 //Safe mode? Lame.
 			reactor.update_icon()
 		if("rods_4")
 			reactor.control_rod_percent = 75
@@ -490,7 +480,7 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 /obj/machinery/computer/ship/reactor_control_computer/ui_interact(mob/user, ui_key = "main", datum/tgui/ui = null, force_open = 0, datum/tgui/master_ui = null, datum/ui_state/state = GLOB.default_state) // Remember to use the appropriate state.
 	ui = SStgui.try_update_ui(user, src, ui_key, ui, force_open)
 	if(!ui)
-		ui = new(user, src, ui_key, "stormdrive_console", name, 560, 600, master_ui, state)
+		ui = new(user, src, ui_key, "StormdriveConsole", name, 560, 600, master_ui, state)
 		ui.open()
 
 /obj/machinery/computer/ship/reactor_control_computer/ui_data(mob/user)
