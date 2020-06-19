@@ -392,7 +392,7 @@ That's it, ok bye!
 				to_chat(karmics_victim, "<span class='warning'>You're pressed into the floor as the lift rapidly accelerates!</span>")
 				if(prob(50)) //Unlucky fucker
 					to_chat(karmics_victim, "<span class='warning'>You hit your head as you're thrown about wildly!</span>")
-					karmics_victim.adjustBrainLoss(10)
+					karmics_victim.adjustOrganLoss(ORGAN_SLOT_BRAIN, 10)
 					playsound(karmics_victim.loc, 'nsv13/sound/effects/lift/bonk.ogg', 100)
 				if(HAS_TRAIT(karmics_victim, TRAIT_SEASICK)) //oh my god you poor soul
 					to_chat(karmics_victim, "<span class='warning'>You can feel your head start to swim...</span>")
