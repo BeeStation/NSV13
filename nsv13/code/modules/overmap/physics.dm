@@ -81,9 +81,9 @@
 
 /obj/structure/overmap/slowprocess()
 	. = ..()
-	if(cabin_air && cabin_air.volume > 0)
-		var/delta = cabin_air.temperature - T20C
-		cabin_air.temperature -= max(-10, min(10, round(delta/4,0.1)))
+	if(cabin_air && cabin_air.return_volume() > 0)
+		var/delta = cabin_air.return_temperature() - T20C
+		cabin_air.set_temperature(cabin_air.return_temperature() - max(-10, min(10, round(delta/4,0.1))))
 	if(internal_tank && cabin_air)
 		var/datum/gas_mixture/tank_air = internal_tank.return_air()
 		var/release_pressure = ONE_ATMOSPHERE
