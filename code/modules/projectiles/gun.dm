@@ -80,7 +80,7 @@
 		if(no_pin_required)
 			pin = null
 		else
-		pin = new pin(src)
+			pin = new pin(src)
 	if(gun_light)
 		alight = new(src)
 	canMouseDown = automatic //Nsv13 / Bee change.
