@@ -79,7 +79,7 @@
 		var/target_range = get_dist(ship,src)
 		if(target_range > SW.range_modifier || target_range <= 0) //Random pulled from the aether
 			continue
-		if(!QDELETED(ship) && isovermap(ship))
+		if(!QDELETED(ship) && isovermap(ship) && ship.is_sensor_visible(src) >= SENSOR_VISIBILITY_TARGETABLE)
 			last_target = ship
 			fire_weapon(ship, mode=FIRE_MODE_FLAK, lateral=TRUE)
 			break
