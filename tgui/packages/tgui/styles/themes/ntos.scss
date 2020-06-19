@@ -18,6 +18,9 @@ $nanotrasen: #384e68;
     'color-default': $nanotrasen,
     'color-transparent-text': rgba(227, 240, 255, 0.75),
   ));
+  @include meta.load-css('../components/Map.scss', $with: (
+  ));
+  
   @include meta.load-css('../components/ProgressBar.scss', $with: (
     'color-default': $nanotrasen,
     'color-background': rgba(0, 0, 0, 0.5),

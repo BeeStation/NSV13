@@ -8,9 +8,9 @@ import { Box } from './Box';
 import { Icon } from './Icon';
 import { Tooltip } from './Tooltip';
 
-const logger = createLogger('Button');
+const logger = createLogger('StarButton');
 
-export const Button = props => {
+export const StarButton = props => {
   const {
     className,
     fluid,
@@ -28,6 +28,7 @@ export const Button = props => {
     onclick,
     onClick,
     ilstyle,
+    alignment,
     ...rest
   } = props;
   const hasContent = !!(content || children);
@@ -42,7 +43,7 @@ export const Button = props => {
   // IE8: Use a lowercase "onclick" because synthetic events are fucked.
   // IE8: Use an "unselectable" prop because "user-select" doesn't work.
   return (
-    <Box
+    <div
       className={classes([
         'Button',
         fluid && 'Button--fluid',
@@ -91,16 +92,16 @@ export const Button = props => {
           content={tooltip}
           position={tooltipPosition} />
       )}
-    </Box>
+    </div>
   );
 };
 
-Button.defaultHooks = pureComponentHooks;
+StarButton.defaultHooks = pureComponentHooks;
 
-export const ButtonCheckbox = props => {
+export const StarButtonCheckbox = props => {
   const { checked, ...rest } = props;
   return (
-    <Button
+    <StarButton
       color="transparent"
       icon={checked ? 'check-square-o' : 'square-o'}
       selected={checked}
@@ -108,9 +109,9 @@ export const ButtonCheckbox = props => {
   );
 };
 
-Button.Checkbox = ButtonCheckbox;
+StarButton.Checkbox = StarButtonCheckbox;
 
-export class ButtonConfirm extends Component {
+export class StarButtonConfirm extends Component {
   constructor() {
     super();
     this.state = {
@@ -147,7 +148,7 @@ export class ButtonConfirm extends Component {
       ...rest
     } = this.props;
     return (
-      <Button
+      <StarButton
         content={this.state.clickedOnce ? confirmContent : content}
         icon={this.state.clickedOnce ? confirmIcon : icon}
         color={this.state.clickedOnce ? confirmColor : color}
@@ -160,9 +161,9 @@ export class ButtonConfirm extends Component {
   }
 }
 
-Button.Confirm = ButtonConfirm;
+StarButton.Confirm = StarButtonConfirm;
 
-export class ButtonInput extends Component {
+export class StarButtonInput extends Component {
   constructor() {
     super();
     this.inputRef = createRef();
@@ -220,7 +221,7 @@ export class ButtonInput extends Component {
     } = this.props;
 
     return (
-      <Box
+      <div
         className={classes([
           'Button',
           fluid && 'Button--fluid',
@@ -265,9 +266,9 @@ export class ButtonInput extends Component {
             position={tooltipPosition}
           />
         )}
-      </Box>
+      </div>
     );
   }
 }
 
-Button.Input = ButtonInput;
+StarButton.Input = StarButtonInput;

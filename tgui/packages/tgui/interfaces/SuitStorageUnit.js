@@ -17,7 +17,7 @@ export const SuitStorageUnit = (props, context) => {
     storage,
   } = data;
   return (
-    <Window>
+    <Window theme="hackerman">
       <Window.Content>
         {!!(occupied && safeties) && (
           <NoticeBox>

@@ -38,6 +38,12 @@
 	var/show_asteroids = FALSE //Used so that mining can track what they're supposed to be drilling.
 	var/mining_sensor_tier = 1
 	var/last_ship_count = 0 //Plays a tone when ship count changes
+	//Alpha sliders to let you filter out info you don't want to see.
+	var/showFriendlies = 100
+	var/showEnemies= 100
+	var/showAsteroids = 100 //add planets to this eventually.
+	var/showAnomalies = 100
+	var/sensor_range = SENSOR_RANGE_DEFAULT //In tiles. How far your sensors can pick up precise info about ships.
 
 /obj/machinery/computer/ship/dradis/minor //Secondary dradis consoles usable by people who arent on the bridge.
 	name = "Air traffic control console"
@@ -53,6 +59,7 @@
 	name = "Integrated dradis console"
 	use_power = 0
 	start_with_sound = FALSE
+	sensor_range = SENSOR_RANGE_FIGHTER
 
 /obj/machinery/computer/ship/dradis/internal/has_overmap()
 	if(linked)
@@ -101,16 +108,40 @@
 		return FALSE
 	return TRUE
 
-/obj/machinery/computer/ship/dradis/ui_interact(mob/user, ui_key = "main", datum/tgui/ui = null, force_open = 0, datum/tgui/master_ui = null, datum/ui_state/state = GLOB.default_state) // Remember to use the appropriate state.
+/obj/machinery/computer/ship/dradis/ui_interact(mob/user, ui_key = "main", datum/tgui/ui = null, force_open = FALSE, datum/tgui/master_ui = null, datum/ui_state/state = GLOB.default_state) // Remember to use the appropriate state.
 	if(!has_overmap())
 		return
 	ui = SStgui.try_update_ui(user, src, ui_key, ui, force_open)
 	if(!ui)
 		var/datum/asset/assets = get_asset_datum(/datum/asset/simple/dradis)
 		assets.send(user)
-		ui = new(user, src, ui_key, "dradis", name, 560, 600, master_ui, state)
-		//ui.set_style("dradis")
+		ui = new(user, src, ui_key, "Dradis", name, 1000, 1200, master_ui, state)
 		ui.open()
+
+/obj/machinery/computer/ship/dradis/ui_act(action, params, datum/tgui/ui)
+	if(..())
+		return
+	if(!has_overmap())
+		return
+	var/alphaSlide = text2num(params["alpha"])
+	alphaSlide = CLAMP(alphaSlide, 0, 100) //Just in case we have a malformed input.
+	switch(action)
+		if("showFriendlies")
+			if(!alphaSlide)
+				return
+			showFriendlies = alphaSlide
+		if("showEnemies")
+			if(!alphaSlide)
+				return
+			showEnemies = alphaSlide
+		if("showAsteroids")
+			if(!alphaSlide)
+				return
+			showAsteroids = alphaSlide
+		if("showAnomalies")
+			if(!alphaSlide)
+				return
+			showAnomalies = alphaSlide
 
 /obj/machinery/computer/ship/dradis/attackby(obj/item/I, mob/user) //Allows you to upgrade dradis consoles to show asteroids, as well as revealing more valuable ones.
 	. = ..()
@@ -126,28 +157,60 @@
 		else
 			to_chat(user, "<span class='notice'>[src] has already been upgraded to a higher tier than [MS].</span>")
 
-/obj/machinery/computer/ship/dradis/ui_data(mob/user) //NEW AND IMPROVED DRADIS 2.0. NOW FEATURING LESS LAG AND CLICKSPAM. This was a pain to code. Don't make me do it again..please? -Kmc
-	var/datum/asset/assets = get_asset_datum(/datum/asset/simple/dradis) //They need these in order to see the images
-	assets.send(user)
+//Cloaking and sensors!
+
+/obj/structure/overmap/proc/is_sensor_visible(obj/structure/overmap/observer) //How visible is this enemy ship to sensors? Sometimes ya gotta get real up close n' personal.
+	var/distance_factor = (1/get_dist(src, observer)) //Visibility inversely scales with distance. If you get too close to a target, even with a stealth ship, you'll ping their sensors.
+	//Convert alpha to an opacity reading.
+	switch(alpha)
+		if(0 to 50) //Nigh on invisible. You cannot detect ships that are this cloaked by any means.
+			return SENSOR_VISIBILITY_GHOST
+		if(51 to 100) //Barely visible at all.
+			return CLAMP(SENSOR_VISIBILITY_VERYFAINT + distance_factor, SENSOR_VISIBILITY_GHOST, SENSOR_VISIBILITY_FULL)
+		if(101 to 250)
+			return CLAMP(SENSOR_VISIBILITY_FAINT + distance_factor, SENSOR_VISIBILITY_GHOST, SENSOR_VISIBILITY_FULL)
+		if(251 to 255)
+			return SENSOR_VISIBILITY_FULL
+
+
+/obj/structure/overmap/proc/handle_cloak(state)
+	switch(state)
+		if(TRUE)
+			while(alpha > 0){
+				stoplag()
+				alpha -= 5
+			}
+			mouse_opacity = FALSE
+			return
+		if(FALSE)
+			while(alpha < 255){
+				stoplag()
+				alpha += 5
+			}
+			mouse_opacity = TRUE
+			return
+		if(CLOAK_TEMPORARY_LOSS) //Flicker the cloak so that you can fire.
+			if(alpha >= 255) //No need to re-cloak us if we were never cloaked...
+				return
+			while(alpha < 255){
+				stoplag()
+				alpha += 15
+			}
+			addtimer(CALLBACK(src, .proc/handle_cloak, TRUE), 15 SECONDS)
+
+/obj/machinery/computer/ship/dradis/ui_data(mob/user) //NEW AND IMPROVED DRADIS 2.0. NOW FEATURING LESS LAG AND CLICKSPAM. ~~This was a pain to code. Don't make me do it again..please? -Kmc~~ 2020 Kmc here, I recoded it. You're right! It was painful, also your code sucked :)
 	var/list/data = list()
-	var/blips[0] //2-d array declaration
+	var/list/blips = list() //2-d array declaration
 	var/ship_count = 0
 	for(var/obj/effect/overmap_anomaly/OA in linked?.current_system?.system_contents)
 		if(OA && istype(OA) && OA.z == linked?.z)
-			var/OMx = OA.x/6 //We're now going to scale down the X,Y coords into something we can display
-			var/OMy = OA.y/6 //THESE NUMBERS ARE BASED ON TRIAL AND ERROR. DON'T ARGUE WITH ME JUST DEAL WITH IT
-			if(OMx < 5) //This chain of IFs stops the dots from going off the screen. Simple as.
-				OMx = 5
-			if(OMx > 275)
-				OMx = 275
-			if(OMy < 5)
-				OMy = 5
-			if(OMy > 39)
-				OMy = 39
-			blips.Add(list(list("x" = OMx, "y" = OMy, "colour" = "#eb9534", "name" = "[(OA.scanned) ? OA.name : "anomaly"]")))
+			blips.Add(list(list("x" = OA.x, "y" = OA.y, "colour" = "#eb9534", "name" = "[(OA.scanned) ? OA.name : "anomaly"]", opacity=showAnomalies*0.01, alignment = "uncharted")))
 	for(var/obj/structure/overmap/OM in GLOB.overmap_objects) //Iterate through overmaps in the world!
-		if(OM.z == linked.z)
+		var/sensor_visible = (OM != linked) ? OM.is_sensor_visible(linked) : SENSOR_VISIBILITY_FULL //You can always see your own ship.
+		if(OM.z == linked.z && sensor_visible >= SENSOR_VISIBILITY_FAINT)
+			var/inRange = get_dist(linked, OM) <= sensor_range
 			var/thecolour = "#FFFFFF"
+			var/filterType = showEnemies
 			if(istype(OM, /obj/structure/overmap/asteroid))
 				if(!show_asteroids)
 					continue
@@ -160,31 +223,42 @@
 						thecolour = "#ffcc00"
 					if(3)
 						thecolour = "#cc66ff"
+				filterType = showAsteroids
 			else
 				if(OM == linked)
 					thecolour = "#00FFFF"
+					filterType = 100 //No hiding yourself kid.
 				else if(OM.faction == linked.faction)
 					thecolour = "#32CD32"
+					filterType = showFriendlies
 				else
 					thecolour = "#FF0000"
+					filterType = showEnemies
 					ship_count ++
-			var/OMx = OM.x/6 //We're now going to scale down the X,Y coords into something we can display
-			var/OMy = OM.y/6 //THESE NUMBERS ARE BASED ON TRIAL AND ERROR. DON'T ARGUE WITH ME JUST DEAL WITH IT
-			if(OMx < 5) //This chain of IFs stops the dots from going off the screen. Simple as.
-				OMx = 5
-			if(OMx > 255)
-				OMx = 255
-			if(OMy < 5)
-				OMy = 5
-			if(OMy > 39)
-				OMy = 39
-			blips.Add(list(list("x" = OMx, "y" = OMy, "colour" = thecolour, "name"=OM.name))) //So now make a 2-d array that TGUI can iterate through. This is just a list within a list.
+			var/thename = (inRange) ? OM.name : "UNKNOWN"
+			var/thefaction = ((OM.faction == "nanotrasen" || OM.faction == "syndicate") && inRange) ? OM.faction : "unaligned" //You runnin with the blues or reds? Obfuscate faction too :)
+			thecolour = (inRange) ? thecolour : "#a66300"
+			filterType = (inRange) ? filterType : 100 //Can't hide things that you don't have sensor resolution on, this is to stop you being able to say, turn off enemy vision, see a target outside of scanner range go dark, and then go HMM.
+			if(sensor_visible <= SENSOR_VISIBILITY_FAINT) //For "transparent" / Somewhat hidden ships, show a reduced sensor ping.
+				filterType = sensor_visible //Sensor_visible already returns a CSS compliant opacity figure.
+			else
+				filterType *= 0.01 //Scale the number down to be an opacity figure for CSS
+			filterType = CLAMP(filterType, 0, 1)
+			blips[++blips.len] = list("x" = OM.x, "y" = OM.y, "colour" = thecolour, "name"=thename, opacity=filterType ,alignment = thefaction) //So now make a 2-d array that TGUI can iterate through. This is just a list within a list.
 	if(ship_count > last_ship_count) //Play a tone if ship count changes
 		var/delta = ship_count - last_ship_count
 		last_ship_count = ship_count
 		visible_message("<span class='warning'>[icon2html(src, viewers(src))] [delta <= 1 ? "DRADIS contact" : "Multiple DRADIS contacts"]</span>")
 		playsound(src, 'nsv13/sound/effects/ship/contact.ogg', 100, FALSE)
+	data["focus_x"] = linked.x
+	data["focus_y"] = linked.y
 	data["ships"] = blips //Create a category in data called "ships" with our 2-d arrays.
+	data["showFriendlies"] = showFriendlies
+	data["showEnemies"] = showEnemies
+	data["showAsteroids"] = showAsteroids //add planets to this eventually.
+	data["showAnomalies"] = showAnomalies
+	data["sensor_range"] = sensor_range
+	data["width_mod"] = sensor_range / SENSOR_RANGE_DEFAULT
 	return data
 
 /datum/asset/simple/overmap_flight
