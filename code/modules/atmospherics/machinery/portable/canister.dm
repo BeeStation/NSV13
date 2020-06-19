@@ -52,7 +52,7 @@
 		"stimulum" = /obj/machinery/portable_atmospherics/canister/stimulum,
 		"pluoxium" = /obj/machinery/portable_atmospherics/canister/pluoxium,
 		"caution" = /obj/machinery/portable_atmospherics/canister,
-		"miasma" = /obj/machinery/portable_atmospherics/canister/miasma
+		//"miasma" = /obj/machinery/portable_atmospherics/canister/miasma //NSV13 - Stolen Datum
 	)
 
 /obj/machinery/portable_atmospherics/canister/interact(mob/user)
@@ -140,13 +140,14 @@
 	gas_type = /datum/gas/water_vapor
 	filled = 1
 
+/*
 /obj/machinery/portable_atmospherics/canister/miasma
 	name = "miasma canister"
 	desc = "Miasma. Makes you wish your nose were blocked."
 	icon_state = "miasma"
 	gas_type = /datum/gas/miasma
 	filled = 1
-
+*/
 
 
 /obj/machinery/portable_atmospherics/canister/proc/get_time_left()

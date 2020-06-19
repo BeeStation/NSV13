@@ -459,6 +459,7 @@
 	name = "Dry Heat Sterilization"
 	id = "sterilization"
 
+/* NSV13 - Stolen Datum
 /datum/gas_reaction/miaster/init_reqs()
 	min_requirements = list(
 		"TEMP" = FIRE_MINIMUM_TEMPERATURE_TO_EXIST+70,
@@ -478,6 +479,7 @@
 	//Possibly burning a bit of organic matter through maillard reaction, so a *tiny* bit more heat would be understandable
 	air.set_temperature(air.return_temperature() + cleaned_air * 0.002)
 	SSresearch.science_tech.add_point_type(TECHWEB_POINT_TYPE_DEFAULT, cleaned_air*MIASMA_RESEARCH_AMOUNT)//Turns out the burning of miasma is kinda interesting to scientists
+*/
 
 /datum/gas_reaction/stim_ball
 	priority = 7

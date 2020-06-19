@@ -287,6 +287,7 @@
 			H.reagents.add_reagent(/datum/reagent/stimulum,max(0, 1 - existing))
 		breath.adjust_moles(/datum/gas/stimulum, -gas_breathed)
 
+/* NSV13 - Stolen Datum
 	// Miasma
 		if (breath.get_moles(/datum/gas/miasma))
 			var/miasma_pp = breath.get_breath_partial_pressure(breath.get_moles(/datum/gas/miasma))
@@ -333,6 +334,7 @@
 		// Clear out moods when no miasma at all
 		else
 			SEND_SIGNAL(owner, COMSIG_CLEAR_MOOD_EVENT, "smell")
+*/
 
 		handle_breath_temperature(breath, H)
 	return TRUE

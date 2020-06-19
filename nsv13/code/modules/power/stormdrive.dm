@@ -326,7 +326,6 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 		return FALSE
 	icon_state = "reactor_starting"
 	var/datum/gas_mixture/air1 = airs[1]
-//	air1.assert_gases(/datum/gas/plasma, /datum/gas/plasma/constricted_plasma, /datum/gas/nitrogen, /datum/gas/water_vapor, /datum/gas/tritium)
 	var/fuel_check = air1.get_moles(/datum/gas/plasma) * LOW_ROR + \
 					air1.get_moles(/datum/gas/plasma/constricted_plasma) * NORMAL_ROR + \
 					air1.get_moles(/datum/gas/nitrogen) * HINDER_ROR + \
@@ -374,13 +373,11 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 
 	heat = start_threshold+10
 	var/datum/gas_mixture/air1 = airs[1]
-//	air1.assert_gas(/datum/gas/plasma/constricted_plasma) //Yeet some plasma into the pipe so it can run for a while
 	air1.adjust_moles(/datum/gas/plasma/constricted_plasma, 300)
 	try_start()
 
 /obj/machinery/atmospherics/components/binary/stormdrive_reactor/proc/juice_up(var/juice) //Admin command to add a specified amount of CPlas to the drive
 	var/datum/gas_mixture/air1 = airs[1]
-//	air1.assert_gas(/datum/gas/plasma/constricted_plasma)
 	air1.adjust_moles(/datum/gas/plasma/constricted_plasma, juice)
 
 /obj/machinery/atmospherics/components/binary/stormdrive_reactor/proc/start_meltdown()
@@ -496,29 +493,11 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 
 	var/datum/gas_mixture/air1 = airs[1]
 	if(air1.total_moles() >= reaction_rate)
-/*	var/list/cached_gases = air1.get_gases() //do we actually need this as a list?
-	if(cached_gases)
-		var/moles = 0
-		for(var/total_moles_id in cached_gases) //count the number of moles, could use total_moles() if gas_mixture
-			moles += cached_gases[total_moles_id][MOLES]
-		if(moles >= reaction_rate)
-*/
 		message_admins("moles: [air1.total_moles()], reaction_rate: [reaction_rate]")
 		var/datum/gas_mixture/reaction_chamber_gases = air1.remove(reaction_rate)
 		var/rcg = reaction_chamber_gases.total_moles()
 		message_admins("reaction_chamber_gases total_moles: [rcg]")
-/*			reaction_chamber_gases.assert_gases(/datum/gas/plasma, \
-												/datum/gas/plasma/constricted_plasma, \
-												/datum/gas/nitrogen, \
-												/datum/gas/water_vapor, \
-												/datum/gas/miasma, \
-												/datum/gas/oxygen, \
-												/datum/gas/carbon_dioxide, \
-												/datum/gas/tritium, \
-												/datum/gas/nitrous_oxide, \
-												/datum/gas/pluoxium, \
-												/datum/gas/special_sauce)
-*/
+
 		//calculate the actual fuel mix
 		var/chamber_ror_total = reaction_chamber_gases.get_moles(/datum/gas/plasma) * LOW_ROR + \
 								reaction_chamber_gases.get_moles(/datum/gas/plasma/constricted_plasma) * NORMAL_ROR + \
@@ -556,10 +535,6 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 
 		heat_gain = initial(heat_gain) + reaction_rate
 		reaction_chamber_gases.clear()
-/*		for(var/gas_ids in reaction_chamber_gases) //clear the used gas
-			reaction_chamber_gases.gases[gas_ids][MOLES] = 0
-		reaction_chamber_gases.garbage_collect()
-*/
 
 		if(reactor_starvation > 0)
 			reactor_starvation -= 0.5 //drops at half the gain rate
@@ -593,7 +568,7 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 					to_chat(M, "<span class='danger'>The reactor [word]!</span>")
 			else if(istype(selection, /obj/structure/window))
 				var/obj/structure/S = selection
-				S.take_damage(100)
+				S.take_damage(400)
 				playsound(loc, 'sound/effects/bang.ogg', 100, TRUE)
 				var/word = pick("growls", "snarls", "wails", "bellows")
 				for(var/mob/living/M in view(10, src))
