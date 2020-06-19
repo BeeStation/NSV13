@@ -102,7 +102,7 @@
 		/datum/gas/stimulum				= new/datum/tlv/dangerous,
 		/datum/gas/nitryl				= new/datum/tlv/dangerous,
 		/datum/gas/pluoxium				= new/datum/tlv(-1, -1, 1000, 1000), // Unlike oxygen, pluoxium does not fuel plasma/tritium fires
-		/datum/gas/constricted_plasma	= new/datum/tlv/dangerous,
+		/datum/gas/plasma/constricted_plasma	= new/datum/tlv/dangerous,
 		/datum/gas/special_sauce		= new/datum/tlv/dangerous
 	)
 
@@ -123,7 +123,7 @@
 			/datum/gas/stimulum				= new/datum/tlv/no_checks,
 			/datum/gas/nitryl				= new/datum/tlv/no_checks,
 			/datum/gas/pluoxium				= new/datum/tlv/no_checks,
-			/datum/gas/constricted_plasma 	= new/datum/tlv/no_checks,
+			/datum/gas/plasma/constricted_plasma 	= new/datum/tlv/no_checks,
 			/datum/gas/special_sauce		= new/datum/tlv/no_checks
 	)
 
@@ -144,7 +144,7 @@
 		/datum/gas/stimulum			= new/datum/tlv/dangerous,
 		/datum/gas/nitryl			= new/datum/tlv/dangerous,
 		/datum/gas/pluoxium			= new/datum/tlv(-1, -1, 1000, 1000), // Unlike oxygen, pluoxium does not fuel plasma/tritium fires
-		/datum/gas/constricted_plasma	= new/datum/tlv/dangerous,
+		/datum/gas/plasma/constricted_plasma	= new/datum/tlv/dangerous,
 		/datum/gas/special_sauce		= new/datum/tlv/dangerous
 	)
 

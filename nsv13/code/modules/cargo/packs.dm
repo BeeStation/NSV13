@@ -224,6 +224,7 @@
 	desc = "One Tyrosene fuel pump, capable of fully refuelling 3 fighters."
 	cost = 1500
 	contains = list(/obj/structure/reagent_dispensers/fueltank/aviation_fuel)
+
 /datum/supply_pack/engineering/control_rods
 	name = "Nanocarbon Reactor Control Rods (x5)"
 	desc = "5 nanocarbon reactor control rods for a stormdrive reactor."

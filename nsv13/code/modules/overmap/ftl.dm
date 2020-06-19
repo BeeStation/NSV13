@@ -485,6 +485,9 @@ A way for syndies to track where the player ship is going in advance, so they ca
 			START_PROCESSING(SSmachines, src)
 		return TRUE
 	return FALSE
+
+/*
+
 #define PYLON_STATE_STARTING 1
 #define PYLON_STATE_WARMUP 2
 #define PYLON_STATE_SPOOLING 3
@@ -626,3 +629,4 @@ A way for syndies to track where the player ship is going in advance, so they ca
 #undef PYLON_STATE_WARMUP
 #undef PYLON_STATE_SPOOLING
 #undef PYLON_STATE_SHUTDOWN
+*/
