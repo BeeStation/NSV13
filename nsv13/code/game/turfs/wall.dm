@@ -135,12 +135,9 @@
 			return CAN_SMOOTH_HALF
 	return FALSE
 
-/turf/closed/wall/proc/update_icon()
-
+/turf/closed/wall/update_icon()
 	cut_overlays()
-
 	var/image/I = null
-
 	for(var/i = 1 to 4)
 		I = image(icon, "[initial(icon_state)][wall_connections[i]]", dir = 1<<(i-1))
 		I.color = color

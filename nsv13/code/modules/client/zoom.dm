@@ -14,7 +14,7 @@
 			current_view_size -= 10
 			if(current_view_size <= 15)
 				current_view_size = 15
-				check_view() //Reset our view back if we go below the default view setting
+				change_view(getScreenSize(prefs.widescreenpref)) //Reset our view back if we go below the default view setting
 		if(delta_y<=-1)
 			current_view_size += 10
 			if(current_view_size >= 40) //Any further than this, and byond start to lag.
