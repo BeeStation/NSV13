@@ -108,22 +108,23 @@ GLOBAL_LIST_INIT(available_depts, list(SEC_DEPT_ENGINEERING, SEC_DEPT_MEDICAL, S
 	else
 		to_chat(M, "<b>You have not been assigned to any department. Patrol the halls and help where needed.</b>")
 
-
-
 /datum/outfit/job/security
 	name = "Security Officer"
 	jobtype = /datum/job/officer
 
-	belt = /obj/item/gun/ballistic/automatic/peacekeeper
+	belt = /obj/item/storage/belt/security/full
 	ears = /obj/item/radio/headset/headset_sec/alt
+	glasses = /obj/item/clothing/glasses/hud/security/sunglasses
 	uniform = /obj/item/clothing/under/ship/peacekeeper
-	suit = /obj/item/clothing/suit/ship/peacekeeper
+	neck = /obj/item/clothing/neck/tie/black
+	suit = /obj/item/clothing/suit/armor/vest
+	suit_store = /obj/item/gun/ballistic/automatic/pistol/glock
 	gloves = /obj/item/clothing/gloves/color/black
 	head = /obj/item/clothing/head/beret/sec/navyofficer
 	shoes = /obj/item/clothing/shoes/jackboots
 	l_pocket = /obj/item/restraints/handcuffs
 	r_pocket = /obj/item/assembly/flash/handheld
-	backpack_contents = list(/obj/item/melee/baton/loaded=1, /obj/item/ammo_box/magazine/peacekeeper=1, /obj/item/club=1, /obj/item/pda/security)
+	backpack_contents = list(/obj/item/ammo_box/magazine/pistolm9mm/rubber, /obj/item/gun/ballistic/tazer,  /obj/item/ammo_box/magazine/tazer_cartridge_storage=1,/obj/item/pda/security, /obj/item/book/granter/martial/jujitsu, /obj/item/club=1)
 
 	backpack = /obj/item/storage/backpack/security
 	satchel = /obj/item/storage/backpack/satchel/sec
