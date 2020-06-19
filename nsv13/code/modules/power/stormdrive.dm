@@ -113,11 +113,12 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 	var/reactor_temperature_nominal = 200 //Base state temperature theshold value
 	var/reactor_temperature_hot = 400 //Base state temperature theshold value
 	var/reactor_temperature_critical = 650 //Base state temperature theshold value
-	var/reactor_temperature_meltdown = 800 //Base state temperature theshold value
+	var/reactor_temperature_meltdown = 80000000 //Base state temperature theshold value - 800
 	var/reactor_temperature_modifier = 1 //Modifier handling temperature thesholds
 	var/reactor_starvation = 0 //Tracking each tick the reactor is still online and without fuel
 	var/sdr_id = null //This should match the rcc_id on the reactor control console during INITALIZATION - and should follow this general guideline for standard gameplay: 1 = primary ship, 2 = secondary ship, 3 = syndicate ship -- alternatively you can make players have to link them manually every round
 	var/souls_devoured = null //Some questions should not be asked
+	var/dumping_fuel = FALSE //Are we dumping our fuel?
 
 /obj/machinery/atmospherics/components/binary/stormdrive_reactor/syndicate
 	radio_key = /obj/item/encryptionkey/syndicate
@@ -387,7 +388,9 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 		return
 	for(var/obj/item/control_rod/cr in contents) //Burn through the control rods if we haven't already.
 		cr.rod_integrity = 0
-		cr.rod_failure(src)
+		control_rods -= cr
+		qdel(cr)
+		control_rods += new /obj/item/control_rod/irradiated(src)
 	handle_control_rod_efficiency()
 	send_alert("ERROR IN MODULE FISSREAC0 AT ADDRESS 0x12DF. CONTROL RODS HAVE FAILED. IMMEDIATE INTERVENTION REQUIRED.", override=TRUE)
 	warning_state = WARNING_STATE_MELTDOWN
@@ -477,6 +480,20 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 	if(state != REACTOR_STATE_RUNNING || heat <= start_threshold)
 		deactivate()
 		return ..() //Stop processing if we're not activated, start processing when we're activated.
+	if(dumping_fuel)
+		var/max_output_pressure = 4500
+		var/datum/gas_mixture/air1 = airs[1]
+		var/datum/gas_mixture/air2 = airs[2]
+		var/output_starting_pressure = air2.return_pressure()
+		if(output_starting_pressure >= max_output_pressure)
+			send_alert("Error: Dump pressure line exceeds pump pressure capacities. Process aborted.")
+			dumping_fuel = FALSE
+		else if(output_starting_pressure < max_output_pressure)
+			var/moles = air1.total_moles()
+			var/datum/gas_mixture/buffer = air1.remove(min(5, moles))
+			air2.merge(buffer)
+			update_parents()
+
 	var/datum/gas_mixture/air1 = airs[1]
 	var/list/cached_gases = air1.gases //do we actually need this as a list?
 	if(cached_gases)
@@ -554,11 +571,11 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 					shake_camera(M, 2, 1)
 			if(prob(reactor_starvation / 4))
 				var/list/barriers = list()
-				for(var/turf/closed/wall/W in orange(5))
+				for(var/turf/closed/wall/W in orange(5, src))
 					barriers += W
-				for(var/obj/structure/window/W in orange(5))
+				for(var/obj/structure/window/W in orange(5, src))
 					barriers += W
-				for(var/obj/structure/girder/G in orange(5))
+				for(var/obj/structure/girder/G in orange(5, src))
 					barriers += G
 				var/selection = pick(barriers)
 				if(!selection)
@@ -633,11 +650,13 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 /obj/machinery/atmospherics/components/binary/stormdrive_reactor/proc/can_cool()
 	if(heat > reactor_temperature_nominal) //Only start decaying the rods if theyre running it hot. We have a "safe" mode which doesn't need you to check in on the reactor at all.
 		for(var/obj/item/control_rod/cr in contents)
-			if(prob(80))
-				cr.rod_integrity -= input_power/100 //control rod decay occurs here
-			if(cr.rod_integrity <= 0) //tag any failed rods
-				cr.rod_failure(src)
+			if(cr.rod_integrity <= 0 && !istype(cr, /obj/item/control_rod/irradiated)) //tag any failed rods
+				control_rods -= cr
+				qdel(cr)
+				control_rods += new /obj/item/control_rod/irradiated(src)
 				handle_control_rod_efficiency()
+			if(prob(80))
+				cr.rod_integrity -= (input_power/1000) * control_rod_percent //control rod decay occurs here
 		handle_control_rod_integrity()
 		if(control_rod_integrity < 0)
 			control_rod_integrity = 0
@@ -703,7 +722,7 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 				if(C.get_bodypart(BODY_ZONE_HEAD))
 					var/obj/item/bodypart/affecting = C.get_bodypart(BODY_ZONE_HEAD)
 					if(affecting && affecting.receive_damage(5)) //minor brute damage
-						C.adjustBrainLoss(1)
+						C.adjustBrainLoss(3)
 						C.update_damage_overlays()
 
 					C.visible_message("<span class='warning'>You bonk your head on the outcasing of the [src]</span>")
@@ -732,7 +751,7 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 					air1.gases[/datum/gas/plasma][MOLES] += 25
 					return
 
-			if(100 to INFINITY) //Souls for Souldrive
+			if(100 to INFINITY) //Souls for the Souldrive
 				C.visible_message("<span class='danger'><B>Blue particles surround your body!</B></span>")
 				C.gib()
 				playsound(src, 'sound/effects/phasein.ogg', 100, TRUE) //temp - find a better sound
@@ -756,16 +775,16 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 	switch(last_power_produced)
 		if(2000000 to 3000000) //2MW to 3MW
 			if(prob(0.1))
-				for(var/obj/machinery/light/L in orange(8))
+				for(var/obj/machinery/light/L in orange(8, src))
 					if(prob(25))
 						L.flicker()
 		if(3000000 to 5000000) //3MW to 5MW
 			if(prob(0.1))
-				for(var/obj/machinery/light/L in orange(25))
+				for(var/obj/machinery/light/L in orange(25, src))
 					if(prob(25))
 						L.flicker()
 			if(prob(1))
-				for(var/obj/machinery/light/L in orange(8))
+				for(var/obj/machinery/light/L in orange(8, src))
 					if(prob(25))
 						L.flicker()
 		if(5000000 to 10000000) //5MW to 10MW
@@ -776,13 +795,13 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 						if(prob(25))
 							L.flicker()
 			if(prob(1))
-				for(var/obj/machinery/light/L in orange(10))
+				for(var/obj/machinery/light/L in orange(10, src))
 					if(prob(25))
 						L.burn_out()
 					else
 						L.flicker()
 			if(prob(0.01))
-				tesla_zap(src, 5, input_power/50)
+				tesla_zap(src, 5, input_power/50) //this may not be working as intended
 		if(10000000 to INFINITY) //10MW+
 			if(prob(1))
 				for(var/ar in SSmapping.areas_in_z["[z]"])
@@ -791,10 +810,10 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 						if(prob(50))
 							L.flicker()
 			if(prob(5))
-				for(var/obj/machinery/light/L in orange(12))
+				for(var/obj/machinery/light/L in orange(12, src))
 					L.burn_out() //If there are even any left by this stage
 			if(prob(0.1))
-				tesla_zap(src, 5, input_power/25)
+				tesla_zap(src, 8, input_power/25)
 
 /obj/machinery/atmospherics/components/binary/stormdrive_reactor/Destroy()
 	for(var/atom/X in contents)
@@ -908,22 +927,7 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 			else
 				to_chat(usr, "<span class='danger'>DANGER! Maintenance protocols cannot be initiated while the reactor is active</span>")
 		if("pipe") //change my words
-			if(reactor.state != REACTOR_STATE_IDLE || reactor.state != REACTOR_STATE_MAINTENANCE) //ehhhhhh revisit this
-				to_chat(usr, "<span class='danger'>DANGER! Fuel dumping protocls cannot be initiated while the reactor is active</span>")
-				return
-			else
-				var/max_output_pressure = 4500
-				var/datum/gas_mixture/air1 = reactor.airs[1]
-				var/datum/gas_mixture/air2 = reactor.airs[2]
-				var/output_starting_pressure = air2.return_pressure()
-				if(output_starting_pressure >= max_output_pressure) //pressure cap
-					to_chat(usr, "<span class='warning'>Dump pressure line exceeds pump pressure capcities. Process aborted!</span>")
-					return
-				var/moles = air1.total_moles()
-				var/datum/gas_mixture/buffer = air1.remove(moles)
-				air2.merge(buffer)
-				reactor.update_parents()
-				to_chat(usr, "<span class='warning'>Dumping fuel to waste.</span>")
+			reactor.dumping_fuel = !reactor.dumping_fuel
 
 /obj/machinery/computer/ship/reactor_control_computer/ui_interact(mob/user, ui_key = "main", datum/tgui/ui = null, force_open = 0, datum/tgui/master_ui = null, datum/ui_state/state = GLOB.default_state) // Remember to use the appropriate state.
 	ui = SStgui.try_update_ui(user, src, ui_key, ui, force_open)
@@ -1217,12 +1221,6 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 		return
 	status_alarm(FALSE)
 
-/*
-#undef REACTOR_HEAT_NORMAL
-#undef REACTOR_HEAT_HOT
-#undef REACTOR_HEAT_VERYHOT
-#undef REACTOR_HEAT_MELTDOWN
-*/
 #undef LOW_ROR
 #undef NORMAL_ROR
 #undef HIGH_ROR

@@ -11,12 +11,6 @@
 	.=..()
 	AddComponent(/datum/component/twohanded/required)
 
-/obj/item/control_rod/proc/rod_failure(var/obj/machinery/atmospherics/components/binary/stormdrive_reactor/R, var/obj/item/control_rod/cr)
-	if(cr.rod_integrity != 0)
-		return
-	R.control_rods += new /obj/item/control_rod/irradiated(R)
-	qdel(cr)
-
 /obj/item/control_rod/inferior
 	name = "Techfab Manufactured Reactor Control Rod"
 	desc = "A Reactor Control Rod manufactured onboard, techfabs lack the resolution to completely solidify the core."
