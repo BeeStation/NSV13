@@ -120,7 +120,7 @@
 					S.use(2)
 					to_chat(user, "<span class='notice'>You add the plating.</span>")
 					var/turf/T = get_turf(src)
-					T.PlaceOnTop(/turf/closed/wall)
+					T.PlaceOnTop(/turf/closed/wall/steel) //Nsv13 - Bay style walls
 					transfer_fingerprints_to(T)
 					qdel(src)
 				return
@@ -302,13 +302,6 @@
 	if(!(flags_1 & NODECONSTRUCT_1))
 		var/remains = pick(/obj/item/stack/rods, /obj/item/stack/sheet/iron)
 		new remains(loc)
-	qdel(src)
-
-/obj/structure/girder/ratvar_act()
-	if(anchored)
-		new /obj/structure/destructible/clockwork/wall_gear(loc)
-	else
-		new /obj/structure/destructible/clockwork/wall_gear/displaced(loc)
 	qdel(src)
 
 /obj/structure/girder/narsie_act()

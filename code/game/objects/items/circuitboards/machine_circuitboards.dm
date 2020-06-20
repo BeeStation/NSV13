@@ -247,6 +247,7 @@
 		/obj/machinery/vending/wallmed = "NanoMed",
 		/obj/machinery/vending/assist  = "Vendomat",
 		/obj/machinery/vending/engivend = "Engi-Vend",
+		/obj/machinery/vending/tool = "YouTool",
 		/obj/machinery/vending/hydronutrients = "NutriMax",
 		/obj/machinery/vending/hydroseeds = "MegaSeed Servitor",
 		/obj/machinery/vending/sustenance = "Sustenance Vendor",
@@ -423,6 +424,7 @@
 		/obj/machinery/smartfridge/food = "food",
 		/obj/machinery/smartfridge/drinks = "drinks",
 		/obj/machinery/smartfridge/extract = "slimes",
+		/obj/machinery/smartfridge/organ = "organs",
 		/obj/machinery/smartfridge/chemistry = "chems",
 		/obj/machinery/smartfridge/chemistry/virology = "viruses",
 		/obj/machinery/smartfridge/disks = "disks")
@@ -679,6 +681,18 @@
 /obj/item/circuitboard/machine/chem_dispenser
 	name = "Chem Dispenser (Machine Board)"
 	build_path = /obj/machinery/chem_dispenser
+	req_components = list(
+		/obj/item/stock_parts/matter_bin = 2,
+		/obj/item/stock_parts/capacitor = 1,
+		/obj/item/stock_parts/manipulator = 1,
+		/obj/item/stack/sheet/glass = 1,
+		/obj/item/stock_parts/cell = 1)
+	def_components = list(/obj/item/stock_parts/cell = /obj/item/stock_parts/cell/high)
+	needs_anchored = FALSE
+
+/obj/item/circuitboard/machine/chem_dispenser/botany
+	name = "Minor Botanical Chem Dispenser (Machine Board)"
+	build_path = /obj/machinery/chem_dispenser/mutagensaltpetersmall
 	req_components = list(
 		/obj/item/stock_parts/matter_bin = 2,
 		/obj/item/stock_parts/capacitor = 1,
@@ -1058,4 +1072,29 @@
 		/obj/item/surgicaldrill/advanced = 1,
 		/obj/item/stock_parts/manipulator = 1,
 		/obj/item/stock_parts/micro_laser = 3,
+		/obj/item/stock_parts/matter_bin = 1)
+
+/obj/item/circuitboard/machine/shuttle/engine
+	name = "Thruster (Machine Board)"
+	build_path = /obj/machinery/shuttle/engine
+	req_components = list()
+
+/obj/item/circuitboard/machine/shuttle/engine/plasma
+	name = "Plasma Thruster (Machine Board)"
+	build_path = /obj/machinery/shuttle/engine/plasma
+	req_components = list(/obj/item/stock_parts/capacitor = 2,
+		/obj/item/stack/cable_coil = 5,
+		/obj/item/stock_parts/micro_laser = 1)
+
+/obj/item/circuitboard/machine/shuttle/engine/void
+	name = "Void Thruster (Machine Board)"
+	build_path = /obj/machinery/shuttle/engine/void
+	req_components = list(/obj/item/stock_parts/capacitor/quadratic = 2,
+		/obj/item/stack/cable_coil = 5,
+		/obj/item/stock_parts/micro_laser/quadultra = 1)
+
+/obj/item/circuitboard/machine/shuttle/heater
+	name = "Electronic Engine Heater (Machine Board)"
+	build_path = /obj/machinery/atmospherics/components/unary/shuttle/heater
+	req_components = list(/obj/item/stock_parts/micro_laser = 2,
 		/obj/item/stock_parts/matter_bin = 1)

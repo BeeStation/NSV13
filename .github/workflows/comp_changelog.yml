@@ -4,10 +4,12 @@ on:
   schedule:
   - cron: "0 0 * * *"
 
+
 jobs:
   compile:
     name: "Compile changelogs"
     runs-on: ubuntu-latest
+    if: github.repository == 'BeeStation/NSV13'
     steps:
       - name: "Setup python"
         uses: actions/setup-python@v1
@@ -33,4 +35,5 @@ jobs:
       - name: "Push"
         uses: ad-m/github-push-action@master
         with:
-          github_token: ${{ secrets.BEEBOT_PAT }}
+          #github_token: ${{ secrets.GITHUB_TOKEN }} Use this instead if you have unprotected branches
+          github_token: ${{ secrets.CL_TOKEN }}

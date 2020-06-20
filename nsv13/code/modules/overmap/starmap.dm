@@ -29,7 +29,7 @@
 	if(!ui)
 		var/datum/asset/assets = get_asset_datum(/datum/asset/simple/starmap)
 		assets.send(user)
-		ui = new(user, src, ui_key, "starmap", name, 800, 660, master_ui, state)
+		ui = new(user, src, ui_key, "Starmap", name, 800, 660, master_ui, state)
 		ui.open()
 
 /obj/machinery/computer/ship/navigation/ui_act(action, params, datum/tgui/ui)
@@ -66,13 +66,13 @@
 	var/list/lines = list()
 	var/datum/star_system/current_system = info["current_system"]
 	SSstar_system.update_pos(linked)
-
+	if(linked.ftl_drive)
+		data["ftl_progress"] = linked.ftl_drive.progress
+		if(linked.ftl_drive.ftl_state == FTL_STATE_READY)
+			data["ftl_progress"] = linked.ftl_drive.spoolup_time
+		data["ftl_goal"] = linked.ftl_drive.spoolup_time //TODO
+	data["travelling"] = FALSE
 	if(screen == 0) // ship information
-		if(linked.ftl_drive)
-			data["ftl_progress"] = linked.ftl_drive.progress
-			if(linked.ftl_drive.ftl_state == FTL_STATE_READY)
-				data["ftl_progress"] = linked.ftl_drive.spoolup_time
-			data["ftl_goal"] = linked.ftl_drive.spoolup_time //TODO
 		var/datum/star_system/target_system = info["target_system"]
 		if(!target_system)
 			data["in_transit"] = FALSE
@@ -88,7 +88,6 @@
 			data["time_left"] = max(0, (info["to_time"] - world.time) / 1 MINUTES)
 
 	else if(screen == 1) // star system map screen thing
-
 		var/list/systems_list = list()
 		if(info["current_system"])
 			var/datum/star_system/curr = info["current_system"]
@@ -104,7 +103,7 @@
 			system_list["name"] = system.name
 			if(current_system)
 				system_list["in_range"] = is_in_range(current_system, system)
-				system_list["distance"] = "[current_system.dist(system)]"
+				system_list["distance"] = "[current_system.dist(system) > 0 ? "[current_system.dist(system)] LY" : "You are here."]"
 			else
 				system_list["in_range"] = 0
 			system_list["x"] = system.x
@@ -121,13 +120,22 @@
 			system_list["label"] = label
 			for(var/thename in system.adjacency_list) //Draw the lines joining our systems
 				var/datum/star_system/sys = SSstar_system.system_by_id(thename)
+				var/is_wormhole = (LAZYFIND(sys.wormhole_connections, system.name) || LAZYFIND(system.wormhole_connections, sys.name))
 				var/is_bidirectional = (LAZYFIND(sys.adjacency_list, system.name) && LAZYFIND(system.adjacency_list, sys.name))
 				if(!sys)
 					message_admins("[thename] exists in a system adjacency list, but does not exist. Go create a starsystem datum for it.")
 					continue
-				if(!is_bidirectional || sys.hidden) //Secret One way wormholes don't show as valid hyperlanes, go find them for yourself!
+				if((!is_bidirectional && system != current_system) || sys.hidden) //Secret One way wormholes show you faint, purple paths.
 					continue
-				var/thecolour = (system != current_system) ? "white" : "lightblue"
+				var/thecolour = "#FFFFFF" //Highlight available routes with blue.
+				var/opacity = 1
+				if(LAZYFIND(current_system?.adjacency_list, thename)) //Don't flood the map with wormhole paths, the idea is that you find them yourself!
+					if(is_wormhole)
+						thecolour = "#BA55D3"
+						opacity = 0.85
+				//	else //Couldnt get this to work :/
+					//	to_chat(world, "[thename] is in [current_system]")
+					//	thecolour = "#193a7a"
 				var/list/line = list()
 				var/dx = sys.x - system.x
 				var/dy = sys.y - system.y
@@ -138,6 +146,8 @@
 				line["len"] = len
 				line["angle"] = -angle
 				line["colour"] = thecolour
+				line["priority"] = (sys != current_system) ? 1 : 2
+				line["opacity"] = opacity //Wormholes show faint, purple lines.
 				lines[++lines.len] = line
 			systems_list[++systems_list.len] = system_list
 		if(info["to_time"] > 0)
@@ -150,6 +160,7 @@
 			var/dy = targ.y - last.y
 			data["freepointer_cos"] = dx / dist
 			data["freepointer_sin"] = dy / dist
+			data["travelling"] = TRUE
 		data["star_systems"] = systems_list
 		data["lines"] = lines
 	if(screen == 2) // show info about system screen
@@ -160,11 +171,11 @@
 			var/datum/star_system/curr = info["current_system"]
 			data["star_dist"] = curr.dist(selected_system)
 			data["can_jump"] = current_system.dist(selected_system) < linked.ftl_drive?.max_range && linked.ftl_drive.ftl_state == FTL_STATE_READY && LAZYFIND(current_system.adjacency_list, selected_system.name)
-			data["can_cancel"] = linked.ftl_drive.ftl_state == FTL_STATE_JUMPING && linked.ftl_drive.can_cancel_jump
 			if(!can_control_ship) //For public consoles
 				data["can_jump"] = FALSE
 				data["can_cancel"] = FALSE
 	data["screen"] = screen
+	data["can_cancel"] = linked.ftl_drive.ftl_state == FTL_STATE_JUMPING && linked.ftl_drive.can_cancel_jump
 	return data
 
 /obj/machinery/computer/ship/navigation/proc/is_in_range(datum/star_system/current_system, datum/star_system/system)

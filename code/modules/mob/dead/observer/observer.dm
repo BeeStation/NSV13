@@ -152,12 +152,6 @@ GLOBAL_VAR_INIT(observer_default_invisibility, INVISIBILITY_OBSERVER)
 	animate(src, color = old_color, time = 10, flags = ANIMATION_PARALLEL)
 	addtimer(CALLBACK(src, /atom/proc/update_atom_colour), 10)
 
-/mob/dead/observer/ratvar_act()
-	var/old_color = color
-	color = "#FAE48C"
-	animate(src, color = old_color, time = 10, flags = ANIMATION_PARALLEL)
-	addtimer(CALLBACK(src, /atom/proc/update_atom_colour), 10)
-
 /mob/dead/observer/Destroy()
 	GLOB.ghost_images_default -= ghostimage_default
 	QDEL_NULL(ghostimage_default)
@@ -180,7 +174,9 @@ GLOBAL_VAR_INIT(observer_default_invisibility, INVISIBILITY_OBSERVER)
  * Hair will always update its dir, so if your sprite has no dirs the haircut will go all over the place.
  * |- Ricotez
  */
-/mob/dead/observer/proc/update_icon(new_form)
+/mob/dead/observer/update_icon(new_form)
+	. = ..()
+
 	if(client) //We update our preferences in case they changed right before update_icon was called.
 		ghost_accs = client.prefs.ghost_accs
 		ghost_others = client.prefs.ghost_others
@@ -338,7 +334,7 @@ This is the proc mobs get to turn into a ghost. Forked from ghostize due to comp
 	if(mind.current.key && copytext(mind.current.key,1,2)!="@")	//makes sure we don't accidentally kick any clients
 		to_chat(usr, "<span class='warning'>Another consciousness is in your body...It is resisting you.</span>")
 		return
-	client.check_view()
+	client.view_size.setDefault(getScreenSize(FALSE))//Let's reset so people can't become allseeing gods
 	SStgui.on_transfer(src, mind.current) // Transfer NanoUIs.
 	mind.current.key = key
 	return TRUE
@@ -489,22 +485,22 @@ This is the proc mobs get to turn into a ghost. Forked from ghostize due to comp
 	set desc = "Change your view range."
 
 	var/max_view = client.prefs.unlock_content ? GHOST_MAX_VIEW_RANGE_MEMBER : GHOST_MAX_VIEW_RANGE_DEFAULT
-	if(client.view == CONFIG_GET(string/default_view))
+	if(client.view_size.getView() == client.view_size.default)
 		var/list/views = list()
 		for(var/i in 7 to max_view)
 			views |= i
-		var/new_view = input("Choose your new view", "Modify view range", 7) as null|anything in views
+		var/new_view = input("Choose your new view", "Modify view range", 0) as null|anything in views
 		if(new_view)
-			client.change_view(CLAMP(new_view, 7, max_view))
+			client.view_size.setTo(clamp(new_view, 7, max_view) - 7)
 	else
-		client.check_view()
+		client.view_size.resetToDefault()
 
 /mob/dead/observer/verb/add_view_range(input as num)
 	set name = "Add View Range"
 	set hidden = TRUE
 	var/max_view = client.prefs.unlock_content ? GHOST_MAX_VIEW_RANGE_MEMBER : GHOST_MAX_VIEW_RANGE_DEFAULT
 	if(input)
-		client.rescale_view(input, 15, (max_view*2)+1)
+		client.rescale_view(input, 0, ((max_view*2)+1) - 15)
 
 /mob/dead/observer/verb/boo()
 	set category = "Ghost"
@@ -605,7 +601,7 @@ This is the proc mobs get to turn into a ghost. Forked from ghostize due to comp
 		if(!(L in GLOB.player_list) && !L.mind)
 			possessible += L
 
-	var/mob/living/target = input("Your new life begins today!", "Possess Mob", null, null) as null|anything in possessible
+	var/mob/living/target = input("Your new life begins today!", "Possess Mob", null, null) as null|anything in sortNames(possessible)
 
 	if(!target)
 		return 0
@@ -640,7 +636,7 @@ This is the proc mobs get to turn into a ghost. Forked from ghostize due to comp
 
 	var/dat
 	dat += "<h4>Crew Manifest</h4>"
-	dat += GLOB.data_core.get_manifest()
+	dat += GLOB.data_core.get_manifest_html()
 
 	src << browse(dat, "window=manifest;size=387x420;can_close=1")
 
@@ -736,7 +732,8 @@ This is the proc mobs get to turn into a ghost. Forked from ghostize due to comp
 	set_ghost_appearance()
 	if(client?.prefs)
 		deadchat_name = client.prefs.real_name
-		mind.ghostname = client.prefs.real_name
+		if(mind)
+			mind.ghostname = client.prefs.real_name
 		name = client.prefs.real_name
 
 /mob/dead/observer/proc/set_ghost_appearance()
