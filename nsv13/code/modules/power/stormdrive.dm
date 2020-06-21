@@ -191,7 +191,7 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 /obj/machinery/atmospherics/components/binary/stormdrive_reactor/ui_interact(mob/user, ui_key = "main", datum/tgui/ui = null, force_open = 0, datum/tgui/master_ui = null, datum/ui_state/state = GLOB.default_state) // Remember to use the appropriate state.
 	ui = SStgui.try_update_ui(user, src, ui_key, ui, force_open)
 	if(!ui)
-		ui = new(user, src, ui_key, "reactor_control_rods", name, 560, 600, master_ui, state)
+		ui = new(user, src, ui_key, "StormdriveControlRods", name, 560, 600, master_ui, state)
 		ui.open()
 
 /obj/machinery/atmospherics/components/binary/stormdrive_reactor/ui_act(action, params, datum/tgui/ui)
@@ -493,10 +493,8 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 
 	var/datum/gas_mixture/air1 = airs[1]
 	if(air1.total_moles() >= reaction_rate)
-		message_admins("moles: [air1.total_moles()], reaction_rate: [reaction_rate]")
 		var/datum/gas_mixture/reaction_chamber_gases = air1.remove(reaction_rate)
 		var/rcg = reaction_chamber_gases.total_moles()
-		message_admins("reaction_chamber_gases total_moles: [rcg]")
 
 		//calculate the actual fuel mix
 		var/chamber_ror_total = reaction_chamber_gases.get_moles(/datum/gas/plasma) * LOW_ROR + \
@@ -505,33 +503,28 @@ Takes  plasma and outputs superheated plasma and a shitload of radiation.
 								reaction_chamber_gases.get_moles(/datum/gas/water_vapor) * HINDER_ROR + \
 								reaction_chamber_gases.get_moles(/datum/gas/tritium) * HIGH_ROR
 		reaction_rate_modifier = chamber_ror_total / reaction_rate
-		message_admins("chamber_ror_total: [chamber_ror_total], reaction_rate_modifier: [reaction_rate_modifier]")
 
 		//checking for gas modifiers
 		var/chamber_ipm_total = reaction_rate + reaction_chamber_gases.get_moles(/datum/gas/oxygen) * HIGH_IPM - \
 												reaction_chamber_gases.get_moles(/datum/gas/carbon_dioxide) * LOW_IPM
 		input_power_modifier = chamber_ipm_total / reaction_rate
-		message_admins("chamber_ipm_total: [chamber_ipm_total], input_power_modifier: [input_power_modifier]")
 
 		var/chamber_cooling_total = reaction_rate + reaction_chamber_gases.get_moles(/datum/gas/nitrous_oxide) * HIGH_COOLING + \
 													reaction_chamber_gases.get_moles(/datum/gas/water_vapor) * HIGH_COOLING - \
 													reaction_chamber_gases.get_moles(/datum/gas/tritium) * LOW_COOLING - \
 													reaction_chamber_gases.get_moles(/datum/gas/special_sauce) * LOW_COOLING
 		cooling_power_modifier = chamber_cooling_total / reaction_rate
-		message_admins("chamber_cooling_total: [chamber_cooling_total], cooling_power_modifier: [cooling_power_modifier]")
 
 		var/chamber_radiation_total = reaction_rate + reaction_chamber_gases.get_moles(/datum/gas/tritium) * HIGH_RADIATION + \
 													reaction_chamber_gases.get_moles(/datum/gas/special_sauce) * HIGH_RADIATION - \
 													reaction_chamber_gases.get_moles(/datum/gas/pluoxium) * LOW_RADIATION
 		radiation_modifier = chamber_radiation_total / reaction_rate
-		message_admins("chamber_radiation_total: [chamber_radiation_total], radiation_modifier: [radiation_modifier]")
 
 		var/chamber_reinforcement_total = reaction_rate + reaction_chamber_gases.get_moles(/datum/gas/tritium) * HIGH_REINFORCEMENT + \
 														reaction_chamber_gases.get_moles(/datum/gas/pluoxium) * HIGH_REINFORCEMENT - \
 														reaction_chamber_gases.get_moles(/datum/gas/carbon_dioxide) * LOW_REINFORCEMENT - \
 														reaction_chamber_gases.get_moles(/datum/gas/special_sauce) * LOW_REINFORCEMENT
 		reactor_temperature_modifier = chamber_reinforcement_total / reaction_rate
-		message_admins("chamber_reinforcement_total: [chamber_reinforcement_total], reactor_temperature_modifier: [reactor_temperature_modifier]")
 
 		heat_gain = initial(heat_gain) + reaction_rate
 		reaction_chamber_gases.clear()
