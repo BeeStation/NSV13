@@ -197,6 +197,46 @@
 					/obj/item/gun/ballistic/automatic/peacekeeper)
 	crate_name = "M2A45 pulse rifles"
 
+/datum/supply_pack/security/glock
+	name = "Glock-13s (x5)"
+	desc = "A pack of 5 security glock-13s, preloaded with rubber bullets."
+	cost = 15000
+	contains = list(/obj/item/gun/ballistic/automatic/pistol/glock,
+					/obj/item/gun/ballistic/automatic/pistol/glock,
+					/obj/item/gun/ballistic/automatic/pistol/glock,
+					/obj/item/gun/ballistic/automatic/pistol/glock,
+					/obj/item/gun/ballistic/automatic/pistol/glock)
+	crate_name = "Glock-13s"
+
+/datum/supply_pack/security/edged_weapons
+	name = "Surviving edged weapons: Informational manual"
+	desc = "A manual which can help you learn jujitsu!"
+	cost = 7000
+	contains = list(/obj/item/book/granter/martial/jujitsu)
+	crate_name = "Jujitsu manual crate"
+
+/datum/supply_pack/security/glock_ammo
+	name = "Glock-13 ammo (nonlethal)"
+	desc = "5 magazines of nonlethal ammo for security sidearms."
+	cost = 1500
+	contains = list(/obj/item/ammo_box/c9mm/rubber,
+					/obj/item/ammo_box/c9mm/rubber,
+					/obj/item/ammo_box/c9mm/rubber,
+					/obj/item/ammo_box/c9mm/rubber,
+					/obj/item/ammo_box/c9mm/rubber,
+					/obj/item/ammo_box/magazine/pistolm9mm/rubber)
+	crate_name = "Glock-13 ammunition (nonlethal)"
+
+/datum/supply_pack/security/ballistic_tazer
+	name = "Czanek Corp Tazer Crate"
+	desc = "2 Czanek Corp tazers and some ammo for them (WARNING: MAY CAUSE HEART ATTACKS)."
+	cost = 5000
+	contains = list(/obj/item/ammo_box/magazine/tazer_cartridge_storage,
+					/obj/item/ammo_box/magazine/tazer_cartridge_storage,
+					/obj/item/gun/ballistic/tazer,
+					/obj/item/gun/ballistic/tazer)
+	crate_name = "Czanek corp tazer crate"
+
 /datum/supply_pack/security/peacekeeper_ammo
 	name = "M2A45 pulse rifle ammo (nonlethal)"
 	desc = "5 magazines of nonlethal ammo for peacekeeper rifles."
