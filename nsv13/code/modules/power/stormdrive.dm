@@ -1,33 +1,49 @@
 /*
 
-HOW 2 stormdrive?!
+HOW 2 Stormdrive?! - A guide for M*ppers
 
-0: Assemble all the machines with a toolbox (they start incomplete)
+General Checklist:
+ - 3x3 Minimum dedicated room containing one: (/obj/machinery/atmospherics/components/binary/stormdrive_reactor)
+ - Input pipe
+ - Output pipe
+ - 10x standard control rods (/obj/item/control_rod)
+ - Magnetic constrictors x2 minimum (/obj/machinery/atmospherics/components/binary/magnetic_constrictor)
+ - Reactor Control Computer (/obj/machinery/computer/ship/reactor_control_computer)
+ - Particle Accelerator
 
-1: Open valves from atmos -> magnetic constrictor.
-2: Activate constrictor
-3: Turn on all the pumps
-4: When reactor is filled, activate the particle accelerator to kickstart the storm
-5: Open reactor release valve via the reactor console
-5a: (Optional) Set up rad collectors to get even more power
-6: Once the reactor starts to glow, quickly shut off the PA to prevent power waste. Alternatively, use the PA to micromanage power production but I won't tell you how to do that here :^)
-7: Set the rods to position 2 if you want optimal power, but you can leave them on default if you don't want to swap out the rods at all.
-Key: Blue = Safe, but not as many rads and less plasma is outputted
-Orange = Moderate. Heat is staying steady, but producing a shitload of plasma which is ultra hot.
+///ADDITIONAL INFORMATION///
 
-FTL:
-FTL requires plasma that's at least 5000 degrees hot. Anything below this and it won't work.
+The Fuel Line (Input Pipe)
+	This is where the fuel is pumped into the 'drive, in its most basic form, it just a pipe running from ATMOS Plasma storage tank.
+	Things to consider:
+						Constricted Plasma is a more effective fuel than just Plasma, creating a line from the ATMOS Plasma storage tank to a couple Magnetic Constrictors in PARALLEL and then into the fuel line is considered to be the standard configuration
+						All standard gases found in ATMOS storage have an effect on the operation of the 'drive, consider including support for mixing directly into the fuel line
 
-What everything does:
+The Waste Line (Output Pipe)
+	This is where the "waste" is from the 'drive comes out, venting it straight to space is an option, but a bad one
+	Things to consider:
+						The waste line can become clogged, this is by design, give options to manage pressure
+						Dumped fuel will be deposited in this line - it can be reclaimed
+						Depleted fuel/waste/FTL SPECIAL SAUCE is used by the FTL Drive and is VERY HOT
 
-Storm drive reactor: - Most of this is now outdated. KS~
-Takes  plasma and outputs superheated plasma and a shitload of radiation.
--You can set it to """"""""""""""safe"""""""""""""" mode by leaving the control rods lowered, allowing you to basically ignore it. You'll get low amounts of plasma, and adequate power
--You can set it to "moderate" mode by half raising the control rods. This will mean that the control rods are worn down over time, but you double your power. Doing this means you have to be able to maintain it, and be able to shut the thing off to swap out its control rods. (every 30 mins)
--You can set it to "chad" mode by fucking completely raising the control rods. This will irradiate the everloving shit out of everything, but give you more plasma than you could ever possibly need EVER. This will stop the control rods from getting damaged whilst also allowing the heat to rise uncontrollably, but allow you to rapidly charge your FTL.
--Meltdowns occur when the rods are eaten away. You have about 3 minutes to correct a meltdown by performing a shutdown.
--To shut it down, you need to drain the reactor vessel of all plasma. Cut off the constrictor and its plasma supply, then let the engine burn itself out by putting it on "moderate" or "CHAD" mode for a while.
--If you fail to correct the meltdown within 3 minutes, the reactor goes nuclear and the storm escapes, annihilating everything in its path. You won't be able to step anywhere on the ship, because EVERYTHING will be irradiated.
+
+Stormdrive Orientation
+	The default orientation has the INPUT on the EASTERN side and the OUTPUT on the WESTERN side. While this can be changed, it is considered the standard and should not be changed without a VERY good reason.
+
+Reactor Control Computer
+	This is computer that allows for control and monitoring of the stormdrive.
+	Things to consider:
+						Placing the Reactor Control Computer close to the Particle Accelerator Console makes starting the 'drive much easier.
+						Both the Reactor Control Computer and the Stormdrive start with null IDs, var edit them to match for linking at round start.
+
+Particle Accelerator Positioning
+	Note: The Stormdrive has audio and visual indicators when it starts or fails to start. Placing the PA Console in a position that allows the player to see the 'drive is recommended.
+
+Magnetic Constrictor Pressure Caps
+	Mag constrictors have a maximum pressure they can output constricted plasma, consider ways of managing this.
+
+Control Rods
+	The ship is intended on having 5 operational rods, and 5 spare at round start. Additional rods can be printed or acquired from cargo.
 
 */
 
