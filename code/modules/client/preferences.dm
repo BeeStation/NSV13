@@ -120,6 +120,9 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 	var/gear_tab = "General"
 
 	var/action_buttons_screen_locs = list()
+	//Nsv13 squads - we CM now
+	var/preferred_squad = "Apples Squad"
+	var/be_leader = FALSE
 
 /datum/preferences/New(client/C)
 	parent = C
@@ -225,8 +228,11 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 
 			dat += "<b>Custom Job Preferences:</b><BR>"
 			dat += "<a href='?_src_=prefs;preference=ai_core_icon;task=input'><b>Preferred AI Core Display:</b> [preferred_ai_core_display]</a><br>"
-			dat += "<a href='?_src_=prefs;preference=sec_dept;task=input'><b>Preferred Security Department:</b> [prefered_security_department]</a><BR></td>"
+			dat += "<a href='?_src_=prefs;preference=sec_dept;task=input'><b>Preferred Security Department:</b> [prefered_security_department]</a><br>"
 
+			dat += "<b>Squad Preferences:</b><BR>"
+			dat += "<a href='?_src_=prefs;preference=squad;task=input'><b>Preferred GQ Squad:</b> [preferred_squad]</a><br>" //Nsv13 squads - we CM now.
+			dat += "<a href='?_src_=prefs;preference=squadlead;task=input'><b>Be Squad Leader (SL):</b> [be_leader ? "Yes" : "No"]</a><BR></td>"
 			dat += "</tr></table>"
 
 			dat += "<h2>Body</h2>"
@@ -1592,7 +1598,14 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 					var/department = input(user, "Choose your preferred security department:", "Security Departments") as null|anything in GLOB.security_depts_prefs
 					if(department)
 						prefered_security_department = department
-
+//Nsv13 squads - we CM now
+				if("squad")
+					var/datum/squad/S = input(user, "Choose your preferred squad:", "Squad Setup") as null|anything in GLOB.squad_manager.squads
+					if(S)
+						preferred_squad = S.name
+				if("squadlead")
+					be_leader = !be_leader
+//Nsv13 end
 				if ("preferred_map")
 					var/maplist = list()
 					var/default = "Default"
