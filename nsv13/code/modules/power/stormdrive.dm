@@ -238,7 +238,6 @@ Control Rods
 						var/obj/item/control_rod/cr = locate(params["target"])
 						control_rods -= cr
 						cr?.forceMove(get_turf(usr))
-						message_admins("[cr?.name]")
 						control_rod_installation = FALSE
 						handle_control_rod_efficiency()
 						handle_control_rod_integrity()
@@ -299,7 +298,9 @@ Control Rods
 	for(var/obj/item/control_rod/C in contents)
 		var/list/control_rod_info = list()
 		control_rod_info["name"] = C.name
-		control_rod_info["control_rod_id"] = "\ref[C]"
+		control_rod_info["id"] = "\ref[C]"
+		control_rod_info["health"] = C.rod_integrity
+		control_rod_info["max_health"] = initial(C.rod_integrity)
 		control_rod_data[++control_rod_data.len] = control_rod_info
 	data["mounted_control_rods"] = control_rod_data
 	return data
@@ -510,7 +511,6 @@ Control Rods
 	var/datum/gas_mixture/air1 = airs[1]
 	if(air1.total_moles() >= reaction_rate)
 		var/datum/gas_mixture/reaction_chamber_gases = air1.remove(reaction_rate)
-		var/rcg = reaction_chamber_gases.total_moles()
 
 		//calculate the actual fuel mix
 		var/chamber_ror_total = reaction_chamber_gases.get_moles(/datum/gas/plasma) * LOW_ROR + \

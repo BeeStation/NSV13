@@ -1,6 +1,6 @@
 import { Fragment } from 'inferno';
 import { useBackend, useLocalState } from '../backend';
-import { Box, Button, Section} from '../components';
+import { Box, Button, Section, ProgressBar } from '../components';
 import { Window } from '../layouts';
 
 export const StormdriveControlRods = (props, context) => {
@@ -9,29 +9,27 @@ export const StormdriveControlRods = (props, context) => {
     <Window resizable theme="hackerman">
       <Window.Content scrollable>
         <Section>
-          <Section title="Mounted Control Rods:">
-            {!!data.control_rod_data && (
+          <Section title="Installed Control Rods:">
+            {!!data.mounted_control_rods && (
               <Section>
-                {Object.keys(data.control_rod_data).map(key => {
-                  let value = data.control_rod_data[key];
+                {Object.keys(data.mounted_control_rods).map(key => {
+                  let value = data.mounted_control_rods[key];
                   return (
                     <Fragment key={key}>
                       <Section title={`${value.name}`}>
                         <Fragment>
                           <Button
                             fluid
-                            content={`Examine ${value.name}`}
-                            icon="search"
-                            ranges={{
-                            good: [0.66, Infinity],
-                            average: [0.33, 0.66],
-                            bad: [-Infinity, 0.33],
-                            onClick={() => act('examine', { id: value.id })} />
-                          <Button
-                            fluid
                             content={`Eject ${value.name}`}
                             icon="eject"
-                            onClick={() => act('eject_p', { id: value.id })} />
+                            onClick={() => act('remove_rod', { target: value.id })} />
+                          <ProgressBar
+                            value={(value.health/value.max_health * 100)*0.01}
+                            ranges={{
+                              good: [0.9, Infinity],
+                              average: [0.15, 0.9],
+                              bad: [-Infinity, 0.15],
+                            }} />
                         </Fragment>
                       </Section>
                     </Fragment>);
