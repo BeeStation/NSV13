@@ -3,6 +3,8 @@
 
 /proc/generate_clothing_overlay(obj/item/clothing/target, decal, colour)
 	//Firstly, paint the stripes on the icon_state.
+	target.cut_overlays()
+	target.alternate_worn_icon = initial(target.alternate_worn_icon)
 	var/mutable_appearance/stripes = new()
 	stripes.icon = target.icon
 	stripes.icon_state = decal
@@ -36,7 +38,67 @@
 
 /datum/gear/squad/headband
 	display_name = "Squad headband"
-	path = /obj/item/clothing/head/ship/squad/headband
+	path = /obj/item/clothing/head/ship/squad/colouronly/headband
+	slot = SLOT_HEAD
+
+/datum/gear/squad/jacket
+	display_name = "Squad jacket"
+	path = /obj/item/clothing/suit/ship/squad/bomber
+	slot = SLOT_WEAR_SUIT
+
+/datum/gear/squad/cap
+	display_name = "Squad cap"
+	path = /obj/item/clothing/head/ship/squad/colouronly/cap
+	slot = SLOT_HEAD
+
+/obj/item/squad_pager
+	name = "squad pager"
+	desc = "A small device that allows you to listen to and broadcast over squad comms. Use :v to page your squad with a message."
+	icon = 'nsv13/icons/obj/squad.dmi'
+	icon_state = "squadpager"
+	w_class = 1
+	slot_flags = ITEM_SLOT_BELT
+	var/datum/radio_frequency/radio_connection
+	var/datum/squad/squad = null
+	var/global_access = FALSE
+
+/obj/item/squad_pager/all_channels
+	name = "Global Squad Pager"
+	desc = "A pager able of changing its frequency to talk to any squad. It will passively intercept all squad communications, but must be tuned to a specific broadcast frequency to relay a message. <i>Click it in-hand to switch its broadcasting frequency</i>"
+	global_access = TRUE
+
+/obj/item/squad_pager/all_channels/attack_self(mob/user)
+	. = ..()
+	var/datum/squad/newSquad = input(usr, "Switch broadcasting mode to which squad?", "Squad Setup") as null|anything in GLOB.squad_manager.squads
+	if(newSquad)
+		apply_squad(newSquad)
+
+/obj/item/squad_pager/Initialize(mapload, datum/squad/squad)
+	. = ..()
+	if(!squad)
+		return
+	apply_squad(squad)
+
+/obj/item/squad_pager/proc/apply_squad(datum/squad/squad)
+	cut_overlays()
+	src.squad = squad //Ahoy mr squadward! Ack ack ack.
+	name = "[squad] pager"
+	var/mutable_appearance/stripes = new()
+	stripes.icon = icon
+	stripes.icon_state = "squadpager_stripes"
+	stripes.color = squad.colour
+	add_overlay(new /mutable_appearance(stripes))
+	if(!radio_connection)
+		radio_connection = SSradio.add_object(src, FREQ_SQUAD, RADIO_SQUAD)
+
+/obj/item/squad_pager/receive_signal(datum/signal/signal)
+	var/atom/ourLoc = (ismob(loc)) ? loc : loc.loc //You get two layers of recursion with this one. No more. (So you can have the pager in a backpack and still use it.
+	if(!signal.data["message"])
+		return
+	if(global_access || signal.data["squad"] == squad?.name && ismob(ourLoc))
+		var/msg = signal.data["message"]
+		to_chat(ourLoc, msg)
+		playsound(loc, signal.data["sound"], 100, FALSE)
 
 /obj/item/clothing/suit/ship/squad
 	name = "Armour"
@@ -60,6 +122,38 @@
 	armor = list("melee" = 30, "bullet" = 40, "laser" = 10, "energy" = 10, "bomb" = 30, "bio" = 20, "rad" = 25, "fire" = 25, "acid" = 50)
 	min_cold_protection_temperature = SPACE_HELM_MIN_TEMP_PROTECT
 
+/obj/item/clothing/neck/squad
+	name = "Lanyard"
+	desc = "A lanyard which can clearly identify someone as a member of a given squad. <i>Click it while it's in your hand to update its registered squad.</i>"
+	icon = 'nsv13/icons/obj/clothing/suits.dmi'
+	alternate_worn_icon = 'nsv13/icons/mob/suit.dmi'
+	icon_state = "hudsquad"
+	item_color = "hudsquad"
+	w_class = 1
+	var/next_squad_change = 0
+	var/datum/squad/squad = null
+
+/obj/item/clothing/neck/squad/attack_self(mob/living/user)
+	. = ..()
+	if(!ishuman(user))
+		return
+	if(world.time < next_squad_change)
+		to_chat(user, "<span class='sciradio'>[src]'s holographics circuits are recharging.</span>")
+		return
+	var/mob/living/carbon/human/H = user
+	if(src.squad)
+		var/answer = alert(usr, "Join [src.squad]?",name,"Yes","No")
+		if(answer == "Yes")
+			if(H.squad)
+				H.squad -= H
+			H.squad = squad
+			H.squad += H
+	if(H.squad)
+		apply_squad(H.squad)
+		next_squad_change = world.time + 10 SECONDS
+		to_chat(user, "<span class='notice'>Squad insignia updated. Holographic circuits recharging.</span>")
+		return
+
 //When initialized, if passed a squad already, apply its reskin.
 
 /obj/item/clothing/suit/ship/squad/Initialize(mapload, datum/squad/squad)
@@ -76,6 +170,13 @@
 		return
 	apply_squad(squad)
 
+/obj/item/clothing/neck/squad/Initialize(mapload, datum/squad/squad)
+	. = ..()
+	if(!squad)
+		addtimer(CALLBACK(src, .proc/apply_squad), 2 SECONDS)
+		return
+	apply_squad(squad)
+
 //Methods to let you reskin a piece of squad clothing to whatever squad's colours you wish.
 
 /obj/item/clothing/suit/ship/squad/proc/apply_squad(datum/squad/squad)
@@ -85,7 +186,7 @@
 			return
 		squad = user.squad
 	name = "[squad] [initial(name)]"
-	generate_clothing_overlay(src, "squad_stripes", squad.colour)
+	generate_clothing_overlay(src, "[icon_state]_stripes", squad.colour)
 
 /obj/item/clothing/head/ship/squad/proc/apply_squad(datum/squad/squad)
 	if(!squad || !istype(squad))
@@ -94,17 +195,30 @@
 			return
 		squad = user.squad
 	name = "[squad] [initial(name)]"
-	generate_clothing_overlay(src, "squad_stripes", squad.colour)
+	generate_clothing_overlay(src, "[icon_state]_stripes", squad.colour)
 
-/obj/item/clothing/head/ship/squad/headband
-	name = "Headband"
-	icon_state = "squadheadband"
-	item_color = "squadheadband"
-	desc = "A headband which bears the colour of the wearer's squad."
-	armor = list("melee" = 0, "bullet" = 0, "laser" = 0, "energy" = 0, "bomb" = 0, "bio" = 0, "rad" = 0, "fire" = 0, "acid" = 0)
-	dynamic_hair_suffix = "" //So it doesn't hide your hair
+/obj/item/clothing/neck/squad/proc/apply_squad(datum/squad/squad)
+	var/mob/living/carbon/human/user = (ishuman(loc)) ? loc : loc.loc //Two layers of recursion should suffice in most cases. If this fails, go see the XO to get it resprayed.
+	if(!squad || !istype(squad))
+		if(!ishuman(user) || !user.client || !user.squad)
+			return
+		squad = user.squad
+	src.squad = squad
+	if(user && squad.leader == user)
+		name = "[squad] Leader Lanyard"
+		icon_state = "hudsquad_lead"
+		item_color = "hudsquad_lead"
+		generate_clothing_overlay(src, "hudsquad_lead_stripes", squad.colour)
+		return
+	name = "[squad] [initial(name)]"
+	icon_state = "hudsquad"
+	item_color = "hudsquad"
+	generate_clothing_overlay(src, "[icon_state]_stripes", squad.colour)
 
-/obj/item/clothing/head/ship/squad/headband/apply_squad(datum/squad/squad)
+//If your squad hat doesnt get stripes, but merely gets recoloured.
+/obj/item/clothing/head/ship/squad/colouronly
+
+/obj/item/clothing/head/ship/squad/colouronly/apply_squad(datum/squad/squad)
 	if(!squad || !istype(squad))
 		var/mob/living/carbon/human/user = (ishuman(loc)) ? loc : loc.loc //Two layers of recursion should suffice in most cases. If this fails, go see the XO to get it resprayed.
 		if(!ishuman(user) || !user.client || !user.squad)
@@ -112,3 +226,34 @@
 		squad = user.squad
 	color = squad.colour
 	name = "[squad.name] [initial(name)]"
+
+//Credit to CM / TGMC for this sprite!
+
+/obj/item/clothing/head/ship/squad/colouronly/headband
+	name = "Headband"
+	icon_state = "squadheadband"
+	item_color = "squadheadband"
+	desc = "A headband which bears the colour of the wearer's squad."
+	armor = list("melee" = 0, "bullet" = 0, "laser" = 0, "energy" = 0, "bomb" = 0, "bio" = 0, "rad" = 0, "fire" = 0, "acid" = 0)
+	dynamic_hair_suffix = "" //So it doesn't hide your hair
+
+
+/obj/item/clothing/head/ship/squad/colouronly/cap
+	name = "Cap"
+	icon_state = "squadsoft"
+	item_color = "squadsoft"
+	desc = "A stylish, coloured cap which bears the colour and insignia of the wearer's squad."
+	armor = list("melee" = 0, "bullet" = 0, "laser" = 0, "energy" = 0, "bomb" = 0, "bio" = 0, "rad" = 0, "fire" = 0, "acid" = 0)
+
+//Credit goes to Eris for this sprite!
+
+/obj/item/clothing/suit/ship/squad/bomber
+	name = "Jacket"
+	icon = 'nsv13/icons/obj/clothing/suits.dmi'
+	alternate_worn_icon = 'nsv13/icons/mob/suit.dmi'
+	icon_state = "squadbomber"
+	item_color = "squadbomber"
+	desc = "A stylish jacket bearing a squad's insignia and distinctive colours."
+	armor = list("melee" = 0, "bullet" = 0, "laser" = 0, "energy" = 0, "bomb" = 0, "bio" = 0, "rad" = 0, "fire" = 0, "acid" = 0)
+	body_parts_covered = CHEST
+
