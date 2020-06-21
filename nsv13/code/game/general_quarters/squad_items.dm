@@ -142,12 +142,13 @@
 		return
 	var/mob/living/carbon/human/H = user
 	if(src.squad)
-		var/answer = alert(usr, "Join [src.squad]?",name,"Yes","No")
-		if(answer == "Yes")
-			if(H.squad)
-				H.squad -= H
-			H.squad = squad
-			H.squad += H
+		if(src.squad != H.squad)
+			var/answer = alert(usr, "Join [src.squad]?",name,"Yes","No")
+			if(answer == "Yes")
+				if(H.squad)
+					H.squad -= H
+				H.squad = squad
+				H.squad += H
 	if(H.squad)
 		apply_squad(H.squad)
 		next_squad_change = world.time + 10 SECONDS

@@ -42,7 +42,7 @@ GLOBAL_DATUM_INIT(squad_manager, /datum/squad_manager, new)
 
 #define DC_SQUAD "Damage Control Team"
 #define MEDICAL_SQUAD "Medical Team"
-#define SECURITY_SQUAD "SWAT Team"
+#define SECURITY_SQUAD "Security Fireteam"
 #define SQUAD_TYPES list(DC_SQUAD, MEDICAL_SQUAD, SECURITY_SQUAD)
 
 /datum/squad
@@ -60,12 +60,15 @@ GLOBAL_DATUM_INIT(squad_manager, /datum/squad_manager, new)
 	var/datum/radio_frequency/radio_connection
 	var/static/list/blacklist = list(/datum/job/captain, /datum/job/hop, /datum/job/chief_engineer, /datum/job/cargo_tech,/datum/job/mining, /datum/job/qm, /datum/job/ai, /datum/job/cyborg, /datum/job/munitions_tech, /datum/job/fighter_pilot, /datum/job/master_at_arms, /datum/job/rd, /datum/job/air_traffic_controller, /datum/job/warden, /datum/job/hos, /datum/job/officer, /datum/job/chief_engineer, /datum/job/bridge, /datum/job/deck_tech)
 
-/datum/squad/proc/broadcast(msg, mob/living/carbon/human/sender, sound=pick('nsv13/sound/effects/radio1.ogg','nsv13/sound/effects/radio2.ogg'))
-	var/isLead = sender == leader
+/datum/squad/proc/broadcast(msg, mob/living/carbon/human/sender, sound=pick('nsv13/sound/effects/radio1.ogg','nsv13/sound/effects/radio2.ogg'), isOverwatch=FALSE)
+	var/isLead = sender == leader ? "Lead" : null
+	if(isOverwatch)
+		isLead = "Overwatch"
+	var/isBold = isOverwatch || isLead
 	var/display_name = "Overwatch"
 	if(sender)
 		display_name = (CONFIG_GET(flag/show_ranks)) ? SSjob.GetJob(sender.get_assignment("", "")).get_rank() + " [sender.name]" : sender.name
-	msg = "<span style=\"color:[colour];[isLead ? ";font-size:13pt" : ""]\"><b>\[[name][isLead ? " Lead\]" : "\]"] [display_name]</b> says, \"[msg]\"</span>"
+	msg = "<span style=\"color:[colour];[isBold ? ";font-size:13pt" : ""]\"><b>\[[name][isLead ? " [isLead]\]" : "\]"] [display_name]</b> says, \"[msg]\"</span>"
 
 	var/datum/signal/signal = new(list("message" = msg, "squad"=src.name, "sound"=sound))
 	for(var/mob/M in GLOB.dead_mob_list)
@@ -93,8 +96,6 @@ GLOBAL_DATUM_INIT(squad_manager, /datum/squad_manager, new)
 	to_chat(H, "<span class='warning'>You have been demoted from your position as [name] Lead.</span>")
 	broadcast("[H] has been demoted from squad lead.", null, 'nsv13/sound/effects/notice2.ogg')
 	leader = null
-	if(H)
-		src -= H
 
 /datum/squad/proc/set_orders(orders)
 	broadcast("New standing orders received: [orders]", null, 'nsv13/sound/effects/notice2.ogg')
@@ -118,7 +119,7 @@ GLOBAL_DATUM_INIT(squad_manager, /datum/squad_manager, new)
 			<i>Squad vendors</i> open up during General Quarters, and allow you to acquire a kit containing tarpaulins for closing breaches, basic tools, metal foam and a distinctive uniform to tell your squad members apart.</span>"
 		if(SECURITY_SQUAD)
 			blurb = "<span class='warning'><br/>During <b>General Quarters</b> you must find a squad vendor, gear up, then report to your squad leader for orders.<br/> \
-			As a <i>SWAT team member</i> you are responsible for assisting security in repelling boarders, or by partaking in boarding action.<br/>\
+			As a <i>security fireteam member</i> you are responsible for assisting security in repelling boarders, or by partaking in boarding action.<br/>\
 			You must listen to your squad leader, as they may receive orders to redirect your squad to another essential duty. <br/>\
 			<i>Squad vendors</i> open up during General Quarters, and allow you to acquire a kit containing tarpaulins for closing breaches, basic tools, metal foam and a distinctive uniform to tell your squad members apart.</span>"
 
