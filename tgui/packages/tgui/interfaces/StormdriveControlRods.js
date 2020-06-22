@@ -26,9 +26,9 @@ export const StormdriveControlRods = (props, context) => {
                           <ProgressBar
                             value={(value.health/value.max_health * 100)*0.01}
                             ranges={{
-                              good: [0.9, Infinity],
-                              average: [0.15, 0.9],
-                              bad: [-Infinity, 0.15],
+                              good: [0.66, Infinity],
+                              average: [0.33, 0.66],
+                              bad: [-Infinity, 0.33],
                             }} />
                         </Fragment>
                       </Section>

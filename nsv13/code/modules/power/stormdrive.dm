@@ -129,12 +129,16 @@ Control Rods
 	var/reactor_temperature_nominal = 200 //Base state temperature theshold value
 	var/reactor_temperature_hot = 400 //Base state temperature theshold value
 	var/reactor_temperature_critical = 650 //Base state temperature theshold value
-	var/reactor_temperature_meltdown = 80000000 //Base state temperature theshold value - 800
+	var/reactor_temperature_meltdown = 800 //Base state temperature theshold value
 	var/reactor_temperature_modifier = 1 //Modifier handling temperature thesholds
 	var/reactor_starvation = 0 //Tracking each tick the reactor is still online and without fuel
 	var/sdr_id = null //This should match the rcc_id on the reactor control console during INITALIZATION - and should follow this general guideline for standard gameplay: 1 = primary ship, 2 = secondary ship, 3 = syndicate ship -- alternatively you can make players have to link them manually every round
 	var/souls_devoured = null //Some questions should not be asked
 	var/dumping_fuel = FALSE //Are we dumping our fuel?
+	var/list/gas_records = list() //TGUI 3 Graph GOOD
+	var/gas_records_length = 120
+	var/gas_records_interval = 10
+	var/gas_records_next_interval = 0
 
 /obj/machinery/atmospherics/components/binary/stormdrive_reactor/syndicate
 	radio_key = /obj/item/encryptionkey/syndicate
@@ -336,6 +340,20 @@ Control Rods
 	radio.keyslot = new radio_key
 	radio.listening = 0
 	radio.recalculateChannels()
+	gas_records["constricted_plasma"] = list()
+	gas_records["plasma"] = list()
+	gas_records["tritium"] = list()
+	gas_records["o2"] = list()
+	gas_records["n2"] = list()
+	gas_records["co2"] = list()
+	gas_records["water_vapour"] = list()
+	gas_records["nob"] = list()
+	gas_records["n2o"] = list()
+	gas_records["no2"] = list()
+	gas_records["bz"] = list()
+	gas_records["stim"] = list()
+	gas_records["pluoxium"] = list()
+	gas_records["special_sauce"] = list()
 
 /obj/machinery/atmospherics/components/binary/stormdrive_reactor/proc/try_start()
 
@@ -591,7 +609,7 @@ Control Rods
 					to_chat(M, "<span class='danger'>The reactor [word]!</span>")
 
 	input_power = ((heat/150)**3) * input_power_modifier
-	var/base_power = 50000 //100000 - halfing since > doubling base cap
+	var/base_power = 50000 //100000 - halfing since > doubling+ base cap
 	var/power_produced = base_power
 	last_power_produced = power_produced*input_power
 	theoretical_maximum_power = power_produced*(reactor_temperature_critical/100) //Used to show your power output vs peak power output in the UI.
@@ -600,6 +618,7 @@ Control Rods
 	handle_heat()
 	handle_temperature_reinforcement()
 	handle_ftl_fuel_production()
+	handle_gas_records()
 	update_icon()
 	radiation_pulse(src, (heat * radiation_modifier), 2)
 	ambient_temp_bleed()
@@ -644,7 +663,7 @@ Control Rods
 				control_rods += new /obj/item/control_rod/irradiated(src)
 				handle_control_rod_efficiency()
 			if(prob(80))
-				cr.rod_integrity -= (input_power/1000) * control_rod_percent //control rod decay occurs here
+				cr.rod_integrity -= (input_power/25000) * control_rod_percent //control rod decay occurs here
 		handle_control_rod_integrity()
 		if(control_rod_integrity < 0)
 			control_rod_integrity = 0
@@ -685,7 +704,6 @@ Control Rods
 /obj/machinery/atmospherics/components/binary/stormdrive_reactor/proc/handle_ftl_fuel_production()
 	if(heat > initial(reactor_temperature_hot)) //use initial or current?
 		var/datum/gas_mixture/air2 = airs[2]
-//		air2.assert_gas(/datum/gas/special_sauce)
 		air2.adjust_moles(/datum/gas/special_sauce, (reaction_rate / 10) * input_power_modifier)
 		air2.set_temperature(heat)
 		update_parents()
@@ -725,7 +743,6 @@ Control Rods
 					playsound(src, 'sound/effects/phasein.ogg', 100, TRUE) //temp - find a better sound
 
 					var/datum/gas_mixture/air1 = airs[1]
-//					air1.assert_gas(/datum/gas/plasma)
 					air1.adjust_moles(/datum/gas/plasma, 25)
 					return
 
@@ -736,7 +753,6 @@ Control Rods
 					playsound(src, 'sound/effects/phasein.ogg', 100, TRUE) //temp - find a better sound
 
 					var/datum/gas_mixture/air1 = airs[1]
-//					air1.assert_gas(/datum/gas/plasma)
 					air1.adjust_moles(/datum/gas/plasma, 25)
 					return
 
@@ -748,7 +764,6 @@ Control Rods
 				handle_souldrive()
 
 				var/datum/gas_mixture/air1 = airs[1]
-//				air1.assert_gas(/datum/gas/plasma)
 				air1.adjust_moles(/datum/gas/plasma, 100)
 				return
 
@@ -808,6 +823,69 @@ Control Rods
 	for(var/atom/X in contents)
 		qdel(X)
 	.=..()
+
+/obj/machinery/atmospherics/components/binary/stormdrive_reactor/proc/handle_gas_records()
+	if(world.time >= gas_records_next_interval)
+		gas_records_next_interval = world.time + gas_records_interval
+
+		var/datum/gas_mixture/air1 = airs[1]
+
+		var/list/constricted_plasma = gas_records["constricted_plasma"]
+		constricted_plasma += (air1.get_moles(/datum/gas/plasma/constricted_plasma) / air1.total_moles()) * 100
+		if(constricted_plasma.len > gas_records_length)
+			constricted_plasma.Cut(1, 2)
+		var/list/plasma = gas_records["plasma"]
+		plasma += (air1.get_moles(/datum/gas/plasma) / air1.total_moles()) * 100
+		if(plasma.len > gas_records_length)
+			plasma.Cut(1, 2)
+		var/list/tritium = gas_records["tritium"]
+		tritium += (air1.get_moles(/datum/gas/tritium) / air1.total_moles()) * 100
+		if(tritium.len > gas_records_length)
+			tritium.Cut(1, 2)
+		var/list/o2 = gas_records["o2"]
+		o2 += (air1.get_moles(/datum/gas/oxygen) / air1.total_moles()) * 100
+		if(o2.len > gas_records_length)
+			o2.Cut(1, 2)
+		var/list/n2 = gas_records["n2"]
+		n2 += (air1.get_moles(/datum/gas/nitrogen) / air1.total_moles()) * 100
+		if(n2.len > gas_records_length)
+			n2.Cut(1, 2)
+		var/list/co2 = gas_records["co2"]
+		co2 += (air1.get_moles(/datum/gas/carbon_dioxide) / air1.total_moles()) * 100
+		if(co2.len > gas_records_length)
+			co2.Cut(1, 2)
+		var/list/water_vapour = gas_records["water_vapour"]
+		water_vapour += (air1.get_moles(/datum/gas/water_vapor) / air1.total_moles()) * 100
+		if(water_vapour.len > gas_records_length)
+			water_vapour.Cut(1, 2)
+		var/list/nob = gas_records["nob"]
+		nob += (air1.get_moles(/datum/gas/hypernoblium) / air1.total_moles()) * 100
+		if(nob.len > gas_records_length)
+			nob.Cut(1, 2)
+		var/list/n2o = gas_records["n2o"]
+		n2o += (air1.get_moles(/datum/gas/nitrous_oxide) / air1.total_moles()) * 100
+		if(n2o.len > gas_records_length)
+			n2o.Cut(1, 2)
+		var/list/no2 = gas_records["no2"]
+		no2 += (air1.get_moles(/datum/gas/nitryl) / air1.total_moles()) * 100
+		if(no2.len > gas_records_length)
+			no2.Cut(1, 2)
+		var/list/bz = gas_records["bz"]
+		bz += (air1.get_moles(/datum/gas/bz) / air1.total_moles()) * 100
+		if(bz.len > gas_records_length)
+			bz.Cut(1, 2)
+		var/list/stim = gas_records["stim"]
+		stim += (air1.get_moles(/datum/gas/stimulum) / air1.total_moles()) * 100
+		if(stim.len > gas_records_length)
+			stim.Cut(1, 2)
+		var/list/pluoxium = gas_records["pluoxium"]
+		pluoxium += (air1.get_moles(/datum/gas/pluoxium) / air1.total_moles()) * 100
+		if(pluoxium.len > gas_records_length)
+			pluoxium.Cut(1, 2)
+		var/list/special_sauce = gas_records["special_sauce"]
+		special_sauce += (air1.get_moles(/datum/gas/special_sauce) / air1.total_moles()) * 100
+		if(special_sauce.len > gas_records_length)
+			special_sauce.Cut(1, 2)
 
 /obj/machinery/atmospherics/components/binary/stormdrive_reactor/proc/handle_souldrive()
 	var/json_file = file("data/npc_saves/Stormdrive.json")
@@ -928,26 +1006,47 @@ Control Rods
 	data["heat"] = reactor.heat
 	data["rod_integrity"] = reactor.control_rod_integrity
 	data["control_rod_percent"] = reactor.control_rod_percent
-	data["pipe_open"] = reactor.on //replace me
+	data["pipe_open"] = reactor.dumping_fuel
 	data["last_power_produced"] = reactor.last_power_produced
 	data["theoretical_maximum_power"] = reactor.theoretical_maximum_power
 	data["reaction_rate"] = reactor.reaction_rate
+	data["reactor_hot"] = reactor.reactor_temperature_hot
+	data["reactor_critical"] = reactor.reactor_temperature_critical
+	data["reactor_meltdown"] = reactor.reactor_temperature_meltdown
 	if(reactor.state == REACTOR_STATE_MAINTENANCE)
 		data["reactor_maintenance"] = TRUE
 	else
 		data["reactor_maintenance"] = FALSE
 	var/effective_fuel = 0
-	if(reactor)
-		var/datum/gas_mixture/air1 = reactor.airs[1]
-//		air1.assert_gases(/datum/gas/plasma, /datum/gas/plasma/constricted_plasma, /datum/gas/nitrogen, /datum/gas/water_vapor, /datum/gas/tritium)
-		effective_fuel = air1.get_moles(/datum/gas/plasma) * LOW_ROR + \
-					air1.get_moles(/datum/gas/plasma/constricted_plasma) * NORMAL_ROR + \
-					air1.get_moles(/datum/gas/nitrogen) * HINDER_ROR + \
-					air1.get_moles(/datum/gas/water_vapor) * HINDER_ROR + \
-					air1.get_moles(/datum/gas/tritium) * HIGH_ROR
-		if(effective_fuel < 0)
-			effective_fuel = 0
+//	if(reactor)
+	var/datum/gas_mixture/air1 = reactor.airs[1]
+	effective_fuel = air1.get_moles(/datum/gas/plasma) * LOW_ROR + \
+				air1.get_moles(/datum/gas/plasma/constricted_plasma) * NORMAL_ROR + \
+				air1.get_moles(/datum/gas/nitrogen) * HINDER_ROR + \
+				air1.get_moles(/datum/gas/water_vapor) * HINDER_ROR + \
+				air1.get_moles(/datum/gas/tritium) * HIGH_ROR
+	if(effective_fuel < 0)
+		effective_fuel = 0
+
 	data["fuel"] = effective_fuel
+	data["o2"] = air1.get_moles(/datum/gas/oxygen)
+	data["n2"] = air1.get_moles(/datum/gas/nitrogen)
+	data["co2"] = air1.get_moles(/datum/gas/carbon_dioxide)
+	data["plasma"] = air1.get_moles(/datum/gas/plasma)
+	data["water_vapour"] = air1.get_moles(/datum/gas/water_vapor)
+	data["nob"] = air1.get_moles(/datum/gas/hypernoblium)
+	data["n2o"] = air1.get_moles(/datum/gas/nitrous_oxide)
+	data["no2"] = air1.get_moles(/datum/gas/nitryl)
+	data["tritium"] = air1.get_moles(/datum/gas/tritium)
+	data["bz"] = air1.get_moles(/datum/gas/bz)
+	data["stim"] = air1.get_moles(/datum/gas/stimulum)
+	data["pluoxium"] = air1.get_moles(/datum/gas/pluoxium)
+	data["constricted_plasma"] = air1.get_moles(/datum/gas/plasma/constricted_plasma)
+	data["special_sauce"] = air1.get_moles(/datum/gas/special_sauce)
+	data["total_moles"] = air1.total_moles()
+
+	data["gas_records"] = reactor.gas_records
+
 	return data
 
 /obj/item/circuitboard/computer/stormdrive_reactor_control
