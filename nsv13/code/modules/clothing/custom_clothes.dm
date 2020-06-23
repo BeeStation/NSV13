@@ -18,8 +18,8 @@
 	can_adjust = TRUE
 
 /obj/item/clothing/under/ship/peacekeeper
-	name = "Peacekeeper uniform"
-	desc = "A padded jumpsuit worn exclusively by North Star peacekeeper forces. It's designed to be lightweight enough for patrols, but sturdy enough to keep you alive in CQB scenarios."
+	name = "Space cop uniform"
+	desc = "A smart shirt and pants combo with several badges stitched to it, 'To protect and serve'."
 	icon_state = "peacekeeper"
 	item_color = "peacekeeper"
 	item_state = "bl_suit"
@@ -81,8 +81,7 @@
 
 /obj/item/clothing/suit/ship/peacekeeper/Initialize()
 	. = ..()
-	if(!allowed)
-		allowed = GLOB.security_vest_allowed
+	allowed = GLOB.security_vest_allowed
 
 /obj/item/clothing/suit/ship/peacekeeper/jacket
 	name = "Peacekeeper jacket"
@@ -479,3 +478,61 @@
 /obj/item/clothing/under/ship/pilot/syndicate
 	name = "Syndicate combat jumpsuit"
 	desc = "A set of camoflauged fatigues which make up part of a Syndicate uniform."
+
+/obj/item/clothing/neck/cloak/ship
+	name = "Placeholder"
+	icon = 'nsv13/icons/obj/clothing/neck.dmi' //Placeholder subtype for our own iconsets
+	alternate_worn_icon = 'nsv13/icons/mob/neck.dmi'
+	icon_state = "nothing" //References uniforms.dmi
+	item_color = "nothing" //Icon state for its worn icon, references uniform.dmi
+	item_state = ""	//no inhands
+
+//Admiral kit. Credit to Idinuum from Yogstation for most of this!
+
+
+/obj/item/clothing/head/ship/fleet_admiral
+	name = "Admiral's hat"
+	desc = "An imposing cap worn by those who are extremely high-up in Nanotrasen's naval corps."
+	icon_state = "fleet_admiral"
+	item_color = "fleet_admiral"
+
+/obj/item/clothing/head/beret/ship/admiral
+	name = "Admiral's beret"
+	desc = "A sturdy beret worn by those holding an admiral rank."
+	icon_state = "beret_admiral"
+	item_state = "beret_admiral"
+	armor = list("melee" = 15, "bullet" = 5, "laser" = 0, "energy" = 5, "bomb" = 10, "bio" = 0, "rad" = 0, "fire" = 30, "acid" = 5)
+
+/obj/item/clothing/neck/cloak/ship/admiral
+	name = "Grand admiral's cloak"
+	desc = "A flowing cloak worn by fleet admirals. These cloaks are worn by the absolute elite of Nanotrasen's naval corps. Encountering someone with such a rank is both an extreme priviledge, and a bad omen."
+	icon_state = "fleet_admiral"
+	item_color = "fleet_admiral"
+
+/obj/item/clothing/suit/ship/officer/admiral
+	name = "Admiral's dress jacket"
+	desc = "A hefty and high quality jacket worn by those who bear any admiral rank. It is adorned with countless medals and stamps."
+	icon_state = "jacket_admiral"
+
+/obj/item/clothing/suit/ship/officer/admiral/fleet
+	name = "Fleet admiral's dress jacket"
+	icon_state = "jacket_fleet_admiral"
+
+/obj/item/clothing/suit/ship/officer/admiral/grand
+	name = "Grand admiral's dress jacket"
+	icon_state = "jacket_grand_admiral"
+
+/obj/item/clothing/under/ship/officer/admiral
+	name = "Admiral's uniform"
+	icon_state = "admiral"
+	item_color = "admiral"
+
+/obj/item/clothing/under/ship/officer/admiral/fleet
+	name = "Fleet admiral's uniform"
+	icon_state = "fleet_admiral"
+	item_color = "fleet_admiral"
+
+/obj/item/clothing/under/ship/officer/admiral/grand
+	name = "Grand admiral's uniform"
+	icon_state = "grand_admiral"
+	item_color = "grand_admiral"
