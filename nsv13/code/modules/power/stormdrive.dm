@@ -24,8 +24,7 @@ The Waste Line (Output Pipe)
 	Things to consider:
 						The waste line can become clogged, this is by design, give options to manage pressure
 						Dumped fuel will be deposited in this line - it can be reclaimed
-						Depleted fuel/waste/FTL SPECIAL SAUCE is used by the FTL Drive and is VERY HOT
-
+						Depleted fuel/Nucleium is used by the FTL Drive and is VERY HOT
 
 Stormdrive Orientation
 	The default orientation has the INPUT on the EASTERN side and the OUTPUT on the WESTERN side. While this can be changed, it is considered the standard and should not be changed without a VERY good reason.
@@ -44,7 +43,6 @@ Magnetic Constrictor Pressure Caps
 
 Control Rods
 	The ship is intended on having 5 operational rods, and 5 spare at round start. Additional rods can be printed or acquired from cargo.
-
 */
 
 //Gas Interactions
@@ -353,7 +351,7 @@ Control Rods
 	gas_records["bz"] = list()
 	gas_records["stim"] = list()
 	gas_records["pluoxium"] = list()
-	gas_records["special_sauce"] = list()
+	gas_records["nucleium"] = list()
 
 /obj/machinery/atmospherics/components/binary/stormdrive_reactor/proc/try_start()
 
@@ -362,7 +360,7 @@ Control Rods
 	icon_state = "reactor_starting"
 	var/datum/gas_mixture/air1 = airs[1]
 	var/fuel_check = air1.get_moles(/datum/gas/plasma) * LOW_ROR + \
-					air1.get_moles(/datum/gas/plasma/constricted_plasma) * NORMAL_ROR + \
+					air1.get_moles(/datum/gas/constricted_plasma) * NORMAL_ROR + \
 					air1.get_moles(/datum/gas/nitrogen) * HINDER_ROR + \
 					air1.get_moles(/datum/gas/water_vapor) * HINDER_ROR + \
 					air1.get_moles(/datum/gas/tritium) * HIGH_ROR
@@ -408,12 +406,12 @@ Control Rods
 
 	heat = start_threshold+10
 	var/datum/gas_mixture/air1 = airs[1]
-	air1.adjust_moles(/datum/gas/plasma/constricted_plasma, 300)
+	air1.adjust_moles(/datum/gas/constricted_plasma, 300)
 	try_start()
 
 /obj/machinery/atmospherics/components/binary/stormdrive_reactor/proc/juice_up(var/juice) //Admin command to add a specified amount of CPlas to the drive
 	var/datum/gas_mixture/air1 = airs[1]
-	air1.adjust_moles(/datum/gas/plasma/constricted_plasma, juice)
+	air1.adjust_moles(/datum/gas/constricted_plasma, juice)
 
 /obj/machinery/atmospherics/components/binary/stormdrive_reactor/proc/start_meltdown()
 	if(warning_state >= WARNING_STATE_MELTDOWN)
@@ -532,32 +530,37 @@ Control Rods
 
 		//calculate the actual fuel mix
 		var/chamber_ror_total = reaction_chamber_gases.get_moles(/datum/gas/plasma) * LOW_ROR + \
-								reaction_chamber_gases.get_moles(/datum/gas/plasma/constricted_plasma) * NORMAL_ROR + \
+								reaction_chamber_gases.get_moles(/datum/gas/constricted_plasma) * NORMAL_ROR + \
 								reaction_chamber_gases.get_moles(/datum/gas/nitrogen) * HINDER_ROR + \
 								reaction_chamber_gases.get_moles(/datum/gas/water_vapor) * HINDER_ROR + \
 								reaction_chamber_gases.get_moles(/datum/gas/tritium) * HIGH_ROR
 		reaction_rate_modifier = chamber_ror_total / reaction_rate
 
 		//checking for gas modifiers
-		var/chamber_ipm_total = reaction_rate + reaction_chamber_gases.get_moles(/datum/gas/oxygen) * HIGH_IPM - \
-												reaction_chamber_gases.get_moles(/datum/gas/carbon_dioxide) * LOW_IPM
+		var/chamber_ipm_total = reaction_rate + reaction_chamber_gases.get_moles(/datum/gas/oxygen) * HIGH_IPM + \
+												reaction_chamber_gases.get_moles(/datum/gas/stimulum) * HIGH_IPM - \
+												reaction_chamber_gases.get_moles(/datum/gas/carbon_dioxide) * LOW_IPM - \
+												reaction_chamber_gases.get_moles(/datum/gas/hypernoblium) * LOW_IPM
 		input_power_modifier = chamber_ipm_total / reaction_rate
 
 		var/chamber_cooling_total = reaction_rate + reaction_chamber_gases.get_moles(/datum/gas/nitrous_oxide) * HIGH_COOLING + \
-													reaction_chamber_gases.get_moles(/datum/gas/water_vapor) * HIGH_COOLING - \
+													reaction_chamber_gases.get_moles(/datum/gas/water_vapor) * HIGH_COOLING + \
+													reaction_chamber_gases.get_moles(/datum/gas/hypernoblium) * HIGH_COOLING - \
 													reaction_chamber_gases.get_moles(/datum/gas/tritium) * LOW_COOLING - \
-													reaction_chamber_gases.get_moles(/datum/gas/special_sauce) * LOW_COOLING
+													reaction_chamber_gases.get_moles(/datum/gas/nucleium) * LOW_COOLING - \
+													reaction_chamber_gases.get_moles(/datum/gas/stimulum) * LOW_COOLING
 		cooling_power_modifier = chamber_cooling_total / reaction_rate
 
 		var/chamber_radiation_total = reaction_rate + reaction_chamber_gases.get_moles(/datum/gas/tritium) * HIGH_RADIATION + \
-													reaction_chamber_gases.get_moles(/datum/gas/special_sauce) * HIGH_RADIATION - \
+													reaction_chamber_gases.get_moles(/datum/gas/nucleium) * HIGH_RADIATION - \
 													reaction_chamber_gases.get_moles(/datum/gas/pluoxium) * LOW_RADIATION
 		radiation_modifier = chamber_radiation_total / reaction_rate
 
 		var/chamber_reinforcement_total = reaction_rate + reaction_chamber_gases.get_moles(/datum/gas/tritium) * HIGH_REINFORCEMENT + \
 														reaction_chamber_gases.get_moles(/datum/gas/pluoxium) * HIGH_REINFORCEMENT - \
 														reaction_chamber_gases.get_moles(/datum/gas/carbon_dioxide) * LOW_REINFORCEMENT - \
-														reaction_chamber_gases.get_moles(/datum/gas/special_sauce) * LOW_REINFORCEMENT
+														reaction_chamber_gases.get_moles(/datum/gas/nucleium) * LOW_REINFORCEMENT - \
+														reaction_chamber_gases.get_moles(/datum/gas/stimulum) * LOW_REINFORCEMENT
 		reactor_temperature_modifier = chamber_reinforcement_total / reaction_rate
 
 		heat_gain = initial(heat_gain) + reaction_rate
@@ -704,7 +707,7 @@ Control Rods
 /obj/machinery/atmospherics/components/binary/stormdrive_reactor/proc/handle_ftl_fuel_production()
 	if(heat > initial(reactor_temperature_hot)) //use initial or current?
 		var/datum/gas_mixture/air2 = airs[2]
-		air2.adjust_moles(/datum/gas/special_sauce, (reaction_rate / 10) * input_power_modifier)
+		air2.adjust_moles(/datum/gas/nucleium, (reaction_rate / 10) * input_power_modifier)
 		air2.set_temperature(heat)
 		update_parents()
 
@@ -831,7 +834,7 @@ Control Rods
 		var/datum/gas_mixture/air1 = airs[1]
 
 		var/list/constricted_plasma = gas_records["constricted_plasma"]
-		constricted_plasma += (air1.get_moles(/datum/gas/plasma/constricted_plasma) / air1.total_moles()) * 100
+		constricted_plasma += (air1.get_moles(/datum/gas/constricted_plasma) / air1.total_moles()) * 100
 		if(constricted_plasma.len > gas_records_length)
 			constricted_plasma.Cut(1, 2)
 		var/list/plasma = gas_records["plasma"]
@@ -882,10 +885,10 @@ Control Rods
 		pluoxium += (air1.get_moles(/datum/gas/pluoxium) / air1.total_moles()) * 100
 		if(pluoxium.len > gas_records_length)
 			pluoxium.Cut(1, 2)
-		var/list/special_sauce = gas_records["special_sauce"]
-		special_sauce += (air1.get_moles(/datum/gas/special_sauce) / air1.total_moles()) * 100
-		if(special_sauce.len > gas_records_length)
-			special_sauce.Cut(1, 2)
+		var/list/nucleium = gas_records["nucleium"]
+		nucleium += (air1.get_moles(/datum/gas/nucleium) / air1.total_moles()) * 100
+		if(nucleium.len > gas_records_length)
+			nucleium.Cut(1, 2)
 
 /obj/machinery/atmospherics/components/binary/stormdrive_reactor/proc/handle_souldrive()
 	var/json_file = file("data/npc_saves/Stormdrive.json")
@@ -1021,7 +1024,7 @@ Control Rods
 //	if(reactor)
 	var/datum/gas_mixture/air1 = reactor.airs[1]
 	effective_fuel = air1.get_moles(/datum/gas/plasma) * LOW_ROR + \
-				air1.get_moles(/datum/gas/plasma/constricted_plasma) * NORMAL_ROR + \
+				air1.get_moles(/datum/gas/constricted_plasma) * NORMAL_ROR + \
 				air1.get_moles(/datum/gas/nitrogen) * HINDER_ROR + \
 				air1.get_moles(/datum/gas/water_vapor) * HINDER_ROR + \
 				air1.get_moles(/datum/gas/tritium) * HIGH_ROR
@@ -1041,8 +1044,8 @@ Control Rods
 	data["bz"] = air1.get_moles(/datum/gas/bz)
 	data["stim"] = air1.get_moles(/datum/gas/stimulum)
 	data["pluoxium"] = air1.get_moles(/datum/gas/pluoxium)
-	data["constricted_plasma"] = air1.get_moles(/datum/gas/plasma/constricted_plasma)
-	data["special_sauce"] = air1.get_moles(/datum/gas/special_sauce)
+	data["constricted_plasma"] = air1.get_moles(/datum/gas/constricted_plasma)
+	data["nucleium"] = air1.get_moles(/datum/gas/nucleium)
 	data["total_moles"] = air1.total_moles()
 
 	data["gas_records"] = reactor.gas_records
@@ -1115,14 +1118,13 @@ Control Rods
 	var/output_starting_pressure = air2.return_pressure()
 	if(output_starting_pressure >= max_output_pressure)
 		return
-	var/list/cached_gases = air1.get_gases()
-	if(cached_gases[/datum/gas/plasma])
-		var/plasma_moles = cached_gases[/datum/gas/plasma][MOLES]
-		var/plasma_transfer_moles = min(constriction_rate, plasma_moles)
-		air2.adjust_moles(/datum/gas/plasma/constricted_plasma, plasma_transfer_moles)
-		air2.set_temperature(air1.return_temperature())
-		air1.adjust_moles(/datum/gas/plasma, -plasma_transfer_moles)
-		update_parents()
+//	if(air1.get_moles(/datum/gas/plasma) > 0)
+	var/plasma_moles = air1.get_moles(/datum/gas/plasma)
+	var/plasma_transfer_moles = min(constriction_rate, plasma_moles)
+	air2.adjust_moles(/datum/gas/constricted_plasma, plasma_transfer_moles)
+	air2.set_temperature(air1.return_temperature())
+	air1.adjust_moles(/datum/gas/plasma, -plasma_transfer_moles)
+	update_parents()
 
 /obj/machinery/atmospherics/components/binary/magnetic_constrictor/crowbar_act(mob/user, obj/item/I)
 	default_deconstruction_crowbar(I)
@@ -1191,7 +1193,7 @@ Control Rods
 	name = "constricted plasma canister"
 	desc = "Highly volatile plasma which has been magnetically constricted. The fuel which nuclear storm drives run off of."
 	icon_state = "orange"
-	gas_type = /datum/gas/plasma/constricted_plasma
+	gas_type = /datum/gas/constricted_plasma
 
 //////MELTDOWN//////
 

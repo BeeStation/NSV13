@@ -20,7 +20,7 @@ export const StormdriveConsole = (props, context) => {
   const bzData = gas_records.bz.map((value, i) => [i, value]);
   const stimData = gas_records.stim.map((value, i) => [i, value]);
   const pluoxiumData = gas_records.pluoxium.map((value, i) => [i, value]);
-  const special_sauceData = gas_records.special_sauce.map((value, i) => [i, value]);
+  const nucleiumData = gas_records.nucleium.map((value, i) => [i, value]);
   return (
     <Window resizable theme="ntos">
       <Window.Content scrollable>
@@ -30,7 +30,7 @@ export const StormdriveConsole = (props, context) => {
             <Fragment>
               <Button
                 fluid
-                content="AZ-1 - FULL RAISE CONTROL RODS"
+                content="AZ-1 - FULLY RAISE CONTROL RODS"
                 icon="exclamation-triangle"
                 color="bad"
                 onClick={() => act('rods_1')} />
@@ -255,13 +255,13 @@ export const StormdriveConsole = (props, context) => {
                         {toFixed((data.pluoxium/data.total_moles) * 100) + ' %'}
                       </ProgressBar>
                     </LabeledList.Item>
-                    <LabeledList.Item label="FTL SPECIAL SAUCE">
+                    <LabeledList.Item label="Nucleum">
                       <ProgressBar
-                        value={(data.special_sauce/data.total_moles) * 100}
+                        value={(data.nucleium/data.total_moles) * 100}
                         minValue={0}
                         maxValue={100}
                         color="brown">
-                        {toFixed((data.special_sauce/data.total_moles) * 100) + ' %'}
+                        {toFixed((data.nucleium/data.total_moles) * 100) + ' %'}
                       </ProgressBar>
                     </LabeledList.Item>
                   </LabeledList>
@@ -355,8 +355,8 @@ export const StormdriveConsole = (props, context) => {
                     fillColor="rgba(181, 204, 24, 0.)" />
                   <Chart.Line
                     fillPositionedParent
-                    data={special_sauceData}
-                    rangeX={[0, special_sauceData.length - 1]}
+                    data={nucleiumData}
+                    rangeX={[0, nucleiumData.length - 1]}
                     rangeY={[0, 100]}
                     strokeColor="rgba(165, 103, 63, 1)"
                     fillColor="rgba(165, 103, 63, 0)" />

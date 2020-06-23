@@ -147,6 +147,6 @@
 //	worth += C.air_contents.get_moles(/datum/gas/miasma)*10 //NSV13 - Stolen Datum
 	worth += C.air_contents.get_moles(/datum/gas/tritium)*5
 	worth += C.air_contents.get_moles(/datum/gas/pluoxium)*5
-	worth += C.air_contents.get_moles(/datum/gas/plasma/constricted_plasma)*2 //NSV13 - Constricted plasma export.
-	worth += C.air_contents.get_moles(/datum/gas/special_sauce)*50 //NSV13
+	worth += C.air_contents.get_moles(/datum/gas/constricted_plasma)*2 //NSV13 - Constricted plasma export.
+	worth += C.air_contents.get_moles(/datum/gas/nucleium)*50 //NSV13
 	return worth

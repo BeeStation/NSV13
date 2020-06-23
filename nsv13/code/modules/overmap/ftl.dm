@@ -521,14 +521,14 @@ A way for syndies to track where the player ship is going in advance, so they ca
 				active_power_usage = 500
 			if(PYLON_STATE_WARMUP) //start the spin
 				var/datum/gas_mixture/air1 = airs[1]
-				var/ftl_fuel = air1.get_moles(/datum/gas/special_sauce)
+				var/ftl_fuel = air1.get_moles(/datum/gas/nucleium)
 				if(ftl_fuel < 0.01)
 					//link chat to whichever obj we are looking at
 					pylon_state = PYLON_STATE_STARTING
 					update_icon()
 					return
 				else
-					air1.adjust_moles(/datum/gas/special_sauce, -0.01)
+					air1.adjust_moles(/datum/gas/nucleium, -0.01)
 					if(prob(5))
 						var/datum/effect_system/spark_spread/s = new /datum/effect_system/spark_spread
 						s.set_up(6, 0, src)
@@ -538,7 +538,7 @@ A way for syndies to track where the player ship is going in advance, so they ca
 
 			if(PYLON_STATE_SPOOLING) //spinning intensifies
 				var/datum/gas_mixture/air1 = airs[1]
-				var/ftl_fuel = air1.get_moles(/datum/gas/special_sauce)
+				var/ftl_fuel = air1.get_moles(/datum/gas/nucleium)
 				if(ftl_fuel < 0.25)
 					if(capacitor > 0)
 						capacitor --
@@ -549,7 +549,7 @@ A way for syndies to track where the player ship is going in advance, so they ca
 						update_icon()
 						return
 				else
-					air1.adjust_moles(/datum/gas/special_sauce, -0.25)
+					air1.adjust_moles(/datum/gas/nucleium, -0.25)
 					update_icon()
 					active_power_usage = 5000
 					if(capacitor < 5)

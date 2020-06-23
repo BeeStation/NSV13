@@ -86,7 +86,7 @@
 	var/alarm_frequency = FREQ_ATMOS_ALARMS
 	var/datum/radio_frequency/radio_connection
 
-	var/list/TLV = list( // Breathable air. NSV13 - Added Constricted Plasma and FTL SPECIAL SAUCE
+	var/list/TLV = list( // Breathable air. NSV13 - Added Constricted Plasma and Nucleium
 		"pressure"						= new/datum/tlv(ONE_ATMOSPHERE * 0.8, ONE_ATMOSPHERE*  0.9, ONE_ATMOSPHERE * 1.1, ONE_ATMOSPHERE * 1.2), // kPa. Values are min2, min1, max1, max2
 		"temperature"					= new/datum/tlv(T0C, T0C+10, T0C+40, T0C+66),
 		/datum/gas/oxygen				= new/datum/tlv(16, 19, 135, 140), // Partial pressure, kpa
@@ -102,11 +102,11 @@
 		/datum/gas/stimulum				= new/datum/tlv/dangerous,
 		/datum/gas/nitryl				= new/datum/tlv/dangerous,
 		/datum/gas/pluoxium				= new/datum/tlv(-1, -1, 1000, 1000), // Unlike oxygen, pluoxium does not fuel plasma/tritium fires
-		/datum/gas/plasma/constricted_plasma	= new/datum/tlv/dangerous,
-		/datum/gas/special_sauce		= new/datum/tlv/dangerous
+		/datum/gas/constricted_plasma	= new/datum/tlv/dangerous,
+		/datum/gas/nucleium		= new/datum/tlv/dangerous
 	)
 
-/obj/machinery/airalarm/server // No checks here. NSV13 - Added Constricted Plasma and FTL SPECIAL SAUCE
+/obj/machinery/airalarm/server // No checks here. NSV13 - Added Constricted Plasma and Nucleium
 	TLV = list(
 			"pressure"						= new/datum/tlv/no_checks,
 			"temperature"					= new/datum/tlv/no_checks,
@@ -123,11 +123,11 @@
 			/datum/gas/stimulum				= new/datum/tlv/no_checks,
 			/datum/gas/nitryl				= new/datum/tlv/no_checks,
 			/datum/gas/pluoxium				= new/datum/tlv/no_checks,
-			/datum/gas/plasma/constricted_plasma 	= new/datum/tlv/no_checks,
-			/datum/gas/special_sauce		= new/datum/tlv/no_checks
+			/datum/gas/constricted_plasma 	= new/datum/tlv/no_checks,
+			/datum/gas/nucleium		= new/datum/tlv/no_checks
 	)
 
-/obj/machinery/airalarm/kitchen_cold_room // Kitchen cold rooms start off at -80°C or 193.15°K. NSV13 - Added Constricted Plasma and FTL SPECIAL SAUCE
+/obj/machinery/airalarm/kitchen_cold_room // Kitchen cold rooms start off at -80°C or 193.15°K. NSV13 - Added Constricted Plasma and Nucleium
 	TLV = list(
 		"pressure"					= new/datum/tlv(ONE_ATMOSPHERE * 0.8, ONE_ATMOSPHERE*  0.9, ONE_ATMOSPHERE * 1.1, ONE_ATMOSPHERE * 1.2), // kPa
 		"temperature"				= new/datum/tlv(T0C-273.15, T0C-100, T0C-60, T0C),
@@ -144,8 +144,8 @@
 		/datum/gas/stimulum			= new/datum/tlv/dangerous,
 		/datum/gas/nitryl			= new/datum/tlv/dangerous,
 		/datum/gas/pluoxium			= new/datum/tlv(-1, -1, 1000, 1000), // Unlike oxygen, pluoxium does not fuel plasma/tritium fires
-		/datum/gas/plasma/constricted_plasma	= new/datum/tlv/dangerous,
-		/datum/gas/special_sauce		= new/datum/tlv/dangerous
+		/datum/gas/constricted_plasma	= new/datum/tlv/dangerous,
+		/datum/gas/nucleium		= new/datum/tlv/dangerous
 	)
 
 /obj/machinery/airalarm/unlocked
