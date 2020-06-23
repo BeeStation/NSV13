@@ -186,6 +186,9 @@ GLOBAL_DATUM_INIT(squad_manager, /datum/squad_manager, new)
 	..()
 
 	if(statpanel("Squad"))
+		if(!squad)
+			stat(null, "You have not been assigned to a squad.")
+			return
 		stat(null, "Assigned Squad: [squad.name || "Unassigned"]")
 		stat(null, "Squad Leader: [squad.leader || "None"]")
 		stat(null, "Squad Type: [squad.squad_type || "Standard"]")

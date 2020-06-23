@@ -258,3 +258,119 @@
 	armor = list("melee" = 0, "bullet" = 0, "laser" = 0, "energy" = 0, "bomb" = 0, "bio" = 0, "rad" = 0, "fire" = 0, "acid" = 0)
 	body_parts_covered = CHEST
 
+//DC stuff:
+
+//Legally not flex seal. We promise.
+
+/obj/item/sealant
+	name = "Flexi seal"
+	desc = "A neat spray can that can repair torn inflatable segments, and more!"
+	icon = 'nsv13/icons/obj/inflatable.dmi'
+	icon_state = "sealant"
+	w_class = 1
+
+/obj/item/inflatable
+	name = "inflatable wall"
+	desc = "A folded membrane which rapidly expands into a large cubical shape on activation. Click a tile with it to place a temporary wall there."
+	icon = 'nsv13/icons/obj/inflatable.dmi'
+	icon_state = "folded_wall"
+	w_class = 1
+	var/inflatable_type = /obj/structure/inflatable
+	var/torn = FALSE
+
+/obj/item/inflatable/torn
+	name = "torn inflatable wall"
+	desc = "A folded membrane which rapidly expands into a large cubical shape on activation. It is too torn to be usable, but could be patched up with some sealant."
+	icon = 'nsv13/icons/obj/inflatable.dmi'
+	icon_state = "folded_wall_torn"
+	torn = TRUE
+
+/obj/item/inflatable/attackby(obj/item/W, mob/user, params)
+	if(istype(W, /obj/item/sealant))
+		if(!torn)
+			return
+		if (do_after(user,5 SECONDS, target = src))
+			playsound(src, 'sound/effects/spray2.ogg', 50, 1, -6)
+			to_chat(user, "<span class='notice'>You seal up [src], good as new!</span>")
+			torn = FALSE
+			name = "inflatable wall"
+			desc = "A folded membrane which rapidly expands into a large cubical shape on activation."
+			icon_state = "folded_wall"
+
+/obj/item/inflatable/attack_self(mob/user)
+	. = ..()
+	if(torn)
+		return
+	inflate(get_turf(user), user)
+
+/obj/item/inflatable/afterattack(atom/target, mob/user, proximity)
+	. = ..()
+	if(torn)
+		return
+	inflate(get_turf(target), user)
+
+/obj/item/inflatable/proc/inflate(turf/target, mob/user)
+	playsound(loc, 'sound/items/zip.ogg', 75, 1)
+	playsound(loc, 'sound/machines/hiss.ogg', 75, 1)
+	to_chat(user, "<span class='notice'>You inflate [src].</span>")
+	var/obj/structure/inflatable/R = new inflatable_type(target)
+	src.transfer_fingerprints_to(R)
+	R.add_fingerprint(user)
+	qdel(src)
+
+/obj/structure/inflatable
+	name = "inflatable wall"
+	desc = "An inflated membrane used by damage control teams to contain pressure damage though it comes apart easily under duress. Do not puncture."
+	density = TRUE
+	anchored = TRUE
+	opacity = FALSE
+	CanAtmosPass = ATMOS_PASS_DENSITY
+	obj_integrity = 25
+	max_integrity = 25
+
+	icon = 'nsv13/icons/obj/inflatable.dmi'
+	icon_state = "wall"
+	var/inflatable_type = /obj/item/inflatable
+
+/obj/structure/inflatable/obj_destruction()
+	deflate(TRUE)
+	return ..()
+
+/obj/structure/inflatable/attackby(obj/item/W, mob/user, params)
+	if(W.is_sharp() || is_pointed(W))
+		visible_message("<span class='danger'>[user] pierces [src] with [W]!</span>")
+		deflate(1)
+		qdel(src)
+	if(istype(W, /obj/item/sealant))
+		if(obj_integrity >= max_integrity)
+			return
+		to_chat(user, "<span class='notice'>You start filling up the holes in [src]...</span>")
+		if (do_after(user,5 SECONDS, target = src))
+			playsound(src, 'sound/effects/spray2.ogg', 50, 1, -6)
+			to_chat(user, "<span class='notice'>You seal up [src], good as new!</span>")
+			obj_integrity = max_integrity
+	. = ..()
+
+/obj/structure/inflatable/proc/deflate(violent=FALSE)
+	playsound(loc, 'sound/machines/hiss.ogg', 75, 1)
+	if(violent)
+		visible_message("[src] rapidly deflates!")
+		var/obj/item/inflatable/torn/R = new /obj/item/inflatable/torn(loc)
+		src.transfer_fingerprints_to(R)
+	else
+		visible_message("[src] slowly deflates.")
+		transform = new /matrix()
+		for(var/I = 0; I < 3; I ++){
+			transform = transform.Scale(0.5)
+			sleep(0.5 SECONDS)
+		}
+		var/obj/item/inflatable/R = new inflatable_type(loc)
+		src.transfer_fingerprints_to(R)
+		qdel(src)
+
+/obj/structure/inflatable/attack_hand(mob/user)
+	. = ..()
+	if(user.stat || user.restrained())
+		return
+	if(alert(user, "Deflate [src]?",name,"Yes","Reconsider") == "Yes")
+		deflate()
