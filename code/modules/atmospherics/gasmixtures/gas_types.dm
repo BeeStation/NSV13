@@ -159,7 +159,7 @@ GLOBAL_LIST_INIT(hardcoded_gases, list(/datum/gas/oxygen, /datum/gas/nitrogen, /
 
 /datum/gas/constricted_plasma //NSV13 - words C++ monstermos expects 14 gas types to exist, we only had 13
 	id = "constricted_plasma"
-	specific_heat = 150
+	specific_heat = 250
 	name = "Constricted plasma"
 	gas_overlay = "constricted_plasma"
 	moles_visible = MOLES_GAS_VISIBLE
