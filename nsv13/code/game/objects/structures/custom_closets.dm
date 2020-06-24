@@ -86,7 +86,7 @@
 	icon_state = "lpilot"
 	anchored = FALSE
 
-/obj/structure/closet/secure_closet/fighter_pilot/PopulateContents()
+/obj/structure/closet/secure_closet/flight_leader/PopulateContents()
 	..()
 	new /obj/item/radio/headset/munitions/pilot(src)
 	new /obj/item/clothing/under/ship/pilot(src)
@@ -102,7 +102,7 @@
 	icon_state = "bridge"
 	anchored = FALSE
 
-/obj/structure/closet/secure_closet/fighter_pilot/PopulateContents()
+/obj/structure/closet/secure_closet/bridge/PopulateContents()
 	..()
 	new /obj/item/radio/headset/headset_bridge(src)
 	new /obj/item/clothing/under/ship/officer(src)
