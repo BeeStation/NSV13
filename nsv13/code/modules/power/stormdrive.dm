@@ -130,7 +130,7 @@ Control Rods
 	var/reactor_temperature_meltdown = 800 //Base state temperature theshold value
 	var/reactor_temperature_modifier = 1 //Modifier handling temperature thesholds
 	var/reactor_starvation = 0 //Tracking each tick the reactor is still online and without fuel
-	var/sdr_id = null //This should match the rcc_id on the reactor control console during INITALIZATION - and should follow this general guideline for standard gameplay: 1 = primary ship, 2 = secondary ship, 3 = syndicate ship -- alternatively you can make players have to link them manually every round
+	var/reactor_id = null //This should match the reactor_id on the reactor control console during INITALIZATION - and should follow this general guideline for standard gameplay: 1 = primary ship, 2 = secondary ship, 3 = syndicate ship -- alternatively you can make players have to link them manually every round
 	var/souls_devoured = null //Some questions should not be asked
 	var/dumping_fuel = FALSE //Are we dumping our fuel?
 	var/list/gas_records = list() //TGUI 3 Graph GOOD
@@ -270,7 +270,7 @@ Control Rods
 								control_rod_installation = FALSE
 								return
 							to_chat(usr, "<span class='notice'>You remove the control rod from the [src].</span>")
-							var/obj/item/control_rod/cr = locate(params["target"]) //this no working
+							var/obj/item/control_rod/cr = locate(params["target"])
 							control_rods -= cr
 							cr?.forceMove(get_turf(usr))
 							control_rod_installation = FALSE
@@ -399,10 +399,10 @@ Control Rods
 		return TRUE
 
 /obj/machinery/atmospherics/components/binary/stormdrive_reactor/proc/lazy_startup() //Admin only command to instantly start a reactor
-
-	for(var/I = 0, I < MAX_CONTROL_RODS, I++) //install control rods
-		control_rods += new /obj/item/control_rod(src)
-	handle_control_rod_integrity()
+	if(control_rods.len <= 0)
+		for(var/I = 0, I < MAX_CONTROL_RODS, I++) //install control rods
+			control_rods += new /obj/item/control_rod(src)
+		handle_control_rod_integrity()
 
 	heat = start_threshold+10
 	var/datum/gas_mixture/air1 = airs[1]
@@ -912,7 +912,7 @@ Control Rods
 	circuit = /obj/item/circuitboard/computer/stormdrive_reactor_control
 	var/obj/machinery/atmospherics/components/binary/stormdrive_reactor/reactor //Our parent reactor
 	req_access = list(ACCESS_ENGINE_EQUIP)
-	var/rcc_id = null //set your ID here
+	var/reactor_id = null //set your ID here
 
 /obj/machinery/computer/ship/reactor_control_computer/attackby(obj/item/I, mob/user, params)
 	if(I.tool_behaviour == TOOL_MULTITOOL)
@@ -929,6 +929,11 @@ Control Rods
 		playsound(src, sound, 100, 1)
 		to_chat(user, "<span class='warning'>Access denied</span>")
 		return
+	if(!reactor)
+		var/sound = pick('nsv13/sound/effects/computer/error.ogg','nsv13/sound/effects/computer/error2.ogg','nsv13/sound/effects/computer/error3.ogg')
+		playsound(src, sound, 100, 1)
+		to_chat(user, "<span class='warning'>Unable to detect linked reactor</span>")
+
 	ui_interact(user)
 
 /obj/machinery/computer/ship/reactor_control_computer/attack_ai(mob/user)
@@ -944,9 +949,9 @@ Control Rods
 	return INITIALIZE_HINT_LATELOAD
 
 /obj/machinery/computer/ship/reactor_control_computer/LateInitialize()
-	if(rcc_id) //If mappers set an ID)
+	if(reactor_id) //If mappers set an ID)
 		for(var/obj/machinery/atmospherics/components/binary/stormdrive_reactor/sdr in GLOB.machines)
-			if(sdr.sdr_id == rcc_id)
+			if(sdr.reactor_id == reactor_id)
 				reactor = sdr
 
 /obj/machinery/computer/ship/reactor_control_computer/ui_act(action, params, datum/tgui/ui)
@@ -1118,7 +1123,6 @@ Control Rods
 	var/output_starting_pressure = air2.return_pressure()
 	if(output_starting_pressure >= max_output_pressure)
 		return
-//	if(air1.get_moles(/datum/gas/plasma) > 0)
 	var/plasma_moles = air1.get_moles(/datum/gas/plasma)
 	var/plasma_transfer_moles = min(constriction_rate, plasma_moles)
 	air2.adjust_moles(/datum/gas/constricted_plasma, plasma_transfer_moles)
