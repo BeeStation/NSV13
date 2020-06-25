@@ -104,7 +104,7 @@ export const StormdriveConsole = (props, context) => {
               }} />
             Power Output:
             <ProgressBar
-              value={(data.last_power_produced/data.theoretical_maximum_power)* 0.01}
+              value={(data.last_power_produced/data.theoretical_maximum_power)}
               ranges={{
                 good: [],
                 average: [0.15, 0.9],

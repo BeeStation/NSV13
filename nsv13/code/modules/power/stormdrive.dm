@@ -122,7 +122,7 @@ Control Rods
 	var/can_alert = TRUE //Prevents spamming up the radio channels.
 	var/alert_cooldown = 20 SECONDS
 	var/last_power_produced = 0 //For UI tracking. Shows your power output.
-	var/theoretical_maximum_power = 100000 //Placeholder.
+	var/theoretical_maximum_power = 15000000 //For UI
 	var/radiation_modifier = 1 //Modifier to handle gas radiation values
 	var/reactor_temperature_nominal = 200 //Base state temperature theshold value
 	var/reactor_temperature_hot = 400 //Base state temperature theshold value
@@ -615,7 +615,6 @@ Control Rods
 	var/base_power = 50000 //100000 - halfing since > doubling+ base cap
 	var/power_produced = base_power
 	last_power_produced = power_produced*input_power
-	theoretical_maximum_power = power_produced*(reactor_temperature_critical/100) //Used to show your power output vs peak power output in the UI.
 
 	handle_reaction_rate()
 	handle_heat()
@@ -671,7 +670,6 @@ Control Rods
 		if(control_rod_integrity < 0)
 			control_rod_integrity = 0
 			send_alert("DANGER: Primary control rods have failed!")
-			message_admins("Stormdrive control rods are at 0% integrity.")
 			return FALSE
 		if(control_rod_integrity <= 10 && warning_state <= WARNING_STATE_NONE) //If there isn't a more important thing to notify them about, engineers should be told that their rods are failing.
 			send_alert("WARNING: Reactor control rods failing at [control_rod_integrity]% integrity, intervention required to avoid possible meltdown.")
@@ -986,13 +984,13 @@ Control Rods
 			message_admins("[key_name(usr)] has fully raised reactor control rods in [get_area(usr)] [ADMIN_JMP(usr)]")
 			reactor.update_icon()
 		if("rods_2")
-			reactor.control_rod_percent = 25
+			reactor.control_rod_percent = 18
 			reactor.update_icon()
 		if("rods_3")
-			reactor.control_rod_percent = 33.6 //Safe mode? - these all need recalculating
+			reactor.control_rod_percent = 28
 			reactor.update_icon()
 		if("rods_4")
-			reactor.control_rod_percent = 75
+			reactor.control_rod_percent = 33.6
 			reactor.update_icon()
 		if("rods_5")
 			reactor.control_rod_percent = 100
