@@ -52,10 +52,7 @@
 	desc = "A base model for every munitions headset, even comes with ear protection!"
 	icon_state = "mun_headset"
 	keyslot = new /obj/item/encryptionkey/munitions_tech
-
-/obj/item/radio/headset/munitions/ComponentInitialize()
-	. = ..()
-	AddComponent(/datum/component/wearertargeting/earprotection, list(SLOT_EARS))
+	bang_protect = 1
 
 /obj/item/radio/headset/munitions/atc
 	name = "air traffic controller radio headset"

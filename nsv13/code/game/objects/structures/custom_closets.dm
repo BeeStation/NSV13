@@ -1,7 +1,7 @@
 /obj/structure/closet/secure_closet/master_at_arms
 	name = "\proper master at arms' locker"
 	req_access = list(ACCESS_MAA)
-	icon = 'nsv13/icons/obj/custom_closet.dmi'
+	icon = 'nsv13/icons/obj/custom_closets.dmi'
 	icon_state = "maa"
 	anchored = TRUE
 
@@ -20,7 +20,7 @@
 /obj/structure/closet/secure_closet/munitions_technician
 	name = "munitions technician's locker"
 	req_access = list(ACCESS_MUNITIONS_STORAGE)
-	icon = 'nsv13/icons/obj/custom_closet.dmi'
+	icon = 'nsv13/icons/obj/custom_closets.dmi'
 	icon_state = "mun"
 	anchored = TRUE
 
@@ -37,7 +37,7 @@
 /obj/structure/closet/secure_closet/deck_technician
 	name = "deck technician's locker"
 	req_access = list(ACCESS_MUNITIONS_STORAGE)
-	icon = 'nsv13/icons/obj/custom_closet.dmi'
+	icon = 'nsv13/icons/obj/custom_closets.dmi'
 	icon_state = "deck"
 	anchored = FALSE
 
@@ -53,7 +53,7 @@
 /obj/structure/closet/secure_closet/atc
 	name = "air traffic controller's locker"
 	req_access = list(ACCESS_MUNITIONS)
-	icon = 'nsv13/icons/obj/custom_closet.dmi'
+	icon = 'nsv13/icons/obj/custom_closets.dmi'
 	icon_state = "atc"
 	anchored = FALSE
 
@@ -68,7 +68,7 @@
 /obj/structure/closet/secure_closet/fighter_pilot
 	name = "fighter pilot's locker"
 	req_access = list(ACCESS_FIGHTER)
-	icon = 'nsv13/icons/obj/custom_closet.dmi'
+	icon = 'nsv13/icons/obj/custom_closets.dmi'
 	icon_state = "pilot"
 	anchored = FALSE
 
@@ -82,7 +82,7 @@
 /obj/structure/closet/secure_closet/flight_leader
 	name = "flight leader's locker"
 	req_access = list(ACCESS_FL)
-	icon = 'nsv13/icons/obj/custom_closet.dmi'
+	icon = 'nsv13/icons/obj/custom_closets.dmi'
 	icon_state = "lpilot"
 	anchored = FALSE
 
@@ -98,7 +98,7 @@
 /obj/structure/closet/secure_closet/bridge
 	name = "bridge staff's locker"
 	req_access = list(ACCESS_HEADS)
-	icon = 'nsv13/icons/obj/custom_closet.dmi'
+	icon = 'nsv13/icons/obj/custom_closets.dmi'
 	icon_state = "bridge"
 	anchored = FALSE
 
@@ -112,6 +112,6 @@
 /obj/structure/closet/secure_closet/puce
 	name = "puce closet"
 	req_access = list(ACCESS_MUNITIONS)
-	icon = 'nsv13/icons/obj/custom_closet'
+	icon = 'nsv13/icons/obj/custom_closets.dmi'
 	icon_state = "definitelynotpuce"
 	anchored = FALSE
