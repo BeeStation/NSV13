@@ -111,7 +111,7 @@
 
 /obj/structure/closet/secure_closet/puce
 	name = "puce closet"
-	req_access = list(ACCESS_MUNITIONS)
+	req_access = list(ACCESS_CENT_CAPTAIN)
 	icon = 'nsv13/icons/obj/custom_closets.dmi'
 	icon_state = "definitelynotpuce"
 	anchored = FALSE
