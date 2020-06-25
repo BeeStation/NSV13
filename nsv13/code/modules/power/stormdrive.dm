@@ -933,15 +933,26 @@ Control Rods
 		var/sound = pick('nsv13/sound/effects/computer/error.ogg','nsv13/sound/effects/computer/error2.ogg','nsv13/sound/effects/computer/error3.ogg')
 		playsound(src, sound, 100, 1)
 		to_chat(user, "<span class='warning'>Unable to detect linked reactor</span>")
+		return
 
 	ui_interact(user)
 
 /obj/machinery/computer/ship/reactor_control_computer/attack_ai(mob/user)
 	. = ..()
+	if(!reactor)
+		var/sound = pick('nsv13/sound/effects/computer/error.ogg','nsv13/sound/effects/computer/error2.ogg','nsv13/sound/effects/computer/error3.ogg')
+		playsound(src, sound, 100, 1)
+		to_chat(user, "<span class='warning'>Unable to detect linked reactor</span>")
+		return
 	ui_interact(user)
 
 /obj/machinery/computer/ship/reactor_control_computer/attack_robot(mob/user)
 	. = ..()
+	if(!reactor)
+		var/sound = pick('nsv13/sound/effects/computer/error.ogg','nsv13/sound/effects/computer/error2.ogg','nsv13/sound/effects/computer/error3.ogg')
+		playsound(src, sound, 100, 1)
+		to_chat(user, "<span class='warning'>Unable to detect linked reactor</span>")
+		return
 	ui_interact(user)
 
 /obj/machinery/computer/ship/reactor_control_computer/Initialize()
