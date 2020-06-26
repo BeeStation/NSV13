@@ -171,7 +171,7 @@ Control Rods
 			if(REACTOR_STATE_RUNNING)
 				if(alert("[src] is not in maintenance mode! Manually inserting a control rod into an active nuclear reaction would probably be fatal.",name,"Continue","Reconsider") == "Continue" && Adjacent(user))
 					if(control_rods.len >= MAX_CONTROL_RODS)
-						to_chat(user, "<span class='notice'>[src] already has [MAX_CONTROL_RODS] installed.</span>")
+						to_chat(user, "<span class='notice'>[src] already has [MAX_CONTROL_RODS] control rods installed.</span>")
 						return
 					else
 						to_chat(user, "<span class='notice'>You begin mounting the [I.name] to the reactor control coupling...</span>")
