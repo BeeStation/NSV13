@@ -30,7 +30,7 @@
 	new /obj/item/clothing/gloves/color/captain(src)
 	new /obj/item/restraints/handcuffs/cable/zipties(src)
 	new /obj/item/storage/belt/sabre(src)
-	new /obj/item/gun/energy/e_gun(src)
+	new /obj/item/gun/ballistic/automatic/pistol/glock/command(src)
 	new /obj/item/door_remote/captain(src)
 	new /obj/item/card/id/captains_spare(src)
 	new /obj/item/storage/photo_album/Captain(src)
@@ -57,7 +57,7 @@
 	new /obj/item/assembly/flash/handheld(src)
 	new /obj/item/clothing/glasses/sunglasses/advanced(src)
 	new /obj/item/restraints/handcuffs/cable/zipties(src)
-	new /obj/item/gun/energy/e_gun/mini(src)
+	new /obj/item/gun/ballistic/automatic/pistol/glock/command(src)
 	new /obj/item/clothing/neck/petcollar(src)
 	new /obj/item/pet_carrier(src)
 	new /obj/item/door_remote/civillian(src)
@@ -115,7 +115,7 @@
 	new /obj/item/storage/box/flashbangs(src)
 	new /obj/item/shield/riot/tele(src)
 	new /obj/item/storage/belt/security/full(src)
-	new /obj/item/gun/energy/e_gun/hos(src)
+	new /obj/item/ammo_box/c9mm/rubber(src)
 	new /obj/item/flashlight/seclite(src)
 	new /obj/item/pinpointer/nuke(src)
 	new /obj/item/circuitboard/machine/techfab/department/security(src)
@@ -148,6 +148,7 @@
 	new /obj/item/clothing/gloves/krav_maga/sec(src)
 	new /obj/item/door_remote/head_of_security(src)
 	new /obj/item/gun/ballistic/shotgun/automatic/combat/compact(src)
+	new /obj/item/ammo_box/c9mm/rubber(src)
 
 /obj/structure/closet/secure_closet/security
 	name = "security officer's locker"
@@ -162,7 +163,7 @@
 	new /obj/item/radio/headset/headset_sec/alt(src)
 	new /obj/item/clothing/glasses/hud/security/sunglasses(src)
 	new /obj/item/flashlight/seclite(src)
-	new /obj/item/clothing/suit/space/hardsuit/syndi/peacekeeper(src) //NSV13 - Allows all sec to board.
+	new /obj/item/ammo_box/c9mm/rubber(src)
 
 /obj/structure/closet/secure_closet/security/sec
 
@@ -300,6 +301,9 @@
 /obj/structure/closet/secure_closet/armory1/PopulateContents()
 	..()
 	new /obj/item/clothing/suit/armor/laserproof(src)
+	for(var/i in 1 to 3) //NSV13 - Allows all sec to board.
+		new /obj/item/clothing/suit/ship/peacekeeper/marine(src)
+		new /obj/item/clothing/head/ship/marine(src)
 	for(var/i in 1 to 3)
 		new /obj/item/clothing/suit/armor/riot(src)
 	for(var/i in 1 to 3)
@@ -330,7 +334,7 @@
 	new /obj/item/storage/box/firingpins(src)
 	new /obj/item/gun/energy/ionrifle(src)
 	for(var/i in 1 to 3)
-		new /obj/item/gun/energy/e_gun(src)
+		new /obj/item/gun/ballistic/automatic/pistol/glock/command(src)
 	for(var/i in 1 to 3)
 		new /obj/item/gun/energy/laser(src)
 
