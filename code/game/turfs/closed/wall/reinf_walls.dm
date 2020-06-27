@@ -240,6 +240,7 @@
 	desc = "The armored hull of an ominous looking ship."
 	icon = 'icons/turf/walls/plastitanium_wall.dmi'
 	icon_state = "map-shuttle"
+	color = null // NSV13 - Fixes missing atom_color runtimes
 	explosion_block = 20
 	sheet_type = /obj/item/stack/sheet/mineral/plastitanium
 	smooth = SMOOTH_MORE|SMOOTH_DIAGONAL
