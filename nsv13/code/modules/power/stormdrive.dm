@@ -201,6 +201,7 @@ Control Rods
 		var/obj/item/multitool/M = I
 		M.buffer = src
 		playsound(src, 'sound/items/flashlight_on.ogg', 100, TRUE)
+		to_chat(user, "<span class='notice'>Buffer loaded</span>")
 
 /obj/machinery/atmospherics/components/binary/stormdrive_reactor/attack_hand(mob/living/carbon/user)
 	.=..()
@@ -240,6 +241,7 @@ Control Rods
 						var/obj/item/control_rod/cr = locate(params["target"])
 						control_rods -= cr
 						cr?.forceMove(get_turf(usr))
+						update_icon()
 						control_rod_installation = FALSE
 						handle_control_rod_efficiency()
 						handle_control_rod_integrity()
@@ -273,6 +275,7 @@ Control Rods
 							var/obj/item/control_rod/cr = locate(params["target"])
 							control_rods -= cr
 							cr?.forceMove(get_turf(usr))
+							update_icon()
 							control_rod_installation = FALSE
 							if(affecting && affecting.receive_damage( 0, 20 )) //damage it even more
 								H.update_damage_overlays()
@@ -685,10 +688,11 @@ Control Rods
 	control_rod_modifier = control_rod_effectiveness_total / MAX_CONTROL_RODS
 
 /obj/machinery/atmospherics/components/binary/stormdrive_reactor/proc/handle_control_rod_integrity()
-	var/control_rod_integrity_total = 0
-	for(var/obj/item/control_rod/cr in contents)
-		control_rod_integrity_total += cr.rod_integrity
-	control_rod_integrity = control_rod_integrity_total / control_rods.len
+	if(control_rods.len > 0)
+		var/control_rod_integrity_total = 0
+		for(var/obj/item/control_rod/cr in contents)
+			control_rod_integrity_total += cr.rod_integrity
+		control_rod_integrity = control_rod_integrity_total / control_rods.len
 
 /obj/machinery/atmospherics/components/binary/stormdrive_reactor/proc/handle_heat()
 	heat += heat_gain
@@ -920,6 +924,7 @@ Control Rods
 		reactor = M.buffer
 		M.buffer = null
 		playsound(src, 'sound/items/flashlight_on.ogg', 100, TRUE)
+		to_chat(user, "<span class='notice'>Buffer transfered</span>")
 
 /obj/machinery/computer/ship/reactor_control_computer/attack_hand(mob/user)
 	if(!allowed(user))
