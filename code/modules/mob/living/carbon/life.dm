@@ -262,6 +262,7 @@
 		var/nitryl_partialpressure = (breath.get_moles(/datum/gas/nitryl)/breath.total_moles())*breath_pressure
 		adjustFireLoss(nitryl_partialpressure/4)
 
+/* NSV13 - Stolen Datum
 	//MIASMA
 	if(breath.get_moles(/datum/gas/miasma))
 		var/miasma_partialpressure = (breath.get_moles(/datum/gas/miasma)/breath.total_moles())*breath_pressure
@@ -302,7 +303,7 @@
 	//Clear all moods if no miasma at all
 	else
 		SEND_SIGNAL(src, COMSIG_CLEAR_MOOD_EVENT, "smell")
-
+*/
 
 	//BREATH TEMPERATURE
 	handle_breath_temperature(breath)
