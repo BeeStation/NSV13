@@ -147,6 +147,7 @@ GLOBAL_LIST_INIT(hardcoded_gases, list(/datum/gas/oxygen, /datum/gas/nitrogen, /
 	fusion_power = -10
 	rarity = 200
 
+/* NSV13 - I NEED THAT DATUM SLOT, NOT SORRY
 /datum/gas/miasma
 	id = "miasma"
 	specific_heat = 20
@@ -154,15 +155,25 @@ GLOBAL_LIST_INIT(hardcoded_gases, list(/datum/gas/oxygen, /datum/gas/nitrogen, /
 	gas_overlay = "miasma"
 	moles_visible = MOLES_GAS_VISIBLE * 60
 	rarity = 250
+*/
 
-/datum/gas/constricted_plasma //C++ monstermos expects 14 gas types to exist, we only had 13
+/datum/gas/constricted_plasma //NSV13 - words C++ monstermos expects 14 gas types to exist, we only had 13
 	id = "constricted_plasma"
-	specific_heat = 700
+	specific_heat = 250
 	name = "Constricted plasma"
 	gas_overlay = "constricted_plasma"
 	moles_visible = MOLES_GAS_VISIBLE
 	dangerous = TRUE
 	rarity = 1000
+
+/datum/gas/nucleium //NSV13
+	id = "nucleium"
+	specific_heat = 850
+	name = "Nucleium"
+	gas_overlay = "nucleium"
+	moles_visible = MOLES_GAS_VISIBLE
+	dangerous = TRUE
+	rarity = 2000
 
 /obj/effect/overlay/gas
 	icon = 'icons/effects/atmospherics.dmi'
