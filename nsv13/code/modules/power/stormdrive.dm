@@ -523,12 +523,14 @@ Control Rods
 			dumping_fuel = FALSE
 		else if(output_starting_pressure < max_output_pressure)
 			var/moles = air1.total_moles()
-			var/datum/gas_mixture/buffer = air1.remove(min(5, moles))
+			var/datum/gas_mixture/buffer = air1.remove(min(10, moles))
 			air2.merge(buffer)
 			update_parents()
 
 	var/datum/gas_mixture/air1 = airs[1]
-	if(air1.total_moles() >= reaction_rate)
+	var/nucleium_power_reduction = 0
+	var/fuel_check = air1.get_moles(/datum/gas/plasma) + air1.get_moles(/datum/gas/constricted_plasma) + air1.get_moles(/datum/gas/tritium)
+	if(air1.total_moles() >= reaction_rate && fuel_check > 0)
 		var/datum/gas_mixture/reaction_chamber_gases = air1.remove(reaction_rate)
 
 		//calculate the actual fuel mix
@@ -565,6 +567,8 @@ Control Rods
 														reaction_chamber_gases.get_moles(/datum/gas/nucleium) * LOW_REINFORCEMENT - \
 														reaction_chamber_gases.get_moles(/datum/gas/stimulum) * LOW_REINFORCEMENT
 		reactor_temperature_modifier = chamber_reinforcement_total / reaction_rate
+
+		nucleium_power_reduction = reaction_chamber_gases.get_moles(/datum/gas/nucleium) * 1000 //nucleium
 
 		heat_gain = initial(heat_gain) + reaction_rate
 		reaction_chamber_gases.clear()
@@ -617,7 +621,7 @@ Control Rods
 	input_power = ((heat/150)**3) * input_power_modifier
 	var/base_power = 50000 //100000 - halfing since > doubling+ base cap
 	var/power_produced = base_power
-	last_power_produced = power_produced*input_power
+	last_power_produced = max(0,(power_produced*input_power) - nucleium_power_reduction)
 
 	handle_reaction_rate()
 	handle_heat()
@@ -1040,7 +1044,7 @@ Control Rods
 	else
 		data["reactor_maintenance"] = FALSE
 	var/effective_fuel = 0
-//	if(reactor)
+
 	var/datum/gas_mixture/air1 = reactor.airs[1]
 	effective_fuel = air1.get_moles(/datum/gas/plasma) * LOW_ROR + \
 				air1.get_moles(/datum/gas/constricted_plasma) * NORMAL_ROR + \
