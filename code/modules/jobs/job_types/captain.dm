@@ -48,7 +48,7 @@
 	shoes = /obj/item/clothing/shoes/jackboots
 	suit = /obj/item/clothing/suit/ship/officer
 	head = /obj/item/clothing/head/beret/ship/captain
-	backpack_contents = list(/obj/item/melee/classic_baton/police/telescopic=1, /obj/item/station_charter=1)
+	backpack_contents = list(/obj/item/melee/classic_baton/police/telescopic=1, /obj/item/station_charter=1, /obj/item/squad_pager/all_channels=1)
 
 	backpack = /obj/item/storage/backpack/captain
 	satchel = /obj/item/storage/backpack/satchel/cap

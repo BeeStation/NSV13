@@ -133,6 +133,15 @@
 	var/next_squad_change = 0
 	var/datum/squad/squad = null
 
+/obj/item/storage/box/squad_lanyards
+	name = "Spare squad lanyards"
+	desc = "A box filled with lanyards for assigning personnel into squads. Repaint them using the squad management console and pass them out."
+
+/obj/item/storage/box/squad_lanyards/PopulateContents()
+	for(var/I = 0; I < 10; I++){
+		new /obj/item/clothing/neck/squad(src)
+	}
+
 /obj/item/clothing/neck/squad/attack_self(mob/living/user)
 	. = ..()
 	if(!ishuman(user))

@@ -8,6 +8,10 @@
 	for(var/obj/machinery/door/firedoor/FD in get_turf(src))
 		FD.RegisterSignal(SSblackbox, COMSIG_ALERT_LEVEL_CHANGE, /obj/machinery/door/firedoor/proc/on_alert_level_change)
 
+/obj/machinery/door/firedoor/window/Initialize()
+	. = ..()
+	RegisterSignal(SSblackbox, COMSIG_ALERT_LEVEL_CHANGE, /obj/machinery/door/firedoor/proc/on_alert_level_change) //Condition zebra means all window firelocks should drop.
+
 /obj/machinery/door/firedoor/open()
 	. = ..()
 	var/level = GLOB.security_level
