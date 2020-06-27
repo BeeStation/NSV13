@@ -2032,6 +2032,12 @@ datum/uplink_item/role_restricted/superior_honkrender
 	item = /obj/item/autosurgeon/syndicate/laser_arm
 	restricted_roles = list("Roboticist", "Research Director")
 
+/datum/uplink_item/role_restricted/plasma_control_rod  //NSV13
+	name = "Nanocarbon Sheathed Plasma Reactor Control Rod"
+	desc = "A plasma cored control rod designed for sabotaging Stormdrive reactors."
+	cost = 10
+	item = /obj/item/control_rod/plasma
+	restricted_roles = list("Chief Engineer", "Station Engineer", "Atmospheric Technician")
 
 // Pointless
 /datum/uplink_item/badass
