@@ -172,11 +172,13 @@
 		if(251 to 255)
 			return SENSOR_VISIBILITY_FULL
 
+/obj/structure/overmap
+	var/cloak_factor = SENSOR_VISIBILITY_GHOST
 
 /obj/structure/overmap/proc/handle_cloak(state)
 	switch(state)
 		if(TRUE)
-			while(alpha > 0){
+			while(alpha > cloak_factor){
 				stoplag()
 				alpha -= 5
 			}
@@ -196,6 +198,7 @@
 				stoplag()
 				alpha += 15
 			}
+			mouse_opacity = TRUE
 			addtimer(CALLBACK(src, .proc/handle_cloak, TRUE), 15 SECONDS)
 
 /obj/machinery/computer/ship/dradis/ui_data(mob/user) //NEW AND IMPROVED DRADIS 2.0. NOW FEATURING LESS LAG AND CLICKSPAM. ~~This was a pain to code. Don't make me do it again..please? -Kmc~~ 2020 Kmc here, I recoded it. You're right! It was painful, also your code sucked :)

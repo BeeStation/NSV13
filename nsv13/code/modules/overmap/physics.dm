@@ -586,7 +586,7 @@ The while loop runs at a programatic level and is thus separated from any thrott
 			proj.preparePixelProjectile(target, src, null, round((rand() - 0.5) * proj.spread))
 			proj.fire(angle)
 
-/obj/structure/overmap/proc/fire_lateral_projectile(proj_type,target,speed=null, mob/living/user_override=null)
+/obj/structure/overmap/proc/fire_lateral_projectile(proj_type,target,speed=null, mob/living/user_override=null, homing=FALSE)
 	var/turf/T = get_turf(src)
 	var/obj/item/projectile/proj = new proj_type(T)
 	proj.starting = T
@@ -598,6 +598,8 @@ The while loop runs at a programatic level and is thus separated from any thrott
 	proj.pixel_y = round(pixel_y)
 	proj.setup_collider()
 	proj.faction = faction
+	if(homing)
+		proj.set_homing_target(target)
 	if(gunner)
 		proj.firer = gunner
 	else
@@ -605,3 +607,4 @@ The while loop runs at a programatic level and is thus separated from any thrott
 	spawn()
 		proj.preparePixelProjectile(target, src, null, round((rand() - 0.5) * proj.spread))
 		proj.fire()
+	return proj

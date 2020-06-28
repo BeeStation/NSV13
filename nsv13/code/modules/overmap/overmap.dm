@@ -262,6 +262,9 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 	addtimer(CALLBACK(src, .proc/force_parallax_update), 20 SECONDS)
 	addtimer(CALLBACK(src, .proc/check_armour), 20 SECONDS)
 
+	apply_weapons()
+
+/obj/structure/overmap/proc/apply_weapons()
 	weapon_types[FIRE_MODE_PDC] = (mass > MASS_TINY) ? new/datum/ship_weapon/pdc_mount(src) : new /datum/ship_weapon/light_cannon(src)
 	weapon_types[FIRE_MODE_TORPEDO] = new/datum/ship_weapon/torpedo_launcher(src)
 	weapon_types[FIRE_MODE_RAILGUN] = new/datum/ship_weapon/railgun(src)
