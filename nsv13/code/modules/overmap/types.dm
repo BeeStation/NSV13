@@ -300,6 +300,13 @@
 	armor = list("overmap_light" = 75, "overmap_heavy" = 15)
 	ai_trait = AI_TRAIT_DESTROYER
 
+/obj/structure/overmap/syndicate/ai/nuclear
+	name = "Thermonuclear frigate"
+	torpedo_type = /obj/item/projectile/guided_munition/torpedo/nuclear
+	shots_left = 7 //Reload yer nukes
+	torpedoes = 5
+	missiles = 10
+
 /obj/structure/overmap/syndicate/ai/carrier
 	name = "syndicate carrier"
 	icon = 'nsv13/icons/overmap/syndicate/syn_carrier.dmi'
@@ -370,6 +377,24 @@
 	weapon_types[FIRE_MODE_FLAK] = new/datum/ship_weapon/flak(src)
 	weapon_types[FIRE_MODE_GAUSS] = new /datum/ship_weapon/gauss(src) //AI ships want to be able to use gauss too. I say let them...
 	weapon_types[FIRE_MODE_MISSILE] = null
+
+/obj/structure/overmap/syndicate/ai/assault_cruiser/boarding_frigate //A big box of tank which is hard to take down, and lethal up close.
+	name = "Syndicate boarding frigate"
+	desc = "A slow, heavily armoured frigate which can board enemy ships."
+	icon = 'nsv13/icons/overmap/syndicate/marine_frigate.dmi'
+	icon_state = "marine_frigate"
+	missiles = 5 //It's able to do basic anti-air when not able to find a good boarding target.
+	ai_trait = list(AI_TRAIT_ANTI_FIGHTER, AI_TRAIT_BOARDER) //It likes to go after fighters really
+	speed_limit = 4 //So we have at least a chance of getting within boarding range.
+	collision_positions = list(new /datum/vector2d(-2,96), new /datum/vector2d(-20,57), new /datum/vector2d(-25,-63), new /datum/vector2d(-11,-95), new /datum/vector2d(7,-95), new /datum/vector2d(23,-63), new /datum/vector2d(20,59))
+
+/obj/structure/overmap/syndicate/ai/assault_cruiser/boarding_frigate/apply_weapons()
+	weapon_types[FIRE_MODE_PDC] = new /datum/ship_weapon/pdc_mount/aa_guns(src)
+	weapon_types[FIRE_MODE_TORPEDO] = null
+	weapon_types[FIRE_MODE_RAILGUN] = null
+	weapon_types[FIRE_MODE_FLAK] = new/datum/ship_weapon/flak(src)
+	weapon_types[FIRE_MODE_GAUSS] = new /datum/ship_weapon/gauss(src) //AI ships want to be able to use gauss too. I say let them...
+	weapon_types[FIRE_MODE_MISSILE] = new/datum/ship_weapon/missile_launcher(src)
 
 /obj/structure/overmap/syndicate/ai/gunboat //A big box of tank which is hard to take down, and lethal up close.
 	name = "Syndicate anti-air frigate"

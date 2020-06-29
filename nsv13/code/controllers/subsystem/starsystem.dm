@@ -181,7 +181,7 @@ SUBSYSTEM_DEF(star_system)
 	cycle_gameplay_loop()
 	var/list/possible_spawns = list()
 	for(var/datum/star_system/starsys in systems)
-		if(starsys != current_system && !starsys.hidden && !starsys.mission_sector && starsys.alignment != "nanotrasen" && starsys.alignment != "uncharted") //Spawn is a safe zone. Uncharted systems are dangerous enough and don't need more murder.
+		if(starsys != current_system && !starsys.hidden && !starsys.mission_sector && starsys.alignment != "nanotrasen" && starsys.alignment != "uncharted" && starsys.alignment != "syndicate") //Spawn is a safe zone. Uncharted systems are dangerous enough and don't need more murder.
 			possible_spawns += starsys
 	if(patrols_left <= 0) //They've had enough missions for one day.
 		return
@@ -257,6 +257,8 @@ SUBSYSTEM_DEF(star_system)
 	var/list/adjacency_list = list() //Which systems are near us, by name
 	var/occupying_z = 0 //What Z-level is this  currently stored on? This will always be a number, as Z-levels are "held" by ships.
 	var/list/wormhole_connections = list() //Where did we dun go do the wormhole to honk
+	var/fleet_type = null //Wanna start this system with a fleet in it?
+	var/list/fleets = list() //Fleets that are stationed here.
 
 /datum/star_system/proc/dist(datum/star_system/other)
 	var/dx = other.x - x
@@ -265,6 +267,10 @@ SUBSYSTEM_DEF(star_system)
 
 /datum/star_system/New()
 	. = ..()
+	if(fleet_type)
+		var/datum/fleet/fleet = new fleet_type(src)
+		fleet.current_system = src
+		fleets += fleet
 	addtimer(CALLBACK(src, .proc/spawn_asteroids), 15 SECONDS)
 	addtimer(CALLBACK(src, .proc/generate_anomaly), 15 SECONDS)
 
@@ -555,6 +561,7 @@ SUBSYSTEM_DEF(star_system)
 	is_capital = TRUE
 	x = 4
 	y = 10
+	fleet_type = /datum/fleet/nanotrasen/earth
 	alignment = "nanotrasen"
 	system_type = "planet_earth"
 	adjacency_list = list("Alpha Centauri", "Risa Station")
@@ -652,6 +659,7 @@ SUBSYSTEM_DEF(star_system)
 	system_type = "pirate" //Guranteed piratical action!
 	threat_level = THREAT_LEVEL_UNSAFE
 	adjacency_list = list("P9X-334", "Antares")
+	fleet_type = /datum/fleet/tortuga
 
 /datum/star_system/p9x334
 	name = "P9X-334"
@@ -685,6 +693,7 @@ SUBSYSTEM_DEF(star_system)
 	alignment = "syndicate"
 	threat_level = THREAT_LEVEL_UNSAFE
 	adjacency_list = list("Eridani", "Theta Hydri", "Vorash")
+	fleet_type = /datum/fleet/rubicon
 
 /datum/star_system/vorash
 	name = "Vorash"
@@ -767,9 +776,11 @@ SUBSYSTEM_DEF(star_system)
 	x = 60
 	y = 80
 	alignment = "syndicate"
+	system_type = "radioactive"
 	adjacency_list = list("Abassi") //No going back from here...
 	threat_level = THREAT_LEVEL_DANGEROUS
 	hidden = TRUE
+	fleet_type = /datum/fleet/dolos //You're insane to attempt this.
 
 /datum/star_system/abassi
 	name = "Abassi"
@@ -777,9 +788,11 @@ SUBSYSTEM_DEF(star_system)
 	x = 40
 	y = 100
 	alignment = "syndicate"
+	system_type = "quasar"
 	adjacency_list = list("Dolos")
 	threat_level = THREAT_LEVEL_DANGEROUS
 	hidden = TRUE
+	fleet_type = /datum/fleet/abassi //You're dead if you attempt this.
 
 /*
 

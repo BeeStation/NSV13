@@ -1213,9 +1213,8 @@ How to make fuel:
 		data["max_rbs"] = get_max_rbs()
 		data["rbs_welder"] = get_rbs_welder()
 		data["rbs_foamer"] = get_rbs_foamer()
-	if(max_passengers)
-		data["max_passengers"] = max_passengers
-		data["passengers"] = mobs_in_ship.len
+	data["max_passengers"] = max_passengers
+	data["passengers"] = mobs_in_ship.len
 	data["flight_state"] = flight_state
 	data["loaded_munitions"] = list()
 	var/list/munitions = list()
@@ -1231,8 +1230,8 @@ How to make fuel:
 		munitions[++munitions.len] = torp_info
 	data["loaded_munitions"] = munitions
 	data["has_cargo"] = (cargo.len >= 1)
+	var/list/cargo_info = list()
 	if(cargo.len)
-		var/list/cargo_info = list()
 		for(var/atom/movable/F in cargo)
 			var/list/info = list()
 			info["name"] = F.name
@@ -1242,10 +1241,10 @@ How to make fuel:
 			info["contents"] = contentslist
 			info["crate_id"] = "\ref[F]"
 			cargo_info[++cargo_info.len] = info
-		data["cargo_info"] = cargo_info
-		data["cargo"] = cargo.len
-		data["max_cargo"] = max_cargo
-		data["can_unload"] = !SSmapping.level_trait(z, ZTRAIT_OVERMAP) //Hmm gee I wonder why.
+	data["cargo"] = cargo.len
+	data["max_cargo"] = max_cargo
+	data["can_unload"] = !SSmapping.level_trait(z, ZTRAIT_OVERMAP) //Hmm gee I wonder why.
+	data["cargo_info"] = cargo_info
 	return data
 
 #undef NO_IGNITION

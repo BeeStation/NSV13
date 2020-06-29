@@ -34,6 +34,7 @@ Adding tasks is easy! Just define a datum for it.
 #define AI_SCORE_SUPERCRITICAL 500
 #define AI_SCORE_CRITICAL 100
 #define AI_SCORE_SUPERPRIORITY 75
+#define AI_SCORE_HIGH_PRIORITY 60
 #define AI_SCORE_PRIORITY 50
 #define AI_SCORE_DEFAULT 25
 #define AI_SCORE_LOW_PRIORITY 15
@@ -44,6 +45,7 @@ Adding tasks is easy! Just define a datum for it.
 #define FLEET_DIFFICULTY_EASY 4 //if things end up being too hard, this is a safe number for a fight you _should_ always win.
 #define FLEET_DIFFICULTY_MEDIUM 6
 #define FLEET_DIFFICULTY_HARD 10
+#define FLEET_DIFFICULTY_VERY_HARD 15
 #define FLEET_DIFFICULTY_INSANE 20 //If you try to take on the rubicon ;)
 #define FLEET_DIFFICULTY_DEATH 30 //Suicide run
 
@@ -51,24 +53,220 @@ Adding tasks is easy! Just define a datum for it.
 #define AI_TRAIT_BATTLESHIP 2
 #define AI_TRAIT_DESTROYER 3
 #define AI_TRAIT_ANTI_FIGHTER 4
+#define AI_TRAIT_BOARDER 5 //Ships that like to board you.
 
 GLOBAL_LIST_EMPTY(ai_goals)
 
 /datum/fleet
-	var/name = "501st fleet"//Todo: randomize this name
+	var/name = "Syndicate Invasion Fleet"//Todo: randomize this name
 	//Ai fleet type enum. Add your new one here. Use a define, or text if youre lazy.
 	var/list/taskforces = list("fighters" = list(), "destroyers" = list(), "battleships" = list(), "supply" = list())
 	var/list/fighter_types = list(/obj/structure/overmap/syndicate/ai/fighter)
-	var/list/destroyer_types = list(/obj/structure/overmap/syndicate/ai, /obj/structure/overmap/syndicate/ai/assault_cruiser, /obj/structure/overmap/syndicate/ai/gunboat, /obj/structure/overmap/syndicate/ai/submarine)
+	var/list/destroyer_types = list(/obj/structure/overmap/syndicate/ai, /obj/structure/overmap/syndicate/ai/assault_cruiser, /obj/structure/overmap/syndicate/ai/gunboat, /obj/structure/overmap/syndicate/ai/submarine, /obj/structure/overmap/syndicate/ai/assault_cruiser/boarding_frigate)
 	var/list/battleship_types = list(/obj/structure/overmap/syndicate/ai/patrol_cruiser) //TODO: Implement above list for more ship variety.
 	var/list/supply_types = list(/obj/structure/overmap/syndicate/ai/carrier)
+	var/list/all_ships = list()
+	var/size = FLEET_DIFFICULTY_MEDIUM //How big is this fleet anyway?
+	var/list/audio_cues = list() //Does this fight come with a theme tune?
+	var/instantiated = FALSE //If we're not instantiated, moving all the ships is a piece of cake, if we are however, we do some extra steps to FTL them all.
+	var/datum/star_system/current_system = null //Where are we?
+	var/datum/star_system/goal_system = null //Where are we looking to go?
+	var/hide_movements = FALSE
+	var/alignment = "syndicate"
+	var/list/taunts = list("Unidentified vessel, you have entered our airspace. Leave immediately or be destroyed", "Identify yourselves immediately or be destroyed", "Unidentified vessel, leave immediately. You are entering Syndicate territory.", "Hold it right there. Prepare to be boarded, Captain.", "Nanotrasen vessel, surrender immediately or face unnecessary casualties.", "All Nanotrasen crewmen, please prepare for immediate evisceration.", "Unidentified vessel, transmit your credentials now or- Wait a second, that’s the ship we’re looking for! Deploy fighters!", "Nanotrasen? You’ve just made my day, all crafts prepare to engage.", "Unknown vessel, failure to contact Syndicate control on frequency 0.4 is a suspected act of aggression. Prepare for engagement.")
+	var/list/greetings = list("IFF confirmed, good to see you", "Allied vessel, IFF confirmed.")
+
+/datum/fleet/proc/move(datum/star_system/target)
+	if(!target)
+		target = SSstar_system.system_by_id("Scorvio")
+	if(instantiated)//If the fleet was "instantiated", that means it's already been encountered, and we need to track the states of all the ships in it.
+		for(var/obj/structure/overmap/OM in all_ships)
+			if(QDELETED(OM))
+				continue
+			to_chat(world, "Moving [OM]!")
+			target.system_contents += OM
+			if(!target.occupying_z)
+				STOP_PROCESSING(SSovermap, OM)
+				OM.moveToNullspace()
+				target.contents_positions[OM] = list("x" = OM.x, "y" = OM.y) //Cache the ship's position so we can regenerate it later.
+			else
+				OM.forceMove(get_turf(locate(OM.x, OM.y, target.occupying_z)))
+			current_system.system_contents -= OM
+			target.system_contents += OM
+			if(alignment != "nanotrasen" && alignment != "solgov") //NT, SGC or whatever don't count as enemies that NT hire you to kill.
+				current_system.enemies_in_system -= OM
+				target.enemies_in_system += OM
+				current_system.UnregisterSignal(OM, COMSIG_PARENT_QDELETING)
+				target.RegisterSignal(OM, COMSIG_PARENT_QDELETING , /datum/star_system/proc/remove_enemy, OM)
+			if(current_system.contents_positions[OM]) //If we were loaded, but the system was not.
+				current_system.contents_positions -= OM
+	else
+		current_system = target
+	current_system.fleets -= src
+	current_system.alignment = initial(current_system.alignment)
+	target.fleets += src
+	current_system = target
+	target.alignment = alignment //We've taken it over gang.
+	if(!hide_movements)
+		minor_announce("[name] has arrived at [current_system]", "Fleet telemetry")
+	for(var/obj/structure/overmap/OM in current_system.system_contents){
+		if(OM.mobs_in_ship?.len)
+			encounter(OM)
+	}
+
+//Clear a ship from this fleet.
+/datum/fleet/proc/remove_ship(obj/structure/overmap/OM)
+	all_ships -= OM
+	for(var/list/L in taskforces)
+		for(var/obj/structure/overmap/OOM in L)
+			if(OM == OOM) //I'm gonna OOM
+				L -= OOM
+				break
+	if(!all_ships.len) //We've been defeated!
+		minor_announce("[name] has been defeated in battle", "Fleet telemetry")
+
+/obj/structure/overmap/proc/force_jump(where)
+	if(!where)
+		return
+	var/datum/star_system/SS = SSstar_system.system_by_id(where)
+	if(!SS)
+		return
+	jump(SS, FALSE)
+
+/obj/structure/overmap/proc/hail(text, sender)
+	if(!text || !sender)
+		return
+	relay('nsv13/sound/effects/ship/freespace2/computer/textdraw.wav', "<h1>Incoming hail from: [sender]</h1><hr><br><span class='userdanger'>[text]</span>")
+
+/proc/get_internet_sound(web_sound_input)
+	if(!web_sound_input)
+		return
+	var/ytdl = CONFIG_GET(string/invoke_youtubedl)
+	if(!ytdl)
+		message_admins("<span class='boldwarning'>YT-DL not set up! Check your configs and that you've installed it.</span>")
+		return
+	if(istext(web_sound_input))
+		var/web_sound_url = ""
+		if(istext(web_sound_input))
+			var/list/music_extra_data = list()
+			if(length(web_sound_input))
+				web_sound_input = trim(web_sound_input)
+			if(findtext(web_sound_input, ":") && !findtext(web_sound_input, GLOB.is_http_protocol))
+				message_admins("<span class='boldwarning'>Non-http(s) URIs are not allowed.</span>")
+				message_admins("<span class='warning'>For youtube-dl shortcuts like ytsearch: please use the appropriate full url from the website.</span>")
+				return
+			var/shell_scrubbed_input = shell_url_scrub(web_sound_input)
+			var/list/output = world.shelleo("[ytdl] --format \"bestaudio\[ext=mp3]/best\[ext=mp4]\[height<=360]/bestaudio\[ext=m4a]/bestaudio\[ext=aac]\" --dump-single-json --no-playlist -- \"[shell_scrubbed_input]\"")
+			var/errorlevel = output[SHELLEO_ERRORLEVEL]
+			var/stdout = output[SHELLEO_STDOUT]
+			var/stderr = output[SHELLEO_STDERR]
+			if(!errorlevel)
+				var/list/data
+				try
+					data = json_decode(stdout)
+				catch(var/exception/e)
+					message_admins("<span class='boldwarning'>Youtube-dl JSON parsing FAILED:</span>")
+					message_admins("<span class='warning'>[e]: [stdout]</span>")
+					return
+
+				if (data["url"])
+					web_sound_url = data["url"]
+					music_extra_data["start"] = data["start_time"]
+					music_extra_data["end"] = data["end_time"]
+				else
+					message_admins("<span class='boldwarning'>Youtube-dl URL retrieval FAILED:</span>")
+					message_admins("<span class='warning'>[stderr]</span>")
+			if(web_sound_url && !findtext(web_sound_url, GLOB.is_http_protocol))
+				message_admins("<span class='boldwarning'>BLOCKED: Content URL not using http(s) protocol</span>")
+				message_admins("<span class='warning'>The media provider returned a content URL that isn't using the HTTP or HTTPS protocol</span>")
+				return
+			return list(web_sound_url, music_extra_data)
+
+/datum/fleet/proc/encounter(obj/structure/overmap/OM)
+	if(OM.faction == alignment)
+		OM.hail(pick(greetings), name)
+	assemble(current_system)
+	if(OM.faction != alignment)
+		if(OM.alpha >= 150) //Sensor cloaks my boy, sensor cloaks
+			OM.hail(pick(taunts), name)
+		if(audio_cues?.len)
+			var/list/result = get_internet_sound(pick(audio_cues))
+			if(!result || !islist(result))
+				return
+			var/web_sound_url = result[1]
+			var/music_extra_data = result[2]
+			if(web_sound_url)
+				for(var/mob/M in OM.mobs_in_ship)
+					if(M.client)
+						var/client/C = M.client
+						if(C.chatOutput && !C.chatOutput.broken && C.chatOutput.loaded)
+							C.chatOutput.sendMusic(web_sound_url, music_extra_data)
+
+/datum/fleet/boarding
+	name = "Syndicate Commando Taskforce"
+	destroyer_types = list(/obj/structure/overmap/syndicate/ai/assault_cruiser/boarding_frigate)
+	taunts = list("Attention: This is an automated message. All non-Syndicate vessels prepare to be boarded for security clearance.")
+
+/datum/fleet/wolfpack
+	name = "Unidentified Fleet"
+	destroyer_types = list(/obj/structure/overmap/syndicate/ai/submarine)
+	audio_cues = list("https://www.youtube.com/watch?v=sMejhjMfKj4", "https://www.youtube.com/watch?v=bfskFravnWM", "https://www.youtube.com/watch?v=C3WcBLLMnQ4")
+	hide_movements = TRUE
+	taunts = list("....", "*static*")
+
+/datum/fleet/nuclear
+	name = "Syndicate nuclear deterrent"
+	taunts = list("Enemy ship, surrender now. This vessel is armed with thermonuclear weapons and eager to test them.")
+	audio_cues = list("https://www.youtube.com/watch?v=0iXfWWrwrlQ")
+	destroyer_types = list(/obj/structure/overmap/syndicate/ai/nuclear)
+	size = 2
+
+//Boss battles.
+
+/datum/fleet/rubicon //Crossing the rubicon, are we?
+	name = "Rubicon Crossing"
+	size = FLEET_DIFFICULTY_HARD
+	audio_cues = list("https://www.youtube.com/watch?v=mhXuYp0n88g", "https://www.youtube.com/watch?v=l1J-2nIovYw")
+	taunts = list("Better crews have tried to cross the Rubicon, you will die like they did.", "All hands, set condition 1 throughout the fleet, enemy vessel approaching.", "Defense force, stand ready!", "Nanotrasen filth. Munitions, ready the guns. We’ll scrub the galaxy clean of you vermin.", "This shift just gets better and better. I’ll have your Captain’s head on my wall.")
+
+/datum/fleet/tortuga
+	name = "Tortuga raiders"
+	audio_cues = list("https://www.youtube.com/watch?v=WMSoo4B2hFU")
+	taunts = list("Yar har! Fresh meat", "Unfurl the mainsails! We've got company", "Die landlubbers!")
+	size = FLEET_DIFFICULTY_HARD
+
+/datum/fleet/nanotrasen/earth
+	name = "Earth Defense Force"
+	taunts = list("You're foolish to venture this deep into Solgov space! Main batteries stand ready.", "All hands, set condition 1 throughout the fleet, enemy vessel approaching.", "Defense force, stand ready!", "We shall protect our homeland!")
+	size = FLEET_DIFFICULTY_INSANE
+	audio_cues = list("https://www.youtube.com/watch?v=k8-HHivlj8k")
+
+/datum/fleet/dolos
+	name = "Dolos Welcoming Party" //Don't do it czanek, don't fucking do it!
+	size = FLEET_DIFFICULTY_INSANE
+	audio_cues = list("https://www.youtube.com/watch?v=UPHmazxB38g") //FTL13 ;(
+	taunts = list("You shouldn't have come here...", "Prepare to die.", "Nanotrasen? Here? Bold.")
+
+/datum/fleet/abassi
+	name = "1st Syndicate Defense Force" //Don't do it czanek, don't fucking do it!
+	size = FLEET_DIFFICULTY_DEATH
+	audio_cues = list("https://www.youtube.com/watch?v=3tAShpPu6K0")
+	taunts = list("Your existence has come to an end.", "You should be glad you made it this far, but you'll come no further.")
+
+
+//Nanotrasen fleets
 
 /datum/fleet/nanotrasen
-	name = "NT fleet"
+	name = "Nanotrasen heavy combat fleet"
 	fighter_types = list(/obj/structure/overmap/nanotrasen/ai/fighter)
 	destroyer_types = list(/obj/structure/overmap/nanotrasen/ai)
 	battleship_types = list(/obj/structure/overmap/nanotrasen/patrol_cruiser/ai, /obj/structure/overmap/nanotrasen/heavy_cruiser/ai, /obj/structure/overmap/nanotrasen/battleship/ai)
 	supply_types = list(/obj/structure/overmap/nanotrasen/carrier/ai)
+	alignment = "nanotrasen"
+
+/datum/fleet/nanotrasen/light
+	name = "Nanotrasen light fleet"
+	battleship_types = list(/obj/structure/overmap/nanotrasen/patrol_cruiser/ai)
 
 //Temporary magic testing proc. Remove this shit when youre done with it not 6am Kmc!
 /obj/structure/overmap/proc/f()
@@ -87,14 +285,18 @@ GLOBAL_LIST_EMPTY(ai_goals)
 
 /datum/fleet/New()
 	. = ..()
-	//Populate the list of valid goals, if we don't already have them
-	if(!GLOB.ai_goals.len)
-		for(var/x in subtypesof(/datum/ai_goal))
-			GLOB.ai_goals += new x
+	if(current_system)
+		assemble(current_system)
+	if(goal_system)
+		addtimer(CALLBACK(src, .proc/move), 5 MINUTES)
 
-/datum/fleet/proc/assemble(datum/star_system/SS, difficulty=FLEET_DIFFICULTY_MEDIUM)
+//A ship has entered a system with a fleet present. Assemble the fleet so that it lives in this system now.
+
+/datum/fleet/proc/assemble(datum/star_system/SS, difficulty=size)
 	if(!SS || !SS.occupying_z) //Only loaded in levels are supported at this time. TODO: Fix this.
 		return FALSE
+	instantiated = TRUE
+	current_system = SS
 	/*Fleet comp! Let's use medium as an example:
 	6 total
 	3 destroyers (1/2 of the fleet size)
@@ -107,6 +309,11 @@ GLOBAL_LIST_EMPTY(ai_goals)
 		var/obj/structure/overmap/member = new shipType()
 		taskforces["destroyers"] += member
 		member.fleet = src
+		member.current_system = current_system
+		if(alignment != "nanotrasen" && alignment != "solgov") //NT, SGC or whatever don't count as enemies that NT hire you to kill.
+			current_system.enemies_in_system += member
+		all_ships += member
+		RegisterSignal(member, COMSIG_PARENT_QDELETING , /datum/fleet/proc/remove_ship, member)
 		SS.add_ship(member)
 	}
 	for(var/I=0; I<round(difficulty/4);I++){
@@ -114,6 +321,11 @@ GLOBAL_LIST_EMPTY(ai_goals)
 		var/obj/structure/overmap/member = new shipType()
 		taskforces["battleships"] += member
 		member.fleet = src
+		member.current_system = current_system
+		if(alignment != "nanotrasen" && alignment != "solgov") //NT, SGC or whatever don't count as enemies that NT hire you to kill.
+			current_system.enemies_in_system += member
+		all_ships += member
+		RegisterSignal(member, COMSIG_PARENT_QDELETING , /datum/fleet/proc/remove_ship, member)
 		SS.add_ship(member)
 	}
 	for(var/I=0; I<round(difficulty/4);I++){
@@ -121,6 +333,11 @@ GLOBAL_LIST_EMPTY(ai_goals)
 		var/obj/structure/overmap/member = new shipType()
 		taskforces["supply"] += member
 		member.fleet = src
+		member.current_system = current_system
+		if(alignment != "nanotrasen" && alignment != "solgov") //NT, SGC or whatever don't count as enemies that NT hire you to kill.
+			current_system.enemies_in_system += member
+		all_ships += member
+		RegisterSignal(member, COMSIG_PARENT_QDELETING , /datum/fleet/proc/remove_ship, member)
 		SS.add_ship(member)
 	}
 	return TRUE
@@ -134,15 +351,22 @@ GLOBAL_LIST_EMPTY(ai_goals)
 //@param OM - If you want this score to be affected by the stats of an overmap.
 
 /datum/ai_goal/proc/check_score(obj/structure/overmap/OM)
-	if(!istype(OM) || !OM.ai_controlled || (required_trait && OM.ai_trait != required_trait))
+	if(!istype(OM) || !OM.ai_controlled)
 		return 0 //0 Score, in other terms, the AI will ignore this task completely.
+	if(required_trait)
+		if(islist(OM.ai_trait))
+			for(var/X in OM.ai_trait)
+				if(X == required_trait)
+					break
+		else
+			if(OM.ai_trait != required_trait)
+				return 0
 	return (score > 0 ? score : TRUE) //Children sometimes NEED this true value to run their own checks.
 
 //Delete the AI's last orders, tell the AI ship what to do.
 /datum/ai_goal/proc/assume(obj/structure/overmap/OM)
 	if(OM.current_goal)
 		OM.current_goal = null
-	OM.speed_limit = initial(OM.speed_limit) //Just in case we mucked around with this with formation objectives.
 	action(OM)
 
 //What happens when the AI ship physically assumes this goal? This is the method you'll want to override to make the AI ship do things!
@@ -173,30 +397,22 @@ GLOBAL_LIST_EMPTY(ai_goals)
 		supplyPost = supply
 		break
 	if(supplyPost) //Neat, we've found a supply post. Autobots roll out.
-		OM.move_mode = NORTH
 		if(get_dist(OM, supplyPost) <= AI_PDC_RANGE)
-			OM.speed_limit = supplyPost.velocity.x + supplyPost.velocity.y
+			OM.brakes = TRUE
 		else
-			OM.desired_angle = Get_Angle(OM, supplyPost)
-			OM.speed_limit = initial(OM.speed_limit)
-			OM.brakes = FALSE
+			OM.move_toward(supplyPost)
 
 /datum/ai_goal/seek
 	name = "Search and destroy"
 	score = AI_SCORE_DEFAULT
 
 /datum/ai_goal/seek/check_score(obj/structure/overmap/OM)
+	if(!OM.fleet) //If this is a rogue / lone AI. This should be their only objective.
+		return AI_SCORE_MAXIMUM
 	if(!..()) //If it's not an overmap, or it's not linked to a fleet.
 		return 0
 	if(!OM.last_target || QDELETED(OM.last_target))
-		for(var/obj/structure/overmap/ship in GLOB.overmap_objects)
-			if(OM.warcrime_blacklist[ship.type])
-				continue
-			if(!ship || QDELETED(ship) || ship == OM || get_dist(OM, ship) > OM.max_tracking_range || ship.faction == OM.faction || ship.z != OM.z || ship.is_sensor_visible(OM) < SENSOR_VISIBILITY_TARGETABLE)
-				continue
-			OM.add_enemy(ship)
-			OM.last_target = ship
-			break
+		OM.seek_new_target()
 	if(OM.last_target) //If we can't find a target, then don't bother hunter-killering.
 		return score
 	else
@@ -204,15 +420,44 @@ GLOBAL_LIST_EMPTY(ai_goals)
 
 /datum/ai_goal/seek/action(obj/structure/overmap/OM)
 	..()
-	OM.speed_limit = initial(OM.speed_limit) //Just in case we mucked around with this with formation objectives.
-	OM.brakes = FALSE
-	OM.move_mode = NORTH
 	if(OM.last_target)
-		OM.desired_angle = Get_Angle(OM, OM.last_target)
 		if(get_dist(OM, OM.last_target) <= 10)
-			OM.desired_angle = -Get_Angle(OM, OM.last_target)
+			OM.move_away_from(OM.last_target)
+		else
+			OM.move_toward(OM.last_target)
 	else
-		OM.desired_angle = 0 //Just fly around in a straight line, I guess.
+		OM.seek_new_target()
+		OM.move_toward(null) //Just fly around in a straight line, I guess.
+
+//Boarding! Boarders love to board your ships.
+/datum/ai_goal/board
+	name = "Board target"
+	score = AI_SCORE_HIGH_PRIORITY
+	required_trait = AI_TRAIT_BOARDER
+
+/datum/ai_goal/board/check_score(obj/structure/overmap/OM)
+	if(!..())
+		return 0
+	if(!OM.last_target || QDELETED(OM.last_target))
+		OM.seek_new_target(max_weight_class=null, min_weight_class=null, interior_check=TRUE)
+	if(OM.last_target) //If we can't find a target, then don't bother hunter-killering.
+		return score
+	else
+		return AI_SCORE_VERY_LOW_PRIORITY //Just so that there's a "default" behaviour to avoid issues.
+
+/datum/ai_goal/board/action(obj/structure/overmap/OM)
+	..()
+	if(OM.last_target)
+		OM.move_toward(OM.last_target)
+		if(get_dist(OM.last_target, OM) <= 8)
+			var/obj/structure/overmap/foo = OM.last_target
+			if(istype(foo))
+				OM.desired_angle = foo.angle //Pull up parallel beside it for style points.
+		if(OM.can_board(OM.last_target))
+			OM.try_board(OM.last_target)
+			return FALSE
+	else
+		OM.move_toward(null) //Just fly around in a straight line, I guess.
 
 /datum/ai_goal/defend
 	name = "Protect supply lines"
@@ -224,7 +469,6 @@ GLOBAL_LIST_EMPTY(ai_goals)
 		OM.defense_target = pick(OM.fleet.taskforces["supply"])
 	OM.move_mode = NORTH
 	if(get_dist(OM, OM.defense_target) <= AI_PDC_RANGE)
-		OM.speed_limit = OM.defense_target.velocity.x + OM.defense_target.velocity.y
 		OM.brakes = TRUE
 		OM.move_mode = null
 		OM.desired_angle = OM.defense_target.angle //Turn and face boys!
@@ -262,7 +506,6 @@ GLOBAL_LIST_EMPTY(ai_goals)
 		return //Just drift aimlessly, let the fleet form up with it.
 	OM.move_mode = NORTH
 	OM.brakes = FALSE
-	OM.speed_limit = initial(OM.speed_limit)
 	OM.desired_angle = -Get_Angle(OM, OM.last_target) //Turn the opposite direction and run.
 
 //Goal used for anti-fighter craft, encouraging them to attempt to lock on to smaller ships.
@@ -277,22 +520,17 @@ GLOBAL_LIST_EMPTY(ai_goals)
 		return 0
 	var/obj/structure/overmap/target = OM.last_target
 	if(!OM.last_target || !istype(target) || QDELETED(OM.last_target) || target.mass > MASS_TINY)
-		for(var/obj/structure/overmap/ship in GLOB.overmap_objects)
-			if(OM.warcrime_blacklist[ship.type])
-				continue
-			if(!ship || QDELETED(ship) || ship == OM || get_dist(OM, ship) > OM.max_tracking_range || ship.faction == OM.faction || ship.z != OM.z || ship.is_sensor_visible(OM) < SENSOR_VISIBILITY_TARGETABLE)
-				continue
-			if(ship.mass > MASS_TINY)
-				continue
-			OM.add_enemy(ship)
-			OM.last_target = ship
-			break
+		OM.seek_new_target(max_weight_class=MASS_TINY)
 	if(OM.last_target) //If we can't find a target, then don't bother hunter-killering.
 		return score
 	else
 		return 0 //Default back to the "hunt down ships" behaviour.
 
 /obj/structure/overmap/proc/choose_goal()
+	//Populate the list of valid goals, if we don't already have them
+	if(!GLOB.ai_goals.len)
+		for(var/x in subtypesof(/datum/ai_goal))
+			GLOB.ai_goals += new x
 	var/best_score = 0
 	var/datum/ai_goal/chosen = null
 	for(var/datum/ai_goal/goal in GLOB.ai_goals)
@@ -314,7 +552,7 @@ GLOBAL_LIST_EMPTY(ai_goals)
 	var/ai_behaviour = null // Determines if the AI ship shoots you first, or if you have to shoot them.
 	var/list/enemies = list() //Things that have attacked us
 	var/max_weapon_range = 30
-	var/max_tracking_range = 115 //Range that AI ships can hunt you down in. The amounts to almost half the Z-level.
+	var/max_tracking_range = 300//115 //Range that AI ships can hunt you down in. The amounts to almost half the Z-level.
 	var/obj/structure/overmap/defense_target = null
 	var/ai_can_launch_fighters = FALSE //AI variable. Allows your ai ships to spawn fighter craft
 	var/list/ai_fighter_type = list()
@@ -407,7 +645,6 @@ GLOBAL_LIST_EMPTY(ai_goals)
 			last_target = null
 		else //They're in our tracking range. Let's hunt them down.
 			if(get_dist(last_target, src) <= max_weapon_range) //Theyre within weapon range.  Calculate a path to them and fire.
-				try_board(last_target)
 				ai_fire(last_target) //Fire already handles things like being out of range, so we're good
 	if(move_mode)
 		user_thrust_dir = move_mode
@@ -446,8 +683,17 @@ GLOBAL_LIST_EMPTY(ai_goals)
 	resupply_target.obj_integrity = resupply_target.max_integrity
 	resupply_target = null
 
+/obj/structure/overmap/proc/can_board(obj/structure/overmap/ship)
+	if(!ship.linked_areas.len)
+		return FALSE
+	if(get_dist(ship, src) > 8)
+		return FALSE
+	if(SSovermap.next_boarding_time <= world.time || next_boarding_attempt <= world.time)
+		return TRUE
+	return FALSE
+
 /obj/structure/overmap/proc/try_board(obj/structure/overmap/ship)
-	if(mass < MASS_MEDIUM || get_dist(ship, src) > 6)
+	if(get_dist(ship, src) > 8)
 		return FALSE
 	next_boarding_attempt = world.time + 5 MINUTES //We very rarely try to board.
 	if(SSovermap.next_boarding_time <= world.time)
@@ -474,6 +720,9 @@ GLOBAL_LIST_EMPTY(ai_goals)
 				if(fleet)
 					newFighter.fleet = fleet
 					fleet.taskforces["fighters"] += newFighter //Lets our fighters come back to the mothership to fuel up every so often.
+					fleet.all_ships += newFighter
+					fleet.RegisterSignal(newFighter, COMSIG_PARENT_QDELETING , /datum/fleet/proc/remove_ship, newFighter)
+
 				relay_to_nearby('nsv13/sound/effects/ship/fighter_launch_short.ogg')
 		addtimer(VARSET_CALLBACK(src, ai_can_launch_fighters, TRUE), 3 MINUTES)
 	if(OM in enemies) //If target's in enemies, return
@@ -492,3 +741,64 @@ GLOBAL_LIST_EMPTY(ai_goals)
 	else
 		if(OM.dradis)
 			playsound(OM.dradis, 'nsv13/sound/effects/fighters/being_locked.ogg', 100, FALSE)
+
+//Pathfinding...sorta
+/obj/structure/overmap/proc/move_toward(atom/target)
+	brakes = FALSE
+	move_mode = NORTH
+	inertial_dampeners = TRUE
+	if(!target || QDELETED(target))
+		if(defense_target) //Maybe it's defending a ship, it'll still need to find its way home.
+			target = defense_target
+		else
+			return
+	desired_angle = Get_Angle(src, target)
+	//Raycasting! Should finally give the AI ships their driver's license....
+	for(var/turf/T in getline(src, target))
+		var/dist = get_dist(get_turf(src), T)
+		if(dist >= 8) //ignore collisions this far away, no need to dodge that.
+			break
+		var/obj/structure/overmap/blocked = null
+		//This is...inefficient, but unavoidable without some equally expensive vector math.
+		for(var/obj/structure/overmap/OM in GLOB.overmap_objects)
+			if(OM == src) //:sigh: this one tripped me up
+				continue
+			if(get_dist(get_turf(OM), T) <= 5 && OM.mass > MASS_TINY) //Who cares about fighters anyway!
+				blocked = OM
+				break
+		if(blocked) //Time to do some evasive. Determine the object's direction to evade in the opposite direction.
+			if(blocked.velocity.x > 0)
+				move_mode = EAST //The ship should still drift forward / backwards, but in this case let's not accelerate into an asteroid shall we...
+				inertial_dampeners = FALSE
+			if(blocked.velocity.x <= 0)
+				move_mode = WEST
+				inertial_dampeners = FALSE
+			return
+
+
+	//If the AI is going to be blocked in its path, it'll need to dodge very slightly
+
+/obj/structure/overmap/proc/move_away_from(atom/target)
+	brakes = FALSE
+	move_mode = NORTH
+	if(!target || QDELETED(target))
+		return
+	desired_angle = -Get_Angle(src, target)
+
+//Method that will get you a new target, based on basic params.
+/obj/structure/overmap/proc/seek_new_target(max_weight_class=null, min_weight_class=null, interior_check=FALSE)
+	for(var/obj/structure/overmap/ship in GLOB.overmap_objects)
+		if(warcrime_blacklist[ship.type])
+			continue
+		if(!ship || QDELETED(ship) || ship == src || get_dist(src, ship) > max_tracking_range || ship.faction == faction || ship.z != z || ship.is_sensor_visible(src) < SENSOR_VISIBILITY_TARGETABLE)
+			continue
+		if(max_weight_class && ship.mass > max_weight_class)
+			continue
+		if(min_weight_class && ship.mass < min_weight_class)
+			continue
+		if(interior_check && !ship.linked_areas.len) //So that boarders don't waste their time and try commit to boarding other AIs...yet.
+			continue
+		add_enemy(ship)
+		last_target = ship
+		return TRUE
+	return FALSE

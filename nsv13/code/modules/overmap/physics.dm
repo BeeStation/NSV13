@@ -133,7 +133,7 @@ The while loop runs at a programatic level and is thus separated from any thrott
 //	if(last_process > 0 && (last_process < world.time - 1 SECONDS) && !processing_failsafe) //Alright looks like the game's shat itself. Time to engage "failsafe mode". The logic of this is that if we've not been processed for over 1 second, then ship piloting starts to become unbearable and we need to step in and do our own processing, until the game's back on its feet again.
 //		start_failsafe_processing()
 	last_process = world.time
-	if(world.time > last_slowprocess + 10)
+	if(world.time > last_slowprocess + 7)
 		last_slowprocess = world.time
 		slowprocess()
 	last_offset.copy(offset)
@@ -436,8 +436,9 @@ The while loop runs at a programatic level and is thus separated from any thrott
 	other.offset += output
 
 /obj/structure/overmap/Bumped(atom/movable/A)
-	if(brakes || ismob(A)) //No :)
+	if(brakes || ismob(A) || istype(A, /obj/structure/overmap)) //No :)
 		return FALSE
+	handle_cloak(CLOAK_TEMPORARY_LOSS)
 	if(A.dir & NORTH)
 		velocity.y += bump_impulse
 	if(A.dir & SOUTH)
@@ -465,6 +466,10 @@ The while loop runs at a programatic level and is thus separated from any thrott
 	if(layer < A.layer) //Allows ships to "Layer under" things and not hit them. Especially useful for fighters.
 		return ..()
 	// if a bump is that fast then it's not a bump. It's a collision.
+	if(istype(A, /obj/structure/overmap) && c_response)
+		collide(A, c_response, bump_velocity)
+		return FALSE
+	handle_cloak(CLOAK_TEMPORARY_LOSS)
 	if(bump_velocity >= 3 && !impact_sound_cooldown && isobj(A)) //Throttled collision damage a bit
 		var/obj/O = A
 		var/strength = bump_velocity
@@ -476,9 +481,6 @@ The while loop runs at a programatic level and is thus separated from any thrott
 		O.take_damage(strength*5, BRUTE, "melee", TRUE)
 		log_game("[key_name(pilot)] has impacted an overmap ship into [A] with velocity [bump_velocity]")
 		visible_message("<span class='danger'>The force of the impact causes a shockwave</span>")
-	if(istype(A, /obj/structure/overmap) && c_response)
-		collide(A, c_response, bump_velocity)
-		return FALSE
 	var/atom/movable/AM = A
 	if(istype(AM) && !AM.anchored && bump_velocity > 1)
 		step(AM, dir)
