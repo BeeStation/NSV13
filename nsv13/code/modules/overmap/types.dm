@@ -303,6 +303,8 @@
 /obj/structure/overmap/syndicate/ai/nuclear
 	name = "Thermonuclear frigate"
 	torpedo_type = /obj/item/projectile/guided_munition/torpedo/nuclear
+	max_integrity = 1500 //Max health
+	integrity_failure = 1500
 	shots_left = 7 //Reload yer nukes
 	torpedoes = 5
 	missiles = 10
@@ -441,7 +443,7 @@
 	collision_positions = list(new /datum/vector2d(-15,59), new /datum/vector2d(-19,22), new /datum/vector2d(-15,-39), new /datum/vector2d(-7,-62), new /datum/vector2d(6,-63), new /datum/vector2d(17,-35), new /datum/vector2d(22,22), new /datum/vector2d(9,49), new /datum/vector2d(-1,58))
 	armor = list("overmap_light" = 70, "overmap_heavy" = 15)
 	ai_trait = AI_TRAIT_DESTROYER
-	cloak_factor = 150 //Not a perfect cloak, mind you.
+	cloak_factor = 100 //Not a perfect cloak, mind you.
 
 /obj/structure/overmap/syndicate/ai/submarine/Initialize()
 	. = ..()

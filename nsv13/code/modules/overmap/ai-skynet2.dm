@@ -55,6 +55,12 @@ Adding tasks is easy! Just define a datum for it.
 #define AI_TRAIT_ANTI_FIGHTER 4
 #define AI_TRAIT_BOARDER 5 //Ships that like to board you.
 
+//Fleet behaviour. Border patrol fleets will stick to patrolling their home space only. Invasion fleets ignore home space and fly around.
+#define FLEET_TRAIT_BORDER_PATROL 1
+#define FLEET_TRAIT_INVASION 2
+#define FLEET_TRAIT_NEUTRAL_ZONE 3
+#define FLEET_TRAIT_DEFENSE 4
+
 GLOBAL_LIST_EMPTY(ai_goals)
 
 /datum/fleet
@@ -67,7 +73,7 @@ GLOBAL_LIST_EMPTY(ai_goals)
 	var/list/supply_types = list(/obj/structure/overmap/syndicate/ai/carrier)
 	var/list/all_ships = list()
 	var/size = FLEET_DIFFICULTY_MEDIUM //How big is this fleet anyway?
-	var/list/audio_cues = list() //Does this fight come with a theme tune?
+	var/list/audio_cues = list() //Does this fight come with a theme tune? Takes youtube / media links so that we don't have to store a bunch of copyrighted music on the box.
 	var/instantiated = FALSE //If we're not instantiated, moving all the ships is a piece of cake, if we are however, we do some extra steps to FTL them all.
 	var/datum/star_system/current_system = null //Where are we?
 	var/datum/star_system/goal_system = null //Where are we looking to go?
@@ -75,15 +81,99 @@ GLOBAL_LIST_EMPTY(ai_goals)
 	var/alignment = "syndicate"
 	var/list/taunts = list("Unidentified vessel, you have entered our airspace. Leave immediately or be destroyed", "Identify yourselves immediately or be destroyed", "Unidentified vessel, leave immediately. You are entering Syndicate territory.", "Hold it right there. Prepare to be boarded, Captain.", "Nanotrasen vessel, surrender immediately or face unnecessary casualties.", "All Nanotrasen crewmen, please prepare for immediate evisceration.", "Unidentified vessel, transmit your credentials now or- Wait a second, that’s the ship we’re looking for! Deploy fighters!", "Nanotrasen? You’ve just made my day, all crafts prepare to engage.", "Unknown vessel, failure to contact Syndicate control on frequency 0.4 is a suspected act of aggression. Prepare for engagement.")
 	var/list/greetings = list("IFF confirmed, good to see you", "Allied vessel, IFF confirmed.")
+	var/list/recently_visited = list()
+	var/fleet_trait = FLEET_TRAIT_INVASION
+	var/last_encounter_time = 0
+
+//BFS search algo. Entirely unused for now.
+/datum/fleet/proc/bfs(datum/star_system/target)
+	if(!current_system)
+		return //No pathfinding from /NULL/
+	if(!target)
+		target = SSstar_system.system_by_id("Sol")
+	var/list/path = list()
+	//Firstly, let's BFS from the target system to get what we actually need to go through.
+	var/list/queue = list()
+	var/list/visited = list()
+
+	var/list/ourQueue = list()
+	var/list/ourVisited = list()
+
+	visited[target] = TRUE
+	queue += target
+
+	ourVisited[current_system] = TRUE
+	ourQueue += current_system
+
+	while(queue.len)
+		var/datum/star_system/SS = queue[1]
+		queue.Cut(1,2)
+		for(var/_name in SS.adjacency_list)
+			var/datum/star_system/sys = SSstar_system.system_by_id(_name)
+			if(!visited[sys])
+				visited[sys] = TRUE
+				queue += sys
+				path += sys
+
+	for(var/X in path)
+		message_admins(X)
+
+	return target
 
 /datum/fleet/proc/move(datum/star_system/target)
 	if(!target)
-		target = SSstar_system.system_by_id("Scorvio")
+		var/list/potential = list()
+		//Pick a movement target based on our fleet trait.
+		for(var/_name in current_system.adjacency_list)
+			var/datum/star_system/sys = SSstar_system.system_by_id(_name)
+			if(sys.hidden)
+				continue
+			switch(fleet_trait)
+				if(FLEET_TRAIT_DEFENSE)
+					return FALSE //These boss fleets do not move.
+				if(FLEET_TRAIT_NEUTRAL_ZONE) //These fleets live in the neutral zone
+					if(sys.alignment != "unaligned" && sys.alignment != "uncharted")
+						continue
+				if(FLEET_TRAIT_BORDER_PATROL)
+					if(sys.alignment != alignment)
+						continue
+				if(FLEET_TRAIT_INVASION)
+					if(sys.alignment == alignment)
+						continue
+			potential += sys
+		target = pick(potential)
+	addtimer(CALLBACK(src, .proc/move), rand(5 MINUTES, 10 MINUTES))
+	//Precondition: We're allowed to go to this system.
+	switch(fleet_trait)
+		if(FLEET_TRAIT_DEFENSE)
+			return FALSE //These boss fleets do not move.
+		if(FLEET_TRAIT_BORDER_PATROL)
+			if(target.alignment != alignment)
+				return FALSE
+		if(FLEET_TRAIT_INVASION)
+			if(target.alignment == alignment)
+				return FALSE
+		if(FLEET_TRAIT_NEUTRAL_ZONE)
+			if(target.alignment == alignment)
+				return FALSE
+
+	if(world.time < last_encounter_time + 10 MINUTES) //So that fleets don't leave mid combat.
+		return FALSE
+	current_system.fleets -= src
+	if(current_system.fleets && current_system.fleets.len)
+		var/datum/fleet/F = pick(current_system.fleets)
+		current_system.alignment = F.alignment
+		current_system.mission_sector = FALSE
+		for(var/datum/fleet/FF in current_system.fleets)
+			if(FF.alignment != initial(current_system.alignment))
+				current_system.mission_sector = TRUE
+	else
+		current_system.alignment = initial(current_system.alignment)
+		current_system.mission_sector = FALSE
 	if(instantiated)//If the fleet was "instantiated", that means it's already been encountered, and we need to track the states of all the ships in it.
 		for(var/obj/structure/overmap/OM in all_ships)
 			if(QDELETED(OM))
 				continue
-			to_chat(world, "Moving [OM]!")
 			target.system_contents += OM
 			if(!target.occupying_z)
 				STOP_PROCESSING(SSovermap, OM)
@@ -96,19 +186,15 @@ GLOBAL_LIST_EMPTY(ai_goals)
 			if(alignment != "nanotrasen" && alignment != "solgov") //NT, SGC or whatever don't count as enemies that NT hire you to kill.
 				current_system.enemies_in_system -= OM
 				target.enemies_in_system += OM
-				current_system.UnregisterSignal(OM, COMSIG_PARENT_QDELETING)
-				target.RegisterSignal(OM, COMSIG_PARENT_QDELETING , /datum/star_system/proc/remove_enemy, OM)
 			if(current_system.contents_positions[OM]) //If we were loaded, but the system was not.
 				current_system.contents_positions -= OM
-	else
-		current_system = target
-	current_system.fleets -= src
-	current_system.alignment = initial(current_system.alignment)
 	target.fleets += src
 	current_system = target
-	target.alignment = alignment //We've taken it over gang.
+	if(target.alignment != alignment)
+		current_system.mission_sector = TRUE
+	target.alignment = alignment //We've taken it over.
 	if(!hide_movements)
-		minor_announce("[name] has arrived at [current_system]", "Fleet telemetry")
+		minor_announce("Typhoon drive signatures detected in [current_system]", "White Rapids EAS")
 	for(var/obj/structure/overmap/OM in current_system.system_contents){
 		if(OM.mobs_in_ship?.len)
 			encounter(OM)
@@ -123,7 +209,32 @@ GLOBAL_LIST_EMPTY(ai_goals)
 				L -= OOM
 				break
 	if(!all_ships.len) //We've been defeated!
-		minor_announce("[name] has been defeated in battle", "Fleet telemetry")
+		defeat()
+
+/datum/fleet/proc/defeat()
+	minor_announce("[name] has been defeated in battle", "White Rapids Fleet Command")
+	if(current_system.fleets && current_system.fleets.len)
+		var/datum/fleet/F = pick(current_system.fleets)
+		current_system.alignment = F.alignment
+		current_system.mission_sector = FALSE
+		for(var/datum/fleet/FF in current_system.fleets)
+			if(FF.alignment != initial(current_system.alignment))
+				current_system.mission_sector = TRUE
+	else
+		current_system.alignment = initial(current_system.alignment)
+		current_system.mission_sector = FALSE
+	current_system.fleets -= src
+	SSstar_system.systems_cleared ++
+	SSstar_system.check_completion()
+	for(var/obj/structure/overmap/OOM in current_system.system_contents)
+		if(!OOM.mobs_in_ship.len)
+			continue
+		for(var/mob/M in OOM.mobs_in_ship)
+			if(M.client)
+				var/client/C = M.client
+				if(C.chatOutput && !C.chatOutput.broken && C.chatOutput.loaded)
+					C.chatOutput.stopMusic()
+	QDEL_NULL(src)
 
 /obj/structure/overmap/proc/force_jump(where)
 	if(!where)
@@ -189,23 +300,40 @@ GLOBAL_LIST_EMPTY(ai_goals)
 	if(OM.faction != alignment)
 		if(OM.alpha >= 150) //Sensor cloaks my boy, sensor cloaks
 			OM.hail(pick(taunts), name)
+			last_encounter_time = world.time
 		if(audio_cues?.len)
 			var/list/result = get_internet_sound(pick(audio_cues))
 			if(!result || !islist(result))
 				return
-			var/web_sound_url = result[1]
+			var/web_sound_url = result[1] //this is cringe but it works
 			var/music_extra_data = result[2]
 			if(web_sound_url)
 				for(var/mob/M in OM.mobs_in_ship)
 					if(M.client)
 						var/client/C = M.client
 						if(C.chatOutput && !C.chatOutput.broken && C.chatOutput.loaded)
+							C.chatOutput.stopMusic()
 							C.chatOutput.sendMusic(web_sound_url, music_extra_data)
+
+/datum/fleet/neutral
+	name = "Syndicate territorial expansion force"
+	fleet_trait = FLEET_TRAIT_NEUTRAL_ZONE
+
+/datum/fleet/earthbuster
+	name = "Syndicate armada" //Have fun dealing with this!
+	destroyer_types = list(/obj/structure/overmap/syndicate/ai, /obj/structure/overmap/syndicate/ai/nuclear, /obj/structure/overmap/syndicate/ai/assault_cruiser, /obj/structure/overmap/syndicate/ai/gunboat, /obj/structure/overmap/syndicate/ai/submarine, /obj/structure/overmap/syndicate/ai/assault_cruiser/boarding_frigate)
+	size = FLEET_DIFFICULTY_VERY_HARD
+
+/datum/fleet/border
+	name = "Syndicate border defense force"
+	fleet_trait = FLEET_TRAIT_BORDER_PATROL
+	hide_movements = TRUE
 
 /datum/fleet/boarding
 	name = "Syndicate Commando Taskforce"
 	destroyer_types = list(/obj/structure/overmap/syndicate/ai/assault_cruiser/boarding_frigate)
 	taunts = list("Attention: This is an automated message. All non-Syndicate vessels prepare to be boarded for security clearance.")
+	fleet_trait = FLEET_TRAIT_NEUTRAL_ZONE
 
 /datum/fleet/wolfpack
 	name = "Unidentified Fleet"
@@ -213,45 +341,58 @@ GLOBAL_LIST_EMPTY(ai_goals)
 	audio_cues = list("https://www.youtube.com/watch?v=sMejhjMfKj4", "https://www.youtube.com/watch?v=bfskFravnWM", "https://www.youtube.com/watch?v=C3WcBLLMnQ4")
 	hide_movements = TRUE
 	taunts = list("....", "*static*")
+	fleet_trait = FLEET_TRAIT_NEUTRAL_ZONE
 
 /datum/fleet/nuclear
 	name = "Syndicate nuclear deterrent"
 	taunts = list("Enemy ship, surrender now. This vessel is armed with thermonuclear weapons and eager to test them.")
-	audio_cues = list("https://www.youtube.com/watch?v=0iXfWWrwrlQ")
+	audio_cues = list("https://www.youtube.com/watch?v=0iXfWWrwrlQ", "https://www.youtube.com/watch?v=YW2bPkw0VyU")
 	destroyer_types = list(/obj/structure/overmap/syndicate/ai/nuclear)
 	size = 2
+	fleet_trait = FLEET_TRAIT_NEUTRAL_ZONE
+
+/datum/fleet/nanotrasen/border
+	name = "Concord Border Enforcement Unit"
+	taunts = list("You have violated the law. Stand down your weapons and prepare to be boarded.", "Hostile vessel. Stand down immediately or be destroyed.")
+	size = FLEET_DIFFICULTY_EASY
+	fleet_trait = FLEET_TRAIT_BORDER_PATROL
 
 //Boss battles.
 
 /datum/fleet/rubicon //Crossing the rubicon, are we?
 	name = "Rubicon Crossing"
 	size = FLEET_DIFFICULTY_HARD
-	audio_cues = list("https://www.youtube.com/watch?v=mhXuYp0n88g", "https://www.youtube.com/watch?v=l1J-2nIovYw")
+	audio_cues = list("https://www.youtube.com/watch?v=mhXuYp0n88g", "https://www.youtube.com/watch?v=l1J-2nIovYw", "https://www.youtube.com/watch?v=M_MdmLWmDHs")
 	taunts = list("Better crews have tried to cross the Rubicon, you will die like they did.", "All hands, set condition 1 throughout the fleet, enemy vessel approaching.", "Defense force, stand ready!", "Nanotrasen filth. Munitions, ready the guns. We’ll scrub the galaxy clean of you vermin.", "This shift just gets better and better. I’ll have your Captain’s head on my wall.")
+	fleet_trait = FLEET_TRAIT_DEFENSE
 
 /datum/fleet/tortuga
 	name = "Tortuga raiders"
 	audio_cues = list("https://www.youtube.com/watch?v=WMSoo4B2hFU")
 	taunts = list("Yar har! Fresh meat", "Unfurl the mainsails! We've got company", "Die landlubbers!")
 	size = FLEET_DIFFICULTY_HARD
+	fleet_trait = FLEET_TRAIT_DEFENSE
 
 /datum/fleet/nanotrasen/earth
 	name = "Earth Defense Force"
 	taunts = list("You're foolish to venture this deep into Solgov space! Main batteries stand ready.", "All hands, set condition 1 throughout the fleet, enemy vessel approaching.", "Defense force, stand ready!", "We shall protect our homeland!")
-	size = FLEET_DIFFICULTY_INSANE
+	size = FLEET_DIFFICULTY_VERY_HARD
 	audio_cues = list("https://www.youtube.com/watch?v=k8-HHivlj8k")
+	fleet_trait = FLEET_TRAIT_DEFENSE
 
 /datum/fleet/dolos
 	name = "Dolos Welcoming Party" //Don't do it czanek, don't fucking do it!
 	size = FLEET_DIFFICULTY_INSANE
 	audio_cues = list("https://www.youtube.com/watch?v=UPHmazxB38g") //FTL13 ;(
 	taunts = list("You shouldn't have come here...", "Prepare to die.", "Nanotrasen? Here? Bold.")
+	fleet_trait = FLEET_TRAIT_DEFENSE
 
 /datum/fleet/abassi
 	name = "1st Syndicate Defense Force" //Don't do it czanek, don't fucking do it!
 	size = FLEET_DIFFICULTY_DEATH
 	audio_cues = list("https://www.youtube.com/watch?v=3tAShpPu6K0")
 	taunts = list("Your existence has come to an end.", "You should be glad you made it this far, but you'll come no further.")
+	fleet_trait = FLEET_TRAIT_DEFENSE
 
 
 //Nanotrasen fleets
@@ -263,37 +404,25 @@ GLOBAL_LIST_EMPTY(ai_goals)
 	battleship_types = list(/obj/structure/overmap/nanotrasen/patrol_cruiser/ai, /obj/structure/overmap/nanotrasen/heavy_cruiser/ai, /obj/structure/overmap/nanotrasen/battleship/ai)
 	supply_types = list(/obj/structure/overmap/nanotrasen/carrier/ai)
 	alignment = "nanotrasen"
+	hide_movements = TRUE //Friendly fleets just move around as you'd expect.
 
 /datum/fleet/nanotrasen/light
 	name = "Nanotrasen light fleet"
 	battleship_types = list(/obj/structure/overmap/nanotrasen/patrol_cruiser/ai)
 
-//Temporary magic testing proc. Remove this shit when youre done with it not 6am Kmc!
-/obj/structure/overmap/proc/f()
-	if(!current_system)
-		return
-	var/datum/fleet/foo = new /datum/fleet()
-	fleet = foo //grab that, REF
-	foo.assemble(current_system)
-
-/obj/structure/overmap/proc/g()
-	if(!current_system)
-		return
-	var/datum/fleet/foo = new /datum/fleet/nanotrasen()
-	fleet = foo //grab that, REF
-	foo.assemble(current_system)
-
 /datum/fleet/New()
 	. = ..()
 	if(current_system)
 		assemble(current_system)
-	if(goal_system)
-		addtimer(CALLBACK(src, .proc/move), 5 MINUTES)
+	addtimer(CALLBACK(src, .proc/move), 10 MINUTES)
 
 //A ship has entered a system with a fleet present. Assemble the fleet so that it lives in this system now.
 
 /datum/fleet/proc/assemble(datum/star_system/SS, difficulty=size)
-	if(!SS || !SS.occupying_z) //Only loaded in levels are supported at this time. TODO: Fix this.
+	if(!SS)
+		return
+	SS.alignment = alignment
+	if(!SS.occupying_z) //Only loaded in levels are supported at this time. TODO: Fix this.
 		return FALSE
 	instantiated = TRUE
 	current_system = SS
@@ -304,7 +433,7 @@ GLOBAL_LIST_EMPTY(ai_goals)
 	2 supply ships (1/4th of the fleet)
 	*/
 	//This may look lazy, but it's easier than storing all this info in one massive dict. Deal with it!
-	for(var/I=0; I<round(difficulty/2);I++){
+	for(var/I=0; I<max(round(difficulty/2), 1);I++){
 		var/shipType = pick(destroyer_types)
 		var/obj/structure/overmap/member = new shipType()
 		taskforces["destroyers"] += member
@@ -316,7 +445,7 @@ GLOBAL_LIST_EMPTY(ai_goals)
 		RegisterSignal(member, COMSIG_PARENT_QDELETING , /datum/fleet/proc/remove_ship, member)
 		SS.add_ship(member)
 	}
-	for(var/I=0; I<round(difficulty/4);I++){
+	for(var/I=0; I<max(round(difficulty/4), 1);I++){
 		var/shipType = pick(battleship_types)
 		var/obj/structure/overmap/member = new shipType()
 		taskforces["battleships"] += member
@@ -328,7 +457,7 @@ GLOBAL_LIST_EMPTY(ai_goals)
 		RegisterSignal(member, COMSIG_PARENT_QDELETING , /datum/fleet/proc/remove_ship, member)
 		SS.add_ship(member)
 	}
-	for(var/I=0; I<round(difficulty/4);I++){
+	for(var/I=0; I<max(round(difficulty/4), 1);I++){
 		var/shipType = pick(supply_types)
 		var/obj/structure/overmap/member = new shipType()
 		taskforces["supply"] += member
@@ -716,7 +845,7 @@ GLOBAL_LIST_EMPTY(ai_goals)
 				var/ai_fighter = pick(ai_fighter_type)
 				var/obj/structure/overmap/newFighter = new ai_fighter(get_turf(pick(orange(3, src))))
 				newFighter.last_target = last_target
-				current_system?.add_enemy(newFighter)
+				current_system?.system_contents += newFighter
 				if(fleet)
 					newFighter.fleet = fleet
 					fleet.taskforces["fighters"] += newFighter //Lets our fighters come back to the mothership to fuel up every so often.
