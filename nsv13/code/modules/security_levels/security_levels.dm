@@ -6,7 +6,7 @@
 /obj/effect/landmark/zebra_interlock_point/Initialize()
 	. = ..()
 	for(var/obj/machinery/door/firedoor/FD in get_turf(src))
-		FD.RegisterSignal(SSblackbox, COMSIG_ALERT_LEVEL_CHANGE, /obj/machinery/door/firedoor/proc/on_alert_level_change)
+		FD.RegisterSignal(SSblackbox, COMSIG_ALERT_LEVEL_CHANGE, /obj/machinery/door/firedoor/proc/on_alert_level_change, override=TRUE) //In case you have a zebra spawner on a window, this instance of alert level change will override the old one.
 
 /obj/machinery/door/firedoor/window/Initialize()
 	. = ..()
