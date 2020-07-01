@@ -12,7 +12,7 @@ SUBSYSTEM_DEF(star_system)
 	var/list/enemy_types = list()
 	var/list/enemy_blacklist = list()
 	var/list/ships = list() //2-d array. Format: list("ship" = ship, "x" = 0, "y" = 0, "current_system" = null, "target_system" = null, "transit_time" = 0)
-	var/patrols_left = 5 //Around 1 hour : 15 minutes
+	var/patrols_left = 3 //Around 1 hour : 15 minutes
 	var/times_cleared = 0
 	var/systems_cleared = 0
 
@@ -107,7 +107,6 @@ SUBSYSTEM_DEF(star_system)
 	target_sys.contents_positions[anomaly] = list("x" = anomaly.x, "y" = anomaly.y) //Cache the ship's position so we can regenerate it later.
 	target_sys.system_contents += anomaly
 	anomaly.moveToNullspace() //Anything that's an NPC should be stored safely in nullspace until we return.
-	message_admins("[anomaly] successfully queued for [target_sys]")
 
 ///////BOUNTIES//////
 
@@ -131,8 +130,13 @@ SUBSYSTEM_DEF(star_system)
 /datum/controller/subsystem/star_system/proc/cycle_gameplay_loop()
 	addtimer(CALLBACK(src, .proc/gameplay_loop), rand(10 MINUTES, 15 MINUTES)) //Cycle the gameplay loop 10 to 15 minutes after the previous sector is made hostile.
 
+//For extremely robust crews who wish to earn cooler medals.
+/datum/controller/subsystem/star_system/proc/reset_gameplay_loop()
+	patrols_left = initial(patrols_left)
+	systems_cleared = 0
+
 /datum/controller/subsystem/star_system/proc/check_completion()
-	if(patrols_left <= 0 && systems_cleared >= 5)
+	if(patrols_left <= 0 && systems_cleared >= initial(patrols_left))
 		var/medal_type = null //Reward good players.
 		switch(times_cleared)
 			if(0)
@@ -151,7 +155,7 @@ SUBSYSTEM_DEF(star_system)
 				medal_type = MEDAL_CREW_EXTREMELYCOMPETENT
 			if(3) //By now they've cleared. 20(!) systems.
 				priority_announce("[station_name()]... We are...not quite sure how you're still alive. However, the Syndicate are struggling to mobilise any more ships and we're presented with a unique opportunity to strike at their heartland.\
-				You are ordered to return to home base immediately for re-arming, repair and a crew briefing", "Officer Of Grand Admiral Titanicus")
+				You are ordered to return to home base immediately for re-arming, repair and a crew briefing", "The assembled Nanotrasen Admiralty")
 				medal_type = MEDAL_CREW_HYPERCOMPETENT
 		for(var/client/C in GLOB.clients)
 			if(!C.mob || !SSmapping.level_trait(C.mob.z, ZTRAIT_BOARDABLE))
@@ -162,10 +166,8 @@ SUBSYSTEM_DEF(star_system)
 			if(SS.name == "Risa Station")
 				SS.hidden = FALSE
 			SS.difficulty_budget *= 2 //Double the difficulty if the crew choose to stay.
-		cycle_gameplay_loop()
-		patrols_left = 5
 		times_cleared ++
-		systems_cleared = 0
+		addtimer(CALLBACK(src, .proc/reset_gameplay_loop), rand(15 MINUTES, 20 MINUTES)) //Give them plenty of time to go home before we give them any more missions.
 		return TRUE
 
 /datum/controller/subsystem/star_system/proc/gameplay_loop() //A very simple way of having a gameplay loop. Every couple of minutes, the Syndicate appear in a system, the ship has to destroy them.
@@ -181,6 +183,8 @@ SUBSYSTEM_DEF(star_system)
 	for(var/datum/star_system/starsys in systems)
 		if(starsys != current_system && !starsys.hidden && !starsys.mission_sector && starsys.alignment != "nanotrasen" && starsys.alignment != "uncharted") //Spawn is a safe zone. Uncharted systems are dangerous enough and don't need more murder.
 			possible_spawns += starsys
+	if(patrols_left <= 0) //They've had enough missions for one day.
+		return
 	if(!possible_spawns.len)
 		message_admins("Failed to spawn an overmap mission as all sectors were occupied. Tell the crew to get a move on...")
 		return
@@ -188,7 +192,7 @@ SUBSYSTEM_DEF(star_system)
 	starsys.mission_sector = TRUE //set this sector to be the active mission
 	starsys.spawn_asteroids() //refresh asteroids in the system
 	starsys.spawn_enemies()
-	priority_announce("Attention all ships, set condition 1 throughout the fleet. Syndicate incursion detected in: [starsys]. [systems_cleared < 5 ? "All combat-ready ships must respond to the threat." : "Ships may optionally clear the system, or return to Risa for crew rotation"]", "Naval Command")
+	priority_announce("Attention all ships, set condition 1 throughout the fleet. Syndicate incursion detected in: [starsys]. [systems_cleared < initial(patrols_left) ? "All combat-ready ships must respond to the threat." : "Ships may optionally clear the system, or return to Risa for crew rotation"]", "Naval Command")
 	patrols_left --
 	return
 
@@ -252,6 +256,7 @@ SUBSYSTEM_DEF(star_system)
 	var/is_capital = FALSE
 	var/list/adjacency_list = list() //Which systems are near us, by name
 	var/occupying_z = 0 //What Z-level is this  currently stored on? This will always be a number, as Z-levels are "held" by ships.
+	var/list/wormhole_connections = list() //Where did we dun go do the wormhole to honk
 
 /datum/star_system/proc/dist(datum/star_system/other)
 	var/dx = other.x - x
@@ -267,10 +272,12 @@ SUBSYSTEM_DEF(star_system)
 	var/datum/star_system/S = pick((SSstar_system.systems - src)) //Pick a random system to put the wormhole in. Make sure that's not us.
 	if(!(LAZYFIND(adjacency_list, S))) //Makes sure we're not already linked.
 		adjacency_list += S.name
+		wormhole_connections += S.name
 		SSstar_system.spawn_anomaly(/obj/effect/overmap_anomaly/wormhole, src, center=TRUE)
 		var/oneway = "One-way"
 		if(!(LAZYFIND(S.adjacency_list, src)) && prob(30)) //Two-directional wormholes, AKA valid hyperlanes, are exceedingly rare.
 			S.adjacency_list += name
+			S.wormhole_connections += name
 			oneway = "Two-way"
 			SSstar_system.spawn_anomaly(/obj/effect/overmap_anomaly/wormhole, S, center=TRUE) //Wormholes are cool. Like Fezzes. Fezzes are cool.
 		message_admins("[oneway] wormhole created between [S] and [src]")
@@ -459,7 +466,6 @@ SUBSYSTEM_DEF(star_system)
 		if("blacksite") //this a special one!
 			adjacency_list += "Risa Station" //you're going to risa, dammit.
 			SSstar_system.spawn_anomaly(/obj/effect/overmap_anomaly/wormhole, src, center=TRUE)
-			message_admins("Guaranteed oneway wormhole created between Risa Station and DATA EXPUNGED")
 	if(alignment == "syndicate")
 		spawn_enemies() //Syndicate systems are even more dangerous, and come pre-loaded with some guaranteed Syndiships.
 	if(!anomaly_type)
@@ -479,7 +485,6 @@ SUBSYSTEM_DEF(star_system)
 			system_type = pick("debris", "pirate", "nebula", "hazardous")
 		if(THREAT_LEVEL_DANGEROUS) //Extreme threat level. Time to break out the most round destroying anomalies.
 			system_type = pick("quasar", "radioactive", "blackhole")
-	message_admins("[src] was selected as a [system_type] system.")
 	apply_system_effects()
 
 /datum/star_system/proc/spawn_asteroids()
@@ -515,7 +520,6 @@ SUBSYSTEM_DEF(star_system)
 		priority_announce("All Syndicate targets in [src] have been dispatched. Return to standard patrol duties.", "Naval Command")
 		if(mission_sector == TRUE)
 			mission_sector = FALSE
-			SSstar_system.patrols_left --
 			SSstar_system.systems_cleared ++
 			SSstar_system.check_completion()
 		return TRUE
@@ -549,7 +553,7 @@ SUBSYSTEM_DEF(star_system)
 /datum/star_system/sol
 	name = "Sol"
 	is_capital = TRUE
-	x = 0
+	x = 4
 	y = 10
 	alignment = "nanotrasen"
 	system_type = "planet_earth"
@@ -606,7 +610,7 @@ SUBSYSTEM_DEF(star_system)
 	y = 45
 	alignment = "unaligned"
 	threat_level = THREAT_LEVEL_UNSAFE
-	adjacency_list = list("Eridani","Scorvio", "Antares")
+	adjacency_list = list("Eridani","Scorvio", "Antares", "Eridani")
 
 /datum/star_system/eridani
 	name = "Eridani"

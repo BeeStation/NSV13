@@ -299,7 +299,7 @@
 				continue	//we have a live body we are tied to
 			candidates += M.ckey
 		if(candidates.len)
-			ckey = input("Pick the player you want to respawn as a xeno.", "Suitable Candidates") as null|anything in candidates
+			ckey = input("Pick the player you want to respawn as a xeno.", "Suitable Candidates") as null|anything in sortKey(candidates)
 		else
 			to_chat(usr, "<span class='danger'>Error: create_xeno(): no suitable candidates.</span>")
 	if(!istext(ckey))
@@ -525,6 +525,7 @@ Traitors and the like can also be revived with the previous role mostly intact.
 	var/datum/round_event/ion_storm/add_law_only/ion = new()
 	ion.announceChance = announce_ion_laws
 	ion.ionMessage = input
+	ion.lawsource = "Admin fuckery by [key_name(usr)]"
 
 	SSblackbox.record_feedback("tally", "admin_verb", 1, "Add Custom AI Law") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
 
@@ -743,10 +744,10 @@ Traitors and the like can also be revived with the previous role mostly intact.
 	set name = "Change View Range"
 	set desc = "switches between 1x and custom views"
 
-	if(view == CONFIG_GET(string/default_view))
-		change_view(input("Select view range:", "FUCK YE", 7) in list(1,2,3,4,5,6,7,8,9,10,11,12,13,14,128))
+	if(view_size.getView() == view_size.default)
+		view_size.setTo(input("Select view range:", "FUCK YE", 7) in list(1,2,3,4,5,6,7,8,9,10,11,12,13,14,128) - 7)
 	else
-		check_view()
+		view_size.resetToDefault(getScreenSize(FALSE))
 
 	log_admin("[key_name(usr)] changed their view range to [view].")
 	//message_admins("\blue [key_name_admin(usr)] changed their view range to [view].")	//why? removed by order of XSI
@@ -929,7 +930,7 @@ Traitors and the like can also be revived with the previous role mostly intact.
 	if(!holder)
 		return
 
-	var/weather_type = input("Choose a weather", "Weather")  as null|anything in subtypesof(/datum/weather)
+	var/weather_type = input("Choose a weather", "Weather")  as null|anything in sortList(subtypesof(/datum/weather), /proc/cmp_typepaths_asc)
 	if(!weather_type)
 		return
 
@@ -1046,7 +1047,7 @@ Traitors and the like can also be revived with the previous role mostly intact.
 	set category = "Debug"
 	set name = "Modify goals"
 
-	if(!check_rights(R_ADMIN))
+	if(!check_rights(R_ADMIN|R_DEBUG))
 		return
 
 	holder.modify_goals()
@@ -1080,7 +1081,7 @@ Traitors and the like can also be revived with the previous role mostly intact.
 
 	var/list/punishment_list = list(ADMIN_PUNISHMENT_LIGHTNING, ADMIN_PUNISHMENT_BRAINDAMAGE, ADMIN_PUNISHMENT_GIB, ADMIN_PUNISHMENT_BSA, ADMIN_PUNISHMENT_FIREBALL, ADMIN_PUNISHMENT_ROD, ADMIN_PUNISHMENT_SUPPLYPOD_QUICK, ADMIN_PUNISHMENT_SUPPLYPOD, ADMIN_PUNISHMENT_MAZING, ADMIN_PUNISHMENT_FLOORCLUWNE, ADMIN_PUNISHMENT_CLUWNE)
 
-	var/punishment = input("Choose a punishment", "DIVINE SMITING") as null|anything in punishment_list
+	var/punishment = input("Choose a punishment", "DIVINE SMITING") as null|anything in sortList(punishment_list)
 
 	if(QDELETED(target) || !punishment)
 		return
@@ -1095,7 +1096,7 @@ Traitors and the like can also be revived with the previous role mostly intact.
 				H.electrocution_animation(40)
 			to_chat(target, "<span class='userdanger'>The gods have punished you for your sins!</span>")
 		if(ADMIN_PUNISHMENT_BRAINDAMAGE)
-			target.adjustBrainLoss(199, 199)
+			target.adjustOrganLoss(ORGAN_SLOT_BRAIN, 199, 199)
 		if(ADMIN_PUNISHMENT_GIB)
 			target.gib(FALSE)
 		if(ADMIN_PUNISHMENT_BSA)
@@ -1145,6 +1146,10 @@ Traitors and the like can also be revived with the previous role mostly intact.
 				return
 
 		if(ADMIN_PUNISHMENT_FLOORCLUWNE)
+			if(!ishuman(target))
+				to_chat(usr,"<span class='warning'>You may only floorcluwne humans!</span>")
+				return
+
 			var/turf/T = get_turf(target)
 			var/mob/living/simple_animal/hostile/floor_cluwne/FC = new(T)
 			FC.invalid_area_typecache = list()  // works anywhere
@@ -1235,3 +1240,15 @@ Traitors and the like can also be revived with the previous role mostly intact.
 	else
 		message_admins("[key_name_admin(usr)] has [newstate ? "activated" : "deactivated"] job exp exempt status on [key_name_admin(C)]")
 		log_admin("[key_name(usr)] has [newstate ? "activated" : "deactivated"] job exp exempt status on [key_name(C)]")
+
+/client/proc/spawnhuman()
+	set name = "Spawn human"
+	set desc = "Spawns a mindless human"
+	set category = "Fun"
+
+	if(!check_rights(R_FUN))
+		return
+
+	var/turf/T = get_turf(usr)
+	new /mob/living/carbon/human(T)
+	log_admin("[key_name(usr)] spawned a mindless human.")

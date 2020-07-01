@@ -290,6 +290,10 @@ Preset classes of FTL drive with pre-programmed behaviours
 	faction = "syndicate"
 	req_access = list(ACCESS_SYNDICATE)
 
+/obj/machinery/computer/ship/ftl_computer/Initialize()
+	. = ..()
+	start_monitoring(get_overmap()) //I'm a lazy hack that can't actually be assed to deal with an if statement in react right now.
+
 /obj/machinery/computer/ship/ftl_computer/syndicate/Initialize()
 	. = ..()
 	return INITIALIZE_HINT_LATELOAD
@@ -356,7 +360,7 @@ A way for syndies to track where the player ship is going in advance, so they ca
 /obj/machinery/computer/ship/ftl_computer/ui_interact(mob/user, ui_key = "main", datum/tgui/ui = null, force_open = 0, datum/tgui/master_ui = null, datum/ui_state/state = GLOB.default_state) // Remember to use the appropriate state.
 	ui = SStgui.try_update_ui(user, src, ui_key, ui, force_open)
 	if(!ui)
-		ui = new(user, src, ui_key, "ftl_computer", name, 560, 350, master_ui, state)
+		ui = new(user, src, ui_key, "FTLComputer", name, 560, 350, master_ui, state)
 		ui.open()
 
 /obj/machinery/computer/ship/ftl_computer/ui_act(action, params, datum/tgui/ui)
@@ -481,3 +485,146 @@ A way for syndies to track where the player ship is going in advance, so they ca
 			START_PROCESSING(SSmachines, src)
 		return TRUE
 	return FALSE
+
+/*
+
+#define PYLON_STATE_STARTING 1
+#define PYLON_STATE_WARMUP 2
+#define PYLON_STATE_SPOOLING 3
+#define PYLON_STATE_SHUTDOWN 4
+#define CORE_MAXIMUM_CHARGE 1000
+
+#define PYLON_STATE_OFFLINE 0
+
+///FTL DRIVE PYLON///
+/obj/machinery/atmospherics/components/unary/ftl_drive_pylon
+	name = "FTL Drive Pylon"
+	desc = "Words about the spinny boy"
+	icon = 'nsv13/icons/obj/machinery/FTL_pylon.dmi'
+	icon_state = "pylon"
+	pixel_x = -16
+	density = TRUE
+	anchored = TRUE
+	idle_power_usage = 250
+	active_power_usage = 5000 // peak usage - this gets changed per state
+	var/pylon_state = 0
+	var/capacitor = 0
+
+/obj/machinery/atmospherics/components/unary/ftl_drive_pylon/process()
+	if(!on)
+		return
+	if(on)
+		switch(pylon_state)
+			if(PYLON_STATE_OFFLINE) //here we begin the startup proceedure
+				active_power_usage = 250
+			if(PYLON_STATE_STARTING) //pop the lid
+				active_power_usage = 500
+			if(PYLON_STATE_WARMUP) //start the spin
+				var/datum/gas_mixture/air1 = airs[1]
+				var/ftl_fuel = air1.get_moles(/datum/gas/nucleium)
+				if(ftl_fuel < 0.01)
+					//link chat to whichever obj we are looking at
+					pylon_state = PYLON_STATE_STARTING
+					update_icon()
+					return
+				else
+					air1.adjust_moles(/datum/gas/nucleium, -0.01)
+					if(prob(5))
+						var/datum/effect_system/spark_spread/s = new /datum/effect_system/spark_spread
+						s.set_up(6, 0, src)
+						s.start()
+					update_icon()
+					active_power_usage = 2000
+
+			if(PYLON_STATE_SPOOLING) //spinning intensifies
+				var/datum/gas_mixture/air1 = airs[1]
+				var/ftl_fuel = air1.get_moles(/datum/gas/nucleium)
+				if(ftl_fuel < 0.25)
+					if(capacitor > 0)
+						capacitor --
+						return
+					else if(capacitor <= 0)
+					//link chat to whichever obj we are looking at
+						pylon_state = PYLON_STATE_STARTING
+						update_icon()
+						return
+				else
+					air1.adjust_moles(/datum/gas/nucleium, -0.25)
+					update_icon()
+					active_power_usage = 5000
+					if(capacitor < 5)
+						capacitor ++
+						update_icon()
+						return
+					else if(capacitor >= 5)
+					//here is there bit where we zap the core to make it go
+						return
+			if(PYLON_STATE_SHUTDOWN) //halt the spinning, close the lid
+				active_power_usage = 500
+
+/obj/machinery/atmospherics/components/unary/ftl_drive_pylon/proc/handle_power_transfer()
+	var/obj/machinery/power/ftl_drive_core/FDC = locate(/obj/machinery/power/ftl_drive_core in orange(4, src))
+	if(FDC)
+		//beam zap
+		playsound(src, 'sound/weapons/emitter.ogg', 100, 1)
+		FDC.capacitor_charge += 5
+		if(FDC.capacitor_charge > CORE_MAXIMUM_CHARGE)
+			FDC.capacitor_charge = CORE_MAXIMUM_CHARGE
+		capacitor = 0
+	else if(!FDC)
+		tesla_zap(src, 4,  1000)
+
+
+//FTL DRIVE CORE - zappy core where the FTL charge builds
+/obj/machinery/power/ftl_drive_core
+	name = "FTL Drive Core"
+	desc = "Words about the core"
+	icon = 'nsv13/icons/obj/machinery/FTL_drive.dmi'
+	icon_state = "core_idle"
+	pixel_x = -64
+	density = TRUE
+	anchored = TRUE
+	var/capacitor_charge = 0
+	var/decay_delay = 10
+	var/decay_cycle = 0
+
+/obj/machinery/power/ftl_drive_core/process()
+	decay_cycle ++
+	if(decay_cycle >=10)
+		capacitor_charge -= max(round(decay_cycle / 25), 1)
+
+//FTL DRIVE SILO - reinforced storage tank for FTL fuel
+/obj/machinery/atmospherics/components/binary/ftl_drive_silo
+	name = "FTL Drive Silo"
+	desc = "Words about the vat"
+	icon = 'nsv13/icons/obj/machinery/FTL_silo.dmi'
+	icon_state = "silo"
+	pixel_x = -32
+	density = TRUE
+	anchored = TRUE
+	idle_power_usage = 50
+	active_power_usage = 250
+	max_integrity = 1000
+	var/volume = 10000
+
+/obj/machinery/atmospherics/components/binary/ftl_drive_silo/New()
+	..()
+	var/datum/gas_mixture/air_contents = airs[1]
+	air_contents.volume = volume
+	update_parents()
+
+//FTL DRIVE MANIFOLD - required for normal use - TRAITOR TARGET - should not be touched unless in epsilon protocol - starts in the floor
+/obj/machinery/ftl_drive_manifold
+	name = "FTL Drive Manifold"
+	desc = "Words about the manifold"
+	icon = 'nsv13/icons/obj/machinery/FTL_pylon.dmi'
+	icon_state = "pylon"
+	density = FALSE
+	anchored = TRUE
+
+#undef PYLON_STATE_OFFLINE
+#undef PYLON_STATE_STARTING
+#undef PYLON_STATE_WARMUP
+#undef PYLON_STATE_SPOOLING
+#undef PYLON_STATE_SHUTDOWN
+*/

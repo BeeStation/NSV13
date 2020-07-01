@@ -1276,7 +1276,7 @@
 	var/max_range = 2
 	var/datum/beam/current_beam
 	var/allow_refuel = FALSE
-	
+
 /obj/structure/reagent_dispensers/fueltank/aviation_fuel/ui_act(action, params, datum/tgui/ui)
 	if(..())
 		return
@@ -1325,7 +1325,7 @@
 		return
 	ui = SStgui.try_update_ui(user, src, ui_key, ui, force_open)
 	if(!ui)
-		ui = new(user, src, ui_key, "aviation_fuel", name, 400, 400, master_ui, state)
+		ui = new(user, src, ui_key, "AviationFuel", name, 400, 400, master_ui, state)
 		ui.open()
 
 /obj/structure/reagent_dispensers/fueltank/aviation_fuel/ui_data(mob/user)

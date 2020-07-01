@@ -32,8 +32,8 @@
 	excludefromjob = list("Captain")
 
 /datum/objective_item/steal/hoslaser
-	name = "the head of security's personal laser gun."
-	targetitem = /obj/item/gun/energy/e_gun/hos
+	name = "the head of security's personal glock, 'Winona'." //Nsv13 changed this because LASERS BAD
+	targetitem = /obj/item/gun/ballistic/automatic/pistol/glock/command/hos
 	difficulty = 10
 	excludefromjob = list("Head Of Security")
 
@@ -76,9 +76,9 @@
 /datum/objective_item/steal/nukedisc/check_special_completion(obj/item/disk/nuclear/N)
 	return !N.fake
 
-/datum/objective_item/steal/reflector
-	name = "a reflector vest."
-	targetitem = /obj/item/clothing/suit/armor/laserproof
+/datum/objective_item/steal/riot
+	name = "a riot suit."
+	targetitem = /obj/item/clothing/suit/armor/riot
 	difficulty = 3
 	excludefromjob = list("Head of Security", "Warden")
 
@@ -124,7 +124,7 @@
 /datum/objective_item/steal/plasma/check_special_completion(obj/item/tank/T)
 	var/target_amount = text2num(name)
 	var/found_amount = 0
-	found_amount += T.air_contents.gases[/datum/gas/plasma] ? T.air_contents.gases[/datum/gas/plasma][MOLES] : 0
+	found_amount += T.air_contents.get_moles(/datum/gas/plasma)
 	return found_amount>=target_amount
 
 
