@@ -67,7 +67,7 @@ GLOBAL_DATUM_INIT(squad_manager, /datum/squad_manager, new)
 	var/isBold = isOverwatch || isLead
 	var/display_name = "Overwatch"
 	if(sender)
-		display_name = (CONFIG_GET(flag/show_ranks)) ? SSjob.GetJob(sender.get_assignment("", "")).get_rank() + " [sender.name]" : sender.name
+		display_name = "[sender.compose_rank(sender)] " + sender.name
 	msg = "<span style=\"color:[colour];[isBold ? ";font-size:13pt" : ""]\"><b>\[[name][isLead ? " [isLead]\]" : "\]"] [display_name]</b> says, \"[msg]\"</span>"
 
 	var/datum/signal/signal = new(list("message" = msg, "squad"=src.name, "sound"=sound))

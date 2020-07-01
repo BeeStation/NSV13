@@ -61,7 +61,7 @@ GLOBAL_VAR_INIT(security_level, SEC_LEVEL_GREEN)
 					gq_announce(CONFIG_GET(string/alert_red_downto)) //Nsv13 - Condition 1
 				GLOB.security_level = SEC_LEVEL_RED
 				toggle_gq_lights(TRUE)
-				addtimer(CALLBACK(src, .proc/toggle_gq_lights, FALSE), 45 SECONDS)
+				addtimer(CALLBACK(GLOBAL_PROC, .proc/toggle_gq_lights, FALSE), 45 SECONDS)
 
 				for(var/obj/machinery/firealarm/FA in GLOB.machines)
 					if(is_station_level(FA.z))
@@ -80,7 +80,7 @@ GLOBAL_VAR_INIT(security_level, SEC_LEVEL_GREEN)
 					gq_announce(CONFIG_GET(string/alert_zebra_downto), sound='nsv13/sound/effects/ship/condition_zebra.ogg') //Nsv13 - Condition Z
 				GLOB.security_level = SEC_LEVEL_ZEBRA
 				toggle_gq_lights(TRUE)
-				addtimer(CALLBACK(src, .proc/toggle_gq_lights, FALSE), 30 SECONDS)
+				addtimer(CALLBACK(GLOBAL_PROC, .proc/toggle_gq_lights, FALSE), 30 SECONDS)
 
 				for(var/obj/machinery/firealarm/FA in GLOB.machines)
 					if(is_station_level(FA.z))
