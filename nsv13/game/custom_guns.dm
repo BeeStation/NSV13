@@ -54,14 +54,14 @@
 	icon_state = "peacekeeper_stun"
 	ammo_type = /obj/item/ammo_casing/peacekeeper
 	caliber = "6mm"
-	max_ammo = 20
+	max_ammo = 30
 
 /obj/item/ammo_box/magazine/peacekeeper/lethal
 	name = "M2A45 pulse rifle magazine (lethal)"
 	icon_state = "peacekeeper"
 	ammo_type = /obj/item/ammo_casing/peacekeeper/lethal
 	caliber = "6mm"
-	max_ammo = 20
+	max_ammo = 30
 
 /obj/item/ammo_box/magazine/peacekeeper/update_icon()
 	..()

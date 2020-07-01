@@ -179,6 +179,19 @@
 /area/nsv/hanger/deck3{
 	name = "Air traffic control pod"
 	})
+"aB" = (
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
+/obj/structure/cable{
+	icon_state = "1-4"
+	},
+/obj/structure/disposalpipe/segment,
+/obj/machinery/computer/squad_manager,
+/turf/open/floor/monotile,
+/area/crew_quarters/heads/hop{
+	name = "Executive officer's Office"
+	})
 "aC" = (
 /turf/closed/wall/r_wall/ship,
 /area/nsv/hanger/deck3{
@@ -247,6 +260,17 @@
 	},
 /turf/open/floor/monotile/dark/airless,
 /area/maintenance/ship_exterior)
+"aO" = (
+/obj/structure/table/reinforced,
+/obj/item/reagent_containers/food/drinks/solgovcup,
+/obj/item/stamp/hop{
+	pixel_x = -4;
+	pixel_y = 4
+	},
+/turf/open/floor/carpet/blue,
+/area/crew_quarters/heads/hop{
+	name = "Executive officer's Office"
+	})
 "aP" = (
 /turf/closed/wall/ship,
 /area/crew_quarters/heads/captain)
@@ -589,9 +613,22 @@
 /turf/open/floor/carpet/ship,
 /area/crew_quarters/heads/captain)
 "bM" = (
-/obj/effect/spawner/structure/window/reinforced,
-/turf/open/floor/plating,
-/area/storage/eva)
+/obj/effect/mapping_helpers/airlock/unres,
+/obj/machinery/door/airlock/ship/public/glass{
+	name = "Executive Officer Queue Line";
+	req_one_access_txt = "57"
+	},
+/obj/machinery/door/poddoor/shutters/preopen{
+	id = "hopqueue";
+	name = "HoP Queue Shutters"
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
+/obj/machinery/door/firedoor/border_only,
+/obj/machinery/door/firedoor/border_only{
+	dir = 1
+	},
+/turf/open/floor/monotile,
+/area/hallway/nsv/deck1/hallway)
 "bN" = (
 /turf/closed/wall/ship,
 /area/hallway/nsv/deck1/hallway)
@@ -599,6 +636,13 @@
 /obj/structure/overmap/fighter/light/prebuilt,
 /turf/open/floor/monotile/dark/airless,
 /area/maintenance/ship_exterior)
+"bP" = (
+/obj/structure/table/reinforced,
+/obj/item/storage/box/squad_lanyards,
+/turf/open/floor/monotile,
+/area/crew_quarters/heads/hop{
+	name = "Executive officer's Office"
+	})
 "bQ" = (
 /obj/machinery/atmospherics/pipe/simple/multiz,
 /turf/open/floor/plating,
@@ -816,6 +860,37 @@
 "cp" = (
 /turf/closed/wall/r_wall/ship,
 /area/bridge)
+"cq" = (
+/obj/effect/spawner/structure/window/reinforced,
+/obj/machinery/door/poddoor/shutters/preopen{
+	id = "hopqueue";
+	name = "HoP Queue Shutters"
+	},
+/turf/open/floor/monotile,
+/area/hallway/nsv/deck1/hallway)
+"cr" = (
+/obj/machinery/door/airlock/ship{
+	dir = 1;
+	name = "Deck 2 Access"
+	},
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	dir = 8
+	},
+/obj/machinery/door/firedoor/border_only{
+	dir = 4
+	},
+/obj/machinery/door/firedoor/border_only{
+	dir = 8
+	},
+/obj/effect/landmark/zebra_interlock_point,
+/turf/open/floor/monotile,
+/area/hallway/nsv/deck1/hallway)
 "cs" = (
 /turf/closed/wall/r_wall/ship,
 /area/ai_monitored/turret_protected/ai_upload)
@@ -1013,6 +1088,7 @@
 /obj/machinery/door/firedoor/border_only{
 	dir = 8
 	},
+/obj/effect/landmark/zebra_interlock_point,
 /turf/open/floor/monotile/dark,
 /area/hallway/nsv/deck1/hallway)
 "cW" = (
@@ -1025,6 +1101,7 @@
 /obj/machinery/door/firedoor/border_only{
 	dir = 8
 	},
+/obj/effect/landmark/zebra_interlock_point,
 /turf/open/floor/monotile,
 /area/hallway/nsv/deck1/hallway)
 "cX" = (
@@ -1234,6 +1311,10 @@
 	},
 /turf/open/floor/plasteel/ship/techfloor/alt,
 /area/ai_monitored/turret_protected/aisat)
+"dy" = (
+/obj/effect/spawner/structure/window/reinforced,
+/turf/open/floor/plating,
+/area/storage/eva)
 "dz" = (
 /obj/structure/cable{
 	icon_state = "4-8"
@@ -1471,6 +1552,9 @@
 	dir = 1
 	},
 /obj/machinery/door/firedoor/border_only,
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
 /turf/open/floor/plating,
 /area/maintenance/department/bridge)
 "ee" = (
@@ -1574,6 +1658,26 @@
 /area/ai_monitored/nuke_storage)
 "er" = (
 /turf/open/floor/carpet/blue,
+/area/hallway/nsv/deck1/hallway)
+"es" = (
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
+/obj/machinery/door/airlock/ship/command{
+	name = "Command Lounge";
+	req_one_access_txt = "19"
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	dir = 4
+	},
+/obj/machinery/door/firedoor/border_only{
+	dir = 4
+	},
+/obj/machinery/door/firedoor/border_only{
+	dir = 8
+	},
+/obj/effect/landmark/zebra_interlock_point,
+/turf/open/floor/plasteel/grid/steel,
 /area/hallway/nsv/deck1/hallway)
 "et" = (
 /obj/structure/disposalpipe/segment{
@@ -2007,12 +2111,20 @@
 	name = "Executive officer's Office"
 	})
 "fv" = (
-/obj/structure/table/reinforced,
-/obj/item/reagent_containers/food/drinks/solgovcup,
-/turf/open/floor/carpet/blue,
-/area/crew_quarters/heads/hop{
-	name = "Executive officer's Office"
-	})
+/obj/machinery/door/airlock/ship/public/glass{
+	name = "Executive Officer Queue Line"
+	},
+/obj/machinery/door/poddoor/shutters/preopen{
+	id = "hopqueue";
+	name = "HoP Queue Shutters"
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/obj/machinery/door/firedoor/border_only,
+/obj/machinery/door/firedoor/border_only{
+	dir = 1
+	},
+/turf/open/floor/monotile,
+/area/hallway/nsv/deck1/hallway)
 "fw" = (
 /obj/structure/chair/office{
 	dir = 4
@@ -2129,9 +2241,6 @@
 	name = "Air traffic control pod"
 	})
 "fH" = (
-/obj/structure/disposalpipe/segment{
-	dir = 4
-	},
 /obj/machinery/door/airlock/ship/command{
 	name = "Command Lounge";
 	req_one_access_txt = "19"
@@ -2139,12 +2248,16 @@
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	dir = 4
 	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	dir = 8
+	},
 /obj/machinery/door/firedoor/border_only{
 	dir = 4
 	},
 /obj/machinery/door/firedoor/border_only{
 	dir = 8
 	},
+/obj/effect/landmark/zebra_interlock_point,
 /turf/open/floor/plasteel/grid/steel,
 /area/hallway/nsv/deck1/hallway)
 "fI" = (
@@ -2569,6 +2682,9 @@
 /obj/structure/disposalpipe/segment,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
 /turf/open/floor/monotile/dark,
 /area/hallway/primary/aft)
 "gu" = (
@@ -2661,15 +2777,11 @@
 	name = "Air traffic control pod"
 	})
 "gD" = (
-/obj/machinery/door/airlock/glass_large/ship{
-	bound_height = 64;
-	bound_width = 32;
-	dir = 4;
-	name = "Secure Systems";
-	pixel_x = -32
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	dir = 4
 	},
-/obj/structure/cable{
-	icon_state = "4-8"
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	dir = 8
 	},
 /obj/machinery/door/firedoor/border_only{
 	dir = 8
@@ -2677,6 +2789,7 @@
 /obj/machinery/door/firedoor/border_only{
 	dir = 4
 	},
+/obj/effect/landmark/zebra_interlock_point,
 /turf/open/floor/monotile/dark,
 /area/hallway/primary/aft)
 "gE" = (
@@ -2768,11 +2881,15 @@
 /turf/open/floor/plasteel/grid/steel,
 /area/bridge)
 "gM" = (
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
-	dir = 4
+/obj/machinery/door/airlock/glass_large/ship{
+	bound_height = 64;
+	bound_width = 32;
+	dir = 4;
+	name = "Secure Systems";
+	pixel_x = -32
 	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
-	dir = 8
+/obj/structure/cable{
+	icon_state = "4-8"
 	},
 /obj/machinery/door/firedoor/border_only{
 	dir = 8
@@ -2780,6 +2897,7 @@
 /obj/machinery/door/firedoor/border_only{
 	dir = 4
 	},
+/obj/effect/landmark/zebra_interlock_point,
 /turf/open/floor/monotile/dark,
 /area/hallway/primary/aft)
 "gN" = (
@@ -2871,6 +2989,7 @@
 /obj/machinery/door/firedoor/border_only{
 	dir = 8
 	},
+/obj/effect/landmark/zebra_interlock_point,
 /turf/open/floor/monotile/dark,
 /area/hallway/nsv/deck1/hallway)
 "gT" = (
@@ -2973,10 +3092,16 @@
 /obj/machinery/door/airlock/ship{
 	name = "Deck 2 Access"
 	},
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /obj/machinery/door/firedoor/border_only,
 /obj/machinery/door/firedoor/border_only{
 	dir = 1
 	},
+/obj/effect/landmark/zebra_interlock_point,
 /turf/open/floor/monotile/dark,
 /area/hallway/nsv/deck1/hallway)
 "he" = (
@@ -3026,15 +3151,11 @@
 /obj/machinery/door/airlock/ship{
 	name = "Deck 2 Access"
 	},
-/obj/structure/cable{
-	icon_state = "1-2"
-	},
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /obj/machinery/door/firedoor/border_only,
 /obj/machinery/door/firedoor/border_only{
 	dir = 1
 	},
+/obj/effect/landmark/zebra_interlock_point,
 /turf/open/floor/monotile/dark,
 /area/hallway/nsv/deck1/hallway)
 "hj" = (
@@ -3380,6 +3501,7 @@
 "ii" = (
 /obj/structure/sign/solgov_seal,
 /obj/machinery/camera/autoname,
+/obj/structure/ladder,
 /turf/open/floor/monotile,
 /area/hallway/nsv/deck1/hallway)
 "ij" = (
@@ -3614,6 +3736,9 @@
 	name = "intra ship intercom";
 	pixel_y = -26
 	},
+/obj/structure/cable{
+	icon_state = "1-4"
+	},
 /turf/open/floor/monotile/dark,
 /area/hallway/primary/aft)
 "iK" = (
@@ -3708,25 +3833,6 @@
 	},
 /obj/structure/disposalpipe/segment,
 /turf/open/floor/monotile,
-/area/hallway/nsv/deck1/hallway)
-"iT" = (
-/obj/machinery/door/airlock/ship/command{
-	name = "Command Lounge";
-	req_one_access_txt = "19"
-	},
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
-	dir = 4
-	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
-	dir = 8
-	},
-/obj/machinery/door/firedoor/border_only{
-	dir = 4
-	},
-/obj/machinery/door/firedoor/border_only{
-	dir = 8
-	},
-/turf/open/floor/plasteel/grid/steel,
 /area/hallway/nsv/deck1/hallway)
 "iU" = (
 /obj/effect/turf_decal/solgov{
@@ -4026,13 +4132,23 @@
 /turf/open/floor/monotile/dark,
 /area/hallway/nsv/deck1/hallway)
 "jx" = (
-/obj/effect/spawner/structure/window/reinforced,
-/obj/machinery/door/poddoor/shutters/preopen{
-	id = "hopqueue";
-	name = "HoP Queue Shutters"
+/obj/machinery/door/airlock/ship/public/glass{
+	aiControlDisabled = "18";
+	name = "EVA Storage";
+	req_one_access_txt = "18"
 	},
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
+/obj/machinery/door/firedoor/border_only,
+/obj/machinery/door/firedoor/border_only{
+	dir = 1
+	},
+/obj/effect/landmark/zebra_interlock_point,
 /turf/open/floor/monotile,
-/area/hallway/nsv/deck1/hallway)
+/area/storage/eva)
 "jy" = (
 /obj/structure/railing{
 	dir = 1
@@ -4050,19 +4166,6 @@
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /turf/open/floor/carpet/ship,
-/area/crew_quarters/heads/hop{
-	name = "Executive officer's Office"
-	})
-"jA" = (
-/obj/structure/cable{
-	icon_state = "1-2"
-	},
-/obj/structure/cable{
-	icon_state = "1-4"
-	},
-/obj/structure/disposalpipe/segment,
-/obj/structure/filingcabinet,
-/turf/open/floor/monotile,
 /area/crew_quarters/heads/hop{
 	name = "Executive officer's Office"
 	})
@@ -4249,16 +4352,6 @@
 /area/crew_quarters/heads/hop{
 	name = "Executive officer's Office"
 	})
-"jR" = (
-/obj/structure/table/reinforced,
-/obj/item/stamp/hop{
-	pixel_x = -4;
-	pixel_y = 4
-	},
-/turf/open/floor/monotile,
-/area/crew_quarters/heads/hop{
-	name = "Executive officer's Office"
-	})
 "jS" = (
 /obj/item/reagent_containers/food/drinks/solgovcup,
 /obj/structure/table/glass,
@@ -4317,28 +4410,6 @@
 /area/crew_quarters/heads/hop{
 	name = "Executive officer's Office"
 	})
-"jX" = (
-/obj/machinery/door/airlock/ship{
-	dir = 1;
-	name = "Deck 2 Access"
-	},
-/obj/structure/disposalpipe/segment{
-	dir = 4
-	},
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
-	dir = 4
-	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
-	dir = 8
-	},
-/obj/machinery/door/firedoor/border_only{
-	dir = 4
-	},
-/obj/machinery/door/firedoor/border_only{
-	dir = 8
-	},
-/turf/open/floor/monotile,
-/area/hallway/nsv/deck1/hallway)
 "jY" = (
 /obj/structure/disposalpipe/segment{
 	dir = 4
@@ -4904,38 +4975,6 @@
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /turf/open/floor/monotile,
 /area/hallway/nsv/deck1/hallway)
-"lb" = (
-/obj/effect/mapping_helpers/airlock/unres,
-/obj/machinery/door/airlock/ship/public/glass{
-	name = "Executive Officer Queue Line";
-	req_one_access_txt = "57"
-	},
-/obj/machinery/door/poddoor/shutters/preopen{
-	id = "hopqueue";
-	name = "HoP Queue Shutters"
-	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
-/obj/machinery/door/firedoor/border_only,
-/obj/machinery/door/firedoor/border_only{
-	dir = 1
-	},
-/turf/open/floor/monotile,
-/area/hallway/nsv/deck1/hallway)
-"lc" = (
-/obj/machinery/door/airlock/ship/public/glass{
-	name = "Executive Officer Queue Line"
-	},
-/obj/machinery/door/poddoor/shutters/preopen{
-	id = "hopqueue";
-	name = "HoP Queue Shutters"
-	},
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
-/obj/machinery/door/firedoor/border_only,
-/obj/machinery/door/firedoor/border_only{
-	dir = 1
-	},
-/turf/open/floor/monotile,
-/area/hallway/nsv/deck1/hallway)
 "ld" = (
 /obj/effect/turf_decal/bot,
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3{
@@ -4964,6 +5003,10 @@
 /obj/machinery/airalarm{
 	dir = 4;
 	pixel_x = -22
+	},
+/obj/machinery/power/deck_relay,
+/obj/structure/cable{
+	icon_state = "0-4"
 	},
 /turf/open/floor/plating,
 /area/maintenance/department/bridge)
@@ -5244,6 +5287,9 @@
 /obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer3{
 	dir = 4
 	},
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
 /turf/open/floor/monotile/dark,
 /area/hallway/primary/aft)
 "lP" = (
@@ -5399,23 +5445,6 @@
 	},
 /turf/open/floor/monotile/dark,
 /area/hallway/nsv/deck1/hallway)
-"me" = (
-/obj/machinery/door/airlock/ship/public/glass{
-	aiControlDisabled = "18";
-	name = "EVA Storage";
-	req_one_access_txt = "18"
-	},
-/obj/structure/cable{
-	icon_state = "1-2"
-	},
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
-/obj/machinery/door/firedoor/border_only,
-/obj/machinery/door/firedoor/border_only{
-	dir = 1
-	},
-/turf/open/floor/monotile,
-/area/storage/eva)
 "mf" = (
 /obj/structure/cable{
 	icon_state = "1-2"
@@ -5937,6 +5966,15 @@
 	},
 /turf/open/floor/monotile/dark/airless,
 /area/maintenance/ship_exterior)
+"Hr" = (
+/obj/structure/disposalpipe/segment,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
+/obj/structure/cable{
+	icon_state = "2-8"
+	},
+/turf/open/floor/plating,
+/area/maintenance/department/bridge)
 "IC" = (
 /obj/machinery/door/airlock/ship/external/glass{
 	req_one_access_txt = "13"
@@ -40248,8 +40286,8 @@ bE
 bE
 bE
 bE
-gM
 gD
+gM
 hg
 iV
 je
@@ -40849,7 +40887,7 @@ cZ
 dj
 dk
 dH
-dH
+Hr
 ed
 gt
 lO
@@ -41761,7 +41799,7 @@ ck
 ck
 ck
 he
-hi
+hd
 hj
 jl
 ck
@@ -42365,7 +42403,7 @@ ck
 ck
 ck
 hP
-hd
+hi
 jZ
 jn
 fP
@@ -42971,7 +43009,7 @@ cW
 iD
 bN
 iF
-jX
+cr
 iF
 eG
 fb
@@ -43278,7 +43316,7 @@ jr
 eG
 fc
 fj
-fv
+aO
 fE
 fj
 eY
@@ -43578,7 +43616,7 @@ kc
 ke
 js
 ju
-jA
+aB
 jE
 jI
 jE
@@ -43883,7 +43921,7 @@ jU
 jB
 fw
 jJ
-jR
+bP
 jT
 jW
 gZ
@@ -44483,7 +44521,7 @@ ck
 ck
 jw
 kZ
-lb
+bM
 ld
 fd
 jK
@@ -44785,7 +44823,7 @@ ck
 ck
 kg
 eE
-jx
+cq
 fe
 fm
 jL
@@ -45087,7 +45125,7 @@ ck
 ck
 jy
 la
-lc
+fv
 le
 fd
 fy
@@ -45691,7 +45729,7 @@ ck
 ck
 kg
 lr
-bM
+dy
 lW
 lZ
 lZ
@@ -45993,7 +46031,7 @@ ck
 ck
 lT
 hj
-me
+jx
 mf
 mg
 mh
@@ -46295,7 +46333,7 @@ ck
 ck
 ma
 cb
-bM
+dy
 lZ
 mb
 mk
@@ -46597,7 +46635,7 @@ ck
 ck
 ma
 cb
-bM
+dy
 lZ
 mc
 ml
@@ -46899,7 +46937,7 @@ ck
 ck
 ma
 eE
-bM
+dy
 lZ
 mi
 mj
@@ -48401,11 +48439,11 @@ yZ
 yZ
 yZ
 yZ
-fH
+es
 fZ
 yZ
 iL
-iT
+fH
 yZ
 yZ
 yZ
