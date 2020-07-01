@@ -141,7 +141,7 @@ GLOBAL_LIST_EMPTY(ai_goals)
 				if(FLEET_TRAIT_INVASION)
 					if(sys.alignment == alignment)
 						continue
-					if(sys.alignment == "unaligned)
+					if(sys.alignment == "unaligned")
 						fallback += sys
 						continue
 			potential += sys
