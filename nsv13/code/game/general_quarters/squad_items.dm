@@ -53,7 +53,7 @@
 
 /obj/item/squad_pager
 	name = "squad pager"
-	desc = "A small device that allows you to listen to and broadcast over squad comms. Use :v to page your squad with a message."
+	desc = "A small device that allows you to listen to and broadcast over squad comms. Use :f to page your squad with a message."
 	icon = 'nsv13/icons/obj/squad.dmi'
 	icon_state = "squadpager"
 	w_class = 1
@@ -102,11 +102,12 @@
 
 /obj/item/clothing/suit/ship/squad
 	name = "Armour"
+	desc = "A light piece of armour, designed to protect its wearer from basic workplace hazards during general quarters. It has been lined with protective materials to allow the wearer to survive in space for slightly longer than usual."
 	icon = 'nsv13/icons/obj/clothing/suits.dmi'
 	alternate_worn_icon = 'nsv13/icons/mob/suit.dmi'
 	icon_state = "squad"
 	item_color = "squad"
-	desc = "A light piece of armour, designed to protect its wearer from basic workplace hazards during general quarters. It has been lined with protective materials to allow the wearer to survive in space for slightly longer than usual."
+	w_class = 2
 	armor = list("melee" = 30, "bullet" = 40, "laser" = 10, "energy" = 10, "bomb" = 30, "bio" = 20, "rad" = 25, "fire" = 25, "acid" = 50)
 	min_cold_protection_temperature = SPACE_SUIT_MIN_TEMP_PROTECT
 	body_parts_covered = CHEST|GROIN|LEGS|FEET
@@ -169,21 +170,21 @@
 /obj/item/clothing/suit/ship/squad/Initialize(mapload, datum/squad/squad)
 	. = ..()
 	if(!squad)
-		addtimer(CALLBACK(src, .proc/apply_squad), 2 SECONDS)
+		addtimer(CALLBACK(src, .proc/apply_squad), 5 SECONDS)
 		return
 	apply_squad(squad)
 
 /obj/item/clothing/head/ship/squad/Initialize(mapload, datum/squad/squad)
 	. = ..()
 	if(!squad)
-		addtimer(CALLBACK(src, .proc/apply_squad), 2 SECONDS)
+		addtimer(CALLBACK(src, .proc/apply_squad), 5 SECONDS)
 		return
 	apply_squad(squad)
 
 /obj/item/clothing/neck/squad/Initialize(mapload, datum/squad/squad)
 	. = ..()
 	if(!squad)
-		addtimer(CALLBACK(src, .proc/apply_squad), 2 SECONDS)
+		addtimer(CALLBACK(src, .proc/apply_squad), 5 SECONDS)
 		return
 	apply_squad(squad)
 

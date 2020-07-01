@@ -147,6 +147,23 @@
 	var/datum/squad/squad = null
 	var/list/must_return = list() //Items that you MUST return to the kit before you can hand it back in. To prevent people from just stealing all the guns from sec kits.
 
+/obj/item/storage/box/squad_kit/proc/apply_squad(datum/squad/newSquad)
+	if(!newSquad)
+		return
+	for(var/obj/item/I in contents)
+		if(istype(I , /obj/item/clothing/suit/ship/squad))
+			var/obj/item/clothing/suit/ship/squad/SS = I
+			SS.apply_squad(newSquad) //Repaint the item!
+		if(istype(I, /obj/item/clothing/head/ship/squad))
+			var/obj/item/clothing/head/ship/squad/SS = I
+			SS.apply_squad(newSquad) //Repaint the item!
+		if(istype(I, /obj/item/squad_pager))
+			var/obj/item/squad_pager/SS = I
+			SS.apply_squad(newSquad) //Repaint the item!
+		if(istype(I, /obj/item/clothing/neck/squad))
+			var/obj/item/squad_pager/SS = I
+			SS.apply_squad(newSquad) //Repaint the item!
+
 /obj/item/storage/box/squad_kit/proc/can_return()
 	var/list/remaining = must_return.Copy()
 	for(var/atom/movable/AM in contents)
@@ -267,7 +284,7 @@
 	return FALSE
 
 /obj/machinery/squad_vendor/ui_interact(mob/user, ui_key = "main", datum/tgui/ui = null, force_open = 0, datum/tgui/master_ui = null, datum/ui_state/state = GLOB.default_state) // Remember to use the appropriate state.
-	if(GLOB.security_level < SEC_LEVEL_RED)
+	if(GLOB.security_level < SEC_LEVEL_RED && ishuman(user))
 		say("Error. Squad equipment only unlocks during general quarters or above.")
 		return
 	ui = SStgui.try_update_ui(user, src, ui_key, ui, force_open)
@@ -278,8 +295,9 @@
 /obj/machinery/squad_vendor/ui_act(action, params, datum/tgui/ui)
 	if(..())
 		return
-	var/obj/item/storage/box/B = locate(params["item_id"])
+	var/obj/item/storage/box/squad_kit/B = locate(params["item_id"])
 	var/mob/living/carbon/human/bob = locate(params["member_id"])
+	var/mob/living/carbon/human/user = usr
 	switch(action)
 		if("eject")
 			for(var/list/L in loaned)
@@ -296,6 +314,7 @@
 			flick("squadvend_vend", src)
 			var/dangerous = istype(B, /obj/item/storage/box/squad_kit/fireteam)
 			loaned += list(list("mob"=usr, "itemName"=B.name, "itemContents"=itemContents, "dangerous"=dangerous))
+			B.apply_squad(user.squad)
 		if("releaseLoan")
 			release_loan(bob)
 	return
