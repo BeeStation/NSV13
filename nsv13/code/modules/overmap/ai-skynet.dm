@@ -251,7 +251,6 @@
 		return
 	enemies += target
 	if(OM.role == MAIN_OVERMAP)
-		set_security_level(SEC_LEVEL_RED) //Action stations when the ship is under attack, if it's the main overmap.
 		SSstar_system.last_combat_enter = world.time //Tag the combat on the SS
 		SSstar_system.modifier = 0 //Reset overmap spawn modifier
 		var/datum/round_event_control/_overmap_event_handler/OEH = locate(/datum/round_event_control/_overmap_event_handler) in SSevents.control
