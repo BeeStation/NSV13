@@ -123,6 +123,7 @@ GLOBAL_LIST_EMPTY(ai_goals)
 /datum/fleet/proc/move(datum/star_system/target)
 	if(!target)
 		var/list/potential = list()
+		var/list/fallback = list()
 		//Pick a movement target based on our fleet trait.
 		for(var/_name in current_system.adjacency_list)
 			var/datum/star_system/sys = SSstar_system.system_by_id(_name)
@@ -140,7 +141,12 @@ GLOBAL_LIST_EMPTY(ai_goals)
 				if(FLEET_TRAIT_INVASION)
 					if(sys.alignment == alignment)
 						continue
+					if(sys.alignment == "unaligned)
+						fallback += sys
+						continue
 			potential += sys
+		if(!potential.len)
+			potential = fallback //Nowhere else to go.
 		target = pick(potential)
 	addtimer(CALLBACK(src, .proc/move), rand(5 MINUTES, 10 MINUTES))
 	//Precondition: We're allowed to go to this system.
@@ -203,6 +209,7 @@ GLOBAL_LIST_EMPTY(ai_goals)
 //Clear a ship from this fleet.
 /datum/fleet/proc/remove_ship(obj/structure/overmap/OM)
 	all_ships -= OM
+	last_encounter_time = world.time
 	for(var/list/L in taskforces)
 		for(var/obj/structure/overmap/OOM in L)
 			if(OM == OOM) //I'm gonna OOM
@@ -235,6 +242,12 @@ GLOBAL_LIST_EMPTY(ai_goals)
 				if(C.chatOutput && !C.chatOutput.broken && C.chatOutput.loaded)
 					C.chatOutput.stopMusic()
 	QDEL_NULL(src)
+
+/datum/fleet/nanotrasen/earth/defeat()
+	. = ..() //If you lose sol...game over man, game over.
+	priority_announce("SolGov command do you read?! Requesting immediate assistance, we have a foothold situation, repeat, a foothold sit##----///", "White Rapids Fleet Command")
+	SSticker.mode.check_finished(TRUE)
+	SSticker.force_ending = TRUE
 
 /obj/structure/overmap/proc/force_jump(where)
 	if(!where)
@@ -316,13 +329,8 @@ GLOBAL_LIST_EMPTY(ai_goals)
 							C.chatOutput.sendMusic(web_sound_url, music_extra_data)
 
 /datum/fleet/neutral
-	name = "Syndicate territorial expansion force"
+	name = "Syndicate Scout Fleet"
 	fleet_trait = FLEET_TRAIT_NEUTRAL_ZONE
-
-/datum/fleet/earthbuster
-	name = "Syndicate armada" //Have fun dealing with this!
-	destroyer_types = list(/obj/structure/overmap/syndicate/ai, /obj/structure/overmap/syndicate/ai/nuclear, /obj/structure/overmap/syndicate/ai/assault_cruiser, /obj/structure/overmap/syndicate/ai/gunboat, /obj/structure/overmap/syndicate/ai/submarine, /obj/structure/overmap/syndicate/ai/assault_cruiser/boarding_frigate)
-	size = FLEET_DIFFICULTY_VERY_HARD
 
 /datum/fleet/border
 	name = "Syndicate border defense force"
@@ -363,7 +371,7 @@ GLOBAL_LIST_EMPTY(ai_goals)
 	name = "Rubicon Crossing"
 	size = FLEET_DIFFICULTY_HARD
 	audio_cues = list("https://www.youtube.com/watch?v=mhXuYp0n88g", "https://www.youtube.com/watch?v=l1J-2nIovYw", "https://www.youtube.com/watch?v=M_MdmLWmDHs")
-	taunts = list("Better crews have tried to cross the Rubicon, you will die like they did.", "All hands, set condition 1 throughout the fleet, enemy vessel approaching.", "Defense force, stand ready!", "Nanotrasen filth. Munitions, ready the guns. We’ll scrub the galaxy clean of you vermin.", "This shift just gets better and better. I’ll have your Captain’s head on my wall.")
+	taunts = list("Better crews have tried to cross the Rubicon, you will die like they did.", "Defense force, stand ready!", "Nanotrasen filth. Munitions, ready the guns. We’ll scrub the galaxy clean of you vermin.", "This shift just gets better and better. I’ll have your Captain’s head on my wall.")
 	fleet_trait = FLEET_TRAIT_DEFENSE
 
 /datum/fleet/tortuga
@@ -376,9 +384,16 @@ GLOBAL_LIST_EMPTY(ai_goals)
 /datum/fleet/nanotrasen/earth
 	name = "Earth Defense Force"
 	taunts = list("You're foolish to venture this deep into Solgov space! Main batteries stand ready.", "All hands, set condition 1 throughout the fleet, enemy vessel approaching.", "Defense force, stand ready!", "We shall protect our homeland!")
-	size = FLEET_DIFFICULTY_VERY_HARD
+	size = FLEET_DIFFICULTY_HARD
 	audio_cues = list("https://www.youtube.com/watch?v=k8-HHivlj8k")
 	fleet_trait = FLEET_TRAIT_DEFENSE
+
+/datum/fleet/earthbuster
+	name = "Syndicate Armada" //Fleet spawned if the players are too inactive. Set course...FOR EARTH.
+	destroyer_types = list(/obj/structure/overmap/syndicate/ai, /obj/structure/overmap/syndicate/ai/nuclear, /obj/structure/overmap/syndicate/ai/assault_cruiser, /obj/structure/overmap/syndicate/ai/gunboat, /obj/structure/overmap/syndicate/ai/submarine, /obj/structure/overmap/syndicate/ai/assault_cruiser/boarding_frigate)
+	size = FLEET_DIFFICULTY_VERY_HARD
+	taunts = list("We're coming for Sol, and you can't stop us. All batteries fire at will.", "Lay down your arms now, you're outnumbered.", "All hands, assume assault formation. Begin bombardment.")
+	audio_cues = list("https://www.youtube.com/watch?v=k8-HHivlj8k")
 
 /datum/fleet/dolos
 	name = "Dolos Welcoming Party" //Don't do it czanek, don't fucking do it!
@@ -393,7 +408,6 @@ GLOBAL_LIST_EMPTY(ai_goals)
 	audio_cues = list("https://www.youtube.com/watch?v=3tAShpPu6K0")
 	taunts = list("Your existence has come to an end.", "You should be glad you made it this far, but you'll come no further.")
 	fleet_trait = FLEET_TRAIT_DEFENSE
-
 
 //Nanotrasen fleets
 
@@ -433,42 +447,45 @@ GLOBAL_LIST_EMPTY(ai_goals)
 	2 supply ships (1/4th of the fleet)
 	*/
 	//This may look lazy, but it's easier than storing all this info in one massive dict. Deal with it!
-	for(var/I=0; I<max(round(difficulty/2), 1);I++){
-		var/shipType = pick(destroyer_types)
-		var/obj/structure/overmap/member = new shipType()
-		taskforces["destroyers"] += member
-		member.fleet = src
-		member.current_system = current_system
-		if(alignment != "nanotrasen" && alignment != "solgov") //NT, SGC or whatever don't count as enemies that NT hire you to kill.
-			current_system.enemies_in_system += member
-		all_ships += member
-		RegisterSignal(member, COMSIG_PARENT_QDELETING , /datum/fleet/proc/remove_ship, member)
-		SS.add_ship(member)
-	}
-	for(var/I=0; I<max(round(difficulty/4), 1);I++){
-		var/shipType = pick(battleship_types)
-		var/obj/structure/overmap/member = new shipType()
-		taskforces["battleships"] += member
-		member.fleet = src
-		member.current_system = current_system
-		if(alignment != "nanotrasen" && alignment != "solgov") //NT, SGC or whatever don't count as enemies that NT hire you to kill.
-			current_system.enemies_in_system += member
-		all_ships += member
-		RegisterSignal(member, COMSIG_PARENT_QDELETING , /datum/fleet/proc/remove_ship, member)
-		SS.add_ship(member)
-	}
-	for(var/I=0; I<max(round(difficulty/4), 1);I++){
-		var/shipType = pick(supply_types)
-		var/obj/structure/overmap/member = new shipType()
-		taskforces["supply"] += member
-		member.fleet = src
-		member.current_system = current_system
-		if(alignment != "nanotrasen" && alignment != "solgov") //NT, SGC or whatever don't count as enemies that NT hire you to kill.
-			current_system.enemies_in_system += member
-		all_ships += member
-		RegisterSignal(member, COMSIG_PARENT_QDELETING , /datum/fleet/proc/remove_ship, member)
-		SS.add_ship(member)
-	}
+	if(destroyer_types?.len)
+		for(var/I=0; I<max(round(difficulty/2), 1);I++){
+			var/shipType = pick(destroyer_types)
+			var/obj/structure/overmap/member = new shipType()
+			taskforces["destroyers"] += member
+			member.fleet = src
+			member.current_system = current_system
+			if(alignment != "nanotrasen" && alignment != "solgov") //NT, SGC or whatever don't count as enemies that NT hire you to kill.
+				current_system.enemies_in_system += member
+			all_ships += member
+			RegisterSignal(member, COMSIG_PARENT_QDELETING , /datum/fleet/proc/remove_ship, member)
+			SS.add_ship(member)
+		}
+	if(battleship_types?.len)
+		for(var/I=0; I<max(round(difficulty/4), 1);I++){
+			var/shipType = pick(battleship_types)
+			var/obj/structure/overmap/member = new shipType()
+			taskforces["battleships"] += member
+			member.fleet = src
+			member.current_system = current_system
+			if(alignment != "nanotrasen" && alignment != "solgov") //NT, SGC or whatever don't count as enemies that NT hire you to kill.
+				current_system.enemies_in_system += member
+			all_ships += member
+			RegisterSignal(member, COMSIG_PARENT_QDELETING , /datum/fleet/proc/remove_ship, member)
+			SS.add_ship(member)
+		}
+	if(supply_types?.len)
+		for(var/I=0; I<max(round(difficulty/4), 1);I++){
+			var/shipType = pick(supply_types)
+			var/obj/structure/overmap/member = new shipType()
+			taskforces["supply"] += member
+			member.fleet = src
+			member.current_system = current_system
+			if(alignment != "nanotrasen" && alignment != "solgov") //NT, SGC or whatever don't count as enemies that NT hire you to kill.
+				current_system.enemies_in_system += member
+			all_ships += member
+			RegisterSignal(member, COMSIG_PARENT_QDELETING , /datum/fleet/proc/remove_ship, member)
+			SS.add_ship(member)
+		}
 	return TRUE
 
 /datum/ai_goal

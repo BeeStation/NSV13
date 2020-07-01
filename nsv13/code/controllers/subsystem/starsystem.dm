@@ -35,12 +35,14 @@ SUBSYSTEM_DEF(star_system)
 				var/datum/bank_account/D = SSeconomy.get_dep_account(account)
 				total_deductions += D.account_balance / 2
 				D.account_balance = D.account_balance / 2
-			priority_announce("Significant damage has been caused to NanoTrasen assets due to the inactivity of your vessel. [total_deductions] credits have been deducted across all departmental budgets to cover expenses.", "Naval Command")
-			var/datum/star_system/target = system_by_id("Scorvio")
+			priority_announce("Attention all ships throughout the fleet, assume DEFCON 1. A Syndicate invasion force has been spotted in [target]. All fleets must return to allied space and assist in the defense.", "White Rapids Fleet Command")
+			minor_announce("[station_name()]. Your inactivity has forced us to redirect [total_deductions] from your budget to scramble a defensive force capable of defending Earth and her territories.", "Naval Command")
+			var/datum/star_system/target = system_by_id("Tau Ceti")
 			var/datum/fleet/F = new /datum/fleet/earthbuster()
 			target.fleets += F
 			F.current_system = target
 			F.assemble(target)
+
 		if(istype(OEH))
 			OEH.weight ++ //Increment probabilty via SSEvent
 
