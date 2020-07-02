@@ -40,6 +40,10 @@
 #define MODE_KEY_CHANGELING "g"
 #define MODE_TOKEN_CHANGELING ":g"
 
+#define MODE_SQUAD "squad"
+#define MODE_KEY_SQUAD "f"
+#define MODE_TOKEN_SQUAD ":f"
+
 #define MODE_VOCALCORDS "cords"
 #define MODE_KEY_VOCALCORDS "x"
 

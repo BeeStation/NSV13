@@ -13,3 +13,4 @@
 #define CABLE_LAYER_3 "l3"
 
 #define WRAP_AROUND_VALUE(value, min, max) ( min + ((value - min) % (max - min)) )
+#define COMSIG_ALERT_LEVEL_CHANGE "alert_level_changed" //For general quarters

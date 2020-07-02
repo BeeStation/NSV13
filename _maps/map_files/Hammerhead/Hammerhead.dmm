@@ -162,19 +162,19 @@
 /turf/open/floor/plating,
 /area/maintenance/department/crew_quarters/bar)
 "aax" = (
-/obj/machinery/atmospherics/pipe/simple/purple/visible{
-	dir = 9
-	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer1,
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer3,
-/obj/structure/cable/yellow{
-	icon_state = "1-8"
+/obj/machinery/atmospherics/pipe/manifold/purple/visible{
+	icon_state = "manifold-2";
+	dir = 4
 	},
 /turf/open/floor/plasteel,
 /area/engine/engineering)
 "aay" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer1,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer3,
+/obj/machinery/atmospherics/components/binary/pump{
+	dir = 1;
+	name = "Fuel Mix In"
+	},
 /turf/open/floor/plasteel,
 /area/engine/engineering)
 "aaz" = (
@@ -183,6 +183,10 @@
 	},
 /obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer3{
 	dir = 8
+	},
+/obj/machinery/atmospherics/components/unary/portables_connector{
+	icon_state = "connector_map-2";
+	dir = 1
 	},
 /turf/open/floor/plasteel,
 /area/engine/engineering)
@@ -18302,10 +18306,12 @@
 /turf/open/floor/plasteel/ship,
 /area/quartermaster/storage)
 "aOr" = (
+/obj/item/radio/intercom{
+	pixel_y = 26
+	},
 /obj/machinery/light{
 	dir = 1
 	},
-/obj/machinery/computer/ship/viewscreen,
 /turf/open/floor/plasteel/ship/techfloor/alt,
 /area/hallway/primary/fore)
 "aOs" = (
@@ -22683,15 +22689,11 @@
 /turf/open/floor/plasteel/dark,
 /area/science/robotics/lab)
 "aYo" = (
-/obj/machinery/atmospherics/components/binary/stormdrive_reactor,
-/obj/effect/landmark/event_spawn,
-/obj/machinery/atmospherics/components/binary/stormdrive_reactor{
-	dir = 8
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer1,
+/obj/machinery/computer/ship/reactor_control_computer{
+	reactor_id = 1
 	},
-/obj/structure/cable/yellow{
-	icon_state = "0-4"
-	},
-/turf/open/floor/engine,
+/turf/open/floor/plasteel/dark,
 /area/engine/engine_room)
 "aYp" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer3,
@@ -28318,6 +28320,72 @@
 	},
 /turf/open/floor/plating,
 /area/tcommsat/server)
+"bko" = (
+/obj/effect/landmark/event_spawn,
+/obj/machinery/atmospherics/components/binary/stormdrive_reactor{
+	dir = 8;
+	reactor_id = 1
+	},
+/obj/structure/cable/yellow{
+	icon_state = "0-4"
+	},
+/turf/open/floor/engine,
+/area/engine/engine_room)
+"bkp" = (
+/obj/effect/turf_decal/tile/yellow{
+	dir = 4
+	},
+/obj/effect/turf_decal/tile/yellow{
+	dir = 1
+	},
+/obj/structure/table,
+/obj/item/grenade/chem_grenade/smart_metal_foam{
+	pixel_x = 3;
+	pixel_y = 3
+	},
+/obj/item/grenade/chem_grenade/smart_metal_foam,
+/obj/item/grenade/chem_grenade/smart_metal_foam,
+/obj/item/grenade/chem_grenade/smart_metal_foam{
+	pixel_x = 3;
+	pixel_y = 3
+	},
+/obj/item/control_rod,
+/obj/item/control_rod,
+/obj/item/control_rod,
+/obj/item/control_rod,
+/obj/item/control_rod,
+/obj/item/control_rod,
+/obj/item/control_rod,
+/obj/item/control_rod,
+/obj/item/control_rod,
+/turf/open/floor/plasteel,
+/area/engine/storage)
+"bkq" = (
+/obj/machinery/light{
+	dir = 1
+	},
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
+/obj/machinery/computer/lore_terminal/command,
+/obj/structure/closet/secure_closet/hop,
+/obj/item/storage/box/squad_lanyards,
+/turf/open/floor/wood,
+/area/crew_quarters/heads/hop)
+"bkr" = (
+/obj/machinery/computer/squad_manager{
+	icon_state = "computer";
+	dir = 4
+	},
+/turf/open/floor/wood,
+/area/crew_quarters/heads/hop)
+"bks" = (
+/obj/machinery/squad_vendor{
+	density = 0;
+	pixel_y = 26
+	},
+/turf/open/floor/plasteel/ship/techfloor/alt,
+/area/hallway/primary/fore)
 "bkt" = (
 /obj/machinery/atmospherics/pipe/simple/general/visible,
 /obj/effect/turf_decal/tile/blue,
@@ -31568,26 +31636,6 @@
 	},
 /turf/open/floor/plasteel,
 /area/gateway)
-"eoH" = (
-/obj/effect/turf_decal/tile/yellow{
-	dir = 4
-	},
-/obj/effect/turf_decal/tile/yellow{
-	dir = 1
-	},
-/obj/structure/table,
-/obj/item/grenade/chem_grenade/smart_metal_foam{
-	pixel_x = 3;
-	pixel_y = 3
-	},
-/obj/item/grenade/chem_grenade/smart_metal_foam,
-/obj/item/grenade/chem_grenade/smart_metal_foam,
-/obj/item/grenade/chem_grenade/smart_metal_foam{
-	pixel_x = 3;
-	pixel_y = 3
-	},
-/turf/open/floor/plasteel,
-/area/engine/storage)
 "eoZ" = (
 /obj/structure/disposalpipe/trunk{
 	dir = 8
@@ -34311,17 +34359,6 @@
 	},
 /turf/open/floor/plasteel/ship,
 /area/hallway/secondary/exit)
-"gVp" = (
-/obj/machinery/light{
-	dir = 1
-	},
-/obj/structure/disposalpipe/segment{
-	dir = 4
-	},
-/obj/machinery/computer/lore_terminal/command,
-/obj/structure/closet/secure_closet/hop,
-/turf/open/floor/wood,
-/area/crew_quarters/heads/hop)
 "gVz" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer3,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer1,
@@ -41368,10 +41405,6 @@
 	},
 /turf/open/floor/plasteel,
 /area/security)
-"mSR" = (
-/obj/structure/filingcabinet,
-/turf/open/floor/wood,
-/area/crew_quarters/heads/hop)
 "mTA" = (
 /obj/machinery/camera/autoname{
 	dir = 1
@@ -49308,11 +49341,6 @@
 	},
 /turf/open/floor/plasteel/white,
 /area/science/lab)
-"udc" = (
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer1,
-/obj/machinery/computer/ship/reactor_control_computer,
-/turf/open/floor/plasteel/dark,
-/area/engine/engine_room)
 "udf" = (
 /obj/effect/turf_decal/tile/brown{
 	dir = 1
@@ -72006,7 +72034,7 @@ sZr
 aDp
 iuE
 aOt
-udc
+aYo
 air
 aCt
 avV
@@ -72625,7 +72653,7 @@ mCc
 aTk
 aTe
 aYU
-aYo
+bko
 dnE
 aTe
 aBT
@@ -76234,7 +76262,7 @@ aGU
 aXD
 qlK
 sCf
-eoH
+bkp
 auE
 hdT
 pFu
@@ -107933,7 +107961,7 @@ qfG
 aNR
 bez
 aHB
-aOr
+bks
 vmg
 kjB
 eZe
@@ -108235,7 +108263,7 @@ wyI
 aYL
 bTW
 aHB
-beP
+aOr
 kFM
 fWk
 kah
@@ -108537,7 +108565,7 @@ aYL
 aYL
 oGn
 aHB
-arZ
+bks
 ecH
 nFL
 xNb
@@ -120634,7 +120662,7 @@ ati
 alB
 hGA
 dIv
-mSR
+bkr
 tLW
 bRM
 vqt
@@ -120934,8 +120962,8 @@ aFe
 aFe
 ati
 aNE
-aIL
 cEN
+aIL
 cEN
 hgj
 aVd
@@ -121537,7 +121565,7 @@ aGJ
 aGJ
 ksZ
 ati
-gVp
+bkq
 cEN
 cEN
 ayP
