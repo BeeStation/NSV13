@@ -102,6 +102,11 @@
 	integrity_failure = 1500
 	collision_positions = list(new /datum/vector2d(-27,220), new /datum/vector2d(-79,79), new /datum/vector2d(-77,-106), new /datum/vector2d(-70,-164), new /datum/vector2d(-28,-214), new /datum/vector2d(13,-211), new /datum/vector2d(45,-194), new /datum/vector2d(47,83), new /datum/vector2d(8,218))
 	armor = list("overmap_light" = 90, "overmap_heavy" = 30)
+	use_armour_quadrants = TRUE
+	armour_quadrants = list("forward_port" = list("designation" = "Forward Port", "max_armour" = 750, "current_armour" = 750),\
+							"forward_starboard" = list("designation" = "Forward Starboard", "max_armour" = 750, "current_armour" = 750),\
+							"aft_port" = list("designation" = "Aft Port", "max_armour" = 500, "current_armour" = 500),\
+							"aft_starboard" = list("designation" = "Aft Starboard", "max_armour" = 500, "current_armour" = 500))
 
 /obj/structure/overmap/nanotrasen/mining_cruiser
 	name = "Mining hauler"
