@@ -34,10 +34,10 @@ export const FighterControls = (props, context) => {
             </Fragment>
           </Section>
           <Section title="Ignition controls:">
-            IGN:
+            Ignition: | Fuel:  | Battery: |  APU: | Throttle Lock:<br />
             <Knob
               inline
-              size={1.25}
+              size={1.7}
               color={!!data.ignition && 'green'}
               value={data.ignition*10}
               unit=""
@@ -46,10 +46,9 @@ export const FighterControls = (props, context) => {
               step={1}
               stepPixelSize={1}
               onDrag={(e, value) => act('ignition')} />
-            FUEL:
             <Knob
               inline
-              size={1.25}
+              size={1.7}
               color={!!data.fuel_pump && 'green'}
               value={data.fuel_pump*10}
               unit=""
@@ -58,10 +57,10 @@ export const FighterControls = (props, context) => {
               step={1}
               stepPixelSize={1}
               onDrag={(e, value) => act('fuel_pump')} />
-            BATT:
+            
             <Knob
               inline
-              size={1.25}
+              size={1.7}
               color={!!data.battery && 'green'}
               value={data.battery*10}
               unit=""
@@ -70,10 +69,10 @@ export const FighterControls = (props, context) => {
               step={1}
               stepPixelSize={1}
               onDrag={(e, value) => act('battery')} />
-            APU:
+            
             <Knob
               inline
-              size={1.25}
+              size={1.7}
               color={!!data.apu && 'green'}
               value={data.apu*10}
               unit=""
@@ -82,10 +81,10 @@ export const FighterControls = (props, context) => {
               step={1}
               stepPixelSize={1}
               onDrag={(e, value) => act('apu')} />
-            THRTL:
+            
             <Knob
               inline
-              size={1.25}
+              size={1.7}
               color={!!data.throttle_lock && 'green'}
               value={data.throttle_lock*10}
               unit=""

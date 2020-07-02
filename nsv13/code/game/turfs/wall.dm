@@ -25,6 +25,7 @@
 
 /turf/closed/wall/r_wall
 	icon_state = "reinf"
+	texture = "reinf_over"
 	icon = 'nsv13/icons/turf/wall_masks.dmi'
 	color = "#787878"
 

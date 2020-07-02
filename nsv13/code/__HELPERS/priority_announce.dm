@@ -1,12 +1,12 @@
-/proc/gq_announce(message, title = "Attention:")
+/proc/gq_announce(message, sound='nsv13/sound/effects/ship/action_stations.ogg')
 	if(!message)
 		return
 
 	for(var/mob/M in GLOB.player_list)
 		if(!isnewplayer(M) && M.can_hear())
-			to_chat(M, "<span class='big bold'><font color = red>[html_encode(title)]</font color><BR>[html_encode(message)]</span><BR>")
+			to_chat(M, "<span class='big bold'><font color = red>[html_encode("Attention:")]</font color><BR>[html_encode(message)]</span><BR>")
 			if(M.client.prefs.toggles & SOUND_ANNOUNCEMENTS)
-				SEND_SOUND(M, sound('nsv13/sound/effects/ship/action_stations.ogg'))
+				SEND_SOUND(M, sound(sound))
 
 /area
 	var/redalert = FALSE //General quarters active?
@@ -18,4 +18,4 @@
 			continue
 		AR.redalert = state
 		for(var/obj/machinery/light/L in AR)
-			L.update_icon()
+			L.update()

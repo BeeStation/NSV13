@@ -27,7 +27,7 @@
 	item_state = "glock"
 	fire_sound = 'nsv13/sound/weapons/glock.ogg'
 	w_class = WEIGHT_CLASS_NORMAL
-	mag_type = /obj/item/ammo_box/magazine/pistolm9mm/rubber
+	mag_type = /obj/item/ammo_box/magazine/pistolm9mm/glock
 	can_suppress = TRUE
 	automatic = FALSE
 	can_flashlight = TRUE
@@ -59,8 +59,13 @@
 	build_path = /obj/item/ammo_casing/tazer
 	category = list("initial", "Security")
 
-/obj/item/ammo_box/magazine/pistolm9mm/rubber
-	name = "9mm glock magazine"
+/obj/item/ammo_box/magazine/pistolm9mm/glock/lethal
+	name = "9mm pistol magazine"
+	icon = 'nsv13/icons/obj/ammo.dmi'
+	ammo_type = /obj/item/ammo_casing/c9mm
+
+/obj/item/ammo_box/magazine/pistolm9mm/glock
+	name = "9mm pistol magazine"
 	icon = 'nsv13/icons/obj/ammo.dmi'
 	ammo_type = /obj/item/ammo_casing/c9mm/rubber
 
