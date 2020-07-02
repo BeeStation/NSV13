@@ -23,12 +23,13 @@ Bonus
 	resistance = -3
 	stage_speed = -3
 	transmittable = -4
+	severity = -1
 	level = 6
 	base_message_chance = 5
 	symptom_delay_min = 1
 	symptom_delay_max = 1
 	var/regenerate_blood = FALSE
-	var/gas_type = /datum/gas/miasma
+	var/gas_type = /datum/gas/carbon_dioxide //NSV13 - Stolen Datum
 	var/base_moles = 3
 	var/emote = "fart"
 	threshold_desc = "<b>Resistance 8:</b> Additionally regenerates lost blood.<br>"
@@ -55,9 +56,7 @@ Bonus
 				if(!istype(T))
 					return
 				var/datum/gas_mixture/air = T.return_air()
-				var/list/cached_gases = air.gases
-				ASSERT_GAS(gas_type, air)
-				cached_gases[gas_type][MOLES] += base_moles
+				air.set_moles(gas_type, air.get_moles(gas_type) + base_moles)
 				T.air_update_turf()
 				M.emote(emote)
 		else

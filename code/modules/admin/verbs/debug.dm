@@ -296,7 +296,7 @@ GLOBAL_PROTECT(AdminProcCallSpamPrevention)
 	for(var/mob/C in GLOB.mob_list)
 		if(C.key)
 			available.Add(C)
-	var/mob/choice = input("Choose a player to play the pAI", "Spawn pAI") in available
+	var/mob/choice = input("Choose a player to play the pAI", "Spawn pAI") in sortNames(available)
 	if(!choice)
 		return 0
 	if(!isobserver(choice))
@@ -415,7 +415,7 @@ GLOBAL_PROTECT(AdminProcCallSpamPrevention)
 
 	if(matches.len==0)
 		return
-	var/hsbitem = input(usr, "Choose an object to delete.", "Delete:") as null|anything in matches
+	var/hsbitem = input(usr, "Choose an object to delete.", "Delete:") as null|anything in sortList(matches)
 	if(hsbitem)
 		hsbitem = matches[hsbitem]
 		var/counter = 0
@@ -769,7 +769,7 @@ GLOBAL_PROTECT(AdminProcCallSpamPrevention)
 			if(initial(O.can_be_admin_equipped))
 				job_outfits[initial(O.name)] = path
 
-		dresscode = input("Select job equipment", "Robust quick dress shop") as null|anything in job_outfits
+		dresscode = input("Select job equipment", "Robust quick dress shop") as null|anything in sortList(job_outfits)
 		dresscode = job_outfits[dresscode]
 		if(isnull(dresscode))
 			return
@@ -778,7 +778,7 @@ GLOBAL_PROTECT(AdminProcCallSpamPrevention)
 		var/list/custom_names = list()
 		for(var/datum/outfit/D in GLOB.custom_outfits)
 			custom_names[D.name] = D
-		var/selected_name = input("Select outfit", "Robust quick dress shop") as null|anything in custom_names
+		var/selected_name = input("Select outfit", "Robust quick dress shop") as null|anything in sortList(custom_names)
 		dresscode = custom_names[selected_name]
 		if(isnull(dresscode))
 			return
@@ -830,8 +830,7 @@ GLOBAL_PROTECT(AdminProcCallSpamPrevention)
 		if(Rad.anchored)
 			if(!Rad.loaded_tank)
 				var/obj/item/tank/internals/plasma/Plasma = new/obj/item/tank/internals/plasma(Rad)
-				Plasma.air_contents.assert_gas(/datum/gas/plasma)
-				Plasma.air_contents.gases[/datum/gas/plasma][MOLES] = 70
+				Plasma.air_contents.set_moles(/datum/gas/plasma, 70)
 				Rad.drainratio = 0
 				Rad.loaded_tank = Plasma
 				Plasma.forceMove(Rad)
@@ -937,7 +936,7 @@ GLOBAL_PROTECT(AdminProcCallSpamPrevention)
 
 		names[name] = ruin_landmark
 
-	var/ruinname = input("Select ruin", "Jump to Ruin") as null|anything in names
+	var/ruinname = input("Select ruin", "Jump to Ruin") as null|anything in sortList(names)
 
 
 	var/obj/effect/landmark/ruin/landmark = names[ruinname]
@@ -968,7 +967,7 @@ GLOBAL_PROTECT(AdminProcCallSpamPrevention)
 	for(var/name in SSmapping.lava_ruins_templates)
 		names[name] = list(SSmapping.lava_ruins_templates[name], ZTRAIT_LAVA_RUINS, /area/lavaland/surface/outdoors/unexplored)
 
-	var/ruinname = input("Select ruin", "Spawn Ruin") as null|anything in names
+	var/ruinname = input("Select ruin", "Spawn Ruin") as null|anything in sortList(names)
 	var/data = names[ruinname]
 	if (!data)
 		return
@@ -1005,6 +1004,27 @@ GLOBAL_PROTECT(AdminProcCallSpamPrevention)
 	SSblackbox.record_feedback("tally", "admin_verb", 1, "Clear Dynamic Transit") // If...
 	log_admin("[key_name(src)] cleared dynamic transit space.")
 	SSmapping.wipe_reservations()				//this goes after it's logged, incase something horrible happens.
+
+/client/proc/fucky_wucky()
+	set category = "Debug"
+	set name = "Fucky Wucky"
+	set desc = "Inform the players that the code monkeys at our headquarters are working very hard to fix this."
+
+	if(!check_rights(R_DEBUG))
+		return
+	verbs -= /client/proc/fucky_wucky
+	message_admins("<span class='adminnotice'>[key_name_admin(src)] did a fucky wucky.</span>")
+	log_admin("[key_name(src)] did a fucky wucky.")
+	for(var/m in GLOB.player_list)
+		var/datum/asset/fuckywucky = get_asset_datum(/datum/asset/simple/fuckywucky)
+		fuckywucky.send(m)
+		SEND_SOUND(m, 'sound/misc/fuckywucky.ogg')
+		to_chat(m, "<img src='fuckywucky.png'>")
+
+	addtimer(CALLBACK(src, .proc/restore_fucky_wucky), 600)
+
+/client/proc/restore_fucky_wucky()
+	verbs += /client/proc/fucky_wucky
 
 /client/proc/toggle_medal_disable()
 	set category = "Debug"

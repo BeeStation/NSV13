@@ -84,6 +84,15 @@ Misc projectile types, effects, think of this as the special FX file.
 	explosion(target, 2, 4, 4)
 	return BULLET_ACT_HIT
 
+/obj/item/projectile/guided_munition/torpedo/nuclear/on_hit(atom/target, blocked = FALSE)
+	..()
+	if(istype(target, /obj/structure/overmap)) //Were we to explode on an actual overmap, this would oneshot the ship as it's a powerful explosion.
+		var/obj/structure/overmap/OM = target
+		OM.nuclear_impact()
+		return BULLET_ACT_HIT
+	explosion(target, GLOB.MAX_EX_DEVESTATION_RANGE, GLOB.MAX_EX_HEAVY_RANGE, GLOB.MAX_EX_LIGHT_RANGE, GLOB.MAX_EX_FLASH_RANGE)
+	return BULLET_ACT_HIT
+
 /obj/item/projectile/guided_munition/torpedo/Crossed(atom/movable/AM) //Here, we check if the bullet that hit us is from a friendly ship. If it's from an enemy ship, we explode as we've been flak'd down.
 	. = ..()
 	if(istype(AM, /obj/item/projectile))

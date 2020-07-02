@@ -65,7 +65,8 @@
 	update_client_colour()
 	update_mouse_pointer()
 	if(client)
-		client.check_view() // Resets the client.view in case it was changed.
+		client.change_view(getScreenSize(client.prefs.widescreenpref)) // Resets the client.view in case it was changed.
+		client.view_size.default = (client.prefs.widescreenpref) ? CONFIG_GET(string/default_view) : "15x15" //Nsv13: This view size wrapper is extremely inconsistent and we need to finagle it a bit.
 
 		if(client.player_details.player_actions.len)
 			for(var/datum/action/A in client.player_details.player_actions)

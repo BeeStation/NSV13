@@ -17,12 +17,13 @@
 	if(!istype(T) || T.return_air().return_pressure() > (WARNING_HIGH_PRESSURE - 10))
 		return
 
+/* NSV13 - Stolen Datum
 	var/datum/gas_mixture/stank = new
-	ADD_GAS(/datum/gas/miasma, stank.gases)
-	stank.gases[/datum/gas/miasma][MOLES] = amount
-	stank.temperature = BODYTEMP_NORMAL // otherwise we have gas below 2.7K which will break our lag generator
+	stank.set_moles(/datum/gas/miasma, amount)
+	stank.set_temperature(BODYTEMP_NORMAL) // otherwise we have gas below 2.7K which will break our lag generator
 	T.assume_air(stank)
 	T.air_update_turf()
+*/
 
 /datum/component/rot/corpse
 	amount = MIASMA_CORPSE_MOLES

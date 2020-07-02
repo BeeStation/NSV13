@@ -11,6 +11,7 @@ GLOBAL_LIST_INIT(duranium_recipes, list (\
 	icon_state = "sheet-duranium"
 	item_state = "sheet-duranium"
 	sheettype = "duranium"
+	materials = list(/datum/material/iron = MINERAL_MATERIAL_AMOUNT, /datum/material/plasma = MINERAL_MATERIAL_AMOUNT/2, /datum/material/silver = MINERAL_MATERIAL_AMOUNT/2)
 	throwforce = 10
 	flags_1 = CONDUCT_1
 	resistance_flags = FIRE_PROOF
@@ -46,6 +47,7 @@ GLOBAL_LIST_INIT(durasteel_recipes, list ( \
 	icon_state = "sheet-durasteel"
 	item_state = "sheet-durasteel"
 	sheettype = "durasteel"
+	materials = list(/datum/material/iron = MINERAL_MATERIAL_AMOUNT, /datum/material/silver = MINERAL_MATERIAL_AMOUNT)
 	throwforce = 10
 	flags_1 = CONDUCT_1
 	resistance_flags = FIRE_PROOF
@@ -73,6 +75,7 @@ GLOBAL_LIST_INIT(nanocarbon_glass_recipes, list (\
 	icon = 'nsv13/icons/obj/custom_stack_objects.dmi'
 	icon_state = "sheet-nanocarbon-glass"
 	item_state = "sheet-nanocarbon-glass"
+	materials = list(/datum/material/iron = MINERAL_MATERIAL_AMOUNT, /datum/material/glass = MINERAL_MATERIAL_AMOUNT)
 	throwforce = 10
 	resistance_flags = FIRE_PROOF
 	merge_type = /obj/item/stack/sheet/nanocarbon_glass

@@ -1,0 +1,112 @@
+import { Fragment } from 'inferno';
+import { useBackend, useLocalState } from '../backend';
+import { Box, Button, Section, ProgressBar, Knob, Map, StarButton } from '../components';
+import { Window } from '../layouts';
+
+export const Dradis = (props, context) => {
+  const { act, data } = useBackend(context);
+  // Floats representing the different alpha values for different filtered objects.
+  let showFriendlies = data.showFriendlies;
+  let showEnemies = data.showEnemies;
+  let showAsteroids = data.showAsteroids;
+  let showAnomalies = data.showAnomalies;
+  let focus_x = data.focus_x;
+  let focus_y = data.focus_y;
+  let width_mod = data.width_mod;
+  let multiplier = 1125;
+  let rangeStyle = "left:"+focus_x*12+"px;bottom:"+focus_y*12+"px; width:"+width_mod*multiplier+"px; height:"+width_mod*multiplier+"px;margin-bottom:"+(-1)*((width_mod*multiplier)/2)+"px;margin-left:"+(-1)*((width_mod*multiplier)/2)+"px;";
+  return (
+    <Window resizable theme="hackerman">
+      <Window.Content scrollable>
+        <Section
+          title="Settings:"
+          buttons={(
+            <Button
+              content="Re-focus"
+              icon="camera"
+              onClick={() => location.reload()} />
+          )}>
+          Allies:
+          <Knob
+            inline
+            size={1.25}
+            color={!!showFriendlies && 'green'}
+            value={showFriendlies}
+            unit="scan strength"
+            minValue="0"
+            maxValue="100"
+            step={1}
+            stepPixelSize={1}
+            onDrag={(e, value) => act('showFriendlies', { alpha: value })} />
+          Enemies:
+          <Knob
+            inline
+            size={1.25}
+            color={!!showEnemies && 'green'}
+            value={showEnemies}
+            unit="scan strength"
+            minValue="0"
+            maxValue="100"
+            step={1}
+            stepPixelSize={1}
+            onDrag={(e, value) => act('showEnemies', { alpha: value })} />
+          Asteroids:
+          <Knob
+            inline
+            size={1.25}
+            color={!!showAsteroids && 'green'}
+            value={showAsteroids}
+            unit="scan strength"
+            minValue="0"
+            maxValue="100"
+            step={1}
+            stepPixelSize={1}
+            onDrag={(e, value) => act('showAsteroids', { alpha: value })} />
+          Anomalies
+          <Knob
+            inline
+            size={1.25}
+            color={!!showAnomalies && 'green'}
+            value={showAnomalies}
+            unit="scan strength"
+            minValue="0"
+            maxValue="100"
+            step={1}
+            stepPixelSize={1}
+            onDrag={(e, value) => act('showAnomalies', { alpha: value })} />
+          <Map initial_focus_x={focus_x}
+            initial_focus_y={focus_y} grid="1">
+            <Fragment>
+              {Object.keys(data.ships).map(key => {
+                let value = data.ships[key];
+                let borderType = "1px solid "+value.colour;
+                let markerStyle = {
+                  height: '1px',
+                  position: 'absolute',
+                  left: value.x*12+'px',
+                  bottom: value.y*12+'px',
+                  border: borderType,
+                  opacity: value.opacity,
+                  transition: "all 0.5s ease-out",
+                };
+                let markerType = "star_marker"+"_"+value.alignment;
+                return (
+                  <Fragment key={key}>
+                    {!!value.name && (
+                      <StarButton unselectable="on" style={markerStyle} className={markerType}
+                        content="">
+                        <span class="star_label">
+                          <p>{value.name}</p>
+                        </span>
+                      </StarButton>
+                    )}
+                  </Fragment>);
+              })}
+              <div id="rangeCircle" style={rangeStyle} />
+            </Fragment>
+          </Map>
+        </Section>
+      </Window.Content>
+    </Window>
+  );
+};

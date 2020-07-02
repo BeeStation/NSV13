@@ -73,7 +73,7 @@
 		O.setOxyLoss(getOxyLoss(), 0)
 		O.setCloneLoss(getCloneLoss(), 0)
 		O.adjustFireLoss(getFireLoss(), 0)
-		O.setBrainLoss(getBrainLoss(), 0)
+		O.setOrganLoss(ORGAN_SLOT_BRAIN, getOrganLoss(ORGAN_SLOT_BRAIN))
 		O.updatehealth()
 		O.radiation = radiation
 
@@ -236,7 +236,7 @@
 		O.setOxyLoss(getOxyLoss(), 0)
 		O.setCloneLoss(getCloneLoss(), 0)
 		O.adjustFireLoss(getFireLoss(), 0)
-		O.setBrainLoss(getBrainLoss(), 0)
+		O.adjustOrganLoss(ORGAN_SLOT_BRAIN, getOrganLoss(ORGAN_SLOT_BRAIN))
 		O.updatehealth()
 		O.radiation = radiation
 
@@ -523,10 +523,36 @@
 	. = new_gorilla
 	qdel(src)
 
+/mob/living/carbon/proc/junglegorillize()
+	if(notransform)
+		return
+	notransform = TRUE
+	Paralyze(1, ignore_canstun = TRUE)
+
+	SSblackbox.record_feedback("amount", "gorillas_created", 1)
+
+	var/Itemlist = get_equipped_items(TRUE)
+	Itemlist += held_items
+	for(var/obj/item/W in Itemlist)
+		dropItemToGround(W, TRUE)
+
+	regenerate_icons()
+	icon = null
+	invisibility = INVISIBILITY_MAXIMUM
+	var/mob/living/simple_animal/hostile/gorilla/rabid/new_gorilla = new (get_turf(src))
+	new_gorilla.a_intent = INTENT_HARM
+	if(mind)
+		mind.transfer_to(new_gorilla)
+	else
+		new_gorilla.key = key
+	to_chat(new_gorilla, "<B>You are now a gorilla. Ooga ooga!</B>")
+	. = new_gorilla
+	qdel(src)
+
 /mob/living/carbon/human/Animalize()
 
 	var/list/mobtypes = typesof(/mob/living/simple_animal)
-	var/mobpath = input("Which type of mob should [src] turn into?", "Choose a type") in mobtypes
+	var/mobpath = input("Which type of mob should [src] turn into?", "Choose a type") in sortList(mobtypes, /proc/cmp_typepaths_asc)
 
 	if(!safe_animal(mobpath))
 		to_chat(usr, "<span class='danger'>Sorry but this mob type is currently unavailable.</span>")
@@ -560,7 +586,7 @@
 /mob/proc/Animalize()
 
 	var/list/mobtypes = typesof(/mob/living/simple_animal)
-	var/mobpath = input("Which type of mob should [src] turn into?", "Choose a type") in mobtypes
+	var/mobpath = input("Which type of mob should [src] turn into?", "Choose a type") in sortList(mobtypes, /proc/cmp_typepaths_asc)
 
 	if(!safe_animal(mobpath))
 		to_chat(usr, "<span class='danger'>Sorry but this mob type is currently unavailable.</span>")

@@ -7,8 +7,6 @@ FIX THIS...
 
 Kmc ~01/11/2019
 
-*/
-
 /obj/structure/railing
 	name = "railing"
 	desc = "A standard steel railing. Prevents stupid people from falling to their doom. Drag yourself onto it to climb over, or click it with an open hand whilst pulling something to dump it over the edge."
@@ -197,3 +195,5 @@ Kmc ~01/11/2019
 	if(get_dir(O.loc, target) == dir)
 		return 0
 	return 1
+	
+*/

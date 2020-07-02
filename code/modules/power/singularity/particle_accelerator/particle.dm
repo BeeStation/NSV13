@@ -42,8 +42,8 @@
 			var/obj/structure/blob/B = A
 			B.take_damage(energy*0.6)
 			movement_range = 0
-		else if(istype(A, /obj/machinery/power/stormdrive_reactor))  //NSV13 - Require for Stormdrive ignition
-			var/obj/machinery/power/stormdrive_reactor/reactor = A
+		else if(istype(A, /obj/machinery/atmospherics/components/binary/stormdrive_reactor))  //NSV13 - Require for Stormdrive ignition
+			var/obj/machinery/atmospherics/components/binary/stormdrive_reactor/reactor = A
 			reactor.heat += energy
 			reactor.try_start()
 

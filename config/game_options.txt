@@ -18,6 +18,10 @@ REVIVAL_BRAIN_LIFE -1
 ## Comment this out if you want OOC to be automatically disabled during the round, it will be enabled during the lobby and after the round end results.
 OOC_DURING_ROUND
 
+## LOOC
+## Comment this out to disable LOOC
+LOOC_ENABLED
+
 ## EMOJI ###
 ## Comment this out if you want to disable emojis
 EMOJIS
@@ -70,12 +74,14 @@ HUMANS_NEED_SURNAMES
 
 
 ## ALERT LEVELS ###
-ALERT_GREEN All threats to the ship have passed. All non essential personnel are free to use recreational facilities.
-ALERT_BLUE_UPTO The ship is likely to enter an immediately dangerous situation, or there is a credible internal threat at this time.
-ALERT_BLUE_DOWNTO Stand down action stations. The immediate threat to the ship has passed. All nonessential personnel may return to their stations.
-ALERT_RED_UPTO Action stations, action stations. Set condition 1 throughout the ship, this is not a drill. All nonessential personnel must immediately report to duty stations for assignment.
-ALERT_RED_DOWNTO The emergency destruct sequence has been overridden. General quarters is still in effect. All staff report to duty stations and await further orders.
-ALERT_DELTA DANGER: The emergency destruct sequence is now activated. The ship will detonate in T-10 minutes. The option to override the auto-destruct sequence expires in T-5 minutes. All hands:Abandon ship. Repeat: Abandon ship.
+ALERT_GREEN Attention all hands. Set condition 3 throughout the ship. All non-essential personnel may leave their posts and pursue recreational activities.
+ALERT_BLUE_UPTO Attention all hands. Set condition 2 throughout the ship. Standard operational procedures are now in effect, all personnel must report to their posts.
+ALERT_BLUE_DOWNTO Attention all hands, stand down general quarters. Set condition 2 throughout the ship. All personnel may report back to their posts with the authorization of squad leaders.
+ALERT_RED_UPTO General quarters, general quarters. All hands man your battle stations!
+ALERT_RED_DOWNTO Attention all hands. Stand down defense condition zebra. Compartmental interlocks have now been lifted. General Quarters is still in effect.
+ALERT_ZEBRA_UPTO Attention all hands assume defense condition zebra. Compartmental interlocks have now been activated, prepare for incoming fire.
+ALERT_ZEBRA_DOWNTO ATTENTION: The automatic destruct sequence has been deactivated. Condition Zebra is now in effect.
+ALERT_DELTA DANGER: DANGER: The automatic destruct sequence is now activated. The ship will be scuttled imminently. All hands abandon ship.
 
 
 ## GAME MODES ###
@@ -96,7 +102,6 @@ PROBABILITY CHANGELING 5
 PROBABILITY REVOLUTION 4
 PROBABILITY INTERNAL_AFFAIRS 3
 PROBABILITY TRAITORBRO 3
-PROBABILITY CLOCKWORK_CULT 3
 PROBABILITY GANG 3
 PROBABILITY WIZARD 2
 PROBABILITY CLOWNOPS 2
@@ -124,7 +129,6 @@ CONTINUOUS INTERNAL_AFFAIRS
 #CONTINUOUS NUCLEAR
 #CONTINUOUS REVOLUTION
 CONTINUOUS CULT
-CONTINUOUS CLOCKWORK_CULT
 CONTINUOUS CHANGELING
 CONTINUOUS WIZARD
 #CONTINUOUS MONKEY
@@ -147,7 +151,6 @@ MIDROUND_ANTAG INTERNAL_AFFAIRS
 #MIDROUND_ANTAG  NUCLEAR
 #MIDROUND_ANTAG  REVOLUTION
 MIDROUND_ANTAG CULT
-MIDROUND_ANTAG CLOCKWORK_CULT
 MIDROUND_ANTAG CHANGELING
 MIDROUND_ANTAG WIZARD
 #MIDROUND_ANTAG  MONKEY
@@ -178,9 +181,6 @@ MIDROUND_ANTAG WIZARD
 
 #MIN_POP CULT 24
 #MAX_POP CULT -1
-
-#MIN_POP CLOCKWORK_CULT 24
-#MAX_POP CLOCKWORK_CULT -1
 
 #MIN_POP CHANGELING 15
 #MAX_POP CHANGELING -1
@@ -444,15 +444,16 @@ ROUNDSTART_RACES ipc
 
 ## Races that are better than humans in some ways, but worse in others
 ROUNDSTART_RACES ethereal
+ROUNDSTART_RACES apid
 ROUNDSTART_RACES synthetic
 #ROUNDSTART_RACES jelly
-#ROUNDSTART_RACES golem
-#ROUNDSTART_RACES adamantine
-#ROUNDSTART_RACES plasma
-#ROUNDSTART_RACES diamond
-#ROUNDSTART_RACES gold
-#ROUNDSTART_RACES silver
-#ROUNDSTART_RACES uranium
+#ROUNDSTART_RACES iron_golem
+#ROUNDSTART_RACES adamantine_golem
+#ROUNDSTART_RACES plasma_golem
+#ROUNDSTART_RACES diamond_golem
+#ROUNDSTART_RACES gold_golem
+#ROUNDSTART_RACES silver_golem
+#ROUNDSTART_RACES uranium_golem
 #ROUNDSTART_RACES abductor
 #ROUNDSTART_RACES synth
 
@@ -522,7 +523,7 @@ BOMBCAP 24
 LAVALAND_BUDGET 60
 
 ## Space Ruin Budged
-Space_Budget 16
+Space_Budget 8
 
 ## Time in ds from when a player latejoins till the arrival shuttle docks at the station
 ## Must be at least 30. At least 55 recommended to be visually/aurally appropriate
@@ -567,7 +568,7 @@ ECONOMY
 ALLOW_CREW_OBJECTIVES
 
 ## Mob spam prevention. The number of each mobtype that can be alive at once. Stops people from crashing the server with chickens/monkeycubes/slimes. Altering these values is recommended based on server hardware.
-MAX_CUBE_MONKEYS 100
+MAX_CUBE_MONKEYS 150
 MAX_CHICKENS 100
 MAX_SLIMES 100
 

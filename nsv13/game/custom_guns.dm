@@ -3,7 +3,7 @@
 
 /obj/item/gun/ballistic/automatic/peacekeeper
 	name = "M2A45 security pulse rifle"
-	desc = "A large personal defense weapon commonly employed by the colonial peacekeepers. This advanced weapon uses a magnetic acceleration system in favour of traditional gunpowder, allowing specialized 6mm rounds to be loaded."
+	desc = "A large personal defense weapon commonly employed by Nanotrasen security forces. This advanced weapon uses a magnetic acceleration system in favour of traditional gunpowder, allowing specialized 6mm rounds to be loaded."
 	icon = 'nsv13/icons/obj/guns/projectile.dmi'
 	icon_state = "peacekeeper"
 	item_state = "peacekeeper"
@@ -19,7 +19,7 @@
 	mag_display_ammo = TRUE
 	empty_indicator = TRUE
 	weapon_weight = WEAPON_HEAVY
-	slot_flags = ITEM_SLOT_BACK | ITEM_SLOT_BELT
+	slot_flags = ITEM_SLOT_BACK
 	fire_sound = 'nsv13/sound/weapons/m4_fire.wav'
 	recoil = 0.1 //Tiny jolt when you fire it.
 
@@ -41,23 +41,12 @@
 
 /obj/item/projectile/bullet/peacekeeper/stun
 	name = "6mm electro-shock round"
-	damage = 0
-	paralyze = 100
+	damage = 10 //Straight up WAY worse than the security glock at stunning, but they serve a purpose
+	stamina = 5 //20 hits required to fully stun, by that time you probably killed them anyway!
 	stutter = 5
-	jitter = 20
+	jitter = 5
 	range = 7
 	color = "#f5e3b3"
-
-/obj/item/projectile/bullet/peacekeeper/stun/on_hit(atom/target, blocked = FALSE)
-	. = ..()
-	if(!ismob(target) || blocked >= 100) //Fully blocked by mob or collided with dense object - burst into sparks!
-		do_sparks(1, TRUE, src)
-	else if(iscarbon(target))
-		var/mob/living/carbon/C = target
-		SEND_SIGNAL(C, COMSIG_ADD_MOOD_EVENT, "tased", /datum/mood_event/tased)
-		SEND_SIGNAL(C, COMSIG_LIVING_MINOR_SHOCK)
-		if(C.dna && C.dna.check_mutation(HULK))
-			C.say(pick(";RAAAAAAAARGH!", ";HNNNNNNNNNGGGGGGH!", ";GWAAAAAAAARRRHHH!", "NNNNNNNNGGGGGGGGHH!", ";AAAAAAARRRGH!" ), forced = "hulk")
 
 /obj/item/ammo_box/magazine/peacekeeper
 	name = "M2A45 pulse rifle magazine (nonlethal)"
@@ -65,14 +54,14 @@
 	icon_state = "peacekeeper_stun"
 	ammo_type = /obj/item/ammo_casing/peacekeeper
 	caliber = "6mm"
-	max_ammo = 20
+	max_ammo = 30
 
 /obj/item/ammo_box/magazine/peacekeeper/lethal
 	name = "M2A45 pulse rifle magazine (lethal)"
 	icon_state = "peacekeeper"
 	ammo_type = /obj/item/ammo_casing/peacekeeper/lethal
 	caliber = "6mm"
-	max_ammo = 20
+	max_ammo = 30
 
 /obj/item/ammo_box/magazine/peacekeeper/update_icon()
 	..()

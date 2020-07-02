@@ -8,6 +8,7 @@
 	spawn_positions = 1
 	supervisors = "the Executive Officer"
 	selection_color = "#dddddd"
+	chat_color = "#BAD3BB"
 
 	outfit = /datum/outfit/job/mime
 
@@ -27,7 +28,7 @@
 
 	belt = /obj/item/pda/mime
 	ears = /obj/item/radio/headset/headset_srv
-	uniform = /obj/item/clothing/under/rank/mime
+	uniform = /obj/item/clothing/under/rank/civilian/mime
 	mask = /obj/item/clothing/mask/gas/mime
 	gloves = /obj/item/clothing/gloves/color/white
 	head = /obj/item/clothing/head/frenchberet
