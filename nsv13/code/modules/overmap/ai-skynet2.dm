@@ -528,7 +528,8 @@ GLOBAL_LIST_EMPTY(ai_goals)
 /datum/ai_goal/rearm/check_score(obj/structure/overmap/OM)
 	if(!..() || !OM.fleet) //If it's not an overmap, or it's not linked to a fleet.
 		return 0
-	if(!OM.fleet.taskforces["supply"].len)
+	var/list/L = OM.fleet.taskforces["supply"] //I don't know why we have to do it this way, but dreamchecker is forcing us to.
+	if(!L.len)
 		return 0 //Can't resupply if there's no supply station/ship. Carry on fighting!
 	if(OM.obj_integrity < OM.max_integrity/3)
 		return AI_SCORE_SUPERPRIORITY
@@ -627,7 +628,8 @@ GLOBAL_LIST_EMPTY(ai_goals)
 	if(!..() || !OM.fleet) //If it's not an overmap, or it's not linked to a fleet.
 		return score
 	if(OM.ai_trait == AI_TRAIT_BATTLESHIP)
-		return (OM.fleet.taskforces["supply"].len ? AI_SCORE_CRITICAL : AI_SCORE_LOW_PRIORITY)
+		var/list/L = OM.fleet.taskforces["supply"]
+		return (L.len ? AI_SCORE_CRITICAL : AI_SCORE_LOW_PRIORITY)
 	return score //If you've got nothing better to do, come group with the main fleet.
 
 //Goal used entirely for supply ships, signalling them to run away! Most ships use the "repair and re-arm" goal instead of this one.
