@@ -30243,6 +30243,8 @@
 /obj/effect/turf_decal/tile/neutral{
 	dir = 8
 	},
+/obj/item/clothing/mask/muzzle,
+/obj/item/clothing/suit/straight_jacket,
 /turf/open/floor/plasteel{
 	heat_capacity = 1e+006
 	},
@@ -32291,12 +32293,6 @@
 /area/nsv/hanger/deck2/port{
 	name = "Launch tubes 3 and 4"
 	})
-"clk" = (
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer3{
-	dir = 8
-	},
-/turf/open/floor/plating,
-/area/maintenance/department/security)
 "clE" = (
 /obj/structure/lattice,
 /obj/structure/girder,
@@ -32830,10 +32826,6 @@
 	},
 /turf/open/floor/plasteel,
 /area/security/checkpoint/customs)
-"cQa" = (
-/obj/machinery/portable_atmospherics/pump,
-/turf/open/floor/plating,
-/area/maintenance/department/medical)
 "cQr" = (
 /obj/structure/table/reinforced,
 /obj/item/pen/fourcolor,
@@ -33361,6 +33353,10 @@
 	},
 /turf/open/floor/plasteel,
 /area/security)
+"dqe" = (
+/obj/machinery/portable_atmospherics/scrubber,
+/turf/open/floor/plating,
+/area/maintenance/department/medical)
 "dql" = (
 /obj/structure/disposalpipe/segment{
 	dir = 4
@@ -36256,6 +36252,12 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/department/cargo)
+"gtt" = (
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer3{
+	dir = 8
+	},
+/turf/open/floor/plating,
+/area/maintenance/department/security)
 "gtv" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer1{
 	dir = 8
@@ -36499,6 +36501,13 @@
 	},
 /turf/open/floor/plasteel/ship/techfloor/alt,
 /area/tcommsat/computer)
+"gEP" = (
+/obj/structure/closet/crate{
+	icon_state = "crateopen"
+	},
+/obj/effect/spawner/lootdrop/maintenance,
+/turf/open/floor/plating,
+/area/maintenance/department/medical)
 "gEV" = (
 /obj/structure/tank_dispenser,
 /turf/open/floor/plasteel,
@@ -37540,6 +37549,17 @@
 /obj/machinery/processor,
 /turf/open/floor/plasteel/cafeteria,
 /area/crew_quarters/kitchen)
+"hDE" = (
+/obj/effect/spawner/structure/window/reinforced,
+/obj/machinery/door/poddoor/shutters/preopen{
+	id = "cmoshutter";
+	name = "CMO office shutters"
+	},
+/obj/structure/cable{
+	icon_state = "0-4"
+	},
+/turf/open/floor/plating,
+/area/crew_quarters/heads/cmo)
 "hDI" = (
 /obj/effect/turf_decal/tile/purple{
 	dir = 8
@@ -38136,6 +38156,17 @@
 /obj/effect/landmark/xeno_spawn,
 /turf/open/floor/engine/plasma,
 /area/engine/atmos)
+"iij" = (
+/obj/effect/spawner/structure/window/reinforced,
+/obj/machinery/door/poddoor/shutters/preopen{
+	id = "cmoshutter";
+	name = "CMO office shutters"
+	},
+/obj/structure/cable{
+	icon_state = "0-8"
+	},
+/turf/open/floor/plating,
+/area/crew_quarters/heads/cmo)
 "iil" = (
 /obj/structure/grille,
 /turf/open/floor/plating/airless,
@@ -38297,10 +38328,6 @@
 /obj/machinery/door/firedoor/border_only/directional/south,
 /turf/open/floor/plasteel/white,
 /area/science/research)
-"inM" = (
-/obj/machinery/portable_atmospherics/scrubber,
-/turf/open/floor/plating,
-/area/maintenance/department/medical)
 "iok" = (
 /obj/structure/disposalpipe/sorting/mail{
 	dir = 8;
@@ -42932,6 +42959,10 @@
 	},
 /turf/open/floor/plasteel,
 /area/science/robotics/lab)
+"mHL" = (
+/obj/machinery/portable_atmospherics/pump,
+/turf/open/floor/plating,
+/area/maintenance/department/medical)
 "mIx" = (
 /obj/machinery/door/airlock/ship/maintenance{
 	name = "Kitchen maintenance";
@@ -45873,6 +45904,10 @@
 /obj/machinery/door/firedoor/border_only/directional/west,
 /turf/open/floor/wood,
 /area/crew_quarters/bar)
+"pIX" = (
+/obj/machinery/portable_atmospherics/canister/oxygen,
+/turf/open/floor/plating,
+/area/maintenance/department/medical)
 "pJl" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer1,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer3,
@@ -47071,13 +47106,6 @@
 	},
 /turf/open/floor/plasteel,
 /area/engine/engine_room)
-"qUr" = (
-/obj/structure/closet/crate{
-	icon_state = "crateopen"
-	},
-/obj/effect/spawner/lootdrop/maintenance,
-/turf/open/floor/plating,
-/area/maintenance/department/medical)
 "qUJ" = (
 /obj/item/radio/intercom{
 	pixel_y = 26
@@ -49993,6 +50021,13 @@
 	},
 /turf/open/floor/plasteel/ship/techfloor/alt,
 /area/nsv/hanger)
+"tRG" = (
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer3{
+	dir = 8
+	},
+/obj/machinery/holopad,
+/turf/open/floor/plasteel/white,
+/area/medical/medbay/central)
 "tRZ" = (
 /obj/structure/disposalpipe/junction{
 	dir = 1
@@ -50801,16 +50836,6 @@
 	},
 /turf/open/floor/plasteel,
 /area/engine/atmos)
-"uHc" = (
-/obj/effect/turf_decal/tile/blue,
-/obj/effect/turf_decal/tile/blue{
-	dir = 8
-	},
-/obj/structure/disposalpipe/segment{
-	dir = 4
-	},
-/turf/open/floor/plasteel/white,
-/area/medical/medbay/central)
 "uHr" = (
 /obj/effect/turf_decal/stripes/white/line{
 	dir = 8
@@ -51711,17 +51736,6 @@
 	},
 /turf/open/floor/plasteel/ship/techfloor/alt,
 /area/hallway/secondary/exit)
-"vBw" = (
-/obj/effect/spawner/structure/window/reinforced,
-/obj/machinery/door/poddoor/shutters/preopen{
-	id = "cmoshutter";
-	name = "CMO office shutters"
-	},
-/obj/structure/cable{
-	icon_state = "0-4"
-	},
-/turf/open/floor/plating,
-/area/crew_quarters/heads/cmo)
 "vBI" = (
 /obj/structure/reagent_dispensers/cooking_oil,
 /turf/open/floor/plasteel/dark,
@@ -51817,17 +51831,6 @@
 /area/nsv/hanger/deck2/port{
 	name = "Launch tubes 3 and 4"
 	})
-"vKI" = (
-/obj/effect/spawner/structure/window/reinforced,
-/obj/machinery/door/poddoor/shutters/preopen{
-	id = "cmoshutter";
-	name = "CMO office shutters"
-	},
-/obj/structure/cable{
-	icon_state = "0-8"
-	},
-/turf/open/floor/plating,
-/area/crew_quarters/heads/cmo)
 "vLb" = (
 /obj/effect/turf_decal/tile/brown{
 	dir = 8
@@ -52269,6 +52272,16 @@
 /obj/effect/decal/cleanable/oil,
 /turf/open/floor/plating,
 /area/maintenance/department/cargo)
+"wdb" = (
+/obj/effect/turf_decal/tile/blue,
+/obj/effect/turf_decal/tile/blue{
+	dir = 8
+	},
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
+/turf/open/floor/plasteel/white,
+/area/medical/medbay/central)
 "wds" = (
 /obj/structure/cable{
 	icon_state = "1-2"
@@ -52320,6 +52333,16 @@
 	},
 /turf/open/floor/plasteel/ship,
 /area/hallway/primary/fore)
+"wgr" = (
+/obj/effect/turf_decal/tile/blue{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/blue{
+	dir = 8
+	},
+/obj/structure/bed/roller,
+/turf/open/floor/plasteel/white,
+/area/medical/medbay/central)
 "wgI" = (
 /obj/machinery/atmospherics/pipe/manifold/brown/visible{
 	dir = 8
@@ -52713,13 +52736,6 @@
 	},
 /turf/open/floor/plasteel/ship/techfloor/alt,
 /area/hallway/secondary/exit)
-"wzH" = (
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer3{
-	dir = 8
-	},
-/obj/machinery/holopad,
-/turf/open/floor/plasteel/white,
-/area/medical/medbay/central)
 "wzY" = (
 /obj/structure/disposalpipe/segment,
 /turf/open/floor/plating,
@@ -53975,16 +53991,6 @@
 	},
 /turf/open/floor/wood,
 /area/crew_quarters/bar)
-"xQq" = (
-/obj/effect/turf_decal/tile/blue{
-	dir = 1
-	},
-/obj/effect/turf_decal/tile/blue{
-	dir = 8
-	},
-/obj/structure/bed/roller,
-/turf/open/floor/plasteel/white,
-/area/medical/medbay/central)
 "xQw" = (
 /obj/machinery/navbeacon{
 	codes_txt = "patrol;next_patrol=JaniCloset";
@@ -54382,10 +54388,6 @@
 	},
 /turf/open/floor/plasteel/ship/techfloor/alt,
 /area/hallway/primary/central)
-"ycH" = (
-/obj/machinery/portable_atmospherics/canister/oxygen,
-/turf/open/floor/plating,
-/area/maintenance/department/medical)
 "ydc" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer3,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer1,
@@ -87418,7 +87420,7 @@ bmS
 bnm
 bnE
 aWJ
-ycH
+pIX
 bpi
 bpy
 aWJ
@@ -87716,11 +87718,11 @@ bkY
 aQv
 blU
 bmu
-wzH
+tRG
 bnm
 bnF
 aWJ
-cQa
+mHL
 beS
 aMz
 aWJ
@@ -88022,7 +88024,7 @@ arb
 aQB
 bnG
 aWJ
-inM
+dqe
 beS
 ixo
 aWJ
@@ -88314,7 +88316,7 @@ aEI
 atV
 aPg
 aUS
-xQq
+wgr
 bkI
 aZI
 akD
@@ -89524,10 +89526,10 @@ aPX
 aVp
 bfc
 bkM
-vBw
+hDE
 bkM
-vBw
-vBw
+hDE
+hDE
 bkM
 bkM
 boY
@@ -90126,7 +90128,7 @@ alS
 aSN
 aQe
 apx
-uHc
+wdb
 bkM
 bld
 bly
@@ -91336,11 +91338,11 @@ aQt
 bdV
 bfd
 bkM
-vKI
-vKI
+iij
+iij
 bkM
-vKI
-vKI
+iij
+iij
 bkM
 bnK
 aMz
@@ -92860,7 +92862,7 @@ bpj
 bpj
 bpj
 bpo
-qUr
+gEP
 amF
 fzR
 kRN
@@ -94671,7 +94673,7 @@ boy
 atz
 aNV
 alt
-clk
+gtt
 efI
 amF
 aqF
