@@ -13,18 +13,30 @@ export const Dradis = (props, context) => {
   let focus_x = data.focus_x;
   let focus_y = data.focus_y;
   let width_mod = data.width_mod;
-  let multiplier = 1125;
-  let rangeStyle = "left:"+focus_x*12+"px;bottom:"+focus_y*12+"px; width:"+width_mod*multiplier+"px; height:"+width_mod*multiplier+"px;margin-bottom:"+(-1)*((width_mod*multiplier)/2)+"px;margin-left:"+(-1)*((width_mod*multiplier)/2)+"px;";
+  let zoom_factor = data.zoom_factor;
+  let scale_factor = 6*zoom_factor;
+  let multiplier = 562.5*zoom_factor;
+  let rangeStyle = "left:"+focus_x*scale_factor+"px;bottom:"+focus_y*scale_factor+"px; width:"+width_mod*multiplier+"px; height:"+width_mod*multiplier+"px;margin-bottom:"+(-1)*((width_mod*multiplier)/2)+"px;margin-left:"+(-1)*((width_mod*multiplier)/2)+"px;";
   return (
     <Window resizable theme="hackerman">
       <Window.Content scrollable>
         <Section
           title="Settings:"
           buttons={(
-            <Button
-              content="Re-focus"
-              icon="camera"
-              onClick={() => location.reload()} />
+            <Fragment>
+              <Button
+                content="Zoom in"
+                icon="search-plus"
+                onClick={() => act('zoomin')} />
+              <Button
+                content="Zoom out"
+                icon="search-minus"
+                onClick={() => act('zoomout')} />
+              <Button
+                content="Re-focus"
+                icon="camera"
+                onClick={() => location.reload()} />
+            </Fragment>
           )}>
           Allies:
           <Knob
@@ -75,7 +87,9 @@ export const Dradis = (props, context) => {
             stepPixelSize={1}
             onDrag={(e, value) => act('showAnomalies', { alpha: value })} />
           <Map initial_focus_x={focus_x}
-            initial_focus_y={focus_y} grid="1">
+            initial_focus_y={focus_y}
+            initial_scale_factor={scale_factor}
+            grid="1">
             <Fragment>
               {Object.keys(data.ships).map(key => {
                 let value = data.ships[key];
@@ -83,8 +97,8 @@ export const Dradis = (props, context) => {
                 let markerStyle = {
                   height: '1px',
                   position: 'absolute',
-                  left: value.x*12+'px',
-                  bottom: value.y*12+'px',
+                  left: value.x*scale_factor+'px',
+                  bottom: value.y*scale_factor+'px',
                   border: borderType,
                   opacity: value.opacity,
                   transition: "all 0.5s ease-out",

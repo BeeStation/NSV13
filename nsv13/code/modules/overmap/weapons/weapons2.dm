@@ -69,7 +69,7 @@
 		if(torpedoes <= 0)
 			return FALSE
 		torpedoes --
-		fire_projectile(/obj/item/projectile/guided_munition/torpedo, target, homing = TRUE, speed=3, explosive = TRUE)
+		fire_projectile(torpedo_type, target, homing = TRUE, speed=3, explosive = TRUE)
 		var/obj/structure/overmap/OM = target
 		if(istype(OM, /obj/structure/overmap) && OM.dradis)
 			OM.dradis?.relay_sound('nsv13/sound/effects/fighters/launchwarning.ogg')

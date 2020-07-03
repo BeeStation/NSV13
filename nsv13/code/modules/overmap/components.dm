@@ -451,7 +451,7 @@ Method to try locate an overmap object that we should attach to. Recursively cal
 
 /obj/structure/overmap/proc/get_repair_efficiency()
 	if(max_armour_plates <= 0)
-		return 25 //Very slow heal for AIs
+		return 10 //Very slow heal for AIs, considering they can stop off at a supply post to heal back up.
 	return (max_armour_plates > 0) ? 100*(armour_plates/max_armour_plates) : 100
 
 #undef MAX_FLAK_RANGE
