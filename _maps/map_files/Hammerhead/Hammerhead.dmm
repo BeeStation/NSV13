@@ -4625,6 +4625,7 @@
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer3{
 	dir = 6
 	},
+/obj/machinery/firealarm/directional/west,
 /turf/open/floor/plasteel/white,
 /area/medical/medbay/lobby)
 "aka" = (
@@ -30712,8 +30713,11 @@
 /turf/closed/wall/ship,
 /area/medical/morgue)
 "boB" = (
-/obj/structure/table,
-/obj/item/toy/plush/lizardplushie,
+/obj/structure/sink{
+	dir = 8;
+	pixel_x = -12;
+	pixel_y = 2
+	},
 /turf/open/floor/plasteel/dark,
 /area/medical/morgue)
 "boC" = (
@@ -40149,16 +40153,6 @@
 /obj/effect/landmark/nuclear_waste_spawner,
 /turf/open/floor/plating,
 /area/nsv/hanger)
-"khp" = (
-/obj/effect/turf_decal/tile/blue,
-/obj/effect/turf_decal/tile/blue{
-	dir = 8
-	},
-/obj/structure/disposalpipe/segment{
-	dir = 4
-	},
-/turf/open/floor/plasteel/white,
-/area/medical/medbay/central)
 "khN" = (
 /obj/machinery/turretid{
 	control_area = "/area/ai_monitored/turret_protected/ai_upload";
@@ -42180,6 +42174,16 @@
 	},
 /turf/open/floor/plasteel/ship,
 /area/hallway/primary/fore)
+"meV" = (
+/obj/effect/turf_decal/tile/blue,
+/obj/effect/turf_decal/tile/blue{
+	dir = 8
+	},
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
+/turf/open/floor/plasteel/white,
+/area/medical/medbay/central)
 "mfn" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer3{
 	dir = 8
@@ -89988,7 +89992,7 @@ alS
 aSN
 aQe
 apx
-khp
+meV
 bkM
 bld
 bly
