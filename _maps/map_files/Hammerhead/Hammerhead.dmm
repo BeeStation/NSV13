@@ -16218,9 +16218,7 @@
 /area/medical/genetics)
 "aJJ" = (
 /obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer1,
-/obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer3{
-	dir = 1
-	},
+/obj/machinery/atmospherics/pipe/manifold4w/supply/hidden/layer3,
 /turf/open/floor/plasteel/white,
 /area/medical/virology)
 "aJK" = (
@@ -22325,6 +22323,7 @@
 /obj/structure/cable{
 	icon_state = "1-2"
 	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer3,
 /turf/open/floor/plasteel/white,
 /area/medical/virology)
 "aWU" = (
@@ -30384,6 +30383,7 @@
 "bnK" = (
 /obj/structure/table,
 /obj/item/toy/katana,
+/obj/effect/spawner/lootdrop/maintenance,
 /turf/open/floor/plating,
 /area/maintenance/department/medical)
 "bnL" = (
@@ -31125,11 +31125,17 @@
 	icon_state = "1-8"
 	},
 /obj/structure/disposalpipe/segment,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer3{
+	dir = 6
+	},
 /turf/open/floor/plasteel/white,
 /area/medical/medbay/central)
 "bps" = (
 /obj/machinery/door/airlock/ship/maintenance{
 	req_one_access_txt = "12"
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer3{
+	dir = 8
 	},
 /turf/open/floor/plating,
 /area/maintenance/department/security)
@@ -31221,9 +31227,7 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer1{
 	dir = 5
 	},
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer3{
-	dir = 5
-	},
+/obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer3,
 /turf/open/floor/plating,
 /area/maintenance/department/security)
 "bpA" = (
@@ -31273,6 +31277,7 @@
 	},
 /obj/machinery/door/firedoor/border_only/directional/south,
 /obj/machinery/door/firedoor/border_only/directional/north,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer3,
 /turf/open/floor/plasteel/white,
 /area/medical/virology)
 "bpD" = (
@@ -31319,6 +31324,7 @@
 /obj/effect/mapping_helpers/airlock/locked,
 /obj/machinery/door/firedoor/border_only/directional/south,
 /obj/machinery/door/firedoor/border_only/directional/north,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer3,
 /turf/open/floor/plasteel/white,
 /area/medical/virology)
 "bpH" = (
@@ -31499,6 +31505,16 @@
 	},
 /turf/open/floor/plasteel/white,
 /area/science/research)
+"buW" = (
+/obj/effect/turf_decal/tile/blue,
+/obj/effect/turf_decal/tile/blue{
+	dir = 8
+	},
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
+/turf/open/floor/plasteel/white,
+/area/medical/medbay/central)
 "bva" = (
 /obj/machinery/vending/cola/random,
 /turf/open/floor/plasteel/ship,
@@ -32613,6 +32629,16 @@
 	},
 /turf/open/floor/plasteel/white,
 /area/science/research)
+"cGP" = (
+/obj/effect/turf_decal/tile/blue{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/blue{
+	dir = 8
+	},
+/obj/structure/bed/roller,
+/turf/open/floor/plasteel/white,
+/area/medical/medbay/central)
 "cIi" = (
 /obj/machinery/atmospherics/pipe/simple/purple/visible{
 	dir = 5
@@ -33473,6 +33499,13 @@
 /obj/item/hand_tele,
 /turf/open/floor/carpet/ship,
 /area/crew_quarters/heads/captain/private)
+"dwo" = (
+/obj/structure/closet/crate{
+	icon_state = "crateopen"
+	},
+/obj/effect/spawner/lootdrop/maintenance,
+/turf/open/floor/plating,
+/area/maintenance/department/medical)
 "dxv" = (
 /obj/machinery/light,
 /obj/structure/peacekeeper_barricade/metal/plasteel/deployable,
@@ -40245,6 +40278,7 @@
 /obj/structure/cable{
 	icon_state = "1-2"
 	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer3,
 /turf/open/floor/plasteel/white,
 /area/medical/medbay/central)
 "kkc" = (
@@ -45557,13 +45591,6 @@
 /obj/effect/landmark/start/assistant,
 /turf/open/floor/plasteel/ship,
 /area/hallway/secondary/exit/departure_lounge)
-"pxd" = (
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer3{
-	dir = 8
-	},
-/obj/machinery/holopad,
-/turf/open/floor/plasteel/white,
-/area/medical/medbay/central)
 "pxC" = (
 /obj/machinery/atmospherics/pipe/simple/purple/visible{
 	dir = 4
@@ -47914,16 +47941,6 @@
 	},
 /turf/open/floor/plasteel/ship/techfloor/alt,
 /area/ai_monitored/turret_protected/aisat/hallway/support_ship/aft)
-"rGo" = (
-/obj/effect/turf_decal/tile/blue{
-	dir = 1
-	},
-/obj/effect/turf_decal/tile/blue{
-	dir = 8
-	},
-/obj/structure/bed/roller,
-/turf/open/floor/plasteel/white,
-/area/medical/medbay/central)
 "rGF" = (
 /obj/structure/window{
 	dir = 1
@@ -48468,6 +48485,7 @@
 	pixel_y = -28;
 	req_access_txt = "39"
 	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer3,
 /turf/open/floor/plasteel/white,
 /area/medical/virology)
 "sps" = (
@@ -49954,6 +49972,7 @@
 /obj/structure/cable{
 	icon_state = "1-8"
 	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer3,
 /turf/open/floor/plasteel/white,
 /area/medical/virology)
 "tSl" = (
@@ -50882,6 +50901,12 @@
 /obj/machinery/air_sensor/atmos/nitrous_tank,
 /turf/open/floor/engine/n2o,
 /area/engine/atmos)
+"uNn" = (
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer3{
+	dir = 8
+	},
+/turf/open/floor/plating,
+/area/maintenance/department/security)
 "uNy" = (
 /obj/effect/turf_decal/tile/yellow,
 /obj/effect/turf_decal/tile/yellow{
@@ -53181,16 +53206,6 @@
 	},
 /turf/open/floor/plasteel,
 /area/storage/primary)
-"xhF" = (
-/obj/effect/turf_decal/tile/blue,
-/obj/effect/turf_decal/tile/blue{
-	dir = 8
-	},
-/obj/structure/disposalpipe/segment{
-	dir = 4
-	},
-/turf/open/floor/plasteel/white,
-/area/medical/medbay/central)
 "xhL" = (
 /obj/machinery/portable_atmospherics/canister/nitrous_oxide,
 /obj/structure/cable{
@@ -53998,6 +54013,13 @@
 	},
 /turf/open/floor/plasteel,
 /area/science/robotics/lab)
+"xTl" = (
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer3{
+	dir = 8
+	},
+/obj/machinery/holopad,
+/turf/open/floor/plasteel/white,
+/area/medical/medbay/central)
 "xTq" = (
 /obj/machinery/deepfryer,
 /turf/open/floor/plasteel/cafeteria,
@@ -87607,7 +87629,7 @@ bkY
 aQv
 blU
 bmu
-pxd
+xTl
 bnm
 bnF
 aWJ
@@ -88205,7 +88227,7 @@ aEI
 atV
 aPg
 aUS
-rGo
+cGP
 bkI
 aZI
 akD
@@ -90017,7 +90039,7 @@ alS
 aSN
 aQe
 apx
-xhF
+buW
 bkM
 bld
 bly
@@ -92751,7 +92773,7 @@ bpj
 bpj
 bpj
 bpo
-aMz
+dwo
 amF
 fzR
 kRN
@@ -93958,7 +93980,7 @@ bow
 boF
 aWK
 baL
-aZI
+bmS
 poC
 amF
 ejS
@@ -94562,7 +94584,7 @@ boy
 atz
 aNV
 alt
-alt
+uNn
 efI
 amF
 aqF
