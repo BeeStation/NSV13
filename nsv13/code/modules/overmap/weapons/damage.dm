@@ -22,19 +22,13 @@ Bullet reactions
 	. = ..()
 
 /obj/structure/overmap/proc/relay_damage(proj_type)
-	if(role != MAIN_OVERMAP)
+	if(!occupying_levels.len)
 		return
-	var/turf/pickedstart
-	var/turf/pickedgoal
-	var/max_i = 10//number of tries to spawn bullet.
-	while(!isspaceturf(pickedstart))
-		var/startSide = pick(GLOB.cardinals)
-		var/startZ = pick(SSmapping.levels_by_trait(ZTRAIT_STATION))
-		pickedstart = spaceDebrisStartLoc(startSide, startZ)
-		pickedgoal = spaceDebrisFinishLoc(startSide, startZ)
-		max_i--
-		if(max_i<=0)
-			return
+	var/datum/space_level/SL = pick(occupying_levels)
+	var/theZ = SL.z_value
+	var/startside = pick(GLOB.cardinals)
+	var/turf/pickedstart = spaceDebrisStartLoc(startside, theZ)
+	var/turf/pickedgoal = locate(round(world.maxx * 0.5, 1), round(world.maxy * 0.5, 1), theZ)
 	var/obj/item/projectile/proj = new proj_type(pickedstart)
 	proj.starting = pickedstart
 	proj.firer = null

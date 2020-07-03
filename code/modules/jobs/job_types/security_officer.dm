@@ -124,7 +124,7 @@ GLOBAL_LIST_INIT(available_depts, list(SEC_DEPT_ENGINEERING, SEC_DEPT_MEDICAL, S
 	shoes = /obj/item/clothing/shoes/jackboots
 	l_pocket = /obj/item/restraints/handcuffs
 	r_pocket = /obj/item/assembly/flash/handheld
-	backpack_contents = list(/obj/item/ammo_box/magazine/pistolm9mm/rubber, /obj/item/gun/ballistic/tazer,  /obj/item/ammo_box/magazine/tazer_cartridge_storage=1,/obj/item/pda/security, /obj/item/book/granter/martial/jujitsu, /obj/item/club=1)
+	backpack_contents = list(/obj/item/ammo_box/magazine/pistolm9mm/glock, /obj/item/gun/ballistic/tazer,  /obj/item/ammo_box/magazine/tazer_cartridge_storage=1,/obj/item/pda/security, /obj/item/book/granter/martial/jujitsu, /obj/item/club=1)
 
 	backpack = /obj/item/storage/backpack/security
 	satchel = /obj/item/storage/backpack/satchel/sec
