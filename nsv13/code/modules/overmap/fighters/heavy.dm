@@ -34,3 +34,8 @@
 						/obj/item/fighter_component/countermeasure_dispenser/t1,
 						/obj/item/fighter_component/secondary/heavy/torpedo_rack/t1,
 						/obj/item/fighter_component/primary/heavy/heavy_cannon/t1)
+
+/obj/structure/overmap/fighter/heavy/apply_weapons()
+	weapon_types[FIRE_MODE_PDC] = new /datum/ship_weapon/heavy_cannon(src)
+	weapon_types[FIRE_MODE_TORPEDO] = new/datum/ship_weapon/torpedo_launcher(src)
+	weapon_types[FIRE_MODE_MISSILE] = new/datum/ship_weapon/missile_launcher(src)

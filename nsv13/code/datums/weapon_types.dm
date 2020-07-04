@@ -87,7 +87,7 @@
 /datum/ship_weapon/light_cannon
 	name = "light autocannon"
 	default_projectile_type = /obj/item/projectile/bullet/light_cannon_round
-	burst_size = 3
+	burst_size = 2
 	fire_delay = 0.25 SECONDS
 	range_modifier = 0
 	overmap_select_sound = 'nsv13/sound/effects/ship/pdc_start.ogg'

@@ -17,7 +17,7 @@
 
 	dir = 4
 	semi_auto = TRUE
-	max_ammo = 3 //Until you have to manually load it back up again. Battleships IRL have 3-4 shots before you need to reload the rack
+	max_ammo = 4 //Until you have to manually load it back up again. Battleships IRL have 3-4 shots before you need to reload the rack
 
 	var/req_components = list(
 		/obj/item/stock_parts/capacitor = 4,

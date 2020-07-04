@@ -104,7 +104,7 @@
 /obj/machinery/ship_weapon/proc/PostInitialize()
 	get_ship(error_log=FALSE)
 	if(maintainable)
-		maint_req = rand(15,25) //Setting initial number of cycles until maintenance is required
+		maint_req = rand(20,25) //Setting initial number of cycles until maintenance is required
 		create_reagents(50)
 	icon_state_list = icon_states(icon)
 
