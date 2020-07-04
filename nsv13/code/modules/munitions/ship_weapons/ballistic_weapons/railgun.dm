@@ -109,4 +109,4 @@
 	return
 
 /obj/machinery/ship_weapon/railgun/animate_projectile(atom/target)
-	linked.fire_projectile(weapon_type.default_projectile_type, target)
+	linked.fire_projectile(weapon_type.default_projectile_type, target, TRUE)

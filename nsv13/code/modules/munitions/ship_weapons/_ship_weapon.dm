@@ -55,7 +55,7 @@
 	var/chamber_delay_rapid = 2
 	var/chamber_delay = 10
 
-	var/firing_sound = 'nsv13/sound/effects/ship/mac_fire.ogg'
+	var/firing_sound = 'nsv13/sound/effects/ship/tri_mount_fire.ogg'
 	var/fire_animation_length = 5
 	var/fire_mode
 

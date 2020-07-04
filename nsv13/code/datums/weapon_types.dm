@@ -50,7 +50,7 @@
 
 /datum/ship_weapon/pdc_mount
 	name = "Point defense guns"
-	default_projectile_type = /obj/item/projectile/bullet/pdc_round
+	default_projectile_type = /obj/item/projectile/bullet/pdc_round/heavy
 	burst_size = 3
 	fire_delay = 0.25 SECONDS
 	range_modifier = 0
@@ -99,7 +99,7 @@
 /datum/ship_weapon/heavy_cannon
 	name = ".30 cal heavy cannon"
 	default_projectile_type = /obj/item/projectile/bullet/heavy_cannon_round
-	burst_size = 2
+	burst_size = 3
 	fire_delay = 0.5 SECONDS
 	range_modifier = 0
 	overmap_select_sound = 'nsv13/sound/effects/ship/pdc_start.ogg'

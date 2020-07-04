@@ -42,12 +42,12 @@ Adding tasks is easy! Just define a datum for it.
 
 #define AI_PDC_RANGE 12
 
-#define FLEET_DIFFICULTY_EASY 4 //if things end up being too hard, this is a safe number for a fight you _should_ always win.
-#define FLEET_DIFFICULTY_MEDIUM 6
-#define FLEET_DIFFICULTY_HARD 10
-#define FLEET_DIFFICULTY_VERY_HARD 15
-#define FLEET_DIFFICULTY_INSANE 20 //If you try to take on the rubicon ;)
-#define FLEET_DIFFICULTY_DEATH 30 //Suicide run
+#define FLEET_DIFFICULTY_EASY 2 //if things end up being too hard, this is a safe number for a fight you _should_ always win.
+#define FLEET_DIFFICULTY_MEDIUM 4
+#define FLEET_DIFFICULTY_HARD 6
+#define FLEET_DIFFICULTY_VERY_HARD 10
+#define FLEET_DIFFICULTY_INSANE 15 //If you try to take on the rubicon ;)
+#define FLEET_DIFFICULTY_DEATH 20 //Suicide run
 
 #define AI_TRAIT_SUPPLY 1
 #define AI_TRAIT_BATTLESHIP 2
