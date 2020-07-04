@@ -9,19 +9,28 @@ Misc projectile types, effects, think of this as the special FX file.
 	name = "teflon coated tungsten round"
 	damage = 10
 	flag = "overmap_light"
+	spread = 5
 
 /obj/item/projectile/bullet/pdc_round/heavy
 	damage = 5
 	flag = "overmap_heavy"
 	spread = 5
 
-/obj/item/projectile/bullet/railgun_slug
+/obj/item/projectile/bullet/mac_round
 	icon_state = "railgun"
 	name = "hyper accelerated tungsten slug"
-	damage = 100
-	speed = 1
+	damage = 150
+	speed = 0.75
 	flag = "overmap_heavy"
 	movement_type = FLYING | UNSTOPPABLE //Railguns punch straight through your ship
+	impact_effect_type = /obj/effect/temp_visual/impact_effect/torpedo
+
+/obj/item/projectile/bullet/railgun_slug
+	icon_state = "mac"
+	name = "tungsten slug"
+	damage = 50
+	speed = 2
+	flag = "overmap_heavy"
 	impact_effect_type = /obj/effect/temp_visual/impact_effect/torpedo
 
 /obj/item/projectile/bullet/gauss_slug
@@ -51,7 +60,7 @@ Misc projectile types, effects, think of this as the special FX file.
 	speed = 3
 	valid_angle = 120
 	homing_turn_speed = 5
-	damage = 125
+	damage = 200
 	range = 250
 	flag = "overmap_heavy"
 	impact_effect_type = /obj/effect/temp_visual/impact_effect/torpedo
