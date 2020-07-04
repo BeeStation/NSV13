@@ -567,6 +567,15 @@
 	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 2500)
 	export_price = 5000
 
+/datum/techweb_node/adv_combat_cyber_implants
+	id = "adv_combat_cyber_implants"
+	display_name = "Advanced Combat Cybernetic Implants"
+	description = "Experimental military cybernetic weapons."
+	prereq_ids = list("combat_cyber_implants", "syndicate_basic")
+	design_ids = list("hydraulic_blade")
+	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 10000)
+	export_price = 10000
+
 ////////////////////////Tools////////////////////////
 
 /datum/techweb_node/basic_mining
@@ -1008,7 +1017,7 @@
 	display_name = "Mesh Nanite Programming"
 	description = "Nanite programs that require static structures and membranes."
 	prereq_ids = list("nanite_base","engineering")
-	design_ids = list("hardening_nanites", "refractive_nanites", "cryo_nanites", "conductive_nanites", "shock_nanites", "emp_nanites", "temperature_nanites")
+	design_ids = list("hardening_nanites", "dermal_button_nanites", "refractive_nanites", "cryo_nanites", "conductive_nanites", "shock_nanites", "emp_nanites", "temperature_nanites")
 	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 2500)
 	export_price = 5000
 
