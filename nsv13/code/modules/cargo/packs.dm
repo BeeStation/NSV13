@@ -189,7 +189,7 @@
 /datum/supply_pack/security/peacekeeper_rifles
 	name = "M2A45 pulse rifles (x5)"
 	desc = "A pack of 5 M2A45 pulse rifles, preloaded with nonlethal stun slugs."
-	cost = 2000
+	cost = 15000
 	contains = list(/obj/item/gun/ballistic/automatic/peacekeeper,
 					/obj/item/gun/ballistic/automatic/peacekeeper,
 					/obj/item/gun/ballistic/automatic/peacekeeper,
@@ -200,7 +200,7 @@
 /datum/supply_pack/security/glock
 	name = "Glock-13s (x5)"
 	desc = "A pack of 5 security glock-13s, preloaded with rubber bullets."
-	cost = 15000
+	cost = 8000
 	contains = list(/obj/item/gun/ballistic/automatic/pistol/glock,
 					/obj/item/gun/ballistic/automatic/pistol/glock,
 					/obj/item/gun/ballistic/automatic/pistol/glock,
@@ -224,8 +224,20 @@
 					/obj/item/ammo_box/c9mm/rubber,
 					/obj/item/ammo_box/c9mm/rubber,
 					/obj/item/ammo_box/c9mm/rubber,
-					/obj/item/ammo_box/magazine/pistolm9mm/rubber)
+					/obj/item/ammo_box/magazine/pistolm9mm/glock)
 	crate_name = "Glock-13 ammunition (nonlethal)"
+
+/datum/supply_pack/security/glock_lethal
+	name = "Glock-13 ammo (lethal)"
+	desc = "5 magazines of lethal ammo for security sidearms."
+	cost = 1500
+	contains = list(/obj/item/ammo_box/c9mm,
+					/obj/item/ammo_box/c9mm,
+					/obj/item/ammo_box/c9mm,
+					/obj/item/ammo_box/c9mm,
+					/obj/item/ammo_box/c9mm,
+					/obj/item/ammo_box/magazine/pistolm9mm/glock/lethal)
+	crate_name = "Glock-13 ammunition (lethal)"
 
 /datum/supply_pack/security/ballistic_tazer
 	name = "Czanek Corp Tazer Crate"
@@ -264,3 +276,25 @@
 	desc = "One Tyrosene fuel pump, capable of fully refuelling 3 fighters."
 	cost = 1500
 	contains = list(/obj/structure/reagent_dispensers/fueltank/aviation_fuel)
+
+/datum/supply_pack/engineering/control_rods
+	name = "Nanocarbon Reactor Control Rods (x5)"
+	desc = "5 nanocarbon reactor control rods for a stormdrive reactor."
+	cost = 3000
+	contains = list(/obj/item/control_rod,
+					/obj/item/control_rod,
+					/obj/item/control_rod,
+					/obj/item/control_rod,
+					/obj/item/control_rod)
+	crate_name = "Nanocarbon Reactor Control Rods"
+
+/datum/supply_pack/engineering/superior_control_rods
+	name = "Crystaline Nanocarbon Reactor Control Rods (x5)"
+	desc = "5 crystaline nanocarbon reactor control rods for a stormdrive reactor."
+	cost = 8000
+	contains = list(/obj/item/control_rod/superior,
+					/obj/item/control_rod/superior,
+					/obj/item/control_rod/superior,
+					/obj/item/control_rod/superior,
+					/obj/item/control_rod/superior)
+	crate_name = "Crystaline Nanocarbon Reactor Control Rods"

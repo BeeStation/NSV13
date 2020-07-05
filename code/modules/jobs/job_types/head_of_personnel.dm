@@ -50,7 +50,7 @@
 	suit = /obj/item/clothing/suit/ship/officer
 	head = /obj/item/clothing/head/beret/ship/xo //NSV13 - update to XO
 	l_pocket = /obj/item/pda/heads/hop
-	backpack_contents = list(/obj/item/storage/box/ids=1,\
-		/obj/item/melee/classic_baton/police/telescopic=1, /obj/item/modular_computer/tablet/preset/advanced = 1)
+	backpack_contents = list(/obj/item/storage/box/ids=1, /obj/item/storage/box/squad_lanyards=1,\
+		/obj/item/melee/classic_baton/police/telescopic=1, /obj/item/modular_computer/tablet/preset/advanced = 1, /obj/item/squad_pager/all_channels=1)
 
 	chameleon_extras = list(/obj/item/gun/energy/e_gun, /obj/item/stamp/hop)

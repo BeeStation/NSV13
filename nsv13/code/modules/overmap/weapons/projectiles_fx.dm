@@ -56,6 +56,17 @@ Misc projectile types, effects, think of this as the special FX file.
 	flag = "overmap_heavy"
 	impact_effect_type = /obj/effect/temp_visual/impact_effect/torpedo
 
+/obj/item/projectile/guided_munition/torpedo/Initialize()
+	. = ..()
+	addtimer(CALLBACK(src, .proc/windup), 1 SECONDS)
+
+/obj/item/projectile/guided_munition/torpedo/proc/windup()
+	valid_angle = 360 //Torpedoes "wind up" to hit their target
+	homing_turn_speed = 360
+	sleep(0.7 SECONDS) //Let it get clear of the sender.
+	valid_angle = initial(valid_angle)
+	homing_turn_speed = initial(homing_turn_speed)
+
 /obj/item/projectile/guided_munition/missile
 	name = "conventional missile"
 	icon_state = "conventional_missile"
@@ -82,6 +93,15 @@ Misc projectile types, effects, think of this as the special FX file.
 	if(istype(target, /obj/structure/overmap)) //Were we to explode on an actual overmap, this would oneshot the ship as it's a powerful explosion.
 		return BULLET_ACT_HIT
 	explosion(target, 2, 4, 4)
+	return BULLET_ACT_HIT
+
+/obj/item/projectile/guided_munition/torpedo/nuclear/on_hit(atom/target, blocked = FALSE)
+	..()
+	if(istype(target, /obj/structure/overmap)) //Were we to explode on an actual overmap, this would oneshot the ship as it's a powerful explosion.
+		var/obj/structure/overmap/OM = target
+		OM.nuclear_impact()
+		return BULLET_ACT_HIT
+	explosion(target, GLOB.MAX_EX_DEVESTATION_RANGE, GLOB.MAX_EX_HEAVY_RANGE, GLOB.MAX_EX_LIGHT_RANGE, GLOB.MAX_EX_FLASH_RANGE)
 	return BULLET_ACT_HIT
 
 /obj/item/projectile/guided_munition/torpedo/Crossed(atom/movable/AM) //Here, we check if the bullet that hit us is from a friendly ship. If it's from an enemy ship, we explode as we've been flak'd down.
