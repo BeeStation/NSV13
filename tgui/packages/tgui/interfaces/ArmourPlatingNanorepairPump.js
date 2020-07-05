@@ -1,0 +1,63 @@
+import { Fragment } from 'inferno';
+import { useBackend, useLocalState } from '../backend';
+import { Box, Button, Section, Chart, Slider, Flex } from '../components';
+import { Window } from '../layouts';
+
+export const ArmourPlatingNanorepairPump = (props, context) => {
+  const { act, data } = useBackend(context);
+  const { repair_records } = data;
+  const armourData = repair_records.armour.map((value, i) => [i, value]);
+  const structureData = repair_records.structure.map((value, i) => [i, value]);
+  return (
+    <Window resizable theme="ntos">
+      <Window.Content scrollable>
+        <Section title="Repair Rates:">
+          <Flex spacing={1}>
+            <Flex.Item grow={1}>
+              <Section position="relative" height="100%">
+                <Chart.Line
+                  fillPositionedParent
+                  data={armourData}
+                  rangeX={[0, armourData.length - 1]}
+                  rangeY={[0, 10]}
+                  strokeColor="rgba(100, 53, 201, 1)"
+                  fillColor="rgba(100, 53, 201, 0.1)" />
+                <Chart.Line
+                  fillPositionedParent
+                  data={structureData}
+                  rangeX={[0, structureData.length - 1]}
+                  rangeY={[0, 10]}
+                  strokeColor="rgba(163, 51, 200, 1)"
+                  fillColor="rgba(163, 51, 200, 0.1)" />
+              </Section>
+            </Flex.Item>
+          </Flex>
+        </Section>
+        <Section title="System Resources Allocated to Armour:">
+          <Slider
+            value={data.armour_allocation}
+            minValue={0}
+            maxValue={100}
+            step={1}
+            stepPixelSize={5}
+            onDrag={(e, value) => act('armour_allocation', {
+              adjust: value,
+            })}
+          />
+        </Section>
+        <Section title="System Resources Allocated to Internal Structure:">
+          <Slider
+            value={data.structure_allocation}
+            minValue={0}
+            maxValue={100}
+            step={1}
+            stepPixelSize={5}
+            onDrag={(e, value) => act('structure_allocation', {
+              adjust: value,
+            })} 
+          />
+        </Section>
+      </Window.Content>
+    </Window>
+  );
+};

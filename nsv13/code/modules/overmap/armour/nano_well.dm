@@ -1,18 +1,15 @@
 //WELL GOES HERE
-#define OFFLINE 0
-#define ONLINE 1
-
 /obj/machinery/armour_plating_nanorepair_well
 	name = "Armour Plating Nano-repair Well"
 	desc = "Central Well for the AP thingies"
-	icon = 'nsv13/icons/obj/machinery/FTL_silo.dmi'
-	icon_state = "silo"
-	pixel_x = -32
+	icon = 'icons/obj/janitor.dmi'
+	icon_state = "mopbucket"
 	density = TRUE
 	anchored = TRUE
 	idle_power_usage = 50
 	active_power_usage = 1000 //temp
 	var/obj/structure/overmap/OM //our parent ship
+	var/list/apnp = list()
 	var/repair_resources = 0
 	var/repair_efficiency = 0
 	var/power_allocation = 0
@@ -20,8 +17,7 @@
 	var/system_stress = 0
 	var/list/material_silo = list()
 	var/material_modifier = 1
-	var/state = 0
-	var/apnw_id = 0
+	var/apnw_id = null
 
 /obj/machinery/armour_plating_nanorepair_well/Initialize()
 	/*things we need to do here:
@@ -40,8 +36,8 @@
 					null,
 					FALSE)
 
-/obj/machinery/armour_plating_nanorepair_well/LateInitialize()
 	OM = get_overmap()
+	addtimer(CALLBACK(src, .proc/handle_linking), 10 SECONDS)
 
 /obj/machinery/armour_plating_nanorepair_well/process()
 	/*things we need to do here:
@@ -51,21 +47,24 @@
 	- check our power allocation and adjust accordingly
 	- check our repair efficiency
 	*/
-	if(state == ONLINE)
-		handle_system_stress()
-		handle_repair_resources()
-		handle_power_allocation()
-		handle_repair_efficiency()
+	handle_system_stress()
+	handle_repair_resources()
+	handle_power_allocation()
+	handle_repair_efficiency()
 
 /obj/machinery/armour_plating_nanorepair_well/proc/handle_repair_efficiency() //Basic implementation
 	repair_efficiency = power_allocation * material_modifier
 
 /obj/machinery/armour_plating_nanorepair_well/proc/handle_system_stress() //Basic implementation
+	system_allocation = 0
+	for(var/obj/machinery/armour_plating_nanorepair_pump/P in apnp)
+		if(P.state)
+			system_allocation += P.armour_allocation
+			system_allocation += P.structure_allocation
+
 	switch(system_allocation)
-		if(-INFINITY to 0)
-			system_stress = 0
 		if(0 to 100)
-			system_stress -= (100 - system_allocation / 25)
+			system_stress -= min((100 - system_allocation / 25), 0 - system_stress)
 		if(100 to INFINITY)
 			system_stress += (system_allocation/100)
 
@@ -84,6 +83,12 @@
 		//chew metals
 		//update material modifier based on number of materals used
 
+/obj/machinery/armour_plating_nanorepair_well/proc/handle_linking()
+	if(apnw_id) //If mappers set an ID)
+		for(var/obj/machinery/armour_plating_nanorepair_pump/P in GLOB.machines)
+			if(P.apnw_id == apnw_id)
+				apnp += P
+
 /*
 /datum/component/material_container/proc/remove_amount_from_all(amt)
 	var/toRemove = amt / materials.len
@@ -96,5 +101,56 @@
 	if(istype(X, /datum/material/iron))
 */
 
-#undef OFFLINE
-#undef ONLINE
+/obj/machinery/armour_plating_nanorepair_well/attack_hand(mob/living/carbon/user)
+	.=..()
+	ui_interact(user)
+
+/obj/machinery/armour_plating_nanorepair_well/attack_ai(mob/user)
+	.=..()
+	ui_interact(user)
+
+/obj/machinery/armour_plating_nanorepair_well/attack_robot(mob/user)
+	.=..()
+	ui_interact(user)
+
+/obj/machinery/armour_plating_nanorepair_well/ui_interact(mob/user, ui_key = "main", datum/tgui/ui = null, force_open = 0, datum/tgui/master_ui = null, datum/ui_state/state = GLOB.default_state) // Remember to use the appropriate state.
+	ui = SStgui.try_update_ui(user, src, ui_key, ui, force_open)
+	if(!ui)
+		ui = new(user, src, ui_key, "ArmourPlatingNanorepairWell", name, 560, 600, master_ui, state)
+		ui.open()
+
+/obj/machinery/armour_plating_nanorepair_well/ui_act(action, params, datum/tgui/ui)
+	if(..())
+		return
+	if(!in_range(src, usr))
+		return
+	var/adjust = text2num(params["adjust"])
+	if(action == "power_allocation")
+		if(adjust && isnum(adjust))
+			power_allocation = adjust
+			if(power_allocation > 1000000)
+				power_allocation = 1000000
+				return
+			if(power_allocation < 0)
+				power_allocation = 0
+				return
+
+
+/obj/machinery/armour_plating_nanorepair_well/ui_data(mob/user)
+	var/list/data = list()
+	data["structural_integrity_current"] = OM.obj_integrity
+	data["structural_integrity_max"] = OM.max_integrity
+	data["quadrant_fs_armour_current"] = OM.armour_quadrants["forward_starboard"]["current_armour"]
+	data["quadrant_fs_armour_max"] = OM.armour_quadrants["forward_starboard"]["max_armour"]
+	data["quadrant_as_armour_current"] = OM.armour_quadrants["aft_starboard"]["current_armour"]
+	data["quadrant_as_armour_max"] = OM.armour_quadrants["aft_starboard"]["max_armour"]
+	data["quadrant_ap_armour_current"] = OM.armour_quadrants["aft_port"]["current_armour"]
+	data["quadrant_ap_armour_max"] = OM.armour_quadrants["aft_port"]["max_armour"]
+	data["quadrant_fp_armour_current"] = OM.armour_quadrants["forward_port"]["current_armour"]
+	data["quadrant_fp_armour_max"] = OM.armour_quadrants["forward_port"]["max_armour"]
+	data["repair_resources"] = repair_resources
+	data["repair_efficiency"] = repair_efficiency
+	data["system_allocation"] = system_allocation
+	data["system_stress"] = system_stress
+	data["power_allocation"] = power_allocation
+	return data
