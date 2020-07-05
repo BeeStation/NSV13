@@ -35,8 +35,8 @@
 #define SENSOR_VISIBILITY_VERYFAINT 0.25
 #define SENSOR_VISIBILITY_GHOST 0 //Totally impervious to scans.
 
-#define SENSOR_RANGE_DEFAULT 45
-#define SENSOR_RANGE_FIGHTER 25 //Fighters have crappier sensors. Coordinate with the ATC!
+#define SENSOR_RANGE_DEFAULT 85
+#define SENSOR_RANGE_FIGHTER 75 //Fighters have crappier sensors. Coordinate with the ATC!
 
 #define CLOAK_TEMPORARY_LOSS 2 //Cloak handling. When you fire a weapon, you temporarily lose your cloak, and AIs can target you.
 

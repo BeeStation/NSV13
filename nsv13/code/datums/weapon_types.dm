@@ -49,7 +49,7 @@
 	overmap_select_sound = 'nsv13/sound/effects/ship/reload.ogg'
 
 /datum/ship_weapon/pdc_mount
-	name = "Point defense guns"
+	name = "Point defense batteries"
 	default_projectile_type = /obj/item/projectile/bullet/pdc_round/heavy
 	burst_size = 3
 	fire_delay = 0.25 SECONDS

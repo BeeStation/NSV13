@@ -19,25 +19,25 @@ Misc projectile types, effects, think of this as the special FX file.
 /obj/item/projectile/bullet/mac_round
 	icon_state = "railgun"
 	name = "hyper accelerated tungsten slug"
-	damage = 150
-	speed = 0.75
-	homing_turn_speed = 2
+	damage = 350
+	speed = 0.5
 	flag = "overmap_heavy"
 	movement_type = FLYING | UNSTOPPABLE //Railguns punch straight through your ship
 	impact_effect_type = /obj/effect/temp_visual/impact_effect/torpedo
 
-/obj/item/projectile/bullet/mac_round/Initialize()
-	. = ..()
-	sleep(0.25)
-	set_homing_target(null)
-
 /obj/item/projectile/bullet/railgun_slug
 	icon_state = "mac"
 	name = "tungsten slug"
-	damage = 50
-	speed = 2
+	damage = 150
+	speed = 1
+	homing_turn_speed = 2
 	flag = "overmap_heavy"
 	impact_effect_type = /obj/effect/temp_visual/impact_effect/torpedo
+
+/obj/item/projectile/bullet/railgun_slug/Initialize()
+	. = ..()
+	sleep(0.25)
+	set_homing_target(null)
 
 /obj/item/projectile/bullet/gauss_slug
 	icon_state = "gaussgun"
