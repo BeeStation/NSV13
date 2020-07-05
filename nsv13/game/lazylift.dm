@@ -127,8 +127,9 @@ That's it, ok bye!
 	. = ..()
 	if(speaker == src || world.time < next_voice_activation || master.in_use || get_area(speaker) != get_area(src))
 		return
-	if(!get_language_holder()?.has_language(message_language))
-		say("[pick("I'm sorry, I didn't quite understand that!", "Please speak clearly into the microphone.", "Unable to process voice command")]")
+	var/datum/language_holder/L = get_language_holder()
+	if(!L?.has_language(message_language))
+		say("[pick("I'm sorry, I didn't quite understand that!", "Please speak clearly into the microphone.", "Unable to process voice command.")]")
 		return
 	if(findtext(raw_message, "?")) //Don't ask questions, just clearly state your intent.
 		return
