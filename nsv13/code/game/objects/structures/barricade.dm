@@ -179,7 +179,7 @@
 
 /obj/structure/peacekeeper_barricade/attack_animal(mob/living/simple_animal/M)
 	M.do_attack_animation(src)
-	obj_integrity -= rand(M.melee_damage_lower, M.melee_damage_upper)
+	obj_integrity -= M.melee_damage
 	if(barricade_hitsound)
 		playsound(src, barricade_hitsound, 25, 1)
 	if(obj_integrity <= 0)
