@@ -101,6 +101,16 @@
 	crate_name = "emergency crate"
 	crate_type = /obj/structure/closet/crate/internals
 
+/datum/supply_pack/emergency/medical
+	name = "Emergency Medical Crate"
+	desc = "For when the shit hits the fan and medical can't keep up. Comes with a 7x5 Medical capsule and 2 Medibots for emergencies."
+	cost = 3500
+	contains = list(/mob/living/simple_animal/bot/medbot,
+					/mob/living/simple_animal/bot/medbot,
+					/obj/item/survivalcapsule/medical)
+	crate_name = "emergency medical crate"
+	crate_type = /obj/structure/closet/crate/medical
+
 /datum/supply_pack/emergency/bomb
 	name = "Explosive Emergency Crate"
 	desc = "Science gone bonkers? Beeping behind the airlock? Buy now and be the hero the station des... I mean needs! (time not included)"
@@ -574,6 +584,16 @@
 	crate_type = /obj/structure/closet/crate/secure/plasma
 	dangerous = TRUE
 
+/datum/supply_pack/security/armory/securitybarriersxl
+	name = "Security Barrier Capsules XL"
+	desc = "3x3 Reinforced glass barricades for when the nukies come knocking. Requires Security access to open."
+	small_item = TRUE
+	contains = list(/obj/item/survivalcapsule/barricade,
+					/obj/item/survivalcapsule/barricade,
+					/obj/item/survivalcapsule/barricade)
+	cost = 2500
+	crate_name = "security barriers crate XL"
+
 /datum/supply_pack/security/armory/mindshield
 	name = "Mindshield Implants Crate"
 	desc = "Prevent against radical thoughts with three Mindshield implants. Requires Armory access to open."
@@ -656,7 +676,7 @@
 	name = "Smart Mine Crate"
 	desc = "Contains three nonlethal pressure activated stun mines capable of ignoring mindshieled personnel. Requires Armory access to open."
 	cost = 4000
-	contains = list(/obj/item/deployablemine/smartstun,					
+	contains = list(/obj/item/deployablemine/smartstun,
 					/obj/item/deployablemine/smartstun,
 					/obj/item/deployablemine/smartstun)
 	crate_name = "stun mine create"
@@ -798,6 +818,19 @@
 	crate_name = "insulated gloves crate"
 	crate_type = /obj/structure/closet/crate/engineering/electrical
 
+/datum/supply_pack/engineering/spacecapsule
+	name = "Space Shelter Capsule"
+	desc = "A crate containing an RCD, some compressed matter cartridges, and a single bluespace capsule containing a spaceworthy shelter for construction/emergencies."
+	cost = 2000
+	contains = list(/obj/item/survivalcapsule/space,
+					/obj/item/construction/rcd,
+					/obj/item/rcd_ammo,
+					/obj/item/rcd_ammo,
+					/obj/item/rcd_ammo,
+					/obj/item/rcd_ammo)
+	crate_name = "space shelter crate"
+	crate_type = /obj/structure/closet/crate/engineering/electrical
+
 /obj/item/stock_parts/cell/inducer_supply
 	maxcharge = 5000
 	charge = 5000
@@ -920,6 +953,28 @@
 	contains = list(/obj/item/circuitboard/computer/sat_control)
 	crate_name= "shield control board crate"
 
+/datum/supply_pack/engineering/shuttle_construction
+	name = "Shuttle Construction Kit"
+	desc = "A DIY kit for building your own shuttle! Comes with all the parts you need to get your people to the stars!"
+	cost = 6000
+	contains = list(
+		/obj/machinery/portable_atmospherics/canister/toxins,
+		/obj/item/construction/rcd/loaded,
+		/obj/item/rcd_ammo/large,
+		/obj/item/rcd_ammo/large,
+		/obj/item/shuttle_creator,
+		/obj/item/pipe_dispenser,
+		/obj/item/storage/toolbox/mechanical,
+		/obj/item/storage/toolbox/electrical,
+		/obj/item/circuitboard/computer/shuttle/docker,
+		/obj/item/circuitboard/computer/shuttle/flight_control,
+		/obj/item/circuitboard/machine/shuttle/engine/plasma,
+		/obj/item/circuitboard/machine/shuttle/engine/plasma,
+		/obj/item/circuitboard/machine/shuttle/heater,
+		/obj/item/circuitboard/machine/shuttle/heater
+		)
+	crate_name = "shuttle construction crate"
+	crate_type = /obj/structure/closet/crate/large
 
 //////////////////////////////////////////////////////////////////////////////
 //////////////////////// Engine Construction /////////////////////////////////
@@ -1595,8 +1650,8 @@
 
 /datum/supply_pack/service/party
 	name = "Party Equipment"
-	desc = "Celebrate both life and death on the station with Nanotrasen's Party Essentials(tm)! Contains seven colored glowsticks, four beers, two ales, and a bottle of patron, goldschlager, and shaker!"
-	cost = 2000
+	desc = "Celebrate both life and death on the station with Nanotrasen's Party Essentials(tm)! Contains a special party area, seven colored glowsticks, four beers, two ales, and a bottle of patron, goldschlager, and shaker!"
+	cost = 2500
 	contains = list(/obj/item/storage/box/drinkingglasses,
 					/obj/item/reagent_containers/food/drinks/shaker,
 					/obj/item/reagent_containers/food/drinks/bottle/patron,
@@ -1613,7 +1668,8 @@
 					/obj/item/flashlight/glowstick/cyan,
 					/obj/item/flashlight/glowstick/orange,
 					/obj/item/flashlight/glowstick/yellow,
-					/obj/item/flashlight/glowstick/pink)
+					/obj/item/flashlight/glowstick/pink,
+					/obj/item/survivalcapsule/party)
 	crate_name = "party equipment crate"
 
 /datum/supply_pack/service/carpet
