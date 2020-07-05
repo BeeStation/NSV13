@@ -140,14 +140,13 @@
 /datum/export/large/gas_canister/get_cost(obj/O)
 	var/obj/machinery/portable_atmospherics/canister/C = O
 	var/worth = 10
-	var/gases = C.air_contents.gases
-	C.air_contents.assert_gases(/datum/gas/bz,/datum/gas/stimulum,/datum/gas/hypernoblium,/datum/gas/miasma,/datum/gas/tritium,/datum/gas/pluoxium,/datum/gas/constricted_plasma)//NSV13 - Constricted plasma export.
 
-	worth += gases[/datum/gas/bz][MOLES]*4
-	worth += gases[/datum/gas/stimulum][MOLES]*100
-	worth += gases[/datum/gas/hypernoblium][MOLES]*1000
-	worth += gases[/datum/gas/miasma][MOLES]*40
-	worth += gases[/datum/gas/tritium][MOLES]*5
-	worth += gases[/datum/gas/pluoxium][MOLES]*5
-	worth += gases[/datum/gas/constricted_plasma][MOLES]*2 //NSV13 - Constricted plasma export.
+	worth += C.air_contents.get_moles(/datum/gas/bz)*4
+	worth += C.air_contents.get_moles(/datum/gas/stimulum)*100
+	worth += C.air_contents.get_moles(/datum/gas/hypernoblium)*1000
+//	worth += C.air_contents.get_moles(/datum/gas/miasma)*10 //NSV13 - Stolen Datum
+	worth += C.air_contents.get_moles(/datum/gas/tritium)*5
+	worth += C.air_contents.get_moles(/datum/gas/pluoxium)*5
+	worth += C.air_contents.get_moles(/datum/gas/constricted_plasma)*2 //NSV13 - Constricted plasma export.
+	worth += C.air_contents.get_moles(/datum/gas/nucleium)*50 //NSV13
 	return worth

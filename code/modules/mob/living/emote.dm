@@ -251,7 +251,7 @@
 				H.Paralyze(20)
 			else
 				message_param = "<span class='userdanger'>bumps [user.p_their()] head on the ground</span> trying to motion towards %t."
-				H.adjustBrainLoss(5)
+				H.adjustOrganLoss(ORGAN_SLOT_BRAIN, 5)
 	..()
 
 /datum/emote/living/pout
@@ -407,17 +407,11 @@
 	message = null
 
 /datum/emote/living/custom/proc/check_invalid(mob/user, input)
-	. = TRUE
-	if(copytext(input,1,5) == "says")
+	var/static/regex/stop_bad_mime = regex(@"says|exclaims|yells|asks")
+	if(stop_bad_mime.Find(input, 1, 1))
 		to_chat(user, "<span class='danger'>Invalid emote.</span>")
-	else if(copytext(input,1,9) == "exclaims")
-		to_chat(user, "<span class='danger'>Invalid emote.</span>")
-	else if(copytext(input,1,6) == "yells")
-		to_chat(user, "<span class='danger'>Invalid emote.</span>")
-	else if(copytext(input,1,5) == "asks")
-		to_chat(user, "<span class='danger'>Invalid emote.</span>")
-	else
-		. = FALSE
+		return TRUE
+	return FALSE
 
 /datum/emote/living/custom/can_run_emote(mob/user, status_check, intentional)
 	. = ..() && intentional
@@ -521,7 +515,7 @@
 		to_chat(user, "<span class='notice'>You ready your slapping hand.</span>")
 	else
 		to_chat(user, "<span class='warning'>You're incapable of slapping in your current state.</span>")
-		
+
 /datum/emote/living/raisehand
 	key = "highfive"
 	key_third_person = "highfives"
@@ -537,7 +531,6 @@
 		qdel(N)
 		to_chat(user, "<span class='warning'>You don't have any free hands to high-five with.</span>")
 
-
 /datum/emote/living/snap
 	key = "snap"
 	key_third_person = "snaps"
@@ -547,3 +540,18 @@
 
 /datum/emote/living/snap/get_sound(mob/living/user)
 	return pick('sound/misc/fingersnap1.ogg', 'sound/misc/fingersnap2.ogg')
+
+/datum/emote/living/fingergun
+	key = "fingergun"
+	key_third_person = "fingerguns"
+	message = "forms their fingers into the shape of a crude gun"
+	restraint_check = TRUE
+
+/datum/emote/living/fingergun/run_emote(mob/user, params)
+	. = ..()
+	var/obj/item/gun/ballistic/revolver/mime/N = new(user)
+	if(user.put_in_hands(N))
+		to_chat(user, "<span class='notice'>You form your fingers into a gun.</span>")
+	else
+		qdel(N)
+		to_chat(user, "<span class='warning'>You don't have any free hands to make fingerguns with.</span>")

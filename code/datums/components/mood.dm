@@ -362,12 +362,13 @@
 	if(!istype(T) || T.return_air().return_pressure() > (WARNING_HIGH_PRESSURE - 10))
 		return
 
+/* NSV13 - Stolen Datum
 	var/datum/gas_mixture/stank = new
-	ADD_GAS(/datum/gas/miasma, stank.gases)
-	stank.gases[/datum/gas/miasma][MOLES] = MIASMA_HYGIENE_MOLES
-	stank.temperature = BODYTEMP_NORMAL
+	stank.set_moles(/datum/gas/miasma, MIASMA_HYGIENE_MOLES)
+	stank.set_temperature(BODYTEMP_NORMAL)
 	T.assume_air(stank)
 	T.air_update_turf()
+*/
 
 /datum/component/mood/proc/check_area_mood(datum/source, var/area/A)
 	if(A.mood_bonus)

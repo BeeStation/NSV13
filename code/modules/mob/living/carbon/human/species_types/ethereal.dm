@@ -12,11 +12,13 @@
 	brutemod = 1.25 //They're weak to punches
 	attack_type = BURN //burn bish
 	damage_overlay_type = "" //We are too cool for regular damage overlays
-	species_traits = list(DYNCOLORS, NOSTOMACH, AGENDER, NO_UNDERWEAR)
+	species_traits = list(DYNCOLORS, NOSTOMACH, AGENDER, NO_UNDERWEAR, HAIR)
 	changesource_flags = MIRROR_BADMIN | WABBAJACK | MIRROR_PRIDE | MIRROR_MAGIC | RACE_SWAP | ERT_SPAWN | SLIME_EXTRACT
 	inherent_traits = list(TRAIT_NOHUNGER)
 	sexes = FALSE //no fetish content allowed
 	toxic_food = NONE
+	hair_color = "fixedmutcolor"
+	hair_alpha = 140
 	var/current_color
 	var/ethereal_charge = ETHEREAL_CHARGE_FULL
 	var/EMPeffect = FALSE
@@ -35,9 +37,9 @@
 	if(ishuman(C))
 		var/mob/living/carbon/human/H = C
 		default_color = "#" + H.dna.features["ethcolor"]
-		r1 = GetRedPart(default_color)
-		g1 = GetGreenPart(default_color)
-		b1 = GetBluePart(default_color)
+		r1 = GETREDPART(default_color)
+		g1 = GETGREENPART(default_color)
+		b1 = GETBLUEPART(default_color)
 		spec_updatehealth(H)
 
 /datum/species/ethereal/on_species_loss(mob/living/carbon/human/C, datum/species/new_species, pref_load)
@@ -59,7 +61,7 @@
 		if(!emageffect)
 			current_color = rgb(r2 + ((r1-r2)*healthpercent), g2 + ((g1-g2)*healthpercent), b2 + ((b1-b2)*healthpercent))
 		H.set_light(1 + (2 * healthpercent), 1 + (1 * healthpercent), current_color)
-		fixed_mut_color = copytext(current_color, 2)
+		fixed_mut_color = copytext_char(current_color, 2)
 	else
 		H.set_light(0)
 		fixed_mut_color = rgb(128,128,128)

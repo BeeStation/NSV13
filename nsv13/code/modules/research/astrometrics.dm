@@ -47,7 +47,7 @@ you build.
 	if(!ui)
 		var/datum/asset/assets = get_asset_datum(/datum/asset/simple/starmap)
 		assets.send(user)
-		ui = new(user, src, ui_key, "astrometrics", name, 800, 660, master_ui, state)
+		ui = new(user, src, ui_key, "Astrometrics", name, 800, 660, master_ui, state)
 		ui.open()
 
 /**
@@ -60,6 +60,8 @@ Clean override of the navigation computer to provide scan functionality.
 	var/datum/star_system/current_system = info["current_system"]
 	if(scan_target)
 		data["scan_target"] = scan_target.name
+	else
+		data["scan_target"] = null
 	if(screen == 2) // Here's where the magic happens.
 		data["star_id"] = "\ref[selected_system]"
 		data["star_name"] = selected_system.name
@@ -68,11 +70,11 @@ Clean override of the navigation computer to provide scan functionality.
 		if(info["current_system"])
 			var/datum/star_system/curr = info["current_system"]
 			data["star_dist"] = curr.dist(selected_system)
-			data["can_scan"] = is_in_range(current_system, selected_system)
-			data["can_cancel"] = (scan_target) ? TRUE : FALSE
+		data["anomalies"] = selected_system.get_info()
 		if(LAZYFIND(scanned, selected_system.name)) //If we've scanned this one before, get me the list of its anomalies.
-			data["anomalies"] = selected_system.get_info()
 			data["scanned"] = TRUE
+	data["can_scan"] = is_in_range(current_system, selected_system)
+	data["can_cancel"] = (scan_target) ? TRUE : FALSE
 	data["scan_progress"] = scan_progress
 	data["scan_goal"] = scan_goal
 	return data
@@ -88,8 +90,13 @@ Clean override of the navigation computer to provide scan functionality.
 		return
 	if(!has_overmap())
 		return
+	var/list/info = SSstar_system.ships[linked]
+	var/datum/star_system/current_system = info["current_system"]
 	switch(action)
 		if("scan")
+			if(!is_in_range(current_system, selected_system))
+				return
+			scan_progress = 0 //Jus' in case.
 			scan_goal = initial(scan_goal)
 			scan_target = selected_system
 			say("Initiating scan of: [scan_target]")
@@ -99,16 +106,24 @@ Clean override of the navigation computer to provide scan functionality.
 			var/obj/effect/overmap_anomaly/target = locate(params["anomaly_id"])
 			if(!istype(target))
 				return
+			scan_progress = 0 //Jus' in case.
 			scan_goal = initial(scan_goal) / 2
 			scan_target = target
 			say("Initiating scan of: [scan_target]")
 			radio.talk_into(src, "Initiating scan of: [scan_target]", channel)
 		if("cancel_scan")
+			if(!scan_target)
+				return
 			say("Scan of [scan_target] cancelled!")
 			playsound(src, 'nsv13/sound/voice/scanning_cancelled.wav', 100, FALSE)
 			radio.talk_into(src, "Scan of [scan_target] cancelled!", channel)
 			scan_progress = 0
 			scan_target = null
+		if("info")
+			var/obj/effect/overmap_anomaly/target = locate(params["anomaly_id"])
+			if(!istype(target))
+				return
+			to_chat(usr, "<span class='notice'>[icon2html(target)]: [target.desc]</span>")
 
 /obj/machinery/computer/ship/navigation/astrometrics/process()
 	if(scan_target)

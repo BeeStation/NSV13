@@ -81,6 +81,7 @@
 	stage_speed = -3
 	transmittable = -2
 	level = 8
+	severity = -2
 	passive_message = "<span class='notice'>The pain from your wounds makes you feel oddly sleepy...</span>"
 	var/deathgasp = FALSE
 	var/stabilize = FALSE
@@ -166,6 +167,59 @@
 		return TRUE
 	return FALSE
 
+/datum/symptom/heal/surface
+	name = "Superficial Healing"
+	desc = "The virus accelerates the body's natural healing, causing the body to heal minor wounds quickly. Causes heavy scarring."
+	stealth = -1
+	resistance = -2
+	stage_speed = -2
+	transmittable = 1
+	severity = -1
+	level = 6
+	passive_message = "<span class='notice'>Your skin tingles.</span>"
+	var/threshhold = 15
+	var/scarcounter = 0
+
+	threshold_desc = "<b>Stage Speed 8:</b> Doubles healing speed.<br>\
+					  <b>Resistance 10:</b> Improves healing threshhold."
+
+/datum/symptom/heal/surface/Start(datum/disease/advance/A)
+	if(!..())
+		return
+	if(A.properties["stage_rate"] >= 8) //stronger healing
+		power = 2
+	if(A.properties["resistance"] >= 10)
+		threshhold = 30
+
+/datum/symptom/heal/surface/Heal(mob/living/carbon/M, datum/disease/advance/A, actual_power)
+	var/healed = FALSE
+
+	if(M.getBruteLoss() && M.getBruteLoss() <= threshhold)
+		M.adjustBruteLoss(-power)
+		healed = TRUE
+		scarcounter++
+
+	if(M.getFireLoss() && M.getFireLoss() <= threshhold)
+		M.adjustFireLoss(-power)
+		healed = TRUE
+		scarcounter++
+	
+	if(M.getToxLoss() && M.getToxLoss() <= threshhold)
+		M.adjustToxLoss(-power)
+		healed = TRUE
+
+	if(healed)
+		if(prob(10))
+			to_chat(M, "<span class='notice'>Your wounds heal, granting you a new scar</span>")
+		if(scarcounter >= 200 && !HAS_TRAIT(M, TRAIT_DISFIGURED))
+			ADD_TRAIT(M, TRAIT_DISFIGURED, DISEASE_TRAIT)
+			M.visible_message("<span class='warning'>[M]'s face becomes unrecognizeable </span>", "<span class='userdanger'>Your scars have made your face unrecognizeable.</span>")
+	return healed
+
+
+/datum/symptom/heal/surface/passive_message_condition(mob/living/M)
+	return M.getBruteLoss() <= threshhold || M.getFireLoss() <= threshhold
+
 /*
 //////////////////////////////////////
 im not even gonna bother with these for the following symptoms. typed em out, code was deleted, had to start over, read the symptoms yourself.
@@ -181,13 +235,20 @@ im not even gonna bother with these for the following symptoms. typed em out, co
 	stage_speed = -1
 	transmittable = -2
 	level = 6
-	severity = 4
+	severity = 2
 	symptom_delay_min = 15
 	symptom_delay_max = 40
 	var/bigemp = FALSE
 	var/cellheal = FALSE
 	threshold_desc = "<b>Stealth 4:</b> The disease resets cell DNA, quickly curing cell damage and mutations<br>\
 					<b>transmission 8:</b> The EMP affects electronics adjacent to the subject as well."
+
+/datum/symptom/EMP/severityset(datum/disease/advance/A)
+	. = ..()
+	if(A.properties["stealth"] >= 4)
+		severity -= 1
+	if(A.properties["transmittable"] >= 8)
+		severity += 1
 
 /datum/symptom/EMP/Start(datum/disease/advance/A)
 	if(!..())
@@ -222,13 +283,18 @@ im not even gonna bother with these for the following symptoms. typed em out, co
 	stage_speed = 0
 	transmittable = 1
 	level = 6
-	severity = 4
+	severity = 1
 	symptom_delay_min = 10
 	symptom_delay_max = 30
 	var/bigsweat = FALSE
 	var/toxheal = FALSE
 	threshold_desc = "<b>transmission 6:</b> The sweat production ramps up to the point that it puts out fires in the general vicinity<br>\
-					<b>transmission 8:</b> The EMP affects electronics adjacent to the subject as well."
+					<b>transmission 8:</b> The symptom heals toxin damage and purges chemicals."
+
+/datum/symptom/sweat/severityset(datum/disease/advance/A)
+	. = ..()
+	if(A.properties["transmittable"] >= 8)
+		severity -= 1
 
 /datum/symptom/sweat/Start(datum/disease/advance/A)
 	if(!..())
@@ -292,6 +358,13 @@ obj/effect/sweatsplash/proc/splash()
 	threshold_desc = "<b>Resistance 6:</b> The disease acts on a smaller scale, resetting burnt tissue back to a state of health<br>\
 					<b>Transmission 8:</b> The disease becomes more active, activating in a smaller temperature range."
 
+/datum/symptom/teleport/severityset(datum/disease/advance/A)
+	. = ..()
+	if(A.properties["resistance"] >= 6)
+		severity -= 1
+		if(A.properties["transmittable"] >= 8)
+			severity -= 1
+
 /datum/symptom/teleport/Start(datum/disease/advance/A)
 	if(!..())
 		return
@@ -336,7 +409,7 @@ obj/effect/sweatsplash/proc/splash()
 	stage_speed = 1
 	transmittable = -2
 	level = 7
-	severity = 4
+	severity = 1
 	symptom_delay_min = 1
 	symptom_delay_max = 1
 	var/current_size = 1
@@ -344,6 +417,13 @@ obj/effect/sweatsplash/proc/splash()
 	var/bruteheal = FALSE
 	threshold_desc = "<b>Stage Speed 6:</b> The disease heals brute damage at a fast rate, but causes expulsion of benign tumors<br>\
 					<b>Stage Speed 12:</b> The disease heals brute damage incredibly fast, but deteriorates cell health and causes tumors to become more advanced."
+
+/datum/symptom/growth/severityset(datum/disease/advance/A)
+	. = ..()
+	if(A.properties["stage_rate"] >= 6)
+		severity -= 1
+	if(A.properties["stage_rate"] >= 12)
+		severity += 3
 
 /datum/symptom/growth/Start(datum/disease/advance/A)
 	if(!..())

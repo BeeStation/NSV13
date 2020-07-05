@@ -34,7 +34,8 @@
 	ears = /obj/item/radio/headset/syndicate/alt
 	id = /obj/item/card/id/syndicate
 	l_pocket = /obj/item/tank/internals/emergency_oxygen/double
-	backpack_contents = list(/obj/item/storage/box/syndie=1,/obj/item/kitchen/knife/combat/survival=1)
+	r_pocket = /obj/item/gun/ballistic/automatic/pistol/APS
+	backpack_contents = list(/obj/item/storage/box/syndie=1,/obj/item/kitchen/knife/combat/survival=1, /obj/item/ammo_box/magazine/smgm45=1, /obj/item/ammo_box/magazine/smgm45=1)
 	tc = 0
 
 /obj/item/storage/box/hug/clown_uniform
@@ -42,7 +43,7 @@
 	desc = "A comically small box which contains the clown's formal uniform, used only on special occasions."
 
 /obj/item/storage/box/hug/clown_uniform/PopulateContents()
-	new /obj/item/clothing/under/rank/clown(src)
+	new /obj/item/clothing/under/rank/civilian/clown(src)
 	new /obj/item/clothing/shoes/clown_shoes(src)
 
 /datum/outfit/job/clown/delinquent
@@ -69,3 +70,44 @@
 	head = /obj/item/clothing/head/soft/assistant_soft
 	suit = /obj/item/clothing/suit/ship/assistant_jacket
 	shoes = /obj/item/clothing/shoes/sneakers/black
+
+/datum/outfit/centcom_admiral
+	name = "Admiral (NSV13)"
+	uniform = /obj/item/clothing/under/ship/officer/admiral
+	suit = /obj/item/clothing/suit/ship/officer/admiral
+	shoes = /obj/item/clothing/shoes/jackboots
+	gloves = /obj/item/clothing/gloves/combat
+	glasses = /obj/item/clothing/glasses/sunglasses
+	ears = /obj/item/radio/headset/headset_cent/commander
+	head = /obj/item/clothing/head/beret/ship/admiral
+	belt = /obj/item/melee/classic_baton/telescopic/stunsword
+	r_pocket = /obj/item/lighter
+	back = /obj/item/storage/backpack/satchel/leather
+	id = /obj/item/card/id
+
+/datum/outfit/centcom_admiral/fleet
+	name = "Admiral (Fleet)"
+	uniform = /obj/item/clothing/under/ship/officer/admiral/fleet
+	suit = /obj/item/clothing/suit/ship/officer/admiral/fleet
+	head = /obj/item/clothing/head/ship/fleet_admiral
+
+//These should only be brought out when the crew have REALLY fucked up.
+
+/datum/outfit/centcom_admiral/grand
+	name = "Admiral (Grand Admiral)"
+	uniform = /obj/item/clothing/under/ship/officer/admiral/grand
+	suit = /obj/item/clothing/suit/ship/officer/admiral/grand
+	head = /obj/item/clothing/head/ship/fleet_admiral
+	neck = /obj/item/clothing/neck/cloak/ship/admiral
+
+/datum/outfit/centcom_admiral/post_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
+	if(visualsOnly)
+		return
+
+	var/obj/item/card/id/W = H.wear_id
+	W.icon_state = "centcom"
+	W.access = get_all_accesses()
+	W.access += get_centcom_access("Admiral")
+	W.assignment = "Admiral"
+	W.registered_name = H.real_name
+	W.update_label()

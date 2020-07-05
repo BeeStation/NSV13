@@ -21,7 +21,7 @@
 	get_launchers()
 	ui = SStgui.try_update_ui(user, src, ui_key, ui, force_open)
 	if(!ui)
-		ui = new(user, src, ui_key, "fighter_launcher", name, 500, 600, master_ui, state)
+		ui = new(user, src, ui_key, "FighterLauncher", name, 500, 600, master_ui, state)
 		ui.open()
 
 /obj/machinery/computer/ship/fighter_launcher/ui_data(mob/user)
@@ -298,6 +298,7 @@
 	if(docking_cooldown)
 		return FALSE
 	if(OM.docking_points.len)
+		enemies = list() //Reset RWR warning.
 		last_overmap = OM
 		docking_cooldown = TRUE
 		addtimer(VARSET_CALLBACK(src, docking_cooldown, FALSE), 5 SECONDS) //Prevents jank.

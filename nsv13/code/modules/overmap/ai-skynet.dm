@@ -12,7 +12,7 @@
 	var/ai_behaviour = null // Determines if the AI ship shoots you first, or if you have to shoot them.
 	var/list/enemies = list() //Things that have attacked us
 	var/max_weapon_range = 30
-	var/max_tracking_range = 70 //Range that AI ships can hunt you down in
+	var/max_tracking_range = 115 //Range that AI ships can hunt you down in. The amounts to almost half the Z-level.
 	var/guard_range = 10 //Close range. Encroach on their space and die
 	var/ai_can_launch_fighters = FALSE //AI variable. Allows your ai ships to spawn fighter craft
 	var/list/ai_fighter_type = list()
@@ -159,7 +159,7 @@
 		for(var/obj/structure/overmap/ship in GLOB.overmap_objects)
 			if(warcrime_blacklist[ship.type])
 				continue
-			if(!ship || QDELETED(ship) || ship == src || get_dist(src, ship) > max_weapon_range || ship.faction == src.faction || ship.z != z)
+			if(!ship || QDELETED(ship) || ship == src || get_dist(src, ship) > max_tracking_range || ship.faction == src.faction || ship.z != z || ship.is_sensor_visible(src) < SENSOR_VISIBILITY_TARGETABLE)
 				continue
 			add_enemy(ship)
 			break
@@ -207,13 +207,15 @@
 		pilot.forceMove(src)
 		gunner = pilot
 	if(last_target) //Have we got a target?
-		if(get_dist(last_target, src) > max_tracking_range) //Out of range - Give up the chase
+		var/obj/structure/overmap/OM = last_target
+		if(get_dist(last_target, src) > max_tracking_range || istype(OM) && OM.is_sensor_visible(src) < SENSOR_VISIBILITY_TARGETABLE) //Out of range - Give up the chase
 			last_target = null
 			desired_angle = rand(0,360)
-		else //They're in our range. Calculate a path to them and fire.
-			desired_angle = Get_Angle(src, last_target)
-			try_board(last_target)
-			ai_fire(last_target) //Fire already handles things like being out of range, so we're good
+		else //They're in our tracking range. Let's hunt them down.
+			if(get_dist(last_target, src) <= max_weapon_range) //Theyre within weapon range.  Calculate a path to them and fire.
+				desired_angle = Get_Angle(src, last_target)
+				try_board(last_target)
+				ai_fire(last_target) //Fire already handles things like being out of range, so we're good
 	handle_ai_behaviour()
 	if(move_mode)
 		user_thrust_dir = move_mode
@@ -234,20 +236,21 @@
 	var/obj/structure/overmap/OM = target
 	if(OM.faction == src.faction)
 		return
-	if(ai_can_launch_fighters) //Found a new enemy? Launch the CAP.
+	last_target = target
+	if(ai_can_launch_fighters) //Found a new enemy? Release the hounds
 		ai_can_launch_fighters = FALSE
 		if(ai_fighter_type.len)
 			for(var/i = 0, i < rand(2,3), i++)
 				var/ai_fighter = pick(ai_fighter_type)
-				new ai_fighter(get_turf(pick(orange(3, src))))
+				var/obj/structure/overmap/newFighter = new ai_fighter(get_turf(pick(orange(3, src))))
+				newFighter.last_target = last_target
+				current_system?.add_enemy(newFighter)
 				relay_to_nearby('nsv13/sound/effects/ship/fighter_launch_short.ogg')
 		addtimer(VARSET_CALLBACK(src, ai_can_launch_fighters, TRUE), 3 MINUTES)
 	if(OM in enemies) //If target's in enemies, return
 		return
 	enemies += target
-	last_target = target
 	if(OM.role == MAIN_OVERMAP)
-		set_security_level(SEC_LEVEL_RED) //Action stations when the ship is under attack, if it's the main overmap.
 		SSstar_system.last_combat_enter = world.time //Tag the combat on the SS
 		SSstar_system.modifier = 0 //Reset overmap spawn modifier
 		var/datum/round_event_control/_overmap_event_handler/OEH = locate(/datum/round_event_control/_overmap_event_handler) in SSevents.control
