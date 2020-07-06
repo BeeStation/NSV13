@@ -40,6 +40,16 @@
 	select_alert = "<span class='notice'>Activating point defense emplacements..</span>"
 	failure_alert = "<span class='warning'>DANGER: Point defense emplacements are unable to fire due to lack of ammunition.</span>"
 
+/datum/ship_weapon/pdc_mount/aa_guns
+	name = "Anti air guns"
+	default_projectile_type = /obj/item/projectile/bullet/pdc_round
+	burst_size = 7
+	fire_delay = 10 SECONDS
+	range_modifier = 0
+	overmap_firing_sounds = list('nsv13/sound/weapons/pdc_single.ogg')
+	select_alert = "<span class='notice'>Activating anti-air guns..</span>"
+	failure_alert = "<span class='warning'>DANGER: Anti-air guns are unable to fire due to lack of ammunition.</span>"
+
 /datum/ship_weapon/missile_launcher
 	default_projectile_type = /obj/item/projectile/guided_munition/missile
 	burst_size = 1

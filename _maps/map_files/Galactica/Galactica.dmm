@@ -8,6 +8,11 @@
 "ac" = (
 /turf/open/floor/engine/airless,
 /area/maintenance/ship_exterior)
+"ad" = (
+/obj/machinery/light,
+/obj/machinery/atmospherics/components/binary/stormdrive_reactor,
+/turf/open/floor/carpet/blue,
+/area/bridge/showroom/corporate)
 "ae" = (
 /turf/open/openspace,
 /area/maintenance/department/medical)
@@ -5808,17 +5813,6 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /turf/open/floor/monotile/dark,
 /area/bridge/showroom/corporate)
-"oC" = (
-/obj/machinery/power/stormdrive_reactor{
-	desc = "An exhibit of an actual (decommissioned) nuclear stormdrive reactor!. Although this model has been decomissioned, it would still theoretically be able to produce power, given a jumpstart from a particle accelerator...";
-	name = "class II nuclear storm drive exhibit"
-	},
-/obj/machinery/atmospherics/components/binary/pump/reactor_manifold{
-	dir = 8
-	},
-/obj/machinery/light,
-/turf/open/floor/carpet/blue,
-/area/bridge/showroom/corporate)
 "oD" = (
 /obj/structure/rack,
 /obj/item/poster/random_official,
@@ -11373,8 +11367,7 @@
 	icon_living = "magicarp";
 	icon_state = "magicarp";
 	maxHealth = 200;
-	melee_damage_lower = 20;
-	melee_damage_upper = 20;
+	melee_damage = 20;
 	name = "Lia"
 	},
 /turf/open/floor/monotile,
@@ -57252,7 +57245,7 @@ sC
 lo
 lU
 cI
-oC
+ad
 cB
 aj
 ac
