@@ -70,9 +70,10 @@
 /obj/item/radio/headset/heads/master_at_arms
 	name = "\proper the master at arms' headset"
 	desc = "Use :w to access the department frequency. Use :u to access the supply frequency. Use :c to access the command frequency. Use :q to access the ATC frequency."
+	icon = 'nsv13/icons/obj/custom_radio.dmi'
 	icon_state = "mun_headset_alt"
 	keyslot = new /obj/item/encryptionkey/heads/master_at_arms
-	bang_protect = 1 //Is this a bowman?
+	bang_protect = 1
 
 /obj/item/radio/headset/munitions/munitions_tech
 	name = "munitions technician radio headset"
