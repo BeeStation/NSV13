@@ -98,7 +98,6 @@ That's it, ok bye!
 	var/list/platform = list() //The """platform""" of the lift that's going to move up and down. This is just a list of turfs that we own.
 	var/list/doors = list()
 	var/list/moving_blacklist = list(/obj/machinery/lazylift, /obj/machinery/lazylift/master, /obj/machinery/light, /obj/structure/cable, /obj/machinery/power/apc, /obj/machinery/airalarm, /obj/machinery/firealarm, /obj/structure/grille, /obj/structure/window, /obj/machinery/camera)
-	var/list/languages = list(/datum/language/common, /datum/language/machine, /datum/language/draconic, /datum/language/drone) //This is the bit that breaks BYOND's maximum internal arrays thing. Remove me if you want this to compile!
 
 	//Voice activation.
 	flags_1 = HEAR_1
