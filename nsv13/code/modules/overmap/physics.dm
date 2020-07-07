@@ -81,7 +81,6 @@
 
 /obj/structure/overmap/slowprocess()
 	. = ..()
-	update_icon()
 	if(cabin_air && cabin_air.return_volume() > 0)
 		var/delta = cabin_air.return_temperature() - T20C
 		cabin_air.set_temperature(cabin_air.return_temperature() - max(-10, min(10, round(delta/4,0.1))))
@@ -377,6 +376,7 @@ The while loop runs at a programatic level and is thus separated from any thrott
 		C.pixel_y = last_offset.y*32
 		animate(C, pixel_x = offset.x*32, pixel_y = offset.y*32, time = time*10, flags=ANIMATION_END_NOW)
 	user_thrust_dir = 0
+	update_icon()
 
 /obj/structure/overmap/proc/handle_collisions()
 	for(var/obj/structure/overmap/OM in GLOB.overmap_objects)

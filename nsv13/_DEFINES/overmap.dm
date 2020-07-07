@@ -10,6 +10,12 @@
 #define FIRE_MODE_FIGHTER_SLOT_TWO 8
 #define MAX_POSSIBLE_FIREMODE 8 //This should relate to the maximum number of weapons a ship can ever have. Keep this up to date please!
 
+//Northeast, Northwest, Southeast, Southwest
+#define ARMOUR_FORWARD_PORT "forward_port"
+#define ARMOUR_FORWARD_STARBOARD "forward_starboard"
+#define ARMOUR_AFT_PORT "aft_port"
+#define ARMOUR_AFT_STARBOARD "aft_starboard"
+
 //AI behaviour
 
 #define AI_AGGRESSIVE 1

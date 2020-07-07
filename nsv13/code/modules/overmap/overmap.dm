@@ -409,10 +409,11 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 	if(last_fired) //Swivel the most recently fired gun's overlay to aim at the last thing we hit
 		last_fired.icon = icon
 		last_fired.setDir(get_dir(src, last_target))
-
+	cut_overlay("rcs_left")
+	cut_overlay("rcs_right")
+	cut_overlay("thrust")
 	if(angle == desired_angle)
 		return //No RCS needed if we're already facing where we want to go
-	cut_overlays()
 	if(prob(20) && desired_angle)
 		playsound(src, 'nsv13/sound/effects/ship/rcs.ogg', 30, 1)
 	var/list/left_thrusts = list()
