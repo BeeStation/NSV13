@@ -130,6 +130,7 @@
 	var/obj/machinery/computer/ship/ftl_computer/ftl_drive
 	var/reserved_z = 0 //The Z level we were spawned on, and thus inhabit. This can be changed if we "swap" positions with another ship.
 	var/list/occupying_levels = list() //Refs to the z-levels we own for setting parallax and that, or for admins to debug things when EVERYTHING INEVITABLY BREAKS
+	var/torpedo_type = /obj/item/projectile/guided_munition/torpedo
 
 	var/role = NORMAL_OVERMAP
 
@@ -267,6 +268,9 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 	addtimer(CALLBACK(src, .proc/force_parallax_update), 20 SECONDS)
 	addtimer(CALLBACK(src, .proc/check_armour), 20 SECONDS)
 
+	apply_weapons()
+
+/obj/structure/overmap/proc/apply_weapons()
 	weapon_types[FIRE_MODE_PDC] = (mass > MASS_TINY) ? new/datum/ship_weapon/pdc_mount(src) : new /datum/ship_weapon/light_cannon(src)
 	weapon_types[FIRE_MODE_TORPEDO] = new/datum/ship_weapon/torpedo_launcher(src)
 	weapon_types[FIRE_MODE_RAILGUN] = new/datum/ship_weapon/railgun(src)
