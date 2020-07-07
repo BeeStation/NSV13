@@ -53,12 +53,12 @@
 	handle_repair_efficiency()
 
 /obj/machinery/armour_plating_nanorepair_well/proc/handle_repair_efficiency() //Basic implementation
-	repair_efficiency = power_allocation * material_modifier
+	repair_efficiency = (1 / (0.01 + (NUM_E ** (-0.00001 * power_allocation)))) * material_modifier
 
 /obj/machinery/armour_plating_nanorepair_well/proc/handle_system_stress() //Basic implementation
 	system_allocation = 0
 	for(var/obj/machinery/armour_plating_nanorepair_pump/P in apnp)
-		if(P.state)
+		if(P.online)
 			system_allocation += P.armour_allocation
 			system_allocation += P.structure_allocation
 
@@ -71,6 +71,7 @@
 	//stress implications go here
 
 /obj/machinery/armour_plating_nanorepair_well/proc/handle_power_allocation()
+	active_power_usage = power_allocation
 
 /obj/machinery/armour_plating_nanorepair_well/proc/handle_repair_resources()
 	if(repair_resources >= 5000)
