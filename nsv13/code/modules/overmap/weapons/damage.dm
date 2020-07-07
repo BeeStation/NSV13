@@ -53,6 +53,14 @@ Bullet reactions
 			obj_integrity = 10 //Automatically set them to 10 HP, so that the hit isn't totally ignored. Say if we have a nuke dealing 1800 DMG (the ship's full health) this stops them from not taking damage from it, as it's more DMG than we can handle.
 			handle_crit(damage_amount)
 			return FALSE
+	if(!impact_sound_cooldown)
+		var/sound = pick(GLOB.overmap_impact_sounds)
+		relay(sound)
+		if(damage_amount >= 15) //Flak begone
+			shake_everyone(5)
+		impact_sound_cooldown = TRUE
+		addtimer(VARSET_CALLBACK(src, impact_sound_cooldown, FALSE), 1 SECONDS)
+	update_icon()
 	. = ..()
 
 /obj/structure/overmap/proc/is_player_ship() //Should this ship be considered a player ship? This doesnt count fighters because they need to actually die.

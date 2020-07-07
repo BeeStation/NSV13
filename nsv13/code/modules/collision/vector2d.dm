@@ -146,7 +146,7 @@ Get the magnitude of a vector
 
 /*
 Get the angle of a vector
-@return the angle of the vector (atan)
+@return the angle of the vector (atan) in radians
 */
 /datum/vector2d/proc/angle()
 	return ATAN2(src.x, src.y)

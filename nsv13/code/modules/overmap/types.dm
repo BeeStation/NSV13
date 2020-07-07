@@ -111,7 +111,7 @@
 	armor = list("overmap_light" = 90, "overmap_heavy" = 30)
 	use_armour_quadrants = TRUE
 	armour_quadrants = list("forward_port" = list("name" = "Forward Port", "max_armour" = 750, "current_armour" = 750),\
-							"forward_starboard" = list("nane" = "Forward Starboard", "max_armour" = 750, "current_armour" = 750),\
+							"forward_starboard" = list("name" = "Forward Starboard", "max_armour" = 750, "current_armour" = 750),\
 							"aft_port" = list("name" = "Aft Port", "max_armour" = 500, "current_armour" = 500),\
 							"aft_starboard" = list("name" = "Aft Starboard", "max_armour" = 500, "current_armour" = 500))
 
