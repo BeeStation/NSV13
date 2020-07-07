@@ -2,8 +2,8 @@
 /obj/machinery/armour_plating_nanorepair_pump
 	name = "Armour Plating Nano-repair Pump"
 	desc = "AP thingies that link to the Well"
-	icon = 'icons/obj/janitor.dmi'
-	icon_state = "mop"
+	icon = 'nsv13/icons/obj/machinery/armour_pump.dmi'
+	icon_state = "pump"
 	density = TRUE
 	anchored = TRUE
 	idle_power_usage = 50
@@ -14,7 +14,7 @@
 	var/structure_repair_amount = 0
 	var/armour_allocation = 0
 	var/structure_allocation = 0
-	var/state = 0 //Binary online/offline
+	var/online = 0 //Binary online/offline
 	var/quadrant = null
 	var/apnw_id = null
 	var/list/repair_records = list() //Graphs again
@@ -49,7 +49,7 @@
 */
 
 /obj/machinery/armour_plating_nanorepair_pump/process()
-	if(state)
+	if(online)
 		if(armour_allocation)
 			if(OM.armour_quadrants[quadrant]["current_armour"] <= OM.armour_quadrants[quadrant]["max_armour"]) //Basic Implementation
 				armour_repair_amount = min(((1 / 0.01 + (NUM_E ** (((OM.armour_quadrants[quadrant]["current_armour"]/OM.armour_quadrants[quadrant]["max_armour"]) * -100) / 2))) * apnw.repair_efficiency * armour_allocation), OM.armour_quadrants[quadrant]["max_armour"] - OM.armour_quadrants[quadrant]["current_armour"]) //Math time
@@ -88,6 +88,26 @@
 			if(W.apnw_id == apnw_id)
 				apnw = W
 
+/obj/machinery/armour_plating_nanorepair_pump/update_icon()
+	cut_overlays()
+	if(!online)
+		icon_state = "pump_maint"
+	if(online)
+		icon_state = "pump"
+		add_overlay("active")
+		var/total_allocation = armour_allocation + structure_allocation
+		switch(total_allocation)
+			if(0 to 25)
+				icon_state = "pump_0"
+			if(25 to 50)
+				icon_state = "pump_25"
+			if(50 to 75)
+				icon_state = "pump_50"
+			if(75 to 100)
+				icon_state = "pump_75"
+			if(100 to INFINITY)
+				icon_state = "pump_100"
+
 /obj/machinery/armour_plating_nanorepair_pump/attack_hand(mob/living/carbon/user)
 	.=..()
 	ui_interact(user)
@@ -115,8 +135,8 @@
 	if(action == "armour_allocation")
 		if(adjust && isnum(adjust))
 			armour_allocation = adjust
-			if(armour_allocation > 100)
-				armour_allocation = 100
+			if(armour_allocation > 100 - structure_allocation)
+				armour_allocation = 100 - structure_allocation
 				return
 			if(armour_allocation < 0)
 				armour_allocation = 0
@@ -124,14 +144,12 @@
 	if(action == "structure_allocation")
 		if(adjust && isnum(adjust))
 			structure_allocation = adjust
-			if(structure_allocation > 100)
-				structure_allocation = 100
+			if(structure_allocation > 100 - armour_allocation)
+				structure_allocation = 100 - armour_allocation
 				return
 			if(structure_allocation < 0)
 				structure_allocation = 0
 				return
-
-
 
 /obj/machinery/armour_plating_nanorepair_pump/ui_data(mob/user)
 	var/list/data = list()
