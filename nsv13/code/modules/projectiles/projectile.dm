@@ -27,4 +27,6 @@ Method to check for whether this bullet should be colliding with an overmap obje
 		if(OM.z == z && OM.collider2d)
 			if(src.collider2d?.collides(OM.collider2d))
 				if(!faction || faction != OM.faction) //Allow bullets to pass through friendlies
+					var/datum/vector2d/point_of_collision = OM.collider2d.get_collision_point(src.collider2d)
+					OM.check_quadrant(point_of_collision)
 					Bump(OM) //Bang.

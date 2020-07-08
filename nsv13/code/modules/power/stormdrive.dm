@@ -598,7 +598,7 @@ Control Rods
 				return
 			if(istype(selection, /turf/closed/wall))
 				var/turf/closed/wall/W = selection
-				W.break_wall()
+				W.ex_act(2)
 				playsound(loc, 'sound/effects/bang.ogg', 100, TRUE)
 				var/word = pick("growls", "snarls", "wails", "bellows")
 				for(var/mob/living/M in view(10, src))

@@ -130,6 +130,7 @@
 	var/obj/machinery/computer/ship/ftl_computer/ftl_drive
 	var/reserved_z = 0 //The Z level we were spawned on, and thus inhabit. This can be changed if we "swap" positions with another ship.
 	var/list/occupying_levels = list() //Refs to the z-levels we own for setting parallax and that, or for admins to debug things when EVERYTHING INEVITABLY BREAKS
+	var/torpedo_type = /obj/item/projectile/guided_munition/torpedo
 
 	var/role = NORMAL_OVERMAP
 
@@ -267,6 +268,9 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 	addtimer(CALLBACK(src, .proc/force_parallax_update), 20 SECONDS)
 	addtimer(CALLBACK(src, .proc/check_armour), 20 SECONDS)
 
+	apply_weapons()
+
+/obj/structure/overmap/proc/apply_weapons()
 	weapon_types[FIRE_MODE_PDC] = (mass > MASS_TINY) ? new/datum/ship_weapon/pdc_mount(src) : new /datum/ship_weapon/light_cannon(src)
 	weapon_types[FIRE_MODE_TORPEDO] = new/datum/ship_weapon/torpedo_launcher(src)
 	weapon_types[FIRE_MODE_RAILGUN] = new/datum/ship_weapon/railgun(src)
@@ -382,17 +386,6 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 	else
 		return null
 
-/obj/structure/overmap/take_damage(damage_amount, damage_type = BRUTE, damage_flag = 0, sound_effect = 1, attack_dir, armour_penetration = 0)
-	..()
-	if(!impact_sound_cooldown)
-		var/sound = pick(GLOB.overmap_impact_sounds)
-		relay(sound)
-		if(damage_amount >= 15) //Flak begone
-			shake_everyone(5)
-		impact_sound_cooldown = TRUE
-		addtimer(VARSET_CALLBACK(src, impact_sound_cooldown, FALSE), 1 SECONDS)
-	update_icon()
-
 /obj/structure/overmap/relaymove(mob/user, direction)
 	if(user != pilot || pilot.incapacitated())
 		return
@@ -401,12 +394,13 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 //relay('nsv13/sound/effects/ship/rcs.ogg')
 
 /obj/structure/overmap/update_icon() //Adds an rcs overlay
-	cut_overlays()
 	apply_damage_states()
 	if(last_fired) //Swivel the most recently fired gun's overlay to aim at the last thing we hit
 		last_fired.icon = icon
 		last_fired.setDir(get_dir(src, last_target))
-
+	cut_overlay("rcs_left")
+	cut_overlay("rcs_right")
+	cut_overlay("thrust")
 	if(angle == desired_angle)
 		return //No RCS needed if we're already facing where we want to go
 	if(prob(20) && desired_angle)
