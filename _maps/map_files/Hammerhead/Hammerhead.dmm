@@ -22177,10 +22177,6 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/department/bridge)
-"aWZ" = (
-/obj/machinery/ship_weapon/railgun,
-/turf/open/floor/plasteel/ship/techfloor/alt,
-/area/nsv/weapons/fore)
 "aXa" = (
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer1{
 	dir = 1
@@ -23506,9 +23502,7 @@
 /turf/open/floor/plasteel,
 /area/security/checkpoint/science/research)
 "baa" = (
-/obj/structure/sign/warning/explosives/alt{
-	pixel_y = 26
-	},
+/obj/machinery/ship_weapon/railgun,
 /turf/open/floor/plasteel/ship,
 /area/nsv/weapons/fore)
 "bab" = (
@@ -29590,6 +29584,7 @@
 "cxD" = (
 /obj/effect/turf_decal/delivery/white,
 /obj/machinery/light,
+/obj/structure/munitions_trolley,
 /turf/open/floor/plasteel/ship,
 /area/nsv/weapons/fore)
 "cxT" = (
@@ -38757,6 +38752,14 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/department/crew_quarters/dorms)
+"kyI" = (
+/obj/machinery/ship_weapon/mac{
+	dir = 4;
+	icon_state = "MAC";
+	pixel_y = -64
+	},
+/turf/open/floor/plasteel/ship,
+/area/nsv/weapons/fore)
 "kyP" = (
 /obj/machinery/status_display/evac{
 	pixel_x = -32
@@ -41792,6 +41795,10 @@
 /obj/effect/landmark/start/cook,
 /turf/open/floor/plasteel/cafeteria,
 /area/crew_quarters/kitchen)
+"nnC" = (
+/obj/effect/turf_decal/delivery/red,
+/turf/open/floor/plasteel/ship,
+/area/nsv/weapons/fore)
 "nol" = (
 /obj/structure/cable{
 	icon_state = "1-2"
@@ -43269,7 +43276,10 @@
 /area/ai_monitored/turret_protected/ai)
 "oBE" = (
 /obj/machinery/computer/ship/viewscreen,
-/obj/structure/munitions_trolley,
+/obj/machinery/computer/ship/munitions_computer{
+	dir = 8
+	},
+/obj/effect/turf_decal/delivery,
 /turf/open/floor/plasteel/ship,
 /area/nsv/weapons/fore)
 "oDp" = (
@@ -52739,6 +52749,13 @@
 /obj/machinery/computer/atmos_control/tank/incinerator,
 /turf/open/floor/plasteel,
 /area/engine/atmospherics_engine)
+"xnj" = (
+/obj/effect/turf_decal/delivery,
+/obj/machinery/computer/ship/munitions_computer{
+	dir = 8
+	},
+/turf/open/floor/plasteel/ship,
+/area/nsv/weapons/fore)
 "xnH" = (
 /obj/effect/landmark/nuclear_waste_spawner,
 /turf/open/floor/plasteel/dark,
@@ -121544,8 +121561,8 @@ fDX
 arv
 amJ
 afw
-azO
-azO
+aso
+aso
 azO
 aME
 aGy
@@ -122751,9 +122768,9 @@ aIf
 gbL
 arv
 oBE
-aee
+azO
 afw
-amy
+xnj
 afw
 ajb
 afw
@@ -123053,9 +123070,9 @@ aIf
 gbL
 arv
 baa
-aWZ
 afw
-aee
+afw
+kyI
 afw
 aee
 afw
@@ -123357,7 +123374,7 @@ arv
 afw
 afw
 afw
-aZR
+nnC
 afw
 aZR
 afw
