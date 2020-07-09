@@ -4,6 +4,7 @@
 	desc = "AP thingies that link to the Well"
 	icon = 'nsv13/icons/obj/machinery/armour_pump.dmi'
 	icon_state = "pump"
+	pixel_x = -16
 	density = TRUE
 	anchored = TRUE
 	idle_power_usage = 50
@@ -68,6 +69,7 @@
 		armour_repair_amount = 0
 		structure_repair_amount = 0
 		active_power_usage = initial(active_power_usage)
+	update_icon() //temp
 
 	if(world.time >= repair_records_next_interval)
 		repair_records_next_interval = world.time + repair_records_interval
@@ -92,21 +94,12 @@
 	cut_overlays()
 	if(!online)
 		icon_state = "pump_maint"
+		set_light(0)
 	if(online)
 		icon_state = "pump"
 		add_overlay("active")
-		var/total_allocation = armour_allocation + structure_allocation
-		switch(total_allocation)
-			if(0 to 25)
-				icon_state = "pump_0"
-			if(25 to 50)
-				icon_state = "pump_25"
-			if(50 to 75)
-				icon_state = "pump_50"
-			if(75 to 100)
-				icon_state = "pump_75"
-			if(100 to INFINITY)
-				icon_state = "pump_100"
+		light_color = LIGHT_COLOR_CYAN
+		set_light(1)
 
 /obj/machinery/armour_plating_nanorepair_pump/attack_hand(mob/living/carbon/user)
 	.=..()

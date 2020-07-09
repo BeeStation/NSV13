@@ -105,13 +105,13 @@
 	damage_states = FALSE //TODO
 	pixel_z = -170
 	pixel_w = -112
-	max_integrity = 1500 //Max health
-	integrity_failure = 1500
+	max_integrity = 200 //Max health
+	integrity_failure = 200
 	collision_positions = list(new /datum/vector2d(-27,220), new /datum/vector2d(-79,79), new /datum/vector2d(-77,-106), new /datum/vector2d(-70,-164), new /datum/vector2d(-28,-214), new /datum/vector2d(13,-211), new /datum/vector2d(45,-194), new /datum/vector2d(47,83), new /datum/vector2d(8,218))
 	armor = list("overmap_light" = 90, "overmap_heavy" = 30)
 	use_armour_quadrants = TRUE
-	armour_quadrants = list("forward_port" = list("name" = "Forward Port", "max_armour" = 750, "current_armour" = 750),\
-							"forward_starboard" = list("name" = "Forward Starboard", "max_armour" = 750, "current_armour" = 750),\
+	armour_quadrants = list("forward_port" = list("name" = "Forward Port", "max_armour" = 500, "current_armour" = 500),\
+							"forward_starboard" = list("name" = "Forward Starboard", "max_armour" = 500, "current_armour" = 500),\
 							"aft_port" = list("name" = "Aft Port", "max_armour" = 500, "current_armour" = 500),\
 							"aft_starboard" = list("name" = "Aft Starboard", "max_armour" = 500, "current_armour" = 500))
 

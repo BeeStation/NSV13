@@ -1,9 +1,12 @@
 //WELL GOES HERE
+#define RR_MAX 5000
+
 /obj/machinery/armour_plating_nanorepair_well
 	name = "Armour Plating Nano-repair Well"
 	desc = "Central Well for the AP thingies"
-	icon = 'icons/obj/janitor.dmi'
-	icon_state = "mopbucket"
+	icon = 'nsv13/icons/obj/machinery/armour_well.dmi'
+	icon_state = "well"
+	pixel_x = -16
 	density = TRUE
 	anchored = TRUE
 	idle_power_usage = 50
@@ -11,6 +14,7 @@
 	var/obj/structure/overmap/OM //our parent ship
 	var/list/apnp = list()
 	var/repair_resources = 0
+	var/repair_resources_processing = FALSE
 	var/repair_efficiency = 0
 	var/power_allocation = 0
 	var/system_allocation = 0
@@ -51,6 +55,7 @@
 	handle_repair_resources()
 	handle_power_allocation()
 	handle_repair_efficiency()
+	update_icon()
 
 /obj/machinery/armour_plating_nanorepair_well/proc/handle_repair_efficiency() //Basic implementation
 	repair_efficiency = (1 / (0.01 + (NUM_E ** (-0.00001 * power_allocation)))) * material_modifier
@@ -74,13 +79,15 @@
 	active_power_usage = power_allocation
 
 /obj/machinery/armour_plating_nanorepair_well/proc/handle_repair_resources()
-	if(repair_resources >= 5000)
+	if(repair_resources >= RR_MAX)
+		repair_resources_processing = FALSE
 		return
-	else if(repair_resources < 5000)
+	else if(repair_resources < RR_MAX)
 		var/datum/component/material_container/materials = GetComponent(/datum/component/material_container)
 		if(materials.use_amount_mat(100, /datum/material/iron)) //test case
-			repair_resources += 100
+			repair_resources += min(100, RR_MAX - repair_resources)
 			material_modifier = 1
+			repair_resources_processing = TRUE
 		//chew metals
 		//update material modifier based on number of materals used
 
@@ -101,6 +108,24 @@
 
 	if(istype(X, /datum/material/iron))
 */
+/obj/machinery/armour_plating_nanorepair_well/update_icon()
+	cut_overlays()
+	var/repair_resources_percent = (repair_resources / RR_MAX) * 100
+	switch(repair_resources_percent)
+		if(0 to 25)
+			icon_state = "well_0"
+		if(25 to 50)
+			icon_state = "well_25"
+		if(50 to 75)
+			icon_state = "well_50"
+		if(75 to 100)
+			icon_state = "well_75"
+		if(100 to INFINITY)
+			icon_state = "well_100"
+
+	if(repair_resources_processing)
+		add_overlay("active")
+
 
 /obj/machinery/armour_plating_nanorepair_well/attack_hand(mob/living/carbon/user)
 	.=..()
@@ -155,3 +180,5 @@
 	data["system_stress"] = system_stress
 	data["power_allocation"] = power_allocation
 	return data
+
+#undef RR_MAX

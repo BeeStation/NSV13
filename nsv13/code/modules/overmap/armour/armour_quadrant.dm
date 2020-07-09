@@ -23,10 +23,12 @@
 			add_overlay(image(icon = icon, icon_state = "northwest", dir=SOUTH))
 			return ARMOUR_FORWARD_STARBOARD
 
+/* UNUSED
 /obj/screen/alert/overmap_integrity
 	name = "Ship integrity"
 	icon = 'nsv13/icons/overmap/armour_quadrants.dmi'
 	icon_state = "base"
+*/
 
 #define ARMOUR_DING pick('nsv13/sound/effects/ship/freespace2/ding1.wav', 'nsv13/sound/effects/ship/freespace2/ding2.wav', 'nsv13/sound/effects/ship/freespace2/ding3.wav', 'nsv13/sound/effects/ship/freespace2/ding4.wav', 'nsv13/sound/effects/ship/freespace2/ding5.wav')
 
@@ -63,3 +65,5 @@
 		cut_overlay(L["name"])
 		if(L["current_armour"] <= L["max_armour"]/10) //Very close to buckling
 			add_overlay(L["name"])
+
+#undef ARMOUR_DING
