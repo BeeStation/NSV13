@@ -9,6 +9,11 @@
 		occupying_z = OM.z
 		if(OM.role == MAIN_OVERMAP) //As these events all happen to the main ship, let's check that it's not say, the nomi that's triggering this system load...
 			try_spawn_event()
+		if(fleets.len)
+			for(var/datum/fleet/F in fleets)
+				if(!F.current_system)
+					F.current_system = src
+				F.encounter(OM)
 		restore_contents()
 	var/turf/destination = get_turf(locate(rand(50, world.maxx), rand(50, world.maxy), occupying_z)) //Spawn them somewhere in the system. I don't really care where.
 	if(!destination)
@@ -52,7 +57,6 @@
 	contents_positions = list()
 
 /datum/star_system/proc/remove_ship(obj/structure/overmap/OM)
-	message_admins("Removing a ship from [src].")
 	var/list/other_player_ships = list()
 	for(var/atom/X in system_contents)
 		if(istype(X, /obj/structure/overmap))

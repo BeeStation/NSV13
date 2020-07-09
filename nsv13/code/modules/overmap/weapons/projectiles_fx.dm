@@ -56,6 +56,17 @@ Misc projectile types, effects, think of this as the special FX file.
 	flag = "overmap_heavy"
 	impact_effect_type = /obj/effect/temp_visual/impact_effect/torpedo
 
+/obj/item/projectile/guided_munition/torpedo/Initialize()
+	. = ..()
+	addtimer(CALLBACK(src, .proc/windup), 1 SECONDS)
+
+/obj/item/projectile/guided_munition/torpedo/proc/windup()
+	valid_angle = 360 //Torpedoes "wind up" to hit their target
+	homing_turn_speed = 360
+	sleep(0.7 SECONDS) //Let it get clear of the sender.
+	valid_angle = initial(valid_angle)
+	homing_turn_speed = initial(homing_turn_speed)
+
 /obj/item/projectile/guided_munition/missile
 	name = "conventional missile"
 	icon_state = "conventional_missile"
