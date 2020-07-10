@@ -1,7 +1,8 @@
 import { Fragment } from 'inferno';
 import { useBackend, useLocalState } from '../backend';
-import { Box, Button, Section, Chart, Slider, Flex } from '../components';
+import { Box, Button, Section, Chart, Slider, Flex, LabeledList, ProgressBar } from '../components';
 import { Window } from '../layouts';
+import { toFixed } from 'common/math';
 
 export const ArmourPlatingNanorepairPump = (props, context) => {
   const { act, data } = useBackend(context);
@@ -13,22 +14,46 @@ export const ArmourPlatingNanorepairPump = (props, context) => {
       <Window.Content scrollable>
         <Section title="Repair Rates:">
           <Flex spacing={1}>
-            <Flex.Item grow={1}>
-              <Section position="relative" height="100%">
-                <Chart.Line
-                  fillPositionedParent
-                  data={armourData}
-                  rangeX={[0, armourData.length - 1]}
-                  rangeY={[0, 10]}
-                  strokeColor="rgba(100, 53, 201, 1)"
-                  fillColor="rgba(100, 53, 201, 0.1)" />
-                <Chart.Line
-                  fillPositionedParent
-                  data={structureData}
-                  rangeX={[0, structureData.length - 1]}
-                  rangeY={[0, 10]}
-                  strokeColor="rgba(163, 51, 200, 1)"
-                  fillColor="rgba(163, 51, 200, 0.1)" />
+          <Flex.Item width="200px">
+            <Section>
+              <LabeledList>
+                <LabeledList.Item label="Armour Repair Rate">
+                  <ProgressBar
+                    value={data.armour_repair_amount}
+                    minValue={0}
+                    maxValue={5}
+                    color="blue">
+                    {toFixed(data.armour_repair_amount)}
+                  </ProgressBar>
+                </LabeledList.Item>
+                <LabeledList.Item label="Structure Repair Rate">
+                  <ProgressBar
+                    value={data.structure_repair_amount}
+                    minValue={0}
+                    maxValue={5}
+                    color="red">
+                    {toFixed(data.structure_repair_amount)}
+                  </ProgressBar>
+                </LabeledList.Item>
+              </LabeledList>
+            </Section>
+          </Flex.Item>
+          <Flex.Item grow={1}>
+            <Section position="relative" height="100%">
+              <Chart.Line
+                fillPositionedParent
+                data={armourData}
+                rangeX={[0, armourData.length - 1]}
+                rangeY={[0, 10]}
+                strokeColor="rgba(28, 113, 177, 1)"
+                fillColor="rgba(28, 113, 177, 0.1)" />
+              <Chart.Line
+                fillPositionedParent
+                data={structureData}
+                rangeX={[0, structureData.length - 1]}
+                rangeY={[0, 10]}
+                strokeColor="rgba(255, 0, 0, 1)"
+                fillColor="rgba(255, 0, 0, 0.1)" />
               </Section>
             </Flex.Item>
           </Flex>

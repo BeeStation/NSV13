@@ -9,7 +9,7 @@ export const ArmourPlatingNanorepairWell = (props, context) => {
     <Window resizable theme="ntos">
       <Window.Content scrollable>
         <Section title="Ship Status:">
-          Structural Integrity:
+          Super Structure Integrity:
           <ProgressBar
             value={(data.structural_integrity_current / data.structural_integrity_max)}
             ranges={{
@@ -43,7 +43,7 @@ export const ArmourPlatingNanorepairWell = (props, context) => {
             }} />
           Aft Starboard Armour:
           <ProgressBar
-            value={(data.quadrant_fp_armour_current / data.quadrant_fp_armour_max)}
+            value={(data.quadrant_as_armour_current / data.quadrant_as_armour_max)}
             ranges={{
               good: [0.66, Infinity],
               average: [0.33, 0.66],
@@ -69,17 +69,47 @@ export const ArmourPlatingNanorepairWell = (props, context) => {
             }} />
         </Section>
         <Section title="APNW Resourcing Status:">
+          Material Processing:
+          <br/>
+          <Button
+            content="Iron"
+            icon="cog"
+            color={data.iron && "white"}
+            onClick={() => act('iron')} />
+          <Button
+            content="Titanium"
+            icon="cog"
+            color={data.titanium && "white"}
+            onClick={() => act('titanium')} />
+          <Button
+            content="Silver"
+            icon="cog"
+            color={data.silver && "white"}
+            onClick={() => act('silver')} />
+          <Button
+            content="Plasma"
+            icon="cog"
+            color={data.plasma && "white"}
+            onClick={() => act('plasma')} />
+          <Button
+            content="Empty Silo"
+            icon="exclamation-triangle"
+            color={"bad"}
+            onClick={() => act('purge')} />
+          <br/>
           Repair Resources:
           <ProgressBar
-            value={data.repair_resources}
+            value={data.repair_resources/data.repair_resources_max}
             ranges={{
               good: [0.66, Infinity],
               average: [0.33, 0.66],
               bad: [-Infinity, 0.33],
-            }} />
+            }}>
+            {data.repair_resources + ' RUs'}
+          </ProgressBar>
           Repair Efficiency:
           <ProgressBar
-            value={data.repair_efficiency}
+            value={data.repair_efficiency * 0.01}
             ranges={{
               good: [0.66, Infinity],
               average: [0.33, 0.66],
