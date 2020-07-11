@@ -20,7 +20,7 @@ GLOBAL_VAR_INIT(looc_allowed, 1)
     if(!msg)
         return
 
-    if(!(prefs.toggles & CHAT_OOC))
+    if(!(prefs.toggles & CHAT_LOOC))
         to_chat(src, "<span class='danger'>You have OOC (and therefore LOOC) muted.</span>")
         return
 
@@ -35,10 +35,10 @@ GLOBAL_VAR_INIT(looc_allowed, 1)
         if(!GLOB.dooc_allowed && (mob.stat == DEAD))
             to_chat(usr, "<span class='danger'>LOOC for dead mobs has been turned off.</span>")
             return
-        if(prefs.muted & MUTE_OOC)
+        if(prefs.muted & MUTE_LOOC)
             to_chat(src, "<span class='danger'>You cannot use LOOC (muted).</span>")
             return
-        if(handle_spam_prevention(msg,MUTE_OOC))
+        if(handle_spam_prevention(msg,MUTE_LOOC))
             return
         if(findtext(msg, "byond://"))
             to_chat(src, "<B>Advertising other servers is not allowed.</B>")
