@@ -11,7 +11,9 @@
 	anchored = TRUE
 	idle_power_usage = 50
 	active_power_usage = 1000 //DOES THIS EVEN DO ANYTHING???
+	circuit = /obj/item/circuitboard/machine/armour_plating_nanorepair_well
 	layer = ABOVE_MOB_LAYER
+	obj_integrity = 500
 	var/obj/structure/overmap/OM //our parent ship
 	var/list/apnp = list()
 	var/repair_resources = 0
@@ -51,34 +53,48 @@
 	addtimer(CALLBACK(src, .proc/handle_linking), 10 SECONDS)
 
 /obj/machinery/armour_plating_nanorepair_well/process()
-	/*things we need to do here:
-	- check if we are on
-	- check our stress levels and act
-	- check our resources and process them
-	- check our power allocation and adjust accordingly
-	- check our repair efficiency
-	*/
-	handle_system_stress()
-	handle_repair_resources()
-	handle_power_allocation()
-	handle_repair_efficiency()
+
+	if(is_operational())
+		handle_system_stress()
+		handle_repair_resources()
+		handle_power_allocation()
+		handle_repair_efficiency()
 	update_icon()
 
 /obj/machinery/armour_plating_nanorepair_well/proc/handle_repair_efficiency() //Basic implementation
-	repair_efficiency = (1 / (0.01 + (NUM_E ** (-0.00001 * power_allocation)))) * material_modifier
+	repair_efficiency = ((1 / (0.01 + (NUM_E ** (-0.00001 * power_allocation)))) * material_modifier) / 100
 
 /obj/machinery/armour_plating_nanorepair_well/proc/handle_system_stress() //Basic implementation
 	system_allocation = 0
 	for(var/obj/machinery/armour_plating_nanorepair_pump/P in apnp)
-		if(P.online)
+		if(P.armour_allocation > 0 || P.structure_allocation > 0)
 			system_allocation += P.armour_allocation
 			system_allocation += P.structure_allocation
 
 	switch(system_allocation)
 		if(0 to 100)
-			system_stress -= min((100 - system_allocation / 25), 0 - system_stress)
+			system_stress --
+			if(system_stress <= 0)
+				system_stress = 0
 		if(100 to INFINITY)
 			system_stress += (system_allocation/100)
+
+	if(system_stress >= 100)
+		var/turf/open/L = get_turf(src)
+		if(!istype(L) || !(L.air))
+			return
+		var/datum/gas_mixture/env = L.return_air()
+		var/current_temp = env.return_temperature()
+		env.set_temperature(current_temp + 1)
+		air_update_turf()
+		if(prob(system_stress - 100))
+			var/list/overload_candidate = list()
+			for(var/obj/machinery/armour_plating_nanorepair_pump/oc_apnp in apnp)
+				if(oc_apnp.armour_allocation > 0 || oc_apnp.structure_allocation > 0)
+					overload_candidate += oc_apnp
+			if(overload_candidate.len > 0)
+				var/obj/machinery/armour_plating_nanorepair_pump/target_apnp = pick(overload_candidate)
+				target_apnp.stress_shutdown = TRUE
 
 	//stress implications go here
 
@@ -234,5 +250,15 @@
 	data["titanium"] = material_switch["titanium"]["online"]
 	data["plasma"] = material_switch["plasma"]["online"]
 	return data
+
+/obj/item/circuitboard/machine/armour_plating_nanorepair_well
+	name = "Armour Plating Nano-repair Well (Machine Board)"
+	build_path = /obj/machinery/armour_plating_nanorepair_well
+	req_components = list(
+		/obj/item/stock_parts/matter_bin = 10,
+		/obj/item/stock_parts/manipulator = 5,
+		/obj/item/stock_parts/scanning_module = 2,
+		/obj/item/stock_parts/capacitor = 8,
+		/obj/item/stock_parts/micro_laser = 2)
 
 #undef RR_MAX

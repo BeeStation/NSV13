@@ -70,7 +70,7 @@ export const ArmourPlatingNanorepairWell = (props, context) => {
         </Section>
         <Section title="APNW Resourcing Status:">
           Material Processing:
-          <br/>
+          <br />
           <Button
             content="Iron"
             icon="cog"
@@ -96,7 +96,7 @@ export const ArmourPlatingNanorepairWell = (props, context) => {
             icon="exclamation-triangle"
             color={"bad"}
             onClick={() => act('purge')} />
-          <br/>
+          <br />
           Repair Resources:
           <ProgressBar
             value={data.repair_resources/data.repair_resources_max}
@@ -109,7 +109,7 @@ export const ArmourPlatingNanorepairWell = (props, context) => {
           </ProgressBar>
           Repair Efficiency:
           <ProgressBar
-            value={data.repair_efficiency * 0.01}
+            value={data.repair_efficiency}
             ranges={{
               good: [0.66, Infinity],
               average: [0.33, 0.66],

@@ -421,7 +421,8 @@ Method to try locate an overmap object that we should attach to. Recursively cal
 	if(istype(src, /obj/structure/overmap/asteroid)) //Shouldn't be repairing over time
 		return
 	if(mass > MASS_TINY) //Prevents fighters regenerating
-		try_repair(get_repair_efficiency() / 25) //Scale the value. If you have 80% of your armour plates repaired, the ship takes about 7.5 minutes to fully repair. If you only have 25% of your plates operational, it will take half an hour to fully repair the ship.
+		if(!use_armour_quadrants) //Checking to see if we are using the armour quad system
+			try_repair(get_repair_efficiency() / 25) //Scale the value. If you have 80% of your armour plates repaired, the ship takes about 7.5 minutes to fully repair. If you only have 25% of your plates operational, it will take half an hour to fully repair the ship.
 
 /obj/structure/hull_plate/attackby(obj/item/W, mob/user)
 	if(W.tool_behaviour == TOOL_WELDER)

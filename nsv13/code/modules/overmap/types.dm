@@ -105,15 +105,10 @@
 	damage_states = FALSE //TODO
 	pixel_z = -170
 	pixel_w = -112
-	max_integrity = 200 //Max health
-	integrity_failure = 200
+	max_integrity = 2000 //Max health
+	integrity_failure = 2000
 	collision_positions = list(new /datum/vector2d(-27,220), new /datum/vector2d(-79,79), new /datum/vector2d(-77,-106), new /datum/vector2d(-70,-164), new /datum/vector2d(-28,-214), new /datum/vector2d(13,-211), new /datum/vector2d(45,-194), new /datum/vector2d(47,83), new /datum/vector2d(8,218))
 	armor = list("overmap_light" = 90, "overmap_heavy" = 30)
-	use_armour_quadrants = TRUE
-	armour_quadrants = list("forward_port" = list("name" = "Forward Port", "max_armour" = 500, "current_armour" = 500),\
-							"forward_starboard" = list("name" = "Forward Starboard", "max_armour" = 500, "current_armour" = 500),\
-							"aft_port" = list("name" = "Aft Port", "max_armour" = 500, "current_armour" = 500),\
-							"aft_starboard" = list("name" = "Aft Starboard", "max_armour" = 500, "current_armour" = 500))
 
 /obj/structure/overmap/nanotrasen/carrier/ai
 	ai_controlled = TRUE
@@ -187,9 +182,14 @@
 
 /obj/structure/overmap/nanotrasen/carrier/starter
 	role = MAIN_OVERMAP //Player controlled variant
-	max_integrity = 2000 //Compensates for lack of offensive weaponry
-	integrity_failure = 2000
+	max_integrity = 500 //Compensates for lack of offensive weaponry
+	integrity_failure = 500
 	starting_system = "Wolf 359"
+	use_armour_quadrants = TRUE
+	armour_quadrants = list("forward_port" = list("name" = "Forward Port", "max_armour" = 750, "current_armour" = 750),\
+							"forward_starboard" = list("name" = "Forward Starboard", "max_armour" = 750, "current_armour" = 750),\
+							"aft_port" = list("name" = "Aft Port", "max_armour" = 750, "current_armour" = 750),\
+							"aft_starboard" = list("name" = "Aft Starboard", "max_armour" = 750, "current_armour" = 750))
 //	bound_width = 256
 //	bound_height = 256
 
