@@ -62,7 +62,6 @@ Adding tasks is easy! Just define a datum for it.
 #define FLEET_TRAIT_DEFENSE 4
 
 GLOBAL_LIST_EMPTY(ai_goals)
-GLOBAL_LIST_EMPTY(fleets)
 
 /datum/fleet
 	var/name = "Syndicate Invasion Fleet"//Todo: randomize this name
@@ -221,7 +220,6 @@ GLOBAL_LIST_EMPTY(fleets)
 		defeat()
 
 /datum/fleet/proc/defeat()
-	GLOB.fleets -= src
 	minor_announce("[name] has been defeated in battle", "White Rapids Fleet Command")
 	if(current_system.fleets && current_system.fleets.len)
 		var/datum/fleet/F = pick(current_system.fleets)
@@ -431,7 +429,6 @@ GLOBAL_LIST_EMPTY(fleets)
 	. = ..()
 	if(current_system)
 		assemble(current_system)
-	GLOB.fleets += src
 	addtimer(CALLBACK(src, .proc/move), 10 MINUTES)
 
 //A ship has entered a system with a fleet present. Assemble the fleet so that it lives in this system now.
