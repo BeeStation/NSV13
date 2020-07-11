@@ -21,7 +21,7 @@ GLOBAL_VAR_INIT(looc_allowed, 1)
         return
 
     if(!(prefs.toggles & CHAT_LOOC))
-        to_chat(src, "<span class='danger'>You have OOC (and therefore LOOC) muted.</span>")
+        to_chat(src, "<span class='danger'>You have LOOC muted.</span>")
         return
 
     if(is_banned_from(mob.ckey, "OOC"))
