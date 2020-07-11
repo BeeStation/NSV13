@@ -66,6 +66,7 @@ GLOBAL_LIST_EMPTY(cinematics)
 	if(is_global && stop_ooc && GLOB.ooc_allowed)
 		ooc_toggled = TRUE
 		toggle_ooc(FALSE)
+		toggle_looc(FALSE)
 
 
 	for(var/mob/M in GLOB.mob_list)
