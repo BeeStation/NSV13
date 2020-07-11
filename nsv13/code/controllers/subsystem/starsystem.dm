@@ -563,7 +563,16 @@ SUBSYSTEM_DEF(star_system)
 	x = 20
 	y = 15
 	alignment = "nanotrasen"
-	adjacency_list = list("Sol","Wolf 359")
+	adjacency_list = list("Sol","Wolf 359", "Unknown Signal")
+
+//Event system, remove me when done!
+/datum/star_system/unknown_signal
+	name = "Unknown Signal"
+	x = 60
+	y = 10
+	system_type = "radioactive"
+	alignment = "uncharted"
+	adjacency_list = list("Alpha Centauri")
 
 /datum/star_system/wolf359
 	name = "Wolf 359"
