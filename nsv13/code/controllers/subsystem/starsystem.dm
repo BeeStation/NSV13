@@ -570,6 +570,7 @@ SUBSYSTEM_DEF(star_system)
 	name = "Unknown Signal"
 	x = 60
 	y = 10
+	hidden = TRUE
 	system_type = "radioactive"
 	alignment = "uncharted"
 	adjacency_list = list("Alpha Centauri")
