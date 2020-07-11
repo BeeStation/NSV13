@@ -92,6 +92,7 @@ GLOBAL_LIST_EMPTY(cinematics)
 	//Restore OOC
 	if(ooc_toggled)
 		toggle_ooc(TRUE)
+		toggle_looc(TRUE)
 
 	qdel(src)
 
