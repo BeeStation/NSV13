@@ -29,7 +29,7 @@ GLOBAL_VAR_INIT(looc_allowed, 1)
         return
 
     if(!holder)
-        if(!CONFIG_GET(flag/looc_enabled))
+        if(!GLOB.looc_allowed)
             to_chat(src, "<span class='danger'>LOOC is disabled.</span>")
             return
         if(!GLOB.dooc_allowed && (mob.stat == DEAD))
