@@ -1,6 +1,6 @@
 // LOOC ported from Citadel, styling in stylesheet.dm and browseroutput.css
 
-GLOBAL_VAR_INIT(looc_allowed, 1)
+//GLOBAL_VAR_INIT(looc_allowed, 1) //commenting this out might break something but w/e, replaced by one in global config
 
 /client/verb/looc(msg as text)
     set name = "LOOC"
@@ -30,7 +30,7 @@ GLOBAL_VAR_INIT(looc_allowed, 1)
 
     if(!holder)
         if(!GLOB.looc_allowed)
-            to_chat(src, "<span class='danger'>LOOC is disabled.</span>")
+            to_chat(src, "<span class='danger'>LOOC is globally muted.</span>")
             return
         if(!GLOB.dooc_allowed && (mob.stat == DEAD))
             to_chat(usr, "<span class='danger'>LOOC for dead mobs has been turned off.</span>")

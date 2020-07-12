@@ -16,9 +16,6 @@ GLOBAL_VAR_INIT(normal_ooc_colour, "#002eb8")
 		if(!GLOB.ooc_allowed)
 			to_chat(src, "<span class='danger'>OOC is globally muted.</span>")
 			return
-		if(!GLOB.looc_allowed)
-			to_chat(src, "<span class='danger'>LOOC is globally muted.</span>")
-			return
 		if(!GLOB.dooc_allowed && (mob.stat == DEAD))
 			to_chat(usr, "<span class='danger'>OOC for dead mobs has been turned off.</span>")
 			return
@@ -59,9 +56,6 @@ GLOBAL_VAR_INIT(normal_ooc_colour, "#002eb8")
 
 	if(!(prefs.chat_toggles & CHAT_OOC))
 		to_chat(src, "<span class='danger'>You have OOC muted.</span>")
-		return
-	if(!(prefs.chat_toggles & CHAT_LOOC))
-		to_chat(src, "<span class='danger'>You have LOOC muted.</span>")
 		return
 	if(OOC_FILTER_CHECK(raw_msg))
 		to_chat(src, "<span class='warning'>That message contained a word prohibited in OOC chat! Consider reviewing the server rules.\n<span replaceRegex='show_filtered_ooc_chat'>\"[raw_msg]\"</span></span>")
