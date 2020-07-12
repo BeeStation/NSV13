@@ -104,6 +104,8 @@
 		body += "<A href='?_src_=holder;[HrefToken()];mute=[M.ckey];mute_type=[MUTE_MHELP]' [(muted & MUTE_MHELP)?"style='font-weight: bold'":""]>MHELP</a> "
 		body += "<A href='?_src_=holder;[HrefToken()];mute=[M.ckey];mute_type=[MUTE_DEADCHAT]' [(muted & MUTE_DEADCHAT)?"style='font-weight: bold'":""]>DEADCHAT</a> "
 
+//nsv13 - add LOOC to above
+
 	body += "<br><br>"
 	body += "<A href='?_src_=holder;[HrefToken()];jumpto=[REF(M)]'>Jump to</A> "
 	body += "<A href='?_src_=holder;[HrefToken()];getmob=[REF(M)]'>Get</A> "
@@ -609,7 +611,7 @@
 
 datum/admins/proc/togglelooc() //nsv13
 	set category = "Server"
-	set desc="Toggle dis bitch"
+	set desc="If you see this message after trying to access LOOC, blame BYOND; LOOC is disabled."
 	set name="Toggle LOOC"
 	toggle_looc()
 	log_admin("[key_name(usr)] toggled LOOC.")

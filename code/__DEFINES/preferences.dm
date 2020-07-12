@@ -26,7 +26,7 @@
 
 //Chat toggles
 #define CHAT_OOC			(1<<0)
-#define CHAT_LOOC           (1<<1)
+#define CHAT_LOOC           (1<<1) //nsv13
 #define CHAT_DEAD			(1<<2)
 #define CHAT_GHOSTEARS		(1<<3)
 #define CHAT_GHOSTSIGHT		(1<<4)
@@ -39,6 +39,7 @@
 #define CHAT_BANKCARD       (1<<11)
 #define CHAT_GHOSTLAWS	    (1<<12)
 
+//nsv13 for below: add chat_looc
 #define TOGGLES_DEFAULT_CHAT (CHAT_OOC|CHAT_LOOC|CHAT_DEAD|CHAT_GHOSTEARS|CHAT_GHOSTSIGHT|CHAT_PRAYER|CHAT_RADIO|CHAT_PULLR|CHAT_GHOSTWHISPER|CHAT_GHOSTPDA|CHAT_GHOSTRADIO|CHAT_BANKCARD|CHAT_GHOSTLAWS)
 
 #define PARALLAX_INSANE -1 //for show offs

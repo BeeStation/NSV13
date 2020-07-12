@@ -219,7 +219,7 @@
 		if(MUTE_OOC)
 			mute_string = "OOC"
 			feedback_string = "OOC"
-		if(MUTE_LOOC)
+		if(MUTE_LOOC) //nsv13
 			mute_string = "LOOC"
 			feedback_string = "LOOC"
 		if(MUTE_PRAY)
