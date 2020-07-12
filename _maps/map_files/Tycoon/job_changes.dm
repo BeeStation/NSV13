@@ -1,4 +1,4 @@
-#define JOB_MODIFICATION_MAP_NAME "SGC Enterprise"
+#define JOB_MODIFICATION_MAP_NAME "NSV Tycoon"
 
 /datum/job/pilot/New()
 	..()
