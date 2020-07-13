@@ -260,8 +260,10 @@ That's it, ok bye!
 /obj/machinery/lazylift/master/proc/set_music(what)
 	if(!what)
 		what = pick('sound/effects/turbolift/elevatormusic.ogg','nsv13/sound/effects/lift/elevatormusic.ogg', 'nsv13/sound/effects/lift/GeorgeForse-rick.ogg', 'nsv13/sound/effects/lift/tchaikovsky.ogg')
-	var/area/affected = get_area(src)
-	affected.looping_ambience = what
+	var/area/ours = get_area(src)
+	for(var/area/affected in GLOB.sortedAreas)
+		if(istype(affected, ours.type))
+			affected.looping_ambience = what
 
 //Emag the lift to let it crush people. Otherwise, its built in safeties will kick in.
 /obj/machinery/lazylift/emag_act(mob/user)
