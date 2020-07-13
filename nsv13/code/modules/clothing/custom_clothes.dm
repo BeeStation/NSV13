@@ -409,16 +409,16 @@
 	armor = list("melee" = 0, "bullet" = 0, "laser" = 0,"energy" = 0, "bomb" = 50, "bio" = 0, "rad" = 0, "fire" = 50, "acid" = 0)
 
 /obj/item/clothing/under/ship/decktech
-	name = "deck technician overalls"
-	desc = "Overalls worn by deck technicians."
+	name = "munitions tech overalls"
+	desc = "a pair of hard worn overalls worn by those in charge of firing the ship's guns. These wouldn't be complete without a thick layer of grease."
 	icon_state = "deck_tech"
 	item_state = "bl_suit"
 	item_color = "deck_tech"
 	can_adjust = TRUE
 
 /obj/item/clothing/head/helmet/decktech
-	name = "Deck Technician Helmet"
-	desc = "A helmet for protecting technicians in a hazardous environment."
+	name = "Munitions Technician's Helmet"
+	desc = "A welding helmet for protecting technicians in a hazardous environment."
 	icon = 'nsv13/icons/obj/clothing/hats.dmi'
 	alternate_worn_icon = 'nsv13/icons/mob/head.dmi'
 	icon_state = "decktech_helmet"
