@@ -247,6 +247,12 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 			side_maxthrust = 2
 			max_angular_acceleration = 15
 
+		if(MASS_MEDIUMLARGE)
+			forward_maxthrust = 1.85
+			backward_maxthrust = 1.85
+			side_maxthrust = 1.5
+			max_angular_acceleration = 10
+
 		if(MASS_LARGE)
 			forward_maxthrust = 0.5
 			backward_maxthrust = 0.5
