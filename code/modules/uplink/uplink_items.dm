@@ -211,7 +211,7 @@ GLOBAL_LIST_INIT(uplink_items, subtypesof(/datum/uplink_item))
 			standard contractor gear to help with your mission - comes supplied with the tablet, specialised space suit, chameleon jumpsuit and mask, \
 			agent card, specialised contractor baton, and three randomly selected low cost items. Can include otherwise unobtainable items."
 	item = /obj/item/storage/box/syndicate/contract_kit
-	cost = 20
+	cost = 30
 	player_minimum = 15
 	exclude_modes = list(/datum/game_mode/nuclear, /datum/game_mode/nuclear/clown_ops)
 
@@ -237,7 +237,7 @@ GLOBAL_LIST_INIT(uplink_items, subtypesof(/datum/uplink_item))
 	desc = "A dusty crate from the back of the Syndicate warehouse. Rumored to contain a valuable assortment of items, \
 			but you never know. Contents are sorted to always be worth 50 TC."
 	item = /obj/structure/closet/crate
-	cost = 20
+	cost = 25
 	player_minimum = 20
 	exclude_modes = list(/datum/game_mode/nuclear, /datum/game_mode/nuclear/clown_ops)
 	var/starting_crate_value = 50
@@ -1717,7 +1717,7 @@ datum/uplink_item/stealthy_tools/taeclowndo_shoes
 	name = "Ancient Jumpsuit"
 	desc = "A tattered old jumpsuit that will provide absolutely no benefit to you. It fills the wearer with a strange compulsion to blurt out 'glorf'."
 	item = /obj/item/clothing/under/color/grey/glorf
-	cost = 20
+	cost = 25
 	restricted_roles = list("Assistant")
 	surplus = 1
 
@@ -1828,7 +1828,7 @@ datum/uplink_item/stealthy_tools/taeclowndo_shoes
 			are very sensitive. Now with our included lube defense mechanism which will protect you against any angry shitcurity! \
 			Premium features can be unlocked with a cryptographic sequencer!"
 	item = /obj/vehicle/sealed/car/clowncar
-	cost = 20
+	cost = 25
 	restricted_roles = list("Clown")
 
 /datum/uplink_item/role_restricted/taeclowndo_shoes
@@ -1880,7 +1880,7 @@ datum/uplink_item/role_restricted/superior_honkrender
 	However, if left alone for long enough, He will fall back to slumber. \
 	To activate His Grace, simply unlatch Him."
 	item = /obj/item/his_grace
-	cost = 20
+	cost = 25
 	restricted_roles = list("Chaplain")
 	surplus = 5 //Very low chance to get it in a surplus crate even without being the chaplain
 
@@ -1888,7 +1888,7 @@ datum/uplink_item/role_restricted/superior_honkrender
 	name = "Cult Construct Kit"
 	desc = "Recovered from an abandoned Nar'sie cult lair two construct shells and a stash of empty soulstones was found. These were purified to prevent occult contamination and have been put in a belt so they may be used as an accessible source of disposable minions. The construct shells have been packaged into two beacons for rapid and portable deployment."
 	item = /obj/item/storage/box/syndie_kit/cultconstructkit
-	cost = 20
+	cost = 25
 	restricted_roles = list("Chaplain")
 
 /datum/uplink_item/role_restricted/spanish_flu
@@ -2071,7 +2071,7 @@ datum/uplink_item/role_restricted/superior_honkrender
 	desc = "For showing that you are THE BOSS: A useless red balloon with the Syndicate logo on it. \
 			Can blow the deepest of covers."
 	item = /obj/item/toy/syndicateballoon
-	cost = 20
+	cost = 25
 	cant_discount = TRUE
 	illegal_tech = FALSE
 
