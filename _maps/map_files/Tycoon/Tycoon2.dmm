@@ -1454,7 +1454,6 @@
 /obj/structure/chair/comfy/shuttle{
 	name = "briefing room chair"
 	},
-/obj/effect/landmark/start/deck_tech,
 /turf/open/floor/carpet/blue,
 /area/nsv/hanger/deck2)
 "adO" = (
@@ -45322,18 +45321,6 @@
 /obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer3,
 /turf/open/floor/monotile/dark,
 /area/medical/virology)
-"cCu" = (
-/obj/structure/cable{
-	icon_state = "4-8"
-	},
-/obj/machinery/atmospherics/components/unary/vent_pump/on/layer1{
-	dir = 8
-	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
-	dir = 8
-	},
-/turf/open/floor/monotile,
-/area/nsv/weapons/gauss)
 "cCS" = (
 /obj/effect/spawner/structure/window/reinforced,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
@@ -46031,18 +46018,6 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /turf/open/floor/plating,
 /area/maintenance/department/science)
-"grs" = (
-/obj/structure/cable{
-	icon_state = "4-8"
-	},
-/obj/effect/turf_decal/loading_area{
-	dir = 1
-	},
-/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3{
-	dir = 8
-	},
-/turf/open/floor/monotile/dark,
-/area/nsv/weapons/gauss)
 "gvw" = (
 /obj/machinery/airalarm/directional/west,
 /turf/open/floor/monotile,
@@ -46212,6 +46187,18 @@
 	},
 /turf/open/floor/monotile,
 /area/crew_quarters/fitness/recreation)
+"hfS" = (
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/obj/machinery/atmospherics/components/unary/vent_pump/on/layer1{
+	dir = 8
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	dir = 8
+	},
+/turf/open/floor/monotile,
+/area/nsv/weapons/gauss)
 "hhv" = (
 /obj/machinery/atmospherics/components/unary/portables_connector/visible{
 	dir = 8;
@@ -48247,6 +48234,22 @@
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /turf/open/floor/plating,
 /area/maintenance/department/engine)
+"rxN" = (
+/obj/structure/chair/office,
+/obj/effect/turf_decal/stripes/line{
+	dir = 1
+	},
+/obj/machinery/door/firedoor/border_only{
+	dir = 1
+	},
+/obj/machinery/firealarm{
+	pixel_x = 32;
+	pixel_y = -32
+	},
+/turf/open/floor/monotile,
+/area/bridge{
+	name = "CIC"
+	})
 "rBo" = (
 /obj/machinery/light/small{
 	dir = 4
@@ -48820,6 +48823,18 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/starboard/fore)
+"uzi" = (
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/obj/effect/turf_decal/loading_area{
+	dir = 1
+	},
+/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3{
+	dir = 8
+	},
+/turf/open/floor/monotile/dark,
+/area/nsv/weapons/gauss)
 "uDe" = (
 /obj/effect/spawner/lootdrop/maintenance,
 /obj/structure/closet/crate{
@@ -49055,22 +49070,6 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/disposal)
-"vNy" = (
-/obj/structure/chair/office,
-/obj/effect/turf_decal/stripes/line{
-	dir = 1
-	},
-/obj/machinery/door/firedoor/border_only{
-	dir = 1
-	},
-/obj/machinery/firealarm{
-	pixel_x = 32;
-	pixel_y = -32
-	},
-/turf/open/floor/monotile,
-/area/bridge{
-	name = "CIC"
-	})
 "vPd" = (
 /obj/machinery/door/airlock/research/glass/incinerator/toxmix_exterior,
 /obj/effect/mapping_helpers/airlock/locked,
@@ -87789,7 +87788,7 @@ abV
 aTc
 aTg
 aTg
-cCu
+hfS
 bpR
 bXF
 aeT
@@ -89610,7 +89609,7 @@ aMv
 abG
 bji
 bBU
-vNy
+rxN
 bZJ
 bmE
 bmE
@@ -89903,7 +89902,7 @@ abV
 bXF
 bYv
 aTg
-grs
+uzi
 aWl
 cbj
 aeT
