@@ -27,7 +27,7 @@ GLOBAL_DATUM_INIT(squad_manager, /datum/squad_manager, new)
 		S.max_members = GLOB.squad_styling[I][3]
 		squads += S
 	}
-	addtimer(CALLBACK(src, .proc/check_squad_assignments), 10 SECONDS) //Kick off a timer to check if we're on nightmare world lowpop and need to finagle some people into jobs.
+	addtimer(CALLBACK(src, .proc/check_squad_assignments), 5 MINUTES) //Kick off a timer to check if we're on nightmare world lowpop and need to finagle some people into jobs. Ensure people have a chance to join.
 
 ///Method which runs just slightly after roundstart, and ensures that the ship has at least its BASIC roles filled
 /datum/squad_manager/proc/check_squad_assignments()
