@@ -4,8 +4,8 @@
 #define MSTATE_PRIEDOUT 3
 
 /obj/machinery/ship_weapon/railgun
-	name = "NT-STC4 Ship mounted railgun chamber"
-	desc = "A powerful ship-to-ship weapon which uses a localized magnetic field accelerate a projectile through a spinally mounted railgun with a 360 degree rotation axis. This particular model has an effective range of 20,000KM."
+	name = "NT-STC4 coaxial railgun"
+	desc = "A railgun which fires directly out of the front of the ship, its projectiles are entirely unguided, so the firing solution must be perfect."
 	icon = 'nsv13/icons/obj/railgun.dmi'
 	icon_state = "OBC"
 	bound_width = 128
@@ -15,9 +15,9 @@
 	fire_mode = FIRE_MODE_RAILGUN
 	ammo_type = /obj/item/ship_weapon/ammunition/railgun_ammo
 
-	semi_auto = TRUE
-	max_ammo = 3 //Until you have to manually load it back up again. Battleships IRL have 3-4 shots before you need to reload the rack
 	dir = 4
+	semi_auto = TRUE
+	max_ammo = 4 //Until you have to manually load it back up again. Battleships IRL have 3-4 shots before you need to reload the rack
 
 	var/req_components = list(
 		/obj/item/stock_parts/capacitor = 4,
@@ -105,14 +105,8 @@
 		return
 	..()
 
-/obj/machinery/ship_weapon/railgun/set_position(obj/structure/overmap/OM)
-	..()
-	overlay = linked.add_weapon_overlay("/obj/weapon_overlay/railgun")
-
 /obj/machinery/ship_weapon/railgun/MouseDrop_T(obj/structure/A, mob/user)
 	return
 
 /obj/machinery/ship_weapon/railgun/animate_projectile(atom/target)
-	. = ..()
-	linked.shake_everyone(3)
-
+	linked.fire_projectile(weapon_type.default_projectile_type, target, TRUE)
