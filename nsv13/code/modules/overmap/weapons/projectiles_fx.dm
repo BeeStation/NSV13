@@ -49,7 +49,7 @@ Misc projectile types, effects, think of this as the special FX file.
 /obj/item/projectile/bullet/light_cannon_round
 	icon_state = "pdc"
 	name = "light cannon round"
-	damage = 5
+	damage = 10
 	spread = 2
 	flag = "overmap_light"
 

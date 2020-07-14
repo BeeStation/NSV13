@@ -234,6 +234,28 @@
 	new /obj/item/ammo_box/magazine/pistolm9mm/glock/lethal(src)
 	new /obj/item/club(src)
 
+/obj/item/storage/box/squad_kit/pilot //Contains bits to help you not die in a fighter.
+	name = "Airman Kit"
+	desc = "A kit containing supplies to get you into the air, and probably back again in one piece."
+	squad_type = COMBAT_AIR_PATROL
+	illustration = "pilot_kit"
+	must_return = list(/obj/item/clothing/suit/space/hardsuit/pilot) //Everything else is consumable.
+
+/obj/item/storage/box/squad_kit/pilot/PopulateContents()
+	new /obj/item/clothing/suit/space/hardsuit/pilot(src)
+	new /obj/item/tank/internals/emergency_oxygen/double(src)
+
+/obj/item/storage/box/squad_kit/mt //Contains bits to ensure that the MTs don't bully you during GQ.
+	name = "Munitions Support Kit"
+	desc = "A kit containing supplies to mark you as a munitions support crewman to the MTs, so they don't kick you out of their workplace."
+	squad_type = MUNITIONS_SUPPORT
+	illustration = "mt_kit"
+	must_return = list(/obj/item/clothing/suit/hazardvest, /obj/item/clothing/head/helmet/decktech)
+
+/obj/item/storage/box/squad_kit/mt/PopulateContents()
+	new /obj/item/clothing/suit/hazardvest(src)
+	new /obj/item/clothing/head/helmet/decktech(src)
+
 /obj/machinery/squad_vendor
 	name = "Squad Vendor"
 	desc = "A machine which can dispense equipment to squads. <i>Kits taken from this machine must be returned before you can get a new one.</i>"
@@ -257,6 +279,12 @@
 	}
 	for(var/I = 0; I < 15; I++){
 		new /obj/item/storage/box/squad_kit/fireteam(src)
+	}
+	for(var/I = 0; I < 15; I++){
+		new /obj/item/storage/box/squad_kit/pilot(src)
+	}
+	for(var/I = 0; I < 15; I++){
+		new /obj/item/storage/box/squad_kit/mt(src)
 	}
 
 /obj/machinery/squad_vendor/attackby(obj/item/W, mob/user, params)

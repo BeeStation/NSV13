@@ -993,7 +993,8 @@ GLOBAL_LIST_EMPTY(ai_goals)
 			fleet_info["name"] = F.name
 			fleet_info["id"] = "\ref[F]"
 			fleet_info["colour"] = (F.alignment == "nanotrasen") ? null : "bad"
-			sys_inf["fleets"][++sys_inf["fleets"].len] = fleet_info
+			var/list/fuckYouDreamChecker = sys_inf["fleets"]
+			fuckYouDreamChecker[++fuckYouDreamChecker.len] = fleet_info
 		systems_info[++systems_info.len] = sys_inf
 	data["systems_info"] = systems_info
 	return data
