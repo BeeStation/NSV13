@@ -25,10 +25,11 @@ SUBSYSTEM_DEF(star_system)
 								"This is Centcomm to all vessels assigned to patrol the Abassi Ridge, we are not paying you to idle in space during your assigned patrol schedule", \
 								"This is Centcomm to the patrol vessel currently assigned to the Abassi Ridge, you are expected to fulfill your assigned mission")
 			priority_announce("[message]", "Naval Command") //Warn players for idleing too long
-		if(modifier == 17 && patrols_left > 0)
-			priority_announce("Warning: Heightened Syndicate activity detected in sector. Maintain high alert.", "Deep Space Tracking Installation")
-		if(modifier == 20 && patrols_left > 0)
+		if(modifier == 18 && patrols_left > 0)
 			priority_announce("This is White Rapids command to all vessels assigned to patrol the Abassi Ridge. The Syndicate's agressive expansion efforts have been left unchecked, and they appear to be amassing an invasion force. Destruction of patrolling Syndicate fleets is paramount to avoid an all out assault.", "Deep Space Tracking Installation")
+		if(modifier == 20 && patrols_left > 0)
+			priority_announce("[station_name()] is no longer responding to commands. Enacting emergency defense conditions. All shipside squads must assist in getting the ship ready for combat by any means necessary.", "WhiteRapids Administration Corps")
+			set_security_level(SEC_LEVEL_RED)
 		if(modifier == 22 && patrols_left > 0) // 45 minutes of inactivity, or they've ended their official patrol
 			var/total_deductions
 			for(var/account in SSeconomy.department_accounts)
@@ -563,7 +564,17 @@ SUBSYSTEM_DEF(star_system)
 	x = 20
 	y = 15
 	alignment = "nanotrasen"
-	adjacency_list = list("Sol","Wolf 359")
+	adjacency_list = list("Sol","Wolf 359", "Unknown Signal")
+
+//Event system, remove me when done!
+/datum/star_system/unknown_signal
+	name = "Unknown Signal"
+	x = 60
+	y = 10
+	hidden = TRUE
+	system_type = "radioactive"
+	alignment = "uncharted"
+	adjacency_list = list("Alpha Centauri")
 
 /datum/star_system/wolf359
 	name = "Wolf 359"

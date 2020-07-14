@@ -97,13 +97,12 @@ That's it, ok bye!
 	var/obj/machinery/lazylift/master/master = null
 	var/list/platform = list() //The """platform""" of the lift that's going to move up and down. This is just a list of turfs that we own.
 	var/list/doors = list()
-	var/list/moving_blacklist = list(/obj/machinery/lazylift, /obj/machinery/lazylift/master, /obj/machinery/light, /obj/structure/cable, /obj/machinery/power/apc, /obj/machinery/airalarm, /obj/machinery/firealarm, /obj/structure/grille, /obj/structure/window)
+	var/static/list/moving_blacklist = list(/obj/machinery/lazylift, /obj/machinery/lazylift/master, /obj/machinery/light, /obj/structure/cable, /obj/machinery/power/apc, /obj/machinery/airalarm, /obj/machinery/firealarm, /obj/structure/grille, /obj/structure/window, /obj/machinery/camera)
 
 	//Voice activation.
 	flags_1 = HEAR_1
 	initial_language_holder = /datum/language_holder/synthetic/turbolift
 	var/list/addresses = list() //Voice activation! Lets you speak into the elevator to tell it where you wanna go. This stores all the departments on this floor. If youre lazy and re-use floors then uh...sucks to be you I guess!
-	var/list/languages = list(/datum/language/common, /datum/language/drone, /datum/language/machine, /datum/language/draconic)
 	var/list/area_blacklist = list(/area/space, /area/shuttle/turbolift, /area/shuttle, /area/maintenance/ship_exterior) //Areas that do not show up on the address book.
 	var/next_voice_activation = 0
 
@@ -125,7 +124,7 @@ That's it, ok bye!
 /obj/machinery/lazylift/Hear(message, atom/movable/speaker, message_language, raw_message, radio_freq, list/spans, message_mode)
 	set waitfor = FALSE
 	. = ..()
-	if(speaker == src || world.time < next_voice_activation || master.in_use || get_area(speaker) != get_area(src))
+	if(speaker == src || world.time < next_voice_activation || master.in_use || get_area(speaker) != get_area(src) || !(get_turf(speaker) in platform))
 		return
 	var/datum/language_holder/L = get_language_holder()
 	if(!L?.has_language(message_language))
@@ -157,6 +156,7 @@ That's it, ok bye!
 		var/obj/machinery/door/airlock/door = locate(/obj/machinery/door/airlock) in T
 		if(door)
 			doors += door
+			platform -= T
 	if(!door_turf)
 		message_admins("Couldn't find a turbolift door turf for [src]!")
 		return
@@ -260,8 +260,10 @@ That's it, ok bye!
 /obj/machinery/lazylift/master/proc/set_music(what)
 	if(!what)
 		what = pick('sound/effects/turbolift/elevatormusic.ogg','nsv13/sound/effects/lift/elevatormusic.ogg', 'nsv13/sound/effects/lift/GeorgeForse-rick.ogg', 'nsv13/sound/effects/lift/tchaikovsky.ogg')
-	var/area/affected = get_area(src)
-	affected.looping_ambience = what
+	var/area/ours = get_area(src)
+	for(var/area/affected in GLOB.sortedAreas)
+		if(istype(affected, ours.type))
+			affected.looping_ambience = what
 
 //Emag the lift to let it crush people. Otherwise, its built in safeties will kick in.
 /obj/machinery/lazylift/emag_act(mob/user)
@@ -344,10 +346,6 @@ That's it, ok bye!
 
 	//First, move the platform.
 	for(var/turf/T in platform_location.platform)
-		var/obj/machinery/door/airlock/turbolift_door = locate(/obj/machinery/door/airlock) in T
-		if(turbolift_door) //Don't scrape away the doors.
-			if(turbolift_door in platform_location.doors) //I mean, fuck whatever doors the players decide to build I guess.
-				continue
 		var/turf/newT = locate(T.x,T.y,target.z)
 		newT.CopyOnTop(T, 1, INFINITY, TRUE)
 		for(var/atom/movable/AM in T.contents)
@@ -375,6 +373,7 @@ That's it, ok bye!
 	for(var/turf/T in platform)
 		if(src != target)
 			T.ChangeTurf(/turf/open/floor/plasteel/elevatorshaft)
+			T.icon = 'icons/turf/floors.dmi'
 			T.icon_state = "elevatorshaft" //in case we're using different icons or whatever.
 
 //Special FX and stuff.

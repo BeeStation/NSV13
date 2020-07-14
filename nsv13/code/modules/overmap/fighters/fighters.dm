@@ -88,6 +88,11 @@ After going through this checklist, you're ready to go!
 	var/max_ftl_range = 80 //light years. 80 means the two targets have to be at least reasonably close together
 	var/spooling_ftl = FALSE
 
+/obj/structure/overmap/fighter/apply_weapons()
+	weapon_types[FIRE_MODE_PDC] = new /datum/ship_weapon/light_cannon(src)
+	weapon_types[FIRE_MODE_MISSILE] = new/datum/ship_weapon/missile_launcher(src)
+	weapon_types[FIRE_MODE_TORPEDO] = new/datum/ship_weapon/torpedo_launcher(src)
+
 /obj/structure/overmap/fighter/Initialize()
 	. = ..()
 	for(var/X in allowed_cargo)
@@ -290,14 +295,6 @@ You need to fire emag the fighter's IFF board. This makes it list as "ENEMY" on 
 	max_torpedoes = sy?.torpedo_capacity
 	max_cannon = py?.ammo_capacity
 	max_passengers = pc?.passenger_capacity
-
-	//Setup weapon datums and fire modes
-
-	if(max_missiles > 0 && !weapon_types[FIRE_MODE_MISSILE])
-		weapon_types[FIRE_MODE_MISSILE] = new/datum/ship_weapon/missile_launcher(src)
-	if(max_torpedoes > 0 && !weapon_types[FIRE_MODE_TORPEDO])
-		weapon_types[FIRE_MODE_TORPEDO] = new/datum/ship_weapon/torpedo_launcher(src)
-	weapon_types[FIRE_MODE_RAILGUN] = null //Hardcoded for now. Change me if you want railgun fighters or some such fuckery
 	if(py)
 		var/path_one = new py.weapon_type_path_one(src)
 		if(path_one)
