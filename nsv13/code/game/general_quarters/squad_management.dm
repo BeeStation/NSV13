@@ -245,7 +245,7 @@
 	new /obj/item/clothing/suit/space/hardsuit/pilot(src)
 	new /obj/item/tank/internals/emergency_oxygen/double(src)
 
-/obj/item/storage/box/squad_kit/mt //Contains bits to help you not die in a fighter.
+/obj/item/storage/box/squad_kit/mt //Contains bits to ensure that the MTs don't bully you during GQ.
 	name = "Munitions Support Kit"
 	desc = "A kit containing supplies to mark you as a munitions support crewman to the MTs, so they don't kick you out of their workplace."
 	squad_type = MUNITIONS_SUPPORT
