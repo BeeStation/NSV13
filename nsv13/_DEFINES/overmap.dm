@@ -2,13 +2,14 @@
 
 #define FIRE_MODE_PDC 1
 #define FIRE_MODE_TORPEDO 2
-#define FIRE_MODE_RAILGUN 3
-#define FIRE_MODE_GAUSS 4
-#define FIRE_MODE_FLAK 5
-#define FIRE_MODE_MISSILE 6
-#define FIRE_MODE_FIGHTER_SLOT_ONE 7
-#define FIRE_MODE_FIGHTER_SLOT_TWO 8
-#define MAX_POSSIBLE_FIREMODE 8 //This should relate to the maximum number of weapons a ship can ever have. Keep this up to date please!
+#define FIRE_MODE_MAC 3
+#define FIRE_MODE_RAILGUN 4
+#define FIRE_MODE_GAUSS 5
+#define FIRE_MODE_FLAK 6
+#define FIRE_MODE_MISSILE 7
+#define FIRE_MODE_FIGHTER_SLOT_ONE 8
+#define FIRE_MODE_FIGHTER_SLOT_TWO 9
+#define MAX_POSSIBLE_FIREMODE 10 //This should relate to the maximum number of weapons a ship can ever have. Keep this up to date please!
 
 //AI behaviour
 
@@ -34,8 +35,8 @@
 #define SENSOR_VISIBILITY_VERYFAINT 0.25
 #define SENSOR_VISIBILITY_GHOST 0 //Totally impervious to scans.
 
-#define SENSOR_RANGE_DEFAULT 45
-#define SENSOR_RANGE_FIGHTER 25 //Fighters have crappier sensors. Coordinate with the ATC!
+#define SENSOR_RANGE_DEFAULT 85
+#define SENSOR_RANGE_FIGHTER 75 //Fighters have crappier sensors. Coordinate with the ATC!
 
 #define CLOAK_TEMPORARY_LOSS 2 //Cloak handling. When you fire a weapon, you temporarily lose your cloak, and AIs can target you.
 
