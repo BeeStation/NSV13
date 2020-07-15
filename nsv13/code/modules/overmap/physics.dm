@@ -242,8 +242,8 @@ The while loop runs at a programatic level and is thus separated from any thrott
 				last_thrust_right = -side_maxthrust
 
 	//Stops you yeeting off at lightspeed. This made AI ships really frustrating to play against.
-	velocity.x = max(min(velocity.x, speed_limit), -speed_limit)
-	velocity.y = max(min(velocity.y, speed_limit), -speed_limit)
+//	velocity.x = max(min(velocity.x, speed_limit), -speed_limit)
+//	velocity.y = max(min(velocity.y, speed_limit), -speed_limit)
 
 	velocity.x += thrust_x * time //And speed us up based on how long we've been thrusting (up to a point)
 	velocity.y += thrust_y * time
@@ -455,6 +455,9 @@ The while loop runs at a programatic level and is thus separated from any thrott
 	return ..()
 
 /obj/structure/overmap/Bump(atom/movable/A, datum/collision_response/c_response)
+	var/obj/structure/overmap/omap = A
+	if(no_collide || (istype(omap) && omap.no_collide))
+		return //don't bump into things that we're not supposed to bump into! *shakes fist*
 	var/bump_velocity = 0
 	if(dir & (NORTH|SOUTH))
 		bump_velocity = abs(velocity.y) + (abs(velocity.x) / 10)

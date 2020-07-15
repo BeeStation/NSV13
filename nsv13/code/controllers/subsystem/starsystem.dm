@@ -366,7 +366,7 @@ SUBSYSTEM_DEF(star_system)
 
 /obj/effect/overmap_anomaly/singularity/ComponentInitialize()
 	. = ..()
-	AddComponent(/datum/component/grav_maker, 50) //I like em big, I like em chunky. I like em big, I like em plumpy.
+	AddComponent(/datum/component/grav_maker, 500) //I like em big, I like em chunky. I like em big, I like em plumpy.
 
 
 /obj/effect/overmap_anomaly/singularity/process()
@@ -442,7 +442,7 @@ SUBSYSTEM_DEF(star_system)
 
 /obj/effect/overmap_anomaly/safe/sun/ComponentInitialize()
 	. = ..()
-	AddComponent(/datum/component/grav_maker, 15) //haha star go succc
+	AddComponent(/datum/component/grav_maker, 100) //haha star go succc
 
 /obj/effect/overmap_anomaly/safe/sun/red_giant
 	name = "Red Giant"
