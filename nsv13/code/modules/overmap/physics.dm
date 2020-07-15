@@ -378,10 +378,6 @@ The while loop runs at a programatic level and is thus separated from any thrott
 	user_thrust_dir = 0
 	update_icon()
 	if(autofire_target && !aiming)
-		if(!gunner) //You need a gunner to autofire. Resolves a bug where the PDCs would just kinda shoot to infinity.
-			autofire_target = null
-			aiming = FALSE
-			return
 		fire(autofire_target)
 
 /obj/structure/overmap/proc/handle_collisions()
