@@ -146,7 +146,9 @@
 
 /obj/machinery/shield_generator/ui_act(action, params)
 {
-	. = ..();
+	if(..()){
+		return;
+	}
 	var/value = text2num(params["input"]);
 	switch(action)
 		if("maxHealth")
