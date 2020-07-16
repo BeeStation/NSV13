@@ -394,17 +394,6 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 	else
 		return null
 
-/obj/structure/overmap/take_damage(damage_amount, damage_type = BRUTE, damage_flag = 0, sound_effect = 1, attack_dir, armour_penetration = 0)
-	..()
-	if(!impact_sound_cooldown)
-		var/sound = pick(GLOB.overmap_impact_sounds)
-		relay(sound)
-		if(damage_amount >= 15) //Flak begone
-			shake_everyone(5)
-		impact_sound_cooldown = TRUE
-		addtimer(VARSET_CALLBACK(src, impact_sound_cooldown, FALSE), 1 SECONDS)
-	update_icon()
-
 /obj/structure/overmap/relaymove(mob/user, direction)
 	if(user != pilot || pilot.incapacitated())
 		return
