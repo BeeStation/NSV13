@@ -15,6 +15,16 @@ Bullet reactions
 		if(M.client)
 			shake_camera(M, severity, 1)
 
+/obj/structure/overmap/proc/e(){
+	while(1){
+		stoplag(1)
+		add_overlay(new /obj/effect/temp_visual/overmap_shield_hit(get_turf(src), src))
+	}
+}
+/obj/structure/overmap/proc/f(){
+	add_overlay(new /obj/effect/temp_visual/overmap_shield_hit(get_turf(src), src))
+}
+
 /obj/structure/overmap/bullet_act(obj/item/projectile/P)
 	if(istype(P, /obj/item/projectile/beam/overmap/aiming_beam))
 		return

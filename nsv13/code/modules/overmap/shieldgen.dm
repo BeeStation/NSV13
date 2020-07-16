@@ -8,6 +8,241 @@
 	var/obj/machinery/shield_generator/shields
 }
 
+/obj/structure/shieldgen_frame
+{
+	name = "Shield Generator Frame";
+	desc = "The beginnings of a shield generator. It requires 2 cooling fans, 4 flux"
+	icon = 'nsv13/icons/obj/machinery/shieldgen.dmi';
+	icon_state = "shieldgen_build1";
+	pixel_x = -32;
+	density = TRUE;
+	layer = HIGH_OBJ_LAYER;
+	var/state = 1;
+	var/fanCount = 0;
+	var/capacitorCount = 0;
+	var/modulatorCount = 0;
+	var/hasInterface = FALSE;
+	var/componentsDone = FALSE;
+}
+
+/datum/techweb_node/ship_shield_tech
+{
+	id = "ship_shield_tech";
+	display_name = "Experimental Shield Technology";
+	description = "Highly experimental shield technology to vastly increase survivability in ships. Although Nanotrasen researchers have had access to this technology for quite some time, the incredible amount of power required to maintain shields has proven to be the greatest challenge in implementing them.";
+	prereq_ids = list("adv_engi");
+	design_ids = list("shield_fan", "shield_capacitor", "shield_modulator", "shield_interface", "shield_frame");
+	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 1000);
+	export_price = 5000;
+}
+
+/datum/design/shield_fan
+{
+	name = "Shield cooling fan";
+	desc = "A component required for producing a shield generator.";
+	id = "shield_fan";
+	build_type = PROTOLATHE;
+	materials = list(/datum/material/iron = 4000, /datum/material/titanium = 4000, /datum/material/glass = 1000);
+	build_path = /obj/item/shield_component/fan;
+	category = list("Experimental Technology");
+	departmental_flags = DEPARTMENTAL_FLAG_ENGINEERING | DEPARTMENTAL_FLAG_SCIENCE;
+}
+
+/datum/design/shield_capacitor
+{
+	name = "Flux Capacitor";
+	desc = "A component required for producing a shield generator.";
+	id = "shield_capacitor";
+	build_type = PROTOLATHE;
+	materials = list(/datum/material/iron = 10000, /datum/material/uranium = 5000, /datum/material/diamond = 5000);
+	build_path = /obj/item/shield_component/capacitor;
+	category = list("Experimental Technology");
+	departmental_flags = DEPARTMENTAL_FLAG_ENGINEERING | DEPARTMENTAL_FLAG_SCIENCE;
+}
+
+
+/datum/design/shield_modulator
+{
+	name = "Shield Modulator";
+	desc = "A component required for producing a shield generator.";
+	id = "shield_modulator";
+	build_type = PROTOLATHE;
+	materials = list(/datum/material/iron = 10000, /datum/material/uranium = 10000, /datum/material/diamond = 10000);
+	build_path = /obj/item/shield_component/modulator;
+	category = list("Experimental Technology");
+	departmental_flags = DEPARTMENTAL_FLAG_ENGINEERING | DEPARTMENTAL_FLAG_SCIENCE;
+}
+
+/datum/design/shield_interface
+{
+	name = "Bluespace Crystal Interface";
+	desc = "A component required for producing a shield generator.";
+	id = "shield_interface";
+	build_type = PROTOLATHE;
+	materials = list(/datum/material/titanium = 10000, /datum/material/bluespace = MINERAL_MATERIAL_AMOUNT, /datum/material/diamond = 10000);
+	build_path = /obj/item/shield_component/interface;
+	category = list("Experimental Technology");
+	departmental_flags = DEPARTMENTAL_FLAG_ENGINEERING | DEPARTMENTAL_FLAG_SCIENCE;
+}
+
+/datum/design/shield_frame
+{
+	name = "Shield Generator Frame";
+	desc = "The basic frame of a shield generator. Assembly required, parts sold separately.";
+	id = "shield_frame";
+	build_type = PROTOLATHE;
+	materials = list(/datum/material/titanium = 20000, /datum/material/iron = 20000);
+	build_path = /obj/structure/shieldgen_frame;
+	category = list("Experimental Technology");
+	departmental_flags = DEPARTMENTAL_FLAG_ENGINEERING | DEPARTMENTAL_FLAG_SCIENCE;
+}
+
+/obj/structure/shieldgen_frame/attackby(obj/item/I, mob/living/user, params)
+	if(state != 11){
+		return FALSE;
+	}
+	switch(I.type)
+		if(/obj/item/shield_component/fan)
+			if(fanCount >= 2){
+				return FALSE;
+			}
+			to_chat(user, "<span class='notice'>You add [I] to [src].</span>");
+			I.forceMove(src);
+			fanCount ++;
+		if(/obj/item/shield_component/capacitor)
+			if(capacitorCount >= 4){
+				return FALSE;
+			}
+			to_chat(user, "<span class='notice'>You add [I] to [src].</span>");
+			I.forceMove(src);
+			capacitorCount ++;
+		if(/obj/item/shield_component/modulator)
+			if(modulatorCount >= 4){
+				return FALSE;
+			}
+			to_chat(user, "<span class='notice'>You add [I] to [src].</span>");
+			I.forceMove(src);
+			modulatorCount ++;
+		if(/obj/item/shield_component/interface)
+			if(hasInterface){
+				return FALSE;
+			}
+			to_chat(user, "<span class='notice'>You add [I] to [src].</span>");
+			I.forceMove(src);
+			hasInterface = TRUE;
+	componentsDone = check_finished();
+	if(componentsDone){
+		state ++;
+	}
+	return FALSE;
+
+/obj/structure/shieldgen_frame/proc/check_finished(){
+	return (fanCount >= 2 && capacitorCount >= 4 && modulatorCount >= 4 && hasInterface);
+}
+
+/obj/structure/shieldgen_frame/proc/finish(){
+	for(var/atom/movable/AM in contents){
+		qdel(AM);
+	}
+	new /obj/machinery/shield_generator(get_turf(src));
+	qdel(src);
+}
+
+/obj/structure/shieldgen_frame/wrench_act(mob/living/user, obj/item/I)
+	switch(state)
+		if(2)
+			to_chat(user, "<span class='notice'>You start to bolt together [src].</span>");
+			if(do_after(user, 5 SECONDS, target=src))
+				state ++
+				update_icon()
+				return FALSE
+		if(4)
+			to_chat(user, "<span class='notice'>You start to bolt [src]'s housings together...</span>")
+			if(do_after(user, 5 SECONDS, target=src))
+				state ++
+				update_icon()
+				return FALSE
+		if(6)
+			to_chat(user, "<span class='notice'>You start to bolt [src]'s connecting struts into its frame.</span>")
+			if(do_after(user, 5 SECONDS, target=src))
+				state ++
+				update_icon()
+				return FALSE
+		if(8)
+			to_chat(user, "<span class='notice'>You start to bolt [src]'s primary generator coverings...</span>")
+			if(do_after(user, 5 SECONDS, target=src))
+				state ++
+				update_icon()
+				return FALSE
+		if(10)
+			to_chat(user, "<span class='notice'>You start to secure [src]'s flux generator housing...</span>")
+			if(do_after(user, 5 SECONDS, target=src))
+				state ++
+				update_icon()
+				return FALSE
+	anchored = !anchored
+	I.play_tool_sound(src)
+	to_chat(user, "<span class='notice'>You [anchored?"secure":"unsecure"] [src].</span>")
+	return FALSE
+
+/obj/structure/shieldgen_frame/screwdriver_act(mob/living/user, obj/item/I)
+{
+	. = FALSE
+	switch(state)
+		if(7)
+			to_chat(user, "<span class='notice'>You start to screw in [src]'s primary generator coverings...</span>");
+			if(do_after(user, 5 SECONDS, target=src)){
+				state ++;
+				update_icon();
+			}
+			return FALSE;
+		if(12)
+			if(!anchored){
+				to_chat(user, "<span class='notice'>[src] must be anchored with a wrench before you can complete it!</span>");
+				return FALSE;
+			}
+			to_chat(user, "<span class='notice'>You start to screw in [src]'s components...</span>");
+			if(do_after(user, 5 SECONDS, target=src)){
+				finish();
+			}
+			return FALSE;
+}
+
+/obj/structure/shieldgen_frame/welder_act(mob/living/user, obj/item/I)
+{
+	. = FALSE
+	switch(state)
+		if(1)
+			to_chat(user, "<span class='notice'>You start to weld the chassis together...</span>");
+			if(do_after(user, 5 SECONDS, target=src)){
+				state ++;
+				update_icon();
+			}
+		if(3)
+			to_chat(user, "<span class='notice'>You start to weld [src]'s connecting struts into its frame.</span>");
+			if(do_after(user, 5 SECONDS, target=src)){
+				state ++;
+				update_icon();
+			}
+		if(5)
+			to_chat(user, "<span class='notice'>You start to weld [src]'s housings to the frame.</span>");
+			if(do_after(user, 5 SECONDS, target=src)){
+				state ++;
+				update_icon();
+			}
+		if(9)
+			to_chat(user, "<span class='notice'>You start to weld [src]'s primary generator coverings...</span>");
+			if(do_after(user, 5 SECONDS, target=src)){
+				state ++;
+				update_icon();
+				return FALSE;
+			}
+}
+
+/obj/structure/shieldgen_frame/update_icon(){
+	icon_state = "shieldgen_build[state]"
+}
+
 /obj/machinery/shield_generator
 {
 	name = "Shield Generator";
@@ -51,6 +286,27 @@
 	name = "Shield Generator Cooling Fan";
 	desc = "A small fan which aids in cooling down a shield generator.";
 	icon_state = "cooling_fan";
+}
+
+/obj/item/shield_component/capacitor
+{
+	name = "Flux Capacitor";
+	desc = "A small capacitor which can generate shield flux.";
+	icon_state = "capacitor";
+}
+
+/obj/item/shield_component/modulator
+{
+	name = "Shield Modulator";
+	desc = "A control circuit for shield systems to allow them to project energy screens around the ship.";
+	icon_state = "modulator";
+}
+
+/obj/item/shield_component/interface
+{
+	name = "Bluespace Crystal Interface";
+	desc = "A housing to hold a bluespace crystal which extends the generated shield around an entire ship via subspace.";
+	icon_state = "crystal_interface";
 }
 
 //Constructor of objects of class shield_generator. No params
@@ -129,19 +385,30 @@
 	icon = 'nsv13/icons/overmap/shieldhit.dmi';
 	icon_state = "shieldhit";
 	duration = 0.75 SECONDS;
+	layer = ABOVE_MOB_LAYER+0.1;
+	animate_movement = NO_STEPS; // Override the inbuilt movement engine to avoid bouncing
+	appearance_flags = TILE_BOUND | PIXEL_SCALE;
 }
 /obj/effect/temp_visual/overmap_shield_hit/Initialize(mapload, obj/structure/overmap/OM){
 	. = ..()
 	alpha = 0;
 	//Scale up the shield hit icon to roughly fit the overmap ship that owns us.
 	var/matrix/desired = new();
-	desired.Turn(OM.angle);
 	var/icon/I = icon(OM.icon);
 	var/resize_x = I.Width()/96;
 	var/resize_y = I.Height()/96;
 	desired.Scale(resize_x,resize_y);
+	desired.Turn(OM.angle);
 	transform = desired;
-	alpha = 255;
+	track(OM);
+}
+/obj/effect/temp_visual/overmap_shield_hit/proc/track(obj/structure/overmap/OM){
+	set waitfor = FALSE;
+	while(!QDELETED(src)){
+		stoplag();
+		forceMove(get_turf(OM));
+		alpha = 255;
+	}
 }
 
 /obj/machinery/shield_generator/ui_act(action, params)
