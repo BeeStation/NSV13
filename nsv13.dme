@@ -14,6 +14,7 @@
 
 // BEGIN_INCLUDE
 #include "_maps\_basemap.dm"
+#include "_maps\tycoon.dm"
 #include "code\_compile_options.dm"
 #include "code\world.dm"
 #include "code\__DEFINES\_globals.dm"
@@ -3103,9 +3104,10 @@
 #include "nsv13\code\game\objects\items\bridge_items.dm"
 #include "nsv13\code\game\objects\items\munitions_items.dm"
 #include "nsv13\code\game\objects\structures\barricade.dm"
+#include "nsv13\code\game\objects\structures\catwalk.dm"
 #include "nsv13\code\game\objects\structures\curtains.dm"
-#include "nsv13\code\game\objects\structures\custom_closets.dm"
 #include "nsv13\code\game\objects\structures\custom_computers.dm"
+#include "nsv13\code\game\objects\structures\custom_closets.dm"
 #include "nsv13\code\game\turfs\wall.dm"
 #include "nsv13\code\game\turfs\window.dm"
 #include "nsv13\code\modules\cargo\packs.dm"
@@ -3126,7 +3128,6 @@
 #include "nsv13\code\modules\jobs\job_types\air_traffic_controller.dm"
 #include "nsv13\code\modules\jobs\job_types\bridge.dm"
 #include "nsv13\code\modules\jobs\job_types\fighter_pilot.dm"
-#include "nsv13\code\modules\jobs\job_types\fighter_technician.dm"
 #include "nsv13\code\modules\jobs\job_types\master_at_arms.dm"
 #include "nsv13\code\modules\jobs\job_types\munitions_technician.dm"
 #include "nsv13\code\modules\jobs\security\aiming.dm"
@@ -3154,6 +3155,7 @@
 #include "nsv13\code\modules\munitions\ship_weapons\ship_weapon_research.dm"
 #include "nsv13\code\modules\munitions\ship_weapons\ballistic_weapons\flak.dm"
 #include "nsv13\code\modules\munitions\ship_weapons\ballistic_weapons\gauss_gun.dm"
+#include "nsv13\code\modules\munitions\ship_weapons\ballistic_weapons\mac.dm"
 #include "nsv13\code\modules\munitions\ship_weapons\ballistic_weapons\pdc.dm"
 #include "nsv13\code\modules\munitions\ship_weapons\ballistic_weapons\pdc_construction.dm"
 #include "nsv13\code\modules\munitions\ship_weapons\ballistic_weapons\railgun.dm"
@@ -3224,3 +3226,4 @@
 #ifdef DONATOR_ITEMS
 #include "nsv13\modules\donator\donator.dm"
 #endif
+

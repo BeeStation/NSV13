@@ -6,6 +6,8 @@
 	bound_width = 96
 	bound_height = 96
 	pixel_x = -44
+	obj_integrity = 500
+	max_integrity = 500
 
 	fire_mode = FIRE_MODE_GAUSS
 	ammo_type = /obj/item/ship_weapon/ammunition/gauss
@@ -74,14 +76,14 @@
 
 /obj/machinery/ship_weapon/gauss_gun/Initialize()
 	. = ..()
-	ammo_rack = new /obj/structure/gauss_rack(src)
-	ammo_rack.gun = src
-	cabin_air = new //NSV (no longer) BROKEN -mark
+	cabin_air = new
 	cabin_air.set_temperature(T20C)
 	cabin_air.set_volume(200)
 	cabin_air.set_moles(/datum/gas/oxygen, O2STANDARD*cabin_air.return_volume()/(R_IDEAL_GAS_EQUATION*cabin_air.return_temperature()))
 	cabin_air.set_moles(/datum/gas/nitrogen, N2STANDARD*cabin_air.return_volume()/(R_IDEAL_GAS_EQUATION*cabin_air.return_temperature()))
 	internal_tank = new /obj/machinery/portable_atmospherics/canister/air(src)
+	ammo_rack = new /obj/structure/gauss_rack(src)
+	ammo_rack.gun = src
 	START_PROCESSING(SSobj, src)
 	lower_rack()
 
@@ -197,10 +199,9 @@
 	return t_air.merge(giver)
 
 /obj/machinery/ship_weapon/gauss_gun/process()
-	. = ..()
-	if(cabin_air?.return_volume() > 0)
+	if(cabin_air && cabin_air.return_volume() > 0)
 		var/delta = cabin_air.return_temperature() - T20C
-		cabin_air.set_temperature(max(-10, min(10, round(delta/4,0.1))))
+		cabin_air.set_temperature(cabin_air.return_temperature() - max(-10, min(10, round(delta/4,0.1))))
 	if(internal_tank && cabin_air)
 		var/datum/gas_mixture/tank_air = internal_tank.return_air()
 		var/release_pressure = ONE_ATMOSPHERE
@@ -225,6 +226,7 @@
 					T.assume_air(removed)
 				else //just delete the cabin gas, we're in space or some shit
 					qdel(removed)
+
 
 //Rack loading
 
