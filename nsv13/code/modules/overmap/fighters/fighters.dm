@@ -240,6 +240,7 @@ You need to fire emag the fighter's IFF board. This makes it list as "ENEMY" on 
 	if(prebuilt)
 		prebuilt_setup()
 	dradis = new /obj/machinery/computer/ship/dradis/internal(src) //Fighters need a way to find their way home.
+	dradis.linked = src
 	obj_integrity = max_integrity
 	RegisterSignal(src, COMSIG_MOVABLE_MOVED, .proc/check_overmap_elegibility) //Used to smoothly transition from ship to overmap
 	add_overlay(image(icon = icon, icon_state = "canopy_open", dir = SOUTH))
@@ -752,6 +753,7 @@ You need to fire emag the fighter's IFF board. This makes it list as "ENEMY" on 
 		if(M == last_pilot && !what.pilot) //Let the pilot fly the new ship, unless it already has a pilot.
 			what.start_piloting(M, "pilot")
 			what.mobs_in_ship += M
+			what.attack_hand(M) //Pop up the UI panel.
 			continue
 		what.start_piloting(M, "observer") //So theyre unable to fly the pod
 		what.mobs_in_ship += M
