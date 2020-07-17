@@ -111,3 +111,19 @@
 	W.assignment = "Admiral"
 	W.registered_name = H.real_name
 	W.update_label()
+
+//Solgov
+
+/datum/outfit/centcom_admiral/solgov_admiral
+	name = "Admiral (SolGov)"
+	uniform = /obj/item/clothing/under/ship/solgov/admiral
+	suit = null
+	shoes = /obj/item/clothing/shoes/jackboots
+	gloves = /obj/item/clothing/gloves/combat
+	glasses = /obj/item/clothing/glasses/sunglasses
+	ears = /obj/item/radio/headset/headset_cent/commander
+	head = /obj/item/clothing/head/beret/ship/admiral
+	belt = null
+	r_pocket = /obj/item/lighter
+	back = /obj/item/storage/backpack/satchel
+	id = /obj/item/card/id
