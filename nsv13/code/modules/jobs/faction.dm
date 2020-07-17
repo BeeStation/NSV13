@@ -44,6 +44,13 @@
 	head = null
 	shoes = /obj/item/clothing/shoes/jackboots //White shoes look awful with this
 
+/datum/outfit/job/assistant_ship/solgov
+	name = "Assistant (SolGov)"
+	uniform = /obj/item/clothing/under/ship/solgov
+	suit = null
+	head = null
+	shoes = /obj/item/clothing/shoes/jackboots //White shoes look awful with this
+
 /datum/outfit/job/atmos/solgov
 	name = "Atmos Tech (SolGov)"
 	uniform = /obj/item/clothing/under/ship/solgov/engsec
