@@ -175,7 +175,7 @@
 				data["can_jump"] = FALSE
 				data["can_cancel"] = FALSE
 	data["screen"] = screen
-	data["can_cancel"] = linked.ftl_drive.ftl_state == FTL_STATE_JUMPING && linked.ftl_drive.can_cancel_jump
+	data["can_cancel"] = linked?.ftl_drive?.ftl_state == FTL_STATE_JUMPING && linked?.ftl_drive?.can_cancel_jump
 	return data
 
 /obj/machinery/computer/ship/navigation/proc/is_in_range(datum/star_system/current_system, datum/star_system/system)
