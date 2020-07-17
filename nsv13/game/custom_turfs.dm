@@ -91,7 +91,11 @@
 	icon = 'nsv13/icons/turf/dark_carpet.dmi'
 	icon_state = "dark_carpet"
 	floor_tile = /obj/item/stack/tile/carpet/ship
-	canSmoothWith = list(/turf/open/floor/carpet/ship)
+	canSmoothWith = null
+
+/turf/open/floor/carpet/ship/Initialize()
+	. = ..()
+	canSmoothWith = typecacheof(/turf/open/floor/carpet/ship)
 
 /obj/item/stack/tile/carpet/ship
 	name = "nanoweave carpet tile"
@@ -101,6 +105,86 @@
 	icon_state = "dark_carpet_tile"
 	resistance_flags = FLAMMABLE
 	turf_type = /turf/open/floor/carpet/ship
+
+/turf/open/floor/carpet/ship/blue
+	name = "nanoweave carpet (blue)"
+	desc = "A padded piece of hull plating which can make a space based installation feel more homely."
+	icon = 'nsv13/icons/turf/blue_carpet.dmi'
+	icon_state = "blue_carpet"
+	floor_tile = /obj/item/stack/tile/carpet/ship/blue
+
+/obj/item/stack/tile/carpet/ship/blue
+	name = "nanoweave carpet tile (blue)"
+	singular_name = "nanoweave carpet tile"
+	desc = "A regular nanoweave carpet tile"
+	icon = 'nsv13/icons/turf/blue_carpet.dmi'
+	icon_state = "blue_carpet_tile"
+	resistance_flags = FLAMMABLE
+	turf_type = /turf/open/floor/carpet/ship/blue
+
+/turf/open/floor/carpet/ship/orange_carpet
+	name = "nanoweave carpet (orange)"
+	desc = "A padded piece of hull plating which can make a space based installation feel more homely."
+	icon = 'nsv13/icons/turf/orange_carpet.dmi'
+	icon_state = "orange_carpet"
+	floor_tile = /obj/item/stack/tile/carpet/ship/orange_carpet
+
+/obj/item/stack/tile/carpet/ship/orange_carpet
+	name = "nanoweave carpet tile (orange)"
+	singular_name = "nanoweave carpet tile"
+	desc = "A regular nanoweave carpet tile"
+	icon = 'nsv13/icons/turf/orange_carpet.dmi'
+	icon_state = "orange_carpet_tile"
+	resistance_flags = FLAMMABLE
+	turf_type = /turf/open/floor/carpet/ship/orange_carpet
+
+/turf/open/floor/carpet/ship/purple_carpet
+	name = "nanoweave carpet (purple)"
+	desc = "A padded piece of hull plating which can make a space based installation feel more homely."
+	icon = 'nsv13/icons/turf/purple_carpet.dmi'
+	icon_state = "purple_carpet"
+	floor_tile = /obj/item/stack/tile/carpet/ship/purple_carpet
+
+/obj/item/stack/tile/carpet/ship/purple_carpet
+	name = "nanoweave carpet tile (purple)"
+	singular_name = "nanoweave carpet tile"
+	desc = "A regular nanoweave carpet tile"
+	icon = 'nsv13/icons/turf/purple_carpet.dmi'
+	icon_state = "purple_carpet_tile"
+	resistance_flags = FLAMMABLE
+	turf_type = /turf/open/floor/carpet/ship/purple_carpet
+
+/turf/open/floor/carpet/ship/beige_carpet
+	name = "nanoweave carpet (beige)"
+	desc = "A padded piece of hull plating which can make a space based installation feel more homely."
+	icon = 'nsv13/icons/turf/beige_carpet.dmi'
+	icon_state = "beige_carpet"
+	floor_tile = /obj/item/stack/tile/carpet/ship/beige_carpet
+
+/obj/item/stack/tile/carpet/ship/beige_carpet
+	name = "nanoweave carpet tile (beige)"
+	singular_name = "nanoweave carpet tile"
+	desc = "A regular nanoweave carpet tile"
+	icon = 'nsv13/icons/turf/beige_carpet.dmi'
+	icon_state = "beige_carpet_tile"
+	resistance_flags = FLAMMABLE
+	turf_type = /turf/open/floor/carpet/ship/beige_carpet
+
+/turf/open/floor/carpet/ship/red_carpet
+	name = "nanoweave carpet (red)"
+	desc = "A padded piece of hull plating which can make a space based installation feel more homely."
+	icon = 'nsv13/icons/turf/red_carpet.dmi'
+	icon_state = "red_carpet"
+	floor_tile = /obj/item/stack/tile/carpet/ship/red_carpet
+
+/obj/item/stack/tile/carpet/ship/red_carpet
+	name = "nanoweave carpet tile (red)"
+	singular_name = "nanoweave carpet tile"
+	desc = "A regular nanoweave carpet tile"
+	icon = 'nsv13/icons/turf/beige_carpet.dmi'
+	icon_state = "red_carpet_tile"
+	resistance_flags = FLAMMABLE
+	turf_type = /turf/open/floor/carpet/ship/red_carpet
 
 /obj/structure/window/reinforced/fulltile/ship
 	name = "Nanocarbon reinforced window"
