@@ -545,7 +545,7 @@
 	name = "uniform jacket"
 	desc = "An extremely comfortable jacket with some storage pockets for tools."
 	icon = 'nsv13/icons/obj/clothing/accessories.dmi'
-	alternate_worn_icon = 'nsv13/icons/mob/accessories.dmi'
+//	alternate_worn_icon = 'nsv13/icons/mob/accessories.dmi' For some reason this doesn't just work :(
 	icon_state = "trekjacket"
 	item_color = "trekjacket"
 	item_state = "trekjacket"
@@ -574,18 +574,18 @@
 	item_state = "trekjacket_medsci"
 
 /obj/item/clothing/accessory/solgov_jacket/formal
-	name = "dress jacket"
+	name = "XO's dress jacket"
 	desc = "An extremely comfortable jacket laced with gold silk, such a piece is usually reserved for diplomatic occasions."
-	icon_state = "trekjacket_formal"
-	item_color = "trekjacket_formal"
-	item_state = "trekjacket_formal"
-
-/obj/item/clothing/accessory/solgov_jacket/formal/captain
-	name = "captain's dress jacket"
-	desc = "An extremely comfortable jacket laced with gold silk, such a piece is usually reserved for diplomatic occasions. This one is reserved for starship captains and above, and is emblazened with the federation's crest."
 	icon_state = "trekjacket_captain"
 	item_color = "trekjacket_captain"
 	item_state = "trekjacket_captain"
+
+/obj/item/clothing/accessory/solgov_jacket/formal/captain
+	name = "captain's dress jacket"
+	desc = "An extremely comfortable jacket laced with gold silk. Reserved for starship captains and above, it's emblazened with Solgov's crest and signifies grace."
+	icon_state = "trekjacket_formal"
+	item_color = "trekjacket_formal"
+	item_state = "trekjacket_formal"
 
 /datum/action/item_action/nsv13_jacket_swap
 	name = "Toggle jacket style"
