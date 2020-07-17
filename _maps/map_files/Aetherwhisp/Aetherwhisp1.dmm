@@ -913,7 +913,7 @@
 /obj/structure/cable/white{
 	icon_state = "0-2"
 	},
-/obj/machinery/atmospherics/components/binary/stormdrive_reactor{
+/obj/machinery/atmospherics/components/binary/stormdrive_reactor/solgov{
 	reactor_id = 1
 	},
 /turf/open/floor/engine/vacuum,
@@ -4169,6 +4169,15 @@
 	},
 /turf/open/floor/wood,
 /area/lawoffice)
+"dch" = (
+/obj/machinery/atmospherics/pipe/heat_exchanging/simple{
+	dir = 4
+	},
+/obj/structure/cable/yellow{
+	icon_state = "1-2"
+	},
+/turf/open/floor/carpet/ship/orange_carpet,
+/area/tcommsat/server)
 "dcM" = (
 /obj/structure/cable{
 	icon_state = "1-4"
@@ -9233,6 +9242,13 @@
 /obj/machinery/status_display/evac,
 /turf/closed/wall/ship,
 /area/crew_quarters/bar)
+"gUq" = (
+/obj/effect/spawner/structure/window/reinforced,
+/obj/structure/cable/yellow{
+	icon_state = "1-2"
+	},
+/turf/open/floor/plating,
+/area/tcommsat/server)
 "gUG" = (
 /obj/structure/cable{
 	icon_state = "1-2"
@@ -10311,16 +10327,7 @@
 /turf/open/floor/plating,
 /area/maintenance/department/engine/atmos)
 "hJG" = (
-/obj/structure/cable/white{
-	icon_state = "4-8"
-	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
-	dir = 4
-	},
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
-	dir = 4
-	},
-/obj/structure/cable/white{
+/obj/structure/cable/yellow{
 	icon_state = "2-4"
 	},
 /turf/open/floor/carpet/ship/orange_carpet,
@@ -10574,6 +10581,9 @@
 /area/maintenance/department/medical)
 "hVC" = (
 /obj/item/twohanded/required/kirbyplants/random,
+/obj/structure/cable/yellow{
+	icon_state = "4-8"
+	},
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/science/misc_lab{
 	name = "Shield Generator"
@@ -11322,6 +11332,9 @@
 "izc" = (
 /obj/structure/cable/yellow{
 	icon_state = "4-8"
+	},
+/obj/structure/cable/yellow{
+	icon_state = "1-4"
 	},
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/tcommsat/server)
@@ -19216,7 +19229,9 @@
 /area/hallway/secondary/entry)
 "otY" = (
 /obj/machinery/power/apc/auto_name/east,
-/obj/structure/cable/white,
+/obj/structure/cable/yellow{
+	icon_state = "0-8"
+	},
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/science/misc_lab{
 	name = "Shield Generator"
@@ -29805,6 +29820,9 @@
 	},
 /obj/structure/cable/white{
 	icon_state = "1-2"
+	},
+/obj/structure/cable/white{
+	icon_state = "0-2"
 	},
 /turf/open/floor/engine,
 /area/science/misc_lab{
@@ -48150,9 +48168,9 @@ wpX
 kUj
 cDF
 gSp
-cDF
-mgZ
-qMB
+hJG
+gUq
+dch
 izc
 uzp
 uzp
@@ -48663,7 +48681,7 @@ hbR
 hbR
 xhn
 xxj
-hJG
+gSp
 otY
 xTl
 qRb

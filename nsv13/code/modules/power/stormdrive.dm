@@ -137,10 +137,18 @@ Control Rods
 	var/gas_records_length = 120
 	var/gas_records_interval = 10
 	var/gas_records_next_interval = 0
+	var/base_power = 50000 //Base power modifier. Increase this, get more power.(100000 - halfing since > doubling+ base cap)
 
 /obj/machinery/atmospherics/components/binary/stormdrive_reactor/syndicate
 	radio_key = /obj/item/encryptionkey/syndicate
 	engineering_channel = "Syndicate"
+
+/obj/machinery/atmospherics/components/binary/stormdrive_reactor/solgov
+	name = "Class V ionic storm drive"
+	desc = "A highly advanced ionic drive used by SolGov to power their space vessels. Through the application of inverse-ions to the endostorm, more efficient matter to energy conversion is achieved."
+	base_power = 85000 //Base power modifier. Increase this, get more power.(100000 - halfing since > doubling+ base cap)
+	icon = 'nsv13/goonstation/icons/reactor_solgov.dmi'
+	theoretical_maximum_power = 20000000
 
 /obj/machinery/atmospherics/components/binary/stormdrive_reactor/attackby(obj/item/I, mob/living/carbon/user, params)
 	if(istype(I, /obj/item/control_rod))
@@ -620,7 +628,6 @@ Control Rods
 					to_chat(M, "<span class='danger'>The reactor [word]!</span>")
 
 	input_power = ((heat/150)**3) * input_power_modifier
-	var/base_power = 50000 //100000 - halfing since > doubling+ base cap
 	var/power_produced = base_power
 	last_power_produced = max(0,(power_produced*input_power) - nucleium_power_reduction)
 

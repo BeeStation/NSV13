@@ -2,6 +2,7 @@ import { Fragment } from 'inferno';
 import { useBackend, useLocalState } from '../backend';
 import { Box, Button, Section, ProgressBar, Slider } from '../components';
 import { Window } from '../layouts';
+import { toFixed } from 'common/math';
 
 export const ShieldGenerator = (props, context) => {
   const { act, data } = useBackend(context);
@@ -11,6 +12,7 @@ export const ShieldGenerator = (props, context) => {
   const goal = data.goal;
   const powerAlloc = data.powerAlloc;
   const maxPower = data.maxPower;
+  const availablePower = data.available_power;
   return (
     <Window resizable theme="ntos">
       <Window.Content scrollable>
@@ -26,6 +28,16 @@ export const ShieldGenerator = (props, context) => {
               average: [0.15, 0.50],
               bad: [-Infinity, 0.15],
             }} />
+          <br />
+          Available Power:
+          <br />
+          <ProgressBar
+            value={availablePower}
+            minValue={0}
+            maxValue={powerAlloc*1e+6}
+            color="yellow">
+            {toFixed(availablePower / 1000) + ' kW'}
+          </ProgressBar>
         </Section>
         <Section title="Settings:" buttons={<Button
           fluid
@@ -59,7 +71,7 @@ export const ShieldGenerator = (props, context) => {
             value={powerAlloc}
             minValue={0}
             maxValue={maxPower}
-            step={0.5}
+            step={0.25}
             stepPixelSize={5}
             onDrag={(e, value) => act('power', {
               input: value,
