@@ -218,7 +218,6 @@
 /area/security/detectives_office)
 "ahF" = (
 /obj/structure/bed,
-/obj/structure/bed,
 /obj/item/bedsheet/nanotrasen,
 /obj/structure/sign/poster/random{
 	pixel_y = 32
@@ -2175,7 +2174,11 @@
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/engine/atmos)
 "bwH" = (
-/obj/machinery/atmospherics/pipe/manifold/orange/hidden{
+/obj/machinery/atmospherics/components/unary/vent_pump/siphon/atmos{
+	id_tag = "supermatter_fusion_out";
+	on = 0
+	},
+/obj/machinery/atmospherics/pipe/simple/yellow/hidden{
 	dir = 4
 	},
 /turf/open/floor/engine,
@@ -2661,10 +2664,8 @@
 	name = "Stormdrive Interior"
 	})
 "bRZ" = (
-/obj/machinery/atmospherics/components/unary/outlet_injector/atmos{
-	dir = 4;
-	id = "supermatter_fusion_in";
-	on = 0
+/obj/machinery/igniter{
+	id = "superigniter"
 	},
 /turf/open/floor/engine,
 /area/engine/supermatter)
@@ -2753,6 +2754,9 @@
 "bVh" = (
 /obj/machinery/atmospherics/components/binary/pump{
 	dir = 8
+	},
+/obj/structure/cable/white{
+	icon_state = "0-2"
 	},
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/engine/atmospherics_engine)
@@ -3158,9 +3162,11 @@
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/engine/atmospherics_engine)
 "ckh" = (
-/obj/item/stack/sheet/iron/ten,
-/turf/open/floor/carpet/ship/orange_carpet,
-/area/engine/atmospherics_engine)
+/obj/machinery/atmospherics/pipe/simple/orange/hidden{
+	dir = 5
+	},
+/turf/open/floor/engine,
+/area/engine/supermatter)
 "ckj" = (
 /obj/structure/cable/yellow{
 	icon_state = "4-8"
@@ -3249,6 +3255,9 @@
 /obj/machinery/power/generator,
 /obj/structure/cable/white{
 	icon_state = "0-2"
+	},
+/obj/structure/cable/white{
+	icon_state = "1-2"
 	},
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/engine/atmospherics_engine)
@@ -3414,7 +3423,6 @@
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/engine/storage)
 "ctT" = (
-/obj/machinery/airalarm/directional/west,
 /obj/machinery/meter/atmos/distro_loop{
 	pixel_x = -6;
 	pixel_y = -6;
@@ -3669,11 +3677,12 @@
 /area/security/prison)
 "cGN" = (
 /obj/structure/table/wood,
+/obj/item/taperecorder,
+/obj/item/book/manual/wiki/security_space_law,
 /obj/item/flashlight/lamp/green{
 	pixel_x = 1;
 	pixel_y = 5
 	},
-/obj/item/taperecorder,
 /turf/open/floor/wood,
 /area/lawoffice)
 "cGP" = (
@@ -4457,6 +4466,7 @@
 /obj/machinery/atmospherics/pipe/simple/orange/visible{
 	dir = 4
 	},
+/obj/item/analyzer,
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/engine/atmospherics_engine)
 "dpq" = (
@@ -5041,6 +5051,9 @@
 	},
 /obj/machinery/camera/autoname{
 	dir = 1
+	},
+/obj/machinery/door/window/westleft{
+	req_one_access_txt = "25"
 	},
 /turf/open/floor/wood,
 /area/crew_quarters/bar)
@@ -6544,7 +6557,6 @@
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/engine/atmospherics_engine)
 "eQR" = (
-/obj/machinery/airalarm/directional/east,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	dir = 9
 	},
@@ -6667,7 +6679,9 @@
 /turf/open/floor/carpet/ship/beige_carpet,
 /area/hallway/primary/central)
 "eUG" = (
-/obj/machinery/atmospherics/pipe/simple/orange/visible,
+/obj/machinery/atmospherics/pipe/manifold/orange/hidden{
+	dir = 4
+	},
 /turf/open/floor/engine,
 /area/engine/supermatter)
 "eUI" = (
@@ -7399,6 +7413,7 @@
 	info = "<p>Reminder that squad equipment vendors are located in the council chamber, tool storage, and that 4-way junction at the primary hallway, Deck 1</p>"
 	},
 /obj/item/reagent_containers/spray/cleaner,
+/obj/effect/landmark/zebra_interlock_point,
 /turf/open/floor/plating,
 /area/medical/medbay/lobby)
 "fvs" = (
@@ -7434,7 +7449,6 @@
 /turf/open/floor/carpet/orange,
 /area/engine/break_room)
 "fxa" = (
-/obj/machinery/airalarm/directional/west,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	dir = 5
 	},
@@ -7497,16 +7511,15 @@
 	sensors = list("supermatter_fusion_sensor" = "Supermatter Fusion Chamber")
 	},
 /obj/machinery/button/door{
-	id = "superigniter";
-	name = "Supermatter Fusion Ignite";
-	pixel_x = -26;
-	pixel_y = 26
-	},
-/obj/machinery/button/door{
 	id = "supermatter_fusion_shutter";
 	name = "Supermatter Fusion Vent";
 	pixel_x = -26;
 	pixel_y = 38
+	},
+/obj/machinery/button/ignition{
+	id = "superigniter";
+	pixel_x = -26;
+	pixel_y = 26
 	},
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/engine/atmospherics_engine)
@@ -8250,7 +8263,7 @@
 /turf/open/floor/carpet/ship/beige_carpet,
 /area/hallway/primary/central)
 "gbS" = (
-/obj/machinery/smartfridge,
+/obj/machinery/smartfridge/organ,
 /turf/closed/wall/ship,
 /area/medical/surgery/aux)
 "gbV" = (
@@ -10176,6 +10189,9 @@
 /obj/structure/table/reinforced,
 /obj/machinery/door/firedoor/border_only/directional/south,
 /obj/effect/landmark/zebra_interlock_point,
+/obj/machinery/door/poddoor/shutters/ship/preopen{
+	id = "kitchen_shutter"
+	},
 /turf/open/floor/plating,
 /area/crew_quarters/kitchen)
 "hHd" = (
@@ -10239,20 +10255,16 @@
 /turf/open/floor/carpet/ship/blue,
 /area/medical/medbay/lobby)
 "hHS" = (
-/obj/machinery/computer/ship/navigation/public{
-	dir = 8;
-	name = "starmap console"
-	},
 /obj/structure/cable{
 	icon_state = "1-2"
-	},
-/obj/machinery/computer/ship/viewscreen{
-	pixel_x = 32
 	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /obj/structure/disposalpipe/segment,
 /obj/machinery/atmospherics/pipe/simple/purple/hidden,
+/obj/machinery/computer/warrant{
+	dir = 8
+	},
 /turf/open/floor/carpet/ship/beige_carpet,
 /area/hallway/secondary/entry)
 "hIk" = (
@@ -10382,6 +10394,7 @@
 /obj/structure/cable/yellow{
 	icon_state = "4-8"
 	},
+/obj/structure/extinguisher_cabinet/west,
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/engine/engine_smes)
 "hMB" = (
@@ -11100,6 +11113,7 @@
 /area/shuttle/turbolift)
 "ipd" = (
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3,
+/obj/item/stack/sheet/iron/ten,
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/engine/atmospherics_engine)
 "ipD" = (
@@ -11127,6 +11141,9 @@
 "iqA" = (
 /obj/machinery/atmospherics/components/binary/pump{
 	dir = 4
+	},
+/obj/structure/cable/white{
+	icon_state = "1-2"
 	},
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/engine/atmospherics_engine)
@@ -11488,7 +11505,7 @@
 /turf/open/floor/carpet/ship,
 /area/maintenance/department/engine)
 "iFL" = (
-/obj/machinery/smartfridge,
+/obj/machinery/smartfridge/organ,
 /turf/closed/wall/ship,
 /area/medical/surgery)
 "iFS" = (
@@ -12927,6 +12944,7 @@
 	icon_state = "4-8"
 	},
 /obj/item/clothing/ears/earmuffs,
+/obj/structure/extinguisher_cabinet/east,
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/engine/engine_smes)
 "jJN" = (
@@ -13795,7 +13813,23 @@
 	name = "Shield Generator"
 	})
 "kry" = (
-/obj/structure/closet/gmcloset,
+/obj/structure/closet,
+/obj/item/clothing/under/dress/blacktango,
+/obj/item/clothing/under/dress/redeveninggown,
+/obj/item/clothing/under/dress/skirt,
+/obj/item/clothing/under/dress/skirt/blue,
+/obj/item/clothing/under/dress/skirt/plaid,
+/obj/item/clothing/under/dress/skirt/purple,
+/obj/item/clothing/under/dress/skirt/red,
+/obj/item/clothing/under/suit/black,
+/obj/item/clothing/under/suit/black,
+/obj/item/clothing/under/suit/black,
+/obj/item/clothing/under/suit/charcoal,
+/obj/item/clothing/under/suit/charcoal,
+/obj/item/clothing/under/suit/charcoal,
+/obj/item/clothing/under/suit/waiter,
+/obj/item/clothing/under/suit/waiter,
+/obj/item/clothing/under/suit/waiter,
 /turf/open/floor/carpet/ship,
 /area/crew_quarters/kitchen)
 "krU" = (
@@ -14275,8 +14309,9 @@
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/engine/atmos)
 "kJL" = (
-/obj/machinery/computer/ship/viewscreen,
-/obj/structure/table,
+/obj/machinery/computer/ship/dradis{
+	dir = 1
+	},
 /turf/open/floor/carpet/orange,
 /area/engine/engine_smes)
 "kKb" = (
@@ -14347,6 +14382,7 @@
 /obj/item/radio/intercom,
 /obj/item/paper_bin,
 /obj/item/pen,
+/obj/effect/landmark/zebra_interlock_point,
 /turf/open/floor/plating,
 /area/medical/medbay/lobby)
 "kOy" = (
@@ -15224,6 +15260,7 @@
 /obj/machinery/door/firedoor/border_only/directional/south,
 /obj/machinery/firealarm/directional/west,
 /obj/item/reagent_containers/food/snacks/cookie,
+/obj/effect/landmark/zebra_interlock_point,
 /turf/open/floor/plating,
 /area/medical/medbay/lobby)
 "ltM" = (
@@ -18284,6 +18321,11 @@
 "nAX" = (
 /obj/structure/table/wood,
 /obj/machinery/computer/secure_data/laptop,
+/obj/item/pen/fountain,
+/obj/item/pen/fourcolor{
+	pixel_x = -3;
+	pixel_y = -3
+	},
 /turf/open/floor/wood,
 /area/lawoffice)
 "nBw" = (
@@ -19015,8 +19057,11 @@
 /turf/open/floor/plating,
 /area/maintenance/department/engine/atmos)
 "oit" = (
-/obj/machinery/igniter{
-	id = "superigniter"
+/obj/machinery/atmospherics/pipe/simple/orange/hidden{
+	dir = 4
+	},
+/obj/machinery/air_sensor/atmos{
+	id_tag = "supermatter_fusion_sensor"
 	},
 /turf/open/floor/engine,
 /area/engine/supermatter)
@@ -19198,16 +19243,6 @@
 /obj/structure/filingcabinet,
 /turf/open/floor/carpet/ship/red_carpet,
 /area/security/main)
-"osE" = (
-/obj/machinery/atmospherics/components/unary/vent_pump/siphon/atmos{
-	id_tag = "supermatter_fusion_out";
-	on = 0
-	},
-/obj/machinery/atmospherics/pipe/simple/yellow/hidden{
-	dir = 4
-	},
-/turf/open/floor/engine,
-/area/engine/supermatter)
 "otb" = (
 /obj/structure/closet/firecloset/full,
 /obj/item/clothing/glasses/welding,
@@ -19692,6 +19727,9 @@
 /obj/machinery/door/firedoor/border_only/directional/south,
 /obj/item/reagent_containers/food/snacks/pie/cream,
 /obj/effect/landmark/zebra_interlock_point,
+/obj/machinery/door/poddoor/shutters/ship/preopen{
+	id = "kitchen_shutter"
+	},
 /turf/open/floor/plating,
 /area/crew_quarters/kitchen)
 "oMJ" = (
@@ -20287,6 +20325,7 @@
 "piL" = (
 /obj/structure/table/reinforced,
 /obj/machinery/door/firedoor/border_only/directional/south,
+/obj/effect/landmark/zebra_interlock_point,
 /turf/open/floor/plating,
 /area/medical/medbay/lobby)
 "pjE" = (
@@ -20529,8 +20568,9 @@
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/engine/atmos)
 "pts" = (
-/obj/machinery/atmospherics/pipe/simple/orange/hidden{
-	dir = 5
+/obj/machinery/atmospherics/components/unary/vent_pump/siphon/atmos{
+	id_tag = "supermatter_fusion_out";
+	on = 0
 	},
 /turf/open/floor/engine,
 /area/engine/supermatter)
@@ -20921,13 +20961,9 @@
 /turf/open/floor/plating,
 /area/maintenance/department/engine)
 "pKs" = (
-/obj/structure/table/wood,
-/obj/item/book/manual/wiki/security_space_law,
-/obj/item/pen/fourcolor{
-	pixel_x = -3;
-	pixel_y = -3
+/obj/machinery/computer/warrant{
+	dir = 1
 	},
-/obj/item/pen/fountain,
 /turf/open/floor/wood,
 /area/lawoffice)
 "pKI" = (
@@ -21767,12 +21803,6 @@
 /obj/structure/extinguisher_cabinet/east,
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/engine/storage)
-"qpd" = (
-/obj/machinery/atmospherics/pipe/simple/yellow/hidden{
-	dir = 10
-	},
-/turf/open/floor/engine,
-/area/engine/supermatter)
 "qpj" = (
 /obj/machinery/status_display/ai,
 /turf/closed/wall/r_wall/ship,
@@ -22332,7 +22362,6 @@
 /turf/open/floor/carpet/ship/beige_carpet,
 /area/crew_quarters/bar)
 "qIn" = (
-/obj/machinery/airalarm/directional/east,
 /obj/machinery/meter/atmos/distro_loop{
 	pixel_x = -6;
 	pixel_y = -6;
@@ -22462,7 +22491,7 @@
 /area/ai_monitored/security/armory/lockup)
 "qOb" = (
 /obj/machinery/atmospherics/pipe/simple/yellow/hidden{
-	dir = 5
+	dir = 4
 	},
 /turf/open/floor/engine,
 /area/engine/supermatter)
@@ -22700,6 +22729,11 @@
 /area/shuttle/turbolift/shaft)
 "qYb" = (
 /obj/machinery/light,
+/obj/machinery/button/door{
+	id = "kitchen_shutter";
+	pixel_x = 6;
+	pixel_y = -26
+	},
 /turf/open/floor/carpet,
 /area/crew_quarters/kitchen)
 "qZd" = (
@@ -22952,6 +22986,9 @@
 /obj/item/kitchen/fork,
 /obj/machinery/door/firedoor/border_only/directional/south,
 /obj/effect/landmark/zebra_interlock_point,
+/obj/machinery/door/poddoor/shutters/ship/preopen{
+	id = "kitchen_shutter"
+	},
 /turf/open/floor/plating,
 /area/crew_quarters/kitchen)
 "rmW" = (
@@ -23071,6 +23108,9 @@
 /obj/item/pen,
 /obj/machinery/door/firedoor/border_only/directional/south,
 /obj/effect/landmark/zebra_interlock_point,
+/obj/machinery/door/poddoor/shutters/ship/preopen{
+	id = "kitchen_shutter"
+	},
 /turf/open/floor/plating,
 /area/crew_quarters/kitchen)
 "rqW" = (
@@ -24562,7 +24602,7 @@
 /obj/machinery/light{
 	dir = 1
 	},
-/obj/structure/extinguisher_cabinet/north,
+/obj/machinery/computer/ship/viewscreen,
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/engine/engine_smes)
 "sGU" = (
@@ -24586,17 +24626,16 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 4
 	},
-/obj/machinery/button/door{
-	id = "superigniter";
-	name = "Supermatter Fusion Ignite";
-	pixel_x = 6;
-	pixel_y = -26
-	},
 /obj/structure/chair/comfy/shuttle{
 	dir = 8;
 	icon_state = "shuttle_chair"
 	},
 /obj/machinery/airalarm/directional/north,
+/obj/machinery/button/ignition{
+	id = "superigniter";
+	pixel_x = 6;
+	pixel_y = -26
+	},
 /turf/open/floor/engine,
 /area/engine/atmospherics_engine)
 "sIA" = (
@@ -25654,13 +25693,6 @@
 /obj/machinery/vending/clothing,
 /turf/open/floor/carpet/ship/beige_carpet,
 /area/hallway/secondary/entry)
-"txC" = (
-/obj/machinery/atmospherics/components/unary/vent_pump/siphon/atmos{
-	id_tag = "supermatter_fusion_out";
-	on = 0
-	},
-/turf/open/floor/engine,
-/area/engine/supermatter)
 "txN" = (
 /obj/structure/sign/directions/command{
 	pixel_y = 4
@@ -26827,11 +26859,10 @@
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/tcommsat/server)
 "uzs" = (
-/obj/machinery/air_sensor/atmos{
-	id_tag = "supermatter_fusion_sensor"
-	},
-/obj/machinery/atmospherics/pipe/simple/orange/hidden{
-	dir = 4
+/obj/machinery/atmospherics/components/unary/outlet_injector/atmos{
+	dir = 4;
+	id = "supermatter_fusion_in";
+	on = 0
 	},
 /turf/open/floor/engine,
 /area/engine/supermatter)
@@ -26930,7 +26961,9 @@
 /turf/open/floor/wood,
 /area/crew_quarters/bar)
 "uDt" = (
-/obj/item/analyzer,
+/obj/structure/cable/white{
+	icon_state = "1-2"
+	},
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/engine/atmospherics_engine)
 "uDy" = (
@@ -27156,6 +27189,10 @@
 /area/medical/storage)
 "uMi" = (
 /obj/machinery/firealarm/directional/east,
+/obj/structure/sink{
+	dir = 4;
+	pixel_x = 11
+	},
 /turf/open/floor/carpet/ship,
 /area/chapel/office)
 "uMG" = (
@@ -28384,9 +28421,12 @@
 	})
 "vEp" = (
 /obj/machinery/light_switch/east,
-/obj/structure/sink{
-	dir = 4;
-	pixel_x = 11
+/obj/structure/bodycontainer/crematorium{
+	dir = 8
+	},
+/obj/machinery/button/crematorium{
+	pixel_x = 24;
+	pixel_y = -10
 	},
 /turf/open/floor/carpet/ship,
 /area/chapel/office)
@@ -29607,6 +29647,9 @@
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	dir = 4
 	},
+/obj/structure/cable/yellow{
+	icon_state = "1-2"
+	},
 /turf/closed/wall/r_wall/ship,
 /area/engine/atmospherics_engine)
 "wEb" = (
@@ -29637,11 +29680,11 @@
 /turf/open/floor/plating,
 /area/maintenance/central/secondary)
 "wEX" = (
+/obj/machinery/newscaster/directional/east,
 /obj/structure/bodycontainer/morgue{
-	dir = 2;
+	dir = 8;
 	icon_state = "morgue1"
 	},
-/obj/machinery/newscaster/directional/east,
 /turf/open/floor/carpet/ship,
 /area/chapel/office)
 "wEY" = (
@@ -47937,9 +47980,9 @@ baX
 baX
 mRA
 yeG
-txC
-pts
 yeG
+pts
+ckh
 yeG
 yeG
 oQw
@@ -48193,10 +48236,10 @@ usX
 baX
 baX
 mRA
-oit
+yeG
 bRZ
 uzs
-yeG
+oit
 oQw
 xje
 oQw
@@ -48451,7 +48494,7 @@ aIO
 aIO
 mRA
 yeG
-osE
+yeG
 bwH
 eUG
 uYb
@@ -48708,7 +48751,7 @@ baX
 baX
 dLF
 yeG
-qpd
+yeG
 qOb
 yeG
 oQw
@@ -49738,8 +49781,8 @@ oQw
 nyz
 oQw
 bVh
-iom
-iom
+uDt
+uDt
 iqA
 uDt
 cnq
@@ -50252,7 +50295,7 @@ sRW
 nPH
 uWJ
 iom
-ckh
+iom
 iom
 iom
 lOk

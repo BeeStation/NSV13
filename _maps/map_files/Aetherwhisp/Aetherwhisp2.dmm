@@ -149,6 +149,7 @@
 /obj/machinery/door/firedoor/border_only/directional/east,
 /obj/machinery/door/firedoor/border_only/directional/west,
 /obj/machinery/door/airlock/ship/public{
+	id_tag = "cabin1";
 	name = "Cabin Room"
 	},
 /turf/open/floor/wood,
@@ -1431,6 +1432,7 @@
 /obj/machinery/door/firedoor/border_only/directional/east,
 /obj/machinery/door/firedoor/border_only/directional/west,
 /obj/machinery/door/airlock/ship/public{
+	id_tag = "cabin3";
 	name = "Cabin Room"
 	},
 /turf/open/floor/wood,
@@ -3538,7 +3540,7 @@
 /turf/closed/wall/ship,
 /area/quartermaster/qm)
 "cDL" = (
-/obj/machinery/gravity_generator/main/station,
+/obj/structure/frame/machine,
 /turf/open/floor/engine,
 /area/engine/engineering/hangar{
 	name = "Bridge Gravity Generator"
@@ -7114,6 +7116,24 @@
 	name = "nanoweave carpet (bluer)"
 	},
 /area/bridge)
+"fCp" = (
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	dir = 4
+	},
+/obj/machinery/door/firedoor/border_only/directional/east,
+/obj/machinery/door/firedoor/border_only/directional/west,
+/obj/machinery/door/airlock/ship/public{
+	id_tag = "cabin2";
+	name = "Cabin Room"
+	},
+/turf/open/floor/wood,
+/area/crew_quarters/dorms)
 "fCZ" = (
 /obj/machinery/atmospherics/components/unary/portables_connector{
 	dir = 1
@@ -9712,6 +9732,13 @@
 /area/crew_quarters/heads/hor)
 "hVM" = (
 /obj/machinery/computer/security/wooden_tv,
+/obj/machinery/button/door{
+	id = "cabin6";
+	name = "Cabin Bolt Control";
+	normaldoorcontrol = 1;
+	pixel_x = -25;
+	specialfunctions = 4
+	},
 /turf/open/floor/carpet,
 /area/crew_quarters/dorms)
 "hWj" = (
@@ -10768,13 +10795,17 @@
 /turf/closed/wall/ship,
 /area/crew_quarters/heads/captain/private)
 "jag" = (
-/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3{
-	dir = 8
+/obj/structure/closet/secure_closet/personal/cabinet,
+/obj/item/clothing/ears/earmuffs,
+/obj/machinery/button/door{
+	id = "cabin2";
+	name = "Cabin Bolt Control";
+	normaldoorcontrol = 1;
+	pixel_x = -25;
+	specialfunctions = 4
 	},
-/obj/structure/table/glass,
-/obj/item/flashlight/lamp,
 /turf/open/floor/carpet,
-/area/library)
+/area/crew_quarters/dorms)
 "jaE" = (
 /obj/machinery/computer/monitor{
 	dir = 8
@@ -11239,10 +11270,10 @@
 /turf/open/floor/plating,
 /area/nsv/weapons/fore)
 "jtR" = (
-/obj/machinery/atmospherics/components/unary/vent_pump/on/layer1,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 6
 	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /turf/open/floor/carpet,
 /area/library)
 "jum" = (
@@ -11317,6 +11348,21 @@
 /obj/machinery/mineral/mint,
 /turf/open/floor/plating,
 /area/maintenance/disposal)
+"jxZ" = (
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	dir = 4
+	},
+/obj/machinery/door/firedoor/border_only/directional/east,
+/obj/machinery/door/firedoor/border_only/directional/west,
+/obj/machinery/door/airlock/ship/public{
+	id_tag = "cabin4";
+	name = "Cabin Room"
+	},
+/turf/open/floor/wood,
+/area/crew_quarters/dorms)
 "jyj" = (
 /obj/machinery/suit_storage_unit/standard_unit,
 /turf/open/floor/plating,
@@ -11716,7 +11762,7 @@
 /obj/machinery/door/firedoor/border_only/directional/south,
 /obj/machinery/door/firedoor/border_only/directional/north,
 /obj/machinery/door/airlock/ship/command/glass{
-	name = "Air Traffic Controller Ofice";
+	name = "Air Traffic Controller Office";
 	req_access_txt = "72"
 	},
 /turf/open/floor/carpet/ship/beige_carpet,
@@ -11890,6 +11936,7 @@
 	dir = 8
 	},
 /obj/effect/landmark/start/librarian,
+/obj/machinery/atmospherics/components/unary/vent_pump/on/layer1,
 /turf/open/floor/carpet,
 /area/library)
 "jYl" = (
@@ -12458,6 +12505,13 @@
 /obj/item/pen,
 /obj/item/flashlight/lamp,
 /obj/structure/table/glass,
+/obj/machinery/button/door{
+	id = "cabin4";
+	name = "Cabin Bolt Control";
+	normaldoorcontrol = 1;
+	pixel_x = -25;
+	specialfunctions = 4
+	},
 /turf/open/floor/carpet,
 /area/crew_quarters/dorms)
 "krV" = (
@@ -14969,6 +15023,18 @@
 	},
 /turf/open/floor/carpet,
 /area/crew_quarters/heads/captain)
+"mBc" = (
+/obj/structure/bed,
+/obj/item/bedsheet/dorms,
+/obj/machinery/button/door{
+	id = "cabin5";
+	name = "Cabin Bolt Control";
+	normaldoorcontrol = 1;
+	pixel_x = -25;
+	specialfunctions = 4
+	},
+/turf/open/floor/carpet,
+/area/crew_quarters/dorms)
 "mBY" = (
 /obj/structure/disposalpipe/segment{
 	dir = 4
@@ -15990,6 +16056,14 @@
 /obj/machinery/atmospherics/pipe/simple/purple/hidden,
 /turf/open/floor/wood,
 /area/crew_quarters/dorms)
+"nzd" = (
+/obj/machinery/light{
+	dir = 8
+	},
+/turf/open/floor/engine{
+	name = "Holodeck Projector Floor"
+	},
+/area/holodeck/rec_center)
 "nzz" = (
 /obj/structure/chair{
 	dir = 1
@@ -17199,6 +17273,13 @@
 /obj/machinery/computer/security/wooden_tv,
 /obj/structure/cable/yellow{
 	icon_state = "1-2"
+	},
+/obj/machinery/button/door{
+	id = "cabin8";
+	name = "Cabin Bolt Control";
+	normaldoorcontrol = 1;
+	pixel_x = -25;
+	specialfunctions = 4
 	},
 /turf/open/floor/carpet,
 /area/crew_quarters/dorms)
@@ -18739,6 +18820,10 @@
 /obj/item/storage/box/disks_nanite,
 /turf/open/floor/carpet/purple,
 /area/science/lab)
+"pLo" = (
+/obj/machinery/status_display/evac/west,
+/turf/open/floor/wood,
+/area/crew_quarters/dorms)
 "pLt" = (
 /obj/machinery/door/poddoor/ship{
 	id = "toxgun"
@@ -18783,9 +18868,6 @@
 /obj/machinery/portable_atmospherics/scrubber,
 /obj/machinery/atmospherics/components/unary/portables_connector/layer3{
 	dir = 8
-	},
-/obj/structure/sign/poster/random{
-	pixel_x = 32
 	},
 /turf/open/floor/wood,
 /area/crew_quarters/dorms)
@@ -21006,6 +21088,13 @@
 /obj/structure/cable/yellow{
 	icon_state = "0-2"
 	},
+/obj/machinery/button/door{
+	id = "cabin7";
+	name = "Cabin Bolt Control";
+	normaldoorcontrol = 1;
+	pixel_x = -25;
+	specialfunctions = 4
+	},
 /turf/open/floor/carpet,
 /area/crew_quarters/dorms)
 "rHD" = (
@@ -21058,6 +21147,14 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/department/science/central)
+"rIy" = (
+/obj/machinery/light{
+	dir = 4
+	},
+/turf/open/floor/engine{
+	name = "Holodeck Projector Floor"
+	},
+/area/holodeck/rec_center)
 "rIC" = (
 /obj/machinery/teleport/hub,
 /turf/open/floor/carpet/ship,
@@ -23274,6 +23371,7 @@
 /obj/machinery/door/firedoor/border_only/directional/east,
 /obj/machinery/door/firedoor/border_only/directional/west,
 /obj/machinery/door/airlock/ship/public{
+	id_tag = "cabin8";
 	name = "Cabin Room"
 	},
 /turf/open/floor/wood,
@@ -23851,6 +23949,7 @@
 /obj/machinery/door/firedoor/border_only/directional/east,
 /obj/machinery/door/firedoor/border_only/directional/west,
 /obj/machinery/door/airlock/ship/public{
+	id_tag = "cabin7";
 	name = "Cabin Room"
 	},
 /obj/structure/disposalpipe/segment{
@@ -24251,6 +24350,13 @@
 /obj/machinery/camera/autoname{
 	dir = 8
 	},
+/obj/machinery/button/door{
+	id = "cabin1";
+	name = "Cabin Bolt Control";
+	normaldoorcontrol = 1;
+	pixel_x = 25;
+	specialfunctions = 4
+	},
 /turf/open/floor/carpet,
 /area/crew_quarters/dorms)
 "ulz" = (
@@ -24463,8 +24569,8 @@
 /turf/open/floor/plating,
 /area/maintenance/department/science/central)
 "usO" = (
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
-	dir = 4
+/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3{
+	dir = 8
 	},
 /turf/open/floor/carpet,
 /area/library)
@@ -25480,6 +25586,10 @@
 	},
 /turf/open/floor/carpet/ship/beige_carpet,
 /area/quartermaster/miningoffice)
+"vpq" = (
+/obj/machinery/airalarm/directional/north,
+/turf/open/floor/engine,
+/area/nsv/hanger)
 "vqy" = (
 /obj/machinery/atmospherics/pipe/manifold/purple/hidden,
 /obj/structure/grille,
@@ -25828,6 +25938,21 @@
 /obj/structure/disposalpipe/segment,
 /turf/open/floor/carpet/ship/purple_carpet,
 /area/science/lab)
+"vCZ" = (
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	dir = 4
+	},
+/obj/machinery/door/firedoor/border_only/directional/east,
+/obj/machinery/door/firedoor/border_only/directional/west,
+/obj/machinery/door/airlock/ship/public{
+	id_tag = "cabin5";
+	name = "Cabin Room"
+	},
+/turf/open/floor/wood,
+/area/crew_quarters/dorms)
 "vDc" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/high_volume/layer1{
 	dir = 4
@@ -26014,6 +26139,18 @@
 	},
 /turf/open/floor/carpet/ship/purple_carpet,
 /area/science/xenobiology)
+"vJs" = (
+/obj/structure/closet/secure_closet/personal/cabinet,
+/obj/item/clothing/ears/earmuffs,
+/obj/machinery/button/door{
+	id = "cabin3";
+	name = "Cabin Bolt Control";
+	normaldoorcontrol = 1;
+	pixel_x = 25;
+	specialfunctions = 4
+	},
+/turf/open/floor/carpet,
+/area/crew_quarters/dorms)
 "vJA" = (
 /obj/effect/spawner/lootdrop/maintenance,
 /obj/machinery/atmospherics/pipe/simple/purple/hidden{
@@ -26587,7 +26724,9 @@
 /obj/machinery/atmospherics/components/unary/portables_connector/layer3{
 	dir = 8
 	},
-/obj/machinery/status_display/evac/east,
+/obj/structure/sign/poster/random{
+	pixel_x = 32
+	},
 /turf/open/floor/wood,
 /area/crew_quarters/dorms)
 "whz" = (
@@ -27818,6 +27957,21 @@
 /obj/effect/landmark/start/scientist,
 /turf/open/floor/carpet/ship/purple_carpet,
 /area/science/mixing)
+"xll" = (
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	dir = 4
+	},
+/obj/machinery/door/firedoor/border_only/directional/east,
+/obj/machinery/door/firedoor/border_only/directional/west,
+/obj/machinery/door/airlock/ship/public{
+	id_tag = "cabin6";
+	name = "Cabin Room"
+	},
+/turf/open/floor/wood,
+/area/crew_quarters/dorms)
 "xlr" = (
 /obj/machinery/status_display/ai,
 /obj/structure/disposalpipe/segment{
@@ -48713,14 +48867,14 @@ qYU
 qYU
 kJw
 uvn
+nzd
 uvn
 uvn
 uvn
 uvn
 uvn
 uvn
-uvn
-uvn
+nzd
 uvn
 kJw
 vmV
@@ -49467,7 +49621,7 @@ bdA
 duZ
 bdA
 teU
-iHO
+vJs
 hsH
 fGQ
 tIH
@@ -49741,14 +49895,14 @@ leO
 iMo
 kJw
 uvn
+rIy
 uvn
 uvn
 uvn
 uvn
 uvn
 uvn
-uvn
-uvn
+rIy
 uvn
 kJw
 nOW
@@ -49982,7 +50136,7 @@ aMn
 leO
 fBc
 leO
-leO
+pLo
 kud
 rWm
 wKR
@@ -50490,11 +50644,11 @@ aee
 aee
 kJw
 duZ
-afy
+fCp
 duZ
 duZ
 duZ
-bbq
+jxZ
 duZ
 duZ
 bNv
@@ -50746,7 +50900,7 @@ aee
 aee
 aee
 kJw
-iHO
+jag
 fhn
 bdA
 duZ
@@ -51783,9 +51937,9 @@ gQN
 duZ
 duZ
 duZ
-bbq
+vCZ
 duZ
-bbq
+xll
 duZ
 duZ
 vIm
@@ -52039,7 +52193,7 @@ aHW
 uPH
 dql
 duZ
-cQA
+mBc
 viM
 duZ
 viM
@@ -53597,7 +53751,7 @@ uHI
 sSW
 hgZ
 yeh
-jag
+tYI
 wNK
 nwA
 vfx
@@ -62568,7 +62722,7 @@ nZT
 aee
 owl
 jQc
-bht
+vpq
 csi
 qCO
 qCO
@@ -69289,7 +69443,7 @@ cDB
 alU
 nfh
 yfG
-yfG
+cDL
 alU
 ejy
 xMP
@@ -69803,7 +69957,7 @@ eTH
 alU
 vBP
 yfG
-yfG
+cDL
 alU
 baE
 ppU
