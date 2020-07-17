@@ -69,6 +69,33 @@
 	select_alert = "<span class='notice'>Activating anti-air guns..</span>"
 	failure_alert = "<span class='warning'>DANGER: Anti-air guns are unable to fire due to lack of ammunition.</span>"
 
+//Energy Weapons
+
+/datum/ship_weapon/pdc_mount/burst_phaser
+	name = "Burst Phasers"
+	default_projectile_type = /obj/item/projectile/beam/laser/phaser
+	burst_size = 1
+	fire_delay = 0.5 SECONDS
+	range_modifier = 0
+	overmap_select_sound = 'nsv13/sound/effects/ship/phaser_adjust.ogg'
+	overmap_firing_sounds = list('nsv13/sound/effects/ship/burst_phaser.ogg', 'nsv13/sound/effects/ship/burst_phaser2.ogg')
+	select_alert = "<span class='notice'>Activating frontal phasers..</span>"
+	failure_alert = "<span class='warning'>DANGER: Point defense emplacements are unable to fire due to lack of ammunition.</span>"
+
+/datum/ship_weapon/phaser
+	name = "Phaser Banks"
+	default_projectile_type = /obj/item/projectile/beam/laser/heavylaser/phaser
+	burst_size = 1
+	fire_delay = 1.5 SECONDS
+	range_modifier = 30
+	select_alert = "<span class='notice'>Phaser banks standing by...</span>"
+	failure_alert = "<span class='warning'>Unable to comply. Phaser banks recharging.</span>"
+	overmap_firing_sounds = list('nsv13/sound/effects/ship/phaser.ogg')
+	overmap_select_sound = 'nsv13/sound/effects/ship/phaser_select.ogg'
+	screen_shake = 1
+
+//End Energy Weapons
+
 /datum/ship_weapon/missile_launcher
 	default_projectile_type = /obj/item/projectile/guided_munition/missile
 	burst_size = 1
