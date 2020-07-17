@@ -725,8 +725,8 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 4
 	},
-/obj/machinery/atmospherics/pipe/manifold4w/general/visible,
 /obj/machinery/atmospherics/pipe/simple/general/visible/layer1,
+/obj/machinery/atmospherics/pipe/manifold/general/visible,
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/engine/atmos)
 "ayS" = (
@@ -3585,6 +3585,7 @@
 /obj/structure/cable{
 	icon_state = "1-8"
 	},
+/obj/machinery/atmospherics/components/unary/portables_connector/visible,
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/engine/atmos)
 "cAE" = (
@@ -7435,7 +7436,9 @@
 /obj/machinery/atmospherics/pipe/heat_exchanging/simple{
 	dir = 10
 	},
-/obj/machinery/atmospherics/components/unary/outlet_injector/on/layer3,
+/obj/machinery/atmospherics/components/unary/outlet_injector/on/layer3{
+	dir = 4
+	},
 /turf/open/space/basic,
 /area/engine/supermatter)
 "fwE" = (
@@ -9721,15 +9724,15 @@
 /obj/structure/cable{
 	icon_state = "4-8"
 	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
-	dir = 4
-	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	dir = 4
 	},
-/obj/machinery/atmospherics/pipe/manifold/general/visible{
-	dir = 4;
-	icon_state = "manifold-2"
+/obj/machinery/atmospherics/pipe/simple/general/visible{
+	dir = 9;
+	icon_state = "pipe11-2"
+	},
+/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer3{
+	dir = 1
 	},
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/engine/atmos)
@@ -9992,7 +9995,6 @@
 "hxc" = (
 /obj/machinery/atmospherics/pipe/simple/cyan/visible,
 /obj/machinery/atmospherics/pipe/simple/cyan/visible,
-/obj/machinery/atmospherics/pipe/simple/scrubbers/visible/layer3,
 /turf/closed/wall/r_wall/ship,
 /area/engine/atmos)
 "hxk" = (
@@ -10621,13 +10623,10 @@
 /turf/template_noop,
 /area/maintenance/department/engine)
 "hWE" = (
-/obj/machinery/atmospherics/pipe/simple/general/visible{
-	dir = 8;
-	icon_state = "pipe11-2"
-	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	dir = 4
 	},
+/obj/machinery/atmospherics/pipe/manifold/general/visible,
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/engine/atmos)
 "hXl" = (
@@ -11280,7 +11279,7 @@
 	on = 1
 	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/visible/layer3{
-	dir = 4
+	dir = 5
 	},
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/engine/atmos)
@@ -12706,6 +12705,11 @@
 /obj/effect/landmark/start/head_of_security,
 /turf/open/floor/carpet/ship/red_carpet,
 /area/crew_quarters/heads/hos)
+"jAh" = (
+/obj/machinery/atmospherics/pipe/simple/general/visible,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/visible/layer3,
+/turf/closed/wall/r_wall/ship,
+/area/engine/atmos)
 "jAk" = (
 /obj/structure/chair{
 	dir = 4
@@ -13888,8 +13892,11 @@
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/engine/engine_room)
 "kub" = (
-/obj/machinery/atmospherics/components/unary/portables_connector/visible{
-	dir = 1
+/obj/machinery/atmospherics/components/unary/thermomachine/freezer{
+	dir = 1;
+	name = "scrubber freezer";
+	on = 1;
+	piping_layer = 3
 	},
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/engine/atmos)
@@ -15529,6 +15536,7 @@
 /area/engine/atmos)
 "lCX" = (
 /obj/machinery/atmospherics/components/unary/outlet_injector/atmos/air_input,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/visible/layer3,
 /turf/open/floor/engine/air,
 /area/engine/atmos)
 "lDl" = (
@@ -18547,9 +18555,6 @@
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/engine/storage)
 "nKd" = (
-/obj/machinery/atmospherics/components/unary/portables_connector/visible{
-	dir = 1
-	},
 /obj/machinery/atmospherics/pipe/simple/general/visible/layer1,
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/engine/atmos)
@@ -18716,6 +18721,10 @@
 	},
 /turf/closed/wall/ship,
 /area/hydroponics)
+"nSk" = (
+/obj/machinery/atmospherics/pipe/simple/scrubbers/visible/layer3,
+/turf/open/floor/engine/air,
+/area/engine/atmos)
 "nSz" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	dir = 5
@@ -19096,10 +19105,11 @@
 /turf/open/floor/wood,
 /area/chapel/main)
 "okh" = (
-/obj/machinery/atmospherics/pipe/simple/cyan/visible,
-/obj/machinery/atmospherics/pipe/simple/scrubbers/visible/layer3,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/visible/layer3{
+	dir = 10
+	},
 /turf/closed/wall/r_wall/ship,
-/area/engine/atmos)
+/area/engine/storage)
 "okz" = (
 /obj/machinery/door/firedoor/border_only/directional/south,
 /obj/machinery/door/firedoor/border_only/directional/north,
@@ -21374,6 +21384,10 @@
 	pressure_resistance = 9999
 	},
 /obj/machinery/air_sensor/atmos/sm_core,
+/obj/machinery/mass_driver{
+	dir = 1;
+	id = "superthrust"
+	},
 /turf/open/floor/engine,
 /area/engine/supermatter)
 "qbh" = (
@@ -22858,12 +22872,9 @@
 /turf/open/floor/carpet/ship,
 /area/security/brig)
 "rhp" = (
-/obj/machinery/atmospherics/pipe/simple/scrubbers/visible/layer3{
-	dir = 5
-	},
-/obj/machinery/atmospherics/pipe/simple/cyan/visible,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/visible/layer3,
 /turf/closed/wall/r_wall/ship,
-/area/engine/atmos)
+/area/engine/storage)
 "rhr" = (
 /obj/machinery/atmospherics/pipe/simple/green/visible{
 	dir = 4
@@ -24054,6 +24065,7 @@
 /obj/machinery/light{
 	dir = 8
 	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/visible/layer3,
 /turf/open/floor/engine/air,
 /area/engine/atmos)
 "sgv" = (
@@ -24079,7 +24091,6 @@
 /obj/machinery/atmospherics/pipe/heat_exchanging/junction{
 	dir = 1
 	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/visible/layer3,
 /turf/open/space/basic,
 /area/engine/supermatter)
 "sgZ" = (
@@ -25255,7 +25266,6 @@
 /area/medical/apothecary)
 "thy" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/visible/layer3,
-/obj/machinery/atmospherics/pipe/simple/cyan/visible,
 /turf/closed/wall/r_wall/ship,
 /area/engine/atmos)
 "thP" = (
@@ -29213,6 +29223,13 @@
 	name = "Supermatter Core Vent";
 	pixel_x = 26;
 	pixel_y = 6
+	},
+/obj/machinery/button/massdriver{
+	id = "superthrust";
+	name = "Supermatter Mass Driver";
+	pixel_x = 26;
+	pixel_y = -6;
+	req_one_access_txt = "8"
 	},
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/engine/atmospherics_engine)
@@ -51317,11 +51334,11 @@ baX
 fwB
 sgW
 hxc
-okh
-okh
-thy
-thy
-rhp
+aey
+aey
+aey
+aey
+aey
 aey
 xQv
 aey
@@ -51571,13 +51588,13 @@ qvK
 qvK
 kdy
 kdy
-kdy
-kdy
-ocH
-nrM
+okh
+rhp
+thy
+nSk
 sfH
 lCX
-tWJ
+jAh
 ixL
 pdG
 wpp
