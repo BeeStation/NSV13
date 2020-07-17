@@ -555,6 +555,7 @@ The while loop runs at a programatic level and is thus separated from any thrott
 	var/ox = (offset.x * 32) + new_offset
 	var/oy = (offset.y * 32) + new_offset
 	var/list/origins = list(list(ox + fx*new_offset - sx*new_offset, oy + fy*new_offset - sy*new_offset), list(ox + fx*new_offset + sx*new_offset, oy + fy*new_offset + sy*new_offset))
+	var/list/what_we_fired = list()
 	for(var/list/origin in origins)
 		var/this_x = origin[1]
 		var/this_y = origin[2]
@@ -589,6 +590,8 @@ The while loop runs at a programatic level and is thus separated from any thrott
 		spawn()
 			proj.preparePixelProjectile(target, src, null, round((rand() - 0.5) * proj.spread))
 			proj.fire(angle)
+		what_we_fired += proj
+	return what_we_fired
 
 /obj/structure/overmap/proc/fire_lateral_projectile(proj_type,target,speed=null, mob/living/user_override=null, homing=FALSE)
 	var/turf/T = get_turf(src)
