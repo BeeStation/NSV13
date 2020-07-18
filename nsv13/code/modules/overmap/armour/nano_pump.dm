@@ -63,7 +63,9 @@
 		idle_power_usage = 0
 		if(armour_allocation)
 			if(OM.armour_quadrants[quadrant]["current_armour"] < OM.armour_quadrants[quadrant]["max_armour"]) //Basic Implementation
-				armour_repair_amount = ((1 / (0.01 + ((NUM_E ** (-0.07 * ((OM.armour_quadrants[quadrant]["current_armour"] / OM.armour_quadrants[quadrant]["max_armour"]) * 100))) / 2))) * (apnw.repair_efficiency * (armour_allocation / 100))) / 50
+				//armour_repair_amount = (1 / (0.01 + (NUM_E ** (-0.07 * OM.armour_quadrants[quadrant]["current_armour"] / OM.armour_quadrants[quadrant]["max_armour"] * 100)) / 2) * (apnw.repair_efficiency * (armour_allocation / 100))) / 50
+				var/armour_integrity = (OM.armour_quadrants[quadrant]["current_armour"] / OM.armour_quadrants[quadrant]["max_armour"]) * 100
+				armour_repair_amount = ((382 * NUM_E **(0.0764 * armour_integrity))/(50 + NUM_E ** (0.0764 * armour_integrity)) ** 2 ) * (apnw.repair_efficiency * (armour_allocation / 100))
 				if(apnw.repair_resources >= armour_repair_amount)
 					message_admins("ARA: [armour_repair_amount]")
 					OM.armour_quadrants[quadrant]["current_armour"] += armour_repair_amount
