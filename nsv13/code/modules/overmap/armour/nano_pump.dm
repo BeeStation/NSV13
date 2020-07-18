@@ -19,6 +19,7 @@
 	var/structure_allocation = 0
 	var/online = TRUE
 	var/stress_shutdown = FALSE
+	var/last_restart = 0
 	var/quadrant = null
 	var/apnw_id = null
 	var/list/repair_records = list() //Graphs again
@@ -62,7 +63,7 @@
 		idle_power_usage = 0
 		if(armour_allocation)
 			if(OM.armour_quadrants[quadrant]["current_armour"] < OM.armour_quadrants[quadrant]["max_armour"]) //Basic Implementation
-				armour_repair_amount = ((1 / (0.01 + ((NUM_E ** (-0.05 * ((OM.armour_quadrants[quadrant]["current_armour"] / OM.armour_quadrants[quadrant]["max_armour"]) * 100))) / 2))) * (apnw.repair_efficiency * (armour_allocation / 100))) / 50
+				armour_repair_amount = ((1 / (0.01 + ((NUM_E ** (-0.07 * ((OM.armour_quadrants[quadrant]["current_armour"] / OM.armour_quadrants[quadrant]["max_armour"]) * 100))) / 2))) * (apnw.repair_efficiency * (armour_allocation / 100))) / 50
 				if(apnw.repair_resources >= armour_repair_amount)
 					message_admins("ARA: [armour_repair_amount]")
 					OM.armour_quadrants[quadrant]["current_armour"] += armour_repair_amount
@@ -139,6 +140,7 @@
 		if(tool.use_tool(src, user, 100, volume=100))
 			to_chat(user, "<span class='notice'>You restart the pump</span>")
 			stress_shutdown = FALSE
+			last_restart = world.time
 			update_icon()
 			return TRUE
 

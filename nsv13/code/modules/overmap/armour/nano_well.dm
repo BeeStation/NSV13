@@ -94,7 +94,8 @@
 					overload_candidate += oc_apnp
 			if(overload_candidate.len > 0)
 				var/obj/machinery/armour_plating_nanorepair_pump/target_apnp = pick(overload_candidate)
-				target_apnp.stress_shutdown = TRUE
+				if(target_apnp.last_restart < world.time + 60 SECONDS)
+					target_apnp.stress_shutdown = TRUE
 
 	//stress implications go here
 
