@@ -563,3 +563,22 @@
 	max_integrity = 1200 //She's fragile and relies heavily on shields.
 	integrity_failure = 1200
 	starting_system = "Sol"
+	
+/obj/structure/overmap/nanotrasen/solgov/aetherwhisp
+	name = "Aetherwhisp class light cruiser"
+	desc = "A mid range SolGov exploratory cruiser. These ships are geared for peaceful missions, but can defend themselves if they must."
+	icon = 'nsv13/icons/overmap/nanotrasen/aetherwhisp.dmi'
+	icon_state = "cruiser"
+	mass = MASS_MEDIUM
+	sprite_size = 48
+	damage_states = FALSE
+	pixel_w = -32
+	pixel_z = -32
+	collision_positions = list(new /datum/vector2d(-8,75), new /datum/vector2d(-33,52), new /datum/vector2d(-47,29), new /datum/vector2d(-46,-64), new /datum/vector2d(-18,-69), new /datum/vector2d(17,-72), new /datum/vector2d(43,-65), new /datum/vector2d(50,30), new /datum/vector2d(37,49), new /datum/vector2d(19,67))
+	armor = list("overmap_light" = 60, "overmap_heavy" = 25)
+
+/obj/structure/overmap/nanotrasen/solgov/aetherwhisp/starter
+	role = MAIN_OVERMAP
+	max_integrity = 1200 //She's fragile and relies heavily on shields.
+	integrity_failure = 1200
+	starting_system = "Sol"
