@@ -32,7 +32,7 @@ export class Map extends Component {
         this.setState({
           focus_x: x,
           focus_y: y,
-        });    
+        });
       };
       updateState(map.scrollLeft, map.scrollTop);
     }

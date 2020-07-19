@@ -44,7 +44,7 @@
 	var/showAsteroids = 100 //add planets to this eventually.
 	var/showAnomalies = 100
 	var/sensor_range = SENSOR_RANGE_DEFAULT //In tiles. How far your sensors can pick up precise info about ships.
-	var/zoom_factor = 1 //Lets you zoom in / out on the DRADIS for more precision, or for better info.
+	var/zoom_factor = 0.5 //Lets you zoom in / out on the DRADIS for more precision, or for better info.
 
 /obj/machinery/computer/ship/dradis/minor //Secondary dradis consoles usable by people who arent on the bridge.
 	name = "Air traffic control console"
@@ -75,10 +75,6 @@
 	mid_sounds = list('nsv13/sound/effects/ship/dradis.ogg')
 	mid_length = 2 SECONDS
 	volume = 60
-
-/datum/asset/simple/dradis
-	assets = list(
-		"dradis.gif"	= 'nsv13/icons/assets/dradis.gif')
 
 /obj/machinery/computer/ship/dradis/power_change()
 	..()
@@ -114,9 +110,7 @@
 		return
 	ui = SStgui.try_update_ui(user, src, ui_key, ui, force_open)
 	if(!ui)
-		var/datum/asset/assets = get_asset_datum(/datum/asset/simple/dradis)
-		assets.send(user)
-		ui = new(user, src, ui_key, "Dradis", name, 1000, 1200, master_ui, state)
+		ui = new(user, src, ui_key, "Dradis", name, 700, 750, master_ui, state)
 		ui.open()
 
 /obj/machinery/computer/ship/dradis/ui_act(action, params, datum/tgui/ui)

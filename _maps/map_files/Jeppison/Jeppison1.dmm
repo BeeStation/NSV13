@@ -5844,11 +5844,9 @@
 /turf/closed/wall/ship,
 /area/maintenance/nsv/turbolift/abandonedshaft)
 "mG" = (
-/obj/machinery/door/firedoor/closed{
-	welded = 1
-	},
-/turf/open/floor/plating,
-/area/maintenance/nsv/turbolift/abandonedshaft)
+/obj/machinery/door/airlock/ship/public/glass/turbolift,
+/turf/open/floor/plasteel/ship/techfloor/alt,
+/area/shuttle/turbolift/primary)
 "mH" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
@@ -5889,7 +5887,7 @@
 /area/hallway/nsv/stairwell/upper)
 "mL" = (
 /turf/open/openspace,
-/area/maintenance/nsv/turbolift/abandonedshaft)
+/area/shuttle/turbolift/primary)
 "mM" = (
 /obj/effect/turf_decal/tile/yellow{
 	dir = 8
@@ -12432,11 +12430,6 @@
 /obj/effect/landmark/carpspawn,
 /turf/open/space/basic,
 /area/space)
-"DM" = (
-/obj/effect/turf_decal/stripes/white/line,
-/obj/structure/reagent_dispensers/water_cooler,
-/turf/open/floor/plasteel/ship/techfloor/alt,
-/area/hallway/primary/central)
 "DV" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	icon_state = "pipe11-1";
@@ -12635,8 +12628,6 @@
 /area/chapel/main)
 "FV" = (
 /obj/effect/turf_decal/stripes/white/line,
-/obj/structure/table,
-/obj/item/reagent_containers/food/drinks/beer/light,
 /turf/open/floor/plasteel/ship/techfloor/alt,
 /area/hallway/primary/central)
 "Gc" = (
@@ -12722,8 +12713,9 @@
 /obj/effect/turf_decal/stripes/white/corner{
 	dir = 8
 	},
+/obj/machinery/lazylift_button,
 /turf/closed/wall/ship,
-/area/hallway/primary/central)
+/area/shuttle/turbolift/primary)
 "GX" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer1,
 /obj/structure/disposalpipe/trunk/multiz/down,
@@ -13005,6 +12997,11 @@
 /obj/machinery/advanced_airlock_controller/directional/west,
 /turf/open/floor/plating,
 /area/hallway/secondary/exit/departure_lounge)
+"LO" = (
+/obj/structure/table,
+/obj/item/reagent_containers/food/drinks/ftliver,
+/turf/open/floor/plasteel,
+/area/crew_quarters/cafeteria)
 "LQ" = (
 /obj/structure/disposalpipe/segment,
 /turf/open/floor/carpet,
@@ -13623,12 +13620,6 @@
 "Wa" = (
 /turf/open/floor/engine/airless,
 /area/engine/gravity_generator)
-"Wi" = (
-/obj/effect/turf_decal/stripes/white/line,
-/obj/structure/table,
-/obj/item/reagent_containers/food/drinks/ftliver,
-/turf/open/floor/plasteel/ship/techfloor/alt,
-/area/hallway/primary/central)
 "Wp" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden,
@@ -13701,6 +13692,10 @@
 	},
 /turf/closed/wall/r_wall/ship,
 /area/ai_monitored/turret_protected/ai)
+"XK" = (
+/obj/machinery/light/small,
+/turf/open/openspace,
+/area/shuttle/turbolift/primary)
 "XM" = (
 /obj/effect/landmark/nuclear_waste_spawner,
 /turf/open/floor/plasteel,
@@ -50807,7 +50802,7 @@ Ez
 eD
 hd
 kO
-nQ
+LO
 nQ
 nQ
 nQ
@@ -58366,12 +58361,12 @@ hN
 HM
 GN
 Bk
-Wi
+FV
 mG
 mL
 mL
 mL
-mL
+XK
 mF
 nA
 Gv
@@ -58668,7 +58663,7 @@ hN
 fp
 wV
 wW
-DM
+FV
 mG
 mL
 mL

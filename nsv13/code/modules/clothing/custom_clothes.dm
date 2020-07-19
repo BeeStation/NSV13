@@ -409,16 +409,16 @@
 	armor = list("melee" = 0, "bullet" = 0, "laser" = 0,"energy" = 0, "bomb" = 50, "bio" = 0, "rad" = 0, "fire" = 50, "acid" = 0)
 
 /obj/item/clothing/under/ship/decktech
-	name = "deck technician overalls"
-	desc = "Overalls worn by deck technicians."
+	name = "munitions tech overalls"
+	desc = "a pair of hard worn overalls worn by those in charge of firing the ship's guns. These wouldn't be complete without a thick layer of grease."
 	icon_state = "deck_tech"
 	item_state = "bl_suit"
 	item_color = "deck_tech"
 	can_adjust = TRUE
 
 /obj/item/clothing/head/helmet/decktech
-	name = "Deck Technician Helmet"
-	desc = "A helmet for protecting technicians in a hazardous environment."
+	name = "Munitions Technician's Helmet"
+	desc = "A welding helmet for protecting technicians in a hazardous environment."
 	icon = 'nsv13/icons/obj/clothing/hats.dmi'
 	alternate_worn_icon = 'nsv13/icons/mob/head.dmi'
 	icon_state = "decktech_helmet"
@@ -508,3 +508,106 @@
 	name = "Grand admiral's uniform"
 	icon_state = "grand_admiral"
 	item_color = "grand_admiral"
+
+//Solgov uniforms.
+/obj/item/clothing/under/ship/solgov
+	name = "Solgov cadet uniform"
+	desc = "A comfortable uniform worn by officers serving under SolGov's exploratory corps."
+	icon_state = "solgov_cadet"
+	item_color = "solgov_cadet"
+
+/obj/item/clothing/under/ship/solgov/command
+	name = "Solgov command uniform"
+	icon_state = "solgov_command"
+	item_color = "solgov_command"
+
+/obj/item/clothing/under/ship/solgov/engsec
+	name = "Solgov engsec uniform"
+	icon_state = "solgov_engsec"
+	item_color = "solgov_engsec"
+
+/obj/item/clothing/under/ship/solgov/medsci
+	name = "Solgov medsci uniform"
+	icon_state = "solgov_medsci"
+	item_color = "solgov_medsci"
+
+/obj/item/clothing/under/ship/solgov/pilot
+	name = "Solgov pilot uniform"
+	icon_state = "solgov_pilot"
+	item_color = "solgov_pilot"
+
+/obj/item/clothing/under/ship/solgov/admiral
+	name = "Solgov admiral uniform"
+	icon_state = "solgov_admiral"
+	item_color = "solgov_admiral"
+
+/obj/item/clothing/accessory/solgov_jacket
+	name = "uniform jacket"
+	desc = "An extremely comfortable jacket with some storage pockets for tools."
+	icon = 'nsv13/icons/obj/clothing/accessories.dmi'
+//	alternate_worn_icon = 'nsv13/icons/mob/accessories.dmi' For some reason this doesn't just work :(
+	icon_state = "trekjacket"
+	item_color = "trekjacket"
+	item_state = "trekjacket"
+	actions_types = list(/datum/action/item_action/nsv13_jacket_swap)
+	var/toggled = TRUE //Starts by displaying your departmental colours
+
+/obj/item/clothing/accessory/solgov_jacket/command
+	name = "uniform jacket"
+	desc = "An extremely comfortable jacket with some storage pockets for tools."
+	icon_state = "trekjacket_command"
+	item_color = "trekjacket_command"
+	item_state = "trekjacket_command"
+
+/obj/item/clothing/accessory/solgov_jacket/engsec
+	name = "uniform jacket"
+	desc = "An extremely comfortable jacket with some storage pockets for tools."
+	icon_state = "trekjacket_engsec"
+	item_color = "trekjacket_engsec"
+	item_state = "trekjacket_engsec"
+
+/obj/item/clothing/accessory/solgov_jacket/medsci
+	name = "uniform jacket"
+	desc = "An extremely comfortable jacket with some storage pockets for tools"
+	icon_state = "trekjacket_medsci"
+	item_color = "trekjacket_medsci"
+	item_state = "trekjacket_medsci"
+
+/obj/item/clothing/accessory/solgov_jacket/formal
+	name = "XO's dress jacket"
+	desc = "An extremely comfortable jacket laced with gold silk, such a piece is usually reserved for diplomatic occasions."
+	icon_state = "trekjacket_captain"
+	item_color = "trekjacket_captain"
+	item_state = "trekjacket_captain"
+
+/obj/item/clothing/accessory/solgov_jacket/formal/captain
+	name = "captain's dress jacket"
+	desc = "An extremely comfortable jacket laced with gold silk. Reserved for starship captains and above, it's emblazened with Solgov's crest and signifies grace."
+	icon_state = "trekjacket_formal"
+	item_color = "trekjacket_formal"
+	item_state = "trekjacket_formal"
+
+/datum/action/item_action/nsv13_jacket_swap
+	name = "Toggle jacket style"
+	desc = "Display or hide your departmental colours for your suit jacket by reversing its shoulder pads."
+	button_icon_state = "jacketswap"
+	icon_icon = 'nsv13/icons/mob/actions/actions_spells.dmi'
+
+/obj/item/clothing/accessory/solgov_jacket/ui_action_click(mob/user, action)
+	if(istype(action, /datum/action/item_action/nsv13_jacket_swap))
+		toggle(user)
+		return TRUE
+
+/obj/item/clothing/accessory/solgov_jacket/proc/toggle(mob/user)
+	if(toggled)
+		to_chat(user, "<span class='notice'>You cover up [src]'s departmental colours.</span>")
+		icon_state = "trekjacket"
+		item_color = "trekjacket"
+		item_state = "trekjacket"
+		toggled = FALSE
+	else
+		to_chat(user, "<span class='notice'>You display [src]'s departmental colours.</span>")
+		icon_state = initial(icon_state)
+		item_color = initial(item_color)
+		item_state = initial(item_state)
+		toggled = TRUE

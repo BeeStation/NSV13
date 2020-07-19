@@ -10,7 +10,7 @@
 
 /obj/machinery/door/firedoor/window/Initialize()
 	. = ..()
-	RegisterSignal(SSblackbox, COMSIG_ALERT_LEVEL_CHANGE, /obj/machinery/door/firedoor/proc/on_alert_level_change) //Condition zebra means all window firelocks should drop.
+	RegisterSignal(SSblackbox, COMSIG_ALERT_LEVEL_CHANGE, /obj/machinery/door/firedoor/proc/on_alert_level_change, override=TRUE) //Condition zebra means all window firelocks should drop.
 
 /obj/machinery/door/firedoor/open()
 	. = ..()

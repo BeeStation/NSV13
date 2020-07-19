@@ -1942,6 +1942,7 @@
 /area/engine/storage)
 "dP" = (
 /obj/machinery/door/poddoor/ship{
+	dir = 4;
 	id = "eng_war";
 	name = "Engineering Warehouse Doors"
 	},
@@ -2266,6 +2267,7 @@
 	icon_state = "4-8"
 	},
 /obj/machinery/door/poddoor/ship{
+	dir = 4;
 	id = "eng_war";
 	name = "Engineering Warehouse Doors"
 	},
@@ -7852,11 +7854,6 @@
 	},
 /turf/open/floor/plating,
 /area/science/xenobiology)
-"qj" = (
-/obj/structure/cable,
-/obj/machinery/power/apc/auto_name/east,
-/turf/open/floor/plating,
-/area/maintenance/nsv/turbolift/abandonedshaft)
 "qk" = (
 /obj/machinery/light,
 /obj/machinery/firealarm/directional/south,
@@ -9835,9 +9832,6 @@
 	dir = 4
 	},
 /obj/machinery/camera/autoname,
-/obj/structure/cable{
-	icon_state = "2-4"
-	},
 /turf/open/floor/plasteel,
 /area/hallway/nsv/deck2/primary)
 "tY" = (
@@ -10231,15 +10225,6 @@
 /obj/machinery/power/apc/auto_name/east,
 /turf/open/floor/plasteel,
 /area/hallway/nsv/deck2/forward)
-"uK" = (
-/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3{
-	dir = 1
-	},
-/obj/structure/cable{
-	icon_state = "1-2"
-	},
-/turf/open/floor/plasteel,
-/area/hallway/nsv/deck2/primary)
 "uL" = (
 /obj/structure/cable{
 	icon_state = "1-2"
@@ -10377,8 +10362,11 @@
 "uY" = (
 /obj/machinery/light/small,
 /obj/machinery/airalarm/directional/south,
-/turf/open/floor/plating,
-/area/maintenance/nsv/turbolift/abandonedshaft)
+/obj/machinery/lazylift/master{
+	pixel_y = -26
+	},
+/turf/open/floor/monotile/dark,
+/area/shuttle/turbolift/primary)
 "uZ" = (
 /obj/structure/chair{
 	icon_state = "chair";
@@ -14670,7 +14658,7 @@
 /turf/open/floor/plasteel/dark,
 /area/nsv/weapons/starboard)
 "Dx" = (
-/obj/machinery/ship_weapon/pdc_mount/flak,
+/obj/machinery/ship_weapon/pdc_mount,
 /turf/open/floor/monotile,
 /area/nsv/weapons/starboard)
 "Dy" = (
@@ -16279,15 +16267,6 @@
 "Hz" = (
 /turf/open/floor/plasteel/white,
 /area/medical/genetics/cloning)
-"HA" = (
-/obj/structure/cable{
-	icon_state = "1-2"
-	},
-/obj/structure/disposalpipe/segment{
-	dir = 4
-	},
-/turf/open/floor/plasteel,
-/area/hallway/nsv/deck2/primary)
 "HB" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer1{
 	dir = 1
@@ -16518,6 +16497,8 @@
 /turf/open/floor/monotile/dark,
 /area/nsv/weapons/starboard)
 "Ib" = (
+/obj/structure/reagent_dispensers/foamtank/hull_repair_juice,
+/obj/item/extinguisher/advanced/hull_repair_juice,
 /turf/open/floor/plasteel/ship/padded,
 /area/maintenance/nsv/deck2/airlock/aft/port)
 "Ic" = (
@@ -16679,8 +16660,9 @@
 /turf/open/floor/plating,
 /area/maintenance/fore)
 "Iv" = (
-/turf/open/floor/plating,
-/area/maintenance/nsv/turbolift/abandonedshaft)
+/obj/machinery/door/airlock/ship/public/glass/turbolift,
+/turf/open/floor/monotile/dark,
+/area/shuttle/turbolift/primary)
 "Iw" = (
 /obj/structure/cable{
 	icon_state = "1-2"
@@ -16947,9 +16929,12 @@
 /turf/open/floor/plasteel/white,
 /area/medical/chemistry)
 "IY" = (
-/obj/machinery/ship_weapon/railgun/east,
 /obj/effect/turf_decal/stripes/line{
 	dir = 1
+	},
+/obj/machinery/ship_weapon/mac{
+	icon_state = "MAC";
+	dir = 4
 	},
 /turf/open/floor/monotile/dark,
 /area/nsv/weapons/port)
@@ -17733,6 +17718,11 @@
 /obj/effect/turf_decal/stripes/line,
 /turf/open/floor/plasteel,
 /area/science/robotics/mechbay)
+"LI" = (
+/obj/structure/reagent_dispensers/foamtank/hull_repair_juice,
+/obj/item/extinguisher/advanced/hull_repair_juice,
+/turf/open/floor/plasteel,
+/area/engine/engineering)
 "LJ" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
@@ -18227,6 +18217,13 @@
 /obj/effect/landmark/nuclear_waste_spawner,
 /turf/open/floor/monotile,
 /area/nsv/weapons/gauss)
+"Oy" = (
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
+/obj/effect/turf_decal/stripes/line,
+/turf/open/floor/plasteel,
+/area/hallway/nsv/deck2/primary)
 "Oz" = (
 /obj/item/radio/intercom/directional/east,
 /turf/open/floor/plasteel/ship/padded,
@@ -18537,6 +18534,8 @@
 /obj/effect/turf_decal/tile/yellow{
 	dir = 1
 	},
+/obj/structure/reagent_dispensers/foamtank/hull_repair_juice,
+/obj/item/extinguisher/advanced/hull_repair_juice,
 /turf/open/floor/plasteel,
 /area/engine/engineering)
 "Qv" = (
@@ -18870,6 +18869,10 @@
 	},
 /turf/open/floor/plasteel,
 /area/hallway/nsv/deck2/aft)
+"RS" = (
+/obj/machinery/lazylift_button,
+/turf/closed/wall/ship,
+/area/shuttle/turbolift/primary)
 "RT" = (
 /obj/machinery/dna_scannernew,
 /obj/machinery/camera/autoname,
@@ -19126,6 +19129,9 @@
 /obj/structure/closet/l3closet/scientist,
 /turf/open/floor/plasteel/white,
 /area/science/xenobiology)
+"Ts" = (
+/turf/open/floor/monotile/dark,
+/area/shuttle/turbolift/primary)
 "Tu" = (
 /obj/effect/turf_decal/tile/green{
 	dir = 1
@@ -20004,6 +20010,8 @@
 	dir = 1
 	},
 /obj/effect/landmark/nuclear_waste_spawner,
+/obj/structure/reagent_dispensers/foamtank/hull_repair_juice,
+/obj/item/extinguisher/advanced/hull_repair_juice,
 /turf/open/floor/plasteel,
 /area/engine/engineering)
 "Zo" = (
@@ -42408,7 +42416,7 @@ fD
 fU
 gi
 lg
-nC
+LI
 nC
 gX
 hs
@@ -64450,12 +64458,12 @@ zY
 zD
 zx
 Hw
-ZQ
+Oy
 Iv
-Iv
-Iv
-Iv
-Iv
+Ts
+Ts
+Ts
+Ts
 ab
 bP
 Rs
@@ -64752,11 +64760,11 @@ zY
 zD
 zx
 OR
-ZQ
+Oy
 Iv
-Iv
-Iv
-Iv
+Ts
+Ts
+Ts
 uY
 ab
 bP
@@ -65053,13 +65061,13 @@ zY
 zY
 zD
 tX
-uK
-HA
-qj
+HG
+Oy
 Iv
-Iv
-Iv
-Iv
+Ts
+Ts
+Ts
+Ts
 ab
 bP
 Dg
@@ -65357,7 +65365,7 @@ zD
 pw
 HB
 ZQ
-qq
+RS
 qq
 qq
 qq
