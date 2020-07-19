@@ -615,7 +615,7 @@ datum/admins/proc/togglelooc() //nsv13
 	set name="Toggle LOOC"
 	toggle_looc()
 	log_admin("[key_name(usr)] toggled LOOC.")
-	message_admins("[key_name_admin(usr)] toggled LOOC.")
+	message_admins("[key_name_admin(usr)] [GLOB.looc_allowed ? "enabled" : "disabled"] LOOC.")
 	SSblackbox.record_feedback("nested tally", "admin_toggle", 1, list("Toggle LOOC", "[GLOB.looc_allowed ? "Enabled" : "Disabled"]")) //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
 
 /datum/admins/proc/toggleoocdead()
