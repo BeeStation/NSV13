@@ -13,17 +13,17 @@
 	obj_integrity = 500
 	var/obj/machinery/armour_plating_nanorepair_well/apnw //parent device
 	var/obj/structure/overmap/OM //parent ship
-	var/armour_repair_amount = 0
-	var/structure_repair_amount = 0
-	var/armour_allocation = 0
-	var/structure_allocation = 0
-	var/online = TRUE
-	var/stress_shutdown = FALSE
-	var/last_restart = 0
-	var/quadrant = null
-	var/apnw_id = null
+	var/armour_repair_amount = 0 //amount of quadrant armour to be repaired
+	var/structure_repair_amount = 0 //amount of obj_integrity to be repaired
+	var/armour_allocation = 0 //allocation of resources to armour for this APNP
+	var/structure_allocation = 0 ///allocation of resource to structure for this APNP
+	var/online = TRUE //Are we running?
+	var/stress_shutdown = FALSE //Has this APNP been overtaxed?
+	var/last_restart = 0 //Time since last forced system restart
+	var/quadrant = null //Which armour quadrant we are assigned to
+	var/apnw_id = null //The ID by which we identify our parent device - These should match the parent device and follow the formula: 1 - Main Ship, 2 - Secondary Ship, 3 - Syndie PvP Ship
 	var/list/repair_records = list() //Graphs again
-	var/repair_records_length = 120
+	var/repair_records_length = 300
 	var/repair_records_interval = 10
 	var/repair_records_next_interval = 0
 
@@ -60,14 +60,12 @@
 
 /obj/machinery/armour_plating_nanorepair_pump/process()
 	if(online && is_operational() && !stress_shutdown)
-		idle_power_usage = 0
+		idle_power_usage = 0 //reset power use
 		if(armour_allocation)
 			if(OM.armour_quadrants[quadrant]["current_armour"] < OM.armour_quadrants[quadrant]["max_armour"]) //Basic Implementation
-				//armour_repair_amount = (1 / (0.01 + (NUM_E ** (-0.07 * OM.armour_quadrants[quadrant]["current_armour"] / OM.armour_quadrants[quadrant]["max_armour"] * 100)) / 2) * (apnw.repair_efficiency * (armour_allocation / 100))) / 50
 				var/armour_integrity = (OM.armour_quadrants[quadrant]["current_armour"] / OM.armour_quadrants[quadrant]["max_armour"]) * 100
-				armour_repair_amount = ((382 * NUM_E **(0.0764 * armour_integrity))/(50 + NUM_E ** (0.0764 * armour_integrity)) ** 2 ) * (apnw.repair_efficiency * (armour_allocation / 100))
+				armour_repair_amount = ((382 * NUM_E **(0.0764 * armour_integrity))/(50 + NUM_E ** (0.0764 * armour_integrity)) ** 2 ) * (apnw.repair_efficiency * (armour_allocation / 100)) * 4 //Don't ask
 				if(apnw.repair_resources >= armour_repair_amount)
-					message_admins("ARA: [armour_repair_amount]")
 					OM.armour_quadrants[quadrant]["current_armour"] += armour_repair_amount
 					if(OM.armour_quadrants[quadrant]["current_armour"] > OM.armour_quadrants[quadrant]["max_armour"])
 						OM.armour_quadrants[quadrant]["current_armour"] = OM.armour_quadrants[quadrant]["max_armour"]
@@ -75,7 +73,7 @@
 					idle_power_usage += armour_repair_amount * 100 //test case
 		if(structure_allocation)
 			if(OM.obj_integrity < OM.max_integrity) //Basic Implementation
-				structure_repair_amount = (1 * apnw.repair_efficiency * structure_allocation) / 100 //test case
+				structure_repair_amount = (0.75 * apnw.repair_efficiency * structure_allocation) / 100 //test case
 				if(apnw.repair_resources >= structure_repair_amount * 10)
 					OM.obj_integrity += structure_repair_amount
 					if(OM.obj_integrity > OM.max_integrity)
@@ -203,7 +201,7 @@
 		return
 	var/adjust = text2num(params["adjust"])
 	if(action == "armour_allocation")
-		if(adjust && isnum(adjust))
+		if(isnum(adjust))
 			armour_allocation = adjust
 			if(armour_allocation > 100 - structure_allocation)
 				armour_allocation = 100 - structure_allocation
@@ -212,7 +210,7 @@
 				armour_allocation = 0
 				return
 	if(action == "structure_allocation")
-		if(adjust && isnum(adjust))
+		if(isnum(adjust))
 			structure_allocation = adjust
 			if(structure_allocation > 100 - armour_allocation)
 				structure_allocation = 100 - armour_allocation
@@ -236,5 +234,5 @@
 	req_components = list(
 		/obj/item/stock_parts/manipulator = 10,
 		/obj/item/stock_parts/scanning_module = 5,
-		/obj/item/stock_parts/capacitor = 2,
+		/obj/item/stock_parts/capacitor = 5,
 		/obj/item/stock_parts/micro_laser = 6)

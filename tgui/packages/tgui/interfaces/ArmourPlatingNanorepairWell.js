@@ -72,32 +72,45 @@ export const ArmourPlatingNanorepairWell = (props, context) => {
           Material Processing:
           <br />
           <Button
-            content="Iron"
-            icon="cog"
-            color={data.iron && "white"}
-            onClick={() => act('iron')} />
-          <Button
-            content="Titanium"
-            icon="cog"
-            color={data.titanium && "white"}
-            onClick={() => act('titanium')} />
-          <Button
-            content="Silver"
-            icon="cog"
-            color={data.silver && "white"}
-            onClick={() => act('silver')} />
-          <Button
-            content="Plasma"
-            icon="cog"
-            color={data.plasma && "white"}
-            onClick={() => act('plasma')} />
-          <Button
             content="Empty Silo"
             icon="exclamation-triangle"
             color={"bad"}
+            onClick={() => act('unload')} />
+          <Button
+            content="Purge RR"
+            icon="exclamation-triangle"
+            color={"bad"}
             onClick={() => act('purge')} />
+          <Button
+            content="RR Processing"
+            icon="power-off"
+            color={data.resourcing && "good"}
+            onClick={() => act('toggle')} />
+          <br />
+          Alloy Selection:
+          <Button
+            content="Iron"
+            icon="cog"
+            color={data.alloy && "white"}
+            onClick={() => act('iron')} />
+          <Button
+            content="Ferrotitanium"
+            icon="cog"
+            color={data.alloy && "white"}
+            onClick={() => act('ferrotitanium')} />
+          <Button
+            content="Durasteel"
+            icon="cog"
+            color={data.alloy && "white"}
+            onClick={() => act('durasteel')} />
+          <Button
+            content="Duranium"
+            icon="cog"
+            color={data.alloy && "white"}
+            onClick={() => act('duranium')} />
           <br />
           Repair Resources:
+          <br />
           <ProgressBar
             value={data.repair_resources/data.repair_resources_max}
             ranges={{

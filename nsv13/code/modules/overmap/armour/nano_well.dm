@@ -15,22 +15,18 @@
 	layer = ABOVE_MOB_LAYER
 	obj_integrity = 500
 	var/obj/structure/overmap/OM //our parent ship
-	var/list/apnp = list()
-	var/repair_resources = 0
+	var/list/apnp = list() //our child pumps
+	var/resourcing_system = FALSE //System for generating additional RR
+	var/repair_resources = 0 //Pool of liquid metal ready to be pumped out for repairs
 	var/repair_resources_processing = FALSE
-	var/repair_efficiency = 0
-	var/power_allocation = 0
-	var/system_allocation = 0
-	var/system_stress = 0
+	var/repair_efficiency = 0 //modifier for how much repairs we get per cycle
+	var/power_allocation = 0 //how much power we are pumping into the system
+	var/system_allocation = 0 //the load on the system
+	var/system_stress = 0 //how overloaded the system has been over time
 	var/list/material_silo = list()
-	var/list/material_switch = list("iron" = list("online" = FALSE, "datum" = /datum/material/iron), \
-									"silver" = list("online" = FALSE, "datum" = /datum/material/silver), \
-									"titanium" = list("online" = FALSE, "datum" = /datum/material/titanium), \
-									"plasma" = list("online" = FALSE, "datum" = /datum/material/plasma))
-	var/material_modifier = 0
-	var/material_modifier_target = 0
-	var/delta_material_modifier = 0
-	var/apnw_id = null
+	var/material_modifier = 0 //efficiency of our materials
+	var/material_tier = 0 //The selected tier recipe producing RR
+	var/apnw_id = null //The ID by which we identify our child devices - These should match the child devices and follow the formula: 1 - Main Ship, 2 - Secondary Ship, 3 - Syndie PvP Ship
 
 /obj/machinery/armour_plating_nanorepair_well/Initialize()
 	/*things we need to do here:
@@ -103,6 +99,60 @@
 	idle_power_usage = power_allocation
 
 /obj/machinery/armour_plating_nanorepair_well/proc/handle_repair_resources()
+	if(resourcing_system)
+		if(repair_resources >= RR_MAX)
+			repair_resources_processing = FALSE
+			return
+		else if(repair_resources < RR_MAX)
+			switch(material_tier)
+				if(0) //None Selected
+					return
+				if(1) //Iron
+					var/datum/component/material_container/materials = GetComponent(/datum/component/material_container)
+					var/iron_amount = min(100, (RR_MAX - repair_resources))
+					if(materials.use_amount_mat(iron_amount, /datum/material/iron))
+						materials.use_amount_mat(iron_amount, /datum/material/iron)
+						repair_resources += iron_amount / 2
+						material_modifier = 0.125 //Very Low modifier
+						repair_resources_processing = TRUE
+				if(2) //Ferrotitanium
+					var/datum/component/material_container/materials = GetComponent(/datum/component/material_container)
+					var/iron_amount = min(25, (RR_MAX - repair_resources) * 0.25)
+					var/titanium_amount = min(75, (RR_MAX - repair_resources) * 0.75)
+					if(materials.use_amount_mat(iron_amount, /datum/material/iron) && materials.use_amount_mat(titanium_amount, /datum/material/titanium))
+						materials.use_amount_mat(iron_amount, /datum/material/iron)
+						materials.use_amount_mat(titanium_amount, /datum/material/titanium)
+						repair_resources += (iron_amount + titanium_amount) / 2
+						material_modifier = 0.33 //Low Modifier
+						repair_resources_processing = TRUE
+				if(3) //Durasteel
+					var/datum/component/material_container/materials = GetComponent(/datum/component/material_container)
+					var/iron_amount = min(20, (RR_MAX - repair_resources) * 0.20)
+					var/silver_amount = min(15, (RR_MAX -  repair_resources) * 0.15)
+					var/titanium_amount = min(60, (RR_MAX - repair_resources) * 0.6)
+					if(materials.use_amount_mat(iron_amount, /datum/material/iron) && materials.use_amount_mat(silver_amount, /datum/material/silver) && materials.use_amount_mat(titanium_amount, /datum/material/titanium))
+						materials.use_amount_mat(iron_amount, /datum/material/iron)
+						materials.use_amount_mat(silver_amount, /datum/material/silver)
+						materials.use_amount_mat(titanium_amount, /datum/material/titanium)
+						repair_resources += (iron_amount + silver_amount + titanium_amount) / 2
+						material_modifier = 0.66 //Moderate Modifier
+						repair_resources_processing = TRUE
+				if(4) //Duranium
+					var/datum/component/material_container/materials = GetComponent(/datum/component/material_container)
+					var/iron_amount = min(17.5, (RR_MAX - repair_resources) * 0.175)
+					var/silver_amount = min(15, (RR_MAX -  repair_resources) * 0.15)
+					var/plasma_amount = min(5, (RR_MAX - repair_resources) * 0.05)
+					var/titanium_amount = min(57.5, (RR_MAX - repair_resources) * 0.575)
+					if(materials.use_amount_mat(iron_amount, /datum/material/iron) && materials.use_amount_mat(silver_amount, /datum/material/silver) && materials.use_amount_mat(plasma_amount, /datum/material/plasma) && materials.use_amount_mat(titanium_amount, /datum/material/titanium))
+						materials.use_amount_mat(iron_amount, /datum/material/iron)
+						materials.use_amount_mat(silver_amount, /datum/material/silver)
+						materials.use_amount_mat(plasma_amount, /datum/material/plasma)
+						materials.use_amount_mat(titanium_amount, /datum/material/titanium)
+						repair_resources += (iron_amount + silver_amount + plasma_amount + titanium_amount) / 2
+						material_modifier = 1 //High Modifier
+						repair_resources_processing = TRUE
+
+/*
 	if(repair_resources >= RR_MAX)
 		repair_resources_processing = FALSE
 		return
@@ -127,6 +177,7 @@
 	if(repair_resources_processing)
 		delta_material_modifier = material_modifier_target - material_modifier
 		material_modifier += delta_material_modifier / 2
+*/
 
 /obj/machinery/armour_plating_nanorepair_well/proc/handle_linking()
 	if(apnw_id) //If mappers set an ID)
@@ -199,34 +250,72 @@
 				return
 	switch(action)
 		if("iron")
-			material_switch["iron"]["online"] = !material_switch["iron"]["online"]
-			if(material_switch["silver"]["online"] == TRUE)
-				if(material_switch["iron"]["online"] == FALSE && material_switch["titanium"]["online"] == FALSE)
-					material_switch["silver"]["online"] = FALSE
-			if(material_switch["plasma"]["online"] == TRUE)
-				if(material_switch["iron"]["online"] == FALSE && material_switch["titanium"]["online"] == FALSE)
-					material_switch["plasma"]["online"] = FALSE
-		if("titanium")
-			material_switch["titanium"]["online"] = !material_switch["titanium"]["online"]
-			if(material_switch["silver"]["online"] == TRUE)
-				if(material_switch["iron"]["online"] == FALSE && material_switch["titanium"]["online"] == FALSE)
-					material_switch["silver"]["online"] = FALSE
-			if(material_switch["plasma"]["online"] == TRUE)
-				if(material_switch["iron"]["online"] == FALSE && material_switch["titanium"]["online"] == FALSE)
-					material_switch["plasma"]["online"] = FALSE
-		if("silver")
-			if(material_switch["iron"]["online"] == TRUE || material_switch["titanium"]["online"] == TRUE)
-				material_switch["silver"]["online"] = !material_switch["silver"]["online"]
+			if(material_tier != 0)
+				to_chat(usr, "<span class='notice'>Error: Resources must be purged from the Well before selecting a different alloy</span>")
+				var/sound = pick('nsv13/sound/effects/computer/error.ogg','nsv13/sound/effects/computer/error2.ogg','nsv13/sound/effects/computer/error3.ogg')
+				playsound(src, sound, 100, 1)
+				return
 			else
-				(to_chat(usr, "<span class='warning'> Error: Silver can only be used in a metal alloy</span>"))
-		if("plasma")
-			if(material_switch["iron"]["online"] == TRUE || material_switch["titanium"]["online"] == TRUE)
-				material_switch["plasma"]["online"] = !material_switch["plasma"]["online"]
+				material_tier = 1
+
+		if("ferrotitanium")
+			if(material_tier != 0)
+				to_chat(usr, "<span class='notice'>Error: Resources must be purged from the Well before selecting a different alloy</span>")
+				var/sound = pick('nsv13/sound/effects/computer/error.ogg','nsv13/sound/effects/computer/error2.ogg','nsv13/sound/effects/computer/error3.ogg')
+				playsound(src, sound, 100, 1)
+				return
 			else
-				(to_chat(usr, "<span class='warning'> Error: Plasma can only be used in a metal alloy</span>"))
+				material_tier = 2
+
+		if("durasteel")
+			if(material_tier != 0)
+				to_chat(usr, "<span class='notice'>Error: Resources must be purged from the Well before selecting a different alloy</span>")
+				var/sound = pick('nsv13/sound/effects/computer/error.ogg','nsv13/sound/effects/computer/error2.ogg','nsv13/sound/effects/computer/error3.ogg')
+				playsound(src, sound, 100, 1)
+				return
+			else
+				material_tier = 3
+
+		if("duranium")
+			if(material_tier != 0)
+				to_chat(usr, "<span class='notice'>Error: Resources must be purged from the Well before selecting a different alloy</span>")
+				var/sound = pick('nsv13/sound/effects/computer/error.ogg','nsv13/sound/effects/computer/error2.ogg','nsv13/sound/effects/computer/error3.ogg')
+				playsound(src, sound, 100, 1)
+				return
+			else
+				material_tier = 4
+
 		if("purge")
+			if(resourcing_system)
+				to_chat(usr, "<span class='notice'>Error: Resource Processing must first be disabled before purging the Well</span>")
+				var/sound = pick('nsv13/sound/effects/computer/error.ogg','nsv13/sound/effects/computer/error2.ogg','nsv13/sound/effects/computer/error3.ogg')
+				playsound(src, sound, 100, 1)
+				return
+
+			else if(alert("Purging the Well will prevent APNPs from functioning until refilled, continue?",name,"Yes","No") != "No" && Adjacent(usr))
+				to_chat(usr, "<span class='warning'>System purging repair resources</span>")
+				playsound(src, 'sound/machines/clockcult/steam_whoosh.ogg', 100, 1)
+				repair_resources = 0
+				material_tier = 0
+				var/turf/open/L = get_turf(src)
+				if(!istype(L) || !(L.air))
+					return
+				var/datum/gas_mixture/env = L.return_air()
+				var/current_temp = env.return_temperature()
+				env.set_temperature(current_temp + 25)
+				air_update_turf()
+
+		if("unload")
 			var/datum/component/material_container/materials = GetComponent(/datum/component/material_container)
 			materials.retrieve_all(get_turf(usr))
+
+		if("toggle")
+			if(material_tier == 0)
+				to_chat(usr, "<span class='notice'>Error: An alloy must be selected before commencing Resource Processing</span>")
+				var/sound = pick('nsv13/sound/effects/computer/error.ogg','nsv13/sound/effects/computer/error2.ogg','nsv13/sound/effects/computer/error3.ogg')
+				playsound(src, sound, 100, 1)
+			else
+				resourcing_system = !resourcing_system
 
 /obj/machinery/armour_plating_nanorepair_well/ui_data(mob/user)
 	var/list/data = list()
@@ -246,10 +335,8 @@
 	data["system_allocation"] = system_allocation
 	data["system_stress"] = system_stress
 	data["power_allocation"] = power_allocation
-	data["iron"] = material_switch["iron"]["online"]
-	data["silver"] = material_switch["silver"]["online"]
-	data["titanium"] = material_switch["titanium"]["online"]
-	data["plasma"] = material_switch["plasma"]["online"]
+	data["alloy"] = material_tier
+	data["resourcing"] = resourcing_system
 	return data
 
 /obj/item/circuitboard/machine/armour_plating_nanorepair_well
