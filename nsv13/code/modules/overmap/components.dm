@@ -160,8 +160,14 @@ GLOBAL_LIST_INIT(computer_beeps, list('nsv13/sound/effects/computer/beep.ogg','n
 	data["flakrange"] = linked.get_flak_range(linked.last_target)
 	data["integrity"] = linked.obj_integrity
 	data["max_integrity"] = linked.max_integrity
-	data["hullplates"] = linked.armour_plates
-	data["max_hullplates"] = linked.max_armour_plates
+	data["quadrant_fs_armour_current"] = linked.armour_quadrants["forward_starboard"]["current_armour"]
+	data["quadrant_fs_armour_max"] = linked.armour_quadrants["forward_starboard"]["max_armour"]
+	data["quadrant_as_armour_current"] = linked.armour_quadrants["aft_starboard"]["current_armour"]
+	data["quadrant_as_armour_max"] = linked.armour_quadrants["aft_starboard"]["max_armour"]
+	data["quadrant_ap_armour_current"] = linked.armour_quadrants["aft_port"]["current_armour"]
+	data["quadrant_ap_armour_max"] = linked.armour_quadrants["aft_port"]["max_armour"]
+	data["quadrant_fp_armour_current"] = linked.armour_quadrants["forward_port"]["current_armour"]
+	data["quadrant_fp_armour_max"] = linked.armour_quadrants["forward_port"]["max_armour"]
 	data["weapons"] = list()
 	data["target_name"] = (linked.target_lock) ? linked.target_lock.name : "none"
 	var/scan_range = (linked?.dradis) ? linked.dradis.sensor_range : 45 //hide targets that are outside of sensor range to avoid cheese.

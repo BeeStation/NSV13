@@ -21,18 +21,18 @@ export const ArmourPlatingNanorepairPump = (props, context) => {
                     <ProgressBar
                       value={data.armour_repair_amount}
                       minValue={0}
-                      maxValue={5}
+                      maxValue={8}
                       color="blue">
-                      {toFixed(data.armour_repair_amount)}
+                      {toFixed(data.armour_repair_amount) + ' %'}
                     </ProgressBar>
                   </LabeledList.Item>
                   <LabeledList.Item label="Structure Repair Rate">
                     <ProgressBar
                       value={data.structure_repair_amount}
                       minValue={0}
-                      maxValue={5}
+                      maxValue={8}
                       color="red">
-                      {toFixed(data.structure_repair_amount)}
+                      {toFixed(data.structure_repair_amount) + ' %'}
                     </ProgressBar>
                   </LabeledList.Item>
                 </LabeledList>
@@ -44,14 +44,14 @@ export const ArmourPlatingNanorepairPump = (props, context) => {
                   fillPositionedParent
                   data={armourData}
                   rangeX={[0, armourData.length - 1]}
-                  rangeY={[0, 10]}
+                  rangeY={[0, 8]}
                   strokeColor="rgba(28, 113, 177, 1)"
                   fillColor="rgba(28, 113, 177, 0.1)" />
                 <Chart.Line
                   fillPositionedParent
                   data={structureData}
                   rangeX={[0, structureData.length - 1]}
-                  rangeY={[0, 10]}
+                  rangeY={[0, 8]}
                   strokeColor="rgba(255, 0, 0, 1)"
                   fillColor="rgba(255, 0, 0, 0.1)" />
               </Section>

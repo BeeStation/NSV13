@@ -1,7 +1,8 @@
 import { Fragment } from 'inferno';
 import { useBackend, useLocalState } from '../backend';
-import { Box, Button, Section, ProgressBar, Slider } from '../components';
+import { Box, Button, Section, ProgressBar, Slider, LabeledList } from '../components';
 import { Window } from '../layouts';
+import { toFixed } from 'common/math';
 
 export const ArmourPlatingNanorepairWell = (props, context) => {
   const { act, data } = useBackend(context);
@@ -9,7 +10,7 @@ export const ArmourPlatingNanorepairWell = (props, context) => {
     <Window resizable theme="ntos">
       <Window.Content scrollable>
         <Section title="Ship Status:">
-          Super Structure Integrity:
+          Hull Structural Integrity:
           <ProgressBar
             value={(data.structural_integrity_current / data.structural_integrity_max)}
             ranges={{
@@ -87,7 +88,50 @@ export const ArmourPlatingNanorepairWell = (props, context) => {
             color={data.resourcing && "good"}
             onClick={() => act('toggle')} />
           <br />
+          <br />
+          Material Silo:
+          <br />
+          <LabeledList>
+            <LabeledList.Item label="Iron">
+              <ProgressBar
+                value={data.iron}
+                minValue={0}
+                maxValue={100000}
+                color="brown">
+                {toFixed(data.iron)}
+              </ProgressBar>
+            </LabeledList.Item>
+            <LabeledList.Item label="Titanium">
+              <ProgressBar
+                value={data.titanium}
+                minValue={0}
+                maxValue={100000}
+                color="grey">
+                {toFixed(data.titanium)}
+              </ProgressBar>
+            </LabeledList.Item>
+            <LabeledList.Item label="Silver">
+              <ProgressBar
+                value={data.silver}
+                minValue={0}
+                maxValue={100000}
+                color="white">
+                {toFixed(data.silver)}
+              </ProgressBar>
+            </LabeledList.Item>
+            <LabeledList.Item label="Plasma">
+              <ProgressBar
+                value={data.plasma}
+                minValue={0}
+                maxValue={100000}
+                color="purple">
+                {toFixed(data.plasma)}
+              </ProgressBar>
+            </LabeledList.Item>
+          </LabeledList>
+          <br />
           Alloy Selection:
+          <br />
           <Button
             content="Iron"
             icon="cog"
@@ -108,6 +152,7 @@ export const ArmourPlatingNanorepairWell = (props, context) => {
             icon="cog"
             color={data.alloy && "white"}
             onClick={() => act('duranium')} />
+          <br />
           <br />
           Repair Resources:
           <br />

@@ -20,13 +20,40 @@ export const TacticalConsole = (props, context) => {
                   bad: [-Infinity, 0.15],
                 }} />
             </Section>
-            <Section title="Armour plates:">
+            <Section title="Forward Port Armour:">
               <ProgressBar
-                value={(data.hullplates/data.max_hullplates * 100)* 0.01}
+                value={(data.quadrant_fp_armour_current / data.quadrant_fp_armour_max)}
                 ranges={{
-                  good: [0.95, Infinity],
-                  average: [0.15, 0.9],
-                  bad: [-Infinity, 0.15],
+                  good: [0.66, Infinity],
+                  average: [0.33, 0.66],
+                  bad: [-Infinity, 0.33],
+                }} />
+            </Section>
+            <Section title="Forward Starboard Armour:">
+              <ProgressBar
+                value={(data.quadrant_fs_armour_current / data.quadrant_fs_armour_max)}
+                ranges={{
+                  good: [0.66, Infinity],
+                  average: [0.33, 0.66],
+                  bad: [-Infinity, 0.33],
+                }} />
+            </Section>
+            <Section title="Aft Port Armour:">
+              <ProgressBar
+                value={(data.quadrant_ap_armour_current / data.quadrant_ap_armour_max)}
+                ranges={{
+                  good: [0.66, Infinity],
+                  average: [0.33, 0.66],
+                  bad: [-Infinity, 0.33],
+                }} />
+            </Section>
+            <Section title="Aft Starboard Armour:">
+              <ProgressBar
+                value={(data.quadrant_as_armour_current / data.quadrant_as_armour_max)}
+                ranges={{
+                  good: [0.66, Infinity],
+                  average: [0.33, 0.66],
+                  bad: [-Infinity, 0.33],
                 }} />
             </Section>
           </Section>

@@ -23,7 +23,6 @@
 	var/power_allocation = 0 //how much power we are pumping into the system
 	var/system_allocation = 0 //the load on the system
 	var/system_stress = 0 //how overloaded the system has been over time
-	var/list/material_silo = list()
 	var/material_modifier = 0 //efficiency of our materials
 	var/material_tier = 0 //The selected tier recipe producing RR
 	var/apnw_id = null //The ID by which we identify our child devices - These should match the child devices and follow the formula: 1 - Main Ship, 2 - Secondary Ship, 3 - Syndie PvP Ship
@@ -129,7 +128,7 @@
 					var/datum/component/material_container/materials = GetComponent(/datum/component/material_container)
 					var/iron_amount = min(20, (RR_MAX - repair_resources) * 0.20)
 					var/silver_amount = min(15, (RR_MAX -  repair_resources) * 0.15)
-					var/titanium_amount = min(60, (RR_MAX - repair_resources) * 0.6)
+					var/titanium_amount = min(65, (RR_MAX - repair_resources) * 0.65)
 					if(materials.use_amount_mat(iron_amount, /datum/material/iron) && materials.use_amount_mat(silver_amount, /datum/material/silver) && materials.use_amount_mat(titanium_amount, /datum/material/titanium))
 						materials.use_amount_mat(iron_amount, /datum/material/iron)
 						materials.use_amount_mat(silver_amount, /datum/material/silver)
@@ -142,7 +141,7 @@
 					var/iron_amount = min(17.5, (RR_MAX - repair_resources) * 0.175)
 					var/silver_amount = min(15, (RR_MAX -  repair_resources) * 0.15)
 					var/plasma_amount = min(5, (RR_MAX - repair_resources) * 0.05)
-					var/titanium_amount = min(57.5, (RR_MAX - repair_resources) * 0.575)
+					var/titanium_amount = min(62.5, (RR_MAX - repair_resources) * 0.625)
 					if(materials.use_amount_mat(iron_amount, /datum/material/iron) && materials.use_amount_mat(silver_amount, /datum/material/silver) && materials.use_amount_mat(plasma_amount, /datum/material/plasma) && materials.use_amount_mat(titanium_amount, /datum/material/titanium))
 						materials.use_amount_mat(iron_amount, /datum/material/iron)
 						materials.use_amount_mat(silver_amount, /datum/material/silver)
@@ -151,33 +150,6 @@
 						repair_resources += (iron_amount + silver_amount + plasma_amount + titanium_amount) / 2
 						material_modifier = 1 //High Modifier
 						repair_resources_processing = TRUE
-
-/*
-	if(repair_resources >= RR_MAX)
-		repair_resources_processing = FALSE
-		return
-	else if(repair_resources < RR_MAX)
-		var/material_types_online = 0
-		for(var/X in material_switch)
-			if(material_switch[X]["online"])
-				material_types_online ++
-		if(material_types_online > 0)
-			var/material_division = min(100 / material_types_online, (RR_MAX - repair_resources) / material_types_online)
-			material_modifier_target = 0
-			var/datum/component/material_container/materials = GetComponent(/datum/component/material_container)
-			for(var/X in material_switch)
-				if(material_switch[X]["online"])
-					if(materials.use_amount_mat(material_division, material_switch[X]["datum"]))
-//					if(materials.has_enough_of_material(material_switch[X]["datum"], material_division))
-						materials.use_amount_mat(material_division, material_switch[X]["datum"])
-						repair_resources += material_division / 2
-						material_modifier_target += 0.25
-					repair_resources_processing = TRUE
-
-	if(repair_resources_processing)
-		delta_material_modifier = material_modifier_target - material_modifier
-		material_modifier += delta_material_modifier / 2
-*/
 
 /obj/machinery/armour_plating_nanorepair_well/proc/handle_linking()
 	if(apnw_id) //If mappers set an ID)
@@ -306,8 +278,14 @@
 				air_update_turf()
 
 		if("unload")
-			var/datum/component/material_container/materials = GetComponent(/datum/component/material_container)
-			materials.retrieve_all(get_turf(usr))
+			if(resourcing_system)
+				to_chat(usr, "<span class='notice'>Error: Resource Processing must first be disabled before purging the Well</span>")
+				var/sound = pick('nsv13/sound/effects/computer/error.ogg','nsv13/sound/effects/computer/error2.ogg','nsv13/sound/effects/computer/error3.ogg')
+				playsound(src, sound, 100, 1)
+				return
+			else
+				var/datum/component/material_container/materials = GetComponent(/datum/component/material_container)
+				materials.retrieve_all(get_turf(usr))
 
 		if("toggle")
 			if(material_tier == 0)
@@ -318,6 +296,7 @@
 				resourcing_system = !resourcing_system
 
 /obj/machinery/armour_plating_nanorepair_well/ui_data(mob/user)
+	var/datum/component/material_container/materials = GetComponent(/datum/component/material_container)
 	var/list/data = list()
 	data["structural_integrity_current"] = OM.obj_integrity
 	data["structural_integrity_max"] = OM.max_integrity
@@ -337,6 +316,10 @@
 	data["power_allocation"] = power_allocation
 	data["alloy"] = material_tier
 	data["resourcing"] = resourcing_system
+	data["iron"] = materials.get_material_amount(/datum/material/iron)
+	data["titanium"] = materials.get_material_amount(/datum/material/titanium)
+	data["silver"] = materials.get_material_amount(/datum/material/silver)
+	data["plasma"] = materials.get_material_amount(/datum/material/plasma)
 	return data
 
 /obj/item/circuitboard/machine/armour_plating_nanorepair_well
