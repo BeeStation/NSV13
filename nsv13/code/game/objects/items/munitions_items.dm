@@ -30,7 +30,7 @@
 
 /obj/item/encryptionkey/heads/master_at_arms
 	name = "master at arms radio encryption key"
-	icon_state = "sec_cypherkey"
+	icon_state = "com_cypherkey"
 	channels = list(RADIO_CHANNEL_MUNITIONS = 1, RADIO_CHANNEL_SUPPLY = 1, RADIO_CHANNEL_COMMAND = 1, RADIO_CHANNEL_ATC = 1)
 	independent = TRUE
 
@@ -57,12 +57,9 @@
 /obj/item/radio/headset/heads/master_at_arms
 	name = "\proper the master at arms' headset"
 	desc = "Use :w to access the department frequency. Use :u to access the supply frequency. Use :c to access the command frequency. Use :q to access the ATC frequency."
-	icon_state = "sec_headset"
+	icon_state = "com_headset"
 	keyslot = new /obj/item/encryptionkey/heads/master_at_arms
-
-/obj/item/radio/headset/heads/master_at_arms/ComponentInitialize()
-	. = ..()
-	AddComponent(/datum/component/wearertargeting/earprotection, list(SLOT_EARS))
+	bang_protect = 1
 
 /obj/item/radio/headset/headset_sec/alt/munitions_tech
 	name = "munitions technician radio headset"
