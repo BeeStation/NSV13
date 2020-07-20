@@ -17,6 +17,13 @@ SUBSYSTEM_DEF(star_system)
 	var/systems_cleared = 0
 
 /datum/controller/subsystem/star_system/fire() //Overmap combat events control system, adds weight to combat events over time spent out of combat
+	if(SSmapping.config.patrol_type == "passive")
+		priority_announce("[station_name()], you have been assigned to reconnaissance and exploration this shift. Scans indicate that besides a decent number of straggling Syndicate vessels, there will be little threat to your operations. You are granted permission to proceed at your own pace.", "[capitalize(SSmapping.config.faction)] Naval Command")
+		for(var/datum/star_system/SS in systems)
+			if(SS.name == "Risa Station")
+				SS.hidden = FALSE
+		can_fire = FALSE //And leave it at that.
+		return FALSE //Don't karmic people if this roundtype is set to passive mode.
 	if(last_combat_enter + (5000 + (1000 * modifier)) < world.time) //Checking the last time we started combat with the current time
 		var/datum/round_event_control/_overmap_event_handler/OEH = locate(/datum/round_event_control/_overmap_event_handler) in SSevents.control
 		modifier ++ //Increment time step
