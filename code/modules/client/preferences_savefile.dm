@@ -46,10 +46,10 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 		overhead_chat = TRUE
 	if(current_version < 30)
 		preferred_squad = "Apples Squad"
-
 	if(current_version < 31)
 		outline_enabled = TRUE
-		outline_color = COLOR_BLUE_GRAY	return
+		outline_color = COLOR_BLUE_GRAY
+	return
 
 /datum/preferences/proc/update_character(current_version, savefile/S)
 	if(current_version < 19)
