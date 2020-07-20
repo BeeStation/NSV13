@@ -51,7 +51,8 @@ GLOBAL_LIST_INIT(admin_verbs_debug_mapping, list(
 	/client/proc/show_line_profiling,
 	/client/proc/create_mapping_job_icons,
 	/client/proc/debug_z_levels,
-	/client/proc/place_ruin
+	/client/proc/place_ruin,
+	/client/proc/dump_memory_usage//NSV13 can you hold this for me so admins don't press this accidently.
 ))
 GLOBAL_PROTECT(admin_verbs_debug_mapping)
 

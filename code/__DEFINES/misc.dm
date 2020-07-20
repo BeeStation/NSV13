@@ -449,3 +449,6 @@ GLOBAL_LIST_INIT(pda_styles, sortList(list(MONO, VT, ORBITRON, SHARE)))
 //Gear purchase types
 #define GEAR_METACOIN 1
 #define GEAR_DONATOR  2
+
+#define EXTOOLS_SUCCESS	"SUCCESS"
+#define EXTOOLS_FAILED	"FAIL"
