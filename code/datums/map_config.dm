@@ -22,6 +22,8 @@
 	var/mining_ship_type = /obj/structure/overmap/nanotrasen/mining_cruiser/nostromo
 	var/mine_file = "nostromo.dmm" //Nsv13. Heavy changes to this file
 	var/mine_path = "map_files/Mining/nsv13"
+	var/faction = "nanotrasen" //Nsv13 - To what faction does the NSV belong?
+	var/patrol_type = "standard" //Nsv13 - Lets you set the patrol type per map. Sometimes we just wanna space cruise y'dig?
 	var/mine_traits = null
 
 	var/traits = null
@@ -146,6 +148,12 @@
 	else
 		log_world("mine_file missing from json!")
 		return
+
+	//Nsv13 stuff. No CHECK_EXISTS because we don't want to yell at mappers if they don't override these two.
+	if("faction" in json) //We don't always want to bother overriding faction, so the default will do for now
+		faction = json["faction"]
+	if("patrol_type" in json) //Lets us set our patrol type per map.
+		patrol_type = json["patrol_type"]
 
 	CHECK_EXISTS("ship_type")
 	if("ship_type" in json)

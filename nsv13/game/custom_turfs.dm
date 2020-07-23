@@ -249,3 +249,364 @@
 
 /turf/open/floor/monotile/light/airless
 	initial_gas_mix = AIRLESS_ATMOS
+
+/turf/open/floor/plasteel/grid/mono
+	name = "steel hull plate"
+	icon = 'nsv13/icons/turf/floors.dmi'
+	icon_state = "steel"
+	floor_tile = /obj/item/stack/tile/plasteel/grid/mono
+	broken_states = list("steel_dam1", "steel_dam2", "steel_dam3", "steel_dam4", "steel_dam5")
+
+/obj/item/stack/tile/plasteel/grid/mono
+	name = "steel hull plating tile"
+	singular_name = "steel hull plating tile"
+	desc = "A regular steel hull plating tile"
+	icon = 'nsv13/icons/turf/floors.dmi'
+	icon_state = "steel_tile"
+	turf_type = /turf/open/floor/plasteel/grid/mono
+
+/turf/open/floor/plasteel/grid/lino
+	name = "linoleum hull plate"
+	icon = 'nsv13/icons/turf/floors.dmi'
+	icon_state = "lino"
+	floor_tile = /obj/item/stack/tile/plasteel/grid/lino
+	broken_states = list("lino_dam1", "lino_dam2")
+
+/obj/item/stack/tile/plasteel/grid/lino
+	name = "linoleum hull plating tile"
+	singular_name = "linoleum hull plating tile"
+	desc = "A regular linoleum hull plating tile"
+	icon = 'nsv13/icons/turf/floors.dmi'
+	icon_state = "lino_tile"
+	turf_type = /turf/open/floor/plasteel/grid/lino
+
+/turf/open/floor/plasteel/grid/techfloor
+	name = "techfloor tile"
+	icon = 'nsv13/icons/turf/floors.dmi'
+	icon_state = "techfloor"
+	floor_tile = /obj/item/stack/tile/plasteel/grid/techfloor
+	broken_states = list("techfloor_dam1", "techfloor_dam2")
+
+/obj/item/stack/tile/plasteel/grid/techfloor
+	name = "techfloor tile"
+	singular_name = "techfloor hull plating tile"
+	desc = "A regular techfloor hull plating tile"
+	icon = 'nsv13/icons/turf/floors.dmi'
+	icon_state = "techfloor_tile"
+	turf_type = /turf/open/floor/plasteel/grid/lino
+
+/turf/open/floor/plasteel/grid/techfloor/grid
+	name = "techfloor grid"
+	icon = 'nsv13/icons/turf/floors.dmi'
+	icon_state = "techfloor_grid"
+	floor_tile = /obj/item/stack/tile/plasteel/grid/techfloor
+	broken_states = list("techfloor_grid_dam1")
+
+/obj/item/stack/tile/plasteel/grid/techfloor/grid
+	name = "techfloor tile"
+	singular_name = "techfloor hull plating tile"
+	desc = "A regular techfloor hull plating tile"
+	icon = 'nsv13/icons/turf/floors.dmi'
+	icon_state = "techfloor_grid_tile"
+	turf_type = /turf/open/floor/plasteel/grid/techfloor/grid
+
+/obj/effect/turf_decal/tile/ship
+	name = "tile decal"
+	icon = 'nsv13/icons/turf/decals.dmi'
+	icon_state = "bordercorner"
+	layer = TURF_PLATING_DECAL_LAYER
+
+/obj/effect/turf_decal/tile/ship/blue
+	name = "blue corner"
+	color = "#52B4E9"
+
+/obj/effect/turf_decal/tile/ship/green
+	name = "green corner"
+	color = "#9FED58"
+
+/obj/effect/turf_decal/tile/ship/yellow
+	name = "yellow corner"
+	color = "#EFB341"
+
+/obj/effect/turf_decal/tile/ship/red
+	name = "red corner"
+	color = "#DE3A3A"
+
+/obj/effect/turf_decal/tile/ship/bar
+	name = "bar corner"
+	color = "#791500"
+
+/obj/effect/turf_decal/tile/ship/purple
+	name = "purple corner"
+	color = "#D381C9"
+
+/obj/effect/turf_decal/tile/ship/brown
+	name = "brown corner"
+	color = "#A46106"
+
+/obj/effect/turf_decal/tile/ship/neutral
+	name = "neutral corner"
+	color = "#D4D4D4"
+
+/obj/effect/turf_decal/tile/ship/half
+	name = "tile decal"
+	icon = 'nsv13/icons/turf/decals.dmi'
+	icon_state = "borderhalf"
+	layer = TURF_PLATING_DECAL_LAYER
+
+/obj/effect/turf_decal/tile/ship/half/blue
+	name = "blue corner"
+	color = "#52B4E9"
+
+/obj/effect/turf_decal/tile/ship/half/green
+	name = "green corner"
+	color = "#9FED58"
+
+/obj/effect/turf_decal/tile/ship/half/yellow
+	name = "yellow corner"
+	color = "#EFB341"
+
+/obj/effect/turf_decal/tile/ship/half/red
+	name = "red corner"
+	color = "#DE3A3A"
+
+/obj/effect/turf_decal/tile/ship/half/bar
+	name = "bar corner"
+	color = "#791500"
+
+/obj/effect/turf_decal/tile/ship/half/purple
+	name = "purple corner"
+	color = "#D381C9"
+
+/obj/effect/turf_decal/tile/ship/half/brown
+	name = "brown corner"
+	color = "#A46106"
+
+/obj/effect/turf_decal/tile/ship/half/neutral
+	name = "neutral corner"
+	color = "#D4D4D4"
+
+/obj/effect/turf_decal/tile/ship/full
+	name = "tile decal"
+	icon = 'nsv13/icons/turf/decals.dmi'
+	icon_state = "borderfull"
+	layer = TURF_PLATING_DECAL_LAYER
+
+/obj/effect/turf_decal/tile/ship/full/blue
+	name = "blue corner"
+	color = "#52B4E9"
+
+/obj/effect/turf_decal/tile/ship/full/green
+	name = "green corner"
+	color = "#9FED58"
+
+/obj/effect/turf_decal/tile/ship/full/yellow
+	name = "yellow corner"
+	color = "#EFB341"
+
+/obj/effect/turf_decal/tile/ship/full/red
+	name = "red corner"
+	color = "#DE3A3A"
+
+/obj/effect/turf_decal/tile/ship/full/bar
+	name = "bar corner"
+	color = "#791500"
+
+/obj/effect/turf_decal/tile/ship/full/purple
+	name = "purple corner"
+	color = "#D381C9"
+
+/obj/effect/turf_decal/tile/ship/full/brown
+	name = "brown corner"
+	color = "#A46106"
+
+/obj/effect/turf_decal/tile/ship/full/neutral
+	name = "neutral corner"
+	color = "#D4D4D4"
+
+/obj/effect/turf_decal/ship
+	name = "turf decal"
+	icon = 'nsv13/icons/turf/decals.dmi'
+	icon_state = "borderfloor"
+	layer = TURF_PLATING_DECAL_LAYER
+
+/obj/effect/turf_decal/ship/outline
+	icon_state = "outline"
+
+/obj/effect/turf_decal/ship/borderfloor/gunmetal
+	name = "border decal"
+	icon = 'nsv13/icons/turf/decals.dmi'
+	icon_state = "borderfloor_white"
+	color = "#61666A" //Curse you baystation
+
+/obj/effect/turf_decal/ship/borderfloor/gunmetal/corner
+	icon_state = "borderfloorcorner_white"
+
+/obj/effect/turf_decal/ship/borderfloor
+	name = "border decal"
+	icon = 'nsv13/icons/turf/decals.dmi'
+	icon_state = "borderfloor"
+	layer = TURF_PLATING_DECAL_LAYER
+
+/obj/effect/turf_decal/ship/borderfloor/corner
+	name = "border decal"
+	icon_state = "borderfloorcorner"
+
+/obj/effect/turf_decal/ship/borderfloor/corner/alt
+	name = "border decal"
+	icon_state = "borderfloorcorner2"
+
+/obj/effect/turf_decal/ship/oldtile
+	name = "border decal"
+	icon_state = "oldtile"
+
+/obj/effect/turf_decal/ship/rust
+	name = "rust"
+	icon_state = "rust"
+
+/obj/effect/turf_decal/ship/shutoff
+	name = "power shutoff"
+	icon_state = "shutoff"
+
+/obj/effect/turf_decal/ship/techfloor
+	name = "border decal"
+	icon_state = "techfloor_edges"
+
+/obj/effect/turf_decal/ship/techfloor/grid
+	name = "border decal"
+	icon_state = "techfloor_grid"
+
+/obj/effect/turf_decal/ship/techfloor/grey
+	name = "border decal"
+	icon_state = "techfloor_grey"
+
+/obj/effect/turf_decal/ship/techfloor/corner
+	name = "border decal"
+	icon_state = "techfloor_corners"
+
+/obj/effect/turf_decal/ship/delivery
+	name = "delivery"
+	icon_state = "delivery"
+
+/obj/effect/turf_decal/ship/delivery/yellow
+	name = "delivery"
+	icon_state = "delivery"
+	color = "#DCDC4B"
+
+
+//3/4 signs stolen from bay
+/obj/structure/sign/ship
+	icon = 'nsv13/icons/obj/decals.dmi'
+
+/obj/structure/sign/ship/space
+	name = "WARNING: HARD VACUUM AHEAD"
+	icon_state = "space"
+
+/obj/structure/sign/ship/fire
+	name = "Fire hazard"
+	icon_state = "fire"
+
+/obj/structure/sign/ship/nosmoking
+	name = "No smoking"
+	icon_state = "nosmoking"
+
+/obj/structure/sign/ship/smoking
+	name = "Smoking area"
+	icon_state = "smoking"
+
+/obj/structure/sign/ship/securearea
+	name = "CAUTION: SECURE AREA"
+	icon_state = "securearea"
+
+/obj/structure/sign/ship/securearea/alt
+	name = "CAUTION: SECURE AREA"
+	icon_state = "securearea2"
+
+/obj/structure/sign/ship/armoury
+	name = "Weapons locker"
+	icon_state = "armory"
+
+/obj/structure/sign/ship/server
+	name = "Server room"
+	icon_state = "server"
+
+/obj/structure/sign/ship/shock
+	name = "CAUTION: HIGH VOLTAGE"
+	icon_state = "shock"
+
+/obj/structure/sign/ship/hikpa
+	name = "CAUTION: HIGH PRESSURE"
+	icon_state = "hikpa"
+
+/obj/structure/sign/ship/mail
+	name = "Mail"
+	icon_state = "mail"
+
+/obj/structure/sign/ship/radiation
+	name = "CAUTION: RADIATION"
+	icon_state = "radiation"
+
+/obj/structure/sign/ship/examroom
+	name = "Examination room"
+	icon_state = "examroom"
+
+/obj/structure/sign/ship/science
+	name = "Research and development"
+	icon_state = "science"
+
+/obj/structure/sign/ship/chemistry
+	name = "Chemistry"
+	icon_state = "chemistry"
+
+/obj/structure/sign/ship/medical
+	name = "Medbay"
+	icon_state = "bluecross2"
+
+/obj/structure/sign/ship/plaque
+	name = "Dedication plaque"
+	desc = "A plaque with several things written on it."
+	icon_state = "lightplaque"
+
+/obj/structure/sign/ship/plaque/dark
+	icon_state = "darkplaque"
+
+/obj/structure/sign/ship/plaque/light
+	icon_state = "lightplaquealt"
+
+/obj/structure/sign/ship/plaque/examine(mob/user)
+	. = ..()
+	var/obj/structure/overmap/scream = get_overmap()
+	to_chat(user, "<span class='notice'>This plaque records those who attended the launching ceremony of the ship you're on. <br> This plaque names the ship as: <b>[scream?.name]</b> </span>")
+
+/obj/structure/sign/ship/pods
+	name = "Escape pods"
+	icon_state = "podsnorth"
+
+/obj/structure/sign/ship/pods/north
+	icon_state = "podssouth"
+
+/obj/structure/sign/ship/pods/east
+	icon_state = "podseast"
+
+/obj/structure/sign/ship/pods/west
+	icon_state = "podswest"
+
+/obj/structure/sign/ship/deck
+	name = "Deck 1"
+	icon_state = "deck-1"
+
+/obj/structure/sign/ship/deck/two
+	name = "Deck 2"
+	icon_state = "deck-2"
+
+/obj/structure/sign/ship/deck/three
+	name = "Deck 3"
+	icon_state = "deck-3"
+
+/obj/structure/sign/ship/deck/four
+	name = "Deck 4"
+	icon_state = "deck-4"
+
+/obj/structure/sign/ship/deck/five
+	name = "Deck 5"
+	icon_state = "deck-5"

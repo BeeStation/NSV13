@@ -25,9 +25,9 @@
 
 	belt = /obj/item/storage/belt/utility/full/engi
 	ears = /obj/item/radio/headset/headset_sec/alt/munitions_tech
-	uniform = /obj/item/clothing/under/rank/munitions_tech
+	uniform = /obj/item/clothing/under/ship/decktech
 	suit = /obj/item/clothing/suit/hazardvest
-	head = /obj/item/clothing/head/soft/yellow
+	head = /obj/item/clothing/head/helmet/decktech
 	gloves = /obj/item/clothing/gloves/color/brown
 	l_pocket = /obj/item/pda
 

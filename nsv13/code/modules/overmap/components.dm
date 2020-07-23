@@ -329,8 +329,8 @@ GLOBAL_LIST_INIT(computer_beeps, list('nsv13/sound/effects/computer/beep.ogg','n
 	density = FALSE
 	layer = LATTICE_LAYER //under pipes
 	plane = FLOOR_PLANE
-	obj_integrity = 100
-	max_integrity = 100
+	obj_integrity = 200
+	max_integrity = 200
 	var/obj/structure/overmap/parent = null
 	var/armour_scale_modifier = 4
 	var/armour_broken = FALSE
@@ -370,6 +370,58 @@ Method to try locate an overmap object that we should attach to. Recursively cal
 	parent?.armour_plates --
 	. = ..()
 
+/datum/reagent/hull_repair_juice
+	name = "Hull Repair Juice"
+	description = "Repairs hull plating rapidly."
+	reagent_state = LIQUID
+	color = "#CC8899"
+	metabolization_rate = 4
+	taste_description = "metallic hull repair juice"
+	process_flags = ORGANIC | SYNTHETIC
+
+//Hull repair juice -> stabilizing agent, iron, carbon
+
+/obj/effect/particle_effect/foam/hull_repair_juice
+	name = "Hull Repair Foam"
+	slippery_foam = FALSE
+	color = "#CC8899"
+
+/obj/structure/reagent_dispensers/foamtank/hull_repair_juice
+	name = "hull repair juice tank"
+	desc = "A tank full of hull repair foam."
+	icon_state = "foam"
+	reagent_id = /datum/reagent/hull_repair_juice
+	tank_volume = 1500 //I NEED A LOT OF FOAM OK.
+
+/obj/item/extinguisher/advanced/hull_repair_juice
+	name = "hull damage extinguisher"
+	desc = "For when the hull plates just won't STOP."
+	icon = 'nsv13/icons/obj/inflatable.dmi'
+	chem = /datum/reagent/hull_repair_juice
+	tanktype = /obj/structure/reagent_dispensers/foamtank/hull_repair_juice
+
+/datum/chemical_reaction/hull_repair_juice
+	name = "Hull Repair Juice"
+	id = /datum/reagent/hull_repair_juice
+	results = list(/datum/reagent/hull_repair_juice = 10)
+	required_reagents = list(/datum/reagent/stabilizing_agent = 1, /datum/reagent/iron = 1,/datum/reagent/carbon = 1)
+
+/datum/reagent/hull_repair_juice/reaction_turf(turf/open/T, reac_volume)
+	if (!istype(T))
+		return
+
+	if(reac_volume >= 1)
+		var/obj/effect/particle_effect/foam/F = (locate(/obj/effect/particle_effect/foam) in T)
+		if(!F)
+			F = new(T)
+		else if(istype(F))
+			F.lifetime = initial(F.lifetime) //reduce object churn a little bit when using smoke by keeping existing foam alive a bit longer
+
+	for(var/obj/structure/hull_plate/HP in T.contents)
+		if(!istype(HP))
+			continue
+		HP.try_repair(HP.max_integrity)
+
 /obj/structure/hull_plate/proc/relay_damage(datum/source, amount)
 	if(!amount)
 		return //No 0 damage
@@ -393,7 +445,8 @@ Method to try locate an overmap object that we should attach to. Recursively cal
 	obj_integrity = (obj_integrity + amount < max_integrity) ? obj_integrity + amount : max_integrity
 	update_icon()
 	if(obj_integrity <= max_integrity)
-		to_chat(user, "<span class='warning'>You have fully repaired [src].</span>")
+		if(user)
+			to_chat(user, "<span class='warning'>You have fully repaired [src].</span>")
 		obj_integrity = max_integrity
 		update_icon()
 		if(armour_broken)

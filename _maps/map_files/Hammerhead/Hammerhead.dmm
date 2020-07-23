@@ -166,6 +166,11 @@
 	icon_state = "manifold-2";
 	dir = 4
 	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer3,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer1,
+/obj/structure/cable/yellow{
+	icon_state = "1-8"
+	},
 /turf/open/floor/plasteel,
 /area/engine/engineering)
 "aay" = (
@@ -2258,14 +2263,6 @@
 /obj/machinery/light{
 	dir = 4
 	},
-/obj/effect/landmark/start/deck_tech,
-/turf/open/floor/plating,
-/area/nsv/hanger)
-"aeX" = (
-/obj/effect/turf_decal/stripes/line{
-	dir = 8
-	},
-/obj/effect/landmark/start/deck_tech,
 /turf/open/floor/plating,
 /area/nsv/hanger)
 "aeY" = (
@@ -6607,7 +6604,9 @@
 /obj/machinery/power/apc/auto_name/north,
 /obj/structure/safe,
 /obj/item/bikehorn/golden,
-/obj/item/book/random/triple,
+/obj/item/book/random,
+/obj/item/book/random,
+/obj/item/book/random,
 /obj/item/fakeartefact,
 /obj/item/grenade/clusterbuster/smoke,
 /obj/structure/cable{
@@ -22172,10 +22171,6 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/department/bridge)
-"aWZ" = (
-/obj/machinery/ship_weapon/railgun,
-/turf/open/floor/plasteel/ship/techfloor/alt,
-/area/nsv/weapons/fore)
 "aXa" = (
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer1{
 	dir = 1
@@ -23501,9 +23496,7 @@
 /turf/open/floor/plasteel,
 /area/security/checkpoint/science/research)
 "baa" = (
-/obj/structure/sign/warning/explosives/alt{
-	pixel_y = 26
-	},
+/obj/machinery/ship_weapon/railgun,
 /turf/open/floor/plasteel/ship,
 /area/nsv/weapons/fore)
 "bab" = (
@@ -29429,7 +29422,6 @@
 	dir = 4;
 	pixel_x = -24
 	},
-/obj/effect/landmark/start/deck_tech,
 /turf/open/floor/plating,
 /area/nsv/hanger)
 "cqh" = (
@@ -29585,6 +29577,7 @@
 "cxD" = (
 /obj/effect/turf_decal/delivery/white,
 /obj/machinery/light,
+/obj/structure/munitions_trolley,
 /turf/open/floor/plasteel/ship,
 /area/nsv/weapons/fore)
 "cxT" = (
@@ -32488,7 +32481,6 @@
 /obj/structure/cable{
 	icon_state = "0-2"
 	},
-/obj/effect/landmark/start/deck_tech,
 /turf/open/floor/plating,
 /area/nsv/hanger)
 "faj" = (
@@ -38752,6 +38744,14 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/department/crew_quarters/dorms)
+"kyI" = (
+/obj/machinery/ship_weapon/mac{
+	dir = 4;
+	icon_state = "MAC";
+	pixel_y = -64
+	},
+/turf/open/floor/plasteel/ship,
+/area/nsv/weapons/fore)
 "kyP" = (
 /obj/machinery/status_display/evac{
 	pixel_x = -32
@@ -40202,7 +40202,6 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer1{
 	dir = 6
 	},
-/obj/effect/landmark/start/deck_tech,
 /turf/open/floor/plasteel/ship,
 /area/nsv/hanger)
 "lVU" = (
@@ -41787,6 +41786,10 @@
 /obj/effect/landmark/start/cook,
 /turf/open/floor/plasteel/cafeteria,
 /area/crew_quarters/kitchen)
+"nnC" = (
+/obj/effect/turf_decal/delivery/red,
+/turf/open/floor/plasteel/ship,
+/area/nsv/weapons/fore)
 "nol" = (
 /obj/structure/cable{
 	icon_state = "1-2"
@@ -43264,7 +43267,10 @@
 /area/ai_monitored/turret_protected/ai)
 "oBE" = (
 /obj/machinery/computer/ship/viewscreen,
-/obj/structure/munitions_trolley,
+/obj/machinery/computer/ship/munitions_computer{
+	dir = 8
+	},
+/obj/effect/turf_decal/delivery,
 /turf/open/floor/plasteel/ship,
 /area/nsv/weapons/fore)
 "oDp" = (
@@ -43802,13 +43808,6 @@
 	},
 /turf/open/floor/plasteel/dark,
 /area/engine/engine_smes)
-"pbQ" = (
-/obj/effect/turf_decal/stripes/line{
-	dir = 4
-	},
-/obj/effect/landmark/start/deck_tech,
-/turf/open/floor/plating,
-/area/nsv/hanger)
 "pcq" = (
 /obj/machinery/power/apc/auto_name/west,
 /obj/structure/table,
@@ -48552,13 +48551,6 @@
 	},
 /turf/open/floor/plasteel,
 /area/gateway)
-"tsg" = (
-/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer1{
-	dir = 8
-	},
-/obj/effect/landmark/start/deck_tech,
-/turf/open/floor/plasteel/ship,
-/area/nsv/hanger)
 "tsA" = (
 /obj/machinery/navbeacon{
 	codes_txt = "patrol;next_patrol=Escape-2";
@@ -50467,7 +50459,6 @@
 /obj/machinery/light{
 	dir = 8
 	},
-/obj/effect/landmark/start/deck_tech,
 /turf/open/floor/plating,
 /area/nsv/hanger)
 "vgq" = (
@@ -52734,6 +52725,13 @@
 /obj/machinery/computer/atmos_control/tank/incinerator,
 /turf/open/floor/plasteel,
 /area/engine/atmospherics_engine)
+"xnj" = (
+/obj/effect/turf_decal/delivery,
+/obj/machinery/computer/ship/munitions_computer{
+	dir = 8
+	},
+/turf/open/floor/plasteel/ship,
+/area/nsv/weapons/fore)
 "xnH" = (
 /obj/effect/landmark/nuclear_waste_spawner,
 /turf/open/floor/plasteel/dark,
@@ -53727,10 +53725,6 @@
 	},
 /turf/open/floor/plasteel/ship/techfloor/alt,
 /area/hallway/primary/aft)
-"xZY" = (
-/obj/effect/landmark/start/deck_tech,
-/turf/open/floor/plasteel/ship,
-/area/nsv/hanger)
 "yau" = (
 /obj/structure/grille,
 /obj/structure/cable{
@@ -103136,7 +103130,7 @@ kah
 gqM
 hmw
 aMy
-xZY
+hmw
 lUH
 xRM
 jnZ
@@ -103438,8 +103432,8 @@ kah
 bbI
 hmw
 hmw
-xZY
-tsg
+hmw
+oDG
 aid
 brd
 hmw
@@ -107671,8 +107665,8 @@ agp
 asf
 aeS
 aeW
-pbQ
-pbQ
+agk
+agk
 faf
 oHC
 oHC
@@ -108879,8 +108873,8 @@ awr
 aio
 afd
 vfV
-aeX
-aeX
+aeY
+aeY
 cpL
 aeY
 aeY
@@ -121539,8 +121533,8 @@ fDX
 arv
 amJ
 afw
-azO
-azO
+aso
+aso
 azO
 aME
 aGy
@@ -122746,9 +122740,9 @@ aIf
 gbL
 arv
 oBE
-aee
+azO
 afw
-amy
+xnj
 afw
 ajb
 afw
@@ -123048,9 +123042,9 @@ aIf
 gbL
 arv
 baa
-aWZ
 afw
-aee
+afw
+kyI
 afw
 aee
 afw
@@ -123352,7 +123346,7 @@ arv
 afw
 afw
 afw
-aZR
+nnC
 afw
 aZR
 afw
