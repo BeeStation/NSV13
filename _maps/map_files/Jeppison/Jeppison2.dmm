@@ -17722,6 +17722,17 @@
 /obj/machinery/airalarm/directional/west,
 /turf/open/floor/plasteel/dark,
 /area/crew_quarters/heads/chief)
+"Li" = (
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
+/obj/machinery/shower{
+	dir = 4
+	},
+/turf/open/floor/monotile/dark,
+/area/nsv/magazine)
 "Lj" = (
 /obj/effect/turf_decal/tile/blue,
 /obj/machinery/light,
@@ -18040,6 +18051,14 @@
 /obj/machinery/door/firedoor/border_only/directional/north,
 /turf/open/floor/plasteel/white,
 /area/medical/storage)
+"ND" = (
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
+/obj/machinery/shower{
+	dir = 8
+	},
+/turf/open/floor/plating,
+/area/engine/engine_room)
 "NE" = (
 /obj/machinery/light,
 /obj/structure/disposalpipe/segment{
@@ -18480,7 +18499,7 @@
 	dir = 4
 	},
 /turf/open/floor/plating/airless,
-/area/space/nearstation)
+/area/engine/atmos)
 "PQ" = (
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3,
 /obj/structure/disposalpipe/segment,
@@ -18494,12 +18513,6 @@
 /mob/living/simple_animal/slime,
 /turf/open/floor/plating,
 /area/science/xenobiology)
-"PW" = (
-/obj/machinery/shower{
-	dir = 8
-	},
-/turf/open/floor/plating,
-/area/quartermaster/warehouse)
 "Qd" = (
 /obj/structure/cable{
 	icon_state = "1-2"
@@ -18554,17 +18567,6 @@
 /obj/item/extinguisher/advanced/hull_repair_juice,
 /turf/open/floor/plasteel,
 /area/engine/engineering)
-"Qs" = (
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
-/obj/structure/cable{
-	icon_state = "1-2"
-	},
-/obj/machinery/shower{
-	dir = 4
-	},
-/turf/open/floor/monotile/dark,
-/area/nsv/magazine)
 "Qv" = (
 /obj/structure/sign/directions/evac{
 	icon_state = "direction_evac";
@@ -18923,6 +18925,12 @@
 /obj/structure/reagent_dispensers/fueltank,
 /turf/open/floor/plating,
 /area/maintenance/department/engine)
+"Sb" = (
+/obj/machinery/shower{
+	dir = 8
+	},
+/turf/open/floor/plating,
+/area/quartermaster/warehouse)
 "Sc" = (
 /obj/structure/cable{
 	icon_state = "1-2"
@@ -19321,11 +19329,6 @@
 /obj/machinery/suit_storage_unit/engine,
 /obj/item/radio/intercom/directional/south,
 /turf/open/floor/plasteel/ship/padded,
-/area/engine/engineering)
-"Ux" = (
-/obj/structure/reagent_dispensers/foamtank/hull_repair_juice,
-/obj/item/extinguisher/advanced/hull_repair_juice,
-/turf/open/floor/plasteel,
 /area/engine/engineering)
 "UD" = (
 /obj/structure/cable{
@@ -19918,14 +19921,6 @@
 	},
 /turf/open/floor/plasteel,
 /area/hallway/nsv/deck2/aft)
-"Yr" = (
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
-/obj/machinery/shower{
-	dir = 8
-	},
-/turf/open/floor/plating,
-/area/engine/engine_room)
 "Yt" = (
 /obj/effect/turf_decal/tile/blue,
 /obj/structure/sign/departments/minsky/medical/medical2{
@@ -20000,6 +19995,11 @@
 	},
 /turf/open/floor/plasteel/white,
 /area/medical/sleeper)
+"YT" = (
+/obj/structure/reagent_dispensers/foamtank/hull_repair_juice,
+/obj/item/extinguisher/advanced/hull_repair_juice,
+/turf/open/floor/plasteel,
+/area/engine/engineering)
 "Za" = (
 /turf/open/floor/plating/airless,
 /area/space/nearstation)
@@ -41524,11 +41524,11 @@ dF
 dY
 eo
 kG
-Yr
+ND
 RN
 RN
 RN
-Yr
+ND
 qA
 sD
 kD
@@ -42436,7 +42436,7 @@ fD
 fU
 gi
 lg
-Ux
+YT
 nC
 gX
 hs
@@ -59323,7 +59323,7 @@ aa
 aa
 aa
 vY
-PW
+Sb
 wi
 wA
 tT
@@ -65982,7 +65982,7 @@ CA
 CB
 CM
 En
-Qs
+Li
 EI
 Ff
 CC
