@@ -89,8 +89,8 @@ odir = EAST / WEST. We need it to face forwards so you can get through
 /obj/machinery/door/airlock/ship/station/glass
 	name = "Standard airlock"
 	icon = 'nsv13/icons/obj/machinery/doors/station_glass.dmi'
-	density = FALSE
 	opacity = 0
+	glass = TRUE
 
 /obj/machinery/door/airlock/ship/station/mining
 	name = "Mining airlock"
@@ -115,7 +115,7 @@ odir = EAST / WEST. We need it to face forwards so you can get through
 
 /obj/machinery/door/poddoor/shutters/ship
 	icon = 'nsv13/icons/obj/machinery/doors/shutters.dmi'
-	
+
 /obj/machinery/door/poddoor/shutters/ship/preopen
 	icon_state = "open"
 	density = FALSE

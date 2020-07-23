@@ -44,3 +44,6 @@
 /area/nsv/hanger/storage
 	name = "Hangar Storage Bay"
 	icon_state = "shuttlered"
+
+/area/security/detectives_office/combined
+	name = "Justice Team Office"
