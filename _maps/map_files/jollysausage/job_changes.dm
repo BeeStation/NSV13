@@ -69,7 +69,8 @@ MAP_REMOVE_JOB(virologist)	//Redundant
 
 /datum/uplink_item/explosives/syndicate_bomb/New()
 	. = ..()
-	if(SSmapping.config.map_name != JOB_MODIFICATION_MAP_NAME)
+	
+	if(SSmapping?.config.map_name != JOB_MODIFICATION_MAP_NAME)
 		return
 	limited_stock = 0 //This ship is way too small for this shit.
 	cant_discount = TRUE
