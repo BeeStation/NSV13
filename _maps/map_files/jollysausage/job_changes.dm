@@ -74,3 +74,5 @@ MAP_REMOVE_JOB(virologist)	//Redundant
 	limited_stock = 0 //This ship is way too small for this shit.
 	cant_discount = TRUE
 	surplus = 0
+
+#undef JOB_MODIFICATION_MAP_NAME
