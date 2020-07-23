@@ -11,4 +11,3 @@
 
 #define JOB_MODIFICATION_MAP_NAME "NSV Jeppison"
 #include "..\..\..\..\_maps\map_files\Jeppison\job_changes.dm"
-#undef JOB_MODIFICATION_MAP_NAME
