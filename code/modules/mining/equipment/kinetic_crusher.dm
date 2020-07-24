@@ -67,6 +67,8 @@
 		user.drop_all_held_items()
 		return
 	var/datum/status_effect/crusher_damage/C = target.has_status_effect(STATUS_EFFECT_CRUSHERDAMAGETRACKING)
+	if(!C)
+		C = target.apply_status_effect(STATUS_EFFECT_CRUSHERDAMAGETRACKING)
 	var/target_health = target.health
 	..()
 	for(var/t in trophies)
@@ -103,6 +105,8 @@
 		if(!CM || CM.hammer_synced != src || !L.remove_status_effect(STATUS_EFFECT_CRUSHERMARK))
 			return
 		var/datum/status_effect/crusher_damage/C = L.has_status_effect(STATUS_EFFECT_CRUSHERDAMAGETRACKING)
+		if(!C)
+			C = L.apply_status_effect(STATUS_EFFECT_CRUSHERDAMAGETRACKING)
 		var/target_health = L.health
 		for(var/t in trophies)
 			var/obj/item/crusher_trophy/T = t
