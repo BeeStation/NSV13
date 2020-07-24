@@ -4,6 +4,7 @@
 #define CARDCON_DEPARTMENT_SUPPLY "Supply"
 #define CARDCON_DEPARTMENT_SCIENCE "Science"
 #define CARDCON_DEPARTMENT_ENGINEERING "Engineering"
+#define CARDCON_DEPARTMENT_MUNITIONS "Munitions" //nsv13
 #define CARDCON_DEPARTMENT_COMMAND "Command"
 
 /datum/computer_file/program/card_mod
@@ -56,8 +57,13 @@
 			"department" = CARDCON_DEPARTMENT_ENGINEERING,
 			"region" = 5,
 			"head" = "Chief Engineer"
-		)
-	)
+		),
+		"[ACCESS_MAA]" = list(
+			"department" = CARDCON_DEPARTMENT_MUNITIONS,
+			"region" = 6,
+			"head" = "Master at Arms"
+		) 
+	) //nsv13 - add maa
 
 /datum/computer_file/program/card_mod/proc/authenticate(mob/user, obj/item/card/id/id_card)
 	if(!id_card)
@@ -282,7 +288,8 @@
 			CARDCON_DEPARTMENT_SECURITY = GLOB.security_positions,
 			CARDCON_DEPARTMENT_SUPPLY = GLOB.supply_positions,
 			CARDCON_DEPARTMENT_CIVILIAN = GLOB.civilian_positions
-		)
+			CARDCON_DEPARTMENT_MUNITIONS = GLOB.munitions_positions
+		) //nsv13 - add munitions
 	data["jobs"] = list()
 	for(var/department in departments)
 		var/list/job_list = departments[department]
@@ -360,4 +367,5 @@
 #undef CARDCON_DEPARTMENT_SCIENCE
 #undef CARDCON_DEPARTMENT_SUPPLY
 #undef CARDCON_DEPARTMENT_ENGINEERING
+#undef CARDCON_DEPARTMENT_MUNITIONS //nsv13
 #undef CARDCON_DEPARTMENT_COMMAND
