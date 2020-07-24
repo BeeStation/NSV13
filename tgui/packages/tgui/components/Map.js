@@ -9,11 +9,12 @@ export class Map extends Component {
     const {
       initial_focus_x,
       initial_focus_y,
+      initial_scale_factor,
       grid,
       ...rest
     } = this.props;
     this.mapContainerRef = createRef();
-    this.state = { focus_x: initial_focus_x, focus_y: initial_focus_y, grid: grid };
+    this.state = { focus_x: initial_focus_x, focus_y: initial_focus_y, grid: grid, scale_factor: initial_scale_factor };
   }
 
   componentDidMount() {
@@ -21,17 +22,17 @@ export class Map extends Component {
     if (map) {
       // Do not question this. It just works.
       if (!this.state.grid) {
-        map.scrollLeft = this.state.focus_x * 12 - 300;
-        map.scrollTop = (100-this.state.focus_y) * 12 + 500;
+        map.scrollLeft = this.state.focus_x * this.state.scale_factor - 300;
+        map.scrollTop = (100-this.state.focus_y) * this.state.scale_factor + 500;
       } else {
-        map.scrollLeft = this.state.focus_x * 12 - 500;
-        map.scrollTop = (100-this.state.focus_y) * 12 + 2000;
+        map.scrollLeft = this.state.focus_x * this.state.scale_factor - 500;
+        map.scrollTop = (100-this.state.focus_y) * this.state.scale_factor + 2500;
       }
       let updateState = (x, y) => {
         this.setState({
           focus_x: x,
           focus_y: y,
-        });    
+        });
       };
       updateState(map.scrollLeft, map.scrollTop);
     }

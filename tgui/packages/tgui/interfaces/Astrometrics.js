@@ -80,8 +80,9 @@ export const Astrometrics = (props, context) => {
                 ilstyle="position:absolute;left:10px"
                 onClick={() => 
                   act('map')} />
-              <Map initial_focus_x={data.focus_x} 
-                initial_focus_y={data.focus_y}>
+              <Map initial_focus_x={data.focus_x}
+                initial_focus_y={data.focus_y}
+                initial_scale_factor={12}>
                 <Fragment>
                   {Object.keys(data.star_systems).map(key => {
                     let value = data.star_systems[key];

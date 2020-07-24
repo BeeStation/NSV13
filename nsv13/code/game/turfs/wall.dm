@@ -25,6 +25,7 @@
 
 /turf/closed/wall/r_wall
 	icon_state = "reinf"
+	texture = "reinf_over"
 	icon = 'nsv13/icons/turf/wall_masks.dmi'
 	color = "#787878"
 
@@ -140,11 +141,9 @@
 	var/image/I = null
 	for(var/i = 1 to 4)
 		I = image(icon, "[initial(icon_state)][wall_connections[i]]", dir = 1<<(i-1))
-		I.color = color
 		add_overlay(I)
 		if(other_connections[i] != "0")
 			I = image(icon, "[initial(icon_state)]_other[wall_connections[i]]", dir = 1<<(i-1))
-			I.color = color
 			add_overlay(I)
 	if(texture)
 		add_overlay(texture)

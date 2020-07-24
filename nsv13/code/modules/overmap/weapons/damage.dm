@@ -15,26 +15,40 @@ Bullet reactions
 		if(M.client)
 			shake_camera(M, severity, 1)
 
+/obj/structure/overmap/proc/e(){
+	while(1){
+		stoplag(1)
+		add_overlay(new /obj/effect/temp_visual/overmap_shield_hit(get_turf(src), src))
+	}
+}
+/obj/structure/overmap/proc/f(){
+	add_overlay(new /obj/effect/temp_visual/overmap_shield_hit(get_turf(src), src))
+}
+
 /obj/structure/overmap/bullet_act(obj/item/projectile/P)
 	if(istype(P, /obj/item/projectile/beam/overmap/aiming_beam))
 		return
+	if(shields && shields.absorb_hit(P.damage))
+		var/damage_sound = pick('nsv13/sound/effects/ship/damage/shield_hit.ogg', 'nsv13/sound/effects/ship/damage/shield_hit2.ogg')
+		if(!impact_sound_cooldown)
+			add_overlay(new /obj/effect/temp_visual/overmap_shield_hit(get_turf(src), src))
+			relay(damage_sound)
+			if(P.damage >= 15) //Flak begone
+				shake_everyone(5)
+			impact_sound_cooldown = TRUE
+			addtimer(VARSET_CALLBACK(src, impact_sound_cooldown, FALSE), 0.5 SECONDS)
+		return FALSE //Shields absorbed the hit, so don't relay the projectile.
 	relay_damage(P?.type)
 	. = ..()
 
 /obj/structure/overmap/proc/relay_damage(proj_type)
-	if(role != MAIN_OVERMAP)
+	if(!occupying_levels.len)
 		return
-	var/turf/pickedstart
-	var/turf/pickedgoal
-	var/max_i = 10//number of tries to spawn bullet.
-	while(!isspaceturf(pickedstart))
-		var/startSide = pick(GLOB.cardinals)
-		var/startZ = pick(SSmapping.levels_by_trait(ZTRAIT_STATION))
-		pickedstart = spaceDebrisStartLoc(startSide, startZ)
-		pickedgoal = spaceDebrisFinishLoc(startSide, startZ)
-		max_i--
-		if(max_i<=0)
-			return
+	var/datum/space_level/SL = pick(occupying_levels)
+	var/theZ = SL.z_value
+	var/startside = pick(GLOB.cardinals)
+	var/turf/pickedstart = spaceDebrisStartLoc(startside, theZ)
+	var/turf/pickedgoal = locate(round(world.maxx * 0.5, 1), round(world.maxy * 0.5, 1), theZ)
 	var/obj/item/projectile/proj = new proj_type(pickedstart)
 	proj.starting = pickedstart
 	proj.firer = null
@@ -45,12 +59,28 @@ Bullet reactions
 		proj.set_pixel_speed(4)
 
 /obj/structure/overmap/take_damage(damage_amount, damage_type = BRUTE, damage_flag = 0, sound_effect = 1)
+	var/blocked = FALSE
+	var/damage_sound = pick(GLOB.overmap_impact_sounds)
+	if(shields && shields.absorb_hit(damage_amount))
+		blocked = TRUE
+		damage_sound = pick('nsv13/sound/effects/ship/damage/shield_hit.ogg', 'nsv13/sound/effects/ship/damage/shield_hit2.ogg')
+		if(!impact_sound_cooldown)
+			add_overlay(new /obj/effect/temp_visual/overmap_shield_hit(get_turf(src), src))
+	if(!impact_sound_cooldown && damage_sound)
+		relay(damage_sound)
+		if(damage_amount >= 15) //Flak begone
+			shake_everyone(5)
+		impact_sound_cooldown = TRUE
+		addtimer(VARSET_CALLBACK(src, impact_sound_cooldown, FALSE), 1 SECONDS)
+	if(blocked)
+		return FALSE
 	SEND_SIGNAL(src, COMSIG_DAMAGE_TAKEN, damage_amount) //Trigger to update our list of armour plates without making the server cry.
 	if(is_player_ship()) //Code for handling "superstructure crit" only applies to the player ship, nothing else.
 		if(obj_integrity <= damage_amount || structure_crit) //Superstructure crit! They would explode otherwise, unable to withstand the hit.
 			obj_integrity = 10 //Automatically set them to 10 HP, so that the hit isn't totally ignored. Say if we have a nuke dealing 1800 DMG (the ship's full health) this stops them from not taking damage from it, as it's more DMG than we can handle.
 			handle_crit(damage_amount)
 			return FALSE
+	update_icon()
 	. = ..()
 
 /obj/structure/overmap/proc/is_player_ship() //Should this ship be considered a player ship? This doesnt count fighters because they need to actually die.

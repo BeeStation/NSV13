@@ -34,7 +34,8 @@
 	ears = /obj/item/radio/headset/syndicate/alt
 	id = /obj/item/card/id/syndicate
 	l_pocket = /obj/item/tank/internals/emergency_oxygen/double
-	backpack_contents = list(/obj/item/storage/box/syndie=1,/obj/item/kitchen/knife/combat/survival=1)
+	r_pocket = /obj/item/gun/ballistic/automatic/pistol/APS
+	backpack_contents = list(/obj/item/storage/box/syndie=1,/obj/item/kitchen/knife/combat/survival=1, /obj/item/ammo_box/magazine/smgm45=1, /obj/item/ammo_box/magazine/smgm45=1)
 	tc = 0
 
 /obj/item/storage/box/hug/clown_uniform
@@ -110,3 +111,19 @@
 	W.assignment = "Admiral"
 	W.registered_name = H.real_name
 	W.update_label()
+
+//Solgov
+
+/datum/outfit/centcom_admiral/solgov_admiral
+	name = "Admiral (SolGov)"
+	uniform = /obj/item/clothing/under/ship/solgov/admiral
+	suit = null
+	shoes = /obj/item/clothing/shoes/jackboots
+	gloves = /obj/item/clothing/gloves/combat
+	glasses = /obj/item/clothing/glasses/sunglasses
+	ears = /obj/item/radio/headset/headset_cent/commander
+	head = /obj/item/clothing/head/beret/ship/admiral
+	belt = null
+	r_pocket = /obj/item/lighter
+	back = /obj/item/storage/backpack/satchel
+	id = /obj/item/card/id

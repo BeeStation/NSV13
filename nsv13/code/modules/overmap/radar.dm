@@ -44,6 +44,7 @@
 	var/showAsteroids = 100 //add planets to this eventually.
 	var/showAnomalies = 100
 	var/sensor_range = SENSOR_RANGE_DEFAULT //In tiles. How far your sensors can pick up precise info about ships.
+	var/zoom_factor = 0.5 //Lets you zoom in / out on the DRADIS for more precision, or for better info.
 
 /obj/machinery/computer/ship/dradis/minor //Secondary dradis consoles usable by people who arent on the bridge.
 	name = "Air traffic control console"
@@ -74,10 +75,6 @@
 	mid_sounds = list('nsv13/sound/effects/ship/dradis.ogg')
 	mid_length = 2 SECONDS
 	volume = 60
-
-/datum/asset/simple/dradis
-	assets = list(
-		"dradis.gif"	= 'nsv13/icons/assets/dradis.gif')
 
 /obj/machinery/computer/ship/dradis/power_change()
 	..()
@@ -113,9 +110,7 @@
 		return
 	ui = SStgui.try_update_ui(user, src, ui_key, ui, force_open)
 	if(!ui)
-		var/datum/asset/assets = get_asset_datum(/datum/asset/simple/dradis)
-		assets.send(user)
-		ui = new(user, src, ui_key, "Dradis", name, 1000, 1200, master_ui, state)
+		ui = new(user, src, ui_key, "Dradis", name, 700, 750, master_ui, state)
 		ui.open()
 
 /obj/machinery/computer/ship/dradis/ui_act(action, params, datum/tgui/ui)
@@ -142,6 +137,12 @@
 			if(!alphaSlide)
 				return
 			showAnomalies = alphaSlide
+		if("zoomout")
+			zoom_factor -= 0.5
+			zoom_factor = (zoom_factor >= 0.5) ? zoom_factor : 0.5
+		if("zoomin")
+			zoom_factor += 0.5
+			zoom_factor = (zoom_factor <= 2) ? zoom_factor : 2
 
 /obj/machinery/computer/ship/dradis/attackby(obj/item/I, mob/user) //Allows you to upgrade dradis consoles to show asteroids, as well as revealing more valuable ones.
 	. = ..()
@@ -172,11 +173,13 @@
 		if(251 to 255)
 			return SENSOR_VISIBILITY_FULL
 
+/obj/structure/overmap
+	var/cloak_factor = SENSOR_VISIBILITY_GHOST
 
 /obj/structure/overmap/proc/handle_cloak(state)
 	switch(state)
 		if(TRUE)
-			while(alpha > 0){
+			while(alpha > cloak_factor){
 				stoplag()
 				alpha -= 5
 			}
@@ -196,6 +199,7 @@
 				stoplag()
 				alpha += 15
 			}
+			mouse_opacity = TRUE
 			addtimer(CALLBACK(src, .proc/handle_cloak, TRUE), 15 SECONDS)
 
 /obj/machinery/computer/ship/dradis/ui_data(mob/user) //NEW AND IMPROVED DRADIS 2.0. NOW FEATURING LESS LAG AND CLICKSPAM. ~~This was a pain to code. Don't make me do it again..please? -Kmc~~ 2020 Kmc here, I recoded it. You're right! It was painful, also your code sucked :)
@@ -250,6 +254,7 @@
 		last_ship_count = ship_count
 		visible_message("<span class='warning'>[icon2html(src, viewers(src))] [delta <= 1 ? "DRADIS contact" : "Multiple DRADIS contacts"]</span>")
 		playsound(src, 'nsv13/sound/effects/ship/contact.ogg', 100, FALSE)
+	data["zoom_factor"] = zoom_factor
 	data["focus_x"] = linked.x
 	data["focus_y"] = linked.y
 	data["ships"] = blips //Create a category in data called "ships" with our 2-d arrays.

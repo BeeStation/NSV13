@@ -17,6 +17,13 @@ SUBSYSTEM_DEF(star_system)
 	var/systems_cleared = 0
 
 /datum/controller/subsystem/star_system/fire() //Overmap combat events control system, adds weight to combat events over time spent out of combat
+	if(SSmapping.config.patrol_type == "passive")
+		priority_announce("[station_name()], you have been assigned to reconnaissance and exploration this shift. Scans indicate that besides a decent number of straggling Syndicate vessels, there will be little threat to your operations. You are granted permission to proceed at your own pace.", "[capitalize(SSmapping.config.faction)] Naval Command")
+		for(var/datum/star_system/SS in systems)
+			if(SS.name == "Risa Station")
+				SS.hidden = FALSE
+		can_fire = FALSE //And leave it at that.
+		return FALSE //Don't karmic people if this roundtype is set to passive mode.
 	if(last_combat_enter + (5000 + (1000 * modifier)) < world.time) //Checking the last time we started combat with the current time
 		var/datum/round_event_control/_overmap_event_handler/OEH = locate(/datum/round_event_control/_overmap_event_handler) in SSevents.control
 		modifier ++ //Increment time step
@@ -25,13 +32,25 @@ SUBSYSTEM_DEF(star_system)
 								"This is Centcomm to all vessels assigned to patrol the Abassi Ridge, we are not paying you to idle in space during your assigned patrol schedule", \
 								"This is Centcomm to the patrol vessel currently assigned to the Abassi Ridge, you are expected to fulfill your assigned mission")
 			priority_announce("[message]", "Naval Command") //Warn players for idleing too long
+		if(modifier == 18 && patrols_left > 0)
+			priority_announce("This is White Rapids command to all vessels assigned to patrol the Abassi Ridge. The Syndicate's agressive expansion efforts have been left unchecked, and they appear to be amassing an invasion force. Destruction of patrolling Syndicate fleets is paramount to avoid an all out assault.", "Deep Space Tracking Installation")
+		if(modifier == 20 && patrols_left > 0)
+			priority_announce("[station_name()] is no longer responding to commands. Enacting emergency defense conditions. All shipside squads must assist in getting the ship ready for combat by any means necessary.", "WhiteRapids Administration Corps")
+			set_security_level(SEC_LEVEL_RED)
 		if(modifier == 22 && patrols_left > 0) // 45 minutes of inactivity, or they've ended their official patrol
 			var/total_deductions
 			for(var/account in SSeconomy.department_accounts)
 				var/datum/bank_account/D = SSeconomy.get_dep_account(account)
 				total_deductions += D.account_balance / 2
 				D.account_balance = D.account_balance / 2
-			priority_announce("Significant damage has been caused to NanoTrasen assets due to the inactivity of your vessel. [total_deductions] credits have been deducted across all departmental budgets to cover expenses.", "Naval Command")
+			var/datum/star_system/target = system_by_id("Tau Ceti")
+			priority_announce("Attention all ships throughout the fleet, assume DEFCON 1. A Syndicate invasion force has been spotted in [target]. All fleets must return to allied space and assist in the defense.", "White Rapids Fleet Command")
+			minor_announce("[station_name()]. Your inactivity has forced us to redirect [total_deductions] from your budget to scramble a defensive force capable of defending Earth and her territories.", "Naval Command")
+			var/datum/fleet/F = new /datum/fleet/earthbuster()
+			target.fleets += F
+			F.current_system = target
+			F.assemble(target)
+
 		if(istype(OEH))
 			OEH.weight ++ //Increment probabilty via SSEvent
 
@@ -88,7 +107,7 @@ SUBSYSTEM_DEF(star_system)
 		else
 			destination = get_turf(locate(rand(50, world.maxx), rand(50, world.maxy), target_sys.occupying_z)) //Spawn them somewhere in the system. I don't really care where.
 		var/obj/structure/overmap/enemy = new OM(destination)
-		target_sys.add_enemy(enemy)
+		target_sys.add_ship(enemy)
 	else
 		target_sys.enemy_queue += OM
 
@@ -181,7 +200,7 @@ SUBSYSTEM_DEF(star_system)
 	cycle_gameplay_loop()
 	var/list/possible_spawns = list()
 	for(var/datum/star_system/starsys in systems)
-		if(starsys != current_system && !starsys.hidden && !starsys.mission_sector && starsys.alignment != "nanotrasen" && starsys.alignment != "uncharted") //Spawn is a safe zone. Uncharted systems are dangerous enough and don't need more murder.
+		if(starsys != current_system && !starsys.hidden && !starsys.mission_sector && starsys.alignment != "nanotrasen" && starsys.alignment != "uncharted" && starsys.alignment != "syndicate") //Spawn is a safe zone. Uncharted systems are dangerous enough and don't need more murder.
 			possible_spawns += starsys
 	if(patrols_left <= 0) //They've had enough missions for one day.
 		return
@@ -191,8 +210,12 @@ SUBSYSTEM_DEF(star_system)
 	var/datum/star_system/starsys = pick(possible_spawns)
 	starsys.mission_sector = TRUE //set this sector to be the active mission
 	starsys.spawn_asteroids() //refresh asteroids in the system
-	starsys.spawn_enemies()
-	priority_announce("Attention all ships, set condition 1 throughout the fleet. Syndicate incursion detected in: [starsys]. [systems_cleared < initial(patrols_left) ? "All combat-ready ships must respond to the threat." : "Ships may optionally clear the system, or return to Risa for crew rotation"]", "Naval Command")
+	var/fleet_type = pick(/datum/fleet/neutral, /datum/fleet/boarding, /datum/fleet/wolfpack, /datum/fleet/nuclear)
+	var/datum/fleet/F = new fleet_type
+	F.current_system = starsys
+	starsys.fleets += F
+	F.assemble(starsys)
+	minor_announce("WARNING: Multiple typhoon drive signatures detected in [starsys]. Syndicate incursion underway.", "White Rapids Early Warning System")
 	patrols_left --
 	return
 
@@ -257,6 +280,8 @@ SUBSYSTEM_DEF(star_system)
 	var/list/adjacency_list = list() //Which systems are near us, by name
 	var/occupying_z = 0 //What Z-level is this  currently stored on? This will always be a number, as Z-levels are "held" by ships.
 	var/list/wormhole_connections = list() //Where did we dun go do the wormhole to honk
+	var/fleet_type = null //Wanna start this system with a fleet in it?
+	var/list/fleets = list() //Fleets that are stationed here.
 
 /datum/star_system/proc/dist(datum/star_system/other)
 	var/dx = other.x - x
@@ -265,6 +290,10 @@ SUBSYSTEM_DEF(star_system)
 
 /datum/star_system/New()
 	. = ..()
+	if(fleet_type)
+		var/datum/fleet/fleet = new fleet_type(src)
+		fleet.current_system = src
+		fleets += fleet
 	addtimer(CALLBACK(src, .proc/spawn_asteroids), 15 SECONDS)
 	addtimer(CALLBACK(src, .proc/generate_anomaly), 15 SECONDS)
 
@@ -503,29 +532,6 @@ SUBSYSTEM_DEF(star_system)
 		SSstar_system.spawn_ship(enemy_type, src)
 	}
 
-/datum/star_system/proc/add_enemy(obj/structure/overmap/OM)
-	if(istype(OM, /obj/structure/overmap) && OM.ai_controlled)
-		enemies_in_system += OM
-		RegisterSignal(OM, COMSIG_PARENT_QDELETING , .proc/remove_enemy, OM)
-	add_ship(OM)
-
-/datum/star_system/proc/remove_enemy(var/obj/structure/overmap/OM) //Method to remove an enemy from the list of active threats in a system
-	if(LAZYFIND(enemies_in_system, OM))
-		enemies_in_system -= OM
-		check_completion()
-
-/datum/star_system/proc/check_completion() //Method to check if the ship has completed their active mission or not
-	if(!enemies_in_system.len)
-		set_security_level("blue")
-		priority_announce("All Syndicate targets in [src] have been dispatched. Return to standard patrol duties.", "Naval Command")
-		if(mission_sector == TRUE)
-			mission_sector = FALSE
-			SSstar_system.systems_cleared ++
-			SSstar_system.check_completion()
-		return TRUE
-	else
-		return FALSE
-
 /datum/star_system/proc/lerp_x(datum/star_system/other, t)
 	return x + (t * (other.x - x))
 
@@ -555,6 +561,7 @@ SUBSYSTEM_DEF(star_system)
 	is_capital = TRUE
 	x = 4
 	y = 10
+	fleet_type = /datum/fleet/nanotrasen/earth
 	alignment = "nanotrasen"
 	system_type = "planet_earth"
 	adjacency_list = list("Alpha Centauri", "Risa Station")
@@ -564,7 +571,17 @@ SUBSYSTEM_DEF(star_system)
 	x = 20
 	y = 15
 	alignment = "nanotrasen"
-	adjacency_list = list("Sol","Wolf 359")
+	adjacency_list = list("Sol","Wolf 359", "Unknown Signal")
+
+//Event system, remove me when done!
+/datum/star_system/unknown_signal
+	name = "Unknown Signal"
+	x = 60
+	y = 10
+	hidden = TRUE
+	system_type = "radioactive"
+	alignment = "uncharted"
+	adjacency_list = list("Alpha Centauri")
 
 /datum/star_system/wolf359
 	name = "Wolf 359"
@@ -579,6 +596,7 @@ SUBSYSTEM_DEF(star_system)
 	y = 25
 	system_type = "icefield"
 	alignment = "nanotrasen"
+	fleet_type = /datum/fleet/nanotrasen/border
 	adjacency_list = list("Tau Ceti", "Wolf 359")
 
 /datum/star_system/tau_ceti
@@ -652,6 +670,7 @@ SUBSYSTEM_DEF(star_system)
 	system_type = "pirate" //Guranteed piratical action!
 	threat_level = THREAT_LEVEL_UNSAFE
 	adjacency_list = list("P9X-334", "Antares")
+	fleet_type = /datum/fleet/tortuga
 
 /datum/star_system/p9x334
 	name = "P9X-334"
@@ -685,6 +704,7 @@ SUBSYSTEM_DEF(star_system)
 	alignment = "syndicate"
 	threat_level = THREAT_LEVEL_UNSAFE
 	adjacency_list = list("Eridani", "Theta Hydri", "Vorash")
+	fleet_type = /datum/fleet/rubicon
 
 /datum/star_system/vorash
 	name = "Vorash"
@@ -708,6 +728,7 @@ SUBSYSTEM_DEF(star_system)
 	y = 50
 	alignment = "syndicate"
 	threat_level = THREAT_LEVEL_UNSAFE
+	fleet_type = /datum/fleet/border
 	adjacency_list = list("Solaris A", "Solaris C", "Vorash", "P3X-754")
 
 /datum/star_system/p3x754
@@ -767,9 +788,11 @@ SUBSYSTEM_DEF(star_system)
 	x = 60
 	y = 80
 	alignment = "syndicate"
+	system_type = "radioactive"
 	adjacency_list = list("Abassi") //No going back from here...
 	threat_level = THREAT_LEVEL_DANGEROUS
 	hidden = TRUE
+	fleet_type = /datum/fleet/dolos //You're insane to attempt this.
 
 /datum/star_system/abassi
 	name = "Abassi"
@@ -777,9 +800,11 @@ SUBSYSTEM_DEF(star_system)
 	x = 40
 	y = 100
 	alignment = "syndicate"
+	system_type = "quasar"
 	adjacency_list = list("Dolos")
 	threat_level = THREAT_LEVEL_DANGEROUS
 	hidden = TRUE
+	fleet_type = /datum/fleet/abassi //You're dead if you attempt this.
 
 /*
 

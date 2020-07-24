@@ -286,6 +286,7 @@
 		/obj/item/construction/rcd/borg,
 		/obj/item/pipe_dispenser,
 		/obj/item/extinguisher,
+		/obj/item/extinguisher/advanced/hull_repair_juice, //Listen. It just works, ok?
 		/obj/item/weldingtool/largetank/cyborg,
 		/obj/item/screwdriver/cyborg,
 		/obj/item/wrench/cyborg,
@@ -372,6 +373,7 @@
 		/obj/item/holosign_creator/cyborg,
 		/obj/item/borg/cyborghug/peacekeeper,
 		/obj/item/extinguisher,
+		/obj/item/reagent_containers/spray/pepper,
 		/obj/item/borg/projectile_dampen)
 	emag_modules = list(/obj/item/reagent_containers/borghypo/peace/hacked)
 	cyborg_base_icon = "peace"
@@ -473,13 +475,13 @@
 		/obj/item/borg/charger,
 		/obj/item/razor,
 		/obj/item/rsf,
-		/obj/item/instrument/guitar,
 		/obj/item/instrument/piano_synth,
 		/obj/item/reagent_containers/dropper,
 		/obj/item/lighter,
 		/obj/item/storage/bag/tray,
-		/obj/item/reagent_containers/borghypo/borgshaker,
-		/obj/item/borg/lollipop)
+		/obj/item/borg/apparatus/beaker,
+		/obj/item/cookiesynth,
+		/obj/item/reagent_containers/borghypo/borgshaker)
 	emag_modules = list(/obj/item/reagent_containers/borghypo/borgshaker/hacked)
 	moduleselect_icon = "service"
 	special_light_key = "service"

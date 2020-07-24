@@ -8,6 +8,7 @@ export const Starmap = (props, context) => {
   const screen = data.screen;
   const travelling = data.travelling;
   const can_cancel = data.can_cancel;
+  const scale_factor = 12;
   let arrowStyle = "position: absolute; left: "+data.freepointer_x*12+"px;";
   arrowStyle += "bottom: "+data.freepointer_y*12+"px;";
   arrowStyle += "filter: progid:DXImageTransform.Microsoft.";
@@ -96,8 +97,9 @@ export const Starmap = (props, context) => {
                 ilstyle="position:absolute;left:10px"
                 onClick={() => 
                   act('map')} />
-              <Map initial_focus_x={data.focus_x} 
-                initial_focus_y={data.focus_y}>
+              <Map initial_focus_x={data.focus_x}
+                initial_focus_y={data.focus_y}
+                initial_scale_factor={scale_factor}>
                 <Fragment>
                   {Object.keys(data.star_systems).map(key => {
                     let value = data.star_systems[key];

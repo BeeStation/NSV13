@@ -142,7 +142,7 @@
 	display_name = "skirt, purple"
 	path = /obj/item/clothing/under/dress/skirt/purple
 
-/datum/gear/uniform/dress/skirt/red
+/datum/gear/uniform/skirt/red
 	display_name = "skirt, red"
 	path = /obj/item/clothing/under/dress/skirt/red
 
@@ -338,11 +338,11 @@
 /datum/gear/uniform/rank/security/white
 	display_name = "security jumpsuit, white"
 	path = /obj/item/clothing/under/rank/security/officer/white
-
+/* nsv13: lol no
 /datum/gear/uniform/rank/security/skirt
 	display_name = "security jumpskirt"
 	path = /obj/item/clothing/under/rank/security/officer/skirt
-
+*/
 /datum/gear/uniform/rank/security/blueshift
 	display_name = "security jumpsuit, blue shirt and tie"
 	path = /obj/item/clothing/under/rank/security/blueshirt

@@ -1,3 +1,15 @@
+#define STATE_DEFAULT 1
+#define STATE_CALLSHUTTLE 2
+#define STATE_CANCELSHUTTLE 3
+#define STATE_MESSAGELIST 4
+#define STATE_VIEWMESSAGE 5
+#define STATE_DELMESSAGE 6
+#define STATE_STATUSDISPLAY 7
+#define STATE_ALERT_LEVEL 8
+#define STATE_CONFIRM_LEVEL 9
+#define STATE_TOGGLE_EMERGENCY 10
+#define STATE_PURCHASE 11
+
 // The communications computer
 /obj/machinery/computer/communications
 	name = "communications console"
@@ -16,17 +28,6 @@
 	var/message_cooldown = 0
 	var/ai_message_cooldown = 0
 	var/tmp_alertlevel = 0
-	var/const/STATE_DEFAULT = 1
-	var/const/STATE_CALLSHUTTLE = 2
-	var/const/STATE_CANCELSHUTTLE = 3
-	var/const/STATE_MESSAGELIST = 4
-	var/const/STATE_VIEWMESSAGE = 5
-	var/const/STATE_DELMESSAGE = 6
-	var/const/STATE_STATUSDISPLAY = 7
-	var/const/STATE_ALERT_LEVEL = 8
-	var/const/STATE_CONFIRM_LEVEL = 9
-	var/const/STATE_TOGGLE_EMERGENCY = 10
-	var/const/STATE_PURCHASE = 11
 
 	var/stat_msg1
 	var/stat_msg2
@@ -100,8 +101,8 @@
 						tmp_alertlevel = SEC_LEVEL_GREEN
 					if(tmp_alertlevel < SEC_LEVEL_GREEN)
 						tmp_alertlevel = SEC_LEVEL_GREEN
-					if(tmp_alertlevel > SEC_LEVEL_BLUE)
-						tmp_alertlevel = SEC_LEVEL_BLUE //Cannot engage delta with this
+					if(tmp_alertlevel > SEC_LEVEL_ZEBRA)
+						tmp_alertlevel = SEC_LEVEL_ZEBRA //Cannot engage delta with this
 					set_security_level(tmp_alertlevel)
 					if(GLOB.security_level != old_level)
 						to_chat(usr, "<span class='notice'>Authorization confirmed. Modifying security level.</span>")
@@ -380,8 +381,8 @@
 				tmp_alertlevel = SEC_LEVEL_GREEN
 			if(tmp_alertlevel < SEC_LEVEL_GREEN)
 				tmp_alertlevel = SEC_LEVEL_GREEN
-			if(tmp_alertlevel > SEC_LEVEL_BLUE)
-				tmp_alertlevel = SEC_LEVEL_BLUE //Cannot engage delta with this
+			if(tmp_alertlevel > SEC_LEVEL_ZEBRA)
+				tmp_alertlevel = SEC_LEVEL_ZEBRA //Cannot engage delta with this
 			set_security_level(tmp_alertlevel)
 			if(GLOB.security_level != old_level)
 				//Only notify people if an actual change happened
@@ -434,7 +435,7 @@
 	var/dat = ""
 	if(SSshuttle.emergency.mode == SHUTTLE_CALL)
 		var/timeleft = SSshuttle.emergency.timeLeft()
-		dat += "<B>Emergency shuttle</B>\n<BR>\nETA: [timeleft / 60 % 60]:[add_zero(num2text(timeleft % 60), 2)]"
+		dat += "<B>Emergency shuttle</B>\n<BR>\nETA: [timeleft / 60 % 60]:[add_leading(num2text(timeleft % 60), 2, "0")]"
 
 
 	var/datum/browser/popup = new(user, "communications", "Communications Console", 400, 500)
@@ -533,12 +534,14 @@
 			dat += " <A HREF='?src=[REF(src)];operation=setstat;statdisp=alert;alert=biohazard'>Biohazard</A> \]<BR><HR>"
 			playsound(src, 'sound/machines/terminal_prompt_confirm.ogg', 50, 0)
 		if(STATE_ALERT_LEVEL)
-			dat += "Current alert level: [get_security_level()]<BR>"
+			dat += "Current defense condition: [get_security_level()]<BR>" //Nsv13 : General quarters
 			if(GLOB.security_level == SEC_LEVEL_DELTA)
 				dat += "<font color='red'><b>The self-destruct mechanism is active. Find a way to deactivate the mechanism to lower the alert level or evacuate.</b></font>"
-			else
-				dat += "<A HREF='?src=[REF(src)];operation=securitylevel;newalertlevel=[SEC_LEVEL_BLUE]'>Blue</A><BR>"
-				dat += "<A HREF='?src=[REF(src)];operation=securitylevel;newalertlevel=[SEC_LEVEL_GREEN]'>Green</A>"
+			else //Nsv13 - General Quarters
+				dat += "<A HREF='?src=[REF(src)];operation=securitylevel;newalertlevel=[SEC_LEVEL_ZEBRA]'>Condition Zebra</A><BR>"
+				dat += "<A HREF='?src=[REF(src)];operation=securitylevel;newalertlevel=[SEC_LEVEL_RED]'>General Quarters</A><BR>"
+				dat += "<A HREF='?src=[REF(src)];operation=securitylevel;newalertlevel=[SEC_LEVEL_BLUE]'>Standard Operation</A><BR>"
+				dat += "<A HREF='?src=[REF(src)];operation=securitylevel;newalertlevel=[SEC_LEVEL_GREEN]'>Relaxed Operation</A>"
 		if(STATE_CONFIRM_LEVEL)
 			dat += "Current alert level: [get_security_level()]<BR>"
 			dat += "Confirm the change to: [num2seclevel(tmp_alertlevel)]<BR>"
@@ -677,9 +680,11 @@
 			dat += "Current alert level: [get_security_level()]<BR>"
 			if(GLOB.security_level == SEC_LEVEL_DELTA)
 				dat += "<font color='red'><b>The self-destruct mechanism is active. Find a way to deactivate the mechanism to lower the alert level or evacuate.</b></font>"
-			else
-				dat += "<A HREF='?src=[REF(src)];operation=ai-securitylevel;newalertlevel=[SEC_LEVEL_BLUE]'>Blue</A><BR>"
-				dat += "<A HREF='?src=[REF(src)];operation=ai-securitylevel;newalertlevel=[SEC_LEVEL_GREEN]'>Green</A>"
+			else //Nsv13 - General Quarters
+				dat += "<A HREF='?src=[REF(src)];operation=securitylevel;newalertlevel=[SEC_LEVEL_ZEBRA]'>Condition Zebra</A><BR>"
+				dat += "<A HREF='?src=[REF(src)];operation=securitylevel;newalertlevel=[SEC_LEVEL_RED]'>General Quarters</A><BR>"
+				dat += "<A HREF='?src=[REF(src)];operation=securitylevel;newalertlevel=[SEC_LEVEL_BLUE]'>Standard Operation</A><BR>"
+				dat += "<A HREF='?src=[REF(src)];operation=securitylevel;newalertlevel=[SEC_LEVEL_GREEN]'>Relaxed Operation</A>"
 
 		if(STATE_TOGGLE_EMERGENCY)
 			if(GLOB.emergency_access == 1)
@@ -750,3 +755,15 @@
 		content = new_content
 	if(new_possible_answers)
 		possible_answers = new_possible_answers
+
+#undef STATE_DEFAULT
+#undef STATE_CALLSHUTTLE
+#undef STATE_CANCELSHUTTLE
+#undef STATE_MESSAGELIST
+#undef STATE_VIEWMESSAGE
+#undef STATE_DELMESSAGE
+#undef STATE_STATUSDISPLAY
+#undef STATE_ALERT_LEVEL
+#undef STATE_CONFIRM_LEVEL
+#undef STATE_TOGGLE_EMERGENCY
+#undef STATE_PURCHASE

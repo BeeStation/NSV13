@@ -33,7 +33,7 @@ GLOBAL_LIST_INIT(blacklisted_automated_baseturfs, typecacheof(list(
 	if(T.icon != icon)
 		T.icon = icon
 	if(color)
-		T.atom_colours = atom_colours.Copy()
+		T.atom_colours = atom_colours?.Copy()
 		T.update_atom_colour()
 	if(T.dir != dir)
 		T.setDir(dir)
@@ -274,7 +274,7 @@ GLOBAL_LIST_INIT(blacklisted_automated_baseturfs, typecacheof(list(
 			new_baseturfs += target_baseturfs
 
 	var/turf/newT = copytarget.copyTurf(src, copy_air)
-	newT.baseturfs = new_baseturfs
+	newT?.baseturfs = new_baseturfs
 	return newT
 
 

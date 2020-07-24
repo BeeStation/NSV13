@@ -78,6 +78,17 @@ TOGGLE_CHECKBOX(/datum/verbs/menu/Settings/Ghost/chatterbox, toggle_ghost_pda)()
 /datum/verbs/menu/Settings/Ghost/chatterbox/toggle_ghost_pda/Get_checked(client/C)
 	return C.prefs.chat_toggles & CHAT_GHOSTPDA
 
+TOGGLE_CHECKBOX(/datum/verbs/menu/Settings/Ghost/chatterbox, toggle_ghost_laws)()
+	set name = "Show/Hide GhostLaws"
+	set category = "Preferences"
+	set desc = "See All Law Changes"
+	usr.client.prefs.chat_toggles ^= CHAT_GHOSTLAWS
+	to_chat(usr, "As a ghost, you will now [(usr.client.prefs.chat_toggles & CHAT_GHOSTLAWS) ? "be notified of all law chanes" : "no longer be notified of law changes"].")
+	usr.client.prefs.save_preferences()
+	SSblackbox.record_feedback("nested tally", "preferences_verb", 1, list("Toggle Ghost Laws", "[usr.client.prefs.chat_toggles & CHAT_GHOSTLAWS ? "Enabled" : "Disabled"]")) //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
+/datum/verbs/menu/Settings/Ghost/chatterbox/toggle_ghost_laws/Get_checked(client/C)
+	return C.prefs.chat_toggles & CHAT_GHOSTLAWS
+
 /datum/verbs/menu/Settings/Ghost/chatterbox/Events
 	name = "Events"
 
@@ -234,6 +245,17 @@ TOGGLE_CHECKBOX(/datum/verbs/menu/Settings, listen_ooc)()
 	SSblackbox.record_feedback("nested tally", "preferences_verb", 1, list("Toggle Seeing OOC", "[usr.client.prefs.chat_toggles & CHAT_OOC ? "Enabled" : "Disabled"]")) //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
 /datum/verbs/menu/Settings/listen_ooc/Get_checked(client/C)
 	return C.prefs.chat_toggles & CHAT_OOC
+
+TOGGLE_CHECKBOX(/datum/verbs/menu/Settings, listen_looc)() //nsv13
+	set name = "Show/Hide LOOC"
+	set category = "Preferences"
+	set desc = "Show LOOC Chat"
+	usr.client.prefs.chat_toggles ^= CHAT_LOOC
+	usr.client.prefs.save_preferences()
+	to_chat(usr, "You will [(usr.client.prefs.chat_toggles & CHAT_LOOC) ? "now" : "no longer"] see messages on the LOOC channel.")
+	SSblackbox.record_feedback("nested tally", "preferences_verb", 1, list("Toggle Seeing LOOC", "[usr.client.prefs.chat_toggles & CHAT_LOOC ? "Enabled" : "Disabled"]")) //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
+/datum/verbs/menu/Settings/listen_looc/Get_checked(client/C)
+	return C.prefs.chat_toggles & CHAT_LOOC
 
 TOGGLE_CHECKBOX(/datum/verbs/menu/Settings, listen_bank_card)()
 	set name = "Show/Hide Income Updates"

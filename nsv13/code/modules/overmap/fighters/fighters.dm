@@ -88,6 +88,11 @@ After going through this checklist, you're ready to go!
 	var/max_ftl_range = 80 //light years. 80 means the two targets have to be at least reasonably close together
 	var/spooling_ftl = FALSE
 
+/obj/structure/overmap/fighter/apply_weapons()
+	weapon_types[FIRE_MODE_PDC] = new /datum/ship_weapon/light_cannon(src)
+	weapon_types[FIRE_MODE_MISSILE] = new/datum/ship_weapon/missile_launcher(src)
+	weapon_types[FIRE_MODE_TORPEDO] = new/datum/ship_weapon/torpedo_launcher(src)
+
 /obj/structure/overmap/fighter/Initialize()
 	. = ..()
 	for(var/X in allowed_cargo)
@@ -235,6 +240,7 @@ You need to fire emag the fighter's IFF board. This makes it list as "ENEMY" on 
 	if(prebuilt)
 		prebuilt_setup()
 	dradis = new /obj/machinery/computer/ship/dradis/internal(src) //Fighters need a way to find their way home.
+	dradis.linked = src
 	obj_integrity = max_integrity
 	RegisterSignal(src, COMSIG_MOVABLE_MOVED, .proc/check_overmap_elegibility) //Used to smoothly transition from ship to overmap
 	add_overlay(image(icon = icon, icon_state = "canopy_open", dir = SOUTH))
@@ -290,14 +296,6 @@ You need to fire emag the fighter's IFF board. This makes it list as "ENEMY" on 
 	max_torpedoes = sy?.torpedo_capacity
 	max_cannon = py?.ammo_capacity
 	max_passengers = pc?.passenger_capacity
-
-	//Setup weapon datums and fire modes
-
-	if(max_missiles > 0 && !weapon_types[FIRE_MODE_MISSILE])
-		weapon_types[FIRE_MODE_MISSILE] = new/datum/ship_weapon/missile_launcher(src)
-	if(max_torpedoes > 0 && !weapon_types[FIRE_MODE_TORPEDO])
-		weapon_types[FIRE_MODE_TORPEDO] = new/datum/ship_weapon/torpedo_launcher(src)
-	weapon_types[FIRE_MODE_RAILGUN] = null //Hardcoded for now. Change me if you want railgun fighters or some such fuckery
 	if(py)
 		var/path_one = new py.weapon_type_path_one(src)
 		if(path_one)
@@ -755,6 +753,7 @@ You need to fire emag the fighter's IFF board. This makes it list as "ENEMY" on 
 		if(M == last_pilot && !what.pilot) //Let the pilot fly the new ship, unless it already has a pilot.
 			what.start_piloting(M, "pilot")
 			what.mobs_in_ship += M
+			what.attack_hand(M) //Pop up the UI panel.
 			continue
 		what.start_piloting(M, "observer") //So theyre unable to fly the pod
 		what.mobs_in_ship += M
@@ -1213,9 +1212,8 @@ How to make fuel:
 		data["max_rbs"] = get_max_rbs()
 		data["rbs_welder"] = get_rbs_welder()
 		data["rbs_foamer"] = get_rbs_foamer()
-	if(max_passengers)
-		data["max_passengers"] = max_passengers
-		data["passengers"] = mobs_in_ship.len
+	data["max_passengers"] = max_passengers
+	data["passengers"] = mobs_in_ship.len
 	data["flight_state"] = flight_state
 	data["loaded_munitions"] = list()
 	var/list/munitions = list()
@@ -1231,8 +1229,8 @@ How to make fuel:
 		munitions[++munitions.len] = torp_info
 	data["loaded_munitions"] = munitions
 	data["has_cargo"] = (cargo.len >= 1)
+	var/list/cargo_info = list()
 	if(cargo.len)
-		var/list/cargo_info = list()
 		for(var/atom/movable/F in cargo)
 			var/list/info = list()
 			info["name"] = F.name
@@ -1242,10 +1240,10 @@ How to make fuel:
 			info["contents"] = contentslist
 			info["crate_id"] = "\ref[F]"
 			cargo_info[++cargo_info.len] = info
-		data["cargo_info"] = cargo_info
-		data["cargo"] = cargo.len
-		data["max_cargo"] = max_cargo
-		data["can_unload"] = !SSmapping.level_trait(z, ZTRAIT_OVERMAP) //Hmm gee I wonder why.
+	data["cargo"] = cargo.len
+	data["max_cargo"] = max_cargo
+	data["can_unload"] = !SSmapping.level_trait(z, ZTRAIT_OVERMAP) //Hmm gee I wonder why.
+	data["cargo_info"] = cargo_info
 	return data
 
 #undef NO_IGNITION

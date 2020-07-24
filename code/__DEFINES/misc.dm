@@ -57,7 +57,8 @@
 #define SEC_LEVEL_GREEN	0
 #define SEC_LEVEL_BLUE	1
 #define SEC_LEVEL_RED	2
-#define SEC_LEVEL_DELTA	3
+#define SEC_LEVEL_ZEBRA 3 //takeoff zebra baby
+#define SEC_LEVEL_DELTA	4
 
 //some arbitrary defines to be used by self-pruning global lists. (see master_controller)
 #define PROCESS_KILL 26	//Used to trigger removal from a processing list
@@ -243,6 +244,7 @@ GLOBAL_LIST_INIT(pda_styles, sortList(list(MONO, VT, ORBITRON, SHARE)))
 
 #define DEADCHAT_ARRIVALRATTLE "arrivalrattle"
 #define DEADCHAT_DEATHRATTLE "deathrattle"
+#define DEADCHAT_LAWCHANGE "lawchange"
 #define DEADCHAT_REGULAR "regular-deadchat"
 
 // Bluespace shelter deploy checks
