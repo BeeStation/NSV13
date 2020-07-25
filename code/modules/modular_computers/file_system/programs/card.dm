@@ -60,9 +60,9 @@
 		),
 		"[ACCESS_MAA]" = list(
 			"department" = CARDCON_DEPARTMENT_MUNITIONS,
-			"region" = 6,
+			"region" = 8,
 			"head" = "Master at Arms"
-		) 
+		)
 	) //nsv13 - add maa
 
 /datum/computer_file/program/card_mod/proc/authenticate(mob/user, obj/item/card/id/id_card)
@@ -305,7 +305,7 @@
 			data["jobs"][department] = department_jobs
 
 	var/list/regions = list()
-	for(var/i in 1 to 7)
+	for(var/i in 1 to 8) //nsv13 - 7 --> 8 //i swear to god if this is what fixes it //it was
 		if((minor || target_dept) && !(i in region_access))
 			continue
 
