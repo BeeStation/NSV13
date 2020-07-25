@@ -4535,9 +4535,6 @@
 /obj/structure/cable{
 	icon_state = "1-2"
 	},
-/obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1{
-	dir = 1
-	},
 /obj/machinery/atmospherics/pipe/manifold4w/supply/hidden/layer1,
 /obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer3{
 	dir = 4
@@ -5579,7 +5576,7 @@
 /area/maintenance/department/cargo)
 "esn" = (
 /obj/machinery/atmospherics/pipe/simple/general/visible,
-/turf/closed/wall/r_wall/ship,
+/turf/open/floor/carpet/ship/purple_carpet,
 /area/science/mixing)
 "euo" = (
 /obj/machinery/hydroponics/soil,
@@ -8027,23 +8024,9 @@
 	},
 /area/bridge/showroom/corporate)
 "gnA" = (
-/obj/structure/cable/yellow{
-	icon_state = "4-8"
-	},
-/obj/machinery/atmospherics/pipe/simple/general/visible{
-	dir = 6;
-	icon_state = "pipe11-2"
-	},
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
-	dir = 4
-	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
-	dir = 4
-	},
-/obj/machinery/atmospherics/pipe/simple/purple/hidden{
-	dir = 4
-	},
-/turf/open/floor/carpet/ship/purple_carpet,
+/obj/effect/spawner/structure/window/reinforced/ship,
+/obj/machinery/atmospherics/pipe/simple/general/visible,
+/turf/open/floor/plating,
 /area/science/mixing)
 "goz" = (
 /obj/structure/table/wood,
@@ -11261,6 +11244,7 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 9
 	},
+/obj/machinery/holopad,
 /turf/open/floor/carpet/ship,
 /area/bridge/showroom{
 	name = "Battle Bridge"
@@ -12255,9 +12239,6 @@
 /obj/structure/cable/yellow{
 	icon_state = "4-8"
 	},
-/obj/machinery/atmospherics/pipe/simple/general/visible{
-	dir = 9
-	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	dir = 4
 	},
@@ -12267,6 +12248,7 @@
 /obj/machinery/atmospherics/pipe/simple/purple/hidden{
 	dir = 4
 	},
+/obj/machinery/atmospherics/pipe/simple/general/visible,
 /turf/open/floor/carpet/ship/purple_carpet,
 /area/science/mixing)
 "kfF" = (
@@ -13971,6 +13953,7 @@
 /area/library)
 "lGW" = (
 /obj/structure/closet/crate,
+/obj/machinery/atmospherics/pipe/simple/general/visible,
 /turf/open/floor/carpet/ship/purple_carpet,
 /area/science/mixing)
 "lHv" = (
@@ -17027,9 +17010,12 @@
 /turf/open/floor/plating,
 /area/maintenance/department/science/xenobiology)
 "oma" = (
-/obj/machinery/atmospherics/pipe/simple/general/visible,
-/turf/open/floor/carpet/ship/purple_carpet,
-/area/science/mixing)
+/obj/structure/grille,
+/obj/machinery/atmospherics/pipe/simple/general/visible{
+	dir = 9
+	},
+/turf/open/floor/plating/airless,
+/area/space/nearstation)
 "omi" = (
 /obj/machinery/disposal/bin,
 /obj/structure/disposalpipe/trunk{
@@ -19914,7 +19900,6 @@
 	name = "Test Site Materials Crate";
 	req_access_txt = "8"
 	},
-/obj/machinery/atmospherics/pipe/simple/general/visible,
 /turf/open/floor/carpet/ship/purple_carpet,
 /area/science/mixing)
 "qAT" = (
@@ -24939,7 +24924,7 @@
 /area/ai_monitored/turret_protected/ai_upload)
 "uDg" = (
 /obj/machinery/atmospherics/components/unary/outlet_injector/on{
-	dir = 1
+	dir = 4
 	},
 /turf/open/floor/plating/airless,
 /area/science/mixing)
@@ -51664,10 +51649,10 @@ tRL
 cYQ
 itN
 jUn
-gnA
-oma
+lpj
+aIu
 qAw
-esn
+fgg
 uDg
 aee
 nZT
@@ -51922,10 +51907,10 @@ bXO
 rTf
 tRL
 kfD
-aIu
+esn
 lGW
-cBF
-owl
+gnA
+oma
 aee
 nZT
 nZT

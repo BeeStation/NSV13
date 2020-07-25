@@ -428,7 +428,7 @@
 /area/maintenance/department/medical/central)
 "aoe" = (
 /obj/machinery/smartfridge,
-/turf/open/floor/plating,
+/turf/closed/wall/ship,
 /area/hydroponics)
 "aot" = (
 /obj/effect/landmark/start/brig_phys,
@@ -1667,7 +1667,7 @@
 /area/medical/apothecary)
 "bfT" = (
 /obj/machinery/smartfridge,
-/turf/open/floor/plating,
+/turf/closed/wall/ship,
 /area/crew_quarters/kitchen)
 "bgh" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
@@ -1977,14 +1977,15 @@
 /turf/open/floor/engine,
 /area/engine/atmospherics_engine)
 "bpg" = (
-/obj/machinery/door/poddoor/ship,
 /obj/structure/cable{
 	icon_state = "1-2"
 	},
 /obj/structure/disposalpipe/segment,
-/turf/open/floor/carpet/ship{
-	color = "#FFAA99"
+/obj/machinery/door/airlock/vault/ship{
+	name = "Armory High Security";
+	req_one_access_txt = "3"
 	},
+/turf/open/floor/carpet/ship/red_carpet,
 /area/ai_monitored/security/armory/security)
 "bpn" = (
 /obj/effect/landmark/event_spawn,
@@ -2380,30 +2381,11 @@
 /area/tcommsat/server)
 "bBq" = (
 /obj/structure/rack,
-/obj/item/gun/ballistic/automatic/pistol/m1911/no_mag{
-	pixel_x = 6;
-	pixel_y = 6
-	},
-/obj/item/gun/ballistic/automatic/pistol/m1911/no_mag{
-	pixel_x = 6;
-	pixel_y = 6
-	},
-/obj/item/gun/ballistic/automatic/pistol/m1911/no_mag{
-	pixel_x = 6;
-	pixel_y = 6
-	},
-/obj/item/gun/ballistic/automatic/pistol/m1911/no_mag{
-	pixel_x = 6;
-	pixel_y = 6
-	},
-/obj/item/gun/ballistic/automatic/pistol/m1911/no_mag{
-	pixel_x = 6;
-	pixel_y = 6
-	},
-/obj/item/gun/ballistic/automatic/peacekeeper,
-/obj/item/gun/ballistic/automatic/peacekeeper,
-/obj/item/gun/ballistic/automatic/peacekeeper,
-/obj/item/gun/ballistic/automatic/peacekeeper,
+/obj/item/gun/energy/e_gun/advtaser,
+/obj/item/gun/energy/e_gun/advtaser,
+/obj/item/gun/energy/e_gun/advtaser,
+/obj/item/gun/energy/e_gun/advtaser,
+/obj/item/gun/energy/e_gun/advtaser,
 /turf/open/floor/carpet/ship/red_carpet,
 /area/ai_monitored/security/armory/security)
 "bBv" = (
@@ -2729,9 +2711,6 @@
 "bOX" = (
 /obj/structure/cable{
 	icon_state = "4-8"
-	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
-	dir = 4
 	},
 /obj/machinery/atmospherics/pipe/simple/purple/hidden{
 	dir = 4
@@ -3147,6 +3126,9 @@
 /obj/structure/disposalpipe/segment,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	dir = 6
+	},
+/obj/structure/cable{
+	icon_state = "4-8"
 	},
 /turf/open/floor/carpet/ship/red_carpet,
 /area/security/warden)
@@ -4250,30 +4232,15 @@
 /area/medical/chemistry)
 "cZt" = (
 /obj/structure/rack,
-/obj/item/ammo_box/magazine/wt550m9,
-/obj/item/ammo_box/magazine/wt550m9,
-/obj/item/ammo_box/magazine/wt550m9,
-/obj/item/ammo_box/magazine/wt550m9,
-/obj/item/ammo_box/magazine/wt550m9,
-/obj/item/ammo_box/magazine/wt550m9,
-/obj/item/ammo_box/magazine/wt550m9,
-/obj/item/ammo_box/magazine/wt550m9,
-/obj/item/ammo_box/magazine/wt550m9,
-/obj/item/ammo_box/magazine/wt550m9,
-/obj/item/ammo_box/magazine/m45,
-/obj/item/ammo_box/magazine/m45,
-/obj/item/ammo_box/magazine/m45,
-/obj/item/ammo_box/magazine/m45,
-/obj/item/ammo_box/magazine/m45,
-/obj/item/ammo_box/magazine/m45,
-/obj/item/ammo_box/magazine/m45,
-/obj/item/ammo_box/magazine/m45,
-/obj/item/ammo_box/magazine/m45,
-/obj/item/ammo_box/magazine/m45,
 /obj/machinery/airalarm/directional/north,
 /obj/machinery/light{
 	dir = 1
 	},
+/obj/item/gun/energy/laser,
+/obj/item/gun/energy/laser,
+/obj/item/gun/energy/laser,
+/obj/item/gun/energy/laser,
+/obj/item/gun/energy/laser,
 /turf/open/floor/carpet/ship/red_carpet,
 /area/ai_monitored/security/armory/security)
 "cZI" = (
@@ -5926,46 +5893,11 @@
 /area/maintenance/department/medical)
 "ehh" = (
 /obj/structure/rack,
-/obj/item/ammo_box/magazine/peacekeeper{
-	pixel_x = 6;
-	pixel_y = 6
-	},
-/obj/item/ammo_box/magazine/peacekeeper{
-	pixel_x = 6;
-	pixel_y = 6
-	},
-/obj/item/ammo_box/magazine/peacekeeper{
-	pixel_x = 6;
-	pixel_y = 6
-	},
-/obj/item/ammo_box/magazine/peacekeeper{
-	pixel_x = 6;
-	pixel_y = 6
-	},
-/obj/item/ammo_box/magazine/peacekeeper{
-	pixel_x = 6;
-	pixel_y = 6
-	},
-/obj/item/ammo_box/magazine/peacekeeper{
-	pixel_x = 6;
-	pixel_y = 6
-	},
-/obj/item/ammo_box/magazine/peacekeeper{
-	pixel_x = 6;
-	pixel_y = 6
-	},
-/obj/item/ammo_box/magazine/peacekeeper{
-	pixel_x = 6;
-	pixel_y = 6
-	},
-/obj/item/ammo_box/magazine/peacekeeper/lethal,
-/obj/item/ammo_box/magazine/peacekeeper/lethal,
-/obj/item/ammo_box/magazine/peacekeeper/lethal,
-/obj/item/ammo_box/magazine/peacekeeper/lethal,
-/obj/item/ammo_box/magazine/peacekeeper/lethal,
-/obj/item/ammo_box/magazine/peacekeeper/lethal,
-/obj/item/ammo_box/magazine/peacekeeper/lethal,
-/obj/item/ammo_box/magazine/peacekeeper/lethal,
+/obj/item/gun/energy/disabler,
+/obj/item/gun/energy/disabler,
+/obj/item/gun/energy/disabler,
+/obj/item/gun/energy/disabler,
+/obj/item/gun/energy/disabler,
 /turf/open/floor/carpet/ship/red_carpet,
 /area/ai_monitored/security/armory/security)
 "ehU" = (
@@ -6185,10 +6117,6 @@
 	gun_category = /obj/item/gun/ballistic/shotgun/riot;
 	name = "riot shotgun locker"
 	},
-/obj/item/gun/ballistic/shotgun/riot,
-/obj/item/gun/ballistic/shotgun/riot,
-/obj/item/gun/ballistic/shotgun/riot,
-/obj/item/gun/ballistic/shotgun/riot,
 /obj/machinery/power/apc/auto_name/north,
 /obj/structure/cable{
 	icon_state = "0-2"
@@ -6196,7 +6124,10 @@
 /obj/machinery/camera/motion{
 	c_tag = "Armory"
 	},
-/obj/effect/landmark/nuclear_waste_spawner,
+/obj/item/gun/ballistic/automatic/peacekeeper,
+/obj/item/gun/ballistic/automatic/peacekeeper,
+/obj/item/gun/ballistic/automatic/peacekeeper,
+/obj/item/gun/ballistic/automatic/peacekeeper,
 /turf/open/floor/carpet/ship/red_carpet,
 /area/ai_monitored/security/armory/security)
 "eoI" = (
@@ -7225,10 +7156,10 @@
 	gun_category = /obj/item/gun/ballistic/shotgun/riot;
 	name = "riot shotgun locker"
 	},
-/obj/item/gun/ballistic/shotgun/riot,
-/obj/item/gun/ballistic/shotgun/riot,
-/obj/item/gun/ballistic/shotgun/riot,
-/obj/item/gun/ballistic/shotgun/riot,
+/obj/item/gun/ballistic/automatic/pistol/m1911/no_mag,
+/obj/item/gun/ballistic/automatic/pistol/m1911/no_mag,
+/obj/item/gun/ballistic/automatic/pistol/m1911/no_mag,
+/obj/item/gun/ballistic/automatic/pistol/m1911/no_mag,
 /turf/open/floor/carpet/ship/red_carpet,
 /area/ai_monitored/security/armory/security)
 "fca" = (
@@ -7666,6 +7597,10 @@
 "fts" = (
 /obj/structure/table/reinforced,
 /obj/item/book/manual/wiki/security_space_law,
+/obj/machinery/door/window/westright{
+	req_one_access_txt = "3"
+	},
+/obj/machinery/door/window/eastleft,
 /turf/open/floor/plating,
 /area/security/warden)
 "ftt" = (
@@ -12251,6 +12186,9 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 4
 	},
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
 /turf/open/floor/carpet/ship/red_carpet,
 /area/security/warden)
 "iVt" = (
@@ -15932,6 +15870,7 @@
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	dir = 4
 	},
+/obj/machinery/holopad,
 /turf/open/floor/carpet/ship/red_carpet,
 /area/security/brig)
 "lzg" = (
@@ -16428,24 +16367,6 @@
 "lPZ" = (
 /turf/closed/wall/ship,
 /area/storage/tools)
-"lQp" = (
-/obj/structure/cable{
-	icon_state = "4-8"
-	},
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
-	dir = 4
-	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
-	dir = 4
-	},
-/obj/structure/disposalpipe/segment{
-	dir = 4
-	},
-/turf/open/floor/carpet/ship,
-/area/security/detectives_office/private_investigators_office{
-	mood_message = "<span class='nicegreen'>This area is pretty serious!\n</span>";
-	name = "Interrogation Room"
-	})
 "lQD" = (
 /obj/structure/sign/directions/plaque/atc{
 	dir = 1;
@@ -17187,10 +17108,6 @@
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/engine/storage)
 "mrF" = (
-/obj/structure/cable{
-	icon_state = "4-8";
-	req_one_access_txt = "38"
-	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	dir = 4
 	},
@@ -17199,6 +17116,9 @@
 	},
 /obj/structure/disposalpipe/segment{
 	dir = 4
+	},
+/obj/structure/cable{
+	icon_state = "4-8"
 	},
 /turf/open/floor/carpet/ship,
 /area/security/detectives_office/private_investigators_office{
@@ -18820,6 +18740,9 @@
 /obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1{
 	dir = 1
 	},
+/obj/structure/cable{
+	icon_state = "2-8"
+	},
 /turf/open/floor/carpet/ship,
 /area/security/brig)
 "nuV" = (
@@ -18850,6 +18773,10 @@
 "nwi" = (
 /obj/structure/table/reinforced,
 /obj/structure/disposalpipe/segment,
+/obj/machinery/door/window/northleft{
+	req_one_access_txt = "3"
+	},
+/obj/machinery/door/window/southleft,
 /turf/open/floor/plating,
 /area/security/warden)
 "nwm" = (
@@ -19406,11 +19333,12 @@
 	name = "Security War Room"
 	})
 "nSR" = (
-/obj/machinery/door/poddoor/ship,
-/turf/open/floor/carpet/ship{
-	color = "#FFAA99"
+/obj/structure/cable{
+	icon_state = "1-2"
 	},
-/area/ai_monitored/security/armory/security)
+/obj/machinery/holopad,
+/turf/open/floor/carpet/ship,
+/area/security/brig)
 "nSV" = (
 /obj/machinery/vending/tool,
 /turf/open/floor/carpet/ship/orange_carpet,
@@ -20073,6 +20001,7 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 4
 	},
+/obj/effect/landmark/nuclear_waste_spawner,
 /turf/open/floor/carpet/ship/red_carpet,
 /area/ai_monitored/security/armory/security)
 "ozB" = (
@@ -20770,9 +20699,6 @@
 /obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer3{
 	dir = 4
 	},
-/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer3{
-	dir = 4
-	},
 /obj/structure/disposalpipe/junction/flip{
 	dir = 1
 	},
@@ -20861,6 +20787,7 @@
 /obj/structure/cable/yellow{
 	icon_state = "4-8"
 	},
+/obj/machinery/airalarm/directional/north,
 /turf/open/floor/carpet/ship/red_carpet,
 /area/security/brig)
 "oZL" = (
@@ -21338,6 +21265,9 @@
 /obj/machinery/computer/med_data/laptop,
 /obj/structure/cable{
 	icon_state = "1-2"
+	},
+/obj/structure/cable{
+	icon_state = "2-4"
 	},
 /turf/open/floor/carpet/ship/red_carpet,
 /area/security/warden)
@@ -21983,6 +21913,9 @@
 /obj/machinery/door/airlock/ship/security/glass{
 	name = "Warden Office and Customs Check In";
 	req_one_access_txt = "3"
+	},
+/obj/structure/cable{
+	icon_state = "4-8"
 	},
 /turf/open/floor/carpet/ship,
 /area/security/warden)
@@ -25450,7 +25383,6 @@
 /area/engine/break_room)
 "sue" = (
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3,
-/obj/machinery/airalarm/directional/north,
 /obj/structure/disposalpipe/segment,
 /obj/structure/cable{
 	icon_state = "1-2"
@@ -29929,7 +29861,7 @@
 	},
 /obj/structure/cable,
 /obj/machinery/power/smes{
-	charge = 2000000;
+	charge = 3333333;
 	input_level = 80000;
 	name = "critical-priority department power storage unit";
 	output_level = 80000
@@ -30319,6 +30251,9 @@
 /area/engine/atmos)
 "wjH" = (
 /obj/machinery/holopad,
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
 /turf/open/floor/carpet/ship/red_carpet,
 /area/security/warden)
 "wjQ" = (
@@ -30526,11 +30461,56 @@
 /area/engine/engine_smes)
 "wqA" = (
 /obj/structure/rack,
-/obj/item/gun/ballistic/automatic/wt550,
-/obj/item/gun/ballistic/automatic/wt550,
-/obj/item/gun/ballistic/automatic/wt550,
-/obj/item/gun/ballistic/automatic/wt550,
-/obj/item/gun/ballistic/automatic/wt550,
+/obj/item/ammo_box/magazine/peacekeeper{
+	pixel_x = 6;
+	pixel_y = 6
+	},
+/obj/item/ammo_box/magazine/peacekeeper{
+	pixel_x = 6;
+	pixel_y = 6
+	},
+/obj/item/ammo_box/magazine/peacekeeper{
+	pixel_x = 6;
+	pixel_y = 6
+	},
+/obj/item/ammo_box/magazine/peacekeeper{
+	pixel_x = 6;
+	pixel_y = 6
+	},
+/obj/item/ammo_box/magazine/peacekeeper{
+	pixel_x = 6;
+	pixel_y = 6
+	},
+/obj/item/ammo_box/magazine/peacekeeper{
+	pixel_x = 6;
+	pixel_y = 6
+	},
+/obj/item/ammo_box/magazine/peacekeeper{
+	pixel_x = 6;
+	pixel_y = 6
+	},
+/obj/item/ammo_box/magazine/peacekeeper{
+	pixel_x = 6;
+	pixel_y = 6
+	},
+/obj/item/ammo_box/magazine/peacekeeper/lethal,
+/obj/item/ammo_box/magazine/peacekeeper/lethal,
+/obj/item/ammo_box/magazine/peacekeeper/lethal,
+/obj/item/ammo_box/magazine/peacekeeper/lethal,
+/obj/item/ammo_box/magazine/peacekeeper/lethal,
+/obj/item/ammo_box/magazine/peacekeeper/lethal,
+/obj/item/ammo_box/magazine/peacekeeper/lethal,
+/obj/item/ammo_box/magazine/peacekeeper/lethal,
+/obj/item/ammo_box/magazine/m45,
+/obj/item/ammo_box/magazine/m45,
+/obj/item/ammo_box/magazine/m45,
+/obj/item/ammo_box/magazine/m45,
+/obj/item/ammo_box/magazine/m45,
+/obj/item/ammo_box/magazine/m45,
+/obj/item/ammo_box/magazine/m45,
+/obj/item/ammo_box/magazine/m45,
+/obj/item/ammo_box/magazine/m45,
+/obj/item/ammo_box/magazine/m45,
 /turf/open/floor/carpet/ship/red_carpet,
 /area/ai_monitored/security/armory/security)
 "wru" = (
@@ -30785,6 +30765,12 @@
 "wBi" = (
 /turf/closed/wall/ship,
 /area/crew_quarters/heads/hos)
+"wBW" = (
+/obj/machinery/holopad,
+/turf/open/floor/carpet/ship/red_carpet,
+/area/security/main{
+	name = "Security War Room"
+	})
 "wCc" = (
 /obj/machinery/computer/security/telescreen{
 	network = list("ss13");
@@ -32320,6 +32306,7 @@
 /obj/item/coin/iron,
 /obj/item/clothing/suit/armor/laserproof,
 /obj/item/gun/ballistic/automatic/sniper_rifle,
+/obj/item/gun/energy/ionrifle,
 /turf/open/floor/carpet/red,
 /area/ai_monitored/security/armory/lockup)
 "xCq" = (
@@ -32893,15 +32880,16 @@
 /turf/open/floor/engine,
 /area/engine/engine_room)
 "xWT" = (
-/obj/machinery/door/poddoor/ship,
 /obj/structure/cable/yellow{
 	icon_state = "1-2"
 	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
-/turf/open/floor/carpet/ship{
-	color = "#FFAA99"
+/obj/machinery/door/airlock/vault/ship{
+	name = "Armory High Security";
+	req_one_access_txt = "3"
 	},
+/turf/open/floor/carpet/ship/red_carpet,
 /area/ai_monitored/security/armory/security)
 "xWX" = (
 /obj/structure/cable/yellow{
@@ -69213,7 +69201,7 @@ mVF
 ifG
 sRb
 bLm
-lQp
+mrF
 pie
 rAa
 rAa
@@ -70233,7 +70221,7 @@ sjW
 wDT
 vxs
 vji
-jdF
+nSR
 sZn
 fjb
 ggs
@@ -73058,7 +73046,7 @@ gUJ
 kzO
 oyG
 wyd
-nSR
+wLO
 iuh
 ukF
 dzR
@@ -73584,7 +73572,7 @@ wBi
 wBi
 pGp
 xjx
-dmF
+wBW
 dmF
 nhO
 crr
