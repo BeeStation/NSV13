@@ -56,8 +56,57 @@
 		-->
 		<div class="commit sansserif">
 
-			<h2 class="date">18 July 2020</h2>
-			<h3 class="author">Kmc2000 updated:</h3>
+			<h2 class="date">25 July 2020</h2>
+			<h3 class="author">Corsaka updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="bugfix">re-adds munition HUDs</li>
+			</ul>
+
+			<h2 class="date">24 July 2020</h2>
+			<h3 class="author">Bokkiewokkie updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="rscadd">Adds munitions lockers</li>
+				<li class="bugfix">Fixed there being no way to obtain munitions headsets (even if they're not in maps yet right now it's the thought that counts)</li>
+				<li class="imageadd">Adds icons for munitions headsets and lockers</li>
+				<li class="imagedel">Deletes whatever eldritch horror the MaA locker was</li>
+				<li class="refactor">Changed munitions headsets to now be a child of a main munitions headset instead of the alt_sec one (yes I did make them noise-cancelling), and changed the munitions_closets.dm to custom_closets.dm to have it match the icon name.</li>
+			</ul>
+			<h3 class="author">Corsaka updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="bugfix">MaA headset</li>
+				<li class="server">bang_protect should now function on munitions weapons.</li>
+			</ul>
+			<h3 class="author">Vivalas updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="admin">Claiming a ticket now works directly through a reply. For players, uh, well. Now you won't be told your ticket is being investigated when actually it was just closed-- cause that happened before.</li>
+			</ul>
+			<h3 class="author">francinum updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="bugfix">A few patchups to JS.</li>
+				<li class="bugfix">Makes the windows less opaque. Nice going KMC.</li>
+				<li class="server">maps are 255^2 again.</li>
+				<li class="rscadd">NSV Jolly Sausage, a new low-med pop ship with reduced facilities.</li>
+			</ul>
+
+			<h2 class="date">23 July 2020</h2>
+			<h3 class="author">Corsaka updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="rscadd">Added LOOC preference</li>
+				<li class="bugfix">Toggle LOOC is now separate from Toggle OOC</li>
+				<li class="admin">You can now Toggle LOOC with the verb toggle-looc</li>
+				<li class="server">looc_allowed is now a global variable</li>
+			</ul>
+			<h3 class="author">francinum updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="bugfix">research points being horribly broken</li>
+			</ul>
+
+			<h2 class="date">21 July 2020</h2>
+			<h3 class="author">francinum updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="server">Bee's Savefile V30 is our V31.</li>
+			</ul>
+
 			<h2 class="date">19 July 2020</h2>
 			<h3 class="author">PowerfulBacon updated:</h3>
 			<ul class="changes bgimages16">
@@ -85,6 +134,25 @@
 			<h3 class="author">ZombiesVsPlants updated:</h3>
 			<ul class="changes bgimages16">
 				<li class="tweak">Changed the description of the IPC's Positronic Brain to highlight the requirement of an MMI before borging.</li>
+			</ul>
+
+			<h2 class="date">15 July 2020</h2>
+			<h3 class="author">Crossedfall updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="config">Versions older than 513.1526 are no longer supported.</li>
+			</ul>
+			<h3 class="author">WirelessWarlock updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="bugfix">Cyborg and Integrated Circuit cameras now work again.</li>
+			</ul>
+			<h3 class="author">bobbahbrown updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="refactor">Improved performance of lighting code</li>
+			</ul>
+			<h3 class="author">zeskorion updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="tweak">cat surgeon better at 2d spessmen</li>
+				<li class="bugfix">fixed a few map things</li>
 			</ul>
 
 			<h2 class="date">14 July 2020</h2>
@@ -158,6 +226,69 @@
 				<li class="rscadd">Paper has been completely revamped to use markdown instead of pencode.</li>
 				<li class="rscadd">Use %sign to sign the new paper or [______] to create a field. Everything else is just normal markdown.</li>
 				<li class="rscdel">All of the pencode forms on the wiki are now outdated.</li>
+			</ul>
+
+			<h2 class="date">08 July 2020</h2>
+			<h3 class="author">Cenrus updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="tweak">Enterprise tcomms has received a security upgrade</li>
+			</ul>
+			<h3 class="author">Corsaka updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="tweak">change antag objective from reflector vest to riot suit</li>
+			</ul>
+			<h3 class="author">Crossedfall updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="bugfix">Updates the syndicate r_wall's color value to be null. Resolving startup runtime errors</li>
+			</ul>
+			<h3 class="author">Dennok updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="bugfix">edge of space isn't broken anymore</li>
+			</ul>
+			<h3 class="author">GoatMonarch updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="rscadd">one new gondola focused meteorite</li>
+				<li class="balance">Buff clown meteorite now has more bananium</li>
+				<li class="balance">Nerf more meteorites means rarer clown ruin</li>
+			</ul>
+			<h3 class="author">Karmic-Skink updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="refactor">Stormdrive is now compliant with monstermos</li>
+				<li class="refactor">Stormdrive control rods are now physical objects</li>
+				<li class="rscadd">Added gas interactions to the Stormdrive</li>
+				<li class="balance">Changed standard operating temperatures</li>
+				<li class="rscadd">Added [REDACTED]</li>
+				<li class="rscdel">Disabled Miasma</li>
+			</ul>
+			<h3 class="author">Kmc2000 updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="bugfix">Travis stop screaming</li>
+				<li class="rscadd">Added squads! Non-essential personnel can now spawn in squads. These squads can be assigned to keep the ship alive in combat through the XO's new squad management console.</li>
+				<li class="bugfix">Walls now smooth properly</li>
+				<li class="bugfix">Regular metal + plasteel walls are now 3/4, alongside all the mineral walls, cult walls, and more!</li>
+				<li class="rscadd">Added voice activated, lazy versions of turbolifts</li>
+				<li class="tweak">Improved enemy ship AI and made it fairer to fight</li>
+				<li class="rscadd">Security now now Ju-jitsu! Find out all about it with your "surviving edged weapons" training manual.</li>
+				<li class="rscadd">You can now hold people up at gunpoint! Point at them with a gun via shift + middle mouse click.</li>
+				<li class="tweak">Pulse rifle has been rebalanced due to it being horrible</li>
+				<li class="rscadd">Reworked all of our UIs</li>
+				<li class="rscadd">Added sensors! You can now only scan targets within a certain range (this range is decreased for fighter class ships) Be sure to coordinate with the CIC for up-to-date target info</li>
+				<li class="rscadd">Added code that allows ships to fully, or partially cloak.</li>
+				<li class="bugfix">Widescreen less broken post bee-update</li>
+				<li class="bugfix">HH is now mapmerged again</li>
+			</ul>
+			<h3 class="author">Satan updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="rscadd">Updated to latest beecode as of 19/06/2020</li>
+			</ul>
+			<h3 class="author">Vasily2013 updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="tweak">makes Jepp's FOB monstermos compliant.</li>
+				<li class="tweak">airlocks to exterior now cycle using monstermos.</li>
+				<li class="tweak">piping has been altered, backup multi-deck adapters are now in secure tech storage.</li>
+				<li class="tweak">gravity generator room no longer has air in it (due to monstermos)</li>
+				<li class="tweak">adds cycling airlocks to FOB and Rocinante mining ships</li>
+				<li class="bugfix">reconnects some pipes and power wires on hammerhead.</li>
 			</ul>
 
 			<h2 class="date">07 July 2020</h2>
@@ -266,114 +397,124 @@
 			<h2 class="date">30 June 2020</h2>
 			<h3 class="author">Archanial updated:</h3>
 			<ul class="changes bgimages16">
-				<li class="rscadd">Added energy based ship weapons!</li>
+				<li class="rscadd">Added a P.R.O.V.E cartridge to deltastion.</li>
 			</ul>
-			<h3 class="author">The ided police updated:</h3>
+			<h3 class="author">zeskorion updated:</h3>
 			<ul class="changes bgimages16">
-				<li class="balance">Pulse rifle damage rebalanced</li>
-				<li class="balance">Security lethal mags pinned to 10 round capacity</li>
-				<li class="balance">Lethal rounds are now more focused on penetrating armor than raw damage, now dealing only 10 base damage.</li>
+				<li class="balance">nerfs macrophage</li>
+				<li class="bugfix">fixes a bug with death plagues taking up the beneficial channel</li>
+				<li class="code_imp">cleans up dynamic severity</li>
+				<li class="refactor">refactors disease channels</li>
 			</ul>
 
-			<h2 class="date">17 July 2020</h2>
-			<h3 class="author">Kmc2000 updated:</h3>
+			<h2 class="date">29 June 2020</h2>
+			<h3 class="author">Mick1299 updated:</h3>
 			<ul class="changes bgimages16">
-				<li class="rscadd">Science can now research and produce shields! This will need help from engineering to set up, as they eat an enormous amount of power.</li>
+				<li class="bugfix">Bot navigation beacon outside engineering on Metastation</li>
 			</ul>
-			<h3 class="author">Vivalas updated:</h3>
+			<h3 class="author">PowerfulBacon updated:</h3>
 			<ul class="changes bgimages16">
-				<li class="admin">Fixes msay bug.</li>
+				<li class="code_imp">Changes some stats to not be multi-column which reduced lag in testing.</li>
+			</ul>
+			<h3 class="author">zeskorion updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="rscadd">The disease extrapolator, a scanner that can scan or extract diseases and their symptoms, whatever they're in. it spawns in viro and the cmo locker, and virologists start with one</li>
+				<li class="rscadd">mice, vector, old bloodstains, crusty vomit, and used syringes can now contain extractable diseases. A few more minor sources also contain diseases to extract</li>
+				<li class="rscadd">sharing syringes spreads diseases</li>
+				<li class="rscdel">viro no longer spawns with highly potent viral base</li>
+				<li class="tweak">viro now has maint access</li>
+				<li class="tweak">medical lathe can print scanning modules</li>
+				<li class="bugfix">fixed double-viro on box and meta. no idea when it got reverted, and why it was only on two maps...</li>
+				<li class="imageadd">extrapolator sprites</li>
+				<li class="tweak">maint is a bit grosser</li>
+				<li class="balance">you can no longer beat cat surgeon by standing still and facetanking his saw whilst punching</li>
+				<li class="bugfix">cat surgeon properly heals when finishing operations</li>
+				<li class="tweak">cat surgeon is rarer</li>
 			</ul>
 
-			<h2 class="date">15 July 2020</h2>
+			<h2 class="date">28 June 2020</h2>
 			<h3 class="author">Crossedfall updated:</h3>
 			<ul class="changes bgimages16">
-				<li class="bugfix">Fixes the `check_grep` and TGUI Travis errors</li>
-				<li class="bugfix">Rebuilt TGUI so that all the fancy new UIs properly work</li>
-			</ul>
-			<h3 class="author">Kmc2000 updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="rscadd">Adds in measures to allow for lowpop NSV, and takes steps to counter understaffing issues.</li>
-				<li class="tweak">Light fighters have been made more viable through a damage increase.</li>
-			</ul>
-			<h3 class="author">ThatGuyPhil updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="soundadd">adds lizard_scream.ogg</li>
+				<li class="bugfix">Bans & Notes can be edited again</li>
+				<li class="bugfix">Resolves SQL error for Lavaland role ban checks</li>
+				<li class="rscdel">Removes qdel warning for admins</li>
 			</ul>
 
-			<h2 class="date">14 July 2020</h2>
-			<h3 class="author">Kmc2000 updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="rscadd">Added NSV tycoon</li>
-			</ul>
-
-			<h2 class="date">10 July 2020</h2>
-			<h3 class="author">Kmc2000 updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="rscadd">Changed some things</li>
-			</ul>
-
-			<h2 class="date">08 July 2020</h2>
-			<h3 class="author">Cenrus updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="tweak">Enterprise tcomms has received a security upgrade</li>
-			</ul>
-			<h3 class="author">Corsaka updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="tweak">change antag objective from reflector vest to riot suit</li>
-			</ul>
+			<h2 class="date">27 June 2020</h2>
 			<h3 class="author">Crossedfall updated:</h3>
 			<ul class="changes bgimages16">
-				<li class="bugfix">Updates the syndicate r_wall's color value to be null. Resolving startup runtime errors</li>
+				<li class="rscdel">Removed default squid names that were against our rules</li>
 			</ul>
-			<h3 class="author">Dennok updated:</h3>
+			<h3 class="author">ike709 updated:</h3>
 			<ul class="changes bgimages16">
-				<li class="bugfix">edge of space isn't broken anymore</li>
+				<li class="tweak">Push broom must be wielded in both hands to sweep.</li>
+				<li class="bugfix">Push broom no longer causes really bad things to happen if you try to put it in a full backpack.</li>
+				<li class="bugfix">The Patreon and Discord buttons exist again.</li>
 			</ul>
-			<h3 class="author">GoatMonarch updated:</h3>
+
+			<h2 class="date">26 June 2020</h2>
+			<h3 class="author">ArcaneMusic updated:</h3>
 			<ul class="changes bgimages16">
-				<li class="rscadd">one new gondola focused meteorite</li>
-				<li class="balance">Buff clown meteorite now has more bananium</li>
-				<li class="balance">Nerf more meteorites means rarer clown ruin</li>
+				<li class="bugfix">fixed botany plants missing icon states</li>
 			</ul>
-			<h3 class="author">Karmic-Skink updated:</h3>
+			<h3 class="author">Dingo-Dongler updated:</h3>
 			<ul class="changes bgimages16">
-				<li class="refactor">Stormdrive is now compliant with monstermos</li>
-				<li class="refactor">Stormdrive control rods are now physical objects</li>
-				<li class="rscadd">Added gas interactions to the Stormdrive</li>
-				<li class="balance">Changed standard operating temperatures</li>
-				<li class="rscadd">Added [REDACTED]</li>
-				<li class="rscdel">Disabled Miasma</li>
+				<li class="rscadd">Added the dice cup, which throws all dice inside it when used. Craftable with two leather.</li>
+				<li class="tweak">Dice now show what side is face up when examined</li>
+				<li class="bugfix">Sqiudpeople no longer /list people on hitting them</li>
 			</ul>
-			<h3 class="author">Kmc2000 updated:</h3>
+			<h3 class="author">Mick1299 updated:</h3>
 			<ul class="changes bgimages16">
-				<li class="bugfix">Travis stop screaming</li>
-				<li class="rscadd">Added squads! Non-essential personnel can now spawn in squads. These squads can be assigned to keep the ship alive in combat through the XO's new squad management console.</li>
-				<li class="bugfix">Walls now smooth properly</li>
-				<li class="bugfix">Regular metal + plasteel walls are now 3/4, alongside all the mineral walls, cult walls, and more!</li>
-				<li class="rscadd">Added voice activated, lazy versions of turbolifts</li>
-				<li class="tweak">Improved enemy ship AI and made it fairer to fight</li>
-				<li class="rscadd">Security now now Ju-jitsu! Find out all about it with your "surviving edged weapons" training manual.</li>
-				<li class="rscadd">You can now hold people up at gunpoint! Point at them with a gun via shift + middle mouse click.</li>
-				<li class="tweak">Pulse rifle has been rebalanced due to it being horrible</li>
-				<li class="rscadd">Reworked all of our UIs</li>
-				<li class="rscadd">Added sensors! You can now only scan targets within a certain range (this range is decreased for fighter class ships) Be sure to coordinate with the CIC for up-to-date target info</li>
-				<li class="rscadd">Added code that allows ships to fully, or partially cloak.</li>
-				<li class="bugfix">Widescreen less broken post bee-update</li>
-				<li class="bugfix">HH is now mapmerged again</li>
+				<li class="tweak">Metastation SM pumps</li>
 			</ul>
-			<h3 class="author">Satan updated:</h3>
+			<h3 class="author">francinum updated:</h3>
 			<ul class="changes bgimages16">
-				<li class="rscadd">Updated to latest beecode as of 19/06/2020</li>
+				<li class="server">SQL Query arguments are now logged more reliably.</li>
 			</ul>
-			<h3 class="author">Vasily2013 updated:</h3>
+			<h3 class="author">xboxnoob updated:</h3>
 			<ul class="changes bgimages16">
-				<li class="tweak">makes Jepp's FOB monstermos compliant.</li>
-				<li class="tweak">airlocks to exterior now cycle using monstermos.</li>
-				<li class="tweak">piping has been altered, backup multi-deck adapters are now in secure tech storage.</li>
-				<li class="tweak">gravity generator room no longer has air in it (due to monstermos)</li>
-				<li class="tweak">adds cycling airlocks to FOB and Rocinante mining ships</li>
-				<li class="bugfix">reconnects some pipes and power wires on hammerhead.</li>
+				<li class="tweak">Changed pumps in reactor room to volumetrics so they wont get cloged in Metastation (other stations will be done in the future)</li>
+			</ul>
+			<h3 class="author">zeskorion updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="bugfix">skinsuit helmet no longer has ear protection</li>
+			</ul>
+
+			<h2 class="date">24 June 2020</h2>
+			<h3 class="author">Sinmero updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="rscadd">Added Hydraulic blade implant</li>
+				<li class="rscadd">Added Advanced Combat Cybernetic Implants tech</li>
+				<li class="imageadd">Added Hydraulic blade sprites</li>
+			</ul>
+			<h3 class="author">SpaceManiac updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="refactor">BSQL has been replaced with rust-g, improving SQL reliability and safety.</li>
+			</ul>
+			<h3 class="author">XDTM updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="imageadd">Adds dermal button icons for nanites</li>
+			</ul>
+			<h3 class="author">bobbahbrown updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="admin">Fixed malformed SQL queries for logging admin permission changes.</li>
+			</ul>
+
+			<h2 class="date">23 June 2020</h2>
+			<h3 class="author">bobbahbrown updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="rscdel">Removed exploitable world/topic command server_hop</li>
+			</ul>
+			<h3 class="author">deathride58 updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="tweak">There is now a one second cooldown on opening the crew manifest.</li>
+			</ul>
+
+			<h2 class="date">22 June 2020</h2>
+			<h3 class="author">That0nePerson updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="balance">sulfonal now takes perfluorodecalin instead of acetone</li>
+				<li class="balance">lexorin now takes sulfonal, gives 4u.</li>
 			</ul>
 
 			<h2 class="date">18 June 2020</h2>
@@ -436,15 +577,6 @@
 			<ul class="changes bgimages16">
 				<li class="rscadd">Syndicate AI ships now use Skynet and have group tactics.</li>
 				<li class="bugfix">AI ships are now more fair</li>
-			</ul>
-
-			<h2 class="date">21 May 2020</h2>
-			<h3 class="author">Karmic-Skink updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="balance">Balanced all overmap weapon damage</li>
-				<li class="rscadd">Added overmap armour flags to all overmap weapons</li>
-				<li class="rscadd">Added overmap armour values to all overmap entities</li>
-				<li class="rscadd">Added basic syndicate bomber to syndicate carriers</li>
 			</ul>
 		</div>
 
