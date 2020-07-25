@@ -478,8 +478,9 @@
 		playsound(src, firing_sound, 100, 1)
 	if(bang)
 		for(var/mob/living/M in get_hearers_in_view(10, get_turf(src))) //Burst unprotected eardrums
-			if(M.stat != DEAD && isliving(M)) //Don't make noise if they're dead
-				M.soundbang_act(1,200,10,15)
+			if(M.get_ear_protection() < 1) //checks for protection - why was this not here before???
+				if(M.stat != DEAD && isliving(M)) //Don't make noise if they're dead
+					M.soundbang_act(1,200,10,15)
 
 /**
  * Handles firing animations and sounds on the overmap.
