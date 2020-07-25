@@ -361,12 +361,12 @@ GLOBAL_VAR_INIT(time_last_changed_position, 0)
 				accesses += "<div align='center'><b>Access</b></div>"
 				accesses += "<table style='width:100%'>"
 				accesses += "<tr>"
-				for(var/i = 1; i <= 7; i++)
+				for(var/i = 1; i <= 8; i++) //nsv13 - 7 --> 8
 					if(authenticated == 1 && !(i in region_access))
 						continue
 					accesses += "<td style='width:14%'><b>[get_region_accesses_name(i)]:</b></td>"
 				accesses += "</tr><tr>"
-				for(var/i = 1; i <= 7; i++)
+				for(var/i = 1; i <= 8; i++) //nsv13 - 7 --> 8
 					if(authenticated == 1 && !(i in region_access))
 						continue
 					accesses += "<td style='width:14%' valign='top'>"
