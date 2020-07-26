@@ -15,3 +15,24 @@
 
 /area/shuttle/turbolift/tertiary
 	name = "tertiary turbolift"
+
+/area/shuttle/turbolift/quaternary
+	name = "quaternary turbolift"
+
+/area/shuttle/turbolift/quinary
+	name = "quinary turbolift"
+
+/area/shuttle/turbolift/senary
+	name = "senary turbolift"
+
+/area/shuttle/turbolift/septenary
+	name = "septenary turbolift"
+
+/area/shuttle/turbolift/octonary
+	name = "octonary turbolift"
+
+/area/shuttle/turbolift/nonary
+	name = "nonary turbolift"
+
+/area/shuttle/turbolift/denary //If you need more than 10 elevators what are you doing?
+	name = "denary turbolift"
