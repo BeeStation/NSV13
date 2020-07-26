@@ -3494,8 +3494,9 @@
 	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
-/obj/machinery/door/firedoor,
 /obj/effect/landmark/zebra_interlock_point,
+/obj/machinery/door/firedoor/border_only/directional/north,
+/obj/machinery/door/firedoor/border_only/directional/south,
 /turf/open/floor/plasteel,
 /area/crew_quarters/kitchen)
 "ib" = (
@@ -4108,14 +4109,6 @@
 /obj/structure/chair,
 /turf/open/floor/plasteel,
 /area/crew_quarters/cafeteria)
-"jz" = (
-/obj/structure/chair/office{
-	dir = 8
-	},
-/turf/open/floor/carpet/ship,
-/area/crew_quarters/heads/hop{
-	name = "Executive officer's Office"
-	})
 "jA" = (
 /obj/machinery/keycard_auth{
 	pixel_x = 32
@@ -4827,6 +4820,7 @@
 	},
 /obj/machinery/door/firedoor/border_only/directional/west,
 /obj/effect/landmark/zebra_interlock_point,
+/obj/machinery/door/firedoor/border_only/directional/east,
 /turf/open/floor/plasteel/ship,
 /area/bridge)
 "kT" = (
@@ -5385,8 +5379,9 @@
 /obj/structure/cable{
 	icon_state = "1-2"
 	},
-/obj/machinery/door/firedoor,
 /obj/effect/landmark/zebra_interlock_point,
+/obj/machinery/door/firedoor/border_only/directional/south,
+/obj/machinery/door/firedoor/border_only/directional/north,
 /turf/open/floor/plasteel,
 /area/crew_quarters/kitchen)
 "lM" = (
@@ -6929,16 +6924,18 @@
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	dir = 1
 	},
-/obj/machinery/door/firedoor,
 /obj/effect/landmark/zebra_interlock_point,
+/obj/machinery/door/firedoor/border_only/directional/north,
+/obj/machinery/door/firedoor/border_only/directional/south,
 /turf/open/floor/carpet,
 /area/crew_quarters/bar)
 "oT" = (
 /obj/machinery/door/airlock/ship/public/glass{
 	name = "EVAC"
 	},
-/obj/machinery/door/firedoor,
 /obj/effect/landmark/zebra_interlock_point,
+/obj/machinery/door/firedoor/border_only/directional/north,
+/obj/machinery/door/firedoor/border_only/directional/south,
 /turf/open/floor/carpet,
 /area/crew_quarters/bar)
 "oU" = (
@@ -7048,11 +7045,11 @@
 /turf/open/floor/plasteel,
 /area/hallway/nsv/stairwell/upper)
 "pg" = (
-/obj/machinery/cryopod{
-	icon_state = "cryopod-open";
-	dir = 1
-	},
 /obj/machinery/light,
+/obj/machinery/shower{
+	dir = 4
+	},
+/obj/structure/curtain/obscuring,
 /turf/open/floor/plasteel,
 /area/crew_quarters/cryopods)
 "ph" = (
@@ -7070,16 +7067,18 @@
 /obj/structure/cable{
 	icon_state = "1-2"
 	},
-/obj/machinery/door/firedoor,
 /obj/effect/landmark/zebra_interlock_point,
+/obj/machinery/door/firedoor/border_only/directional/north,
+/obj/machinery/door/firedoor/border_only/directional/south,
 /turf/open/floor/plasteel,
 /area/crew_quarters/cryopods)
 "pj" = (
 /obj/machinery/door/airlock/ship/public/glass{
 	name = "EVAC"
 	},
-/obj/machinery/door/firedoor,
 /obj/effect/landmark/zebra_interlock_point,
+/obj/machinery/door/firedoor/border_only/directional/north,
+/obj/machinery/door/firedoor/border_only/directional/south,
 /turf/open/floor/plasteel,
 /area/crew_quarters/cryopods)
 "pk" = (
@@ -10758,6 +10757,7 @@
 	},
 /obj/machinery/door/firedoor/border_only/directional/west,
 /obj/effect/landmark/zebra_interlock_point,
+/obj/machinery/door/firedoor/border_only/directional/east,
 /turf/open/floor/plasteel/ship,
 /area/bridge)
 "wZ" = (
@@ -12868,6 +12868,13 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /turf/open/floor/plating,
 /area/maintenance/central)
+"JL" = (
+/obj/machinery/shower{
+	dir = 8
+	},
+/obj/structure/curtain/obscuring,
+/turf/open/floor/plasteel,
+/area/crew_quarters/cryopods)
 "JN" = (
 /obj/machinery/door/airlock/ship/external/glass{
 	name = "Ferry Dock";
@@ -12932,6 +12939,13 @@
 	},
 /turf/open/floor/plasteel,
 /area/crew_quarters/cafeteria)
+"KS" = (
+/obj/machinery/washing_machine,
+/obj/structure/window/reinforced{
+	dir = 4
+	},
+/turf/open/floor/plasteel,
+/area/crew_quarters/cryopods)
 "Li" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /obj/structure/cable{
@@ -13290,6 +13304,13 @@
 	},
 /turf/closed/wall/ship,
 /area/hydroponics)
+"QN" = (
+/obj/machinery/shower{
+	dir = 4
+	},
+/obj/structure/curtain/obscuring,
+/turf/open/floor/plasteel,
+/area/crew_quarters/cryopods)
 "QO" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	icon_state = "pipe11-1";
@@ -13622,7 +13643,7 @@
 "Wr" = (
 /obj/machinery/ship_weapon/gauss_gun/north,
 /turf/open/floor/engine/airless,
-/area/space/nearstation)
+/area/ai_monitored/nuke_storage)
 "WD" = (
 /turf/open/floor/monotile/dark,
 /area/nsv/hanger)
@@ -13725,8 +13746,11 @@
 /turf/open/floor/plasteel/ship,
 /area/hallway/secondary/exit/departure_lounge)
 "YY" = (
-/obj/machinery/cryopod,
 /obj/machinery/firealarm/directional/south,
+/obj/machinery/washing_machine,
+/obj/structure/window/reinforced{
+	dir = 4
+	},
 /turf/open/floor/plasteel,
 /area/crew_quarters/cryopods)
 "YZ" = (
@@ -48105,8 +48129,8 @@ HH
 nS
 nS
 oU
-nS
-nS
+KS
+KS
 YY
 gd
 hc
@@ -48362,8 +48386,8 @@ nI
 gf
 gf
 oU
-gf
-gf
+QN
+QN
 pg
 gd
 hc
@@ -48876,9 +48900,9 @@ nS
 nS
 nS
 oU
-nS
-nS
-nS
+JL
+JL
+JL
 gd
 om
 om
@@ -53998,7 +54022,7 @@ cS
 cS
 gU
 dM
-jz
+fR
 ju
 jS
 ky
