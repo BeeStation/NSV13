@@ -53,7 +53,7 @@
 
 /obj/item/clothing/under/ship/kiryujumpsuit
 	name = "Kiryu jumpsuit"
-	desc = "A jumpsuit for the detectives that wish to look more to the mafia side, however the cigar smell is obvious."
+	desc = "A jumpsuit for detectives that wish to look more to the mafia side, however the cigar smell is obvious."
 	icon_state = "kiryujumpsuit"
 	item_color = "kiryujumpsuit"
 	item_state = "bl_suit"
