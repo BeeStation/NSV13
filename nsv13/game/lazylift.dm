@@ -134,7 +134,7 @@ That's it, ok bye!
 		return
 	next_voice_activation = world.time + 1 SECONDS //To avoid spamming list iteration.
 	for(var/obj/machinery/lazylift/LL in master.decks)
-		if(findtext(raw_message, "deck")) //Alright they're asking for a specific deck.
+		if(findtext(raw_message, "deck") || findtext(raw_message, "floor")) //Alright they're asking for a specific deck.
 			if(findtext(raw_message, num2text(LL.deck)))
 				master.path_to(LL.deck)
 				playsound(src.loc, 'sound/machines/chime.ogg', 100, TRUE)
@@ -347,7 +347,7 @@ That's it, ok bye!
 	//First, move the platform.
 	for(var/turf/T in platform_location.platform)
 		var/turf/newT = locate(T.x,T.y,target.z)
-		newT.CopyOnTop(T, 1, INFINITY, TRUE)
+		newT.ChangeTurf(T.type, list(/turf/open/openspace, /turf/open/floor/plating), CHANGETURF_INHERIT_AIR)
 		for(var/atom/movable/AM in T.contents)
 			if(AM.type in moving_blacklist) //To stop the lift moving itself and its components
 				if(AM.anchored)
@@ -372,9 +372,7 @@ That's it, ok bye!
 	//Finally, ensure that the bottom floor is always plating.
 	for(var/turf/T in platform)
 		if(src != target)
-			T.ChangeTurf(/turf/open/floor/plasteel/elevatorshaft)
-			T.icon = 'icons/turf/floors.dmi'
-			T.icon_state = "elevatorshaft" //in case we're using different icons or whatever.
+			T.ChangeTurf(/turf/open/floor/plasteel/elevatorshaft, list(/turf/open/openspace, /turf/open/floor/plating), CHANGETURF_INHERIT_AIR)
 
 //Special FX and stuff.
 
