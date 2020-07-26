@@ -233,7 +233,8 @@
 	new /obj/item/clothing/neck/tie/red(src)
 	new	/obj/item/clothing/neck/tie/black(src)
 	new /obj/item/clothing/neck/tie/detective(src)
-	new /obj/item/clothing/under/ship/kiryujumpsuit(src)
+	new /obj/item/clothing/under/ship/kiryujumpsuit(src) //NSV13 - Alternative detective suit
+
 	new /obj/item/clothing/suit/ship/kiryujacket(src)
 	new /obj/item/clothing/shoes/ship/kiryushoes(src)
 
