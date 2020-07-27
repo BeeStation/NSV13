@@ -75,7 +75,7 @@
 	shoes = /obj/item/clothing/shoes/jackboots
 	gloves = /obj/item/clothing/gloves/color/black
 	head = /obj/item/clothing/head/beret/ship/flight_leader
-	glasses = /obj/item/clothing/glasses/sunglasses
+	glasses = /obj/item/clothing/glasses/sunglasses/advanced
 	suit = /obj/item/clothing/suit/jacket //Bomber jacket
 
 /datum/outfit/job/fighter_pilot/flight_ready
