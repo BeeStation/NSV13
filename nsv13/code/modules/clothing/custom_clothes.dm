@@ -51,6 +51,14 @@
 	item_color = "assistant"
 	item_state = "bl_suit"
 
+/obj/item/clothing/under/ship/kiryujumpsuit
+	name = "Kiryu jumpsuit"
+	desc = "A jumpsuit for detectives that wish to look more to the mafia side, however the cigar smell is obvious."
+	icon_state = "kiryujumpsuit"
+	item_color = "kiryujumpsuit"
+	item_state = "bl_suit"
+	can_adjust = TRUE
+
 /obj/item/clothing/suit/ship
 	name = "Placeholder"
 	icon = 'nsv13/icons/obj/clothing/suits.dmi' //Placeholder subtype for our own iconsets
@@ -106,6 +114,12 @@
 	desc = "A basic storage vest which allows you to store a few small tools"
 	icon_state = "engineer_vest"
 	allowed = list(/obj/item/wrench, /obj/item/weldingtool, /obj/item/wirecutters, /obj/item/screwdriver, /obj/item/extinguisher, /obj/item/crowbar, /obj/item/analyzer, /obj/item/multitool, /obj/item/modular_computer/tablet)
+
+/obj/item/clothing/suit/ship/kiryujacket
+	name = "Kiryu jacket"
+	desc = "A jacket for a detective that wishes to look more to the mafia side, just by looking at it you can smell the cigars that have been smoked with it."
+	icon_state = "kiryujacket"
+	item_state = "kiryujacket"
 
 /obj/item/clothing/head/ship
 	name = "placeholder"
@@ -329,6 +343,17 @@
 	new /obj/item/crowbar/red(src)
 	new /obj/item/wirecutters(src, "red")
 	new /obj/item/multitool(src)
+
+/obj/item/clothing/shoes/ship
+	name = "Placeholder"
+	icon = 'nsv13/icons/obj/clothing/shoes.dmi' //Placeholder subtype for our own iconsets
+	alternate_worn_icon = 'nsv13/icons/mob/feet.dmi'
+
+/obj/item/clothing/shoes/ship/kiryushoes
+	name = "Kiryu shoes"
+	desc = "A pair of shoes for the detectives that want to look like mafia, there is some sticky substance on the sole that has formed from various crime scenes."
+	icon_state = "kiryushoes"
+	item_state = "kiryushoes"
 
 /obj/item/clothing/shoes/clown_shoes/delinquent
 	name = "Delinquent's shoes"
