@@ -17,6 +17,8 @@
 		#include "map_files\Hammerhead\Hammerhead.dmm"
 		#include "map_files\Galactica\Galactica2.dmm"
 		#include "map_files\Galactica\Galactica.dmm"
+		#include "map_files\Aetherwhisp\Aetherwhisp2.dmm"
+		#include "map_files\Aetherwhisp\Aetherwhisp1.dmm"
 
 		#ifdef TRAVISBUILDING
 			#include "templates.dm"

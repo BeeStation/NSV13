@@ -1,6 +1,6 @@
 // LOOC ported from Citadel, styling in stylesheet.dm and browseroutput.css
 
-GLOBAL_VAR_INIT(looc_allowed, 1)
+//GLOBAL_VAR_INIT(looc_allowed, 1) //commenting this out might break something but w/e, replaced by one in global config by nsv13
 
 /client/verb/looc(msg as text)
     set name = "LOOC"
@@ -20,8 +20,8 @@ GLOBAL_VAR_INIT(looc_allowed, 1)
     if(!msg)
         return
 
-    if(!(prefs.toggles & CHAT_OOC))
-        to_chat(src, "<span class='danger'>You have OOC (and therefore LOOC) muted.</span>")
+    if(!(prefs.toggles & CHAT_LOOC)) //nsv13 - CHAT_OOC -> CHAT_LOOC
+        to_chat(src, "<span class='danger'>You have LOOC muted.</span>")
         return
 
     if(is_banned_from(mob.ckey, "OOC"))
@@ -29,16 +29,16 @@ GLOBAL_VAR_INIT(looc_allowed, 1)
         return
 
     if(!holder)
-        if(!CONFIG_GET(flag/looc_enabled))
-            to_chat(src, "<span class='danger'>LOOC is disabled.</span>")
+        if(!GLOB.looc_allowed) //nsv13 - ooc_allowed -> looc_allowed
+            to_chat(src, "<span class='danger'>LOOC is globally muted.</span>")
             return
         if(!GLOB.dooc_allowed && (mob.stat == DEAD))
             to_chat(usr, "<span class='danger'>LOOC for dead mobs has been turned off.</span>")
             return
-        if(prefs.muted & MUTE_OOC)
+        if(prefs.muted & MUTE_LOOC) //nsv13 - MUTE_OOC -> MUTE_LOOC
             to_chat(src, "<span class='danger'>You cannot use LOOC (muted).</span>")
             return
-        if(handle_spam_prevention(msg,MUTE_OOC))
+        if(handle_spam_prevention(msg,MUTE_LOOC)) //nsv13 - MUTE_OOC -> MUTE_LOOC
             return
         if(findtext(msg, "byond://"))
             to_chat(src, "<B>Advertising other servers is not allowed.</B>")
@@ -99,6 +99,15 @@ GLOBAL_VAR_INIT(looc_allowed, 1)
                 prefix = "LOOC"
         to_chat(C,"<font color='#6699CC'><span class='ooc'><span class='prefix'>[prefix]:</span> <EM>[src.key]/[src.mob.name]:</EM> <span class='message'>[msg]</span></span></font>")*/
 
+
+/proc/toggle_looc(toggle = null) //nsv13 - adds a toggle for looc
+    if(toggle != null) //if we're specifically en/disabling looc
+        if(toggle != GLOB.looc_allowed)
+            GLOB.looc_allowed = toggle
+        else
+            return
+    else //otherwise just toggle it
+        GLOB.looc_allowed = !GLOB.looc_allowed
 
 /proc/log_looc(text)
     if (CONFIG_GET(flag/log_ooc))
