@@ -135,22 +135,22 @@ export const ArmourPlatingNanorepairWell = (props, context) => {
           <Button
             content="Iron"
             icon="cog"
-            color={data.alloy && "white"}
+            color={!!data.alloy_t1 && "white"}
             onClick={() => act('iron')} />
           <Button
             content="Ferrotitanium"
             icon="cog"
-            color={data.alloy && "white"}
+            color={!!data.alloy_t2 && "white"}
             onClick={() => act('ferrotitanium')} />
           <Button
             content="Durasteel"
             icon="cog"
-            color={data.alloy && "white"}
+            color={!!data.alloy_t3 && "white"}
             onClick={() => act('durasteel')} />
           <Button
             content="Duranium"
             icon="cog"
-            color={data.alloy && "white"}
+            color={!!data.alloy_t4 && "white"}
             onClick={() => act('duranium')} />
           <br />
           <br />

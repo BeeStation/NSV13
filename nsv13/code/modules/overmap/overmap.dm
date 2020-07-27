@@ -48,6 +48,11 @@
 	var/current_armour = 0 //Per quad
 	var/list/armour_quadrants = list("forward_port" = list(), "forward_starboard" = list(), "aft_port" = list(), "aft_starboard" = list()) //Our four quadrants
 
+	var/structure_crit = FALSE //Handles when the ship's integrity has failed
+	var/structure_crit_no_return = FALSE //Override for handling point of no return
+	var/structure_crit_timer = null //Timer ID for point of no return
+	var/explosion_cooldown = FALSE
+
 	//Movement Variables
 	var/offset_x = 0 // like pixel_x/y but in tiles
 	var/offset_y = 0

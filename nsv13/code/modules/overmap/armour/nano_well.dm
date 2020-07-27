@@ -1,9 +1,51 @@
-//WELL GOES HERE
+/*
+HOW 2 APNP/APNW?! - A Guide for M*ppers
+
+General Checklist:
+ - High Security Engineering Room
+ - APNW x 1
+ - APNP x 4 (using each of the pref definied quadrants)
+ - 10 Iron Sheets
+ - 10 Titanium Sheets
+
+//ADDITION INFORMATION
+
+High Security Engineering Room Requirements
+	As this room controls ALL of the overmap repairing abilities of the ship, it is a great target for sabotage and damage in general.
+	If destroyed it could swiftly lead to catastrophic mission failure.
+	Things to consider:
+						Reinforced Walls
+						Reinforced Ceilings/Floors
+						Motion Sensors
+						Cameras Gallore
+						Restricted Access
+						Anything that makes this a real pain to get into (be creative)
+
+Room Layout
+	Each of the the APNPs and the APNW must be accessable, in addition to having a small material storage area/rack
+	Things to consider:
+						APNP and APNW sprites are approximately 1.5x2 tiles in size, spread them out to look better
+						How far do you want to make the engineers run to manage all five devices?
+						How are you going to integrate the room security features?
+
+Power Considerations
+	The APNP/APNW can be quite power intensive (Approximately 1.5MW total at maximum load), PLEASE DO NOT HAVE THE APC HOTWIRED INTO MAIN AT ROUND START.
+	If engineers choose to do that during the round, then that is their decision.
+	Things to consider:
+						Large power draw to room
+						Dedicated SMES Battery (remember they are 200KW per unit)
+						Expanding current SMES bank handle higher loads
+
+Starting Materials
+	While it may seem tempting to give the engineers a massive pile of mats at round start, we are trying to encourage interdepartment cooperation.
+	Additional materials can be scavenged from around the ship, acquired from mining or ordered from cargo (with the engineering budget card)
+*/
+
 #define RR_MAX 5000
 
 /obj/machinery/armour_plating_nanorepair_well
 	name = "Armour Plating Nano-repair Well"
-	desc = "Central Well for the AP thingies"
+	desc = "Central Well for the AP thingies" //KMC - Need a description
 	icon = 'nsv13/icons/obj/machinery/armour_well.dmi'
 	icon_state = "well"
 	pixel_x = -16
@@ -56,10 +98,10 @@
 		handle_repair_efficiency()
 	update_icon()
 
-/obj/machinery/armour_plating_nanorepair_well/proc/handle_repair_efficiency() //Basic implementation
+/obj/machinery/armour_plating_nanorepair_well/proc/handle_repair_efficiency() //Sigmoidal Curve
 	repair_efficiency = ((1 / (0.01 + (NUM_E ** (-0.00001 * power_allocation)))) * material_modifier) / 100
 
-/obj/machinery/armour_plating_nanorepair_well/proc/handle_system_stress() //Basic implementation
+/obj/machinery/armour_plating_nanorepair_well/proc/handle_system_stress()
 	system_allocation = 0
 	for(var/obj/machinery/armour_plating_nanorepair_pump/P in apnp)
 		if(P.armour_allocation > 0 || P.structure_allocation > 0)
@@ -92,7 +134,6 @@
 				if(target_apnp.last_restart < world.time + 60 SECONDS)
 					target_apnp.stress_shutdown = TRUE
 
-	//stress implications go here
 
 /obj/machinery/armour_plating_nanorepair_well/proc/handle_power_allocation()
 	idle_power_usage = power_allocation
@@ -109,7 +150,7 @@
 				if(1) //Iron
 					var/datum/component/material_container/materials = GetComponent(/datum/component/material_container)
 					var/iron_amount = min(100, (RR_MAX - repair_resources))
-					if(materials.use_amount_mat(iron_amount, /datum/material/iron))
+					if(materials.has_enough_of_material(/datum/material/iron, iron_amount)) //KMC [has_enough_of_material] isn't working as intended
 						materials.use_amount_mat(iron_amount, /datum/material/iron)
 						repair_resources += iron_amount / 2
 						material_modifier = 0.125 //Very Low modifier
@@ -118,7 +159,7 @@
 					var/datum/component/material_container/materials = GetComponent(/datum/component/material_container)
 					var/iron_amount = min(25, (RR_MAX - repair_resources) * 0.25)
 					var/titanium_amount = min(75, (RR_MAX - repair_resources) * 0.75)
-					if(materials.use_amount_mat(iron_amount, /datum/material/iron) && materials.use_amount_mat(titanium_amount, /datum/material/titanium))
+					if(materials.has_enough_of_material(/datum/material/iron, iron_amount) && materials.has_enough_of_material(/datum/material/titanium, titanium_amount))
 						materials.use_amount_mat(iron_amount, /datum/material/iron)
 						materials.use_amount_mat(titanium_amount, /datum/material/titanium)
 						repair_resources += (iron_amount + titanium_amount) / 2
@@ -129,7 +170,7 @@
 					var/iron_amount = min(20, (RR_MAX - repair_resources) * 0.20)
 					var/silver_amount = min(15, (RR_MAX -  repair_resources) * 0.15)
 					var/titanium_amount = min(65, (RR_MAX - repair_resources) * 0.65)
-					if(materials.use_amount_mat(iron_amount, /datum/material/iron) && materials.use_amount_mat(silver_amount, /datum/material/silver) && materials.use_amount_mat(titanium_amount, /datum/material/titanium))
+					if(materials.has_enough_of_material(/datum/material/iron, iron_amount) && materials.has_enough_of_material(/datum/material/silver, silver_amount) && materials.has_enough_of_material(/datum/material/titanium, titanium_amount))
 						materials.use_amount_mat(iron_amount, /datum/material/iron)
 						materials.use_amount_mat(silver_amount, /datum/material/silver)
 						materials.use_amount_mat(titanium_amount, /datum/material/titanium)
@@ -142,7 +183,7 @@
 					var/silver_amount = min(15, (RR_MAX -  repair_resources) * 0.15)
 					var/plasma_amount = min(5, (RR_MAX - repair_resources) * 0.05)
 					var/titanium_amount = min(62.5, (RR_MAX - repair_resources) * 0.625)
-					if(materials.use_amount_mat(iron_amount, /datum/material/iron) && materials.use_amount_mat(silver_amount, /datum/material/silver) && materials.use_amount_mat(plasma_amount, /datum/material/plasma) && materials.use_amount_mat(titanium_amount, /datum/material/titanium))
+					if(materials.has_enough_of_material(/datum/material/iron, iron_amount) && materials.has_enough_of_material(/datum/material/silver, silver_amount) && materials.has_enough_of_material(/datum/material/plasma, plasma_amount) && materials.has_enough_of_material(/datum/material/titanium, titanium_amount))
 						materials.use_amount_mat(iron_amount, /datum/material/iron)
 						materials.use_amount_mat(silver_amount, /datum/material/silver)
 						materials.use_amount_mat(plasma_amount, /datum/material/plasma)
@@ -314,12 +355,37 @@
 	data["system_allocation"] = system_allocation
 	data["system_stress"] = system_stress
 	data["power_allocation"] = power_allocation
-	data["alloy"] = material_tier
 	data["resourcing"] = resourcing_system
 	data["iron"] = materials.get_material_amount(/datum/material/iron)
 	data["titanium"] = materials.get_material_amount(/datum/material/titanium)
 	data["silver"] = materials.get_material_amount(/datum/material/silver)
 	data["plasma"] = materials.get_material_amount(/datum/material/plasma)
+	switch(material_tier)
+		if(0)
+			data["alloy_t1"] = FALSE
+			data["alloy_t2"] = FALSE
+			data["alloy_t3"] = FALSE
+			data["alloy_t4"] = FALSE
+		if(1)
+			data["alloy_t1"] = TRUE
+			data["alloy_t2"] = FALSE
+			data["alloy_t3"] = FALSE
+			data["alloy_t4"] = FALSE
+		if(2)
+			data["alloy_t1"] = FALSE
+			data["alloy_t2"] = TRUE
+			data["alloy_t3"] = FALSE
+			data["alloy_t4"] = FALSE
+		if(3)
+			data["alloy_t1"] = FALSE
+			data["alloy_t2"] = FALSE
+			data["alloy_t3"] = TRUE
+			data["alloy_t4"] = FALSE
+		if(4)
+			data["alloy_t1"] = FALSE
+			data["alloy_t2"] = FALSE
+			data["alloy_t3"] = FALSE
+			data["alloy_t4"] = TRUE
 	return data
 
 /obj/item/circuitboard/machine/armour_plating_nanorepair_well

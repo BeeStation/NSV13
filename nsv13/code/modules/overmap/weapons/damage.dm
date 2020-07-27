@@ -68,15 +68,12 @@ Bullet reactions
 		return TRUE
 	return FALSE
 
-/obj/structure/overmap
-	var/structure_crit = FALSE
-	var/explosion_cooldown = FALSE
-
 /obj/structure/overmap/proc/handle_crit(damage_amount) //A proc to allow ships to enter superstructure crit, this means the player ship can't die, but its insides can get torn to shreds.
 	if(!structure_crit)
 		relay('nsv13/sound/effects/ship/crit_alarm.ogg', message=null, loop=TRUE, channel=CHANNEL_SHIP_FX)
 		priority_announce("DANGER. Ship superstructure failing. Structural integrity failure imminent. Immediate repairs are required to avoid total structural failure.","Automated announcement ([src])") //TEMP! Remove this shit when we move ruin spawns off-z
 		structure_crit = TRUE
+		structure_crit_timer = addtimer(CALLBACK(src, .proc/handle_critical_failure, FALSE), 5 MINUTES)
 	if(explosion_cooldown)
 		return
 	explosion_cooldown = TRUE
@@ -90,6 +87,12 @@ Bullet reactions
 	var/turf/T = pick(get_area_turfs(target))
 	new /obj/effect/temp_visual/explosion_telegraph(T)
 
+/obj/structure/overmap/proc/handle_critical_failure()
+	structure_crit_no_return = TRUE
+	priority_announce("DANGER. Ship superstructure failure. No return threshold reached. Anti-salvage countermeasures initializing.","Automated announcement ([src])")
+	//KMC STUFF GOES HERE FOR ROUND END
+
+
 /obj/structure/overmap/proc/try_repair(amount)
 	var/withrepair = obj_integrity+amount
 	if(withrepair > max_integrity) //No overheal
@@ -101,6 +104,8 @@ Bullet reactions
 			stop_relay(channel=CHANNEL_SHIP_FX)
 			priority_announce("Ship structural integrity restored to acceptable levels. ","Automated announcement ([src])")
 			structure_crit = FALSE
+			if(structure_crit_timer)
+				deltimer(structure_crit_timer)
 
 /obj/effect/temp_visual/explosion_telegraph
 	name = "Explosion imminent!"

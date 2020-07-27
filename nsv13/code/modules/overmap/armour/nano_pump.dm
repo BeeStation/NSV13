@@ -20,7 +20,7 @@
 	var/online = TRUE //Are we running?
 	var/stress_shutdown = FALSE //Has this APNP been overtaxed?
 	var/last_restart = 0 //Time since last forced system restart
-	var/quadrant = null //Which armour quadrant we are assigned to
+	var/quadrant = null //Which armour quadrant we are assigned to - (KMC we need to discourage multiple pumps operating on the same quadrant some how)
 	var/apnw_id = null //The ID by which we identify our parent device - These should match the parent device and follow the formula: 1 - Main Ship, 2 - Secondary Ship, 3 - Syndie PvP Ship
 	var/list/repair_records = list() //Graphs again
 	var/repair_records_length = 300
@@ -62,24 +62,34 @@
 	if(online && is_operational() && !stress_shutdown)
 		idle_power_usage = 0 //reset power use
 		if(armour_allocation)
-			if(OM.armour_quadrants[quadrant]["current_armour"] < OM.armour_quadrants[quadrant]["max_armour"]) //Basic Implementation
+			if(OM.armour_quadrants[quadrant]["current_armour"] < OM.armour_quadrants[quadrant]["max_armour"]) //Armour Check
 				var/armour_integrity = (OM.armour_quadrants[quadrant]["current_armour"] / OM.armour_quadrants[quadrant]["max_armour"]) * 100
-				armour_repair_amount = ((382 * NUM_E **(0.0764 * armour_integrity))/(50 + NUM_E ** (0.0764 * armour_integrity)) ** 2 ) * (apnw.repair_efficiency * (armour_allocation / 100)) * 4 //Don't ask
+				armour_repair_amount = ((382 * NUM_E **(0.0764 * armour_integrity))/(50 + NUM_E ** (0.0764 * armour_integrity)) ** 2 ) * (apnw.repair_efficiency * (armour_allocation / 100)) * 4 //Don't ask (KMC change the multiplier on the end to alter this value (currently 4))
 				if(apnw.repair_resources >= armour_repair_amount)
 					OM.armour_quadrants[quadrant]["current_armour"] += armour_repair_amount
 					if(OM.armour_quadrants[quadrant]["current_armour"] > OM.armour_quadrants[quadrant]["max_armour"])
 						OM.armour_quadrants[quadrant]["current_armour"] = OM.armour_quadrants[quadrant]["max_armour"]
 					apnw.repair_resources -= armour_repair_amount
-					idle_power_usage += armour_repair_amount * 100 //test case
+					idle_power_usage += armour_repair_amount * 100
 		if(structure_allocation)
-			if(OM.obj_integrity < OM.max_integrity) //Basic Implementation
-				structure_repair_amount = (0.75 * apnw.repair_efficiency * structure_allocation) / 100 //test case
+			if(OM.obj_integrity < OM.max_integrity) //Structure Check
+				if(OM.structure_crit_no_return) //If we have crossed the point of no return, halt repairs
+					return
+				structure_repair_amount = (0.75 * apnw.repair_efficiency * structure_allocation) / 100 //KMC change the 0.75 to alter the value
 				if(apnw.repair_resources >= structure_repair_amount * 10)
 					OM.obj_integrity += structure_repair_amount
 					if(OM.obj_integrity > OM.max_integrity)
 						OM.obj_integrity = OM.max_integrity
 					apnw.repair_resources -= structure_repair_amount
-					idle_power_usage += structure_repair_amount * 100 //test case
+					idle_power_usage += structure_repair_amount * 100
+
+					if(OM.structure_crit) //Checking to see if we can exist SS Crit
+						if(OM.obj_integrity >= OM.max_integrity/3) //You need to repair a good chunk of her HP before you're getting outta this fucko.
+							OM.stop_relay(channel=CHANNEL_SHIP_FX)
+							priority_announce("Ship structural integrity restored to acceptable levels. ","Automated announcement ([src])")
+							OM.structure_crit = FALSE
+							if(OM.structure_crit_timer)
+								deltimer(OM.structure_crit_timer)
 	else
 		armour_repair_amount = 0
 		structure_repair_amount = 0
