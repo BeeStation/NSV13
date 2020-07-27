@@ -232,6 +232,16 @@
 	return FALSE
 
 /**
+*Get the ammo / max ammo values for tactical consoles.
+
+*/
+/obj/machinery/ship_weapon/proc/get_max_ammo()
+	return max_ammo
+
+/obj/machinery/ship_weapon/proc/get_ammo()
+	return ammo.len
+
+/**
  * Transitions from STATE_NOTLOADED to STATE_LOADED.
  *
  * Try to load a magazine (obj/A).

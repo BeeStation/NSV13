@@ -103,6 +103,12 @@
 	else
 		return TRUE
 
+/obj/machinery/ship_weapon/energy/get_max_ammo()
+	return max_charge
+
+/obj/machinery/ship_weapon/energy/get_ammo()
+	return charge
+
 /obj/machinery/ship_weapon/energy/animate_projectile(atom/target)
 	var/list/what_we_fired = linked.fire_projectiles(weapon_type.default_projectile_type, target)
 	for(var/obj/item/projectile/P in what_we_fired)
@@ -126,7 +132,7 @@
 	icon_state = "ion_cannon"
 	fire_mode = FIRE_MODE_MAC
 	energy_weapon_type = /datum/ship_weapon/phaser
-	charge_rate = 50000 //How quickly do we charge?
+	charge_rate = 75000 //How quickly do we charge?
 	charge_per_shot = 500000 //How much power per shot do we have to use? By default, half a megawatt.
 	max_charge = 1000000 //1 MW as base. This puppy needs a lot of power to use, but does a crapload of damage
 	power_modifier_cap = 5 //Allows you to do insanely powerful oneshot lasers. Maximum theoretical damage of 500.
@@ -139,13 +145,15 @@
 	charge_rate = initial(charge_rate) * power_modifier
 	max_charge = initial(max_charge) * power_modifier
 	charge_per_shot = max(initial(charge_per_shot) * power_modifier, 10) //No getting infinite ammo by setting power mod to 0 :))
+	if(charge >= max_charge)
+		charge = max_charge //Time to fricking ignore thermodynamics gamers!
+		idle_power_usage = 0 //No power draw when fully charged
+		return
 	if(!active)
 		idle_power_usage = 0
 		return
-	if(charge > max_charge)
-		charge = max_charge //Time to fricking ignore thermodynamics gamers!
-	idle_power_usage = charge_rate
+	else
+		idle_power_usage = charge_rate
 	if(!powered() || idle_power_usage <= 0)
 		return
-	if(charge + charge_rate <= max_charge)
-		charge += charge_rate
+	charge += charge_rate
