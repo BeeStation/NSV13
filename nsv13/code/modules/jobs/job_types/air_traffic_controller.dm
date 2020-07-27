@@ -26,7 +26,7 @@
 	name = "Air Traffic Controller"
 	jobtype = /datum/job/air_traffic_controller
 
-	ears = /obj/item/radio/headset/headset_sec/alt/atc
+	ears = /obj/item/radio/headset/munitions/atc
 	uniform = /obj/item/clothing/under/ship/officer
 	suit = /obj/item/clothing/suit/hazardvest
 	head = /obj/item/clothing/head/beret/ship/pilot

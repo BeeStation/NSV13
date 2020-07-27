@@ -213,7 +213,7 @@
 
 /datum/config_entry/flag/ooc_during_round
 
-/datum/config_entry/flag/looc_enabled
+//nsv13 - remove looc_enabled
 
 /datum/config_entry/flag/emojis
 

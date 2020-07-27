@@ -55,7 +55,7 @@
 	var/chamber_delay_rapid = 2
 	var/chamber_delay = 10
 
-	var/firing_sound = 'nsv13/sound/effects/ship/mac_fire.ogg'
+	var/firing_sound = 'nsv13/sound/effects/ship/tri_mount_fire.ogg'
 	var/fire_animation_length = 5
 	var/fire_mode
 
@@ -104,7 +104,7 @@
 /obj/machinery/ship_weapon/proc/PostInitialize()
 	get_ship(error_log=FALSE)
 	if(maintainable)
-		maint_req = rand(15,25) //Setting initial number of cycles until maintenance is required
+		maint_req = rand(20,25) //Setting initial number of cycles until maintenance is required
 		create_reagents(50)
 	icon_state_list = icon_states(icon)
 
@@ -468,8 +468,9 @@
 		playsound(src, firing_sound, 100, 1)
 	if(bang)
 		for(var/mob/living/M in get_hearers_in_view(10, get_turf(src))) //Burst unprotected eardrums
-			if(M.stat != DEAD && isliving(M)) //Don't make noise if they're dead
-				M.soundbang_act(1,200,10,15)
+			if(M.get_ear_protection() < 1) //checks for protection - why was this not here before???
+				if(M.stat != DEAD && isliving(M)) //Don't make noise if they're dead
+					M.soundbang_act(1,200,10,15)
 
 /**
  * Handles firing animations and sounds on the overmap.

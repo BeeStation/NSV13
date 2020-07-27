@@ -42,9 +42,9 @@ Adding tasks is easy! Just define a datum for it.
 
 #define AI_PDC_RANGE 12
 
-#define FLEET_DIFFICULTY_EASY 4 //if things end up being too hard, this is a safe number for a fight you _should_ always win.
-#define FLEET_DIFFICULTY_MEDIUM 6
-#define FLEET_DIFFICULTY_HARD 10
+#define FLEET_DIFFICULTY_EASY 2 //if things end up being too hard, this is a safe number for a fight you _should_ always win.
+#define FLEET_DIFFICULTY_MEDIUM 4
+#define FLEET_DIFFICULTY_HARD 8
 #define FLEET_DIFFICULTY_VERY_HARD 15
 #define FLEET_DIFFICULTY_INSANE 20 //If you try to take on the rubicon ;)
 #define FLEET_DIFFICULTY_DEATH 30 //Suicide run
@@ -120,7 +120,7 @@ GLOBAL_LIST_EMPTY(ai_goals)
 
 	return target
 
-/datum/fleet/proc/move(datum/star_system/target)
+/datum/fleet/proc/move(datum/star_system/target, force=FALSE)
 	if(!target)
 		var/list/potential = list()
 		var/list/fallback = list()
@@ -148,23 +148,24 @@ GLOBAL_LIST_EMPTY(ai_goals)
 		if(!potential.len)
 			potential = fallback //Nowhere else to go.
 		target = pick(potential)
-	addtimer(CALLBACK(src, .proc/move), rand(5 MINUTES, 10 MINUTES))
-	//Precondition: We're allowed to go to this system.
-	switch(fleet_trait)
-		if(FLEET_TRAIT_DEFENSE)
-			return FALSE //These boss fleets do not move.
-		if(FLEET_TRAIT_BORDER_PATROL)
-			if(target.alignment != alignment)
-				return FALSE
-		if(FLEET_TRAIT_INVASION)
-			if(target.alignment == alignment)
-				return FALSE
-		if(FLEET_TRAIT_NEUTRAL_ZONE)
-			if(target.alignment == alignment)
-				return FALSE
+	if(!force)
+		addtimer(CALLBACK(src, .proc/move), rand(5 MINUTES, 10 MINUTES))
+		//Precondition: We're allowed to go to this system.
+		switch(fleet_trait)
+			if(FLEET_TRAIT_DEFENSE)
+				return FALSE //These boss fleets do not move.
+			if(FLEET_TRAIT_BORDER_PATROL)
+				if(target.alignment != alignment)
+					return FALSE
+			if(FLEET_TRAIT_INVASION)
+				if(target.alignment == alignment)
+					return FALSE
+			if(FLEET_TRAIT_NEUTRAL_ZONE)
+				if(target.alignment == alignment)
+					return FALSE
 
-	if(world.time < last_encounter_time + 10 MINUTES) //So that fleets don't leave mid combat.
-		return FALSE
+		if(world.time < last_encounter_time + 10 MINUTES) //So that fleets don't leave mid combat.
+			return FALSE
 	current_system.fleets -= src
 	if(current_system.fleets && current_system.fleets.len)
 		var/datum/fleet/F = pick(current_system.fleets)
@@ -415,7 +416,7 @@ GLOBAL_LIST_EMPTY(ai_goals)
 	name = "Nanotrasen heavy combat fleet"
 	fighter_types = list(/obj/structure/overmap/nanotrasen/ai/fighter)
 	destroyer_types = list(/obj/structure/overmap/nanotrasen/ai)
-	battleship_types = list(/obj/structure/overmap/nanotrasen/patrol_cruiser/ai, /obj/structure/overmap/nanotrasen/heavy_cruiser/ai, /obj/structure/overmap/nanotrasen/battleship/ai)
+	battleship_types = list(/obj/structure/overmap/nanotrasen/patrol_cruiser/ai, /obj/structure/overmap/nanotrasen/heavy_cruiser/ai, /obj/structure/overmap/nanotrasen/battleship/ai, /obj/structure/overmap/nanotrasen/battlecruiser/ai)
 	supply_types = list(/obj/structure/overmap/nanotrasen/carrier/ai)
 	alignment = "nanotrasen"
 	hide_movements = TRUE //Friendly fleets just move around as you'd expect.
@@ -950,3 +951,76 @@ GLOBAL_LIST_EMPTY(ai_goals)
 		last_target = ship
 		return TRUE
 	return FALSE
+
+/client/proc/system_manager() //Creates a verb for admins to open up the ui
+	set name = "Starsystem Management"
+	set desc = "Manage fleets / systems that exist in game"
+	set category = "Adminbus"
+	var/datum/starsystem_manager/man = new(usr)//create the datum
+	man.ui_interact(usr)//datum has a tgui component, here we open the window
+
+/datum/starsystem_manager
+	var/name = "Starsystem manager"
+	var/client/holder = null
+
+/datum/starsystem_manager/New(H)//H can either be a client or a mob due to byondcode(tm)
+	if (istype(H,/client))
+		var/client/C = H
+		holder = C //if its a client, assign it to holder
+	else
+		var/mob/M = H
+		holder = M.client //if its a mob, assign the mob's client to holder
+	. = ..()
+
+/datum/starsystem_manager/ui_interact(mob/user, ui_key = "main", datum/tgui/ui = null, force_open = FALSE, datum/tgui/master_ui = null, datum/ui_state/state = GLOB.admin_state)//ui_interact is called when the client verb is called.
+	ui = SStgui.try_update_ui(user, src, ui_key, ui, force_open)
+	if(!ui)
+		ui = new(user, src, ui_key, "SystemManager", "Starsystem Manager", 400, 400, master_ui, state)
+		ui.open()
+
+/datum/starsystem_manager/ui_data(mob/user)
+	var/list/data = list()
+	var/list/systems_info = list()
+	for(var/datum/star_system/SS in SSstar_system.systems)
+		var/list/sys_inf = list()
+		sys_inf["name"] = SS.name
+		sys_inf["system_type"] = SS.system_type
+		sys_inf["alignment"] = capitalize(SS.alignment)
+		sys_inf["sys_id"] = "\ref[SS]"
+		sys_inf["fleets"] = list() //2d array mess in 3...2...1..
+		for(var/datum/fleet/F in SS.fleets)
+			var/list/fleet_info = list()
+			fleet_info["name"] = F.name
+			fleet_info["id"] = "\ref[F]"
+			fleet_info["colour"] = (F.alignment == "nanotrasen") ? null : "bad"
+			var/list/fuckYouDreamChecker = sys_inf["fleets"]
+			fuckYouDreamChecker[++fuckYouDreamChecker.len] = fleet_info
+		systems_info[++systems_info.len] = sys_inf
+	data["systems_info"] = systems_info
+	return data
+
+/datum/starsystem_manager/ui_act(action, params)
+	if(..())
+		return
+	switch(action)
+		if("jumpFleet")
+			var/datum/fleet/target = locate(params["id"])
+			if(!istype(target))
+				return
+			var/datum/star_system/sys = input(usr, "Select a jump target for [target]...","Fleet Management", null) as null|anything in SSstar_system.systems
+			if(!sys || !istype(sys))
+				return FALSE
+			message_admins("[key_name(usr)] forced [target] to jump to [sys].")
+			target.move(sys, TRUE)
+		if("createFleet")
+			var/datum/star_system/target = locate(params["sys_id"])
+			if(!istype(target))
+				return
+			var/fleet_type = input(usr, "What fleet template would you like to use?","Fleet Creation", null) as null|anything in typecacheof(/datum/fleet)
+			if(!fleet_type)
+				return
+			var/datum/fleet/F = new fleet_type()
+			target.fleets += F
+			F.current_system = target
+			F.assemble(target)
+			message_admins("[key_name(usr)] created a fleet ([F.name]) at [target].")

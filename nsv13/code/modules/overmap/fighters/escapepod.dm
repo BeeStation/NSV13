@@ -14,6 +14,3 @@
 	flight_state = 6 //FLIGHT_READY
 	canopy_open = FALSE
 	has_escape_pod = FALSE
-
-/obj/structure/overmap/fighter/escapepod/attack_hand(mob/user)
-	return

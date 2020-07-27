@@ -36,12 +36,14 @@
 
 /obj/item/projectile/bullet/peacekeeper
 	name = "6mm tungsten round"
-	damage = 20
+	damage = 10 //Hopefully making it bias towards armorpen should make it less likely to kill people straight out.
+	armour_penetration = 60
 	icon_state = "pdc"
 
 /obj/item/projectile/bullet/peacekeeper/stun
 	name = "6mm electro-shock round"
-	damage = 10 //Straight up WAY worse than the security glock at stunning, but they serve a purpose
+	damage = 6 //Straight up WAY worse than the security glock at stunning, but they serve a purpose
+	armour_penetration = 0 //Less strong. Can't penetrate armor.
 	stamina = 5 //20 hits required to fully stun, by that time you probably killed them anyway!
 	stutter = 5
 	jitter = 5
@@ -57,11 +59,16 @@
 	max_ammo = 30
 
 /obj/item/ammo_box/magazine/peacekeeper/lethal
-	name = "M2A45 pulse rifle magazine (lethal)"
+	name = "pinned M2A45 pulse rifle magazine (lethal)"
 	icon_state = "peacekeeper"
 	ammo_type = /obj/item/ammo_casing/peacekeeper/lethal
 	caliber = "6mm"
+	max_ammo = 10
+
+/obj/item/ammo_box/magazine/peacekeeper/lethal/unpinned
+	name = "M2A45 pulse rifle magazine (lethal)"
 	max_ammo = 30
+
 
 /obj/item/ammo_box/magazine/peacekeeper/update_icon()
 	..()

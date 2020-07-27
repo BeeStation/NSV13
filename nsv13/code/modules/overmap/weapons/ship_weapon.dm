@@ -22,6 +22,7 @@
 	var/lateral = TRUE //Does this weapon need you to face the enemy? Mostly no.
 	var/special_fire_proc = null //Override this if you need to replace the firing weapons behaviour with a custom proc. See torpedoes and missiles for this.
 	var/selectable = TRUE //Is this a gun you can manually fire? Or do you want it for example, be an individually manned thing..?
+	var/screen_shake = 0
 
 /datum/ship_weapon/torpedo_launcher
 	special_fire_proc = /obj/structure/overmap/proc/fire_torpedo
@@ -114,4 +115,6 @@
 	for(var/obj/machinery/ship_weapon/SW in leftovers)
 		sleep(1)
 		SW.fire(target, shots = 1)
+	if(screen_shake)
+		holder.shake_everyone(screen_shake)
 	return TRUE

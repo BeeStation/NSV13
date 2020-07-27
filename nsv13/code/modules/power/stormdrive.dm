@@ -409,7 +409,8 @@ Control Rods
 
 	heat = start_threshold+10
 	var/datum/gas_mixture/air1 = airs[1]
-	air1.adjust_moles(/datum/gas/constricted_plasma, 300)
+	air1.adjust_moles(/datum/gas/constricted_plasma, 1000)
+	air1.adjust_moles(/datum/gas/oxygen, 500)
 	try_start()
 
 /obj/machinery/atmospherics/components/binary/stormdrive_reactor/proc/juice_up(var/juice) //Admin command to add a specified amount of CPlas to the drive
@@ -711,11 +712,19 @@ Control Rods
 	reaction_rate += delta_reaction_rate/2
 
 /obj/machinery/atmospherics/components/binary/stormdrive_reactor/proc/handle_ftl_fuel_production()
-	if(heat > initial(reactor_temperature_hot)) //use initial or current?
+	if(heat > initial(reactor_temperature_hot))
+		var/max_output_pressure = 4500
+		var/datum/gas_mixture/air1 = airs[1]
 		var/datum/gas_mixture/air2 = airs[2]
-		air2.adjust_moles(/datum/gas/nucleium, (reaction_rate / 10) * input_power_modifier)
-		air2.set_temperature(heat)
-		update_parents()
+		var/output_starting_pressure = air2.return_pressure()
+		if(output_starting_pressure >= max_output_pressure) //if pressured capped, nucleium backs up into the drive
+			air1.adjust_moles(/datum/gas/nucleium, (reaction_rate / 10) * input_power_modifier)
+			air1.set_temperature(heat)
+			update_parents()
+		else
+			air2.adjust_moles(/datum/gas/nucleium, (reaction_rate / 10) * input_power_modifier)
+			air2.set_temperature(heat)
+			update_parents()
 
 /obj/machinery/atmospherics/components/binary/stormdrive_reactor/proc/handle_temperature_reinforcement() //Adjusting temperature thresholds
 	var/delta_rt_nominal = (initial(reactor_temperature_nominal) * reactor_temperature_modifier) - reactor_temperature_nominal

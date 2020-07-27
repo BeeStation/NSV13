@@ -279,13 +279,12 @@
 			"}
 			break_counter++
 		output += "</div></div>"
-		//standard departments all have identical handling - NSV13 Munitions added
+		//standard departments all have identical handling
 		var/list/job_lists = list("Security" = GLOB.security_positions,
 							"Engineering" = GLOB.engineering_positions,
 							"Medical" = GLOB.medical_positions,
 							"Science" = GLOB.science_positions,
-							"Supply" = GLOB.supply_positions,
-							"Munitions" = GLOB.munitions_positions)
+							"Supply" = GLOB.supply_positions)
 		for(var/department in job_lists)
 			//the first element is the department head so they need the same javascript call as above
 			output += "<div class='column'><label class='rolegroup [ckey(department)]'><input type='checkbox' name='[department]' class='hidden' [usr.client.prefs.tgui_fancy ? " onClick='toggle_checkboxes(this, \"_com\")'" : ""]>[department]</label><div class='content'>"
@@ -642,8 +641,8 @@
 		"}, list(
 			"player_key" = ckey(player_key),
 			"admin_key" = ckey(admin_key),
-            "player_ip" = player_ip || null,
-            "player_cid" = player_cid || null,
+			"player_ip" = player_ip || null,
+			"player_cid" = player_cid || null,
 		))
 		if(!query_unban_count_bans.warn_execute())
 			qdel(query_unban_count_bans)

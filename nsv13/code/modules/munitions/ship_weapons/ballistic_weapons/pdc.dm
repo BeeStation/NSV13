@@ -18,7 +18,7 @@
 	auto_load = TRUE
 	semi_auto = TRUE
 	maintainable = FALSE
-	max_ammo = 100
+	max_ammo = 300
 
 	// We're fully automatic, so just the loading sound is enough
 	mag_load_sound = 'sound/weapons/autoguninsert.ogg'

@@ -1,11 +1,11 @@
 /obj/item/ammo_box/magazine/pdc
 	name = "Point defense cannon ammo (30.12x82mm)"
-	desc = "A box of .30 caliber rounds which can be loaded into a ship's point defense emplacements. These are typically used to shoot down oncoming missiles, and provide close quarters combat relief for large ships."
+	desc = "A box of .50 caliber rounds which can be loaded into a ship's point defense emplacements. These are typically used to shoot down oncoming missiles, and provide close quarters combat relief for large ships."
 	icon = 'nsv13/icons/obj/ammo.dmi'
 	icon_state = "pdc"
 	ammo_type = /obj/item/ammo_casing/pdc
 	caliber = "mm30.12"
-	max_ammo = 100
+	max_ammo = 300
 
 
 /obj/item/ammo_box/magazine/pdc/update_icon()

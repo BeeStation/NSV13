@@ -25,5 +25,6 @@ export { Section } from './Section';
 export { Slider } from './Slider';
 export { StarButton } from './StarButton';
 export { Table } from './Table';
+export { TextArea } from './TextArea';
 export { Tabs } from './Tabs';
 export { Tooltip } from './Tooltip';

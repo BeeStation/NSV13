@@ -47,7 +47,7 @@
 /obj/structure/overmap/proc/get_max_firemode()
 	if(mass < MASS_MEDIUM) //Small craft dont get a railgun
 		return FIRE_MODE_TORPEDO
-	return FIRE_MODE_RAILGUN
+	return FIRE_MODE_MAC
 
 /obj/structure/overmap/proc/swap_to(what=FIRE_MODE_PDC)
 	if(!weapon_types[what])

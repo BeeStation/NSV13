@@ -26,7 +26,7 @@
 		COMPILE_OVERLAYS(D) //Prepare it for an image capture
 		var/icon/I = icon(getFlatIcon(D), frame = 1) //And finally clone the appearance of our new dummy character.
 		final.Insert(I, target.icon_state, frame=1, dir=dir) //Then, we add this new icon_state and direction to the icon we're generating. This is then cleanly applied to the dummy mob to give it its appearance.
-	target.alternate_worn_icon = final
+	target.alternate_worn_icon = fcopy_rsc(final) //Manually copy over the newly generated icon, so that everyone will see it.
 	return final
 
 // Squad merch! Show off that squad pride baby.
@@ -133,6 +133,9 @@
 	w_class = 1
 	var/next_squad_change = 0
 	var/datum/squad/squad = null
+
+/obj/item/clothing/neck/squad/GetAccess()
+	return (GLOB.security_level >= SEC_LEVEL_RED) ? squad?.access : list()
 
 /obj/item/storage/box/squad_lanyards
 	name = "Spare squad lanyards"
