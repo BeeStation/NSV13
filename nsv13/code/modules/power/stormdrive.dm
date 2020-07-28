@@ -50,23 +50,26 @@ Control Rods
 #define NORMAL_ROR 1
 #define HIGH_ROR 1.5
 #define HINDER_ROR -0.5
+#define REALLY_HINDER_ROR -1
 #define NULL_ROR 0
 
 #define LOW_IPM 0.5
-#define NORMAL_IPM 1
-#define HIGH_IPM 1.5
+#define HIGH_IPM 1.25
+#define VERY_HIGH_IPM 1.75
 
 #define LOW_COOLING 0.75
-#define NORMAL_COOLING 1
-#define HIGH_COOLING 1.25
+#define HIGH_COOLING 3
+#define VERY_HIGH_COOLING 5
 
 #define LOW_RADIATION 0.75
 #define NORMAL_RADIATION 1
 #define HIGH_RADIATION 3
 
 #define LOW_REINFORCEMENT 0.75
-#define NORMAL_REINFORCEMENT 1
 #define HIGH_REINFORCEMENT 1.25
+#define VERY_HIGH_REINFORCEMENT 1.5
+
+#define HIGH_DEG_PROTECTION 1.25
 
 //Reactor variables
 
@@ -102,6 +105,7 @@ Control Rods
 	var/control_rod_percent = 0 //Handles the insertion depth of the control rods into the reactor
 	var/control_rod_integrity = 0 //Aggrigate of the integrity of all control rods
 	var/control_rod_modifier = 1 //Handles the effective aggrigate of control rods
+	var/control_rod_degradation_modifier = 1 //Modifier to handle protection of control rods
 	var/control_rod_installation = FALSE //Check for if a rod is being installed or removed
 	var/list/control_rods = list()
 	var/heat_gain = 5
@@ -137,7 +141,7 @@ Control Rods
 	var/gas_records_length = 120
 	var/gas_records_interval = 10
 	var/gas_records_next_interval = 0
-	var/base_power = 50000 //Base power modifier. Increase this, get more power.(100000 - halfing since > doubling+ base cap)
+	var/base_power = 67500 //Base power modifier, this gets attacked by a cubic function. Increase this, get more power (if you aren't a wimp)
 
 /obj/machinery/atmospherics/components/binary/stormdrive_reactor/syndicate
 	radio_key = /obj/item/encryptionkey/syndicate
@@ -146,7 +150,7 @@ Control Rods
 /obj/machinery/atmospherics/components/binary/stormdrive_reactor/solgov
 	name = "Class V ionic storm drive"
 	desc = "A highly advanced ionic drive used by SolGov to power their space vessels. Through the application of inverse-ions to the endostorm, more efficient matter to energy conversion is achieved."
-	base_power = 85000 //Base power modifier. Increase this, get more power.(100000 - halfing since > doubling+ base cap)
+	base_power = 85000 //26% more power than class 4
 	icon = 'nsv13/goonstation/icons/reactor_solgov.dmi'
 	theoretical_maximum_power = 20000000
 
@@ -421,9 +425,9 @@ Control Rods
 	air1.adjust_moles(/datum/gas/oxygen, 500)
 	try_start()
 
-/obj/machinery/atmospherics/components/binary/stormdrive_reactor/proc/juice_up(var/juice) //Admin command to add a specified amount of CPlas to the drive
+/obj/machinery/atmospherics/components/binary/stormdrive_reactor/proc/juice_up(var/datum/gas/juice, var/quantity) //Admin command to add a specified amount of chosen gas to the drive
 	var/datum/gas_mixture/air1 = airs[1]
-	air1.adjust_moles(/datum/gas/constricted_plasma, juice)
+	air1.adjust_moles(juice, quantity)
 
 /obj/machinery/atmospherics/components/binary/stormdrive_reactor/proc/start_meltdown()
 	if(warning_state >= WARNING_STATE_MELTDOWN)
@@ -519,9 +523,7 @@ Control Rods
 	if(state == REACTOR_STATE_MELTDOWN)
 		radiation_pulse(src, (1000 * radiation_modifier), 10)
 		return
-	if(state != REACTOR_STATE_RUNNING || heat <= start_threshold)
-		deactivate()
-		return ..() //Stop processing if we're not activated, start processing when we're activated.
+
 	if(dumping_fuel)
 		var/max_output_pressure = 4500
 		var/datum/gas_mixture/air1 = airs[1]
@@ -532,9 +534,14 @@ Control Rods
 			dumping_fuel = FALSE
 		else if(output_starting_pressure < max_output_pressure)
 			var/moles = air1.total_moles()
-			var/datum/gas_mixture/buffer = air1.remove(min(10, moles))
+			var/datum/gas_mixture/buffer = air1.remove(min(25, moles)) //Shunts 25 mole/tick
 			air2.merge(buffer)
+			air2.set_temperature(heat) //Gets spicy
 			update_parents()
+
+	if(state != REACTOR_STATE_RUNNING || heat <= start_threshold)
+		deactivate()
+		return ..() //Stop processing if we're not activated, start processing when we're activated.
 
 	var/datum/gas_mixture/air1 = airs[1]
 	var/nucleium_power_reduction = 0
@@ -545,21 +552,24 @@ Control Rods
 		//calculate the actual fuel mix
 		var/chamber_ror_total = reaction_chamber_gases.get_moles(/datum/gas/plasma) * LOW_ROR + \
 								reaction_chamber_gases.get_moles(/datum/gas/constricted_plasma) * NORMAL_ROR + \
+								reaction_chamber_gases.get_moles(/datum/gas/tritium) * HIGH_ROR + \
 								reaction_chamber_gases.get_moles(/datum/gas/nitrogen) * HINDER_ROR + \
 								reaction_chamber_gases.get_moles(/datum/gas/water_vapor) * HINDER_ROR + \
-								reaction_chamber_gases.get_moles(/datum/gas/tritium) * HIGH_ROR
+								reaction_chamber_gases.get_moles(/datum/gas/hypernoblium) * REALLY_HINDER_ROR
 		reaction_rate_modifier = chamber_ror_total / reaction_rate
 
 		//checking for gas modifiers
-		var/chamber_ipm_total = reaction_rate + reaction_chamber_gases.get_moles(/datum/gas/oxygen) * HIGH_IPM + \
-												reaction_chamber_gases.get_moles(/datum/gas/stimulum) * HIGH_IPM - \
+		var/chamber_ipm_total = reaction_rate + reaction_chamber_gases.get_moles(/datum/gas/tritium) * HIGH_IPM + \
+												reaction_chamber_gases.get_moles(/datum/gas/oxygen) * HIGH_IPM + \
+												reaction_chamber_gases.get_moles(/datum/gas/pluoxium) * HIGH_IPM + \
+												reaction_chamber_gases.get_moles(/datum/gas/stimulum) * VERY_HIGH_IPM - \
 												reaction_chamber_gases.get_moles(/datum/gas/carbon_dioxide) * LOW_IPM - \
 												reaction_chamber_gases.get_moles(/datum/gas/hypernoblium) * LOW_IPM
 		input_power_modifier = chamber_ipm_total / reaction_rate
 
-		var/chamber_cooling_total = reaction_rate + reaction_chamber_gases.get_moles(/datum/gas/nitrous_oxide) * HIGH_COOLING + \
-													reaction_chamber_gases.get_moles(/datum/gas/water_vapor) * HIGH_COOLING + \
-													reaction_chamber_gases.get_moles(/datum/gas/hypernoblium) * HIGH_COOLING - \
+		var/chamber_cooling_total = reaction_rate + reaction_chamber_gases.get_moles(/datum/gas/hypernoblium) * VERY_HIGH_COOLING + \
+													reaction_chamber_gases.get_moles(/datum/gas/nitrogen) * HIGH_COOLING + \
+													reaction_chamber_gases.get_moles(/datum/gas/carbon_dioxide) * HIGH_COOLING - \
 													reaction_chamber_gases.get_moles(/datum/gas/tritium) * LOW_COOLING - \
 													reaction_chamber_gases.get_moles(/datum/gas/nucleium) * LOW_COOLING - \
 													reaction_chamber_gases.get_moles(/datum/gas/stimulum) * LOW_COOLING
@@ -567,15 +577,22 @@ Control Rods
 
 		var/chamber_radiation_total = reaction_rate + reaction_chamber_gases.get_moles(/datum/gas/tritium) * HIGH_RADIATION + \
 													reaction_chamber_gases.get_moles(/datum/gas/nucleium) * HIGH_RADIATION - \
-													reaction_chamber_gases.get_moles(/datum/gas/pluoxium) * LOW_RADIATION
+													reaction_chamber_gases.get_moles(/datum/gas/bz) * LOW_RADIATION
 		radiation_modifier = chamber_radiation_total / reaction_rate
 
-		var/chamber_reinforcement_total = reaction_rate + reaction_chamber_gases.get_moles(/datum/gas/tritium) * HIGH_REINFORCEMENT + \
-														reaction_chamber_gases.get_moles(/datum/gas/pluoxium) * HIGH_REINFORCEMENT - \
-														reaction_chamber_gases.get_moles(/datum/gas/carbon_dioxide) * LOW_REINFORCEMENT - \
+		var/chamber_reinforcement_total = reaction_rate + reaction_chamber_gases.get_moles(/datum/gas/pluoxium) * VERY_HIGH_REINFORCEMENT + \
+														reaction_chamber_gases.get_moles(/datum/gas/tritium) * HIGH_REINFORCEMENT + \
+														reaction_chamber_gases.get_moles(/datum/gas/nitrous_oxide) * HIGH_REINFORCEMENT - \
 														reaction_chamber_gases.get_moles(/datum/gas/nucleium) * LOW_REINFORCEMENT - \
-														reaction_chamber_gases.get_moles(/datum/gas/stimulum) * LOW_REINFORCEMENT
+														reaction_chamber_gases.get_moles(/datum/gas/stimulum) * LOW_REINFORCEMENT - \
+														reaction_chamber_gases.get_moles(/datum/gas/bz) * LOW_REINFORCEMENT
 		reactor_temperature_modifier = chamber_reinforcement_total / reaction_rate
+
+		var/chamber_degradation_total = reaction_rate + reaction_chamber_gases.get_moles(/datum/gas/plasma) * HIGH_DEG_PROTECTION + \
+														reaction_chamber_gases.get_moles(/datum/gas/nitrous_oxide) * HIGH_DEG_PROTECTION + \
+														reaction_chamber_gases.get_moles(/datum/gas/hypernoblium) * HIGH_DEG_PROTECTION + \
+														reaction_chamber_gases.get_moles(/datum/gas/pluoxium) * HIGH_DEG_PROTECTION + \
+		control_rod_degradation_modifier = chamber_degradation_total / reaction_rate
 
 		nucleium_power_reduction = reaction_chamber_gases.get_moles(/datum/gas/nucleium) * 1000 //nucleium
 
@@ -672,22 +689,22 @@ Control Rods
 		air_update_turf()
 
 /obj/machinery/atmospherics/components/binary/stormdrive_reactor/proc/can_cool()
-	if(heat > reactor_temperature_nominal) //Only start decaying the rods if theyre running it hot. We have a "safe" mode which doesn't need you to check in on the reactor at all.
-		for(var/obj/item/control_rod/cr in contents)
-			if(cr.rod_integrity <= 0 && !istype(cr, /obj/item/control_rod/irradiated)) //tag any failed rods
-				control_rods -= cr
-				qdel(cr)
-				control_rods += new /obj/item/control_rod/irradiated(src)
-				handle_control_rod_efficiency()
-			if(prob(80))
-				cr.rod_integrity -= (input_power/25000) * control_rod_percent //control rod decay occurs here
-		handle_control_rod_integrity()
-		if(control_rod_integrity < 0)
-			control_rod_integrity = 0
-			send_alert("DANGER: Primary control rods have failed!")
-			return FALSE
-		if(control_rod_integrity <= 10 && warning_state <= WARNING_STATE_NONE) //If there isn't a more important thing to notify them about, engineers should be told that their rods are failing.
-			send_alert("WARNING: Reactor control rods failing at [control_rod_integrity]% integrity, intervention required to avoid possible meltdown.")
+	//if(heat > reactor_temperature_nominal) //Only start decaying the rods if theyre running it hot. We have a "safe" mode which doesn't need you to check in on the reactor at all.
+	for(var/obj/item/control_rod/cr in contents)
+		if(cr.rod_integrity <= 0 && !istype(cr, /obj/item/control_rod/irradiated)) //tag any failed rods
+			control_rods -= cr
+			qdel(cr)
+			control_rods += new /obj/item/control_rod/irradiated(src)
+			handle_control_rod_efficiency()
+		if(prob(80))
+			cr.rod_integrity -= ((input_power/50000) * control_rod_degradation_modifier) * control_rod_percent //control rod decay occurs here
+	handle_control_rod_integrity()
+	if(control_rod_integrity < 0)
+		control_rod_integrity = 0
+		send_alert("DANGER: Primary control rods have failed!")
+		return FALSE
+	if(control_rod_integrity <= 35 && warning_state <= WARNING_STATE_NONE) //If there isn't a more important thing to notify them about, engineers should be told that their rods are failing.
+		send_alert("WARNING: Reactor control rods failing at [control_rod_integrity]% integrity, intervention required to avoid possible meltdown.")
 	if(control_rod_integrity > 0)
 		return TRUE //TODO: Check control rod health
 	else
@@ -978,6 +995,15 @@ Control Rods
 		return
 	ui_interact(user)
 
+/obj/machinery/computer/ship/reactor_control_computer/attack_ghost(mob/user)
+	. = ..()
+	if(!reactor)
+		var/sound = pick('nsv13/sound/effects/computer/error.ogg','nsv13/sound/effects/computer/error2.ogg','nsv13/sound/effects/computer/error3.ogg')
+		playsound(src, sound, 100, 1)
+		to_chat(user, "<span class='warning'>Unable to detect linked reactor</span>")
+		return
+	ui_interact(user)
+
 /obj/machinery/computer/ship/reactor_control_computer/Initialize()
 	. = ..()
 	return INITIALIZE_HINT_LATELOAD
@@ -1244,7 +1270,7 @@ Control Rods
 	icon_state = "nuclearwaste"
 	alpha = 150
 	light_color = LIGHT_COLOR_CYAN
-	color = "#ff9eff"
+	color = "#cc8899"
 
 /obj/effect/decal/nuclear_waste/Initialize()
 	. = ..()
@@ -1342,19 +1368,20 @@ Control Rods
 #undef NORMAL_ROR
 #undef HIGH_ROR
 #undef HINDER_ROR
+#undef REALLY_HINDER_ROR
 #undef NULL_ROR
 #undef LOW_IPM
-#undef NORMAL_IPM
 #undef HIGH_IPM
+#undef VERY_HIGH_IPM
 #undef LOW_COOLING
-#undef NORMAL_COOLING
 #undef HIGH_COOLING
+#undef VERY_HIGH_COOLING
 #undef LOW_RADIATION
-#undef NORMAL_RADIATION
 #undef HIGH_RADIATION
 #undef LOW_REINFORCEMENT
-#undef NORMAL_REINFORCEMENT
 #undef HIGH_REINFORCEMENT
+#undef VERY_HIGH_REINFORCEMENT
+#undef HIGH_DEG_PROTECTION
 
 #undef REACTOR_STATE_MAINTENANCE
 #undef REACTOR_STATE_IDLE
