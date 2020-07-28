@@ -1206,7 +1206,7 @@
 	height = 15;
 	id = "arrivals_stationary";
 	name = "Deck 2 Arrivals Port";
-	roundstart_template = /datum/map_template/shuttle/arrival/kilo;
+	roundstart_template = /datum/map_template/shuttle/arrival/box;
 	width = 7
 	},
 /turf/open/space/basic,
@@ -4865,6 +4865,16 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/department/medical)
+"dqP" = (
+/obj/effect/spawner/structure/window/reinforced/ship,
+/obj/machinery/door/poddoor/shutters/ship/preopen{
+	dir = 4;
+	id = "ceshutter"
+	},
+/turf/open/floor/plating,
+/area/engine/engine_room/external{
+	name = "Stormdrive Interior"
+	})
 "drc" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer1{
 	dir = 1
@@ -7794,16 +7804,6 @@
 /obj/machinery/chem_master,
 /turf/open/floor/carpet/ship/blue,
 /area/medical/chemistry)
-"fsj" = (
-/obj/effect/spawner/structure/window/reinforced/ship,
-/obj/machinery/door/poddoor/shutters/ship/preopen{
-	dir = 4;
-	id = "ceshutter"
-	},
-/turf/open/floor/plating,
-/area/engine/engine_room/external{
-	name = "Stormdrive Interior"
-	})
 "fsv" = (
 /turf/closed/wall/ship,
 /area/security/checkpoint/engineering)
@@ -54677,8 +54677,8 @@ fZX
 dch
 cxG
 fZX
-fsj
-fsj
+dqP
+dqP
 acZ
 acZ
 bTh
