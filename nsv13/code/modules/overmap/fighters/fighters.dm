@@ -730,13 +730,10 @@ You need to fire emag the fighter's IFF board. This makes it list as "ENEMY" on 
 	if(ispath(has_escape_pod))
 		escape_pod = new /obj/structure/overmap/fighter/escapepod(get_turf(src))
 		escape_pod.name = "[name] - escape pod"
-		new /obj/item/fighter_component/fuel_tank/escapepod(escape_pod)
-		escape_pod.fuel_setup()
+		escape_pod.faction = faction
 		transfer_occupants_to(escape_pod)
 		escape_pod.desired_angle = 0
 		escape_pod.user_thrust_dir = NORTH
-		escape_pod.internal_tank = new /obj/machinery/portable_atmospherics/canister/air(escape_pod)
-		escape_pod.velocity.y = 3
 		escape_pod = null
 		return TRUE
 	else
