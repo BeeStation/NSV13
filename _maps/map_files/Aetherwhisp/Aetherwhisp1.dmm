@@ -646,6 +646,10 @@
 /obj/machinery/door/window/eastleft{
 	req_one_access_txt = "3"
 	},
+/obj/machinery/door/poddoor/ship/preopen{
+	dir = 4;
+	id = "briglockdown"
+	},
 /turf/open/floor/plating,
 /area/security/warden)
 "auT" = (
@@ -738,6 +742,9 @@
 	icon_state = "2-4"
 	},
 /obj/effect/landmark/nuclear_waste_spawner,
+/obj/machinery/door/poddoor/ship/preopen{
+	id = "brig shutters"
+	},
 /turf/open/floor/plating,
 /area/security/brig)
 "ayO" = (
@@ -2373,6 +2380,16 @@
 /obj/machinery/airalarm/directional/north,
 /turf/open/floor/wood,
 /area/security/execution/education)
+"byz" = (
+/obj/machinery/conveyor{
+	dir = 10;
+	id = "arrivals_baggage_claim";
+	operating = 1
+	},
+/turf/open/floor/plating,
+/area/hallway/secondary/entry{
+	name = "Arrivals"
+	})
 "byA" = (
 /obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1{
 	dir = 4
@@ -5020,6 +5037,7 @@
 "dxz" = (
 /obj/effect/spawner/structure/window/reinforced,
 /obj/machinery/door/poddoor/shutters/ship/preopen{
+	dir = 4;
 	id = "ceshutter"
 	},
 /turf/open/floor/plating,
@@ -5544,10 +5562,11 @@
 /area/maintenance/department/medical)
 "dPE" = (
 /obj/effect/spawner/structure/window/reinforced,
+/obj/structure/cable,
 /obj/machinery/door/poddoor/shutters/ship/preopen{
+	dir = 4;
 	id = "cmoshutter"
 	},
-/obj/structure/cable,
 /turf/open/floor/plating,
 /area/crew_quarters/heads/cmo)
 "dQg" = (
@@ -11558,9 +11577,6 @@
 /area/engine/engine_room)
 "imh" = (
 /obj/effect/spawner/structure/window/reinforced,
-/obj/machinery/door/poddoor/shutters/ship/preopen{
-	id = "cmoshutter"
-	},
 /obj/structure/cable{
 	icon_state = "2-8"
 	},
@@ -11569,6 +11585,10 @@
 	},
 /obj/structure/cable{
 	icon_state = "0-8"
+	},
+/obj/machinery/door/poddoor/shutters/ship/preopen{
+	dir = 4;
+	id = "cmoshutter"
 	},
 /turf/open/floor/plating,
 /area/crew_quarters/heads/cmo)
@@ -12734,7 +12754,7 @@
 /area/crew_quarters/bar)
 "jda" = (
 /obj/machinery/conveyor{
-	dir = 4;
+	dir = 5;
 	id = "arrivals_baggage_claim";
 	operating = 1
 	},
@@ -14318,6 +14338,37 @@
 /obj/structure/table,
 /obj/structure/cable{
 	icon_state = "1-2"
+	},
+/obj/machinery/button/door{
+	desc = "A remote control switch for the medbay foyer.";
+	id = "pw_fd_outer";
+	name = "Brig Exterior Doors Control";
+	normaldoorcontrol = 1;
+	pixel_x = -5;
+	pixel_y = 8;
+	req_access_txt = "63"
+	},
+/obj/machinery/button/door{
+	desc = "A remote control switch for the medbay foyer.";
+	id = "pw_fd_inner";
+	name = "Brig Interior Doors Control";
+	normaldoorcontrol = 1;
+	pixel_x = -5;
+	pixel_y = -2;
+	req_access_txt = "63"
+	},
+/obj/machinery/button/door{
+	id = "briglockdown";
+	name = "Brig Lockdown Control";
+	pixel_x = 5;
+	pixel_y = 8
+	},
+/obj/machinery/button/door{
+	id = "brig shutters";
+	name = "Cell Window Control";
+	pixel_x = 5;
+	pixel_y = -2;
+	specialfunctions = 4
 	},
 /turf/open/floor/carpet/ship/red_carpet,
 /area/security/warden)
@@ -16817,6 +16868,9 @@
 /obj/structure/cable{
 	icon_state = "0-8"
 	},
+/obj/machinery/door/poddoor/ship/preopen{
+	id = "briglockdown"
+	},
 /turf/open/floor/plating,
 /area/security/warden)
 "lTm" = (
@@ -17177,7 +17231,8 @@
 	pixel_x = 6;
 	pixel_y = 6
 	},
-/obj/machinery/conveyor/inverted{
+/obj/machinery/conveyor{
+	dir = 9;
 	id = "arrivals_baggage_claim";
 	operating = 1
 	},
@@ -17774,6 +17829,9 @@
 	},
 /obj/structure/cable,
 /obj/effect/spawner/structure/window/reinforced,
+/obj/machinery/door/poddoor/ship/preopen{
+	id = "briglockdown"
+	},
 /turf/open/floor/plating,
 /area/security/warden)
 "mBQ" = (
@@ -18370,11 +18428,12 @@
 /area/crew_quarters/toilet/restrooms)
 "mUs" = (
 /obj/effect/spawner/structure/window/reinforced,
-/obj/machinery/door/poddoor/shutters/ship/preopen{
-	id = "cmoshutter"
-	},
 /obj/structure/cable{
 	icon_state = "0-4"
+	},
+/obj/machinery/door/poddoor/shutters/ship/preopen{
+	dir = 4;
+	id = "cmoshutter"
 	},
 /turf/open/floor/plating,
 /area/crew_quarters/heads/cmo)
@@ -19163,6 +19222,9 @@
 	req_one_access_txt = "3"
 	},
 /obj/machinery/door/window/southleft,
+/obj/machinery/door/poddoor/ship/preopen{
+	id = "briglockdown"
+	},
 /turf/open/floor/plating,
 /area/security/warden)
 "nwm" = (
@@ -22031,6 +22093,9 @@
 /obj/structure/cable{
 	icon_state = "2-4"
 	},
+/obj/machinery/door/poddoor/ship/preopen{
+	id = "brig shutters"
+	},
 /turf/open/floor/plating,
 /area/security/brig)
 "pJD" = (
@@ -23775,6 +23840,9 @@
 /obj/structure/cable{
 	icon_state = "4-8"
 	},
+/obj/machinery/door/poddoor/ship/preopen{
+	id = "brig shutters"
+	},
 /turf/open/floor/plating,
 /area/security/brig)
 "qOb" = (
@@ -24895,6 +24963,16 @@
 	color = "#99FF99"
 	},
 /area/medical/virology)
+"rJe" = (
+/obj/effect/spawner/structure/window/reinforced/ship,
+/obj/machinery/door/poddoor/shutters/ship/preopen{
+	dir = 4;
+	id = "ceshutter"
+	},
+/turf/open/floor/plating,
+/area/engine/engine_room/external{
+	name = "Stormdrive Interior"
+	})
 "rJi" = (
 /obj/machinery/portable_atmospherics/pump,
 /obj/machinery/camera/autoname{
@@ -26211,6 +26289,7 @@
 "sOv" = (
 /obj/effect/spawner/structure/window/reinforced,
 /obj/machinery/door/poddoor/shutters/ship/preopen{
+	dir = 4;
 	id = "cmoshutter"
 	},
 /obj/structure/cable{
@@ -26250,6 +26329,9 @@
 /obj/effect/spawner/structure/window/reinforced/ship,
 /obj/structure/cable{
 	icon_state = "0-8"
+	},
+/obj/machinery/door/poddoor/ship/preopen{
+	id = "brig shutters"
 	},
 /turf/open/floor/plating,
 /area/security/brig)
@@ -26597,6 +26679,7 @@
 /area/medical/medbay/central)
 "tdK" = (
 /obj/machinery/conveyor{
+	dir = 6;
 	id = "arrivals_baggage_claim";
 	operating = 1
 	},
@@ -27312,7 +27395,7 @@
 /obj/machinery/door/firedoor/border_only/directional/west,
 /obj/machinery/door/firedoor/border_only/directional/east,
 /obj/machinery/door/airlock/ship/security{
-	id_tag = "pw_fd_outer";
+	id_tag = "pw_fd_inner";
 	req_one_access_txt = "3;4;38;63"
 	},
 /turf/open/floor/carpet/ship,
@@ -28568,13 +28651,14 @@
 /area/medical/morgue)
 "uHC" = (
 /obj/effect/spawner/structure/window/reinforced,
-/obj/machinery/door/poddoor/shutters/ship/preopen{
-	id = "cmoshutter"
-	},
 /obj/structure/cable{
 	icon_state = "1-2"
 	},
 /obj/structure/cable,
+/obj/machinery/door/poddoor/shutters/ship/preopen{
+	dir = 4;
+	id = "cmoshutter"
+	},
 /turf/open/floor/plating,
 /area/crew_quarters/heads/cmo)
 "uHK" = (
@@ -30059,6 +30143,10 @@
 "vFY" = (
 /obj/effect/spawner/structure/window/reinforced,
 /obj/structure/cable,
+/obj/machinery/door/poddoor/ship/preopen{
+	dir = 4;
+	id = "briglockdown"
+	},
 /turf/open/floor/plating,
 /area/security/warden)
 "vGe" = (
@@ -30691,6 +30779,10 @@
 /obj/structure/cable{
 	icon_state = "0-4"
 	},
+/obj/machinery/door/poddoor/ship/preopen{
+	dir = 4;
+	id = "briglockdown"
+	},
 /turf/open/floor/plating,
 /area/security/warden)
 "wgR" = (
@@ -30749,7 +30841,7 @@
 /obj/machinery/door/firedoor/border_only/directional/west,
 /obj/machinery/door/firedoor/border_only/directional/east,
 /obj/machinery/door/airlock/ship/security{
-	id_tag = "pw_fd_outer";
+	id_tag = "pw_fd_inner";
 	req_one_access_txt = "3;4;38;63"
 	},
 /obj/machinery/atmospherics/pipe/simple/purple/hidden{
@@ -31804,6 +31896,10 @@
 	},
 /obj/item/paper{
 	info = "<p>Reminder that squad equipment vendors are located in the council chamber, tool storage, and that 4-way junction at the primary hallway, Deck 1</p>"
+	},
+/obj/machinery/door/poddoor/ship/preopen{
+	dir = 4;
+	id = "briglockdown"
 	},
 /turf/open/floor/plating,
 /area/security/warden)
@@ -54581,8 +54677,8 @@ fZX
 dch
 cxG
 fZX
-rKq
-rKq
+rJe
+rJe
 acZ
 acZ
 bTh
@@ -66145,7 +66241,7 @@ col
 lSq
 tdK
 kMh
-pzC
+byz
 vll
 qIM
 jex
