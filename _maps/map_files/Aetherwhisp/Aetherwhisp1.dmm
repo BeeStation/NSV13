@@ -691,10 +691,10 @@
 /turf/open/floor/carpet/ship/blue,
 /area/medical/patients_rooms/room_c)
 "awN" = (
-/obj/structure/lattice,
-/obj/structure/grille,
-/obj/structure/window/reinforced,
-/turf/open/space/basic,
+/obj/structure/hull_plate/end{
+	dir = 1
+	},
+/turf/open/floor/plating/airless,
 /area/space/nearstation)
 "awV" = (
 /obj/structure/chair/stool/bar,
@@ -1198,8 +1198,8 @@
 	dwidth = 3;
 	height = 15;
 	id = "arrivals_stationary";
-	name = "Deck 1 Arrivals Port";
-	roundstart_template = /datum/map_template/shuttle/arrival/box;
+	name = "Deck 2 Arrivals Port";
+	roundstart_template = /datum/map_template/shuttle/arrival/kilo;
 	width = 7
 	},
 /turf/open/space/basic,
@@ -2373,13 +2373,6 @@
 /obj/machinery/airalarm/directional/north,
 /turf/open/floor/wood,
 /area/security/execution/education)
-"byz" = (
-/obj/structure/lattice,
-/obj/structure/grille,
-/obj/structure/window/reinforced,
-/obj/machinery/door/firedoor/border_only/directional/south,
-/turf/open/space/basic,
-/area/space/nearstation)
 "byA" = (
 /obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1{
 	dir = 4
@@ -6415,7 +6408,7 @@
 /obj/machinery/door/firedoor/border_only/directional/north,
 /obj/machinery/door/firedoor/border_only/directional/south,
 /obj/machinery/door/airlock/ship/external/glass{
-	name = "External Access Deck 1 Starboard";
+	name = "External Access Deck 2 Starboard";
 	req_one_access_txt = "13"
 	},
 /turf/open/floor/plating,
@@ -8118,11 +8111,11 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /obj/machinery/door/firedoor/border_only/directional/north,
 /obj/machinery/door/firedoor/border_only/directional/south,
+/obj/machinery/atmospherics/pipe/simple/purple/hidden,
 /obj/machinery/door/airlock/ship/external/glass{
-	name = "External Access Deck 1 Starboard";
+	name = "External Access Deck 2 Starboard";
 	req_one_access_txt = "13"
 	},
-/obj/machinery/atmospherics/pipe/simple/purple/hidden,
 /turf/open/floor/plating,
 /area/maintenance/department/engine/atmos)
 "fDK" = (
@@ -9464,7 +9457,7 @@
 /area/medical/surgery)
 "gKb" = (
 /obj/machinery/door/airlock/ship/command{
-	name = "Deck 1 Generator";
+	name = "Gravity Generator Room";
 	req_one_access_txt = "10"
 	},
 /obj/machinery/door/firedoor/border_only/directional/west,
@@ -9555,7 +9548,7 @@
 "gOq" = (
 /obj/machinery/atmospherics/pipe/layer_manifold,
 /obj/machinery/door/airlock/ship/external/glass{
-	name = "External Access Deck 1 Port";
+	name = "External Access Deck 2 Port";
 	req_one_access_txt = "13"
 	},
 /turf/open/floor/plating,
@@ -16055,7 +16048,7 @@
 /obj/machinery/door/firedoor/border_only/directional/north,
 /obj/machinery/door/firedoor/border_only/directional/south,
 /obj/machinery/door/airlock/ship/external/glass{
-	name = "External Access Deck 1 Port";
+	name = "External Access Deck 2 Port";
 	req_one_access_txt = "13"
 	},
 /turf/open/floor/plating,
@@ -18915,8 +18908,7 @@
 /turf/open/floor/engine,
 /area/engine/engine_room)
 "noN" = (
-/obj/structure/hull_plate,
-/obj/structure/hull_plate,
+/obj/structure/hull_plate/end,
 /turf/open/floor/plating/airless,
 /area/space/nearstation)
 "npd" = (
@@ -20664,7 +20656,7 @@
 	icon_state = "4-8"
 	},
 /obj/machinery/door/airlock/ship/external/glass{
-	name = "External Access Deck 1 Arch";
+	name = "External Access Deck 2 Arch";
 	req_one_access_txt = "13"
 	},
 /turf/open/floor/plating,
@@ -22760,7 +22752,7 @@
 /area/chapel/main)
 "qia" = (
 /obj/machinery/door/airlock/ship/external/glass{
-	name = "External Access Deck 1 Starboard";
+	name = "External Access Deck 2 Starboard";
 	req_one_access_txt = "13"
 	},
 /turf/open/floor/plating,
@@ -25377,7 +25369,7 @@
 "saQ" = (
 /obj/machinery/atmospherics/pipe/layer_manifold,
 /obj/machinery/door/airlock/ship/external/glass{
-	name = "External Access Deck 1 Fore Port";
+	name = "External Access Deck 2 Fore Port";
 	req_one_access_txt = "2"
 	},
 /turf/open/floor/plating,
@@ -25759,11 +25751,11 @@
 /turf/open/floor/carpet,
 /area/crew_quarters/kitchen)
 "sqk" = (
-/obj/machinery/computer/prisoner{
-	dir = 8
-	},
 /obj/machinery/camera/autoname{
 	dir = 9
+	},
+/obj/machinery/computer/prisoner/management{
+	dir = 8
 	},
 /turf/open/floor/carpet/ship/red_carpet,
 /area/security/warden)
@@ -26202,7 +26194,7 @@
 /obj/machinery/door/firedoor/border_only/directional/north,
 /obj/machinery/door/firedoor/border_only/directional/south,
 /obj/machinery/door/airlock/ship/external/glass{
-	name = "External Access Deck 1 Starboard";
+	name = "External Access Deck 2 Starboard";
 	req_one_access_txt = "13"
 	},
 /turf/open/floor/plating,
@@ -27598,7 +27590,7 @@
 "tQJ" = (
 /obj/machinery/atmospherics/pipe/layer_manifold,
 /obj/machinery/door/airlock/ship/external/glass{
-	name = "External Access Deck 1 Starboard";
+	name = "External Access Deck 2 Starboard";
 	req_one_access_txt = "13"
 	},
 /turf/open/floor/plating,
@@ -27737,7 +27729,7 @@
 "tWo" = (
 /obj/machinery/atmospherics/pipe/layer_manifold,
 /obj/machinery/door/airlock/ship/external/glass{
-	name = "External Access Deck 1 Fore Starboard";
+	name = "External Access Deck 2 Fore Starboard";
 	req_one_access_txt = "13"
 	},
 /turf/open/floor/plating,
@@ -28011,7 +28003,7 @@
 	dir = 4
 	},
 /obj/machinery/door/airlock/ship/external/glass{
-	name = "External Access Deck 1 Arch";
+	name = "External Access Deck 2 Arch";
 	req_one_access_txt = "13"
 	},
 /obj/structure/cable/white{
@@ -28881,7 +28873,7 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /obj/machinery/door/airlock/ship/external/glass{
-	name = "External Access Deck 1 Fore Starboard";
+	name = "External Access Deck 2 Fore Starboard";
 	req_one_access_txt = "13"
 	},
 /turf/open/floor/plating,
@@ -31872,7 +31864,7 @@
 /obj/machinery/door/firedoor/border_only/directional/north,
 /obj/machinery/door/firedoor/border_only/directional/south,
 /obj/machinery/door/airlock/ship/external/glass{
-	name = "External Access Deck 1 Fore Port";
+	name = "External Access Deck 2 Fore Port";
 	req_one_access_txt = "2"
 	},
 /turf/open/floor/plating,
@@ -32380,7 +32372,7 @@
 /area/ai_monitored/security/armory/lockup)
 "xkN" = (
 /obj/machinery/door/airlock/ship/external/glass{
-	name = "External Access Deck 1 Starboard";
+	name = "External Access Deck 2 Starboard";
 	req_one_access_txt = "13"
 	},
 /turf/open/floor/plating,
@@ -48928,7 +48920,7 @@ drp
 drp
 drp
 drp
-atr
+awN
 atr
 aIO
 fZX
@@ -48992,7 +48984,7 @@ mBS
 fcp
 aIO
 atr
-atr
+noN
 drp
 drp
 drp
@@ -49185,7 +49177,7 @@ drp
 drp
 drp
 drp
-atr
+awN
 atr
 mjO
 aae
@@ -49249,7 +49241,7 @@ uPR
 xxr
 cxm
 atr
-atr
+noN
 drp
 drp
 drp
@@ -49442,7 +49434,7 @@ drp
 drp
 drp
 drp
-atr
+awN
 atr
 icn
 oeJ
@@ -49506,7 +49498,7 @@ azc
 eOj
 aIO
 atr
-atr
+noN
 drp
 drp
 drp
@@ -49699,7 +49691,7 @@ drp
 drp
 drp
 drp
-atr
+awN
 atr
 mjO
 aae
@@ -49763,7 +49755,7 @@ uPR
 xxr
 cxm
 atr
-atr
+noN
 drp
 drp
 drp
@@ -49956,7 +49948,7 @@ drp
 drp
 drp
 drp
-atr
+awN
 atr
 icn
 oeJ
@@ -50020,7 +50012,7 @@ azc
 eOj
 aIO
 atr
-atr
+noN
 drp
 drp
 drp
@@ -50213,7 +50205,7 @@ drp
 drp
 drp
 drp
-atr
+awN
 atr
 mjO
 aae
@@ -50277,7 +50269,7 @@ uPR
 xxr
 cxm
 atr
-atr
+noN
 drp
 drp
 drp
@@ -50470,7 +50462,7 @@ drp
 drp
 drp
 drp
-atr
+awN
 atr
 aIO
 fZX
@@ -50534,7 +50526,7 @@ azc
 fcp
 aIO
 atr
-atr
+noN
 drp
 drp
 drp
@@ -50727,7 +50719,7 @@ drp
 drp
 drp
 drp
-atr
+awN
 atr
 atr
 fZX
@@ -50791,7 +50783,7 @@ azc
 fcp
 atr
 atr
-atr
+noN
 drp
 drp
 drp
@@ -50984,7 +50976,7 @@ drp
 drp
 drp
 drp
-atr
+awN
 atr
 atr
 fZX
@@ -51048,7 +51040,7 @@ azc
 fcp
 atr
 atr
-atr
+noN
 drp
 drp
 drp
@@ -51241,7 +51233,7 @@ drp
 drp
 drp
 drp
-atr
+awN
 atr
 atr
 fZX
@@ -51305,7 +51297,7 @@ azc
 fcp
 atr
 atr
-atr
+noN
 drp
 drp
 drp
@@ -51498,7 +51490,7 @@ drp
 drp
 drp
 drp
-atr
+awN
 atr
 atr
 fZX
@@ -51562,7 +51554,7 @@ azc
 fcp
 atr
 atr
-atr
+noN
 drp
 drp
 drp
@@ -51755,7 +51747,7 @@ drp
 drp
 drp
 drp
-atr
+awN
 atr
 atr
 fZX
@@ -51819,7 +51811,7 @@ btl
 fcp
 atr
 atr
-atr
+noN
 drp
 drp
 drp
@@ -52012,7 +52004,7 @@ drp
 drp
 drp
 drp
-atr
+awN
 atr
 atr
 fZX
@@ -52076,7 +52068,7 @@ azc
 fcp
 atr
 atr
-atr
+noN
 drp
 drp
 drp
@@ -52269,7 +52261,7 @@ drp
 drp
 drp
 drp
-atr
+awN
 atr
 atr
 fZX
@@ -52333,7 +52325,7 @@ azc
 fcp
 atr
 atr
-atr
+noN
 drp
 drp
 drp
@@ -52526,7 +52518,7 @@ drp
 drp
 drp
 drp
-atr
+awN
 atr
 atr
 fZX
@@ -52590,7 +52582,7 @@ tOt
 fcp
 atr
 atr
-atr
+noN
 drp
 drp
 drp
@@ -52783,7 +52775,7 @@ drp
 drp
 drp
 drp
-atr
+awN
 atr
 atr
 fZX
@@ -52847,7 +52839,7 @@ llX
 fcp
 atr
 atr
-atr
+noN
 drp
 drp
 drp
@@ -53040,7 +53032,7 @@ drp
 drp
 drp
 drp
-atr
+awN
 atr
 atr
 fZX
@@ -53104,7 +53096,7 @@ qMe
 fcp
 atr
 atr
-atr
+noN
 drp
 drp
 drp
@@ -53297,7 +53289,7 @@ drp
 drp
 drp
 drp
-atr
+awN
 atr
 atr
 fZX
@@ -53361,7 +53353,7 @@ llX
 fcp
 atr
 atr
-atr
+noN
 drp
 drp
 drp
@@ -53554,7 +53546,7 @@ drp
 drp
 drp
 drp
-atr
+awN
 atr
 atr
 fZX
@@ -53618,7 +53610,7 @@ llX
 eav
 atr
 atr
-atr
+noN
 drp
 drp
 drp
@@ -53811,7 +53803,7 @@ drp
 drp
 drp
 drp
-atr
+awN
 atr
 atr
 fZX
@@ -53875,7 +53867,7 @@ llX
 fcp
 atr
 atr
-atr
+noN
 drp
 drp
 drp
@@ -54068,7 +54060,7 @@ drp
 drp
 drp
 drp
-atr
+awN
 atr
 atr
 fZX
@@ -54132,7 +54124,7 @@ fsy
 fcp
 atr
 atr
-atr
+noN
 drp
 drp
 drp
@@ -54325,7 +54317,7 @@ drp
 drp
 drp
 drp
-atr
+awN
 atr
 atr
 fZX
@@ -54389,7 +54381,7 @@ llX
 fcp
 atr
 atr
-atr
+noN
 drp
 drp
 drp
@@ -54583,7 +54575,7 @@ drp
 drp
 drp
 drp
-atr
+awN
 atr
 fZX
 dch
@@ -54645,7 +54637,7 @@ vWz
 sLc
 fcp
 atr
-atr
+noN
 drp
 drp
 drp
@@ -54840,7 +54832,7 @@ drp
 drp
 drp
 drp
-atr
+awN
 atr
 fZX
 vcT
@@ -54902,7 +54894,7 @@ llX
 dac
 fcp
 atr
-atr
+noN
 drp
 drp
 drp
@@ -55097,7 +55089,7 @@ drp
 drp
 drp
 drp
-atr
+awN
 atr
 fZX
 vcT
@@ -55159,7 +55151,7 @@ rdx
 xWq
 fcp
 atr
-atr
+noN
 drp
 drp
 drp
@@ -55354,7 +55346,7 @@ drp
 drp
 drp
 drp
-atr
+awN
 atr
 fZX
 aLW
@@ -55416,7 +55408,7 @@ llX
 qJx
 fcp
 atr
-atr
+noN
 drp
 drp
 drp
@@ -55611,7 +55603,7 @@ drp
 drp
 drp
 drp
-atr
+awN
 atr
 fZX
 dmx
@@ -55673,7 +55665,7 @@ llX
 xWq
 fcp
 atr
-atr
+noN
 drp
 drp
 drp
@@ -55868,7 +55860,7 @@ drp
 drp
 drp
 drp
-atr
+awN
 atr
 fZX
 yca
@@ -55930,7 +55922,7 @@ kGP
 kSa
 fcp
 atr
-atr
+noN
 drp
 drp
 drp
@@ -56125,7 +56117,7 @@ drp
 drp
 drp
 drp
-atr
+awN
 atr
 fZX
 qDt
@@ -56187,7 +56179,7 @@ akq
 xWq
 fcp
 atr
-atr
+noN
 drp
 drp
 drp
@@ -56382,7 +56374,7 @@ drp
 drp
 drp
 drp
-atr
+awN
 cvp
 fZX
 isN
@@ -56444,7 +56436,7 @@ bvN
 xWq
 fcp
 atr
-atr
+noN
 drp
 drp
 drp
@@ -56639,7 +56631,7 @@ drp
 drp
 drp
 drp
-atr
+awN
 atr
 fZX
 elW
@@ -56701,7 +56693,7 @@ xWq
 qJx
 fcp
 atr
-atr
+noN
 drp
 drp
 drp
@@ -56896,7 +56888,7 @@ drp
 drp
 drp
 drp
-atr
+awN
 atr
 fZX
 yca
@@ -56958,7 +56950,7 @@ xWq
 iKc
 fcp
 atr
-atr
+noN
 drp
 drp
 drp
@@ -64084,7 +64076,7 @@ drp
 drp
 drp
 drp
-aIO
+drp
 drp
 drp
 drp
@@ -64341,7 +64333,7 @@ drp
 drp
 drp
 drp
-awN
+drp
 drp
 drp
 drp
@@ -64598,14 +64590,14 @@ drp
 drp
 drp
 drp
-byz
-rnP
-rnP
-rnP
-rnP
-rnP
-rnP
-rnP
+drp
+drp
+drp
+drp
+drp
+drp
+drp
+drp
 jGa
 qIn
 kEW
@@ -64855,11 +64847,11 @@ drp
 drp
 drp
 drp
-awN
 drp
 drp
 drp
-rnP
+drp
+drp
 drp
 drp
 drp
@@ -65112,11 +65104,11 @@ drp
 drp
 drp
 drp
-aIO
 drp
 drp
 drp
-rnP
+drp
+drp
 drp
 drp
 drp
@@ -65369,11 +65361,11 @@ drp
 drp
 drp
 drp
-aIO
 drp
 drp
 drp
-rnP
+drp
+drp
 drp
 drp
 drp
@@ -65626,11 +65618,11 @@ drp
 drp
 drp
 drp
-aIO
 drp
 drp
 drp
-rnP
+drp
+drp
 drp
 drp
 drp
@@ -65883,11 +65875,11 @@ drp
 drp
 drp
 drp
-aIO
 drp
 drp
 drp
-rnP
+drp
+drp
 drp
 drp
 drp
@@ -66140,11 +66132,11 @@ drp
 drp
 drp
 drp
-awN
 drp
 drp
 drp
-rnP
+drp
+drp
 drp
 drp
 drp
@@ -66397,14 +66389,14 @@ drp
 drp
 drp
 drp
-byz
-rnP
-rnP
-rnP
-rnP
-rnP
-rnP
-rnP
+drp
+drp
+drp
+drp
+drp
+drp
+drp
+drp
 jGa
 ctT
 kEW
@@ -66654,7 +66646,7 @@ drp
 drp
 drp
 drp
-awN
+drp
 drp
 drp
 drp
@@ -66911,7 +66903,7 @@ drp
 drp
 drp
 drp
-aIO
+drp
 drp
 drp
 drp
@@ -67433,7 +67425,7 @@ drp
 drp
 drp
 drp
-atr
+awN
 atr
 eXv
 bWv
@@ -67690,7 +67682,7 @@ drp
 drp
 drp
 drp
-atr
+awN
 fyD
 eXv
 fTT
@@ -67752,7 +67744,7 @@ bmf
 vqt
 iLN
 atr
-atr
+noN
 drp
 drp
 drp
@@ -67947,7 +67939,7 @@ drp
 drp
 drp
 drp
-atr
+awN
 fyD
 eXv
 vzU
@@ -68009,7 +68001,7 @@ vsf
 pQv
 trj
 atr
-atr
+noN
 drp
 drp
 drp
@@ -68204,7 +68196,7 @@ drp
 drp
 drp
 drp
-atr
+awN
 fyD
 eXv
 sRt
@@ -68461,7 +68453,7 @@ drp
 drp
 drp
 drp
-atr
+awN
 atr
 eXv
 eXv
@@ -68718,7 +68710,7 @@ drp
 drp
 drp
 drp
-atr
+awN
 atr
 icn
 pJt
@@ -68975,7 +68967,7 @@ drp
 drp
 drp
 drp
-atr
+awN
 atr
 icn
 qNy
@@ -69232,7 +69224,7 @@ drp
 drp
 drp
 drp
-atr
+awN
 atr
 icn
 sQH
@@ -69489,7 +69481,7 @@ drp
 drp
 drp
 drp
-atr
+awN
 atr
 mjO
 snG
@@ -69746,7 +69738,7 @@ drp
 drp
 drp
 drp
-atr
+awN
 atr
 icn
 ayN
@@ -70003,7 +69995,7 @@ drp
 drp
 drp
 drp
-atr
+awN
 atr
 icn
 qNy
@@ -70260,7 +70252,7 @@ drp
 drp
 drp
 drp
-atr
+awN
 atr
 icn
 sQH
@@ -70517,7 +70509,7 @@ drp
 drp
 drp
 drp
-atr
+awN
 atr
 mjO
 snG
@@ -70774,7 +70766,7 @@ drp
 drp
 drp
 drp
-atr
+awN
 atr
 icn
 pJt
@@ -71031,7 +71023,7 @@ drp
 drp
 eLi
 drp
-atr
+awN
 atr
 icn
 qNy
@@ -71288,7 +71280,7 @@ drp
 drp
 drp
 drp
-atr
+awN
 atr
 icn
 sQH
@@ -71545,7 +71537,7 @@ drp
 drp
 drp
 drp
-atr
+awN
 atr
 mjO
 snG
@@ -71802,7 +71794,7 @@ drp
 drp
 drp
 drp
-atr
+awN
 atr
 icn
 pJt
@@ -72059,7 +72051,7 @@ drp
 drp
 drp
 drp
-atr
+awN
 atr
 icn
 qNy
@@ -72316,7 +72308,7 @@ drp
 drp
 drp
 drp
-atr
+awN
 atr
 icn
 sQH
@@ -72573,7 +72565,7 @@ drp
 drp
 drp
 drp
-atr
+awN
 atr
 wLO
 wLO
@@ -72830,7 +72822,7 @@ drp
 drp
 drp
 drp
-atr
+awN
 atr
 wLO
 bBq
@@ -73087,7 +73079,7 @@ drp
 drp
 drp
 drp
-atr
+awN
 fyD
 wLO
 cZt
@@ -73344,7 +73336,7 @@ drp
 drp
 drp
 drp
-atr
+awN
 fyD
 wLO
 ehh
@@ -73601,7 +73593,7 @@ drp
 drp
 drp
 drp
-atr
+awN
 fyD
 wLO
 eoz
@@ -73858,7 +73850,7 @@ drp
 drp
 drp
 drp
-atr
+awN
 bWG
 wLO
 fbW
@@ -74115,7 +74107,7 @@ drp
 drp
 drp
 drp
-atr
+awN
 fyD
 wLO
 ffw
@@ -74372,7 +74364,7 @@ drp
 drp
 drp
 drp
-atr
+awN
 fyD
 wLO
 foi
@@ -74629,7 +74621,7 @@ drp
 drp
 drp
 drp
-atr
+awN
 fyD
 wLO
 fFJ
@@ -74886,7 +74878,7 @@ drp
 drp
 drp
 drp
-atr
+awN
 atr
 uhH
 uhH
@@ -74948,7 +74940,7 @@ vNp
 wYY
 mvd
 fyD
-atr
+noN
 drp
 drp
 drp
@@ -75143,7 +75135,7 @@ drp
 drp
 drp
 drp
-atr
+awN
 fyD
 uhH
 fGx
@@ -75205,7 +75197,7 @@ vNp
 wYY
 mvd
 fyD
-atr
+noN
 drp
 drp
 drp
@@ -75400,7 +75392,7 @@ drp
 drp
 drp
 drp
-atr
+awN
 fyD
 uhH
 fGx
@@ -75462,7 +75454,7 @@ vNp
 wYY
 mvd
 fyD
-atr
+noN
 drp
 drp
 drp
@@ -75657,7 +75649,7 @@ drp
 drp
 drp
 drp
-atr
+awN
 fyD
 uhH
 fGx
