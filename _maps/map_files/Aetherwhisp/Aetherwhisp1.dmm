@@ -4865,16 +4865,6 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/department/medical)
-"dqP" = (
-/obj/effect/spawner/structure/window/reinforced/ship,
-/obj/machinery/door/poddoor/shutters/ship/preopen{
-	dir = 4;
-	id = "ceshutter"
-	},
-/turf/open/floor/plating,
-/area/engine/engine_room/external{
-	name = "Stormdrive Interior"
-	})
 "drc" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer1{
 	dir = 1
@@ -6215,6 +6205,10 @@
 /area/security/main{
 	name = "Security War Room"
 	})
+"ekq" = (
+/obj/machinery/airalarm/directional/south,
+/turf/open/floor/carpet/ship/blue,
+/area/medical/patients_rooms/room_d)
 "ekt" = (
 /obj/machinery/firealarm/directional/west,
 /turf/open/floor/carpet/ship/red_carpet,
@@ -7323,6 +7317,10 @@
 	},
 /turf/open/floor/carpet/ship,
 /area/shuttle/turbolift/secondary)
+"eZY" = (
+/obj/machinery/airalarm/directional/south,
+/turf/open/floor/plating,
+/area/maintenance/department/security)
 "faJ" = (
 /obj/effect/spawner/structure/window/reinforced,
 /obj/structure/cable{
@@ -7457,6 +7455,13 @@
 	},
 /turf/open/floor/engine/n2,
 /area/engine/atmos)
+"fey" = (
+/obj/effect/spawner/structure/window/reinforced/ship,
+/obj/machinery/door/poddoor/shutters/ship/preopen{
+	id = "chapel_shutters_space"
+	},
+/turf/open/floor/plating,
+/area/chapel/main)
 "feG" = (
 /obj/structure/closet/radiation,
 /obj/item/clothing/mask/gas,
@@ -7474,6 +7479,10 @@
 "ffF" = (
 /obj/structure/table/wood,
 /obj/machinery/light,
+/obj/item/reagent_containers/food/snacks/grown/poppy{
+	pixel_x = 3;
+	pixel_y = 3
+	},
 /obj/item/reagent_containers/food/snacks/grown/poppy,
 /turf/open/floor/carpet/royalblack,
 /area/chapel/main)
@@ -10040,6 +10049,7 @@
 /obj/structure/cable/yellow{
 	icon_state = "4-8"
 	},
+/obj/machinery/airalarm/directional/north,
 /turf/open/floor/carpet/ship/red_carpet,
 /area/security/checkpoint/escape)
 "hbR" = (
@@ -10485,6 +10495,7 @@
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer1{
 	dir = 1
 	},
+/obj/machinery/airalarm/directional/east,
 /turf/open/floor/carpet/ship/blue,
 /area/medical/patients_rooms/room_c)
 "hvY" = (
@@ -11358,7 +11369,6 @@
 	dir = 4;
 	name = "starmap console"
 	},
-/obj/item/reagent_containers/food/snacks/grown/poppy/lily,
 /turf/open/floor/carpet/royalblack,
 /area/chapel/main)
 "iep" = (
@@ -12315,6 +12325,17 @@
 	},
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/engine/storage)
+"iMP" = (
+/obj/structure/table/wood,
+/obj/item/paper_bin,
+/obj/machinery/button/door{
+	id = "chapel_shutters_space";
+	name = "chapel shutters control";
+	pixel_x = -6;
+	pixel_y = -25
+	},
+/turf/open/floor/wood,
+/area/chapel/main)
 "iMR" = (
 /obj/structure/cable/yellow{
 	icon_state = "4-8"
@@ -14523,6 +14544,11 @@
 	},
 /turf/open/floor/carpet/ship/red_carpet,
 /area/crew_quarters/heads/hos)
+"kpS" = (
+/obj/structure/table/wood,
+/obj/item/reagent_containers/food/snacks/grown/poppy/lily,
+/turf/open/floor/carpet/royalblack,
+/area/chapel/main)
 "kqi" = (
 /obj/machinery/atmospherics/pipe/manifold/yellow/visible{
 	dir = 4
@@ -18920,6 +18946,7 @@
 /obj/item/instrument/eguitar,
 /obj/item/paper/guides/jobs/security/range,
 /obj/machinery/firealarm/directional/west,
+/obj/machinery/airalarm/directional/north,
 /turf/open/floor/carpet/ship/red_carpet,
 /area/ai_monitored/security/armory/lockup)
 "nmC" = (
@@ -21288,6 +21315,14 @@
 	},
 /turf/closed/wall/r_wall/ship,
 /area/maintenance/department/medical)
+"pbZ" = (
+/obj/effect/spawner/structure/window/reinforced/ship,
+/obj/machinery/door/poddoor/shutters/ship/preopen{
+	dir = 4;
+	id = "chapel_shutters_space"
+	},
+/turf/open/floor/plating,
+/area/chapel/main)
 "pcq" = (
 /obj/structure/cable{
 	icon_state = "1-2"
@@ -23138,6 +23173,7 @@
 	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3,
+/obj/machinery/airalarm/directional/west,
 /turf/open/floor/carpet/ship/blue,
 /area/medical/patients_rooms/room_a)
 "qrE" = (
@@ -25411,6 +25447,16 @@
 /obj/item/cartridge/medical,
 /turf/open/floor/carpet/ship/blue,
 /area/medical/storage)
+"saz" = (
+/obj/effect/spawner/structure/window/reinforced/ship,
+/obj/machinery/door/poddoor/shutters/ship/preopen{
+	dir = 4;
+	id = "ceshutter"
+	},
+/turf/open/floor/plating,
+/area/engine/engine_room/external{
+	name = "Stormdrive Interior"
+	})
 "saD" = (
 /obj/structure/table/glass,
 /obj/item/storage/fancy/donut_box,
@@ -25706,6 +25752,7 @@
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3{
 	dir = 1
 	},
+/obj/machinery/airalarm/directional/west,
 /turf/open/floor/carpet/ship/blue,
 /area/medical/patients_rooms/room_c)
 "skM" = (
@@ -26113,6 +26160,9 @@
 /area/engine/engine_smes)
 "sGU" = (
 /obj/effect/spawner/structure/window/reinforced/ship,
+/obj/machinery/door/poddoor/shutters/ship/preopen{
+	id = "chapel_shutters_space"
+	},
 /turf/open/floor/plating,
 /area/chapel/office)
 "sHv" = (
@@ -27517,6 +27567,7 @@
 "tLz" = (
 /obj/machinery/iv_drip,
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer1,
+/obj/machinery/airalarm/directional/east,
 /turf/open/floor/carpet/ship/blue,
 /area/medical/patients_rooms/room_a)
 "tLE" = (
@@ -30061,6 +30112,7 @@
 /area/engine/atmos)
 "vDE" = (
 /obj/machinery/computer/crew,
+/obj/machinery/airalarm/directional/east,
 /turf/open/floor/carpet/ship/red_carpet,
 /area/security/checkpoint/medical)
 "vDM" = (
@@ -33967,6 +34019,10 @@
 /obj/machinery/newscaster/directional/west,
 /turf/open/floor/plating,
 /area/security/prison)
+"yjQ" = (
+/obj/machinery/airalarm/directional/north,
+/turf/open/floor/carpet/ship/blue,
+/area/medical/patients_rooms/room_b)
 "yjR" = (
 /obj/structure/cable{
 	icon_state = "4-8"
@@ -54677,8 +54733,8 @@ fZX
 dch
 cxG
 fZX
-dqP
-dqP
+saz
+saz
 acZ
 acZ
 bTh
@@ -61664,7 +61720,7 @@ wnw
 mVk
 tJL
 lYW
-eoO
+iMP
 jBW
 aIO
 drp
@@ -61922,7 +61978,7 @@ mVk
 mVk
 iEN
 mVk
-fMV
+fey
 icn
 drp
 drp
@@ -62179,7 +62235,7 @@ eoO
 mVk
 iEN
 ojk
-fMV
+fey
 icn
 drp
 drp
@@ -62436,7 +62492,7 @@ mVk
 lNi
 uQl
 lNi
-fMV
+fey
 icn
 aIO
 drp
@@ -63207,7 +63263,7 @@ wEc
 jhM
 foC
 fKi
-fMV
+fey
 icn
 drp
 drp
@@ -63464,7 +63520,7 @@ mVk
 lNi
 uQl
 lNi
-fMV
+fey
 icn
 drp
 drp
@@ -63721,7 +63777,7 @@ wEc
 jhM
 foC
 fKi
-fMV
+fey
 icn
 drp
 drp
@@ -64237,8 +64293,8 @@ foC
 fKi
 jBW
 jBW
-fMV
-fMV
+pbZ
+pbZ
 jBW
 uzR
 jBW
@@ -65006,7 +65062,7 @@ mVk
 lNi
 uQl
 ieg
-gdT
+kpS
 gdT
 gdT
 bAp
@@ -71656,7 +71712,7 @@ oZp
 xSb
 jGf
 eaE
-eaE
+eZY
 oZp
 lGF
 dCv
@@ -73471,7 +73527,7 @@ nGw
 nGw
 mLU
 ksS
-hIk
+yjQ
 ikd
 ybo
 uDi
@@ -73483,7 +73539,7 @@ rxk
 tYt
 xzn
 kCK
-onY
+ekq
 pQv
 qzL
 pvR
