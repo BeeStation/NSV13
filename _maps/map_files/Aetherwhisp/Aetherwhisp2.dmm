@@ -436,6 +436,12 @@
 	},
 /turf/open/floor/carpet/ship/purple_carpet,
 /area/medical/genetics)
+"aqf" = (
+/obj/structure/hull_plate/end{
+	dir = 1
+	},
+/turf/open/floor/plating/airless,
+/area/space/nearstation)
 "aqk" = (
 /obj/structure/cable{
 	icon_state = "4-8"
@@ -2130,6 +2136,10 @@
 /obj/machinery/door/window/westleft,
 /obj/machinery/door/window/eastright{
 	req_one_access_txt = "29"
+	},
+/obj/machinery/door/poddoor/shutters/ship/preopen{
+	dir = 4;
+	id = "robotics_shutters"
 	},
 /turf/open/floor/plating,
 /area/science/robotics/lab)
@@ -3950,11 +3960,14 @@
 /area/crew_quarters/dorms)
 "cQJ" = (
 /obj/machinery/recharge_station,
-/obj/structure/extinguisher_cabinet/west,
 /obj/structure/cable{
 	icon_state = "1-2"
 	},
 /obj/effect/landmark/start/cyborg,
+/obj/machinery/power/apc/auto_name/west,
+/obj/structure/cable{
+	icon_state = "0-2"
+	},
 /turf/open/floor/carpet/ship/purple_carpet,
 /area/science/robotics/lab)
 "cRy" = (
@@ -5072,12 +5085,6 @@
 	},
 /turf/open/floor/plating,
 /area/crew_quarters/heads/captain)
-"dNM" = (
-/obj/structure/hull_plate/end{
-	dir = 1
-	},
-/turf/open/floor/plating/airless,
-/area/space/nearstation)
 "dOf" = (
 /turf/closed/wall/r_wall/ship,
 /area/quartermaster/storage)
@@ -7028,7 +7035,7 @@
 /obj/machinery/door/firedoor/border_only/directional/north,
 /obj/machinery/door/firedoor/border_only/directional/south,
 /obj/machinery/door/airlock/ship/station/research{
-	name = "Robotics";
+	name = "Robotics Lab";
 	req_one_access_txt = "29"
 	},
 /obj/structure/disposalpipe/segment,
@@ -7197,6 +7204,13 @@
 /obj/structure/cable{
 	icon_state = "1-2"
 	},
+/obj/machinery/button/door{
+	id = "robotics_shutters";
+	name = "robotics shutters control";
+	pixel_x = -26;
+	pixel_y = 26;
+	req_access_txt = "29"
+	},
 /turf/open/floor/carpet/ship/purple_carpet,
 /area/science/robotics/lab)
 "fyA" = (
@@ -7237,6 +7251,7 @@
 /obj/item/hemostat,
 /obj/item/retractor,
 /obj/item/cautery,
+/obj/structure/extinguisher_cabinet/south,
 /turf/open/floor/carpet/ship/purple_carpet,
 /area/science/robotics/lab)
 "fBc" = (
@@ -7613,7 +7628,6 @@
 /obj/item/folder/white{
 	pixel_x = 4
 	},
-/obj/structure/cable,
 /obj/structure/cable/yellow{
 	icon_state = "4-8"
 	},
@@ -9138,17 +9152,6 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/department/science/xenobiology)
-"hjm" = (
-/obj/effect/spawner/structure/window/reinforced/ship,
-/obj/structure/cable{
-	icon_state = "0-8"
-	},
-/obj/machinery/door/poddoor/shutters/ship/preopen{
-	dir = 4;
-	id = "tcommsatshutter"
-	},
-/turf/open/floor/plating,
-/area/science/server)
 "hjD" = (
 /obj/structure/chair{
 	dir = 8
@@ -10141,13 +10144,6 @@
 	name = "nanoweave carpet (puce)"
 	},
 /area/nsv/weapons/fore)
-"icT" = (
-/obj/effect/spawner/structure/window/reinforced/ship,
-/obj/machinery/door/poddoor/shutters/ship/preopen{
-	id = "cabin2_privacy"
-	},
-/turf/open/floor/plating,
-/area/crew_quarters/dorms)
 "idc" = (
 /obj/structure/cable{
 	icon_state = "4-8"
@@ -11113,6 +11109,10 @@
 /obj/machinery/door/window/eastright,
 /obj/item/paper{
 	info = "<p>Reminder that squad equipment vendors are located in the council chamber, tool storage, and that 4-way junction at the primary hallway, Deck 1</p>"
+	},
+/obj/machinery/door/poddoor/shutters/ship/preopen{
+	dir = 4;
+	id = "research_shutters"
 	},
 /turf/open/floor/plating,
 /area/science/lab)
@@ -12612,9 +12612,6 @@
 /obj/structure/chair/office/light{
 	dir = 8
 	},
-/obj/structure/cable{
-	icon_state = "2-4"
-	},
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer1{
 	dir = 4
 	},
@@ -13189,6 +13186,13 @@
 	name = "nanoweave carpet (bluer)"
 	},
 /area/bridge/showroom/corporate)
+"kMq" = (
+/obj/effect/spawner/structure/window/reinforced/ship,
+/obj/machinery/door/poddoor/shutters/ship/preopen{
+	id = "cabin2_privacy"
+	},
+/turf/open/floor/plating,
+/area/crew_quarters/dorms)
 "kNU" = (
 /obj/structure/chair,
 /turf/open/floor/carpet/ship,
@@ -14231,6 +14235,10 @@
 /obj/machinery/door/window/eastleft{
 	req_one_access_txt = "29"
 	},
+/obj/machinery/door/poddoor/shutters/ship/preopen{
+	dir = 4;
+	id = "robotics_shutters"
+	},
 /turf/open/floor/plating,
 /area/science/robotics/lab)
 "lJb" = (
@@ -15152,6 +15160,17 @@
 	name = "nanoweave carpet (bluer)"
 	},
 /area/ai_monitored/storage/eva)
+"mvU" = (
+/obj/effect/spawner/structure/window/reinforced/ship,
+/obj/structure/cable{
+	icon_state = "0-8"
+	},
+/obj/machinery/door/poddoor/shutters/ship/preopen{
+	dir = 4;
+	id = "tcommsatshutter"
+	},
+/turf/open/floor/plating,
+/area/science/server)
 "mwE" = (
 /obj/machinery/door/firedoor/border_only/directional/west,
 /obj/machinery/door/firedoor/border_only/directional/east,
@@ -15654,12 +15673,8 @@
 /obj/machinery/light{
 	dir = 8
 	},
-/obj/machinery/power/apc/auto_name/west,
 /obj/structure/cable{
 	icon_state = "1-2"
-	},
-/obj/structure/cable{
-	icon_state = "0-2"
 	},
 /turf/open/floor/carpet/ship/purple_carpet,
 /area/science/robotics/lab)
@@ -17198,13 +17213,6 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/department/cargo)
-"oih" = (
-/obj/effect/spawner/structure/window/reinforced/ship,
-/obj/machinery/door/poddoor/shutters/ship/preopen{
-	id = "cabin1_privacy"
-	},
-/turf/open/floor/plating,
-/area/crew_quarters/dorms)
 "oij" = (
 /obj/machinery/door/poddoor/shutters/ship{
 	id = "cargo_exterior"
@@ -18082,6 +18090,10 @@
 /obj/effect/spawner/structure/window/reinforced,
 /obj/structure/cable{
 	icon_state = "0-8"
+	},
+/obj/machinery/door/poddoor/shutters/ship/preopen{
+	dir = 1;
+	id = "robotics_shutters"
 	},
 /turf/open/floor/plating,
 /area/science/robotics/lab)
@@ -21537,6 +21549,10 @@
 	req_one_access_txt = "7;9;47"
 	},
 /obj/machinery/door/window/eastleft,
+/obj/machinery/door/poddoor/shutters/ship/preopen{
+	dir = 4;
+	id = "research_shutters"
+	},
 /turf/open/floor/plating,
 /area/science/lab)
 "rKr" = (
@@ -24242,7 +24258,8 @@
 	id = "toxgun_interior";
 	name = "Toxins Interior Blast Door";
 	pixel_x = 6;
-	pixel_y = -26
+	pixel_y = -26;
+	req_one_access_txt = "7"
 	},
 /turf/open/floor/carpet/ship/purple_carpet,
 /area/science/mixing)
@@ -24308,6 +24325,10 @@
 	},
 /obj/structure/cable{
 	icon_state = "4-8"
+	},
+/obj/machinery/door/poddoor/shutters/ship/preopen{
+	dir = 1;
+	id = "robotics_shutters"
 	},
 /turf/open/floor/plating,
 /area/science/robotics/lab)
@@ -24665,6 +24686,13 @@
 	},
 /turf/open/floor/carpet/ship/purple_carpet,
 /area/science/lab)
+"uhB" = (
+/obj/effect/spawner/structure/window/reinforced/ship,
+/obj/machinery/door/poddoor/shutters/ship/preopen{
+	id = "cabin1_privacy"
+	},
+/turf/open/floor/plating,
+/area/crew_quarters/dorms)
 "uhN" = (
 /obj/structure/rack,
 /obj/item/shovel{
@@ -26002,6 +26030,10 @@
 "vru" = (
 /obj/structure/closet/emcloset,
 /obj/item/storage/toolbox/emergency,
+/obj/machinery/button/door{
+	id = "research_shutters";
+	pixel_y = -30
+	},
 /turf/open/floor/carpet/ship/purple_carpet,
 /area/science/lab)
 "vrD" = (
@@ -26411,6 +26443,10 @@
 	},
 /obj/structure/cable{
 	icon_state = "0-2"
+	},
+/obj/machinery/door/poddoor/shutters/ship/preopen{
+	dir = 1;
+	id = "robotics_shutters"
 	},
 /turf/open/floor/plating,
 /area/science/robotics/lab)
@@ -44621,7 +44657,7 @@ nZT
 nZT
 nZT
 nZT
-dNM
+aqf
 aee
 sdP
 iMh
@@ -44878,7 +44914,7 @@ nZT
 nZT
 nZT
 nZT
-dNM
+aqf
 aee
 hvg
 axG
@@ -45135,7 +45171,7 @@ nZT
 nZT
 nZT
 nZT
-dNM
+aqf
 aee
 hbT
 ptx
@@ -45392,7 +45428,7 @@ nZT
 nZT
 nZT
 nZT
-dNM
+aqf
 aee
 hvg
 axG
@@ -45649,7 +45685,7 @@ nZT
 nZT
 nZT
 nZT
-dNM
+aqf
 aee
 hbT
 ptx
@@ -45906,7 +45942,7 @@ nZT
 nZT
 nZT
 nZT
-dNM
+aqf
 aee
 hvg
 axG
@@ -46163,7 +46199,7 @@ nZT
 nZT
 nZT
 nZT
-dNM
+aqf
 aee
 aee
 iMh
@@ -46420,7 +46456,7 @@ nZT
 nZT
 nZT
 nZT
-dNM
+aqf
 aee
 aee
 iMh
@@ -46677,7 +46713,7 @@ nZT
 nZT
 nZT
 nZT
-dNM
+aqf
 aee
 aee
 iMh
@@ -46934,7 +46970,7 @@ nZT
 nZT
 nZT
 nZT
-dNM
+aqf
 aee
 aee
 iMh
@@ -47191,7 +47227,7 @@ nZT
 nZT
 nZT
 nZT
-dNM
+aqf
 aee
 aee
 iMh
@@ -47448,7 +47484,7 @@ nZT
 nZT
 nZT
 nZT
-dNM
+aqf
 aee
 aee
 iMh
@@ -47705,7 +47741,7 @@ nZT
 nZT
 nZT
 nZT
-dNM
+aqf
 aee
 aee
 fyO
@@ -47962,7 +47998,7 @@ nZT
 nZT
 nZT
 nZT
-dNM
+aqf
 aee
 owl
 gqs
@@ -48219,7 +48255,7 @@ nZT
 nZT
 nZT
 nZT
-dNM
+aqf
 aee
 owl
 gqs
@@ -48476,7 +48512,7 @@ nZT
 nZT
 nZT
 nZT
-dNM
+aqf
 aee
 owl
 gqs
@@ -48733,7 +48769,7 @@ nZT
 nZT
 nZT
 nZT
-dNM
+aqf
 aee
 aee
 fyO
@@ -48990,7 +49026,7 @@ nZT
 nZT
 nZT
 nZT
-dNM
+aqf
 aee
 aee
 kJw
@@ -49247,7 +49283,7 @@ nZT
 nZT
 nZT
 nZT
-dNM
+aqf
 aee
 aee
 kJw
@@ -49504,10 +49540,10 @@ nZT
 nZT
 nZT
 nZT
-dNM
+aqf
 aee
 owl
-oih
+uhB
 lvL
 wwn
 bzb
@@ -49761,10 +49797,10 @@ nZT
 nZT
 nZT
 nZT
-dNM
+aqf
 aee
 owl
-oih
+uhB
 cQA
 cal
 nOF
@@ -50018,7 +50054,7 @@ nZT
 nZT
 nZT
 nZT
-dNM
+aqf
 aee
 aee
 kJw
@@ -50276,7 +50312,7 @@ nZT
 nZT
 nZT
 nZT
-dNM
+aqf
 aee
 kJw
 duZ
@@ -50533,7 +50569,7 @@ nZT
 nZT
 nZT
 nZT
-dNM
+aqf
 owl
 cTw
 frO
@@ -50790,7 +50826,7 @@ nZT
 nZT
 nZT
 nZT
-dNM
+aqf
 owl
 cTw
 xQl
@@ -51047,7 +51083,7 @@ nZT
 nZT
 nZT
 nZT
-dNM
+aqf
 aee
 kJw
 duZ
@@ -51304,7 +51340,7 @@ nZT
 nZT
 nZT
 nZT
-dNM
+aqf
 aee
 kJw
 jag
@@ -51561,9 +51597,9 @@ nZT
 nZT
 nZT
 nZT
-dNM
+aqf
 owl
-icT
+kMq
 aJr
 ggo
 nOF
@@ -51818,9 +51854,9 @@ nZT
 nZT
 nZT
 nZT
-dNM
+aqf
 owl
-icT
+kMq
 cQA
 vOI
 hqe
@@ -52075,7 +52111,7 @@ nZT
 nZT
 nZT
 nZT
-dNM
+aqf
 dDt
 kJw
 hJG
@@ -52332,7 +52368,7 @@ nZT
 nZT
 nZT
 nZT
-dNM
+aqf
 aee
 hla
 hlc
@@ -52589,7 +52625,7 @@ nZT
 nZT
 nZT
 nZT
-dNM
+aqf
 aee
 hla
 nRP
@@ -57770,7 +57806,7 @@ nsQ
 nsQ
 wEX
 nsQ
-hjm
+mvU
 nsQ
 sLN
 lIB
@@ -63126,7 +63162,7 @@ nZT
 nZT
 nZT
 nZT
-dNM
+aqf
 owl
 jQc
 vpq
@@ -63383,7 +63419,7 @@ nZT
 nZT
 nZT
 nZT
-dNM
+aqf
 owl
 jQc
 ePh
@@ -63640,7 +63676,7 @@ nZT
 nZT
 nZT
 nZT
-dNM
+aqf
 mgr
 mgr
 mgr
@@ -63897,7 +63933,7 @@ nZT
 nZT
 nZT
 nZT
-dNM
+aqf
 mDy
 mzQ
 vDc
@@ -64154,7 +64190,7 @@ nZT
 nZT
 nZT
 nZT
-dNM
+aqf
 mDy
 lDE
 rjk
@@ -64411,7 +64447,7 @@ nZT
 nZT
 nZT
 nZT
-dNM
+aqf
 mDy
 sBq
 nIK
@@ -64925,7 +64961,7 @@ nZT
 nZT
 nZT
 nZT
-dNM
+aqf
 jXx
 mzQ
 vDc
@@ -65182,7 +65218,7 @@ nZT
 nZT
 nZT
 nZT
-dNM
+aqf
 jXx
 lDE
 rjk
@@ -65439,7 +65475,7 @@ nZT
 nZT
 nZT
 nZT
-dNM
+aqf
 jXx
 sBq
 eSC
@@ -65696,7 +65732,7 @@ nZT
 nZT
 nZT
 nZT
-dNM
+aqf
 mgr
 mgr
 mgr
@@ -65953,7 +65989,7 @@ nZT
 nZT
 nZT
 nZT
-dNM
+aqf
 aee
 xnd
 iUH
@@ -66210,7 +66246,7 @@ nZT
 nZT
 nZT
 nZT
-dNM
+aqf
 owl
 wNh
 qzq
@@ -66467,7 +66503,7 @@ nZT
 nZT
 nZT
 nZT
-dNM
+aqf
 owl
 mYb
 iEl
@@ -66724,7 +66760,7 @@ nZT
 nZT
 nZT
 nZT
-dNM
+aqf
 owl
 mYb
 tdz
@@ -66981,7 +67017,7 @@ nZT
 nZT
 nZT
 nZT
-dNM
+aqf
 aee
 wNh
 ycv
@@ -67238,7 +67274,7 @@ nZT
 nZT
 nZT
 nZT
-dNM
+aqf
 aee
 wNh
 mav
@@ -67495,7 +67531,7 @@ nZT
 nZT
 nZT
 nZT
-dNM
+aqf
 aee
 wNh
 wjT
@@ -67752,7 +67788,7 @@ nZT
 nZT
 nZT
 nZT
-dNM
+aqf
 aee
 hbT
 wjT
@@ -68009,7 +68045,7 @@ nZT
 nZT
 nZT
 nZT
-dNM
+aqf
 aee
 hbT
 wjT
@@ -68266,7 +68302,7 @@ nZT
 aEe
 nZT
 nZT
-dNM
+aqf
 aee
 hbT
 wjT
@@ -68523,7 +68559,7 @@ nZT
 nZT
 nZT
 nZT
-dNM
+aqf
 aee
 hvg
 hWj
@@ -68780,7 +68816,7 @@ nZT
 nZT
 nZT
 nZT
-dNM
+aqf
 aee
 hbT
 wjT
@@ -69037,7 +69073,7 @@ nZT
 nZT
 nZT
 nZT
-dNM
+aqf
 aee
 hbT
 wjT
@@ -69294,7 +69330,7 @@ nZT
 nZT
 nZT
 nZT
-dNM
+aqf
 aee
 hbT
 wjT
@@ -69551,7 +69587,7 @@ nZT
 nZT
 nZT
 nZT
-dNM
+aqf
 aee
 hvg
 hWj
@@ -69808,7 +69844,7 @@ nZT
 nZT
 nZT
 nZT
-dNM
+aqf
 aee
 hbT
 fMJ
@@ -70065,7 +70101,7 @@ nZT
 nZT
 nZT
 nZT
-dNM
+aqf
 aee
 hbT
 fMJ
@@ -70322,7 +70358,7 @@ nZT
 nZT
 nZT
 nZT
-dNM
+aqf
 aee
 hbT
 fMJ
@@ -70579,7 +70615,7 @@ nZT
 nZT
 nZT
 nZT
-dNM
+aqf
 aee
 hvg
 tWA
@@ -70836,7 +70872,7 @@ nZT
 nZT
 nZT
 nZT
-dNM
+aqf
 aee
 hbT
 fMJ
@@ -71093,7 +71129,7 @@ nZT
 nZT
 nZT
 nZT
-dNM
+aqf
 aee
 hbT
 fMJ
