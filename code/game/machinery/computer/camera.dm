@@ -338,4 +338,10 @@
 	desc = "A telescreen that connects to the AI upload's camera network."
 	network = list("aiupload")
 
+//Nsv13 - ATC telescreen
+/obj/machinery/computer/security/telescreen/atc
+	name = "\improper Air Traffic Control Telescreen"
+	desc = "Used for monitoring launch stations from the ATC tower."
+	network = list("hangar")
+
 #undef DEFAULT_MAP_SIZE
