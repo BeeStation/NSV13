@@ -993,6 +993,7 @@
 /obj/structure/disposalpipe/segment{
 	dir = 4
 	},
+/obj/machinery/newscaster/directional/north,
 /turf/open/floor/plasteel/freezer,
 /area/crew_quarters/toilet/restrooms)
 "aIO" = (
@@ -1583,6 +1584,12 @@
 /area/security/prison)
 "bdj" = (
 /obj/structure/table/glass,
+/obj/machinery/requests_console{
+	department = "Medbay";
+	departmentType = 1;
+	name = "Medbay RC";
+	pixel_y = -32
+	},
 /turf/open/floor/carpet/ship/blue,
 /area/medical/medbay/lobby)
 "bdF" = (
@@ -3332,6 +3339,10 @@
 	req_one_access_txt = "33"
 	},
 /obj/machinery/door/window/southleft,
+/obj/machinery/door/poddoor/shutters/ship/preopen{
+	id = "chemistry_shutters";
+	name = "chemistry shutters"
+	},
 /turf/open/floor/plating,
 /area/medical/chemistry)
 "chS" = (
@@ -5802,7 +5813,7 @@
 /obj/machinery/door/firedoor/border_only/directional/south,
 /obj/machinery/door/firedoor/border_only/directional/north,
 /obj/machinery/door/airlock/ship/maintenance{
-	name = "Maintenance Access Medbay and Plumbing";
+	name = "Maintenance Access Infirmary and Plumbing";
 	req_one_access_txt = "5;33"
 	},
 /obj/structure/sign/departments/minsky/medical/chemistry/chemical2{
@@ -6536,6 +6547,11 @@
 /obj/structure/cable{
 	icon_state = "0-2"
 	},
+/obj/machinery/door/poddoor/shutters/ship/preopen{
+	dir = 4;
+	id = "chemistry_shutters";
+	name = "chemistry shutters"
+	},
 /turf/open/floor/plating,
 /area/medical/chemistry)
 "eye" = (
@@ -6641,6 +6657,13 @@
 /obj/effect/landmark/zebra_interlock_point,
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/engine/break_room)
+"eCo" = (
+/obj/structure/table,
+/obj/item/paicard,
+/turf/open/floor/carpet/ship,
+/area/crew_quarters/lounge{
+	name = "Cafeteria"
+	})
 "eEn" = (
 /obj/machinery/camera/motion{
 	c_tag = "External Viewport Prison Wing";
@@ -7325,6 +7348,11 @@
 /obj/effect/spawner/structure/window/reinforced,
 /obj/structure/cable{
 	icon_state = "0-2"
+	},
+/obj/machinery/door/poddoor/shutters/ship/preopen{
+	dir = 4;
+	id = "chemistry_shutters";
+	name = "chemistry shutters"
 	},
 /turf/open/floor/plating,
 /area/medical/chemistry)
@@ -8118,7 +8146,7 @@
 /obj/machinery/door/firedoor/border_only/directional/north,
 /obj/machinery/door/firedoor/border_only/directional/south,
 /obj/machinery/door/airlock/ship/maintenance{
-	name = "Maintenance Access Medbay Lobby";
+	name = "Maintenance Access Infirmary Lobby";
 	req_one_access_txt = "5"
 	},
 /turf/open/floor/plating,
@@ -8411,6 +8439,11 @@
 	},
 /obj/structure/cable{
 	icon_state = "0-4"
+	},
+/obj/machinery/door/poddoor/shutters/ship/preopen{
+	dir = 4;
+	id = "chemistry_shutters";
+	name = "chemistry shutters"
 	},
 /turf/open/floor/plating,
 /area/medical/chemistry)
@@ -9311,6 +9344,9 @@
 	req_one_access_txt = "6;39;68"
 	},
 /obj/structure/disposalpipe/segment,
+/obj/effect/mapping_helpers/airlock/unres{
+	dir = 1
+	},
 /turf/open/floor/carpet/ship/blue,
 /area/medical/genetics/cloning)
 "gCF" = (
@@ -9999,12 +10035,13 @@
 /turf/open/floor/engine/plasma,
 /area/engine/atmos)
 "haC" = (
-/obj/machinery/requests_console{
-	department = "Medbay";
-	departmentType = 1;
-	name = "Medbay RC"
-	},
 /obj/structure/table/reinforced,
+/obj/machinery/button/door{
+	desc = "A remote control switch for the medbay foyer.";
+	id = "MedbayFoyer";
+	name = "Medbay Doors Control";
+	normaldoorcontrol = 1
+	},
 /turf/open/floor/carpet/blue,
 /area/medical/medbay/lobby)
 "hba" = (
@@ -10550,11 +10587,8 @@
 	name = "Stormdrive Interior"
 	})
 "hxC" = (
-/obj/machinery/power/apc/auto_name/north,
-/obj/structure/cable{
-	icon_state = "0-8"
-	},
-/obj/machinery/clonepod,
+/obj/machinery/clonepod/prefilled,
+/obj/machinery/airalarm/directional/north,
 /turf/open/floor/carpet/ship/blue,
 /area/medical/genetics/cloning)
 "hyv" = (
@@ -11403,6 +11437,9 @@
 	req_one_access_txt = "5;6;39;68"
 	},
 /obj/structure/disposalpipe/segment{
+	dir = 4
+	},
+/obj/effect/mapping_helpers/airlock/unres{
 	dir = 4
 	},
 /turf/open/floor/carpet/ship/blue,
@@ -13977,6 +14014,8 @@
 	dir = 4;
 	icon_state = "rwindow"
 	},
+/obj/machinery/power/apc/auto_name/south,
+/obj/structure/cable,
 /turf/open/floor/carpet/ship/blue,
 /area/medical/genetics/cloning)
 "jSP" = (
@@ -15455,7 +15494,7 @@
 /obj/machinery/door/firedoor/border_only/directional/north,
 /obj/machinery/door/firedoor/border_only/directional/south,
 /obj/machinery/door/airlock/ship/medical{
-	name = "Medbay Lobby";
+	name = "Infirmary Reception";
 	req_one_access_txt = "5"
 	},
 /obj/structure/disposalpipe/segment,
@@ -18451,6 +18490,9 @@
 /obj/structure/table,
 /obj/item/paper_bin,
 /obj/item/pen,
+/obj/machinery/vending/wallmed{
+	pixel_y = -32
+	},
 /turf/open/floor/carpet/ship/blue,
 /area/medical/medbay/central)
 "mUq" = (
@@ -19910,7 +19952,7 @@
 	dir = 4
 	},
 /obj/machinery/door/airlock/ship/medical{
-	name = "Medbay Lobby"
+	name = "Infirmary Lobby"
 	},
 /obj/effect/landmark/zebra_interlock_point,
 /turf/open/floor/carpet/ship/blue,
@@ -21478,9 +21520,6 @@
 	dir = 8
 	},
 /obj/structure/disposalpipe/segment,
-/obj/machinery/vending/wallmed{
-	pixel_x = 32
-	},
 /obj/machinery/light{
 	dir = 4
 	},
@@ -22923,6 +22962,9 @@
 	},
 /obj/structure/disposalpipe/segment,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
+/obj/structure/cable{
+	icon_state = "2-8"
+	},
 /turf/open/floor/carpet/blue,
 /area/medical/genetics/cloning)
 "qkh" = (
@@ -23135,10 +23177,10 @@
 	},
 /obj/machinery/door/firedoor/border_only/directional/west,
 /obj/machinery/door/firedoor/border_only/directional/east,
-/obj/machinery/door/airlock/ship/medical{
-	name = "Medbay Lobby"
-	},
 /obj/effect/landmark/zebra_interlock_point,
+/obj/machinery/door/airlock/ship/medical{
+	name = "Infirmary Lobby"
+	},
 /turf/open/floor/carpet/ship/blue,
 /area/medical/medbay/lobby)
 "qqj" = (
@@ -23949,6 +23991,9 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 4
 	},
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
 /turf/open/floor/carpet/ship/blue,
 /area/medical/genetics/cloning)
 "qPX" = (
@@ -24725,8 +24770,11 @@
 	dir = 4
 	},
 /obj/machinery/door/airlock/ship/medical{
-	name = "Medbay";
+	id_tag = "MedbayFoyer";
 	req_one_access_txt = "5;6;33;39;68"
+	},
+/obj/effect/mapping_helpers/airlock/unres{
+	dir = 4
 	},
 /turf/open/floor/carpet/ship/blue,
 /area/medical/medbay/lobby)
@@ -25581,12 +25629,15 @@
 	},
 /obj/machinery/door/firedoor/border_only/directional/west,
 /obj/machinery/door/firedoor/border_only/directional/east,
-/obj/machinery/door/airlock/ship/medical{
-	name = "Medbay";
-	req_one_access_txt = "5;6;33;39;68"
-	},
 /obj/structure/disposalpipe/segment{
 	dir = 4
+	},
+/obj/effect/mapping_helpers/airlock/unres{
+	dir = 4
+	},
+/obj/machinery/door/airlock/ship/medical{
+	id_tag = "MedbayFoyer";
+	req_one_access_txt = "5;6;33;39;68"
 	},
 /turf/open/floor/carpet/ship/blue,
 /area/medical/medbay/lobby)
@@ -27965,7 +28016,7 @@
 /obj/machinery/door/firedoor/border_only/directional/south,
 /obj/machinery/door/firedoor/border_only/directional/north,
 /obj/machinery/door/airlock/ship/maintenance{
-	name = "Maintenance Access Medbay";
+	name = "Maintenance Access Infirmary";
 	req_one_access_txt = "5"
 	},
 /turf/open/floor/carpet/ship/blue,
@@ -28236,6 +28287,7 @@
 "upa" = (
 /obj/machinery/recharge_station,
 /obj/effect/landmark/start/cyborg,
+/obj/machinery/light,
 /turf/open/floor/carpet/ship/blue,
 /area/medical/storage)
 "upb" = (
@@ -29308,9 +29360,6 @@
 /area/crew_quarters/kitchen)
 "vei" = (
 /obj/machinery/vending/cola/random,
-/obj/machinery/vending/wallmed{
-	pixel_x = 32
-	},
 /turf/open/floor/carpet/ship/blue,
 /area/medical/medbay/lobby)
 "vez" = (
@@ -32543,15 +32592,9 @@
 /area/engine/atmos)
 "xmb" = (
 /obj/structure/cable{
-	icon_state = "1-2"
-	},
-/obj/structure/cable{
 	icon_state = "2-4"
 	},
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
-/obj/structure/disposalpipe/segment,
-/turf/open/floor/carpet/ship/blue,
+/turf/open/floor/carpet/blue,
 /area/medical/genetics/cloning)
 "xmt" = (
 /obj/structure/cable/yellow{
@@ -33060,6 +33103,11 @@
 /obj/structure/cable{
 	icon_state = "0-8"
 	},
+/obj/machinery/door/poddoor/shutters/ship/preopen{
+	dir = 4;
+	id = "chemistry_shutters";
+	name = "chemistry shutters"
+	},
 /turf/open/floor/plating,
 /area/medical/chemistry)
 "xDq" = (
@@ -33473,7 +33521,6 @@
 /area/medical/apothecary)
 "xSX" = (
 /obj/structure/closet/wardrobe/white/medical,
-/obj/machinery/airalarm/directional/north,
 /obj/machinery/light{
 	dir = 1
 	},
@@ -60428,7 +60475,7 @@ xAn
 gkd
 olz
 olz
-rSl
+eCo
 tdz
 xWq
 tdz
@@ -76103,7 +76150,7 @@ tgQ
 fvs
 xSX
 wut
-wut
+xmb
 qPW
 jSp
 gAd
@@ -76358,7 +76405,7 @@ mpb
 jDn
 fZN
 hbv
-xmb
+aqr
 lqv
 qjc
 dZB

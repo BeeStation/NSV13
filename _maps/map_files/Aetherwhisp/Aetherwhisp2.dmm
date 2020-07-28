@@ -564,7 +564,7 @@
 /obj/machinery/door/firedoor/border_only/directional/west,
 /obj/machinery/door/firedoor/border_only/directional/east,
 /obj/machinery/door/airlock/ship/command{
-	name = "Captain Bedroom";
+	name = "Captain Quarters";
 	req_access_txt = "20"
 	},
 /obj/structure/disposalpipe/segment{
@@ -2757,6 +2757,7 @@
 /obj/structure/bed,
 /obj/machinery/newscaster/security_unit/north,
 /obj/effect/landmark/start/captain,
+/obj/item/bedsheet/captain,
 /turf/open/floor/carpet,
 /area/crew_quarters/heads/captain/private)
 "bWC" = (
@@ -2809,7 +2810,7 @@
 /obj/machinery/door/firedoor/border_only/directional/south,
 /obj/machinery/door/firedoor/border_only/directional/north,
 /obj/machinery/door/airlock/ship/maintenance{
-	name = "Maintenance Access Captain Bedroom";
+	name = "Maintenance Access Captain Quarters";
 	req_one_access_txt = "20"
 	},
 /turf/open/floor/plating,
@@ -3913,12 +3914,12 @@
 /turf/open/floor/carpet/ship/purple_carpet,
 /area/crew_quarters/heads/hor)
 "cOm" = (
-/obj/machinery/computer/ship/viewscreen{
-	desc = "It's falling apart!";
-	name = "broken viewscreen"
+/obj/structure/cable/yellow{
+	icon_state = "4-8"
 	},
-/turf/closed/wall/r_wall/ship,
-/area/bridge)
+/obj/machinery/newscaster/directional/south,
+/turf/open/floor/plasteel/freezer,
+/area/crew_quarters/toilet/locker)
 "cOE" = (
 /obj/machinery/cryopod,
 /turf/open/floor/carpet/ship/beige_carpet,
@@ -4427,7 +4428,7 @@
 /obj/machinery/door/firedoor/border_only/directional/south,
 /obj/machinery/door/firedoor/border_only/directional/north,
 /obj/machinery/door/airlock/ship/command{
-	name = "Deck 2 Generator";
+	name = "Deck 1 Generator";
 	req_one_access_txt = "10"
 	},
 /turf/open/floor/carpet/ship/blue{
@@ -4978,6 +4979,7 @@
 "dJc" = (
 /obj/effect/spawner/structure/window/reinforced/ship,
 /obj/machinery/door/poddoor/shutters/ship/preopen{
+	dir = 4;
 	id = "captainoffice"
 	},
 /turf/open/floor/plating,
@@ -5662,6 +5664,7 @@
 /area/maintenance/fore)
 "euE" = (
 /obj/machinery/door/poddoor/ship{
+	dir = 4;
 	id = "bridgewindows"
 	},
 /obj/effect/spawner/structure/window/reinforced/ship,
@@ -5741,6 +5744,7 @@
 /obj/structure/cable/yellow{
 	icon_state = "1-2"
 	},
+/obj/item/reagent_containers/food/drinks/flask/gold,
 /turf/open/floor/carpet,
 /area/crew_quarters/heads/captain)
 "ewJ" = (
@@ -8093,6 +8097,7 @@
 /area/quartermaster/qm)
 "gmy" = (
 /obj/structure/closet/firecloset/full,
+/obj/machinery/light,
 /turf/open/floor/carpet/ship/purple_carpet,
 /area/science/lab)
 "gmR" = (
@@ -9249,9 +9254,16 @@
 /obj/structure/closet/crate,
 /obj/item/beacon,
 /obj/item/beacon,
-/obj/item/hand_tele,
+/obj/item/hand_tele{
+	req_access_txt = "17;19"
+	},
 /obj/item/beacon,
 /obj/item/beacon,
+/obj/machinery/button/door{
+	id = "teleporter_shutters";
+	name = "teleporter shutter control";
+	pixel_x = -24
+	},
 /turf/open/floor/carpet/ship/blue{
 	color = "#9999DD";
 	name = "nanoweave carpet (bluer)"
@@ -14684,6 +14696,7 @@
 /obj/machinery/shower{
 	dir = 4
 	},
+/obj/item/bikehorn/rubberducky,
 /turf/open/floor/plasteel/showroomfloor,
 /area/crew_quarters/heads/captain)
 "mhv" = (
@@ -15489,9 +15502,7 @@
 	icon_state = "0-2"
 	},
 /obj/item/storage/box/pinpointer_pairs,
-/obj/item/pinpointer/nuke,
 /obj/item/hand_tele,
-/obj/item/disk/nuclear,
 /turf/open/floor/carpet,
 /area/crew_quarters/heads/captain/private)
 "mIw" = (
@@ -16230,6 +16241,8 @@
 /area/maintenance/department/science/xenobiology)
 "nsd" = (
 /obj/structure/table/glass,
+/obj/item/pinpointer/nuke,
+/obj/item/disk/nuclear,
 /turf/open/floor/carpet,
 /area/crew_quarters/heads/captain/private)
 "nsy" = (
@@ -16263,6 +16276,10 @@
 /area/medical/genetics)
 "ntF" = (
 /obj/structure/table/glass,
+/obj/item/ship_weapon/parts/torpedo/warhead/probe,
+/obj/item/ship_weapon/parts/torpedo/warhead/probe{
+	pixel_y = 6
+	},
 /turf/open/floor/carpet/purple,
 /area/science/lab)
 "nuj" = (
@@ -19176,8 +19193,6 @@
 /obj/structure/table/glass,
 /obj/machinery/smartfridge/disks,
 /obj/item/storage/box/disks_nanite,
-/obj/item/ship_weapon/parts/torpedo/warhead/probe,
-/obj/item/ship_weapon/parts/torpedo/warhead/probe,
 /turf/open/floor/carpet/purple,
 /area/science/lab)
 "pLo" = (
@@ -20580,9 +20595,15 @@
 	},
 /area/bridge)
 "qVC" = (
-/obj/machinery/door/poddoor/shutters,
 /obj/structure/disposalpipe/segment,
-/turf/open/floor/plating,
+/obj/machinery/door/poddoor/shutters/ship{
+	id = "teleporter_shutters";
+	name = "teleporter shutters"
+	},
+/turf/open/floor/carpet/ship/blue{
+	color = "#9999DD";
+	name = "nanoweave carpet (bluer)"
+	},
 /area/teleporter)
 "qWr" = (
 /obj/machinery/power/apc/auto_name/east,
@@ -21119,7 +21140,6 @@
 	name = "Science Lobby"
 	})
 "rqS" = (
-/obj/item/reagent_containers/food/drinks/flask/gold,
 /obj/item/storage/fancy/donut_box,
 /obj/structure/table/glass,
 /turf/open/floor/carpet,
@@ -48551,7 +48571,7 @@ xWZ
 xpN
 wFc
 xXp
-cqW
+cOm
 xWZ
 xWZ
 jvn
@@ -73748,7 +73768,7 @@ bVG
 euE
 euE
 euE
-cOm
+bVG
 euE
 euE
 euE
