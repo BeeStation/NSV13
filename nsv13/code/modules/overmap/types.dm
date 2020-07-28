@@ -563,7 +563,7 @@
 	max_integrity = 1200 //She's fragile and relies heavily on shields.
 	integrity_failure = 1200
 	starting_system = "Sol"
-	
+
 /obj/structure/overmap/nanotrasen/solgov/aetherwhisp
 	name = "Aetherwhisp class light cruiser"
 	desc = "A mid range SolGov exploratory cruiser. These ships are geared for peaceful missions, but can defend themselves if they must."
@@ -582,3 +582,24 @@
 	max_integrity = 1200 //She's fragile and relies heavily on shields.
 	integrity_failure = 1200
 	starting_system = "Sol"
+
+/obj/structure/overmap/nanotrasen/gunstar
+	name = "Acropolis class heavy cruiser"
+	desc = "A prototype gunship typically reserved for the admiralty which is capable of delivering an overwhelming amount of firepower for its size. Its design crams the firepower of a battlestar into a cruiser frame to deliver extreme punishment using cutting edge weapons research."
+	icon = 'nsv13/icons/overmap/nanotrasen/gunstar.dmi'
+	icon_state = "gunstar"
+	mass = MASS_LARGE //Big beefy lad with a lot of firepower.
+	sprite_size = 48
+	damage_states = FALSE //I'm lazy
+	max_integrity = 1200 //Max health
+	integrity_failure = 1200
+	collision_positions = list(new /datum/vector2d(-8,177), new /datum/vector2d(-55,52), new /datum/vector2d(-57,-32), new /datum/vector2d(-30,-173), new /datum/vector2d(2,-181), new /datum/vector2d(29,-172), new /datum/vector2d(55,-32), new /datum/vector2d(57,51), new /datum/vector2d(13,171))
+	armor = list("overmap_light" = 75, "overmap_heavy" = 35)
+	pixel_w = -44
+	pixel_z = -180
+
+/obj/structure/overmap/nanotrasen/gunstar/apply_weapons()
+	weapon_types[FIRE_MODE_PDC] = new /datum/ship_weapon/pdc_mount(src)
+	weapon_types[FIRE_MODE_TORPEDO] = new/datum/ship_weapon/torpedo_launcher(src)
+	weapon_types[FIRE_MODE_RAILGUN] = new /datum/ship_weapon/railgun(src)
+	weapon_types[FIRE_MODE_MAC] = new /datum/ship_weapon/phaser(src)

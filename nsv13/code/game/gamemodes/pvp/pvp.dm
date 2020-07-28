@@ -67,7 +67,7 @@ Method to spawn in the Syndi ship on a brand new Z-level with the "boardable" tr
 			new_op.assigned_role = "Syndicate crewmember"
 			new_op.special_role = "Syndicate crewmember"
 			log_game("[key_name(new_op)] has been selected as a syndicate crewmember")
-		addtimer(CALLBACK(src, .proc/force_lighting, syndiship), 6 SECONDS)
+		addtimer(CALLBACK(GLOBAL_PROC, .proc/overmap_lighting_force, syndiship), 6 SECONDS)
 		return TRUE
 	else
 		qdel(syndiship)
@@ -75,7 +75,7 @@ Method to spawn in the Syndi ship on a brand new Z-level with the "boardable" tr
 		return FALSE
 ////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////
-/datum/game_mode/pvp/proc/force_lighting(obj/structure/overmap/hammurabi)
+/proc/overmap_lighting_force(obj/structure/overmap/hammurabi)
 	for(var/area/AR in hammurabi.linked_areas) //Fucking force a lighting update IDEK why we have to do this but it just works
 		AR.set_dynamic_lighting(DYNAMIC_LIGHTING_DISABLED)
 		sleep(1)

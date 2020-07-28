@@ -1024,3 +1024,45 @@ GLOBAL_LIST_EMPTY(ai_goals)
 			F.current_system = target
 			F.assemble(target)
 			message_admins("[key_name(usr)] created a fleet ([F.name]) at [target].")
+
+
+/client/proc/instance_overmap_menu() //Creates a verb for admins to open up the ui
+	set name = "Instance Overmap"
+	set desc = "Load a ship midround."
+	set category = "Adminbus"
+
+	if(IsAdminAdvancedProcCall())
+		return FALSE
+
+	var/list/choices = flist("_maps/map_files/Instanced/")
+	var/ship_file = input(usr, "What ship would you like to load?","Ship Instancing", null) as null|anything in choices
+	if(!ship_file)
+		return
+	ship_file = file("_maps/map_files/Instanced/[ship_file]")
+	if(!isfile(ship_file))
+		to_chat(world, "SCREAM")
+		return
+	var/list/json = json_decode(file2text(ship_file))
+	if(!json)
+		return
+	var/shipName = json["map_name"]
+	var/shipType = text2path(json["ship_type"])
+	var/mapPath = json["map_path"]
+	var/mapFile = json["map_file"]
+	var/list/traits = json["traits"]
+	if (istext(mapFile))
+		if (!fexists("_maps/[mapPath]/[mapFile]"))
+			log_world("Map file ([mapPath]/[mapFile]) does not exist!")
+			return
+	else if (islist(mapFile))
+		for (var/file in mapFile)
+			if (!fexists("_maps/[mapPath]/[file]"))
+				log_world("Map file ([mapPath]/[file]) does not exist!")
+				return
+	to_chat(world, "Scream: [shipName] [shipType] [mapPath] [mapFile]")
+	var/obj/structure/overmap/OM = instance_overmap(shipType, mapPath, mapFile, traits)
+	if(OM)
+		message_admins("[key_name(src)] has instanced a copy of [ship_file].")
+		OM.name = shipName
+		addtimer(CALLBACK(GLOBAL_PROC, .proc/overmap_lighting_force, OM), 6 SECONDS)
+
