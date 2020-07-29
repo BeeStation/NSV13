@@ -1040,7 +1040,6 @@ GLOBAL_LIST_EMPTY(ai_goals)
 		return
 	ship_file = file("_maps/map_files/Instanced/[ship_file]")
 	if(!isfile(ship_file))
-		to_chat(world, "SCREAM")
 		return
 	var/list/json = json_decode(file2text(ship_file))
 	if(!json)
@@ -1059,7 +1058,6 @@ GLOBAL_LIST_EMPTY(ai_goals)
 			if (!fexists("_maps/[mapPath]/[file]"))
 				log_world("Map file ([mapPath]/[file]) does not exist!")
 				return
-	to_chat(world, "Scream: [shipName] [shipType] [mapPath] [mapFile]")
 	var/obj/structure/overmap/OM = instance_overmap(shipType, mapPath, mapFile, traits)
 	if(OM)
 		message_admins("[key_name(src)] has instanced a copy of [ship_file].")
