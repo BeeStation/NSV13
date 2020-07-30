@@ -54,6 +54,7 @@ Control Rods
 #define NULL_ROR 0
 
 #define LOW_IPM 0.5
+#define MEDIOCRE_IPM 0.85
 #define HIGH_IPM 1.25
 #define VERY_HIGH_IPM 1.75
 
@@ -141,7 +142,8 @@ Control Rods
 	var/gas_records_length = 120
 	var/gas_records_interval = 10
 	var/gas_records_next_interval = 0
-	var/base_power = 67500 //Base power modifier, this gets attacked by a cubic function. Increase this, get more power (if you aren't a wimp)
+	var/base_power = 67500 //Base power modifier, this gets attacked by a cubic function
+	var/next_slowprocess = 0 //Used for slowing the stormdrive processing down to once per second
 
 /obj/machinery/atmospherics/components/binary/stormdrive_reactor/syndicate
 	radio_key = /obj/item/encryptionkey/syndicate
@@ -376,15 +378,15 @@ Control Rods
 	var/datum/gas_mixture/air1 = airs[1]
 	var/fuel_check = air1.get_moles(/datum/gas/plasma) * LOW_ROR + \
 					air1.get_moles(/datum/gas/constricted_plasma) * NORMAL_ROR + \
-					air1.get_moles(/datum/gas/nitrogen) * HINDER_ROR + \
+					air1.get_moles(/datum/gas/carbon_dioxide) * HINDER_ROR + \
 					air1.get_moles(/datum/gas/water_vapor) * HINDER_ROR + \
-					air1.get_moles(/datum/gas/tritium) * HIGH_ROR
+					air1.get_moles(/datum/gas/tritium) * HIGH_ROR + \
+					air1.get_moles(/datum/gas/hypernoblium) * REALLY_HINDER_ROR
 
 	if(fuel_check >= start_threshold && heat >= start_threshold) //Checking equivalent of 20 moles of fuel and is hot enough
 		heat = start_threshold+10 //Avoids it getting heated up to 10000 by the PA, then turning it on, then getting insta meltdown.
 		visible_message("<span class='danger'>[src] starts to glow an ominous blue!</span>")
 		icon_state = "reactor_on"
-		START_PROCESSING(SSmachines,src)
 		state = REACTOR_STATE_RUNNING
 		set_light(5)
 		var/startup_sound = pick('nsv13/sound/effects/ship/reactor/startup.ogg', 'nsv13/sound/effects/ship/reactor/startup2.ogg')
@@ -423,6 +425,7 @@ Control Rods
 	var/datum/gas_mixture/air1 = airs[1]
 	air1.adjust_moles(/datum/gas/constricted_plasma, 1000)
 	air1.adjust_moles(/datum/gas/oxygen, 500)
+	air1.adjust_moles(/datum/gas/nitrogen, 500)
 	try_start()
 
 /obj/machinery/atmospherics/components/binary/stormdrive_reactor/proc/juice_up(var/datum/gas/juice, var/quantity) //Admin command to add a specified amount of chosen gas to the drive
@@ -520,6 +523,11 @@ Control Rods
 			start_meltdown() //Epsilon or Death
 
 /obj/machinery/atmospherics/components/binary/stormdrive_reactor/process()
+	if(next_slowprocess < world.time)
+		slowprocess() //Process the Stormdrive
+		next_slowprocess = world.time + 1 SECONDS //Set to wait for another second before processing again, we don't need to process more than once a second
+
+/obj/machinery/atmospherics/components/binary/stormdrive_reactor/proc/slowprocess()
 	if(state == REACTOR_STATE_MELTDOWN)
 		radiation_pulse(src, (1000 * radiation_modifier), 10)
 		return
@@ -534,14 +542,15 @@ Control Rods
 			dumping_fuel = FALSE
 		else if(output_starting_pressure < max_output_pressure)
 			var/moles = air1.total_moles()
-			var/datum/gas_mixture/buffer = air1.remove(min(25, moles)) //Shunts 25 mole/tick
+			var/datum/gas_mixture/buffer = air1.remove(min(25, moles)) //This doesn't appear to actually work. Feature.
+			var/heat_kelvin = heat + 273.15
 			air2.merge(buffer)
-			air2.set_temperature(heat) //Gets spicy
+			air2.set_temperature(heat_kelvin) //Gets spicy
 			update_parents()
 
 	if(state != REACTOR_STATE_RUNNING || heat <= start_threshold)
 		deactivate()
-		return ..() //Stop processing if we're not activated, start processing when we're activated.
+		return // ..() //Stop processing if we're not activated, start processing when we're activated.
 
 	var/datum/gas_mixture/air1 = airs[1]
 	var/nucleium_power_reduction = 0
@@ -563,6 +572,7 @@ Control Rods
 												reaction_chamber_gases.get_moles(/datum/gas/oxygen) * HIGH_IPM + \
 												reaction_chamber_gases.get_moles(/datum/gas/pluoxium) * HIGH_IPM + \
 												reaction_chamber_gases.get_moles(/datum/gas/stimulum) * VERY_HIGH_IPM - \
+												reaction_chamber_gases.get_moles(/datum/gas/plasma) * MEDIOCRE_IPM - \
 												reaction_chamber_gases.get_moles(/datum/gas/carbon_dioxide) * LOW_IPM - \
 												reaction_chamber_gases.get_moles(/datum/gas/hypernoblium) * LOW_IPM
 		input_power_modifier = chamber_ipm_total / reaction_rate
@@ -591,7 +601,7 @@ Control Rods
 		var/chamber_degradation_total = reaction_rate + reaction_chamber_gases.get_moles(/datum/gas/plasma) * HIGH_DEG_PROTECTION + \
 														reaction_chamber_gases.get_moles(/datum/gas/nitrous_oxide) * HIGH_DEG_PROTECTION + \
 														reaction_chamber_gases.get_moles(/datum/gas/hypernoblium) * HIGH_DEG_PROTECTION + \
-														reaction_chamber_gases.get_moles(/datum/gas/pluoxium) * HIGH_DEG_PROTECTION + \
+														reaction_chamber_gases.get_moles(/datum/gas/pluoxium) * HIGH_DEG_PROTECTION
 		control_rod_degradation_modifier = chamber_degradation_total / reaction_rate
 
 		nucleium_power_reduction = reaction_chamber_gases.get_moles(/datum/gas/nucleium) * 1000 //nucleium
@@ -644,7 +654,7 @@ Control Rods
 				for(var/mob/living/M in view(10, src))
 					to_chat(M, "<span class='danger'>The reactor [word]!</span>")
 
-	input_power = ((heat/150)**3) * input_power_modifier
+	input_power = ((heat/150)**3) * input_power_modifier //Higher temperature = more power. Crank the temperature up, stop being so scared.
 	var/power_produced = base_power
 	last_power_produced = max(0,(power_produced*input_power) - nucleium_power_reduction)
 
@@ -741,13 +751,14 @@ Control Rods
 		var/datum/gas_mixture/air1 = airs[1]
 		var/datum/gas_mixture/air2 = airs[2]
 		var/output_starting_pressure = air2.return_pressure()
+		var/heat_kelvin = heat + 273.15
 		if(output_starting_pressure >= max_output_pressure) //if pressured capped, nucleium backs up into the drive
 			air1.adjust_moles(/datum/gas/nucleium, (reaction_rate / 10) * input_power_modifier)
-			air1.set_temperature(heat)
+			air1.set_temperature(heat_kelvin)
 			update_parents()
 		else
 			air2.adjust_moles(/datum/gas/nucleium, (reaction_rate / 10) * input_power_modifier)
-			air2.set_temperature(heat)
+			air2.set_temperature(heat_kelvin)
 			update_parents()
 
 /obj/machinery/atmospherics/components/binary/stormdrive_reactor/proc/handle_temperature_reinforcement() //Adjusting temperature thresholds
@@ -1270,7 +1281,7 @@ Control Rods
 	icon_state = "nuclearwaste"
 	alpha = 150
 	light_color = LIGHT_COLOR_CYAN
-	color = "#cc8899"
+	color = "#ff9eff"
 
 /obj/effect/decal/nuclear_waste/Initialize()
 	. = ..()
@@ -1292,7 +1303,7 @@ Control Rods
 	for(var/turf/open/floor in orange(range, get_turf(src)))
 		if(prob(35)) //Scatter the sludge, don't smear it everywhere
 			new /obj/effect/decal/nuclear_waste (floor)
-			floor.acid_act(200, 100)
+			//floor.acid_act(200, 100)
 	qdel(src)
 
 /obj/effect/decal/nuclear_waste/epicenter/Initialize()
@@ -1371,6 +1382,7 @@ Control Rods
 #undef REALLY_HINDER_ROR
 #undef NULL_ROR
 #undef LOW_IPM
+#undef MEDIOCRE_IPM
 #undef HIGH_IPM
 #undef VERY_HIGH_IPM
 #undef LOW_COOLING
