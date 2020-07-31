@@ -67,6 +67,12 @@ MAP_REMOVE_JOB(virologist)	//Redundant
 	total_positions = 2
 	spawn_positions = 1
 
+/datum/job/mining/New()
+	..()
+	MAP_JOB_CHECK
+	total_positions = 3
+	spawn_positions = 2
+
 /datum/uplink_item/explosives/syndicate_bomb/New()
 	. = ..()
 	
