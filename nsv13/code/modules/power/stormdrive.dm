@@ -70,7 +70,7 @@ Control Rods
 #define HIGH_REINFORCEMENT 1.25
 #define VERY_HIGH_REINFORCEMENT 1.5
 
-#define HIGH_DEG_PROTECTION 1.25
+#define HIGH_DEG_PROTECTION 0.75
 
 //Reactor variables
 
