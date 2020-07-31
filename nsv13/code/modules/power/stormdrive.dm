@@ -550,7 +550,7 @@ Control Rods
 
 	if(state != REACTOR_STATE_RUNNING || heat <= start_threshold)
 		deactivate()
-		return // ..() //Stop processing if we're not activated, start processing when we're activated.
+		return
 
 	var/datum/gas_mixture/air1 = airs[1]
 	var/nucleium_power_reduction = 0
@@ -699,14 +699,13 @@ Control Rods
 		air_update_turf()
 
 /obj/machinery/atmospherics/components/binary/stormdrive_reactor/proc/can_cool()
-	//if(heat > reactor_temperature_nominal) //Only start decaying the rods if theyre running it hot. We have a "safe" mode which doesn't need you to check in on the reactor at all.
 	for(var/obj/item/control_rod/cr in contents)
 		if(cr.rod_integrity <= 0 && !istype(cr, /obj/item/control_rod/irradiated)) //tag any failed rods
 			control_rods -= cr
 			qdel(cr)
 			control_rods += new /obj/item/control_rod/irradiated(src)
 			handle_control_rod_efficiency()
-		if(prob(80))
+		if(prob(80 * control_rod_degradation_modifier))
 			cr.rod_integrity -= ((input_power/50000) * control_rod_degradation_modifier) * control_rod_percent //control rod decay occurs here
 	handle_control_rod_integrity()
 	if(control_rod_integrity < 0)
@@ -1009,8 +1008,6 @@ Control Rods
 /obj/machinery/computer/ship/reactor_control_computer/attack_ghost(mob/user)
 	. = ..()
 	if(!reactor)
-		var/sound = pick('nsv13/sound/effects/computer/error.ogg','nsv13/sound/effects/computer/error2.ogg','nsv13/sound/effects/computer/error3.ogg')
-		playsound(src, sound, 100, 1)
 		to_chat(user, "<span class='warning'>Unable to detect linked reactor</span>")
 		return
 	ui_interact(user)
@@ -1303,7 +1300,6 @@ Control Rods
 	for(var/turf/open/floor in orange(range, get_turf(src)))
 		if(prob(35)) //Scatter the sludge, don't smear it everywhere
 			new /obj/effect/decal/nuclear_waste (floor)
-			//floor.acid_act(200, 100)
 	qdel(src)
 
 /obj/effect/decal/nuclear_waste/epicenter/Initialize()
