@@ -5,8 +5,6 @@
 #define COMSIG_AI_UPDATE_LAWS 	"ai_law_update"
 #define TRAIT_BINARY_SPEAKER	"speaks_binary"
 
-#define COMSIG_PROCESS_BORGCHARGER_OCCUPANT "living_charge"		//sent from borg recharge stations: (amount, repairs)
-
 //Lazy cables
 #define CABLE_LAYER_1 "l1"
 #define CABLE_LAYER_2 "l2"
