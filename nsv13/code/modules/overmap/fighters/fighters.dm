@@ -678,6 +678,9 @@ You need to fire emag the fighter's IFF board. This makes it list as "ENEMY" on 
 	if(maint_state == MS_OPEN)
 		ui_interact(user)
 		return TRUE
+	if(maint_state == MS_UNSECURE)
+		to_chat(user, "<span class='warning'>[src]'s maintenance panel is insecure.</span>")
+		return
 	if(!canopy_open)
 		to_chat(user, "<span class='warning'>[src]'s canopy isn't open.</span>")
 		return
