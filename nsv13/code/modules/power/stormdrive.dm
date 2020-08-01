@@ -59,8 +59,8 @@ Control Rods
 #define VERY_HIGH_IPM 1.75
 
 #define LOW_COOLING 0.75
-#define HIGH_COOLING 3
-#define VERY_HIGH_COOLING 5
+#define HIGH_COOLING 2.25
+#define VERY_HIGH_COOLING 4
 
 #define LOW_RADIATION 0.75
 #define NORMAL_RADIATION 1
