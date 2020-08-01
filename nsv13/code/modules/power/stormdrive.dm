@@ -339,7 +339,8 @@ Control Rods
 	if(state == REACTOR_STATE_RUNNING)
 		send_alert("Fission reaction terminated. Reactor now off-line.")
 	icon_state = initial(icon_state)
-	heat = 0
+	if(state != REACTOR_STATE_IDLE) //protect our warmup
+		heat = 0
 	last_power_produced = 0 //Update UI to show that it's not making power now
 	reaction_rate = 0
 	reactor_starvation = 0
@@ -348,7 +349,6 @@ Control Rods
 	set_light(0)
 	var/area/AR = get_area(src)
 	AR.looping_ambience = 'nsv13/sound/ambience/shipambience.ogg'
-
 
 /obj/machinery/atmospherics/components/binary/stormdrive_reactor/Initialize()
 	. = ..()
@@ -707,7 +707,7 @@ Control Rods
 			control_rods += new /obj/item/control_rod/irradiated(src)
 			handle_control_rod_efficiency()
 		if(prob(80 * control_rod_degradation_modifier))
-			cr.rod_integrity -= ((input_power/50000) * control_rod_degradation_modifier) * control_rod_percent //control rod decay occurs here
+			cr.rod_integrity -= ((input_power/75000) * control_rod_degradation_modifier) * control_rod_percent //control rod decay occurs here
 	handle_control_rod_integrity()
 	if(control_rod_integrity < 0)
 		control_rod_integrity = 0
