@@ -93,7 +93,8 @@
  */
 /obj/machinery/ship_weapon/Initialize()
 	. = ..()
-	addtimer(CALLBACK(src, .proc/PostInitialize), 5 SECONDS)
+	PostInitialize()
+	addtimer(CALLBACK(src, .proc/get_ship), 15 SECONDS) //This takes a minute to load...
 
 /**
 *
@@ -102,7 +103,6 @@
 */
 
 /obj/machinery/ship_weapon/proc/PostInitialize()
-	get_ship(error_log=FALSE)
 	if(maintainable)
 		maint_req = rand(20,25) //Setting initial number of cycles until maintenance is required
 		create_reagents(50)

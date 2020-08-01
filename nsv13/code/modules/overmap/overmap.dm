@@ -523,8 +523,6 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 				if(tactical && prob(80))
 					var/sound = pick(GLOB.computer_beeps)
 					playsound(tactical, sound, 100, 1)
-			if(themob == pilot)
-				boost(NORTH)
 			return TRUE
 		if("Q" || "q")
 			if(!move_by_mouse)

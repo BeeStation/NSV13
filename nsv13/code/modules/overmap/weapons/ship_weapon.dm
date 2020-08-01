@@ -36,6 +36,7 @@
 	var/list/all_weapons = weapons["all"]
 	if(LAZYFIND(all_weapons, weapon)) //No just no
 		return
+	requires_physical_guns = TRUE //If we're adding a physical weapon, we want to shoot it.
 	all_weapons += weapon //Record-keeping
 	weapon.weapon_type = src
 	weapon.update() //Ok is this thing loaded or what.
