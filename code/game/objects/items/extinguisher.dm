@@ -15,7 +15,6 @@
 	materials = list(/datum/material/iron = 90)
 	attack_verb = list("slammed", "whacked", "bashed", "thunked", "battered", "bludgeoned", "thrashed")
 	dog_fashion = /datum/dog_fashion/back
-	resistance_flags = FIRE_PROOF
 	var/max_water = 50
 	var/last_use = 1
 	var/chem = /datum/reagent/water

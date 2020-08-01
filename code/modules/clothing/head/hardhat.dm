@@ -9,7 +9,6 @@
 	armor = list("melee" = 15, "bullet" = 5, "laser" = 20, "energy" = 10, "bomb" = 20, "bio" = 10, "rad" = 20, "fire" = 100, "acid" = 50)
 	flags_inv = 0
 	actions_types = list(/datum/action/item_action/toggle_helmet_light)
-	resistance_flags = FIRE_PROOF
 	clothing_flags = SNUG_FIT
 	dynamic_hair_suffix = "+generic"
 
@@ -56,6 +55,7 @@
 	dog_fashion = null
 	name = "firefighter helmet"
 	clothing_flags = STOPSPRESSUREDAMAGE | SNUG_FIT
+	resistance_flags = FIRE_PROOF
 	heat_protection = HEAD
 	max_heat_protection_temperature = FIRE_HELM_MAX_TEMP_PROTECT
 	cold_protection = HEAD
@@ -92,7 +92,7 @@
 	cold_protection = HEAD
 	min_cold_protection_temperature = FIRE_HELM_MIN_TEMP_PROTECT
 
-/obj/item/clothing/head/hardhat/weldhat 
+/obj/item/clothing/head/hardhat/weldhat
 	name = "welding hard hat"
 	desc = "A piece of headgear used in dangerous working conditions to protect the head. Comes with a built-in flashlight AND welding shield! The bulb seems a little smaller though."
 	brightness_on = 3 //Needs a little bit of tradeoff
@@ -132,7 +132,7 @@
 /obj/item/clothing/head/hardhat/weldhat/update_icon()
 	cut_overlays()
 	if(!up)
-		add_overlay("weldvisor") 
+		add_overlay("weldvisor")
 	..()
 
 /obj/item/clothing/head/hardhat/weldhat/orange
@@ -140,7 +140,7 @@
 	item_state = "hardhat0_orange"
 	item_color = "orange"
 
-/obj/item/clothing/head/hardhat/weldhat/white 
+/obj/item/clothing/head/hardhat/weldhat/white
 	desc = "A piece of headgear used in dangerous working conditions to protect the head. Comes with a built-in flashlight AND welding shield!" //This bulb is not smaller
 	icon_state = "hardhat0_white"
 	item_state = "hardhat0_white"
@@ -155,4 +155,4 @@
 /obj/item/clothing/head/hardhat/weldhat/dblue
 	icon_state = "hardhat0_dblue"
 	item_state = "hardhat0_dblue"
-	item_color = "dblue" 
+	item_color = "dblue"

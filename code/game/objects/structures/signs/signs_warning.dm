@@ -2,6 +2,7 @@
 	name = "\improper WARNING"
 	desc = "A warning sign."
 	icon_state = "securearea"
+	resistance_flags = FLAMMABLE //NSV13 Change. ALL SIGNS SHOULD BE FLAMMABLE!
 
 /obj/structure/sign/warning/securearea
 	name = "\improper SECURE AREA"
@@ -45,13 +46,11 @@
 	name = "\improper DANGER: FIRE"
 	desc = "A warning sign which reads 'DANGER: FIRE'."
 	icon_state = "fire"
-	resistance_flags = FIRE_PROOF
 
 /obj/structure/sign/warning/nosmoking
 	name = "\improper NO SMOKING"
 	desc = "A warning sign which reads 'NO SMOKING'."
 	icon_state = "nosmoking2"
-	resistance_flags = FLAMMABLE
 
 /obj/structure/sign/warning/nosmoking/circle
 	icon_state = "nosmoking"

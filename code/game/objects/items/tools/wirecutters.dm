@@ -69,7 +69,7 @@
 /obj/item/wirecutters/brass
 	name = "brass wirecutters"
 	desc = "A pair of wirecutters made of brass. The handle feels freezing cold to the touch."
-	resistance_flags = FIRE_PROOF | ACID_PROOF
+	resistance_flags = ACID_PROOF
 	icon_state = "cutters_brass"
 	random_color = FALSE
 	toolspeed = 0.5

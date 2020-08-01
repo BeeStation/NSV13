@@ -34,7 +34,7 @@
 	equip_delay_other = 50
 	permeability_coefficient = 0.9
 	strip_delay = 5
-	
+
 /obj/item/clothing/shoes/sandal/marisa
 	desc = "A pair of magic black shoes."
 	name = "magic shoes"
@@ -161,7 +161,6 @@
 	name = "mining boots"
 	desc = "Steel-toed mining boots for mining in hazardous environments. Very good at keeping toes uncrushed."
 	icon_state = "explorer"
-	resistance_flags = FIRE_PROOF
 
 /obj/item/clothing/shoes/cult
 	name = "\improper Nar'Sien invoker boots"
@@ -218,7 +217,6 @@
 	icon_state = "jetboots"
 	item_state = "jetboots"
 	item_color = "hosred"
-	resistance_flags = FIRE_PROOF
 	pocket_storage_component_path = /datum/component/storage/concrete/pockets/shoes
 	actions_types = list(/datum/action/item_action/bhop)
 	permeability_coefficient = 0.05

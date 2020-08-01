@@ -189,7 +189,7 @@
 	icon_state = "brassbox"
 	item_state = null
 	has_latches = FALSE
-	resistance_flags = FIRE_PROOF | ACID_PROOF
+	resistance_flags = ACID_PROOF
 	w_class = WEIGHT_CLASS_HUGE
 	attack_verb = list("robusted", "crushed", "smashed")
 	material_flags = MATERIAL_NO_COLOR
