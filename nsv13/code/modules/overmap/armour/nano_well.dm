@@ -191,6 +191,8 @@ Starting Materials
 						repair_resources += (iron_amount + silver_amount + plasma_amount + titanium_amount) / 2
 						material_modifier = 1 //High Modifier
 						repair_resources_processing = TRUE
+	else
+		repair_resources_processing = FALSE
 
 /obj/machinery/armour_plating_nanorepair_well/proc/handle_linking()
 	if(apnw_id) //If mappers set an ID)
