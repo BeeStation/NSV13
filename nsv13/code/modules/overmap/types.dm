@@ -591,12 +591,13 @@
 	mass = MASS_LARGE //Big beefy lad with a lot of firepower.
 	sprite_size = 48
 	damage_states = FALSE //I'm lazy
-	max_integrity = 1200 //Max health
+	max_integrity = 1800 //Max health
 	integrity_failure = 1200
 	collision_positions = list(new /datum/vector2d(-8,177), new /datum/vector2d(-55,52), new /datum/vector2d(-57,-32), new /datum/vector2d(-30,-173), new /datum/vector2d(2,-181), new /datum/vector2d(29,-172), new /datum/vector2d(55,-32), new /datum/vector2d(57,51), new /datum/vector2d(13,171))
 	armor = list("overmap_light" = 75, "overmap_heavy" = 35)
 	pixel_w = -44
 	pixel_z = -180
+	starting_system = "Unknown Signal"
 
 /obj/structure/overmap/nanotrasen/gunstar/apply_weapons()
 	weapon_types[FIRE_MODE_PDC] = new /datum/ship_weapon/pdc_mount(src)
