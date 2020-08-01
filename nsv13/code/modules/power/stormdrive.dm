@@ -343,7 +343,8 @@ Control Rods
 	last_power_produced = 0 //Update UI to show that it's not making power now
 	reaction_rate = 0
 	reactor_starvation = 0
-	state = REACTOR_STATE_IDLE //Force reactor restart.
+	if(state != REACTOR_STATE_MAINTENANCE)
+		state = REACTOR_STATE_IDLE //Force reactor restart.
 	set_light(0)
 	var/area/AR = get_area(src)
 	AR.looping_ambience = 'nsv13/sound/ambience/shipambience.ogg'
