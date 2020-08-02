@@ -711,10 +711,12 @@ Control Rods
 	handle_control_rod_integrity()
 	if(control_rod_integrity < 0)
 		control_rod_integrity = 0
-		send_alert("DANGER: Primary control rods have failed!")
+		if(state == REACTOR_STATE_RUNNING)
+			send_alert("DANGER: Primary control rods have failed!")
 		return FALSE
 	if(control_rod_integrity <= 35 && warning_state <= WARNING_STATE_NONE) //If there isn't a more important thing to notify them about, engineers should be told that their rods are failing.
-		send_alert("WARNING: Reactor control rods failing at [control_rod_integrity]% integrity, intervention required to avoid possible meltdown.")
+		if(state == REACTOR_STATE_RUNNING)
+			send_alert("WARNING: Reactor control rods failing at [control_rod_integrity]% integrity, intervention required to avoid possible meltdown.")
 	if(control_rod_integrity > 0)
 		return TRUE //TODO: Check control rod health
 	else
