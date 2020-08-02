@@ -184,6 +184,10 @@ That's it, ok bye!
 	var/turbolift_delay = 4 SECONDS //How long should the turbolift stay on each deck? Don't make this delay higher than a few seconds, or BYOND will start to complain.
 	var/wait_time = 5 SECONDS //Brief cooldown after the lift reaches its destination, to allow people from that floor to board it.
 	var/play_voice_lines = TRUE //Do you want your elevator to sarcastically tell you that it's going up or down? Thanks to Corsaka / Skullmagic for the VA!
+	var/open_doors_on_arrival = FALSE
+
+/obj/machinery/lazylift/master/aircraft_elevator
+	open_doors_on_arrival = TRUE
 
 /obj/machinery/lazylift/master/advanced //Fancy elevators for fancy crews.
 	name = "Turbolift control panel"
@@ -250,7 +254,7 @@ That's it, ok bye!
 		count --
 	}
 	close_all_doors() //Start off by closing all the doors.
-	platform_location.unbolt_doors() //But ensure that you can board the lift at some point.
+	platform_location.unbolt_doors(open_doors_on_arrival) //But ensure that you can board the lift at some point.
 	set_music()
 	for(var/blacklist in moving_blacklist)
 		moving_blacklist += typecacheof(blacklist)
@@ -321,7 +325,7 @@ That's it, ok bye!
 		if(_deck == target_deck)
 			sound_effect(start=FALSE)
 		move_platform(_deck)
-	platform_location.unbolt_doors()
+	platform_location.unbolt_doors(open_doors_on_arrival)
 	addtimer(VARSET_CALLBACK(src, in_use, FALSE), wait_time)
 
 /obj/machinery/lazylift/master/proc/move_platform(targetDeck)
@@ -413,18 +417,21 @@ That's it, ok bye!
 
 /obj/machinery/lazylift/proc/close_doors()
 	for(var/obj/machinery/door/airlock/theDoor in doors)
+		theDoor.unbolt()
 		if(!theDoor.close()) //Close and bolt this badboy.
 			if(!theDoor.locked) //Failed to close, and is not bolted. So something went wrong. Abort.
 				return FALSE
 		theDoor.bolt()
 	return TRUE
 
-/obj/machinery/lazylift/proc/unbolt_doors()
+/obj/machinery/lazylift/proc/unbolt_doors(openThemToo)
 	for(var/obj/machinery/door/airlock/theDoor in doors)
 		theDoor.unbolt()
+		if(openThemToo)
+			theDoor.open()
+			theDoor.bolt()
 
 /obj/machinery/lazylift/master/proc/close_all_doors()
-	set waitfor = FALSE
 	for(var/obj/machinery/lazylift/target in decks)
 		if(!target.close_doors())
 			return FALSE
