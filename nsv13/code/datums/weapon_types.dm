@@ -91,7 +91,7 @@
 	select_alert = "<span class='notice'>Phaser banks standing by...</span>"
 	failure_alert = "<span class='warning'>Unable to comply. Phaser banks recharging.</span>"
 	overmap_firing_sounds = list('nsv13/sound/effects/ship/phaser.ogg')
-	overmap_select_sound = 'nsv13/sound/effects/ship/phaser_select.ogg'
+	overmap_select_sound = 'nsv13/sound/effects/ship/phaser_select.ogg' //Sound effect provided by: "All Sounds" https://www.youtube.com/watch?v=EpaCJ75T3fo under creative commons. Trimmed by Kmc2000
 	screen_shake = 1
 
 //End Energy Weapons

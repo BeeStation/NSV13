@@ -322,12 +322,25 @@
 	shield["max_integrity"] = 0;
 }
 
+/obj/machinery/shield_generator/proc/try_use_power(amount) // Although the machine may physically be powered, it may not have enough power to sustain a shield.
+	var/turf/T = get_turf(src)
+	var/obj/structure/cable/C = T.get_cable_node()
+	if(C)
+		if(!C.powernet)
+			return FALSE
+		var/power_in_net = C.powernet.avail-C.powernet.load
+
+		if(power_in_net && power_in_net > amount)
+			C.powernet.load += amount
+			return TRUE
+		return FALSE
+	return FALSE
+
 //Every tick, the shield generator updates its stats based on the amount of power it's being allowed to chug.
 /obj/machinery/shield_generator/process()
 {
-	idle_power_usage = power_input;
 	cut_overlays();
-	if(!powered() || idle_power_usage <= 0){
+	if(!powered() || power_input <= 0 || !try_use_power(power_input)){
 		depower_shield();
 		return FALSE;
 	}
@@ -376,6 +389,12 @@
 	data["powerAlloc"] = power_input/1e+6;
 	data["maxPower"] = max_power_input/1e+6;
 	data["active"] = active;
+	data["available_power"] = 0;
+	var/turf/T = get_turf(src)
+	var/obj/structure/cable/C = T.get_cable_node()
+	if(C)
+		if(C.powernet)
+			data["available_power"] = C.powernet.avail-C.powernet.load
 	return data;
 }
 

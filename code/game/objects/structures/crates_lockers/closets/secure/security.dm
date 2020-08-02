@@ -233,6 +233,10 @@
 	new /obj/item/clothing/neck/tie/red(src)
 	new	/obj/item/clothing/neck/tie/black(src)
 	new /obj/item/clothing/neck/tie/detective(src)
+	new /obj/item/clothing/under/ship/kiryujumpsuit(src) //NSV13 - Alternative detective suit
+
+	new /obj/item/clothing/suit/ship/kiryujacket(src)
+	new /obj/item/clothing/shoes/ship/kiryushoes(src)
 
 /obj/structure/closet/secure_closet/deputy
 	name = "deputy's locker"
@@ -242,7 +246,7 @@
 	..()
 	for(var/i in 1 to 4)
 		new /obj/item/storage/backpack/duffelbag/sec/deputy(src)
-	
+
 /obj/structure/closet/secure_closet/injection
 	name = "lethal injections"
 	req_access = list(ACCESS_HOS)

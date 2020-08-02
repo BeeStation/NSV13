@@ -28,7 +28,7 @@
 	jobtype = /datum/job/bridge
 
 	id = /obj/item/card/id/silver
-	glasses = /obj/item/clothing/glasses/sunglasses
+	glasses = /obj/item/clothing/glasses/sunglasses/advanced
 	ears = /obj/item/radio/headset/headset_bridge
 	uniform = /obj/item/clothing/under/ship/officer
 	shoes = /obj/item/clothing/shoes/jackboots
