@@ -555,8 +555,9 @@ Control Rods
 
 	var/datum/gas_mixture/air1 = airs[1]
 	var/nucleium_power_reduction = 0
+
 	var/fuel_check = air1.get_moles(/datum/gas/plasma) + air1.get_moles(/datum/gas/constricted_plasma) + air1.get_moles(/datum/gas/tritium)
-	if(air1.total_moles() >= reaction_rate && fuel_check > 0)
+	if(air1.total_moles() >= reaction_rate && fuel_check > (reaction_rate / 8))
 		var/datum/gas_mixture/reaction_chamber_gases = air1.remove(reaction_rate)
 
 		//calculate the actual fuel mix
@@ -610,50 +611,17 @@ Control Rods
 		heat_gain = initial(heat_gain) + reaction_rate
 		reaction_chamber_gases.clear()
 
-		if(reactor_starvation > 0)
-			reactor_starvation -= 0.5 //drops at half the gain rate
+		if(fuel_check > (reaction_rate / 4))
+			if(reactor_starvation > 0)
+				reactor_starvation -= 0.5 //drops at half the full starvation rate
+		else
+			reactor_starvation += 0.1 //Slowly gets hungry
+			handle_reactor_starvation()
 
 	else
 		reactor_starvation ++
 		heat_gain = -5 //No plasma to react, so the reaction slowly dies off.
-		if(prob(reactor_starvation))
-			grav_pull()
-			playsound(loc, 'sound/effects/empulse.ogg', 100)
-			for(var/mob/living/M in orange(((heat / 40) + 5), src))
-				to_chat(M, "<span class='danger'>The reactor hungers!</span>")
-				shake_camera(M, 2, 1)
-		if(prob(reactor_starvation / 4))
-			var/list/barriers = list()
-			for(var/turf/closed/wall/W in orange(5, src))
-				barriers += W
-			for(var/obj/structure/window/W in orange(5, src))
-				barriers += W
-			for(var/obj/structure/girder/G in orange(5, src))
-				barriers += G
-			var/selection = pick(barriers)
-			if(!selection)
-				return
-			if(istype(selection, /turf/closed/wall))
-				var/turf/closed/wall/W = selection
-				W.ex_act(2)
-				playsound(loc, 'sound/effects/bang.ogg', 100, TRUE)
-				var/word = pick("growls", "snarls", "wails", "bellows")
-				for(var/mob/living/M in view(10, src))
-					to_chat(M, "<span class='danger'>The reactor [word]!</span>")
-			else if(istype(selection, /obj/structure/window))
-				var/obj/structure/S = selection
-				S.take_damage(400)
-				playsound(loc, 'sound/effects/bang.ogg', 100, TRUE)
-				var/word = pick("growls", "snarls", "wails", "bellows")
-				for(var/mob/living/M in view(10, src))
-					to_chat(M, "<span class='danger'>The reactor [word]!</span>")
-			else if(istype(selection, /obj/structure/girder))
-				var/obj/structure/S = selection
-				S.take_damage(200)
-				playsound(loc, 'sound/effects/bang.ogg', 100, TRUE)
-				var/word = pick("growls", "snarls", "wails", "bellows")
-				for(var/mob/living/M in view(10, src))
-					to_chat(M, "<span class='danger'>The reactor [word]!</span>")
+		handle_reactor_starvation()
 
 	input_power = ((heat/150)**3) * input_power_modifier //Higher temperature = more power. Crank the temperature up, stop being so scared.
 	var/power_produced = base_power
@@ -821,6 +789,46 @@ Control Rods
 				var/datum/gas_mixture/air1 = airs[1]
 				air1.adjust_moles(/datum/gas/plasma, 100)
 				return
+
+/obj/machinery/atmospherics/components/binary/stormdrive_reactor/proc/handle_reactor_starvation()
+	if(prob(reactor_starvation))
+		grav_pull()
+		playsound(loc, 'sound/effects/empulse.ogg', 100)
+		for(var/mob/living/M in orange(((heat / 40) + 5), src))
+			to_chat(M, "<span class='danger'>The reactor hungers!</span>")
+			shake_camera(M, 2, 1)
+	if(prob(reactor_starvation / 4))
+		var/list/barriers = list()
+		for(var/turf/closed/wall/W in orange(5, src))
+			barriers += W
+		for(var/obj/structure/window/W in orange(5, src))
+			barriers += W
+		for(var/obj/structure/girder/G in orange(5, src))
+			barriers += G
+		var/selection = pick(barriers)
+		if(!selection)
+			return
+		if(istype(selection, /turf/closed/wall))
+			var/turf/closed/wall/W = selection
+			W.ex_act(2)
+			playsound(loc, 'sound/effects/bang.ogg', 100, TRUE)
+			var/word = pick("growls", "snarls", "wails", "bellows")
+			for(var/mob/living/M in view(10, src))
+				to_chat(M, "<span class='danger'>The reactor [word]!</span>")
+		else if(istype(selection, /obj/structure/window))
+			var/obj/structure/S = selection
+			S.take_damage(400)
+			playsound(loc, 'sound/effects/bang.ogg', 100, TRUE)
+			var/word = pick("growls", "snarls", "wails", "bellows")
+			for(var/mob/living/M in view(10, src))
+				to_chat(M, "<span class='danger'>The reactor [word]!</span>")
+		else if(istype(selection, /obj/structure/girder))
+			var/obj/structure/S = selection
+			S.take_damage(200)
+			playsound(loc, 'sound/effects/bang.ogg', 100, TRUE)
+			var/word = pick("growls", "snarls", "wails", "bellows")
+			for(var/mob/living/M in view(10, src))
+				to_chat(M, "<span class='danger'>The reactor [word]!</span>")
 
 /obj/machinery/atmospherics/components/binary/stormdrive_reactor/proc/send_alert(message, override=FALSE)
 	if(!message)
