@@ -694,7 +694,7 @@ Control Rods
 	var/control_rod_effectiveness_total = 0
 	for(var/obj/item/control_rod/cr in contents)
 		control_rod_effectiveness_total += cr.rod_effectiveness
-	control_rod_modifier = control_rod_effectiveness_total / MAX_CONTROL_RODS
+	control_rod_modifier = control_rod_effectiveness_total / control_rods.len
 
 /obj/machinery/atmospherics/components/binary/stormdrive_reactor/proc/handle_control_rod_integrity()
 	if(control_rods.len > 0)
