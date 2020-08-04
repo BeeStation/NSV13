@@ -250,9 +250,14 @@
 
 /obj/structure/overmap/nanotrasen/battlecruiser/starter
 	role = MAIN_OVERMAP
-	max_integrity = 1800 //Buffed health due to ship internal damage existing
-	integrity_failure = 1800
+	max_integrity = 500 //Buffed health due to ship internal damage existing
+	integrity_failure = 500
 	starting_system = "Wolf 359"
+	use_armour_quadrants = TRUE
+	armour_quadrants = list("forward_port" = list("name" = "Forward Port", "max_armour" = 750, "current_armour" = 750),\
+							"forward_starboard" = list("name" = "Forward Starboard", "max_armour" = 750, "current_armour" = 750),\
+							"aft_port" = list("name" = "Aft Port", "max_armour" = 750, "current_armour" = 750),\
+							"aft_starboard" = list("name" = "Aft Starboard", "max_armour" = 750, "current_armour" = 750))
 
 /obj/structure/overmap/nanotrasen/battleship/starter
 	role = MAIN_OVERMAP //Player controlled variant

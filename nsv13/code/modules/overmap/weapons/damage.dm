@@ -116,10 +116,13 @@ Bullet reactions
 	new /obj/effect/temp_visual/explosion_telegraph(T)
 
 /obj/structure/overmap/proc/handle_critical_failure()
-	structure_crit_no_return = TRUE
-	priority_announce("DANGER. Ship superstructure failure. No return threshold reached. Anti-salvage countermeasures initializing.","Automated announcement ([src])")
-	//KMC STUFF GOES HERE FOR ROUND END
+	structure_crit_no_return = TRUE //Better launch those escape pods pronto
+	priority_announce("DANGER. Ship superstructure critical failure imminent. No return threshold reached.","Automated announcement ([src])")
+	addtimer(CALLBACK(src, .proc/handle_crit_round_end, FALSE), 5 MINUTES)
 
+/obj/structure/overmap/proc/handle_crit_round_end()
+	//add a cinematic here
+	src.Destroy() //RIP
 
 /obj/structure/overmap/proc/try_repair(amount)
 	var/withrepair = obj_integrity+amount

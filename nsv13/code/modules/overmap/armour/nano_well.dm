@@ -45,7 +45,7 @@ Starting Materials
 
 /obj/machinery/armour_plating_nanorepair_well
 	name = "Armour Plating Nano-repair Well"
-	desc = "Central Well for the AP thingies" //KMC - Need a description
+	desc = "Central Well for the AP thingies"
 	icon = 'nsv13/icons/obj/machinery/armour_well.dmi'
 	icon_state = "well"
 	pixel_x = -16
@@ -90,6 +90,9 @@ Starting Materials
 	addtimer(CALLBACK(src, .proc/handle_linking), 10 SECONDS)
 
 /obj/machinery/armour_plating_nanorepair_well/process()
+	if(!powered() || idle_power_usage <= 0 || !try_use_power(idle_power_usage))
+		update_icon()
+		return FALSE
 
 	if(is_operational())
 		handle_system_stress()
@@ -97,6 +100,20 @@ Starting Materials
 		handle_power_allocation()
 		handle_repair_efficiency()
 	update_icon()
+
+/obj/machinery/armour_plating_nanorepair_well/proc/try_use_power(amount) //checking to see if we have a cable or use APU
+    var/turf/T = get_turf(src)
+    var/obj/structure/cable/C = T.get_cable_node()
+    if(C)
+        if(!C.powernet)
+            return FALSE
+        var/power_in_net = C.powernet.avail-C.powernet.load
+
+        if(power_in_net && power_in_net > amount)
+            C.powernet.load += amount
+            return TRUE
+        return FALSE
+    return FALSE
 
 /obj/machinery/armour_plating_nanorepair_well/proc/handle_repair_efficiency() //Sigmoidal Curve
 	repair_efficiency = ((1 / (0.01 + (NUM_E ** (-0.00001 * power_allocation)))) * material_modifier) / 100
@@ -150,7 +167,7 @@ Starting Materials
 				if(1) //Iron
 					var/datum/component/material_container/materials = GetComponent(/datum/component/material_container)
 					var/iron_amount = min(100, (RR_MAX - repair_resources))
-					if(materials.has_enough_of_material(/datum/material/iron, iron_amount)) //KMC [has_enough_of_material] isn't working as intended
+					if(materials.has_enough_of_material(/datum/material/iron, iron_amount))
 						materials.use_amount_mat(iron_amount, /datum/material/iron)
 						repair_resources += iron_amount / 2
 						material_modifier = 0.125 //Very Low modifier
