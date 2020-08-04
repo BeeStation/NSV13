@@ -722,8 +722,9 @@ Control Rods
 		var/datum/gas_mixture/air2 = airs[2]
 		var/output_starting_pressure = air2.return_pressure()
 		var/heat_kelvin = heat + 273.15
+		var/fuel_amount = air1.get_moles(/datum/gas/plasma) + air1.get_moles(/datum/gas/constricted_plasma) + air1.get_moles(/datum/gas/tritium)
 		if(output_starting_pressure >= max_output_pressure) //if pressured capped, nucleium backs up into the drive
-			air1.adjust_moles(/datum/gas/nucleium, (reaction_rate / 10) * input_power_modifier)
+			air1.adjust_moles(/datum/gas/nucleium, ((fuel_amount / reaction_rate) / 10) * input_power_modifier)
 			air1.set_temperature(heat_kelvin)
 			update_parents()
 		else
