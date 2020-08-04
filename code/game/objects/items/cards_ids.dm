@@ -111,8 +111,8 @@
 	lefthand_file = 'icons/mob/inhands/equipment/idcards_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/equipment/idcards_righthand.dmi'
 	slot_flags = ITEM_SLOT_ID
-	armor = list("melee" = 0, "bullet" = 0, "laser" = 0, "energy" = 0, "bomb" = 0, "bio" = 0, "rad" = 0, "fire" = 100, "acid" = 100)
-	resistance_flags = FIRE_PROOF | ACID_PROOF
+	armor = list("melee" = 0, "bullet" = 0, "laser" = 0, "energy" = 0, "bomb" = 0, "bio" = 0, "rad" = 0, "fire" = 90, "acid" = 100)
+	resistance_flags = ACID_PROOF
 	var/mining_points = 0 //For redeeming at mining equipment vendors
 	var/list/access = list()
 	var/registered_name = null // The name registered_name on the card
@@ -318,6 +318,7 @@ update_label("John Doe", "Clowny")
 	item_state = "silver_id"
 	lefthand_file = 'icons/mob/inhands/equipment/idcards_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/equipment/idcards_righthand.dmi'
+	resistance_flags = FIRE_PROOF | ACID_PROOF
 
 /obj/item/card/id/silver/reaper
 	name = "Thirteen's ID Card (Reaper)"
@@ -332,12 +333,14 @@ update_label("John Doe", "Clowny")
 	item_state = "gold_id"
 	lefthand_file = 'icons/mob/inhands/equipment/idcards_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/equipment/idcards_righthand.dmi'
+	resistance_flags = FIRE_PROOF | ACID_PROOF
 
 /obj/item/card/id/syndicate
 	name = "agent card"
 	access = list(ACCESS_MAINT_TUNNELS, ACCESS_SYNDICATE)
 	var/anyone = FALSE //Can anyone forge the ID or just syndicate?
 	var/forged = FALSE //have we set a custom name and job assignment, or will we use what we're given when we chameleon change?
+	resistance_flags = FIRE_PROOF | ACID_PROOF
 	var/static/list/available_icon_states = list(
 		"id",
 		"orange",
@@ -466,6 +469,7 @@ update_label("John Doe", "Clowny")
 	righthand_file = 'icons/mob/inhands/equipment/idcards_righthand.dmi'
 	registered_name = "Captain"
 	assignment = "Captain"
+	resistance_flags = FIRE_PROOF | ACID_PROOF
 
 /obj/item/card/id/captains_spare/Initialize()
 	var/datum/job/captain/J = new/datum/job/captain
@@ -478,6 +482,7 @@ update_label("John Doe", "Clowny")
 	icon_state = "centcom"
 	registered_name = "Central Command"
 	assignment = "General"
+	resistance_flags = FIRE_PROOF | ACID_PROOF
 
 /obj/item/card/id/centcom/Initialize()
 	access = get_all_centcom_access()
@@ -489,6 +494,7 @@ update_label("John Doe", "Clowny")
 	icon_state = "ert"
 	registered_name = "Emergency Response Team Commander"
 	assignment = "Emergency Response Team Commander"
+	resistance_flags = FIRE_PROOF | ACID_PROOF
 
 /obj/item/card/id/ert/Initialize()
 	access = get_all_accesses()+get_ert_access("commander")-ACCESS_CHANGE_IDS
@@ -550,6 +556,7 @@ update_label("John Doe", "Clowny")
 	registered_name = "Scum"
 	var/goal = 0 //How far from freedom?
 	var/points = 0
+	resistance_flags = FIRE_PROOF | ACID_PROOF
 
 /obj/item/card/id/prisoner/attack_self(mob/user)
 	to_chat(usr, "<span class='notice'>You have accumulated [points] out of the [goal] points you need for freedom.</span>")
@@ -590,6 +597,7 @@ update_label("John Doe", "Clowny")
 	name = "a perfectly generic identification card"
 	desc = "A perfectly generic identification card. Looks like it could use some flavor."
 	access = list(ACCESS_AWAY_GENERAL)
+	resistance_flags = FIRE_PROOF | ACID_PROOF
 
 /obj/item/card/id/away/hotel
 	name = "Staff ID"
@@ -604,6 +612,7 @@ update_label("John Doe", "Clowny")
 	name = "a perfectly generic identification card"
 	desc = "A perfectly generic identification card. Looks like it could use some flavor."
 	icon_state = "centcom"
+	resistance_flags = FIRE_PROOF | ACID_PROOF
 
 /obj/item/card/id/away/old/sec
 	name = "Charlie Station Security Officer's ID card"
@@ -639,6 +648,7 @@ update_label("John Doe", "Clowny")
 	icon_state = "budget"
 	var/department_ID = ACCOUNT_CIV
 	var/department_name = ACCOUNT_CIV_NAME
+	resistance_flags = FIRE_PROOF | ACID_PROOF
 
 /obj/item/card/id/departmental_budget/Initialize()
 	. = ..()
@@ -694,6 +704,7 @@ update_label("John Doe", "Clowny")
 
 /obj/item/card/id/job/ce
 	icon_state = "ce"
+	resistance_flags = FIRE_PROOF | ACID_PROOF
 
 /obj/item/card/id/job/engi
 	icon_state = "engi"
@@ -703,12 +714,14 @@ update_label("John Doe", "Clowny")
 
 /obj/item/card/id/job/cmo
 	icon_state = "cmo"
+	resistance_flags = FIRE_PROOF | ACID_PROOF
 
 /obj/item/card/id/job/med
 	icon_state = "med"
 
 /obj/item/card/id/job/hos
 	icon_state = "hos"
+	resistance_flags = FIRE_PROOF | ACID_PROOF
 
 /obj/item/card/id/job/sec
 	icon_state = "sec"
@@ -721,6 +734,7 @@ update_label("John Doe", "Clowny")
 
 /obj/item/card/id/job/rd
 	icon_state = "rd"
+	resistance_flags = FIRE_PROOF | ACID_PROOF
 
 /obj/item/card/id/job/sci
 	icon_state = "sci"

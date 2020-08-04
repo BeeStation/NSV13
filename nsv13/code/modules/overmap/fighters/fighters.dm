@@ -31,7 +31,7 @@ After going through this checklist, you're ready to go!
 	icon = 'nsv13/icons/overmap/nanotrasen/fighter.dmi'
 	icon_state = "fighter"
 	brakes = TRUE
-	armor = list("melee" = 80, "bullet" = 50, "laser" = 80, "energy" = 50, "bomb" = 50, "bio" = 100, "rad" = 100, "fire" = 100, "acid" = 80) //temp to stop easy destruction from small arms
+	armor = list("melee" = 80, "bullet" = 50, "laser" = 80, "energy" = 50, "bomb" = 50, "bio" = 100, "rad" = 100, "fire" = 40, "acid" = 80) //temp to stop easy destruction from small arms
 	bound_width = 64 //Change this on a per ship basis
 	bound_height = 64
 	mass = MASS_TINY

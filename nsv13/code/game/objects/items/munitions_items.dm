@@ -6,6 +6,7 @@
 	department_ID = ACCOUNT_MUN
 	department_name = ACCOUNT_MUN_NAME
 	icon_state = "warden" //placeholder
+	resistance_flags = FIRE_PROOF | ACID_PROOF
 
 ///////DEPARTMENT DOOR REMOTE//////
 
