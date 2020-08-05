@@ -333,6 +333,8 @@
 	shots_left = 7 //Reload yer nukes
 	torpedoes = 5
 	missiles = 10
+	pixel_z = -32
+	pixel_w = -32
 
 /obj/structure/overmap/syndicate/ai/carrier
 	name = "syndicate carrier"
@@ -386,8 +388,8 @@
 	mass = MASS_LARGE
 	sprite_size = 48
 	damage_states = TRUE
-	pixel_z = -96
-	pixel_w = -96
+	pixel_z = -32
+	pixel_w = -32
 	max_integrity = 1200 //Max health
 	integrity_failure = 1200
 	missiles = 0
@@ -431,8 +433,8 @@
 	mass = MASS_MEDIUM
 	sprite_size = 48
 	damage_states = TRUE
-	pixel_z = -96
-	pixel_w = -96
+	pixel_z = -32
+	pixel_w = -32
 	max_integrity = 700 //Max health
 	integrity_failure = 700
 	missiles = 5
@@ -458,8 +460,8 @@
 	mass = MASS_MEDIUM
 	sprite_size = 48
 	damage_states = TRUE
-	pixel_z = -96
-	pixel_w = -96
+	pixel_z = -32
+	pixel_w = -32
 	max_integrity = 700 //Max health
 	integrity_failure = 700
 	missiles = 10
@@ -545,18 +547,10 @@
 	ai_controlled = TRUE
 	ai_trait = AI_TRAIT_DESTROYER
 
-/obj/structure/overmap/nanotrasen/solgov/ai/apply_weapons()
-	weapon_types[FIRE_MODE_PDC] = new /datum/ship_weapon/pdc_mount(src)
-	weapon_types[FIRE_MODE_TORPEDO] = new/datum/ship_weapon/torpedo_launcher(src)
-	weapon_types[FIRE_MODE_RAILGUN] = new /datum/ship_weapon/pdc_mount/burst_phaser(src)
-	weapon_types[FIRE_MODE_MAC] = new /datum/ship_weapon/phaser(src)
-	weapon_types[FIRE_MODE_MISSILE] = new/datum/ship_weapon/missile_launcher(src)
-
 /obj/structure/overmap/nanotrasen/solgov/apply_weapons()
-	weapon_types[FIRE_MODE_PDC] = new /datum/ship_weapon/pdc_mount(src)
-	weapon_types[FIRE_MODE_TORPEDO] = new/datum/ship_weapon/torpedo_launcher(src)
-	weapon_types[FIRE_MODE_RAILGUN] = new /datum/ship_weapon/pdc_mount/burst_phaser(src)
-	weapon_types[FIRE_MODE_MAC] = new /datum/ship_weapon/phaser(src)
+	. = ..()
+	weapon_types[FIRE_MODE_RED_LASER] = new /datum/ship_weapon/pdc_mount/burst_phaser(src)
+	weapon_types[FIRE_MODE_BLUE_LASER] = new /datum/ship_weapon/phaser(src)
 
 /obj/structure/overmap/nanotrasen/solgov/starter
 	role = MAIN_OVERMAP
