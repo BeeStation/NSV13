@@ -9,7 +9,7 @@
 	var/weapon_class = WEAPON_CLASS_HEAVY //Do AIs need to resupply with ammo to use this weapon?
 
 /datum/ship_weapon/proc/valid_target(obj/structure/overmap/source, obj/structure/overmap/target)
-	if(!istype(src) || !istype(target))
+	if(!istype(source) || !istype(target))
 		return FALSE
 	return TRUE
 
@@ -26,7 +26,7 @@
 	screen_shake = 2
 
 /datum/ship_weapon/mac/valid_target(obj/structure/overmap/source, obj/structure/overmap/target)
-	if(!istype(src) || !istype(target))
+	if(!istype(source) || !istype(target))
 		return FALSE
 	if(target.mass <= MASS_TINY) //Alright fighter mains. I'm not THAT much of a bastard. Generally AIs will prefer to not use their MAC for flyswatting.
 		return FALSE
@@ -66,7 +66,7 @@
 	overmap_select_sound = 'nsv13/sound/effects/ship/reload.ogg'
 
 /datum/ship_weapon/torpedo_launcher/valid_target(obj/structure/overmap/source, obj/structure/overmap/target)
-	if(!istype(src) || !istype(target))
+	if(!istype(source) || !istype(target))
 		return FALSE
 	if(target.mass <= MASS_SMALL)
 		return FALSE
@@ -141,7 +141,7 @@
 	firing_arc = 45 //Broad side of a barn...
 
 /datum/ship_weapon/missile_launcher/valid_target(obj/structure/overmap/source, obj/structure/overmap/target)
-	if(!istype(src) || !istype(target))
+	if(!istype(source) || !istype(target))
 		return FALSE
 	if(target.mass > MASS_SMALL)
 		return FALSE
