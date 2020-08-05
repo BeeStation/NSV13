@@ -30,16 +30,15 @@
 #define VV_HK_REMOVE_GAUSS_GUNNER "getOutOfMyGunIdiot"
 
 /obj/machinery/ship_weapon/gauss_gun/vv_get_dropdown()
-    . = ..()
-    VV_DROPDOWN_OPTION(VV_HK_REMOVE_GAUSS_GUNNER, "Remove Gunner")
+	. = ..()
+	VV_DROPDOWN_OPTION(VV_HK_REMOVE_GAUSS_GUNNER, "Remove Gunner")
 
 /obj/machinery/ship_weapon/gauss_gun/vv_do_topic(list/href_list)
-    . = ..()
-    if(href_list[VV_HK_REMOVE_GAUSS_GUNNER])
-        if(!check_rights(NONE))
-            return
-		message_admins("[key_name(usr)] forcibly removed a gunner from [src] in [get_area(src)]")
-        remove_gunner()
+	. = ..()
+	if(href_list[VV_HK_REMOVE_GAUSS_GUNNER])
+		if(!check_rights(NONE))
+			return
+		remove_gunner()
 
 /obj/machinery/ship_weapon/gauss_gun/powered(chan)
 	if(!loc)
