@@ -9,7 +9,13 @@
 #define FIRE_MODE_MISSILE 7
 #define FIRE_MODE_FIGHTER_SLOT_ONE 8
 #define FIRE_MODE_FIGHTER_SLOT_TWO 9
-#define MAX_POSSIBLE_FIREMODE 10 //This should relate to the maximum number of weapons a ship can ever have. Keep this up to date please!
+#define FIRE_MODE_RED_LASER 10
+#define FIRE_MODE_BLUE_LASER 11
+#define MAX_POSSIBLE_FIREMODE 11 //This should relate to the maximum number of weapons a ship can ever have. Keep this up to date please!
+
+//Weapon classes for AIs
+#define WEAPON_CLASS_LIGHT 1
+#define WEAPON_CLASS_HEAVY 2
 
 //AI behaviour
 
