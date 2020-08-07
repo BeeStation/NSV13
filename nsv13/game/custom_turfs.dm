@@ -200,6 +200,7 @@
 	name = "Interior reinforced window"
 	desc = "A heavyset window reinforced with tiny carbon structures which is designed to take a beating."
 	glass_type = /obj/item/stack/sheet/rglass
+	glass_amount = 2
 
 /obj/structure/window/reinforced/fulltile/ship/interior/unanchored
 	anchored = FALSE
