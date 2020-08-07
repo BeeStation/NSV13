@@ -97,6 +97,12 @@
 	item_state = "peacekeeper_jacket"
 	desc = "A comfortable grey leather jacket. Despite its heavy armour, it's still extremely comfortable to wear."
 
+/obj/item/clothing/suit/ship/peacekeeper/detective
+	name = "DET jacket"
+	desc = "A smart blue jacket, identifying the wearer as a forensics expert."
+	icon_state = "det"
+	item_state = "det"
+
 /obj/item/clothing/suit/ship/peacekeeper/marine
 	name = "NT-4 Marine vest"
 	icon_state = "marine"
@@ -120,6 +126,12 @@
 	desc = "A jacket for a detective that wishes to look more to the mafia side, just by looking at it you can smell the cigars that have been smoked with it."
 	icon_state = "kiryujacket"
 	item_state = "kiryujacket"
+
+/obj/item/clothing/suit/ship/engineer
+	name = "Engineering webbing"
+	desc = "A basic storage vest which allows you to store a few small tools"
+	icon_state = "engineer_vest"
+	allowed = list(/obj/item/wrench, /obj/item/weldingtool, /obj/item/wirecutters, /obj/item/screwdriver, /obj/item/extinguisher, /obj/item/crowbar, /obj/item/analyzer, /obj/item/multitool, /obj/item/modular_computer/tablet)
 
 /obj/item/clothing/head/ship
 	name = "placeholder"
