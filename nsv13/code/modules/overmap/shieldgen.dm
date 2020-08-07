@@ -325,6 +325,7 @@
 	ours?.shields = src;
 	if(!ours){
 		message_admins("WARNING: Shield generator in [get_area(src)] does not have a linked overmap!");
+		log_game("WARNING: Shield generator in [get_area(src)] does not have a linked overmap!");
 	}
 }
 
