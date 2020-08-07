@@ -101,7 +101,7 @@ Bullet reactions
 		relay('nsv13/sound/effects/ship/crit_alarm.ogg', message=null, loop=TRUE, channel=CHANNEL_SHIP_FX)
 		priority_announce("DANGER. Ship superstructure failing. Structural integrity failure imminent. Immediate repairs are required to avoid total structural failure.","Automated announcement ([src])") //TEMP! Remove this shit when we move ruin spawns off-z
 		structure_crit = TRUE
-		structure_crit_timer = addtimer(CALLBACK(src, .proc/handle_critical_failure, FALSE), 5 MINUTES)
+		structure_crit_timer = addtimer(CALLBACK(src, .proc/handle_critical_failure_part_1, FALSE), 5 MINUTES)
 	if(explosion_cooldown)
 		return
 	explosion_cooldown = TRUE
@@ -115,14 +115,33 @@ Bullet reactions
 	var/turf/T = pick(get_area_turfs(target))
 	new /obj/effect/temp_visual/explosion_telegraph(T)
 
-/obj/structure/overmap/proc/handle_critical_failure()
+/obj/structure/overmap/proc/handle_critical_failure_part_1()
 	structure_crit_no_return = TRUE //Better launch those escape pods pronto
 	priority_announce("DANGER. Ship superstructure critical failure imminent. No return threshold reached.","Automated announcement ([src])")
-	addtimer(CALLBACK(src, .proc/handle_crit_round_end, FALSE), 5 MINUTES)
+	addtimer(CALLBACK(src, .proc/handle_critical_failure_part_2, FALSE), 5 MINUTES)
 
-/obj/structure/overmap/proc/handle_crit_round_end()
-	//add a cinematic here
-	src.Destroy() //RIP
+/obj/structure/overmap/proc/handle_critical_failure_part_2()
+	if(role == MAIN_OVERMAP)
+		for(var/M in mobs_in_ship)
+			if(!locate(M) in operators)
+				start_piloting(M, "observer") //Make sure everyone sees the ship is exploding
+		sleep(10)
+		STOP_PROCESSING(SSovermap, src) //Reject player input
+		src.SpinAnimation(1000, 1) //Drift
+		var/michael_bay = rand(5,8) //How many explosions we're going to see (lens flares cost extra)
+		for(var/I = 0, I < michael_bay, I++)
+			var/obj/effect/temp_visual/nuke_impact/MB = new /obj/effect/temp_visual/nuke_impact(get_turf(src))
+			MB.pixel_x = rand(-120, 20)
+			MB.pixel_y = rand(-160, 20)
+			sleep(rand(10, 30))
+		sleep(20)
+		qdel(src) //kaboom goes the ship
+		sleep(100)
+		//flick an awesome cinematic screen here - WYSI
+		SSticker.mode.check_finished(TRUE)
+		SSticker.force_ending = TRUE
+	else
+		qdel(src) //copy some of the above stuff later (when its shiny)
 
 /obj/structure/overmap/proc/try_repair(amount)
 	var/withrepair = obj_integrity+amount
