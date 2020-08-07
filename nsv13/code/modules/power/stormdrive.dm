@@ -524,6 +524,7 @@ Control Rods
 			start_meltdown() //Epsilon or Death
 
 /obj/machinery/atmospherics/components/binary/stormdrive_reactor/process()
+	update_parents() //sanitary check
 	if(next_slowprocess < world.time)
 		slowprocess() //Process the Stormdrive
 		next_slowprocess = world.time + 1 SECONDS //Set to wait for another second before processing again, we don't need to process more than once a second
