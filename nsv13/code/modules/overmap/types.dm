@@ -594,6 +594,7 @@
 	pixel_w = -44
 	pixel_z = -180
 	starting_system = "Unknown Signal"
+	role = INSTANCED_MIDROUND_SHIP
 
 /obj/structure/overmap/nanotrasen/gunstar/apply_weapons()
 	weapon_types[FIRE_MODE_PDC] = new /datum/ship_weapon/pdc_mount(src)
