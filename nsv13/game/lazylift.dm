@@ -79,8 +79,8 @@ That's it, ok bye!
 
 //Lifts speak a lotta languages, alien isn't one of 'em.
 /datum/language_holder/synthetic/turbolift
-	languages = list(/datum/language/common)
-	shadow_languages = list(/datum/language/common, /datum/language/machine, /datum/language/draconic, /datum/language/drone)
+	spoken_languages = list(/datum/language/common)
+	understood_languages = list(/datum/language/common, /datum/language/machine, /datum/language/draconic, /datum/language/drone)
 
 /obj/machinery/lazylift
 	name = "Turbolift interface panel"

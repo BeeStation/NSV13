@@ -118,14 +118,14 @@
 		return
 
 	var/temp = json["space_ruin_levels"]
-	if (isnum(temp))
+	if (isnum_safe(temp))
 		space_ruin_levels = temp
 	else if (!isnull(temp))
 		log_world("map_config space_ruin_levels is not a number!")
 		return
 
 	temp = json["space_empty_levels"]
-	if (isnum(temp))
+	if (isnum_safe(temp))
 		space_empty_levels = temp
 	else if (!isnull(temp))
 		log_world("map_config space_empty_levels is not a number!")

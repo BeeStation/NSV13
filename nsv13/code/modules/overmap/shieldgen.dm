@@ -315,6 +315,18 @@
 	. = ..();
 	var/obj/structure/overmap/ours = get_overmap();
 	ours?.shields = src;
+	if(!ours){
+		addtimer(CALLBACK(src, .proc/try_find_overmap), 20 SECONDS);
+	}
+}
+
+/obj/machinery/shield_generator/proc/try_find_overmap(){
+	var/obj/structure/overmap/ours = get_overmap();
+	ours?.shields = src;
+	if(!ours){
+		message_admins("WARNING: Shield generator in [get_area(src)] does not have a linked overmap!");
+		log_game("WARNING: Shield generator in [get_area(src)] does not have a linked overmap!");
+	}
 }
 
 /obj/machinery/shield_generator/proc/depower_shield(){
