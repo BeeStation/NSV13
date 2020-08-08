@@ -333,6 +333,8 @@
 	shots_left = 7 //Reload yer nukes
 	torpedoes = 5
 	missiles = 10
+	pixel_z = -32
+	pixel_w = -32
 
 /obj/structure/overmap/syndicate/ai/carrier
 	name = "syndicate carrier"
@@ -378,6 +380,24 @@
 	armor = list("overmap_light" = 70, "overmap_heavy" = 30)
 	ai_trait = AI_TRAIT_BATTLESHIP
 
+/obj/structure/overmap/syndicate/ai/battleship //Larger ship which is much harder to kill
+	name = "SSV Fist Of Sol"
+	desc = "Death incarnate."
+	icon = 'nsv13/icons/overmap/syndicate/battleship.dmi'
+	icon_state = "battleship"
+	mass = MASS_TITAN
+	sprite_size = 48
+	damage_states = TRUE
+	pixel_z = -350
+	pixel_w = -150
+	max_integrity = 15000 //Max health
+	integrity_failure = 15000
+	bounty = 20000
+	shots_left = 50 //A monster.
+	collision_positions = list(new /datum/vector2d(-5,381), new /datum/vector2d(-23,318), new /datum/vector2d(-49,25), new /datum/vector2d(-60,-168), new /datum/vector2d(-41,-357), new /datum/vector2d(-17,-369), new /datum/vector2d(8,-368), new /datum/vector2d(26,-360), new /datum/vector2d(51,-148), new /datum/vector2d(36,44), new /datum/vector2d(29,184), new /datum/vector2d(11,310))
+	armor = list("overmap_light" = 90, "overmap_heavy" = 50)
+	ai_trait = AI_TRAIT_DESTROYER
+
 /obj/structure/overmap/syndicate/ai/assault_cruiser //A big box of tank which is hard to take down, and lethal up close.
 	name = "Syndicate assault cruiser"
 	desc = "A heavily armoured cruiser designed for close quarters engagement."
@@ -386,8 +406,8 @@
 	mass = MASS_LARGE
 	sprite_size = 48
 	damage_states = TRUE
-	pixel_z = -96
-	pixel_w = -96
+	pixel_z = -32
+	pixel_w = -32
 	max_integrity = 1200 //Max health
 	integrity_failure = 1200
 	missiles = 0
@@ -414,6 +434,8 @@
 	ai_trait = list(AI_TRAIT_ANTI_FIGHTER, AI_TRAIT_BOARDER) //It likes to go after fighters really
 	speed_limit = 4 //So we have at least a chance of getting within boarding range.
 	collision_positions = list(new /datum/vector2d(-2,96), new /datum/vector2d(-20,57), new /datum/vector2d(-25,-63), new /datum/vector2d(-11,-95), new /datum/vector2d(7,-95), new /datum/vector2d(23,-63), new /datum/vector2d(20,59))
+	pixel_z = -32
+	pixel_w = -32
 
 /obj/structure/overmap/syndicate/ai/assault_cruiser/boarding_frigate/apply_weapons()
 	weapon_types[FIRE_MODE_PDC] = new /datum/ship_weapon/pdc_mount/aa_guns(src)
@@ -431,8 +453,8 @@
 	mass = MASS_MEDIUM
 	sprite_size = 48
 	damage_states = TRUE
-	pixel_z = -96
-	pixel_w = -96
+	pixel_z = -32
+	pixel_w = -32
 	max_integrity = 700 //Max health
 	integrity_failure = 700
 	missiles = 5
@@ -458,8 +480,8 @@
 	mass = MASS_MEDIUM
 	sprite_size = 48
 	damage_states = TRUE
-	pixel_z = -96
-	pixel_w = -96
+	pixel_z = -32
+	pixel_w = -32
 	max_integrity = 700 //Max health
 	integrity_failure = 700
 	missiles = 10
@@ -545,25 +567,17 @@
 	ai_controlled = TRUE
 	ai_trait = AI_TRAIT_DESTROYER
 
-/obj/structure/overmap/nanotrasen/solgov/ai/apply_weapons()
-	weapon_types[FIRE_MODE_PDC] = new /datum/ship_weapon/pdc_mount(src)
-	weapon_types[FIRE_MODE_TORPEDO] = new/datum/ship_weapon/torpedo_launcher(src)
-	weapon_types[FIRE_MODE_RAILGUN] = new /datum/ship_weapon/pdc_mount/burst_phaser(src)
-	weapon_types[FIRE_MODE_MAC] = new /datum/ship_weapon/phaser(src)
-	weapon_types[FIRE_MODE_MISSILE] = new/datum/ship_weapon/missile_launcher(src)
-
 /obj/structure/overmap/nanotrasen/solgov/apply_weapons()
-	weapon_types[FIRE_MODE_PDC] = new /datum/ship_weapon/pdc_mount(src)
-	weapon_types[FIRE_MODE_TORPEDO] = new/datum/ship_weapon/torpedo_launcher(src)
-	weapon_types[FIRE_MODE_RAILGUN] = new /datum/ship_weapon/pdc_mount/burst_phaser(src)
-	weapon_types[FIRE_MODE_MAC] = new /datum/ship_weapon/phaser(src)
+	. = ..()
+	weapon_types[FIRE_MODE_RED_LASER] = new /datum/ship_weapon/pdc_mount/burst_phaser(src)
+	weapon_types[FIRE_MODE_BLUE_LASER] = new /datum/ship_weapon/phaser(src)
 
 /obj/structure/overmap/nanotrasen/solgov/starter
 	role = MAIN_OVERMAP
 	max_integrity = 1200 //She's fragile and relies heavily on shields.
 	integrity_failure = 1200
 	starting_system = "Sol"
-	
+
 /obj/structure/overmap/nanotrasen/solgov/aetherwhisp
 	name = "Aetherwhisp class light cruiser"
 	desc = "A mid range SolGov exploratory cruiser. These ships are geared for peaceful missions, but can defend themselves if they must."
@@ -582,3 +596,25 @@
 	max_integrity = 1200 //She's fragile and relies heavily on shields.
 	integrity_failure = 1200
 	starting_system = "Sol"
+
+/obj/structure/overmap/nanotrasen/gunstar
+	name = "Acropolis class heavy cruiser"
+	desc = "A prototype gunship typically reserved for the admiralty which is capable of delivering an overwhelming amount of firepower for its size. Its design crams the firepower of a battlestar into a cruiser frame to deliver extreme punishment using cutting edge weapons research."
+	icon = 'nsv13/icons/overmap/nanotrasen/gunstar.dmi'
+	icon_state = "gunstar"
+	mass = MASS_LARGE //Big beefy lad with a lot of firepower.
+	sprite_size = 48
+	damage_states = FALSE //I'm lazy
+	max_integrity = 1800 //Max health
+	integrity_failure = 1200
+	collision_positions = list(new /datum/vector2d(-8,177), new /datum/vector2d(-55,52), new /datum/vector2d(-57,-32), new /datum/vector2d(-30,-173), new /datum/vector2d(2,-181), new /datum/vector2d(29,-172), new /datum/vector2d(55,-32), new /datum/vector2d(57,51), new /datum/vector2d(13,171))
+	armor = list("overmap_light" = 75, "overmap_heavy" = 35)
+	pixel_w = -44
+	pixel_z = -180
+	starting_system = "Unknown Signal"
+	role = INSTANCED_MIDROUND_SHIP
+
+/obj/structure/overmap/nanotrasen/gunstar/apply_weapons()
+	. = ..()
+	weapon_types[FIRE_MODE_RED_LASER] = new /datum/ship_weapon/pdc_mount/burst_phaser(src)
+	weapon_types[FIRE_MODE_BLUE_LASER] = new /datum/ship_weapon/phaser(src)

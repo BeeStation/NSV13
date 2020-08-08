@@ -24,7 +24,7 @@
 	Hologram.alpha = 0
 	Hologram.name = (new_name) ? new_name : Hologram.name
 	Hologram.icon = final
-	Hologram.grant_all_languages(omnitongue=TRUE) //This is an admin thing, so this makes sense to me.
+	Hologram.grant_all_languages(grant_omnitongue=TRUE) //This is an admin thing, so this makes sense to me.
 	Hologram.mouse_opacity = MOUSE_OPACITY_TRANSPARENT//So you can't click on it.
 	Hologram.layer = FLY_LAYER//Above all the other objects/mobs. Or the vast majority of them.
 	//codersprite some holo effects here
