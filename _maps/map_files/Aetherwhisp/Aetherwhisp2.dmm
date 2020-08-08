@@ -150,7 +150,7 @@
 /obj/machinery/door/firedoor/border_only/directional/west,
 /obj/machinery/door/airlock/ship/public{
 	id_tag = "cabin1";
-	name = "Cabin Room"
+	name = "Cabin 1"
 	},
 /turf/open/floor/wood,
 /area/crew_quarters/dorms)
@@ -559,7 +559,7 @@
 /obj/machinery/door/firedoor/border_only/directional/west,
 /obj/machinery/door/firedoor/border_only/directional/east,
 /obj/machinery/door/airlock/ship/command{
-	name = "Captain Bedroom";
+	name = "Captain Quarters";
 	req_access_txt = "20"
 	},
 /obj/structure/disposalpipe/segment{
@@ -1434,7 +1434,7 @@
 /obj/machinery/door/firedoor/border_only/directional/west,
 /obj/machinery/door/airlock/ship/public{
 	id_tag = "cabin3";
-	name = "Cabin Room"
+	name = "Cabin 3"
 	},
 /turf/open/floor/wood,
 /area/crew_quarters/dorms)
@@ -1712,10 +1712,11 @@
 /turf/open/floor/carpet/blue,
 /area/bridge)
 "bjW" = (
-/obj/structure/cable{
-	icon_state = "1-2"
-	},
 /obj/structure/reagent_dispensers/watertank,
+/obj/machinery/power/apc/auto_name/west,
+/obj/structure/cable{
+	icon_state = "0-2"
+	},
 /turf/open/floor/carpet/ship,
 /area/janitor)
 "bjX" = (
@@ -2119,6 +2120,10 @@
 /obj/machinery/door/window/westleft,
 /obj/machinery/door/window/eastright{
 	req_one_access_txt = "29"
+	},
+/obj/machinery/door/poddoor/shutters/ship/preopen{
+	dir = 4;
+	id = "robotics_shutters"
 	},
 /turf/open/floor/plating,
 /area/science/robotics/lab)
@@ -2738,6 +2743,7 @@
 /obj/structure/bed,
 /obj/machinery/newscaster/security_unit/north,
 /obj/effect/landmark/start/captain,
+/obj/item/bedsheet/captain,
 /turf/open/floor/carpet,
 /area/crew_quarters/heads/captain/private)
 "bWC" = (
@@ -2790,7 +2796,7 @@
 /obj/machinery/door/firedoor/border_only/directional/south,
 /obj/machinery/door/firedoor/border_only/directional/north,
 /obj/machinery/door/airlock/ship/maintenance{
-	name = "Maintenance Access Captain Bedroom";
+	name = "Maintenance Access Captain Quarters";
 	req_one_access_txt = "20"
 	},
 /turf/open/floor/plating,
@@ -3646,6 +3652,22 @@
 	},
 /turf/open/floor/plasteel/kitchen_coldroom/freezerfloor,
 /area/science/xenobiology)
+"cFY" = (
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
+/obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
+/obj/structure/disposalpipe/segment,
+/obj/machinery/atmospherics/pipe/simple/purple/hidden,
+/obj/machinery/airalarm/directional/east,
+/turf/open/floor/carpet/ship/blue{
+	color = "#9999DD";
+	name = "nanoweave carpet (bluer)"
+	},
+/area/teleporter)
 "cGt" = (
 /obj/effect/turf_decal/arrows{
 	dir = 8;
@@ -3871,12 +3893,12 @@
 /turf/open/floor/carpet/ship/purple_carpet,
 /area/crew_quarters/heads/hor)
 "cOm" = (
-/obj/machinery/computer/ship/viewscreen{
-	desc = "It's falling apart!";
-	name = "broken viewscreen"
+/obj/structure/cable/yellow{
+	icon_state = "4-8"
 	},
-/turf/closed/wall/r_wall/ship,
-/area/bridge)
+/obj/machinery/newscaster/directional/south,
+/turf/open/floor/plasteel/freezer,
+/area/crew_quarters/toilet/locker)
 "cOE" = (
 /obj/machinery/cryopod,
 /turf/open/floor/carpet/ship/beige_carpet,
@@ -3928,11 +3950,11 @@
 /area/crew_quarters/dorms)
 "cQJ" = (
 /obj/machinery/recharge_station,
-/obj/structure/extinguisher_cabinet/west,
-/obj/structure/cable{
-	icon_state = "1-2"
-	},
 /obj/effect/landmark/start/cyborg,
+/obj/machinery/power/apc/auto_name/west,
+/obj/structure/cable{
+	icon_state = "0-2"
+	},
 /turf/open/floor/carpet/ship/purple_carpet,
 /area/science/robotics/lab)
 "cRy" = (
@@ -4385,7 +4407,7 @@
 /obj/machinery/door/firedoor/border_only/directional/south,
 /obj/machinery/door/firedoor/border_only/directional/north,
 /obj/machinery/door/airlock/ship/command{
-	name = "Deck 2 Generator";
+	name = "Deck 1 Generator";
 	req_one_access_txt = "10"
 	},
 /turf/open/floor/carpet/ship/blue{
@@ -4923,6 +4945,7 @@
 "dJc" = (
 /obj/effect/spawner/structure/window/reinforced/ship,
 /obj/machinery/door/poddoor/shutters/ship/preopen{
+	dir = 4;
 	id = "captainoffice"
 	},
 /turf/open/floor/plating,
@@ -5598,6 +5621,7 @@
 /area/maintenance/fore)
 "euE" = (
 /obj/machinery/door/poddoor/ship{
+	dir = 4;
 	id = "bridgewindows"
 	},
 /obj/effect/spawner/structure/window/reinforced/ship,
@@ -5677,6 +5701,7 @@
 /obj/structure/cable/yellow{
 	icon_state = "1-2"
 	},
+/obj/item/reagent_containers/food/drinks/flask/gold,
 /turf/open/floor/carpet,
 /area/crew_quarters/heads/captain)
 "ewJ" = (
@@ -5869,6 +5894,7 @@
 /obj/structure/disposalpipe/segment{
 	dir = 10
 	},
+/obj/machinery/airalarm/directional/east,
 /turf/open/floor/plasteel/freezer,
 /area/crew_quarters/toilet/auxiliary)
 "eDn" = (
@@ -5921,7 +5947,7 @@
 	dir = 4
 	},
 /obj/machinery/door/airlock/ship/external/glass{
-	name = "External Access Deck 2 Arch";
+	name = "External Access Deck 1 Arch";
 	req_one_access_txt = "46"
 	},
 /turf/open/floor/plating,
@@ -6218,6 +6244,7 @@
 "eQL" = (
 /obj/structure/rack,
 /obj/structure/window/reinforced,
+/obj/machinery/airalarm/directional/east,
 /turf/open/floor/circuit,
 /area/ai_monitored/turret_protected/ai_upload)
 "eQT" = (
@@ -6964,7 +6991,7 @@
 /obj/machinery/door/firedoor/border_only/directional/north,
 /obj/machinery/door/firedoor/border_only/directional/south,
 /obj/machinery/door/airlock/ship/station/research{
-	name = "Robotics";
+	name = "Robotics Lab";
 	req_one_access_txt = "29"
 	},
 /obj/structure/disposalpipe/segment,
@@ -7132,6 +7159,13 @@
 /obj/structure/cable{
 	icon_state = "1-2"
 	},
+/obj/machinery/button/door{
+	id = "robotics_shutters";
+	name = "robotics shutters control";
+	pixel_x = -26;
+	pixel_y = 26;
+	req_access_txt = "29"
+	},
 /turf/open/floor/carpet/ship/purple_carpet,
 /area/science/robotics/lab)
 "fyA" = (
@@ -7172,6 +7206,7 @@
 /obj/item/hemostat,
 /obj/item/retractor,
 /obj/item/cautery,
+/obj/structure/extinguisher_cabinet/south,
 /turf/open/floor/carpet/ship/purple_carpet,
 /area/science/robotics/lab)
 "fBc" = (
@@ -7216,7 +7251,7 @@
 /obj/machinery/door/firedoor/border_only/directional/west,
 /obj/machinery/door/airlock/ship/public{
 	id_tag = "cabin2";
-	name = "Cabin Room"
+	name = "Cabin 2"
 	},
 /turf/open/floor/wood,
 /area/crew_quarters/dorms)
@@ -7393,11 +7428,11 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /obj/machinery/door/firedoor/border_only/directional/south,
 /obj/machinery/door/firedoor/border_only/directional/north,
+/obj/machinery/atmospherics/pipe/simple/purple/hidden,
 /obj/machinery/door/airlock/ship/external/glass{
-	name = "External Access Deck 2 Aft";
+	name = "External Access Deck 1 Aft";
 	req_one_access_txt = "13"
 	},
-/obj/machinery/atmospherics/pipe/simple/purple/hidden,
 /turf/open/floor/plating,
 /area/maintenance/department/science/xenobiology)
 "fLO" = (
@@ -7544,7 +7579,6 @@
 /obj/item/folder/white{
 	pixel_x = 4
 	},
-/obj/structure/cable,
 /obj/structure/cable/yellow{
 	icon_state = "4-8"
 	},
@@ -7575,7 +7609,7 @@
 "fTx" = (
 /obj/machinery/atmospherics/pipe/layer_manifold,
 /obj/machinery/door/airlock/ship/external/glass{
-	name = "External Access Deck 2 Fore Starboard";
+	name = "External Access Deck 1 Fore Starboard";
 	req_one_access_txt = "13"
 	},
 /turf/open/floor/plating,
@@ -7693,6 +7727,7 @@
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer1{
 	dir = 1
 	},
+/obj/machinery/airalarm/directional/east,
 /turf/open/floor/engine,
 /area/engine/engineering/hangar{
 	name = "Bridge Gravity Generator"
@@ -7746,6 +7781,14 @@
 /area/nsv/weapons/port{
 	name = "Weapons Storage"
 	})
+"fZG" = (
+/obj/effect/turf_decal/delivery/white,
+/obj/machinery/airalarm/directional/north,
+/turf/open/floor/carpet/ship/beige_carpet{
+	color = "#CC8899";
+	name = "nanoweave carpet (puce)"
+	},
+/area/nsv/weapons/fore)
 "gag" = (
 /obj/structure/reagent_dispensers/watertank,
 /turf/open/floor/engine,
@@ -7992,6 +8035,7 @@
 /area/quartermaster/qm)
 "gmy" = (
 /obj/structure/closet/firecloset/full,
+/obj/machinery/light,
 /turf/open/floor/carpet/ship/purple_carpet,
 /area/science/lab)
 "gmR" = (
@@ -8812,14 +8856,15 @@
 /area/bridge/meeting_room/council)
 "haP" = (
 /obj/effect/spawner/structure/window/reinforced,
-/obj/machinery/door/poddoor/shutters/ship/preopen{
-	id = "rndshutter"
-	},
 /obj/structure/cable{
 	icon_state = "2-8"
 	},
 /obj/structure/cable{
 	icon_state = "0-8"
+	},
+/obj/machinery/door/poddoor/shutters/ship/preopen{
+	dir = 4;
+	id = "rndshutter"
 	},
 /turf/open/floor/plating,
 /area/crew_quarters/heads/hor)
@@ -9119,6 +9164,7 @@
 /obj/structure/cable/yellow{
 	icon_state = "4-8"
 	},
+/obj/machinery/airalarm/directional/west,
 /turf/open/floor/plasteel/freezer,
 /area/crew_quarters/toilet/locker)
 "hlr" = (
@@ -9141,9 +9187,16 @@
 /obj/structure/closet/crate,
 /obj/item/beacon,
 /obj/item/beacon,
-/obj/item/hand_tele,
+/obj/item/hand_tele{
+	req_access_txt = "17;19"
+	},
 /obj/item/beacon,
 /obj/item/beacon,
+/obj/machinery/button/door{
+	id = "teleporter_shutters";
+	name = "teleporter shutter control";
+	pixel_x = -24
+	},
 /turf/open/floor/carpet/ship/blue{
 	color = "#9999DD";
 	name = "nanoweave carpet (bluer)"
@@ -9327,10 +9380,11 @@
 /area/quartermaster/warehouse)
 "hwX" = (
 /obj/effect/spawner/structure/window/reinforced,
+/obj/structure/cable,
 /obj/machinery/door/poddoor/shutters/ship/preopen{
+	dir = 4;
 	id = "rndshutter"
 	},
-/obj/structure/cable,
 /turf/open/floor/plating,
 /area/crew_quarters/heads/hor)
 "hxk" = (
@@ -10134,7 +10188,7 @@
 "ijt" = (
 /obj/machinery/atmospherics/pipe/layer_manifold,
 /obj/machinery/door/airlock/ship/external/glass{
-	name = "External Access Deck 2 Starboard";
+	name = "External Access Deck 1 Starboard";
 	req_one_access_txt = "13;7"
 	},
 /turf/open/floor/plating,
@@ -10651,6 +10705,12 @@
 /area/nsv/weapons/port{
 	name = "Weapons Storage"
 	})
+"iIQ" = (
+/obj/structure/closet/secure_closet/personal{
+	anchored = 1
+	},
+/turf/open/floor/wood,
+/area/crew_quarters/dorms)
 "iIV" = (
 /obj/structure/bed,
 /obj/item/bedsheet/hop,
@@ -10962,9 +11022,16 @@
 	name = "Cabin Bolt Control";
 	normaldoorcontrol = 1;
 	pixel_x = -25;
+	pixel_y = -8;
 	specialfunctions = 4
 	},
 /obj/item/lipstick/random,
+/obj/machinery/button/door{
+	id = "cabin2_privacy";
+	name = "Privacy Shutters";
+	pixel_x = -25;
+	pixel_y = 8
+	},
 /turf/open/floor/carpet,
 /area/crew_quarters/dorms)
 "jaE" = (
@@ -11002,6 +11069,10 @@
 /obj/machinery/door/window/eastright,
 /obj/item/paper{
 	info = "<p>Reminder that squad equipment vendors are located in the council chamber, tool storage, and that 4-way junction at the primary hallway, Deck 1</p>"
+	},
+/obj/machinery/door/poddoor/shutters/ship/preopen{
+	dir = 4;
+	id = "research_shutters"
 	},
 /turf/open/floor/plating,
 /area/science/lab)
@@ -11520,7 +11591,7 @@
 /obj/machinery/door/firedoor/border_only/directional/west,
 /obj/machinery/door/airlock/ship/public{
 	id_tag = "cabin4";
-	name = "Cabin Room"
+	name = "Cabin 4"
 	},
 /turf/open/floor/wood,
 /area/crew_quarters/dorms)
@@ -12473,12 +12544,6 @@
 /area/ai_monitored/storage/eva)
 "kjZ" = (
 /obj/machinery/mech_bay_recharge_port,
-/obj/structure/cable{
-	icon_state = "0-2"
-	},
-/obj/structure/cable{
-	icon_state = "1-2"
-	},
 /turf/open/floor/carpet/ship/purple_carpet,
 /area/science/robotics/lab)
 "kkg" = (
@@ -12495,9 +12560,6 @@
 "kkK" = (
 /obj/structure/chair/office/light{
 	dir = 8
-	},
-/obj/structure/cable{
-	icon_state = "2-4"
 	},
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer1{
 	dir = 4
@@ -12780,7 +12842,7 @@
 /area/science/explab)
 "kxO" = (
 /obj/machinery/door/airlock/ship/external/glass{
-	name = "External Access Deck 2 Aft";
+	name = "External Access Deck 1 Aft";
 	req_one_access_txt = "13"
 	},
 /turf/open/floor/plating,
@@ -14115,6 +14177,10 @@
 /obj/machinery/door/window/eastleft{
 	req_one_access_txt = "29"
 	},
+/obj/machinery/door/poddoor/shutters/ship/preopen{
+	dir = 4;
+	id = "robotics_shutters"
+	},
 /turf/open/floor/plating,
 /area/science/robotics/lab)
 "lJb" = (
@@ -14544,6 +14610,7 @@
 /obj/machinery/shower{
 	dir = 4
 	},
+/obj/item/bikehorn/rubberducky,
 /turf/open/floor/plasteel/showroomfloor,
 /area/crew_quarters/heads/captain)
 "mhv" = (
@@ -14835,10 +14902,7 @@
 /turf/open/floor/carpet,
 /area/crew_quarters/dorms)
 "mpX" = (
-/obj/machinery/camera{
-	c_tag = "External Viewport Toxins"
-	},
-/obj/structure/hull_plate,
+/obj/structure/hull_plate/end,
 /turf/open/floor/plating/airless,
 /area/space/nearstation)
 "mqU" = (
@@ -15216,6 +15280,17 @@
 /area/science{
 	name = "Science Lobby"
 	})
+"mCq" = (
+/obj/effect/spawner/structure/window/reinforced/ship,
+/obj/structure/cable{
+	icon_state = "0-8"
+	},
+/obj/machinery/door/poddoor/shutters/ship/preopen{
+	dir = 4;
+	id = "tcommsatshutter"
+	},
+/turf/open/floor/plating,
+/area/science/server)
 "mCr" = (
 /obj/effect/turf_decal/delivery/white,
 /obj/machinery/status_display/evac/south,
@@ -15336,9 +15411,7 @@
 	icon_state = "0-2"
 	},
 /obj/item/storage/box/pinpointer_pairs,
-/obj/item/pinpointer/nuke,
 /obj/item/hand_tele,
-/obj/item/disk/nuclear,
 /turf/open/floor/carpet,
 /area/crew_quarters/heads/captain/private)
 "mIw" = (
@@ -15509,6 +15582,11 @@
 	},
 /turf/open/floor/plasteel/freezer,
 /area/crew_quarters/toilet/locker)
+"mOx" = (
+/obj/structure/closet/secure_closet/miner,
+/obj/machinery/airalarm/directional/west,
+/turf/open/floor/carpet/ship/beige_carpet,
+/area/quartermaster/miningoffice)
 "mPz" = (
 /obj/structure/cable/yellow{
 	icon_state = "2-8"
@@ -15532,12 +15610,8 @@
 /obj/machinery/light{
 	dir = 8
 	},
-/obj/machinery/power/apc/auto_name/west,
 /obj/structure/cable{
 	icon_state = "1-2"
-	},
-/obj/structure/cable{
-	icon_state = "0-2"
 	},
 /turf/open/floor/carpet/ship/purple_carpet,
 /area/science/robotics/lab)
@@ -16076,6 +16150,8 @@
 /area/maintenance/department/science/xenobiology)
 "nsd" = (
 /obj/structure/table/glass,
+/obj/item/pinpointer/nuke,
+/obj/item/disk/nuclear,
 /turf/open/floor/carpet,
 /area/crew_quarters/heads/captain/private)
 "nsy" = (
@@ -16091,7 +16167,7 @@
 /obj/machinery/door/firedoor/border_only/directional/east,
 /obj/machinery/door/firedoor/border_only/directional/west,
 /obj/machinery/door/airlock/ship/external/glass{
-	name = "External Access Deck 2 Arch";
+	name = "External Access Deck 1 Arch";
 	req_one_access_txt = "46"
 	},
 /turf/open/floor/plating,
@@ -16109,6 +16185,10 @@
 /area/medical/genetics)
 "ntF" = (
 /obj/structure/table/glass,
+/obj/item/ship_weapon/parts/torpedo/warhead/probe,
+/obj/item/ship_weapon/parts/torpedo/warhead/probe{
+	pixel_y = 6
+	},
 /turf/open/floor/carpet/purple,
 /area/science/lab)
 "nuj" = (
@@ -16945,7 +17025,7 @@
 	dir = 4
 	},
 /obj/machinery/door/airlock/ship/external/glass{
-	name = "External Access Deck 2 Arch";
+	name = "External Access Deck 1 Arch";
 	req_one_access_txt = "46"
 	},
 /turf/open/floor/plating,
@@ -17467,11 +17547,11 @@
 /turf/open/floor/engine,
 /area/nsv/weapons/fore)
 "oAO" = (
-/obj/structure/cable{
-	icon_state = "1-2"
+/obj/structure/hull_plate/end{
+	dir = 1
 	},
-/turf/closed/wall/ship,
-/area/ai_monitored/turret_protected/aisat_interior)
+/turf/open/floor/plating/airless,
+/area/space/nearstation)
 "oCi" = (
 /obj/machinery/atmospherics/components/unary/portables_connector{
 	dir = 8;
@@ -17854,7 +17934,7 @@
 /obj/machinery/door/firedoor/border_only/directional/north,
 /obj/machinery/door/firedoor/border_only/directional/south,
 /obj/machinery/door/airlock/ship/external/glass{
-	name = "External Access Deck 2 Fore Starboard";
+	name = "External Access Deck 1 Fore Starboard";
 	req_one_access_txt = "13"
 	},
 /turf/open/floor/plating,
@@ -17948,6 +18028,10 @@
 /obj/effect/spawner/structure/window/reinforced,
 /obj/structure/cable{
 	icon_state = "0-8"
+	},
+/obj/machinery/door/poddoor/shutters/ship/preopen{
+	dir = 1;
+	id = "robotics_shutters"
 	},
 /turf/open/floor/plating,
 /area/science/robotics/lab)
@@ -18088,7 +18172,7 @@
 	dir = 4
 	},
 /obj/machinery/door/airlock/ship/external/glass{
-	name = "External Access Deck 2 Arch";
+	name = "External Access Deck 1 Arch";
 	req_one_access_txt = "46"
 	},
 /turf/open/floor/plating,
@@ -18522,13 +18606,14 @@
 /area/science/mixing)
 "pts" = (
 /obj/effect/spawner/structure/window/reinforced,
-/obj/machinery/door/poddoor/shutters/ship/preopen{
-	id = "rndshutter"
-	},
 /obj/structure/cable{
 	icon_state = "1-2"
 	},
 /obj/structure/cable,
+/obj/machinery/door/poddoor/shutters/ship/preopen{
+	dir = 4;
+	id = "rndshutter"
+	},
 /turf/open/floor/plating,
 /area/crew_quarters/heads/hor)
 "ptx" = (
@@ -18681,7 +18766,7 @@
 /area/quartermaster/storage)
 "pwR" = (
 /obj/machinery/door/airlock/ship/external/glass{
-	name = "External Access Deck 2 Fore";
+	name = "External Access Deck 1 Fore";
 	req_one_access_txt = "19"
 	},
 /turf/open/floor/plating,
@@ -19011,8 +19096,6 @@
 /obj/structure/table/glass,
 /obj/machinery/smartfridge/disks,
 /obj/item/storage/box/disks_nanite,
-/obj/item/ship_weapon/parts/torpedo/warhead/probe,
-/obj/item/ship_weapon/parts/torpedo/warhead/probe,
 /turf/open/floor/carpet/purple,
 /area/science/lab)
 "pLo" = (
@@ -19170,18 +19253,12 @@
 /turf/open/floor/carpet/ship,
 /area/janitor)
 "pSb" = (
-/obj/machinery/atmospherics/components/unary/vent_pump/on/layer1{
-	dir = 4
+/obj/effect/spawner/structure/window/reinforced/ship,
+/obj/machinery/door/poddoor/shutters/ship/preopen{
+	id = "cabin1_privacy"
 	},
-/obj/machinery/power/apc/auto_name/west,
-/obj/structure/cable{
-	icon_state = "0-2"
-	},
-/turf/open/floor/carpet/ship/blue{
-	color = "#9999DD";
-	name = "nanoweave carpet (bluer)"
-	},
-/area/ai_monitored/turret_protected/aisat_interior)
+/turf/open/floor/plating,
+/area/crew_quarters/dorms)
 "pSg" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
@@ -19226,7 +19303,7 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /obj/machinery/door/airlock/ship/external/glass{
-	name = "External Access Deck 2 Starboard";
+	name = "External Access Deck 1 Starboard";
 	req_one_access_txt = "13;7"
 	},
 /turf/open/floor/plating,
@@ -19288,10 +19365,6 @@
 /turf/open/floor/carpet/ship,
 /area/bridge/meeting_room/council)
 "pWf" = (
-/obj/machinery/power/apc/auto_name/west,
-/obj/structure/cable{
-	icon_state = "0-2"
-	},
 /obj/machinery/vending/wardrobe/jani_wardrobe,
 /turf/open/floor/carpet/ship,
 /area/janitor)
@@ -20425,9 +20498,15 @@
 	},
 /area/bridge)
 "qVC" = (
-/obj/machinery/door/poddoor/shutters,
 /obj/structure/disposalpipe/segment,
-/turf/open/floor/plating,
+/obj/machinery/door/poddoor/shutters/ship{
+	id = "teleporter_shutters";
+	name = "teleporter shutters"
+	},
+/turf/open/floor/carpet/ship/blue{
+	color = "#9999DD";
+	name = "nanoweave carpet (bluer)"
+	},
 /area/teleporter)
 "qWr" = (
 /obj/machinery/power/apc/auto_name/east,
@@ -20696,7 +20775,9 @@
 	c_tag = "External Viewport Hangar";
 	dir = 1
 	},
-/obj/structure/hull_plate,
+/obj/structure/hull_plate/end{
+	dir = 1
+	},
 /turf/open/floor/plating/airless,
 /area/space/nearstation)
 "rfB" = (
@@ -20961,7 +21042,6 @@
 	name = "Science Lobby"
 	})
 "rqS" = (
-/obj/item/reagent_containers/food/drinks/flask/gold,
 /obj/item/storage/fancy/donut_box,
 /obj/structure/table/glass,
 /turf/open/floor/carpet,
@@ -21402,6 +21482,10 @@
 	req_one_access_txt = "7;9;47"
 	},
 /obj/machinery/door/window/eastleft,
+/obj/machinery/door/poddoor/shutters/ship/preopen{
+	dir = 4;
+	id = "research_shutters"
+	},
 /turf/open/floor/plating,
 /area/science/lab)
 "rKr" = (
@@ -22535,6 +22619,7 @@
 "syA" = (
 /obj/item/twohanded/required/kirbyplants/random,
 /obj/machinery/firealarm/directional/east,
+/obj/machinery/airalarm/directional/south,
 /turf/open/floor/carpet/blue,
 /area/crew_quarters/heads/hop)
 "syB" = (
@@ -23607,7 +23692,7 @@
 /obj/machinery/door/firedoor/border_only/directional/west,
 /obj/machinery/door/airlock/ship/public{
 	id_tag = "cabin8";
-	name = "Cabin Room"
+	name = "Cabin 8"
 	},
 /turf/open/floor/wood,
 /area/crew_quarters/dorms)
@@ -24106,7 +24191,8 @@
 	id = "toxgun_interior";
 	name = "Toxins Interior Blast Door";
 	pixel_x = 6;
-	pixel_y = -26
+	pixel_y = -26;
+	req_one_access_txt = "7"
 	},
 /turf/open/floor/carpet/ship/purple_carpet,
 /area/science/mixing)
@@ -24173,6 +24259,10 @@
 /obj/structure/cable{
 	icon_state = "4-8"
 	},
+/obj/machinery/door/poddoor/shutters/ship/preopen{
+	dir = 1;
+	id = "robotics_shutters"
+	},
 /turf/open/floor/plating,
 /area/science/robotics/lab)
 "tUM" = (
@@ -24205,7 +24295,7 @@
 /obj/machinery/door/firedoor/border_only/directional/west,
 /obj/machinery/door/airlock/ship/public{
 	id_tag = "cabin7";
-	name = "Cabin Room"
+	name = "Cabin 7"
 	},
 /obj/structure/disposalpipe/segment{
 	dir = 4
@@ -24414,14 +24504,23 @@
 	icon_state = "0-4"
 	},
 /obj/effect/spawner/structure/window/reinforced,
-/obj/machinery/door/poddoor/shutters/ship/preopen{
-	id = "rndshutter"
-	},
 /obj/structure/cable{
 	icon_state = "1-4"
 	},
+/obj/machinery/door/poddoor/shutters/ship/preopen{
+	dir = 4;
+	id = "rndshutter"
+	},
 /turf/open/floor/plating,
 /area/crew_quarters/heads/hor)
+"ucr" = (
+/obj/structure/curtain,
+/obj/machinery/shower{
+	dir = 4
+	},
+/obj/machinery/airalarm/directional/west,
+/turf/open/floor/plasteel/freezer,
+/area/crew_quarters/toilet/locker)
 "udo" = (
 /obj/structure/cable/yellow{
 	icon_state = "4-8"
@@ -24619,9 +24718,16 @@
 	name = "Cabin Bolt Control";
 	normaldoorcontrol = 1;
 	pixel_x = 25;
+	pixel_y = -8;
 	specialfunctions = 4
 	},
 /obj/item/lipstick/random,
+/obj/machinery/button/door{
+	id = "cabin1_privacy";
+	name = "Privacy Shutters";
+	pixel_x = 25;
+	pixel_y = 8
+	},
 /turf/open/floor/carpet,
 /area/crew_quarters/dorms)
 "ulz" = (
@@ -24970,7 +25076,7 @@
 /obj/machinery/door/firedoor/border_only/directional/west,
 /obj/machinery/door/firedoor/border_only/directional/east,
 /obj/machinery/door/airlock/ship/external/glass{
-	name = "External Access Deck 2 Fore";
+	name = "External Access Deck 1 Fore";
 	req_one_access_txt = "19"
 	},
 /turf/open/floor/plating,
@@ -25634,14 +25740,12 @@
 	name = "Launch tubes 1 and 2"
 	})
 "veo" = (
-/obj/structure/cable{
-	icon_state = "1-2"
+/obj/effect/spawner/structure/window/reinforced/ship,
+/obj/machinery/door/poddoor/shutters/ship/preopen{
+	id = "cabin2_privacy"
 	},
-/turf/open/floor/carpet/ship/blue{
-	color = "#9999DD";
-	name = "nanoweave carpet (bluer)"
-	},
-/area/ai_monitored/turret_protected/aisat_interior)
+/turf/open/floor/plating,
+/area/crew_quarters/dorms)
 "veC" = (
 /obj/structure/table/wood,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
@@ -25858,6 +25962,10 @@
 "vru" = (
 /obj/structure/closet/emcloset,
 /obj/item/storage/toolbox/emergency,
+/obj/machinery/button/door{
+	id = "research_shutters";
+	pixel_y = -30
+	},
 /turf/open/floor/carpet/ship/purple_carpet,
 /area/science/lab)
 "vrD" = (
@@ -26192,7 +26300,7 @@
 /obj/machinery/door/firedoor/border_only/directional/west,
 /obj/machinery/door/airlock/ship/public{
 	id_tag = "cabin5";
-	name = "Cabin Room"
+	name = "Cabin 5"
 	},
 /turf/open/floor/wood,
 /area/crew_quarters/dorms)
@@ -26267,6 +26375,10 @@
 	},
 /obj/structure/cable{
 	icon_state = "0-2"
+	},
+/obj/machinery/door/poddoor/shutters/ship/preopen{
+	dir = 1;
+	id = "robotics_shutters"
 	},
 /turf/open/floor/plating,
 /area/science/robotics/lab)
@@ -26458,6 +26570,12 @@
 	},
 /turf/open/floor/circuit,
 /area/ai_monitored/turret_protected/ai)
+"vKS" = (
+/obj/machinery/airalarm/directional/south,
+/turf/open/floor/carpet/ship,
+/area/bridge/showroom{
+	name = "Battle Bridge"
+	})
 "vKW" = (
 /obj/structure/chair/office/light,
 /obj/effect/landmark/start/roboticist,
@@ -27536,6 +27654,7 @@
 	icon_state = "4-8"
 	},
 /obj/effect/landmark/start/depsec/supply,
+/obj/machinery/airalarm/directional/north,
 /turf/open/floor/carpet/ship/red_carpet,
 /area/security/checkpoint/supply)
 "wGl" = (
@@ -28160,6 +28279,7 @@
 	},
 /obj/effect/spawner/structure/window/reinforced,
 /obj/machinery/door/poddoor/shutters/ship/preopen{
+	dir = 4;
 	id = "rndshutter"
 	},
 /turf/open/floor/plating,
@@ -28231,7 +28351,7 @@
 /obj/machinery/door/firedoor/border_only/directional/west,
 /obj/machinery/door/airlock/ship/public{
 	id_tag = "cabin6";
-	name = "Cabin Room"
+	name = "Cabin 6"
 	},
 /turf/open/floor/wood,
 /area/crew_quarters/dorms)
@@ -29246,7 +29366,9 @@
 	c_tag = "External Viewport Munitions 1";
 	dir = 8
 	},
-/obj/structure/hull_plate,
+/obj/structure/hull_plate/end{
+	dir = 1
+	},
 /turf/open/floor/plating/airless,
 /area/space/nearstation)
 "ycm" = (
@@ -44474,7 +44596,7 @@ nZT
 nZT
 nZT
 nZT
-aee
+oAO
 aee
 sdP
 iMh
@@ -44538,7 +44660,7 @@ twh
 iMh
 sdP
 aee
-aee
+mpX
 nZT
 nZT
 nZT
@@ -44731,7 +44853,7 @@ nZT
 nZT
 nZT
 nZT
-aee
+oAO
 aee
 hvg
 axG
@@ -44795,7 +44917,7 @@ sgT
 fCZ
 fMW
 aee
-aee
+mpX
 nZT
 nZT
 nZT
@@ -44988,7 +45110,7 @@ nZT
 nZT
 nZT
 nZT
-aee
+oAO
 aee
 hbT
 ptx
@@ -45052,7 +45174,7 @@ lqv
 ptx
 hbT
 aee
-aee
+mpX
 nZT
 nZT
 nZT
@@ -45245,7 +45367,7 @@ nZT
 nZT
 nZT
 nZT
-aee
+oAO
 aee
 hvg
 axG
@@ -45309,7 +45431,7 @@ qmb
 fCZ
 fMW
 aee
-aee
+mpX
 nZT
 nZT
 nZT
@@ -45502,7 +45624,7 @@ nZT
 nZT
 nZT
 nZT
-aee
+oAO
 aee
 hbT
 ptx
@@ -45566,7 +45688,7 @@ xKo
 ptx
 hbT
 aee
-aee
+mpX
 nZT
 nZT
 nZT
@@ -45759,7 +45881,7 @@ nZT
 nZT
 nZT
 nZT
-aee
+oAO
 aee
 hvg
 axG
@@ -45823,7 +45945,7 @@ xXS
 fCZ
 fMW
 aee
-aee
+mpX
 nZT
 nZT
 nZT
@@ -46016,7 +46138,7 @@ nZT
 nZT
 nZT
 nZT
-aee
+oAO
 aee
 aee
 iMh
@@ -46080,7 +46202,7 @@ xKo
 iMh
 sdP
 aee
-aee
+mpX
 nZT
 nZT
 nZT
@@ -46273,7 +46395,7 @@ nZT
 nZT
 nZT
 nZT
-aee
+oAO
 aee
 aee
 iMh
@@ -46337,7 +46459,7 @@ xKo
 iMh
 aee
 aee
-aee
+mpX
 nZT
 nZT
 nZT
@@ -46530,7 +46652,7 @@ nZT
 nZT
 nZT
 nZT
-aee
+oAO
 aee
 aee
 iMh
@@ -46594,7 +46716,7 @@ xKo
 iMh
 aee
 aee
-aee
+mpX
 nZT
 nZT
 nZT
@@ -46787,7 +46909,7 @@ nZT
 nZT
 nZT
 nZT
-aee
+oAO
 aee
 aee
 iMh
@@ -46851,7 +46973,7 @@ xKo
 iMh
 aee
 aee
-aee
+mpX
 nZT
 nZT
 nZT
@@ -47044,7 +47166,7 @@ nZT
 nZT
 nZT
 nZT
-aee
+oAO
 aee
 aee
 iMh
@@ -47108,7 +47230,7 @@ xKo
 iMh
 aee
 aee
-aee
+mpX
 nZT
 nZT
 nZT
@@ -47301,7 +47423,7 @@ nZT
 nZT
 nZT
 nZT
-aee
+oAO
 aee
 aee
 iMh
@@ -47365,7 +47487,7 @@ xKo
 iMh
 aee
 aee
-aee
+mpX
 nZT
 nZT
 nZT
@@ -47558,7 +47680,7 @@ nZT
 nZT
 nZT
 nZT
-aee
+oAO
 aee
 aee
 fyO
@@ -47622,7 +47744,7 @@ xKo
 iMh
 aee
 aee
-aee
+mpX
 nZT
 nZT
 nZT
@@ -47815,7 +47937,7 @@ nZT
 nZT
 nZT
 nZT
-aee
+oAO
 aee
 owl
 gqs
@@ -47879,7 +48001,7 @@ pjX
 iMh
 aee
 aee
-aee
+mpX
 nZT
 nZT
 nZT
@@ -48072,7 +48194,7 @@ nZT
 nZT
 nZT
 nZT
-aee
+oAO
 aee
 owl
 gqs
@@ -48136,7 +48258,7 @@ tZs
 iMh
 aee
 aee
-aee
+mpX
 nZT
 nZT
 nZT
@@ -48329,7 +48451,7 @@ nZT
 nZT
 nZT
 nZT
-aee
+oAO
 aee
 owl
 gqs
@@ -48350,7 +48472,7 @@ xWZ
 xpN
 wFc
 xXp
-cqW
+cOm
 xWZ
 xWZ
 jvn
@@ -48393,7 +48515,7 @@ tZs
 iMh
 aee
 aee
-aee
+mpX
 nZT
 nZT
 nZT
@@ -48586,7 +48708,7 @@ nZT
 nZT
 nZT
 nZT
-aee
+oAO
 aee
 aee
 fyO
@@ -48650,7 +48772,7 @@ tZs
 iMh
 aee
 aee
-aee
+mpX
 nZT
 nZT
 nZT
@@ -48843,7 +48965,7 @@ nZT
 nZT
 nZT
 nZT
-aee
+oAO
 aee
 aee
 kJw
@@ -48907,7 +49029,7 @@ tZs
 iMh
 aee
 aee
-aee
+mpX
 nZT
 nZT
 nZT
@@ -49100,7 +49222,7 @@ nZT
 nZT
 nZT
 nZT
-aee
+oAO
 aee
 aee
 kJw
@@ -49122,7 +49244,7 @@ nEh
 qgI
 xWZ
 xpP
-qYU
+ucr
 qYU
 qYU
 kJw
@@ -49164,7 +49286,7 @@ tZs
 iMh
 aee
 aee
-aee
+mpX
 nZT
 nZT
 nZT
@@ -49357,10 +49479,10 @@ nZT
 nZT
 nZT
 nZT
-aee
+oAO
 aee
 owl
-cTw
+pSb
 lvL
 wwn
 bzb
@@ -49421,7 +49543,7 @@ tZs
 iMh
 aee
 aee
-aee
+mpX
 nZT
 nZT
 nZT
@@ -49614,10 +49736,10 @@ nZT
 nZT
 nZT
 nZT
-aee
+oAO
 aee
 owl
-cTw
+pSb
 cQA
 cal
 nOF
@@ -49678,7 +49800,7 @@ tZs
 iMh
 aee
 aee
-aee
+mpX
 nZT
 nZT
 nZT
@@ -49871,7 +49993,7 @@ nZT
 nZT
 nZT
 nZT
-aee
+oAO
 aee
 aee
 kJw
@@ -49935,7 +50057,7 @@ tZs
 iMh
 aee
 aee
-aee
+mpX
 nZT
 nZT
 nZT
@@ -50129,7 +50251,7 @@ nZT
 nZT
 nZT
 nZT
-aee
+oAO
 aee
 kJw
 duZ
@@ -50191,7 +50313,7 @@ iMh
 tZs
 iMh
 aee
-aee
+mpX
 nZT
 nZT
 nZT
@@ -50386,7 +50508,7 @@ nZT
 nZT
 nZT
 nZT
-aee
+oAO
 owl
 cTw
 frO
@@ -50448,7 +50570,7 @@ iMh
 udo
 iMh
 aee
-aee
+mpX
 nZT
 nZT
 nZT
@@ -50643,7 +50765,7 @@ nZT
 nZT
 nZT
 nZT
-aee
+oAO
 owl
 cTw
 xQl
@@ -50705,7 +50827,7 @@ uEh
 lNh
 fgg
 aee
-aee
+mpX
 nZT
 nZT
 nZT
@@ -50900,7 +51022,7 @@ nZT
 nZT
 nZT
 nZT
-aee
+oAO
 aee
 kJw
 duZ
@@ -50962,7 +51084,7 @@ tRF
 fgg
 fgg
 fgg
-aee
+mpX
 nZT
 nZT
 nZT
@@ -51157,7 +51279,7 @@ nZT
 nZT
 nZT
 nZT
-aee
+oAO
 aee
 kJw
 jag
@@ -51182,8 +51304,8 @@ aJr
 mrH
 vPv
 duZ
-gym
-gym
+iIQ
+iIQ
 mrH
 aJr
 nfD
@@ -51219,7 +51341,7 @@ aIu
 cSK
 uIO
 pLt
-aee
+mpX
 nZT
 nZT
 nZT
@@ -51414,9 +51536,9 @@ nZT
 nZT
 nZT
 nZT
-aee
+oAO
 owl
-cTw
+veo
 aJr
 ggo
 nOF
@@ -51671,9 +51793,9 @@ nZT
 nZT
 nZT
 nZT
-aee
+oAO
 owl
-cTw
+veo
 cQA
 vOI
 hqe
@@ -51733,7 +51855,7 @@ aIu
 qAw
 fgg
 uDg
-aee
+mpX
 nZT
 nZT
 nZT
@@ -51928,8 +52050,8 @@ nZT
 nZT
 nZT
 nZT
-aee
-aee
+oAO
+dDt
 kJw
 hJG
 eNE
@@ -51990,7 +52112,7 @@ esn
 lGW
 gnA
 oma
-aee
+mpX
 nZT
 nZT
 nZT
@@ -52185,7 +52307,7 @@ nZT
 nZT
 nZT
 nZT
-aee
+oAO
 aee
 hla
 hlc
@@ -52247,7 +52369,7 @@ aIu
 nRe
 cBF
 owl
-aee
+mpX
 nZT
 nZT
 nZT
@@ -52442,7 +52564,7 @@ nZT
 nZT
 nZT
 nZT
-aee
+oAO
 aee
 hla
 nRP
@@ -52504,7 +52626,7 @@ aIu
 cfH
 fgg
 aee
-aee
+mpX
 nZT
 nZT
 nZT
@@ -56060,7 +56182,7 @@ lww
 oOV
 lrc
 jzk
-uTr
+mOx
 ejO
 uTr
 qld
@@ -56842,7 +56964,7 @@ bfR
 aTn
 joF
 gDN
-gDN
+vKS
 nsQ
 pFt
 xai
@@ -57623,7 +57745,7 @@ nsQ
 nsQ
 wEX
 nsQ
-jOK
+mCq
 nsQ
 sLN
 lIB
@@ -61477,9 +61599,9 @@ nFo
 nFo
 ecO
 qbZ
-pSb
-veo
-oAO
+oWJ
+nVb
+dOP
 kjZ
 cQJ
 mPU
@@ -62979,7 +63101,7 @@ nZT
 nZT
 nZT
 nZT
-aee
+oAO
 owl
 jQc
 vpq
@@ -63236,7 +63358,7 @@ nZT
 nZT
 nZT
 nZT
-aee
+oAO
 owl
 jQc
 ePh
@@ -63298,7 +63420,7 @@ rlD
 bTI
 qhB
 aee
-aee
+mpX
 nZT
 nZT
 nZT
@@ -63493,7 +63615,7 @@ nZT
 nZT
 nZT
 nZT
-aee
+oAO
 mgr
 mgr
 mgr
@@ -63555,7 +63677,7 @@ rlD
 bTI
 qhB
 aee
-aee
+mpX
 nZT
 nZT
 nZT
@@ -63750,7 +63872,7 @@ nZT
 nZT
 nZT
 nZT
-aee
+oAO
 mDy
 mzQ
 vDc
@@ -63812,7 +63934,7 @@ rlD
 frq
 qhB
 aee
-aee
+mpX
 nZT
 nZT
 nZT
@@ -64007,7 +64129,7 @@ nZT
 nZT
 nZT
 nZT
-aee
+oAO
 mDy
 lDE
 rjk
@@ -64069,7 +64191,7 @@ nhj
 bTI
 qhB
 aee
-aee
+mpX
 nZT
 nZT
 nZT
@@ -64264,7 +64386,7 @@ nZT
 nZT
 nZT
 nZT
-aee
+oAO
 mDy
 sBq
 nIK
@@ -64326,7 +64448,7 @@ gBZ
 xpf
 qhB
 aee
-aee
+mpX
 nZT
 nZT
 nZT
@@ -64583,7 +64705,7 @@ nhj
 nhj
 qhB
 aee
-aee
+mpX
 nZT
 nZT
 nZT
@@ -64778,7 +64900,7 @@ nZT
 nZT
 nZT
 nZT
-aee
+oAO
 jXx
 mzQ
 vDc
@@ -64840,7 +64962,7 @@ rlD
 rlD
 qhB
 aee
-aee
+mpX
 nZT
 nZT
 nZT
@@ -65035,7 +65157,7 @@ nZT
 nZT
 nZT
 nZT
-aee
+oAO
 jXx
 lDE
 rjk
@@ -65097,7 +65219,7 @@ oVJ
 jxE
 xMP
 aee
-aee
+mpX
 nZT
 nZT
 nZT
@@ -65292,7 +65414,7 @@ nZT
 nZT
 nZT
 nZT
-aee
+oAO
 jXx
 sBq
 eSC
@@ -65354,7 +65476,7 @@ nUQ
 oVJ
 xMP
 aee
-aee
+mpX
 nZT
 nZT
 nZT
@@ -65549,7 +65671,7 @@ nZT
 nZT
 nZT
 nZT
-aee
+oAO
 mgr
 mgr
 mgr
@@ -65611,7 +65733,7 @@ oVJ
 oVJ
 xMP
 aee
-aee
+mpX
 nZT
 nZT
 nZT
@@ -65806,7 +65928,7 @@ nZT
 nZT
 nZT
 nZT
-aee
+oAO
 aee
 xnd
 iUH
@@ -65868,7 +65990,7 @@ oVJ
 oVJ
 xMP
 aee
-aee
+mpX
 nZT
 nZT
 nZT
@@ -66063,7 +66185,7 @@ nZT
 nZT
 nZT
 nZT
-aee
+oAO
 owl
 wNh
 qzq
@@ -66125,7 +66247,7 @@ oVJ
 oVJ
 xMP
 aee
-aee
+mpX
 nZT
 nZT
 nZT
@@ -66320,7 +66442,7 @@ nZT
 nZT
 nZT
 nZT
-aee
+oAO
 owl
 mYb
 iEl
@@ -66382,7 +66504,7 @@ iOt
 iOt
 xMP
 aee
-aee
+mpX
 nZT
 nZT
 nZT
@@ -66577,7 +66699,7 @@ nZT
 nZT
 nZT
 nZT
-aee
+oAO
 owl
 mYb
 tdz
@@ -66639,7 +66761,7 @@ sdz
 nps
 xMP
 aee
-aee
+mpX
 nZT
 nZT
 nZT
@@ -66834,7 +66956,7 @@ nZT
 nZT
 nZT
 nZT
-aee
+oAO
 aee
 wNh
 ycv
@@ -66896,7 +67018,7 @@ uvI
 uvI
 xMP
 aee
-aee
+mpX
 nZT
 nZT
 nZT
@@ -67091,7 +67213,7 @@ nZT
 nZT
 nZT
 nZT
-aee
+oAO
 aee
 wNh
 mav
@@ -67153,7 +67275,7 @@ msR
 hys
 xMP
 aee
-aee
+mpX
 nZT
 nZT
 nZT
@@ -67348,7 +67470,7 @@ nZT
 nZT
 nZT
 nZT
-aee
+oAO
 aee
 wNh
 wjT
@@ -67410,7 +67532,7 @@ wSw
 xMP
 xMP
 aee
-aee
+mpX
 nZT
 nZT
 nZT
@@ -67605,7 +67727,7 @@ nZT
 nZT
 nZT
 nZT
-aee
+oAO
 aee
 hbT
 wjT
@@ -67667,7 +67789,7 @@ iOt
 xMP
 hbT
 aee
-aee
+mpX
 nZT
 nZT
 nZT
@@ -67862,7 +67984,7 @@ nZT
 nZT
 nZT
 nZT
-aee
+oAO
 aee
 hbT
 wjT
@@ -67924,7 +68046,7 @@ gSZ
 uxC
 hbT
 aee
-aee
+mpX
 nZT
 nZT
 nZT
@@ -68119,7 +68241,7 @@ nZT
 aEe
 nZT
 nZT
-aee
+oAO
 aee
 hbT
 wjT
@@ -68181,7 +68303,7 @@ nCR
 uxC
 hbT
 aee
-aee
+mpX
 nZT
 nZT
 nZT
@@ -68376,7 +68498,7 @@ nZT
 nZT
 nZT
 nZT
-aee
+oAO
 aee
 hvg
 hWj
@@ -68438,7 +68560,7 @@ oIn
 tlN
 fMW
 aee
-aee
+mpX
 nZT
 nZT
 nZT
@@ -68633,7 +68755,7 @@ nZT
 nZT
 nZT
 nZT
-aee
+oAO
 aee
 hbT
 wjT
@@ -68695,7 +68817,7 @@ gSZ
 uxC
 hbT
 aee
-aee
+mpX
 nZT
 nZT
 nZT
@@ -68890,7 +69012,7 @@ nZT
 nZT
 nZT
 nZT
-aee
+oAO
 aee
 hbT
 wjT
@@ -68929,7 +69051,7 @@ pOI
 lDz
 lDz
 nzZ
-nzZ
+cFY
 snp
 bXh
 maU
@@ -68952,7 +69074,7 @@ knK
 uxC
 hbT
 aee
-aee
+mpX
 nZT
 nZT
 nZT
@@ -69147,7 +69269,7 @@ nZT
 nZT
 nZT
 nZT
-aee
+oAO
 aee
 hbT
 wjT
@@ -69209,7 +69331,7 @@ iUx
 uxC
 hbT
 aee
-aee
+mpX
 nZT
 nZT
 nZT
@@ -69404,7 +69526,7 @@ nZT
 nZT
 nZT
 nZT
-aee
+oAO
 aee
 hvg
 hWj
@@ -69466,7 +69588,7 @@ oIn
 tlN
 fMW
 aee
-aee
+mpX
 nZT
 nZT
 nZT
@@ -69661,7 +69783,7 @@ nZT
 nZT
 nZT
 nZT
-aee
+oAO
 aee
 hbT
 fMJ
@@ -69723,7 +69845,7 @@ knK
 uxC
 hbT
 aee
-aee
+mpX
 nZT
 nZT
 nZT
@@ -69918,7 +70040,7 @@ nZT
 nZT
 nZT
 nZT
-aee
+oAO
 aee
 hbT
 fMJ
@@ -69980,7 +70102,7 @@ cAg
 uxC
 hbT
 aee
-aee
+mpX
 nZT
 nZT
 nZT
@@ -70175,7 +70297,7 @@ nZT
 nZT
 nZT
 nZT
-aee
+oAO
 aee
 hbT
 fMJ
@@ -70237,7 +70359,7 @@ gSZ
 uxC
 hbT
 aee
-aee
+mpX
 nZT
 nZT
 nZT
@@ -70432,7 +70554,7 @@ nZT
 nZT
 nZT
 nZT
-aee
+oAO
 aee
 hvg
 tWA
@@ -70494,7 +70616,7 @@ tay
 tlN
 fMW
 aee
-aee
+mpX
 nZT
 nZT
 nZT
@@ -70689,7 +70811,7 @@ nZT
 nZT
 nZT
 nZT
-aee
+oAO
 aee
 hbT
 fMJ
@@ -70751,7 +70873,7 @@ knK
 uxC
 hbT
 aee
-aee
+mpX
 nZT
 nZT
 nZT
@@ -70946,13 +71068,13 @@ nZT
 nZT
 nZT
 nZT
-aee
+oAO
 aee
 hbT
 fMJ
 rNy
 fMJ
-wqr
+fZG
 sRk
 hOv
 gDg
@@ -71008,7 +71130,7 @@ mvk
 uxC
 hbT
 aee
-aee
+mpX
 nZT
 nZT
 nZT
@@ -71265,7 +71387,7 @@ xMP
 xMP
 hbT
 aee
-aee
+mpX
 nZT
 nZT
 nZT
@@ -73547,7 +73669,7 @@ bVG
 euE
 euE
 euE
-cOm
+bVG
 euE
 euE
 euE
