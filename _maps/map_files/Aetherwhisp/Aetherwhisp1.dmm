@@ -318,7 +318,7 @@
 /obj/machinery/door/firedoor/border_only/directional/south,
 /obj/machinery/door/firedoor/border_only/directional/north,
 /obj/machinery/door/airlock/ship/security/glass{
-	name = "Lawyer Office";
+	name = "Law Office";
 	req_one_access_txt = "38"
 	},
 /obj/structure/disposalpipe/segment,
@@ -646,6 +646,10 @@
 /obj/machinery/door/window/eastleft{
 	req_one_access_txt = "3"
 	},
+/obj/machinery/door/poddoor/ship/preopen{
+	dir = 4;
+	id = "briglockdown"
+	},
 /turf/open/floor/plating,
 /area/security/warden)
 "auT" = (
@@ -685,13 +689,16 @@
 "awG" = (
 /obj/machinery/stasis,
 /obj/machinery/power/apc/auto_name/east,
+/obj/structure/cable{
+	icon_state = "0-8"
+	},
 /turf/open/floor/carpet/ship/blue,
 /area/medical/patients_rooms/room_c)
 "awN" = (
-/obj/structure/lattice,
-/obj/structure/grille,
-/obj/structure/window/reinforced,
-/turf/open/space/basic,
+/obj/structure/hull_plate/end{
+	dir = 1
+	},
+/turf/open/floor/plating/airless,
 /area/space/nearstation)
 "awV" = (
 /obj/structure/chair/stool/bar,
@@ -735,6 +742,9 @@
 	icon_state = "2-4"
 	},
 /obj/effect/landmark/nuclear_waste_spawner,
+/obj/machinery/door/poddoor/ship/preopen{
+	id = "brig shutters"
+	},
 /turf/open/floor/plating,
 /area/security/brig)
 "ayO" = (
@@ -983,6 +993,7 @@
 /obj/structure/disposalpipe/segment{
 	dir = 4
 	},
+/obj/machinery/newscaster/directional/north,
 /turf/open/floor/plasteel/freezer,
 /area/crew_quarters/toilet/restrooms)
 "aIO" = (
@@ -1195,8 +1206,8 @@
 	dwidth = 3;
 	height = 15;
 	id = "arrivals_stationary";
-	name = "Deck 1 Arrivals Port";
-	roundstart_template = /datum/map_template/shuttle/arrival/box;
+	name = "Deck 2 Arrivals Port";
+	roundstart_template = /datum/map_template/shuttle/arrival/aetherwhisp;
 	width = 7
 	},
 /turf/open/space/basic,
@@ -1439,6 +1450,7 @@
 	icon_state = "0-8"
 	},
 /obj/machinery/door/poddoor/shutters/ship/preopen{
+	dir = 4;
 	id = "interrogatorshutter"
 	},
 /turf/open/floor/plating,
@@ -1572,6 +1584,12 @@
 /area/security/prison)
 "bdj" = (
 /obj/structure/table/glass,
+/obj/machinery/requests_console{
+	department = "Medbay";
+	departmentType = 1;
+	name = "Medbay RC";
+	pixel_y = -32
+	},
 /turf/open/floor/carpet/ship/blue,
 /area/medical/medbay/lobby)
 "bdF" = (
@@ -2370,12 +2388,15 @@
 /turf/open/floor/wood,
 /area/security/execution/education)
 "byz" = (
-/obj/structure/lattice,
-/obj/structure/grille,
-/obj/structure/window/reinforced,
-/obj/machinery/door/firedoor/border_only/directional/south,
-/turf/open/space/basic,
-/area/space/nearstation)
+/obj/machinery/conveyor{
+	dir = 10;
+	id = "arrivals_baggage_claim";
+	operating = 1
+	},
+/turf/open/floor/plating,
+/area/hallway/secondary/entry{
+	name = "Arrivals"
+	})
 "byA" = (
 /obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1{
 	dir = 4
@@ -3318,6 +3339,10 @@
 	req_one_access_txt = "33"
 	},
 /obj/machinery/door/window/southleft,
+/obj/machinery/door/poddoor/shutters/ship/preopen{
+	id = "chemistry_shutters";
+	name = "chemistry shutters"
+	},
 /turf/open/floor/plating,
 /area/medical/chemistry)
 "chS" = (
@@ -3405,6 +3430,7 @@
 /obj/effect/spawner/structure/window/reinforced,
 /obj/structure/cable,
 /obj/machinery/door/poddoor/shutters/ship/preopen{
+	dir = 4;
 	id = "interrogatorshutter"
 	},
 /turf/open/floor/plating,
@@ -4290,6 +4316,10 @@
 /obj/item/storage/toolbox/mechanical,
 /turf/open/floor/plating,
 /area/maintenance/department/engine)
+"cVO" = (
+/obj/machinery/airalarm/directional/south,
+/turf/open/floor/plating,
+/area/maintenance/department/security)
 "cWq" = (
 /obj/structure/cable{
 	icon_state = "4-8"
@@ -4989,6 +5019,10 @@
 	},
 /turf/open/floor/engine,
 /area/engine/engine_room)
+"dwp" = (
+/obj/machinery/airalarm/directional/north,
+/turf/open/floor/carpet/ship/blue,
+/area/medical/patients_rooms/room_b)
 "dws" = (
 /obj/structure/closet/secure_closet/engineering_electrical,
 /turf/open/floor/plating,
@@ -5022,6 +5056,7 @@
 "dxz" = (
 /obj/effect/spawner/structure/window/reinforced,
 /obj/machinery/door/poddoor/shutters/ship/preopen{
+	dir = 4;
 	id = "ceshutter"
 	},
 /turf/open/floor/plating,
@@ -5546,10 +5581,11 @@
 /area/maintenance/department/medical)
 "dPE" = (
 /obj/effect/spawner/structure/window/reinforced,
+/obj/structure/cable,
 /obj/machinery/door/poddoor/shutters/ship/preopen{
+	dir = 4;
 	id = "cmoshutter"
 	},
-/obj/structure/cable,
 /turf/open/floor/plating,
 /area/crew_quarters/heads/cmo)
 "dQg" = (
@@ -5777,7 +5813,7 @@
 /obj/machinery/door/firedoor/border_only/directional/south,
 /obj/machinery/door/firedoor/border_only/directional/north,
 /obj/machinery/door/airlock/ship/maintenance{
-	name = "Maintenance Access Medbay and Plumbing";
+	name = "Maintenance Access Infirmary and Plumbing";
 	req_one_access_txt = "5;33"
 	},
 /obj/structure/sign/departments/minsky/medical/chemistry/chemical2{
@@ -6410,7 +6446,7 @@
 /obj/machinery/door/firedoor/border_only/directional/north,
 /obj/machinery/door/firedoor/border_only/directional/south,
 /obj/machinery/door/airlock/ship/external/glass{
-	name = "External Access Deck 1 Starboard";
+	name = "External Access Deck 2 Starboard";
 	req_one_access_txt = "13"
 	},
 /turf/open/floor/plating,
@@ -6510,6 +6546,11 @@
 	},
 /obj/structure/cable{
 	icon_state = "0-2"
+	},
+/obj/machinery/door/poddoor/shutters/ship/preopen{
+	dir = 4;
+	id = "chemistry_shutters";
+	name = "chemistry shutters"
 	},
 /turf/open/floor/plating,
 /area/medical/chemistry)
@@ -6616,6 +6657,13 @@
 /obj/effect/landmark/zebra_interlock_point,
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/engine/break_room)
+"eCo" = (
+/obj/structure/table,
+/obj/item/paicard,
+/turf/open/floor/carpet/ship,
+/area/crew_quarters/lounge{
+	name = "Cafeteria"
+	})
 "eEn" = (
 /obj/machinery/camera/motion{
 	c_tag = "External Viewport Prison Wing";
@@ -7301,6 +7349,11 @@
 /obj/structure/cable{
 	icon_state = "0-2"
 	},
+/obj/machinery/door/poddoor/shutters/ship/preopen{
+	dir = 4;
+	id = "chemistry_shutters";
+	name = "chemistry shutters"
+	},
 /turf/open/floor/plating,
 /area/medical/chemistry)
 "faQ" = (
@@ -7447,6 +7500,10 @@
 "ffF" = (
 /obj/structure/table/wood,
 /obj/machinery/light,
+/obj/item/reagent_containers/food/snacks/grown/poppy{
+	pixel_x = 3;
+	pixel_y = 3
+	},
 /obj/item/reagent_containers/food/snacks/grown/poppy,
 /turf/open/floor/carpet/royalblack,
 /area/chapel/main)
@@ -7615,6 +7672,7 @@
 	icon_state = "0-2"
 	},
 /obj/machinery/door/poddoor/shutters/ship/preopen{
+	dir = 4;
 	id = "hosshutter"
 	},
 /turf/open/floor/plating,
@@ -8088,7 +8146,7 @@
 /obj/machinery/door/firedoor/border_only/directional/north,
 /obj/machinery/door/firedoor/border_only/directional/south,
 /obj/machinery/door/airlock/ship/maintenance{
-	name = "Maintenance Access Medbay Lobby";
+	name = "Maintenance Access Infirmary Lobby";
 	req_one_access_txt = "5"
 	},
 /turf/open/floor/plating,
@@ -8112,11 +8170,11 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /obj/machinery/door/firedoor/border_only/directional/north,
 /obj/machinery/door/firedoor/border_only/directional/south,
+/obj/machinery/atmospherics/pipe/simple/purple/hidden,
 /obj/machinery/door/airlock/ship/external/glass{
-	name = "External Access Deck 1 Starboard";
+	name = "External Access Deck 2 Starboard";
 	req_one_access_txt = "13"
 	},
-/obj/machinery/atmospherics/pipe/simple/purple/hidden,
 /turf/open/floor/plating,
 /area/maintenance/department/engine/atmos)
 "fDK" = (
@@ -8382,6 +8440,11 @@
 /obj/structure/cable{
 	icon_state = "0-4"
 	},
+/obj/machinery/door/poddoor/shutters/ship/preopen{
+	dir = 4;
+	id = "chemistry_shutters";
+	name = "chemistry shutters"
+	},
 /turf/open/floor/plating,
 /area/medical/chemistry)
 "fOf" = (
@@ -8530,6 +8593,9 @@
 	},
 /obj/machinery/recharger{
 	pixel_x = -7
+	},
+/obj/machinery/light{
+	dir = 1
 	},
 /turf/open/floor/carpet/ship/red_carpet,
 /area/security/warden)
@@ -9278,6 +9344,9 @@
 	req_one_access_txt = "6;39;68"
 	},
 /obj/structure/disposalpipe/segment,
+/obj/effect/mapping_helpers/airlock/unres{
+	dir = 1
+	},
 /turf/open/floor/carpet/ship/blue,
 /area/medical/genetics/cloning)
 "gCF" = (
@@ -9401,6 +9470,7 @@
 	icon_state = "0-8"
 	},
 /obj/machinery/door/poddoor/shutters/ship/preopen{
+	dir = 4;
 	id = "hosshutter"
 	},
 /turf/open/floor/plating,
@@ -9454,7 +9524,7 @@
 /area/medical/surgery)
 "gKb" = (
 /obj/machinery/door/airlock/ship/command{
-	name = "Deck 1 Generator";
+	name = "Gravity Generator Room";
 	req_one_access_txt = "10"
 	},
 /obj/machinery/door/firedoor/border_only/directional/west,
@@ -9545,7 +9615,7 @@
 "gOq" = (
 /obj/machinery/atmospherics/pipe/layer_manifold,
 /obj/machinery/door/airlock/ship/external/glass{
-	name = "External Access Deck 1 Port";
+	name = "External Access Deck 2 Port";
 	req_one_access_txt = "13"
 	},
 /turf/open/floor/plating,
@@ -9965,12 +10035,13 @@
 /turf/open/floor/engine/plasma,
 /area/engine/atmos)
 "haC" = (
-/obj/machinery/requests_console{
-	department = "Medbay";
-	departmentType = 1;
-	name = "Medbay RC"
-	},
 /obj/structure/table/reinforced,
+/obj/machinery/button/door{
+	desc = "A remote control switch for the medbay foyer.";
+	id = "MedbayFoyer";
+	name = "Medbay Doors Control";
+	normaldoorcontrol = 1
+	},
 /turf/open/floor/carpet/blue,
 /area/medical/medbay/lobby)
 "hba" = (
@@ -10008,6 +10079,7 @@
 /obj/structure/cable/yellow{
 	icon_state = "4-8"
 	},
+/obj/machinery/airalarm/directional/north,
 /turf/open/floor/carpet/ship/red_carpet,
 /area/security/checkpoint/escape)
 "hbR" = (
@@ -10453,6 +10525,7 @@
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer1{
 	dir = 1
 	},
+/obj/machinery/airalarm/directional/east,
 /turf/open/floor/carpet/ship/blue,
 /area/medical/patients_rooms/room_c)
 "hvY" = (
@@ -10503,12 +10576,19 @@
 /area/hallway/secondary/entry{
 	name = "Arrivals"
 	})
-"hxC" = (
-/obj/machinery/power/apc/auto_name/north,
-/obj/structure/cable{
-	icon_state = "0-8"
+"hxA" = (
+/obj/effect/spawner/structure/window/reinforced/ship,
+/obj/machinery/door/poddoor/shutters/ship/preopen{
+	dir = 4;
+	id = "ceshutter"
 	},
-/obj/machinery/clonepod,
+/turf/open/floor/plating,
+/area/engine/engine_room/external{
+	name = "Stormdrive Interior"
+	})
+"hxC" = (
+/obj/machinery/clonepod/prefilled,
+/obj/machinery/airalarm/directional/north,
 /turf/open/floor/carpet/ship/blue,
 /area/medical/genetics/cloning)
 "hyv" = (
@@ -11326,7 +11406,6 @@
 	dir = 4;
 	name = "starmap console"
 	},
-/obj/item/reagent_containers/food/snacks/grown/poppy/lily,
 /turf/open/floor/carpet/royalblack,
 /area/chapel/main)
 "iep" = (
@@ -11358,6 +11437,9 @@
 	req_one_access_txt = "5;6;39;68"
 	},
 /obj/structure/disposalpipe/segment{
+	dir = 4
+	},
+/obj/effect/mapping_helpers/airlock/unres{
 	dir = 4
 	},
 /turf/open/floor/carpet/ship/blue,
@@ -11555,9 +11637,6 @@
 /area/engine/engine_room)
 "imh" = (
 /obj/effect/spawner/structure/window/reinforced,
-/obj/machinery/door/poddoor/shutters/ship/preopen{
-	id = "cmoshutter"
-	},
 /obj/structure/cable{
 	icon_state = "2-8"
 	},
@@ -11566,6 +11645,10 @@
 	},
 /obj/structure/cable{
 	icon_state = "0-8"
+	},
+/obj/machinery/door/poddoor/shutters/ship/preopen{
+	dir = 4;
+	id = "cmoshutter"
 	},
 /turf/open/floor/plating,
 /area/crew_quarters/heads/cmo)
@@ -11795,14 +11878,14 @@
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/engine/break_room)
 "iuT" = (
-/obj/structure/cable{
-	icon_state = "1-8"
-	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	dir = 5
 	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /obj/structure/disposalpipe/segment,
+/obj/structure/cable{
+	icon_state = "1-4"
+	},
 /turf/open/floor/wood,
 /area/lawoffice)
 "ivA" = (
@@ -12609,6 +12692,17 @@
 /obj/item/surgical_drapes,
 /turf/open/floor/carpet/ship/blue,
 /area/medical/surgery)
+"jbz" = (
+/obj/structure/table/wood,
+/obj/item/paper_bin,
+/obj/machinery/button/door{
+	id = "chapel_shutters_space";
+	name = "chapel shutters control";
+	pixel_x = -6;
+	pixel_y = -25
+	},
+/turf/open/floor/wood,
+/area/chapel/main)
 "jbE" = (
 /obj/structure/chair/office/light{
 	dir = 8
@@ -12731,7 +12825,7 @@
 /area/crew_quarters/bar)
 "jda" = (
 /obj/machinery/conveyor{
-	dir = 4;
+	dir = 5;
 	id = "arrivals_baggage_claim";
 	operating = 1
 	},
@@ -13920,6 +14014,8 @@
 	dir = 4;
 	icon_state = "rwindow"
 	},
+/obj/machinery/power/apc/auto_name/south,
+/obj/structure/cable,
 /turf/open/floor/carpet/ship/blue,
 /area/medical/genetics/cloning)
 "jSP" = (
@@ -14002,7 +14098,7 @@
 /obj/machinery/door/firedoor/border_only/directional/west,
 /obj/machinery/door/firedoor/border_only/directional/east,
 /obj/machinery/door/airlock/ship/medical{
-	name = "Plumbing";
+	name = "Chemistry Manufacturing";
 	req_access_txt = "6;33"
 	},
 /obj/structure/disposalpipe/segment{
@@ -14315,6 +14411,37 @@
 /obj/structure/table,
 /obj/structure/cable{
 	icon_state = "1-2"
+	},
+/obj/machinery/button/door{
+	desc = "A remote control switch for the medbay foyer.";
+	id = "pw_fd_outer";
+	name = "Brig Exterior Doors Control";
+	normaldoorcontrol = 1;
+	pixel_x = -5;
+	pixel_y = 8;
+	req_access_txt = "63"
+	},
+/obj/machinery/button/door{
+	desc = "A remote control switch for the medbay foyer.";
+	id = "pw_fd_inner";
+	name = "Brig Interior Doors Control";
+	normaldoorcontrol = 1;
+	pixel_x = -5;
+	pixel_y = -2;
+	req_access_txt = "63"
+	},
+/obj/machinery/button/door{
+	id = "briglockdown";
+	name = "Brig Lockdown Control";
+	pixel_x = 5;
+	pixel_y = 8
+	},
+/obj/machinery/button/door{
+	id = "brig shutters";
+	name = "Cell Window Control";
+	pixel_x = 5;
+	pixel_y = -2;
+	specialfunctions = 4
 	},
 /turf/open/floor/carpet/ship/red_carpet,
 /area/security/warden)
@@ -15367,7 +15494,7 @@
 /obj/machinery/door/firedoor/border_only/directional/north,
 /obj/machinery/door/firedoor/border_only/directional/south,
 /obj/machinery/door/airlock/ship/medical{
-	name = "Medbay Lobby";
+	name = "Infirmary Reception";
 	req_one_access_txt = "5"
 	},
 /obj/structure/disposalpipe/segment,
@@ -16045,7 +16172,7 @@
 /obj/machinery/door/firedoor/border_only/directional/north,
 /obj/machinery/door/firedoor/border_only/directional/south,
 /obj/machinery/door/airlock/ship/external/glass{
-	name = "External Access Deck 1 Port";
+	name = "External Access Deck 2 Port";
 	req_one_access_txt = "13"
 	},
 /turf/open/floor/plating,
@@ -16814,6 +16941,9 @@
 /obj/structure/cable{
 	icon_state = "0-8"
 	},
+/obj/machinery/door/poddoor/ship/preopen{
+	id = "briglockdown"
+	},
 /turf/open/floor/plating,
 /area/security/warden)
 "lTm" = (
@@ -17174,7 +17304,8 @@
 	pixel_x = 6;
 	pixel_y = 6
 	},
-/obj/machinery/conveyor/inverted{
+/obj/machinery/conveyor{
+	dir = 9;
 	id = "arrivals_baggage_claim";
 	operating = 1
 	},
@@ -17570,6 +17701,7 @@
 	dir = 8
 	},
 /obj/machinery/door/poddoor/shutters/ship{
+	dir = 4;
 	id = "cell1_ld"
 	},
 /obj/structure/cable{
@@ -17770,6 +17902,9 @@
 	},
 /obj/structure/cable,
 /obj/effect/spawner/structure/window/reinforced,
+/obj/machinery/door/poddoor/ship/preopen{
+	id = "briglockdown"
+	},
 /turf/open/floor/plating,
 /area/security/warden)
 "mBQ" = (
@@ -18355,6 +18490,9 @@
 /obj/structure/table,
 /obj/item/paper_bin,
 /obj/item/pen,
+/obj/machinery/vending/wallmed{
+	pixel_y = -32
+	},
 /turf/open/floor/carpet/ship/blue,
 /area/medical/medbay/central)
 "mUq" = (
@@ -18366,11 +18504,12 @@
 /area/crew_quarters/toilet/restrooms)
 "mUs" = (
 /obj/effect/spawner/structure/window/reinforced,
-/obj/machinery/door/poddoor/shutters/ship/preopen{
-	id = "cmoshutter"
-	},
 /obj/structure/cable{
 	icon_state = "0-4"
+	},
+/obj/machinery/door/poddoor/shutters/ship/preopen{
+	dir = 4;
+	id = "cmoshutter"
 	},
 /turf/open/floor/plating,
 /area/crew_quarters/heads/cmo)
@@ -18494,6 +18633,12 @@
 /obj/item/clothing/ears/earmuffs,
 /turf/open/floor/plating,
 /area/maintenance/department/security)
+"mYV" = (
+/obj/machinery/chem_dispenser/mutagensaltpetersmall,
+/turf/open/floor/carpet/ship/beige_carpet{
+	color = "#99FF99"
+	},
+/area/hydroponics)
 "mYX" = (
 /obj/machinery/atmospherics/pipe/simple/general/visible{
 	dir = 8;
@@ -18752,6 +18897,11 @@
 /obj/effect/landmark/event_spawn,
 /turf/open/floor/wood,
 /area/security/execution/education)
+"niq" = (
+/obj/structure/table/wood,
+/obj/item/reagent_containers/food/snacks/grown/poppy/lily,
+/turf/open/floor/carpet/royalblack,
+/area/chapel/main)
 "niT" = (
 /obj/structure/table/glass,
 /obj/structure/cable{
@@ -18841,6 +18991,7 @@
 /obj/item/instrument/eguitar,
 /obj/item/paper/guides/jobs/security/range,
 /obj/machinery/firealarm/directional/west,
+/obj/machinery/airalarm/directional/north,
 /turf/open/floor/carpet/ship/red_carpet,
 /area/ai_monitored/security/armory/lockup)
 "nmC" = (
@@ -18898,8 +19049,7 @@
 /turf/open/floor/engine,
 /area/engine/engine_room)
 "noN" = (
-/obj/structure/hull_plate,
-/obj/structure/hull_plate,
+/obj/structure/hull_plate/end,
 /turf/open/floor/plating/airless,
 /area/space/nearstation)
 "npd" = (
@@ -19154,6 +19304,9 @@
 	req_one_access_txt = "3"
 	},
 /obj/machinery/door/window/southleft,
+/obj/machinery/door/poddoor/ship/preopen{
+	id = "briglockdown"
+	},
 /turf/open/floor/plating,
 /area/security/warden)
 "nwm" = (
@@ -19799,7 +19952,7 @@
 	dir = 4
 	},
 /obj/machinery/door/airlock/ship/medical{
-	name = "Medbay Lobby"
+	name = "Infirmary Lobby"
 	},
 /obj/effect/landmark/zebra_interlock_point,
 /turf/open/floor/carpet/ship/blue,
@@ -19948,6 +20101,13 @@
 /obj/effect/spawner/lootdrop/maintenance,
 /turf/open/floor/plating,
 /area/maintenance/department/medical)
+"oeB" = (
+/obj/effect/spawner/structure/window/reinforced/ship,
+/obj/machinery/door/poddoor/shutters/ship/preopen{
+	id = "chapel_shutters_space"
+	},
+/turf/open/floor/plating,
+/area/chapel/main)
 "oeJ" = (
 /obj/effect/spawner/structure/window/reinforced/ship,
 /turf/open/floor/plating,
@@ -20647,7 +20807,7 @@
 	icon_state = "4-8"
 	},
 /obj/machinery/door/airlock/ship/external/glass{
-	name = "External Access Deck 1 Arch";
+	name = "External Access Deck 2 Arch";
 	req_one_access_txt = "13"
 	},
 /turf/open/floor/plating,
@@ -21360,9 +21520,6 @@
 	dir = 8
 	},
 /obj/structure/disposalpipe/segment,
-/obj/machinery/vending/wallmed{
-	pixel_x = 32
-	},
 /obj/machinery/light{
 	dir = 4
 	},
@@ -22022,6 +22179,9 @@
 /obj/structure/cable{
 	icon_state = "2-4"
 	},
+/obj/machinery/door/poddoor/ship/preopen{
+	id = "brig shutters"
+	},
 /turf/open/floor/plating,
 /area/security/brig)
 "pJD" = (
@@ -22052,6 +22212,10 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/department/engine)
+"pJY" = (
+/obj/machinery/airalarm/directional/south,
+/turf/open/floor/carpet/ship/blue,
+/area/medical/patients_rooms/room_d)
 "pKs" = (
 /obj/machinery/computer/warrant{
 	dir = 1
@@ -22067,6 +22231,7 @@
 	icon_state = "0-4"
 	},
 /obj/machinery/door/poddoor/shutters/ship/preopen{
+	dir = 4;
 	id = "interrogatorshutter"
 	},
 /turf/open/floor/plating,
@@ -22742,7 +22907,7 @@
 /area/chapel/main)
 "qia" = (
 /obj/machinery/door/airlock/ship/external/glass{
-	name = "External Access Deck 1 Starboard";
+	name = "External Access Deck 2 Starboard";
 	req_one_access_txt = "13"
 	},
 /turf/open/floor/plating,
@@ -22797,6 +22962,9 @@
 	},
 /obj/structure/disposalpipe/segment,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
+/obj/structure/cable{
+	icon_state = "2-8"
+	},
 /turf/open/floor/carpet/blue,
 /area/medical/genetics/cloning)
 "qkh" = (
@@ -22856,10 +23024,6 @@
 /turf/open/floor/plating,
 /area/security/prison)
 "qlM" = (
-/obj/structure/cable{
-	icon_state = "0-4"
-	},
-/obj/machinery/power/apc/auto_name/north,
 /obj/machinery/firealarm/directional/west,
 /obj/machinery/camera/autoname{
 	dir = 5
@@ -23013,10 +23177,10 @@
 	},
 /obj/machinery/door/firedoor/border_only/directional/west,
 /obj/machinery/door/firedoor/border_only/directional/east,
-/obj/machinery/door/airlock/ship/medical{
-	name = "Medbay Lobby"
-	},
 /obj/effect/landmark/zebra_interlock_point,
+/obj/machinery/door/airlock/ship/medical{
+	name = "Infirmary Lobby"
+	},
 /turf/open/floor/carpet/ship/blue,
 /area/medical/medbay/lobby)
 "qqj" = (
@@ -23057,6 +23221,7 @@
 	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3,
+/obj/machinery/airalarm/directional/west,
 /turf/open/floor/carpet/ship/blue,
 /area/medical/patients_rooms/room_a)
 "qrE" = (
@@ -23350,6 +23515,7 @@
 /obj/machinery/light{
 	dir = 8
 	},
+/obj/item/extrapolator,
 /turf/open/floor/carpet/ship/beige_carpet{
 	color = "#99FF99"
 	},
@@ -23769,6 +23935,9 @@
 /obj/structure/cable{
 	icon_state = "4-8"
 	},
+/obj/machinery/door/poddoor/ship/preopen{
+	id = "brig shutters"
+	},
 /turf/open/floor/plating,
 /area/security/brig)
 "qOb" = (
@@ -23821,6 +23990,9 @@
 	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 4
+	},
+/obj/structure/cable{
+	icon_state = "1-2"
 	},
 /turf/open/floor/carpet/ship/blue,
 /area/medical/genetics/cloning)
@@ -24357,6 +24529,10 @@
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer1{
 	dir = 8
 	},
+/obj/machinery/power/apc/auto_name/north,
+/obj/structure/cable{
+	icon_state = "0-8"
+	},
 /turf/open/floor/wood,
 /area/lawoffice)
 "rnA" = (
@@ -24594,8 +24770,11 @@
 	dir = 4
 	},
 /obj/machinery/door/airlock/ship/medical{
-	name = "Medbay";
+	id_tag = "MedbayFoyer";
 	req_one_access_txt = "5;6;33;39;68"
+	},
+/obj/effect/mapping_helpers/airlock/unres{
+	dir = 4
 	},
 /turf/open/floor/carpet/ship/blue,
 /area/medical/medbay/lobby)
@@ -25359,7 +25538,7 @@
 "saQ" = (
 /obj/machinery/atmospherics/pipe/layer_manifold,
 /obj/machinery/door/airlock/ship/external/glass{
-	name = "External Access Deck 1 Fore Port";
+	name = "External Access Deck 2 Fore Port";
 	req_one_access_txt = "2"
 	},
 /turf/open/floor/plating,
@@ -25450,12 +25629,15 @@
 	},
 /obj/machinery/door/firedoor/border_only/directional/west,
 /obj/machinery/door/firedoor/border_only/directional/east,
-/obj/machinery/door/airlock/ship/medical{
-	name = "Medbay";
-	req_one_access_txt = "5;6;33;39;68"
-	},
 /obj/structure/disposalpipe/segment{
 	dir = 4
+	},
+/obj/effect/mapping_helpers/airlock/unres{
+	dir = 4
+	},
+/obj/machinery/door/airlock/ship/medical{
+	id_tag = "MedbayFoyer";
+	req_one_access_txt = "5;6;33;39;68"
 	},
 /turf/open/floor/carpet/ship/blue,
 /area/medical/medbay/lobby)
@@ -25618,6 +25800,7 @@
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3{
 	dir = 1
 	},
+/obj/machinery/airalarm/directional/west,
 /turf/open/floor/carpet/ship/blue,
 /area/medical/patients_rooms/room_c)
 "skM" = (
@@ -25741,11 +25924,11 @@
 /turf/open/floor/carpet,
 /area/crew_quarters/kitchen)
 "sqk" = (
-/obj/machinery/computer/prisoner{
-	dir = 8
-	},
 /obj/machinery/camera/autoname{
 	dir = 9
+	},
+/obj/machinery/computer/prisoner/management{
+	dir = 8
 	},
 /turf/open/floor/carpet/ship/red_carpet,
 /area/security/warden)
@@ -26025,6 +26208,9 @@
 /area/engine/engine_smes)
 "sGU" = (
 /obj/effect/spawner/structure/window/reinforced/ship,
+/obj/machinery/door/poddoor/shutters/ship/preopen{
+	id = "chapel_shutters_space"
+	},
 /turf/open/floor/plating,
 /area/chapel/office)
 "sHv" = (
@@ -26184,7 +26370,7 @@
 /obj/machinery/door/firedoor/border_only/directional/north,
 /obj/machinery/door/firedoor/border_only/directional/south,
 /obj/machinery/door/airlock/ship/external/glass{
-	name = "External Access Deck 1 Starboard";
+	name = "External Access Deck 2 Starboard";
 	req_one_access_txt = "13"
 	},
 /turf/open/floor/plating,
@@ -26201,6 +26387,7 @@
 "sOv" = (
 /obj/effect/spawner/structure/window/reinforced,
 /obj/machinery/door/poddoor/shutters/ship/preopen{
+	dir = 4;
 	id = "cmoshutter"
 	},
 /obj/structure/cable{
@@ -26240,6 +26427,9 @@
 /obj/effect/spawner/structure/window/reinforced/ship,
 /obj/structure/cable{
 	icon_state = "0-8"
+	},
+/obj/machinery/door/poddoor/ship/preopen{
+	id = "brig shutters"
 	},
 /turf/open/floor/plating,
 /area/security/brig)
@@ -26587,6 +26777,7 @@
 /area/medical/medbay/central)
 "tdK" = (
 /obj/machinery/conveyor{
+	dir = 6;
 	id = "arrivals_baggage_claim";
 	operating = 1
 	},
@@ -27302,7 +27493,7 @@
 /obj/machinery/door/firedoor/border_only/directional/west,
 /obj/machinery/door/firedoor/border_only/directional/east,
 /obj/machinery/door/airlock/ship/security{
-	id_tag = "pw_fd_outer";
+	id_tag = "pw_fd_inner";
 	req_one_access_txt = "3;4;38;63"
 	},
 /turf/open/floor/carpet/ship,
@@ -27424,6 +27615,7 @@
 "tLz" = (
 /obj/machinery/iv_drip,
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer1,
+/obj/machinery/airalarm/directional/east,
 /turf/open/floor/carpet/ship/blue,
 /area/medical/patients_rooms/room_a)
 "tLE" = (
@@ -27580,7 +27772,7 @@
 "tQJ" = (
 /obj/machinery/atmospherics/pipe/layer_manifold,
 /obj/machinery/door/airlock/ship/external/glass{
-	name = "External Access Deck 1 Starboard";
+	name = "External Access Deck 2 Starboard";
 	req_one_access_txt = "13"
 	},
 /turf/open/floor/plating,
@@ -27719,7 +27911,7 @@
 "tWo" = (
 /obj/machinery/atmospherics/pipe/layer_manifold,
 /obj/machinery/door/airlock/ship/external/glass{
-	name = "External Access Deck 1 Fore Starboard";
+	name = "External Access Deck 2 Fore Starboard";
 	req_one_access_txt = "13"
 	},
 /turf/open/floor/plating,
@@ -27824,7 +28016,7 @@
 /obj/machinery/door/firedoor/border_only/directional/south,
 /obj/machinery/door/firedoor/border_only/directional/north,
 /obj/machinery/door/airlock/ship/maintenance{
-	name = "Maintenance Access Medbay";
+	name = "Maintenance Access Infirmary";
 	req_one_access_txt = "5"
 	},
 /turf/open/floor/carpet/ship/blue,
@@ -27993,7 +28185,7 @@
 	dir = 4
 	},
 /obj/machinery/door/airlock/ship/external/glass{
-	name = "External Access Deck 1 Arch";
+	name = "External Access Deck 2 Arch";
 	req_one_access_txt = "13"
 	},
 /obj/structure/cable/white{
@@ -28095,6 +28287,7 @@
 "upa" = (
 /obj/machinery/recharge_station,
 /obj/effect/landmark/start/cyborg,
+/obj/machinery/light,
 /turf/open/floor/carpet/ship/blue,
 /area/medical/storage)
 "upb" = (
@@ -28558,13 +28751,14 @@
 /area/medical/morgue)
 "uHC" = (
 /obj/effect/spawner/structure/window/reinforced,
-/obj/machinery/door/poddoor/shutters/ship/preopen{
-	id = "cmoshutter"
-	},
 /obj/structure/cable{
 	icon_state = "1-2"
 	},
 /obj/structure/cable,
+/obj/machinery/door/poddoor/shutters/ship/preopen{
+	dir = 4;
+	id = "cmoshutter"
+	},
 /turf/open/floor/plating,
 /area/crew_quarters/heads/cmo)
 "uHK" = (
@@ -28863,11 +29057,15 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /obj/machinery/door/airlock/ship/external/glass{
-	name = "External Access Deck 1 Fore Starboard";
+	name = "External Access Deck 2 Fore Starboard";
 	req_one_access_txt = "13"
 	},
 /turf/open/floor/plating,
 /area/maintenance/department/medical)
+"uTi" = (
+/obj/machinery/airalarm/directional/north,
+/turf/open/floor/engine,
+/area/gateway)
 "uTl" = (
 /obj/machinery/vending/wallmed{
 	pixel_x = 32
@@ -29162,9 +29360,6 @@
 /area/crew_quarters/kitchen)
 "vei" = (
 /obj/machinery/vending/cola/random,
-/obj/machinery/vending/wallmed{
-	pixel_x = 32
-	},
 /turf/open/floor/carpet/ship/blue,
 /area/medical/medbay/lobby)
 "vez" = (
@@ -29967,6 +30162,7 @@
 /area/engine/atmos)
 "vDE" = (
 /obj/machinery/computer/crew,
+/obj/machinery/airalarm/directional/east,
 /turf/open/floor/carpet/ship/red_carpet,
 /area/security/checkpoint/medical)
 "vDM" = (
@@ -30049,6 +30245,10 @@
 "vFY" = (
 /obj/effect/spawner/structure/window/reinforced,
 /obj/structure/cable,
+/obj/machinery/door/poddoor/ship/preopen{
+	dir = 4;
+	id = "briglockdown"
+	},
 /turf/open/floor/plating,
 /area/security/warden)
 "vGe" = (
@@ -30153,6 +30353,14 @@
 /obj/machinery/holopad,
 /turf/open/floor/wood,
 /area/lawoffice)
+"vIF" = (
+/obj/effect/spawner/structure/window/reinforced/ship,
+/obj/machinery/door/poddoor/shutters/ship/preopen{
+	dir = 4;
+	id = "chapel_shutters_space"
+	},
+/turf/open/floor/plating,
+/area/chapel/main)
 "vJq" = (
 /turf/closed/wall/ship,
 /area/storage/tech)
@@ -30681,6 +30889,10 @@
 /obj/structure/cable{
 	icon_state = "0-4"
 	},
+/obj/machinery/door/poddoor/ship/preopen{
+	dir = 4;
+	id = "briglockdown"
+	},
 /turf/open/floor/plating,
 /area/security/warden)
 "wgR" = (
@@ -30739,7 +30951,7 @@
 /obj/machinery/door/firedoor/border_only/directional/west,
 /obj/machinery/door/firedoor/border_only/directional/east,
 /obj/machinery/door/airlock/ship/security{
-	id_tag = "pw_fd_outer";
+	id_tag = "pw_fd_inner";
 	req_one_access_txt = "3;4;38;63"
 	},
 /obj/machinery/atmospherics/pipe/simple/purple/hidden{
@@ -31795,6 +32007,10 @@
 /obj/item/paper{
 	info = "<p>Reminder that squad equipment vendors are located in the council chamber, tool storage, and that 4-way junction at the primary hallway, Deck 1</p>"
 	},
+/obj/machinery/door/poddoor/ship/preopen{
+	dir = 4;
+	id = "briglockdown"
+	},
 /turf/open/floor/plating,
 /area/security/warden)
 "wQa" = (
@@ -31854,7 +32070,7 @@
 /obj/machinery/door/firedoor/border_only/directional/north,
 /obj/machinery/door/firedoor/border_only/directional/south,
 /obj/machinery/door/airlock/ship/external/glass{
-	name = "External Access Deck 1 Fore Port";
+	name = "External Access Deck 2 Fore Port";
 	req_one_access_txt = "2"
 	},
 /turf/open/floor/plating,
@@ -32362,7 +32578,7 @@
 /area/ai_monitored/security/armory/lockup)
 "xkN" = (
 /obj/machinery/door/airlock/ship/external/glass{
-	name = "External Access Deck 1 Starboard";
+	name = "External Access Deck 2 Starboard";
 	req_one_access_txt = "13"
 	},
 /turf/open/floor/plating,
@@ -32376,15 +32592,9 @@
 /area/engine/atmos)
 "xmb" = (
 /obj/structure/cable{
-	icon_state = "1-2"
-	},
-/obj/structure/cable{
 	icon_state = "2-4"
 	},
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
-/obj/structure/disposalpipe/segment,
-/turf/open/floor/carpet/ship/blue,
+/turf/open/floor/carpet/blue,
 /area/medical/genetics/cloning)
 "xmt" = (
 /obj/structure/cable/yellow{
@@ -32602,6 +32812,9 @@
 /area/security/brig)
 "xuy" = (
 /obj/machinery/seed_extractor,
+/obj/machinery/light{
+	dir = 1
+	},
 /turf/open/floor/carpet/ship/beige_carpet{
 	color = "#99FF99"
 	},
@@ -32859,6 +33072,7 @@
 	icon_state = "0-4"
 	},
 /obj/machinery/door/poddoor/shutters/ship/preopen{
+	dir = 4;
 	id = "hosshutter"
 	},
 /turf/open/floor/plating,
@@ -32888,6 +33102,11 @@
 /obj/effect/spawner/structure/window/reinforced,
 /obj/structure/cable{
 	icon_state = "0-8"
+	},
+/obj/machinery/door/poddoor/shutters/ship/preopen{
+	dir = 4;
+	id = "chemistry_shutters";
+	name = "chemistry shutters"
 	},
 /turf/open/floor/plating,
 /area/medical/chemistry)
@@ -33248,6 +33467,7 @@
 /obj/effect/spawner/structure/window/reinforced,
 /obj/structure/cable,
 /obj/machinery/door/poddoor/shutters/ship/preopen{
+	dir = 4;
 	id = "interrogatorshutter"
 	},
 /turf/open/floor/plating,
@@ -33301,7 +33521,6 @@
 /area/medical/apothecary)
 "xSX" = (
 /obj/structure/closet/wardrobe/white/medical,
-/obj/machinery/airalarm/directional/north,
 /obj/machinery/light{
 	dir = 1
 	},
@@ -48905,7 +49124,7 @@ drp
 drp
 drp
 drp
-atr
+awN
 atr
 aIO
 fZX
@@ -48969,7 +49188,7 @@ mBS
 fcp
 aIO
 atr
-atr
+noN
 drp
 drp
 drp
@@ -49162,7 +49381,7 @@ drp
 drp
 drp
 drp
-atr
+awN
 atr
 mjO
 aae
@@ -49226,7 +49445,7 @@ uPR
 xxr
 cxm
 atr
-atr
+noN
 drp
 drp
 drp
@@ -49419,7 +49638,7 @@ drp
 drp
 drp
 drp
-atr
+awN
 atr
 icn
 oeJ
@@ -49483,7 +49702,7 @@ azc
 eOj
 aIO
 atr
-atr
+noN
 drp
 drp
 drp
@@ -49676,7 +49895,7 @@ drp
 drp
 drp
 drp
-atr
+awN
 atr
 mjO
 aae
@@ -49740,7 +49959,7 @@ uPR
 xxr
 cxm
 atr
-atr
+noN
 drp
 drp
 drp
@@ -49933,7 +50152,7 @@ drp
 drp
 drp
 drp
-atr
+awN
 atr
 icn
 oeJ
@@ -49997,7 +50216,7 @@ azc
 eOj
 aIO
 atr
-atr
+noN
 drp
 drp
 drp
@@ -50190,7 +50409,7 @@ drp
 drp
 drp
 drp
-atr
+awN
 atr
 mjO
 aae
@@ -50254,7 +50473,7 @@ uPR
 xxr
 cxm
 atr
-atr
+noN
 drp
 drp
 drp
@@ -50447,7 +50666,7 @@ drp
 drp
 drp
 drp
-atr
+awN
 atr
 aIO
 fZX
@@ -50511,7 +50730,7 @@ azc
 fcp
 aIO
 atr
-atr
+noN
 drp
 drp
 drp
@@ -50704,7 +50923,7 @@ drp
 drp
 drp
 drp
-atr
+awN
 atr
 atr
 fZX
@@ -50768,7 +50987,7 @@ azc
 fcp
 atr
 atr
-atr
+noN
 drp
 drp
 drp
@@ -50961,7 +51180,7 @@ drp
 drp
 drp
 drp
-atr
+awN
 atr
 atr
 fZX
@@ -51025,7 +51244,7 @@ azc
 fcp
 atr
 atr
-atr
+noN
 drp
 drp
 drp
@@ -51218,7 +51437,7 @@ drp
 drp
 drp
 drp
-atr
+awN
 atr
 atr
 fZX
@@ -51282,7 +51501,7 @@ azc
 fcp
 atr
 atr
-atr
+noN
 drp
 drp
 drp
@@ -51475,7 +51694,7 @@ drp
 drp
 drp
 drp
-atr
+awN
 atr
 atr
 fZX
@@ -51539,7 +51758,7 @@ azc
 fcp
 atr
 atr
-atr
+noN
 drp
 drp
 drp
@@ -51732,7 +51951,7 @@ drp
 drp
 drp
 drp
-atr
+awN
 atr
 atr
 fZX
@@ -51796,7 +52015,7 @@ btl
 fcp
 atr
 atr
-atr
+noN
 drp
 drp
 drp
@@ -51989,7 +52208,7 @@ drp
 drp
 drp
 drp
-atr
+awN
 atr
 atr
 fZX
@@ -52053,7 +52272,7 @@ azc
 fcp
 atr
 atr
-atr
+noN
 drp
 drp
 drp
@@ -52246,7 +52465,7 @@ drp
 drp
 drp
 drp
-atr
+awN
 atr
 atr
 fZX
@@ -52310,7 +52529,7 @@ azc
 fcp
 atr
 atr
-atr
+noN
 drp
 drp
 drp
@@ -52503,7 +52722,7 @@ drp
 drp
 drp
 drp
-atr
+awN
 atr
 atr
 fZX
@@ -52567,7 +52786,7 @@ tOt
 fcp
 atr
 atr
-atr
+noN
 drp
 drp
 drp
@@ -52760,7 +52979,7 @@ drp
 drp
 drp
 drp
-atr
+awN
 atr
 atr
 fZX
@@ -52824,7 +53043,7 @@ llX
 fcp
 atr
 atr
-atr
+noN
 drp
 drp
 drp
@@ -53017,7 +53236,7 @@ drp
 drp
 drp
 drp
-atr
+awN
 atr
 atr
 fZX
@@ -53081,7 +53300,7 @@ qMe
 fcp
 atr
 atr
-atr
+noN
 drp
 drp
 drp
@@ -53274,7 +53493,7 @@ drp
 drp
 drp
 drp
-atr
+awN
 atr
 atr
 fZX
@@ -53338,7 +53557,7 @@ llX
 fcp
 atr
 atr
-atr
+noN
 drp
 drp
 drp
@@ -53531,7 +53750,7 @@ drp
 drp
 drp
 drp
-atr
+awN
 atr
 atr
 fZX
@@ -53595,7 +53814,7 @@ llX
 eav
 atr
 atr
-atr
+noN
 drp
 drp
 drp
@@ -53788,7 +54007,7 @@ drp
 drp
 drp
 drp
-atr
+awN
 atr
 atr
 fZX
@@ -53852,7 +54071,7 @@ llX
 fcp
 atr
 atr
-atr
+noN
 drp
 drp
 drp
@@ -54045,7 +54264,7 @@ drp
 drp
 drp
 drp
-atr
+awN
 atr
 atr
 fZX
@@ -54109,7 +54328,7 @@ fsy
 fcp
 atr
 atr
-atr
+noN
 drp
 drp
 drp
@@ -54302,7 +54521,7 @@ drp
 drp
 drp
 drp
-atr
+awN
 atr
 atr
 fZX
@@ -54366,7 +54585,7 @@ llX
 fcp
 atr
 atr
-atr
+noN
 drp
 drp
 drp
@@ -54560,14 +54779,14 @@ drp
 drp
 drp
 drp
-atr
+awN
 atr
 fZX
 dch
 cxG
 fZX
-rKq
-rKq
+hxA
+hxA
 acZ
 acZ
 bTh
@@ -54622,7 +54841,7 @@ vWz
 sLc
 fcp
 atr
-atr
+noN
 drp
 drp
 drp
@@ -54817,7 +55036,7 @@ drp
 drp
 drp
 drp
-atr
+awN
 atr
 fZX
 vcT
@@ -54879,7 +55098,7 @@ llX
 dac
 fcp
 atr
-atr
+noN
 drp
 drp
 drp
@@ -55074,7 +55293,7 @@ drp
 drp
 drp
 drp
-atr
+awN
 atr
 fZX
 vcT
@@ -55136,7 +55355,7 @@ rdx
 xWq
 fcp
 atr
-atr
+noN
 drp
 drp
 drp
@@ -55331,7 +55550,7 @@ drp
 drp
 drp
 drp
-atr
+awN
 atr
 fZX
 aLW
@@ -55393,7 +55612,7 @@ llX
 qJx
 fcp
 atr
-atr
+noN
 drp
 drp
 drp
@@ -55588,7 +55807,7 @@ drp
 drp
 drp
 drp
-atr
+awN
 atr
 fZX
 dmx
@@ -55650,7 +55869,7 @@ llX
 xWq
 fcp
 atr
-atr
+noN
 drp
 drp
 drp
@@ -55845,7 +56064,7 @@ drp
 drp
 drp
 drp
-atr
+awN
 atr
 fZX
 yca
@@ -55907,7 +56126,7 @@ kGP
 kSa
 fcp
 atr
-atr
+noN
 drp
 drp
 drp
@@ -56102,7 +56321,7 @@ drp
 drp
 drp
 drp
-atr
+awN
 atr
 fZX
 qDt
@@ -56164,7 +56383,7 @@ akq
 xWq
 fcp
 atr
-atr
+noN
 drp
 drp
 drp
@@ -56359,7 +56578,7 @@ drp
 drp
 drp
 drp
-atr
+awN
 cvp
 fZX
 isN
@@ -56421,7 +56640,7 @@ bvN
 xWq
 fcp
 atr
-atr
+noN
 drp
 drp
 drp
@@ -56616,7 +56835,7 @@ drp
 drp
 drp
 drp
-atr
+awN
 atr
 fZX
 elW
@@ -56678,7 +56897,7 @@ xWq
 qJx
 fcp
 atr
-atr
+noN
 drp
 drp
 drp
@@ -56873,7 +57092,7 @@ drp
 drp
 drp
 drp
-atr
+awN
 atr
 fZX
 yca
@@ -56935,7 +57154,7 @@ xWq
 iKc
 fcp
 atr
-atr
+noN
 drp
 drp
 drp
@@ -58947,7 +59166,7 @@ gUq
 hIl
 ckj
 fZX
-wLi
+uTi
 wLi
 biy
 tvH
@@ -60256,7 +60475,7 @@ xAn
 gkd
 olz
 olz
-rSl
+eCo
 tdz
 xWq
 tdz
@@ -61553,7 +61772,7 @@ wnw
 mVk
 tJL
 lYW
-eoO
+jbz
 jBW
 aIO
 drp
@@ -61811,7 +62030,7 @@ mVk
 mVk
 iEN
 mVk
-fMV
+oeB
 icn
 drp
 drp
@@ -62068,7 +62287,7 @@ eoO
 mVk
 iEN
 ojk
-fMV
+oeB
 icn
 drp
 drp
@@ -62325,7 +62544,7 @@ mVk
 lNi
 uQl
 lNi
-fMV
+oeB
 icn
 aIO
 drp
@@ -63096,7 +63315,7 @@ wEc
 jhM
 foC
 fKi
-fMV
+oeB
 icn
 drp
 drp
@@ -63353,7 +63572,7 @@ mVk
 lNi
 uQl
 lNi
-fMV
+oeB
 icn
 drp
 drp
@@ -63610,7 +63829,7 @@ wEc
 jhM
 foC
 fKi
-fMV
+oeB
 icn
 drp
 drp
@@ -64061,7 +64280,7 @@ drp
 drp
 drp
 drp
-aIO
+drp
 drp
 drp
 drp
@@ -64126,8 +64345,8 @@ foC
 fKi
 jBW
 jBW
-fMV
-fMV
+vIF
+vIF
 jBW
 uzR
 jBW
@@ -64318,7 +64537,7 @@ drp
 drp
 drp
 drp
-awN
+drp
 drp
 drp
 drp
@@ -64575,14 +64794,14 @@ drp
 drp
 drp
 drp
-byz
-rnP
-rnP
-rnP
-rnP
-rnP
-rnP
-rnP
+drp
+drp
+drp
+drp
+drp
+drp
+drp
+drp
 jGa
 qIn
 kEW
@@ -64611,7 +64830,7 @@ bfy
 hPx
 hPx
 jDv
-jDv
+mYV
 nfK
 kbE
 fUj
@@ -64832,11 +65051,11 @@ drp
 drp
 drp
 drp
-awN
 drp
 drp
 drp
-rnP
+drp
+drp
 drp
 drp
 drp
@@ -64895,7 +65114,7 @@ mVk
 lNi
 uQl
 ieg
-gdT
+niq
 gdT
 gdT
 bAp
@@ -65089,11 +65308,11 @@ drp
 drp
 drp
 drp
-aIO
 drp
 drp
 drp
-rnP
+drp
+drp
 drp
 drp
 drp
@@ -65346,11 +65565,11 @@ drp
 drp
 drp
 drp
-aIO
 drp
 drp
 drp
-rnP
+drp
+drp
 drp
 drp
 drp
@@ -65603,11 +65822,11 @@ drp
 drp
 drp
 drp
-aIO
 drp
 drp
 drp
-rnP
+drp
+drp
 drp
 drp
 drp
@@ -65860,11 +66079,11 @@ drp
 drp
 drp
 drp
-aIO
 drp
 drp
 drp
-rnP
+drp
+drp
 drp
 drp
 drp
@@ -66117,11 +66336,11 @@ drp
 drp
 drp
 drp
-awN
 drp
 drp
 drp
-rnP
+drp
+drp
 drp
 drp
 drp
@@ -66130,7 +66349,7 @@ col
 lSq
 tdK
 kMh
-pzC
+byz
 vll
 qIM
 jex
@@ -66374,14 +66593,14 @@ drp
 drp
 drp
 drp
-byz
-rnP
-rnP
-rnP
-rnP
-rnP
-rnP
-rnP
+drp
+drp
+drp
+drp
+drp
+drp
+drp
+drp
 jGa
 ctT
 kEW
@@ -66631,7 +66850,7 @@ drp
 drp
 drp
 drp
-awN
+drp
 drp
 drp
 drp
@@ -66888,7 +67107,7 @@ drp
 drp
 drp
 drp
-aIO
+drp
 drp
 drp
 drp
@@ -67410,7 +67629,7 @@ drp
 drp
 drp
 drp
-atr
+awN
 atr
 eXv
 bWv
@@ -67667,7 +67886,7 @@ drp
 drp
 drp
 drp
-atr
+awN
 fyD
 eXv
 fTT
@@ -67729,7 +67948,7 @@ bmf
 vqt
 iLN
 atr
-atr
+noN
 drp
 drp
 drp
@@ -67924,7 +68143,7 @@ drp
 drp
 drp
 drp
-atr
+awN
 fyD
 eXv
 vzU
@@ -67986,7 +68205,7 @@ vsf
 pQv
 trj
 atr
-atr
+noN
 drp
 drp
 drp
@@ -68181,7 +68400,7 @@ drp
 drp
 drp
 drp
-atr
+awN
 fyD
 eXv
 sRt
@@ -68438,7 +68657,7 @@ drp
 drp
 drp
 drp
-atr
+awN
 atr
 eXv
 eXv
@@ -68695,7 +68914,7 @@ drp
 drp
 drp
 drp
-atr
+awN
 atr
 icn
 pJt
@@ -68952,7 +69171,7 @@ drp
 drp
 drp
 drp
-atr
+awN
 atr
 icn
 qNy
@@ -69209,7 +69428,7 @@ drp
 drp
 drp
 drp
-atr
+awN
 atr
 icn
 sQH
@@ -69466,7 +69685,7 @@ drp
 drp
 drp
 drp
-atr
+awN
 atr
 mjO
 snG
@@ -69723,7 +69942,7 @@ drp
 drp
 drp
 drp
-atr
+awN
 atr
 icn
 ayN
@@ -69980,7 +70199,7 @@ drp
 drp
 drp
 drp
-atr
+awN
 atr
 icn
 qNy
@@ -70237,7 +70456,7 @@ drp
 drp
 drp
 drp
-atr
+awN
 atr
 icn
 sQH
@@ -70494,7 +70713,7 @@ drp
 drp
 drp
 drp
-atr
+awN
 atr
 mjO
 snG
@@ -70751,7 +70970,7 @@ drp
 drp
 drp
 drp
-atr
+awN
 atr
 icn
 pJt
@@ -71008,7 +71227,7 @@ drp
 drp
 eLi
 drp
-atr
+awN
 atr
 icn
 qNy
@@ -71265,7 +71484,7 @@ drp
 drp
 drp
 drp
-atr
+awN
 atr
 icn
 sQH
@@ -71522,7 +71741,7 @@ drp
 drp
 drp
 drp
-atr
+awN
 atr
 mjO
 snG
@@ -71545,7 +71764,7 @@ oZp
 xSb
 jGf
 eaE
-eaE
+cVO
 oZp
 lGF
 dCv
@@ -71779,7 +71998,7 @@ drp
 drp
 drp
 drp
-atr
+awN
 atr
 icn
 pJt
@@ -72036,7 +72255,7 @@ drp
 drp
 drp
 drp
-atr
+awN
 atr
 icn
 qNy
@@ -72293,7 +72512,7 @@ drp
 drp
 drp
 drp
-atr
+awN
 atr
 icn
 sQH
@@ -72550,7 +72769,7 @@ drp
 drp
 drp
 drp
-atr
+awN
 atr
 wLO
 wLO
@@ -72807,7 +73026,7 @@ drp
 drp
 drp
 drp
-atr
+awN
 atr
 wLO
 bBq
@@ -73064,7 +73283,7 @@ drp
 drp
 drp
 drp
-atr
+awN
 fyD
 wLO
 cZt
@@ -73321,7 +73540,7 @@ drp
 drp
 drp
 drp
-atr
+awN
 fyD
 wLO
 ehh
@@ -73360,7 +73579,7 @@ nGw
 nGw
 mLU
 ksS
-hIk
+dwp
 ikd
 ybo
 uDi
@@ -73372,7 +73591,7 @@ rxk
 tYt
 xzn
 kCK
-onY
+pJY
 pQv
 qzL
 pvR
@@ -73578,7 +73797,7 @@ drp
 drp
 drp
 drp
-atr
+awN
 fyD
 wLO
 eoz
@@ -73835,7 +74054,7 @@ drp
 drp
 drp
 drp
-atr
+awN
 bWG
 wLO
 fbW
@@ -74092,7 +74311,7 @@ drp
 drp
 drp
 drp
-atr
+awN
 fyD
 wLO
 ffw
@@ -74349,7 +74568,7 @@ drp
 drp
 drp
 drp
-atr
+awN
 fyD
 wLO
 foi
@@ -74606,7 +74825,7 @@ drp
 drp
 drp
 drp
-atr
+awN
 fyD
 wLO
 fFJ
@@ -74863,7 +75082,7 @@ drp
 drp
 drp
 drp
-atr
+awN
 atr
 uhH
 uhH
@@ -74925,7 +75144,7 @@ vNp
 wYY
 mvd
 fyD
-atr
+noN
 drp
 drp
 drp
@@ -75120,7 +75339,7 @@ drp
 drp
 drp
 drp
-atr
+awN
 fyD
 uhH
 fGx
@@ -75182,7 +75401,7 @@ vNp
 wYY
 mvd
 fyD
-atr
+noN
 drp
 drp
 drp
@@ -75377,7 +75596,7 @@ drp
 drp
 drp
 drp
-atr
+awN
 fyD
 uhH
 fGx
@@ -75439,7 +75658,7 @@ vNp
 wYY
 mvd
 fyD
-atr
+noN
 drp
 drp
 drp
@@ -75634,7 +75853,7 @@ drp
 drp
 drp
 drp
-atr
+awN
 fyD
 uhH
 fGx
@@ -75931,7 +76150,7 @@ tgQ
 fvs
 xSX
 wut
-wut
+xmb
 qPW
 jSp
 gAd
@@ -76186,7 +76405,7 @@ mpb
 jDn
 fZN
 hbv
-xmb
+aqr
 lqv
 qjc
 dZB
