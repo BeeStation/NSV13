@@ -93,8 +93,14 @@
 	return FALSE
 
 /obj/machinery/ship_weapon/energy/set_position(obj/structure/overmap/OM) //Use this to tell your ship what weapon category this belongs in
-	if(!istype(OM.weapon_types[fire_mode], energy_weapon_type))
-		OM.weapon_types[fire_mode] = new energy_weapon_type(OM)
+	for(var/I = FIRE_MODE_PDC; I <= MAX_POSSIBLE_FIREMODE; I++) //We should ALWAYS default to PDCs.
+		var/datum/ship_weapon/SW = OM.weapon_types[I]
+		if(!SW)
+			continue
+		if(istype(SW, energy_weapon_type)) //Does this ship have a weapon type registered for us? Prevents phantom weapon groups.
+			OM.add_weapon(src)
+			return TRUE
+	OM.weapon_types[fire_mode] = new energy_weapon_type(OM)
 	OM.add_weapon(src)
 
 /obj/machinery/ship_weapon/energy/can_fire(shots = weapon_type.burst_size)
