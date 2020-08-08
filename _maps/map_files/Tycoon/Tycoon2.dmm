@@ -7758,6 +7758,8 @@
 /obj/structure/cable/yellow{
 	icon_state = "5-10"
 	},
+/obj/machinery/atmospherics/components/unary/portables_connector/visible,
+/obj/machinery/portable_atmospherics/canister/carbon_dioxide,
 /turf/open/floor/monotile/dark,
 /area/engine/engineering)
 "asq" = (
@@ -11565,17 +11567,8 @@
 	name = "Munitions Projects"
 	})
 "aAv" = (
-/obj/docking_port/stationary/turbolift{
-	dir = 2;
-	dwidth = 7;
-	height = 6;
-	id = "turbolift_primary";
-	name = "Aircraft Hangar";
-	roundstart_template = /datum/map_template/shuttle/turbolift/nsv/enterprise;
-	width = 15
-	},
 /turf/closed/wall/r_wall/ship,
-/area/maintenance/port)
+/area/shuttle/turbolift/shaft)
 "aAw" = (
 /obj/effect/turf_decal/tile/yellow,
 /obj/effect/turf_decal/tile/yellow{
@@ -19014,11 +19007,9 @@
 /obj/machinery/camera/autoname{
 	dir = 8
 	},
-/obj/machinery/atmospherics/pipe/simple/purple/visible{
-	dir = 8
-	},
 /obj/effect/turf_decal/delivery/red,
 /obj/machinery/meter,
+/obj/machinery/atmospherics/pipe/manifold/purple/visible,
 /turf/open/floor/monotile/dark,
 /area/engine/engineering)
 "aQv" = (
@@ -28019,7 +28010,7 @@
 /turf/open/floor/monotile,
 /area/medical/medbay/central)
 "bip" = (
-/turf/open/floor/plating,
+/turf/open/floor/monotile/dark,
 /area/shuttle/turbolift/shaft)
 "biq" = (
 /obj/machinery/light{
@@ -28213,6 +28204,7 @@
 "biI" = (
 /obj/machinery/computer/ship/viewscreen,
 /obj/structure/lattice/catwalk/over/ship,
+/obj/machinery/camera/autoname,
 /turf/open/floor/monotile/dark,
 /area/bridge{
 	name = "CIC"
@@ -28324,6 +28316,7 @@
 /obj/structure/cable{
 	icon_state = "4-8"
 	},
+/obj/machinery/camera/autoname,
 /turf/open/floor/monotile/dark,
 /area/bridge{
 	name = "CIC"
@@ -37915,6 +37908,9 @@
 /obj/item/twohanded/required/kirbyplants/photosynthetic,
 /obj/machinery/firealarm/directional/west,
 /obj/structure/lattice/catwalk/over/ship,
+/obj/machinery/camera/autoname{
+	dir = 4
+	},
 /turf/open/floor/monotile/dark,
 /area/bridge{
 	name = "CIC"
@@ -38089,6 +38085,10 @@
 "bAR" = (
 /obj/machinery/firealarm/directional/east,
 /obj/structure/lattice/catwalk/over/ship,
+/obj/machinery/camera/autoname{
+	dir = 8;
+	icon_state = "camera"
+	},
 /turf/open/floor/monotile/dark,
 /area/bridge{
 	name = "CIC"
@@ -39638,10 +39638,6 @@
 	})
 "bDK" = (
 /obj/machinery/camera/autoname,
-/obj/machinery/turbolift_button{
-	pixel_y = 32;
-	shuttle_id = "turbolift_primary"
-	},
 /turf/open/floor/monotile,
 /area/nsv/hanger/deck2)
 "bDL" = (
@@ -39771,7 +39767,7 @@
 "bDY" = (
 /obj/machinery/door/airlock/turbolift/ship,
 /turf/open/floor/monotile/dark,
-/area/nsv/hanger/deck2)
+/area/shuttle/turbolift/shaft)
 "bDZ" = (
 /obj/structure/cable{
 	icon_state = "4-8"
@@ -44628,10 +44624,6 @@
 /area/medical/medbay/lobby)
 "bZG" = (
 /obj/structure/table/reinforced,
-/obj/structure/railing{
-	dir = 8;
-	icon_state = "railing0"
-	},
 /obj/structure/railing,
 /obj/structure/railing{
 	dir = 8
@@ -46663,6 +46655,12 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/department/cargo)
+"jbL" = (
+/obj/machinery/light{
+	dir = 4
+	},
+/turf/open/floor/monotile/dark,
+/area/shuttle/turbolift/shaft)
 "jbU" = (
 /obj/machinery/door/airlock/ship/maintenance/defaultaccess,
 /obj/structure/cable{
@@ -46867,6 +46865,11 @@
 /obj/effect/turf_decal/tile/neutral,
 /turf/open/floor/monotile,
 /area/crew_quarters/fitness/recreation)
+"khV" = (
+/obj/effect/turf_decal/delivery/red,
+/obj/machinery/atmospherics/components/binary/pump,
+/turf/open/floor/monotile/dark,
+/area/engine/engineering)
 "kit" = (
 /obj/effect/turf_decal/tile/neutral{
 	dir = 1
@@ -47069,6 +47072,13 @@
 /area/science/mixing{
 	name = "Prototype munitions bay"
 	})
+"kZK" = (
+/obj/machinery/light{
+	dir = 1
+	},
+/obj/machinery/lazylift/master/aircraft_elevator,
+/turf/open/floor/monotile/dark,
+/area/shuttle/turbolift/shaft)
 "laZ" = (
 /turf/closed/wall/ship,
 /area/maintenance/starboard)
@@ -47272,6 +47282,12 @@
 	},
 /turf/open/floor/monotile/light,
 /area/medical/medbay/lobby)
+"lWN" = (
+/obj/machinery/light{
+	dir = 8
+	},
+/turf/open/floor/monotile/dark,
+/area/shuttle/turbolift/shaft)
 "mbD" = (
 /obj/machinery/airalarm{
 	pixel_y = 23
@@ -47631,6 +47647,19 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/starboard/fore)
+"nVl" = (
+/obj/effect/turf_decal/tile/neutral,
+/obj/effect/turf_decal/tile/neutral{
+	dir = 8
+	},
+/obj/structure/sign/nanotrasen{
+	pixel_y = 26
+	},
+/obj/machinery/vending/coffee,
+/turf/open/floor/monotile,
+/area/crew_quarters/cafeteria{
+	name = "Mess hall"
+	})
 "nVy" = (
 /obj/effect/turf_decal/delivery,
 /obj/machinery/advanced_airlock_controller{
@@ -47648,6 +47677,10 @@
 	},
 /turf/open/floor/wood,
 /area/library)
+"nZn" = (
+/obj/machinery/lazylift_button,
+/turf/closed/wall/r_wall/ship,
+/area/shuttle/turbolift/shaft)
 "ohf" = (
 /obj/effect/turf_decal/tile/neutral{
 	dir = 1
@@ -48087,6 +48120,15 @@
 /obj/effect/turf_decal/bot_white,
 /turf/open/floor/monotile,
 /area/gateway)
+"qFL" = (
+/obj/structure/lattice/catwalk/over/ship,
+/obj/machinery/camera/autoname{
+	dir = 1
+	},
+/turf/open/floor/monotile/dark,
+/area/bridge{
+	name = "CIC"
+	})
 "qHc" = (
 /obj/machinery/status_display/ai,
 /turf/closed/wall/ship,
@@ -80783,13 +80825,13 @@ adF
 adF
 aal
 bFQ
-aal
-lhC
-lhC
-lhC
-lhC
-lhC
-lhC
+aAv
+aAv
+aAv
+aAv
+aAv
+aAv
+aAv
 bAU
 abx
 abx
@@ -81040,10 +81082,10 @@ bHp
 bHp
 bHp
 aZO
-bHp
+aAv
 bip
 bip
-bip
+lWN
 bip
 bip
 bDY
@@ -81297,7 +81339,7 @@ jtt
 bne
 sSl
 aZO
-bHp
+aAv
 bip
 bip
 bip
@@ -81554,7 +81596,7 @@ bnm
 bIo
 bnm
 aZO
-bHp
+aAv
 bip
 bip
 bip
@@ -81811,7 +81853,7 @@ bnm
 bne
 bnm
 aZO
-bHp
+aAv
 bip
 bip
 bip
@@ -82068,7 +82110,7 @@ gXS
 bne
 bhm
 aZO
-bHp
+aAv
 bip
 bip
 bip
@@ -82325,7 +82367,7 @@ fMP
 bne
 bnm
 aZO
-bHp
+aAv
 bip
 bip
 bip
@@ -82583,7 +82625,7 @@ bne
 bFV
 aZO
 aAv
-bip
+kZK
 bip
 bip
 bip
@@ -82839,7 +82881,7 @@ fMP
 bne
 aQp
 aZO
-bHp
+aAv
 bip
 bip
 bip
@@ -83096,7 +83138,7 @@ bnm
 bne
 bnm
 aZO
-bHp
+aAv
 bip
 bip
 bip
@@ -83139,7 +83181,7 @@ bmE
 caw
 caD
 caT
-bmE
+qFL
 abG
 bmr
 bFh
@@ -83353,7 +83395,7 @@ bnm
 bne
 bnm
 aZO
-bHp
+aAv
 bip
 bip
 bip
@@ -83610,7 +83652,7 @@ bnm
 bIo
 bnm
 aZO
-bHp
+aAv
 bip
 bip
 bip
@@ -83867,7 +83909,7 @@ jtt
 bne
 bhm
 aZO
-bHp
+aAv
 bip
 bip
 bip
@@ -84124,10 +84166,10 @@ bHp
 bHp
 bPM
 aZO
-bHp
+aAv
 bip
 bip
-bip
+jbL
 bip
 bip
 bDY
@@ -84381,13 +84423,13 @@ aaa
 bHp
 bIm
 aZO
-bHp
-aam
-aam
-aam
-aam
-aam
-aam
+aAv
+aAv
+aAv
+aAv
+aAv
+aAv
+nZn
 bDK
 abx
 bDS
@@ -88522,7 +88564,7 @@ atl
 ats
 baK
 abZ
-aNc
+nVl
 atH
 aVd
 bbJ
@@ -98782,7 +98824,7 @@ bAs
 aey
 agG
 asp
-aYm
+khV
 aQu
 aYm
 aey
