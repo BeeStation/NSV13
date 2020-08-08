@@ -263,8 +263,8 @@
 	for_chassis = 2
 
 /obj/item/fighter_component/armour_plating/heavy/t3
-	name = "Reinforced Light Fighter Armour Plating"
-	desc = "Reinforced Armour Plating for a Light Fighter"
+	name = "Reinforced Heavy Fighter Armour Plating"
+	desc = "Reinforced Armour Plating for a Heavy Fighter"
 	armour = 2.5
 	for_chassis = 2
 
