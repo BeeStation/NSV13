@@ -1,5 +1,5 @@
-/datum/outfit/syndicate
-	name = "syndicate Base"
+/datum/outfit/syndicom
+	name = "Syndicate Command Base"
 	uniform = /obj/item/clothing/under/syndicate
 	shoes = /obj/item/clothing/shoes/combat
 	id = /obj/item/card/id/syndicate/anyone
@@ -12,7 +12,7 @@
 
 //Don't use these sparingly, they have powerful and super rare gear
 
-/datum/outfit/syndicate/captain
+/datum/outfit/syndicom/captain
 	name = "Syndicate Captain (New)"
 	belt = /obj/item/storage/belt/sabre
 	suit = /obj/item/clothing/suit/armor/vest/capcarapace/syndicate
@@ -24,7 +24,7 @@
 	backpack_contents = list(/obj/item/uplink/nuclear=1)
 
 //This has evolved from borderline overpowered to just plain overpowered overtime, but its pretty fucking epic for admins
-/datum/outfit/syndicate/admiral
+/datum/outfit/syndicom/admiral
 	name = "Syndicate Admiral"
 	belt = /obj/item/storage/belt/sabre
 	head = /obj/item/clothing/head/helmet/space/beret
