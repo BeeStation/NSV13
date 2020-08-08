@@ -1027,6 +1027,7 @@ Control Rods
 
 /obj/machinery/computer/ship/reactor_control_computer/Initialize()
 	. = ..()
+	new /obj/item/book/manual/wiki/stormdrive(get_turf(src))
 	return INITIALIZE_HINT_LATELOAD
 
 /obj/machinery/computer/ship/reactor_control_computer/LateInitialize()
@@ -1280,6 +1281,12 @@ Control Rods
 	icon_state = "orange"
 	gas_type = /datum/gas/constricted_plasma
 
+/obj/machinery/portable_atmospherics/canister/nucleium
+	name = "nucleium canister"
+	desc = "A waste plasma biproduct produced in the Stormdrive, used in quantum waveform generation."
+	icon_state = "orange"
+	gas_type = /datum/gas/nucleium
+
 //////MELTDOWN//////
 
 //add empulse onto the landmarks in here somewhere - more like just rework landmarks for epsilon protocol
@@ -1383,6 +1390,13 @@ Control Rods
 	if(..())
 		return
 	status_alarm(FALSE)
+
+/obj/item/book/manual/wiki/stormdrive
+	name = "Stormdrive Class IV SOP"
+	icon_state ="bookEngineering2"
+	author = "Nanotrasen"
+	title = "Stormdrive Class IV SOP"
+	page_link = "Guide_to_the_Stormdrive_Engine"
 
 #undef LOW_ROR
 #undef NORMAL_ROR
