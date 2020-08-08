@@ -1394,7 +1394,7 @@ Control Rods
 /obj/item/book/manual/wiki/stormdrive
 	name = "Stormdrive Class IV SOP"
 	icon_state ="bookEngineering2"
-	author = "Nanotrasen"
+	author = "CogWerk Engineering Reactor Design Department"
 	title = "Stormdrive Class IV SOP"
 	page_link = "Guide_to_the_Stormdrive_Engine"
 
