@@ -94,6 +94,7 @@
 
 	var/prying_so_hard = FALSE
 	var/protected_door = FALSE // Protects the door against any form of power outage, AI control, screwdrivers and welders.
+	var/door_animation_speed = 4 //nsv13 if you want a door that snaps open QUICKLY like on turbolifts
 
 	rad_flags = RAD_PROTECT_CONTENTS | RAD_NO_CONTAMINATE
 	rad_insulation = RAD_MEDIUM_INSULATION
@@ -1132,7 +1133,7 @@
 	sleep(1)
 	set_opacity(0)
 	update_freelook_sight()
-	sleep(4)
+	sleep(door_animation_speed) //Nsv13 - SPEEDY DOORS
 	density = FALSE
 	air_update_turf(1)
 	sleep(1)
@@ -1182,7 +1183,7 @@
 	if(!air_tight)
 		density = TRUE
 		air_update_turf(1)
-	sleep(4)
+	sleep(door_animation_speed) //Nsv13 - SPEEDY DOORS
 	if(!safe)
 		crush()
 	if(visible && !glass)
