@@ -180,6 +180,10 @@
 	name = "Deck 3 Frame 4 Central Maintenance"
 	icon_state = "maintcentral"
 
+/area/maintenance/nsv/bridge
+	name = "Fore Bridge Maintenance"
+	icon_state = "maint_bridge"
+
 /area/hallway/nsv/deck2/forward
 	name = "Deck 2 Forward Hallway"
 	icon_state = "hallF"

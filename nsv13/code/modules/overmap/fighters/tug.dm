@@ -58,6 +58,8 @@
 /obj/vehicle/sealed/car/realistic/fighter_tug/ui_act(action, params, datum/tgui/ui)
 	if(..())
 		return
+	if(!isliving(usr))
+		return FALSE
 	var/list/drivers = return_drivers()
 	if(!LAZYFIND(drivers, ui.user))
 		to_chat(ui.user, "<span class='warning'>You can't reach the controls from back here...</span>")

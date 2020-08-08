@@ -1,22 +1,31 @@
+/obj/structure/overmap
+	var/atom/autofire_target = null //Are we clicking and holding to shoot our guns?
+
 /obj/structure/overmap/proc/onMouseDrag(src_object, over_object, src_location, over_location, params, mob/M)
 	if(aiming)
 		lastangle = getMouseAngle(params, M)
 		draw_beam()
+	else
+		autofire_target = over_object
+
 
 /obj/structure/overmap/proc/onMouseDown(object, location, params, mob/M)
 	if(istype(object, /obj/screen) && !istype(object, /obj/screen/click_catcher))
 		return
 	if((object in M.contents) || (object == M))
 		return
-	if(fire_mode == FIRE_MODE_RAILGUN)
+	if(fire_mode == FIRE_MODE_MAC || fire_mode == FIRE_MODE_BLUE_LASER)
 		start_aiming(params, M)
+	else
+		autofire_target = object
 
 /obj/structure/overmap/proc/onMouseUp(object, location, params, mob/M)
 	if(istype(object, /obj/screen) && !istype(object, /obj/screen/click_catcher))
 		return
+	autofire_target = null
 	lastangle = getMouseAngle(params, M)
 	stop_aiming()
-	if(fire_mode == FIRE_MODE_RAILGUN)
+	if(fire_mode == FIRE_MODE_MAC || FIRE_MODE_BLUE_LASER)
 		fire_weapon(object)
 	QDEL_LIST(current_tracers)
 

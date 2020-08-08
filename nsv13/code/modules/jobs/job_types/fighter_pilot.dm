@@ -26,7 +26,7 @@
 	name = "Fighter Pilot"
 	jobtype = /datum/job/fighter_pilot
 
-	ears = /obj/item/radio/headset/headset_sec/alt/pilot
+	ears = /obj/item/radio/headset/munitions/pilot
 	uniform = /obj/item/clothing/under/ship/pilot
 	shoes = /obj/item/clothing/shoes/jackboots
 	gloves = /obj/item/clothing/gloves/color/black
@@ -70,12 +70,12 @@
 	name = "Flight Leader"
 	jobtype = /datum/job/flight_leader
 
-	ears = /obj/item/radio/headset/headset_sec/alt/pilot
+	ears = /obj/item/radio/headset/munitions/pilot
 	uniform = /obj/item/clothing/under/ship/pilot
 	shoes = /obj/item/clothing/shoes/jackboots
 	gloves = /obj/item/clothing/gloves/color/black
 	head = /obj/item/clothing/head/beret/ship/flight_leader
-	glasses = /obj/item/clothing/glasses/sunglasses
+	glasses = /obj/item/clothing/glasses/sunglasses/advanced
 	suit = /obj/item/clothing/suit/jacket //Bomber jacket
 
 /datum/outfit/job/fighter_pilot/flight_ready

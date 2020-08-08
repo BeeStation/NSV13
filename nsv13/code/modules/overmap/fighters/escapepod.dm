@@ -14,6 +14,14 @@
 	flight_state = 6 //FLIGHT_READY
 	canopy_open = FALSE
 	has_escape_pod = FALSE
-
-/obj/structure/overmap/fighter/escapepod/attack_hand(mob/user)
-	return
+	docking_mode = TRUE //Trust me on this :bonklit:
+	max_torpedoes = 0
+	max_missiles = 0
+	prebuilt = TRUE
+	components = list(/obj/item/fighter_component/fuel_tank/t1,
+						/obj/item/fighter_component/avionics,
+						/obj/item/fighter_component/apu,
+						/obj/item/fighter_component/armour_plating/light/t1,
+						/obj/item/fighter_component/targeting_sensor/light/t1,
+						/obj/item/fighter_component/engine/light/t1,
+						/obj/item/fighter_component/countermeasure_dispenser/t1)

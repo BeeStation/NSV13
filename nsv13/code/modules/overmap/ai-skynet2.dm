@@ -42,9 +42,9 @@ Adding tasks is easy! Just define a datum for it.
 
 #define AI_PDC_RANGE 12
 
-#define FLEET_DIFFICULTY_EASY 4 //if things end up being too hard, this is a safe number for a fight you _should_ always win.
-#define FLEET_DIFFICULTY_MEDIUM 6
-#define FLEET_DIFFICULTY_HARD 10
+#define FLEET_DIFFICULTY_EASY 2 //if things end up being too hard, this is a safe number for a fight you _should_ always win.
+#define FLEET_DIFFICULTY_MEDIUM 4
+#define FLEET_DIFFICULTY_HARD 8
 #define FLEET_DIFFICULTY_VERY_HARD 15
 #define FLEET_DIFFICULTY_INSANE 20 //If you try to take on the rubicon ;)
 #define FLEET_DIFFICULTY_DEATH 30 //Suicide run
@@ -120,7 +120,7 @@ GLOBAL_LIST_EMPTY(ai_goals)
 
 	return target
 
-/datum/fleet/proc/move(datum/star_system/target)
+/datum/fleet/proc/move(datum/star_system/target, force=FALSE)
 	if(!target)
 		var/list/potential = list()
 		var/list/fallback = list()
@@ -148,23 +148,24 @@ GLOBAL_LIST_EMPTY(ai_goals)
 		if(!potential.len)
 			potential = fallback //Nowhere else to go.
 		target = pick(potential)
-	addtimer(CALLBACK(src, .proc/move), rand(5 MINUTES, 10 MINUTES))
-	//Precondition: We're allowed to go to this system.
-	switch(fleet_trait)
-		if(FLEET_TRAIT_DEFENSE)
-			return FALSE //These boss fleets do not move.
-		if(FLEET_TRAIT_BORDER_PATROL)
-			if(target.alignment != alignment)
-				return FALSE
-		if(FLEET_TRAIT_INVASION)
-			if(target.alignment == alignment)
-				return FALSE
-		if(FLEET_TRAIT_NEUTRAL_ZONE)
-			if(target.alignment == alignment)
-				return FALSE
+	if(!force)
+		addtimer(CALLBACK(src, .proc/move), rand(5 MINUTES, 10 MINUTES))
+		//Precondition: We're allowed to go to this system.
+		switch(fleet_trait)
+			if(FLEET_TRAIT_DEFENSE)
+				return FALSE //These boss fleets do not move.
+			if(FLEET_TRAIT_BORDER_PATROL)
+				if(target.alignment != alignment)
+					return FALSE
+			if(FLEET_TRAIT_INVASION)
+				if(target.alignment == alignment)
+					return FALSE
+			if(FLEET_TRAIT_NEUTRAL_ZONE)
+				if(target.alignment == alignment)
+					return FALSE
 
-	if(world.time < last_encounter_time + 10 MINUTES) //So that fleets don't leave mid combat.
-		return FALSE
+		if(world.time < last_encounter_time + 10 MINUTES) //So that fleets don't leave mid combat.
+			return FALSE
 	current_system.fleets -= src
 	if(current_system.fleets && current_system.fleets.len)
 		var/datum/fleet/F = pick(current_system.fleets)
@@ -255,6 +256,8 @@ GLOBAL_LIST_EMPTY(ai_goals)
 	var/datum/star_system/SS = SSstar_system.system_by_id(where)
 	if(!SS)
 		return
+	var/datum/star_system/curr = SSstar_system.ships[src]["current_system"]
+	curr?.remove_ship(src)
 	jump(SS, FALSE)
 
 /obj/structure/overmap/proc/hail(text, sender)
@@ -409,13 +412,21 @@ GLOBAL_LIST_EMPTY(ai_goals)
 	taunts = list("Your existence has come to an end.", "You should be glad you made it this far, but you'll come no further.")
 	fleet_trait = FLEET_TRAIT_DEFENSE
 
+/datum/fleet/unknown_ship
+	name = "Unknown Ship Class"
+	size = 1
+	destroyer_types = list(/obj/structure/overmap/syndicate/ai/battleship)
+	audio_cues = list("https://www.youtube.com/watch?v=zyPSAkz84vM")
+	taunts = list("Your assault on Rubicon only served to distract you from the real threat. It's time to end this war in one swift blow.")
+	fleet_trait = FLEET_TRAIT_DEFENSE
+
 //Nanotrasen fleets
 
 /datum/fleet/nanotrasen
 	name = "Nanotrasen heavy combat fleet"
 	fighter_types = list(/obj/structure/overmap/nanotrasen/ai/fighter)
 	destroyer_types = list(/obj/structure/overmap/nanotrasen/ai)
-	battleship_types = list(/obj/structure/overmap/nanotrasen/patrol_cruiser/ai, /obj/structure/overmap/nanotrasen/heavy_cruiser/ai, /obj/structure/overmap/nanotrasen/battleship/ai)
+	battleship_types = list(/obj/structure/overmap/nanotrasen/patrol_cruiser/ai, /obj/structure/overmap/nanotrasen/heavy_cruiser/ai, /obj/structure/overmap/nanotrasen/battleship/ai, /obj/structure/overmap/nanotrasen/battlecruiser/ai)
 	supply_types = list(/obj/structure/overmap/nanotrasen/carrier/ai)
 	alignment = "nanotrasen"
 	hide_movements = TRUE //Friendly fleets just move around as you'd expect.
@@ -734,21 +745,28 @@ GLOBAL_LIST_EMPTY(ai_goals)
 		if(target_range > max_weapon_range) //Our max range is the maximum possible range we can engage in. This is to stop you getting hunted from outside of your view range.
 			last_target = null
 			return
-		if(target_range <= AI_PDC_RANGE)
-			new_firemode = (mass > MASS_MEDIUM) ? FIRE_MODE_GAUSS : FIRE_MODE_PDC //This makes large ships a legitimate threat.
-		else
-			var/obj/structure/overmap/OM = last_target
-			if(istype(OM) && OM.mass >= MASS_SMALL)
-				if(!torpedoes)
-					new_firemode = (mass > MASS_TINY) ? FIRE_MODE_RAILGUN : FIRE_MODE_PDC
-				else
-					new_firemode = FIRE_MODE_TORPEDO
-			else //Small target or not actually an overmap. Prefer missiles, as theyre more optimal vs subcapitals
-				if(!missiles)
-					new_firemode = (mass > MASS_TINY) ? FIRE_MODE_RAILGUN : FIRE_MODE_PDC
-				else
-					new_firemode = FIRE_MODE_MISSILE
-		if(!weapon_types[new_firemode]) //Sometimes we just don't support certain weapons.
+		var/best_distance = INFINITY //Start off infinitely high, as we have not selected a distance yet.
+		var/will_use_shot = FALSE //Will this shot count as depleting "shots left"? Heavy weapons eat ammo, PDCs do not.
+		//So! now we pick a weapon.. We start off with PDCs, which have an effective range of "5". On ships with gauss, gauss will be chosen 90% of the time over PDCs, because you can fire off a PDC salvo anyway.
+		//Heavy weapons take ammo, stuff like PDC and gauss do NOT for AI ships. We make decisions on the fly as to which gun we get to shoot. If we've run out of ammo, we have to resort to PDCs only.
+		for(var/I = FIRE_MODE_PDC; I <= MAX_POSSIBLE_FIREMODE; I++) //We should ALWAYS default to PDCs.
+			var/datum/ship_weapon/SW = weapon_types[I]
+			if(!SW)
+				continue
+			var/distance = target_range - SW.range_modifier //How close to the effective range of the given weapon are we?
+			if(distance < best_distance)
+				if(!SW.valid_target(src, target))
+					continue
+				if(SW.weapon_class > WEAPON_CLASS_LIGHT)
+					if(shots_left <= 0)
+						continue //If we are out of shots. Continue.
+					will_use_shot = TRUE
+				var/arc = Get_Angle(src, target)
+				if(SW.firing_arc && arc > SW.firing_arc) //So AIs don't fire their railguns into nothing.
+					continue
+				new_firemode = I
+				best_distance = distance
+		if(!weapon_types[new_firemode]) //I have no physical idea how this even happened, but ok. Sure. If you must. If you REALLY must. We can do this, Sarah. We still gonna do this? It's been 5 years since the divorce, can't you just let go?
 			new_firemode = FIRE_MODE_PDC
 		if(new_firemode != FIRE_MODE_PDC) //If we're not on PDCs, let's fire off some PDC salvos while we're busy shooting people. This is still affected by weapon cooldowns so that they lay off on their target a bit.
 			for(var/obj/structure/overmap/ship in GLOB.overmap_objects)
@@ -759,9 +777,7 @@ GLOBAL_LIST_EMPTY(ai_goals)
 				fire_weapon(ship, FIRE_MODE_PDC)
 				break
 		fire_mode = new_firemode
-		if(shots_left <= 0 && new_firemode != FIRE_MODE_PDC && new_firemode != FIRE_MODE_GAUSS)
-			return //No shots left! We'll have to resupply somewhere down the line. PDC shots will still go off though!
-		if(new_firemode != FIRE_MODE_PDC && new_firemode != FIRE_MODE_GAUSS) //Don't penalise them for weapons that are designed to be spammed.
+		if(will_use_shot) //Don't penalise them for weapons that are designed to be spammed.
 			shots_left --
 		fire_weapon(target, new_firemode)
 		next_firetime = world.time + (1 SECONDS) + (fire_delay*2)
@@ -950,3 +966,116 @@ GLOBAL_LIST_EMPTY(ai_goals)
 		last_target = ship
 		return TRUE
 	return FALSE
+
+/client/proc/system_manager() //Creates a verb for admins to open up the ui
+	set name = "Starsystem Management"
+	set desc = "Manage fleets / systems that exist in game"
+	set category = "Adminbus"
+	var/datum/starsystem_manager/man = new(usr)//create the datum
+	man.ui_interact(usr)//datum has a tgui component, here we open the window
+
+/datum/starsystem_manager
+	var/name = "Starsystem manager"
+	var/client/holder = null
+
+/datum/starsystem_manager/New(H)//H can either be a client or a mob due to byondcode(tm)
+	if (istype(H,/client))
+		var/client/C = H
+		holder = C //if its a client, assign it to holder
+	else
+		var/mob/M = H
+		holder = M.client //if its a mob, assign the mob's client to holder
+	. = ..()
+
+/datum/starsystem_manager/ui_interact(mob/user, ui_key = "main", datum/tgui/ui = null, force_open = FALSE, datum/tgui/master_ui = null, datum/ui_state/state = GLOB.admin_state)//ui_interact is called when the client verb is called.
+	ui = SStgui.try_update_ui(user, src, ui_key, ui, force_open)
+	if(!ui)
+		ui = new(user, src, ui_key, "SystemManager", "Starsystem Manager", 400, 400, master_ui, state)
+		ui.open()
+
+/datum/starsystem_manager/ui_data(mob/user)
+	var/list/data = list()
+	var/list/systems_info = list()
+	for(var/datum/star_system/SS in SSstar_system.systems)
+		var/list/sys_inf = list()
+		sys_inf["name"] = SS.name
+		sys_inf["system_type"] = SS.system_type
+		sys_inf["alignment"] = capitalize(SS.alignment)
+		sys_inf["sys_id"] = "\ref[SS]"
+		sys_inf["fleets"] = list() //2d array mess in 3...2...1..
+		for(var/datum/fleet/F in SS.fleets)
+			var/list/fleet_info = list()
+			fleet_info["name"] = F.name
+			fleet_info["id"] = "\ref[F]"
+			fleet_info["colour"] = (F.alignment == "nanotrasen") ? null : "bad"
+			var/list/fuckYouDreamChecker = sys_inf["fleets"]
+			fuckYouDreamChecker[++fuckYouDreamChecker.len] = fleet_info
+		systems_info[++systems_info.len] = sys_inf
+	data["systems_info"] = systems_info
+	return data
+
+/datum/starsystem_manager/ui_act(action, params)
+	if(..())
+		return
+	switch(action)
+		if("jumpFleet")
+			var/datum/fleet/target = locate(params["id"])
+			if(!istype(target))
+				return
+			var/datum/star_system/sys = input(usr, "Select a jump target for [target]...","Fleet Management", null) as null|anything in SSstar_system.systems
+			if(!sys || !istype(sys))
+				return FALSE
+			message_admins("[key_name(usr)] forced [target] to jump to [sys].")
+			target.move(sys, TRUE)
+		if("createFleet")
+			var/datum/star_system/target = locate(params["sys_id"])
+			if(!istype(target))
+				return
+			var/fleet_type = input(usr, "What fleet template would you like to use?","Fleet Creation", null) as null|anything in typecacheof(/datum/fleet)
+			if(!fleet_type)
+				return
+			var/datum/fleet/F = new fleet_type()
+			target.fleets += F
+			F.current_system = target
+			F.assemble(target)
+			message_admins("[key_name(usr)] created a fleet ([F.name]) at [target].")
+
+
+/client/proc/instance_overmap_menu() //Creates a verb for admins to open up the ui
+	set name = "Instance Overmap"
+	set desc = "Load a ship midround."
+	set category = "Adminbus"
+
+	if(IsAdminAdvancedProcCall())
+		return FALSE
+
+	var/list/choices = flist("_maps/map_files/Instanced/")
+	var/ship_file = input(usr, "What ship would you like to load?","Ship Instancing", null) as null|anything in choices
+	if(!ship_file)
+		return
+	ship_file = file("_maps/map_files/Instanced/[ship_file]")
+	if(!isfile(ship_file))
+		return
+	var/list/json = json_decode(file2text(ship_file))
+	if(!json)
+		return
+	var/shipName = json["map_name"]
+	var/shipType = text2path(json["ship_type"])
+	var/mapPath = json["map_path"]
+	var/mapFile = json["map_file"]
+	var/list/traits = json["traits"]
+	if (istext(mapFile))
+		if (!fexists("_maps/[mapPath]/[mapFile]"))
+			log_world("Map file ([mapPath]/[mapFile]) does not exist!")
+			return
+	else if (islist(mapFile))
+		for (var/file in mapFile)
+			if (!fexists("_maps/[mapPath]/[file]"))
+				log_world("Map file ([mapPath]/[file]) does not exist!")
+				return
+	var/obj/structure/overmap/OM = instance_overmap(shipType, mapPath, mapFile, traits)
+	if(OM)
+		message_admins("[key_name(src)] has instanced a copy of [ship_file].")
+		OM.name = shipName
+		addtimer(CALLBACK(GLOBAL_PROC, .proc/overmap_lighting_force, OM), 6 SECONDS)
+

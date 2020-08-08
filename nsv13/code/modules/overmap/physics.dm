@@ -12,6 +12,44 @@
 	alpha = 0
 	layer = WALL_OBJ_LAYER
 
+/**
+
+ATTENTION ADMINS. This proc is important, EXTREMELY important. In fact, welcome to your new religion.
+
+This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATEVER. You should no longer have to use the ancient chimp technique to unfuck people, use this instead, way cleaner, AND no monkies to boot!
+
+*/
+#define VV_HK_UNFUCK_OVERMAP "unFuckOvermap"
+
+/mob/living/proc/unfuck_overmap()
+	if(overmap_ship)
+		overmap_ship.stop_piloting(src)
+	for(var/datum/action/innate/camera_off/overmap/fuckYOU in actions)
+		if(!istype(fuckYOU))
+			continue
+		qdel(fuckYOU) //Because this is a thing. Sure. Ok buddy.
+	sleep(1) //Ok, are they still scuffed? Time to manually fix them...
+	if(!overmap_ship)
+		return //OK cool we're done here.
+	remote_control = null
+	overmap_ship = null
+	cancel_camera()
+	focus = src
+	client?.pixel_x = 0
+	client?.pixel_y = 0
+	client?.change_view(getScreenSize(client?.prefs.widescreenpref))
+
+/mob/living/vv_get_dropdown()
+	. = ..()
+	VV_DROPDOWN_OPTION(VV_HK_UNFUCK_OVERMAP, "Unfuck Overmap")
+
+/mob/living/vv_do_topic(list/href_list)
+	. = ..()
+	if(href_list[VV_HK_UNFUCK_OVERMAP])
+		if(!check_rights(NONE))
+			return
+		unfuck_overmap()
+
 /obj/structure/overmap
 	var/last_process = 0
 	var/processing_failsafe = FALSE //Has the game lagged to shit and we need to handle our own processing until it clears up?
@@ -377,6 +415,11 @@ The while loop runs at a programatic level and is thus separated from any thrott
 		animate(C, pixel_x = offset.x*32, pixel_y = offset.y*32, time = time*10, flags=ANIMATION_END_NOW)
 	user_thrust_dir = 0
 	update_icon()
+	if(autofire_target && !aiming)
+		if(!gunner) //Just...just no. If we don't have this, you can get shot to death by your own fighter after youve already left it :))
+			autofire_target = null
+			return
+		fire(autofire_target)
 
 /obj/structure/overmap/proc/handle_collisions()
 	for(var/obj/structure/overmap/OM in GLOB.overmap_objects)
@@ -553,6 +596,7 @@ The while loop runs at a programatic level and is thus separated from any thrott
 	var/ox = (offset.x * 32) + new_offset
 	var/oy = (offset.y * 32) + new_offset
 	var/list/origins = list(list(ox + fx*new_offset - sx*new_offset, oy + fy*new_offset - sy*new_offset), list(ox + fx*new_offset + sx*new_offset, oy + fy*new_offset + sy*new_offset))
+	var/list/what_we_fired = list()
 	for(var/list/origin in origins)
 		var/this_x = origin[1]
 		var/this_y = origin[2]
@@ -587,6 +631,8 @@ The while loop runs at a programatic level and is thus separated from any thrott
 		spawn()
 			proj.preparePixelProjectile(target, src, null, round((rand() - 0.5) * proj.spread))
 			proj.fire(angle)
+		what_we_fired += proj
+	return what_we_fired
 
 /obj/structure/overmap/proc/fire_lateral_projectile(proj_type,target,speed=null, mob/living/user_override=null, homing=FALSE)
 	var/turf/T = get_turf(src)

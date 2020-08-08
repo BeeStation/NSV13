@@ -21,7 +21,7 @@ export const GaussDispenser = (props, context) => {
               content="Retrieve ammunition"
               icon="download"
               selected={data.ready}
-              disabled={!!data.ready}
+              disabled={!data.ready}
               onClick={() => act('dispense')} />
           </Section>
           <Section title="Ammunition retrieval status:">
