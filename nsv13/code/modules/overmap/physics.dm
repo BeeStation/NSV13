@@ -12,6 +12,44 @@
 	alpha = 0
 	layer = WALL_OBJ_LAYER
 
+/**
+
+ATTENTION ADMINS. This proc is important, EXTREMELY important. In fact, welcome to your new religion.
+
+This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATEVER. You should no longer have to use the ancient chimp technique to unfuck people, use this instead, way cleaner, AND no monkies to boot!
+
+*/
+#define VV_HK_UNFUCK_OVERMAP "unFuckOvermap"
+
+/mob/living/proc/unfuck_overmap()
+	if(overmap_ship)
+		overmap_ship.stop_piloting(src)
+	for(var/datum/action/innate/camera_off/overmap/fuckYOU in actions)
+		if(!istype(fuckYOU))
+			continue
+		qdel(fuckYOU) //Because this is a thing. Sure. Ok buddy.
+	sleep(1) //Ok, are they still scuffed? Time to manually fix them...
+	if(!overmap_ship)
+		return //OK cool we're done here.
+	remote_control = null
+	overmap_ship = null
+	cancel_camera()
+	focus = src
+	client?.pixel_x = 0
+	client?.pixel_y = 0
+	client?.change_view(getScreenSize(client?.prefs.widescreenpref))
+
+/mob/living/vv_get_dropdown()
+	. = ..()
+	VV_DROPDOWN_OPTION(VV_HK_UNFUCK_OVERMAP, "Unfuck Overmap")
+
+/mob/living/vv_do_topic(list/href_list)
+	. = ..()
+	if(href_list[VV_HK_UNFUCK_OVERMAP])
+		if(!check_rights(NONE))
+			return
+		unfuck_overmap()
+
 /obj/structure/overmap
 	var/last_process = 0
 	var/processing_failsafe = FALSE //Has the game lagged to shit and we need to handle our own processing until it clears up?
@@ -378,6 +416,9 @@ The while loop runs at a programatic level and is thus separated from any thrott
 	user_thrust_dir = 0
 	update_icon()
 	if(autofire_target && !aiming)
+		if(!gunner) //Just...just no. If we don't have this, you can get shot to death by your own fighter after youve already left it :))
+			autofire_target = null
+			return
 		fire(autofire_target)
 
 /obj/structure/overmap/proc/handle_collisions()

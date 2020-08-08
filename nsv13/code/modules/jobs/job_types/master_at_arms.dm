@@ -41,7 +41,7 @@
 	suit = /obj/item/clothing/suit/hazardvest
 	gloves = /obj/item/clothing/gloves/color/black
 	head = /obj/item/clothing/head/soft
-	glasses = /obj/item/clothing/glasses/sunglasses
+	glasses = /obj/item/clothing/glasses/sunglasses/advanced
 	l_pocket = /obj/item/pda
 	backpack_contents = list(/obj/item/melee/classic_baton/telescopic=1)
 
