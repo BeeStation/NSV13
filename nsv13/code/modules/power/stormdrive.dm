@@ -558,7 +558,7 @@ Control Rods
 	var/nucleium_power_reduction = 0
 
 	var/fuel_check = ((air1.get_moles(/datum/gas/plasma) + air1.get_moles(/datum/gas/constricted_plasma) + air1.get_moles(/datum/gas/tritium)) / air1.total_moles()) * 100
-	if(air1.total_moles() >= reaction_rate && fuel_check > 12.5) //1:8 ratio
+	if(air1.total_moles() >= reaction_rate && fuel_check >= 12.5) //1:8 ratio
 		var/datum/gas_mixture/reaction_chamber_gases = air1.remove(reaction_rate)
 
 		//calculate the actual fuel mix
@@ -612,7 +612,7 @@ Control Rods
 		heat_gain = initial(heat_gain) + reaction_rate
 		reaction_chamber_gases.clear()
 
-		if(fuel_check > 25) //1:4 fuel ratio
+		if(fuel_check >= 25) //1:4 fuel ratio
 			if(reactor_starvation > 0)
 				reactor_starvation -= 0.5 //drops at half the full starvation rate
 		else
