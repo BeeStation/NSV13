@@ -240,30 +240,40 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 			backward_maxthrust = 3
 			side_maxthrust = 3
 			max_angular_acceleration = 110
+			bounce_factor = 0.15
+			lateral_bounce_factor = 0.95
 
 		if(MASS_MEDIUM)
 			forward_maxthrust = 2
 			backward_maxthrust = 2
 			side_maxthrust = 2
 			max_angular_acceleration = 15
+			bounce_factor = 0.10
+			lateral_bounce_factor = 0.8
 
 		if(MASS_MEDIUMLARGE)
 			forward_maxthrust = 1.85
 			backward_maxthrust = 1.85
 			side_maxthrust = 1.5
 			max_angular_acceleration = 10
+			bounce_factor = 0.10
+			lateral_bounce_factor = 0.8
 
 		if(MASS_LARGE)
 			forward_maxthrust = 0.5
 			backward_maxthrust = 0.5
 			side_maxthrust = 0.5
 			max_angular_acceleration = 2.5
+			bounce_factor = 0.5
+			lateral_bounce_factor = 0.6
 
 		if(MASS_TITAN)
 			forward_maxthrust = 0.25
 			backward_maxthrust = 0.25
 			side_maxthrust = 0.25
-			max_angular_acceleration = 1
+			max_angular_acceleration = 1.5
+			bounce_factor = 0.25
+			lateral_bounce_factor = 0.3
 
 	if(role == MAIN_OVERMAP)
 		name = "[station_name()]"
