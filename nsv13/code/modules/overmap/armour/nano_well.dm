@@ -52,7 +52,7 @@ Starting Materials
 	density = TRUE
 	anchored = TRUE
 	idle_power_usage = 50
-	active_power_usage = 1000 //DOES THIS EVEN DO ANYTHING???
+	active_power_usage = 0
 	circuit = /obj/item/circuitboard/machine/armour_plating_nanorepair_well
 	layer = ABOVE_MOB_LAYER
 	obj_integrity = 500
@@ -90,30 +90,39 @@ Starting Materials
 	addtimer(CALLBACK(src, .proc/handle_linking), 10 SECONDS)
 
 /obj/machinery/armour_plating_nanorepair_well/process()
-	if(!powered() || idle_power_usage <= 0 || !try_use_power(idle_power_usage))
+	handle_power_allocation()
+	handle_system_stress()
+
+	if(!try_use_power(active_power_usage))
+		repair_resources_processing = FALSE
 		update_icon()
+		message_admins("A")
 		return FALSE
 
 	if(is_operational())
-		handle_system_stress()
 		handle_repair_resources()
-		handle_power_allocation()
 		handle_repair_efficiency()
-	update_icon()
+		update_icon()
+		return TRUE
 
-/obj/machinery/armour_plating_nanorepair_well/proc/try_use_power(amount) //checking to see if we have a cable or use APU
-    var/turf/T = get_turf(src)
-    var/obj/structure/cable/C = T.get_cable_node()
-    if(C)
-        if(!C.powernet)
-            return FALSE
-        var/power_in_net = C.powernet.avail-C.powernet.load
+/obj/machinery/armour_plating_nanorepair_well/proc/try_use_power(amount) //checking to see if we have a cable
+	var/turf/T = get_turf(src)
+	var/obj/structure/cable/C = T.get_cable_node()
+	if(C)
+		if(!C.powernet)
+			message_admins("B")
+			return FALSE
+		var/power_in_net = C.powernet.avail-C.powernet.load
 
-        if(power_in_net && power_in_net > amount)
-            C.powernet.load += amount
-            return TRUE
-        return FALSE
-    return FALSE
+		if(power_in_net && power_in_net > amount)
+			C.powernet.load += amount
+			message_admins("C")
+			return TRUE
+		message_admins("D")
+		return FALSE
+	message_admins("E")
+	return FALSE
+
 
 /obj/machinery/armour_plating_nanorepair_well/proc/handle_repair_efficiency() //Sigmoidal Curve
 	repair_efficiency = ((1 / (0.01 + (NUM_E ** (-0.00001 * power_allocation)))) * material_modifier) / 100
@@ -153,7 +162,7 @@ Starting Materials
 
 
 /obj/machinery/armour_plating_nanorepair_well/proc/handle_power_allocation()
-	idle_power_usage = power_allocation
+	active_power_usage = power_allocation
 
 /obj/machinery/armour_plating_nanorepair_well/proc/handle_repair_resources()
 	if(resourcing_system)

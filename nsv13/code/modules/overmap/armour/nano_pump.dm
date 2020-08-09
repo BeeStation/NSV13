@@ -8,7 +8,7 @@
 	density = TRUE
 	anchored = TRUE
 	idle_power_usage = 50
-	active_power_usage = 50
+	active_power_usage = 0
 	layer = ABOVE_MOB_LAYER
 	obj_integrity = 500
 	var/obj/machinery/armour_plating_nanorepair_well/apnw //parent device
@@ -27,16 +27,16 @@
 	var/repair_records_interval = 10
 	var/repair_records_next_interval = 0
 
-/obj/machinery/armour_plating_nanorepair_pump/forward_port
+/obj/machinery/armour_plating_nanorepair_pump/forward_port //this is a preset for mapping
 	quadrant = "forward_port"
 
-/obj/machinery/armour_plating_nanorepair_pump/aft_port
+/obj/machinery/armour_plating_nanorepair_pump/aft_port //this is a preset for mapping
 	quadrant = "aft_port"
 
-/obj/machinery/armour_plating_nanorepair_pump/aft_starboard
+/obj/machinery/armour_plating_nanorepair_pump/aft_starboard //this is a preset for mapping
 	quadrant = "aft_starboard"
 
-/obj/machinery/armour_plating_nanorepair_pump/forward_starboard
+/obj/machinery/armour_plating_nanorepair_pump/forward_starboard //this is a preset for mapping
 	quadrant = "forward_starboard"
 
 /obj/machinery/armour_plating_nanorepair_pump/Initialize()
@@ -121,6 +121,7 @@
 			return
 		var/obj/item/multitool/M = I
 		apnw = M.buffer
+		apnw.apnp += src
 		M.buffer = null
 		quadrant = input(user, "Direct nano-repair pump to which quadrant?", "[name]") as null|anything in list("forward_port", "forward_starboard", "aft_port", "aft_starboard")
 		playsound(src, 'sound/items/flashlight_on.ogg', 100, TRUE)
@@ -153,6 +154,11 @@
 			last_restart = world.time
 			update_icon()
 			return TRUE
+
+/obj/machinery/armour_plating_nanorepair_pump/Destroy()
+	apnw.apnp -= src
+	. = ..()
+
 
 /obj/machinery/armour_plating_nanorepair_pump/update_icon()
 	cut_overlays()

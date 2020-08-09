@@ -133,10 +133,10 @@ Bullet reactions
 			var/obj/effect/temp_visual/nuke_impact/MB = new /obj/effect/temp_visual/nuke_impact(get_turf(src))
 			MB.pixel_x = rand(-120, 20)
 			MB.pixel_y = rand(-160, 20)
-			sleep(rand(10, 30))
+			sleep(rand(5, 20))
 		sleep(20)
 		qdel(src) //kaboom goes the ship
-		sleep(100)
+		sleep(20)
 		//flick an awesome cinematic screen here - WYSI
 		SSticker.mode.check_finished(TRUE)
 		SSticker.force_ending = TRUE
