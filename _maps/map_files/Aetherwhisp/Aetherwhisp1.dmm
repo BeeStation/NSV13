@@ -2727,16 +2727,11 @@
 	dir = 8;
 	icon_state = "pipe11-2"
 	},
-/obj/machinery/airalarm/kitchen_cold_room{
-	pixel_y = 22
-	},
 /obj/machinery/light{
 	dir = 1
 	},
 /obj/machinery/processor,
-/turf/open/floor/plasteel/kitchen_coldroom/freezerfloor{
-	initial_gas_mix = "o2=33;n2=124;TEMP=253.15"
-	},
+/turf/open/floor/plasteel/kitchen_coldroom/freezerfloor,
 /area/crew_quarters/kitchen/coldroom)
 "bOr" = (
 /obj/structure/cable{
@@ -5588,7 +5583,9 @@
 /obj/structure/table,
 /obj/machinery/computer/secure_data/laptop,
 /obj/item/clothing/accessory/armband/hydro,
-/obj/machinery/door/window/westright,
+/obj/machinery/door/window/westright{
+	req_one_access_txt = "3;4;38;63"
+	},
 /turf/open/floor/carpet/ship/red_carpet,
 /area/hydroponics)
 "dQu" = (
@@ -6925,9 +6922,7 @@
 	dir = 8;
 	target_temperature = 253.15
 	},
-/turf/open/floor/plasteel/kitchen_coldroom/freezerfloor{
-	initial_gas_mix = "o2=33;n2=124;TEMP=253.15"
-	},
+/turf/open/floor/plasteel/kitchen_coldroom/freezerfloor,
 /area/crew_quarters/kitchen/coldroom)
 "eMg" = (
 /obj/machinery/photocopier,
@@ -8475,9 +8470,7 @@
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer1{
 	dir = 8
 	},
-/turf/open/floor/plasteel/kitchen_coldroom/freezerfloor{
-	initial_gas_mix = "o2=33;n2=124;TEMP=253.15"
-	},
+/turf/open/floor/plasteel/kitchen_coldroom/freezerfloor,
 /area/crew_quarters/kitchen/coldroom)
 "fQc" = (
 /obj/structure/cable/yellow{
@@ -13119,9 +13112,7 @@
 	icon_state = "pipe11-2"
 	},
 /obj/structure/closet/secure_closet/freezer/meat,
-/turf/open/floor/plasteel/kitchen_coldroom/freezerfloor{
-	initial_gas_mix = "o2=33;n2=124;TEMP=253.15"
-	},
+/turf/open/floor/plasteel/kitchen_coldroom/freezerfloor,
 /area/crew_quarters/kitchen/coldroom)
 "jnr" = (
 /obj/structure/window/reinforced{
@@ -15857,9 +15848,7 @@
 	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
-/turf/open/floor/plasteel/kitchen_coldroom/freezerfloor{
-	initial_gas_mix = "o2=33;n2=124;TEMP=253.15"
-	},
+/turf/open/floor/plasteel/kitchen_coldroom/freezerfloor,
 /area/crew_quarters/kitchen/coldroom)
 "lfW" = (
 /obj/machinery/button/door{
@@ -16203,9 +16192,7 @@
 	icon_state = "pipe11-2"
 	},
 /obj/structure/closet/secure_closet/freezer/kitchen/maintenance,
-/turf/open/floor/plasteel/kitchen_coldroom/freezerfloor{
-	initial_gas_mix = "o2=33;n2=124;TEMP=253.15"
-	},
+/turf/open/floor/plasteel/kitchen_coldroom/freezerfloor,
 /area/crew_quarters/kitchen/coldroom)
 "luh" = (
 /obj/structure/chair{
@@ -18761,9 +18748,7 @@
 /area/crew_quarters/heads/cmo)
 "nfw" = (
 /obj/machinery/atmospherics/pipe/heat_exchanging/simple,
-/turf/open/floor/plasteel/kitchen_coldroom/freezerfloor{
-	initial_gas_mix = "o2=33;n2=124;TEMP=253.15"
-	},
+/turf/open/floor/plasteel/kitchen_coldroom/freezerfloor,
 /area/crew_quarters/kitchen/coldroom)
 "nfK" = (
 /obj/effect/spawner/structure/window/reinforced,
@@ -19295,9 +19280,7 @@
 	icon_state = "0-2"
 	},
 /obj/structure/closet/secure_closet/freezer/kitchen/maintenance,
-/turf/open/floor/plasteel/kitchen_coldroom/freezerfloor{
-	initial_gas_mix = "o2=33;n2=124;TEMP=253.15"
-	},
+/turf/open/floor/plasteel/kitchen_coldroom/freezerfloor,
 /area/crew_quarters/kitchen/coldroom)
 "nxn" = (
 /obj/machinery/door/firedoor/window,
@@ -20561,9 +20544,7 @@
 	icon_state = "pipe11-2"
 	},
 /obj/structure/closet/secure_closet/freezer/meat,
-/turf/open/floor/plasteel/kitchen_coldroom/freezerfloor{
-	initial_gas_mix = "o2=33;n2=124;TEMP=253.15"
-	},
+/turf/open/floor/plasteel/kitchen_coldroom/freezerfloor,
 /area/crew_quarters/kitchen/coldroom)
 "oBd" = (
 /turf/closed/wall/ship,
@@ -21789,9 +21770,7 @@
 	dir = 8;
 	icon_state = "pipe11-2"
 	},
-/turf/open/floor/plasteel/kitchen_coldroom/freezerfloor{
-	initial_gas_mix = "o2=33;n2=124;TEMP=253.15"
-	},
+/turf/open/floor/plasteel/kitchen_coldroom/freezerfloor,
 /area/crew_quarters/kitchen/coldroom)
 "pvk" = (
 /obj/structure/closet/secure_closet/security/engine,
@@ -26558,7 +26537,9 @@
 	pixel_x = -3;
 	pixel_y = 3
 	},
-/obj/machinery/door/window/westleft,
+/obj/machinery/door/window/westleft{
+	req_one_access_txt = "3;4;38;63"
+	},
 /turf/open/floor/carpet/ship/red_carpet,
 /area/hydroponics)
 "sUV" = (
@@ -26986,9 +26967,7 @@
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	dir = 4
 	},
-/turf/open/floor/plasteel/kitchen_coldroom/freezerfloor{
-	initial_gas_mix = "o2=33;n2=124;TEMP=253.15"
-	},
+/turf/open/floor/plasteel/kitchen_coldroom/freezerfloor,
 /area/crew_quarters/kitchen/coldroom)
 "tiJ" = (
 /obj/machinery/holopad,
@@ -27136,9 +27115,7 @@
 	dir = 6
 	},
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3,
-/turf/open/floor/plasteel/kitchen_coldroom/freezerfloor{
-	initial_gas_mix = "o2=33;n2=124;TEMP=253.15"
-	},
+/turf/open/floor/plasteel/kitchen_coldroom/freezerfloor,
 /area/crew_quarters/kitchen/coldroom)
 "tpZ" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
@@ -28405,9 +28382,7 @@
 /area/medical/storage)
 "uqv" = (
 /obj/machinery/icecream_vat,
-/turf/open/floor/plasteel/kitchen_coldroom/freezerfloor{
-	initial_gas_mix = "o2=33;n2=124;TEMP=253.15"
-	},
+/turf/open/floor/plasteel/kitchen_coldroom/freezerfloor,
 /area/crew_quarters/kitchen/coldroom)
 "urq" = (
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3{
@@ -33313,9 +33288,11 @@
 	dir = 5;
 	icon_state = "pipe11-2"
 	},
-/turf/open/floor/plasteel/kitchen_coldroom/freezerfloor{
-	initial_gas_mix = "o2=33;n2=124;TEMP=253.15"
+/obj/machinery/airalarm/kitchen_cold_room{
+	dir = 1;
+	pixel_y = -24
 	},
+/turf/open/floor/plasteel/kitchen_coldroom/freezerfloor,
 /area/crew_quarters/kitchen/coldroom)
 "xHB" = (
 /obj/structure/table/glass,
@@ -33685,9 +33662,7 @@
 	},
 /obj/machinery/portable_atmospherics/canister/nitrogen,
 /obj/item/wrench,
-/turf/open/floor/plasteel/kitchen_coldroom/freezerfloor{
-	initial_gas_mix = "o2=33;n2=124;TEMP=253.15"
-	},
+/turf/open/floor/plasteel/kitchen_coldroom/freezerfloor,
 /area/crew_quarters/kitchen/coldroom)
 "xWF" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer1{
