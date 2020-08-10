@@ -40,15 +40,15 @@ This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATE
 	client?.change_view(getScreenSize(client?.prefs.widescreenpref))
 
 /mob/living/vv_get_dropdown()
-    . = ..()
-    VV_DROPDOWN_OPTION(VV_HK_UNFUCK_OVERMAP, "Unfuck Overmap")
+	. = ..()
+	VV_DROPDOWN_OPTION(VV_HK_UNFUCK_OVERMAP, "Unfuck Overmap")
 
 /mob/living/vv_do_topic(list/href_list)
-    . = ..()
-    if(href_list[VV_HK_UNFUCK_OVERMAP])
-        if(!check_rights(NONE))
-            return
-        unfuck_overmap()
+	. = ..()
+	if(href_list[VV_HK_UNFUCK_OVERMAP])
+		if(!check_rights(NONE))
+			return
+		unfuck_overmap()
 
 /obj/structure/overmap
 	var/last_process = 0

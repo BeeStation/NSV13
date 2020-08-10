@@ -6,6 +6,7 @@
 	name = "turbolift blast door"
 	icon = 'nsv13/goonstation/icons/turbolift_blast_door.dmi'
 	desc = "A bulkhead which opens and closes."
+	door_animation_speed = 1
 
  // Turbolifts
 /datum/map_template/shuttle/turbolift/nsv/enterprise

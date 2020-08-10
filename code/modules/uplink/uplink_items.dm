@@ -274,7 +274,7 @@ GLOBAL_LIST_INIT(uplink_items, subtypesof(/datum/uplink_item))
 	return C
 
 /datum/uplink_item/bundles_TC/random
-	name = "Random Item"
+	name = "Random Item (cost varies)" //nsv13 - indicate varying cost
 	desc = "Picking this will purchase a random item. Useful if you have some TC to spare or if you haven't decided on a strategy yet."
 	item = /obj/effect/gibspawner/generic // non-tangible item because techwebs use this path to determine illegal tech
 	cost = 0
