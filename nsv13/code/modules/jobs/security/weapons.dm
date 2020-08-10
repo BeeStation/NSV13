@@ -33,15 +33,16 @@
 	can_flashlight = TRUE
 	flight_x_offset = 15
 	flight_y_offset = 12
+	fire_rate = 2
 
 /obj/item/gun/ballistic/automatic/pistol/glock/makarov
 	name = "Makarov NT"
-	desc = "An older handgun used by NT security forces, produced by H&KC but slowly being phased out by the Glock-13. One of the designers of the weapon gave the statement: There are no brakes on this commie fucktrain."
+	desc = "An older handgun used by NT security forces, produced by H&KC but slowly being phased out by the Glock-13. One of the designers of the weapon went on record saying: 'There are no brakes on this commie fucktrain.'"
 	icon_state = "makarov"
 
 /obj/item/gun/ballistic/automatic/pistol/m1911/m9le
 	name = "\improper M9LE"
-	desc = "A military surplus pistol no longer in service, commonly used by veteran officers boasting a higher muzzle velocity than other handguns. It's a reliable damage dealer despite its age."
+	desc = "A military surplus pistol no longer in service, but boasting a higher muzzle velocity than other handguns. It's a reliable damage dealer despite its age."
 	icon = 'nsv13/icons/obj/guns/projectile.dmi'
 	icon_state = "m9"
 	item_state = "glock"
