@@ -616,7 +616,7 @@ Control Rods
 			if(reactor_starvation > 0)
 				reactor_starvation -= 0.5 //drops at half the full starvation rate
 		else
-			reactor_starvation += 0.1 //Slowly gets hungry
+			reactor_starvation += 0.01 //Slowly gets hungry
 			handle_reactor_starvation()
 
 	else
