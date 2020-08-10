@@ -75,7 +75,7 @@
 			if(OM.obj_integrity < OM.max_integrity) //Structure Check
 				if(OM.structure_crit_no_return) //If we have crossed the point of no return, halt repairs
 					return
-				structure_repair_amount = (0.75 * apnw.repair_efficiency * structure_allocation) / 100
+				structure_repair_amount = (1 * apnw.repair_efficiency * structure_allocation) / 100
 				if(apnw.repair_resources >= structure_repair_amount * 10)
 					OM.obj_integrity += structure_repair_amount
 					if(OM.obj_integrity > OM.max_integrity)
@@ -84,7 +84,7 @@
 					idle_power_usage += structure_repair_amount * 100
 
 					if(OM.structure_crit) //Checking to see if we can exist SS Crit
-						if(OM.obj_integrity >= OM.max_integrity/3) //You need to repair a good chunk of her HP before you're getting outta this fucko.
+						if(OM.obj_integrity >= OM.max_integrity * 0.2) //You need to repair a good chunk of her HP before you're getting outta this fucko.
 							OM.stop_relay(channel=CHANNEL_SHIP_FX)
 							priority_announce("Ship structural integrity restored to acceptable levels. ","Automated announcement ([src])")
 							OM.structure_crit = FALSE
@@ -115,17 +115,19 @@
 			if(W.apnw_id == apnw_id)
 				apnw = W
 
-/obj/machinery/armour_plating_nanorepair_pump/attackby(obj/item/I, mob/user, params)
-	if(I.tool_behaviour == TOOL_MULTITOOL)
-		if(!multitool_check_buffer(user, I))
-			return
-		var/obj/item/multitool/M = I
-		apnw = M.buffer
-		apnw.apnp += src
-		M.buffer = null
-		quadrant = input(user, "Direct nano-repair pump to which quadrant?", "[name]") as null|anything in list("forward_port", "forward_starboard", "aft_port", "aft_starboard")
-		playsound(src, 'sound/items/flashlight_on.ogg', 100, TRUE)
-		to_chat(user, "<span class='notice'>Buffer transfered</span>")
+/obj/machinery/armour_plating_nanorepair_pump/multitool_act(mob/user, obj/item/tool)
+	. = FALSE
+	if(!multitool_check_buffer(user, tool))
+		return
+	apnw?.apnp -= src
+	var/obj/item/multitool/M = tool
+	apnw = M.buffer
+	apnw.apnp += src
+	M.buffer = null
+	quadrant = input(user, "Direct nano-repair pump to which quadrant?", "[name]") as null|anything in list("forward_port", "forward_starboard", "aft_port", "aft_starboard")
+	playsound(src, 'sound/items/flashlight_on.ogg', 100, TRUE)
+	to_chat(user, "<span class='notice'>Buffer transfered</span>")
+	return
 
 /obj/machinery/armour_plating_nanorepair_pump/welder_act(mob/user, obj/item/tool)
 	. = FALSE
@@ -249,6 +251,7 @@
 	data["armour_repair_amount"] = armour_repair_amount
 	data["structure_repair_amount"] = structure_repair_amount
 	data["repair_records"] = repair_records
+	data["quadrant"] = quadrant
 	return data
 
 /obj/item/circuitboard/machine/armour_plating_nanorepair_pump

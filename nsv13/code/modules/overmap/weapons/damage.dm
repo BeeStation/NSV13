@@ -99,7 +99,7 @@ Bullet reactions
 /obj/structure/overmap/proc/handle_crit(damage_amount) //A proc to allow ships to enter superstructure crit, this means the player ship can't die, but its insides can get torn to shreds.
 	if(!structure_crit)
 		relay('nsv13/sound/effects/ship/crit_alarm.ogg', message=null, loop=TRUE, channel=CHANNEL_SHIP_FX)
-		priority_announce("DANGER. Ship superstructure failing. Structural integrity failure imminent. Immediate repairs are required to avoid total structural failure.","Automated announcement ([src])") //TEMP! Remove this shit when we move ruin spawns off-z
+		priority_announce("DANGER. Ship superstructure failing. Structural failure projection: T-minus 15 minutes. Immediate repairs are required to avoid total structural failure.","Automated announcement ([src])") //TEMP! Remove this shit when we move ruin spawns off-z
 		structure_crit = TRUE
 		structure_crit_timer = addtimer(CALLBACK(src, .proc/handle_critical_failure_part_1, FALSE), 5 MINUTES)
 	if(explosion_cooldown)
@@ -116,11 +116,15 @@ Bullet reactions
 	new /obj/effect/temp_visual/explosion_telegraph(T)
 
 /obj/structure/overmap/proc/handle_critical_failure_part_1()
-	structure_crit_no_return = TRUE //Better launch those escape pods pronto
-	priority_announce("DANGER. Ship superstructure critical failure imminent. No return threshold reached.","Automated announcement ([src])")
-	addtimer(CALLBACK(src, .proc/handle_critical_failure_part_2, FALSE), 5 MINUTES)
+	priority_announce("DANGER. Ship superstructure failure imminent. Structural failure projection: T-minus 10 minutes. Analysis indicates superstructure reaching non-returntable state.","Automated announcement ([src])")
+	structure_crit_timer = addtimer(CALLBACK(src, .proc/handle_critical_failure_part_2, FALSE), 5 MINUTES)
 
 /obj/structure/overmap/proc/handle_critical_failure_part_2()
+	structure_crit_no_return = TRUE //Better launch those escape pods pronto
+	priority_announce("DANGER. Ship superstructure critical failure imminent. Structural failure projection: T-minus 5 minutes. Structural instabilities render any further repairs ineffective.","Automated announcement ([src])")
+	addtimer(CALLBACK(src, .proc/handle_critical_failure_part_3, FALSE), 5 MINUTES)
+
+/obj/structure/overmap/proc/handle_critical_failure_part_3()
 	if(role == MAIN_OVERMAP)
 		for(var/M in mobs_in_ship)
 			if(!locate(M) in operators)
@@ -150,7 +154,7 @@ Bullet reactions
 	else
 		obj_integrity += amount
 	if(structure_crit)
-		if(obj_integrity >= max_integrity/3) //You need to repair a good chunk of her HP before you're getting outta this fucko.
+		if(obj_integrity >= max_integrity * 0.2) //You need to repair a good chunk of her HP before you're getting outta this fucko.
 			stop_relay(channel=CHANNEL_SHIP_FX)
 			priority_announce("Ship structural integrity restored to acceptable levels. ","Automated announcement ([src])")
 			structure_crit = FALSE

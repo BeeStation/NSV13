@@ -12,51 +12,53 @@ export const ArmourPlatingNanorepairPump = (props, context) => {
   return (
     <Window resizable theme="ntos">
       <Window.Content scrollable>
-        <Section title="Repair Rates:">
-          <Flex spacing={1}>
-            <Flex.Item width="200px">
-              <Section>
-                <LabeledList>
-                  <LabeledList.Item label="Armour Repair Rate">
-                    <ProgressBar
-                      value={data.armour_repair_amount}
-                      minValue={0}
-                      maxValue={8}
-                      color="blue">
-                      {toFixed(data.armour_repair_amount) + ' %'}
-                    </ProgressBar>
-                  </LabeledList.Item>
-                  <LabeledList.Item label="Structure Repair Rate">
-                    <ProgressBar
-                      value={data.structure_repair_amount}
-                      minValue={0}
-                      maxValue={8}
-                      color="red">
-                      {toFixed(data.structure_repair_amount) + ' %'}
-                    </ProgressBar>
-                  </LabeledList.Item>
-                </LabeledList>
-              </Section>
-            </Flex.Item>
-            <Flex.Item grow={1}>
-              <Section position="relative" height="100%">
-                <Chart.Line
-                  fillPositionedParent
-                  data={armourData}
-                  rangeX={[0, armourData.length - 1]}
-                  rangeY={[0, 8]}
-                  strokeColor="rgba(28, 113, 177, 1)"
-                  fillColor="rgba(28, 113, 177, 0.1)" />
-                <Chart.Line
-                  fillPositionedParent
-                  data={structureData}
-                  rangeX={[0, structureData.length - 1]}
-                  rangeY={[0, 8]}
-                  strokeColor="rgba(255, 0, 0, 1)"
-                  fillColor="rgba(255, 0, 0, 0.1)" />
-              </Section>
-            </Flex.Item>
-          </Flex>
+        <Section title={data.quadrant}>
+          <Section title="Repair Rates:">
+            <Flex spacing={1}>
+              <Flex.Item width="200px">
+                <Section>
+                  <LabeledList>
+                    <LabeledList.Item label="Armour Repair Rate">
+                      <ProgressBar
+                        value={data.armour_repair_amount}
+                        minValue={0}
+                        maxValue={8}
+                        color="blue">
+                        {toFixed(data.armour_repair_amount)}
+                      </ProgressBar>
+                    </LabeledList.Item>
+                    <LabeledList.Item label="Structure Repair Rate">
+                      <ProgressBar
+                        value={data.structure_repair_amount}
+                        minValue={0}
+                        maxValue={2}
+                        color="red">
+                        {toFixed(data.structure_repair_amount)}
+                      </ProgressBar>
+                    </LabeledList.Item>
+                  </LabeledList>
+                </Section>
+              </Flex.Item>
+              <Flex.Item grow={1}>
+                <Section position="relative" height="100%">
+                  <Chart.Line
+                    fillPositionedParent
+                    data={armourData}
+                    rangeX={[0, armourData.length - 1]}
+                    rangeY={[0, 8]}
+                    strokeColor="rgba(28, 113, 177, 1)"
+                    fillColor="rgba(28, 113, 177, 0.1)" />
+                  <Chart.Line
+                    fillPositionedParent
+                    data={structureData}
+                    rangeX={[0, structureData.length - 1]}
+                    rangeY={[0, 8]}
+                    strokeColor="rgba(255, 0, 0, 1)"
+                    fillColor="rgba(255, 0, 0, 0.1)" />
+                </Section>
+              </Flex.Item>
+            </Flex>
+          </Section>
         </Section>
         <Section title="System Resources Allocated to Armour:">
           <Slider
@@ -79,7 +81,7 @@ export const ArmourPlatingNanorepairPump = (props, context) => {
             stepPixelSize={5}
             onDrag={(e, value) => act('structure_allocation', {
               adjust: value,
-            })} 
+            })}
           />
         </Section>
       </Window.Content>

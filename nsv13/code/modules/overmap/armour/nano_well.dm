@@ -79,7 +79,7 @@ Starting Materials
 					/datum/material/silver,\
 					/datum/material/titanium,\
 					/datum/material/plasma),
-					100000,
+					1000000,
 					FALSE,
 					/obj/item/stack,
 					null,
