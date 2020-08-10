@@ -14,7 +14,7 @@
 		return
 	if((object in M.contents) || (object == M))
 		return
-	if(fire_mode == FIRE_MODE_MAC)
+	if(fire_mode == FIRE_MODE_MAC || fire_mode == FIRE_MODE_BLUE_LASER)
 		start_aiming(params, M)
 	else
 		autofire_target = object
@@ -25,7 +25,7 @@
 	autofire_target = null
 	lastangle = getMouseAngle(params, M)
 	stop_aiming()
-	if(fire_mode == FIRE_MODE_MAC)
+	if(fire_mode == FIRE_MODE_MAC || FIRE_MODE_BLUE_LASER)
 		fire_weapon(object)
 	QDEL_LIST(current_tracers)
 

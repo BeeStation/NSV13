@@ -207,6 +207,10 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 
 /obj/structure/overmap/Initialize()
 	. = ..()
+	return INITIALIZE_HINT_LATELOAD
+
+/obj/structure/overmap/LateInitialize()
+	. = ..()
 	if(role > NORMAL_OVERMAP)
 		SSstar_system.add_ship(src)
 		reserved_z = src.z //Our "reserved" Z will always be kept for us, no matter what. If we, for example, visit a system that another player is on and then jump away, we are returned to our own Z.
@@ -289,11 +293,12 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 /obj/structure/overmap/proc/apply_weapons()
 	weapon_types[FIRE_MODE_PDC] = (mass > MASS_TINY) ? new/datum/ship_weapon/pdc_mount(src) : new /datum/ship_weapon/light_cannon(src)
 	weapon_types[FIRE_MODE_TORPEDO] = new/datum/ship_weapon/torpedo_launcher(src)
-	weapon_types[FIRE_MODE_RAILGUN] = new/datum/ship_weapon/railgun(src)
-	weapon_types[FIRE_MODE_MAC] = new /datum/ship_weapon/mac(src)
-	if(mass > MASS_TINY)
+	if(mass > MASS_TINY || occupying_levels.len)
 		weapon_types[FIRE_MODE_FLAK] = new/datum/ship_weapon/flak(src)
-	weapon_types[FIRE_MODE_GAUSS] = new /datum/ship_weapon/gauss(src) //AI ships want to be able to use gauss too. I say let them...
+		weapon_types[FIRE_MODE_RAILGUN] = new/datum/ship_weapon/railgun(src)
+	if(mass > MASS_MEDIUM || occupying_levels.len)
+		weapon_types[FIRE_MODE_GAUSS] = new /datum/ship_weapon/gauss(src) //AI ships want to be able to use gauss too. I say let them...
+		weapon_types[FIRE_MODE_MAC] = new /datum/ship_weapon/mac(src)
 	if(ai_controlled)
 		weapon_types[FIRE_MODE_MISSILE] = new/datum/ship_weapon/missile_launcher(src)
 
@@ -329,7 +334,14 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 		return TRUE
 	if(user != gunner)
 		if(user == pilot)
-			fire_weapon(target, FIRE_MODE_RAILGUN)
+			var/datum/ship_weapon/SW = weapon_types[FIRE_MODE_RAILGUN] //For annoying ships like whisp
+			var/list/loaded = SW.weapons["loaded"]
+			if(SW && loaded?.len)
+				fire_weapon(target, FIRE_MODE_RAILGUN)
+			else
+				SW = weapon_types[FIRE_MODE_RED_LASER]
+				if(SW)
+					fire_weapon(target, FIRE_MODE_RED_LASER)
 		return FALSE
 	if(tactical && prob(80))
 		var/sound = pick(GLOB.computer_beeps)
@@ -535,8 +547,6 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 				if(tactical && prob(80))
 					var/sound = pick(GLOB.computer_beeps)
 					playsound(tactical, sound, 100, 1)
-			if(themob == pilot)
-				boost(NORTH)
 			return TRUE
 		if("Q" || "q")
 			if(!move_by_mouse)

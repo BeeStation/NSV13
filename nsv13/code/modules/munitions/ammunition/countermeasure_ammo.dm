@@ -24,6 +24,6 @@
 	id = "countermeasure_charge"
 	build_type = PROTOLATHE
 	materials = list(/datum/material/iron = 1000, /datum/material/glass = 500, /datum/material/copper = 500, /datum/material/titanium = 500)
-	build_path = /obj/item/ship_weapon/parts/torpedo/propulsion_system
+	build_path = /obj/item/ship_weapon/ammunition/countermeasure_charge
 	category = list("Advanced Munitions")
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO
