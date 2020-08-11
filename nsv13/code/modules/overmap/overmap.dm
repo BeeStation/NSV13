@@ -47,6 +47,7 @@
 	var/max_armour = 0 //Max armour amount per quad
 	var/current_armour = 0 //Per quad
 	var/list/armour_quadrants = list("forward_port" = list(), "forward_starboard" = list(), "aft_port" = list(), "aft_starboard" = list()) //Our four quadrants
+	var/linked_apnw = null //Our linked APNW
 
 	var/structure_crit = FALSE //Handles when the ship's integrity has failed
 	var/structure_crit_no_return = FALSE //Override for handling point of no return

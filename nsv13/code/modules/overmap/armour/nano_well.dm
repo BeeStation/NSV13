@@ -70,9 +70,6 @@ Starting Materials
 	var/apnw_id = null //The ID by which we identify our child devices - These should match the child devices and follow the formula: 1 - Main Ship, 2 - Secondary Ship, 3 - Syndie PvP Ship
 
 /obj/machinery/armour_plating_nanorepair_well/Initialize()
-	/*things we need to do here:
-	- link to APNPs in the vacinity
-	*/
 	.=..()
 	AddComponent(/datum/component/material_container,\
 				list(/datum/material/iron,\
@@ -89,38 +86,39 @@ Starting Materials
 	OM = get_overmap()
 	addtimer(CALLBACK(src, .proc/handle_linking), 10 SECONDS)
 
+/obj/machinery/armour_plating_nanorepair_well/examine(mob/user)
+	.=..()
+	if(!OM?.linked_apnw)
+		. += "<span class='warning'>WARNING: DUPLICATE APNW DETECTED!</span>"
+
 /obj/machinery/armour_plating_nanorepair_well/process()
-	handle_power_allocation()
-	handle_system_stress()
+	if(OM?.linked_apnw)
+		handle_power_allocation()
+		handle_system_stress()
 
-	if(!try_use_power(active_power_usage))
-		repair_resources_processing = FALSE
-		update_icon()
-		message_admins("A")
-		return FALSE
+		if(!try_use_power(active_power_usage))
+			repair_resources_processing = FALSE
+			update_icon()
+			return FALSE
 
-	if(is_operational())
-		handle_repair_resources()
-		handle_repair_efficiency()
-		update_icon()
-		return TRUE
+		if(is_operational())
+			handle_repair_resources()
+			handle_repair_efficiency()
+			update_icon()
+			return TRUE
 
 /obj/machinery/armour_plating_nanorepair_well/proc/try_use_power(amount) //checking to see if we have a cable
 	var/turf/T = get_turf(src)
 	var/obj/structure/cable/C = T.get_cable_node()
 	if(C)
 		if(!C.powernet)
-			message_admins("B")
 			return FALSE
 		var/power_in_net = C.powernet.avail-C.powernet.load
 
 		if(power_in_net && power_in_net > amount)
 			C.powernet.load += amount
-			message_admins("C")
 			return TRUE
-		message_admins("D")
 		return FALSE
-	message_admins("E")
 	return FALSE
 
 
@@ -226,6 +224,9 @@ Starting Materials
 			if(P.apnw_id == apnw_id)
 				apnp += P
 
+	if(!OM?.linked_apnw)
+		OM.linked_apnw = src
+
 /obj/machinery/armour_plating_nanorepair_well/attackby(obj/item/I, mob/user, params)
 	.=..()
 	if(I.tool_behaviour == TOOL_MULTITOOL)
@@ -258,15 +259,35 @@ Starting Materials
 
 /obj/machinery/armour_plating_nanorepair_well/attack_hand(mob/living/carbon/user)
 	.=..()
-	ui_interact(user)
+	if(!OM?.linked_apnw)
+		. += "<span class='warning'>WARNING: DUPLICATE APNW DETECTED!</span>"
+		return
+	else
+		ui_interact(user)
 
 /obj/machinery/armour_plating_nanorepair_well/attack_ai(mob/user)
 	.=..()
-	ui_interact(user)
+	if(!OM?.linked_apnw)
+		. += "<span class='warning'>WARNING: DUPLICATE APNW DETECTED!</span>"
+		return
+	else
+		ui_interact(user)
 
 /obj/machinery/armour_plating_nanorepair_well/attack_robot(mob/user)
 	.=..()
-	ui_interact(user)
+	if(!OM?.linked_apnw)
+		. += "<span class='warning'>WARNING: DUPLICATE APNW DETECTED!</span>"
+		return
+	else
+		ui_interact(user)
+
+/obj/machinery/armour_plating_nanorepair_well/attack_ghost(mob/user)
+	. = ..()
+	if(!OM?.linked_apnw)
+		. += "<span class='warning'>WARNING: DUPLICATE APNW DETECTED!</span>"
+		return
+	else
+		ui_interact(user)
 
 /obj/machinery/armour_plating_nanorepair_well/ui_interact(mob/user, ui_key = "main", datum/tgui/ui = null, force_open = 0, datum/tgui/master_ui = null, datum/ui_state/state = GLOB.default_state) // Remember to use the appropriate state.
 	ui = SStgui.try_update_ui(user, src, ui_key, ui, force_open)

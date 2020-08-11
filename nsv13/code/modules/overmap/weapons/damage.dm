@@ -128,7 +128,13 @@ Bullet reactions
 	if(role == MAIN_OVERMAP)
 		for(var/M in mobs_in_ship)
 			if(!locate(M) in operators)
-				start_piloting(M, "observer") //Make sure everyone sees the ship is exploding
+				if(isliving(M))
+					start_piloting(M, "observer") //Make sure everyone sees the ship is exploding
+				else
+					if(istype(M, /mob/dead/observer))
+						var/mob/dead/observer/D = M
+						D.ManualFollow(src)
+
 		sleep(10)
 		STOP_PROCESSING(SSovermap, src) //Reject player input
 		src.SpinAnimation(1000, 1) //Drift
