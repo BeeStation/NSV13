@@ -216,7 +216,7 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 		reserved_z = src.z //Our "reserved" Z will always be kept for us, no matter what. If we, for example, visit a system that another player is on and then jump away, we are returned to our own Z.
 	current_tracers = list()
 	GLOB.overmap_objects += src
-	START_PROCESSING(SSovermap, src)
+	START_PROCESSING(SSphysics_processing, src)
 
 	vector_overlay = new()
 	vector_overlay.appearance_flags |= KEEP_APART

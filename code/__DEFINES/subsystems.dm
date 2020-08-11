@@ -164,8 +164,8 @@
 #define FIRE_PRIORITY_TICKER		200
 #define FIRE_PRIORITY_ATMOS_ADJACENCY	300
 #define FIRE_PRIORITY_CHAT			400
-#define FIRE_PRIORITY_PROJECTILES 	440 //Nsv13 - We really need this. God forgive me for this crime.
-#define FIRE_PRIORITY_OVERMAP		450 //NSV13 - Overmap SS needs high priority.
+#define FIRE_PRIORITY_PROJECTILES 	440 //Nsv13 - Lower priority: Projectile movement and processing
+#define FIRE_PRIORITY_PHYSICS		450 //NSV13 - Highest priority: Overmap movement and hitbox calc
 #define FIRE_PRIORITY_OVERLAYS		500
 #define FIRE_PRIORITY_INPUT			1000 // This must always always be the max highest priority. Player input must never be lost.
 

@@ -224,8 +224,8 @@
 	if(mass < MASS_MEDIUM || get_dist(ship, src) > 6)
 		return FALSE
 	next_boarding_attempt = world.time + 5 MINUTES //We very rarely try to board.
-	if(SSovermap.next_boarding_time <= world.time)
-		SSovermap.next_boarding_time = world.time + 30 MINUTES
+	if(SSphysics_processing.next_boarding_time <= world.time)
+		SSphysics_processing.next_boarding_time = world.time + 30 MINUTES
 		ship.spawn_boarders()
 		return TRUE
 	return FALSE

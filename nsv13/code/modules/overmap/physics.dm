@@ -56,13 +56,13 @@ This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATE
 	var/obj/vector_overlay/vector_overlay
 	var/pixel_collision_size_x = 0
 	var/pixel_collision_size_y = 0
-	var/datum/shape/collider2d = null //Our box collider. See the collision module for explanation
 	var/datum/vector2d/offset
 	var/datum/vector2d/last_offset
 	var/datum/vector2d/position
 	var/datum/vector2d/velocity
 	var/datum/vector2d/overlap // Will be subtracted from the ships offset as soon as possible, then set to 0
 	var/list/collision_positions = list() //See the collisions doc for how these work. Theyre a pain in the ass.
+	var/datum/component/physics2d/physics2d = null
 
 //Helper proc to get the actual center of the ship, if the ship's hitbox is placed in the bottom left corner like they usually are.
 
@@ -110,7 +110,8 @@ This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATE
 	velocity = new /datum/vector2d(0, 0)
 	overlap = new /datum/vector2d(0, 0)
 	if(collision_positions.len)
-		collider2d = new /datum/shape(position, collision_positions, angle) // -TORADIANS(src.angle-90)
+		physics2d = AddComponent(/datum/component/physics2d)
+		physics2d.setup(collision_positions, angle)
 	else
 		message_admins("[src] does not have collision points set! It will float through everything.")
 
@@ -199,9 +200,6 @@ The while loop runs at a programatic level and is thus separated from any thrott
 	else
 		last_rotate = 0
 	angle += angular_velocity * time
-	if(collider2d)
-		collider2d.set_angle(angle) //Turn the box collider //-TORADIANS(angle-90)
-
 	// calculate drag and shit
 
 	var/velocity_mag = velocity.ln() // magnitude
@@ -292,9 +290,8 @@ The while loop runs at a programatic level and is thus separated from any thrott
 
 	position._set(x * 32 + offset.x * 32, y * 32 + offset.y * 32)
 
-	if(collider2d)
-		collider2d.position.copy(position)
-		handle_collisions()
+	if(physics2d)
+		physics2d.update(position.x, position.y, angle)
 
 	// alright so now we reconcile the offsets with the in-world position.
 	while((offset.x > 0 && velocity.x > 0) || (offset.y > 0 && velocity.y > 0) || (offset.x < 0 && velocity.x < 0) || (offset.y < 0 && velocity.y < 0))
@@ -421,15 +418,7 @@ The while loop runs at a programatic level and is thus separated from any thrott
 			return
 		fire(autofire_target)
 
-/obj/structure/overmap/proc/handle_collisions()
-	for(var/obj/structure/overmap/OM in GLOB.overmap_objects)
-		if(src == OM || OM.z != src.z || !OM.collider2d)
-			continue // Wondered why objects were always colliding for an entire 9 hours
-
-		var/datum/collision_response/c_response = new /datum/collision_response()
-
-		if(src.collider2d.collides(OM.collider2d, c_response))
-			Bump(OM, c_response)
+#define ELASTIC_COLLISION_SCALAR 0.25 //Lets you tone down / ramp up collisions this as needed. With this at "1" collisions feel a bit ping-pongey.
 
 /obj/structure/overmap/proc/collide(obj/structure/overmap/other, datum/collision_response/c_response, collision_velocity)
 	if(layer < other.layer || other.layer > layer)
@@ -442,8 +431,12 @@ The while loop runs at a programatic level and is thus separated from any thrott
 		var/obj/structure/overmap/fighter/F = src
 		if(F.docking_act(other))
 			return FALSE
-
-	var/datum/vector2d/point_of_collision = src.collider2d.get_collision_point(other.collider2d)
+	//Update the colliders before we do any kind of calc.
+	if(physics2d)
+		physics2d.update(position.x, position.y, angle)
+	if(other.physics2d)
+		other.physics2d.update(other.position.x, other.position.y, angle)
+	var/datum/vector2d/point_of_collision = physics2d?.collider2d.get_collision_point(other.physics2d?.collider2d)
 
 	if (point_of_collision)
 		var/col_angle = c_response.overlap_normal.angle()
@@ -451,22 +444,22 @@ The while loop runs at a programatic level and is thus separated from any thrott
 		var/other_vel_mag = other.velocity.ln()
 
 		// Elastic collision equations
-		var/new_src_vel_x = ((																	\
+		var/new_src_vel_x = ELASTIC_COLLISION_SCALAR * ((																	\
 			(src_vel_mag * cos(src.velocity.angle() - col_angle) * (other.mass - src.mass)) +	\
 			(2 * other.mass * other_vel_mag * cos(other.velocity.angle() - col_angle))			\
 		) / (src.mass + other.mass)) * (cos(col_angle) + (src_vel_mag * sin(src.velocity.angle() - col_angle) * cos(col_angle + 90)))
 
-		var/new_src_vel_y = ((																	\
+		var/new_src_vel_y = ELASTIC_COLLISION_SCALAR * ((																	\
 			(src_vel_mag * cos(src.velocity.angle() - col_angle) * (other.mass - src.mass)) +	\
 			(2 * other.mass * other_vel_mag * cos(other.velocity.angle() - col_angle))			\
 		) / (src.mass + other.mass)) * (sin(col_angle) + (src_vel_mag * sin(src.velocity.angle() - col_angle) * sin(col_angle + 90)))
 
-		var/new_other_vel_x = ((																		\
+		var/new_other_vel_x = ELASTIC_COLLISION_SCALAR * ((																		\
 			(other_vel_mag * cos(other.velocity.angle() - col_angle) * (src.mass - other.mass)) +		\
 			(2 * src.mass * src_vel_mag * cos(src.velocity.angle() - col_angle))						\
 		) / (other.mass + src.mass)) * (cos(col_angle) + (other_vel_mag * sin(other.velocity.angle() - col_angle) * cos(col_angle + 90)))
 
-		var/new_other_vel_y = ((																		\
+		var/new_other_vel_y = ELASTIC_COLLISION_SCALAR * ((																		\
 			(other_vel_mag * cos(other.velocity.angle() - col_angle) * (src.mass - other.mass)) +		\
 			(2 * src.mass * src_vel_mag * cos(src.velocity.angle() - col_angle))						\
 		) / (other.mass + src.mass)) * (sin(col_angle) + (other_vel_mag * sin(other.velocity.angle() - col_angle) * sin(col_angle + 90)))
@@ -512,6 +505,8 @@ The while loop runs at a programatic level and is thus separated from any thrott
 	if(istype(A, /obj/structure/overmap) && c_response)
 		collide(A, c_response, bump_velocity)
 		return FALSE
+	if(isprojectile(A)) //Clears up some weirdness with projectiles doing MEGA damage.
+		return ..()
 	handle_cloak(CLOAK_TEMPORARY_LOSS)
 	if(bump_velocity >= 3 && !impact_sound_cooldown && isobj(A)) //Throttled collision damage a bit
 		var/obj/O = A
