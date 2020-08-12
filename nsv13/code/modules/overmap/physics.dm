@@ -431,6 +431,7 @@ The while loop runs at a programatic level and is thus separated from any thrott
 		var/obj/structure/overmap/fighter/F = src
 		if(F.docking_act(other))
 			return FALSE
+
 	//Update the colliders before we do any kind of calc.
 	if(physics2d)
 		physics2d.update(position.x, position.y, angle)

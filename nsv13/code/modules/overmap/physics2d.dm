@@ -63,6 +63,7 @@ PROCESSING_SUBSYSTEM_DEF(physics_processing)
 	var/datum/vector2d/velocity = null
 	var/last_registered_z = 0 //Placeholder. Overridden on process()
 	var/atom/movable/holder = null
+	var/next_collision = 0
 
 /datum/component/physics2d/Initialize()
 	. = ..()
