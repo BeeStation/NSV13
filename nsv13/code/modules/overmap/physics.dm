@@ -418,8 +418,6 @@ The while loop runs at a programatic level and is thus separated from any thrott
 			return
 		fire(autofire_target)
 
-#define ELASTIC_COLLISION_SCALAR 0.25 //Lets you tone down / ramp up collisions this as needed. With this at "1" collisions feel a bit ping-pongey.
-
 /obj/structure/overmap/proc/collide(obj/structure/overmap/other, datum/collision_response/c_response, collision_velocity)
 	if(layer < other.layer || other.layer > layer)
 		return FALSE
@@ -439,36 +437,37 @@ The while loop runs at a programatic level and is thus separated from any thrott
 		other.physics2d.update(other.position.x, other.position.y, angle)
 	var/datum/vector2d/point_of_collision = physics2d?.collider2d.get_collision_point(other.physics2d?.collider2d)
 
+	//So what this does is it'll calculate a vector (overlap_vector) that makes the two objects no longer colliding, then applies extra velocity to make the collision smooth to avoid teleporting. If you want to tone down collisions even more
+	//Be sure that you change the 0.25/32 bit as well, otherwise, if the cancelled out vector is too large compared to the speed jump, you just get teleportation and it looks really jank ~K
 	if (point_of_collision)
 		var/col_angle = c_response.overlap_normal.angle()
 		var/src_vel_mag = src.velocity.ln()
 		var/other_vel_mag = other.velocity.ln()
 
 		// Elastic collision equations
-		var/new_src_vel_x = ELASTIC_COLLISION_SCALAR * ((																	\
+		var/new_src_vel_x = ((																	\
 			(src_vel_mag * cos(src.velocity.angle() - col_angle) * (other.mass - src.mass)) +	\
 			(2 * other.mass * other_vel_mag * cos(other.velocity.angle() - col_angle))			\
 		) / (src.mass + other.mass)) * (cos(col_angle) + (src_vel_mag * sin(src.velocity.angle() - col_angle) * cos(col_angle + 90)))
 
-		var/new_src_vel_y = ELASTIC_COLLISION_SCALAR * ((																	\
+		var/new_src_vel_y = ((																	\
 			(src_vel_mag * cos(src.velocity.angle() - col_angle) * (other.mass - src.mass)) +	\
 			(2 * other.mass * other_vel_mag * cos(other.velocity.angle() - col_angle))			\
 		) / (src.mass + other.mass)) * (sin(col_angle) + (src_vel_mag * sin(src.velocity.angle() - col_angle) * sin(col_angle + 90)))
 
-		var/new_other_vel_x = ELASTIC_COLLISION_SCALAR * ((																		\
+		var/new_other_vel_x = ((																		\
 			(other_vel_mag * cos(other.velocity.angle() - col_angle) * (src.mass - other.mass)) +		\
 			(2 * src.mass * src_vel_mag * cos(src.velocity.angle() - col_angle))						\
 		) / (other.mass + src.mass)) * (cos(col_angle) + (other_vel_mag * sin(other.velocity.angle() - col_angle) * cos(col_angle + 90)))
 
-		var/new_other_vel_y = ELASTIC_COLLISION_SCALAR * ((																		\
+		var/new_other_vel_y = ((																		\
 			(other_vel_mag * cos(other.velocity.angle() - col_angle) * (src.mass - other.mass)) +		\
 			(2 * src.mass * src_vel_mag * cos(src.velocity.angle() - col_angle))						\
 		) / (other.mass + src.mass)) * (sin(col_angle) + (other_vel_mag * sin(other.velocity.angle() - col_angle) * sin(col_angle + 90)))
 
-		src.velocity._set(new_src_vel_x, new_src_vel_y)
-		other.velocity._set(new_other_vel_x, new_other_vel_y)
-
-	var/datum/vector2d/output = c_response.overlap_vector * (0.5 / 32)
+		src.velocity._set(new_src_vel_x*bounce_factor, new_src_vel_y*bounce_factor)
+		other.velocity._set(new_other_vel_x*other.bounce_factor, new_other_vel_y*other.bounce_factor)
+	var/datum/vector2d/output = c_response.overlap_vector * (0.25 / 32)
 	src.offset -= output
 	other.offset += output
 
