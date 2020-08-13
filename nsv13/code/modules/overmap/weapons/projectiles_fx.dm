@@ -107,6 +107,8 @@ Misc projectile types, effects, think of this as the special FX file.
 	..()
 	if(istype(target, /obj/structure/overmap)) //Were we to explode on an actual overmap, this would oneshot the ship as it's a powerful explosion.
 		return BULLET_ACT_HIT
+	if(isprojectile(target))
+		return BULLET_ACT_HIT
 	explosion(target, 2, 4, 4)
 	return BULLET_ACT_HIT
 
@@ -115,6 +117,8 @@ Misc projectile types, effects, think of this as the special FX file.
 	if(istype(target, /obj/structure/overmap)) //Were we to explode on an actual overmap, this would oneshot the ship as it's a powerful explosion.
 		var/obj/structure/overmap/OM = target
 		OM.nuclear_impact()
+		return BULLET_ACT_HIT
+	if(isprojectile(target))
 		return BULLET_ACT_HIT
 	explosion(target, GLOB.MAX_EX_DEVESTATION_RANGE, GLOB.MAX_EX_HEAVY_RANGE, GLOB.MAX_EX_LIGHT_RANGE, GLOB.MAX_EX_FLASH_RANGE)
 	return BULLET_ACT_HIT

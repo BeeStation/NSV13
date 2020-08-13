@@ -67,7 +67,7 @@
 	var/landing_gear = FALSE //Allows you to move in atmos without scraping the hell outta your ship
 
 	var/bump_impulse = 0.6
-	var/bounce_factor = 0.2 // how much of our velocity to keep on collision
+	var/bounce_factor = 0.7 // how much of our velocity to keep on collision
 	var/lateral_bounce_factor = 0.95 // mostly there to slow you down when you drive (pilot?) down a 2x2 corridor
 
 	var/brakes = FALSE //Helps you stop the ship
@@ -106,7 +106,7 @@
 	var/torpedoes = 2 //If this starts at above 0, then the ship can use torpedoes when AI controlled
 	var/missiles = 4 //If this starts at above 0, then the ship can use missiles when AI controlled
 
-	var/pdc_miss_chance = 20 //In %, how often do PDCs fire inaccurately when aiming at missiles. This is ignored for ships as theyre bigger targets.
+	var/flak_battery_amount = 1 //How many targets can our flak target at once?
 	var/list/torpedoes_to_target = list() //Torpedoes that have been fired explicitly at us, and that the PDCs need to worry about.
 	var/atom/target_lock = null
 	var/can_lock = TRUE //Can we lock on to people or not
@@ -127,7 +127,7 @@
 	var/list/occupying_levels = list() //Refs to the z-levels we own for setting parallax and that, or for admins to debug things when EVERYTHING INEVITABLY BREAKS
 	var/torpedo_type = /obj/item/projectile/guided_munition/torpedo
 	var/next_maneuvre = 0 //When can we pull off a fancy trick like boost or kinetic turn?
-	var/flak_battery_amount = 1 //How many targets you can simultaneously target with flak
+
 	var/role = NORMAL_OVERMAP
 
 /**
@@ -216,7 +216,7 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 		reserved_z = src.z //Our "reserved" Z will always be kept for us, no matter what. If we, for example, visit a system that another player is on and then jump away, we are returned to our own Z.
 	current_tracers = list()
 	GLOB.overmap_objects += src
-	START_PROCESSING(SSovermap, src)
+	START_PROCESSING(SSphysics_processing, src)
 
 	vector_overlay = new()
 	vector_overlay.appearance_flags |= KEEP_APART
@@ -244,7 +244,7 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 			backward_maxthrust = 3
 			side_maxthrust = 3
 			max_angular_acceleration = 110
-			bounce_factor = 0.15
+			bounce_factor = 0.65
 			lateral_bounce_factor = 0.95
 
 		if(MASS_MEDIUM)
@@ -252,7 +252,7 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 			backward_maxthrust = 2
 			side_maxthrust = 2
 			max_angular_acceleration = 15
-			bounce_factor = 0.10
+			bounce_factor = 0.5
 			lateral_bounce_factor = 0.8
 
 		if(MASS_MEDIUMLARGE)
@@ -260,7 +260,7 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 			backward_maxthrust = 1.85
 			side_maxthrust = 1.5
 			max_angular_acceleration = 10
-			bounce_factor = 0.10
+			bounce_factor = 0.45
 			lateral_bounce_factor = 0.8
 
 		if(MASS_LARGE)
@@ -268,18 +268,18 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 			backward_maxthrust = 0.5
 			side_maxthrust = 0.5
 			max_angular_acceleration = 2.5
-			bounce_factor = 0.5
+			bounce_factor = 0.35
 			lateral_bounce_factor = 0.6
-			flak_battery_amount = 2
+			flak_battery_amount = 2 //Multi flak!
 
 		if(MASS_TITAN)
-			forward_maxthrust = 0.25
-			backward_maxthrust = 0.25
-			side_maxthrust = 0.25
+			forward_maxthrust = 0.4
+			backward_maxthrust = 0.4
+			side_maxthrust = 0.4
 			max_angular_acceleration = 1.5
-			bounce_factor = 0.5
+			bounce_factor = 0.20
 			lateral_bounce_factor = 0.3
-			flak_battery_amount = 3
+			flak_battery_amount = 3 //Multi flak!
 
 	if(role == MAIN_OVERMAP)
 		name = "[station_name()]"

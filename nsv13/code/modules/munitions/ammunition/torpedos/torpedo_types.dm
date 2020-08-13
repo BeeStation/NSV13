@@ -154,15 +154,13 @@
 			setup_collider()
 			fire(angle)
 
-/obj/item/projectile/guided_munition/torpedo/post/check_overmap_collisions()
-	collider2d.set_angle(Angle) //Turn the box collider
-	position._set(x * 32 + pixel_x, y * 32 + pixel_y)
-	collider2d._set(position.x, position.y)
-	for(var/obj/structure/overmap/OM in GLOB.overmap_objects)
-		if(OM.z == z && OM.collider2d)
-			if(src.collider2d.collides(OM.collider2d))
-				if(OM != overmap_firer)
-					deliver_freight(OM) //Bang.
+/obj/item/projectile/guided_munition/torpedo/post/check_faction(atom/movable/A)
+	var/obj/structure/overmap/OM = A
+	if(!istype(OM))
+		return TRUE
+	if(OM != overmap_firer)
+		deliver_freight(OM) //Bang.
+		return TRUE
 
 /obj/structure/closet/supplypod/freight_pod
 	name = "Freight pod"
