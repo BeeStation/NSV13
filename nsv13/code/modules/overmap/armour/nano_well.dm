@@ -88,11 +88,11 @@ Starting Materials
 
 /obj/machinery/armour_plating_nanorepair_well/examine(mob/user)
 	.=..()
-	if(!OM?.linked_apnw)
+	if(OM?.linked_apnw != src)
 		. += "<span class='warning'>WARNING: DUPLICATE APNW DETECTED!</span>"
 
 /obj/machinery/armour_plating_nanorepair_well/process()
-	if(OM?.linked_apnw)
+	if(OM?.linked_apnw == src)
 		handle_power_allocation()
 		handle_system_stress()
 
@@ -259,32 +259,32 @@ Starting Materials
 
 /obj/machinery/armour_plating_nanorepair_well/attack_hand(mob/living/carbon/user)
 	.=..()
-	if(!OM?.linked_apnw)
-		. += "<span class='warning'>WARNING: DUPLICATE APNW DETECTED!</span>"
+	if(OM?.linked_apnw != src)
+		to_chat(user, "<span class='warning'>WARNING: DUPLICATE APNW DETECTED!</span>")
 		return
 	else
 		ui_interact(user)
 
 /obj/machinery/armour_plating_nanorepair_well/attack_ai(mob/user)
 	.=..()
-	if(!OM?.linked_apnw)
-		. += "<span class='warning'>WARNING: DUPLICATE APNW DETECTED!</span>"
+	if(OM?.linked_apnw != src)
+		to_chat(user, "<span class='warning'>WARNING: DUPLICATE APNW DETECTED!</span>")
 		return
 	else
 		ui_interact(user)
 
 /obj/machinery/armour_plating_nanorepair_well/attack_robot(mob/user)
 	.=..()
-	if(!OM?.linked_apnw)
-		. += "<span class='warning'>WARNING: DUPLICATE APNW DETECTED!</span>"
+	if(OM?.linked_apnw != src)
+		to_chat(user, "<span class='warning'>WARNING: DUPLICATE APNW DETECTED!</span>")
 		return
 	else
 		ui_interact(user)
 
 /obj/machinery/armour_plating_nanorepair_well/attack_ghost(mob/user)
 	. = ..()
-	if(!OM?.linked_apnw)
-		. += "<span class='warning'>WARNING: DUPLICATE APNW DETECTED!</span>"
+	if(OM?.linked_apnw != src)
+		to_chat(user, "<span class='warning'>WARNING: DUPLICATE APNW DETECTED!</span>")
 		return
 	else
 		ui_interact(user)

@@ -192,6 +192,12 @@ The while loop runs at a programatic level and is thus separated from any thrott
 		else
 			desired_angular_velocity = -2 * sqrt((angle - desired_angle) * max_angular_acceleration * 0.25)
 
+	//SS Crit Timer
+	if(structure_crit)
+		if(world.time > last_critprocess + 10)
+			last_critprocess = world.time
+			handle_critical_failure_part_1()
+
 	var/angular_velocity_adjustment = CLAMP(desired_angular_velocity - angular_velocity, -max_angular_acceleration*time, max_angular_acceleration*time)
 	if(angular_velocity_adjustment)
 		last_rotate = angular_velocity_adjustment / time

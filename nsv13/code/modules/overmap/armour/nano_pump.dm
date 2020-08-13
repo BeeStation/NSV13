@@ -88,8 +88,7 @@
 							OM.stop_relay(channel=CHANNEL_SHIP_FX)
 							priority_announce("Ship structural integrity restored to acceptable levels. ","Automated announcement ([src])")
 							OM.structure_crit = FALSE
-							if(OM.structure_crit_timer)
-								deltimer(OM.structure_crit_timer)
+
 	else
 		armour_repair_amount = 0
 		structure_repair_amount = 0

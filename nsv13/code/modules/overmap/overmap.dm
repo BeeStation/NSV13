@@ -51,7 +51,9 @@
 
 	var/structure_crit = FALSE //Handles when the ship's integrity has failed
 	var/structure_crit_no_return = FALSE //Override for handling point of no return
-	var/structure_crit_timer = null //Timer ID for point of no return
+	var/structure_crit_init = null //Timer ID for point of no return
+	var/structure_crit_alert = 0 //Incremental warning states
+	var/last_critprocess = 0 //Keeper for SS Crit timing
 	var/explosion_cooldown = FALSE
 
 	//Movement Variables
