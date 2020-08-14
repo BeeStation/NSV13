@@ -119,7 +119,7 @@ Bullet reactions
 	switch(ss_crit_timer)
 		if(0 to 12 SECONDS)
 			if(structure_crit_alert == 0)
-				priority_announce("DANGER. Ship superstructure failing. Structural failure projection: T-minus 15 minutes. Immediate repairs are required to avoid total structural failure.","Automated announcement ([src])")
+				priority_announce("Warning. Ship superstructure integrity critical. Total structural failure will occur in T - 15 minutes.  The ship will reach an irreparable state in T - 10 minutes.","Automated announcement ([src])", "null")
 				relay('nsv13/sound/effects/ship/sscrit/hullcrit_15.ogg', message=null, loop=FALSE, channel=CHANNEL_IMPORTANT_SHIP_ALERT)
 				structure_crit_alert ++
 		if(12 SECONDS to 5 MINUTES)
@@ -129,7 +129,7 @@ Bullet reactions
 		if(5 MINUTES to 311 SECONDS)
 			if(structure_crit_alert == 2)
 				stop_relay(channel=CHANNEL_SHIP_FX)
-				priority_announce("DANGER. Ship superstructure failure imminent. Structural failure projection: T-minus 10 minutes. Analysis indicates superstructure reaching non-returntable state.","Automated announcement ([src])")
+				priority_announce("Warning. Total structural integrity failure will occur in T-10 minutes. The ship will reach an irreparable state in T - 5 minutes.","Automated announcement ([src])", "null")
 				relay('nsv13/sound/effects/ship/sscrit/hullcrit_10.ogg', message=null, loop=FALSE, channel=CHANNEL_IMPORTANT_SHIP_ALERT)
 				structure_crit_alert ++
 		if(311 SECONDS to 9 MINUTES)
@@ -139,7 +139,7 @@ Bullet reactions
 		if(9 MINUTES to 545 SECONDS)
 			if(structure_crit_alert == 4)
 				stop_relay(channel=CHANNEL_SHIP_FX)
-				priority_announce("DANGER. Ship superstructure failure imminent. Structural failure projection: T-minus 10 minutes. Analysis indicates superstructure reaching non-returnable state.","Automated announcement ([src])")
+				priority_announce("DANGER. The ship will reach an irreparable state in T-1 minute.","Automated announcement ([src])", "null")
 				relay('nsv13/sound/effects/ship/sscrit/hullcrit_6.ogg', message=null, loop=FALSE, channel=CHANNEL_IMPORTANT_SHIP_ALERT)
 				structure_crit_alert ++
 		if(545 SECONDS to 10 MINUTES)
@@ -150,7 +150,7 @@ Bullet reactions
 			if(structure_crit_alert == 6)
 				structure_crit_no_return = TRUE //Better launch those escape pods pronto
 				stop_relay(channel=CHANNEL_SHIP_FX)
-				priority_announce("DANGER. Ship superstructure critical failure imminent. Structural failure projection: T-minus 5 minutes. Structural instabilities render any further repairs ineffective.","Automated announcement ([src])")
+				priority_announce("DANGER. The window for repairing the ship's superstructure has now expired. The ship will detonate in T - 5 minutes.","Automated announcement ([src])","null")
 				relay('nsv13/sound/effects/ship/sscrit/hullcrit_5.ogg', message=null, loop=FALSE, channel=CHANNEL_IMPORTANT_SHIP_ALERT)
 				structure_crit_alert ++
 		if(607 SECONDS to 870 SECONDS)
@@ -159,7 +159,6 @@ Bullet reactions
 				structure_crit_alert ++
 		if(870 SECONDS to 15 MINUTES)
 			if(structure_crit_alert == 8)
-				stop_relay(channel=CHANNEL_SHIP_FX)
 				relay('nsv13/sound/effects/ship/sscrit/countdown.ogg', message=null, loop=FALSE, channel=CHANNEL_IMPORTANT_SHIP_ALERT)
 				structure_crit_alert ++
 		if(15 MINUTES to INFINITY)
