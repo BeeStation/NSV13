@@ -105,7 +105,11 @@ Misc projectile types, effects, think of this as the special FX file.
 
 /obj/item/projectile/guided_munition/torpedo/on_hit(atom/target, blocked = FALSE)
 	..()
+	if(!check_faction(target))
+		return FALSE 	 //Nsv13 - faction checking for overmaps. We're gonna just cut off real early and save some math if the IFF doesn't check out.
 	if(istype(target, /obj/structure/overmap)) //Were we to explode on an actual overmap, this would oneshot the ship as it's a powerful explosion.
+		var/obj/structure/overmap/OM = target
+		OM.torpedoes_to_target -= src
 		return BULLET_ACT_HIT
 	if(isprojectile(target))
 		return BULLET_ACT_HIT
@@ -114,6 +118,8 @@ Misc projectile types, effects, think of this as the special FX file.
 
 /obj/item/projectile/guided_munition/torpedo/nuclear/on_hit(atom/target, blocked = FALSE)
 	..()
+	if(!check_faction(target))
+		return FALSE 	 //Nsv13 - faction checking for overmaps. We're gonna just cut off real early and save some math if the IFF doesn't check out.
 	if(istype(target, /obj/structure/overmap)) //Were we to explode on an actual overmap, this would oneshot the ship as it's a powerful explosion.
 		var/obj/structure/overmap/OM = target
 		OM.nuclear_impact()
@@ -140,9 +146,3 @@ Misc projectile types, effects, think of this as the special FX file.
 				OM.relay_to_nearby(chosen)
 				qdel(src)
 				return FALSE
-
-/obj/item/projectile/guided_munition/torpedo/on_hit(atom/target, blocked = 0)
-	if(isovermap(target))
-		var/obj/structure/overmap/OM = target
-		OM.torpedoes_to_target -= src
-	return ..()

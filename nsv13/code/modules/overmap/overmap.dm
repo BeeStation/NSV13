@@ -267,7 +267,7 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 			forward_maxthrust = 0.5
 			backward_maxthrust = 0.5
 			side_maxthrust = 0.5
-			max_angular_acceleration = 2.5
+			max_angular_acceleration = 3
 			bounce_factor = 0.35
 			lateral_bounce_factor = 0.6
 			flak_battery_amount = 2 //Multi flak!
@@ -275,8 +275,8 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 		if(MASS_TITAN)
 			forward_maxthrust = 0.4
 			backward_maxthrust = 0.4
-			side_maxthrust = 0.4
-			max_angular_acceleration = 1.5
+			side_maxthrust = 0.45 //Helps you control it a little better.
+			max_angular_acceleration = 2.5
 			bounce_factor = 0.20
 			lateral_bounce_factor = 0.3
 			flak_battery_amount = 3 //Multi flak!
