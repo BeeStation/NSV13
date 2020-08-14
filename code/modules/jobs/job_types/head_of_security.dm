@@ -46,7 +46,6 @@
 	gloves = /obj/item/clothing/gloves/color/black/hos
 	head = /obj/item/clothing/head/HoS/beret
 	glasses = /obj/item/clothing/glasses/hud/security/sunglasses
-	suit_store = /obj/item/gun/ballistic/automatic/pistol/glock/command/hos
 	r_pocket = /obj/item/assembly/flash/handheld
 	l_pocket = /obj/item/restraints/handcuffs
 	backpack_contents = list(/obj/item/melee/baton/loaded=1, /obj/item/ammo_box/magazine/pistolm9mm/glock, /obj/item/gun/ballistic/tazer,  /obj/item/ammo_box/magazine/tazer_cartridge_storage=1, /obj/item/book/granter/martial/jujitsu, /obj/item/club=1)
