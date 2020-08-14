@@ -208,6 +208,8 @@ Place a pool filter somewhere in the pool if you want people to be able to modif
 	icon = 'nsv13/icons/obj/pool.dmi'
 	icon_state = "ladder"
 	pixel_y = 12
+	anchored = TRUE
+	can_be_unanchored = FALSE
 
 /obj/machinery/pool_filter
 	name = "Pool filter"
@@ -216,6 +218,8 @@ Place a pool filter somewhere in the pool if you want people to be able to modif
 	icon_state = "poolfilter"
 	pixel_y = 12 //So it sits above the water
 	idle_power_usage = IDLE_POWER_USE
+	anchored = TRUE
+	can_be_unanchored = FALSE
 	var/id = null //change this if youre an annoying mapper who wants multiple pools per area.
 	var/list/pool = list()
 	var/desired_temperature = 300 //Room temperature
