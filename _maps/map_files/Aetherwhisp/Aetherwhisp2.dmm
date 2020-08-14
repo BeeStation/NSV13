@@ -530,6 +530,7 @@
 	name = "External Access Deck 1 Fore Port";
 	req_one_access_txt = "72"
 	},
+/obj/machinery/atmospherics/pipe/layer_manifold,
 /turf/open/floor/plating,
 /area/nsv/weapons/port{
 	name = "Weapons Storage"
@@ -641,6 +642,10 @@
 /turf/open/floor/wood,
 /area/crew_quarters/dorms)
 "ayK" = (
+/obj/machinery/atmospherics/components/binary/dp_vent_pump/layer1{
+	dir = 1
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /turf/open/floor/plating,
 /area/nsv/weapons/port{
 	name = "Weapons Storage"
@@ -1016,6 +1021,7 @@
 /obj/structure/sign/poster/official/random{
 	pixel_y = 32
 	},
+/obj/machinery/vending/coffee,
 /turf/open/floor/carpet/ship/blue{
 	color = "#9999DD";
 	name = "nanoweave carpet (bluer)"
@@ -1776,9 +1782,6 @@
 /turf/open/floor/carpet/ship,
 /area/quartermaster/miningoffice)
 "bpU" = (
-/obj/structure/disposalpipe/junction/flip{
-	dir = 8
-	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	dir = 4
 	},
@@ -1790,6 +1793,9 @@
 	},
 /obj/structure/cable{
 	icon_state = "4-8"
+	},
+/obj/structure/disposalpipe/segment{
+	dir = 4
 	},
 /turf/open/floor/carpet,
 /area/crew_quarters/heads/captain/private)
@@ -1990,7 +1996,12 @@
 /turf/open/space/basic,
 /area/space/nearstation)
 "bvI" = (
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1{
+	dir = 8
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	dir = 6
+	},
 /turf/open/floor/engine,
 /area/nsv/weapons/port{
 	name = "Weapons Storage"
@@ -2752,6 +2763,14 @@
 	},
 /obj/machinery/door/firedoor/border_only/directional/west,
 /obj/machinery/door/firedoor/border_only/directional/east,
+/obj/machinery/atmospherics/components/binary/pump/layer1{
+	dir = 4;
+	on = 1;
+	target_pressure = 2000
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	dir = 4
+	},
 /turf/open/floor/engine,
 /area/nsv/weapons/port{
 	name = "Weapons Storage"
@@ -3339,8 +3358,8 @@
 /turf/open/floor/carpet,
 /area/crew_quarters/heads/captain/private)
 "cuz" = (
-/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /turf/open/floor/engine,
 /area/nsv/weapons/port{
 	name = "Weapons Storage"
@@ -3395,11 +3414,10 @@
 /turf/open/floor/plasteel/freezer,
 /area/crew_quarters/toilet/locker)
 "cvP" = (
-/obj/machinery/disposal/bin,
-/obj/structure/disposalpipe/trunk{
-	dir = 1
-	},
 /obj/item/radio/intercom/directional/east,
+/obj/machinery/computer/communications{
+	dir = 8
+	},
 /turf/open/floor/carpet,
 /area/crew_quarters/heads/captain/private)
 "cww" = (
@@ -4218,6 +4236,13 @@
 	name = "nanoweave carpet (puce)"
 	},
 /area/nsv/weapons/fore)
+"deF" = (
+/obj/structure/munitions_trolley,
+/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3,
+/turf/open/floor/engine,
+/area/nsv/weapons/port{
+	name = "Weapons Storage"
+	})
 "deP" = (
 /obj/machinery/atmospherics/pipe/simple/purple/hidden{
 	dir = 4
@@ -4498,6 +4523,10 @@
 "dqX" = (
 /obj/structure/disposalpipe/segment{
 	dir = 10
+	},
+/obj/machinery/power/apc/auto_name/north,
+/obj/structure/cable{
+	icon_state = "0-2"
 	},
 /turf/open/floor/carpet/ship/beige_carpet{
 	color = "#CC8899";
@@ -5981,11 +6010,11 @@
 /turf/open/floor/carpet/ship/purple_carpet,
 /area/crew_quarters/heads/hor)
 "eET" = (
-/obj/machinery/modular_computer/console/preset/command{
-	dir = 8
-	},
 /obj/structure/cable/yellow{
 	icon_state = "0-8"
+	},
+/obj/machinery/computer/ship/dradis{
+	dir = 8
 	},
 /turf/open/floor/carpet,
 /area/crew_quarters/heads/captain/private)
@@ -6126,9 +6155,6 @@
 /obj/machinery/atmospherics/pipe/simple/purple/hidden,
 /obj/structure/cable{
 	icon_state = "4-8"
-	},
-/obj/structure/cable{
-	icon_state = "2-8"
 	},
 /turf/open/floor/carpet/ship/beige_carpet{
 	color = "#CC8899";
@@ -9455,7 +9481,9 @@
 	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
-/obj/structure/disposalpipe/segment,
+/obj/structure/disposalpipe/junction{
+	dir = 1
+	},
 /turf/open/floor/carpet,
 /area/crew_quarters/heads/captain/private)
 "hpA" = (
@@ -10440,10 +10468,6 @@
 /obj/machinery/light/small{
 	dir = 1
 	},
-/obj/structure/closet/secure_closet/puce{
-	name = "random puce event";
-	opened = 1
-	},
 /obj/effect/spawner/lootdrop/maintenance,
 /obj/item/radio/headset/heads/captain/alt{
 	desc = "A special headset that protects ears from some loud noises.";
@@ -10451,6 +10475,10 @@
 	name = "noise cancelling headphones"
 	},
 /obj/item/clothing/head/soft/yellow,
+/obj/structure/closet/secure_closet/puce{
+	name = "random puce event";
+	req_access = null
+	},
 /turf/open/floor/plating,
 /area/maintenance/department/cargo)
 "igo" = (
@@ -12868,18 +12896,12 @@
 	},
 /area/ai_monitored/turret_protected/aisat_interior)
 "kgC" = (
-/obj/structure/disposalpipe/segment,
-/obj/machinery/modular_computer/console/preset/command{
-	dir = 8
-	},
-/obj/item/paper{
-	info = "<p>Executive Officer notice: Modular computers are currently experiencing technical difficulties regarding their ID modification hardware. The 'identification card authentication module' supports 2 ID slots, and was previously paired with the 'ID Card Modification' program that also supported 2 IDs. There was recently a software update that removed the need to insert your own ID to authenticate and log in. However, it did not update the hardware, nor does it allow you to remove an ID from the authentication slot anymore.<br><br>To edit IDs with a modular computer without losing your ID, insert the target's ID but NEVER insert your own ID. You will still be able to log in if you are wearing it. Make sure you never put more than 1 ID in the modular computer.<br><br>If you do accidentally lose your own ID and getting a new one without your XO access is borderline impossible, contact Central Command. Politely ask them to remote into the console, then run subroutine '/proc/eject_id'<br><br>Have a secure shift</p>";
-	pixel_x = 4;
-	pixel_y = 4
-	},
 /obj/machinery/airalarm/directional/east,
 /obj/structure/cable/white{
 	icon_state = "0-8"
+	},
+/obj/machinery/modular_computer/console/preset/engineering{
+	dir = 8
 	},
 /turf/open/floor/carpet,
 /area/crew_quarters/heads/captain/private)
@@ -13673,6 +13695,15 @@
 /obj/structure/lattice/catwalk,
 /turf/open/space/basic,
 /area/space/nearstation)
+"kTd" = (
+/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer3,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	dir = 4
+	},
+/turf/open/floor/engine,
+/area/nsv/weapons/port{
+	name = "Weapons Storage"
+	})
 "kTT" = (
 /obj/structure/chair{
 	dir = 4
@@ -14392,7 +14423,6 @@
 	},
 /area/teleporter)
 "lDA" = (
-/obj/machinery/power/apc/auto_name/west,
 /obj/machinery/light{
 	dir = 8
 	},
@@ -14405,7 +14435,6 @@
 /obj/machinery/atmospherics/pipe/manifold/purple/hidden{
 	dir = 4
 	},
-/obj/structure/cable,
 /obj/structure/disposalpipe/segment{
 	dir = 10
 	},
@@ -15759,6 +15788,15 @@
 	},
 /turf/open/floor/carpet,
 /area/crew_quarters/dorms)
+"mBe" = (
+/obj/machinery/modular_computer/console/preset/civilian{
+	dir = 1
+	},
+/turf/open/floor/carpet/ship/blue{
+	color = "#9999DD";
+	name = "nanoweave carpet (bluer)"
+	},
+/area/bridge)
 "mBY" = (
 /obj/structure/disposalpipe/segment{
 	dir = 4
@@ -19872,6 +19910,17 @@
 "pNi" = (
 /turf/open/floor/carpet/orange,
 /area/quartermaster/warehouse)
+"pNQ" = (
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	dir = 4
+	},
+/turf/open/floor/engine,
+/area/nsv/weapons/port{
+	name = "Weapons Storage"
+	})
 "pOo" = (
 /obj/machinery/portable_atmospherics/scrubber,
 /obj/machinery/atmospherics/components/unary/portables_connector/layer3{
@@ -20236,6 +20285,9 @@
 	icon_state = "4-8"
 	},
 /obj/structure/disposalpipe/segment,
+/obj/structure/cable{
+	icon_state = "1-8"
+	},
 /turf/open/floor/carpet/ship/beige_carpet{
 	color = "#CC8899";
 	name = "nanoweave carpet (puce)"
@@ -21587,11 +21639,7 @@
 /turf/open/floor/plating,
 /area/maintenance/department/science/xenobiology)
 "rgf" = (
-/obj/structure/disposalpipe/segment,
 /obj/machinery/light_switch/east,
-/obj/machinery/computer/communications{
-	dir = 8
-	},
 /obj/machinery/button/door{
 	desc = "A remote control switch for the captain's front door.";
 	id = "CaptainFoyer";
@@ -21602,6 +21650,14 @@
 	},
 /obj/structure/cable/yellow{
 	icon_state = "4-8"
+	},
+/obj/machinery/modular_computer/console/preset/command{
+	dir = 8
+	},
+/obj/item/paper{
+	info = "<p>Executive Officer notice: Modular computers are currently experiencing technical difficulties regarding their ID modification hardware. The 'identification card authentication module' supports 2 ID slots, and was previously paired with the 'ID Card Modification' program that also supported 2 IDs. There was recently a software update that removed the need to insert your own ID to authenticate and log in. However, it did not update the hardware, nor does it allow you to remove an ID from the authentication slot anymore.<br><br>To edit IDs with a modular computer without losing your ID, insert the target's ID but NEVER insert your own ID. You will still be able to log in if you are wearing it. Make sure you never put more than 1 ID in the modular computer.<br><br>If you do accidentally lose your own ID and getting a new one without your XO access is borderline impossible, contact Central Command. Politely ask them to remote into the console, then run subroutine '/proc/eject_id'<br><br>Have a secure shift</p>";
+	pixel_x = 4;
+	pixel_y = 4
 	},
 /turf/open/floor/carpet,
 /area/crew_quarters/heads/captain/private)
@@ -24050,6 +24106,17 @@
 	},
 /turf/open/floor/plasteel/kitchen_coldroom/freezerfloor,
 /area/science/xenobiology)
+"sZs" = (
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	dir = 9
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	dir = 9
+	},
+/turf/open/floor/plating,
+/area/nsv/weapons/port{
+	name = "Weapons Storage"
+	})
 "sZC" = (
 /obj/machinery/atmospherics/pipe/manifold/purple/hidden{
 	dir = 4
@@ -25621,10 +25688,10 @@
 /obj/machinery/light{
 	dir = 1
 	},
-/obj/item/twohanded/required/kirbyplants/random,
 /obj/structure/cable/white{
 	icon_state = "1-2"
 	},
+/obj/item/twohanded/required/kirbyplants/random,
 /turf/open/floor/carpet,
 /area/crew_quarters/heads/captain/private)
 "unh" = (
@@ -26759,6 +26826,13 @@
 /obj/structure/disposalpipe/segment,
 /turf/open/floor/carpet/ship,
 /area/maintenance/department/cargo)
+"vlD" = (
+/obj/structure/disposalpipe/trunk{
+	dir = 8
+	},
+/obj/machinery/disposal/bin,
+/turf/open/floor/carpet,
+/area/crew_quarters/heads/captain/private)
 "vlP" = (
 /obj/structure/closet/radiation,
 /obj/item/clothing/mask/gas,
@@ -69328,7 +69402,7 @@ oAO
 owl
 wjT
 hWj
-nNJ
+pNQ
 cAg
 wjT
 lDM
@@ -69584,8 +69658,8 @@ sdP
 oAO
 owl
 wjT
-hWj
-nNJ
+deF
+kTd
 cAg
 wjT
 sdb
@@ -69842,7 +69916,7 @@ oAO
 owl
 wjT
 nNJ
-nNJ
+pNQ
 cAg
 wjT
 lJg
@@ -70356,7 +70430,7 @@ oAO
 aee
 asv
 ayK
-ayK
+sZs
 cHv
 wjT
 ila
@@ -73473,7 +73547,7 @@ xJO
 fum
 vix
 oEO
-oEO
+mBe
 bVG
 sWO
 xMP
@@ -73710,7 +73784,7 @@ fDk
 fDk
 rQB
 fDk
-wBL
+vlD
 wqW
 wBL
 hdn
