@@ -139,6 +139,8 @@ Starting Materials
 				system_stress = 0
 		if(100 to INFINITY)
 			system_stress += (system_allocation/100)
+			if(system_stress > 200)
+				system_stress = 200
 
 	if(system_stress >= 100)
 		var/turf/open/L = get_turf(src)
