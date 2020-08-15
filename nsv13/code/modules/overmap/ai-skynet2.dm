@@ -183,7 +183,7 @@ GLOBAL_LIST_EMPTY(ai_goals)
 				continue
 			target.system_contents += OM
 			if(!target.occupying_z)
-				STOP_PROCESSING(SSovermap, OM)
+				STOP_PROCESSING(SSphysics_processing, OM)
 				OM.moveToNullspace()
 				target.contents_positions[OM] = list("x" = OM.x, "y" = OM.y) //Cache the ship's position so we can regenerate it later.
 			else
@@ -410,6 +410,14 @@ GLOBAL_LIST_EMPTY(ai_goals)
 	size = FLEET_DIFFICULTY_DEATH
 	audio_cues = list("https://www.youtube.com/watch?v=3tAShpPu6K0")
 	taunts = list("Your existence has come to an end.", "You should be glad you made it this far, but you'll come no further.")
+	fleet_trait = FLEET_TRAIT_DEFENSE
+
+/datum/fleet/unknown_ship
+	name = "Unknown Ship Class"
+	size = 1
+	destroyer_types = list(/obj/structure/overmap/syndicate/ai/battleship)
+	audio_cues = list("https://www.youtube.com/watch?v=zyPSAkz84vM")
+	taunts = list("Your assault on Rubicon only served to distract you from the real threat. It's time to end this war in one swift blow.")
 	fleet_trait = FLEET_TRAIT_DEFENSE
 
 //Nanotrasen fleets
@@ -844,7 +852,7 @@ GLOBAL_LIST_EMPTY(ai_goals)
 		return FALSE
 	if(get_dist(ship, src) > 8)
 		return FALSE
-	if(SSovermap.next_boarding_time <= world.time || next_boarding_attempt <= world.time)
+	if(SSphysics_processing.next_boarding_time <= world.time || next_boarding_attempt <= world.time)
 		return TRUE
 	return FALSE
 
@@ -852,8 +860,8 @@ GLOBAL_LIST_EMPTY(ai_goals)
 	if(get_dist(ship, src) > 8)
 		return FALSE
 	next_boarding_attempt = world.time + 5 MINUTES //We very rarely try to board.
-	if(SSovermap.next_boarding_time <= world.time)
-		SSovermap.next_boarding_time = world.time + 30 MINUTES
+	if(SSphysics_processing.next_boarding_time <= world.time)
+		SSphysics_processing.next_boarding_time = world.time + 30 MINUTES
 		ship.spawn_boarders()
 		return TRUE
 	return FALSE
@@ -1031,3 +1039,43 @@ GLOBAL_LIST_EMPTY(ai_goals)
 			F.current_system = target
 			F.assemble(target)
 			message_admins("[key_name(usr)] created a fleet ([F.name]) at [target].")
+
+
+/client/proc/instance_overmap_menu() //Creates a verb for admins to open up the ui
+	set name = "Instance Overmap"
+	set desc = "Load a ship midround."
+	set category = "Adminbus"
+
+	if(IsAdminAdvancedProcCall())
+		return FALSE
+
+	var/list/choices = flist("_maps/map_files/Instanced/")
+	var/ship_file = input(usr, "What ship would you like to load?","Ship Instancing", null) as null|anything in choices
+	if(!ship_file)
+		return
+	ship_file = file("_maps/map_files/Instanced/[ship_file]")
+	if(!isfile(ship_file))
+		return
+	var/list/json = json_decode(file2text(ship_file))
+	if(!json)
+		return
+	var/shipName = json["map_name"]
+	var/shipType = text2path(json["ship_type"])
+	var/mapPath = json["map_path"]
+	var/mapFile = json["map_file"]
+	var/list/traits = json["traits"]
+	if (istext(mapFile))
+		if (!fexists("_maps/[mapPath]/[mapFile]"))
+			log_world("Map file ([mapPath]/[mapFile]) does not exist!")
+			return
+	else if (islist(mapFile))
+		for (var/file in mapFile)
+			if (!fexists("_maps/[mapPath]/[file]"))
+				log_world("Map file ([mapPath]/[file]) does not exist!")
+				return
+	var/obj/structure/overmap/OM = instance_overmap(shipType, mapPath, mapFile, traits)
+	if(OM)
+		message_admins("[key_name(src)] has instanced a copy of [ship_file].")
+		OM.name = shipName
+		addtimer(CALLBACK(GLOBAL_PROC, .proc/overmap_lighting_force, OM), 6 SECONDS)
+

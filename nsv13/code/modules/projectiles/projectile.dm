@@ -1,30 +1,20 @@
+//The collider for projectiles is universal. We can keep this as a singleton and scrape off an load of memory usage ~K
+GLOBAL_LIST_INIT(projectile_hitbox, list(new /datum/vector2d(-2,16),\
+										new /datum/vector2d(2,16),\
+										new /datum/vector2d(2,-15),\
+										new /datum/vector2d(-2,-15)))
+
 /obj/item/projectile
-	var/datum/shape/collider2d = null //Our box collider. See the collision module for explanation
-	var/datum/vector2d/position = null //Positional vector, used exclusively for collisions with overmaps
-	var/list/collision_positions = null //The bounding box of this projectile.
+	var/datum/component/physics2d/physics2d = null
 	var/obj/structure/overmap/overmap_firer = null
 
 /obj/item/projectile/proc/setup_collider()
-	collision_positions = list(new /datum/vector2d(-2,16),\
-										new /datum/vector2d(2,16),\
-										new /datum/vector2d(2,-15),\
-										new /datum/vector2d(-2,-15))
-	position = new /datum/vector2d(x*32,y*32)
-	collider2d = new /datum/shape(position, collision_positions, Angle) // -TORADIANS(src.angle-90)
+	physics2d = AddComponent(/datum/component/physics2d)
+	physics2d.setup(GLOB.projectile_hitbox, Angle)
 
-/**
-
-Method to check for whether this bullet should be colliding with an overmap object.
-
-
-*/
-
-/obj/item/projectile/proc/check_overmap_collisions()
-	collider2d.set_angle(Angle) //Turn the box collider
-	position._set(x * 32 + pixel_x, y * 32 + pixel_y)
-	collider2d._set(position.x, position.y)
-	for(var/obj/structure/overmap/OM in GLOB.overmap_objects)
-		if(OM.z == z && OM.collider2d)
-			if(src.collider2d?.collides(OM.collider2d))
-				if(!faction || faction != OM.faction) //Allow bullets to pass through friendlies
-					Bump(OM) //Bang.
+/obj/item/projectile/proc/check_faction(atom/movable/A)
+	var/obj/structure/overmap/OM = A
+	if(!istype(OM))
+		return TRUE
+	if(faction != OM.faction)
+		return TRUE

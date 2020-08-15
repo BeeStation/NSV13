@@ -32,6 +32,7 @@
 #define MAIN_OVERMAP 2
 #define MAIN_MINING_SHIP 3
 #define PVP_SHIP 4
+#define INSTANCED_MIDROUND_SHIP 5
 
 //Sensor resolution
 
