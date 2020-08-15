@@ -39,14 +39,14 @@ Bullet reactions
 			addtimer(VARSET_CALLBACK(src, impact_sound_cooldown, FALSE), 0.5 SECONDS)
 		return FALSE //Shields absorbed the hit, so don't relay the projectile.
 	relay_damage(P?.type)
-	if(!use_armour_quadrants || !P.collider2d || !collider2d)
+	if(!use_armour_quadrants || !P.physics2d?.collider2d || !physics2d?.collider2d)
 		. = ..()
 		return
 	else
 		playsound(src, P.hitsound, 50, 1)
 		visible_message("<span class='danger'>[src] is hit by \a [P]!</span>", null, null, COMBAT_MESSAGE_RANGE)
 		if(!QDELETED(src)) //Bullet on_hit effect might have already destroyed this object
-			var/datum/vector2d/point_of_collision = src.collider2d.get_collision_point(P.collider2d)//Get the collision point, see if the armour quadrants need to absorb this hit.
+			var/datum/vector2d/point_of_collision = src.physics2d?.collider2d.get_collision_point(P.physics2d?.collider2d)//Get the collision point, see if the armour quadrants need to absorb this hit.
 			take_quadrant_hit(run_obj_armor(P.damage, P.damage_type, P.flag, null, P.armour_penetration), check_quadrant(point_of_collision)) //This looks horrible, but trust me, it isn't! Probably!. Armour_quadrant.dm for more info
 
 /obj/structure/overmap/proc/relay_damage(proj_type)
@@ -179,7 +179,7 @@ Bullet reactions
 						D.ManualFollow(src)
 
 		sleep(10)
-		STOP_PROCESSING(SSovermap, src) //Reject player input
+		STOP_PROCESSING(SSphysics_processing, src) //Reject player input
 		src.SpinAnimation(1000, 1) //Drift
 		var/michael_bay = rand(5,8) //How many explosions we're going to see (lens flares cost extra)
 		for(var/I = 0, I < michael_bay, I++)
@@ -194,7 +194,7 @@ Bullet reactions
 		SSticker.mode.check_finished(TRUE)
 		SSticker.force_ending = TRUE
 	else
-		STOP_PROCESSING(SSovermap, src)
+		STOP_PROCESSING(SSphysics_processing, src)
 		src.SpinAnimation(1000, 1)
 		var/michael_bay = rand(5,8)
 		for(var/I = 0, I < michael_bay, I++)
