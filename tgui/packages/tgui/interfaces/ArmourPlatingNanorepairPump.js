@@ -24,7 +24,7 @@ export const ArmourPlatingNanorepairPump = (props, context) => {
                         minValue={0}
                         maxValue={8}
                         color="blue">
-                        {toFixed(data.armour_repair_amount)}
+                        {(data.armour_repair_amount)}
                       </ProgressBar>
                     </LabeledList.Item>
                     <LabeledList.Item label="Structure Repair Rate">
@@ -33,7 +33,7 @@ export const ArmourPlatingNanorepairPump = (props, context) => {
                         minValue={0}
                         maxValue={2}
                         color="red">
-                        {toFixed(data.structure_repair_amount)}
+                        {(data.structure_repair_amount)}
                       </ProgressBar>
                     </LabeledList.Item>
                   </LabeledList>

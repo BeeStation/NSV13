@@ -20,7 +20,7 @@
 	var/online = TRUE //Are we running?
 	var/stress_shutdown = FALSE //Has this APNP been overtaxed?
 	var/last_restart = 0 //Time since last forced system restart
-	var/quadrant = null //Which armour quadrant we are assigned to - (KMC we need to discourage multiple pumps operating on the same quadrant some how)
+	var/quadrant = null //Which armour quadrant we are assigned to
 	var/apnw_id = null //The ID by which we identify our parent device - These should match the parent device and follow the formula: 1 - Main Ship, 2 - Secondary Ship, 3 - Syndie PvP Ship
 	var/list/repair_records = list() //Graphs again
 	var/repair_records_length = 300
@@ -105,7 +105,7 @@
 
 		var/list/structure = repair_records["structure"]
 		structure += structure_repair_amount
-		if(structure.len > structure_repair_amount)
+		if(structure.len > repair_records_length)
 			structure.Cut(1, 2)
 
 /obj/machinery/armour_plating_nanorepair_pump/proc/handle_linking()
@@ -157,8 +157,8 @@
 			return TRUE
 
 /obj/machinery/armour_plating_nanorepair_pump/Destroy()
-	apnw.apnp -= src
 	. = ..()
+	apnw.apnp -= src
 
 
 /obj/machinery/armour_plating_nanorepair_pump/update_icon()
@@ -215,7 +215,7 @@
 /obj/machinery/armour_plating_nanorepair_pump/ui_interact(mob/user, ui_key = "main", datum/tgui/ui = null, force_open = 0, datum/tgui/master_ui = null, datum/ui_state/state = GLOB.default_state) // Remember to use the appropriate state.
 	ui = SStgui.try_update_ui(user, src, ui_key, ui, force_open)
 	if(!ui)
-		ui = new(user, src, ui_key, "ArmourPlatingNanorepairPump", name, 560, 300, master_ui, state)
+		ui = new(user, src, ui_key, "ArmourPlatingNanorepairPump", name, 500, 380, master_ui, state)
 		ui.open()
 
 /obj/machinery/armour_plating_nanorepair_pump/ui_act(action, params, datum/tgui/ui)
