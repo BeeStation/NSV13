@@ -16,4 +16,4 @@
 	var/mob/living/L = parent
 	if(prob(2) && L.nutrition > NUTRITION_LEVEL_FED)
 		L.adjust_nutrition(-50)
-		linked_filter.reagents.add_reagent_list(list(/datum/reagent/teslium = 1, /datum/reagent/water = 1))	//Creates a tesla spawn
+		linked_filter.reagents.add_reagent_list(list(/datum/reagent/teslium = 5, /datum/reagent/water = 5))	//Creates a tesla spawn
