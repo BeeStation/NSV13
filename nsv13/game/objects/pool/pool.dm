@@ -18,6 +18,7 @@ GLOBAL_LIST_EMPTY(species_swimming_components)
 	icon_state = "water"
 	anchored = TRUE
 	layer = ABOVE_ALL_MOB_LAYER
+	mouse_opacity = MOUSE_OPACITY_TRANSPARENT
 
 /turf/open/indestructible/sound/pool
 	name = "Swimming pool"
