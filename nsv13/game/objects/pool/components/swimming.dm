@@ -81,6 +81,7 @@
 		if(drowning)
 			stop_drowning(L)
 			drowning = FALSE
+	L.adjust_fire_stacks(-1)
 
 /datum/component/swimming/proc/is_drowning(mob/living/victim)
 	return (!(victim.mobility_flags & MOBILITY_STAND) && (!HAS_TRAIT(victim, TRAIT_NOBREATH)))
