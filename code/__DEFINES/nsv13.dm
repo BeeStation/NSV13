@@ -2,8 +2,11 @@
 
 #define TRAIT_NODIGEST			"no_digest"
 #define TRAIT_SEASICK			"seasick"
-#define COMSIG_AI_UPDATE_LAWS 	"ai_law_update"
 #define TRAIT_BINARY_SPEAKER	"speaks_binary"
+
+#define COMSIG_AI_UPDATE_LAWS 	"ai_law_update"
+
+#define MOVESPEED_ID_SWIMMING "SWIMMING_SPEED_MOD"
 
 //Lazy cables
 #define CABLE_LAYER_1 "l1"
