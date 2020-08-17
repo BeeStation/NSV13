@@ -4,6 +4,7 @@
 	to_chat(parent, "<span class='userdanger'>You get covered in water and start panicing!</span>")
 
 /datum/component/swimming/felinid/process()
+	..()
 	var/mob/living/L = parent
 	if(prob(8))
 		to_chat(parent, "<span class='userdanger'>You can't touch the bottom!</span>")

@@ -7,6 +7,7 @@
 	to_chat(parent, "<span class='userdanger'>You begin disolving into the pool, get out fast!</span>")
 
 /datum/component/swimming/disolve/process()
+	..()
 	var/mob/living/L = parent
 	var/mob/living/carbon/human/H = L
 	if(istype(H))

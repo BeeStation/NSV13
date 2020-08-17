@@ -11,6 +11,7 @@
 			break
 
 /datum/component/swimming/ethereal/process()
+	..()
 	if(!linked_filter)
 		return
 	var/mob/living/L = parent
