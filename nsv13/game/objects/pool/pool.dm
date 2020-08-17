@@ -31,6 +31,7 @@ GLOBAL_LIST_EMPTY(species_swimming_components)
 /turf/open/indestructible/sound/pool/end
 	icon_state = "poolwall"
 
+
 /turf/open/indestructible/sound/pool/Initialize(mapload)
 	. = ..()
 	water_overlay = new /obj/effect/overlay/poolwater(src)

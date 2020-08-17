@@ -19,6 +19,7 @@
 	M.add_movespeed_modifier(MOVESPEED_ID_SWIMMING, update=TRUE, priority=50, multiplicative_slowdown=slowdown, movetypes=GROUND)
 	RegisterSignal(parent, COMSIG_MOVABLE_MOVED, .proc/onMove)
 	RegisterSignal(parent, COMSIG_CARBON_SPECIESCHANGE, .proc/onChangeSpecies)
+	RegisterSignal(parent, COMSIG_MOB_ATTACK_HAND_TURF, .proc/try_leave_pool)
 	START_PROCESSING(SSprocessing, src)
 	enter_pool()
 
@@ -43,6 +44,18 @@
 	RemoveComponent()
 	M.AddComponent(component_type)
 
+/datum/component/swimming/proc/try_leave_pool(datum/source, turf/clicked_turf)
+	var/mob/living/L = parent
+	if(!L.can_interact_with(clicked_turf))
+		return
+	if(is_blocked_turf(clicked_turf))
+		return
+	to_chat(parent, "<span class='notice'>You start to climb out of the pool...</span>")
+	if(do_after(parent, 1 SECONDS, target=clicked_turf))
+		L.forceMove(clicked_turf)
+		L.visible_message("<span class='notice'>[parent] climbs out of the pool.</span>")
+		RemoveComponent()
+
 /datum/component/swimming/UnregisterFromParent()
 	exit_pool()
 	var/mob/M = parent
@@ -51,6 +64,7 @@
 	M.remove_movespeed_modifier(MOVESPEED_ID_SWIMMING)
 	UnregisterSignal(parent, COMSIG_MOVABLE_MOVED)
 	UnregisterSignal(parent, COMSIG_CARBON_SPECIESCHANGE)
+	UnregisterSignal(parent, COMSIG_MOB_ATTACK_HAND_TURF)
 	STOP_PROCESSING(SSprocessing, src)
 	return ..()
 
