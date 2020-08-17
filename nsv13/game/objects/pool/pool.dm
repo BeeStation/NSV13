@@ -39,7 +39,7 @@ GLOBAL_LIST_EMPTY(species_swimming_components)
 	if(!LAZYLEN(GLOB.species_swimming_components))
 		//Setup the swimming species
 		GLOB.species_swimming_components[/datum/species/squid] = /datum/component/swimming/squid
-		GLOB.species_swimming_components[/datum/species/ethereal] = /datum/component/swimming/disolve
+		GLOB.species_swimming_components[/datum/species/ethereal] = /datum/component/swimming/ethereal
 		GLOB.species_swimming_components[/datum/species/jelly] = /datum/component/swimming/disolve
 		for(var/golem_type in typesof(/datum/species/golem))
 			GLOB.species_swimming_components[golem_type] = /datum/component/swimming/golem
@@ -193,6 +193,8 @@ GLOBAL_LIST_EMPTY(species_swimming_components)
 	icon_state = "ladder"
 	pixel_y = 12
 
+GLOBAL_LIST_EMPTY(pool_filters)
+
 /obj/machinery/pool_filter
 	name = "Pool filter"
 	desc = "A device which can help you regulate conditions in a pool. Use a <b>wrench</b> to change its operating temperature, or hit it with a reagent container to load in new liquid to add to the pool."
@@ -222,6 +224,7 @@ GLOBAL_LIST_EMPTY(species_swimming_components)
 		if(id && water.id != id)
 			continue //Not the same id. Fine. Ignore that one then!
 		pool += water
+	GLOB.pool_filters += src
 
 //Brick can set the pool to low temperatures remotely. This will probably be hell on malf!
 
