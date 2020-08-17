@@ -84,7 +84,7 @@
 	L.adjust_fire_stacks(-1)
 
 /datum/component/swimming/proc/is_drowning(mob/living/victim)
-	return (!(victim.mobility_flags & MOBILITY_STAND) && (!HAS_TRAIT(victim, TRAIT_NOBREATH)))
+	return ((!(victim.mobility_flags & MOBILITY_STAND)) && (!HAS_TRAIT(victim, TRAIT_NOBREATH)))
 
 /datum/component/swimming/proc/drown(mob/living/victim)
 	if(victim.losebreath < 4)
