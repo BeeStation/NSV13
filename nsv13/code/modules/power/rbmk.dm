@@ -306,6 +306,37 @@ Be careful to not exhaust your plasma supply. I recommend you DON'T max out the 
 		for(var/obj/machinery/light/L in GLOB.machines)
 			if(prob(25) && shares_overmap(src, L)) //If youre running the reactor cold though, no need to flicker the lights.
 				L.flicker()
+	for(var/atom/movable/I in get_turf(src))
+		if(isliving(I))
+			var/mob/living/L = I
+			if(temperature > 0)
+				L.adjust_bodytemperature(CLAMP(temperature, BODYTEMP_COOLING_MAX, BODYTEMP_HEATING_MAX)) //If you're on fire, you heat up!
+		if(istype(I, /obj/item/reagent_containers/food) && !istype(I, /obj/item/reagent_containers/food/drinks))
+			playsound(src, 'sound/machines/fryer/deep_fryer_1.ogg', 100, TRUE)
+			var/obj/item/reagent_containers/food/grilled_item = I
+			if(prob(80))
+				return //To give the illusion that it's actually cooking omegalul.
+			switch(power)
+				if(20 to 39)
+					grilled_item.name = "grilled [initial(grilled_item.name)]"
+					grilled_item.desc = "[initial(I.desc)] It's been grilled over a nuclear reactor."
+					if(!grilled_item.foodtype & FRIED)
+						grilled_item.foodtype |= FRIED
+				if(40 to 70)
+					grilled_item.name = "heavily grilled [initial(grilled_item.name)]"
+					grilled_item.desc = "[I.desc] It's been heavily grilled through the magic of nuclear fission."
+					if(!grilled_item.foodtype & FRIED)
+						grilled_item.foodtype |= FRIED
+				if(70 to 95)
+					grilled_item.name = "Three-Mile Nuclear-Grilled [initial(grilled_item.name)]"
+					grilled_item.desc = "A [initial(grilled_item.name)]. It's been put on top of a nuclear reactor running at extreme power by some badass engineer."
+					if(!grilled_item.foodtype & FRIED)
+						grilled_item.foodtype |= FRIED
+				if(95 to INFINITY)
+					grilled_item.name = "Ultimate Meltdown Grilled [initial(grilled_item.name)]"
+					grilled_item.desc = "A [initial(grilled_item.name)]. A grill this perfect is a rare technique only known by a few engineers who know how to perform a 'controlled' meltdown whilst also having the time to throw food on a reactor. I'll bet it tastes amazing."
+					if(!grilled_item.foodtype & FRIED)
+						grilled_item.foodtype |= FRIED
 
 //Method to handle sound effects, reactor warnings, all that jazz.
 /obj/machinery/atmospherics/components/trinary/nuclear_reactor/proc/handle_alerts()
