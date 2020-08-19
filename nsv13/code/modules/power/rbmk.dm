@@ -13,7 +13,7 @@
 
 #define RBMK_MAX_CRITICALITY 3 //No more criticality than N for now.
 
-#define RBMK_POWER_FLAVOURISER 750 //To turn those KWs into something usable
+#define RBMK_POWER_FLAVOURISER 1000 //To turn those KWs into something usable
 
 //Math. Lame.
 #define KPA_TO_PSI(A) (A/6.895)
@@ -29,9 +29,13 @@
 What is this?
 
 Moderators list (Not gonna keep this accurate forever):
+Fuel:
 Oxygen: Power production multiplier. Allows you to run a low plasma, high oxy mix, and still get a lot of power.
 Plasma: Power production gas. More plasma -> more power, but it enriches your fuel and makes the reactor much, much harder to control.
+Tritium: Extremely efficient power production gas. Will cause chernobyl if used improperly.
+
 N2: Helps you regain control of the reaction by increasing control rod effectiveness, will massively boost the rad production of the reactor.
+CO2: Super effective shutdown gas for runaway reactions. MASSIVE RADIATION PENALTY!
 Pluoxium: Same as N2, but no cancer-rads!
 
 Sabotage:
@@ -48,6 +52,7 @@ Tack heater onto coolant line (can also cause straight meltdown)
 
 Tips:
 Be careful to not exhaust your plasma supply. I recommend you DON'T max out the moderator input when youre running plasma + o2, or you're at a tangible risk of running out of those gasses from atmos.
+The reactor CHEWS through moderator. It does not do this slowly. Be very careful with that!
 
 */
 
@@ -250,24 +255,26 @@ Be careful to not exhaust your plasma supply. I recommend you DON'T max out the 
 	var/radioactivity_spice_multiplier = 1 //Some gasses make the reactor a bit spicy.
 	//Next up, handle moderators!
 	if(moderator_input.total_moles() >= minimum_coolant_level)
-		var/total_fuel_moles = moderator_input.get_moles(/datum/gas/plasma) + (moderator_input.get_moles(/datum/gas/constricted_plasma)*1.5) //Constricted plasma is 50% more efficient as fuel than plasma, but is harder to produce
+		var/total_fuel_moles = moderator_input.get_moles(/datum/gas/plasma) + (moderator_input.get_moles(/datum/gas/constricted_plasma)*2)+ (moderator_input.get_moles(/datum/gas/tritium)*10) //Constricted plasma is 50% more efficient as fuel than plasma, but is harder to produce
 		var/power_modifier = max((moderator_input.get_moles(/datum/gas/oxygen) / moderator_input.total_moles() * 10), 1) //You can never have negative IPM. For now.
 		if(total_fuel_moles >= minimum_coolant_level) //You at least need SOME fuel.
 			var/power_produced = max((total_fuel_moles / moderator_input.total_moles() * 10), 1)
 			last_power_produced = max(0,((power_produced*power_modifier)*moderator_input.total_moles()))
 			last_power_produced *= (power/100) //Aaaand here comes the cap. Hotter reactor => more power.
 			last_power_produced *= base_power_modifier //Finally, we turn it into actual usable numbers.
+			radioactivity_spice_multiplier += moderator_input.get_moles(/datum/gas/tritium) / 5 //Chernobyl 2.
 			var/turf/T = get_turf(src)
 			var/obj/structure/cable/C = T.get_cable_node()
 			if(!C || !C.powernet)
 				return
 			else
 				C.powernet.newavail += last_power_produced
-		var/total_control_moles = moderator_input.get_moles(/datum/gas/nitrogen) + moderator_input.get_moles(/datum/gas/pluoxium) //N2 helps you control the reaction at the cost of making it absolutely blast you with rads. Pluoxium has the same effect but without the rads!
+		var/total_control_moles = moderator_input.get_moles(/datum/gas/nitrogen) + (moderator_input.get_moles(/datum/gas/carbon_dioxide)*2) + (moderator_input.get_moles(/datum/gas/pluoxium)*3) //N2 helps you control the reaction at the cost of making it absolutely blast you with rads. Pluoxium has the same effect but without the rads!
 		if(total_control_moles >= minimum_coolant_level)
 			var/control_bonus = total_control_moles / 250 //1 mol of n2 -> 0.002 bonus control rod effectiveness, if you want a super controlled reaction, you'll have to sacrifice some power.
 			control_rod_effectiveness = initial(control_rod_effectiveness) + control_bonus
 			radioactivity_spice_multiplier += moderator_input.get_moles(/datum/gas/nitrogen) / 25 //An example setup of 50 moles of n2 (for dealing with spent fuel) leaves us with a radioactivity spice multiplier of 3.
+			radioactivity_spice_multiplier += moderator_input.get_moles(/datum/gas/carbon_dioxide) / 12.5
 
 		//From this point onwards, we clear out the remaining gasses.
 		moderator_input.clear() //Woosh. And the soul is gone.
@@ -312,7 +319,7 @@ Be careful to not exhaust your plasma supply. I recommend you DON'T max out the 
 			if(temperature > 0)
 				L.adjust_bodytemperature(CLAMP(temperature, BODYTEMP_COOLING_MAX, BODYTEMP_HEATING_MAX)) //If you're on fire, you heat up!
 		if(istype(I, /obj/item/reagent_containers/food) && !istype(I, /obj/item/reagent_containers/food/drinks))
-			playsound(src, 'sound/machines/fryer/deep_fryer_1.ogg', 100, TRUE)
+			playsound(src, pick('sound/machines/fryer/deep_fryer_1.ogg', 'sound/machines/fryer/deep_fryer_2.ogg'), 100, TRUE)
 			var/obj/item/reagent_containers/food/grilled_item = I
 			if(prob(80))
 				return //To give the illusion that it's actually cooking omegalul.
@@ -488,12 +495,12 @@ Be careful to not exhaust your plasma supply. I recommend you DON'T max out the 
 	var/fuel_power = 0.10
 
 /obj/item/fuel_rod/proc/deplete()
-	depletion += 0.05
+	depletion += 0.035
 	if(depletion >= 100)
 		fuel_power = 0.20
 		name = "Depleted Uranium-238 Fuel Rod"
 		icon_state = "inferior"
-		AddComponent(/datum/component/radioactive, 5000 , src)
+		AddComponent(/datum/component/radioactive, 1500 , src)
 	else
 		fuel_power = 0.10
 
@@ -705,19 +712,16 @@ Be careful to not exhaust your plasma supply. I recommend you DON'T max out the 
 //Preset subtypes for mappers
 /obj/machinery/computer/reactor/pump/rbmk_input
 	name = "Reactor inlet valve computer"
-	desc = "A computer which controls valve settings on an advanced gas cooled reactor."
 	icon_screen = "rbmk_input"
 	id = "rbmk_input"
 
 /obj/machinery/computer/reactor/pump/rbmk_output
 	name = "Reactor output valve computer"
-	desc = "A computer which controls valve settings on an advanced gas cooled reactor."
 	icon_screen = "rbmk_output"
 	id = "rbmk_output"
 
 /obj/machinery/computer/reactor/pump/rbmk_moderator
 	name = "Reactor moderator valve computer"
-	desc = "A computer which controls valve settings on an advanced gas cooled reactor."
 	icon_screen = "rbmk_moderator"
 	id = "rbmk_moderator"
 
