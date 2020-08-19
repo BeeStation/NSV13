@@ -115,7 +115,7 @@ Starting Materials
 			return FALSE
 		var/power_in_net = C.powernet.avail-C.powernet.load
 
-		if(power_in_net && power_in_net > amount)
+		if(power_in_net && power_in_net >= amount)
 			C.powernet.load += amount
 			return TRUE
 		return FALSE
