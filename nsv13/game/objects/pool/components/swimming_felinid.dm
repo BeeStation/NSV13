@@ -1,7 +1,7 @@
 /datum/component/swimming/felinid/enter_pool()
 	var/mob/living/L = parent
 	L.emote("scream")
-	to_chat(parent, "<span class='userdanger'>You get covered in water and start panicing!</span>")
+	to_chat(parent, "<span class='userdanger'>You get covered in water and start panicking!</span>")
 
 /datum/component/swimming/felinid/process()
 	..()
