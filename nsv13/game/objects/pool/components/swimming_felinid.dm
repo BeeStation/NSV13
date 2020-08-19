@@ -6,16 +6,19 @@
 /datum/component/swimming/felinid/process()
 	..()
 	var/mob/living/L = parent
+	var/obj/item/helditem = L.get_active_held_item()
+	if(helditem && helditem.check_float())
+		return
 	switch(rand(1, 100))
-		if(1 to 7)
+		if(1 to 4)
 			to_chat(parent, "<span class='userdanger'>You can't touch the bottom!</span>")
 			L.emote("scream")
-		if(8 to 14)
+		if(5 to 7)
 			if(L.confused < 5)
 				L.confused += 1
-		if(15 to 25)
+		if(8 to 12)
 			L.shake_animation()
-		if(26 to 30)
+		if(13 to 14)
 			shake_camera(L, 15, 1)
 			L.emote("whimper")
 			L.Paralyze(10)

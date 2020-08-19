@@ -8,6 +8,9 @@
 	var/drowning = FALSE
 	var/ticks_drowned = 0
 	var/slowdown = 4
+	var/bob_height_min = 2
+	var/bob_height_max = 5
+	var/bob_tick = 0
 
 /datum/component/swimming/Initialize()
 	. = ..()
@@ -63,6 +66,8 @@
 	var/mob/M = parent
 	if(drowning)
 		stop_drowning(M)
+	if(bob_tick)
+		M.pixel_y = 0
 	M.remove_movespeed_modifier(MOVESPEED_ID_SWIMMING)
 	UnregisterSignal(parent, COMSIG_MOVABLE_MOVED)
 	UnregisterSignal(parent, COMSIG_CARBON_SPECIESCHANGE)
@@ -72,7 +77,17 @@
 
 /datum/component/swimming/process()
 	var/mob/living/L = parent
-	if(is_drowning(L))
+	var/floating = FALSE
+	var/obj/item/helditem = L.get_active_held_item()
+	if(helditem && helditem.check_float())
+		bob_tick ++
+		animate(L, time=9.5, pixel_y = (L.pixel_y == bob_height_max) ? bob_height_min : bob_height_max)
+		floating = TRUE
+	else
+		if(bob_tick)
+			animate(L, time=5, pixel_y = 0)
+			bob_tick = 0
+	if(!floating && is_drowning(L))
 		if(!drowning)
 			start_drowning(L)
 			drowning = TRUE
@@ -84,6 +99,10 @@
 	L.adjust_fire_stacks(-1)
 
 /datum/component/swimming/proc/is_drowning(mob/living/victim)
+	var/obj/item/helditem = victim.get_active_held_item()
+	if(helditem)
+		if(!helditem.check_float())
+			return
 	return ((!(victim.mobility_flags & MOBILITY_STAND)) && (!HAS_TRAIT(victim, TRAIT_NOBREATH)))
 
 /datum/component/swimming/proc/drown(mob/living/victim)
