@@ -193,6 +193,12 @@ The while loop runs at a programatic level and is thus separated from any thrott
 		else
 			desired_angular_velocity = -2 * sqrt((angle - desired_angle) * max_angular_acceleration * 0.25)
 
+	//SS Crit Timer
+	if(structure_crit)
+		if(world.time > last_critprocess + 10)
+			last_critprocess = world.time
+			handle_critical_failure_part_1()
+
 	var/angular_velocity_adjustment = CLAMP(desired_angular_velocity - angular_velocity, -max_angular_acceleration*time, max_angular_acceleration*time)
 	if(angular_velocity_adjustment)
 		last_rotate = angular_velocity_adjustment / time
@@ -436,6 +442,7 @@ The while loop runs at a programatic level and is thus separated from any thrott
 	if(other.physics2d)
 		other.physics2d.update(other.position.x, other.position.y, angle)
 	var/datum/vector2d/point_of_collision = physics2d?.collider2d.get_collision_point(other.physics2d?.collider2d)
+	check_quadrant(point_of_collision)
 
 	//So what this does is it'll calculate a vector (overlap_vector) that makes the two objects no longer colliding, then applies extra velocity to make the collision smooth to avoid teleporting. If you want to tone down collisions even more
 	//Be sure that you change the 0.25/32 bit as well, otherwise, if the cancelled out vector is too large compared to the speed jump, you just get teleportation and it looks really jank ~K
