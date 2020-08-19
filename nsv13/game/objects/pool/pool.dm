@@ -34,8 +34,7 @@ GLOBAL_LIST_EMPTY(species_swimming_components)
 
 /turf/open/indestructible/sound/pool/Initialize(mapload)
 	. = ..()
-	water_overlay = new /obj/effect/overlay/poolwater(src)
-	add_overlay(water_overlay)
+	water_overlay = new /obj/effect/overlay/poolwater(get_turf(src))
 	if(!LAZYLEN(GLOB.species_swimming_components))
 		//Setup the swimming species
 		GLOB.species_swimming_components[/datum/species/squid] = /datum/component/swimming/squid
@@ -45,9 +44,7 @@ GLOBAL_LIST_EMPTY(species_swimming_components)
 			GLOB.species_swimming_components[golem_type] = /datum/component/swimming/golem
 
 /turf/open/indestructible/sound/pool/proc/set_colour(colour)
-	cut_overlay(water_overlay)
 	water_overlay.color = colour
-	add_overlay(water_overlay)
 
 /turf/open/CanPass(atom/movable/mover, turf/target)
 	var/datum/component/swimming/S = mover.GetComponent(/datum/component/swimming) //If you're swimming around, you don't really want to stop swimming just like that do you?
