@@ -69,6 +69,5 @@
 	sleep(1)
 	user.ghostize()
 	user.gib()
-	suiciding = FALSE
 	REMOVE_TRAIT(src, TRAIT_NODROP, "suicide")
 	return MANUAL_SUICIDE
