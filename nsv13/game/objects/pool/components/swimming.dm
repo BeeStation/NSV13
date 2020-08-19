@@ -87,8 +87,8 @@
 	return ((!(victim.mobility_flags & MOBILITY_STAND)) && (!HAS_TRAIT(victim, TRAIT_NOBREATH)))
 
 /datum/component/swimming/proc/drown(mob/living/victim)
-	if(victim.losebreath < 4)
-		victim.losebreath += 4
+	if(victim.losebreath < 1)
+		victim.losebreath += 1
 	ticks_drowned ++
 	if(prob(20))
 		victim.emote("cough")
