@@ -170,7 +170,7 @@
 	starting_system = "Lalande 21185"
 	max_integrity = 250 //Max health
 	integrity_failure = 250
-	use_armour_quadrants = TRUE
+	use_armour_quadrants = FALSE //They can weld plates for now, mining ship will not have a reasonable way to power the pumps -K
 	armour_quadrants = list("forward_port" = list("name" = "Forward Port", "max_armour" = 250, "current_armour" = 250),\
 							"forward_starboard" = list("name" = "Forward Starboard", "max_armour" = 250, "current_armour" = 250),\
 							"aft_port" = list("name" = "Aft Port", "max_armour" = 250, "current_armour" = 250),\
@@ -183,7 +183,7 @@
 	starting_system = "Lalande 21185"
 	max_integrity = 250 //Max health
 	integrity_failure = 250
-	use_armour_quadrants = TRUE
+	use_armour_quadrants = FALSE //They can weld plates for now, mining ship will not have a reasonable way to power the pumps -K
 	armour_quadrants = list("forward_port" = list("name" = "Forward Port", "max_armour" = 250, "current_armour" = 250),\
 							"forward_starboard" = list("name" = "Forward Starboard", "max_armour" = 250, "current_armour" = 250),\
 							"aft_port" = list("name" = "Aft Port", "max_armour" = 250, "current_armour" = 250),\
@@ -196,7 +196,7 @@
 	armor = list("overmap_light" = 50, "overmap_heavy" = 0)
 	max_integrity = 200 //Max health
 	integrity_failure = 200
-	use_armour_quadrants = TRUE
+	use_armour_quadrants = FALSE //They can weld plates for now, mining ship will not have a reasonable way to power the pumps -K
 	armour_quadrants = list("forward_port" = list("name" = "Forward Port", "max_armour" = 200, "current_armour" = 200),\
 							"forward_starboard" = list("name" = "Forward Starboard", "max_armour" = 200, "current_armour" = 200),\
 							"aft_port" = list("name" = "Aft Port", "max_armour" = 200, "current_armour" = 200),\
@@ -207,7 +207,7 @@
 	max_integrity = 500
 	integrity_failure = 500
 	starting_system = "Wolf 359"
-	use_armour_quadrants = TRUE
+	use_armour_quadrants = FALSE //TODO: Mappers map in the pump setup.
 	armour_quadrants = list("forward_port" = list("name" = "Forward Port", "max_armour" = 750, "current_armour" = 750),\
 							"forward_starboard" = list("name" = "Forward Starboard", "max_armour" = 750, "current_armour" = 750),\
 							"aft_port" = list("name" = "Aft Port", "max_armour" = 750, "current_armour" = 750),\
@@ -218,7 +218,7 @@
 	max_integrity = 1800
 	integrity_failure = 1800
 	starting_system = "Wolf 359"
-	use_armour_quadrants = TRUE
+	use_armour_quadrants = FALSE //TODO: Mappers map in the pump setup.
 	armour_quadrants = list("forward_port" = list("name" = "Forward Port", "max_armour" = 1250, "current_armour" = 1250),\
 							"forward_starboard" = list("name" = "Forward Starboard", "max_armour" = 1250, "current_armour" = 1250),\
 							"aft_port" = list("name" = "Aft Port", "max_armour" = 750, "current_armour" = 750),\
@@ -229,7 +229,7 @@
 	max_integrity = 500
 	integrity_failure = 500
 	starting_system = "Wolf 359"
-	use_armour_quadrants = TRUE
+	use_armour_quadrants = FALSE //TODO: Mappers map in the pump setup.
 	armour_quadrants = list("forward_port" = list("name" = "Forward Port", "max_armour" = 1250, "current_armour" = 1250),\
 							"forward_starboard" = list("name" = "Forward Starboard", "max_armour" = 1250, "current_armour" = 1250),\
 							"aft_port" = list("name" = "Aft Port", "max_armour" = 750, "current_armour" = 750),\
@@ -240,7 +240,7 @@
 	max_integrity = 500
 	integrity_failure = 500
 	starting_system = "Wolf 359"
-	use_armour_quadrants = TRUE
+	use_armour_quadrants = FALSE //TODO: Mappers map in the pump setup.
 	armour_quadrants = list("forward_port" = list("name" = "Forward Port", "max_armour" = 825, "current_armour" = 825),\
 							"forward_starboard" = list("name" = "Forward Starboard", "max_armour" = 825, "current_armour" = 825),\
 							"aft_port" = list("name" = "Aft Port", "max_armour" = 825, "current_armour" = 825),\
@@ -346,7 +346,7 @@
 	role = PVP_SHIP
 	starting_system = "Vorash"
 	armor = list("overmap_light" = 70, "overmap_heavy" = 20)
-	use_armour_quadrants = TRUE
+	use_armour_quadrants = FALSE //They can weld plates for now, I don't want to force them to go for high output stormdrives to run these things -K
 	armour_quadrants = list("forward_port" = list("name" = "Forward Port", "max_armour" = 750, "current_armour" = 750),\
 							"forward_starboard" = list("name" = "Forward Starboard", "max_armour" = 750, "current_armour" = 750),\
 							"aft_port" = list("name" = "Aft Port", "max_armour" = 500, "current_armour" = 500),\
@@ -366,7 +366,7 @@
 	integrity_failure = 750
 	collision_positions = list(new /datum/vector2d(-7,124), new /datum/vector2d(-26,67), new /datum/vector2d(-46,-75), new /datum/vector2d(-45,-95), new /datum/vector2d(-30,-116), new /datum/vector2d(25,-119), new /datum/vector2d(36,-94), new /datum/vector2d(41,-76), new /datum/vector2d(19,71))
 	role = PVP_SHIP
-	use_armour_quadrants = TRUE
+	use_armour_quadrants = FALSE //They can weld plates for now, I don't want to force them to go for high output stormdrives to run these things -K
 	armour_quadrants = list("forward_port" = list("name" = "Forward Port", "max_armour" = 1000, "current_armour" = 1000),\
 							"forward_starboard" = list("name" = "Forward Starboard", "max_armour" = 1000, "current_armour" = 1000),\
 							"aft_port" = list("name" = "Aft Port", "max_armour" = 800, "current_armour" = 800),\
