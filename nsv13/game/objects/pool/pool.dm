@@ -47,7 +47,8 @@ GLOBAL_LIST_EMPTY(species_swimming_components)
 	water_overlay.color = colour
 
 /turf/open/indestructible/sound/pool/end/ChangeTurf(path, list/new_baseturfs, flags)
-	qdel(water_overlay)
+	if(water_overlay)
+		qdel(water_overlay)
 	. = ..()
 
 /turf/open/CanPass(atom/movable/mover, turf/target)
