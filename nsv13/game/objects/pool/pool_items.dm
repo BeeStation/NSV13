@@ -23,6 +23,7 @@
 	block_power_wielded = 20
 	block_flags = BLOCKING_ACTIVE | BLOCKING_NASTY
 	attack_verb = "wacked"
+	var/suiciding = FALSE
 
 /obj/item/twohanded/required/pool_noodle/Initialize()
 	. = ..()
@@ -46,13 +47,13 @@
 	return FALSE
 
 /obj/item/twohanded/required/pool_noodle/suicide_act(mob/user)
-	if(HAS_TRAIT_FROM(src, TRAIT_NODROP, "suicide"))
+	if(suiciding)
 		return SHAME
-	ADD_TRAIT(src, TRAIT_NODROP, "suicide")
+	suiciding = TRUE
 	user.visible_message("<span class='notice'>[user] begins kicking their legs to stay afloat!</span>")
 	var/mob/living/L = user
 	if(istype(L))
-		L.Stun(63)
+		L.Immobilize(63)
 	animate(user, time=20, pixel_y=18)
 	sleep(20)
 	animate(user, time=10, pixel_y=12)
@@ -69,5 +70,5 @@
 	sleep(1)
 	user.ghostize()
 	user.gib()
-	REMOVE_TRAIT(src, TRAIT_NODROP, "suicide")
+	suiciding = FALSE
 	return MANUAL_SUICIDE
