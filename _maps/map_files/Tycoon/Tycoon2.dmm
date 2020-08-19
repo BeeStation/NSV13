@@ -1794,6 +1794,9 @@
 /obj/effect/turf_decal/tile/yellow{
 	dir = 8
 	},
+/obj/structure/cable/yellow{
+	icon_state = "1-2"
+	},
 /turf/open/floor/monotile/dark,
 /area/engine/engineering)
 "aeB" = (
@@ -10260,9 +10263,8 @@
 /turf/open/floor/plasteel/grid/steel,
 /area/engine/atmos)
 "axP" = (
-/obj/structure/overmap/fighter/utility/prebuilt/carrier{
-	req_one_access = null;
-	req_one_access_txt = "10;69"
+/obj/machinery/armour_plating_nanorepair_pump/forward_port{
+	apnw_id = "pleaseSendHelp"
 	},
 /turf/open/floor/monotile/dark,
 /area/engine/engineering/hangar)
@@ -10830,6 +10832,7 @@
 	name = "intra ship intercom";
 	pixel_y = 26
 	},
+/obj/item/stack/sheet/mineral/titanium/fifty,
 /turf/open/floor/plasteel/ship,
 /area/engine/engineering)
 "ayL" = (
@@ -11017,6 +11020,9 @@
 /area/medical/medbay/central)
 "azg" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer1,
+/obj/structure/cable/yellow{
+	icon_state = "1-10"
+	},
 /turf/open/floor/monotile,
 /area/engine/engineering/hangar)
 "azh" = (
@@ -11997,7 +12003,12 @@
 /turf/open/floor/monotile/dark,
 /area/engine/atmospherics_engine)
 "aBj" = (
-/obj/machinery/holopad,
+/obj/machinery/armour_plating_nanorepair_well{
+	apnw_id = "pleaseSendHelp"
+	},
+/obj/structure/cable/yellow{
+	icon_state = "0-2"
+	},
 /turf/open/floor/monotile,
 /area/engine/engineering/hangar)
 "aBk" = (
@@ -12038,7 +12049,9 @@
 /obj/item/stack/sheet/mineral/plasma,
 /obj/item/stack/sheet/mineral/plasma,
 /obj/item/stack/sheet/mineral/plasma,
-/obj/item/stack/sheet/mineral/plasma,
+/obj/item/stack/sheet/mineral/plasma{
+	amount = 5
+	},
 /turf/open/floor/plasteel/ship,
 /area/engine/engineering)
 "aBp" = (
@@ -17665,6 +17678,9 @@
 /obj/structure/cable/yellow{
 	icon_state = "5-8"
 	},
+/obj/structure/cable/yellow{
+	icon_state = "1-5"
+	},
 /turf/open/floor/monotile/dark,
 /area/engine/engineering)
 "aNy" = (
@@ -18956,6 +18972,9 @@
 /turf/open/floor/monotile/dark,
 /area/engine/engineering/hangar)
 "aQm" = (
+/obj/machinery/armour_plating_nanorepair_pump/forward_starboard{
+	apnw_id = "pleaseSendHelp"
+	},
 /turf/open/floor/monotile/dark,
 /area/engine/engineering/hangar)
 "aQn" = (
@@ -33860,6 +33879,9 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 8
 	},
+/obj/structure/cable/yellow{
+	icon_state = "4-8"
+	},
 /turf/open/floor/monotile,
 /area/engine/engineering/hangar)
 "bto" = (
@@ -37810,6 +37832,9 @@
 /obj/machinery/door/firedoor/border_only{
 	dir = 8
 	},
+/obj/structure/cable/yellow{
+	icon_state = "4-8"
+	},
 /turf/open/floor/monotile,
 /area/engine/engineering)
 "bAt" = (
@@ -37817,6 +37842,9 @@
 	dir = 4
 	},
 /obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer3,
+/obj/structure/cable/yellow{
+	icon_state = "4-8"
+	},
 /turf/open/floor/monotile,
 /area/engine/engineering/hangar)
 "bAu" = (
@@ -45315,6 +45343,12 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /turf/open/floor/plating,
 /area/maintenance/department/science)
+"chv" = (
+/obj/machinery/armour_plating_nanorepair_pump/aft_starboard{
+	apnw_id = "pleaseSendHelp"
+	},
+/turf/open/floor/monotile/dark,
+/area/engine/engineering/hangar)
 "ciL" = (
 /obj/machinery/light{
 	dir = 4
@@ -45779,6 +45813,9 @@
 /obj/structure/extinguisher_cabinet{
 	pixel_x = 27
 	},
+/obj/structure/cable/yellow{
+	icon_state = "1-2"
+	},
 /turf/open/floor/monotile/dark,
 /area/engine/engineering)
 "eDI" = (
@@ -45985,6 +46022,18 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /turf/closed/wall/r_wall/ship,
 /area/engine/atmospherics_engine)
+"fHk" = (
+/obj/effect/turf_decal/tile/yellow{
+	dir = 8
+	},
+/obj/effect/turf_decal/tile/yellow{
+	dir = 1
+	},
+/obj/structure/cable/yellow{
+	icon_state = "1-2"
+	},
+/turf/open/floor/monotile/dark,
+/area/engine/engineering)
 "fJP" = (
 /obj/structure/cable{
 	icon_state = "1-2"
@@ -46015,6 +46064,9 @@
 	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 8
+	},
+/obj/structure/cable/yellow{
+	icon_state = "5-8"
 	},
 /turf/open/floor/monotile,
 /area/engine/engineering/hangar)
@@ -46559,6 +46611,11 @@
 	},
 /turf/open/floor/monotile,
 /area/security/execution/transfer)
+"iKw" = (
+/obj/machinery/camera/autoname,
+/obj/machinery/computer/ship/viewscreen,
+/turf/open/floor/monotile,
+/area/engine/engineering/hangar)
 "iLl" = (
 /obj/effect/turf_decal/tile/neutral{
 	dir = 8
@@ -46865,6 +46922,13 @@
 /obj/effect/turf_decal/tile/neutral,
 /turf/open/floor/monotile,
 /area/crew_quarters/fitness/recreation)
+"khJ" = (
+/obj/structure/cable/yellow{
+	icon_state = "1-2"
+	},
+/obj/machinery/holopad,
+/turf/open/floor/monotile,
+/area/engine/engineering/hangar)
 "khV" = (
 /obj/effect/turf_decal/delivery/red,
 /obj/machinery/atmospherics/components/binary/pump,
@@ -48501,6 +48565,12 @@
 	},
 /turf/open/floor/plating,
 /area/engine/engineering/hangar)
+"sqH" = (
+/obj/machinery/armour_plating_nanorepair_pump/aft_port{
+	apnw_id = "pleaseSendHelp"
+	},
+/turf/open/floor/monotile/dark,
+/area/engine/engineering/hangar)
 "srs" = (
 /obj/machinery/atmospherics/pipe/simple/general/visible,
 /obj/structure/cable{
@@ -49098,6 +49168,19 @@
 	},
 /turf/open/floor/plating,
 /area/engine/engineering/hangar)
+"vxA" = (
+/obj/effect/turf_decal/stripes/line,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	dir = 8
+	},
+/obj/structure/cable/yellow{
+	icon_state = "2-4"
+	},
+/turf/open/floor/monotile,
+/area/engine/engineering)
 "vHu" = (
 /obj/structure/lattice/catwalk,
 /obj/machinery/atmospherics/pipe/simple/purple/visible{
@@ -49137,6 +49220,12 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/disposal)
+"vKV" = (
+/obj/structure/cable/yellow{
+	icon_state = "1-2"
+	},
+/turf/open/floor/monotile,
+/area/engine/engineering/hangar)
 "vPd" = (
 /obj/machinery/door/airlock/research/glass/incinerator/toxmix_exterior,
 /obj/effect/mapping_helpers/airlock/locked,
@@ -98563,10 +98652,10 @@ anH
 anO
 anQ
 anZ
-bkp
+vxA
 eyz
 aeA
-aHy
+fHk
 aNx
 aBu
 aHy
@@ -99589,7 +99678,7 @@ axP
 aQr
 anm
 aoL
-axP
+sqH
 aQr
 btn
 anj
@@ -100097,13 +100186,13 @@ aaa
 ano
 ano
 anj
-bYb
+iKw
 anm
 anm
 anm
 aBj
-anm
-anm
+khJ
+vKV
 azg
 bto
 anj
@@ -100617,7 +100706,7 @@ aQm
 aQr
 acq
 aoL
-aQm
+chv
 aQr
 vtl
 anj
