@@ -2,7 +2,7 @@
 /obj/item/proc/check_float(mob/living/holder)
 	return FALSE
 
-/obj/item/twohanded/pool_noodle
+/obj/item/twohanded/required/pool_noodle
 	icon = 'nsv13/icons/obj/pool.dmi'
 	icon_state = "pool_noodle"
 	lefthand_file = 'nsv13/icons/mob/inhands/weapons/melee_lefthand.dmi'
@@ -22,24 +22,53 @@
 	block_power = 0
 	block_power_wielded = 20
 	block_flags = BLOCKING_ACTIVE | BLOCKING_NASTY
+	attack_verb = "wacked"
 
-/obj/item/twohanded/pool_noodle/Initialize()
+/obj/item/twohanded/required/pool_noodle/Initialize()
 	. = ..()
-	AddComponent(/datum/component/twohanded, force_unwielded, force_wielded, wieldsound, unwieldsound)
+	AddComponent(/datum/component/twohanded/required, force_unwielded, force_wielded, wieldsound, unwieldsound)
 	//Pick a random color
 	color = pick(COLOR_YELLOW, COLOR_GREEN, COLOR_RED, COLOR_BLUE, COLOR_CYAN, COLOR_PINK)
 
-/obj/item/twohanded/pool_noodle/attack(mob/target, mob/living/carbon/human/user)
+/obj/item/twohanded/required/pool_noodle/attack(mob/target, mob/living/carbon/human/user)
 	. = ..()
 	var/wielded  = SEND_SIGNAL(src, COMSIG_ITEM_IS_WIELDED) & COMPONENT_WIELDED
 	if(wielded && prob(50))
 		INVOKE_ASYNC(src, .proc/jedi_spin, user)
 
-/obj/item/twohanded/pool_noodle/proc/jedi_spin(mob/living/user) //rip complex code, but this fucked up blocking
+/obj/item/twohanded/required/pool_noodle/proc/jedi_spin(mob/living/user) //rip complex code, but this fucked up blocking
 	user.emote("flip")
 
-/obj/item/twohanded/pool_noodle/check_float(mob/living/holder)
+/obj/item/twohanded/required/pool_noodle/check_float(mob/living/holder)
 	var/wielded = SEND_SIGNAL(src, COMSIG_ITEM_IS_WIELDED) & COMPONENT_WIELDED
 	if(wielded)
 		return TRUE
 	return FALSE
+
+/obj/item/twohanded/required/pool_noodle/suicide_act(mob/user)
+	if(HAS_TRAIT_FROM(src, TRAIT_NODROP, "suicide"))
+		return SHAME
+	ADD_TRAIT(src, TRAIT_NODROP, "suicide")
+	user.visible_message("<span class='notice'>[user] begins kicking their legs to stay afloat!</span>")
+	var/mob/living/L = user
+	if(istype(L))
+		L.Stun(63)
+	animate(user, time=20, pixel_y=18)
+	sleep(20)
+	animate(user, time=10, pixel_y=12)
+	sleep(10)
+	user.visible_message("<span class='notice'>[user] keeps swimming higher and higher!</span>")
+	animate(user, time=10, pixel_y=22)
+	sleep(10)
+	animate(user, time=10, pixel_y=16)
+	sleep(10)
+	animate(user, time=15, pixel_y=32)
+	sleep(15)
+	user.visible_message("<span class='suicide'>[user] suddenly realised they aren't in the water and cannot float.</span>")
+	animate(user, time=1, pixel_y=0)
+	sleep(1)
+	user.ghostize()
+	user.gib()
+	suiciding = FALSE
+	REMOVE_TRAIT(src, TRAIT_NODROP, "suicide")
+	return MANUAL_SUICIDE
