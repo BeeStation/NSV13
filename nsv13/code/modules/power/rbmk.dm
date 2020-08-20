@@ -94,7 +94,7 @@ The reactor CHEWS through moderator. It does not do this slowly. Be very careful
 	name = "Advanced Gas-Cooled Nuclear Reactor"
 	desc = "A tried and tested design which can output stable power at an acceptably low risk. The moderator can be changed to provide different effects."
 	icon = 'nsv13/icons/obj/machinery/rbmk.dmi'
-	icon_state = "reactor_off"
+	icon_state = "reactor_map"
 	pixel_x = -32
 	pixel_y = -32
 	density = FALSE //It burns you if you're stupid enough to walk over it.
@@ -163,7 +163,7 @@ The reactor CHEWS through moderator. It does not do this slowly. Be very careful
 		if(fuel_rods.len >= 5)
 			to_chat(user, "<span class='warning'>[src] is already at maximum fuel load.</span>")
 			return FALSE
-		to_chat(user, "<span class='notice'>You start to insert [W] into src...</span>")
+		to_chat(user, "<span class='notice'>You start to insert [W] into [src]...</span>")
 		radiation_pulse(src, temperature)
 		if(do_after(user, 5 SECONDS, target=src))
 			if(!fuel_rods.len)
@@ -216,6 +216,7 @@ The reactor CHEWS through moderator. It does not do this slowly. Be very careful
 
 /obj/machinery/atmospherics/components/trinary/nuclear_reactor/Initialize()
 	. = ..()
+	icon_state = "reactor_off"
 	gas_absorption_effectiveness = rand(5, 6)/10 //All reactors are slightly different. This will result in you having to figure out what the balance is for K.
 	gas_absorption_constant = gas_absorption_effectiveness //And set this up for the rest of the round.
 	STOP_PROCESSING(SSmachines, src) //We'll handle this one ourselves.
@@ -465,7 +466,7 @@ The reactor CHEWS through moderator. It does not do this slowly. Be very careful
 				WS.fire()
 
 /obj/machinery/atmospherics/components/trinary/nuclear_reactor/update_icon()
-	icon_state = initial(icon_state)
+	icon_state = "reactor_off"
 	switch(temperature)
 		if(0 to 200)
 			icon_state = "reactor_on"
@@ -543,7 +544,7 @@ The reactor CHEWS through moderator. It does not do this slowly. Be very careful
 
 /obj/machinery/computer/reactor/Initialize(mapload, obj/item/circuitboard/C)
 	. = ..()
-	link_to_reactor()
+	addtimer(CALLBACK(src, .proc/link_to_reactor), 10 SECONDS)
 
 /obj/machinery/computer/reactor/proc/link_to_reactor()
 	for(var/obj/machinery/atmospherics/components/trinary/nuclear_reactor/asdf in GLOB.machines)
