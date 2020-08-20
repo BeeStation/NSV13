@@ -29,7 +29,7 @@
 	..()
 	if(!select)
 		add_overlay("[initial(icon_state)]_semi")
-	if(select == 1)
+	else
 		add_overlay("[initial(icon_state)]_burst")
 
 /obj/item/gun/ballistic/automatic/ui_action_click(mob/user, actiontype)
@@ -44,7 +44,7 @@
 	if(!select)
 		burst_size = 1
 		fire_delay = 0
-		to_chat(user, "<span class='notice'>You switch to semi-automatic.</span>")
+		to_chat(user, "<span class='notice'>You switch to [full_auto ? "full-auto": "semi-automatic."]</span>")
 	else
 		burst_size = initial(burst_size)
 		fire_delay = initial(fire_delay)

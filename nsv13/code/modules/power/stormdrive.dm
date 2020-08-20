@@ -1169,9 +1169,17 @@ Control Rods
 	icon_state = "constrictor"
 	density = TRUE
 	circuit = /obj/item/circuitboard/machine/magnetic_constrictor
+	layer = OBJ_LAYER
+	pipe_flags = PIPING_ONE_PER_TURF
 	active_power_usage = 200
 	var/constriction_rate = 0 //SSAtmos is 4x faster than SSMachines aka the reactor
 	var/max_output_pressure = 0
+
+/obj/machinery/atmospherics/components/binary/magnetic_constrictor/on_construction()
+	var/obj/item/circuitboard/machine/thermomachine/board = circuit
+	if(board)
+		piping_layer = board.pipe_layer
+	..(dir, piping_layer)
 
 /obj/machinery/atmospherics/components/binary/magnetic_constrictor/RefreshParts()
 	var/A
@@ -1240,9 +1248,17 @@ Control Rods
 /obj/item/circuitboard/machine/magnetic_constrictor
 	name = "Magnetic Constrictor (Machine Board)"
 	build_path = /obj/machinery/atmospherics/components/binary/magnetic_constrictor
+	var/pipe_layer = PIPING_LAYER_DEFAULT
 	req_components = list(
 		/obj/item/stock_parts/capacitor = 1,
 		/obj/item/stock_parts/manipulator = 1)
+
+/obj/item/circuitboard/machine/magnetic_constrictor/attackby(obj/item/I, mob/user, params)
+	if(I.tool_behaviour == TOOL_MULTITOOL)
+		pipe_layer = (pipe_layer >= PIPING_LAYER_MAX) ? PIPING_LAYER_MIN : (pipe_layer + 1)
+		to_chat(user, "<span class='notice'>You change the circuitboard to layer [pipe_layer].</span>")
+		return
+	. = ..()
 
 /datum/design/board/magnetic_constrictor
 	name = "Machine Design (Magnetic Constrictor Board)"
