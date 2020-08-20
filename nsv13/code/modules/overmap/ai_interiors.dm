@@ -48,8 +48,6 @@
 	sleep(20)
 	if(role == MAIN_OVERMAP)
 		priority_announce("WARNING: ([rand(10,100)]) Attempts to establish DRADIS uplink with [station_name()] have failed. Unable to ascertain operational status. Presumed status: TERMINATED","Central Intelligence Unit", 'nsv13/sound/effects/ship/reactor/explode.ogg')
-		SSticker.mode.check_finished(TRUE)
-		SSticker.force_ending = TRUE
 		for(var/X in GLOB.teleportlocs) //Time to kill everyone
 			var/area/target = GLOB.teleportlocs[X]
 			var/turf/T = pick(get_area_turfs(target))

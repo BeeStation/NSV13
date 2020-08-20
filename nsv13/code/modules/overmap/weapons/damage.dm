@@ -39,7 +39,15 @@ Bullet reactions
 			addtimer(VARSET_CALLBACK(src, impact_sound_cooldown, FALSE), 0.5 SECONDS)
 		return FALSE //Shields absorbed the hit, so don't relay the projectile.
 	relay_damage(P?.type)
-	. = ..()
+	if(!use_armour_quadrants || !P.physics2d?.collider2d || !physics2d?.collider2d)
+		. = ..()
+		return
+	else
+		playsound(src, P.hitsound, 50, 1)
+		visible_message("<span class='danger'>[src] is hit by \a [P]!</span>", null, null, COMBAT_MESSAGE_RANGE)
+		if(!QDELETED(src)) //Bullet on_hit effect might have already destroyed this object
+			var/datum/vector2d/point_of_collision = src.physics2d?.collider2d.get_collision_point(P.physics2d?.collider2d)//Get the collision point, see if the armour quadrants need to absorb this hit.
+			take_quadrant_hit(run_obj_armor(P.damage, P.damage_type, P.flag, null, P.armour_penetration), check_quadrant(point_of_collision)) //This looks horrible, but trust me, it isn't! Probably!. Armour_quadrant.dm for more info
 
 /obj/structure/overmap/proc/relay_damage(proj_type)
 	if(!occupying_levels.len)
@@ -88,15 +96,11 @@ Bullet reactions
 		return TRUE
 	return FALSE
 
-/obj/structure/overmap
-	var/structure_crit = FALSE
-	var/explosion_cooldown = FALSE
-
 /obj/structure/overmap/proc/handle_crit(damage_amount) //A proc to allow ships to enter superstructure crit, this means the player ship can't die, but its insides can get torn to shreds.
 	if(!structure_crit)
-		relay('nsv13/sound/effects/ship/crit_alarm.ogg', message=null, loop=TRUE, channel=CHANNEL_SHIP_FX)
-		priority_announce("DANGER. Ship superstructure failing. Structural integrity failure imminent. Immediate repairs are required to avoid total structural failure.","Automated announcement ([src])") //TEMP! Remove this shit when we move ruin spawns off-z
 		structure_crit = TRUE
+		structure_crit_init = world.time
+		structure_crit_alert = 0 //RESET
 	if(explosion_cooldown)
 		return
 	explosion_cooldown = TRUE
@@ -110,6 +114,97 @@ Bullet reactions
 	var/turf/T = pick(get_area_turfs(target))
 	new /obj/effect/temp_visual/explosion_telegraph(T)
 
+/obj/structure/overmap/proc/handle_critical_failure_part_1()
+	var/ss_crit_timer = world.time - structure_crit_init
+	switch(ss_crit_timer)
+		if(0 to 12 SECONDS)
+			if(structure_crit_alert == 0)
+				priority_announce("Warning. Ship superstructure integrity critical. Total structural failure will occur in T - 15 minutes.  The ship will reach an irreparable state in T - 10 minutes.","Automated announcement ([src])", "null")
+				relay('nsv13/sound/effects/ship/sscrit/hullcrit_15.ogg', message=null, loop=FALSE, channel=CHANNEL_IMPORTANT_SHIP_ALERT)
+				structure_crit_alert ++
+		if(12 SECONDS to 5 MINUTES)
+			if(structure_crit_alert == 1)
+				relay('nsv13/sound/effects/ship/sscrit/hullcrit_alarm_15.ogg', message=null, loop=TRUE, channel=CHANNEL_SHIP_FX)
+				structure_crit_alert ++
+		if(5 MINUTES to 311 SECONDS)
+			if(structure_crit_alert == 2)
+				stop_relay(channel=CHANNEL_SHIP_FX)
+				priority_announce("Warning. Total structural integrity failure will occur in T-10 minutes. The ship will reach an irreparable state in T - 5 minutes.","Automated announcement ([src])", "null")
+				relay('nsv13/sound/effects/ship/sscrit/hullcrit_10.ogg', message=null, loop=FALSE, channel=CHANNEL_IMPORTANT_SHIP_ALERT)
+				structure_crit_alert ++
+		if(311 SECONDS to 9 MINUTES)
+			if(structure_crit_alert == 3)
+				relay('nsv13/sound/effects/ship/sscrit/hullcrit_alarm_10.ogg', message=null, loop=TRUE, channel=CHANNEL_SHIP_FX)
+				structure_crit_alert ++
+		if(9 MINUTES to 545 SECONDS)
+			if(structure_crit_alert == 4)
+				stop_relay(channel=CHANNEL_SHIP_FX)
+				priority_announce("DANGER. The ship will reach an irreparable state in T-1 minute.","Automated announcement ([src])", "null")
+				relay('nsv13/sound/effects/ship/sscrit/hullcrit_6.ogg', message=null, loop=FALSE, channel=CHANNEL_IMPORTANT_SHIP_ALERT)
+				structure_crit_alert ++
+		if(545 SECONDS to 10 MINUTES)
+			if(structure_crit_alert == 5)
+				relay('nsv13/sound/effects/ship/sscrit/hullcrit_alarm_10.ogg', message=null, loop=TRUE, channel=CHANNEL_SHIP_FX)
+				structure_crit_alert ++
+		if(10 MINUTES to 607 SECONDS)
+			if(structure_crit_alert == 6)
+				structure_crit_no_return = TRUE //Better launch those escape pods pronto
+				stop_relay(channel=CHANNEL_SHIP_FX)
+				priority_announce("DANGER. The window for repairing the ship's superstructure has now expired. The ship will detonate in T - 5 minutes.","Automated announcement ([src])","null")
+				relay('nsv13/sound/effects/ship/sscrit/hullcrit_5.ogg', message=null, loop=FALSE, channel=CHANNEL_IMPORTANT_SHIP_ALERT)
+				structure_crit_alert ++
+		if(607 SECONDS to 870 SECONDS)
+			if(structure_crit_alert == 7)
+				relay('nsv13/sound/effects/ship/sscrit/hullcrit_alarm_5.ogg', message=null, loop=TRUE, channel=CHANNEL_SHIP_FX)
+				structure_crit_alert ++
+		if(870 SECONDS to 15 MINUTES)
+			if(structure_crit_alert == 8)
+				relay('nsv13/sound/effects/ship/sscrit/countdown.ogg', message=null, loop=FALSE, channel=CHANNEL_IMPORTANT_SHIP_ALERT)
+				structure_crit_alert ++
+		if(15 MINUTES to INFINITY)
+			if(structure_crit_alert == 9)
+				message_admins("Critical Structure Failure Occurred in [src.name]")
+				handle_critical_failure_part_2()
+				structure_crit_alert ++
+
+/obj/structure/overmap/proc/handle_critical_failure_part_2()
+	if(role == MAIN_OVERMAP)
+		for(var/M in mobs_in_ship)
+			if(!locate(M) in operators)
+				if(isliving(M))
+					start_piloting(M, "observer") //Make sure everyone sees the ship is exploding
+				else
+					if(istype(M, /mob/dead/observer))
+						var/mob/dead/observer/D = M
+						D.ManualFollow(src)
+
+		sleep(10)
+		STOP_PROCESSING(SSphysics_processing, src) //Reject player input
+		src.SpinAnimation(1000, 1) //Drift
+		var/michael_bay = rand(5,8) //How many explosions we're going to see (lens flares cost extra)
+		for(var/I = 0, I < michael_bay, I++)
+			var/obj/effect/temp_visual/nuke_impact/MB = new /obj/effect/temp_visual/nuke_impact(get_turf(src))
+			MB.pixel_x = rand(-120, 20)
+			MB.pixel_y = rand(-160, 20)
+			sleep(rand(5, 20))
+		sleep(20)
+		qdel(src) //kaboom goes the main ship, end of round
+		sleep(20)
+		//flick an awesome cinematic screen here - WYSI
+		SSticker.mode.check_finished(TRUE)
+		SSticker.force_ending = TRUE
+	else
+		STOP_PROCESSING(SSphysics_processing, src)
+		src.SpinAnimation(1000, 1)
+		var/michael_bay = rand(5,8)
+		for(var/I = 0, I < michael_bay, I++)
+			var/obj/effect/temp_visual/nuke_impact/MB = new /obj/effect/temp_visual/nuke_impact(get_turf(src))
+			MB.pixel_x = rand(-120, 20)
+			MB.pixel_y = rand(-160, 20)
+			sleep(rand(5, 20))
+		sleep(20)
+		qdel(src) //we didn't want miners anyway
+
 /obj/structure/overmap/proc/try_repair(amount)
 	var/withrepair = obj_integrity+amount
 	if(withrepair > max_integrity) //No overheal
@@ -117,10 +212,11 @@ Bullet reactions
 	else
 		obj_integrity += amount
 	if(structure_crit)
-		if(obj_integrity >= max_integrity/3) //You need to repair a good chunk of her HP before you're getting outta this fucko.
+		if(obj_integrity >= max_integrity * 0.2) //You need to repair a good chunk of her HP before you're getting outta this fucko.
 			stop_relay(channel=CHANNEL_SHIP_FX)
 			priority_announce("Ship structural integrity restored to acceptable levels. ","Automated announcement ([src])")
 			structure_crit = FALSE
+
 
 /obj/effect/temp_visual/explosion_telegraph
 	name = "Explosion imminent!"
