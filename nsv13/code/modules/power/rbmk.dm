@@ -29,14 +29,23 @@
 What is this?
 
 Moderators list (Not gonna keep this accurate forever):
-Fuel:
+Fuel Type:
 Oxygen: Power production multiplier. Allows you to run a low plasma, high oxy mix, and still get a lot of power.
 Plasma: Power production gas. More plasma -> more power, but it enriches your fuel and makes the reactor much, much harder to control.
 Tritium: Extremely efficient power production gas. Will cause chernobyl if used improperly.
 
+Moderation Type:
 N2: Helps you regain control of the reaction by increasing control rod effectiveness, will massively boost the rad production of the reactor.
 CO2: Super effective shutdown gas for runaway reactions. MASSIVE RADIATION PENALTY!
 Pluoxium: Same as N2, but no cancer-rads!
+
+Permeability Type:
+BZ: Increases your reactor's ability to transfer its heat to the coolant, thus letting you cool it down faster (but your output will get hotter)
+Water Vapour: More efficient permeability modifier
+Hyper Noblium: Extremely efficient permeability increase. (10x as efficient as bz)
+
+Depletion type:
+Nitryl: When you need weapons grade plutonium yesterday. Causes your fuel to deplete much, much faster. Not a huge amount of use outside of sabotage.
 
 Sabotage:
 
@@ -107,6 +116,7 @@ The reactor CHEWS through moderator. It does not do this slowly. Be very careful
 	//Secondary variables.
 	var/next_slowprocess = 0
 	var/gas_absorption_effectiveness = 0.5
+	var/gas_absorption_constant = 0.5 //We refer to this one as it's set on init, randomized.
 	var/minimum_coolant_level = 5
 	var/warning = FALSE //Have we begun warning the crew of their impending death?
 	var/next_warning = 0 //To avoid spam.
@@ -207,6 +217,7 @@ The reactor CHEWS through moderator. It does not do this slowly. Be very careful
 /obj/machinery/atmospherics/components/trinary/nuclear_reactor/Initialize()
 	. = ..()
 	gas_absorption_effectiveness = rand(5, 6)/10 //All reactors are slightly different. This will result in you having to figure out what the balance is for K.
+	gas_absorption_constant = gas_absorption_effectiveness //And set this up for the rest of the round.
 	STOP_PROCESSING(SSmachines, src) //We'll handle this one ourselves.
 
 /obj/machinery/atmospherics/components/trinary/nuclear_reactor/Crossed(atom/movable/AM, oldloc)
@@ -253,6 +264,8 @@ The reactor CHEWS through moderator. It does not do this slowly. Be very careful
 	pressure = KPA_TO_PSI(coolant_output.return_pressure())
 	power = (temperature / RBMK_TEMPERATURE_CRITICAL) * 100
 	var/radioactivity_spice_multiplier = 1 //Some gasses make the reactor a bit spicy.
+	var/depletion_modifier = 0.035 //How rapidly do your rods decay
+	gas_absorption_effectiveness = gas_absorption_constant
 	//Next up, handle moderators!
 	if(moderator_input.total_moles() >= minimum_coolant_level)
 		var/total_fuel_moles = moderator_input.get_moles(/datum/gas/plasma) + (moderator_input.get_moles(/datum/gas/constricted_plasma)*2)+ (moderator_input.get_moles(/datum/gas/tritium)*10) //Constricted plasma is 50% more efficient as fuel than plasma, but is harder to produce
@@ -275,7 +288,14 @@ The reactor CHEWS through moderator. It does not do this slowly. Be very careful
 			control_rod_effectiveness = initial(control_rod_effectiveness) + control_bonus
 			radioactivity_spice_multiplier += moderator_input.get_moles(/datum/gas/nitrogen) / 25 //An example setup of 50 moles of n2 (for dealing with spent fuel) leaves us with a radioactivity spice multiplier of 3.
 			radioactivity_spice_multiplier += moderator_input.get_moles(/datum/gas/carbon_dioxide) / 12.5
-
+		var/total_permeability_moles = moderator_input.get_moles(/datum/gas/bz) + (moderator_input.get_moles(/datum/gas/water_vapor)*2) + (moderator_input.get_moles(/datum/gas/hypernoblium)*10)
+		if(total_permeability_moles >= minimum_coolant_level)
+			var/permeability_bonus = total_permeability_moles / 500
+			gas_absorption_effectiveness = gas_absorption_constant + permeability_bonus
+		var/total_degradation_moles = moderator_input.get_moles(/datum/gas/nitryl) //Because it's quite hard to get.
+		if(total_degradation_moles >= minimum_coolant_level*0.5) //I'll be nice.
+			depletion_modifier += total_degradation_moles / 15 //Oops! All depletion. This causes your fuel rods to get SPICY.
+			playsound(src, pick('sound/machines/sm/accent/normal/1.ogg','sound/machines/sm/accent/normal/2.ogg','sound/machines/sm/accent/normal/3.ogg','sound/machines/sm/accent/normal/4.ogg','sound/machines/sm/accent/normal/5.ogg'), 100, TRUE)
 		//From this point onwards, we clear out the remaining gasses.
 		moderator_input.clear() //Woosh. And the soul is gone.
 		K += total_fuel_moles / 1000
@@ -286,7 +306,7 @@ The reactor CHEWS through moderator. It does not do this slowly. Be very careful
 		for(var/obj/item/fuel_rod/FR in fuel_rods)
 			K += FR.fuel_power
 			fuel_power += FR.fuel_power
-			FR.deplete()
+			FR.deplete(depletion_modifier)
 	//Firstly, find the difference between the two numbers.
 	var/difference = abs(K - desired_k)
 	//Then, hit as much of that goal with our cooling per tick as we possibly can.
@@ -331,7 +351,7 @@ The reactor CHEWS through moderator. It does not do this slowly. Be very careful
 						grilled_item.foodtype |= FRIED
 				if(40 to 70)
 					grilled_item.name = "heavily grilled [initial(grilled_item.name)]"
-					grilled_item.desc = "[I.desc] It's been heavily grilled through the magic of nuclear fission."
+					grilled_item.desc = "[initial(I.desc)] It's been heavily grilled through the magic of nuclear fission."
 					if(!grilled_item.foodtype & FRIED)
 						grilled_item.foodtype |= FRIED
 				if(70 to 95)
@@ -494,11 +514,12 @@ The reactor CHEWS through moderator. It does not do this slowly. Be very careful
 	var/depletion = 0 //Each fuel rod will deplete in around 30 minutes.
 	var/fuel_power = 0.10
 
-/obj/item/fuel_rod/proc/deplete()
-	depletion += 0.035
+/obj/item/fuel_rod/proc/deplete(amount=0.035)
+	depletion += amount
 	if(depletion >= 100)
 		fuel_power = 0.20
-		name = "Depleted Uranium-238 Fuel Rod"
+		name = "Plutonium-239 Fuel Rod"
+		desc = "A highly energetic titanium sheathed rod containing a sizeable measure of weapons grade uranium, it's highly efficient as nuclear fuel, but will cause the reaction to get out of control if not properly utilised."
 		icon_state = "inferior"
 		AddComponent(/datum/component/radioactive, 1500 , src)
 	else

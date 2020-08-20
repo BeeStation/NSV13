@@ -105,8 +105,8 @@
 	damage_states = FALSE //TODO
 	pixel_z = -170
 	pixel_w = -112
-	max_integrity = 1500 //Max health
-	integrity_failure = 1500
+	max_integrity = 2000 //Max health
+	integrity_failure = 2000
 	collision_positions = list(new /datum/vector2d(-27,220), new /datum/vector2d(-79,79), new /datum/vector2d(-77,-106), new /datum/vector2d(-70,-164), new /datum/vector2d(-28,-214), new /datum/vector2d(13,-211), new /datum/vector2d(45,-194), new /datum/vector2d(47,83), new /datum/vector2d(8,218))
 	armor = list("overmap_light" = 70, "overmap_heavy" = 30)
 
@@ -168,54 +168,107 @@
 	role = MAIN_MINING_SHIP
 	area_type = /area/nostromo
 	starting_system = "Lalande 21185"
+	max_integrity = 250 //Max health
+	integrity_failure = 250
+	use_armour_quadrants = FALSE //They can weld plates for now, mining ship will not have a reasonable way to power the pumps -K
+	armour_quadrants = list("forward_port" = list("name" = "Forward Port", "max_armour" = 250, "current_armour" = 250),\
+							"forward_starboard" = list("name" = "Forward Starboard", "max_armour" = 250, "current_armour" = 250),\
+							"aft_port" = list("name" = "Aft Port", "max_armour" = 250, "current_armour" = 250),\
+							"aft_starboard" = list("name" = "Aft Starboard", "max_armour" = 250, "current_armour" = 250))
 
 /obj/structure/overmap/nanotrasen/mining_cruiser/nostromo
 	name = "NSV Hephaestus"
 	role = MAIN_MINING_SHIP
 	area_type = /area/nostromo
 	starting_system = "Lalande 21185"
+	max_integrity = 250 //Max health
+	integrity_failure = 250
+	use_armour_quadrants = FALSE //They can weld plates for now, mining ship will not have a reasonable way to power the pumps -K
+	armour_quadrants = list("forward_port" = list("name" = "Forward Port", "max_armour" = 250, "current_armour" = 250),\
+							"forward_starboard" = list("name" = "Forward Starboard", "max_armour" = 250, "current_armour" = 250),\
+							"aft_port" = list("name" = "Aft Port", "max_armour" = 250, "current_armour" = 250),\
+							"aft_starboard" = list("name" = "Aft Starboard", "max_armour" = 250, "current_armour" = 250))
 
 /obj/structure/overmap/nanotrasen/mining_cruiser/nostromo/fob
 	name = "NSV FOB"
 	mass = MASS_SMALL //providing a real difference between nostromo and fob
 	area_type = /area/nsv/shuttle
 	armor = list("overmap_light" = 50, "overmap_heavy" = 0)
+	max_integrity = 200 //Max health
+	integrity_failure = 200
+	use_armour_quadrants = FALSE //They can weld plates for now, mining ship will not have a reasonable way to power the pumps -K
+	armour_quadrants = list("forward_port" = list("name" = "Forward Port", "max_armour" = 200, "current_armour" = 200),\
+							"forward_starboard" = list("name" = "Forward Starboard", "max_armour" = 200, "current_armour" = 200),\
+							"aft_port" = list("name" = "Aft Port", "max_armour" = 200, "current_armour" = 200),\
+							"aft_starboard" = list("name" = "Aft Starboard", "max_armour" = 200, "current_armour" = 200))
 
 /obj/structure/overmap/nanotrasen/missile_cruiser/starter //VAGO. Sergei use me!
 	role = MAIN_OVERMAP
-	max_integrity = 1800 //Buffed health due to ship internal damage existing
-	integrity_failure = 1800
+	max_integrity = 500
+	integrity_failure = 500
 	starting_system = "Wolf 359"
+	use_armour_quadrants = FALSE //TODO: Mappers map in the pump setup.
+	armour_quadrants = list("forward_port" = list("name" = "Forward Port", "max_armour" = 750, "current_armour" = 750),\
+							"forward_starboard" = list("name" = "Forward Starboard", "max_armour" = 750, "current_armour" = 750),\
+							"aft_port" = list("name" = "Aft Port", "max_armour" = 750, "current_armour" = 750),\
+							"aft_starboard" = list("name" = "Aft Starboard", "max_armour" = 750, "current_armour" = 750))
 
 /obj/structure/overmap/nanotrasen/patrol_cruiser/starter
 	role = MAIN_OVERMAP //Player controlled variant
-	max_integrity = 1800 //Buffed health due to ship internal damage existing
+	max_integrity = 1800
 	integrity_failure = 1800
 	starting_system = "Wolf 359"
+	use_armour_quadrants = FALSE //TODO: Mappers map in the pump setup.
+	armour_quadrants = list("forward_port" = list("name" = "Forward Port", "max_armour" = 1250, "current_armour" = 1250),\
+							"forward_starboard" = list("name" = "Forward Starboard", "max_armour" = 1250, "current_armour" = 1250),\
+							"aft_port" = list("name" = "Aft Port", "max_armour" = 750, "current_armour" = 750),\
+							"aft_starboard" = list("name" = "Aft Starboard", "max_armour" = 750, "current_armour" = 750))
 
 /obj/structure/overmap/nanotrasen/heavy_cruiser/starter
 	role = MAIN_OVERMAP //Player controlled variant
-	max_integrity = 1800 //Buffed health due to ship internal damage existing
-	integrity_failure = 1800
+	max_integrity = 500
+	integrity_failure = 500
 	starting_system = "Wolf 359"
+	use_armour_quadrants = FALSE //TODO: Mappers map in the pump setup.
+	armour_quadrants = list("forward_port" = list("name" = "Forward Port", "max_armour" = 1250, "current_armour" = 1250),\
+							"forward_starboard" = list("name" = "Forward Starboard", "max_armour" = 1250, "current_armour" = 1250),\
+							"aft_port" = list("name" = "Aft Port", "max_armour" = 750, "current_armour" = 750),\
+							"aft_starboard" = list("name" = "Aft Starboard", "max_armour" = 750, "current_armour" = 750))
 
 /obj/structure/overmap/nanotrasen/carrier/starter
 	role = MAIN_OVERMAP //Player controlled variant
-	max_integrity = 2000 //Compensates for lack of offensive weaponry
-	integrity_failure = 2000
+	max_integrity = 500
+	integrity_failure = 500
 	starting_system = "Wolf 359"
+	use_armour_quadrants = FALSE //TODO: Mappers map in the pump setup.
+	armour_quadrants = list("forward_port" = list("name" = "Forward Port", "max_armour" = 825, "current_armour" = 825),\
+							"forward_starboard" = list("name" = "Forward Starboard", "max_armour" = 825, "current_armour" = 825),\
+							"aft_port" = list("name" = "Aft Port", "max_armour" = 825, "current_armour" = 825),\
+							"aft_starboard" = list("name" = "Aft Starboard", "max_armour" = 825, "current_armour" = 825))
 //	bound_width = 256
 //	bound_height = 256
 
 /obj/structure/overmap/nanotrasen/battlecruiser/starter
 	role = MAIN_OVERMAP
-	max_integrity = 1800 //Buffed health due to ship internal damage existing
-	integrity_failure = 1800
+	max_integrity = 500 //Buffed health due to ship internal damage existing
+	integrity_failure = 500
 	starting_system = "Wolf 359"
+	use_armour_quadrants = TRUE
+	armour_quadrants = list("forward_port" = list("name" = "Forward Port", "max_armour" = 750, "current_armour" = 750),\
+							"forward_starboard" = list("name" = "Forward Starboard", "max_armour" = 750, "current_armour" = 750),\
+							"aft_port" = list("name" = "Aft Port", "max_armour" = 750, "current_armour" = 750),\
+							"aft_starboard" = list("name" = "Aft Starboard", "max_armour" = 750, "current_armour" = 750))
 
 /obj/structure/overmap/nanotrasen/battleship/starter
 	role = MAIN_OVERMAP //Player controlled variant
+	max_integrity = 750
+	integrity_failure = 750
 	starting_system = "Wolf 359"
+	use_armour_quadrants = TRUE
+	armour_quadrants = list("forward_port" = list("name" = "Forward Port", "max_armour" = 1200, "current_armour" = 1200),\
+							"forward_starboard" = list("name" = "Forward Starboard", "max_armour" = 1200, "current_armour" = 1200),\
+							"aft_port" = list("name" = "Aft Port", "max_armour" = 1200, "current_armour" = 1200),\
+							"aft_starboard" = list("name" = "Aft Starboard", "max_armour" = 1200, "current_armour" = 1200))
 
 /obj/structure/overmap/nanotrasen/patrol_cruiser/ai
 	ai_controlled = TRUE
@@ -284,8 +337,8 @@
 	sprite_size = 96
 	damage_states = TRUE
 	area_type = /area/hammurabi
-	max_integrity = 1200 //Buffed health due to ship internal damage existing
-	integrity_failure = 1200
+	max_integrity = 600
+	integrity_failure = 600
 	pixel_z = -32
 	pixel_w = -32
 	ai_controlled = FALSE
@@ -293,6 +346,11 @@
 	role = PVP_SHIP
 	starting_system = "Vorash"
 	armor = list("overmap_light" = 70, "overmap_heavy" = 20)
+	use_armour_quadrants = FALSE //They can weld plates for now, I don't want to force them to go for high output stormdrives to run these things -K
+	armour_quadrants = list("forward_port" = list("name" = "Forward Port", "max_armour" = 750, "current_armour" = 750),\
+							"forward_starboard" = list("name" = "Forward Starboard", "max_armour" = 750, "current_armour" = 750),\
+							"aft_port" = list("name" = "Aft Port", "max_armour" = 500, "current_armour" = 500),\
+							"aft_starboard" = list("name" = "Aft Starboard", "max_armour" = 500, "current_armour" = 500))
 
 /obj/structure/overmap/syndicate/pvp/hulk //Larger PVP ship for larger pops.
 	name = "SSV Hulk"
@@ -304,10 +362,15 @@
 	sprite_size = 48
 	pixel_z = -96
 	pixel_w = -96
-	max_integrity = 1500 //Max health
-	integrity_failure = 1500
+	max_integrity = 750 //Max health
+	integrity_failure = 750
 	collision_positions = list(new /datum/vector2d(-7,124), new /datum/vector2d(-26,67), new /datum/vector2d(-46,-75), new /datum/vector2d(-45,-95), new /datum/vector2d(-30,-116), new /datum/vector2d(25,-119), new /datum/vector2d(36,-94), new /datum/vector2d(41,-76), new /datum/vector2d(19,71))
 	role = PVP_SHIP
+	use_armour_quadrants = FALSE //They can weld plates for now, I don't want to force them to go for high output stormdrives to run these things -K
+	armour_quadrants = list("forward_port" = list("name" = "Forward Port", "max_armour" = 1000, "current_armour" = 1000),\
+							"forward_starboard" = list("name" = "Forward Starboard", "max_armour" = 1000, "current_armour" = 1000),\
+							"aft_port" = list("name" = "Aft Port", "max_armour" = 800, "current_armour" = 800),\
+							"aft_starboard" = list("name" = "Aft Starboard", "max_armour" = 800, "current_armour" = 800))
 	armor = list("overmap_light" = 70, "overmap_heavy" = 30)
 
 /obj/structure/overmap/syndicate/ai //Generic bad guy #10000. GRR.
