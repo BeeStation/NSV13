@@ -31900,8 +31900,9 @@
 	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
-/obj/structure/reagent_dispensers/foamtank/hull_repair_juice,
-/obj/item/extinguisher/advanced/hull_repair_juice,
+/obj/structure/rack,
+/obj/item/stack/sheet/iron/fifty,
+/obj/item/stack/sheet/mineral/titanium/fifty,
 /turf/open/floor/monotile,
 /area/engine/engineering)
 "btq" = (
@@ -42064,8 +42065,8 @@
 	},
 /turf/open/floor/monotile/dark,
 /area/nsv/weapons/fore)
-"bVT" = (
-/obj/machinery/atmospherics/pipe/simple/green/visible,
+"bWD" = (
+/obj/machinery/light/small,
 /turf/open/floor/plasteel/ridged/steel,
 /area/engine/engineering/reactor_core)
 "bXx" = (
@@ -43278,6 +43279,15 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/port)
+"cwi" = (
+/obj/machinery/atmospherics/components/unary/portables_connector/visible{
+	name = "Nucleium Port"
+	},
+/obj/machinery/portable_atmospherics/canister{
+	name = "Nucleium Retrieval Canister"
+	},
+/turf/open/floor/plasteel/ridged/steel,
+/area/engine/engineering/reactor_core)
 "czo" = (
 /obj/structure/disposalpipe/segment{
 	dir = 9
@@ -43509,21 +43519,13 @@
 /obj/item/analyzer,
 /turf/open/floor/plasteel/ridged/steel,
 /area/engine/engineering/reactor_core)
-"ddu" = (
-/obj/machinery/atmospherics/components/unary/portables_connector/visible{
-	name = "Nucleium Port"
-	},
-/turf/open/floor/plasteel/ridged/steel,
-/area/engine/engineering/reactor_core)
 "dgt" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 1
 	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
-/obj/machinery/atmospherics/pipe/simple/green/visible{
-	dir = 10
-	},
+/obj/machinery/atmospherics/pipe/simple/green/visible,
 /turf/open/floor/plasteel/ridged/steel,
 /area/engine/engineering/reactor_core)
 "dhX" = (
@@ -43631,9 +43633,6 @@
 	},
 /turf/open/floor/plasteel/grid/steel,
 /area/hallway/secondary/exit)
-"dJS" = (
-/turf/open/floor/plasteel/ridged/steel,
-/area/engine/engineering/reactor_core)
 "dKL" = (
 /obj/structure/cable/yellow{
 	icon_state = "0-4"
@@ -43662,15 +43661,6 @@
 /obj/machinery/computer/ship/viewscreen,
 /turf/open/floor/monotile,
 /area/engine/engineering/hangar)
-"dPc" = (
-/obj/effect/turf_decal/stripes/line{
-	dir = 4
-	},
-/obj/machinery/atmospherics/pipe/simple/green/visible{
-	dir = 6
-	},
-/turf/open/floor/plasteel/ridged/steel,
-/area/engine/engineering/reactor_core)
 "dSD" = (
 /obj/machinery/door/airlock/ship/external/glass{
 	req_one_access_txt = "2"
@@ -43821,6 +43811,15 @@
 /obj/structure/window/reinforced,
 /turf/open/floor/monotile,
 /area/crew_quarters/fitness/recreation)
+"eni" = (
+/obj/structure/closet/radiation,
+/obj/item/geiger_counter,
+/obj/effect/turf_decal/stripes/line{
+	dir = 1
+	},
+/obj/machinery/light,
+/turf/open/floor/plasteel/grid/steel,
+/area/engine/engineering/reactor_control)
 "enx" = (
 /obj/item/reagent_containers/food/drinks/sillycup{
 	pixel_x = -5;
@@ -43892,6 +43891,10 @@
 	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 8
+	},
+/obj/machinery/atmospherics/components/unary/vent_scrubber/on{
+	filter_types = list(/datum/gas/nucleium);
+	name = "Nucleium FTL Fuel Scrubber #3"
 	},
 /turf/open/floor/monotile,
 /area/engine/engineering/reactor_core)
@@ -44117,13 +44120,6 @@
 	},
 /turf/open/floor/plasteel/ship,
 /area/security/prison)
-"fbj" = (
-/obj/machinery/atmospherics/components/unary/outlet_injector/on{
-	dir = 1;
-	name = "Nucleium Feed Tank"
-	},
-/turf/open/floor/engine/vacuum,
-/area/engine/engineering/reactor_core)
 "fbx" = (
 /turf/closed/wall/r_wall/ship,
 /area/shuttle/turbolift/shaft)
@@ -44242,12 +44238,6 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /turf/closed/wall/r_wall/ship,
 /area/engine/atmospherics_engine)
-"fEK" = (
-/obj/structure/cable/yellow{
-	icon_state = "2-4"
-	},
-/turf/closed/wall/r_wall/ship,
-/area/engine/engine_smes)
 "fJP" = (
 /obj/structure/cable{
 	icon_state = "1-2"
@@ -44352,6 +44342,13 @@
 /obj/structure/table/wood,
 /turf/open/floor/carpet,
 /area/library)
+"gbR" = (
+/obj/effect/turf_decal/stripes/line{
+	dir = 1
+	},
+/obj/machinery/light,
+/turf/open/floor/plasteel/ridged/steel,
+/area/engine/engineering/reactor_core)
 "gdZ" = (
 /obj/effect/spawner/structure/window/reinforced,
 /obj/structure/cable{
@@ -44366,18 +44363,21 @@
 /obj/effect/turf_decal/stripes/line,
 /turf/open/floor/plasteel/grid/techfloor,
 /area/engine/engineering/reactor_control)
-"ggy" = (
-/obj/item/fuel_rod,
-/turf/open/indestructible/sound/pool/spentfuel/wall{
-	id = "spentfuel2"
-	},
-/area/engine/engineering/reactor_core)
 "gjw" = (
 /obj/effect/turf_decal/stripes/corner{
 	dir = 4
 	},
+/turf/open/floor/plasteel/ridged/steel,
+/area/engine/engineering/reactor_core)
+"gkP" = (
+/obj/effect/turf_decal/stripes/line{
+	dir = 4
+	},
+/obj/machinery/light{
+	dir = 8
+	},
 /obj/machinery/atmospherics/pipe/simple/green/visible{
-	dir = 5
+	dir = 6
 	},
 /turf/open/floor/plasteel/ridged/steel,
 /area/engine/engineering/reactor_core)
@@ -44402,14 +44402,6 @@
 	},
 /turf/open/floor/carpet/ship,
 /area/crew_quarters/heads/hor)
-"gok" = (
-/obj/machinery/atmospherics/components/unary/vent_scrubber/on{
-	dir = 8;
-	filter_types = list(/datum/gas/nucleium);
-	name = "Nucleium FTL Fuel Scrubber #1"
-	},
-/turf/open/floor/monotile,
-/area/engine/engineering/reactor_core)
 "gqp" = (
 /obj/machinery/newscaster,
 /turf/closed/wall/ship,
@@ -44429,12 +44421,26 @@
 /obj/machinery/airalarm/directional/west,
 /turf/open/floor/monotile,
 /area/crew_quarters/bar)
+"gvT" = (
+/obj/item/fuel_rod,
+/turf/open/indestructible/sound/pool/spentfuel/wall{
+	id = "spentfuel2"
+	},
+/area/engine/engineering/reactor_core)
 "gxK" = (
 /obj/structure/lattice/catwalk,
 /obj/machinery/atmospherics/pipe/simple/violet/visible,
 /obj/machinery/meter,
 /turf/open/space/basic,
 /area/engine/atmos)
+"gCM" = (
+/obj/machinery/atmospherics/components/unary/vent_scrubber/on{
+	dir = 8;
+	filter_types = list(/datum/gas/nucleium);
+	name = "Nucleium FTL Fuel Scrubber #1"
+	},
+/turf/open/floor/monotile,
+/area/engine/engineering/reactor_core)
 "gFl" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 8
@@ -44577,12 +44583,6 @@
 	},
 /turf/open/floor/monotile,
 /area/hallway/nsv/deck2/frame1/central)
-"gVS" = (
-/obj/item/fuel_rod,
-/turf/open/indestructible/sound/pool/spentfuel{
-	id = "spentfuel2"
-	},
-/area/engine/engineering/reactor_core)
 "gVX" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /obj/machinery/firealarm{
@@ -44745,20 +44745,6 @@
 	},
 /turf/open/floor/monotile/dark,
 /area/engine/break_room)
-"hub" = (
-/obj/structure/lattice/catwalk,
-/obj/machinery/atmospherics/pipe/heat_exchanging/junction{
-	dir = 4
-	},
-/obj/machinery/atmospherics/pipe/heat_exchanging/junction/layer1{
-	dir = 4
-	},
-/obj/machinery/atmospherics/pipe/heat_exchanging/junction/layer3{
-	dir = 4
-	},
-/obj/machinery/meter,
-/turf/open/space/basic,
-/area/space/nearstation)
 "hvH" = (
 /turf/open/floor/wood,
 /area/library)
@@ -44834,13 +44820,6 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/starboard/fore)
-"hDI" = (
-/obj/effect/spawner/structure/window/reinforced,
-/obj/structure/cable/yellow{
-	icon_state = "4-8"
-	},
-/turf/open/floor/plating,
-/area/engine/engineering/reactor_core)
 "hHa" = (
 /obj/effect/turf_decal/pool/corner{
 	dir = 1
@@ -44848,8 +44827,9 @@
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
 	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/visible{
-	dir = 4
+/obj/machinery/atmospherics/components/trinary/filter/atmos/flipped{
+	dir = 8;
+	filter_type = "nucleium"
 	},
 /turf/open/floor/plasteel/ridged/steel,
 /area/engine/engineering/reactor_core)
@@ -44919,6 +44899,15 @@
 	},
 /turf/open/floor/engine,
 /area/engine/engineering/reactor_core)
+"hRK" = (
+/obj/machinery/pool_filter{
+	id = "spentfuel2"
+	},
+/obj/item/fuel_rod,
+/turf/open/indestructible/sound/pool/spentfuel/wall{
+	id = "spentfuel2"
+	},
+/area/engine/engineering/reactor_core)
 "hSg" = (
 /obj/machinery/light/small{
 	dir = 4
@@ -44940,6 +44929,12 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /turf/open/floor/monotile,
 /area/hallway/secondary/exit)
+"hWt" = (
+/obj/structure/cable/yellow{
+	icon_state = "2-4"
+	},
+/turf/closed/wall/r_wall/ship,
+/area/engine/engine_smes)
 "idG" = (
 /obj/structure/cable{
 	icon_state = "4-8"
@@ -44989,6 +44984,11 @@
 	icon_state = "4-8"
 	},
 /turf/open/floor/engine,
+/area/engine/engineering/reactor_core)
+"inx" = (
+/obj/machinery/atmospherics/pipe/simple/green/visible,
+/obj/effect/spawner/structure/window/reinforced,
+/turf/open/floor/plating,
 /area/engine/engineering/reactor_core)
 "iov" = (
 /obj/structure/lattice/catwalk/over/ship,
@@ -45101,9 +45101,6 @@
 	},
 /turf/open/floor/monotile,
 /area/security/execution/transfer)
-"iIm" = (
-/turf/open/floor/engine/vacuum,
-/area/engine/engineering/reactor_core)
 "iJw" = (
 /obj/structure/lattice/catwalk,
 /obj/machinery/atmospherics/pipe/simple/purple/visible{
@@ -45174,9 +45171,6 @@
 /obj/structure/closet/firecloset,
 /turf/open/floor/plating,
 /area/maintenance/starboard)
-"iOh" = (
-/turf/open/floor/carpet/green,
-/area/engine/engineering/reactor_control)
 "iQX" = (
 /obj/machinery/door/airlock/ship/external/glass{
 	req_one_access_txt = "13"
@@ -45239,13 +45233,6 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/department/engine)
-"iWt" = (
-/obj/effect/turf_decal/stripes/line{
-	dir = 4
-	},
-/obj/machinery/atmospherics/pipe/simple/green/visible,
-/turf/open/floor/plasteel/ridged/steel,
-/area/engine/engineering/reactor_core)
 "iYd" = (
 /obj/structure/disposalpipe/segment{
 	dir = 4
@@ -45468,6 +45455,9 @@
 /area/science/mixing{
 	name = "Prototype munitions bay"
 	})
+"jSc" = (
+/turf/open/floor/carpet/green,
+/area/engine/engineering/reactor_control)
 "jTD" = (
 /obj/structure/lattice/catwalk,
 /obj/machinery/atmospherics/pipe/heat_exchanging/simple,
@@ -45489,6 +45479,11 @@
 /obj/structure/disposalpipe/segment,
 /turf/open/floor/plating,
 /area/maintenance/starboard)
+"jYn" = (
+/obj/machinery/atmospherics/pipe/simple/green/visible,
+/obj/machinery/meter,
+/turf/open/floor/plasteel/ridged/steel,
+/area/engine/engineering/reactor_core)
 "jYW" = (
 /obj/effect/turf_decal/tile/neutral{
 	dir = 1
@@ -45672,6 +45667,10 @@
 	},
 /turf/open/floor/monotile,
 /area/crew_quarters/heads/chief)
+"ktu" = (
+/obj/machinery/light/small,
+/turf/open/floor/engine/vacuum,
+/area/engine/engineering/reactor_core)
 "kuF" = (
 /obj/structure/cable{
 	icon_state = "4-8"
@@ -45720,6 +45719,12 @@
 	},
 /turf/open/floor/monotile/dark,
 /area/science/research)
+"kyH" = (
+/obj/machinery/atmospherics/pipe/simple/green/visible{
+	dir = 9
+	},
+/turf/open/floor/monotile,
+/area/engine/engineering/reactor_core)
 "kAJ" = (
 /obj/effect/turf_decal/stripes/line,
 /obj/machinery/computer/turbine_computer{
@@ -45814,6 +45819,12 @@
 	},
 /turf/open/floor/monotile,
 /area/crew_quarters/fitness/recreation)
+"kLG" = (
+/obj/item/fuel_rod,
+/turf/open/indestructible/sound/pool/spentfuel{
+	id = "spentfuel2"
+	},
+/area/engine/engineering/reactor_core)
 "kOA" = (
 /obj/structure/closet/emcloset,
 /obj/machinery/light/small{
@@ -45970,11 +45981,6 @@
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /turf/open/floor/plating,
 /area/maintenance/starboard/fore)
-"lrW" = (
-/obj/machinery/atmospherics/pipe/simple/green/visible,
-/obj/effect/spawner/structure/window/reinforced,
-/turf/open/floor/plating,
-/area/engine/engineering/reactor_core)
 "ltH" = (
 /obj/machinery/light,
 /turf/open/floor/monotile/dark,
@@ -46003,15 +46009,6 @@
 /obj/structure/lattice/catwalk,
 /turf/open/space/basic,
 /area/engine/atmos)
-"lyE" = (
-/obj/effect/turf_decal/stripes/line{
-	dir = 4
-	},
-/obj/machinery/atmospherics/pipe/manifold/green/visible{
-	dir = 8
-	},
-/turf/open/floor/plasteel/ridged/steel,
-/area/engine/engineering/reactor_core)
 "lzn" = (
 /obj/structure/disposalpipe/segment{
 	dir = 4
@@ -46068,15 +46065,6 @@
 	},
 /turf/open/floor/plating,
 /area/crew_quarters/heads/hor)
-"lHX" = (
-/obj/effect/turf_decal/stripes/line{
-	dir = 4
-	},
-/obj/machinery/light{
-	dir = 8
-	},
-/turf/open/floor/plasteel/ridged/steel,
-/area/engine/engineering/reactor_core)
 "lJM" = (
 /obj/machinery/atmospherics/components/binary/magnetic_constrictor,
 /turf/open/floor/plating/airless,
@@ -46181,11 +46169,6 @@
 	},
 /turf/open/floor/monotile,
 /area/engine/engineering/reactor_core)
-"lWE" = (
-/turf/open/indestructible/sound/pool/spentfuel{
-	id = "spentfuel2"
-	},
-/area/engine/engineering/reactor_core)
 "lZz" = (
 /obj/effect/turf_decal/pool{
 	dir = 4
@@ -46235,6 +46218,10 @@
 /obj/machinery/computer/arcade,
 /turf/open/floor/monotile/dark,
 /area/security/prison)
+"mgP" = (
+/obj/effect/spawner/structure/window/reinforced,
+/turf/open/floor/plating,
+/area/engine/engineering/reactor_control)
 "mlW" = (
 /obj/structure/lattice/catwalk,
 /obj/machinery/atmospherics/pipe/simple/purple/visible,
@@ -46418,6 +46405,15 @@
 /obj/item/fuel_rod,
 /turf/open/indestructible/sound/pool/spentfuel/wall,
 /area/engine/engineering/reactor_core)
+"mPv" = (
+/obj/effect/turf_decal/stripes/line{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/green/visible{
+	dir = 5
+	},
+/turf/open/floor/plasteel/ridged/steel,
+/area/engine/engineering/reactor_core)
 "mPw" = (
 /obj/structure/reagent_dispensers/watertank,
 /turf/open/floor/plating,
@@ -46514,6 +46510,18 @@
 	},
 /turf/open/floor/engine,
 /area/engine/atmospherics_engine)
+"nil" = (
+/obj/machinery/atmospherics/pipe/simple/green/visible{
+	dir = 8
+	},
+/turf/open/floor/monotile,
+/area/engine/engineering/reactor_core)
+"nls" = (
+/obj/machinery/light{
+	dir = 4
+	},
+/turf/open/floor/plasteel/ridged/steel,
+/area/engine/engineering/reactor_control)
 "npB" = (
 /obj/structure/table,
 /obj/machinery/computer/libraryconsole/bookmanagement,
@@ -46555,6 +46563,7 @@
 /obj/machinery/atmospherics/pipe/manifold/scrubbers/visible{
 	dir = 4
 	},
+/obj/machinery/meter,
 /turf/open/floor/plasteel/ridged/steel,
 /area/engine/engineering/reactor_core)
 "nuP" = (
@@ -46567,15 +46576,6 @@
 	},
 /turf/open/floor/monotile/light,
 /area/security/prison)
-"nAT" = (
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
-/obj/machinery/atmospherics/components/unary/vent_scrubber/on{
-	dir = 8;
-	filter_types = list(/datum/gas/nucleium);
-	name = "Nucleium FTL Fuel Scrubber #2"
-	},
-/turf/open/floor/monotile,
-/area/engine/engineering/reactor_core)
 "nCw" = (
 /obj/machinery/atmospherics/pipe/heat_exchanging/simple{
 	dir = 4
@@ -46710,6 +46710,12 @@
 	},
 /turf/open/floor/wood,
 /area/library)
+"obX" = (
+/obj/machinery/light,
+/turf/open/indestructible/sound/pool/spentfuel{
+	id = "spentfuel2"
+	},
+/area/engine/engineering/reactor_core)
 "ocF" = (
 /obj/structure/lattice/catwalk,
 /obj/machinery/atmospherics/components/binary/pump{
@@ -46871,6 +46877,9 @@
 "oAP" = (
 /obj/machinery/atmospherics/components/binary/pump/rbmk_output{
 	dir = 1
+	},
+/obj/machinery/atmospherics/pipe/simple/green/visible{
+	dir = 8
 	},
 /turf/open/floor/monotile,
 /area/engine/engineering/reactor_core)
@@ -47152,12 +47161,6 @@
 	},
 /turf/open/floor/wood,
 /area/library)
-"pCW" = (
-/obj/machinery/light,
-/turf/open/indestructible/sound/pool/spentfuel{
-	id = "spentfuel2"
-	},
-/area/engine/engineering/reactor_core)
 "pED" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 4
@@ -47282,6 +47285,9 @@
 /obj/structure/lattice/catwalk,
 /turf/open/space/basic,
 /area/space/nearstation)
+"pZC" = (
+/turf/open/floor/engine/vacuum,
+/area/engine/engineering/reactor_core)
 "qbw" = (
 /obj/structure/closet/crate{
 	icon_state = "crateopen"
@@ -47423,13 +47429,6 @@
 	},
 /turf/open/floor/engine,
 /area/engine/atmospherics_engine)
-"qEn" = (
-/obj/effect/turf_decal/stripes/line{
-	dir = 1
-	},
-/obj/machinery/light,
-/turf/open/floor/plasteel/ridged/steel,
-/area/engine/engineering/reactor_core)
 "qEO" = (
 /turf/open/floor/plating,
 /area/maintenance/starboard/fore)
@@ -47465,10 +47464,6 @@
 /obj/structure/reagent_dispensers/fueltank,
 /turf/open/floor/plating,
 /area/maintenance/department/engine)
-"qLb" = (
-/obj/effect/spawner/structure/window/reinforced,
-/turf/open/floor/plating,
-/area/engine/engineering/reactor_control)
 "qLh" = (
 /obj/machinery/light/small{
 	dir = 4
@@ -47684,6 +47679,9 @@
 /obj/machinery/airalarm/directional/south,
 /turf/open/floor/monotile,
 /area/security/brig)
+"rpx" = (
+/turf/open/floor/plasteel/grid/lino,
+/area/engine/engineering/reactor_control)
 "rti" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/high_volume/layer1{
 	dir = 1
@@ -47848,10 +47846,11 @@
 /turf/open/floor/plasteel/grid/steel,
 /area/engine/engineering/reactor_core)
 "rKx" = (
-/obj/effect/turf_decal/stripes/line{
-	dir = 1
+/obj/machinery/atmospherics/pipe/simple/scrubbers/visible,
+/obj/machinery/atmospherics/pipe/simple/green/visible{
+	dir = 8
 	},
-/turf/open/floor/plasteel/ridged/steel,
+/turf/open/floor/monotile,
 /area/engine/engineering/reactor_core)
 "rLI" = (
 /obj/effect/spawner/lootdrop/two_percent_xeno_egg_spawner,
@@ -47867,6 +47866,11 @@
 /obj/machinery/atmospherics/pipe/layer_manifold/visible,
 /obj/machinery/meter,
 /turf/open/floor/plasteel/ridged/steel,
+/area/engine/engineering/reactor_core)
+"rOe" = (
+/turf/open/indestructible/sound/pool/spentfuel{
+	id = "spentfuel2"
+	},
 /area/engine/engineering/reactor_core)
 "rST" = (
 /obj/effect/turf_decal/stripes/line{
@@ -47981,9 +47985,6 @@
 	},
 /turf/open/floor/monotile,
 /area/medical/chemistry)
-"sgr" = (
-/turf/open/floor/plasteel/grid/lino,
-/area/engine/engineering/reactor_control)
 "smz" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 9
@@ -47993,6 +47994,19 @@
 	},
 /turf/open/floor/plating,
 /area/engine/engineering/hangar)
+"spa" = (
+/obj/effect/turf_decal/pool,
+/obj/machinery/atmospherics/pipe/simple/cyan/visible{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	dir = 8
+	},
+/turf/open/floor/plasteel/grid/steel,
+/area/engine/engineering/reactor_core)
 "srs" = (
 /obj/machinery/atmospherics/pipe/simple/general/visible,
 /obj/structure/cable{
@@ -48070,6 +48084,11 @@
 /obj/structure/grille,
 /turf/open/floor/plating,
 /area/maintenance/starboard)
+"sGM" = (
+/turf/open/indestructible/sound/pool/spentfuel/wall{
+	id = "spentfuel2"
+	},
+/area/engine/engineering/reactor_core)
 "sJI" = (
 /obj/machinery/status_display/evac,
 /turf/closed/wall/ship,
@@ -48139,12 +48158,6 @@
 /obj/machinery/door/firedoor/border_only,
 /turf/open/floor/plating,
 /area/maintenance/starboard)
-"tby" = (
-/obj/machinery/light{
-	dir = 4
-	},
-/turf/open/floor/plasteel/ridged/steel,
-/area/engine/engineering/reactor_control)
 "tcb" = (
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3{
 	dir = 1
@@ -48218,6 +48231,12 @@
 /obj/structure/table/wood,
 /turf/open/floor/carpet,
 /area/library)
+"tmq" = (
+/obj/machinery/atmospherics/components/unary/vent_pump/siphon/on{
+	dir = 1
+	},
+/turf/open/floor/engine/vacuum,
+/area/engine/engineering/reactor_core)
 "tnm" = (
 /obj/effect/turf_decal/tile/yellow{
 	dir = 1
@@ -48248,6 +48267,9 @@
 "tpo" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/obj/machinery/atmospherics/pipe/manifold/green/visible{
+	dir = 1
+	},
 /turf/open/floor/monotile,
 /area/engine/engineering/reactor_core)
 "tux" = (
@@ -48509,12 +48531,6 @@
 	},
 /turf/open/floor/plating,
 /area/quartermaster/miningdock)
-"uIl" = (
-/obj/machinery/armour_plating_nanorepair_pump/aft_starboard{
-	apnw_id = "pleaseSendHelp"
-	},
-/turf/open/floor/plasteel/ship,
-/area/engine/engineering)
 "uIA" = (
 /obj/machinery/power/apc/auto_name/north,
 /obj/structure/cable{
@@ -48570,6 +48586,12 @@
 	},
 /turf/closed/wall/ship,
 /area/science/mixing/chamber)
+"uTq" = (
+/obj/machinery/armour_plating_nanorepair_pump/aft_starboard{
+	apnw_id = "pleaseSendHelp"
+	},
+/turf/open/floor/plasteel/ship,
+/area/engine/engineering)
 "uUs" = (
 /obj/machinery/atmospherics/pipe/simple/purple/visible/layer1{
 	dir = 4;
@@ -48639,18 +48661,18 @@
 	},
 /turf/open/floor/carpet/ship,
 /area/crew_quarters/dorms/nsv/dorms_2)
-"vfK" = (
-/obj/effect/turf_decal/pool,
-/obj/machinery/atmospherics/pipe/simple/cyan/visible{
-	dir = 4
+"vgZ" = (
+/obj/effect/turf_decal/stripes/line{
+	dir = 1
 	},
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
-	dir = 4
+/turf/open/floor/plasteel/ridged/steel,
+/area/engine/engineering/reactor_core)
+"vhp" = (
+/obj/machinery/atmospherics/components/unary/outlet_injector/on{
+	dir = 1;
+	name = "Nucleium Feed Tank"
 	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
-	dir = 8
-	},
-/turf/open/floor/plasteel/grid/steel,
+/turf/open/floor/engine/vacuum,
 /area/engine/engineering/reactor_core)
 "vii" = (
 /obj/machinery/atmospherics/components/unary/portables_connector/visible{
@@ -48762,15 +48784,6 @@
 	},
 /turf/open/floor/wood,
 /area/library)
-"vvo" = (
-/obj/structure/closet/radiation,
-/obj/item/geiger_counter,
-/obj/effect/turf_decal/stripes/line{
-	dir = 1
-	},
-/obj/machinery/light,
-/turf/open/floor/plasteel/grid/steel,
-/area/engine/engineering/reactor_control)
 "vwu" = (
 /obj/effect/turf_decal/tile/neutral,
 /obj/effect/turf_decal/tile/neutral{
@@ -48784,15 +48797,6 @@
 	},
 /turf/open/floor/monotile,
 /area/hallway/nsv/deck2/frame1/central)
-"vwD" = (
-/obj/effect/turf_decal/pool{
-	dir = 1
-	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/visible{
-	dir = 4
-	},
-/turf/open/floor/plasteel/grid/steel,
-/area/engine/engineering/reactor_core)
 "vxy" = (
 /obj/machinery/advanced_airlock_controller{
 	pixel_y = -26
@@ -48852,6 +48856,15 @@
 	},
 /turf/open/floor/plasteel/grid/steel,
 /area/engine/engineering/reactor_core)
+"vNA" = (
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/obj/machinery/atmospherics/components/unary/vent_scrubber/on{
+	dir = 8;
+	filter_types = list(/datum/gas/nucleium);
+	name = "Nucleium FTL Fuel Scrubber #2"
+	},
+/turf/open/floor/monotile,
+/area/engine/engineering/reactor_core)
 "vNE" = (
 /obj/machinery/atmospherics/pipe/heat_exchanging/simple{
 	dir = 4
@@ -48894,6 +48907,15 @@
 	},
 /turf/open/floor/monotile,
 /area/engine/engineering/hangar)
+"vXJ" = (
+/obj/effect/turf_decal/pool{
+	dir = 1
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/visible{
+	dir = 4
+	},
+/turf/open/floor/plasteel/grid/steel,
+/area/engine/engineering/reactor_core)
 "vYs" = (
 /obj/machinery/camera/autoname,
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3,
@@ -48955,6 +48977,18 @@
 /area/science/mixing{
 	name = "Prototype munitions bay"
 	})
+"wiv" = (
+/obj/effect/turf_decal/pool{
+	dir = 4
+	},
+/obj/effect/turf_decal/stripes/line{
+	dir = 8
+	},
+/obj/machinery/atmospherics/pipe/simple/green/visible{
+	dir = 10
+	},
+/turf/open/floor/plasteel/ridged/steel,
+/area/engine/engineering/reactor_core)
 "wlb" = (
 /obj/structure/extinguisher_cabinet{
 	pixel_y = -27
@@ -49064,6 +49098,13 @@
 	},
 /turf/open/floor/wood,
 /area/library)
+"wxD" = (
+/obj/effect/spawner/structure/window/reinforced,
+/obj/structure/cable/yellow{
+	icon_state = "4-8"
+	},
+/turf/open/floor/plating,
+/area/engine/engineering/reactor_core)
 "wyO" = (
 /obj/machinery/atmospherics/pipe/layer_manifold{
 	dir = 4
@@ -49206,17 +49247,6 @@
 	},
 /turf/open/floor/monotile/dark,
 /area/crew_quarters/nsv/observation)
-"xcM" = (
-/obj/machinery/atmospherics/components/unary/vent_pump/siphon/on{
-	dir = 1
-	},
-/turf/open/floor/engine/vacuum,
-/area/engine/engineering/reactor_core)
-"xdQ" = (
-/turf/open/indestructible/sound/pool/spentfuel/wall{
-	id = "spentfuel2"
-	},
-/area/engine/engineering/reactor_core)
 "xdR" = (
 /obj/effect/turf_decal/tile/purple{
 	dir = 8
@@ -49299,6 +49329,15 @@
 /obj/structure/table/wood,
 /turf/open/floor/carpet,
 /area/library)
+"xpP" = (
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	dir = 8
+	},
+/turf/open/floor/monotile,
+/area/engine/engineering/reactor_core)
 "xqb" = (
 /obj/structure/cable/yellow{
 	icon_state = "4-8"
@@ -49341,6 +49380,20 @@
 /area/science/mixing{
 	name = "Prototype munitions bay"
 	})
+"xyX" = (
+/obj/structure/lattice/catwalk,
+/obj/machinery/atmospherics/pipe/heat_exchanging/junction{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/heat_exchanging/junction/layer1{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/heat_exchanging/junction/layer3{
+	dir = 4
+	},
+/obj/machinery/meter,
+/turf/open/space/basic,
+/area/space/nearstation)
 "xDn" = (
 /obj/machinery/atmospherics/pipe/simple/cyan/visible{
 	dir = 4
@@ -49434,15 +49487,6 @@
 	},
 /turf/open/floor/plasteel/dark,
 /area/chapel/main)
-"xRN" = (
-/obj/machinery/pool_filter{
-	id = "spentfuel2"
-	},
-/obj/item/fuel_rod,
-/turf/open/indestructible/sound/pool/spentfuel/wall{
-	id = "spentfuel2"
-	},
-/area/engine/engineering/reactor_core)
 "xWe" = (
 /obj/machinery/airalarm{
 	pixel_y = 23
@@ -49486,6 +49530,15 @@
 /area/science)
 "xZF" = (
 /turf/open/indestructible/sound/pool/spentfuel,
+/area/engine/engineering/reactor_core)
+"ybg" = (
+/obj/effect/turf_decal/stripes/line{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/manifold/green/visible{
+	dir = 8
+	},
+/turf/open/floor/plasteel/ridged/steel,
 /area/engine/engineering/reactor_core)
 "ydG" = (
 /obj/effect/turf_decal/delivery,
@@ -94114,7 +94167,7 @@ anp
 aoa
 azq
 anp
-fEK
+hWt
 bET
 bET
 bET
@@ -98227,7 +98280,7 @@ aAi
 aaN
 aMC
 aQO
-uIl
+uTq
 aQV
 amC
 ajJ
@@ -98739,7 +98792,7 @@ bAs
 ayJ
 ayJ
 asp
-qLb
+mgP
 aQu
 aYm
 ayJ
@@ -98999,7 +99052,7 @@ nOu
 apt
 and
 amv
-sgr
+rpx
 ayJ
 gfj
 mWF
@@ -99253,10 +99306,10 @@ btn
 ayJ
 amB
 rjg
-iOh
+jSc
 apr
 aRc
-sgr
+rpx
 ayJ
 ctl
 rEe
@@ -99510,16 +99563,16 @@ btn
 ayJ
 ayV
 asy
-iOh
+jSc
 aQQ
 aRc
-sgr
+rpx
 oYN
 aBS
 azx
 vHF
 oAa
-vvo
+eni
 ayJ
 aBm
 aCt
@@ -99767,10 +99820,10 @@ fPZ
 ayJ
 awa
 aQv
-iOh
+jSc
 aBb
 aRc
-sgr
+rpx
 ayJ
 owl
 aBS
@@ -100030,7 +100083,7 @@ otG
 poc
 ayJ
 gfj
-tby
+nls
 qcD
 aBF
 pmq
@@ -100283,7 +100336,7 @@ aMu
 gdZ
 aMu
 aMu
-hDI
+wxD
 aMu
 azk
 kVE
@@ -100538,16 +100591,16 @@ vtl
 azk
 aQS
 anc
-lHX
-dPc
+gkP
+ybg
 iuh
-lyE
+ybg
 uyI
-iWt
+mPv
 gjw
 azk
 dHV
-dJS
+bWD
 azk
 azk
 azk
@@ -100795,18 +100848,18 @@ oUM
 agG
 aQT
 eJy
-ilc
-gok
+nil
+gCM
 qvj
-nAT
+vNA
 anz
 tpo
 dgt
 aCc
 aDQ
-bVT
-lrW
-fbj
+jYn
+inx
+vhp
 azk
 arT
 arT
@@ -101052,18 +101105,18 @@ gbD
 azk
 aUb
 ilc
-ilc
+nil
 ilc
 wPI
 ilc
 ess
-ilc
-rKx
+kyH
+vgZ
 azk
 xov
-ddu
-lrW
-xcM
+cwi
+inx
+tmq
 azk
 bAl
 aDR
@@ -101315,12 +101368,12 @@ peN
 oAv
 lAf
 xlf
-qEn
+gbR
 azk
 lgi
 azk
 azk
-iIm
+ktu
 azk
 fUk
 aBX
@@ -101566,18 +101619,18 @@ vWj
 azk
 kAJ
 vnY
-ilc
+nil
 ilc
 fBV
 ilc
-ess
+xpP
 xDn
-rKx
+vgZ
 azk
 kwI
 azk
-iIm
-iIm
+pZC
+pZC
 azk
 fUk
 atK
@@ -101823,18 +101876,18 @@ mQd
 agG
 pmv
 rxr
-nuP
+rKx
 mYZ
 sfI
 mmu
 lVZ
 pJt
-rKx
+vgZ
 azk
 rlJ
 azk
-azk
-azk
+pZC
+pZC
 azk
 fUk
 atK
@@ -102080,7 +102133,7 @@ anJ
 azk
 iwG
 vlb
-vlb
+wiv
 hHa
 cnc
 mpS
@@ -102089,10 +102142,10 @@ vlb
 sNm
 azk
 arT
-arT
-arT
-atK
-atK
+ano
+ano
+ano
+ano
 fUk
 atK
 mbI
@@ -102341,9 +102394,9 @@ rzw
 mGr
 oSC
 eBd
-ggy
-gVS
-gVS
+gvT
+kLG
+kLG
 azk
 arT
 apq
@@ -102595,12 +102648,12 @@ azk
 awu
 xZF
 xZF
-vwD
+vXJ
 dVC
 vJV
-xdQ
-lWE
-lWE
+sGM
+rOe
+rOe
 azk
 arT
 apq
@@ -102852,12 +102905,12 @@ azk
 bHU
 xZF
 xZF
-vwD
+vXJ
 ucc
 lNZ
-xdQ
-lWE
-pCW
+sGM
+rOe
+obX
 azk
 bAl
 aDR
@@ -103109,12 +103162,12 @@ azk
 mON
 rzw
 rzw
-vwD
+vXJ
 xqb
-vfK
-xRN
-gVS
-gVS
+spa
+hRK
+kLG
+kLG
 azk
 fUk
 atK
@@ -106194,7 +106247,7 @@ aaa
 aaa
 atK
 npS
-hub
+xyX
 aaJ
 aaJ
 aaJ

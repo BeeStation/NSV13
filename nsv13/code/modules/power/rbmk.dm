@@ -278,6 +278,8 @@ The reactor CHEWS through moderator. It does not do this slowly. Be very careful
 			last_power_produced *= base_power_modifier //Finally, we turn it into actual usable numbers.
 			radioactivity_spice_multiplier += moderator_input.get_moles(/datum/gas/tritium) / 5 //Chernobyl 2.
 			var/turf/T = get_turf(src)
+			if(power >= 20)
+				coolant_output.adjust_moles(/datum/gas/nucleium, total_fuel_moles/50) //Shove out nucleium into the air when it's fuelled. You need to filter this off, or you're gonna have a bad time.
 			var/obj/structure/cable/C = T.get_cable_node()
 			if(!C || !C.powernet)
 				return
