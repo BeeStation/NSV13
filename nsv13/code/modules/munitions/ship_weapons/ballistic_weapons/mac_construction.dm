@@ -2,7 +2,7 @@
 #define BS_MOUNT_BOLTED 2
 #define BS_MOUNT_WELDED 3
 #define BS_BARREL_PLACED 4
-#define BS_BARREL_BOLTED 5
+#define BS_BARREL_SOLDERED 5
 #define BS_BARREL_LINED 6
 #define BS_BARREL_LINING_SECURE 7
 #define BS_CAPACITORS_PLACED 8
@@ -51,7 +51,7 @@
 			. += "It is <b>welded</b> to the floor and is awaiting the installation of a <i>barrel</i>."
 		if(BS_BARREL_PLACED)
 			. += "The barrel sits loose in the frame. It could be <i>soldered<i> to the frame or <b>pried out</b>."
-		if(BS_BARREL_BOLTED)
+		if(BS_BARREL_SOLDERED)
 			. += "The barrel is <b>soldered</b> to the frame, but the <i>nanocarbon insulation</i> is missing."
 		if(BS_BARREL_LINED)
 			. += "Nanocarbon insulation is loose in the barrel. There are <i>bolts</i> to secure it in place. It could be <b>pried</b>out."
@@ -63,17 +63,17 @@
 		if(BS_CAPACITORS_SECURED)
 			. += "The capacitors are <b>screwed</b> in place, but lack <i>wiring</i>."
 		if(BS_WIRED)
-			. += "The capacitors are <b>wired</b> to the rails and can be <i>soldered<i/> in place."
+			. += "The capacitors are <b>wired</b> to the barrel and can be <i>soldered<i/> in place."
 		if(BS_WIRES_SOLDERED)
-			. += "The capacitors are <b>soldered</b> to the rails, and the <i>firing electronics</i> are missing."
+			. += "The capacitors are <b>soldered</b> to the barrel, and the <i>firing electronics</i> are missing."
 		if(BS_ELECTRONICS_LOOSE)
 			. += "The firing electronics sit loose in the frame. They could be <b>pried out</b> or <i>screwed</i> into place."
 		if(BS_ELECTRONICS_SECURE)
-			. += "The firing electronics are <b>screwed</b> into place. The railgun is missing a <i>metal casing</i>."
+			. += "The firing electronics are <b>screwed</b> into place. The MAC is missing a <i>metal casing</i>."
 		if(BS_CASING_ADDED)
 			. += "The metal casing can be <b>cut away</b>. The <i>loading tray</i> is missing."
 
-// We just took apart a railgun, put us at the end of the construction sequence
+// We just took apart a MAC, put us at the end of the construction sequence
 /obj/structure/ship_weapon/mac_assembly/proc/set_final_state()
 	state = BS_CASING_ADDED
 
@@ -82,12 +82,12 @@
 	if(istype(W, /obj/item/stack/sheet/nanocarbon_glass) && (state == BS_MOUNT_WELDED))
 		var/obj/item/stack/sheet/nanocarbon_glass/S = W
 		if(S.get_amount() < num_sheets_insulation)
-			to_chat(user, "<span class='warning'>You need four sheets of [S] to insulate the railgun!</span>")
+			to_chat(user, "<span class='warning'>You need four sheets of [S] to insulate the barrel!</span>")
 			return
 		if(!do_after(user, 2 SECONDS, target=src))
 			return
 		if(S.get_amount() < num_sheets_insulation) // Check whether they used too much while standing here...
-			to_chat(user, "<span class='warning'>You need four sheets of [S] to insulate the railgun!</span>")
+			to_chat(user, "<span class='warning'>You need four sheets of [S] to insulate the barrel!</span>")
 			return
 		S.use(num_sheets_insulation)
 		to_chat(user, "<span class='notice'>You line the frame with insulating nanocarbon glass.</span>")
@@ -114,15 +114,15 @@
 	else if(istype(W, /obj/item/stack/cable_coil) && (state == BS_CAPACITORS_SECURED))
 		var/obj/item/stack/cable_coil/S = W
 		if(S.get_amount() < num_cables)
-			to_chat(user, "<span class='warning'>You need four pieces of [S] to wire the railgun!</span>")
+			to_chat(user, "<span class='warning'>You need four pieces of [S] to wire the MAC!</span>")
 			return
 		if(!do_after(user, 2 SECONDS, target=src))
 			return
 		if(S.get_amount() < num_cables)
-			to_chat(user, "<span class='warning'>You need four pieces of [S] to wire the railgun!</span>")
+			to_chat(user, "<span class='warning'>You need four pieces of [S] to wire the MAC!</span>")
 			return
 		S.use(num_cables)
-		to_chat(user, "<span class='notice'>You wire the power supply to the rails.</span>")
+		to_chat(user, "<span class='notice'>You wire the power supply to the barrel.</span>")
 		state = BS_WIRED
 		return TRUE
 
@@ -154,18 +154,18 @@
 			return
 		W.forceMove(src)
 		to_chat(user, "<span class='notice'>You slide the loading tray into place.</span>")
-		var/obj/machinery/ship_weapon/railgun/RG = new(loc)
-		RG.dir = dir
-		RG.setAnchored(anchored)
-		RG.on_construction()
-		for(var/obj/O in RG.component_parts)
+		var/obj/machinery/ship_weapon/mac/built = new(loc)
+		built.dir = dir
+		built.setAnchored(anchored)
+		built.on_construction()
+		for(var/obj/O in built.component_parts)
 			qdel(O)
 			stoplag()
-		transfer_fingerprints_to(RG)
-		RG.component_parts = list()
+		transfer_fingerprints_to(built)
+		built.component_parts = list()
 		for(var/obj/O in src)
 			O.moveToNullspace()
-			RG.component_parts += O
+			built.component_parts += O
 			stoplag()
 		qdel(src)
 		return TRUE
@@ -187,7 +187,7 @@
 			C.forceMove(loc)
 			C = (locate(/obj/item/stock_parts/capacitor) in src)
 			stoplag()
-		state = BS_RAILS_BOLTED
+		state = BS_BARREL_LINING_SECURE
 		return TRUE
 
 /obj/structure/ship_weapon/mac_assembly/wrench_act(mob/living/user, obj/item/tool)
@@ -200,25 +200,7 @@
 				state = BS_MOUNT_BOLTED
 				return TRUE
 
-		if(BS_BARREL_PLACED)
-			if(tool.use_tool(src, user, 2 SECONDS, volume=100))
-				to_chat(user, "<span class='notice'>You secure the insulated barrel.</span>")
-				state = BS_BARREL_BOLTED
-				return TRUE
-
-		if(BS_RAILS_PLACED)
-			if(tool.use_tool(src, user, 2 SECONDS, volume=100))
-				to_chat(user, "<span class='notice'>You bolt the conductive rails to the frame.</span>")
-				state = BS_RAILS_BOLTED
-				return TRUE
-
-		if(BS_RAILS_BOLTED)
-			if(tool.use_tool(src, user, 2 SECONDS, volume=100))
-				to_chat(user, "<span class='notice'>You unbolt the rails from the frame.</span>")
-				state = BS_RAILS_PLACED
-				return TRUE
-
-		if(BS_BARREL_BOLTED)
+		if(BS_BARREL_SOLDERED)
 			if(tool.use_tool(src, user, 2 SECONDS, volume=100))
 				to_chat(user, "<span class='notice'>You unbolt the nanocarbon insulation from the barrel.</span>")
 				state = BS_BARREL_PLACED
@@ -239,6 +221,12 @@
 				state = BS_MOUNT_WELDED
 				return TRUE
 
+		if(BS_BARREL_PLACED)
+			if(tool.use_tool(src, user, 2 SECONDS, amount=2, volume=100))
+				to_chat(user, "<span class='notice'>You solder the barrel to the frame.</span>")
+				state = BS_BARREL_SOLDERED
+				return TRUE
+		
 		if(BS_WIRED)
 			if(tool.use_tool(src, user, 2 SECONDS, amount=2, volume=100))
 				to_chat(user, "<span class='notice'>You solder the wiring into place.</span>")
@@ -283,22 +271,22 @@
 				state = BS_WIRES_SOLDERED
 				return TRUE
 
-		if(BS_RAILS_PLACED)
-			if(tool.use_tool(src, user, 2 SECONDS, volume=100))
-				var/obj/item/ship_weapon/parts/railgun_rail/R = (locate(/obj/item/ship_weapon/parts/railgun_rail) in src)
-				while(R)
-					R.forceMove(loc)
-					R = (locate(/obj/item/ship_weapon/parts/railgun_rail) in src)
-					stoplag()
-				to_chat(user, "<span class='notice'>You pry the rails loose.</span>")
-				state = BS_BARREL_BOLTED
-				return TRUE
-
 		if(BS_BARREL_PLACED)
 			if(tool.use_tool(src, user, 2 SECONDS, volume=100))
-				new/obj/item/stack/sheet/nanocarbon_glass(loc, num_sheets_insulation)
-				to_chat(user, "<span class='notice'>You pry the nanocargon glass free.</span>")
+				var/obj/item/ship_weapon/parts/mac_barrel/R = (locate(/obj/item/ship_weapon/parts/mac_barrel) in src)
+				while(R)
+					R.forceMove(loc)
+					R = (locate(/obj/item/ship_weapon/parts/mac_barrel) in src)
+					stoplag()
+				to_chat(user, "<span class='notice'>You pry the barrel loose.</span>")
 				state = BS_MOUNT_WELDED
+				return TRUE
+
+		if(BS_BARREL_LINED)
+			if(tool.use_tool(src, user, 2 SECONDS, volume=100))
+				new/obj/item/stack/sheet/nanocarbon_glass(loc, num_sheets_insulation)
+				to_chat(user, "<span class='notice'>You pry the nanocarbon glass free.</span>")
+				state = BS_BARREL_SOLDERED
 				return TRUE
 
 /obj/structure/ship_weapon/mac_assembly/wirecutter_act(mob/living/user, obj/item/tool)
@@ -341,9 +329,9 @@
 #undef BS_MOUNT_BOLTED
 #undef BS_MOUNT_WELDED
 #undef BS_BARREL_PLACED
-#undef BS_BARREL_BOLTED
-#undef BS_RAILS_PLACED
-#undef BS_RAILS_BOLTED
+#undef BS_BARREL_SOLDERED
+#undef BS_BARREL_LINED
+#undef BS_BARREL_LINING_SECURE
 #undef BS_CAPACITORS_PLACED
 #undef BS_CAPACITORS_SECURED
 #undef BS_WIRED
