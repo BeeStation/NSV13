@@ -106,3 +106,8 @@
 /obj/machinery/ship_weapon/mac/set_position(obj/structure/overmap/OM)
 	..()
 	overlay = linked.add_weapon_overlay("/obj/weapon_overlay/railgun")
+
+#undef MSTATE_CLOSED 0
+#undef MSTATE_UNSCREWED 1
+#undef MSTATE_UNBOLTED 2
+#undef MSTATE_PRIEDOUT 3
