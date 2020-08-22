@@ -659,6 +659,11 @@
 	max_integrity = 1200 //She's fragile and relies heavily on shields.
 	integrity_failure = 1200
 	starting_system = "Sol"
+	use_armour_quadrants = TRUE
+	armour_quadrants = list("forward_port" = list("name" = "Forward Port", "max_armour" = 750, "current_armour" = 750),\
+							"forward_starboard" = list("name" = "Forward Starboard", "max_armour" = 750, "current_armour" = 750),\
+							"aft_port" = list("name" = "Aft Port", "max_armour" = 750, "current_armour" = 750),\
+							"aft_starboard" = list("name" = "Aft Starboard", "max_armour" = 750, "current_armour" = 750))
 
 /obj/structure/overmap/nanotrasen/gunstar
 	name = "Acropolis class heavy cruiser"
