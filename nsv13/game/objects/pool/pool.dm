@@ -274,6 +274,7 @@ GLOBAL_LIST_EMPTY(pool_filters)
 					splash_holder.reaction(M, TOUCH)
 				else //Sometimes the water penetrates a lil deeper than just a splosh.
 					splash_holder.reaction(M, INGEST)
+				splash_holder.trans_to(M, trans_amount, transfered_by = src)	//Actually put reagents in the mob
 				qdel(splash_holder)
 				var/mob/living/carbon/C = M
 				if(current_temperature <= 283.5) //Colder than 10 degrees is going to make you very cold
