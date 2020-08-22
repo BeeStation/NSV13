@@ -6,15 +6,17 @@ SUBSYSTEM_DEF(star_system)
 	wait = 10
 	flags = SS_NO_INIT
 	var/last_combat_enter = 0 //Last time an AI controlled ship attacked the players
-	var/modifier = 0 //Time step modifier for overmap combat - also matches curreny OEH weight
 	var/list/systems = list()
 	var/bounty_pool = 0 //Bounties pool to be delivered for destroying syndicate ships
 	var/list/enemy_types = list()
 	var/list/enemy_blacklist = list()
 	var/list/ships = list() //2-d array. Format: list("ship" = ship, "x" = 0, "y" = 0, "current_system" = null, "target_system" = null, "transit_time" = 0)
-	var/patrols_left = 3 //Around 1 hour : 15 minutes
-	var/times_cleared = 0
-	var/systems_cleared = 0
+	var/tickets_to_win = list()
+	//Starmap 2
+	var/list/factions = list() //List of all factions in play on this starmap, instantiated on init.
+	var/next_nag_time = 0
+	var/nag_interval = 30 MINUTES //Get off your asses and do some work idiots
+	var/nag_stacks = 0 //How many times have we told you to get a move on?
 
 /datum/controller/subsystem/star_system/fire() //Overmap combat events control system, adds weight to combat events over time spent out of combat
 	if(SSmapping.config.patrol_type == "passive")
@@ -24,42 +26,62 @@ SUBSYSTEM_DEF(star_system)
 				SS.hidden = FALSE
 		can_fire = FALSE //And leave it at that.
 		return FALSE //Don't karmic people if this roundtype is set to passive mode.
-	if(last_combat_enter + (5000 + (1000 * modifier)) < world.time) //Checking the last time we started combat with the current time
-		var/datum/round_event_control/_overmap_event_handler/OEH = locate(/datum/round_event_control/_overmap_event_handler) in SSevents.control
-		modifier ++ //Increment time step
-		if(modifier == 13 && patrols_left > 0) // 30 minutes
-			var/message = pick(	"This is Centcomm to all vessels assigned to patrol the Abassi Ridge, please continue on your patrol route", \
-								"This is Centcomm to all vessels assigned to patrol the Abassi Ridge, we are not paying you to idle in space during your assigned patrol schedule", \
-								"This is Centcomm to the patrol vessel currently assigned to the Abassi Ridge, you are expected to fulfill your assigned mission")
-			priority_announce("[message]", "Naval Command") //Warn players for idleing too long
-		if(modifier == 18 && patrols_left > 0)
-			priority_announce("This is White Rapids command to all vessels assigned to patrol the Abassi Ridge. The Syndicate's agressive expansion efforts have been left unchecked, and they appear to be amassing an invasion force. Destruction of patrolling Syndicate fleets is paramount to avoid an all out assault.", "Deep Space Tracking Installation")
-		if(modifier == 20 && patrols_left > 0)
-			priority_announce("[station_name()] is no longer responding to commands. Enacting emergency defense conditions. All shipside squads must assist in getting the ship ready for combat by any means necessary.", "WhiteRapids Administration Corps")
-			set_security_level(SEC_LEVEL_RED)
-		if(modifier == 22 && patrols_left > 0) // 45 minutes of inactivity, or they've ended their official patrol
+	for(datum/faction/F in factions)
+		F.send_fleet() //Try send a fleet out from each faction.
+	if(world.time >= next_nag_time)
+		nag_stacks ++
+		nag_interval /= 2
+		switch(nag_stacks)
+			if(1)
+				var/message = pick(	"This is Centcomm to all vessels assigned to patrol the Corvi expanse, please continue on your patrol route", \
+									"This is Centcomm to all vessels assigned to patrol the Corvi expanse, we are not paying you to idle in space during your assigned patrol schedule", \
+									"This is Centcomm to the patrol vessel currently assigned to the Corvi expanse, you are expected to fulfill your assigned mission")
+				priority_announce("[message]", "Naval Command") //Warn players for idleing too long
+			if(2)
+				priority_announce("[station_name()] is no longer responding to commands. Enacting emergency defense conditions. All shipside squads must assist in getting the ship ready for combat by any means necessary.", "WhiteRapids Administration Corps")
+				set_security_level(SEC_LEVEL_RED)
+			if(3) //Last straw. 50+ mins of inactivity.
+				//Todo: rework this.
+				var/datum/star_system/target = system_by_id("Tau Ceti")
+				priority_announce("Attention all ships throughout the fleet, assume DEFCON 1. A Syndicate invasion force has been spotted in [target]. All fleets must return to allied space and assist in the defense.", "White Rapids Fleet Command")
+				var/datum/fleet/F = new /datum/fleet/earthbuster()
+				target.fleets += F
+				F.current_system = target
+				F.assemble(target)
+				nag_interval = 20 MINUTES //Keep up the nag.
+			if(4)
+				priority_announce("#####--=-- *static*.", "White Rapids Fleet Command")
+
+		if(nag_stacks >= 3)
+			minor_announce("[station_name()]. Your pay has been docked to cover expenses, continued ignorance of your mission will lead to removal by force.", "Naval Command")
+			nag_interval = rand(15 MINUTES, 20 MINUTES) //Keep up the nag, but slowly.
 			var/total_deductions
 			for(var/account in SSeconomy.department_accounts)
 				var/datum/bank_account/D = SSeconomy.get_dep_account(account)
 				total_deductions += D.account_balance / 2
-				D.account_balance = D.account_balance / 2
-			var/datum/star_system/target = system_by_id("Tau Ceti")
-			priority_announce("Attention all ships throughout the fleet, assume DEFCON 1. A Syndicate invasion force has been spotted in [target]. All fleets must return to allied space and assist in the defense.", "White Rapids Fleet Command")
-			minor_announce("[station_name()]. Your inactivity has forced us to redirect [total_deductions] from your budget to scramble a defensive force capable of defending Earth and her territories.", "Naval Command")
-			var/datum/fleet/F = new /datum/fleet/earthbuster()
-			target.fleets += F
-			F.current_system = target
-			F.assemble(target)
+				D.account_balance /= 2
 
 		if(istype(OEH))
 			OEH.weight ++ //Increment probabilty via SSEvent
-
 /datum/controller/subsystem/star_system/New()
 	. = ..()
+	next_nag_time = world.time + nag_interval
 	instantiate_systems()
 	enemy_types = subtypesof(/obj/structure/overmap/syndicate/ai)
 	for(var/type in enemy_blacklist)
 		enemy_types -= type
+	for(var/instance in subtypesof(/datum/faction))
+		var/datum/faction/F = new instance
+		factions += F
+	for(var/datum/faction/F in factions)
+		F.setup_relationships() //Set up faction relationships AFTER they're all initialised to avoid errors.
+
+/datum/controller/subsystem/star_system/proc/faction_by_id(id)
+	if(!id)
+		return //Stop wasting my time.
+	for(var/datum/faction/F in factions)
+		if(F.id == id)
+			return F
 
 
 /datum/controller/subsystem/star_system/proc/add_blacklist(what)
@@ -68,8 +90,6 @@ SUBSYSTEM_DEF(star_system)
 		enemy_types -= what
 
 /datum/controller/subsystem/star_system/proc/instantiate_systems()
-	cycle_gameplay_loop() //Start the gameplay loop
-	cycle_bounty_timer() //Start the bounty timers
 	for(var/instance in subtypesof(/datum/star_system))
 		var/datum/star_system/S = new instance
 		if(S.name)
@@ -130,7 +150,6 @@ SUBSYSTEM_DEF(star_system)
 ///////BOUNTIES//////
 
 /datum/controller/subsystem/star_system/proc/bounty_payout()
-	cycle_bounty_timer()
 	if(!bounty_pool) //No need to spam when there is no cashola payout
 		return
 	minor_announce("Bounty Payment Of [bounty_pool] Credits Processed", "Naval Command")
@@ -141,20 +160,15 @@ SUBSYSTEM_DEF(star_system)
 	DD.adjust_money(split_bounty)
 	bounty_pool = 0
 
-/datum/controller/subsystem/star_system/proc/cycle_bounty_timer()
-	addtimer(CALLBACK(src, .proc/bounty_payout), 15 MINUTES) //Cycle bounty payments every 15 minutes
-
-//////GAMEPLAY LOOP///////
-
-/datum/controller/subsystem/star_system/proc/cycle_gameplay_loop()
-	addtimer(CALLBACK(src, .proc/gameplay_loop), rand(10 MINUTES, 15 MINUTES)) //Cycle the gameplay loop 10 to 15 minutes after the previous sector is made hostile.
-
-//For extremely robust crews who wish to earn cooler medals.
-/datum/controller/subsystem/star_system/proc/reset_gameplay_loop()
-	patrols_left = initial(patrols_left)
-	systems_cleared = 0
-
 /datum/controller/subsystem/star_system/proc/check_completion()
+	for(var/X in factions)
+		var/datum/faction/F = X
+		if(F.tickets >= tickets_to_win)
+			F.victory()
+			return TRUE
+	return FALSE
+
+	/* Deprecated.
 	if(patrols_left <= 0 && systems_cleared >= initial(patrols_left))
 		var/medal_type = null //Reward good players.
 		switch(times_cleared)
@@ -188,36 +202,7 @@ SUBSYSTEM_DEF(star_system)
 		times_cleared ++
 		addtimer(CALLBACK(src, .proc/reset_gameplay_loop), rand(15 MINUTES, 20 MINUTES)) //Give them plenty of time to go home before we give them any more missions.
 		return TRUE
-
-/datum/controller/subsystem/star_system/proc/gameplay_loop() //A very simple way of having a gameplay loop. Every couple of minutes, the Syndicate appear in a system, the ship has to destroy them.
-	if(check_completion())
-		return
-	var/datum/star_system/current_system //Dont spawn enemies where theyre currently at
-	for(var/obj/structure/overmap/OM in GLOB.overmap_objects) //The ship doesnt start with a system assigned by default
-		if(OM.role != MAIN_OVERMAP)
-			continue
-		current_system = ships[OM]["current_system"]
-	cycle_gameplay_loop()
-	var/list/possible_spawns = list()
-	for(var/datum/star_system/starsys in systems)
-		if(starsys != current_system && !starsys.hidden && !starsys.mission_sector && starsys.alignment != "nanotrasen" && starsys.alignment != "uncharted" && starsys.alignment != "syndicate") //Spawn is a safe zone. Uncharted systems are dangerous enough and don't need more murder.
-			possible_spawns += starsys
-	if(patrols_left <= 0) //They've had enough missions for one day.
-		return
-	if(!possible_spawns.len)
-		message_admins("Failed to spawn an overmap mission as all sectors were occupied. Tell the crew to get a move on...")
-		return
-	var/datum/star_system/starsys = pick(possible_spawns)
-	starsys.mission_sector = TRUE //set this sector to be the active mission
-	starsys.spawn_asteroids() //refresh asteroids in the system
-	var/fleet_type = pick(/datum/fleet/neutral, /datum/fleet/boarding, /datum/fleet/wolfpack, /datum/fleet/nuclear)
-	var/datum/fleet/F = new fleet_type
-	F.current_system = starsys
-	starsys.fleets += F
-	F.assemble(starsys)
-	minor_announce("WARNING: Multiple typhoon drive signatures detected in [starsys]. Syndicate incursion underway.", "White Rapids Early Warning System")
-	patrols_left --
-	return
+	*/
 
 /datum/controller/subsystem/star_system/proc/add_ship(obj/structure/overmap/OM)
 	ships[OM] = list("ship" = OM, "x" = 0, "y" = 0, "current_system" = system_by_id(OM.starting_system), "last_system" = system_by_id(OM.starting_system), "target_system" = null, "from_time" = 0, "to_time" = 0, "occupying_z" = OM.z)

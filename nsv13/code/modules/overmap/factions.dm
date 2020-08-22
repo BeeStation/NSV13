@@ -1,0 +1,93 @@
+//Unique identifiers for each faction. Keep this updated when you make a new faction.
+#define FACTION_ID_NT 1
+#define FACTION_ID_SYNDICATE 2
+#define FACTION_ID_SOLGOV 3
+#define FACTION_ID_UNATHI 4
+#define FACTION_ID_PIRATES 5
+
+//Time to talk about relationships 😳😳😳
+#define RELATIONSHIP_ALLIES 200
+#define RELATIONSHIP_NEUTRAL 100
+#define RELATIONSHIP_DISTRUST 50
+#define RELATIONSHIP_ENEMIES 0
+#define RELATIONSHIP_HATRED -100 //Very hard pit to dig yourself out from.
+
+/datum/faction
+	var/name = "Faction superclass"
+	var/desc = "Description not set."
+	var/list/relationships = list() //Dictionary, K=faction reference, V=reputation score with that faction.
+	var/id = null
+	//Presets if you want a faction to start off pre-aligned with another either negatively or positively. It's up to you to make this make sense! You can have a one-directional hatred if you want.
+	var/list/preset_enemies = list()
+	var/list/preset_allies = list()
+	var/tickets = 0 //How many victory tickets has this faction accrued? Factions other than NT can win!
+	var/list/fleet_types = list()
+	var/next_fleet_spawn = 0 //Factions spawn fleets more frequently when they're doing well with tickets.
+	var/fleet_spawn_rate = 10 MINUTES //By default, 1 / 10 minutes.
+
+/datum/faction/proc/check_status(id)
+	var/datum/faction/F = SSstar_system.faction_by_id(id)
+	return relationships[F]
+
+/*
+Set up relationships.
+*/
+/datum/faction/proc/setup_relationships()
+	for(var/datum/faction/F in SSstar_system.factions)
+		relationships[F] = RELATIONSHIP_NEUTRAL
+	if(!preset_allies.len)
+		return
+	for(var/id in preset_allies)
+		var/datum/faction/F = SSstar_system.faction_by_id(id)
+		if(!F)
+			continue
+		relationships[F] = RELATIONSHIP_ALLIES
+	if(!preset_enemies.len)
+		return
+	for(var/id in preset_enemies)
+		var/datum/faction/F = SSstar_system.faction_by_id(id)
+		if(!F)
+			continue
+		relationships[F] = RELATIONSHIP_HATRED
+
+/datum/faction/proc/send_fleet()
+	if(SSstar_system.check_completion() || !fleet_types || world.time < next_fleet_spawn)
+		return
+	var/datum/star_system/current_system //Dont spawn enemies where theyre currently at
+	for(var/obj/structure/overmap/OM in GLOB.overmap_objects) //The ship doesnt start with a system assigned by default
+		if(OM.role != MAIN_OVERMAP)
+			continue
+		current_system = ships[OM]["current_system"]
+	var/list/possible_spawns = list()
+	for(var/datum/star_system/starsys in systems)
+		if(starsys != current_system && !starsys.hidden && lowertext(starsys.alignment) == lowertext(src.name)) //Find one of our base systems and try to send a fleet out from there.
+			possible_spawns += starsys
+	if(!possible_spawns.len)
+		message_admins("Failed to spawn a [name] fleet because that faction doesn't own a single system :(")
+		return
+	var/datum/star_system/starsys = pick(possible_spawns)
+	starsys.mission_sector = TRUE //set this sector to be the active mission
+	starsys.spawn_asteroids() //refresh asteroids in the system
+	var/fleet_type = pick(fleet_types)
+	var/datum/fleet/F = new fleet_type
+	F.current_system = starsys
+	starsys.fleets += F
+	F.assemble(starsys)
+//	minor_announce("WARNING: Multiple typhoon drive signatures detected in [starsys]. Syndicate incursion underway.", "White Rapids Early Warning System")
+	patrols_left --
+	return
+
+//The beginning and the end.
+/datum/faction/nanotrasen
+	name = "Nanotrasen"
+	desc = "Nanotrasen systems is a conglomerate of sub-contractors and other companies."
+	preset_allies = list(FACTION_ID_SOLGOV, FACTION_ID_UNATHI)
+	preset_enemies = list(FACTION_ID_SYNDICATE, FACTION_ID_PIRATES)
+	fleet_types = list(/datum/fleet/nanotrasen/light)
+
+/datum/faction/syndicate
+	name = "Syndicate"
+	desc = "The Abassi Syndicate are a collection of former Nanotrasen colonists who rebelled against their 'oppression' and formed their own government."
+	preset_allies = list(FACTION_ID_PIRATES) //Yar HAR it's me, captain PLASMASALT
+	preset_enemies = list(FACTION_ID_SYNDICATE, FACTION_ID_PIRATES)
+	fleet_types = list(/datum/fleet/neutral, /datum/fleet/boarding, /datum/fleet/wolfpack, /datum/fleet/nuclear)
