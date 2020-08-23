@@ -351,7 +351,7 @@ GLOBAL_LIST_INIT(department_radio_keys, list(
 		return lowertext(message[1 + length(key)])
 
 /mob/living/proc/get_message_language(message)
-	if(message[1] == ",")
+	if(message && message.len && (message[1] == ",")) //NSV13 - Stop runtiming on empty messages, just return
 		var/key = message[1 + length(message[1])]
 		for(var/ld in GLOB.all_languages)
 			var/datum/language/LD = ld

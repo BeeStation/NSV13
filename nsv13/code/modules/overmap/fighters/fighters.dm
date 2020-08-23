@@ -699,6 +699,8 @@ You need to fire emag the fighter's IFF board. This makes it list as "ENEMY" on 
 			return TRUE
 
 /obj/structure/overmap/fighter/stop_piloting(mob/living/M, force=FALSE)
+	if(!M)
+		return FALSE
 	if(!SSmapping.level_trait(loc.z, ZTRAIT_BOARDABLE) && !force)
 		to_chat(M, "<span class='warning'>DANGER: You may not exit [src] while flying alongside other large ships.</span>")
 		return FALSE //No jumping out into the overmap :)

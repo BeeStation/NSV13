@@ -291,7 +291,7 @@
 			playsound(src, unload_sound, 100, 1)
 		sleep(unload_delay)
 
-		if(ammo[1])
+		if(ammo && ammo.len && ammo[1])
 			var/obj/A = ammo[1]
 			A.forceMove(get_turf(src))
 			ammo -= A

@@ -45,6 +45,8 @@
 	user.click_intercept = src
 
 /obj/structure/overmap/proc/stop_piloting(mob/living/M)
+	if(!M)
+		return FALSE
 	LAZYREMOVE(operators,M)
 	M.overmap_ship = null
 	if(M.click_intercept == src)

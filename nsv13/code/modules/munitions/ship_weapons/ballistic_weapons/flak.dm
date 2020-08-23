@@ -179,7 +179,7 @@
 		if(checking.overmap_ship && enemy.overmap_ship) //Firer is a mob, so check the faction of their ship
 			var/obj/structure/overmap/OM = checking.overmap_ship
 			var/obj/structure/overmap/our_ship = enemy.overmap_ship
-			if(OM.faction != our_ship.faction)
+			if(OM && our_ship && (OM.faction != our_ship.faction))
 				explode()
 				return FALSE
 

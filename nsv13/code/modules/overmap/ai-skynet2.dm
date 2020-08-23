@@ -147,6 +147,9 @@ GLOBAL_LIST_EMPTY(ai_goals)
 			potential += sys
 		if(!potential.len)
 			potential = fallback //Nowhere else to go.
+			if(!potential.len)
+				message_admins("Could not move [src], no valid targets")
+				return FALSE
 		target = pick(potential)
 	if(!force)
 		addtimer(CALLBACK(src, .proc/move), rand(5 MINUTES, 10 MINUTES))

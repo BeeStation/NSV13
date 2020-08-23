@@ -129,7 +129,7 @@
 			else
 				M.client.prefs.equipped_gear -= gear
 
-	if(gear_leftovers.len)
+	if(gear_leftovers?.len) //NSV13 - check that gear_leftovers exist
 		for(var/datum/gear/G in gear_leftovers)
 			var/metadata = M.client.prefs.equipped_gear[G.display_name]
 			var/item = G.spawn_item(null, metadata)

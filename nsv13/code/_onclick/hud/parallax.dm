@@ -33,7 +33,7 @@
 	. = ..(view)
 
 /obj/screen/parallax_layer/layer_3/proc/check_ftl_state()
-	if(!current_mob)
+	if(!current_mob || (SSmapping.z_list.len < current_mob.z))
 		return FALSE //Something has gone horribly wrong.
 	var/datum/space_level/SL = SSmapping.z_list[current_mob.z]
 	icon_state = SL.parallax_property

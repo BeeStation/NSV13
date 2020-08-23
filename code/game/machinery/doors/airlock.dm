@@ -1096,7 +1096,7 @@
 	if( operating || welded || locked )
 		return FALSE
 	if(!forced)
-		if(!hasPower() || wires.is_cut(WIRE_OPEN))
+		if(!hasPower() || (wires && wires.is_cut(WIRE_OPEN))) //NSV13 - gracefully handle wireless doors
 			return FALSE
 	if(charge && !detonated)
 		panel_open = TRUE

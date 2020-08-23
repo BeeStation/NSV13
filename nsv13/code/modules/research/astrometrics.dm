@@ -80,6 +80,8 @@ Clean override of the navigation computer to provide scan functionality.
 	return data
 
 /obj/machinery/computer/ship/navigation/astrometrics/is_in_range(datum/star_system/current_system, datum/star_system/system)
+	if(!current_system || !system) //Can't calculate distance for things that don't exist
+		return FALSE
 	return current_system && current_system.dist(system) <= max_range
 
 /obj/machinery/computer/ship/navigation/astrometrics/is_visited(datum/star_system/system)
