@@ -207,7 +207,7 @@
 	max_integrity = 500
 	integrity_failure = 500
 	starting_system = "Wolf 359"
-	use_armour_quadrants = TRUE //TODO: Mappers map in the pump setup.
+	use_armour_quadrants = TRUE
 	armour_quadrants = list("forward_port" = list("name" = "Forward Port", "max_armour" = 750, "current_armour" = 750),\
 							"forward_starboard" = list("name" = "Forward Starboard", "max_armour" = 750, "current_armour" = 750),\
 							"aft_port" = list("name" = "Aft Port", "max_armour" = 750, "current_armour" = 750),\
