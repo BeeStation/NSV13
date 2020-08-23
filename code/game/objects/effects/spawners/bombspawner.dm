@@ -58,6 +58,5 @@
 	assembly_type = /obj/item/assembly/signaler
 
 
-#undef CELSIUS_TO_KELVIN
 #undef OPTIMAL_TEMP_K_PLA_BURN_SCALE
 #undef OPTIMAL_TEMP_K_PLA_BURN_RATIO
