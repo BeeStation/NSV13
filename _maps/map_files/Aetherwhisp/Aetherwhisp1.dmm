@@ -1508,6 +1508,10 @@
 /obj/structure/disposalpipe/segment{
 	dir = 4
 	},
+/obj/machinery/door/poddoor/shutters/ship/preopen{
+	dir = 4;
+	id = "detective_room_shutter"
+	},
 /turf/open/floor/plating,
 /area/security/detectives_office)
 "aZm" = (
@@ -10174,7 +10178,7 @@
 /obj/machinery/door/airlock/ship/public/glass{
 	id_tag = "permabolt1"
 	},
-/obj/machinery/door/poddoor/shutters/ship{
+/obj/machinery/door/poddoor/ship{
 	id = "permacell1"
 	},
 /turf/open/floor/carpet/ship,
@@ -12562,6 +12566,11 @@
 /area/maintenance/department/engine)
 "itt" = (
 /obj/machinery/light_switch/east,
+/obj/machinery/button/door{
+	id = "interrogatorshutter";
+	pixel_x = 26;
+	pixel_y = -9
+	},
 /turf/open/floor/carpet/ship,
 /area/security/detectives_office)
 "itT" = (
@@ -13364,14 +13373,6 @@
 	id = "permabolt3";
 	name = "Cell Bolt Control";
 	normaldoorcontrol = 1;
-	pixel_x = 26;
-	pixel_y = 6;
-	specialfunctions = 4
-	},
-/obj/machinery/button/door{
-	id = "permabolt3";
-	name = "Cell Bolt Control";
-	normaldoorcontrol = 1;
 	pixel_x = 38;
 	pixel_y = 6;
 	specialfunctions = 4
@@ -13384,6 +13385,13 @@
 /obj/machinery/light_switch{
 	pixel_x = 26;
 	pixel_y = 26
+	},
+/obj/machinery/button/door{
+	id = "permacell3";
+	name = "Cell 3 Lockdown";
+	pixel_x = 26;
+	pixel_y = 6;
+	req_access_txt = "2"
 	},
 /turf/open/floor/carpet/ship/red_carpet,
 /area/security/prison)
@@ -13620,20 +13628,18 @@
 	pixel_y = -26;
 	specialfunctions = 4
 	},
-/obj/machinery/button/door{
-	id = "permabrigshutter";
-	name = "Permabrig Window Shutters";
-	normaldoorcontrol = 1;
-	pixel_x = -6;
-	pixel_y = -26;
-	specialfunctions = 4
-	},
 /obj/structure/table,
 /obj/item/book/manual/wiki/security_space_law{
 	pixel_x = -3;
 	pixel_y = 5
 	},
 /obj/item/storage/box/prisoner,
+/obj/machinery/button/door{
+	id = "permabrigshutter";
+	name = "Permabrig Window Shutters";
+	pixel_x = -6;
+	pixel_y = -26
+	},
 /turf/open/floor/carpet/ship/red_carpet,
 /area/security/prison)
 "jdF" = (
@@ -19568,13 +19574,20 @@
 /turf/open/floor/carpet/ship,
 /area/crew_quarters/cafeteria)
 "mVF" = (
-/obj/machinery/button/door{
-	id = "interrogatorshutter";
-	pixel_x = -26;
-	pixel_y = -6
+/obj/effect/spawner/structure/window/reinforced,
+/obj/structure/cable{
+	icon_state = "0-2"
 	},
-/turf/open/floor/carpet/ship,
-/area/security/detectives_office)
+/obj/machinery/door/poddoor/shutters/ship/preopen{
+	dir = 4;
+	id = "hosshutter"
+	},
+/obj/machinery/door/poddoor/shutters/ship/preopen{
+	dir = 4;
+	id = "detective_room_shutter"
+	},
+/turf/open/floor/plating,
+/area/crew_quarters/heads/hos)
 "mWr" = (
 /obj/machinery/disposal/bin,
 /obj/structure/disposalpipe/trunk{
@@ -21415,7 +21428,7 @@
 /obj/machinery/button/door{
 	id = "hosshutter";
 	pixel_x = -26;
-	pixel_y = -6
+	pixel_y = -9
 	},
 /obj/machinery/light_switch/west,
 /obj/machinery/newscaster/security_unit{
@@ -22289,7 +22302,7 @@
 /obj/machinery/door/airlock/ship/public/glass{
 	id_tag = "permabolt3"
 	},
-/obj/machinery/door/poddoor/shutters/ship{
+/obj/machinery/door/poddoor/ship{
 	id = "permacell3"
 	},
 /turf/open/floor/carpet/ship,
@@ -23359,6 +23372,19 @@
 /obj/machinery/field/generator,
 /turf/open/floor/plating/airless,
 /area/space/nearstation)
+"pEK" = (
+/obj/effect/spawner/structure/window/reinforced,
+/obj/structure/cable,
+/obj/machinery/door/poddoor/shutters/ship/preopen{
+	dir = 4;
+	id = "interrogatorshutter"
+	},
+/obj/machinery/door/poddoor/shutters/ship/preopen{
+	dir = 4;
+	id = "detective_room_shutter"
+	},
+/turf/open/floor/plating,
+/area/security/detectives_office)
 "pES" = (
 /obj/machinery/door/firedoor/window,
 /obj/structure/grille,
@@ -30881,6 +30907,11 @@
 	},
 /obj/machinery/light_switch/east,
 /obj/item/radio/intercom/directional/north,
+/obj/machinery/button/door{
+	id = "detective_room_shutter";
+	pixel_x = 26;
+	pixel_y = -9
+	},
 /turf/open/floor/wood,
 /area/security/detectives_office)
 "uQE" = (
@@ -32943,7 +32974,7 @@
 /obj/machinery/door/airlock/ship/public/glass{
 	id_tag = "permabolt2"
 	},
-/obj/machinery/door/poddoor/shutters/ship{
+/obj/machinery/door/poddoor/ship{
 	id = "permacell2"
 	},
 /turf/open/floor/carpet/ship,
@@ -35062,6 +35093,10 @@
 	},
 /obj/structure/disposalpipe/segment{
 	dir = 4
+	},
+/obj/machinery/door/poddoor/shutters/ship/preopen{
+	dir = 4;
+	id = "detective_room_shutter"
 	},
 /turf/open/floor/plating,
 /area/crew_quarters/heads/hos)
@@ -72032,7 +72067,7 @@ jdF
 aAU
 miQ
 xhi
-mVF
+sRb
 gqc
 sRb
 bLm
@@ -73319,7 +73354,7 @@ xhi
 xhi
 xhi
 aZl
-xRm
+pEK
 xhi
 bZP
 oZp
@@ -74602,7 +74637,7 @@ eSD
 vXJ
 wBi
 wBi
-fla
+mVF
 xCs
 wBi
 wBi

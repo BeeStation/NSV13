@@ -656,8 +656,8 @@
 
 /obj/structure/overmap/nanotrasen/solgov/aetherwhisp/starter
 	role = MAIN_OVERMAP
-	max_integrity = 1200 //She's fragile and relies heavily on shields.
-	integrity_failure = 1200
+	max_integrity = 750 //She's fragile and relies heavily on shields.
+	integrity_failure = 750
 	starting_system = "Sol"
 	use_armour_quadrants = TRUE
 	armour_quadrants = list("forward_port" = list("name" = "Forward Port", "max_armour" = 750, "current_armour" = 750),\
