@@ -153,7 +153,7 @@
 		icon = 'nsv13/goonstation/icons/effects/explosions/96x96.dmi'
 	for(var/obj/X in view(flak_range, src))
 		var/severity = flak_range-get_dist(X, src)
-		if(istype(X, /obj/structure))
+		if(istype(X, /obj/structure) && !QDELETED(X))
 			X.take_damage(severity*10, BRUTE, "overmap_light")
 		else
 			X.ex_act(severity)

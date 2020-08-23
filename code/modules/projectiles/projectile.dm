@@ -231,7 +231,7 @@
 	beam_segments[beam_index] = null
 
 /obj/item/projectile/Bump(atom/A)
-	if(!check_faction(A))
+	if(!check_faction(A) || !trajectory)
 		return FALSE 	 //Nsv13 - faction checking for overmaps. We're gonna just cut off real early and save some math if the IFF doesn't check out.
 
 	var/datum/point/pcache = trajectory.copy_to()

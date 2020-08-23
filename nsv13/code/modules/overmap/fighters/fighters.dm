@@ -158,6 +158,8 @@ You need to fire emag the fighter's IFF board. This makes it list as "ENEMY" on 
 
 /obj/structure/overmap/fighter/emp_act(severity)
 	. = ..()
+	if(QDELETED(src))
+		return
 	if(pilot)
 		to_chat(pilot, "<span class='danger'>Warning: Electromagnetic surge detected. System stability compromised.</span>")
 	if(. & EMP_PROTECT_SELF)
