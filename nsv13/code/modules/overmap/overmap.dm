@@ -16,7 +16,7 @@
 	dir = NORTH
 	layer = ABOVE_MOB_LAYER
 	animate_movement = NO_STEPS // Override the inbuilt movement engine to avoid bouncing
-	req_one_access = list(ACCESS_HEADS, ACCESS_MUNITIONS, ACCESS_SEC_DOORS, ACCESS_ENGINE) //Bridge officers/heads, munitions techs / fighter pilots, security officers, engineering personnel all have access.
+	req_one_access = list(ACCESS_HEADS, ACCESS_MUNITIONS, ACCESS_SEC_DOORS, ACCESS_ENGINE) //Bridge assistants/heads, munitions techs / fighter pilots, security officers, engineering personnel all have access.
 
 	move_resist = MOVE_FORCE_OVERPOWERING //THIS MAY BE A BAD IDEA - (okay I downgraded from INFINITE)
 	anchored = FALSE
@@ -36,12 +36,25 @@
 	CanAtmosPass = ATMOS_PASS_YES
 
 	// Health, armor, and damage
-	max_integrity = 300 //Max health
+	max_integrity = 300 //Max internal integrity
 	integrity_failure = 0
 	var/armour_plates = 0 //You lose max integrity when you lose armour plates.
 	var/max_armour_plates = 0
 	var/list/dent_decals = list() //Ships get visibly damaged as they get shot
 	var/damage_states = FALSE //Did you sprite damage states for this ship? If yes, set this to true
+
+	var/use_armour_quadrants = FALSE //Does the object use the armour quadrant system?
+	var/max_armour = 0 //Max armour amount per quad
+	var/current_armour = 0 //Per quad
+	var/list/armour_quadrants = list("forward_port" = list(), "forward_starboard" = list(), "aft_port" = list(), "aft_starboard" = list()) //Our four quadrants
+	var/linked_apnw = null //Our linked APNW
+
+	var/structure_crit = FALSE //Handles when the ship's integrity has failed
+	var/structure_crit_no_return = FALSE //Override for handling point of no return
+	var/structure_crit_init = null //Timer ID for point of no return
+	var/structure_crit_alert = 0 //Incremental warning states
+	var/last_critprocess = 0 //Keeper for SS Crit timing
+	var/explosion_cooldown = FALSE
 
 	//Movement Variables
 	var/offset_x = 0 // like pixel_x/y but in tiles
@@ -67,7 +80,7 @@
 	var/landing_gear = FALSE //Allows you to move in atmos without scraping the hell outta your ship
 
 	var/bump_impulse = 0.6
-	var/bounce_factor = 0.2 // how much of our velocity to keep on collision
+	var/bounce_factor = 0.7 // how much of our velocity to keep on collision
 	var/lateral_bounce_factor = 0.95 // mostly there to slow you down when you drive (pilot?) down a 2x2 corridor
 
 	var/brakes = FALSE //Helps you stop the ship
@@ -216,7 +229,7 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 		reserved_z = src.z //Our "reserved" Z will always be kept for us, no matter what. If we, for example, visit a system that another player is on and then jump away, we are returned to our own Z.
 	current_tracers = list()
 	GLOB.overmap_objects += src
-	START_PROCESSING(SSovermap, src)
+	START_PROCESSING(SSphysics_processing, src)
 
 	vector_overlay = new()
 	vector_overlay.appearance_flags |= KEEP_APART
@@ -244,30 +257,40 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 			backward_maxthrust = 3
 			side_maxthrust = 3
 			max_angular_acceleration = 110
+			bounce_factor = 0.65
+			lateral_bounce_factor = 0.95
 
 		if(MASS_MEDIUM)
 			forward_maxthrust = 2
 			backward_maxthrust = 2
 			side_maxthrust = 2
 			max_angular_acceleration = 15
+			bounce_factor = 0.5
+			lateral_bounce_factor = 0.8
 
 		if(MASS_MEDIUMLARGE)
 			forward_maxthrust = 1.85
 			backward_maxthrust = 1.85
 			side_maxthrust = 1.5
 			max_angular_acceleration = 10
+			bounce_factor = 0.45
+			lateral_bounce_factor = 0.8
 
 		if(MASS_LARGE)
 			forward_maxthrust = 0.5
 			backward_maxthrust = 0.5
 			side_maxthrust = 0.5
 			max_angular_acceleration = 2.5
+			bounce_factor = 0.35
+			lateral_bounce_factor = 0.6
 
 		if(MASS_TITAN)
-			forward_maxthrust = 0.25
-			backward_maxthrust = 0.25
-			side_maxthrust = 0.25
-			max_angular_acceleration = 1
+			forward_maxthrust = 0.4
+			backward_maxthrust = 0.4
+			side_maxthrust = 0.4
+			max_angular_acceleration = 1.5
+			bounce_factor = 0.20
+			lateral_bounce_factor = 0.3
 
 	if(role == MAIN_OVERMAP)
 		name = "[station_name()]"
@@ -414,12 +437,13 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 //relay('nsv13/sound/effects/ship/rcs.ogg')
 
 /obj/structure/overmap/update_icon() //Adds an rcs overlay
-	cut_overlays()
 	apply_damage_states()
 	if(last_fired) //Swivel the most recently fired gun's overlay to aim at the last thing we hit
 		last_fired.icon = icon
 		last_fired.setDir(get_dir(src, last_target))
-
+	cut_overlay("rcs_left")
+	cut_overlay("rcs_right")
+	cut_overlay("thrust")
 	if(angle == desired_angle)
 		return //No RCS needed if we're already facing where we want to go
 	if(prob(20) && desired_angle)

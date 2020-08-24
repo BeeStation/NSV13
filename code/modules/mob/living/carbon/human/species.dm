@@ -218,7 +218,7 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 	if(should_have_tail && !tail)
 		tail = new mutanttail()
 		tail.Insert(C)
-	
+
 	if(wings && (!should_have_wings || replace_current))
 		wings.Remove(C,1)
 		QDEL_NULL(wings)
@@ -320,6 +320,15 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 
 	if(TRAIT_VIRUSIMMUNE in inherent_traits)
 		for(var/datum/disease/A in C.diseases)
+			A.cure(FALSE)
+
+	for(var/datum/disease/A in C.diseases)//if we can't have the disease, dont keep it
+		var/curedisease = TRUE
+		for(var/host_type in A.infectable_biotypes)
+			if(host_type in inherent_biotypes)
+				curedisease = FALSE
+				break
+		if(curedisease)
 			A.cure(FALSE)
 
 	if(TRAIT_TOXIMMUNE in inherent_traits)
@@ -1322,7 +1331,7 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 		var/damage = user.dna.species.punchdamage
 
 		var/obj/item/bodypart/affecting = target.get_bodypart(ran_zone(user.zone_selected))
-	
+
 		if(!damage || !affecting)//future-proofing for species that have 0 damage/weird cases where no zone is targeted
 			playsound(target.loc, user.dna.species.miss_sound, 25, 1, -1)
 			target.visible_message("<span class='danger'>[user]'s [atk_verb] misses [target]!</span>",\
@@ -1386,6 +1395,7 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 		var/mob/living/carbon/human/target_collateral_human
 		var/obj/structure/table/target_table
 		var/obj/machinery/disposal/bin/target_disposal_bin
+		var/turf/open/indestructible/sound/pool/target_pool
 		var/shove_blocked = FALSE //Used to check if a shove is blocked so that if it is knockdown logic can be applied
 
 		//Thank you based whoneedsspace
@@ -1397,6 +1407,7 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 			if(get_turf(target) == target_oldturf)
 				target_table = locate(/obj/structure/table) in target_shove_turf.contents
 				target_disposal_bin = locate(/obj/machinery/disposal/bin) in target_shove_turf.contents
+				target_pool = istype(target_shove_turf, /turf/open/indestructible/sound/pool) ? target_shove_turf : null
 				shove_blocked = TRUE
 
 		if(target.IsKnockdown() && !target.IsParalyzed())
@@ -1419,7 +1430,7 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 						if(O.flags_1 & ON_BORDER_1 && O.dir == turn(shove_dir, 180) && O.density)
 							directional_blocked = TRUE
 							break
-			if((!target_table && !target_collateral_human && !target_disposal_bin) || directional_blocked)
+			if((!target_table && !target_collateral_human && !target_disposal_bin && !target_pool) || directional_blocked)
 				target.Knockdown(SHOVE_KNOCKDOWN_SOLID)
 				target.drop_all_held_items()
 				user.visible_message("<span class='danger'>[user.name] shoves [target.name], knocking [target.p_them()] down!</span>",
@@ -1444,6 +1455,12 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 				user.visible_message("<span class='danger'>[user.name] shoves [target.name] into \the [target_disposal_bin]!</span>",
 					"<span class='danger'>You shove [target.name] into \the [target_disposal_bin]!</span>", null, COMBAT_MESSAGE_RANGE)
 				log_combat(user, target, "shoved", "into [target_disposal_bin] (disposal bin)")
+			else if(target_pool)
+				target.Knockdown(SHOVE_KNOCKDOWN_SOLID)
+				target.forceMove(target_pool)
+				user.visible_message("<span class='danger'>[user.name] shoves [target.name] into \the [target_pool]!</span>",
+					"<span class='danger'>You shove [target.name] into \the [target_pool]!</span>", null, COMBAT_MESSAGE_RANGE)
+				log_combat(user, target, "shoved", "into [target_pool] (swimming pool)")
 		else
 			user.visible_message("<span class='danger'>[user.name] shoves [target.name]!</span>",
 				"<span class='danger'>You shove [target.name]!</span>", null, COMBAT_MESSAGE_RANGE)

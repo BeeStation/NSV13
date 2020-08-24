@@ -25,7 +25,7 @@ export const StormdriveConsole = (props, context) => {
     <Window resizable theme="ntos">
       <Window.Content scrollable>
         <Section>
-          <Section 
+          <Section
             title="Control presets:">
             <Fragment>
               <Button
@@ -360,6 +360,13 @@ export const StormdriveConsole = (props, context) => {
                     rangeY={[0, 100]}
                     strokeColor="rgba(165, 103, 63, 1)"
                     fillColor="rgba(165, 103, 63, 0)" />
+                  <Chart.Line
+                    fillPositionedParent
+                    data={n2Data}
+                    rangeX={[0, n2Data.length - 1]}
+                    rangeY={[0, 100]}
+                    strokeColor="rgba(255, 0, 0, 1)"
+                    fillColor="rgba(255, 0, 0, 0)" />
                 </Section>
               </Flex.Item>
             </Flex>

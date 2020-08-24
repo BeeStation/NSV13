@@ -298,3 +298,20 @@
 					/obj/item/control_rod/superior,
 					/obj/item/control_rod/superior)
 	crate_name = "Crystaline Nanocarbon Reactor Control Rods"
+
+/datum/supply_pack/engineering/armour_plating_nanorepair_well
+	name = "Armour Plating Nano-repair Well Machine Board"
+	desc = "A replacement machine board for the APNW."
+	access = ACCESS_CE
+	cost = 50000 //These are *really* not meant to be cheap
+	contains = list(/obj/item/circuitboard/machine/armour_plating_nanorepair_well)
+	crate_name = "Armour Plating Nano-repair Well Machine Board"
+
+
+/datum/supply_pack/engineering/armour_plating_nanorepair_pump
+	name = "Armour Plating Nano-repair Pump Machine Board"
+	desc = "A replacement machine board for a APNP."
+	access = ACCESS_CE
+	cost = 25000 //Make sure you look after these
+	contains = list(/obj/item/circuitboard/machine/armour_plating_nanorepair_pump)
+	crate_name = "Armour Plating Nano-repair Pump Machine Board"
