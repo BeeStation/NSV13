@@ -22,7 +22,7 @@ Constructor for vector2d objects, taking a simple X,Y coordinate.
 
 /datum/vector2d/Destroy(force, ...)
 	. = ..()
-	return QDEL_HINT_IWILLGC //Qdel shouldn't need to deal with these. They're not referenced by other objects, and the GC should zap them automagically. We'll use the inbuilt GC here to avoid stressing out SSgarbage and causing all kinds of other issues.
+	return QDEL_HINT_QUEUE
 
 /*
 Method to set our position directly
