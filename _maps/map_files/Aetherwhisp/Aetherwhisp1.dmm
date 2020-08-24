@@ -695,11 +695,11 @@
 /turf/open/floor/circuit,
 /area/tcommsat/server)
 "awG" = (
-/obj/machinery/stasis,
 /obj/machinery/power/apc/auto_name/east,
 /obj/structure/cable{
 	icon_state = "0-8"
 	},
+/obj/machinery/stasis,
 /turf/open/floor/carpet/ship/blue,
 /area/medical/patients_rooms/room_c)
 "awN" = (
@@ -5276,13 +5276,13 @@
 /turf/open/floor/carpet/ship,
 /area/crew_quarters/bar)
 "dti" = (
-/obj/machinery/cryopod{
-	dir = 4
-	},
 /obj/structure/sign/poster/official/random{
 	pixel_x = -32
 	},
 /obj/item/radio/intercom/directional/north,
+/obj/machinery/sleeper{
+	dir = 4
+	},
 /turf/open/floor/carpet/ship/blue,
 /area/medical/patients_rooms/room_a)
 "duc" = (
@@ -5357,6 +5357,9 @@
 /area/engine/break_room)
 "dwp" = (
 /obj/machinery/airalarm/directional/north,
+/obj/machinery/cryopod{
+	dir = 4
+	},
 /turf/open/floor/carpet/ship/blue,
 /area/medical/patients_rooms/room_b)
 "dwB" = (
@@ -5658,11 +5661,11 @@
 /turf/open/floor/plating,
 /area/maintenance/department/engine/atmos)
 "dDP" = (
-/obj/machinery/stasis,
 /obj/machinery/light{
 	dir = 8
 	},
 /obj/structure/extinguisher_cabinet/west,
+/obj/machinery/stasis,
 /turf/open/floor/carpet/ship/blue,
 /area/medical/patients_rooms/room_c)
 "dEa" = (
@@ -7171,13 +7174,9 @@
 /turf/open/floor/carpet/ship,
 /area/crew_quarters/kitchen)
 "eIe" = (
-/obj/machinery/door/firedoor/border_only/directional/west,
-/obj/machinery/door/firedoor/border_only/directional/east,
-/obj/machinery/door/airlock/ship/maintenance{
-	req_one_access_txt = "5"
-	},
+/obj/machinery/cryopod,
 /turf/open/floor/carpet/ship/blue,
-/area/maintenance/department/medical)
+/area/medical/patients_rooms/room_a)
 "eIQ" = (
 /obj/machinery/power/emitter{
 	dir = 8
@@ -8442,13 +8441,13 @@
 /turf/closed/wall/r_wall/ship,
 /area/medical/morgue)
 "fvF" = (
-/obj/machinery/cryopod{
-	dir = 4
-	},
 /obj/structure/sign/poster/official/random{
 	pixel_x = -32
 	},
 /obj/item/radio/intercom/directional/south,
+/obj/machinery/sleeper{
+	dir = 4
+	},
 /turf/open/floor/carpet/ship/blue,
 /area/medical/patients_rooms/room_c)
 "fwB" = (
@@ -10810,7 +10809,9 @@
 /turf/open/floor/carpet/ship,
 /area/storage/tools)
 "hiR" = (
-/obj/machinery/cryopod,
+/obj/machinery/sleeper{
+	dir = 8
+	},
 /turf/open/floor/carpet/ship/blue,
 /area/medical/patients_rooms/room_c)
 "hjw" = (
@@ -11264,13 +11265,9 @@
 /turf/open/floor/carpet/ship,
 /area/chapel/office)
 "hBt" = (
-/obj/machinery/door/firedoor/border_only/directional/west,
-/obj/machinery/door/firedoor/border_only/directional/east,
-/obj/machinery/door/airlock/ship/maintenance{
-	req_one_access_txt = "5"
-	},
+/obj/machinery/cryopod,
 /turf/open/floor/carpet/ship/blue,
-/area/maintenance/department/medical/central)
+/area/medical/patients_rooms/room_c)
 "hCu" = (
 /obj/structure/cable{
 	icon_state = "2-4"
@@ -11336,6 +11333,9 @@
 	},
 /obj/machinery/computer/cryopod{
 	pixel_y = 32
+	},
+/obj/machinery/cryopod{
+	dir = 4
 	},
 /turf/open/floor/carpet/ship/blue,
 /area/medical/patients_rooms/room_a)
@@ -16394,8 +16394,10 @@
 /turf/open/floor/carpet/ship,
 /area/security/brig)
 "kTH" = (
-/obj/machinery/cryopod,
 /obj/item/radio/intercom/directional/north,
+/obj/machinery/sleeper{
+	dir = 8
+	},
 /turf/open/floor/carpet/ship/blue,
 /area/medical/patients_rooms/room_b)
 "kTR" = (
@@ -18418,11 +18420,11 @@
 /turf/open/floor/carpet/ship,
 /area/crew_quarters/bar)
 "mkI" = (
-/obj/machinery/stasis,
 /obj/machinery/power/apc/auto_name/east,
 /obj/structure/cable{
 	icon_state = "0-8"
 	},
+/obj/machinery/stasis,
 /turf/open/floor/carpet/ship/blue,
 /area/medical/patients_rooms/room_a)
 "mkK" = (
@@ -20435,7 +20437,9 @@
 /turf/open/floor/plating,
 /area/engine/stormdrive)
 "nxM" = (
-/obj/machinery/cryopod,
+/obj/machinery/sleeper{
+	dir = 8
+	},
 /turf/open/floor/carpet/ship/blue,
 /area/medical/patients_rooms/room_d)
 "nxN" = (
@@ -23119,8 +23123,10 @@
 /turf/open/floor/engine,
 /area/engine/engine_room)
 "ptV" = (
-/obj/machinery/cryopod,
 /obj/item/radio/intercom/directional/north,
+/obj/machinery/sleeper{
+	dir = 8
+	},
 /turf/open/floor/carpet/ship/blue,
 /area/medical/patients_rooms/room_a)
 "pum" = (
@@ -23520,8 +23526,8 @@
 /turf/open/floor/carpet/ship/red_carpet,
 /area/ai_monitored/security/armory/security)
 "pJl" = (
-/obj/machinery/stasis,
 /obj/structure/extinguisher_cabinet/west,
+/obj/machinery/stasis,
 /turf/open/floor/carpet/ship/blue,
 /area/medical/patients_rooms/room_a)
 "pJt" = (
@@ -23556,6 +23562,9 @@
 /area/maintenance/department/engine)
 "pJY" = (
 /obj/machinery/airalarm/directional/south,
+/obj/machinery/cryopod{
+	dir = 4
+	},
 /turf/open/floor/carpet/ship/blue,
 /area/medical/patients_rooms/room_d)
 "pKs" = (
@@ -30577,6 +30586,9 @@
 	pixel_x = -32
 	},
 /obj/item/radio/intercom/directional/south,
+/obj/machinery/cryopod{
+	dir = 4
+	},
 /turf/open/floor/carpet/ship/blue,
 /area/medical/patients_rooms/room_c)
 "uGt" = (
@@ -74662,7 +74674,7 @@ qmK
 qmK
 hxb
 eoI
-otm
+eIe
 tLz
 mKm
 iko
@@ -74674,7 +74686,7 @@ mLD
 uTl
 gBF
 hvJ
-dXZ
+hBt
 pQv
 hDn
 hzB
@@ -75433,7 +75445,7 @@ nGw
 meI
 vyT
 ksS
-hBt
+eoI
 ksS
 ksS
 ksS
@@ -75445,7 +75457,7 @@ pQv
 pQv
 pQv
 pQv
-eIe
+pQv
 pQv
 pQv
 pQv
