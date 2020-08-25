@@ -13,15 +13,11 @@
 /obj/structure/railing{
 	dir = 1
 	},
-/obj/machinery/computer/ship/mineral_magnet{
-	density = 0;
-	pixel_y = -32
-	},
 /obj/structure/cable{
 	icon_state = "0-8"
 	},
 /turf/open/floor/monotile,
-/area/nostromo/mining)
+/area/bridge)
 "aE" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	dir = 4;
@@ -44,17 +40,26 @@
 	dir = 8;
 	icon_state = "pipe11-2"
 	},
+/obj/effect/turf_decal/box/corners,
 /turf/open/floor/monotile,
 /area/nostromo/mining)
-"aX" = (
-/obj/structure/chair/sofa/right,
+"aP" = (
+/obj/effect/decal/cleanable/dirt/dust,
 /turf/open/floor/wood,
 /area/nostromo/crew_quarters)
+"aX" = (
+/obj/structure/chair/sofa/right,
+/turf/open/floor/carpet/blue,
+/area/ruin/space/has_grav/onehalf/dorms_med)
 "aY" = (
 /obj/structure/table/wood/bar,
 /obj/machinery/chem_dispenser/drinks/beer,
 /turf/open/floor/wood,
 /area/nostromo/crew_quarters)
+"ba" = (
+/obj/structure/closet/crate/freezer/blood,
+/turf/open/floor/monotile,
+/area/nostromo/medbay)
 "bm" = (
 /obj/machinery/suit_storage_unit/mining/eva,
 /turf/open/floor/monotile,
@@ -80,8 +85,8 @@
 /obj/structure/cable{
 	icon_state = "4-8"
 	},
-/turf/open/floor/wood,
-/area/nostromo/crew_quarters)
+/turf/open/floor/carpet/blue,
+/area/ruin/space/has_grav/onehalf/dorms_med)
 "bW" = (
 /obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden,
 /obj/structure/cable{
@@ -104,7 +109,7 @@
 	req_one_access_txt = "31;48"
 	},
 /turf/open/floor/monotile,
-/area/nostromo/mining)
+/area/bridge)
 "cA" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	dir = 4;
@@ -133,6 +138,10 @@
 	},
 /turf/open/floor/monotile,
 /area/nostromo/mining)
+"eb" = (
+/obj/structure/sign/warning/nosmoking,
+/turf/closed/wall/mineral/titanium,
+/area/nostromo/mining)
 "em" = (
 /obj/machinery/computer/ship/navigation{
 	dir = 1;
@@ -141,7 +150,11 @@
 	req_one_access_txt = "31;48"
 	},
 /turf/open/floor/monotile,
-/area/nostromo/mining)
+/area/bridge)
+"ep" = (
+/obj/structure/sign/poster/official/moth2,
+/turf/closed/wall/mineral/titanium,
+/area/nostromo/crew_quarters)
 "eq" = (
 /obj/structure/shuttle/engine/large{
 	dir = 8
@@ -149,16 +162,17 @@
 /turf/open/space/basic,
 /area/space)
 "eB" = (
-/obj/structure/closet/secure_closet/personal/cabinet,
 /obj/item/storage/pill_bottle/floorpill/full{
 	desc = "A treat for a certain miner."
 	},
+/obj/item/toy/plush/beeplushie,
+/obj/structure/closet,
 /turf/open/floor/wood,
 /area/nostromo/crew_quarters)
 "eG" = (
-/obj/machinery/airalarm,
-/turf/closed/wall/mineral/titanium,
-/area/nostromo/medbay)
+/obj/effect/turf_decal/ship/rust,
+/turf/open/floor/plating/airless,
+/area/space)
 "eU" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	dir = 4;
@@ -168,26 +182,35 @@
 	icon_state = "4-8"
 	},
 /turf/open/floor/wood,
-/area/nostromo/crew_quarters)
+/area/ruin/space/has_grav/onehalf/dorms_med)
 "eV" = (
 /obj/structure/hull_plate/end{
 	dir = 1;
 	icon_state = "tgmc_outerhull_dir"
 	},
-/turf/open/floor/monotile,
+/turf/open/floor/plating,
 /area/space)
 "eW" = (
 /obj/structure/railing{
 	dir = 4
 	},
 /turf/open/floor/monotile,
-/area/nostromo/mining)
+/area/bridge)
 "fc" = (
 /obj/machinery/light{
 	dir = 4
 	},
+/obj/machinery/iv_drip,
 /turf/open/floor/monotile,
 /area/nostromo/medbay)
+"fn" = (
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	dir = 4;
+	icon_state = "pipe11-1"
+	},
+/obj/effect/landmark/start/shaft_miner,
+/turf/open/floor/monotile,
+/area/nostromo/mining)
 "fp" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /turf/open/floor/monotile,
@@ -210,25 +233,32 @@
 /obj/structure/stairs{
 	dir = 8
 	},
+/obj/effect/decal/cleanable/dirt/dust,
 /turf/open/floor/monotile,
-/area/nostromo/mining)
+/area/bridge)
 "fB" = (
-/obj/structure/sign/poster/official/moth5,
-/turf/closed/wall/mineral/titanium,
-/area/nostromo/mining)
+/turf/open/space/basic,
+/area/ruin/space/has_grav/onehalf/dorms_med)
 "fH" = (
 /turf/closed/wall/mineral/titanium{
 	smooth = 0
 	},
 /area/nostromo/mining)
-"hd" = (
-/obj/structure/sign/poster/official/moth4,
-/turf/closed/wall/mineral/titanium,
+"fO" = (
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
+/obj/effect/decal/cleanable/dirt/dust,
+/turf/open/floor/monotile,
 /area/nostromo/mining)
-"he" = (
-/obj/structure/sign/poster/official/moth9,
-/turf/closed/wall/mineral/titanium,
-/area/nostromo/medbay)
+"gg" = (
+/obj/structure/stairs{
+	dir = 8
+	},
+/turf/open/floor/monotile,
+/area/bridge)
+"gI" = (
+/turf/open/floor/monotile,
+/area/bridge)
 "hm" = (
 /obj/machinery/atmospherics/pipe/layer_manifold,
 /obj/structure/cable{
@@ -245,6 +275,7 @@
 /area/nostromo/mining)
 "hz" = (
 /obj/machinery/computer/arcade/amputation,
+/obj/machinery/airalarm/directional/north,
 /turf/open/floor/wood,
 /area/nostromo/crew_quarters)
 "hF" = (
@@ -290,13 +321,14 @@
 /area/nostromo/medbay)
 "io" = (
 /obj/machinery/shower{
-	dir = 8
+	dir = 8;
+	pixel_y = -5
 	},
 /obj/structure/window/reinforced/tinted,
 /obj/structure/window/reinforced/tinted{
 	dir = 1
 	},
-/turf/open/floor/wood,
+/turf/open/floor/monotile,
 /area/nostromo/crew_quarters)
 "iq" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
@@ -319,7 +351,7 @@
 "iG" = (
 /obj/machinery/vending/cigarette/syndicate,
 /turf/open/floor/wood,
-/area/nostromo/crew_quarters)
+/area/ruin/space/has_grav/onehalf/dorms_med)
 "iY" = (
 /obj/machinery/computer/ship/tactical{
 	dir = 8;
@@ -327,7 +359,7 @@
 	req_one_access_txt = "31;48"
 	},
 /turf/open/floor/monotile,
-/area/nostromo/mining)
+/area/bridge)
 "jb" = (
 /obj/effect/spawner/structure/window/shuttle,
 /obj/machinery/door/poddoor/shutters/preopen{
@@ -335,10 +367,10 @@
 	name = "Mining Window Shutter"
 	},
 /turf/open/floor/plasteel,
-/area/nostromo/mining)
+/area/bridge)
 "ji" = (
 /obj/structure/hull_plate/end,
-/turf/open/floor/monotile,
+/turf/open/floor/plating,
 /area/space)
 "jy" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer1{
@@ -363,6 +395,10 @@
 	},
 /turf/open/floor/monotile/dark,
 /area/nostromo/mining)
+"kQ" = (
+/obj/machinery/vending/cigarette,
+/turf/open/floor/monotile,
+/area/nostromo/mining)
 "kU" = (
 /obj/machinery/light{
 	dir = 4
@@ -384,10 +420,11 @@
 	},
 /obj/machinery/door/firedoor,
 /turf/open/floor/monotile/dark,
-/area/nostromo/medbay)
+/area/ruin/space/has_grav/onehalf/dorms_med)
 "li" = (
 /obj/structure/chair/sofa,
-/turf/open/floor/wood,
+/obj/effect/landmark/start/shaft_miner,
+/turf/open/floor/carpet/blue,
 /area/nostromo/crew_quarters)
 "lr" = (
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on,
@@ -414,14 +451,6 @@
 /obj/machinery/door/firedoor,
 /turf/open/floor/plating,
 /area/nostromo/mining)
-"lN" = (
-/obj/effect/spawner/structure/window/shuttle,
-/obj/machinery/door/poddoor/shutters/preopen{
-	id = "mining_window";
-	name = "Mining Window Shutter"
-	},
-/turf/open/floor/plasteel,
-/area/nostromo/crew_quarters)
 "lW" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
 	dir = 8;
@@ -437,6 +466,18 @@
 	dir = 8
 	},
 /obj/structure/cable,
+/obj/item/ammo_box/magazine/pdc,
+/obj/item/ammo_box/magazine/pdc,
+/obj/item/ammo_box/magazine/pdc,
+/obj/item/ammo_box/magazine/pdc,
+/obj/item/ammo_box/magazine/pdc,
+/obj/item/ammo_box/magazine/pdc,
+/obj/item/ammo_box/magazine/pdc,
+/obj/item/ammo_box/magazine/pdc,
+/obj/item/ammo_box/magazine/pdc,
+/obj/item/ammo_box/magazine/pdc,
+/obj/item/ammo_box/magazine/pdc,
+/obj/structure/closet/crate,
 /turf/open/floor/monotile,
 /area/nostromo/mining)
 "mi" = (
@@ -446,10 +487,28 @@
 	},
 /turf/open/floor/monotile,
 /area/nostromo/medbay)
+"mn" = (
+/obj/structure/sign/poster/official/moth8,
+/turf/closed/wall/mineral/titanium,
+/area/nostromo/crew_quarters)
+"ms" = (
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	dir = 4;
+	icon_state = "pipe11-1"
+	},
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/turf/open/floor/carpet/blue,
+/area/ruin/space/has_grav/onehalf/dorms_med)
 "mI" = (
-/obj/machinery/airalarm,
+/obj/structure/sign/poster/official/moth5,
 /turf/closed/wall/mineral/titanium,
 /area/nostromo/mining)
+"mJ" = (
+/obj/machinery/airalarm/directional/west,
+/turf/open/floor/monotile,
+/area/nostromo/medbay)
 "mO" = (
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on{
 	dir = 8
@@ -466,12 +525,22 @@
 "mU" = (
 /turf/open/space/basic,
 /area/space)
+"nc" = (
+/obj/structure/table,
+/obj/item/paper_bin,
+/obj/item/toy/crayon/purple{
+	pixel_x = 4
+	},
+/obj/item/toy/crayon/green,
+/turf/open/floor/monotile,
+/area/nostromo/mining)
 "nd" = (
 /obj/structure/table,
 /obj/machinery/light{
 	dir = 1
 	},
 /obj/item/folder/white,
+/obj/item/toy/figure/miner,
 /turf/open/floor/monotile,
 /area/nostromo/mining)
 "no" = (
@@ -490,10 +559,16 @@
 	name = "bridge chair"
 	},
 /turf/open/floor/monotile,
-/area/nostromo/mining)
-"og" = (
-/obj/structure/sign/poster/official/no_erp,
-/turf/closed/wall/mineral/titanium,
+/area/bridge)
+"oe" = (
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	dir = 4;
+	icon_state = "pipe11-1"
+	},
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/turf/open/floor/carpet/blue,
 /area/nostromo/crew_quarters)
 "pu" = (
 /obj/machinery/power/apc/auto_name/north,
@@ -517,16 +592,40 @@
 /obj/item/storage/backpack/duffelbag/med/surgery,
 /turf/open/floor/monotile,
 /area/nostromo/medbay)
-"qh" = (
-/obj/structure/table,
-/obj/item/paper_bin,
-/obj/item/toy/crayon/purple,
+"pF" = (
+/obj/structure/sign/poster/official/no_erp,
+/turf/closed/wall/mineral/titanium,
+/area/nostromo/crew_quarters)
+"qb" = (
+/obj/item/twohanded/required/kirbyplants/random,
+/obj/effect/turf_decal/box/corners{
+	dir = 1
+	},
+/turf/open/floor/monotile,
+/area/nostromo/mining)
+"qn" = (
+/obj/machinery/atmospherics/components/unary/vent_scrubber/on{
+	dir = 8
+	},
+/obj/effect/turf_decal/stripes/line,
+/obj/effect/turf_decal/stripes/line{
+	dir = 5
+	},
+/obj/effect/decal/cleanable/dirt/dust,
+/turf/open/floor/monotile,
+/area/nostromo/mining)
+"qH" = (
+/obj/machinery/airalarm/directional/north,
 /turf/open/floor/monotile,
 /area/nostromo/mining)
 "qN" = (
-/obj/machinery/airalarm,
-/turf/closed/wall/mineral/titanium,
-/area/nostromo/crew_quarters)
+/obj/effect/spawner/structure/window/shuttle,
+/obj/machinery/door/poddoor/shutters/preopen{
+	id = "mining_window";
+	name = "Mining Window Shutter"
+	},
+/turf/open/floor/plasteel,
+/area/nostromo/mining)
 "rh" = (
 /obj/machinery/light{
 	dir = 8
@@ -539,7 +638,7 @@
 	name = "Mining Dock Airlock";
 	req_one_access_txt = "13; 48"
 	},
-/turf/open/floor/monotile,
+/turf/open/floor/plating,
 /area/nostromo/mining)
 "rJ" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
@@ -548,6 +647,17 @@
 	},
 /turf/open/floor/monotile,
 /area/nostromo/mining)
+"rR" = (
+/obj/structure/sign/warning/vacuum/external,
+/turf/closed/wall/mineral/titanium,
+/area/bridge)
+"se" = (
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
+/obj/effect/landmark/start/shaft_miner,
+/turf/open/floor/monotile,
+/area/bridge)
 "sm" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
 	dir = 6;
@@ -581,6 +691,9 @@
 /obj/machinery/door/firedoor,
 /turf/open/floor/monotile,
 /area/nostromo/crew_quarters)
+"ta" = (
+/turf/open/floor/carpet/blue,
+/area/nostromo/crew_quarters)
 "ti" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /obj/structure/cable{
@@ -613,7 +726,7 @@
 	dir = 4;
 	icon_state = "tgmc_outerhull_dir"
 	},
-/turf/open/floor/monotile,
+/turf/open/floor/plating,
 /area/space)
 "tL" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
@@ -631,22 +744,52 @@
 	dir = 1;
 	icon_state = "vent_map_on-1"
 	},
-/turf/open/floor/wood,
-/area/nostromo/crew_quarters)
+/turf/open/floor/carpet/blue,
+/area/ruin/space/has_grav/onehalf/dorms_med)
+"tX" = (
+/obj/machinery/door/airlock/shuttle{
+	name = "Mining Shuttle Airlock";
+	req_one_access_txt = "48"
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
+	dir = 8;
+	icon_state = "pipe11-2"
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	dir = 4;
+	icon_state = "pipe11-1"
+	},
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/obj/machinery/door/firedoor,
+/turf/open/floor/monotile,
+/area/bridge)
 "tZ" = (
 /obj/structure/cable{
 	icon_state = "1-4"
 	},
 /turf/open/floor/monotile,
-/area/nostromo/mining)
+/area/bridge)
 "uo" = (
 /obj/structure/table/optable,
 /turf/open/floor/monotile,
 /area/nostromo/medbay)
+"uq" = (
+/turf/closed/wall/mineral/titanium,
+/area/ruin/space/has_grav/onehalf/dorms_med)
+"uA" = (
+/obj/structure/hull_plate,
+/obj/machinery/door/airlock/external{
+	name = "Mining Dock Airlock";
+	req_one_access_txt = "13; 48"
+	},
+/turf/open/floor/monotile,
+/area/nostromo/mining)
 "uK" = (
 /obj/machinery/computer/station_alert,
 /turf/open/floor/monotile,
-/area/nostromo/mining)
+/area/bridge)
 "vE" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
 	dir = 8;
@@ -657,7 +800,7 @@
 	icon_state = "pipe11-1"
 	},
 /turf/open/floor/monotile,
-/area/nostromo/mining)
+/area/bridge)
 "vM" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
 	dir = 8;
@@ -672,10 +815,6 @@
 	},
 /turf/open/floor/monotile/dark,
 /area/nostromo/mining)
-"wv" = (
-/obj/structure/sign/poster/official/moth2,
-/turf/closed/wall/mineral/titanium,
-/area/nostromo/crew_quarters)
 "ww" = (
 /obj/structure/tank_dispenser/oxygen,
 /turf/open/floor/monotile,
@@ -727,6 +866,13 @@
 /obj/item/stack/cable_coil,
 /turf/open/floor/monotile,
 /area/nostromo/medbay)
+"xG" = (
+/obj/structure/table,
+/obj/item/gps/mining,
+/obj/item/gps/mining,
+/obj/item/gps/mining,
+/turf/open/floor/monotile,
+/area/bridge)
 "xL" = (
 /obj/machinery/door/airlock/shuttle{
 	name = "Mining Shuttle Airlock";
@@ -766,6 +912,7 @@
 	dir = 6;
 	icon_state = "pipe11-1"
 	},
+/obj/machinery/mineral/equipment_vendor,
 /turf/open/floor/monotile,
 /area/nostromo/mining)
 "ym" = (
@@ -806,6 +953,10 @@
 /obj/machinery/door/firedoor,
 /turf/open/floor/monotile,
 /area/nostromo/medbay)
+"yw" = (
+/obj/structure/sign/poster/official/moth9,
+/turf/closed/wall/mineral/titanium,
+/area/nostromo/medbay)
 "yz" = (
 /obj/structure/closet/secure_closet/miner,
 /turf/open/floor/monotile,
@@ -826,17 +977,13 @@
 	},
 /obj/machinery/power/apc/auto_name/north,
 /turf/open/floor/monotile,
-/area/nostromo/mining)
+/area/bridge)
 "zs" = (
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on{
 	dir = 1;
 	icon_state = "scrub_map_on-2"
 	},
 /turf/open/floor/wood,
-/area/nostromo/crew_quarters)
-"zv" = (
-/obj/structure/sign/poster/official/moth8,
-/turf/closed/wall/mineral/titanium,
 /area/nostromo/crew_quarters)
 "zH" = (
 /obj/structure/table/reinforced,
@@ -861,8 +1008,9 @@
 /obj/structure/cable{
 	icon_state = "2-8"
 	},
+/obj/effect/decal/cleanable/dirt/dust,
 /turf/open/floor/monotile/dark,
-/area/nostromo/mining)
+/area/bridge)
 "Ay" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	dir = 4;
@@ -879,10 +1027,13 @@
 	},
 /obj/machinery/firealarm/directional/north,
 /turf/open/floor/monotile,
-/area/nostromo/mining)
+/area/bridge)
 "Br" = (
 /obj/structure/table,
 /obj/machinery/microwave,
+/obj/effect/turf_decal/box/corners{
+	dir = 8
+	},
 /turf/open/floor/monotile,
 /area/nostromo/mining)
 "Bs" = (
@@ -901,9 +1052,16 @@
 /turf/open/floor/monotile/dark,
 /area/nostromo/mining)
 "BO" = (
-/obj/machinery/rnd/production/protolathe/department/cargo,
-/turf/open/floor/monotile,
+/obj/structure/sign/departments/minsky/supply/mining,
+/turf/closed/wall/mineral/titanium,
 /area/nostromo/mining)
+"Ch" = (
+/obj/effect/decal/cleanable/dirt/dust,
+/turf/open/floor/plating/airless,
+/area/space)
+"Cq" = (
+/turf/closed/wall/mineral/titanium,
+/area/bridge)
 "Cv" = (
 /obj/structure/shuttle/engine/propulsion/burst/cargo{
 	dir = 8
@@ -925,13 +1083,16 @@
 /turf/open/floor/monotile,
 /area/nostromo/mining)
 "Ep" = (
-/obj/structure/table,
-/obj/item/papercutter,
+/obj/machinery/rnd/production/protolathe/department/cargo,
 /turf/open/floor/monotile,
 /area/nostromo/mining)
 "EU" = (
 /obj/structure/table,
 /obj/item/storage/box/donkpockets,
+/obj/item/reagent_containers/food/drinks/solgovcup{
+	pixel_x = 10;
+	pixel_y = 10
+	},
 /turf/open/floor/monotile,
 /area/nostromo/mining)
 "EX" = (
@@ -952,13 +1113,16 @@
 	req_one_access_txt = "31;48"
 	},
 /turf/open/floor/monotile,
-/area/nostromo/mining)
+/area/bridge)
 "Fr" = (
 /mob/living/simple_animal/pet/cat/cak{
 	name = "Frank"
 	},
 /turf/open/floor/monotile,
-/area/nostromo/mining)
+/area/bridge)
+"Fx" = (
+/turf/open/floor/wood,
+/area/ruin/space/has_grav/onehalf/dorms_med)
 "FS" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
 	dir = 9;
@@ -972,7 +1136,7 @@
 /area/nostromo/mining)
 "FW" = (
 /obj/structure/hull_plate,
-/turf/open/floor/monotile,
+/turf/open/floor/plating,
 /area/space)
 "FX" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
@@ -987,14 +1151,20 @@
 	dir = 8
 	},
 /turf/open/floor/monotile,
-/area/nostromo/mining)
+/area/bridge)
+"Gb" = (
+/obj/machinery/computer/ship/mineral_magnet{
+	density = 0
+	},
+/turf/closed/wall/mineral/titanium,
+/area/bridge)
 "Gn" = (
 /obj/structure/chair/sofa,
 /obj/machinery/light{
 	dir = 1
 	},
-/turf/open/floor/wood,
-/area/nostromo/crew_quarters)
+/turf/open/floor/carpet/blue,
+/area/ruin/space/has_grav/onehalf/dorms_med)
 "Gp" = (
 /obj/structure/shuttle/engine/huge{
 	dir = 8;
@@ -1018,7 +1188,12 @@
 	icon_state = "4-8"
 	},
 /turf/open/floor/monotile,
-/area/nostromo/mining)
+/area/bridge)
+"Hq" = (
+/obj/structure/table/reinforced,
+/obj/item/defibrillator/loaded,
+/turf/open/floor/monotile,
+/area/nostromo/medbay)
 "HA" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	dir = 5;
@@ -1039,7 +1214,11 @@
 	icon_state = "pipe11-1"
 	},
 /turf/open/floor/monotile,
-/area/nostromo/mining)
+/area/bridge)
+"Ia" = (
+/obj/structure/table,
+/turf/open/floor/monotile,
+/area/bridge)
 "Is" = (
 /obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
@@ -1099,13 +1278,28 @@
 	icon_state = "cryopod-open"
 	},
 /turf/open/floor/wood,
-/area/nostromo/crew_quarters)
+/area/ruin/space/has_grav/onehalf/dorms_med)
+"IV" = (
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
+	dir = 8;
+	icon_state = "pipe11-2"
+	},
+/obj/machinery/advanced_airlock_controller/directional/north,
+/obj/machinery/atmospherics/components/unary/vent_pump/on/layer1{
+	dir = 8
+	},
+/obj/effect/turf_decal/stripes/line,
+/obj/effect/turf_decal/stripes/line{
+	dir = 9
+	},
+/turf/open/floor/monotile,
+/area/nostromo/mining)
 "Js" = (
 /obj/structure/hull_plate/end{
 	dir = 6;
 	icon_state = "tgmc_outerhull_dir"
 	},
-/turf/open/floor/monotile,
+/turf/open/floor/plating,
 /area/space)
 "Jt" = (
 /obj/machinery/light{
@@ -1136,12 +1330,12 @@
 	dir = 5;
 	icon_state = "tgmc_outerhull_dir"
 	},
-/turf/open/floor/monotile,
+/turf/open/floor/plating,
 /area/space)
 "JI" = (
 /obj/structure/railing,
 /turf/open/floor/monotile,
-/area/nostromo/mining)
+/area/bridge)
 "Ka" = (
 /obj/structure/table,
 /obj/item/kitchen/rollingpin,
@@ -1182,7 +1376,7 @@
 "KS" = (
 /obj/structure/railing/corner,
 /turf/open/floor/monotile,
-/area/nostromo/mining)
+/area/bridge)
 "KV" = (
 /obj/structure/cable{
 	icon_state = "4-8"
@@ -1208,16 +1402,23 @@
 /obj/machinery/door/firedoor,
 /turf/open/floor/monotile,
 /area/nostromo/crew_quarters)
+"KZ" = (
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
+/turf/open/floor/monotile,
+/area/bridge)
 "Lm" = (
 /obj/machinery/light{
 	dir = 4
 	},
 /obj/structure/railing,
+/obj/machinery/airalarm/directional/north,
 /turf/open/floor/monotile,
-/area/nostromo/mining)
+/area/bridge)
 "Mo" = (
 /obj/structure/chair/sofa/left,
-/turf/open/floor/wood,
+/turf/open/floor/carpet/blue,
 /area/nostromo/crew_quarters)
 "Mx" = (
 /obj/structure/bed,
@@ -1234,7 +1435,8 @@
 /turf/open/floor/wood,
 /area/nostromo/crew_quarters)
 "MA" = (
-/obj/structure/closet/secure_closet/personal/cabinet,
+/obj/item/toy/plush/lizardplushie,
+/obj/structure/closet,
 /turf/open/floor/wood,
 /area/nostromo/crew_quarters)
 "ML" = (
@@ -1258,6 +1460,7 @@
 /area/nostromo/mining)
 "MT" = (
 /obj/structure/table,
+/obj/item/papercutter,
 /turf/open/floor/monotile,
 /area/nostromo/mining)
 "Nb" = (
@@ -1334,6 +1537,10 @@
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on{
 	dir = 8
 	},
+/obj/effect/turf_decal/stripes/line{
+	dir = 5
+	},
+/obj/effect/turf_decal/stripes/line,
 /turf/open/floor/monotile,
 /area/nostromo/mining)
 "Qo" = (
@@ -1352,6 +1559,15 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
 /turf/open/floor/wood,
 /area/nostromo/crew_quarters)
+"Qw" = (
+/obj/effect/turf_decal/arrows/red,
+/turf/open/floor/monotile,
+/area/nostromo/mining)
+"Qz" = (
+/obj/structure/lattice/catwalk,
+/obj/effect/decal/cleanable/dirt/dust,
+/turf/open/space/basic,
+/area/space)
 "QB" = (
 /obj/structure/railing{
 	dir = 1
@@ -1359,8 +1575,9 @@
 /obj/structure/cable{
 	icon_state = "4-8"
 	},
+/obj/effect/decal/cleanable/dirt/dust,
 /turf/open/floor/monotile,
-/area/nostromo/mining)
+/area/bridge)
 "QI" = (
 /obj/machinery/light,
 /turf/open/floor/wood,
@@ -1371,8 +1588,17 @@
 	},
 /turf/open/floor/monotile,
 /area/nostromo/mining)
+"QL" = (
+/obj/effect/spawner/structure/window/shuttle,
+/obj/machinery/door/poddoor/shutters/preopen{
+	id = "mining_window";
+	name = "Mining Window Shutter"
+	},
+/turf/open/floor/plasteel,
+/area/nostromo/crew_quarters)
 "QV" = (
 /obj/machinery/portable_atmospherics/canister/oxygen,
+/obj/effect/decal/cleanable/dirt/dust,
 /turf/open/floor/monotile,
 /area/nostromo/mining)
 "Ra" = (
@@ -1386,6 +1612,9 @@
 	},
 /obj/structure/cable{
 	icon_state = "4-8"
+	},
+/obj/structure/chair/stool/bar{
+	damtype = "stamina"
 	},
 /turf/open/floor/wood,
 /area/nostromo/crew_quarters)
@@ -1427,6 +1656,14 @@
 	},
 /turf/open/floor/monotile/dark,
 /area/nostromo/medbay)
+"SW" = (
+/obj/effect/decal/cleanable/dirt/dust,
+/turf/open/floor/carpet/blue,
+/area/nostromo/crew_quarters)
+"Tb" = (
+/obj/structure/sign/poster/official/moth4,
+/turf/closed/wall/mineral/titanium,
+/area/bridge)
 "Tk" = (
 /obj/machinery/door/airlock/external{
 	name = "Mining Dock Airlock";
@@ -1447,6 +1684,12 @@
 /obj/structure/cable{
 	icon_state = "4-8"
 	},
+/obj/effect/turf_decal/arrows/red{
+	dir = 4
+	},
+/obj/effect/turf_decal/box/corners{
+	dir = 4
+	},
 /turf/open/floor/monotile/dark,
 /area/nostromo/mining)
 "TQ" = (
@@ -1454,7 +1697,7 @@
 	dir = 4;
 	icon_state = "tgmc_outerhull_dir"
 	},
-/turf/open/floor/monotile,
+/turf/open/floor/plating,
 /area/space)
 "TU" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
@@ -1478,7 +1721,7 @@
 	dir = 8
 	},
 /turf/open/floor/monotile,
-/area/nostromo/mining)
+/area/bridge)
 "Uu" = (
 /obj/machinery/power/smes{
 	charge = 5e+006
@@ -1487,7 +1730,7 @@
 	icon_state = "0-8"
 	},
 /turf/open/floor/monotile,
-/area/space)
+/area/nostromo/mining)
 "Ux" = (
 /obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden,
 /obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1{
@@ -1507,6 +1750,9 @@
 "UT" = (
 /turf/open/floor/plating/airless,
 /area/space)
+"Vf" = (
+/turf/open/floor/carpet/blue,
+/area/ruin/space/has_grav/onehalf/dorms_med)
 "Vm" = (
 /obj/machinery/firealarm/directional/north,
 /turf/open/floor/monotile,
@@ -1518,6 +1764,10 @@
 	name = "bridge chair"
 	},
 /turf/open/floor/monotile,
+/area/bridge)
+"Vw" = (
+/obj/structure/sign/warning/docking,
+/turf/closed/wall/mineral/titanium,
 /area/nostromo/mining)
 "VA" = (
 /obj/effect/spawner/structure/window/shuttle,
@@ -1530,7 +1780,7 @@
 "VQ" = (
 /obj/machinery/computer/cryopod,
 /turf/closed/wall/mineral/titanium,
-/area/nostromo/medbay)
+/area/ruin/space/has_grav/onehalf/dorms_med)
 "Wi" = (
 /obj/structure/cable{
 	icon_state = "2-4"
@@ -1545,13 +1795,18 @@
 /obj/machinery/light,
 /turf/open/floor/monotile,
 /area/nostromo/mining)
+"Wz" = (
+/obj/machinery/suit_storage_unit/mining/eva,
+/obj/machinery/firealarm/directional/north,
+/turf/open/floor/monotile,
+/area/nostromo/mining)
 "WA" = (
 /obj/structure/cable{
 	icon_state = "4-8"
 	},
 /obj/machinery/light,
 /turf/open/floor/monotile,
-/area/nostromo/mining)
+/area/bridge)
 "WQ" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /turf/open/floor/monotile/dark,
@@ -1564,6 +1819,11 @@
 	},
 /turf/open/floor/monotile,
 /area/nostromo/mining)
+"XV" = (
+/obj/structure/hull_plate,
+/obj/effect/decal/cleanable/dirt/dust,
+/turf/open/floor/plating,
+/area/space)
 "Ya" = (
 /obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden{
 	dir = 8;
@@ -1572,10 +1832,17 @@
 /obj/structure/cable{
 	icon_state = "4-8"
 	},
+/obj/effect/turf_decal/arrows/red{
+	dir = 4
+	},
 /turf/open/floor/monotile/dark,
 /area/nostromo/mining)
 "Yb" = (
 /turf/open/floor/monotile,
+/area/nostromo/medbay)
+"YH" = (
+/obj/structure/sign/departments/minsky/medical/medical2,
+/turf/closed/wall/mineral/titanium,
 /area/nostromo/medbay)
 "YJ" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
@@ -1599,10 +1866,20 @@
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer1{
 	dir = 8
 	},
+/obj/effect/turf_decal/stripes/line{
+	dir = 9
+	},
+/obj/effect/turf_decal/stripes/line,
 /turf/open/floor/monotile,
 /area/nostromo/mining)
 "Zk" = (
 /obj/item/stack/sheet/mineral/wood/fifty,
+/obj/item/storage/toolbox/mechanical,
+/obj/item/storage/toolbox/electrical{
+	pixel_x = 2;
+	pixel_y = 2
+	},
+/obj/structure/rack,
 /turf/open/floor/monotile,
 /area/nostromo/mining)
 "Zl" = (
@@ -12493,7 +12770,7 @@ mU
 mU
 mU
 mU
-mU
+fB
 mU
 mU
 mU
@@ -12758,7 +13035,7 @@ IG
 IG
 wB
 wB
-eG
+wB
 wB
 wB
 wB
@@ -13015,7 +13292,7 @@ bJ
 Ki
 wB
 Vm
-Yb
+mJ
 Yb
 Yb
 Jt
@@ -13265,7 +13542,7 @@ mU
 mU
 mU
 IG
-BO
+Ep
 Sr
 Wi
 EX
@@ -13277,7 +13554,7 @@ Gz
 hF
 uo
 Yb
-Yb
+ba
 wB
 mU
 mU
@@ -13527,14 +13804,14 @@ Sr
 KV
 tD
 Sr
-wB
+YH
 KL
 Ay
 Yb
 Yb
 Yb
 Yb
-zH
+Hq
 wB
 mU
 mU
@@ -14041,14 +14318,14 @@ yp
 Pt
 Is
 Sr
-wB
-wB
+uq
+uq
 lf
 VQ
+uq
 wB
 wB
-wB
-he
+yw
 wB
 mU
 mU
@@ -14293,12 +14570,12 @@ mU
 mU
 mU
 IG
-Ep
+MT
 Sr
 KV
 cY
 Sr
-PZ
+uq
 iG
 eU
 IR
@@ -14549,21 +14826,21 @@ mU
 mU
 mU
 mU
-fB
-qh
+mI
+nc
 QK
 Pt
 FS
 Wx
-PZ
+uq
 aX
-eU
-SJ
-SJ
+ms
+Vf
+Fx
 xe
 SJ
 QI
-PZ
+pF
 mU
 mU
 mU
@@ -14806,18 +15083,18 @@ mU
 mU
 mU
 mU
-mI
-PE
+IG
+qH
 Sr
 KV
 tD
 Sr
-PZ
+uq
 Gn
 bN
 tM
-SJ
-og
+Fx
+PZ
 PZ
 PZ
 PZ
@@ -15071,13 +15348,13 @@ DU
 au
 PZ
 li
-eU
+oe
+SW
 SJ
 SJ
 SJ
 SJ
-SJ
-lN
+QL
 mU
 mU
 mU
@@ -15326,15 +15603,15 @@ Sr
 KV
 RQ
 bB
-zv
+mn
 Mo
-eU
-SJ
+oe
+ta
 SJ
 KF
 SJ
 SJ
-lN
+QL
 mU
 mU
 mU
@@ -15578,7 +15855,7 @@ mU
 mU
 mU
 Tk
-PE
+Qw
 rJ
 Ya
 DU
@@ -15591,7 +15868,7 @@ SJ
 io
 SJ
 SJ
-lN
+QL
 mU
 mU
 mU
@@ -15844,8 +16121,8 @@ PZ
 yX
 JA
 ym
-SJ
-og
+aP
+PZ
 xe
 PZ
 PZ
@@ -16097,7 +16374,7 @@ PE
 lW
 tD
 PE
-qN
+PZ
 hz
 Ra
 aY
@@ -16105,7 +16382,7 @@ SJ
 RP
 SJ
 QI
-PZ
+pF
 mU
 mU
 mU
@@ -16618,7 +16895,7 @@ PZ
 PZ
 PZ
 PZ
-wv
+ep
 PZ
 mU
 mU
@@ -16868,8 +17145,8 @@ Ue
 Ux
 Pr
 yz
-IG
-ci
+Vw
+qb
 cA
 rh
 Xs
@@ -17119,7 +17396,7 @@ mU
 mU
 mU
 mU
-jb
+qN
 bm
 Sr
 mO
@@ -17376,7 +17653,7 @@ mU
 mU
 mU
 mU
-jb
+qN
 bm
 Sr
 TU
@@ -17633,13 +17910,13 @@ mU
 mU
 mU
 mU
-jb
+qN
 ww
 Sr
 jy
-tD
+fn
 yz
-IG
+eb
 fv
 yn
 PE
@@ -17891,17 +18168,17 @@ mU
 mU
 mU
 IG
-bm
+Wz
 tL
 WQ
 RR
-PE
+kQ
 IG
 Nb
 KK
 sw
 sw
-sw
+fO
 ti
 HA
 IG
@@ -18147,11 +18424,11 @@ mU
 mU
 mU
 mU
-IG
+BO
 xZ
 xV
 Nj
-PE
+Qw
 PE
 lG
 TI
@@ -18407,15 +18684,15 @@ mU
 IG
 xn
 fH
-IG
-IG
-hd
-IG
-xL
-IG
-IG
-IG
-IG
+rR
+Cq
+Tb
+Cq
+tX
+Cq
+Cq
+Cq
+rR
 fH
 ML
 IG
@@ -18664,17 +18941,17 @@ mU
 IG
 YT
 IG
-IG
+Cq
 Az
-NN
-NN
+KZ
+KZ
 Ap
-NN
-NN
+KZ
+se
 tZ
-IG
+Cq
 IN
-YT
+IV
 IG
 mU
 mU
@@ -18921,17 +19198,17 @@ mU
 IG
 Qg
 IG
-IG
+Cq
 zg
 Fr
-PE
+gI
 vE
 Fe
-PE
+gI
 WA
+Cq
 IG
-IG
-Qg
+qn
 IG
 mU
 mU
@@ -19183,12 +19460,12 @@ KS
 eW
 fz
 FX
-fz
+gg
 eW
 Hd
 jb
 IG
-rp
+uA
 IG
 mU
 mU
@@ -19692,15 +19969,15 @@ mU
 eV
 FW
 FW
-IG
+Cq
 Lm
-MT
+xG
 iY
 Ut
 co
-MT
+Ia
 ax
-IG
+Gb
 FW
 FW
 ji
@@ -19949,17 +20226,17 @@ mU
 eV
 FW
 FW
-IG
-IG
+Cq
+Cq
 jb
 jb
 jb
 jb
 jb
-IG
-IG
+Cq
+Cq
 FW
-FW
+XV
 ji
 mU
 mU
@@ -20453,6 +20730,7 @@ UT
 UT
 UT
 UT
+eG
 UT
 UT
 UT
@@ -20472,6 +20750,10 @@ UT
 UT
 UT
 UT
+eG
+UT
+UT
+Ch
 UT
 UT
 UT
@@ -20481,12 +20763,7 @@ UT
 UT
 UT
 UT
-UT
-UT
-UT
-UT
-UT
-UT
+eG
 UT
 UT
 UT
@@ -20722,7 +20999,7 @@ sP
 sP
 sP
 sP
-sP
+Qz
 sP
 sP
 sP
@@ -24301,7 +24578,7 @@ mU
 mU
 mU
 sP
-UT
+eG
 sP
 mU
 mU
@@ -26657,7 +26934,7 @@ mU
 mU
 mU
 sP
-UT
+eG
 sP
 mU
 mU
@@ -29484,7 +29761,7 @@ mU
 mU
 mU
 sP
-UT
+eG
 sP
 mU
 mU
@@ -31517,7 +31794,7 @@ UT
 UT
 UT
 UT
-UT
+eG
 UT
 UT
 UT
