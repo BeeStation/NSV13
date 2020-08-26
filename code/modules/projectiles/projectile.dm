@@ -234,7 +234,7 @@
 	if(!check_faction(A))
 		return FALSE 	 //Nsv13 - faction checking for overmaps. We're gonna just cut off real early and save some math if the IFF doesn't check out.
 
-	var/datum/point/pcache = trajectory.copy_to()
+	var/datum/point/pcache = trajectory?.copy_to()
 	var/turf/T = get_turf(A)
 	if(check_ricochet(A) && check_ricochet_flag(A) && ricochets < ricochets_max)
 		ricochets++
