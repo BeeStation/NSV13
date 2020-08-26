@@ -313,10 +313,20 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 	if(ai_controlled)
 		weapon_types[FIRE_MODE_MISSILE] = new/datum/ship_weapon/missile_launcher(src)
 
+/obj/item/projectile/Destroy()
+	if(physics2d)
+		qdel(physics2d)
+		physics2d = null
+	. = ..()
+
 /obj/structure/overmap/Destroy()
 	QDEL_LIST(current_tracers)
 	if(cabin_air)
 		QDEL_NULL(cabin_air)
+	//Free up memory refs here.
+	if(physics2d)
+		qdel(physics2d)
+		physics2d = null
 	. = ..()
 
 /obj/structure/overmap/proc/find_area()

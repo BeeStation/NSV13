@@ -74,6 +74,13 @@ PROCESSING_SUBSYSTEM_DEF(physics_processing)
 	last_registered_z = holder.z
 	LAZYADD(SSphysics_processing.physics_levels["[last_registered_z]"], src)
 
+/datum/component/physics2d/Destroy(force, silent)
+	. = ..()
+	//De-alloc references.
+	collider2d = null
+	position = null
+	velocity = null
+
 /datum/component/physics2d/proc/setup(list/hitbox, angle)
 	position = new /datum/vector2d(holder.x*32,holder.y*32)
 	collider2d = new /datum/shape(position, hitbox, angle) // -TORADIANS(src.angle-90)
@@ -81,8 +88,8 @@ PROCESSING_SUBSYSTEM_DEF(physics_processing)
 	START_PROCESSING(SSphysics_processing, src)
 
 /datum/component/physics2d/proc/update(x, y, angle)
-	collider2d.set_angle(angle) //Turn the box collider
-	collider2d._set(x, y)
+	collider2d?.set_angle(angle) //Turn the box collider
+	collider2d?._set(x, y)
 
 /datum/component/physics2d/process()
 	if(QDELETED(holder) || !holder)

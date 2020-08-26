@@ -11,16 +11,12 @@
 	var/shield_angle_hit = SIMPLIFY_DEGREES(diff.angle() - angle)
 	switch(shield_angle_hit)
 		if(0 to 89) //0 - 90 deg is the first right quarter of the circle, it's like dividing up a pizza!
-			add_overlay(image(icon = icon, icon_state = "northeast", dir=SOUTH))
 			return ARMOUR_FORWARD_PORT
 		if(90 to 179)
-			add_overlay(image(icon = icon, icon_state = "southeast", dir=SOUTH))
 			return ARMOUR_AFT_PORT
 		if(180 to 269)
-			add_overlay(image(icon = icon, icon_state = "southwest", dir=SOUTH))
 			return ARMOUR_AFT_STARBOARD
 		if(270 to 360) //Then this represents the last quadrant of the circle, the northwest one
-			add_overlay(image(icon = icon, icon_state = "northwest", dir=SOUTH))
 			return ARMOUR_FORWARD_STARBOARD
 
 /* UNUSED
