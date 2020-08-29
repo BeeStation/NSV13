@@ -2,6 +2,7 @@
 	new /obj/structure/overmap/syndicate/ai(get_turf(pick(orange(10, src))))
 
 //Thank you once again to qwerty for writing the directional calc for this.
+/*
 /obj/structure/overmap/proc/check_quadrant(datum/vector2d/point_of_collision)
 	if(!point_of_collision)
 		return
@@ -22,6 +23,23 @@
 		if(270 to 360) //Then this represents the last quadrant of the circle, the northwest one
 			add_overlay(image(icon = icon, icon_state = "northwest", dir=SOUTH))
 			return ARMOUR_FORWARD_STARBOARD
+*/
+/obj/structure/overmap/proc/check_quadrant(atom/target) // I dunno what all of our vector math is, but here's angles
+	var/true_angle_to_target = Get_Angle(src, target)
+	var/relative_angle_to_target = SIMPLIFY_DEGREES(true_angle_to_target - src.angle)
+	switch(relative_angle_to_target)
+		if(0 to 89)
+			add_overlay(image(icon = icon, icon_state = "northwest", dir=SOUTH))
+			return ARMOUR_FORWARD_STARBOARD
+		if(90 to 179)
+			add_overlay(image(icon = icon, icon_state = "southwest", dir=SOUTH))
+			return ARMOUR_AFT_STARBOARD
+		if(180 to 269)
+			add_overlay(image(icon = icon, icon_state = "northeast", dir=SOUTH))
+			return ARMOUR_AFT_PORT
+		if(270 to 360)
+			add_overlay(image(icon = icon, icon_state = "southeast", dir=SOUTH))
+			return ARMOUR_FORWARD_PORT
 
 /* UNUSED
 /obj/screen/alert/overmap_integrity
@@ -52,8 +70,8 @@
 		take_damage(delta)
 	update_quadrants()
 
-/obj/structure/overmap/proc/test()
-	var/list/L = armour_quadrants[ARMOUR_FORWARD_PORT]
+/obj/structure/overmap/proc/test(quadrant=ARMOUR_FORWARD_PORT)
+	var/list/L = armour_quadrants[quadrant]
 	L["current_armour"] = 0
 	update_quadrants()
 
