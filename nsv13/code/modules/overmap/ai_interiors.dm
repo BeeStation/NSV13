@@ -37,7 +37,7 @@
 				return TRUE
 
 /obj/structure/overmap/Destroy()
-	STOP_PROCESSING(SSphysics_processing, src)
+	STOP_PROCESSING(SSovermap, src)
 	GLOB.overmap_objects -= src
 	relay('nsv13/sound/effects/ship/damage/ship_explode.ogg')
 	animate(src, alpha = 0,time = 20) //Ship fades to black

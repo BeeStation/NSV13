@@ -51,10 +51,7 @@
 		var/list/info = contents_positions[ship]
 		ship.forceMove(get_turf(locate(info["x"], info["y"], occupying_z))) //Let's unbox that ship. Nice.
 		if(istype(ship, /obj/structure/overmap))
-			START_PROCESSING(SSphysics_processing, ship) //And let's stop it from processing too.
-			var/obj/structure/overmap/OM = ship
-			if(OM.physics2d)
-				START_PROCESSING(SSphysics_processing, OM.physics2d) //Respawn this ship's collider so it can start colliding once more
+			START_PROCESSING(SSovermap, ship) //And let's stop it from processing too.
 	}
 	contents_positions = null
 	contents_positions = list()
@@ -93,10 +90,7 @@
 		contents_positions[X] = list("x" = X.x, "y" = X.y) //Cache the ship's position so we can regenerate it later.
 		X.moveToNullspace() //Anything that's an NPC should be stored safely in nullspace until we return.
 		if(istype(X, /obj/structure/overmap))
-			var/obj/structure/overmap/foo = X
-			STOP_PROCESSING(SSphysics_processing, X) //And let's stop it from processing too.
-			if(foo.physics2d)
-				STOP_PROCESSING(SSphysics_processing, foo.physics2d) //Despawn this ship's collider, to avoid wasting time figuring out if it's colliding with things or not.
+			STOP_PROCESSING(SSovermap, X) //And let's stop it from processing too.
 	occupying_z = 0 //Alright, no ships are holding it anymore. Stop holding the Z-level
 
 /obj/structure/overmap/proc/begin_jump(datum/star_system/target_system)
