@@ -405,8 +405,8 @@
 	icon_state = "carrier"
 	mass = MASS_LARGE
 	ai_can_launch_fighters = TRUE //AI variable. Allows your ai ships to spawn fighter craft
-	ai_fighter_type = list(/obj/structure/overmap/syndicate/ai/fighter,
-							/obj/structure/overmap/syndicate/ai/bomber)
+	ai_fighter_type = list(/obj/structure/overmap/syndicate/ai/fighter)//,
+							///obj/structure/overmap/syndicate/ai/bomber)
 	sprite_size = 48
 	damage_states = TRUE
 	pixel_z = -96
@@ -588,6 +588,7 @@
 	armor = list("overmap_light" = 5, "overmap_heavy" = 5)
 	ai_trait = AI_TRAIT_ANTI_FIGHTER
 
+/**
 /obj/structure/overmap/syndicate/ai/bomber //need custom AI behaviour to target capitals only
 	name = "Syndicate Bomber"
 	desc = "A space faring fighter craft."
@@ -608,6 +609,7 @@
 	bounty = 250
 	armor = list("overmap_light" = 15, "overmap_heavy" = 0)
 	ai_trait = AI_TRAIT_DESTROYER
+*/
 
 /obj/structure/overmap/syndicate/ai/fighter/Initialize()
 	. = ..()

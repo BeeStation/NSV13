@@ -751,7 +751,7 @@ GLOBAL_LIST_EMPTY(ai_goals)
 		//Heavy weapons take ammo, stuff like PDC and gauss do NOT for AI ships. We make decisions on the fly as to which gun we get to shoot. If we've run out of ammo, we have to resort to PDCs only.
 		for(var/I = FIRE_MODE_PDC; I <= MAX_POSSIBLE_FIREMODE; I++) //We should ALWAYS default to PDCs.
 			var/datum/ship_weapon/SW = weapon_types[I]
-			if(!SW)
+			if(!SW || (I == FIRE_MODE_TORPEDO))
 				continue
 			var/distance = target_range - SW.range_modifier //How close to the effective range of the given weapon are we?
 			if(distance < best_distance)
