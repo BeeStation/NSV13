@@ -220,6 +220,7 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 
 /obj/structure/overmap/Initialize()
 	. = ..()
+	GLOB.poi_list += src
 	return INITIALIZE_HINT_LATELOAD
 
 /obj/structure/overmap/LateInitialize()
@@ -314,6 +315,7 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 		weapon_types[FIRE_MODE_MISSILE] = new/datum/ship_weapon/missile_launcher(src)
 
 /obj/structure/overmap/Destroy()
+	GLOB.poi_list += src
 	QDEL_LIST(current_tracers)
 	if(cabin_air)
 		QDEL_NULL(cabin_air)
