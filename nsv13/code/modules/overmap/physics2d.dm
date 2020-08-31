@@ -80,6 +80,7 @@ PROCESSING_SUBSYSTEM_DEF(physics_processing)
 	collider2d = null
 	position = null
 	velocity = null
+	return QDEL_HINT_HARDDEL //just die already ok?
 
 /datum/component/physics2d/proc/setup(list/hitbox, angle)
 	position = new /datum/vector2d(holder.x*32,holder.y*32)
