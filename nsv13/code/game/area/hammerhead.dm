@@ -47,3 +47,7 @@
 
 /area/security/detectives_office/combined
 	name = "Justice Team Office"
+
+/area/engine/armor
+	name = "Armor Management"
+	icon_state = "engine"
