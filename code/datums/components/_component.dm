@@ -59,10 +59,10 @@
 	return
 
 /datum/component/Destroy(force=FALSE, silent=FALSE)
-	if(!silent && parent) //This goes first because the next bit literally removes the parent???
-		SEND_SIGNAL(parent, COMSIG_COMPONENT_REMOVING, src)
 	if(!force && parent)
 		_RemoveFromParent()
+	if(!silent && parent) //I have no idea why we wouldn't have parents, but sure, orphan components.
+		SEND_SIGNAL(parent, COMSIG_COMPONENT_REMOVING, src)
 	parent = null
 	return ..()
 
