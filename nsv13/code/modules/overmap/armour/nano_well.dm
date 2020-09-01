@@ -175,7 +175,7 @@ Starting Materials
 					return
 				if(1) //Iron
 					var/datum/component/material_container/materials = GetComponent(/datum/component/material_container)
-					var/iron_amount = (min(100, (RR_MAX - repair_resources))) * 5
+					var/iron_amount = (min(100, (RR_MAX - repair_resources))) * 10
 					if(materials.has_enough_of_material(/datum/material/iron, iron_amount))
 						materials.use_amount_mat(iron_amount, /datum/material/iron)
 						repair_resources += iron_amount / 2
@@ -183,8 +183,8 @@ Starting Materials
 						repair_resources_processing = TRUE
 				if(2) //Ferrotitanium
 					var/datum/component/material_container/materials = GetComponent(/datum/component/material_container)
-					var/iron_amount = (min(25, (RR_MAX - repair_resources) * 0.25)) * 5
-					var/titanium_amount = (min(75, (RR_MAX - repair_resources) * 0.75)) * 5
+					var/iron_amount = (min(25, (RR_MAX - repair_resources) * 0.25)) * 10
+					var/titanium_amount = (min(75, (RR_MAX - repair_resources) * 0.75)) * 10
 					if(materials.has_enough_of_material(/datum/material/iron, iron_amount) && materials.has_enough_of_material(/datum/material/titanium, titanium_amount))
 						materials.use_amount_mat(iron_amount, /datum/material/iron)
 						materials.use_amount_mat(titanium_amount, /datum/material/titanium)
@@ -193,9 +193,9 @@ Starting Materials
 						repair_resources_processing = TRUE
 				if(3) //Durasteel
 					var/datum/component/material_container/materials = GetComponent(/datum/component/material_container)
-					var/iron_amount = (min(20, (RR_MAX - repair_resources) * 0.20)) * 5
-					var/silver_amount = (min(15, (RR_MAX -  repair_resources) * 0.15)) * 5
-					var/titanium_amount = (min(65, (RR_MAX - repair_resources) * 0.65)) * 5
+					var/iron_amount = (min(20, (RR_MAX - repair_resources) * 0.20)) * 10
+					var/silver_amount = (min(15, (RR_MAX -  repair_resources) * 0.15)) * 10
+					var/titanium_amount = (min(65, (RR_MAX - repair_resources) * 0.65)) * 10
 					if(materials.has_enough_of_material(/datum/material/iron, iron_amount) && materials.has_enough_of_material(/datum/material/silver, silver_amount) && materials.has_enough_of_material(/datum/material/titanium, titanium_amount))
 						materials.use_amount_mat(iron_amount, /datum/material/iron)
 						materials.use_amount_mat(silver_amount, /datum/material/silver)
@@ -205,10 +205,10 @@ Starting Materials
 						repair_resources_processing = TRUE
 				if(4) //Duranium
 					var/datum/component/material_container/materials = GetComponent(/datum/component/material_container)
-					var/iron_amount = (min(17.5, (RR_MAX - repair_resources) * 0.175)) * 5
-					var/silver_amount = (min(15, (RR_MAX -  repair_resources) * 0.15)) * 5
-					var/plasma_amount = (min(5, (RR_MAX - repair_resources) * 0.05)) * 5
-					var/titanium_amount = (min(62.5, (RR_MAX - repair_resources) * 0.625)) * 5
+					var/iron_amount = (min(17.5, (RR_MAX - repair_resources) * 0.175)) * 10
+					var/silver_amount = (min(15, (RR_MAX -  repair_resources) * 0.15)) * 10
+					var/plasma_amount = (min(5, (RR_MAX - repair_resources) * 0.05)) * 10
+					var/titanium_amount = (min(62.5, (RR_MAX - repair_resources) * 0.625)) * 10
 					if(materials.has_enough_of_material(/datum/material/iron, iron_amount) && materials.has_enough_of_material(/datum/material/silver, silver_amount) && materials.has_enough_of_material(/datum/material/plasma, plasma_amount) && materials.has_enough_of_material(/datum/material/titanium, titanium_amount))
 						materials.use_amount_mat(iron_amount, /datum/material/iron)
 						materials.use_amount_mat(silver_amount, /datum/material/silver)
