@@ -83,7 +83,9 @@
 /turf/open/floor/plasteel/dark,
 /area/nostromo/mining)
 "ci" = (
-/obj/item/twohanded/required/kirbyplants/random,
+/obj/machinery/atmospherics/components/unary/tank/air{
+	dir = 4
+	},
 /turf/open/floor/plasteel/dark,
 /area/nostromo/engineering)
 "co" = (
@@ -368,7 +370,7 @@
 "jb" = (
 /obj/machinery/door/firedoor/window,
 /obj/effect/spawner/structure/window/reinforced,
-/turf/open/floor/plasteel,
+/turf/open/floor/plating,
 /area/nostromo/bridge)
 "jd" = (
 /obj/machinery/computer/ship/mineral_magnet{
@@ -421,10 +423,11 @@
 /obj/structure/cable{
 	icon_state = "4-8"
 	},
-/obj/machinery/door/firedoor,
 /obj/machinery/door/airlock/ship/public{
 	dir = 8
 	},
+/obj/machinery/door/firedoor/border_only/directional/west,
+/obj/machinery/door/firedoor/border_only/directional/east,
 /turf/open/floor/monotile/dark,
 /area/nostromo/crew_quarters)
 "li" = (
@@ -457,11 +460,12 @@
 /turf/open/floor/wood,
 /area/nostromo/crew_quarters)
 "lG" = (
-/obj/machinery/door/firedoor,
 /obj/machinery/door/airlock/ship/public,
 /obj/structure/cable{
 	icon_state = "1-2"
 	},
+/obj/machinery/door/firedoor/border_only/directional/north,
+/obj/machinery/door/firedoor/border_only/directional/south,
 /turf/open/floor/plating,
 /area/nostromo/mining)
 "lW" = (
@@ -668,10 +672,11 @@
 /obj/structure/cable{
 	icon_state = "4-8"
 	},
-/obj/machinery/door/firedoor,
 /obj/machinery/door/airlock/ship/public{
 	dir = 8
 	},
+/obj/machinery/door/firedoor/border_only/directional/east,
+/obj/machinery/door/firedoor/border_only/directional/west,
 /turf/open/floor/plasteel/dark/telecomms,
 /area/nostromo/bridge)
 "sP" = (
@@ -680,11 +685,12 @@
 /area/space/nearstation)
 "sU" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
-/obj/machinery/door/firedoor,
 /obj/machinery/door/airlock/ship/public,
 /obj/structure/cable{
 	icon_state = "1-2"
 	},
+/obj/machinery/door/firedoor/border_only/directional/north,
+/obj/machinery/door/firedoor/border_only/directional/south,
 /turf/open/floor/monotile,
 /area/nostromo/crew_quarters)
 "ti" = (
@@ -824,20 +830,17 @@
 /turf/open/floor/plasteel/dark,
 /area/nostromo/engineering)
 "wZ" = (
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
-	dir = 6;
-	icon_state = "pipe11-2"
-	},
-/obj/machinery/atmospherics/components/unary/tank/air{
-	dir = 4
+/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden{
+	dir = 8
 	},
 /turf/open/floor/plasteel/dark,
 /area/nostromo/engineering)
 "xe" = (
-/obj/machinery/door/firedoor,
 /obj/machinery/door/airlock/ship/public{
 	name = "Quiet Room"
 	},
+/obj/machinery/door/firedoor/border_only/directional/south,
+/obj/machinery/door/firedoor/border_only/directional/north,
 /turf/open/floor/wood,
 /area/nostromo/crew_quarters)
 "xn" = (
@@ -870,7 +873,6 @@
 /obj/structure/cable{
 	icon_state = "4-8"
 	},
-/obj/machinery/door/firedoor,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	dir = 4;
 	icon_state = "pipe11-1"
@@ -878,6 +880,8 @@
 /obj/machinery/door/airlock/ship/public{
 	dir = 8
 	},
+/obj/machinery/door/firedoor/border_only/directional/east,
+/obj/machinery/door/firedoor/border_only/directional/west,
 /turf/open/floor/plasteel/dark,
 /area/nostromo/engineering)
 "xV" = (
@@ -933,9 +937,9 @@
 /obj/structure/cable{
 	icon_state = "1-2"
 	},
-/obj/machinery/door/firedoor,
 /obj/machinery/door/airlock/ship/public,
-/obj/machinery/door/firedoor,
+/obj/machinery/door/firedoor/border_only/directional/north,
+/obj/machinery/door/firedoor/border_only/directional/south,
 /turf/open/floor/monotile,
 /area/nostromo/medbay)
 "yz" = (
@@ -1063,11 +1067,12 @@
 /turf/open/floor/plasteel/dark,
 /area/nostromo/engineering)
 "Cq" = (
-/obj/machinery/door/firedoor,
 /obj/machinery/door/airlock/ship/public{
 	dir = 4;
 	name = "Quiet Room"
 	},
+/obj/machinery/door/firedoor/border_only/directional/west,
+/obj/machinery/door/firedoor/border_only/directional/east,
 /turf/open/floor/wood,
 /area/nostromo/crew_quarters)
 "Cv" = (
@@ -1446,10 +1451,11 @@
 /obj/structure/cable{
 	icon_state = "4-8"
 	},
-/obj/machinery/door/firedoor,
 /obj/machinery/door/airlock/ship/public{
 	dir = 8
 	},
+/obj/machinery/door/firedoor/border_only/directional/east,
+/obj/machinery/door/firedoor/border_only/directional/west,
 /turf/open/floor/plasteel/dark,
 /area/nostromo/crew_quarters)
 "Lm" = (
@@ -1675,7 +1681,9 @@
 	icon_state = "4-8"
 	},
 /obj/structure/chair/stool/bar{
-	damtype = "stamina"
+	damtype = "stamina";
+	force = 150;
+	throwforce = 150
 	},
 /turf/open/floor/wood,
 /area/nostromo/crew_quarters)
@@ -1710,7 +1718,7 @@
 /area/nostromo/mining)
 "Sl" = (
 /obj/effect/spawner/structure/window/reinforced,
-/turf/closed/wall/mineral/iron,
+/turf/open/floor/plating,
 /area/nostromo/medbay)
 "Sr" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
@@ -1737,6 +1745,8 @@
 	name = "Mining Dock Airlock";
 	req_one_access_txt = "13; 48"
 	},
+/obj/machinery/door/firedoor/border_only/directional/north,
+/obj/machinery/door/firedoor/border_only/directional/south,
 /turf/open/floor/plating,
 /area/nostromo/engineering)
 "TI" = (
@@ -1855,6 +1865,7 @@
 "Wf" = (
 /obj/effect/spawner/structure/window/reinforced,
 /obj/machinery/door/firedoor/window,
+/obj/structure/curtain/obscuring/grey,
 /turf/open/floor/plating,
 /area/nostromo/crew_quarters)
 "Wi" = (
