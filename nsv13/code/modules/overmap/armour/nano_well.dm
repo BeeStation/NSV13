@@ -98,6 +98,7 @@ Starting Materials
 
 		if(!try_use_power(active_power_usage))
 			repair_resources_processing = FALSE
+			repair_efficiency = 0
 			update_icon()
 			return FALSE
 
@@ -178,7 +179,7 @@ Starting Materials
 					var/iron_amount = (min(100, (RR_MAX - repair_resources))) * 10
 					if(materials.has_enough_of_material(/datum/material/iron, iron_amount))
 						materials.use_amount_mat(iron_amount, /datum/material/iron)
-						repair_resources += iron_amount / 2
+						repair_resources += iron_amount / 8
 						material_modifier = 0.125 //Very Low modifier
 						repair_resources_processing = TRUE
 				if(2) //Ferrotitanium
@@ -188,7 +189,7 @@ Starting Materials
 					if(materials.has_enough_of_material(/datum/material/iron, iron_amount) && materials.has_enough_of_material(/datum/material/titanium, titanium_amount))
 						materials.use_amount_mat(iron_amount, /datum/material/iron)
 						materials.use_amount_mat(titanium_amount, /datum/material/titanium)
-						repair_resources += (iron_amount + titanium_amount) / 2
+						repair_resources += (iron_amount + titanium_amount) / 8
 						material_modifier = 0.33 //Low Modifier
 						repair_resources_processing = TRUE
 				if(3) //Durasteel
@@ -200,7 +201,7 @@ Starting Materials
 						materials.use_amount_mat(iron_amount, /datum/material/iron)
 						materials.use_amount_mat(silver_amount, /datum/material/silver)
 						materials.use_amount_mat(titanium_amount, /datum/material/titanium)
-						repair_resources += (iron_amount + silver_amount + titanium_amount) / 2
+						repair_resources += (iron_amount + silver_amount + titanium_amount) / 8
 						material_modifier = 0.66 //Moderate Modifier
 						repair_resources_processing = TRUE
 				if(4) //Duranium
@@ -214,7 +215,7 @@ Starting Materials
 						materials.use_amount_mat(silver_amount, /datum/material/silver)
 						materials.use_amount_mat(plasma_amount, /datum/material/plasma)
 						materials.use_amount_mat(titanium_amount, /datum/material/titanium)
-						repair_resources += (iron_amount + silver_amount + plasma_amount + titanium_amount) / 2
+						repair_resources += (iron_amount + silver_amount + plasma_amount + titanium_amount) / 8
 						material_modifier = 1 //High Modifier
 						repair_resources_processing = TRUE
 	else
@@ -411,6 +412,14 @@ Starting Materials
 	data["titanium"] = materials.get_material_amount(/datum/material/titanium)
 	data["silver"] = materials.get_material_amount(/datum/material/silver)
 	data["plasma"] = materials.get_material_amount(/datum/material/plasma)
+
+	data["available_power"] = 0
+	var/turf/T = get_turf(src)
+	var/obj/structure/cable/C = T.get_cable_node()
+	if(C)
+		if(C.powernet)
+			data["available_power"] = C.powernet.avail-C.powernet.load
+
 	switch(material_tier)
 		if(0)
 			data["alloy_t1"] = FALSE
