@@ -30,6 +30,7 @@
 	..()
 	new /obj/item/radio/headset/munitions/munitions_tech(src)
 	new /obj/item/clothing/under/rank/munitions_tech(src)
+	new /obj/item/clothing/suit/ship/munitions_jacket(src)
 	new /obj/item/clothing/head/bomb_hood(src)
 	new /obj/item/clothing/suit/bomb_suit(src)
 	new /obj/item/clothing/head/welding(src)
