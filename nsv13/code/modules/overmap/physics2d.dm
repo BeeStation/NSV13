@@ -15,23 +15,23 @@ PROCESSING_SUBSYSTEM_DEF(physics_processing)
 	for(var/I in physics_levels)
 		var/list/za_warudo = physics_levels[I]
 		for(var/datum/component/physics2d/body in za_warudo)
-			if(!body.collider2d)
-				continue
 			if(!body.holder || !body || QDELETED(body))
 				za_warudo -= body
+				continue
+			if(!body.collider2d)
 				continue
 			if(body.holder.z == null || body.holder.z == 0)
 				continue //If we're in nullspace.
 			var/list/recent_collisions = list() //So we don't collide two things together twice.
 			for(var/datum/component/physics2d/neighbour in za_warudo) //Now we check the collisions of every other physics body with this one. I hate that I have to do this, but I can't think of a better way just yet.
+				//Precondition: body and neighbour both exist, and are attached to something.
+				if(!body || !neighbour || QDELETED(neighbour))
+					za_warudo -= neighbour
+					continue
 				if(neighbour.holder.z == null  || neighbour.holder.z == 0)
 					continue //If we're in nullspace.
 				//Precondition: body and neighbour are different entities.
 				if(body == neighbour)
-					continue
-				//Precondition: body and neighbour both exist, and are attached to something.
-				if(!body || !neighbour || QDELETED(neighbour))
-					za_warudo -= neighbour
 					continue
 				//Precondition: neighbour has a collider2d (IE, hitboxes set up for it)
 				if(!neighbour.collider2d)
