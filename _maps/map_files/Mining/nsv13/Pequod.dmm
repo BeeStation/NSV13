@@ -356,7 +356,7 @@
 /turf/open/floor/plasteel/dark,
 /area/nostromo/engineering)
 "iG" = (
-/obj/machinery/vending/cigarette/syndicate,
+/obj/machinery/vending/coffee,
 /turf/open/floor/wood,
 /area/nostromo/crew_quarters)
 "iY" = (
@@ -466,7 +466,7 @@
 	},
 /obj/machinery/door/firedoor/border_only/directional/north,
 /obj/machinery/door/firedoor/border_only/directional/south,
-/turf/open/floor/plating,
+/turf/open/floor/plasteel/dark,
 /area/nostromo/mining)
 "lW" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
@@ -495,6 +495,7 @@
 /obj/item/ammo_box/magazine/pdc,
 /obj/item/ammo_box/magazine/pdc,
 /obj/structure/closet/crate,
+/obj/item/ammo_box/magazine/pdc/flak,
 /obj/item/ammo_box/magazine/pdc/flak,
 /obj/item/ammo_box/magazine/pdc/flak,
 /obj/item/ammo_box/magazine/pdc/flak,
@@ -638,6 +639,20 @@
 	},
 /turf/open/floor/plasteel/dark,
 /area/nostromo/engineering)
+"sa" = (
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
+	dir = 8;
+	icon_state = "pipe11-2"
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	dir = 4;
+	icon_state = "pipe11-1"
+	},
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/turf/open/floor/wood,
+/area/nostromo/crew_quarters)
 "sm" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
 	dir = 6;
@@ -1352,6 +1367,7 @@
 /obj/machinery/light{
 	dir = 8
 	},
+/obj/effect/landmark/start/shaft_miner,
 /turf/open/floor/plasteel/grid/mono,
 /area/nostromo/medbay)
 "JA" = (
@@ -1403,6 +1419,10 @@
 	dir = 5;
 	icon_state = "pipe11-1"
 	},
+/turf/open/floor/plasteel/dark,
+/area/nostromo/engineering)
+"Ku" = (
+/obj/machinery/computer/shuttle/mining,
 /turf/open/floor/plasteel/dark,
 /area/nostromo/engineering)
 "KA" = (
@@ -1479,6 +1499,8 @@
 /obj/structure/bed{
 	pixel_y = 10
 	},
+/obj/effect/landmark/start/shaft_miner,
+/obj/effect/landmark/start/shaft_miner,
 /turf/open/floor/wood,
 /area/nostromo/crew_quarters)
 "MA" = (
@@ -15704,7 +15726,7 @@ mU
 mU
 mU
 pe
-PZ
+Ku
 UX
 iA
 RQ
@@ -16739,7 +16761,7 @@ ID
 PZ
 qN
 Zl
-Ra
+sa
 sv
 Nw
 qN
