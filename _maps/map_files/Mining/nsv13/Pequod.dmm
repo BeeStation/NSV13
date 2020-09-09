@@ -83,9 +83,7 @@
 /turf/open/floor/plasteel/dark,
 /area/nostromo/mining)
 "ci" = (
-/obj/machinery/atmospherics/components/unary/tank/air{
-	dir = 4
-	},
+/obj/machinery/atmospherics/components/unary/tank/air,
 /turf/open/floor/plasteel/dark,
 /area/nostromo/engineering)
 "co" = (
@@ -228,14 +226,10 @@
 /obj/effect/decal/cleanable/dirt/dust,
 /turf/open/floor/plasteel/dark,
 /area/nostromo/bridge)
-"fE" = (
-/obj/structure/hull_plate,
-/obj/machinery/door/airlock/external{
-	name = "Mining Dock Airlock";
-	req_one_access_txt = "13; 48"
-	},
-/turf/open/floor/monotile,
-/area/nostromo/mining)
+"gt" = (
+/obj/machinery/light/floor,
+/turf/open/floor/plating/airless,
+/area/space/nearstation)
 "gy" = (
 /obj/structure/sign/poster/official/moth9,
 /turf/closed/wall/mineral/iron,
@@ -617,11 +611,12 @@
 /area/nostromo/mining)
 "rp" = (
 /obj/structure/hull_plate,
-/obj/machinery/door/airlock/external{
-	name = "Mining Dock Airlock";
-	req_one_access_txt = "13; 48"
+/obj/machinery/door/airlock/ship/external/glass{
+	dir = 4;
+	name = "Pressurization chamber";
+	req_one_access_txt = "31;48"
 	},
-/turf/open/floor/plating,
+/turf/open/floor/monotile,
 /area/nostromo/mining)
 "rH" = (
 /obj/machinery/suit_storage_unit/mining/eva,
@@ -858,21 +853,6 @@
 /obj/machinery/door/firedoor/border_only/directional/north,
 /turf/open/floor/wood,
 /area/nostromo/crew_quarters)
-"xn" = (
-/obj/machinery/door/airlock/external{
-	name = "Mining Dock Airlock";
-	req_one_access_txt = "13; 48"
-	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
-	dir = 8;
-	icon_state = "pipe11-2"
-	},
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
-	dir = 4;
-	icon_state = "pipe11-1"
-	},
-/turf/open/floor/monotile,
-/area/nostromo/mining)
 "xt" = (
 /obj/structure/table/reinforced,
 /obj/item/clothing/glasses/welding,
@@ -1107,16 +1087,14 @@
 	},
 /turf/open/floor/plasteel/dark,
 /area/nostromo/engineering)
-"CV" = (
-/obj/machinery/atmospherics/components/unary/vent_scrubber/on{
-	dir = 8
+"Dl" = (
+/obj/structure/hull_plate,
+/obj/machinery/door/airlock/ship/external/glass{
+	dir = 8;
+	name = "Pressurization chamber";
+	req_one_access_txt = "31;48"
 	},
-/obj/effect/turf_decal/stripes/line,
-/obj/effect/turf_decal/stripes/line{
-	dir = 5
-	},
-/obj/effect/decal/cleanable/dirt/dust,
-/turf/open/floor/plasteel/dark,
+/turf/open/floor/monotile,
 /area/nostromo/mining)
 "DG" = (
 /obj/machinery/light{
@@ -1203,21 +1181,6 @@
 	},
 /turf/open/floor/plasteel/dark,
 /area/nostromo/bridge)
-"Gc" = (
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
-	dir = 8;
-	icon_state = "pipe11-2"
-	},
-/obj/machinery/advanced_airlock_controller/directional/north,
-/obj/machinery/atmospherics/components/unary/vent_pump/on/layer1{
-	dir = 8
-	},
-/obj/effect/turf_decal/stripes/line,
-/obj/effect/turf_decal/stripes/line{
-	dir = 9
-	},
-/turf/open/floor/plasteel/dark,
-/area/nostromo/mining)
 "Gn" = (
 /obj/structure/chair/sofa,
 /obj/machinery/light{
@@ -1304,6 +1267,22 @@
 	},
 /turf/open/floor/plasteel/dark,
 /area/nostromo/engineering)
+"It" = (
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
+	dir = 8;
+	icon_state = "pipe11-2"
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	dir = 8;
+	icon_state = "pipe11-1"
+	},
+/obj/machinery/door/airlock/ship/external/glass{
+	dir = 8;
+	name = "Pressurization chamber";
+	req_one_access_txt = "31;48"
+	},
+/turf/open/floor/plasteel/dark,
+/area/nostromo/mining)
 "Iy" = (
 /obj/machinery/power/port_gen/pacman{
 	anchored = 1
@@ -1513,10 +1492,6 @@
 /turf/open/floor/plasteel/dark,
 /area/nostromo/mining)
 "ML" = (
-/obj/machinery/door/airlock/external{
-	name = "Mining Dock Airlock";
-	req_one_access_txt = "13; 48"
-	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
 	dir = 8;
 	icon_state = "pipe11-2"
@@ -1525,11 +1500,12 @@
 	dir = 8;
 	icon_state = "pipe11-1"
 	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
-	dir = 8;
-	icon_state = "pipe11-2"
+/obj/machinery/door/airlock/ship/external/glass{
+	dir = 4;
+	name = "Pressurization chamber";
+	req_one_access_txt = "31;48"
 	},
-/turf/open/floor/monotile,
+/turf/open/floor/plasteel/dark,
 /area/nostromo/mining)
 "MT" = (
 /obj/structure/table,
@@ -1637,13 +1613,17 @@
 /turf/closed/wall/mineral/iron,
 /area/nostromo/crew_quarters)
 "Qg" = (
-/obj/machinery/atmospherics/components/unary/vent_scrubber/on{
-	dir = 8
-	},
+/obj/effect/turf_decal/stripes/line,
 /obj/effect/turf_decal/stripes/line{
 	dir = 5
 	},
-/obj/effect/turf_decal/stripes/line,
+/obj/effect/decal/cleanable/dirt/dust,
+/obj/machinery/atmospherics/pipe/layer_manifold{
+	dir = 4
+	},
+/obj/machinery/light{
+	dir = 1
+	},
 /turf/open/floor/plasteel/dark,
 /area/nostromo/mining)
 "Qo" = (
@@ -1982,18 +1962,18 @@
 /turf/open/floor/plasteel/dark,
 /area/nostromo/engineering)
 "YT" = (
+/obj/machinery/advanced_airlock_controller/directional/north,
+/obj/effect/turf_decal/stripes/line,
+/obj/effect/turf_decal/stripes/line{
+	dir = 9
+	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
 	dir = 8;
 	icon_state = "pipe11-2"
 	},
-/obj/machinery/advanced_airlock_controller/directional/north,
-/obj/machinery/atmospherics/components/unary/vent_pump/on/layer1{
-	dir = 8
+/obj/machinery/atmospherics/components/binary/dp_vent_pump/layer1{
+	dir = 4
 	},
-/obj/effect/turf_decal/stripes/line{
-	dir = 9
-	},
-/obj/effect/turf_decal/stripes/line,
 /turf/open/floor/plasteel/dark,
 /area/nostromo/mining)
 "Zk" = (
@@ -18810,7 +18790,7 @@ mU
 mU
 mU
 IN
-xn
+ML
 IN
 FK
 eD
@@ -18822,7 +18802,7 @@ eD
 eD
 FK
 IN
-ML
+It
 IN
 mU
 mU
@@ -19066,7 +19046,7 @@ mU
 mU
 mU
 mU
-IN
+ZQ
 YT
 IN
 eD
@@ -19079,7 +19059,7 @@ Im
 tZ
 eD
 ZQ
-Gc
+YT
 IN
 mU
 mU
@@ -19336,7 +19316,7 @@ nD
 WA
 eD
 IN
-CV
+Qg
 IN
 mU
 mU
@@ -19593,7 +19573,7 @@ eW
 Hd
 JC
 IN
-fE
+Dl
 IN
 mU
 mU
@@ -20851,7 +20831,7 @@ mU
 mU
 mU
 sP
-UT
+gt
 UT
 UT
 UT
@@ -20894,7 +20874,7 @@ UT
 rI
 UT
 UT
-UT
+gt
 sP
 mU
 mU
@@ -31902,7 +31882,7 @@ mU
 mU
 mU
 sP
-UT
+gt
 UT
 UT
 UT
@@ -31945,7 +31925,7 @@ UT
 UT
 UT
 UT
-UT
+gt
 sP
 mU
 mU
