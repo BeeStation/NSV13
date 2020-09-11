@@ -1365,8 +1365,8 @@ Control Rods
 	telegraph_duration = 50
 	telegraph_message = "<span class='boldwarning'>The air suddenly becomes dusty..</span>"
 	weather_message = "<span class='userdanger'><i>You feel a wave of hot ash fall down on you.</i></span>"
-	weather_overlay = "fallout"
-	telegraph_overlay = "fallout"
+	weather_overlay = "light_ash"
+	telegraph_overlay = "light_snow"
 	weather_duration_lower = 600
 	weather_duration_upper = 1500
 	weather_color = "green"

@@ -17,8 +17,8 @@
 	export_price = 8000
 
 /datum/design/board/pdc_mount_circuit
-	name = "Machine Design (PDC Mount)"
-	desc = "Allows for the construction of a PDC mount."
+	name = "Machine Design (PDC/Flak Mount)"
+	desc = "Allows for the construction of a PDC or Flak mount."
 	id = "pdc_mount_circuit"
 	materials = list(/datum/material/glass = 2000, /datum/material/copper = 200, /datum/material/gold = 500)
 	build_path = /obj/item/circuitboard/machine/pdc_mount
