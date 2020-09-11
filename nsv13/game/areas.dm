@@ -674,3 +674,9 @@
 /area/Exited(atom/movable/M)
 	SEND_SIGNAL(src, COMSIG_AREA_EXITED, M)
 	SEND_SIGNAL(M, COMSIG_EXIT_AREA, src) //The atom that exits the area
+
+/area/engine/engineering/reactor_core
+	name = "Nuclear Reactor Core"
+
+/area/engine/engineering/reactor_control
+	name = "Reactor Control Room"

@@ -1,5 +1,4 @@
 #define CELSIUS_TO_KELVIN(T_K)	((T_K) + T0C)
-
 #define OPTIMAL_TEMP_K_PLA_BURN_SCALE(PRESSURE_P,PRESSURE_O,TEMP_O)	(((PRESSURE_P) * GLOB.meta_gas_info[/datum/gas/plasma][META_GAS_SPECIFIC_HEAT]) / (((PRESSURE_P) * GLOB.meta_gas_info[/datum/gas/plasma][META_GAS_SPECIFIC_HEAT] + (PRESSURE_O) * GLOB.meta_gas_info[/datum/gas/oxygen][META_GAS_SPECIFIC_HEAT]) / PLASMA_UPPER_TEMPERATURE - (PRESSURE_O) * GLOB.meta_gas_info[/datum/gas/oxygen][META_GAS_SPECIFIC_HEAT] / CELSIUS_TO_KELVIN(TEMP_O)))
 #define OPTIMAL_TEMP_K_PLA_BURN_RATIO(PRESSURE_P,PRESSURE_O,TEMP_O)	(CELSIUS_TO_KELVIN(TEMP_O) * PLASMA_OXYGEN_FULLBURN * (PRESSURE_P) / (PRESSURE_O))
 
@@ -58,8 +57,6 @@
 /obj/effect/spawner/newbomb/radio
 	assembly_type = /obj/item/assembly/signaler
 
-
-#undef CELSIUS_TO_KELVIN
 
 #undef OPTIMAL_TEMP_K_PLA_BURN_SCALE
 #undef OPTIMAL_TEMP_K_PLA_BURN_RATIO
