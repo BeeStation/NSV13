@@ -185,9 +185,15 @@
 					/obj/item/fighter_component/countermeasure_dispenser/t1,
 					/obj/item/fighter_component/secondary/light/missile_rack/t1,
 					/obj/item/fighter_component/primary/light/light_cannon/t1)
+					
+/datum/supply_pack/security/peacekeeper_rifles_single
+	name = "M2A45 Pulse Rifle Single-Pack"
+	desc = "A single M2A45 pulse rifle, preloaded with nonlethal stun slugs."
+	cost = 3500
+	contains = list(/obj/item/gun/ballistic/automatic/peacekeeper)
 
 /datum/supply_pack/security/peacekeeper_rifles
-	name = "M2A45 pulse rifles (x5)"
+	name = "M2A45 Pulse Rifles (x5)"
 	desc = "A pack of 5 M2A45 pulse rifles, preloaded with nonlethal stun slugs."
 	cost = 15000
 	contains = list(/obj/item/gun/ballistic/automatic/peacekeeper,
@@ -197,9 +203,15 @@
 					/obj/item/gun/ballistic/automatic/peacekeeper)
 	crate_name = "M2A45 pulse rifles"
 
+/datum/supply_pack/security/glock_single
+	name = "Glock-13 Single-Pack"
+	desc = "A single Security Glock-13, preloaded with rubber bullets."
+	cost = 2000
+	contains = list(/obj/item/gun/ballistic/automatic/pistol/glock)
+
 /datum/supply_pack/security/glock
 	name = "Glock-13s (x5)"
-	desc = "A pack of 5 security glock-13s, preloaded with rubber bullets."
+	desc = "A pack of 5 Security Glock-13s, preloaded with rubber bullets."
 	cost = 8000
 	contains = list(/obj/item/gun/ballistic/automatic/pistol/glock,
 					/obj/item/gun/ballistic/automatic/pistol/glock,
@@ -230,6 +242,7 @@
 /datum/supply_pack/security/glock_lethal
 	name = "Glock-13 ammo (lethal)"
 	desc = "5 magazines of lethal ammo for security sidearms."
+	access = ACCESS_ARMORY
 	cost = 1500
 	contains = list(/obj/item/ammo_box/c9mm,
 					/obj/item/ammo_box/c9mm,
@@ -263,6 +276,7 @@
 /datum/supply_pack/security/peacekeeper_ammo_lethal
 	name = "M2A45 pulse rifle ammo (lethal)"
 	desc = "5 magazines of lethal ammunition for peacekeeper rifles."
+	access = ACCESS_ARMORY
 	cost = 1200
 	contains = list(/obj/item/ammo_box/magazine/peacekeeper/lethal,
 					/obj/item/ammo_box/magazine/peacekeeper/lethal,
