@@ -7,7 +7,7 @@
 	desc = "A mid range SolGov exploratory cruiser. These ships are geared for peaceful missions, but can defend themselves if they must."
 	icon = 'nsv13/icons/overmap/nanotrasen/solgov_cruiser.dmi'
 	icon_state = "cruiser"
-	mass = MASS_MEDIUM
+	mass = MASS_LARGE
 	sprite_size = 48
 	damage_states = FALSE
 	pixel_w = -32
@@ -25,7 +25,7 @@
 	desc = "A mid range SolGov exploratory cruiser. These ships are geared for peaceful missions, but can defend themselves if they must."
 	icon = 'nsv13/icons/overmap/nanotrasen/aetherwhisp.dmi'
 	icon_state = "cruiser"
-	mass = MASS_MEDIUM
+	mass = MASS_LARGE
 	sprite_size = 48
 	damage_states = FALSE
 	pixel_w = -32
