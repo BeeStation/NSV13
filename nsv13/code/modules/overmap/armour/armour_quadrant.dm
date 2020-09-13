@@ -70,7 +70,7 @@
 
 //Repair Procs
 
-/obj/structure/overmap/proc/full_repair_instant() //Admin Override
+/obj/structure/overmap/proc/full_repair() //Admin Override
 	obj_integrity = max_integrity //Full structural integrity
 	if(structure_crit) //Cancel SScrit if we are in it
 		stop_relay(channel=CHANNEL_SHIP_FX)
@@ -83,7 +83,7 @@
 		armour_quadrants["aft_port"]["current_armour"] = armour_quadrants["aft_port"]["max_armour"]
 		armour_quadrants["aft_starboard"]["current_armour"] = armour_quadrants["aft_starboard"]["max_armour"]
 
-/obj/structure/overmap/proc/modular_structure_repair(var/input, var/failure = 0) //Input is the amount you want repaired per call of this proc, failure is the chance the repair will go wrong
+/obj/structure/overmap/proc/repair_structure(var/input, var/failure = 0) //Input is the amount you want repaired per call of this proc, failure is the chance the repair will go wrong
 	var/percentile = input / 100
 
 	if(prob(failure)) //Botched repairs end up in Z-level damage
@@ -102,7 +102,7 @@
 			priority_announce("Ship structural integrity restored to acceptable levels. ","Automated announcement ([src])")
 			structure_crit = FALSE
 
-/obj/structure/overmap/proc/modular_armour_repair_quadrant(var/input, var/failure = 0, var/bias = 50, var/quadrant) //Input is the amount you want repaired per call of this proc, failure is the chance the repair will go wrong, bias is the favour for structure damage vs armour damage
+/obj/structure/overmap/proc/repair_quadrant(var/input, var/failure = 0, var/bias = 50, var/quadrant) //Input is the amount you want repaired per call of this proc, failure is the chance the repair will go wrong, bias is the favour for structure damage vs armour damage
 	var/percentile = input / 100
 	if(use_armour_quadrants)
 		if(prob(failure))
@@ -124,7 +124,7 @@
 		if(armour_quadrants[quadrant]["current_armour"] > armour_quadrants[quadrant]["max_armour"])
 			armour_quadrants[quadrant]["current_armour"] = armour_quadrants[quadrant]["max_armour"]
 
-/obj/structure/overmap/proc/modular_armour_repair_all(var/input, var/failure = 0, var/bias = 50) //Input is the amount you want repaired per call of this proc, failure is the chance the repair will go wrong, bias is the favour for structure damage vs armour damage
+/obj/structure/overmap/proc/repair_all_quadrants(var/input, var/failure = 0, var/bias = 50) //Input is the amount you want repaired per call of this proc, failure is the chance the repair will go wrong, bias is the favour for structure damage vs armour damage
 	var/percentile = input / 100
 	if(use_armour_quadrants)
 		var/list/quadrant_list = list("forward_port", "forward_starboard", "aft_port", "aft_starboard")
