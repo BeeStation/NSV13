@@ -193,12 +193,10 @@
 	contains = list(/obj/item/gun/ballistic/automatic/peacekeeper)
 
 /datum/supply_pack/security/peacekeeper_rifles
-	name = "M2A45 Pulse Rifles (x5)"
-	desc = "A pack of 5 M2A45 pulse rifles, preloaded with nonlethal stun slugs."
-	cost = 15000
+	name = "M2A45 Pulse Rifles (x3)"
+	desc = "A pack of 3 M2A45 pulse rifles, preloaded with nonlethal stun slugs."
+	cost = 9000
 	contains = list(/obj/item/gun/ballistic/automatic/peacekeeper,
-					/obj/item/gun/ballistic/automatic/peacekeeper,
-					/obj/item/gun/ballistic/automatic/peacekeeper,
 					/obj/item/gun/ballistic/automatic/peacekeeper,
 					/obj/item/gun/ballistic/automatic/peacekeeper)
 	crate_name = "M2A45 pulse rifles"
@@ -210,12 +208,10 @@
 	contains = list(/obj/item/gun/ballistic/automatic/pistol/glock)
 
 /datum/supply_pack/security/glock
-	name = "Glock-13s (x5)"
-	desc = "A pack of 5 Security Glock-13s, preloaded with rubber bullets."
-	cost = 8000
+	name = "Glock-13s (x3)"
+	desc = "A pack of 3 Security Glock-13s, preloaded with rubber bullets."
+	cost = 5000
 	contains = list(/obj/item/gun/ballistic/automatic/pistol/glock,
-					/obj/item/gun/ballistic/automatic/pistol/glock,
-					/obj/item/gun/ballistic/automatic/pistol/glock,
 					/obj/item/gun/ballistic/automatic/pistol/glock,
 					/obj/item/gun/ballistic/automatic/pistol/glock)
 	crate_name = "Glock-13s"
