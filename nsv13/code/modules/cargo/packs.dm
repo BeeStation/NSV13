@@ -190,6 +190,7 @@
 	name = "M2A45 Pulse Rifle Single-Pack"
 	desc = "A single M2A45 pulse rifle, preloaded with nonlethal stun slugs."
 	cost = 3500
+	small_item = TRUE
 	contains = list(/obj/item/gun/ballistic/automatic/peacekeeper)
 
 /datum/supply_pack/security/peacekeeper_rifles
