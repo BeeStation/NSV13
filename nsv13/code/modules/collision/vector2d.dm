@@ -20,6 +20,10 @@ Constructor for vector2d objects, taking a simple X,Y coordinate.
 	src.y = y
 	..()
 
+/datum/vector2d/Destroy(force, ...)
+	. = ..()
+	return QDEL_HINT_QUEUE
+
 /*
 Method to set our position directly
 */
