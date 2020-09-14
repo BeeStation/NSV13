@@ -205,6 +205,7 @@
 	name = "Glock-13 Single-Pack"
 	desc = "A single Security Glock-13, preloaded with rubber bullets."
 	cost = 2000
+	small_item = TRUE
 	contains = list(/obj/item/gun/ballistic/automatic/pistol/glock)
 
 /datum/supply_pack/security/glock
