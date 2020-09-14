@@ -260,6 +260,15 @@
 					/obj/item/gun/ballistic/tazer)
 	crate_name = "Czanek corp tazer crate"
 
+/datum/supply_pack/security/armory/laser
+	name = "Lasers Crate"
+	desc = "Contains three lethal, high-energy laser guns. Requires Security access to open."
+	cost = 2000
+	contains = list(/obj/item/gun/energy/laser,
+					/obj/item/gun/energy/laser,
+					/obj/item/gun/energy/laser)
+	crate_name = "laser crate"
+
 /datum/supply_pack/security/peacekeeper_ammo
 	name = "M2A45 pulse rifle ammo (nonlethal)"
 	desc = "5 magazines of nonlethal ammo for peacekeeper rifles."
