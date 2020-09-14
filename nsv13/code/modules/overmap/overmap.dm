@@ -119,7 +119,7 @@
 	var/torpedoes = 2 //If this starts at above 0, then the ship can use torpedoes when AI controlled
 	var/missiles = 4 //If this starts at above 0, then the ship can use missiles when AI controlled
 
-	var/flak_battery_amount = 1 //How many targets can our flak target at once?
+	var/pdc_miss_chance = 20 //In %, how often do PDCs fire inaccurately when aiming at missiles. This is ignored for ships as theyre bigger targets.
 	var/list/torpedoes_to_target = list() //Torpedoes that have been fired explicitly at us, and that the PDCs need to worry about.
 	var/atom/target_lock = null
 	var/can_lock = TRUE //Can we lock on to people or not
@@ -140,6 +140,7 @@
 	var/list/occupying_levels = list() //Refs to the z-levels we own for setting parallax and that, or for admins to debug things when EVERYTHING INEVITABLY BREAKS
 	var/torpedo_type = /obj/item/projectile/guided_munition/torpedo
 	var/next_maneuvre = 0 //When can we pull off a fancy trick like boost or kinetic turn?
+	var/flak_battery_amount = 1
 
 	var/role = NORMAL_OVERMAP
 
@@ -268,31 +269,23 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 			bounce_factor = 0.5
 			lateral_bounce_factor = 0.8
 
-		if(MASS_MEDIUMLARGE)
+		if(MASS_LARGE)
 			forward_maxthrust = 1.85
 			backward_maxthrust = 1.85
 			side_maxthrust = 1.5
 			max_angular_acceleration = 10
 			bounce_factor = 0.45
 			lateral_bounce_factor = 0.8
+			flak_battery_amount = 2
 
-		if(MASS_LARGE)
+		if(MASS_TITAN)
 			forward_maxthrust = 0.5
 			backward_maxthrust = 0.5
 			side_maxthrust = 0.5
-			max_angular_acceleration = 3
+			max_angular_acceleration = 2.5
 			bounce_factor = 0.35
 			lateral_bounce_factor = 0.6
-			flak_battery_amount = 2 //Multi flak!
-
-		if(MASS_TITAN)
-			forward_maxthrust = 0.4
-			backward_maxthrust = 0.4
-			side_maxthrust = 0.45 //Helps you control it a little better.
-			max_angular_acceleration = 2.5
-			bounce_factor = 0.20
-			lateral_bounce_factor = 0.3
-			flak_battery_amount = 3 //Multi flak!
+			flak_battery_amount = 3
 
 	if(role == MAIN_OVERMAP)
 		name = "[station_name()]"
@@ -315,10 +308,20 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 	if(ai_controlled)
 		weapon_types[FIRE_MODE_MISSILE] = new/datum/ship_weapon/missile_launcher(src)
 
+/obj/item/projectile/Destroy()
+	if(physics2d)
+		qdel(physics2d)
+		physics2d = null
+	. = ..()
+
 /obj/structure/overmap/Destroy()
 	QDEL_LIST(current_tracers)
 	if(cabin_air)
 		QDEL_NULL(cabin_air)
+	//Free up memory refs here.
+	if(physics2d)
+		qdel(physics2d)
+		physics2d = null
 	. = ..()
 
 /obj/structure/overmap/proc/find_area()

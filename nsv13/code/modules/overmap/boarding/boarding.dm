@@ -90,5 +90,5 @@ GLOBAL_LIST_INIT(drop_trooper_teams, list("Noble", "Helljumper","Red", "Black", 
 		to_chat(H, "<span class='danger'>You are a syndicate drop trooper! Cripple [station_name()] to the best of your ability, by any means you see fit. You have been given some objectives to guide you in the pursuit of this goal.")
 		operatives += H
 	new /obj/structure/overmap/fighter/utility/prebuilt/carrier/syndicate/boarding(target, operatives, team_name)
-	relay('nsv13/sound/effects/ship/boarding_pod.ogg', "<span class='userdanger'><You can hear several tethers attaching to the ship.</span>")
+	relay('nsv13/sound/effects/ship/boarding_pod.ogg', "<span class='userdanger'>You can hear several tethers attaching to the ship.</span>")
 	return TRUE
