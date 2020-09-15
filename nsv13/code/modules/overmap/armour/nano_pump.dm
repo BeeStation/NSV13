@@ -65,28 +65,28 @@
 			if(OM.armour_quadrants[quadrant]["current_armour"] < OM.armour_quadrants[quadrant]["max_armour"]) //Armour Check
 				var/armour_integrity = (OM.armour_quadrants[quadrant]["current_armour"] / OM.armour_quadrants[quadrant]["max_armour"]) * 100
 				armour_repair_amount = ((382 * NUM_E **(0.0764 * armour_integrity))/(50 + NUM_E ** (0.0764 * armour_integrity)) ** 2 ) * (apnw.repair_efficiency * (armour_allocation / 100)) * 4 //Don't ask
-				if(apnw.repair_resources >= armour_repair_amount)
+				if(apnw.repair_resources >= (armour_repair_amount * OM.mass))
 					OM.armour_quadrants[quadrant]["current_armour"] += armour_repair_amount
 					if(OM.armour_quadrants[quadrant]["current_armour"] > OM.armour_quadrants[quadrant]["max_armour"])
 						OM.armour_quadrants[quadrant]["current_armour"] = OM.armour_quadrants[quadrant]["max_armour"]
-					apnw.repair_resources -= armour_repair_amount
+					apnw.repair_resources -= (armour_repair_amount * OM.mass)
 					idle_power_usage += armour_repair_amount * 100
 		if(structure_allocation)
 			if(OM.obj_integrity < OM.max_integrity) //Structure Check
 				if(OM.structure_crit_no_return) //If we have crossed the point of no return, halt repairs
 					return
-				structure_repair_amount = (1 * apnw.repair_efficiency * structure_allocation) / 100
-				if(apnw.repair_resources >= structure_repair_amount * 10)
+				structure_repair_amount = (1 + (OM.mass / 10) * apnw.repair_efficiency * structure_allocation) / 100
+				if(apnw.repair_resources >= (structure_repair_amount * OM.mass) * 2)
 					OM.obj_integrity += structure_repair_amount
 					if(OM.obj_integrity > OM.max_integrity)
 						OM.obj_integrity = OM.max_integrity
-					apnw.repair_resources -= structure_repair_amount
+					apnw.repair_resources -= (structure_repair_amount * OM.mass) * 2
 					idle_power_usage += structure_repair_amount * 100
 
 					if(OM.structure_crit) //Checking to see if we can exist SS Crit
 						if(OM.obj_integrity >= OM.max_integrity * 0.2) //You need to repair a good chunk of her HP before you're getting outta this fucko.
 							OM.stop_relay(channel=CHANNEL_SHIP_FX)
-							priority_announce("Ship structural integrity restored to acceptable levels. ","Automated announcement ([src])")
+							priority_announce("Ship structural integrity restored to acceptable levels. ","Automated announcement ([apnw])")
 							OM.structure_crit = FALSE
 
 	else
