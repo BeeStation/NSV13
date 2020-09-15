@@ -341,6 +341,7 @@
 	icon_state = "steel"
 	floor_tile = /obj/item/stack/tile/plasteel/grid/mono
 	broken_states = list("steel_dam1", "steel_dam2", "steel_dam3", "steel_dam4", "steel_dam5")
+	burnt_states = list("steel_scorched1","steel_schorched2")
 
 /obj/item/stack/tile/plasteel/grid/mono
 	name = "steel hull plating tile"
