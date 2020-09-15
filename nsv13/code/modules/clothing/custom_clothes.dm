@@ -469,6 +469,24 @@
 /obj/item/clothing/head/helmet/decktech/attack_self(mob/user)
 	weldingvisortoggle(user)
 
+/obj/item/clothing/suit/ship/munitions_jacket
+	name = "Munitions technician jacket"
+	desc = "The standard uniform of a Munitions Technician. Contains high vis orange, while remaining black."
+	icon_state = "munitions_jacket"
+	item_state = "munitions_jacket"
+
+/obj/item/clothing/suit/ship/maa_jacket
+	name = "Master-At-Arm's formal jacket"
+	desc = "The formal uniform of the Master-At-Arms. Vibrant high vis orange, sleek stylish black."
+	icon_state = "maa_jacket"
+	item_state = "maa_jacket"
+
+/obj/item/clothing/head/ship/maa_hat
+	name = "Master-At-Arm's hat"
+	desc = "The Master-At-Arm's authorative hat."
+	icon_state = "maa_hat"
+	item_state = "maa_hat"
+
 /obj/item/clothing/under/ship/syndicate_tech
 	name = "Syndicate technician jumpsuit"
 	desc = "A jumpsuit worn by Syndicate technicians, it's been armour plated to protect the wearer in combat scenarios."
