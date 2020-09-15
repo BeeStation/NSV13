@@ -116,7 +116,7 @@
 	new /obj/item/shield/riot/tele(src)
 	new /obj/item/storage/belt/security/full(src)
 	new /obj/item/ammo_box/c9mm/rubber(src)
-	new /obj/item/gun/ballistic/automatic/pistol/glock/command/hos
+	new /obj/item/gun/ballistic/automatic/pistol/glock/command/hos(src)
 	new /obj/item/flashlight/seclite(src)
 	new /obj/item/pinpointer/nuke(src)
 	new /obj/item/circuitboard/machine/techfab/department/security(src)
