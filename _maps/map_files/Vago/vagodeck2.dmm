@@ -4136,10 +4136,9 @@
 /turf/open/floor/plating,
 /area/nsv/engine/engine_room/auxiliary)
 "jJ" = (
-/obj/machinery/atmospherics/pipe/manifold/orange/visible{
-	dir = 8
+/obj/machinery/atmospherics/components/trinary/filter/atmos/plasma/flipped{
+	dir = 1
 	},
-/obj/machinery/meter,
 /turf/open/floor/plating,
 /area/nsv/engine/engine_room/auxiliary)
 "jK" = (
@@ -4784,7 +4783,7 @@
 /turf/open/floor/plating,
 /area/crew_quarters/cafeteria)
 "lj" = (
-/obj/machinery/atmospherics/components/binary/pump{
+/obj/machinery/atmospherics/pipe/simple/orange/visible{
 	dir = 4
 	},
 /turf/open/floor/plating,
@@ -5619,8 +5618,9 @@
 /turf/open/floor/plating,
 /area/engine/engine_room)
 "mV" = (
-/obj/machinery/atmospherics/pipe/manifold/orange/visible,
-/obj/machinery/meter,
+/obj/machinery/atmospherics/components/trinary/mixer{
+	dir = 4
+	},
 /turf/open/floor/plating,
 /area/nsv/engine/engine_room/auxiliary)
 "mW" = (
@@ -11056,12 +11056,10 @@
 /turf/open/floor/plating,
 /area/engine/gravity_generator)
 "zG" = (
-/obj/machinery/atmospherics/pipe/simple/orange/visible{
-	dir = 5
-	},
 /obj/item/radio/intercom{
 	pixel_x = -32
 	},
+/obj/machinery/atmospherics/pipe/simple/orange/visible,
 /turf/open/floor/plating,
 /area/nsv/engine/engine_room/auxiliary)
 "zJ" = (
@@ -11694,6 +11692,7 @@
 /obj/structure/cable{
 	icon_state = "4-8"
 	},
+/obj/machinery/meter,
 /turf/open/floor/plating,
 /area/nsv/engine/engine_room/auxiliary)
 "Hc" = (
@@ -11855,11 +11854,11 @@
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/port)
 "Ir" = (
-/obj/machinery/atmospherics/pipe/simple/orange/visible,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/visible{
 	dir = 4;
 	icon_state = "pipe11-2"
 	},
+/obj/machinery/atmospherics/pipe/simple/orange/visible,
 /turf/open/floor/plating,
 /area/nsv/engine/engine_room/auxiliary)
 "Iu" = (
@@ -11902,6 +11901,15 @@
 /obj/effect/landmark/nuclear_waste_spawner,
 /turf/open/floor/plating,
 /area/medical/chemistry)
+"ID" = (
+/obj/structure/cable/yellow{
+	icon_state = "4-8"
+	},
+/obj/machinery/atmospherics/pipe/simple/orange/visible{
+	dir = 5
+	},
+/turf/open/floor/plating,
+/area/nsv/engine/engine_room/auxiliary)
 "IE" = (
 /obj/machinery/airalarm/directional/west,
 /turf/open/floor/plating,
@@ -11917,6 +11925,15 @@
 	},
 /turf/open/floor/plating/airless,
 /area/maintenance/ship_exterior)
+"IR" = (
+/obj/structure/cable/yellow{
+	icon_state = "4-8"
+	},
+/obj/machinery/atmospherics/pipe/simple/orange/visible{
+	dir = 9
+	},
+/turf/open/floor/plating,
+/area/nsv/engine/engine_room/auxiliary)
 "IS" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	dir = 4;
@@ -11931,6 +11948,11 @@
 /obj/machinery/door/firedoor,
 /turf/open/floor/plating,
 /area/hallway/nsv/deck2/frame2/central)
+"IZ" = (
+/obj/machinery/atmospherics/pipe/manifold/orange/visible,
+/obj/machinery/meter,
+/turf/open/floor/plating,
+/area/nsv/engine/engine_room/auxiliary)
 "Ja" = (
 /obj/machinery/atmospherics/components/unary/vent_pump{
 	dir = 4
@@ -12195,6 +12217,12 @@
 	},
 /turf/open/space/basic,
 /area/engine/engine_room/external)
+"LM" = (
+/obj/machinery/atmospherics/pipe/simple/orange/visible{
+	dir = 5
+	},
+/turf/open/floor/plating,
+/area/nsv/engine/engine_room/auxiliary)
 "LR" = (
 /obj/structure/mirror{
 	pixel_x = -28
@@ -12671,6 +12699,15 @@
 	},
 /turf/open/floor/plating,
 /area/hallway/nsv/deck2/frame2/starboard)
+"RL" = (
+/obj/structure/cable/yellow{
+	icon_state = "4-8"
+	},
+/obj/machinery/atmospherics/pipe/simple/orange/visible{
+	dir = 4
+	},
+/turf/open/floor/plating,
+/area/nsv/engine/engine_room/auxiliary)
 "RN" = (
 /obj/structure/sign/directions/medical{
 	dir = 8;
@@ -12728,8 +12765,8 @@
 /turf/closed/wall/r_wall/ship,
 /area/engine/break_room)
 "Sy" = (
-/obj/machinery/atmospherics/pipe/simple/orange/visible{
-	dir = 4
+/obj/machinery/atmospherics/pipe/manifold/orange/visible{
+	dir = 1
 	},
 /turf/open/floor/plating,
 /area/nsv/engine/engine_room/auxiliary)
@@ -12760,12 +12797,12 @@
 /turf/open/floor/plating,
 /area/crew_quarters/cafeteria)
 "SE" = (
-/obj/machinery/atmospherics/pipe/simple/orange/visible,
 /obj/machinery/airalarm/directional/west,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/visible{
 	dir = 4;
 	icon_state = "pipe11-2"
 	},
+/obj/machinery/atmospherics/pipe/simple/orange/visible,
 /turf/open/floor/plating,
 /area/nsv/engine/engine_room/auxiliary)
 "SF" = (
@@ -24836,7 +24873,7 @@ GZ
 jJ
 SE
 zG
-KI
+ID
 Ev
 Ev
 yA
@@ -25137,8 +25174,8 @@ MX
 kG
 lj
 mg
-lj
-KI
+Ev
+RL
 Ev
 Ev
 yA
@@ -25438,9 +25475,9 @@ Ev
 Ev
 Jv
 Sy
-mg
-Sy
-KI
+Ir
+LM
+RL
 Ev
 Ev
 yA
@@ -25742,7 +25779,7 @@ Jv
 XY
 mg
 XY
-KI
+RL
 Ev
 TM
 yA
@@ -26041,10 +26078,10 @@ yA
 YF
 Ev
 Jv
-Sy
-mg
-Sy
-KI
+iw
+Ir
+IZ
+RL
 Ev
 pI
 yA
@@ -26343,10 +26380,10 @@ yA
 iC
 RW
 ZK
-iw
-Ir
+Ev
+mg
 mV
-KI
+IR
 Ev
 Ev
 yA

@@ -5586,6 +5586,16 @@
 	},
 /turf/open/floor/plating,
 /area/security/brig)
+"mP" = (
+/obj/machinery/atmospherics/pipe/simple/cyan/visible{
+	dir = 4
+	},
+/obj/machinery/atmospherics/components/binary/pump{
+	dir = 1;
+	name = "O2 to Fuel Mix"
+	},
+/turf/open/floor/plating,
+/area/engine/atmos)
 "mQ" = (
 /turf/open/floor/plating,
 /area/security/prison)
@@ -6239,8 +6249,8 @@
 /turf/open/floor/plating,
 /area/engine/atmos)
 "nW" = (
-/obj/machinery/atmospherics/pipe/simple/cyan/visible{
-	dir = 6
+/obj/machinery/atmospherics/pipe/manifold/cyan/visible{
+	dir = 8
 	},
 /turf/open/floor/plating,
 /area/engine/atmos)
@@ -11030,6 +11040,20 @@
 	},
 /turf/open/floor/plating,
 /area/security/brig)
+"BD" = (
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	dir = 4;
+	icon_state = "pipe11-1"
+	},
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/obj/machinery/atmospherics/pipe/simple/orange/visible,
+/turf/open/floor/plating,
+/area/engine/atmos)
 "BF" = (
 /obj/structure/sign/departments/minsky/supply/mining,
 /turf/closed/wall/ship,
@@ -11696,6 +11720,10 @@
 /obj/item/banner/security,
 /turf/open/floor/plating,
 /area/security/brig)
+"LL" = (
+/obj/machinery/atmospherics/components/trinary/mixer/flipped,
+/turf/open/floor/plating,
+/area/engine/atmos)
 "LN" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
@@ -12096,6 +12124,13 @@
 	},
 /turf/open/floor/plasteel/dark,
 /area/bridge)
+"Rb" = (
+/obj/machinery/atmospherics/components/binary/pump{
+	dir = 1;
+	name = "N2 to Fuel Mix"
+	},
+/turf/open/floor/plating,
+/area/engine/atmos)
 "Rq" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
@@ -12222,6 +12257,12 @@
 	},
 /turf/open/floor/plating,
 /area/security/warden)
+"Tn" = (
+/obj/machinery/atmospherics/components/trinary/mixer/flipped{
+	dir = 1
+	},
+/turf/open/floor/plating,
+/area/engine/atmos)
 "To" = (
 /obj/machinery/atmospherics/pipe/manifold/orange/visible{
 	dir = 4
@@ -22253,8 +22294,8 @@ fr
 gU
 fr
 fr
-fr
-fr
+iq
+Rb
 nW
 oO
 pv
@@ -22501,7 +22542,7 @@ wX
 fp
 gf
 gf
-gf
+Tn
 To
 iW
 fq
@@ -22510,7 +22551,7 @@ fr
 gU
 fr
 fr
-fr
+fn
 fr
 nX
 fr
@@ -22758,7 +22799,7 @@ wZ
 fn
 fr
 fr
-fr
+fn
 fr
 gg
 jG
@@ -22767,7 +22808,7 @@ fr
 lD
 jG
 mz
-fr
+fn
 fr
 nX
 fr
@@ -23015,7 +23056,7 @@ xa
 fn
 fr
 fr
-fr
+fn
 fr
 gh
 jH
@@ -23024,7 +23065,7 @@ fr
 ox
 jH
 mA
-fr
+fn
 fr
 nX
 fr
@@ -23272,18 +23313,18 @@ xb
 fn
 fr
 fr
-fr
-fr
-fr
-fr
-gU
-fr
-gU
-fr
-fr
-fr
-fr
-nX
+en
+gf
+gf
+gf
+BD
+gf
+BD
+gf
+gf
+LL
+gf
+mP
 nW
 pw
 pZ
