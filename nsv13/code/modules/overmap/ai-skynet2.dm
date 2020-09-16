@@ -723,6 +723,7 @@ GLOBAL_LIST_EMPTY(ai_goals)
 	var/decision_delay = 2 SECONDS
 	var/move_mode = 0
 	var/next_boarding_attempt = 0
+	var/switchsound_cooldown = 0
 
 	var/reloading_torpedoes = FALSE
 	var/reloading_missiles = FALSE
