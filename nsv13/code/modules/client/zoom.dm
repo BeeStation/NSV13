@@ -15,7 +15,7 @@
 		overmap_zoomout = CLAMP(overmap_zoomout, 0, 15)
 		rescale_view(overmap_zoomout, 0, ((40*2)+1)-15)
 
-/* //Oh my god KMC all of this is A W F U L
+/* //Oh my god KMC all of this is A W F U L - I know, right? ~K
 	if(usr.client && control =="mapwindow.map")
 		if(world.time < next_zoomout_time)
 			return
