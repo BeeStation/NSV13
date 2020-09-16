@@ -57,7 +57,9 @@
 		return FALSE
 	fire_delay = initial(fire_delay) + SW.fire_delay
 	fire_mode = what
-	relay(SW.overmap_select_sound)
+	if(world.time > switchsound_cooldown)
+		relay(SW.overmap_select_sound)
+		switchsound_cooldown = world.time + 5 SECONDS
 	if(gunner)
 		to_chat(gunner, SW.select_alert)
 	if(ai_controlled)

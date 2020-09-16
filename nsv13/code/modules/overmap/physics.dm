@@ -35,9 +35,12 @@ This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATE
 	overmap_ship = null
 	cancel_camera()
 	focus = src
-	client?.pixel_x = 0
-	client?.pixel_y = 0
-	client?.change_view(getScreenSize(client?.prefs.widescreenpref))
+	if(!client)
+		return //Early return instead of possibly making 4 worthless reads. Is this a dumb microopt? Yes.
+	client.pixel_x = 0
+	client.pixel_y = 0
+	client.overmap_zoomout = 0
+	client.view_size.resetToDefault()
 
 /mob/living/vv_get_dropdown()
 	. = ..()
