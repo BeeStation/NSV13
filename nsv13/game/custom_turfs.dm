@@ -234,6 +234,7 @@
 	icon_state = "durasteel"
 	floor_tile = /obj/item/stack/tile/plasteel/ship
 	broken_states = list("durasteel_dam1", "durasteel_dam2", "durasteel_dam3", "durasteel_dam4", "durasteel_dam5")
+	burnt_states = list("durasteel_scorched1")
 
 /obj/item/stack/tile/plasteel/ship
 	name = "durasteel hull plating tile"
@@ -275,6 +276,7 @@
 	icon_state = "eris_techfloor"
 	floor_tile = /obj/item/stack/tile/plasteel/ship/techfloor
 	broken_states = list("eris_techfloor_dam1", "eris_techfloor_dam2", "eris_techfloor_dam3", "eris_techfloor_dam4", "eris_techfloor_dam5")
+	burnt_states = list("eris_techfloor_scorched1")
 
 /obj/item/stack/tile/plasteel/ship/techfloor
 	name = "embossed hull plating tile"
@@ -357,6 +359,7 @@
 	icon_state = "lino"
 	floor_tile = /obj/item/stack/tile/plasteel/grid/lino
 	broken_states = list("lino_dam1", "lino_dam2")
+	burnt_states = list("lino_scorched1")
 
 /obj/item/stack/tile/plasteel/grid/lino
 	name = "linoleum hull plating tile"
@@ -387,6 +390,7 @@
 	icon_state = "techfloor_grid"
 	floor_tile = /obj/item/stack/tile/plasteel/grid/techfloor
 	broken_states = list("techfloor_grid_dam1")
+	burnt_states = list("techfloor_grid_scorched1")
 
 /obj/item/stack/tile/plasteel/grid/techfloor/grid
 	name = "techfloor tile"
