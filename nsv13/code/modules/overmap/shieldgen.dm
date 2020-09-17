@@ -11,7 +11,7 @@
 /obj/structure/shieldgen_frame
 {
 	name = "Shield Generator Frame";
-	desc = "The beginnings of a shield generator. It requires 2 cooling fans, 4 flux"
+	desc = "The beginnings of a shield generator. It requires 2 cooling fans, 4 flux, 1 crystal interface, and 4 modulators."
 	icon = 'nsv13/icons/obj/machinery/shieldgen.dmi';
 	icon_state = "shieldgen_build1";
 	pixel_x = -32;
