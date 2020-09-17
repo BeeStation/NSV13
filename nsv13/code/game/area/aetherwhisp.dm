@@ -39,3 +39,7 @@
 /area/crew_quarters/pool_party
 	name = "Pool Area"
 	icon_state = "bar"
+
+/area/crew_quarters/heads/xo
+	name = "Executive Officer's Office"
+	icon_state = "hop_office"
