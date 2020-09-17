@@ -944,6 +944,10 @@
 /obj/structure/table/wood,
 /turf/open/floor/carpet,
 /area/hallway/secondary/entry/arrivals)
+"aBR" = (
+/obj/machinery/vending/assist,
+/turf/open/floor/plating,
+/area/maintenance/department/engine/atmos)
 "aBV" = (
 /obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer3{
 	dir = 8
@@ -4293,6 +4297,16 @@
 	},
 /turf/open/floor/engine,
 /area/engine/engine_room)
+"cJF" = (
+/obj/structure/rack,
+/obj/effect/spawner/lootdrop/maintenance,
+/obj/machinery/light/small{
+	dir = 8
+	},
+/obj/item/electronics/apc,
+/obj/item/electronics/airlock,
+/turf/open/floor/plating,
+/area/maintenance/department/engine/atmos)
 "cLK" = (
 /obj/machinery/light{
 	dir = 8
@@ -10224,6 +10238,16 @@
 /mob/living/simple_animal/mouse,
 /turf/open/floor/plating,
 /area/maintenance/department/medical)
+"gNH" = (
+/obj/structure/rack,
+/obj/effect/spawner/lootdrop/maintenance,
+/obj/item/stack/sheet/glass/fifty,
+/obj/item/stack/sheet/iron/fifty{
+	pixel_x = 3;
+	pixel_y = 3
+	},
+/turf/open/floor/plating,
+/area/maintenance/department/engine/atmos)
 "gNM" = (
 /obj/structure/closet/crate,
 /obj/effect/spawner/lootdrop/maintenance/seven,
@@ -10374,6 +10398,13 @@
 	},
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/tcommsat/server)
+"gSC" = (
+/obj/structure/rack,
+/obj/effect/spawner/lootdrop/maintenance,
+/obj/item/storage/toolbox/emergency,
+/obj/item/clothing/gloves/color/fyellow,
+/turf/open/floor/plating,
+/area/maintenance/department/engine/atmos)
 "gSF" = (
 /obj/structure/cable{
 	icon_state = "1-2"
@@ -13468,8 +13499,15 @@
 	},
 /area/medical/virology)
 "iVR" = (
-/obj/structure/closet/crate,
-/obj/effect/spawner/lootdrop/maintenance,
+/obj/machinery/door/firedoor/border_only{
+	dir = 1
+	},
+/obj/machinery/door/firedoor/border_only,
+/obj/structure/table/reinforced,
+/obj/machinery/door/poddoor/ship{
+	id = "maintshop";
+	layer = 3.1
+	},
 /turf/open/floor/plating,
 /area/maintenance/department/engine/atmos)
 "iVV" = (
@@ -14331,6 +14369,10 @@
 /obj/machinery/portable_atmospherics/canister/nitrous_oxide,
 /turf/open/floor/engine,
 /area/engine/engine_room)
+"juX" = (
+/obj/structure/closet/toolcloset,
+/turf/open/floor/plating,
+/area/maintenance/department/engine/atmos)
 "jvx" = (
 /obj/structure/cable{
 	icon_state = "1-2"
@@ -14517,6 +14559,9 @@
 /obj/structure/disposalpipe/trunk/multiz{
 	dir = 8
 	},
+/obj/item/clothing/mask/surgical,
+/obj/item/clothing/gloves/color/latex,
+/obj/structure/closet/l3closet,
 /turf/open/floor/plating,
 /area/maintenance/department/engine/atmos)
 "jDs" = (
@@ -21627,6 +21672,12 @@
 	},
 /turf/open/floor/carpet/ship,
 /area/security/detectives_office)
+"ola" = (
+/obj/structure/rack,
+/obj/effect/spawner/lootdrop/maintenance,
+/obj/item/stack/rods/fifty,
+/turf/open/floor/plating,
+/area/maintenance/department/engine/atmos)
 "olm" = (
 /obj/machinery/atmospherics/pipe/heat_exchanging/simple{
 	dir = 6
@@ -26003,6 +26054,10 @@
 /obj/structure/extinguisher_cabinet/west,
 /turf/open/floor/carpet/ship/blue,
 /area/medical/patients_rooms/room_a)
+"raz" = (
+/obj/item/chair,
+/turf/open/floor/plating,
+/area/maintenance/department/engine/atmos)
 "rbA" = (
 /obj/structure/table,
 /obj/item/circular_saw,
@@ -26653,6 +26708,16 @@
 "rAa" = (
 /turf/open/floor/wood,
 /area/lawoffice)
+"rAl" = (
+/obj/structure/closet/toolcloset,
+/obj/machinery/button/door{
+	id = "maintshop";
+	name = "shutters";
+	pixel_x = -6;
+	pixel_y = 26
+	},
+/turf/open/floor/plating,
+/area/maintenance/department/engine/atmos)
 "rAn" = (
 /obj/machinery/hydroponics/constructable,
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer1{
@@ -32209,6 +32274,15 @@
 	},
 /turf/open/floor/plating,
 /area/security/brig)
+"vxx" = (
+/obj/machinery/door/airlock/ship/maintenance{
+	name = "Maintenance Access Cryostasis Storage";
+	req_one_access_txt = "12"
+	},
+/obj/machinery/door/firedoor/border_only/directional/west,
+/obj/machinery/door/firedoor/border_only/directional/east,
+/turf/open/floor/plating,
+/area/maintenance/department/engine/atmos)
 "vym" = (
 /obj/structure/reagent_dispensers/cooking_oil,
 /turf/open/floor/carpet/ship,
@@ -32749,6 +32823,11 @@
 	},
 /turf/open/floor/plating,
 /area/engine/atmospherics_engine)
+"vOq" = (
+/obj/structure/closet/crate,
+/obj/effect/spawner/lootdrop/maintenance,
+/turf/open/floor/plating,
+/area/maintenance/department/engine/atmos)
 "vOv" = (
 /obj/structure/table,
 /obj/item/scalpel,
@@ -36159,11 +36238,14 @@
 /turf/open/floor/plating,
 /area/engine/stormdrive/monitor)
 "xYo" = (
-/obj/machinery/door/firedoor/border_only/directional/north,
-/obj/machinery/door/firedoor/border_only/directional/south,
-/obj/machinery/door/airlock/ship/maintenance{
-	name = "Maintenance Access Cryostasis Storage";
-	req_one_access_txt = "12"
+/obj/machinery/paystand,
+/obj/machinery/door/firedoor/border_only{
+	dir = 1
+	},
+/obj/machinery/door/firedoor/border_only,
+/obj/machinery/door/poddoor/ship{
+	id = "maintshop";
+	layer = 3.1
 	},
 /turf/open/floor/plating,
 /area/maintenance/department/engine/atmos)
@@ -36187,6 +36269,13 @@
 	},
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/engine/engine_smes)
+"xZD" = (
+/obj/structure/reagent_dispensers/watertank,
+/obj/machinery/light/small{
+	dir = 4
+	},
+/turf/open/floor/plating,
+/area/maintenance/department/engine/atmos)
 "yaE" = (
 /obj/item/clothing/mask/surgical,
 /obj/item/clothing/gloves/color/latex,
@@ -65801,15 +65890,15 @@ pdJ
 jKk
 bpE
 tdz
+ola
+gNH
+cJF
+gSC
 xWq
 xWq
-xWq
+vOq
 xWq
 tdz
-xWq
-xWq
-fmP
-vrK
 lij
 tdz
 oHT
@@ -66057,16 +66146,16 @@ diz
 pdJ
 rYC
 aTr
+iVR
+xWq
+xWq
+xWq
 xWq
 xWq
 xWq
 xWq
 xWq
 tdz
-xWq
-xWq
-xWq
-xWq
 lij
 tdz
 tLW
@@ -66314,16 +66403,16 @@ cPY
 pdJ
 pyL
 dSB
-xWq
-xWq
-xWq
-xWq
-xWq
-xYo
-xWq
-xWq
 iVR
 xWq
+raz
+xWq
+xWq
+xWq
+xWq
+xWq
+xWq
+tdz
 lij
 tdz
 oBL
@@ -66571,16 +66660,16 @@ ivA
 pdJ
 tkZ
 uGt
-xWq
+xYo
 xWq
 xWq
 xWq
 xWq
 tdz
-xWq
-xWq
-xWq
-xWq
+tdz
+vxx
+tdz
+tdz
 lij
 tdz
 kFt
@@ -66829,12 +66918,12 @@ jhD
 mGa
 uGt
 tdz
-xWq
-xWq
-xWq
-xWq
+rAl
+juX
+xZD
+aBR
 tdz
-xWq
+fmP
 xWq
 xWq
 xWq
