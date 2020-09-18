@@ -465,4 +465,26 @@ Starting Materials
 		/obj/item/stock_parts/capacitor = 8,
 		/obj/item/stock_parts/micro_laser = 2)
 
+/obj/item/apnw_oc_module
+	name = "Armour Plating Nano-repair Well Overclocking Module (PARENT)"
+	desc = "A small electronic device that alters operational parameters of the APNW. This will likely void the warranty."
+	icon = 'icons/obj/janitor.dmi'
+	icon_state = "mop"
+	w_class = 1
+	var/oc = null
+
+/obj/item/apnw_oc_module/power
+	name = "Armour Plating Nano-repair Well Overclocking Module (Overwattage)"
+
+/obj/item/apnw_oc_module/power/examine(mob/user)
+	. = ..()
+	. += "<span class='notice'>Allows the allocation of additional power to the APNW - MAY CAUSE OVERHEATING</span>"
+
+/obj/item/apnw_oc_module/load
+	name = "Armour Plating Nano-repair Well Overclocking Module (Overload)"
+
+/obj/item/apnw_oc_module/load/examine(mob/user)
+	. = ..()
+	. += "<span class='notice'>Allows the allocation of additional system load to the APNW - MAY CAUSE VOLTAGE SPIKES</span>"
+
 #undef RR_MAX
