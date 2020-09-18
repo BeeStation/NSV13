@@ -619,6 +619,7 @@
 					/obj/item/clothing/suit/armor/laserproof)
 	crate_name = "reflector vest crate"
 	crate_type = /obj/structure/closet/crate/secure/plasma */
+	
 /datum/supply_pack/security/armory/riotarmor
 	name = "Riot Armor Crate"
 	desc = "Contains three sets of heavy body armor. Advanced padding protects against close-ranged weaponry, making melee attacks feel only half as potent to the user. Requires Armory access to open."
