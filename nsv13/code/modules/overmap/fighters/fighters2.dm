@@ -330,6 +330,14 @@ Repair
 		hardpoint_slots[slot] = replacement
 	replacement.on_install(holder)
 
+/datum/component/ship_loadout/proc/remove_hardpoint(slot)
+	if(!slot)
+		return FALSE
+	var/obj/item/fighter_component/component = get_slot(slot)
+	if(component && istype(component))
+		component.remove_from(holder)
+	hardpoint_slots[slot] = null
+
 /datum/component/ship_loadout/process()
 	for(var/slot in equippable_slots)
 		var/obj/item/fighter_component/component = hardpoint_slots[slot]
@@ -823,7 +831,7 @@ Utility modules can be either one of these types, just ensure you set its slot t
 /obj/structure/overmap/fighter/update_icon()
 	cut_overlays()
 	..()
-	var/obj/item/fighter_component/canopy/C = loadout.get_slot(HARDPOINT_SLOT_CANOPY)
+	var/obj/item/fighter_component/canopy/C = loadout?.get_slot(HARDPOINT_SLOT_CANOPY)
 	if(!C)
 		add_overlay(image(icon = icon, icon_state = "canopy_missing", dir = 1))
 		return
