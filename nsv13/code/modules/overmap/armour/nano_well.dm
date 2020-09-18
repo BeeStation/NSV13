@@ -63,11 +63,16 @@ Starting Materials
 	var/repair_resources_processing = FALSE
 	var/repair_efficiency = 0 //modifier for how much repairs we get per cycle
 	var/power_allocation = 0 //how much power we are pumping into the system
+	var/maximum_power_allocation = 1000000 //1MW
 	var/system_allocation = 0 //the load on the system
 	var/system_stress = 0 //how overloaded the system has been over time
+	var/system_stress_threshold = 100
+	var/system_cooling = 1
 	var/material_modifier = 0 //efficiency of our materials
 	var/material_tier = 0 //The selected tier recipe producing RR
 	var/apnw_id = null //The ID by which we identify our child devices - These should match the child devices and follow the formula: 1 - Main Ship, 2 - Secondary Ship, 3 - Syndie PvP Ship
+
+
 
 /obj/machinery/armour_plating_nanorepair_well/Initialize()
 	.=..()
@@ -134,16 +139,16 @@ Starting Materials
 			system_allocation += P.structure_allocation
 
 	switch(system_allocation)
-		if(0 to 100)
-			system_stress --
+		if(0 to system_stress_threshold)
+			system_stress -= system_cooling
 			if(system_stress <= 0)
 				system_stress = 0
-		if(100 to INFINITY)
-			system_stress += (system_allocation/100)
-			if(system_stress > 200)
-				system_stress = 200
+		if(system_stress_threshold to INFINITY)
+			system_stress += (system_allocation/system_stress_threshold)
+			if(system_stress > system_stress_threshold * 2)
+				system_stress = system_stress_threshold * 2
 
-	if(system_stress >= 100)
+	if(system_stress >= system_stress_threshold)
 		var/turf/open/L = get_turf(src)
 		if(!istype(L) || !(L.air))
 			return
@@ -151,7 +156,7 @@ Starting Materials
 		var/current_temp = env.return_temperature()
 		env.set_temperature(current_temp + 1)
 		air_update_turf()
-		if(prob(system_stress - 100))
+		if(prob(system_stress - system_stress_threshold))
 			var/list/overload_candidate = list()
 			for(var/obj/machinery/armour_plating_nanorepair_pump/oc_apnp in apnp)
 				if(oc_apnp.armour_allocation > 0 || oc_apnp.structure_allocation > 0)
@@ -307,8 +312,8 @@ Starting Materials
 	if(action == "power_allocation")
 		if(adjust && isnum(adjust))
 			power_allocation = adjust
-			if(power_allocation > 1000000)
-				power_allocation = 1000000
+			if(power_allocation > maximum_power_allocation)
+				power_allocation = maximum_power_allocation
 				return
 			if(power_allocation < 0)
 				power_allocation = 0
@@ -406,7 +411,9 @@ Starting Materials
 	data["repair_efficiency"] = repair_efficiency
 	data["system_allocation"] = system_allocation
 	data["system_stress"] = system_stress
+	data["system_stress_threshold"] = system_stress_threshold
 	data["power_allocation"] = power_allocation
+	data["maximum_power_allocation"] = maximum_power_allocation
 	data["resourcing"] = resourcing_system
 	data["iron"] = materials.get_material_amount(/datum/material/iron)
 	data["titanium"] = materials.get_material_amount(/datum/material/titanium)
