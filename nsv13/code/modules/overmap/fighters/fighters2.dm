@@ -75,6 +75,7 @@ Repair
 						/obj/item/fighter_component/oxygenator,
 						/obj/item/fighter_component/canopy,
 						/obj/item/fighter_component/docking_computer,
+						/obj/item/fighter_component/battery,
 						/obj/item/fighter_component/primary/cannon)
 
 //FL gets a hotrod
@@ -92,6 +93,7 @@ Repair
 						/obj/item/fighter_component/oxygenator,
 						/obj/item/fighter_component/canopy,
 						/obj/item/fighter_component/docking_computer,
+						/obj/item/fighter_component/battery,
 						/obj/item/fighter_component/primary/cannon)
 
 /obj/structure/overmap/fighter/utility
@@ -102,7 +104,7 @@ Repair
 	armor = list("melee" = 70, "bullet" = 70, "laser" = 70, "energy" = 40, "bomb" = 40, "bio" = 100, "rad" = 90, "fire" = 90, "acid" = 80, "overmap_light" = 15, "overmap_heavy" = 0)
 	sprite_size = 32
 	damage_states = FALSE //temp
-	max_integrity = 125 //Squishy!
+	max_integrity = 250 //Squishy!
 	max_passengers = 1
 	pixel_w = -16
 	pixel_z = -20
@@ -117,12 +119,15 @@ Repair
 	components = list(/obj/item/fighter_component/fuel_tank/tier2,
 						/obj/item/fighter_component/avionics,
 						/obj/item/fighter_component/apu,
-						/obj/item/fighter_component/armour_plating/tier2,
+						/obj/item/fighter_component/armour_plating,
 						/obj/item/fighter_component/targeting_sensor,
 						/obj/item/fighter_component/engine,
 						/obj/item/fighter_component/oxygenator,
 						/obj/item/fighter_component/canopy,
 						/obj/item/fighter_component/docking_computer,
+						/obj/item/fighter_component/battery,
+						/obj/item/fighter_component/primary/utility/hold,
+						/obj/item/fighter_component/secondary/utility/resupply,
 						/obj/item/fighter_component/countermeasure_dispenser)
 
 /obj/structure/overmap/fighter/escapepod
@@ -147,6 +152,7 @@ Repair
 						/obj/item/fighter_component/oxygenator,
 						/obj/item/fighter_component/canopy,
 						/obj/item/fighter_component/docking_computer,
+						/obj/item/fighter_component/battery,
 						/obj/item/fighter_component/countermeasure_dispenser)
 
 /obj/structure/overmap/fighter/heavy
@@ -160,6 +166,10 @@ Repair
 	max_integrity = 125 //Not so squishy!
 	pixel_w = -16
 	pixel_z = -20
+	forward_maxthrust = 4
+	backward_maxthrust = 4
+	side_maxthrust = 4
+	max_angular_acceleration = 110
 	components = list(/obj/item/fighter_component/fuel_tank,
 						/obj/item/fighter_component/avionics,
 						/obj/item/fighter_component/apu,
@@ -171,6 +181,7 @@ Repair
 						/obj/item/fighter_component/canopy,
 						/obj/item/fighter_component/docking_computer,
 						/obj/item/fighter_component/secondary/ordnance_launcher/torpedo,
+						/obj/item/fighter_component/battery,
 						/obj/item/fighter_component/primary/cannon/heavy)
 
 /obj/structure/overmap/fighter/LateInitialize(mapload, build_components=components)
@@ -292,10 +303,13 @@ Repair
 #define HARDPOINT_SLOT_ENGINE "Engine"
 #define HARDPOINT_SLOT_RADAR "Radar"
 #define HARDPOINT_SLOT_OXYGENATOR "Atmospheric Regulator"
+#define HARDPOINT_SLOT_BATTERY "Battery"
+#define HARDPOINT_SLOT_UTILITY_PRIMARY "Primary Utility"
+#define HARDPOINT_SLOT_UTILITY_SECONDARY "Secondary Utility"
 
-#define ALL_HARDPOINT_SLOTS list(HARDPOINT_SLOT_PRIMARY, HARDPOINT_SLOT_SECONDARY,HARDPOINT_SLOT_UTILITY, HARDPOINT_SLOT_ARMOUR, HARDPOINT_SLOT_FUEL, HARDPOINT_SLOT_ENGINE, HARDPOINT_SLOT_RADAR, HARDPOINT_SLOT_CANOPY, HARDPOINT_SLOT_OXYGENATOR,HARDPOINT_SLOT_DOCKING)
-#define HARDPOINT_SLOTS_STANDARD list(HARDPOINT_SLOT_PRIMARY, HARDPOINT_SLOT_SECONDARY, HARDPOINT_SLOT_ARMOUR, HARDPOINT_SLOT_FUEL, HARDPOINT_SLOT_ENGINE, HARDPOINT_SLOT_RADAR,HARDPOINT_SLOT_CANOPY, HARDPOINT_SLOT_OXYGENATOR,HARDPOINT_SLOT_DOCKING)
-#define HARDPOINT_SLOTS_UTILITY list(HARDPOINT_SLOT_UTILITY, HARDPOINT_SLOT_ARMOUR, HARDPOINT_SLOT_FUEL, HARDPOINT_SLOT_ENGINE, HARDPOINT_SLOT_RADAR,HARDPOINT_SLOT_CANOPY, HARDPOINT_SLOT_OXYGENATOR,HARDPOINT_SLOT_DOCKING)
+#define ALL_HARDPOINT_SLOTS list(HARDPOINT_SLOT_PRIMARY, HARDPOINT_SLOT_SECONDARY,HARDPOINT_SLOT_UTILITY, HARDPOINT_SLOT_ARMOUR, HARDPOINT_SLOT_FUEL, HARDPOINT_SLOT_ENGINE, HARDPOINT_SLOT_RADAR, HARDPOINT_SLOT_CANOPY, HARDPOINT_SLOT_OXYGENATOR,HARDPOINT_SLOT_DOCKING, HARDPOINT_SLOT_BATTERY)
+#define HARDPOINT_SLOTS_STANDARD list(HARDPOINT_SLOT_PRIMARY, HARDPOINT_SLOT_SECONDARY, HARDPOINT_SLOT_ARMOUR, HARDPOINT_SLOT_FUEL, HARDPOINT_SLOT_ENGINE, HARDPOINT_SLOT_RADAR,HARDPOINT_SLOT_CANOPY, HARDPOINT_SLOT_OXYGENATOR,HARDPOINT_SLOT_DOCKING, HARDPOINT_SLOT_BATTERY)
+#define HARDPOINT_SLOTS_UTILITY list(HARDPOINT_SLOT_UTILITY_PRIMARY,HARDPOINT_SLOT_UTILITY_SECONDARY, HARDPOINT_SLOT_ARMOUR, HARDPOINT_SLOT_FUEL, HARDPOINT_SLOT_ENGINE, HARDPOINT_SLOT_RADAR,HARDPOINT_SLOT_CANOPY, HARDPOINT_SLOT_OXYGENATOR,HARDPOINT_SLOT_DOCKING, HARDPOINT_SLOT_BATTERY)
 
 /datum/component/ship_loadout
 	can_transfer = FALSE
@@ -352,6 +366,7 @@ Repair
 	var/tier = 1 //Icon states are formatted as: armour_tier1 and so on.
 	var/slot = null //Change me!
 	var/weight = 0 //Some more advanced modules will weigh your fighter down some.
+	var/power_usage = 0 //Does this module require power to process()?
 
 /obj/item/fighter_component/Initialize()
 	.=..()
@@ -367,6 +382,18 @@ Repair
 	target.visible_message("<span class='notice'>[src] mounts onto [target]")
 	return TRUE
 
+/obj/item/fighter_component/proc/powered()
+	var/obj/structure/overmap/fighter/F = loc
+	if(!istype(F))
+		return FALSE
+	var/obj/item/fighter_component/battery/B = F.loadout.get_slot(HARDPOINT_SLOT_BATTERY)
+	return B?.use_power(power_usage)
+
+/obj/item/fighter_component/process()
+	if(!powered())
+		return FALSE
+	return TRUE
+
 /*
 If you need your hardpoint to be loaded with things by clicking the fighter
 */
@@ -380,6 +407,8 @@ If you need your hardpoint to be loaded with things by clicking the fighter
 	target.speed_limit = CLAMP(target.speed_limit, 0, target.speed_limit)
 	target.forward_maxthrust -= weight
 	target.forward_maxthrust = CLAMP(target.forward_maxthrust, 0, target.forward_maxthrust)
+	target.backward_maxthrust -= weight
+	target.backward_maxthrust = CLAMP(target.backward_maxthrust, 0, target.backward_maxthrust)
 	target.side_maxthrust -= 0.25*weight
 	target.side_maxthrust = CLAMP(target.side_maxthrust, 0, target.side_maxthrust)
 	target.max_angular_acceleration -= weight*10
@@ -435,6 +464,36 @@ If you need your hardpoint to be loaded with things by clicking the fighter
 	max_integrity = 250
 	tier = 3
 	weight = 0.15
+
+/obj/item/fighter_component/battery
+	name = "Fighter Battery"
+	icon_state = "battery"
+	slot = HARDPOINT_SLOT_BATTERY
+	var/charge = 10000
+	var/max_charge = 10000
+	var/self_charge = TRUE //TODO! Engine powers this.
+
+/obj/item/fighter_component/battery/process()
+	if(self_charge)
+		charge += 1000
+
+/obj/item/fighter_component/battery/proc/use_power(amount)
+	charge -= amount
+	charge = CLAMP(charge, 0, max_charge)
+	return charge > 0
+
+/obj/item/fighter_component/battery/tier2
+	name = "Upgraded Fighter Battery"
+	tier = 2
+	charge = 20000
+	max_charge = 20000
+
+/obj/item/fighter_component/battery/tier3
+	name = "Mega Fighter Battery"
+	desc = "An electrochemical cell capable of holding a good amount of charge for keeping the fighter's radio on for longer periods without an engine."
+	tier = 3
+	charge = 40000
+	max_charge = 40000
 
 /obj/item/fighter_component/armour_plating/on_install(obj/structure/overmap/target)
 	..()
@@ -577,17 +636,20 @@ If you need your hardpoint to be loaded with things by clicking the fighter
 	var/refill_amount = 1 //Starts off really terrible.
 	slot = HARDPOINT_SLOT_OXYGENATOR
 	weight = 0.5 //Wanna go REALLY FAST? Pack your own O2.
+	power_usage = 200
 
 /obj/item/fighter_component/oxygenator/t2
 	name = "Upgraded Atmospheric Regulator"
 	tier = 2
 	refill_amount = 3
+	power_usage = 300
 
 /obj/item/fighter_component/oxygenator/t3
 	name = "Super Oxygenator"
 	desc = "A finely tuned atmospheric regulator to be fitted into a fighter which seems to be able to almost magically create oxygen out of nowhere."
 	tier = 3
 	refill_amount = 10
+	power_usage = 400
 
 /obj/item/fighter_component/oxygenator/plasmaman
 	name = "Plasmaman Atmospheric Regulator"
@@ -596,13 +658,17 @@ If you need your hardpoint to be loaded with things by clicking the fighter
 	tier = 4 //unique! but it has to have a sprite to make it obvious that, yknow, this is for plasmemes.
 
 /obj/item/fighter_component/oxygenator/process()
+	//Don't waste power on already fine atmos.
 	var/obj/structure/overmap/OM = loc
 	if(!istype(OM))
 		return FALSE
-	//Oxygenator just makes sure you have atmosphere. It doesn't care where it comes from.
-	OM.cabin_air.set_temperature(T20C)
 	if(OM.cabin_air.return_pressure()+refill_amount >= WARNING_HIGH_PRESSURE-(2*refill_amount))
 		return FALSE //No need to add more air to an already pressurized environment
+	if(!..())
+		return FALSE
+
+	//Oxygenator just makes sure you have atmosphere. It doesn't care where it comes from.
+	OM.cabin_air.set_temperature(T20C)
 	//Gives you a little bit of air.
 	refill(OM)
 	return TRUE
@@ -661,6 +727,8 @@ Utility modules can be either one of these types, just ensure you set its slot t
 	var/accepted_ammo = /obj/item/ammo_box/magazine
 	var/obj/item/ammo_box/magazine/magazine = null
 	var/list/ammo = list()
+	var/burst_size = 1
+	var/fire_delay = 0
 
 //Ensure we get the genericised equipment mounts.
 /obj/structure/overmap/fighter/apply_weapons()
@@ -691,6 +759,8 @@ Utility modules can be either one of these types, just ensure you set its slot t
 	if(!istype(AM, accepted_ammo))
 		return FALSE
 	magazine?.forceMove(get_turf(target))
+	if(!SSmapping.level_trait(loc.z, ZTRAIT_BOARDABLE))
+		qdel(magazine) //So bullets don't drop onto the overmap.
 	AM.forceMove(src)
 	magazine = AM
 	ammo = magazine.stored_ammo
@@ -719,11 +789,15 @@ Utility modules can be either one of these types, just ensure you set its slot t
 	var/datum/ship_weapon/SW = target.weapon_types[fire_mode]
 	SW.overmap_firing_sounds = overmap_firing_sounds
 	SW.overmap_select_sound = overmap_select_sound
+	SW.burst_size = burst_size
+	SW.fire_delay = fire_delay
 
 /obj/item/fighter_component/primary/cannon
 	name = "40mm Vulcan Cannon"
 	icon_state = "lightcannon"
 	accepted_ammo = /obj/item/ammo_box/magazine/light_cannon
+	burst_size = 2
+	fire_delay = 0.25 SECONDS
 
 /obj/item/fighter_component/primary/cannon/heavy
 	name = "40mm Vulcan Cannon"
@@ -732,6 +806,8 @@ Utility modules can be either one of these types, just ensure you set its slot t
 	weight = 2 //Sloooow down there.
 	overmap_select_sound = 'nsv13/sound/effects/ship/pdc_start.ogg'
 	overmap_firing_sounds = list('nsv13/sound/effects/fighters/BRRTTTTTT.ogg')
+	burst_size = 3
+	fire_delay = 0.5 SECONDS
 
 /obj/item/fighter_component/secondary
 	name = "Fuck you"
@@ -747,6 +823,8 @@ Utility modules can be either one of these types, just ensure you set its slot t
 	var/accepted_ammo = /obj/item/ship_weapon/ammunition/missile
 	var/list/ammo = list()
 	var/max_ammo = 3
+	var/burst_size = 1 //Cluster torps...UNLESS?
+	var/fire_delay = 0.25 SECONDS
 
 /obj/item/fighter_component/secondary/on_install(obj/structure/overmap/target)
 	. = ..()
@@ -755,6 +833,8 @@ Utility modules can be either one of these types, just ensure you set its slot t
 	var/datum/ship_weapon/SW = target.weapon_types[fire_mode]
 	SW.overmap_firing_sounds = overmap_firing_sounds
 	SW.overmap_select_sound = overmap_select_sound
+	SW.burst_size = burst_size
+	SW.fire_delay = fire_delay
 
 //Todo: make fighters use these.
 /obj/item/fighter_component/secondary/ordnance_launcher
@@ -768,10 +848,12 @@ Utility modules can be either one of these types, just ensure you set its slot t
 	max_ammo = 5
 
 /obj/item/fighter_component/secondary/ordnance_launcher/tier3
-	name = "A-11 'Spacehog' Freedom Dispenser"
+	name = "A-11 'Spacehog' Cluster-Freedom Launcher"
 	tier = 3
 	max_ammo = 15
 	weight = 1
+	burst_size = 3
+	fire_delay = 0.10 SECONDS
 
 /obj/item/fighter_component/secondary/ordnance_launcher/torpedo
 	name = "Fighter Torpedo Launcher"
@@ -827,6 +909,110 @@ Utility modules can be either one of these types, just ensure you set its slot t
 		else
 			F.fire_projectile(proj_type, target, homing = TRUE, speed=proj_speed, explosive = TRUE)
 	return TRUE
+
+//Utility modules.
+
+/obj/item/fighter_component/primary/utility/fire(obj/structure/overmap/target)
+	return FALSE
+
+/obj/item/fighter_component/primary/utility/hold
+	name = "Cargo Hold"
+	desc = "A cramped cargo hold for hauling light freight."
+	slot = HARDPOINT_SLOT_UTILITY_PRIMARY
+	icon_state = "hold"
+	var/max_w_class = WEIGHT_CLASS_GIGANTIC
+	var/max_freight = 5
+
+/obj/item/fighter_component/primary/utility/hold/tier2
+	name = "Expanded Cargo Hold"
+	tier = 2
+	max_freight = 10
+
+/obj/item/fighter_component/primary/utility/hold/tier3
+	name = "S0CC3RMUM Jumbo Sized Cargo Hold"
+	desc ="Now with extra space for seating unlucky friends in the boot!"
+	tier = 3
+	max_freight = 20
+
+/obj/item/fighter_component/primary/utility/hold/load(obj/structure/overmap/target, atom/movable/AM)
+	if(contents && contents.len >= max_freight)
+		return FALSE
+	AM.forceMove(src)
+	playsound(target, 'nsv13/sound/effects/ship/mac_load.ogg', 100, 1)
+	return TRUE
+
+/obj/item/fighter_component/secondary/utility
+	name = "Utility Module"
+	slot = HARDPOINT_SLOT_UTILITY_SECONDARY
+	power_usage = 200
+
+/obj/item/fighter_component/secondary/utility/resupply
+	name = "Air to Air Resupply Kit"
+	desc = "A large hose line which can allow a utility craft to perform air to air refuelling and resupply, without needing to RTB!"
+	icon_state = "resupply"
+	overmap_firing_sounds = list(
+		'nsv13/sound/effects/fighters/refuel.ogg')
+	fire_delay = 9 SECONDS
+	var/datum/beam/current_beam
+	var/next_fuel = 0
+
+/obj/item/fighter_component/secondary/utility/resupply/tier2
+	name = "Upgraded Air To Air Resupply Kit"
+	fire_delay = 7 SECONDS
+	tier = 2
+
+/obj/item/fighter_component/secondary/utility/resupply/tier2
+	name = "Super Air To Air Resupply Kit"
+	fire_delay = 6 SECONDS
+	tier = 3
+
+/obj/item/fighter_component/secondary/utility/resupply/process()
+	if(!..())
+		return
+	var/obj/structure/overmap/fighter/F = loc
+	if(!istype(F) || !F.autofire_target)
+		qdel(current_beam)
+		current_beam = null
+		return FALSE
+	if(world.time < next_fuel)
+		return FALSE
+	var/obj/structure/overmap/fighter/them = F.autofire_target
+	if(!istype(them))
+		return FALSE
+	next_fuel = world.time + fire_delay
+	if(!current_beam || QDELETED(current_beam))
+		current_beam = new(F,them,beam_icon='nsv13/icons/effects/beam.dmi',time=INFINITY,maxdistance = INFINITY,beam_icon_state="hose",btype=/obj/effect/ebeam/fuel_hose)
+		INVOKE_ASYNC(current_beam, /datum/beam.proc/Start)
+
+	//Firstly, try to refuel the friendly.
+	var/obj/item/fighter_component/fuel_tank/fuel = F.loadout.get_slot(HARDPOINT_SLOT_FUEL)
+	if(!fuel || F.get_fuel() <= 0)
+		say("nah no fuel!")
+		goto resupplyFuel
+	var/obj/item/fighter_component/fuel_tank/theirFuel = them.loadout.get_slot(HARDPOINT_SLOT_FUEL)
+	var/transfer_amount = min(50, them.get_max_fuel()-them.get_fuel()) //Transfer as much as we can
+	F.relay('nsv13/sound/effects/fighters/refuel.ogg')
+	them.relay('nsv13/sound/effects/fighters/refuel.ogg')
+	if(transfer_amount <= 0)
+		say("nah no supply!")
+		goto resupplyFuel
+	fuel.reagents.trans_to(theirFuel, transfer_amount)
+	say("Fuelled")
+	resupplyFuel:
+	say("Time 2 resupp")
+	var/obj/item/fighter_component/primary/utility/hold = F.loadout.get_slot(HARDPOINT_SLOT_UTILITY_PRIMARY)
+	if(!istype(hold))
+		say("No hold")
+		return FALSE
+	var/obj/item/fighter_component/primary/theirGun = them.loadout.get_slot(HARDPOINT_SLOT_PRIMARY)
+	var/obj/item/fighter_component/primary/theirTorp = them.loadout.get_slot(HARDPOINT_SLOT_SECONDARY)
+	//Next up, try to refill the friendly's guns from whatever we have stored in cargo.
+	for(var/atom/movable/AM in hold.contents)
+		say("Found [AM] and")
+		if(theirGun.load(them, AM))
+			continue
+		if(theirTorp.load(them, AM))
+			continue
 
 /obj/structure/overmap/fighter/update_icon()
 	cut_overlays()

@@ -14,8 +14,6 @@
 			to_chat(gunner, "<span class='warning'>Weapon safety interlocks are active! Use the ship verbs tab to disable them!</span>")
 		return
 	if(next_firetime > world.time)
-		if(gunner)
-			to_chat(gunner, "<span class='warning'>WARNING: Weapons cooldown in effect to prevent overheat.</span>")
 		return
 	handle_cloak(CLOAK_TEMPORARY_LOSS)
 	last_target = target

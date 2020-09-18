@@ -176,7 +176,7 @@
 /datum/ship_weapon/fighter_primary
 	name = "Primary Equipment Mount"
 	default_projectile_type = /obj/item/projectile/bullet/light_cannon_round //This is overridden anyway
-	burst_size = 2
+	burst_size = 1
 	fire_delay = 0.25 SECONDS
 	range_modifier = 10
 	overmap_select_sound = 'nsv13/sound/effects/ship/pdc_start.ogg'
