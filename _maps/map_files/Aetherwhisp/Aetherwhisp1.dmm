@@ -6936,7 +6936,8 @@
 	dir = 8;
 	name = "scrubber freezer";
 	on = 1;
-	piping_layer = 1
+	piping_layer = 1;
+	target_temperature = 74
 	},
 /obj/machinery/light{
 	dir = 1
@@ -8691,6 +8692,7 @@
 	},
 /obj/machinery/atmospherics/components/trinary/filter/layer1{
 	dir = 8;
+	layer = 2.55;
 	name = "Mix to Scrubbers"
 	},
 /turf/open/floor/carpet/ship/orange_carpet,
@@ -13341,7 +13343,8 @@
 /obj/machinery/light,
 /obj/machinery/atmospherics/pipe/simple/purple/visible/layer3,
 /obj/machinery/atmospherics/components/trinary/mixer/layer1{
-	dir = 1
+	dir = 1;
+	layer = 2.55
 	},
 /obj/structure/extinguisher_cabinet/west,
 /turf/open/floor/carpet/ship/orange_carpet,
@@ -27343,6 +27346,7 @@
 "rVT" = (
 /obj/machinery/atmospherics/components/trinary/mixer/layer1{
 	dir = 4;
+	layer = 2.55;
 	name = "Stormdrive O2-N2 Gas Mixer"
 	},
 /obj/machinery/atmospherics/pipe/manifold/purple/visible/layer3{
@@ -30266,7 +30270,7 @@
 	dir = 1;
 	name = "Ship Air Supply to Distro";
 	on = 1;
-	target_pressure = 2000
+	target_pressure = 1000
 	},
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/engine/atmos)
