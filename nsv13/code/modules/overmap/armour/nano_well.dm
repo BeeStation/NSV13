@@ -513,9 +513,9 @@ Starting Materials
 /obj/item/apnw_oc_module
 	name = "Armour Plating Nano-repair Well Overclocking Module (PARENT)"
 	desc = "A small electronic device that alters operational parameters of the APNW. This will likely void the warranty."
-	icon = 'icons/obj/janitor.dmi'
-	icon_state = "mop"
-	w_class = 1
+	icon = 'nsv13/icons/obj/objects.dmi'
+	icon_state = "oc_module"
+	w_class = 3
 	var/oc = null
 
 /obj/item/apnw_oc_module/power //Changes power cap to 10MW
