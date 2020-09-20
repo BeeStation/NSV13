@@ -516,7 +516,6 @@ Starting Materials
 	icon = 'nsv13/icons/obj/objects.dmi'
 	icon_state = "oc_module"
 	w_class = 3
-	var/oc = null
 
 /obj/item/apnw_oc_module/power //Changes power cap to 10MW
 	name = "Armour Plating Nano-repair Well Overclocking Module (Overwattage)"
