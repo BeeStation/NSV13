@@ -55,7 +55,7 @@ export const ArmourPlatingNanorepairWell = (props, context) => {
         <Section title="APNW System Status">
           System Load:
           <ProgressBar
-            value={data.system_allocation / data.system_stress_threshold}
+            value={data.system_allocation / 100}
             ranges={{
               good: [],
               average: [0.75, 1.5],
