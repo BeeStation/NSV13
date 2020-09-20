@@ -148,3 +148,15 @@
 			if(armour_quadrants[quad]["current_armour"] > armour_quadrants[quad]["max_armour"])
 				armour_quadrants[quad]["current_armour"] = armour_quadrants[quad]["max_armour"]
 
+#define VV_HK_FULL_REPAIR "FullRepair"
+
+/obj/structure/overmap/vv_get_dropdown()
+	. = ..()
+	VV_DROPDOWN_OPTION(VV_HK_FULL_REPAIR, "Full Repair")
+
+/obj/structure/overmap/vv_do_topic(list/href_list)
+	. = ..()
+	if(href_list[VV_HK_FULL_REPAIR])
+		if(!check_rights(NONE)) //Hmm?
+			return
+		full_repair()
