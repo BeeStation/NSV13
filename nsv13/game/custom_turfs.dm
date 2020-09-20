@@ -394,7 +394,7 @@
 	icon_state = "techfloor_grid"
 	floor_tile = /obj/item/stack/tile/plasteel/grid/techfloor
 	broken_states = list("techfloor_grid_dam1")
-	burnt_states = list("techfloor_grid_scorched1")
+	burnt_states = list("techfloor_grid_scorched1", "techfloor_grid_scorched2")
 
 /obj/item/stack/tile/plasteel/grid/techfloor/grid
 	name = "techfloor tile"
