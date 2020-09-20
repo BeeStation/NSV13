@@ -18,3 +18,4 @@
 	name = "30.12x82mm bullet casing"
 	desc = "A 30.12x82mm bullet casing."
 	projectile_type = /obj/item/projectile/bullet/pdc_round
+	caliber = "mm30.12"
