@@ -1,6 +1,6 @@
 /obj/structure/peacekeeper_barricade //CREDIT TO CM FOR THIS. Cleanup up by Kmc.
 	icon = 'nsv13/icons/obj/barricades.dmi'
-	climbable = TRUE
+	climbable = FALSE //Disable climbing.
 	anchored = TRUE
 	density = TRUE
 	layer = BELOW_OBJ_LAYER
@@ -58,6 +58,7 @@
 	anchored = FALSE
 	build_state = 0
 
+/* You can reenable this when you fix it, KMC.
 /obj/structure/peacekeeper_barricade/do_climb(var/mob/living/user)
 	if(is_wired) //Ohhh boy this is gonna hurt...
 		user.apply_damage(10)
@@ -66,7 +67,7 @@
 		usr.forceMove(get_step(src, src.dir))
 	else
 		usr.forceMove(get_turf(src))
-
+*/
 /obj/structure/peacekeeper_barricade/metal/plasteel/attack_hand(mob/user as mob)
 	. = ..()
 	if(.)

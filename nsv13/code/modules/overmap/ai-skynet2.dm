@@ -145,8 +145,10 @@ GLOBAL_LIST_EMPTY(ai_goals)
 						fallback += sys
 						continue
 			potential += sys
-		if(!potential.len)
-			potential = fallback //Nowhere else to go.
+		if(!fallback.len && !potential.len)
+			return FALSE //Nowhere to go at all?
+		else if(fallback.len) //We have some route.
+			potential = fallback //Doesn't mean we like it...
 		target = pick(potential)
 	if(!force)
 		addtimer(CALLBACK(src, .proc/move), rand(5 MINUTES, 10 MINUTES))
@@ -721,6 +723,7 @@ GLOBAL_LIST_EMPTY(ai_goals)
 	var/decision_delay = 2 SECONDS
 	var/move_mode = 0
 	var/next_boarding_attempt = 0
+	var/switchsound_cooldown = 0
 
 	var/reloading_torpedoes = FALSE
 	var/reloading_missiles = FALSE

@@ -7338,6 +7338,7 @@
 /obj/effect/turf_decal/tile/green{
 	dir = 8
 	},
+/obj/machinery/chem_dispenser/mutagen,
 /turf/open/floor/plasteel,
 /area/hydroponics)
 "arq" = (
@@ -12579,13 +12580,14 @@
 /turf/open/floor/monotile,
 /area/nsv/hanger)
 "aCF" = (
-/obj/machinery/door/airlock/ship/external/glass{
-	name = "Escape Shuttle Dock"
-	},
 /obj/effect/mapping_helpers/airlock/cyclelink_helper{
 	dir = 1
 	},
 /obj/machinery/atmospherics/pipe/layer_manifold,
+/obj/machinery/door/airlock/ship/external/glass{
+	name = "Cargo Shuttle Airlock";
+	req_access_txt = "31"
+	},
 /turf/open/floor/plating,
 /area/quartermaster/storage)
 "aCG" = (
@@ -18338,6 +18340,10 @@
 	},
 /obj/machinery/door/firedoor/border_only/directional/north,
 /obj/machinery/door/firedoor/border_only/directional/south,
+/obj/structure/disposalpipe/segment{
+	color = "#faa";
+	name = "return trunk disposal pipe"
+	},
 /turf/open/floor/plasteel,
 /area/crew_quarters/lounge)
 "aOc" = (
@@ -31330,12 +31336,13 @@
 /turf/open/floor/plasteel,
 /area/quartermaster/storage)
 "bnw" = (
-/obj/machinery/door/airlock/ship/external/glass{
-	name = "Escape Shuttle Dock"
-	},
 /obj/effect/mapping_helpers/airlock/cyclelink_helper,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer3,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer1,
+/obj/machinery/door/airlock/ship/external/glass{
+	name = "Cargo Shuttle Airlock";
+	req_access_txt = "31"
+	},
 /turf/open/floor/plating,
 /area/quartermaster/storage)
 "bnx" = (
@@ -34393,7 +34400,8 @@
 "gug" = (
 /obj/machinery/atmospherics/components/binary/pump/on/layer3{
 	dir = 1;
-	name = "Pure to Distribution Loop"
+	name = "Pure to Distribution Loop";
+	target_pressure = 300
 	},
 /turf/open/floor/plasteel/dark,
 /area/engine/atmos)
@@ -34692,7 +34700,8 @@
 "hzP" = (
 /obj/machinery/atmospherics/components/binary/pump/on/layer1{
 	dir = 1;
-	name = "Airmix to Pure"
+	name = "Airmix to Pure";
+	target_pressure = 400
 	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/visible/layer3{
 	dir = 8
