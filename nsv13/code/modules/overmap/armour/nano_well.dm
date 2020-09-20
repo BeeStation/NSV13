@@ -71,10 +71,6 @@ Starting Materials
 	var/material_modifier = 0 //efficiency of our materials
 	var/material_tier = 0 //The selected tier recipe producing RR
 	var/apnw_id = null //The ID by which we identify our child devices - These should match the child devices and follow the formula: 1 - Main Ship, 2 - Secondary Ship, 3 - Syndie PvP Ship
-	var/oc_power = FALSE
-	var/oc_load = FALSE
-	var/oc_cooling = FALSE
-
 
 /obj/machinery/armour_plating_nanorepair_well/Initialize()
 	.=..()
@@ -97,8 +93,12 @@ Starting Materials
 	.=..()
 	if(OM?.linked_apnw != src)
 		. += "<span class='warning'>WARNING: DUPLICATE APNW DETECTED!</span>"
-	if(oc_power || oc_load || oc_cooling)
-		. += "<span class='notice'>The warranty seal has been broken."
+	if(maximum_power_allocation != initial(maximum_power_allocation))
+		. += "<span class='notice'>It hums with energy.</span>"
+	if(system_stress_threshold != initial(system_stress_threshold))
+		. += "<span class='notice'>It whirrs with vim.</span>"
+	if(system_cooling != initial(system_cooling))
+		. += "<span class='notice'>It resonates with stability.</span>"
 
 /obj/machinery/armour_plating_nanorepair_well/process()
 	if(OM?.linked_apnw == src)
@@ -131,12 +131,10 @@ Starting Materials
 		return FALSE
 	return FALSE
 
-
 /obj/machinery/armour_plating_nanorepair_well/proc/handle_repair_efficiency() //Sigmoidal Curve
 	repair_efficiency = ((1 / (0.01 + (NUM_E ** (-0.00001 * power_allocation)))) * material_modifier) / 100
-	if(oc_power)
-		if(power_allocation > 1e6)
-			repair_efficiency += ((power_allocation - 1e6) / 1e7) / 2
+	if(power_allocation > 1e6) //If overclocking
+		repair_efficiency += ((power_allocation - 1e6) / 1e7) / 2
 
 /obj/machinery/armour_plating_nanorepair_well/proc/handle_system_stress()
 	system_allocation = 0
@@ -152,7 +150,7 @@ Starting Materials
 				system_stress = 0
 		if(system_stress_threshold to INFINITY)
 			system_stress += (system_allocation/system_stress_threshold)
-			if(oc_load)
+			if(system_stress_threshold != initial(system_stress_threshold))
 				if(prob(2))
 					do_sparks(3, FALSE, src)
 			if(system_stress > system_stress_threshold * 2)
@@ -175,7 +173,6 @@ Starting Materials
 				var/obj/machinery/armour_plating_nanorepair_pump/target_apnp = pick(overload_candidate)
 				if(target_apnp.last_restart < world.time + 60 SECONDS)
 					target_apnp.stress_shutdown = TRUE
-
 
 /obj/machinery/armour_plating_nanorepair_well/proc/handle_power_allocation()
 	active_power_usage = power_allocation
@@ -272,7 +269,6 @@ Starting Materials
 			playsound(src.loc, "sparks", 50, 1)
 			I.forceMove(src)
 			maximum_power_allocation = 10000000 //10MW
-			oc_power = TRUE
 
 	if(istype(I, /obj/item/apnw_oc_module/load))
 		if(locate(/obj/item/apnw_oc_module/load) in contents)
@@ -283,7 +279,6 @@ Starting Materials
 			playsound(src.loc, "sparks", 50, 1)
 			I.forceMove(src)
 			system_stress_threshold = 200 //Double the load
-			oc_load = TRUE
 
 	if(istype(I, /obj/item/apnw_oc_module/cooling))
 		if(locate(/obj/item/apnw_oc_module/cooling) in contents)
@@ -294,7 +289,6 @@ Starting Materials
 			playsound(src.loc, "sparks", 50, 1)
 			I.forceMove(src)
 			system_cooling = 2.5 //2.5x the stress reduction
-			oc_cooling = TRUE
 
 /obj/machinery/armour_plating_nanorepair_well/update_icon()
 	cut_overlays()
