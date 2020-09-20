@@ -284,7 +284,7 @@
 	name = "black floor"
 	icon_state = "black"
 
-/turf/open/floor/monotile //NSV13 - Monotiles used on the SGC Enterprise
+/turf/open/floor/monotile
 	icon_state = "steel_monotile"
 	floor_tile = /obj/item/stack/tile/mono/steel
 
@@ -297,7 +297,7 @@
 	floor_tile = /obj/item/stack/tile/mono/light 
 
 /turf/open/floor/monofloor
-	icon_state = "steel_monofloor" //NSV13 End
+	icon_state = "steel_monofloor"
 
 /turf/open/floor/stone
 	icon_state = "stone"
