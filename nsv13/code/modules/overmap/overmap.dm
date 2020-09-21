@@ -533,19 +533,19 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 /obj/structure/overmap/key_down(key, client/user)
 	var/mob/themob = user.mob
 	switch(key)
-		if("Space")
-			if(themob == pilot)
-				toggle_move_mode()
-			if(helm && prob(80))
-				var/sound = pick(GLOB.computer_beeps)
-				playsound(helm, sound, 100, 1)
-			return TRUE
 		if("Shift")
 			if(themob == pilot)
 				boost(NORTH)
 		if("X")
 			if(themob == pilot)
 				toggle_inertia()
+			if(helm && prob(80))
+				var/sound = pick(GLOB.computer_beeps)
+				playsound(helm, sound, 100, 1)
+			return TRUE
+		if("C" || "c")
+			if(themob == pilot)
+				toggle_move_mode()
 			if(helm && prob(80))
 				var/sound = pick(GLOB.computer_beeps)
 				playsound(helm, sound, 100, 1)
@@ -557,7 +557,7 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 				var/sound = pick(GLOB.computer_beeps)
 				playsound(helm, sound, 100, 1)
 			return TRUE
-		if("Ctrl")
+		if("Space")
 			if(themob == gunner)
 				cycle_firemode()
 				if(tactical && prob(80))
@@ -567,15 +567,9 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 		if("Q" || "q")
 			if(!move_by_mouse)
 				desired_angle -= 15
-			else
-				if(themob == pilot)
-					boost(WEST)
 		if("E" || "e")
 			if(!move_by_mouse)
 				desired_angle += 15
-			else
-				if(themob == pilot)
-					boost(EAST)
 
 /obj/structure/overmap/proc/boost(direction)
 	if(world.time < next_maneuvre)

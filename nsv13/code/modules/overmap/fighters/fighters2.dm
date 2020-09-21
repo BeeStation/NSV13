@@ -68,6 +68,7 @@ Repair
 	pixel_z = -20
 	req_one_access = list(ACCESS_FIGHTER)
 	collision_positions = list(new /datum/vector2d(-2,-16), new /datum/vector2d(-13,-3), new /datum/vector2d(-13,10), new /datum/vector2d(-6,15), new /datum/vector2d(8,15), new /datum/vector2d(15,10), new /datum/vector2d(12,-9), new /datum/vector2d(4,-16), new /datum/vector2d(1,-16))
+	var/start_emagged = FALSE
 	var/max_passengers = 0 //Change this per fighter.
 	//Component to handle the fighter's loadout, weapons, parts, the works.
 	var/loadout_type = LOADOUT_DEFAULT_FIGHTER
@@ -78,6 +79,42 @@ Repair
 	var/master_caution = FALSE //The big funny warning light on the dash.
 	var/list/components = list() //What does this fighter start off with? Use this to set what engine tiers and whatever it gets.
 	var/maintenance_mode = FALSE //Munitions level IDs can change this.
+
+/obj/structure/overmap/fighter/verb/show_control_panel()
+	set name = "Show control panel"
+	set category = "Ship"
+	set src = usr.loc
+
+	if(!verb_check())
+		return
+	ui_interact(usr)
+
+/obj/structure/overmap/fighter/verb/change_name()
+	set name = "Change name"
+	set category = "Ship"
+	set src = usr.loc
+
+	if(!verb_check())
+		return
+	var/new_name = stripped_input(usr, message="What do you want to name \
+		your fighter? Keep in mind that particularly terrible names may be \
+		rejected by your employers.", max_length=MAX_CHARTER_LEN)
+	if(!new_name || length(new_name) <= 0)
+		return
+	message_admins("[key_name_admin(usr)] renamed a fighter to [new_name] [ADMIN_LOOKUPFLW(src)].")
+	name = new_name
+
+/obj/structure/overmap/fighter/key_down(key, client/user)
+	. = ..()
+	var/mob/themob = user.mob
+	switch(key)
+		if("Capslock")
+			if(themob == pilot)
+				toggle_safety()
+			if(helm && prob(80))
+				var/sound = pick(GLOB.computer_beeps)
+				playsound(helm, sound, 100, 1)
+			return TRUE
 
 /obj/structure/overmap/fighter/ui_interact(mob/user, ui_key, datum/tgui/ui, force_open, datum/tgui/master_ui, datum/ui_state/state=GLOB.contained_state)
 	ui = SStgui.try_update_ui(user, src, ui_key, ui, force_open)
@@ -114,15 +151,15 @@ Repair
 	data["max_primary_ammo"] = 0
 
 	var/obj/item/fighter_component/apu/APU = loadout.get_slot(HARDPOINT_SLOT_APU)
-	data["fuel_pump"] = APU.fuel_line
+	data["fuel_pump"] = APU ? APU.fuel_line : FALSE
 
 	var/obj/item/fighter_component/battery/battery = loadout.get_slot(HARDPOINT_SLOT_BATTERY)
-	data["battery"] = battery.active
+	data["battery"] = battery? battery.active : battery
 
 	data["apu"] = APU.active
 	var/obj/item/fighter_component/engine/engine = loadout.get_slot(HARDPOINT_SLOT_ENGINE)
-	data["ignition"] = engine.active()
-	data["rpm"] = engine.rpm
+	data["ignition"] = engine ? engine.active() : FALSE
+	data["rpm"] = engine? engine.rpm : 0
 
 	for(var/slot in loadout.equippable_slots)
 		var/obj/item/fighter_component/weapon = loadout.hardpoint_slots[slot]
@@ -192,6 +229,9 @@ Repair
 			if(!APU)
 				to_chat(usr, "<span class='warning'>You can't send fuel to an APU that isn't installed.</span>")
 				return
+			var/obj/item/fighter_component/engine/engine = loadout.get_slot(HARDPOINT_SLOT_ENGINE)
+			if(!engine)
+				to_chat(usr, "<span class='warning'>You can't send fuel to an APU that isn't installed.</span>")
 			APU.toggle_fuel_line()
 			playsound(src, 'nsv13/sound/effects/fighters/warmup.ogg', 100, FALSE)
 		if("battery")
@@ -387,8 +427,25 @@ Repair
 						/obj/item/fighter_component/battery,
 						/obj/item/fighter_component/primary/cannon/heavy)
 
-/obj/structure/overmap/fighter/LateInitialize(mapload, build_components=components)
+//Syndie counterparts.
+/obj/structure/overmap/fighter/light/syndicate //PVP MODE
+	name = "Syndicate Light Fighter"
+	desc = "The Syndicate's answer to Nanotrasen's light fighter craft, this fighter is designed to maintain aerial supremacy."
+	icon = 'nsv13/icons/overmap/syndicate/syn_viper.dmi'
+	req_one_access = ACCESS_SYNDICATE
+	faction = "syndicate"
+	start_emagged = TRUE
+/obj/structure/overmap/fighter/utility/syndicate //PVP MODE
+	name = "Syndicate Utility Vessel"
+	desc = "A boarding craft for rapid troop deployment."
+	icon = 'nsv13/icons/overmap/syndicate/syn_raptor.dmi'
+	req_one_access = ACCESS_SYNDICATE
+	faction = "syndicate"
+	start_emagged = TRUE
+
+/obj/structure/overmap/fighter/Initialize(mapload, list/build_components=components)
 	. = ..()
+	apply_weapons()
 	loadout = AddComponent(loadout_type)
 	dradis = new /obj/machinery/computer/ship/dradis/internal(src) //Fighters need a way to find their way home.
 	dradis.linked = src
@@ -396,17 +453,20 @@ Repair
 	RegisterSignal(src, COMSIG_MOVABLE_MOVED, .proc/check_overmap_elegibility) //Used to smoothly transition from ship to overmap
 	add_overlay(image(icon = icon, icon_state = "canopy_open", dir = SOUTH))
 	var/obj/item/fighter_component/engine/engineGoesLast = null
-	for(var/Ctype in build_components)
-		var/obj/item/fighter_component/FC = new Ctype(get_turf(src))
-		if(istype(FC, /obj/item/fighter_component/engine))
-			engineGoesLast = FC
-			continue
-		loadout.install_hardpoint(FC)
+	if(build_components.len)
+		for(var/Ctype in build_components)
+			var/obj/item/fighter_component/FC = new Ctype(get_turf(src))
+			if(istype(FC, /obj/item/fighter_component/engine))
+				engineGoesLast = FC
+				continue
+			loadout.install_hardpoint(FC)
 	//Engines need to be the last thing that gets installed on init, or it'll cause bugs with drag.
 	if(engineGoesLast)
 		loadout.install_hardpoint(engineGoesLast)
 	obj_integrity = max_integrity //Update our health to reflect how much armour we've been given.
 	set_fuel(rand(500, 1000))
+	if(start_emagged)
+		obj_flags ^= EMAGGED
 
 /obj/structure/overmap/fighter/attackby(obj/item/W, mob/user, params)
 	for(var/slot in loadout.equippable_slots)
@@ -430,7 +490,7 @@ Repair
 			playsound(src, 'sound/effects/glasshit.ogg', 75, 1)
 			user.visible_message("<span class='warning'>You bang on the canopy.</span>", "<span class='warning'>[user] bangs on [src]'s canopy.</span>")
 			return FALSE
-		if(pilot ? --operators.len : operators.len >= max_passengers)
+		if(operators.len >= max_passengers)
 			to_chat(user, "<span class='warning'>[src]'s passenger compartment is full!")
 			return FALSE
 		to_chat(target, "[(user == target) ? "You start to climb into [src]'s passenger compartment" : "[user] starts to lift you into [src]'s passenger compartment"]")
@@ -696,6 +756,7 @@ If you need your hardpoint to be loaded with things by clicking the fighter
 	weight = 1
 	obj_integrity = 150
 	max_integrity = 150
+	armor = list("melee" = 50, "bullet" = 40, "laser" = 80, "energy" = 50, "bomb" = 50, "bio" = 100, "rad" = 100, "fire" = 100, "acid" = 80) //Armour's pretty tough.
 
 //Sometimes you need to repair your physical armour plates.
 /obj/item/fighter_component/armour_plating/welder_act(mob/living/user, obj/item/I)
@@ -852,7 +913,7 @@ If you need your hardpoint to be loaded with things by clicking the fighter
 /obj/structure/overmap/fighter/proc/use_fuel(force=FALSE)
 	if(!engines_active() && !force) //No fuel? don't spam them with master cautions / use any fuel
 		return FALSE
-	var/fuel_consumption = loadout.get_slot(HARDPOINT_SLOT_ENGINE)?.tier
+	var/fuel_consumption = 0.5*(loadout.get_slot(HARDPOINT_SLOT_ENGINE)?.tier)
 	var/amount = (user_thrust_dir) ? fuel_consumption+0.25 : fuel_consumption //When you're thrusting : fuel consumption doubles. Idling is cheap.
 	var/obj/item/fighter_component/fuel_tank/ft = loadout.get_slot(HARDPOINT_SLOT_FUEL)
 	if(!ft)
@@ -925,7 +986,7 @@ If you need your hardpoint to be loaded with things by clicking the fighter
 /obj/item/fighter_component/engine/process()
 	var/obj/structure/overmap/fighter/F = loc
 	var/obj/item/fighter_component/apu/APU = F.loadout.get_slot(HARDPOINT_SLOT_APU)
-	if(!APU.fuel_line && rpm > 0)
+	if(!APU?.fuel_line && rpm > 0)
 		rpm -= 1000 //Spool down the engine.
 		if(rpm <= 0)
 			playsound(loc, 'nsv13/sound/effects/ship/rcs.ogg', 100, TRUE)
@@ -936,14 +997,15 @@ If you need your hardpoint to be loaded with things by clicking the fighter
 			return FALSE
 	if(!istype(F))
 		return FALSE
-	if(!active())
-		return FALSE
-	if(rpm > 0)
+	if(rpm > 3000)
 		var/obj/item/fighter_component/battery/B = F.loadout.get_slot(HARDPOINT_SLOT_BATTERY)
 		B.give(500*tier)
+	if(!active())
+		return FALSE
 
 /obj/item/fighter_component/engine/proc/apu_spin(amount)
 	if(flooded)
+		loc.visible_message("<span class='warning'>[src] sputters uselessly.</span>")
 		return
 	rpm += amount
 	rpm = CLAMP(rpm, 0, ENGINE_RPM_SPUN)
@@ -1146,8 +1208,10 @@ Utility modules can be either one of these types, just ensure you set its slot t
 
 //Ensure we get the genericised equipment mounts.
 /obj/structure/overmap/fighter/apply_weapons()
-	weapon_types[FIRE_MODE_PDC] = new/datum/ship_weapon/fighter_primary(src)
-	weapon_types[FIRE_MODE_TORPEDO] = new/datum/ship_weapon/fighter_secondary(src)
+	if(!weapon_types[FIRE_MODE_PDC])
+		weapon_types[FIRE_MODE_PDC] = new/datum/ship_weapon/fighter_primary(src)
+	if(!weapon_types[FIRE_MODE_TORPEDO])
+		weapon_types[FIRE_MODE_TORPEDO] = new/datum/ship_weapon/fighter_secondary(src)
 
 /obj/structure/overmap/proc/primary_fire(obj/structure/overmap/target)
 	hardpoint_fire(target, FIRE_MODE_PDC)
@@ -1160,8 +1224,10 @@ Utility modules can be either one of these types, just ensure you set its slot t
 			//Look for any "primary" hardpoints, be those guns or utility slots
 			if(!weapon || weapon.fire_mode != fireMode)
 				continue
-			for(var/I = 0; I < weapon_types[weapon.fire_mode].burst_size; I++)
+			var/datum/ship_weapon/SW = weapon_types[weapon.fire_mode]
+			for(var/I = 0; I < SW.burst_size; I++)
 				weapon.fire(target)
+				sleep(1)
 			return TRUE
 	return FALSE
 
@@ -1211,14 +1277,14 @@ Utility modules can be either one of these types, just ensure you set its slot t
 	ammo = list()
 
 /obj/item/fighter_component/primary/cannon
-	name = "40mm Vulcan Cannon"
+	name = "30mm Vulcan Cannon"
 	icon_state = "lightcannon"
 	accepted_ammo = /obj/item/ammo_box/magazine/light_cannon
 	burst_size = 2
 	fire_delay = 0.25 SECONDS
 
 /obj/item/fighter_component/primary/cannon/heavy
-	name = "40mm Vulcan Cannon"
+	name = "40mm BRRRRTT Cannon"
 	icon_state = "heavycannon"
 	accepted_ammo = /obj/item/ammo_box/magazine/heavy_cannon
 	weight = 2 //Sloooow down there.
@@ -1364,7 +1430,7 @@ Utility modules can be either one of these types, just ensure you set its slot t
 	max_freight = 20
 
 /obj/item/fighter_component/primary/utility/hold/load(obj/structure/overmap/target, atom/movable/AM)
-	if(contents && contents.len >= max_freight || isliving(AM) || istype(AM, /obj/item/fighter_component)) //This just causess issues, trust me on this)
+	if(contents && contents.len >= max_freight || isliving(AM) || istype(AM, /obj/item/fighter_component) || istype(AM, /obj/item/card/id) || istype(AM, /obj/item/pda)) //This just causess issues, trust me on this)
 		return FALSE
 	AM.forceMove(src)
 	target.visible_message("[icon2html(src)] [AM] is loaded into the cargo hold")
@@ -1470,7 +1536,7 @@ Utility modules can be either one of these types, just ensure you set its slot t
 	fire_delay = 5 SECONDS
 	tier = 2
 
-/obj/item/fighter_component/secondary/utility/resupply/tier2
+/obj/item/fighter_component/secondary/utility/resupply/tier3
 	name = "Super Air To Air Resupply Kit"
 	fire_delay = 3 SECONDS
 	tier = 3
