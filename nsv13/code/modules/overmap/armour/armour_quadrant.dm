@@ -156,3 +156,4 @@
 		if(!check_rights(NONE)) //Hmm?
 			return
 		full_repair()
+		message_admins("Admin [key_name_admin(usr)] has fully repaired [src].")
