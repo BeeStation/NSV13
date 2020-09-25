@@ -153,7 +153,7 @@
 /obj/structure/overmap/vv_do_topic(list/href_list)
 	. = ..()
 	if(href_list[VV_HK_FULL_REPAIR])
-		if(!check_rights(NONE)) //Hmm?
+		if(!check_rights(R_DEBUG)) //Hmm?
 			return
 		full_repair()
 		message_admins("Admin [key_name_admin(usr)] has fully repaired [src].")
