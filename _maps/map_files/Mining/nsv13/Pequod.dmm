@@ -9,6 +9,15 @@
 /obj/structure/cable{
 	icon_state = "0-8"
 	},
+/obj/effect/turf_decal/tile/ship/blue,
+/obj/effect/turf_decal/tile/ship/blue{
+	dir = 4;
+	icon_state = "bordercorner"
+	},
+/obj/effect/turf_decal/tile/ship/blue{
+	dir = 8;
+	icon_state = "bordercorner"
+	},
 /turf/open/floor/plasteel/dark,
 /area/nostromo/bridge)
 "aE" = (
@@ -18,9 +27,6 @@
 	},
 /obj/structure/cable{
 	icon_state = "4-8"
-	},
-/obj/structure/cable{
-	icon_state = "1-8"
 	},
 /turf/open/floor/plasteel/grid/mono,
 /area/nostromo/medbay)
@@ -37,8 +43,8 @@
 /turf/open/floor/plasteel/dark,
 /area/nostromo/mining)
 "aX" = (
-/obj/structure/chair/sofa/right,
-/turf/open/floor/carpet/blue,
+/obj/machinery/vending/coffee,
+/turf/open/floor/wood,
 /area/nostromo/crew_quarters)
 "aY" = (
 /obj/structure/table/wood/bar,
@@ -50,21 +56,25 @@
 /turf/open/floor/plasteel/dark,
 /area/nostromo/mining)
 "bB" = (
-/obj/machinery/atmospherics/components/unary/vent_pump/on/layer1{
-	dir = 1
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
+	dir = 9;
+	icon_state = "pipe11-2"
 	},
+/obj/effect/turf_decal/tile/yellow{
+	dir = 8
+	},
+/obj/effect/turf_decal/tile/yellow,
 /turf/open/floor/plasteel/dark,
 /area/nostromo/engineering)
 "bJ" = (
-/obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1{
-	dir = 8
-	},
+/obj/machinery/atmospherics/components/unary/outlet_injector/on/layer3,
+/obj/structure/window/reinforced,
 /turf/open/floor/plasteel/dark,
 /area/nostromo/engineering)
 "bN" = (
-/obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1{
-	dir = 1;
-	icon_state = "manifold-1"
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	dir = 4;
+	icon_state = "pipe11-1"
 	},
 /obj/structure/cable{
 	icon_state = "4-8"
@@ -83,14 +93,19 @@
 /turf/open/floor/plasteel/dark,
 /area/nostromo/mining)
 "ci" = (
-/obj/machinery/atmospherics/components/unary/tank/air,
-/turf/open/floor/plasteel/dark,
+/obj/structure/sign/poster/official/moth5,
+/turf/closed/wall/mineral/iron,
 /area/nostromo/engineering)
 "co" = (
 /obj/machinery/computer/ship/helm{
 	dir = 8;
 	req_access = null;
 	req_one_access_txt = "31;48"
+	},
+/obj/effect/turf_decal/tile/ship/blue,
+/obj/effect/turf_decal/tile/ship/blue{
+	dir = 4;
+	icon_state = "bordercorner"
 	},
 /turf/open/floor/plasteel/dark,
 /area/nostromo/bridge)
@@ -110,12 +125,16 @@
 /area/nostromo/mining)
 "cB" = (
 /obj/machinery/telecomms/relay/preset/mining,
+/obj/effect/turf_decal/tile/yellow{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/yellow{
+	dir = 4
+	},
 /turf/open/floor/plasteel/dark,
 /area/nostromo/engineering)
 "cY" = (
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
-	dir = 4
-	},
+/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	dir = 4;
 	icon_state = "pipe11-1"
@@ -145,15 +164,17 @@
 /turf/open/floor/plasteel/dark,
 /area/nostromo/bridge)
 "eq" = (
-/obj/structure/shuttle/engine/large{
-	dir = 8
+/obj/effect/turf_decal/tile/yellow{
+	dir = 1
 	},
-/turf/open/space/basic,
-/area/space)
+/obj/effect/turf_decal/tile/yellow{
+	dir = 4
+	},
+/turf/open/floor/plasteel/dark,
+/area/nostromo/engineering)
 "eB" = (
-/obj/structure/closet,
-/obj/item/clothing/mask/facehugger/toy,
-/turf/open/floor/wood,
+/obj/structure/sign/poster/official/moth9,
+/turf/closed/wall/mineral/iron,
 /area/nostromo/crew_quarters)
 "eD" = (
 /turf/closed/wall/mineral/iron,
@@ -166,7 +187,7 @@
 /obj/structure/cable{
 	icon_state = "4-8"
 	},
-/turf/open/floor/carpet/blue,
+/turf/open/floor/wood,
 /area/nostromo/crew_quarters)
 "eU" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
@@ -176,7 +197,12 @@
 /obj/structure/cable{
 	icon_state = "4-8"
 	},
-/turf/open/floor/wood,
+/obj/machinery/door/airlock/ship/public{
+	dir = 8
+	},
+/obj/machinery/door/firedoor/border_only/directional/west,
+/obj/machinery/door/firedoor/border_only/directional/east,
+/turf/open/floor/monotile/dark,
 /area/nostromo/crew_quarters)
 "eV" = (
 /obj/structure/hull_plate/end{
@@ -192,14 +218,21 @@
 /turf/open/floor/plasteel/dark,
 /area/nostromo/bridge)
 "fc" = (
-/obj/machinery/light{
+/obj/machinery/atmospherics/components/trinary/filter/atmos/flipped/o2{
 	dir = 4
 	},
-/obj/machinery/iv_drip,
-/turf/open/floor/plasteel/grid/mono,
-/area/nostromo/medbay)
+/turf/open/floor/plasteel/dark,
+/area/nostromo/engineering)
 "fp" = (
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
+/obj/machinery/light{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/yellow{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/yellow{
+	dir = 4
+	},
 /turf/open/floor/plasteel/dark,
 /area/nostromo/engineering)
 "fv" = (
@@ -213,6 +246,10 @@
 	},
 /obj/structure/cable{
 	icon_state = "4-8"
+	},
+/obj/effect/turf_decal/tile/yellow,
+/obj/effect/turf_decal/tile/yellow{
+	dir = 4
 	},
 /turf/open/floor/plasteel/dark,
 /area/nostromo/engineering)
@@ -228,20 +265,26 @@
 /turf/open/floor/plating/airless,
 /area/space/nearstation)
 "gy" = (
-/obj/structure/sign/poster/official/moth9,
-/turf/closed/wall/mineral/iron,
+/obj/structure/table/reinforced,
+/obj/effect/turf_decal/tile/green{
+	dir = 4
+	},
+/obj/effect/turf_decal/tile/green,
+/obj/effect/turf_decal/tile/green{
+	dir = 8;
+	icon_state = "tile_corner"
+	},
+/obj/effect/turf_decal/tile/green,
+/turf/open/floor/plasteel/grid/mono,
 /area/nostromo/medbay)
 "gO" = (
 /obj/structure/sign/departments/minsky/supply/mining,
 /turf/closed/wall/mineral/iron,
 /area/nostromo/mining)
-"hm" = (
-/obj/machinery/atmospherics/pipe/layer_manifold,
-/obj/structure/cable{
-	icon_state = "4-8"
-	},
-/turf/open/floor/plasteel/dark,
-/area/nostromo/engineering)
+"hh" = (
+/obj/machinery/vending/boozeomat/all_access,
+/turf/open/floor/wood,
+/area/nostromo/crew_quarters)
 "hp" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer1{
 	dir = 1;
@@ -249,12 +292,16 @@
 	},
 /turf/open/floor/plasteel/dark,
 /area/nostromo/mining)
+"hw" = (
+/obj/structure/table/optable,
+/turf/open/floor/plasteel/grid/mono,
+/area/nostromo/medbay)
 "hz" = (
 /obj/machinery/computer/arcade/amputation,
 /obj/machinery/airalarm/directional/north,
 /turf/open/floor/wood,
 /area/nostromo/crew_quarters)
-"hF" = (
+"hD" = (
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on{
 	dir = 1;
 	icon_state = "scrub_map_on-2"
@@ -262,10 +309,16 @@
 /turf/open/floor/plasteel/grid/mono,
 /area/nostromo/medbay)
 "hK" = (
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
-/obj/structure/cable{
-	icon_state = "1-2"
+/obj/machinery/firealarm/directional/north,
+/obj/effect/turf_decal/tile/green{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/green{
+	dir = 4;
+	icon_state = "tile_corner"
+	},
+/obj/effect/turf_decal/tile/green{
+	dir = 8
 	},
 /turf/open/floor/plasteel/grid/mono,
 /area/nostromo/medbay)
@@ -291,70 +344,63 @@
 /turf/open/floor/plasteel/dark,
 /area/nostromo/mining)
 "id" = (
-/obj/structure/table/reinforced,
-/obj/item/storage/firstaid/brute{
-	pixel_x = 5;
-	pixel_y = 5
-	},
-/obj/item/storage/firstaid/toxin,
-/obj/item/storage/firstaid/regular,
-/obj/item/storage/firstaid/o2,
-/obj/item/storage/firstaid/fire,
-/obj/machinery/light{
+/obj/machinery/atmospherics/components/trinary/filter/atmos/flipped/n2{
 	dir = 4
 	},
-/turf/open/floor/plasteel/grid/mono,
-/area/nostromo/medbay)
-"io" = (
-/obj/machinery/shower{
-	dir = 8;
-	pixel_y = -5
-	},
-/obj/structure/window/reinforced/tinted,
-/obj/structure/window/reinforced/tinted{
-	dir = 1
-	},
 /turf/open/floor/plasteel/dark,
+/area/nostromo/engineering)
+"im" = (
+/obj/structure/table/reinforced,
+/obj/item/storage/backpack/duffelbag/med/surgery,
+/obj/effect/turf_decal/tile/green{
+	dir = 4
+	},
+/obj/effect/turf_decal/tile/green,
+/turf/open/floor/plasteel/grid/mono,
 /area/nostromo/crew_quarters)
 "iq" = (
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
-	dir = 8;
-	icon_state = "pipe11-2"
+/obj/machinery/atmospherics/components/binary/pump/on{
+	dir = 8
 	},
 /turf/open/floor/plasteel/dark,
 /area/nostromo/engineering)
 "iA" = (
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
 /obj/structure/cable{
 	icon_state = "4-8"
 	},
 /obj/structure/cable{
-	icon_state = "4-8"
-	},
-/obj/structure/cable{
-	icon_state = "4-8"
+	icon_state = "1-8"
 	},
 /turf/open/floor/plasteel/dark,
 /area/nostromo/engineering)
 "iD" = (
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
-	dir = 5
+/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden{
+	dir = 1;
+	icon_state = "manifold-2"
 	},
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
-	dir = 4;
-	icon_state = "pipe11-1"
+/obj/structure/cable{
+	icon_state = "1-2"
 	},
 /turf/open/floor/plasteel/dark,
 /area/nostromo/engineering)
 "iG" = (
-/obj/machinery/vending/coffee,
-/turf/open/floor/wood,
-/area/nostromo/crew_quarters)
+/obj/effect/turf_decal/tile/yellow,
+/obj/effect/turf_decal/tile/yellow{
+	dir = 4
+	},
+/turf/open/floor/plasteel/dark,
+/area/nostromo/engineering)
 "iY" = (
 /obj/machinery/computer/ship/tactical{
 	dir = 8;
 	req_access = null;
 	req_one_access_txt = "31;48"
+	},
+/obj/effect/turf_decal/tile/ship/blue,
+/obj/effect/turf_decal/tile/ship/blue{
+	dir = 4;
+	icon_state = "bordercorner"
 	},
 /turf/open/floor/plasteel/dark,
 /area/nostromo/bridge)
@@ -404,6 +450,7 @@
 	dir = 4
 	},
 /obj/structure/ore_box,
+/obj/effect/turf_decal/delivery,
 /turf/open/floor/plasteel/dark,
 /area/nostromo/mining)
 "lf" = (
@@ -414,19 +461,19 @@
 /obj/structure/cable{
 	icon_state = "4-8"
 	},
-/obj/machinery/door/airlock/ship/public{
-	dir = 8
+/obj/structure/cable{
+	icon_state = "1-8"
 	},
-/obj/machinery/door/firedoor/border_only/directional/west,
-/obj/machinery/door/firedoor/border_only/directional/east,
-/turf/open/floor/monotile/dark,
+/obj/effect/turf_decal/tile/green{
+	dir = 4
+	},
+/obj/effect/turf_decal/tile/green,
+/turf/open/floor/plasteel/grid/mono,
 /area/nostromo/crew_quarters)
 "li" = (
 /obj/structure/chair/sofa,
-/obj/effect/landmark/start/shaft_miner,
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
-	dir = 4;
-	icon_state = "pipe11-1"
+/obj/machinery/light{
+	dir = 1
 	},
 /turf/open/floor/carpet/blue,
 /area/nostromo/crew_quarters)
@@ -493,12 +540,19 @@
 	desc = "A treat for a certain miner."
 	},
 /obj/item/ammo_box/magazine/pdc/flak,
+/obj/effect/turf_decal/delivery,
 /turf/open/floor/plasteel/dark,
 /area/nostromo/mining)
 "mi" = (
-/obj/machinery/power/apc/auto_name/north,
-/obj/structure/cable{
-	icon_state = "0-2"
+/obj/machinery/light{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/green{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/green{
+	dir = 4;
+	icon_state = "tile_corner"
 	},
 /turf/open/floor/plasteel/grid/mono,
 /area/nostromo/medbay)
@@ -507,6 +561,12 @@
 /area/space/nearstation)
 "mJ" = (
 /obj/structure/table/reinforced,
+/obj/item/defibrillator/loaded,
+/obj/effect/turf_decal/tile/green{
+	dir = 8;
+	icon_state = "tile_corner"
+	},
+/obj/effect/turf_decal/tile/green,
 /turf/open/floor/plasteel/grid/mono,
 /area/nostromo/medbay)
 "mO" = (
@@ -526,17 +586,18 @@
 /turf/open/space/basic,
 /area/space)
 "nd" = (
-/obj/structure/table,
-/obj/machinery/light{
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
+/obj/effect/turf_decal/tile/yellow{
 	dir = 1
 	},
-/obj/item/folder/white,
-/obj/item/toy/figure/miner,
-/obj/machinery/firealarm/directional/north,
+/obj/effect/turf_decal/tile/yellow{
+	dir = 4
+	},
 /turf/open/floor/plasteel/dark,
 /area/nostromo/engineering)
 "no" = (
 /obj/structure/ore_box,
+/obj/effect/turf_decal/delivery,
 /turf/open/floor/plasteel/dark,
 /area/nostromo/mining)
 "np" = (
@@ -575,33 +636,72 @@
 /turf/open/floor/plating,
 /area/nostromo/engineering)
 "pu" = (
-/obj/machinery/power/apc/auto_name/north,
-/obj/structure/cable{
-	icon_state = "0-2"
+/obj/machinery/airalarm/directional/north,
+/obj/effect/turf_decal/tile/yellow{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/yellow{
+	dir = 4
 	},
 /turf/open/floor/plasteel/dark,
 /area/nostromo/engineering)
+"pw" = (
+/obj/structure/closet,
+/obj/item/clothing/mask/facehugger/toy,
+/turf/open/floor/wood,
+/area/nostromo/crew_quarters)
 "px" = (
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
 /obj/structure/cable{
 	icon_state = "4-8"
-	},
-/obj/structure/cable{
-	icon_state = "1-8"
 	},
 /turf/open/floor/plasteel/dark,
 /area/nostromo/engineering)
 "pD" = (
+/obj/structure/shuttle/engine/huge{
+	dir = 8;
+	icon_state = "huge_engine"
+	},
+/turf/open/space/basic,
+/area/space)
+"pO" = (
 /obj/structure/table/reinforced,
-/obj/item/storage/backpack/duffelbag/med/surgery,
+/obj/item/clothing/glasses/welding,
+/obj/item/weldingtool,
+/obj/item/stack/cable_coil,
+/obj/effect/turf_decal/tile/green{
+	dir = 4
+	},
+/obj/effect/turf_decal/tile/green,
+/turf/open/floor/plasteel/grid/mono,
+/area/nostromo/medbay)
+"qb" = (
+/obj/structure/table/reinforced,
+/obj/item/storage/firstaid/brute{
+	pixel_x = 5;
+	pixel_y = 5
+	},
+/obj/item/storage/firstaid/toxin,
+/obj/item/storage/firstaid/regular,
+/obj/item/storage/firstaid/o2,
+/obj/item/storage/firstaid/fire,
+/obj/machinery/light{
+	dir = 4
+	},
+/obj/effect/turf_decal/tile/green{
+	dir = 4
+	},
+/obj/effect/turf_decal/tile/green,
 /turf/open/floor/plasteel/grid/mono,
 /area/nostromo/medbay)
 "qN" = (
 /turf/closed/wall/mineral/iron,
 /area/nostromo/crew_quarters)
 "qX" = (
-/obj/structure/sign/poster/official/moth5,
-/turf/closed/wall/mineral/iron,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/turf/open/floor/plasteel/dark,
 /area/nostromo/engineering)
 "rh" = (
 /obj/machinery/light{
@@ -618,6 +718,9 @@
 	},
 /turf/open/floor/monotile,
 /area/nostromo/mining)
+"rs" = (
+/turf/open/floor/plasteel/dark,
+/area/crew_quarters/toilet)
 "rH" = (
 /obj/machinery/suit_storage_unit/mining/eva,
 /obj/machinery/firealarm/directional/north,
@@ -715,13 +818,22 @@
 /turf/open/floor/plasteel/dark,
 /area/nostromo/mining)
 "tA" = (
-/obj/machinery/atmospherics/components/unary/outlet_injector/on/layer3,
-/obj/structure/window/reinforced,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	dir = 4;
+	icon_state = "pipe11-1"
+	},
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
 /turf/open/floor/plasteel/dark,
 /area/nostromo/engineering)
 "tB" = (
-/obj/machinery/light{
+/obj/machinery/rnd/production/protolathe/department/cargo,
+/obj/effect/turf_decal/tile/yellow{
 	dir = 1
+	},
+/obj/effect/turf_decal/tile/yellow{
+	dir = 4
 	},
 /turf/open/floor/plasteel/dark,
 /area/nostromo/engineering)
@@ -752,10 +864,6 @@
 /turf/open/floor/plasteel/dark,
 /area/nostromo/mining)
 "tM" = (
-/obj/machinery/atmospherics/components/unary/vent_pump/on/layer1{
-	dir = 1;
-	icon_state = "vent_map_on-1"
-	},
 /turf/open/floor/carpet/blue,
 /area/nostromo/crew_quarters)
 "tS" = (
@@ -766,10 +874,28 @@
 /obj/structure/cable{
 	icon_state = "1-4"
 	},
+/obj/effect/turf_decal/tile/ship/blue{
+	dir = 8;
+	icon_state = "bordercorner"
+	},
+/obj/effect/turf_decal/tile/ship/blue,
+/obj/effect/turf_decal/tile/ship/blue{
+	dir = 1;
+	icon_state = "bordercorner"
+	},
 /turf/open/floor/plasteel/dark,
 /area/nostromo/bridge)
 "uo" = (
-/obj/structure/table/optable,
+/obj/machinery/light{
+	dir = 8
+	},
+/obj/effect/landmark/start/shaft_miner,
+/obj/effect/turf_decal/tile/green{
+	dir = 8
+	},
+/obj/effect/turf_decal/tile/green{
+	dir = 1
+	},
 /turf/open/floor/plasteel/grid/mono,
 /area/nostromo/medbay)
 "uK" = (
@@ -814,13 +940,23 @@
 /turf/closed/wall/mineral/iron,
 /area/nostromo/medbay)
 "wC" = (
-/obj/effect/decal/cleanable/dirt/dust,
+/obj/machinery/atmospherics/components/unary/vent_pump/on/layer1{
+	dir = 1;
+	icon_state = "vent_map_on-1"
+	},
 /turf/open/floor/carpet/blue,
 /area/nostromo/crew_quarters)
 "wD" = (
-/obj/structure/sign/poster/official/no_erp,
-/turf/closed/wall/mineral/iron,
-/area/nostromo/crew_quarters)
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
+	dir = 9;
+	icon_state = "pipe11-2"
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	dir = 4;
+	icon_state = "pipe11-1"
+	},
+/turf/open/floor/plasteel/dark,
+/area/nostromo/engineering)
 "wE" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	dir = 4;
@@ -834,32 +970,53 @@
 /turf/open/space/basic,
 /area/space)
 "wY" = (
-/obj/structure/cable{
-	icon_state = "2-4"
+/obj/machinery/atmospherics/pipe/layer_manifold,
+/obj/effect/turf_decal/tile/yellow{
+	dir = 1
 	},
-/turf/open/floor/plasteel/dark,
-/area/nostromo/engineering)
-"wZ" = (
-/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden{
+/obj/effect/turf_decal/tile/yellow{
 	dir = 8
 	},
 /turf/open/floor/plasteel/dark,
 /area/nostromo/engineering)
-"xe" = (
-/obj/machinery/door/airlock/ship/public{
-	name = "Quiet Room"
+"wZ" = (
+/obj/structure/shuttle/engine/large{
+	dir = 8
 	},
-/obj/machinery/door/firedoor/border_only/directional/south,
-/obj/machinery/door/firedoor/border_only/directional/north,
-/turf/open/floor/wood,
-/area/nostromo/crew_quarters)
+/turf/open/space/basic,
+/area/space)
+"xe" = (
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
+	dir = 6;
+	icon_state = "pipe11-2"
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	dir = 10
+	},
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
+/obj/effect/turf_decal/tile/yellow{
+	dir = 8
+	},
+/obj/effect/turf_decal/tile/yellow,
+/turf/open/floor/plasteel/dark,
+/area/nostromo/engineering)
 "xt" = (
-/obj/structure/table/reinforced,
-/obj/item/clothing/glasses/welding,
-/obj/item/weldingtool,
-/obj/item/stack/cable_coil,
-/turf/open/floor/plasteel/grid/mono,
-/area/nostromo/medbay)
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
+	dir = 8;
+	icon_state = "pipe11-2"
+	},
+/obj/structure/table,
+/obj/item/pickaxe,
+/obj/item/tank/internals/oxygen,
+/obj/item/clothing/mask/gas/explorer,
+/obj/effect/turf_decal/tile/yellow{
+	dir = 8
+	},
+/obj/effect/turf_decal/tile/yellow,
+/turf/open/floor/plasteel/dark,
+/area/nostromo/engineering)
 "xL" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
 	dir = 8;
@@ -921,22 +1078,25 @@
 /turf/open/floor/plasteel/dark,
 /area/nostromo/mining)
 "yp" = (
-/obj/machinery/atmospherics/components/trinary/filter/atmos/flipped/o2{
-	dir = 4
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
+	dir = 8;
+	icon_state = "pipe11-2"
 	},
 /turf/open/floor/plasteel/dark,
 /area/nostromo/engineering)
 "yt" = (
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
-/obj/structure/cable{
-	icon_state = "1-2"
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
+	dir = 8;
+	icon_state = "pipe11-2"
 	},
-/obj/machinery/door/airlock/ship/public,
-/obj/machinery/door/firedoor/border_only/directional/north,
-/obj/machinery/door/firedoor/border_only/directional/south,
-/turf/open/floor/monotile,
-/area/nostromo/medbay)
+/obj/machinery/light,
+/obj/effect/turf_decal/tile/yellow{
+	dir = 8
+	},
+/obj/effect/turf_decal/tile/yellow,
+/turf/open/floor/plasteel/dark,
+/area/nostromo/engineering)
 "yz" = (
 /obj/structure/closet/secure_closet/miner,
 /turf/open/floor/plasteel/dark,
@@ -959,6 +1119,14 @@
 	icon_state = "0-8"
 	},
 /obj/machinery/power/apc/auto_name/north,
+/obj/effect/turf_decal/tile/ship/blue{
+	dir = 4;
+	icon_state = "bordercorner"
+	},
+/obj/effect/turf_decal/tile/ship/blue{
+	dir = 1;
+	icon_state = "bordercorner"
+	},
 /turf/open/floor/plasteel/dark,
 /area/nostromo/bridge)
 "zs" = (
@@ -973,8 +1141,12 @@
 /turf/closed/wall/mineral/iron,
 /area/nostromo/crew_quarters)
 "zH" = (
-/obj/structure/table/reinforced,
-/obj/item/defibrillator/loaded,
+/obj/structure/closet/crate/freezer/blood,
+/obj/effect/turf_decal/tile/green{
+	dir = 8;
+	icon_state = "tile_corner"
+	},
+/obj/effect/turf_decal/tile/green,
 /turf/open/floor/plasteel/grid/mono,
 /area/nostromo/medbay)
 "Ao" = (
@@ -1000,15 +1172,23 @@
 /obj/structure/cable{
 	icon_state = "1-2"
 	},
+/obj/effect/turf_decal/tile/ship/blue{
+	dir = 1;
+	icon_state = "bordercorner"
+	},
+/obj/effect/turf_decal/tile/ship/blue{
+	dir = 8;
+	icon_state = "bordercorner"
+	},
 /turf/open/floor/plasteel/dark,
 /area/nostromo/bridge)
 "Ay" = (
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
-	dir = 4;
-	icon_state = "pipe11-1"
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
+/obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1{
+	dir = 8
 	},
 /obj/structure/cable{
-	icon_state = "4-8"
+	icon_state = "1-4"
 	},
 /turf/open/floor/plasteel/grid/mono,
 /area/nostromo/medbay)
@@ -1017,6 +1197,18 @@
 	icon_state = "2-4"
 	},
 /obj/machinery/firealarm/directional/north,
+/obj/effect/turf_decal/tile/ship/blue{
+	dir = 1;
+	icon_state = "bordercorner"
+	},
+/obj/effect/turf_decal/tile/ship/blue{
+	dir = 8;
+	icon_state = "bordercorner"
+	},
+/obj/effect/turf_decal/tile/ship/blue{
+	dir = 4;
+	icon_state = "bordercorner"
+	},
 /turf/open/floor/plasteel/dark,
 /area/nostromo/bridge)
 "Bn" = (
@@ -1044,6 +1236,13 @@
 /area/nostromo/mining)
 "Bs" = (
 /obj/machinery/vending/sovietsoda,
+/obj/effect/turf_decal/tile/yellow,
+/obj/effect/turf_decal/tile/yellow{
+	dir = 4
+	},
+/obj/effect/turf_decal/tile/yellow{
+	dir = 1
+	},
 /turf/open/floor/plasteel/dark,
 /area/nostromo/engineering)
 "BB" = (
@@ -1057,25 +1256,34 @@
 /obj/machinery/ship_weapon/pdc_mount/flak,
 /turf/open/floor/plasteel/dark,
 /area/nostromo/mining)
+"BC" = (
+/obj/structure/sink{
+	dir = 4;
+	pixel_x = 11
+	},
+/turf/open/floor/plasteel/dark,
+/area/crew_quarters/toilet)
 "Cn" = (
 /obj/effect/turf_decal/arrows/red,
+/obj/effect/turf_decal/tile/yellow{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/yellow{
+	dir = 4
+	},
 /turf/open/floor/plasteel/dark,
 /area/nostromo/engineering)
 "Cq" = (
-/obj/machinery/door/airlock/ship/public{
-	dir = 4;
-	name = "Quiet Room"
-	},
-/obj/machinery/door/firedoor/border_only/directional/west,
-/obj/machinery/door/firedoor/border_only/directional/east,
-/turf/open/floor/wood,
-/area/nostromo/crew_quarters)
+/obj/structure/sign/poster/official/no_erp,
+/turf/closed/wall/mineral/iron,
+/area/crew_quarters/toilet)
 "Cv" = (
-/obj/structure/shuttle/engine/propulsion/burst/cargo{
+/obj/effect/turf_decal/tile/yellow{
 	dir = 8
 	},
-/turf/open/space/basic,
-/area/space)
+/obj/effect/turf_decal/tile/yellow,
+/turf/open/floor/plasteel/dark,
+/area/nostromo/engineering)
 "Cz" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
@@ -1087,6 +1295,14 @@
 	},
 /turf/open/floor/plasteel/dark,
 /area/nostromo/engineering)
+"CK" = (
+/obj/machinery/door/airlock/ship/public{
+	name = "Quiet Room"
+	},
+/obj/machinery/door/firedoor/border_only/directional/south,
+/obj/machinery/door/firedoor/border_only/directional/north,
+/turf/open/floor/wood,
+/area/nostromo/crew_quarters)
 "Dl" = (
 /obj/structure/hull_plate,
 /obj/machinery/door/airlock/ship/external/glass{
@@ -1097,21 +1313,30 @@
 /turf/open/floor/monotile,
 /area/nostromo/mining)
 "DG" = (
-/obj/machinery/light{
-	dir = 8
+/obj/item/twohanded/required/kirbyplants/random,
+/obj/effect/turf_decal/tile/yellow,
+/obj/effect/turf_decal/tile/yellow{
+	dir = 4
 	},
-/turf/closed/wall/mineral/iron,
-/area/nostromo/engineering)
-"DU" = (
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
-	dir = 4;
-	icon_state = "pipe11-1"
+/obj/effect/turf_decal/tile/yellow{
+	dir = 8
 	},
 /turf/open/floor/plasteel/dark,
 /area/nostromo/engineering)
+"DU" = (
+/obj/structure/shuttle/engine/propulsion/burst/cargo{
+	dir = 8
+	},
+/turf/open/space/basic,
+/area/space)
 "En" = (
-/obj/structure/closet/crate/freezer/blood,
+/obj/effect/turf_decal/tile/green{
+	dir = 8
+	},
+/obj/effect/turf_decal/tile/green{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/green,
 /turf/open/floor/plasteel/grid/mono,
 /area/nostromo/medbay)
 "EU" = (
@@ -1124,12 +1349,14 @@
 /turf/open/floor/plasteel/dark,
 /area/nostromo/mining)
 "EX" = (
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
-	dir = 4;
-	icon_state = "pipe11-1"
+/obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1{
+	dir = 8
 	},
-/obj/structure/cable{
-	icon_state = "1-2"
+/obj/effect/turf_decal/tile/yellow{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/yellow{
+	dir = 8
 	},
 /turf/open/floor/plasteel/dark,
 /area/nostromo/engineering)
@@ -1154,8 +1381,7 @@
 /area/nostromo/bridge)
 "FS" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
-	dir = 9;
-	icon_state = "pipe11-2"
+	dir = 4
 	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	dir = 4;
@@ -1182,34 +1408,22 @@
 /turf/open/floor/plasteel/dark,
 /area/nostromo/bridge)
 "Gn" = (
-/obj/structure/chair/sofa,
-/obj/machinery/light{
-	dir = 1
-	},
+/obj/structure/chair/sofa/right,
 /turf/open/floor/carpet/blue,
 /area/nostromo/crew_quarters)
 "Gp" = (
-/obj/structure/shuttle/engine/huge{
-	dir = 8;
-	icon_state = "huge_engine"
-	},
-/turf/open/space/basic,
-/area/space)
+/obj/structure/sign/directions/plaque/medical,
+/turf/closed/wall/mineral/iron,
+/area/nostromo/medbay)
 "Gz" = (
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
-/obj/machinery/atmospherics/components/unary/vent_pump/on/layer1{
-	dir = 1;
-	icon_state = "vent_map_on-1"
+/obj/effect/turf_decal/tile/green{
+	dir = 8
+	},
+/obj/effect/turf_decal/tile/green{
+	dir = 1
 	},
 /turf/open/floor/plasteel/grid/mono,
 /area/nostromo/medbay)
-"GX" = (
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
-	dir = 9;
-	icon_state = "pipe11-2"
-	},
-/turf/open/floor/plasteel/dark,
-/area/nostromo/engineering)
 "Hd" = (
 /obj/structure/railing/corner{
 	dir = 4
@@ -1217,14 +1431,13 @@
 /obj/structure/cable{
 	icon_state = "4-8"
 	},
+/obj/effect/turf_decal/tile/ship/blue{
+	dir = 8;
+	icon_state = "bordercorner"
+	},
+/obj/effect/turf_decal/tile/ship/blue,
 /turf/open/floor/plasteel/dark,
 /area/nostromo/bridge)
-"Ho" = (
-/obj/machinery/atmospherics/components/binary/pump/on{
-	dir = 8
-	},
-/turf/open/floor/plasteel/dark,
-/area/nostromo/engineering)
 "HA" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	dir = 5;
@@ -1257,10 +1470,20 @@
 	icon_state = "1-2"
 	},
 /obj/effect/landmark/start/shaft_miner,
+/obj/effect/turf_decal/tile/ship/blue{
+	dir = 1;
+	icon_state = "bordercorner"
+	},
+/obj/effect/turf_decal/tile/ship/blue{
+	dir = 8;
+	icon_state = "bordercorner"
+	},
 /turf/open/floor/plasteel/dark,
 /area/nostromo/bridge)
 "Is" = (
-/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
+	dir = 5
+	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	dir = 4;
 	icon_state = "pipe11-1"
@@ -1309,27 +1532,18 @@
 /obj/machinery/light{
 	dir = 4
 	},
+/obj/effect/turf_decal/tile/yellow,
+/obj/effect/turf_decal/tile/yellow{
+	dir = 4
+	},
 /turf/open/floor/plasteel/dark,
 /area/nostromo/engineering)
 "IN" = (
 /turf/closed/wall/mineral/iron,
 /area/nostromo/mining)
-"IQ" = (
-/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden{
-	dir = 1;
-	icon_state = "manifold-2"
-	},
-/obj/structure/cable{
-	icon_state = "1-2"
-	},
-/turf/open/floor/plasteel/dark,
-/area/nostromo/engineering)
 "IR" = (
-/obj/machinery/cryopod{
-	dir = 4;
-	icon_state = "cryopod-open"
-	},
-/turf/open/floor/wood,
+/obj/machinery/computer/cryopod,
+/turf/closed/wall/mineral/iron,
 /area/nostromo/crew_quarters)
 "IT" = (
 /obj/structure/sign/poster/official/moth4,
@@ -1343,12 +1557,20 @@
 /turf/open/floor/plating,
 /area/space/nearstation)
 "Jt" = (
-/obj/machinery/light{
-	dir = 8
+/obj/machinery/power/apc/auto_name/north,
+/obj/structure/cable{
+	icon_state = "0-2"
 	},
-/obj/effect/landmark/start/shaft_miner,
+/obj/effect/turf_decal/tile/green{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/green{
+	dir = 4;
+	icon_state = "tile_corner"
+	},
+/obj/effect/turf_decal/tile/green,
 /turf/open/floor/plasteel/grid/mono,
-/area/nostromo/medbay)
+/area/nostromo/crew_quarters)
 "JA" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
 	dir = 8;
@@ -1381,8 +1603,23 @@
 /area/nostromo/bridge)
 "JI" = (
 /obj/structure/railing,
+/obj/effect/turf_decal/tile/ship/blue{
+	dir = 4;
+	icon_state = "bordercorner"
+	},
+/obj/effect/turf_decal/tile/ship/blue{
+	dir = 1;
+	icon_state = "bordercorner"
+	},
 /turf/open/floor/plasteel/dark,
 /area/nostromo/bridge)
+"JK" = (
+/obj/machinery/shower{
+	dir = 8;
+	pixel_y = -5
+	},
+/turf/open/floor/plasteel/dark,
+/area/crew_quarters/toilet)
 "Ka" = (
 /obj/structure/table,
 /obj/item/kitchen/rollingpin,
@@ -1394,16 +1631,26 @@
 /turf/open/floor/plasteel/dark,
 /area/nostromo/mining)
 "Ki" = (
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
-	dir = 5;
-	icon_state = "pipe11-1"
+/obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1{
+	dir = 1;
+	icon_state = "manifold-1"
 	},
-/obj/item/weldingtool,
-/obj/structure/reagent_dispensers/fueltank,
-/turf/open/floor/plasteel/dark,
-/area/nostromo/engineering)
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/turf/open/floor/carpet/blue,
+/area/nostromo/crew_quarters)
 "Ku" = (
-/obj/machinery/computer/shuttle/mining,
+/obj/machinery/power/apc/auto_name/north,
+/obj/structure/cable{
+	icon_state = "0-2"
+	},
+/obj/effect/turf_decal/tile/yellow{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/yellow{
+	dir = 4
+	},
 /turf/open/floor/plasteel/dark,
 /area/nostromo/engineering)
 "KA" = (
@@ -1413,11 +1660,18 @@
 /turf/open/floor/plasteel/dark,
 /area/nostromo/mining)
 "KF" = (
-/obj/machinery/door/window/northright{
-	dir = 4
+/obj/machinery/door/airlock/ship/public{
+	name = "Quiet Room"
 	},
-/turf/open/floor/wood,
-/area/nostromo/crew_quarters)
+/turf/open/floor/plasteel/dark,
+/area/crew_quarters/toilet)
+"KI" = (
+/obj/structure/toilet{
+	dir = 4;
+	icon_state = "toilet00"
+	},
+/turf/open/floor/plasteel/dark,
+/area/crew_quarters/toilet)
 "KK" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
@@ -1425,18 +1679,35 @@
 /turf/open/floor/plasteel/dark,
 /area/nostromo/mining)
 "KL" = (
-/obj/machinery/light{
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
+/obj/effect/turf_decal/tile/green{
 	dir = 1
+	},
+/obj/effect/turf_decal/tile/green{
+	dir = 4;
+	icon_state = "tile_corner"
 	},
 /turf/open/floor/plasteel/grid/mono,
 /area/nostromo/medbay)
 "KS" = (
 /obj/structure/railing/corner,
+/obj/effect/turf_decal/tile/ship/blue{
+	dir = 4;
+	icon_state = "bordercorner"
+	},
+/obj/effect/turf_decal/tile/ship/blue{
+	dir = 1;
+	icon_state = "bordercorner"
+	},
 /turf/open/floor/plasteel/dark,
 /area/nostromo/bridge)
 "KV" = (
 /obj/structure/cable{
-	icon_state = "4-8"
+	icon_state = "2-4"
 	},
 /turf/open/floor/plasteel/dark,
 /area/nostromo/engineering)
@@ -1465,10 +1736,21 @@
 	},
 /obj/structure/railing,
 /obj/machinery/airalarm/directional/north,
+/obj/item/twohanded/required/kirbyplants/random,
+/obj/effect/turf_decal/tile/ship/blue,
+/obj/effect/turf_decal/tile/ship/blue{
+	dir = 4;
+	icon_state = "bordercorner"
+	},
+/obj/effect/turf_decal/tile/ship/blue{
+	dir = 1;
+	icon_state = "bordercorner"
+	},
 /turf/open/floor/plasteel/dark,
 /area/nostromo/bridge)
 "Mo" = (
-/obj/structure/chair/sofa/left,
+/obj/structure/chair/sofa,
+/obj/effect/landmark/start/shaft_miner,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	dir = 4;
 	icon_state = "pipe11-1"
@@ -1511,10 +1793,17 @@
 /area/nostromo/mining)
 "MT" = (
 /obj/structure/table,
-/obj/item/papercutter,
-/obj/item/storage/crayons{
-	desc = "Keeps em' fit and healthy!";
-	name = "miners snack"
+/obj/machinery/light{
+	dir = 1
+	},
+/obj/item/folder/white,
+/obj/item/toy/figure/miner,
+/obj/machinery/firealarm/directional/north,
+/obj/effect/turf_decal/tile/yellow{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/yellow{
+	dir = 4
 	},
 /turf/open/floor/plasteel/dark,
 /area/nostromo/engineering)
@@ -1547,6 +1836,10 @@
 /obj/structure/cable{
 	icon_state = "1-2"
 	},
+/obj/effect/turf_decal/tile/yellow{
+	dir = 8
+	},
+/obj/effect/turf_decal/tile/yellow,
 /turf/open/floor/plasteel/dark,
 /area/nostromo/engineering)
 "Nw" = (
@@ -1556,22 +1849,42 @@
 /turf/open/floor/wood,
 /area/nostromo/crew_quarters)
 "NJ" = (
-/obj/machinery/atmospherics/pipe/layer_manifold,
-/turf/open/floor/plasteel/dark,
+/obj/machinery/light{
+	dir = 8
+	},
+/turf/closed/wall/mineral/iron,
 /area/nostromo/engineering)
 "NN" = (
 /obj/structure/cable{
 	icon_state = "1-2"
 	},
+/obj/effect/turf_decal/tile/ship/blue{
+	dir = 1;
+	icon_state = "bordercorner"
+	},
+/obj/effect/turf_decal/tile/ship/blue{
+	dir = 8;
+	icon_state = "bordercorner"
+	},
 /turf/open/floor/plasteel/dark,
 /area/nostromo/bridge)
 "Oa" = (
-/obj/structure/sign/poster/official/moth8,
-/turf/closed/wall/mineral/iron,
-/area/nostromo/crew_quarters)
+/obj/item/twohanded/required/kirbyplants/random,
+/turf/open/floor/plasteel/dark,
+/area/nostromo/mining)
 "Ow" = (
 /obj/structure/table,
-/obj/item/paper_bin,
+/obj/item/papercutter,
+/obj/item/storage/crayons{
+	desc = "Keeps em' fit and healthy!";
+	name = "miners snack"
+	},
+/obj/effect/turf_decal/tile/yellow{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/yellow{
+	dir = 4
+	},
 /turf/open/floor/plasteel/dark,
 /area/nostromo/engineering)
 "OC" = (
@@ -1584,6 +1897,11 @@
 /obj/item/storage/fancy/donut_box,
 /turf/open/floor/plasteel/dark,
 /area/nostromo/mining)
+"Pf" = (
+/obj/effect/spawner/structure/window/reinforced,
+/obj/structure/curtain/obscuring/grey,
+/turf/open/floor/plasteel/dark,
+/area/crew_quarters/toilet)
 "Pr" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	dir = 5;
@@ -1595,14 +1913,23 @@
 /turf/open/floor/plasteel/dark,
 /area/nostromo/mining)
 "Pt" = (
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
+/obj/machinery/atmospherics/pipe/layer_manifold,
 /obj/structure/cable{
 	icon_state = "4-8"
 	},
 /turf/open/floor/plasteel/dark,
 /area/nostromo/engineering)
 "PE" = (
-/obj/machinery/rnd/production/protolathe/department/cargo,
+/obj/machinery/atmospherics/components/unary/tank/air,
+/obj/effect/turf_decal/tile/yellow{
+	dir = 8
+	},
+/obj/effect/turf_decal/tile/yellow{
+	dir = 4
+	},
+/obj/effect/turf_decal/tile/yellow{
+	dir = 1
+	},
 /turf/open/floor/plasteel/dark,
 /area/nostromo/engineering)
 "PZ" = (
@@ -1649,6 +1976,11 @@
 	icon_state = "4-8"
 	},
 /obj/effect/decal/cleanable/dirt/dust,
+/obj/effect/turf_decal/tile/ship/blue{
+	dir = 8;
+	icon_state = "bordercorner"
+	},
+/obj/effect/turf_decal/tile/ship/blue,
 /turf/open/floor/plasteel/dark,
 /area/nostromo/bridge)
 "QI" = (
@@ -1656,8 +1988,9 @@
 /turf/open/floor/wood,
 /area/nostromo/crew_quarters)
 "QK" = (
-/obj/machinery/atmospherics/components/trinary/filter/atmos/flipped/n2{
-	dir = 4
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
+	dir = 8;
+	icon_state = "pipe11-2"
 	},
 /turf/open/floor/plasteel/dark,
 /area/nostromo/engineering)
@@ -1690,16 +2023,24 @@
 /obj/item/gps/mining,
 /obj/item/gps/mining,
 /obj/item/gps/mining,
+/obj/effect/turf_decal/tile/ship/blue,
+/obj/effect/turf_decal/tile/ship/blue{
+	dir = 4;
+	icon_state = "bordercorner"
+	},
 /turf/open/floor/plasteel/dark,
 /area/nostromo/bridge)
 "RP" = (
-/obj/machinery/vending/boozeomat/all_access,
+/obj/machinery/door/airlock/ship/public{
+	name = "Quiet Room"
+	},
 /turf/open/floor/wood,
 /area/nostromo/crew_quarters)
 "RQ" = (
-/obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1{
-	dir = 1;
-	icon_state = "manifold-1"
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	dir = 4;
+	icon_state = "pipe11-1"
 	},
 /turf/open/floor/plasteel/dark,
 /area/nostromo/engineering)
@@ -1729,12 +2070,12 @@
 /turf/open/floor/wood,
 /area/nostromo/crew_quarters)
 "SL" = (
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
-/obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1{
+/obj/machinery/airalarm/directional/west,
+/obj/effect/turf_decal/tile/green{
 	dir = 8
 	},
-/obj/structure/cable{
-	icon_state = "1-4"
+/obj/effect/turf_decal/tile/green{
+	dir = 1
 	},
 /turf/open/floor/plasteel/grid/mono,
 /area/nostromo/medbay)
@@ -1789,6 +2130,11 @@
 /area/nostromo/mining)
 "Uc" = (
 /obj/structure/table,
+/obj/effect/turf_decal/tile/ship/blue,
+/obj/effect/turf_decal/tile/ship/blue{
+	dir = 4;
+	icon_state = "bordercorner"
+	},
 /turf/open/floor/plasteel/dark,
 /area/nostromo/bridge)
 "Ue" = (
@@ -1801,6 +2147,11 @@
 "Ut" = (
 /obj/machinery/computer/ship/dradis/mining{
 	dir = 8
+	},
+/obj/effect/turf_decal/tile/ship/blue,
+/obj/effect/turf_decal/tile/ship/blue{
+	dir = 4;
+	icon_state = "bordercorner"
 	},
 /turf/open/floor/plasteel/dark,
 /area/nostromo/bridge)
@@ -1827,9 +2178,14 @@
 /turf/open/floor/plating/airless,
 /area/space/nearstation)
 "UX" = (
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
-	dir = 8;
-	icon_state = "pipe11-2"
+/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden{
+	dir = 8
+	},
+/obj/effect/turf_decal/tile/yellow{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/yellow{
+	dir = 8
 	},
 /turf/open/floor/plasteel/dark,
 /area/nostromo/engineering)
@@ -1840,7 +2196,11 @@
 /turf/closed/wall/mineral/iron,
 /area/nostromo/engineering)
 "Vm" = (
-/obj/machinery/firealarm/directional/north,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
+/obj/machinery/atmospherics/components/unary/vent_pump/on/layer1{
+	dir = 1;
+	icon_state = "vent_map_on-1"
+	},
 /turf/open/floor/plasteel/grid/mono,
 /area/nostromo/medbay)
 "Vt" = (
@@ -1857,15 +2217,19 @@
 /turf/open/floor/plating,
 /area/nostromo/mining)
 "VQ" = (
-/obj/machinery/computer/cryopod,
-/turf/closed/wall/mineral/iron,
+/obj/machinery/light{
+	dir = 4
+	},
+/obj/machinery/iv_drip,
+/obj/effect/turf_decal/tile/green{
+	dir = 4
+	},
+/obj/effect/turf_decal/tile/green,
+/turf/open/floor/plasteel/grid/mono,
 /area/nostromo/crew_quarters)
 "Wf" = (
-/obj/effect/spawner/structure/window/reinforced,
-/obj/machinery/door/firedoor/window,
-/obj/structure/curtain/obscuring/grey,
-/turf/open/floor/plating,
-/area/nostromo/crew_quarters)
+/turf/closed/wall/mineral/iron,
+/area/crew_quarters/toilet)
 "Wi" = (
 /obj/structure/cable{
 	icon_state = "2-4"
@@ -1878,7 +2242,14 @@
 /turf/open/floor/plating,
 /area/space/nearstation)
 "Wl" = (
-/obj/machinery/airalarm/directional/north,
+/obj/structure/table,
+/obj/item/paper_bin,
+/obj/effect/turf_decal/tile/yellow{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/yellow{
+	dir = 4
+	},
 /turf/open/floor/plasteel/dark,
 /area/nostromo/engineering)
 "Wx" = (
@@ -1886,7 +2257,10 @@
 	dir = 8;
 	icon_state = "pipe11-2"
 	},
-/obj/machinery/light,
+/obj/effect/turf_decal/tile/yellow{
+	dir = 8
+	},
+/obj/effect/turf_decal/tile/yellow,
 /turf/open/floor/plasteel/dark,
 /area/nostromo/engineering)
 "WA" = (
@@ -1894,6 +2268,11 @@
 	icon_state = "4-8"
 	},
 /obj/machinery/light,
+/obj/effect/turf_decal/tile/ship/blue{
+	dir = 8;
+	icon_state = "bordercorner"
+	},
+/obj/effect/turf_decal/tile/ship/blue,
 /turf/open/floor/plasteel/dark,
 /area/nostromo/bridge)
 "WQ" = (
@@ -1912,11 +2291,22 @@
 /turf/open/floor/plasteel/dark,
 /area/nostromo/mining)
 "Xy" = (
-/obj/structure/sign/directions/plaque/medical,
-/turf/closed/wall/mineral/iron,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
+/obj/machinery/door/airlock/ship/public,
+/obj/machinery/door/firedoor/border_only/directional/north,
+/obj/machinery/door/firedoor/border_only/directional/south,
+/turf/open/floor/monotile,
 /area/nostromo/medbay)
 "XU" = (
-/turf/open/floor/carpet/blue,
+/obj/machinery/cryopod{
+	dir = 4;
+	icon_state = "cryopod-open"
+	},
+/turf/open/floor/wood,
 /area/nostromo/crew_quarters)
 "Ya" = (
 /obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden{
@@ -1935,9 +2325,9 @@
 /turf/open/floor/plasteel/dark,
 /area/nostromo/engineering)
 "Yb" = (
-/obj/machinery/airalarm/directional/west,
-/turf/open/floor/plasteel/grid/mono,
-/area/nostromo/medbay)
+/obj/effect/decal/cleanable/dirt/dust,
+/turf/open/floor/carpet/blue,
+/area/nostromo/crew_quarters)
 "Yw" = (
 /obj/structure/stairs{
 	dir = 8
@@ -1945,15 +2335,18 @@
 /turf/open/floor/plasteel/dark,
 /area/nostromo/bridge)
 "YJ" = (
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
-	dir = 6;
-	icon_state = "pipe11-2"
-	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
-	dir = 10
+	dir = 5;
+	icon_state = "pipe11-1"
 	},
-/obj/structure/cable{
-	icon_state = "1-2"
+/obj/item/weldingtool,
+/obj/structure/reagent_dispensers/fueltank,
+/obj/effect/turf_decal/tile/yellow{
+	dir = 8
+	},
+/obj/effect/turf_decal/tile/yellow,
+/obj/effect/turf_decal/tile/yellow{
+	dir = 1
 	},
 /turf/open/floor/plasteel/dark,
 /area/nostromo/engineering)
@@ -12363,7 +12756,6 @@ mU
 mU
 mU
 mU
-Gp
 mU
 mU
 mU
@@ -12373,7 +12765,8 @@ mU
 mU
 mU
 mU
-Gp
+mU
+mU
 mU
 mU
 mU
@@ -12620,17 +13013,17 @@ mU
 mU
 mU
 mU
-mU
-mU
-eq
-mU
+pD
 mU
 mU
 mU
-eq
 mU
 mU
 mU
+mU
+mU
+mU
+pD
 mU
 mU
 mU
@@ -12879,12 +13272,12 @@ mU
 mU
 mU
 mU
-mU
-Cv
-Cv
-Cv
+wZ
 mU
 mU
+mU
+mU
+wZ
 mU
 mU
 mU
@@ -13131,21 +13524,21 @@ mU
 mU
 mU
 mU
-ox
-ox
-ox
-DG
-ox
-ox
-wB
-wB
-wB
-wB
-wB
-wB
-wB
-wB
-wB
+mU
+mU
+mU
+mU
+mU
+mU
+DU
+DU
+DU
+mU
+mU
+mU
+mU
+mU
+mU
 mU
 mU
 mU
@@ -13389,20 +13782,20 @@ mU
 mU
 mU
 ox
-ci
-wZ
+ox
+ox
 NJ
-bJ
-Ki
+ox
+ox
 wB
-Vm
-Yb
-yV
-yV
-Jt
-yV
-yV
-Sl
+wB
+wB
+wB
+wB
+wB
+wB
+wB
+wB
 mU
 mU
 mU
@@ -13651,13 +14044,13 @@ UX
 wY
 EX
 YJ
-yt
+wB
 hK
 SL
 Gz
-hF
+Gz
 uo
-yV
+Gz
 En
 Sl
 mU
@@ -13904,16 +14297,16 @@ mU
 mU
 ox
 tB
-Ho
+QK
 KV
-nW
-UX
+tA
+xe
 Xy
 KL
 Ay
-yV
-yV
-yV
+Vm
+hD
+hw
 yV
 zH
 Sl
@@ -14159,21 +14552,21 @@ mU
 mU
 mU
 mU
-tA
+ox
 fp
 iq
-hm
-iD
-UX
-wB
+px
+nW
+xt
+Gp
 mi
 aE
-fc
-pD
-xt
-id
+yV
+yV
+yV
+yV
 mJ
-wB
+Sl
 mU
 mU
 mU
@@ -14416,19 +14809,19 @@ mU
 mU
 mU
 mU
-ox
+bJ
 nd
 yp
 Pt
 Is
-UX
+xt
 qN
-qN
+Jt
 lf
 VQ
-qN
-wB
-wB
+im
+pO
+qb
 gy
 wB
 mU
@@ -14675,17 +15068,17 @@ mU
 mU
 ox
 MT
-UX
-KV
+fc
+qX
 cY
-UX
+xt
 qN
-iG
+qN
 eU
 IR
-IR
 qN
-Mx
+qN
+qN
 eB
 qN
 mU
@@ -14930,21 +15323,21 @@ mU
 mU
 mU
 mU
-qX
+ox
 Ow
 QK
-Pt
+px
 FS
 Wx
 qN
 aX
 eF
 XU
-SJ
-xe
-SJ
-QI
-wD
+XU
+qN
+Mx
+pw
+qN
 mU
 mU
 mU
@@ -15187,20 +15580,20 @@ mU
 mU
 mU
 mU
-ox
+ci
 Wl
-UX
-KV
-nW
-UX
+id
+qX
+wD
+yt
 qN
 Gn
 bN
 tM
 SJ
-qN
-qN
-qN
+CK
+SJ
+QI
 qN
 mU
 mU
@@ -15446,18 +15839,18 @@ mU
 mU
 ox
 pu
-IQ
+QK
 px
-DU
-GX
+nW
+Wx
 qN
 li
-hR
+Ki
 wC
 SJ
-SJ
-SJ
-SJ
+Wf
+Cq
+Wf
 Wf
 mU
 mU
@@ -15701,21 +16094,21 @@ mU
 mU
 mU
 mU
-pe
+ox
 Ku
-UX
+iD
 iA
 RQ
 bB
-Oa
+qN
 Mo
 hR
-XU
+Yb
 SJ
 KF
-SJ
-SJ
-Wf
+rs
+KI
+Pf
 mU
 mU
 mU
@@ -15969,10 +16362,10 @@ Qu
 lt
 zs
 SJ
-io
-SJ
-SJ
 Wf
+BC
+JK
+Pf
 mU
 mU
 mU
@@ -16216,20 +16609,20 @@ mU
 mU
 mU
 pe
-PZ
+eq
 lr
 bW
 nW
-PZ
+Cv
 qN
 yX
 JA
 ym
 tS
-qN
+Wf
 Cq
-qN
-qN
+Wf
+Wf
 mU
 mU
 mU
@@ -16477,7 +16870,7 @@ cB
 PZ
 lW
 nW
-PZ
+Cv
 qN
 hz
 Ra
@@ -16486,7 +16879,7 @@ SJ
 RP
 SJ
 QI
-wD
+qN
 mU
 mU
 mU
@@ -16731,10 +17124,10 @@ mU
 mU
 ox
 Bs
-PZ
+iG
 fv
 ID
-PZ
+DG
 qN
 Zl
 sa
@@ -16996,7 +17389,7 @@ qN
 qN
 KY
 qN
-qN
+hh
 qN
 qN
 zB
@@ -18536,7 +18929,7 @@ dK
 dT
 lG
 TI
-tk
+Oa
 Zk
 no
 kU
