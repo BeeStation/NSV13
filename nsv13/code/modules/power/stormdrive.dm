@@ -1109,7 +1109,7 @@ Control Rods
 		if(shares_overmap(src, M))
 			shake_camera(M, 3, 2)
 			if(!M.mob_negates_gravity())
-				M.Knockdown(100)
+				M.Knockdown(50)
 				to_chat(M, "<span class='danger'You feel a wave of energy wash over you!</span>")
 
 	for(var/X in GLOB.landmarks_list)
@@ -1120,7 +1120,7 @@ Control Rods
 				if(WS.range < 10) //small spawner
 					empulse(epi, 5, 15)
 					radiation_pulse(epi, 100)
-					if(prob(10))
+					if(prob(15))
 						if(prob(50))
 							new /obj/effect/anomaly/stormdrive/surge(epi, rand(2000, 5000))
 						else
@@ -1586,15 +1586,15 @@ Control Rods
 
 /obj/effect/anomaly/stormdrive/Initialize(mapload, new_lifespan)
 	.=..()
-	freq_shift = rand(0.1, 1)
-	code_shift = rand(0.1, 1)
+	freq_shift = rand(1, 10) / 10
+	code_shift = rand(1, 10) / 10
 
 /obj/effect/anomaly/stormdrive/attackby(obj/item/I, mob/user, params) //Not going to make this easy
 	if(I.tool_behaviour == TOOL_ANALYZER)
 		var/mem_address = rand(10000, 99999)
 		if(prob(50))
-			var/freq_1 = format_frequency(aSignal.frequency) - freq_shift
-			var/freq_2 = format_frequency(aSignal.frequency) + freq_shift
+			var/freq_1 = format_frequency(aSignal.frequency - freq_shift)
+			var/freq_2 = format_frequency(aSignal.frequency + freq_shift)
 			to_chat(user, "<span class='notice'>Analyzing... ERROR: Unable to #%##freq0x000[mem_address] [freq_1] - [freq_2].</span>")
 		else
 			var/code_1 = aSignal.code - code_shift
@@ -1609,24 +1609,24 @@ Control Rods
 /obj/effect/anomaly/stormdrive/sheer/anomalyEffect()
 	..()
 	if(prob(90))
-		radiation_pulse(src, 50)
+		radiation_pulse(src, 25)
 	else
-		radiation_pulse(src, 250)
+		radiation_pulse(src, 125)
 		var/turf/open/L = get_turf(src)
 		if(!istype(L) || !(L.air))
 			return
 		var/datum/gas_mixture/env = L.return_air()
 		var/temperature = env.return_temperature() + 25 //Not super spicy
-		src.atmos_spawn_air("plasma=50;TEMP=[temperature]")
+		src.atmos_spawn_air("plasma=25;TEMP=[temperature]")
 
 /obj/effect/anomaly/stormdrive/sheer/Crossed(mob/living/M)
-	radiation_pulse(src, 250)
+	radiation_pulse(src, 125)
 
 /obj/effect/anomaly/stormdrive/sheer/Bump(mob/living/M)
-	radiation_pulse(src, 250)
+	radiation_pulse(src, 125)
 
 /obj/effect/anomaly/stormdrive/sheer/Bumped(atom/movable/AM)
-	radiation_pulse(src, 250)
+	radiation_pulse(src, 125)
 
 /obj/effect/anomaly/stormdrive/sheer/detonate()
 	radiation_pulse(src, 5000)
@@ -1644,11 +1644,11 @@ Control Rods
 	..()
 	canshock = 1
 	if(prob(90))
-		empulse(src, 1, 3)
+		empulse(src, 0, 3)
 		for(var/mob/living/M in range(0, src))
 			mobShock(M)
 	else
-		empulse(src, 2, 5)
+		empulse(src, 1, 5)
 		explosion(src, 0, 0, 0, 10)
 		for(var/mob/living/M in range(2, src))
 			mobShock(M)
