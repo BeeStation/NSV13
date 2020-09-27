@@ -1117,12 +1117,21 @@ Control Rods
 			var/obj/effect/landmark/nuclear_waste_spawner/WS = X
 			if(shares_overmap(src, WS))
 				var/epi = get_turf(WS)
-				if(X.range < 10) //small spawner
+				if(WS.range < 10) //small spawner
 					empulse(epi, 5, 15)
 					radiation_pulse(epi, 100)
+					if(prob(10))
+						if(prob(50))
+							new /obj/effect/anomaly/stormdrive/surge(epi, rand(2000, 5000))
+						else
+							new /obj/effect/anomaly/stormdrive/sheer(epi, rand(2000, 5000))
 				else //larger spawner
 					empulse(epi, 10, 25)
 					radiation_pulse(epi, 500)
+					if(prob(50)) //spawn SD anom
+						new /obj/effect/anomaly/stormdrive/surge(epi, rand(2000, 5000))
+					else
+						new /obj/effect/anomaly/stormdrive/sheer(epi, rand(2000, 5000))
 
 ////////Reactor Computer////////
 
@@ -1438,7 +1447,7 @@ Control Rods
 	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 2500)
 	export_price = 5000
 
-//////Constricted Plasma//////
+///////Constricted Plasma///////
 
 /obj/machinery/atmospherics/components/trinary/filter/atmos/constricted_plasma
 	name = "constricted plasma filter"
@@ -1465,7 +1474,7 @@ Control Rods
 	gas_type = /datum/gas/nucleium
 
 
-/////NUCLEAR WASTE/////
+///////NUCLEAR WASTE////////
 
 /obj/effect/decal/nuclear_waste
 	name = "Plutonium sludge"
@@ -1567,7 +1576,116 @@ Control Rods
 		return
 	status_alarm(FALSE)
 
-//MISC
+/////// ANOMALIES ///////
+
+/obj/effect/anomaly/stormdrive //PARENT
+	name = "Stormdrive Anomaly - PARENT "
+	desc = "A mysterious anomaly, unknown in origin."
+	var/freq_shift = null
+	var/code_shift = null
+
+/obj/effect/anomaly/stormdrive/Initialize(mapload, new_lifespan)
+	.=..()
+	freq_shift = rand(0.1, 1)
+	code_shift = rand(0.1, 1)
+
+/obj/effect/anomaly/stormdrive/attackby(obj/item/I, mob/user, params) //Not going to make this easy
+	if(I.tool_behaviour == TOOL_ANALYZER)
+		var/mem_address = rand(10000, 99999)
+		if(prob(50))
+			var/freq_1 = format_frequency(aSignal.frequency) - freq_shift
+			var/freq_2 = format_frequency(aSignal.frequency) + freq_shift
+			to_chat(user, "<span class='notice'>Analyzing... ERROR: Unable to #%##freq0x000[mem_address] [freq_1] - [freq_2].</span>")
+		else
+			var/code_1 = aSignal.code - code_shift
+			var/code_2 = aSignal.code + code_shift
+			to_chat(user, "<span class='notice'>Analyzing... ERROR: Unable to dete cod//^##e0x000[mem_address] [code_1] - [code_2].</span>")
+
+/obj/effect/anomaly/stormdrive/sheer //Radiation + Plasma
+	name = "storm sheer anomaly"
+	icon = 'icons/obj/projectiles.dmi'
+	icon_state = "bluespace"
+
+/obj/effect/anomaly/stormdrive/sheer/anomalyEffect()
+	..()
+	if(prob(90))
+		radiation_pulse(src, 50)
+	else
+		radiation_pulse(src, 250)
+		var/turf/open/L = get_turf(src)
+		if(!istype(L) || !(L.air))
+			return
+		var/datum/gas_mixture/env = L.return_air()
+		var/temperature = env.return_temperature() + 25 //Not super spicy
+		src.atmos_spawn_air("plasma=50;TEMP=[temperature]")
+
+/obj/effect/anomaly/stormdrive/sheer/Crossed(mob/living/M)
+	radiation_pulse(src, 250)
+
+/obj/effect/anomaly/stormdrive/sheer/Bump(mob/living/M)
+	radiation_pulse(src, 250)
+
+/obj/effect/anomaly/stormdrive/sheer/Bumped(atom/movable/AM)
+	radiation_pulse(src, 250)
+
+/obj/effect/anomaly/stormdrive/sheer/detonate()
+	radiation_pulse(src, 5000)
+	src.atmos_spawn_air("o2=250;plasma=100;TEMP=5000")
+	explosion(src, 0, 0, 1, 18)
+	new /obj/effect/particle_effect/sparks(loc)
+
+/obj/effect/anomaly/stormdrive/surge //EMP + Flux
+	name = "storm surge anomaly"
+	icon_state = "electricity2"
+	var/canshock = 0
+	var/shockdamage = 20
+
+/obj/effect/anomaly/stormdrive/surge/anomalyEffect()
+	..()
+	canshock = 1
+	if(prob(90))
+		empulse(src, 1, 3)
+		for(var/mob/living/M in range(0, src))
+			mobShock(M)
+	else
+		empulse(src, 2, 5)
+		explosion(src, 0, 0, 0, 10)
+		for(var/mob/living/M in range(2, src))
+			mobShock(M)
+
+/obj/effect/anomaly/stormdrive/surge/Crossed(mob/living/M)
+	mobShock(M)
+
+/obj/effect/anomaly/stormdrive/surge/Bump(mob/living/M)
+	mobShock(M)
+
+/obj/effect/anomaly/stormdrive/surge/Bumped(atom/movable/AM)
+	mobShock(AM)
+
+/obj/effect/anomaly/stormdrive/surge/proc/mobShock(mob/living/M)
+	if(canshock && istype(M))
+		canshock = 0 //Just so you don't instakill yourself if you slam into the anomaly five times in a second.
+		if(iscarbon(M))
+			if(ishuman(M))
+				M.electrocute_act(shockdamage, "[name]", safety=1)
+				return
+			M.electrocute_act(shockdamage, "[name]")
+			return
+		else
+			M.adjustFireLoss(shockdamage)
+			M.visible_message("<span class='danger'>[M] was shocked by \the [name]!</span>", \
+		"<span class='userdanger'>You feel a powerful shock coursing through your body!</span>", \
+		"<span class='italics'>You hear a heavy electrical crack.</span>")
+
+/obj/effect/anomaly/stormdrive/surge/detonate() //we'll see if these all zap the same target
+	tesla_zap(src, 3, 1000)
+	tesla_zap(src, 5, 1000)
+	tesla_zap(src, 7, 1000)
+	empulse(src, 5, 10)
+	explosion(src, 0, 0, 1, 18)
+	new /obj/effect/particle_effect/sparks(loc)
+
+//////// MISC ///////
 
 /obj/item/book/manual/wiki/stormdrive
 	name = "Stormdrive Class IV SOP"
