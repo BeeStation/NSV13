@@ -5,7 +5,6 @@
 		return
 	last_target = target
 	if(next_firetime > world.time)
-		to_chat(pilot, "<span class='warning'>WARNING: Weapons cooldown in effect to prevent overheat.</span>")
 		return
 	if(ai_controlled) //Let the AI switch weapons according to range
 		ai_fire(target)
