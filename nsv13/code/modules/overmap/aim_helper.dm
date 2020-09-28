@@ -25,7 +25,7 @@
 	autofire_target = null
 	lastangle = getMouseAngle(params, M)
 	stop_aiming()
-	if(fire_mode == FIRE_MODE_MAC || FIRE_MODE_BLUE_LASER)
+	if(fire_mode == FIRE_MODE_MAC || fire_mode == FIRE_MODE_BLUE_LASER)
 		fire_weapon(object)
 	QDEL_LIST(current_tracers)
 
