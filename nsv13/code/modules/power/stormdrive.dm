@@ -78,6 +78,9 @@ Control Rods
 #define REACTOR_STATE_IDLE 2
 #define REACTOR_STATE_RUNNING 3
 #define REACTOR_STATE_MELTDOWN 4
+#define REACTOR_STATE_REPAIR 5
+#define REACTOR_STATE_REINFORCE 6
+#define REACTOR_STATE_REFIT 7
 
 #define WARNING_STATE_NONE 0
 #define WARNING_STATE_OVERHEAT 1
@@ -145,6 +148,7 @@ Control Rods
 	var/base_power = 67500 //Base power modifier, this gets attacked by a cubic function
 	var/next_slowprocess = 0 //Used for slowing the stormdrive processing down to once per second
 	var/reactor_end_times = FALSE //This is the end times for this reactor, we know this because the third error has been made
+	var/repairing = FALSE //Flag for SD repairs to stop duplicate actions
 
 ///////// REACTOR SUBTYPES ////////
 
@@ -221,6 +225,65 @@ Control Rods
 		M.buffer = src
 		playsound(src, 'sound/items/flashlight_on.ogg', 100, TRUE)
 		to_chat(user, "<span class='notice'>Buffer loaded</span>")
+
+	if(I.tool_behaviour == TOOL_SHOVEL)
+		if(icon_state != "broken")
+			return
+		to_chat(user, "<span class='notice'>You start cleaning out the reactor pit...</span>")
+		repairing = TRUE
+		if(!do_after(user, 5 SECONDS, target=src))
+			repairing = FALSE
+			return
+		to_chat(user, "<span class='warning'>Some of the sludge spills on the floor!</span>")
+		playsound(loc, 'sound/effects/gib_step.ogg', 100)
+		for(var/turf/open/floor in orange(3, get_turf(src)))
+			if(prob(35))
+				new /obj/effect/decal/nuclear_waste (floor)
+		state = REACTOR_STATE_REPAIR
+		repairing = FALSE
+		update_icon()
+
+	if(istype(I, /obj/item/stack/sheet/duranium))
+		var/obj/item/stack/sheet/duranium/D = I
+		if(state == REACTOR_STATE_REPAIR)
+			if(D.get_amount() < 25)
+				to_chat(user, "<span class='notice'>You need at least twenty five pieces of durnaium to reline the reactor pit!</span>")
+				return
+			to_chat(user, "<span class='notice'>You start relining the reactor pit with duranium...</span>")
+			repairing = TRUE
+			if(!do_after(user, 5 SECONDS, target=src) || !Adjacent(user))
+				repairing = FALSE
+				return
+			D.use(25)
+			to_chat(user, "<span class='notice'>The reactor pit has been relined with duranium")
+			state = REACTOR_STATE_REINFORCE
+			repairing = FALSE
+			update_icon()
+
+	if(istype(I, /obj/item/stormdrive_core))
+		if(state == REACTOR_STATE_REFIT)
+			to_chat(user, "<span class='notice'>You start installing the reactor core...</span>")
+			repairing = TRUE
+			if(!do_after(user, 5 SECONDS, target=src) || !Adjacent(user))
+				repairing = FALSE
+				return
+			to_chat(user, "<span class='notice'>The reactor core has been installed.")
+			repairing = FALSE
+			qdel(I)
+			control_rods = list()
+			for(var/atom/A in contents)
+				qdel(A)
+			deactivate() //Factory Reset Approved
+
+/obj/machinery/atmospherics/components/binary/stormdrive_reactor/welder_act(mob/user, obj/item/tool)
+	. = FALSE
+	if(state == REACTOR_STATE_REINFORCE)
+		to_chat(user, "<span class='notice'>You start reinforcing the reactor shielding...</span>")
+		if(tool.use_tool(src, user, 5 SECONDS, volume=100))
+			to_chat(user, "<span class='notice'>Yhe reactor shielding has been reinforced.</span>")
+			state = REACTOR_STATE_REFIT
+			update_icon()
+			return TRUE
 
 /obj/machinery/atmospherics/components/binary/stormdrive_reactor/attack_hand(mob/living/carbon/user)
 	.=..()
@@ -433,6 +496,9 @@ Control Rods
 		next_slowprocess = world.time + 1 SECONDS //Set to wait for another second before processing again, we don't need to process more than once a second
 
 /obj/machinery/atmospherics/components/binary/stormdrive_reactor/proc/slowprocess()
+	if(state >= REACTOR_STATE_REPAIR)
+		return
+
 	if(state == REACTOR_STATE_MELTDOWN)
 		radiation_pulse(src, (1000 * radiation_modifier), 10)
 		return
@@ -856,6 +922,15 @@ Control Rods
 	if(state == REACTOR_STATE_MELTDOWN)
 		icon_state = "broken"
 		return
+	if(state == REACTOR_STATE_REPAIR) //TEMP
+		icon_state = "broken"
+		return
+	if(state == REACTOR_STATE_REINFORCE) //TEMP
+		icon_state = "broken"
+		return
+	if(state == REACTOR_STATE_REINFORCE) //TEMP
+		icon_state = "broken"
+		return
 	cut_overlays()
 	if(can_cool()) //If control rods aren't destroyed.
 		switch(round(control_rod_percent)) //move the control rods up and down
@@ -901,7 +976,7 @@ Control Rods
 		qdel(X)
 	.=..()
 
-/obj/machinery/atmospherics/components/binary/stormdrive_reactor/proc/storm_zap(atom/source, zap_range = 3, power, tesla_flags = TESLA_DEFAULT_FLAGS, list/shocked_targets)
+/obj/machinery/atmospherics/components/binary/stormdrive_reactor/proc/storm_zap(atom/source, zap_range = 3, power, tesla_flags = TESLA_DEFAULT_FLAGS, list/shocked_targets) //This is so EHHHHHH but CBS fixing
 	. = source.dir
 
 	var/closest_dist = 0
@@ -1048,9 +1123,18 @@ Control Rods
 	else if(closest_structure)
 		closest_structure.tesla_act(power, tesla_flags, shocked_targets)
 
-////////MELTDOWN////////
+/obj/machinery/atmospherics/components/binary/stormdrive_reactor/examine(mob/user)
+	. = ..()
+	if(icon_state == "broken")
+		. += "<span class='notice'>The reactor pit is full of plutonium sludge.</span>"
+	if(state == REACTOR_STATE_REPAIR)
+		. += "<span class='notice'>The duranium lining of the reactor pit is severly degraded.</span>"
+	if(state == REACTOR_STATE_REINFORCE)
+		. += "<span class='notice'>The lining requires reinforcing and welding in place.</span>"
+	if(state == REACTOR_STATE_REFIT)
+		. += "<span class='notice'>It is missing a reactor core.</span>"
 
-//add empulse onto the landmarks in here somewhere - more like just rework landmarks for epsilon protocol
+////////MELTDOWN////////
 
 /obj/machinery/atmospherics/components/binary/stormdrive_reactor/proc/start_meltdown()
 	if(warning_state >= WARNING_STATE_MELTDOWN)
@@ -1073,8 +1157,8 @@ Control Rods
 	if(prob(75))
 		storm_zap(src, rand(3, 8), 1000)
 
-	if(prob(25))
-		for(var/obj/structure/window/W in orange(5, src))
+	if(prob(35))
+		for(var/obj/structure/window/W in orange(6, src))
 			W.take_damage(rand(50, 150))
 
 		for(var/mob/living/M in orange(12, src))
@@ -1133,7 +1217,7 @@ Control Rods
 					else
 						new /obj/effect/anomaly/stormdrive/sheer(epi, rand(2000, 5000))
 
-////////Reactor Computer////////
+//////// Reactor Computer////////
 
 /obj/machinery/computer/ship/reactor_control_computer
 	name = "Seegson model RBMK reactor control console"
@@ -1330,7 +1414,7 @@ Control Rods
 	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 2500)
 	export_price = 5000
 
-//////Magnetic Constrictors//////
+////// Magnetic Constrictors//////
 
 /obj/machinery/atmospherics/components/binary/magnetic_constrictor //This heats the plasma up to acceptable levels for use in the reactor.
 	name = "magnetic constrictor"
@@ -1447,7 +1531,7 @@ Control Rods
 	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 2500)
 	export_price = 5000
 
-///////Constricted Plasma///////
+/////// Constricted Plasma///////
 
 /obj/machinery/atmospherics/components/trinary/filter/atmos/constricted_plasma
 	name = "constricted plasma filter"
@@ -1474,7 +1558,7 @@ Control Rods
 	gas_type = /datum/gas/nucleium
 
 
-///////NUCLEAR WASTE////////
+/////// NUCLEAR WASTE////////
 
 /obj/effect/decal/nuclear_waste
 	name = "Plutonium sludge"
@@ -1694,6 +1778,17 @@ Control Rods
 	title = "Stormdrive Class IV SOP"
 	page_link = "Guide_to_the_Stormdrive_Engine"
 
+/obj/item/stormdrive_core
+	name = "Class IV Nuclear Storm Drive Reactor Core"
+	desc = "This crate contains a live reactor core for a class iv nuclear storm drive."
+	icon = 'icons/obj/crates.dmi'
+	icon_state = "crate"
+	w_class = WEIGHT_CLASS_GIGANTIC
+
+/obj/item/stormdrive_core/Initialize()
+	.=..()
+	AddComponent(/datum/component/twohanded/required)
+
 #undef LOW_ROR
 #undef NORMAL_ROR
 #undef HIGH_ROR
@@ -1718,6 +1813,9 @@ Control Rods
 #undef REACTOR_STATE_IDLE
 #undef REACTOR_STATE_RUNNING
 #undef REACTOR_STATE_MELTDOWN
+#undef REACTOR_STATE_REPAIR
+#undef REACTOR_STATE_REINFORCE
+#undef REACTOR_STATE_REFIT
 #undef WARNING_STATE_NONE
 #undef WARNING_STATE_OVERHEAT
 #undef WARNING_STATE_MELTDOWN
