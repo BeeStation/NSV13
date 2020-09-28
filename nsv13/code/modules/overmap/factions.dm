@@ -12,6 +12,8 @@
 #define RELATIONSHIP_ENEMIES 0
 #define RELATIONSHIP_HATRED -100 //Very hard pit to dig yourself out from.
 
+#define FACTION_VICTORY_TICKETS 1000
+
 /datum/faction
 	var/name = "Faction superclass"
 	var/desc = "Description not set."
@@ -24,6 +26,14 @@
 	var/list/fleet_types = list()
 	var/next_fleet_spawn = 0 //Factions spawn fleets more frequently when they're doing well with tickets.
 	var/fleet_spawn_rate = 10 MINUTES //By default, 1 / 10 minutes.
+
+/**
+
+Procs for handling factions winning / losing
+
+*/
+/datum/faction/proc/victory()
+	return FALSE
 
 /datum/faction/proc/check_status(id)
 	var/datum/faction/F = SSstar_system.faction_by_id(id)
@@ -50,6 +60,17 @@ Set up relationships.
 			continue
 		relationships[F] = RELATIONSHIP_HATRED
 
+/datum/faction/proc/lose_influence(value)
+	tickets -= value
+	for(var/datum/faction/F in SSstar_system.factions)
+		if(relationships[F] <= RELATIONSHIP_ENEMIES)
+			F.gain_influence(value)
+	SSstar_system.check_completion()
+
+/datum/faction/proc/gain_influence(value)
+	tickets += value
+	SSstar_system.check_completion()
+
 /datum/faction/proc/send_fleet()
 	if(SSstar_system.check_completion() || !fleet_types || world.time < next_fleet_spawn)
 		return
@@ -57,9 +78,9 @@ Set up relationships.
 	for(var/obj/structure/overmap/OM in GLOB.overmap_objects) //The ship doesnt start with a system assigned by default
 		if(OM.role != MAIN_OVERMAP)
 			continue
-		current_system = ships[OM]["current_system"]
+		current_system = SSstar_system.ships[OM]["current_system"]
 	var/list/possible_spawns = list()
-	for(var/datum/star_system/starsys in systems)
+	for(var/datum/star_system/starsys in SSstar_system.systems)
 		if(starsys != current_system && !starsys.hidden && lowertext(starsys.alignment) == lowertext(src.name)) //Find one of our base systems and try to send a fleet out from there.
 			possible_spawns += starsys
 	if(!possible_spawns.len)
@@ -73,8 +94,7 @@ Set up relationships.
 	F.current_system = starsys
 	starsys.fleets += F
 	F.assemble(starsys)
-//	minor_announce("WARNING: Multiple typhoon drive signatures detected in [starsys]. Syndicate incursion underway.", "White Rapids Early Warning System")
-	patrols_left --
+	F.faction = src
 	return
 
 //The beginning and the end.
@@ -85,9 +105,34 @@ Set up relationships.
 	preset_enemies = list(FACTION_ID_SYNDICATE, FACTION_ID_PIRATES)
 	fleet_types = list(/datum/fleet/nanotrasen/light)
 
+/datum/faction/nanotrasen/victory()
+	for(var/datum/star_system/SS in SSstar_system.systems)
+		if(SS.name == "Risa Station")
+			SS.hidden = FALSE
+	for(var/client/C in GLOB.clients)
+		if(!C.mob || !SSmapping.level_trait(C.mob.z, ZTRAIT_BOARDABLE))
+			continue
+		SSmedals.UnlockMedal(MEDAL_CREW_COMPETENT,C)
+	priority_announce("Attention [station_name()]. You have completed your assigned patrol and are now eligible for a crew transfer. \
+	Your navigational computers have been programmed with the coordinates of the nearest starbase where you may claim your allotted shore leave. \
+	You are under no obligation to remain in this sector, and you have been taken off of active patrol status. If you wish to continue with exploratory missions or other activities you are free to do so.", "Naval Command")
+
 /datum/faction/syndicate
 	name = "Syndicate"
 	desc = "The Abassi Syndicate are a collection of former Nanotrasen colonists who rebelled against their 'oppression' and formed their own government."
 	preset_allies = list(FACTION_ID_PIRATES) //Yar HAR it's me, captain PLASMASALT
-	preset_enemies = list(FACTION_ID_SYNDICATE, FACTION_ID_PIRATES)
+	preset_enemies = list(FACTION_ID_NT)
 	fleet_types = list(/datum/fleet/neutral, /datum/fleet/boarding, /datum/fleet/wolfpack, /datum/fleet/nuclear)
+
+/datum/faction/syndicate/victory()
+	priority_announce("Attention [station_name()]. Our presence in this sector has been severely diminished due to your incompetence. Return to base immediately for disciplinary action.", "Naval Command")
+	for(var/datum/star_system/SS in SSstar_system.systems) //This is trash but I don't wanna fix it right now.
+		if(SS.name == "Risa Station")
+			SS.hidden = FALSE
+
+/datum/faction/pirate
+	name = "Tortuga Raiders"
+	desc = "The Tortuga raiders terrorise independent colonies and are widely recognised as 'free birds'."
+	preset_allies = list(FACTION_ID_SYNDICATE) //Yar HAR it's me, captain PLASMASALT
+	preset_enemies = list(FACTION_ID_NT)
+	fleet_types = list(/datum/fleet/pirate)

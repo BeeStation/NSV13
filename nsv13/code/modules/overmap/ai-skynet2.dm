@@ -84,6 +84,8 @@ GLOBAL_LIST_EMPTY(ai_goals)
 	var/list/recently_visited = list()
 	var/fleet_trait = FLEET_TRAIT_INVASION
 	var/last_encounter_time = 0
+	var/datum/faction/faction = null
+	var/reward = 25 //Reward for defeating this fleet, is credited to this faction's enemies.
 
 //BFS search algo. Entirely unused for now.
 /datum/fleet/proc/bfs(datum/star_system/target)
@@ -232,8 +234,7 @@ GLOBAL_LIST_EMPTY(ai_goals)
 		current_system.alignment = initial(current_system.alignment)
 		current_system.mission_sector = FALSE
 	current_system.fleets -= src
-	SSstar_system.systems_cleared ++
-	SSstar_system.check_completion()
+	faction?.lose_influence(reward)
 	for(var/obj/structure/overmap/OOM in current_system.system_contents)
 		if(!OOM.mobs_in_ship.len)
 			continue
@@ -377,8 +378,8 @@ GLOBAL_LIST_EMPTY(ai_goals)
 	taunts = list("Better crews have tried to cross the Rubicon, you will die like they did.", "Defense force, stand ready!", "Nanotrasen filth. Munitions, ready the guns. We’ll scrub the galaxy clean of you vermin.", "This shift just gets better and better. I’ll have your Captain’s head on my wall.")
 	fleet_trait = FLEET_TRAIT_DEFENSE
 
-/datum/fleet/tortuga
-	name = "Tortuga raiders"
+/datum/fleet/pirate
+	name = "Pirate scout fleet"
 	audio_cues = list("https://www.youtube.com/watch?v=WMSoo4B2hFU")
 	taunts = list("Yar har! Fresh meat", "Unfurl the mainsails! We've got company", "Die landlubbers!")
 	size = FLEET_DIFFICULTY_HARD
@@ -451,6 +452,7 @@ GLOBAL_LIST_EMPTY(ai_goals)
 		return FALSE
 	instantiated = TRUE
 	current_system = SS
+	reward *= size //Bigger fleet = larger reward
 	/*Fleet comp! Let's use medium as an example:
 	6 total
 	3 destroyers (1/2 of the fleet size)
@@ -895,7 +897,6 @@ GLOBAL_LIST_EMPTY(ai_goals)
 	if(OM.role == MAIN_OVERMAP)
 		set_security_level(SEC_LEVEL_RED) //Action stations when the ship is under attack, if it's the main overmap.
 		SSstar_system.last_combat_enter = world.time //Tag the combat on the SS
-		SSstar_system.modifier = 0 //Reset overmap spawn modifier
 		var/datum/round_event_control/_overmap_event_handler/OEH = locate(/datum/round_event_control/_overmap_event_handler) in SSevents.control
 		OEH.weight = 0 //Reset controller weighting
 	if(OM.tactical)

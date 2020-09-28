@@ -1,5 +1,7 @@
 GLOBAL_VAR_INIT(crew_transfer_risa, FALSE)
 
+#define FACTION_VICTORY_TICKETS 1000
+
 //Subsystem to control overmap events and the greater gameworld
 SUBSYSTEM_DEF(star_system)
 	name = "star_system"
@@ -11,7 +13,7 @@ SUBSYSTEM_DEF(star_system)
 	var/list/enemy_types = list()
 	var/list/enemy_blacklist = list()
 	var/list/ships = list() //2-d array. Format: list("ship" = ship, "x" = 0, "y" = 0, "current_system" = null, "target_system" = null, "transit_time" = 0)
-	var/tickets_to_win = list()
+	var/tickets_to_win = FACTION_VICTORY_TICKETS
 	//Starmap 2
 	var/list/factions = list() //List of all factions in play on this starmap, instantiated on init.
 	var/next_nag_time = 0
@@ -26,7 +28,7 @@ SUBSYSTEM_DEF(star_system)
 				SS.hidden = FALSE
 		can_fire = FALSE //And leave it at that.
 		return FALSE //Don't karmic people if this roundtype is set to passive mode.
-	for(datum/faction/F in factions)
+	for(var/datum/faction/F in factions)
 		F.send_fleet() //Try send a fleet out from each faction.
 	if(world.time >= next_nag_time)
 		nag_stacks ++
@@ -61,8 +63,6 @@ SUBSYSTEM_DEF(star_system)
 				total_deductions += D.account_balance / 2
 				D.account_balance /= 2
 
-		if(istype(OEH))
-			OEH.weight ++ //Increment probabilty via SSEvent
 /datum/controller/subsystem/star_system/New()
 	. = ..()
 	next_nag_time = world.time + nag_interval
@@ -77,6 +77,7 @@ SUBSYSTEM_DEF(star_system)
 		F.setup_relationships() //Set up faction relationships AFTER they're all initialised to avoid errors.
 
 /datum/controller/subsystem/star_system/proc/faction_by_id(id)
+	RETURN_TYPE(/datum/faction)
 	if(!id)
 		return //Stop wasting my time.
 	for(var/datum/faction/F in factions)
@@ -655,7 +656,7 @@ SUBSYSTEM_DEF(star_system)
 	system_type = "pirate" //Guranteed piratical action!
 	threat_level = THREAT_LEVEL_UNSAFE
 	adjacency_list = list("P9X-334", "Antares")
-	fleet_type = /datum/fleet/tortuga
+	fleet_type = /datum/fleet/pirate
 
 /datum/star_system/p9x334
 	name = "P9X-334"

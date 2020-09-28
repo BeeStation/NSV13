@@ -179,6 +179,8 @@
 	for(var/turf/open/floor/T in landingzone.contents)//uses default landing zone
 		if(is_blocked_turf(T))
 			continue
+		if(empty_turfs.len >= 10)
+			break //Don't bother finding any more.
 		LAZYADD(empty_turfs, T)
 		CHECK_TICK
 	if(empty_turfs?.len)
