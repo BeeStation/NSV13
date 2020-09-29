@@ -44,6 +44,7 @@
 #define CLOWN			(1<<11)
 #define MIME			(1<<12)
 #define ASSISTANT		(1<<13)
+#define SHRINK          (1<<18)
 
 #define BRIDGE_OFFICER		(1<<14) //NSV13
 #define MUNITIONS_TECHNICIAN	(1<<15) //NSV13
@@ -58,6 +59,9 @@
 #define MAGICIAN        (1<<23)
 #define HOBO            (1<<24)
 #define SHRINK          (1<<25)
+#define CELEBRITY       (1<<26)
+#warn THESE BITSHIFTS ARE TOO HIGH, HOBO SHRINK AND CELEB ARE ALL IDENTICAL TO HOP
+
 
 #define JOB_AVAILABLE 0
 #define JOB_UNAVAILABLE_GENERIC 1

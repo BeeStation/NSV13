@@ -1,15 +1,10 @@
 /**
-
 Full-auto firing by Kmc2000 (Version 2)
 So it turns out the way I wrote this before was absolutely abysmal (who would've guessed!) this should be a little bit more clean and less buggy <3
-
 Fields:
-
 full_auto - Set this if you want a full auto setting on your gun. This REPLACES semi-auto, but don't fret! You can still use semi auto mode when on full auto, just don't hold your mouse down :)
 It's highly recommended that you DO NOT use this for special case guns like the beam rifle, or guns that override mouseDown, as this will cause issues.
-
 Everything else should be handled for you. Good luck soldier.
-
 */
 
 #define COMSIG_AUTOFIRE_END "stop_autofiring"
@@ -28,7 +23,7 @@ Everything else should be handled for you. Good luck soldier.
 					autofire_component = AddComponent(/datum/component/full_auto)
 					if(fire_rate)
 						autofire_component.default_fire_delay = (10 / fire_rate)
-					return ..()
+					return
 			else //They're trying to disable the full auto of a gun. Remove the relevent component
 				if(autofire_component)
 					autofire_component.RemoveComponent()
@@ -36,9 +31,7 @@ Everything else should be handled for you. Good luck soldier.
 					return ..()
 		if(NAMEOF(src, fire_rate))
 			autofire_component?.default_fire_delay = (10 / var_value)
-			return ..()
-		else
-			return ..()
+			return
 
 //Place any guns that you want to be fully automatic here (for record-keeping and so NSV can avoid conflicts please and thank.)
 /obj/item/gun/ballistic/automatic/l6_saw
@@ -57,9 +50,6 @@ Everything else should be handled for you. Good luck soldier.
 	full_auto = TRUE
 
 /obj/item/gun/ballistic/shotgun/bulldog
-	full_auto = TRUE
-
-/obj/item/gun/ballistic/automatic/peacekeeper
 	full_auto = TRUE
 
 /obj/item/gun/Initialize()
