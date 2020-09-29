@@ -7666,9 +7666,6 @@
 /obj/effect/turf_decal/tile/neutral,
 /obj/machinery/disposal/bin,
 /obj/structure/disposalpipe/trunk,
-/obj/structure/sign/ship/smoking{
-	pixel_y = 26
-	},
 /turf/open/floor/monotile,
 /area/crew_quarters/cafeteria{
 	name = "Mess hall"
@@ -42400,13 +42397,13 @@
 /area/nsv/weapons/gauss)
 "bYU" = (
 /obj/effect/turf_decal/delivery,
-/obj/structure/fighter_component/underconstruction_fighter/light_fighter_frame,
+/obj/structure/fighter_frame,
 /turf/open/floor/monotile/dark,
 /area/nsv/hanger/deck2)
 "bYW" = (
 /obj/structure/rack,
 /obj/item/fighter_component/avionics,
-/obj/item/fighter_component/armour_plating/heavy/t1,
+/obj/item/fighter_component/armour_plating/tier2,
 /turf/open/floor/monotile,
 /area/nsv/hanger/deck2)
 "bYZ" = (
@@ -43029,7 +43026,7 @@
 	})
 "cff" = (
 /obj/effect/turf_decal/delivery,
-/obj/structure/fighter_component/underconstruction_fighter/heavy_fighter_frame,
+/obj/structure/fighter_frame/heavy,
 /turf/open/floor/monotile/dark,
 /area/nsv/hanger/deck2)
 "cfg" = (
@@ -43037,8 +43034,8 @@
 	dir = 4
 	},
 /obj/structure/rack,
-/obj/item/fighter_component/fuel_tank/t1,
-/obj/item/fighter_component/countermeasure_dispenser/t1,
+/obj/item/fighter_component/fuel_tank,
+/obj/item/fighter_component/countermeasure_dispenser,
 /obj/item/fighter_component/apu,
 /turf/open/floor/monotile,
 /area/nsv/hanger/deck2)
@@ -43047,7 +43044,7 @@
 	dir = 8
 	},
 /obj/structure/rack,
-/obj/item/fighter_component/engine/heavy/t1,
+/obj/item/fighter_component/engine,
 /turf/open/floor/monotile,
 /area/nsv/hanger/deck2)
 "cfi" = (
@@ -43055,7 +43052,7 @@
 	dir = 4
 	},
 /obj/structure/rack,
-/obj/item/fighter_component/armour_plating/light/t1,
+/obj/item/fighter_component/armour_plating,
 /turf/open/floor/monotile,
 /area/nsv/hanger/deck2)
 "cfj" = (
@@ -43065,9 +43062,9 @@
 	},
 /obj/structure/rack,
 /obj/item/fighter_component/avionics,
-/obj/item/fighter_component/countermeasure_dispenser/t1,
-/obj/item/fighter_component/engine/light/t1,
-/obj/item/fighter_component/fuel_tank/t1,
+/obj/item/fighter_component/countermeasure_dispenser,
+/obj/item/fighter_component/engine,
+/obj/item/fighter_component/fuel_tank,
 /turf/open/floor/monotile,
 /area/nsv/hanger/deck2)
 "cfk" = (
@@ -43075,31 +43072,29 @@
 	dir = 8
 	},
 /obj/structure/table/reinforced,
-/obj/structure/fighter_component/light_chassis_crate,
-/obj/structure/fighter_component/light_chassis_crate,
 /turf/open/floor/monotile/dark,
 /area/nsv/hanger/deck2)
 "cfl" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
 	},
-/obj/item/fighter_component/secondary/heavy/torpedo_rack/t1,
-/obj/item/fighter_component/primary/heavy/heavy_cannon/t1,
-/obj/item/fighter_component/targeting_sensor/heavy/t1,
-/obj/item/fighter_component/targeting_sensor/heavy/t1,
+/obj/item/fighter_component/secondary/ordnance_launcher/torpedo,
+/obj/item/fighter_component/primary/cannon/heavy,
+/obj/item/fighter_component/targeting_sensor,
+/obj/item/fighter_component/targeting_sensor,
 /turf/open/floor/monotile/dark,
 /area/nsv/hanger/deck2)
 "cfm" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
 	},
-/obj/item/fighter_component/targeting_sensor/heavy/t1,
-/obj/item/fighter_component/primary/light/light_cannon/t1,
-/obj/item/fighter_component/primary/light/light_cannon/t1,
-/obj/item/fighter_component/secondary/light/missile_rack/t1,
-/obj/item/fighter_component/secondary/heavy/torpedo_rack/t1,
-/obj/item/fighter_component/targeting_sensor/light/t1,
-/obj/item/fighter_component/targeting_sensor/light/t1,
+/obj/item/fighter_component/targeting_sensor,
+/obj/item/fighter_component/primary/cannon,
+/obj/item/fighter_component/primary/cannon,
+/obj/item/fighter_component/secondary/ordnance_launcher,
+/obj/item/fighter_component/secondary/ordnance_launcher/torpedo,
+/obj/item/fighter_component/targeting_sensor,
+/obj/item/fighter_component/targeting_sensor,
 /turf/open/floor/monotile/dark,
 /area/nsv/hanger/deck2)
 "cfn" = (
@@ -43123,6 +43118,12 @@
 "cfp" = (
 /obj/structure/rack,
 /obj/item/stack/sheet/iron/fifty,
+/obj/item/stack/sheet/glass/fifty,
+/obj/item/stack/sheet/glass/fifty,
+/obj/item/fighter_component/battery,
+/obj/item/fighter_component/battery,
+/obj/item/fighter_component/oxygenator,
+/obj/item/fighter_component/oxygenator,
 /turf/open/floor/monotile,
 /area/nsv/hanger/deck2)
 "cfq" = (
@@ -43556,9 +43557,6 @@
 /obj/effect/turf_decal/tile/neutral,
 /obj/effect/turf_decal/tile/neutral{
 	dir = 8
-	},
-/obj/structure/sign/nanotrasen{
-	pixel_y = 26
 	},
 /obj/machinery/vending/coffee,
 /turf/open/floor/monotile,
@@ -49379,6 +49377,12 @@
 /turf/open/floor/monotile/dark,
 /area/science/mixing{
 	name = "Prototype munitions bay"
+	})
+"xxg" = (
+/obj/structure/sign/barsign,
+/turf/closed/wall/ship,
+/area/crew_quarters/cafeteria{
+	name = "Mess hall"
 	})
 "xyX" = (
 /obj/structure/lattice/catwalk,
@@ -88274,7 +88278,7 @@ abR
 gvw
 ajS
 baI
-abZ
+xxg
 asX
 aVb
 bdf

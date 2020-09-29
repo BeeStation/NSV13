@@ -161,7 +161,10 @@
 //Cloaking and sensors!
 
 /obj/structure/overmap/proc/is_sensor_visible(obj/structure/overmap/observer) //How visible is this enemy ship to sensors? Sometimes ya gotta get real up close n' personal.
-	var/distance_factor = (1/get_dist(src, observer)) //Visibility inversely scales with distance. If you get too close to a target, even with a stealth ship, you'll ping their sensors.
+	var/dist = get_dist(src, observer)
+	if(dist <= 0)
+		dist = 1
+	var/distance_factor = (1/dist) //Visibility inversely scales with distance. If you get too close to a target, even with a stealth ship, you'll ping their sensors.
 	//Convert alpha to an opacity reading.
 	switch(alpha)
 		if(0 to 50) //Nigh on invisible. You cannot detect ships that are this cloaked by any means.
