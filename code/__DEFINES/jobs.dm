@@ -44,6 +44,7 @@
 #define CLOWN			(1<<11)
 #define MIME			(1<<12)
 #define ASSISTANT		(1<<13)
+//NSV START
 
 #define BRIDGE_OFFICER		(1<<14) //NSV13
 #define MUNITIONS_TECHNICIAN	(1<<15) //NSV13
@@ -56,8 +57,14 @@
 #define GIMMICK 		(1<<21)
 #define BARBER		    (1<<22)
 #define MAGICIAN        (1<<23)
+
+//Bitshifts beyond this point are nonfunctional. if Gimmick gets above here we're going to have a problem.
+
 #define HOBO            (1<<24)
 #define SHRINK          (1<<25)
+#define CELEBRITY       (1<<26)
+
+//NSV END
 
 #define JOB_AVAILABLE 0
 #define JOB_UNAVAILABLE_GENERIC 1
@@ -103,7 +110,7 @@
 #define JOB_DISPLAY_ORDER_DETECTIVE 30
 #define JOB_DISPLAY_ORDER_SECURITY_OFFICER 31
 #define JOB_DISPLAY_ORDER_BRIG_PHYS 32
-#define JOB_DISPLAY_ORDER_DEPUTY 33 
+#define JOB_DISPLAY_ORDER_DEPUTY 33
 #define JOB_DISPLAY_ORDER_AI 34
 #define JOB_DISPLAY_ORDER_CYBORG 35
 #define JOB_DISPLAY_ORDER_MASTER_AT_ARMS 36 // NSV13
