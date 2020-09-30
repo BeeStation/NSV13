@@ -89,6 +89,7 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 	//Think magic mirror and pride mirror, slime extract, ERT etc, see defines
 	//in __DEFINES/mobs.dm, defaults to NONE, so people actually have to think about it
 	var/changesource_flags = NONE
+
 ///////////
 // PROCS //
 ///////////

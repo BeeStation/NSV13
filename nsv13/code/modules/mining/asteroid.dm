@@ -237,10 +237,10 @@ GLOBAL_LIST_EMPTY(asteroid_spawn_markers)		//handles mining asteroids, kind of s
 	linked.relay('nsv13/sound/effects/ship/tractor.ogg', "<span class='warning'>DANGER: Magnet has locked on to an asteroid. Vacate the asteroid cage immediately.</span>")
 	cooldown = TRUE
 	addtimer(VARSET_CALLBACK(src, cooldown, FALSE), 1 MINUTES)
-	if(prob(10)) //I hate this but it works so fuck you
+	if(prob(33)) //I hate this but it works so fuck you
 		var/list/potential_ruins = flist("_maps/map_files/Mining/nsv13/ruins/")
 		current_asteroid = new /datum/map_template/asteroid("_maps/map_files/Mining/nsv13/ruins/[pick(potential_ruins)]", null, FALSE, AS.core_composition) //Set up an asteroid
-	else //90% chance to get an actual asteroid
+	else //67% chance to get an actual asteroid
 		var/list/potential_asteroids = flist("_maps/map_files/Mining/nsv13/asteroids/")
 		current_asteroid = new /datum/map_template/asteroid("_maps/map_files/Mining/nsv13/asteroids/[pick(potential_asteroids)]", null, FALSE, AS.core_composition) //Set up an asteroid
 	addtimer(CALLBACK(src, .proc/load_asteroid), 10 SECONDS)

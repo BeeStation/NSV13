@@ -173,65 +173,36 @@
 	failure_alert = "<span class='warning'>DANGER: Cannon ammunition reserves are depleted.</span>"
 	lateral = FALSE
 
-/datum/ship_weapon/search_rescue_scoop //not currently enabled
-	default_projectile_type = /obj/item/projectile/bullet/pdc_round
-	burst_size = 0
-	fire_delay = 0
-	range_modifier = 0
+/datum/ship_weapon/fighter_primary
+	name = "Primary Equipment Mount"
+	default_projectile_type = /obj/item/projectile/bullet/light_cannon_round //This is overridden anyway
+	burst_size = 1
+	fire_delay = 0.25 SECONDS
+	range_modifier = 10
 	overmap_select_sound = 'nsv13/sound/effects/ship/pdc_start.ogg'
-	overmap_firing_sounds = list('nsv13/sound/effects/ship/pdc.ogg',
-		'nsv13/sound/effects/ship/pdc2.ogg',
-		'nsv13/sound/effects/ship/pdc3.ogg')
-	select_alert = "<span class='warning'>Feature Not Currently Enabled.</span>"
-	failure_alert = "<span class='warning'>Feature Not Currently Enabled.</span>"
+	overmap_firing_sounds = list('nsv13/sound/effects/fighters/autocannon.ogg')
+	select_alert = "<span class='notice'>Primary mount selected.</span>"
+	failure_alert = "<span class='warning'>DANGER: Primary mount not responding to fire command.</span>"
+	lateral = FALSE
+	special_fire_proc = /obj/structure/overmap/proc/primary_fire
 
-/datum/ship_weapon/search_rescue_extractor //not currently enabled
-	default_projectile_type = /obj/item/projectile/bullet/pdc_round
-	burst_size = 0
-	fire_delay = 0
-	range_modifier = 0
-	overmap_select_sound = 'nsv13/sound/effects/ship/pdc_start.ogg'
-	overmap_firing_sounds = list('nsv13/sound/effects/ship/pdc.ogg',
-		'nsv13/sound/effects/ship/pdc2.ogg',
-		'nsv13/sound/effects/ship/pdc3.ogg')
-	select_alert = "<span class='warning'>Feature Not Currently Enabled.</span>"
-	failure_alert = "<span class='warning'>Feature Not Currently Enabled.</span>"
-
-/datum/ship_weapon/rapid_breach_sealing_welder //not currently enabled
-	default_projectile_type = /obj/item/projectile/bullet/pdc_round
-	burst_size = 0
-	fire_delay = 0
-	range_modifier = 0
-	overmap_select_sound = 'nsv13/sound/effects/ship/pdc_start.ogg'
-	overmap_firing_sounds = list('nsv13/sound/effects/ship/pdc.ogg',
-		'nsv13/sound/effects/ship/pdc2.ogg',
-		'nsv13/sound/effects/ship/pdc3.ogg')
-	select_alert = "<span class='warning'>Feature Not Currently Enabled.</span>"
-	failure_alert = "<span class='warning'>Feature Not Currently Enabled.</span>"
-
-/datum/ship_weapon/rapid_breach_sealing_foam //not currently enabled
-	default_projectile_type = /obj/item/projectile/bullet/pdc_round
-	burst_size = 0
-	fire_delay = 0
-	range_modifier = 0
-	overmap_select_sound = 'nsv13/sound/effects/ship/pdc_start.ogg'
-	overmap_firing_sounds = list('nsv13/sound/effects/ship/pdc.ogg',
-		'nsv13/sound/effects/ship/pdc2.ogg',
-		'nsv13/sound/effects/ship/pdc3.ogg')
-	select_alert = "<span class='warning'>Feature Not Currently Enabled.</span>"
-	failure_alert = "<span class='warning'>Feature Not Currently Enabled.</span>"
-
-/datum/ship_weapon/refueling_system //not currently enabled
-	default_projectile_type = /obj/item/projectile/bullet/pdc_round
-	burst_size = 0
-	fire_delay = 0
-	range_modifier = 0
-	overmap_select_sound = 'nsv13/sound/effects/ship/pdc_start.ogg'
-	overmap_firing_sounds = list('nsv13/sound/effects/ship/pdc.ogg',
-		'nsv13/sound/effects/ship/pdc2.ogg',
-		'nsv13/sound/effects/ship/pdc3.ogg')
-	select_alert = "<span class='warning'>Feature Not Currently Enabled.</span>"
-	failure_alert = "<span class='warning'>Feature Not Currently Enabled.</span>"
+/datum/ship_weapon/fighter_secondary
+	name = "Secondary Equipment Mount"
+	default_projectile_type = /obj/item/projectile/guided_munition/missile //This is overridden anyway
+	burst_size = 1
+	fire_delay = 5
+	range_modifier = 30
+	select_alert = "<span class='notice'>Secondary mount selected.</span>"
+	failure_alert = "<span class='warning'>DANGER: Secondary mount not responding to fire command.</span>"
+	overmap_firing_sounds = list(
+		'nsv13/sound/effects/ship/torpedo.ogg',
+		'nsv13/sound/effects/ship/freespace2/m_shrike.wav',
+		'nsv13/sound/effects/ship/freespace2/m_stiletto.wav',
+		'nsv13/sound/effects/ship/freespace2/m_tsunami.wav',
+		'nsv13/sound/effects/ship/freespace2/m_wasp.wav')
+	overmap_select_sound = 'nsv13/sound/effects/ship/reload.ogg'
+	firing_arc = 45 //Broad side of a barn...
+	special_fire_proc = /obj/structure/overmap/proc/secondary_fire
 
 //You don't ever actually select this. Crew act as gunners.
 
