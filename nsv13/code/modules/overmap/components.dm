@@ -52,17 +52,17 @@ GLOBAL_LIST_INIT(computer_beeps, list('nsv13/sound/effects/computer/beep.ogg','n
 		var/sound = pick('nsv13/sound/effects/computer/error.ogg','nsv13/sound/effects/computer/error2.ogg','nsv13/sound/effects/computer/error3.ogg')
 		playsound(src, sound, 100, 1)
 		to_chat(user, "<span class='warning'>Access denied</span>")
-		return
+		return FALSE
 	if(!isliving(user))
-		return
+		return FALSE
 	if(!has_overmap())
 		var/sound = pick('nsv13/sound/effects/computer/error.ogg','nsv13/sound/effects/computer/error2.ogg','nsv13/sound/effects/computer/error3.ogg')
 		playsound(src, sound, 100, 1)
 		to_chat(user, "<span class='warning'>A warning flashes across [src]'s screen: Unable to locate thrust parameters, no registered ship stored in microprocessor.</span>")
-		return
-	if(!position)
-		return
+		return FALSE
 	playsound(src, 'nsv13/sound/effects/computer/startup.ogg', 75, 1)
+	if(!position)
+		return TRUE
 	return linked.start_piloting(user, position)
 
 /datum/techweb_node/ship_circuits
@@ -141,7 +141,10 @@ GLOBAL_LIST_INIT(computer_beeps, list('nsv13/sound/effects/computer/beep.ogg','n
 		ui.open()
 
 /obj/machinery/computer/ship/tactical/ui_act(action, params, datum/tgui/ui)
-	if(..() || !linked)
+	. = ..()
+	if(.)
+		return
+	if(!linked)
 		return
 	switch(action)
 		if("target_lock")

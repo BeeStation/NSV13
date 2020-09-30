@@ -91,7 +91,8 @@
 
 /obj/machinery/computer/ship/dradis/attack_hand(mob/user)
 	. = ..()
-	ui_interact(user)
+	if(.)
+		ui_interact(user)
 
 /obj/machinery/computer/ship/dradis/can_interact(mob/user) //Override this code to allow people to use consoles when flying the ship.
 	if(locate(user) in linked?.operators)
@@ -114,7 +115,8 @@
 		ui.open()
 
 /obj/machinery/computer/ship/dradis/ui_act(action, params, datum/tgui/ui)
-	if(..())
+	. = ..()
+	if(.)
 		return
 	if(!has_overmap())
 		return
