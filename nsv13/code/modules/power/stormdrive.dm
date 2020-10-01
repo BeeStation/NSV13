@@ -280,7 +280,7 @@ Control Rods
 	if(state == REACTOR_STATE_REINFORCE)
 		to_chat(user, "<span class='notice'>You start reinforcing the reactor shielding...</span>")
 		if(tool.use_tool(src, user, 5 SECONDS, volume=100))
-			to_chat(user, "<span class='notice'>Yhe reactor shielding has been reinforced.</span>")
+			to_chat(user, "<span class='notice'>The reactor shielding has been reinforced.</span>")
 			state = REACTOR_STATE_REFIT
 			update_icon()
 			return TRUE
@@ -906,7 +906,7 @@ Control Rods
 					else
 						L.flicker()
 			if(prob(0.01))
-				storm_zap(src, 5, input_power/50)
+				tesla_zap(src, 5, 1000)
 		if(10000000 to INFINITY) //10MW+
 			if(prob(1))
 				for(var/obj/machinery/light/L in GLOB.machines)
@@ -916,7 +916,7 @@ Control Rods
 				for(var/obj/machinery/light/L in orange(12, src))
 					L.burn_out() //If there are even any left by this stage
 			if(prob(0.1))
-				storm_zap(src, 8, input_power/25)
+				tesla_zap(src, 8, 2000)
 
 /obj/machinery/atmospherics/components/binary/stormdrive_reactor/update_icon() //include overlays for radiation output levels and power output levels (ALSO 1k+ levels)
 	if(state == REACTOR_STATE_MELTDOWN)
@@ -976,153 +976,6 @@ Control Rods
 		qdel(X)
 	.=..()
 
-/obj/machinery/atmospherics/components/binary/stormdrive_reactor/proc/storm_zap(atom/source, zap_range = 3, power, tesla_flags = TESLA_DEFAULT_FLAGS, list/shocked_targets) //This is so EHHHHHH but CBS fixing
-	. = source.dir
-
-	var/closest_dist = 0
-	var/closest_atom
-	var/obj/machinery/power/tesla_coil/closest_tesla_coil
-	var/obj/machinery/power/grounding_rod/closest_grounding_rod
-	var/mob/living/closest_mob
-	var/obj/machinery/closest_machine
-	var/obj/structure/closest_structure
-	var/obj/structure/blob/closest_blob
-	var/static/things_to_shock = typecacheof(list(/obj/machinery, /mob/living, /obj/structure))
-	var/static/blacklisted_tesla_types = typecacheof(list(/obj/machinery/atmospherics,
-										/obj/machinery/power/emitter,
-										/obj/machinery/field/generator,
-										/mob/living/simple_animal,
-										/obj/machinery/particle_accelerator/control_box,
-										/obj/structure/particle_accelerator/fuel_chamber,
-										/obj/structure/particle_accelerator/particle_emitter/center,
-										/obj/structure/particle_accelerator/particle_emitter/left,
-										/obj/structure/particle_accelerator/particle_emitter/right,
-										/obj/structure/particle_accelerator/power_box,
-										/obj/structure/particle_accelerator/end_cap,
-										/obj/machinery/field/containment,
-										/obj/structure/disposalpipe,
-										/obj/structure/disposaloutlet,
-										/obj/machinery/disposal/deliveryChute,
-										/obj/machinery/camera,
-										/obj/structure/sign,
-										/obj/machinery/gateway,
-										/obj/structure/lattice,
-										/obj/structure/grille,
-										/obj/machinery/the_singularitygen/tesla,
-										/obj/structure/frame/machine))
-
-	for(var/A in typecache_filter_multi_list_exclusion(oview(source, zap_range+2), things_to_shock, blacklisted_tesla_types))
-		if(!(tesla_flags & TESLA_ALLOW_DUPLICATES) && LAZYACCESS(shocked_targets, A))
-			continue
-
-		if(istype(A, /obj/machinery/power/tesla_coil))
-			var/dist = get_dist(source, A)
-			var/obj/machinery/power/tesla_coil/C = A
-			if(dist <= zap_range && (dist < closest_dist || !closest_tesla_coil) && !(C.obj_flags & BEING_SHOCKED))
-				closest_dist = dist
-
-				//we use both of these to save on istype and typecasting overhead later on
-				//while still allowing common code to run before hand
-				closest_tesla_coil = C
-				closest_atom = C
-
-
-		else if(closest_tesla_coil)
-			continue //no need checking these other things
-
-		else if(istype(A, /obj/machinery/power/grounding_rod))
-			var/dist = get_dist(source, A)-2
-			if(dist <= zap_range && (dist < closest_dist || !closest_grounding_rod))
-				closest_grounding_rod = A
-				closest_atom = A
-				closest_dist = dist
-
-		else if(closest_grounding_rod)
-			continue
-
-		else if(isliving(A))
-			var/dist = get_dist(source, A)
-			var/mob/living/L = A
-			if(dist <= zap_range && (dist < closest_dist || !closest_mob) && L.stat != DEAD && !(L.flags_1 & TESLA_IGNORE_1))
-				closest_mob = L
-				closest_atom = A
-				closest_dist = dist
-
-		else if(closest_mob)
-			continue
-
-		else if(ismachinery(A))
-			var/obj/machinery/M = A
-			var/dist = get_dist(source, A)
-			if(dist <= zap_range && (dist < closest_dist || !closest_machine) && !(M.obj_flags & BEING_SHOCKED))
-				closest_machine = M
-				closest_atom = A
-				closest_dist = dist
-
-		else if(closest_mob)
-			continue
-
-		else if(istype(A, /obj/structure/blob))
-			var/obj/structure/blob/B = A
-			var/dist = get_dist(source, A)
-			if(dist <= zap_range && (dist < closest_dist || !closest_tesla_coil) && !(B.obj_flags & BEING_SHOCKED))
-				closest_blob = B
-				closest_atom = A
-				closest_dist = dist
-
-		else if(closest_blob)
-			continue
-
-		else if(isstructure(A))
-			var/obj/structure/S = A
-			var/dist = get_dist(source, A)
-			if(dist <= zap_range && (dist < closest_dist || !closest_tesla_coil) && !(S.obj_flags & BEING_SHOCKED))
-				closest_structure = S
-				closest_atom = A
-				closest_dist = dist
-
-	//Alright, we've done our loop, now lets see if was anything interesting in range
-	if(closest_atom)
-		//common stuff
-		source.Beam(closest_atom, icon_state="lightning[rand(1,12)]", time=5, maxdistance = INFINITY)
-		if(!(tesla_flags & TESLA_ALLOW_DUPLICATES))
-			LAZYSET(shocked_targets, closest_atom, TRUE)
-		var/zapdir = get_dir(source, closest_atom)
-		if(zapdir)
-			. = zapdir
-
-	//per type stuff:
-	if(closest_tesla_coil)
-		closest_tesla_coil.tesla_act(power, tesla_flags, shocked_targets)
-
-	else if(closest_grounding_rod)
-		closest_grounding_rod.tesla_act(power, tesla_flags, shocked_targets)
-
-	else if(closest_mob)
-		var/shock_damage = (tesla_flags & TESLA_MOB_DAMAGE)? (min(round(power/600), 90) + rand(-5, 5)) : 0
-		closest_mob.electrocute_act(shock_damage, source, 1, tesla_shock = 1, stun = (tesla_flags & TESLA_MOB_STUN))
-		if(issilicon(closest_mob))
-			var/mob/living/silicon/S = closest_mob
-			if((tesla_flags & TESLA_MOB_STUN) && (tesla_flags & TESLA_MOB_DAMAGE))
-				S.emp_act(EMP_LIGHT)
-			storm_zap(S, 7, power / 1.5, tesla_flags, shocked_targets) // metallic folks bounce it further
-		else
-			storm_zap(closest_mob, 5, power / 1.5, tesla_flags, shocked_targets)
-
-	else if(closest_machine)
-		if(prob(85) && (tesla_flags & TESLA_MACHINE_EXPLOSIVE))
-			explosion(src, 0, 0, 2, flame_range = 2, adminlog = FALSE, smoke = FALSE)
-		if(tesla_flags & TESLA_OBJ_DAMAGE)
-			take_damage(power/2000, BURN, "energy")
-			if(prob(40))
-				emp_act(EMP_LIGHT)
-
-	else if(closest_blob)
-		closest_blob.tesla_act(power, tesla_flags, shocked_targets)
-
-	else if(closest_structure)
-		closest_structure.tesla_act(power, tesla_flags, shocked_targets)
-
 /obj/machinery/atmospherics/components/binary/stormdrive_reactor/examine(mob/user)
 	. = ..()
 	if(icon_state == "broken")
@@ -1154,10 +1007,10 @@ Control Rods
 	reactor_end_times = TRUE
 
 /obj/machinery/atmospherics/components/binary/stormdrive_reactor/proc/handle_reactor_destabilization()
-	if(prob(75))
-		storm_zap(src, rand(3, 8), 1000)
+//	if(prob(75))
+//		tesla_zap(src, rand(3, 8), 1000)
 
-	if(prob(35))
+	if(prob(40))
 		for(var/obj/structure/window/W in orange(6, src))
 			W.take_damage(rand(50, 150))
 
@@ -1721,12 +1574,12 @@ Control Rods
 /obj/effect/anomaly/stormdrive/surge //EMP + Flux
 	name = "storm surge anomaly"
 	icon_state = "electricity2"
-	var/canshock = 0
+	var/canshock = FALSE
 	var/shockdamage = 20
 
 /obj/effect/anomaly/stormdrive/surge/anomalyEffect()
 	..()
-	canshock = 1
+	canshock = TRUE
 	if(prob(90))
 		empulse(src, 0, 3)
 		for(var/mob/living/M in range(0, src))
@@ -1748,7 +1601,7 @@ Control Rods
 
 /obj/effect/anomaly/stormdrive/surge/proc/mobShock(mob/living/M)
 	if(canshock && istype(M))
-		canshock = 0 //Just so you don't instakill yourself if you slam into the anomaly five times in a second.
+		canshock = FALSE
 		if(iscarbon(M))
 			if(ishuman(M))
 				M.electrocute_act(shockdamage, "[name]", safety=1)
@@ -1780,7 +1633,7 @@ Control Rods
 
 /obj/item/stormdrive_core
 	name = "Class IV Nuclear Storm Drive Reactor Core"
-	desc = "This crate contains a live reactor core for a class iv nuclear storm drive."
+	desc = "This crate contains a live reactor core for a class IV nuclear storm drive."
 	icon = 'icons/obj/crates.dmi'
 	icon_state = "crate"
 	w_class = WEIGHT_CLASS_GIGANTIC
