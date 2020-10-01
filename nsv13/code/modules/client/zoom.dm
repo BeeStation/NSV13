@@ -5,7 +5,7 @@
 	if(!mob?.overmap_ship) //If they're not in an overmap ship, shortcut to standard behavior.
 		return ..()
 	var/list/modifier = params2list(params)
-	if(modifier["shift"])
+	if(modifier["ctrl"])
 		if(delta_y > 0)
 			overmap_zoomout--
 		else

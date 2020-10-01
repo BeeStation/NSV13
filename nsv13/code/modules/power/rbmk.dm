@@ -704,7 +704,7 @@ The reactor CHEWS through moderator. It does not do this slowly. Be very careful
 	if(!is_operational())
 		return FALSE
 	playsound(loc, pick('nsv13/sound/effects/rbmk/switch.ogg','nsv13/sound/effects/rbmk/switch2.ogg','nsv13/sound/effects/rbmk/switch3.ogg'), 100, FALSE)
-	visible_message("<span class='notice>[src]'s switch flips [on ? "off" : "on"].</span>")
+	visible_message("<span class='notice'>[src]'s switch flips [on ? "off" : "on"].</span>")
 	on = !on
 	signal(on)
 
