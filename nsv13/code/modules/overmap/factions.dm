@@ -74,6 +74,7 @@ Set up relationships.
 /datum/faction/proc/send_fleet()
 	if(SSstar_system.check_completion() || !fleet_types || world.time < next_fleet_spawn)
 		return
+	next_fleet_spawn = world.time + fleet_spawn_rate
 	var/datum/star_system/current_system //Dont spawn enemies where theyre currently at
 	for(var/obj/structure/overmap/OM in GLOB.overmap_objects) //The ship doesnt start with a system assigned by default
 		if(OM.role != MAIN_OVERMAP)
@@ -81,7 +82,7 @@ Set up relationships.
 		current_system = SSstar_system.ships[OM]["current_system"]
 	var/list/possible_spawns = list()
 	for(var/datum/star_system/starsys in SSstar_system.systems)
-		if(starsys != current_system && !starsys.hidden && lowertext(starsys.alignment) == lowertext(src.name)) //Find one of our base systems and try to send a fleet out from there.
+		if(starsys != current_system && !starsys.hidden && (lowertext(starsys.alignment) == lowertext(src.name) || starsys.alignment == "unaligned")) //Find one of our base systems and try to send a fleet out from there.
 			possible_spawns += starsys
 	if(!possible_spawns.len)
 		message_admins("Failed to spawn a [name] fleet because that faction doesn't own a single system :(")
@@ -95,6 +96,7 @@ Set up relationships.
 	starsys.fleets += F
 	F.assemble(starsys)
 	F.faction = src
+	message_admins("DEBUG: [src] spawned a [F] in [starsys]")
 	return
 
 //The beginning and the end.
@@ -104,6 +106,7 @@ Set up relationships.
 	preset_allies = list(FACTION_ID_SOLGOV, FACTION_ID_UNATHI)
 	preset_enemies = list(FACTION_ID_SYNDICATE, FACTION_ID_PIRATES)
 	fleet_types = list(/datum/fleet/nanotrasen/light)
+	fleet_spawn_rate = 30 MINUTES
 
 /datum/faction/nanotrasen/victory()
 	for(var/datum/star_system/SS in SSstar_system.systems)
@@ -123,6 +126,7 @@ Set up relationships.
 	preset_allies = list(FACTION_ID_PIRATES) //Yar HAR it's me, captain PLASMASALT
 	preset_enemies = list(FACTION_ID_NT)
 	fleet_types = list(/datum/fleet/neutral, /datum/fleet/boarding, /datum/fleet/wolfpack, /datum/fleet/nuclear)
+	fleet_spawn_rate = 15 MINUTES
 
 /datum/faction/syndicate/victory()
 	priority_announce("Attention [station_name()]. Our presence in this sector has been severely diminished due to your incompetence. Return to base immediately for disciplinary action.", "Naval Command")

@@ -369,6 +369,12 @@ GLOBAL_LIST_EMPTY(ai_goals)
 	size = FLEET_DIFFICULTY_EASY
 	fleet_trait = FLEET_TRAIT_BORDER_PATROL
 
+/datum/fleet/nanotrasen/border/defense
+	name = "501st 'Crais' Fist' Expeditionary Force"
+	taunts = list("You have violated the law. Stand down your weapons and prepare to be boarded.", "Hostile vessel. Stand down immediately or be destroyed.")
+	size = FLEET_DIFFICULTY_EASY
+	fleet_trait = FLEET_TRAIT_DEFENSE
+
 //Boss battles.
 
 /datum/fleet/rubicon //Crossing the rubicon, are we?
@@ -380,9 +386,9 @@ GLOBAL_LIST_EMPTY(ai_goals)
 
 /datum/fleet/pirate
 	name = "Pirate scout fleet"
-	audio_cues = list("https://www.youtube.com/watch?v=WMSoo4B2hFU")
+	audio_cues = list("https://www.youtube.com/watch?v=WMSoo4B2hFU", "https://www.youtube.com/watch?v=dsLHf9X8P8w")
 	taunts = list("Yar har! Fresh meat", "Unfurl the mainsails! We've got company", "Die landlubbers!")
-	size = FLEET_DIFFICULTY_HARD
+	size = FLEET_DIFFICULTY_MEDIUM
 	fleet_trait = FLEET_TRAIT_DEFENSE
 
 /datum/fleet/nanotrasen/earth
@@ -450,6 +456,7 @@ GLOBAL_LIST_EMPTY(ai_goals)
 	SS.alignment = alignment
 	if(!SS.occupying_z) //Only loaded in levels are supported at this time. TODO: Fix this.
 		return FALSE
+	faction = SSstar_system.faction_by_id(alignment)
 	instantiated = TRUE
 	current_system = SS
 	reward *= size //Bigger fleet = larger reward
@@ -897,6 +904,7 @@ GLOBAL_LIST_EMPTY(ai_goals)
 	if(OM.role == MAIN_OVERMAP)
 		set_security_level(SEC_LEVEL_RED) //Action stations when the ship is under attack, if it's the main overmap.
 		SSstar_system.last_combat_enter = world.time //Tag the combat on the SS
+		SSstar_system.next_nag_time = world.time + rand(5 MINUTES, 10 MINUTES)
 		var/datum/round_event_control/_overmap_event_handler/OEH = locate(/datum/round_event_control/_overmap_event_handler) in SSevents.control
 		OEH.weight = 0 //Reset controller weighting
 	if(OM.tactical)

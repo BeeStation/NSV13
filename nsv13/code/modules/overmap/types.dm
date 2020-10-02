@@ -206,7 +206,7 @@
 	role = MAIN_OVERMAP
 	max_integrity = 500
 	integrity_failure = 500
-	starting_system = "Wolf 359"
+	starting_system = "Sol"
 	use_armour_quadrants = FALSE //TODO: Mappers map in the pump setup.
 	armour_quadrants = list("forward_port" = list("name" = "Forward Port", "max_armour" = 750, "current_armour" = 750),\
 							"forward_starboard" = list("name" = "Forward Starboard", "max_armour" = 750, "current_armour" = 750),\
@@ -217,7 +217,7 @@
 	role = MAIN_OVERMAP //Player controlled variant
 	max_integrity = 1800
 	integrity_failure = 1800
-	starting_system = "Wolf 359"
+	starting_system = "Sol"
 	use_armour_quadrants = FALSE //TODO: Mappers map in the pump setup.
 	armour_quadrants = list("forward_port" = list("name" = "Forward Port", "max_armour" = 1250, "current_armour" = 1250),\
 							"forward_starboard" = list("name" = "Forward Starboard", "max_armour" = 1250, "current_armour" = 1250),\
@@ -228,7 +228,7 @@
 	role = MAIN_OVERMAP //Player controlled variant
 	max_integrity = 500
 	integrity_failure = 500
-	starting_system = "Wolf 359"
+	starting_system = "Sol"
 	use_armour_quadrants = FALSE //TODO: Mappers map in the pump setup.
 	armour_quadrants = list("forward_port" = list("name" = "Forward Port", "max_armour" = 1250, "current_armour" = 1250),\
 							"forward_starboard" = list("name" = "Forward Starboard", "max_armour" = 1250, "current_armour" = 1250),\
@@ -239,7 +239,7 @@
 	role = MAIN_OVERMAP //Player controlled variant
 	max_integrity = 500
 	integrity_failure = 500
-	starting_system = "Wolf 359"
+	starting_system = "Sol"
 	use_armour_quadrants = FALSE //TODO: Mappers map in the pump setup.
 	armour_quadrants = list("forward_port" = list("name" = "Forward Port", "max_armour" = 825, "current_armour" = 825),\
 							"forward_starboard" = list("name" = "Forward Starboard", "max_armour" = 825, "current_armour" = 825),\
@@ -252,7 +252,7 @@
 	role = MAIN_OVERMAP
 	max_integrity = 500 //Buffed health due to ship internal damage existing
 	integrity_failure = 500
-	starting_system = "Wolf 359"
+	starting_system = "Sol"
 	use_armour_quadrants = TRUE
 	armour_quadrants = list("forward_port" = list("name" = "Forward Port", "max_armour" = 750, "current_armour" = 750),\
 							"forward_starboard" = list("name" = "Forward Starboard", "max_armour" = 750, "current_armour" = 750),\
@@ -263,7 +263,7 @@
 	role = MAIN_OVERMAP //Player controlled variant
 	max_integrity = 750
 	integrity_failure = 750
-	starting_system = "Wolf 359"
+	starting_system = "Sol"
 	use_armour_quadrants = TRUE
 	armour_quadrants = list("forward_port" = list("name" = "Forward Port", "max_armour" = 1200, "current_armour" = 1200),\
 							"forward_starboard" = list("name" = "Forward Starboard", "max_armour" = 1200, "current_armour" = 1200),\

@@ -11,16 +11,12 @@
 	var/shield_angle_hit = SIMPLIFY_DEGREES(diff.angle() - angle)
 	switch(shield_angle_hit)
 		if(0 to 89) //0 - 90 deg is the first right quarter of the circle, it's like dividing up a pizza!
-			add_overlay(image(icon = icon, icon_state = "northeast", dir=SOUTH))
 			return ARMOUR_FORWARD_PORT
 		if(90 to 179)
-			add_overlay(image(icon = icon, icon_state = "southeast", dir=SOUTH))
 			return ARMOUR_AFT_PORT
 		if(180 to 269)
-			add_overlay(image(icon = icon, icon_state = "southwest", dir=SOUTH))
 			return ARMOUR_AFT_STARBOARD
 		if(270 to 360) //Then this represents the last quadrant of the circle, the northwest one
-			add_overlay(image(icon = icon, icon_state = "northwest", dir=SOUTH))
 			return ARMOUR_FORWARD_STARBOARD
 
 /* UNUSED
@@ -67,3 +63,97 @@
 			add_overlay(L["name"])
 
 #undef ARMOUR_DING
+
+//Repair Procs
+
+/obj/structure/overmap/proc/full_repair() //Admin Override
+	obj_integrity = max_integrity //Full structural integrity
+	if(structure_crit) //Cancel SScrit if we are in it
+		stop_relay(channel=CHANNEL_SHIP_FX)
+		priority_announce("Ship structural integrity restored to acceptable levels. ","Automated announcement ([src])")
+		structure_crit = FALSE
+		structure_crit_no_return = FALSE //Even override this
+	if(use_armour_quadrants) //Full armour plates
+		armour_quadrants["forward_port"]["current_armour"] = armour_quadrants["forward_port"]["max_armour"]
+		armour_quadrants["forward_starboard"]["current_armour"] = armour_quadrants["forward_starboard"]["max_armour"]
+		armour_quadrants["aft_port"]["current_armour"] = armour_quadrants["aft_port"]["max_armour"]
+		armour_quadrants["aft_starboard"]["current_armour"] = armour_quadrants["aft_starboard"]["max_armour"]
+
+/obj/structure/overmap/proc/repair_structure(var/input, var/failure = 0) //Input is the amount you want repaired per call of this proc, failure is the chance the repair will go wrong
+	var/percentile = input / 100
+
+	if(prob(failure)) //Botched repairs end up in Z-level damage
+		var/name = pick(GLOB.teleportlocs)
+		var/area/target = GLOB.teleportlocs[name]
+		var/turf/T = pick(get_area_turfs(target))
+		new /obj/effect/temp_visual/explosion_telegraph(T)
+		return
+
+	obj_integrity += max_integrity * percentile
+	if(obj_integrity > max_integrity)
+		obj_integrity = max_integrity
+	if(structure_crit) //Check for structural crit
+		if(obj_integrity >= max_integrity * 0.2) //End structural crit if high enough
+			stop_relay(channel=CHANNEL_SHIP_FX)
+			priority_announce("Ship structural integrity restored to acceptable levels. ","Automated announcement ([src])")
+			structure_crit = FALSE
+
+/obj/structure/overmap/proc/repair_quadrant(var/input, var/failure = 0, var/bias = 50, var/quadrant) //Input is the amount you want repaired per call of this proc, failure is the chance the repair will go wrong, bias is the favour for structure damage vs armour damage
+	var/percentile = input / 100
+	if(use_armour_quadrants)
+		if(prob(failure))
+			if(prob(bias)) //Botched repairs end up in either structural damage or armour damage
+				var/misrepair_amount = max_integrity * percentile
+				if(obj_integrity - misrepair_amount < 10)
+					obj_integrity = 10
+					handle_crit(misrepair_amount)
+				else
+					obj_integrity -= max_integrity * percentile
+				return
+			else
+				var/misrepair_quadrant = pick("forward_port", "forward_starboard", "aft_port", "aft_starboard")
+				armour_quadrants[misrepair_quadrant]["current_armour"] -= armour_quadrants[misrepair_quadrant]["max_armour"] * percentile
+				if(armour_quadrants[misrepair_quadrant]["current_armour"] < 0)
+					armour_quadrants[misrepair_quadrant]["current_armour"] = 0
+
+		armour_quadrants[quadrant]["current_armour"] += armour_quadrants[quadrant]["max_armour"] * percentile
+		if(armour_quadrants[quadrant]["current_armour"] > armour_quadrants[quadrant]["max_armour"])
+			armour_quadrants[quadrant]["current_armour"] = armour_quadrants[quadrant]["max_armour"]
+
+/obj/structure/overmap/proc/repair_all_quadrants(var/input, var/failure = 0, var/bias = 50) //Input is the amount you want repaired per call of this proc, failure is the chance the repair will go wrong, bias is the favour for structure damage vs armour damage
+	var/percentile = input / 100
+	if(use_armour_quadrants)
+		var/list/quadrant_list = list("forward_port", "forward_starboard", "aft_port", "aft_starboard")
+		if(prob(failure))
+			if(prob(bias)) //Botched repairs end up in either structural damage or armour damage
+				var/misrepair_amount = max_integrity * percentile
+				if(obj_integrity - misrepair_amount < 10)
+					obj_integrity = 10
+					handle_crit(misrepair_amount)
+				else
+					obj_integrity -= max_integrity * percentile
+				return
+			else
+				var/misrepair = pick_n_take(quadrant_list)
+				armour_quadrants[misrepair]["current_armour"] -= armour_quadrants[misrepair]["max_armour"] * percentile
+				if(armour_quadrants[misrepair]["current_armour"] < 0)
+					armour_quadrants[misrepair]["current_armour"] = 0
+
+		for(var/quad in quadrant_list)
+			armour_quadrants[quad]["current_armour"] += armour_quadrants[quad]["max_armour"] * percentile
+			if(armour_quadrants[quad]["current_armour"] > armour_quadrants[quad]["max_armour"])
+				armour_quadrants[quad]["current_armour"] = armour_quadrants[quad]["max_armour"]
+
+#define VV_HK_FULL_REPAIR "FullRepair"
+
+/obj/structure/overmap/vv_get_dropdown()
+	. = ..()
+	VV_DROPDOWN_OPTION(VV_HK_FULL_REPAIR, "Full Repair")
+
+/obj/structure/overmap/vv_do_topic(list/href_list)
+	. = ..()
+	if(href_list[VV_HK_FULL_REPAIR])
+		if(!check_rights(R_DEBUG)) //Hmm?
+			return
+		full_repair()
+		message_admins("Admin [key_name_admin(usr)] has fully repaired [src].")

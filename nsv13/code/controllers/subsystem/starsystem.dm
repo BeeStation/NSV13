@@ -33,6 +33,7 @@ SUBSYSTEM_DEF(star_system)
 	if(world.time >= next_nag_time)
 		nag_stacks ++
 		nag_interval /= 2
+		next_nag_time = world.time + nag_interval
 		switch(nag_stacks)
 			if(1)
 				var/message = pick(	"This is Centcomm to all vessels assigned to patrol the Corvi expanse, please continue on your patrol route", \
@@ -43,25 +44,30 @@ SUBSYSTEM_DEF(star_system)
 				priority_announce("[station_name()] is no longer responding to commands. Enacting emergency defense conditions. All shipside squads must assist in getting the ship ready for combat by any means necessary.", "WhiteRapids Administration Corps")
 				set_security_level(SEC_LEVEL_RED)
 			if(3) //Last straw. 50+ mins of inactivity.
-				//Todo: rework this.
-				var/datum/star_system/target = system_by_id("Tau Ceti")
+				var/datum/star_system/target = system_by_id("Lalande 21185")
 				priority_announce("Attention all ships throughout the fleet, assume DEFCON 1. A Syndicate invasion force has been spotted in [target]. All fleets must return to allied space and assist in the defense.", "White Rapids Fleet Command")
 				var/datum/fleet/F = new /datum/fleet/earthbuster()
 				target.fleets += F
 				F.current_system = target
 				F.assemble(target)
-				nag_interval = 20 MINUTES //Keep up the nag.
-			if(4)
-				priority_announce("#####--=-- *static*.", "White Rapids Fleet Command")
-
-		if(nag_stacks >= 3)
-			minor_announce("[station_name()]. Your pay has been docked to cover expenses, continued ignorance of your mission will lead to removal by force.", "Naval Command")
-			nag_interval = rand(15 MINUTES, 20 MINUTES) //Keep up the nag, but slowly.
-			var/total_deductions
-			for(var/account in SSeconomy.department_accounts)
-				var/datum/bank_account/D = SSeconomy.get_dep_account(account)
-				total_deductions += D.account_balance / 2
-				D.account_balance /= 2
+				minor_announce("[station_name()]. Your pay has been docked to cover expenses, continued ignorance of your mission will lead to removal by force.", "Naval Command")
+				nag_interval = rand(5 MINUTES, 10 MINUTES) //Keep up the nag, but slowly.
+				var/total_deductions
+				for(var/account in SSeconomy.department_accounts)
+					var/datum/bank_account/D = SSeconomy.get_dep_account(account)
+					total_deductions += D.account_balance / 2
+					D.account_balance /= 2
+			if(4 to INFINITY) //From this point on, you can actively lose the game.
+				minor_announce("WARNING: Nanotrasen is suffering catastrophic losses")
+				var/lost_influence = FALSE
+				for(var/datum/star_system/sys in systems)
+					if(sys.fleets)
+						for(var/datum/fleet/F in sys.fleets)
+							if(F.alignment == "nanotrasen" && !istype(F, /datum/fleet/nanotrasen/earth))
+								F.defeat()
+								lost_influence = TRUE
+				if(!lost_influence)
+					minor_announce("Attention all ships. WhiteRapids naval command no longer has any fleets. Full Syndicate invasion underway.", "Naval Command")
 
 /datum/controller/subsystem/star_system/New()
 	. = ..()
@@ -76,12 +82,17 @@ SUBSYSTEM_DEF(star_system)
 	for(var/datum/faction/F in factions)
 		F.setup_relationships() //Set up faction relationships AFTER they're all initialised to avoid errors.
 
+/**
+
+Returns a faction datum by its name (case insensitive!)
+
+*/
 /datum/controller/subsystem/star_system/proc/faction_by_id(id)
 	RETURN_TYPE(/datum/faction)
 	if(!id)
 		return //Stop wasting my time.
 	for(var/datum/faction/F in factions)
-		if(F.id == id)
+		if(lowertext(F.id) == lowertext(id))
 			return F
 
 
@@ -268,6 +279,10 @@ SUBSYSTEM_DEF(star_system)
 	var/list/wormhole_connections = list() //Where did we dun go do the wormhole to honk
 	var/fleet_type = null //Wanna start this system with a fleet in it?
 	var/list/fleets = list() //Fleets that are stationed here.
+	var/sector = 1 //What sector of space is this in?
+	var/is_hypergate = FALSE //Used to clearly mark sector jump points on the map
+	var/preset_trader = null
+	var/datum/trader/trader = null
 
 /datum/star_system/proc/dist(datum/star_system/other)
 	var/dx = other.x - x
@@ -280,6 +295,8 @@ SUBSYSTEM_DEF(star_system)
 		var/datum/fleet/fleet = new fleet_type(src)
 		fleet.current_system = src
 		fleets += fleet
+	if(preset_trader)
+		trader = new preset_trader
 	addtimer(CALLBACK(src, .proc/spawn_asteroids), 15 SECONDS)
 	addtimer(CALLBACK(src, .proc/generate_anomaly), 15 SECONDS)
 
@@ -460,15 +477,23 @@ SUBSYSTEM_DEF(star_system)
 		if("nebula")
 			parallax_property = "nebula-thick" //All credit goes to https://www.filterforge.com/filters/11427.html
 		if("quasar")
-			parallax_property = "quasar" //All credit goes to https://www.filterforge.com/filters/11427.html
+			parallax_property = "quasar"
 			possible_events = list(/datum/round_event_control/grey_tide, /datum/round_event_control/ion_storm, /datum/round_event_control/communications_blackout)
 			event_chance = 100 //Quasars are screwy.
+		if("accretiondisk")
+			parallax_property = "accretiondisk_planet"
+			possible_events = list(/datum/round_event_control/grey_tide, /datum/round_event_control/ion_storm, /datum/round_event_control/communications_blackout)
+			event_chance = 70 //Black holes can fuck with you
 		if("debris")
 			parallax_property = "rocks"
 			event_chance = 60 //Space rocks!
 			possible_events = list(/datum/round_event_control/space_dust, /datum/round_event_control/meteor_wave)
 		if("icefield")
 			parallax_property = "icefield"
+		if("demonstar")
+			parallax_property = "demonstar_planet"
+		if("supernova")
+			parallax_property = "supernova_planet"
 		if("gas")
 			parallax_property = "gas"
 		if("planet_earth")
@@ -530,7 +555,7 @@ SUBSYSTEM_DEF(star_system)
 	name = "Risa Station"
 	hidden = TRUE //Initially hidden, unlocked when the players complete their patrol.
 	mission_sector = TRUE
-	x = 5
+	x = 10
 	y = 30
 	alignment = "nanotrasen"
 	adjacency_list = list("Sol")
@@ -545,273 +570,326 @@ SUBSYSTEM_DEF(star_system)
 /datum/star_system/sol
 	name = "Sol"
 	is_capital = TRUE
-	x = 4
-	y = 10
+	x = 70
+	y = 50
 	fleet_type = /datum/fleet/nanotrasen/earth
 	alignment = "nanotrasen"
 	system_type = "planet_earth"
-	adjacency_list = list("Alpha Centauri", "Risa Station")
+	adjacency_list = list("Alpha Centauri", "Risa Station", "Ross 154")
 
-/datum/star_system/alpha_centauri
-	name = "Alpha Centauri"
-	x = 20
-	y = 15
+/datum/star_system/ross
+	name = "Ross 154" //Hi mate my name's ross how's it going
+	x = 80
+	y = 45
 	alignment = "nanotrasen"
-	adjacency_list = list("Sol","Wolf 359", "Unknown Signal")
+	threat_level = THREAT_LEVEL_NONE
+	adjacency_list = list("Sol", "Barnard's Star", "Alpha Centauri")
 
-//Event system, remove me when done!
-/datum/star_system/unknown_signal
-	name = "Unknown Signal"
-	x = 60
-	y = 10
-	hidden = TRUE
-	system_type = "radioactive"
-	alignment = "uncharted"
-	adjacency_list = list("Alpha Centauri")
+/datum/star_system/barnie
+	name = "Barnard's Star"
+	x = 75
+	y = 60
+	alignment = "nanotrasen"
+	system_type = "supernova"
+	threat_level = THREAT_LEVEL_NONE
+	adjacency_list = list("Ross 154", "Sol")
+
+/datum/star_system/acentauri
+	name = "Alpha Centauri"
+	x = 68
+	y = 46
+	alignment = "nanotrasen"
+	threat_level = THREAT_LEVEL_NONE
+	adjacency_list = list("Ross 154", "Sol", "Sirius")
+
+/datum/star_system/sirius
+	name = "Sirius"
+	x = 50
+	y = 35
+	alignment = "nanotrasen"
+	threat_level = THREAT_LEVEL_NONE
+	adjacency_list = list("Alpha Centauri", "Wolf 359", "Sol")
+	preset_trader = /datum/trader/minsky
 
 /datum/star_system/wolf359
 	name = "Wolf 359"
-	x = 40
-	y = 20
+	x = 25
+	y = 65
 	alignment = "nanotrasen"
-	adjacency_list = list("Alpha Centauri", "Lalande 21185","Tau Ceti")
+	adjacency_list = list("Sirius","Sol", "Wolf 359", "Lalande 21185")
 
+//Sector translation point. Using the power of a demon star, the ship is able to enhance its effective FTL range.
 /datum/star_system/lalande21185
 	name = "Lalande 21185"
 	x = 25
-	y = 25
-	system_type = "icefield"
+	y = 80
+	system_type = "demonstar"
 	alignment = "nanotrasen"
 	fleet_type = /datum/fleet/nanotrasen/border
-	adjacency_list = list("Tau Ceti", "Wolf 359")
+	adjacency_list = list("Wolf 359", "Astraeus")
+	is_hypergate = TRUE
 
-/datum/star_system/tau_ceti
-	name = "Tau Ceti"
-	x = 60
-	y = 30
+//Sector 2: Neutral Zone.
+/*
+<summary>
+Welcome to the neutral zone! Non corporate sanctioned traders with better gear and missions, but be wary of pirates!
+
+</summary>
+
+*/
+
+//It's BACK
+/datum/star_system/astraeus
+	name = "Astraeus"
+	x = 25
+	y = 80
+	system_type = "demonstar"
 	alignment = "nanotrasen"
-	adjacency_list = list("Canis Minoris", "Canis Majoris","Lalande 21185","Wolf 359", "Eridani")
+	fleet_type = /datum/fleet/nanotrasen/border/defense //Chokepoint, so NT guards it quite heavily.
+	adjacency_list = list("Lalande 21185", "Corvi", "Tortuga")
+	sector = 2
+	is_hypergate = TRUE
 
-/datum/star_system/canis_majoris
-	name = "Canis Majoris"
-	x = 50
+/datum/star_system/sector2
+	name = "Corvi"
+	parallax_property = "icefield"
+	x = 10
+	y = 60
+	alignment = "unaligned"
+	sector = 2
+	adjacency_list = list("Astraeus", "Groombridge 34")
+
+/datum/star_system/sector2/groombridge
+	name = "Groombridge 34"
+	x = 10
+	y = 50
+	alignment = "unaligned"
+	adjacency_list = list("Corvi", "Tau Ceti")
+
+/datum/star_system/sector2/tau_ceti
+	name = "Tau Ceti"
+	x = 20
+	y = 40
+	alignment = "unaligned"
+	adjacency_list = list("Groombridge 34", "Corvi", "Kruger 60")
+
+/datum/star_system/sector2/kreuger
+	name = "Kruger 60"
+	x = 30
 	y = 35
 	alignment = "unaligned"
-	threat_level = THREAT_LEVEL_UNSAFE
-	adjacency_list = list("Tau Ceti","Scorvio")
+	adjacency_list = list("Groombridge 34", "Tau Ceti", "Astartes")
 
-/datum/star_system/scorvio
-	name = "Scorvio"
-	x = 55
-	y = 40
-	alignment = "syndicate"
-	threat_level = THREAT_LEVEL_UNSAFE
-	adjacency_list = list("Canis Majoris", "Cygni")
-
-/datum/star_system/cygni
-	name = "Cygni"
-	x = 80
-	y = 45
+/datum/star_system/sector2/astartes
+	name = "Astartes"
+	x = 32
+	y = 25
 	alignment = "unaligned"
-	threat_level = THREAT_LEVEL_UNSAFE
-	adjacency_list = list("Eridani","Scorvio", "Antares", "Eridani")
+	adjacency_list = list("Kruger 60", "Tau Ceti", "Hyperion", "VY Canis Majoris", "Ragnar Arms Depot")
 
-/datum/star_system/eridani
-	name = "Eridani"
-	x = 70
-	y = 50
-	alignment = "unaligned"
-	threat_level = THREAT_LEVEL_UNSAFE
-	adjacency_list = list("Rubicon", "Theta Hydri","Tau Ceti", "Cygni")
-
-/datum/star_system/theta_hydri
-	name = "Theta Hydri"
-	x = 85
-	y = 55
-	alignment = "unaligned"
-	threat_level = THREAT_LEVEL_UNSAFE
-	adjacency_list = list("Eridani", "Cygni")
-
-/datum/star_system/canis_minoris
-	name = "Canis Minoris"
-	x = 80
+/datum/star_system/sector2/hyperion
+	name = "Hyperion"
+	x = 40
 	y = 30
 	alignment = "unaligned"
-	threat_level = THREAT_LEVEL_UNSAFE
-	adjacency_list = list("Tau Ceti","Antares")
+	adjacency_list = list("Kruger 60", "Astartes", "Ross 251")
 
-/datum/star_system/antares
-	name = "Antares"
-	x = 100
+/datum/star_system/sector2/canis
+	name = "VY Canis Majoris"
+	x = 60
+	y = 30
+	alignment = "unaligned"
+	preset_trader = /datum/trader/czanekcorp
+	system_type = "supernova"
+	adjacency_list = list("Hyperion", "Astartes")
+
+/datum/star_system/sector2/ragnar
+	name = "Ragnar Arms Depot"
+	x = 15
+	y = 30
+	alignment = "nanotrasen"
+	adjacency_list = list("Astartes")
+	preset_trader = /datum/trader/armsdealer
+
+/datum/star_system/sector2/ross251
+	name = "Ross 251"
+	x = 50
+	y = 50
+	adjacency_list = list("Tortuga", "Hyperion")
+
+/datum/star_system/sector2/tortuga
+	name = "Tortuga"
+	x = 40
 	y = 45
 	alignment = "unaligned"
-	threat_level = THREAT_LEVEL_UNSAFE
-	adjacency_list = list("Cygni", "Canis Minoris", "Tortuga")
-
-/datum/star_system/tortuga
-	name = "Tortuga"
-	x = 110
-	y = 45
-	alignment = "syndicate"
 	system_type = "pirate" //Guranteed piratical action!
 	threat_level = THREAT_LEVEL_UNSAFE
-	adjacency_list = list("P9X-334", "Antares")
+	adjacency_list = list("Astraeus", "The Badlands", "Astraeus", "Corvi", "Ross 251")
 	fleet_type = /datum/fleet/pirate
 
-/datum/star_system/p9x334
-	name = "P9X-334"
-	x = 105
-	y = 50
-	alignment = "uncharted"
-	threat_level = THREAT_LEVEL_DANGEROUS
-	adjacency_list = list("P7X-294", "Tortuga")
-
-/datum/star_system/p7x294
-	name = "P7X-294"
-	x = 120
-	y = 70
-	alignment = "uncharted"
-	threat_level = THREAT_LEVEL_DANGEROUS
-	adjacency_list = list("P9X-334", "N64-775")
-
-/datum/star_system/n64775
-	name = "N64-775"
-	x = 135
-	y = 80
-	system_type = "nebula"
-	alignment = "uncharted"
-	threat_level = THREAT_LEVEL_DANGEROUS
-	adjacency_list = list("P7X-294")
+/*
+Sector 3: The badlands
+<Summary>
+Welcome to Brazil! The next stop on your journey to the Syndicate homeworld is the uncharted sector, a sector which is entirely mapped by either faction and
+proves to be a hazardous wasteland. You won't find much here, but it'll make your journey that much harder.
+To make things worse, this hellhole is entirely RNG, so good luck mapping it!
+</Summary>
+*/
 
 /datum/star_system/rubicon
 	name = "Rubicon"
-	x = 80
+	x = 140
 	y = 60
 	alignment = "syndicate"
+	system_type = "demonstar"
+	is_hypergate = TRUE
 	threat_level = THREAT_LEVEL_UNSAFE
-	adjacency_list = list("Eridani", "Theta Hydri", "Vorash")
-	fleet_type = /datum/fleet/rubicon
+	sector = 3
+	adjacency_list = list("Romulus")
 
-/datum/star_system/vorash
-	name = "Vorash"
-	x = 70
-	y = 63
-	alignment = "syndicate"
-	threat_level = THREAT_LEVEL_UNSAFE
-	adjacency_list = list("Rubicon", "Solaris A","Solaris B", "Solaris C")
-
-/datum/star_system/solarisA
-	name = "Solaris A"
-	x = 50
-	y = 55
-	alignment = "syndicate"
-	threat_level = THREAT_LEVEL_UNSAFE
-	adjacency_list = list("Solaris B", "Solaris C", "Vorash")
-
-/datum/star_system/solarisB
-	name = "Solaris B"
-	x = 55
-	y = 50
-	alignment = "syndicate"
-	threat_level = THREAT_LEVEL_UNSAFE
-	fleet_type = /datum/fleet/border
-	adjacency_list = list("Solaris A", "Solaris C", "Vorash", "P3X-754")
-
-/datum/star_system/p3x754
-	name = "P3X-754"
-	x = 40
-	y = 50
+/datum/star_system/random
+	name = "Randy random"
+	x = 0
+	y = 0
+	hidden = TRUE
 	alignment = "uncharted"
-	threat_level = THREAT_LEVEL_DANGEROUS
-	adjacency_list = list("Solaris B","P59-723")
 
-/datum/star_system/solarisC
-	name = "Solaris C"
-	x = 60
-	y = 45
-	alignment = "syndicate"
-	threat_level = THREAT_LEVEL_UNSAFE
-	adjacency_list = list("Solaris A", "Solaris B", "Vorash", "Scorvio")
-
-/datum/star_system/p59723
-	name = "P59-723"
-	x = 40
-	y = 60
+//The badlands generates a rat run of random systems around it, so keep it well clear of civilisation
+/datum/star_system/sector3
+	name = "The Badlands"
 	alignment = "uncharted"
-	threat_level = THREAT_LEVEL_DANGEROUS
-	adjacency_list = list("N94-19X", "P3X-754")
-
-/datum/star_system/n9419x
-	name = "N94-19X"
-	x = 70
-	y = 70
-	system_type = "nebula"
-	alignment = "uncharted"
-	threat_level = THREAT_LEVEL_DANGEROUS
-	adjacency_list = list("P59-723", "P32-901", "Dolos", "DATA EXPUNGED") //Links to dolos, only unlocks on special occasions.)
-
-/datum/star_system/p32901
-	name = "P32-901"
 	x = 100
-	y = 60
-	system_type = "blackhole"
-	alignment = "uncharted"
-	threat_level = THREAT_LEVEL_DANGEROUS
-	adjacency_list = list("N94-19X")
+	y = 30
+	sector = 3
 
-/datum/star_system/blacksite
-	name = "DATA EXPUNGED"
-	x = 150
-	y = 100
-	hidden = TRUE
-	alignment = "uncharted"
-	system_type = "blacksite" //needs to be specified because we're going FROM blacksite TO risa as a guarantee
-	threat_level = THREAT_LEVEL_DANGEROUS
-	adjacency_list = list("N94-19X")
+/datum/star_system/sector3/New()
+	. = ..()
+	addtimer(CALLBACK(src, .proc/generate_badlands), 10 SECONDS)
 
-/datum/star_system/dolos
-	name = "Dolos"
-	x = 60
-	y = 80
-	alignment = "syndicate"
-	system_type = "radioactive"
-	adjacency_list = list("Abassi") //No going back from here...
-	threat_level = THREAT_LEVEL_DANGEROUS
-	hidden = TRUE
-	fleet_type = /datum/fleet/dolos //You're insane to attempt this.
+/datum/star_system/sector3/proc/generate_badlands()
+	var/last_system_x = x
+	var/last_system_y = y
+	var/list/generated = list()
+	var/amount = rand(10,20)
+	for(var/I=0;I<amount,I++){
+		message_admins("Brr")
+		var/datum/star_system/random/randy = new /datum/star_system/random()
+		randy.system_type = pick("radioactive", "blackhole", "quasar", "accretiondisk", "nebula", "supernova")
+		randy.apply_system_effects()
+		randy.name = (randy.system_type != "nebula") ? "S-[rand(0,10000)]" : "N-[rand(0,10000)]"
+		randy.x = last_system_x + rand(-20, 10)
+		randy.y = last_system_y + rand(-20, 10)
+		last_system_x = randy.x
+		last_system_y = randy.y
+		randy.sector = sector //Yeah do I even need to explain this?
+		randy.hidden = FALSE
+		generated += randy
+		SSstar_system.systems += randy
+		if(I <= 0) //First system always needs to join to the entry point.
+			adjacency_list += randy.name
+			randy.adjacency_list += name
+	}
+	var/lowest_dist = 1000
+	//Finally, let's play this drunken game of connect the dots.
+	var/datum/star_system/rubicon = SSstar_system.system_by_id("Rubicon")
+	var/datum/star_system/rubiconnector = null
+	for(var/datum/star_system/S in generated)
+		message_admins("fugg")
+		if(rubicon && S.dist(rubicon) < lowest_dist)
+			lowest_dist = S.dist(rubicon)
+			rubiconnector = S
+		try_again:
+		var/datum/star_system/partner = pick(generated)
+		if(partner && partner == S)
+			goto try_again
+		partner.adjacency_list += S.name
+		S.adjacency_list += partner.name
 
-/datum/star_system/abassi
-	name = "Abassi"
-	is_capital = TRUE
-	x = 40
-	y = 100
-	alignment = "syndicate"
-	system_type = "quasar"
-	adjacency_list = list("Dolos")
-	threat_level = THREAT_LEVEL_DANGEROUS
-	hidden = TRUE
-	fleet_type = /datum/fleet/abassi //You're dead if you attempt this.
+	//And here's your path to rubicon. Have fun with that :)
+	rubiconnector.adjacency_list += rubicon.name
+	rubicon.adjacency_list += rubiconnector.name
+	if(rubiconnector.adjacency_list.len <= 1) //There's no valid way to get to the rubiconnector.
+		var/datum/star_system/partner = pick(generated)
+		rubiconnector.adjacency_list += partner.name
+		partner.adjacency_list += rubiconnector
 
 /*
-
-/datum/star_system/astraeus
-	name = "Astraeus"
-	parallax_property = "nebula" //If you want things to appear in the background when you jump to this system, do this.
-	level_trait = ZTRAIT_ASTRAEUS //The Ztrait of the zlevel that this system leads to
-	visitable = TRUE
-	x = 40 //Maximum: 1000 for now
-	y = 30 //Maximum: 1000 for now
-	alignment = "unaligned"
-	adjacency_list = list("Sol")
-
-/datum/star_system/corvi
-	name = "Corvi"
-	parallax_property = "icefield"
-	level_trait = ZTRAIT_CORVI
-	visitable = TRUE
-	x = 10 //Maximum: 1000 for now
-	y = 100 //Maximum: 1000 for now
-	alignment = "unaligned"
-	adjacency_list = list("Dolos")
+<Summary>
+Welcome to the endgame. This sector is the hardest you'll encounter in game and holds the Syndicate capital.
+</Summary>
 
 */
+/datum/star_system/sector4
+	name = "Mediolanum"
+	adjacency_list = list("Romulus", "Aeterna Victrix", "Demon's Maw")
+	threat_level = THREAT_LEVEL_UNSAFE
+	x = 100
+	y = 50
+	sector = 4
+
+/datum/star_system/sector4/aeterna
+	name = "Aeterna Victrix"
+	adjacency_list = list("Mediolanum", "Deimos")
+	x = 90
+	y = 40
+
+/datum/star_system/sector4/demon
+	name = "Demon's Maw"
+	adjacency_list = list("Aeterna Victrix", "Phobos", "Deimos")
+	system_type = "accretiondisk"
+	alignment = "uncharted"
+	x = 100
+	y = 60
+	preset_trader = /datum/trader/armsdealer/syndicate
+
+/datum/star_system/sector4/phobos
+	name = "Phobos"
+	system_type = "nebula"
+	adjacency_list = list("Demon's Maw", "Deimos", "Dolos")
+	fleet_type = /datum/fleet/border
+	x = 120
+	y = 70
+
+/datum/star_system/sector4/deimos
+	name = "Deimos"
+	adjacency_list = list("Demon's Maw", "Dolos")
+	x = 80
+	y = 67
+
+/datum/star_system/sector4/dolos
+	name = "Dolos"
+	x = 75
+	y = 100
+	is_capital = TRUE
+	alignment = "syndicate"
+	system_type = "radioactive"
+	adjacency_list = list("Abassi", "Deimos", "Phobos") //No going back from here...
+	threat_level = THREAT_LEVEL_DANGEROUS
+	fleet_type = /datum/fleet/dolos //You're insane to attempt this.
+
+/datum/star_system/sector4/abassi
+	name = "Abassi"
+	x = 75
+	y = 120
+	is_capital = TRUE
+	alignment = "syndicate"
+	system_type = "demonstar"
+	adjacency_list = list("Dolos")
+	threat_level = THREAT_LEVEL_DANGEROUS
+	hidden = TRUE
+	fleet_type = /datum/fleet/abassi
+
+/datum/star_system/romulus
+	name = "Romulus"
+	sector = 4
+	x = 60
+	y = 50
+	alignment = "syndicate"
+	system_type = "demonstar"
+	is_hypergate = TRUE
+	threat_level = THREAT_LEVEL_UNSAFE
+	sector = 4
+	fleet_type = /datum/fleet/border
+	adjacency_list = list("Rubicon", "Aeterna Victrix")
+
+#define ALL_STARMAP_SECTORS 1,2,3,4 //KEEP THIS UPDATED.
