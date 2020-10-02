@@ -7,7 +7,7 @@
 	species_traits = list(MUTCOLORS,EYECOLOR,HAIR,FACEHAIR,NOBLOOD)//(MUTCOLORS,EYECOLOR,NOBLOOD) //Nsv13
 	inherent_traits = list(TRAIT_TOXINLOVER)
 	hair_color = "mutcolor" //Nsv13
-	hair_alpha = 150
+	hair_alpha = 150 //Nsv13
 	mutantlungs = /obj/item/organ/lungs/slime
 	meat = /obj/item/reagent_containers/food/snacks/meat/slab/human/mutant/slime
 	exotic_blood = /datum/reagent/toxin/slimejelly
