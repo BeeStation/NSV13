@@ -1414,6 +1414,103 @@ Control Rods
 	title = "Stormdrive Class IV SOP"
 	page_link = "Guide_to_the_Stormdrive_Engine"
 
+/////// MOD COMP MONITORING PROGRAM ///////
+
+/datum/computer_file/program/stormdrive_monitor
+	filename = "stormdrivemonitor"
+	filedesc = "Storm Drive Monitoring"
+	ui_header = "smmon_0.gif"
+	program_icon_state = "smmon_0"
+	extended_desc = "This program connects to specially calibrated sensors to provide information on the status of the storm drive."
+	requires_ntnet = TRUE
+	transfer_access = ACCESS_CONSTRUCTION
+	network_destination = "storm drive monitoring system"
+	size = 2
+	tgui_id = "NtosStormdriveMonitor"
+	ui_x = 350
+	ui_y = 450
+	var/active = TRUE //Easy process throttle
+	var/obj/machinery/atmospherics/components/binary/stormdrive_reactor/reactor //Our reactor.
+
+/datum/computer_file/program/stormdrive_monitor/process_tick()
+	..()
+	if(!reactor || !active)
+		return FALSE
+	var/stage = 0
+	switch(reactor.state)
+		if(REACTOR_STATE_MAINTENANCE)
+			stage = 1
+		if(REACTOR_STATE_IDLE)
+			stage = 1
+		if(REACTOR_STATE_RUNNING)
+			if(reactor.heat > 0 && reactor.heat <= reactor.reactor_temperature_nominal)
+				stage = 2
+			if(reactor.heat > reactor.reactor_temperature_nominal && reactor.heat <= reactor.reactor_temperature_hot)
+				stage = 3
+			if(reactor.heat > reactor.reactor_temperature_hot && reactor.heat <= reactor.reactor_temperature_critical)
+				stage = 4
+			if(reactor.heat > reactor.reactor_temperature_critical)
+				stage = 5
+		if(REACTOR_STATE_MELTDOWN)
+			stage = 6
+	ui_header = "smmon_[stage].gif"
+	program_icon_state = "smmon_[stage]"
+	if(istype(computer))
+		computer.update_icon()
+
+/datum/computer_file/program/stormdrive_monitor/run_program(mob/living/user)
+	. = ..(user)
+	//No reactor? Go find one then.
+	if(!reactor)
+		for(var/obj/machinery/atmospherics/components/binary/stormdrive_reactor/R in GLOB.machines)
+			if(shares_overmap(user, R))
+				reactor = R
+				break
+	active = TRUE
+
+/datum/computer_file/program/stormdrive_monitor/kill_program(forced = FALSE)
+	active = FALSE
+	..()
+
+/datum/computer_file/program/stormdrive_monitor/ui_data()
+	var/list/data = get_header_data()
+	data["heat"] = reactor.heat
+	data["rod_integrity"] = reactor.control_rod_integrity
+	data["control_rod_percent"] = reactor.control_rod_percent
+	data["last_power_produced"] = reactor.last_power_produced
+	data["theoretical_maximum_power"] = reactor.theoretical_maximum_power
+	data["reaction_rate"] = reactor.reaction_rate
+	data["reactor_hot"] = reactor.reactor_temperature_hot
+	data["reactor_critical"] = reactor.reactor_temperature_critical
+	data["reactor_meltdown"] = reactor.reactor_temperature_meltdown
+	var/effective_fuel = 0
+
+	var/datum/gas_mixture/air1 = reactor.airs[1]
+	effective_fuel = air1.get_moles(/datum/gas/plasma) * LOW_ROR + \
+				air1.get_moles(/datum/gas/constricted_plasma) * NORMAL_ROR + \
+				air1.get_moles(/datum/gas/nitrogen) * HINDER_ROR + \
+				air1.get_moles(/datum/gas/water_vapor) * HINDER_ROR + \
+				air1.get_moles(/datum/gas/tritium) * HIGH_ROR
+	if(effective_fuel < 0)
+		effective_fuel = 0
+
+	data["fuel"] = effective_fuel
+	return data
+
+/datum/computer_file/program/stormdrive_monitor/ui_act(action, params)
+	if(..())
+		return TRUE
+
+	switch(action)
+		if("swap_reactor")
+			var/list/choices = list()
+			for(var/obj/machinery/atmospherics/components/binary/stormdrive_reactor/R in GLOB.machines)
+				if(!shares_overmap(usr, R))
+					continue
+				choices += R
+			reactor = input(usr, "What stormdrive reactor do you wish to monitor?", "[src]", null) as null|anything in choices
+			return TRUE
+
 #undef LOW_ROR
 #undef NORMAL_ROR
 #undef HIGH_ROR
