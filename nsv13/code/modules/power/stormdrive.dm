@@ -1040,7 +1040,7 @@ Control Rods
 	explosion(get_turf(src), 0, 0, 10, 20, TRUE, TRUE)
 	empulse(src, 25, 50)
 	radiation_pulse(src, 10000, 1)
-	src.atmos_spawn_air("o2=500;plasma=200;TEMP=5000")
+	src.atmos_spawn_air("o2=500;plasma=200;nucleium=100;TEMP=5000")
 
 	for(var/mob/living/M in GLOB.alive_mob_list)
 		if(shares_overmap(src, M))
@@ -1554,7 +1554,7 @@ Control Rods
 			return
 		var/datum/gas_mixture/env = L.return_air()
 		var/temperature = env.return_temperature() + 25 //Not super spicy
-		src.atmos_spawn_air("plasma=25;TEMP=[temperature]")
+		src.atmos_spawn_air("nucleium=15;TEMP=[temperature]")
 
 /obj/effect/anomaly/stormdrive/sheer/Crossed(mob/living/M)
 	radiation_pulse(src, 125)
@@ -1567,7 +1567,7 @@ Control Rods
 
 /obj/effect/anomaly/stormdrive/sheer/detonate()
 	radiation_pulse(src, 5000)
-	src.atmos_spawn_air("o2=250;plasma=100;TEMP=5000")
+	src.atmos_spawn_air("o2=125;plasma=50;nucleium=50;TEMP=5000")
 	explosion(src, 0, 0, 1, 18)
 	new /obj/effect/particle_effect/sparks(loc)
 
