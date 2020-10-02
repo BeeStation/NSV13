@@ -1,11 +1,13 @@
 /datum/species/jelly
-	// Entirely alien beings that seem to be made entirely out of gel. They have three eyes and a skeleton visible within them.
+	// Entirely alien beings that seem to be made entirely out of gel. They have three eyes and a skeleton visible within them. actually they dont any more lol
 	name = "Jellyperson"
 	id = "jelly"
 	default_color = "00FF90"
 	say_mod = "chirps"
-	species_traits = list(MUTCOLORS,EYECOLOR,NOBLOOD)
+	species_traits = list(MUTCOLORS,EYECOLOR,HAIR,FACEHAIR,NOBLOOD)//(MUTCOLORS,EYECOLOR,NOBLOOD)
 	inherent_traits = list(TRAIT_TOXINLOVER)
+	hair_color = "mutcolor"
+	hair_alpha = 150
 	mutantlungs = /obj/item/organ/lungs/slime
 	meat = /obj/item/reagent_containers/food/snacks/meat/slab/human/mutant/slime
 	exotic_blood = /datum/reagent/toxin/slimejelly
