@@ -140,6 +140,7 @@
 	var/list/occupying_levels = list() //Refs to the z-levels we own for setting parallax and that, or for admins to debug things when EVERYTHING INEVITABLY BREAKS
 	var/torpedo_type = /obj/item/projectile/guided_munition/torpedo
 	var/next_maneuvre = 0 //When can we pull off a fancy trick like boost or kinetic turn?
+	var/flak_battery_amount = 1
 
 	var/role = NORMAL_OVERMAP
 
@@ -275,6 +276,7 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 			max_angular_acceleration = 10
 			bounce_factor = 0.45
 			lateral_bounce_factor = 0.8
+			flak_battery_amount = 2
 
 		if(MASS_TITAN)
 			forward_maxthrust = 0.5
@@ -283,6 +285,7 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 			max_angular_acceleration = 2.5
 			bounce_factor = 0.35
 			lateral_bounce_factor = 0.6
+			flak_battery_amount = 3
 
 	if(role == MAIN_OVERMAP)
 		name = "[station_name()]"

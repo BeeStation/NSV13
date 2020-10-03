@@ -66,6 +66,9 @@ GLOBAL_LIST_EMPTY(species_swimming_components)
 	SEND_SIGNAL(AM, COMSIG_COMPONENT_CLEAN_ACT, CLEAN_WEAK)
 	if(isliving(AM))
 		var/datum/component/swimming/S = AM.GetComponent(/datum/component/swimming) //You can't get in the pool unless you're swimming.
+		if(isliving(AM))
+			var/mob/living/L = AM
+			L.ExtinguishMob() //This just makes sense, no?
 		if(!S)
 			var/mob/living/carbon/C = AM
 			var/component_type = /datum/component/swimming
@@ -74,6 +77,7 @@ GLOBAL_LIST_EMPTY(species_swimming_components)
 					component_type = GLOB.species_swimming_components[C.dna.species.type]
 				else if(iscatperson(C))	//Why is this not it's own species, that is really annoying
 					component_type = /datum/component/swimming/felinid
+			new /obj/effect/particle_effect/water(get_turf(AM)) //SPLASH
 			AM.AddComponent(component_type)
 
 /turf/open/indestructible/sound/pool/Exited(atom/movable/Obj, atom/newloc)
@@ -194,6 +198,8 @@ GLOBAL_LIST_EMPTY(species_swimming_components)
 	icon = 'nsv13/icons/obj/pool.dmi'
 	icon_state = "ladder"
 	pixel_y = 12
+	anchored = TRUE
+	can_be_unanchored = FALSE
 
 GLOBAL_LIST_EMPTY(pool_filters)
 
@@ -204,6 +210,8 @@ GLOBAL_LIST_EMPTY(pool_filters)
 	icon_state = "poolfilter"
 	pixel_y = 12 //So it sits above the water
 	idle_power_usage = IDLE_POWER_USE
+	anchored = TRUE
+	can_be_unanchored = FALSE
 	var/id = null //change this if youre an annoying mapper who wants multiple pools per area.
 	var/list/pool = list()
 	var/desired_temperature = 300 //Room temperature

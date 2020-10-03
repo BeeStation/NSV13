@@ -417,7 +417,7 @@ GLOBAL_LIST_EMPTY(ai_goals)
 /datum/fleet/unknown_ship
 	name = "Unknown Ship Class"
 	size = 1
-	destroyer_types = list(/obj/structure/overmap/syndicate/ai/battleship)
+	battleship_types = list(/obj/structure/overmap/syndicate/ai/battleship)
 	audio_cues = list("https://www.youtube.com/watch?v=zyPSAkz84vM")
 	taunts = list("Your assault on Rubicon only served to distract you from the real threat. It's time to end this war in one swift blow.")
 	fleet_trait = FLEET_TRAIT_DEFENSE
