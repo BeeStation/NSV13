@@ -378,3 +378,13 @@
 	cost = 25000 //Make sure you look after these
 	contains = list(/obj/item/circuitboard/machine/armour_plating_nanorepair_pump)
 	crate_name = "Armour Plating Nano-repair Pump Machine Board"
+
+/datum/supply_pack/engine/stormdrive_core
+	name = "Stormdrive Reactor Core Crate"
+	desc = "This crate contains a live reactor core for a class iv nuclear storm drive."
+	cost = 35000
+	access = ACCESS_CE
+	contains = list(/obj/item/stormdrive_core)
+	crate_name = "stormdrive reactor core crate"
+	crate_type = /obj/structure/closet/crate/secure/engineering
+	dangerous = TRUE
