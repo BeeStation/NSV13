@@ -373,7 +373,8 @@ A way for syndies to track where the player ship is going in advance, so they ca
 		ui.open()
 
 /obj/machinery/computer/ship/ftl_computer/ui_act(action, params, datum/tgui/ui)
-	if(..())
+	. = ..()
+	if(.)
 		return
 	if(!has_overmap())
 		return

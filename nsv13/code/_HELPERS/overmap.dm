@@ -2,6 +2,8 @@
 	var/obj/structure/overmap/linked_overmap = null
 
 /atom/proc/get_overmap() //Helper proc to get the overmap ship representing a given area.
+	if(!z || loc == null)
+		return FALSE
 	for(var/datum/space_level/SL in SSmapping.z_list)
 		if(SL.z_value == z)
 			return SL.linked_overmap

@@ -25,7 +25,7 @@
 	. = ..()
 	AddComponent(/datum/component/twohanded/required, force_unwielded, force_wielded, wieldsound, unwieldsound)
 	//Pick a random color
-	color = pick(COLOR_YELLOW, COLOR_LIME, COLOR_RED, COLOR_BLUE_LIGHT, COLOR_CYAN, COLOR_MAGENTA)
+	color = pick(COLOR_YELLOW, COLOR_LIME, COLOR_RED, COLOR_BLUE_LIGHT, COLOR_CYAN, COLOR_MAGENTA, COLOR_PUCE)
 
 /obj/item/twohanded/required/pool/check_float(mob/living/holder)
 	var/wielded = SEND_SIGNAL(src, COMSIG_ITEM_IS_WIELDED) & COMPONENT_WIELDED
