@@ -123,7 +123,7 @@
 	item_state = "backpack" //temp - needs own icons
 
 /obj/item/storage/backpack/satchel/munitions
-	name = "industrial satchel"
+	name = "munitions satchel"
 	desc = "A tough satchel with extra pockets."
 	icon_state = "satchel" //temp - needs own icons
 	item_state = "satchel" //temp - needs own icons
