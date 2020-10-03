@@ -182,7 +182,7 @@ export const ArmourPlatingNanorepairWell = (props, context) => {
           <Slider
             value={data.power_allocation}
             minValue={0}
-            maxValue={1000000}
+            maxValue={data.maximum_power_allocation}
             step={1}
             stepPixelSize={0.0005}
             onDrag={(e, value) => act('power_allocation', {
