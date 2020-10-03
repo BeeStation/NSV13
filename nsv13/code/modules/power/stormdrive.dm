@@ -78,6 +78,9 @@ Control Rods
 #define REACTOR_STATE_IDLE 2
 #define REACTOR_STATE_RUNNING 3
 #define REACTOR_STATE_MELTDOWN 4
+#define REACTOR_STATE_REPAIR 5
+#define REACTOR_STATE_REINFORCE 6
+#define REACTOR_STATE_REFIT 7
 
 #define WARNING_STATE_NONE 0
 #define WARNING_STATE_OVERHEAT 1
@@ -144,6 +147,10 @@ Control Rods
 	var/gas_records_next_interval = 0
 	var/base_power = 67500 //Base power modifier, this gets attacked by a cubic function
 	var/next_slowprocess = 0 //Used for slowing the stormdrive processing down to once per second
+	var/reactor_end_times = FALSE //This is the end times for this reactor, we know this because the third error has been made
+	var/repairing = FALSE //Flag for SD repairs to stop duplicate actions
+
+///////// REACTOR SUBTYPES ////////
 
 /obj/machinery/atmospherics/components/binary/stormdrive_reactor/syndicate
 	radio_key = /obj/item/encryptionkey/syndicate
@@ -155,6 +162,8 @@ Control Rods
 	base_power = 85000 //26% more power than class 4
 	icon = 'nsv13/goonstation/icons/reactor_solgov.dmi'
 	theoretical_maximum_power = 20000000
+
+//////// REACTOR INTERACTIONS /////////
 
 /obj/machinery/atmospherics/components/binary/stormdrive_reactor/attackby(obj/item/I, mob/living/carbon/user, params)
 	if(istype(I, /obj/item/control_rod))
@@ -216,6 +225,65 @@ Control Rods
 		M.buffer = src
 		playsound(src, 'sound/items/flashlight_on.ogg', 100, TRUE)
 		to_chat(user, "<span class='notice'>Buffer loaded</span>")
+
+	if(I.tool_behaviour == TOOL_SHOVEL)
+		if(icon_state != "broken")
+			return
+		to_chat(user, "<span class='notice'>You start cleaning out the reactor pit...</span>")
+		repairing = TRUE
+		if(!do_after(user, 5 SECONDS, target=src))
+			repairing = FALSE
+			return
+		to_chat(user, "<span class='warning'>Some of the sludge spills on the floor!</span>")
+		playsound(loc, 'sound/effects/gib_step.ogg', 100)
+		for(var/turf/open/floor in orange(3, get_turf(src)))
+			if(prob(35))
+				new /obj/effect/decal/nuclear_waste (floor)
+		state = REACTOR_STATE_REPAIR
+		repairing = FALSE
+		update_icon()
+
+	if(istype(I, /obj/item/stack/sheet/duranium))
+		var/obj/item/stack/sheet/duranium/D = I
+		if(state == REACTOR_STATE_REPAIR)
+			if(D.get_amount() < 25)
+				to_chat(user, "<span class='notice'>You need at least twenty five pieces of durnaium to reline the reactor pit!</span>")
+				return
+			to_chat(user, "<span class='notice'>You start relining the reactor pit with duranium...</span>")
+			repairing = TRUE
+			if(!do_after(user, 5 SECONDS, target=src) || !Adjacent(user))
+				repairing = FALSE
+				return
+			D.use(25)
+			to_chat(user, "<span class='notice'>The reactor pit has been relined with duranium")
+			state = REACTOR_STATE_REINFORCE
+			repairing = FALSE
+			update_icon()
+
+	if(istype(I, /obj/item/stormdrive_core))
+		if(state == REACTOR_STATE_REFIT)
+			to_chat(user, "<span class='notice'>You start installing the reactor core...</span>")
+			repairing = TRUE
+			if(!do_after(user, 5 SECONDS, target=src) || !Adjacent(user))
+				repairing = FALSE
+				return
+			to_chat(user, "<span class='notice'>The reactor core has been installed.")
+			repairing = FALSE
+			qdel(I)
+			control_rods = list()
+			for(var/atom/A in contents)
+				qdel(A)
+			deactivate() //Factory Reset Approved
+
+/obj/machinery/atmospherics/components/binary/stormdrive_reactor/welder_act(mob/user, obj/item/tool)
+	. = FALSE
+	if(state == REACTOR_STATE_REINFORCE)
+		to_chat(user, "<span class='notice'>You start reinforcing the reactor shielding...</span>")
+		if(tool.use_tool(src, user, 5 SECONDS, volume=100))
+			to_chat(user, "<span class='notice'>The reactor shielding has been reinforced.</span>")
+			state = REACTOR_STATE_REFIT
+			update_icon()
+			return TRUE
 
 /obj/machinery/atmospherics/components/binary/stormdrive_reactor/attack_hand(mob/living/carbon/user)
 	.=..()
@@ -371,6 +439,8 @@ Control Rods
 	gas_records["pluoxium"] = list()
 	gas_records["nucleium"] = list()
 
+/////// REACTOR START PROCS ////////
+
 /obj/machinery/atmospherics/components/binary/stormdrive_reactor/proc/try_start()
 
 	if(state == REACTOR_STATE_RUNNING || state == REACTOR_STATE_MELTDOWN || state == REACTOR_STATE_MAINTENANCE)
@@ -400,22 +470,6 @@ Control Rods
 		return TRUE
 	return FALSE
 
-/obj/machinery/atmospherics/components/binary/stormdrive_reactor/proc/check_meltdown_warning()
-	if(warning_state >= WARNING_STATE_OVERHEAT)
-		if(heat <= reactor_temperature_critical) //This implies that we've now stopped melting down.
-			var/obj/structure/overmap/OM = get_overmap()
-			OM?.stop_relay(CHANNEL_REACTOR_ALERT)
-			warning_state = 0
-			send_alert("Nuclear meltdown averted. Manual reactor inspection is strongly advised", override=TRUE)
-		return FALSE
-	if(heat >= reactor_temperature_critical)
-		send_alert("DANGER: Reactor core overheating. Nuclear meltdown imminent", override=TRUE)
-		warning_state = WARNING_STATE_OVERHEAT
-		var/sound = 'nsv13/sound/effects/ship/reactor/core_overheating.ogg'
-		var/obj/structure/overmap/OM = get_overmap()
-		OM?.relay(sound, null, loop=TRUE, channel = CHANNEL_REACTOR_ALERT)
-		return TRUE
-
 /obj/machinery/atmospherics/components/binary/stormdrive_reactor/proc/lazy_startup() //Admin only command to instantly start a reactor
 	if(control_rods.len <= 0)
 		for(var/I = 0, I < MAX_CONTROL_RODS, I++) //install control rods
@@ -433,95 +487,7 @@ Control Rods
 	var/datum/gas_mixture/air1 = airs[1]
 	air1.adjust_moles(juice, quantity)
 
-/obj/machinery/atmospherics/components/binary/stormdrive_reactor/proc/start_meltdown()
-	if(warning_state >= WARNING_STATE_MELTDOWN)
-		return
-	for(var/obj/item/control_rod/cr in contents) //Burn through the control rods if we haven't already.
-		cr.rod_integrity = 0
-		control_rods -= cr
-		qdel(cr)
-		control_rods += new /obj/item/control_rod/irradiated(src)
-	handle_control_rod_efficiency()
-	send_alert("ERROR IN MODULE FISSREAC0 AT ADDRESS 0x12DF. CONTROL RODS HAVE FAILED. IMMEDIATE INTERVENTION REQUIRED.", override=TRUE)
-	warning_state = WARNING_STATE_MELTDOWN
-	var/sound = 'nsv13/sound/effects/ship/reactor/meltdown.ogg'
-	addtimer(CALLBACK(src, .proc/meltdown), 18 SECONDS)
-	var/obj/structure/overmap/OM = get_overmap()
-	OM?.relay(sound, null, loop=FALSE, channel = CHANNEL_REACTOR_ALERT)
-
-/obj/machinery/atmospherics/components/binary/stormdrive_reactor/proc/meltdown()
-	if(heat >= reactor_temperature_meltdown)
-		state = REACTOR_STATE_MELTDOWN
-		var/sound = 'nsv13/sound/effects/ship/reactor/explode.ogg'
-		var/obj/structure/overmap/OM = get_overmap()
-		OM?.relay(sound, null, loop=FALSE, channel = CHANNEL_REACTOR_ALERT)
-		cut_overlays()
-		flick("meltdown", src)
-		do_meltdown_effects()
-		sleep(10)
-		icon_state = "broken"
-	else
-		warning_state = WARNING_STATE_NONE
-
-/obj/machinery/atmospherics/components/binary/stormdrive_reactor/proc/do_meltdown_effects()
-	explosion(get_turf(src), 5, 10, 19, 10, TRUE, TRUE)
-	var/obj/structure/overmap/OM = get_overmap()
-	if(OM?.role == MAIN_OVERMAP) //Irradiate the shit out of the player ship
-		SSweather.run_weather("nuclear fallout")
-	for(var/X in GLOB.landmarks_list)
-		if(istype(X, /obj/effect/landmark/nuclear_waste_spawner))
-			var/obj/effect/landmark/nuclear_waste_spawner/WS = X
-			if(shares_overmap(src, WS)) //If the spawner's overmap ship is the same as ours, LET LOOSE THE SLUDGE
-				spawn(0)
-					WS.fire()
-	for(var/a in GLOB.apcs_list)
-		var/obj/machinery/power/apc/A = a
-		if(shares_overmap(src, a) && prob(70)) //Are they on our ship?
-			A.overload_lighting()
-
-/obj/machinery/atmospherics/components/binary/stormdrive_reactor/update_icon() //include overlays for radiation output levels and power output levels (ALSO 1k+ levels)
-	if(state == REACTOR_STATE_MELTDOWN)
-		icon_state = "broken"
-		return
-	cut_overlays()
-	if(can_cool()) //If control rods aren't destroyed.
-		switch(round(control_rod_percent)) //move the control rods up and down
-			if(0 to 24)
-				add_overlay("rods_[control_rods.len]_1")
-			if(25 to 49)
-				add_overlay("rods_[control_rods.len]_2")
-			if(50 to 74)
-				add_overlay("rods_[control_rods.len]_3")
-			if(75 to 100)
-				add_overlay("rods_[control_rods.len]_4")
-	if(state == REACTOR_STATE_MAINTENANCE)
-		icon_state = "reactor_maintenance" //If we're in maint, don't make it appear hot.
-		return
-	if(state == REACTOR_STATE_RUNNING)
-		icon_state = "reactor_on" //Default to being on.
-		check_meltdown_warning()
-		var/illumination = max(2, heat/100)
-		if(heat > 0 && heat <= reactor_temperature_nominal) //checking temperature ranges
-			icon_state = "reactor_on"
-			light_color = LIGHT_COLOR_CYAN
-			set_light(illumination)
-		else if(heat > reactor_temperature_nominal && heat <= reactor_temperature_hot)
-			icon_state = "reactor_hot"
-			light_color = LIGHT_COLOR_CYAN
-			set_light(illumination)
-		else if(heat > reactor_temperature_hot && heat <= reactor_temperature_critical)
-			icon_state = "reactor_hot" //NEED NEW ICON
-			light_color = LIGHT_COLOR_CYAN
-			set_light(illumination)
-		else if(heat > reactor_temperature_critical && heat <= reactor_temperature_meltdown) //Final Warning
-			icon_state = "reactor_overheat"
-			light_color = LIGHT_COLOR_RED
-			set_light(illumination)
-		else if(heat > reactor_temperature_meltdown)
-			icon_state = "reactor_overheat"
-			light_color = LIGHT_COLOR_RED
-			set_light(illumination)
-			start_meltdown() //Epsilon or Death
+/////// REACTOR PROCESSING ////////
 
 /obj/machinery/atmospherics/components/binary/stormdrive_reactor/process()
 	update_parents() //sanitary check
@@ -530,9 +496,15 @@ Control Rods
 		next_slowprocess = world.time + 1 SECONDS //Set to wait for another second before processing again, we don't need to process more than once a second
 
 /obj/machinery/atmospherics/components/binary/stormdrive_reactor/proc/slowprocess()
+	if(state >= REACTOR_STATE_REPAIR)
+		return
+
 	if(state == REACTOR_STATE_MELTDOWN)
 		radiation_pulse(src, (1000 * radiation_modifier), 10)
 		return
+
+	if(reactor_end_times)
+		handle_reactor_destabilization()
 
 	if(dumping_fuel)
 		var/max_output_pressure = 4500
@@ -647,14 +619,7 @@ Control Rods
 	else
 		C.powernet.newavail += last_power_produced
 
-/obj/machinery/atmospherics/components/binary/stormdrive_reactor/proc/grav_pull() //HUNGRY!
-	for(var/obj/O in orange((heat / 40), src))
-		if(!O.anchored)
-			step_towards(O,src)
-	for(var/mob/living/M in orange((heat / 40), src))
-		if(!M.mob_negates_gravity())
-			step_towards(M,src)
-			M.Knockdown(40) //Knockdown prey so it can't get away!
+//////// PROCESSING PROCS ////////
 
 /obj/machinery/atmospherics/components/binary/stormdrive_reactor/proc/ambient_temp_bleed()
 	var/turf/open/L = get_turf(src)
@@ -743,152 +708,6 @@ Control Rods
 	var/delta_rt_meltdown = (initial(reactor_temperature_meltdown) * reactor_temperature_modifier) - reactor_temperature_meltdown
 	reactor_temperature_meltdown += delta_rt_meltdown / 2
 
-/obj/machinery/atmospherics/components/binary/stormdrive_reactor/Bumped(atom/movable/A)
-	if(!ismob(A))
-		return
-	var/mob/living/carbon/C = A
-	if(C.has_status_effect(/datum/status_effect/incapacitating/knockdown)) //check to see if they are valid prey
-		switch(reactor_starvation)
-			if(0 to 25) //Concussions for the Concussiondrive
-				if(C.get_bodypart(BODY_ZONE_HEAD))
-					var/obj/item/bodypart/affecting = C.get_bodypart(BODY_ZONE_HEAD)
-					if(affecting && affecting.receive_damage(5)) //minor brute damage
-						if(!istype(C.head, /obj/item/clothing/head/helmet))
-							C.adjustOrganLoss(ORGAN_SLOT_BRAIN, 5, 60)
-							C.update_damage_overlays() //do i still need this??
-
-					C.visible_message("<span class='warning'>You bonk your head on the outcasing of the [src]</span>")
-					playsound(src, 'sound/effects/bang.ogg', 100, TRUE) //temp - find a better sound
-					return
-			if(25 to 100) //Flesh for the Fleshdrive
-				if(C.get_bodypart(BODY_ZONE_L_LEG))
-					var/obj/item/bodypart/affecting = C.get_bodypart(BODY_ZONE_L_LEG)
-					C.visible_message("<span class='danger'><B>A blue glow envelops your leg!</B></span>")
-					affecting.dismember(damtype) // can't seem to find a command for deleting the limb, rather than dropping it
-					playsound(src, 'sound/effects/phasein.ogg', 100, TRUE) //temp - find a better sound
-
-					var/datum/gas_mixture/air1 = airs[1]
-					air1.adjust_moles(/datum/gas/plasma, 25)
-					return
-
-				if(C.get_bodypart(BODY_ZONE_R_LEG))
-					var/obj/item/bodypart/affecting = C.get_bodypart(BODY_ZONE_R_LEG)
-					C.visible_message("<span class='danger'><B>A blue glow envelops your leg!</B></span>")
-					affecting.dismember(damtype)
-					playsound(src, 'sound/effects/phasein.ogg', 100, TRUE) //temp - find a better sound
-
-					var/datum/gas_mixture/air1 = airs[1]
-					air1.adjust_moles(/datum/gas/plasma, 25)
-					return
-
-			if(100 to INFINITY) //Souls for the Souldrive
-				C.visible_message("<span class='danger'><B>Blue particles surround your body!</B></span>")
-				C.gib()
-				playsound(src, 'sound/effects/phasein.ogg', 100, TRUE) //temp - find a better sound
-
-				handle_souldrive()
-
-				var/datum/gas_mixture/air1 = airs[1]
-				air1.adjust_moles(/datum/gas/plasma, 100)
-				return
-
-/obj/machinery/atmospherics/components/binary/stormdrive_reactor/proc/handle_reactor_starvation()
-	if(prob(reactor_starvation))
-		grav_pull()
-		playsound(loc, 'sound/effects/empulse.ogg', 100)
-		for(var/mob/living/M in orange(((heat / 40) + 5), src))
-			to_chat(M, "<span class='danger'>The reactor hungers!</span>")
-			shake_camera(M, 2, 1)
-	if(prob(reactor_starvation / 4))
-		var/list/barriers = list()
-		for(var/turf/closed/wall/W in orange(5, src))
-			barriers += W
-		for(var/obj/structure/window/W in orange(5, src))
-			barriers += W
-		for(var/obj/structure/girder/G in orange(5, src))
-			barriers += G
-		var/selection = pick(barriers)
-		if(!selection)
-			return
-		if(istype(selection, /turf/closed/wall))
-			var/turf/closed/wall/W = selection
-			W.ex_act(2)
-			playsound(loc, 'sound/effects/bang.ogg', 100, TRUE)
-			var/word = pick("growls", "snarls", "wails", "bellows")
-			for(var/mob/living/M in view(10, src))
-				to_chat(M, "<span class='danger'>The reactor [word]!</span>")
-		else if(istype(selection, /obj/structure/window))
-			var/obj/structure/S = selection
-			S.take_damage(400)
-			playsound(loc, 'sound/effects/bang.ogg', 100, TRUE)
-			var/word = pick("growls", "snarls", "wails", "bellows")
-			for(var/mob/living/M in view(10, src))
-				to_chat(M, "<span class='danger'>The reactor [word]!</span>")
-		else if(istype(selection, /obj/structure/girder))
-			var/obj/structure/S = selection
-			S.take_damage(200)
-			playsound(loc, 'sound/effects/bang.ogg', 100, TRUE)
-			var/word = pick("growls", "snarls", "wails", "bellows")
-			for(var/mob/living/M in view(10, src))
-				to_chat(M, "<span class='danger'>The reactor [word]!</span>")
-
-/obj/machinery/atmospherics/components/binary/stormdrive_reactor/proc/send_alert(message, override=FALSE)
-	if(!message)
-		return
-	if(can_alert || override) //We have an override to ignore continuous alerts like control rod reports in favour of screaming that the reactor is about to go nuclear.
-		can_alert = FALSE
-		radio.talk_into(src, message, engineering_channel)
-		addtimer(VARSET_CALLBACK(src, can_alert, TRUE), alert_cooldown)
-
-/obj/machinery/atmospherics/components/binary/stormdrive_reactor/proc/handle_overload()
-	switch(last_power_produced)
-		if(2000000 to 3000000) //2MW to 3MW
-			if(prob(0.1))
-				for(var/obj/machinery/light/L in orange(8, src))
-					if(prob(25))
-						L.flicker()
-		if(3000000 to 5000000) //3MW to 5MW
-			if(prob(0.1))
-				for(var/obj/machinery/light/L in orange(25, src))
-					if(prob(25))
-						L.flicker()
-			if(prob(1))
-				for(var/obj/machinery/light/L in orange(8, src))
-					if(prob(25))
-						L.flicker()
-		if(5000000 to 10000000) //5MW to 10MW
-			if(prob(0.1))
-				for(var/ar in SSmapping.areas_in_z["[z]"])
-					var/area/AR = ar
-					for(var/obj/machinery/light/L in AR)
-						if(prob(25))
-							L.flicker()
-			if(prob(1))
-				for(var/obj/machinery/light/L in orange(10, src))
-					if(prob(25))
-						L.burn_out()
-					else
-						L.flicker()
-			if(prob(0.01))
-				tesla_zap(src, 5, input_power/50)
-		if(10000000 to INFINITY) //10MW+
-			if(prob(1))
-				for(var/ar in SSmapping.areas_in_z["[z]"])
-					var/area/AR = ar
-					for(var/obj/machinery/light/L in AR)
-						if(prob(50))
-							L.flicker()
-			if(prob(5))
-				for(var/obj/machinery/light/L in orange(12, src))
-					L.burn_out() //If there are even any left by this stage
-			if(prob(0.1))
-				tesla_zap(src, 8, input_power/25)
-
-/obj/machinery/atmospherics/components/binary/stormdrive_reactor/Destroy()
-	for(var/atom/X in contents)
-		qdel(X)
-	.=..()
-
 /obj/machinery/atmospherics/components/binary/stormdrive_reactor/proc/handle_gas_records()
 	if(world.time >= gas_records_next_interval)
 		gas_records_next_interval = world.time + gas_records_interval
@@ -952,6 +771,57 @@ Control Rods
 		if(nucleium.len > gas_records_length)
 			nucleium.Cut(1, 2)
 
+//////// STARVATION PROCS ////////
+
+/obj/machinery/atmospherics/components/binary/stormdrive_reactor/Bumped(atom/movable/A)
+	if(!ismob(A))
+		return
+	var/mob/living/carbon/C = A
+	if(C.has_status_effect(/datum/status_effect/incapacitating/knockdown)) //check to see if they are valid prey
+		switch(reactor_starvation)
+			if(0 to 25) //Concussions for the Concussiondrive
+				if(C.get_bodypart(BODY_ZONE_HEAD))
+					var/obj/item/bodypart/affecting = C.get_bodypart(BODY_ZONE_HEAD)
+					if(affecting && affecting.receive_damage(5)) //minor brute damage
+						if(!istype(C.head, /obj/item/clothing/head/helmet))
+							C.adjustOrganLoss(ORGAN_SLOT_BRAIN, 5, 60)
+							C.update_damage_overlays() //do i still need this??
+
+					C.visible_message("<span class='warning'>You bonk your head on the outcasing of the [src]</span>")
+					playsound(src, 'sound/effects/bang.ogg', 100, TRUE) //temp - find a better sound
+					return
+			if(25 to 100) //Flesh for the Fleshdrive
+				if(C.get_bodypart(BODY_ZONE_L_LEG))
+					var/obj/item/bodypart/affecting = C.get_bodypart(BODY_ZONE_L_LEG)
+					C.visible_message("<span class='danger'><B>A blue glow envelops your leg!</B></span>")
+					affecting.dismember(damtype) // can't seem to find a command for deleting the limb, rather than dropping it
+					playsound(src, 'sound/effects/phasein.ogg', 100, TRUE) //temp - find a better sound
+
+					var/datum/gas_mixture/air1 = airs[1]
+					air1.adjust_moles(/datum/gas/plasma, 25)
+					return
+
+				if(C.get_bodypart(BODY_ZONE_R_LEG))
+					var/obj/item/bodypart/affecting = C.get_bodypart(BODY_ZONE_R_LEG)
+					C.visible_message("<span class='danger'><B>A blue glow envelops your leg!</B></span>")
+					affecting.dismember(damtype)
+					playsound(src, 'sound/effects/phasein.ogg', 100, TRUE) //temp - find a better sound
+
+					var/datum/gas_mixture/air1 = airs[1]
+					air1.adjust_moles(/datum/gas/plasma, 25)
+					return
+
+			if(100 to INFINITY) //Souls for the Souldrive
+				C.visible_message("<span class='danger'><B>Blue particles surround your body!</B></span>")
+				C.gib()
+				playsound(src, 'sound/effects/phasein.ogg', 100, TRUE) //temp - find a better sound
+
+				handle_souldrive()
+
+				var/datum/gas_mixture/air1 = airs[1]
+				air1.adjust_moles(/datum/gas/plasma, 100)
+				return
+
 /obj/machinery/atmospherics/components/binary/stormdrive_reactor/proc/handle_souldrive()
 	var/json_file = file("data/npc_saves/Stormdrive.json")
 	if(!fexists(json_file))
@@ -963,7 +833,244 @@ Control Rods
 	fdel(json_file)
 	WRITE_FILE(json_file, json_encode(json))
 
-//////Reactor Computer//////
+/obj/machinery/atmospherics/components/binary/stormdrive_reactor/proc/handle_reactor_starvation()
+	if(prob(reactor_starvation))
+		grav_pull()
+		playsound(loc, 'sound/effects/empulse.ogg', 100)
+		for(var/mob/living/M in orange(((heat / 40) + 5), src))
+			shake_camera(M, 2, 1)
+
+
+/obj/machinery/atmospherics/components/binary/stormdrive_reactor/proc/grav_pull() //HUNGRY!
+	for(var/obj/O in orange((heat / 40), src))
+		if(!O.anchored)
+			step_towards(O,src)
+	for(var/mob/living/M in orange((heat / 40), src))
+		if(!M.mob_negates_gravity())
+			step_towards(M,src)
+			M.Knockdown(40) //Knockdown prey so it can't get away!
+
+//////// OTHER PROCS ////////
+
+/obj/machinery/atmospherics/components/binary/stormdrive_reactor/proc/send_alert(message, override=FALSE)
+	if(!message)
+		return
+	if(can_alert || override) //We have an override to ignore continuous alerts like control rod reports in favour of screaming that the reactor is about to go nuclear.
+		can_alert = FALSE
+		radio.talk_into(src, message, engineering_channel)
+		addtimer(VARSET_CALLBACK(src, can_alert, TRUE), alert_cooldown)
+
+/obj/machinery/atmospherics/components/binary/stormdrive_reactor/proc/check_meltdown_warning()
+	if(warning_state >= WARNING_STATE_OVERHEAT)
+		if(heat <= reactor_temperature_critical) //This implies that we've now stopped melting down.
+			var/obj/structure/overmap/OM = get_overmap()
+			OM?.stop_relay(CHANNEL_REACTOR_ALERT)
+			warning_state = 0
+			send_alert("Nuclear meltdown averted. Manual reactor inspection is strongly advised", override=TRUE)
+		return FALSE
+	if(heat >= reactor_temperature_critical)
+		send_alert("DANGER: Reactor core overheating. Nuclear meltdown imminent", override=TRUE)
+		warning_state = WARNING_STATE_OVERHEAT
+		var/sound = 'nsv13/sound/effects/ship/reactor/core_overheating.ogg'
+		var/obj/structure/overmap/OM = get_overmap()
+		OM?.relay(sound, null, loop=TRUE, channel = CHANNEL_REACTOR_ALERT)
+		return TRUE
+
+/obj/machinery/atmospherics/components/binary/stormdrive_reactor/proc/handle_overload()
+	switch(last_power_produced)
+		if(2000000 to 3000000) //2MW to 3MW
+			if(prob(0.1))
+				for(var/obj/machinery/light/L in orange(8, src))
+					if(prob(25))
+						L.flicker()
+		if(3000000 to 5000000) //3MW to 5MW
+			if(prob(0.1))
+				for(var/obj/machinery/light/L in orange(25, src))
+					if(prob(25))
+						L.flicker()
+			if(prob(1))
+				for(var/obj/machinery/light/L in orange(8, src))
+					if(prob(25))
+						L.flicker()
+		if(5000000 to 10000000) //5MW to 10MW
+			if(prob(0.1))
+				for(var/ar in SSmapping.areas_in_z["[z]"])
+					var/area/AR = ar
+					for(var/obj/machinery/light/L in AR)
+						if(prob(25))
+							L.flicker()
+			if(prob(1))
+				for(var/obj/machinery/light/L in orange(10, src))
+					if(prob(25))
+						L.burn_out()
+					else
+						L.flicker()
+			if(prob(0.01))
+				tesla_zap(src, 5, 1000)
+		if(10000000 to INFINITY) //10MW+
+			if(prob(1))
+				for(var/obj/machinery/light/L in GLOB.machines)
+					if(prob(50) && shares_overmap(src, L))
+						L.flicker()
+			if(prob(5))
+				for(var/obj/machinery/light/L in orange(12, src))
+					L.burn_out() //If there are even any left by this stage
+			if(prob(0.1))
+				tesla_zap(src, 8, 2000)
+
+/obj/machinery/atmospherics/components/binary/stormdrive_reactor/update_icon() //include overlays for radiation output levels and power output levels (ALSO 1k+ levels)
+	if(state == REACTOR_STATE_MELTDOWN)
+		icon_state = "broken"
+		return
+	if(state == REACTOR_STATE_REPAIR) //TEMP
+		icon_state = "broken"
+		return
+	if(state == REACTOR_STATE_REINFORCE) //TEMP
+		icon_state = "broken"
+		return
+	if(state == REACTOR_STATE_REINFORCE) //TEMP
+		icon_state = "broken"
+		return
+	cut_overlays()
+	if(can_cool()) //If control rods aren't destroyed.
+		switch(round(control_rod_percent)) //move the control rods up and down
+			if(0 to 24)
+				add_overlay("rods_[control_rods.len]_1")
+			if(25 to 49)
+				add_overlay("rods_[control_rods.len]_2")
+			if(50 to 74)
+				add_overlay("rods_[control_rods.len]_3")
+			if(75 to 100)
+				add_overlay("rods_[control_rods.len]_4")
+	if(state == REACTOR_STATE_MAINTENANCE)
+		icon_state = "reactor_maintenance" //If we're in maint, don't make it appear hot.
+		return
+	if(state == REACTOR_STATE_RUNNING)
+		icon_state = "reactor_on" //Default to being on.
+		check_meltdown_warning()
+		var/illumination = max(2, heat/100)
+		if(heat > 0 && heat <= reactor_temperature_nominal) //checking temperature ranges
+			icon_state = "reactor_on"
+			light_color = LIGHT_COLOR_CYAN
+			set_light(illumination)
+		else if(heat > reactor_temperature_nominal && heat <= reactor_temperature_hot)
+			icon_state = "reactor_hot"
+			light_color = LIGHT_COLOR_CYAN
+			set_light(illumination)
+		else if(heat > reactor_temperature_hot && heat <= reactor_temperature_critical)
+			icon_state = "reactor_hot" //NEED NEW ICON
+			light_color = LIGHT_COLOR_CYAN
+			set_light(illumination)
+		else if(heat > reactor_temperature_critical && heat <= reactor_temperature_meltdown) //Final Warning
+			icon_state = "reactor_overheat"
+			light_color = LIGHT_COLOR_RED
+			set_light(illumination)
+		else if(heat > reactor_temperature_meltdown)
+			icon_state = "reactor_overheat"
+			light_color = LIGHT_COLOR_RED
+			set_light(illumination)
+			start_meltdown() //Epsilon or Death
+
+/obj/machinery/atmospherics/components/binary/stormdrive_reactor/Destroy()
+	for(var/atom/X in contents)
+		qdel(X)
+	.=..()
+
+/obj/machinery/atmospherics/components/binary/stormdrive_reactor/examine(mob/user)
+	. = ..()
+	if(icon_state == "broken")
+		. += "<span class='notice'>The reactor pit is full of plutonium sludge.</span>"
+	if(state == REACTOR_STATE_REPAIR)
+		. += "<span class='notice'>The duranium lining of the reactor pit is severly degraded.</span>"
+	if(state == REACTOR_STATE_REINFORCE)
+		. += "<span class='notice'>The lining requires reinforcing and welding in place.</span>"
+	if(state == REACTOR_STATE_REFIT)
+		. += "<span class='notice'>It is missing a reactor core.</span>"
+
+////////MELTDOWN////////
+
+/obj/machinery/atmospherics/components/binary/stormdrive_reactor/proc/start_meltdown()
+	if(warning_state >= WARNING_STATE_MELTDOWN)
+		return
+	for(var/obj/item/control_rod/cr in contents) //Burn through the control rods if we haven't already.
+		cr.rod_integrity = 0
+		control_rods -= cr
+		qdel(cr)
+		control_rods += new /obj/item/control_rod/irradiated(src)
+	handle_control_rod_efficiency()
+	send_alert("ERROR IN MODULE FISSREAC0 AT ADDRESS 0x12DF. CONTROL RODS HAVE FAILED. IMMEDIATE INTERVENTION REQUIRED.", override=TRUE)
+	warning_state = WARNING_STATE_MELTDOWN
+	var/sound = 'nsv13/sound/effects/ship/reactor/meltdown.ogg'
+	addtimer(CALLBACK(src, .proc/meltdown), 18 SECONDS)
+	var/obj/structure/overmap/OM = get_overmap()
+	OM?.relay(sound, null, loop=FALSE, channel = CHANNEL_REACTOR_ALERT)
+	reactor_end_times = TRUE
+
+/obj/machinery/atmospherics/components/binary/stormdrive_reactor/proc/handle_reactor_destabilization()
+//	if(prob(75))
+//		tesla_zap(src, rand(3, 8), 1000)
+
+	if(prob(40))
+		for(var/obj/structure/window/W in orange(6, src))
+			W.take_damage(rand(50, 150))
+
+		for(var/mob/living/M in orange(12, src))
+			shake_camera(M, 2, 1)
+
+		for(var/mob/living/M in orange(5, src))
+			M.knockOver()
+
+/obj/machinery/atmospherics/components/binary/stormdrive_reactor/proc/meltdown()
+	if(heat >= reactor_temperature_meltdown)
+		state = REACTOR_STATE_MELTDOWN
+		var/sound = 'nsv13/sound/effects/ship/reactor/explode.ogg'
+		var/obj/structure/overmap/OM = get_overmap()
+		OM?.relay(sound, null, loop=FALSE, channel = CHANNEL_REACTOR_ALERT)
+		cut_overlays()
+		flick("meltdown", src)
+		do_meltdown_effects()
+		sleep(10)
+		icon_state = "broken"
+		reactor_end_times = FALSE //We don't need this anymore
+	else
+		warning_state = WARNING_STATE_NONE
+		reactor_end_times = FALSE
+
+/obj/machinery/atmospherics/components/binary/stormdrive_reactor/proc/do_meltdown_effects()
+	explosion(get_turf(src), 0, 0, 10, 20, TRUE, TRUE)
+	empulse(src, 25, 50)
+	radiation_pulse(src, 10000, 1)
+	src.atmos_spawn_air("o2=500;plasma=200;nucleium=100;TEMP=5000")
+
+	for(var/mob/living/M in GLOB.alive_mob_list)
+		if(shares_overmap(src, M))
+			shake_camera(M, 3, 2)
+			if(!M.mob_negates_gravity())
+				M.Knockdown(50)
+				to_chat(M, "<span class='danger'You feel a wave of energy wash over you!</span>")
+
+	for(var/X in GLOB.landmarks_list)
+		if(istype(X, /obj/effect/landmark/nuclear_waste_spawner))
+			var/obj/effect/landmark/nuclear_waste_spawner/WS = X
+			if(shares_overmap(src, WS))
+				var/epi = get_turf(WS)
+				if(WS.range < 10) //small spawner
+					empulse(epi, 5, 15)
+					radiation_pulse(epi, 100)
+					if(prob(15))
+						if(prob(50))
+							new /obj/effect/anomaly/stormdrive/surge(epi, rand(2000, 5000))
+						else
+							new /obj/effect/anomaly/stormdrive/sheer(epi, rand(2000, 5000))
+				else //larger spawner
+					empulse(epi, 10, 25)
+					radiation_pulse(epi, 500)
+					if(prob(50)) //spawn SD anom
+						new /obj/effect/anomaly/stormdrive/surge(epi, rand(2000, 5000))
+					else
+						new /obj/effect/anomaly/stormdrive/sheer(epi, rand(2000, 5000))
+
+//////// Reactor Computer////////
 
 /obj/machinery/computer/ship/reactor_control_computer
 	name = "Seegson model RBMK reactor control console"
@@ -1160,7 +1267,7 @@ Control Rods
 	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 2500)
 	export_price = 5000
 
-//////Magnetic Constrictors//////
+////// Magnetic Constrictors//////
 
 /obj/machinery/atmospherics/components/binary/magnetic_constrictor //This heats the plasma up to acceptable levels for use in the reactor.
 	name = "magnetic constrictor"
@@ -1277,7 +1384,7 @@ Control Rods
 	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 2500)
 	export_price = 5000
 
-//////Constricted Plasma//////
+/////// Constricted Plasma///////
 
 /obj/machinery/atmospherics/components/trinary/filter/atmos/constricted_plasma
 	name = "constricted plasma filter"
@@ -1303,9 +1410,8 @@ Control Rods
 	icon_state = "orange"
 	gas_type = /datum/gas/nucleium
 
-//////MELTDOWN//////
 
-//add empulse onto the landmarks in here somewhere - more like just rework landmarks for epsilon protocol
+/////// NUCLEAR WASTE////////
 
 /obj/effect/decal/nuclear_waste
 	name = "Plutonium sludge"
@@ -1407,12 +1513,134 @@ Control Rods
 		return
 	status_alarm(FALSE)
 
+/////// ANOMALIES ///////
+
+/obj/effect/anomaly/stormdrive //PARENT
+	name = "Stormdrive Anomaly - PARENT "
+	desc = "A mysterious anomaly, unknown in origin."
+	var/freq_shift = null
+	var/code_shift = null
+
+/obj/effect/anomaly/stormdrive/Initialize(mapload, new_lifespan)
+	.=..()
+	freq_shift = rand(1, 10) / 10
+	code_shift = rand(1, 10) / 10
+
+/obj/effect/anomaly/stormdrive/attackby(obj/item/I, mob/user, params) //Not going to make this easy
+	if(I.tool_behaviour == TOOL_ANALYZER)
+		var/mem_address = rand(10000, 99999)
+		if(prob(50))
+			var/freq_1 = format_frequency(aSignal.frequency - freq_shift)
+			var/freq_2 = format_frequency(aSignal.frequency + freq_shift)
+			to_chat(user, "<span class='notice'>Analyzing... ERROR: Unable to #%##freq0x000[mem_address] [freq_1] - [freq_2].</span>")
+		else
+			var/code_1 = aSignal.code - code_shift
+			var/code_2 = aSignal.code + code_shift
+			to_chat(user, "<span class='notice'>Analyzing... ERROR: Unable to dete cod//^##e0x000[mem_address] [code_1] - [code_2].</span>")
+
+/obj/effect/anomaly/stormdrive/sheer //Radiation + Plasma
+	name = "storm sheer anomaly"
+	icon = 'icons/obj/projectiles.dmi'
+	icon_state = "bluespace"
+
+/obj/effect/anomaly/stormdrive/sheer/anomalyEffect()
+	..()
+	if(prob(90))
+		radiation_pulse(src, 25)
+	else
+		radiation_pulse(src, 125)
+		var/turf/open/L = get_turf(src)
+		if(!istype(L) || !(L.air))
+			return
+		var/datum/gas_mixture/env = L.return_air()
+		var/temperature = env.return_temperature() + 25 //Not super spicy
+		src.atmos_spawn_air("nucleium=15;TEMP=[temperature]")
+
+/obj/effect/anomaly/stormdrive/sheer/Crossed(mob/living/M)
+	radiation_pulse(src, 125)
+
+/obj/effect/anomaly/stormdrive/sheer/Bump(mob/living/M)
+	radiation_pulse(src, 125)
+
+/obj/effect/anomaly/stormdrive/sheer/Bumped(atom/movable/AM)
+	radiation_pulse(src, 125)
+
+/obj/effect/anomaly/stormdrive/sheer/detonate()
+	radiation_pulse(src, 5000)
+	src.atmos_spawn_air("o2=125;plasma=50;nucleium=50;TEMP=5000")
+	explosion(src, 0, 0, 1, 18)
+	new /obj/effect/particle_effect/sparks(loc)
+
+/obj/effect/anomaly/stormdrive/surge //EMP + Flux
+	name = "storm surge anomaly"
+	icon_state = "electricity2"
+	var/canshock = FALSE
+	var/shockdamage = 20
+
+/obj/effect/anomaly/stormdrive/surge/anomalyEffect()
+	..()
+	canshock = TRUE
+	if(prob(90))
+		empulse(src, 0, 3)
+		for(var/mob/living/M in range(0, src))
+			mobShock(M)
+	else
+		empulse(src, 1, 5)
+		explosion(src, 0, 0, 0, 10)
+		for(var/mob/living/M in range(2, src))
+			mobShock(M)
+
+/obj/effect/anomaly/stormdrive/surge/Crossed(mob/living/M)
+	mobShock(M)
+
+/obj/effect/anomaly/stormdrive/surge/Bump(mob/living/M)
+	mobShock(M)
+
+/obj/effect/anomaly/stormdrive/surge/Bumped(atom/movable/AM)
+	mobShock(AM)
+
+/obj/effect/anomaly/stormdrive/surge/proc/mobShock(mob/living/M)
+	if(canshock && istype(M))
+		canshock = FALSE
+		if(iscarbon(M))
+			if(ishuman(M))
+				M.electrocute_act(shockdamage, "[name]", safety=1)
+				return
+			M.electrocute_act(shockdamage, "[name]")
+			return
+		else
+			M.adjustFireLoss(shockdamage)
+			M.visible_message("<span class='danger'>[M] was shocked by \the [name]!</span>", \
+		"<span class='userdanger'>You feel a powerful shock coursing through your body!</span>", \
+		"<span class='italics'>You hear a heavy electrical crack.</span>")
+
+/obj/effect/anomaly/stormdrive/surge/detonate() //we'll see if these all zap the same target
+	tesla_zap(src, 3, 1000)
+	tesla_zap(src, 5, 1000)
+	tesla_zap(src, 7, 1000)
+	empulse(src, 5, 10)
+	explosion(src, 0, 0, 1, 18)
+	new /obj/effect/particle_effect/sparks(loc)
+
+//////// MISC ///////
+
 /obj/item/book/manual/wiki/stormdrive
 	name = "Stormdrive Class IV SOP"
 	icon_state ="bookEngineering2"
 	author = "CogWerk Engineering Reactor Design Department"
 	title = "Stormdrive Class IV SOP"
 	page_link = "Guide_to_the_Stormdrive_Engine"
+
+/obj/item/stormdrive_core
+	name = "Class IV Nuclear Storm Drive Reactor Core"
+	desc = "This crate contains a live reactor core for a class IV nuclear storm drive."
+	icon = 'icons/obj/crates.dmi'
+	icon_state = "crate"
+	w_class = WEIGHT_CLASS_GIGANTIC
+
+/obj/item/stormdrive_core/Initialize()
+	.=..()
+	AddComponent(/datum/component/twohanded/required)
 
 #undef LOW_ROR
 #undef NORMAL_ROR
@@ -1438,6 +1666,9 @@ Control Rods
 #undef REACTOR_STATE_IDLE
 #undef REACTOR_STATE_RUNNING
 #undef REACTOR_STATE_MELTDOWN
+#undef REACTOR_STATE_REPAIR
+#undef REACTOR_STATE_REINFORCE
+#undef REACTOR_STATE_REFIT
 #undef WARNING_STATE_NONE
 #undef WARNING_STATE_OVERHEAT
 #undef WARNING_STATE_MELTDOWN
