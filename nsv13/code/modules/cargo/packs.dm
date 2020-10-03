@@ -378,3 +378,10 @@
 	cost = 25000 //Make sure you look after these
 	contains = list(/obj/item/circuitboard/machine/armour_plating_nanorepair_pump)
 	crate_name = "Armour Plating Nano-repair Pump Machine Board"
+
+/datum/supply_pack/costumes_toys/wardrobes/munitions
+	name = "Munitions Wardrobe Supply Crate"
+	desc = "This crate contains a refill for the Munidrobe."
+	cost = 750
+	contains = list(/obj/item/vending_refill/wardrobe/muni_wardrobe)
+	crate_name = "munidrobe supply crate"

@@ -31,6 +31,10 @@
 	gloves = /obj/item/clothing/gloves/color/brown
 	l_pocket = /obj/item/pda
 
+	backpack = /obj/item/storage/backpack/munitions
+	satchel = /obj/item/storage/backpack/satchel/munitions
+	duffelbag = /obj/item/storage/backpack/duffelbag/munitions
+
 /obj/effect/landmark/start/munitions_tech
 	name = "Munitions Technician"
 	icon_state = "Munitions Technician"
