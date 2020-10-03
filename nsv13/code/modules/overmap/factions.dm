@@ -12,8 +12,6 @@
 #define RELATIONSHIP_ENEMIES 0
 #define RELATIONSHIP_HATRED -100 //Very hard pit to dig yourself out from.
 
-#define FACTION_VICTORY_TICKETS 1000
-
 /datum/faction
 	var/name = "Faction superclass"
 	var/desc = "Description not set."
