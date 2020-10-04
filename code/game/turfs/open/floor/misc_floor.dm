@@ -211,11 +211,11 @@
 	floor_tile = /obj/item/stack/tile/mono/steel
 
 /turf/open/floor/monotile/dark
-	icon_state = "dark_monotile"
+	icon_state = "monotile_dark"
 	floor_tile = /obj/item/stack/tile/mono/dark
 
 /turf/open/floor/monotile/light
-	icon_state = "light_monotile"
+	icon_state = "monotile_light"
 	floor_tile = /obj/item/stack/tile/mono/light 
 
 /turf/open/floor/monofloor
