@@ -233,13 +233,6 @@ GLOBAL_LIST_INIT(computer_beeps, list('nsv13/sound/effects/computer/beep.ogg','n
 		ui = new(user, src, ui_key, "OrdnanceConsole", name, 560, 600, master_ui, state)
 		ui.open()
 
-/obj/machinery/computer/ship/ordnance/ui_act(action, params)
-	. = ..()
-	if(.)
-		return
-	if(!linked)
-		return
-
 /obj/machinery/computer/ship/ordnance/ui_data(mob/user)
 	. = ..()
 	var/list/data = list()
