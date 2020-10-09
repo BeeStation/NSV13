@@ -166,9 +166,14 @@ Control Rods
 //////// REACTOR INTERACTIONS /////////
 
 /obj/machinery/atmospherics/components/binary/stormdrive_reactor/attackby(obj/item/I, mob/living/carbon/user, params)
+	if(repairing)
+		return
 	if(istype(I, /obj/item/control_rod))
 		if(control_rod_installation) //check for if someone is already moving rods
 			to_chat(user, "<span class='notice'>A control rod is already being installed into [src].</span>")
+			return
+		if(state >= REACTOR_STATE_MELTDOWN)
+			to_chat(user, "<span class='notice'>It is definitely too late to add [src] now.")
 			return
 		switch(state)
 			if(REACTOR_STATE_IDLE) //while we could allow this here, may as well do it safely
@@ -287,6 +292,8 @@ Control Rods
 
 /obj/machinery/atmospherics/components/binary/stormdrive_reactor/attack_hand(mob/living/carbon/user)
 	.=..()
+	if(state >= REACTOR_STATE_MELTDOWN)
+		return
 	ui_interact(user)
 
 /obj/machinery/atmospherics/components/binary/stormdrive_reactor/ui_interact(mob/user, ui_key = "main", datum/tgui/ui = null, force_open = 0, datum/tgui/master_ui = null, datum/ui_state/state = GLOB.default_state) // Remember to use the appropriate state.
@@ -1007,12 +1014,9 @@ Control Rods
 	reactor_end_times = TRUE
 
 /obj/machinery/atmospherics/components/binary/stormdrive_reactor/proc/handle_reactor_destabilization()
-//	if(prob(75))
-//		tesla_zap(src, rand(3, 8), 1000)
-
 	if(prob(40))
 		for(var/obj/structure/window/W in orange(6, src))
-			W.take_damage(rand(50, 150))
+			W.take_damage(rand(50, 200))
 
 		for(var/mob/living/M in orange(12, src))
 			shake_camera(M, 2, 1)
@@ -1040,7 +1044,7 @@ Control Rods
 	explosion(get_turf(src), 0, 0, 10, 20, TRUE, TRUE)
 	empulse(src, 25, 50)
 	radiation_pulse(src, 10000, 1)
-	src.atmos_spawn_air("o2=500;plasma=200;nucleium=100;TEMP=5000")
+	src.atmos_spawn_air("o2=750;plasma=200;nucleium=100;TEMP=5000")
 
 	for(var/mob/living/M in GLOB.alive_mob_list)
 		if(shares_overmap(src, M))
@@ -1568,7 +1572,7 @@ Control Rods
 /obj/effect/anomaly/stormdrive/sheer/detonate()
 	radiation_pulse(src, 5000)
 	src.atmos_spawn_air("o2=125;plasma=50;nucleium=50;TEMP=5000")
-	explosion(src, 0, 0, 1, 18)
+	explosion(src, 0, 0, 1, 18, FALSE)
 	new /obj/effect/particle_effect/sparks(loc)
 
 /obj/effect/anomaly/stormdrive/surge //EMP + Flux
@@ -1582,12 +1586,12 @@ Control Rods
 	canshock = TRUE
 	if(prob(90))
 		empulse(src, 0, 3)
-		for(var/mob/living/M in range(0, src))
+		for(var/mob/living/M in orange(0, src))
 			mobShock(M)
 	else
 		empulse(src, 1, 5)
-		explosion(src, 0, 0, 0, 10)
-		for(var/mob/living/M in range(2, src))
+		explosion(src, 0, 0, 0, 10, FALSE)
+		for(var/mob/living/M in orange(2, src))
 			mobShock(M)
 
 /obj/effect/anomaly/stormdrive/surge/Crossed(mob/living/M)
@@ -1614,13 +1618,12 @@ Control Rods
 		"<span class='userdanger'>You feel a powerful shock coursing through your body!</span>", \
 		"<span class='italics'>You hear a heavy electrical crack.</span>")
 
-/obj/effect/anomaly/stormdrive/surge/detonate() //we'll see if these all zap the same target
-	tesla_zap(src, 3, 1000)
-	tesla_zap(src, 5, 1000)
-	tesla_zap(src, 7, 1000)
+/obj/effect/anomaly/stormdrive/surge/detonate() //because tesla_zap is so awful
+	for(var/mob/living/M in orange(5, src))
+		mobShock(M)
 	empulse(src, 5, 10)
-	explosion(src, 0, 0, 1, 18)
-	new /obj/effect/particle_effect/sparks(loc)
+	explosion(src, 0, 0, 1, 18, FALSE)
+	do_sparks(10, FALSE, src)
 
 //////// MISC ///////
 
