@@ -62,7 +62,8 @@
 	if(LAZYFIND(gauss_gunners, M))
 		LAZYREMOVE(gauss_gunners, M)
 	if(M.client)
-		M.client.change_view(getScreenSize(M.client.prefs.widescreenpref))
+		M.client.view_size.resetToDefault()
+		M.client.overmap_zoomout = 0
 	var/mob/camera/aiEye/remote/overmap_observer/eyeobj = M.remote_control
 	M.cancel_camera()
 	if(M.client) //Reset px, y
@@ -75,7 +76,8 @@
 		var/mob/camera/aiEye/cam = pick(hal.all_eyes)
 		hal.eyeobj = cam
 		if(hal.client)
-			hal.client.change_view(getScreenSize(hal.client.prefs.widescreenpref))
+			hal.client.view_size.resetToDefault()
+			hal.client.overmap_zoomout = 0
 	QDEL_NULL(eyeobj)
 	QDEL_NULL(eyeobj?.off_action)
 	QDEL_NULL(M.remote_control)

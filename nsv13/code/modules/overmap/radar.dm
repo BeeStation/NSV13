@@ -91,7 +91,8 @@
 
 /obj/machinery/computer/ship/dradis/attack_hand(mob/user)
 	. = ..()
-	ui_interact(user)
+	if(.)
+		ui_interact(user)
 
 /obj/machinery/computer/ship/dradis/can_interact(mob/user) //Override this code to allow people to use consoles when flying the ship.
 	if(locate(user) in linked?.operators)
@@ -114,7 +115,8 @@
 		ui.open()
 
 /obj/machinery/computer/ship/dradis/ui_act(action, params, datum/tgui/ui)
-	if(..())
+	. = ..()
+	if(.)
 		return
 	if(!has_overmap())
 		return
@@ -161,7 +163,10 @@
 //Cloaking and sensors!
 
 /obj/structure/overmap/proc/is_sensor_visible(obj/structure/overmap/observer) //How visible is this enemy ship to sensors? Sometimes ya gotta get real up close n' personal.
-	var/distance_factor = (1/get_dist(src, observer)) //Visibility inversely scales with distance. If you get too close to a target, even with a stealth ship, you'll ping their sensors.
+	var/dist = get_dist(src, observer)
+	if(dist <= 0)
+		dist = 1
+	var/distance_factor = (1/dist) //Visibility inversely scales with distance. If you get too close to a target, even with a stealth ship, you'll ping their sensors.
 	//Convert alpha to an opacity reading.
 	switch(alpha)
 		if(0 to 50) //Nigh on invisible. You cannot detect ships that are this cloaked by any means.

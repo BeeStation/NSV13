@@ -13,9 +13,9 @@
 	chat_color = "#7979d3"
 	req_admin_notify = 1
 	minimal_player_age = 10
-	exp_requirements = 180
+	exp_requirements = 1200 //NSV START - Due to how critical this job is on NSV, this is an unfortunate but necessary change.
 	exp_type = EXP_TYPE_CREW
-	exp_type_department = EXP_TYPE_SUPPLY
+	exp_type_department = EXP_TYPE_CREW //NSV END
 
 	outfit = /datum/outfit/job/hop
 
