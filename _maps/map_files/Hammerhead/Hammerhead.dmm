@@ -24552,13 +24552,6 @@
 	},
 /turf/open/floor/plasteel,
 /area/crew_quarters/heads/hos)
-"bWY" = (
-/obj/machinery/atmospherics/components/trinary/filter/atmos/flipped/o2{
-	dir = 4;
-	icon_state = "filter_on_f"
-	},
-/turf/open/floor/plasteel/tech/grid,
-/area/engine/atmos)
 "bXo" = (
 /obj/effect/turf_decal/tile/brown{
 	dir = 4
@@ -24752,6 +24745,27 @@
 	dir = 4
 	},
 /turf/open/floor/plasteel/ship,
+/area/engine/atmos)
+"cfG" = (
+/obj/machinery/atmospherics/pipe/simple/scrubbers/visible{
+	dir = 4
+	},
+/obj/machinery/atmospherics/components/binary/pump/on/layer3{
+	dir = 1;
+	name = "N2 to Airmix"
+	},
+/obj/machinery/atmospherics/components/binary/pump{
+	dir = 1;
+	icon_state = "pump_map-2";
+	name = "Nitrogen to Reactor Mix"
+	},
+/obj/machinery/atmospherics/components/binary/pump/layer1{
+	dir = 1;
+	icon_state = "pump_map-1";
+	name = "N2 to Mixline"
+	},
+/obj/effect/turf_decal/delivery/white,
+/turf/open/floor/plasteel/tech/grid,
 /area/engine/atmos)
 "cfR" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer3{
@@ -25017,6 +25031,18 @@
 /area/science/research)
 "csA" = (
 /turf/open/floor/plasteel/ship,
+/area/engine/atmos)
+"csL" = (
+/obj/machinery/atmospherics/pipe/simple/scrubbers/visible{
+	dir = 4
+	},
+/obj/item/radio/intercom/directional/south,
+/obj/machinery/atmospherics/components/binary/pump/layer1{
+	dir = 8;
+	name = "Uncooled Reactor Waste to Scrubbers"
+	},
+/obj/effect/turf_decal/delivery/red,
+/turf/open/floor/plasteel/tech/grid,
 /area/engine/atmos)
 "csP" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer1{
@@ -25507,6 +25533,19 @@
 /obj/structure/curtain,
 /turf/open/floor/plasteel/showroomfloor,
 /area/crew_quarters/toilet/restrooms)
+"cNH" = (
+/obj/machinery/atmospherics/pipe/simple/scrubbers/visible,
+/obj/machinery/atmospherics/components/binary/pump{
+	dir = 4;
+	name = "Plasma to Constrictors"
+	},
+/obj/machinery/atmospherics/components/binary/pump/layer3{
+	dir = 4;
+	name = "TOX to Mixline"
+	},
+/obj/effect/turf_decal/delivery/white,
+/turf/open/floor/plasteel/tech/grid,
+/area/engine/atmos)
 "cNO" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer3{
 	dir = 8
@@ -29015,6 +29054,11 @@
 /obj/machinery/door/firedoor/border_only/directional/west,
 /turf/open/floor/plasteel/dark,
 /area/bridge)
+"fwo" = (
+/obj/machinery/atmospherics/components/trinary/filter/atmos/flipped/n2o,
+/obj/effect/turf_decal/delivery,
+/turf/open/floor/plasteel/tech/grid,
+/area/engine/atmos)
 "fwA" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/siphon/atmos/carbon_output{
 	dir = 4
@@ -29160,14 +29204,6 @@
 	},
 /turf/open/floor/plasteel,
 /area/quartermaster/office)
-"fCC" = (
-/obj/machinery/atmospherics/pipe/simple/scrubbers/visible,
-/obj/machinery/atmospherics/components/binary/pump/layer3{
-	dir = 8;
-	name = "Mixline to Mixtank"
-	},
-/turf/open/floor/plasteel/tech/grid,
-/area/engine/atmos)
 "fCG" = (
 /obj/machinery/light{
 	dir = 1
@@ -29636,6 +29672,30 @@
 	},
 /turf/open/floor/plasteel/ship/techfloor/alt,
 /area/hallway/secondary/entry)
+"fRH" = (
+/obj/machinery/atmospherics/pipe/simple/scrubbers/visible{
+	dir = 10
+	},
+/obj/machinery/atmospherics/components/binary/pump/on/layer1{
+	dir = 8;
+	name = "Reactor Waste to Space";
+	target_pressure = 4500
+	},
+/obj/machinery/atmospherics/components/binary/pump/layer3{
+	dir = 8;
+	name = "Mixline to Space"
+	},
+/obj/effect/turf_decal/delivery/red,
+/turf/open/floor/plasteel/tech/grid,
+/area/engine/atmos)
+"fSl" = (
+/obj/machinery/atmospherics/components/trinary/filter/atmos/flipped/n2{
+	dir = 4;
+	icon_state = "filter_on_f"
+	},
+/obj/effect/turf_decal/delivery,
+/turf/open/floor/plasteel/tech/grid,
+/area/engine/atmos)
 "fSp" = (
 /obj/structure/disposalpipe/segment{
 	dir = 4
@@ -30180,26 +30240,6 @@
 	},
 /turf/open/floor/plasteel/ship,
 /area/nsv/hanger)
-"gsP" = (
-/obj/machinery/atmospherics/pipe/simple/scrubbers/visible{
-	dir = 4
-	},
-/obj/machinery/atmospherics/components/binary/pump/on/layer3{
-	dir = 1;
-	name = "N2 to Airmix"
-	},
-/obj/machinery/atmospherics/components/binary/pump{
-	dir = 1;
-	icon_state = "pump_map-2";
-	name = "Nitrogen to Reactor Mix"
-	},
-/obj/machinery/atmospherics/components/binary/pump/layer1{
-	dir = 1;
-	icon_state = "pump_map-1";
-	name = "N2 to Mixline"
-	},
-/turf/open/floor/plasteel/tech/grid,
-/area/engine/atmos)
 "gsY" = (
 /obj/structure/extinguisher_cabinet{
 	pixel_y = -4
@@ -30490,6 +30530,11 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/port/central)
+"gEf" = (
+/obj/machinery/atmospherics/components/trinary/filter/atmos/flipped/co2,
+/obj/effect/turf_decal/delivery,
+/turf/open/floor/plasteel/tech/grid,
+/area/engine/atmos)
 "gEz" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/siphon/atmos/incinerator_output,
 /turf/open/floor/engine/vacuum,
@@ -32141,19 +32186,6 @@
 /obj/machinery/door/firedoor/border_only/directional/south,
 /turf/open/floor/plating,
 /area/maintenance/department/engine)
-"hIT" = (
-/obj/machinery/atmospherics/components/unary/portables_connector/layer3{
-	dir = 8
-	},
-/turf/open/floor/plasteel/techmaint,
-/area/engine/atmos)
-"hJn" = (
-/obj/machinery/atmospherics/components/trinary/filter/atmos/flipped/n2{
-	dir = 4;
-	icon_state = "filter_on_f"
-	},
-/turf/open/floor/plasteel/tech/grid,
-/area/engine/atmos)
 "hJp" = (
 /obj/effect/turf_decal/tile/green{
 	dir = 4
@@ -32433,18 +32465,6 @@
 /obj/item/chair/stool/bar,
 /turf/open/floor/wood,
 /area/maintenance/starboard/central)
-"hVm" = (
-/obj/machinery/atmospherics/pipe/simple/scrubbers/visible,
-/obj/machinery/atmospherics/components/binary/pump{
-	dir = 4;
-	name = "Mixtank to Reactor Mix"
-	},
-/obj/machinery/atmospherics/components/binary/pump/layer3{
-	dir = 4;
-	name = "Mixtank to Mixline"
-	},
-/turf/open/floor/plasteel/tech/grid,
-/area/engine/atmos)
 "hVs" = (
 /obj/structure/closet/secure_closet/engineering_welding{
 	anchored = 1;
@@ -32601,6 +32621,19 @@
 	},
 /turf/open/floor/plating,
 /area/science/robotics/lab)
+"iaU" = (
+/obj/machinery/atmospherics/pipe/simple/scrubbers/visible,
+/obj/machinery/atmospherics/components/binary/pump{
+	dir = 4;
+	name = "CO2 to Reactor Mix"
+	},
+/obj/machinery/atmospherics/components/binary/pump/layer3{
+	dir = 4;
+	name = "CO2 to Mixline"
+	},
+/obj/effect/turf_decal/delivery/white,
+/turf/open/floor/plasteel/tech/grid,
+/area/engine/atmos)
 "iaV" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer1,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer3,
@@ -33901,6 +33934,14 @@
 /obj/structure/table,
 /turf/open/floor/plasteel/techmaint,
 /area/engine/atmospherics_engine)
+"iXq" = (
+/obj/machinery/atmospherics/components/trinary/filter/atmos/flipped/o2{
+	dir = 4;
+	icon_state = "filter_on_f"
+	},
+/obj/effect/turf_decal/delivery,
+/turf/open/floor/plasteel/tech/grid,
+/area/engine/atmos)
 "iXT" = (
 /obj/machinery/portable_atmospherics/canister/air,
 /obj/effect/turf_decal/bot_white,
@@ -34182,21 +34223,6 @@
 /obj/machinery/door/firedoor/border_only/directional/west,
 /turf/open/floor/plasteel/ship,
 /area/hallway/primary/fore)
-"jiB" = (
-/obj/machinery/atmospherics/pipe/simple/scrubbers/visible{
-	dir = 4
-	},
-/obj/machinery/atmospherics/components/binary/pump{
-	dir = 1;
-	icon_state = "pump_map-2";
-	name = "Air to Distro"
-	},
-/obj/machinery/atmospherics/components/binary/pump/layer3{
-	dir = 1;
-	name = "Airmix to Mixline"
-	},
-/turf/open/floor/plasteel/tech/grid,
-/area/engine/atmos)
 "jiW" = (
 /obj/machinery/disposal/bin,
 /obj/structure/disposalpipe/trunk,
@@ -35147,6 +35173,11 @@
 /obj/effect/landmark/nuclear_waste_spawner,
 /turf/open/floor/plasteel/dark,
 /area/ai_monitored/security/armory/security)
+"jQV" = (
+/obj/machinery/atmospherics/components/trinary/filter/atmos/flipped/plasma,
+/obj/effect/turf_decal/delivery,
+/turf/open/floor/plasteel/tech/grid,
+/area/engine/atmos)
 "jRp" = (
 /obj/machinery/light{
 	dir = 4
@@ -35403,6 +35434,15 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/department/electrical)
+"kbI" = (
+/obj/machinery/atmospherics/pipe/simple/scrubbers/visible,
+/obj/machinery/atmospherics/components/binary/pump/layer3{
+	dir = 8;
+	name = "Mixline to Mixtank"
+	},
+/obj/effect/turf_decal/delivery,
+/turf/open/floor/plasteel/tech/grid,
+/area/engine/atmos)
 "kbM" = (
 /obj/structure/table/reinforced,
 /obj/item/folder/blue,
@@ -35880,18 +35920,6 @@
 	},
 /turf/open/floor/plasteel,
 /area/hydroponics)
-"kus" = (
-/obj/machinery/atmospherics/pipe/simple/scrubbers/visible,
-/obj/machinery/atmospherics/components/binary/pump{
-	dir = 4;
-	name = "Plasma to Constrictors"
-	},
-/obj/machinery/atmospherics/components/binary/pump/layer3{
-	dir = 4;
-	name = "TOX to Mixline"
-	},
-/turf/open/floor/plasteel/tech/grid,
-/area/engine/atmos)
 "kuY" = (
 /obj/effect/turf_decal/tile/green{
 	dir = 8
@@ -38231,6 +38259,30 @@
 /obj/item/paper_bin,
 /turf/open/floor/plasteel/white,
 /area/medical/genetics/cloning)
+"mdw" = (
+/obj/machinery/atmospherics/pipe/simple/scrubbers/visible{
+	dir = 4
+	},
+/obj/machinery/atmospherics/components/binary/pump/on/layer3{
+	dir = 1;
+	name = "O2 to Airmix"
+	},
+/obj/machinery/atmospherics/components/binary/pump{
+	dir = 1;
+	icon_state = "pump_map-2";
+	name = "Oxygen to Reactor Mix"
+	},
+/obj/machinery/atmospherics/pipe/simple/dark/visible/layer1{
+	dir = 4
+	},
+/obj/machinery/atmospherics/components/binary/pump/layer1{
+	dir = 1;
+	icon_state = "pump_map-1";
+	name = "O2 to Mixline"
+	},
+/obj/effect/turf_decal/delivery/white,
+/turf/open/floor/plasteel/tech/grid,
+/area/engine/atmos)
 "mdN" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer1,
 /obj/structure/cable{
@@ -45354,6 +45406,19 @@
 /obj/machinery/light/small,
 /turf/open/floor/carpet,
 /area/crew_quarters/dorms)
+"rbp" = (
+/obj/machinery/atmospherics/pipe/simple/scrubbers/visible,
+/obj/machinery/atmospherics/components/binary/pump{
+	dir = 4;
+	name = "N2O to Reactor Mix"
+	},
+/obj/machinery/atmospherics/components/binary/pump/layer3{
+	dir = 4;
+	name = "N2O to Mixline"
+	},
+/obj/effect/turf_decal/delivery/white,
+/turf/open/floor/plasteel/tech/grid,
+/area/engine/atmos)
 "rbx" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer1{
 	dir = 8
@@ -46194,29 +46259,6 @@
 /obj/effect/landmark/start/roboticist,
 /turf/open/floor/plasteel,
 /area/science/robotics/lab)
-"rEf" = (
-/obj/machinery/atmospherics/pipe/simple/scrubbers/visible{
-	dir = 4
-	},
-/obj/machinery/atmospherics/components/binary/pump/on/layer3{
-	dir = 1;
-	name = "O2 to Airmix"
-	},
-/obj/machinery/atmospherics/components/binary/pump{
-	dir = 1;
-	icon_state = "pump_map-2";
-	name = "Oxygen to Reactor Mix"
-	},
-/obj/machinery/atmospherics/pipe/simple/dark/visible/layer1{
-	dir = 4
-	},
-/obj/machinery/atmospherics/components/binary/pump/layer1{
-	dir = 1;
-	icon_state = "pump_map-1";
-	name = "O2 to Mixline"
-	},
-/turf/open/floor/plasteel/tech/grid,
-/area/engine/atmos)
 "rEw" = (
 /obj/machinery/airalarm/directional/east,
 /obj/effect/turf_decal/tile/neutral{
@@ -47213,21 +47255,6 @@
 /obj/structure/reagent_dispensers/watertank,
 /turf/open/floor/plating,
 /area/maintenance/central)
-"srr" = (
-/obj/machinery/atmospherics/pipe/simple/scrubbers/visible{
-	dir = 10
-	},
-/obj/machinery/atmospherics/components/binary/pump/on/layer1{
-	dir = 8;
-	name = "Reactor Waste to Space";
-	target_pressure = 4500
-	},
-/obj/machinery/atmospherics/components/binary/pump/layer3{
-	dir = 8;
-	name = "Mixline to Space"
-	},
-/turf/open/floor/plasteel/tech/grid,
-/area/engine/atmos)
 "srT" = (
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer1{
 	dir = 1
@@ -47460,18 +47487,6 @@
 /obj/structure/closet/emcloset,
 /turf/open/floor/plating,
 /area/maintenance/department/electrical)
-"sAT" = (
-/obj/machinery/atmospherics/pipe/simple/scrubbers/visible,
-/obj/machinery/atmospherics/components/binary/pump{
-	dir = 4;
-	name = "N2O to Reactor Mix"
-	},
-/obj/machinery/atmospherics/components/binary/pump/layer3{
-	dir = 4;
-	name = "N2O to Mixline"
-	},
-/turf/open/floor/plasteel/tech/grid,
-/area/engine/atmos)
 "sAU" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer3,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer1,
@@ -48412,17 +48427,6 @@
 	},
 /turf/open/floor/plasteel/ship,
 /area/hallway/primary/fore)
-"tiq" = (
-/obj/machinery/atmospherics/pipe/simple/scrubbers/visible{
-	dir = 4
-	},
-/obj/item/radio/intercom/directional/south,
-/obj/machinery/atmospherics/components/binary/pump/layer1{
-	dir = 8;
-	name = "Uncooled Reactor Waste to Scrubbers"
-	},
-/turf/open/floor/plasteel/tech/grid,
-/area/engine/atmos)
 "tix" = (
 /obj/machinery/atmospherics/pipe/simple/brown/hidden{
 	dir = 8
@@ -49695,6 +49699,19 @@
 "ucs" = (
 /turf/open/floor/plasteel,
 /area/maintenance/department/science/central)
+"ucy" = (
+/obj/machinery/atmospherics/pipe/simple/scrubbers/visible,
+/obj/machinery/atmospherics/components/binary/pump{
+	dir = 4;
+	name = "Mixtank to Reactor Mix"
+	},
+/obj/machinery/atmospherics/components/binary/pump/layer3{
+	dir = 4;
+	name = "Mixtank to Mixline"
+	},
+/obj/effect/turf_decal/delivery/white,
+/turf/open/floor/plasteel/tech/grid,
+/area/engine/atmos)
 "ucT" = (
 /obj/effect/turf_decal/tile/purple{
 	dir = 8
@@ -50120,10 +50137,6 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/department/electrical)
-"uuI" = (
-/obj/machinery/atmospherics/components/trinary/filter/atmos/flipped/co2,
-/turf/open/floor/plasteel/tech/grid,
-/area/engine/atmos)
 "uuP" = (
 /obj/effect/turf_decal/tile/red{
 	dir = 1
@@ -51796,10 +51809,6 @@
 	},
 /turf/open/floor/plasteel/white,
 /area/medical/surgery)
-"vGZ" = (
-/obj/machinery/atmospherics/components/trinary/filter/atmos/flipped/n2o,
-/turf/open/floor/plasteel/tech/grid,
-/area/engine/atmos)
 "vHu" = (
 /obj/machinery/portable_atmospherics/canister/air,
 /obj/machinery/door/firedoor/border_only/directional/east,
@@ -52616,18 +52625,6 @@
 	},
 /turf/open/floor/plasteel/white,
 /area/medical/medbay/lobby)
-"wgb" = (
-/obj/machinery/atmospherics/pipe/simple/scrubbers/visible,
-/obj/machinery/atmospherics/components/binary/pump{
-	dir = 4;
-	name = "CO2 to Reactor Mix"
-	},
-/obj/machinery/atmospherics/components/binary/pump/layer3{
-	dir = 4;
-	name = "CO2 to Mixline"
-	},
-/turf/open/floor/plasteel/tech/grid,
-/area/engine/atmos)
 "wgd" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer1{
 	dir = 8
@@ -53085,6 +53082,13 @@
 	},
 /turf/open/floor/plasteel/dark,
 /area/science/robotics/mechbay)
+"wxy" = (
+/obj/machinery/atmospherics/components/unary/portables_connector/layer3{
+	dir = 8
+	},
+/obj/machinery/portable_atmospherics/canister,
+/turf/open/floor/plasteel/techmaint,
+/area/engine/atmos)
 "wyc" = (
 /obj/item/beacon,
 /turf/open/floor/plasteel/dark,
@@ -53487,6 +53491,22 @@
 /obj/machinery/space_heater,
 /turf/open/floor/plating,
 /area/construction)
+"wPv" = (
+/obj/machinery/atmospherics/pipe/simple/scrubbers/visible{
+	dir = 4
+	},
+/obj/machinery/atmospherics/components/binary/pump{
+	dir = 1;
+	icon_state = "pump_map-2";
+	name = "Air to Distro"
+	},
+/obj/machinery/atmospherics/components/binary/pump/layer3{
+	dir = 1;
+	name = "Airmix to Mixline"
+	},
+/obj/effect/turf_decal/delivery/white,
+/turf/open/floor/plasteel/tech/grid,
+/area/engine/atmos)
 "wPD" = (
 /obj/machinery/door/window/brigdoor/security/cell/southright{
 	id = "pw_4";
@@ -54211,10 +54231,6 @@
 	},
 /turf/open/floor/engine,
 /area/engine/atmospherics_engine)
-"xrN" = (
-/obj/machinery/atmospherics/components/trinary/filter/atmos/flipped/plasma,
-/turf/open/floor/plasteel/tech/grid,
-/area/engine/atmos)
 "xsl" = (
 /obj/machinery/light/small,
 /obj/machinery/door/firedoor/border_only/directional/west,
@@ -62424,12 +62440,12 @@ oKe
 mtL
 oQV
 mtL
-srr
+fRH
 vxC
 ndS
-fCC
+kbI
 iiX
-hVm
+ucy
 goU
 aYi
 ptS
@@ -62689,8 +62705,8 @@ mtL
 rSE
 eUE
 wpp
-vGZ
-sAT
+fwo
+rbp
 hKT
 jYa
 aYi
@@ -62951,9 +62967,9 @@ hEX
 bKn
 eUE
 wEm
-xrN
+jQV
 pDH
-kus
+cNH
 goU
 aYi
 ptS
@@ -63196,9 +63212,9 @@ jaY
 nuR
 mVT
 gri
-hIT
-hIT
-hIT
+wxy
+wxy
+wxy
 mtL
 mAf
 mtL
@@ -63213,8 +63229,8 @@ bKn
 nwY
 eUE
 kNL
-uuI
-wgb
+gEf
+iaU
 mGt
 goU
 aUl
@@ -63473,7 +63489,7 @@ pJr
 pJr
 npw
 bKn
-hJn
+fSl
 rGT
 tLA
 tbS
@@ -64244,7 +64260,7 @@ qJk
 lVM
 fbR
 pwv
-gsP
+cfG
 jCT
 qzT
 lRE
@@ -64758,7 +64774,7 @@ vux
 tkq
 pDQ
 rSE
-bWY
+iXq
 rGT
 bSu
 aoH
@@ -65529,7 +65545,7 @@ fen
 vRB
 fbR
 tNW
-rEf
+mdw
 jCT
 qEA
 fzT
@@ -65786,7 +65802,7 @@ fPC
 dGv
 rJp
 rbZ
-tiq
+csL
 aYi
 anB
 anB
@@ -66557,7 +66573,7 @@ pnl
 hke
 gUS
 wKB
-jiB
+wPv
 jCT
 hOv
 eZa
