@@ -146,6 +146,7 @@ Returns a faction datum by its name (case insensitive!)
 //Specific case for anomalies. They need to be spawned in for research to scan them.
 
 /datum/controller/subsystem/star_system/proc/spawn_anomaly(anomaly_type, datum/star_system/target_sys, center=FALSE)
+	RETURN_TYPE(/obj/structure/overmap)
 	if(target_sys.occupying_z)
 		spawn_ship(anomaly_type, target_sys, center)
 		return
@@ -158,6 +159,7 @@ Returns a faction datum by its name (case insensitive!)
 	target_sys.contents_positions[anomaly] = list("x" = anomaly.x, "y" = anomaly.y) //Cache the ship's position so we can regenerate it later.
 	target_sys.system_contents += anomaly
 	anomaly.moveToNullspace() //Anything that's an NPC should be stored safely in nullspace until we return.
+	return anomaly
 
 ///////BOUNTIES//////
 
@@ -297,6 +299,9 @@ Returns a faction datum by its name (case insensitive!)
 		fleets += fleet
 	if(preset_trader)
 		trader = new preset_trader
+		//We need to instantiate the trader's shop now and give it info, so unfortunately these'll always load in.
+		var/obj/structure/overmap/trader/station13 = SSstar_system.spawn_anomaly(trader.station_type, src, TRUE)
+		station13.set_trader(trader)
 	addtimer(CALLBACK(src, .proc/spawn_asteroids), 15 SECONDS)
 	addtimer(CALLBACK(src, .proc/generate_anomaly), 15 SECONDS)
 

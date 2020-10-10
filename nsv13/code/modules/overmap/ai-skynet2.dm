@@ -261,6 +261,13 @@ GLOBAL_LIST_EMPTY(ai_goals)
 	curr?.remove_ship(src)
 	jump(SS, FALSE)
 
+/obj/structure/overmap/proc/try_hail(mob/living/user)
+	if(!isliving(user))
+		return FALSE
+	var/text = stripped_input(user, "What do you want to say?", "Hailing")
+	if(text)
+		hail(text, user)
+
 /obj/structure/overmap/proc/hail(text, sender)
 	if(!text || !sender)
 		return

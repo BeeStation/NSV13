@@ -108,7 +108,7 @@ export const Dradis = (props, context) => {
                   <Fragment key={key}>
                     {!!value.name && (
                       <StarButton unselectable="on" style={markerStyle} className={markerType}
-                        content="">
+                        content="" onClick={() => act('hail', { target: value.id })}>
                         <span class="star_label">
                           <p>{value.name}</p>
                         </span>
