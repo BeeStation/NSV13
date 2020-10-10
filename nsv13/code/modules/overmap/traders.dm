@@ -1,53 +1,20 @@
 /datum/trader
-	var/name = "Dodgy dan the cryptocurrency trader"
-	var/desc = "Only the finest cryptocurrency investments."
+	var/name = "Drug Mcdonalds"
+	var/desc = "Son, we forgot the crack."
 	var/list/stonks = list() //The trader's inventory.
 	var/list/sold_items = list()
 	var/faction_type = null //What faction does the dude belong to.
 	var/system_type = "unaligned" //In what systems do they spawn?
 	//Fluff / voice stuff
+	var/greeting = "What do you want?"
 	var/list/greetings = list("Welcome to our store!", "How can I help you?", "We've got everything you need...for a price.")
 	var/list/on_purchase = list("Thanks for your business!", "Thank you, come again", "Thank you for your purchase!")
+	var/list/on_fail = list("Did you intend to pay for that?", "I'm afraid the cheque bounced.", "Purchase not authorised.")
 	var/station_type = /obj/structure/overmap/trader //Fluff, really. Just sets what kinda station they spawn on!
-
-//Credit goes to cdey for these sprites (Thanks!)
-/obj/structure/overmap/trader
-	name = "Trade Station"
-	icon = 'nsv13/icons/overmap/neutralstation.dmi'
-	icon_state = "combust"
-	damage_states = FALSE //Not yet implemented
-	collision_positions = list(new /datum/vector2d(-7,73), new /datum/vector2d(-83,46), new /datum/vector2d(-106,14), new /datum/vector2d(-106,-11), new /datum/vector2d(-81,-41), new /datum/vector2d(-9,-67), new /datum/vector2d(10,-69), new /datum/vector2d(87,-35), new /datum/vector2d(107,-8), new /datum/vector2d(108,13), new /datum/vector2d(85,46), new /datum/vector2d(10,73))
-	faction = "nanotrasen"//Placeholder, set by trader.
-	mass = MASS_TITAN
-	var/datum/trader/inhabited_trader = null
-
-/obj/structure/overmap/trader/try_hail(mob/living/user)
-	if(!isliving(user))
-		return FALSE
-	if(inhabited_trader)
-		inhabited_trader.ui_interact(user)
-		SEND_SOUND(user, 'nsv13/sound/effects/ship/freespace2/computer/textdraw.wav')
-		to_chat(user, "<span class='boldnotice'>[pick(greetings)]</span>")
-
-//Nope!
-
-/obj/structure/overmap/trader/can_move()
-	return FALSE
-
-/obj/structure/overmap/trader/shipyard
-	name = "Shipyard"
-	icon_state = "robust"
-	collision_positions = list(new /datum/vector2d(-6,87), new /datum/vector2d(-75,14), new /datum/vector2d(-76,-6), new /datum/vector2d(-8,-85), new /datum/vector2d(19,-72), new /datum/vector2d(85,-14), new /datum/vector2d(85,10), new /datum/vector2d(55,57), new /datum/vector2d(20,72))
-
-/obj/structure/overmap/trader/proc/set_trader(datum/trader/bob) //The love story of alice and bob continues.
-	faction = bob.system_type
-	name = "[bob.name]"
-	ai_controlled = FALSE //Yep, not a whole lot we can do about that.
-	inhabited_trader = bob
-
-/obj/structure/overmap/trader/Destroy()
-	qdel(inhabited_trader)
-	. = ..()
+	var/next_restock = 0
+	var/stock_delay = 0
+	var/image = "https://comps.canstockphoto.com/man-wearing-hard-hat-and-construction-stock-photo_csp45065723.jpg"
+	var/list/missions = list() //Missions
 
 //Method to stock a trader with items. This happens every so often and you have little control over it.
 /datum/trader/proc/stock_items()
@@ -56,7 +23,7 @@
 	stonks = list() //Reset our stores of supplies
 	for(var/itemPath in sold_items)
 		var/datum/trader_item/TI = new itemPath()
-		TI.price = rand(TI.price/2, TI.price*2)
+		TI.price = rand(TI.price/2, TI.price*4)
 		TI.stock = rand(TI.stock/2, TI.stock*2) //How much we got in stock boys
 		stonks += TI
 	return FALSE
@@ -68,13 +35,17 @@
 	var/unlock_path = null
 	var/stock = 1 //How many of these items are usually stocked, this is randomized
 
-/datum/trader_item/proc/on_purchase(obj/structure/overmap/OM, datum/trader_item/unlock_type)
+/datum/trader_item/proc/on_purchase(obj/structure/overmap/OM)
 	var/area/landingzone = null
 	if(OM.role == MAIN_OVERMAP)
 		landingzone = GLOB.areas_by_type[/area/quartermaster/warehouse]
 	else
 		if(!OM.linked_areas.len)
+			OM = OM.last_overmap //Handles fighters going out and buying things on the ship's behalf
+			if(OM.linked_areas.len)
+				goto foundareas
 			return FALSE
+		foundareas:
 		landingzone = pick(OM.linked_areas)
 	var/list/empty_turfs = list()
 	var/turf/LZ = null
@@ -90,29 +61,10 @@
 	var/obj/structure/closet/supplypod/freight_pod/toLaunch = new /obj/structure/closet/supplypod/freight_pod
 	var/shippingLane = GLOB.areas_by_type[/area/centcom/supplypod/flyMeToTheMoon]
 	toLaunch.forceMove(shippingLane)
-	var/atom/movable/theItem = new unlock_type.unlock_path
+	var/atom/movable/theItem = new unlock_path
 	theItem.forceMove(toLaunch)
 	new /obj/effect/DPtarget(LZ, toLaunch)
 	return TRUE
-
-/datum/trader_item/ship_repair
-	name = "Quick n' ez ship repair"
-	desc = "We'll patch your ship up without a care, with our special ingredients: Duct tape and prayer! (Copyright CzanekCorp 2258, all rights reserved)"
-	price = 1000
-	stock = 5
-	var/failure_chance = 20 //Chance of the repair going wrong. You get what you pay for.
-	var/repair_amount = 35 //% of health this repair will heal up.
-
-/datum/trader_item/ship_repair/tier2
-	name = "Ship armour repair"
-	desc = "A full repair of your ship's armour plating, superstructural repairs not included!"
-	price = 2500
-	failure_chance = 0
-	repair_amount = 50
-	stock = 2
-
-/datum/trader_item/ship_repair/on_purchase(obj/structure/overmap/OM)
-	OM.repair_all_quadrants(repair_amount, failure_chance)
 
 //Arms dealers.
 /datum/trader/armsdealer
@@ -120,12 +72,19 @@
 	desc = "Corporate approved arms dealer specialising in ballistic weapon deployment."
 	faction_type = FACTION_ID_NT
 	system_type = "nanotrasen"
+	image = "https://thoughtcatalog.com/wp-content/uploads/2013/11/military.jpg"
+	sold_items = list(/datum/trader_item/torpedo, /datum/trader_item/missile, /datum/trader_item/mac, /datum/trader_item/railgun, /datum/trader_item/c45, /datum/trader_item/pdc, /datum/trader_item/flak)
 
 /datum/trader/armsdealer/syndicate
 	name = "DonkCo Warcrime Emporium"
-	desc = "Only the finest weapons guaranteed to violate the geneva convention! (We'll sell to anyone!)"
+	desc = "Only the finest weapons guaranteed to violate the geneva convention! (We'll sell to anyone.. but don't get too close!)"
 	faction_type = FACTION_ID_SYNDICATE
 	system_type = "syndicate"
+	//Top tier trader with the best items available.
+	sold_items = list(/datum/trader_item/nuke,/datum/trader_item/torpedo, /datum/trader_item/missile, /datum/trader_item/mac, /datum/trader_item/railgun, /datum/trader_item/c20r, /datum/trader_item/c45, /datum/trader_item/stechkin, /datum/trader_item/pdc, /datum/trader_item/flak)
+	station_type = /obj/structure/overmap/trader/syndicate
+	image = "https://i.pinimg.com/originals/e4/7d/38/e47d3854a13c4303465b7252fe23f399.jpg"
+	greetings = list("God bless Abassi", "Freedom isn't free, buy a gun to secure yours!", "Excercise your right to bear arms now!")
 
 /datum/trader/armsdealer/syndicate/New()
 	. = ..()
@@ -142,6 +101,7 @@
 	on_purchase = list("Yes, we know the tazers aren’t the safest, but if you don’t like ‘em, stop buying ‘em, eh?", "Good doing business with you. Good luck out there, killer.", "About time we got somebody who knows what they’re doing. Here, free shipping!", "No refunds, no returns!")
 	sold_items = list(/datum/trader_item/ship_repair)
 	station_type = /obj/structure/overmap/trader/shipyard
+	image = "https://static.tvtropes.org/pmwiki/pub/images/f_6611.jpg"
 
 /datum/trader/minsky
 	name = "Minsky Heavy Engineering"
@@ -151,23 +111,73 @@
 	station_type = /obj/structure/overmap/trader/shipyard
 
 /datum/trader/ui_data(mob/user)
+	if(world.time >= next_restock)
+		stock_items()
+		stock_delay = rand(10, 20)
+		next_restock = world.time + stock_delay MINUTES
 	var/list/data = list()
 	var/list/items_info = list()
 	for(var/datum/trader_item/item in stonks)
 		var/list/item_info = list()
-		item_info["price"] = stonks[item] //For a price for a price price, for a price, price price.
+		item_info["price"] = item.price //For a price for a price price, for a price, price price.
 		item_info["name"] = item.name
-		item_info["desc"] = item.desc
-	data["name"] = name
+		item_info["desc"] = "[item.price]$ - [item.desc]"
+		item_info["id"] = "\ref[item]"
+		item_info["stock"] = item.stock
+		items_info[++items_info.len] = item_info
+	data["greeting"] = greeting
 	data["desc"] = desc
+	data["image"] = image
 	data["theme"] = (faction_type == FACTION_ID_NT) ? "ntos" : "syndicate"
 	data["items_info"] = items_info
+	data["next_restock"] = "Stock: (Restocking in [round((next_restock-world.time)/600)] minutes)"
+	var/datum/bank_account/D = SSeconomy.get_dep_account(ACCOUNT_CAR)
+	if(D)
+		data["points"] = "$[D.account_balance]"
 	return data
 
-/datum/trader/ui_interact(mob/user, ui_key, datum/tgui/ui, force_open, datum/tgui/master_ui, datum/ui_state/state=GLOB.always_state)
+/datum/trader/ui_act(action, list/params, datum/tgui/ui, datum/ui_state/state)
+	. = ..()
+	var/datum/trader_item/target = locate(params["target"])
+	if(action == "purchase")
+		if(!target)
+			return
+		attempt_purchase(target, usr)
+	if(action == "mission")
+		give_mission(usr)
+
+/datum/trader/proc/give_mission(mob/living/user)
+	if(!isliving(user))
+		return
+	if(!missions.len)
+		SEND_SOUND(user, 'nsv13/sound/effects/ship/freespace2/computer/textdraw.wav')
+		to_chat(user, "<span class='boldnotice'>We don't have any work for you I'm afraid.</span>")
+		return FALSE
+	//TODO: Awaiting missions implementation.
+/datum/trader/proc/generate_missions()
+	return FALSE //Todo!
+
+/datum/trader/proc/attempt_purchase(datum/trader_item/item, mob/living/carbon/user)
+	if(!isliving(user))
+		return FALSE
+	var/datum/bank_account/D = SSeconomy.get_dep_account(ACCOUNT_CAR)
+	if(!D || D.account_balance <= item.price)
+		SEND_SOUND(user, 'nsv13/sound/effects/ship/freespace2/computer/textdraw.wav')
+		to_chat(user, "<span class='boldnotice'>[pick(on_fail)]</span>")
+		return FALSE
+	D.adjust_money(-item.price)
+	if(user.overmap_ship)
+		user.get_overmap().hail(pick(on_purchase), src)
+	item.on_purchase(user.get_overmap())
+	item.stock --
+	if(item.stock <= 0)
+		stonks -= item
+		qdel(item)
+
+/datum/trader/ui_interact(mob/user, ui_key, datum/tgui/ui, force_open, datum/tgui/master_ui, datum/ui_state/state=GLOB.not_incapacitated_state)
 	ui = SStgui.try_update_ui(user, src, ui_key, ui, force_open)
 	if(!ui)
 		var/datum/asset/assets = get_asset_datum(/datum/asset/simple/starmap)
 		assets.send(user)
-		ui = new(user, src, ui_key, "Trader", name, 800, 660, master_ui, state)
+		ui = new(user, src, ui_key, "Trader", name, 550, 750, master_ui, state)
 		ui.open()

@@ -34,7 +34,7 @@ GLOBAL_LIST_INIT(drop_trooper_teams, list("Noble", "Helljumper","Red", "Black", 
 /obj/structure/overmap/fighter/utility/prebuilt/carrier/syndicate/boarding/Initialize(mapload, operatives, teamName)
 	. = ..()
 	name = (teamName) ? "[teamName] squad boarding craft" : name
-	flight_state = 6
+//	flight_state = 6
 	toggle_canopy()
 	var/found_pilot = FALSE
 	for(var/mob/living/carbon/user in operatives)

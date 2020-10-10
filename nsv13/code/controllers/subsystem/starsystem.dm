@@ -777,7 +777,6 @@ To make things worse, this hellhole is entirely RNG, so good luck mapping it!
 	var/list/generated = list()
 	var/amount = rand(10,20)
 	for(var/I=0;I<amount,I++){
-		message_admins("Brr")
 		var/datum/star_system/random/randy = new /datum/star_system/random()
 		randy.system_type = pick("radioactive", "blackhole", "quasar", "accretiondisk", "nebula", "supernova")
 		randy.apply_system_effects()
@@ -799,7 +798,6 @@ To make things worse, this hellhole is entirely RNG, so good luck mapping it!
 	var/datum/star_system/rubicon = SSstar_system.system_by_id("Rubicon")
 	var/datum/star_system/rubiconnector = null
 	for(var/datum/star_system/S in generated)
-		message_admins("fugg")
 		if(rubicon && S.dist(rubicon) < lowest_dist)
 			lowest_dist = S.dist(rubicon)
 			rubiconnector = S

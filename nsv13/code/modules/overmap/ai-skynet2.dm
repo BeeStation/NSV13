@@ -750,6 +750,7 @@ GLOBAL_LIST_EMPTY(ai_goals)
 	var/datum/fleet/fleet = null
 	var/datum/ai_goal/current_goal = null
 	var/obj/structure/overmap/squad_lead = null
+	var/obj/structure/last_overmap = null
 
 /obj/structure/overmap/proc/ai_fire(atom/target)
 	if(next_firetime > world.time)

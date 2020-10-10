@@ -74,7 +74,6 @@ Repair
 	var/loadout_type = LOADOUT_DEFAULT_FIGHTER
 	var/datum/component/ship_loadout/loadout = null
 	var/obj/structure/fighter_launcher/mag_lock = null //Mag locked by a launch pad. Cheaper to use than locate()
-	var/obj/structure/last_overmap = null
 	var/canopy_open = TRUE
 	var/master_caution = FALSE //The big funny warning light on the dash.
 	var/list/components = list() //What does this fighter start off with? Use this to set what engine tiers and whatever it gets.
