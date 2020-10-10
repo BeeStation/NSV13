@@ -1348,6 +1348,19 @@ Utility modules can be either one of these types, just ensure you set its slot t
 	burst_size = 2
 	fire_delay = 0.10 SECONDS
 
+//Specialist item for the superiority fighter.
+/obj/item/fighter_component/secondary/ordnance_launcher/railgun
+	name = "Fighter Railgun"
+	desc = "A scaled down railgun designed for use in fighters."
+	icon_state = "railgun"
+	weight = 1
+	accepted_ammo = /obj/item/ship_weapon/ammunition/railgun_ammo
+	overmap_firing_sounds = list('nsv13/sound/effects/ship/railgun_fire.ogg')
+	burst_size = 1
+	fire_delay = 0.2 SECONDS
+	max_ammo = 10
+	tier = 1
+
 /obj/item/fighter_component/secondary/ordnance_launcher/torpedo
 	name = "Fighter Torpedo Launcher"
 	desc = "A heavy torpedo rack which allows fighters to fire torpedoes at targets"

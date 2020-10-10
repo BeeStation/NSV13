@@ -161,3 +161,80 @@
 	price = 500
 	stock = 10
 	unlock_path = /obj/item/ammo_box/magazine/pdc/flak
+
+/datum/trader_item/fighter/light
+	name = "Light Fighter"
+	desc = "A pre-assembled light fighter which comes pre-equipped with everything a pilot needs to get back into the fight."
+	price = 12000
+	stock = 2
+	unlock_path = /obj/structure/overmap/fighter/light
+
+/datum/trader_item/fighter/utility
+	name = "Utility Fighter"
+	desc = "A pre-assembled utility craft, capable of restocking and repairing other fighters."
+	price = 9000
+	stock = 5
+	unlock_path = /obj/structure/overmap/fighter/utility
+
+/datum/trader_item/fighter/heavy
+	name = "Heavy Fighter"
+	desc = "A pre-assembled Scimitar class heavy fighter produced in house by our engineers."
+	price = 15000
+	stock = 2
+	unlock_path = /obj/structure/overmap/fighter/heavy
+
+//Trader exclusive specialty fighters
+/obj/structure/overmap/fighter/light/judgement
+	name = "Executive Fighter"
+	icon_state = "judgement"
+	components = list(/obj/item/fighter_component/fuel_tank/tier2,
+						/obj/item/fighter_component/avionics,
+						/obj/item/fighter_component/apu,
+						/obj/item/fighter_component/armour_plating/tier2,
+						/obj/item/fighter_component/targeting_sensor,
+						/obj/item/fighter_component/engine/tier2,
+						/obj/item/fighter_component/countermeasure_dispenser,
+						/obj/item/fighter_component/secondary/ordnance_launcher,
+						/obj/item/fighter_component/oxygenator,
+						/obj/item/fighter_component/canopy/tier2,
+						/obj/item/fighter_component/docking_computer,
+						/obj/item/fighter_component/battery/tier2,
+						/obj/item/fighter_component/primary/cannon)
+
+/datum/trader_item/fighter/judgement
+	name = "AX-49 'Classic' Custom Fighter"
+	desc = "A custom built light fighter tuned to perfection, attention to detail and pride fuel this beauty."
+	price = 20000
+	stock = 1
+	unlock_path = /obj/structure/overmap/fighter/light/judgement
+
+/datum/trader_item/fighter/prototype
+	name = "SU-148 Chelyabinsk Superiority Fighter"
+	desc = "A highly experimental fighter prototype outfitted with a railgun. This absolute powerhouse balances speed, power and stealth in a package guaranteed to outclass anything the Syndicate can throw at you."
+	price = 50000
+	stock = 1
+	unlock_path = /obj/structure/overmap/fighter/light/prototype
+
+/obj/structure/overmap/fighter/light/prototype
+	name = "SU-148 Chelyabinsk Superiority Fighter"
+	icon_state = "prototype"
+	components = list(/obj/item/fighter_component/fuel_tank/tier3,
+						/obj/item/fighter_component/avionics,
+						/obj/item/fighter_component/apu,
+						/obj/item/fighter_component/armour_plating/tier3,
+						/obj/item/fighter_component/targeting_sensor,
+						/obj/item/fighter_component/engine/tier3,
+						/obj/item/fighter_component/countermeasure_dispenser,
+						/obj/item/fighter_component/secondary/ordnance_launcher/railgun,
+						/obj/item/fighter_component/oxygenator,
+						/obj/item/fighter_component/canopy/tier2,
+						/obj/item/fighter_component/docking_computer,
+						/obj/item/fighter_component/battery/tier2,
+						/obj/item/fighter_component/primary/cannon/heavy)
+
+/datum/trader_item/fighter/syndicate
+	name = "AV-41 'Corvid' Syndicate Light Fighter"
+	desc = "A somewhat outdated Syndicate fighter design which may or may not be a facsimile of Nanotrasen's now defunct 'Viper' series."
+	price = 7000
+	stock = 5
+	unlock_path = /obj/structure/overmap/fighter/light/syndicate //Good luck using these without boarder IDs

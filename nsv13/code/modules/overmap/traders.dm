@@ -13,7 +13,7 @@
 	var/station_type = /obj/structure/overmap/trader //Fluff, really. Just sets what kinda station they spawn on!
 	var/next_restock = 0
 	var/stock_delay = 0
-	var/image = "https://comps.canstockphoto.com/man-wearing-hard-hat-and-construction-stock-photo_csp45065723.jpg"
+	var/image = "https://cdn.discordapp.com/attachments/701841640897380434/764534224291233822/unknown.png"
 	var/list/missions = list() //Missions
 
 //Method to stock a trader with items. This happens every so often and you have little control over it.
@@ -73,7 +73,7 @@
 	faction_type = FACTION_ID_NT
 	system_type = "nanotrasen"
 	image = "https://thoughtcatalog.com/wp-content/uploads/2013/11/military.jpg"
-	sold_items = list(/datum/trader_item/torpedo, /datum/trader_item/missile, /datum/trader_item/mac, /datum/trader_item/railgun, /datum/trader_item/c45, /datum/trader_item/pdc, /datum/trader_item/flak)
+	sold_items = list(/datum/trader_item/torpedo, /datum/trader_item/missile, /datum/trader_item/mac, /datum/trader_item/railgun, /datum/trader_item/c45, /datum/trader_item/pdc, /datum/trader_item/flak,/datum/trader_item/fighter/light,/datum/trader_item/fighter/heavy,/datum/trader_item/fighter/utility, /datum/trader_item/fighter/judgement, /datum/trader_item/fighter/prototype)
 
 /datum/trader/armsdealer/syndicate
 	name = "DonkCo Warcrime Emporium"
@@ -81,7 +81,7 @@
 	faction_type = FACTION_ID_SYNDICATE
 	system_type = "syndicate"
 	//Top tier trader with the best items available.
-	sold_items = list(/datum/trader_item/nuke,/datum/trader_item/torpedo, /datum/trader_item/missile, /datum/trader_item/mac, /datum/trader_item/railgun, /datum/trader_item/c20r, /datum/trader_item/c45, /datum/trader_item/stechkin, /datum/trader_item/pdc, /datum/trader_item/flak)
+	sold_items = list(/datum/trader_item/nuke,/datum/trader_item/torpedo, /datum/trader_item/missile, /datum/trader_item/mac, /datum/trader_item/railgun, /datum/trader_item/c20r, /datum/trader_item/c45, /datum/trader_item/stechkin, /datum/trader_item/pdc, /datum/trader_item/flak, /datum/trader_item/fighter/syndicate)
 	station_type = /obj/structure/overmap/trader/syndicate
 	image = "https://i.pinimg.com/originals/e4/7d/38/e47d3854a13c4303465b7252fe23f399.jpg"
 	greetings = list("God bless Abassi", "Freedom isn't free, buy a gun to secure yours!", "Excercise your right to bear arms now!")
@@ -139,6 +139,11 @@
 /datum/trader/ui_act(action, list/params, datum/tgui/ui, datum/ui_state/state)
 	. = ..()
 	var/datum/trader_item/target = locate(params["target"])
+	var/mob/living/user = usr
+	var/dist = get_dist(user.get_overmap(), current_location)
+	if(!z || dist >= 30)
+		to_chat(user, "<span class='warning'>Out of bi-directional comms range.</span>")
+		return FALSE
 	if(action == "purchase")
 		if(!target)
 			return
