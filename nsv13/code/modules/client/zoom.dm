@@ -1,11 +1,21 @@
 /client
-	var/current_view_size = 15
-	var/next_zoomout_time = 0
+	var/overmap_zoomout = 0
 
 /client/MouseWheel(src,delta_x,delta_y,location,control,params) //This lets you zoom in / out with your mouse
-	if(mob)
-		if(!mob.overmap_ship) //If theyre not in an overmap ship, don't let them zoom.
-			return ..()
+	if(!mob?.overmap_ship) //If they're not in an overmap ship, shortcut to standard behavior.
+		return ..()
+	var/list/modifier = params2list(params)
+	if(modifier["ctrl"])
+		if(delta_y > 0)
+			overmap_zoomout--
+		else
+			overmap_zoomout++
+
+
+		overmap_zoomout = CLAMP(overmap_zoomout, 0, 15)
+		rescale_view(overmap_zoomout, 0, ((40*2)+1)-15)
+
+/* //Oh my god KMC all of this is A W F U L - I know, right? ~K
 	if(usr.client && control =="mapwindow.map")
 		if(world.time < next_zoomout_time)
 			return
@@ -24,3 +34,4 @@
 			change_view("[current_view_size+17]x[current_view_size+9]") //Widescreen aspect ratio is 21:9. So we just make every ratio 21:9 so that you dont get C I N E M A T I C black bars whenever you zoom out.
 		else
 			change_view("[current_view_size]x[current_view_size]") //if theyre not a widescreen user, it's a simple case of just zooming them out
+			*/

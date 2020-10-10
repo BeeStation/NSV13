@@ -92,7 +92,7 @@ Returns a faction datum by its name (case insensitive!)
 	if(!id)
 		return //Stop wasting my time.
 	for(var/datum/faction/F in factions)
-		if(lowertext(F.id) == lowertext(id))
+		if(F.id == id)
 			return F
 
 

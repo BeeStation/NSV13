@@ -85,6 +85,7 @@ GLOBAL_LIST_EMPTY(ai_goals)
 	var/fleet_trait = FLEET_TRAIT_INVASION
 	var/last_encounter_time = 0
 	var/datum/faction/faction = null
+	var/faction_id = FACTION_ID_SYNDICATE
 	var/reward = 25 //Reward for defeating this fleet, is credited to this faction's enemies.
 
 //BFS search algo. Entirely unused for now.
@@ -397,6 +398,7 @@ GLOBAL_LIST_EMPTY(ai_goals)
 	taunts = list("Yar har! Fresh meat", "Unfurl the mainsails! We've got company", "Die landlubbers!")
 	size = FLEET_DIFFICULTY_MEDIUM
 	fleet_trait = FLEET_TRAIT_DEFENSE
+	faction_id = FACTION_ID_PIRATES
 
 /datum/fleet/nanotrasen/earth
 	name = "Earth Defense Force"
@@ -444,6 +446,7 @@ GLOBAL_LIST_EMPTY(ai_goals)
 	supply_types = list(/obj/structure/overmap/nanotrasen/carrier/ai)
 	alignment = "nanotrasen"
 	hide_movements = TRUE //Friendly fleets just move around as you'd expect.
+	faction_id = FACTION_ID_NT
 
 /datum/fleet/nanotrasen/light
 	name = "Nanotrasen light fleet"
@@ -463,7 +466,7 @@ GLOBAL_LIST_EMPTY(ai_goals)
 	SS.alignment = alignment
 	if(!SS.occupying_z) //Only loaded in levels are supported at this time. TODO: Fix this.
 		return FALSE
-	faction = SSstar_system.faction_by_id(alignment)
+	faction = SSstar_system.faction_by_id(faction_id)
 	instantiated = TRUE
 	current_system = SS
 	reward *= size //Bigger fleet = larger reward
@@ -751,6 +754,7 @@ GLOBAL_LIST_EMPTY(ai_goals)
 	var/datum/ai_goal/current_goal = null
 	var/obj/structure/overmap/squad_lead = null
 	var/obj/structure/last_overmap = null
+	var/switchsound_cooldown = 0
 
 /obj/structure/overmap/proc/ai_fire(atom/target)
 	if(next_firetime > world.time)

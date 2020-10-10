@@ -15,6 +15,7 @@
 	var/stock_delay = 0
 	var/image = "https://cdn.discordapp.com/attachments/701841640897380434/764534224291233822/unknown.png"
 	var/list/missions = list() //Missions
+	var/obj/structure/overmap/current_location = null
 
 //Method to stock a trader with items. This happens every so often and you have little control over it.
 /datum/trader/proc/stock_items()
@@ -73,7 +74,7 @@
 	faction_type = FACTION_ID_NT
 	system_type = "nanotrasen"
 	image = "https://thoughtcatalog.com/wp-content/uploads/2013/11/military.jpg"
-	sold_items = list(/datum/trader_item/torpedo, /datum/trader_item/missile, /datum/trader_item/mac, /datum/trader_item/railgun, /datum/trader_item/c45, /datum/trader_item/pdc, /datum/trader_item/flak,/datum/trader_item/fighter/light,/datum/trader_item/fighter/heavy,/datum/trader_item/fighter/utility, /datum/trader_item/fighter/judgement, /datum/trader_item/fighter/prototype)
+	sold_items = list(/datum/trader_item/torpedo, /datum/trader_item/missile, /datum/trader_item/mac, /datum/trader_item/railgun, /datum/trader_item/c45, /datum/trader_item/pdc)
 
 /datum/trader/armsdealer/syndicate
 	name = "DonkCo Warcrime Emporium"
@@ -101,13 +102,13 @@
 	on_purchase = list("Yes, we know the tazers aren’t the safest, but if you don’t like ‘em, stop buying ‘em, eh?", "Good doing business with you. Good luck out there, killer.", "About time we got somebody who knows what they’re doing. Here, free shipping!", "No refunds, no returns!")
 	sold_items = list(/datum/trader_item/ship_repair)
 	station_type = /obj/structure/overmap/trader/shipyard
-	image = "https://static.tvtropes.org/pmwiki/pub/images/f_6611.jpg"
+	image = "https://cdn.discordapp.com/attachments/701841640897380434/764540586732421120/unknown.png"
 
 /datum/trader/minsky
 	name = "Minsky Heavy Engineering"
-	desc = "Corporate approved aftermarket ship repairs dealer."
+	desc = "Corporate approved aftermarket shipyard."
 	faction_type = FACTION_ID_NT
-	sold_items = list(/datum/trader_item/ship_repair/tier2)
+	sold_items = list(/datum/trader_item/ship_repair/tier2, /datum/trader_item/flak,/datum/trader_item/fighter/light,/datum/trader_item/fighter/heavy,/datum/trader_item/fighter/utility, /datum/trader_item/fighter/judgement, /datum/trader_item/fighter/prototype)
 	station_type = /obj/structure/overmap/trader/shipyard
 
 /datum/trader/ui_data(mob/user)
@@ -141,7 +142,7 @@
 	var/datum/trader_item/target = locate(params["target"])
 	var/mob/living/user = usr
 	var/dist = get_dist(user.get_overmap(), current_location)
-	if(!z || dist >= 30)
+	if(!current_location.z || dist >= 30)
 		to_chat(user, "<span class='warning'>Out of bi-directional comms range.</span>")
 		return FALSE
 	if(action == "purchase")

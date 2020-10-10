@@ -1,10 +1,3 @@
-//Unique identifiers for each faction. Keep this updated when you make a new faction.
-#define FACTION_ID_NT 1
-#define FACTION_ID_SYNDICATE 2
-#define FACTION_ID_SOLGOV 3
-#define FACTION_ID_UNATHI 4
-#define FACTION_ID_PIRATES 5
-
 //Time to talk about relationships 😳😳😳
 #define RELATIONSHIP_ALLIES 200
 #define RELATIONSHIP_NEUTRAL 100
@@ -47,20 +40,20 @@ Set up relationships.
 		return
 	for(var/id in preset_allies)
 		var/datum/faction/F = SSstar_system.faction_by_id(id)
-		if(!F)
+		if(!F || F == src)
 			continue
 		relationships[F] = RELATIONSHIP_ALLIES
 	if(!preset_enemies.len)
 		return
 	for(var/id in preset_enemies)
 		var/datum/faction/F = SSstar_system.faction_by_id(id)
-		if(!F)
+		if(!F || F == src)
 			continue
 		relationships[F] = RELATIONSHIP_HATRED
 
 /datum/faction/proc/lose_influence(value)
 	tickets -= value
-	for(var/datum/faction/F in SSstar_system.factions)
+	for(var/datum/faction/F in relationships)
 		if(relationships[F] <= RELATIONSHIP_ENEMIES)
 			F.gain_influence(value)
 	SSstar_system.check_completion()
@@ -105,6 +98,7 @@ Set up relationships.
 	preset_enemies = list(FACTION_ID_SYNDICATE, FACTION_ID_PIRATES)
 	fleet_types = list(/datum/fleet/nanotrasen/light)
 	fleet_spawn_rate = 30 MINUTES
+	id = FACTION_ID_NT
 
 /datum/faction/nanotrasen/victory()
 	for(var/datum/star_system/SS in SSstar_system.systems)
@@ -117,6 +111,7 @@ Set up relationships.
 	priority_announce("Attention [station_name()]. You have completed your assigned patrol and are now eligible for a crew transfer. \
 	Your navigational computers have been programmed with the coordinates of the nearest starbase where you may claim your allotted shore leave. \
 	You are under no obligation to remain in this sector, and you have been taken off of active patrol status. If you wish to continue with exploratory missions or other activities you are free to do so.", "Naval Command")
+	tickets = 0
 
 /datum/faction/syndicate
 	name = "Syndicate"
@@ -125,12 +120,14 @@ Set up relationships.
 	preset_enemies = list(FACTION_ID_NT)
 	fleet_types = list(/datum/fleet/neutral, /datum/fleet/boarding, /datum/fleet/wolfpack, /datum/fleet/nuclear)
 	fleet_spawn_rate = 15 MINUTES
+	id = FACTION_ID_SYNDICATE
 
 /datum/faction/syndicate/victory()
 	priority_announce("Attention [station_name()]. Our presence in this sector has been severely diminished due to your incompetence. Return to base immediately for disciplinary action.", "Naval Command")
 	for(var/datum/star_system/SS in SSstar_system.systems) //This is trash but I don't wanna fix it right now.
 		if(SS.name == "Risa Station")
 			SS.hidden = FALSE
+	tickets = 0
 
 /datum/faction/pirate
 	name = "Tortuga Raiders"
@@ -138,3 +135,4 @@ Set up relationships.
 	preset_allies = list(FACTION_ID_SYNDICATE) //Yar HAR it's me, captain PLASMASALT
 	preset_enemies = list(FACTION_ID_NT)
 	fleet_types = list(/datum/fleet/pirate)
+	id = FACTION_ID_PIRATES

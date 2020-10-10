@@ -11,6 +11,8 @@
 	brakes = TRUE
 	pixel_z = -96
 	pixel_w = -96
+	obj_integrity = 3000 //Really robust, but not invincible.
+	max_integrity = 3000
 	req_one_access = list(ACCESS_CARGO, ACCESS_SYNDICATE)
 	var/datum/trader/inhabited_trader = null
 
@@ -42,6 +44,7 @@
 	name = "[bob.name]"
 	ai_controlled = FALSE //Yep, not a whole lot we can do about that.
 	inhabited_trader = bob
+	bob.current_location = src
 
 /obj/structure/overmap/trader/Destroy()
 	qdel(inhabited_trader)
