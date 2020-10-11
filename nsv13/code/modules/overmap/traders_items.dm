@@ -168,7 +168,7 @@
 /datum/trader_item/fighter/light
 	name = "Light Fighter"
 	desc = "A pre-assembled light fighter which comes pre-equipped with everything a pilot needs to get back into the fight."
-	price = 12000
+	price = 11000
 	stock = 2
 	unlock_path = /obj/structure/overmap/fighter/light
 
@@ -241,3 +241,17 @@
 	price = 7000
 	stock = 5
 	unlock_path = /obj/structure/overmap/fighter/light/syndicate //Good luck using these without boarder IDs
+
+/datum/trader_item/taser
+	name = "Czanek corp Taser (Patent Pending)"
+	desc = "A cheap but highly reliable (and somewhat lethal) taser used by NT security forces."
+	price = 1000
+	stock = 5
+	unlock_path = /obj/item/gun/ballistic/tazer
+
+/datum/trader_item/taser_ammo
+	name = "Czanek corp Taser Ammo (Patent Pending)"
+	desc = "CC taser ammunition."
+	price = 100
+	stock = 5
+	unlock_path = /obj/item/ammo_box/magazine/tazer_cartridge

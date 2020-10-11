@@ -73,7 +73,7 @@
 	desc = "Corporate approved arms dealer specialising in ballistic weapon deployment."
 	faction_type = FACTION_ID_NT
 	system_type = "nanotrasen"
-	image = "https://thoughtcatalog.com/wp-content/uploads/2013/11/military.jpg"
+	image = "https://cdn.discordapp.com/attachments/701841640897380434/764557336684527637/unknown.png"
 	sold_items = list(/datum/trader_item/torpedo, /datum/trader_item/missile, /datum/trader_item/mac, /datum/trader_item/railgun, /datum/trader_item/c45, /datum/trader_item/pdc)
 
 /datum/trader/armsdealer/syndicate
@@ -84,8 +84,8 @@
 	//Top tier trader with the best items available.
 	sold_items = list(/datum/trader_item/nuke,/datum/trader_item/torpedo, /datum/trader_item/missile, /datum/trader_item/mac, /datum/trader_item/railgun, /datum/trader_item/c20r, /datum/trader_item/c45, /datum/trader_item/stechkin, /datum/trader_item/pdc, /datum/trader_item/flak, /datum/trader_item/fighter/syndicate)
 	station_type = /obj/structure/overmap/trader/syndicate
-	image = "https://i.pinimg.com/originals/e4/7d/38/e47d3854a13c4303465b7252fe23f399.jpg"
-	greetings = list("God bless Abassi", "Freedom isn't free, buy a gun to secure yours!", "Excercise your right to bear arms now!")
+	image = "https://cdn.discordapp.com/attachments/728055734159540244/764570187357093928/unknown.png"
+	greetings = list("You've made it pretty far in, huh? We won't tell if you're buying...", "Freedom isn't free, buy a gun to secure yours.", "Excercise your right to bear arms now!")
 
 /datum/trader/armsdealer/syndicate/New()
 	. = ..()
@@ -100,7 +100,7 @@
 	"CzanekCorp here. We got a new shipment in, you down for talking turkey?",\
 	"CzanekCorp, we got repairs and goods on a budget, you in?")
 	on_purchase = list("Yes, we know the tazers aren’t the safest, but if you don’t like ‘em, stop buying ‘em, eh?", "Good doing business with you. Good luck out there, killer.", "About time we got somebody who knows what they’re doing. Here, free shipping!", "No refunds, no returns!")
-	sold_items = list(/datum/trader_item/ship_repair)
+	sold_items = list(/datum/trader_item/ship_repair,/datum/trader_item/fighter/light,/datum/trader_item/fighter/heavy,/datum/trader_item/fighter/utility, /datum/trader_item/taser, /datum/trader_item/taser_ammo )
 	station_type = /obj/structure/overmap/trader/shipyard
 	image = "https://cdn.discordapp.com/attachments/701841640897380434/764540586732421120/unknown.png"
 
@@ -185,5 +185,5 @@
 	if(!ui)
 		var/datum/asset/assets = get_asset_datum(/datum/asset/simple/starmap)
 		assets.send(user)
-		ui = new(user, src, ui_key, "Trader", name, 550, 750, master_ui, state)
+		ui = new(user, src, ui_key, "Trader", name, 650, 750, master_ui, state)
 		ui.open()
