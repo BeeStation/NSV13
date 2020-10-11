@@ -17,6 +17,8 @@
 
 /obj/structure/munitions_trolley/AltClick(mob/user)
 	. = ..()
+	if(!in_range(src, usr))
+		return
 	add_fingerprint(user)
 	if(!anchored)
 		to_chat(user, "<span class='notice'>You toggle the brakes on [src], fixing it in place.</span>")
