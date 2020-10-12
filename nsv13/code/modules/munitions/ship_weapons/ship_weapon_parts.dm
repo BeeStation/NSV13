@@ -94,3 +94,17 @@
 /obj/item/ship_weapon/parts/railgun_rail/Initialize()
 	..()
 	AddComponent(/datum/component/twohanded/required)
+	
+/**
+ * MAC Barrel
+ */
+/obj/item/ship_weapon/parts/mac_barrel
+	name = "barrel"
+	icon = 'nsv13/icons/obj/items_and_weapons.dmi'
+	icon_state = "mac_barrel"
+	lefthand_file = 'nsv13/icons/mob/inhands/weapons/bombs_lefthand.dmi'
+	righthand_file = 'nsv13/icons/mob/inhands/weapons/bombs_righthand.dmi'
+
+/obj/item/ship_weapon/parts/mac_barrel/Initialize()
+	..()
+	AddComponent(/datum/component/twohanded/required)

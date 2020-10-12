@@ -199,7 +199,7 @@
 							"aft_port" = list("name" = "Aft Port", "max_armour" = 1750, "current_armour" = 1750),\
 							"aft_starboard" = list("name" = "Aft Starboard", "max_armour" = 1750, "current_armour" = 1750))
 
-/obj/structure/overmap/nanotrasen/battleship/starter //NOT CURRENTLY ASSIGNED
+/obj/structure/overmap/nanotrasen/battleship/starter //Pegasus
 	role = MAIN_OVERMAP //Player controlled variant
 	max_integrity = 2500
 	integrity_failure = 2500

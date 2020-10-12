@@ -94,7 +94,7 @@
 	//Partial pressures in our breath
 	var/O2_pp = breath.get_breath_partial_pressure(breath.get_moles(/datum/gas/oxygen))+(8*breath.get_breath_partial_pressure(breath.get_moles(/datum/gas/pluoxium)))
 	var/N2_pp = breath.get_breath_partial_pressure(breath.get_moles(/datum/gas/nitrogen))
-	var/Toxins_pp = breath.get_breath_partial_pressure(breath.get_moles(/datum/gas/plasma))
+	var/Toxins_pp = breath.get_breath_partial_pressure(breath.get_moles(/datum/gas/plasma)) + breath.get_breath_partial_pressure(breath.get_moles(/datum/gas/constricted_plasma))
 	var/CO2_pp = breath.get_breath_partial_pressure(breath.get_moles(/datum/gas/carbon_dioxide))
 
 
@@ -213,7 +213,7 @@
 			H.failed_last_breath = FALSE
 			if(H.health >= H.crit_threshold)
 				H.adjustOxyLoss(-5)
-			gas_breathed = breath.get_moles(/datum/gas/plasma)
+			gas_breathed = breath.get_moles(/datum/gas/plasma) + breath.get_moles(/datum/gas/constricted_plasma)
 			H.clear_alert("not_enough_tox")
 
 	//Exhale
@@ -336,7 +336,7 @@
 			SEND_SIGNAL(owner, COMSIG_CLEAR_MOOD_EVENT, "smell")
 */
 	// Nucleium - NSV 13
-		var/nucleium_pp = breath.get_moles(/datum/gas/nucleium)
+		var/nucleium_pp = breath.get_breath_partial_pressure(breath.get_moles(/datum/gas/nucleium))
 		switch(nucleium_pp)
 			if(0.1 to 5)
 				H.adjustFireLoss(1)
@@ -351,15 +351,16 @@
 				H.adjustFireLoss(10)
 				H.radiation += 10
 
-		if(prob(nucleium_pp))
+		if(prob(nucleium_pp/4))
 			to_chat(owner, "<span class='warning'>Your lungs feel like they are disintergrating!</span>")
 		if(prob(nucleium_pp))
 			H.emote("gasp")
 		if(nucleium_pp > 15)
-			if(prob(1))
+			if(prob(2))
 				to_chat(owner, "<span class='userdanger'>Your lungs violently disintergrate!</span>")
 				src.Remove(H, 1)
 				QDEL_NULL(src)
+				return
 
 		handle_breath_temperature(breath, H)
 	return TRUE
