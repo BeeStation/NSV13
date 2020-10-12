@@ -19,6 +19,7 @@ SUBSYSTEM_DEF(star_system)
 	var/next_nag_time = 0
 	var/nag_interval = 30 MINUTES //Get off your asses and do some work idiots
 	var/nag_stacks = 0 //How many times have we told you to get a move on?
+	var/list/all_missions = list()
 
 /datum/controller/subsystem/star_system/fire() //Overmap combat events control system, adds weight to combat events over time spent out of combat
 	if(SSmapping.config.patrol_type == "passive")
@@ -266,6 +267,7 @@ Returns a faction datum by its name (case insensitive!)
 	var/system_type = null //Set this to pre-spawn systems as a specific type.
 	var/event_chance = 0
 	var/list/possible_events = list()
+	var/list/active_missions = list()
 
 	var/list/contents_positions = list()
 	var/list/system_contents = list()

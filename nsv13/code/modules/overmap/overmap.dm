@@ -228,6 +228,8 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 	if(role > NORMAL_OVERMAP)
 		SSstar_system.add_ship(src)
 		reserved_z = src.z //Our "reserved" Z will always be kept for us, no matter what. If we, for example, visit a system that another player is on and then jump away, we are returned to our own Z.
+		AddComponent(/datum/component/nsv_mission_arrival_in_system) // Adds components needed to track jumps for missions
+		AddComponent(/datum/component/nsv_mission_departure_from_system)
 	current_tracers = list()
 	GLOB.overmap_objects += src
 	START_PROCESSING(SSphysics_processing, src)
@@ -315,6 +317,7 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 	. = ..()
 
 /obj/structure/overmap/Destroy()
+	SEND_SIGNAL(src,COMSIG_SHIP_KILLED)
 	QDEL_LIST(current_tracers)
 	if(cabin_air)
 		QDEL_NULL(cabin_air)
