@@ -46,7 +46,7 @@ em						{font-style: normal;	font-weight: bold;}
 .comradio				{color: #948f02;}
 .secradio				{color: #a30000;}
 .medradio				{color: #337296;}
-.engradio				{color: #fb5613;}
+.engradio				{color: #fbb213;}
 .suppradio				{color: #a8732b;}
 .servradio				{color: #6eaa2c;}
 .syndradio				{color: #6d3f40;}
@@ -54,7 +54,7 @@ em						{font-style: normal;	font-weight: bold;}
 .aiprivradio			{color: #ff00ff;}
 .redteamradio           {color: #ff0000;}
 .blueteamradio          {color: #0000ff;}
-.muniradio				{color: #cc8899;}
+.muniradio				{color: #ff7f00;}
 
 .yell					{					font-weight: bold;}
 

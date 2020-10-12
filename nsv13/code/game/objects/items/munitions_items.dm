@@ -81,49 +81,31 @@
 	icon_state = "mun_headset"
 	keyslot = new /obj/item/encryptionkey/munitions_tech
 
-///////WARDROBE///////
-
-/obj/machinery/vending/wardrobe/muni_wardrobe //Missing so many icons
-	name = "MuniDrobe"
-	desc = "A vending machine for dispensing Munitions department uniforms and gear."
-	icon_state = "engidrobe" //Temp - needs custom sprite
-	product_ads = "High-vis, while retaining stylish black!;Orange is the new Puce!" //cringe, someone send help from marketing
-	vend_reply = "Thank you for using the MuniDrobe!"
-	light_color = LIGHT_COLOR_ORANGE
-	products = list(/obj/item/storage/backpack/duffelbag/munitions = 3,
-					/obj/item/storage/backpack/munitions = 3,
-					/obj/item/storage/backpack/satchel/munitions = 3,
-					/obj/item/clothing/under/ship/decktech = 3,
-					/obj/item/clothing/under/rank/munitions_tech = 3,
-					/obj/item/clothing/under/ship/pilot = 3,
-					/obj/item/clothing/suit/hazardvest = 3,
-					/obj/item/clothing/suit/ship/munitions_jacket = 3,
-					/obj/item/clothing/shoes/jackboots = 5,
-					/obj/item/clothing/gloves/color/brown = 3,
-					/obj/item/clothing/gloves/color/black = 3,
-					/obj/item/clothing/head/helmet/decktech = 3,
-					/obj/item/clothing/head/beret/ship/pilot = 3)
-	refill_canister = /obj/item/vending_refill/wardrobe/muni_wardrobe
-	payment_department = ACCOUNT_MUN
-/obj/item/vending_refill/wardrobe/muni_wardrobe
-	machine_name = "MuniDrobe"
-
 ////////BACKPACKS////////
 
 /obj/item/storage/backpack/duffelbag/munitions
 	name = "munitions duffel bag"
 	desc = "A large duffel bag for holding extra munitions supplies."
-	icon_state = "duffel" //temp - needs own icons
-	item_state = "duffel" //temp - needs own icons
+	icon = 'nsv13/icons/obj/storage.dmi'
+	icon_state = "duffel-mun"
+	item_state = "duffel-mun"
+	lefthand_file = 'nsv13/icons/mob/inhands/backpack_lefthand.dmi'
+	righthand_file = 'nsv13/icons/mob/inhands/backpack_righthand.dmi'
 
 /obj/item/storage/backpack/munitions
 	name = "munitions backpack"
 	desc = "A hardy oil-resistant backpack designed for use in ordanance filled environment."
-	icon_state = "backpack" //temp - needs own icons
-	item_state = "backpack" //temp - needs own icons
+	icon = 'nsv13/icons/obj/storage.dmi'
+	icon_state = "munitionspack"
+	item_state = "munitionspack"
+	lefthand_file = 'nsv13/icons/mob/inhands/backpack_lefthand.dmi'
+	righthand_file = 'nsv13/icons/mob/inhands/backpack_righthand.dmi'
 
 /obj/item/storage/backpack/satchel/munitions
 	name = "munitions satchel"
 	desc = "A tough satchel with extra pockets."
-	icon_state = "satchel" //temp - needs own icons
-	item_state = "satchel" //temp - needs own icons
+	icon = 'nsv13/icons/obj/storage.dmi'
+	icon_state = "satchel-mun"
+	item_state = "satchel-mun"
+	lefthand_file = 'nsv13/icons/mob/inhands/backpack_lefthand.dmi'
+	righthand_file = 'nsv13/icons/mob/inhands/backpack_righthand.dmi'
