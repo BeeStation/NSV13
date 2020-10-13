@@ -23,7 +23,6 @@
 	OM.forceMove(exit)
 	if(istype(OM, /obj/structure/overmap))
 		OM.current_system = src //Debugging purposes only
-	OM.AddComponent(/datum/component/nsv_mission_killships)
 	after_enter(OM)
 
 /datum/star_system/proc/after_enter(obj/structure/overmap/OM)

@@ -4,7 +4,6 @@
   RegisterSignal(parent, COMSIG_SHIP_ARRIVED, .proc/activate_missions)
 
 /datum/component/nsv_mission_arrival_in_system/proc/activate_missions()
-  message_admins("activate_missions")
   var/obj/structure/overmap/ship = parent
   for(var/datum/nsv_mission/M in ship.current_system.active_missions)
     if(M.owner == ship)
@@ -16,19 +15,20 @@
 
 
 /datum/component/nsv_mission_departure_from_system/proc/deactivate_missions()
-  message_admins("deactivate_missions")
   var/obj/structure/overmap/ship = parent
   for(var/datum/nsv_mission/M in ship.current_system.active_missions)
     if(M.owner == ship)
       M.depart()
 
 
-// Reports the death of a ship to kill ship missions TODO: this is not applied to launched fighters it seems.
+// Reports the death of a ship to kill ship missions 
 /datum/component/nsv_mission_killships/Initialize()
   RegisterSignal(parent, COMSIG_SHIP_KILLED, .proc/report_kill)
 
 /datum/component/nsv_mission_killships/proc/report_kill()
   var/obj/structure/overmap/ship = parent
+  if(!ship.current_system) //TODO: Fighters spawned from a ship don't have current_system set
+    return
   for(var/datum/nsv_mission/kill_ships/KS in ship.current_system.active_missions)
     KS.report_kill(ship)
 
@@ -45,8 +45,12 @@
   RegisterSignal(parent, COMSIG_CARGO_REGISTER, .proc/register_cargo)
   RegisterSignal(parent, COMSIG_CARGO_TAMPERED, .proc/cargo_tampered)
   RegisterSignal(parent, COMSIG_PARENT_QDELETING , .proc/cargo_destroyed) // Called just before Destroy()
+  RegisterSignal(parent, COMSIG_PARENT_EXAMINE, .proc/display_examine)
 
   
+/datum/component/nsv_mission_cargo/proc/display_examine(datum/source, mob/user, text) 
+  text += "<span class='warning'>This item is tagged as cargo, but someone seems to have removed it from the crate. <B>You won't get full payout, but are still expected to deliver this!</B></span>\n"
+
 /datum/component/nsv_mission_cargo/proc/register_cargo(datum/source, datum/mission) // Set the mission we are attached to
   parent_mission = mission
   parent_mission.tracked_cargo += source
@@ -56,7 +60,6 @@
 
   
 /datum/component/nsv_mission_cargo/proc/cargo_tampered()
-  message_admins("Cargo was tampered with! [parent]")
   cargo_state = CARGO_TAMPERED
   parent_mission.report_tampered_cargo(src)
 
