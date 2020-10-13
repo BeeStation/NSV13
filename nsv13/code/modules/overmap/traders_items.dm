@@ -1,11 +1,9 @@
 
-//Credit goes to cdey for these sprites (Thanks!) - GET MOPPED ON
+//Credit goes to cdey for these sprites (Thanks!)
 /obj/structure/overmap/trader
 	name = "Trade Station"
-//	icon = 'nsv13/icons/overmap/neutralstation.dmi'
-//	icon_state = "combust"
-	icon = 'icons/obj/janitor.dmi'
-	icon_state = "mop"
+	icon = 'nsv13/icons/overmap/neutralstation.dmi'
+	icon_state = "combust"
 	damage_states = FALSE //Not yet implemented
 	collision_positions = list(new /datum/vector2d(-7,73), new /datum/vector2d(-83,46), new /datum/vector2d(-106,14), new /datum/vector2d(-106,-11), new /datum/vector2d(-81,-41), new /datum/vector2d(-9,-67), new /datum/vector2d(10,-69), new /datum/vector2d(87,-35), new /datum/vector2d(107,-8), new /datum/vector2d(108,13), new /datum/vector2d(85,46), new /datum/vector2d(10,73))
 	faction = "nanotrasen"//Placeholder, set by trader.
