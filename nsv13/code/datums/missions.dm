@@ -20,6 +20,10 @@ TODO: Cargo needs setting up with a proper delivery method
   
   var/obj/structure/overmap/owner // Which ship owns this mission
   
+/datum/nsv_mission/New()
+  . = ..()
+  SSstar_system.all_missions += src
+
 /datum/nsv_mission/proc/register()
   return FALSE
   
