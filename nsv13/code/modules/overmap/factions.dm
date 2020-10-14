@@ -60,7 +60,7 @@ Set up relationships.
 	tickets += value
 	SSstar_system.check_completion()
 
-/datum/faction/proc/send_fleet()
+/datum/faction/proc/send_fleet(datum/star_system/override=null, custom_difficulty=null)
 	if(SSstar_system.check_completion() || !fleet_types || world.time < next_fleet_spawn)
 		return
 	next_fleet_spawn = world.time + fleet_spawn_rate
@@ -73,16 +73,20 @@ Set up relationships.
 	for(var/datum/star_system/starsys in SSstar_system.systems)
 		if(starsys != current_system && !starsys.hidden && (lowertext(starsys.alignment) == lowertext(src.name) || starsys.alignment == "unaligned")) //Find one of our base systems and try to send a fleet out from there.
 			possible_spawns += starsys
-	if(!possible_spawns.len)
+	if(!possible_spawns.len && !override)
 		message_admins("Failed to spawn a [name] fleet because that faction doesn't own a single system :(")
 		return
 	var/datum/star_system/starsys = pick(possible_spawns)
+	if(override)
+		starsys = override
 	starsys.mission_sector = TRUE //set this sector to be the active mission
 	starsys.spawn_asteroids() //refresh asteroids in the system
 	var/fleet_type = pick(fleet_types)
 	var/datum/fleet/F = new fleet_type
 	F.current_system = starsys
 	starsys.fleets += F
+	if(custom_difficulty)
+		F.size = custom_difficulty
 	F.assemble(starsys)
 	F.faction = src
 	message_admins("DEBUG: [src] spawned a [F] in [starsys]")

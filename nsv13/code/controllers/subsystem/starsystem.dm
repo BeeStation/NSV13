@@ -257,6 +257,7 @@ Returns a faction datum by its name (case insensitive!)
 	var/difficulty_budget = 2
 	var/list/asteroids = list() //Keep track of how many asteroids are in system. Don't want to spam the system full of them
 	var/mission_sector = FALSE
+	var/objective_sector = FALSE
 	var/threat_level = THREAT_LEVEL_NONE
 
 	var/x = 0 //Maximum: 1000 for now
@@ -458,6 +459,12 @@ Returns a faction datum by its name (case insensitive!)
 	desc = "A large star that is nearing the end of its life. A scan of its stellar core could lead to useful conclusions."
 	icon_state = "redgiant"
 	research_points = 4000 //Somewhat more interesting than a sun.
+
+/datum/star_system/proc/add_mission(datum/nsv_mission/mission)
+	if(!mission)
+		return FALSE
+	active_missions += mission
+	objective_sector = TRUE
 
 /datum/star_system/proc/apply_system_effects()
 	event_chance = 15 //Very low chance of an event happening

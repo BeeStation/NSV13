@@ -127,6 +127,8 @@
 				label = " [system.trader.name]"
 			if(system.mission_sector)
 				label += " OCCUPIED"
+			if(system.objective_sector)
+				label += " MISSION"
 			system_list["label"] = label
 			for(var/thename in system.adjacency_list) //Draw the lines joining our systems
 				var/datum/star_system/sys = SSstar_system.system_by_id(thename)

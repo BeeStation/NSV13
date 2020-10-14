@@ -487,12 +487,11 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 		var/left_thrust = left_thrusts[cdir]
 		var/right_thrust = right_thrusts[cdir]
 		if(left_thrust)
-			add_overlay(image(icon = icon, icon_state = "rcs_left", dir = cdir))
+			add_overlay("rcs_left")
 		if(right_thrust)
-			add_overlay(image(icon = icon, icon_state = "rcs_right", dir = cdir))
+			add_overlay("rcs_right")
 	if(back_thrust)
-		var/image/I = image(icon = icon, icon_state = "thrust")
-		add_overlay(I)
+		add_overlay("thrust")
 
 /obj/structure/overmap/proc/apply_damage_states()
 	if(!damage_states)
