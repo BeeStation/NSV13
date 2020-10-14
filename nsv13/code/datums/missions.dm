@@ -281,7 +281,7 @@ TODO: Cargo needs setting up with a proper delivery method
   stage = MISSION_ACTIVE //Reactivate kill tracking
   ships_to_kill = rand(3, 3 + total_waves - waves_remaining)
   var/datum/faction/F = SSstar_system.faction_by_id(pick(target_factions))
-  F.send_fleet(chosen_system, ships_to_kill)
+  F.send_fleet(target_system, ships_to_kill)
   ships_remaining = ships_to_kill
 
 /datum/nsv_mission/kill_ships/waves/check_completion()
