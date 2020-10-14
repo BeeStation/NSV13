@@ -109,3 +109,16 @@
 	item_state = "satchel-mun"
 	lefthand_file = 'nsv13/icons/mob/inhands/backpack_lefthand.dmi'
 	righthand_file = 'nsv13/icons/mob/inhands/backpack_righthand.dmi'
+
+///////BOX////////
+
+/obj/item/storage/box/spare_munitions_keys
+	name = "Spare Munitions Radio Keys"
+
+/obj/item/storage/box/spare_munitions_keys/PopulateContents()
+	new /obj/item/radio/headset/munitions/pilot(src)
+	new /obj/item/radio/headset/munitions/munitions_tech(src)
+	new /obj/item/encryptionkey/atc(src)
+	new /obj/item/encryptionkey/pilot(src)
+	new /obj/item/encryptionkey/pilot(src)
+	new /obj/item/encryptionkey/munitions_tech(src)
