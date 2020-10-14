@@ -17,7 +17,7 @@ SUBSYSTEM_DEF(star_system)
 	//Starmap 2
 	var/list/factions = list() //List of all factions in play on this starmap, instantiated on init.
 	var/next_nag_time = 0
-	var/nag_interval = 30 MINUTES //Get off your asses and do some work idiots
+	var/nag_interval = 25 MINUTES //Get off your asses and do some work idiots
 	var/nag_stacks = 0 //How many times have we told you to get a move on?
 	var/list/all_missions = list()
 
@@ -37,15 +37,16 @@ SUBSYSTEM_DEF(star_system)
 		next_nag_time = world.time + nag_interval
 		switch(nag_stacks)
 			if(1)
-				var/message = pick(	"This is Centcomm to all vessels assigned to patrol the Corvi expanse, please continue on your patrol route", \
-									"This is Centcomm to all vessels assigned to patrol the Corvi expanse, we are not paying you to idle in space during your assigned patrol schedule", \
-									"This is Centcomm to the patrol vessel currently assigned to the Corvi expanse, you are expected to fulfill your assigned mission")
+				var/message = pick(	"This is Centcomm to all vessels assigned to patrol the Alpha Quadrant, please continue on your patrol route", \
+									"This is Centcomm to all vessels assigned to patrol the Alpha Quadrant, we are not paying you to idle in space during your assigned patrol schedule", \
+									"This is Centcomm to all vessels assigned to patrol the Alpha Quadrant, your inactivity has been noted and will not be tolerated.", \
+									"This is Centcomm to the patrol vessel currently assigned to the Alpha Quadrant, you are expected to fulfill your assigned mission")
 				priority_announce("[message]", "Naval Command") //Warn players for idleing too long
 			if(2)
 				priority_announce("[station_name()] is no longer responding to commands. Enacting emergency defense conditions. All shipside squads must assist in getting the ship ready for combat by any means necessary.", "WhiteRapids Administration Corps")
 				set_security_level(SEC_LEVEL_RED)
-			if(3) //Last straw. 50+ mins of inactivity.
-				var/datum/star_system/target = system_by_id("Lalande 21185")
+			if(3) //Last straw. 40+ mins of inactivity.
+				var/datum/star_system/target = find_main_overmap().current_system //Itttttt's HOT DROP OCLOOOOOOCK
 				priority_announce("Attention all ships throughout the fleet, assume DEFCON 1. A Syndicate invasion force has been spotted in [target]. All fleets must return to allied space and assist in the defense.", "White Rapids Fleet Command")
 				var/datum/fleet/F = new /datum/fleet/earthbuster()
 				target.fleets += F
@@ -59,7 +60,7 @@ SUBSYSTEM_DEF(star_system)
 					total_deductions += D.account_balance / 2
 					D.account_balance /= 2
 			if(4 to INFINITY) //From this point on, you can actively lose the game.
-				minor_announce("WARNING: Nanotrasen is suffering catastrophic losses")
+				minor_announce("WARNING: Nanotrasen is suffering catastrophic losses", "Naval Command")
 				var/lost_influence = FALSE
 				for(var/datum/star_system/sys in systems)
 					if(sys.fleets)
@@ -109,16 +110,19 @@ Returns a faction datum by its name (case insensitive!)
 ///////SPAWN SYSTEM///////
 
 /datum/controller/subsystem/star_system/proc/find_main_overmap() //Find the main ship
+	RETURN_TYPE(/obj/structure/overmap)
 	for(var/obj/structure/overmap/OM in GLOB.overmap_objects)
 		if(OM.role == MAIN_OVERMAP)
 			return OM
 
 /datum/controller/subsystem/star_system/proc/find_main_miner() //Find the mining ship
+	RETURN_TYPE(/obj/structure/overmap)
 	for(var/obj/structure/overmap/OM in GLOB.overmap_objects)
 		if(OM.role == MAIN_MINING_SHIP)
 			return OM
 
 /datum/controller/subsystem/star_system/proc/system_by_id(id)
+	RETURN_TYPE(/datum/star_system)
 	for(var/datum/star_system/sys in systems)
 		if(sys.name == id)
 			return sys
