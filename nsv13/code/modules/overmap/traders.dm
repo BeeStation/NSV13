@@ -10,12 +10,15 @@
 	var/list/greetings = list("Welcome to our store!", "How can I help you?", "We've got everything you need...for a price.")
 	var/list/on_purchase = list("Thanks for your business!", "Thank you, come again", "Thank you for your purchase!")
 	var/list/on_fail = list("Did you intend to pay for that?", "I'm afraid the cheque bounced.", "Purchase not authorised.")
+	var/list/on_mission_give = list("Actually, we could use a favour...", "Mission details sent.", "Thanks, we owe you one!")
 	var/station_type = /obj/structure/overmap/trader //Fluff, really. Just sets what kinda station they spawn on!
 	var/next_restock = 0
 	var/stock_delay = 0
 	var/image = "https://cdn.discordapp.com/attachments/701841640897380434/764534224291233822/unknown.png"
 	var/list/missions = list() //Missions
+	var/list/mission_types = list(/datum/nsv_mission/kill_ships) //Todo: fix up the cargo delivery objective and add it to this list.
 	var/obj/structure/overmap/current_location = null
+	var/max_missions = 1
 
 //Method to stock a trader with items. This happens every so often and you have little control over it.
 /datum/trader/proc/stock_items()
@@ -37,7 +40,12 @@
 	var/stock = 1 //How many of these items are usually stocked, this is randomized
 
 /datum/trader_item/proc/on_purchase(obj/structure/overmap/OM)
+	OM.send_supplypod(unlock_path)
+
+/obj/structure/overmap/proc/send_supplypod(unlock_path)
+	RETURN_TYPE(/atom/movable)
 	var/area/landingzone = null
+	var/obj/structure/overmap/OM = src
 	if(OM.role == MAIN_OVERMAP)
 		landingzone = GLOB.areas_by_type[/area/quartermaster/warehouse]
 	else
@@ -59,13 +67,13 @@
 		CHECK_TICK
 	if(empty_turfs?.len)
 		LZ = pick(empty_turfs)
-	var/obj/structure/closet/supplypod/freight_pod/toLaunch = new /obj/structure/closet/supplypod/freight_pod
+	var/obj/structure/closet/supplypod/centcompod/toLaunch = new /obj/structure/closet/supplypod/centcompod
 	var/shippingLane = GLOB.areas_by_type[/area/centcom/supplypod/flyMeToTheMoon]
 	toLaunch.forceMove(shippingLane)
 	var/atom/movable/theItem = new unlock_path
 	theItem.forceMove(toLaunch)
 	new /obj/effect/DPtarget(LZ, toLaunch)
-	return TRUE
+	return toLaunch
 
 //Arms dealers.
 /datum/trader/armsdealer
@@ -155,12 +163,24 @@
 /datum/trader/proc/give_mission(mob/living/user)
 	if(!isliving(user))
 		return
-	if(!missions.len)
+	if(!mission_types.len || missions.len >= max_missions)
 		SEND_SOUND(user, 'nsv13/sound/effects/ship/freespace2/computer/textdraw.wav')
 		to_chat(user, "<span class='boldnotice'>We don't have any work for you I'm afraid.</span>")
 		return FALSE
-	//TODO: Awaiting missions implementation.
-/datum/trader/proc/generate_missions()
+	if(missions.len)
+		for(var/datum/nsv_mission/mission in missions)
+			if(mission.stage >= MISSION_COMPLETE)
+				qdel(mission)
+				missions -= mission
+	var/list/valid_missions = list()
+	for(var/missionType in mission_types)
+		valid_missions += typecacheof(missionType)
+	var/missionType = pick(valid_missions)
+	var/datum/nsv_mission/theJob = new missionType(user.get_overmap())
+	theJob.register()
+	to_chat(user, "<span class='boldnotice'>[pick(on_mission_give)]</span>")
+	user.get_overmap().hail("Mission details as follows: [theJob.desc]", src)
+	missions += theJob
 	return FALSE //Todo!
 
 /datum/trader/proc/attempt_purchase(datum/trader_item/item, mob/living/carbon/user)
@@ -185,5 +205,5 @@
 	if(!ui)
 		var/datum/asset/assets = get_asset_datum(/datum/asset/simple/starmap)
 		assets.send(user)
-		ui = new(user, src, ui_key, "Trader", name, 650, 750, master_ui, state)
+		ui = new(user, src, ui_key, "Trader", name, 750, 750, master_ui, state)
 		ui.open()

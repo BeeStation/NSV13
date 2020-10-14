@@ -21,7 +21,7 @@
       M.depart()
 
 
-// Reports the death of a ship to kill ship missions 
+// Reports the death of a ship to kill ship missions
 /datum/component/nsv_mission_killships/Initialize()
   RegisterSignal(parent, COMSIG_SHIP_KILLED, .proc/report_kill)
 
@@ -47,8 +47,8 @@
   RegisterSignal(parent, COMSIG_PARENT_QDELETING , .proc/cargo_destroyed) // Called just before Destroy()
   RegisterSignal(parent, COMSIG_PARENT_EXAMINE, .proc/display_examine)
 
-  
-/datum/component/nsv_mission_cargo/proc/display_examine(datum/source, mob/user, text) 
+
+/datum/component/nsv_mission_cargo/proc/display_examine(datum/source, mob/user, text)
   text += "<span class='warning'>This item is tagged as cargo, but someone seems to have removed it from the crate. <B>You won't get full payout, but are still expected to deliver this!</B></span>\n"
 
 /datum/component/nsv_mission_cargo/proc/register_cargo(datum/source, datum/mission) // Set the mission we are attached to
@@ -58,7 +58,7 @@
 /datum/component/nsv_mission_cargo/proc/deliver_cargo()
   parent_mission.deliver_cargo(src)
 
-  
+
 /datum/component/nsv_mission_cargo/proc/cargo_tampered()
   cargo_state = CARGO_TAMPERED
   parent_mission.report_tampered_cargo(src)
