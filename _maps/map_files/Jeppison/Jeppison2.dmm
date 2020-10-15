@@ -10059,10 +10059,10 @@
 /turf/open/floor/plasteel/white,
 /area/medical/chemistry)
 "ul" = (
-/obj/machinery/nuclearbomb/beer,
 /obj/machinery/camera/autoname{
 	dir = 4
 	},
+/obj/structure/closet/secure_closet/master_at_arms,
 /turf/open/floor/plasteel,
 /area/nsv/crew_quarters/heads/maa)
 "um" = (
@@ -11402,7 +11402,9 @@
 /turf/open/floor/plasteel,
 /area/quartermaster/storage)
 "wT" = (
-/obj/structure/closet/secure_closet/master_at_arms,
+/obj/machinery/computer/ship/ordnance{
+	dir = 4
+	},
 /turf/open/floor/plasteel,
 /area/nsv/crew_quarters/heads/maa)
 "wU" = (
@@ -13202,6 +13204,7 @@
 /obj/structure/cable{
 	icon_state = "1-2"
 	},
+/obj/machinery/vending/wardrobe/muni_wardrobe,
 /turf/open/floor/monotile/dark,
 /area/nsv/magazine)
 "At" = (
@@ -17700,6 +17703,10 @@
 	},
 /turf/open/floor/plasteel/dark,
 /area/crew_quarters/heads/cmo)
+"KD" = (
+/obj/effect/landmark/nuclear_waste_spawner,
+/turf/open/floor/plasteel/ship/padded,
+/area/engine/atmos)
 "KE" = (
 /obj/structure/cable{
 	icon_state = "1-2"
@@ -19110,6 +19117,10 @@
 	},
 /turf/open/floor/monotile/dark,
 /area/engine/break_room)
+"RW" = (
+/obj/machinery/nuclearbomb/beer,
+/turf/open/floor/plasteel,
+/area/nsv/crew_quarters/heads/maa)
 "RZ" = (
 /obj/structure/reagent_dispensers/fueltank,
 /turf/open/floor/plating,
@@ -19191,6 +19202,23 @@
 	},
 /turf/open/floor/plasteel/white,
 /area/medical/medbay/central)
+"Sq" = (
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	dir = 4;
+	icon_state = "pipe11-1"
+	},
+/obj/effect/turf_decal/tile/purple{
+	dir = 4
+	},
+/obj/effect/landmark/nuclear_waste_spawner,
+/turf/open/floor/plasteel,
+/area/hallway/nsv/deck2/aft)
 "Sv" = (
 /obj/structure/cable{
 	icon_state = "1-2"
@@ -20031,6 +20059,10 @@
 /obj/machinery/atmospherics/pipe/simple/supply/hidden{
 	dir = 6
 	},
+/turf/open/floor/plating,
+/area/maintenance/department/engine)
+"Xe" = (
+/obj/effect/landmark/nuclear_waste_spawner,
 /turf/open/floor/plating,
 /area/maintenance/department/engine)
 "Xf" = (
@@ -42261,7 +42293,7 @@ Un
 Un
 IC
 at
-aP
+KD
 bf
 bF
 cc
@@ -46650,7 +46682,7 @@ Ea
 Eh
 Eh
 im
-DY
+Xe
 Ew
 im
 EV
@@ -50754,7 +50786,7 @@ lZ
 mq
 pg
 lA
-Qx
+Sq
 Yh
 BZ
 mi
@@ -58737,7 +58769,7 @@ Um
 xU
 Mi
 CX
-AE
+RW
 DS
 xU
 bP
