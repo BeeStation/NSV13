@@ -586,6 +586,7 @@
 		/obj/machinery/vending/wardrobe/chem_wardrobe = "ChemDrobe",
 		/obj/machinery/vending/wardrobe/gene_wardrobe = "GeneDrobe",
 		/obj/machinery/vending/wardrobe/viro_wardrobe = "ViroDrobe",
+		/obj/machinery/vending/wardrobe/muni_wardrobe = "MuniDrobe",
 		/obj/machinery/vending/clothing = "ClothesMate",
 		/obj/machinery/vending/medical = "NanoMed Plus",
 		/obj/machinery/vending/wallmed = "NanoMed",
@@ -600,7 +601,7 @@
 		/obj/machinery/vending/engineering = "Robco Tool Maker",
 		/obj/machinery/vending/sovietsoda = "BODA",
 		/obj/machinery/vending/security = "SecTech",
-		/obj/machinery/vending/modularpc = "Deluxe Silicate Selections")
+		/obj/machinery/vending/modularpc = "Deluxe Silicate Selections") //NSV13 - Added Munidrobe
 
 /obj/item/circuitboard/machine/vendor/attackby(obj/item/I, mob/user, params)
 	if(I.tool_behaviour == TOOL_SCREWDRIVER)
