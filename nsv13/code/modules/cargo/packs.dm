@@ -388,3 +388,10 @@
 	crate_name = "stormdrive reactor core crate"
 	crate_type = /obj/structure/closet/crate/secure/engineering
 	dangerous = TRUE
+
+/datum/supply_pack/costumes_toys/wardrobes/munitions
+	name = "Munitions Wardrobe Supply Crate"
+	desc = "This crate contains a refill for the Munidrobe."
+	cost = 750
+	contains = list(/obj/item/vending_refill/wardrobe/muni_wardrobe)
+	crate_name = "munidrobe supply crate"
