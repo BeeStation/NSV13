@@ -34,6 +34,10 @@
 	shoes = /obj/item/clothing/shoes/jackboots
 	r_pocket = /obj/item/flashlight/atc_wavy_sticks
 
+	backpack = /obj/item/storage/backpack/munitions
+	satchel = /obj/item/storage/backpack/satchel/munitions
+	duffelbag = /obj/item/storage/backpack/duffelbag/munitions
+
 /obj/effect/landmark/start/air_traffic_controller
 	name = "Air Traffic Controller"
 	icon_state = "Air Traffic Controller"
