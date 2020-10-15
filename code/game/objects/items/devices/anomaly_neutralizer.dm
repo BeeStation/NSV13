@@ -14,6 +14,10 @@
 	..()
 	if(!proximity || !target)
 		return
+	if(istype(target, /obj/effect/anomaly/stormdrive)) //NSV13 - Not making it that easy, bucko
+		to_chat(user, "<span class='warning'>WARNING: Feedback loop detected! Aborting process!</span>")
+		empulse(src, 0, 1, FALSE)
+		return
 	if(istype(target, /obj/effect/anomaly))
 		var/obj/effect/anomaly/A = target
 		to_chat(user, "<span class='notice'>The circuitry of [src] fries from the strain of neutralizing [A]!</span>")

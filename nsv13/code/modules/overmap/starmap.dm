@@ -33,7 +33,8 @@
 		ui.open()
 
 /obj/machinery/computer/ship/navigation/ui_act(action, params, datum/tgui/ui)
-	if(..())
+	. = ..()
+	if(.)
 		return
 	if(!has_overmap())
 		return

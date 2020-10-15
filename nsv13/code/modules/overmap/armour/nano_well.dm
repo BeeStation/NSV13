@@ -63,8 +63,11 @@ Starting Materials
 	var/repair_resources_processing = FALSE
 	var/repair_efficiency = 0 //modifier for how much repairs we get per cycle
 	var/power_allocation = 0 //how much power we are pumping into the system
+	var/maximum_power_allocation = 1000000 //1MW
 	var/system_allocation = 0 //the load on the system
 	var/system_stress = 0 //how overloaded the system has been over time
+	var/system_stress_threshold = 100 //Threshold at which stress beings to build up
+	var/system_cooling = 1 //Rate at which stress is reduced
 	var/material_modifier = 0 //efficiency of our materials
 	var/material_tier = 0 //The selected tier recipe producing RR
 	var/apnw_id = null //The ID by which we identify our child devices - These should match the child devices and follow the formula: 1 - Main Ship, 2 - Secondary Ship, 3 - Syndie PvP Ship
@@ -90,6 +93,12 @@ Starting Materials
 	.=..()
 	if(OM?.linked_apnw != src)
 		. += "<span class='warning'>WARNING: DUPLICATE APNW DETECTED!</span>"
+	if(maximum_power_allocation != initial(maximum_power_allocation))
+		. += "<span class='notice'>It hums with energy.</span>"
+	if(system_stress_threshold != initial(system_stress_threshold))
+		. += "<span class='notice'>It whirrs with vim.</span>"
+	if(system_cooling != initial(system_cooling))
+		. += "<span class='notice'>It resonates with stability.</span>"
 
 /obj/machinery/armour_plating_nanorepair_well/process()
 	if(OM?.linked_apnw == src)
@@ -116,15 +125,16 @@ Starting Materials
 			return FALSE
 		var/power_in_net = C.powernet.avail-C.powernet.load
 
-		if(power_in_net && power_in_net > amount)
+		if(power_in_net && power_in_net >= amount)
 			C.powernet.load += amount
 			return TRUE
 		return FALSE
 	return FALSE
 
-
 /obj/machinery/armour_plating_nanorepair_well/proc/handle_repair_efficiency() //Sigmoidal Curve
 	repair_efficiency = ((1 / (0.01 + (NUM_E ** (-0.00001 * power_allocation)))) * material_modifier) / 100
+	if(power_allocation > 1e6) //If overclocking
+		repair_efficiency += ((power_allocation - 1e6) / 1e7) / 2
 
 /obj/machinery/armour_plating_nanorepair_well/proc/handle_system_stress()
 	system_allocation = 0
@@ -134,16 +144,19 @@ Starting Materials
 			system_allocation += P.structure_allocation
 
 	switch(system_allocation)
-		if(0 to 100)
-			system_stress --
+		if(0 to system_stress_threshold)
+			system_stress -= system_cooling
 			if(system_stress <= 0)
 				system_stress = 0
-		if(100 to INFINITY)
-			system_stress += (system_allocation/100)
-			if(system_stress > 200)
-				system_stress = 200
+		if(system_stress_threshold to INFINITY)
+			system_stress += (system_allocation/system_stress_threshold)
+			if(system_stress_threshold != initial(system_stress_threshold))
+				if(prob(2))
+					do_sparks(3, FALSE, src)
+			if(system_stress > system_stress_threshold * 2)
+				system_stress = system_stress_threshold * 2
 
-	if(system_stress >= 100)
+	if(system_stress >= system_stress_threshold)
 		var/turf/open/L = get_turf(src)
 		if(!istype(L) || !(L.air))
 			return
@@ -151,7 +164,7 @@ Starting Materials
 		var/current_temp = env.return_temperature()
 		env.set_temperature(current_temp + 1)
 		air_update_turf()
-		if(prob(system_stress - 100))
+		if(prob(system_stress - system_stress_threshold))
 			var/list/overload_candidate = list()
 			for(var/obj/machinery/armour_plating_nanorepair_pump/oc_apnp in apnp)
 				if(oc_apnp.armour_allocation > 0 || oc_apnp.structure_allocation > 0)
@@ -161,9 +174,17 @@ Starting Materials
 				if(target_apnp.last_restart < world.time + 60 SECONDS)
 					target_apnp.stress_shutdown = TRUE
 
-
 /obj/machinery/armour_plating_nanorepair_well/proc/handle_power_allocation()
 	active_power_usage = power_allocation
+	if(power_allocation >= 1e6) //If overlocking
+		var/turf/open/L = get_turf(src)
+		if(!istype(L) || !(L.air))
+			return
+		var/datum/gas_mixture/env = L.return_air()
+		var/current_temp = env.return_temperature()
+		if(current_temp < 398) //Spicy but not too spicy
+			env.set_temperature(current_temp + (power_allocation / 1e7)) //Heat the air
+			air_update_turf()
 
 /obj/machinery/armour_plating_nanorepair_well/proc/handle_repair_resources()
 	if(resourcing_system)
@@ -239,6 +260,35 @@ Starting Materials
 		M.buffer = src
 		playsound(src, 'sound/items/flashlight_on.ogg', 100, TRUE)
 		to_chat(user, "<span class='notice'>Buffer loaded</span>")
+	if(istype(I, /obj/item/apnw_oc_module/power))
+		if(locate(/obj/item/apnw_oc_module/power) in contents)
+			to_chat(user, "<span class='notice'>This type of overclock has already been installed.</span>")
+			return
+		else
+			to_chat(user, "<span class='notice'>You install the [I.name] into the [src.name]")
+			playsound(src.loc, "sparks", 50, 1)
+			I.forceMove(src)
+			maximum_power_allocation = 10000000 //10MW
+
+	if(istype(I, /obj/item/apnw_oc_module/load))
+		if(locate(/obj/item/apnw_oc_module/load) in contents)
+			to_chat(user, "<span class='notice'>This type of overclock has already been installed.</span>")
+			return
+		else
+			to_chat(user, "<span class='notice'>You install the [I.name] into the [src.name]")
+			playsound(src.loc, "sparks", 50, 1)
+			I.forceMove(src)
+			system_stress_threshold = 200 //Double the load
+
+	if(istype(I, /obj/item/apnw_oc_module/cooling))
+		if(locate(/obj/item/apnw_oc_module/cooling) in contents)
+			to_chat(user, "<span class='notice'>This type of overclock has already been installed.</span>")
+			return
+		else
+			to_chat(user, "<span class='notice'>You install the [I.name] into the [src.name]")
+			playsound(src.loc, "sparks", 50, 1)
+			I.forceMove(src)
+			system_cooling = 2.5 //2.5x the stress reduction
 
 /obj/machinery/armour_plating_nanorepair_well/update_icon()
 	cut_overlays()
@@ -255,7 +305,7 @@ Starting Materials
 		if(100 to INFINITY)
 			icon_state = "well_100"
 
-	if(system_stress > 100)
+	if(system_stress > system_stress_threshold)
 		add_overlay("stressed")
 	else if(repair_resources_processing)
 		add_overlay("active")
@@ -307,8 +357,8 @@ Starting Materials
 	if(action == "power_allocation")
 		if(adjust && isnum(adjust))
 			power_allocation = adjust
-			if(power_allocation > 1000000)
-				power_allocation = 1000000
+			if(power_allocation > maximum_power_allocation)
+				power_allocation = maximum_power_allocation
 				return
 			if(power_allocation < 0)
 				power_allocation = 0
@@ -406,7 +456,9 @@ Starting Materials
 	data["repair_efficiency"] = repair_efficiency
 	data["system_allocation"] = system_allocation
 	data["system_stress"] = system_stress
+	data["system_stress_threshold"] = system_stress_threshold
 	data["power_allocation"] = power_allocation
+	data["maximum_power_allocation"] = maximum_power_allocation
 	data["resourcing"] = resourcing_system
 	data["iron"] = materials.get_material_amount(/datum/material/iron)
 	data["titanium"] = materials.get_material_amount(/datum/material/titanium)
@@ -457,5 +509,33 @@ Starting Materials
 		/obj/item/stock_parts/scanning_module = 2,
 		/obj/item/stock_parts/capacitor = 8,
 		/obj/item/stock_parts/micro_laser = 2)
+
+/obj/item/apnw_oc_module
+	name = "Armour Plating Nano-repair Well Overclocking Module (PARENT)"
+	desc = "A small electronic device that alters operational parameters of the APNW. This will likely void the warranty."
+	icon = 'nsv13/icons/obj/objects.dmi'
+	icon_state = "oc_module"
+	w_class = 3
+
+/obj/item/apnw_oc_module/power //Changes power cap to 10MW
+	name = "Armour Plating Nano-repair Well Overclocking Module (Overwattage)"
+
+/obj/item/apnw_oc_module/power/examine(mob/user)
+	. = ..()
+	. += "<span class='notice'>Allows the allocation of additional power to the APNW - MAY CAUSE OVERHEATING</span>"
+
+/obj/item/apnw_oc_module/load //Changes stress threshold to 200%
+	name = "Armour Plating Nano-repair Well Overclocking Module (Overload)"
+
+/obj/item/apnw_oc_module/load/examine(mob/user)
+	. = ..()
+	. += "<span class='notice'>Allows the allocation of additional system load to the APNW - MAY CAUSE VOLTAGE SPIKES</span>"
+
+/obj/item/apnw_oc_module/cooling //Changes stress reduction to 2.5 per cycle
+	name = "Armour Plating Nano-repair Well Overclocking Module (Cooling)"
+
+/obj/item/apnw_oc_module/cooling/examine(mob/user)
+	. = ..()
+	. += "<span class='notice'>Allows the allocation of additional system load to the APNW - MAY CAUSE REALITY DISTORTIONS</span>" //It really doesn't
 
 #undef RR_MAX
