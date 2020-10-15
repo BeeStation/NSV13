@@ -230,12 +230,13 @@ TODO: Cargo needs setting up with a proper delivery method
 
   var/target_system_string
   for(var/i in 1 to LAZYLEN(target_system))
+    var/datum/star_system/foobar = target_system[i]
     if(i == 1)
-      target_system_string = capitalize(target_system[i].name)
+      target_system_string = capitalize(foobar.name)
     else if(i == LAZYLEN(target_system))
-      target_system_string += " or " + capitalize(target_system[i].name)
+      target_system_string += " or " + capitalize(foobar.name)
     else
-      target_system_string += ", " + capitalize(target_system[i].name)
+      target_system_string += ", " + capitalize(foobar.name)
 
   desc = "We've received intel that the enemy is attempting to amass an invasion force in [target_system_string]. Locate and destroy the enemy fleet. You have currently destroyed [ships_to_kill - ships_remaining] ships."
 
