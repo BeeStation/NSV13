@@ -238,7 +238,7 @@
 	var/ftl_start = 'nsv13/sound/effects/ship/FTL_long.ogg'
 	var/ftl_exit = 'nsv13/sound/effects/ship/freespace2/warp_close.wav'
 	var/ftl_startup_time = 30 SECONDS
-	var/auto_spool = FALSE //For lazy admins
+	var/auto_spool = TRUE //For lazy admins
 
 /obj/machinery/computer/ship/ftl_computer/attackby(obj/item/I, mob/user) //Allows you to upgrade dradis consoles to show asteroids, as well as revealing more valuable ones.
 	. = ..()
@@ -274,7 +274,6 @@
 			ftl_exit = 'nsv13/sound/effects/ship/warp_exit.ogg'
 			ftl_startup_time = 5 SECONDS
 			spoolup_time = 10 SECONDS
-			auto_spool = TRUE
 			jump_speed_factor = 5
 			max_range = 300
 
