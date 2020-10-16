@@ -141,7 +141,7 @@
 		relay(ftl_drive.ftl_loop, "<span class='warning'>You feel the ship lurch forward</span>", loop=TRUE, channel = CHANNEL_SHIP_ALERT)
 		var/datum/star_system/curr = SSstar_system.ships[src]["current_system"]
 		curr.remove_ship(src)
-		var/speed = (curr.dist(target_system) / (ftl_drive.jump_speed_factor*10)) //TODO: FTL drive speed upgrades.
+		var/speed = (curr.dist(target_system) / (ftl_drive.jump_speed_factor*50)) //TODO: FTL drive speed upgrades.
 		SSstar_system.ships[src]["to_time"] = world.time + speed MINUTES
 		SEND_SIGNAL(src, COMSIG_FTL_STATE_CHANGE)
 		if(role == MAIN_OVERMAP) //Scuffed please fix
@@ -229,7 +229,7 @@
 	var/active = FALSE
 	var/progress = 0 SECONDS
 	var/progress_rate = 1 SECONDS
-	var/spoolup_time = 1 MINUTES //Make sure this is always longer than the ftl_startup_time, or you can seriously bug the ship out with cancel jump spam.
+	var/spoolup_time = 45 SECONDS //Make sure this is always longer than the ftl_startup_time, or you can seriously bug the ship out with cancel jump spam.
 	var/screen = 1
 	var/can_cancel_jump = TRUE //Defaults to true. TODO: Make emagging disable this
 	var/max_range = 100 //max jump range. This is _very_ long distance
