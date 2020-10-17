@@ -130,6 +130,8 @@ Set up relationships.
 		if(SS.name == "Risa Station")
 			SS.hidden = FALSE
 	tickets = 0
+	SSstar_system.nag_stacks = 0
+	SSstar_system.next_nag_time = world.time + 10 HOURS
 
 /datum/faction/pirate
 	name = "Tortuga Raiders"
