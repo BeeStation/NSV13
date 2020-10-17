@@ -143,18 +143,17 @@ Starting Materials
 			system_allocation += P.armour_allocation
 			system_allocation += P.structure_allocation
 
-	switch(system_allocation)
-		if(0 to system_stress_threshold)
-			system_stress -= system_cooling
-			if(system_stress <= 0)
-				system_stress = 0
-		if(system_stress_threshold to INFINITY)
-			system_stress += (system_allocation/system_stress_threshold)
-			if(system_stress_threshold != initial(system_stress_threshold))
-				if(prob(2))
-					do_sparks(3, FALSE, src)
-			if(system_stress > system_stress_threshold * 2)
-				system_stress = system_stress_threshold * 2
+	if(system_allocation <= system_stress_threshold)
+		system_stress -= system_cooling
+		if(system_stress <= 0)
+			system_stress = 0
+	if(system_allocation > system_stress_threshold)
+		system_stress += (system_allocation/system_stress_threshold)
+		if(system_stress_threshold != initial(system_stress_threshold))
+			if(prob(2))
+				do_sparks(3, FALSE, src)
+		if(system_stress > system_stress_threshold * 2)
+			system_stress = system_stress_threshold * 2
 
 	if(system_stress >= system_stress_threshold)
 		var/turf/open/L = get_turf(src)
