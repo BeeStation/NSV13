@@ -16,7 +16,7 @@
 	var/tickets = 0 //How many victory tickets has this faction accrued? Factions other than NT can win!
 	var/list/fleet_types = list()
 	var/next_fleet_spawn = 0 //Factions spawn fleets more frequently when they're doing well with tickets.
-	var/fleet_spawn_rate = 10 MINUTES //By default, 1 / 10 minutes.
+	var/fleet_spawn_rate = 20 MINUTES //By default, 1 / 10 minutes.
 
 /**
 Procs for handling factions winning / losing
@@ -99,7 +99,7 @@ Set up relationships.
 	preset_allies = list(FACTION_ID_SOLGOV, FACTION_ID_UNATHI)
 	preset_enemies = list(FACTION_ID_SYNDICATE, FACTION_ID_PIRATES)
 	fleet_types = list(/datum/fleet/nanotrasen/light)
-	fleet_spawn_rate = 30 MINUTES
+	fleet_spawn_rate = 40 MINUTES
 	id = FACTION_ID_NT
 
 /datum/faction/nanotrasen/victory()
@@ -121,7 +121,7 @@ Set up relationships.
 	preset_allies = list(FACTION_ID_PIRATES) //Yar HAR it's me, captain PLASMASALT
 	preset_enemies = list(FACTION_ID_NT)
 	fleet_types = list(/datum/fleet/neutral, /datum/fleet/boarding, /datum/fleet/wolfpack, /datum/fleet/nuclear)
-	fleet_spawn_rate = 15 MINUTES
+	fleet_spawn_rate = 30 MINUTES
 	id = FACTION_ID_SYNDICATE
 
 /datum/faction/syndicate/victory()

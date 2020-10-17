@@ -17,7 +17,7 @@ SUBSYSTEM_DEF(star_system)
 	//Starmap 2
 	var/list/factions = list() //List of all factions in play on this starmap, instantiated on init.
 	var/next_nag_time = 0
-	var/nag_interval = 25 MINUTES //Get off your asses and do some work idiots
+	var/nag_interval = 30 MINUTES //Get off your asses and do some work idiots
 	var/nag_stacks = 0 //How many times have we told you to get a move on?
 	var/list/all_missions = list()
 
@@ -61,13 +61,17 @@ SUBSYSTEM_DEF(star_system)
 					D.account_balance /= 2
 			if(4 to INFINITY) //From this point on, you can actively lose the game.
 				minor_announce("WARNING: Nanotrasen is suffering catastrophic losses", "Naval Command")
+				nag_interval = rand(10 MINUTES, 15 MINUTES) //Keep up the nag, but slowly.
 				var/lost_influence = FALSE
+				var/influence_to_lose = rand(1,3)
 				for(var/datum/star_system/sys in systems)
 					if(sys.fleets)
 						for(var/datum/fleet/F in sys.fleets)
+							if(lost_influence >= influence_to_lose)
+								break
 							if(F.alignment == "nanotrasen" && !istype(F, /datum/fleet/nanotrasen/earth))
 								F.defeat()
-								lost_influence = TRUE
+								lost_influence ++
 				if(!lost_influence)
 					minor_announce("Attention all ships. WhiteRapids naval command no longer has any fleets. Full Syndicate invasion underway.", "Naval Command")
 
