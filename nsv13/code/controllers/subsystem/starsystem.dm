@@ -60,8 +60,8 @@ SUBSYSTEM_DEF(star_system)
 					total_deductions += D.account_balance / 2
 					D.account_balance /= 2
 			if(4 to INFINITY) //From this point on, you can actively lose the game.
-				minor_announce("WARNING: Nanotrasen is suffering catastrophic losses", "Naval Command")
 				nag_interval = rand(10 MINUTES, 15 MINUTES) //Keep up the nag, but slowly.
+				next_nag_time = world.time + nag_interval
 				var/lost_influence = FALSE
 				var/influence_to_lose = rand(1,3)
 				for(var/datum/star_system/sys in systems)
@@ -73,7 +73,8 @@ SUBSYSTEM_DEF(star_system)
 								F.defeat()
 								lost_influence ++
 				if(!lost_influence)
-					minor_announce("Attention all ships. WhiteRapids naval command no longer has any fleets. Full Syndicate invasion underway.", "Naval Command")
+					var/datum/faction/F = faction_by_id(FACTION_ID_NT)
+					F.lose_influence(100)
 
 /datum/controller/subsystem/star_system/New()
 	. = ..()
