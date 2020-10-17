@@ -22,11 +22,6 @@ code tab of https://github.com/BeeStation/NSV13
 (note: this will use a lot of bandwidth if you wish to update and is a lot of
 hassle if you want to make any changes at all, so it's not recommended.)
 
-Option 3: Use our docker image that tracks the master branch (See [commits](https://github.com/BeeStation/NSV13/commits) for build status. Again, same caveats as option 2)
-
-```
-docker run -d -p <your port>:1337 -v /path/to/your/config:/beestation/config -v /path/to/your/data:/beestation/data beestation/beestation <dream daemon options i.e. -public or -params>
-```
 
 ## INSTALLATION
 
