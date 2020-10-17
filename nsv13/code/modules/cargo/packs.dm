@@ -251,26 +251,36 @@
 	crate_name = "Heavy cannon ammunition crate"
 
 /datum/supply_pack/security/peacekeeper_rifles
-	name = "M2A45 pulse rifles (x5)"
-	desc = "A pack of 5 M2A45 pulse rifles, preloaded with nonlethal stun slugs."
-	cost = 15000
+	name = "M2A45 pulse rifles (x3)"
+	desc = "A pack of 3 M2A45 pulse rifles, preloaded with nonlethal stun slugs."
+	cost = 9000
 	contains = list(/obj/item/gun/ballistic/automatic/peacekeeper,
 					/obj/item/gun/ballistic/automatic/peacekeeper,
-					/obj/item/gun/ballistic/automatic/peacekeeper,
-					/obj/item/gun/ballistic/automatic/peacekeeper,
 					/obj/item/gun/ballistic/automatic/peacekeeper)
-	crate_name = "M2A45 pulse rifles"
+	crate_name = "M2A45 crate"
+
+/datum/supply_pack/security/peacekeeper_rifles_single
+	name = "M2A45 Pulse Rifle Single-Pack"
+	desc = "A single M2A45 pulse rifle, preloaded with nonlethal stun slugs."
+	cost = 3500
+	small_item = TRUE
+	contains = list(/obj/item/gun/ballistic/automatic/peacekeeper)
 
 /datum/supply_pack/security/glock
-	name = "Glock-13s (x5)"
-	desc = "A pack of 5 security glock-13s, preloaded with rubber bullets."
-	cost = 8000
+	name = "Glock-13s (x3)"
+	desc = "A pack of 3 Security Glock-13s, preloaded with rubber bullets."
+	cost = 5000
 	contains = list(/obj/item/gun/ballistic/automatic/pistol/glock,
 					/obj/item/gun/ballistic/automatic/pistol/glock,
-					/obj/item/gun/ballistic/automatic/pistol/glock,
-					/obj/item/gun/ballistic/automatic/pistol/glock,
 					/obj/item/gun/ballistic/automatic/pistol/glock)
-	crate_name = "Glock-13s"
+	crate_name = "Glock-13 crate"
+
+/datum/supply_pack/security/glock_single
+	name = "Glock-13 Single-Pack"
+	desc = "A single Security Glock-13, preloaded with rubber bullets."
+	cost = 2000
+	small_item = TRUE
+	contains = list(/obj/item/gun/ballistic/automatic/pistol/glock)
 
 /datum/supply_pack/security/edged_weapons
 	name = "Surviving edged weapons: Informational manual"
@@ -289,7 +299,7 @@
 					/obj/item/ammo_box/c9mm/rubber,
 					/obj/item/ammo_box/c9mm/rubber,
 					/obj/item/ammo_box/magazine/pistolm9mm/glock)
-	crate_name = "Glock-13 ammunition (nonlethal)"
+	crate_name = "Glock-13 nonlethal ammunition crate"
 
 /datum/supply_pack/security/glock_lethal
 	name = "Glock-13 ammo (lethal)"
@@ -301,7 +311,8 @@
 					/obj/item/ammo_box/c9mm,
 					/obj/item/ammo_box/c9mm,
 					/obj/item/ammo_box/magazine/pistolm9mm/glock/lethal)
-	crate_name = "Glock-13 ammunition (lethal)"
+	crate_name = "Glock-13 lethal ammunition crate"
+	access = ACCESS_ARMORY
 
 /datum/supply_pack/security/ballistic_tazer
 	name = "Czanek Corp Tazer Crate"
@@ -322,7 +333,7 @@
 					/obj/item/ammo_box/magazine/peacekeeper,
 					/obj/item/ammo_box/magazine/peacekeeper,
 					/obj/item/ammo_box/magazine/peacekeeper)
-	crate_name = "M2A45 pulse rifle ammunition (nonlethal)"
+	crate_name = "M2A45 nonlethal ammunition crate"
 
 /datum/supply_pack/security/peacekeeper_ammo_lethal
 	name = "M2A45 pulse rifle ammo (lethal)"
@@ -333,7 +344,17 @@
 					/obj/item/ammo_box/magazine/peacekeeper/lethal,
 					/obj/item/ammo_box/magazine/peacekeeper/lethal,
 					/obj/item/ammo_box/magazine/peacekeeper/lethal)
-	crate_name = "M2A45 pulse rifle ammunition (lethal)"
+	crate_name = "M2A45 lethal ammunition crate"
+	access = ACCESS_ARMORY
+
+/datum/supply_pack/security/armory/laser // NSV - We've got to have them somewhere, apparently.
+	name = "Lasers Crate"
+	desc = "Contains three lethal, high-energy laser guns."
+	cost = 2000
+	contains = list(/obj/item/gun/energy/laser,
+					/obj/item/gun/energy/laser,
+					/obj/item/gun/energy/laser)
+	crate_name = "laser crate"
 
 /datum/supply_pack/munitions/aviation_fuel
 	name = "Aviation fuel"
