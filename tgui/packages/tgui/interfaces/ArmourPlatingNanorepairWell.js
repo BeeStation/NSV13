@@ -6,6 +6,7 @@ import { toFixed } from 'common/math';
 
 export const ArmourPlatingNanorepairWell = (props, context) => {
   const { act, data } = useBackend(context);
+  const availablePower = data.available_power;
   return (
     <Window resizable theme="ntos">
       <Window.Content scrollable>
@@ -177,16 +178,25 @@ export const ArmourPlatingNanorepairWell = (props, context) => {
               average: [0.33, 0.66],
               bad: [-Infinity, 0.33],
             }} />
-          Power Allocation:
+          Power Allocation (Watts):
           <Slider
             value={data.power_allocation}
             minValue={0}
-            maxValue={1000000}
+            maxValue={data.maximum_power_allocation}
             step={1}
             stepPixelSize={0.0005}
             onDrag={(e, value) => act('power_allocation', {
               adjust: value,
             })} />
+
+          Available Power (Watts):
+          <ProgressBar
+            value={availablePower}
+            minValue={0}
+            maxValue={1e+6}
+            color="yellow">
+            {toFixed(availablePower)}
+          </ProgressBar>
         </Section>
       </Window.Content>
     </Window>

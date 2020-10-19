@@ -206,6 +206,8 @@ Bullet reactions
 		qdel(src) //we didn't want miners anyway
 
 /obj/structure/overmap/proc/try_repair(amount)
+	if(amount < 0) //Underflow
+		return FALSE
 	var/withrepair = obj_integrity+amount
 	if(withrepair > max_integrity) //No overheal
 		obj_integrity = max_integrity

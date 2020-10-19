@@ -15,7 +15,7 @@
 There are a number of ways to download the source code. Some are described here, an alternative all-inclusive guide is also located at https://wiki.beestation13.com/view/Downloading_the_source_code
 
 Option 1:
-Follow this: https://wiki.beestation13.com/view/Setting_up_git
+Follow this: https://nsv.beestation13.com/wiki/Setting_up_git
 
 Option 2: Download the source code as a zip by clicking the ZIP button in the
 code tab of https://github.com/DDMers/NSV13
@@ -101,7 +101,7 @@ https://github.com/tgstation/tgstation-server
 
 NSV13 currently comes equipped with these maps.
 
-<PUT WEBMAP LINKS HERE EVENTUALLY>
+* See the _maps folder. We change this too much.
 
 
 All maps have their own code file that is in the base of the _maps directory. Maps are loaded dynamically when the game starts. Follow this guideline when adding your own map, to your fork, for easy compatibility.
@@ -163,6 +163,8 @@ See tgui/assets/fonts/SIL-OFL-1.1-LICENSE.md for the SIL Open Font License.
 See the footers of code/\_\_DEFINES/server\_tools.dm, code/modules/server\_tools/st\_commands.dm, and code/modules/server\_tools/st\_inteface.dm for the MIT license.
 
 All assets including icons and sound are under a [Creative Commons 3.0 BY-SA license](https://creativecommons.org/licenses/by-sa/3.0/) unless otherwise indicated.
+
+byond-extools.dll is licensed under MIT. See MIT.txt for more details.
 
 # Other Codebase Credits
 - /tg/, for the codebase.

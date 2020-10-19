@@ -10,12 +10,15 @@
 	new /obj/item/card/id/departmental_budget/mun(src)
 	new /obj/item/door_remote/master_at_arms(src)
 	new /obj/item/radio/headset/heads/master_at_arms(src)
-	new /obj/item/clothing/under/trek/engsec(src)
+	new /obj/item/clothing/suit/ship/maa_jacket(src)
+	new /obj/item/clothing/suit/hazardvest(src)
 	new /obj/item/clothing/head/bomb_hood(src)
 	new /obj/item/clothing/suit/bomb_suit(src)
 	new /obj/item/clothing/head/hardhat/red(src)
+	new /obj/item/clothing/head/ship/maa_hat(src)
 	new /obj/item/pet_carrier(src)
 	new /obj/item/clothing/neck/petcollar(src)
+	new /obj/item/storage/box/spare_munitions_keys(src)
 
 /obj/structure/closet/secure_closet/munitions_technician
 	name = "munitions technician's locker"
@@ -28,6 +31,7 @@
 	..()
 	new /obj/item/radio/headset/munitions/munitions_tech(src)
 	new /obj/item/clothing/under/rank/munitions_tech(src)
+	new /obj/item/clothing/suit/ship/munitions_jacket(src)
 	new /obj/item/clothing/head/bomb_hood(src)
 	new /obj/item/clothing/suit/bomb_suit(src)
 	new /obj/item/clothing/head/welding(src)

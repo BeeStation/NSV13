@@ -38,20 +38,20 @@
 	ears = /obj/item/radio/headset/heads/master_at_arms
 	uniform = /obj/item/clothing/under/rank/master_at_arms
 	shoes = /obj/item/clothing/shoes/jackboots
-	suit = /obj/item/clothing/suit/hazardvest
+	suit = /obj/item/clothing/suit/ship/maa_jacket
 	gloves = /obj/item/clothing/gloves/color/black
-	head = /obj/item/clothing/head/soft
+	head = /obj/item/clothing/head/ship/maa_hat
 	glasses = /obj/item/clothing/glasses/sunglasses/advanced
 	l_pocket = /obj/item/pda
 	backpack_contents = list(/obj/item/melee/classic_baton/telescopic=1)
 
-	backpack = /obj/item/storage/backpack/security
-	satchel = /obj/item/storage/backpack/satchel/sec
-	duffelbag = /obj/item/storage/backpack/duffelbag/sec
+	backpack = /obj/item/storage/backpack/munitions
+	satchel = /obj/item/storage/backpack/satchel/munitions
+	duffelbag = /obj/item/storage/backpack/duffelbag/munitions
 	box = /obj/item/storage/box/security
 
 	pda_slot = SLOT_L_STORE
-	
+
 /obj/effect/landmark/start/master_at_arms
 	name = "Master At Arms"
 	icon_state = "Master At Arms"

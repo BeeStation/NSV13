@@ -1037,6 +1037,7 @@
 	dir = 1
 	},
 /obj/machinery/firealarm/directional/north,
+/obj/effect/landmark/start/detective,
 /turf/open/floor/plasteel/dark,
 /area/security/brig)
 "cw" = (
@@ -2148,6 +2149,7 @@
 /obj/structure/cable{
 	icon_state = "4-8"
 	},
+/obj/structure/closet/secure_closet/bridge,
 /turf/open/floor/plasteel/dark,
 /area/bridge)
 "eV" = (
@@ -2282,6 +2284,23 @@
 "fg" = (
 /turf/open/floor/plasteel/dark,
 /area/bridge)
+"fh" = (
+/obj/structure/munitions_trolley,
+/obj/machinery/firealarm/directional/east,
+/obj/item/ammo_box/magazine/heavy_cannon,
+/obj/item/ammo_box/magazine/heavy_cannon,
+/obj/item/ammo_box/magazine/heavy_cannon,
+/obj/item/ammo_box/magazine/heavy_cannon,
+/obj/item/ammo_box/magazine/light_cannon,
+/obj/item/ammo_box/magazine/light_cannon,
+/obj/item/ammo_box/magazine/light_cannon,
+/obj/item/ammo_box/magazine/light_cannon,
+/obj/item/ammo_box/magazine/light_cannon,
+/obj/item/ammo_box/magazine/light_cannon,
+/obj/item/ammo_box/magazine/light_cannon,
+/obj/item/ammo_box/magazine/light_cannon,
+/turf/open/floor/monotile/dark,
+/area/nsv/hanger)
 "fi" = (
 /obj/structure/table/glass,
 /obj/machinery/recharger{
@@ -3516,6 +3535,22 @@
 	},
 /turf/open/floor/plasteel/cafeteria,
 /area/crew_quarters/kitchen)
+"ie" = (
+/obj/structure/munitions_trolley,
+/obj/item/ammo_box/magazine/heavy_cannon,
+/obj/item/ammo_box/magazine/heavy_cannon,
+/obj/item/ammo_box/magazine/heavy_cannon,
+/obj/item/ammo_box/magazine/heavy_cannon,
+/obj/item/ammo_box/magazine/light_cannon,
+/obj/item/ammo_box/magazine/light_cannon,
+/obj/item/ammo_box/magazine/light_cannon,
+/obj/item/ammo_box/magazine/light_cannon,
+/obj/item/ammo_box/magazine/light_cannon,
+/obj/item/ammo_box/magazine/light_cannon,
+/obj/item/ammo_box/magazine/light_cannon,
+/obj/item/ammo_box/magazine/light_cannon,
+/turf/open/floor/monotile/dark,
+/area/nsv/hanger)
 "if" = (
 /obj/effect/turf_decal/tile/green,
 /obj/effect/turf_decal/tile/green{
@@ -4894,6 +4929,7 @@
 /obj/structure/cable{
 	icon_state = "4-8"
 	},
+/obj/structure/closet/secure_closet/bridge,
 /turf/open/floor/plasteel/dark,
 /area/bridge)
 "kX" = (
@@ -7576,7 +7612,7 @@
 /obj/effect/turf_decal/stripes/line{
 	dir = 10
 	},
-/obj/structure/overmap/fighter/light/prebuilt/flight_leader,
+/obj/structure/overmap/fighter/light/flight_leader,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 9
 	},
@@ -7864,10 +7900,6 @@
 	},
 /obj/machinery/airalarm/directional/south,
 /turf/open/floor/monotile,
-/area/nsv/hanger)
-"rf" = (
-/obj/structure/munitions_trolley,
-/turf/open/floor/monotile/dark,
 /area/nsv/hanger)
 "rg" = (
 /obj/item/ship_weapon/ammunition/missile{
@@ -8269,6 +8301,9 @@
 /obj/effect/turf_decal/tile/red{
 	dir = 4
 	},
+/obj/structure/disposalpipe/junction{
+	dir = 4
+	},
 /turf/open/floor/plasteel/ship/techfloor/alt,
 /area/hallway/primary/port)
 "rQ" = (
@@ -8604,6 +8639,7 @@
 /obj/effect/turf_decal/tile/yellow{
 	dir = 1
 	},
+/obj/effect/landmark/nuclear_waste_spawner,
 /turf/open/floor/plating,
 /area/maintenance/central)
 "sx" = (
@@ -8984,6 +9020,7 @@
 /obj/item/clothing/head/helmet/riot,
 /obj/item/clothing/head/helmet/riot,
 /obj/item/clothing/head/helmet/riot,
+/obj/item/shield/riot,
 /turf/open/floor/monotile,
 /area/ai_monitored/security/armory)
 "ti" = (
@@ -12475,6 +12512,25 @@
 	},
 /turf/open/floor/plasteel/dark,
 /area/ai_monitored/turret_protected/ai)
+"DW" = (
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer3{
+	dir = 1
+	},
+/obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1{
+	dir = 1;
+	icon_state = "manifold-1"
+	},
+/obj/effect/turf_decal/tile/red{
+	dir = 4
+	},
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
+/turf/open/floor/plasteel/ship/techfloor/alt,
+/area/hallway/primary/port)
 "Eb" = (
 /obj/machinery/atmospherics/pipe/layer_manifold,
 /turf/open/floor/monotile,
@@ -12794,6 +12850,9 @@
 	pixel_y = -22;
 	req_one_access_txt = "2"
 	},
+/obj/machinery/computer/prisoner/management{
+	dir = 8
+	},
 /turf/open/floor/plasteel/dark,
 /area/security/warden)
 "Ha" = (
@@ -13038,7 +13097,7 @@
 /obj/effect/turf_decal/stripes/line{
 	dir = 10
 	},
-/obj/structure/overmap/fighter/light/prebuilt,
+/obj/structure/overmap/fighter/light,
 /turf/open/floor/monotile/dark,
 /area/nsv/hanger)
 "KP" = (
@@ -13206,11 +13265,6 @@
 	},
 /turf/open/floor/plasteel,
 /area/crew_quarters/cafeteria)
-"Nv" = (
-/obj/structure/munitions_trolley,
-/obj/machinery/firealarm/directional/east,
-/turf/open/floor/monotile/dark,
-/area/nsv/hanger)
 "NG" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /obj/structure/cable{
@@ -13334,6 +13388,10 @@
 	dir = 1
 	},
 /turf/open/floor/monotile/dark,
+/area/nsv/hanger)
+"Pb" = (
+/obj/effect/landmark/nuclear_waste_spawner,
+/turf/open/floor/monotile,
 /area/nsv/hanger)
 "Pe" = (
 /obj/machinery/door/airlock/ship/external/glass{
@@ -14016,6 +14074,10 @@
 	},
 /turf/open/floor/plating,
 /area/nsv/hanger)
+"ZB" = (
+/obj/effect/landmark/nuclear_waste_spawner,
+/turf/open/floor/plasteel/ship,
+/area/hallway/primary/port)
 "ZU" = (
 /obj/structure/fighter_launcher/launch_only{
 	dir = 1
@@ -34460,7 +34522,7 @@ qu
 PO
 fL
 fL
-fL
+Pb
 UR
 fL
 fL
@@ -37546,8 +37608,8 @@ qu
 qQ
 wC
 HC
-Nv
-rf
+fh
+ie
 qu
 WW
 ab
@@ -40884,7 +40946,7 @@ hK
 aa
 aa
 ng
-rs
+DW
 ua
 vA
 mQ
@@ -42170,8 +42232,8 @@ yh
 yl
 fu
 rP
-tX
-uC
+Uk
+wK
 ib
 rt
 rx
@@ -44997,7 +45059,7 @@ xq
 xq
 fE
 sE
-Ez
+ZB
 eD
 ik
 OF

@@ -86,7 +86,8 @@ Clean override of the navigation computer to provide scan functionality.
 	return LAZYFIND(scanned, system.name)
 
 /obj/machinery/computer/ship/navigation/astrometrics/ui_act(action, params, datum/tgui/ui)
-	if(..())
+	. = ..()
+	if(.)
 		return
 	if(!has_overmap())
 		return

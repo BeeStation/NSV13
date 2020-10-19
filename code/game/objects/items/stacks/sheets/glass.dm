@@ -8,8 +8,10 @@
 /*
  * Glass sheets
  */
+//Nsv13 - Added fighter canopy build to this
 GLOBAL_LIST_INIT(glass_recipes, list ( \
 	new/datum/stack_recipe("directional window", /obj/structure/window/unanchored, time = 0, on_floor = TRUE, window_checks = TRUE), \
+	new/datum/stack_recipe("standard fighter canopy", /obj/item/fighter_component/canopy, 10, time = 10, on_floor = FALSE, window_checks = FALSE), \
 	new/datum/stack_recipe("fulltile window", /obj/structure/window/fulltile/unanchored, 2, time = 0, on_floor = TRUE, window_checks = TRUE) \
 ))
 
@@ -72,9 +74,10 @@ GLOBAL_LIST_INIT(glass_recipes, list ( \
 		return ..()
 
 
-
+//Nsv13 - Fighter canopies
 GLOBAL_LIST_INIT(pglass_recipes, list ( \
 	new/datum/stack_recipe("directional window", /obj/structure/window/plasma/unanchored, time = 0, on_floor = TRUE, window_checks = TRUE), \
+	new/datum/stack_recipe("ultra reinforced fighter canopy", /obj/item/fighter_component/canopy/tier3, 10,  time = 10, on_floor = FALSE, window_checks = FALSE), \
 	new/datum/stack_recipe("fulltile window", /obj/structure/window/plasma/fulltile/unanchored, 2, time = 0, on_floor = TRUE, window_checks = TRUE) \
 ))
 
@@ -123,6 +126,7 @@ GLOBAL_LIST_INIT(pglass_recipes, list ( \
  */
 GLOBAL_LIST_INIT(reinforced_glass_recipes, list ( \
 	new/datum/stack_recipe("windoor frame", /obj/structure/windoor_assembly, 5, time = 0, on_floor = TRUE, window_checks = TRUE), \
+	new/datum/stack_recipe("reinforced fighter canopy", /obj/item/fighter_component/canopy/reinforced, 10, time = 10, on_floor = FALSE, window_checks = FALSE), \
 	null, \
 	new/datum/stack_recipe("directional reinforced window", /obj/structure/window/reinforced/unanchored, time = 0, on_floor = TRUE, window_checks = TRUE), \
 	//NSV13 Start - ship window construction

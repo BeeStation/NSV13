@@ -45,6 +45,8 @@
 	var/showAnomalies = 100
 	var/sensor_range = SENSOR_RANGE_DEFAULT //In tiles. How far your sensors can pick up precise info about ships.
 	var/zoom_factor = 0.5 //Lets you zoom in / out on the DRADIS for more precision, or for better info.
+	var/next_hail = 0
+	var/hail_range = 50 //Decent distance.
 
 /obj/machinery/computer/ship/dradis/minor //Secondary dradis consoles usable by people who arent on the bridge.
 	name = "Air traffic control console"
@@ -61,6 +63,7 @@
 	use_power = 0
 	start_with_sound = FALSE
 	sensor_range = SENSOR_RANGE_FIGHTER
+	hail_range = 30
 
 /obj/machinery/computer/ship/dradis/internal/has_overmap()
 	if(linked)
@@ -91,7 +94,8 @@
 
 /obj/machinery/computer/ship/dradis/attack_hand(mob/user)
 	. = ..()
-	ui_interact(user)
+	if(.)
+		ui_interact(user)
 
 /obj/machinery/computer/ship/dradis/can_interact(mob/user) //Override this code to allow people to use consoles when flying the ship.
 	if(locate(user) in linked?.operators)
@@ -114,7 +118,8 @@
 		ui.open()
 
 /obj/machinery/computer/ship/dradis/ui_act(action, params, datum/tgui/ui)
-	if(..())
+	. = ..()
+	if(.)
 		return
 	if(!has_overmap())
 		return
@@ -143,6 +148,15 @@
 		if("zoomin")
 			zoom_factor += 0.5
 			zoom_factor = (zoom_factor <= 2) ? zoom_factor : 2
+		if("hail")
+			var/obj/structure/overmap/target = locate(params["target"])
+			if(!target) //Anomalies don't count.
+				return
+			if(world.time < next_hail)
+				return
+			next_hail = world.time + 10 SECONDS //I hate that I need to do this, but yeah.
+			if(get_dist(target, linked) <= hail_range)
+				target.try_hail(usr)
 
 /obj/machinery/computer/ship/dradis/attackby(obj/item/I, mob/user) //Allows you to upgrade dradis consoles to show asteroids, as well as revealing more valuable ones.
 	. = ..()
@@ -161,7 +175,10 @@
 //Cloaking and sensors!
 
 /obj/structure/overmap/proc/is_sensor_visible(obj/structure/overmap/observer) //How visible is this enemy ship to sensors? Sometimes ya gotta get real up close n' personal.
-	var/distance_factor = (1/get_dist(src, observer)) //Visibility inversely scales with distance. If you get too close to a target, even with a stealth ship, you'll ping their sensors.
+	var/dist = get_dist(src, observer)
+	if(dist <= 0)
+		dist = 1
+	var/distance_factor = (1/dist) //Visibility inversely scales with distance. If you get too close to a target, even with a stealth ship, you'll ping their sensors.
 	//Convert alpha to an opacity reading.
 	switch(alpha)
 		if(0 to 50) //Nigh on invisible. You cannot detect ships that are this cloaked by any means.
@@ -248,7 +265,7 @@
 			else
 				filterType *= 0.01 //Scale the number down to be an opacity figure for CSS
 			filterType = CLAMP(filterType, 0, 1)
-			blips[++blips.len] = list("x" = OM.x, "y" = OM.y, "colour" = thecolour, "name"=thename, opacity=filterType ,alignment = thefaction) //So now make a 2-d array that TGUI can iterate through. This is just a list within a list.
+			blips[++blips.len] = list("x" = OM.x, "y" = OM.y, "colour" = thecolour, "name"=thename, opacity=filterType ,alignment = thefaction, "id"="\ref[OM]") //So now make a 2-d array that TGUI can iterate through. This is just a list within a list.
 	if(ship_count > last_ship_count) //Play a tone if ship count changes
 		var/delta = ship_count - last_ship_count
 		last_ship_count = ship_count
