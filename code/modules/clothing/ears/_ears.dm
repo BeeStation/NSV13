@@ -22,6 +22,19 @@
 	. = ..()
 	AddElement(/datum/element/earhealing)
 
+/obj/item/clothing/ears/earmuffs/attackby(obj/item/I, mob/living/user)
+
+	if(istype(I,/obj/item/radio/headset))
+		var/obj/item/radio/headset/radiomuff/newmuf = new /obj/item/radio/headset/radiomuff(get_turf(user.loc))
+		newmuf.keyslot = I
+		newmuf.recalculateChannels()
+		to_chat(user,"<span class='notice'>You stuff the [I] into the [src].</span>")
+		qdel(I)
+		qdel(src)
+		return
+	. = ..()
+
+
 /obj/item/clothing/ears/headphones
 	name = "headphones"
 	desc = "Unce unce unce unce. Boop!"
