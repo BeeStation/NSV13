@@ -12,6 +12,7 @@
 #define BROKEN_SPARKS_MIN (30 SECONDS)
 #define BROKEN_SPARKS_MAX (90 SECONDS)
 
+//NSV13 added ethereal light interaction defines
 #define LIGHT_DRAIN_TIME 25
 #define LIGHT_POWER_GAIN 35
 
@@ -637,6 +638,7 @@
 	update(FALSE)
 	return
 
+//NSV13 added ethereal light interaction defines
 // attack with hand - remove tube/bulb
 // if hands aren't protected and the light is on, burn the player
 

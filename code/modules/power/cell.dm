@@ -1,3 +1,4 @@
+//NSV13 added defines for ethereal cell interactions
 #define CELL_DRAIN_TIME 35
 #define CELL_POWER_GAIN 60
 #define CELL_POWER_DRAIN 750
@@ -152,6 +153,7 @@
 				if(prob(25))
 					corrupt()
 
+//NSV13 added ethereal cell interaction defines
 /obj/item/stock_parts/cell/attack_self(mob/user)
 	if(isethereal(user))
 		var/mob/living/carbon/human/H = user

@@ -188,6 +188,7 @@
 //Used as an upper limit for species that continuously gain nutriment
 #define NUTRITION_LEVEL_ALMOST_FULL 535
 
+//NSV13 changed charge levels to tg kind up to full
 //Charge levels for Ethereals
 #define ETHEREAL_CHARGE_NONE 0
 #define ETHEREAL_CHARGE_LOWPOWER 400
@@ -288,6 +289,7 @@
 #define DOOR_CRUSH_DAMAGE	15	//! the amount of damage that airlocks deal when they crush you
 
 #define	HUNGER_FACTOR		0.1	//! factor at which mob nutrition decreases
+//NSV13 charge factor increased from 0.1 to 1.6
 #define	ETHEREAL_CHARGE_FACTOR	1.6 //! factor at which ethereal's charge decreases
 #define	HYGIENE_FACTOR  0.1	//! factor at which mob hygiene decreases
 #define	REAGENTS_METABOLISM 0.4	//! How many units of reagent are consumed per tick, by default.

@@ -38,6 +38,7 @@
 #define APC_CHARGING 1
 #define APC_FULLY_CHARGED 2
 
+//NSV13 added ethereal power drain defines
 #define APC_DRAIN_TIME 75
 #define APC_POWER_GAIN 200
 
@@ -765,6 +766,7 @@
 			update_icon()
 
 
+//NSV13 changed numbers to defines
 // attack with hand - remove cell (if cover open) or interact with the APC
 
 /obj/machinery/power/apc/attack_hand(mob/user)
