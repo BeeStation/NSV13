@@ -258,17 +258,22 @@ GLOBAL_LIST_EMPTY(ai_goals)
 		return FALSE
 	var/text = stripped_input(user, "What do you want to say?", "Hailing")
 	if(text)
-		hail(text, user, source_ship)
+		source_ship.hail(text, name, user.name, TRUE) // Let the crew on the source ship know an Outbound message was sent
+		hail(text, source_ship.name, user.name)
 
-/obj/structure/overmap/proc/hail(text, sender, var/obj/structure/overmap/source_ship)
+/obj/structure/overmap/proc/hail(var/text, var/ship_name, var/player_name, var/outbound = FALSE)
 	if(!text)
 		return
-	if(!sender)
+	if(!ship_name)
 		return
-	if(!source_ship)
-		return
-	source_ship.relay('nsv13/sound/effects/ship/freespace2/computer/textdraw.wav', "<h3>Outbound hail to: [src.name] (Sent by [sender])</h3><hr><span class='danger'>[text]</span><br>")
-	relay('nsv13/sound/effects/ship/freespace2/computer/textdraw.wav', "<h1>Incoming hail from: [source_ship.name] (Sent by [sender])</h1><hr><span class='userdanger'>[text]</span><br>")
+	var/player_string = ""	
+	if(player_name) // No sender means AI ship
+		player_string = " (Sent by [player_name])"
+		
+	if(outbound)
+		relay('nsv13/sound/effects/ship/freespace2/computer/textdraw.wav', "<h3>Outbound hail to: [ship_name][player_string]</h3><hr><span class='danger'>[text]</span><br>")
+	else
+		relay('nsv13/sound/effects/ship/freespace2/computer/textdraw.wav', "<h1>Incoming hail from: [ship_name][player_string]</h1><hr><span class='userdanger'>[text]</span><br>")
 
 /proc/get_internet_sound(web_sound_input)
 	if(!web_sound_input)
