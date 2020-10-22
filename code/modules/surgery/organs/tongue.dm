@@ -11,7 +11,6 @@
 	var/modifies_speech = FALSE
 	var/static/list/languages_possible_base = typecacheof(list(
 		/datum/language/aphasia,
-		/datum/language/apidite,
 		/datum/language/beachbum,
 		/datum/language/buzzwords,
 		/datum/language/calcic,
