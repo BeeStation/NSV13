@@ -2825,7 +2825,6 @@
 /turf/open/floor/circuit,
 /area/tcommsat/server)
 "bJC" = (
-/obj/structure/disposalpipe/segment,
 /obj/structure/cable{
 	icon_state = "1-2"
 	},
@@ -2833,12 +2832,12 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /obj/machinery/door/firedoor/border_only/directional/north,
 /obj/machinery/door/firedoor/border_only/directional/south,
+/obj/structure/cable/yellow{
+	icon_state = "9-10"
+	},
 /obj/machinery/door/airlock/ship/maintenance{
 	name = "Maintenance Access Bar";
 	req_one_access_txt = "12;25;28;35"
-	},
-/obj/structure/cable/yellow{
-	icon_state = "9-10"
 	},
 /turf/open/floor/plating,
 /area/maintenance/department/engine)
@@ -3519,9 +3518,6 @@
 /obj/structure/chair{
 	dir = 4
 	},
-/obj/structure/disposalpipe/segment{
-	dir = 6
-	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	dir = 10
 	},
@@ -3603,9 +3599,6 @@
 /obj/item/reagent_containers/food/condiment/peppermill{
 	pixel_x = 3;
 	pixel_y = 4
-	},
-/obj/structure/disposalpipe/segment{
-	dir = 4
 	},
 /obj/machinery/light{
 	dir = 1
@@ -4247,6 +4240,7 @@
 /obj/structure/cable/yellow{
 	icon_state = "1-10"
 	},
+/obj/structure/disposalpipe/segment,
 /turf/open/floor/carpet/ship,
 /area/hallway/primary/central/hallway)
 "cIB" = (
@@ -6217,9 +6211,6 @@
 /turf/closed/wall/r_wall/ship,
 /area/medical/genetics/cloning)
 "dWb" = (
-/obj/structure/disposalpipe/segment{
-	dir = 4
-	},
 /obj/item/twohanded/required/kirbyplants/random,
 /obj/machinery/atmospherics/pipe/simple/purple/hidden,
 /turf/open/floor/carpet/ship,
@@ -6434,10 +6425,10 @@
 /turf/open/floor/plating,
 /area/maintenance/central/secondary)
 "ebK" = (
-/obj/structure/disposalpipe/segment{
-	dir = 4
+/obj/structure/sign/solgov_seal{
+	pixel_y = -27
 	},
-/turf/open/floor/carpet,
+/turf/open/floor/carpet/ship,
 /area/hallway/secondary/entry/arrivals)
 "ebP" = (
 /obj/structure/table/reinforced,
@@ -8153,12 +8144,15 @@
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/engine/atmos)
 "fgs" = (
-/obj/effect/spawner/structure/window/reinforced,
 /obj/structure/cable{
 	icon_state = "1-2"
 	},
 /obj/structure/cable{
 	icon_state = "0-2"
+	},
+/obj/effect/spawner/structure/window/reinforced,
+/obj/structure/disposalpipe/segment{
+	dir = 4
 	},
 /turf/open/floor/plating,
 /area/hydroponics)
@@ -10015,9 +10009,6 @@
 /obj/structure/chair{
 	dir = 4
 	},
-/obj/structure/disposalpipe/segment{
-	dir = 4
-	},
 /turf/open/floor/carpet/ship,
 /area/crew_quarters/bar)
 "gzR" = (
@@ -10045,11 +10036,8 @@
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/engine/armour_pump)
 "gAO" = (
-/obj/structure/disposalpipe/trunk/multiz{
-	dir = 4
-	},
 /turf/open/floor/plating,
-/area/maintenance/department/engine)
+/area/hydroponics)
 "gBF" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /obj/machinery/camera/autoname{
@@ -10485,9 +10473,6 @@
 /turf/open/floor/carpet/red,
 /area/security/main/warroom)
 "gTc" = (
-/obj/structure/disposalpipe/segment{
-	dir = 9
-	},
 /obj/structure/cable{
 	icon_state = "1-2"
 	},
@@ -12025,6 +12010,9 @@
 /obj/machinery/light{
 	dir = 4
 	},
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
 /turf/open/floor/grass,
 /area/hydroponics)
 "hTm" = (
@@ -12766,9 +12754,6 @@
 /obj/item/reagent_containers/food/drinks/coffee{
 	pixel_x = -4;
 	pixel_y = 3
-	},
-/obj/structure/disposalpipe/segment{
-	dir = 4
 	},
 /obj/machinery/light{
 	dir = 1
@@ -15120,12 +15105,12 @@
 /turf/open/floor/carpet/ship/blue,
 /area/medical/apothecary)
 "jPB" = (
-/obj/structure/disposalpipe/segment{
-	dir = 4
+/obj/structure/cable/yellow{
+	icon_state = "4-8"
 	},
-/obj/effect/spawner/lootdrop/maintenance,
-/turf/open/floor/plating,
-/area/maintenance/department/engine)
+/obj/structure/disposalpipe/segment,
+/turf/open/floor/grass,
+/area/hydroponics)
 "jPD" = (
 /obj/machinery/telecomms/message_server/preset,
 /obj/machinery/atmospherics/pipe/heat_exchanging/simple{
@@ -16537,9 +16522,6 @@
 /turf/open/floor/plating,
 /area/hallway/secondary/entry/arrivals)
 "kMG" = (
-/obj/structure/disposalpipe/segment{
-	dir = 4
-	},
 /obj/machinery/camera/autoname,
 /obj/item/twohanded/required/kirbyplants/random,
 /turf/open/floor/carpet/ship,
@@ -17084,14 +17066,9 @@
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/engine/break_room)
 "lfe" = (
-/obj/structure/disposalpipe/segment{
-	dir = 4
-	},
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /obj/structure/disposalpipe/segment,
-/turf/open/floor/carpet/ship,
-/area/hallway/secondary/entry/arrivals)
+/turf/open/floor/grass,
+/area/hydroponics)
 "lfw" = (
 /obj/machinery/advanced_airlock_controller/directional/north,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
@@ -17129,9 +17106,6 @@
 /turf/open/floor/carpet/ship/red_carpet,
 /area/security/processing)
 "lfG" = (
-/obj/structure/disposalpipe/segment{
-	dir = 9
-	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /turf/open/floor/carpet,
 /area/hallway/secondary/entry/arrivals)
@@ -18734,6 +18708,7 @@
 	name = "Central Primary Hallway"
 	},
 /obj/effect/landmark/zebra_interlock_point,
+/obj/structure/disposalpipe/segment,
 /turf/open/floor/carpet/ship,
 /area/hallway/primary/central/hallway)
 "mhI" = (
@@ -21957,8 +21932,8 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 6
 	},
-/obj/machinery/recharge_station,
 /obj/effect/landmark/start/cyborg,
+/obj/machinery/recharge_station,
 /turf/open/floor/carpet/ship,
 /area/hallway/secondary/entry/arrivals)
 "otY" = (
@@ -21985,7 +21960,6 @@
 /turf/open/floor/wood,
 /area/crew_quarters/bar)
 "out" = (
-/obj/structure/disposalpipe/segment,
 /obj/machinery/atmospherics/pipe/manifold4w/supply/hidden/layer1,
 /obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer3{
 	dir = 8
@@ -23603,9 +23577,6 @@
 /turf/open/floor/carpet/ship,
 /area/storage/tools)
 "pwz" = (
-/obj/structure/disposalpipe/segment{
-	dir = 4
-	},
 /obj/machinery/computer/ship/navigation/public{
 	name = "starmap console"
 	},
@@ -23935,9 +23906,6 @@
 /turf/open/floor/carpet/ship,
 /area/hallway/primary/central/hallway)
 "pJK" = (
-/obj/structure/disposalpipe/segment{
-	dir = 4
-	},
 /obj/structure/cable/yellow{
 	icon_state = "5-6"
 	},
@@ -25706,7 +25674,6 @@
 /turf/open/floor/engine,
 /area/engine/stormdrive/monitor)
 "qMX" = (
-/obj/structure/disposalpipe/segment,
 /obj/structure/cable{
 	icon_state = "2-4"
 	},
@@ -26030,6 +25997,15 @@
 "qXL" = (
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/storage/tech)
+"qXX" = (
+/obj/structure/cable/yellow{
+	icon_state = "1-2"
+	},
+/obj/structure/disposalpipe/segment{
+	dir = 9
+	},
+/turf/open/floor/carpet/ship,
+/area/hallway/primary/central/hallway)
 "qYb" = (
 /obj/machinery/light,
 /obj/machinery/button/door{
@@ -26189,9 +26165,6 @@
 "rfA" = (
 /obj/structure/chair{
 	dir = 8
-	},
-/obj/structure/disposalpipe/segment{
-	dir = 4
 	},
 /turf/open/floor/carpet/ship,
 /area/crew_quarters/bar)
@@ -26736,8 +26709,8 @@
 /obj/structure/cable/yellow{
 	icon_state = "1-2"
 	},
-/obj/structure/disposalpipe/segment{
-	dir = 5
+/obj/structure/disposalpipe/junction{
+	dir = 1
 	},
 /turf/open/floor/carpet/ship,
 /area/hallway/secondary/entry/arrivals)
@@ -26836,7 +26809,6 @@
 /turf/open/floor/carpet/ship,
 /area/crew_quarters/bar)
 "rEF" = (
-/obj/structure/disposalpipe/segment,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer3{
 	dir = 4
@@ -27872,9 +27844,6 @@
 /area/security/brig)
 "sol" = (
 /obj/machinery/portable_atmospherics/scrubber,
-/obj/structure/sign/solgov_seal{
-	pixel_y = -27
-	},
 /obj/machinery/atmospherics/components/unary/portables_connector/layer3{
 	dir = 1
 	},
@@ -29010,9 +28979,6 @@
 /turf/open/floor/carpet/ship,
 /area/hallway/primary/central/hallway)
 "thS" = (
-/obj/structure/disposalpipe/segment{
-	dir = 4
-	},
 /obj/structure/reagent_dispensers/water_cooler{
 	anchored = 0
 	},
@@ -29369,7 +29335,6 @@
 /obj/structure/chair{
 	dir = 4
 	},
-/obj/structure/disposalpipe/segment,
 /obj/structure/disposalpipe/segment{
 	dir = 4
 	},
@@ -30610,6 +30575,9 @@
 /area/medical/genetics/cloning)
 "upW" = (
 /obj/machinery/plantgenes,
+/obj/structure/disposalpipe/trunk/multiz{
+	dir = 4
+	},
 /turf/open/floor/grass,
 /area/hydroponics)
 "uqr" = (
@@ -30630,9 +30598,6 @@
 /turf/open/floor/wood,
 /area/crew_quarters/bar)
 "urt" = (
-/obj/structure/disposalpipe/segment{
-	dir = 4
-	},
 /obj/effect/spawner/structure/window/reinforced,
 /turf/open/floor/plating,
 /area/crew_quarters/bar)
@@ -31149,6 +31114,7 @@
 /obj/structure/disposalpipe/segment{
 	dir = 4
 	},
+/obj/structure/disposalpipe/segment,
 /turf/open/floor/carpet/ship,
 /area/hallway/primary/central/hallway)
 "uLO" = (
@@ -31430,11 +31396,12 @@
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/engine/storage)
 "uWc" = (
+/obj/structure/flora/ausbushes/ywflowers,
 /obj/structure/disposalpipe/segment{
-	dir = 4
+	dir = 5
 	},
-/turf/open/floor/plating,
-/area/maintenance/department/engine)
+/turf/open/floor/grass,
+/area/hydroponics)
 "uWI" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer1{
 	dir = 8
@@ -32364,10 +32331,10 @@
 /area/maintenance/department/engine)
 "vBx" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer1,
-/obj/structure/disposalpipe/junction{
-	dir = 1
-	},
 /obj/structure/table/wood,
+/obj/structure/disposalpipe/segment{
+	dir = 5
+	},
 /turf/open/floor/carpet,
 /area/hallway/secondary/entry/arrivals)
 "vBB" = (
@@ -32619,7 +32586,6 @@
 /turf/open/floor/engine/co2,
 /area/engine/atmos)
 "vKq" = (
-/obj/structure/disposalpipe/segment,
 /obj/structure/cable{
 	icon_state = "1-2"
 	},
@@ -33930,7 +33896,6 @@
 /turf/open/floor/carpet/ship,
 /area/shuttle/turbolift/primary)
 "wGc" = (
-/obj/structure/disposalpipe/segment,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /turf/open/floor/carpet/ship,
@@ -36330,6 +36295,9 @@
 	},
 /obj/item/seeds/coffee,
 /obj/item/reagent_containers/food/snacks/grown/tomato,
+/obj/structure/disposalpipe/segment{
+	dir = 10
+	},
 /turf/open/floor/grass,
 /area/hydroponics)
 "ygO" = (
@@ -63076,7 +63044,7 @@ sAK
 kGj
 sLF
 dmx
-gAO
+yca
 dmx
 nwN
 tpU
@@ -63333,7 +63301,7 @@ sAK
 lAF
 waz
 dmx
-jPB
+qib
 dmx
 bOk
 tiC
@@ -63590,7 +63558,7 @@ sAK
 njS
 qzW
 dmx
-uWc
+yca
 dmx
 put
 fPB
@@ -63847,7 +63815,7 @@ sAK
 jLs
 oqc
 dmx
-uWc
+yca
 dmx
 xWD
 uqv
@@ -67180,7 +67148,7 @@ guT
 jLK
 cNG
 bjL
-lfe
+cNG
 eFv
 lmL
 amt
@@ -67437,7 +67405,7 @@ gOQ
 mgx
 jex
 hxk
-ebK
+nRw
 fUq
 biX
 jex
@@ -67954,15 +67922,15 @@ tSn
 lHi
 tcX
 drJ
-jex
+ebK
 uUA
 uUA
 uUA
 uUA
 ygK
-tun
-shv
-tcj
+jPB
+lfe
+uWc
 tai
 shv
 cfQ
@@ -68215,7 +68183,7 @@ xSa
 rJi
 otP
 sol
-uUZ
+gAO
 www
 myl
 ebe
@@ -68733,7 +68701,7 @@ rAw
 mhd
 cHT
 uLN
-saS
+qXX
 saS
 kSY
 pNZ

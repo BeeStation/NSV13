@@ -544,6 +544,13 @@
 /obj/machinery/airalarm/directional/north,
 /turf/open/floor/engine,
 /area/nsv/hanger/storage)
+"ato" = (
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
+/obj/structure/disposalpipe/segment,
+/turf/open/floor/carpet/ship,
+/area/hallway/nsv/deck2/primary)
 "atw" = (
 /obj/structure/extinguisher_cabinet/west,
 /obj/structure/disposalpipe/segment,
@@ -2715,6 +2722,12 @@
 	},
 /turf/open/floor/plating,
 /area/nsv/hanger/notkmcstupidhanger/launchtube/left)
+"bRe" = (
+/obj/structure/disposalpipe/segment{
+	dir = 9
+	},
+/turf/open/floor/carpet/ship,
+/area/hallway/nsv/deck2/primary)
 "bSv" = (
 /obj/machinery/recharge_station,
 /obj/effect/landmark/start/cyborg,
@@ -2982,6 +2995,19 @@
 	},
 /turf/open/floor/engine,
 /area/quartermaster/storage)
+"ccO" = (
+/obj/structure/cable/yellow{
+	icon_state = "4-8"
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	dir = 4
+	},
+/obj/structure/disposalpipe/segment,
+/turf/open/floor/carpet/ship,
+/area/hallway/nsv/deck2/primary)
 "ccR" = (
 /obj/structure/cable{
 	icon_state = "4-8"
@@ -13967,6 +13993,10 @@
 "kxQ" = (
 /turf/open/floor/carpet/ship,
 /area/quartermaster/qm)
+"kxZ" = (
+/obj/structure/disposalpipe/trunk/multiz/down,
+/turf/open/floor/carpet/ship,
+/area/hallway/nsv/deck2/primary)
 "kzd" = (
 /obj/machinery/computer/station_alert,
 /turf/open/floor/carpet/ship,
@@ -15050,7 +15080,9 @@
 "lvd" = (
 /obj/machinery/photocopier,
 /obj/item/radio/intercom/directional/north,
-/obj/machinery/camera/autoname,
+/obj/machinery/light{
+	dir = 1
+	},
 /turf/open/floor/carpet/ship,
 /area/quartermaster/sorting)
 "lvC" = (
@@ -15097,9 +15129,18 @@
 	departmentType = 2;
 	pixel_y = 30
 	},
-/obj/machinery/light{
-	dir = 1
+/obj/machinery/disposal/deliveryChute{
+	name = "baggage claim chute
 	},
+/obj/machinery/door/window/southright,
+/obj/structure/window/reinforced{
+	dir = 4
+	},
+/obj/structure/window/reinforced{
+	dir = 8
+	},
+/obj/machinery/camera/autoname,
+/obj/structure/disposalpipe/trunk,
 /turf/open/floor/carpet/ship,
 /area/quartermaster/sorting)
 "lzC" = (
@@ -16257,6 +16298,9 @@
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer1{
 	dir = 8
 	},
+/obj/structure/disposalpipe/segment{
+	dir = 5
+	},
 /turf/open/floor/carpet/ship,
 /area/quartermaster/sorting)
 "mqU" = (
@@ -16266,6 +16310,9 @@
 	},
 /obj/structure/cable{
 	icon_state = "4-8"
+	},
+/obj/structure/disposalpipe/segment{
+	dir = 4
 	},
 /turf/open/floor/carpet/ship,
 /area/quartermaster/sorting)
@@ -16330,6 +16377,9 @@
 /obj/structure/cable{
 	icon_state = "4-8"
 	},
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
 /turf/open/floor/carpet/ship,
 /area/quartermaster/sorting)
 "mtn" = (
@@ -16360,6 +16410,9 @@
 	},
 /obj/structure/cable{
 	icon_state = "4-8"
+	},
+/obj/structure/disposalpipe/segment{
+	dir = 4
 	},
 /turf/open/floor/carpet/ship,
 /area/quartermaster/sorting)
@@ -16418,6 +16471,9 @@
 "muZ" = (
 /obj/structure/cable{
 	icon_state = "4-8"
+	},
+/obj/structure/disposalpipe/segment{
+	dir = 4
 	},
 /turf/open/floor/carpet/ship,
 /area/hallway/nsv/deck2/primary)
@@ -16714,10 +16770,16 @@
 /obj/structure/cable{
 	icon_state = "1-8"
 	},
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
 /turf/open/floor/carpet/ship,
 /area/hallway/nsv/deck2/primary)
 "mGo" = (
 /obj/machinery/light,
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
 /turf/open/floor/carpet/ship,
 /area/hallway/nsv/deck2/primary)
 "mGQ" = (
@@ -62442,7 +62504,7 @@ rWL
 kgi
 vMA
 lOh
-vMA
+dYW
 nkW
 oYv
 oYv
@@ -62699,7 +62761,7 @@ rWL
 khL
 kLc
 lOh
-vMA
+dYW
 nkW
 oYv
 oYv
@@ -62953,10 +63015,10 @@ jBr
 wUp
 svv
 rWL
-kqS
-dYW
-lOh
-vMA
+kxZ
+ato
+ccO
+bRe
 nkW
 oYv
 oYv
