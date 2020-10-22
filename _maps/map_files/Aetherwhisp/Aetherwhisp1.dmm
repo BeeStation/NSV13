@@ -2485,7 +2485,9 @@
 /turf/open/floor/engine/vacuum,
 /area/engine/atmospherics_engine)
 "bwU" = (
-/obj/machinery/atmospherics/pipe/manifold4w/purple/hidden,
+/obj/machinery/atmospherics/pipe/manifold/purple/hidden{
+	dir = 8
+	},
 /turf/template_noop,
 /area/maintenance/department/medical)
 "bxb" = (
@@ -2861,6 +2863,9 @@
 	dir = 4
 	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/purple/hidden{
 	dir = 4
 	},
 /turf/open/floor/plating,
@@ -4228,11 +4233,11 @@
 /turf/open/floor/carpet/ship/blue,
 /area/medical/medbay/central)
 "cHk" = (
-/obj/machinery/atmospherics/pipe/simple/purple/hidden{
-	dir = 4
+/obj/structure/sign/solgov_seal{
+	pixel_y = -27
 	},
-/turf/closed/wall/ship,
-/area/maintenance/department/medical)
+/turf/open/floor/carpet/ship,
+/area/hallway/secondary/entry/arrivals)
 "cHT" = (
 /obj/structure/cable/yellow{
 	icon_state = "1-2"
@@ -4778,12 +4783,12 @@
 /turf/open/floor/engine/vacuum,
 /area/engine/stormdrive)
 "cZl" = (
-/obj/machinery/atmospherics/pipe/simple/purple/hidden{
-	dir = 4
+/obj/structure/cable/yellow{
+	icon_state = "4-8"
 	},
-/obj/effect/spawner/room/fivexfour,
-/turf/template_noop,
-/area/maintenance/department/medical)
+/obj/structure/disposalpipe/segment,
+/turf/open/floor/grass,
+/area/hydroponics)
 "cZt" = (
 /obj/structure/rack,
 /obj/machinery/airalarm/directional/north,
@@ -6425,11 +6430,9 @@
 /turf/open/floor/plating,
 /area/maintenance/central/secondary)
 "ebK" = (
-/obj/structure/sign/solgov_seal{
-	pixel_y = -27
-	},
-/turf/open/floor/carpet/ship,
-/area/hallway/secondary/entry/arrivals)
+/obj/structure/disposalpipe/segment,
+/turf/open/floor/grass,
+/area/hydroponics)
 "ebP" = (
 /obj/structure/table/reinforced,
 /obj/item/coin/iron,
@@ -10036,7 +10039,11 @@
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/engine/armour_pump)
 "gAO" = (
-/turf/open/floor/plating,
+/obj/structure/flora/ausbushes/ywflowers,
+/obj/structure/disposalpipe/segment{
+	dir = 5
+	},
+/turf/open/floor/grass,
 /area/hydroponics)
 "gBF" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
@@ -15106,11 +15113,13 @@
 /area/medical/apothecary)
 "jPB" = (
 /obj/structure/cable/yellow{
-	icon_state = "4-8"
+	icon_state = "1-2"
 	},
-/obj/structure/disposalpipe/segment,
-/turf/open/floor/grass,
-/area/hydroponics)
+/obj/structure/disposalpipe/segment{
+	dir = 9
+	},
+/turf/open/floor/carpet/ship,
+/area/hallway/primary/central/hallway)
 "jPD" = (
 /obj/machinery/telecomms/message_server/preset,
 /obj/machinery/atmospherics/pipe/heat_exchanging/simple{
@@ -17066,9 +17075,11 @@
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/engine/break_room)
 "lfe" = (
-/obj/structure/disposalpipe/segment,
-/turf/open/floor/grass,
-/area/hydroponics)
+/obj/machinery/atmospherics/pipe/simple/purple/hidden{
+	dir = 4
+	},
+/turf/open/floor/plating,
+/area/maintenance/department/medical)
 "lfw" = (
 /obj/machinery/advanced_airlock_controller/directional/north,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
@@ -24965,10 +24976,11 @@
 	name = "Atmospherics Canister Storage"
 	})
 "qqz" = (
-/obj/machinery/atmospherics/pipe/simple/purple/hidden{
+/obj/machinery/atmospherics/pipe/manifold/purple/hidden{
 	dir = 4
 	},
-/turf/template_noop,
+/obj/effect/spawner/structure/window/reinforced/ship,
+/turf/open/floor/plating,
 /area/maintenance/department/medical)
 "qqD" = (
 /obj/machinery/firealarm/directional/south,
@@ -25997,15 +26009,6 @@
 "qXL" = (
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/storage/tech)
-"qXX" = (
-/obj/structure/cable/yellow{
-	icon_state = "1-2"
-	},
-/obj/structure/disposalpipe/segment{
-	dir = 9
-	},
-/turf/open/floor/carpet/ship,
-/area/hallway/primary/central/hallway)
 "qYb" = (
 /obj/machinery/light,
 /obj/machinery/button/door{
@@ -26601,15 +26604,17 @@
 /turf/open/floor/carpet/ship/blue,
 /area/medical/medbay/lobby)
 "rwI" = (
-/obj/structure/cable{
-	icon_state = "1-2"
-	},
-/obj/machinery/atmospherics/pipe/simple/purple/hidden,
 /obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer3{
 	dir = 8
 	},
 /obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1{
 	dir = 8
+	},
+/obj/machinery/atmospherics/pipe/manifold/purple/hidden{
+	dir = 8
+	},
+/obj/structure/cable{
+	icon_state = "1-2"
 	},
 /turf/open/floor/plating,
 /area/maintenance/department/medical)
@@ -26716,6 +26721,9 @@
 /area/hallway/secondary/entry/arrivals)
 "rBY" = (
 /obj/structure/reagent_dispensers/fueltank,
+/obj/machinery/atmospherics/pipe/simple/purple/hidden{
+	dir = 4
+	},
 /turf/open/floor/plating,
 /area/maintenance/department/medical)
 "rCc" = (
@@ -26878,6 +26886,9 @@
 	dir = 4
 	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/purple/hidden{
 	dir = 4
 	},
 /turf/open/floor/plating,
@@ -29393,6 +29404,9 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 10
 	},
+/obj/machinery/atmospherics/pipe/simple/purple/hidden{
+	dir = 4
+	},
 /turf/open/floor/plating,
 /area/maintenance/department/medical)
 "tun" = (
@@ -31395,13 +31409,6 @@
 /obj/machinery/atmospherics/pipe/simple/orange/visible/layer1,
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/engine/storage)
-"uWc" = (
-/obj/structure/flora/ausbushes/ywflowers,
-/obj/structure/disposalpipe/segment{
-	dir = 5
-	},
-/turf/open/floor/grass,
-/area/hydroponics)
 "uWI" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer1{
 	dir = 8
@@ -34879,17 +34886,6 @@
 	},
 /turf/open/floor/carpet/ship,
 /area/security/brig)
-"xpm" = (
-/obj/structure/cable{
-	icon_state = "1-2"
-	},
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
-/obj/machinery/atmospherics/pipe/manifold/purple/hidden{
-	dir = 8
-	},
-/turf/open/floor/wood,
-/area/maintenance/department/medical)
 "xpp" = (
 /obj/item/book/manual/wiki/medicine,
 /obj/item/storage/box/pillbottles{
@@ -67922,15 +67918,15 @@ tSn
 lHi
 tcX
 drJ
-ebK
+cHk
 uUA
 uUA
 uUA
 uUA
 ygK
-jPB
-lfe
-uWc
+cZl
+ebK
+gAO
 tai
 shv
 cfQ
@@ -68183,7 +68179,7 @@ xSa
 rJi
 otP
 sol
-gAO
+uUZ
 www
 myl
 ebe
@@ -68701,7 +68697,7 @@ rAw
 mhd
 cHT
 uLN
-qXX
+jPB
 saS
 kSY
 pNZ
@@ -80558,7 +80554,7 @@ oRD
 gTp
 gTp
 gTp
-xpm
+gTp
 oRD
 pjF
 rwI
@@ -81072,7 +81068,7 @@ pQv
 pQv
 pQv
 dpk
-cHk
+pQv
 pQv
 pQv
 rGS
@@ -81329,7 +81325,7 @@ pQv
 qzL
 qzL
 qzL
-cZl
+xWz
 pQv
 wYY
 ttV
@@ -81586,10 +81582,10 @@ azx
 qzL
 qzL
 qzL
-qqz
+qzL
 pQv
 qog
-wYY
+lfe
 wYY
 jSD
 amB
@@ -81843,7 +81839,7 @@ pQv
 qzL
 qzL
 qzL
-qqz
+qzL
 pQv
 qvL
 rBY
@@ -82100,10 +82096,10 @@ pQv
 qzL
 qzL
 qzL
-qqz
+qzL
 pQv
 wYY
-wYY
+lfe
 wYY
 wYY
 trj
@@ -82360,7 +82356,7 @@ lqL
 bwU
 hUM
 hUM
-oLD
+qqz
 oLD
 cog
 trj
