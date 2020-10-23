@@ -5761,25 +5761,6 @@
 /obj/structure/tank_dispenser/oxygen,
 /turf/open/floor/plasteel,
 /area/engine/engine_room)
-"apC" = (
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer3{
-	dir = 6
-	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer1{
-	dir = 6
-	},
-/obj/machinery/conveyor{
-	dir = 4;
-	id = "cargo_sorting"
-	},
-/obj/structure/cable{
-	icon_state = "2-4"
-	},
-/obj/machinery/light{
-	dir = 1
-	},
-/turf/open/floor/plating,
-/area/quartermaster/office)
 "apD" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer3{
 	dir = 8
@@ -10366,20 +10347,6 @@
 	},
 /turf/open/floor/plasteel,
 /area/security/checkpoint/science/research)
-"aCh" = (
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer3,
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer1,
-/obj/structure/plasticflaps,
-/obj/structure/disposalpipe/segment,
-/obj/machinery/door/poddoor/shutters{
-	id = "cmbridge";
-	name = "Cargo Munitions Bridge Shutter"
-	},
-/obj/machinery/conveyor{
-	id = "cmbelt"
-	},
-/turf/open/floor/plating,
-/area/quartermaster/qm)
 "aCi" = (
 /obj/machinery/airalarm/kitchen_cold_room{
 	dir = 1;
@@ -17963,16 +17930,6 @@
 /obj/machinery/airalarm/directional/north,
 /turf/open/floor/wood,
 /area/crew_quarters/theatre)
-"aXe" = (
-/obj/structure/table/reinforced,
-/obj/machinery/door/window/northleft{
-	name = "Cargo Desk";
-	req_one_access_txt = "31"
-	},
-/obj/item/paper_bin,
-/obj/item/pen,
-/turf/open/floor/plating,
-/area/quartermaster/office)
 "aXh" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer1,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer3,
@@ -24286,6 +24243,14 @@
 	},
 /turf/open/floor/plasteel/ship,
 /area/hallway/primary/central)
+"chE" = (
+/obj/machinery/conveyor{
+	dir = 4;
+	id = "disposal_waste_eject"
+	},
+/obj/structure/window/reinforced,
+/turf/open/floor/plating,
+/area/maintenance/disposal)
 "chM" = (
 /obj/effect/landmark/start/assistant,
 /obj/structure/chair/comfy/brown{
@@ -26167,6 +26132,14 @@
 	},
 /turf/open/floor/plasteel/white,
 /area/medical/medbay/central)
+"dwX" = (
+/obj/machinery/conveyor{
+	dir = 4;
+	id = "cargo_sorting"
+	},
+/obj/structure/window/reinforced,
+/turf/open/floor/plating,
+/area/quartermaster/office)
 "dxv" = (
 /obj/machinery/light,
 /obj/structure/peacekeeper_barricade/metal/plasteel/deployable,
@@ -27699,6 +27672,19 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/department/medical/morgue)
+"eLP" = (
+/obj/machinery/conveyor{
+	dir = 4;
+	id = "cmbelt"
+	},
+/obj/machinery/door/poddoor/shutters{
+	id = "cmbridge";
+	name = "Cargo Munitions Bridge Shutter"
+	},
+/obj/structure/plasticflaps,
+/obj/machinery/door/firedoor/heavy,
+/turf/open/floor/plasteel/ship,
+/area/quartermaster/storage)
 "eLW" = (
 /obj/effect/turf_decal/bot,
 /obj/machinery/recharge_station,
@@ -36143,12 +36129,6 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/department/electrical)
-"kCD" = (
-/obj/machinery/mineral/stacking_machine{
-	input_dir = 1
-	},
-/turf/open/floor/plating,
-/area/maintenance/disposal)
 "kCR" = (
 /obj/structure/window/reinforced/spawner/west,
 /obj/machinery/flasher{
@@ -37737,6 +37717,26 @@
 /obj/machinery/door/firedoor/border_only/directional/west,
 /turf/open/floor/plating,
 /area/maintenance/department/security/brig)
+"lGc" = (
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer3{
+	dir = 6
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer1{
+	dir = 6
+	},
+/obj/machinery/conveyor{
+	dir = 4;
+	id = "cargo_sorting"
+	},
+/obj/structure/cable{
+	icon_state = "2-4"
+	},
+/obj/machinery/light{
+	dir = 1
+	},
+/obj/structure/window/reinforced,
+/turf/open/floor/plating,
+/area/quartermaster/office)
 "lGt" = (
 /obj/item/bikehorn/rubberducky,
 /turf/open/floor/plasteel/showroomfloor,
@@ -38034,6 +38034,17 @@
 /obj/item/toy/figure/detective,
 /turf/open/floor/carpet/red,
 /area/security/detectives_office/private_investigators_office)
+"lUF" = (
+/obj/machinery/light{
+	dir = 1
+	},
+/obj/machinery/conveyor{
+	dir = 4;
+	id = "cargo_sorting"
+	},
+/obj/structure/window/reinforced,
+/turf/open/floor/plating,
+/area/quartermaster/office)
 "lUH" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer1{
 	dir = 6
@@ -38687,14 +38698,6 @@
 	},
 /turf/open/floor/plasteel,
 /area/engine/engineering)
-"mml" = (
-/obj/machinery/conveyor{
-	dir = 4;
-	id = "cargo_sorting"
-	},
-/obj/machinery/camera/autoname,
-/turf/open/floor/plating,
-/area/quartermaster/office)
 "mms" = (
 /obj/effect/turf_decal/tile/yellow,
 /obj/effect/turf_decal/tile/yellow{
@@ -39584,6 +39587,14 @@
 /obj/structure/closet/secure_closet/fighter_pilot,
 /turf/open/floor/plasteel/ship/techfloor/alt,
 /area/nsv/hanger)
+"mPC" = (
+/obj/machinery/mineral/stacking_unit_console{
+	machinedir = 4;
+	pixel_x = -32
+	},
+/obj/machinery/door/firedoor/border_only/directional/south,
+/turf/open/floor/plating,
+/area/maintenance/disposal)
 "mPD" = (
 /obj/machinery/door/airlock/ship/maintenance{
 	req_one_access_txt = "12"
@@ -39967,6 +39978,21 @@
 /obj/machinery/door/firedoor/border_only/directional/east,
 /turf/open/floor/plasteel/ship,
 /area/crew_quarters/dorms)
+"neE" = (
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer3,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer1,
+/obj/structure/plasticflaps,
+/obj/structure/disposalpipe/segment,
+/obj/machinery/door/poddoor/shutters{
+	id = "cmbridge";
+	name = "Cargo Munitions Bridge Shutter"
+	},
+/obj/machinery/conveyor{
+	id = "cmbelt"
+	},
+/obj/machinery/door/firedoor/heavy,
+/turf/open/floor/plating,
+/area/quartermaster/qm)
 "neL" = (
 /obj/item/storage/box/lights/mixed,
 /obj/effect/spawner/lootdrop/maintenance,
@@ -42628,6 +42654,15 @@
 /obj/machinery/door/firedoor/border_only/directional/west,
 /turf/open/floor/plating,
 /area/maintenance/department/medical/morgue)
+"oUI" = (
+/obj/machinery/conveyor{
+	dir = 4;
+	id = "disposal_waste_eject"
+	},
+/obj/machinery/recycler,
+/obj/machinery/door/firedoor/heavy,
+/turf/open/floor/plating,
+/area/maintenance/disposal)
 "oVk" = (
 /obj/structure/disposalpipe/segment{
 	dir = 4
@@ -44450,13 +44485,6 @@
 /obj/structure/table/wood,
 /turf/open/floor/wood,
 /area/crew_quarters/bar)
-"qfH" = (
-/obj/machinery/conveyor{
-	dir = 4;
-	id = "disposal_waste_eject"
-	},
-/turf/open/floor/plating,
-/area/maintenance/disposal)
 "qfT" = (
 /obj/machinery/atmospherics/pipe/simple/cyan/hidden{
 	dir = 5
@@ -44739,6 +44767,18 @@
 /obj/effect/spawner/structure/window/reinforced,
 /turf/open/floor/plating,
 /area/tcommsat/computer)
+"qqT" = (
+/obj/structure/table/reinforced,
+/obj/machinery/door/window/northleft{
+	name = "Cargo Desk";
+	req_one_access_txt = "31"
+	},
+/obj/item/paper_bin,
+/obj/item/pen,
+/obj/machinery/door/firedoor/border_only/directional/south,
+/obj/machinery/door/firedoor/border_only/directional/north,
+/turf/open/floor/plating,
+/area/quartermaster/office)
 "qrf" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer1{
 	dir = 8
@@ -44816,6 +44856,14 @@
 	},
 /turf/open/floor/plasteel,
 /area/engine/engineering)
+"qtF" = (
+/obj/machinery/conveyor{
+	dir = 4;
+	id = "disposal_waste_eject"
+	},
+/obj/machinery/door/firedoor/border_only/directional/east,
+/turf/open/floor/plating,
+/area/maintenance/disposal)
 "qtI" = (
 /obj/structure/closet/crate/engineering{
 	name = "pdc ammo crate"
@@ -45063,6 +45111,17 @@
 	},
 /turf/open/floor/plasteel/ship,
 /area/ai_monitored/turret_protected/ai)
+"qDN" = (
+/obj/machinery/light{
+	dir = 1
+	},
+/obj/machinery/conveyor{
+	dir = 4;
+	id = "disposal_waste_eject"
+	},
+/obj/structure/window/reinforced,
+/turf/open/floor/plating,
+/area/maintenance/disposal)
 "qDZ" = (
 /obj/structure/disposalpipe/segment{
 	dir = 4
@@ -45204,13 +45263,6 @@
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer1,
 /turf/open/floor/plasteel/ship,
 /area/ai_monitored/turret_protected/aisat/service/support_ship)
-"qKb" = (
-/obj/machinery/conveyor{
-	dir = 4;
-	id = "cargo_sorting"
-	},
-/turf/open/floor/plating,
-/area/quartermaster/office)
 "qKM" = (
 /obj/effect/turf_decal/tile/green{
 	dir = 1
@@ -46053,6 +46105,15 @@
 	},
 /turf/open/floor/engine/vacuum,
 /area/engine/atmos)
+"rmL" = (
+/obj/machinery/conveyor{
+	dir = 4;
+	id = "cargo_sorting"
+	},
+/obj/machinery/camera/autoname,
+/obj/structure/window/reinforced,
+/turf/open/floor/plating,
+/area/quartermaster/office)
 "rnt" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/visible{
 	dir = 6
@@ -46222,16 +46283,6 @@
 	},
 /turf/open/floor/carpet/orange,
 /area/engine/break_room)
-"rtd" = (
-/obj/machinery/light{
-	dir = 1
-	},
-/obj/machinery/conveyor{
-	dir = 4;
-	id = "cargo_sorting"
-	},
-/turf/open/floor/plating,
-/area/quartermaster/office)
 "rtq" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer1{
 	dir = 8
@@ -46443,6 +46494,16 @@
 	},
 /turf/open/floor/plasteel/ship/techfloor/alt,
 /area/hallway/primary/central)
+"rzh" = (
+/obj/machinery/conveyor{
+	dir = 4;
+	id = "disposal_waste_eject"
+	},
+/obj/machinery/door/window/southright{
+	name = "Belt Access"
+	},
+/turf/open/floor/plating,
+/area/maintenance/disposal)
 "rzn" = (
 /obj/machinery/portable_atmospherics/canister/oxygen,
 /obj/machinery/door/firedoor/border_only/directional/east,
@@ -48616,16 +48677,6 @@
 	},
 /turf/open/floor/plasteel/dark,
 /area/chapel/office)
-"tdy" = (
-/obj/machinery/light{
-	dir = 1
-	},
-/obj/machinery/conveyor{
-	dir = 4;
-	id = "disposal_waste_eject"
-	},
-/turf/open/floor/plating,
-/area/maintenance/disposal)
 "tdF" = (
 /obj/effect/spawner/lootdrop/maintenance,
 /turf/open/floor/plating,
@@ -49955,14 +50006,6 @@
 /obj/machinery/door/firedoor/border_only/directional/north,
 /turf/open/floor/plasteel/white,
 /area/medical/medbay/lobby)
-"tXm" = (
-/obj/machinery/conveyor{
-	dir = 4;
-	id = "disposal_waste_eject"
-	},
-/obj/machinery/recycler,
-/turf/open/floor/plating,
-/area/maintenance/disposal)
 "tXs" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/siphon/atmos/toxin_output{
 	dir = 4
@@ -50243,6 +50286,11 @@
 /obj/structure/closet/firecloset,
 /turf/open/floor/plasteel/ship/techfloor/alt,
 /area/nsv/hanger)
+"uif" = (
+/obj/structure/lattice/catwalk,
+/obj/structure/grille,
+/turf/open/space,
+/area/space/nearstation)
 "uix" = (
 /obj/effect/turf_decal/tile/blue,
 /obj/effect/turf_decal/tile/blue{
@@ -51466,12 +51514,34 @@
 	},
 /turf/open/floor/plating,
 /area/quartermaster/warehouse)
+"vaC" = (
+/obj/machinery/conveyor{
+	dir = 4;
+	id = "cargo_sorting"
+	},
+/obj/machinery/door/window/southleft{
+	name = "Disposals Access";
+	req_one_access_txt = "31"
+	},
+/turf/open/floor/plating,
+/area/quartermaster/office)
 "vbl" = (
 /obj/structure/closet/radiation,
 /obj/item/tank/internals/oxygen/yellow,
 /obj/item/clothing/mask/gas,
 /turf/open/floor/plating,
 /area/maintenance/port/central)
+"vbv" = (
+/obj/machinery/conveyor{
+	dir = 4;
+	id = "cargo_sorting"
+	},
+/obj/machinery/door/window/southright{
+	name = "Disposals Access";
+	req_one_access_txt = "31"
+	},
+/turf/open/floor/plating,
+/area/quartermaster/office)
 "vcf" = (
 /obj/machinery/atmospherics/pipe/simple/dark/visible/layer1,
 /obj/machinery/atmospherics/pipe/simple/brown/visible,
@@ -53366,13 +53436,6 @@
 /obj/effect/turf_decal/tile/yellow,
 /turf/open/floor/plasteel,
 /area/engine/engineering)
-"wqk" = (
-/obj/machinery/mineral/stacking_unit_console{
-	machinedir = 4;
-	pixel_x = -32
-	},
-/turf/open/floor/plating,
-/area/maintenance/disposal)
 "wqA" = (
 /obj/machinery/power/apc/auto_name/south{
 	pixel_y = -24
@@ -53577,18 +53640,6 @@
 	},
 /turf/open/floor/plasteel/dark,
 /area/security/execution/transfer)
-"wwM" = (
-/obj/machinery/conveyor{
-	dir = 4;
-	id = "cmbelt"
-	},
-/obj/machinery/door/poddoor/shutters{
-	id = "cmbridge";
-	name = "Cargo Munitions Bridge Shutter"
-	},
-/obj/structure/plasticflaps,
-/turf/open/floor/plasteel/ship,
-/area/quartermaster/storage)
 "wwX" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer3{
 	dir = 8
@@ -53780,6 +53831,13 @@
 	},
 /turf/open/floor/plating,
 /area/crew_quarters/heads/chief)
+"wDH" = (
+/obj/machinery/mineral/stacking_machine{
+	input_dir = 1
+	},
+/obj/machinery/door/firedoor/border_only/directional/south,
+/turf/open/floor/plating,
+/area/maintenance/disposal)
 "wDN" = (
 /obj/effect/turf_decal/tile/brown{
 	dir = 8
@@ -112915,7 +112973,7 @@ aSS
 aba
 aba
 aba
-wwM
+eLP
 aba
 aba
 auh
@@ -113430,7 +113488,7 @@ sxJ
 agt
 ade
 aNo
-aCh
+neE
 aiV
 arK
 aKa
@@ -113677,7 +113735,7 @@ xYD
 aai
 eAZ
 aSS
-rtd
+lUF
 kai
 abQ
 abQ
@@ -113934,7 +113992,7 @@ fff
 aai
 eAZ
 aSS
-mml
+rmL
 kai
 abQ
 abQ
@@ -114191,7 +114249,7 @@ mxv
 aai
 eAZ
 aSS
-qKb
+dwX
 kai
 abQ
 abQ
@@ -114448,7 +114506,7 @@ lxg
 aai
 eAZ
 aSS
-qKb
+vaC
 kai
 abQ
 abQ
@@ -114705,12 +114763,12 @@ aFc
 hvE
 eAZ
 aSS
-qKb
+vbv
 kai
 abQ
 abQ
 qVq
-aXe
+qqT
 ljz
 ahn
 ahn
@@ -114962,7 +115020,7 @@ aDj
 qEV
 eAZ
 aSS
-qKb
+dwX
 kai
 abQ
 abQ
@@ -115219,7 +115277,7 @@ aDj
 qEV
 eAZ
 aSS
-qKb
+dwX
 kai
 abQ
 aUh
@@ -115467,7 +115525,7 @@ aaa
 abx
 apQ
 yjW
-qfH
+chE
 ogo
 dLV
 cuI
@@ -115476,7 +115534,7 @@ aAf
 aKn
 tLU
 aSS
-apC
+lGc
 aFN
 aIv
 aOU
@@ -115724,7 +115782,7 @@ aaa
 abx
 apQ
 yjW
-fGl
+jFS
 ogo
 ogo
 ayU
@@ -115981,7 +116039,7 @@ aaa
 abx
 apQ
 yjW
-qfH
+rzh
 ogo
 ogo
 ogo
@@ -116495,7 +116553,7 @@ aaa
 abx
 apQ
 yjW
-tXm
+oUI
 exg
 ykj
 fuM
@@ -116753,7 +116811,7 @@ abx
 apQ
 yjW
 jFS
-wqk
+mPC
 ogo
 ogo
 mFD
@@ -117009,8 +117067,8 @@ aaa
 abx
 apQ
 yjW
-tdy
-kCD
+qDN
+wDH
 atj
 ogo
 mFD
@@ -117019,9 +117077,9 @@ bhj
 bVY
 joc
 aar
-aux
-aux
-aux
+uif
+uif
+uif
 aar
 aaa
 aaa
@@ -117266,7 +117324,7 @@ aaa
 abx
 apQ
 yjW
-qfH
+qtF
 exg
 ogo
 ogo
