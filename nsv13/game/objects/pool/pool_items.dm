@@ -34,8 +34,8 @@
 	return FALSE
 
 /obj/item/twohanded/required/pool/rubber_ring
-	name = "inflateable ring"
-	desc = "An inflateable ring used for keeping people afloat. Throw at drowning people to save them."
+	name = "inflatable ring"
+	desc = "An inflatable ring used for keeping people afloat. Throw it at drowning people to save them."
 	icon_state = "rubber_ring"
 
 /obj/item/twohanded/required/pool/rubber_ring/throw_impact(atom/hit_atom, datum/thrownthing/throwingdatum)

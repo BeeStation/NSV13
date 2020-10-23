@@ -1,6 +1,5 @@
 /*
 Todo:
-
 Ammo loading
 Startup sequence
 Docking [X]
@@ -8,7 +7,6 @@ Unified construction
 Death state / Crit mode (Canopy breach?)
 Hardpoints [X]
 Repair
-
 */
 
 
@@ -74,7 +72,6 @@ Repair
 	var/loadout_type = LOADOUT_DEFAULT_FIGHTER
 	var/datum/component/ship_loadout/loadout = null
 	var/obj/structure/fighter_launcher/mag_lock = null //Mag locked by a launch pad. Cheaper to use than locate()
-	var/obj/structure/last_overmap = null
 	var/canopy_open = TRUE
 	var/master_caution = FALSE //The big funny warning light on the dash.
 	var/list/components = list() //What does this fighter start off with? Use this to set what engine tiers and whatever it gets.
@@ -1183,10 +1180,8 @@ If you need your hardpoint to be loaded with things by clicking the fighter
 	var/docking_cooldown = FALSE
 
 /*Weaponry!
-
 As a rule of thumb, primaries are small guns that take ammo boxes, secondaries are big guns that require big bulky objects to be loaded into them.
 Utility modules can be either one of these types, just ensure you set its slot to HARDPOINT_SLOT_UTILITY
-
 */
 /obj/item/fighter_component/primary
 	name = "Fuck you"
@@ -1348,6 +1343,19 @@ Utility modules can be either one of these types, just ensure you set its slot t
 	weight = 1
 	burst_size = 2
 	fire_delay = 0.10 SECONDS
+
+//Specialist item for the superiority fighter.
+/obj/item/fighter_component/secondary/ordnance_launcher/railgun
+	name = "Fighter Railgun"
+	desc = "A scaled down railgun designed for use in fighters."
+	icon_state = "railgun"
+	weight = 1
+	accepted_ammo = /obj/item/ship_weapon/ammunition/railgun_ammo
+	overmap_firing_sounds = list('nsv13/sound/effects/ship/railgun_fire.ogg')
+	burst_size = 1
+	fire_delay = 0.2 SECONDS
+	max_ammo = 10
+	tier = 1
 
 /obj/item/fighter_component/secondary/ordnance_launcher/torpedo
 	name = "Fighter Torpedo Launcher"
@@ -1640,4 +1648,3 @@ Utility modules can be either one of these types, just ensure you set its slot t
 /obj/structure/overmap/fighter/proc/toggle_canopy()
 	canopy_open = !canopy_open
 	playsound(src, 'nsv13/sound/effects/fighters/canopy.ogg', 100, 1)
-
