@@ -2515,6 +2515,8 @@
 /area/janitor)
 "bPb" = (
 /obj/effect/turf_decal/tile/ship/half/red,
+/obj/machinery/ship_weapon/pdc_mount/flak,
+/obj/effect/turf_decal/ship/delivery/yellow,
 /turf/open/floor/monotile,
 /area/nsv/weapons/fore)
 "bPh" = (
@@ -4706,6 +4708,13 @@
 	},
 /turf/open/floor/monotile/dark,
 /area/medical/surgery)
+"dEZ" = (
+/obj/machinery/door/airlock/highsecurity/ship{
+	name = "Railgun Access Hatch";
+	req_one_access_txt = "69"
+	},
+/turf/open/floor/monotile,
+/area/nsv/weapons/fore)
 "dFr" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 1
@@ -6806,6 +6815,8 @@
 "fqH" = (
 /obj/effect/turf_decal/tile/ship/half/red,
 /obj/machinery/camera/autoname,
+/obj/machinery/ship_weapon/pdc_mount/flak,
+/obj/effect/turf_decal/ship/delivery/yellow,
 /turf/open/floor/monotile,
 /area/nsv/weapons/fore)
 "frt" = (
@@ -12490,6 +12501,12 @@
 /obj/machinery/light_switch/north,
 /turf/open/floor/monotile/dark,
 /area/nsv/weapons/fore)
+"jQe" = (
+/obj/machinery/ship_weapon/railgun{
+	layer = 2.7
+	},
+/turf/open/floor/noslip/dark,
+/area/nsv/weapons/fore)
 "jQl" = (
 /obj/machinery/disposal/deliveryChute{
 	dir = 1
@@ -14841,6 +14858,18 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/starboard)
+"lHF" = (
+/obj/effect/turf_decal/ship/delivery/yellow,
+/obj/machinery/door/firedoor/border_only{
+	dir = 4
+	},
+/obj/machinery/door/firedoor/border_only{
+	dir = 8
+	},
+/obj/machinery/ship_weapon/pdc_mount/flak,
+/obj/effect/turf_decal/ship/delivery/yellow,
+/turf/open/floor/monotile,
+/area/nsv/weapons/fore)
 "lHP" = (
 /obj/structure/bodycontainer/crematorium{
 	dir = 1;
@@ -22014,6 +22043,13 @@
 /obj/structure/disposalpipe/segment,
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/starboard)
+"reF" = (
+/obj/effect/turf_decal/tile/ship/half/red,
+/obj/machinery/atmospherics/components/unary/vent_pump/on/layer1,
+/obj/machinery/ship_weapon/pdc_mount/flak,
+/obj/effect/turf_decal/ship/delivery/yellow,
+/turf/open/floor/monotile,
+/area/nsv/weapons/fore)
 "reH" = (
 /obj/machinery/light{
 	dir = 8
@@ -29595,6 +29631,10 @@
 	layer = 3.1
 	},
 /turf/open/floor/noslip/dark,
+/area/nsv/weapons/fore)
+"xCz" = (
+/obj/effect/turf_decal/tile/ship/half/red,
+/turf/open/floor/monotile,
 /area/nsv/weapons/fore)
 "xDb" = (
 /obj/structure/cable{
@@ -54079,12 +54119,12 @@ srV
 efH
 iqs
 lgs
-oFD
+jQe
 aAV
 wzl
 bam
 oFD
-lgs
+dEZ
 cor
 cVx
 lgs
@@ -54342,7 +54382,7 @@ wzl
 bam
 hvL
 lgs
-gJG
+xCz
 cWC
 hrO
 hrO
@@ -54599,7 +54639,7 @@ wzl
 bam
 hvL
 lgs
-gJG
+xCz
 cWC
 hrO
 jAo
@@ -54856,7 +54896,7 @@ wzl
 bam
 hvL
 lgs
-gJG
+xCz
 cWC
 hrO
 eiS
@@ -55626,8 +55666,8 @@ pxa
 rnP
 iMN
 lgs
-wrr
-jOL
+lgs
+lHF
 obD
 hrO
 slc
@@ -56141,7 +56181,7 @@ wzl
 bam
 aOf
 lgs
-gJG
+xCz
 cWC
 hrO
 eiS
@@ -56397,8 +56437,8 @@ aAV
 wzl
 bam
 xBV
-lgs
-gJG
+dEZ
+xCz
 cWC
 hrO
 eiS
@@ -56655,7 +56695,7 @@ wzl
 bam
 hvL
 lgs
-gJG
+xCz
 cWC
 hrO
 cyx
@@ -57168,7 +57208,7 @@ tQb
 wzl
 bam
 gYA
-vhd
+lgs
 bPb
 cWC
 vhd
@@ -57426,7 +57466,7 @@ wzl
 bam
 gYA
 lgs
-bXW
+reF
 sxC
 lgs
 wGR
