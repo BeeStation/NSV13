@@ -1096,7 +1096,12 @@
 /turf/closed/wall/r_wall,
 /area/ai_monitored/security/armory)
 "aFh" = (
-/obj/machinery/atmospherics/pipe/simple/purple/visible,
+/obj/machinery/atmospherics/pipe/simple/green/visible/layer3{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/manifold/purple/visible{
+	dir = 1
+	},
 /turf/open/floor/monotile/dark,
 /area/engine/atmos)
 "aFJ" = (
@@ -1599,15 +1604,6 @@
 	},
 /turf/open/floor/engine,
 /area/nsv/weapons/gauss/battery/deck1/port)
-"aTc" = (
-/obj/machinery/atmospherics/pipe/simple/green/visible/layer3{
-	dir = 4
-	},
-/obj/machinery/atmospherics/pipe/simple/purple/visible{
-	dir = 4
-	},
-/turf/open/floor/monotile/dark,
-/area/engine/atmos)
 "aTq" = (
 /turf/open/floor/monotile/dark,
 /area/science/mixing)
@@ -4859,15 +4855,6 @@
 	},
 /turf/open/floor/monotile,
 /area/engine/atmos)
-"cOZ" = (
-/obj/machinery/atmospherics/pipe/simple/purple/visible{
-	dir = 9
-	},
-/obj/machinery/atmospherics/pipe/simple/purple/visible/layer3{
-	dir = 1
-	},
-/turf/open/floor/monotile/dark,
-/area/engine/atmos)
 "cPk" = (
 /obj/structure/cable{
 	icon_state = "1-2"
@@ -4880,18 +4867,6 @@
 	},
 /turf/open/floor/monotile,
 /area/engine/engine_room)
-"cPn" = (
-/obj/structure/cable{
-	icon_state = "4-8"
-	},
-/obj/machinery/atmospherics/pipe/simple/purple/visible/layer3{
-	dir = 9
-	},
-/obj/machinery/meter{
-	name = "Constricted Plasma output meter"
-	},
-/turf/open/floor/monotile/dark,
-/area/engine/atmos)
 "cQD" = (
 /obj/structure/sign/ship/securearea{
 	dir = 4;
@@ -4986,8 +4961,8 @@
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer1{
 	dir = 8
 	},
-/obj/machinery/atmospherics/pipe/manifold/purple/visible{
-	dir = 8
+/obj/machinery/atmospherics/pipe/simple/purple/visible{
+	dir = 5
 	},
 /turf/open/floor/monotile/dark,
 /area/engine/atmos)
@@ -6801,9 +6776,8 @@
 	},
 /area/maintenance/nsv/deck1/starboard)
 "dZk" = (
-/obj/machinery/atmospherics/pipe/simple/purple/visible,
-/obj/machinery/atmospherics/pipe/simple/purple/visible/layer3{
-	dir = 6
+/obj/machinery/atmospherics/pipe/simple/purple/visible{
+	dir = 4
 	},
 /turf/open/floor/monotile/dark,
 /area/engine/atmos)
@@ -12600,8 +12574,8 @@
 /obj/machinery/atmospherics/pipe/simple/green/visible/layer3{
 	dir = 4
 	},
-/obj/machinery/atmospherics/pipe/manifold/purple/visible{
-	dir = 1
+/obj/machinery/atmospherics/pipe/simple/purple/visible{
+	dir = 4
 	},
 /turf/open/floor/monotile/dark,
 /area/engine/atmos)
@@ -13130,15 +13104,6 @@
 	},
 /turf/closed/wall/steel,
 /area/shuttle/turbolift/secondary)
-"icm" = (
-/obj/structure/cable{
-	icon_state = "4-8"
-	},
-/obj/machinery/atmospherics/pipe/layer_manifold/visible{
-	dir = 8
-	},
-/turf/open/floor/monotile/dark,
-/area/engine/atmos)
 "icn" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	dir = 4
@@ -14035,9 +14000,7 @@
 /obj/machinery/meter{
 	name = "Constricted Plasma output meter"
 	},
-/obj/machinery/atmospherics/pipe/simple/purple/visible{
-	dir = 9
-	},
+/obj/machinery/atmospherics/pipe/manifold/purple/visible,
 /turf/open/floor/monotile/dark,
 /area/engine/atmos)
 "iIq" = (
@@ -17572,10 +17535,11 @@
 /turf/open/floor/monotile/dark,
 /area/engine/storage)
 "kNA" = (
-/obj/machinery/atmospherics/components/trinary/filter/atmos/plasma/flipped{
-	dir = 1
+/obj/effect/spawner/structure/window/plasma/reinforced,
+/obj/machinery/atmospherics/pipe/layer_manifold/visible{
+	dir = 8
 	},
-/turf/open/floor/monotile/dark,
+/turf/open/floor/engine,
 /area/engine/atmos)
 "kNP" = (
 /obj/effect/turf_decal/stripes/line{
@@ -19427,9 +19391,6 @@
 "lTw" = (
 /obj/structure/cable{
 	icon_state = "4-8"
-	},
-/obj/machinery/atmospherics/pipe/simple/purple/visible{
-	dir = 5
 	},
 /turf/open/floor/monotile/dark,
 /area/engine/atmos)
@@ -84764,7 +84725,7 @@ eZl
 vME
 hQW
 cTa
-kNA
+nXl
 lTw
 sIm
 hWO
@@ -85018,11 +84979,11 @@ eWw
 iZB
 fHG
 dif
-hJJ
+aFh
 hQW
 iIh
-sIm
-icm
+nXl
+lTw
 sIm
 hWO
 hXK
@@ -85276,10 +85237,10 @@ fkN
 fHG
 onq
 hJJ
-aFh
+nXl
 dZk
-cOZ
-cPn
+nXl
+lTw
 lxK
 bjC
 hOu
@@ -85534,7 +85495,7 @@ nBf
 nAn
 mcx
 cMZ
-xgg
+kNA
 hXK
 vFq
 nMA
@@ -85789,7 +85750,7 @@ qmK
 iDo
 fkN
 vOR
-aTc
+hJJ
 fkN
 wYr
 nBf
