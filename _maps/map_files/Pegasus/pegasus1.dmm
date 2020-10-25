@@ -4859,6 +4859,15 @@
 	},
 /turf/open/floor/monotile,
 /area/engine/atmos)
+"cOZ" = (
+/obj/machinery/atmospherics/pipe/simple/purple/visible{
+	dir = 9
+	},
+/obj/machinery/atmospherics/pipe/simple/purple/visible/layer3{
+	dir = 1
+	},
+/turf/open/floor/monotile/dark,
+/area/engine/atmos)
 "cPk" = (
 /obj/structure/cable{
 	icon_state = "1-2"
@@ -4871,6 +4880,18 @@
 	},
 /turf/open/floor/monotile,
 /area/engine/engine_room)
+"cPn" = (
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/obj/machinery/atmospherics/pipe/simple/purple/visible/layer3{
+	dir = 9
+	},
+/obj/machinery/meter{
+	name = "Constricted Plasma output meter"
+	},
+/turf/open/floor/monotile/dark,
+/area/engine/atmos)
 "cQD" = (
 /obj/structure/sign/ship/securearea{
 	dir = 4;
@@ -4963,6 +4984,9 @@
 /area/engine/atmos)
 "cTa" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer1{
+	dir = 8
+	},
+/obj/machinery/atmospherics/pipe/manifold/purple/visible{
 	dir = 8
 	},
 /turf/open/floor/monotile/dark,
@@ -5407,9 +5431,6 @@
 	dir = 8
 	},
 /obj/effect/turf_decal/stripes/line{
-	dir = 1
-	},
-/obj/machinery/atmospherics/pipe/manifold/purple/visible{
 	dir = 1
 	},
 /turf/open/floor/monotile,
@@ -6780,9 +6801,7 @@
 	},
 /area/maintenance/nsv/deck1/starboard)
 "dZk" = (
-/obj/machinery/atmospherics/pipe/simple/purple/visible{
-	dir = 9
-	},
+/obj/machinery/atmospherics/pipe/simple/purple/visible,
 /obj/machinery/atmospherics/pipe/simple/purple/visible/layer3{
 	dir = 6
 	},
@@ -8159,9 +8178,6 @@
 	},
 /obj/effect/turf_decal/stripes/line{
 	dir = 1
-	},
-/obj/machinery/atmospherics/pipe/simple/purple/visible{
-	dir = 6
 	},
 /turf/open/floor/monotile,
 /area/engine/atmos)
@@ -12585,7 +12601,7 @@
 	dir = 4
 	},
 /obj/machinery/atmospherics/pipe/manifold/purple/visible{
-	dir = 8
+	dir = 1
 	},
 /turf/open/floor/monotile/dark,
 /area/engine/atmos)
@@ -12777,12 +12793,7 @@
 /turf/open/floor/circuit/telecomms/server,
 /area/science/server)
 "hQW" = (
-/obj/machinery/atmospherics/pipe/simple/purple/visible{
-	dir = 5
-	},
-/obj/machinery/meter{
-	name = "Constricted Plasma output meter"
-	},
+/obj/machinery/atmospherics/components/binary/magnetic_constrictor,
 /turf/open/floor/monotile/dark,
 /area/engine/atmos)
 "hRc" = (
@@ -13119,6 +13130,15 @@
 	},
 /turf/closed/wall/steel,
 /area/shuttle/turbolift/secondary)
+"icm" = (
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/obj/machinery/atmospherics/pipe/layer_manifold/visible{
+	dir = 8
+	},
+/turf/open/floor/monotile/dark,
+/area/engine/atmos)
 "icn" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	dir = 4
@@ -14012,8 +14032,11 @@
 /turf/open/floor/monotile,
 /area/security/processing)
 "iIh" = (
-/obj/machinery/atmospherics/pipe/manifold/purple/visible{
-	dir = 4
+/obj/machinery/meter{
+	name = "Constricted Plasma output meter"
+	},
+/obj/machinery/atmospherics/pipe/simple/purple/visible{
+	dir = 9
 	},
 /turf/open/floor/monotile/dark,
 /area/engine/atmos)
@@ -17457,15 +17480,6 @@
 	},
 /turf/open/floor/monotile,
 /area/crew_quarters/heads/hos)
-"kKu" = (
-/obj/machinery/atmospherics/pipe/simple/purple/visible{
-	dir = 8
-	},
-/obj/machinery/atmospherics/pipe/simple/purple/visible/layer3{
-	dir = 5
-	},
-/turf/open/floor/monotile/dark,
-/area/engine/atmos)
 "kLo" = (
 /obj/effect/turf_decal/tile/neutral{
 	dir = 1
@@ -18687,10 +18701,10 @@
 /obj/machinery/atmospherics/pipe/simple/purple/visible{
 	dir = 8
 	},
-/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3,
-/obj/machinery/atmospherics/pipe/simple/purple/visible/layer3{
-	dir = 9
+/obj/machinery/meter{
+	name = "Stormdrive Outlet Readout"
 	},
+/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3,
 /turf/open/floor/monotile/dark,
 /area/engine/atmos)
 "lxL" = (
@@ -19413,6 +19427,9 @@
 "lTw" = (
 /obj/structure/cable{
 	icon_state = "4-8"
+	},
+/obj/machinery/atmospherics/pipe/simple/purple/visible{
+	dir = 5
 	},
 /turf/open/floor/monotile/dark,
 /area/engine/atmos)
@@ -23359,9 +23376,6 @@
 /obj/effect/turf_decal/tile/yellow{
 	dir = 8
 	},
-/obj/machinery/atmospherics/pipe/simple/purple/visible{
-	dir = 10
-	},
 /turf/open/floor/monotile,
 /area/engine/atmos)
 "onL" = (
@@ -26163,12 +26177,6 @@
 	},
 /turf/open/floor/monotile,
 /area/security/checkpoint)
-"qbe" = (
-/obj/machinery/atmospherics/pipe/simple/purple/visible/layer3{
-	dir = 1
-	},
-/turf/open/floor/monotile/dark,
-/area/engine/atmos)
 "qbn" = (
 /obj/structure/cable{
 	icon_state = "4-9"
@@ -30445,9 +30453,6 @@
 /obj/machinery/atmospherics/pipe/simple/purple/visible{
 	dir = 8
 	},
-/obj/machinery/meter{
-	name = "Stormdrive Outlet Readout"
-	},
 /turf/open/floor/monotile/dark,
 /area/engine/atmos)
 "sIy" = (
@@ -33684,18 +33689,6 @@
 /obj/effect/turf_decal/stripes/box,
 /turf/open/floor/circuit/red,
 /area/ai_monitored/turret_protected/ai)
-"uJc" = (
-/obj/structure/cable{
-	icon_state = "4-8"
-	},
-/obj/machinery/atmospherics/pipe/simple/purple/visible/layer3{
-	dir = 1
-	},
-/obj/machinery/meter{
-	name = "Constricted Plasma output meter"
-	},
-/turf/open/floor/monotile/dark,
-/area/engine/atmos)
 "uJv" = (
 /obj/machinery/advanced_airlock_controller/directional/north,
 /turf/open/floor/plating,
@@ -35201,7 +35194,9 @@
 /obj/machinery/atmospherics/pipe/simple/green/visible/layer3{
 	dir = 4
 	},
-/obj/machinery/atmospherics/components/binary/magnetic_constrictor,
+/obj/machinery/atmospherics/pipe/simple/purple/visible{
+	dir = 6
+	},
 /turf/open/floor/monotile/dark,
 /area/engine/atmos)
 "vMI" = (
@@ -38236,13 +38231,6 @@
 	},
 /turf/open/floor/monotile/dark,
 /area/hallway/nsv/deck1/frame1/central)
-"xNj" = (
-/obj/structure/cable{
-	icon_state = "4-8"
-	},
-/obj/machinery/atmospherics/pipe/simple/purple/visible/layer3,
-/turf/open/floor/monotile/dark,
-/area/engine/atmos)
 "xNm" = (
 /obj/effect/turf_decal/stripes/line,
 /obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1{
@@ -84776,7 +84764,7 @@ eZl
 vME
 hQW
 cTa
-nXl
+kNA
 lTw
 sIm
 hWO
@@ -85030,12 +85018,12 @@ eWw
 iZB
 fHG
 dif
-vME
+hJJ
+hQW
 iIh
-kNA
-gXv
-xNj
-kKu
+sIm
+icm
+sIm
 hWO
 hXK
 aHE
@@ -85290,8 +85278,8 @@ onq
 hJJ
 aFh
 dZk
-qbe
-uJc
+cOZ
+cPn
 lxK
 bjC
 hOu
