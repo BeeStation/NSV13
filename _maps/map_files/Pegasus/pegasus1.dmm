@@ -1350,6 +1350,10 @@
 	},
 /turf/open/floor/monotile/dark,
 /area/science/mixing)
+"aLI" = (
+/obj/machinery/atmospherics/pipe/simple/dark/visible/layer3,
+/turf/closed/wall/steel,
+/area/engine/atmos)
 "aLK" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 6
@@ -6774,9 +6778,11 @@
 	},
 /area/maintenance/nsv/deck1/starboard)
 "dZk" = (
-/obj/machinery/meter,
 /obj/machinery/atmospherics/pipe/simple/purple/visible{
 	dir = 5
+	},
+/obj/machinery/meter{
+	name = "Constrictor -> Tank Readout"
 	},
 /turf/open/floor/monotile/dark,
 /area/engine/atmos)
@@ -12026,6 +12032,13 @@
 	},
 /turf/open/floor/monotile/dark,
 /area/science/mixing)
+"hus" = (
+/obj/machinery/atmospherics/pipe/simple/supply/visible/layer1,
+/obj/machinery/atmospherics/pipe/simple/purple/visible/layer3{
+	dir = 9
+	},
+/turf/open/floor/monotile/dark,
+/area/engine/atmos)
 "huI" = (
 /obj/structure/transit_tube/curved{
 	dir = 4
@@ -14908,13 +14921,6 @@
 /obj/effect/turf_decal/delivery,
 /turf/open/floor/plating,
 /area/nsv/hanger/notkmcstupidhanger/hangar/squad_hangar)
-"jpm" = (
-/obj/machinery/atmospherics/pipe/simple/supply/visible/layer1,
-/obj/machinery/atmospherics/pipe/simple/purple/visible/layer3{
-	dir = 9
-	},
-/turf/open/floor/monotile/dark,
-/area/engine/atmos)
 "jpz" = (
 /obj/machinery/power/solar,
 /obj/structure/cable/yellow{
@@ -16080,7 +16086,7 @@
 	dir = 8;
 	name = "Bypass All Mixers"
 	},
-/obj/machinery/atmospherics/pipe/simple/brown,
+/obj/machinery/atmospherics/pipe/simple/brown/visible,
 /turf/open/floor/monotile/dark,
 /area/engine/atmos)
 "jZo" = (
@@ -17524,13 +17530,13 @@
 /turf/open/floor/monotile/dark,
 /area/engine/storage)
 "kNA" = (
-/obj/machinery/meter{
-	name = "Constrictor -> Tank Readout"
+/obj/machinery/atmospherics/pipe/simple/purple/visible/layer3{
+	dir = 6
 	},
-/obj/structure/cable{
-	icon_state = "4-8"
+/obj/machinery/atmospherics/components/trinary/filter/atmos/plasma/flipped{
+	dir = 8
 	},
-/turf/open/floor/monotile/dark,
+/turf/open/floor/engine/airless,
 /area/engine/atmos)
 "kNP" = (
 /obj/effect/turf_decal/stripes/line{
@@ -18653,13 +18659,13 @@
 /turf/open/floor/circuit/telecomms,
 /area/science/xenobiology)
 "lxK" = (
-/obj/machinery/atmospherics/pipe/simple/purple/visible/layer3{
-	dir = 6
-	},
-/obj/machinery/atmospherics/components/trinary/filter/atmos/plasma/flipped{
+/obj/machinery/atmospherics/pipe/simple/purple/visible{
 	dir = 8
 	},
-/turf/open/floor/engine/airless,
+/obj/machinery/meter{
+	name = "Stormdrive Outlet Readout"
+	},
+/turf/open/floor/monotile/dark,
 /area/engine/atmos)
 "lxL" = (
 /obj/structure/disposalpipe/trunk/multiz/down,
@@ -26376,9 +26382,6 @@
 /area/security/checkpoint)
 "qke" = (
 /obj/machinery/atmospherics/pipe/manifold/purple/visible,
-/obj/machinery/meter{
-	name = "Stormdrive Outlet Readout"
-	},
 /obj/machinery/atmospherics/pipe/simple/dark/visible/layer3{
 	dir = 1
 	},
@@ -29261,10 +29264,6 @@
 	},
 /turf/open/floor/plasteel/airless/solarpanel,
 /area/ai_monitored/turret_protected/AIsatextAP)
-"rZP" = (
-/obj/machinery/atmospherics/pipe/simple/dark/visible/layer3,
-/turf/closed/wall/steel,
-/area/engine/atmos)
 "saA" = (
 /obj/structure/grille,
 /turf/open/floor/plating/airless,
@@ -85227,8 +85226,8 @@ cTa
 aFh
 dZk
 nXl
-kNA
-sIm
+lTw
+lxK
 hWO
 hOu
 aHE
@@ -85739,8 +85738,8 @@ fkN
 vOR
 aTc
 hQW
-lxK
-gqf
+kNA
+nBf
 jZb
 hKT
 kSu
@@ -86001,7 +86000,7 @@ nBf
 sqf
 qke
 wAF
-rZP
+aLI
 sRg
 pSs
 hXK
@@ -88052,7 +88051,7 @@ sFl
 sFl
 hrR
 sFl
-jpm
+hus
 wea
 etu
 sbf
