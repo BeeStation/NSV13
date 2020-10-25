@@ -3248,6 +3248,15 @@
 	},
 /turf/open/floor/plasteel/ship,
 /area/nsv/hanger/notkmcstupidhanger)
+"bOz" = (
+/obj/machinery/atmospherics/pipe/simple/purple/visible{
+	dir = 9
+	},
+/obj/machinery/atmospherics/pipe/simple/purple/visible/layer3{
+	dir = 1
+	},
+/turf/open/floor/monotile/dark,
+/area/engine/atmos)
 "bOS" = (
 /obj/structure/table/wood,
 /obj/machinery/status_display/ai{
@@ -4965,8 +4974,8 @@
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer1{
 	dir = 8
 	},
-/obj/machinery/atmospherics/pipe/simple/purple/visible{
-	dir = 5
+/obj/machinery/atmospherics/pipe/manifold/purple/visible{
+	dir = 8
 	},
 /turf/open/floor/monotile/dark,
 /area/engine/atmos)
@@ -5949,9 +5958,6 @@
 "dzk" = (
 /obj/effect/spawner/structure/window/plasma/reinforced,
 /obj/machinery/atmospherics/pipe/simple/dark/visible/layer1,
-/obj/machinery/atmospherics/pipe/simple/purple/visible{
-	dir = 10
-	},
 /turf/open/floor/engine,
 /area/engine/atmos)
 "dzp" = (
@@ -6783,8 +6789,9 @@
 	},
 /area/maintenance/nsv/deck1/starboard)
 "dZk" = (
-/obj/machinery/atmospherics/components/trinary/filter/atmos/flipped/plasma{
-	dir = 8
+/obj/machinery/atmospherics/pipe/simple/purple/visible,
+/obj/machinery/atmospherics/pipe/simple/purple/visible/layer3{
+	dir = 6
 	},
 /turf/open/floor/monotile/dark,
 /area/engine/atmos)
@@ -12774,13 +12781,8 @@
 /turf/open/floor/circuit/telecomms/server,
 /area/science/server)
 "hQW" = (
-/obj/structure/sign/ship/fire{
-	dir = 1
-	},
-/obj/machinery/atmospherics/pipe/simple/purple/visible{
-	dir = 6
-	},
-/turf/closed/wall/steel,
+/obj/machinery/atmospherics/components/binary/magnetic_constrictor,
+/turf/open/floor/monotile/dark,
 /area/engine/atmos)
 "hRc" = (
 /obj/structure/cable{
@@ -14009,11 +14011,13 @@
 /turf/open/floor/monotile,
 /area/security/processing)
 "iIh" = (
-/obj/effect/spawner/structure/window/plasma/reinforced,
-/obj/machinery/atmospherics/pipe/simple/purple/visible{
-	dir = 8
+/obj/machinery/meter{
+	name = "Constricted Plasma output meter"
 	},
-/turf/open/floor/engine,
+/obj/machinery/atmospherics/pipe/simple/purple/visible{
+	dir = 9
+	},
+/turf/open/floor/monotile/dark,
 /area/engine/atmos)
 "iIq" = (
 /obj/machinery/camera/autoname{
@@ -17547,11 +17551,10 @@
 /turf/open/floor/monotile/dark,
 /area/engine/storage)
 "kNA" = (
-/obj/effect/spawner/structure/window/plasma/reinforced,
-/obj/machinery/atmospherics/pipe/simple/purple/visible{
-	dir = 9
+/obj/machinery/atmospherics/components/trinary/filter/atmos/plasma/flipped{
+	dir = 1
 	},
-/turf/open/floor/engine,
+/turf/open/floor/monotile/dark,
 /area/engine/atmos)
 "kNP" = (
 /obj/effect/turf_decal/stripes/line{
@@ -18493,10 +18496,6 @@
 /obj/machinery/light_switch/north,
 /turf/open/floor/monotile,
 /area/engine/gravity_generator)
-"loT" = (
-/obj/machinery/atmospherics/components/binary/magnetic_constrictor,
-/turf/open/floor/monotile/dark,
-/area/engine/atmos)
 "lpb" = (
 /obj/machinery/firealarm{
 	pixel_y = 24
@@ -19407,6 +19406,9 @@
 "lTw" = (
 /obj/structure/cable{
 	icon_state = "4-8"
+	},
+/obj/machinery/atmospherics/pipe/simple/purple/visible/layer3{
+	dir = 5
 	},
 /turf/open/floor/monotile/dark,
 /area/engine/atmos)
@@ -22166,13 +22168,6 @@
 	},
 /turf/open/floor/engine,
 /area/science/xenobiology)
-"nDw" = (
-/obj/machinery/atmospherics/pipe/manifold/purple/visible,
-/obj/machinery/meter{
-	name = "Constricted Plasma output meter"
-	},
-/turf/open/floor/monotile/dark,
-/area/engine/atmos)
 "nDN" = (
 /obj/effect/turf_decal/stripes/full,
 /obj/machinery/door/poddoor/ship{
@@ -31646,6 +31641,15 @@
 	icon_state = "platingdmg1"
 	},
 /area/maintenance/nsv/deck1/starboard)
+"ttf" = (
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/obj/machinery/atmospherics/pipe/layer_manifold{
+	dir = 8
+	},
+/turf/open/floor/monotile/dark,
+/area/engine/atmos)
 "ttU" = (
 /obj/machinery/firealarm{
 	pixel_y = 24
@@ -35985,11 +35989,11 @@
 "wpr" = (
 /obj/machinery/portable_atmospherics/canister/constricted_plasma,
 /obj/machinery/atmospherics/pipe/simple/dark/visible/layer1,
-/obj/machinery/atmospherics/components/unary/outlet_injector/on{
-	dir = 1
-	},
 /obj/machinery/atmospherics/pipe/simple/purple/visible{
 	dir = 4
+	},
+/obj/machinery/atmospherics/components/unary/outlet_injector/on/layer3{
+	dir = 8
 	},
 /turf/open/floor/engine/airless,
 /area/engine/atmos)
@@ -37056,6 +37060,9 @@
 /obj/machinery/atmospherics/pipe/simple/purple/visible{
 	dir = 6
 	},
+/obj/machinery/atmospherics/pipe/simple/purple/visible/layer3{
+	dir = 8
+	},
 /turf/open/floor/engine/airless,
 /area/engine/atmos)
 "wYT" = (
@@ -37434,6 +37441,18 @@
 /obj/machinery/door/firedoor,
 /turf/open/floor/plating,
 /area/nsv/hanger/notkmcstupidhanger/hangar/squad_hangar)
+"xnd" = (
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/obj/machinery/atmospherics/pipe/simple/purple/visible/layer3{
+	dir = 9
+	},
+/obj/machinery/meter{
+	name = "Constricted Plasma output meter"
+	},
+/turf/open/floor/monotile/dark,
+/area/engine/atmos)
 "xnf" = (
 /obj/machinery/button/door{
 	id = "fighterpod_airlock";
@@ -84743,9 +84762,9 @@ mAp
 qFu
 eZl
 vME
-loT
+hQW
 cTa
-nXl
+kNA
 lTw
 sIm
 hWO
@@ -85000,10 +85019,10 @@ iZB
 fHG
 dif
 hJJ
-loT
-nDw
-nXl
-lTw
+hQW
+iIh
+sIm
+ttf
 sIm
 hWO
 hXK
@@ -85259,8 +85278,8 @@ onq
 hJJ
 aFh
 dZk
-nXl
-lTw
+bOz
+xnd
 lxK
 bjC
 hOu
@@ -85514,8 +85533,8 @@ bRj
 nBf
 nAn
 mcx
-hQW
-kNA
+cMZ
+xgg
 hXK
 vFq
 nMA
@@ -85771,7 +85790,7 @@ iDo
 fkN
 vOR
 aTc
-iIh
+fkN
 wYr
 nBf
 jZb
