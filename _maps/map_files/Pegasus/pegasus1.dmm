@@ -959,7 +959,7 @@
 	dir = 4
 	},
 /turf/open/floor/monotile/dark,
-/area/space)
+/area/engine/atmos)
 "aAy" = (
 /obj/structure/cable/yellow{
 	icon_state = "4-8"
@@ -1096,7 +1096,7 @@
 /turf/closed/wall/r_wall,
 /area/ai_monitored/security/armory)
 "aFh" = (
-/obj/machinery/atmospherics/components/binary/magnetic_constrictor,
+/obj/machinery/atmospherics/pipe/simple/purple/visible,
 /turf/open/floor/monotile/dark,
 /area/engine/atmos)
 "aFJ" = (
@@ -1603,8 +1603,8 @@
 /obj/machinery/atmospherics/pipe/simple/green/visible/layer3{
 	dir = 4
 	},
-/obj/machinery/atmospherics/pipe/manifold/purple/visible{
-	dir = 1
+/obj/machinery/atmospherics/pipe/simple/purple/visible{
+	dir = 4
 	},
 /turf/open/floor/monotile/dark,
 /area/engine/atmos)
@@ -4965,6 +4965,9 @@
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer1{
 	dir = 8
 	},
+/obj/machinery/atmospherics/pipe/simple/purple/visible{
+	dir = 5
+	},
 /turf/open/floor/monotile/dark,
 /area/engine/atmos)
 "cTr" = (
@@ -5946,6 +5949,9 @@
 "dzk" = (
 /obj/effect/spawner/structure/window/plasma/reinforced,
 /obj/machinery/atmospherics/pipe/simple/dark/visible/layer1,
+/obj/machinery/atmospherics/pipe/simple/purple/visible{
+	dir = 10
+	},
 /turf/open/floor/engine,
 /area/engine/atmos)
 "dzp" = (
@@ -6777,11 +6783,8 @@
 	},
 /area/maintenance/nsv/deck1/starboard)
 "dZk" = (
-/obj/machinery/atmospherics/pipe/simple/purple/visible{
-	dir = 5
-	},
-/obj/machinery/meter{
-	name = "Constrictor -> Tank Readout"
+/obj/machinery/atmospherics/components/trinary/filter/atmos/flipped/plasma{
+	dir = 8
 	},
 /turf/open/floor/monotile/dark,
 /area/engine/atmos)
@@ -9285,6 +9288,10 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /turf/open/floor/monotile/dark,
 /area/security/prison)
+"fLG" = (
+/obj/machinery/atmospherics/pipe/manifold/purple/visible,
+/turf/open/floor/monotile/dark,
+/area/engine/atmos)
 "fMK" = (
 /obj/effect/turf_decal/tile/purple{
 	dir = 1
@@ -12578,8 +12585,8 @@
 /obj/machinery/atmospherics/pipe/simple/green/visible/layer3{
 	dir = 4
 	},
-/obj/machinery/atmospherics/pipe/simple/purple/visible{
-	dir = 6
+/obj/machinery/atmospherics/pipe/manifold/purple/visible{
+	dir = 1
 	},
 /turf/open/floor/monotile/dark,
 /area/engine/atmos)
@@ -12611,9 +12618,11 @@
 /turf/open/floor/plasteel/grid/lino,
 /area/tcommsat/server)
 "hKT" = (
-/obj/machinery/atmospherics/components/trinary/mixer{
+/obj/machinery/atmospherics/components/trinary/mixer/on{
 	dir = 8;
-	name = "N2O Line Additive"
+	name = "Constricted Plasma Line Additive";
+	node1_concentration = 0.6;
+	node2_concentration = 0.4
 	},
 /turf/open/floor/monotile/dark,
 /area/engine/atmos)
@@ -12772,7 +12781,9 @@
 /obj/structure/sign/ship/fire{
 	dir = 1
 	},
-/obj/machinery/atmospherics/components/binary/magnetic_constrictor,
+/obj/machinery/atmospherics/pipe/simple/purple/visible{
+	dir = 6
+	},
 /turf/closed/wall/steel,
 /area/engine/atmos)
 "hRc" = (
@@ -14004,10 +14015,10 @@
 "iIh" = (
 /obj/effect/spawner/structure/window/plasma/reinforced,
 /obj/machinery/atmospherics/pipe/simple/purple/visible{
-	dir = 1
+	dir = 8
 	},
 /turf/open/floor/engine,
-/area/space)
+/area/engine/atmos)
 "iIq" = (
 /obj/machinery/camera/autoname{
 	dir = 4
@@ -16092,11 +16103,11 @@
 /obj/structure/cable{
 	icon_state = "4-8"
 	},
-/obj/machinery/atmospherics/pipe/simple/brown/visible,
 /obj/machinery/atmospherics/components/binary/valve/digital{
 	dir = 4;
 	name = "Bypass All Mixers"
 	},
+/obj/machinery/atmospherics/pipe/simple/purple/visible,
 /turf/open/floor/monotile/dark,
 /area/engine/atmos)
 "jZo" = (
@@ -17541,7 +17552,12 @@
 /area/engine/storage)
 "kNA" = (
 /obj/effect/spawner/structure/window/plasma/reinforced,
-/obj/machinery/atmospherics/pipe/manifold/purple/visible,
+/obj/machinery/meter{
+	name = "Constricted Plasma output meter"
+	},
+/obj/machinery/atmospherics/pipe/simple/purple/visible{
+	dir = 9
+	},
 /turf/open/floor/engine,
 /area/engine/atmos)
 "kNP" = (
@@ -19606,8 +19622,8 @@
 	dir = 8;
 	filter_type = "plasma"
 	},
-/obj/machinery/atmospherics/pipe/manifold/purple/visible{
-	dir = 1
+/obj/machinery/atmospherics/pipe/simple/purple/visible{
+	dir = 4
 	},
 /turf/open/floor/monotile/dark,
 /area/engine/atmos)
@@ -20133,6 +20149,10 @@
 /obj/machinery/computer/ship/viewscreen,
 /turf/open/floor/monotile/dark,
 /area/security/prison)
+"mqC" = (
+/obj/machinery/atmospherics/components/binary/magnetic_constrictor,
+/turf/open/floor/monotile/dark,
+/area/engine/atmos)
 "mqX" = (
 /obj/structure/lattice/catwalk,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
@@ -21340,7 +21360,7 @@
 	dir = 6
 	},
 /turf/open/floor/monotile/dark,
-/area/space)
+/area/engine/atmos)
 "nae" = (
 /obj/structure/sign/ship/nosmoking{
 	dir = 8;
@@ -24430,11 +24450,9 @@
 /turf/open/floor/monotile/dark,
 /area/nsv/briefingroom)
 "oZe" = (
-/obj/machinery/atmospherics/components/trinary/mixer/on{
+/obj/machinery/atmospherics/components/trinary/mixer{
 	dir = 8;
-	name = "Constricted Plasma Line Additive";
-	node1_concentration = 0.6;
-	node2_concentration = 0.4
+	name = "N2O Line Additive"
 	},
 /turf/open/floor/monotile/dark,
 /area/engine/atmos)
@@ -26395,10 +26413,10 @@
 /turf/open/floor/monotile/dark,
 /area/security/checkpoint)
 "qke" = (
-/obj/machinery/atmospherics/pipe/manifold/purple/visible,
 /obj/machinery/atmospherics/pipe/simple/dark/visible/layer3{
 	dir = 1
 	},
+/obj/machinery/atmospherics/pipe/manifold/brown,
 /turf/open/floor/monotile/dark,
 /area/engine/atmos)
 "qkg" = (
@@ -27971,14 +27989,14 @@
 /turf/open/floor/plating,
 /area/maintenance/nsv/bridge)
 "riX" = (
-/obj/machinery/atmospherics/pipe/simple/purple/visible,
 /obj/structure/cable{
 	icon_state = "4-8"
 	},
 /obj/machinery/atmospherics/components/binary/valve/digital/on{
 	dir = 8;
-	name = "Bypass Plasma Stage"
+	name = "Bypass N2O Stage"
 	},
+/obj/machinery/atmospherics/pipe/simple/brown,
 /turf/open/floor/monotile/dark,
 /area/engine/atmos)
 "rjc" = (
@@ -29798,7 +29816,7 @@
 	icon_state = "4-8"
 	},
 /obj/machinery/atmospherics/pipe/simple/dark/visible/layer3,
-/obj/machinery/atmospherics/pipe/manifold/purple/visible{
+/obj/machinery/atmospherics/pipe/manifold/brown{
 	dir = 1
 	},
 /turf/open/floor/monotile/dark,
@@ -34960,10 +34978,11 @@
 /turf/open/floor/engine,
 /area/science/xenobiology)
 "vGh" = (
-/obj/machinery/atmospherics/pipe/simple/purple/visible/layer1,
-/obj/machinery/atmospherics/components/unary/vent_pump/siphon/on,
 /obj/machinery/atmospherics/pipe/simple/purple/visible/layer3{
-	dir = 8
+	dir = 6
+	},
+/obj/machinery/atmospherics/pipe/simple/purple/visible{
+	dir = 9
 	},
 /turf/open/floor/engine/airless,
 /area/engine/atmos)
@@ -35157,6 +35176,9 @@
 "vME" = (
 /obj/machinery/atmospherics/pipe/simple/green/visible/layer3{
 	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/purple/visible{
+	dir = 6
 	},
 /turf/open/floor/monotile/dark,
 /area/engine/atmos)
@@ -35963,11 +35985,11 @@
 "wpr" = (
 /obj/machinery/portable_atmospherics/canister/constricted_plasma,
 /obj/machinery/atmospherics/pipe/simple/dark/visible/layer1,
-/obj/machinery/atmospherics/pipe/simple/purple/visible/layer3{
-	dir = 8
-	},
 /obj/machinery/atmospherics/components/unary/outlet_injector/on{
-	dir = 8
+	dir = 1
+	},
+/obj/machinery/atmospherics/pipe/simple/purple/visible{
+	dir = 4
 	},
 /turf/open/floor/engine/airless,
 /area/engine/atmos)
@@ -36485,7 +36507,6 @@
 /obj/effect/turf_decal/tile/yellow{
 	dir = 4
 	},
-/obj/machinery/atmospherics/components/binary/passive_gate/layer3,
 /turf/open/floor/monotile,
 /area/engine/atmos)
 "wHh" = (
@@ -37031,11 +37052,9 @@
 	},
 /area/maintenance/nsv/bridge)
 "wYr" = (
-/obj/machinery/atmospherics/pipe/simple/purple/visible/layer3{
+/obj/machinery/atmospherics/components/unary/vent_pump/siphon/on/layer1,
+/obj/machinery/atmospherics/pipe/simple/purple/visible{
 	dir = 6
-	},
-/obj/machinery/atmospherics/components/trinary/filter/atmos/plasma/flipped{
-	dir = 8
 	},
 /turf/open/floor/engine/airless,
 /area/engine/atmos)
@@ -84724,7 +84743,7 @@ mAp
 qFu
 eZl
 vME
-nXl
+mqC
 cTa
 nXl
 lTw
@@ -84980,9 +84999,9 @@ eWw
 iZB
 fHG
 dif
-vME
-nXl
-nXl
+hJJ
+mqC
+fLG
 nXl
 lTw
 sIm
