@@ -302,6 +302,13 @@ Preset classes of FTL drive with pre-programmed behaviours
 	faction = "syndicate"
 	req_access = list(ACCESS_SYNDICATE)
 
+/obj/machinery/computer/ship/ftl_computer/mining
+	name = "Mining FTL computer"
+	radio_key = /obj/item/encryptionkey/headset_mining
+	engineering_channel = "Supply"
+	req_access = null
+	req_one_access_txt = "31;48"
+
 /obj/machinery/computer/ship/ftl_computer/Initialize()
 	. = ..()
 	start_monitoring(get_overmap()) //I'm a lazy hack that can't actually be assed to deal with an if statement in react right now.
