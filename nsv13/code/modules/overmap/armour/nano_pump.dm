@@ -77,7 +77,7 @@
 			if(OM.obj_integrity < OM.max_integrity) //Structure Check
 				if(OM.structure_crit_no_return) //If we have crossed the point of no return, halt repairs
 					return
-				structure_repair_amount = (1 + (OM.mass / 10) * apnw.repair_efficiency * structure_allocation) / 100
+				structure_repair_amount = ((1 + (OM.mass / 10)) * apnw.repair_efficiency * structure_allocation) / 100
 				if(apnw.repair_resources >= (structure_repair_amount * OM.mass) * 2)
 					OM.obj_integrity += structure_repair_amount
 					if(OM.obj_integrity > OM.max_integrity)

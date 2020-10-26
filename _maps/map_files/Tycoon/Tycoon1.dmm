@@ -123,12 +123,26 @@
 /turf/open/floor/engine/airless,
 /area/space/nearstation)
 "ar" = (
-/obj/structure/rack,
-/obj/item/storage/toolbox/emergency,
-/obj/structure/extinguisher_cabinet{
-	pixel_y = 26
+/obj/structure/closet/secure_closet/fighter_pilot,
+/obj/item/clothing/suit/hazardvest,
+/obj/item/clothing/suit/hazardvest,
+/obj/item/clothing/head/hardhat,
+/obj/item/clothing/head/hardhat,
+/obj/item/radio/headset/heads/captain/alt{
+	desc = "A special headset that protects ears from some loud noises.";
+	keyslot = null;
+	name = "noise cancelling headphones"
 	},
-/turf/open/floor/monotile,
+/obj/item/radio/headset/heads/captain/alt{
+	desc = "A special headset that protects ears from some loud noises.";
+	keyslot = null;
+	name = "noise cancelling headphones"
+	},
+/obj/item/clothing/ears/earmuffs,
+/obj/item/clothing/ears/earmuffs,
+/obj/item/encryptionkey/atc,
+/obj/item/encryptionkey/atc,
+/turf/open/floor/monotile/dark,
 /area/nsv/hanger/deck3{
 	name = "Air traffic control pod"
 	})
@@ -2957,6 +2971,7 @@
 /area/nsv/briefingroom)
 "gK" = (
 /obj/effect/turf_decal/tile/neutral,
+/obj/structure/railing/corner,
 /turf/open/floor/monotile/dark,
 /area/nsv/briefingroom)
 "gL" = (
@@ -4721,6 +4736,9 @@
 /obj/effect/turf_decal/tile/neutral{
 	dir = 4
 	},
+/obj/structure/railing/corner{
+	dir = 4
+	},
 /turf/open/floor/monotile/dark,
 /area/nsv/briefingroom)
 "km" = (
@@ -5341,6 +5359,7 @@
 /obj/machinery/camera/autoname{
 	dir = 4
 	},
+/obj/item/storage/toolbox/emergency,
 /turf/open/floor/monotile,
 /area/nsv/hanger/deck3{
 	name = "Air traffic control pod"
@@ -6489,6 +6508,14 @@
 	},
 /turf/open/floor/monotile/dark,
 /area/hallway/primary/aft)
+"vO" = (
+/obj/structure/extinguisher_cabinet{
+	pixel_y = 26
+	},
+/turf/closed/wall/r_wall/ship,
+/area/nsv/hanger/deck3{
+	name = "Air traffic control pod"
+	})
 "vQ" = (
 /obj/structure/cable{
 	icon_state = "4-8"
@@ -6571,6 +6598,30 @@
 	},
 /turf/open/floor/circuit,
 /area/ai_monitored/turret_protected/aisat)
+"CJ" = (
+/obj/item/encryptionkey/atc,
+/obj/item/clothing/suit/hazardvest,
+/obj/item/clothing/suit/hazardvest,
+/obj/item/clothing/head/hardhat,
+/obj/item/clothing/head/hardhat,
+/obj/item/radio/headset/heads/captain/alt{
+	desc = "A special headset that protects ears from some loud noises.";
+	keyslot = null;
+	name = "noise cancelling headphones"
+	},
+/obj/item/radio/headset/heads/captain/alt{
+	desc = "A special headset that protects ears from some loud noises.";
+	keyslot = null;
+	name = "noise cancelling headphones"
+	},
+/obj/item/clothing/ears/earmuffs,
+/obj/item/clothing/ears/earmuffs,
+/obj/structure/closet/secure_closet/atc,
+/obj/item/encryptionkey/atc,
+/turf/open/floor/monotile,
+/area/nsv/hanger/deck3{
+	name = "Air traffic control pod"
+	})
 "Dk" = (
 /obj/machinery/light{
 	dir = 8
@@ -6689,6 +6740,17 @@
 	},
 /turf/open/floor/circuit,
 /area/ai_monitored/turret_protected/aisat)
+"Mb" = (
+/obj/effect/turf_decal/stripes/line{
+	dir = 8
+	},
+/obj/effect/turf_decal/stripes/line{
+	dir = 8
+	},
+/turf/open/floor/monotile/dark,
+/area/nsv/hanger/deck3{
+	name = "Air traffic control pod"
+	})
 "Mj" = (
 /obj/structure/cable{
 	icon_state = "1-2"
@@ -35996,7 +36058,7 @@ ac
 af
 Xd
 Xd
-aC
+vO
 aC
 hn
 kR
@@ -36252,8 +36314,8 @@ an
 ac
 af
 aC
-aC
-aC
+ar
+ar
 ar
 lu
 li
@@ -36509,7 +36571,7 @@ an
 ac
 af
 hn
-as
+Mb
 as
 bU
 as
@@ -43453,7 +43515,7 @@ ax
 ij
 hn
 hB
-hC
+CJ
 hF
 hH
 hn
@@ -44481,7 +44543,7 @@ ax
 ij
 hn
 hB
-hC
+CJ
 lj
 hH
 hn
