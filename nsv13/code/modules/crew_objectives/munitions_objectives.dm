@@ -1,1 +1,0 @@
-/*				MUNITIONS OBJECTIVES				*/
