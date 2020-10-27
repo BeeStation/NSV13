@@ -132,7 +132,7 @@
 			hasInterface = TRUE;
 	componentsDone = check_finished();
 	if(componentsDone){
-		state ++;
+		state = 12;
 	}
 	return FALSE;
 
@@ -153,31 +153,31 @@
 		if(2)
 			to_chat(user, "<span class='notice'>You start to bolt together [src].</span>");
 			if(do_after(user, 5 SECONDS, target=src))
-				state ++
+				state = 3
 				update_icon()
 				return FALSE
 		if(4)
 			to_chat(user, "<span class='notice'>You start to bolt [src]'s housings together...</span>")
 			if(do_after(user, 5 SECONDS, target=src))
-				state ++
+				state = 5
 				update_icon()
 				return FALSE
 		if(6)
 			to_chat(user, "<span class='notice'>You start to bolt [src]'s connecting struts into its frame.</span>")
 			if(do_after(user, 5 SECONDS, target=src))
-				state ++
+				state = 7
 				update_icon()
 				return FALSE
 		if(8)
 			to_chat(user, "<span class='notice'>You start to bolt [src]'s primary generator coverings...</span>")
 			if(do_after(user, 5 SECONDS, target=src))
-				state ++
+				state = 9
 				update_icon()
 				return FALSE
 		if(10)
 			to_chat(user, "<span class='notice'>You start to secure [src]'s flux generator housing...</span>")
 			if(do_after(user, 5 SECONDS, target=src))
-				state ++
+				state = 11
 				update_icon()
 				return FALSE
 	anchored = !anchored
@@ -192,7 +192,7 @@
 		if(7)
 			to_chat(user, "<span class='notice'>You start to screw in [src]'s primary generator coverings...</span>");
 			if(do_after(user, 5 SECONDS, target=src)){
-				state ++;
+				state = 8;
 				update_icon();
 			}
 			return FALSE;
@@ -215,25 +215,25 @@
 		if(1)
 			to_chat(user, "<span class='notice'>You start to weld the chassis together...</span>");
 			if(do_after(user, 5 SECONDS, target=src)){
-				state ++;
+				state = 2;
 				update_icon();
 			}
 		if(3)
 			to_chat(user, "<span class='notice'>You start to weld [src]'s connecting struts into its frame.</span>");
 			if(do_after(user, 5 SECONDS, target=src)){
-				state ++;
+				state = 4;
 				update_icon();
 			}
 		if(5)
 			to_chat(user, "<span class='notice'>You start to weld [src]'s housings to the frame.</span>");
 			if(do_after(user, 5 SECONDS, target=src)){
-				state ++;
+				state = 6;
 				update_icon();
 			}
 		if(9)
 			to_chat(user, "<span class='notice'>You start to weld [src]'s primary generator coverings...</span>");
 			if(do_after(user, 5 SECONDS, target=src)){
-				state ++;
+				state = 10;
 				update_icon();
 				return FALSE;
 			}
