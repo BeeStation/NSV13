@@ -3899,6 +3899,9 @@
 /obj/effect/turf_decal/tile/brown{
 	dir = 1
 	},
+/obj/machinery/camera/autoname{
+	dir = 5
+	},
 /turf/open/floor/plasteel,
 /area/quartermaster/storage)
 "akF" = (
@@ -15386,6 +15389,9 @@
 /obj/item/stamp/qm,
 /obj/machinery/power/apc/auto_name/east,
 /obj/structure/cable,
+/obj/machinery/camera/autoname{
+	dir = 8
+	},
 /turf/open/floor/plasteel,
 /area/quartermaster/office)
 "aNq" = (
@@ -28539,6 +28545,7 @@
 	icon_state = "0-2"
 	},
 /obj/machinery/power/apc/auto_name/east,
+/obj/machinery/computer/ship/viewscreen,
 /turf/open/floor/plasteel,
 /area/quartermaster/miningdock)
 "bCV" = (
@@ -29057,8 +29064,10 @@
 	dir = 8
 	},
 /obj/effect/turf_decal/tile/brown,
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer1,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer3,
+/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer1{
+	dir = 8
+	},
 /turf/open/floor/plasteel,
 /area/quartermaster/storage)
 "cCD" = (
@@ -29156,6 +29165,16 @@
 	},
 /turf/open/floor/plasteel/white,
 /area/medical/virology)
+"cHM" = (
+/obj/effect/turf_decal/tile/brown{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/brown{
+	dir = 4
+	},
+/obj/machinery/camera/autoname,
+/turf/open/floor/plasteel,
+/area/quartermaster/storage)
 "cHS" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer1{
 	dir = 8
@@ -29241,6 +29260,13 @@
 	},
 /turf/open/floor/plasteel/dark,
 /area/security/brig)
+"cMd" = (
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer3{
+	dir = 8
+	},
+/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer1,
+/turf/open/floor/plasteel,
+/area/quartermaster/miningdock)
 "cMY" = (
 /obj/effect/turf_decal/stripes/red/line{
 	dir = 5
@@ -29361,6 +29387,18 @@
 /obj/machinery/atmospherics/pipe/layer_manifold/visible,
 /turf/open/floor/engine/air,
 /area/engine/atmos)
+"dhE" = (
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer3,
+/obj/structure/disposalpipe/segment{
+	color = "#afa";
+	name = "mail trunk disposal pipe"
+	},
+/obj/machinery/atmospherics/pipe/manifold4w/scrubbers/hidden/layer1,
+/turf/open/floor/plasteel,
+/area/quartermaster/storage)
 "dhO" = (
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer1{
 	dir = 8
@@ -29554,6 +29592,10 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer1,
 /turf/open/floor/plating,
 /area/engine/storage)
+"dDZ" = (
+/obj/machinery/atmospherics/components/unary/vent_pump/on/layer3,
+/turf/open/floor/plasteel,
+/area/quartermaster/storage)
 "dEq" = (
 /obj/structure/cable{
 	icon_state = "4-8"
@@ -29611,6 +29653,17 @@
 /obj/machinery/atmospherics/pipe/layer_manifold/visible,
 /turf/open/floor/engine/n2o,
 /area/engine/atmos)
+"dJz" = (
+/obj/effect/turf_decal/tile/brown{
+	dir = 8
+	},
+/obj/effect/turf_decal/tile/brown,
+/obj/machinery/light,
+/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer1{
+	dir = 4
+	},
+/turf/open/floor/plasteel,
+/area/quartermaster/storage)
 "dMh" = (
 /obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer3{
 	dir = 8
@@ -29838,6 +29891,18 @@
 	dir = 8
 	},
 /obj/effect/turf_decal/tile/brown,
+/turf/open/floor/plasteel,
+/area/quartermaster/storage)
+"edu" = (
+/obj/effect/turf_decal/tile/brown{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/brown{
+	dir = 4
+	},
+/obj/effect/turf_decal/tile/brown{
+	dir = 8
+	},
 /turf/open/floor/plasteel,
 /area/quartermaster/storage)
 "edv" = (
@@ -30159,9 +30224,8 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer1{
 	dir = 10
 	},
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer3{
-	dir = 10;
-	icon_state = "pipe11-3"
+/obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer3{
+	dir = 1
 	},
 /turf/open/floor/plasteel,
 /area/quartermaster/storage)
@@ -30462,6 +30526,9 @@
 /obj/effect/turf_decal/tile/brown,
 /obj/effect/turf_decal/tile/brown{
 	dir = 1
+	},
+/obj/structure/sign/departments/minsky/supply/mining{
+	pixel_x = -32
 	},
 /turf/open/floor/plasteel,
 /area/quartermaster/storage)
@@ -32043,6 +32110,7 @@
 	dir = 9;
 	name = "mail trunk disposal pipe"
 	},
+/obj/effect/turf_decal/bot_red,
 /turf/open/floor/plasteel,
 /area/quartermaster/storage)
 "iky" = (
@@ -32449,6 +32517,9 @@
 /mob/living/simple_animal/sloth/paperwork,
 /obj/machinery/airalarm/directional/east,
 /obj/effect/turf_decal/tile/brown,
+/obj/machinery/camera/autoname{
+	dir = 8
+	},
 /turf/open/floor/plasteel,
 /area/quartermaster/sorting)
 "jkd" = (
@@ -32458,6 +32529,9 @@
 /obj/structure/disposalpipe/segment{
 	color = "#afa";
 	name = "mail trunk disposal pipe"
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer3{
+	dir = 8
 	},
 /turf/open/floor/plasteel,
 /area/quartermaster/storage)
@@ -32610,12 +32684,12 @@
 /obj/structure/cable{
 	icon_state = "1-2"
 	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer1,
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer3,
 /obj/structure/disposalpipe/segment{
 	color = "#afa";
 	name = "mail trunk disposal pipe"
 	},
+/obj/machinery/atmospherics/pipe/manifold4w/supply/hidden/layer3,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer1,
 /turf/open/floor/plasteel,
 /area/quartermaster/storage)
 "jIG" = (
@@ -33262,6 +33336,9 @@
 /obj/structure/cable{
 	icon_state = "4-9"
 	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer3{
+	dir = 8
+	},
 /turf/open/floor/plasteel,
 /area/quartermaster/storage)
 "kXo" = (
@@ -33393,6 +33470,12 @@
 /obj/machinery/rnd/production/techfab/department/engineering,
 /turf/open/floor/plasteel,
 /area/engine/storage)
+"lum" = (
+/obj/machinery/atmospherics/components/unary/vent_pump/on/layer3,
+/obj/machinery/airalarm/directional/north,
+/obj/machinery/camera/autoname,
+/turf/open/floor/plasteel,
+/area/quartermaster/miningdock)
 "luw" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer3,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer1,
@@ -34658,6 +34741,9 @@
 	name = "disposal ejection sorting disposal pipe";
 	sortType = 1
 	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer1{
+	dir = 8
+	},
 /turf/open/floor/plasteel,
 /area/quartermaster/storage)
 "nSt" = (
@@ -34887,6 +34973,12 @@
 /obj/structure/cable{
 	icon_state = "4-8"
 	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer3{
+	dir = 8
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer3{
+	dir = 8
+	},
 /turf/open/floor/plasteel,
 /area/quartermaster/storage)
 "olg" = (
@@ -35089,6 +35181,9 @@
 	dir = 4;
 	icon_state = "pipe";
 	name = "to-space disposal pipe"
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer1{
+	dir = 8
 	},
 /turf/open/floor/plasteel,
 /area/quartermaster/storage)
@@ -35307,8 +35402,10 @@
 	dir = 8
 	},
 /obj/effect/turf_decal/tile/brown,
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer1,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer3,
+/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer1{
+	dir = 4
+	},
 /turf/open/floor/plasteel,
 /area/quartermaster/storage)
 "peQ" = (
@@ -35796,6 +35893,14 @@
 	},
 /turf/open/floor/plasteel/dark,
 /area/security/prison)
+"pVW" = (
+/obj/structure/disposalpipe/segment{
+	color = "#f00";
+	name = "to-space disposal pipe"
+	},
+/obj/effect/turf_decal/bot_red,
+/turf/open/floor/plasteel,
+/area/quartermaster/storage)
 "pWw" = (
 /obj/effect/turf_decal/tile/yellow{
 	dir = 1
@@ -35849,6 +35954,7 @@
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer3{
 	dir = 8
 	},
+/obj/effect/turf_decal/bot_red,
 /turf/open/floor/plasteel,
 /area/quartermaster/storage)
 "qij" = (
@@ -35992,6 +36098,9 @@
 	dir = 10;
 	name = "to-space disposal pipe"
 	},
+/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer1{
+	dir = 8
+	},
 /turf/open/floor/plasteel,
 /area/quartermaster/storage)
 "qEZ" = (
@@ -36080,6 +36189,7 @@
 "qMn" = (
 /obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer1,
 /obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer3,
+/obj/effect/turf_decal/bot_red,
 /turf/open/floor/plasteel,
 /area/quartermaster/storage)
 "qOE" = (
@@ -36225,13 +36335,11 @@
 /area/quartermaster/storage)
 "rnN" = (
 /obj/effect/turf_decal/tile/brown{
-	dir = 1
-	},
-/obj/effect/turf_decal/tile/brown{
-	dir = 4
-	},
-/obj/effect/turf_decal/tile/brown{
 	dir = 8
+	},
+/obj/effect/turf_decal/tile/brown,
+/obj/machinery/camera/autoname{
+	dir = 10
 	},
 /turf/open/floor/plasteel,
 /area/quartermaster/storage)
@@ -36810,6 +36918,9 @@
 	},
 /obj/effect/turf_decal/tile/brown,
 /obj/machinery/light,
+/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer1{
+	dir = 8
+	},
 /turf/open/floor/plasteel,
 /area/quartermaster/storage)
 "soO" = (
@@ -37064,6 +37175,11 @@
 	},
 /turf/open/floor/plasteel,
 /area/engine/engine_room)
+"sSj" = (
+/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer1,
+/obj/item/radio/intercom/directional/north,
+/turf/open/floor/plasteel,
+/area/quartermaster/miningdock)
 "sSD" = (
 /obj/effect/turf_decal/tile/yellow{
 	dir = 8
@@ -37080,6 +37196,12 @@
 	},
 /turf/open/floor/plasteel,
 /area/engine/engineering)
+"sSP" = (
+/obj/effect/turf_decal/bot_red,
+/obj/structure/closet/crate/freezer,
+/obj/effect/spawner/lootdrop/gloves,
+/turf/open/floor/plasteel,
+/area/quartermaster/storage)
 "sWi" = (
 /obj/effect/spawner/structure/window/reinforced,
 /obj/structure/cable{
@@ -37480,6 +37602,7 @@
 	dir = 4;
 	name = "mail trunk disposal pipe"
 	},
+/obj/effect/turf_decal/bot_red,
 /turf/open/floor/plasteel,
 /area/quartermaster/storage)
 "tQD" = (
@@ -38111,6 +38234,16 @@
 	},
 /turf/open/floor/plasteel/dark,
 /area/ai_monitored/security/armory)
+"uXY" = (
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer1{
+	dir = 8
+	},
+/obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer3,
+/turf/open/floor/plasteel,
+/area/quartermaster/storage)
 "uYP" = (
 /obj/machinery/atmospherics/pipe/simple/general/visible/layer3,
 /obj/machinery/atmospherics/pipe/simple/general/visible,
@@ -38547,6 +38680,9 @@
 	dir = 5;
 	name = "to-space disposal pipe"
 	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer3{
+	dir = 9
+	},
 /turf/open/floor/plasteel,
 /area/quartermaster/storage)
 "wfu" = (
@@ -38653,6 +38789,15 @@
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer3,
 /turf/open/floor/plating,
 /area/quartermaster/miningdock)
+"wsw" = (
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/obj/machinery/atmospherics/components/unary/vent_pump/on/layer3{
+	dir = 8
+	},
+/turf/open/floor/plasteel,
+/area/quartermaster/storage)
 "wuS" = (
 /obj/structure/cable{
 	icon_state = "4-8"
@@ -38760,12 +38905,10 @@
 /turf/open/floor/plasteel,
 /area/security/prison)
 "wCL" = (
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer3{
-	dir = 8
-	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer1{
 	dir = 8
 	},
+/obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer3,
 /turf/open/floor/plasteel,
 /area/quartermaster/miningdock)
 "wEk" = (
@@ -38857,6 +39000,13 @@
 	},
 /turf/open/floor/plasteel,
 /area/engine/atmos)
+"wRK" = (
+/obj/effect/turf_decal/bot_red,
+/obj/effect/turf_decal/tile/brown{
+	dir = 1
+	},
+/turf/open/floor/plasteel,
+/area/quartermaster/storage)
 "wRL" = (
 /obj/structure/cable{
 	icon_state = "0-8"
@@ -39068,6 +39218,14 @@
 /obj/machinery/atmospherics/pipe/simple/general/visible/layer3,
 /turf/open/floor/engine/co2,
 /area/engine/atmos)
+"xlH" = (
+/obj/structure/disposalpipe/segment{
+	color = "#f00";
+	name = "to-space disposal pipe"
+	},
+/obj/machinery/atmospherics/components/unary/vent_pump/on/layer3,
+/turf/open/floor/plasteel,
+/area/quartermaster/storage)
 "xlT" = (
 /obj/structure/closet/secure_closet/engineering_personal,
 /obj/effect/turf_decal/tile/yellow{
@@ -39215,6 +39373,15 @@
 /obj/item/control_rod/inferior,
 /turf/open/floor/plating,
 /area/maintenance/department/electrical)
+"xwq" = (
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer3{
+	dir = 8
+	},
+/turf/open/floor/plasteel,
+/area/quartermaster/storage)
 "xwH" = (
 /obj/machinery/computer/rdconsole/production,
 /turf/open/floor/plasteel,
@@ -78029,7 +78196,7 @@ bqR
 bqR
 bqR
 aRg
-bqo
+lum
 wCL
 xVX
 aRg
@@ -78286,8 +78453,8 @@ bqR
 bqR
 bqR
 aRg
-bqo
-wCL
+sSj
+cMd
 iEN
 aRg
 aaa
@@ -79051,10 +79218,10 @@ bqR
 bqR
 bqR
 ahH
-rnN
-awT
-awT
-awT
+avl
+avl
+avl
+awQ
 cVy
 awT
 fot
@@ -79308,12 +79475,12 @@ bqR
 bqR
 bqR
 ahH
-awR
+edu
+fot
+fot
+wRK
 ahL
-ahL
-ahL
-ahL
-ahL
+aFI
 ahL
 mvz
 vDT
@@ -79566,13 +79733,13 @@ bqR
 bqR
 ahH
 awR
+alm
+lTM
+avo
 ahL
-ahL
-ahL
-ahL
-ahL
-ahL
-mvz
+aFI
+dDZ
+uXY
 vDT
 ahH
 ahI
@@ -79823,11 +79990,11 @@ bqR
 bqR
 ahH
 awR
+aNb
+aBX
+avo
 ahL
-ahL
-ahL
-ahL
-ahL
+avo
 ahL
 mvz
 qIz
@@ -80080,11 +80247,11 @@ ahH
 ahH
 ahH
 pFE
+aNb
+aBX
+avo
 ahL
-ahL
-ahL
-ahL
-ahL
+avo
 ahL
 kJI
 cBN
@@ -80337,11 +80504,11 @@ rni
 pfI
 ahH
 awR
+aNb
+aBX
+aFI
 ahL
-ahL
-ahL
-ahL
-ahL
+avo
 cBL
 qgB
 son
@@ -80591,11 +80758,11 @@ bmg
 ahL
 lTM
 alm
-aCd
+rnN
 ahH
-awR
-ahL
-ahL
+cHM
+aNb
+aBX
 ahL
 ahL
 cBL
@@ -80852,7 +81019,7 @@ wUD
 nVB
 hEj
 jIk
-jIk
+dhE
 ruB
 uWV
 grF
@@ -81109,10 +81276,10 @@ ahK
 ahK
 awR
 kWM
-ahL
+aBX
 tLS
 ahL
-ahL
+aFJ
 ahL
 qgB
 uIw
@@ -81369,10 +81536,10 @@ jkd
 nSs
 ihC
 ahL
-ahL
+avo
 ahL
 qgB
-son
+dJz
 ahH
 ahH
 ahH
@@ -81624,9 +81791,9 @@ ahK
 knX
 olf
 oIq
+avo
 ahL
-ahL
-ahL
+sSP
 ahL
 eRQ
 pcj
@@ -81879,13 +82046,13 @@ lNs
 gYN
 ahK
 pFE
-olf
+xwq
 oIq
+avo
 ahL
+avo
 ahL
-ahL
-ahL
-ahL
+aNb
 edj
 aiP
 awW
@@ -82136,12 +82303,12 @@ lNs
 xdE
 ahK
 awR
-olf
+wsw
 qEn
+pVW
 bcC
-bcC
-bcC
-bcC
+pVW
+xlH
 wef
 vDT
 ahH
