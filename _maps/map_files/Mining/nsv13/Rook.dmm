@@ -30,12 +30,6 @@
 	},
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/nostromo/engineering)
-"bi" = (
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
-	dir = 4
-	},
-/turf/open/floor/carpet/ship/orange_carpet,
-/area/nostromo/engineering)
 "bq" = (
 /obj/structure/hull_plate/end,
 /obj/structure/hull_plate/end,
@@ -224,12 +218,6 @@
 	},
 /turf/open/floor/carpet/ship/blue,
 /area/nostromo/bridge)
-"fK" = (
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
-	dir = 6
-	},
-/turf/open/floor/carpet/ship/orange_carpet,
-/area/nostromo/engineering)
 "fP" = (
 /obj/machinery/light/floor,
 /obj/structure/cable{
@@ -474,13 +462,16 @@
 /obj/machinery/airalarm/all_access{
 	pixel_y = 32
 	},
+/obj/machinery/atmospherics/components/trinary/filter/atmos/flipped/o2{
+	dir = 4
+	},
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/nostromo/engineering)
 "mS" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	dir = 6
 	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
 	dir = 5
 	},
 /turf/open/floor/carpet/ship/orange_carpet,
@@ -1034,6 +1025,7 @@
 "EU" = (
 /obj/structure/table,
 /obj/item/toy/plush/lizardplushie{
+	desc = "A small plushie as a tribute to the lizardmen engineers who built this ship.";
 	squeak_override = list('sound/items/bikehorn.ogg' = 1)
 	},
 /obj/item/clothing/head/beanie/christmas{
@@ -1042,9 +1034,6 @@
 /turf/open/floor/carpet/ship/blue,
 /area/nostromo/bridge)
 "Fi" = (
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
-	dir = 4
-	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
 	dir = 5
 	},
@@ -1476,8 +1465,9 @@
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	dir = 4
 	},
-/obj/machinery/atmospherics/components/binary/volume_pump/layer3{
-	dir = 4
+/obj/machinery/atmospherics/components/binary/volume_pump{
+	dir = 4;
+	on = 1
 	},
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/nostromo/engineering)
@@ -1817,9 +1807,12 @@
 /turf/open/floor/wood,
 /area/nostromo/crew_quarters)
 "Yu" = (
-/obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
 	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	dir = 5;
+	icon_state = "pipe11-1"
 	},
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/nostromo/engineering)
@@ -35454,7 +35447,7 @@ qH
 ws
 ws
 VL
-fK
+KR
 mS
 Yu
 ws
@@ -35711,7 +35704,7 @@ qH
 ws
 Xm
 IT
-bi
+TV
 PU
 Ip
 ws
@@ -35968,7 +35961,7 @@ Pq
 oB
 DY
 TV
-YC
+TV
 YC
 qr
 ws
