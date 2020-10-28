@@ -28917,6 +28917,10 @@
 /obj/structure/cable{
 	icon_state = "1-2"
 	},
+/obj/structure/disposalpipe/segment{
+	color = "#afa";
+	name = "mail trunk disposal pipe"
+	},
 /turf/open/floor/plasteel/white,
 /area/medical/medbay)
 "crR" = (
@@ -35592,6 +35596,15 @@
 	color = "#afa";
 	name = "mail trunk disposal pipe"
 	},
+/obj/machinery/doorButtons/airlock_controller{
+	idExterior = "virology_airlock_exterior";
+	idInterior = "virology_airlock_interior";
+	idSelf = "virology_airlock_control";
+	name = "Virology Access Console";
+	pixel_x = -26;
+	pixel_y = 26;
+	req_access_txt = "39"
+	},
 /turf/open/floor/plasteel/white,
 /area/medical/virology)
 "nHW" = (
@@ -40684,6 +40697,13 @@
 	color = "#afa";
 	name = "mail trunk disposal pipe"
 	},
+/obj/machinery/doorButtons/access_button{
+	idDoor = "virology_airlock_exterior";
+	idSelf = "virology_airlock_control";
+	name = "Virology Access Button";
+	pixel_x = -24;
+	req_access_txt = "39"
+	},
 /turf/open/floor/plasteel/white,
 /area/medical/medbay)
 "wGI" = (
@@ -40995,6 +41015,27 @@
 /obj/machinery/newscaster/security_unit/north,
 /turf/open/floor/plasteel/dark,
 /area/security)
+"xcB" = (
+/obj/machinery/shower{
+	dir = 4
+	},
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
+/obj/structure/disposalpipe/segment{
+	color = "#afa";
+	name = "mail trunk disposal pipe"
+	},
+/obj/machinery/doorButtons/access_button{
+	idDoor = "virology_airlock_interior";
+	idSelf = "virology_airlock_control";
+	name = "Virology Access Button";
+	pixel_x = -26;
+	pixel_y = -28;
+	req_access_txt = "39"
+	},
+/turf/open/floor/plasteel/white,
+/area/medical/virology)
 "xcX" = (
 /obj/effect/spawner/structure/window/reinforced,
 /obj/machinery/atmospherics/pipe/simple/general/visible/layer3{
@@ -77375,7 +77416,7 @@ gem
 wGo
 syo
 ngC
-ngC
+xcB
 eUm
 nHN
 lFF
