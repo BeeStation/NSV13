@@ -1735,8 +1735,8 @@
 /turf/open/floor/plasteel,
 /area/hallway/secondary/exit/departure_lounge)
 "afh" = (
-/obj/structure/disposalpipe/sorting/mail{
-	dir = 4;
+/obj/structure/disposalpipe/sorting/mail/flip{
+	dir = 8;
 	name = "research sorting disposal pipe";
 	sortType = "12;13;14;24;25;28"
 	},
@@ -4981,10 +4981,10 @@
 /turf/open/floor/plasteel,
 /area/hallway/primary/aft)
 "anK" = (
-/obj/structure/disposalpipe/segment{
-	color = "#afa";
-	dir = 6;
-	name = "mail trunk disposal pipe"
+/obj/structure/disposalpipe/sorting/mail/flip{
+	dir = 8;
+	name = "security sorting disposal pipe";
+	sortType = "7;8"
 	},
 /turf/open/floor/plasteel,
 /area/hallway/primary/aft)
@@ -6691,9 +6691,10 @@
 /obj/structure/cable{
 	icon_state = "1-2"
 	},
-/obj/structure/disposalpipe/segment{
-	color = "#afa";
-	name = "mail trunk disposal pipe"
+/obj/structure/disposalpipe/sorting/mail{
+	dir = 1;
+	name = "fore section sorting disposal pipe";
+	sortType = "15;26;29;30;31"
 	},
 /turf/open/floor/plasteel,
 /area/quartermaster/storage)
@@ -7614,6 +7615,11 @@
 "avf" = (
 /obj/machinery/airalarm/directional/north,
 /obj/effect/landmark/nuclear_waste_spawner,
+/obj/structure/disposalpipe/segment{
+	color = "#afa";
+	dir = 6;
+	name = "mail trunk disposal pipe"
+	},
 /turf/open/floor/plasteel,
 /area/hallway/primary/aft)
 "avg" = (
@@ -7776,9 +7782,6 @@
 /area/hallway/primary/aft)
 "avy" = (
 /obj/structure/disposaloutlet,
-/obj/structure/disposalpipe/trunk{
-	dir = 8
-	},
 /obj/machinery/door/firedoor/border_only/directional/south,
 /turf/open/floor/plating,
 /area/quartermaster/sorting)
@@ -7948,7 +7951,7 @@
 	},
 /obj/structure/disposalpipe/segment{
 	color = "#afa";
-	dir = 4;
+	dir = 9;
 	name = "mail trunk disposal pipe"
 	},
 /turf/open/floor/plasteel,
@@ -10277,10 +10280,9 @@
 /obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer1{
 	dir = 1
 	},
-/obj/structure/disposalpipe/sorting/mail/flip{
-	dir = 1;
-	name = "engineering branch sorting disposal pipe";
-	sortType = "4;5;6"
+/obj/structure/disposalpipe/segment{
+	color = "#afa";
+	name = "mail trunk disposal pipe"
 	},
 /turf/open/floor/plasteel,
 /area/hallway/primary/aft)
@@ -11012,9 +11014,11 @@
 /turf/open/floor/plating,
 /area/maintenance/department/chapel)
 "aCr" = (
-/obj/structure/disposalpipe/junction/yjunction,
 /obj/effect/turf_decal/tile/brown{
 	dir = 8
+	},
+/obj/structure/disposalpipe/junction{
+	dir = 4
 	},
 /turf/open/floor/plasteel,
 /area/hallway/primary/aft)
@@ -11645,8 +11649,8 @@
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer1{
 	dir = 1
 	},
-/obj/structure/disposalpipe/junction/flip{
-	dir = 8
+/obj/structure/disposalpipe/junction{
+	dir = 4
 	},
 /turf/open/floor/plasteel,
 /area/hallway/primary/aft)
@@ -11677,8 +11681,8 @@
 /obj/structure/cable{
 	icon_state = "5-10"
 	},
-/obj/structure/disposalpipe/junction/flip{
-	dir = 8
+/obj/structure/disposalpipe/junction{
+	dir = 4
 	},
 /turf/open/floor/plasteel,
 /area/hallway/primary/aft)
@@ -12649,8 +12653,8 @@
 /turf/open/floor/plasteel,
 /area/hallway/primary/central)
 "aHF" = (
-/obj/structure/disposalpipe/junction/flip{
-	dir = 8
+/obj/structure/disposalpipe/junction{
+	dir = 4
 	},
 /turf/open/floor/plasteel,
 /area/hallway/primary/central)
@@ -13553,10 +13557,6 @@
 	name = "Cargo bay";
 	req_access_txt = "31"
 	},
-/obj/structure/disposalpipe/segment{
-	color = "#afa";
-	name = "mail trunk disposal pipe"
-	},
 /obj/machinery/door/firedoor/border_only/directional/north,
 /obj/machinery/door/firedoor/border_only/directional/south,
 /turf/open/floor/plasteel,
@@ -14046,12 +14046,12 @@
 /turf/open/floor/plasteel,
 /area/hallway/primary/fore)
 "aKS" = (
-/obj/structure/disposalpipe/junction/flip{
-	dir = 8
-	},
 /obj/effect/turf_decal/tile/purple,
 /obj/effect/turf_decal/tile/purple{
 	dir = 8
+	},
+/obj/structure/disposalpipe/junction{
+	dir = 4
 	},
 /turf/open/floor/plasteel,
 /area/hallway/primary/central)
@@ -14682,10 +14682,6 @@
 /obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer3{
 	dir = 1
 	},
-/obj/structure/disposalpipe/segment{
-	color = "#faa";
-	name = "return trunk disposal pipe"
-	},
 /turf/open/floor/plasteel,
 /area/hallway/primary/central)
 "aMa" = (
@@ -14922,10 +14918,6 @@
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer3{
 	dir = 8
 	},
-/obj/structure/disposalpipe/segment{
-	color = "#afa";
-	name = "mail trunk disposal pipe"
-	},
 /turf/open/floor/plasteel,
 /area/quartermaster/storage)
 "aMw" = (
@@ -14938,10 +14930,6 @@
 	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer3{
 	dir = 10
-	},
-/obj/structure/disposalpipe/segment{
-	color = "#faa";
-	name = "return trunk disposal pipe"
 	},
 /turf/open/floor/plasteel,
 /area/quartermaster/storage)
@@ -15991,8 +15979,8 @@
 /obj/effect/turf_decal/tile/bar{
 	dir = 4
 	},
-/obj/structure/disposalpipe/junction{
-	dir = 8
+/obj/structure/disposalpipe/junction/flip{
+	dir = 4
 	},
 /turf/open/floor/plasteel,
 /area/hallway/primary/central)
@@ -16069,8 +16057,10 @@
 /obj/structure/cable{
 	icon_state = "1-2"
 	},
-/obj/structure/disposalpipe/junction/flip{
-	dir = 8
+/obj/structure/disposalpipe/segment{
+	color = "#afa";
+	dir = 10;
+	name = "mail trunk disposal pipe"
 	},
 /turf/open/floor/plasteel,
 /area/hallway/primary/fore)
@@ -17720,11 +17710,11 @@
 /turf/open/floor/plasteel/white,
 /area/medical/medbay)
 "aSV" = (
-/obj/structure/disposalpipe/junction{
-	dir = 8
-	},
 /obj/effect/turf_decal/tile/purple{
 	dir = 8
+	},
+/obj/structure/disposalpipe/junction/flip{
+	dir = 4
 	},
 /turf/open/floor/plasteel,
 /area/hallway/primary/central)
@@ -17833,10 +17823,6 @@
 	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer1{
 	dir = 10
-	},
-/obj/structure/disposalpipe/segment{
-	color = "#faa";
-	name = "return trunk disposal pipe"
 	},
 /turf/open/floor/plasteel,
 /area/quartermaster/storage)
@@ -19052,11 +19038,6 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer1{
 	dir = 8
 	},
-/obj/structure/disposalpipe/segment{
-	color = "#afa";
-	dir = 6;
-	name = "mail trunk disposal pipe"
-	},
 /turf/open/floor/plasteel,
 /area/quartermaster/storage)
 "aVJ" = (
@@ -19260,11 +19241,6 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer1{
 	dir = 8
 	},
-/obj/structure/disposalpipe/sorting/mail/flip{
-	dir = 1;
-	name = "cargo sorting disposal pipe";
-	sortType = "2;3"
-	},
 /turf/open/floor/plasteel,
 /area/quartermaster/storage)
 "aWc" = (
@@ -19289,11 +19265,6 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer1{
 	dir = 8
 	},
-/obj/structure/disposalpipe/segment{
-	color = "#afa";
-	dir = 4;
-	name = "mail trunk disposal pipe"
-	},
 /turf/open/floor/plating,
 /area/quartermaster/sorting)
 "aWf" = (
@@ -19311,11 +19282,6 @@
 	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer1{
 	dir = 8
-	},
-/obj/structure/disposalpipe/segment{
-	color = "#afa";
-	dir = 4;
-	name = "mail trunk disposal pipe"
 	},
 /turf/open/floor/plasteel,
 /area/quartermaster/sorting)
@@ -19345,11 +19311,11 @@
 /turf/open/floor/plating,
 /area/maintenance/department/science)
 "aWj" = (
-/obj/structure/disposalpipe/junction{
-	dir = 8
-	},
 /obj/machinery/light,
 /obj/structure/extinguisher_cabinet/south,
+/obj/structure/disposalpipe/junction/flip{
+	dir = 4
+	},
 /turf/open/floor/plasteel,
 /area/hallway/primary/central)
 "aWk" = (
@@ -19507,10 +19473,6 @@
 /obj/effect/turf_decal/tile/brown,
 /obj/structure/table/reinforced,
 /obj/item/stack/wrapping_paper,
-/obj/structure/disposalpipe/segment{
-	color = "#afa";
-	name = "mail trunk disposal pipe"
-	},
 /turf/open/floor/plasteel,
 /area/quartermaster/sorting)
 "aWA" = (
@@ -20221,11 +20183,6 @@
 /obj/effect/turf_decal/tile/brown,
 /obj/effect/turf_decal/tile/brown{
 	dir = 8
-	},
-/obj/structure/disposalpipe/segment{
-	color = "#afa";
-	dir = 5;
-	name = "mail trunk disposal pipe"
 	},
 /obj/machinery/firealarm/directional/south,
 /turf/open/floor/plasteel,
@@ -21080,13 +21037,13 @@
 /turf/open/floor/plasteel/dark,
 /area/bridge)
 "baJ" = (
-/obj/structure/disposalpipe/segment{
-	color = "#faa";
-	dir = 6;
-	name = "return trunk disposal pipe"
+/obj/structure/disposalpipe/sorting/mail{
+	dir = 8;
+	name = "service sorting disposal pipe";
+	sortType = "19;20;21"
 	},
-/turf/closed/wall/steel,
-/area/quartermaster/sorting)
+/turf/open/floor/plasteel,
+/area/hallway/primary/central)
 "baR" = (
 /obj/effect/turf_decal/tile/blue{
 	dir = 8
@@ -21222,8 +21179,8 @@
 /obj/effect/turf_decal/tile/blue{
 	dir = 4
 	},
-/obj/structure/disposalpipe/sorting/mail/flip{
-	dir = 4;
+/obj/structure/disposalpipe/sorting/mail{
+	dir = 8;
 	name = "med sorting disposal pipe";
 	sortType = "9;10;11;23;27"
 	},
@@ -21311,10 +21268,6 @@
 "bbn" = (
 /obj/effect/spawner/structure/window/reinforced,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer3,
-/obj/structure/disposalpipe/segment{
-	color = "#faa";
-	name = "return trunk disposal pipe"
-	},
 /turf/open/floor/plating,
 /area/quartermaster/storage)
 "bbo" = (
@@ -21331,10 +21284,6 @@
 	},
 /obj/effect/turf_decal/tile/brown{
 	dir = 4
-	},
-/obj/structure/disposalpipe/segment{
-	color = "#afa";
-	name = "mail trunk disposal pipe"
 	},
 /turf/open/floor/plasteel,
 /area/quartermaster/sorting)
@@ -21394,45 +21343,29 @@
 /obj/effect/turf_decal/tile/brown{
 	dir = 8
 	},
-/obj/structure/disposalpipe/segment{
-	color = "#afa";
-	name = "mail trunk disposal pipe"
-	},
 /turf/open/floor/plasteel,
 /area/quartermaster/storage)
 "bbw" = (
-/obj/effect/spawner/structure/window/reinforced,
-/obj/structure/disposalpipe/segment{
-	color = "#faa";
-	dir = 4;
-	name = "return trunk disposal pipe"
-	},
-/turf/open/floor/plating,
-/area/quartermaster/sorting)
-"bbx" = (
-/obj/effect/turf_decal/tile/brown{
-	dir = 1
-	},
-/obj/effect/turf_decal/tile/brown{
-	dir = 8
-	},
-/obj/structure/disposalpipe/segment{
-	color = "#faa";
-	dir = 4;
-	name = "return trunk disposal pipe"
+/obj/structure/disposalpipe/sorting/mail{
+	dir = 8;
+	name = "custodial sorting disposal pipe";
+	sortType = 22
 	},
 /turf/open/floor/plasteel,
-/area/quartermaster/sorting)
+/area/hallway/primary/central)
+"bbx" = (
+/obj/structure/disposalpipe/sorting/mail{
+	dir = 8;
+	name = "munitions sorting disposal pipe";
+	sortType = "32;33"
+	},
+/turf/open/floor/plasteel,
+/area/hallway/primary/fore)
 "bby" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer3{
 	dir = 5
 	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer1,
-/obj/structure/disposalpipe/segment{
-	color = "#faa";
-	dir = 4;
-	name = "return trunk disposal pipe"
-	},
 /turf/open/floor/plasteel,
 /area/quartermaster/sorting)
 "bbz" = (
@@ -21441,15 +21374,6 @@
 	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer3{
 	dir = 8
-	},
-/obj/structure/disposalpipe/segment{
-	color = "#afa";
-	name = "mail trunk disposal pipe"
-	},
-/obj/structure/disposalpipe/segment{
-	color = "#faa";
-	dir = 4;
-	name = "return trunk disposal pipe"
 	},
 /turf/open/floor/plasteel,
 /area/quartermaster/sorting)
@@ -21724,10 +21648,6 @@
 /obj/structure/cable{
 	icon_state = "1-2"
 	},
-/obj/structure/disposalpipe/segment{
-	color = "#afa";
-	name = "mail trunk disposal pipe"
-	},
 /turf/open/floor/plasteel,
 /area/quartermaster/sorting)
 "bbS" = (
@@ -21834,10 +21754,6 @@
 /obj/structure/cable{
 	icon_state = "1-2"
 	},
-/obj/structure/disposalpipe/segment{
-	color = "#afa";
-	name = "mail trunk disposal pipe"
-	},
 /turf/open/floor/plating,
 /area/quartermaster/sorting)
 "bcc" = (
@@ -21882,10 +21798,6 @@
 	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer3{
 	dir = 8
-	},
-/obj/structure/disposalpipe/segment{
-	color = "#afa";
-	name = "mail trunk disposal pipe"
 	},
 /turf/open/floor/plasteel,
 /area/quartermaster/storage)
@@ -22068,33 +21980,20 @@
 /turf/open/floor/plasteel/dark,
 /area/bridge)
 "bcu" = (
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer1{
-	dir = 8
-	},
-/obj/structure/disposalpipe/segment{
-	color = "#afa";
-	name = "mail trunk disposal pipe"
+/obj/machinery/door/airlock/ship/public/glass{
+	name = "Supply"
 	},
 /turf/open/floor/plasteel,
-/area/quartermaster/storage)
+/area/space)
 "bcv" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer1{
 	dir = 10
-	},
-/obj/structure/disposalpipe/sorting/mail/flip{
-	name = "disposal ejection sorting disposal pipe";
-	sortType = 1
 	},
 /turf/open/floor/plasteel,
 /area/quartermaster/storage)
 "bcw" = (
 /obj/structure/cable{
 	icon_state = "5-9"
-	},
-/obj/structure/disposalpipe/segment{
-	color = "#f00";
-	dir = 10;
-	name = "to-space disposal pipe"
 	},
 /turf/open/floor/plasteel,
 /area/quartermaster/storage)
@@ -22120,19 +22019,27 @@
 /turf/open/floor/plasteel/dark,
 /area/bridge)
 "bcz" = (
-/obj/effect/turf_decal/bot_red,
+/obj/machinery/door/airlock/ship/public/glass{
+	name = "Supply"
+	},
+/obj/machinery/door/firedoor/border_only/directional/north,
+/obj/machinery/door/firedoor/border_only/directional/south,
 /obj/structure/disposalpipe/segment{
 	color = "#afa";
-	dir = 5;
 	name = "mail trunk disposal pipe"
 	},
 /turf/open/floor/plasteel,
 /area/quartermaster/storage)
 "bcA" = (
-/obj/effect/turf_decal/bot_red,
+/obj/effect/turf_decal/tile/brown{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/brown{
+	dir = 4
+	},
 /obj/structure/disposalpipe/segment{
 	color = "#afa";
-	dir = 4;
+	dir = 9;
 	name = "mail trunk disposal pipe"
 	},
 /turf/open/floor/plasteel,
@@ -22141,11 +22048,6 @@
 /obj/effect/turf_decal/bot_red,
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer1{
 	dir = 1
-	},
-/obj/structure/disposalpipe/segment{
-	color = "#afa";
-	dir = 9;
-	name = "mail trunk disposal pipe"
 	},
 /turf/open/floor/plasteel,
 /area/quartermaster/storage)
@@ -22196,16 +22098,14 @@
 /turf/open/floor/wood,
 /area/crew_quarters/heads/captain)
 "bcG" = (
-/obj/effect/turf_decal/tile/brown,
 /obj/effect/turf_decal/tile/brown{
-	dir = 8
+	dir = 1
 	},
-/obj/structure/disposalpipe/segment{
-	color = "#f00";
-	name = "to-space disposal pipe"
+/obj/effect/turf_decal/tile/brown{
+	dir = 4
 	},
 /turf/open/floor/plasteel,
-/area/quartermaster/storage)
+/area/quartermaster/sorting)
 "bcH" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer3{
 	dir = 6
@@ -22274,16 +22174,15 @@
 /turf/open/floor/wood,
 /area/crew_quarters/heads/captain)
 "bcL" = (
-/obj/machinery/conveyor{
-	dir = 8;
-	id = "cargo_shuttle"
+/obj/effect/turf_decal/tile/brown{
+	dir = 8
 	},
-/obj/structure/disposalpipe/segment{
-	color = "#f00";
-	name = "to-space disposal pipe"
+/obj/effect/turf_decal/tile/brown,
+/obj/effect/turf_decal/tile/brown{
+	dir = 1
 	},
-/turf/open/floor/plating,
-/area/quartermaster/storage)
+/turf/open/floor/plasteel,
+/area/quartermaster/sorting)
 "bcM" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer3{
 	dir = 8
@@ -22544,7 +22443,6 @@
 /obj/machinery/disposal/deliveryChute{
 	dir = 1
 	},
-/obj/structure/disposalpipe/trunk,
 /obj/machinery/door/firedoor/border_only/directional/north,
 /turf/open/floor/plating,
 /area/quartermaster/sorting)
@@ -22558,11 +22456,6 @@
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer3{
 	dir = 8
 	},
-/obj/structure/disposalpipe/segment{
-	color = "#afa";
-	dir = 5;
-	name = "mail trunk disposal pipe"
-	},
 /turf/open/floor/plasteel,
 /area/quartermaster/storage)
 "bds" = (
@@ -22575,14 +22468,6 @@
 	},
 /obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer3{
 	dir = 4
-	},
-/obj/structure/disposalpipe/segment{
-	color = "#faa";
-	dir = 5;
-	name = "return trunk disposal pipe"
-	},
-/obj/structure/disposalpipe/trunk{
-	dir = 8
 	},
 /obj/machinery/disposal/bin,
 /turf/open/floor/plasteel,
@@ -23234,8 +23119,8 @@
 /turf/open/floor/plasteel,
 /area/hallway/primary/central)
 "beR" = (
-/obj/structure/disposalpipe/sorting/mail/flip{
-	dir = 4;
+/obj/structure/disposalpipe/sorting/mail{
+	dir = 8;
 	name = "library theatre sorting disposal pipe";
 	sortType = "16;18"
 	},
@@ -23245,8 +23130,8 @@
 /obj/structure/cable{
 	icon_state = "4-8"
 	},
-/obj/structure/disposalpipe/sorting/mail/flip{
-	dir = 4;
+/obj/structure/disposalpipe/sorting/mail{
+	dir = 8;
 	name = "holy sorting disposal pipe";
 	sortType = 17
 	},
@@ -23261,20 +23146,8 @@
 	},
 /turf/open/floor/wood,
 /area/crew_quarters/dorms)
-"beV" = (
-/obj/structure/disposalpipe/segment{
-	color = "#f00";
-	dir = 5;
-	name = "to-space disposal pipe"
-	},
-/turf/open/floor/plating/airless,
-/area/quartermaster/storage)
 "beW" = (
-/obj/structure/disposaloutlet,
-/obj/structure/disposalpipe/trunk{
-	dir = 8
-	},
-/turf/open/floor/plating/airless,
+/turf/open/space/basic,
 /area/quartermaster/storage)
 "beY" = (
 /obj/effect/spawner/structure/window/reinforced,
@@ -23913,10 +23786,6 @@
 	icon_state = "1-2"
 	},
 /obj/effect/turf_decal/tile/brown,
-/obj/structure/disposalpipe/segment{
-	color = "#afa";
-	name = "mail trunk disposal pipe"
-	},
 /turf/open/floor/plasteel,
 /area/quartermaster/sorting)
 "bgO" = (
@@ -24462,15 +24331,6 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer1{
 	dir = 5
 	},
-/obj/structure/disposalpipe/segment{
-	color = "#afa";
-	dir = 4;
-	name = "mail trunk disposal pipe"
-	},
-/obj/structure/disposalpipe/segment{
-	color = "#faa";
-	name = "return trunk disposal pipe"
-	},
 /obj/machinery/computer/cargo/request{
 	dir = 8
 	},
@@ -24515,11 +24375,6 @@
 	},
 /obj/effect/turf_decal/tile/brown,
 /obj/machinery/airalarm/directional/north,
-/obj/structure/disposalpipe/segment{
-	color = "#afa";
-	dir = 10;
-	name = "mail trunk disposal pipe"
-	},
 /turf/open/floor/plasteel,
 /area/quartermaster/sorting)
 "bik" = (
@@ -24857,10 +24712,6 @@
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer3{
 	dir = 8
 	},
-/obj/structure/disposalpipe/segment{
-	color = "#afa";
-	name = "mail trunk disposal pipe"
-	},
 /obj/machinery/camera/autoname,
 /turf/open/floor/plasteel,
 /area/quartermaster/storage)
@@ -24889,10 +24740,6 @@
 	dir = 4
 	},
 /obj/effect/turf_decal/tile/brown,
-/obj/structure/disposalpipe/segment{
-	color = "#faa";
-	name = "return trunk disposal pipe"
-	},
 /obj/machinery/door/firedoor/border_only/directional/east,
 /obj/machinery/firealarm/directional/north,
 /turf/open/floor/plasteel,
@@ -24957,11 +24804,6 @@
 	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer3{
 	dir = 8
-	},
-/obj/structure/disposalpipe/segment{
-	color = "#afa";
-	dir = 4;
-	name = "mail trunk disposal pipe"
 	},
 /obj/machinery/firealarm/directional/north,
 /turf/open/floor/plasteel,
@@ -25671,11 +25513,6 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer1{
 	dir = 10
 	},
-/obj/structure/disposalpipe/segment{
-	color = "#afa";
-	dir = 4;
-	name = "mail trunk disposal pipe"
-	},
 /obj/machinery/vending/wardrobe/cargo_wardrobe,
 /turf/open/floor/plasteel,
 /area/quartermaster/sorting)
@@ -26061,11 +25898,6 @@
 /obj/effect/turf_decal/tile/brown,
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer3{
 	dir = 8
-	},
-/obj/structure/disposalpipe/segment{
-	color = "#faa";
-	dir = 9;
-	name = "return trunk disposal pipe"
 	},
 /obj/machinery/door/firedoor/border_only/directional/east,
 /turf/open/floor/plasteel,
@@ -27625,9 +27457,6 @@
 /turf/open/floor/plasteel,
 /area/hallway/primary/central)
 "bpF" = (
-/obj/structure/disposalpipe/junction/flip{
-	dir = 8
-	},
 /obj/structure/sign/directions/science{
 	dir = 8;
 	pixel_y = 40
@@ -27639,6 +27468,11 @@
 /obj/structure/sign/directions/command{
 	dir = 4;
 	pixel_y = 24
+	},
+/obj/structure/disposalpipe/segment{
+	color = "#faa";
+	dir = 4;
+	name = "return trunk disposal pipe"
 	},
 /turf/open/floor/plasteel,
 /area/hallway/primary/central)
@@ -27809,10 +27643,6 @@
 "bqa" = (
 /obj/structure/cable{
 	icon_state = "1-2"
-	},
-/obj/structure/disposalpipe/segment{
-	color = "#afa";
-	name = "mail trunk disposal pipe"
 	},
 /obj/effect/landmark/event_spawn,
 /obj/machinery/holopad,
@@ -29059,7 +28889,6 @@
 /turf/open/floor/plasteel,
 /area/quartermaster/storage)
 "cBN" = (
-/obj/machinery/status_display/supply/south,
 /obj/effect/turf_decal/tile/brown{
 	dir = 8
 	},
@@ -29237,6 +29066,9 @@
 	color = "#faa";
 	dir = 10;
 	name = "return trunk disposal pipe"
+	},
+/obj/effect/turf_decal/tile/brown{
+	dir = 4
 	},
 /turf/open/floor/plasteel,
 /area/quartermaster/sorting)
@@ -29662,6 +29494,7 @@
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer1{
 	dir = 4
 	},
+/obj/machinery/status_display/supply/south,
 /turf/open/floor/plasteel,
 /area/quartermaster/storage)
 "dMh" = (
@@ -29677,6 +29510,9 @@
 	dir = 1;
 	name = "cargo sorting disposal pipe";
 	sortType = "2;3"
+	},
+/obj/effect/turf_decal/tile/brown{
+	dir = 4
 	},
 /turf/open/floor/plasteel,
 /area/quartermaster/storage)
@@ -30350,6 +30186,12 @@
 /obj/effect/turf_decal/tile/brown{
 	dir = 8
 	},
+/obj/effect/turf_decal/tile/brown{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/brown{
+	dir = 4
+	},
 /turf/open/floor/plasteel,
 /area/quartermaster/storage)
 "fkD" = (
@@ -30631,6 +30473,12 @@
 /obj/structure/disposalpipe/segment{
 	color = "#faa";
 	name = "return trunk disposal pipe"
+	},
+/obj/effect/turf_decal/tile/brown{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/brown{
+	dir = 4
 	},
 /turf/open/floor/plasteel,
 /area/quartermaster/sorting)
@@ -32493,6 +32341,7 @@
 	dir = 4;
 	name = "return trunk disposal pipe"
 	},
+/obj/machinery/holopad,
 /turf/open/floor/plasteel,
 /area/quartermaster/sorting)
 "jiK" = (
@@ -32519,6 +32368,9 @@
 /obj/effect/turf_decal/tile/brown,
 /obj/machinery/camera/autoname{
 	dir = 8
+	},
+/obj/effect/turf_decal/tile/brown{
+	dir = 4
 	},
 /turf/open/floor/plasteel,
 /area/quartermaster/sorting)
@@ -32952,6 +32804,9 @@
 	color = "#faa";
 	dir = 4;
 	name = "return trunk disposal pipe"
+	},
+/obj/effect/turf_decal/tile/brown{
+	dir = 1
 	},
 /turf/open/floor/plasteel,
 /area/quartermaster/sorting)
@@ -33487,6 +33342,12 @@
 	color = "#afa";
 	name = "mail trunk disposal pipe"
 	},
+/obj/effect/turf_decal/tile/brown{
+	dir = 4
+	},
+/obj/effect/turf_decal/tile/brown{
+	dir = 1
+	},
 /turf/open/floor/plasteel,
 /area/quartermaster/storage)
 "lxH" = (
@@ -33592,6 +33453,12 @@
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer3,
 /obj/machinery/light{
 	dir = 1
+	},
+/obj/effect/turf_decal/tile/brown{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/brown{
+	dir = 4
 	},
 /turf/open/floor/plasteel,
 /area/quartermaster/sorting)
@@ -34117,6 +33984,12 @@
 /obj/structure/chair/office{
 	dir = 1
 	},
+/obj/effect/turf_decal/tile/brown{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/brown{
+	dir = 4
+	},
 /turf/open/floor/plasteel,
 /area/quartermaster/sorting)
 "mFD" = (
@@ -34368,6 +34241,9 @@
 /obj/structure/disposalpipe/segment{
 	color = "#afa";
 	name = "mail trunk disposal pipe"
+	},
+/obj/effect/turf_decal/tile/brown{
+	dir = 4
 	},
 /turf/open/floor/plasteel,
 /area/quartermaster/storage)
@@ -35434,6 +35310,9 @@
 	dir = 8
 	},
 /obj/effect/turf_decal/tile/brown,
+/obj/effect/turf_decal/tile/brown{
+	dir = 1
+	},
 /turf/open/floor/plasteel,
 /area/quartermaster/storage)
 "pgU" = (
@@ -35763,6 +35642,12 @@
 "pJr" = (
 /obj/machinery/computer/bounty{
 	dir = 8
+	},
+/obj/effect/turf_decal/tile/brown{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/brown{
+	dir = 4
 	},
 /turf/open/floor/plasteel,
 /area/quartermaster/sorting)
@@ -36330,6 +36215,9 @@
 /obj/machinery/autolathe,
 /obj/effect/turf_decal/tile/brown{
 	dir = 8
+	},
+/obj/effect/turf_decal/tile/brown{
+	dir = 1
 	},
 /turf/open/floor/plasteel,
 /area/quartermaster/storage)
@@ -36921,6 +36809,7 @@
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer1{
 	dir = 8
 	},
+/obj/machinery/status_display/supply/south,
 /turf/open/floor/plasteel,
 /area/quartermaster/storage)
 "soO" = (
@@ -37614,6 +37503,12 @@
 /obj/effect/turf_decal/tile/brown{
 	dir = 8
 	},
+/obj/effect/turf_decal/tile/brown{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/brown{
+	dir = 4
+	},
 /turf/open/floor/plasteel,
 /area/quartermaster/sorting)
 "tRk" = (
@@ -38008,14 +37903,6 @@
 /obj/machinery/airalarm/directional/north,
 /turf/open/floor/plasteel/white,
 /area/medical/virology)
-"uIw" = (
-/obj/machinery/status_display/supply/south,
-/obj/effect/turf_decal/tile/brown{
-	dir = 8
-	},
-/obj/effect/turf_decal/tile/brown,
-/turf/open/floor/plasteel,
-/area/quartermaster/storage)
 "uIz" = (
 /obj/structure/cable{
 	icon_state = "6-8"
@@ -38728,6 +38615,9 @@
 /obj/effect/turf_decal/tile/brown{
 	dir = 8
 	},
+/obj/effect/turf_decal/tile/brown{
+	dir = 1
+	},
 /turf/open/floor/plasteel,
 /area/quartermaster/storage)
 "wjc" = (
@@ -38864,6 +38754,12 @@
 	pixel_x = 32
 	},
 /obj/effect/turf_decal/tile/brown,
+/obj/effect/turf_decal/tile/brown{
+	dir = 4
+	},
+/obj/effect/turf_decal/tile/brown{
+	dir = 1
+	},
 /turf/open/floor/plasteel,
 /area/quartermaster/sorting)
 "wAm" = (
@@ -39085,6 +38981,9 @@
 /obj/structure/disposalpipe/segment{
 	color = "#afa";
 	name = "mail trunk disposal pipe"
+	},
+/obj/effect/turf_decal/tile/brown{
+	dir = 4
 	},
 /turf/open/floor/plasteel,
 /area/quartermaster/storage)
@@ -60964,7 +60863,7 @@ bdE
 ahK
 aWe
 ahK
-bbw
+avs
 bbX
 avs
 ahK
@@ -61221,7 +61120,7 @@ bie
 boV
 aWf
 aWo
-bbx
+axI
 axI
 axI
 bfR
@@ -61742,8 +61641,8 @@ bgN
 aWz
 bca
 bcf
-bcu
-bcz
+aBX
+avo
 aCi
 aCm
 aiU
@@ -61990,7 +61889,7 @@ aCw
 auE
 aif
 ahK
-baJ
+ahK
 bjb
 bmi
 bmj
@@ -62000,7 +61899,7 @@ ahK
 ahK
 aiA
 aBX
-bcA
+avo
 aCi
 aCf
 ahH
@@ -62254,7 +62153,7 @@ axM
 awN
 awN
 bdp
-bjA
+ahK
 biY
 bcv
 bcB
@@ -62514,11 +62413,11 @@ ahK
 ahK
 bhB
 bcw
-bcC
-bcG
-bcL
-bcR
-beV
+ahL
+aCi
+aCf
+ahI
+beW
 aaa
 aaa
 aaa
@@ -76380,7 +76279,7 @@ aNB
 aOh
 aOV
 aOW
-atX
+baJ
 bme
 bqR
 bqR
@@ -78436,7 +78335,7 @@ aPR
 bnR
 aPT
 aPV
-atX
+bbw
 bme
 bqR
 bqR
@@ -79464,8 +79363,8 @@ bec
 bee
 beg
 bei
-azC
-bme
+bbx
+bcu
 bqR
 bqR
 bqR
@@ -79722,7 +79621,7 @@ aQq
 aKK
 aHC
 azC
-bme
+bcu
 bqR
 bqR
 bqR
@@ -80755,7 +80654,7 @@ alK
 alm
 aCi
 bmg
-ahL
+awR
 lTM
 alm
 rnN
@@ -80764,7 +80663,7 @@ cHM
 aNb
 aBX
 ahL
-ahL
+bqH
 cBL
 ahL
 qgB
@@ -81263,9 +81162,9 @@ agL
 acA
 bkS
 apC
-azC
-aUM
-awR
+aym
+bcz
+bcA
 aBX
 jpq
 ahK
@@ -81282,7 +81181,7 @@ ahL
 aFJ
 ahL
 qgB
-uIw
+aCd
 ahI
 aaa
 bqV
@@ -81528,7 +81427,7 @@ aUb
 ahK
 tQD
 khG
-lNs
+bcL
 fQD
 bjA
 bOi
@@ -82554,7 +82453,7 @@ aIh
 aNf
 aHw
 hLs
-bgM
+bcG
 uwp
 lNs
 gYN
@@ -82568,7 +82467,7 @@ mRy
 rvN
 hSM
 qmD
-ahI
+bcR
 dQm
 aaa
 aaa
