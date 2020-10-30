@@ -182,7 +182,7 @@
 	dir = WEST
 
 /obj/machinery/ship_weapon/gauss_gun/proc/onClick(atom/target)
-	if(ammo.len<1).
+	if(ammo.len<1)
 		to_chat(gunner, "<span class='notice'>Attempting to load ammo!</span>")
 		src.raise_rack()
 	if(pdc_mode && world.time >= last_pdc_fire + 2 SECONDS)
