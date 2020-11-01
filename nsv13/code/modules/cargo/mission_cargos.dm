@@ -5,11 +5,21 @@ Here we define the cargo crate, as well as the contents
 
 /obj/structure/closet/crate/large/cargo/
   desc = "A hefty wooden crate. This crate is fitted with an anti-tamper seal. If you really want to open it you'll need a crowbar to get it open."
-  
+  icon = 'nsv13/icons/obj/custom_crates.dmi'
+  icon_state = "large_cargo_crate"
+
+
+/obj/structure/closet/crate/large/cargo/Initialize()
+  . = ..()
+  AddComponent(/datum/component/nsv_mission_cargo_label)
+
+
 /obj/structure/closet/crate/large/cargo/attackby(obj/item/W, mob/user, params)  
   if(W.tool_behaviour == TOOL_CROWBAR)
     var/choice = input("WARNING: The client requests that the cargo must not be tampered with. Opening this crate will reduce mission payout. Are you sure you wish to open it?", "WARNING!", "No") in list("Yes", "No")
-    if(choice != "Yes") // TODO range check
+    if(choice != "Yes") 
+      return
+    if(get_dist(user, src) > 1) //Check they are still in range
       return
     for(var/atom/a in contents)
       SEND_SIGNAL(a, COMSIG_CARGO_TAMPERED)
@@ -19,7 +29,7 @@ Here we define the cargo crate, as well as the contents
   for(var/atom/a in contents)
     SEND_SIGNAL(a, COMSIG_CARGO_TAMPERED)
   ..()
-  
+
 /obj/structure/closet/crate/large/cargo/PopulateContents() // New cargo crates must call this to apply the cargo component to all contents
   for(var/atom/a in contents)
     a.AddComponent(/datum/component/nsv_mission_cargo)
@@ -62,6 +72,12 @@ Here we define the cargo crate, as well as the contents
   new /obj/machinery/nuclearbomb/nuke/fake_cargo(src)
   ..()
   
+/obj/structure/closet/crate/large/cargo/nuke/forceMove() //Most crates we are fine with letting loop back, but the nuke crate we specifically want to vanish if they try to space it
+  . = ..()
+  if(istype(loc,/turf/open/space))
+    qdel(src)
+  return .
+  
 /obj/machinery/nuclearbomb/nuke/fake_cargo/Initialize()
   . = ..()
   timer_set = 1200
@@ -73,6 +89,10 @@ Here we define the cargo crate, as well as the contents
     S.switch_mode_to(TRACK_INFILTRATOR)
   countdown.start()
   update_icon()
-  //AddComponent(/datum/component/radioactive, 250)
-
+  
+/obj/machinery/nuclearbomb/nuke/fake_cargo/forceMove() 
+  . = ..()
+  if(istype(loc,/turf/open/space))
+    qdel(src)
+  return .
   

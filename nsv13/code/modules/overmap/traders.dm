@@ -16,9 +16,19 @@
 	var/stock_delay = 0
 	var/image = "https://cdn.discordapp.com/attachments/701841640897380434/764534224291233822/unknown.png"
 	var/list/missions = list() //Missions
-	var/list/mission_types = list(/datum/nsv_mission/kill_ships) //Todo: fix up the cargo delivery objective and add it to this list.
+	var/list/possible_mission_types = list( // List of possible missions this trader may have with a % chance to spawn
+		/datum/nsv_mission/kill_ships=3,
+		/datum/nsv_mission/kill_ships/waves=4,
+		/datum/nsv_mission/kill_ships/system=2,
+		/datum/nsv_mission/cargo=5,
+		/datum/nsv_mission/cargo/high_risk=3,
+		/datum/nsv_mission/cargo/nuke=1)
 	var/obj/structure/overmap/current_location = null
-	var/max_missions = 1
+	var/datum/star_system/system = null
+	var/max_missions = 5
+
+/datum/trader/New()
+	SSstar_system.traders += src
 
 //Method to stock a trader with items. This happens every so often and you have little control over it.
 /datum/trader/proc/stock_items()
@@ -73,7 +83,15 @@
 	var/atom/movable/theItem = new unlock_path
 	theItem.forceMove(toLaunch)
 	new /obj/effect/DPtarget(LZ, toLaunch)
-	return toLaunch
+	return theItem
+	
+/datum/trader/proc/generate_missions()
+	for(var/a in 1 to max_missions)
+		var/m = pickweightAllowZero(possible_mission_types)
+		possible_mission_types[m] --
+		missions += new m(current_location)	
+
+
 
 //Arms dealers.
 /datum/trader/armsdealer
@@ -94,7 +112,9 @@
 	station_type = /obj/structure/overmap/trader/syndicate
 	image = "https://cdn.discordapp.com/attachments/728055734159540244/764570187357093928/unknown.png"
 	greetings = list("You've made it pretty far in, huh? We won't tell if you're buying...", "Freedom isn't free, buy a gun to secure yours.", "Excercise your right to bear arms now!")
-
+	list/possible_mission_types = list(/datum/nsv_mission/cargo/nuke/syndicate=1)
+	max_missions = 1
+	
 /datum/trader/armsdealer/syndicate/New()
 	. = ..()
 	name = pick(name, "Gorlex Marauders Weapons Co.", "Syndi-dyne Gun Fiesta", "Dolos Dealers")
@@ -163,25 +183,23 @@
 /datum/trader/proc/give_mission(mob/living/user)
 	if(!isliving(user))
 		return
-	if(!mission_types.len || missions.len >= max_missions)
+		
+	var/list/valid_missions = list()
+	
+	for(var/m in missions) // Get all valid missions the crew qualifies for
+		var/datum/nsv_mission/mission = m
+		if(mission.check_eligible(user.get_overmap()))	
+			valid_missions += mission	
+	if(!valid_missions.len)
 		SEND_SOUND(user, 'nsv13/sound/effects/ship/freespace2/computer/textdraw.wav')
 		to_chat(user, "<span class='boldnotice'>We don't have any work for you I'm afraid.</span>")
-		return FALSE
-	if(missions.len)
-		for(var/datum/nsv_mission/mission in missions)
-			if(mission.stage >= MISSION_COMPLETE)
-				qdel(mission)
-				missions -= mission
-	var/list/valid_missions = list()
-	for(var/missionType in mission_types)
-		valid_missions += typecacheof(missionType)
-	var/missionType = pick(valid_missions)
-	var/datum/nsv_mission/theJob = new missionType(user.get_overmap())
-	theJob.register()
+		return FALSE		
+		
+	var/datum/nsv_mission/theJob = pick(valid_missions)
+	theJob.pre_register(user.get_overmap())
 	to_chat(user, "<span class='boldnotice'>[pick(on_mission_give)]</span>")
 	user.get_overmap().hail("Mission details as follows: [theJob.desc]", src)
-	missions += theJob
-	return FALSE //Todo!
+	return TRUE
 
 /datum/trader/proc/attempt_purchase(datum/trader_item/item, mob/living/carbon/user)
 	if(!isliving(user))

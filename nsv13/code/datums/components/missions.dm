@@ -35,6 +35,20 @@
 
 // Keeps an eye on cargo that is part of an objective
 
+/datum/component/nsv_mission_cargo_label/ // Only reports that the contents are part of a mission, and this should not be opened when examined
+  var/datum/nsv_mission/cargo/parent_mission
+  
+/datum/component/nsv_mission_cargo_label/Initialize()
+  RegisterSignal(parent, COMSIG_CARGO_REGISTER, .proc/register_cargo)
+  RegisterSignal(parent, COMSIG_PARENT_EXAMINE, .proc/display_examine)
+  
+/datum/component/nsv_mission_cargo_label/proc/display_examine(datum/source, mob/user, text)
+  text += "<span class='warning'>This item is tagged as cargo, and needs to be delivered to [parent_mission.delivery_target]. <B>Opening this crate will reduce payout!</B></span>\n"
+  
+/datum/component/nsv_mission_cargo_label/proc/register_cargo(datum/source, datum/mission) // Set the mission we are attached to
+  parent_mission = mission
+
+
 /datum/component/nsv_mission_cargo/
   var/datum/nsv_mission/cargo/parent_mission
   var/cargo_state = CARGO_INTACT
@@ -49,7 +63,7 @@
 
 
 /datum/component/nsv_mission_cargo/proc/display_examine(datum/source, mob/user, text)
-  text += "<span class='warning'>This item is tagged as cargo, but someone seems to have removed it from the crate. <B>You won't get full payout, but are still expected to deliver this!</B></span>\n"
+  text += "<span class='warning'>This item is tagged as cargo, but someone seems to have removed it from the crate. <B>You won't get full payout, but are still expected to deliver this to [parent_mission.delivery_target]!</B></span>\n"
 
 /datum/component/nsv_mission_cargo/proc/register_cargo(datum/source, datum/mission) // Set the mission we are attached to
   parent_mission = mission
