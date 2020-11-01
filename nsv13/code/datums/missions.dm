@@ -474,7 +474,7 @@ kill station
   
 
 /datum/nsv_mission/cargo/nuke/syndicate/update_description() //Exactly the same as the normal one but with different flavor text/warnings
-desc = "You... Want to do a mission for us? Sure. I mean you've come this far, why not take a gift back to [delivery_target.name]. Hopefuly this gift will better our relations. Don't peek inside, I'm sure the admiral wants this gift undamaged."
+  desc = "You... Want to do a mission for us? Sure. I mean you've come this far, why not take a gift back to [delivery_target.name]. Hopefuly this gift will better our relations. Don't peek inside, I'm sure the admiral wants this gift undamaged."
 
 
 /datum/nsv_mission/cargo/nuke/syndicate/first_warning()
