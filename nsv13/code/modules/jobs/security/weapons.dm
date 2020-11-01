@@ -21,7 +21,7 @@
 
 /obj/item/gun/ballistic/automatic/pistol/glock
 	name = "Glock-13"
-	desc = "A small 9mm handgun used by Nanotrasen security forces. It has a polymer handle and a full durasteel body construction, giving it a ncie weight."
+	desc = "A small 9mm handgun used by Nanotrasen security forces. It has a polymer handle and a full durasteel body construction, giving it a nice weight."
 	icon = 'nsv13/icons/obj/guns/projectile.dmi'
 	icon_state = "secglock"
 	item_state = "glock"
