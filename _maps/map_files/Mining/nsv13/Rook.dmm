@@ -96,10 +96,7 @@
 	icon_state = "pipe11-2"
 	},
 /obj/structure/cable{
-	icon_state = "4-8"
-	},
-/obj/machinery/light{
-	dir = 1
+	icon_state = "1-8"
 	},
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/nostromo/engineering)
@@ -485,6 +482,9 @@
 /obj/machinery/atmospherics/components/trinary/filter/atmos/flipped/o2{
 	dir = 4
 	},
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/nostromo/engineering)
 "mS" = (
@@ -613,6 +613,10 @@
 	},
 /turf/open/floor/carpet/ship,
 /area/nostromo/hangar/starboard)
+"rs" = (
+/obj/machinery/firealarm/directional/north,
+/turf/open/floor/carpet/ship/orange_carpet,
+/area/nostromo/engineering)
 "rH" = (
 /obj/structure/cable{
 	icon_state = "4-8"
@@ -1007,6 +1011,9 @@
 	dir = 5
 	},
 /obj/machinery/ship_weapon/pdc_mount,
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/nostromo/engineering)
 "DZ" = (
@@ -1127,6 +1134,10 @@
 	},
 /turf/open/floor/carpet/ship,
 /area/nostromo/hangar/starboard)
+"GO" = (
+/obj/structure/extinguisher_cabinet/south,
+/turf/open/floor/plasteel/white,
+/area/nostromo/crew_quarters)
 "GX" = (
 /obj/structure/lattice,
 /turf/open/space/basic,
@@ -1153,6 +1164,7 @@
 	dir = 4
 	},
 /obj/structure/extinguisher_cabinet/south,
+/obj/machinery/light,
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/nostromo/engineering)
 "Iu" = (
@@ -1224,7 +1236,12 @@
 /obj/machinery/atmospherics/components/trinary/filter/atmos/flipped/n2{
 	dir = 4
 	},
-/obj/machinery/firealarm/directional/north,
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/obj/machinery/light{
+	dir = 1
+	},
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/nostromo/engineering)
 "Kv" = (
@@ -1361,6 +1378,15 @@
 	},
 /turf/open/floor/carpet/ship,
 /area/nostromo/engineering)
+"NY" = (
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
+/obj/machinery/light{
+	dir = 4
+	},
+/obj/structure/extinguisher_cabinet/east,
+/turf/open/floor/carpet/ship,
+/area/nostromo/hangar/starboard)
 "Oa" = (
 /obj/effect/spawner/structure/window/reinforced/ship,
 /turf/open/floor/carpet/ship,
@@ -1709,6 +1735,9 @@
 	icon_state = "pipe11-2"
 	},
 /obj/machinery/ship_weapon/pdc_mount/flak,
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/nostromo/engineering)
 "UT" = (
@@ -1792,6 +1821,10 @@
 /obj/structure/window/reinforced{
 	dir = 8
 	},
+/obj/machinery/power/apc/auto_name/north,
+/obj/structure/cable{
+	icon_state = "0-4"
+	},
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/nostromo/engineering)
 "XP" = (
@@ -1863,6 +1896,10 @@
 	},
 /turf/open/space/basic,
 /area/nostromo/maintenance/exterior)
+"Zb" = (
+/obj/structure/extinguisher_cabinet/south,
+/turf/open/floor/carpet/ship,
+/area/nostromo/crew_quarters)
 "Zg" = (
 /obj/machinery/door/airlock/ship/public{
 	name = "Bridge"
@@ -1890,6 +1927,7 @@
 	pixel_y = 3
 	},
 /obj/item/roller,
+/obj/machinery/light,
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/nostromo/engineering)
 "Zl" = (
@@ -34202,7 +34240,7 @@ qH
 qH
 ws
 ws
-tP
+rs
 ws
 NT
 dv
@@ -34448,7 +34486,7 @@ qH
 qH
 yH
 Mm
-Fl
+Zb
 yH
 Zl
 JM
@@ -34966,7 +35004,7 @@ QK
 xT
 JM
 zR
-JM
+GO
 yH
 qH
 qH
@@ -37268,7 +37306,7 @@ ER
 eX
 uj
 gf
-hS
+NY
 UU
 kG
 hS
