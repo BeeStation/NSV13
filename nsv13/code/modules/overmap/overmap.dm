@@ -311,6 +311,37 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 	if(ai_controlled)
 		weapon_types[FIRE_MODE_MISSILE] = new/datum/ship_weapon/missile_launcher(src)
 
+/obj/structure/overmap/proc/throw_pilot(var/mob/living/M in contents)
+	var/max = world.maxx-TRANSITIONEDGE
+	var/min = 1+TRANSITIONEDGE
+	var/list/possible_transitions = list()
+	for(var/A in SSmapping.z_list)
+		var/datum/space_level/D = A
+		if (D.linkage == CROSSLINKED)
+			possible_transitions += D.z_value
+		if(!possible_transitions.len)
+			for(var/z in SSmapping.levels_by_trait(ZTRAIT_STATION))
+			possible_transitions += z
+	var/_z = pick(possible_transitions)
+	var/_x
+	var/_y
+	switch(dir)
+		if(SOUTH)
+			_x = rand(min,max)
+			_y = max
+		if(WEST)
+			_x = max
+			_y = rand(min,max)
+		if(EAST)
+			_x = min
+			_y = rand(min,max)
+		else
+			_x = rand(min,max)
+			_y = min
+	var/turf/T = locate(_x, _y, _z) //Where are we putting you
+	M.apply_damage(400) //Yeah you're not gonna survive that
+	M.forceMove(T) //Yeets the spessman
+
 /obj/item/projectile/Destroy()
 	if(physics2d)
 		qdel(physics2d)
@@ -319,6 +350,8 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 
 /obj/structure/overmap/Destroy()
 	SEND_SIGNAL(src,COMSIG_SHIP_KILLED)
+	if(/obj/structure/overmap/fighter/light || /obj/structure/overmap/fighter/heavy || /obj/structure/overmap/fighter/light/flight_leader || /obj/structure/overmap/fighter/utility || /obj/structure/overmap/fighter/escapepod || /obj/structure/overmap/fighter/light/syndicate || /obj/structure/overmap/fighter/utility/syndicate)
+		throw_pilot()
 	QDEL_LIST(current_tracers)
 	if(cabin_air)
 		QDEL_NULL(cabin_air)
