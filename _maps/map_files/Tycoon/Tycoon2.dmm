@@ -43642,13 +43642,6 @@
 	},
 /turf/open/floor/monotile/dark,
 /area/hydroponics)
-"dbI" = (
-/obj/machinery/atmospherics/components/binary/pump/rbmk_output{
-	dir = 8;
-	name = "PURGE HOT LOOP"
-	},
-/turf/open/floor/monotile,
-/area/engine/engineering/reactor_core)
 "dcT" = (
 /obj/machinery/light/small{
 	dir = 4
@@ -43667,6 +43660,16 @@
 	},
 /obj/item/analyzer,
 /obj/item/book/manual/wiki/rbmk,
+/turf/open/floor/plasteel/ridged/steel,
+/area/engine/engineering/reactor_core)
+"ddh" = (
+/obj/effect/turf_decal/stripes/line{
+	dir = 1
+	},
+/obj/machinery/atmospherics/components/binary/pump{
+	dir = 8;
+	name = "PURGE COOLANT LOOP"
+	},
 /turf/open/floor/plasteel/ridged/steel,
 /area/engine/engineering/reactor_core)
 "dgt" = (
@@ -46411,16 +46414,6 @@
 	},
 /turf/open/floor/engine/airless,
 /area/space/nearstation)
-"loX" = (
-/obj/effect/turf_decal/stripes/line{
-	dir = 1
-	},
-/obj/machinery/atmospherics/components/binary/pump/rbmk_output{
-	dir = 8;
-	name = "PURGE COLD LOOP"
-	},
-/turf/open/floor/plasteel/ridged/steel,
-/area/engine/engineering/reactor_core)
 "lrx" = (
 /obj/machinery/power/solar{
 	id = "portsolar";
@@ -47596,6 +47589,13 @@
 	},
 /turf/open/floor/plating,
 /area/hallway/secondary/exit)
+"pdm" = (
+/obj/machinery/atmospherics/components/binary/pump{
+	dir = 8;
+	name = "PURGE COOLANT LOOP"
+	},
+/turf/open/floor/monotile,
+/area/engine/engineering/reactor_core)
 "peN" = (
 /obj/machinery/atmospherics/components/trinary/nuclear_reactor/preset{
 	dir = 1
@@ -48145,6 +48145,10 @@
 	},
 /turf/open/floor/plasteel/grid/lino,
 /area/engine/engine_room)
+"qMk" = (
+/obj/machinery/atmospherics/pipe/manifold/green/visible,
+/turf/open/floor/monotile,
+/area/engine/engineering/reactor_core)
 "qNS" = (
 /obj/effect/turf_decal/tile/red{
 	dir = 4
@@ -49333,10 +49337,6 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/starboard/fore)
-"uxW" = (
-/obj/machinery/atmospherics/pipe/manifold/green/visible,
-/turf/open/floor/monotile,
-/area/engine/engineering/reactor_core)
 "uyI" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 4
@@ -101871,7 +101871,7 @@ oUM
 agG
 aQT
 eJy
-uxW
+qMk
 gCM
 qvj
 vNA
@@ -102127,14 +102127,14 @@ anm
 gbD
 azk
 aUb
-dbI
+pdm
 nil
 ilc
 wPI
 ilc
 ess
 kyH
-loX
+ddh
 azk
 xov
 cwi
