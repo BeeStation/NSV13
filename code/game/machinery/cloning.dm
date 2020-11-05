@@ -73,7 +73,7 @@
 	efficiency = 0
 	reagents.maximum_volume = 0
 	fleshamnt = 1
-	for(var/obj/item/reagent_containers/glass/G in component_parts)
+	for(var/obj/item/reagent_containers/glass/beaker/G in component_parts)
 		reagents.maximum_volume += G.volume
 		G.reagents.trans_to(src, G.reagents.total_volume)
 	for(var/obj/item/stock_parts/scanning_module/S in component_parts)
@@ -535,7 +535,7 @@
 	playsound(src,'sound/hallucinations/wail.ogg', 100, TRUE)
 
 /obj/machinery/clonepod/deconstruct(disassembled = TRUE)
-	for(var/obj/item/reagent_containers/glass/G in component_parts)
+	for(var/obj/item/reagent_containers/glass/beaker/G in component_parts)
 		reagents.trans_to(G, G.reagents.maximum_volume)
 	if(occupant)
 		var/mob/living/mob_occupant = occupant

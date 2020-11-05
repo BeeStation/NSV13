@@ -61,7 +61,7 @@ Repair
 	torpedoes = 0
 	missiles = 0
 	speed_limit = 7 //We want fighters to be way more maneuverable
-	weapon_safety = FALSE //This happens wayy too much for my liking. Starts OFF.
+	weapon_safety = TRUE //This happens wayy too much for my liking. Starts ON.
 	pixel_w = -16
 	pixel_z = -20
 	req_one_access = list(ACCESS_FIGHTER)

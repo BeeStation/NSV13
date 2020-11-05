@@ -123,6 +123,9 @@
 			to_chat(user, "<span class='notice'>You start lubricating the inner workings of [src]...</span>")
 			if(!do_after(user, 2 SECONDS, target=src))
 				return
+			if(!I.reagents.has_reagent(/datum/reagent/oil, 10)) //Since things can change during the doafter, we need to check again.
+				to_chat(user, "<span class='notice'>You don't have enough oil left to lubricate [src]!</span>")
+				return
 			to_chat(user, "<span class='notice'>You lubricate the inner workings of [src].</span>")
 			if(malfunction)
 				malfunction = FALSE

@@ -199,7 +199,6 @@
 /area/maintenance/nsv/mining_ship
 	has_gravity = TRUE
 	looping_ambience = 'nsv13/sound/ambience/maintenance.ogg'
-	noteleport = TRUE
 
 /area/maintenance/nsv/mining_ship/central
 	name = "Rocinante maintenance"
@@ -505,7 +504,6 @@
 /area/nostromo
 	name = "DMC Rocinante"
 	ambientsounds = list('nsv13/sound/ambience/leit_motif.ogg','nsv13/sound/ambience/wind.ogg','nsv13/sound/ambience/wind2.ogg','nsv13/sound/ambience/wind3.ogg','nsv13/sound/ambience/wind4.ogg','nsv13/sound/ambience/wind5.ogg','nsv13/sound/ambience/wind6.ogg')
-	noteleport = TRUE
 	icon_state = "mining"
 	has_gravity = TRUE
 
