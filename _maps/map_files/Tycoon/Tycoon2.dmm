@@ -7459,13 +7459,12 @@
 /turf/open/space/basic,
 /area/engine/atmos)
 "arQ" = (
-/obj/machinery/atmospherics/components/binary/pump{
-	dir = 8;
-	icon_state = "pump_map-2";
-	name = "Mix Tank Outlet"
-	},
 /obj/machinery/atmospherics/pipe/simple/cyan/visible,
 /obj/structure/lattice/catwalk,
+/obj/machinery/atmospherics/pipe/simple/yellow/visible{
+	dir = 8;
+	icon_state = "pipe11-2"
+	},
 /turf/open/space/basic,
 /area/engine/atmos)
 "arR" = (
@@ -43643,6 +43642,13 @@
 	},
 /turf/open/floor/monotile/dark,
 /area/hydroponics)
+"dbI" = (
+/obj/machinery/atmospherics/components/binary/pump/rbmk_output{
+	dir = 8;
+	name = "PURGE HOT LOOP"
+	},
+/turf/open/floor/monotile,
+/area/engine/engineering/reactor_core)
 "dcT" = (
 /obj/machinery/light/small{
 	dir = 4
@@ -43669,7 +43675,9 @@
 	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
-/obj/machinery/atmospherics/pipe/simple/green/visible,
+/obj/machinery/atmospherics/pipe/manifold/green/visible{
+	dir = 8
+	},
 /turf/open/floor/plasteel/ridged/steel,
 /area/engine/engineering/reactor_core)
 "dhX" = (
@@ -43811,19 +43819,6 @@
 	},
 /turf/closed/wall/r_wall/ship,
 /area/engine/engine_room)
-"dRn" = (
-/obj/effect/turf_decal/pool{
-	dir = 4
-	},
-/obj/effect/turf_decal/stripes/line{
-	dir = 8
-	},
-/obj/machinery/atmospherics/components/unary/portables_connector/visible{
-	dir = 8;
-	name = "Supercoolant flush"
-	},
-/turf/open/floor/plasteel/ridged/steel,
-/area/engine/engineering/reactor_core)
 "dSD" = (
 /obj/machinery/door/airlock/ship/external/glass{
 	req_one_access_txt = "2"
@@ -44248,6 +44243,9 @@
 /obj/structure/chair/office{
 	dir = 1
 	},
+/obj/machinery/atmospherics/pipe/simple/green/visible{
+	dir = 6
+	},
 /turf/open/floor/monotile,
 /area/engine/engineering/reactor_core)
 "eJM" = (
@@ -44600,6 +44598,9 @@
 	dir = 1
 	},
 /obj/machinery/light,
+/obj/machinery/atmospherics/pipe/simple/cyan/visible{
+	dir = 9
+	},
 /turf/open/floor/plasteel/ridged/steel,
 /area/engine/engineering/reactor_core)
 "gdZ" = (
@@ -46410,6 +46411,16 @@
 	},
 /turf/open/floor/engine/airless,
 /area/space/nearstation)
+"loX" = (
+/obj/effect/turf_decal/stripes/line{
+	dir = 1
+	},
+/obj/machinery/atmospherics/components/binary/pump/rbmk_output{
+	dir = 8;
+	name = "PURGE COLD LOOP"
+	},
+/turf/open/floor/plasteel/ridged/steel,
+/area/engine/engineering/reactor_core)
 "lrx" = (
 /obj/machinery/power/solar{
 	id = "portsolar";
@@ -46459,7 +46470,8 @@
 /area/quartermaster/storage)
 "lAf" = (
 /obj/machinery/atmospherics/components/binary/pump/rbmk_input{
-	dir = 1
+	dir = 1;
+	name = "Coolant inlet"
 	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	dir = 4
@@ -47410,7 +47422,8 @@
 /area/engine/engineering/reactor_core)
 "oAP" = (
 /obj/machinery/atmospherics/components/binary/pump/rbmk_output{
-	dir = 1
+	dir = 1;
+	name = "Coolant Outlet"
 	},
 /obj/machinery/atmospherics/pipe/simple/green/visible{
 	dir = 8
@@ -47814,7 +47827,9 @@
 /turf/open/floor/plating,
 /area/maintenance/starboard/fore)
 "pJt" = (
-/obj/machinery/atmospherics/pipe/manifold/cyan/visible,
+/obj/machinery/atmospherics/pipe/simple/cyan/visible{
+	dir = 9
+	},
 /turf/open/floor/monotile,
 /area/engine/engineering/reactor_core)
 "pJY" = (
@@ -48401,8 +48416,8 @@
 /obj/structure/chair/office{
 	dir = 1
 	},
-/obj/machinery/atmospherics/pipe/manifold/scrubbers/visible{
-	dir = 1
+/obj/machinery/atmospherics/pipe/simple/scrubbers/visible{
+	dir = 10
 	},
 /turf/open/floor/monotile,
 /area/engine/engineering/reactor_core)
@@ -48685,7 +48700,8 @@
 /area/crew_quarters/theatre)
 "sfI" = (
 /obj/machinery/atmospherics/components/binary/pump/rbmk_moderator{
-	dir = 8
+	dir = 8;
+	name = "Moderator Inlet"
 	},
 /obj/structure/cable/yellow{
 	icon_state = "4-8"
@@ -48889,10 +48905,10 @@
 /turf/open/floor/plating,
 /area/maintenance/port)
 "sTi" = (
-/obj/machinery/atmospherics/pipe/simple/scrubbers/visible{
-	dir = 6
-	},
 /obj/machinery/meter,
+/obj/machinery/atmospherics/pipe/manifold/scrubbers/visible{
+	dir = 1
+	},
 /turf/open/floor/monotile,
 /area/engine/engineering/reactor_core)
 "sYQ" = (
@@ -49317,6 +49333,10 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/starboard/fore)
+"uxW" = (
+/obj/machinery/atmospherics/pipe/manifold/green/visible,
+/turf/open/floor/monotile,
+/area/engine/engineering/reactor_core)
 "uyI" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 4
@@ -49554,10 +49574,6 @@
 	},
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
-	},
-/obj/machinery/atmospherics/components/unary/portables_connector/visible{
-	dir = 8;
-	name = "Hot coolant outlet"
 	},
 /turf/open/floor/plasteel/ridged/steel,
 /area/engine/engineering/reactor_core)
@@ -50267,10 +50283,11 @@
 /turf/open/floor/carpet,
 /area/library)
 "xlf" = (
-/obj/machinery/atmospherics/pipe/simple/cyan/visible{
-	dir = 5
-	},
 /obj/machinery/meter,
+/obj/machinery/atmospherics/pipe/manifold/cyan/visible{
+	dir = 8;
+	icon_state = "manifold-2"
+	},
 /turf/open/floor/monotile,
 /area/engine/engineering/reactor_core)
 "xmt" = (
@@ -101854,7 +101871,7 @@ oUM
 agG
 aQT
 eJy
-nil
+uxW
 gCM
 qvj
 vNA
@@ -102110,14 +102127,14 @@ anm
 gbD
 azk
 aUb
-ilc
+dbI
 nil
 ilc
 wPI
 ilc
 ess
 kyH
-vgZ
+loX
 azk
 xov
 cwi
@@ -103144,7 +103161,7 @@ hHa
 cnc
 mpS
 lZz
-dRn
+vlb
 sNm
 azk
 arT
