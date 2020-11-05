@@ -134,7 +134,7 @@
 	armor = list("overmap_light" = 75, "overmap_heavy" = 35)
 	pixel_w = -44
 	pixel_z = -180
-	starting_system = "Unknown Signal"
+	starting_system = "Wolf 359"
 	role = INSTANCED_MIDROUND_SHIP
 
 /obj/structure/overmap/nanotrasen/gunstar/apply_weapons()
