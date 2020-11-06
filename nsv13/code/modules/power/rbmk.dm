@@ -689,7 +689,8 @@ The reactor CHEWS through moderator. It does not do this slowly. Be very careful
 	var/newPressure = input(user, "Set new output pressure (kPa)", "Remote pump control", null) as num
 	if(!newPressure)
 		return
-	signal(on, newPressure) //Number sanitization is handled on the actual pumps themselves.
+	newPressure = clamp(newPressure, 0, MAX_OUTPUT_PRESSURE) //Number sanitization is not handled in the pumps themselves, only during their ui_act which this doesn't use.
+	signal(on, newPressure)
 
 /obj/machinery/computer/reactor/attack_robot(mob/user)
 	. = ..()
