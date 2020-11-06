@@ -210,7 +210,7 @@ Repair
 			if(!do_after(usr, 5 SECONDS, target=src))
 				return
 			to_chat(usr, "<span class='notice>You uninstall [target.name] from [src].</span>")
-			loadout.remove_hardpoint(FC)
+			loadout.remove_hardpoint(FC, 0)
 		if("kick")
 			if(!target)
 				return
@@ -565,7 +565,7 @@ Repair
 	if(A && istype(A))
 		A.take_damage(damage_amount, damage_type, damage_flag, sound_effect)
 		if(A.obj_integrity <= 0)
-			loadout.remove_hardpoint(A)
+			loadout.remove_hardpoint(A, 1)
 			qdel(A) //There goes your armour!
 		relay(pick('nsv13/sound/effects/ship/freespace2/ding1.wav', 'nsv13/sound/effects/ship/freespace2/ding2.wav', 'nsv13/sound/effects/ship/freespace2/ding3.wav', 'nsv13/sound/effects/ship/freespace2/ding4.wav', 'nsv13/sound/effects/ship/freespace2/ding5.wav'))
 	else
@@ -585,7 +585,7 @@ Repair
 
 /obj/structure/overmap/fighter/proc/canopy_breach(obj/item/fighter_component/canopy/C)
 	relay('nsv13/sound/effects/ship/cockpit_breach.ogg') //We're leaking air!
-	loadout.remove_hardpoint(HARDPOINT_SLOT_CANOPY)
+	loadout.remove_hardpoint(HARDPOINT_SLOT_CANOPY, 1)
 	qdel(C) //Pop off the canopy.
 	sleep(2 SECONDS)
 	relay('nsv13/sound/effects/ship/reactor/gasmask.ogg', "<span class='warning'>The air around you rushes out of the breached canopy!</span>", loop = FALSE, channel = CHANNEL_SHIP_ALERT)
@@ -628,15 +628,18 @@ Repair
 	if(slot && !(slot in equippable_slots))
 		replacement.visible_message("<span class='warning'>[replacement] can't fit onto [parent]")
 		return FALSE
-	remove_hardpoint(slot)
+	remove_hardpoint(slot, 0)
 	replacement.on_install(holder)
 	if(slot) //Not every component has a slot per se, as some are just used for construction and can't really be interacted with.
 		hardpoint_slots[slot] = replacement
 
 /**
 Method to remove a hardpoint from the loadout. It can be passed a slot as a defined flag, or slot as a physical hardpoint (as not all hardpoints have a specific slot.)
+args:
+slot: Either a slot or a specific component
+due_to_damage: Was this called voluntarily (0) or due to damage / external causes (1). Is given to the remove_from() proc and modifies specifics of the removal.
 */
-/datum/component/ship_loadout/proc/remove_hardpoint(slot)
+/datum/component/ship_loadout/proc/remove_hardpoint(slot, due_to_damage)
 	if(!slot)
 		return FALSE
 
@@ -649,7 +652,7 @@ Method to remove a hardpoint from the loadout. It can be passed a slot as a defi
 		hardpoint_slots[slot] = null
 
 	if(component && istype(component))
-		component.remove_from(holder)
+		component.remove_from(holder, due_to_damage)
 
 /datum/component/ship_loadout/process()
 	for(var/slot in equippable_slots)
@@ -732,7 +735,13 @@ If you need your hardpoint to be loaded with things by clicking the fighter
 	target.max_angular_acceleration -= weight*10
 	target.max_angular_acceleration = (target.max_angular_acceleration > 0) ? target.max_angular_acceleration : 0
 
-/obj/item/fighter_component/proc/remove_from(obj/structure/overmap/target)
+/*
+Remove from(), a proc that forcemoves a component onto the target's tile and removes the weight penalties caused by the specific component. Usually used for removal, but doesn't actually check if it was on the target, use with care.
+args:
+target: The overmap structure getting the component's weight penalties removed, aswell as the component being moved to its tile.
+due_to_damage: If the removal was caused voluntarily (0), or if it was caused by external sources / damage (1); generally influences some specifics of removal on some components.
+*/
+/obj/item/fighter_component/proc/remove_from(obj/structure/overmap/target, due_to_damage)
 	forceMove(get_turf(target))
 	if(!weight)
 		return TRUE
@@ -867,8 +876,10 @@ If you need your hardpoint to be loaded with things by clicking the fighter
 	..()
 	target.max_integrity = initial(target.max_integrity)*tier
 
-/obj/item/fighter_component/armour_plating/remove_from(obj/structure/overmap/target)
+/obj/item/fighter_component/armour_plating/remove_from(obj/structure/overmap/target, due_to_damage)
 	..()
+	if(due_to_damage)
+		return //We don't reset our health if the plating was destroyed due to hits, or the increase would be useless. It DOES get reset once we install new armor, though.
 	target.max_integrity = initial(target.max_integrity)
 	//Remove any overheal.
 	target.obj_integrity = CLAMP(target.obj_integrity, 0, target.max_integrity)
