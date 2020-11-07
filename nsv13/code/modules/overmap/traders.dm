@@ -186,7 +186,8 @@
 		
 	var/list/valid_missions = list()
 	
-	for(var/datum/nsv_mission/mission as() in missions) // Get all valid missions the crew qualifies for
+	for(var/m in missions) // Get all valid missions the crew qualifies for
+		var/datum/nsv_mission/mission = m
 		if(mission.check_eligible(user.get_overmap()))	
 			valid_missions += mission	
 	if(!valid_missions.len)

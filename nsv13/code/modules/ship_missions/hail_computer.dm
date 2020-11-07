@@ -24,8 +24,8 @@
   
 /datum/computer_file/program/ship_hail_logger/proc/prep_missions()
   var/list/results = list()
-  // TODO: custom message for no active missions?
-  for(var/datum/nsv_mission/mission as() in ship.missions)
+  for(var/m in ship.missions)
+    var/datum/nsv_mission/mission = m
     results[++results.len] = list("desc" = mission.desc, "status" = mission.stage, "client" = mission.the_client.name)
   return results
 
