@@ -311,7 +311,7 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 	if(ai_controlled)
 		weapon_types[FIRE_MODE_MISSILE] = new/datum/ship_weapon/missile_launcher(src)
 
-/obj/structure/overmap/proc/throw_pilot(var/mob/living/M in contents)
+/obj/structure/overmap/proc/throw_pilot()
 	var/max = world.maxx-TRANSITIONEDGE
 	var/min = 1+TRANSITIONEDGE
 
@@ -343,9 +343,9 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 			_y = min
 
 	var/turf/T = locate(_x, _y, _z) //Where are we putting you
-	M.forceMove(T) //Yeets the spessman
-	mobs_in_ship -= M //You are not in the fighter anymore
-	M.apply_damage(400) //No way you're surviving that
+	for(var/mob/living/M in contents)
+		M.forceMove(T) //Yeets the spessman
+		M.apply_damage(400) //No way you're surviving that
 
 /obj/item/projectile/Destroy()
 	if(physics2d)
