@@ -230,8 +230,7 @@ Method to assign a job, in order of descending priority. We REALLY need people t
 	head = /obj/item/clothing/head/beret/durathread
 	suit = /obj/item/clothing/suit/space/officer
 	backpack_contents = list(/obj/item/storage/box/syndie=1,\
-	/obj/item/kitchen/knife/combat/survival=1,\
-	/obj/item/pvp_nuke_spawner)
+	/obj/item/kitchen/knife/combat/survival=1,)
 	command_radio = TRUE
 	implants = list()
 

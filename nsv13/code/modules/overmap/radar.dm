@@ -154,9 +154,11 @@
 				return
 			if(world.time < next_hail)
 				return
+			if(target == linked)
+				return
 			next_hail = world.time + 10 SECONDS //I hate that I need to do this, but yeah.
 			if(get_dist(target, linked) <= hail_range)
-				target.try_hail(usr)
+				target.try_hail(usr, linked)
 
 /obj/machinery/computer/ship/dradis/attackby(obj/item/I, mob/user) //Allows you to upgrade dradis consoles to show asteroids, as well as revealing more valuable ones.
 	. = ..()
