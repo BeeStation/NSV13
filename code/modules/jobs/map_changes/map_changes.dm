@@ -11,3 +11,6 @@
 
 #define JOB_MODIFICATION_MAP_NAME "NSV Pegasus"
 #include "..\..\..\..\_maps\map_files\Pegasus\job_changes.dm"
+
+#define JOB_MODIFICATION_MAP_NAME "NSV Eclipse"
+#include "..\..\..\..\_maps\map_files\Eclipse\job_changes.dm"
