@@ -626,16 +626,15 @@ Control Rods
 		heat_gain = initial(heat_gain) + reaction_rate
 		reaction_chamber_gases.clear()
 
-		if(air1.total_moles() > ((reaction_rate * 3) + 10))
-			reactor_stability -= 0.01
-			message_admins("debug: fuel line overpressurized")
+		if(air1.total_moles() > ((reaction_rate * 4) + 20)) //Overpressurized input
+			reactor_stability -= 0.51 //Enough to counter below
 
 		if(fuel_check >= 25) //1:4 fuel ratio
 			if(reactor_stability < 100)
 				reactor_stability += 0.5
 
 		else
-			reactor_stability -= 0.01
+			reactor_stability -= 0.01 //Unideal ratio leads to destabilization
 
 	else
 		reactor_stability --
@@ -817,7 +816,7 @@ Control Rods
 		if(nucleium.len > gas_records_length)
 			nucleium.Cut(1, 2)
 
-//////// STARVATION PROCS ////////
+//////// STABILITY PROCS ////////
 
 /obj/machinery/atmospherics/components/binary/stormdrive_reactor/Bumped(atom/movable/A)
 	if(!ismob(A))
@@ -885,31 +884,27 @@ Control Rods
 	if(reactor_stability < 0)
 		reactor_stability = 0
 
-	if(prob(100 - reactor_stability))
+	if(prob((100 - reactor_stability) / 3)) //Localized gravity event as a warning
 		grav_pull()
 		playsound(loc, 'sound/effects/empulse.ogg', 100)
 		for(var/mob/living/M in orange(((heat / 40) + 5), src))
 			shake_camera(M, 2, 1)
-		message_admins("Case A")
 
-	if(prob(100 - reactor_stability))
-		heat += (reaction_rate * reaction_rate_modifier) * 4
-		reactor_stability += 1
-		message_admins("Case B")
+	if(reactor_stability < 75)
+		if(prob((100 - reactor_stability) / 4)) //Destabilize the balance a little
+			if(prob(50))
+				heat += reaction_rate * rand(3,5)
+			else
+				reaction_rate += reaction_rate / rand(1,3)
 
-	if(prob(100 - reactor_stability))
-		reaction_rate += reaction_rate / 4
-		reactor_stability += 1
-		message_admins("Case C")
-
-	if(prob(100 - reactor_stability))
-		if(prob(50))
-			new /obj/effect/anomaly/stormdrive/surge(src, rand(2000, 5000))
-		else
-			new /obj/effect/anomaly/stormdrive/sheer(src, rand(2000, 5000))
-		reactor_stability += 10
-		message_admins("Case D")
-
+	if(reactor_stability < 15)
+		if(prob(0.00001))
+			if(prob(50))
+				new /obj/effect/anomaly/stormdrive/surge(src, rand(2000, 5000))
+			else
+				new /obj/effect/anomaly/stormdrive/sheer(src, rand(2000, 5000))
+			reactor_stability += 15 //Spike that stab back up
+			playsound(loc, 'sound/effects/empulse.ogg', 100)
 
 /obj/machinery/atmospherics/components/binary/stormdrive_reactor/proc/grav_pull() //HUNGRY!
 	for(var/obj/O in orange((heat / 40), src))
