@@ -344,6 +344,8 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 
 	var/turf/T = locate(_x, _y, _z) //Where are we putting you
 	for(var/mob/living/M in contents)
+		M.stop_sound_channel(CHANNEL_SHIP_ALERT) //In space no one can hear your ship explode
+		mobs_in_ship -= M //How can you be in something that just got deleted?
 		M.forceMove(T) //Yeets the spessman
 		M.apply_damage(400) //No way you're surviving that
 
