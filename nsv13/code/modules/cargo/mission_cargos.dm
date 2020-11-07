@@ -29,9 +29,11 @@ Here we define the cargo crate, as well as the contents
   for(var/atom/a in contents)
     SEND_SIGNAL(a, COMSIG_CARGO_TAMPERED)
   ..()
-
-/obj/structure/closet/crate/large/cargo/PopulateContents() // New cargo crates must call this to apply the cargo component to all contents
-  for(var/atom/a in contents)
+  
+// Use PopulateContents to create a list of what we want to spawn, then pass it here to mark those items as cargo
+/obj/structure/closet/crate/large/cargo/proc/PopulateContentsWithTracker(var/list/items) 
+  for(var/i in items)
+    var/atom/a = new i(src)
     a.AddComponent(/datum/component/nsv_mission_cargo)
 
 //##############################################################################
@@ -47,9 +49,8 @@ Here we define the cargo crate, as well as the contents
                                /obj/machinery/portable_atmospherics/pump )
 
 /obj/structure/closet/crate/large/cargo/random/PopulateContents()
-  var/random_content = pickweight(possible_contents)
-  contents += new random_content(src)
-  ..()
+  var/list/l = list(pickweight(possible_contents))
+  PopulateContentsWithTracker(l)
 
 //##############################################################################
 //######### High risk crates
@@ -57,7 +58,7 @@ Here we define the cargo crate, as well as the contents
 
 /obj/structure/closet/crate/large/cargo/random/high_risk
   possible_contents = list(/obj/structure/alien/egg/grown = 1,
-                           /obj/machinery/portable_atmospherics/canister/toxins = 2)
+                           /obj/machinery/portable_atmospherics/canister/toxins = 1)
 
   
 //##############################################################################
@@ -69,8 +70,8 @@ Here we define the cargo crate, as well as the contents
   AddComponent(/datum/component/radioactive, 75)
 
 /obj/structure/closet/crate/large/cargo/nuke/PopulateContents()
-  new /obj/machinery/nuclearbomb/nuke/fake_cargo(src)
-  ..()
+  var/list/l = list(/obj/machinery/nuclearbomb/nuke/fake_cargo)
+  PopulateContentsWithTracker(l)
   
 /obj/structure/closet/crate/large/cargo/nuke/forceMove() //Most crates we are fine with letting loop back, but the nuke crate we specifically want to vanish if they try to space it
   . = ..()

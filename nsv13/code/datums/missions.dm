@@ -5,7 +5,10 @@ Once a crew takes a mission, you must set the ship as the owner, done by setting
 
 The proc register() is then ran, loading in the mission and any items they needs. Most of the other stuff will be handled by signals
 
-TODO: Cargo needs setting up with a proper delivery method
+TODO: 
+
+torps drop cargo after a while
+testtesttest
 
 */
 
@@ -375,6 +378,7 @@ kill station
     var/chosen_cargo = pickweight(possible_crates)
     possible_crates[chosen_cargo]--
     send_item(chosen_cargo)
+  send_item(/obj/item/ship_weapon/ammunition/torpedo/freight, FALSE) //Give them a free cargo torp on the house
   stage = MISSION_ACTIVE
   update_description()
   return TRUE
@@ -393,7 +397,10 @@ kill station
 
 
 
-/datum/nsv_mission/cargo/proc/deliver_cargo(var/datum/component/nsv_mission_cargo/cargo)
+/datum/nsv_mission/cargo/proc/deliver_cargo(var/datum/component/nsv_mission_cargo/cargo, var/obj/structure/overmap/destination)
+  if(delivery_target != destination) //Delivered to the wrong location...
+    if(destination.role != MAIN_OVERMAP && !destination.linked_areas.len) 
+      report_destroyed_cargo(cargo) // If we delivered to a ship that isn't the destination, or a crewed ship the cargo is lost for good
   tracked_cargo -= cargo.parent
   switch(cargo.cargo_state)
     if(CARGO_INTACT)
@@ -401,13 +408,15 @@ kill station
     if(CARGO_TAMPERED)
       tampered_cargo++
     else
-      lost_cargo++
-  payout = round(max_payout * (delivered_cargo /total_cargo ),0) + round(0.25 * max_payout * (tampered_cargo /total_cargo ),0)
+      lost_cargo++    
+  payout = round(max_payout * (delivered_cargo + (0.25 * tampered_cargo)) / total_cargo ,1) 
   qdel(cargo)
   check_completion()
 
 
 /datum/nsv_mission/cargo/proc/report_destroyed_cargo(var/datum/component/nsv_mission_cargo/cargo)
+  if(!tracked_cargo.Find(cargo.parent))
+    return
   tracked_cargo -= cargo.parent
   lost_cargo++
   check_completion()

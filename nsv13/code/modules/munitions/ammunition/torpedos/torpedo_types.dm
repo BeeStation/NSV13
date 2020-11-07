@@ -161,6 +161,7 @@
 		return TRUE
 	if(OM != overmap_firer)
 		deliver_freight(OM) //Bang.
+		qdel(src)
 		return TRUE
 
 /obj/structure/closet/supplypod/freight_pod
@@ -169,11 +170,17 @@
 
 /obj/item/projectile/guided_munition/torpedo/post/proc/deliver_freight(obj/structure/overmap/OM)
 	var/area/landingzone = null
+	for(var/atom/a in contents) //Send the cargo signal to our contents
+		SEND_SIGNAL(a, COMSIG_CARGO_DELIVERED, OM)
 	if(OM.role == MAIN_OVERMAP)
 		landingzone = GLOB.areas_by_type[/area/quartermaster/warehouse]
 	else
-		if(!OM.linked_areas.len)
-			return FALSE
+		if(!OM.linked_areas.len) // The cargo is now lost. clean it up
+			for(var/atom/a in contents)
+				for(var/atom/b in a.contents)
+					qdel(b)
+				qdel(a)
+			return
 		landingzone = pick(OM.linked_areas)
 	var/list/empty_turfs = list()
 	var/turf/LZ = null

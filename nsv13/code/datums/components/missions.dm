@@ -41,18 +41,23 @@
 /datum/component/nsv_mission_cargo_label/Initialize()
   RegisterSignal(parent, COMSIG_CARGO_REGISTER, .proc/register_cargo)
   RegisterSignal(parent, COMSIG_PARENT_EXAMINE, .proc/display_examine)
+  RegisterSignal(parent, COMSIG_CARGO_DELIVERED, .proc/deliver_cargo)
   
 /datum/component/nsv_mission_cargo_label/proc/display_examine(datum/source, mob/user, text)
   text += "<span class='warning'>This item is tagged as cargo, and needs to be delivered to [parent_mission.delivery_target]. <B>Opening this crate will reduce payout!</B></span>\n"
   
 /datum/component/nsv_mission_cargo_label/proc/register_cargo(datum/source, datum/mission) // Set the mission we are attached to
   parent_mission = mission
+  
+/datum/component/nsv_mission_cargo_label/proc/deliver_cargo(datum/source, obj/structure/overmap/destination) // Send the signal to our contents
+  var/atom/cargo = parent
+  for(var/atom/a in cargo.contents)
+    SEND_SIGNAL(a, COMSIG_CARGO_DELIVERED, destination)
 
 
 /datum/component/nsv_mission_cargo/
   var/datum/nsv_mission/cargo/parent_mission
   var/cargo_state = CARGO_INTACT
-  var/cargo_value = 500
 
 /datum/component/nsv_mission_cargo/Initialize()
   RegisterSignal(parent, COMSIG_CARGO_DELIVERED, .proc/deliver_cargo)
@@ -69,8 +74,8 @@
   parent_mission = mission
   parent_mission.tracked_cargo += source
 
-/datum/component/nsv_mission_cargo/proc/deliver_cargo()
-  parent_mission.deliver_cargo(src)
+/datum/component/nsv_mission_cargo/proc/deliver_cargo(datum/source, obj/structure/overmap/destination)
+  parent_mission.deliver_cargo(src, destination)
 
 
 /datum/component/nsv_mission_cargo/proc/cargo_tampered()
