@@ -92,7 +92,7 @@ Singleton to handle conquest roles. This exists to populate the roles list and n
 
 /datum/syndicate_crew_role/captain
 	name = "Syndicate Captain"
-	desc = "Wield the might of an advanced Syndicate battlecruiser and ensure Nanotrasen's presence in this sector is severely diminished. Primary duties: Lead the ship into battle, coordinate with the admiral and enact any maneuvers they see fit, outperform your Nanotrasen counterpart."
+	desc = "Wield the might of an advanced Syndicate battlecruiser and ensure Nanotrasen's presence in this sector is severely diminished. Primary duties: Lead the ship into battle, coordinate with the strategist and enact any maneuvers they see fit, outperform your Nanotrasen counterpart."
 	preference_flag = CONQUEST_ROLE_CAPTAIN
 	antag_datum_type = /datum/antagonist/nukeop/leader/syndi_crew
 
@@ -138,7 +138,7 @@ Singleton to handle conquest roles. This exists to populate the roles list and n
 //Syndicate crew roles, defined in order of priority.
 /datum/syndicate_crew_role/strategist
 	name = "Syndicate Strategist"
-	desc = "Syndicate strategists are specialist admirals assigned to assist Captains with making tactical decisions in the heat of battle."
+	desc = "Syndicate strategists are specialist admirals assigned to assist Captains with making tactical decisions in the heat of battle. Although the captain has the final say in decisions, your job is to think strategically and suggest possible strategies to the crew."
 	preference_flag = CONQUEST_ROLE_ADMIRAL
 	antag_datum_type = /datum/antagonist/nukeop/syndi_crew/strategist
 	essential = FALSE
@@ -243,7 +243,7 @@ Singleton to handle conquest roles. This exists to populate the roles list and n
 
 /datum/syndicate_crew_role/cag
 	name = "Syndicate CAG"
-	desc = "The commander of air group leads the air assault wing into battle."
+	desc = "The commander of air group leads the air assault wing into battle. The pilots all look to you for orders, so stay frosty, however you'll often find yourself performing ATC duties if there are no techs available."
 	preference_flag = CONQUEST_ROLE_CAG
 	antag_datum_type = /datum/antagonist/nukeop/syndi_crew/cag
 
@@ -291,6 +291,26 @@ Singleton to handle conquest roles. This exists to populate the roles list and n
 	mask = /obj/item/clothing/mask/gas/syndicate
 	suit = /obj/item/clothing/suit/space/hardsuit/syndi/elite
 	uniform = /obj/item/clothing/under/ship/pilot/syndicate
+
+/datum/syndicate_crew_role/clown
+	name = "Syndicate Clown"
+	desc = "Because what ship would be complete without its beloved clown. Keep the crew entertained through wacky exploits, and turn into a hyper-competent killing machine when called upon."
+	preference_flag = CONQUEST_ROLE_CLOWN
+	antag_datum_type = /datum/antagonist/nukeop/syndi_crew/clown/jojo_reference
+	essential = FALSE //No, just no
+
+/datum/antagonist/nukeop/syndi_crew/clown
+	name = "Syndicate Clown"
+	nukeop_outfit = /datum/outfit/syndicate/clownop/no_crystals
+	job_rank = ROLE_SYNDI_CREW
+
+/datum/antagonist/nukeop/syndi_crew/clown/give_alias()
+	owner.current.fully_replace_character_name(owner.current.real_name,owner.current.client.prefs.custom_names["clown"])
+
+/datum/outfit/syndicate/clownop/no_crystals/jojo_reference
+	name = "Syndicate Clown (Jojo Reference)"
+	suit = /obj/item/clothing/suit/ship/delinquent
+	head = /obj/item/clothing/head/delinquent
 
 /datum/syndicate_crew_role/marine
 	name = "Autofill"

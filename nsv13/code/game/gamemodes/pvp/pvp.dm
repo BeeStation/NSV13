@@ -77,7 +77,7 @@ Method to spawn in the Syndi ship on a brand new Z-level with the "boardable" tr
 		var/foundJob = FALSE
 		for(var/datum/syndicate_crew_role/nextRole in GLOB.conquest_role_handler.roles)
 			var/count = candidates[nextRole].len
-			if(count >= nextRole.max_count)
+			if(count >= nextRole.max_count || !nextRole.essential)
 				continue
 			//Cool, we've found a target!
 			to_chat(autofill, "<span class='warning'>You have been autofilled into [nextRole]! If you're not comfortable playing this role due to inexperience, please ahelp!")
