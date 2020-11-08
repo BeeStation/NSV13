@@ -28,7 +28,7 @@
 	ai_controlled = FALSE
 	collision_positions = list(new /datum/vector2d(-3,45), new /datum/vector2d(-17,29), new /datum/vector2d(-22,-12), new /datum/vector2d(-11,-45), new /datum/vector2d(7,-47), new /datum/vector2d(22,-12), new /datum/vector2d(9,30))
 	role = PVP_SHIP
-	starting_system = "Vorash"
+	starting_system = "The Badlands"
 	armor = list("overmap_light" = 70, "overmap_heavy" = 20)
 	use_armour_quadrants = FALSE //They can weld plates for now, I don't want to force them to go for high output stormdrives to run these things -K
 	armour_quadrants = list("forward_port" = list("name" = "Forward Port", "max_armour" = 750, "current_armour" = 750),\
