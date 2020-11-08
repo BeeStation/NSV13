@@ -1438,9 +1438,10 @@ Utility modules can be either one of these types, just ensure you set its slot t
 	max_freight = 20
 
 /obj/item/fighter_component/primary/utility/hold/load(obj/structure/overmap/target, atom/movable/AM)
-	if(contents && contents.len >= max_freight || isliving(AM) || istype(AM, /obj/item/fighter_component) || istype(AM, /obj/item/card/id) || istype(AM, /obj/item/pda)) //This just causess issues, trust me on this)
+	if(contents && contents.len >= max_freight || isliving(AM) || istype(AM, /obj/item/fighter_component) || istype(AM, /obj/item/card/id) || istype(AM, /obj/item/pda) || istype(AM, /obj/structure/overmap)) //This just causess issues, trust me on this)
 		return FALSE
-	AM.forceMove(src)
+	if((AM.move_resist > MOVE_FORCE_DEFAULT) || !AM.doMove(src))
+		return //Can't put ultra heavy stuff in
 	target.visible_message("[icon2html(src)] [AM] is loaded into the cargo hold")
 	playsound(target, 'nsv13/sound/effects/ship/mac_load.ogg', 100, 1)
 	return TRUE
