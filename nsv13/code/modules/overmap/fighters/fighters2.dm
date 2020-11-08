@@ -478,11 +478,13 @@ Repair
 
 /obj/structure/overmap/fighter/MouseDrop_T(atom/movable/target, mob/user)
 	. = ..()
+	if(!isliving(user))
+		return FALSE
 	for(var/slot in loadout.equippable_slots)
 		var/obj/item/fighter_component/FC = loadout.get_slot(slot)
 		if(FC?.load(src, target))
 			return FALSE
-	if(allowed(user) && isliving(user))
+	if(allowed(user))
 		if(!canopy_open)
 			playsound(src, 'sound/effects/glasshit.ogg', 75, 1)
 			user.visible_message("<span class='warning'>You bang on the canopy.</span>", "<span class='warning'>[user] bangs on [src]'s canopy.</span>")
@@ -494,6 +496,8 @@ Repair
 		if(do_after(user, 2 SECONDS, target=src))
 			start_piloting(user, "observer")
 			enter(user)
+	else
+		to_chat(user, "<span class='warning'>Access denied.</span>")
 
 /obj/structure/overmap/fighter/proc/enter(mob/user)
 	user.forceMove(src)
