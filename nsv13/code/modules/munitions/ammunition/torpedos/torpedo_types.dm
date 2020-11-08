@@ -141,11 +141,13 @@
 		return FALSE //You can't move a torp from the inside :b1:
 
 /obj/item/projectile/guided_munition/torpedo/post
+	name = "freight torpedo"
 	icon_state = "torpedo_post"
+	homing_turn_speed = 0
 	damage = 0
 
-/obj/item/projectile/guided_munition/torpedo/post/Initialize()
-	. = ..()
+/obj/item/projectile/guided_munition/torpedo/post/windup() // As we can not lock onto a target, this just causes the torp to do a 180.
+	return
 
 /obj/item/projectile/guided_munition/torpedo/post/proc/foo()
 	new /mob/living/carbon/human(src)
@@ -176,10 +178,7 @@
 		landingzone = GLOB.areas_by_type[/area/quartermaster/warehouse]
 	else
 		if(!OM.linked_areas.len) // The cargo is now lost. clean it up
-			for(var/atom/a in contents)
-				for(var/atom/b in a.contents)
-					qdel(b)
-				qdel(a)
+			qdel(src)
 			return
 		landingzone = pick(OM.linked_areas)
 	var/list/empty_turfs = list()
@@ -201,8 +200,8 @@
 
 /obj/item/projectile/guided_munition/torpedo/post/Destroy()
 	if(contents.len)
-		for(var/atom/X in contents)
-			qdel(X) //Shooting this torpedo down means death.
+		var/list/all_contents = GetAllContents() - src //Get all contents returns the torp itself. remove the torp from the list
+		QDEL_LIST(all_contents) //Delete all contents of the torp. 
 	. = ..()
 
 //A probe that science builds to scan anomalies. This is a chad move.

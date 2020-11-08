@@ -26,7 +26,7 @@
   var/list/results = list()
   for(var/m in ship.missions)
     var/datum/nsv_mission/mission = m
-    results[++results.len] = list("desc" = mission.desc, "status" = mission.stage, "client" = mission.the_client.name)
+    results[++results.len] = list("desc" = mission.desc, "status" = mission.stage, "client" = mission.the_client.name, "reward" = mission.reward_string())
   return results
 
 

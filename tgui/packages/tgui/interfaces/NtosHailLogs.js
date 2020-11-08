@@ -38,6 +38,8 @@ const MissionTable = (props, context) => {
       {missions.map(mission => (
         <Section title={"Request from "+mission.client+" - "+missionStatusToText(mission.status)} key={mission}>
           {mission.desc}
+          <br />
+          {"Payment: "+mission.reward}
         </Section>
       ))}
     </Section>

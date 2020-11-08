@@ -615,7 +615,6 @@ Returns a faction datum by its name (case insensitive!)
 	alignment = "nanotrasen"
 	system_type = "planet_earth"
 	adjacency_list = list("Alpha Centauri", "Risa Station", "Ross 154")
-	preset_trader = /datum/trader/minsky //TODO: remove this test station
 
 /datum/star_system/ross
 	name = "Ross 154" //Hi mate my name's ross how's it going

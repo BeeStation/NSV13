@@ -81,7 +81,7 @@ Here we define the cargo crate, as well as the contents
   
 /obj/machinery/nuclearbomb/nuke/fake_cargo/Initialize()
   . = ..()
-  timer_set = 1200
+  timer_set = 1800
   safety = FALSE	
   timing = TRUE
   previous_level = get_security_level()
