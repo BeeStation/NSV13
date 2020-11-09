@@ -46,27 +46,32 @@
 	RETURN_TYPE(/atom/movable)
 	var/area/landingzone = null
 	var/obj/structure/overmap/OM = src
-	if(OM.role == MAIN_OVERMAP)
-		landingzone = GLOB.areas_by_type[/area/quartermaster/warehouse]
-	else
-		if(!OM.linked_areas.len)
-			OM = OM.last_overmap //Handles fighters going out and buying things on the ship's behalf
-			if(OM.linked_areas.len)
-				goto foundareas
-			return FALSE
-		foundareas:
-		landingzone = pick(OM.linked_areas)
-	var/list/empty_turfs = list()
 	var/turf/LZ = null
-	for(var/turf/open/floor/T in landingzone.contents)//uses default landing zone
-		if(is_blocked_turf(T))
-			continue
-		if(empty_turfs.len >= 10)
-			break //Don't bother finding any more.
-		LAZYADD(empty_turfs, T)
-		CHECK_TICK
-	if(empty_turfs?.len)
-		LZ = pick(empty_turfs)
+	//If you wanna specify WHERE cargo is dropped. Otherwise we guess.
+	if(!trader_beacons || !trader_beacons.len)
+		if(OM.role == MAIN_OVERMAP)
+			landingzone = GLOB.areas_by_type[/area/quartermaster/warehouse]
+
+		else
+			if(!OM.linked_areas.len)
+				OM = OM.last_overmap //Handles fighters going out and buying things on the ship's behalf
+				if(OM.linked_areas.len)
+					goto foundareas
+				return FALSE
+			foundareas:
+			landingzone = pick(OM.linked_areas)
+		var/list/empty_turfs = list()
+		for(var/turf/open/floor/T in landingzone.contents)//uses default landing zone
+			if(is_blocked_turf(T))
+				continue
+			if(empty_turfs.len >= 10)
+				break //Don't bother finding any more.
+			LAZYADD(empty_turfs, T)
+			CHECK_TICK
+		if(empty_turfs?.len)
+			LZ = pick(empty_turfs)
+	else
+		LZ = get_turf(pick(trader_beacons))
 	var/obj/structure/closet/supplypod/centcompod/toLaunch = new /obj/structure/closet/supplypod/centcompod
 	var/shippingLane = GLOB.areas_by_type[/area/centcom/supplypod/flyMeToTheMoon]
 	toLaunch.forceMove(shippingLane)

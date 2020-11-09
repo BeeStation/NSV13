@@ -645,7 +645,7 @@ GLOBAL_LIST_EMPTY(ai_goals)
 /datum/ai_goal/defend/action(obj/structure/overmap/OM)
 	..()
 	if(!OM.defense_target || QDELETED(OM.defense_target))
-		OM.defense_target = pick(OM.fleet.taskforces["supply"])
+		OM.defense_target = OM.fleet.taskforces["supply"] ? pick(OM.fleet.taskforces["supply"]) : OM
 	OM.move_mode = NORTH
 	if(get_dist(OM, OM.defense_target) <= AI_PDC_RANGE)
 		OM.brakes = TRUE

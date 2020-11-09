@@ -111,8 +111,9 @@ Singleton to handle conquest roles. This exists to populate the roles list and n
 	tips = 'html/antagtips/galactic_conquest.html'
 
 /datum/outfit/syndicate/no_crystals/syndi_crew/leader
-	name = "Syndicate captain"
+	name = "Syndicate Captain"
 	id = /obj/item/card/id/syndicate/nuke_leader
+	r_hand = /obj/item/ship_loadout_selector
 	gloves = /obj/item/clothing/gloves/krav_maga/combatglovesplus
 	neck = /obj/item/clothing/neck/cloak/syndcap
 	//r_hand = /obj/item/nuclear_challenge //Not made my mind up on this one yet...
@@ -164,6 +165,8 @@ Singleton to handle conquest roles. This exists to populate the roles list and n
 	r_pocket = /obj/item/tank/internals/emergency_oxygen/double
 	shoes = /obj/item/clothing/shoes/combat/swat
 	backpack_contents = list(/obj/item/storage/box/survival=1,/obj/item/clipboard=1,/obj/item/ammo_box/shotgun_lethal=3)
+	command_radio = TRUE
+	id = /obj/item/card/id/syndicate/nuke_leader
 
 /datum/antagonist/nukeop/syndi_crew/strategist/greet()
 	owner.current.playsound_local(get_turf(owner.current), 'sound/ambience/antag/ops.ogg',100,0)
@@ -333,7 +336,6 @@ Singleton to handle conquest roles. This exists to populate the roles list and n
 	suit = /obj/item/clothing/suit/ship/syndicate_crew
 	uniform = /obj/item/clothing/under/rank/civilian/chef
 
-
 /datum/syndicate_crew_role/marine
 	name = "Autofill"
 	desc = "Let the game randomly assign you to a job. This usually relegates you to doing grunt security or boarding work under the Sergeant!"
@@ -356,21 +358,25 @@ Singleton to handle conquest roles. This exists to populate the roles list and n
 	nukeop_outfit = /datum/outfit/syndicate/no_crystals/syndi_crew/marine
 
 /datum/outfit/syndicate/no_crystals/syndi_crew/marine
-	name = "Syndicate Marine"
+	name = "Syndicate Grunt"
 	head = /obj/item/clothing/suit/space/syndicate/odst/marine
 	mask = /obj/item/clothing/mask/gas/syndicate
 	suit = /obj/item/clothing/head/helmet/space/syndicate/odst/marine
 	uniform = /obj/item/clothing/under/ship/pilot/syndicate
 
+
+/mob
+	var/next_faction_stat = 0
 //Allows you to see faction statuses
 /mob/Stat()
 	..()
-	if(!client) //Let's not waste time
+	if(!client || world.time < next_faction_stat) //Let's not waste time
 		return
 	if(statpanel("Faction"))
 		stat(null, "Faction influence:")
 		for(var/datum/faction/F in SSstar_system.factions)
 			stat(null, "[F.name]: [F.tickets]")
+		next_faction_stat = world.time + 10 SECONDS //I have a feeling that this may be really, really laggy. Because stat() is weird and laggy.
 
 /datum/team/nuclear/roundend_report()
 	if(istype(SSticker.mode, /datum/game_mode/pvp))

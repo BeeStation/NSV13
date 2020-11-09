@@ -64,8 +64,8 @@ Set up relationships.
 	tickets += value
 	SSstar_system.check_completion()
 
-/datum/faction/proc/send_fleet(datum/star_system/override=null, custom_difficulty=null)
-	if(SSstar_system.check_completion() || !fleet_types || world.time < next_fleet_spawn)
+/datum/faction/proc/send_fleet(datum/star_system/override=null, custom_difficulty=null, force=FALSE)
+	if(SSstar_system.check_completion() || !fleet_types || !force && (world.time < next_fleet_spawn))
 		return
 	next_fleet_spawn = world.time + fleet_spawn_rate
 	var/datum/star_system/current_system //Dont spawn enemies where theyre currently at

@@ -196,6 +196,7 @@
 	var/cloak_factor = SENSOR_VISIBILITY_GHOST
 
 /obj/structure/overmap/proc/handle_cloak(state)
+	set waitfor = FALSE
 	switch(state)
 		if(TRUE)
 			while(alpha > cloak_factor){
