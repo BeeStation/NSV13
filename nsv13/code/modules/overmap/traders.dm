@@ -140,7 +140,12 @@
 	data["theme"] = (faction_type == FACTION_ID_NT) ? "ntos" : "syndicate"
 	data["items_info"] = items_info
 	data["next_restock"] = "Stock: (Restocking in [round((next_restock-world.time)/600)] minutes)"
-	var/datum/bank_account/D = SSeconomy.get_dep_account(ACCOUNT_CAR)
+	//Syndies use syndie budget, NT use NT cargo budget
+	var/obj/structure/overmap/OM = user.get_overmap()
+	var/account = ACCOUNT_CAR
+	if(OM)
+		account = (OM.faction == "nanotrasen") ? ACCOUNT_CAR : ACCOUNT_SYN
+	var/datum/bank_account/D = SSeconomy.get_dep_account(account)
 	if(D)
 		data["points"] = "$[D.account_balance]"
 	return data
@@ -186,7 +191,12 @@
 /datum/trader/proc/attempt_purchase(datum/trader_item/item, mob/living/carbon/user)
 	if(!isliving(user))
 		return FALSE
-	var/datum/bank_account/D = SSeconomy.get_dep_account(ACCOUNT_CAR)
+	//Syndies use syndie budget, NT use NT cargo budget
+	var/obj/structure/overmap/OM = user.get_overmap()
+	var/account = ACCOUNT_CAR
+	if(OM)
+		account = (OM.faction == "nanotrasen") ? ACCOUNT_CAR : ACCOUNT_SYN
+	var/datum/bank_account/D = SSeconomy.get_dep_account(account)
 	if(!D || D.account_balance <= item.price)
 		SEND_SOUND(user, 'nsv13/sound/effects/ship/freespace2/computer/textdraw.wav')
 		to_chat(user, "<span class='boldnotice'>[pick(on_fail)]</span>")

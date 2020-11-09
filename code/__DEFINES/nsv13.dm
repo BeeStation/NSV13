@@ -28,6 +28,7 @@
 #define CONQUEST_ROLE_PILOT "Pilot"
 #define CONQUEST_ROLE_SERGEANT "Sergeant"
 #define CONQUEST_ROLE_CLOWN "Clown"
+#define CONQUEST_ROLE_LINECOOK "Line Cook"
 #define CONQUEST_ROLE_GRUNT "Autofill"
 
 GLOBAL_DATUM_INIT(conquest_role_handler, /datum/conquest_role_handler, new)

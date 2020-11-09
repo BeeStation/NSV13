@@ -32,6 +32,7 @@ GLOBAL_LIST_EMPTY(syndi_crew_leader_spawns)
 
 	var/datum/team/nuclear/nuke_team
 	var/highpop_threshold = 45 //At what player count does the round enter "highpop" mode, and spawn the Syndicate a larger ship to compensate.
+	var/datum/faction/winner = null //Has a winning faction been declared?
 
 	var/operative_antag_datum_type = /datum/antagonist/nukeop/syndi_crew
 	var/leader_antag_datum_type = /datum/antagonist/nukeop/leader/syndi_crew
@@ -39,6 +40,7 @@ GLOBAL_LIST_EMPTY(syndi_crew_leader_spawns)
 	var/list/highpop_ships = list("Hulk.dmm") //Update this list if you make a big PVP ship
 	var/list/jobs = list()
 	var/overflow_role = CONQUEST_ROLE_GRUNT
+	var/time_limit = 1 HOURS + 45 MINUTES //How long do you want the mode to run for? This is capped to keep it from dragging on or OOMing
 
 /**
 
@@ -46,11 +48,7 @@ Method to spawn in the Syndi ship on a brand new Z-level with the "boardable" tr
 
 */
 
-
-
-
 /datum/game_mode/pvp/proc/assign_jobs()
-	message_admins("Assign roles!")
 	//Now divvy up the roles! We have certain ones we _must_ fill, and others we'd _like_ to fill.
 	var/list/candidates = list()
 	var/list/autofill_victims = list()
@@ -61,7 +59,8 @@ Method to spawn in the Syndi ship on a brand new Z-level with the "boardable" tr
 		var/preferred_job = nextCrewman.current.client.prefs.preferred_syndie_role
 		//Order of conquest_role_handler.roles is in descending for priority.
 		var/datum/syndicate_crew_role/idealRole = GLOB.conquest_role_handler.get_job(preferred_job)
-		var/count = candidates[idealRole].len
+		var/list/L = candidates[idealRole]
+		var/count = L.len
 		//This job's filled up, OR they've picked the overflow role, which means they don't really care
 		if(count >= idealRole.max_count || idealRole.max_count == INFINITY)
 			autofill_victims += nextCrewman
@@ -102,9 +101,7 @@ Method to spawn in the Syndi ship on a brand new Z-level with the "boardable" tr
 	var/n_agents = antag_candidates.len
 	if(n_agents > 0)
 		addtimer(CALLBACK(GLOBAL_PROC, .proc/overmap_lighting_force, syndiship), 6 SECONDS)
-		//var/enemies_to_spawn = required_enemies + round((num_players()-required_enemies)/10) //Syndicates scale with pop. On a standard 30 pop, this'll be 30 - 10 -> 20 / 10 -> 2 floored = 2, where FLOOR rounds the number to a whole number.
-		var/enemies_to_spawn = 1 //Todo: replace when done testing
-		message_admins(enemies_to_spawn)
+		var/enemies_to_spawn = max(1, required_enemies + round((num_players()-required_enemies)/10)) //Syndicates scale with pop. On a standard 30 pop, this'll be 30 - 10 -> 20 / 10 -> 2 floored = 2, where FLOOR rounds the number to a whole number.
 		for(var/i = 0, i < enemies_to_spawn, i++)
 			var/datum/mind/new_op = pick_n_take(antag_candidates)
 			pre_nukeops += new_op
@@ -126,6 +123,13 @@ Method to spawn in the Syndi ship on a brand new Z-level with the "boardable" tr
 
 /datum/game_mode/pvp/post_setup()
 	assign_jobs()
+	SSstar_system.time_limit = world.time + time_limit //Hard timecap to prevent this dragging on or crashing.
+	SSstar_system.nag_interval = 2 HOURS //No external pressure in this round...
+	//And now, we make it so that NT sends fleets instead of the Syndicate...
+	var/datum/faction/synd = SSstar_system.faction_by_id(FACTION_ID_SYNDICATE)
+	var/datum/faction/nt = SSstar_system.faction_by_id(FACTION_ID_NT)
+	nt.fleet_spawn_rate = synd.fleet_spawn_rate
+	synd.fleet_spawn_rate = 2 HOURS
 //	SSstar_system.add_blacklist(/obj/structure/overmap/syndicate/ai/carrier) //No. Just no. Please. God no.
 //	SSstar_system.add_blacklist(/obj/structure/overmap/syndicate/ai/patrol_cruiser) //Syndies only get LIGHT reinforcements.
 	return ..()
@@ -135,11 +139,19 @@ Method to spawn in the Syndi ship on a brand new Z-level with the "boardable" tr
 	nukes_left--
 
 /datum/game_mode/pvp/check_win()
+	if(winner)
+		if(winner.id != FACTION_ID_NT)
+			return TRUE
+		else
+			return FALSE
 	if (nukes_left == 0)
 		return TRUE
 	return ..()
 
 /datum/game_mode/pvp/check_finished()
+	if(winner) //SSstar_system has declared a winner! Time to clean up.
+		return TRUE
+
 	//Keep the round going if ops are dead but bomb is ticking.
 	if(nuke_team?.operatives_dead())
 		for(var/obj/machinery/nuclearbomb/N in GLOB.nuke_list)
@@ -150,16 +162,30 @@ Method to spawn in the Syndi ship on a brand new Z-level with the "boardable" tr
 
 /datum/game_mode/pvp/set_round_result()
 	..()
-	var result = nuke_team.get_result()
+	var result = nuke_team?.get_result()
+	//First off, did they manage to nuke the ship?
 	if(result == NUKE_RESULT_NUKE_WIN)
 		SSticker.mode_result = "win - syndicate nuke"
 		SSticker.news_report = STATION_NUKED
-	else
-		SSticker.mode_result = "loss - Nanotrasen reinforcements arrived "
-		SSticker.news_report = OPERATIVE_SKIRMISH
+		return
+	switch(winner.id)
+		if(FACTION_ID_NT)
+			SSticker.mode_result = "loss - Nanotrasen repelled the invasion"
+			SSticker.news_report = PVP_SYNDIE_LOSS
+			return
+		if(FACTION_ID_PIRATES)
+			SSticker.mode_result = "partial win - The Syndicate's allies secured a large amount of territory."
+			SSticker.news_report = PVP_SYNDIE_PIRATE_WIN
+			return
+		if(FACTION_ID_SYNDICATE)
+			SSticker.mode_result = "syndicate major victory! - The Syndicate has secured a large amount of territory."
+			SSticker.news_report = PVP_SYNDIE_WIN
+			return
+	SSticker.mode_result = "syndicate minor loss! - Nanotrasen's allies were able to repel the invasion."
+	SSticker.news_report = PVP_SYNDIE_LOSS
 
 /datum/game_mode/pvp/generate_report()
-	return "Deep space scanners are showing a heightened level of Syndicate activity in your AO. Be on high alert for Syndicate strike teams."
+	return "Intel suggests that the Syndicate are mounting an all out assault on the Sol sector. Be prepared for anything."
 
 /datum/game_mode/pvp/generate_credit_text()
 	var/list/round_credits = list()

@@ -769,6 +769,8 @@ GLOBAL_LIST_EMPTY(asset_datums)
 		"scroll.png" = 'html/img/scroll.png',
 		"disk.png" = 'html/img/disk.png',
 		"nuke.png" = 'html/img/nuke.png',
+		"pvp.png" = 'html/img/pvp.png',
+		"lighthouse.png" = 'html/img/lighthouse.png',
 		"eshield.png" = 'html/img/eshield.png',
 		"mech.png" = 'html/img/mech.png',
 		"scitool.png" = 'html/img/scitool.png',

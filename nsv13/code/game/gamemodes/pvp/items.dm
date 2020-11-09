@@ -3,6 +3,17 @@
 /datum/outfit/syndicate/no_crystals
 	implants = list()
 
+//Syndicate defense budget
+/obj/item/card/id/departmental_budget/syndicate
+	department_ID = ACCOUNT_SYN
+	department_name = ACCOUNT_SYN_NAME
+	icon_state = "warden" //placeholder
+
+/obj/machinery/computer/cargo/express/syndicate
+	name = "Syndicate Requisitions Console"
+	req_access = list(ACCESS_SYNDICATE)
+	account_type = ACCOUNT_SYN
+
 /datum/outfit/syndicate/no_crystals/syndi_crew
 	name = "Syndicate crewmate"
 	head = /obj/item/clothing/head/HoS/beret/syndicate

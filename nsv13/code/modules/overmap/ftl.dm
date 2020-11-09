@@ -223,7 +223,7 @@
 	req_access = list(ACCESS_ENGINE_EQUIP)
 	var/tier = 1
 	var/faction = "nanotrasen" //For ship tracking. The tracking feature of the FTL compy is entirely so that antagonists can hunt the NT ships down
-	var/jump_speed_factor = 1 //How quickly do we jump? Larger is faster.
+	var/jump_speed_factor = 2 //How quickly do we jump? Larger is faster.
 	var/ftl_state = FTL_STATE_IDLE //Mr Gaeta, spool up the FTLs.
 	var/obj/item/radio/radio //For engineering alerts.
 	var/radio_key = /obj/item/encryptionkey/headset_eng
@@ -266,7 +266,7 @@
 			ftl_start = 'nsv13/sound/effects/ship/slipstream_start.ogg'
 			ftl_startup_time = 6 SECONDS
 			spoolup_time = 30 SECONDS
-			jump_speed_factor = 2
+			jump_speed_factor = 3
 			max_range = 150
 		if(3) //Admin only so I can test things more easily, or maybe dropped from an EXTREMELY RARE, copyright free ruin.
 			name = "Warp drive computer"
@@ -296,7 +296,7 @@ Preset classes of FTL drive with pre-programmed behaviours
 
 /obj/machinery/computer/ship/ftl_computer/syndicate
 	name = "Syndicate FTL computer"
-	jump_speed_factor = 2 //Twice as fast as NT's shit so they can hunt the ship down or get ahead of them to set up an ambush of raptors
+//	jump_speed_factor = 2 //Twice as fast as NT's shit so they can hunt the ship down or get ahead of them to set up an ambush of raptors
 	radio_key = /obj/item/encryptionkey/syndicate
 	engineering_channel = "Syndicate"
 	faction = "syndicate"

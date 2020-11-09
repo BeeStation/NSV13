@@ -266,10 +266,10 @@ GLOBAL_LIST_EMPTY(ai_goals)
 		return
 	if(!ship_name)
 		return
-	var/player_string = ""	
+	var/player_string = ""
 	if(player_name) // No sender means AI ship
 		player_string = " (Sent by [player_name])"
-		
+
 	if(outbound)
 		relay('nsv13/sound/effects/ship/freespace2/computer/textdraw.wav', "<h3>Outbound hail to: [ship_name][player_string]</h3><hr><span class='danger'>[text]</span><br>")
 	else
@@ -448,6 +448,7 @@ GLOBAL_LIST_EMPTY(ai_goals)
 	alignment = "nanotrasen"
 	hide_movements = TRUE //Friendly fleets just move around as you'd expect.
 	faction_id = FACTION_ID_NT
+	taunts = list("Syndicate vessel, stand down or be destroyed", "You are encroaching on our airspace, prepare to be destroyed", "Unidentified vessel, your existence will be forfeit in accordance with the peacekeeper act.")
 
 /datum/fleet/nanotrasen/light
 	name = "Nanotrasen light fleet"

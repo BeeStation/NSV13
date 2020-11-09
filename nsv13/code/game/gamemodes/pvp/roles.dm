@@ -51,6 +51,8 @@
 	name = "Syndicate crew"
 	nukeop_outfit = /datum/outfit/syndicate/no_crystals/syndi_crew
 	job_rank = ROLE_SYNDI_CREW
+	tips = 'html/antagtips/galactic_conquest.html'
+	give_objectives = FALSE //Their objective is to win the game
 
 /datum/antagonist/nukeop/syndi_crew/greet()
 	owner.current.playsound_local(get_turf(owner.current), 'sound/ambience/antag/ops.ogg',100,0)
@@ -106,6 +108,7 @@ Singleton to handle conquest roles. This exists to populate the roles list and n
 /datum/antagonist/nukeop/leader/syndi_crew
 	name = "Syndicate captain"
 	nukeop_outfit = /datum/outfit/syndicate/no_crystals/syndi_crew/leader
+	tips = 'html/antagtips/galactic_conquest.html'
 
 /datum/outfit/syndicate/no_crystals/syndi_crew/leader
 	name = "Syndicate captain"
@@ -211,6 +214,7 @@ Singleton to handle conquest roles. This exists to populate the roles list and n
 	belt = /obj/item/storage/belt/utility/full/engi
 	uniform = /obj/item/clothing/under/ship/syndicate_tech
 	id = /obj/item/card/id/syndicate/requisitions_officer
+	l_pocket = /obj/item/card/id/departmental_budget/syndicate
 
 //Keeps the plebs outta req
 /obj/item/card/id/syndicate/requisitions_officer/Initialize()
@@ -222,7 +226,7 @@ Singleton to handle conquest roles. This exists to populate the roles list and n
 	desc = "Shipside techs are engineers who specialise in supplying a ship with power, maintaining its weapons, and launching its fighters."
 	preference_flag = CONQUEST_ROLE_TECHNICIAN
 	antag_datum_type = /datum/antagonist/nukeop/syndi_crew/technician
-	max_count = 5
+	max_count = 4
 
 /datum/antagonist/nukeop/syndi_crew/technician
 	name = "Syndicate technician"
@@ -260,7 +264,7 @@ Singleton to handle conquest roles. This exists to populate the roles list and n
 
 /datum/syndicate_crew_role/pilot
 	name = "Syndicate Fighter Pilot"
-	desc = "The commander of air group."
+	desc = "Syndicate fighter pilots have shorter average life expectancies than WW1 biplane pilots and are assigned to fly the Syndicate's fighter jets in close air support of their carrier ship under the command of the CAG."
 	preference_flag = CONQUEST_ROLE_PILOT
 	antag_datum_type = /datum/antagonist/nukeop/syndi_crew/pilot
 	max_count = 4
@@ -296,12 +300,12 @@ Singleton to handle conquest roles. This exists to populate the roles list and n
 	name = "Syndicate Clown"
 	desc = "Because what ship would be complete without its beloved clown. Keep the crew entertained through wacky exploits, and turn into a hyper-competent killing machine when called upon."
 	preference_flag = CONQUEST_ROLE_CLOWN
-	antag_datum_type = /datum/antagonist/nukeop/syndi_crew/clown/jojo_reference
+	antag_datum_type = /datum/antagonist/nukeop/syndi_crew/clown
 	essential = FALSE //No, just no
 
 /datum/antagonist/nukeop/syndi_crew/clown
 	name = "Syndicate Clown"
-	nukeop_outfit = /datum/outfit/syndicate/clownop/no_crystals
+	nukeop_outfit = /datum/outfit/syndicate/clownop/no_crystals/jojo_reference
 	job_rank = ROLE_SYNDI_CREW
 
 /datum/antagonist/nukeop/syndi_crew/clown/give_alias()
@@ -311,6 +315,24 @@ Singleton to handle conquest roles. This exists to populate the roles list and n
 	name = "Syndicate Clown (Jojo Reference)"
 	suit = /obj/item/clothing/suit/ship/delinquent
 	head = /obj/item/clothing/head/delinquent
+
+/datum/syndicate_crew_role/line_cook
+	name = "Syndicate Line Cook"
+	desc = "Syndicate line cooks are non-combat personnel who ensure that the crew stays fed and morale is high. Unlike your NT counterpart, Syndicate cooks also get free reign of botany and the bar and are expected to be self sufficient in feeding and maintaining the crew's welfare."
+	preference_flag = CONQUEST_ROLE_LINECOOK
+	antag_datum_type = /datum/antagonist/nukeop/syndi_crew/line_cook
+	essential = FALSE
+
+/datum/antagonist/nukeop/syndi_crew/line_cook
+	name = "Syndicate Line Cook"
+	nukeop_outfit = /datum/outfit/syndicate/no_crystals/syndi_crew/line_cook
+
+/datum/outfit/syndicate/no_crystals/syndi_crew/line_cook
+	name = "Syndicate Line Cook"
+	head = /obj/item/clothing/head/chefhat
+	suit = /obj/item/clothing/suit/ship/syndicate_crew
+	uniform = /obj/item/clothing/under/rank/civilian/chef
+
 
 /datum/syndicate_crew_role/marine
 	name = "Autofill"
@@ -339,3 +361,66 @@ Singleton to handle conquest roles. This exists to populate the roles list and n
 	mask = /obj/item/clothing/mask/gas/syndicate
 	suit = /obj/item/clothing/head/helmet/space/syndicate/odst/marine
 	uniform = /obj/item/clothing/under/ship/pilot/syndicate
+
+//Allows you to see faction statuses
+/mob/Stat()
+	..()
+	if(!client) //Let's not waste time
+		return
+	if(statpanel("Faction"))
+		stat(null, "Faction influence:")
+		for(var/datum/faction/F in SSstar_system.factions)
+			stat(null, "[F.name]: [F.tickets]")
+
+/datum/team/nuclear/roundend_report()
+	if(istype(SSticker.mode, /datum/game_mode/pvp))
+		var/datum/game_mode/pvp/mode = SSticker.mode
+		var/list/parts = list()
+		parts += "<span class='header'>[syndicate_name] Crewmen:</span>"
+
+		var result = get_result()
+		//First off, did they manage to nuke the ship?
+		if(result == NUKE_RESULT_NUKE_WIN)
+			parts += "<span class='greentext big'>Syndicate Major Victory!</span>"
+			parts += "<b>The crew of [station_name()] were annihilated by [syndicate_name] operatives in nuclear hellfire.</b>"
+		else
+			switch(mode.winner.id)
+				if(FACTION_ID_NT)
+					parts += "<span class='redtext big'>Nanotrasen Major Victory!</span>"
+					parts += "<b>The crew of [station_name()] were able to put a stop to the SSV Nebuchadnezzar's efforts of galactic conquest, weakening the Syndicate's position in the Abassi Ridge.</b>"
+
+				if(FACTION_ID_PIRATES)
+					parts += "<span class='greentext'>Pirate Major Victory!</span>"
+					parts += "<b>The Tortuga Raiders were able to use the chaos created by the Syndicate to establish a strong footing in the Abassi ridge.</b>"
+
+				if(FACTION_ID_SYNDICATE)
+					parts += "<span class='greentext big'>Syndicate Victory!</span>"
+					parts += "<b>The crew of the SSV Nebuchadnezzar were able to weaken NT's presence in the Abassi ridge significantly!</b>"
+				//Default victory for undefined factions.
+				else
+					parts += "<span class='redtext'>Stalemate!</span>"
+					parts += "<b>[mode.winner] was able to secure the most influence, NT and the Syndicate took equal casualties.</b>"
+
+
+		var/text = "<br><span class='header'>The syndicate crewmen were:</span>"
+		var/purchases = ""
+		var/TC_uses = 0
+		LAZYINITLIST(GLOB.uplink_purchase_logs_by_key)
+		for(var/I in members)
+			var/datum/mind/syndicate = I
+			var/datum/uplink_purchase_log/H = GLOB.uplink_purchase_logs_by_key[syndicate.key]
+			if(H)
+				TC_uses += H.total_spent
+				purchases += H.generate_render(show_key = FALSE)
+		text += printplayerlist(members)
+		text += "<br>"
+		text += "(Syndicates used [TC_uses] TC) [purchases]"
+		if(TC_uses == 0 && SSticker.mode.station_was_nuked && !operatives_dead())
+			text += "<BIG>[icon2html('icons/badass.dmi', world, "badass")]</BIG>"
+
+		parts += text
+
+		return "<div class='panel redborder'>[parts.Join("<br>")]</div>"
+
+	else
+		. = ..()
