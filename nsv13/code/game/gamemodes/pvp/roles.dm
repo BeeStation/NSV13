@@ -364,19 +364,13 @@ Singleton to handle conquest roles. This exists to populate the roles list and n
 	suit = /obj/item/clothing/head/helmet/space/syndicate/odst/marine
 	uniform = /obj/item/clothing/under/ship/pilot/syndicate
 
-
-/mob
-	var/next_faction_stat = 0
 //Allows you to see faction statuses
 /mob/Stat()
 	..()
-	if(!client || world.time < next_faction_stat) //Let's not waste time
-		return
 	if(statpanel("Faction"))
 		stat(null, "Faction influence:")
 		for(var/datum/faction/F in SSstar_system.factions)
 			stat(null, "[F.name]: [F.tickets]")
-		next_faction_stat = world.time + 10 SECONDS //I have a feeling that this may be really, really laggy. Because stat() is weird and laggy.
 
 /datum/team/nuclear/roundend_report()
 	if(istype(SSticker.mode, /datum/game_mode/pvp))

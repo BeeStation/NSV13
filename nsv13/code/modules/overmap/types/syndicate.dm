@@ -28,9 +28,9 @@
 	ai_controlled = FALSE
 	collision_positions = list(new /datum/vector2d(-3,45), new /datum/vector2d(-17,29), new /datum/vector2d(-22,-12), new /datum/vector2d(-11,-45), new /datum/vector2d(7,-47), new /datum/vector2d(22,-12), new /datum/vector2d(9,30))
 	role = PVP_SHIP
-	starting_system = "Demon's Maw"
+	starting_system = "The Badlands" //Relatively safe start, fleets won't hotdrop you here.
 	armor = list("overmap_light" = 70, "overmap_heavy" = 20)
-	use_armour_quadrants = FALSE //They can weld plates for now, I don't want to force them to go for high output stormdrives to run these things -K
+	use_armour_quadrants = TRUE
 	armour_quadrants = list("forward_port" = list("name" = "Forward Port", "max_armour" = 750, "current_armour" = 750),\
 							"forward_starboard" = list("name" = "Forward Starboard", "max_armour" = 750, "current_armour" = 750),\
 							"aft_port" = list("name" = "Aft Port", "max_armour" = 500, "current_armour" = 500),\

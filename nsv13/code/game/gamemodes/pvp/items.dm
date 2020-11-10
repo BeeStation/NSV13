@@ -85,9 +85,13 @@
 	var/faction_type = FACTION_ID_SYNDICATE
 	var/alignment = "syndicate"
 	var/points_per_capture = 25 //How many points does capturing one system net you? Since it's 1000 points to win, this will take a loooot of captures to outright win as syndies.
-	var/time_left = 10 MINUTES
+	var/time_left = 5 MINUTES
 	var/active = FALSE
 	var/next_activation = 0
+
+/obj/machinery/conquest_beacon/examine(mob/user)
+	. = ..()
+	. += "<span class='sciradio'>Its timer reads: [time_left] seconds remaining.</span>"
 
 /obj/machinery/conquest_beacon/process()
 	if(!powered())
@@ -123,11 +127,11 @@
 	set_active(FALSE, FALSE)
 
 /obj/machinery/conquest_beacon/proc/set_active(state, voluntarily=FALSE)
+	if(active && !state && !voluntarily) //Great, they ran away! Good job stopping that capture crew. Now let's alert everyone.
+		priority_announce("Jump bridge collapsing. Incursion halted.", "WhiteRapids EAS", 'nsv13/sound/effects/ship/lighthouse_alarm.ogg')
 	active = state
 	icon_state = "lighthouse[active ? "_on" : ""]"
-	time_left = 10 MINUTES
-	if(!active && !voluntarily) //Great, they ran away! Good job stopping that capture crew. Now let's alert everyone.
-		priority_announce("Jump bridge collapsing. Incursion halted.", "WhiteRapids EAS", 'nsv13/sound/effects/ship/lighthouse_alarm.ogg')
+	time_left = 5 MINUTES
 
 /obj/machinery/conquest_beacon/attack_ai(mob/user)
 	. = ..()
@@ -155,7 +159,7 @@
 		return FALSE
 	priority_announce("DANGER: [get_overmap()] is attempting to establish a jump bridge in [get_overmap().current_system]. Incursion underway", "WhiteRapids EAS", 'nsv13/sound/effects/ship/lighthouse_alarm.ogg')
 	set_active(TRUE)
-	next_activation = world.time + 15 MINUTES
+	next_activation = world.time + 10 MINUTES
 
 /**
 * Lets the captain customize the feel and role of their ship.
@@ -275,3 +279,5 @@
 	..()
 	LAZYADD(get_overmap()?.trader_beacons, src)
 	return INITIALIZE_HINT_QDEL
+
+//TODO: Syndie ship or NT ship dying due to SScrit should be a win condition.

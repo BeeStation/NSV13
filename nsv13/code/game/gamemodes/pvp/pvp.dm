@@ -20,9 +20,9 @@ GLOBAL_LIST_EMPTY(syndi_crew_leader_spawns)
 	enemy_minimum_age = 0
 
 	announce_span = "danger"
-	announce_text = "Nanotrasen's incursions into Syndicate space have not gone unnoticed!\n\
-	<span class='danger'>Operatives</span>: Eliminate Nanotrasen's presence in Syndicate space using the weaponry of the SSV Hammurabi, or via a thermonuclear detonation.\n\
-	<span class='notice'>Crew</span>: Survive the Syndicate assault long enough for reinforcements to arrive."
+	announce_text = "The Syndicate are planning an all out assault!\n\
+	<span class='danger'>Syndicate crew</span>: Destroy NT fleets and capture systems with your beacon.\n\
+	<span class='notice'>Crew</span>: Destroy the Syndicate crew, and defeat any Syndicate reinforcements that appear."
 
 	title_icon = "nukeops"
 
@@ -75,7 +75,8 @@ Method to spawn in the Syndi ship on a brand new Z-level with the "boardable" tr
 		//Find the next un-filled job in order of priority.
 		var/foundJob = FALSE
 		for(var/datum/syndicate_crew_role/nextRole in GLOB.conquest_role_handler.roles)
-			var/count = candidates[nextRole].len
+			var/list/L = candidates[nextRole]
+			var/count = L.len
 			if(count >= nextRole.max_count || !nextRole.essential)
 				continue
 			//Cool, we've found a target!
@@ -98,6 +99,9 @@ Method to spawn in the Syndi ship on a brand new Z-level with the "boardable" tr
 		ship_type = /obj/structure/overmap/syndicate/pvp
 
 	syndiship = instance_overmap(_path=ship_type, folder= "map_files/PVP" ,interior_map_files = map_file)
+	//Registers two signals to check either ship as being destroyed.
+	RegisterSignal(syndiship, COMSIG_PARENT_QDELETING, .proc/force_loss)
+	RegisterSignal(SSstar_system.find_main_overmap(), COMSIG_PARENT_QDELETING, .proc/force_win)
 	var/n_agents = antag_candidates.len
 	if(n_agents > 0)
 		addtimer(CALLBACK(GLOBAL_PROC, .proc/overmap_lighting_force, syndiship), 6 SECONDS)
@@ -116,7 +120,7 @@ Method to spawn in the Syndi ship on a brand new Z-level with the "boardable" tr
 ////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////
 /proc/overmap_lighting_force(obj/structure/overmap/hammurabi)
-	for(var/area/AR in hammurabi.linked_areas) //Fucking force a lighting update IDEK why we have to do this but it just works
+	for(var/area/AR in hammurabi.linked_areas) //Force lighting to update. Not pretty, but it works
 		AR.set_dynamic_lighting(DYNAMIC_LIGHTING_DISABLED)
 		sleep(1)
 		AR.set_dynamic_lighting(DYNAMIC_LIGHTING_ENABLED)
@@ -137,6 +141,18 @@ Method to spawn in the Syndi ship on a brand new Z-level with the "boardable" tr
 /datum/game_mode/pvp/OnNukeExplosion(off_station)
 	..()
 	nukes_left--
+
+//This happens when the Nebuchadnezzar is destroyed
+/datum/game_mode/pvp/proc/force_loss()
+	winner = SSstar_system.faction_by_id(FACTION_ID_NT)
+	check_finished()
+	SSticker.force_ending = TRUE
+
+//And this subsequently happens if the nsv is taken out
+/datum/game_mode/pvp/proc/force_win()
+	winner = SSstar_system.faction_by_id(FACTION_ID_SYNDICATE)
+	check_finished()
+	SSticker.force_ending = TRUE
 
 /datum/game_mode/pvp/check_win()
 	if(winner)
