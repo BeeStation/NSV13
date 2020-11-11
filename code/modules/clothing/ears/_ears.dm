@@ -22,8 +22,7 @@
 	. = ..()
 	AddElement(/datum/element/earhealing)
 
-/obj/item/clothing/ears/earmuffs/attackby(obj/item/I, mob/living/user)
-
+/obj/item/clothing/ears/earmuffs/attackby(obj/item/I, mob/living/user) //NSV13 comment
 	if(istype(I,/obj/item/radio/headset))
 		var/obj/item/radio/headset/radiomuff/newmuf = new /obj/item/radio/headset/radiomuff(get_turf(user.loc))
 		newmuf.keyslot = I

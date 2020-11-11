@@ -81,6 +81,14 @@
 	icon_state = "mun_headset"
 	keyslot = new /obj/item/encryptionkey/munitions_tech
 
+/obj/item/radio/headset/radiomuff
+	name = "\proper Radio earmuffs"
+	desc = "You made this under 20 seconds, yet naval command couldn't make these standard issue"
+	bang_protect = 2
+	icon_state = "radiomuff"
+	item_state = "radiomuff"
+	keyslot = null
+
 ////////BACKPACKS////////
 
 /obj/item/storage/backpack/duffelbag/munitions
