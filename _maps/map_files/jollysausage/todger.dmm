@@ -31053,9 +31053,12 @@
 /turf/open/floor/plasteel/white,
 /area/medical/virology)
 "lYr" = (
-/obj/effect/spawner/room/fivexfour,
-/turf/template_noop,
-/area/maintenance/aft)
+/obj/machinery/door/airlock/ship/maintenance{
+	name = "Fun Tunnel!";
+	req_access_txt = "12"
+	},
+/turf/open/floor/plating,
+/area/crew_quarters/fitness/recreation)
 "lYN" = (
 /obj/effect/spawner/structure/window/reinforced,
 /obj/machinery/door/firedoor/heavy,
@@ -32107,6 +32110,22 @@
 	},
 /turf/open/floor/plasteel,
 /area/engine/atmos)
+"oaJ" = (
+/obj/structure/bed,
+/obj/machinery/flasher{
+	id = "stationbrigcell_2";
+	name = "justice flash";
+	pixel_x = 24
+	},
+/obj/effect/turf_decal/tile/red{
+	dir = 4
+	},
+/obj/effect/turf_decal/tile/red,
+/obj/effect/turf_decal/tile/red{
+	dir = 1
+	},
+/turf/open/floor/plasteel/dark,
+/area/security/brig)
 "oaV" = (
 /obj/structure/table/glass,
 /obj/item/storage/box/syringes,
@@ -33187,6 +33206,10 @@
 /obj/effect/turf_decal/bot_red,
 /turf/open/floor/plasteel,
 /area/quartermaster/storage)
+"qNo" = (
+/obj/effect/spawner/room/threexthree,
+/turf/template_noop,
+/area/maintenance/aft)
 "qOE" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer1{
 	dir = 8
@@ -34976,7 +34999,7 @@
 /turf/open/floor/plasteel/white,
 /area/medical/chemistry)
 "uMn" = (
-/obj/effect/spawner/room/threexthree,
+/obj/effect/spawner/room/fivexfour,
 /turf/template_noop,
 /area/maintenance/aft)
 "uNL" = (
@@ -35676,6 +35699,12 @@
 	},
 /turf/open/floor/plasteel/white,
 /area/medical/medbay)
+"wpN" = (
+/obj/machinery/door/airlock/ship/maintenance{
+	req_one_access_txt = "12"
+	},
+/turf/open/floor/plating,
+/area/maintenance/aft)
 "wsw" = (
 /obj/structure/cable{
 	icon_state = "4-8"
@@ -35754,6 +35783,22 @@
 	},
 /turf/open/floor/plasteel,
 /area/engine/atmos)
+"wzo" = (
+/obj/structure/bed,
+/obj/machinery/flasher{
+	id = "stationbrigcell_1";
+	name = "justice flash";
+	pixel_x = 24
+	},
+/obj/effect/turf_decal/tile/red{
+	dir = 4
+	},
+/obj/effect/turf_decal/tile/red,
+/obj/effect/turf_decal/tile/red{
+	dir = 1
+	},
+/turf/open/floor/plasteel/dark,
+/area/security/brig)
 "wzL" = (
 /obj/structure/table/reinforced,
 /obj/item/stack/packageWrap,
@@ -54578,13 +54623,13 @@ ran
 ran
 ran
 agU
-agU
-agU
-agU
-agU
-agU
-agU
-agU
+mZc
+mZc
+mZc
+mZc
+mZc
+mZc
+mZc
 sWi
 qSp
 aaa
@@ -54833,13 +54878,13 @@ arw
 sKX
 our
 our
-lYr
-mZc
-our
 our
 uMn
 mZc
-dmc
+our
+our
+qNo
+mZc
 dmc
 mZc
 sWi
@@ -55091,12 +55136,12 @@ sKX
 our
 our
 our
-mZc
-our
-our
 our
 mZc
-dmc
+our
+our
+our
+mZc
 dmc
 mZc
 sWi
@@ -55348,12 +55393,12 @@ sKX
 our
 our
 our
-mZc
-our
-our
 our
 mZc
-dmc
+our
+our
+our
+mZc
 dmc
 eBi
 sWi
@@ -55605,12 +55650,12 @@ ahj
 our
 our
 our
+our
 mZc
 mZc
-dmc
+wpN
 mZc
 mZc
-dmc
 dmc
 eBi
 sWi
@@ -55862,8 +55907,8 @@ ahj
 our
 our
 our
-dmc
-dmc
+our
+wpN
 dmc
 dmc
 dmc
@@ -56116,11 +56161,11 @@ acX
 noM
 sKX
 ahj
-our
-our
-our
 mZc
-dmc
+mZc
+mZc
+mZc
+mZc
 dmc
 dmc
 dmc
@@ -56373,10 +56418,10 @@ sKX
 sKX
 sKX
 ahj
-mZc
-mZc
-mZc
-mZc
+dmc
+dmc
+dmc
+dmc
 dmc
 dmc
 dmc
@@ -56631,7 +56676,7 @@ gfG
 gfG
 gfG
 gfG
-gfG
+lYr
 gfG
 mZc
 mZc
@@ -57123,7 +57168,7 @@ aaN
 aaN
 acU
 aiq
-wuT
+wzo
 wBX
 wXM
 xuk
@@ -57894,7 +57939,7 @@ adC
 adC
 adL
 aiq
-wuT
+oaJ
 wBX
 wXM
 aml
