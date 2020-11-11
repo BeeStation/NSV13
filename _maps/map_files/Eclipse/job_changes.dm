@@ -11,26 +11,21 @@
 (_______/(_______/(_______/\_______/|/       \_______)(_______/
                                                                
 */
-//Most of the heads.
-MAP_REMOVE_JOB(hos)
-MAP_REMOVE_JOB(chief_engineer)
-MAP_REMOVE_JOB(rd)
-MAP_REMOVE_JOB(cmo)
-MAP_REMOVE_JOB(master_at_arms)
 //You suck even on big maps.
 MAP_REMOVE_JOB(atmos)
-//Almost the entire fucking medbay
+//The entire fucking medbay
+MAP_REMOVE_JOB(doctor)
 MAP_REMOVE_JOB(geneticist)
 MAP_REMOVE_JOB(virologist)
 MAP_REMOVE_JOB(emt)
 MAP_REMOVE_JOB(chemist)
-//Robots don't exist
+//And research
+MAP_REMOVE_JOB(scientist)
 MAP_REMOVE_JOB(roboticist)
 //Supply
-MAP_REMOVE_JOB(qm)
+MAP_REMOVE_JOB(cargo_tech)
 MAP_REMOVE_JOB(mining)
 //Civilian
-MAP_REMOVE_JOB(bartender)
 MAP_REMOVE_JOB(hydro)
 MAP_REMOVE_JOB(cook)
 MAP_REMOVE_JOB(janitor)
@@ -41,9 +36,10 @@ MAP_REMOVE_JOB(mime)
 //Security
 MAP_REMOVE_JOB(warden)
 MAP_REMOVE_JOB(detective)
+MAP_REMOVE_JOB(officer)
 MAP_REMOVE_JOB(deputy)
 //Special
-MAP_REMOVE_JOB(ai)
+MAP_REMOVE_JOB(cyborg)
 //Munitions
 MAP_REMOVE_JOB(deck_tech)
 MAP_REMOVE_JOB(flight_leader)
@@ -58,6 +54,54 @@ MAP_REMOVE_JOB(air_traffic_controller)
     limited_stock = 0 //This ship is way too small for this shit.
     cant_discount = TRUE
     surplus = 0
+
+/datum/job/hos/New()
+    ..()
+    MAP_JOB_CHECK
+    total_positions = 0
+    spawn_positions = 0
+
+/datum/job/chief_engineer/New()
+    ..()
+    MAP_JOB_CHECK
+    total_positions = 0
+    spawn_positions = 0
+
+/datum/job/rd/New()
+    ..()
+    MAP_JOB_CHECK
+    total_positions = 0
+    spawn_positions = 0
+
+/datum/job/cmo/New()
+    ..()
+    MAP_JOB_CHECK
+    total_positions = 0
+    spawn_positions = 0
+
+/datum/job/bartender/New()
+    ..()
+    MAP_JOB_CHECK
+    total_positions = 0
+    spawn_positions = 0
+
+/datum/job/master_at_arms/New()
+    ..()
+    MAP_JOB_CHECK
+    total_positions = 0
+    spawn_positions = 0
+
+/datum/job/ai/New()
+    ..()
+    MAP_JOB_CHECK
+    total_positions = 0
+    spawn_positions = 0
+
+/datum/job/qm/New()
+    ..()
+    MAP_JOB_CHECK
+    total_positions = 0
+    spawn_positions = 0
 
 
 #undef JOB_MODIFICATION_MAP_NAME
