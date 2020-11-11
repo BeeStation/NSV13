@@ -69,15 +69,15 @@ Method to spawn in the Syndi ship on a brand new Z-level with the "boardable" tr
 	var/datum/syndicate_crew_role/overflow = GLOB.conquest_role_handler.get_job(overflow_role)
 	for(var/datum/syndicate_crew_role/role in GLOB.conquest_role_handler.roles)
 		for(var/datum/mind/candidate in candidates[role])
-			role.assign(candidate)
+			if(!role.assign(candidate))
+				autofill_victims += candidate
 	//And now dish out roles to those unlucky enough to not get their preference.
 	for(var/datum/mind/autofill in autofill_victims)
 		//Find the next un-filled job in order of priority.
 		var/foundJob = FALSE
+		message_admins("Autofilling...")
 		for(var/datum/syndicate_crew_role/nextRole in GLOB.conquest_role_handler.roles)
-			var/list/L = candidates[nextRole]
-			var/count = L.len
-			if(count >= nextRole.max_count || !nextRole.essential)
+			if(nextRole.count >= nextRole.max_count || !nextRole.essential)
 				continue
 			//Cool, we've found a target!
 			to_chat(autofill, "<span class='warning'>You have been autofilled into [nextRole]! If you're not comfortable playing this role due to inexperience, please ahelp!")

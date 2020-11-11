@@ -85,10 +85,15 @@ Singleton to handle conquest roles. This exists to populate the roles list and n
 	var/preference_flag = null
 	var/antag_datum_type = /datum/antagonist/nukeop/syndi_crew
 	var/essential = TRUE //Does this role _need_ to be filled? 90% of them do!
+	var/count = 0
 	var/max_count = 1 //What's the player limit on this role?
 
 /datum/syndicate_crew_role/proc/assign(datum/mind/candidate)
+	if(count >= max_count)
+		return FALSE
 	candidate.add_antag_datum(antag_datum_type)
+	count ++
+	return TRUE
 
 //Priority 1: Captain. We _always_ need a captain! Anything from this point on is in DESCENDING ORDER of priority! With autofill being the absolute last.
 
