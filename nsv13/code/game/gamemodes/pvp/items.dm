@@ -276,8 +276,10 @@
 
 /obj/effect/landmark/trader_drop_point/LateInitialize()
 	..()
+	addtimer(CALLBACK(src, .proc/add_to_ship), 5 SECONDS)
+
+/obj/effect/landmark/trader_drop_point/proc/add_to_ship()
 	LAZYADD(get_overmap()?.trader_beacons, src)
-	return INITIALIZE_HINT_QDEL
 
 /area/bridge/pvp
 	name = "Syndicate Bridge"
