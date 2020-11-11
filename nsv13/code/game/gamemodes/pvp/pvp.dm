@@ -14,7 +14,7 @@ GLOBAL_LIST_EMPTY(syndi_crew_leader_spawns)
 	report_type = "pvp"
 	false_report_weight = 10
 	required_players = 0//40 // 40 to make 20 v 20
-	required_enemies = 1//20
+	required_enemies = 5//20
 	recommended_enemies = 10
 	antag_flag = ROLE_SYNDI_CREW
 	enemy_minimum_age = 0
