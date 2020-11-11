@@ -100,7 +100,7 @@ Method to spawn in the Syndi ship on a brand new Z-level with the "boardable" tr
 		RegisterSignal(syndiship, COMSIG_PARENT_QDELETING, .proc/force_loss)
 		RegisterSignal(SSstar_system.find_main_overmap(), COMSIG_PARENT_QDELETING, .proc/force_win)
 		addtimer(CALLBACK(GLOBAL_PROC, .proc/overmap_lighting_force, syndiship), 6 SECONDS)
-		var/enemies_to_spawn = max(1, required_enemies + round((num_players()-required_enemies)/10)) //Syndicates scale with pop. On a standard 30 pop, this'll be 30 - 10 -> 20 / 10 -> 2 floored = 2, where FLOOR rounds the number to a whole number.
+		var/enemies_to_spawn = round(num_players()/2) //Syndicates scale with pop. On a standard 30 pop, this'll be 30 - 10 -> 20 / 10 -> 2 floored = 2, where FLOOR rounds the number to a whole number.
 		for(var/i = 0, i < enemies_to_spawn, i++)
 			var/datum/mind/new_op = pick_n_take(antag_candidates)
 			pre_nukeops += new_op
