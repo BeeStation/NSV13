@@ -160,13 +160,21 @@ GLOBAL_LIST_EMPTY(asteroid_spawn_markers)		//handles mining asteroids, kind of s
 	req_access = list(ACCESS_MINING)
 	resistance_flags = INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | UNACIDABLE | ACID_PROOF | FREEZE_PROOF
 	var/datum/map_template/asteroid/current_asteroid
-	var/turf/target_location
+	var/turf/target_location = null //Where to load the asteroid
 	var/cooldown = FALSE
 	var/tier = 1 //Upgrade via science
 
 /obj/machinery/computer/ship/mineral_magnet/Initialize()
 	. = ..()
-	target_location = get_turf(GLOB.asteroid_spawn_markers[1])
+	return INITIALIZE_HINT_LATELOAD
+
+/obj/machinery/computer/ship/mineral_magnet/LateInitialize()
+	. = ..()
+	//Find our ship's asteroid marker. This allows multi-ship mining.
+	for(var/obj/effect/landmark/L in GLOB.asteroid_spawn_markers)
+		if(shares_overmap(src, L))
+			target_location = get_turf(L)
+			return
 
 /obj/machinery/computer/ship/mineral_magnet/attackby(obj/item/I, mob/user)
 	. = ..()
@@ -263,7 +271,7 @@ GLOBAL_LIST_EMPTY(asteroid_spawn_markers)		//handles mining asteroids, kind of s
 	addtimer(CALLBACK(src, .proc/push_away_asteroid), 30 SECONDS)
 
 /obj/machinery/computer/ship/mineral_magnet/proc/push_away_asteroid()
-	for(var/i in current_asteroid.get_affected_turfs(get_turf(GLOB.asteroid_spawn_markers[1]), FALSE)) //nuke
+	for(var/i in current_asteroid.get_affected_turfs(target_location, FALSE)) //nuke
 		var/turf/T = i
 		for(var/atom/A in T.contents)
 			if(!ismob(A) && !istype(A, /obj/effect/landmark/asteroid_spawn))

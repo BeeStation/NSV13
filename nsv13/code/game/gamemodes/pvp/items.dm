@@ -184,7 +184,6 @@
 	desc = "Scans have detected an inactive sensor disrupting device aboard this vessel. Activate it to mask the ship's signature from DRADIS (except at close range) and use any excess unallocated power to make the ship more maneuverable in combat and slightly more robust. This module will turn your ship into an extremely effective alpha strike platform, and allow you to slip out of combat when damaged. WARNING: Firing while cloaked will disrupt the cloak temporarily."
 
 /datum/ship_loadout/stealth/apply(obj/structure/overmap/OM)
-	message_admins("applying to: [OM]")
 	if(!OM)
 		return FALSE
 	OM.max_integrity *= 1.25
@@ -280,4 +279,79 @@
 	LAZYADD(get_overmap()?.trader_beacons, src)
 	return INITIALIZE_HINT_QDEL
 
-//TODO: Syndie ship or NT ship dying due to SScrit should be a win condition.
+/area/bridge/pvp
+	name = "Syndicate Bridge"
+
+/area/bridge/pvp/secondary
+	name = "Syndicate Battle Bridge"
+
+/area/bridge/meeting_room/pvp
+	name = "Syndicate Meeting Room"
+
+/area/hallway/pvp
+	name = "Syndicate Primary Hallway"
+
+/area/crew_quarters/bar/pvp
+	name = "Syndicate Bar"
+
+/area/crew_quarters/cafeteria/pvp
+	name = "Syndicate Cafeteria"
+
+/area/hydroponics/pvp
+	name = "Syndicate Hydroponics"
+
+/area/ai_monitored/nuke_storage/pvp
+	name = "Syndicate vault"
+
+/area/medical/medbay/pvp
+	name = "Syndicate Medbay"
+
+/area/nsv/weapons/pvp
+	name = "Syndicate Munitions"
+
+/area/nsv/hanger/pvp
+	name = "Syndicate Hangar"
+
+/area/nsv/hanger/pvp/marine
+	name = "Syndicate Marine Hangar"
+
+/area/security/brig/pvp
+	name = "Syndicate Brig"
+
+/area/engine/engineering/pvp
+	name = "Syndicate Engineering"
+
+/area/engine/engine_room/pvp
+	name = "Syndicate Reactor Core"
+
+/area/quartermaster/pvp
+	name = "Syndicate Requisitions Bay"
+
+/area/science/pvp
+	name = "Syndicate Science Wing"
+
+/area/science/robotics/pvp
+	name = "Syndicate Robotics"
+
+/area/crew_quarters/pvp
+	name = "Syndicate Quarters"
+
+/area/crew_quarters/toilet/pvp
+	name = "Syndicate Toilets"
+/area/crew_quarters/heads/hor/pvp
+	name = "Syndicate Research Office"
+
+/area/crew_quarters/heads/hos/pvp
+	name = "Syndicate HOS Office"
+
+/area/crew_quarters/heads/chief/pvp
+	name = "Syndicate CE Office"
+
+/area/crew_quarters/heads/captain/pvp
+	name = "Syndicate Captain's Office"
+
+/area/crew_quarters/heads/captain/pvp/admiral
+	name = "Syndicate Admiral's Office"
+
+/area/maintenance/pvp
+	name = "Syndicate Maintenance"

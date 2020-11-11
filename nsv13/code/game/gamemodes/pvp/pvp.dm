@@ -13,8 +13,8 @@ GLOBAL_LIST_EMPTY(syndi_crew_leader_spawns)
 	config_tag = "pvp"
 	report_type = "pvp"
 	false_report_weight = 10
-	required_players = 0//30 // 30 players initially, with 15 crewing the hammurabi and 15 crewing the larger, more powerful hammerhead
-	required_enemies = 1//10
+	required_players = 0//40 // 40 to make 20 v 20
+	required_enemies = 1//20
 	recommended_enemies = 10
 	antag_flag = ROLE_SYNDI_CREW
 	enemy_minimum_age = 0
@@ -36,11 +36,11 @@ GLOBAL_LIST_EMPTY(syndi_crew_leader_spawns)
 
 	var/operative_antag_datum_type = /datum/antagonist/nukeop/syndi_crew
 	var/leader_antag_datum_type = /datum/antagonist/nukeop/leader/syndi_crew
-	var/list/standard_ships = list("Hammurabi.dmm") //Update this list if you make more PVP ships :) ~Kmc
-	var/list/highpop_ships = list("Hulk.dmm") //Update this list if you make a big PVP ship
 	var/list/jobs = list()
 	var/overflow_role = CONQUEST_ROLE_GRUNT
 	var/time_limit = 1 HOURS + 45 MINUTES //How long do you want the mode to run for? This is capped to keep it from dragging on or OOMing
+	var/list/maps = list("SpaceSHIP.dmm") //Basic list of maps. Tell me (Kmc) to improve this if you decide you want to add more than 1 PVP map and i'll make it use JSON instead.
+	var/obj/structure/overmap/syndiship = null
 
 /**
 
@@ -90,20 +90,15 @@ Method to spawn in the Syndi ship on a brand new Z-level with the "boardable" tr
 		autofill.add_antag_datum(overflow)
 
 /datum/game_mode/pvp/pre_setup()
-	var/pop = num_players()
-	var/map_file = pop < highpop_threshold ? pick(standard_ships) : pick(highpop_ships) //Scale the ship map to suit player pop. Larger crews need more space.
-	var/ship_type = pop < highpop_threshold ? /obj/structure/overmap/syndicate/pvp : /obj/structure/overmap/syndicate/pvp/hulk
-	var/obj/structure/overmap/syndiship
-	if(!map_file) //Don't ask me why this would happen.
-		map_file = "Hammurabi.dmm"
-		ship_type = /obj/structure/overmap/syndicate/pvp
-
-	syndiship = instance_overmap(_path=ship_type, folder= "map_files/PVP" ,interior_map_files = map_file)
-	//Registers two signals to check either ship as being destroyed.
-	RegisterSignal(syndiship, COMSIG_PARENT_QDELETING, .proc/force_loss)
-	RegisterSignal(SSstar_system.find_main_overmap(), COMSIG_PARENT_QDELETING, .proc/force_win)
+	var/map_file = pick(maps)
+	var/ship_type = /obj/structure/overmap/syndicate/pvp
 	var/n_agents = antag_candidates.len
+	if(!syndiship)
+		syndiship = instance_overmap(_path=ship_type, folder= "map_files/Instanced/map_files" ,interior_map_files = map_file)
 	if(n_agents > 0)
+		//Registers two signals to check either ship as being destroyed.
+		RegisterSignal(syndiship, COMSIG_PARENT_QDELETING, .proc/force_loss)
+		RegisterSignal(SSstar_system.find_main_overmap(), COMSIG_PARENT_QDELETING, .proc/force_win)
 		addtimer(CALLBACK(GLOBAL_PROC, .proc/overmap_lighting_force, syndiship), 6 SECONDS)
 		var/enemies_to_spawn = max(1, required_enemies + round((num_players()-required_enemies)/10)) //Syndicates scale with pop. On a standard 30 pop, this'll be 30 - 10 -> 20 / 10 -> 2 floored = 2, where FLOOR rounds the number to a whole number.
 		for(var/i = 0, i < enemies_to_spawn, i++)
