@@ -270,9 +270,6 @@ GLOBAL_LIST_INIT(channel_tokens, list(
 	command = TRUE
 
 
-
-
-
 /obj/item/radio/headset/silicon/can_receive(freq, level)
 	return ..(freq, level, TRUE)
 
