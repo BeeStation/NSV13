@@ -41,6 +41,7 @@ GLOBAL_LIST_EMPTY(syndi_crew_leader_spawns)
 	var/time_limit = 1 HOURS + 45 MINUTES //How long do you want the mode to run for? This is capped to keep it from dragging on or OOMing
 	var/list/maps = list("SpaceSHIP.dmm") //Basic list of maps. Tell me (Kmc) to improve this if you decide you want to add more than 1 PVP map and i'll make it use JSON instead.
 	var/obj/structure/overmap/syndiship = null
+	var/end_on_team_death = FALSE //Should the round end when the syndies die?
 
 /**
 
@@ -89,7 +90,7 @@ Method to spawn in the Syndi ship on a brand new Z-level with the "boardable" tr
 		//Registers two signals to check either ship as being destroyed.
 		RegisterSignal(syndiship, COMSIG_PARENT_QDELETING, .proc/force_loss)
 		RegisterSignal(SSstar_system.find_main_overmap(), COMSIG_PARENT_QDELETING, .proc/force_win)
-		addtimer(CALLBACK(GLOBAL_PROC, .proc/overmap_lighting_force, syndiship), 12 SECONDS)
+		addtimer(CALLBACK(GLOBAL_PROC, .proc/overmap_lighting_force, syndiship), 6 SECONDS)
 		var/enemies_to_spawn = max(1, round(num_players()/2)) //Syndicates scale with pop. On a standard 30 pop, this'll be 30 - 10 -> 20 / 10 -> 2 floored = 2, where FLOOR rounds the number to a whole number.
 		for(var/i = 0, i < enemies_to_spawn, i++)
 			var/datum/mind/new_op = pick_n_take(antag_candidates)
@@ -106,9 +107,10 @@ Method to spawn in the Syndi ship on a brand new Z-level with the "boardable" tr
 ////////////////////////////////////////////////////////////////////////////////////////
 /proc/overmap_lighting_force(obj/structure/overmap/hammurabi)
 	for(var/area/AR in hammurabi.linked_areas) //Force lighting to update. Not pretty, but it works
-		AR.set_dynamic_lighting(DYNAMIC_LIGHTING_DISABLED)
-		sleep(1)
-		AR.set_dynamic_lighting(DYNAMIC_LIGHTING_ENABLED)
+		spawn(0)
+			AR.set_dynamic_lighting(DYNAMIC_LIGHTING_DISABLED)
+			sleep(2 SECONDS)
+			AR.set_dynamic_lighting(DYNAMIC_LIGHTING_ENABLED)
 
 /datum/game_mode/pvp/post_setup()
 	assign_jobs()
@@ -119,8 +121,7 @@ Method to spawn in the Syndi ship on a brand new Z-level with the "boardable" tr
 	var/datum/faction/nt = SSstar_system.faction_by_id(FACTION_ID_NT)
 	nt.fleet_spawn_rate = synd.fleet_spawn_rate
 	synd.fleet_spawn_rate = 2 HOURS
-//	SSstar_system.add_blacklist(/obj/structure/overmap/syndicate/ai/carrier) //No. Just no. Please. God no.
-//	SSstar_system.add_blacklist(/obj/structure/overmap/syndicate/ai/patrol_cruiser) //Syndies only get LIGHT reinforcements.
+	SSshuttle.registerHostileEnvironment(src)//Evac is disallowed
 	return ..()
 
 /datum/game_mode/pvp/OnNukeExplosion(off_station)
@@ -158,7 +159,7 @@ Method to spawn in the Syndi ship on a brand new Z-level with the "boardable" tr
 		for(var/obj/machinery/nuclearbomb/N in GLOB.nuke_list)
 			if(N.proper_bomb && (N.timing || N.exploding))
 				return FALSE
-		return TRUE
+		return end_on_team_death
 	return ..()
 
 /datum/game_mode/pvp/set_round_result()

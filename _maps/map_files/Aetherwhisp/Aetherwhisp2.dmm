@@ -269,6 +269,15 @@
 	},
 /turf/open/floor/carpet,
 /area/crew_quarters/dorms)
+"akJ" = (
+/obj/structure/disposalpipe/segment,
+/obj/structure/cable/pink{
+	icon_state = "1-2"
+	},
+/obj/structure/cable/pink,
+/obj/machinery/power/apc/auto_name/west,
+/turf/open/floor/plating,
+/area/maintenance/department/bridge)
 "akX" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /turf/open/floor/carpet/ship/purple_carpet,
@@ -1303,6 +1312,10 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/department/cargo)
+"aYe" = (
+/obj/effect/spawner/lootdrop/maintenance,
+/turf/open/floor/plating,
+/area/maintenance/department/bridge)
 "aYq" = (
 /obj/effect/spawner/structure/window/reinforced/ship,
 /turf/open/floor/plating,
@@ -1316,26 +1329,18 @@
 /turf/open/floor/circuit,
 /area/ai_monitored/nuke_storage)
 "aYB" = (
-/obj/item/ship_weapon/ammunition/missile{
-	pixel_y = 10
-	},
-/obj/item/ship_weapon/ammunition/missile,
-/obj/item/ship_weapon/ammunition/missile{
-	pixel_y = 6
-	},
-/obj/item/ship_weapon/ammunition/missile{
-	pixel_y = 4
-	},
-/obj/item/ship_weapon/ammunition/missile{
-	pixel_y = 2
-	},
-/obj/item/ship_weapon/ammunition/missile,
-/obj/effect/turf_decal/stripes/line{
+/obj/machinery/atmospherics/components/unary/vent_pump/high_volume/layer1{
 	dir = 4
 	},
+/obj/machinery/light{
+	dir = 8
+	},
 /obj/machinery/power/apc/auto_name/west,
-/turf/open/floor/engine,
-/area/nsv/hanger/storage)
+/obj/structure/cable{
+	icon_state = "0-2"
+	},
+/turf/open/floor/plating,
+/area/nsv/hanger/notkmcstupidhanger/launchtube/left)
 "aYO" = (
 /obj/structure/cable/pink{
 	icon_state = "2-4"
@@ -1726,7 +1731,7 @@
 	icon_state = "6-9"
 	},
 /turf/open/floor/plating,
-/area/maintenance/department/cargo)
+/area/maintenance/department/bridge)
 "bjQ" = (
 /obj/structure/cable{
 	icon_state = "1-8"
@@ -2393,6 +2398,9 @@
 	},
 /turf/open/floor/engine,
 /area/ai_monitored/nuke_storage)
+"bBU" = (
+/turf/closed/wall/r_wall/ship,
+/area/maintenance/department/bridge)
 "bBZ" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 9
@@ -2775,7 +2783,7 @@
 	icon_state = "6-9"
 	},
 /turf/open/floor/plating,
-/area/maintenance/department/cargo)
+/area/maintenance/department/bridge)
 "bUO" = (
 /obj/machinery/modular_computer/console/preset/civilian{
 	dir = 1
@@ -3694,6 +3702,12 @@
 	},
 /turf/open/floor/engine,
 /area/nsv/weapons/port)
+"cAp" = (
+/obj/structure/disposalpipe/segment{
+	dir = 5
+	},
+/turf/open/floor/plating,
+/area/maintenance/department/bridge)
 "cAB" = (
 /obj/machinery/light{
 	dir = 1
@@ -4446,6 +4460,9 @@
 	dir = 1;
 	pixel_y = -24
 	},
+/obj/machinery/camera/autoname{
+	dir = 1
+	},
 /turf/open/floor/carpet/ship/purple_carpet,
 /area/science/mixing/chamber)
 "dhb" = (
@@ -4558,7 +4575,7 @@
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /turf/open/floor/plating,
-/area/maintenance/department/cargo)
+/area/maintenance/department/bridge)
 "dlB" = (
 /obj/structure/cable/pink{
 	icon_state = "4-8"
@@ -5601,7 +5618,7 @@
 	icon_state = "2-9"
 	},
 /turf/open/floor/plating,
-/area/maintenance/department/cargo)
+/area/maintenance/department/bridge)
 "eci" = (
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3{
 	dir = 4
@@ -5832,7 +5849,7 @@
 	icon_state = "1-2"
 	},
 /turf/open/floor/plating,
-/area/maintenance/department/cargo)
+/area/maintenance/department/bridge)
 "ele" = (
 /obj/effect/landmark/start/master_at_arms,
 /obj/structure/chair/office{
@@ -5850,7 +5867,7 @@
 	color = "#CC8899";
 	name = "nanoweave carpet (puce)"
 	},
-/area/nsv/weapons/port)
+/area/nsv/crew_quarters/heads/maa)
 "elq" = (
 /obj/machinery/recharge_station,
 /obj/effect/landmark/start/cyborg,
@@ -7100,7 +7117,11 @@
 	icon_state = "4-9"
 	},
 /turf/open/floor/carpet/ship,
-/area/ai_monitored/turret_protected/aisat_interior)
+/area/hallway/nsv/deck2/primary)
+"fgS" = (
+/obj/structure/disposalpipe/segment,
+/turf/open/floor/plating,
+/area/maintenance/department/bridge)
 "fhi" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer1,
 /obj/structure/cable/pink{
@@ -7343,9 +7364,6 @@
 /obj/structure/cable{
 	icon_state = "1-2"
 	},
-/obj/structure/cable{
-	icon_state = "2-4"
-	},
 /obj/machinery/atmospherics/pipe/simple/purple/hidden{
 	dir = 5
 	},
@@ -7450,6 +7468,12 @@
 	},
 /turf/open/floor/carpet,
 /area/crew_quarters/heads/captain/private)
+"fqD" = (
+/obj/structure/disposalpipe/segment{
+	dir = 9
+	},
+/turf/open/floor/plating,
+/area/maintenance/department/bridge)
 "fqG" = (
 /obj/structure/cable/yellow{
 	icon_state = "4-8"
@@ -7577,6 +7601,12 @@
 /obj/machinery/light,
 /turf/open/floor/carpet/ship/purple_carpet,
 /area/science/xenobiology)
+"fwr" = (
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
+/turf/open/floor/plating,
+/area/maintenance/department/bridge)
 "fxq" = (
 /obj/machinery/atmospherics/pipe/simple/purple/hidden{
 	dir = 4
@@ -8946,7 +8976,7 @@
 	},
 /obj/structure/disposalpipe/segment,
 /turf/open/floor/plating,
-/area/maintenance/department/cargo)
+/area/maintenance/department/bridge)
 "gwp" = (
 /obj/structure/sign/departments/minsky/supply/janitorial,
 /turf/closed/wall/ship,
@@ -8971,7 +9001,7 @@
 	color = "#CC8899";
 	name = "nanoweave carpet (puce)"
 	},
-/area/nsv/weapons/port)
+/area/nsv/crew_quarters/heads/maa)
 "gxD" = (
 /obj/structure/table/glass,
 /obj/item/flashlight/lamp,
@@ -10298,7 +10328,7 @@
 	icon_state = "2-8"
 	},
 /turf/open/floor/plating,
-/area/nsv/weapons/port)
+/area/nsv/crew_quarters/heads/maa)
 "hzH" = (
 /obj/structure/cable/yellow{
 	icon_state = "0-2"
@@ -10479,7 +10509,7 @@
 /area/bridge/secondary)
 "hHF" = (
 /turf/closed/wall/ship,
-/area/nsv/weapons/port)
+/area/nsv/crew_quarters/heads/maa)
 "hHQ" = (
 /obj/structure/disposalpipe/segment{
 	dir = 4
@@ -10750,7 +10780,7 @@
 	req_one_access_txt = "69"
 	},
 /turf/open/floor/plating,
-/area/maintenance/department/cargo)
+/area/maintenance/department/bridge)
 "hUM" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer1{
 	dir = 8
@@ -11033,7 +11063,7 @@
 	color = "#CC8899";
 	name = "nanoweave carpet (puce)"
 	},
-/area/nsv/weapons/port)
+/area/nsv/crew_quarters/heads/maa)
 "ign" = (
 /obj/machinery/status_display/evac,
 /turf/closed/wall/ship,
@@ -11231,7 +11261,7 @@
 	req_one_access_txt = "69;72"
 	},
 /turf/open/floor/plating,
-/area/maintenance/department/cargo)
+/area/maintenance/department/bridge)
 "ipD" = (
 /obj/structure/window/reinforced{
 	dir = 1;
@@ -11281,7 +11311,7 @@
 	icon_state = "1-2"
 	},
 /turf/open/floor/plating,
-/area/maintenance/department/cargo)
+/area/maintenance/department/bridge)
 "irY" = (
 /obj/structure/cable{
 	icon_state = "4-8"
@@ -11303,12 +11333,15 @@
 	dir = 1
 	},
 /turf/open/floor/plating,
-/area/maintenance/department/cargo)
+/area/maintenance/department/bridge)
 "isX" = (
 /obj/machinery/atmospherics/components/unary/portables_connector{
 	dir = 1
 	},
 /obj/machinery/vending/plasmaresearch,
+/obj/machinery/camera/autoname{
+	dir = 4
+	},
 /turf/open/floor/carpet/ship/purple_carpet,
 /area/science/mixing)
 "itN" = (
@@ -11340,7 +11373,7 @@
 	color = "#CC8899";
 	name = "nanoweave carpet (puce)"
 	},
-/area/nsv/weapons/port)
+/area/nsv/crew_quarters/heads/maa)
 "ive" = (
 /obj/machinery/camera/autoname{
 	dir = 1
@@ -11748,7 +11781,7 @@
 /obj/machinery/modular_computer/console/preset/engineering{
 	dir = 4
 	},
-/turf/open/floor/plating,
+/turf/open/floor/engine,
 /area/bridge)
 "iMe" = (
 /obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1,
@@ -12109,7 +12142,7 @@
 	},
 /obj/structure/reagent_dispensers/fueltank,
 /turf/open/floor/plating,
-/area/maintenance/department/cargo)
+/area/maintenance/department/bridge)
 "jcR" = (
 /obj/structure/table/reinforced,
 /obj/structure/cable/yellow{
@@ -12209,7 +12242,7 @@
 	color = "#CC8899";
 	name = "nanoweave carpet (puce)"
 	},
-/area/nsv/weapons/port)
+/area/nsv/crew_quarters/heads/maa)
 "jdZ" = (
 /obj/structure/disposalpipe/segment,
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer1{
@@ -12257,7 +12290,7 @@
 /obj/effect/spawner/lootdrop/maintenance/four,
 /obj/structure/closet/crate,
 /turf/open/floor/plating,
-/area/maintenance/department/cargo)
+/area/maintenance/department/bridge)
 "jhR" = (
 /obj/structure/cable/pink{
 	icon_state = "1-2"
@@ -12316,6 +12349,10 @@
 	},
 /turf/open/floor/carpet/ship,
 /area/nsv/atc)
+"jjr" = (
+/obj/structure/sign/warning/electricshock,
+/turf/closed/wall/ship,
+/area/maintenance/department/bridge)
 "jjN" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/on{
 	external_pressure_bound = 140;
@@ -12763,7 +12800,7 @@
 /obj/item/clothing/mask/surgical,
 /obj/item/clothing/gloves/color/latex,
 /turf/open/floor/plating,
-/area/maintenance/department/cargo)
+/area/maintenance/department/bridge)
 "jyN" = (
 /obj/structure/rack,
 /turf/open/floor/plating,
@@ -12930,7 +12967,7 @@
 	},
 /obj/structure/disposalpipe/segment,
 /turf/open/floor/plating,
-/area/maintenance/department/cargo)
+/area/maintenance/department/bridge)
 "jEB" = (
 /obj/structure/table,
 /obj/item/storage/fancy/cigarettes/cigars,
@@ -12938,7 +12975,7 @@
 	color = "#CC8899";
 	name = "nanoweave carpet (puce)"
 	},
-/area/nsv/weapons/port)
+/area/nsv/crew_quarters/heads/maa)
 "jEE" = (
 /obj/machinery/atmospherics/pipe/layer_manifold{
 	dir = 4
@@ -13072,7 +13109,7 @@
 	color = "#CC8899";
 	name = "nanoweave carpet (puce)"
 	},
-/area/nsv/weapons/port)
+/area/nsv/crew_quarters/heads/maa)
 "jJu" = (
 /obj/structure/cable{
 	icon_state = "1-2"
@@ -13381,7 +13418,7 @@
 /obj/structure/cable/white{
 	icon_state = "4-8"
 	},
-/turf/open/floor/plating,
+/turf/open/floor/engine,
 /area/bridge)
 "jYt" = (
 /obj/effect/turf_decal/arrows{
@@ -13547,6 +13584,7 @@
 "kfA" = (
 /obj/structure/table,
 /obj/machinery/computer/med_data/laptop,
+/obj/machinery/airalarm/directional/east,
 /turf/open/floor/carpet/ship/red_carpet,
 /area/security/checkpoint/supply)
 "kfD" = (
@@ -13677,7 +13715,7 @@
 	dir = 10
 	},
 /turf/open/floor/plating,
-/area/maintenance/department/cargo)
+/area/maintenance/department/bridge)
 "kjP" = (
 /obj/structure/cable/yellow{
 	icon_state = "2-4"
@@ -13941,7 +13979,7 @@
 	req_one_access_txt = "3;12;19;69;72"
 	},
 /turf/open/floor/plating,
-/area/maintenance/department/cargo)
+/area/maintenance/department/bridge)
 "kuT" = (
 /obj/machinery/computer/ship/tactical{
 	dir = 4
@@ -14242,7 +14280,7 @@
 	color = "#CC8899";
 	name = "nanoweave carpet (puce)"
 	},
-/area/nsv/weapons/port)
+/area/nsv/crew_quarters/heads/maa)
 "kKh" = (
 /obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1{
 	dir = 1
@@ -14371,7 +14409,7 @@
 /obj/item/clothing/ears/earmuffs,
 /obj/item/storage/box/snappops,
 /turf/open/floor/plating,
-/area/maintenance/department/cargo)
+/area/maintenance/department/bridge)
 "kQE" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 9
@@ -14423,12 +14461,17 @@
 	},
 /turf/open/floor/engine,
 /area/nsv/hanger/storage)
+"kTB" = (
+/obj/structure/closet/emcloset,
+/obj/item/storage/toolbox/emergency,
+/turf/open/floor/plating,
+/area/maintenance/department/bridge)
 "kTG" = (
 /obj/structure/disposalpipe/segment{
 	dir = 10
 	},
 /turf/open/floor/plating,
-/area/maintenance/department/cargo)
+/area/maintenance/department/bridge)
 "kTT" = (
 /obj/structure/chair{
 	dir = 4
@@ -14583,7 +14626,7 @@
 	},
 /obj/structure/disposalpipe/segment,
 /turf/open/floor/plating,
-/area/maintenance/department/cargo)
+/area/maintenance/department/bridge)
 "kXT" = (
 /obj/machinery/computer/security/telescreen{
 	network = list("ss13");
@@ -14613,7 +14656,7 @@
 	icon_state = "4-8"
 	},
 /turf/open/floor/plating,
-/area/maintenance/department/cargo)
+/area/maintenance/department/bridge)
 "laJ" = (
 /obj/structure/cable/yellow{
 	icon_state = "1-2"
@@ -14626,7 +14669,7 @@
 /obj/structure/disposalpipe/segment,
 /obj/machinery/atmospherics/pipe/simple/purple/hidden,
 /turf/open/floor/plating,
-/area/maintenance/department/cargo)
+/area/maintenance/department/bridge)
 "lbo" = (
 /obj/machinery/sparker/toxmix{
 	pixel_x = 18
@@ -14662,7 +14705,7 @@
 "lch" = (
 /obj/machinery/status_display/ai,
 /turf/closed/wall/r_wall/ship,
-/area/maintenance/department/cargo)
+/area/maintenance/department/bridge)
 "ldc" = (
 /turf/open/floor/plating,
 /area/quartermaster/miningoffice)
@@ -14917,7 +14960,7 @@
 	color = "#CC8899";
 	name = "nanoweave carpet (puce)"
 	},
-/area/nsv/weapons/port)
+/area/nsv/crew_quarters/heads/maa)
 "lqr" = (
 /obj/machinery/camera/autoname{
 	dir = 4
@@ -15129,6 +15172,20 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/department/cargo)
+"lyt" = (
+/obj/effect/turf_decal/stripes/line,
+/obj/effect/turf_decal/stripes/line{
+	dir = 1
+	},
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
+/turf/open/floor/plating,
+/area/nsv/hanger)
 "lyQ" = (
 /obj/machinery/requests_console{
 	department = "Cargo Bay";
@@ -15422,6 +15479,9 @@
 	},
 /turf/open/floor/carpet/ship/purple_carpet,
 /area/science/xenobiology)
+"lJn" = (
+/turf/closed/wall/r_wall/ship,
+/area/nsv/crew_quarters/heads/maa)
 "lKE" = (
 /obj/structure/cable{
 	icon_state = "1-8"
@@ -15647,7 +15707,7 @@
 	req_one_access_txt = "3;12;19;69;72"
 	},
 /turf/open/floor/carpet/ship,
-/area/maintenance/department/cargo)
+/area/maintenance/department/bridge)
 "lUj" = (
 /obj/structure/disposalpipe/segment{
 	dir = 5
@@ -15672,6 +15732,9 @@
 	},
 /mob/living/simple_animal/pet/cat{
 	name = "Magcat"
+	},
+/obj/structure/cable{
+	icon_state = "1-8"
 	},
 /turf/open/floor/engine,
 /area/nsv/hanger)
@@ -15790,7 +15853,7 @@
 	sortType = 33
 	},
 /turf/open/floor/plating,
-/area/maintenance/department/cargo)
+/area/maintenance/department/bridge)
 "lYS" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
@@ -15858,7 +15921,7 @@
 	icon_state = "2-8"
 	},
 /turf/open/floor/plating,
-/area/maintenance/department/cargo)
+/area/maintenance/department/bridge)
 "mfj" = (
 /obj/effect/turf_decal/stripes/line,
 /obj/structure/disposalpipe/segment,
@@ -15906,7 +15969,7 @@
 	dir = 5
 	},
 /turf/open/floor/plating,
-/area/maintenance/department/cargo)
+/area/maintenance/department/bridge)
 "mgq" = (
 /obj/structure/disposalpipe/segment,
 /turf/open/floor/plating,
@@ -16009,7 +16072,7 @@
 	color = "#CC8899";
 	name = "nanoweave carpet (puce)"
 	},
-/area/nsv/weapons/port)
+/area/nsv/crew_quarters/heads/maa)
 "mkr" = (
 /obj/machinery/atmospherics/pipe/simple/purple/hidden{
 	dir = 4
@@ -16038,7 +16101,7 @@
 	color = "#CC8899";
 	name = "nanoweave carpet (puce)"
 	},
-/area/nsv/weapons/port)
+/area/nsv/crew_quarters/heads/maa)
 "mkZ" = (
 /obj/structure/closet/emcloset,
 /obj/item/storage/toolbox/emergency,
@@ -16297,7 +16360,7 @@
 	req_one_access_txt = "3;69;72"
 	},
 /turf/open/floor/plating,
-/area/maintenance/department/cargo)
+/area/maintenance/department/bridge)
 "mpY" = (
 /obj/structure/cable{
 	icon_state = "4-8"
@@ -16439,6 +16502,10 @@
 /obj/machinery/status_display/ai,
 /turf/closed/wall/r_wall/ship,
 /area/maintenance/fore)
+"mtT" = (
+/obj/structure/grille,
+/turf/open/floor/plating,
+/area/maintenance/department/bridge)
 "mtV" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
@@ -16542,7 +16609,7 @@
 	color = "#CC8899";
 	name = "nanoweave carpet (puce)"
 	},
-/area/nsv/weapons/port)
+/area/nsv/crew_quarters/heads/maa)
 "mye" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	dir = 4
@@ -16653,7 +16720,7 @@
 /obj/effect/spawner/structure/window/reinforced,
 /obj/structure/cable/pink,
 /turf/open/floor/plating,
-/area/nsv/weapons/port)
+/area/nsv/crew_quarters/heads/maa)
 "mBc" = (
 /obj/structure/bed,
 /obj/item/bedsheet/dorms,
@@ -16720,7 +16787,7 @@
 	},
 /obj/machinery/atmospherics/pipe/simple/purple/hidden,
 /turf/open/floor/plating,
-/area/maintenance/department/cargo)
+/area/maintenance/department/bridge)
 "mDf" = (
 /obj/structure/disposalpipe/segment{
 	dir = 4
@@ -16821,7 +16888,7 @@
 /obj/item/weldingtool,
 /obj/item/wirecutters,
 /turf/open/floor/plating,
-/area/maintenance/department/cargo)
+/area/maintenance/department/bridge)
 "mHi" = (
 /obj/effect/spawner/lootdrop/maintenance,
 /turf/open/floor/plating,
@@ -17047,9 +17114,6 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 4
 	},
-/obj/structure/cable{
-	icon_state = "4-8"
-	},
 /turf/open/floor/carpet/ship/blue{
 	color = "#9999DD";
 	name = "nanoweave carpet (bluer)"
@@ -17204,6 +17268,7 @@
 /area/maintenance/department/science/central)
 "nbq" = (
 /obj/machinery/vending/wardrobe/cargo_wardrobe,
+/obj/machinery/airalarm/directional/east,
 /turf/open/floor/engine,
 /area/quartermaster/storage)
 "nbE" = (
@@ -17458,7 +17523,7 @@
 /obj/item/shovel,
 /obj/effect/spawner/lootdrop/maintenance,
 /turf/open/floor/plating,
-/area/maintenance/department/cargo)
+/area/maintenance/department/bridge)
 "nkV" = (
 /obj/machinery/atmospherics/components/binary/pump/layer1{
 	dir = 1;
@@ -17471,9 +17536,6 @@
 /obj/machinery/door/airlock/ship/external/glass{
 	name = "External Access Deck 1 Fore";
 	req_one_access_txt = "19"
-	},
-/obj/structure/cable{
-	icon_state = "1-2"
 	},
 /obj/structure/cable/white{
 	icon_state = "5-10"
@@ -17961,7 +18023,7 @@
 	icon_state = "1-2"
 	},
 /turf/open/floor/plating,
-/area/maintenance/department/cargo)
+/area/maintenance/department/bridge)
 "nCg" = (
 /obj/structure/fighter_launcher{
 	dir = 1
@@ -17997,7 +18059,7 @@
 	req_access = null
 	},
 /turf/open/floor/plating,
-/area/maintenance/department/cargo)
+/area/maintenance/department/bridge)
 "nDg" = (
 /obj/effect/landmark/nuclear_waste_spawner/strong,
 /turf/closed/wall/ship,
@@ -18181,7 +18243,7 @@
 	color = "#CC8899";
 	name = "nanoweave carpet (puce)"
 	},
-/area/nsv/weapons/port)
+/area/nsv/crew_quarters/heads/maa)
 "nJG" = (
 /obj/structure/cable{
 	icon_state = "1-2"
@@ -18299,7 +18361,7 @@
 	color = "#CC8899";
 	name = "nanoweave carpet (puce)"
 	},
-/area/nsv/weapons/port)
+/area/nsv/crew_quarters/heads/maa)
 "nMx" = (
 /obj/machinery/computer/camera_advanced/xenobio,
 /turf/open/floor/carpet/ship/purple_carpet,
@@ -18789,7 +18851,7 @@
 	icon_state = "1-4"
 	},
 /turf/open/floor/plating,
-/area/maintenance/department/cargo)
+/area/maintenance/department/bridge)
 "obF" = (
 /obj/structure/cable/yellow{
 	icon_state = "1-2"
@@ -18908,7 +18970,7 @@
 "omo" = (
 /obj/structure/sign/warning/pods,
 /turf/closed/wall/ship,
-/area/maintenance/department/cargo)
+/area/maintenance/department/bridge)
 "oni" = (
 /obj/machinery/door/firedoor/border_only/directional/south,
 /obj/machinery/door/firedoor/border_only/directional/north,
@@ -19077,7 +19139,7 @@
 	req_one_access_txt = "12"
 	},
 /turf/open/floor/plating,
-/area/maintenance/department/cargo)
+/area/maintenance/department/bridge)
 "osO" = (
 /obj/item/twohanded/required/kirbyplants/random,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
@@ -19192,7 +19254,7 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /turf/open/floor/plating,
-/area/maintenance/department/cargo)
+/area/maintenance/department/bridge)
 "oyu" = (
 /obj/structure/table,
 /obj/item/circular_saw,
@@ -19300,7 +19362,7 @@
 	width = 3
 	},
 /turf/open/floor/plating,
-/area/maintenance/department/cargo)
+/area/maintenance/department/bridge)
 "oCv" = (
 /obj/machinery/disposal/bin,
 /obj/structure/disposalpipe/trunk{
@@ -19740,7 +19802,7 @@
 /obj/structure/closet/bombcloset,
 /obj/item/clothing/gloves/color/black,
 /turf/open/floor/plating,
-/area/maintenance/department/cargo)
+/area/maintenance/department/bridge)
 "oUw" = (
 /obj/effect/turf_decal/pool{
 	dir = 1
@@ -19841,11 +19903,11 @@
 	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /turf/open/floor/plating,
-/area/maintenance/department/cargo)
+/area/maintenance/department/bridge)
 "oYC" = (
 /obj/machinery/status_display/evac,
 /turf/closed/wall/ship,
-/area/maintenance/department/cargo)
+/area/maintenance/department/bridge)
 "oYO" = (
 /obj/structure/disposalpipe/segment,
 /obj/structure/cable/yellow{
@@ -19875,7 +19937,7 @@
 	icon_state = "1-2"
 	},
 /turf/open/floor/plating,
-/area/maintenance/department/cargo)
+/area/maintenance/department/bridge)
 "oZT" = (
 /obj/effect/decal/cleanable/ash,
 /turf/open/floor/plating,
@@ -19992,7 +20054,7 @@
 	color = "#CC8899";
 	name = "nanoweave carpet (puce)"
 	},
-/area/nsv/weapons/port)
+/area/nsv/crew_quarters/heads/maa)
 "pdT" = (
 /obj/structure/cable/yellow{
 	icon_state = "4-8"
@@ -20134,7 +20196,7 @@
 /obj/machinery/door/firedoor/border_only/directional/north,
 /obj/machinery/door/firedoor/border_only/directional/south,
 /turf/open/floor/plating,
-/area/maintenance/department/cargo)
+/area/maintenance/department/bridge)
 "phz" = (
 /obj/structure/disposalpipe/segment,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
@@ -20523,7 +20585,7 @@
 	dir = 8
 	},
 /turf/open/floor/plating,
-/area/maintenance/department/cargo)
+/area/maintenance/department/bridge)
 "ptS" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	dir = 4
@@ -20637,6 +20699,10 @@
 /obj/effect/spawner/structure/window/reinforced,
 /turf/open/floor/plating,
 /area/nsv/atc)
+"pwQ" = (
+/obj/structure/closet/firecloset/full,
+/turf/open/floor/plating,
+/area/maintenance/department/bridge)
 "pwR" = (
 /obj/structure/grille,
 /obj/machinery/atmospherics/pipe/simple/purple/hidden{
@@ -20693,7 +20759,7 @@
 	},
 /obj/structure/cable/yellow,
 /turf/open/floor/plating,
-/area/maintenance/department/cargo)
+/area/maintenance/department/bridge)
 "pBc" = (
 /turf/open/floor/plating,
 /area/maintenance/department/crew_quarters/dorms)
@@ -20918,7 +20984,7 @@
 	icon_state = "1-2"
 	},
 /turf/open/floor/plating,
-/area/maintenance/department/cargo)
+/area/maintenance/department/bridge)
 "pKe" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 4
@@ -21120,7 +21186,7 @@
 	req_one_access_txt = "69;72"
 	},
 /turf/open/floor/plating,
-/area/maintenance/department/cargo)
+/area/nsv/hanger)
 "pRg" = (
 /obj/structure/cable{
 	icon_state = "1-2"
@@ -21322,10 +21388,6 @@
 /area/science/robotics/lab)
 "qaB" = (
 /obj/machinery/suit_storage_unit/standard_unit,
-/obj/machinery/power/apc/auto_name/north,
-/obj/structure/cable{
-	icon_state = "0-8"
-	},
 /turf/open/floor/engine,
 /area/bridge)
 "qaL" = (
@@ -21459,7 +21521,7 @@
 	sortType = 22
 	},
 /turf/open/floor/plating,
-/area/maintenance/department/cargo)
+/area/maintenance/department/bridge)
 "qfE" = (
 /obj/machinery/atmospherics/pipe/layer_manifold,
 /obj/machinery/advanced_airlock_controller/directional/west,
@@ -21729,7 +21791,7 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /obj/machinery/atmospherics/pipe/simple/purple/hidden,
 /turf/open/floor/plating,
-/area/maintenance/department/cargo)
+/area/maintenance/department/bridge)
 "qrB" = (
 /obj/machinery/portable_atmospherics/pump,
 /obj/machinery/atmospherics/components/unary/portables_connector/layer1{
@@ -21780,7 +21842,7 @@
 	color = "#CC8899";
 	name = "nanoweave carpet (puce)"
 	},
-/area/nsv/weapons/port)
+/area/nsv/crew_quarters/heads/maa)
 "qsN" = (
 /obj/machinery/dna_scannernew,
 /turf/open/floor/carpet/ship/purple_carpet,
@@ -21854,17 +21916,12 @@
 /turf/open/floor/plating,
 /area/quartermaster/storage)
 "qvw" = (
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
-	dir = 4
+/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3,
+/obj/structure/cable{
+	icon_state = "1-2"
 	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
-	dir = 4
-	},
-/obj/structure/disposalpipe/segment{
-	dir = 4
-	},
-/turf/open/floor/carpet/ship,
-/area/ai_monitored/turret_protected/aisat_interior)
+/turf/open/floor/engine,
+/area/nsv/hanger)
 "qvy" = (
 /turf/open/floor/carpet/ship/red_carpet,
 /area/security/checkpoint/science/research)
@@ -22231,6 +22288,15 @@
 	},
 /turf/open/floor/carpet/ship,
 /area/ai_monitored/turret_protected/ai_upload_foyer)
+"qOb" = (
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
+/turf/open/floor/carpet/ship/beige_carpet{
+	color = "#CC8899";
+	name = "nanoweave carpet (puce)"
+	},
+/area/nsv/crew_quarters/heads/maa)
 "qOh" = (
 /obj/effect/spawner/room/tenxfive,
 /turf/template_noop,
@@ -23348,9 +23414,6 @@
 /obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer3{
 	dir = 1
 	},
-/obj/structure/cable{
-	icon_state = "4-8"
-	},
 /obj/machinery/atmospherics/pipe/simple/purple/hidden{
 	dir = 10
 	},
@@ -23412,9 +23475,6 @@
 	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 4
-	},
-/obj/structure/cable{
-	icon_state = "4-8"
 	},
 /turf/open/floor/carpet/ship/blue{
 	color = "#9999DD";
@@ -23543,7 +23603,7 @@
 	color = "#CC8899";
 	name = "nanoweave carpet (puce)"
 	},
-/area/nsv/weapons/port)
+/area/nsv/crew_quarters/heads/maa)
 "rHS" = (
 /obj/structure/sign/warning/vacuum,
 /turf/closed/wall/ship,
@@ -23692,6 +23752,9 @@
 /obj/machinery/airalarm/directional/east,
 /turf/open/floor/holofloor/wood,
 /area/science/lobby)
+"rKW" = (
+/turf/open/floor/plating,
+/area/maintenance/department/bridge)
 "rKZ" = (
 /obj/machinery/light{
 	dir = 1
@@ -25978,7 +26041,7 @@
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /turf/open/floor/plating,
-/area/maintenance/department/cargo)
+/area/maintenance/department/bridge)
 "twX" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer1,
 /turf/open/floor/carpet/ship/purple_carpet,
@@ -26024,7 +26087,7 @@
 	},
 /obj/machinery/atmospherics/pipe/simple/purple/hidden,
 /turf/open/floor/plating,
-/area/maintenance/department/cargo)
+/area/maintenance/department/bridge)
 "tyD" = (
 /obj/structure/disposalpipe/segment{
 	dir = 6
@@ -26233,6 +26296,10 @@
 /obj/machinery/atmospherics/pipe/simple/purple/hidden,
 /turf/closed/wall/r_wall/ship,
 /area/maintenance/department/science/central)
+"tKO" = (
+/obj/structure/reagent_dispensers/watertank,
+/turf/open/floor/plating,
+/area/maintenance/department/bridge)
 "tKZ" = (
 /obj/structure/cable{
 	icon_state = "4-8"
@@ -26882,9 +26949,6 @@
 /obj/machinery/light/small{
 	dir = 8
 	},
-/obj/structure/cable{
-	icon_state = "2-4"
-	},
 /obj/structure/cable/white{
 	icon_state = "6-9"
 	},
@@ -27246,7 +27310,7 @@
 /obj/structure/cable/white{
 	icon_state = "6-8"
 	},
-/turf/open/floor/plating,
+/turf/open/floor/engine,
 /area/bridge)
 "uBM" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
@@ -27263,7 +27327,7 @@
 "uCf" = (
 /obj/machinery/status_display/evac,
 /turf/closed/wall/r_wall/ship,
-/area/maintenance/department/cargo)
+/area/maintenance/department/bridge)
 "uCu" = (
 /obj/structure/cable/yellow{
 	icon_state = "1-2"
@@ -27618,9 +27682,6 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 4
 	},
-/obj/structure/cable{
-	icon_state = "4-8"
-	},
 /obj/structure/cable/white{
 	icon_state = "5-10"
 	},
@@ -27817,9 +27878,6 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 9
 	},
-/obj/structure/cable{
-	icon_state = "1-8"
-	},
 /turf/open/floor/carpet/ship/blue{
 	color = "#9999DD";
 	name = "nanoweave carpet (bluer)"
@@ -27837,6 +27895,10 @@
 	},
 /turf/open/floor/plasteel/kitchen_coldroom/freezerfloor,
 /area/science/xenobiology)
+"uYq" = (
+/obj/machinery/space_heater,
+/turf/open/floor/plating,
+/area/maintenance/department/bridge)
 "uYr" = (
 /obj/structure/closet/emcloset,
 /obj/item/storage/toolbox/emergency,
@@ -27862,9 +27924,6 @@
 /turf/open/floor/plating,
 /area/quartermaster/storage)
 "uZa" = (
-/obj/machinery/camera/autoname{
-	dir = 4
-	},
 /obj/machinery/airalarm/directional/west{
 	locked = 0
 	},
@@ -27938,7 +27997,7 @@
 	},
 /obj/structure/disposalpipe/segment,
 /turf/open/floor/plating,
-/area/maintenance/department/cargo)
+/area/maintenance/department/bridge)
 "vdl" = (
 /obj/machinery/door/firedoor/border_only/directional/east,
 /obj/machinery/door/firedoor/border_only/directional/west,
@@ -27986,6 +28045,9 @@
 /obj/machinery/door/poddoor/ship{
 	id = "launchbay_tube2";
 	name = "Launch tube 2 access"
+	},
+/obj/structure/cable{
+	icon_state = "1-2"
 	},
 /turf/open/floor/plating,
 /area/nsv/hanger/notkmcstupidhanger/launchtube/left)
@@ -28131,7 +28193,7 @@
 	},
 /obj/structure/disposalpipe/segment,
 /turf/open/floor/carpet/ship,
-/area/maintenance/department/cargo)
+/area/maintenance/department/bridge)
 "vlD" = (
 /obj/machinery/disposal/bin,
 /obj/structure/disposalpipe/trunk,
@@ -28184,6 +28246,12 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/department/cargo)
+"voE" = (
+/obj/structure/disposalpipe/segment{
+	dir = 6
+	},
+/turf/open/floor/plating,
+/area/maintenance/department/bridge)
 "vpk" = (
 /obj/structure/cable/pink{
 	icon_state = "4-8"
@@ -30194,7 +30262,7 @@
 	color = "#CC8899";
 	name = "nanoweave carpet (puce)"
 	},
-/area/nsv/weapons/port)
+/area/nsv/crew_quarters/heads/maa)
 "wUp" = (
 /obj/machinery/light/small{
 	dir = 1
@@ -30329,6 +30397,12 @@
 /obj/machinery/rnd/server,
 /turf/open/floor/circuit,
 /area/science/server)
+"xba" = (
+/obj/structure/closet/radiation,
+/obj/item/clothing/mask/gas,
+/obj/item/shovel,
+/turf/open/floor/plating,
+/area/maintenance/department/bridge)
 "xbJ" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /obj/structure/cable{
@@ -30428,9 +30502,6 @@
 	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 4
-	},
-/obj/structure/cable{
-	icon_state = "4-8"
 	},
 /obj/structure/cable/white{
 	icon_state = "1-2"
@@ -30805,7 +30876,7 @@
 	dir = 4
 	},
 /turf/open/floor/plating,
-/area/maintenance/department/cargo)
+/area/maintenance/department/bridge)
 "xvp" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
@@ -30950,9 +31021,6 @@
 	},
 /obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer3{
 	dir = 8
-	},
-/obj/structure/cable{
-	icon_state = "1-2"
 	},
 /turf/open/floor/engine,
 /area/bridge)
@@ -31629,6 +31697,9 @@
 /obj/machinery/atmospherics/components/unary/portables_connector/layer3,
 /turf/open/floor/carpet/ship/purple_carpet,
 /area/science/lab)
+"yal" = (
+/turf/closed/wall/ship,
+/area/maintenance/department/bridge)
 "yaz" = (
 /obj/machinery/disposal/bin,
 /obj/structure/disposalpipe/trunk{
@@ -31686,7 +31757,6 @@
 /turf/open/floor/carpet/ship,
 /area/nsv/atc)
 "ycz" = (
-/obj/machinery/airalarm/directional/west,
 /obj/structure/disposalpipe/segment,
 /obj/machinery/light{
 	dir = 8
@@ -31694,6 +31764,8 @@
 /obj/structure/cable{
 	icon_state = "1-2"
 	},
+/obj/structure/cable,
+/obj/machinery/power/apc/auto_name/west,
 /turf/open/floor/engine,
 /area/quartermaster/storage)
 "ycY" = (
@@ -63614,7 +63686,7 @@ oGs
 oMB
 oXb
 sMM
-qvw
+wQG
 fgG
 eIn
 jRV
@@ -64630,20 +64702,20 @@ mot
 qjS
 uiF
 hbD
-fDk
-nkW
+bBU
+yal
 lTI
-nkW
-nkW
-nkW
-nkW
-nkW
-nkW
-nkW
+yal
+yal
+yal
+yal
+yal
+yal
+yal
 oYC
-nkW
-nkW
-nkW
+yal
+yal
+yal
 xcR
 dnX
 qGn
@@ -64887,8 +64959,8 @@ haa
 pey
 pey
 eWF
-fDk
-mhY
+bBU
+voE
 kjL
 oYB
 ekU
@@ -65144,14 +65216,14 @@ csi
 qCO
 qCO
 ybo
-fDk
-pcP
-nkW
-nkW
-nkW
-nkW
-nkW
-nkW
+bBU
+fwr
+yal
+yal
+yal
+yal
+yal
+yal
 mfe
 pAW
 mGQ
@@ -65401,16 +65473,16 @@ mot
 qjS
 uiF
 qVT
-fDk
-pcP
-nkW
+bBU
+fwr
+yal
 eCT
 njl
 qvk
 viL
-nkW
-nkW
-nkW
+yal
+yal
+yal
 jHL
 wyv
 byi
@@ -65658,9 +65730,9 @@ ciw
 pey
 pey
 eWF
-fDk
-pcP
-nkW
+bBU
+fwr
+yal
 meH
 meH
 tRx
@@ -65915,8 +65987,8 @@ csi
 qCO
 qCO
 ybo
-fDk
-pcP
+bBU
+fwr
 osE
 bQi
 njl
@@ -66172,9 +66244,9 @@ mot
 qjS
 sWb
 hbD
-fDk
-pcP
-nkW
+bBU
+fwr
+yal
 meH
 meH
 eci
@@ -66429,9 +66501,9 @@ haa
 pey
 pey
 eWF
-fDk
+bBU
 xvc
-nkW
+yal
 eCT
 njl
 oRS
@@ -66686,9 +66758,9 @@ csi
 qCO
 qCO
 ybo
-fDk
-pcP
-nkW
+bBU
+fwr
+yal
 aPN
 aPN
 aPN
@@ -66943,9 +67015,9 @@ mot
 qjS
 sWb
 qVT
-fDk
+bBU
 kPB
-nkW
+yal
 pWf
 bjW
 uzm
@@ -67190,17 +67262,17 @@ mzQ
 vDc
 ehL
 nCg
-mzQ
+aYB
 vdR
-llI
-loz
+qvw
+lyt
 lUN
 ssI
 haa
 pey
 pey
 eWF
-fDk
+bBU
 qfd
 vlw
 xRy
@@ -67458,8 +67530,8 @@ hJB
 oVG
 xpd
 pQC
-llQ
-nkW
+fqD
+yal
 ghC
 gHY
 fGo
@@ -67714,9 +67786,9 @@ uNa
 wTG
 iEt
 pKF
-fDk
-pyG
-nkW
+bBU
+rKW
+yal
 fXx
 ykx
 ehZ
@@ -67971,9 +68043,9 @@ rhj
 iaD
 kHX
 rbA
-fDk
-rRn
-fDk
+bBU
+mtT
+bBU
 fFC
 fFC
 fFC
@@ -68228,9 +68300,9 @@ wNh
 wNh
 gXM
 wNh
-fDk
-pyG
-fDk
+bBU
+rKW
+bBU
 dMr
 pfZ
 rNt
@@ -68485,8 +68557,8 @@ bUr
 oYU
 fZF
 qmg
-nkW
-pyG
+yal
+rKW
 hcB
 qLO
 qLO
@@ -68742,9 +68814,9 @@ ndN
 wiG
 lmX
 aqU
-nkW
-pyG
-fDk
+yal
+rKW
+bBU
 ttp
 hWv
 qLO
@@ -69000,8 +69072,8 @@ mYa
 nSn
 gmW
 nAG
-sAn
-fDk
+cAp
+bBU
 bww
 aaQ
 qLO
@@ -69256,9 +69328,9 @@ bUr
 mcT
 eNw
 snA
-nkW
-pcP
-fDk
+yal
+fwr
+bBU
 wVL
 cbs
 mGW
@@ -69513,9 +69585,9 @@ wNh
 bUr
 bUr
 bUr
-nkW
-pcP
-fDk
+yal
+fwr
+bBU
 nTu
 hhJ
 qLO
@@ -69770,9 +69842,9 @@ hQz
 oMa
 nea
 nea
-nkW
-pcP
-fDk
+yal
+fwr
+bBU
 eIc
 qLO
 qLO
@@ -70015,7 +70087,7 @@ aan
 owl
 wjT
 ati
-aYB
+hDk
 hDk
 cVf
 eOT
@@ -70027,9 +70099,9 @@ nNJ
 nNJ
 nNJ
 jwf
-nkW
-pcP
-fDk
+yal
+fwr
+bBU
 iIV
 qLO
 qLO
@@ -70284,9 +70356,9 @@ nNJ
 nNJ
 nNJ
 nNJ
-nkW
-pcP
-fDk
+yal
+fwr
+bBU
 pIT
 qLO
 iBU
@@ -70541,9 +70613,9 @@ nlX
 imn
 imn
 nea
-nkW
-pcP
-fDk
+yal
+fwr
+bBU
 bXL
 kBD
 cqT
@@ -70795,12 +70867,12 @@ sdb
 xRL
 vNI
 aON
-nkW
-nkW
-nkW
-nkW
-pcP
-fDk
+yal
+yal
+yal
+yal
+fwr
+bBU
 cUY
 fFC
 fFC
@@ -71052,14 +71124,14 @@ fhi
 iSw
 sss
 uRe
-nkW
+yal
 jcw
-vlU
-pyG
-pcP
-fDk
-fDk
-fDk
+tKO
+rKW
+fwr
+bBU
+bBU
+bBU
 aon
 aak
 kep
@@ -71314,9 +71386,9 @@ pKc
 pKc
 vcH
 gwd
-mgq
-sAn
-nkW
+fgS
+cAp
+yal
 jdS
 qQU
 qzT
@@ -71566,14 +71638,14 @@ nuK
 lSx
 hxk
 rdY
-nkW
+yal
 nkQ
-vlP
-pyG
+xba
+rKW
 bjL
-pyG
-pcP
-nkW
+rKW
+fwr
+yal
 bOv
 oAO
 kmx
@@ -71822,21 +71894,21 @@ cVf
 uKL
 iUx
 dbI
-nkW
-nkW
-nkW
-nkW
-nkW
-pcP
+yal
+yal
+yal
+yal
+yal
+fwr
 bUF
-pcP
-nkW
-nkW
-nkW
-nkW
-nkW
-nkW
-vgv
+fwr
+yal
+yal
+yal
+yal
+yal
+yal
+jjr
 mZf
 bIk
 xvB
@@ -72079,17 +72151,17 @@ ljY
 mwE
 jkD
 hxT
-nkW
-tBy
-pyG
+yal
+kTB
+rKW
 jyw
-nkW
-pcP
-pyG
+yal
+fwr
+rKW
 ebN
 nBW
 pKc
-pKc
+akJ
 pKc
 pKc
 pKc
@@ -72336,21 +72408,21 @@ oIU
 hro
 kJc
 ujq
-nkW
-nOW
-pyG
-vlP
-nkW
+yal
+pwQ
+rKW
+xba
+yal
 kTG
-sAn
+cAp
 jhz
-nkW
-nkW
-nkW
-nkW
-nkW
-nkW
-nkW
+yal
+yal
+yal
+yal
+yal
+yal
+yal
 aKU
 aGK
 xvB
@@ -72601,13 +72673,13 @@ kuR
 kXA
 lYM
 mHf
-pyG
+rKW
 omo
-pyG
-pyG
-pyG
-pyG
-nkW
+rKW
+rKW
+rKW
+rKW
+yal
 auU
 aGK
 qYM
@@ -72850,20 +72922,20 @@ neY
 aKK
 aKK
 hza
-nkW
+yal
 isw
-pyG
-pyG
-nkW
+rKW
+rKW
+yal
 lav
-pcP
-pyG
-pyG
+fwr
+rKW
+rKW
 mpX
 oBl
-pyG
-pyG
-pyG
+rKW
+rKW
+rKW
 mZf
 wYA
 qXF
@@ -73114,14 +73186,14 @@ qru
 tyk
 laJ
 mge
-mHi
+aYe
 nCR
-nkW
-pyG
-pyG
-pyG
-pyG
-nkW
+yal
+rKW
+rKW
+rKW
+rKW
+yal
 jCE
 uKq
 xvB
@@ -73364,21 +73436,21 @@ neY
 gDg
 gqS
 lLv
-nkW
+yal
 oTv
-pyG
-uaY
-fDk
+rKW
+uYq
+bBU
 lch
 vdl
-fDk
-fDk
-fDk
+bBU
+bBU
+bBU
 uCf
-fDk
-fDk
-fDk
-fDk
+bBU
+bBU
+bBU
+bBU
 bVG
 bVG
 sVW
@@ -73621,11 +73693,11 @@ neY
 pGe
 hHF
 hHF
-nkW
-nkW
-nkW
-nkW
-fDk
+yal
+yal
+yal
+yal
+bBU
 iXF
 vVH
 kOE
@@ -74137,7 +74209,7 @@ hHF
 lpX
 lpX
 lpX
-mwE
+qOb
 jJo
 hIh
 mHQ
@@ -74904,7 +74976,7 @@ dqX
 qdS
 wEx
 xxY
-fMJ
+lJn
 hzd
 mAY
 hIh

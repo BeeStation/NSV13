@@ -75,7 +75,7 @@ GLOBAL_LIST_EMPTY(ai_goals)
 	var/last_encounter_time = 0
 	var/datum/faction/faction = null
 	var/faction_id = FACTION_ID_SYNDICATE
-	var/reward = 25 //Reward for defeating this fleet, is credited to this faction's enemies.
+	var/reward = 100 //Reward for defeating this fleet, is credited to this faction's enemies.
 
 //BFS search algo. Entirely unused for now.
 /datum/fleet/proc/bfs(datum/star_system/target)
@@ -224,6 +224,7 @@ GLOBAL_LIST_EMPTY(ai_goals)
 		current_system.alignment = initial(current_system.alignment)
 		current_system.mission_sector = FALSE
 	current_system.fleets -= src
+	faction = SSstar_system.faction_by_id(faction_id)
 	faction?.lose_influence(reward)
 	for(var/obj/structure/overmap/OOM in current_system.system_contents)
 		if(!OOM.mobs_in_ship.len)

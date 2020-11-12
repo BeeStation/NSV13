@@ -83,6 +83,9 @@ PROCESSING_SUBSYSTEM_DEF(physics_processing)
 		var/obj/item/projectile/P = holder
 		if(istype(P))
 			P.physics2d = null
+	for(var/I in SSphysics_processing.physics_levels)
+		var/list/za_warudo = SSphysics_processing.physics_levels[I]
+		za_warudo.Remove(src)
 	//De-alloc references.
 	collider2d = null
 	position = null
