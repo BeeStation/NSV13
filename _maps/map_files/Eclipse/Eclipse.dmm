@@ -681,6 +681,9 @@
 	dir = 4
 	},
 /obj/effect/landmark/event_spawn,
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
 /turf/open/floor/monotile/dark/airless{
 	initial_gas_mix = "n2=100;TEMP=80";
 	name = "telecomms server floor"
@@ -2556,7 +2559,8 @@
 /area/hallway/primary/fore)
 "lM" = (
 /obj/machinery/computer/ship/ftl_computer{
-	dir = 4
+	dir = 4;
+	req_access = null
 	},
 /turf/open/floor/plasteel/dark/side{
 	dir = 8
@@ -2987,10 +2991,8 @@
 /turf/open/floor/circuit/green/telecomms,
 /area/tcommsat/server)
 "nM" = (
-/obj/structure/fluff/broken_flooring{
-	dir = 4
-	},
-/turf/open/floor/plating/airless,
+/obj/machinery/advanced_airlock_controller/directional/north,
+/turf/open/floor/plasteel/dark/side,
 /area/hallway/primary/fore)
 "nN" = (
 /obj/structure/cable{
@@ -3491,7 +3493,8 @@
 /area/crew_quarters/bar)
 "pZ" = (
 /obj/machinery/computer/cryopod{
-	pixel_y = -22
+	pixel_y = -22;
+	req_one_access = null
 	},
 /turf/open/floor/monotile/dark,
 /area/maintenance/department/crew_quarters/bar)
@@ -4094,25 +4097,6 @@
 	dir = 4
 	},
 /area/crew_quarters/bar)
-"tq" = (
-/obj/effect/turf_decal/ship/techfloor/grid,
-/obj/effect/turf_decal/ship/techfloor/grid{
-	dir = 8
-	},
-/obj/effect/turf_decal/ship/techfloor/grid{
-	dir = 1
-	},
-/obj/effect/turf_decal/ship/techfloor/grid{
-	dir = 4
-	},
-/obj/structure/cable{
-	icon_state = "2-8"
-	},
-/turf/open/floor/monotile/dark/airless{
-	initial_gas_mix = "n2=100;TEMP=80";
-	name = "telecomms server floor"
-	},
-/area/tcommsat/server)
 "tu" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 10
@@ -4609,6 +4593,9 @@
 	dir = 8
 	},
 /obj/effect/turf_decal/ship/techfloor/grid,
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
 /turf/open/floor/monotile/dark/airless{
 	initial_gas_mix = "n2=100;TEMP=80";
 	name = "telecomms server floor"
@@ -5606,8 +5593,7 @@
 /obj/structure/cable{
 	icon_state = "0-4"
 	},
-/obj/structure/fluff/broken_flooring,
-/turf/open/floor/plating/airless,
+/turf/open/floor/plasteel,
 /area/security/prison)
 "Aq" = (
 /obj/machinery/telecomms/receiver/preset_right,
@@ -5728,7 +5714,8 @@
 "AV" = (
 /obj/effect/turf_decal/ship/techfloor,
 /obj/machinery/computer/cryopod{
-	pixel_y = -22
+	pixel_y = -22;
+	req_one_access = null
 	},
 /obj/structure/bookcase/random,
 /turf/open/floor/plasteel,
@@ -6234,7 +6221,9 @@
 	pixel_x = 3;
 	pixel_y = 5
 	},
-/obj/machinery/jukebox/shipwide,
+/obj/machinery/jukebox/shipwide{
+	req_access = null
+	},
 /turf/open/floor/plasteel/dark,
 /area/crew_quarters/bar)
 "Du" = (
@@ -6674,13 +6663,21 @@
 /turf/open/floor/monotile,
 /area/nsv/weapons/fore)
 "Fr" = (
-/obj/effect/turf_decal/ship/techfloor{
-	dir = 1
-	},
 /obj/machinery/camera/autoname{
 	dir = 1
 	},
-/turf/open/floor/circuit/telecomms/server,
+/obj/machinery/ntnet_relay,
+/obj/effect/turf_decal/ship/techfloor/grid{
+	dir = 8
+	},
+/obj/effect/turf_decal/ship/techfloor/grid,
+/obj/effect/turf_decal/ship/techfloor/grid{
+	dir = 1
+	},
+/obj/effect/turf_decal/ship/techfloor/grid{
+	dir = 4
+	},
+/turf/open/floor/circuit/green/telecomms,
 /area/tcommsat/server)
 "Fs" = (
 /obj/effect/spawner/lootdrop/maintenance,
@@ -7465,7 +7462,8 @@
 	},
 /obj/machinery/computer/ship/dradis/mining{
 	desc = "A modified dradis console which links to the ship's mineral scanners, able to pick up asteroids that can be mined.";
-	name = "Asteroid DRADIS Console"
+	name = "Asteroid DRADIS Console";
+	req_one_access_txt = "0"
 	},
 /turf/open/floor/monotile,
 /area/bridge)
@@ -8318,6 +8316,8 @@
 /obj/item/bodypart/r_arm/robot,
 /obj/item/clothing/suit/armor/reactive/teleport,
 /obj/item/assembly/prox_sensor,
+/obj/item/aiModule/reset,
+/obj/item/aiModule/core/full/custom,
 /turf/open/floor/plasteel/dark/side,
 /area/science/research)
 "MX" = (
@@ -10293,10 +10293,6 @@
 	},
 /turf/open/floor/monotile/dark,
 /area/hallway/primary/aft)
-"VF" = (
-/obj/machinery/advanced_airlock_controller/directional/north,
-/turf/open/floor/plasteel/dark/side,
-/area/hallway/primary/fore)
 "VJ" = (
 /obj/effect/turf_decal/tile/blue,
 /obj/effect/turf_decal/tile/blue{
@@ -10672,28 +10668,11 @@
 	},
 /turf/open/floor/monotile/dark,
 /area/hallway/primary/fore)
-"Xo" = (
-/obj/effect/turf_decal/ship/techfloor/grid,
-/obj/effect/turf_decal/ship/techfloor/grid{
-	dir = 8
-	},
-/obj/effect/turf_decal/ship/techfloor/grid{
-	dir = 1
-	},
-/obj/effect/turf_decal/ship/techfloor/grid{
-	dir = 4
-	},
-/turf/open/floor/monotile/dark/airless{
-	initial_gas_mix = "n2=100;TEMP=80";
-	name = "telecomms server floor"
-	},
-/area/tcommsat/server)
 "Xs" = (
 /obj/effect/turf_decal/ship/techfloor{
 	dir = 1
 	},
-/obj/machinery/power/apc/auto_name/south,
-/obj/structure/cable,
+/obj/machinery/light,
 /turf/open/floor/circuit/telecomms/server,
 /area/tcommsat/server)
 "Xu" = (
@@ -11009,10 +10988,6 @@
 	},
 /area/science/research)
 "Zg" = (
-/obj/machinery/light{
-	brightness = 5;
-	dir = 4
-	},
 /obj/effect/turf_decal/ship/techfloor/grid{
 	dir = 4
 	},
@@ -11023,6 +10998,14 @@
 	dir = 8
 	},
 /obj/effect/turf_decal/ship/techfloor/grid,
+/obj/machinery/power/apc/highcap/fifteen_k{
+	auto_name = 1;
+	dir = 4;
+	pixel_x = 24
+	},
+/obj/structure/cable{
+	icon_state = "0-8"
+	},
 /turf/open/floor/monotile/dark/airless{
 	initial_gas_mix = "n2=100;TEMP=80";
 	name = "telecomms server floor"
@@ -31134,7 +31117,7 @@ eq
 Sa
 qi
 WW
-tq
+Ja
 Xs
 fC
 fr
@@ -31648,7 +31631,7 @@ eq
 Sa
 qi
 WW
-Xo
+Ja
 Fr
 fC
 uN
@@ -31905,7 +31888,7 @@ eq
 Sa
 qi
 eH
-Xo
+Ja
 vB
 fC
 gr
@@ -38608,7 +38591,7 @@ QH
 mC
 Pr
 xc
-nM
+RD
 uc
 Fc
 yl
@@ -47064,7 +47047,7 @@ MZ
 rI
 rI
 jC
-gT
+hz
 qR
 rt
 km
@@ -47092,7 +47075,7 @@ km
 to
 KF
 qR
-VF
+Fc
 XP
 rI
 rI
@@ -47321,7 +47304,7 @@ MZ
 rI
 rI
 FL
-hz
+gT
 qR
 qR
 pL
@@ -47349,7 +47332,7 @@ pL
 pL
 qR
 qR
-Fc
+nM
 FL
 rI
 rI
