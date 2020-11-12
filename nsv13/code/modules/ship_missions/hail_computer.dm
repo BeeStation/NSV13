@@ -4,8 +4,8 @@
 /datum/computer_file/program/ship_hail_logger
   filename = "hailhistory"
   filedesc = "Ship Hail Monitor"
-  ui_header = "smmon_0.gif"
-  program_icon_state = "smmon_0"
+  ui_header = "ntnrc_idle.gif"
+  program_icon_state = "generic"
   extended_desc = "This program records outbound and inbound hails. Can also keep a track of missions undertaken by the crew."
   requires_ntnet = FALSE
   usage_flags = PROGRAM_ALL
