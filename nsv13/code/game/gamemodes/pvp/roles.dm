@@ -105,10 +105,13 @@ Singleton to handle conquest roles. This exists to populate the roles list and n
 
 //Special behaviour for assigning the captain. Ensures that the nuke team is always ready.
 /datum/syndicate_crew_role/captain/assign(datum/mind/candidate)
+	if(count >= max_count)
+		return FALSE
 	var/datum/antagonist/nukeop/L = candidate.add_antag_datum(antag_datum_type)
 	var/datum/game_mode/pvp/theGame = SSticker.mode
 	if(istype(theGame))
 		theGame.nuke_team = L.nuke_team
+	return TRUE
 
 /datum/antagonist/nukeop/leader/syndi_crew
 	name = "Syndicate captain"

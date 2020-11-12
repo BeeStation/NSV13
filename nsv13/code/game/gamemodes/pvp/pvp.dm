@@ -14,7 +14,7 @@ GLOBAL_LIST_EMPTY(syndi_crew_leader_spawns)
 	report_type = "pvp"
 	false_report_weight = 10
 	required_players = 0//40 // 40 to make 20 v 20
-	required_enemies = 5//20
+	required_enemies = 1//20
 	recommended_enemies = 10
 	antag_flag = ROLE_SYNDI_CREW
 	enemy_minimum_age = 0
@@ -50,44 +50,34 @@ Method to spawn in the Syndi ship on a brand new Z-level with the "boardable" tr
 
 /datum/game_mode/pvp/proc/assign_jobs()
 	//Now divvy up the roles! We have certain ones we _must_ fill, and others we'd _like_ to fill.
-	var/list/candidates = list()
 	var/list/autofill_victims = list()
-	for(var/datum/syndicate_crew_role/role in GLOB.conquest_role_handler.roles)
-		candidates[role] = list()
-
+	//Round 1: Try assign people to their ideal roles.
 	for(var/datum/mind/nextCrewman in pre_nukeops)
 		var/preferred_job = nextCrewman.current.client.prefs.preferred_syndie_role
 		//Order of conquest_role_handler.roles is in descending for priority.
 		var/datum/syndicate_crew_role/idealRole = GLOB.conquest_role_handler.get_job(preferred_job)
-		var/list/L = candidates[idealRole]
-		var/count = L.len
-		//This job's filled up, OR they've picked the overflow role, which means they don't really care
-		if(count >= idealRole.max_count || idealRole.max_count == INFINITY)
+		//This job's filled up, OR they've picked the overflow role, which means they don't really care, so we autofill them!
+		if(!idealRole || idealRole.max_count == INFINITY || !idealRole.assign(nextCrewman))
 			autofill_victims += nextCrewman
 			continue
-		candidates[idealRole] += nextCrewman
+
 	var/datum/syndicate_crew_role/overflow = GLOB.conquest_role_handler.get_job(overflow_role)
-	for(var/datum/syndicate_crew_role/role in GLOB.conquest_role_handler.roles)
-		for(var/datum/mind/candidate in candidates[role])
-			if(!role.assign(candidate))
-				autofill_victims += candidate
-	//And now dish out roles to those unlucky enough to not get their preference.
+	//Round 2: now dish out roles to those unlucky enough to not get their preference.
 	for(var/datum/mind/autofill in autofill_victims)
 		//Find the next un-filled job in order of priority.
 		var/foundJob = FALSE
-		message_admins("Autofilling...")
 		for(var/datum/syndicate_crew_role/nextRole in GLOB.conquest_role_handler.roles)
-			if(nextRole.count >= nextRole.max_count || !nextRole.essential)
+			if(!nextRole.essential) //We don't forcibly fill opt in, non-essential roles.
 				continue
-			//Cool, we've found a target!
-			to_chat(autofill, "<span class='warning'>You have been autofilled into [nextRole]! If you're not comfortable playing this role due to inexperience, please ahelp!")
-			nextRole.assign(autofill)
-			foundJob = TRUE
-			break
-		if(foundJob) //They got autofilled higher up the tree.
-			continue
-		//Fallback: Add them to the overflow role.
-		autofill.add_antag_datum(overflow)
+			if(nextRole.assign(autofill))
+				//Cool, we've found a target!
+				to_chat(autofill, "<span class='warning'>You have been autofilled into [nextRole]! If you're not comfortable playing this role due to inexperience, please ahelp!")
+				foundJob = TRUE
+				break
+
+		if(!foundJob) //No job? Fallback time.
+			overflow.assign(autofill)
+
 
 /datum/game_mode/pvp/pre_setup()
 	var/map_file = pick(maps)
@@ -99,8 +89,8 @@ Method to spawn in the Syndi ship on a brand new Z-level with the "boardable" tr
 		//Registers two signals to check either ship as being destroyed.
 		RegisterSignal(syndiship, COMSIG_PARENT_QDELETING, .proc/force_loss)
 		RegisterSignal(SSstar_system.find_main_overmap(), COMSIG_PARENT_QDELETING, .proc/force_win)
-		addtimer(CALLBACK(GLOBAL_PROC, .proc/overmap_lighting_force, syndiship), 6 SECONDS)
-		var/enemies_to_spawn = round(num_players()/2) //Syndicates scale with pop. On a standard 30 pop, this'll be 30 - 10 -> 20 / 10 -> 2 floored = 2, where FLOOR rounds the number to a whole number.
+		addtimer(CALLBACK(GLOBAL_PROC, .proc/overmap_lighting_force, syndiship), 12 SECONDS)
+		var/enemies_to_spawn = max(1, round(num_players()/2)) //Syndicates scale with pop. On a standard 30 pop, this'll be 30 - 10 -> 20 / 10 -> 2 floored = 2, where FLOOR rounds the number to a whole number.
 		for(var/i = 0, i < enemies_to_spawn, i++)
 			var/datum/mind/new_op = pick_n_take(antag_candidates)
 			pre_nukeops += new_op

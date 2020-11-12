@@ -802,6 +802,7 @@ To make things worse, this hellhole is entirely RNG, so good luck mapping it!
 	x = 100
 	y = 30
 	sector = 3
+	adjacency_list = list("Tortuga")
 
 /datum/star_system/sector3/New()
 	. = ..()

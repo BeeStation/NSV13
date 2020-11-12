@@ -85,7 +85,7 @@
 	var/faction_type = FACTION_ID_SYNDICATE
 	var/alignment = "syndicate"
 	var/points_per_capture = 25 //How many points does capturing one system net you? Since it's 1000 points to win, this will take a loooot of captures to outright win as syndies.
-	var/time_left = 5 MINUTES
+	var/time_left = 300 //5 min
 	var/active = FALSE
 	var/next_activation = 0
 
@@ -131,7 +131,7 @@
 		priority_announce("Jump bridge collapsing. Incursion halted.", "WhiteRapids EAS", 'nsv13/sound/effects/ship/lighthouse_alarm.ogg')
 	active = state
 	icon_state = "lighthouse[active ? "_on" : ""]"
-	time_left = 5 MINUTES
+	time_left = initial(time_left)
 
 /obj/machinery/conquest_beacon/attack_ai(mob/user)
 	. = ..()
