@@ -85,9 +85,7 @@ PROCESSING_SUBSYSTEM_DEF(physics_processing)
 			P.physics2d = null
 	for(var/I in SSphysics_processing.physics_levels)
 		var/list/za_warudo = SSphysics_processing.physics_levels[I]
-		for(var/datum/component/physicsbody in za_warudo)
-			if(physicsbody == src)
-				za_warudo -= src
+		za_warudo.Remove(src)
 	//De-alloc references.
 	collider2d = null
 	position = null
