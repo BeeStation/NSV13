@@ -53,7 +53,7 @@ Repair
 	sprite_size = 32
 	damage_states = TRUE
 	faction = "nanotrasen"
-	max_integrity = 150 //Really really squishy!
+	max_integrity = 200 //Really really squishy!
 	forward_maxthrust = 5
 	backward_maxthrust = 5
 	side_maxthrust = 4
@@ -211,6 +211,17 @@ Repair
 				return
 			to_chat(usr, "<span class='notice>You uninstall [target.name] from [src].</span>")
 			loadout.remove_hardpoint(FC)
+		if("dump_hardpoint")
+			if(!target)
+				return
+			var/obj/item/fighter_component/FC = target
+			if(!istype(FC) || !FC.contents?.len)
+				return
+			to_chat(usr, "<span class='notice'>You start to unload [target.name]'s stored contents...</span>")
+			if(!do_after(usr, 5 SECONDS, target=src))
+				return
+			to_chat(usr, "<span class='notice>You dump [target.name]'s contents.</span>")
+			loadout.dump_contents(FC)
 		if("kick")
 			if(!target)
 				return
@@ -297,7 +308,7 @@ Repair
 	armor = list("melee" = 60, "bullet" = 60, "laser" = 60, "energy" = 30, "bomb" = 30, "bio" = 100, "rad" = 90, "fire" = 90, "acid" = 80, "overmap_light" = 10, "overmap_heavy" = 5)
 	sprite_size = 32
 	damage_states = FALSE //temp
-	max_integrity = 125 //Really really squishy!
+	max_integrity = 200 //Really really squishy!
 	max_angular_acceleration = 200
 	speed_limit = 10
 	pixel_w = -16
@@ -369,6 +380,10 @@ Repair
 						/obj/item/fighter_component/secondary/utility/resupply,
 						/obj/item/fighter_component/countermeasure_dispenser)
 
+/obj/structure/overmap/fighter/utility/mining
+	icon = 'nsv13/icons/overmap/nanotrasen/carrier_mining.dmi'
+	req_one_access = list(ACCESS_CARGO, ACCESS_MINING, ACCESS_MUNITIONS, ACCESS_ENGINE, ACCESS_FIGHTER)
+
 /obj/structure/overmap/fighter/escapepod
 	name = "Escape Pod"
 	desc = "An escape pod launched from a space faring vessel. It only has very limited thrusters and is thus very slow."
@@ -402,7 +417,7 @@ Repair
 	armor = list("melee" = 80, "bullet" = 80, "laser" = 80, "energy" = 50, "bomb" = 50, "bio" = 100, "rad" = 90, "fire" = 90, "acid" = 80, "overmap_light" = 25, "overmap_heavy" = 10)
 	sprite_size = 32
 	damage_states = FALSE //TEMP
-	max_integrity = 200 //Not so squishy!
+	max_integrity = 300 //Not so squishy!
 	pixel_w = -16
 	pixel_z = -20
 	speed_limit = 8
@@ -651,6 +666,14 @@ Method to remove a hardpoint from the loadout. It can be passed a slot as a defi
 	if(component && istype(component))
 		component.remove_from(holder)
 
+/datum/component/ship_loadout/proc/dump_contents(slot)
+	var/obj/item/fighter_component/component = null
+	if(istype(slot, /obj/item/fighter_component))
+		component = slot
+	else
+		component = get_slot(slot)
+	component.dump_contents()
+
 /datum/component/ship_loadout/process()
 	for(var/slot in equippable_slots)
 		var/obj/item/fighter_component/component = hardpoint_slots[slot]
@@ -669,8 +692,20 @@ Method to remove a hardpoint from the loadout. It can be passed a slot as a defi
 	var/fire_mode = null //Used if this is a weapon style hardpoint
 	var/active = TRUE
 
+/obj/item/fighter_component/examine(mob/user)
+	. = ..()
+	. += "<span class='notice'>Alt-click it to unload its contents.</span>"
+
 /obj/item/fighter_component/proc/toggle()
 	active = !active
+
+/obj/item/fighter_component/proc/dump_contents()
+	if(!contents?.len)
+		return FALSE
+	. = list()
+	for(var/atom/movable/AM in contents)
+		AM.forceMove(get_turf(loc))
+		. += AM
 
 /obj/item/fighter_component/proc/get_ammo()
 	return FALSE
@@ -1195,6 +1230,14 @@ Utility modules can be either one of these types, just ensure you set its slot t
 	var/burst_size = 1
 	var/fire_delay = 0
 
+/obj/item/fighter_component/primary/dump_contents()
+	. = ..()
+	for(var/atom/movable/AM in .)
+		if(AM == magazine)
+			magazine = null
+			ammo = list()
+			playsound(loc, 'nsv13/sound/effects/ship/mac_load.ogg', 100, 1)
+
 /obj/item/fighter_component/primary/get_ammo()
 	return ammo?.len
 
@@ -1304,6 +1347,13 @@ Utility modules can be either one of these types, just ensure you set its slot t
 	var/max_ammo = 3
 	var/burst_size = 1 //Cluster torps...UNLESS?
 	var/fire_delay = 0.25 SECONDS
+
+/obj/item/fighter_component/secondary/dump_contents()
+	. = ..()
+	for(var/atom/movable/AM in .)
+		if(AM in ammo)
+			ammo -= AM
+			playsound(loc, 'nsv13/sound/effects/ship/mac_load.ogg', 100, 1)
 
 /obj/item/fighter_component/secondary/get_ammo()
 	return ammo.len
