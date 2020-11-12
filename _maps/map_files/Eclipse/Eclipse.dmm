@@ -838,7 +838,11 @@
 /turf/open/floor/monotile/dark,
 /area/hallway/primary/aft)
 "er" = (
-/obj/machinery/mineral/ore_redemption,
+/obj/machinery/mineral/ore_redemption{
+	dir = 1;
+	input_dir = 2;
+	req_access = null
+	},
 /obj/machinery/power/apc/auto_name/north,
 /obj/structure/cable{
 	icon_state = "0-2"
@@ -947,6 +951,8 @@
 /area/security/prison)
 "eZ" = (
 /obj/machinery/suit_storage_unit/mining/eva,
+/obj/item/mining_scanner,
+/obj/item/storage/bag/ore,
 /turf/open/floor/plasteel/dark/side{
 	dir = 1
 	},
@@ -2828,6 +2834,14 @@
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer1,
 /turf/open/floor/plasteel/dark/side,
 /area/hallway/primary/aft)
+"mI" = (
+/obj/machinery/computer/ship/munitions_computer/west{
+	req_access = null
+	},
+/turf/open/floor/plasteel/dark/side{
+	dir = 5
+	},
+/area/nsv/weapons/fore)
 "mN" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	dir = 4
@@ -3442,6 +3456,8 @@
 /area/crew_quarters/toilet/restrooms)
 "pP" = (
 /obj/machinery/suit_storage_unit/mining/eva,
+/obj/item/mining_scanner,
+/obj/item/storage/bag/ore,
 /turf/open/floor/plasteel/dark/side,
 /area/hallway/primary/fore)
 "pQ" = (
@@ -3510,6 +3526,14 @@
 	},
 /turf/open/floor/noslip/white,
 /area/crew_quarters/toilet/restrooms)
+"qf" = (
+/obj/machinery/computer/ship/munitions_computer/west{
+	req_access = null
+	},
+/turf/open/floor/plasteel/dark/side{
+	dir = 4
+	},
+/area/nsv/weapons/fore)
 "qg" = (
 /obj/machinery/hydroponics/constructable,
 /obj/machinery/firealarm/directional/east,
@@ -3832,6 +3856,7 @@
 	dir = 10
 	},
 /obj/structure/fluff/paper/stack,
+/obj/item/storage/lockbox/medal,
 /turf/open/floor/carpet/ship/beige_carpet,
 /area/crew_quarters/heads/captain/private)
 "rP" = (
@@ -3896,7 +3921,10 @@
 /turf/open/floor/carpet/ship/beige_carpet,
 /area/crew_quarters/dorms)
 "sq" = (
-/obj/machinery/mineral/ore_redemption,
+/obj/machinery/mineral/ore_redemption{
+	output_dir = 1;
+	req_access = null
+	},
 /obj/machinery/power/apc/auto_name/south,
 /obj/structure/cable,
 /turf/open/floor/plasteel/dark/side{
@@ -4534,6 +4562,7 @@
 	dir = 8
 	},
 /obj/item/gun/ballistic/automatic/pistol/glock/command/hos,
+/obj/item/hand_tele,
 /turf/open/floor/carpet/ship/beige_carpet,
 /area/crew_quarters/heads/captain/private)
 "vm" = (
@@ -5755,8 +5784,6 @@
 "Bd" = (
 /obj/structure/closet/secure_closet/captains,
 /obj/machinery/firealarm/directional/west,
-/obj/item/storage/lockbox/medal,
-/obj/item/hand_tele,
 /turf/open/floor/wood,
 /area/crew_quarters/heads/captain/private)
 "Bg" = (
@@ -5944,6 +5971,8 @@
 "BZ" = (
 /obj/machinery/suit_storage_unit/mining/eva,
 /obj/machinery/airalarm/directional/north,
+/obj/item/mining_scanner,
+/obj/item/storage/bag/ore,
 /turf/open/floor/plasteel/dark/side,
 /area/hallway/primary/fore)
 "Ca" = (
@@ -6043,12 +6072,10 @@
 /area/quartermaster/storage)
 "CC" = (
 /obj/machinery/door/window/brigdoor/westleft{
-	name = "Xenobiology Containment";
-	req_one_access_txt = "55"
+	name = "Xenobiology Containment"
 	},
 /obj/machinery/door/window/brigdoor/eastright{
-	name = "Xenobiology Containment";
-	req_one_access_txt = "55"
+	name = "Xenobiology Containment"
 	},
 /turf/open/floor/plasteel/white,
 /area/science/xenobiology)
@@ -6736,6 +6763,8 @@
 	dir = 6
 	},
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3,
+/obj/item/mining_scanner,
+/obj/item/storage/bag/ore,
 /turf/open/floor/plasteel/dark/side,
 /area/hallway/primary/fore)
 "FL" = (
@@ -9783,6 +9812,15 @@
 /obj/structure/disposalpipe/segment,
 /turf/open/floor/plasteel/dark,
 /area/crew_quarters/dorms)
+"Tq" = (
+/obj/machinery/door/window/brigdoor/eastright{
+	name = "Xenobiology Containment"
+	},
+/obj/machinery/door/window/brigdoor/westleft{
+	name = "Xenobiology Containment"
+	},
+/turf/open/floor/plasteel/white,
+/area/science/xenobiology)
 "Tt" = (
 /obj/structure/grille,
 /turf/open/floor/plating/airless,
@@ -10158,6 +10196,8 @@
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer1{
 	dir = 1
 	},
+/obj/item/mining_scanner,
+/obj/item/storage/bag/ore,
 /turf/open/floor/plasteel/dark/side{
 	dir = 1
 	},
@@ -37802,10 +37842,10 @@ WP
 CC
 WP
 WP
-CC
+Tq
 WP
 WP
-CC
+Tq
 WP
 zA
 ip
@@ -42668,13 +42708,13 @@ gX
 gX
 gX
 rX
-gx
+mI
 bK
 SV
-BC
+qf
 SV
 SV
-BC
+qf
 Mk
 wJ
 Pi
