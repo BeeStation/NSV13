@@ -7,8 +7,8 @@
   ui_header = "smmon_0.gif"
   program_icon_state = "smmon_0"
   extended_desc = "This program records outbound and inbound hails. Can also keep a track of missions undertaken by the crew."
-  requires_ntnet = TRUE
-  usage_flags = PROGRAM_CONSOLE
+  requires_ntnet = FALSE
+  usage_flags = PROGRAM_ALL
   size = 4
   tgui_id = "NtosHailLogs"
   ui_x = 550
@@ -24,15 +24,17 @@
   
 /datum/computer_file/program/ship_hail_logger/proc/prep_missions()
   var/list/results = list()
+  if(!ship)
+    return results
   for(var/m in ship.missions)
     var/datum/nsv_mission/mission = m
-    results[++results.len] = list("desc" = mission.desc, "status" = mission.stage, "client" = mission.the_client.name, "reward" = mission.reward_string())
+    results[++results.len] = list("desc" = mission.desc, "status" = mission.stage, "client" = mission.the_client ? mission.the_client.name : "Corrupted data", "reward" = mission.reward_string())
   return results
 
 
 /datum/computer_file/program/ship_hail_logger/ui_data()
   var/list/data = get_header_data()
-  data["ship_name"] = ship.name
+  data["ship_name"] = ship ? ship.name : "No ship detected!"
   data["missions"] = prep_missions()
   return data
 
