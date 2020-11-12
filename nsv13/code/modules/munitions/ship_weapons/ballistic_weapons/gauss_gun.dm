@@ -26,6 +26,7 @@
 	var/obj/machinery/portable_atmospherics/canister/internal_tank //Internal air tank reference. Used mostly in small ships. If you want to sabotage a fighter, load a plasma tank into its cockpit :)
 	var/pdc_mode = FALSE
 	var/last_pdc_fire = 0 //Pdc cooldown
+	var/BeingLoaded //Used for gunner load
 
 #define VV_HK_REMOVE_GAUSS_GUNNER "getOutOfMyGunIdiot"
 
@@ -181,7 +182,19 @@
 /obj/machinery/ship_weapon/gauss_gun/west
 	dir = WEST
 
+/obj/machinery/ship_weapon/gauss_gun/proc/GunnerLoad()
+	if(BeingLoaded)
+		to_chat(gunner, "<span class='notice'>[src]'s loading systems are on cooldown!</span>")
+		return
+	to_chat(gunner, "<span class='notice'>Loading ammunition</span>")
+	BeingLoaded = 1
+	src.raise_rack()
+	sleep(5 SECONDS)
+	BeingLoaded = 0
+
 /obj/machinery/ship_weapon/gauss_gun/proc/onClick(atom/target)
+	if(ammo.len<1)
+		src.GunnerLoad()
 	if(pdc_mode && world.time >= last_pdc_fire + 2 SECONDS)
 		linked.fire_weapon(target=target, mode=FIRE_MODE_PDC)
 		last_pdc_fire = world.time
