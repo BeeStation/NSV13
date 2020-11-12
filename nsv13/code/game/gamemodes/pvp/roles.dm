@@ -91,8 +91,8 @@ Singleton to handle conquest roles. This exists to populate the roles list and n
 /datum/syndicate_crew_role/proc/assign(datum/mind/candidate)
 	if(count >= max_count)
 		return FALSE
-	candidate.add_antag_datum(antag_datum_type)
 	count ++
+	candidate.add_antag_datum(antag_datum_type)
 	return TRUE
 
 //Priority 1: Captain. We _always_ need a captain! Anything from this point on is in DESCENDING ORDER of priority! With autofill being the absolute last.
@@ -107,6 +107,7 @@ Singleton to handle conquest roles. This exists to populate the roles list and n
 /datum/syndicate_crew_role/captain/assign(datum/mind/candidate)
 	if(count >= max_count)
 		return FALSE
+	count ++
 	var/datum/antagonist/nukeop/L = candidate.add_antag_datum(antag_datum_type)
 	var/datum/game_mode/pvp/theGame = SSticker.mode
 	if(istype(theGame))

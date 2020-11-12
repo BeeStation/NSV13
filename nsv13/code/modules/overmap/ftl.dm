@@ -230,7 +230,7 @@
 	var/active = FALSE
 	var/progress = 0 SECONDS
 	var/progress_rate = 1 SECONDS
-	var/spoolup_time = 1 MINUTES //Make sure this is always longer than the ftl_startup_time, or you can seriously bug the ship out with cancel jump spam.
+	var/spoolup_time = 45 SECONDS //Make sure this is always longer than the ftl_startup_time, or you can seriously bug the ship out with cancel jump spam.
 	var/screen = 1
 	var/can_cancel_jump = TRUE //Defaults to true. TODO: Make emagging disable this
 	var/max_range = 100 //max jump range. This is _very_ long distance
