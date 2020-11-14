@@ -166,6 +166,11 @@
 
   desc = "Our supply lines have been hit hard recently. Destroy [ships_to_kill] [target_ship_string] ships in any system. You have currently destroyed [ships_to_kill - ships_remaining] ships."
 
+  
+/datum/nsv_mission/kill_ships/syndicate
+  valid_factions = list("syndicate")
+  target_faction = list("nanotrasen")
+  target_factions = list(FACTION_ID_NT)  
 
 // Kill ships in system - Kill X ships owned by Y in specific systems
 
@@ -235,7 +240,14 @@
 
   desc = "We've received intel that the enemy is attempting to amass an invasion force in [target_system_string]. Locate and destroy the enemy fleet. You have currently destroyed [ships_to_kill - ships_remaining] ships."
 
-
+  
+/datum/nsv_mission/kill_ships/system/syndicate
+  valid_factions = list("syndicate")
+  target_faction = list("nanotrasen")
+  target_factions = list(FACTION_ID_NT) 
+  system_alignment = list("nanotrasen","unaligned","uncharted")
+  
+  
 // Wave hold - Destroy several waves of enemy ships
 
 /datum/nsv_mission/kill_ships/waves
@@ -328,6 +340,12 @@
     desc = "Destroy [ships_to_kill] [target_ship_string] ships located in [target_system]. You have currently destroyed [ships_to_kill - ships_remaining] ships. There are [waves_remaining] waves remaining."
   else
     desc = "Wait for enemy reinforcements."
+
+
+/datum/nsv_mission/kill_ships/waves/syndicate
+  valid_factions = list("syndicate")
+  target_faction = list("nanotrasen")
+  target_factions = list(FACTION_ID_NT) 
 
 /* ideasguys zone - TODO
 

@@ -77,6 +77,8 @@
 		CHECK_TICK
 	if(empty_turfs?.len)
 		LZ = pick(empty_turfs)
+	if(!LZ)
+		LZ = pick(landingzone.contents) //If we couldn't find an open floor, just throw it somewhere
 	var/obj/structure/closet/supplypod/centcompod/toLaunch = new /obj/structure/closet/supplypod/centcompod
 	var/shippingLane = GLOB.areas_by_type[/area/centcom/supplypod/flyMeToTheMoon]
 	toLaunch.forceMove(shippingLane)
@@ -112,8 +114,12 @@
 	station_type = /obj/structure/overmap/trader/syndicate
 	image = "https://cdn.discordapp.com/attachments/728055734159540244/764570187357093928/unknown.png"
 	greetings = list("You've made it pretty far in, huh? We won't tell if you're buying...", "Freedom isn't free, buy a gun to secure yours.", "Excercise your right to bear arms now!")
-	list/possible_mission_types = list(/datum/nsv_mission/cargo/nuke/syndicate=1)
-	max_missions = 1
+	list/possible_mission_types = list(
+		/datum/nsv_mission/cargo/nuke/syndicate=1,
+		/datum/nsv_mission/kill_ships/waves/syndicate=1,
+		/datum/nsv_mission/kill_ships/system/syndicate=2,
+		/datum/nsv_mission/kill_ships/syndicate=1)
+	max_missions = 5
 	
 /datum/trader/armsdealer/syndicate/New()
 	. = ..()
