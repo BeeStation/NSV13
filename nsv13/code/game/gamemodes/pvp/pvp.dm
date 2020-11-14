@@ -13,9 +13,9 @@ GLOBAL_LIST_EMPTY(syndi_crew_leader_spawns)
 	config_tag = "pvp"
 	report_type = "pvp"
 	false_report_weight = 10
-	required_players = 0//40 // 40 to make 20 v 20
-	required_enemies = 1//20
-	recommended_enemies = 10
+	required_players = 30//40 // 40 to make 20 v 20
+	required_enemies = 12//20
+	recommended_enemies = 20
 	antag_flag = ROLE_SYNDI_CREW
 	enemy_minimum_age = 0
 
@@ -90,8 +90,8 @@ Method to spawn in the Syndi ship on a brand new Z-level with the "boardable" tr
 		//Registers two signals to check either ship as being destroyed.
 		RegisterSignal(syndiship, COMSIG_PARENT_QDELETING, .proc/force_loss)
 		RegisterSignal(SSstar_system.find_main_overmap(), COMSIG_PARENT_QDELETING, .proc/force_win)
-		addtimer(CALLBACK(GLOBAL_PROC, .proc/overmap_lighting_force, syndiship), 6 SECONDS)
-		var/enemies_to_spawn = max(1, round(num_players()/2)) //Syndicates scale with pop. On a standard 30 pop, this'll be 30 - 10 -> 20 / 10 -> 2 floored = 2, where FLOOR rounds the number to a whole number.
+		addtimer(CALLBACK(GLOBAL_PROC, .proc/overmap_lighting_force, syndiship), 15 SECONDS)
+		var/enemies_to_spawn = max(1, round(num_players()/2.5)) //Syndicates scale with pop. On a standard 30 pop, this'll be 30 - 10 -> 20 / 10 -> 2 floored = 2, where FLOOR rounds the number to a whole number.
 		for(var/i = 0, i < enemies_to_spawn, i++)
 			var/datum/mind/new_op = pick_n_take(antag_candidates)
 			pre_nukeops += new_op

@@ -85,7 +85,7 @@
 	var/faction_type = FACTION_ID_SYNDICATE
 	var/alignment = "syndicate"
 	var/points_per_capture = 25 //How many points does capturing one system net you? Since it's 1000 points to win, this will take a loooot of captures to outright win as syndies.
-	var/time_left = 300 //5 min
+	var/time_left = 420 //7 min
 	var/active = FALSE
 	var/next_activation = 0
 
@@ -98,7 +98,7 @@
 		set_active(FALSE)
 		return FALSE
 	if(active)
-		time_left --
+		time_left -= 2
 		playsound(loc, 'sound/items/timer.ogg', 100, FALSE)
 		if(time_left <= 0)
 			capture_system()
@@ -159,7 +159,7 @@
 		return FALSE
 	priority_announce("DANGER: [get_overmap()] is attempting to establish a jump bridge in [get_overmap().current_system]. Incursion underway", "WhiteRapids EAS", 'nsv13/sound/effects/ship/lighthouse_alarm.ogg')
 	set_active(TRUE)
-	next_activation = world.time + 10 MINUTES
+	next_activation = world.time + 7 MINUTES
 
 /**
 * Lets the captain customize the feel and role of their ship.
