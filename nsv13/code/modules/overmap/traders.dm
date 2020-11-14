@@ -17,11 +17,11 @@
 	var/image = "https://cdn.discordapp.com/attachments/701841640897380434/764534224291233822/unknown.png"
 	var/list/missions = list() //Missions
 	var/list/possible_mission_types = list( // List of possible missions this trader may have
-		/datum/nsv_mission/kill_ships=3,
-		/datum/nsv_mission/kill_ships/waves=4,
-		/datum/nsv_mission/kill_ships/system=2,
-		/datum/nsv_mission/cargo=5,
-		/datum/nsv_mission/cargo/high_risk=3,
+		/datum/nsv_mission/kill_ships=10,
+		/datum/nsv_mission/kill_ships/waves=8,
+		/datum/nsv_mission/kill_ships/system=6,
+		/datum/nsv_mission/cargo=10,
+		/datum/nsv_mission/cargo/high_risk=7,
 		/datum/nsv_mission/cargo/nuke=1)
 	var/obj/structure/overmap/current_location = null
 	var/datum/star_system/system = null
