@@ -1,4 +1,13 @@
 
+/*
+NOTE:
+
+- give parts to make cargo torp instead of a finished one? they can just load in cargo and save the hassle
+- more high risk contents
+
+
+*/
+
 /datum/nsv_mission/
   var/name
   var/desc // Used to relay the status of the mission
@@ -293,6 +302,7 @@
     ships = ships_to_kill
     ships_remaining = ships_to_kill
   var/datum/faction/F = SSstar_system.faction_by_id(pick(target_factions))
+  F.next_fleet_spawn = 0
   F.send_fleet(target_system, ships)
   update_description()
 
