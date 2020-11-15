@@ -5,7 +5,6 @@ NOTE:
 - give parts to make cargo torp instead of a finished one? they can just load in cargo and save the hassle
 - more high risk contents
 
-
 */
 
 /datum/nsv_mission/
@@ -493,27 +492,32 @@ kill station
   
   
 /datum/nsv_mission/cargo/nuke/update_description()
-  desc = "Transport 9999\"; DROP CONNECTION ; NEW CONNECTION(\" Hey, I need you to move one crate of cargo to [delivery_target.name]. You'll find it in [delivery_target.starting_system]. DO NOT open the crate and ignore the ticking it is an antique alarm clock"
-
+  desc = "Transport 9999\"; DROP CONNECTION ; NEW CONNECTION(\" Hey, I need you to move one crate of cargo to [delivery_target.name]. You'll find it in [delivery_target.starting_system]. DO NOT open the crate and ignore the ticking it is an antique alarm clock. This needs to be delivered in less than one hour."
 
 /datum/nsv_mission/cargo/nuke/proc/first_warning()
   if(stage != MISSION_ACTIVE) // Only report the crate is suspect if the mission is ongoing
     return
-  owner.hail("This is an automated message, please do not respond. You have been identified as a ship who purchased cargo from an individual who was selling dangerous contraband. Please check any purchased items for anything suspect.", the_client.name)
-  addtimer(CALLBACK(src, .proc/second_warning), 10 MINUTES) // 10 min to go
-
+  owner.hail("[owner.name], we have noticed that a mission was assigned to you, asking to deliver a crate of cargo to [delivery_target.name]. However we don't have the request form from them to send the crate. Please hold off on delivering that crate until we figure out what is going on.", the_client.name)
+  addtimer(CALLBACK(src, .proc/second_warning), 20 MINUTES) // 40 min to go
 
 /datum/nsv_mission/cargo/nuke/proc/second_warning()
   if(stage != MISSION_ACTIVE) // Only report the crate is suspect if the mission is ongoing
     return
-  owner.hail("This is an automated message, please do not respond. Re: Suspect seller. During a search of the sellers shuttle, we found components to create multiple nuclear weapons. We believe you are currently transporting one. We hope this message reaches you in good time.", the_client.name)
-
+  owner.hail("We have looked into that crate you were asked to deliver to [delivery_target.name] and found that someone has tampered with that job listing. We have found the person responsible and will attempt to find out why they want you to move that crate.", the_client.name)
+  addtimer(CALLBACK(src, .proc/third_warning), 20 MINUTES) // 20 min to go
+  
+/datum/nsv_mission/cargo/nuke/proc/third_warning()
+  if(stage != MISSION_ACTIVE) // Only report the crate is suspect if the mission is ongoing
+    return
+  owner.hail("The person who tampered with the job listing revealed they are a Syndicate agent after a breif 'talking' too. You need to destroy or dispose of that crate as they intended to have you destroy [delivery_target.name].", the_client.name)
 
 /datum/nsv_mission/cargo/nuke/payout()
   if(delivered_cargo)
     . = ..()
-    qdel(delivery_target) //f //TODO: make this look better
-  
+    owner.hail("Thanks, but we don't believe we requested this crate? Wait, why do I hear ticking...", delivery_target.name)
+    QDEL_IN(delivery_target,10 SECONDS) //f 
+  else
+    owner.hail("[owner.name], why did you just try to send us a live nuke? We have spaced it for now but will have to raise this with Central Command.", delivery_target.name)
   
 
 /datum/nsv_mission/cargo/nuke/syndicate/update_description() //Exactly the same as the normal one but with different flavor text/warnings

@@ -172,7 +172,7 @@
 
 /obj/item/projectile/guided_munition/torpedo/post/proc/deliver_freight(obj/structure/overmap/OM)
 	var/area/landingzone = null
-	for(var/atom/a in contents) //Send the cargo signal to our contents
+	for(var/atom/a in GetAllContents()) //Send the cargo signal to our contents
 		SEND_SIGNAL(a, COMSIG_CARGO_DELIVERED, OM)
 	if(OM.role == MAIN_OVERMAP)
 		landingzone = GLOB.areas_by_type[/area/quartermaster/warehouse]
