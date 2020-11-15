@@ -234,18 +234,14 @@
 /turf/open/floor/plating/airless,
 /area/nostromo/maintenance/exterior)
 "gd" = (
-/obj/item/twohanded/required/kirbyplants/random{
-	block_sound = 'sound/items/bikehorn.ogg';
-	desc = "A little bit of nature contained in a pot. This one is softer than the other potted plants on this ship.";
-	force = 0;
-	force_wielded = 0;
-	hitsound = 'sound/items/bikehorn.ogg';
-	name = "plush potted plant";
-	throwforce = 0;
-	wieldsound = 'sound/items/bikehorn.ogg'
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
+	dir = 4
 	},
-/turf/open/floor/carpet/ship/blue,
-/area/nostromo/bridge)
+/obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1{
+	dir = 1
+	},
+/turf/open/floor/carpet/ship/orange_carpet,
+/area/nostromo/engineering)
 "gf" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	dir = 10;
@@ -270,12 +266,12 @@
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/nostromo/engineering)
 "gC" = (
-/obj/machinery/power/apc/auto_name/north,
-/obj/structure/cable{
-	icon_state = "0-2"
+/obj/machinery/atmospherics/components/unary/portables_connector/layer1{
+	dir = 1
 	},
-/turf/open/floor/carpet/ship,
-/area/nostromo/hangar/starboard)
+/obj/machinery/portable_atmospherics/canister/oxygen,
+/turf/open/floor/carpet/ship/orange_carpet,
+/area/nostromo/engineering)
 "gV" = (
 /obj/structure/sign/poster/random{
 	pixel_x = 32
@@ -505,7 +501,10 @@
 /obj/machinery/light{
 	dir = 4
 	},
-/obj/structure/extinguisher_cabinet/east,
+/obj/machinery/power/apc/auto_name/east,
+/obj/structure/cable{
+	icon_state = "0-8"
+	},
 /turf/open/floor/carpet/ship,
 /area/nostromo/hangar/starboard)
 "mS" = (
@@ -574,6 +573,9 @@
 /obj/structure/cable{
 	icon_state = "2-8"
 	},
+/obj/structure/cable{
+	icon_state = "2-4"
+	},
 /turf/open/floor/carpet/ship,
 /area/nostromo/hangar/starboard)
 "pO" = (
@@ -637,9 +639,6 @@
 "rH" = (
 /obj/structure/cable{
 	icon_state = "4-8"
-	},
-/obj/structure/cable{
-	icon_state = "1-4"
 	},
 /obj/structure/cable{
 	icon_state = "2-8"
@@ -962,6 +961,10 @@
 	dir = 9;
 	icon_state = "pipe11-2"
 	},
+/obj/machinery/atmospherics/components/unary/portables_connector/layer1{
+	dir = 1
+	},
+/obj/machinery/portable_atmospherics/canister/oxygen,
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/nostromo/engineering)
 "AE" = (
@@ -1322,8 +1325,8 @@
 	dir = 6;
 	icon_state = "pipe11-2"
 	},
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
-	dir = 4
+/obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1{
+	dir = 1
 	},
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/nostromo/engineering)
@@ -1949,6 +1952,7 @@
 	},
 /obj/item/roller,
 /obj/machinery/light,
+/obj/item/wrench,
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/nostromo/engineering)
 "Zl" = (
@@ -36295,7 +36299,7 @@ qH
 qH
 qH
 uj
-gC
+wu
 rH
 fk
 Jg
@@ -36576,8 +36580,8 @@ ws
 UJ
 tP
 TV
-DL
-tP
+gd
+gC
 ws
 qH
 qH
@@ -39393,7 +39397,7 @@ JO
 vA
 vA
 pO
-gd
+vA
 JO
 bd
 bq
