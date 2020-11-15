@@ -20,7 +20,7 @@
     if(!msg)
         return
 
-    if(!(prefs.toggles & CHAT_LOOC)) //nsv13 - CHAT_OOC -> CHAT_LOOC
+    if(!(prefs.chat_toggles & CHAT_LOOC)) //nsv13 - toggles -> chat_toggles, CHAT_OOC -> CHAT_LOOC
         to_chat(src, "<span class='danger'>You have LOOC muted.</span>")
         return
 
@@ -70,7 +70,7 @@
         if (isobserver(M))
             continue //Also handled later.
 
-        if(C.prefs.toggles & CHAT_OOC)
+        if(C.prefs.chat_toggles & CHAT_LOOC) //nsv13 - toggles -> chat_toggles, CHAT_OOC -> CHAT_LOOC
 //            var/display_name = src.key
 //            if(holder)
 //                if(holder.fakekey)
@@ -81,7 +81,7 @@
             to_chat(C,"<span class='looc'><span class='prefix'>LOOC:</span> <EM>[src.mob.name]:</EM> <span class='message'>[msg]</span></span>")
 
     for(var/client/C in GLOB.admins)
-        if(C.prefs.toggles & CHAT_OOC)
+        if(C.prefs.chat_toggles & CHAT_LOOC) //nsv13 - toggles -> chat_toggles, CHAT_OOC -> CHAT_LOOC
             var/prefix = "(R)LOOC"
             if (C.mob in heard)
                 prefix = "LOOC"
@@ -93,7 +93,7 @@
         var/client/C = G.client
         if (C in GLOB.admins)
             continue //handled earlier.
-        if(C.prefs.toggles & CHAT_OOC)
+        if(C.prefs.chat_toggles & CHAT_LOOC) //i don't care if it's commented out, i'm fixing it. //nsv13
             var/prefix = "(G)LOOC"
             if (C.mob in heard)
                 prefix = "LOOC"
