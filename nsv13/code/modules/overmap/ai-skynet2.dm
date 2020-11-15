@@ -1099,8 +1099,7 @@ GLOBAL_LIST_EMPTY(ai_goals)
 			if (!fexists("_maps/[mapPath]/[file]"))
 				log_world("Map file ([mapPath]/[file]) does not exist!")
 				return
-	var/obj/structure/overmap/OM = instance_overmap(shipType, mapPath, mapFile, traits)
+	var/obj/structure/overmap/OM = instance_overmap(shipType, mapPath, mapFile, traits, ZTRAITS_BOARDABLE_SHIP, TRUE)
 	if(OM)
 		message_admins("[key_name(src)] has instanced a copy of [ship_file].")
 		OM.name = shipName
-		addtimer(CALLBACK(GLOBAL_PROC, .proc/overmap_lighting_force, OM), 6 SECONDS)

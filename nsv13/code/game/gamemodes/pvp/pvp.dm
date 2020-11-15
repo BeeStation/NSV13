@@ -85,12 +85,13 @@ Method to spawn in the Syndi ship on a brand new Z-level with the "boardable" tr
 	var/ship_type = /obj/structure/overmap/syndicate/pvp
 	var/n_agents = antag_candidates.len
 	if(!syndiship)
-		syndiship = instance_overmap(_path=ship_type, folder= "map_files/Instanced/map_files" ,interior_map_files = map_file)
+		//syndiship = instance_overmap(_path=ship_type, folder= "map_files/Instanced/map_files" ,interior_map_files = map_file, midround=TRUE)
+		syndiship = instance_overmap(ship_type, "map_files/Instanced/map_files", map_file, null, ZTRAITS_BOARDABLE_SHIP, TRUE)
+
 	if(n_agents > 0)
 		//Registers two signals to check either ship as being destroyed.
 		RegisterSignal(syndiship, COMSIG_PARENT_QDELETING, .proc/force_loss)
 		RegisterSignal(SSstar_system.find_main_overmap(), COMSIG_PARENT_QDELETING, .proc/force_win)
-		addtimer(CALLBACK(GLOBAL_PROC, .proc/overmap_lighting_force, syndiship), 15 SECONDS)
 		var/enemies_to_spawn = max(1, round(num_players()/2.5)) //Syndicates scale with pop. On a standard 30 pop, this'll be 30 - 10 -> 20 / 10 -> 2 floored = 2, where FLOOR rounds the number to a whole number.
 		for(var/i = 0, i < enemies_to_spawn, i++)
 			var/datum/mind/new_op = pick_n_take(antag_candidates)
@@ -106,11 +107,9 @@ Method to spawn in the Syndi ship on a brand new Z-level with the "boardable" tr
 ////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////
 /proc/overmap_lighting_force(obj/structure/overmap/hammurabi)
+	set waitfor = FALSE
 	for(var/area/AR in hammurabi.linked_areas) //Force lighting to update. Not pretty, but it works
-		spawn(0)
-			AR.set_dynamic_lighting(DYNAMIC_LIGHTING_DISABLED)
-			sleep(2 SECONDS)
-			AR.set_dynamic_lighting(DYNAMIC_LIGHTING_ENABLED)
+		AR.set_dynamic_lighting(DYNAMIC_LIGHTING_FORCED)
 
 /datum/game_mode/pvp/post_setup()
 	assign_jobs()

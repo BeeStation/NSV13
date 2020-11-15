@@ -121,6 +121,9 @@
 
 /obj/machinery/conquest_beacon/LateInitialize()
 	. = ..()
+	addtimer(CALLBACK(src, .proc/add_to_ship), 5 SECONDS)
+
+/obj/machinery/conquest_beacon/proc/add_to_ship()
 	RegisterSignal(get_overmap(), COMSIG_FTL_STATE_CHANGE, .proc/deactivate)
 
 /obj/machinery/conquest_beacon/proc/deactivate()

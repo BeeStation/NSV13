@@ -36,6 +36,15 @@
 							"aft_port" = list("name" = "Aft Port", "max_armour" = 500, "current_armour" = 500),\
 							"aft_starboard" = list("name" = "Aft Starboard", "max_armour" = 500, "current_armour" = 500))
 
+/obj/structure/overmap/syndicate/pvp/apply_weapons()
+	weapon_types[FIRE_MODE_PDC] = new/datum/ship_weapon/pdc_mount(src)
+	weapon_types[FIRE_MODE_TORPEDO] = new/datum/ship_weapon/torpedo_launcher(src)
+	weapon_types[FIRE_MODE_FLAK] = new/datum/ship_weapon/flak(src)
+	weapon_types[FIRE_MODE_RAILGUN] = new/datum/ship_weapon/railgun(src)
+	weapon_types[FIRE_MODE_GAUSS] = new /datum/ship_weapon/gauss(src) //AI ships want to be able to use gauss too. I say let them...
+	weapon_types[FIRE_MODE_MAC] = new /datum/ship_weapon/mac(src)
+	weapon_types[FIRE_MODE_RED_LASER] = new /datum/ship_weapon/pdc_mount/burst_phaser(src)
+
 /obj/structure/overmap/syndicate/pvp/hulk //Larger PVP ship for larger pops.
 	name = "SSV Hulk"
 	icon = 'nsv13/icons/overmap/syndicate/syn_patrol_cruiser.dmi'
