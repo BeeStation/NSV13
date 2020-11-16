@@ -1563,6 +1563,9 @@
 /obj/effect/turf_decal/ship/outline,
 /obj/item/tank/internals/oxygen/yellow,
 /obj/item/clothing/mask/gas,
+/obj/machinery/camera/autoname{
+	dir = 4
+	},
 /turf/open/floor/monotile/dark,
 /area/engine/engineering/reactor_control)
 "blS" = (
@@ -1733,7 +1736,9 @@
 /turf/open/floor/monotile,
 /area/hallway/nsv/deck2/frame1/central)
 "brO" = (
-/obj/structure/extinguisher_cabinet/east,
+/obj/machinery/light{
+	dir = 4
+	},
 /turf/open/floor/plasteel/grid/lino,
 /area/engine/engineering/reactor_control)
 "brX" = (
@@ -1919,6 +1924,9 @@
 	name = "\improper Dossimiter"
 	},
 /obj/item/radio/intercom/directional/south,
+/obj/machinery/camera/autoname{
+	dir = 1
+	},
 /turf/open/floor/plasteel/techmaint,
 /area/engine/engineering/reactor_core)
 "bzu" = (
@@ -2485,7 +2493,6 @@
 /turf/open/floor/plating,
 /area/security/checkpoint/engineering)
 "bXH" = (
-/obj/machinery/light,
 /obj/machinery/modular_computer/console/preset/engineering{
 	dir = 1
 	},
@@ -2548,11 +2555,9 @@
 /turf/open/floor/monotile/light,
 /area/crew_quarters/kitchen)
 "bYY" = (
-/obj/machinery/light/small{
-	dir = 4
-	},
-/turf/open/floor/plasteel/grid/lino,
-/area/engine/engineering/reactor_control)
+/obj/machinery/camera/autoname,
+/turf/open/floor/plasteel/techmaint,
+/area/engine/engineering/reactor_core)
 "bZO" = (
 /obj/structure/disposalpipe/segment{
 	dir = 4
@@ -3294,6 +3299,13 @@
 	icon_state = "platingdmg1"
 	},
 /area/maintenance/nsv/deck2/frame1/starboard)
+"cuc" = (
+/obj/structure/sign/ship/radiation{
+	dir = 1;
+	pixel_y = -32
+	},
+/turf/open/floor/plasteel/techmaint,
+/area/engine/engineering/reactor_core)
 "cuy" = (
 /obj/machinery/firealarm/directional/south,
 /obj/effect/turf_decal/tile/yellow,
@@ -6199,6 +6211,7 @@
 "euY" = (
 /obj/structure/table/reinforced,
 /obj/machinery/computer/reactor/pump/rbmk_moderator,
+/obj/machinery/firealarm/directional/north,
 /turf/open/floor/plasteel/techmaint,
 /area/engine/engineering/reactor_core)
 "evf" = (
@@ -6557,6 +6570,9 @@
 "eEm" = (
 /obj/structure/cable/yellow{
 	icon_state = "2-8"
+	},
+/obj/machinery/camera/autoname{
+	dir = 8
 	},
 /turf/open/floor/plasteel/techmaint,
 /area/engine/engine_smes)
@@ -11366,6 +11382,7 @@
 /obj/structure/cable/yellow{
 	icon_state = "2-4"
 	},
+/obj/machinery/airalarm/directional/north,
 /turf/open/floor/plasteel/grid/lino,
 /area/engine/engineering/reactor_core)
 "hrw" = (
@@ -13164,6 +13181,10 @@
 	},
 /turf/open/floor/monotile,
 /area/crew_quarters/dorms)
+"itD" = (
+/obj/structure/extinguisher_cabinet/east,
+/turf/open/floor/plasteel/grid/lino,
+/area/engine/engineering/reactor_control)
 "itJ" = (
 /obj/structure/rack,
 /obj/item/clothing/under/color/blue,
@@ -15657,6 +15678,12 @@
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /turf/open/floor/monotile,
 /area/hallway/secondary/exit/departure_lounge)
+"jZO" = (
+/obj/machinery/light{
+	dir = 1
+	},
+/turf/open/floor/plasteel/grid/lino,
+/area/engine/engineering/reactor_control)
 "kah" = (
 /obj/machinery/atmospherics/components/unary/outlet_injector/atmos/carbon_input{
 	dir = 4
@@ -17242,6 +17269,12 @@
 /obj/structure/closet/firecloset,
 /turf/open/floor/plasteel/grid/mono,
 /area/hallway/nsv/deck2/frame1/central)
+"lgE" = (
+/obj/machinery/camera/autoname{
+	dir = 4
+	},
+/turf/open/floor/plasteel/techmaint,
+/area/engine/engineering/reactor_core)
 "lgO" = (
 /obj/machinery/door/airlock/ship/external/glass{
 	name = "Mining Shuttle Dock";
@@ -24236,7 +24269,7 @@
 "pnV" = (
 /obj/structure/table/reinforced,
 /obj/machinery/computer/reactor/pump/rbmk_input,
-/obj/machinery/firealarm/directional/north,
+/obj/machinery/camera/autoname,
 /turf/open/floor/plasteel/techmaint,
 /area/engine/engineering/reactor_core)
 "pnY" = (
@@ -25121,9 +25154,8 @@
 /turf/open/floor/wood,
 /area/crew_quarters/bar)
 "pQI" = (
-/obj/structure/sign/ship/radiation{
-	dir = 1;
-	pixel_y = -32
+/obj/machinery/camera/autoname{
+	dir = 1
 	},
 /turf/open/floor/plasteel/techmaint,
 /area/engine/engineering/reactor_core)
@@ -25344,6 +25376,10 @@
 /obj/machinery/space_heater,
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/starboard/fore)
+"pWx" = (
+/obj/item/stack/cable_coil/random,
+/turf/open/floor/carpet/green,
+/area/engine/engineering/reactor_core)
 "pWy" = (
 /turf/closed/wall/r_wall/ship,
 /area/engine/storage)
@@ -28267,6 +28303,9 @@
 /obj/structure/cable/yellow{
 	icon_state = "1-2"
 	},
+/obj/machinery/camera/autoname{
+	dir = 8
+	},
 /turf/open/floor/plasteel/grid/lino,
 /area/engine/engineering/reactor_control)
 "rEe" = (
@@ -28766,6 +28805,7 @@
 /obj/structure/cable/yellow{
 	icon_state = "1-8"
 	},
+/obj/machinery/light_switch/east,
 /turf/open/floor/plasteel/grid/lino,
 /area/engine/engineering/reactor_control)
 "rRx" = (
@@ -33335,6 +33375,15 @@
 	},
 /turf/open/floor/monotile/light,
 /area/crew_quarters/cryopods)
+"uOv" = (
+/obj/structure/cable/yellow{
+	icon_state = "1-2"
+	},
+/obj/machinery/light{
+	dir = 4
+	},
+/turf/open/floor/plasteel/grid/lino,
+/area/engine/engineering/reactor_control)
 "uOL" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
@@ -33428,11 +33477,11 @@
 /area/engine/engineering/reactor_control)
 "uSU" = (
 /obj/structure/table/reinforced,
+/obj/machinery/firealarm/directional/east,
+/obj/item/wrench,
 /obj/item/stack/cable_coil/random{
 	pixel_y = 4
 	},
-/obj/item/stack/cable_coil/random,
-/obj/machinery/firealarm/directional/east,
 /turf/open/floor/plasteel/grid/lino,
 /area/engine/engineering/reactor_core)
 "uSW" = (
@@ -36449,7 +36498,7 @@
 /obj/structure/cable/yellow{
 	icon_state = "4-8"
 	},
-/obj/machinery/airalarm/directional/north,
+/obj/machinery/camera/autoname,
 /turf/open/floor/plasteel/grid/lino,
 /area/engine/engineering/reactor_core)
 "wXk" = (
@@ -51974,7 +52023,7 @@ vBF
 gei
 gei
 qRm
-gei
+lgE
 uqE
 gei
 gei
@@ -51982,7 +52031,7 @@ qRm
 pLv
 gei
 diH
-gei
+lgE
 qRm
 qOi
 qOi
@@ -53016,7 +53065,7 @@ rzf
 iyE
 rzf
 gKT
-gei
+cuc
 hig
 hig
 eCd
@@ -53769,7 +53818,7 @@ jPd
 taO
 uCi
 ecj
-gei
+bYY
 czX
 eYG
 ciX
@@ -57115,7 +57164,7 @@ ecj
 hgA
 rrA
 nsK
-rrA
+pWx
 rrA
 tEv
 vaL
@@ -59177,7 +59226,7 @@ ldl
 fwz
 bar
 wFd
-bYY
+bFg
 vQt
 ncH
 eEm
@@ -59425,13 +59474,13 @@ nNo
 nNo
 fVj
 fTt
-bFg
+jZO
 qrB
 bQO
 bFg
 bSc
 rDZ
-rDZ
+uOv
 vuU
 rRt
 sYp
@@ -60199,7 +60248,7 @@ fTt
 ilG
 bFg
 brO
-bFg
+itD
 lBG
 rBx
 kvN
