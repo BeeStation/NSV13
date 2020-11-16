@@ -493,11 +493,13 @@ Repair
 
 /obj/structure/overmap/fighter/MouseDrop_T(atom/movable/target, mob/user)
 	. = ..()
+	if(!isliving(user))
+		return FALSE
 	for(var/slot in loadout.equippable_slots)
 		var/obj/item/fighter_component/FC = loadout.get_slot(slot)
 		if(FC?.load(src, target))
 			return FALSE
-	if(allowed(user) && isliving(user))
+	if(allowed(user))
 		if(!canopy_open)
 			playsound(src, 'sound/effects/glasshit.ogg', 75, 1)
 			user.visible_message("<span class='warning'>You bang on the canopy.</span>", "<span class='warning'>[user] bangs on [src]'s canopy.</span>")
@@ -509,6 +511,8 @@ Repair
 		if(do_after(user, 2 SECONDS, target=src))
 			start_piloting(user, "observer")
 			enter(user)
+	else
+		to_chat(user, "<span class='warning'>Access denied.</span>")
 
 /obj/structure/overmap/fighter/proc/enter(mob/user)
 	user.forceMove(src)
@@ -1488,9 +1492,10 @@ Utility modules can be either one of these types, just ensure you set its slot t
 	max_freight = 20
 
 /obj/item/fighter_component/primary/utility/hold/load(obj/structure/overmap/target, atom/movable/AM)
-	if(contents && contents.len >= max_freight || isliving(AM) || istype(AM, /obj/item/fighter_component) || istype(AM, /obj/item/card/id) || istype(AM, /obj/item/pda)) //This just causess issues, trust me on this)
+	if(contents && contents.len >= max_freight || isliving(AM) || istype(AM, /obj/item/fighter_component) || istype(AM, /obj/item/card/id) || istype(AM, /obj/item/pda) || istype(AM, /obj/structure/overmap)) //This just causess issues, trust me on this)
 		return FALSE
-	AM.forceMove(src)
+	if((AM.move_resist > MOVE_FORCE_DEFAULT) || !AM.doMove(src))
+		return //Can't put ultra heavy stuff in
 	target.visible_message("[icon2html(src)] [AM] is loaded into the cargo hold")
 	playsound(target, 'nsv13/sound/effects/ship/mac_load.ogg', 100, 1)
 	return TRUE
