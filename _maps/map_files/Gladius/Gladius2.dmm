@@ -1741,6 +1741,11 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /turf/open/floor/plating,
 /area/hallway/nsv/deck2/frame1/starboard)
+"bvI" = (
+/obj/structure/table/wood,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/turf/open/floor/carpet/black,
+/area/crew_quarters/bar)
 "bwg" = (
 /obj/structure/chair{
 	dir = 1
@@ -4115,7 +4120,7 @@
 "ddP" = (
 /obj/machinery/door/airlock/ship/station/mining{
 	name = "Cargo Office";
-	req_one_access_txt = "31;41;48;64;69;72"
+	req_one_access_txt = "31;41;48;69;72"
 	},
 /obj/machinery/door/firedoor/border_only/directional/west,
 /obj/machinery/door/firedoor/border_only/directional/east,
@@ -8574,7 +8579,8 @@
 /obj/machinery/door/firedoor/border_only/directional/north,
 /obj/machinery/door/firedoor/border_only/directional/south,
 /obj/machinery/door/airlock/turbolift/ship{
-	name = "Ordnance Freight Elevator"
+	name = "Ordnance Freight Elevator";
+	req_one_access_txt = "31;69"
 	},
 /turf/open/floor/plasteel/techmaint,
 /area/shuttle/turbolift/secondary)
@@ -10709,9 +10715,7 @@
 	dir = 4
 	},
 /obj/structure/table/wood,
-/obj/machinery/atmospherics/components/unary/vent_pump/on/layer1{
-	dir = 1
-	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /turf/open/floor/carpet/black,
 /area/crew_quarters/bar)
 "hnm" = (
@@ -12194,6 +12198,18 @@
 	},
 /turf/open/floor/engine/n2,
 /area/engine/atmos)
+"ikz" = (
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/obj/machinery/door/firedoor/border_only{
+	dir = 4
+	},
+/obj/machinery/door/firedoor/border_only{
+	dir = 8
+	},
+/turf/open/floor/plating,
+/area/maintenance/nsv/deck2/frame1/starboard)
 "ikB" = (
 /obj/effect/turf_decal/tile/brown{
 	dir = 1
@@ -21098,6 +21114,8 @@
 	pixel_x = -3;
 	pixel_y = 3
 	},
+/obj/item/stack/packageWrap,
+/obj/item/screwdriver,
 /turf/open/floor/plasteel/grid/steel,
 /area/storage/primary)
 "nUh" = (
@@ -24739,6 +24757,15 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/starboard/aft)
+"qjz" = (
+/obj/machinery/door/firedoor/border_only{
+	dir = 8
+	},
+/obj/machinery/door/firedoor/border_only{
+	dir = 4
+	},
+/turf/open/floor/plating,
+/area/maintenance/nsv/deck2/frame1/starboard)
 "qjA" = (
 /obj/effect/spawner/lootdrop/maintenance/three,
 /obj/effect/decal/cleanable/dirt,
@@ -26627,10 +26654,6 @@
 /turf/open/floor/plasteel/ship,
 /area/engine/break_room)
 "rmh" = (
-/obj/machinery/door/airlock/ship/station/mining{
-	name = "Cargo Bay";
-	req_one_access_txt = "31;41;48;64;69;72"
-	},
 /obj/machinery/door/firedoor/border_only/directional/west,
 /obj/machinery/door/firedoor/border_only/directional/east,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
@@ -26639,7 +26662,11 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 8
 	},
-/turf/open/floor/monotile/dark,
+/obj/machinery/door/airlock/ship/station/mining{
+	name = "Cargo Bay";
+	req_one_access_txt = "31;41;48;69;72"
+	},
+/turf/open/floor/monotile,
 /area/quartermaster/office)
 "rmj" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
@@ -30650,6 +30677,9 @@
 /area/hydroponics)
 "tNa" = (
 /mob/living/carbon/monkey/punpun,
+/obj/machinery/atmospherics/components/unary/vent_pump/on/layer1{
+	dir = 1
+	},
 /turf/open/floor/carpet/black,
 /area/crew_quarters/bar)
 "tNe" = (
@@ -32124,16 +32154,16 @@
 /turf/open/floor/plating,
 /area/hallway/nsv/deck2/frame1/starboard)
 "uTd" = (
-/obj/machinery/door/airlock/ship/station/mining{
-	name = "Cargo Bay";
-	req_one_access_txt = "31;41;48;64;69;72"
-	},
 /obj/machinery/door/firedoor/border_only/directional/west,
 /obj/machinery/door/firedoor/border_only/directional/east,
 /obj/structure/cable{
 	icon_state = "4-8"
 	},
-/turf/open/floor/monotile/dark,
+/obj/machinery/door/airlock/ship/station/mining{
+	name = "Cargo Bay";
+	req_one_access_txt = "31;41;48;69;72"
+	},
+/turf/open/floor/monotile,
 /area/quartermaster/office)
 "uTj" = (
 /obj/item/trash/can/food,
@@ -75669,7 +75699,7 @@ gsK
 gsf
 tSp
 hmx
-ggc
+bvI
 tNa
 gsf
 byd
@@ -75719,7 +75749,7 @@ qOY
 lDZ
 lDZ
 lDZ
-fli
+qjz
 yeT
 xPM
 jrx
@@ -75969,7 +75999,7 @@ dQT
 lgm
 sAa
 rdh
-eFh
+ikz
 lDZ
 eFC
 eFC
