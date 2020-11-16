@@ -312,42 +312,70 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 		weapon_types[FIRE_MODE_MISSILE] = new/datum/ship_weapon/missile_launcher(src)
 
 /obj/structure/overmap/proc/throw_pilot()
-	var/max = world.maxx-TRANSITIONEDGE
-	var/min = 1+TRANSITIONEDGE
+	if(!SSmapping.level_trait(loc.z, ZTRAIT_BOARDABLE)) //Check if we're on the overmap
+		var/max = world.maxx-TRANSITIONEDGE
+		var/min = 1+TRANSITIONEDGE
 
-	var/list/possible_transitions = list()
-	for(var/A in SSmapping.z_list)
-		var/datum/space_level/D = A
-		if (D.linkage == CROSSLINKED)
-			possible_transitions += D.z_value
-		if(!possible_transitions.len) //Just in case there is no space z level
-			for(var/z in SSmapping.levels_by_trait(ZTRAIT_STATION))
-			possible_transitions += z
+		var/list/possible_transitions = list()
+		for(var/A in SSmapping.z_list)
+			var/datum/space_level/D = A
+			if (D.linkage == CROSSLINKED)
+				possible_transitions += D.z_value
+			if(!possible_transitions.len) //Just in case there is no space z level
+				for(var/z in SSmapping.levels_by_trait(ZTRAIT_STATION))
+				possible_transitions += z
 
-	var/_z = pick(possible_transitions)
-	var/_x
-	var/_y
+		var/_z = pick(possible_transitions)
+		var/_x
+		var/_y
 
-	switch(dir)
-		if(SOUTH)
-			_x = rand(min,max)
-			_y = max
-		if(WEST)
-			_x = max
-			_y = rand(min,max)
-		if(EAST)
-			_x = min
-			_y = rand(min,max)
-		else
-			_x = rand(min,max)
-			_y = min
+		switch(dir)
+			if(SOUTH)
+				_x = rand(min,max)
+				_y = max
+			if(WEST)
+				_x = max
+				_y = rand(min,max)
+			if(EAST)
+				_x = min
+				_y = rand(min,max)
+			else
+				_x = rand(min,max)
+				_y = min
 
-	var/turf/T = locate(_x, _y, _z) //Where are we putting you
-	for(var/mob/living/M in contents)
-		M.stop_sound_channel(CHANNEL_SHIP_ALERT) //In space no one can hear your ship explode
-		mobs_in_ship -= M //How can you be in something that just got deleted?
-		M.forceMove(T) //Yeets the spessman
-		M.apply_damage(400) //No way you're surviving that
+		var/turf/T = locate(_x, _y, _z) //Where are we putting you
+		for(var/mob/living/M in contents)
+			mobs_in_ship -= M
+			M.stop_sound_channel(CHANNEL_SHIP_ALERT) //In space no one can hear your ship explode
+			M.forceMove(T) //Yeets the spessman
+			M.apply_damage(400) //No way you're surviving that
+			M.client.view_size.resetToDefault() //No camera jank anymore please
+			M.client.overmap_zoomout = 0 //Report on ^: there is still camera jank
+			M.client.pixel_x = 0
+			M.client.pixel_y = 0
+			var/mob/camera/aiEye/remote/overmap_observer/eyeobj = M.remote_control
+			M.cancel_camera()
+			QDEL_NULL(eyeobj)
+			QDEL_NULL(eyeobj?.off_action)
+			QDEL_NULL(M.remote_control)
+			M.set_focus(M)
+
+	else //If we're anywhere that isn't the overmap
+		for(var/mob/living/M in contents)
+			mobs_in_ship -= M
+			M.stop_sound_channel(CHANNEL_SHIP_ALERT)
+			M.forceMove(get_turf(src)) //Just gonna plop you on the ground
+			M.apply_damage(200) //Turns out exploding will kill you
+			M.client.view_size.resetToDefault()
+			M.client.overmap_zoomout = 0
+			M.client.pixel_x = 0
+			M.client.pixel_y = 0
+			var/mob/camera/aiEye/remote/overmap_observer/eyeobj = M.remote_control
+			M.cancel_camera()
+			QDEL_NULL(eyeobj)
+			QDEL_NULL(eyeobj?.off_action)
+			QDEL_NULL(M.remote_control)
+			M.set_focus(M)
 
 /obj/item/projectile/Destroy()
 	if(physics2d)
