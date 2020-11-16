@@ -404,6 +404,9 @@
 	icon_state = "techfloor_grid_tile"
 	turf_type = /turf/open/floor/plasteel/grid/techfloor/grid
 
+/turf/open/floor/plasteel/grid/techfloor/grid/airless
+	initial_gas_mix = AIRLESS_ATMOS
+
 /obj/effect/turf_decal/tile/ship
 	name = "tile decal"
 	icon = 'nsv13/icons/turf/decals.dmi'
