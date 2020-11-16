@@ -25,9 +25,10 @@
 /obj/item/clothing/ears/earmuffs/attackby(obj/item/I, mob/living/user) //NSV13 comment
 	if(istype(I,/obj/item/radio/headset))
 		var/obj/item/radio/headset/radiomuff/newmuf = new /obj/item/radio/headset/radiomuff(get_turf(user.loc))
-		if(I.command)
+		var/obj/item/radio/headset/R = I
+		if(R.command)
 			newmuf.command = TRUE
-		newmuf.keyslot = I
+		newmuf.keyslot = R.keyslot
 		newmuf.recalculateChannels()
 		to_chat(user,"<span class='notice'>You stuff the [I] into the [src].</span>")
 		qdel(I)
