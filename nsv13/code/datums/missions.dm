@@ -4,6 +4,8 @@ NOTE:
 
 - give parts to make cargo torp instead of a finished one? they can just load in cargo and save the hassle
 - more high risk contents
+- Move all of this into a module folder
+- Split this file into different files?
 
 */
 
@@ -483,7 +485,7 @@ kill station
 /datum/nsv_mission/cargo/nuke/register()
   . = ..()
   message_admins("The [owner.name] has just undertaken the live nuke mission! There will be multiple ingame warnings about the cargo.")
-  addtimer(CALLBACK(src, .proc/first_warning), 10 MINUTES) // 20 min to go
+  addtimer(CALLBACK(src, .proc/first_warning), 15 MINUTES) // 45 min to go
 
 
 /datum/nsv_mission/cargo/nuke/report_tampered_cargo(var/datum/component/nsv_mission_cargo/cargo)
@@ -498,13 +500,13 @@ kill station
   if(stage != MISSION_ACTIVE) // Only report the crate is suspect if the mission is ongoing
     return
   owner.hail("[owner.name], we have noticed that a mission was assigned to you, asking to deliver a crate of cargo to [delivery_target.name]. However we don't have the request form from them to send the crate. Please hold off on delivering that crate until we figure out what is going on.", the_client.name)
-  addtimer(CALLBACK(src, .proc/second_warning), 20 MINUTES) // 40 min to go
+  addtimer(CALLBACK(src, .proc/second_warning), 15 MINUTES) // 30 min to go
 
 /datum/nsv_mission/cargo/nuke/proc/second_warning()
   if(stage != MISSION_ACTIVE) // Only report the crate is suspect if the mission is ongoing
     return
   owner.hail("We have looked into that crate you were asked to deliver to [delivery_target.name] and found that someone has tampered with that job listing. We have found the person responsible and will attempt to find out why they want you to move that crate.", the_client.name)
-  addtimer(CALLBACK(src, .proc/third_warning), 20 MINUTES) // 20 min to go
+  addtimer(CALLBACK(src, .proc/third_warning), 15 MINUTES) // 15 min to go
   
 /datum/nsv_mission/cargo/nuke/proc/third_warning()
   if(stage != MISSION_ACTIVE) // Only report the crate is suspect if the mission is ongoing
@@ -532,6 +534,37 @@ kill station
 // TODO, make the player ship KOS if they deliver the nuke?
 
 //##############################################################################
+//######### Other missions
+//##############################################################################
+
+// Explore - Travel to a sector. Will just be navigate through the random sector
+
+/datum/nsv_mission/explore // TODO: unqiue proc to prevent 2x explore missions?
+  var/datum/star_system/destination
+  payout = 3000
+
+/datum/nsv_mission/explore/register()
+  destination = SSstar_system.system_by_id = "Rubicon"
+  destination.active_missions += src
+  update_description()
+  return TRUE
+  
+/datum/nsv_mission/explore/encounter() 
+  check_completion()
+
+/datum/nsv_mission/explore/check_completion()
+  . = ..()
+  if(owner.current_system == destination)
+    stage = MISSION_COMPLETE
+    payout()
+    return TRUE
+  return FALSE
+  
+/datum/nsv_mission/explore/update_description()
+  desc = "We have been struggling to map a route into Syndicate space. Every time we send a scout to find a viable route they get lost. If you can navigate to and arrive in Rubicon, we'll pay you for information on the route you took. "
+
+
+//##############################################################################
 //######### Admin missions
 //##############################################################################
 
@@ -540,5 +573,5 @@ kill station
 
 /datum/nsv_mission/custom/
   desc = "A mission missing the correct paperwork to define what is required. Contact NT if you see this!"
-  var/admin_hints = "Set stage to different things to mark progress. -1 is failed. 0 is idle and 2 is complete."
+  var/admin_hints = "SET 'the_client' TO THE OVERMAP STATION! Set stage to different things to mark progress. -1 is failed. 0 is idle and 2 is complete."
 

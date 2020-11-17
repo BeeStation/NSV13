@@ -17,6 +17,7 @@
 	var/image = "https://cdn.discordapp.com/attachments/701841640897380434/764534224291233822/unknown.png"
 	var/list/missions = list() //Missions
 	var/list/possible_mission_types = list( // List of possible missions this trader may have
+		/datum/nsv_mission/explore=10,
 		/datum/nsv_mission/kill_ships=10,
 		/datum/nsv_mission/kill_ships/waves=8,
 		/datum/nsv_mission/kill_ships/system=6,
