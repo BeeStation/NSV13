@@ -763,6 +763,7 @@
 /obj/structure/table/reinforced,
 /obj/item/storage/toolbox/electrical,
 /obj/item/analyzer,
+/obj/machinery/computer/ship/viewscreen,
 /turf/open/floor/plasteel/grid/steel,
 /area/engine/engineering/reactor_control)
 "aEd" = (
@@ -7672,6 +7673,86 @@
 /obj/structure/closet/emcloset,
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/port/fore)
+"fks" = (
+/obj/item/clothing/suit/hazardvest{
+	desc = "A high-visibility lifejacket complete with whistle and slot for oxygen tanks.";
+	name = "emergency lifejacket"
+	},
+/obj/item/clothing/suit/hazardvest{
+	desc = "A high-visibility lifejacket complete with whistle and slot for oxygen tanks.";
+	name = "emergency lifejacket"
+	},
+/obj/item/clothing/suit/hazardvest{
+	desc = "A high-visibility lifejacket complete with whistle and slot for oxygen tanks.";
+	name = "emergency lifejacket"
+	},
+/obj/item/clothing/suit/hazardvest{
+	desc = "A high-visibility lifejacket complete with whistle and slot for oxygen tanks.";
+	name = "emergency lifejacket"
+	},
+/obj/item/clothing/suit/hazardvest{
+	desc = "A high-visibility lifejacket complete with whistle and slot for oxygen tanks.";
+	name = "emergency lifejacket"
+	},
+/obj/item/tank/internals/emergency_oxygen{
+	pixel_x = 3
+	},
+/obj/item/tank/internals/emergency_oxygen{
+	pixel_x = 3
+	},
+/obj/item/tank/internals/emergency_oxygen{
+	pixel_x = 3
+	},
+/obj/item/tank/internals/emergency_oxygen{
+	pixel_x = 3
+	},
+/obj/item/tank/internals/emergency_oxygen{
+	pixel_x = 3
+	},
+/obj/item/clothing/mask/breath{
+	pixel_x = -3;
+	pixel_y = -3
+	},
+/obj/item/clothing/mask/breath{
+	pixel_x = -3;
+	pixel_y = -3
+	},
+/obj/item/clothing/mask/breath{
+	pixel_x = -3;
+	pixel_y = -3
+	},
+/obj/item/clothing/mask/breath{
+	pixel_x = -3;
+	pixel_y = -3
+	},
+/obj/item/clothing/mask/breath{
+	pixel_x = -3;
+	pixel_y = -3
+	},
+/obj/item/clothing/head/hardhat/orange{
+	name = "protective hat";
+	pixel_y = 9
+	},
+/obj/item/clothing/head/hardhat/orange{
+	name = "protective hat";
+	pixel_y = 9
+	},
+/obj/item/clothing/head/hardhat/orange{
+	name = "protective hat";
+	pixel_y = 9
+	},
+/obj/item/clothing/head/hardhat/orange{
+	name = "protective hat";
+	pixel_y = 9
+	},
+/obj/item/clothing/head/hardhat/orange{
+	name = "protective hat";
+	pixel_y = 9
+	},
+/obj/structure/closet/crate/internals,
+/obj/effect/turf_decal/bot,
+/turf/open/floor/plasteel/grid/steel,
+/area/quartermaster/storage)
 "fkD" = (
 /obj/machinery/shower{
 	dir = 8
@@ -17884,6 +17965,11 @@
 "lwu" = (
 /turf/open/floor/plating,
 /area/maintenance/disposal)
+"lwC" = (
+/obj/structure/closet/emcloset,
+/obj/machinery/light/small,
+/turf/open/floor/plating,
+/area/maintenance/department/cargo)
 "lwS" = (
 /obj/structure/disposalpipe/segment,
 /obj/structure/cable{
@@ -19482,9 +19568,7 @@
 	pixel_x = 4;
 	pixel_y = 4
 	},
-/obj/machinery/light{
-	dir = 1
-	},
+/obj/machinery/computer/ship/viewscreen,
 /turf/open/floor/carpet/ship,
 /area/quartermaster/qm)
 "muP" = (
@@ -27271,7 +27355,7 @@
 	dir = 8;
 	id = "freightliftCargo"
 	},
-/obj/structure/extinguisher_cabinet/north,
+/obj/machinery/computer/ship/viewscreen,
 /turf/open/floor/plasteel/grid/steel,
 /area/quartermaster/storage)
 "qXZ" = (
@@ -28155,6 +28239,9 @@
 	gpstag = "QM0"
 	},
 /obj/item/stamp/qm,
+/obj/machinery/light{
+	dir = 1
+	},
 /turf/open/floor/carpet/ship,
 /area/quartermaster/qm)
 "rvB" = (
@@ -28708,6 +28795,7 @@
 "rOa" = (
 /obj/structure/closet/emcloset,
 /obj/effect/turf_decal/tile/ship/full/yellow,
+/obj/item/storage/toolbox/emergency,
 /turf/open/floor/monotile,
 /area/hallway/nsv/deck2/aft)
 "rOj" = (
@@ -31661,6 +31749,7 @@
 /obj/machinery/computer/ship/reactor_control_computer{
 	reactor_id = 1
 	},
+/obj/machinery/computer/ship/viewscreen,
 /turf/open/floor/plasteel/grid/lino,
 /area/engine/engineering/reactor_core)
 "tDt" = (
@@ -33709,6 +33798,12 @@
 	},
 /turf/open/floor/monotile/dark,
 /area/engine/atmos)
+"uZX" = (
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
+/obj/structure/extinguisher_cabinet/west,
+/turf/open/floor/plasteel/grid/steel,
+/area/quartermaster/storage)
 "vak" = (
 /obj/structure/chair,
 /obj/machinery/airalarm/directional/north,
@@ -65237,7 +65332,7 @@ kVY
 tiH
 bfV
 wTr
-sBE
+uZX
 keX
 hPB
 vhu
@@ -67017,7 +67112,7 @@ wCd
 bjF
 nlB
 nlB
-nHZ
+lwC
 xZR
 gCq
 ydc
@@ -67290,7 +67385,7 @@ ajm
 hdN
 rEe
 uDa
-sWj
+fks
 swi
 sWj
 tmG
