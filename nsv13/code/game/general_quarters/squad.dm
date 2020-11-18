@@ -85,7 +85,7 @@ GLOBAL_DATUM_INIT(squad_manager, /datum/squad_manager, new)
 	Although your assigned duty is damage control, you must listen to your squad leader, as they may receive orders to redirect your squad to another essential duty <br/>\
 	<i>Squad vendors</i> open up during General Quarters, and allow you to acquire a kit containing tarpaulins for closing breaches, basic tools, metal foam and a distinctive uniform to tell your squad members apart.</span>"
 	var/datum/radio_frequency/radio_connection
-	var/static/list/blacklist = list(/datum/job/captain, /datum/job/hop, /datum/job/chief_engineer, /datum/job/cargo_tech,/datum/job/mining, /datum/job/qm, /datum/job/ai, /datum/job/cyborg, /datum/job/munitions_tech, /datum/job/fighter_pilot, /datum/job/master_at_arms, /datum/job/rd, /datum/job/air_traffic_controller, /datum/job/warden, /datum/job/hos, /datum/job/officer, /datum/job/chief_engineer, /datum/job/bridge)
+	var/static/list/blacklist = list(/datum/job/captain, /datum/job/hop, /datum/job/chief_engineer, /datum/job/cargo_tech,/datum/job/mining, /datum/job/qm, /datum/job/ai, /datum/job/cyborg, /datum/job/munitions_tech, /datum/job/fighter_pilot, /datum/job/master_at_arms, /datum/job/rd, /datum/job/air_traffic_controller, /datum/job/warden, /datum/job/hos, /datum/job/officer, /datum/job/chief_engineer, /datum/job/bridge, /datum/job/flight_leader)
 	var/list/access = list()
 
 /datum/squad/proc/broadcast(msg, mob/living/carbon/human/sender, sound=pick('nsv13/sound/effects/radio1.ogg','nsv13/sound/effects/radio2.ogg'), isOverwatch=FALSE)
