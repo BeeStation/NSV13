@@ -1292,11 +1292,15 @@ Control Rods
 	var/datum/gas_mixture/air1 = reactor.airs[1]
 	effective_fuel = air1.get_moles(/datum/gas/plasma) * LOW_ROR + \
 				air1.get_moles(/datum/gas/constricted_plasma) * NORMAL_ROR + \
-				air1.get_moles(/datum/gas/nitrogen) * HINDER_ROR + \
+				air1.get_moles(/datum/gas/carbon_dioxide) * HINDER_ROR + \
 				air1.get_moles(/datum/gas/water_vapor) * HINDER_ROR + \
 				air1.get_moles(/datum/gas/tritium) * HIGH_ROR
 	if(effective_fuel < 0)
 		effective_fuel = 0
+
+	data["fuel_mix"] = air1.get_moles(/datum/gas/plasma) + air1.get_moles(/datum/gas/constricted_plasma) + air1.get_moles(/datum/gas/tritium)
+	data["mole_threshold_high"] = (reactor.reaction_rate * 12) + 20
+	data["mole_threshold_very_high"] = (reactor.reaction_rate * 18) + 20
 
 	data["fuel"] = effective_fuel
 	data["o2"] = air1.get_moles(/datum/gas/oxygen)

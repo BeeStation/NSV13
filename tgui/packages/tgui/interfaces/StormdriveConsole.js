@@ -122,16 +122,26 @@ export const StormdriveConsole = (props, context) => {
               }}>
               {data.reaction_rate + ' mol/s'}
             </ProgressBar>
-            Fuel:
+            Fuel Ratio:
             <ProgressBar
-              value={(data.fuel/100 * 100)* 0.02}
+              value={data.fuel_mix/data.total_moles}
               ranges={{
                 good: [],
-                average: [0.15, 0.9],
-                bad: [-Infinity, 0.15],
+                average: [0.125, 0.25],
+                bad: [-Infinity, 0.125],
               }}>
-              {data.fuel + ' mol'}
+              {toFixed((data.fuel_mix/data.total_moles) * 100) + ' %'}
             </ProgressBar>
+            Fuel Line Quantity:
+            <ProgressBar
+              value={data.total_moles/data.mole_threshold_very_high}
+              ranges={{
+                good: [],
+                average: [(data.mole_threshold_high/data.mole_threshold_very_high), (data.mole_threshold_very_high/data.total_moles)],
+                bad: [(data.mole_threshold_very_high/data.total_moles), Infinity]
+              }}>
+              {data.total_moles + ' mol'}
+              </ProgressBar>
           </Section>
           <Section title="Fuel Line Composition:">
             <Flex spacing={1}>
