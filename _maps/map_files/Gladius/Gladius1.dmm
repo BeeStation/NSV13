@@ -6072,6 +6072,7 @@
 /obj/machinery/door/firedoor/border_only{
 	dir = 1
 	},
+/obj/effect/mapping_helpers/airlock/cyclelink_helper,
 /turf/open/floor/monotile,
 /area/nsv/weapons/starboard)
 "daM" = (
@@ -7715,6 +7716,10 @@
 "dOW" = (
 /obj/effect/spawner/structure/window/reinforced,
 /obj/structure/curtain/obscuring/grey,
+/obj/machinery/door/poddoor/shutters/ship/preopen{
+	dir = 1;
+	id = "maaprivacy"
+	},
 /turf/open/floor/plating,
 /area/nsv/crew_quarters/heads/maa)
 "dOZ" = (
@@ -10145,13 +10150,6 @@
 /area/ai_monitored/storage/eva)
 "eUZ" = (
 /obj/structure/table/wood,
-/obj/item/trash/can{
-	desc = "A tiny ship in a bottle.";
-	icon = 'icons/obj/lavaland/artefacts.dmi';
-	icon_state = "ship_bottle";
-	name = "ship in a bottle";
-	pixel_y = 6
-	},
 /obj/item/storage/lockbox/medal,
 /turf/open/floor/carpet/blue,
 /area/crew_quarters/heads/captain)
@@ -13767,6 +13765,7 @@
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	dir = 4
 	},
+/obj/machinery/airalarm/directional/north,
 /turf/open/floor/monotile/dark,
 /area/bridge/meeting_room)
 "gKt" = (
@@ -17144,6 +17143,20 @@
 	},
 /turf/open/floor/monotile/dark,
 /area/nsv/briefingroom)
+"ioV" = (
+/obj/machinery/door/airlock/highsecurity/ship{
+	name = "Weapons Bay";
+	req_one_access_txt = "69"
+	},
+/obj/machinery/door/firedoor/border_only,
+/obj/machinery/door/firedoor/border_only{
+	dir = 1
+	},
+/obj/effect/mapping_helpers/airlock/cyclelink_helper{
+	dir = 1
+	},
+/turf/open/floor/monotile,
+/area/nsv/weapons/starboard)
 "ipl" = (
 /obj/structure/disposalpipe/junction/flip{
 	dir = 4
@@ -18095,6 +18108,17 @@
 	req_one_access_txt = "69"
 	},
 /obj/machinery/suit_storage_unit/pilot,
+/obj/machinery/button/door{
+	id = "maaprivacy";
+	name = "privacy shutters";
+	pixel_x = 6;
+	pixel_y = 35;
+	req_one_access_txt = "69"
+	},
+/obj/machinery/keycard_auth{
+	pixel_x = -7;
+	pixel_y = 34
+	},
 /obj/machinery/button/door{
 	id = "munitionsGeneralShutters";
 	name = "Munitions general quarters access shutters";
@@ -29491,6 +29515,17 @@
 	},
 /turf/open/floor/monotile,
 /area/medical/nsv/psychology)
+"opj" = (
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer3,
+/obj/structure/lattice/catwalk/over/ship/dark,
+/turf/open/floor/plating,
+/area/nsv/weapons/starboard)
 "opk" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer1{
 	dir = 1
@@ -33242,6 +33277,19 @@
 /obj/machinery/computer/ship/viewscreen,
 /turf/open/floor/plasteel/ridged/steel,
 /area/nsv/hanger/notkmcstupidhanger/atc)
+"qdk" = (
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	dir = 8
+	},
+/obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1{
+	dir = 1
+	},
+/obj/structure/lattice/catwalk/over/ship/dark,
+/turf/open/floor/plating,
+/area/nsv/weapons/starboard)
 "qdx" = (
 /obj/structure/cable{
 	icon_state = "1-2"
@@ -33435,16 +33483,19 @@
 /obj/structure/disposalpipe/trunk{
 	dir = 4
 	},
+/obj/machinery/light/small{
+	dir = 1
+	},
 /turf/open/floor/plasteel/ridged/steel,
 /area/hallway/nsv/deck1/frame1/starboard)
 "qjw" = (
-/obj/machinery/airalarm/directional/north,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	dir = 4
 	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 8
 	},
+/obj/machinery/computer/lore_terminal,
 /turf/open/floor/monotile/dark,
 /area/bridge/meeting_room)
 "qjO" = (
@@ -35049,6 +35100,13 @@
 /obj/structure/lattice/catwalk/over/ship/dark,
 /turf/open/floor/plating,
 /area/hallway/nsv/deck1/aft)
+"qVF" = (
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3,
+/turf/open/floor/monotile,
+/area/nsv/weapons/starboard)
 "qVY" = (
 /obj/effect/turf_decal/tile/ship/blue{
 	dir = 4;
@@ -38119,6 +38177,9 @@
 /obj/structure/disposalpipe/segment{
 	dir = 4
 	},
+/obj/machinery/atmospherics/components/unary/vent_pump/on/layer1{
+	dir = 1
+	},
 /turf/open/floor/monotile,
 /area/nsv/weapons/starboard)
 "sCw" = (
@@ -40527,6 +40588,13 @@
 /obj/effect/spawner/lootdrop/maintenance/two,
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck1/aft)
+"tNq" = (
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/obj/machinery/holopad,
+/turf/open/floor/monotile,
+/area/nsv/weapons/starboard)
 "tNr" = (
 /obj/structure/disposalpipe/segment{
 	dir = 9
@@ -42815,6 +42883,9 @@
 	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
+/obj/effect/mapping_helpers/airlock/cyclelink_helper{
+	dir = 1
+	},
 /turf/open/floor/monotile,
 /area/nsv/weapons/starboard)
 "uRj" = (
@@ -46436,6 +46507,13 @@
 	id = "captain_blast";
 	name = "Captain Blast Doors Control";
 	pixel_x = 38
+	},
+/obj/item/trash/can{
+	desc = "A tiny ship in a bottle.";
+	icon = 'icons/obj/lavaland/artefacts.dmi';
+	icon_state = "ship_bottle";
+	name = "ship in a bottle";
+	pixel_y = 6
 	},
 /turf/open/floor/carpet/blue,
 /area/crew_quarters/heads/captain)
@@ -81390,7 +81468,7 @@ lXF
 rWS
 lXF
 lXF
-daq
+ioV
 ybF
 ogo
 puU
@@ -82420,7 +82498,7 @@ tDP
 tDP
 qwt
 odo
-ogo
+qdk
 sCp
 nmT
 nmT
@@ -83448,7 +83526,7 @@ nFE
 cab
 lhF
 jcp
-mxd
+tNq
 ogo
 gVx
 nmT
@@ -83705,8 +83783,8 @@ fZW
 pbI
 dOW
 ybF
-mxd
-ogo
+qVF
+opj
 puU
 nmT
 iFj

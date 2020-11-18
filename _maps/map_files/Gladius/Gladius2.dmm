@@ -3369,8 +3369,8 @@
 /area/engine/gravity_generator)
 "cwM" = (
 /obj/machinery/button/door{
-	id = "cargo_dock2";
-	name = "cargo shutters";
+	id = "QMOnloaddoors";
+	name = "Loading Doors";
 	pixel_y = -24;
 	req_one_access_txt = "31;69"
 	},
@@ -5272,10 +5272,16 @@
 /turf/open/floor/plating,
 /area/maintenance/department/cargo)
 "dMh" = (
-/obj/effect/decal/cleanable/dirt,
+/obj/structure/closet/crate/engineering,
+/obj/item/clothing/glasses/welding,
+/obj/item/stack/sheet/iron/fifty,
+/obj/item/stack/sheet/glass/fifty,
+/obj/effect/spawner/lootdrop/maintenance/three,
+/obj/item/stack/sheet/plasteel/twenty,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 8
 	},
+/obj/effect/decal/cleanable/dirt,
 /turf/open/floor/plasteel/tech/grid,
 /area/quartermaster/warehouse)
 "dMo" = (
@@ -7886,6 +7892,21 @@
 	},
 /obj/machinery/camera/autoname{
 	dir = 1
+	},
+/obj/item/radio{
+	icon_state = "radio"
+	},
+/obj/item/trash/can{
+	icon = 'icons/obj/bureaucracy.dmi';
+	icon_state = "docs_generic";
+	name = "secret nanotrasen documentation"
+	},
+/obj/item/disk/nuclear/fake/obvious,
+/obj/item/storage/box/hug/clown_uniform,
+/obj/item/trash/can{
+	icon = 'icons/obj/library.dmi';
+	icon_state = "book";
+	name = "spell book"
 	},
 /turf/open/floor/wood,
 /area/crew_quarters/theatre)
@@ -10850,14 +10871,20 @@
 /area/engine/engineering/reactor_core)
 "gZQ" = (
 /obj/structure/table,
-/obj/item/storage/box,
-/obj/item/storage/box,
-/obj/item/storage/box,
-/obj/item/storage/box,
 /obj/effect/turf_decal/tile/brown,
 /obj/effect/turf_decal/tile/brown{
 	dir = 8
 	},
+/obj/item/storage/box{
+	pixel_x = 3;
+	pixel_y = 3
+	},
+/obj/item/storage/box{
+	pixel_x = 3;
+	pixel_y = 3
+	},
+/obj/item/storage/box,
+/obj/item/storage/box,
 /turf/open/floor/monotile,
 /area/quartermaster/sorting)
 "har" = (
@@ -13292,6 +13319,13 @@
 /obj/structure/extinguisher_cabinet/east,
 /turf/open/floor/plasteel/grid/steel,
 /area/engine/engineering/reactor_control)
+"itG" = (
+/obj/structure/rack,
+/obj/item/stack/packageWrap,
+/obj/item/stack/packageWrap,
+/obj/item/export_scanner,
+/turf/open/floor/plasteel/grid/steel,
+/area/quartermaster/storage)
 "itJ" = (
 /obj/structure/rack,
 /obj/item/clothing/under/color/blue,
@@ -15905,6 +15939,9 @@
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	dir = 9
 	},
+/obj/effect/turf_decal/loading_area{
+	dir = 1
+	},
 /turf/open/floor/plasteel/grid/steel,
 /area/quartermaster/storage)
 "kfj" = (
@@ -18184,6 +18221,11 @@
 /obj/machinery/vending/wardrobe/curator_wardrobe,
 /turf/open/floor/engine/cult,
 /area/library)
+"lEH" = (
+/obj/structure/table/wood,
+/obj/item/hourglass,
+/turf/open/floor/carpet/purple,
+/area/library)
 "lEN" = (
 /obj/effect/turf_decal/tile/neutral{
 	dir = 4
@@ -19483,6 +19525,8 @@
 /area/crew_quarters/bar)
 "mqS" = (
 /obj/machinery/airalarm/directional/west,
+/obj/item/ship_weapon/parts/torpedo/warhead/freight,
+/obj/item/ship_weapon/parts/torpedo/warhead/freight,
 /turf/open/floor/plasteel/techmaint,
 /area/quartermaster/warehouse)
 "mrf" = (
@@ -22820,18 +22864,6 @@
 	},
 /turf/open/floor/engine/n2o,
 /area/engine/atmos)
-"ooT" = (
-/obj/machinery/door/firedoor/window,
-/obj/machinery/door/poddoor/shutters/ship{
-	id = "cargo_dock1";
-	name = "cargo shutters"
-	},
-/obj/machinery/conveyor{
-	dir = 1;
-	id = "QMOffload"
-	},
-/turf/open/floor/plating,
-/area/quartermaster/storage)
 "opo" = (
 /obj/effect/landmark/start/bartender,
 /turf/open/floor/wood,
@@ -24647,11 +24679,11 @@
 /turf/open/floor/monotile,
 /area/quartermaster/office)
 "puB" = (
-/obj/effect/turf_decal/loading_area{
-	dir = 4
-	},
 /obj/effect/turf_decal/tile/brown,
 /obj/effect/turf_decal/tile/brown{
+	dir = 4
+	},
+/obj/effect/turf_decal/loading_area{
 	dir = 4
 	},
 /turf/open/floor/monotile,
@@ -26248,6 +26280,7 @@
 	pixel_x = -2;
 	pixel_y = 3
 	},
+/obj/item/lipstick/random,
 /turf/open/floor/monotile/dark,
 /area/crew_quarters/locker)
 "qsq" = (
@@ -26803,12 +26836,12 @@
 /turf/open/floor/wood,
 /area/crew_quarters/bar)
 "qIg" = (
-/obj/effect/turf_decal/arrows{
-	dir = 1
-	},
 /obj/effect/turf_decal/tile/brown,
 /obj/effect/turf_decal/tile/brown{
 	dir = 4
+	},
+/obj/effect/turf_decal/arrows{
+	dir = 1
 	},
 /turf/open/floor/monotile,
 /area/hallway/nsv/deck2/frame1/starboard)
@@ -26867,9 +26900,6 @@
 /area/maintenance/nsv/deck2/frame1/central)
 "qLf" = (
 /obj/machinery/disposal/bin,
-/obj/effect/turf_decal/bot{
-	dir = 1
-	},
 /obj/structure/disposalpipe/trunk{
 	dir = 1
 	},
@@ -26877,6 +26907,9 @@
 	dir = 8
 	},
 /obj/effect/turf_decal/tile/brown{
+	dir = 1
+	},
+/obj/effect/turf_decal/bot{
 	dir = 1
 	},
 /turf/open/floor/monotile,
@@ -27478,11 +27511,11 @@
 /obj/structure/peacekeeper_barricade/metal{
 	dir = 4
 	},
-/obj/effect/turf_decal/bot,
 /obj/effect/turf_decal/tile/brown,
 /obj/effect/turf_decal/tile/brown{
 	dir = 4
 	},
+/obj/effect/turf_decal/bot,
 /turf/open/floor/monotile,
 /area/hallway/nsv/deck2/frame1/starboard)
 "rac" = (
@@ -29027,11 +29060,11 @@
 /turf/open/floor/plasteel/grid/steel,
 /area/quartermaster/storage)
 "rUl" = (
-/obj/effect/turf_decal/arrows{
-	dir = 1
-	},
 /obj/effect/turf_decal/tile/brown{
 	dir = 4
+	},
+/obj/effect/turf_decal/arrows{
+	dir = 1
 	},
 /turf/open/floor/monotile,
 /area/hallway/nsv/deck2/frame1/starboard)
@@ -29439,13 +29472,14 @@
 /turf/open/floor/plasteel/grid/steel,
 /area/engine/atmos)
 "sgj" = (
-/obj/structure/rack,
-/obj/item/stack/packageWrap,
-/obj/item/stack/packageWrap,
-/obj/item/export_scanner,
 /obj/machinery/light{
 	dir = 4
 	},
+/mob/living/simple_animal/bot/mulebot{
+	home_destination = "QM #3";
+	suffix = "#3"
+	},
+/obj/effect/turf_decal/ship/delivery/yellow,
 /turf/open/floor/plasteel/grid/steel,
 /area/quartermaster/storage)
 "sgs" = (
@@ -29758,7 +29792,7 @@
 /obj/machinery/door/firedoor/border_only/directional/north,
 /obj/machinery/door/firedoor/border_only/directional/south,
 /obj/structure/disposalpipe/segment,
-/turf/open/floor/monotile/dark,
+/turf/open/floor/plating,
 /area/maintenance/department/cargo)
 "soP" = (
 /obj/structure/disposalpipe/segment{
@@ -30005,7 +30039,11 @@
 /turf/open/floor/plasteel/ridged/steel,
 /area/nsv/weapons/gauss)
 "swF" = (
-/obj/machinery/vending/wardrobe/cargo_wardrobe,
+/obj/effect/turf_decal/ship/delivery/yellow,
+/mob/living/simple_animal/bot/mulebot{
+	home_destination = "QM #3";
+	suffix = "#3"
+	},
 /turf/open/floor/plasteel/grid/steel,
 /area/quartermaster/storage)
 "sxa" = (
@@ -30562,11 +30600,7 @@
 /turf/open/floor/monotile,
 /area/quartermaster/storage)
 "sPQ" = (
-/obj/effect/turf_decal/ship/delivery/yellow,
-/mob/living/simple_animal/bot/mulebot{
-	home_destination = "QM #3";
-	suffix = "#3"
-	},
+/obj/machinery/vending/wardrobe/cargo_wardrobe,
 /turf/open/floor/plasteel/grid/steel,
 /area/quartermaster/storage)
 "sPU" = (
@@ -34035,13 +34069,13 @@
 /turf/open/floor/plating,
 /area/quartermaster/storage)
 "vhS" = (
+/obj/effect/turf_decal/delivery,
 /obj/machinery/button/door{
-	id = "cargo_dock1";
-	name = "cargo shutters";
+	id = "QMOffloaddoors";
+	name = "Loading Doors";
 	pixel_y = -24;
 	req_one_access_txt = "31;69"
 	},
-/obj/effect/turf_decal/delivery,
 /turf/open/floor/plasteel/grid/steel,
 /area/quartermaster/storage)
 "vhU" = (
@@ -35004,8 +35038,8 @@
 	id = "QMOffload"
 	},
 /obj/machinery/door/poddoor/shutters/ship{
-	id = "cargo_dock1";
-	name = "cargo shutters"
+	id = "QMOffloaddoors";
+	name = "Supply Dock Loading Door"
 	},
 /turf/open/floor/plating,
 /area/quartermaster/storage)
@@ -35139,8 +35173,8 @@
 	id = "QMOnload"
 	},
 /obj/machinery/door/poddoor/shutters/ship{
-	id = "cargo_dock2";
-	name = "cargo shutters"
+	id = "QMOnloaddoors";
+	name = "Supply Dock Loading Door"
 	},
 /turf/open/floor/plating,
 /area/quartermaster/storage)
@@ -35314,6 +35348,12 @@
 /obj/item/reagent_containers/glass/bucket,
 /turf/open/floor/monotile/dark,
 /area/hydroponics/garden)
+"vYr" = (
+/obj/effect/turf_decal/loading_area{
+	dir = 8
+	},
+/turf/open/floor/monotile,
+/area/quartermaster/storage)
 "vZv" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	dir = 9
@@ -36029,9 +36069,7 @@
 /turf/open/floor/monotile,
 /area/engine/atmos)
 "wwi" = (
-/obj/effect/turf_decal/loading_area{
-	dir = 8
-	},
+/obj/effect/turf_decal/loading_area,
 /turf/open/floor/monotile,
 /area/quartermaster/storage)
 "wwK" = (
@@ -65854,7 +65892,7 @@ tjt
 bdC
 vNu
 fnB
-ooT
+vNu
 aaa
 aaa
 aaa
@@ -68415,9 +68453,9 @@ qYe
 kTc
 nfh
 tjt
+vYr
+vYr
 tjt
-tjt
-wwi
 wwi
 kgv
 fVI
@@ -68675,7 +68713,7 @@ rQO
 sgj
 swF
 sPQ
-sPQ
+itG
 mwJ
 mwJ
 lDZ
@@ -82779,7 +82817,7 @@ qtW
 jpR
 fRc
 kbQ
-kbU
+lEH
 lkl
 pOD
 qtW
