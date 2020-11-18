@@ -1842,6 +1842,9 @@
 /obj/machinery/power/apc/auto_name/west,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/obj/structure/cable{
+	icon_state = "0-4"
+	},
 /turf/open/floor/monotile/dark,
 /area/science/mixing)
 "aZj" = (
@@ -2462,6 +2465,9 @@
 	dir = 10
 	},
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer1,
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
 /turf/open/floor/monotile,
 /area/science/mixing)
 "bnk" = (
@@ -2523,6 +2529,9 @@
 /obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer3{
 	dir = 4
 	},
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
 /turf/open/floor/monotile/dark,
 /area/science/mixing)
 "bpk" = (
@@ -2562,6 +2571,9 @@
 /obj/effect/turf_decal/stripes/line,
 /obj/effect/landmark/xeno_spawn,
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3,
+/obj/structure/cable{
+	icon_state = "2-8"
+	},
 /turf/open/floor/monotile,
 /area/science/mixing)
 "bpR" = (
@@ -5902,7 +5914,7 @@
 /area/nsv/hanger/notkmcstupidhanger/launchtube/left/airlock)
 "cWo" = (
 /obj/machinery/door/airlock/ship/public/glass{
-	name = "Science Break Room";
+	name = "Research Division Break Room";
 	req_one_access_txt = "47"
 	},
 /obj/machinery/door/firedoor/border_only{
@@ -11498,7 +11510,6 @@
 /area/nsv/hanger/notkmcstupidhanger/launchtube/right/airlock)
 "fDy" = (
 /obj/effect/decal/cleanable/dirt,
-/obj/structure/rack,
 /obj/effect/spawner/lootdrop/maintenance/two,
 /obj/item/stack/sheet/mineral/copper{
 	amount = 10
@@ -30186,6 +30197,15 @@
 /obj/machinery/atmospherics/pipe/layer_manifold,
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck1/port/fore)
+"oHS" = (
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
+/obj/effect/landmark/event_spawn,
+/turf/open/floor/plating{
+	icon_state = "platingdmg3"
+	},
+/area/maintenance/nsv/weapons)
 "oHX" = (
 /obj/effect/turf_decal/delivery,
 /obj/structure/window/reinforced/spawner/west,
@@ -34240,7 +34260,7 @@
 /obj/structure/cable{
 	icon_state = "4-8"
 	},
-/turf/open/floor/monotile,
+/turf/open/floor/plating,
 /area/maintenance/nsv/deck1/port/fore)
 "qBP" = (
 /obj/effect/turf_decal/tile/neutral{
@@ -40231,9 +40251,13 @@
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck1/port/aft)
 "tBf" = (
-/obj/effect/spawner/structure/window/reinforced/ship,
-/turf/open/space/basic,
-/area/maintenance/nsv/deck1/port/aft)
+/obj/effect/spawner/lootdrop/maintenance,
+/obj/structure/rack,
+/obj/item/stack/sheet/mineral/copper{
+	amount = 10
+	},
+/turf/open/floor/plating,
+/area/maintenance/nsv/deck1/aft)
 "tBz" = (
 /obj/structure/table,
 /obj/item/paper_bin{
@@ -41369,6 +41393,7 @@
 "ufR" = (
 /obj/structure/bed,
 /obj/item/bedsheet/medical,
+/mob/living/carbon/monkey,
 /turf/open/floor/plasteel/freezer,
 /area/medical/virology)
 "ufX" = (
@@ -49330,6 +49355,9 @@
 "xVr" = (
 /obj/item/assembly/prox_sensor,
 /obj/effect/decal/cleanable/dirt,
+/obj/machinery/light/small{
+	dir = 4
+	},
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck1/aft)
 "xVx" = (
@@ -64465,7 +64493,7 @@ qDo
 tbM
 czD
 fDy
-dtN
+tBf
 sFG
 bnQ
 vMs
@@ -68821,7 +68849,7 @@ dwy
 dwy
 dwy
 dwy
-tBf
+oSL
 gVl
 fwF
 bwm
@@ -71650,7 +71678,7 @@ ogD
 ogD
 aWv
 mKe
-qBX
+vCb
 sbu
 nny
 sbu
@@ -87377,7 +87405,7 @@ roe
 iSy
 nUM
 nUM
-fhM
+oHS
 aIS
 hAM
 nmT

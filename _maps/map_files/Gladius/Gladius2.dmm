@@ -11176,6 +11176,7 @@
 /area/hydroponics)
 "hgP" = (
 /obj/structure/closet/crate,
+/obj/effect/spawner/lootdrop/maintenance,
 /turf/open/floor/plating,
 /area/maintenance/disposal)
 "hhl" = (
@@ -16416,6 +16417,10 @@
 /obj/structure/ladder,
 /turf/open/floor/plating,
 /area/maintenance/department/cargo)
+"kxR" = (
+/obj/effect/spawner/lootdrop/maintenance,
+/turf/open/floor/plating,
+/area/maintenance/disposal)
 "kyD" = (
 /obj/structure/ladder,
 /turf/open/floor/engine/vacuum,
@@ -18749,7 +18754,9 @@
 	pixel_y = -2
 	},
 /obj/item/cartridge/janitor,
-/obj/machinery/firealarm/directional/east,
+/obj/machinery/light{
+	dir = 4
+	},
 /turf/open/floor/plasteel/techmaint,
 /area/janitor)
 "lRK" = (
@@ -19148,6 +19155,7 @@
 /obj/item/reagent_containers/spray/cleaner{
 	pixel_x = 5
 	},
+/obj/machinery/firealarm/directional/east,
 /turf/open/floor/plasteel/techmaint,
 /area/janitor)
 "mes" = (
@@ -28424,9 +28432,6 @@
 	dir = 8
 	},
 /obj/effect/turf_decal/tile/neutral,
-/obj/effect/turf_decal/tile/neutral{
-	dir = 8
-	},
 /obj/machinery/newscaster/directional/north,
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3,
 /turf/open/floor/monotile,
@@ -62562,7 +62567,7 @@ tOR
 tOR
 tOR
 hOQ
-lwu
+kxR
 bNp
 mqc
 aaa
