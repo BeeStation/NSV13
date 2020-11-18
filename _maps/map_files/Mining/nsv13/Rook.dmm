@@ -27,13 +27,13 @@
 "bf" = (
 /obj/machinery/advanced_airlock_controller/directional/east,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
-/obj/machinery/atmospherics/components/binary/dp_vent_pump/layer3,
 /obj/effect/turf_decal/stripes/line{
 	dir = 1
 	},
 /obj/effect/turf_decal/stripes/line{
 	dir = 4
 	},
+/obj/machinery/atmospherics/components/binary/dp_vent_pump/layer1,
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/nostromo/engineering)
 "bq" = (
@@ -144,6 +144,10 @@
 /obj/machinery/door/firedoor/border_only/directional/north,
 /obj/machinery/door/firedoor/border_only/directional/south,
 /obj/machinery/door/airlock/ship/public,
+/obj/effect/mapping_helpers/airlock/cyclelink_helper{
+	dir = 1;
+	icon_state = "airlock_cyclelink_helper"
+	},
 /turf/open/floor/carpet/ship,
 /area/nostromo/engineering)
 "eB" = (
@@ -317,6 +321,10 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
 /obj/machinery/door/firedoor/border_only/directional/north,
 /obj/machinery/door/firedoor/border_only/directional/south,
+/obj/effect/mapping_helpers/airlock/cyclelink_helper{
+	dir = 1;
+	icon_state = "airlock_cyclelink_helper"
+	},
 /turf/open/floor/carpet/ship,
 /area/nostromo/crew_quarters)
 "hS" = (
@@ -390,6 +398,10 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
 /obj/machinery/door/firedoor/border_only/directional/north,
 /obj/machinery/door/firedoor/border_only/directional/south,
+/obj/effect/mapping_helpers/airlock/cyclelink_helper{
+	dir = 1;
+	icon_state = "airlock_cyclelink_helper"
+	},
 /turf/open/floor/carpet/ship,
 /area/nostromo/engineering)
 "ki" = (
@@ -648,7 +660,8 @@
 /area/nostromo/hangar/starboard)
 "rS" = (
 /obj/effect/mapping_helpers/airlock/cyclelink_helper,
-/obj/machinery/atmospherics/pipe/layer_manifold,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
 /obj/machinery/door/airlock/ship/external/glass{
 	dir = 4;
 	name = "Pressurization chamber";
@@ -795,6 +808,16 @@
 	},
 /turf/open/floor/carpet/ship,
 /area/nostromo/hangar/starboard)
+"wj" = (
+/obj/machinery/door/airlock/ship/public,
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
+/obj/machinery/door/firedoor/border_only/directional/north,
+/obj/machinery/door/firedoor/border_only/directional/south,
+/obj/effect/mapping_helpers/airlock/cyclelink_helper,
+/turf/open/floor/carpet/ship,
+/area/nostromo/crew_quarters)
 "wk" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	dir = 4
@@ -828,6 +851,15 @@
 	},
 /turf/open/floor/carpet/ship/blue,
 /area/nostromo/bridge)
+"wR" = (
+/obj/machinery/door/airlock/ship/public,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
+/obj/machinery/door/firedoor/border_only/directional/north,
+/obj/machinery/door/firedoor/border_only/directional/south,
+/obj/effect/mapping_helpers/airlock/cyclelink_helper,
+/turf/open/floor/carpet/ship,
+/area/nostromo/crew_quarters)
 "xw" = (
 /obj/machinery/computer/ship/helm{
 	dir = 8;
@@ -1401,6 +1433,7 @@
 	},
 /obj/machinery/door/firedoor/border_only/directional/north,
 /obj/machinery/door/firedoor/border_only/directional/south,
+/obj/effect/mapping_helpers/airlock/cyclelink_helper,
 /turf/open/floor/carpet/ship,
 /area/nostromo/hangar/starboard)
 "NX" = (
@@ -1505,6 +1538,10 @@
 	},
 /obj/machinery/door/firedoor/border_only/directional/north,
 /obj/machinery/door/firedoor/border_only/directional/south,
+/obj/effect/mapping_helpers/airlock/cyclelink_helper{
+	dir = 1;
+	icon_state = "airlock_cyclelink_helper"
+	},
 /turf/open/floor/carpet/ship,
 /area/nostromo/crew_quarters)
 "Pd" = (
@@ -1776,6 +1813,7 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
 /obj/machinery/door/firedoor/border_only/directional/north,
 /obj/machinery/door/firedoor/border_only/directional/south,
+/obj/effect/mapping_helpers/airlock/cyclelink_helper,
 /turf/open/floor/carpet/ship,
 /area/nostromo/hangar/starboard)
 "UW" = (
@@ -37092,7 +37130,7 @@ uB
 xL
 JI
 TL
-Pb
+wj
 jt
 NX
 jt
@@ -37349,7 +37387,7 @@ Oy
 zx
 Zt
 BR
-hL
+wR
 DX
 bV
 DX
