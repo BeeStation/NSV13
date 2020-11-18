@@ -299,7 +299,7 @@ Control Rods
 		if(!istype(Proj.firer, /obj/structure/particle_accelerator/particle_emitter))
 			investigate_log("has been hit by [Proj] fired by [key_name(Proj.firer)]", INVESTIGATE_SUPERMATTER)
 		if(Proj.flag != "bullet")
-			reactor_stability -= Proj.damage / 10
+			reactor_stability -= Proj.damage / 15
 		else
 			reactor_stability -= Proj.damage / 100 //It is pretty durable
 		return BULLET_ACT_HIT
@@ -626,7 +626,7 @@ Control Rods
 		heat_gain = initial(heat_gain) + reaction_rate
 		reaction_chamber_gases.clear()
 
-		if(air1.total_moles() > ((reaction_rate * 4) + 20)) //Overpressurized input
+		if(air1.total_moles() > ((reaction_rate * 10) + 20)) //Overpressurized input
 			reactor_stability -= 0.51 //Enough to counter below
 
 		if(fuel_check >= 25) //1:4 fuel ratio
@@ -1290,17 +1290,10 @@ Control Rods
 	var/effective_fuel = 0
 
 	var/datum/gas_mixture/air1 = reactor.airs[1]
-	effective_fuel = air1.get_moles(/datum/gas/plasma) * LOW_ROR + \
-				air1.get_moles(/datum/gas/constricted_plasma) * NORMAL_ROR + \
-				air1.get_moles(/datum/gas/carbon_dioxide) * HINDER_ROR + \
-				air1.get_moles(/datum/gas/water_vapor) * HINDER_ROR + \
-				air1.get_moles(/datum/gas/tritium) * HIGH_ROR
-	if(effective_fuel < 0)
-		effective_fuel = 0
 
 	data["fuel_mix"] = air1.get_moles(/datum/gas/plasma) + air1.get_moles(/datum/gas/constricted_plasma) + air1.get_moles(/datum/gas/tritium)
-	data["mole_threshold_high"] = (reactor.reaction_rate * 12) + 20
-	data["mole_threshold_very_high"] = (reactor.reaction_rate * 18) + 20
+	data["mole_threshold_high"] = (reactor.reaction_rate * 10) + 20
+	data["mole_threshold_very_high"] = (reactor.reaction_rate * 16) + 20
 
 	data["fuel"] = effective_fuel
 	data["o2"] = air1.get_moles(/datum/gas/oxygen)
