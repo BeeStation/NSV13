@@ -19,6 +19,17 @@
 					/obj/item/ship_weapon/ammunition/railgun_ammo)
 	crate_name = "Railgun ammunition"
 
+/datum/supply_pack/munitions/mac
+	name = "500mm MAC shells (x5)"
+	desc = "A set of 5 tungsten cased explosive MAC shells."
+	cost = 6250
+	contains = list(/obj/item/ship_weapon/ammunition/mac_ammo,
+					/obj/item/ship_weapon/ammunition/mac_ammo,
+					/obj/item/ship_weapon/ammunition/mac_ammo,
+					/obj/item/ship_weapon/ammunition/mac_ammo,
+					/obj/item/ship_weapon/ammunition/mac_ammo)
+	crate_name = "MAC ammunition"
+
 /datum/supply_pack/munitions/pdc
 	name = "PDC rounds (x5)"
 	desc = "5 boxes of PDC ammunition. Typically used to keep small enemy ships from harassing capital ships."

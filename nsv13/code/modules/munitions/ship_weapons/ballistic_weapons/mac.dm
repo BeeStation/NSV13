@@ -8,7 +8,7 @@
 	desc = "An extremely powerful electromagnet which can accelerate a projectile to devastating speeds."
 	icon_state = "MAC"
 	fire_mode = FIRE_MODE_MAC
-	ammo_type = /obj/item/ship_weapon/ammunition/railgun_ammo
+	ammo_type = /obj/item/ship_weapon/ammunition/mac_ammo
 	pixel_y = -64
 	bound_width = 128
 	bound_height = 64
