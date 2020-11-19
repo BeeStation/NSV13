@@ -544,7 +544,7 @@ kill station
   payout = 3000
 
 /datum/nsv_mission/explore/register()
-  destination = SSstar_system.system_by_id = "Rubicon"
+  destination = SSstar_system.system_by_id("Rubicon")
   destination.active_missions += src
   update_description()
   return TRUE
