@@ -264,9 +264,7 @@
 		if(last_overmap)
 			OM = last_overmap
 		else
-			for(var/obj/structure/overmap/O in GLOB.overmap_objects)
-				if(O.role == MAIN_OVERMAP)
-					OM = O
+			OM = get_overmap()
 		if(!OM)
 			return FALSE
 		var/saved_layer = layer
