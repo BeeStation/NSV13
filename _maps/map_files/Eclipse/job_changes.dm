@@ -38,6 +38,7 @@ MAP_REMOVE_JOB(warden)
 MAP_REMOVE_JOB(detective)
 MAP_REMOVE_JOB(officer)
 MAP_REMOVE_JOB(deputy)
+MAP_REMOVE_JOB(brig_phys)
 //Special
 MAP_REMOVE_JOB(cyborg)
 //Munitions
