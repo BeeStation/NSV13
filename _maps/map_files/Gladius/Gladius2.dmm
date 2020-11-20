@@ -947,6 +947,7 @@
 "aKK" = (
 /obj/effect/decal/cleanable/dirt,
 /obj/machinery/firealarm/directional/west,
+/obj/effect/spawner/lootdrop/maintenance,
 /turf/open/floor/plasteel/techmaint,
 /area/quartermaster/warehouse)
 "aLf" = (
@@ -16761,7 +16762,6 @@
 /obj/structure/cable{
 	icon_state = "0-8"
 	},
-/obj/effect/spawner/lootdrop/maintenance,
 /turf/open/floor/plasteel/techmaint,
 /area/quartermaster/warehouse)
 "ksS" = (
@@ -24148,12 +24148,6 @@
 	},
 /turf/open/floor/monotile,
 /area/storage/primary)
-"oNz" = (
-/obj/structure/light_construct/small{
-	dir = 4
-	},
-/turf/open/floor/plasteel/techmaint,
-/area/quartermaster/warehouse)
 "oNF" = (
 /obj/effect/turf_decal/pool{
 	dir = 8
@@ -24293,6 +24287,9 @@
 /obj/structure/closet/crate/freezer,
 /obj/effect/decal/cleanable/dirt,
 /obj/effect/spawner/lootdrop/maintenance,
+/obj/structure/light_construct/small{
+	dir = 4
+	},
 /turf/open/floor/plasteel/techmaint,
 /area/quartermaster/warehouse)
 "oTv" = (
@@ -25110,9 +25107,6 @@
 /area/maintenance/nsv/deck2/port/aft)
 "pqa" = (
 /obj/structure/closet/crate/secure/loot,
-/obj/structure/light_construct/small{
-	dir = 8
-	},
 /turf/open/floor/plasteel/techmaint,
 /area/quartermaster/warehouse)
 "pqj" = (
@@ -25245,8 +25239,7 @@
 /turf/open/floor/plasteel/grid/techfloor/grid/airless,
 /area/tcommsat/server)
 "ptn" = (
-/obj/structure/closet/cardboard,
-/obj/item/ship_weapon/ammunition/countermeasure_charge,
+/obj/item/ship_weapon/ammunition/torpedo/freight,
 /turf/open/floor/plasteel/techmaint,
 /area/quartermaster/warehouse)
 "ptu" = (
@@ -25832,6 +25825,9 @@
 /obj/item/paper,
 /obj/item/storage/box/lights/mixed,
 /obj/effect/decal/cleanable/dirt,
+/obj/structure/light_construct/small{
+	dir = 8
+	},
 /turf/open/floor/plasteel/techmaint,
 /area/quartermaster/warehouse)
 "pMl" = (
@@ -26627,8 +26623,9 @@
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/frame1/starboard)
 "qjA" = (
-/obj/effect/spawner/lootdrop/maintenance/three,
 /obj/effect/decal/cleanable/dirt,
+/obj/structure/closet/cardboard,
+/obj/item/ship_weapon/ammunition/countermeasure_charge,
 /turf/open/floor/plasteel/techmaint,
 /area/quartermaster/warehouse)
 "qjC" = (
@@ -33220,6 +33217,11 @@
 /obj/structure/lattice/catwalk/over/ship,
 /turf/open/floor/plating,
 /area/engine/engineering/reactor_core)
+"tZx" = (
+/obj/effect/decal/cleanable/dirt,
+/obj/effect/spawner/lootdrop/maintenance/three,
+/turf/open/floor/plasteel/tech/grid,
+/area/quartermaster/warehouse)
 "tZH" = (
 /obj/effect/turf_decal/tile/neutral{
 	dir = 1
@@ -69151,7 +69153,7 @@ upL
 gCq
 ydc
 oGK
-pdN
+tZx
 pdN
 xep
 xAs
@@ -69666,7 +69668,7 @@ nHG
 ydc
 iaP
 oSX
-oNz
+ptn
 ptn
 ksM
 qjA
