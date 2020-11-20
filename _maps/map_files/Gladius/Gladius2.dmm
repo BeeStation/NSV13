@@ -937,6 +937,10 @@
 /obj/structure/window/reinforced,
 /turf/open/floor/plating,
 /area/crew_quarters/fitness/recreation)
+"aJc" = (
+/obj/effect/landmark/start/atmospheric_technician,
+/turf/open/floor/plating,
+/area/engine/atmos)
 "aKF" = (
 /obj/item/drone_shell,
 /obj/structure/sign/poster/contraband/free_drone{
@@ -1603,9 +1607,6 @@
 /area/chapel/main)
 "blM" = (
 /obj/structure/closet/radiation,
-/obj/effect/turf_decal/stripes/line{
-	dir = 10
-	},
 /obj/effect/turf_decal/ship/outline,
 /obj/item/tank/internals/oxygen/yellow,
 /obj/item/clothing/mask/gas,
@@ -2504,7 +2505,6 @@
 /turf/open/floor/monotile,
 /area/quartermaster/sorting)
 "bQO" = (
-/obj/machinery/holopad,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 8
 	},
@@ -2556,12 +2556,12 @@
 /turf/open/floor/plating,
 /area/hallway/nsv/deck2/frame1/central)
 "bTd" = (
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
 /obj/machinery/computer/telecomms/server{
 	dir = 4;
 	network = "tcommsat"
-	},
-/obj/structure/cable{
-	icon_state = "4-8"
 	},
 /turf/open/floor/monotile/light,
 /area/tcommsat/computer)
@@ -8048,9 +8048,6 @@
 /obj/machinery/shower{
 	dir = 8
 	},
-/obj/effect/turf_decal/stripes/line{
-	dir = 6
-	},
 /obj/effect/turf_decal/ship/outline,
 /turf/open/floor/monotile/dark,
 /area/engine/engineering/reactor_control)
@@ -13348,9 +13345,6 @@
 /turf/open/floor/monotile,
 /area/crew_quarters/dorms)
 "imQ" = (
-/obj/effect/turf_decal/stripes/line{
-	dir = 5
-	},
 /obj/machinery/light{
 	dir = 1
 	},
@@ -13365,6 +13359,9 @@
 	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 8
+	},
+/obj/effect/turf_decal/stripes/line{
+	dir = 1
 	},
 /turf/open/floor/monotile/dark,
 /area/engine/engineering/reactor_control)
@@ -17505,31 +17502,6 @@
 	},
 /turf/open/floor/carpet/purple,
 /area/library)
-"kTW" = (
-/obj/structure/disposalpipe/segment{
-	dir = 4
-	},
-/obj/machinery/door/firedoor/border_only{
-	dir = 4
-	},
-/obj/machinery/door/firedoor/border_only{
-	dir = 8
-	},
-/obj/machinery/door/airlock/ship/engineering{
-	name = "Engineering Construction Storage";
-	req_access_txt = "10;24"
-	},
-/obj/structure/cable{
-	icon_state = "4-8"
-	},
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
-	dir = 4
-	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
-	dir = 8
-	},
-/turf/open/floor/monotile/dark,
-/area/engine/storage)
 "kUW" = (
 /obj/machinery/hydroponics/constructable,
 /obj/effect/turf_decal/stripes/corner{
@@ -18469,6 +18441,9 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 8
 	},
+/obj/effect/turf_decal/stripes/line{
+	dir = 8
+	},
 /turf/open/floor/plasteel/grid/lino,
 /area/engine/engineering/reactor_control)
 "lwn" = (
@@ -18505,7 +18480,10 @@
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/starboard/fore)
 "lwW" = (
-/obj/effect/landmark/start/atmospheric_technician,
+/obj/machinery/atmospherics/components/unary/thermomachine/heater{
+	dir = 4;
+	piping_layer = 3
+	},
 /turf/open/floor/plating,
 /area/engine/atmos)
 "lxc" = (
@@ -18959,7 +18937,8 @@
 /area/library)
 "lJd" = (
 /obj/machinery/computer/telecomms/monitor{
-	dir = 4
+	dir = 4;
+	network = "tcommsat"
 	},
 /turf/open/floor/monotile/light,
 /area/tcommsat/computer)
@@ -20164,9 +20143,9 @@
 /turf/open/floor/engine,
 /area/engine/engineering/reactor_core)
 "muu" = (
-/obj/machinery/atmospherics/components/unary/thermomachine/heater{
+/obj/machinery/atmospherics/components/unary/thermomachine/freezer{
 	dir = 8;
-	piping_layer = 3
+	piping_layer = 1
 	},
 /turf/open/floor/plating,
 /area/engine/atmos)
@@ -23842,9 +23821,7 @@
 /area/maintenance/nsv/deck2/starboard/fore)
 "oAk" = (
 /obj/item/wrench,
-/obj/machinery/atmospherics/pipe/manifold/general/visible/layer3{
-	dir = 8
-	},
+/obj/machinery/atmospherics/pipe/manifold4w/general/visible/layer3,
 /turf/open/floor/plating,
 /area/engine/atmos)
 "oAm" = (
@@ -24784,7 +24761,6 @@
 /obj/effect/turf_decal/ship/techfloor{
 	dir = 10
 	},
-/obj/item/paper/monitorkey,
 /obj/item/flashlight/lamp,
 /turf/open/floor/plasteel/techmaint,
 /area/crew_quarters/heads/chief)
@@ -27389,9 +27365,6 @@
 /turf/open/floor/monotile,
 /area/shuttle/turbolift)
 "qDb" = (
-/obj/effect/turf_decal/stripes/line{
-	dir = 9
-	},
 /obj/machinery/atmospherics/pipe/simple/purple/hidden{
 	dir = 4
 	},
@@ -27406,6 +27379,9 @@
 	},
 /obj/structure/sign/ship/radiation{
 	pixel_y = 30
+	},
+/obj/effect/turf_decal/stripes/line{
+	dir = 1
 	},
 /turf/open/floor/monotile/dark,
 /area/engine/engineering/reactor_control)
@@ -28515,6 +28491,9 @@
 /area/crew_quarters/fitness/pool_area)
 "rhL" = (
 /obj/machinery/firealarm/directional/west,
+/obj/effect/turf_decal/stripes/corner{
+	dir = 8
+	},
 /turf/open/floor/plasteel/grid/lino,
 /area/engine/engineering/reactor_control)
 "rhV" = (
@@ -29377,6 +29356,10 @@
 /obj/effect/turf_decal/ship/shutoff,
 /turf/open/floor/monotile,
 /area/tcommsat/computer)
+"rId" = (
+/obj/machinery/holopad,
+/turf/open/floor/carpet/green,
+/area/engine/engineering/reactor_control)
 "rIj" = (
 /obj/effect/turf_decal/delivery,
 /obj/machinery/light/small,
@@ -29663,11 +29646,11 @@
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/starboard/fore)
 "rPo" = (
-/obj/machinery/modular_computer/console/preset/engineering{
-	dir = 4
-	},
 /obj/structure/cable/yellow{
 	icon_state = "0-4"
+	},
+/obj/machinery/computer/monitor{
+	dir = 4
 	},
 /turf/open/floor/plasteel/grid/lino,
 /area/engine/engineering/reactor_control)
@@ -29736,6 +29719,9 @@
 	icon_state = "1-8"
 	},
 /obj/machinery/light_switch/east,
+/obj/effect/turf_decal/stripes/corner{
+	dir = 4
+	},
 /turf/open/floor/plasteel/grid/lino,
 /area/engine/engineering/reactor_control)
 "rRx" = (
@@ -33219,6 +33205,13 @@
 	},
 /turf/open/floor/plating,
 /area/engine/engineering/hangar)
+"tXA" = (
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
+/obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1{
+	dir = 4
+	},
+/turf/open/floor/plasteel/grid/steel,
+/area/engine/atmos)
 "tYa" = (
 /obj/effect/turf_decal/pool/corner{
 	dir = 4
@@ -34444,6 +34437,7 @@
 /obj/machinery/light{
 	dir = 4
 	},
+/obj/effect/turf_decal/stripes/corner,
 /turf/open/floor/plasteel/grid/lino,
 /area/engine/engineering/reactor_control)
 "uOL" = (
@@ -35051,10 +35045,6 @@
 /turf/open/floor/monotile,
 /area/hallway/nsv/deck2/frame1/starboard)
 "vlW" = (
-/obj/machinery/door/airlock/ship/engineering{
-	name = "Engineering Construction Storage";
-	req_access_txt = "10;24"
-	},
 /obj/structure/disposalpipe/segment{
 	dir = 4
 	},
@@ -35072,6 +35062,10 @@
 	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 8
+	},
+/obj/machinery/door/airlock/ship/engineering{
+	name = "Engineering Construction Storage";
+	req_one_access_txt = "10;24"
 	},
 /turf/open/floor/monotile/dark,
 /area/engine/storage)
@@ -35380,6 +35374,9 @@
 	},
 /obj/structure/cable/yellow{
 	icon_state = "1-2"
+	},
+/obj/effect/turf_decal/stripes/line{
+	dir = 4
 	},
 /turf/open/floor/plasteel/grid/lino,
 /area/engine/engineering/reactor_control)
@@ -36114,6 +36111,12 @@
 	},
 /turf/open/floor/monotile,
 /area/engine/atmos)
+"vTc" = (
+/obj/effect/turf_decal/stripes/corner{
+	dir = 1
+	},
+/turf/open/floor/plasteel/grid/lino,
+/area/engine/engineering/reactor_control)
 "vTk" = (
 /obj/machinery/airalarm/directional/south,
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer1{
@@ -38758,6 +38761,7 @@
 /obj/effect/turf_decal/ship/techfloor{
 	dir = 1
 	},
+/obj/item/paper/monitorkey,
 /turf/open/floor/plasteel/techmaint,
 /area/crew_quarters/heads/chief)
 "xDS" = (
@@ -53205,9 +53209,9 @@ aaa
 aaa
 aaa
 aaa
-aaa
-aaa
-aaa
+ncg
+ncg
+ncg
 aaa
 uCi
 cCg
@@ -53463,9 +53467,9 @@ aaa
 aaa
 aaa
 ncg
+cCg
 ncg
-ncg
-aaa
+uCi
 cCg
 cCg
 cCg
@@ -53722,7 +53726,7 @@ aaa
 ncg
 cCg
 ncg
-uCi
+aaa
 cCg
 cCg
 aaa
@@ -58132,7 +58136,7 @@ kHT
 ecj
 ecj
 pWy
-kTW
+vlW
 iaa
 iaa
 uhi
@@ -59923,7 +59927,7 @@ rWy
 bFg
 rhL
 luU
-bFg
+vTc
 vQt
 bbX
 mUj
@@ -60174,7 +60178,7 @@ fTt
 mRc
 xTK
 xTK
-xTK
+rId
 bQC
 xTK
 bFg
@@ -62731,7 +62735,7 @@ qhg
 cmQ
 mgV
 lwW
-iSG
+aJc
 scw
 nNo
 gpO
@@ -62988,7 +62992,7 @@ gML
 wfB
 nwK
 oAk
-wfB
+clh
 ksB
 nNo
 mDO
@@ -63502,7 +63506,7 @@ sfM
 aan
 aan
 aan
-aan
+tXA
 leQ
 aan
 arW
