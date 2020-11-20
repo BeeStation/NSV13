@@ -5876,10 +5876,6 @@
 "dZT" = (
 /turf/open/floor/monotile,
 /area/lawoffice)
-"eae" = (
-/obj/machinery/holopad,
-/turf/open/floor/carpet/green,
-/area/engine/engineering/reactor_control)
 "eas" = (
 /obj/structure/cable{
 	icon_state = "1-8"
@@ -6957,7 +6953,7 @@
 "eGU" = (
 /obj/machinery/atmospherics/pipe/simple/purple/hidden,
 /obj/machinery/door/airlock/ship/hatch{
-	name = "Reactor Core Access";
+	name = "Stormdrive Engine";
 	req_one_access_txt = "10"
 	},
 /obj/structure/cable/yellow{
@@ -8346,10 +8342,6 @@
 /obj/machinery/light,
 /turf/open/floor/monotile,
 /area/quartermaster/miningoffice)
-"ftn" = (
-/obj/effect/landmark/start/atmospheric_technician,
-/turf/open/floor/plating,
-/area/engine/atmos)
 "ftL" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	dir = 4
@@ -8857,12 +8849,6 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/department/crew_quarters/dorms)
-"fGU" = (
-/obj/effect/turf_decal/stripes/corner{
-	dir = 1
-	},
-/turf/open/floor/plasteel/grid/lino,
-/area/engine/engineering/reactor_control)
 "fGV" = (
 /obj/machinery/door/airlock/ship/maintenance/defaultaccess{
 	name = "Maintenance Access Crew Quarters"
@@ -9002,7 +8988,6 @@
 /turf/open/floor/wood,
 /area/crew_quarters/bar)
 "fLw" = (
-/obj/machinery/vending/tool,
 /obj/effect/turf_decal/tile/yellow,
 /obj/effect/turf_decal/tile/yellow{
 	dir = 8
@@ -10101,7 +10086,6 @@
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/starboard/aft)
 "gpO" = (
-/obj/machinery/power/apc/auto_name/south,
 /obj/effect/turf_decal/tile/yellow,
 /obj/effect/turf_decal/tile/yellow{
 	dir = 8
@@ -10117,6 +10101,9 @@
 	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	dir = 4
+	},
+/obj/machinery/power/apc/auto_name/south{
+	cell_type = /obj/item/stock_parts/cell/high
 	},
 /turf/open/floor/monotile,
 /area/engine/atmos)
@@ -11488,14 +11475,9 @@
 /obj/structure/cable{
 	icon_state = "0-4"
 	},
-/obj/machinery/power/apc/auto_name/south,
-/obj/structure/table/reinforced,
-/obj/item/paper_bin,
-/obj/item/geiger_counter{
-	desc = "It's capped at 3.6 Roentgen. Not great, not terrible.";
-	name = "\improper Dossimiter"
+/obj/machinery/power/apc/auto_name/south{
+	cell_type = /obj/item/stock_parts/cell/high
 	},
-/obj/item/pen,
 /turf/open/floor/plasteel/techmaint,
 /area/engine/engineering/reactor_core)
 "hgH" = (
@@ -13248,13 +13230,6 @@
 	dir = 4
 	},
 /turf/open/floor/engine/n2,
-/area/engine/atmos)
-"iko" = (
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
-/obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1{
-	dir = 4
-	},
-/turf/open/floor/plasteel/grid/steel,
 /area/engine/atmos)
 "ikz" = (
 /obj/structure/cable{
@@ -16491,6 +16466,10 @@
 /obj/machinery/lazylift_button,
 /turf/closed/wall/ship,
 /area/shuttle/turbolift/secondary)
+"kgM" = (
+/obj/effect/landmark/start/atmospheric_technician,
+/turf/open/floor/plating,
+/area/engine/atmos)
 "kgV" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	dir = 10
@@ -23962,6 +23941,12 @@
 /obj/structure/grille,
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/frame1/starboard)
+"oDO" = (
+/obj/effect/turf_decal/stripes/corner{
+	dir = 1
+	},
+/turf/open/floor/plasteel/grid/lino,
+/area/engine/engineering/reactor_control)
 "oEn" = (
 /obj/effect/decal/cleanable/dirt,
 /turf/open/floor/plasteel/techmaint,
@@ -25224,6 +25209,10 @@
 	},
 /turf/open/floor/plating,
 /area/engine/break_room)
+"psd" = (
+/obj/machinery/holopad,
+/turf/open/floor/carpet/green,
+/area/engine/engineering/reactor_control)
 "psy" = (
 /obj/effect/turf_decal/tile/neutral{
 	dir = 4
@@ -29038,6 +29027,7 @@
 /obj/structure/table,
 /obj/item/stack/sheet/mineral/titanium/fifty,
 /obj/item/stack/sheet/iron/fifty,
+/obj/item/book/manual/wiki/rbmk,
 /turf/open/floor/plasteel/techmaint,
 /area/engine/engineering/reactor_core)
 "rwR" = (
@@ -33583,7 +33573,12 @@
 /obj/machinery/light{
 	dir = 8
 	},
-/obj/item/book/manual/wiki/rbmk,
+/obj/item/paper_bin,
+/obj/item/geiger_counter{
+	desc = "It's capped at 3.6 Roentgen. Not great, not terrible.";
+	name = "\improper Dossimiter"
+	},
+/obj/item/pen,
 /turf/open/floor/plasteel/techmaint,
 /area/engine/engineering/reactor_core)
 "unj" = (
@@ -34400,7 +34395,9 @@
 /obj/structure/cable{
 	icon_state = "0-8"
 	},
-/obj/machinery/power/smes/engineering,
+/obj/machinery/power/smes/engineering{
+	output_level = 100000
+	},
 /obj/effect/turf_decal/ship/techfloor{
 	dir = 1
 	},
@@ -35653,6 +35650,13 @@
 	},
 /turf/open/floor/monotile/light,
 /area/crew_quarters/fitness/pool_area)
+"vFD" = (
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
+/obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1{
+	dir = 4
+	},
+/turf/open/floor/plasteel/grid/steel,
+/area/engine/atmos)
 "vFF" = (
 /obj/machinery/firealarm/directional/east,
 /turf/open/floor/monotile,
@@ -36614,9 +36618,11 @@
 /obj/structure/cable{
 	icon_state = "4-8"
 	},
-/obj/machinery/power/smes/engineering,
 /obj/effect/turf_decal/ship/techfloor{
 	dir = 9
+	},
+/obj/machinery/power/smes/engineering{
+	output_level = 100000
 	},
 /turf/open/floor/plasteel/techmaint,
 /area/engine/engine_smes)
@@ -59932,7 +59938,7 @@ rWy
 bFg
 rhL
 luU
-fGU
+oDO
 vQt
 bbX
 mUj
@@ -60183,7 +60189,7 @@ fTt
 mRc
 xTK
 xTK
-eae
+psd
 bQC
 xTK
 bFg
@@ -62740,7 +62746,7 @@ qhg
 cmQ
 mgV
 lwW
-ftn
+kgM
 scw
 nNo
 gpO
@@ -63511,7 +63517,7 @@ sfM
 aan
 aan
 aan
-iko
+vFD
 leQ
 aan
 arW
