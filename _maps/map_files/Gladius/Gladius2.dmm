@@ -7,6 +7,10 @@
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /turf/open/floor/plasteel/grid/steel,
 /area/engine/atmos)
+"aaw" = (
+/obj/effect/landmark/start/atmospheric_technician,
+/turf/open/floor/plating,
+/area/engine/atmos)
 "aaD" = (
 /obj/structure/chair/stool,
 /turf/open/floor/monotile,
@@ -1192,6 +1196,20 @@
 	},
 /turf/open/floor/monotile/dark,
 /area/engine/atmos)
+"aVk" = (
+/obj/structure/cable/yellow{
+	icon_state = "4-8"
+	},
+/obj/effect/turf_decal/ship/shutoff,
+/obj/machinery/power/terminal,
+/obj/structure/cable/yellow{
+	icon_state = "0-8"
+	},
+/obj/structure/cable/yellow{
+	icon_state = "0-4"
+	},
+/turf/open/floor/plasteel/grid/techfloor/grid,
+/area/engine/engine_smes)
 "aVm" = (
 /obj/effect/spawner/structure/window/plasma/reinforced,
 /turf/open/floor/plating,
@@ -3564,7 +3582,7 @@
 	},
 /obj/structure/plasticflaps/opaque,
 /turf/open/floor/plasteel/techmaint,
-/area/space)
+/area/quartermaster/storage)
 "czp" = (
 /obj/machinery/holopad,
 /turf/open/floor/monotile,
@@ -7500,12 +7518,6 @@
 /obj/machinery/atmospherics/pipe/manifold/green/hidden/layer1,
 /turf/open/floor/plasteel/grid/techfloor/grid,
 /area/engine/engineering/reactor_core)
-"eYX" = (
-/obj/effect/turf_decal/stripes/corner{
-	dir = 1
-	},
-/turf/open/floor/plasteel/grid/lino,
-/area/engine/engineering/reactor_control)
 "eYZ" = (
 /obj/effect/landmark/start/cook,
 /turf/open/floor/monotile/light,
@@ -14974,10 +14986,6 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/department/cargo)
-"jkq" = (
-/obj/machinery/holopad,
-/turf/open/floor/carpet/green,
-/area/engine/engineering/reactor_control)
 "jkr" = (
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3{
 	dir = 8
@@ -16903,20 +16911,6 @@
 /obj/effect/spawner/structure/window/reinforced,
 /turf/open/floor/plating,
 /area/storage/primary)
-"kyR" = (
-/obj/structure/cable/yellow{
-	icon_state = "4-8"
-	},
-/obj/effect/turf_decal/ship/shutoff,
-/obj/machinery/power/terminal,
-/obj/structure/cable/yellow{
-	icon_state = "0-8"
-	},
-/obj/structure/cable/yellow{
-	icon_state = "0-4"
-	},
-/turf/open/floor/plasteel/grid/techfloor/grid,
-/area/engine/engine_smes)
 "kzh" = (
 /obj/effect/turf_decal/tile/ship/full/blue,
 /obj/structure/window/reinforced{
@@ -22321,6 +22315,10 @@
 "nII" = (
 /turf/closed/wall/ship,
 /area/crew_quarters/toilet)
+"nIS" = (
+/obj/machinery/holopad,
+/turf/open/floor/carpet/green,
+/area/engine/engineering/reactor_control)
 "nIY" = (
 /obj/machinery/light{
 	dir = 4
@@ -26210,10 +26208,6 @@
 /obj/machinery/computer/ship/viewscreen,
 /turf/open/floor/monotile,
 /area/hallway/nsv/deck2/frame1/central)
-"pWe" = (
-/obj/effect/landmark/start/atmospheric_technician,
-/turf/open/floor/plating,
-/area/engine/atmos)
 "pWl" = (
 /obj/machinery/portable_atmospherics/scrubber,
 /obj/effect/turf_decal/delivery,
@@ -33479,6 +33473,12 @@
 /obj/machinery/newscaster/directional/east,
 /turf/open/floor/monotile,
 /area/vacant_room/office)
+"uir" = (
+/obj/effect/turf_decal/stripes/corner{
+	dir = 1
+	},
+/turf/open/floor/plasteel/grid/lino,
+/area/engine/engineering/reactor_control)
 "uiu" = (
 /obj/machinery/conveyor{
 	dir = 8;
@@ -33965,13 +33965,6 @@
 /obj/structure/plasticflaps,
 /turf/open/floor/plating,
 /area/quartermaster/sorting)
-"uyo" = (
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
-/obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1{
-	dir = 4
-	},
-/turf/open/floor/plasteel/grid/steel,
-/area/engine/atmos)
 "uyw" = (
 /obj/effect/decal/cleanable/oil,
 /turf/open/floor/plating,
@@ -36005,6 +35998,13 @@
 /obj/structure/cable,
 /turf/open/floor/monotile,
 /area/crew_quarters/dorms)
+"vOL" = (
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
+/obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1{
+	dir = 4
+	},
+/turf/open/floor/plasteel/grid/steel,
+/area/engine/atmos)
 "vON" = (
 /obj/effect/turf_decal/tile/ship/full/blue,
 /obj/structure/chair{
@@ -58925,7 +58925,7 @@ vMi
 sYp
 gcP
 fpT
-kyR
+aVk
 bpy
 vQt
 qQB
@@ -59950,7 +59950,7 @@ rWy
 bFg
 rhL
 luU
-eYX
+uir
 vQt
 bbX
 mUj
@@ -60201,7 +60201,7 @@ fTt
 mRc
 xTK
 xTK
-jkq
+nIS
 bQC
 xTK
 bFg
@@ -62758,7 +62758,7 @@ qhg
 cmQ
 mgV
 lwW
-pWe
+aaw
 scw
 nNo
 gpO
@@ -63529,7 +63529,7 @@ sfM
 aan
 aan
 aan
-uyo
+vOL
 leQ
 aan
 arW
