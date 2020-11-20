@@ -81,7 +81,6 @@
 		log_combat(user, target, "stunned")
 		return
 
-
 /obj/item/flashlight/atc_wavy_sticks //I dont know what theyre actually called :)
 	name = "Aircraft sigalling sticks"
 	desc = "A large set of fluorescent sticks used to direct aircraft around the hangar bay."
