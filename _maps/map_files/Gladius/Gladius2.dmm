@@ -937,10 +937,6 @@
 /obj/structure/window/reinforced,
 /turf/open/floor/plating,
 /area/crew_quarters/fitness/recreation)
-"aJc" = (
-/obj/effect/landmark/start/atmospheric_technician,
-/turf/open/floor/plating,
-/area/engine/atmos)
 "aKF" = (
 /obj/item/drone_shell,
 /obj/structure/sign/poster/contraband/free_drone{
@@ -5880,6 +5876,10 @@
 "dZT" = (
 /turf/open/floor/monotile,
 /area/lawoffice)
+"eae" = (
+/obj/machinery/holopad,
+/turf/open/floor/carpet/green,
+/area/engine/engineering/reactor_control)
 "eas" = (
 /obj/structure/cable{
 	icon_state = "1-8"
@@ -8346,6 +8346,10 @@
 /obj/machinery/light,
 /turf/open/floor/monotile,
 /area/quartermaster/miningoffice)
+"ftn" = (
+/obj/effect/landmark/start/atmospheric_technician,
+/turf/open/floor/plating,
+/area/engine/atmos)
 "ftL" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	dir = 4
@@ -8853,6 +8857,12 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/department/crew_quarters/dorms)
+"fGU" = (
+/obj/effect/turf_decal/stripes/corner{
+	dir = 1
+	},
+/turf/open/floor/plasteel/grid/lino,
+/area/engine/engineering/reactor_control)
 "fGV" = (
 /obj/machinery/door/airlock/ship/maintenance/defaultaccess{
 	name = "Maintenance Access Crew Quarters"
@@ -13238,6 +13248,13 @@
 	dir = 4
 	},
 /turf/open/floor/engine/n2,
+/area/engine/atmos)
+"iko" = (
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
+/obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1{
+	dir = 4
+	},
+/turf/open/floor/plasteel/grid/steel,
 /area/engine/atmos)
 "ikz" = (
 /obj/structure/cable{
@@ -29356,10 +29373,6 @@
 /obj/effect/turf_decal/ship/shutoff,
 /turf/open/floor/monotile,
 /area/tcommsat/computer)
-"rId" = (
-/obj/machinery/holopad,
-/turf/open/floor/carpet/green,
-/area/engine/engineering/reactor_control)
 "rIj" = (
 /obj/effect/turf_decal/delivery,
 /obj/machinery/light/small,
@@ -33205,13 +33218,6 @@
 	},
 /turf/open/floor/plating,
 /area/engine/engineering/hangar)
-"tXA" = (
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
-/obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1{
-	dir = 4
-	},
-/turf/open/floor/plasteel/grid/steel,
-/area/engine/atmos)
 "tYa" = (
 /obj/effect/turf_decal/pool/corner{
 	dir = 4
@@ -34424,9 +34430,14 @@
 /turf/open/floor/monotile/light/airless,
 /area/tcommsat/server)
 "uOi" = (
-/obj/machinery/light_switch/north,
+/obj/machinery/light_switch/north{
+	pixel_x = -10
+	},
 /obj/effect/turf_decal/stripes/line{
 	dir = 4
+	},
+/obj/machinery/computer/lore_terminal{
+	pixel_x = 6
 	},
 /turf/open/floor/monotile/light,
 /area/crew_quarters/cryopods)
@@ -36111,12 +36122,6 @@
 	},
 /turf/open/floor/monotile,
 /area/engine/atmos)
-"vTc" = (
-/obj/effect/turf_decal/stripes/corner{
-	dir = 1
-	},
-/turf/open/floor/plasteel/grid/lino,
-/area/engine/engineering/reactor_control)
 "vTk" = (
 /obj/machinery/airalarm/directional/south,
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer1{
@@ -59927,7 +59932,7 @@ rWy
 bFg
 rhL
 luU
-vTc
+fGU
 vQt
 bbX
 mUj
@@ -60178,7 +60183,7 @@ fTt
 mRc
 xTK
 xTK
-rId
+eae
 bQC
 xTK
 bFg
@@ -62735,7 +62740,7 @@ qhg
 cmQ
 mgV
 lwW
-aJc
+ftn
 scw
 nNo
 gpO
@@ -63506,7 +63511,7 @@ sfM
 aan
 aan
 aan
-tXA
+iko
 leQ
 aan
 arW
