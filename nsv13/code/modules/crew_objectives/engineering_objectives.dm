@@ -56,4 +56,13 @@
 
 /datum/objective/crew/power_generation/update_explanation_text()
 	. = ..()
-	explanation_text = "Maintain production of [target_amount] Watts in the engine until the end of the shift."
+	explanation_text = "Maintain production of [target_amount] Watts in an engine until the end of the shift."
+
+/datum/objective/crew/power_generation/check_completion()
+	for(var/obj/machinery/atmospherics/components/binary/stormdrive_reactor/C in GLOB.machines)
+		if(C.last_power_produced >= target_amount)
+			return TRUE
+	for(var/obj/machinery/atmospherics/components/trinary/nuclear_reactor/C in GLOB.machines)
+		if(C.last_power_produced >= target_amount)
+			return TRUE
+	return FALSE
