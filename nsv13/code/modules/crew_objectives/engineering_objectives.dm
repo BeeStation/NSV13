@@ -50,7 +50,7 @@
 /datum/objective/crew/power_generation/New()
 	. = ..()
 	var/base_target_power = 13000000
-	target_percent = rand(60,90)
+	var/target_percent = rand(60,90)
 	target_amount = base_target_power * target_percent
 	update_explanation_text()
 
