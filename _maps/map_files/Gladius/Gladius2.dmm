@@ -7,10 +7,6 @@
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /turf/open/floor/plasteel/grid/steel,
 /area/engine/atmos)
-"aaw" = (
-/obj/effect/landmark/start/atmospheric_technician,
-/turf/open/floor/plating,
-/area/engine/atmos)
 "aaD" = (
 /obj/structure/chair/stool,
 /turf/open/floor/monotile,
@@ -1196,20 +1192,6 @@
 	},
 /turf/open/floor/monotile/dark,
 /area/engine/atmos)
-"aVk" = (
-/obj/structure/cable/yellow{
-	icon_state = "4-8"
-	},
-/obj/effect/turf_decal/ship/shutoff,
-/obj/machinery/power/terminal,
-/obj/structure/cable/yellow{
-	icon_state = "0-8"
-	},
-/obj/structure/cable/yellow{
-	icon_state = "0-4"
-	},
-/turf/open/floor/plasteel/grid/techfloor/grid,
-/area/engine/engine_smes)
 "aVm" = (
 /obj/effect/spawner/structure/window/plasma/reinforced,
 /turf/open/floor/plating,
@@ -3425,11 +3407,9 @@
 /turf/open/floor/carpet/purple,
 /area/vacant_room/office)
 "ctL" = (
-/obj/effect/turf_decal/ship/techfloor{
-	dir = 1
-	},
-/turf/open/floor/plasteel/techmaint,
-/area/shuttle/turbolift/secondary)
+/obj/effect/landmark/start/atmospheric_technician,
+/turf/open/floor/plating,
+/area/engine/atmos)
 "ctR" = (
 /obj/effect/spawner/lootdrop/grille_or_trash,
 /obj/structure/cable{
@@ -7013,11 +6993,12 @@
 /turf/open/floor/monotile,
 /area/hallway/nsv/deck2/frame1/starboard)
 "eHu" = (
-/obj/effect/turf_decal/ship/techfloor{
-	dir = 9
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
+/obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1{
+	dir = 4
 	},
-/turf/open/floor/plasteel/techmaint,
-/area/shuttle/turbolift/secondary)
+/turf/open/floor/plasteel/grid/steel,
+/area/engine/atmos)
 "eHC" = (
 /obj/effect/turf_decal/tile/neutral{
 	dir = 4
@@ -8285,11 +8266,9 @@
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/port/fore)
 "fqe" = (
-/obj/effect/turf_decal/ship/techfloor{
-	dir = 4
-	},
-/turf/open/floor/plasteel/techmaint,
-/area/shuttle/turbolift/secondary)
+/obj/machinery/holopad,
+/turf/open/floor/carpet/green,
+/area/engine/engineering/reactor_control)
 "fql" = (
 /obj/effect/spawner/structure/window/reinforced,
 /obj/structure/cable{
@@ -12449,9 +12428,6 @@
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/starboard/aft)
 "hND" = (
-/obj/effect/turf_decal/ship/techfloor{
-	dir = 8
-	},
 /obj/machinery/camera/autoname{
 	dir = 4
 	},
@@ -22315,10 +22291,6 @@
 "nII" = (
 /turf/closed/wall/ship,
 /area/crew_quarters/toilet)
-"nIS" = (
-/obj/machinery/holopad,
-/turf/open/floor/carpet/green,
-/area/engine/engineering/reactor_control)
 "nIY" = (
 /obj/machinery/light{
 	dir = 4
@@ -22706,9 +22678,11 @@
 /turf/open/floor/monotile/dark,
 /area/engine/break_room)
 "nSk" = (
-/obj/effect/turf_decal/ship/techfloor,
-/turf/open/floor/plasteel/techmaint,
-/area/shuttle/turbolift/secondary)
+/obj/effect/turf_decal/stripes/corner{
+	dir = 1
+	},
+/turf/open/floor/plasteel/grid/lino,
+/area/engine/engineering/reactor_control)
 "nSX" = (
 /obj/structure/cable{
 	icon_state = "2-4"
@@ -23945,10 +23919,7 @@
 /turf/open/floor/plasteel/ship,
 /area/engine/break_room)
 "oDo" = (
-/obj/machinery/lazylift/master,
-/obj/effect/turf_decal/ship/techfloor{
-	dir = 1
-	},
+/obj/machinery/lazylift/master/aircraft_elevator,
 /turf/open/floor/plasteel/techmaint,
 /area/shuttle/turbolift/secondary)
 "oDH" = (
@@ -28422,11 +28393,19 @@
 /turf/open/floor/carpet/green,
 /area/crew_quarters/dorms)
 "rev" = (
-/obj/effect/turf_decal/ship/techfloor{
-	dir = 8
+/obj/structure/cable/yellow{
+	icon_state = "4-8"
 	},
-/turf/open/floor/plasteel/techmaint,
-/area/shuttle/turbolift/secondary)
+/obj/effect/turf_decal/ship/shutoff,
+/obj/machinery/power/terminal,
+/obj/structure/cable/yellow{
+	icon_state = "0-8"
+	},
+/obj/structure/cable/yellow{
+	icon_state = "0-4"
+	},
+/turf/open/floor/plasteel/grid/techfloor/grid,
+/area/engine/engine_smes)
 "rew" = (
 /obj/effect/turf_decal/tile/neutral{
 	dir = 1
@@ -30063,12 +30042,6 @@
 /obj/machinery/rnd/production/circuit_imprinter,
 /turf/open/floor/plasteel/ship,
 /area/engine/break_room)
-"sbY" = (
-/obj/effect/turf_decal/ship/techfloor{
-	dir = 5
-	},
-/turf/open/floor/plasteel/techmaint,
-/area/shuttle/turbolift/secondary)
 "scl" = (
 /obj/machinery/holopad,
 /obj/structure/cable{
@@ -30883,12 +30856,6 @@
 	},
 /turf/open/floor/monotile/dark,
 /area/engine/break_room)
-"syX" = (
-/obj/effect/turf_decal/ship/techfloor{
-	dir = 6
-	},
-/turf/open/floor/plasteel/techmaint,
-/area/shuttle/turbolift/secondary)
 "szx" = (
 /obj/machinery/photocopier,
 /obj/item/paper,
@@ -33473,12 +33440,6 @@
 /obj/machinery/newscaster/directional/east,
 /turf/open/floor/monotile,
 /area/vacant_room/office)
-"uir" = (
-/obj/effect/turf_decal/stripes/corner{
-	dir = 1
-	},
-/turf/open/floor/plasteel/grid/lino,
-/area/engine/engineering/reactor_control)
 "uiu" = (
 /obj/machinery/conveyor{
 	dir = 8;
@@ -35998,13 +35959,6 @@
 /obj/structure/cable,
 /turf/open/floor/monotile,
 /area/crew_quarters/dorms)
-"vOL" = (
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
-/obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1{
-	dir = 4
-	},
-/turf/open/floor/plasteel/grid/steel,
-/area/engine/atmos)
 "vON" = (
 /obj/effect/turf_decal/tile/ship/full/blue,
 /obj/structure/chair{
@@ -37985,9 +37939,6 @@
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/frame1/starboard)
 "xeX" = (
-/obj/effect/turf_decal/ship/techfloor{
-	dir = 4
-	},
 /obj/machinery/light{
 	dir = 4
 	},
@@ -38865,12 +38816,6 @@
 /obj/machinery/light,
 /turf/open/floor/monotile/dark,
 /area/engine/atmos)
-"xGA" = (
-/obj/effect/turf_decal/ship/techfloor{
-	dir = 10
-	},
-/turf/open/floor/plasteel/techmaint,
-/area/shuttle/turbolift/secondary)
 "xGB" = (
 /obj/machinery/door/airlock/ship/maintenance/defaultaccess{
 	name = "Disposals Chute Access"
@@ -58925,7 +58870,7 @@ vMi
 sYp
 gcP
 fpT
-aVk
+rev
 bpy
 vQt
 qQB
@@ -59950,7 +59895,7 @@ rWy
 bFg
 rhL
 luU
-uir
+nSk
 vQt
 bbX
 mUj
@@ -60201,7 +60146,7 @@ fTt
 mRc
 xTK
 xTK
-nIS
+fqe
 bQC
 xTK
 bFg
@@ -62758,7 +62703,7 @@ qhg
 cmQ
 mgV
 lwW
-aaw
+ctL
 scw
 nNo
 gpO
@@ -63529,7 +63474,7 @@ sfM
 aan
 aan
 aan
-vOL
+eHu
 leQ
 aan
 arW
@@ -66635,10 +66580,10 @@ xZR
 qVE
 cnX
 mDb
-eHu
-rev
+qpb
+qpb
 hND
-xGA
+qpb
 vnL
 sFp
 qAq
@@ -66892,10 +66837,10 @@ fXz
 har
 wDT
 mDb
-ctL
 qpb
 qpb
-nSk
+qpb
+qpb
 fYN
 uDa
 qBb
@@ -67152,7 +67097,7 @@ mDb
 oDo
 qpb
 qpb
-nSk
+qpb
 fYN
 uDa
 aYj
@@ -67406,10 +67351,10 @@ xZR
 gCq
 vFW
 mDb
-ctL
 qpb
 qpb
-nSk
+qpb
+qpb
 kgF
 uDa
 qBx
@@ -67663,10 +67608,10 @@ xZR
 gCq
 mYw
 mDb
-sbY
+qpb
 xeX
-fqe
-syX
+qpb
+qpb
 cyM
 mgS
 mgS
