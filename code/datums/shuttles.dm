@@ -555,10 +555,6 @@
 /datum/map_template/shuttle/arrival/omega
 	suffix = "omega"
 	name = "arrival shuttle (Omega)"
-	
-/datum/map_template/shuttle/arrival/aetherwhisp //NSV13 - Aetherwhisp Arrivals
-	suffix = "aetherwhisp"
-	name = "arrival shuttle (Aetherwhisp)"
 
 /datum/map_template/shuttle/aux_base/default
 	suffix = "default"

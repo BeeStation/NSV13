@@ -15,6 +15,10 @@
 		#include "map_files\Aetherwhisp\Aetherwhisp2.dmm"
 		#include "map_files\Aetherwhisp\Aetherwhisp1.dmm"
 
+		//Gladius
+		#include "map_files\Gladius\Gladius1.dmm"
+		#include "map_files\Gladius\Gladius2.dmm"
+
 		//Tycoon
 		#include "map_files\Tycoon\Tycoon1.dmm"
 		#include "map_files\Tycoon\Tycoon2.dmm"
