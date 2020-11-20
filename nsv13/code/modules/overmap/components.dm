@@ -262,6 +262,7 @@ GLOBAL_LIST_INIT(computer_beeps, list('nsv13/sound/effects/computer/beep.ogg','n
 	desc = "A large CRT monitor which shows an exterior view of the ship."
 	icon = 'nsv13/icons/obj/computers.dmi'
 	icon_state = "viewscreen"
+	idle_power_usage = 15
 	mouse_over_pointer = MOUSE_HAND_POINTER
 	pixel_y = 26
 	density = FALSE
