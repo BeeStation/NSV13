@@ -358,6 +358,7 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 			QDEL_NULL(eyeobj)
 			QDEL_NULL(eyeobj?.off_action)
 			QDEL_NULL(M.remote_control)
+			call(/datum/action/innate/camera_off/overmap/Activate)()
 			M.set_focus(M)
 
 	else //If we're anywhere that isn't the overmap
@@ -375,6 +376,7 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 			QDEL_NULL(eyeobj)
 			QDEL_NULL(eyeobj?.off_action)
 			QDEL_NULL(M.remote_control)
+			call(/datum/action/innate/camera_off/overmap/Activate)()
 			M.set_focus(M)
 
 /obj/item/projectile/Destroy()
