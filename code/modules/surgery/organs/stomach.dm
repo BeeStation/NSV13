@@ -113,7 +113,7 @@
 		if(2)
 			owner.nutrition = 250
 			to_chat(owner, "<span class='warning'>Alert: EMP Detected. Cycling battery.</span>")
-			
+
 /obj/item/organ/stomach/cell/Insert(mob/living/carbon/M, special = 0)
 	..()
 	RegisterSignal(owner, COMSIG_PROCESS_BORGCHARGER_OCCUPANT, .proc/charge)
@@ -149,8 +149,9 @@
 	UnregisterSignal(owner, COMSIG_LIVING_ELECTROCUTE_ACT)
 	..()
 
+//NSV13 changed amount / x from x = 70 to x = 3.5
 /obj/item/organ/stomach/ethereal/proc/charge(datum/source, amount, repairs)
-	adjust_charge(amount / 70)
+	adjust_charge(amount / 3.5)
 
 /obj/item/organ/stomach/ethereal/proc/on_electrocute(datum/source, shock_damage, siemens_coeff = 1, flags = NONE)
 	if(flags & SHOCK_ILLUSION)
