@@ -8,6 +8,7 @@ GLOBAL_DATUM_INIT(lore_terminal_controller, /datum/lore_controller, new)
 	pixel_y = 26 //So they snap to walls correctly
 	density = FALSE
 	anchored = TRUE
+	idle_power_usage = 15
 	var/access_tag = "ntcommon"  //Every subtype of this type will be readable by this console. Use this for away terms as seen here \/
 	var/list/entries = list() //Every entry that we've got.
 	var/in_use = FALSE //Stops sound spam
