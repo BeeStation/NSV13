@@ -59,6 +59,8 @@
 		. += "<span class='warning'>The system overload lights are flashing</span>"
 
 /obj/machinery/armour_plating_nanorepair_pump/process()
+	if(!OM)
+		OM = get_overmap()
 	if(online && is_operational() && !stress_shutdown)
 		idle_power_usage = 0 //reset power use
 		if(armour_allocation)

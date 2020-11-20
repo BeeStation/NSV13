@@ -24,7 +24,7 @@ GLOBAL_LIST_EMPTY(syndi_crew_leader_spawns)
 	<span class='danger'>Syndicate crew</span>: Destroy NT fleets and capture systems with your beacon.\n\
 	<span class='notice'>Crew</span>: Destroy the Syndicate crew, and defeat any Syndicate reinforcements that appear."
 
-	title_icon = "nukeops"
+	title_icon = "conquest"
 
 	var/list/pre_nukeops = list()
 
