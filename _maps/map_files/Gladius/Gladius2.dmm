@@ -4582,13 +4582,6 @@
 	},
 /turf/open/floor/monotile/light,
 /area/engine/atmos)
-"dfh" = (
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
-/obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1{
-	dir = 4
-	},
-/turf/open/floor/plasteel/grid/steel,
-/area/engine/atmos)
 "dfx" = (
 /obj/effect/turf_decal/tile/neutral{
 	dir = 1
@@ -7507,6 +7500,12 @@
 /obj/machinery/atmospherics/pipe/manifold/green/hidden/layer1,
 /turf/open/floor/plasteel/grid/techfloor/grid,
 /area/engine/engineering/reactor_core)
+"eYX" = (
+/obj/effect/turf_decal/stripes/corner{
+	dir = 1
+	},
+/turf/open/floor/plasteel/grid/lino,
+/area/engine/engineering/reactor_control)
 "eYZ" = (
 /obj/effect/landmark/start/cook,
 /turf/open/floor/monotile/light,
@@ -8051,6 +8050,7 @@
 	dir = 8
 	},
 /obj/effect/turf_decal/ship/outline,
+/obj/machinery/light,
 /turf/open/floor/monotile/dark,
 /area/engine/engineering/reactor_control)
 "fkF" = (
@@ -13345,9 +13345,6 @@
 /turf/open/floor/monotile,
 /area/crew_quarters/dorms)
 "imQ" = (
-/obj/machinery/light{
-	dir = 1
-	},
 /obj/machinery/atmospherics/pipe/simple/purple/hidden{
 	dir = 4
 	},
@@ -14343,20 +14340,6 @@
 /obj/machinery/atmospherics/components/unary/vent_pump/on,
 /turf/open/floor/plasteel/kitchen_coldroom/freezerfloor,
 /area/crew_quarters/kitchen/coldroom)
-"iPC" = (
-/obj/structure/cable/yellow{
-	icon_state = "4-8"
-	},
-/obj/effect/turf_decal/ship/shutoff,
-/obj/machinery/power/terminal,
-/obj/structure/cable/yellow{
-	icon_state = "0-8"
-	},
-/obj/structure/cable/yellow{
-	icon_state = "0-4"
-	},
-/turf/open/floor/plasteel/grid/techfloor/grid,
-/area/engine/engine_smes)
 "iPD" = (
 /obj/machinery/icecream_vat,
 /obj/machinery/camera/autoname{
@@ -14991,6 +14974,10 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/department/cargo)
+"jkq" = (
+/obj/machinery/holopad,
+/turf/open/floor/carpet/green,
+/area/engine/engineering/reactor_control)
 "jkr" = (
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3{
 	dir = 8
@@ -16916,6 +16903,20 @@
 /obj/effect/spawner/structure/window/reinforced,
 /turf/open/floor/plating,
 /area/storage/primary)
+"kyR" = (
+/obj/structure/cable/yellow{
+	icon_state = "4-8"
+	},
+/obj/effect/turf_decal/ship/shutoff,
+/obj/machinery/power/terminal,
+/obj/structure/cable/yellow{
+	icon_state = "0-8"
+	},
+/obj/structure/cable/yellow{
+	icon_state = "0-4"
+	},
+/turf/open/floor/plasteel/grid/techfloor/grid,
+/area/engine/engine_smes)
 "kzh" = (
 /obj/effect/turf_decal/tile/ship/full/blue,
 /obj/structure/window/reinforced{
@@ -26209,6 +26210,10 @@
 /obj/machinery/computer/ship/viewscreen,
 /turf/open/floor/monotile,
 /area/hallway/nsv/deck2/frame1/central)
+"pWe" = (
+/obj/effect/landmark/start/atmospheric_technician,
+/turf/open/floor/plating,
+/area/engine/atmos)
 "pWl" = (
 /obj/machinery/portable_atmospherics/scrubber,
 /obj/effect/turf_decal/delivery,
@@ -28330,10 +28335,6 @@
 	},
 /turf/open/floor/monotile,
 /area/crew_quarters/locker)
-"rco" = (
-/obj/machinery/holopad,
-/turf/open/floor/carpet/green,
-/area/engine/engineering/reactor_control)
 "rcw" = (
 /obj/structure/disposalpipe/junction{
 	dir = 4
@@ -30276,10 +30277,6 @@
 	},
 /turf/open/floor/plasteel/grid/mono,
 /area/crew_quarters/dorms)
-"shj" = (
-/obj/effect/landmark/start/atmospheric_technician,
-/turf/open/floor/plating,
-/area/engine/atmos)
 "shr" = (
 /obj/machinery/airalarm/directional/north,
 /turf/open/floor/monotile/dark,
@@ -33699,12 +33696,6 @@
 	},
 /turf/open/floor/monotile/dark,
 /area/quartermaster/office)
-"uqz" = (
-/obj/effect/turf_decal/stripes/corner{
-	dir = 1
-	},
-/turf/open/floor/plasteel/grid/lino,
-/area/engine/engineering/reactor_control)
 "uqE" = (
 /obj/item/radio/intercom/directional/west,
 /obj/effect/turf_decal/ship/techfloor{
@@ -33974,6 +33965,13 @@
 /obj/structure/plasticflaps,
 /turf/open/floor/plating,
 /area/quartermaster/sorting)
+"uyo" = (
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
+/obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1{
+	dir = 4
+	},
+/turf/open/floor/plasteel/grid/steel,
+/area/engine/atmos)
 "uyw" = (
 /obj/effect/decal/cleanable/oil,
 /turf/open/floor/plating,
@@ -58927,7 +58925,7 @@ vMi
 sYp
 gcP
 fpT
-iPC
+kyR
 bpy
 vQt
 qQB
@@ -59952,7 +59950,7 @@ rWy
 bFg
 rhL
 luU
-uqz
+eYX
 vQt
 bbX
 mUj
@@ -60203,7 +60201,7 @@ fTt
 mRc
 xTK
 xTK
-rco
+jkq
 bQC
 xTK
 bFg
@@ -62760,7 +62758,7 @@ qhg
 cmQ
 mgV
 lwW
-shj
+pWe
 scw
 nNo
 gpO
@@ -63531,7 +63529,7 @@ sfM
 aan
 aan
 aan
-dfh
+uyo
 leQ
 aan
 arW
