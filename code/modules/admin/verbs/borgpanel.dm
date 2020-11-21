@@ -164,7 +164,10 @@
 				if (!borg.radio.keyslot) // There's no encryption key. This shouldn't happen but we can cope
 					borg.radio.channels -= channel
 					if (channel == RADIO_CHANNEL_SYNDICATE)
-						borg.radio.syndie = FALSE
+						if(borg.radio.syndie == TRUE)
+							borg.radio.syndie = FALSE
+						if(borg.radio.hearall == TRUE)
+							borg.radio.hearall = FALSE
 					else if (channel == "CentCom")
 						borg.radio.independent = FALSE
 				else
