@@ -257,7 +257,7 @@
 		if(OA && istype(OA) && OA.z == linked?.z)
 			blips.Add(list(list("x" = OA.x, "y" = OA.y, "colour" = "#eb9534", "name" = "[(OA.scanned) ? OA.name : "anomaly"]", opacity=showAnomalies*0.01, alignment = "uncharted")))
 	for(var/obj/structure/overmap/OM in GLOB.overmap_objects) //Iterate through overmaps in the world!
-		var/sensor_visible = (OM != linked) ? OM.is_sensor_visible(linked) : SENSOR_VISIBILITY_FULL //You can always see your own ship.
+		var/sensor_visible = (OM != linked || OM.faction != linked.faction) ? OM.is_sensor_visible(linked) : SENSOR_VISIBILITY_FULL //You can always see your own ship, or allied, cloaked ships.
 		if(OM.z == linked.z && sensor_visible >= SENSOR_VISIBILITY_FAINT)
 			var/inRange = get_dist(linked, OM) <= sensor_range
 			var/thecolour = "#FFFFFF"
