@@ -17,7 +17,7 @@ NOTE:
   
   var/list/valid_factions = list("nanotrasen") 
 
-  var/payout = 2500
+  var/payout = 4000
   var/list/rewards // List of items to be offered as a reward
 
   var/obj/structure/overmap/owner // Which ship owns this mission
@@ -180,7 +180,9 @@ NOTE:
 /datum/nsv_mission/kill_ships/syndicate
   valid_factions = list("syndicate")
   target_faction = list("nanotrasen")
-  target_factions = list(FACTION_ID_NT)  
+  target_factions = list(FACTION_ID_NT)
+  rewards = list(/obj/item/stack/telecrystal/twenty="20 telecrystals",
+                /obj/structure/closet/crate/nsv_mission_rewards="an ammo crate")  
 
 // Kill ships in system - Kill X ships owned by Y in specific systems
 
@@ -209,6 +211,7 @@ NOTE:
     target_system[chosen_system] = kill_amount
     ships_to_kill += kill_amount
     var/datum/faction/F = SSstar_system.faction_by_id(pick(target_factions))
+    F.next_fleet_spawn = 0 // hey KMC, iirc you mentioned you gave the send_fleet() proc an override. mind updating this when you get it? ta
     F.send_fleet(chosen_system, kill_amount)
   ships_remaining = ships_to_kill
   stage = MISSION_IDLE
@@ -226,6 +229,7 @@ NOTE:
   visited_systems += owner.current_system
   if(targets_in_system(TRUE) < target_system[owner.current_system])
     var/datum/faction/F = SSstar_system.faction_by_id(pick(target_factions))
+    F.next_fleet_spawn = 0 // hey KMC, iirc you mentioned you gave the send_fleet() proc an override. mind updating this when you get it? ta
     F.send_fleet(owner.current_system, target_system[owner.current_system] - targets_in_system(TRUE))
 
 /datum/nsv_mission/kill_ships/system/update_description()
@@ -256,6 +260,8 @@ NOTE:
   target_faction = list("nanotrasen")
   target_factions = list(FACTION_ID_NT) 
   system_alignment = list("nanotrasen","unaligned","uncharted")
+  rewards = list(/obj/item/stack/telecrystal/twenty="20 telecrystals",
+                /obj/structure/closet/crate/nsv_mission_rewards="an ammo crate") 
   
   
 // Wave hold - Destroy several waves of enemy ships
@@ -303,7 +309,7 @@ NOTE:
     ships = ships_to_kill
     ships_remaining = ships_to_kill
   var/datum/faction/F = SSstar_system.faction_by_id(pick(target_factions))
-  F.next_fleet_spawn = 0
+  F.next_fleet_spawn = 0 // hey KMC, iirc you mentioned you gave the send_fleet() proc an override. mind updating this when you get it? ta
   F.send_fleet(target_system, ships)
   update_description()
 
@@ -357,6 +363,8 @@ NOTE:
   valid_factions = list("syndicate")
   target_faction = list("nanotrasen")
   target_factions = list(FACTION_ID_NT) 
+  rewards = list(/obj/item/stack/telecrystal/twenty="20 telecrystals",
+                /obj/structure/closet/crate/nsv_mission_rewards="an ammo crate") 
 
 /* ideasguys zone - TODO
 
@@ -377,13 +385,13 @@ kill station
   var/tampered_cargo = 0
   var/lost_cargo = 0
 
-  var/total_cargo = 3 // How many crates the crew will have to deliver
-  var/list/possible_crates = list(/obj/structure/closet/crate/large/cargo/random = 3) // Weighted list of possible crates
+  var/total_cargo = 4 // How many crates the crew will have to deliver
+  var/list/possible_crates = list(/obj/structure/closet/crate/large/cargo/random = 4) // Weighted list of possible crates
   var/obj/structure/overmap/delivery_target 
   
   var/destination_faction = FACTION_ID_NT 
 
-  var/max_payout = 3000
+  var/max_payout = 4000
   payout = 0
 
 
@@ -472,7 +480,7 @@ kill station
   possible_crates = list(/obj/structure/closet/crate/large/cargo/random = 1,
                          /obj/structure/closet/crate/large/cargo/random/high_risk = 4)
 
-  max_payout = 3500
+  max_payout = 5000
 
 
 /datum/nsv_mission/cargo/nuke
@@ -539,9 +547,15 @@ kill station
 
 // Explore - Travel to a sector. Will just be navigate through the random sector
 
-/datum/nsv_mission/explore // TODO: unqiue proc to prevent 2x explore missions?
+/datum/nsv_mission/explore 
   var/datum/star_system/destination
-  payout = 3000
+  payout = 5000
+
+/datum/nsv_mission/explore/New(var/o)
+  . = ..()
+  if(istype(the_client, /obj/structure/overmap/trader))
+    var/obj/structure/overmap/trader/T = the_client
+    T.inhabited_trader.possible_mission_types -= /datum/nsv_mission/explore
 
 /datum/nsv_mission/explore/register()
   destination = SSstar_system.system_by_id("Rubicon")

@@ -118,9 +118,9 @@
 	possible_mission_types = list(
 		/datum/nsv_mission/cargo/nuke/syndicate=1,
 		/datum/nsv_mission/kill_ships/waves/syndicate=1,
-		/datum/nsv_mission/kill_ships/system/syndicate=2,
+		/datum/nsv_mission/kill_ships/system/syndicate=3,
 		/datum/nsv_mission/kill_ships/syndicate=1)
-	max_missions = 5
+	max_missions = 6
 	
 /datum/trader/armsdealer/syndicate/New()
 	. = ..()
