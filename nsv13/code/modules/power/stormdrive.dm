@@ -1237,10 +1237,10 @@ Control Rods
 			message_admins("[key_name(usr)] has fully raised reactor control rods in [get_area(usr)] [ADMIN_JMP(usr)]")
 			reactor.update_icon()
 		if("rods_2")
-			reactor.control_rod_percent = 18
+			reactor.control_rod_percent = 5
 			reactor.update_icon()
 		if("rods_3")
-			reactor.control_rod_percent = 28
+			reactor.control_rod_percent = 16
 			reactor.update_icon()
 		if("rods_4")
 			reactor.control_rod_percent = 33.6
