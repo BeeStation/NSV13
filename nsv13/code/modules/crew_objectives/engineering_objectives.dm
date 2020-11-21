@@ -46,10 +46,20 @@
 /datum/objective/crew/power_generation
 	explanation_text = "Maintain production of x MW in the engine until the end of the shift."
 	jobs = "chiefengineer,stationengineer,atmospherictechnician"
+	var/obj/machinery/atmospherics/components/binary/stormdrive_reactor/SD
+	var/obj/machinery/atmospherics/components/trinary/nuclear_reactor/RBMK
 
 /datum/objective/crew/power_generation/New()
 	. = ..()
-	var/base_target_power = 13000000
+	SD = locate() in GLOB.machines
+	RBMK = locate() in GLOB.machines
+	var/base_target_power
+	if(SD)
+		base_target_power = 13000000
+	else if(RBMK)
+		base_target_power = 10000000
+	else
+		base_target_power = 5000000
 	var/target_percent = rand(60,90)
 	target_amount = base_target_power * target_percent
 	update_explanation_text()
@@ -59,10 +69,8 @@
 	explanation_text = "Maintain production of [target_amount] Watts in an engine until the end of the shift."
 
 /datum/objective/crew/power_generation/check_completion()
-	for(var/obj/machinery/atmospherics/components/binary/stormdrive_reactor/C in GLOB.machines)
-		if(C.last_power_produced >= target_amount)
-			return TRUE
-	for(var/obj/machinery/atmospherics/components/trinary/nuclear_reactor/C in GLOB.machines)
-		if(C.last_power_produced >= target_amount)
-			return TRUE
+	if(SD.last_power_produced >= target_amount)
+		return TRUE
+	if(RBMK.last_power_produced >= target_amount)
+		return TRUE
 	return FALSE
