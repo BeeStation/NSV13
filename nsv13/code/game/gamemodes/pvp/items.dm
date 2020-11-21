@@ -91,8 +91,8 @@
 	layer = 4
 	var/faction_type = FACTION_ID_SYNDICATE
 	var/alignment = "syndicate"
-	var/points_per_capture = 25 //How many points does capturing one system net you? Since it's 1000 points to win, this will take a loooot of captures to outright win as syndies.
-	var/time_left = 420 //7 min
+	var/points_per_capture = 50 //How many points does capturing one system net you? Since it's 1000 points to win, this will take a loooot of captures to outright win as syndies.
+	var/time_left = 300 //5 min
 	var/active = FALSE
 	var/next_activation = 0
 
@@ -370,6 +370,6 @@
 
 /obj/machinery/camera/syndicate
 	name = "syndicate tactical camera"
-	network = "syndicate"
+	network = list("syndicate")
 
 /obj/machinery/camera/syndicate/autoname

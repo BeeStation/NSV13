@@ -1387,7 +1387,7 @@
 /obj/structure/window/reinforced{
 	dir = 8
 	},
-/turf/open/floor/circuit,
+/turf/open/floor/circuit/red,
 /area/crew_quarters/heads/captain/pvp/admiral)
 "cT" = (
 /obj/effect/decal/cleanable/dirt,
@@ -2186,6 +2186,13 @@
 	},
 /turf/open/floor/plasteel/tech/grid,
 /area/quartermaster/pvp)
+"ez" = (
+/obj/structure/hull_plate,
+/obj/machinery/porta_turret/syndicate/shuttle{
+	name = "Anti-Air Battery"
+	},
+/turf/open/floor/plating/airless,
+/area/space)
 "eA" = (
 /obj/structure/cable/yellow{
 	icon_state = "2-8"
@@ -2463,7 +2470,6 @@
 	pixel_x = -27;
 	pixel_y = -9
 	},
-/obj/machinery/conquest_beacon,
 /turf/open/floor/circuit/red,
 /area/crew_quarters/heads/captain/pvp/admiral)
 "fa" = (
@@ -6689,20 +6695,6 @@
 	},
 /turf/open/floor/monotile/dark,
 /area/security/brig/pvp)
-"oS" = (
-/obj/structure/lattice/catwalk,
-/obj/structure/cable{
-	d1 = 4;
-	d2 = 8;
-	icon_state = "4-8"
-	},
-/obj/structure/cable{
-	d1 = 1;
-	d2 = 4;
-	icon_state = "1-4"
-	},
-/turf/open/space/basic,
-/area/space)
 "oT" = (
 /obj/machinery/atmospherics/components/binary/valve/digital,
 /turf/open/floor/engine,
@@ -7140,6 +7132,20 @@
 /obj/machinery/atmospherics/pipe/simple/supply/hidden,
 /turf/open/floor/engine,
 /area/quartermaster/pvp)
+"pN" = (
+/obj/structure/lattice/catwalk,
+/obj/structure/cable{
+	d1 = 4;
+	d2 = 8;
+	icon_state = "4-8"
+	},
+/obj/structure/cable{
+	d1 = 1;
+	d2 = 4;
+	icon_state = "1-4"
+	},
+/turf/open/space/basic,
+/area/space)
 "pO" = (
 /obj/structure/disposalpipe/segment,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
@@ -9227,13 +9233,6 @@
 /obj/effect/turf_decal/tile/ship/full/red,
 /turf/open/floor/monotile/dark,
 /area/security/brig/pvp)
-"ue" = (
-/obj/structure/hull_plate,
-/obj/machinery/porta_turret/syndicate/shuttle{
-	name = "Anti-Air Battery"
-	},
-/turf/open/floor/plating/airless,
-/area/space)
 "uf" = (
 /obj/structure/cable{
 	d1 = 1;
@@ -11113,6 +11112,7 @@
 /obj/machinery/shieldwallgen{
 	desc = "Get fucked fighter assistants.";
 	max_integrity = 1000;
+	maximum_stored_power = 10000;
 	name = "definitely not stolen shield tech";
 	obj_integrity = 1000;
 	req_access = null;
@@ -13499,10 +13499,6 @@
 	},
 /turf/open/floor/plating,
 /area/ai_monitored/nuke_storage/pvp)
-"DA" = (
-/obj/machinery/holopad,
-/turf/open/floor/plasteel/white,
-/area/science/pvp)
 "DB" = (
 /obj/structure/cable{
 	d2 = 8;
@@ -14015,7 +14011,7 @@
 /obj/structure/window/reinforced{
 	dir = 1
 	},
-/turf/open/floor/circuit,
+/turf/open/floor/circuit/red,
 /area/crew_quarters/heads/captain/pvp/admiral)
 "EF" = (
 /obj/structure/cable{
@@ -14422,6 +14418,7 @@
 "FE" = (
 /obj/structure/lattice/catwalk,
 /obj/machinery/porta_turret/syndicate/shuttle{
+	faction = list("Syndicate", "silicon");
 	name = "Anti-Air Battery"
 	},
 /turf/open/space/basic,
@@ -15432,7 +15429,8 @@
 	dir = 1;
 	network = list("MiniSat")
 	},
-/turf/open/floor/circuit,
+/obj/machinery/conquest_beacon,
+/turf/open/floor/circuit/red,
 /area/crew_quarters/heads/captain/pvp/admiral)
 "Ig" = (
 /obj/machinery/airalarm{
@@ -17492,6 +17490,7 @@
 /obj/machinery/shieldwallgen{
 	desc = "Get fucked fighter assistants.";
 	max_integrity = 1000;
+	maximum_stored_power = 10000;
 	name = "definitely not stolen shield tech";
 	obj_integrity = 1000;
 	req_access = null;
@@ -21850,6 +21849,10 @@
 	},
 /turf/open/floor/engine,
 /area/engine/engine_room/pvp)
+"Wg" = (
+/obj/machinery/holopad,
+/turf/open/floor/plasteel/white,
+/area/science/pvp)
 "Wh" = (
 /obj/structure/cable{
 	d1 = 1;
@@ -22794,6 +22797,7 @@
 /area/space)
 "Yn" = (
 /obj/machinery/porta_turret/syndicate/shuttle{
+	faction = list("Syndicate", "silicon");
 	name = "Anti-Air Battery"
 	},
 /turf/open/floor/plating/airless,
@@ -23289,7 +23293,8 @@
 /obj/structure/window/reinforced{
 	dir = 1
 	},
-/turf/open/floor/circuit,
+/obj/structure/grille,
+/turf/open/floor/circuit/red,
 /area/crew_quarters/heads/captain/pvp/admiral)
 "ZB" = (
 /obj/machinery/atmospherics/pipe/simple/cyan/visible,
@@ -45294,13 +45299,13 @@ Hg
 pY
 Fz
 Ze
-ue
+ez
 Ze
 Ze
 Ze
 Ze
 Ze
-ue
+ez
 Ze
 Ze
 he
@@ -49940,7 +49945,7 @@ CJ
 HN
 Ga
 Kq
-DA
+Wg
 Ev
 Qu
 XY
@@ -58396,7 +58401,7 @@ JL
 Mn
 NS
 Pq
-oS
+pN
 he
 he
 he
