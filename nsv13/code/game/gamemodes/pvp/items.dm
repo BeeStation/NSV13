@@ -2,6 +2,7 @@
 
 /datum/outfit/syndicate/no_crystals
 	implants = list()
+	uplink_type = null //Nope :) Go to the req officer you ungas.
 
 //Syndicate defense budget
 /obj/item/card/id/departmental_budget/syndicate
@@ -11,8 +12,14 @@
 
 /obj/machinery/computer/cargo/express/syndicate
 	name = "Syndicate Requisitions Console"
-	req_access = list(ACCESS_SYNDICATE)
+	req_one_access = list(ACCESS_SYNDICATE_LEADER, ACCESS_SYNDICATE_REQUISITIONS)
 	account_type = ACCOUNT_SYN
+	circuit = /obj/item/circuitboard/computer/cargo/express/syndicate
+
+/obj/item/circuitboard/computer/cargo/express/syndicate
+	name = "Syndicate Requisitions Console (Computer Board)"
+	icon_state = "security"
+	build_path = /obj/machinery/computer/cargo/express/syndicate
 
 /datum/outfit/syndicate/no_crystals/syndi_crew
 	name = "Syndicate crewmate"
@@ -279,7 +286,7 @@
 
 /obj/effect/landmark/trader_drop_point/LateInitialize()
 	..()
-	addtimer(CALLBACK(src, .proc/add_to_ship), 5 SECONDS)
+	addtimer(CALLBACK(src, .proc/add_to_ship), 1 MINUTES)
 
 /obj/effect/landmark/trader_drop_point/proc/add_to_ship()
 	LAZYADD(get_overmap()?.trader_beacons, src)
@@ -360,3 +367,9 @@
 
 /area/maintenance/pvp
 	name = "Syndicate Maintenance"
+
+/obj/machinery/camera/syndicate
+	name = "syndicate tactical camera"
+	network = "syndicate"
+
+/obj/machinery/camera/syndicate/autoname

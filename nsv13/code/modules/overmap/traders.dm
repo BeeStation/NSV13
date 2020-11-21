@@ -72,6 +72,8 @@
 			LZ = pick(empty_turfs)
 	else
 		LZ = get_turf(pick(trader_beacons))
+	if(dradis && dradis.beacon && !QDELETED(dradis.beacon) && dradis.usingBeacon)
+		LZ = get_turf(dradis.beacon)
 	var/obj/structure/closet/supplypod/centcompod/toLaunch = new /obj/structure/closet/supplypod/centcompod
 	var/shippingLane = GLOB.areas_by_type[/area/centcom/supplypod/flyMeToTheMoon]
 	toLaunch.forceMove(shippingLane)

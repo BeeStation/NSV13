@@ -132,6 +132,7 @@ Singleton to handle conquest roles. This exists to populate the roles list and n
 	/obj/item/kitchen/knife/combat/survival=1,)
 	command_radio = TRUE
 	implants = list()
+	uplink_type = null //Nope :) Go to the req officer you ungas.
 
 /datum/antagonist/nukeop/leader/syndi_crew/give_alias()
 	title = pick("Captain", "Commander", "Commodore")
@@ -146,7 +147,6 @@ Singleton to handle conquest roles. This exists to populate the roles list and n
 	to_chat(owner, "<span class='warning'>Diminish Nanotrasen's presence in this sector by destroying NT fleets and claiming systems with your lighthouse beacon. Destruction of the [station_name()] via superstructure crit or nuclear detonation are also options. For Abassi!</span>")
 	addtimer(CALLBACK(src, .proc/nuketeam_name_assign), 1)
 	owner.announce_objectives()
-
 
 //Syndicate crew roles, defined in order of priority.
 /datum/syndicate_crew_role/strategist
@@ -183,24 +183,6 @@ Singleton to handle conquest roles. This exists to populate the roles list and n
 	to_chat(owner, "<span class='warning'>You have been assigned to oversee the operations of an advanced Syndicate cruiser. Despite your rank of admiral, you serve solely as an advisor to the captain, and can dictate strategy or suggested approaches, however you serve on their ship and are not to overrule them.</span>")
 	owner.announce_objectives()
 
-/datum/syndicate_crew_role/bridge
-	name = "Syndicate Bridge Staff"
-	desc = "Syndicate bridge operatives are responsible for flying the ship and eliminating enemy targets."
-	preference_flag = CONQUEST_ROLE_BRIDGE
-	antag_datum_type = /datum/antagonist/nukeop/syndi_crew/bridge
-	max_count = 2
-
-/datum/antagonist/nukeop/syndi_crew/bridge
-	name = "Syndicate Bridge Staff"
-	nukeop_outfit = /datum/outfit/syndicate/no_crystals/syndi_crew/bridge
-
-/datum/outfit/syndicate/no_crystals/syndi_crew/bridge
-	name = "Syndicate Bridge Staff"
-	head = /obj/item/clothing/head/HoS/beret/syndicate
-	suit = /obj/item/clothing/suit/ship/syndicate_crew
-	uniform = /obj/item/clothing/under/suit/black
-	shoes = /obj/item/clothing/shoes/laceup
-
 /datum/syndicate_crew_role/requisitions_officer
 	name = "Syndicate Requisitions Officer"
 	desc = "As the defacto master at arms / Quartermaster aboard Syndicate vessels, the requisitions officer is authorised to use the ship's budget to keep weaponry loaded and the crew effective. This is mostly done by communicating with traders."
@@ -232,6 +214,24 @@ Singleton to handle conquest roles. This exists to populate the roles list and n
 /obj/item/card/id/syndicate/requisitions_officer/Initialize()
 	access += ACCESS_SYNDICATE_REQUISITIONS
 	. = ..()
+
+/datum/syndicate_crew_role/bridge
+	name = "Syndicate Bridge Staff"
+	desc = "Syndicate bridge operatives are responsible for flying the ship and eliminating enemy targets."
+	preference_flag = CONQUEST_ROLE_BRIDGE
+	antag_datum_type = /datum/antagonist/nukeop/syndi_crew/bridge
+	max_count = 2
+
+/datum/antagonist/nukeop/syndi_crew/bridge
+	name = "Syndicate Bridge Staff"
+	nukeop_outfit = /datum/outfit/syndicate/no_crystals/syndi_crew/bridge
+
+/datum/outfit/syndicate/no_crystals/syndi_crew/bridge
+	name = "Syndicate Bridge Staff"
+	head = /obj/item/clothing/head/HoS/beret/syndicate
+	suit = /obj/item/clothing/suit/ship/syndicate_crew
+	uniform = /obj/item/clothing/under/suit/black
+	shoes = /obj/item/clothing/shoes/laceup
 
 /datum/syndicate_crew_role/technician
 	name = "Syndicate Technician"
@@ -293,7 +293,7 @@ Singleton to handle conquest roles. This exists to populate the roles list and n
 
 /datum/syndicate_crew_role/sergeant
 	name = "Syndicate Marine Sergeant"
-	desc = "Syndicate Sergeants lead Syndicate shipside security forces in repelling boarders, or conducting sabotage against enemy ships."
+	desc = "Syndicate Sergeants lead Syndicate shipside security forces in repelling boarders, or conducting sabotage against enemy ships. This role coordinates with requisitions to arm up boarding parties, or enforce ship law."
 	preference_flag = CONQUEST_ROLE_SERGEANT
 	antag_datum_type = /datum/antagonist/nukeop/syndi_crew/sergeant
 
@@ -307,6 +307,11 @@ Singleton to handle conquest roles. This exists to populate the roles list and n
 	mask = /obj/item/clothing/mask/gas/syndicate
 	suit = /obj/item/clothing/suit/space/hardsuit/syndi/elite
 	uniform = /obj/item/clothing/under/ship/pilot/syndicate
+	id = /obj/item/card/id/syndicate/marine_sergeant
+
+/obj/item/card/id/syndicate/marine_sergeant/Initialize()
+	access += ACCESS_SYNDICATE_MARINE_ARMOURY
+	. = ..()
 
 /datum/syndicate_crew_role/clown
 	name = "Syndicate Clown"
@@ -433,3 +438,28 @@ Singleton to handle conquest roles. This exists to populate the roles list and n
 
 	else
 		. = ..()
+
+/client/proc/create_syndie_job_icons()
+	set name = "Generate syndicate crew icons"
+	set category = "Mapping"
+	var/icon/final = icon()
+	var/mob/living/carbon/human/dummy/D = new(locate(1,1,1)) //spawn on 1,1,1 so we don't have runtimes when items are deleted
+	D.setDir(SOUTH)
+	for(var/job in subtypesof(/datum/syndicate_crew_role))
+		var/datum/syndicate_crew_role/role = new job
+		for(var/obj/item/I in D)
+			qdel(I)
+		randomize_human(D)
+		var/datum/antagonist/nukeop/syndi_crew/foo = new role.antag_datum_type
+		var/datum/outfit/O = new foo.nukeop_outfit
+		O.equip(D)
+		COMPILE_OVERLAYS(D)
+		var/icon/I = icon(getFlatIcon(D), frame = 1)
+		final.Insert(I, role.name)
+	qdel(D)
+	/*
+	//Also add the x
+	for(var/x_number in 1 to 4)
+		final.Insert(icon('icons/mob/screen_gen.dmi', "x[x_number == 1 ? "" : x_number]"), "x[x_number == 1 ? "" : x_number]")
+	*/
+	fcopy(final, "nsv13/icons/mob/syndicate_roles.dmi")

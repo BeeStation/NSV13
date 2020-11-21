@@ -47,6 +47,33 @@
 	var/zoom_factor = 0.5 //Lets you zoom in / out on the DRADIS for more precision, or for better info.
 	var/next_hail = 0
 	var/hail_range = 50 //Decent distance.
+	//For traders. Lets you link supply pod beacons to designate where traders land.
+	var/usingBeacon = FALSE //Var copied from express consoles so this doesn't break. I love abusing inheritance ;)
+	var/obj/item/supplypod_beacon/beacon
+
+/obj/machinery/computer/ship/dradis/examine(mob/user)
+	. = ..()
+	. += "<span class='sciradio'>You can link supplypod beacons to it to tell traders where to deliver your goods! Hit it with a multitool to swap between delivery locations.</span>"
+	if(beacon)
+		. += "<span class='sciradio'>It's currently linked to [beacon] in [get_area(beacon)]. You can use a multitool to switch whether it delivers here, or to your cargo bay.</span>"
+
+/obj/machinery/computer/ship/dradis/attackby(obj/item/W, mob/living/user, params)
+	if(istype(W, /obj/item/supplypod_beacon))
+		var/obj/item/supplypod_beacon/sb = W
+		if(linked?.dradis != src)
+			to_chat(user, "<span class='warning'>Supplypod beacons can only be linked to the primary DRADIS of a ship (try the one in CIC?).")
+			return FALSE
+		if (sb.express_console != src)
+			sb.link_console(src, user)
+			return TRUE
+		else
+			to_chat(user, "<span class='notice'>[src] is already linked to [sb].</span>")
+	..()
+
+/obj/machinery/computer/ship/dradis/multitool_act(mob/living/user, obj/item/I)
+	usingBeacon = !usingBeacon
+	to_chat(user, "<span class='sciradio'>You switch [src]'s trader delivery location to [usingBeacon ? "target supply beacons" : "target the default landing location on your ship"]")
+	return FALSE
 
 /obj/machinery/computer/ship/dradis/minor //Secondary dradis consoles usable by people who arent on the bridge.
 	name = "Air traffic control console"
@@ -70,8 +97,8 @@
 		return TRUE
 	return FALSE
 
-/obj/machinery/computer/ship/dradis/minor/set_position()
-	RegisterSignal(linked, COMSIG_FTL_STATE_CHANGE, .proc/reset_dradis_contacts, override=TRUE)
+/obj/machinery/computer/ship/dradis/minor/set_position(obj/structure/overmap/OM)
+	RegisterSignal(OM, COMSIG_FTL_STATE_CHANGE, .proc/reset_dradis_contacts, override=TRUE)
 	return
 
 /datum/looping_sound/dradis
@@ -82,9 +109,9 @@
 /obj/machinery/computer/ship/dradis/power_change()
 	..()
 
-/obj/machinery/computer/ship/dradis/set_position() //This tells our overmap what kind of console we are. This is useful as pilots need to see the dradis pop-up as they enter the ship view.
-	linked.dradis = src
-	RegisterSignal(linked, COMSIG_FTL_STATE_CHANGE, .proc/reset_dradis_contacts, override=TRUE)
+/obj/machinery/computer/ship/dradis/set_position(obj/structure/overmap/OM) //This tells our overmap what kind of console we are. This is useful as pilots need to see the dradis pop-up as they enter the ship view.
+	OM.dradis = src
+	RegisterSignal(OM, COMSIG_FTL_STATE_CHANGE, .proc/reset_dradis_contacts, override=TRUE)
 
 /obj/machinery/computer/ship/dradis/proc/reset_dradis_contacts()
 	last_ship_count = 0

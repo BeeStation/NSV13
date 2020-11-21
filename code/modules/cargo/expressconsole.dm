@@ -39,6 +39,11 @@
 	return ..()
 
 /obj/machinery/computer/cargo/express/attackby(obj/item/W, mob/living/user, params)
+	if(istype(W, /obj/item/card/id/departmental_budget) && allowed(user))
+		var/obj/item/card/id/departmental_budget/DB = W
+		to_chat(user, "<span class='sciradio'>You set [src] to use the [DB.department_name].")
+		account_type = DB.department_ID
+		return
 	if((istype(W, /obj/item/card/id) || istype(W, /obj/item/pda)) && allowed(user))
 		locked = !locked
 		to_chat(user, "<span class='notice'>You [locked ? "lock" : "unlock"] the interface.</span>")

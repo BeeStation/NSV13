@@ -13,8 +13,8 @@ GLOBAL_LIST_EMPTY(syndi_crew_leader_spawns)
 	config_tag = "pvp"
 	report_type = "pvp"
 	false_report_weight = 10
-	required_players = 30//40 // 40 to make 20 v 20
-	required_enemies = 12//20
+	required_players = 0//40 // 40 to make 20 v 20
+	required_enemies = 1//20
 	recommended_enemies = 20
 	antag_flag = ROLE_SYNDI_CREW
 	enemy_minimum_age = 0
@@ -38,7 +38,7 @@ GLOBAL_LIST_EMPTY(syndi_crew_leader_spawns)
 	var/leader_antag_datum_type = /datum/antagonist/nukeop/leader/syndi_crew
 	var/list/jobs = list()
 	var/overflow_role = CONQUEST_ROLE_GRUNT
-	var/time_limit = 1 HOURS + 45 MINUTES //How long do you want the mode to run for? This is capped to keep it from dragging on or OOMing
+	var/time_limit = 2 HOURS + 30 MINUTES //How long do you want the mode to run for? This is capped to keep it from dragging on or OOMing
 	var/list/maps = list("SpaceSHIP.dmm") //Basic list of maps. Tell me (Kmc) to improve this if you decide you want to add more than 1 PVP map and i'll make it use JSON instead.
 	var/obj/structure/overmap/syndiship = null
 	var/end_on_team_death = FALSE //Should the round end when the syndies die?
