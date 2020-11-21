@@ -5,7 +5,7 @@
 /obj/item/card/id/departmental_budget/mun
 	department_ID = ACCOUNT_MUN
 	department_name = ACCOUNT_MUN_NAME
-	icon_state = "warden" //placeholder
+	icon_state = "budget_mun"
 
 ///////DEPARTMENT DOOR REMOTE//////
 
