@@ -211,6 +211,7 @@ NOTE:
     target_system[chosen_system] = kill_amount
     ships_to_kill += kill_amount
     var/datum/faction/F = SSstar_system.faction_by_id(pick(target_factions))
+    F.next_fleet_spawn = 0 // hey KMC, iirc you mentioned you gave the send_fleet() proc an override. mind updating this when you get it? ta
     F.send_fleet(chosen_system, kill_amount)
   ships_remaining = ships_to_kill
   stage = MISSION_IDLE
@@ -228,6 +229,7 @@ NOTE:
   visited_systems += owner.current_system
   if(targets_in_system(TRUE) < target_system[owner.current_system])
     var/datum/faction/F = SSstar_system.faction_by_id(pick(target_factions))
+    F.next_fleet_spawn = 0 // hey KMC, iirc you mentioned you gave the send_fleet() proc an override. mind updating this when you get it? ta
     F.send_fleet(owner.current_system, target_system[owner.current_system] - targets_in_system(TRUE))
 
 /datum/nsv_mission/kill_ships/system/update_description()
