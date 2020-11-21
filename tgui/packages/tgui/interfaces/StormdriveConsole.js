@@ -137,7 +137,7 @@ export const StormdriveConsole = (props, context) => {
               value={data.total_moles/data.mole_threshold_very_high}
               ranges={{
                 good: [],
-                average: [(data.mole_threshold_high/data.mole_threshold_very_high), (Infinity)],
+                average: [(data.mole_threshold_high/data.mole_threshold_very_high), Infinity],
                 bad: [-Infinity, data.reaction_rate/data.mole_threshold_very_high],
               }}>
               {data.total_moles + ' mol'}

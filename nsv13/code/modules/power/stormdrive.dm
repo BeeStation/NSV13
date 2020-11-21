@@ -626,7 +626,7 @@ Control Rods
 		heat_gain = initial(heat_gain) + reaction_rate
 		reaction_chamber_gases.clear()
 
-		if(air1.total_moles() > ((reaction_rate * 10) + 20)) //Overpressurized input
+		if(air1.total_moles() > ((reaction_rate * 12) + 20)) //Overpressurized input
 			reactor_stability -= 0.51 //Enough to counter below
 
 		if(fuel_check >= 25) //1:4 fuel ratio
@@ -906,14 +906,14 @@ Control Rods
 			reactor_stability += 15 //Spike that stab back up
 			playsound(loc, 'sound/effects/empulse.ogg', 100)
 
-/obj/machinery/atmospherics/components/binary/stormdrive_reactor/proc/grav_pull() //HUNGRY!
+/obj/machinery/atmospherics/components/binary/stormdrive_reactor/proc/grav_pull()
 	for(var/obj/O in orange((heat / 40), src))
 		if(!O.anchored)
 			step_towards(O,src)
 	for(var/mob/living/M in orange((heat / 40), src))
 		if(!M.mob_negates_gravity())
 			step_towards(M,src)
-			M.Knockdown(40) //Knockdown prey so it can't get away!
+			M.Knockdown(40)
 
 //////// OTHER PROCS ////////
 
@@ -1287,15 +1287,17 @@ Control Rods
 		data["reactor_maintenance"] = TRUE
 	else
 		data["reactor_maintenance"] = FALSE
-	var/effective_fuel = 0
 
 	var/datum/gas_mixture/air1 = reactor.airs[1]
 
 	data["fuel_mix"] = air1.get_moles(/datum/gas/plasma) + air1.get_moles(/datum/gas/constricted_plasma) + air1.get_moles(/datum/gas/tritium)
-	data["mole_threshold_high"] = (reactor.reaction_rate * 10) + 20
-	data["mole_threshold_very_high"] = (reactor.reaction_rate * 16) + 20
+	if(reactor.state == REACTOR_STATE_RUNNING)
+		data["mole_threshold_very_high"] = (reactor.reaction_rate * 18) + 20
+		data["mole_threshold_high"] = (reactor.reaction_rate * 12) + 20
+	else
+		data["mole_threshold_very_high"] = 120 //Just need to avoid that inital orange
+		data["mole_threshold_high"] = 80
 
-	data["fuel"] = effective_fuel
 	data["o2"] = air1.get_moles(/datum/gas/oxygen)
 	data["n2"] = air1.get_moles(/datum/gas/nitrogen)
 	data["co2"] = air1.get_moles(/datum/gas/carbon_dioxide)
@@ -1780,18 +1782,17 @@ Control Rods
 	data["reactor_hot"] = reactor.reactor_temperature_hot
 	data["reactor_critical"] = reactor.reactor_temperature_critical
 	data["reactor_meltdown"] = reactor.reactor_temperature_meltdown
-	var/effective_fuel = 0
 
 	var/datum/gas_mixture/air1 = reactor.airs[1]
-	effective_fuel = air1.get_moles(/datum/gas/plasma) * LOW_ROR + \
-				air1.get_moles(/datum/gas/constricted_plasma) * NORMAL_ROR + \
-				air1.get_moles(/datum/gas/nitrogen) * HINDER_ROR + \
-				air1.get_moles(/datum/gas/water_vapor) * HINDER_ROR + \
-				air1.get_moles(/datum/gas/tritium) * HIGH_ROR
-	if(effective_fuel < 0)
-		effective_fuel = 0
+	data["total_moles"] = air1.total_moles()
+	if(reactor.state == REACTOR_STATE_RUNNING)
+		data["mole_threshold_very_high"] = (reactor.reaction_rate * 18) + 20
+		data["mole_threshold_high"] = (reactor.reaction_rate * 12) + 20
+	else
+		data["mole_threshold_very_high"] = 120 //Just need to avoid that inital orange
+		data["mole_threshold_high"] = 80
 
-	data["fuel"] = effective_fuel
+
 	return data
 
 /datum/computer_file/program/stormdrive_monitor/ui_act(action, params)
