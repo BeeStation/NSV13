@@ -294,8 +294,7 @@ The while loop runs at a programatic level and is thus separated from any thrott
 		velocity.x -= clamped_side_movement * sx
 		velocity.y -= clamped_side_movement * sy
 
-	offset.x += velocity.x * time
-	offset.y += velocity.y * time
+	offset._set(offset.x + velocity.x * time, offset.y +  velocity.y * time, sanity=TRUE)
 
 	position._set(x * 32 + offset.x * 32, y * 32 + offset.y * 32)
 

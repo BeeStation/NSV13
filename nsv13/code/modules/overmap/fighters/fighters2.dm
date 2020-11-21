@@ -352,7 +352,7 @@ Repair
 	sprite_size = 32
 	damage_states = FALSE //temp
 	max_integrity = 250 //Tanky
-	max_passengers = 1
+	max_passengers = 6
 	pixel_w = -16
 	pixel_z = -20
 	req_one_access = list(ACCESS_MUNITIONS, ACCESS_ENGINE, ACCESS_FIGHTER)
@@ -577,7 +577,6 @@ Repair
 
 /obj/structure/overmap/fighter/proc/throw_pilot() //Used when yeeting a pilot out of an exploding ship
 	if(SSmapping.level_trait(z, ZTRAIT_OVERMAP)) //Check if we're on the overmap
-		to_chat(world, "Foo")
 		var/max = world.maxx-TRANSITIONEDGE
 		var/min = 1+TRANSITIONEDGE
 
