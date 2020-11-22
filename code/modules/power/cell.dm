@@ -1,3 +1,8 @@
+//NSV13 added defines for ethereal cell interactions
+#define CELL_DRAIN_TIME 35
+#define CELL_POWER_GAIN 60
+#define CELL_POWER_DRAIN 750
+
 /obj/item/stock_parts/cell
 	name = "power cell"
 	desc = "A rechargeable electrochemical power cell."
@@ -148,13 +153,14 @@
 				if(prob(25))
 					corrupt()
 
+//NSV13 added ethereal cell interaction defines
 /obj/item/stock_parts/cell/attack_self(mob/user)
 	if(isethereal(user))
 		var/mob/living/carbon/human/H = user
 		var/datum/species/ethereal/E = H.dna.species
 		if(E.drain_time > world.time)
 			return
-		if(charge < 100)
+		if(charge < CELL_POWER_DRAIN)
 			to_chat(H, "<span class='warning'>The [src] doesn't have enough power!</span>")
 			return
 		var/obj/item/organ/stomach/ethereal/stomach = H.getorganslot(ORGAN_SLOT_STOMACH)
@@ -165,13 +171,13 @@
 			to_chat(H, "<span class='warning'>Your charge is full!</span>")
 			return
 		to_chat(H, "<span class='notice'>You clumsily channel power through the [src] and into your body, wasting some in the process.</span>")
-		E.drain_time = world.time + 20
-		if((charge < 100) || (stomach.crystal_charge >= ETHEREAL_CHARGE_FULL))
+		E.drain_time = world.time + CELL_DRAIN_TIME
+		if((charge < CELL_POWER_DRAIN) || (stomach.crystal_charge >= ETHEREAL_CHARGE_FULL))
 			return
-		if(do_after(user, 20, target = src))
-			to_chat(H, "<span class='notice'>You receive some charge from the [src].</span>")
-			stomach.adjust_charge(3)
-			charge -= 100 //you waste way more than you receive, so that ethereals cant just steal one cell and forget about hunger
+		if(do_after(user, CELL_DRAIN_TIME, target = src))
+			to_chat(H, "<span class='notice'>You receive some charge from [src], wasting some in the process.</span>")
+			stomach.adjust_charge(CELL_POWER_GAIN)
+			charge -= CELL_POWER_DRAIN //you waste way more than you receive, so that ethereals cant just steal one cell and forget about hunger
 		else
 			to_chat(H, "<span class='warning'>You fail to receive charge from the [src]!</span>")
 	return
@@ -383,3 +389,7 @@
 	var/area/A = get_area(src)
 	if(!A.lightswitch || !A.light_power)
 		charge = 0 //For naturally depowered areas, we start with no power
+
+#undef CELL_DRAIN_TIME
+#undef CELL_POWER_GAIN
+#undef CELL_POWER_DRAIN

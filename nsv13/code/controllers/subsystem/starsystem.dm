@@ -9,6 +9,7 @@ SUBSYSTEM_DEF(star_system)
 	flags = SS_NO_INIT
 	var/last_combat_enter = 0 //Last time an AI controlled ship attacked the players
 	var/list/systems = list()
+	var/list/traders = list()
 	var/bounty_pool = 0 //Bounties pool to be delivered for destroying syndicate ships
 	var/list/enemy_types = list()
 	var/list/enemy_blacklist = list()
@@ -20,6 +21,7 @@ SUBSYSTEM_DEF(star_system)
 	var/nag_interval = 30 MINUTES //Get off your asses and do some work idiots
 	var/nag_stacks = 0 //How many times have we told you to get a move on?
 	var/list/all_missions = list()
+	var/admin_boarding_override = FALSE //Used by admins to force disable boarders
 
 /datum/controller/subsystem/star_system/fire() //Overmap combat events control system, adds weight to combat events over time spent out of combat
 	if(SSmapping.config.patrol_type == "passive")
@@ -111,6 +113,20 @@ Returns a faction datum by its name (case insensitive!)
 		var/datum/star_system/S = new instance
 		if(S.name)
 			systems += S
+
+/client/proc/cmd_admin_boarding_override()
+	set category = "Adminbus"
+	set name = "Toggle Antag Boarding Parties"
+
+	if(!check_rights(R_ADMIN))
+		return
+
+	if(SSstar_system.admin_boarding_override)
+		SSstar_system.admin_boarding_override = FALSE
+		message_admins("[key_name_admin(usr)] has ENABLED overmap antag boarding parties.")
+	else if(!SSstar_system.admin_boarding_override)
+		SSstar_system.admin_boarding_override = TRUE
+		message_admins("[key_name_admin(usr)] has DISABLED overmap antag boarding parties.")
 
 ///////SPAWN SYSTEM///////
 
@@ -311,7 +327,9 @@ Returns a faction datum by its name (case insensitive!)
 		trader = new preset_trader
 		//We need to instantiate the trader's shop now and give it info, so unfortunately these'll always load in.
 		var/obj/structure/overmap/trader/station13 = SSstar_system.spawn_anomaly(trader.station_type, src, TRUE)
+		station13.starting_system = name
 		station13.set_trader(trader)
+		trader.generate_missions()
 	addtimer(CALLBACK(src, .proc/spawn_asteroids), 15 SECONDS)
 	addtimer(CALLBACK(src, .proc/generate_anomaly), 15 SECONDS)
 
