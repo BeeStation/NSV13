@@ -171,42 +171,116 @@
 					/obj/item/ship_weapon/ammunition/countermeasure_charge)
 	crate_name = "Fighter Countermeasure Charges"
 
-/datum/supply_pack/munitions/light_fighter_starter_kit
+/datum/supply_pack/munitions/fighter_construction
 	name = "Light Fighter Starter Kit"
 	desc = "This kit contains all the parts needed to start your own fleet like the space admiral of your dreams."
-	cost = 25000
-	contains = list(/obj/structure/fighter_component/light_chassis_crate,
-					/obj/item/fighter_component/fuel_tank/t1,
+	cost = 9000
+	contains = list(/obj/structure/fighter_frame,
+					/obj/item/fighter_component/fuel_tank,
 					/obj/item/fighter_component/avionics,
 					/obj/item/fighter_component/apu,
-					/obj/item/fighter_component/armour_plating/light/t1,
-					/obj/item/fighter_component/targeting_sensor/light/t1,
-					/obj/item/fighter_component/engine/light/t1,
-					/obj/item/fighter_component/countermeasure_dispenser/t1,
-					/obj/item/fighter_component/secondary/light/missile_rack/t1,
-					/obj/item/fighter_component/primary/light/light_cannon/t1)
+					/obj/item/fighter_component/armour_plating,
+					/obj/item/fighter_component/targeting_sensor,
+					/obj/item/fighter_component/engine,
+					/obj/item/fighter_component/countermeasure_dispenser,
+					/obj/item/fighter_component/secondary/ordnance_launcher,
+					/obj/item/fighter_component/oxygenator,
+					/obj/item/fighter_component/canopy,
+					/obj/item/fighter_component/docking_computer,
+					/obj/item/fighter_component/battery,
+					/obj/item/fighter_component/primary/cannon)
+
+/datum/supply_pack/munitions/fighter_construction/heavy
+	name = "Heavy Fighter Starter Kit"
+	desc = "A DIY fighter kit that allows you to produce Scimitar class heavy fighters, heavy assault craft guaranteed to level cities."
+	cost = 15000
+	contains = list(/obj/structure/fighter_frame/heavy,
+					/obj/item/fighter_component/fuel_tank,
+					/obj/item/fighter_component/avionics,
+					/obj/item/fighter_component/apu,
+					/obj/item/fighter_component/armour_plating,
+					/obj/item/fighter_component/targeting_sensor,
+					/obj/item/fighter_component/engine,
+					/obj/item/fighter_component/countermeasure_dispenser,
+					/obj/item/fighter_component/oxygenator,
+					/obj/item/fighter_component/canopy,
+					/obj/item/fighter_component/docking_computer,
+					/obj/item/fighter_component/secondary/ordnance_launcher/torpedo,
+					/obj/item/fighter_component/battery,
+					/obj/item/fighter_component/primary/cannon/heavy)
+
+/datum/supply_pack/munitions/fighter_construction/utility
+	name = "Utility Fighter Starter Kit"
+	desc = "A DIY fighter kit which lets you manufacture Sabre class support vessels, capable of resupplying and repairing fighters in combat."
+	cost = 10000
+	contains = list(/obj/structure/fighter_frame/utility,
+					/obj/item/fighter_component/fuel_tank/tier2,
+					/obj/item/fighter_component/avionics,
+					/obj/item/fighter_component/apu,
+					/obj/item/fighter_component/armour_plating,
+					/obj/item/fighter_component/targeting_sensor,
+					/obj/item/fighter_component/engine,
+					/obj/item/fighter_component/oxygenator,
+					/obj/item/fighter_component/canopy,
+					/obj/item/fighter_component/docking_computer,
+					/obj/item/fighter_component/battery,
+					/obj/item/fighter_component/primary/utility/hold,
+					/obj/item/fighter_component/secondary/utility/resupply,
+					/obj/item/fighter_component/countermeasure_dispenser)
+
+/datum/supply_pack/munitions/light_cannon
+	name = "Light Cannon Ammunition"
+	desc = "5 boxes of light cannon ammunition for use in fighters."
+	cost = 500
+	contains = list(/obj/item/ammo_box/magazine/light_cannon,
+					/obj/item/ammo_box/magazine/light_cannon,
+					/obj/item/ammo_box/magazine/light_cannon,
+					/obj/item/ammo_box/magazine/light_cannon,
+					/obj/item/ammo_box/magazine/light_cannon)
+	crate_name = "Light cannon ammunition crate"
+
+/datum/supply_pack/munitions/heavy_cannon
+	name = "Heavy Cannon Ammunition"
+	desc = "5 boxes of heavy cannon ammunition for use in fighters."
+	cost = 500
+	contains = list(/obj/item/ammo_box/magazine/heavy_cannon,
+					/obj/item/ammo_box/magazine/heavy_cannon,
+					/obj/item/ammo_box/magazine/heavy_cannon,
+					/obj/item/ammo_box/magazine/heavy_cannon,
+					/obj/item/ammo_box/magazine/heavy_cannon)
+	crate_name = "Heavy cannon ammunition crate"
 
 /datum/supply_pack/security/peacekeeper_rifles
-	name = "M2A45 pulse rifles (x5)"
-	desc = "A pack of 5 M2A45 pulse rifles, preloaded with nonlethal stun slugs."
-	cost = 15000
+	name = "M2A45 pulse rifles (x3)"
+	desc = "A pack of 3 M2A45 pulse rifles, preloaded with nonlethal stun slugs."
+	cost = 9000
 	contains = list(/obj/item/gun/ballistic/automatic/peacekeeper,
 					/obj/item/gun/ballistic/automatic/peacekeeper,
-					/obj/item/gun/ballistic/automatic/peacekeeper,
-					/obj/item/gun/ballistic/automatic/peacekeeper,
 					/obj/item/gun/ballistic/automatic/peacekeeper)
-	crate_name = "M2A45 pulse rifles"
+	crate_name = "M2A45 crate"
+
+/datum/supply_pack/security/peacekeeper_rifles_single
+	name = "M2A45 Pulse Rifle Single-Pack"
+	desc = "A single M2A45 pulse rifle, preloaded with nonlethal stun slugs."
+	cost = 3500
+	small_item = TRUE
+	contains = list(/obj/item/gun/ballistic/automatic/peacekeeper)
 
 /datum/supply_pack/security/glock
-	name = "Glock-13s (x5)"
-	desc = "A pack of 5 security glock-13s, preloaded with rubber bullets."
-	cost = 8000
+	name = "Glock-13s (x3)"
+	desc = "A pack of 3 Security Glock-13s, preloaded with rubber bullets."
+	cost = 5000
 	contains = list(/obj/item/gun/ballistic/automatic/pistol/glock,
 					/obj/item/gun/ballistic/automatic/pistol/glock,
-					/obj/item/gun/ballistic/automatic/pistol/glock,
-					/obj/item/gun/ballistic/automatic/pistol/glock,
 					/obj/item/gun/ballistic/automatic/pistol/glock)
-	crate_name = "Glock-13s"
+	crate_name = "Glock-13 crate"
+
+/datum/supply_pack/security/glock_single
+	name = "Glock-13 Single-Pack"
+	desc = "A single Security Glock-13, preloaded with rubber bullets."
+	cost = 2000
+	small_item = TRUE
+	contains = list(/obj/item/gun/ballistic/automatic/pistol/glock)
 
 /datum/supply_pack/security/edged_weapons
 	name = "Surviving edged weapons: Informational manual"
@@ -225,7 +299,7 @@
 					/obj/item/ammo_box/c9mm/rubber,
 					/obj/item/ammo_box/c9mm/rubber,
 					/obj/item/ammo_box/magazine/pistolm9mm/glock)
-	crate_name = "Glock-13 ammunition (nonlethal)"
+	crate_name = "Glock-13 nonlethal ammunition crate"
 
 /datum/supply_pack/security/glock_lethal
 	name = "Glock-13 ammo (lethal)"
@@ -237,7 +311,8 @@
 					/obj/item/ammo_box/c9mm,
 					/obj/item/ammo_box/c9mm,
 					/obj/item/ammo_box/magazine/pistolm9mm/glock/lethal)
-	crate_name = "Glock-13 ammunition (lethal)"
+	crate_name = "Glock-13 lethal ammunition crate"
+	access = ACCESS_ARMORY
 
 /datum/supply_pack/security/ballistic_tazer
 	name = "Czanek Corp Tazer Crate"
@@ -258,7 +333,7 @@
 					/obj/item/ammo_box/magazine/peacekeeper,
 					/obj/item/ammo_box/magazine/peacekeeper,
 					/obj/item/ammo_box/magazine/peacekeeper)
-	crate_name = "M2A45 pulse rifle ammunition (nonlethal)"
+	crate_name = "M2A45 nonlethal ammunition crate"
 
 /datum/supply_pack/security/peacekeeper_ammo_lethal
 	name = "M2A45 pulse rifle ammo (lethal)"
@@ -269,7 +344,17 @@
 					/obj/item/ammo_box/magazine/peacekeeper/lethal,
 					/obj/item/ammo_box/magazine/peacekeeper/lethal,
 					/obj/item/ammo_box/magazine/peacekeeper/lethal)
-	crate_name = "M2A45 pulse rifle ammunition (lethal)"
+	crate_name = "M2A45 lethal ammunition crate"
+	access = ACCESS_ARMORY
+
+/datum/supply_pack/security/armory/laser // NSV - We've got to have them somewhere, apparently.
+	name = "Lasers Crate"
+	desc = "Contains three lethal, high-energy laser guns."
+	cost = 2000
+	contains = list(/obj/item/gun/energy/laser,
+					/obj/item/gun/energy/laser,
+					/obj/item/gun/energy/laser)
+	crate_name = "laser crate"
 
 /datum/supply_pack/munitions/aviation_fuel
 	name = "Aviation fuel"
@@ -307,7 +392,6 @@
 	contains = list(/obj/item/circuitboard/machine/armour_plating_nanorepair_well)
 	crate_name = "Armour Plating Nano-repair Well Machine Board"
 
-
 /datum/supply_pack/engineering/armour_plating_nanorepair_pump
 	name = "Armour Plating Nano-repair Pump Machine Board"
 	desc = "A replacement machine board for a APNP."
@@ -315,3 +399,20 @@
 	cost = 25000 //Make sure you look after these
 	contains = list(/obj/item/circuitboard/machine/armour_plating_nanorepair_pump)
 	crate_name = "Armour Plating Nano-repair Pump Machine Board"
+
+/datum/supply_pack/engine/stormdrive_core
+	name = "Stormdrive Reactor Core Crate"
+	desc = "This crate contains a live reactor core for a class iv nuclear storm drive."
+	cost = 35000
+	access = ACCESS_CE
+	contains = list(/obj/item/stormdrive_core)
+	crate_name = "stormdrive reactor core crate"
+	crate_type = /obj/structure/closet/crate/secure/engineering
+	dangerous = TRUE
+
+/datum/supply_pack/costumes_toys/wardrobes/munitions
+	name = "Munitions Wardrobe Supply Crate"
+	desc = "This crate contains a refill for the Munidrobe."
+	cost = 750
+	contains = list(/obj/item/vending_refill/wardrobe/muni_wardrobe)
+	crate_name = "munidrobe supply crate"

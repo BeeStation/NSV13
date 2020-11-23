@@ -124,7 +124,7 @@ export const StormdriveConsole = (props, context) => {
             </ProgressBar>
             Fuel:
             <ProgressBar
-              value={(data.fuel/100 * 100)* 0.01}
+              value={(data.fuel/100 * 100)* 0.02}
               ranges={{
                 good: [],
                 average: [0.15, 0.9],

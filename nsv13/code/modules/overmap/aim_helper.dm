@@ -25,15 +25,19 @@
 	autofire_target = null
 	lastangle = getMouseAngle(params, M)
 	stop_aiming()
-	if(fire_mode == FIRE_MODE_MAC || FIRE_MODE_BLUE_LASER)
+	if(fire_mode == FIRE_MODE_MAC || fire_mode == FIRE_MODE_BLUE_LASER)
 		fire_weapon(object)
 	QDEL_LIST(current_tracers)
+
+/obj/structure/overmap
+	var/next_beam = 0
 
 /obj/structure/overmap/proc/draw_beam(force_update = FALSE)
 	var/diff = abs(aiming_lastangle - lastangle)
 	check_user()
-	if(diff < AIMING_BEAM_ANGLE_CHANGE_THRESHOLD && !force_update)
+	if(diff < AIMING_BEAM_ANGLE_CHANGE_THRESHOLD || world.time < next_beam && !force_update)
 		return
+	next_beam = world.time + 0.05 SECONDS
 	aiming_lastangle = lastangle
 	var/obj/item/projectile/beam/overmap/aiming_beam/P = new
 	P.gun = src

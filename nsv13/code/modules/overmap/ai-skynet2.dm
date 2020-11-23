@@ -1,33 +1,22 @@
 /*SKYNET 2 AI by Kmc2000
-
 "Because SKYNET 1 wasn't good enough."
-
 This implements fleet movement for AIs through the use of very basic "utility score" AI programming.
-
 How this works:
-
 Instead of a traditional decision tree like we used back in SKYNET 1, Skynet 2 uses utility scoring, a technique similar to GOAP.
-
 Instead of giving the AI a preset, flat list of decisions to make, the AI will now make decisions "on the fly" based on what task is most important to it at the time.
 -This can vary! And can be anything you want. Maybe you're making a asteroid slinger ship, and you want to ensure that it has an asteroid to fling at someone BEFORE attacking an enemy ship. In this case, you'd just say that the "get asteroid" goal is more important to the AI than the "search and destroy" goal. (Though be sure to lock it to that specific ship via traits!)
-
 This code uses singleton datums to give AI orders.
 Workflow:
 AIs like score, every few seconds, they'll run through all the subtypes of datum/ai_goal, which are stored in a global list. If it has a goal, and finds a higher priority task, it'll switch focus to whatever task we want it to.
 Example:
-
 Frame 1: Ai shoots ship, runs out of ammo
 Frame 2: Ai ship's "search and destroy" goal is now a lower priority than its resupply goal, as it recognises that it's fresh out of ammo. It'll now go find a supply ship and get re-armed there.
-
 Current task hierarchy (as of 28/06/2020)!
-
 1: Repair and re-arm. If a ship becomes critically damaged, or runs out of bullets, it will rush to a supply ship to resupply (if available), and heal up.
 2: (if you're a battleship): Defend the supply lines. Battleships stick close to the supply ships and keep them safe.
 3: Search and destroy: Attempt to find a target that's visible and within tracking range.
 4: (All ships) Defend the supply lines: If AIs cannot find a suitable target, they'll flock back to the main fleet and protect the tankers. More nimble attack squadrons will blade off in wings and attack the enemy if they get too close, with the battleships staying behind to protect their charges.
-
 Adding tasks is easy! Just define a datum for it.
-
 */
 
 #define AI_SCORE_MAXIMUM 1000 //No goal combination should ever exceed this.
@@ -84,6 +73,9 @@ GLOBAL_LIST_EMPTY(ai_goals)
 	var/list/recently_visited = list()
 	var/fleet_trait = FLEET_TRAIT_INVASION
 	var/last_encounter_time = 0
+	var/datum/faction/faction = null
+	var/faction_id = FACTION_ID_SYNDICATE
+	var/reward = 100 //Reward for defeating this fleet, is credited to this faction's enemies.
 
 //BFS search algo. Entirely unused for now.
 /datum/fleet/proc/bfs(datum/star_system/target)
@@ -232,8 +224,8 @@ GLOBAL_LIST_EMPTY(ai_goals)
 		current_system.alignment = initial(current_system.alignment)
 		current_system.mission_sector = FALSE
 	current_system.fleets -= src
-	SSstar_system.systems_cleared ++
-	SSstar_system.check_completion()
+	faction = SSstar_system.faction_by_id(faction_id)
+	faction?.lose_influence(reward)
 	for(var/obj/structure/overmap/OOM in current_system.system_contents)
 		if(!OOM.mobs_in_ship.len)
 			continue
@@ -260,10 +252,29 @@ GLOBAL_LIST_EMPTY(ai_goals)
 	curr?.remove_ship(src)
 	jump(SS, FALSE)
 
-/obj/structure/overmap/proc/hail(text, sender)
-	if(!text || !sender)
+/obj/structure/overmap/proc/try_hail(mob/living/user, var/obj/structure/overmap/source_ship)
+	if(!isliving(user))
+		return FALSE
+	if(!source_ship)
+		return FALSE
+	var/text = stripped_input(user, "What do you want to say?", "Hailing")
+	if(text)
+		source_ship.hail(text, name, user.name, TRUE) // Let the crew on the source ship know an Outbound message was sent
+		hail(text, source_ship.name, user.name)
+
+/obj/structure/overmap/proc/hail(var/text, var/ship_name, var/player_name, var/outbound = FALSE)
+	if(!text)
 		return
-	relay('nsv13/sound/effects/ship/freespace2/computer/textdraw.wav', "<h1>Incoming hail from: [sender]</h1><hr><br><span class='userdanger'>[text]</span>")
+	if(!ship_name)
+		return
+	var/player_string = ""
+	if(player_name) // No sender means AI ship
+		player_string = " (Sent by [player_name])"
+
+	if(outbound)
+		relay('nsv13/sound/effects/ship/freespace2/computer/textdraw.wav', "<h3>Outbound hail to: [ship_name][player_string]</h3><hr><span class='danger'>[text]</span><br>")
+	else
+		relay('nsv13/sound/effects/ship/freespace2/computer/textdraw.wav', "<h1>Incoming hail from: [ship_name][player_string]</h1><hr><span class='userdanger'>[text]</span><br>")
 
 /proc/get_internet_sound(web_sound_input)
 	if(!web_sound_input)
@@ -368,6 +379,12 @@ GLOBAL_LIST_EMPTY(ai_goals)
 	size = FLEET_DIFFICULTY_EASY
 	fleet_trait = FLEET_TRAIT_BORDER_PATROL
 
+/datum/fleet/nanotrasen/border/defense
+	name = "501st 'Crais' Fist' Expeditionary Force"
+	taunts = list("You have violated the law. Stand down your weapons and prepare to be boarded.", "Hostile vessel. Stand down immediately or be destroyed.")
+	size = FLEET_DIFFICULTY_EASY
+	fleet_trait = FLEET_TRAIT_DEFENSE
+
 //Boss battles.
 
 /datum/fleet/rubicon //Crossing the rubicon, are we?
@@ -377,12 +394,13 @@ GLOBAL_LIST_EMPTY(ai_goals)
 	taunts = list("Better crews have tried to cross the Rubicon, you will die like they did.", "Defense force, stand ready!", "Nanotrasen filth. Munitions, ready the guns. We’ll scrub the galaxy clean of you vermin.", "This shift just gets better and better. I’ll have your Captain’s head on my wall.")
 	fleet_trait = FLEET_TRAIT_DEFENSE
 
-/datum/fleet/tortuga
-	name = "Tortuga raiders"
-	audio_cues = list("https://www.youtube.com/watch?v=WMSoo4B2hFU")
+/datum/fleet/pirate
+	name = "Pirate scout fleet"
+	audio_cues = list("https://www.youtube.com/watch?v=WMSoo4B2hFU", "https://www.youtube.com/watch?v=dsLHf9X8P8w")
 	taunts = list("Yar har! Fresh meat", "Unfurl the mainsails! We've got company", "Die landlubbers!")
-	size = FLEET_DIFFICULTY_HARD
+	size = FLEET_DIFFICULTY_MEDIUM
 	fleet_trait = FLEET_TRAIT_DEFENSE
+	faction_id = FACTION_ID_PIRATES
 
 /datum/fleet/nanotrasen/earth
 	name = "Earth Defense Force"
@@ -415,7 +433,7 @@ GLOBAL_LIST_EMPTY(ai_goals)
 /datum/fleet/unknown_ship
 	name = "Unknown Ship Class"
 	size = 1
-	destroyer_types = list(/obj/structure/overmap/syndicate/ai/battleship)
+	battleship_types = list(/obj/structure/overmap/syndicate/ai/battleship)
 	audio_cues = list("https://www.youtube.com/watch?v=zyPSAkz84vM")
 	taunts = list("Your assault on Rubicon only served to distract you from the real threat. It's time to end this war in one swift blow.")
 	fleet_trait = FLEET_TRAIT_DEFENSE
@@ -430,6 +448,7 @@ GLOBAL_LIST_EMPTY(ai_goals)
 	supply_types = list(/obj/structure/overmap/nanotrasen/carrier/ai)
 	alignment = "nanotrasen"
 	hide_movements = TRUE //Friendly fleets just move around as you'd expect.
+	faction_id = FACTION_ID_NT
 
 /datum/fleet/nanotrasen/light
 	name = "Nanotrasen light fleet"
@@ -449,8 +468,10 @@ GLOBAL_LIST_EMPTY(ai_goals)
 	SS.alignment = alignment
 	if(!SS.occupying_z) //Only loaded in levels are supported at this time. TODO: Fix this.
 		return FALSE
+	faction = SSstar_system.faction_by_id(faction_id)
 	instantiated = TRUE
 	current_system = SS
+	reward *= size //Bigger fleet = larger reward
 	/*Fleet comp! Let's use medium as an example:
 	6 total
 	3 destroyers (1/2 of the fleet size)
@@ -734,6 +755,8 @@ GLOBAL_LIST_EMPTY(ai_goals)
 	var/datum/fleet/fleet = null
 	var/datum/ai_goal/current_goal = null
 	var/obj/structure/overmap/squad_lead = null
+	var/obj/structure/last_overmap = null
+	var/switchsound_cooldown = 0
 
 /obj/structure/overmap/proc/ai_fire(atom/target)
 	if(next_firetime > world.time)
@@ -895,7 +918,9 @@ GLOBAL_LIST_EMPTY(ai_goals)
 	if(OM.role == MAIN_OVERMAP)
 		set_security_level(SEC_LEVEL_RED) //Action stations when the ship is under attack, if it's the main overmap.
 		SSstar_system.last_combat_enter = world.time //Tag the combat on the SS
-		SSstar_system.modifier = 0 //Reset overmap spawn modifier
+		SSstar_system.nag_stacks = 0 //Reset overmap spawn modifier
+		SSstar_system.nag_interval = initial(SSstar_system.nag_interval)
+		SSstar_system.next_nag_time = world.time + SSstar_system.nag_interval
 		var/datum/round_event_control/_overmap_event_handler/OEH = locate(/datum/round_event_control/_overmap_event_handler) in SSevents.control
 		OEH.weight = 0 //Reset controller weighting
 	if(OM.tactical)
@@ -1078,4 +1103,3 @@ GLOBAL_LIST_EMPTY(ai_goals)
 		message_admins("[key_name(src)] has instanced a copy of [ship_file].")
 		OM.name = shipName
 		addtimer(CALLBACK(GLOBAL_PROC, .proc/overmap_lighting_force, OM), 6 SECONDS)
-

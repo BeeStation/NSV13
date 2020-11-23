@@ -54,12 +54,6 @@
 /obj/structure/lattice/catwalk,
 /turf/open/space/basic,
 /area/nostromo/maintenance/exterior)
-"ak" = (
-/obj/structure/grille,
-/obj/structure/window/reinforced/fulltile/ship/interior,
-/obj/machinery/door/firedoor,
-/turf/open/floor/plasteel/techmaint,
-/area/nostromo/mining)
 "al" = (
 /obj/structure/hull_plate/end{
 	dir = 9
@@ -113,6 +107,11 @@
 	pixel_y = 26
 	},
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3,
+/obj/machinery/camera{
+	c_tag = "Dormitories";
+	dir = 4;
+	network = list("mine")
+	},
 /turf/open/floor/carpet/ship,
 /area/nostromo/crew_quarters)
 "av" = (
@@ -141,8 +140,8 @@
 /area/maintenance/nsv/mining_ship/aft)
 "ay" = (
 /obj/structure/toilet{
-	icon_state = "toilet00";
-	dir = 4
+	dir = 4;
+	icon_state = "toilet00"
 	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 5
@@ -268,10 +267,15 @@
 /turf/open/floor/plasteel/ridged/steel,
 /area/nostromo/mining)
 "aT" = (
-/obj/machinery/door/firedoor,
-/turf/open/floor/plasteel/stairs/old{
-	icon_state = "stairs-old";
+/obj/machinery/door/firedoor/border_only{
 	dir = 4
+	},
+/obj/machinery/door/firedoor/border_only{
+	dir = 8
+	},
+/turf/open/floor/plasteel/stairs/old{
+	dir = 4;
+	icon_state = "stairs-old"
 	},
 /area/nostromo/mining)
 "aU" = (
@@ -299,23 +303,33 @@
 /turf/open/floor/plasteel/ridged/steel,
 /area/nostromo/bridge)
 "aY" = (
-/obj/machinery/door/firedoor,
 /obj/structure/cable{
 	icon_state = "4-8"
 	},
-/turf/open/floor/plasteel/stairs/old{
-	icon_state = "stairs-old";
+/obj/machinery/door/firedoor/border_only{
 	dir = 4
+	},
+/obj/machinery/door/firedoor/border_only{
+	dir = 8
+	},
+/turf/open/floor/plasteel/stairs/old{
+	dir = 4;
+	icon_state = "stairs-old"
 	},
 /area/nostromo/mining)
 "aZ" = (
 /obj/machinery/door/airlock/ship{
-	name = "Primary storage junction"
+	name = "Primary Storage Junction"
 	},
-/obj/machinery/door/firedoor,
-/turf/open/floor/plasteel/stairs/old{
-	icon_state = "stairs-old";
+/obj/machinery/door/firedoor/border_only{
 	dir = 8
+	},
+/obj/machinery/door/firedoor/border_only{
+	dir = 4
+	},
+/turf/open/floor/plasteel/stairs/old{
+	dir = 8;
+	icon_state = "stairs-old"
 	},
 /area/nostromo/mining)
 "ba" = (
@@ -367,15 +381,18 @@
 /obj/machinery/door/airlock/ship/hatch{
 	name = "maintenance hatch"
 	},
-/obj/machinery/door/firedoor,
 /obj/structure/cable/yellow{
 	icon_state = "1-2"
+	},
+/obj/machinery/door/firedoor/border_only,
+/obj/machinery/door/firedoor/border_only{
+	dir = 1
 	},
 /turf/open/floor/plating,
 /area/maintenance/nsv/mining_ship/central)
 "bi" = (
 /obj/machinery/door/airlock/ship/public{
-	name = "Dorms"
+	name = "Staff Quarters"
 	},
 /obj/machinery/door/firedoor,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
@@ -400,9 +417,12 @@
 /obj/machinery/door/airlock/ship/hatch{
 	name = "maintenance hatch"
 	},
-/obj/machinery/door/firedoor,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
+/obj/machinery/door/firedoor/border_only,
+/obj/machinery/door/firedoor/border_only{
+	dir = 1
+	},
 /turf/open/floor/plating,
 /area/maintenance/nsv/mining_ship/forward)
 "bn" = (
@@ -417,8 +437,8 @@
 	req_one_access_txt = "31;48"
 	},
 /obj/effect/mapping_helpers/airlock/cyclelink_helper{
-	icon_state = "airlock_cyclelink_helper";
-	dir = 1
+	dir = 1;
+	icon_state = "airlock_cyclelink_helper"
 	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
@@ -518,8 +538,8 @@
 /area/nostromo/maintenance/exterior)
 "bE" = (
 /obj/structure/shuttle/engine/large{
-	icon_state = "large_engine";
-	dir = 8
+	dir = 8;
+	icon_state = "large_engine"
 	},
 /turf/open/space/basic,
 /area/nostromo/maintenance/exterior)
@@ -538,22 +558,16 @@
 /area/nostromo/hangar/starboard)
 "bH" = (
 /obj/effect/turf_decal/arrows{
-	icon_state = "arrows";
-	dir = 8
+	dir = 8;
+	icon_state = "arrows"
 	},
 /obj/structure/hull_plate,
 /turf/open/floor/plating/airless,
 /area/nostromo/hangar/starboard)
-"bI" = (
-/obj/structure/overmap/fighter/utility/prebuilt/carrier/mining,
-/turf/open/floor/plasteel/techmaint{
-	initial_gas_mix = "TEMP=2.7"
-	},
-/area/nostromo/hangar/starboard)
 "bJ" = (
 /obj/effect/turf_decal/arrows{
-	icon_state = "arrows";
-	dir = 4
+	dir = 4;
+	icon_state = "arrows"
 	},
 /obj/structure/hull_plate,
 /turf/open/floor/plating/airless,
@@ -638,17 +652,18 @@
 /turf/closed/wall/ship,
 /area/nostromo/bridge)
 "bY" = (
-/obj/structure/grille,
-/obj/structure/window/reinforced/fulltile/ship/interior,
-/obj/machinery/door/firedoor,
-/turf/open/floor/plasteel/techmaint,
+/obj/effect/spawner/structure/window/reinforced,
+/turf/open/floor/plating,
 /area/nostromo/bridge)
 "bZ" = (
-/obj/machinery/door/firedoor,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/obj/machinery/door/firedoor/border_only,
+/obj/machinery/door/firedoor/border_only{
+	dir = 1
+	},
 /obj/machinery/door/airlock/glass_large/ship{
-	name = "DMC Rocinante CIC"
+	name = "DMC Rocinante Bridge"
 	},
 /turf/open/floor/plasteel/ridged/steel,
 /area/nostromo/bridge)
@@ -659,12 +674,15 @@
 /turf/closed/wall/ship,
 /area/maintenance/nsv/mining_ship/aft)
 "cb" = (
-/obj/machinery/door/firedoor,
 /obj/structure/cable{
 	icon_state = "1-2"
 	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
+/obj/machinery/door/firedoor/border_only,
+/obj/machinery/door/firedoor/border_only{
+	dir = 1
+	},
 /turf/open/floor/plasteel/ridged/steel,
 /area/nostromo/bridge)
 "cc" = (
@@ -676,9 +694,8 @@
 /turf/open/floor/plasteel/grid/steel,
 /area/nostromo/bridge)
 "ce" = (
-/obj/structure/window/reinforced/fulltile/ship/interior,
-/obj/structure/grille,
-/turf/open/floor/plasteel/dark,
+/obj/effect/spawner/structure/window/reinforced,
+/turf/open/floor/plating,
 /area/nostromo/mining)
 "cf" = (
 /obj/item/tank/internals/oxygen,
@@ -690,9 +707,12 @@
 /obj/machinery/door/airlock/ship/hatch{
 	name = "maintenance hatch"
 	},
-/obj/machinery/door/firedoor,
 /obj/structure/cable/yellow{
 	icon_state = "1-2"
+	},
+/obj/machinery/door/firedoor/border_only,
+/obj/machinery/door/firedoor/border_only{
+	dir = 1
 	},
 /turf/open/floor/plating,
 /area/nostromo)
@@ -751,8 +771,8 @@
 "cn" = (
 /obj/structure/hull_plate,
 /obj/structure/shuttle/engine/large{
-	icon_state = "large_engine";
-	dir = 1
+	dir = 1;
+	icon_state = "large_engine"
 	},
 /turf/open/floor/plating/airless,
 /area/nostromo/maintenance/exterior)
@@ -819,6 +839,11 @@
 /obj/effect/turf_decal/stripes/line,
 /obj/structure/cable{
 	icon_state = "1-2"
+	},
+/obj/machinery/camera{
+	c_tag = "Hangar - Port Starboard";
+	dir = 4;
+	network = list("mine")
 	},
 /turf/open/floor/monotile/dark/airless,
 /area/nostromo/hangar/starboard)
@@ -910,12 +935,15 @@
 /turf/open/floor/plasteel/ridged/steel,
 /area/nostromo/bridge)
 "cN" = (
-/obj/machinery/door/firedoor,
 /obj/machinery/door/airlock/ship{
-	name = "Central frame"
+	name = "Central Frame"
 	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
+/obj/machinery/door/firedoor/border_only,
+/obj/machinery/door/firedoor/border_only{
+	dir = 1
+	},
 /turf/open/floor/plasteel/ship/padded,
 /area/nostromo)
 "cO" = (
@@ -932,18 +960,12 @@
 	dir = 5
 	},
 /obj/machinery/atmospherics/components/binary/dp_vent_pump{
-	icon_state = "dpvent_map-2";
-	dir = 1
+	dir = 1;
+	icon_state = "dpvent_map-2"
 	},
 /obj/machinery/advanced_airlock_controller/directional/east,
 /turf/open/floor/plasteel/dark,
 /area/maintenance/nsv/mining_ship/aft)
-"cQ" = (
-/obj/structure/grille,
-/obj/structure/window/reinforced/fulltile/ship/interior,
-/obj/machinery/door/firedoor,
-/turf/open/floor/plasteel/ship/padded,
-/area/nostromo)
 "cR" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 10
@@ -965,6 +987,12 @@
 	name = "maintenance hatch"
 	},
 /obj/machinery/door/firedoor,
+/obj/machinery/door/firedoor/border_only{
+	dir = 4
+	},
+/obj/machinery/door/firedoor/border_only{
+	dir = 8
+	},
 /turf/open/floor/plating,
 /area/nostromo/crew_quarters)
 "cV" = (
@@ -1011,8 +1039,8 @@
 	req_one_access_txt = "31;48"
 	},
 /obj/effect/mapping_helpers/airlock/cyclelink_helper{
-	icon_state = "airlock_cyclelink_helper";
-	dir = 1
+	dir = 1;
+	icon_state = "airlock_cyclelink_helper"
 	},
 /turf/open/floor/plasteel/techmaint,
 /area/maintenance/nsv/mining_ship/aft)
@@ -1074,19 +1102,19 @@
 /turf/open/floor/monotile,
 /area/nostromo/bridge)
 "dk" = (
-/obj/machinery/door/airlock/ship/external/glass{
-	name = "Pressurization chamber";
-	req_one_access_txt = "31;48"
-	},
 /obj/effect/mapping_helpers/airlock/cyclelink_helper{
-	icon_state = "airlock_cyclelink_helper";
-	dir = 4
+	dir = 4;
+	icon_state = "airlock_cyclelink_helper"
 	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 8
 	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden{
 	dir = 4
+	},
+/obj/machinery/door/airlock/ship/external/glass{
+	name = "Pressurization Chamber";
+	req_one_access_txt = "31;48"
 	},
 /turf/open/floor/plasteel/techmaint,
 /area/nostromo/mining)
@@ -1096,6 +1124,12 @@
 	},
 /obj/structure/cable/yellow{
 	icon_state = "4-8"
+	},
+/obj/machinery/door/firedoor/border_only{
+	dir = 4
+	},
+/obj/machinery/door/firedoor/border_only{
+	dir = 8
 	},
 /turf/open/floor/plasteel/ship/padded,
 /area/maintenance/nsv/mining_ship/forward)
@@ -1120,21 +1154,23 @@
 	req_one_access_txt = "31;48"
 	},
 /obj/effect/mapping_helpers/airlock/cyclelink_helper{
-	icon_state = "airlock_cyclelink_helper";
-	dir = 1
+	dir = 1;
+	icon_state = "airlock_cyclelink_helper"
 	},
 /obj/machinery/atmospherics/pipe/layer_manifold,
 /turf/open/floor/plasteel/dark,
 /area/maintenance/nsv/mining_ship/aft)
 "dp" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer1,
+/obj/machinery/camera{
+	c_tag = "Central Frame - Fore Port";
+	network = list("mine")
+	},
 /turf/open/floor/plasteel/ridged/steel,
 /area/nostromo)
 "dq" = (
-/obj/structure/grille,
-/obj/structure/window/reinforced/fulltile/ship/interior,
-/obj/machinery/door/firedoor,
-/turf/open/floor/plasteel/ship/padded,
+/obj/effect/spawner/structure/window/reinforced,
+/turf/open/floor/plating,
 /area/maintenance/nsv/mining_ship/aft)
 "dr" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer1{
@@ -1150,11 +1186,23 @@
 /obj/machinery/door/airlock/ship/hatch{
 	name = "ICU hatch"
 	},
+/obj/machinery/door/firedoor/border_only{
+	dir = 8
+	},
+/obj/machinery/door/firedoor/border_only{
+	dir = 4
+	},
 /turf/open/floor/plasteel/ridged/steel,
 /area/maintenance/nsv/mining_ship/central)
 "du" = (
 /obj/machinery/door/airlock/ship/hatch{
 	name = "maintenance hatch"
+	},
+/obj/machinery/door/firedoor/border_only{
+	dir = 4
+	},
+/obj/machinery/door/firedoor/border_only{
+	dir = 8
 	},
 /turf/open/floor/plating,
 /area/maintenance/nsv/mining_ship/central)
@@ -1163,6 +1211,10 @@
 	name = "maintenance hatch"
 	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
+/obj/machinery/door/firedoor/border_only,
+/obj/machinery/door/firedoor/border_only{
+	dir = 1
+	},
 /turf/open/floor/plasteel/techmaint,
 /area/nostromo/engineering/atmospherics)
 "dw" = (
@@ -1199,8 +1251,8 @@
 /area/nostromo)
 "dB" = (
 /obj/structure/chair/sofa{
-	icon_state = "sofamiddle";
-	dir = 4
+	dir = 4;
+	icon_state = "sofamiddle"
 	},
 /obj/effect/landmark/start/shaft_miner,
 /turf/open/floor/carpet/ship,
@@ -1220,15 +1272,13 @@
 /turf/open/floor/carpet/ship,
 /area/nostromo/crew_quarters)
 "dF" = (
-/obj/structure/grille,
-/obj/structure/window/reinforced/fulltile/ship/interior,
-/obj/machinery/door/firedoor,
-/turf/open/floor/plasteel/ship/padded,
+/obj/effect/spawner/structure/window/reinforced,
+/turf/open/floor/plating,
 /area/nostromo/crew_quarters)
 "dG" = (
 /obj/structure/chair/sofa{
-	icon_state = "sofamiddle";
-	dir = 4
+	dir = 4;
+	icon_state = "sofamiddle"
 	},
 /obj/machinery/light{
 	dir = 8
@@ -1283,6 +1333,12 @@
 /obj/machinery/door/airlock/ship/hatch{
 	name = "maintenance hatch"
 	},
+/obj/machinery/door/firedoor/border_only{
+	dir = 4
+	},
+/obj/machinery/door/firedoor/border_only{
+	dir = 8
+	},
 /turf/open/floor/plasteel/techmaint,
 /area/maintenance/nsv/mining_ship/central)
 "dP" = (
@@ -1316,8 +1372,8 @@
 /area/nostromo/engineering)
 "dT" = (
 /obj/structure/hull_plate/end{
-	icon_state = "tgmc_outerhull_dir";
-	dir = 10
+	dir = 10;
+	icon_state = "tgmc_outerhull_dir"
 	},
 /turf/open/floor/plating/airless,
 /area/nostromo/maintenance/exterior)
@@ -1422,6 +1478,9 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 8
 	},
+/obj/structure/cable{
+	icon_state = "1-4"
+	},
 /turf/open/floor/plasteel/techmaint,
 /area/nostromo)
 "eg" = (
@@ -1446,7 +1505,12 @@
 /obj/machinery/door/airlock/ship/hatch{
 	name = "maintenance hatch"
 	},
-/obj/machinery/door/firedoor,
+/obj/machinery/door/firedoor/border_only{
+	dir = 8
+	},
+/obj/machinery/door/firedoor/border_only{
+	dir = 4
+	},
 /turf/open/floor/plasteel/dark,
 /area/maintenance/nsv/mining_ship/forward)
 "ej" = (
@@ -1461,12 +1525,12 @@
 /turf/open/floor/monotile,
 /area/nostromo/mining)
 "ek" = (
-/obj/machinery/door/airlock/ship/external/glass{
-	name = "Pressurization chamber";
-	req_one_access_txt = "31;48"
-	},
 /obj/effect/mapping_helpers/airlock/cyclelink_helper{
 	dir = 8
+	},
+/obj/machinery/door/airlock/ship/external/glass{
+	name = "Pressurization Chamber";
+	req_one_access_txt = "31;48"
 	},
 /turf/open/floor/plasteel/techmaint,
 /area/nostromo/mining)
@@ -1509,8 +1573,10 @@
 	},
 /area/nostromo/maintenance/exterior)
 "ep" = (
-/obj/machinery/light{
-	dir = 8
+/obj/machinery/camera{
+	c_tag = "Asteroid Cage";
+	dir = 4;
+	network = list("mine")
 	},
 /turf/open/floor/plasteel/techmaint{
 	initial_gas_mix = "TEMP=2.7"
@@ -1745,15 +1811,14 @@
 	},
 /area/nostromo/hangar/starboard)
 "eU" = (
-/obj/structure/window/reinforced/fulltile/ship/interior,
-/obj/structure/grille,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	dir = 4
 	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 8
 	},
-/turf/open/floor/plasteel/dark,
+/obj/effect/spawner/structure/window/reinforced,
+/turf/open/floor/plating,
 /area/nostromo/mining)
 "eV" = (
 /obj/structure/cable/yellow{
@@ -1817,9 +1882,6 @@
 /obj/machinery/door/airlock/ship/hatch{
 	name = "maintenance hatch"
 	},
-/obj/structure/cable/yellow{
-	icon_state = "1-2"
-	},
 /obj/structure/cable{
 	icon_state = "1-2"
 	},
@@ -1839,7 +1901,6 @@
 /obj/machinery/door/airlock/ship/public{
 	name = "Observation lounge"
 	},
-/obj/machinery/door/firedoor,
 /obj/structure/cable{
 	icon_state = "4-8"
 	},
@@ -1849,7 +1910,7 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 8
 	},
-/turf/open/floor/plasteel/ship/padded,
+/turf/open/floor/carpet/ship,
 /area/nostromo/crew_quarters)
 "ff" = (
 /obj/structure/cable{
@@ -1881,10 +1942,8 @@
 /turf/open/floor/monotile,
 /area/nostromo/crew_quarters)
 "fi" = (
-/obj/structure/grille,
-/obj/structure/window/reinforced/fulltile/ship/interior,
-/obj/machinery/door/firedoor,
-/turf/open/floor/plasteel/ship/padded,
+/obj/effect/spawner/structure/window/reinforced,
+/turf/open/floor/plating,
 /area/nostromo/medbay)
 "fj" = (
 /obj/structure/cable{
@@ -2035,10 +2094,8 @@
 /turf/open/floor/plasteel/ridged/steel,
 /area/nostromo/engineering)
 "fy" = (
-/obj/structure/grille,
-/obj/structure/window/reinforced/fulltile/ship/interior,
-/obj/machinery/door/firedoor,
-/turf/open/floor/plasteel/ship/padded,
+/obj/effect/spawner/structure/window/reinforced,
+/turf/open/floor/plating,
 /area/nostromo/engineering)
 "fz" = (
 /obj/structure/cable{
@@ -2069,8 +2126,8 @@
 	icon_state = "1-2"
 	},
 /obj/structure/chair/office{
-	icon_state = "officechair_dark";
-	dir = 1
+	dir = 1;
+	icon_state = "officechair_dark"
 	},
 /obj/machinery/firealarm{
 	dir = 8;
@@ -2098,14 +2155,19 @@
 	icon_state = "4-8"
 	},
 /obj/machinery/door/airlock/ship/engineering/glass{
-	name = "DMC Rocinante central power core";
+	name = "DMC Rocinante Central Power Core";
 	req_one_access_txt = "48"
 	},
-/obj/machinery/door/firedoor,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	dir = 4
 	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	dir = 8
+	},
+/obj/machinery/door/firedoor/border_only{
+	dir = 4
+	},
+/obj/machinery/door/firedoor/border_only{
 	dir = 8
 	},
 /turf/open/floor/plasteel/ship/padded,
@@ -2128,8 +2190,8 @@
 "fH" = (
 /obj/structure/table/reinforced,
 /obj/effect/turf_decal/tile/green{
-	icon_state = "tile_corner";
-	dir = 8
+	dir = 8;
+	icon_state = "tile_corner"
 	},
 /obj/effect/turf_decal/tile/green,
 /obj/item/paper{
@@ -2189,8 +2251,8 @@
 /area/nostromo/crew_quarters)
 "fP" = (
 /obj/machinery/atmospherics/components/trinary/filter/atmos/flipped/n2{
-	icon_state = "filter_on_f";
-	dir = 1
+	dir = 1;
+	icon_state = "filter_on_f"
 	},
 /turf/open/floor/plasteel/techmaint,
 /area/nostromo/engineering/atmospherics)
@@ -2229,8 +2291,8 @@
 	req_one_access_txt = "48"
 	},
 /obj/machinery/atmospherics/pipe/simple/green/hidden{
-	icon_state = "pipe11-2";
-	dir = 10
+	dir = 10;
+	icon_state = "pipe11-2"
 	},
 /obj/machinery/light/small{
 	dir = 1
@@ -2288,8 +2350,8 @@
 /obj/structure/table/reinforced,
 /obj/item/storage/firstaid/regular,
 /obj/effect/turf_decal/tile/green{
-	icon_state = "tile_corner";
-	dir = 8
+	dir = 8;
+	icon_state = "tile_corner"
 	},
 /obj/effect/turf_decal/tile/green,
 /obj/machinery/light{
@@ -2301,16 +2363,16 @@
 /obj/structure/table/reinforced,
 /obj/item/storage/firstaid/o2,
 /obj/effect/turf_decal/tile/green{
-	icon_state = "tile_corner";
-	dir = 8
+	dir = 8;
+	icon_state = "tile_corner"
 	},
 /obj/effect/turf_decal/tile/green,
 /turf/open/floor/plasteel/techmaint,
 /area/nostromo/medbay)
 "gd" = (
 /obj/effect/turf_decal/tile/green{
-	icon_state = "tile_corner";
-	dir = 8
+	dir = 8;
+	icon_state = "tile_corner"
 	},
 /obj/machinery/iv_drip,
 /obj/machinery/airalarm/directional/north{
@@ -2322,8 +2384,8 @@
 "ge" = (
 /obj/effect/turf_decal/tile/green,
 /obj/effect/turf_decal/tile/green{
-	icon_state = "tile_corner";
-	dir = 4
+	dir = 4;
+	icon_state = "tile_corner"
 	},
 /obj/structure/cable{
 	icon_state = "1-2"
@@ -2335,8 +2397,8 @@
 /area/nostromo/medbay)
 "gg" = (
 /obj/machinery/atmospherics/pipe/manifold/green/hidden{
-	icon_state = "manifold-2";
-	dir = 4
+	dir = 4;
+	icon_state = "manifold-2"
 	},
 /turf/open/floor/plasteel/ridged/steel,
 /area/nostromo/engineering/atmospherics)
@@ -2357,12 +2419,12 @@
 /area/nostromo/engineering)
 "gj" = (
 /obj/effect/turf_decal/tile/green{
-	icon_state = "tile_corner";
-	dir = 8
+	dir = 8;
+	icon_state = "tile_corner"
 	},
 /obj/effect/turf_decal/tile/green{
-	icon_state = "tile_corner";
-	dir = 1
+	dir = 1;
+	icon_state = "tile_corner"
 	},
 /turf/open/floor/plasteel/techmaint,
 /area/nostromo/medbay)
@@ -2374,6 +2436,12 @@
 /obj/structure/cable{
 	icon_state = "4-8"
 	},
+/obj/machinery/door/firedoor/border_only{
+	dir = 4
+	},
+/obj/machinery/door/firedoor/border_only{
+	dir = 8
+	},
 /turf/open/floor/plasteel/ship/padded,
 /area/maintenance/nsv/mining_ship/central)
 "gl" = (
@@ -2383,13 +2451,19 @@
 /obj/structure/cable{
 	icon_state = "4-8"
 	},
+/obj/machinery/door/firedoor/border_only{
+	dir = 8
+	},
+/obj/machinery/door/firedoor/border_only{
+	dir = 4
+	},
 /turf/open/floor/plasteel/ship/padded,
 /area/nostromo/medbay)
 "gm" = (
 /obj/effect/turf_decal/tile/green,
 /obj/effect/turf_decal/tile/green{
-	icon_state = "tile_corner";
-	dir = 4
+	dir = 4;
+	icon_state = "tile_corner"
 	},
 /obj/structure/cable{
 	icon_state = "1-8"
@@ -2402,8 +2476,8 @@
 /area/nostromo/medbay)
 "go" = (
 /obj/machinery/computer/operating{
-	icon_state = "computer";
-	dir = 4
+	dir = 4;
+	icon_state = "computer"
 	},
 /turf/open/floor/monotile,
 /area/nostromo/medbay)
@@ -2499,7 +2573,13 @@
 /area/nostromo/crew_quarters)
 "gA" = (
 /obj/machinery/door/airlock/ship{
-	name = "CIC maintenance"
+	name = "Bridge Maintenance"
+	},
+/obj/machinery/door/firedoor/border_only{
+	dir = 4
+	},
+/obj/machinery/door/firedoor/border_only{
+	dir = 8
 	},
 /turf/open/floor/plasteel/ridged/steel,
 /area/nostromo/bridge)
@@ -2537,6 +2617,12 @@
 /obj/structure/cable/yellow{
 	icon_state = "4-8"
 	},
+/obj/machinery/door/firedoor/border_only{
+	dir = 4
+	},
+/obj/machinery/door/firedoor/border_only{
+	dir = 8
+	},
 /turf/open/floor/plasteel/ship/padded,
 /area/maintenance/nsv/mining_ship/aft)
 "gG" = (
@@ -2545,8 +2631,8 @@
 	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden{
-	icon_state = "pipe11-2";
-	dir = 5
+	dir = 5;
+	icon_state = "pipe11-2"
 	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 6
@@ -2607,8 +2693,8 @@
 "gN" = (
 /obj/effect/turf_decal/tile/green,
 /obj/effect/turf_decal/tile/green{
-	icon_state = "tile_corner";
-	dir = 4
+	dir = 4;
+	icon_state = "tile_corner"
 	},
 /turf/open/floor/plasteel/techmaint,
 /area/nostromo/medbay)
@@ -2639,7 +2725,7 @@
 /area/nostromo/bridge)
 "gS" = (
 /obj/machinery/door/airlock/ship/external/glass{
-	name = "Asteroid cage";
+	name = "Asteroid Cage";
 	req_one_access_txt = "31;48"
 	},
 /obj/structure/cable/yellow{
@@ -2664,8 +2750,8 @@
 /area/nostromo/bridge)
 "gU" = (
 /obj/machinery/atmospherics/pipe/simple/green/hidden{
-	icon_state = "pipe11-2";
-	dir = 6
+	dir = 6;
+	icon_state = "pipe11-2"
 	},
 /obj/machinery/airalarm/directional/north{
 	req_access = null;
@@ -2698,8 +2784,8 @@
 	icon_state = "1-2"
 	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden{
-	icon_state = "pipe11-2";
-	dir = 5
+	dir = 5;
+	icon_state = "pipe11-2"
 	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /turf/open/floor/plasteel/ridged/steel,
@@ -2729,8 +2815,8 @@
 "hb" = (
 /obj/effect/spawner/lootdrop/maintenance,
 /obj/machinery/atmospherics/pipe/simple/green/hidden{
-	icon_state = "pipe11-2";
-	dir = 9
+	dir = 9;
+	icon_state = "pipe11-2"
 	},
 /turf/open/floor/plasteel/ridged/steel,
 /area/nostromo/engineering/atmospherics)
@@ -2756,8 +2842,8 @@
 /area/nostromo/hangar/starboard)
 "he" = (
 /obj/machinery/atmospherics/pipe/simple/green/hidden{
-	icon_state = "pipe11-2";
-	dir = 8
+	dir = 8;
+	icon_state = "pipe11-2"
 	},
 /obj/machinery/door/airlock/ship/engineering/glass{
 	name = "DMC Rocinante atmospherics extension";
@@ -2765,6 +2851,12 @@
 	},
 /obj/structure/cable{
 	icon_state = "4-8"
+	},
+/obj/machinery/door/firedoor/border_only{
+	dir = 4
+	},
+/obj/machinery/door/firedoor/border_only{
+	dir = 8
 	},
 /turf/open/floor/plasteel/ship/padded,
 /area/maintenance/nsv/mining_ship/central)
@@ -2781,7 +2873,7 @@
 /area/nostromo/maintenance/exterior)
 "hh" = (
 /obj/machinery/door/airlock/ship/engineering/glass{
-	name = "DMC Rocinante atmospherics section";
+	name = "DMC Rocinante Atmospherics Section";
 	req_one_access_txt = "48"
 	},
 /obj/structure/cable/yellow{
@@ -2789,6 +2881,12 @@
 	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	dir = 4
+	},
+/obj/machinery/door/firedoor/border_only{
+	dir = 4
+	},
+/obj/machinery/door/firedoor/border_only{
+	dir = 8
 	},
 /turf/open/floor/plasteel/ship/padded,
 /area/maintenance/nsv/mining_ship/central)
@@ -2847,13 +2945,18 @@
 /turf/open/floor/carpet/ship,
 /area/nostromo/crew_quarters)
 "hn" = (
-/obj/machinery/door/airlock/ship/engineering/glass{
-	name = "DMC Rocinante atmospherics section";
-	req_one_access_txt = "48"
-	},
-/obj/machinery/door/firedoor,
 /obj/machinery/atmospherics/pipe/layer_manifold{
 	dir = 4
+	},
+/obj/machinery/door/airlock/ship/engineering/glass{
+	name = "DMC Rocinante Atmospherics Extension";
+	req_one_access_txt = "48"
+	},
+/obj/machinery/door/firedoor/border_only{
+	dir = 4
+	},
+/obj/machinery/door/firedoor/border_only{
+	dir = 8
 	},
 /turf/open/floor/plasteel/ship/padded,
 /area/maintenance/nsv/mining_ship/central)
@@ -2865,8 +2968,8 @@
 /obj/machinery/power/apc/auto_name/north,
 /obj/machinery/meter,
 /obj/machinery/atmospherics/pipe/manifold/supply/hidden{
-	icon_state = "manifold-2";
-	dir = 1
+	dir = 1;
+	icon_state = "manifold-2"
 	},
 /turf/open/floor/plating,
 /area/nostromo/engineering/atmospherics)
@@ -2920,31 +3023,38 @@
 /obj/machinery/door/airlock/ship/hatch{
 	name = "maintenance hatch"
 	},
-/obj/structure/cable/yellow{
-	icon_state = "1-2"
-	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
+/obj/machinery/door/firedoor/border_only{
+	dir = 1
+	},
+/obj/machinery/door/firedoor/border_only,
 /turf/open/floor/plating,
 /area/maintenance/nsv/mining_ship/aft)
 "hx" = (
 /obj/machinery/door/airlock/ship/hatch{
 	name = "maintenance hatch"
 	},
-/obj/machinery/door/firedoor,
 /obj/structure/cable/yellow{
 	icon_state = "1-2"
 	},
+/obj/machinery/door/firedoor/border_only{
+	dir = 1
+	},
+/obj/machinery/door/firedoor/border_only,
 /turf/open/floor/plating,
 /area/maintenance/nsv/mining_ship/aft)
 "hy" = (
 /obj/machinery/door/airlock/ship{
-	name = "Central frame"
+	name = "Central Frame"
 	},
-/obj/machinery/door/firedoor,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
+/obj/machinery/door/firedoor/border_only,
+/obj/machinery/door/firedoor/border_only{
+	dir = 1
+	},
 /turf/open/floor/plasteel/techmaint,
 /area/maintenance/nsv/mining_ship/aft)
 "hz" = (
@@ -2963,10 +3073,13 @@
 /obj/machinery/door/airlock/ship/hatch{
 	name = "maintenance hatch"
 	},
-/obj/machinery/door/firedoor,
 /obj/effect/decal/cleanable/cobweb,
 /obj/structure/cable/yellow{
 	icon_state = "1-2"
+	},
+/obj/machinery/door/firedoor/border_only,
+/obj/machinery/door/firedoor/border_only{
+	dir = 1
 	},
 /turf/open/floor/plating,
 /area/maintenance/nsv/mining_ship/central)
@@ -2986,11 +3099,8 @@
 /turf/open/floor/plasteel/techmaint,
 /area/nostromo)
 "hD" = (
-/obj/machinery/computer/ship/ftl_computer{
-	dir = 4;
-	name = "Nostromo FTL computer";
-	req_access = null;
-	req_one_access_txt = "31;48"
+/obj/machinery/computer/ship/ftl_computer/mining{
+	dir = 4
 	},
 /turf/open/floor/monotile,
 /area/nostromo/bridge)
@@ -3008,8 +3118,8 @@
 	icon_state = "4-8"
 	},
 /obj/machinery/atmospherics/pipe/manifold/supply/hidden{
-	icon_state = "manifold-2";
-	dir = 1
+	dir = 1;
+	icon_state = "manifold-2"
 	},
 /turf/open/floor/plating,
 /area/nostromo/engineering/atmospherics)
@@ -3019,8 +3129,8 @@
 	},
 /obj/machinery/meter,
 /obj/machinery/atmospherics/pipe/simple/green/hidden{
-	icon_state = "pipe11-2";
-	dir = 9
+	dir = 9;
+	icon_state = "pipe11-2"
 	},
 /turf/open/floor/plating,
 /area/nostromo/engineering/atmospherics)
@@ -3029,10 +3139,15 @@
 	icon_state = "4-8"
 	},
 /obj/machinery/door/airlock/ship/engineering/glass{
-	name = "DMC Rocinante atmospherics extension";
+	name = "DMC Rocinante Atmospherics Extension";
 	req_one_access_txt = "48"
 	},
-/obj/machinery/door/firedoor,
+/obj/machinery/door/firedoor/border_only{
+	dir = 4
+	},
+/obj/machinery/door/firedoor/border_only{
+	dir = 8
+	},
 /turf/open/floor/plasteel/ship/padded,
 /area/nostromo/engineering/atmospherics)
 "hI" = (
@@ -3052,8 +3167,8 @@
 /area/nostromo/engineering)
 "hJ" = (
 /obj/machinery/computer/ship/fighter_launcher{
-	icon_state = "computer";
 	dir = 4;
+	icon_state = "computer";
 	req_one_access_txt = "0"
 	},
 /turf/open/floor/monotile/airless,
@@ -3083,13 +3198,9 @@
 /turf/open/floor/monotile/airless,
 /area/nostromo/hangar/starboard)
 "hO" = (
-/obj/machinery/door/airlock/ship/external/glass{
-	name = "Hangar bay";
-	req_one_access_txt = "31;48"
-	},
 /obj/effect/mapping_helpers/airlock/cyclelink_helper{
-	icon_state = "airlock_cyclelink_helper";
-	dir = 4
+	dir = 4;
+	icon_state = "airlock_cyclelink_helper"
 	},
 /obj/structure/cable/yellow{
 	icon_state = "4-8"
@@ -3099,6 +3210,10 @@
 	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 8
+	},
+/obj/machinery/door/airlock/ship/external/glass{
+	name = "Hangar Bay";
+	req_one_access_txt = "31;48"
 	},
 /turf/open/floor/plasteel/ridged/steel,
 /area/maintenance/nsv/mining_ship/forward)
@@ -3133,6 +3248,12 @@
 	dir = 4
 	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	dir = 8
+	},
+/obj/machinery/door/firedoor/border_only{
+	dir = 4
+	},
+/obj/machinery/door/firedoor/border_only{
 	dir = 8
 	},
 /turf/open/floor/plasteel/ridged/steel,
@@ -3171,8 +3292,13 @@
 /obj/machinery/door/airlock/ship/hatch{
 	name = "maintenance hatch"
 	},
-/obj/machinery/door/firedoor,
-/turf/open/floor/plasteel/dark,
+/obj/machinery/door/firedoor/border_only{
+	dir = 4
+	},
+/obj/machinery/door/firedoor/border_only{
+	dir = 8
+	},
+/turf/open/floor/plating,
 /area/nostromo/tcomms)
 "hW" = (
 /obj/structure/chair/comfy/shuttle{
@@ -3192,9 +3318,8 @@
 /area/nostromo/mining)
 "hY" = (
 /obj/machinery/door/airlock/ship{
-	name = "Space suit storage"
+	name = "E.V.A. Storage"
 	},
-/obj/machinery/door/firedoor,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	dir = 4
 	},
@@ -3203,6 +3328,12 @@
 	},
 /obj/structure/cable{
 	icon_state = "4-8"
+	},
+/obj/machinery/door/firedoor/border_only{
+	dir = 4
+	},
+/obj/machinery/door/firedoor/border_only{
+	dir = 8
 	},
 /turf/open/floor/plasteel/techmaint,
 /area/nostromo/mining)
@@ -3280,8 +3411,8 @@
 /obj/effect/decal/cleanable/oil/streak,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
 /obj/machinery/atmospherics/pipe/simple/green/hidden{
-	icon_state = "pipe11-2";
-	dir = 8
+	dir = 8;
+	icon_state = "pipe11-2"
 	},
 /obj/structure/cable{
 	icon_state = "2-8"
@@ -3290,23 +3421,23 @@
 /area/nostromo/engineering/atmospherics)
 "ii" = (
 /obj/machinery/atmospherics/components/unary/portables_connector{
-	icon_state = "connector_map-2";
-	dir = 1
+	dir = 1;
+	icon_state = "connector_map-2"
 	},
 /obj/machinery/portable_atmospherics/canister/oxygen,
 /turf/open/floor/plating,
 /area/nostromo/engineering/atmospherics)
 "ij" = (
 /obj/effect/turf_decal/tile/green{
-	icon_state = "tile_corner";
-	dir = 4
+	dir = 4;
+	icon_state = "tile_corner"
 	},
 /turf/open/floor/plasteel/techmaint,
 /area/nostromo/medbay)
 "ik" = (
 /obj/machinery/atmospherics/components/unary/portables_connector{
-	icon_state = "connector_map-2";
-	dir = 1
+	dir = 1;
+	icon_state = "connector_map-2"
 	},
 /obj/machinery/portable_atmospherics/canister,
 /obj/machinery/light/small,
@@ -3323,6 +3454,11 @@
 	},
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3{
 	dir = 8
+	},
+/obj/machinery/camera{
+	c_tag = "Transfer Shuttle Dock";
+	dir = 8;
+	network = list("mine")
 	},
 /turf/open/floor/plasteel/techmaint,
 /area/maintenance/nsv/mining_ship/aft)
@@ -3354,15 +3490,16 @@
 /turf/open/floor/plasteel/ridged/steel,
 /area/nostromo/mining)
 "ir" = (
-/obj/machinery/firealarm{
-	dir = 8;
-	pixel_x = 24
-	},
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer1{
 	dir = 8
 	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden,
+/obj/machinery/camera{
+	c_tag = "E.V.A. Storage";
+	dir = 8;
+	network = list("mine")
+	},
 /turf/open/floor/plasteel/ridged/steel,
 /area/nostromo/mining)
 "is" = (
@@ -3404,6 +3541,11 @@
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3{
 	dir = 1
 	},
+/obj/machinery/camera{
+	c_tag = "Observation Lounge";
+	dir = 8;
+	network = list("mine")
+	},
 /turf/open/floor/carpet/ship,
 /area/nostromo/crew_quarters)
 "ix" = (
@@ -3417,10 +3559,15 @@
 /turf/open/floor/plasteel/grid/steel,
 /area/nostromo)
 "iy" = (
-/obj/machinery/door/airlock/ship{
-	name = "Space suit storage"
+/obj/machinery/door/firedoor/border_only{
+	dir = 4
 	},
-/obj/machinery/door/firedoor,
+/obj/machinery/door/firedoor/border_only{
+	dir = 8
+	},
+/obj/machinery/door/airlock/ship{
+	name = "E.V.A. Storage"
+	},
 /turf/open/floor/plasteel/techmaint,
 /area/nostromo/mining)
 "iz" = (
@@ -3451,14 +3598,21 @@
 /obj/machinery/door/airlock/ship/public{
 	name = "Galley"
 	},
-/obj/machinery/door/firedoor,
-/turf/open/floor/plasteel/ship/padded,
+/obj/machinery/door/firedoor/border_only,
+/obj/machinery/door/firedoor/border_only{
+	dir = 1
+	},
+/turf/open/floor/carpet/ship,
 /area/nostromo/crew_quarters)
 "iD" = (
 /obj/structure/table/reinforced,
-/obj/machinery/door/firedoor,
 /obj/item/kitchen/fork,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/obj/structure/window/reinforced/spawner/west,
+/obj/machinery/door/firedoor/border_only,
+/obj/machinery/door/firedoor/border_only{
+	dir = 1
+	},
 /turf/open/floor/plasteel/techmaint,
 /area/nostromo/crew_quarters)
 "iE" = (
@@ -3468,9 +3622,12 @@
 /area/nostromo)
 "iF" = (
 /obj/structure/table/reinforced,
-/obj/machinery/door/firedoor,
 /obj/item/kitchen/fork,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	dir = 1
+	},
+/obj/machinery/door/firedoor/border_only,
+/obj/machinery/door/firedoor/border_only{
 	dir = 1
 	},
 /turf/open/floor/plasteel/techmaint,
@@ -3527,8 +3684,8 @@
 	req_one_access_txt = "48"
 	},
 /obj/machinery/cryopod{
-	icon_state = "cryopod-open";
-	dir = 1
+	dir = 1;
+	icon_state = "cryopod-open"
 	},
 /turf/open/floor/plasteel/tech/grid,
 /area/nostromo)
@@ -3554,6 +3711,11 @@
 "iS" = (
 /obj/structure/extinguisher_cabinet/north,
 /obj/machinery/cryopod,
+/obj/machinery/camera{
+	c_tag = "Cryostasis";
+	dir = 8;
+	network = list("mine")
+	},
 /turf/open/floor/plasteel/tech/grid,
 /area/nostromo)
 "iT" = (
@@ -3606,8 +3768,8 @@
 	dir = 8
 	},
 /obj/machinery/atmospherics/components/binary/dp_vent_pump{
-	icon_state = "dpvent_map-2";
-	dir = 4
+	dir = 4;
+	icon_state = "dpvent_map-2"
 	},
 /turf/open/floor/plasteel/techmaint,
 /area/nostromo/mining)
@@ -3707,12 +3869,15 @@
 /turf/open/floor/plasteel/techmaint,
 /area/nostromo/mining)
 "jk" = (
-/obj/machinery/door/firedoor,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /obj/machinery/door/airlock/glass_large/ship{
-	name = "DMC Rocinante CIC"
+	name = "DMC Rocinante Bridge"
 	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
+/obj/machinery/door/firedoor/border_only,
+/obj/machinery/door/firedoor/border_only{
+	dir = 1
+	},
 /turf/open/floor/plasteel/ridged/steel,
 /area/nostromo/bridge)
 "jl" = (
@@ -3757,7 +3922,7 @@
 /area/nostromo/hangar/starboard)
 "jp" = (
 /obj/machinery/door/airlock/ship/public{
-	name = "Abandoned crew quarters"
+	name = "Abandoned Crew Quarters"
 	},
 /obj/machinery/door/firedoor,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
@@ -3823,16 +3988,21 @@
 /turf/open/floor/plasteel/techmaint,
 /area/nostromo)
 "jx" = (
-/obj/machinery/door/airlock/ship{
-	name = "Primary storage junction"
-	},
-/obj/machinery/door/firedoor,
 /obj/structure/cable{
 	icon_state = "4-8"
 	},
-/turf/open/floor/plasteel/stairs/old{
-	icon_state = "stairs-old";
+/obj/machinery/door/firedoor/border_only{
 	dir = 8
+	},
+/obj/machinery/door/firedoor/border_only{
+	dir = 4
+	},
+/obj/machinery/door/airlock/ship{
+	name = "Primary Storage Junction"
+	},
+/turf/open/floor/plasteel/stairs/old{
+	dir = 8;
+	icon_state = "stairs-old"
 	},
 /area/nostromo/mining)
 "jy" = (
@@ -3928,9 +4098,15 @@
 	dir = 8
 	},
 /obj/machinery/door/airlock/ship/public/glass{
-	name = "DMC Rocinante cryostasis"
+	name = "DMC Rocinante Cryostasis"
 	},
-/turf/open/floor/plasteel/ridged/steel,
+/obj/machinery/door/firedoor/border_only{
+	dir = 4
+	},
+/obj/machinery/door/firedoor/border_only{
+	dir = 8
+	},
+/turf/open/floor/plasteel/techmaint,
 /area/nostromo)
 "jI" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
@@ -3958,8 +4134,8 @@
 	dir = 8
 	},
 /obj/machinery/atmospherics/components/binary/dp_vent_pump{
-	icon_state = "dpvent_map-2";
-	dir = 4
+	dir = 4;
+	icon_state = "dpvent_map-2"
 	},
 /obj/machinery/advanced_airlock_controller/directional/south{
 	locked = 0;
@@ -3992,10 +4168,8 @@
 /turf/open/floor/plasteel/ridged/steel,
 /area/nostromo)
 "jQ" = (
-/obj/machinery/door/firedoor,
-/obj/structure/grille,
-/obj/structure/window/reinforced/fulltile/ship/interior,
-/turf/open/floor/plasteel/techmaint,
+/obj/effect/spawner/structure/window/reinforced,
+/turf/open/floor/plating,
 /area/nostromo)
 "jR" = (
 /obj/structure/cable/yellow{
@@ -4008,28 +4182,24 @@
 /area/maintenance/nsv/mining_ship/aft)
 "jS" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer1,
-/obj/machinery/power/apc/auto_name/north,
-/obj/structure/cable{
-	icon_state = "0-2"
-	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden{
 	dir = 4
+	},
+/obj/machinery/camera{
+	c_tag = "Central Frame - Aft Port";
+	network = list("mine")
 	},
 /turf/open/floor/plasteel/ridged/steel,
 /area/nostromo)
 "jT" = (
-/obj/structure/cable{
-	icon_state = "4-8"
+/obj/machinery/atmospherics/pipe/layer_manifold,
+/obj/machinery/camera{
+	c_tag = "Ferry Dock";
+	dir = 8;
+	network = list("mine")
 	},
-/obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1,
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
-	dir = 8
-	},
-/obj/structure/cable{
-	icon_state = "1-4"
-	},
-/turf/open/floor/plasteel/techmaint,
-/area/nostromo)
+/turf/open/floor/plasteel/dark,
+/area/maintenance/nsv/mining_ship/aft)
 "jU" = (
 /turf/open/floor/plasteel/ridged/steel,
 /area/nostromo/engineering)
@@ -4058,31 +4228,31 @@
 /area/nostromo/engineering)
 "jZ" = (
 /obj/effect/turf_decal/tile/green{
-	icon_state = "tile_corner";
-	dir = 4
+	dir = 4;
+	icon_state = "tile_corner"
 	},
 /obj/effect/turf_decal/tile/green{
-	icon_state = "tile_corner";
-	dir = 1
+	dir = 1;
+	icon_state = "tile_corner"
 	},
 /turf/open/floor/plasteel/techmaint,
 /area/nostromo/medbay)
 "ka" = (
 /obj/effect/turf_decal/tile/green{
-	icon_state = "tile_corner";
-	dir = 4
+	dir = 4;
+	icon_state = "tile_corner"
 	},
 /obj/effect/turf_decal/tile/green{
-	icon_state = "tile_corner";
-	dir = 1
+	dir = 1;
+	icon_state = "tile_corner"
 	},
 /obj/machinery/light,
 /turf/open/floor/plasteel/techmaint,
 /area/nostromo/medbay)
 "kb" = (
 /obj/effect/turf_decal/tile/green{
-	icon_state = "tile_corner";
-	dir = 1
+	dir = 1;
+	icon_state = "tile_corner"
 	},
 /turf/open/floor/plasteel/techmaint,
 /area/nostromo/medbay)
@@ -4096,6 +4266,12 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
 	dir = 4
 	},
+/obj/machinery/door/firedoor/border_only{
+	dir = 8
+	},
+/obj/machinery/door/firedoor/border_only{
+	dir = 4
+	},
 /turf/open/floor/plasteel/ship/padded,
 /area/maintenance/nsv/mining_ship/aft)
 "kd" = (
@@ -4106,8 +4282,8 @@
 	dir = 8
 	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
-	icon_state = "pipe11-2";
-	dir = 9
+	dir = 9;
+	icon_state = "pipe11-2"
 	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 5
@@ -4138,8 +4314,8 @@
 	dir = 1
 	},
 /obj/machinery/computer/shuttle/mining{
-	icon_state = "computer";
-	dir = 4
+	dir = 4;
+	icon_state = "computer"
 	},
 /obj/machinery/button/door{
 	id = "roci_conveyor";
@@ -4184,8 +4360,8 @@
 	req_one_access_txt = "31;48"
 	},
 /obj/effect/mapping_helpers/airlock/cyclelink_helper{
-	icon_state = "airlock_cyclelink_helper";
-	dir = 1
+	dir = 1;
+	icon_state = "airlock_cyclelink_helper"
 	},
 /turf/open/floor/plasteel/techmaint,
 /area/maintenance/nsv/mining_ship/aft)
@@ -4200,7 +4376,7 @@
 /area/maintenance/nsv/mining_ship/forward)
 "kp" = (
 /obj/machinery/door/airlock/ship/external/glass{
-	name = "Hangar bay";
+	name = "Hangar Bay";
 	req_one_access_txt = "31;48"
 	},
 /obj/effect/mapping_helpers/airlock/cyclelink_helper{
@@ -4312,8 +4488,8 @@
 /area/nostromo/crew_quarters)
 "kF" = (
 /obj/machinery/atmospherics/components/trinary/filter/atmos/flipped/o2{
-	icon_state = "filter_on_f";
-	dir = 1
+	dir = 1;
+	icon_state = "filter_on_f"
 	},
 /obj/structure/cable{
 	icon_state = "1-2"
@@ -4342,11 +4518,9 @@
 /turf/open/floor/plating,
 /area/maintenance/nsv/mining_ship/central)
 "kJ" = (
-/obj/structure/grille,
-/obj/structure/window/reinforced/fulltile/ship/interior,
-/obj/machinery/door/firedoor,
 /obj/machinery/atmospherics/pipe/simple/green/hidden,
-/turf/open/floor/plasteel/ship/padded,
+/obj/effect/spawner/structure/window/reinforced,
+/turf/open/floor/plating,
 /area/maintenance/nsv/mining_ship/central)
 "kK" = (
 /obj/structure/fluff/support_beam,
@@ -4381,6 +4555,11 @@
 "kO" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 6
+	},
+/obj/machinery/camera{
+	c_tag = "TE/LE/COM Core";
+	dir = 8;
+	network = list("mine")
 	},
 /turf/open/floor/monotile/dark,
 /area/nostromo/tcomms)
@@ -4585,8 +4764,8 @@
 	icon_state = "4-8"
 	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
-	icon_state = "pipe11-1";
-	dir = 10
+	dir = 10;
+	icon_state = "pipe11-1"
 	},
 /turf/open/floor/plasteel/ridged/steel,
 /area/nostromo/mining)
@@ -4604,12 +4783,12 @@
 /area/nostromo/mining)
 "lo" = (
 /obj/machinery/door/airlock/ship/external/glass{
-	name = "Pressurization chamber";
+	name = "Pressurization Chamber";
 	req_one_access_txt = "31;48"
 	},
 /obj/effect/mapping_helpers/airlock/cyclelink_helper{
-	icon_state = "airlock_cyclelink_helper";
-	dir = 4
+	dir = 4;
+	icon_state = "airlock_cyclelink_helper"
 	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 8
@@ -4635,8 +4814,8 @@
 	dir = 8
 	},
 /obj/machinery/atmospherics/components/binary/dp_vent_pump{
-	icon_state = "dpvent_map-2";
-	dir = 4
+	dir = 4;
+	icon_state = "dpvent_map-2"
 	},
 /turf/open/floor/plasteel/techmaint,
 /area/nostromo/mining)
@@ -4653,15 +4832,15 @@
 /turf/open/floor/plasteel/techmaint,
 /area/nostromo/mining)
 "lr" = (
-/obj/machinery/door/airlock/ship/external/glass{
-	name = "Pressurization chamber";
-	req_one_access_txt = "31;48"
-	},
 /obj/effect/mapping_helpers/airlock/cyclelink_helper{
 	dir = 8
 	},
 /obj/structure/cable{
 	icon_state = "4-8"
+	},
+/obj/machinery/door/airlock/ship/external/glass{
+	name = "Pressurization Chamber";
+	req_one_access_txt = "31;48"
 	},
 /turf/open/floor/plasteel/techmaint,
 /area/nostromo/mining)
@@ -4718,6 +4897,34 @@
 /obj/machinery/light,
 /turf/open/floor/plasteel/tech/grid,
 /area/nostromo)
+"ms" = (
+/obj/effect/mapping_helpers/airlock/cyclelink_helper{
+	dir = 8
+	},
+/obj/structure/cable/yellow{
+	icon_state = "4-8"
+	},
+/obj/machinery/door/airlock/ship/external/glass{
+	name = "Hangar Bay";
+	req_one_access_txt = "31;48"
+	},
+/turf/open/floor/plasteel/ridged/steel,
+/area/maintenance/nsv/mining_ship/forward)
+"nk" = (
+/obj/machinery/door/airlock/ship/hatch{
+	name = "maintenance hatch"
+	},
+/obj/structure/cable/yellow{
+	icon_state = "4-8"
+	},
+/obj/machinery/door/firedoor/border_only{
+	dir = 8
+	},
+/obj/machinery/door/firedoor/border_only{
+	dir = 4
+	},
+/turf/open/floor/plasteel/ship/padded,
+/area/maintenance/nsv/mining_ship/forward)
 "nX" = (
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3{
 	dir = 1
@@ -4727,9 +4934,34 @@
 	},
 /turf/open/floor/plasteel/ridged/steel,
 /area/nostromo)
+"ov" = (
+/obj/machinery/camera{
+	c_tag = "Galley";
+	dir = 8;
+	network = list("mine")
+	},
+/turf/open/floor/plasteel/ridged/steel,
+/area/nostromo/crew_quarters)
+"pv" = (
+/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3{
+	dir = 1
+	},
+/obj/machinery/camera{
+	c_tag = "Central Frame - Starboard";
+	dir = 1;
+	network = list("mine")
+	},
+/turf/open/floor/plasteel/ridged/steel,
+/area/nostromo)
 "pF" = (
 /obj/machinery/door/airlock/ship/hatch{
 	name = "maintenance hatch"
+	},
+/obj/machinery/door/firedoor/border_only{
+	dir = 4
+	},
+/obj/machinery/door/firedoor/border_only{
+	dir = 8
 	},
 /turf/open/floor/plating,
 /area/maintenance/nsv/mining_ship/aft)
@@ -4753,6 +4985,14 @@
 /obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1,
 /turf/open/floor/plasteel/techmaint,
 /area/nostromo)
+"sV" = (
+/obj/machinery/camera{
+	c_tag = "Hangar - Fore Starboard";
+	dir = 8;
+	network = list("mine")
+	},
+/turf/open/floor/monotile/dark/airless,
+/area/nostromo/hangar/starboard)
 "tK" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /turf/closed/wall/ship,
@@ -4763,9 +5003,40 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/nsv/mining_ship/aft)
+"vX" = (
+/obj/machinery/door/airlock/ship/hatch{
+	name = "maintenance hatch"
+	},
+/obj/machinery/door/firedoor/border_only{
+	dir = 8
+	},
+/obj/machinery/door/firedoor/border_only{
+	dir = 4
+	},
+/turf/open/floor/plating,
+/area/maintenance/nsv/mining_ship/aft)
 "yl" = (
 /obj/machinery/cryopod,
 /turf/open/floor/plasteel/tech/grid,
+/area/nostromo)
+"yF" = (
+/obj/effect/turf_decal/stripes/line{
+	dir = 1
+	},
+/obj/machinery/camera{
+	c_tag = "Hangar - Aft Starboard";
+	dir = 4;
+	network = list("mine")
+	},
+/turf/open/floor/monotile/dark/airless,
+/area/nostromo/hangar/starboard)
+"yS" = (
+/obj/machinery/camera{
+	c_tag = "Central Frame - Fore Starboard";
+	dir = 1;
+	network = list("mine")
+	},
+/turf/open/floor/plasteel/ridged/steel,
 /area/nostromo)
 "Ab" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer1{
@@ -4773,6 +5044,11 @@
 	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden{
 	dir = 4
+	},
+/obj/machinery/camera{
+	c_tag = "Central Frame - Aft Starboard";
+	dir = 1;
+	network = list("mine")
 	},
 /turf/open/floor/plasteel/ridged/steel,
 /area/nostromo)
@@ -4783,6 +5059,29 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /turf/open/floor/plasteel/ridged/steel,
 /area/nostromo)
+"Cc" = (
+/obj/machinery/power/apc/auto_name/north,
+/obj/structure/cable{
+	icon_state = "0-2"
+	},
+/turf/open/floor/plasteel/ridged/steel,
+/area/nostromo)
+"CR" = (
+/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3,
+/obj/machinery/camera{
+	c_tag = "Central Frame - Port";
+	network = list("mine")
+	},
+/turf/open/floor/plasteel/ridged/steel,
+/area/nostromo)
+"Eh" = (
+/obj/machinery/camera{
+	c_tag = "Primary Storage Junction";
+	dir = 1;
+	network = list("mine")
+	},
+/turf/open/floor/monotile,
+/area/nostromo/mining)
 "Em" = (
 /obj/structure/cable/yellow{
 	icon_state = "4-8"
@@ -4821,8 +5120,8 @@
 "Gs" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /obj/machinery/atmospherics/components/binary/dp_vent_pump{
-	icon_state = "dpvent_map-2";
-	dir = 1
+	dir = 1;
+	icon_state = "dpvent_map-2"
 	},
 /obj/machinery/advanced_airlock_controller/directional/east{
 	locked = 0;
@@ -4844,6 +5143,14 @@
 	},
 /turf/open/floor/plasteel/techmaint,
 /area/maintenance/nsv/mining_ship/aft)
+"IU" = (
+/obj/machinery/camera{
+	c_tag = "Hangar - Fore Port";
+	dir = 8;
+	network = list("mine")
+	},
+/turf/open/floor/monotile/dark/airless,
+/area/nostromo/hangar/starboard)
 "Jo" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 1
@@ -4870,9 +5177,10 @@
 "KL" = (
 /obj/machinery/suit_storage_unit/mining/eva,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden{
-	icon_state = "pipe11-2";
-	dir = 5
+	dir = 5;
+	icon_state = "pipe11-2"
 	},
+/obj/machinery/firealarm/directional/south,
 /turf/open/floor/plasteel/techmaint,
 /area/nostromo/mining)
 "La" = (
@@ -4891,8 +5199,8 @@
 	dir = 8
 	},
 /obj/machinery/atmospherics/components/binary/dp_vent_pump{
-	icon_state = "dpvent_map-2";
-	dir = 4
+	dir = 4;
+	icon_state = "dpvent_map-2"
 	},
 /obj/machinery/advanced_airlock_controller/directional/north{
 	locked = 0;
@@ -4902,6 +5210,12 @@
 	},
 /turf/open/floor/plasteel/ridged/steel,
 /area/maintenance/nsv/mining_ship/forward)
+"Or" = (
+/obj/structure/overmap/fighter/utility/mining,
+/turf/open/floor/plasteel/techmaint{
+	initial_gas_mix = "TEMP=2.7"
+	},
+/area/nostromo/hangar/starboard)
 "PJ" = (
 /obj/structure/cable{
 	icon_state = "4-8"
@@ -4915,6 +5229,16 @@
 /obj/machinery/computer/ship/viewscreen,
 /turf/open/floor/plasteel/techmaint,
 /area/nostromo)
+"Qf" = (
+/obj/structure/cable/yellow{
+	icon_state = "4-8"
+	},
+/obj/machinery/door/airlock/ship/external/glass{
+	name = "Asteroid Cage";
+	req_one_access_txt = "31;48"
+	},
+/turf/open/floor/monotile/dark/airless,
+/area/nostromo/hangar/starboard)
 "Qv" = (
 /obj/structure/lattice/catwalk,
 /obj/structure/cable/yellow{
@@ -4934,6 +5258,15 @@
 /obj/structure/lattice/catwalk,
 /turf/open/space/basic,
 /area/space)
+"QC" = (
+/obj/structure/cable/yellow{
+	icon_state = "4-8"
+	},
+/obj/machinery/light,
+/turf/open/floor/plasteel/techmaint{
+	initial_gas_mix = "TEMP=2.7"
+	},
+/area/nostromo/hangar/starboard)
 "Sm" = (
 /turf/open/floor/plasteel/ridged/steel,
 /area/maintenance/nsv/mining_ship/forward)
@@ -4955,10 +5288,42 @@
 	},
 /turf/open/floor/plasteel/ridged/steel,
 /area/nostromo)
+"Uf" = (
+/obj/machinery/camera{
+	c_tag = "Central Power Core";
+	dir = 8;
+	network = list("mine")
+	},
+/turf/open/floor/plasteel/ridged/steel,
+/area/nostromo/engineering)
+"UY" = (
+/obj/effect/turf_decal/tile/green{
+	dir = 8;
+	icon_state = "tile_corner"
+	},
+/obj/effect/turf_decal/tile/green{
+	dir = 1;
+	icon_state = "tile_corner"
+	},
+/obj/machinery/camera{
+	c_tag = "Intensive Care Unit";
+	dir = 8;
+	network = list("mine")
+	},
+/turf/open/floor/plasteel/techmaint,
+/area/nostromo/medbay)
+"VB" = (
+/obj/machinery/camera{
+	c_tag = "Bridge";
+	dir = 4;
+	network = list("mine")
+	},
+/turf/open/floor/monotile,
+/area/nostromo/bridge)
 "VD" = (
 /obj/machinery/cryopod{
-	icon_state = "cryopod-open";
-	dir = 1
+	dir = 1;
+	icon_state = "cryopod-open"
 	},
 /turf/open/floor/plasteel/tech/grid,
 /area/nostromo)
@@ -4967,8 +5332,8 @@
 /area/nostromo/crew_quarters)
 "Wp" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
-	icon_state = "pipe11-1";
-	dir = 10
+	dir = 10;
+	icon_state = "pipe11-1"
 	},
 /turf/open/floor/plasteel/ridged/steel,
 /area/nostromo)
@@ -4987,8 +5352,8 @@
 /area/nostromo)
 "ZK" = (
 /obj/structure/shuttle/engine/large{
-	icon_state = "large_engine";
-	dir = 8
+	dir = 8;
+	icon_state = "large_engine"
 	},
 /obj/structure/lattice/catwalk,
 /turf/open/space/basic,
@@ -20816,7 +21181,7 @@ iw
 iH
 iI
 kx
-iI
+ov
 kB
 ac
 hv
@@ -21831,7 +22196,7 @@ ca
 pF
 bW
 jS
-jT
+dP
 dK
 dK
 fi
@@ -21848,7 +22213,7 @@ dS
 ja
 Ab
 ac
-pF
+vX
 ip
 ac
 ac
@@ -22601,7 +22966,7 @@ ac
 cG
 cG
 bW
-db
+Cc
 ef
 fi
 gb
@@ -23121,13 +23486,13 @@ dK
 gd
 gj
 gj
-gj
+UY
 kb
 dK
 fx
 fD
 ib
-jU
+Uf
 jU
 dS
 eg
@@ -24657,7 +25022,7 @@ ac
 fQ
 cG
 bW
-ds
+CR
 ff
 bg
 dn
@@ -24673,7 +25038,7 @@ hG
 jf
 cT
 jv
-jO
+pv
 ac
 cG
 jR
@@ -25165,7 +25530,7 @@ aa
 aa
 az
 bQ
-cE
+jT
 cP
 do
 gH
@@ -25427,7 +25792,7 @@ cR
 tK
 gK
 ht
-cQ
+jQ
 db
 fn
 cT
@@ -25704,7 +26069,7 @@ jy
 db
 aH
 aH
-dl
+nk
 aH
 ac
 ac
@@ -25951,7 +26316,7 @@ cI
 dj
 gr
 gO
-gr
+VB
 ia
 cI
 cj
@@ -27488,7 +27853,7 @@ dp
 lv
 ab
 ab
-ak
+ce
 aY
 ab
 ce
@@ -27496,7 +27861,7 @@ eU
 ce
 ab
 aT
-ak
+ce
 ab
 ab
 jC
@@ -27757,7 +28122,7 @@ jm
 jt
 ab
 jA
-db
+yS
 aH
 eb
 dV
@@ -28264,7 +28629,7 @@ jx
 ab
 ci
 gx
-bp
+Eh
 ab
 aZ
 ab
@@ -30837,7 +31202,7 @@ ab
 dk
 bA
 ab
-kp
+ms
 aH
 aH
 eY
@@ -31864,7 +32229,7 @@ ls
 hJ
 eK
 eC
-kQ
+yF
 bS
 br
 bx
@@ -32370,7 +32735,7 @@ aL
 aE
 bs
 bB
-bI
+Or
 bT
 dh
 bs
@@ -32381,7 +32746,7 @@ bs
 kQ
 bT
 bB
-bI
+Or
 bs
 aE
 aL
@@ -33655,7 +34020,7 @@ en
 aE
 bs
 bB
-bB
+Or
 bT
 dh
 bs
@@ -33666,7 +34031,7 @@ bs
 kQ
 bT
 bB
-bB
+Or
 bs
 aE
 aL
@@ -33912,7 +34277,7 @@ aL
 aE
 bs
 bB
-bI
+bB
 bT
 dh
 bs
@@ -33923,7 +34288,7 @@ bs
 kQ
 bT
 bB
-bI
+bB
 bs
 aE
 aL
@@ -34684,7 +35049,7 @@ aF
 bv
 br
 br
-br
+IU
 dh
 eE
 eW
@@ -34692,7 +35057,7 @@ bs
 eW
 eE
 kQ
-br
+sV
 br
 br
 kV
@@ -34946,7 +35311,7 @@ ez
 eF
 gS
 eF
-gS
+Qf
 eF
 ez
 aF
@@ -35458,7 +35823,7 @@ aL
 aL
 eB
 aM
-hd
+QC
 aF
 it
 aM

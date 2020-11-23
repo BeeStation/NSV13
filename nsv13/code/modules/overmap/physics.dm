@@ -35,9 +35,12 @@ This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATE
 	overmap_ship = null
 	cancel_camera()
 	focus = src
-	client?.pixel_x = 0
-	client?.pixel_y = 0
-	client?.change_view(getScreenSize(client?.prefs.widescreenpref))
+	if(!client)
+		return //Early return instead of possibly making 4 worthless reads. Is this a dumb microopt? Yes.
+	client.pixel_x = 0
+	client.pixel_y = 0
+	client.overmap_zoomout = 0
+	client.view_size.resetToDefault()
 
 /mob/living/vv_get_dropdown()
 	. = ..()
@@ -577,8 +580,8 @@ The while loop runs at a programatic level and is thus separated from any thrott
 		proj.overmap_firer = src
 		proj.pixel_x = round(this_x)
 		proj.pixel_y = round(this_y)
-		proj.setup_collider()
 		proj.faction = faction
+		proj.setup_collider()
 		if(isovermap(target) && explosive) //If we're firing a torpedo, the enemy's PDCs need to worry about it.
 			var/obj/structure/overmap/OM = target
 			OM.torpedoes_to_target += proj //We're firing a torpedo, their PDCs will need to shoot it down, so notify them of its existence
@@ -628,8 +631,8 @@ The while loop runs at a programatic level and is thus separated from any thrott
 		proj.overmap_firer = src
 		proj.pixel_x = round(this_x)
 		proj.pixel_y = round(this_y)
-		proj.setup_collider()
 		proj.faction = faction
+		proj.setup_collider()
 		spawn()
 			proj.preparePixelProjectile(target, src, null, round((rand() - 0.5) * proj.spread))
 			proj.fire(angle)
@@ -646,8 +649,8 @@ The while loop runs at a programatic level and is thus separated from any thrott
 	proj.overmap_firer = src
 	proj.pixel_x = round(pixel_x)
 	proj.pixel_y = round(pixel_y)
-	proj.setup_collider()
 	proj.faction = faction
+	proj.setup_collider()
 	if(homing)
 		proj.set_homing_target(target)
 	if(gunner)

@@ -13,8 +13,9 @@
 
 /obj/item/ammo_casing/flak
 	name = "mm40 flak round casing"
-	desc = "A 30.12x82mm bullet casing."
+	desc = "A mm40 bullet casing."
 	projectile_type = /obj/item/projectile/bullet/pdc_round
+	caliber = "mm40"
 
 /obj/machinery/ship_weapon/pdc_mount/flak
 	name = "Flak loading rack"
@@ -65,24 +66,29 @@
 	if(mass < MASS_SMALL) //Sub-capital ships don't get to use flak
 		return
 	var/datum/ship_weapon/SW = weapon_types[FIRE_MODE_FLAK]
+	var/flak_left = flak_battery_amount //Multi-flak batteries!
 	if(!ai_controlled)
 		if(!last_target || !istype(last_target, /obj/structure/overmap) || QDELETED(last_target) || !isovermap(last_target) || last_target == src || get_dist(last_target,src) >= SW.range_modifier) //Stop hitting yourself enterprise
 			last_target = null
 		else
 			fire_weapon(last_target, mode=FIRE_MODE_FLAK, lateral=TRUE)
-			return
+			flak_left --
+			if(flak_left <= 0)
+				return
 	for(var/obj/structure/overmap/ship in GLOB.overmap_objects)
 		if(!ship || !istype(ship))
 			continue
 		if(ship == src || ship == last_target || ship.faction == faction || wrecked || ship.wrecked || ship.z != z) //No friendly fire, don't blow up wrecks that the crew may wish to loot. For AIs, do not target our active target, and risk blowing up our precious torpedoes / missiles.
 			continue
 		var/target_range = get_dist(ship,src)
-		if(target_range > SW.range_modifier || target_range <= 0) //Random pulled from the aether
+		if(target_range > 30 || target_range <= 0) //Random pulled from the aether
 			continue
 		if(!QDELETED(ship) && isovermap(ship) && ship.is_sensor_visible(src) >= SENSOR_VISIBILITY_TARGETABLE)
 			last_target = ship
 			fire_weapon(ship, mode=FIRE_MODE_FLAK, lateral=TRUE)
-			break
+			flak_left --
+			if(flak_left <= 0)
+				break
 
 /obj/structure/overmap/proc/get_flak_range(atom/target)
 	if(!target)
@@ -136,27 +142,39 @@
 	RegisterSignal(src, COMSIG_MOVABLE_MOVED, .proc/check_range)
 
 /obj/item/projectile/bullet/flak/proc/explode()
-	new /obj/effect/flak_handler(get_turf(src))
+	if(ismob(firer))
+		var/mob/living/M = firer
+		faction = M.overmap_ship.faction
+	else
+		var/obj/structure/overmap/OM = firer
+		if(istype(OM))
+			faction = OM.faction
+	new /obj/effect/flak_handler(get_turf(src), faction)
 	qdel(src)
 
 //Small object to make flak "flicker" a bit. Kills itself after spawning flak
-/obj/effect/flak_handler/Initialize()
+/obj/effect/flak_handler/Initialize(mapload, faction)
 	. = ..()
 	for(var/I = 0, I < rand(2,5), I++)
 		var/edir = pick(GLOB.alldirs)
-		new /obj/effect/temp_visual/flak(get_turf(get_step(src, edir)))
+		new /obj/effect/temp_visual/flak(get_turf(get_step(src, edir)), faction)
 		sleep(rand(0, 2))
 	return INITIALIZE_HINT_QDEL
 
-/obj/effect/temp_visual/flak/Initialize()
+/obj/effect/temp_visual/flak/Initialize(mapload, faction)
 	if(prob(50))
 		icon = 'nsv13/goonstation/icons/effects/explosions/96x96.dmi'
 	for(var/obj/X in view(flak_range, src))
 		var/severity = flak_range-get_dist(X, src)
-		if(istype(X, /obj/structure))
-			X.take_damage(severity*10, BRUTE, "overmap_light")
+		if(istype(X, /obj/structure/overmap))
+			var/obj/structure/overmap/OM = X
+			if(OM.faction != faction)
+				X.take_damage(severity*10, BRUTE, "overmap_light")
 		else
-			X.ex_act(severity)
+			if(istype(X, /obj/item/projectile))
+				var/obj/item/projectile/P = X
+				if(P.faction != faction)
+					P.ex_act(severity)
 	. = ..()
 
 /obj/item/projectile/bullet/flak/on_hit(atom/target, blocked = 0)

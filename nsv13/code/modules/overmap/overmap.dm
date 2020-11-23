@@ -140,8 +140,11 @@
 	var/list/occupying_levels = list() //Refs to the z-levels we own for setting parallax and that, or for admins to debug things when EVERYTHING INEVITABLY BREAKS
 	var/torpedo_type = /obj/item/projectile/guided_munition/torpedo
 	var/next_maneuvre = 0 //When can we pull off a fancy trick like boost or kinetic turn?
+	var/flak_battery_amount = 1
 
 	var/role = NORMAL_OVERMAP
+	
+	var/list/missions = list()
 
 /**
 Proc to spool up a new Z-level for a player ship and assign it a treadmill.
@@ -227,6 +230,9 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 	if(role > NORMAL_OVERMAP)
 		SSstar_system.add_ship(src)
 		reserved_z = src.z //Our "reserved" Z will always be kept for us, no matter what. If we, for example, visit a system that another player is on and then jump away, we are returned to our own Z.
+		AddComponent(/datum/component/nsv_mission_arrival_in_system) // Adds components needed to track jumps for missions
+		AddComponent(/datum/component/nsv_mission_departure_from_system)
+	AddComponent(/datum/component/nsv_mission_killships)
 	current_tracers = list()
 	GLOB.overmap_objects += src
 	START_PROCESSING(SSphysics_processing, src)
@@ -275,6 +281,7 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 			max_angular_acceleration = 10
 			bounce_factor = 0.45
 			lateral_bounce_factor = 0.8
+			flak_battery_amount = 2
 
 		if(MASS_TITAN)
 			forward_maxthrust = 0.5
@@ -283,6 +290,7 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 			max_angular_acceleration = 2.5
 			bounce_factor = 0.35
 			lateral_bounce_factor = 0.6
+			flak_battery_amount = 3
 
 	if(role == MAIN_OVERMAP)
 		name = "[station_name()]"
@@ -312,6 +320,7 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 	. = ..()
 
 /obj/structure/overmap/Destroy()
+	SEND_SIGNAL(src,COMSIG_SHIP_KILLED)
 	QDEL_LIST(current_tracers)
 	if(cabin_air)
 		QDEL_NULL(cabin_air)
@@ -333,6 +342,8 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 		return FALSE
 	if(istype(target, /obj/machinery/button/door) || istype(target, /obj/machinery/turbolift_button))
 		target.attack_hand(user)
+		return FALSE
+	if(weapon_safety)
 		return FALSE
 	if(target == src || istype(target, /obj/screen) || (target && (target in user.GetAllContents())) || params_list["alt"] || params_list["ctrl"])
 		return FALSE
@@ -478,12 +489,11 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 		var/left_thrust = left_thrusts[cdir]
 		var/right_thrust = right_thrusts[cdir]
 		if(left_thrust)
-			add_overlay(image(icon = icon, icon_state = "rcs_left", dir = cdir))
+			add_overlay("rcs_left")
 		if(right_thrust)
-			add_overlay(image(icon = icon, icon_state = "rcs_right", dir = cdir))
+			add_overlay("rcs_right")
 	if(back_thrust)
-		var/image/I = image(icon = icon, icon_state = "thrust")
-		add_overlay(I)
+		add_overlay("thrust")
 
 /obj/structure/overmap/proc/apply_damage_states()
 	if(!damage_states)
@@ -531,19 +541,19 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 /obj/structure/overmap/key_down(key, client/user)
 	var/mob/themob = user.mob
 	switch(key)
-		if("Space")
-			if(themob == pilot)
-				toggle_move_mode()
-			if(helm && prob(80))
-				var/sound = pick(GLOB.computer_beeps)
-				playsound(helm, sound, 100, 1)
-			return TRUE
 		if("Shift")
 			if(themob == pilot)
 				boost(NORTH)
 		if("X")
 			if(themob == pilot)
 				toggle_inertia()
+			if(helm && prob(80))
+				var/sound = pick(GLOB.computer_beeps)
+				playsound(helm, sound, 100, 1)
+			return TRUE
+		if("C" || "c")
+			if(themob == pilot)
+				toggle_move_mode()
 			if(helm && prob(80))
 				var/sound = pick(GLOB.computer_beeps)
 				playsound(helm, sound, 100, 1)
@@ -555,7 +565,7 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 				var/sound = pick(GLOB.computer_beeps)
 				playsound(helm, sound, 100, 1)
 			return TRUE
-		if("Ctrl")
+		if("Space")
 			if(themob == gunner)
 				cycle_firemode()
 				if(tactical && prob(80))
@@ -565,15 +575,9 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 		if("Q" || "q")
 			if(!move_by_mouse)
 				desired_angle -= 15
-			else
-				if(themob == pilot)
-					boost(WEST)
 		if("E" || "e")
 			if(!move_by_mouse)
 				desired_angle += 15
-			else
-				if(themob == pilot)
-					boost(EAST)
 
 /obj/structure/overmap/proc/boost(direction)
 	if(world.time < next_maneuvre)

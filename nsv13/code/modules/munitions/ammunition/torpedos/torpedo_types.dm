@@ -3,14 +3,15 @@
 	icon = 'nsv13/icons/obj/munition_types.dmi'
 	icon_state = "standard"
 	desc = "A fairly standard torpedo which is designed to cause massive structural damage to a target. It is fitted with a basic homing mechanism to ensure it always hits the mark."
-	anchored = TRUE
 	density = TRUE
+	move_resist = MOVE_FORCE_EXTREMELY_STRONG
+	interaction_flags_item = 0 // -INTERACT_ITEM_ATTACK_HAND_PICKUP
 	projectile_type = /obj/item/projectile/guided_munition/torpedo //What torpedo type we fire
 	pixel_x = -17
 
-/obj/item/ship_weapon/ammunition/torpedo/CtrlClick(mob/user)
-	. = ..()
+/obj/item/ship_weapon/ammunition/torpedo/can_be_pulled(mob/user)
 	to_chat(user,"<span class='warning'>[src] is far too cumbersome to carry, and dragging it around might set it off! Load it onto a munitions trolley.</span>")
+	return FALSE
 
 /obj/item/ship_weapon/ammunition/torpedo/examine(mob/user)
 	. = ..()
@@ -140,11 +141,13 @@
 		return FALSE //You can't move a torp from the inside :b1:
 
 /obj/item/projectile/guided_munition/torpedo/post
+	name = "freight torpedo"
 	icon_state = "torpedo_post"
+	homing_turn_speed = 0
 	damage = 0
 
-/obj/item/projectile/guided_munition/torpedo/post/Initialize()
-	. = ..()
+/obj/item/projectile/guided_munition/torpedo/post/windup() // As we can not lock onto a target, this just causes the torp to do a 180.
+	return
 
 /obj/item/projectile/guided_munition/torpedo/post/proc/foo()
 	new /mob/living/carbon/human(src)
@@ -160,6 +163,7 @@
 		return TRUE
 	if(OM != overmap_firer)
 		deliver_freight(OM) //Bang.
+		qdel(src)
 		return TRUE
 
 /obj/structure/closet/supplypod/freight_pod
@@ -168,11 +172,14 @@
 
 /obj/item/projectile/guided_munition/torpedo/post/proc/deliver_freight(obj/structure/overmap/OM)
 	var/area/landingzone = null
+	for(var/atom/a in GetAllContents()) //Send the cargo signal to our contents
+		SEND_SIGNAL(a, COMSIG_CARGO_DELIVERED, OM)
 	if(OM.role == MAIN_OVERMAP)
 		landingzone = GLOB.areas_by_type[/area/quartermaster/warehouse]
 	else
-		if(!OM.linked_areas.len)
-			return FALSE
+		if(!OM.linked_areas.len) // The cargo is now lost. clean it up
+			qdel(src)
+			return
 		landingzone = pick(OM.linked_areas)
 	var/list/empty_turfs = list()
 	var/turf/LZ = null
@@ -193,8 +200,8 @@
 
 /obj/item/projectile/guided_munition/torpedo/post/Destroy()
 	if(contents.len)
-		for(var/atom/X in contents)
-			qdel(X) //Shooting this torpedo down means death.
+		var/list/all_contents = GetAllContents() - src //Get all contents returns the torp itself. remove the torp from the list
+		QDEL_LIST(all_contents) //Delete all contents of the torp. 
 	. = ..()
 
 //A probe that science builds to scan anomalies. This is a chad move.

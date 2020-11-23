@@ -106,7 +106,11 @@ Misc projectile types, effects, think of this as the special FX file.
 //Corvid or someone please refactor this to be less messy.
 /obj/item/projectile/guided_munition/torpedo/on_hit(atom/target, blocked = FALSE)
 	..()
+	if(!check_faction(target))
+		return FALSE 	 //Nsv13 - faction checking for overmaps. We're gonna just cut off real early and save some math if the IFF doesn't check out.
 	if(istype(target, /obj/structure/overmap)) //Were we to explode on an actual overmap, this would oneshot the ship as it's a powerful explosion.
+		var/obj/structure/overmap/OM = target
+		OM.torpedoes_to_target -= src
 		return BULLET_ACT_HIT
 	var/obj/item/projectile/P = target //This is hacky, refactor check_faction to unify both of these. I'm bodging it for now.
 	if(isprojectile(target) && P.faction != faction) //Because we could be in the same faction and collide with another bullet. Let's not blow ourselves up ok?
@@ -117,6 +121,8 @@ Misc projectile types, effects, think of this as the special FX file.
 
 /obj/item/projectile/guided_munition/torpedo/nuclear/on_hit(atom/target, blocked = FALSE)
 	..()
+	if(!check_faction(target))
+		return FALSE 	 //Nsv13 - faction checking for overmaps. We're gonna just cut off real early and save some math if the IFF doesn't check out.
 	if(istype(target, /obj/structure/overmap)) //Were we to explode on an actual overmap, this would oneshot the ship as it's a powerful explosion.
 		return BULLET_ACT_HIT
 	var/obj/item/projectile/P = target //This is hacky, refactor check_faction to unify both of these. I'm bodging it for now.
@@ -142,9 +148,3 @@ Misc projectile types, effects, think of this as the special FX file.
 		return TRUE
 	if(faction != OM.faction)
 		return TRUE
-
-/obj/item/projectile/guided_munition/torpedo/on_hit(atom/target, blocked = 0)
-	if(isovermap(target))
-		var/obj/structure/overmap/OM = target
-		OM.torpedoes_to_target -= src
-	return ..()

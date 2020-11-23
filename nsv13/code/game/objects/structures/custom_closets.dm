@@ -18,6 +18,7 @@
 	new /obj/item/clothing/head/ship/maa_hat(src)
 	new /obj/item/pet_carrier(src)
 	new /obj/item/clothing/neck/petcollar(src)
+	new /obj/item/storage/box/spare_munitions_keys(src)
 
 /obj/structure/closet/secure_closet/munitions_technician
 	name = "munitions technician's locker"
