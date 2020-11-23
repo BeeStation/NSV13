@@ -344,12 +344,6 @@
 /area/nostromo/maintenance/exterior)
 "is" = (
 /obj/structure/bed,
-/obj/structure/safe/floor,
-/obj/item/storage/pill_bottle/floorpill/full{
-	desc = "A treat for a certain miner."
-	},
-/obj/item/toy/plush/beeplushie,
-/obj/item/reagent_containers/food/snacks/canned/beans,
 /obj/item/bedsheet/clown,
 /turf/open/floor/carpet/ship,
 /area/nostromo/crew_quarters)
@@ -496,15 +490,13 @@
 /obj/item/ammo_box/magazine/pdc/flak,
 /obj/item/ammo_box/magazine/pdc,
 /obj/item/ammo_box/magazine/pdc,
-/obj/machinery/airalarm/all_access{
-	pixel_y = 32
-	},
 /obj/machinery/atmospherics/components/trinary/filter/atmos/flipped/o2{
 	dir = 4
 	},
 /obj/structure/cable{
 	icon_state = "4-8"
 	},
+/obj/machinery/airalarm/directional/north,
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/nostromo/engineering)
 "mJ" = (
@@ -530,10 +522,7 @@
 /area/nostromo/engineering)
 "mV" = (
 /obj/structure/closet/emcloset,
-/obj/structure/sign/solgov_seal,
-/obj/machinery/airalarm/all_access{
-	pixel_y = 32
-	},
+/obj/machinery/airalarm/directional/north,
 /turf/open/floor/carpet/ship/blue,
 /area/nostromo/bridge)
 "mY" = (
@@ -762,9 +751,11 @@
 /obj/structure/sign/poster/random{
 	pixel_x = -32
 	},
-/obj/machinery/airalarm/all_access{
-	pixel_y = 32
-	},
+/obj/machinery/airalarm/directional/north,
+/turf/open/floor/carpet/ship,
+/area/nostromo/hangar/starboard)
+"vz" = (
+/obj/machinery/airalarm/directional/north,
 /turf/open/floor/carpet/ship,
 /area/nostromo/hangar/starboard)
 "vA" = (
@@ -961,6 +952,7 @@
 "zL" = (
 /obj/machinery/washing_machine,
 /obj/effect/turf_decal/ship/rust,
+/obj/machinery/airalarm/directional/north,
 /turf/open/floor/plasteel/white,
 /area/nostromo/crew_quarters)
 "zR" = (
@@ -992,6 +984,7 @@
 	icon_state = "4-8"
 	},
 /obj/machinery/microwave,
+/obj/structure/sign/solgov_seal,
 /turf/open/floor/wood,
 /area/nostromo/crew_quarters)
 "Ar" = (
@@ -1371,6 +1364,7 @@
 "Mm" = (
 /obj/structure/bed,
 /obj/item/bedsheet/mime,
+/obj/machinery/airalarm/directional/north,
 /turf/open/floor/carpet/ship,
 /area/nostromo/crew_quarters)
 "Mw" = (
@@ -1752,6 +1746,11 @@
 /area/nostromo/engineering)
 "Tb" = (
 /obj/structure/closet/wardrobe/miner,
+/obj/item/toy/plush/beeplushie,
+/obj/item/storage/pill_bottle/floorpill/full{
+	desc = "A treat for a certain miner."
+	},
+/obj/item/reagent_containers/food/snacks/canned/beans,
 /turf/open/floor/carpet/ship,
 /area/nostromo/crew_quarters)
 "Tv" = (
@@ -1929,9 +1928,7 @@
 /obj/machinery/light{
 	dir = 1
 	},
-/obj/machinery/airalarm/all_access{
-	pixel_y = 32
-	},
+/obj/machinery/airalarm/directional/north,
 /turf/open/floor/wood,
 /area/nostromo/crew_quarters)
 "Yr" = (
@@ -36343,7 +36340,7 @@ qH
 qH
 qH
 uj
-wu
+vz
 rH
 fk
 Jg
