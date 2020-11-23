@@ -786,19 +786,29 @@ To make things worse, this hellhole is entirely RNG, so good luck mapping it!
 	addtimer(CALLBACK(src, .proc/generate_badlands), 10 SECONDS)
 
 /datum/star_system/sector3/proc/generate_badlands()
-	var/last_system_x = x
-	var/last_system_y = y
+	//These are necessary to ensure no three points are perfectly collinear, for the most part.
+	var/list/used_y = list()
+	var/list/used_x = list()
+
 	var/list/generated = list()
-	var/amount = rand(10,20)
+	var/amount = rand(100, 200)
+	var/conflictcount = 0
+	message_admins("Generating Brazil with [amount] systems.")
 	for(var/I=0;I<amount,I++){
 		var/datum/star_system/random/randy = new /datum/star_system/random()
 		randy.system_type = pick("radioactive", "blackhole", "quasar", "accretiondisk", "nebula", "supernova")
 		randy.apply_system_effects()
 		randy.name = (randy.system_type != "nebula") ? "S-[rand(0,10000)]" : "N-[rand(0,10000)]"
-		randy.x = last_system_x + rand(-20, 10)
-		randy.y = last_system_y + rand(-20, 10)
-		last_system_x = randy.x
-		last_system_y = randy.y
+		randy.x = rand(1, 200)
+		randy.y = rand(1, 100)+30 //Offset vertically for viewing 'pleasure'
+		while(randy.x in used_x)
+			randy.x = rand(1, 100)
+			conflictcount++
+		while(randy.x in used_y)
+			randy.y = rand(1, 100)+30
+			conflictcount++
+		used_x.Insert(randy.x)
+		used_y.Insert(randy.y)
 		randy.sector = sector //Yeah do I even need to explain this?
 		randy.hidden = FALSE
 		generated += randy
@@ -829,7 +839,7 @@ To make things worse, this hellhole is entirely RNG, so good luck mapping it!
 		var/datum/star_system/partner = pick(generated)
 		rubiconnector.adjacency_list += partner.name
 		partner.adjacency_list += rubiconnector
-
+	message_admins("Brazil has been completed. There were [conflictcount] conflicts during generation.")
 /*
 <Summary>
 Welcome to the endgame. This sector is the hardest you'll encounter in game and holds the Syndicate capital.
