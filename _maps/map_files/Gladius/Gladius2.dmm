@@ -698,6 +698,7 @@
 	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
+/obj/effect/landmark/start/atmospheric_technician,
 /turf/open/floor/plasteel/grid/steel,
 /area/engine/atmos)
 "aAD" = (
@@ -2642,6 +2643,9 @@
 /area/engine/engineering/hangar)
 "bYG" = (
 /obj/effect/turf_decal/stripes/line,
+/obj/machinery/atmospherics/pipe/simple/purple/visible{
+	dir = 9
+	},
 /turf/open/floor/plating,
 /area/engine/atmos)
 "bYX" = (
@@ -4702,7 +4706,9 @@
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/frame1/starboard)
 "dlF" = (
-/obj/machinery/atmospherics/components/binary/magnetic_constrictor,
+/obj/machinery/atmospherics/pipe/manifold/purple/visible{
+	dir = 4
+	},
 /turf/open/floor/plating,
 /area/engine/atmos)
 "dlP" = (
@@ -5585,6 +5591,9 @@
 "dPs" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 10
+	},
+/obj/machinery/atmospherics/pipe/simple/orange/visible{
+	dir = 9
 	},
 /turf/open/floor/plasteel/grid/steel,
 /area/engine/atmos)
@@ -7436,6 +7445,12 @@
 /obj/machinery/advanced_airlock_controller/directional/north,
 /turf/open/floor/plating,
 /area/engine/engineering/hangar)
+"eWc" = (
+/obj/machinery/atmospherics/pipe/simple/orange/visible{
+	dir = 9
+	},
+/turf/open/floor/plasteel/grid/steel,
+/area/engine/atmos)
 "eWt" = (
 /obj/machinery/power/apc/auto_name/south,
 /obj/structure/cable,
@@ -7949,6 +7964,13 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/starboard/fore)
+"fkf" = (
+/obj/machinery/meter,
+/obj/machinery/atmospherics/pipe/manifold/orange/visible{
+	dir = 8
+	},
+/turf/open/floor/plasteel/grid/steel,
+/area/engine/atmos)
 "fkl" = (
 /obj/structure/closet/emcloset,
 /turf/open/floor/plating,
@@ -18110,9 +18132,7 @@
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
 	},
-/obj/machinery/atmospherics/pipe/manifold/purple/visible{
-	dir = 8
-	},
+/obj/machinery/atmospherics/components/binary/magnetic_constrictor,
 /turf/open/floor/plating,
 /area/engine/atmos)
 "lnM" = (
@@ -18170,6 +18190,15 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/frame1/starboard)
+"loM" = (
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	dir = 8
+	},
+/obj/machinery/atmospherics/components/binary/valve/digital{
+	dir = 4
+	},
+/turf/open/floor/plasteel/grid/steel,
+/area/engine/atmos)
 "lpb" = (
 /obj/machinery/door/airlock/ship/external/glass{
 	name = "Escape Shuttle Dock";
@@ -20854,7 +20883,9 @@
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
 	},
-/obj/machinery/atmospherics/components/binary/magnetic_constrictor,
+/obj/machinery/atmospherics/pipe/simple/purple/visible{
+	dir = 6
+	},
 /turf/open/floor/plating,
 /area/engine/atmos)
 "mSa" = (
@@ -20872,9 +20903,6 @@
 "mSN" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 9
-	},
-/obj/machinery/atmospherics/pipe/simple/purple/visible{
-	dir = 4
 	},
 /turf/open/floor/plating,
 /area/engine/atmos)
@@ -21033,7 +21061,9 @@
 /obj/effect/turf_decal/stripes/line{
 	dir = 10
 	},
-/obj/machinery/atmospherics/pipe/simple/purple/visible,
+/obj/machinery/atmospherics/pipe/manifold/purple/visible{
+	dir = 8
+	},
 /turf/open/floor/plating,
 /area/engine/atmos)
 "mWM" = (
@@ -22407,10 +22437,8 @@
 /turf/closed/wall/ship,
 /area/storage/tools)
 "nMf" = (
-/obj/machinery/atmospherics/components/trinary/filter/atmos/flipped/plasma{
-	dir = 1;
-	name = "Plasma to Constrictors";
-	on = 0
+/obj/machinery/atmospherics/pipe/manifold/orange/visible{
+	dir = 8
 	},
 /turf/open/floor/plasteel/grid/steel,
 /area/engine/atmos)
@@ -26219,8 +26247,8 @@
 /area/crew_quarters/locker)
 "pXv" = (
 /obj/structure/railing/corner,
-/obj/machinery/atmospherics/pipe/simple/orange/visible{
-	dir = 4
+/obj/machinery/atmospherics/pipe/manifold/orange/visible{
+	dir = 1
 	},
 /turf/open/floor/plasteel/grid/steel,
 /area/engine/atmos)
@@ -28560,12 +28588,16 @@
 /obj/structure/extinguisher_cabinet/north,
 /turf/open/floor/monotile/dark,
 /area/nsv/weapons/gauss)
+"rlv" = (
+/obj/machinery/atmospherics/components/binary/valve/digital,
+/turf/open/floor/plasteel/grid/steel,
+/area/engine/atmos)
 "rlw" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
 	},
 /obj/machinery/atmospherics/pipe/simple/purple/visible{
-	dir = 6
+	dir = 4
 	},
 /turf/open/floor/plating,
 /area/engine/atmos)
@@ -29596,8 +29628,11 @@
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/starboard/fore)
 "rOZ" = (
-/obj/machinery/atmospherics/pipe/simple/orange/visible,
-/obj/machinery/meter,
+/obj/machinery/atmospherics/components/trinary/filter/atmos/flipped/plasma{
+	dir = 1;
+	name = "Plasma to Constrictors";
+	on = 0
+	},
 /turf/open/floor/plasteel/grid/steel,
 /area/engine/atmos)
 "rPl" = (
@@ -30937,10 +30972,7 @@
 /turf/open/floor/plasteel/grid/steel,
 /area/quartermaster/storage)
 "sBF" = (
-/obj/effect/landmark/start/atmospheric_technician,
-/obj/machinery/atmospherics/pipe/simple/purple/visible{
-	dir = 9
-	},
+/obj/machinery/atmospherics/components/binary/magnetic_constrictor,
 /turf/open/floor/plating,
 /area/engine/atmos)
 "sCc" = (
@@ -32825,9 +32857,6 @@
 /obj/effect/turf_decal/stripes/line{
 	dir = 1
 	},
-/obj/machinery/atmospherics/pipe/simple/purple/visible{
-	dir = 10
-	},
 /turf/open/floor/plating,
 /area/engine/atmos)
 "tLy" = (
@@ -34633,6 +34662,15 @@
 /obj/structure/pool_ladder,
 /turf/open/indestructible/sound/pool/spentfuel/wall,
 /area/engine/engineering/reactor_core)
+"uYq" = (
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	dir = 8
+	},
+/obj/machinery/atmospherics/pipe/simple/orange/visible{
+	dir = 5
+	},
+/turf/open/floor/plasteel/grid/steel,
+/area/engine/atmos)
 "uYC" = (
 /obj/effect/spawner/lootdrop/maintenance,
 /obj/structure/cable{
@@ -36395,6 +36433,12 @@
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /turf/open/floor/monotile,
 /area/crew_quarters/locker)
+"wcY" = (
+/obj/machinery/atmospherics/pipe/manifold/orange/visible{
+	dir = 1
+	},
+/turf/open/floor/plasteel/grid/steel,
+/area/engine/atmos)
 "wdr" = (
 /obj/structure/table,
 /obj/item/hatchet,
@@ -38694,8 +38738,8 @@
 /turf/open/floor/carpet/green,
 /area/library)
 "xCQ" = (
-/obj/machinery/atmospherics/pipe/manifold/purple/visible{
-	dir = 4
+/obj/machinery/atmospherics/pipe/simple/purple/visible{
+	dir = 10
 	},
 /turf/open/floor/plating,
 /area/engine/atmos)
@@ -59607,13 +59651,13 @@ rWK
 rWT
 nNo
 ocE
-tCa
+nMf
 tqe
 nMf
 rOZ
-tCa
+nMf
 tqe
-rOZ
+fkf
 tCa
 gEs
 tqe
@@ -59864,13 +59908,13 @@ kfS
 cqe
 nNo
 hkr
-nNo
-nNo
+lui
+rlv
+eWc
 ugf
-nNo
-nNo
-nNo
-nNo
+lui
+rlv
+eWc
 nNo
 ugf
 nNo
@@ -60377,8 +60421,8 @@ pAp
 jDw
 cqe
 oiz
-hkr
-pdn
+wcY
+uYq
 nNo
 tLk
 xCQ
@@ -60635,7 +60679,7 @@ kzh
 gRN
 lJu
 lSn
-pdn
+loM
 pGR
 dFK
 oaN
