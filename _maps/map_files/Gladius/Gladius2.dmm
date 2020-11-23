@@ -148,12 +148,16 @@
 /area/space/nearstation)
 "ahJ" = (
 /obj/structure/table/reinforced,
+/obj/machinery/atmospherics/pipe/simple/green/hidden/layer1{
+	dir = 4
+	},
+/obj/item/paper{
+	info = "Don't forget to replace the Nucleium canisters before they fill up, or you'll flood the coolant line with it! I do not want a repeat of yesterday's incident.";
+	name = "Reminder from the Chief Engineer"
+	},
 /obj/item/geiger_counter{
 	desc = "It's capped at 3.6 Roentgen. Not great, not terrible.";
 	name = "\improper Dossimiter"
-	},
-/obj/machinery/atmospherics/pipe/simple/green/hidden/layer1{
-	dir = 4
 	},
 /turf/open/floor/plasteel/grid/techfloor/grid,
 /area/engine/engineering/reactor_core)
@@ -3562,6 +3566,10 @@
 /obj/structure/plasticflaps/opaque,
 /turf/open/floor/plasteel/techmaint,
 /area/quartermaster/storage)
+"czc" = (
+/obj/machinery/atmospherics/components/binary/valve/digital,
+/turf/open/floor/plasteel/grid/steel,
+/area/engine/atmos)
 "czp" = (
 /obj/machinery/holopad,
 /turf/open/floor/monotile,
@@ -6177,6 +6185,13 @@
 	icon_state = "platingdmg1"
 	},
 /area/maintenance/nsv/deck2/starboard/fore)
+"emD" = (
+/obj/machinery/meter,
+/obj/machinery/atmospherics/pipe/manifold/orange/visible{
+	dir = 8
+	},
+/turf/open/floor/plasteel/grid/steel,
+/area/engine/atmos)
 "emF" = (
 /obj/structure/disposalpipe/junction{
 	dir = 2
@@ -7445,12 +7460,6 @@
 /obj/machinery/advanced_airlock_controller/directional/north,
 /turf/open/floor/plating,
 /area/engine/engineering/hangar)
-"eWc" = (
-/obj/machinery/atmospherics/pipe/simple/orange/visible{
-	dir = 9
-	},
-/turf/open/floor/plasteel/grid/steel,
-/area/engine/atmos)
 "eWt" = (
 /obj/machinery/power/apc/auto_name/south,
 /obj/structure/cable,
@@ -7964,13 +7973,6 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/starboard/fore)
-"fkf" = (
-/obj/machinery/meter,
-/obj/machinery/atmospherics/pipe/manifold/orange/visible{
-	dir = 8
-	},
-/turf/open/floor/plasteel/grid/steel,
-/area/engine/atmos)
 "fkl" = (
 /obj/structure/closet/emcloset,
 /turf/open/floor/plating,
@@ -13480,6 +13482,12 @@
 	},
 /turf/open/floor/plating,
 /area/hallway/secondary/entry)
+"ioR" = (
+/obj/machinery/atmospherics/pipe/manifold/orange/visible{
+	dir = 1
+	},
+/turf/open/floor/plasteel/grid/steel,
+/area/engine/atmos)
 "ioS" = (
 /obj/structure/lattice/catwalk,
 /obj/machinery/atmospherics/pipe/heat_exchanging/simple,
@@ -14593,6 +14601,12 @@
 /obj/item/fuel_rod,
 /turf/open/indestructible/sound/pool/spentfuel/wall,
 /area/engine/engineering/reactor_core)
+"iXn" = (
+/obj/machinery/atmospherics/pipe/simple/orange/visible{
+	dir = 9
+	},
+/turf/open/floor/plasteel/grid/steel,
+/area/engine/atmos)
 "iXr" = (
 /obj/structure/girder,
 /turf/open/floor/plating,
@@ -18190,15 +18204,6 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/frame1/starboard)
-"loM" = (
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
-	dir = 8
-	},
-/obj/machinery/atmospherics/components/binary/valve/digital{
-	dir = 4
-	},
-/turf/open/floor/plasteel/grid/steel,
-/area/engine/atmos)
 "lpb" = (
 /obj/machinery/door/airlock/ship/external/glass{
 	name = "Escape Shuttle Dock";
@@ -28588,10 +28593,6 @@
 /obj/structure/extinguisher_cabinet/north,
 /turf/open/floor/monotile/dark,
 /area/nsv/weapons/gauss)
-"rlv" = (
-/obj/machinery/atmospherics/components/binary/valve/digital,
-/turf/open/floor/plasteel/grid/steel,
-/area/engine/atmos)
 "rlw" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
@@ -32498,6 +32499,15 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /turf/open/floor/monotile/dark,
 /area/nsv/engine/corridor)
+"tAb" = (
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	dir = 8
+	},
+/obj/machinery/atmospherics/components/binary/valve/digital{
+	dir = 4
+	},
+/turf/open/floor/plasteel/grid/steel,
+/area/engine/atmos)
 "tAz" = (
 /obj/machinery/light{
 	dir = 4
@@ -34662,15 +34672,6 @@
 /obj/structure/pool_ladder,
 /turf/open/indestructible/sound/pool/spentfuel/wall,
 /area/engine/engineering/reactor_core)
-"uYq" = (
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
-	dir = 8
-	},
-/obj/machinery/atmospherics/pipe/simple/orange/visible{
-	dir = 5
-	},
-/turf/open/floor/plasteel/grid/steel,
-/area/engine/atmos)
 "uYC" = (
 /obj/effect/spawner/lootdrop/maintenance,
 /obj/structure/cable{
@@ -36433,12 +36434,6 @@
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /turf/open/floor/monotile,
 /area/crew_quarters/locker)
-"wcY" = (
-/obj/machinery/atmospherics/pipe/manifold/orange/visible{
-	dir = 1
-	},
-/turf/open/floor/plasteel/grid/steel,
-/area/engine/atmos)
 "wdr" = (
 /obj/structure/table,
 /obj/item/hatchet,
@@ -37158,6 +37153,15 @@
 /obj/effect/spawner/structure/window/reinforced,
 /turf/open/floor/plating,
 /area/engine/engineering/hangar)
+"wDc" = (
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	dir = 8
+	},
+/obj/machinery/atmospherics/pipe/simple/orange/visible{
+	dir = 5
+	},
+/turf/open/floor/plasteel/grid/steel,
+/area/engine/atmos)
 "wDh" = (
 /obj/structure/disposalpipe/segment{
 	dir = 4
@@ -59657,7 +59661,7 @@ nMf
 rOZ
 nMf
 tqe
-fkf
+emD
 tCa
 gEs
 tqe
@@ -59909,12 +59913,12 @@ cqe
 nNo
 hkr
 lui
-rlv
-eWc
+czc
+iXn
 ugf
 lui
-rlv
-eWc
+czc
+iXn
 nNo
 ugf
 nNo
@@ -60421,8 +60425,8 @@ pAp
 jDw
 cqe
 oiz
-wcY
-uYq
+ioR
+wDc
 nNo
 tLk
 xCQ
@@ -60679,7 +60683,7 @@ kzh
 gRN
 lJu
 lSn
-loM
+tAb
 pGR
 dFK
 oaN
