@@ -3917,7 +3917,7 @@
 /turf/open/floor/monotile,
 /area/science/robotics/lab)
 "bYY" = (
-/turf/open/floor/circuit/telecomms,
+/turf/open/floor/circuit/airless,
 /area/science/server)
 "bZe" = (
 /obj/structure/disposalpipe/segment{
@@ -4504,7 +4504,7 @@
 	name = "server vent";
 	pressure_checks = 0
 	},
-/turf/open/floor/circuit/telecomms,
+/turf/open/floor/circuit/airless,
 /area/science/server)
 "cmA" = (
 /obj/structure/sign/warning/docking{
@@ -6808,6 +6808,7 @@
 /area/nsv/weapons/starboard)
 "dsX" = (
 /obj/machinery/portable_atmospherics/canister/oxygen,
+/obj/item/radio/intercom/directional/east,
 /turf/open/floor/plasteel/ship,
 /area/nsv/hanger)
 "dsZ" = (
@@ -6900,7 +6901,7 @@
 	external_pressure_bound = 120;
 	name = "server vent"
 	},
-/turf/open/floor/circuit/telecomms,
+/turf/open/floor/circuit/airless,
 /area/science/server)
 "dvR" = (
 /obj/effect/turf_decal/tile/blue{
@@ -8512,7 +8513,7 @@
 /area/maintenance/nsv/deck1/port/aft)
 "elj" = (
 /obj/structure/frame/machine,
-/turf/open/floor/circuit/telecomms,
+/turf/open/floor/circuit/airless,
 /area/science/server)
 "elx" = (
 /obj/machinery/airalarm/directional/south,
@@ -11038,6 +11039,16 @@
 	},
 /turf/open/floor/plating,
 /area/security/range)
+"fsM" = (
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/obj/effect/spawner/lootdrop/maintenance,
+/obj/structure/sign/poster/contraband/random{
+	pixel_y = -32
+	},
+/turf/open/floor/plating,
+/area/maintenance/nsv/hangar)
 "fsN" = (
 /obj/machinery/computer/pandemic,
 /obj/effect/turf_decal/tile/ship/green,
@@ -13245,6 +13256,10 @@
 /obj/effect/spawner/room/threexfive,
 /turf/template_noop,
 /area/maintenance/nsv/deck1/aft)
+"gyk" = (
+/obj/item/radio/intercom/directional/west,
+/turf/open/floor/plasteel/ship/techfloor/alt,
+/area/nsv/hanger)
 "gyz" = (
 /obj/effect/turf_decal/trimline/red/filled/line{
 	dir = 1
@@ -15394,9 +15409,6 @@
 "hwP" = (
 /obj/structure/cable{
 	icon_state = "4-8"
-	},
-/obj/structure/sign/poster/contraband/random{
-	pixel_y = -32
 	},
 /turf/open/floor/plating{
 	icon_state = "panelscorched"
@@ -21078,7 +21090,7 @@
 /obj/machinery/door/firedoor/border_only{
 	dir = 8
 	},
-/turf/open/floor/monotile,
+/turf/open/floor/plasteel/ship/techfloor/alt,
 /area/nsv/hanger/notkmcstupidhanger/pilot)
 "kni" = (
 /obj/effect/turf_decal/trimline/blue/filled/corner,
@@ -25280,6 +25292,13 @@
 /obj/machinery/newscaster/directional/north,
 /turf/open/floor/monotile,
 /area/hallway/nsv/deck1/frame1/central)
+"mrX" = (
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/obj/item/radio/intercom/directional/north,
+/turf/open/floor/plasteel/ship/techfloor/alt,
+/area/nsv/hanger)
 "mrZ" = (
 /obj/effect/landmark/event_spawn,
 /obj/structure/disposalpipe/segment{
@@ -26968,6 +26987,7 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 9
 	},
+/obj/item/radio/intercom/directional/east,
 /turf/open/floor/plasteel/ship/techfloor/alt,
 /area/nsv/hanger)
 "ndV" = (
@@ -30752,7 +30772,7 @@
 /area/nsv/hanger)
 "oUo" = (
 /obj/machinery/rnd/server,
-/turf/open/floor/circuit/telecomms,
+/turf/open/floor/circuit/airless,
 /area/science/server)
 "oUt" = (
 /obj/structure/disposalpipe/segment,
@@ -36658,6 +36678,10 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/department/security/brig)
+"rSO" = (
+/obj/item/radio/intercom/directional/south,
+/turf/open/floor/plasteel/ship/techfloor/alt,
+/area/nsv/hanger)
 "rTc" = (
 /obj/effect/turf_decal/tile/neutral{
 	dir = 4
@@ -44175,7 +44199,7 @@
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	dir = 4
 	},
-/turf/open/floor/monotile,
+/turf/open/floor/plasteel/ship/techfloor/alt,
 /area/nsv/hanger/notkmcstupidhanger/pilot)
 "vvA" = (
 /obj/structure/disposalpipe/segment{
@@ -48511,6 +48535,9 @@
 	pixel_x = 32
 	},
 /obj/machinery/atmospherics/pipe/simple/dark/visible,
+/obj/machinery/camera/autoname{
+	dir = 8
+	},
 /turf/open/floor/plasteel/ship,
 /area/maintenance/disposal/incinerator)
 "xDb" = (
@@ -48764,6 +48791,10 @@
 /obj/item/clothing/mask/gas/sechailer,
 /turf/open/floor/monotile/dark,
 /area/security/main)
+"xJu" = (
+/obj/item/radio/intercom/directional/west,
+/turf/open/floor/plasteel/tech/grid,
+/area/nsv/hanger)
 "xJw" = (
 /obj/structure/disposalpipe/segment,
 /obj/structure/cable{
@@ -69873,7 +69904,7 @@ qoR
 efk
 oOn
 rHb
-rQG
+xJu
 vqx
 efk
 gHb
@@ -70383,7 +70414,7 @@ oCt
 rDX
 cFP
 uOL
-kXN
+fsM
 efk
 jxS
 jQR
@@ -71418,7 +71449,7 @@ pHP
 pKJ
 cwA
 ije
-pKJ
+gyk
 pKJ
 pKJ
 cgS
@@ -71942,7 +71973,7 @@ hbi
 pWl
 ifW
 doL
-pKJ
+rSO
 efk
 efk
 wcI
@@ -77579,7 +77610,7 @@ krL
 krL
 eLE
 efk
-wuV
+mrX
 pKJ
 pKJ
 pKJ
