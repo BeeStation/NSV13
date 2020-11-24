@@ -181,7 +181,7 @@
 		item.unlock_path = initialtype
 		item.name = soldtype.name
 		item.desc = soldtype.desc
-		item.price = rand(1000, 50000)
+		item.price = rand(1000, 100000000)
 		item.stock = 2
 		item.stock = rand(item.stock/2, item.stock*2)
 		qdel(soldtype)
