@@ -114,6 +114,10 @@
 /obj/effect/turf_decal/tile/green{
 	dir = 4
 	},
+/obj/machinery/requests_console{
+	name = "Hydroponics RC";
+	pixel_y = 26
+	},
 /turf/open/floor/plating,
 /area/hydroponics)
 "ak" = (
@@ -143,6 +147,14 @@
 /area/maintenance/ship_exterior)
 "ar" = (
 /obj/machinery/computer/card/minor/rd,
+/obj/machinery/requests_console{
+	announcementConsole = 1;
+	department = "Research Director's Desk";
+	departmentType = 5;
+	name = "Research Director RC";
+	pixel_y = 30;
+	receive_ore_updates = 1
+	},
 /turf/open/floor/plating,
 /area/crew_quarters/heads/hor)
 "as" = (
@@ -689,6 +701,9 @@
 	},
 /obj/structure/cable{
 	icon_state = "2-8"
+	},
+/obj/structure/cable{
+	icon_state = "1-2"
 	},
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/port)
@@ -1418,6 +1433,10 @@
 	},
 /obj/machinery/portable_atmospherics/pump,
 /obj/item/wrench,
+/obj/machinery/power/apc/auto_name/east,
+/obj/structure/cable{
+	icon_state = "0-8"
+	},
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/airlock/aft/port)
 "dw" = (
@@ -1845,6 +1864,9 @@
 	},
 /obj/machinery/door/airlock/ship/external{
 	req_one_access_txt = "13"
+	},
+/obj/structure/cable{
+	icon_state = "1-2"
 	},
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/airlock/aft/port)
@@ -2941,6 +2963,13 @@
 /area/science/robotics)
 "gF" = (
 /obj/machinery/vending/wardrobe/robo_wardrobe,
+/obj/machinery/requests_console{
+	department = "Robotics";
+	departmentType = 2;
+	name = "Robotics RC";
+	pixel_x = 31;
+	receive_ore_updates = 1
+	},
 /turf/open/floor/plating,
 /area/science/robotics)
 "gG" = (
@@ -3534,6 +3563,13 @@
 /area/hallway/nsv/deck2/frame2/central)
 "hY" = (
 /obj/machinery/vending/wardrobe/science_wardrobe,
+/obj/machinery/requests_console{
+	department = "Science";
+	departmentType = 2;
+	name = "Science Requests Console";
+	pixel_x = -30;
+	receive_ore_updates = 1
+	},
 /turf/open/floor/plating,
 /area/science/lab)
 "hZ" = (
@@ -4104,6 +4140,12 @@
 	},
 /turf/open/floor/plating,
 /area/science/robotics)
+"js" = (
+/obj/structure/cable{
+	icon_state = "2-8"
+	},
+/turf/open/floor/plating,
+/area/maintenance/nsv/deck2/airlock/forward/port)
 "jt" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	dir = 4;
@@ -4654,6 +4696,12 @@
 /obj/structure/cable{
 	icon_state = "1-2"
 	},
+/obj/effect/turf_decal/tile/purple{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/purple{
+	dir = 4
+	},
 /turf/open/floor/plating,
 /area/hallway/nsv/deck2/frame3/central)
 "kJ" = (
@@ -4984,11 +5032,17 @@
 /area/hallway/nsv/deck2/frame3/central)
 "lw" = (
 /obj/machinery/camera/autoname,
+/obj/effect/turf_decal/tile/purple{
+	dir = 4
+	},
 /turf/open/floor/plating,
 /area/hallway/nsv/deck2/frame3/central)
 "lx" = (
 /obj/machinery/airalarm{
 	pixel_y = 23
+	},
+/obj/effect/turf_decal/tile/purple{
+	dir = 4
 	},
 /turf/open/floor/plating,
 /area/hallway/nsv/deck2/frame3/central)
@@ -5004,6 +5058,9 @@
 "lz" = (
 /obj/machinery/firealarm{
 	pixel_y = 27
+	},
+/obj/effect/turf_decal/tile/purple{
+	dir = 1
 	},
 /turf/open/floor/plating,
 /area/hallway/nsv/deck2/frame3/central)
@@ -5025,6 +5082,11 @@
 	pixel_x = -32
 	},
 /obj/structure/reagent_dispensers/fueltank,
+/obj/machinery/requests_console{
+	department = "Public Tool Storage Room";
+	name = "Tool Storage Requests Console";
+	pixel_y = -32
+	},
 /turf/open/floor/plating,
 /area/storage/primary)
 "lF" = (
@@ -5567,6 +5629,9 @@
 /obj/structure/cable{
 	icon_state = "4-8"
 	},
+/obj/effect/turf_decal/tile/blue{
+	dir = 8
+	},
 /turf/open/floor/plating,
 /area/hallway/nsv/deck2/frame3/central)
 "mB" = (
@@ -5600,6 +5665,9 @@
 /obj/structure/cable{
 	icon_state = "1-8"
 	},
+/obj/effect/turf_decal/tile/blue{
+	dir = 8
+	},
 /turf/open/floor/plating,
 /area/hallway/nsv/deck2/frame3/central)
 "mE" = (
@@ -5630,6 +5698,7 @@
 /obj/structure/cable{
 	icon_state = "4-8"
 	},
+/obj/effect/turf_decal/tile/blue,
 /turf/open/floor/plating,
 /area/hallway/nsv/deck2/frame3/central)
 "mJ" = (
@@ -5640,6 +5709,7 @@
 /obj/structure/cable{
 	icon_state = "4-8"
 	},
+/obj/effect/turf_decal/tile/blue,
 /turf/open/floor/plating,
 /area/hallway/nsv/deck2/frame3/central)
 "mK" = (
@@ -7808,6 +7878,11 @@
 /obj/item/folder/blue,
 /obj/item/folder/blue,
 /obj/item/stamp/law,
+/obj/machinery/requests_console{
+	department = "Law Office";
+	name = "Legal Office Requests Console";
+	pixel_y = -32
+	},
 /turf/open/floor/plating,
 /area/lawoffice)
 "qI" = (
@@ -8003,6 +8078,13 @@
 "rh" = (
 /obj/machinery/computer/med_data{
 	dir = 4
+	},
+/obj/machinery/requests_console{
+	announcementConsole = 1;
+	department = "Medical";
+	departmentType = 3;
+	name = "Chief Medical Officer's requests console";
+	pixel_y = -32
 	},
 /turf/open/floor/plating,
 /area/crew_quarters/heads/cmo)
@@ -9332,6 +9414,11 @@
 /obj/machinery/camera/autoname{
 	dir = 1
 	},
+/obj/machinery/requests_console{
+	department = "Medical";
+	departmentType = 3;
+	pixel_y = -32
+	},
 /turf/open/floor/plating,
 /area/medical/medbay)
 "tx" = (
@@ -9724,6 +9811,9 @@
 /obj/machinery/door/airlock/ship/external{
 	req_one_access_txt = "13"
 	},
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/airlock/aft/starboard)
 "ut" = (
@@ -10005,6 +10095,9 @@
 /turf/open/floor/plating,
 /area/crew_quarters/heads/chief)
 "vb" = (
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/airlock/aft/starboard)
 "vc" = (
@@ -10025,6 +10118,12 @@
 	},
 /obj/effect/turf_decal/tile/green{
 	dir = 1
+	},
+/obj/machinery/requests_console{
+	department = "Virology";
+	name = "Virology Requests Console";
+	pixel_x = -29;
+	receive_ore_updates = 1
 	},
 /turf/open/floor/plating,
 /area/medical/virology)
@@ -10299,6 +10398,10 @@
 	},
 /obj/machinery/portable_atmospherics/pump,
 /obj/item/wrench,
+/obj/machinery/power/apc/auto_name/east,
+/obj/structure/cable{
+	icon_state = "0-8"
+	},
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/airlock/aft/starboard)
 "vZ" = (
@@ -10466,8 +10569,10 @@
 /obj/effect/turf_decal/tile/blue{
 	dir = 4
 	},
-/obj/structure/sign/departments/minsky/research/genetics{
-	pixel_y = -32
+/obj/machinery/requests_console{
+	department = "Genetics";
+	name = "Genetics Requests Console";
+	pixel_y = -30
 	},
 /turf/open/floor/plating,
 /area/medical/genetics/cloning)
@@ -10886,6 +10991,9 @@
 /obj/structure/cable{
 	icon_state = "4-8"
 	},
+/obj/structure/cable{
+	icon_state = "1-4"
+	},
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/airlock/forward/starboard)
 "wX" = (
@@ -11132,6 +11240,9 @@
 "yg" = (
 /obj/structure/cable,
 /obj/machinery/power/apc/auto_name/east,
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/starboard)
 "yo" = (
@@ -11265,6 +11376,10 @@
 	},
 /turf/open/floor/plating,
 /area/science/robotics)
+"zj" = (
+/obj/structure/sign/departments/minsky/research/genetics,
+/turf/closed/wall/ship,
+/area/medical/storage)
 "zp" = (
 /obj/structure/sign/directions/evac,
 /turf/closed/wall/ship,
@@ -11357,6 +11472,15 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/port)
+"zY" = (
+/obj/machinery/requests_console{
+	department = "Engineering";
+	departmentType = 3;
+	name = "Engineering RC";
+	pixel_x = 30
+	},
+/turf/open/floor/plating,
+/area/engine/break_room)
 "zZ" = (
 /turf/open/floor/plating{
 	icon_state = "platingdmg3"
@@ -11559,6 +11683,13 @@
 	},
 /turf/open/floor/plating/airless,
 /area/engine/engine_room/external)
+"BS" = (
+/obj/item/cigbutt,
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
+/turf/open/floor/plating,
+/area/maintenance/nsv/deck2/starboard)
 "BT" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 4
@@ -11688,6 +11819,12 @@
 	icon_state = "panelscorched"
 	},
 /area/engine/gravity_generator)
+"CU" = (
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
+/turf/open/floor/plating,
+/area/maintenance/nsv/deck2/port)
 "CZ" = (
 /obj/item/tank/internals/air,
 /obj/item/tank/internals/air,
@@ -11838,6 +11975,12 @@
 /obj/effect/spawner/structure/window/reinforced,
 /turf/open/floor/plating,
 /area/hallway/secondary/exit/departure_lounge)
+"Ek" = (
+/obj/structure/cable{
+	icon_state = "2-4"
+	},
+/turf/open/floor/plating,
+/area/maintenance/nsv/deck2/airlock/aft/port)
 "Eo" = (
 /obj/structure/sign/poster/random,
 /turf/closed/wall/r_wall/ship,
@@ -12040,8 +12183,26 @@
 	},
 /turf/open/floor/plating,
 /area/engine/storage)
+"Gz" = (
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
+/obj/machinery/requests_console{
+	department = "Bar";
+	name = "Bar Requests Console";
+	pixel_y = -32;
+	receive_ore_updates = 1
+	},
+/turf/open/floor/plating,
+/area/crew_quarters/bar)
 "GC" = (
 /obj/machinery/vending/tool,
+/obj/machinery/requests_console{
+	department = "Engineering";
+	departmentType = 3;
+	name = "Engineering RC";
+	pixel_y = -30
+	},
 /turf/open/floor/plating{
 	icon_state = "panelscorched"
 	},
@@ -12227,6 +12388,12 @@
 /obj/item/bot_assembly/cleanbot,
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/starboard)
+"HP" = (
+/obj/structure/cable{
+	icon_state = "1-4"
+	},
+/turf/open/floor/plating,
+/area/maintenance/nsv/deck2/airlock/aft/starboard)
 "HR" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 4
@@ -12307,6 +12474,22 @@
 	icon_state = "platingdmg2"
 	},
 /area/maintenance/nsv/deck2/port)
+"Ik" = (
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	dir = 4;
+	icon_state = "pipe11-1"
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	dir = 4
+	},
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/obj/structure/cable{
+	icon_state = "1-4"
+	},
+/turf/open/floor/plating,
+/area/hallway/nsv/deck2/frame4/central)
 "Il" = (
 /obj/machinery/space_heater,
 /turf/open/floor/plating,
@@ -12330,6 +12513,9 @@
 /obj/machinery/door/airlock/ship/maintenance{
 	name = "Maintenance";
 	req_one_access_txt = "12"
+	},
+/obj/structure/cable{
+	icon_state = "1-2"
 	},
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/port)
@@ -12398,6 +12584,15 @@
 /obj/machinery/atmospherics/pipe/manifold4w/orange/hidden,
 /turf/open/floor/plating/airless,
 /area/engine/engine_room/external)
+"IJ" = (
+/obj/machinery/atmospherics/components/unary/vent_pump/on/layer1{
+	dir = 4
+	},
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
+/turf/open/floor/plating,
+/area/hallway/nsv/deck2/frame4/central)
 "IK" = (
 /obj/structure/hull_plate/end{
 	dir = 4;
@@ -12460,6 +12655,18 @@
 	icon_state = "panelscorched"
 	},
 /area/crew_quarters/cafeteria)
+"Jh" = (
+/obj/machinery/door/airlock/ship/maintenance{
+	dir = 8;
+	icon_state = "closed";
+	name = "Maintenance";
+	req_one_access_txt = "12"
+	},
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/turf/open/floor/plating,
+/area/maintenance/nsv/deck2/starboard)
 "Jk" = (
 /obj/structure/cable{
 	icon_state = "1-2"
@@ -12755,6 +12962,16 @@
 	icon_state = "panelscorched"
 	},
 /area/crew_quarters/kitchen)
+"Lz" = (
+/obj/machinery/requests_console{
+	announcementConsole = 1;
+	department = "Chief Engineer's Desk";
+	departmentType = 4;
+	name = "Chief Engineer RC";
+	pixel_y = 32
+	},
+/turf/open/floor/plating,
+/area/crew_quarters/heads/chief)
 "LE" = (
 /obj/machinery/light/small,
 /turf/open/floor/plating,
@@ -12891,6 +13108,14 @@
 	rad_insulation = 1
 	},
 /area/maintenance/nsv/deck2/airlock/forward/starboard)
+"MR" = (
+/obj/machinery/requests_console{
+	department = "Kitchen";
+	departmentType = 2;
+	pixel_y = 32
+	},
+/turf/open/floor/plating,
+/area/crew_quarters/kitchen)
 "MS" = (
 /obj/structure/closet/boxinggloves,
 /turf/open/floor/plating,
@@ -13038,6 +13263,15 @@
 /obj/item/hand_labeler_refill,
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
+	},
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/turf/open/floor/plating,
+/area/maintenance/nsv/deck2/starboard)
+"NX" = (
+/obj/structure/cable{
+	icon_state = "1-2"
 	},
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/starboard)
@@ -13465,6 +13699,12 @@
 /obj/item/toy/plush/beeplushie,
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/starboard)
+"RS" = (
+/obj/effect/turf_decal/tile/purple{
+	dir = 1
+	},
+/turf/open/floor/plating,
+/area/hallway/nsv/deck2/frame3/central)
 "RT" = (
 /obj/structure/cable{
 	icon_state = "2-4"
@@ -13758,12 +13998,27 @@
 	rad_insulation = 1
 	},
 /area/maintenance/ship_exterior)
+"UQ" = (
+/obj/machinery/cryopod{
+	dir = 4;
+	icon_state = "cryopod-open"
+	},
+/obj/machinery/requests_console{
+	department = "Cryogenic Storage Room";
+	name = "Cryo Storage Requests Console";
+	pixel_y = -32
+	},
+/turf/open/floor/plating,
+/area/hallway/nsv/deck2/frame2/central)
 "UV" = (
 /obj/effect/mapping_helpers/airlock/cyclelink_helper{
 	dir = 1
 	},
 /obj/machinery/door/airlock/ship/external{
 	req_one_access_txt = "13"
+	},
+/obj/structure/cable{
+	icon_state = "1-2"
 	},
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/airlock/forward/port)
@@ -13828,6 +14083,9 @@
 /area/maintenance/nsv/deck2/starboard)
 "VA" = (
 /obj/item/storage/box/lights/mixed,
+/obj/structure/cable{
+	icon_state = "2-8"
+	},
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/starboard)
 "VB" = (
@@ -14025,6 +14283,12 @@
 	},
 /turf/open/floor/plating,
 /area/hallway/nsv/deck2/frame1/port)
+"WR" = (
+/obj/structure/cable{
+	icon_state = "1-4"
+	},
+/turf/open/floor/plating,
+/area/maintenance/nsv/deck2/starboard)
 "WV" = (
 /turf/closed/wall/ship,
 /area/janitor)
@@ -14055,6 +14319,10 @@
 /obj/structure/cable{
 	icon_state = "4-8"
 	},
+/obj/structure/cable{
+	icon_state = "0-8"
+	},
+/obj/machinery/power/apc/auto_name/north,
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/frame3/port)
 "Xi" = (
@@ -14145,6 +14413,10 @@
 	pixel_y = 23
 	},
 /obj/effect/decal/cleanable/vomit/old,
+/obj/structure/cable{
+	icon_state = "0-2"
+	},
+/obj/machinery/power/apc/auto_name/west,
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/airlock/forward/starboard)
 "XT" = (
@@ -14290,6 +14562,10 @@
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/starboard)
 "YW" = (
+/obj/machinery/power/apc/auto_name/west,
+/obj/structure/cable{
+	icon_state = "0-4"
+	},
 /turf/open/floor/plating{
 	icon_state = "platingdmg1"
 	},
@@ -26687,7 +26963,7 @@ yA
 rd
 pT
 su
-sW
+Lz
 sW
 um
 sW
@@ -30900,7 +31176,7 @@ Ka
 fv
 dt
 dt
-dt
+zY
 iz
 jo
 jk
@@ -31800,10 +32076,10 @@ Fr
 Fr
 bU
 cy
-cy
+Ek
 eg
-eU
-fB
+IJ
+Ik
 iA
 iA
 hQ
@@ -31828,7 +32104,7 @@ Jy
 Jy
 Xr
 yg
-JW
+WR
 oM
 Mn
 CG
@@ -32130,7 +32406,7 @@ Lh
 ws
 Ap
 Mn
-Us
+Jh
 Mn
 Mn
 ur
@@ -32735,11 +33011,11 @@ vZ
 sB
 WL
 VA
-JW
-BD
+NX
+BS
 us
 vb
-vb
+HP
 wC
 Fr
 Dt
@@ -37247,7 +37523,7 @@ Eu
 Eu
 Eu
 Am
-lu
+RS
 mw
 mz
 oj
@@ -37563,7 +37839,7 @@ tw
 QW
 ua
 ua
-QW
+zj
 QW
 HU
 wQ
@@ -39945,12 +40221,12 @@ aa
 aa
 aO
 bg
-bg
+js
 UV
-Fp
-Fp
+CU
+CU
 Ip
-Fp
+CU
 bE
 bV
 cN
@@ -40871,7 +41147,7 @@ xJ
 xJ
 kg
 kY
-xJ
+UQ
 mF
 nw
 mZ
@@ -47205,7 +47481,7 @@ dd
 dN
 ez
 fl
-ge
+MR
 ge
 ht
 ij
@@ -48129,7 +48405,7 @@ qU
 rI
 sn
 sQ
-tE
+Gz
 rL
 aa
 aa
