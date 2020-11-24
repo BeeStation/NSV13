@@ -256,3 +256,10 @@
 	price = 100
 	stock = 5
 	unlock_path = /obj/item/ammo_box/magazine/tazer_cartridge
+
+/datum/trader_item/overmap_shields
+	name = "SolGov Experimental Shielding Technology Disk"
+	desc = "Stolen straight out from under their noses! Pity we don't know how to read it."
+	price = 100000
+	stock = 1
+	unlock_path = /obj/item/disk/design_disk/overmap_shields

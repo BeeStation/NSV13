@@ -134,7 +134,7 @@
 	armor = list("overmap_light" = 75, "overmap_heavy" = 35)
 	pixel_w = -44
 	pixel_z = -180
-	starting_system = "Unknown Signal"
+	starting_system = "Wolf 359"
 	role = INSTANCED_MIDROUND_SHIP
 
 /obj/structure/overmap/nanotrasen/gunstar/apply_weapons()
@@ -201,14 +201,14 @@
 
 /obj/structure/overmap/nanotrasen/battleship/starter //Pegasus
 	role = MAIN_OVERMAP //Player controlled variant
-	max_integrity = 2500
-	integrity_failure = 2500
+	max_integrity = 2250
+	integrity_failure = 2250
 	starting_system = "Wolf 359"
 	use_armour_quadrants = TRUE
-	armour_quadrants = list("forward_port" = list("name" = "Forward Port", "max_armour" = 3500, "current_armour" = 3500),\
-							"forward_starboard" = list("name" = "Forward Starboard", "max_armour" = 3500, "current_armour" = 3500),\
-							"aft_port" = list("name" = "Aft Port", "max_armour" = 3500, "current_armour" = 3500),\
-							"aft_starboard" = list("name" = "Aft Starboard", "max_armour" = 3500, "current_armour" = 3500))
+	armour_quadrants = list("forward_port" = list("name" = "Forward Port", "max_armour" = 3000, "current_armour" = 3000),\
+							"forward_starboard" = list("name" = "Forward Starboard", "max_armour" = 3000, "current_armour" = 3000),\
+							"aft_port" = list("name" = "Aft Port", "max_armour" = 3000, "current_armour" = 3000),\
+							"aft_starboard" = list("name" = "Aft Starboard", "max_armour" = 3000, "current_armour" = 3000))
 
 //AI Versions
 

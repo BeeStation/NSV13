@@ -152,6 +152,9 @@
 	var/datum/gas_mixture/environment = tile.return_air()
 	var/datum/gas_mixture/air_contents = airs[1]
 
+	if(!environment) //NSV: stops travis complaining about vents in random rooms
+		return FALSE
+
 	if(air_contents.return_pressure() >= 50*ONE_ATMOSPHERE)
 		return FALSE
 
