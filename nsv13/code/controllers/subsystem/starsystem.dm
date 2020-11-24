@@ -812,6 +812,17 @@ To make things worse, this hellhole is entirely RNG, so good luck mapping it!
 		randy.sector = sector //Yeah do I even need to explain this?
 		randy.hidden = FALSE
 		generated += randy
+		if(prob(10))
+			//10 percent of systems have a trader for resupply.
+			var/datum/trader/randytrader = new (pick(typesof(/datum/trader)-/datum/trader))()
+			var/obj/structure/overmap/trader/randystation = SSstar_system.spawn_anomaly(randytrader.station_type, randy)
+			randystation.starting_system = randy.name
+			randystation.set_trader(randytrader)
+
+		else if(prob(10))
+			var/datum/fleet/randyfleet = new (pick(/datum/fleet/wolfpack, /datum/fleet/neutral, /datum/fleet/pirate, /datum/fleet/boarding, /datum/fleet/nanotrasen/light))()
+			randyfleet.current_system = randy
+			randy.fleets += randyfleet
 		SSstar_system.systems += randy
 		if(I <= 0) //First system always needs to join to the entry point.
 			adjacency_list += randy.name
