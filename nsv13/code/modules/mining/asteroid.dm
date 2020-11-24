@@ -5,7 +5,7 @@ GLOBAL_LIST_EMPTY(asteroid_spawn_markers)		//handles mining asteroids, kind of s
 /datum/techweb_node/mineral_mining
 	id = "mineral_mining"
 	display_name = "Deep core asteroid mining"
-	description = "Upgrades for the NSV nostromo's asteroid arrestor, allowing it to lock on to more valuable asteroid cores.."
+	description = "Upgrades for the mining ship's asteroid arrestor, allowing it to lock on to more valuable asteroid cores.."
 	prereq_ids = list("base")
 	design_ids = list("deepcore1", "deepcore2")
 	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 10000)
@@ -13,7 +13,7 @@ GLOBAL_LIST_EMPTY(asteroid_spawn_markers)		//handles mining asteroids, kind of s
 
 /datum/design/deepcore1
 	name = "Polytrinic non magnetic asteroid arrestor upgrade"
-	desc = "An upgrade module for the Nostromo's asteroid arrestor, allowing it to lock on to asteroids containing valuable non ferrous metals such as gold, silver, copper and plasma"
+	desc = "An upgrade module for the mining ship's asteroid arrestor, allowing it to lock on to asteroids containing valuable non ferrous metals such as gold, silver, copper and plasma"
 	id = "deepcore1"
 	build_type = PROTOLATHE
 	materials = list(/datum/material/iron = 25000,/datum/material/titanium = 25000, /datum/material/silver = 5000)
@@ -23,7 +23,7 @@ GLOBAL_LIST_EMPTY(asteroid_spawn_markers)		//handles mining asteroids, kind of s
 
 /datum/design/deepcore2
 	name = "Phasic asteroid arrestor upgrade"
-	desc = "An upgrade module for the Nostromo's asteroid arrestor, allowing it to lock on to asteroids containing rare and valuable minerals such as diamond, uranium and the exceedingly rare bluespace crystals."
+	desc = "An upgrade module for the mining ship's asteroid arrestor, allowing it to lock on to asteroids containing rare and valuable minerals such as diamond, uranium and the exceedingly rare bluespace crystals."
 	id = "deepcore2"
 	build_type = PROTOLATHE
 	materials = list(/datum/material/copper = 25000,/datum/material/titanium = 25000, /datum/material/gold = 10000, /datum/material/silver = 10000, /datum/material/plasma = 10000, /datum/material/uranium = 5000, /datum/material/diamond = 5000)

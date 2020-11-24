@@ -79,8 +79,8 @@
 	name = "Air traffic control console"
 
 /obj/machinery/computer/ship/dradis/mining
-	name = "Nostromo DRADIS computer"
-	desc = "A modified dradis console which links to the Nostromo's mineral scanners, able to pick up asteroids that can be mined."
+	name = "Mining DRADIS computer"
+	desc = "A modified dradis console which links to the mining ship's mineral scanners, able to pick up asteroids that can be mined."
 	req_one_access_txt = "31;48"
 	circuit = /obj/item/circuitboard/computer/ship/dradis/mining
 	show_asteroids = TRUE
