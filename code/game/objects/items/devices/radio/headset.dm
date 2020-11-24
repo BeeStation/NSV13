@@ -85,7 +85,7 @@ GLOBAL_LIST_INIT(channel_tokens, list(
 
 /obj/item/radio/headset/syndicate/alt //undisguised bowman with flash protection
 	name = "syndicate headset"
-	desc = "A syndicate headset that can be used to hear all radio frequencies. Protects ears from flashbangs."
+	desc = "A syndicate headset that can be used to hear syndicate frequencies. Protects ears from flashbangs."
 	icon_state = "syndie_headset"
 	item_state = "syndie_headset"
 	bang_protect = 1
@@ -324,6 +324,8 @@ GLOBAL_LIST_INIT(channel_tokens, list(
 
 		if(keyslot2.translate_binary)
 			translate_binary = TRUE
+		if(keyslot2.hearall)
+			hearall = TRUE
 		if(keyslot2.syndie)
 			syndie = TRUE
 		if (keyslot2.independent)

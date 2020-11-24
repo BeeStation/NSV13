@@ -22,8 +22,18 @@ SUBSYSTEM_DEF(star_system)
 	var/nag_stacks = 0 //How many times have we told you to get a move on?
 	var/list/all_missions = list()
 	var/admin_boarding_override = FALSE //Used by admins to force disable boarders
+	var/time_limit = FALSE //Do we want to end the round after a specific time? Mostly used for galconquest.
 
 /datum/controller/subsystem/star_system/fire() //Overmap combat events control system, adds weight to combat events over time spent out of combat
+	if(time_limit && world.time >= time_limit)
+		var/datum/faction/winner = get_winner()
+		if(istype(SSticker.mode, /datum/game_mode/pvp))
+			var/datum/game_mode/pvp/mode = SSticker.mode
+			mode.winner = winner //This should allow the mode to finish up by itself
+			mode.check_finished()
+		else
+			SSticker.force_ending = 1
+		return
 	if(SSmapping.config.patrol_type == "passive")
 		priority_announce("[station_name()], you have been assigned to reconnaissance and exploration this shift. Scans indicate that besides a decent number of straggling Syndicate vessels, there will be little threat to your operations. You are granted permission to proceed at your own pace.", "[capitalize(SSmapping.config.faction)] Naval Command")
 		for(var/datum/star_system/SS in systems)
@@ -59,6 +69,8 @@ SUBSYSTEM_DEF(star_system)
 				var/total_deductions
 				for(var/account in SSeconomy.department_accounts)
 					var/datum/bank_account/D = SSeconomy.get_dep_account(account)
+					if(account == ACCOUNT_SYN)
+						continue //No, just no.
 					total_deductions += D.account_balance / 2
 					D.account_balance /= 2
 			if(4 to INFINITY) //From this point on, you can actively lose the game.
@@ -205,6 +217,16 @@ Returns a faction datum by its name (case insensitive!)
 			F.victory()
 			return TRUE
 	return FALSE
+
+/datum/controller/subsystem/star_system/proc/get_winner()
+	var/highestTickets = 0
+	var/datum/faction/winner = null
+	for(var/X in factions)
+		var/datum/faction/F = X
+		if(F.tickets > highestTickets)
+			winner = F
+			highestTickets = F.tickets
+	return winner
 
 	/* Deprecated.
 	if(patrols_left <= 0 && systems_cleared >= initial(patrols_left))
@@ -798,6 +820,7 @@ To make things worse, this hellhole is entirely RNG, so good luck mapping it!
 	x = 100
 	y = 30
 	sector = 3
+	adjacency_list = list("Tortuga")
 
 /datum/star_system/sector3/New()
 	. = ..()
@@ -921,7 +944,7 @@ Welcome to the endgame. This sector is the hardest you'll encounter in game and 
 
 /datum/star_system/sector4/aeterna
 	name = "Aeterna Victrix"
-	adjacency_list = list("Mediolanum", "Deimos")
+	adjacency_list = list("Mediolanum", "Deimos", "Romulus")
 	x = 90
 	y = 40
 

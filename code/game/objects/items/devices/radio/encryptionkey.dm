@@ -6,6 +6,7 @@
 	w_class = WEIGHT_CLASS_TINY
 	var/translate_binary = FALSE
 	var/syndie = FALSE
+	var/hearall = FALSE
 	var/independent = FALSE
 	var/list/channels = list()
 
@@ -27,7 +28,13 @@
 	name = "syndicate encryption key"
 	icon_state = "syn_cypherkey"
 	channels = list(RADIO_CHANNEL_SYNDICATE = 1)
-	syndie = TRUE//Signifies that it de-crypts Syndicate transmissions
+	syndie = TRUE
+
+/obj/item/encryptionkey/hearall
+	name = "universal decryption key"
+	icon_state = "bin_cypherkey"
+	channels = list(RADIO_CHANNEL_SYNDICATE = 1)
+	hearall = TRUE
 
 /obj/item/encryptionkey/binary
 	name = "binary translator key"

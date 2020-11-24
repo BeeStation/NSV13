@@ -74,6 +74,10 @@ Starting Materials
 
 /obj/machinery/armour_plating_nanorepair_well/Initialize()
 	.=..()
+	return INITIALIZE_HINT_LATELOAD
+
+/obj/machinery/armour_plating_nanorepair_well/LateInitialize()
+	. = ..()
 	AddComponent(/datum/component/material_container,\
 				list(/datum/material/iron,\
 					/datum/material/silver,\
@@ -242,6 +246,8 @@ Starting Materials
 		repair_resources_processing = FALSE
 
 /obj/machinery/armour_plating_nanorepair_well/proc/handle_linking()
+	if(!OM)
+		OM = get_overmap()
 	if(apnw_id) //If mappers set an ID)
 		for(var/obj/machinery/armour_plating_nanorepair_pump/P in GLOB.machines)
 			if(P.apnw_id == apnw_id)

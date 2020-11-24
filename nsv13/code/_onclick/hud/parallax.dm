@@ -22,7 +22,6 @@
 
 /obj/screen/parallax_layer/layer_3
  	speed = 1
- 	var/next_ftl_state_check = 0
 
 /obj/screen/parallax_layer/layer_3/update_status(mob/M)
  	. = ..()
@@ -33,14 +32,14 @@
 	. = ..(view)
 
 /obj/screen/parallax_layer/layer_3/proc/check_ftl_state()
-	if(!current_mob || world.time < next_ftl_state_check)
+	if(!current_mob)
 		return FALSE //Something has gone horribly wrong.
-	next_ftl_state_check = world.time + 10 SECONDS //This causes some serious performance overhead so we're gonna throttle it.
 	var/datum/space_level/SL = SSmapping.z_list[current_mob.z]
-	icon_state = SL.parallax_property
-	dir = (SL.parallax_movedir) ? SL.parallax_movedir : initial(dir)
-	tesselate = (findtext(SL.parallax_property, "planet")) ? FALSE : TRUE
-	return TRUE
+	if(SL.parallax_property != icon_state || SL.parallax_movedir != dir)
+		icon_state = SL.parallax_property
+		dir = (SL.parallax_movedir) ? SL.parallax_movedir : initial(dir)
+		tesselate = (findtext(SL.parallax_property, "planet")) ? FALSE : TRUE
+		return TRUE
 
 /obj/screen/parallax_layer/planet/update_o(view)
 	if(!current_mob)

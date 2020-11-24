@@ -449,6 +449,7 @@ GLOBAL_LIST_EMPTY(ai_goals)
 	alignment = "nanotrasen"
 	hide_movements = TRUE //Friendly fleets just move around as you'd expect.
 	faction_id = FACTION_ID_NT
+	taunts = list("Syndicate vessel, stand down or be destroyed", "You are encroaching on our airspace, prepare to be destroyed", "Unidentified vessel, your existence will be forfeit in accordance with the peacekeeper act.")
 
 /datum/fleet/nanotrasen/light
 	name = "Nanotrasen light fleet"
@@ -645,7 +646,7 @@ GLOBAL_LIST_EMPTY(ai_goals)
 /datum/ai_goal/defend/action(obj/structure/overmap/OM)
 	..()
 	if(!OM.defense_target || QDELETED(OM.defense_target))
-		OM.defense_target = pick(OM.fleet.taskforces["supply"])
+		OM.defense_target = OM.fleet.taskforces["supply"] ? pick(OM.fleet.taskforces["supply"]) : OM
 	OM.move_mode = NORTH
 	if(get_dist(OM, OM.defense_target) <= AI_PDC_RANGE)
 		OM.brakes = TRUE
@@ -1098,8 +1099,7 @@ GLOBAL_LIST_EMPTY(ai_goals)
 			if (!fexists("_maps/[mapPath]/[file]"))
 				log_world("Map file ([mapPath]/[file]) does not exist!")
 				return
-	var/obj/structure/overmap/OM = instance_overmap(shipType, mapPath, mapFile, traits)
+	var/obj/structure/overmap/OM = instance_overmap(shipType, mapPath, mapFile, traits, ZTRAITS_BOARDABLE_SHIP, TRUE)
 	if(OM)
 		message_admins("[key_name(src)] has instanced a copy of [ship_file].")
 		OM.name = shipName
-		addtimer(CALLBACK(GLOBAL_PROC, .proc/overmap_lighting_force, OM), 6 SECONDS)

@@ -51,7 +51,7 @@ PROCESSING_SUBSYSTEM_DEF(physics_processing)
 						body.holder.Bump(neighbour.holder, c_response) //More in depth calculation required, so pass this information on.
 						recent_collisions += neighbour
 				else //OK great, we get more simplified calc!
-					if(isprojectile(body) && isprojectile(neighbour))
+					if(isprojectile(body.holder) && isprojectile(neighbour.holder))
 						continue //Bullets don't want to "bump" into each other, we actually handle that code in "crossed()"
 					if(body.collider2d?.collides(neighbour.collider2d))
 						body.holder.Bump(neighbour.holder)
