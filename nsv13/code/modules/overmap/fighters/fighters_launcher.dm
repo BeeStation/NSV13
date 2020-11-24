@@ -115,7 +115,7 @@
 	. = ..()
 	icon_state = "launcher"
 	linkup()
-	addtimer(CALLBACK(src, .proc/linkup), 15 SECONDS)//Just in case we're not done initializing
+	addtimer(CALLBACK(src, .proc/linkup), 45 SECONDS)//Just in case we're not done initializing
 
 /obj/structure/overmap/fighter/can_brake()
 	if(mag_lock)

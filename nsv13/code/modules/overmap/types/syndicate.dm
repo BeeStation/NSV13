@@ -12,29 +12,38 @@
 //Player Versions
 
 /obj/structure/overmap/syndicate/pvp //Syndie PVP ship.
-	name = "SSV Hammurabi"
-	icon = 'nsv13/icons/overmap/syndicate/syn_light_cruiser.dmi'
-	icon_state = "cruiser"
+	name = "SSV Nebuchadnezzar"
+	icon = 'nsv13/icons/overmap/syndicate/tuningfork.dmi'
+	icon_state = "tuningfork"
+	desc = "A highly modular cruiser setup which, despite its size, is capable of delivering devastating firepower."
 	bound_width = 96 //Change this on a per ship basis
 	bound_height = 96
 	mass = MASS_MEDIUM
 	sprite_size = 96
-	damage_states = TRUE
-	area_type = /area/hammurabi
+	damage_states = FALSE
 	max_integrity = 600
 	integrity_failure = 600
-	pixel_z = -32
-	pixel_w = -32
+	pixel_z = -48
+	pixel_w = -64
 	ai_controlled = FALSE
-	collision_positions = list(new /datum/vector2d(-3,45), new /datum/vector2d(-17,29), new /datum/vector2d(-22,-12), new /datum/vector2d(-11,-45), new /datum/vector2d(7,-47), new /datum/vector2d(22,-12), new /datum/vector2d(9,30))
+	collision_positions = list(new /datum/vector2d(-27,62), new /datum/vector2d(-30,52), new /datum/vector2d(-30,11), new /datum/vector2d(-32,-16), new /datum/vector2d(-30,-45), new /datum/vector2d(-24,-58), new /datum/vector2d(19,-60), new /datum/vector2d(33,-49), new /datum/vector2d(35,24), new /datum/vector2d(33,60))
 	role = PVP_SHIP
-	starting_system = "Vorash"
+	starting_system = "The Badlands" //Relatively safe start, fleets won't hotdrop you here.
 	armor = list("overmap_light" = 70, "overmap_heavy" = 20)
-	use_armour_quadrants = FALSE //They can weld plates for now, I don't want to force them to go for high output stormdrives to run these things -K
+	use_armour_quadrants = TRUE
 	armour_quadrants = list("forward_port" = list("name" = "Forward Port", "max_armour" = 750, "current_armour" = 750),\
 							"forward_starboard" = list("name" = "Forward Starboard", "max_armour" = 750, "current_armour" = 750),\
 							"aft_port" = list("name" = "Aft Port", "max_armour" = 500, "current_armour" = 500),\
 							"aft_starboard" = list("name" = "Aft Starboard", "max_armour" = 500, "current_armour" = 500))
+
+/obj/structure/overmap/syndicate/pvp/apply_weapons()
+	weapon_types[FIRE_MODE_PDC] = new/datum/ship_weapon/pdc_mount(src)
+	weapon_types[FIRE_MODE_TORPEDO] = new/datum/ship_weapon/torpedo_launcher(src)
+	weapon_types[FIRE_MODE_FLAK] = new/datum/ship_weapon/flak(src)
+	weapon_types[FIRE_MODE_RAILGUN] = new/datum/ship_weapon/railgun(src)
+	weapon_types[FIRE_MODE_GAUSS] = new /datum/ship_weapon/gauss(src) //AI ships want to be able to use gauss too. I say let them...
+	weapon_types[FIRE_MODE_MAC] = new /datum/ship_weapon/mac(src)
+	weapon_types[FIRE_MODE_RED_LASER] = new /datum/ship_weapon/pdc_mount/burst_phaser(src)
 
 /obj/structure/overmap/syndicate/pvp/hulk //Larger PVP ship for larger pops.
 	name = "SSV Hulk"

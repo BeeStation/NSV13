@@ -151,7 +151,7 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 @return OM, a newly spawned overmap sitting on its treadmill as it ought to be.
 */
 
-/proc/instance_overmap(_path, folder = null, interior_map_files = null, traits = null, default_traits = ZTRAITS_BOARDABLE_SHIP) //By default we apply the boardable ship traits, as they make fighters and that lark work
+/proc/instance_overmap(_path, folder = null, interior_map_files = null, traits = null, default_traits = ZTRAITS_BOARDABLE_SHIP, midround=FALSE) //By default we apply the boardable ship traits, as they make fighters and that lark work
 	if(!islist(interior_map_files))
 		interior_map_files = list(interior_map_files)
 	if(!_path)
@@ -192,7 +192,8 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 				SL.linked_overmap = OM
 				OM.occupying_levels += SL
 				log_game("Z-level [SL] linked to [OM].")
-		repopulate_sorted_areas()
+		if(midround)
+			overmap_lighting_force(OM)
 	}
 	return OM
 

@@ -12,7 +12,8 @@ SUBSYSTEM_DEF(economy)
 										ACCOUNT_SRV = ACCOUNT_SRV_NAME,
 										ACCOUNT_CAR = ACCOUNT_CAR_NAME,
 										ACCOUNT_SEC = ACCOUNT_SEC_NAME,
-										ACCOUNT_MUN = ACCOUNT_MUN_NAME) //NSV13 Munitions Department added
+										ACCOUNT_MUN = ACCOUNT_MUN_NAME,
+										ACCOUNT_SYN = ACCOUNT_SYN_NAME) //NSV13 Munitions and Syndicate Department added
 	var/list/generated_accounts = list()
 	var/full_ancap = FALSE // Enables extra money charges for things that normally would be free, such as sleepers/cryo/cloning.
 							//Take care when enabling, as players will NOT respond well if the economy is set up for low cash flows.

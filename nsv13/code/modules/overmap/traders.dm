@@ -58,27 +58,34 @@
 	RETURN_TYPE(/atom/movable)
 	var/area/landingzone = null
 	var/obj/structure/overmap/OM = src
-	if(OM.role == MAIN_OVERMAP)
-		landingzone = GLOB.areas_by_type[/area/quartermaster/warehouse]
-	else
-		if(!OM.linked_areas.len)
-			OM = OM.last_overmap //Handles fighters going out and buying things on the ship's behalf
-			if(OM.linked_areas.len)
-				goto foundareas
-			return FALSE
-		foundareas:
-		landingzone = pick(OM.linked_areas)
-	var/list/empty_turfs = list()
 	var/turf/LZ = null
-	for(var/turf/open/floor/T in landingzone.contents)//uses default landing zone
-		if(is_blocked_turf(T))
-			continue
-		if(empty_turfs.len >= 10)
-			break //Don't bother finding any more.
-		LAZYADD(empty_turfs, T)
-		CHECK_TICK
-	if(empty_turfs?.len)
-		LZ = pick(empty_turfs)
+	//If you wanna specify WHERE cargo is dropped. Otherwise we guess.
+	if(!trader_beacons || !trader_beacons.len)
+		if(OM.role == MAIN_OVERMAP)
+			landingzone = GLOB.areas_by_type[/area/quartermaster/warehouse]
+
+		else
+			if(!OM.linked_areas.len)
+				OM = OM.last_overmap //Handles fighters going out and buying things on the ship's behalf
+				if(OM.linked_areas.len)
+					goto foundareas
+				return FALSE
+			foundareas:
+			landingzone = pick(OM.linked_areas)
+		var/list/empty_turfs = list()
+		for(var/turf/open/floor/T in landingzone.contents)//uses default landing zone
+			if(is_blocked_turf(T))
+				continue
+			if(empty_turfs.len >= 10)
+				break //Don't bother finding any more.
+			LAZYADD(empty_turfs, T)
+			CHECK_TICK
+		if(empty_turfs?.len)
+			LZ = pick(empty_turfs)
+	else
+		LZ = get_turf(pick(trader_beacons))
+	if(dradis && dradis.beacon && !QDELETED(dradis.beacon) && dradis.usingBeacon)
+		LZ = get_turf(dradis.beacon)
 	if(!LZ)
 		LZ = pick(landingzone.contents) //If we couldn't find an open floor, just throw it somewhere
 	var/obj/structure/closet/supplypod/centcompod/toLaunch = new /obj/structure/closet/supplypod/centcompod
@@ -207,7 +214,12 @@
 	data["theme"] = (faction_type == FACTION_ID_NT) ? "ntos" : "syndicate"
 	data["items_info"] = items_info
 	data["next_restock"] = "Stock: (Restocking in [round((next_restock-world.time)/600)] minutes)"
-	var/datum/bank_account/D = SSeconomy.get_dep_account(ACCOUNT_CAR)
+	//Syndies use syndie budget, NT use NT cargo budget
+	var/obj/structure/overmap/OM = user.get_overmap()
+	var/account = ACCOUNT_CAR
+	if(OM)
+		account = (OM.faction == "nanotrasen") ? ACCOUNT_CAR : ACCOUNT_SYN
+	var/datum/bank_account/D = SSeconomy.get_dep_account(account)
 	if(D)
 		data["points"] = "$[D.account_balance]"
 	return data
@@ -251,7 +263,12 @@
 /datum/trader/proc/attempt_purchase(datum/trader_item/item, mob/living/carbon/user)
 	if(!isliving(user))
 		return FALSE
-	var/datum/bank_account/D = SSeconomy.get_dep_account(ACCOUNT_CAR)
+	//Syndies use syndie budget, NT use NT cargo budget
+	var/obj/structure/overmap/OM = user.get_overmap()
+	var/account = ACCOUNT_CAR
+	if(OM)
+		account = (OM.faction == "nanotrasen") ? ACCOUNT_CAR : ACCOUNT_SYN
+	var/datum/bank_account/D = SSeconomy.get_dep_account(account)
 	if(!D || D.account_balance <= item.price)
 		SEND_SOUND(user, 'nsv13/sound/effects/ship/freespace2/computer/textdraw.wav')
 		to_chat(user, "<span class='boldnotice'>[pick(on_fail)]</span>")
