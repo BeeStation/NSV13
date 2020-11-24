@@ -1616,10 +1616,10 @@ datum/uplink_item/stealthy_tools/taeclowndo_shoes
 	cost = 2
 
 /datum/uplink_item/device_tools/encryptionkey
-	name = "Syndicate Encryption Key"
+	name = "Universal Decryption Key"
 	desc = "A key that, when inserted into a radio headset, allows you to listen to all station department channels \
 			as well as talk on an encrypted Syndicate channel with other agents that have the same key."
-	item = /obj/item/encryptionkey/syndicate
+	item = /obj/item/encryptionkey/hearall
 	cost = 2
 	surplus = 75
 	restricted = TRUE
