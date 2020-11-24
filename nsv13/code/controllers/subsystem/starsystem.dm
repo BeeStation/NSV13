@@ -810,37 +810,66 @@ To make things worse, this hellhole is entirely RNG, so good luck mapping it!
 
 	var/list/generated = list()
 	var/amount = rand(100, 200)
-	var/conflictcount = 0
+	var/coordconflict = 0
+	var/toocloseconflict = 0
 	message_admins("Generating Brazil with [amount] systems.")
+	var/start_timeofday = REALTIMEOFDAY
 	for(var/I=0;I<amount,I++){
 		var/datum/star_system/random/randy = new /datum/star_system/random()
-		randy.system_type = pick("radioactive", "blackhole", "quasar", "accretiondisk", "nebula", "supernova")
+		randy.system_type = pick("radioactive", 0.5;"blackhole", "quasar", 0.75;"accretiondisk", "nebula", "supernova", "debris")
 		randy.apply_system_effects()
 		randy.name = (randy.system_type != "nebula") ? "S-[rand(0,10000)]" : "N-[rand(0,10000)]"
-		randy.x = rand(1, 200)
-		randy.y = rand(1, 100)+30 //Offset vertically for viewing 'pleasure'
-		while(randy.x in used_x)
-			randy.x = rand(1, 100)
-			conflictcount++
-		while(randy.x in used_y)
-			randy.y = rand(1, 100)+30
-			conflictcount++
-		used_x.Insert(randy.x)
-		used_y.Insert(randy.y)
+		var/randy_valid = FALSE
+
+		while(!randy_valid)
+			randy.x = rand(1, 200)+20 // Buffer space for readability
+			randy.y = rand(1, 100)+30 // Offset vertically for viewing 'pleasure'
+			while(randy.x in used_x)
+				randy.x = rand(1, 100)+20
+				coordconflict++
+			while(randy.x in used_y)
+				randy.y = rand(1, 100)+30
+				coordconflict++
+			used_x.Insert(randy.x) //Insert here so that they get trapped by easier checks first.
+			used_y.Insert(randy.y)
+			var/syscheck_pass = TRUE
+			for(var/datum/star_system/S in generated)
+				if(!syscheck_pass)
+					break
+				if(S.dist(randy) < 5)// Maybe this is enough?
+					syscheck_pass = FALSE
+					continue
+				if(S.name == "Rubicon" && (S.dist(randy) < 7)) //Rubicon's text is too fat.
+					syscheck_pass = FALSE
+					continue
+			if(syscheck_pass)
+				randy_valid = TRUE
+			else
+				toocloseconflict++
+
 		randy.sector = sector //Yeah do I even need to explain this?
 		randy.hidden = FALSE
 		generated += randy
 		if(prob(10))
 			//10 percent of systems have a trader for resupply.
-			var/datum/trader/randytrader = new (pick(typesof(/datum/trader)-/datum/trader))()
+			var/x = pick(typesof(/datum/trader)-/datum/trader)
+			var/datum/trader/randytrader = new x
 			var/obj/structure/overmap/trader/randystation = SSstar_system.spawn_anomaly(randytrader.station_type, randy)
 			randystation.starting_system = randy.name
 			randystation.set_trader(randytrader)
+			randy.trader = randytrader
+			randytrader.generate_missions()
+
 
 		else if(prob(10))
-			var/datum/fleet/randyfleet = new (pick(/datum/fleet/wolfpack, /datum/fleet/neutral, /datum/fleet/pirate, /datum/fleet/boarding, /datum/fleet/nanotrasen/light))()
+			var/x = pick(/datum/fleet/wolfpack, /datum/fleet/neutral, /datum/fleet/pirate, /datum/fleet/boarding, /datum/fleet/nanotrasen/light)
+			var/datum/fleet/randyfleet = new x
 			randyfleet.current_system = randy
 			randy.fleets += randyfleet
+			randy.alignment = randyfleet.alignment
+
+
+
 		SSstar_system.systems += randy
 		if(I <= 0) //First system always needs to join to the entry point.
 			adjacency_list += randy.name
@@ -868,7 +897,27 @@ To make things worse, this hellhole is entirely RNG, so good luck mapping it!
 		var/datum/star_system/partner = pick(generated)
 		rubiconnector.adjacency_list += partner.name
 		partner.adjacency_list += rubiconnector
-	message_admins("Brazil has been completed. There were [conflictcount] conflicts during generation.")
+
+	//Pick a random entrypoint system
+	var/datum/star_system/inroute
+	var/ir_rub = 0
+	var/ir_othershit = 0
+	while (!inroute)
+		var/datum/star_system/picked = pick(generated)
+		if(rubiconnector in picked.adjacency_list)
+			ir_rub++
+			continue // Skip
+		if(picked.trader || picked.fleets.len)
+			ir_othershit++
+			continue
+		var/datum/star_system/sol/solsys = SSstar_system.system_by_id("Sol")
+		solsys.adjacency_list += picked.name
+		picked.adjacency_list += solsys.name
+		inroute = picked
+		inroute.is_hypergate = TRUE
+
+	var/time = (REALTIMEOFDAY - start_timeofday) / 10
+	message_admins("Brazil has been generated. T:[time]s CFS:[coordconflict]|[toocloseconflict]|[ir_rub]|[ir_othershit] Rubiconnector: [rubiconnector], Inroute system is [inroute]")
 /*
 <Summary>
 Welcome to the endgame. This sector is the hardest you'll encounter in game and holds the Syndicate capital.
