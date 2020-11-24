@@ -30,7 +30,7 @@
 #define ACCESS_CARGO 31
 #define ACCESS_CONSTRUCTION 32
 #define ACCESS_CHEMISTRY 33
-#define ACCESS_BRIGPHYS 34 
+#define ACCESS_BRIGPHYS 34
 #define ACCESS_HYDROPONICS 35
 #define ACCESS_LIBRARY 37
 #define ACCESS_LAWYER 38
@@ -87,6 +87,11 @@
 	//The Syndicate
 #define ACCESS_SYNDICATE 150 //!General Syndicate Access. Includes Syndicate mechs and ruins.
 #define ACCESS_SYNDICATE_LEADER 151 //!Nuke Op Leader Access
+//Nsv13
+#define ACCESS_SYNDICATE_ENGINEERING 152 //! Syndicate engineering wing
+#define ACCESS_SYNDICATE_REQUISITIONS 153 //! Syndicate cargo division
+#define ACCESS_SYNDICATE_MARINE_ARMOURY 154 //!Syndicate armoury
+// /Nsv13
 
 	//Away Missions or Ruins
 	/*For generic away-mission/ruin access. Why would normal crew have access to a long-abandoned derelict

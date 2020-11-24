@@ -116,10 +116,9 @@
 			SL.set_parallax("transit", EAST)
 		else
 			SL.set_parallax(current_system.parallax_property, null)
-	if(!ftl_start)
-		for(var/mob/M in mobs_in_ship)
-			if(M && M.client && M.hud_used && length(M.client.parallax_layers))
-				M.hud_used.update_parallax(force=TRUE)
+	for(var/mob/M in mobs_in_ship)
+		if(M && M.client && M.hud_used && length(M.client.parallax_layers))
+			M.hud_used.update_parallax(force=TRUE)
 
 
 /obj/structure/overmap/proc/jump(datum/star_system/target_system, ftl_start) //FTL start IE, are we beginning a jump? Or ending one?
@@ -223,7 +222,7 @@
 	req_access = list(ACCESS_ENGINE_EQUIP)
 	var/tier = 1
 	var/faction = "nanotrasen" //For ship tracking. The tracking feature of the FTL compy is entirely so that antagonists can hunt the NT ships down
-	var/jump_speed_factor = 1 //How quickly do we jump? Larger is faster.
+	var/jump_speed_factor = 2 //How quickly do we jump? Larger is faster.
 	var/ftl_state = FTL_STATE_IDLE //Mr Gaeta, spool up the FTLs.
 	var/obj/item/radio/radio //For engineering alerts.
 	var/radio_key = /obj/item/encryptionkey/headset_eng
@@ -231,7 +230,7 @@
 	var/active = FALSE
 	var/progress = 0 SECONDS
 	var/progress_rate = 1 SECONDS
-	var/spoolup_time = 1 MINUTES //Make sure this is always longer than the ftl_startup_time, or you can seriously bug the ship out with cancel jump spam.
+	var/spoolup_time = 45 SECONDS //Make sure this is always longer than the ftl_startup_time, or you can seriously bug the ship out with cancel jump spam.
 	var/screen = 1
 	var/can_cancel_jump = TRUE //Defaults to true. TODO: Make emagging disable this
 	var/max_range = 100 //max jump range. This is _very_ long distance
@@ -266,7 +265,7 @@
 			ftl_start = 'nsv13/sound/effects/ship/slipstream_start.ogg'
 			ftl_startup_time = 6 SECONDS
 			spoolup_time = 30 SECONDS
-			jump_speed_factor = 2
+			jump_speed_factor = 3
 			max_range = 150
 		if(3) //Admin only so I can test things more easily, or maybe dropped from an EXTREMELY RARE, copyright free ruin.
 			name = "Warp drive computer"
@@ -296,7 +295,7 @@ Preset classes of FTL drive with pre-programmed behaviours
 
 /obj/machinery/computer/ship/ftl_computer/syndicate
 	name = "Syndicate FTL computer"
-	jump_speed_factor = 2 //Twice as fast as NT's shit so they can hunt the ship down or get ahead of them to set up an ambush of raptors
+//	jump_speed_factor = 2 //Twice as fast as NT's shit so they can hunt the ship down or get ahead of them to set up an ambush of raptors
 	radio_key = /obj/item/encryptionkey/syndicate
 	engineering_channel = "Syndicate"
 	faction = "syndicate"

@@ -560,6 +560,12 @@ SUBSYSTEM_DEF(ticker)
 			news_message = "The burst of energy released near [station_name()] has been confirmed as merely a test of a new weapon. However, due to an unexpected mechanical error, their communications system has been knocked offline."
 		if(SHUTTLE_HIJACK)
 			news_message = "During routine evacuation procedures, the emergency shuttle of [station_name()] had its navigation protocols corrupted and went off course, but was recovered shortly after."
+		if(PVP_SYNDIE_WIN)
+			news_message = "The crew of [station_name()] have been cloned and subsequently court-martialled after losing a border skirmish to the SSV Nebuchadnezzar and her crew. VICKER media would like to remind all employees to do better than that crew!"
+		if(PVP_SYNDIE_LOSS)
+			news_message = "The crew of [station_name()] successfully repelled an attempted invasion by the SSV Nebuchadnezzar and have strengthened Nanotrasen's position in the Sol sector!"
+		if(PVP_SYNDIE_PIRATE_WIN)
+			news_message = "The sol sector has fallen into anarchistic piracy, as the Tortuga raiders used the chaos of a surprise attack by Syndicate forces to seize a large amount of territory unanswered."
 
 	if(news_message)
 		send2otherserver(news_source, news_message,"News_Report")
