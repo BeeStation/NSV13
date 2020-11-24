@@ -175,6 +175,10 @@ export const FighterControls = (props, context) => {
                         content={`Eject`}
                         icon="eject"
                         onClick={() => act('eject_hardpoint', { id: value.id })} />
+                      <Button
+                        content={`Dump contents`}
+                        icon="download"
+                        onClick={() => act('dump_hardpoint', { id: value.id })} />
                     </Section>
                   </Fragment>);
               })}

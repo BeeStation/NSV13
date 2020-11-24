@@ -38,6 +38,10 @@
 #define APC_CHARGING 1
 #define APC_FULLY_CHARGED 2
 
+//NSV13 added ethereal power drain defines
+#define APC_DRAIN_TIME 75
+#define APC_POWER_GAIN 200
+
 // the Area Power Controller (APC), formerly Power Distribution Unit (PDU)
 // one per area, needs wire connection to power network through a terminal
 
@@ -762,6 +766,7 @@
 			update_icon()
 
 
+//NSV13 changed numbers to defines
 // attack with hand - remove cell (if cover open) or interact with the APC
 
 /obj/machinery/power/apc/attack_hand(mob/user)
@@ -783,15 +788,15 @@
 			if(stomach.crystal_charge >= ETHEREAL_CHARGE_FULL)
 				to_chat(H, "<span class='warning'>Your charge is full!</span>")
 				return
-			E.drain_time = world.time + 75
+			E.drain_time = world.time + APC_DRAIN_TIME
 			to_chat(H, "<span class='notice'>You start channeling some power through the APC into your body.</span>")
-			if(do_after(user, 75, target = src))
+			if(do_after(user, APC_DRAIN_TIME, target = src))
 				if(cell.charge <= (cell.maxcharge / 2) || (stomach.crystal_charge >= ETHEREAL_CHARGE_FULL))
 					to_chat(H, "<span class='warning'>You can't receive more charge from the APC.</span>")
 					return
 				to_chat(H, "<span class='notice'>You receive some charge from the APC.</span>")
-				stomach.adjust_charge(10)
-				cell.charge -= 10
+				stomach.adjust_charge(APC_POWER_GAIN)
+				cell.charge -= APC_POWER_GAIN
 			else
 				to_chat(H, "<span class='warning'>You fail to receive charge from the APC!</span>")
 			return
@@ -803,18 +808,18 @@
 			if(!istype(stomach))
 				to_chat(H, "<span class='warning'>You can't transfer charge!</span>")
 				return
-			if(stomach.crystal_charge < 10)
+			if(stomach.crystal_charge < APC_POWER_GAIN)
 				to_chat(H, "<span class='warning'>Your charge is too low!</span>")
 				return
-			E.drain_time = world.time + 75
+			E.drain_time = world.time + APC_DRAIN_TIME
 			to_chat(H, "<span class='notice'>You start channeling power through your body into the APC.</span>")
-			if(cell.charge == cell.maxcharge || (stomach.crystal_charge < 10))
+			if(cell.charge == cell.maxcharge || (stomach.crystal_charge < APC_POWER_GAIN))
 				to_chat(H, "<span class='warning'>You can't transfer more charge to the APC.</span>")
 				return
-			if(do_after(user, 75, target = src))
+			if(do_after(user, APC_DRAIN_TIME, target = src))
 				to_chat(H, "<span class='notice'>You transfer some power to the APC.</span>")
-				stomach.adjust_charge(-10)
-				cell.charge += 10
+				stomach.adjust_charge(-APC_POWER_GAIN)
+				cell.charge += APC_POWER_GAIN
 			else
 				to_chat(H, "<span class='warning'>You fail to transfer power to the APC!</span>")
 			return
@@ -1453,6 +1458,9 @@
 #undef APC_NOT_CHARGING
 #undef APC_CHARGING
 #undef APC_FULLY_CHARGED
+
+#undef APC_DRAIN_TIME
+#undef APC_POWER_GAIN
 
 //update_overlay
 #undef APC_UPOVERLAY_CHARGEING0

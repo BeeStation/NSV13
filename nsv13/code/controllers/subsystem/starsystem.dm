@@ -9,6 +9,7 @@ SUBSYSTEM_DEF(star_system)
 	flags = SS_NO_INIT
 	var/last_combat_enter = 0 //Last time an AI controlled ship attacked the players
 	var/list/systems = list()
+	var/list/traders = list()
 	var/bounty_pool = 0 //Bounties pool to be delivered for destroying syndicate ships
 	var/list/enemy_types = list()
 	var/list/enemy_blacklist = list()
@@ -17,9 +18,10 @@ SUBSYSTEM_DEF(star_system)
 	//Starmap 2
 	var/list/factions = list() //List of all factions in play on this starmap, instantiated on init.
 	var/next_nag_time = 0
-	var/nag_interval = 25 MINUTES //Get off your asses and do some work idiots
+	var/nag_interval = 30 MINUTES //Get off your asses and do some work idiots
 	var/nag_stacks = 0 //How many times have we told you to get a move on?
 	var/list/all_missions = list()
+	var/admin_boarding_override = FALSE //Used by admins to force disable boarders
 
 /datum/controller/subsystem/star_system/fire() //Overmap combat events control system, adds weight to combat events over time spent out of combat
 	if(SSmapping.config.patrol_type == "passive")
@@ -60,16 +62,21 @@ SUBSYSTEM_DEF(star_system)
 					total_deductions += D.account_balance / 2
 					D.account_balance /= 2
 			if(4 to INFINITY) //From this point on, you can actively lose the game.
-				minor_announce("WARNING: Nanotrasen is suffering catastrophic losses", "Naval Command")
+				nag_interval = rand(10 MINUTES, 15 MINUTES) //Keep up the nag, but slowly.
+				next_nag_time = world.time + nag_interval
 				var/lost_influence = FALSE
+				var/influence_to_lose = rand(1,3)
 				for(var/datum/star_system/sys in systems)
 					if(sys.fleets)
 						for(var/datum/fleet/F in sys.fleets)
+							if(lost_influence >= influence_to_lose)
+								break
 							if(F.alignment == "nanotrasen" && !istype(F, /datum/fleet/nanotrasen/earth))
 								F.defeat()
-								lost_influence = TRUE
+								lost_influence ++
 				if(!lost_influence)
-					minor_announce("Attention all ships. WhiteRapids naval command no longer has any fleets. Full Syndicate invasion underway.", "Naval Command")
+					var/datum/faction/F = faction_by_id(FACTION_ID_NT)
+					F.lose_influence(100)
 
 /datum/controller/subsystem/star_system/New()
 	. = ..()
@@ -106,6 +113,20 @@ Returns a faction datum by its name (case insensitive!)
 		var/datum/star_system/S = new instance
 		if(S.name)
 			systems += S
+
+/client/proc/cmd_admin_boarding_override()
+	set category = "Adminbus"
+	set name = "Toggle Antag Boarding Parties"
+
+	if(!check_rights(R_ADMIN))
+		return
+
+	if(SSstar_system.admin_boarding_override)
+		SSstar_system.admin_boarding_override = FALSE
+		message_admins("[key_name_admin(usr)] has ENABLED overmap antag boarding parties.")
+	else if(!SSstar_system.admin_boarding_override)
+		SSstar_system.admin_boarding_override = TRUE
+		message_admins("[key_name_admin(usr)] has DISABLED overmap antag boarding parties.")
 
 ///////SPAWN SYSTEM///////
 
@@ -306,7 +327,9 @@ Returns a faction datum by its name (case insensitive!)
 		trader = new preset_trader
 		//We need to instantiate the trader's shop now and give it info, so unfortunately these'll always load in.
 		var/obj/structure/overmap/trader/station13 = SSstar_system.spawn_anomaly(trader.station_type, src, TRUE)
+		station13.starting_system = name
 		station13.set_trader(trader)
+		trader.generate_missions()
 	addtimer(CALLBACK(src, .proc/spawn_asteroids), 15 SECONDS)
 	addtimer(CALLBACK(src, .proc/generate_anomaly), 15 SECONDS)
 
@@ -876,6 +899,7 @@ Welcome to the endgame. This sector is the hardest you'll encounter in game and 
 	system_type = "radioactive"
 	adjacency_list = list("Abassi", "Deimos", "Phobos") //No going back from here...
 	threat_level = THREAT_LEVEL_DANGEROUS
+	hidden = TRUE
 	fleet_type = /datum/fleet/dolos //You're insane to attempt this.
 
 /datum/star_system/sector4/abassi

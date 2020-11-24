@@ -67,6 +67,13 @@ GLOBAL_LIST_INIT(drop_trooper_teams, list("Noble", "Helljumper","Red", "Black", 
 	if(!target)
 		message_admins("Failed to spawn boarders for [name], does it have an interior?")
 		return FALSE //Cut off here to avoid polling people for a spawn that will never work.
+	if(SSstar_system.admin_boarding_override)
+		message_admins("Failed to spawn boarders for [name] due to admin boarding override.")
+		return FALSE //Allows the admins to disable boarders for event rounds
+	var/player_check = get_active_player_count(alive_check = TRUE, afk_check = TRUE, human_check = TRUE)
+	if(player_check < 20) // Remove the low pop boarder camping
+		message_admins("Failed to spawn boarders for [name] due to insufficient player count.")
+		return FALSE
 	var/list/candidates = pollCandidatesForMob("Do you want to play as a Syndicate drop trooper?", ROLE_OPERATIVE, null, ROLE_OPERATIVE, 10 SECONDS, src)
 	if(!LAZYLEN(candidates))
 		return FALSE
