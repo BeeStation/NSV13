@@ -171,7 +171,7 @@
 		var/obj/item/a_gift/anything/generator = new
 		var/initialtype = generator.get_gift_type()
 		var/obj/item/soldtype = new initialtype
-		item.unlock_path = soldtype
+		item.unlock_path = initialtype
 		item.name = soldtype.name
 		item.desc = soldtype.desc
 		item.price = rand(1000, 50000)

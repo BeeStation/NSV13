@@ -804,13 +804,9 @@ To make things worse, this hellhole is entirely RNG, so good luck mapping it!
 	addtimer(CALLBACK(src, .proc/generate_badlands), 10 SECONDS)
 
 /datum/star_system/sector3/proc/generate_badlands()
-	//These are necessary to ensure no three points are perfectly collinear, for the most part.
-	var/list/used_y = list()
-	var/list/used_x = list()
 
 	var/list/generated = list()
 	var/amount = rand(100, 200)
-	var/coordconflict = 0
 	var/toocloseconflict = 0
 	message_admins("Generating Brazil with [amount] systems.")
 	var/start_timeofday = REALTIMEOFDAY
@@ -822,16 +818,8 @@ To make things worse, this hellhole is entirely RNG, so good luck mapping it!
 		var/randy_valid = FALSE
 
 		while(!randy_valid)
-			randy.x = rand(1, 200)+20 // Buffer space for readability
-			randy.y = rand(1, 100)+30 // Offset vertically for viewing 'pleasure'
-			while(randy.x in used_x)
-				randy.x = rand(1, 100)+20
-				coordconflict++
-			while(randy.x in used_y)
-				randy.y = rand(1, 100)+30
-				coordconflict++
-			used_x.Insert(randy.x) //Insert here so that they get trapped by easier checks first.
-			used_y.Insert(randy.y)
+			randy.x = (rand(1, 10)/10)+rand(1, 200)+20 // Buffer space for readability
+			randy.y = (rand(1, 10)/10)+rand(1, 100)+30 // Offset vertically for viewing 'pleasure'
 			var/syscheck_pass = TRUE
 			for(var/datum/star_system/S in generated)
 				if(!syscheck_pass)
@@ -917,7 +905,7 @@ To make things worse, this hellhole is entirely RNG, so good luck mapping it!
 		inroute.is_hypergate = TRUE
 
 	var/time = (REALTIMEOFDAY - start_timeofday) / 10
-	message_admins("Brazil has been generated. T:[time]s CFS:[coordconflict]|[toocloseconflict]|[ir_rub]|[ir_othershit] Rubiconnector: [rubiconnector], Inroute system is [inroute]")
+	message_admins("Brazil has been generated. T:[time]s CFS:[toocloseconflict]|[ir_rub]|[ir_othershit] Rubiconnector: [rubiconnector], Inroute system is [inroute]")
 /*
 <Summary>
 Welcome to the endgame. This sector is the hardest you'll encounter in game and holds the Syndicate capital.
