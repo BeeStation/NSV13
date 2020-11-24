@@ -9,6 +9,7 @@ SUBSYSTEM_DEF(star_system)
 	flags = SS_NO_INIT
 	var/last_combat_enter = 0 //Last time an AI controlled ship attacked the players
 	var/list/systems = list()
+	var/list/traders = list()
 	var/bounty_pool = 0 //Bounties pool to be delivered for destroying syndicate ships
 	var/list/enemy_types = list()
 	var/list/enemy_blacklist = list()
@@ -326,7 +327,9 @@ Returns a faction datum by its name (case insensitive!)
 		trader = new preset_trader
 		//We need to instantiate the trader's shop now and give it info, so unfortunately these'll always load in.
 		var/obj/structure/overmap/trader/station13 = SSstar_system.spawn_anomaly(trader.station_type, src, TRUE)
+		station13.starting_system = name
 		station13.set_trader(trader)
+		trader.generate_missions()
 	addtimer(CALLBACK(src, .proc/spawn_asteroids), 15 SECONDS)
 	addtimer(CALLBACK(src, .proc/generate_anomaly), 15 SECONDS)
 
@@ -896,6 +899,7 @@ Welcome to the endgame. This sector is the hardest you'll encounter in game and 
 	system_type = "radioactive"
 	adjacency_list = list("Abassi", "Deimos", "Phobos") //No going back from here...
 	threat_level = THREAT_LEVEL_DANGEROUS
+	hidden = TRUE
 	fleet_type = /datum/fleet/dolos //You're insane to attempt this.
 
 /datum/star_system/sector4/abassi

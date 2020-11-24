@@ -40,6 +40,10 @@ Repair
 	toggle_canopy()
 	forceMove(get_turf(locate(255, y, z)))
 
+/obj/structure/overmap/fighter/Destroy()
+	throw_pilot()
+	.=..()
+
 /obj/structure/overmap/fighter
 	name = "Space Fighter"
 	icon = 'nsv13/icons/overmap/nanotrasen/fighter.dmi'
@@ -558,6 +562,54 @@ Repair
 	for(var/mob/M in operators)
 		stop_piloting(M)
 		to_chat(M, "<span class='warning'>You have been remotely ejected from [src]!.</span>")
+
+/obj/structure/overmap/proc/throw_pilot() //Used when yeeting a pilot out of an exploding ship
+	if(!SSmapping.level_trait(loc.z, ZTRAIT_BOARDABLE)) //Check if we're on the overmap
+		var/max = world.maxx-TRANSITIONEDGE
+		var/min = 1+TRANSITIONEDGE
+
+		var/list/possible_transitions = list()
+		for(var/A in SSmapping.z_list)
+			var/datum/space_level/D = A
+			if (D.linkage == CROSSLINKED)
+				possible_transitions += D.z_value
+			if(!possible_transitions.len) //Just in case there is no space z level
+				for(var/z in SSmapping.levels_by_trait(ZTRAIT_STATION))
+				possible_transitions += z
+
+		var/_z = pick(possible_transitions)
+		var/_x
+		var/_y
+
+		switch(dir)
+			if(SOUTH)
+				_x = rand(min,max)
+				_y = max
+			if(WEST)
+				_x = max
+				_y = rand(min,max)
+			if(EAST)
+				_x = min
+				_y = rand(min,max)
+			else
+				_x = rand(min,max)
+				_y = min
+
+		var/turf/T = locate(_x, _y, _z) //Where are we putting you
+		for(var/mob/living/M in contents)
+			mobs_in_ship -= M
+			M.stop_sound_channel(CHANNEL_SHIP_ALERT) //In space no one can hear your ship explode
+			M.apply_damage(400) //No way you're surviving that
+			M.unfuck_overmap() //Remove camera because you're not looking at the deleted ship
+			M.forceMove(T) //Yeets the spessman
+
+	else //If we're anywhere that isn't the overmap
+		for(var/mob/living/M in contents)
+			mobs_in_ship -= M
+			M.stop_sound_channel(CHANNEL_SHIP_ALERT)
+			M.apply_damage(200) //Turns out exploding will kill you
+			M.unfuck_overmap() //Remove camera because you're not looking at the deleted ship
+			M.forceMove(get_turf(src)) //Just gonna plop you on the ground
 
 /obj/structure/overmap/fighter/attackby(obj/item/W, mob/user, params)   //fueling and changing equipment
 	add_fingerprint(user)
