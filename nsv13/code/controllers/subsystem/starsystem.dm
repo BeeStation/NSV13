@@ -876,6 +876,7 @@ To make things worse, this hellhole is entirely RNG, so good luck mapping it!
 			var/x = pick(/datum/fleet/wolfpack, /datum/fleet/neutral, /datum/fleet/pirate, /datum/fleet/boarding, /datum/fleet/nanotrasen/light)
 			var/datum/fleet/randyfleet = new x
 			randyfleet.current_system = randy
+			randyfleet.hide_movements = TRUE //Prevent the shot of spam this caused to R1497.
 			randy.fleets += randyfleet
 			randy.alignment = randyfleet.alignment
 
