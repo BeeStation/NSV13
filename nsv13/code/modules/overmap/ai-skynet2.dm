@@ -75,7 +75,7 @@ GLOBAL_LIST_EMPTY(ai_goals)
 	var/last_encounter_time = 0
 	var/datum/faction/faction = null
 	var/faction_id = FACTION_ID_SYNDICATE
-	var/reward = 25 //Reward for defeating this fleet, is credited to this faction's enemies.
+	var/reward = 100 //Reward for defeating this fleet, is credited to this faction's enemies.
 
 //BFS search algo. Entirely unused for now.
 /datum/fleet/proc/bfs(datum/star_system/target)
@@ -224,6 +224,7 @@ GLOBAL_LIST_EMPTY(ai_goals)
 		current_system.alignment = initial(current_system.alignment)
 		current_system.mission_sector = FALSE
 	current_system.fleets -= src
+	faction = SSstar_system.faction_by_id(faction_id)
 	faction?.lose_influence(reward)
 	for(var/obj/structure/overmap/OOM in current_system.system_contents)
 		if(!OOM.mobs_in_ship.len)
@@ -266,10 +267,10 @@ GLOBAL_LIST_EMPTY(ai_goals)
 		return
 	if(!ship_name)
 		return
-	var/player_string = ""	
+	var/player_string = ""
 	if(player_name) // No sender means AI ship
 		player_string = " (Sent by [player_name])"
-		
+
 	if(outbound)
 		relay('nsv13/sound/effects/ship/freespace2/computer/textdraw.wav', "<h3>Outbound hail to: [ship_name][player_string]</h3><hr><span class='danger'>[text]</span><br>")
 	else
@@ -448,6 +449,7 @@ GLOBAL_LIST_EMPTY(ai_goals)
 	alignment = "nanotrasen"
 	hide_movements = TRUE //Friendly fleets just move around as you'd expect.
 	faction_id = FACTION_ID_NT
+	taunts = list("Syndicate vessel, stand down or be destroyed", "You are encroaching on our airspace, prepare to be destroyed", "Unidentified vessel, your existence will be forfeit in accordance with the peacekeeper act.")
 
 /datum/fleet/nanotrasen/light
 	name = "Nanotrasen light fleet"
@@ -644,7 +646,7 @@ GLOBAL_LIST_EMPTY(ai_goals)
 /datum/ai_goal/defend/action(obj/structure/overmap/OM)
 	..()
 	if(!OM.defense_target || QDELETED(OM.defense_target))
-		OM.defense_target = pick(OM.fleet.taskforces["supply"])
+		OM.defense_target = OM.fleet.taskforces["supply"] ? pick(OM.fleet.taskforces["supply"]) : OM
 	OM.move_mode = NORTH
 	if(get_dist(OM, OM.defense_target) <= AI_PDC_RANGE)
 		OM.brakes = TRUE
@@ -1097,8 +1099,7 @@ GLOBAL_LIST_EMPTY(ai_goals)
 			if (!fexists("_maps/[mapPath]/[file]"))
 				log_world("Map file ([mapPath]/[file]) does not exist!")
 				return
-	var/obj/structure/overmap/OM = instance_overmap(shipType, mapPath, mapFile, traits)
+	var/obj/structure/overmap/OM = instance_overmap(shipType, mapPath, mapFile, traits, ZTRAITS_BOARDABLE_SHIP, TRUE)
 	if(OM)
 		message_admins("[key_name(src)] has instanced a copy of [ship_file].")
 		OM.name = shipName
-		addtimer(CALLBACK(GLOBAL_PROC, .proc/overmap_lighting_force, OM), 6 SECONDS)

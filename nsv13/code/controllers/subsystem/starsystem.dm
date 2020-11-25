@@ -9,6 +9,7 @@ SUBSYSTEM_DEF(star_system)
 	flags = SS_NO_INIT
 	var/last_combat_enter = 0 //Last time an AI controlled ship attacked the players
 	var/list/systems = list()
+	var/list/traders = list()
 	var/bounty_pool = 0 //Bounties pool to be delivered for destroying syndicate ships
 	var/list/enemy_types = list()
 	var/list/enemy_blacklist = list()
@@ -20,8 +21,19 @@ SUBSYSTEM_DEF(star_system)
 	var/nag_interval = 30 MINUTES //Get off your asses and do some work idiots
 	var/nag_stacks = 0 //How many times have we told you to get a move on?
 	var/list/all_missions = list()
+	var/admin_boarding_override = FALSE //Used by admins to force disable boarders
+	var/time_limit = FALSE //Do we want to end the round after a specific time? Mostly used for galconquest.
 
 /datum/controller/subsystem/star_system/fire() //Overmap combat events control system, adds weight to combat events over time spent out of combat
+	if(time_limit && world.time >= time_limit)
+		var/datum/faction/winner = get_winner()
+		if(istype(SSticker.mode, /datum/game_mode/pvp))
+			var/datum/game_mode/pvp/mode = SSticker.mode
+			mode.winner = winner //This should allow the mode to finish up by itself
+			mode.check_finished()
+		else
+			SSticker.force_ending = 1
+		return
 	if(SSmapping.config.patrol_type == "passive")
 		priority_announce("[station_name()], you have been assigned to reconnaissance and exploration this shift. Scans indicate that besides a decent number of straggling Syndicate vessels, there will be little threat to your operations. You are granted permission to proceed at your own pace.", "[capitalize(SSmapping.config.faction)] Naval Command")
 		for(var/datum/star_system/SS in systems)
@@ -57,6 +69,8 @@ SUBSYSTEM_DEF(star_system)
 				var/total_deductions
 				for(var/account in SSeconomy.department_accounts)
 					var/datum/bank_account/D = SSeconomy.get_dep_account(account)
+					if(account == ACCOUNT_SYN)
+						continue //No, just no.
 					total_deductions += D.account_balance / 2
 					D.account_balance /= 2
 			if(4 to INFINITY) //From this point on, you can actively lose the game.
@@ -111,6 +125,20 @@ Returns a faction datum by its name (case insensitive!)
 		var/datum/star_system/S = new instance
 		if(S.name)
 			systems += S
+
+/client/proc/cmd_admin_boarding_override()
+	set category = "Adminbus"
+	set name = "Toggle Antag Boarding Parties"
+
+	if(!check_rights(R_ADMIN))
+		return
+
+	if(SSstar_system.admin_boarding_override)
+		SSstar_system.admin_boarding_override = FALSE
+		message_admins("[key_name_admin(usr)] has ENABLED overmap antag boarding parties.")
+	else if(!SSstar_system.admin_boarding_override)
+		SSstar_system.admin_boarding_override = TRUE
+		message_admins("[key_name_admin(usr)] has DISABLED overmap antag boarding parties.")
 
 ///////SPAWN SYSTEM///////
 
@@ -189,6 +217,16 @@ Returns a faction datum by its name (case insensitive!)
 			F.victory()
 			return TRUE
 	return FALSE
+
+/datum/controller/subsystem/star_system/proc/get_winner()
+	var/highestTickets = 0
+	var/datum/faction/winner = null
+	for(var/X in factions)
+		var/datum/faction/F = X
+		if(F.tickets > highestTickets)
+			winner = F
+			highestTickets = F.tickets
+	return winner
 
 	/* Deprecated.
 	if(patrols_left <= 0 && systems_cleared >= initial(patrols_left))
@@ -311,7 +349,9 @@ Returns a faction datum by its name (case insensitive!)
 		trader = new preset_trader
 		//We need to instantiate the trader's shop now and give it info, so unfortunately these'll always load in.
 		var/obj/structure/overmap/trader/station13 = SSstar_system.spawn_anomaly(trader.station_type, src, TRUE)
+		station13.starting_system = name
 		station13.set_trader(trader)
+		trader.generate_missions()
 	addtimer(CALLBACK(src, .proc/spawn_asteroids), 15 SECONDS)
 	addtimer(CALLBACK(src, .proc/generate_anomaly), 15 SECONDS)
 
@@ -780,6 +820,7 @@ To make things worse, this hellhole is entirely RNG, so good luck mapping it!
 	x = 100
 	y = 30
 	sector = 3
+	adjacency_list = list("Tortuga")
 
 /datum/star_system/sector3/New()
 	. = ..()
@@ -845,7 +886,7 @@ Welcome to the endgame. This sector is the hardest you'll encounter in game and 
 
 /datum/star_system/sector4/aeterna
 	name = "Aeterna Victrix"
-	adjacency_list = list("Mediolanum", "Deimos")
+	adjacency_list = list("Mediolanum", "Deimos", "Romulus")
 	x = 90
 	y = 40
 
@@ -881,6 +922,7 @@ Welcome to the endgame. This sector is the hardest you'll encounter in game and 
 	system_type = "radioactive"
 	adjacency_list = list("Abassi", "Deimos", "Phobos") //No going back from here...
 	threat_level = THREAT_LEVEL_DANGEROUS
+	hidden = TRUE
 	fleet_type = /datum/fleet/dolos //You're insane to attempt this.
 
 /datum/star_system/sector4/abassi

@@ -27,9 +27,16 @@ Constructor for vector2d objects, taking a simple X,Y coordinate.
 /*
 Method to set our position directly
 */
-/datum/vector2d/proc/_set(x,y)
+/datum/vector2d/proc/_set(x,y,sanity=FALSE)
 	src.x = x
 	src.y = y
+	if(sanity)
+		if(!isnum_safe(x) || !isnum_safe(y))
+			src.x = 0
+			src.y = 0
+			testing("What the fuck are you doing to vectors: [x] [y] for [usr?.name]")
+		src.x = isnum_safe(x) ? src.x : 0
+		src.y = CLAMP(src.y, -world.maxy*32, world.maxy*32)
 
 /*
 Method to overload the + operator to add a vector to another vector

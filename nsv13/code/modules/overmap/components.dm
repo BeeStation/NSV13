@@ -34,6 +34,8 @@ GLOBAL_LIST_INIT(computer_beeps, list('nsv13/sound/effects/computer/beep.ogg','n
 /obj/machinery/computer/ship/proc/has_overmap()
 	var/obj/structure/overmap/OM = get_overmap()
 	linked = OM
+	if(OM)
+		set_position(OM)
 	return linked
 
 /obj/machinery/computer/ship/proc/set_position(obj/structure/overmap/OM)
@@ -262,6 +264,7 @@ GLOBAL_LIST_INIT(computer_beeps, list('nsv13/sound/effects/computer/beep.ogg','n
 	desc = "A large CRT monitor which shows an exterior view of the ship."
 	icon = 'nsv13/icons/obj/computers.dmi'
 	icon_state = "viewscreen"
+	idle_power_usage = 15
 	mouse_over_pointer = MOUSE_HAND_POINTER
 	pixel_y = 26
 	density = FALSE

@@ -36,7 +36,8 @@
 	var/obj/item/encryptionkey/keyslot
 	var/translate_binary = FALSE  // If true, can hear the special binary channel.
 	var/independent = FALSE  // If true, can say/hear on the special CentCom channel.
-	var/syndie = FALSE  // If true, hears all well-known channels automatically, and can say/hear on the Syndicate channel.
+	var/hearall = FALSE  // If true, hears all well-known channels automatically, including Syndicates. But only on one Z level.
+	var/syndie = FALSE //If true, can hear and talk over Syndicate channel on any Z level
 	var/list/channels = list()  // Map from name (see communications.dm) to on/off. First entry is current department (:h).
 	var/list/secure_radio_connections
 	var/list/radio_sounds = list('nsv13/sound/effects/radio1.ogg','nsv13/sound/effects/radio2.ogg') //nsv13 - Radios make small static noises now
@@ -53,6 +54,7 @@
 /obj/item/radio/proc/recalculateChannels()
 	channels = list()
 	translate_binary = FALSE
+	hearall = FALSE
 	syndie = FALSE
 	independent = FALSE
 
@@ -63,6 +65,8 @@
 
 		if(keyslot.translate_binary)
 			translate_binary = TRUE
+		if(keyslot.hearall)
+			hearall = TRUE
 		if(keyslot.syndie)
 			syndie = TRUE
 		if(keyslot.independent)
@@ -74,7 +78,13 @@
 /obj/item/radio/proc/make_syndie() // Turns normal radios into Syndicate radios!
 	qdel(keyslot)
 	keyslot = new /obj/item/encryptionkey/syndicate
-	syndie = 1
+	syndie = TRUE
+	recalculateChannels()
+
+/obj/item/radio/proc/make_hearall() //Turns radios into radios that can hear everything (old syndie radio key)
+	qdel(keyslot)
+	keyslot = new /obj/item/encryptionkey/hearall
+	hearall = TRUE
 	recalculateChannels()
 
 /obj/item/radio/Destroy()
@@ -307,7 +317,7 @@
 	// deny checks
 	if (!on || !listening || wires.is_cut(WIRE_RX))
 		return FALSE
-	if (freq == FREQ_SYNDICATE && !syndie)
+	if (freq == FREQ_SYNDICATE && !(syndie || hearall))
 		return FALSE
 	if (freq == FREQ_CENTCOM || freq == FREQ_ATC)
 		return independent  // hard-ignores the z-level check
@@ -322,7 +332,7 @@
 	for(var/ch_name in channels)
 		if(channels[ch_name] & FREQ_LISTENING)
 			//the GLOB.radiochannels list is located in communications.dm
-			if(GLOB.radiochannels[ch_name] == text2num(freq) || syndie)
+			if(GLOB.radiochannels[ch_name] == text2num(freq) || hearall)
 				return TRUE
 	return FALSE
 

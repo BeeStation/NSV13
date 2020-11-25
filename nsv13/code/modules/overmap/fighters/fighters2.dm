@@ -34,11 +34,9 @@ Repair
 
 #define ENGINE_RPM_SPUN 8000
 
-//Yeet the fighter
-/obj/structure/overmap/fighter/proc/yeet()
-	//flight_state = 6
-	toggle_canopy()
-	forceMove(get_turf(locate(255, y, z)))
+/obj/structure/overmap/fighter/Destroy()
+	throw_pilot()
+	. = ..()
 
 /obj/structure/overmap/fighter
 	name = "Space Fighter"
@@ -53,7 +51,7 @@ Repair
 	sprite_size = 32
 	damage_states = TRUE
 	faction = "nanotrasen"
-	max_integrity = 150 //Really really squishy!
+	max_integrity = 200 //Really really squishy!
 	forward_maxthrust = 5
 	backward_maxthrust = 5
 	side_maxthrust = 4
@@ -61,7 +59,7 @@ Repair
 	torpedoes = 0
 	missiles = 0
 	speed_limit = 7 //We want fighters to be way more maneuverable
-	weapon_safety = FALSE //This happens wayy too much for my liking. Starts OFF.
+	weapon_safety = TRUE //This happens wayy too much for my liking. Starts ON.
 	pixel_w = -16
 	pixel_z = -20
 	req_one_access = list(ACCESS_FIGHTER)
@@ -210,7 +208,18 @@ Repair
 			if(!do_after(usr, 5 SECONDS, target=src))
 				return
 			to_chat(usr, "<span class='notice>You uninstall [target.name] from [src].</span>")
-			loadout.remove_hardpoint(FC)
+			loadout.remove_hardpoint(FC, FALSE)
+		if("dump_hardpoint")
+			if(!target)
+				return
+			var/obj/item/fighter_component/FC = target
+			if(!istype(FC) || !FC.contents?.len)
+				return
+			to_chat(usr, "<span class='notice'>You start to unload [target.name]'s stored contents...</span>")
+			if(!do_after(usr, 5 SECONDS, target=src))
+				return
+			to_chat(usr, "<span class='notice>You dump [target.name]'s contents.</span>")
+			loadout.dump_contents(FC)
 		if("kick")
 			if(!target)
 				return
@@ -297,7 +306,7 @@ Repair
 	armor = list("melee" = 60, "bullet" = 60, "laser" = 60, "energy" = 30, "bomb" = 30, "bio" = 100, "rad" = 90, "fire" = 90, "acid" = 80, "overmap_light" = 10, "overmap_heavy" = 5)
 	sprite_size = 32
 	damage_states = FALSE //temp
-	max_integrity = 125 //Really really squishy!
+	max_integrity = 200 //Really really squishy!
 	max_angular_acceleration = 200
 	speed_limit = 10
 	pixel_w = -16
@@ -343,7 +352,7 @@ Repair
 	sprite_size = 32
 	damage_states = FALSE //temp
 	max_integrity = 250 //Tanky
-	max_passengers = 1
+	max_passengers = 6
 	pixel_w = -16
 	pixel_z = -20
 	req_one_access = list(ACCESS_MUNITIONS, ACCESS_ENGINE, ACCESS_FIGHTER)
@@ -368,6 +377,10 @@ Repair
 						/obj/item/fighter_component/primary/utility/hold,
 						/obj/item/fighter_component/secondary/utility/resupply,
 						/obj/item/fighter_component/countermeasure_dispenser)
+
+/obj/structure/overmap/fighter/utility/mining
+	icon = 'nsv13/icons/overmap/nanotrasen/carrier_mining.dmi'
+	req_one_access = list(ACCESS_CARGO, ACCESS_MINING, ACCESS_MUNITIONS, ACCESS_ENGINE, ACCESS_FIGHTER)
 
 /obj/structure/overmap/fighter/escapepod
 	name = "Escape Pod"
@@ -402,7 +415,7 @@ Repair
 	armor = list("melee" = 80, "bullet" = 80, "laser" = 80, "energy" = 50, "bomb" = 50, "bio" = 100, "rad" = 90, "fire" = 90, "acid" = 80, "overmap_light" = 25, "overmap_heavy" = 10)
 	sprite_size = 32
 	damage_states = FALSE //TEMP
-	max_integrity = 200 //Not so squishy!
+	max_integrity = 300 //Not so squishy!
 	pixel_w = -16
 	pixel_z = -20
 	speed_limit = 8
@@ -478,11 +491,13 @@ Repair
 
 /obj/structure/overmap/fighter/MouseDrop_T(atom/movable/target, mob/user)
 	. = ..()
+	if(!isliving(user))
+		return FALSE
 	for(var/slot in loadout.equippable_slots)
 		var/obj/item/fighter_component/FC = loadout.get_slot(slot)
 		if(FC?.load(src, target))
 			return FALSE
-	if(allowed(user) && isliving(user))
+	if(allowed(user))
 		if(!canopy_open)
 			playsound(src, 'sound/effects/glasshit.ogg', 75, 1)
 			user.visible_message("<span class='warning'>You bang on the canopy.</span>", "<span class='warning'>[user] bangs on [src]'s canopy.</span>")
@@ -494,6 +509,8 @@ Repair
 		if(do_after(user, 2 SECONDS, target=src))
 			start_piloting(user, "observer")
 			enter(user)
+	else
+		to_chat(user, "<span class='warning'>Access denied.</span>")
 
 /obj/structure/overmap/fighter/proc/enter(mob/user)
 	user.forceMove(src)
@@ -531,14 +548,75 @@ Repair
 			ui_interact(user)
 			return TRUE
 
-/obj/structure/overmap/fighter/proc/force_eject()
+/obj/structure/overmap/fighter/proc/force_eject(force=FALSE)
+	RETURN_TYPE(/list)
+	var/list/victims = list()
 	brakes = TRUE
 	if(!canopy_open)
 		canopy_open = TRUE
 		playsound(src, 'nsv13/sound/effects/fighters/canopy.ogg', 100, 1)
 	for(var/mob/M in operators)
-		stop_piloting(M)
+		stop_piloting(M, force)
 		to_chat(M, "<span class='warning'>You have been remotely ejected from [src]!.</span>")
+		victims += M
+	return victims
+
+//Iconic proc.
+/obj/structure/overmap/fighter/proc/foo()
+	set_fuel(1000)
+	var/obj/item/fighter_component/apu/APU = loadout.get_slot(HARDPOINT_SLOT_APU)
+	APU.fuel_line = TRUE
+	var/obj/item/fighter_component/battery/B = loadout.get_slot(HARDPOINT_SLOT_BATTERY)
+	B.active = TRUE
+	B.charge = B.maxcharge
+	var/obj/item/fighter_component/engine/E = loadout.get_slot(HARDPOINT_SLOT_ENGINE)
+	E.rpm = ENGINE_RPM_SPUN
+	E.try_start()
+	toggle_canopy()
+	forceMove(get_turf(locate(world.maxx, y, z)))
+
+/obj/structure/overmap/fighter/proc/throw_pilot() //Used when yeeting a pilot out of an exploding ship
+	if(SSmapping.level_trait(z, ZTRAIT_OVERMAP)) //Check if we're on the overmap
+		var/max = world.maxx-TRANSITIONEDGE
+		var/min = 1+TRANSITIONEDGE
+
+		var/list/possible_transitions = list()
+		for(var/A in SSmapping.z_list)
+			var/datum/space_level/D = A
+			if (D.linkage == CROSSLINKED && !SSmapping.level_trait(D.z_value, ZTRAIT_OVERMAP))
+				possible_transitions += D.z_value
+			if(!possible_transitions.len) //Just in case there is no space z level
+				for(var/z in SSmapping.levels_by_trait(ZTRAIT_STATION))
+					possible_transitions += z
+
+		var/_z = pick(possible_transitions)
+		var/_x
+		var/_y
+
+		switch(dir)
+			if(SOUTH)
+				_x = rand(min,max)
+				_y = max
+			if(WEST)
+				_x = max
+				_y = rand(min,max)
+			if(EAST)
+				_x = min
+				_y = rand(min,max)
+			else
+				_x = rand(min,max)
+				_y = min
+
+		var/turf/T = locate(_x, _y, _z) //Where are we putting you
+		var/list/victims = force_eject(TRUE)
+		for(var/mob/living/M in victims)
+			M.forceMove(T)
+			M.apply_damage(400) //No way you're surviving that
+
+	else //If we're anywhere that isn't the overmap
+		var/list/victims = force_eject(TRUE)
+		for(var/mob/living/M in victims)
+			M.apply_damage(200)
 
 /obj/structure/overmap/fighter/attackby(obj/item/W, mob/user, params)   //fueling and changing equipment
 	add_fingerprint(user)
@@ -565,7 +643,7 @@ Repair
 	if(A && istype(A))
 		A.take_damage(damage_amount, damage_type, damage_flag, sound_effect)
 		if(A.obj_integrity <= 0)
-			loadout.remove_hardpoint(A)
+			loadout.remove_hardpoint(A, TRUE)
 			qdel(A) //There goes your armour!
 		relay(pick('nsv13/sound/effects/ship/freespace2/ding1.wav', 'nsv13/sound/effects/ship/freespace2/ding2.wav', 'nsv13/sound/effects/ship/freespace2/ding3.wav', 'nsv13/sound/effects/ship/freespace2/ding4.wav', 'nsv13/sound/effects/ship/freespace2/ding5.wav'))
 	else
@@ -585,7 +663,7 @@ Repair
 
 /obj/structure/overmap/fighter/proc/canopy_breach(obj/item/fighter_component/canopy/C)
 	relay('nsv13/sound/effects/ship/cockpit_breach.ogg') //We're leaking air!
-	loadout.remove_hardpoint(HARDPOINT_SLOT_CANOPY)
+	loadout.remove_hardpoint(HARDPOINT_SLOT_CANOPY, TRUE)
 	qdel(C) //Pop off the canopy.
 	sleep(2 SECONDS)
 	relay('nsv13/sound/effects/ship/reactor/gasmask.ogg', "<span class='warning'>The air around you rushes out of the breached canopy!</span>", loop = FALSE, channel = CHANNEL_SHIP_ALERT)
@@ -628,15 +706,18 @@ Repair
 	if(slot && !(slot in equippable_slots))
 		replacement.visible_message("<span class='warning'>[replacement] can't fit onto [parent]")
 		return FALSE
-	remove_hardpoint(slot)
+	remove_hardpoint(slot, FALSE)
 	replacement.on_install(holder)
 	if(slot) //Not every component has a slot per se, as some are just used for construction and can't really be interacted with.
 		hardpoint_slots[slot] = replacement
 
 /**
 Method to remove a hardpoint from the loadout. It can be passed a slot as a defined flag, or slot as a physical hardpoint (as not all hardpoints have a specific slot.)
+args:
+slot: Either a slot or a specific component
+due_to_damage: Was this called voluntarily (FALSE) or due to damage / external causes (TRUE). Is given to the remove_from() proc and modifies specifics of the removal.
 */
-/datum/component/ship_loadout/proc/remove_hardpoint(slot)
+/datum/component/ship_loadout/proc/remove_hardpoint(slot, due_to_damage)
 	if(!slot)
 		return FALSE
 
@@ -649,7 +730,15 @@ Method to remove a hardpoint from the loadout. It can be passed a slot as a defi
 		hardpoint_slots[slot] = null
 
 	if(component && istype(component))
-		component.remove_from(holder)
+		component.remove_from(holder, due_to_damage)
+
+/datum/component/ship_loadout/proc/dump_contents(slot)
+	var/obj/item/fighter_component/component = null
+	if(istype(slot, /obj/item/fighter_component))
+		component = slot
+	else
+		component = get_slot(slot)
+	component.dump_contents()
 
 /datum/component/ship_loadout/process()
 	for(var/slot in equippable_slots)
@@ -669,8 +758,20 @@ Method to remove a hardpoint from the loadout. It can be passed a slot as a defi
 	var/fire_mode = null //Used if this is a weapon style hardpoint
 	var/active = TRUE
 
+/obj/item/fighter_component/examine(mob/user)
+	. = ..()
+	. += "<span class='notice'>Alt-click it to unload its contents.</span>"
+
 /obj/item/fighter_component/proc/toggle()
 	active = !active
+
+/obj/item/fighter_component/proc/dump_contents()
+	if(!contents?.len)
+		return FALSE
+	. = list()
+	for(var/atom/movable/AM in contents)
+		AM.forceMove(get_turf(loc))
+		. += AM
 
 /obj/item/fighter_component/proc/get_ammo()
 	return FALSE
@@ -732,7 +833,13 @@ If you need your hardpoint to be loaded with things by clicking the fighter
 	target.max_angular_acceleration -= weight*10
 	target.max_angular_acceleration = (target.max_angular_acceleration > 0) ? target.max_angular_acceleration : 0
 
-/obj/item/fighter_component/proc/remove_from(obj/structure/overmap/target)
+/*
+Remove from(), a proc that forcemoves a component onto the target's tile and removes the weight penalties caused by the specific component. Usually used for removal, but doesn't actually check if it was on the target, use with care.
+args:
+target: The overmap structure getting the component's weight penalties removed, aswell as the component being moved to its tile.
+due_to_damage: If the removal was caused voluntarily (FALSE), or if it was caused by external sources / damage (TRUE); generally influences some specifics of removal on some components.
+*/
+/obj/item/fighter_component/proc/remove_from(obj/structure/overmap/target, due_to_damage)
 	forceMove(get_turf(target))
 	if(!weight)
 		return TRUE
@@ -867,8 +974,10 @@ If you need your hardpoint to be loaded with things by clicking the fighter
 	..()
 	target.max_integrity = initial(target.max_integrity)*tier
 
-/obj/item/fighter_component/armour_plating/remove_from(obj/structure/overmap/target)
+/obj/item/fighter_component/armour_plating/remove_from(obj/structure/overmap/target, due_to_damage)
 	..()
+	if(due_to_damage)
+		return //We don't reset our health if the plating was destroyed due to hits, or the increase would be useless. It DOES get reset once we install new armor, though.
 	target.max_integrity = initial(target.max_integrity)
 	//Remove any overheal.
 	target.obj_integrity = CLAMP(target.obj_integrity, 0, target.max_integrity)
@@ -1195,6 +1304,14 @@ Utility modules can be either one of these types, just ensure you set its slot t
 	var/burst_size = 1
 	var/fire_delay = 0
 
+/obj/item/fighter_component/primary/dump_contents()
+	. = ..()
+	for(var/atom/movable/AM in .)
+		if(AM == magazine)
+			magazine = null
+			ammo = list()
+			playsound(loc, 'nsv13/sound/effects/ship/mac_load.ogg', 100, 1)
+
 /obj/item/fighter_component/primary/get_ammo()
 	return ammo?.len
 
@@ -1304,6 +1421,13 @@ Utility modules can be either one of these types, just ensure you set its slot t
 	var/max_ammo = 3
 	var/burst_size = 1 //Cluster torps...UNLESS?
 	var/fire_delay = 0.25 SECONDS
+
+/obj/item/fighter_component/secondary/dump_contents()
+	. = ..()
+	for(var/atom/movable/AM in .)
+		if(AM in ammo)
+			ammo -= AM
+			playsound(loc, 'nsv13/sound/effects/ship/mac_load.ogg', 100, 1)
 
 /obj/item/fighter_component/secondary/get_ammo()
 	return ammo.len
@@ -1438,9 +1562,10 @@ Utility modules can be either one of these types, just ensure you set its slot t
 	max_freight = 20
 
 /obj/item/fighter_component/primary/utility/hold/load(obj/structure/overmap/target, atom/movable/AM)
-	if(contents && contents.len >= max_freight || isliving(AM) || istype(AM, /obj/item/fighter_component) || istype(AM, /obj/item/card/id) || istype(AM, /obj/item/pda)) //This just causess issues, trust me on this)
+	if(contents && contents.len >= max_freight || isliving(AM) || istype(AM, /obj/item/fighter_component) || istype(AM, /obj/item/card/id) || istype(AM, /obj/item/pda) || istype(AM, /obj/structure/overmap)) //This just causess issues, trust me on this)
 		return FALSE
-	AM.forceMove(src)
+	if((AM.move_resist > MOVE_FORCE_DEFAULT) || !AM.doMove(src))
+		return //Can't put ultra heavy stuff in
 	target.visible_message("[icon2html(src)] [AM] is loaded into the cargo hold")
 	playsound(target, 'nsv13/sound/effects/ship/mac_load.ogg', 100, 1)
 	return TRUE

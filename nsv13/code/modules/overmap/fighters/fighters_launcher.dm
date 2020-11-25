@@ -115,7 +115,7 @@
 	. = ..()
 	icon_state = "launcher"
 	linkup()
-	addtimer(CALLBACK(src, .proc/linkup), 15 SECONDS)//Just in case we're not done initializing
+	addtimer(CALLBACK(src, .proc/linkup), 45 SECONDS)//Just in case we're not done initializing
 
 /obj/structure/overmap/fighter/can_brake()
 	if(mag_lock)
@@ -264,9 +264,7 @@
 		if(last_overmap)
 			OM = last_overmap
 		else
-			for(var/obj/structure/overmap/O in GLOB.overmap_objects)
-				if(O.role == MAIN_OVERMAP)
-					OM = O
+			OM = get_overmap()
 		if(!OM)
 			return FALSE
 		var/saved_layer = layer

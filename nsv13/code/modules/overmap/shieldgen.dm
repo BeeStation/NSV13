@@ -11,7 +11,7 @@
 /obj/structure/shieldgen_frame
 {
 	name = "Shield Generator Frame";
-	desc = "The beginnings of a shield generator. It requires 2 cooling fans, 4 flux"
+	desc = "The beginnings of a shield generator. It requires 2 cooling fans, 4 flux, 1 crystal interface, and 4 modulators."
 	icon = 'nsv13/icons/obj/machinery/shieldgen.dmi';
 	icon_state = "shieldgen_build1";
 	pixel_x = -32;
@@ -30,10 +30,11 @@
 	id = "ship_shield_tech";
 	display_name = "Experimental Shield Technology";
 	description = "Highly experimental shield technology to vastly increase survivability in ships. Although Nanotrasen researchers have had access to this technology for quite some time, the incredible amount of power required to maintain shields has proven to be the greatest challenge in implementing them.";
-	prereq_ids = list("adv_engi");
+	prereq_ids = list("");
 	design_ids = list("shield_fan", "shield_capacitor", "shield_modulator", "shield_interface", "shield_frame");
 	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 1000);
 	export_price = 5000;
+	hidden = TRUE
 }
 
 /datum/design/shield_fan
@@ -96,6 +97,25 @@
 	category = list("Experimental Technology");
 	departmental_flags = DEPARTMENTAL_FLAG_ENGINEERING | DEPARTMENTAL_FLAG_SCIENCE;
 }
+
+/obj/item/disk/design_disk/overmap_shields
+	name = "SolGov Experimental Shielding Technology Disk"
+	desc = "This disk is the property of SolGov, unlawful use of the data contained on this disk is prohibited."
+	icon_state = "datadisk2"
+	max_blueprints = 5
+
+/obj/item/disk/design_disk/overmap_shields/Initialize()
+	. = ..()
+	var/datum/design/shield_fan/A = new
+	var/datum/design/shield_capacitor/B = new
+	var/datum/design/shield_modulator/C = new
+	var/datum/design/shield_interface/D = new
+	var/datum/design/shield_frame/E = new
+	blueprints[1] = A
+	blueprints[2] = B
+	blueprints[3] = C
+	blueprints[4] = D
+	blueprints[5] = E
 
 /obj/structure/shieldgen_frame/attackby(obj/item/I, mob/living/user, params)
 	if(state != 11){

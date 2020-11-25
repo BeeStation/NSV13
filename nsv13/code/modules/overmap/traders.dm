@@ -16,9 +16,20 @@
 	var/stock_delay = 0
 	var/image = "https://cdn.discordapp.com/attachments/701841640897380434/764534224291233822/unknown.png"
 	var/list/missions = list() //Missions
-	var/list/mission_types = list(/datum/nsv_mission/kill_ships) //Todo: fix up the cargo delivery objective and add it to this list.
+	var/list/possible_mission_types = list( // List of possible missions this trader may have
+		/datum/nsv_mission/explore=10,
+		/datum/nsv_mission/kill_ships=10,
+		/datum/nsv_mission/kill_ships/waves=8,
+		/datum/nsv_mission/kill_ships/system=6,
+		/datum/nsv_mission/cargo=10,
+		/datum/nsv_mission/cargo/high_risk=7,
+		/datum/nsv_mission/cargo/nuke=1)
 	var/obj/structure/overmap/current_location = null
-	var/max_missions = 1
+	var/datum/star_system/system = null
+	var/max_missions = 5
+
+/datum/trader/New()
+	SSstar_system.traders += src
 
 //Method to stock a trader with items. This happens every so often and you have little control over it.
 /datum/trader/proc/stock_items()
@@ -46,34 +57,51 @@
 	RETURN_TYPE(/atom/movable)
 	var/area/landingzone = null
 	var/obj/structure/overmap/OM = src
-	if(OM.role == MAIN_OVERMAP)
-		landingzone = GLOB.areas_by_type[/area/quartermaster/warehouse]
-	else
-		if(!OM.linked_areas.len)
-			OM = OM.last_overmap //Handles fighters going out and buying things on the ship's behalf
-			if(OM.linked_areas.len)
-				goto foundareas
-			return FALSE
-		foundareas:
-		landingzone = pick(OM.linked_areas)
-	var/list/empty_turfs = list()
 	var/turf/LZ = null
-	for(var/turf/open/floor/T in landingzone.contents)//uses default landing zone
-		if(is_blocked_turf(T))
-			continue
-		if(empty_turfs.len >= 10)
-			break //Don't bother finding any more.
-		LAZYADD(empty_turfs, T)
-		CHECK_TICK
-	if(empty_turfs?.len)
-		LZ = pick(empty_turfs)
+	//If you wanna specify WHERE cargo is dropped. Otherwise we guess.
+	if(!trader_beacons || !trader_beacons.len)
+		if(OM.role == MAIN_OVERMAP)
+			landingzone = GLOB.areas_by_type[/area/quartermaster/warehouse]
+
+		else
+			if(!OM.linked_areas.len)
+				OM = OM.last_overmap //Handles fighters going out and buying things on the ship's behalf
+				if(OM.linked_areas.len)
+					goto foundareas
+				return FALSE
+			foundareas:
+			landingzone = pick(OM.linked_areas)
+		var/list/empty_turfs = list()
+		for(var/turf/open/floor/T in landingzone.contents)//uses default landing zone
+			if(is_blocked_turf(T))
+				continue
+			if(empty_turfs.len >= 10)
+				break //Don't bother finding any more.
+			LAZYADD(empty_turfs, T)
+			CHECK_TICK
+		if(empty_turfs?.len)
+			LZ = pick(empty_turfs)
+	else
+		LZ = get_turf(pick(trader_beacons))
+	if(dradis && dradis.beacon && !QDELETED(dradis.beacon) && dradis.usingBeacon)
+		LZ = get_turf(dradis.beacon)
+	if(!LZ)
+		LZ = pick(landingzone.contents) //If we couldn't find an open floor, just throw it somewhere
 	var/obj/structure/closet/supplypod/centcompod/toLaunch = new /obj/structure/closet/supplypod/centcompod
 	var/shippingLane = GLOB.areas_by_type[/area/centcom/supplypod/flyMeToTheMoon]
 	toLaunch.forceMove(shippingLane)
 	var/atom/movable/theItem = new unlock_path
 	theItem.forceMove(toLaunch)
 	new /obj/effect/DPtarget(LZ, toLaunch)
-	return toLaunch
+	return theItem
+	
+/datum/trader/proc/generate_missions()
+	for(var/a in 1 to max_missions)
+		var/m = pickweightAllowZero(possible_mission_types)
+		possible_mission_types[m] --
+		missions += new m(current_location)	
+
+
 
 //Arms dealers.
 /datum/trader/armsdealer
@@ -90,11 +118,17 @@
 	faction_type = FACTION_ID_SYNDICATE
 	system_type = "syndicate"
 	//Top tier trader with the best items available.
-	sold_items = list(/datum/trader_item/nuke,/datum/trader_item/torpedo, /datum/trader_item/missile, /datum/trader_item/mac, /datum/trader_item/railgun, /datum/trader_item/c20r, /datum/trader_item/c45, /datum/trader_item/stechkin, /datum/trader_item/pdc, /datum/trader_item/flak, /datum/trader_item/fighter/syndicate)
+	sold_items = list(/datum/trader_item/nuke,/datum/trader_item/torpedo, /datum/trader_item/missile, /datum/trader_item/mac, /datum/trader_item/railgun, /datum/trader_item/c20r, /datum/trader_item/c45, /datum/trader_item/stechkin, /datum/trader_item/pdc, /datum/trader_item/flak, /datum/trader_item/fighter/syndicate, /datum/trader_item/overmap_shields)
 	station_type = /obj/structure/overmap/trader/syndicate
 	image = "https://cdn.discordapp.com/attachments/728055734159540244/764570187357093928/unknown.png"
 	greetings = list("You've made it pretty far in, huh? We won't tell if you're buying...", "Freedom isn't free, buy a gun to secure yours.", "Excercise your right to bear arms now!")
-
+	possible_mission_types = list(
+		/datum/nsv_mission/cargo/nuke/syndicate=1,
+		/datum/nsv_mission/kill_ships/waves/syndicate=1,
+		/datum/nsv_mission/kill_ships/system/syndicate=3,
+		/datum/nsv_mission/kill_ships/syndicate=1)
+	max_missions = 6
+	
 /datum/trader/armsdealer/syndicate/New()
 	. = ..()
 	name = pick(name, "Gorlex Marauders Weapons Co.", "Syndi-dyne Gun Fiesta", "Dolos Dealers")
@@ -140,7 +174,12 @@
 	data["theme"] = (faction_type == FACTION_ID_NT) ? "ntos" : "syndicate"
 	data["items_info"] = items_info
 	data["next_restock"] = "Stock: (Restocking in [round((next_restock-world.time)/600)] minutes)"
-	var/datum/bank_account/D = SSeconomy.get_dep_account(ACCOUNT_CAR)
+	//Syndies use syndie budget, NT use NT cargo budget
+	var/obj/structure/overmap/OM = user.get_overmap()
+	var/account = ACCOUNT_CAR
+	if(OM)
+		account = (OM.faction == "nanotrasen") ? ACCOUNT_CAR : ACCOUNT_SYN
+	var/datum/bank_account/D = SSeconomy.get_dep_account(account)
 	if(D)
 		data["points"] = "$[D.account_balance]"
 	return data
@@ -163,30 +202,33 @@
 /datum/trader/proc/give_mission(mob/living/user)
 	if(!isliving(user))
 		return
-	if(!mission_types.len || missions.len >= max_missions)
+		
+	var/list/valid_missions = list()
+	
+	for(var/m in missions) // Get all valid missions the crew qualifies for
+		var/datum/nsv_mission/mission = m
+		if(mission.check_eligible(user.get_overmap()))	
+			valid_missions += mission	
+	if(!valid_missions.len)
 		SEND_SOUND(user, 'nsv13/sound/effects/ship/freespace2/computer/textdraw.wav')
 		to_chat(user, "<span class='boldnotice'>We don't have any work for you I'm afraid.</span>")
-		return FALSE
-	if(missions.len)
-		for(var/datum/nsv_mission/mission in missions)
-			if(mission.stage >= MISSION_COMPLETE)
-				qdel(mission)
-				missions -= mission
-	var/list/valid_missions = list()
-	for(var/missionType in mission_types)
-		valid_missions += typecacheof(missionType)
-	var/missionType = pick(valid_missions)
-	var/datum/nsv_mission/theJob = new missionType(user.get_overmap())
-	theJob.register()
+		return FALSE		
+		
+	var/datum/nsv_mission/theJob = pick(valid_missions)
+	theJob.pre_register(user.get_overmap())
 	to_chat(user, "<span class='boldnotice'>[pick(on_mission_give)]</span>")
 	user.get_overmap().hail("Mission details as follows: [theJob.desc]", src)
-	missions += theJob
-	return FALSE //Todo!
+	return TRUE
 
 /datum/trader/proc/attempt_purchase(datum/trader_item/item, mob/living/carbon/user)
 	if(!isliving(user))
 		return FALSE
-	var/datum/bank_account/D = SSeconomy.get_dep_account(ACCOUNT_CAR)
+	//Syndies use syndie budget, NT use NT cargo budget
+	var/obj/structure/overmap/OM = user.get_overmap()
+	var/account = ACCOUNT_CAR
+	if(OM)
+		account = (OM.faction == "nanotrasen") ? ACCOUNT_CAR : ACCOUNT_SYN
+	var/datum/bank_account/D = SSeconomy.get_dep_account(account)
 	if(!D || D.account_balance <= item.price)
 		SEND_SOUND(user, 'nsv13/sound/effects/ship/freespace2/computer/textdraw.wav')
 		to_chat(user, "<span class='boldnotice'>[pick(on_fail)]</span>")

@@ -56,10 +56,10 @@ Control Rods
 #define LOW_IPM 0.5
 #define MEDIOCRE_IPM 0.85
 #define HIGH_IPM 1.25
-#define VERY_HIGH_IPM 1.75
+#define VERY_HIGH_IPM 1.85
 
 #define LOW_COOLING 0.75
-#define HIGH_COOLING 2.25
+#define HIGH_COOLING 2.025
 #define VERY_HIGH_COOLING 4
 
 #define LOW_RADIATION 0.75
@@ -137,7 +137,8 @@ Control Rods
 	var/reactor_temperature_critical = 650 //Base state temperature theshold value
 	var/reactor_temperature_meltdown = 800 //Base state temperature theshold value
 	var/reactor_temperature_modifier = 1 //Modifier handling temperature thesholds
-	var/reactor_starvation = 0 //Tracking each tick the reactor is still online and without fuel
+	var/reactor_stability = 100 //Stability of the reaction
+	var/obj/effect/countdown/stormdrive/stability //Our not so visible stability factor
 	var/reactor_id = null //This should match the reactor_id on the reactor control console during INITALIZATION - and should follow this general guideline for standard gameplay: 1 = primary ship, 2 = secondary ship, 3 = syndicate ship -- alternatively you can make players have to link them manually every round
 	var/souls_devoured = null //Some questions should not be asked
 	var/dumping_fuel = FALSE //Are we dumping our fuel?
@@ -290,6 +291,37 @@ Control Rods
 			update_icon()
 			return TRUE
 
+/obj/machinery/atmospherics/components/binary/stormdrive_reactor/bullet_act(obj/item/projectile/Proj)
+	if(state == REACTOR_STATE_RUNNING)
+		var/turf/L = loc
+		if(!istype(L))
+			return FALSE
+		if(!istype(Proj.firer, /obj/structure/particle_accelerator/particle_emitter))
+			investigate_log("has been hit by [Proj] fired by [key_name(Proj.firer)]", INVESTIGATE_SUPERMATTER)
+		if(Proj.flag != "bullet")
+			reactor_stability -= Proj.damage / 15
+		else
+			reactor_stability -= Proj.damage / 100 //It is pretty durable
+		return BULLET_ACT_HIT
+
+/obj/machinery/atmospherics/components/binary/stormdrive_reactor/blob_act(obj/structure/blob/B)
+	if(state == REACTOR_STATE_RUNNING)
+		if(heat < 400)
+			reactor_stability -= B.obj_integrity / 10
+			B.take_damage(100, BURN)
+		else
+			reactor_stability -= B.obj_integrity / 10
+			B.take_damage(1000, BURN)
+
+/obj/machinery/atmospherics/components/binary/stormdrive_reactor/attack_alien(mob/living/carbon/alien/A)
+	if(state == REACTOR_STATE_RUNNING)
+		if(heat < 400)
+			reactor_stability -= 1.5
+			A.take_bodypart_damage(burn = 20)
+		else
+			reactor_stability -= 1.5
+			A.take_bodypart_damage(burn = 75)
+
 /obj/machinery/atmospherics/components/binary/stormdrive_reactor/attack_hand(mob/living/carbon/user)
 	.=..()
 	if(state >= REACTOR_STATE_MELTDOWN)
@@ -418,7 +450,7 @@ Control Rods
 		heat = 0
 	last_power_produced = 0 //Update UI to show that it's not making power now
 	reaction_rate = 0
-	reactor_starvation = 0
+	reactor_stability = 0
 	if(state != REACTOR_STATE_MAINTENANCE)
 		state = REACTOR_STATE_IDLE //Force reactor restart.
 	set_light(0)
@@ -431,6 +463,8 @@ Control Rods
 	radio.keyslot = new radio_key
 	radio.listening = 0
 	radio.recalculateChannels()
+	stability = new(src)
+	stability.start()
 	gas_records["constricted_plasma"] = list()
 	gas_records["plasma"] = list()
 	gas_records["tritium"] = list()
@@ -466,6 +500,7 @@ Control Rods
 		visible_message("<span class='danger'>[src] starts to glow an ominous blue!</span>")
 		icon_state = "reactor_on"
 		state = REACTOR_STATE_RUNNING
+		reactor_stability = 100
 		set_light(5)
 		var/startup_sound = pick('nsv13/sound/effects/ship/reactor/startup.ogg', 'nsv13/sound/effects/ship/reactor/startup2.ogg')
 		playsound(loc, startup_sound, 100)
@@ -591,17 +626,19 @@ Control Rods
 		heat_gain = initial(heat_gain) + reaction_rate
 		reaction_chamber_gases.clear()
 
+		if(air1.total_moles() > ((reaction_rate * 12) + 20)) //Overpressurized input
+			reactor_stability -= 0.51 //Enough to counter below
+
 		if(fuel_check >= 25) //1:4 fuel ratio
-			if(reactor_starvation > 0)
-				reactor_starvation -= 0.5 //drops at half the full starvation rate
+			if(reactor_stability < 100)
+				reactor_stability += 0.5
+
 		else
-			reactor_starvation += 0.01 //Slowly gets hungry
-			handle_reactor_starvation()
+			reactor_stability -= 0.01 //Unideal ratio leads to destabilization
 
 	else
-		reactor_starvation ++
+		reactor_stability --
 		heat_gain = -5 //No plasma to react, so the reaction slowly dies off.
-		handle_reactor_starvation()
 
 	input_power = ((heat/150)**3) * input_power_modifier //Higher temperature = more power. Crank the temperature up, stop being so scared.
 	var/power_produced = base_power
@@ -612,6 +649,7 @@ Control Rods
 	handle_temperature_reinforcement()
 	handle_ftl_fuel_production()
 	handle_gas_records()
+	handle_reactor_stability()
 	update_icon()
 	radiation_pulse(src, (heat * radiation_modifier), 2)
 	ambient_temp_bleed()
@@ -778,15 +816,15 @@ Control Rods
 		if(nucleium.len > gas_records_length)
 			nucleium.Cut(1, 2)
 
-//////// STARVATION PROCS ////////
+//////// STABILITY PROCS ////////
 
 /obj/machinery/atmospherics/components/binary/stormdrive_reactor/Bumped(atom/movable/A)
 	if(!ismob(A))
 		return
 	var/mob/living/carbon/C = A
 	if(C.has_status_effect(/datum/status_effect/incapacitating/knockdown)) //check to see if they are valid prey
-		switch(reactor_starvation)
-			if(0 to 25) //Concussions for the Concussiondrive
+		switch(reactor_stability)
+			if(50 to INFINITY) //Concussions for the Concussiondrive
 				if(C.get_bodypart(BODY_ZONE_HEAD))
 					var/obj/item/bodypart/affecting = C.get_bodypart(BODY_ZONE_HEAD)
 					if(affecting && affecting.receive_damage(5)) //minor brute damage
@@ -797,7 +835,7 @@ Control Rods
 					C.visible_message("<span class='warning'>You bonk your head on the outcasing of the [src]</span>")
 					playsound(src, 'sound/effects/bang.ogg', 100, TRUE) //temp - find a better sound
 					return
-			if(25 to 100) //Flesh for the Fleshdrive
+			if(25 to 50) //Flesh for the Fleshdrive
 				if(C.get_bodypart(BODY_ZONE_L_LEG))
 					var/obj/item/bodypart/affecting = C.get_bodypart(BODY_ZONE_L_LEG)
 					C.visible_message("<span class='danger'><B>A blue glow envelops your leg!</B></span>")
@@ -818,7 +856,7 @@ Control Rods
 					air1.adjust_moles(/datum/gas/plasma, 25)
 					return
 
-			if(100 to INFINITY) //Souls for the Souldrive
+			if(-INFINITY to 25) //Souls for the Souldrive
 				C.visible_message("<span class='danger'><B>Blue particles surround your body!</B></span>")
 				C.gib()
 				playsound(src, 'sound/effects/phasein.ogg', 100, TRUE) //temp - find a better sound
@@ -840,22 +878,42 @@ Control Rods
 	fdel(json_file)
 	WRITE_FILE(json_file, json_encode(json))
 
-/obj/machinery/atmospherics/components/binary/stormdrive_reactor/proc/handle_reactor_starvation()
-	if(prob(reactor_starvation))
+/obj/machinery/atmospherics/components/binary/stormdrive_reactor/proc/handle_reactor_stability()
+	if(reactor_stability > 100)
+		reactor_stability = 100
+	if(reactor_stability < 0)
+		reactor_stability = 0
+
+	if(prob((100 - reactor_stability) / 3)) //Localized gravity event as a warning
 		grav_pull()
 		playsound(loc, 'sound/effects/empulse.ogg', 100)
 		for(var/mob/living/M in orange(((heat / 40) + 5), src))
 			shake_camera(M, 2, 1)
 
+	if(reactor_stability < 75)
+		if(prob((100 - reactor_stability) / 4)) //Destabilize the balance a little
+			if(prob(50))
+				heat += reaction_rate * rand(3,5)
+			else
+				reaction_rate += reaction_rate / rand(1,3)
 
-/obj/machinery/atmospherics/components/binary/stormdrive_reactor/proc/grav_pull() //HUNGRY!
+	if(reactor_stability < 15)
+		if(prob(0.00001))
+			if(prob(50))
+				new /obj/effect/anomaly/stormdrive/surge(src, rand(2000, 5000))
+			else
+				new /obj/effect/anomaly/stormdrive/sheer(src, rand(2000, 5000))
+			reactor_stability += 15 //Spike that stab back up
+			playsound(loc, 'sound/effects/empulse.ogg', 100)
+
+/obj/machinery/atmospherics/components/binary/stormdrive_reactor/proc/grav_pull()
 	for(var/obj/O in orange((heat / 40), src))
 		if(!O.anchored)
 			step_towards(O,src)
 	for(var/mob/living/M in orange((heat / 40), src))
 		if(!M.mob_negates_gravity())
 			step_towards(M,src)
-			M.Knockdown(40) //Knockdown prey so it can't get away!
+			M.Knockdown(40)
 
 //////// OTHER PROCS ////////
 
@@ -993,6 +1051,17 @@ Control Rods
 		. += "<span class='notice'>The lining requires reinforcing and welding in place.</span>"
 	if(state == REACTOR_STATE_REFIT)
 		. += "<span class='notice'>It is missing a reactor core.</span>"
+
+/obj/effect/countdown/stormdrive
+	name = "stormdrive stability"
+	text_size = 1
+	color = "#00aeff"
+
+/obj/effect/countdown/stormdrive/get_value()
+	var/obj/machinery/atmospherics/components/binary/stormdrive_reactor/S = attached_to
+	if(!istype(S))
+		return
+	return "<div align='center' valign='middle' style='position:relative; top:0px; left:0px'>[round(S.reactor_stability, 1)]%</div>"
 
 ////////MELTDOWN////////
 
@@ -1168,10 +1237,10 @@ Control Rods
 			message_admins("[key_name(usr)] has fully raised reactor control rods in [get_area(usr)] [ADMIN_JMP(usr)]")
 			reactor.update_icon()
 		if("rods_2")
-			reactor.control_rod_percent = 18
+			reactor.control_rod_percent = 5
 			reactor.update_icon()
 		if("rods_3")
-			reactor.control_rod_percent = 28
+			reactor.control_rod_percent = 16
 			reactor.update_icon()
 		if("rods_4")
 			reactor.control_rod_percent = 33.6
@@ -1218,18 +1287,17 @@ Control Rods
 		data["reactor_maintenance"] = TRUE
 	else
 		data["reactor_maintenance"] = FALSE
-	var/effective_fuel = 0
 
 	var/datum/gas_mixture/air1 = reactor.airs[1]
-	effective_fuel = air1.get_moles(/datum/gas/plasma) * LOW_ROR + \
-				air1.get_moles(/datum/gas/constricted_plasma) * NORMAL_ROR + \
-				air1.get_moles(/datum/gas/nitrogen) * HINDER_ROR + \
-				air1.get_moles(/datum/gas/water_vapor) * HINDER_ROR + \
-				air1.get_moles(/datum/gas/tritium) * HIGH_ROR
-	if(effective_fuel < 0)
-		effective_fuel = 0
 
-	data["fuel"] = effective_fuel
+	data["fuel_mix"] = air1.get_moles(/datum/gas/plasma) + air1.get_moles(/datum/gas/constricted_plasma) + air1.get_moles(/datum/gas/tritium)
+	if(reactor.state == REACTOR_STATE_RUNNING)
+		data["mole_threshold_very_high"] = (reactor.reaction_rate * 18) + 20
+		data["mole_threshold_high"] = (reactor.reaction_rate * 12) + 20
+	else
+		data["mole_threshold_very_high"] = 120 //Just need to avoid that inital orange
+		data["mole_threshold_high"] = 80
+
 	data["o2"] = air1.get_moles(/datum/gas/oxygen)
 	data["n2"] = air1.get_moles(/datum/gas/nitrogen)
 	data["co2"] = air1.get_moles(/datum/gas/carbon_dioxide)
@@ -1714,18 +1782,17 @@ Control Rods
 	data["reactor_hot"] = reactor.reactor_temperature_hot
 	data["reactor_critical"] = reactor.reactor_temperature_critical
 	data["reactor_meltdown"] = reactor.reactor_temperature_meltdown
-	var/effective_fuel = 0
 
 	var/datum/gas_mixture/air1 = reactor.airs[1]
-	effective_fuel = air1.get_moles(/datum/gas/plasma) * LOW_ROR + \
-				air1.get_moles(/datum/gas/constricted_plasma) * NORMAL_ROR + \
-				air1.get_moles(/datum/gas/nitrogen) * HINDER_ROR + \
-				air1.get_moles(/datum/gas/water_vapor) * HINDER_ROR + \
-				air1.get_moles(/datum/gas/tritium) * HIGH_ROR
-	if(effective_fuel < 0)
-		effective_fuel = 0
+	data["total_moles"] = air1.total_moles()
+	if(reactor.state == REACTOR_STATE_RUNNING)
+		data["mole_threshold_very_high"] = (reactor.reaction_rate * 18) + 20
+		data["mole_threshold_high"] = (reactor.reaction_rate * 12) + 20
+	else
+		data["mole_threshold_very_high"] = 120 //Just need to avoid that inital orange
+		data["mole_threshold_high"] = 80
 
-	data["fuel"] = effective_fuel
+
 	return data
 
 /datum/computer_file/program/stormdrive_monitor/ui_act(action, params)

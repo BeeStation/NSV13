@@ -5,7 +5,7 @@
 //	You do not need to raise this if you are adding new values that have sane defaults.
 //	Only raise this value when changing the meaning/format/name/layout of an existing value
 //	where you would want the updater procs below to run
-#define SAVEFILE_VERSION_MAX	30
+#define SAVEFILE_VERSION_MAX	31
 
 /*
 SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Carn
@@ -49,6 +49,8 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	if(current_version < 31)
 		outline_enabled = TRUE
 		outline_color = COLOR_BLUE_GRAY
+	if(current_version < 32)
+		preferred_syndie_role = "Autofill"
 	return
 
 /datum/preferences/proc/update_character(current_version, savefile/S)
@@ -171,6 +173,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	//Nsv13 squads - we CM now
 	S["preferred_squad"]	>> preferred_squad
 	S["be_leader"]			>> be_leader
+	S["preferred_syndie_role"]	>> preferred_syndie_role
 	S["ignoring"]			>> ignoring
 	S["ghost_hud"]			>> ghost_hud
 	S["inquisitive_ghost"]	>> inquisitive_ghost
@@ -294,6 +297,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	//Nsv13 squads - we CM now
 	WRITE_FILE(S["preferred_squad"], preferred_squad)
 	WRITE_FILE(S["be_leader"], be_leader)
+	WRITE_FILE(S["preferred_syndie_role"], preferred_syndie_role)
 
 	if (!key_bindings)
 		key_bindings = deepCopyList(GLOB.keybinding_list_by_key)

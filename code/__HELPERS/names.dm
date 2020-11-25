@@ -62,6 +62,8 @@ GLOBAL_VAR(command_name)
 
 /proc/set_station_name(newname)
 	GLOB.station_name = newname
+	var/obj/structure/overmap/OM = SSstar_system.find_main_overmap()
+	OM.name = GLOB.station_name
 
 	var/config_server_name = CONFIG_GET(string/servername)
 	if(config_server_name)
