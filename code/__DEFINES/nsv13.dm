@@ -18,3 +18,17 @@
 #define COMSIG_ALERT_LEVEL_CHANGE "alert_level_changed" //For general quarters
 
 #define COLOR_PUCE "#CC8899"
+
+#define CONQUEST_ROLE_ADMIRAL "Admiral"
+#define CONQUEST_ROLE_CAPTAIN "Captain"
+#define CONQUEST_ROLE_BRIDGE "Bridge Staff"
+#define CONQUEST_ROLE_REQUISITIONS "Requisitions"
+#define CONQUEST_ROLE_TECHNICIAN "Technician"
+#define CONQUEST_ROLE_CAG "CAG"
+#define CONQUEST_ROLE_PILOT "Pilot"
+#define CONQUEST_ROLE_SERGEANT "Sergeant"
+#define CONQUEST_ROLE_CLOWN "Clown"
+#define CONQUEST_ROLE_LINECOOK "Line Cook"
+#define CONQUEST_ROLE_GRUNT "Autofill"
+
+GLOBAL_DATUM_INIT(conquest_role_handler, /datum/conquest_role_handler, new)

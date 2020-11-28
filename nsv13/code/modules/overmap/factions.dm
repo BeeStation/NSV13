@@ -22,6 +22,10 @@
 Procs for handling factions winning / losing
 */
 /datum/faction/proc/victory()
+	if(istype(SSticker.mode, /datum/game_mode/pvp))
+		var/datum/game_mode/pvp/mode = SSticker.mode
+		mode.winner = src //This should allow the mode to finish up by itself
+		mode.check_finished()
 	return FALSE
 
 /datum/faction/proc/check_status(id)
@@ -60,8 +64,8 @@ Set up relationships.
 	tickets += value
 	SSstar_system.check_completion()
 
-/datum/faction/proc/send_fleet(datum/star_system/override=null, custom_difficulty=null)
-	if(SSstar_system.check_completion() || !fleet_types || world.time < next_fleet_spawn)
+/datum/faction/proc/send_fleet(datum/star_system/override=null, custom_difficulty=null, force=FALSE)
+	if(SSstar_system.check_completion() || !fleet_types || !force && (world.time < next_fleet_spawn))
 		return
 	next_fleet_spawn = world.time + fleet_spawn_rate
 	var/datum/star_system/current_system //Dont spawn enemies where theyre currently at
@@ -103,6 +107,7 @@ Set up relationships.
 	id = FACTION_ID_NT
 
 /datum/faction/nanotrasen/victory()
+	. = ..()
 	for(var/datum/star_system/SS in SSstar_system.systems)
 		if(SS.name == "Risa Station")
 			SS.hidden = FALSE
@@ -125,6 +130,7 @@ Set up relationships.
 	id = FACTION_ID_SYNDICATE
 
 /datum/faction/syndicate/victory()
+	. = ..()
 	priority_announce("Attention [station_name()]. Our presence in this sector has been severely diminished due to your incompetence. Return to base immediately for disciplinary action.", "Naval Command")
 	for(var/datum/star_system/SS in SSstar_system.systems) //This is trash but I don't wanna fix it right now.
 		if(SS.name == "Risa Station")

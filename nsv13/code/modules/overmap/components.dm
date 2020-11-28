@@ -34,6 +34,8 @@ GLOBAL_LIST_INIT(computer_beeps, list('nsv13/sound/effects/computer/beep.ogg','n
 /obj/machinery/computer/ship/proc/has_overmap()
 	var/obj/structure/overmap/OM = get_overmap()
 	linked = OM
+	if(OM)
+		set_position(OM)
 	return linked
 
 /obj/machinery/computer/ship/proc/set_position(obj/structure/overmap/OM)

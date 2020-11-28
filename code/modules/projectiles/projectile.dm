@@ -230,9 +230,12 @@
 	beam_index = pcache
 	beam_segments[beam_index] = null
 
+/obj/item/projectile/CanPass(atom/movable/mover, turf/target)
+	. = ..()
+	if(!check_faction(mover))
+		return TRUE 	 //Nsv13 - faction checking for overmaps. We're gonna just cut off real early and save some math if the IFF doesn't check out.
+
 /obj/item/projectile/Bump(atom/A)
-	if(!check_faction(A))
-		return FALSE 	 //Nsv13 - faction checking for overmaps. We're gonna just cut off real early and save some math if the IFF doesn't check out.
 	if(!trajectory)
 		var/turf/starting = get_turf(src)
 		trajectory = new(starting.x, starting.y, starting.z, pixel_x, pixel_y, Angle, SSprojectiles.global_pixel_speed)

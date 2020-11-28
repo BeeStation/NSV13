@@ -125,6 +125,8 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 	//Nsv13 squads - we CM now
 	var/preferred_squad = "Apples Squad"
 	var/be_leader = FALSE
+	//Nsv13 - Syndicate role select
+	var/preferred_syndie_role = CONQUEST_ROLE_GRUNT
 
 /datum/preferences/New(client/C)
 	parent = C
@@ -231,6 +233,9 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 			dat += "<b>Custom Job Preferences:</b><BR>"
 			dat += "<a href='?_src_=prefs;preference=ai_core_icon;task=input'><b>Preferred AI Core Display:</b> [preferred_ai_core_display]</a><br>"
 			dat += "<a href='?_src_=prefs;preference=sec_dept;task=input'><b>Preferred Security Department:</b> [prefered_security_department]</a><br>"
+
+			dat += "<b>Syndicate Crew Preferences:</b><BR>"//Nsv13
+			dat += "<a href='?_src_=prefs;preference=syndiecrew;task=input'><b>Preferred Syndicate Role:</b> [preferred_syndie_role]</a><br>" //Nsv13
 
 			dat += "<b>Squad Preferences:</b><BR>"
 			dat += "<a href='?_src_=prefs;preference=squad;task=input'><b>Preferred GQ Squad:</b> [preferred_squad]</a><br>" //Nsv13 squads - we CM now.
@@ -1617,6 +1622,9 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 						preferred_squad = S.name
 				if("squadlead")
 					be_leader = !be_leader
+				if("syndiecrew")
+					var/client/C = (istype(user, /client)) ? user : user.client
+					C.select_syndie_role()
 //Nsv13 end
 				if ("preferred_map")
 					var/maplist = list()

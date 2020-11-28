@@ -14,8 +14,8 @@ NOTE:
   var/desc // Used to relay the status of the mission
   var/stage
   var/first_encounter = FALSE
-  
-  var/list/valid_factions = list("nanotrasen") 
+
+  var/list/valid_factions = list("nanotrasen")
 
   var/payout = 4000
   var/list/rewards // List of items to be offered as a reward
@@ -23,10 +23,10 @@ NOTE:
   var/obj/structure/overmap/owner // Which ship owns this mission
   var/obj/structure/overmap/the_client // Which station issued the mission
 
-  
+
 /datum/nsv_mission/New(var/o)
   the_client = o
-  
+
 
 /datum/nsv_mission/proc/check_eligible(var/obj/structure/overmap/ship) // check if the requesting ship is allowed to take this mission
   if(owner)
@@ -42,10 +42,10 @@ NOTE:
   owner.missions += src
   SSstar_system.all_missions += src
   register()
-  
+
 /datum/nsv_mission/proc/register()
   return FALSE
-  
+
 /datum/nsv_mission/proc/encounter() // Code to be ran when the players first arrive in the target system
   return FALSE
 
@@ -75,7 +75,7 @@ NOTE:
     owner.hail("Bounty payout of $[payout] authorised for [owner]. Pre-loaded credit holochip and physical rewards will be delivered to the ship's cargo department.", the_client.name)
   else
     owner.hail("Bounty payout of $[payout] authorised for [owner]. Pre-loaded credit holochip will be delivered to the ship's cargo department.", the_client.name)
-    
+
 /datum/nsv_mission/proc/reward_string() //Output what this mission will reward for tgui
   var/reward_txt = ""
   for(var/i in 1 to LAZYLEN(rewards))
@@ -84,7 +84,7 @@ NOTE:
     else
       reward_txt += ", " + rewards[rewards[i]]
   return num2text(payout) + " credits" + reward_txt
-    
+
 /datum/nsv_mission/proc/send_item(contents, cargo = TRUE) // Send an item to the players.
   var/c = owner.send_supplypod(contents)
   if(cargo) //if we are cargo, apply the flag to either ourselfs or our contents
@@ -115,7 +115,7 @@ NOTE:
   var/list/target_size = list(MASS_SMALL, MASS_MEDIUM, MASS_LARGE, MASS_TITAN) // Prevents fighters from counting towards the objective
   var/max_threat_level = THREAT_LEVEL_UNSAFE  // If we assign systems, give them a break by not giving them objectives in dangerous systems
   var/list/target_factions = list(FACTION_ID_SYNDICATE, FACTION_ID_PIRATES)
-  
+
   rewards = list(/obj/structure/closet/crate/nsv_mission_rewards="an ammo crate")
 
 /datum/nsv_mission/kill_ships/proc/targets_in_system(var/valid_only = FALSE)
@@ -176,13 +176,13 @@ NOTE:
 
   desc = "Our supply lines have been hit hard recently. Destroy [ships_to_kill] [target_ship_string] ships in any system. You have currently destroyed [ships_to_kill - ships_remaining] ships."
 
-  
+
 /datum/nsv_mission/kill_ships/syndicate
   valid_factions = list("syndicate")
   target_faction = list("nanotrasen")
   target_factions = list(FACTION_ID_NT)
   rewards = list(/obj/item/stack/telecrystal/twenty="20 telecrystals",
-                /obj/structure/closet/crate/nsv_mission_rewards="an ammo crate")  
+                /obj/structure/closet/crate/nsv_mission_rewards="an ammo crate")
 
 // Kill ships in system - Kill X ships owned by Y in specific systems
 
@@ -211,8 +211,7 @@ NOTE:
     target_system[chosen_system] = kill_amount
     ships_to_kill += kill_amount
     var/datum/faction/F = SSstar_system.faction_by_id(pick(target_factions))
-    F.next_fleet_spawn = 0 // hey KMC, iirc you mentioned you gave the send_fleet() proc an override. mind updating this when you get it? ta
-    F.send_fleet(chosen_system, kill_amount)
+    F.send_fleet(chosen_system, kill_amount, TRUE)
   ships_remaining = ships_to_kill
   stage = MISSION_IDLE
   if(owner.current_system in target_system)
@@ -229,8 +228,7 @@ NOTE:
   visited_systems += owner.current_system
   if(targets_in_system(TRUE) < target_system[owner.current_system])
     var/datum/faction/F = SSstar_system.faction_by_id(pick(target_factions))
-    F.next_fleet_spawn = 0 // hey KMC, iirc you mentioned you gave the send_fleet() proc an override. mind updating this when you get it? ta
-    F.send_fleet(owner.current_system, target_system[owner.current_system] - targets_in_system(TRUE))
+    F.send_fleet(owner.current_system, target_system[owner.current_system] - targets_in_system(TRUE), TRUE)
 
 /datum/nsv_mission/kill_ships/system/update_description()
   var/target_ship_string
@@ -254,16 +252,16 @@ NOTE:
 
   desc = "We've received intel that the enemy is attempting to amass an invasion force in [target_system_string]. Locate and destroy the enemy fleet. You have currently destroyed [ships_to_kill - ships_remaining] ships."
 
-  
+
 /datum/nsv_mission/kill_ships/system/syndicate
   valid_factions = list("syndicate")
   target_faction = list("nanotrasen")
-  target_factions = list(FACTION_ID_NT) 
+  target_factions = list(FACTION_ID_NT)
   system_alignment = list("nanotrasen","unaligned","uncharted")
   rewards = list(/obj/item/stack/telecrystal/twenty="20 telecrystals",
-                /obj/structure/closet/crate/nsv_mission_rewards="an ammo crate") 
-  
-  
+                /obj/structure/closet/crate/nsv_mission_rewards="an ammo crate")
+
+
 // Wave hold - Destroy several waves of enemy ships
 
 /datum/nsv_mission/kill_ships/waves
@@ -309,8 +307,7 @@ NOTE:
     ships = ships_to_kill
     ships_remaining = ships_to_kill
   var/datum/faction/F = SSstar_system.faction_by_id(pick(target_factions))
-  F.next_fleet_spawn = 0 // hey KMC, iirc you mentioned you gave the send_fleet() proc an override. mind updating this when you get it? ta
-  F.send_fleet(target_system, ships)
+  F.send_fleet(target_system, ships, TRUE)
   update_description()
 
 /datum/nsv_mission/kill_ships/waves/check_completion()
@@ -362,9 +359,9 @@ NOTE:
 /datum/nsv_mission/kill_ships/waves/syndicate
   valid_factions = list("syndicate")
   target_faction = list("nanotrasen")
-  target_factions = list(FACTION_ID_NT) 
+  target_factions = list(FACTION_ID_NT)
   rewards = list(/obj/item/stack/telecrystal/twenty="20 telecrystals",
-                /obj/structure/closet/crate/nsv_mission_rewards="an ammo crate") 
+                /obj/structure/closet/crate/nsv_mission_rewards="an ammo crate")
 
 /* ideasguys zone - TODO
 
@@ -387,9 +384,9 @@ kill station
 
   var/total_cargo = 4 // How many crates the crew will have to deliver
   var/list/possible_crates = list(/obj/structure/closet/crate/large/cargo/random = 4) // Weighted list of possible crates
-  var/obj/structure/overmap/delivery_target 
-  
-  var/destination_faction = FACTION_ID_NT 
+  var/obj/structure/overmap/delivery_target
+
+  var/destination_faction = FACTION_ID_NT
 
   var/max_payout = 4000
   payout = 0
@@ -402,11 +399,11 @@ kill station
     var/obj/structure/overmap/station = traders.current_location
     if(station == the_client)
       continue
-    if(traders.faction_type == destination_faction)  
+    if(traders.faction_type == destination_faction)
       valid_traders += station
-  
+
   delivery_target = pick(valid_traders)
-  
+
   for(var/c in 1 to total_cargo)
     var/chosen_cargo = pickweight(possible_crates)
     possible_crates[chosen_cargo]--
@@ -432,7 +429,7 @@ kill station
 
 /datum/nsv_mission/cargo/proc/deliver_cargo(var/datum/component/nsv_mission_cargo/cargo, var/obj/structure/overmap/destination)
   if(delivery_target != destination) //Delivered to the wrong location...
-    if(destination.role != MAIN_OVERMAP && !destination.linked_areas.len) 
+    if(destination.role != MAIN_OVERMAP && !destination.linked_areas.len)
       report_destroyed_cargo(cargo) // If we delivered to a ship that isn't the destination, or a crewed ship the cargo is lost for good
       return
   tracked_cargo -= cargo.parent
@@ -440,8 +437,8 @@ kill station
     if(CARGO_INTACT)
       delivered_cargo++
     if(CARGO_TAMPERED)
-      tampered_cargo++   
-  payout = round(max_payout * (delivered_cargo + (0.25 * tampered_cargo)) / total_cargo ,1) 
+      tampered_cargo++
+  payout = round(max_payout * (delivered_cargo + (0.25 * tampered_cargo)) / total_cargo ,1)
   qdel(cargo)
   check_completion()
 
@@ -453,8 +450,8 @@ kill station
   lost_cargo++
   qdel(cargo)
   check_completion()
-  
-  
+
+
 /datum/nsv_mission/cargo/reward_string()
   var/reward_txt = ""
   for(var/i in 1 to LAZYLEN(rewards))
@@ -499,8 +496,8 @@ kill station
 /datum/nsv_mission/cargo/nuke/report_tampered_cargo(var/datum/component/nsv_mission_cargo/cargo)
   stage = MISSION_FAILED // The mission requires the delivery of an undercover nuke.
   check_completion()
-  
-  
+
+
 /datum/nsv_mission/cargo/nuke/update_description()
   desc = "Transport 9999\"; DROP CONNECTION ; NEW CONNECTION(\" Hey, I need you to move one crate of cargo to [delivery_target.name]. You'll find it in [delivery_target.starting_system]. DO NOT open the crate and ignore the ticking it is an antique alarm clock. This needs to be delivered in less than one hour."
 
@@ -515,7 +512,7 @@ kill station
     return
   owner.hail("We have looked into that crate you were asked to deliver to [delivery_target.name] and found that someone has tampered with that job listing. We have found the person responsible and will attempt to find out why they want you to move that crate.", the_client.name)
   addtimer(CALLBACK(src, .proc/third_warning), 15 MINUTES) // 15 min to go
-  
+
 /datum/nsv_mission/cargo/nuke/proc/third_warning()
   if(stage != MISSION_ACTIVE) // Only report the crate is suspect if the mission is ongoing
     return
@@ -525,17 +522,17 @@ kill station
   if(delivered_cargo)
     . = ..()
     owner.hail("Thanks, but we don't believe we requested this crate? Wait, why do I hear ticking...", delivery_target.name)
-    QDEL_IN(delivery_target,10 SECONDS) //f 
+    QDEL_IN(delivery_target,10 SECONDS) //f
   else
     owner.hail("[owner.name], why did you just try to send us a live nuke? We have spaced it for now but will have to raise this with Central Command.", delivery_target.name)
-  
+
 
 /datum/nsv_mission/cargo/nuke/syndicate/update_description() //Exactly the same as the normal one but with different flavor text/warnings
   desc = "You... Want to do a mission for us? Sure. I mean you've come this far, why not take a gift back to [delivery_target.name]. Hopefuly this gift will better our relations. Don't peek inside, I'm sure the admiral wants this gift undamaged."
 
 
 /datum/nsv_mission/cargo/nuke/syndicate/first_warning()
-  if(stage != MISSION_ACTIVE) 
+  if(stage != MISSION_ACTIVE)
     return
   owner.hail("A routine scan of your communication logs has identified that the [owner.name] has been in contact with a Syndicate station. You and your crew will face disciplinary action while we asses just what the fuck you were doing contacting the enemy.", "Central Command")
 
@@ -547,7 +544,7 @@ kill station
 
 // Explore - Travel to a sector. Will just be navigate through the random sector
 
-/datum/nsv_mission/explore 
+/datum/nsv_mission/explore
   var/datum/star_system/destination
   payout = 5000
 
@@ -562,8 +559,8 @@ kill station
   destination.active_missions += src
   update_description()
   return TRUE
-  
-/datum/nsv_mission/explore/encounter() 
+
+/datum/nsv_mission/explore/encounter()
   check_completion()
 
 /datum/nsv_mission/explore/check_completion()
@@ -573,7 +570,7 @@ kill station
     payout()
     return TRUE
   return FALSE
-  
+
 /datum/nsv_mission/explore/update_description()
   desc = "We have been struggling to map a route into Syndicate space. Every time we send a scout to find a viable route they get lost. If you can navigate to and arrive in Rubicon, we'll pay you for information on the route you took. "
 
