@@ -1855,12 +1855,6 @@
 /obj/effect/turf_decal/tile/blue,
 /turf/open/floor/plasteel/white,
 /area/medical/medbay/pvp)
-"eg" = (
-/obj/machinery/atmospherics/pipe/manifold/scrubbers/visible{
-	dir = 4
-	},
-/turf/open/floor/engine,
-/area/engine/engineering/pvp)
 "eh" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
 	dir = 4
@@ -2152,6 +2146,12 @@
 	},
 /turf/open/floor/monotile/dark,
 /area/quartermaster/pvp)
+"eO" = (
+/obj/machinery/atmospherics/pipe/manifold/scrubbers/visible{
+	dir = 4
+	},
+/turf/open/floor/engine,
+/area/engine/engineering/pvp)
 "eP" = (
 /obj/structure/closet/crate{
 	icon_state = "crateopen";
@@ -7017,7 +7017,9 @@
 /obj/structure/cable{
 	icon_state = "1-2"
 	},
-/obj/structure/displaycase/captain,
+/obj/structure/displaycase/captain{
+	req_access = list(151)
+	},
 /obj/machinery/firealarm{
 	dir = 8;
 	pixel_x = -24
@@ -13630,16 +13632,6 @@
 	},
 /turf/open/floor/plasteel/tech/grid,
 /area/hallway/pvp)
-"Gl" = (
-/obj/effect/spawner/structure/window/reinforced,
-/obj/machinery/door/poddoor/preopen{
-	id = "astraeus_battendownthehatches"
-	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/visible{
-	dir = 4
-	},
-/turf/open/floor/plating,
-/area/engine/engineering/pvp)
 "Gm" = (
 /obj/machinery/computer/communications,
 /turf/open/floor/plasteel/dark,
@@ -15132,6 +15124,12 @@
 /obj/effect/spawner/lootdrop/techstorage/AI,
 /turf/open/floor/plating,
 /area/maintenance/pvp)
+"Kd" = (
+/obj/machinery/atmospherics/components/unary/outlet_injector/atmos/atmos_waste{
+	dir = 4
+	},
+/turf/open/floor/plating/airless,
+/area/engine/engineering/pvp)
 "Ke" = (
 /obj/structure/cable{
 	icon_state = "1-2"
@@ -17539,6 +17537,16 @@
 /obj/item/poster/random_contraband,
 /turf/open/floor/wood,
 /area/crew_quarters/bar/pvp)
+"Qe" = (
+/obj/effect/spawner/structure/window/reinforced,
+/obj/machinery/door/poddoor/preopen{
+	id = "astraeus_battendownthehatches"
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/visible{
+	dir = 4
+	},
+/turf/open/floor/plating,
+/area/engine/engineering/pvp)
 "Qf" = (
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on{
 	dir = 8
@@ -21471,12 +21479,6 @@
 /obj/item/folder/syndicate,
 /turf/open/floor/plasteel/dark,
 /area/ai_monitored/nuke_storage/pvp)
-"Zc" = (
-/obj/machinery/atmospherics/components/unary/outlet_injector/atmos/atmos_waste{
-	dir = 4
-	},
-/turf/open/floor/plating/airless,
-/area/engine/engineering/pvp)
 "Zd" = (
 /obj/machinery/atmospherics/pipe/simple/yellow/hidden{
 	dir = 10
@@ -43883,7 +43885,7 @@ he
 he
 Ze
 Ze
-Zc
+Kd
 Dn
 Ze
 nx
@@ -44140,7 +44142,7 @@ Xq
 Xq
 xd
 xd
-Gl
+Qe
 Iq
 SX
 kI
@@ -44397,7 +44399,7 @@ ZS
 ZS
 lF
 Xm
-eg
+eO
 DY
 qX
 pO
