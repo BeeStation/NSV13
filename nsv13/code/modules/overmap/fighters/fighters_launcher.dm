@@ -296,7 +296,7 @@
 
 /obj/structure/overmap/fighter/proc/transfer_from_overmap(obj/structure/overmap/OM)
 	var/obj/item/fighter_component/docking_computer/DC = loadout.get_slot(HARDPOINT_SLOT_DOCKING)
-	if(!DC || DC.docking_cooldown || !OM.occupying_levels?.len)
+	if(!DC || DC.docking_cooldown ||!DC.docking_mode|| !OM.occupying_levels?.len)
 		return FALSE
 	if(OM.docking_points?.len)
 		enemies = list() //Reset RWR warning.
