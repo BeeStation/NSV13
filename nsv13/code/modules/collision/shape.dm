@@ -211,17 +211,12 @@ Find the average collision point between two shapes. Usually ends up being prett
 	var/datum/vector2d/range_a = flatten_points_on(a_points, axis)
 	var/datum/vector2d/range_b = flatten_points_on(b_points, axis)
 	var/out = __is_separating_axis(a_pos.x, a_pos.y, b_pos.x, b_pos.y, range_a.x, range_a.y,range_b.x, range_b.y , axis.x, axis.y)
-	if(islist(out))
+	if(islist(out) && c_response)
 		c_response.a_in_b = out[1]
 		c_response.b_in_a = out[2]
 		c_response.overlap = out[3]
-		//message_admins(c_response.overlap)
 		c_response.overlap_normal._set(out[4][1], out[4][2])
-		//message_admins(c_response.overlap_normal)
 		c_response.overlap_vector._set(out[5][1], out[5][2])
-		//message_admins(c_response.overlap_vector)
 		c_response.overlap_point._set(out[6][1], out[6][2])
-		//message_admins(c_response.overlap_point)
-		//message_admins(c_response)
 		return FALSE
 	return TRUE
