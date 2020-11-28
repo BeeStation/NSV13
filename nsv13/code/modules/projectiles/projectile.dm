@@ -18,3 +18,4 @@ GLOBAL_LIST_INIT(projectile_hitbox, list(new /datum/vector2d(-2,16),\
 		return TRUE
 	if(faction != OM.faction)
 		return TRUE
+	return FALSE

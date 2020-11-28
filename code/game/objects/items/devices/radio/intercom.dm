@@ -80,7 +80,7 @@
 	if(!listening)
 		return FALSE
 	if(freq == FREQ_SYNDICATE)
-		if(!(syndie))
+		if(!(syndie || hearall))
 			return FALSE//Prevents broadcast of messages over devices lacking the encryption
 
 	return TRUE
@@ -141,11 +141,11 @@
 /obj/item/radio/intercom/directional/south
 	dir = SOUTH
 	pixel_y = -28
-	
+
 /obj/item/radio/intercom/directional/west
 	dir = WEST
 	pixel_x = -27
-	
+
 /obj/item/radio/intercom/directional/east
 	dir = EAST
 	pixel_x = 27 //NSV13 End

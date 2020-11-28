@@ -34,11 +34,9 @@ Repair
 
 #define ENGINE_RPM_SPUN 8000
 
-//Yeet the fighter
-/obj/structure/overmap/fighter/proc/yeet()
-	//flight_state = 6
-	toggle_canopy()
-	forceMove(get_turf(locate(255, y, z)))
+/obj/structure/overmap/fighter/Destroy()
+	throw_pilot()
+	. = ..()
 
 /obj/structure/overmap/fighter
 	name = "Space Fighter"
@@ -354,7 +352,7 @@ Repair
 	sprite_size = 32
 	damage_states = FALSE //temp
 	max_integrity = 250 //Tanky
-	max_passengers = 1
+	max_passengers = 6
 	pixel_w = -16
 	pixel_z = -20
 	req_one_access = list(ACCESS_MUNITIONS, ACCESS_ENGINE, ACCESS_FIGHTER)
@@ -550,14 +548,75 @@ Repair
 			ui_interact(user)
 			return TRUE
 
-/obj/structure/overmap/fighter/proc/force_eject()
+/obj/structure/overmap/fighter/proc/force_eject(force=FALSE)
+	RETURN_TYPE(/list)
+	var/list/victims = list()
 	brakes = TRUE
 	if(!canopy_open)
 		canopy_open = TRUE
 		playsound(src, 'nsv13/sound/effects/fighters/canopy.ogg', 100, 1)
 	for(var/mob/M in operators)
-		stop_piloting(M)
+		stop_piloting(M, force)
 		to_chat(M, "<span class='warning'>You have been remotely ejected from [src]!.</span>")
+		victims += M
+	return victims
+
+//Iconic proc.
+/obj/structure/overmap/fighter/proc/foo()
+	set_fuel(1000)
+	var/obj/item/fighter_component/apu/APU = loadout.get_slot(HARDPOINT_SLOT_APU)
+	APU.fuel_line = TRUE
+	var/obj/item/fighter_component/battery/B = loadout.get_slot(HARDPOINT_SLOT_BATTERY)
+	B.active = TRUE
+	B.charge = B.maxcharge
+	var/obj/item/fighter_component/engine/E = loadout.get_slot(HARDPOINT_SLOT_ENGINE)
+	E.rpm = ENGINE_RPM_SPUN
+	E.try_start()
+	toggle_canopy()
+	forceMove(get_turf(locate(world.maxx, y, z)))
+
+/obj/structure/overmap/fighter/proc/throw_pilot() //Used when yeeting a pilot out of an exploding ship
+	if(SSmapping.level_trait(z, ZTRAIT_OVERMAP)) //Check if we're on the overmap
+		var/max = world.maxx-TRANSITIONEDGE
+		var/min = 1+TRANSITIONEDGE
+
+		var/list/possible_transitions = list()
+		for(var/A in SSmapping.z_list)
+			var/datum/space_level/D = A
+			if (D.linkage == CROSSLINKED && !SSmapping.level_trait(D.z_value, ZTRAIT_OVERMAP))
+				possible_transitions += D.z_value
+			if(!possible_transitions.len) //Just in case there is no space z level
+				for(var/z in SSmapping.levels_by_trait(ZTRAIT_STATION))
+					possible_transitions += z
+
+		var/_z = pick(possible_transitions)
+		var/_x
+		var/_y
+
+		switch(dir)
+			if(SOUTH)
+				_x = rand(min,max)
+				_y = max
+			if(WEST)
+				_x = max
+				_y = rand(min,max)
+			if(EAST)
+				_x = min
+				_y = rand(min,max)
+			else
+				_x = rand(min,max)
+				_y = min
+
+		var/turf/T = locate(_x, _y, _z) //Where are we putting you
+		var/list/victims = force_eject(TRUE)
+		for(var/mob/living/M in victims)
+			M.forceMove(T)
+			M.apply_damage(400) //No way you're surviving that
+
+	else //If we're anywhere that isn't the overmap
+		var/list/victims = force_eject(TRUE)
+		for(var/mob/living/M in victims)
+			M.apply_damage(200)
 
 /obj/structure/overmap/fighter/attackby(obj/item/W, mob/user, params)   //fueling and changing equipment
 	add_fingerprint(user)
