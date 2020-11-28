@@ -1811,12 +1811,6 @@
 	},
 /turf/open/floor/carpet/red,
 /area/crew_quarters/bar/pvp)
-"dZ" = (
-/obj/machinery/atmospherics/components/unary/outlet_injector/atmos/atmos_waste{
-	dir = 4
-	},
-/turf/open/floor/plating/airless,
-/area/engine/engineering/pvp)
 "ea" = (
 /obj/machinery/atmospherics/pipe/simple/cyan/visible{
 	dir = 4
@@ -1861,6 +1855,12 @@
 /obj/effect/turf_decal/tile/blue,
 /turf/open/floor/plasteel/white,
 /area/medical/medbay/pvp)
+"eg" = (
+/obj/machinery/atmospherics/pipe/manifold/scrubbers/visible{
+	dir = 4
+	},
+/turf/open/floor/engine,
+/area/engine/engineering/pvp)
 "eh" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
 	dir = 4
@@ -13101,8 +13101,8 @@
 "EO" = (
 /obj/structure/disposalpipe/segment,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden,
-/obj/machinery/atmospherics/pipe/simple/purple/visible/layer1{
-	dir = 6
+/obj/machinery/atmospherics/pipe/manifold/purple/visible/layer1{
+	dir = 1
 	},
 /turf/open/floor/mineral/plastitanium/red,
 /area/engine/engineering/pvp)
@@ -13435,16 +13435,6 @@
 	},
 /turf/open/floor/plasteel/tech/grid,
 /area/hallway/pvp)
-"FM" = (
-/obj/effect/spawner/structure/window/reinforced,
-/obj/machinery/door/poddoor/preopen{
-	id = "astraeus_battendownthehatches"
-	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/visible{
-	dir = 4
-	},
-/turf/open/floor/plating,
-/area/engine/engineering/pvp)
 "FN" = (
 /obj/machinery/door/poddoor/preopen{
 	id = "astraeus_Disposal Exit";
@@ -13640,6 +13630,16 @@
 	},
 /turf/open/floor/plasteel/tech/grid,
 /area/hallway/pvp)
+"Gl" = (
+/obj/effect/spawner/structure/window/reinforced,
+/obj/machinery/door/poddoor/preopen{
+	id = "astraeus_battendownthehatches"
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/visible{
+	dir = 4
+	},
+/turf/open/floor/plating,
+/area/engine/engineering/pvp)
 "Gm" = (
 /obj/machinery/computer/communications,
 /turf/open/floor/plasteel/dark,
@@ -15042,12 +15042,6 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
 /turf/open/floor/plating,
 /area/hydroponics/pvp)
-"JQ" = (
-/obj/machinery/atmospherics/pipe/manifold/scrubbers/visible{
-	dir = 4
-	},
-/turf/open/floor/engine,
-/area/engine/engineering/pvp)
 "JR" = (
 /obj/machinery/mineral/stacking_unit_console{
 	machinedir = 8;
@@ -15901,6 +15895,10 @@
 	tag = ""
 	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
+/obj/machinery/atmospherics/components/unary/portables_connector/visible/layer1{
+	dir = 4;
+	name = "Direct Moderator Input"
+	},
 /turf/open/floor/plasteel/tech/grid,
 /area/engine/engineering/pvp)
 "Mi" = (
@@ -21473,6 +21471,12 @@
 /obj/item/folder/syndicate,
 /turf/open/floor/plasteel/dark,
 /area/ai_monitored/nuke_storage/pvp)
+"Zc" = (
+/obj/machinery/atmospherics/components/unary/outlet_injector/atmos/atmos_waste{
+	dir = 4
+	},
+/turf/open/floor/plating/airless,
+/area/engine/engineering/pvp)
 "Zd" = (
 /obj/machinery/atmospherics/pipe/simple/yellow/hidden{
 	dir = 10
@@ -43879,7 +43883,7 @@ he
 he
 Ze
 Ze
-dZ
+Zc
 Dn
 Ze
 nx
@@ -44136,7 +44140,7 @@ Xq
 Xq
 xd
 xd
-FM
+Gl
 Iq
 SX
 kI
@@ -44393,7 +44397,7 @@ ZS
 ZS
 lF
 Xm
-JQ
+eg
 DY
 qX
 pO
