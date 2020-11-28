@@ -9,6 +9,16 @@ COLLISIONS MAY OR MAY NOT END UP BACKWARDS. CHECK THIS LATER.
 Special thanks to qwertyquerty for explaining and dictating all this! (I've mostly translated his pseudocode into readable byond code)
 
 */
+GLOBAL_VAR(exmap_initialized) // this must be an uninitialized (null) one or init_monstermos will be called twice because reasons
+#define EXMAP_EXTOOLS_CHECK if(!GLOB.exmap_initialized){\
+	GLOB.exmap_initialized=TRUE;\
+	if(fexists(EXTOOLS)){\
+		var/result = call(EXTOOLS,"init_exmap")();\
+		if(result != "ok") {CRASH(result);}\
+	} else {\
+		CRASH("byond-extools.dll or libbyond-extools.so does not exist!");\
+	}\
+}
 
 /datum/shape
 	var/datum/vector2d/position = null //Vector to represent our position in the game world. This is updated by whatever's moving us with pixelmovement.
@@ -17,6 +27,12 @@ Special thanks to qwertyquerty for explaining and dictating all this! (I've most
 	var/list/datum/vector2d/rel_points = list() //The vertices that this collider holds. Relative to the position. If the shape's at 200,200, and we have a vertex at 10,5, the vertex is actually at 210,205 in world. These are pixel coordinates. Counterclockwise order.
 	var/list/datum/vector2d/normals = list()
 	var/list/aabb = list() //Cached points from AABB collision
+
+//All stuff that happens in C++ land must be declared here and wrapped later.
+
+/datum/shape/proc/__test_aabb(list/v1, list/v2, list/aabb, list/other_aabb)
+/datum/shape/proc/test_aabb(datum/shape/other)
+/datum/shape/proc/__foo()
 
 //Constructor for shape objects, taking in parameters they may initially need
 
@@ -27,6 +43,7 @@ Special thanks to qwertyquerty for explaining and dictating all this! (I've most
 	src.position = position
 	src._angle = _angle
 	set_points(points)
+	EXMAP_EXTOOLS_CHECK
 
 /*
 Method to set our position to a new one.
@@ -101,12 +118,19 @@ Method to recalculate our bounding box, adjusting the relative positions accordi
 /**
 Simple method to calculate whether we collide with another shape object, lightweight but not hugely precise.
 */
-/datum/shape/proc/test_aabb(var/datum/shape/other)
-	return	((src.aabb[1] + src.position.x) <= (other.aabb[3] + other.position.x)) && \
-			((src.aabb[2] + src.position.y) <= (other.aabb[4] + other.position.y)) && \
-			((src.aabb[3] + src.position.x) >= (other.aabb[1] + other.position.x)) && \
-			((src.aabb[4] + src.position.y) >= (other.aabb[2] + other.position.y))
+/datum/shape/test_aabb(datum/shape/other)
+	//var/list/data = list(list(position.x, position.y), list(other.position.x, other.position.y), src.aabb, other.aabb)
+	var/out = __test_aabb(list(position.x, position.y), list(other.position.x, other.position.y), src.aabb, other.aabb)
+	if(out)
+		message_admins(out)
+	return out
 
+	/*
+	return	((us.aabb[1] + us.position.x) <= (other.aabb[3] + other.position.x)) && \
+		((us.aabb[2] + us.position.y) <= (other.aabb[4] + other.position.y)) && \
+		((us.aabb[3] + us.position.x) >= (other.aabb[1] + other.position.x)) && \
+		((us.aabb[4] + us.position.y) >= (other.aabb[2] + other.position.y))
+	*/
 
 /datum/shape/proc/get_global_points()
 	var/list/datum/vector2d/global_points = list()
