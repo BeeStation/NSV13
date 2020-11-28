@@ -277,8 +277,7 @@
 /obj/machinery/atmospherics/components/trinary/filter{
 	dir = 4;
 	filter_type = "o2";
-	on = 1;
-	
+	on = 1
 	},
 /turf/open/floor/engine,
 /area/engine/engineering/pvp)
@@ -1828,6 +1827,16 @@
 	},
 /turf/open/floor/plasteel/white,
 /area/medical/medbay/pvp)
+"ec" = (
+/obj/effect/spawner/structure/window/reinforced,
+/obj/machinery/door/poddoor/preopen{
+	id = "astraeus_battendownthehatches"
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/visible{
+	dir = 4
+	},
+/turf/open/floor/plating,
+/area/engine/engineering/pvp)
 "ed" = (
 /obj/machinery/mech_bay_recharge_port{
 	dir = 2
@@ -3576,6 +3585,12 @@
 /obj/machinery/atmospherics/pipe/manifold/yellow/visible,
 /turf/open/floor/engine,
 /area/engine/engine_room/pvp)
+"iK" = (
+/obj/machinery/atmospherics/pipe/manifold/scrubbers/visible{
+	dir = 4
+	},
+/turf/open/floor/engine,
+/area/engine/engineering/pvp)
 "iL" = (
 /obj/structure/table,
 /obj/item/storage/box/gloves,
@@ -3735,7 +3750,7 @@
 /obj/structure/window/reinforced{
 	dir = 1
 	},
-/turf/open/floor/engine,
+/turf/open/floor/engine/air,
 /area/engine/engineering/pvp)
 "jf" = (
 /obj/machinery/atmospherics/pipe/heat_exchanging/manifold/layer1{
@@ -4033,8 +4048,7 @@
 	icon_state = "rightsecure";
 	id = "astraeus_Holding_pen";
 	name = "Holding Pen";
-	req_one_access_txt = "150";
-	
+	req_one_access_txt = "150"
 	},
 /obj/machinery/door/firedoor/border_only/directional/north,
 /turf/open/floor/plasteel/dark,
@@ -4099,7 +4113,7 @@
 	},
 /obj/structure/window/reinforced,
 /obj/machinery/atmospherics/miner/toxins,
-/turf/open/floor/engine,
+/turf/open/floor/engine/plasma,
 /area/engine/engineering/pvp)
 "ke" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
@@ -5106,7 +5120,7 @@
 /obj/structure/window/reinforced{
 	dir = 8
 	},
-/turf/open/floor/engine,
+/turf/open/floor/engine/n2o,
 /area/engine/engineering/pvp)
 "mu" = (
 /obj/structure/cable{
@@ -5674,7 +5688,7 @@
 /obj/structure/window/reinforced{
 	dir = 1
 	},
-/turf/open/floor/engine,
+/turf/open/floor/engine/n2,
 /area/engine/engineering/pvp)
 "nE" = (
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on{
@@ -6752,7 +6766,7 @@
 /obj/structure/window/reinforced{
 	dir = 1
 	},
-/turf/open/floor/engine,
+/turf/open/floor/engine/n2,
 /area/engine/engineering/pvp)
 "qc" = (
 /obj/machinery/airalarm{
@@ -6858,7 +6872,7 @@
 /obj/structure/window/reinforced{
 	dir = 1
 	},
-/turf/open/floor/engine,
+/turf/open/floor/engine/o2,
 /area/engine/engineering/pvp)
 "qm" = (
 /obj/structure/table,
@@ -8553,8 +8567,7 @@
 	dir = 4;
 	node1_concentration = 0.8;
 	node2_concentration = 0.2;
-	on = 1;
-	
+	on = 1
 	},
 /turf/open/floor/engine,
 /area/engine/engineering/pvp)
@@ -8629,7 +8642,7 @@
 /obj/structure/window/reinforced{
 	dir = 4
 	},
-/turf/open/floor/engine,
+/turf/open/floor/engine/co2,
 /area/engine/engineering/pvp)
 "uh" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden,
@@ -8739,7 +8752,7 @@
 	dir = 1
 	},
 /obj/machinery/atmospherics/miner/oxygen,
-/turf/open/floor/engine,
+/turf/open/floor/engine/o2,
 /area/engine/engineering/pvp)
 "ut" = (
 /obj/effect/spawner/structure/window/reinforced,
@@ -11312,7 +11325,7 @@
 /obj/structure/window/reinforced{
 	dir = 8
 	},
-/turf/open/floor/engine,
+/turf/open/floor/engine/plasma,
 /area/engine/engineering/pvp)
 "AC" = (
 /obj/structure/rack,
@@ -12307,7 +12320,10 @@
 	pixel_x = 26
 	},
 /obj/machinery/atmospherics/pipe/simple/cyan/visible/layer1,
-/obj/machinery/atmospherics/pipe/simple/scrubbers/visible/layer3,
+/obj/machinery/atmospherics/components/trinary/filter/flipped/on/layer3{
+	filter_type = "nucleium";
+	name = "Nucleium Filter"
+	},
 /turf/open/floor/mineral/plastitanium/red,
 /area/engine/engineering/pvp)
 "CY" = (
@@ -12623,8 +12639,7 @@
 /obj/machinery/door/window/eastleft{
 	dir = 8;
 	icon_state = "right";
-	name = "Hydroponics Desk";
-	
+	name = "Hydroponics Desk"
 	},
 /turf/open/floor/plating,
 /area/crew_quarters/cafeteria/pvp)
@@ -12858,8 +12873,7 @@
 /obj/machinery/atmospherics/components/trinary/filter{
 	dir = 8;
 	filter_type = "plasma";
-	on = 1;
-	
+	on = 1
 	},
 /turf/open/floor/engine,
 /area/engine/engineering/pvp)
@@ -13337,7 +13351,7 @@
 	pixel_y = 2
 	},
 /obj/structure/window/reinforced,
-/turf/open/floor/engine,
+/turf/open/floor/engine/co2,
 /area/engine/engineering/pvp)
 "Fy" = (
 /obj/machinery/atmospherics/components/unary/portables_connector/visible,
@@ -15672,8 +15686,7 @@
 	dir = 4
 	},
 /obj/structure/disposaloutlet{
-	dir = 1;
-	
+	dir = 1
 	},
 /turf/open/floor/plasteel,
 /area/nsv/weapons/pvp)
@@ -16462,6 +16475,12 @@
 "NC" = (
 /turf/open/floor/plasteel/white,
 /area/security/brig/pvp)
+"NF" = (
+/obj/machinery/atmospherics/components/unary/outlet_injector/atmos/atmos_waste{
+	dir = 4
+	},
+/turf/open/floor/plating/airless,
+/area/engine/engineering/pvp)
 "NH" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 5
@@ -16642,7 +16661,7 @@
 /obj/structure/window/reinforced{
 	dir = 1
 	},
-/turf/open/floor/engine,
+/turf/open/floor/engine/air,
 /area/engine/engineering/pvp)
 "Oc" = (
 /obj/structure/cable{
@@ -18546,6 +18565,9 @@
 	dir = 4;
 	pixel_x = -22
 	},
+/obj/machinery/atmospherics/components/unary/portables_connector/visible/layer3{
+	dir = 4
+	},
 /turf/open/floor/plasteel/tech/grid,
 /area/engine/engineering/pvp)
 "Sv" = (
@@ -18957,8 +18979,7 @@
 /area/hydroponics/pvp)
 "Tj" = (
 /obj/structure/piano{
-	icon_state = "piano";
-	
+	icon_state = "piano"
 	},
 /turf/open/floor/carpet/red,
 /area/crew_quarters/bar/pvp)
@@ -19183,7 +19204,7 @@
 /obj/structure/window/reinforced{
 	dir = 1
 	},
-/turf/open/floor/engine,
+/turf/open/floor/engine/n2,
 /area/engine/engineering/pvp)
 "TL" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden{
@@ -20105,7 +20126,7 @@
 /obj/structure/window/reinforced{
 	dir = 1
 	},
-/turf/open/floor/engine,
+/turf/open/floor/engine/air,
 /area/engine/engineering/pvp)
 "VI" = (
 /obj/machinery/camera/syndicate{
@@ -20837,7 +20858,7 @@
 /obj/structure/window/reinforced{
 	dir = 4
 	},
-/turf/open/floor/engine,
+/turf/open/floor/engine/plasma,
 /area/engine/engineering/pvp)
 "Xz" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden,
@@ -21034,7 +21055,7 @@
 /obj/structure/window/reinforced{
 	dir = 1
 	},
-/turf/open/floor/engine,
+/turf/open/floor/engine/o2,
 /area/engine/engineering/pvp)
 "Ya" = (
 /obj/machinery/computer/mech_bay_power_console{
@@ -21195,7 +21216,7 @@
 	pixel_y = 2
 	},
 /obj/structure/window/reinforced,
-/turf/open/floor/engine,
+/turf/open/floor/engine/n2o,
 /area/engine/engineering/pvp)
 "Yy" = (
 /obj/effect/turf_decal/stripes/line{
@@ -21223,7 +21244,7 @@
 /obj/structure/window/reinforced{
 	dir = 4
 	},
-/turf/open/floor/engine,
+/turf/open/floor/engine/n2o,
 /area/engine/engineering/pvp)
 "YA" = (
 /obj/machinery/atmospherics/components/unary/vent_pump{
@@ -21244,7 +21265,7 @@
 /obj/structure/window/reinforced{
 	dir = 8
 	},
-/turf/open/floor/engine,
+/turf/open/floor/engine/co2,
 /area/engine/engineering/pvp)
 "YB" = (
 /obj/machinery/vending/cigarette,
@@ -21787,8 +21808,7 @@
 /obj/machinery/atmospherics/components/trinary/filter{
 	dir = 8;
 	filter_type = "n2o";
-	on = 1;
-	
+	on = 1
 	},
 /turf/open/floor/engine,
 /area/engine/engineering/pvp)
@@ -21796,8 +21816,7 @@
 /obj/machinery/atmospherics/components/trinary/filter{
 	dir = 8;
 	filter_type = "co2";
-	on = 1;
-	
+	on = 1
 	},
 /turf/open/floor/engine,
 /area/engine/engineering/pvp)
@@ -43858,7 +43877,7 @@ he
 he
 Ze
 Ze
-Ze
+NF
 Dn
 Ze
 nx
@@ -44115,7 +44134,7 @@ Xq
 Xq
 xd
 xd
-SX
+ec
 Iq
 SX
 kI
@@ -44372,7 +44391,7 @@ ZS
 ZS
 lF
 Xm
-mz
+iK
 DY
 qX
 pO
