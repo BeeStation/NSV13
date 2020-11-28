@@ -502,7 +502,7 @@
 			if(S.density && !istype(S, /obj/structure/reagent_dispensers/fueltank)) //don't breach the station!
 				S.take_damage(25)
 		for(var/obj/machinery/M in stepturf)
-			if(M.density && !istype(M, /obj/machinery/power/smes) && !istype(M, /obj/machinery/door/airlock/external) && !istype(M, /obj/machinery/door/firedoor)) //please don't sabotage power or cause a hullbreach!
+			if(M.density && !istype(M, /obj/machinery/power/smes)) //please don't sabotage power!
 				M.take_damage(40) //more damage, because machines are more commonplace and tend to be more durable
 	if (!isspaceturf(stepturf) && stepturf.Enter(src))
 		for(var/datum/spacevine_mutation/SM in mutations)
