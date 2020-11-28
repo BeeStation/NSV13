@@ -340,6 +340,15 @@
 /turf/open/floor/monotile/light/airless
 	initial_gas_mix = AIRLESS_ATMOS
 
+/turf/open/floor/monotile/dark/telecomms
+	initial_gas_mix = TCOMMS_ATMOS
+
+/turf/open/floor/monotile/telecomms
+	initial_gas_mix = TCOMMS_ATMOS
+
+/turf/open/floor/monotile/light/telecomms
+	initial_gas_mix = TCOMMS_ATMOS
+
 /turf/open/floor/plasteel/grid/mono
 	name = "steel hull plate"
 	icon = 'nsv13/icons/turf/floors.dmi'
