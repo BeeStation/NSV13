@@ -985,6 +985,7 @@
 	access = ACCESS_ENGINE_EQUIP //NSV13 - Do your hecking jobs
 	crate_type = /obj/structure/closet/crate/engineering
 
+/* NSV13 - Learn how to actually do some engineering
 /datum/supply_pack/engine/am_jar
 	name = "Antimatter Containment Jar Crate"
 	desc = "Two Antimatter containment jars stuffed into a single crate."
@@ -1015,6 +1016,7 @@
 					/obj/item/am_shielding_container,
 					/obj/item/am_shielding_container) //10 shields: 3x3 containment and a core
 	crate_name = "antimatter shielding crate"
+*/
 
 /datum/supply_pack/engine/emitter
 	name = "Emitter Crate"
