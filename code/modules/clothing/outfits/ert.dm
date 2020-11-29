@@ -165,7 +165,7 @@
 /datum/outfit/centcom_official
 	name = "CentCom Official"
 
-	neck = /obj/item/clothing/neck/cloak/centcomm
+	neck = /obj/item/clothing/neck/cloak/centcom
 	uniform = /obj/item/clothing/under/rank/centcom/officer
 	shoes = /obj/item/clothing/shoes/sneakers/black
 	gloves = /obj/item/clothing/gloves/color/black
