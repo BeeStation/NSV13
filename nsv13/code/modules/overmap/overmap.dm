@@ -143,7 +143,7 @@
 	var/flak_battery_amount = 1
 
 	var/role = NORMAL_OVERMAP
-	
+
 	var/list/missions = list()
 
 /**
@@ -236,7 +236,7 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 	AddComponent(/datum/component/nsv_mission_killships)
 	current_tracers = list()
 	GLOB.overmap_objects += src
-	START_PROCESSING(SSphysics_processing, src)
+	START_PROCESSING(SSovermap_movement, src)
 
 	vector_overlay = new()
 	vector_overlay.appearance_flags |= KEEP_APART

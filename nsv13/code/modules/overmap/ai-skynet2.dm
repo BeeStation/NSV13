@@ -175,7 +175,7 @@ GLOBAL_LIST_EMPTY(ai_goals)
 				continue
 			target.system_contents += OM
 			if(!target.occupying_z)
-				STOP_PROCESSING(SSphysics_processing, OM)
+				STOP_PROCESSING(SSovermap_movement, OM)
 				OM.moveToNullspace()
 				target.contents_positions[OM] = list("x" = OM.x, "y" = OM.y) //Cache the ship's position so we can regenerate it later.
 			else
