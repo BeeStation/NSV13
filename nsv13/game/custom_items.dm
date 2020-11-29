@@ -12,7 +12,9 @@
 	on_stun_sound = 'nsv13/sound/effects/saberhit.ogg'
 	attack_verb = list("immolated", "slashed")
 	hitsound = 'sound/weapons/rapierhit.ogg'
-
+	var/stunforce_on = 60
+	var/stunforce_off = 0
+	var/stunforce = 60
 	on_icon_state = "stunsword_active"
 	off_icon_state = "stunsword"
 	on_item_state = "stunsword_active"
@@ -44,6 +46,7 @@
 		icon_state = on_icon_state
 		item_state = on_item_state
 		force = force_on
+		stunforce = stunforce_on
 		attack_verb = list("sliced", "cut", "striken", "immobilized")
 		hitsound = 'nsv13/sound/effects/saberhit.ogg'
 		set_light(3)
@@ -56,13 +59,27 @@
 		icon_state = off_icon_state
 		item_state = off_icon_state
 		slot_flags = ITEM_SLOT_BELT
+		stunforce = stunforce_off
 		force = force_off
 		attack_verb = list("immolated", "slashed")
 		hitsound = 'sound/weapons/rapierhit.ogg'
 		set_light(0)
 
 	add_fingerprint(user)
-
+	
+/obj/item/melee/classic_baton/telescopic/stunsword/attack(mob/living/target, mob/living/user)
+	if(ishuman(target))
+		var/mob/living/carbon/human/H = target
+		H.adjustStaminaLoss(stunforce)
+		H.apply_damage(force, BRUTE)
+		user.do_attack_animation(H)
+		playsound(user.loc, hitsound, 100, 1)
+		target.lastattacker = user.real_name
+		target.lastattackerckey = user.ckey
+		target.visible_message("<span class='danger'>[user] has [pick(attack_verb)] [target] with [src]!</span>", \
+								"<span class='userdanger'>[user] has [pick(attack_verb)] you with [src]!</span>")
+		log_combat(user, target, "stunned")
+		return
 
 /obj/item/flashlight/atc_wavy_sticks //I dont know what theyre actually called :)
 	name = "Aircraft sigalling sticks"
