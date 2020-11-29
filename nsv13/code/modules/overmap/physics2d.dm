@@ -1,17 +1,9 @@
 #define MAXIMUM_COLLISION_RANGE 12 //In tiles, what is the range of the maximum possible collision that could take place? Please try and keep this low, as it saves a lot of time and memory because it'll just ignore physics bodies that are too far away from each other.
 //That being said. If you want to make a ship that is bigger than this in tile size, then you will have to change this number. As of 11/08/2020 the LARGEST possible collision range is 25 tiles, due to the fist of sol existing. Though tbh if you make a sprite much larger than this, byond will likely just cull it from the viewport.
-
-PROCESSING_SUBSYSTEM_DEF(overmap_movement)
-	name = "Overmap Movement"
-	wait = 1
-	stat_tag = "OM"
-	flags = SS_NO_INIT|SS_TICKER
-	priority = FIRE_PRIORITY_PHYSICS
-
 PROCESSING_SUBSYSTEM_DEF(physics_processing)
 	name = "Physics Processing"
 	wait = 1
-	stat_tag = "PP"
+	stat_tag = "PHYS"
 	priority = FIRE_PRIORITY_PHYSICS
 	flags = SS_NO_INIT|SS_TICKER
 	var/list/physics_bodies = list() //All the physics bodies in the world.

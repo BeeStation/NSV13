@@ -179,7 +179,7 @@ Bullet reactions
 						D.ManualFollow(src)
 
 		sleep(10)
-		STOP_PROCESSING(SSovermap_movement, src) //Reject player input
+		STOP_PROCESSING(SSphysics_processing, src) //Reject player input
 		src.SpinAnimation(1000, 1) //Drift
 		var/michael_bay = rand(5,8) //How many explosions we're going to see (lens flares cost extra)
 		for(var/I = 0, I < michael_bay, I++)
@@ -194,7 +194,7 @@ Bullet reactions
 		SSticker.mode.check_finished(TRUE)
 		SSticker.force_ending = TRUE
 	else
-		STOP_PROCESSING(SSovermap_movement, src)
+		STOP_PROCESSING(SSphysics_processing, src)
 		src.SpinAnimation(1000, 1)
 		var/michael_bay = rand(5,8)
 		for(var/I = 0, I < michael_bay, I++)
