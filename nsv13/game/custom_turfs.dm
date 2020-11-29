@@ -340,6 +340,15 @@
 /turf/open/floor/monotile/light/airless
 	initial_gas_mix = AIRLESS_ATMOS
 
+/turf/open/floor/monotile/dark/telecomms
+	initial_gas_mix = TCOMMS_ATMOS
+
+/turf/open/floor/monotile/telecomms
+	initial_gas_mix = TCOMMS_ATMOS
+
+/turf/open/floor/monotile/light/telecomms
+	initial_gas_mix = TCOMMS_ATMOS
+
 /turf/open/floor/plasteel/grid/mono
 	name = "steel hull plate"
 	icon = 'nsv13/icons/turf/floors.dmi'
@@ -403,6 +412,9 @@
 	icon = 'nsv13/icons/turf/floors.dmi'
 	icon_state = "techfloor_grid_tile"
 	turf_type = /turf/open/floor/plasteel/grid/techfloor/grid
+
+/turf/open/floor/plasteel/grid/techfloor/grid/airless
+	initial_gas_mix = AIRLESS_ATMOS
 
 /obj/effect/turf_decal/tile/ship
 	name = "tile decal"
