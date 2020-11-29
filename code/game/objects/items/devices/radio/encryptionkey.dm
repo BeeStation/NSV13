@@ -32,7 +32,7 @@
 
 /obj/item/encryptionkey/hearall
 	name = "universal decryption key"
-	icon_state = "bin_cypherkey"
+	icon_state = "universal_cypherkey"
 	channels = list(RADIO_CHANNEL_SYNDICATE = 1)
 	hearall = TRUE
 
