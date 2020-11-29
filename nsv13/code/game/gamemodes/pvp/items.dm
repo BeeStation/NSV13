@@ -13,8 +13,14 @@
 /obj/machinery/computer/cargo/express/syndicate
 	name = "Syndicate Requisitions Console"
 	req_one_access = list(ACCESS_SYNDICATE_LEADER, ACCESS_SYNDICATE_REQUISITIONS)
+	req_access = null
+	req_one_access_txt = ""
 	account_type = ACCOUNT_SYN
 	circuit = /obj/item/circuitboard/computer/cargo/express/syndicate
+
+/obj/machinery/computer/cargo/express/syndicate/emag_act(mob/living/user)
+	to_chat(user, "<span class='warning'>The Syndicate would probably have you killed if you tried to interfere with this console...</span>")
+	return FALSE
 
 /obj/item/circuitboard/computer/cargo/express/syndicate
 	name = "Syndicate Requisitions Console (Computer Board)"
