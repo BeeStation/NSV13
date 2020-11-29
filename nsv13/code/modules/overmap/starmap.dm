@@ -123,8 +123,10 @@
 				label += " HYPERGATE"
 			if(system.is_capital && !label)
 				label = "CAPITAL"
-			if(system.trader)
+			if(system.trader && system.sector != 3) //Use shortnames in brazil for readability
 				label = " [system.trader.name]"
+			if(system.trader && system.sector == 3) //Use shortnames in brazil for readability
+				label = " [system.trader.shortname]"
 			if(system.mission_sector)
 				label += " OCCUPIED"
 			if(system.objective_sector)

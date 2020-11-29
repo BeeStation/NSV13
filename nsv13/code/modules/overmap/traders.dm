@@ -1,6 +1,7 @@
 /datum/trader
 	var/name = "Drug Mcdonalds"
 	var/desc = "Son, we forgot the crack."
+	var/shortname = "DM" //Used in Brazil.
 	var/list/stonks = list() //The trader's inventory.
 	var/list/sold_items = list()
 	var/faction_type = null //What faction does the dude belong to.
@@ -94,12 +95,12 @@
 	theItem.forceMove(toLaunch)
 	new /obj/effect/DPtarget(LZ, toLaunch)
 	return theItem
-	
+
 /datum/trader/proc/generate_missions()
 	for(var/a in 1 to max_missions)
 		var/m = pickweightAllowZero(possible_mission_types)
 		possible_mission_types[m] --
-		missions += new m(current_location)	
+		missions += new m(current_location)
 
 
 
@@ -107,6 +108,7 @@
 /datum/trader/armsdealer
 	name = "WhiteRapids Munitions (And Resort)"
 	desc = "Corporate approved arms dealer specialising in ballistic weapon deployment."
+	shortname = "WR(R)"
 	faction_type = FACTION_ID_NT
 	system_type = "nanotrasen"
 	image = "https://cdn.discordapp.com/attachments/701841640897380434/764557336684527637/unknown.png"
@@ -115,6 +117,7 @@
 /datum/trader/armsdealer/syndicate
 	name = "DonkCo Warcrime Emporium"
 	desc = "Only the finest weapons guaranteed to violate the geneva convention! (We'll sell to anyone.. but don't get too close!)"
+	shortname = "DWE"
 	faction_type = FACTION_ID_SYNDICATE
 	system_type = "syndicate"
 	//Top tier trader with the best items available.
@@ -128,7 +131,7 @@
 		/datum/nsv_mission/kill_ships/system/syndicate=3,
 		/datum/nsv_mission/kill_ships/syndicate=1)
 	max_missions = 6
-	
+
 /datum/trader/armsdealer/syndicate/New()
 	. = ..()
 	name = pick(name, "Gorlex Marauders Weapons Co.", "Syndi-dyne Gun Fiesta", "Dolos Dealers")
@@ -137,6 +140,7 @@
 /datum/trader/czanekcorp
 	name = "CzanekCorp shipyards"
 	desc = "Ship construction deeds done cheap (for a price)"
+	shortname = "CZC"
 	faction_type = FACTION_ID_NT
 	greetings = list("Welcome to CzanekCorp, we take cash, credit, and charge. What’cha need?",\
 	"CzanekCorp here. We got a new shipment in, you down for talking turkey?",\
@@ -149,9 +153,45 @@
 /datum/trader/minsky
 	name = "Minsky Heavy Engineering"
 	desc = "Corporate approved aftermarket shipyard."
+	shortname = "MHE"
 	faction_type = FACTION_ID_NT
 	sold_items = list(/datum/trader_item/ship_repair/tier2, /datum/trader_item/flak,/datum/trader_item/fighter/light,/datum/trader_item/fighter/heavy,/datum/trader_item/fighter/utility, /datum/trader_item/fighter/judgement, /datum/trader_item/fighter/prototype)
 	station_type = /obj/structure/overmap/trader/shipyard
+
+// HIM
+/datum/trader/randy
+	name = "Randy Random Corporate Enterprise"
+	desc = "Chaos Incorporeal."
+	shortname = "RDY"
+	faction_type = FACTION_ID_PIRATES
+	sold_items = null //Special offer, this time only. (Not used, Stock is randomized every cycle.)
+
+/datum/trader/randy/stock_items()
+	//Pick 5 random items and construct fresh trader_items for it.
+	var/iter = 5
+	for(var/x in sold_items)
+		qdel(x)
+	sold_items = list()
+	while(iter)
+		iter--
+		var/datum/trader_item/item = new
+		var/obj/item/a_gift/anything/generator = new
+		var/initialtype = generator.get_gift_type()
+		var/obj/item/soldtype = new initialtype
+		item.unlock_path = initialtype
+		item.name = soldtype.name
+		item.desc = soldtype.desc
+		item.price = rand(1000, 100000000)
+		item.stock = 2
+		item.stock = rand(item.stock/2, item.stock*2)
+		qdel(soldtype)
+		sold_items += item
+
+	stonks = sold_items
+
+/datum/trader/randy/New()
+	. = ..()
+	stock_items()
 
 /datum/trader/ui_data(mob/user)
 	if(world.time >= next_restock)
@@ -202,18 +242,18 @@
 /datum/trader/proc/give_mission(mob/living/user)
 	if(!isliving(user))
 		return
-		
+
 	var/list/valid_missions = list()
-	
+
 	for(var/m in missions) // Get all valid missions the crew qualifies for
 		var/datum/nsv_mission/mission = m
-		if(mission.check_eligible(user.get_overmap()))	
-			valid_missions += mission	
+		if(mission.check_eligible(user.get_overmap()))
+			valid_missions += mission
 	if(!valid_missions.len)
 		SEND_SOUND(user, 'nsv13/sound/effects/ship/freespace2/computer/textdraw.wav')
 		to_chat(user, "<span class='boldnotice'>We don't have any work for you I'm afraid.</span>")
-		return FALSE		
-		
+		return FALSE
+
 	var/datum/nsv_mission/theJob = pick(valid_missions)
 	theJob.pre_register(user.get_overmap())
 	to_chat(user, "<span class='boldnotice'>[pick(on_mission_give)]</span>")

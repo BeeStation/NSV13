@@ -233,7 +233,7 @@
 	var/spoolup_time = 45 SECONDS //Make sure this is always longer than the ftl_startup_time, or you can seriously bug the ship out with cancel jump spam.
 	var/screen = 1
 	var/can_cancel_jump = TRUE //Defaults to true. TODO: Make emagging disable this
-	var/max_range = 100 //max jump range. This is _very_ long distance
+	var/max_range = 30000 //max jump range. This is _very_ long distance
 	var/list/tracking = list() //What ships are we tracking, if any? Used for antag FTLs so they can always find you.
 	var/ftl_loop = 'nsv13/sound/effects/ship/FTL_loop.ogg'
 	var/ftl_start = 'nsv13/sound/effects/ship/FTL_long.ogg'
@@ -266,7 +266,7 @@
 			ftl_startup_time = 6 SECONDS
 			spoolup_time = 30 SECONDS
 			jump_speed_factor = 3
-			max_range = 150
+
 		if(3) //Admin only so I can test things more easily, or maybe dropped from an EXTREMELY RARE, copyright free ruin.
 			name = "Warp drive computer"
 			desc = "A computer that is impossibly advanced for this time period. It uses unknown technology harvested by unknown means to accelerate a starship to unheard of speeds. Ardata operatives have as yet been unable to ascertain how it functions, but field testing shows that this eliminates the need for spooling entirely in favour of distorting space."
@@ -277,8 +277,8 @@
 			spoolup_time = 10 SECONDS
 			auto_spool = TRUE
 			jump_speed_factor = 5
-			max_range = 300
 
+	max_range = initial(max_range) * 2
 /*
 Preset classes of FTL drive with pre-programmed behaviours
 */
