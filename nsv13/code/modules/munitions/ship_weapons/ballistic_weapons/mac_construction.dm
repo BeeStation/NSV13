@@ -126,7 +126,7 @@
 		state = BS_WIRED
 		return TRUE
 
-	else if((istype(W, /obj/item/ship_weapon/parts/firing_electronics)) && (state = BS_WIRES_SOLDERED))
+	else if((istype(W, /obj/item/ship_weapon/parts/firing_electronics)) && (state == BS_WIRES_SOLDERED))
 		if(!do_after(user, 2 SECONDS, target=src))
 			return
 		W.forceMove(src)
@@ -232,13 +232,13 @@
 				to_chat(user, "<span class='notice'>You solder the barrel to the frame.</span>")
 				state = BS_BARREL_SOLDERED
 				return TRUE
-		
+
 		if(BS_BARREL_SOLDERED)
 			if(tool.use_tool(src, user, 2 SECONDS, amount=2, volume=100))
 				to_chat(user, "<span class='notice'>You cut the barrel free from the frame.</span>")
 				state = BS_BARREL_PLACED
 				return TRUE
-		
+
 		if(BS_WIRED)
 			if(tool.use_tool(src, user, 2 SECONDS, amount=2, volume=100))
 				to_chat(user, "<span class='notice'>You solder the wiring into place.</span>")
