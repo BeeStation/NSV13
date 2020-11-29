@@ -131,7 +131,7 @@
 		state = BS_WIRED
 		return TRUE
 
-	else if((istype(W, /obj/item/ship_weapon/parts/firing_electronics)) && (state = BS_WIRES_SOLDERED))
+	else if((istype(W, /obj/item/ship_weapon/parts/firing_electronics)) && (state == BS_WIRES_SOLDERED))
 		if(!do_after(user, 2 SECONDS, target=src))
 			return
 		W.forceMove(src)
