@@ -213,6 +213,7 @@ GLOBAL_LIST_EMPTY(ai_goals)
 
 /datum/fleet/proc/defeat()
 	minor_announce("[name] has been defeated in battle", "White Rapids Fleet Command")
+	current_system.fleets -= src
 	if(current_system.fleets && current_system.fleets.len)
 		var/datum/fleet/F = pick(current_system.fleets)
 		current_system.alignment = F.alignment
@@ -223,7 +224,6 @@ GLOBAL_LIST_EMPTY(ai_goals)
 	else
 		current_system.alignment = initial(current_system.alignment)
 		current_system.mission_sector = FALSE
-	current_system.fleets -= src
 	faction = SSstar_system.faction_by_id(faction_id)
 	faction?.lose_influence(reward)
 	for(var/obj/structure/overmap/OOM in current_system.system_contents)
