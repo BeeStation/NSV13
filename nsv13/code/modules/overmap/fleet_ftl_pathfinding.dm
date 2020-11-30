@@ -9,7 +9,7 @@
 	allowed_alignments: The types of alignments this fleet is allowed to traverse. Defaults to an empty list, and allows any alignment if the list is empty.
 	wormholes_allowed: If the pathfinding is allowed to use wormholes. Defaults to TRUE.
 */
-/datum/fleet/proc/find_route(datum/star_system/target_system, list/allowed_alignments = list(), wormholes_allowed = TRUE)
+/proc/find_route(datum/star_system/target_system, datum/star_system/current_system, list/allowed_alignments = list(), wormholes_allowed = TRUE)
 	var/list/route = list()
 	if(!target_system || !current_system)
 		return FALSE	//This do be invalid
@@ -75,3 +75,7 @@
 		if(!route_next)	//Something bad happened, abort, abort!
 			return FALSE
 	return route
+
+/datum/fleet/proc/navigate_to(datum/star_system/target)
+	plotted_course = find_route(target, current_system)
+	return TRUE

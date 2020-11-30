@@ -66,6 +66,7 @@ GLOBAL_LIST_EMPTY(ai_goals)
 	var/instantiated = FALSE //If we're not instantiated, moving all the ships is a piece of cake, if we are however, we do some extra steps to FTL them all.
 	var/datum/star_system/current_system = null //Where are we?
 	var/datum/star_system/goal_system = null //Where are we looking to go?
+	var/list/plotted_course = FALSE
 	var/hide_movements = FALSE
 	var/alignment = "syndicate"
 	var/list/taunts = list("Unidentified vessel, you have entered our airspace. Leave immediately or be destroyed", "Identify yourselves immediately or be destroyed", "Unidentified vessel, leave immediately. You are entering Syndicate territory.", "Hold it right there. Prepare to be boarded, Captain.", "Nanotrasen vessel, surrender immediately or face unnecessary casualties.", "All Nanotrasen crewmen, please prepare for immediate evisceration.", "Unidentified vessel, transmit your credentials now or- Wait a second, that’s the ship we’re looking for! Deploy fighters!", "Nanotrasen? You’ve just made my day, all crafts prepare to engage.", "Unknown vessel, failure to contact Syndicate control on frequency 0.4 is a suspected act of aggression. Prepare for engagement.")
