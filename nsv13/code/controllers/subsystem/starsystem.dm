@@ -856,7 +856,7 @@ To make things worse, this hellhole is entirely RNG, so good luck mapping it!
 			randy.x = (rand(1, 10)/10)+rand(1, 200)+20 // Buffer space for readability
 			randy.y = (rand(1, 10)/10)+rand(1, 100)+30 // Offset vertically for viewing 'pleasure'
 			var/syscheck_pass = TRUE
-			for(var/datum/star_system/S in (generated + rubicon))
+			for(var/datum/star_system/S in (generated + rubicon + src))
 				if(!syscheck_pass)
 					break
 				if(S.dist(randy) < 5)// Maybe this is enough?
