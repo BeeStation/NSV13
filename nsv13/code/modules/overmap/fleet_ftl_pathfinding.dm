@@ -4,6 +4,10 @@
 /*
 	A route finding alrorytm. This will always find the shortest path to a target system if one exists, but may need quite some cycles, due to it being O(V + E)
 	Returns FALSE if no route is found, an empty list if already at the target, and a list with a route to the target in all other cases
+	Args:
+	target_system: The target system, obviously
+	allowed_alignments: The types of alignments this fleet is allowed to traverse. Defaults to an empty list, and allows any alignment if the list is empty.
+	wormholes_allowed: If the pathfinding is allowed to use wormholes. Defaults to TRUE.
 */
 /datum/fleet/proc/find_route(datum/star_system/target_system, list/allowed_alignments = list(), wormholes_allowed = TRUE)
 	var/list/route = list()
