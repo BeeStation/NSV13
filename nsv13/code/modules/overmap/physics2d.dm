@@ -2,10 +2,9 @@
 //That being said. If you want to make a ship that is bigger than this in tile size, then you will have to change this number. As of 11/08/2020 the LARGEST possible collision range is 25 tiles, due to the fist of sol existing. Though tbh if you make a sprite much larger than this, byond will likely just cull it from the viewport.
 PROCESSING_SUBSYSTEM_DEF(physics_processing)
 	name = "Physics Processing"
-	wait = 1
+	wait = 1.5
 	stat_tag = "PHYS"
 	priority = FIRE_PRIORITY_PHYSICS
-	flags = SS_NO_INIT|SS_TICKER
 	var/list/physics_bodies = list() //All the physics bodies in the world.
 	var/list/physics_levels = list()
 	var/next_boarding_time = 0 //This is stupid and lazy but it's 5am and I don't care anymore
