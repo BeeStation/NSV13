@@ -46,6 +46,9 @@
 		if(distances[cur_key] == INFINITY)	//If infinity is our closest pick, we got to nonconnected systems and can stop this. We'll full-on return later, maaybe we did find a way beforehand.
 			break
 
+		if(cur_sys == target_system)
+			break	//If the closest system is already the target, we can early return.
+
 		for(var/adj in cur_sys.adjacency_list)
 			var/datum/star_system/adj_sys = SSstar_system.system_by_id(adj)
 			var/adj_key = systems.Find(adj_sys)
