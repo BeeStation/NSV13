@@ -3,9 +3,9 @@
 
 /*
 	A route finding alrorytm. This will always find the shortest path to a target system if one exists, but may need quite some cycles, due to it being O(V + E)
-	Returns FALSE if no route is found, an empty list if already at the target, and list with a route to the target in all other cases
+	Returns FALSE if no route is found, an empty list if already at the target, and a list with a route to the target in all other cases
 */
-/datum/fleet/proc/find_route(datum/star_system/target_system, list/allowed_alignments = list())
+/datum/fleet/proc/find_route(datum/star_system/target_system, list/allowed_alignments = list(), wormholes_allowed = TRUE)
 	var/list/route = list()
 	if(!target_system || !current_system)
 		return FALSE	//This do be invalid
@@ -46,12 +46,12 @@
 			var/datum/star_system/adj_sys = SSstar_system.system_by_id(adj)
 			var/adj_key = systems.Find(adj_sys)
 
-			if(adj_sys == cur_sys)
-				continue //Should never be the case but lets be safe.
 			if(!all_systems.Find(adj_sys)) //Not a crossing edge
 				continue
-			if(!allowed_alignments.len || allowed_alignments.Find(adj_sys.alignment))
+			if(allowed_alignments.len && !allowed_alignments.Find(adj_sys.alignment))
 				continue	//Ignore edge if target sys isn't allowed.
+			if(!wormholes_allowed && cur_sys.wormhole_connections.Find(adj))
+				continue	//No using wormholes if they're forbidden to you, bad!
 
 			if(distances[cur_key] + cur_sys.dist(adj_sys) < distances[adj_key])
 				distances[adj_key] = distances[cur_key] + cur_sys.dist(adj_sys)
@@ -67,6 +67,4 @@
 		route_next = parents[systems.Find(route_next)]
 		if(!route_next)	//Something bad happened, abort, abort!
 			return FALSE
-	for(var/thingy in route)
-		message_admins("[thingy]")
 	return route
