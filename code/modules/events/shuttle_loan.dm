@@ -39,9 +39,9 @@
 			thanks_msg = "The cargo shuttle should return in 5 minutes."
 			bonus_points = 0
 		if(ANTIDOTE_NEEDED)
-			priority_announce("Cargo: Your station has been chosen for an epidemiological research project. Send us your cargo shuttle to receive your research samples.", "CentCom Research Initiatives")
+			priority_announce("Cargo: Your ship has been chosen for an epidemiological research project. Send us your cargo shuttle to receive your research samples.", "CentCom Research Initiatives")
 		if(PIZZA_DELIVERY)
-			priority_announce("Cargo: It looks like a neighbouring station accidentally delivered their pizza to you instead.", "CentCom Spacepizza Division")
+			priority_announce("Cargo: It looks like a neighbouring ship accidentally delivered their pizza to you instead.", "CentCom Spacepizza Division")
 			thanks_msg = "The cargo shuttle should return in 5 minutes."
 			bonus_points = 0
 		if(ITS_HIP_TO)
