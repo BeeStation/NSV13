@@ -35,6 +35,7 @@
 	icon_state = "universal_cypherkey"
 	channels = list(RADIO_CHANNEL_SYNDICATE = 1)
 	hearall = TRUE
+	syndie = TRUE
 
 /obj/item/encryptionkey/binary
 	name = "binary translator key"
