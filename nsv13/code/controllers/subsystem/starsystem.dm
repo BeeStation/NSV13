@@ -24,6 +24,7 @@ SUBSYSTEM_DEF(star_system)
 	var/admin_boarding_override = FALSE //Used by admins to force disable boarders
 	var/time_limit = FALSE //Do we want to end the round after a specific time? Mostly used for galconquest.
 
+
 /datum/controller/subsystem/star_system/fire() //Overmap combat events control system, adds weight to combat events over time spent out of combat
 	if(time_limit && world.time >= time_limit)
 		var/datum/faction/winner = get_winner()
@@ -49,10 +50,15 @@ SUBSYSTEM_DEF(star_system)
 		next_nag_time = world.time + nag_interval
 		switch(nag_stacks)
 			if(1)
-				var/message = pick(	"This is Centcomm to all vessels assigned to patrol the Alpha Quadrant, please continue on your patrol route", \
-									"This is Centcomm to all vessels assigned to patrol the Alpha Quadrant, we are not paying you to idle in space during your assigned patrol schedule", \
-									"This is Centcomm to all vessels assigned to patrol the Alpha Quadrant, your inactivity has been noted and will not be tolerated.", \
-									"This is Centcomm to the patrol vessel currently assigned to the Alpha Quadrant, you are expected to fulfill your assigned mission")
+				var/message = pick(	"This is Central Command to all vessels assigned to patrol the Alpha Quadrant, please continue on your patrol route", \
+									"This is Central Command to all vessels assigned to patrol the Alpha Quadrant, we are not paying you to idle in space during your assigned patrol schedule", \
+									"This is Central Command to all vessels assigned to patrol the Alpha Quadrant, what are you doing lounging around? You have a schedule to fulfill, go out there and do what you are paid to do.", \
+									"This is Central Command to all vessels assigned to patrol the Alpha Quadrant, increased activity has been noticed on the Syndicate's communications frequencies. You are ordered to get a move on.", \
+									"This is Central Command to all vessels assigned to patrol the Alpha Quadrant, you have been sent on a patrol, not sentry duty.", \
+									"This is Central Command to the patrol vessel currently assigned to the Alpha Quadrant. Are you having issues with your FTL drives? If not, please proceed with the scheduled patrol.", \
+									"This is Central Command to the patrol vessel currently assigned to the Alpha Quadrant. A report of your activity shows no significant movement. We request you to proceed with the patrol as soon as possible.", \
+									"This is Central Command to all vessels assigned to patrol the Alpha Quadrant, your inactivity has been noted and will not be tolerated.", \
+									"This is Central Command to the patrol vessel currently assigned to the Alpha Quadrant, you are expected to fulfill your assigned mission")
 				priority_announce("[message]", "Naval Command") //Warn players for idleing too long
 			if(2)
 				priority_announce("[station_name()] is no longer responding to commands. Enacting emergency defense conditions. All shipside squads must assist in getting the ship ready for combat by any means necessary.", "WhiteRapids Administration Corps")
@@ -64,7 +70,7 @@ SUBSYSTEM_DEF(star_system)
 				target.fleets += F
 				F.current_system = target
 				F.assemble(target)
-				minor_announce("[station_name()]. Your pay has been docked to cover expenses, continued ignorance of your mission will lead to removal by force.", "Naval Command")
+				priority_announce("[station_name()]. Your pay has been docked to cover expenses, continued ignorance of your mission will lead to removal by force.", "Naval Command")
 				nag_interval = rand(5 MINUTES, 10 MINUTES) //Keep up the nag, but slowly.
 				var/total_deductions
 				for(var/account in SSeconomy.department_accounts)
@@ -74,6 +80,7 @@ SUBSYSTEM_DEF(star_system)
 					total_deductions += D.account_balance / 2
 					D.account_balance /= 2
 			if(4 to INFINITY) //From this point on, you can actively lose the game.
+				priority_announce("Attention all ships throughout the fleet. Execute protocol Sigma-Omega-Lima. A Syndicate invasion force has been detected entering the perimeter of Sol. All ships must assist with defense, recapture and retaliation of and for allied space. May the luck be in your favor.")
 				nag_interval = rand(10 MINUTES, 15 MINUTES) //Keep up the nag, but slowly.
 				next_nag_time = world.time + nag_interval
 				var/lost_influence = FALSE
@@ -86,6 +93,7 @@ SUBSYSTEM_DEF(star_system)
 							if(F.alignment == "nanotrasen" && !istype(F, /datum/fleet/nanotrasen/earth))
 								F.defeat()
 								lost_influence ++
+								priority_announce("Attention all ships throughout the fleet. Execute protocol Sigma-Omega-Lima. A Syndicate invasion force has been detected entering the perimeter of Sol. All ships must assist with defense, recapture and retaliation of and for allied space. May the luck be in your favor.")
 				if(!lost_influence)
 					var/datum/faction/F = faction_by_id(FACTION_ID_NT)
 					F.lose_influence(100)
@@ -113,7 +121,6 @@ Returns a faction datum by its name (case insensitive!)
 	for(var/datum/faction/F in factions)
 		if(F.id == id)
 			return F
-
 
 /datum/controller/subsystem/star_system/proc/add_blacklist(what)
 	enemy_blacklist += what
@@ -228,7 +235,7 @@ Returns a faction datum by its name (case insensitive!)
 			highestTickets = F.tickets
 	return winner
 
-	/* Deprecated.
+	 /*
 	if(patrols_left <= 0 && systems_cleared >= initial(patrols_left))
 		var/medal_type = null //Reward good players.
 		switch(times_cleared)
