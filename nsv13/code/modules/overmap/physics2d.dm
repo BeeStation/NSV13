@@ -48,13 +48,13 @@ PROCESSING_SUBSYSTEM_DEF(physics_processing)
 				if(isovermap(body.holder) && isovermap(neighbour.holder)) //Dirty, but necessary. I want to minimize in-depth collision calc wherever I possibly can, so only overmap prototypes use it.
 					var/datum/collision_response/c_response = new /datum/collision_response()
 					if(body.collider2d?.collides(neighbour.collider2d, c_response))
-						body.holder.Bump(neighbour.holder, c_response) //More in depth calculation required, so pass this information on.
+						body.holder.Bump(neighbour.holder, c_response, body.holder) //More in depth calculation required, so pass this information on.
 						recent_collisions += neighbour
 				else //OK great, we get more simplified calc!
 					if(isprojectile(body.holder) && isprojectile(neighbour.holder))
 						continue //Bullets don't want to "bump" into each other, we actually handle that code in "crossed()"
 					if(body.collider2d?.collides(neighbour.collider2d))
-						body.holder.Bump(neighbour.holder)
+						body.holder.Bump(neighbour.holder, null, body.holder)
 						recent_collisions += neighbour
 
 /datum/component/physics2d

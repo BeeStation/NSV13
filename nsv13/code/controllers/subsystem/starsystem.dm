@@ -547,8 +547,9 @@ Returns a faction datum by its name (case insensitive!)
 			event_chance = 70 //Black holes can fuck with you
 		if("debris")
 			parallax_property = "rocks"
-			event_chance = 60 //Space rocks!
-			possible_events = list(/datum/round_event_control/space_dust, /datum/round_event_control/meteor_wave)
+		//	The meteor event is now triggered when the ship's pilot slams into a rock hard enough 
+		// 	event_chance = 60 //Space rocks!
+		// 	possible_events = list(/datum/round_event_control/space_dust, /datum/round_event_control/meteor_wave)
 		if("icefield")
 			parallax_property = "icefield"
 		if("demonstar")

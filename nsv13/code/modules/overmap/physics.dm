@@ -494,7 +494,7 @@ The while loop runs at a programatic level and is thus separated from any thrott
 		velocity.x -= bump_impulse
 	return ..()
 
-/obj/structure/overmap/Bump(atom/movable/A, datum/collision_response/c_response)
+/obj/structure/overmap/Bump(atom/movable/A, datum/collision_response/c_response, atom/movable/B)
 	var/bump_velocity = 0
 	if(dir & (NORTH|SOUTH))
 		bump_velocity = abs(velocity.y) + (abs(velocity.x) / 10)
@@ -512,6 +512,34 @@ The while loop runs at a programatic level and is thus separated from any thrott
 		return ..()
 	// if a bump is that fast then it's not a bump. It's a collision.
 	if(istype(A, /obj/structure/overmap) && c_response)
+		// If the target is an asteroid
+		if ( istype( A, /obj/structure/overmap/asteroid ) )
+			// If the attacker hits the rock hard enough
+			if ( bump_velocity >= 3 )
+				// If the attacker is a player ship, and not a mining ship
+				if ( istype( B, /obj/structure/overmap/nanotrasen ) && !istype( B, /obj/structure/overmap/nanotrasen/mining_cruiser ) )
+					var/obj/structure/overmap/nanotrasen/playerShip = B
+
+					if( !playerShip.ai_controlled )
+						message_admins("[key_name_admin(pilot)] has impacted the player ship into [A] with velocity [bump_velocity]")
+						// Destroy the asteroid
+						A.Destroy()
+
+						// Run the relevant asteroid event based on what asteroid type the player ship hit, to simulate flying through the debris
+						var/datum/round_event_control/meteorType = null
+						var/announceChance = 100
+						if ( istype( A, /obj/structure/overmap/asteroid/large ) )
+							meteorType = new /datum/round_event_control/meteor_wave/threatening()
+						else if ( istype( A, /obj/structure/overmap/asteroid/medium ) )
+							meteorType = new /datum/round_event_control/meteor_wave()
+						else
+							meteorType = new /datum/round_event_control/meteor_wave/major_dust()
+							// This event subtype produces an illogical centcom report that doesn't match ramming asteroids. Plus space dust is mostly harmless
+							announceChance = 0
+
+						var/datum/round_event/meteorEvent = meteorType.runEvent()
+						meteorEvent.announceChance = announceChance
+
 		collide(A, c_response, bump_velocity)
 		return FALSE
 	if(isprojectile(A)) //Clears up some weirdness with projectiles doing MEGA damage.
