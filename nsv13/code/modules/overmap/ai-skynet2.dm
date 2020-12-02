@@ -123,6 +123,8 @@ GLOBAL_LIST_EMPTY(ai_goals)
 	if(!target)
 		if(goal_system)
 			if(current_system == goal_system)
+				if(!force)
+					addtimer(CALLBACK(src, .proc/move), rand(minimum_random_move_delay, maximum_random_move_delay))
 				return //We already arrived at our goal, time to chill here unless it changes.
 			if(!plotted_course || !plotted_course.len)	//Route len should ONLY be empty if we already arrived.
 				navigate_to(goal_system)
@@ -152,7 +154,9 @@ GLOBAL_LIST_EMPTY(ai_goals)
 				potential += sys
 			if(!potential.len)
 				potential = fallback //Nowhere else to go.
-			if(!potential.len)	//Welp, we are stuck here
+			if(!potential.len)	//Welp, we are stuck here for now.
+				if(!force)
+					addtimer(CALLBACK(src, .proc/move), rand(minimum_random_move_delay, maximum_random_move_delay))
 				return FALSE
 			target = pick(potential)
 		else
@@ -234,6 +238,10 @@ GLOBAL_LIST_EMPTY(ai_goals)
 /datum/fleet/interdiction/New()
 	. = ..()
 	 hunted_ship = SSstar_system.find_main_overmap()
+
+/datum/fleet/earthbuster/New()
+	. = ..()
+	goal_system = SSstar_system.system_by_id("Sol")
 
 
 //Clear a ship from this fleet.
