@@ -78,6 +78,11 @@ GLOBAL_LIST_EMPTY(ai_goals)
 	var/faction_id = FACTION_ID_SYNDICATE
 	var/reward = 100 //Reward for defeating this fleet, is credited to this faction's enemies.
 
+	var/initial_move_delay = 10 MINUTES
+	var/minimum_random_move_delay = 5 MINUTES
+	var/maximum_random_move_delay = 10 MINUTES
+	var/combat_move_delay = 10 MINUTES
+
 //BFS search algo. Entirely unused for now.
 /datum/fleet/proc/bfs(datum/star_system/target)
 	if(!current_system)
@@ -114,51 +119,65 @@ GLOBAL_LIST_EMPTY(ai_goals)
 	return target
 
 /datum/fleet/proc/move(datum/star_system/target, force=FALSE)
+	var/course_picked_target = FALSE
 	if(!target)
-		var/list/potential = list()
-		var/list/fallback = list()
-		//Pick a movement target based on our fleet trait.
-		for(var/_name in current_system.adjacency_list)
-			var/datum/star_system/sys = SSstar_system.system_by_id(_name)
-			if(sys.hidden)
-				continue
+		if(goal_system)
+			if(current_system == goal_system)
+				return //We already arrived at our goal, time to chill here unless it changes.
+			if(!plotted_course || !plotted_course.len)	//Route len should ONLY be empty if we already arrived.
+				navigate_to(goal_system)
+		if(!plotted_course || !plotted_course.len)	//When route is still FALSE after this. there is no way to our goal, so we just pick a random system instead. If it was just a empty list, we are AT our goal instead, though that should early return earlier.
+			var/list/potential = list()
+			var/list/fallback = list()
+			//Pick a movement target based on our fleet trait.
+			for(var/_name in current_system.adjacency_list)
+				var/datum/star_system/sys = SSstar_system.system_by_id(_name)
+				if(sys.hidden)
+					continue
+				switch(fleet_trait)
+					if(FLEET_TRAIT_DEFENSE)
+						return FALSE //These boss fleets do not move.
+					if(FLEET_TRAIT_NEUTRAL_ZONE) //These fleets live in the neutral zone
+						if(sys.alignment != "unaligned" && sys.alignment != "uncharted")
+							continue
+					if(FLEET_TRAIT_BORDER_PATROL)
+						if(sys.alignment != alignment)
+							continue
+					if(FLEET_TRAIT_INVASION)
+						if(sys.alignment == alignment)
+							continue
+						if(sys.alignment == "unaligned")
+							fallback += sys
+							continue
+				potential += sys
+			if(!potential.len)
+				potential = fallback //Nowhere else to go.
+			if(!potential.len)	//Welp, we are stuck here
+				return FALSE
+			target = pick(potential)
+		else
+			target = plotted_course[1]	//This shouldn't be able to reach this point with an empty route, so it *should* be safe.
+			course_picked_target = TRUE
+	if(!force)
+		addtimer(CALLBACK(src, .proc/move), rand(minimum_random_move_delay, maximum_random_move_delay))
+		//Precondition: We're allowed to go to this system.
+		if(!course_picked_target)
 			switch(fleet_trait)
 				if(FLEET_TRAIT_DEFENSE)
 					return FALSE //These boss fleets do not move.
-				if(FLEET_TRAIT_NEUTRAL_ZONE) //These fleets live in the neutral zone
-					if(sys.alignment != "unaligned" && sys.alignment != "uncharted")
-						continue
 				if(FLEET_TRAIT_BORDER_PATROL)
-					if(sys.alignment != alignment)
-						continue
+					if(target.alignment != alignment)
+						return FALSE
 				if(FLEET_TRAIT_INVASION)
-					if(sys.alignment == alignment)
-						continue
-					if(sys.alignment == "unaligned")
-						fallback += sys
-						continue
-			potential += sys
-		if(!potential.len)
-			potential = fallback //Nowhere else to go.
-		target = pick(potential)
-	if(!force)
-		addtimer(CALLBACK(src, .proc/move), rand(5 MINUTES, 10 MINUTES))
-		//Precondition: We're allowed to go to this system.
-		switch(fleet_trait)
-			if(FLEET_TRAIT_DEFENSE)
-				return FALSE //These boss fleets do not move.
-			if(FLEET_TRAIT_BORDER_PATROL)
-				if(target.alignment != alignment)
-					return FALSE
-			if(FLEET_TRAIT_INVASION)
-				if(target.alignment == alignment)
-					return FALSE
-			if(FLEET_TRAIT_NEUTRAL_ZONE)
-				if(target.alignment == alignment)
-					return FALSE
+					if(target.alignment == alignment)
+						return FALSE
+				if(FLEET_TRAIT_NEUTRAL_ZONE)
+					if(target.alignment == alignment)
+						return FALSE
 
-		if(world.time < last_encounter_time + 10 MINUTES) //So that fleets don't leave mid combat.
+		if(world.time < last_encounter_time + combat_move_delay) //So that fleets don't leave mid combat.
 			return FALSE
+
 	current_system.fleets -= src
 	if(current_system.fleets && current_system.fleets.len)
 		var/datum/fleet/F = pick(current_system.fleets)
@@ -199,6 +218,23 @@ GLOBAL_LIST_EMPTY(ai_goals)
 		if(OM.mobs_in_ship?.len)
 			encounter(OM)
 	}
+	if(course_picked_target)
+		plotted_course -= target
+	else if(plotted_course && plotted_course.len)	//We jumped. but didn't follow our course! Recalculate!
+		navigate_to(goal_system)
+	return TRUE
+
+/datum/fleet/interdiction/move(datum/star_system/target, force=FALSE)
+	if(!target && hunted_ship)
+		goal_system = hunted_ship.current_system
+	. = ..()
+	if(.)
+		navigate_to(goal_system)	//Anytime we successfully move we recalculate the route, since players like moving around alot.
+
+/datum/fleet/interdiction/New()
+	. = ..()
+	 hunted_ship = SSstar_system.find_main_overmap()
+
 
 //Clear a ship from this fleet.
 /datum/fleet/proc/remove_ship(obj/structure/overmap/OM)
@@ -417,6 +453,18 @@ GLOBAL_LIST_EMPTY(ai_goals)
 	taunts = list("We're coming for Sol, and you can't stop us. All batteries fire at will.", "Lay down your arms now, you're outnumbered.", "All hands, assume assault formation. Begin bombardment.")
 	audio_cues = list("https://www.youtube.com/watch?v=k8-HHivlj8k")
 
+/datum/fleet/interdiction
+	name = "Syndicate Interdiction Fleet"	//These fun guys can and will hunt the player ship down, no matter how far away they are.
+	destroyer_types = list(/obj/structure/overmap/syndicate/ai/nuclear, /obj/structure/overmap/syndicate/ai/assault_cruiser, /obj/structure/overmap/syndicate/ai/assault_cruiser/boarding_frigate)
+	size = FLEET_DIFFICULTY_HARD
+	taunts = list("We have come to end your meagre existance. Prepare to die.", "Hostile entering weapons range. Fire at will.", "You have been a thorn in our side for quite a while. Time to end this.", "That is a nice ship you have there. Nothing a few nuclear missiles cannot fix.")
+	audio_cues = list("https://www.youtube.com/watch?v=dTKakINXjl8")
+	var/obj/structure/overmap/hunted_ship
+	initial_move_delay = 5 MINUTES
+	minimum_random_move_delay = 2 MINUTES	//These are quite a bunch faster than your usual fleets. Good luck running. It won't save you.
+	maximum_random_move_delay = 4 MINUTES
+	combat_move_delay = 6 MINUTES
+
 /datum/fleet/dolos
 	name = "Dolos Welcoming Party" //Don't do it czanek, don't fucking do it!
 	size = FLEET_DIFFICULTY_INSANE
@@ -460,7 +508,7 @@ GLOBAL_LIST_EMPTY(ai_goals)
 	. = ..()
 	if(current_system)
 		assemble(current_system)
-	addtimer(CALLBACK(src, .proc/move), 10 MINUTES)
+	addtimer(CALLBACK(src, .proc/move), initial_move_delay)
 
 //A ship has entered a system with a fleet present. Assemble the fleet so that it lives in this system now.
 
