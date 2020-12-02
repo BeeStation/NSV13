@@ -22,8 +22,19 @@ SUBSYSTEM_DEF(star_system)
 	var/nag_stacks = 0 //How many times have we told you to get a move on?
 	var/list/all_missions = list()
 	var/admin_boarding_override = FALSE //Used by admins to force disable boarders
+	var/time_limit = FALSE //Do we want to end the round after a specific time? Mostly used for galconquest.
+
 
 /datum/controller/subsystem/star_system/fire() //Overmap combat events control system, adds weight to combat events over time spent out of combat
+	if(time_limit && world.time >= time_limit)
+		var/datum/faction/winner = get_winner()
+		if(istype(SSticker.mode, /datum/game_mode/pvp))
+			var/datum/game_mode/pvp/mode = SSticker.mode
+			mode.winner = winner //This should allow the mode to finish up by itself
+			mode.check_finished()
+		else
+			SSticker.force_ending = 1
+		return
 	if(SSmapping.config.patrol_type == "passive")
 		priority_announce("[station_name()], you have been assigned to reconnaissance and exploration this shift. Scans indicate that besides a decent number of straggling Syndicate vessels, there will be little threat to your operations. You are granted permission to proceed at your own pace.", "[capitalize(SSmapping.config.faction)] Naval Command")
 		for(var/datum/star_system/SS in systems)
@@ -39,10 +50,15 @@ SUBSYSTEM_DEF(star_system)
 		next_nag_time = world.time + nag_interval
 		switch(nag_stacks)
 			if(1)
-				var/message = pick(	"This is Centcomm to all vessels assigned to patrol the Alpha Quadrant, please continue on your patrol route", \
-									"This is Centcomm to all vessels assigned to patrol the Alpha Quadrant, we are not paying you to idle in space during your assigned patrol schedule", \
-									"This is Centcomm to all vessels assigned to patrol the Alpha Quadrant, your inactivity has been noted and will not be tolerated.", \
-									"This is Centcomm to the patrol vessel currently assigned to the Alpha Quadrant, you are expected to fulfill your assigned mission")
+				var/message = pick(	"This is Central Command to all vessels assigned to patrol the Alpha Quadrant, please continue on your patrol route", \
+									"This is Central Command to all vessels assigned to patrol the Alpha Quadrant, we are not paying you to idle in space during your assigned patrol schedule", \
+									"This is Central Command to all vessels assigned to patrol the Alpha Quadrant, what are you doing lounging around? You have a schedule to fulfill, go out there and do what you are paid to do.", \
+									"This is Central Command to all vessels assigned to patrol the Alpha Quadrant, increased activity has been noticed on the Syndicate's communications frequencies. You are ordered to get a move on.", \
+									"This is Central Command to all vessels assigned to patrol the Alpha Quadrant, you have been sent on a patrol, not sentry duty.", \
+									"This is Central Command to the patrol vessel currently assigned to the Alpha Quadrant. Are you having issues with your FTL drives? If not, please proceed with the scheduled patrol.", \
+									"This is Central Command to the patrol vessel currently assigned to the Alpha Quadrant. A report of your activity shows no significant movement. We request you to proceed with the patrol as soon as possible.", \
+									"This is Central Command to all vessels assigned to patrol the Alpha Quadrant, your inactivity has been noted and will not be tolerated.", \
+									"This is Central Command to the patrol vessel currently assigned to the Alpha Quadrant, you are expected to fulfill your assigned mission")
 				priority_announce("[message]", "Naval Command") //Warn players for idleing too long
 			if(2)
 				priority_announce("[station_name()] is no longer responding to commands. Enacting emergency defense conditions. All shipside squads must assist in getting the ship ready for combat by any means necessary.", "WhiteRapids Administration Corps")
@@ -54,14 +70,17 @@ SUBSYSTEM_DEF(star_system)
 				target.fleets += F
 				F.current_system = target
 				F.assemble(target)
-				minor_announce("[station_name()]. Your pay has been docked to cover expenses, continued ignorance of your mission will lead to removal by force.", "Naval Command")
+				priority_announce("[station_name()]. Your pay has been docked to cover expenses, continued ignorance of your mission will lead to removal by force.", "Naval Command")
 				nag_interval = rand(5 MINUTES, 10 MINUTES) //Keep up the nag, but slowly.
 				var/total_deductions
 				for(var/account in SSeconomy.department_accounts)
 					var/datum/bank_account/D = SSeconomy.get_dep_account(account)
+					if(account == ACCOUNT_SYN)
+						continue //No, just no.
 					total_deductions += D.account_balance / 2
 					D.account_balance /= 2
 			if(4 to INFINITY) //From this point on, you can actively lose the game.
+				priority_announce("Attention all ships throughout the fleet. Execute protocol Sigma-Omega-Lima. A Syndicate invasion force has been detected entering the perimeter of Sol. All ships must assist with defense, recapture and retaliation of and for allied space. May the luck be in your favor.")
 				nag_interval = rand(10 MINUTES, 15 MINUTES) //Keep up the nag, but slowly.
 				next_nag_time = world.time + nag_interval
 				var/lost_influence = FALSE
@@ -74,6 +93,7 @@ SUBSYSTEM_DEF(star_system)
 							if(F.alignment == "nanotrasen" && !istype(F, /datum/fleet/nanotrasen/earth))
 								F.defeat()
 								lost_influence ++
+								priority_announce("Attention all ships throughout the fleet. Execute protocol Sigma-Omega-Lima. A Syndicate invasion force has been detected entering the perimeter of Sol. All ships must assist with defense, recapture and retaliation of and for allied space. May the luck be in your favor.")
 				if(!lost_influence)
 					var/datum/faction/F = faction_by_id(FACTION_ID_NT)
 					F.lose_influence(100)
@@ -101,7 +121,6 @@ Returns a faction datum by its name (case insensitive!)
 	for(var/datum/faction/F in factions)
 		if(F.id == id)
 			return F
-
 
 /datum/controller/subsystem/star_system/proc/add_blacklist(what)
 	enemy_blacklist += what
@@ -206,7 +225,17 @@ Returns a faction datum by its name (case insensitive!)
 			return TRUE
 	return FALSE
 
-	/* Deprecated.
+/datum/controller/subsystem/star_system/proc/get_winner()
+	var/highestTickets = 0
+	var/datum/faction/winner = null
+	for(var/X in factions)
+		var/datum/faction/F = X
+		if(F.tickets > highestTickets)
+			winner = F
+			highestTickets = F.tickets
+	return winner
+
+	 /*
 	if(patrols_left <= 0 && systems_cleared >= initial(patrols_left))
 		var/medal_type = null //Reward good players.
 		switch(times_cleared)
@@ -798,28 +827,68 @@ To make things worse, this hellhole is entirely RNG, so good luck mapping it!
 	x = 100
 	y = 30
 	sector = 3
+	adjacency_list = list("Tortuga")
 
 /datum/star_system/sector3/New()
 	. = ..()
 	addtimer(CALLBACK(src, .proc/generate_badlands), 10 SECONDS)
 
 /datum/star_system/sector3/proc/generate_badlands()
-	var/last_system_x = x
-	var/last_system_y = y
+
 	var/list/generated = list()
-	var/amount = rand(10,20)
+	var/amount = rand(100, 200)
+	var/toocloseconflict = 0
+	message_admins("Generating Brazil with [amount] systems.")
+	var/start_timeofday = REALTIMEOFDAY
 	for(var/I=0;I<amount,I++){
 		var/datum/star_system/random/randy = new /datum/star_system/random()
-		randy.system_type = pick("radioactive", "blackhole", "quasar", "accretiondisk", "nebula", "supernova")
+		randy.system_type = pick("radioactive", 0.5;"blackhole", "quasar", 0.75;"accretiondisk", "nebula", "supernova", "debris")
 		randy.apply_system_effects()
 		randy.name = (randy.system_type != "nebula") ? "S-[rand(0,10000)]" : "N-[rand(0,10000)]"
-		randy.x = last_system_x + rand(-20, 10)
-		randy.y = last_system_y + rand(-20, 10)
-		last_system_x = randy.x
-		last_system_y = randy.y
+		var/randy_valid = FALSE
+
+		while(!randy_valid)
+			randy.x = (rand(1, 10)/10)+rand(1, 200)+20 // Buffer space for readability
+			randy.y = (rand(1, 10)/10)+rand(1, 100)+30 // Offset vertically for viewing 'pleasure'
+			var/syscheck_pass = TRUE
+			for(var/datum/star_system/S in generated)
+				if(!syscheck_pass)
+					break
+				if(S.dist(randy) < 5)// Maybe this is enough?
+					syscheck_pass = FALSE
+					continue
+				if(S.name == "Rubicon" && (S.dist(randy) < 7)) //Rubicon's text is too fat.
+					syscheck_pass = FALSE
+					continue
+			if(syscheck_pass)
+				randy_valid = TRUE
+			else
+				toocloseconflict++
+
 		randy.sector = sector //Yeah do I even need to explain this?
 		randy.hidden = FALSE
 		generated += randy
+		if(prob(10))
+			//10 percent of systems have a trader for resupply.
+			var/x = pick(typesof(/datum/trader)-/datum/trader)
+			var/datum/trader/randytrader = new x
+			var/obj/structure/overmap/trader/randystation = SSstar_system.spawn_anomaly(randytrader.station_type, randy)
+			randystation.starting_system = randy.name
+			randystation.set_trader(randytrader)
+			randy.trader = randytrader
+			randytrader.generate_missions()
+
+
+		else if(prob(10))
+			var/x = pick(/datum/fleet/wolfpack, /datum/fleet/neutral, /datum/fleet/pirate, /datum/fleet/boarding, /datum/fleet/nanotrasen/light)
+			var/datum/fleet/randyfleet = new x
+			randyfleet.current_system = randy
+			randyfleet.hide_movements = TRUE //Prevent the shot of spam this caused to R1497.
+			randy.fleets += randyfleet
+			randy.alignment = randyfleet.alignment
+
+
+
 		SSstar_system.systems += randy
 		if(I <= 0) //First system always needs to join to the entry point.
 			adjacency_list += randy.name
@@ -848,6 +917,26 @@ To make things worse, this hellhole is entirely RNG, so good luck mapping it!
 		rubiconnector.adjacency_list += partner.name
 		partner.adjacency_list += rubiconnector
 
+	//Pick a random entrypoint system
+	var/datum/star_system/inroute
+	var/ir_rub = 0
+	var/ir_othershit = 0
+	while (!inroute)
+		var/datum/star_system/picked = pick(generated)
+		if(rubiconnector in picked.adjacency_list)
+			ir_rub++
+			continue // Skip
+		if(picked.trader || picked.fleets.len)
+			ir_othershit++
+			continue
+		var/datum/star_system/sol/solsys = SSstar_system.system_by_id("Sol")
+		solsys.adjacency_list += picked.name
+		picked.adjacency_list += solsys.name
+		inroute = picked
+		inroute.is_hypergate = TRUE
+
+	var/time = (REALTIMEOFDAY - start_timeofday) / 10
+	message_admins("Brazil has been generated. T:[time]s CFS:[toocloseconflict]|[ir_rub]|[ir_othershit] Rubiconnector: [rubiconnector], Inroute system is [inroute]")
 /*
 <Summary>
 Welcome to the endgame. This sector is the hardest you'll encounter in game and holds the Syndicate capital.
@@ -863,7 +952,7 @@ Welcome to the endgame. This sector is the hardest you'll encounter in game and 
 
 /datum/star_system/sector4/aeterna
 	name = "Aeterna Victrix"
-	adjacency_list = list("Mediolanum", "Deimos")
+	adjacency_list = list("Mediolanum", "Deimos", "Romulus")
 	x = 90
 	y = 40
 
@@ -899,6 +988,7 @@ Welcome to the endgame. This sector is the hardest you'll encounter in game and 
 	system_type = "radioactive"
 	adjacency_list = list("Abassi", "Deimos", "Phobos") //No going back from here...
 	threat_level = THREAT_LEVEL_DANGEROUS
+	hidden = TRUE
 	fleet_type = /datum/fleet/dolos //You're insane to attempt this.
 
 /datum/star_system/sector4/abassi
