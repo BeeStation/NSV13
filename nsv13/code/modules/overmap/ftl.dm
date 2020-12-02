@@ -146,16 +146,18 @@
 		SEND_SIGNAL(src, COMSIG_FTL_STATE_CHANGE)
 		if(role == MAIN_OVERMAP) //Scuffed please fix
 			priority_announce("Attention: All hands brace for FTL translation. Destination: [target_system]. Projected arrival time: [station_time_timestamp("hh:mm", world.time + speed MINUTES)] (Local time)","Automated announcement") //TEMP! Remove this shit when we move ruin spawns off-z
-		SSstar_system.ships[src]["target_system"] = target_system
-		SSstar_system.ships[src]["from_time"] = world.time
-		SSstar_system.ships[src]["current_system"] = null
-		addtimer(CALLBACK(src, .proc/jump, target_system, FALSE), speed MINUTES)
-		if(structure_crit) //Tear the ship apart if theyre trying to limp away.
+			if(structure_crit) //Tear the ship apart if theyre trying to limp away.
 			for(var/i = 0, i < rand(4,8), i++)
 				var/name = pick(GLOB.teleportlocs)
 				var/area/target = GLOB.teleportlocs[name]
 				var/turf/T = pick(get_area_turfs(target))
 				new /obj/effect/temp_visual/explosion_telegraph(T)
+		SSstar_system.ships[src]["target_system"] = target_system
+		SSstar_system.ships[src]["from_time"] = world.time
+		SSstar_system.ships[src]["current_system"] = null
+		addtimer(CALLBACK(src, .proc/jump, target_system, FALSE), speed MINUTES)
+		
+
 	else
 		SSstar_system.ships[src]["target_system"] = null
 		SSstar_system.ships[src]["current_system"] = target_system
