@@ -2203,7 +2203,7 @@ All effects don't start immediately, but rather get worse over time; the rate is
 
 /datum/reagent/consumable/ethanol/fourthwall/on_mob_metabolize(mob/living/carbon/M)
 	trauma_list = list()
-	to_chat(M, "<font size=5><b><span class='userdanger'>Your mind breaks, as you realize your reality is just some comupter game.</span></b></font>")
+	to_chat(M, "<font size=5><b><span class='userdanger'>Your mind breaks, as you realize your reality is just some computer game.</span></b></font>")
 	var/datum/brain_trauma/trauma = traumaweightpick(60,40,0)
 	trauma = new trauma()
 	trauma_list += trauma
