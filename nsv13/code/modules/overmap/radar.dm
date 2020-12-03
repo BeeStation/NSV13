@@ -35,8 +35,8 @@
 	var/scanning_speed = 2 //Duration of each pulse.
 	var/last_scanning_speed = 2 //To update the sound loop
 	var/start_with_sound = FALSE //Used to stop fighters playing dradis sounds all at once and being annoying.
-	var/show_asteroids = FALSE //Used so that mining can track what they're supposed to be drilling.
-	var/mining_sensor_tier = 1
+	var/show_asteroids = TRUE //Used so that mining can track what they're supposed to be drilling.
+	var/mining_sensor_tier = 3 // Pilots need to see all asteroids so they don't bump into them
 	var/last_ship_count = 0 //Plays a tone when ship count changes
 	//Alpha sliders to let you filter out info you don't want to see.
 	var/showFriendlies = 100
@@ -84,6 +84,7 @@
 	req_one_access_txt = "31;48"
 	circuit = /obj/item/circuitboard/computer/ship/dradis/mining
 	show_asteroids = TRUE
+	mining_sensor_tier = 1 // Mining gets their upgrades from science for now
 
 /obj/machinery/computer/ship/dradis/internal
 	name = "Integrated dradis console"

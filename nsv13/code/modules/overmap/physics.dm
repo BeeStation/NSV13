@@ -517,28 +517,37 @@ The while loop runs at a programatic level and is thus separated from any thrott
 			// If the attacker hits the rock hard enough
 			if ( bump_velocity >= 3 )
 				// If the attacker is a player ship, and not a mining ship
-				if ( istype( B, /obj/structure/overmap/nanotrasen ) && !istype( B, /obj/structure/overmap/nanotrasen/mining_cruiser ) )
-					var/obj/structure/overmap/nanotrasen/playerShip = B
+				if ( istype( src, /obj/structure/overmap/nanotrasen ) )
+					var/obj/structure/overmap/nanotrasen/playerShip = src
 
-					if( !playerShip.ai_controlled )
+					if( playerShip.role == MAIN_OVERMAP )
 						message_admins("[key_name_admin(pilot)] has impacted the player ship into [A] with velocity [bump_velocity]")
 						// Destroy the asteroid
 						A.Destroy()
 
-						// Run the relevant asteroid event based on what asteroid type the player ship hit, to simulate flying through the debris
-						var/datum/round_event_control/meteorType = null
-						var/announceChance = 100
-						if ( istype( A, /obj/structure/overmap/asteroid/large ) )
-							meteorType = new /datum/round_event_control/meteor_wave/threatening()
-						else if ( istype( A, /obj/structure/overmap/asteroid/medium ) )
-							meteorType = new /datum/round_event_control/meteor_wave()
-						else
-							meteorType = new /datum/round_event_control/meteor_wave/major_dust()
-							// This event subtype produces an illogical centcom report that doesn't match ramming asteroids. Plus space dust is mostly harmless
-							announceChance = 0
+						// Check if the ship has shields that are enabled and have integrity
+						var/obj/machinery/shield_generator/playerShields = null
+						var/list/shieldIntegrity = null
 
-						var/datum/round_event/meteorEvent = meteorType.runEvent()
-						meteorEvent.announceChance = announceChance
+						if ( playerShip.shields )
+							playerShields = playerShip.shields
+							shieldIntegrity = playerShields.shield
+
+						if ( !( playerShields && playerShields.active && shieldIntegrity && shieldIntegrity[ "integrity" ] > 0 ) )
+							// If they do not have shields, run the relevant asteroid event based on what asteroid type the player ship hit, to simulate flying through the debris
+							var/datum/round_event_control/meteorType = null
+							var/announceChance = 100
+							if ( istype( A, /obj/structure/overmap/asteroid/large ) )
+								meteorType = new /datum/round_event_control/meteor_wave/threatening()
+							else if ( istype( A, /obj/structure/overmap/asteroid/medium ) )
+								meteorType = new /datum/round_event_control/meteor_wave()
+							else
+								meteorType = new /datum/round_event_control/meteor_wave/major_dust()
+								// This event subtype produces an illogical centcom report that doesn't match ramming asteroids. Plus space dust is mostly harmless
+								announceChance = 0
+
+							var/datum/round_event/meteorEvent = meteorType.runEvent()
+							meteorEvent.announceChance = announceChance
 
 		collide(A, c_response, bump_velocity)
 		return FALSE
