@@ -494,7 +494,7 @@ The while loop runs at a programatic level and is thus separated from any thrott
 		velocity.x -= bump_impulse
 	return ..()
 
-/obj/structure/overmap/Bump(atom/movable/A, datum/collision_response/c_response, atom/movable/B)
+/obj/structure/overmap/Bump(atom/movable/A, datum/collision_response/c_response)
 	var/bump_velocity = 0
 	if(dir & (NORTH|SOUTH))
 		bump_velocity = abs(velocity.y) + (abs(velocity.x) / 10)
