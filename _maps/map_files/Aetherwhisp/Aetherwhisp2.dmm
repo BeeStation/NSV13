@@ -14625,6 +14625,11 @@
 /obj/machinery/light{
 	dir = 1
 	},
+/obj/item/key/fighter_tug{
+	pixel_x = 4;
+	pixel_y = 4
+	},
+/obj/item/key/fighter_tug,
 /turf/open/floor/carpet/ship,
 /area/nsv/atc)
 "llI" = (
@@ -15595,6 +15600,7 @@
 "lWB" = (
 /obj/structure/table,
 /obj/item/camera,
+/obj/item/key/fighter_tug,
 /turf/open/floor/carpet/red,
 /area/nsv/atc)
 "lXF" = (
@@ -17348,9 +17354,11 @@
 /turf/open/floor/engine,
 /area/nsv/hanger/storage)
 "nmh" = (
-/obj/item/key/fighter_tug,
-/turf/open/floor/engine/vacuum,
-/area/nsv/hanger)
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/obj/effect/landmark/start/fighter_pilot,
+/turf/open/floor/engine,
+/area/nsv/hanger/storage)
 "nml" = (
 /obj/machinery/recharge_station,
 /obj/structure/disposalpipe/trunk,
@@ -21880,7 +21888,6 @@
 	},
 /obj/machinery/computer/lore_terminal,
 /obj/item/storage/photo_album,
-/obj/item/key/fighter_tug,
 /obj/item/pen/fountain,
 /obj/machinery/newscaster/directional/west,
 /turf/open/floor/carpet/ship,
@@ -24568,8 +24575,6 @@
 	},
 /area/nsv/hanger/storage)
 "ssI" = (
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /obj/effect/landmark/start/fighter_pilot,
 /turf/open/floor/engine,
 /area/nsv/hanger/storage)
@@ -30424,10 +30429,6 @@
 "xjr" = (
 /turf/closed/wall/r_wall/ship,
 /area/nsv/weapons/starboard)
-"xjv" = (
-/obj/effect/landmark/start/fighter_pilot,
-/turf/open/floor/engine,
-/area/nsv/hanger/storage)
 "xkc" = (
 /obj/machinery/atmospherics/components/unary/portables_connector{
 	dir = 1
@@ -65854,7 +65855,7 @@ krg
 vAz
 vAz
 vAz
-nmh
+vAz
 tTN
 nIK
 wLR
@@ -69968,12 +69969,12 @@ hDk
 cVf
 eOT
 nNJ
-xjv
+ssI
 dUX
 nNJ
 nNJ
 nNJ
-xjv
+ssI
 jwf
 yal
 cfz
@@ -70224,12 +70225,12 @@ bvI
 cuz
 aAP
 cZH
-ssI
+nmh
 cZH
 cvl
 nNJ
 nNJ
-xjv
+ssI
 nNJ
 nNJ
 yal
