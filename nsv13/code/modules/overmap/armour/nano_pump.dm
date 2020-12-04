@@ -124,7 +124,8 @@
 		return
 	apnw?.apnp -= src
 	var/obj/item/multitool/M = tool
-	apnw = M.buffer
+	if(!isnull(M.buffer))
+		apnw = M.buffer
 	apnw.apnp += src
 	M.buffer = null
 	quadrant = input(user, "Direct nano-repair pump to which quadrant?", "[name]") as null|anything in list("forward_port", "forward_starboard", "aft_port", "aft_starboard")
