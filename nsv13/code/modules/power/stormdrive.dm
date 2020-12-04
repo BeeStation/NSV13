@@ -1102,12 +1102,22 @@ Control Rods
 		cut_overlays()
 		flick("meltdown", src)
 		do_meltdown_effects()
+		fail_meltdown_objective()
 		sleep(10)
 		icon_state = "broken"
 		reactor_end_times = FALSE //We don't need this anymore
 	else
 		warning_state = WARNING_STATE_NONE
 		reactor_end_times = FALSE
+
+/obj/machinery/atmospherics/components/binary/stormdrive_reactor/proc/fail_meltdown_objective()
+	for(var/client/C in GLOB.clients)
+		if(C)
+			if(CONFIG_GET(flag/allow_crew_objectives))
+				var/mob/M = C.mob
+				if(M?.mind?.current && LAZYLEN(M.mind.crew_objectives) && (M.job == "Station Engineer" || M.job == "Chief Engineer" || M.job == "Atmospheric Technician"))
+					for(var/datum/objective/crew/meltdown/MO in M.mind.crew_objectives)
+						MO.meltdown = TRUE
 
 /obj/machinery/atmospherics/components/binary/stormdrive_reactor/proc/do_meltdown_effects()
 	explosion(get_turf(src), 0, 0, 10, 20, TRUE, TRUE)
