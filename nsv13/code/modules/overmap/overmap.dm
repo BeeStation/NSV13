@@ -247,10 +247,10 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 	find_area()
 	switch(mass) //Scale speed with mass (tonnage)
 		if(MASS_TINY) //Tiny ships are manned by people, so they need air.
-			forward_maxthrust = 4
-			backward_maxthrust = 4
-			side_maxthrust = 3
-			max_angular_acceleration = 180
+			forward_maxthrust = 2
+			backward_maxthrust = 2
+			side_maxthrust = 2
+			max_angular_acceleration = 100
 			cabin_air = new
 			cabin_air.set_temperature(T20C)
 			cabin_air.set_volume(200)
@@ -260,12 +260,12 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 			inertial_dampeners = FALSE
 
 		if(MASS_SMALL)
-			forward_maxthrust = 3
-			backward_maxthrust = 3
-			side_maxthrust = 3
-			max_angular_acceleration = 110
-			bounce_factor = 0.65
-			lateral_bounce_factor = 0.95
+			forward_maxthrust = 1
+			backward_maxthrust = 1
+			side_maxthrust = 1.5
+			max_angular_acceleration = 80
+			bounce_factor = 0.4
+			lateral_bounce_factor = 0.4
 
 		if(MASS_MEDIUM)
 			forward_maxthrust = 2

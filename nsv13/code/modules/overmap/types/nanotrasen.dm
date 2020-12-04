@@ -37,32 +37,31 @@
 	armor = list("overmap_light" = 70, "overmap_heavy" = 25)
 
 /obj/structure/overmap/nanotrasen/missile_cruiser //This has nothing to do with missiles
-	name = "vago class heavy cruiser"
-	desc = "A medium sized ship with an advanced railgun, long range torpedo systems and multiple PDCs. This ship is fast, responsive, and able to deliver copious amounts of torpedo bombardment at a moment's notice."
-	icon = 'nsv13/icons/overmap/nanotrasen/missile_cruiser.dmi'
-	icon_state = "patrol_cruiser"
-	mass = MASS_MEDIUM
+	name = "caracal class missile frigate"
+	icon = 'nsv13/icons/overmap/new/nanotrasen/frigate.dmi'
+	icon_state = "frigate"
+	mass = MASS_SMALL
 	sprite_size = 48
-	damage_states = TRUE
-	pixel_z = -96
-	pixel_w = -96
+	damage_states = FALSE
+	//pixel_z = -96
+	//pixel_w = -96
 	max_integrity = 1500 //Max health
 	integrity_failure = 1500
-	collision_positions = list(new /datum/vector2d(-13,71), new /datum/vector2d(-25,52), new /datum/vector2d(-24,-25), new /datum/vector2d(-11,-66), new /datum/vector2d(4,-69), new /datum/vector2d(15,-28), new /datum/vector2d(15,38), new /datum/vector2d(6,61))
-	armor = list("overmap_light" = 70, "overmap_heavy" = 25)
+	//collision_positions = list(new /datum/vector2d(-13,71), new /datum/vector2d(-25,52), new /datum/vector2d(-24,-25), new /datum/vector2d(-11,-66), new /datum/vector2d(4,-69), new /datum/vector2d(15,-28), new /datum/vector2d(15,38), new /datum/vector2d(6,61))
+	armor = list("overmap_light" = 50, "overmap_heavy" = 10)
 
 /obj/structure/overmap/nanotrasen/heavy_cruiser
-	name = "sol class heavy cruiser"
-	desc = "A large ship with an advanced railgun, long range torpedo systems and multiple PDCs. It is slow, heavy and frighteningly powerful, excelling at sustained combat over short distances."
-	icon = 'nsv13/icons/overmap/nanotrasen/heavy_Cruiser.dmi'
-	icon_state = "heavy_cruiser"
+	name = "corvid class tactical cruiser"
+	icon = 'nsv13/icons/overmap/new/nanotrasen/cruiser.dmi'
+	icon_state = "cruiser"
 	mass = MASS_LARGE
 	sprite_size = 48
-	damage_states = TRUE
-	pixel_z = -170
-	pixel_w = -112
+	//damage_states = TRUE
+//	pixel_z = -170
+//	pixel_w = -112
 	max_integrity = 1500 //Max health
 	integrity_failure = 1500
+	/*
 	collision_positions = list(new /datum/vector2d(31,150),\
 		new /datum/vector2d(-32,147),\
 		new /datum/vector2d(-43,133),\
@@ -71,6 +70,7 @@
 		new /datum/vector2d(11,-164),\
 		new /datum/vector2d(44,-59),\
 		new /datum/vector2d(68,120))
+	*/
 	armor = list("overmap_light" = 70, "overmap_heavy" = 30)
 
 /obj/structure/overmap/nanotrasen/battleship
