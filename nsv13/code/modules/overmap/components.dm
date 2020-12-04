@@ -391,7 +391,7 @@ GLOBAL_LIST_INIT(computer_beeps, list('nsv13/sound/effects/computer/beep.ogg','n
 			qdel(current_beam)
 			current_beam = null
 		radio.talk_into(src, "Salvage armatures retracted. Aborting salvage operations.", radio_channel)
-		salvage_target.explode() //Ship loses stability. It's literally just us that's holding it together.
+//		salvage_target.explode() //Ship loses stability. It's literally just us that's holding it together.
 		UnregisterSignal(linked, COMSIG_MOVABLE_MOVED, .proc/update_salvage_target)
 		salvage_target = null
 

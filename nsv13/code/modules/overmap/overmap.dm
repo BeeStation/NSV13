@@ -143,7 +143,7 @@
 	var/flak_battery_amount = 1
 
 	var/role = NORMAL_OVERMAP
-	
+
 	var/list/missions = list()
 
 /**
