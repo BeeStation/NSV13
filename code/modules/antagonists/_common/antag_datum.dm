@@ -35,7 +35,7 @@ GLOBAL_LIST(admin_antag_list)
 	var/datum/browser/popup = new(owner.current, "antagTips", null, 600, 400)
 	popup.set_window_options("titlebar=1;can_minimize=0;can_resize=0")
 	//Replaces traitor.png with the appropriate hashed url
-	popup.set_content(replacetext(rustg_file_read("html/antagtips/[html_encode(fileid)].html"), regex("\\w*.png", "gm"), /datum/antagonist/proc/get_asset_url_from))
+//	popup.set_content(replacetext(rustg_file_read("html/antagtips/[html_encode(fileid)].html"), regex("\\w*.png", "gm"), /datum/antagonist/proc/get_asset_url_from)) TODO: RE-ENABLE WHEN TGUI4 UNFUCKED!!!!
 	popup.open(FALSE)
 
 /datum/antagonist/New()

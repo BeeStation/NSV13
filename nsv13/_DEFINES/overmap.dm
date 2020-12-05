@@ -2,6 +2,15 @@
 
 #define FIRE_MODE_PDC 1
 #define FIRE_MODE_TORPEDO 2
+
+//Revision 2.
+#define FIRE_MODE_AMS 3 //You don't get to physically fire this one.
+
+
+
+
+
+
 #define FIRE_MODE_MAC 3
 #define FIRE_MODE_RAILGUN 4
 #define FIRE_MODE_GAUSS 5
@@ -48,8 +57,8 @@
 #define SENSOR_VISIBILITY_VERYFAINT 0.25
 #define SENSOR_VISIBILITY_GHOST 0 //Totally impervious to scans.
 
-#define SENSOR_RANGE_DEFAULT 85
-#define SENSOR_RANGE_FIGHTER 75 //Fighters have crappier sensors. Coordinate with the ATC!
+#define SENSOR_RANGE_DEFAULT 40
+#define SENSOR_RANGE_FIGHTER 30 //Fighters have crappier sensors. Coordinate with the ATC!
 
 #define CLOAK_TEMPORARY_LOSS 2 //Cloak handling. When you fire a weapon, you temporarily lose your cloak, and AIs can target you.
 

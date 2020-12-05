@@ -57,10 +57,12 @@
 	mass = MASS_LARGE
 	sprite_size = 48
 	//damage_states = TRUE
-//	pixel_z = -170
-//	pixel_w = -112
+	//pixel_z = -32
+	//pixel_w = -32
 	max_integrity = 1500 //Max health
 	integrity_failure = 1500
+	bound_height = 96
+	bound_width = 96
 	/*
 	collision_positions = list(new /datum/vector2d(31,150),\
 		new /datum/vector2d(-32,147),\

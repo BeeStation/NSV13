@@ -63,7 +63,7 @@
 	var/desired_angle = null // set by pilot moving his mouse
 	var/angular_velocity = 0 // degrees per second
 	var/max_angular_acceleration = 180 // in degrees per second per second
-	var/speed_limit = 5 //Stops ships from going too damn fast. This can be overridden by things like fighters launching from tubes, so it's not a const.
+	var/speed_limit = 2.5 //Stops ships from going too damn fast. This can be overridden by things like fighters launching from tubes, so it's not a const.
 	var/last_thrust_forward = 0
 	var/last_thrust_right = 0
 	var/last_rotate = 0
@@ -145,6 +145,8 @@
 	var/role = NORMAL_OVERMAP
 
 	var/list/missions = list()
+
+	var/last_sonar_pulse = 0
 
 /**
 Proc to spool up a new Z-level for a player ship and assign it a treadmill.
@@ -260,35 +262,35 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 			inertial_dampeners = FALSE
 
 		if(MASS_SMALL)
-			forward_maxthrust = 1
-			backward_maxthrust = 1
-			side_maxthrust = 1.5
-			max_angular_acceleration = 80
+			forward_maxthrust = 0.5
+			backward_maxthrust = 0.5
+			side_maxthrust = 0.5
+			max_angular_acceleration = 7
 			bounce_factor = 0.4
 			lateral_bounce_factor = 0.4
 
 		if(MASS_MEDIUM)
-			forward_maxthrust = 2
-			backward_maxthrust = 2
-			side_maxthrust = 2
-			max_angular_acceleration = 15
+			forward_maxthrust = 0.35
+			backward_maxthrust = 0.35
+			side_maxthrust = 0.35
+			max_angular_acceleration = 5
 			bounce_factor = 0.5
 			lateral_bounce_factor = 0.8
 
 		if(MASS_LARGE)
-			forward_maxthrust = 1.85
-			backward_maxthrust = 1.85
-			side_maxthrust = 1.5
-			max_angular_acceleration = 10
+			forward_maxthrust = 0.1
+			backward_maxthrust = 0.1
+			side_maxthrust = 0.1
+			max_angular_acceleration = 2.5
 			bounce_factor = 0.45
 			lateral_bounce_factor = 0.8
 			flak_battery_amount = 2
 
 		if(MASS_TITAN)
-			forward_maxthrust = 0.5
-			backward_maxthrust = 0.5
-			side_maxthrust = 0.5
-			max_angular_acceleration = 2.5
+			forward_maxthrust = 0.05
+			backward_maxthrust = 0.05
+			side_maxthrust = 0.05
+			max_angular_acceleration = 0.75
 			bounce_factor = 0.35
 			lateral_bounce_factor = 0.6
 			flak_battery_amount = 3
