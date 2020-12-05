@@ -39,11 +39,14 @@
 /obj/structure/overmap/syndicate/pvp/apply_weapons()
 	weapon_types[FIRE_MODE_PDC] = new/datum/ship_weapon/pdc_mount(src)
 	weapon_types[FIRE_MODE_TORPEDO] = new/datum/ship_weapon/torpedo_launcher(src)
+	weapon_types[FIRE_MODE_AMS] = new/datum/ship_weapon/vls(src)
+	/*
 	weapon_types[FIRE_MODE_FLAK] = new/datum/ship_weapon/flak(src)
 	weapon_types[FIRE_MODE_RAILGUN] = new/datum/ship_weapon/railgun(src)
 	weapon_types[FIRE_MODE_GAUSS] = new /datum/ship_weapon/gauss(src) //AI ships want to be able to use gauss too. I say let them...
 	weapon_types[FIRE_MODE_MAC] = new /datum/ship_weapon/mac(src)
 	weapon_types[FIRE_MODE_RED_LASER] = new /datum/ship_weapon/pdc_mount/burst_phaser(src)
+	*/
 
 /obj/structure/overmap/syndicate/pvp/hulk //Larger PVP ship for larger pops.
 	name = "SSV Hulk"
@@ -77,19 +80,30 @@
 	. = ..()
 
 /obj/structure/overmap/syndicate/ai //Generic bad guy #10000. GRR.
-	name = "Syndicate light cruiser"
-	icon = 'nsv13/icons/overmap/syndicate/syn_light_cruiser.dmi'
-	icon_state = "cruiser"
+	name = "Mako class patrol frigate"
+	icon = 'nsv13/icons/overmap/new/syndicate/frigate.dmi'
+	icon_state = "mako"
 	ai_controlled = TRUE
 	ai_behaviour = AI_AGGRESSIVE
-	mass = MASS_MEDIUM
-	sprite_size = 96
-	damage_states = TRUE
+	mass = MASS_SMALL
+	sprite_size = 48
+	damage_states = FALSE
+	obj_integrity = 500
+	max_integrity = 500
+	integrity_failure = 500
 	area_type = /area/ruin/powered/nsv13/gunship
 	var/bounty = 1000
-	collision_positions = list(new /datum/vector2d(-3,45), new /datum/vector2d(-17,29), new /datum/vector2d(-22,-12), new /datum/vector2d(-11,-45), new /datum/vector2d(7,-47), new /datum/vector2d(22,-12), new /datum/vector2d(9,30))
-	armor = list("overmap_light" = 55, "overmap_heavy" = 15)
+	armor = list("overmap_light" = 50, "overmap_heavy" = 15)
 	ai_trait = AI_TRAIT_DESTROYER
+
+/obj/structure/overmap/syndicate/ai/mako_carrier
+	icon_state = "mako_carrier"
+
+/obj/structure/overmap/syndicate/ai/mako_flak
+	name = "Mauler class flak frigate"
+	icon_state = "mako_flak"
+	flak_battery_amount = 1
+	mass = MASS_MEDIUM
 
 /obj/structure/overmap/syndicate/ai/nuclear
 	name = "Thermonuclear frigate"
@@ -99,8 +113,24 @@
 	shots_left = 7 //Reload yer nukes
 	torpedoes = 5
 	missiles = 10
-	pixel_z = -32
-	pixel_w = -32
+
+/obj/structure/overmap/syndicate/ai/destroyer
+	name = "Hammerhead class missile destroyer"
+	icon = 'nsv13/icons/overmap/new/syndicate/destroyer.dmi'
+	icon_state = "hammerhead"
+	bound_height = 64
+	bound_width = 64
+	mass = MASS_MEDIUM
+	obj_integrity = 700
+	max_integrity = 700
+	integrity_failure = 700
+
+/obj/structure/overmap/syndicate/ai/destroyer/flak
+	name = "Hammerhead class flak destroyer"
+	mass = MASS_LARGE
+	flak_battery_amount = 1
+	missiles = 0
+	torpedoes = 0
 
 /obj/structure/overmap/syndicate/ai/carrier
 	name = "syndicate carrier"

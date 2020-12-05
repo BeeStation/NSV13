@@ -284,7 +284,6 @@ Repair
 			relay('nsv13/sound/effects/fighters/switch.ogg')
 			return
 		if("target_lock")
-			relinquish_target_lock()
 			relay('nsv13/sound/effects/fighters/switch.ogg')
 			return
 		if("mag_release")

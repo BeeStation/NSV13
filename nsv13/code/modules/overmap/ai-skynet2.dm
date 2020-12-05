@@ -662,7 +662,7 @@ GLOBAL_LIST_EMPTY(ai_goals)
 		return score
 	if(OM.ai_trait == AI_TRAIT_BATTLESHIP)
 		var/list/L = OM.fleet.taskforces["supply"]
-		return (L.len ? AI_SCORE_CRITICAL : AI_SCORE_LOW_PRIORITY)
+		return (L.len ? AI_SCORE_CRITICAL : 0)
 	return score //If you've got nothing better to do, come group with the main fleet.
 
 //Goal used entirely for supply ships, signalling them to run away! Most ships use the "repair and re-arm" goal instead of this one.
@@ -756,7 +756,7 @@ GLOBAL_LIST_EMPTY(ai_goals)
 	var/datum/fleet/fleet = null
 	var/datum/ai_goal/current_goal = null
 	var/obj/structure/overmap/squad_lead = null
-	var/obj/structure/last_overmap = null
+	var/obj/structure/overmap/last_overmap = null
 	var/switchsound_cooldown = 0
 
 /obj/structure/overmap/proc/ai_fire(atom/target)
@@ -814,7 +814,7 @@ GLOBAL_LIST_EMPTY(ai_goals)
 */
 
 /obj/structure/overmap/proc/slowprocess() //For ai ships, this allows for target acquisition, tactics etc.
-	handle_pdcs()
+	handle_autonomous_targeting()
 	SSstar_system.update_pos(src)
 	if(!ai_controlled)
 		return

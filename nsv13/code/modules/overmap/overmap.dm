@@ -140,7 +140,7 @@
 	var/list/occupying_levels = list() //Refs to the z-levels we own for setting parallax and that, or for admins to debug things when EVERYTHING INEVITABLY BREAKS
 	var/torpedo_type = /obj/item/projectile/guided_munition/torpedo
 	var/next_maneuvre = 0 //When can we pull off a fancy trick like boost or kinetic turn?
-	var/flak_battery_amount = 1
+	var/flak_battery_amount = 0
 
 	var/role = NORMAL_OVERMAP
 
@@ -284,7 +284,7 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 			max_angular_acceleration = 2.5
 			bounce_factor = 0.45
 			lateral_bounce_factor = 0.8
-			flak_battery_amount = 2
+			flak_battery_amount = 0
 
 		if(MASS_TITAN)
 			forward_maxthrust = 0.05
@@ -293,7 +293,7 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 			max_angular_acceleration = 0.75
 			bounce_factor = 0.35
 			lateral_bounce_factor = 0.6
-			flak_battery_amount = 3
+			flak_battery_amount = 0
 
 	if(role == MAIN_OVERMAP)
 		name = "[station_name()]"
@@ -307,14 +307,17 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 /obj/structure/overmap/proc/apply_weapons()
 	weapon_types[FIRE_MODE_PDC] = (mass > MASS_TINY) ? new/datum/ship_weapon/pdc_mount(src) : new /datum/ship_weapon/light_cannon(src)
 	weapon_types[FIRE_MODE_TORPEDO] = new/datum/ship_weapon/torpedo_launcher(src)
+	weapon_types[FIRE_MODE_AMS] = new /datum/ship_weapon/vls(src)
+	if(flak_battery_amount > 0)
+		weapon_types[FIRE_MODE_FLAK] = new /datum/ship_weapon/flak(src)
+	/*
 	if(mass > MASS_TINY || occupying_levels.len)
 		weapon_types[FIRE_MODE_FLAK] = new/datum/ship_weapon/flak(src)
 		weapon_types[FIRE_MODE_RAILGUN] = new/datum/ship_weapon/railgun(src)
 	if(mass > MASS_MEDIUM || occupying_levels.len)
 		weapon_types[FIRE_MODE_GAUSS] = new /datum/ship_weapon/gauss(src) //AI ships want to be able to use gauss too. I say let them...
 		weapon_types[FIRE_MODE_MAC] = new /datum/ship_weapon/mac(src)
-	if(ai_controlled)
-		weapon_types[FIRE_MODE_MISSILE] = new/datum/ship_weapon/missile_launcher(src)
+	*/
 
 /obj/item/projectile/Destroy()
 	if(physics2d)
@@ -348,7 +351,7 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 		return FALSE
 	if(weapon_safety)
 		return FALSE
-	if(target == src || istype(target, /obj/screen) || (target && (target in user.GetAllContents())) || params_list["alt"] || params_list["ctrl"])
+	if(target == src || istype(target, /obj/screen) || (target && (target in user.GetAllContents())) || params_list["alt"] || params_list["shift"])
 		return FALSE
 	if(locate(user) in gauss_gunners) //Special case for gauss gunners here. Takes priority over them being the regular gunner.
 		var/obj/machinery/ship_weapon/gauss_gun/user_gun = user.loc
@@ -373,7 +376,7 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 	if(tactical && prob(80))
 		var/sound = pick(GLOB.computer_beeps)
 		playsound(tactical, sound, 100, 1)
-	if(params_list["shift"]) //Shift click to lock on to people
+	if(params_list["ctrl"]) //Ctrl click to lock on to people
 		start_lockon(target)
 		return TRUE
 	if(target_lock && mass <= MASS_TINY)
@@ -385,39 +388,24 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 /obj/structure/overmap/proc/start_lockon(atom/target)
 	if(!istype(target, /obj/structure/overmap))
 		return FALSE
-	if(target == target_lock)
-		relinquish_target_lock()
-		return
-	if(!can_lock)
-		to_chat(gunner, "<span class='warning'>Target acquisition already in progress. Please wait.</span>")
-		return
-	if(target_lock)
-		target_lock = null
-		stop_relay(CHANNEL_IMPORTANT_SHIP_ALERT)
-		if(mass > MASS_TINY)
-			update_gunner_cam(src)
-	can_lock = FALSE
-	relay('nsv13/sound/effects/fighters/locking.ogg', message=null, loop=TRUE, channel=CHANNEL_IMPORTANT_SHIP_ALERT)
+	if(LAZYFIND(target_painted, target))
+		target_painted.Remove(target)
+		if(gunner)
+			to_chat(gunner, "<span class='notice'>Target painting cancelled on [target].</span>")
+		return FALSE
+	relay('nsv13/sound/effects/fighters/being_locked.ogg', message=null, loop=FALSE, channel=CHANNEL_IMPORTANT_SHIP_ALERT)
 	addtimer(CALLBACK(src, .proc/finish_lockon, target), lockon_time)
-
-/obj/structure/overmap/proc/relinquish_target_lock()
-	if(!target_lock)
-		return
-	to_chat(gunner, "<span class='warning'>Target lock on [target_lock] cancelled. Returning manual fire control.</span>")
-	update_gunner_cam(src)
-	target_lock = null
-	return
 
 /obj/structure/overmap/proc/finish_lockon(atom/target)
 	if(!gunner)
 		return
-	can_lock = TRUE
-	target_lock = target
-	if(mass > MASS_TINY)
-		update_gunner_cam(target)
-	else
-		to_chat(gunner, "<span class='notice'>Target lock established. All weapons will now automatically lock on to your chosen target instead of where you specifically aim them. </span>")
-	stop_relay(CHANNEL_IMPORTANT_SHIP_ALERT)
+	target_painted.Add(target)
+	if(last_overmap && last_overmap.faction == faction)
+		last_overmap.target_painted.Add(target)
+		if(last_overmap.gunner)
+			to_chat(last_overmap.gunner, "<span class='notice'>[src] has painted [target] for AMS targeting.</span>")
+
+	to_chat(gunner, "<span class='notice'>Target painted</span>")
 	relay('nsv13/sound/effects/fighters/locked.ogg', message=null, loop=FALSE, channel=CHANNEL_IMPORTANT_SHIP_ALERT)
 
 /obj/structure/overmap/proc/update_gunner_cam(atom/target)

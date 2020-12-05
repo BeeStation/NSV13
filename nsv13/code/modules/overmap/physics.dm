@@ -580,11 +580,8 @@ The while loop runs at a programatic level and is thus separated from any thrott
 		proj.pixel_x = round(this_x)
 		proj.pixel_y = round(this_y)
 		proj.faction = faction
-		if(physics2d.collider2d)
+		if(physics2d && physics2d.collider2d)
 			proj.setup_collider()
-		if(isovermap(target) && explosive) //If we're firing a torpedo, the enemy's PDCs need to worry about it.
-			var/obj/structure/overmap/OM = target
-			OM.torpedoes_to_target += proj //We're firing a torpedo, their PDCs will need to shoot it down, so notify them of its existence
 		if(homing)
 			proj.set_homing_target(target)
 		spawn()
@@ -631,7 +628,7 @@ The while loop runs at a programatic level and is thus separated from any thrott
 		proj.overmap_firer = src
 		proj.pixel_x = round(this_x)
 		proj.pixel_y = round(this_y)
-		if(physics2d.collider2d)
+		if(physics2d && physics2d.collider2d)
 			proj.setup_collider()
 		spawn()
 			proj.preparePixelProjectile(target, src, null, round((rand() - 0.5) * proj.spread))
@@ -650,7 +647,7 @@ The while loop runs at a programatic level and is thus separated from any thrott
 	proj.pixel_x = round(pixel_x)
 	proj.pixel_y = round(pixel_y)
 	proj.faction = faction
-	if(physics2d.collider2d)
+	if(physics2d && physics2d.collider2d)
 		proj.setup_collider()
 	if(homing)
 		proj.set_homing_target(target)
