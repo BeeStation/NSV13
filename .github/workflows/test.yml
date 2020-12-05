@@ -28,7 +28,7 @@ jobs:
           pip3 install -r tools/mapmerge2/requirements.txt
       - name: Run Linters
         run: |
-          bash tools/ci/check_filedirs.sh beestation.dme
+          bash tools/ci/check_filedirs.sh nsv13.dme
           bash tools/ci/check_changelogs.sh
           find . -name "*.php" -print0 | xargs -0 -n1 php -l
           find . -name "*.json" -not -path "*/node_modules/*" -print0 | xargs -0 python3 ./tools/json_verifier.py
@@ -50,7 +50,7 @@ jobs:
           bash tools/ci/install_byond.sh
           source $HOME/BYOND/byond/bin/byondsetup
           python3 tools/ci/template_dm_generator.py
-          bash tools/ci/dm.sh -DCIBUILDING -DCITESTING -DALL_MAPS beestation.dme
+          bash tools/ci/dm.sh -DCIBUILDING -DCITESTING -DALL_MAPS nsv13.dme
   run_all_tests:
     runs-on: ubuntu-latest
     services:
@@ -83,7 +83,7 @@ jobs:
         run: |
           bash tools/ci/install_byond.sh
           source $HOME/BYOND/byond/bin/byondsetup
-          bash tools/ci/dm.sh -DCIBUILDING beestation.dme
+          bash tools/ci/dm.sh -DCIBUILDING nsv13.dme
           bash tools/ci/run_server.sh
   test_windows:
     runs-on: windows-latest
