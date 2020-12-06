@@ -38,6 +38,9 @@ GLOBAL_LIST(admin_antag_list)
 	popup.set_content(replacetext(rustg_file_read("html/antagtips/[html_encode(fileid)].html"), regex("\\w*.png", "gm"), /datum/antagonist/proc/get_asset_url_from))
 	popup.open(FALSE)
 
+/datum/antagonist/proc/get_asset_url_from(match)
+	return SSassets.transport.get_asset_url(match)
+
 /datum/antagonist/New()
 	GLOB.antagonists += src
 	typecache_datum_blacklist = typecacheof(typecache_datum_blacklist)
