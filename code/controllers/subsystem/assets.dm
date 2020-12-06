@@ -4,6 +4,7 @@ SUBSYSTEM_DEF(assets)
 	flags = SS_NO_FIRE
 	var/list/cache = list()
 	var/list/preload = list()
+	var/datum/asset_transport/transport = new()
 
 /datum/controller/subsystem/assets/Initialize(timeofday)
 	for(var/type in typesof(/datum/asset))
