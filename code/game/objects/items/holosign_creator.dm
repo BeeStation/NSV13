@@ -17,10 +17,11 @@
 	var/creation_time = 0 //time to create a holosign in deciseconds.
 	var/holosign_type = /obj/structure/holosign/wetsign
 	var/holocreator_busy = FALSE //to prevent placing multiple holo barriers at once
+	var/create_distance = FALSE // create holosigns from a distance
 
 /obj/item/holosign_creator/afterattack(atom/target, mob/user, flag)
 	. = ..()
-	if(flag)
+	if(flag || create_distance)
 		if(!check_allowed_items(target, 1))
 			return
 		var/turf/T = get_turf(target)
@@ -89,6 +90,30 @@
 	holosign_type = /obj/structure/holosign/barrier/atmos
 	creation_time = 0
 	max_signs = 6
+
+/obj/item/holosign_creator/atmos/powerpack
+	name = "ATMOS powerpack projector"
+	desc = "A larger, more powerful version of the ATMOS holofan projector that can create more holographic barriers from a distance."
+	icon_state = "signmaker_atmos"
+	max_signs = 12
+	create_distance = TRUE
+	w_class = WEIGHT_CLASS_BULKY
+	item_flags = NOBLUDGEON | ABSTRACT // don't put in storage
+	slot_flags = 0
+	var/obj/item/powerpack/powerpack
+
+/obj/item/holosign_creator/atmos/powerpack/Initialize()
+	. = ..()
+	powerpack = loc
+	if(!istype(powerpack))
+		return INITIALIZE_HINT_QDEL
+
+/obj/item/holosign_creator/atmos/powerpack/doMove(atom/destination)
+	if(destination && (destination != powerpack.loc || !ismob(destination)))
+		if(loc != powerpack)
+			to_chat(powerpack.loc, "<span class='notice'>The holofan snaps back onto the powerpack!</span>")
+		destination = powerpack
+	..()
 
 /obj/item/holosign_creator/medical
 	name = "\improper PENLITE barrier projector"
