@@ -655,6 +655,53 @@ GLOBAL_LIST_INIT(cable_coil_recipes, list (new/datum/stack_recipe("cable restrai
 
 	return C
 
+// called when cable_coil is clicked on a turf
+/obj/item/stack/cable_coil/proc/place_turf_dir_range(turf/T, mob/user, dir2, dir1, range)
+	if(!isturf(user.loc))
+		return
+
+	if(!isturf(T) || T.intact || !T.can_have_cabling())
+		to_chat(user, "<span class='warning'>You can only lay cables on top of exterior catwalks and plating!</span>")
+		return
+
+	if(get_amount() < 1) // Out of cable
+		to_chat(user, "<span class='warning'>There is no cable left!</span>")
+		return
+
+	if(get_dist(T,user) > range) // Out of range
+		to_chat(user, "<span class='warning'>You can't lay cable at a place that far away!</span>")
+		return
+
+	if(!dir1 || !dir2) //If we weren't given a direction, cant do it.
+		return
+
+	for(var/obj/structure/cable/LC in T)
+		if(LC.d2 == dir2 && LC.d1 == dir1)
+			to_chat(user, "<span class='warning'>There's already a cable at that position!</span>")
+			return
+
+	var/obj/structure/cable/C = get_new_cable(T)
+
+	//set up the new cable
+	C.d1 = dir1 //it's a O-X node cable
+	C.d2 = dir2
+	C.add_fingerprint(user)
+	C.update_icon()
+
+	//create a new powernet with the cable, if needed it will be merged later
+	var/datum/powernet/PN = new()
+	PN.add_cable(C)
+
+	C.mergeConnectedNetworks(C.d2) //merge the powernet with adjacents powernets
+	C.mergeConnectedNetworksOnTurf() //merge the powernet with on turf powernets
+
+	if(C.d2 & (C.d2 - 1))// if the cable is layed diagonally, check the others 2 possible directions
+		C.mergeDiagonalsNetworks(C.d2)
+
+	use(1)
+
+	return C
+
 // called when cable_coil is click on an installed obj/cable
 // or click on a turf that already contains a "node" cable
 /obj/item/stack/cable_coil/proc/cable_join(obj/structure/cable/C, mob/user, var/showerror = TRUE, forceddir)
