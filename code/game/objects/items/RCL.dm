@@ -1,4 +1,4 @@
-/obj/item/twohanded/rcl
+/obj/item/rcl
 	name = "rapid cable layer"
 	desc = "A device used to rapidly deploy cables. It has screws on the side which can be removed to slide off the cables. Do not use without insulation!"
 	icon = 'icons/obj/tools.dmi'
@@ -21,11 +21,11 @@
 	var/direction_two = 2
 	var/wiring_choice
 
-/obj/item/twohanded/rcl/Initialize()
+/obj/item/rcl/Initialize()
 	. = ..()
-	AddComponent(/datum/component/twohanded)
+	update_icon()
 
-/obj/item/twohanded/rcl/attackby(obj/item/W, mob/user)
+/obj/item/rcl/attackby(obj/item/W, mob/user)
 	if(istype(W, /obj/item/stack/cable_coil))
 		var/obj/item/stack/cable_coil/C = W
 
@@ -67,16 +67,17 @@
 	else
 		..()
 
-/obj/item/twohanded/rcl/proc/generate_choices(mob/user)
-	var/list/wiredirs = list("1-2","5-10","4-8","6-9","1-4","2-4","2-8","1-8")
+/obj/item/rcl/proc/generate_choices(mob/user)
+	var/list/wiredirs = list("1-2","5-10","1-4","2-4","4-8","2-8","1-8", "6-9")
 	for(var/icondir in wiredirs)
 		var/cablesuffix = icondir
 		var/image/img = image(icon = 'icons/mob/radial.dmi', icon_state = "cable_[cablesuffix]")
 		img.color = GLOB.cable_colors[colors[current_color_index]]
 		wiredirs[icondir] = img
 	return wiredirs
+
 //setting of choice
-/obj/item/twohanded/rcl/attack_self(mob/user)
+/obj/item/rcl/attack_self(mob/user)
 	. = ..()
 	var/list/choices = generate_choices(user)
 	wiring_choice = show_radial_menu(user, src, choices, radius = 42, require_near = TRUE)
@@ -86,23 +87,23 @@
 	direction_two = text2num(direction_two)
 
 // Actual deployment of wiring
-/obj/item/twohanded/rcl/afterattack(atom/target, mob/user)
+/obj/item/rcl/afterattack(atom/target, mob/user)
 	. = ..()
 	loaded.place_turf_dir_range(target,user,direction_two, direction_one, 3)
 
-/obj/item/twohanded/rcl/attack(mob/living/M, mob/living/user)
+/obj/item/rcl/attack(mob/living/M, mob/living/user)
 	return
 
-/obj/item/twohanded/rcl/examine(mob/user)
+/obj/item/rcl/examine(mob/user)
 	. = ..()
 	if(loaded)
 		. += "<span class='info'>It contains [loaded.amount]/[max_amount] cables.</span>"
 
-/obj/item/twohanded/rcl/Destroy()
+/obj/item/rcl/Destroy()
 	QDEL_NULL(loaded)
 	return ..()
 
-/obj/item/twohanded/rcl/update_icon()
+/obj/item/rcl/update_icon()
 	if(!loaded)
 		icon_state = "rcl-0"
 		item_state = "rcl-0"
@@ -121,7 +122,7 @@
 			icon_state = "rcl-0"
 			item_state = "rcl-0"
 
-/obj/item/twohanded/rcl/proc/is_empty(mob/user, loud = 1)
+/obj/item/rcl/proc/is_empty(mob/user, loud = 1)
 	update_icon()
 	if(!loaded || !loaded.amount)
 		if(loud)
@@ -132,18 +133,14 @@
 		return TRUE
 	return FALSE
 
-/obj/item/twohanded/rcl/pre_loaded/Initialize() //Comes preloaded with cable, for testing stuff
+/obj/item/rcl/pre_loaded/Initialize() //Comes preloaded with cable, for testing stuff
 	. = ..()
 	loaded = new()
 	loaded.max_amount = max_amount
 	loaded.amount = max_amount
 	update_icon()
 
-/obj/item/twohanded/rcl/Initialize()
-	. = ..()
-	update_icon()
-
-/obj/item/twohanded/rcl/ui_action_click(mob/user, action)
+/obj/item/rcl/ui_action_click(mob/user, action)
 	if(istype(action, /datum/action/item_action/rcl_col))
 		current_color_index++;
 		if (current_color_index > colors.len)
@@ -152,4 +149,5 @@
 		to_chat(user, "Color changed to [cwname]!")
 		if(loaded)
 			loaded.item_color= colors[current_color_index]
-
+	if(istype(action, /datum/action/item_action/rcl_gui))
+		attack_self(user)
