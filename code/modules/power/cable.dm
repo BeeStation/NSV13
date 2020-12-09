@@ -692,9 +692,12 @@ GLOBAL_LIST_INIT(cable_coil_recipes, list (new/datum/stack_recipe("cable restrai
 	var/datum/powernet/PN = new()
 	PN.add_cable(C)
 
-	C.mergeConnectedNetworks(C.d2) //merge the powernet with adjacents powernets
+	C.mergeConnectedNetworks(C.d1) //merge the powernet with adjacents powernets
+	C.mergeConnectedNetworks(C.d2)
 	C.mergeConnectedNetworksOnTurf() //merge the powernet with on turf powernets
 
+	if(C.d1 & (C.d1 - 1))// if the cable is layed diagonally, check the others 2 possible directions
+		C.mergeDiagonalsNetworks(C.d1)
 	if(C.d2 & (C.d2 - 1))// if the cable is layed diagonally, check the others 2 possible directions
 		C.mergeDiagonalsNetworks(C.d2)
 
