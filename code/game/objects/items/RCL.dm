@@ -89,7 +89,7 @@
 // Actual deployment of wiring
 /obj/item/rcl/afterattack(atom/target, mob/user)
 	. = ..()
-	loaded.place_turf_dir_range(target,user,direction_two, direction_one, 3)
+	loaded.place_turf_dir(target,user,direction_two, direction_one)
 
 /obj/item/rcl/attack(mob/living/M, mob/living/user)
 	return

@@ -656,7 +656,7 @@ GLOBAL_LIST_INIT(cable_coil_recipes, list (new/datum/stack_recipe("cable restrai
 	return C
 
 // called when cable_coil is clicked on a turf
-/obj/item/stack/cable_coil/proc/place_turf_dir_range(turf/T, mob/user, dir2, dir1, range)
+/obj/item/stack/cable_coil/proc/place_turf_dir(turf/T, mob/user, dir2, dir1)
 	if(!isturf(user.loc))
 		return
 
@@ -668,7 +668,7 @@ GLOBAL_LIST_INIT(cable_coil_recipes, list (new/datum/stack_recipe("cable restrai
 		to_chat(user, "<span class='warning'>There is no cable left!</span>")
 		return
 
-	if(get_dist(T,user) > range) // Out of range
+	if(get_dist(T,user) > 1) // Out of range
 		to_chat(user, "<span class='warning'>You can't lay cable at a place that far away!</span>")
 		return
 
@@ -702,6 +702,11 @@ GLOBAL_LIST_INIT(cable_coil_recipes, list (new/datum/stack_recipe("cable restrai
 		C.mergeDiagonalsNetworks(C.d2)
 
 	use(1)
+
+	if(C.shock(user, 50))
+		if(prob(50)) //fail
+			new /obj/item/stack/cable_coil(get_turf(C), 1, C.color)
+			C.deconstruct()
 
 	return C
 
