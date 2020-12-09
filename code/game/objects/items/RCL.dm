@@ -19,7 +19,7 @@
 	righthand_file = 'icons/mob/inhands/equipment/tools_righthand.dmi'
 	var/direction_one = 1
 	var/direction_two = 2
-	var/datum/radial_menu/wiring_menu
+	var/wiring_choice
 
 /obj/item/twohanded/rcl/Initialize()
 	. = ..()
@@ -75,11 +75,15 @@
 		img.color = GLOB.cable_colors[colors[current_color_index]]
 		wiredirs[icondir] = img
 	return wiredirs
-
+//setting of choice
 /obj/item/twohanded/rcl/attack_self(mob/user)
 	. = ..()
 	var/list/choices = generate_choices(user)
-	wiring_menu = show_radial_menu(user, src, choices, radius = 42, custom_check = CALLBACK(src, .proc/use_select, user), require_near = TRUE, tooltips = TRUE)
+	wiring_choice = show_radial_menu(user, src, choices, radius = 42, require_near = TRUE)
+	direction_one = wiring_choice[1]
+	direction_two = wiring_choice[3]
+	direction_one = text2num(direction_one)
+	direction_two = text2num(direction_two)
 
 // Actual deployment of wiring
 /obj/item/twohanded/rcl/afterattack(atom/target, mob/user)
@@ -88,13 +92,6 @@
 
 /obj/item/twohanded/rcl/attack(mob/living/M, mob/living/user)
 	return
-
-obj/item/twohanded/rcl/proc/use_select(mob/living/user, choice)
-	direction_one = choice[1]
-	direction_two = choice[3]
-	direction_one = text2num(direction_one)
-	direction_two = text2num(direction_two)
-	return TRUE
 
 /obj/item/twohanded/rcl/examine(mob/user)
 	. = ..()
