@@ -79,7 +79,7 @@
 /obj/item/twohanded/rcl/attack_self(mob/user)
 	. = ..()
 	var/list/choices = generate_choices(user)
-	wiring_menu = show_radial_menu_persistent(user, src, choices, select_proc = CALLBACK(src, .proc/use_select, u♣♣ser), radius = 42)
+	wiring_menu = show_radial_menu_persistent(user, src, choices, select_proc = CALLBACK(src, .proc/use_select, user), radius = 42)
 
 // Actual deployment of wiring
 /obj/item/twohanded/rcl/afterattack(atom/target, mob/user)
