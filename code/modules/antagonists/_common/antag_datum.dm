@@ -27,15 +27,14 @@ GLOBAL_LIST(admin_antag_list)
 	var/show_name_in_check_antagonists = FALSE //Will append antagonist name in admin listings - use for categories that share more than one antag type
 	var/show_to_ghosts = FALSE // Should this antagonist be shown as antag to ghosts? Shouldn't be used for stealthy antagonists like traitors
 
-/datum/antagonist/proc/show_tips(fileid)
+/datum/antagonist/proc/show_tips(file)
 	if(!owner || !owner.current || !owner.current.client)
 		return
 	var/datum/asset/stuff = get_asset_datum(/datum/asset/simple/bee_antags)
 	stuff.send(owner.current.client)
 	var/datum/browser/popup = new(owner.current, "antagTips", null, 600, 400)
 	popup.set_window_options("titlebar=1;can_minimize=0;can_resize=0")
-	//Replaces traitor.png with the appropriate hashed url
-	popup.set_content(replacetext(rustg_file_read("html/antagtips/[html_encode(fileid)].html"), regex("\\w*.png", "gm"), /datum/antagonist/proc/get_asset_url_from))
+	popup.set_content(rustg_file_read(file))
 	popup.open(FALSE)
 
 /datum/antagonist/New()
