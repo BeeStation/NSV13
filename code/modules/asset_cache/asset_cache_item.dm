@@ -10,7 +10,7 @@
 	var/ext = ""
 	/// Should this file alsobut  be sent via the legacy browse_rsc system
 	/// when cdn transports are enabled?
-	var/legacy = FALSE
+	var/legacy = TRUE
 	/// Used by the cdn system to keep legacy css assets with their parent
 	/// css file. (css files resolve urls relative to the css file, so the
 	/// legacy system can't be used if the css file itself could go out over

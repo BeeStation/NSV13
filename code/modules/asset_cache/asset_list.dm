@@ -31,7 +31,7 @@ GLOBAL_LIST_EMPTY(asset_datums)
 	/// converted into a asset_cache datum.
 	/// Set to true to have this asset also be sent via the legacy browse_rsc
 	/// system when cdn transports are enabled?
-	var/legacy = FALSE//FALSE
+	var/legacy = TRUE//FALSE
 	/// TRUE for keeping local asset names when browse_rsc backend is used
 	var/keep_local_name = FALSE
 
@@ -167,8 +167,8 @@ GLOBAL_LIST_EMPTY(asset_datums)
 	var/size_id = "[I.Width()]x[I.Height()]"
 	var/size = sizes[size_id]
 
-	if (sprites[sprite_name])
-		CRASH("duplicate sprite \"[sprite_name]\" in sheet [name] ([type])")
+	//if (sprites[sprite_name])
+	//	CRASH("duplicate sprite \"[sprite_name]\" in sheet [name] ([type])")
 
 	if (size)
 		var/position = size[SPRSZ_COUNT]++

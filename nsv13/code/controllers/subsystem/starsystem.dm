@@ -932,10 +932,11 @@ To make things worse, this hellhole is entirely RNG, so good luck mapping it!
 			if(!closest || mindist > thisdist)
 				closest = systems.Find(S)
 				mindist = thisdist //This is always the source node (rubiconnector) in the first run
+		var/datum/star_system/closestSys = systems[closest]
 		generated -= systems[closest]	//Remove it from the list.
 
 		for(var/datum/star_system/S in generated)	//Try relaxing all other systems still in the list via it.
-			var/alternative = distances[closest] + systems[closest].dist(S)
+			var/alternative = distances[closest] + closestSys.dist(S)
 			var/adj = systems.Find(S)
 			if(alternative < distances[adj] * NONRELAXATION_PENALTY)	//Apply penalty to make the map more interconnected instead of all jump lines just going directly to the rubiconnector
 				distances[adj] = alternative
@@ -996,7 +997,7 @@ To make things worse, this hellhole is entirely RNG, so good luck mapping it!
 
 	var/time = (REALTIMEOFDAY - start_timeofday) / 10
 	//There we go.
-	message_admins("Brazil has been generated. T:[time]s CFS:[toocloseconflict]|[ir_rub]|[ir_othershit] Rubiconnector: [rubiconnector], Inroute system is [inroute]. Fun fact, jump lanes have been relaxed [relax] times by the algorytm and [random_jumpline_count] random connections have been created!")
+	message_admins("Brazil has been generated. T:[time]s CFS:[toocloseconflict]|[ir_rub]|[ir_othershit] Rubiconnector: [rubiconnector], Inroute system is [inroute]. Fun fact, jump lanes have been relaxed [relax] times by the algorithm and [random_jumpline_count] random connections have been created!")
 
 #undef NONRELAXATION_PENALTY
 #undef MAX_RANDOM_CONNECTION_LENGTH
