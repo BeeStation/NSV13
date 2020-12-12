@@ -33,7 +33,7 @@
 
 		//Jolly Sausage
 		#include "map_files\jollysausage\todger.dmm"
-		#ifdef TRAVISBUILDING
+		#ifdef CIBUILDING
 			#include "templates.dm"
 		#endif
 	#endif
