@@ -20,9 +20,9 @@ Misc projectile types, effects, think of this as the special FX file.
 	icon_state = "railgun"
 	name = "hyper accelerated tungsten slug"
 	damage = 350
-	speed = 0.5
+	speed = 1.85
 	flag = "overmap_heavy"
-	movement_type = FLYING | UNSTOPPABLE //Railguns punch straight through your ship
+	//movement_type = FLYING | UNSTOPPABLE //Railguns punch straight through your ship
 	impact_effect_type = /obj/effect/temp_visual/impact_effect/torpedo
 
 /obj/item/projectile/bullet/railgun_slug
@@ -63,6 +63,7 @@ Misc projectile types, effects, think of this as the special FX file.
 /obj/item/projectile/guided_munition
 	obj_integrity = 150
 	max_integrity = 150
+	armor = list("overmap_light" = 50, "overmap_heavy" = 0)
 
 /obj/item/projectile/guided_munition/torpedo
 	icon_state = "torpedo"
@@ -72,6 +73,9 @@ Misc projectile types, effects, think of this as the special FX file.
 	homing_turn_speed = 5
 	damage = 200
 	range = 250
+	obj_integrity = 200
+	max_integrity = 200
+	armor = list("overmap_light" = 60, "overmap_heavy" = 10)
 	flag = "overmap_heavy"
 	impact_effect_type = /obj/effect/temp_visual/impact_effect/torpedo
 
@@ -94,14 +98,14 @@ Misc projectile types, effects, think of this as the special FX file.
 	homing_turn_speed = initial(homing_turn_speed)
 
 /obj/item/projectile/guided_munition/missile
-	name = "conventional missile"
+	name = "triton cruise missile"
 	icon_state = "conventional_missile"
-	speed = 1
+	speed = 1.5
 	damage = 150
-	valid_angle = 90
+	valid_angle = 120
 	homing_turn_speed = 5
 	range = 250
-	flag = "overmap_light"
+	flag = "overmap_heavy"
 	impact_effect_type = /obj/effect/temp_visual/impact_effect/torpedo
 
 /obj/effect/temp_visual/overmap_explosion
@@ -120,13 +124,12 @@ Misc projectile types, effects, think of this as the special FX file.
 	if(!check_faction(target))
 		return FALSE 	 //Nsv13 - faction checking for overmaps. We're gonna just cut off real early and save some math if the IFF doesn't check out.
 	if(istype(target, /obj/structure/overmap)) //Were we to explode on an actual overmap, this would oneshot the ship as it's a powerful explosion.
-		var/obj/structure/overmap/OM = target
-		OM.torpedoes_to_target -= src
 		return BULLET_ACT_HIT
 	var/obj/item/projectile/P = target //This is hacky, refactor check_faction to unify both of these. I'm bodging it for now.
 	if(isprojectile(target) && P.faction != faction) //Because we could be in the same faction and collide with another bullet. Let's not blow ourselves up ok?
 		if(obj_integrity <= P.damage) //Tank the hit, take some damage
 			qdel(P)
+			explode()
 			return BULLET_ACT_HIT
 		else
 			qdel(P)

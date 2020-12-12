@@ -142,7 +142,7 @@
 		else
 			if(istype(X, /obj/item/projectile))
 				var/obj/item/projectile/P = X
-				if(P.faction != faction)
+				if(P.faction != faction && istype(P, /obj/item/projectile/guided_munition))
 					P.take_damage(severity*10)
 	. = ..()
 
@@ -157,18 +157,17 @@
 
 /obj/item/projectile/guided_munition/Crossed(atom/movable/AM) //Here, we check if the bullet that hit us is from a friendly ship. If it's from an enemy ship, we explode as we've been flak'd down.
 	. = ..()
-	if(istype(AM, /obj/item/projectile/))
-		var/obj/item/projectile/proj = AM
-		if(!ismob(firer) || !ismob(proj.firer)) //Unlikely to ever happen but if it does, ignore.
-			return
-		var/mob/checking = firer
-		var/mob/enemy = proj.firer
-		if(checking.overmap_ship && enemy.overmap_ship) //Firer is a mob, so check the faction of their ship
-			var/obj/structure/overmap/OM = checking.overmap_ship
-			var/obj/structure/overmap/our_ship = enemy.overmap_ship
-			if(OM.faction != our_ship.faction)
-				explode()
-				return FALSE
+	var/obj/item/projectile/P = AM //This is hacky, refactor check_faction to unify both of these. I'm bodging it for now.
+	if(P.damage <= 0)
+		return
+	if(isprojectile(AM) && P.faction != faction) //Because we could be in the same faction and collide with another bullet. Let's not blow ourselves up ok?
+		if(obj_integrity <= P.damage) //Tank the hit, take some damage
+			qdel(P)
+			explode()
+		else
+			qdel(P)
+			take_damage(P.damage)
+			new /obj/effect/temp_visual/impact_effect(get_turf(src), rand(0,20), rand(0,20))
 
 /obj/item/projectile/guided_munition/ex_act(severity)
 	explode()

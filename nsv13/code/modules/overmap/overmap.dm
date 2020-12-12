@@ -247,6 +247,15 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 	vis_contents += vector_overlay
 	update_icon()
 	find_area()
+	//If we're larger than a fighter and don't have our armour preset, set it now.
+	if(mass > MASS_TINY && !use_armour_quadrants)
+		use_armour_quadrants = TRUE
+		//AI ships get weaker armour to allow you to kill them more easily.
+		var/armour_efficiency = (role > NORMAL_OVERMAP) ? obj_integrity / 2 : obj_integrity / 4
+		armour_quadrants = list("forward_port" = list("name" = "Forward Port", "max_armour" = armour_efficiency, "current_armour" = armour_efficiency),\
+							"forward_starboard" = list("name" = "Forward Starboard", "max_armour" = armour_efficiency, "current_armour" = armour_efficiency),\
+							"aft_port" = list("name" = "Aft Port", "max_armour" = armour_efficiency, "current_armour" = armour_efficiency),\
+							"aft_starboard" = list("name" = "Aft Starboard", "max_armour" = armour_efficiency, "current_armour" = armour_efficiency))
 	switch(mass) //Scale speed with mass (tonnage)
 		if(MASS_TINY) //Tiny ships are manned by people, so they need air.
 			forward_maxthrust = 2
@@ -305,11 +314,21 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 
 //Method to apply weapon types to a ship. Override to your liking, this just handles generic rules and behaviours
 /obj/structure/overmap/proc/apply_weapons()
-	weapon_types[FIRE_MODE_PDC] = (mass > MASS_TINY) ? new/datum/ship_weapon/pdc_mount(src) : new /datum/ship_weapon/light_cannon(src)
 	weapon_types[FIRE_MODE_TORPEDO] = new/datum/ship_weapon/torpedo_launcher(src)
-	weapon_types[FIRE_MODE_AMS] = new /datum/ship_weapon/vls(src)
+	//Prevent fighters from getting access to the AMS.
+	if(mass <= MASS_TINY)
+		weapon_types[FIRE_MODE_PDC] = new /datum/ship_weapon/light_cannon(src)
+	//Gauss is the true PDC replacement...
+	else
+		weapon_types[FIRE_MODE_GAUSS] = new /datum/ship_weapon/gauss(src)
+	if(mass >= MASS_SMALL || occupying_levels?.len)
+		weapon_types[FIRE_MODE_AMS] = new /datum/ship_weapon/vls(src)
 	if(flak_battery_amount > 0)
 		weapon_types[FIRE_MODE_FLAK] = new /datum/ship_weapon/flak(src)
+	if(mass > MASS_MEDIUM || occupying_levels.len)
+		weapon_types[FIRE_MODE_MAC] = new /datum/ship_weapon/mac(src)
+	if(ai_controlled)
+		weapon_types[FIRE_MODE_MISSILE] = new/datum/ship_weapon/missile_launcher(src)
 	/*
 	if(mass > MASS_TINY || occupying_levels.len)
 		weapon_types[FIRE_MODE_FLAK] = new/datum/ship_weapon/flak(src)
@@ -513,12 +532,12 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 			var/mob/mob = X
 			mob.stop_sound_channel(channel)
 
-/obj/structure/overmap/proc/relay_to_nearby(sound, message, ignore_self=FALSE) //Sends a sound + text message to nearby ships
+/obj/structure/overmap/proc/relay_to_nearby(sound, message, ignore_self=FALSE, sound_range=20) //Sends a sound + text message to nearby ships
 	for(var/obj/structure/overmap/ship in GLOB.overmap_objects)
 		if(ignore_self)
 			if(ship == src)
 				continue
-		if(get_dist(src, ship) <= 20) //Sound doesnt really travel in space, but space combat with no kaboom is LAME
+		if(get_dist(src, ship) <= sound_range) //Sound doesnt really travel in space, but space combat with no kaboom is LAME
 			ship.relay(sound,message)
 
 /obj/structure/overmap/proc/verb_check(require_pilot = TRUE, mob/user = null)

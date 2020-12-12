@@ -14,14 +14,14 @@
 	return TRUE
 
 /datum/ship_weapon/mac
-	name = "Magnetic Accelerators"
+	name = "Naval Artillery"
 	default_projectile_type = /obj/item/projectile/bullet/mac_round
 	burst_size = 1
-	fire_delay = 0.35 SECONDS
+	fire_delay = 3.5 SECONDS
 	range_modifier = 50
-	select_alert = "<span class='notice'>Coaxial MAC ready...</span>"
-	failure_alert = "<span class='warning'>DANGER: Launch failure! MAC systems are not loaded.</span>"
-	overmap_firing_sounds = list('nsv13/sound/effects/ship/mac_fire.ogg')
+	select_alert = "<span class='notice'>Naval artillery primed.</span>"
+	failure_alert = "<span class='warning'>DANGER: Launch failure! Naval artillery systems are not loaded.</span>"
+	overmap_firing_sounds = list('nsv13/sound/effects/ship/battleship_gun.ogg')
 	overmap_select_sound = 'nsv13/sound/effects/ship/mac_ready.ogg'
 	screen_shake = 2
 
@@ -210,7 +210,7 @@
 	name = "Gauss guns"
 	default_projectile_type = /obj/item/projectile/bullet/gauss_slug
 	burst_size = 2
-	fire_delay = 10
+	fire_delay = 3 SECONDS
 	range_modifier = 10
 	select_alert = "<span class='notice'>Activating gauss weapon systems...</span>"
 	failure_alert = "<span class='warning'>DANGER: Gauss gun systems not loaded.</span>"

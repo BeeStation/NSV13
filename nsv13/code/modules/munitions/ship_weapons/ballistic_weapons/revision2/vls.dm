@@ -22,6 +22,7 @@
 		'nsv13/sound/effects/ship/freespace2/m_tsunami.wav',
 		'nsv13/sound/effects/ship/freespace2/m_wasp.wav')
 	overmap_select_sound = 'nsv13/sound/effects/ship/reload.ogg'
+	selectable = FALSE
 
 /datum/ship_weapon/vls/valid_target(obj/structure/overmap/source, obj/structure/overmap/target)
 	if(!istype(source) || !istype(target))
@@ -35,7 +36,6 @@
 	desc = "A highly advanced launch platform for missiles inspired by recently discovered old-earth technology. The VLS allows for launching cruise missiles from any angle, and directly interfaces with the AMS for lethal precision."
 	icon = 'nsv13/icons/obj/munitions/vls.dmi'
 	icon_state = "loader"
-
 	firing_sound = 'nsv13/sound/effects/ship/plasma.ogg'
 	load_sound = 'nsv13/sound/effects/ship/freespace2/m_load.wav'
 	fire_mode = FIRE_MODE_AMS
@@ -43,7 +43,8 @@
 	CanAtmosPass = FALSE
 	CanAtmosPassVertical = FALSE
 	semi_auto = TRUE
-	max_ammo = 5
+	max_ammo = 2
+	density = FALSE
 	var/obj/structure/fluff/vls_hatch/hatch = null
 
 /obj/machinery/ship_weapon/vls/PostInitialize()
@@ -67,27 +68,45 @@
 	if(!T)
 		return
 	hatch = locate(/obj/structure/fluff/vls_hatch) in T
+	var/matrix/ntransform = new()
+	if(dir & NORTH)
+		ntransform.Turn(90)
+		ntransform.Translate(-16,-16)
+		hatch.transform = ntransform
+		return
+	if(dir & SOUTH)
+		ntransform.Turn(-90)
+		ntransform.Translate(-16,16)
+		hatch.transform = ntransform
+		return
+	if(dir & EAST)
+		return
+	if(dir & WEST)
+		ntransform.Turn(-180)
+		ntransform.Translate(-32,1)
+		hatch.transform = ntransform
+		return
+#define HT_OPEN TRUE
+#define HT_CLOSED FALSE
 
 /obj/machinery/ship_weapon/vls/feed()
 	. = ..()
 	if(!hatch)
 		return
-	hatch.icon_state = "vls"
-	hatch.density = FALSE
+	hatch.toggle(HT_OPEN)
 
 /obj/machinery/ship_weapon/vls/local_fire()
 	. = ..()
 	if(!hatch)
 		return
-	hatch.icon_state = "vls_closed"
-	hatch.density = TRUE
+	hatch.toggle(HT_CLOSED)
 
 /obj/machinery/ship_weapon/vls/unload_magazine()
 	. = ..()
 	if(!hatch)
 		return
-	hatch.icon_state = "vls_closed"
-	hatch.density = TRUE
+	hatch.toggle(HT_CLOSED)
+
 
 /obj/structure/fluff/vls_hatch
 	name = "VLS Launch Hatch"
@@ -100,6 +119,16 @@
 	anchored = TRUE
 	obj_integrity = 1000
 	max_integrity = 1000
+
+/obj/structure/fluff/vls_hatch/proc/toggle(state)
+	if(state == HT_OPEN)
+		obj_flags &= ~BLOCK_Z_FALL
+		icon_state = "vls"
+		density = FALSE
+		return
+	obj_flags |= BLOCK_Z_FALL
+	icon_state = "vls_closed"
+	density = TRUE
 
 /obj/structure/overmap
 	var/list/target_painted = list()
@@ -140,7 +169,14 @@
 	var/list/potential_targets = acquire_targets(OM)
 	if(!potential_targets.len)
 		return FALSE
-	OM.fire_weapon(pick(potential_targets), mode=FIRE_MODE_AMS, lateral=TRUE)
+	var/atom/movable/target = pick(potential_targets)
+	OM.Beam(target,icon_state="sat_beam",time=OM.ams_targeting_cooldown,maxdistance=max_range)
+	if(world.time < OM.next_ams_shot)
+		return FALSE
+	if(QDELETED(target))
+		return FALSE
+	OM.fire_weapon(target, mode=FIRE_MODE_AMS, lateral=TRUE)
+	OM.next_ams_shot = world.time + OM.ams_targeting_cooldown
 
 //Subtypes.
 
@@ -158,6 +194,9 @@
 	name = "AMS control console"
 	icon_screen = "ams"
 	circuit = /obj/item/circuitboard/computer/ams
+/obj/structure/overmap
+	var/next_ams_shot = 0
+	var/ams_targeting_cooldown = 1.5 SECONDS
 
 /obj/machinery/computer/ams/ui_act(action, params)
 	. = ..()
@@ -202,9 +241,14 @@
 		if(P.faction == OM.faction || P.overmap_firer == OM)
 			continue
 		var/target_range = get_dist(P,OM)
+		//Now, let's work out if the missile is actually "oncoming"
+		var/incidence_dir = get_dir(P, OM)
+		if(angle2dir(P.Angle)!= incidence_dir)
+			//message_admins("[angle2dir(P.Angle)] vs [incidence_dir]")
+			continue
 		if(target_range > max_range || target_range <= 0) //Random pulled from the aether
 			continue
-		if(targets.len >= max_targets) //This syntax lol
+		if(targets.len >= max_targets)
 			break
 		targets += P
 	return targets

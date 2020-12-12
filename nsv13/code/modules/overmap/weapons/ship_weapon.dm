@@ -63,6 +63,7 @@
 		if(gunner && SW) //Tell them we failed
 			if(world.time < next_firetime) //Silence, SPAM.
 				return FALSE
+			next_firetime = world.time + SW.fire_delay
 			to_chat(gunner, SW.failure_alert)
 	return FALSE
 

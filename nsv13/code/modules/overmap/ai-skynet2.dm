@@ -57,7 +57,7 @@ GLOBAL_LIST_EMPTY(ai_goals)
 	//Ai fleet type enum. Add your new one here. Use a define, or text if youre lazy.
 	var/list/taskforces = list("fighters" = list(), "destroyers" = list(), "battleships" = list(), "supply" = list())
 	var/list/fighter_types = list(/obj/structure/overmap/syndicate/ai/fighter)
-	var/list/destroyer_types = list(/obj/structure/overmap/syndicate/ai, /obj/structure/overmap/syndicate/ai/assault_cruiser, /obj/structure/overmap/syndicate/ai/gunboat, /obj/structure/overmap/syndicate/ai/submarine, /obj/structure/overmap/syndicate/ai/assault_cruiser/boarding_frigate)
+	var/list/destroyer_types = list(/obj/structure/overmap/syndicate/ai, /obj/structure/overmap/syndicate/ai/destroyer, /obj/structure/overmap/syndicate/ai/destroyer/flak, /obj/structure/overmap/syndicate/ai/cruiser, /obj/structure/overmap/syndicate/ai/mako_flak, /obj/structure/overmap/syndicate/ai/mako_carrier)
 	var/list/battleship_types = list(/obj/structure/overmap/syndicate/ai/patrol_cruiser) //TODO: Implement above list for more ship variety.
 	var/list/supply_types = list(/obj/structure/overmap/syndicate/ai/carrier)
 	var/list/all_ships = list()
@@ -732,8 +732,8 @@ GLOBAL_LIST_EMPTY(ai_goals)
 	var/ai_controlled = FALSE //Set this to true to let the computer fly your ship.
 	var/ai_behaviour = null // Determines if the AI ship shoots you first, or if you have to shoot them.
 	var/list/enemies = list() //Things that have attacked us
-	var/max_weapon_range = 30
-	var/max_tracking_range = 300//115 //Range that AI ships can hunt you down in. The amounts to almost half the Z-level.
+	var/max_weapon_range = 50
+	var/max_tracking_range = 50//115 //Range that AI ships can hunt you down in. The amounts to almost half the Z-level.
 	var/obj/structure/overmap/defense_target = null
 	var/ai_can_launch_fighters = FALSE //AI variable. Allows your ai ships to spawn fighter craft
 	var/list/ai_fighter_type = list()
@@ -765,7 +765,7 @@ GLOBAL_LIST_EMPTY(ai_goals)
 	if(istype(target, /obj/structure/overmap))
 		add_enemy(target)
 		var/target_range = get_dist(src,target)
-		var/new_firemode = FIRE_MODE_PDC
+		var/new_firemode = FIRE_MODE_GAUSS
 		if(target_range > max_weapon_range) //Our max range is the maximum possible range we can engage in. This is to stop you getting hunted from outside of your view range.
 			last_target = null
 			return
@@ -791,14 +791,14 @@ GLOBAL_LIST_EMPTY(ai_goals)
 				new_firemode = I
 				best_distance = distance
 		if(!weapon_types[new_firemode]) //I have no physical idea how this even happened, but ok. Sure. If you must. If you REALLY must. We can do this, Sarah. We still gonna do this? It's been 5 years since the divorce, can't you just let go?
-			new_firemode = FIRE_MODE_PDC
-		if(new_firemode != FIRE_MODE_PDC) //If we're not on PDCs, let's fire off some PDC salvos while we're busy shooting people. This is still affected by weapon cooldowns so that they lay off on their target a bit.
+			new_firemode = FIRE_MODE_GAUSS
+		if(new_firemode != FIRE_MODE_GAUSS) //If we're not on PDCs, let's fire off some PDC salvos while we're busy shooting people. This is still affected by weapon cooldowns so that they lay off on their target a bit.
 			for(var/obj/structure/overmap/ship in GLOB.overmap_objects)
 				if(warcrime_blacklist[ship.type])
 					continue
 				if(!ship || QDELETED(ship) || ship == src || get_dist(src, ship) > max_weapon_range || ship.faction == src.faction || ship.z != z)
 					continue
-				fire_weapon(ship, FIRE_MODE_PDC)
+				fire_weapon(ship, FIRE_MODE_GAUSS)
 				break
 		fire_mode = new_firemode
 		if(will_use_shot) //Don't penalise them for weapons that are designed to be spammed.
@@ -977,6 +977,8 @@ GLOBAL_LIST_EMPTY(ai_goals)
 
 //Method that will get you a new target, based on basic params.
 /obj/structure/overmap/proc/seek_new_target(max_weight_class=null, min_weight_class=null, interior_check=FALSE)
+	if(!last_target)
+		send_sonar_pulse()
 	for(var/obj/structure/overmap/ship in GLOB.overmap_objects)
 		if(warcrime_blacklist[ship.type])
 			continue

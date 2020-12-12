@@ -5,22 +5,28 @@
 
 //Revision 2.
 #define FIRE_MODE_AMS 3 //You don't get to physically fire this one.
+#define FIRE_MODE_MAC 4
+#define FIRE_MODE_RAILGUN 5
+#define FIRE_MODE_GAUSS 6
 
 
 
 
+//Deprecated / legacy weapons.
 
 
-#define FIRE_MODE_MAC 3
-#define FIRE_MODE_RAILGUN 4
-#define FIRE_MODE_GAUSS 5
-#define FIRE_MODE_FLAK 6
-#define FIRE_MODE_MISSILE 7
-#define FIRE_MODE_FIGHTER_SLOT_ONE 8
-#define FIRE_MODE_FIGHTER_SLOT_TWO 9
-#define FIRE_MODE_RED_LASER 10
-#define FIRE_MODE_BLUE_LASER 11
-#define MAX_POSSIBLE_FIREMODE 11 //This should relate to the maximum number of weapons a ship can ever have. Keep this up to date please!
+#define FIRE_MODE_FLAK 7
+#define FIRE_MODE_MISSILE 8
+#define FIRE_MODE_FIGHTER_SLOT_ONE 9
+#define FIRE_MODE_FIGHTER_SLOT_TWO 10
+
+//Special cases
+
+#define FIRE_MODE_RED_LASER 11
+#define FIRE_MODE_BLUE_LASER 12
+
+#define MAX_POSSIBLE_FIREMODE 12 //This should relate to the maximum number of weapons a ship can ever have. Keep this up to date please!
+
 
 //Weapon classes for AIs
 #define WEAPON_CLASS_LIGHT 1

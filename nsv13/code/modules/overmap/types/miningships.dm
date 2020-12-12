@@ -26,10 +26,6 @@
 	max_integrity = 250 //Max health
 	integrity_failure = 250
 	use_armour_quadrants = FALSE //They can weld plates for now, mining ship will not have a reasonable way to power the pumps -K
-	armour_quadrants = list("forward_port" = list("name" = "Forward Port", "max_armour" = 250, "current_armour" = 250),\
-							"forward_starboard" = list("name" = "Forward Starboard", "max_armour" = 250, "current_armour" = 250),\
-							"aft_port" = list("name" = "Aft Port", "max_armour" = 250, "current_armour" = 250),\
-							"aft_starboard" = list("name" = "Aft Starboard", "max_armour" = 250, "current_armour" = 250))
 
 /obj/structure/overmap/nanotrasen/mining_cruiser/nostromo
 	name = "NSV Hephaestus"
@@ -39,10 +35,6 @@
 	max_integrity = 250 //Max health
 	integrity_failure = 250
 	use_armour_quadrants = FALSE //They can weld plates for now, mining ship will not have a reasonable way to power the pumps -K
-	armour_quadrants = list("forward_port" = list("name" = "Forward Port", "max_armour" = 250, "current_armour" = 250),\
-							"forward_starboard" = list("name" = "Forward Starboard", "max_armour" = 250, "current_armour" = 250),\
-							"aft_port" = list("name" = "Aft Port", "max_armour" = 250, "current_armour" = 250),\
-							"aft_starboard" = list("name" = "Aft Starboard", "max_armour" = 250, "current_armour" = 250))
 
 /obj/structure/overmap/nanotrasen/mining_cruiser/nostromo/fob
 	name = "NSV FOB"
@@ -52,7 +44,3 @@
 	max_integrity = 200 //Max health
 	integrity_failure = 200
 	use_armour_quadrants = FALSE //They can weld plates for now, mining ship will not have a reasonable way to power the pumps -K
-	armour_quadrants = list("forward_port" = list("name" = "Forward Port", "max_armour" = 200, "current_armour" = 200),\
-							"forward_starboard" = list("name" = "Forward Starboard", "max_armour" = 200, "current_armour" = 200),\
-							"aft_port" = list("name" = "Aft Port", "max_armour" = 200, "current_armour" = 200),\
-							"aft_starboard" = list("name" = "Aft Starboard", "max_armour" = 200, "current_armour" = 200))

@@ -1,6 +1,16 @@
 
 //Nanotrasen ships go here
 
+/**
+	Armour quadrants are now automatically set up on anything above fighters in size class. If you want to customize your armour plate setups, use this format (use_armour_quadrants says you've preset the armour already)
+	use_armour_quadrants = TRUE
+	armour_quadrants = list("forward_port" = list("name" = "Forward Port", "max_armour" = 3000, "current_armour" = 3000),\
+							"forward_starboard" = list("name" = "Forward Starboard", "max_armour" = 3000, "current_armour" = 3000),\
+							"aft_port" = list("name" = "Aft Port", "max_armour" = 3000, "current_armour" = 3000),\
+							"aft_starboard" = list("name" = "Aft Starboard", "max_armour" = 3000, "current_armour" = 3000))
+
+*/
+
 /obj/structure/overmap/nanotrasen
 	name = "nanotrasen ship"
 	desc = "A NT owned space faring vessel."
@@ -151,66 +161,36 @@
 	max_integrity = 1000
 	integrity_failure = 1000
 	starting_system = "Wolf 359"
-	use_armour_quadrants = TRUE
-	armour_quadrants = list("forward_port" = list("name" = "Forward Port", "max_armour" = 1500, "current_armour" = 1500),\
-							"forward_starboard" = list("name" = "Forward Starboard", "max_armour" = 1500, "current_armour" = 1500),\
-							"aft_port" = list("name" = "Aft Port", "max_armour" = 1250, "current_armour" = 1250),\
-							"aft_starboard" = list("name" = "Aft Starboard", "max_armour" = 1250, "current_armour" = 1250))
 
 /obj/structure/overmap/nanotrasen/patrol_cruiser/starter //Currently assigned to Jolly Sausage
 	role = MAIN_OVERMAP
 	max_integrity = 1000
 	integrity_failure = 1000
 	starting_system = "Wolf 359"
-	use_armour_quadrants = TRUE
-	armour_quadrants = list("forward_port" = list("name" = "Forward Port", "max_armour" = 1500, "current_armour" = 1500),\
-							"forward_starboard" = list("name" = "Forward Starboard", "max_armour" = 1500, "current_armour" = 1500),\
-							"aft_port" = list("name" = "Aft Port", "max_armour" = 1250, "current_armour" = 1250),\
-							"aft_starboard" = list("name" = "Aft Starboard", "max_armour" = 1250, "current_armour" = 1250))
 
 /obj/structure/overmap/nanotrasen/heavy_cruiser/starter //Currently assigned to Hammerhead
 	role = MAIN_OVERMAP
 	max_integrity = 1500
 	integrity_failure = 1500
 	starting_system = "Wolf 359"
-	use_armour_quadrants = TRUE
-	armour_quadrants = list("forward_port" = list("name" = "Forward Port", "max_armour" = 2250, "current_armour" = 2250),\
-							"forward_starboard" = list("name" = "Forward Starboard", "max_armour" = 2250, "current_armour" = 2250),\
-							"aft_port" = list("name" = "Aft Port", "max_armour" = 1750, "current_armour" = 1750),\
-							"aft_starboard" = list("name" = "Aft Starboard", "max_armour" = 1750, "current_armour" = 1750))
 
 /obj/structure/overmap/nanotrasen/carrier/starter //NOT CURRENTLY ASSIGNED
 	role = MAIN_OVERMAP
 	max_integrity = 2000
 	integrity_failure = 2000
 	starting_system = "Wolf 359"
-	use_armour_quadrants = FALSE
-	armour_quadrants = list("forward_port" = list("name" = "Forward Port", "max_armour" = 1250, "current_armour" = 1250),\
-							"forward_starboard" = list("name" = "Forward Starboard", "max_armour" = 1250, "current_armour" = 1250),\
-							"aft_port" = list("name" = "Aft Port", "max_armour" = 1250, "current_armour" = 1250),\
-							"aft_starboard" = list("name" = "Aft Starboard", "max_armour" = 1250, "current_armour" = 1250))
 
 /obj/structure/overmap/nanotrasen/battlecruiser/starter //Currently assigned to Tycoon
 	role = MAIN_OVERMAP
 	max_integrity = 1500
 	integrity_failure = 1500
 	starting_system = "Wolf 359"
-	use_armour_quadrants = TRUE
-	armour_quadrants = list("forward_port" = list("name" = "Forward Port", "max_armour" = 1750, "current_armour" = 1750),\
-							"forward_starboard" = list("name" = "Forward Starboard", "max_armour" = 1750, "current_armour" = 1750),\
-							"aft_port" = list("name" = "Aft Port", "max_armour" = 1750, "current_armour" = 1750),\
-							"aft_starboard" = list("name" = "Aft Starboard", "max_armour" = 1750, "current_armour" = 1750))
 
 /obj/structure/overmap/nanotrasen/battleship/starter //Pegasus
 	role = MAIN_OVERMAP //Player controlled variant
 	max_integrity = 2250
 	integrity_failure = 2250
 	starting_system = "Wolf 359"
-	use_armour_quadrants = TRUE
-	armour_quadrants = list("forward_port" = list("name" = "Forward Port", "max_armour" = 3000, "current_armour" = 3000),\
-							"forward_starboard" = list("name" = "Forward Starboard", "max_armour" = 3000, "current_armour" = 3000),\
-							"aft_port" = list("name" = "Aft Port", "max_armour" = 3000, "current_armour" = 3000),\
-							"aft_starboard" = list("name" = "Aft Starboard", "max_armour" = 3000, "current_armour" = 3000))
 
 //AI Versions
 

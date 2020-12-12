@@ -30,11 +30,6 @@
 	role = PVP_SHIP
 	starting_system = "The Badlands" //Relatively safe start, fleets won't hotdrop you here.
 	armor = list("overmap_light" = 70, "overmap_heavy" = 20)
-	use_armour_quadrants = TRUE
-	armour_quadrants = list("forward_port" = list("name" = "Forward Port", "max_armour" = 750, "current_armour" = 750),\
-							"forward_starboard" = list("name" = "Forward Starboard", "max_armour" = 750, "current_armour" = 750),\
-							"aft_port" = list("name" = "Aft Port", "max_armour" = 500, "current_armour" = 500),\
-							"aft_starboard" = list("name" = "Aft Starboard", "max_armour" = 500, "current_armour" = 500))
 
 /obj/structure/overmap/syndicate/pvp/apply_weapons()
 	weapon_types[FIRE_MODE_PDC] = new/datum/ship_weapon/pdc_mount(src)
@@ -62,11 +57,6 @@
 	integrity_failure = 750
 	collision_positions = list(new /datum/vector2d(-7,124), new /datum/vector2d(-26,67), new /datum/vector2d(-46,-75), new /datum/vector2d(-45,-95), new /datum/vector2d(-30,-116), new /datum/vector2d(25,-119), new /datum/vector2d(36,-94), new /datum/vector2d(41,-76), new /datum/vector2d(19,71))
 	role = PVP_SHIP
-	use_armour_quadrants = FALSE //They can weld plates for now, I don't want to force them to go for high output stormdrives to run these things -K
-	armour_quadrants = list("forward_port" = list("name" = "Forward Port", "max_armour" = 1000, "current_armour" = 1000),\
-							"forward_starboard" = list("name" = "Forward Starboard", "max_armour" = 1000, "current_armour" = 1000),\
-							"aft_port" = list("name" = "Aft Port", "max_armour" = 800, "current_armour" = 800),\
-							"aft_starboard" = list("name" = "Aft Starboard", "max_armour" = 800, "current_armour" = 800))
 	armor = list("overmap_light" = 70, "overmap_heavy" = 30)
 
 //AI Versions
@@ -97,7 +87,10 @@
 	ai_trait = AI_TRAIT_DESTROYER
 
 /obj/structure/overmap/syndicate/ai/mako_carrier
+	name = "Sturgeon class escort carrier"
 	icon_state = "mako_carrier"
+	ai_can_launch_fighters = TRUE //AI variable. Allows your ai ships to spawn fighter craft
+	ai_fighter_type = list(/obj/structure/overmap/syndicate/ai/fighter)
 
 /obj/structure/overmap/syndicate/ai/mako_flak
 	name = "Mauler class flak frigate"
@@ -117,41 +110,89 @@
 /obj/structure/overmap/syndicate/ai/destroyer
 	name = "Hammerhead class missile destroyer"
 	icon = 'nsv13/icons/overmap/new/syndicate/destroyer.dmi'
-	icon_state = "hammerhead"
+	icon_state = "hammerhead_flak"
 	bound_height = 64
 	bound_width = 64
 	mass = MASS_MEDIUM
 	obj_integrity = 700
 	max_integrity = 700
 	integrity_failure = 700
+	armor = list("overmap_light" = 70, "overmap_heavy" = 20)
+	missiles = 6
+	bounty = 1000
+
+/obj/structure/overmap/syndicate/ai/destroyer/elite
+	name = "Special Ops Torpedo Destroyer"
+	icon_state = "hammerhead_elite"
+	obj_integrity = 900
+	max_integrity = 900
+	integrity_failure = 900
+	armor = list("overmap_light" = 80, "overmap_heavy" = 30)
+	missiles = 8
+	torpedoes = 4
+	bounty = 1500
 
 /obj/structure/overmap/syndicate/ai/destroyer/flak
 	name = "Hammerhead class flak destroyer"
+	icon_state = "hammerhead"
 	mass = MASS_LARGE
 	flak_battery_amount = 1
 	missiles = 0
 	torpedoes = 0
 
+/obj/structure/overmap/syndicate/ai/cruiser
+	name = "Barracuda class tactical cruiser"
+	icon = 'nsv13/icons/overmap/new/syndicate/cruiser.dmi'
+	icon_state = "barracuda_flak"
+	bound_height = 96
+	bound_width = 96
+	mass = MASS_LARGE
+	armor = list("overmap_light" = 70, "overmap_heavy" = 20)
+	obj_integrity = 1250
+	max_integrity = 1250
+	integrity_failure = 1250
+	bounty = 3000
+
+/obj/structure/overmap/syndicate/ai/cruiser/elite
+	name = "Special ops tactical cruiser"
+	icon_state = "barracuda_elite"
+	armor = list("overmap_light" = 75, "overmap_heavy" = 30)
+	obj_integrity = 1500
+	max_integrity = 1500
+	integrity_failure = 1500
+	missiles = 10
+	bounty = 4000
+
 /obj/structure/overmap/syndicate/ai/carrier
-	name = "syndicate carrier"
-	icon = 'nsv13/icons/overmap/syndicate/syn_carrier.dmi'
-	icon_state = "carrier"
+	name = "Syndicate combat carrier"
+	icon = 'nsv13/icons/overmap/new/syndicate/frigate.dmi'
+	icon_state = "redtip"
 	mass = MASS_LARGE
 	ai_can_launch_fighters = TRUE //AI variable. Allows your ai ships to spawn fighter craft
-	ai_fighter_type = list(/obj/structure/overmap/syndicate/ai/fighter,
-							/obj/structure/overmap/syndicate/ai/bomber)
+	ai_fighter_type = list(/obj/structure/overmap/syndicate/ai/fighter)
 	sprite_size = 48
 	damage_states = TRUE
-	pixel_z = -96
-	pixel_w = -96
-	max_integrity = 700 //Tanky so that it can survive to deploy multiple fighter waves.
-	integrity_failure = 700
-	bounty = 2000
+	bound_height = 96
+	bound_width = 96
+	max_integrity = 1500 //Tanky so that it can survive to deploy multiple fighter waves.
+	integrity_failure = 1500
+	bounty = 3000
 	torpedoes = 0
 	collision_positions = list(new /datum/vector2d(-2,96), new /datum/vector2d(-20,57), new /datum/vector2d(-25,-63), new /datum/vector2d(-11,-95), new /datum/vector2d(7,-95), new /datum/vector2d(23,-63), new /datum/vector2d(20,59))
 	armor = list("overmap_light" = 70, "overmap_heavy" = 20)
 	can_resupply = TRUE
 	ai_trait = AI_TRAIT_SUPPLY
+
+/obj/structure/overmap/syndicate/ai/carrier/elite
+	name = "Special ops escort carrier"
+	icon_state = "redtip_elite"
+	bounty = 5000
+	obj_integrity = 2500
+	max_integrity = 2500 //Tanky so that it can survive to deploy multiple fighter waves.
+	integrity_failure = 2500
+	//This scary one can launch bombers, which absolutely wreak havoc
+	ai_fighter_type = list(/obj/structure/overmap/syndicate/ai/fighter,
+							/obj/structure/overmap/syndicate/ai/bomber)
 
 /obj/structure/overmap/syndicate/ai/carrier/apply_weapons()
 	weapon_types[FIRE_MODE_PDC] = new /datum/ship_weapon/pdc_mount/aa_guns(src)

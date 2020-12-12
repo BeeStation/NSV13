@@ -96,7 +96,8 @@
 		if(world.time < next_firetime) //Silence, SPAM.
 			return FALSE
 		var/datum/ship_weapon/SW = weapon_types[fire_mode]
-		to_chat(gunner, SW.failure_alert)
+		if(SW.selectable) //So they only get notified when their firing action was not successful.
+			to_chat(gunner, SW.failure_alert)
 	return FALSE
 
 /obj/structure/overmap/proc/fire_ordnance(atom/target, mode=fire_mode)

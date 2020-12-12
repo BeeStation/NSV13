@@ -39,7 +39,7 @@ Bullet reactions
 			addtimer(VARSET_CALLBACK(src, impact_sound_cooldown, FALSE), 0.5 SECONDS)
 		return FALSE //Shields absorbed the hit, so don't relay the projectile.
 	relay_damage(P?.type)
-	if(!use_armour_quadrants || !P.physics2d?.collider2d || !physics2d?.collider2d)
+	if(!use_armour_quadrants)
 		. = ..()
 		return
 	else
