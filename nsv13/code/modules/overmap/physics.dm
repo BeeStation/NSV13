@@ -658,4 +658,6 @@ The while loop runs at a programatic level and is thus separated from any thrott
 	spawn()
 		proj.preparePixelProjectile(target, src, null, round((rand() - 0.5) * proj.spread))
 		proj.fire()
+		if(speed)
+			proj.set_pixel_speed(speed)
 	return proj

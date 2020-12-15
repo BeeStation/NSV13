@@ -1,20 +1,307 @@
 /obj/machinery/ship_weapon/deck_turret
 	name = "M4-15 'Hood' deck turret"
-	desc = "A huge naval gun utilising an integral railgun to fire. Inspired by the classics, this gun packs a major punch and is quite easy to reload."
+	desc = "A huge naval gun which uses chemical accelerants to propel rounds. Inspired by the classics, this gun packs a major punch and is quite easy to reload."
 	icon = 'nsv13/icons/obj/munitions/deck_turret.dmi'
 	icon_state = "deck_turret"
 	fire_mode = FIRE_MODE_MAC
-	ammo_type = /obj/item/ship_weapon/ammunition/railgun_ammo
+	ammo_type = /obj/item/ship_weapon/ammunition/naval_artillery
 	pixel_x = -45
 	pixel_y = -63
 	bound_width = 64
 	bound_height = 128
-	semi_auto = TRUE
-	max_ammo = 6
+	semi_auto = FALSE
+	max_ammo = 1
 	obj_integrity = 500
 	max_integrity = 500
 	safety = FALSE
-	var/obj/structure/gauss_rack/ammo_rack = null
+	maintainable = TRUE
+	load_sound = 'nsv13/sound/effects/ship/freespace2/crane_short.ogg'
+	var/obj/machinery/deck_turret/core
+
+/obj/machinery/ship_weapon/deck_turret/animate_projectile(atom/target, lateral=TRUE)
+	var/obj/item/ship_weapon/ammunition/naval_artillery/T = chambered
+	if(T)
+		linked.fire_lateral_projectile(T.projectile_type, target,speed=T.speed)
+
+/obj/machinery/ship_weapon/deck_turret/proc/rack_load(atom/movable/A)
+	if(ammo?.len < max_ammo && istype(A, ammo_type))
+		loading = TRUE
+		if(load_sound)
+			playsound(A.loc, load_sound, 100, 1)
+		playsound(A.loc, 'sound/machines/click.ogg', 50, 1)
+		A.forceMove(src)
+		ammo += A
+		state = 2
+		feed()
+		chamber()
+		return TRUE
+	loading = FALSE
+	return FALSE
+
+/obj/machinery/computer/deckgun
+	icon = 'nsv13/icons/obj/munitions/deck_gun.dmi'
+	icon_state = "gun_control"
+	icon_screen = "screen_guncontrol"
+	circuit = /obj/item/circuitboard/computer/deckgun
+	var/obj/machinery/deck_turret/core = null
+
+/obj/item/circuitboard/computer/deckgun
+	name = "Deck gun loading computer (circuit)"
+	build_path = /obj/machinery/computer/deckgun
+
+/obj/machinery/computer/deckgun/ui_interact(mob/user, ui_key, datum/tgui/ui, force_open, datum/tgui/master_ui, datum/ui_state/state)
+	ui = SStgui.try_update_ui(user, src, ui_key, ui, force_open)
+	if(!ui)
+		ui = new(user, src, ui_key, "DeckGun", name, 300, 300, master_ui, state)
+		ui.open()
+
+/obj/machinery/computer/deckgun/ui_data(mob/user)
+	var/list/data = list()
+	var/list/parts = list()
+	if(!core)
+		return data
+	data["loaded"] = core.payload_gate && core.payload_gate.loaded
+	data["id"] = (core.payload_gate) ? "\ref[core.payload_gate]" : null
+	for(var/obj/machinery/deck_turret/powder_gate/MOREPOWDER in core.powder_gates)
+		var/list/part = list()
+		part["loaded"] = (MOREPOWDER.bag) ? TRUE : FALSE
+		part["id"] = "\ref[MOREPOWDER]"
+		parts[++parts.len] = part
+	data["parts"] = parts
+	data["can_pack"] = core.payload_gate && core.payload_gate.loaded
+	return data
+
+/obj/machinery/computer/deckgun/ui_act(action, params)
+	. = ..()
+	if(.)
+		return
+	var/obj/machinery/deck_turret/powder_gate/target = locate(params["target"])
+	switch(action)
+		if("feed")
+			if(core.payload_gate.loaded)
+				core.payload_gate.unload()
+				return
+			core.payload_gate.feed()
+		if("load")
+			if(!core.turret.rack_load(core.payload_gate.shell))
+				return
+			core.payload_gate.shell = null
+			core.payload_gate.loaded = FALSE
+			core.payload_gate.unload()
+			if(locate(/obj/machinery/deck_turret/autorepair) in orange(1, core))
+				core.turret.maint_req ++
+				core.turret.maint_req = CLAMP(core.turret.maint_req, 0, 25)
+				new /obj/effect/temp_visual/heal(get_turf(core), "#375637")
+		if("load_powder")
+			core.payload_gate.chamber(target)
+
+/obj/machinery/deck_turret
+	name = "Deck Turret Core"
+	desc = "The central mounting core for naval guns."
+	icon = 'nsv13/icons/obj/munitions/deck_gun.dmi'
+	icon_state = "core"
+	density = TRUE
+	anchored = TRUE
+	var/obj/machinery/ship_weapon/deck_turret/turret = null
+	var/list/powder_gates = list()
+	var/obj/machinery/deck_turret/payload_gate/payload_gate
+	var/obj/machinery/computer/deckgun/computer
+
+/obj/machinery/deck_turret/proc/update_parts()
+	payload_gate = locate(/obj/machinery/deck_turret/payload_gate) in orange(1, src)
+	powder_gates = list()
+	computer = locate(/obj/machinery/computer/deckgun) in orange(1, src)
+	computer.core = src
+	for(var/turf/T in orange(1, src))
+		var/obj/machinery/deck_turret/powder_gate/powder_gate = locate(/obj/machinery/deck_turret/powder_gate) in T
+		if(powder_gate && istype(powder_gate))
+			powder_gates += powder_gate
+
+/obj/machinery/deck_turret/powder_gate
+	name = "Powder loading gate"
+	desc = "One of three gates which pack a shell with powder as they enter the gun core. Ensure that each one is secured before attempting to fire!"
+	icon_state = "powdergate"
+	var/obj/item/powder_bag/bag = null
+	var/ammo_type = /obj/item/powder_bag
+	var/loading = FALSE
+	var/load_delay = 10 SECONDS
+
+/obj/machinery/deck_turret/powder_gate/proc/pack()
+	set waitfor = FALSE
+	playsound(src.loc, 'nsv13/sound/effects/ship/freespace2/m_lock.wav', 100, 1)
+	icon_state = "[initial(icon_state)]_sealed"
+	qdel(bag)
+	bag = null
+	sleep(1 SECONDS)
+	icon_state = initial(icon_state)
+
+/obj/machinery/deck_turret/powder_gate/attackby(obj/item/I, mob/living/user, params)
+	. = ..()
+	if(get_dist(A, src) > 1)
+		return FALSE
+	if(bag)
+		to_chat(user, "<span class='notice'>[src] is already loaded with [bag].</span>")
+		return FALSE
+	if(loading)
+		to_chat(user, "<span class='notice'>[src] is already being loaded...</span>")
+		return FALSE
+	if(ammo_type && istype(A, ammo_type))
+		load(A, user)
+
+/obj/machinery/deck_turret/powder_gate/proc/unload()
+	if(!bag)
+		return
+	icon_state = initial(icon_state)
+	bag.forceMove(get_turf(src))
+	bag = null
+
+/obj/machinery/deck_turret/powder_gate/proc/load(obj/item/A, mob/user)
+	loading = TRUE
+	if(!istype(A, ammo_type))
+		return FALSE
+	var/temp = load_delay
+	if(locate(/obj/machinery/deck_turret/autoelevator) in orange(2, src))
+		temp /= 2
+	if(do_after(user, temp, target = src))
+		if(user)
+			to_chat(user, "<span class='notice'>You load [A] into [src].</span>")
+			bag = A
+			bag.forceMove(src)
+			icon_state = "[initial(icon_state)]_loaded"
+			playsound(src.loc, 'nsv13/sound/effects/ship/mac_load.ogg', 100, 1)
+	loading = FALSE
+/obj/item/powder_bag
+	name = "Gunpowder Bag"
+	desc = "A highly flammable bag of gunpowder which is used in naval artillery systems."
+	icon = 'nsv13/icons/obj/munitions/deck_gun.dmi'
+	icon_state = "powder"
+	density = TRUE
+	var/power = 0.5
+
+/obj/item/powder_bag/Initialize()
+	. = ..()
+	AddComponent(/datum/component/twohanded/required)
+
+/obj/item/powder_bag/plasma
+	name = "Plasma based projectile accelerant"
+	desc = "An extremely powerful 'bomb waiting to happen' which can propel naval artillery shells to extreme speeds with half the amount of regular powder!"
+	icon_state = "spicypowder"
+	power = 1
+
+/obj/item/ship_weapon/ammunition/naval_artillery //Huh gee this sure looks familiar don't it...
+	name = "FTL-13 Naval Artillery Round"
+	icon = 'nsv13/icons/obj/munitions.dmi'
+	icon_state = "artillery"
+	desc = "A large shell designed to deliver a high-yield warhead upon high-speed impact with solid objects. You need to arm it with a multitool before firing."
+	anchored = TRUE
+	density = TRUE
+	projectile_type = /obj/item/projectile/bullet/mac_round //What torpedo type we fire
+	obj_integrity = 300 //Beefy, relatively hard to use as a grief tool.
+	max_integrity = 300
+	var/armed = FALSE //Do it do the big boom?
+	var/speed = 0.5 //Needs powder to increase speed.
+
+/obj/item/ship_weapon/ammunition/naval_artillery/multitool_act(mob/living/user, obj/item/I)
+	. = ..()
+	if(!do_after(user, 2 SECONDS, target = src))
+		return
+	playsound(src, 'sound/machines/click.ogg', 50, 1)
+	armed = !armed
+	icon_state = (armed) ? "[initial(icon_state)]_armed" : initial(icon_state)
+
+/obj/item/ship_weapon/ammunition/naval_artillery/obj_destruction(damage_flag)
+	. = ..()
+	if(armed)
+		explosion(src.loc, 3, 10, 5, 2, 5)
+
+/obj/item/ship_weapon/ammunition/naval_artillery/examine(mob/user)
+	. = ..()
+	. += "[(armed) ? "<span class='userdanger'>The shell is currently armed and ready to fire. </span>" : "<span class ='notice'>The shell must be armed before firing. </span>"]"
+
+/obj/item/ship_weapon/ammunition/missile/CtrlClick(mob/user)
+	. = ..()
+	to_chat(user,"<span class='warning'>[src] is far too cumbersome to carry, and dragging it around might set it off! Load it onto a munitions trolley.</span>")
+
+
+/obj/machinery/deck_turret/payload_gate
+	name = "Payload loading gate"
+	desc = "A chamber for loading a gun shell to be packed with gunpowder, ensure the payload is securely loaded before attempting to chamber!"
+	icon_state = "payloadgate"
+	var/loaded = FALSE
+	var/obj/item/ship_weapon/ammunition/naval_artillery/shell = null
+	var/ammo_type = /obj/item/ship_weapon/ammunition/naval_artillery
+	var/loading = FALSE
+	var/load_delay = 20 SECONDS
+
+/obj/machinery/deck_turret/payload_gate/MouseDrop_T(obj/item/A, mob/user)
+	. = ..()
+	if(get_dist(A, src) > 1)
+		return FALSE
+	if(shell)
+		to_chat(user, "<span class='notice'>[src] is already loaded with [shell].</span>")
+		return FALSE
+	if(loading)
+		to_chat(user, "<span class='notice'>[src] is already being loaded...</span>")
+		return FALSE
+	if(ammo_type && istype(A, ammo_type))
+		load(A, user)
+
+/obj/machinery/deck_turret/payload_gate/proc/load(obj/item/A, mob/user)
+	var/temp = load_delay
+	var/obj/item/ship_weapon/ammunition/naval_artillery/NA = A
+	if(!NA.armed)
+		to_chat(user, "<span class='warning'>[A] is not armed!</span>")
+		return FALSE
+	loading = TRUE
+	if(locate(/obj/machinery/deck_turret/autoelevator) in orange(2, src))
+		temp /= 2
+	if(do_after(user, temp, target = src))
+		if(user)
+			to_chat(user, "<span class='notice'>You load [A] into [src].</span>")
+			shell = A
+			shell.forceMove(src)
+			icon_state = "[initial(icon_state)]_loaded"
+			playsound(src.loc, 'nsv13/sound/effects/ship/mac_load.ogg', 100, 1)
+	loading = FALSE
+
+/obj/machinery/deck_turret/payload_gate/proc/unload()
+	icon_state = initial(icon_state)
+	loaded = FALSE
+	if(!shell)
+		return
+	shell.forceMove(get_turf(src))
+	shell = null
+
+/obj/machinery/deck_turret/payload_gate/proc/feed()
+	if(!shell)
+		return FALSE
+	icon_state = "[initial(icon_state)]_sealed"
+	loaded = TRUE
+	playsound(src.loc, 'nsv13/sound/effects/ship/freespace2/m_load.wav', 100, 1)
+
+/obj/machinery/deck_turret/payload_gate/proc/chamber(obj/machinery/deck_turret/powder_gate/source)
+	if(!shell)
+		return FALSE
+	shell.speed += source.bag.power
+	shell.name = "Packed [initial(shell.name)]"
+	shell.speed = CLAMP(shell.speed, 0, 10)
+	source.pack()
+	return TRUE
+
+/obj/machinery/deck_turret/calibrator
+	name = "Deck gun calibration module"
+	desc = "A module which allows you to calibrate deck guns. Required to ensure an accurate shot."
+	icon_state = "autocalibrator"
+
+/obj/machinery/deck_turret/autoelevator
+	name = "Auto elevator module"
+	desc = "A module which greatly decreases load times on deck guns."
+	icon_state = "autoelevator"
+
+/obj/machinery/deck_turret/autorepair
+	name = "Deck gun auto-repair module"
+	desc = "A module which periodically injects repair nanites into a linked deck turret above it, removing the need for maintenance entirely."
+	icon_state = "autorepair"
 
 /obj/machinery/ship_weapon/deck_turret/local_fire()
 	. = ..()
@@ -41,48 +328,76 @@
 
 /obj/machinery/ship_weapon/deck_turret/Initialize()
 	. = ..()
-	ammo_rack = new /obj/structure/gauss_rack(src)
-	ammo_rack.gun = src
-	lower_rack()
-
-/obj/machinery/ship_weapon/deck_turret/proc/raise_rack()
-	if(!ammo_rack || ammo?.len >= max_ammo)
+	core = locate(/obj/machinery/deck_turret) in SSmapping.get_turf_below(src)
+	core.turret = src
+	if(!core)
+		message_admins("Deck turret has no gun core! [src.x], [src.y], [src.z])")
 		return
-	playsound(ammo_rack.loc, 'nsv13/sound/effects/ship/freespace2/crane_2.wav', 100, FALSE)
-	ammo_rack.pixel_y = 0
-	ammo_rack.loading = TRUE
-	animate(ammo_rack, pixel_y = 60, time = 4 SECONDS)
-	sleep(4 SECONDS)
-	ammo_rack.forceMove(src)
-	rackLoad()
+	core.update_parts()
 
-/obj/machinery/ship_weapon/deck_turret/proc/rackLoad()
-	loading = TRUE
-	var/cache = ammo.len
-	for(var/obj/item/ship_weapon/ammunition/A in ammo_rack.contents)
-		if(ammo?.len < max_ammo)
-			ammo_rack.unload(A)
-			A.forceMove(src)
-			ammo += A
-	if(load_sound)
-		playsound(src, load_sound, 100, 1)
-	state = 2
-	loading = FALSE
-	if(cache <= 0)
-		feed()
-		chamber()
-	sleep(3 SECONDS)
-	lower_rack()
+/obj/item/circuitboard/machine/deck_gun
+	name = "Deck gun core (circuitboard)"
+	req_components = list(
+		/obj/item/stack/sheet/mineral/titanium = 20,
+		/obj/item/stack/cable_coil = 5)
+	build_path = /obj/machinery/deck_turret
 
-/obj/machinery/ship_weapon/deck_turret/proc/lower_rack()
-	if(!ammo_rack)
-		return
-	ammo_rack.loading = FALSE
-	var/turf/below = get_turf(SSmapping.get_turf_below(src))
-	playsound(below, 'nsv13/sound/effects/ship/freespace2/crane_2.wav', 100, FALSE)
-	ammo_rack.forceMove(below)
-	ammo_rack.pixel_y = 60
-	animate(ammo_rack, pixel_y = 0, time = 4 SECONDS)
-	sleep(4 SECONDS)
-	ammo_rack.visible_message("<span class='notice'>[ammo_rack] clunks into place!</span>")
-	playsound(ammo_rack, 'nsv13/sound/effects/ship/mac_load.ogg', 100, 1)
+/obj/item/circuitboard/machine/deck_gun/powder
+	name = "Deck gun powder gate (circuitboard)"
+	req_components = list(
+		/obj/item/stack/sheet/mineral/titanium = 20,
+		/obj/item/stack/sheet/mineral/copper = 20,
+		/obj/item/stack/cable_coil = 5)
+	build_path = /obj/machinery/deck_turret/powder_gate
+
+/obj/item/circuitboard/machine/deck_gun/payload
+	name = "Deck gun payload gate (circuitboard)"
+	req_components = list(
+		/obj/item/stack/sheet/mineral/titanium = 40,
+		/obj/item/stack/sheet/mineral/copper = 10,
+		/obj/item/ship_weapon/parts/railgun_rail = 1,
+		/obj/item/ship_weapon/parts/loading_tray=1,
+		/obj/item/stack/cable_coil = 10)
+	build_path = /obj/machinery/deck_turret/payload_gate
+
+//The actual gun assembly.
+/obj/structure/ship_weapon/mac_assembly/artillery_frame
+	name = "Naval Artillery Frame"
+	desc = "The beginnings of a huge deck gun, internals notwithstanding."
+	icon = 'nsv13/icons/obj/munitions/deck_turret.dmi'
+	icon_state = "platform"
+	bound_width = 128
+	bound_height = 64
+	pixel_y = -64
+	anchored = TRUE
+	density = TRUE
+	output_path = /obj/machinery/ship_weapon/deck_turret
+
+/obj/structure/ship_weapon/mac_assembly/artillery_frame/AltClick(mob/user)
+	. = ..()
+	setDir(turn(dir, 90))
+	switch(dir)
+		if(NORTH)
+			output_path = /obj/machinery/ship_weapon/deck_turret/north
+			pixel_x = -43
+			pixel_y = -32
+			bound_width = 64
+			bound_height = 128
+		if(SOUTH)
+			output_path = /obj/machinery/ship_weapon/deck_turret
+			pixel_y = -64
+			pixel_x = 0
+			bound_width = 64
+			bound_height = 128
+		if(EAST)
+			output_path = /obj/machinery/ship_weapon/deck_turret/east
+			pixel_x = -30
+			pixel_y = -42
+			bound_width = 128
+			bound_height = 64
+		if(WEST)
+			output_path = /obj/machinery/ship_weapon/deck_turret/west
+			pixel_x = -63
+			pixel_y = -42
+			bound_width = 128
+			bound_height = 64
