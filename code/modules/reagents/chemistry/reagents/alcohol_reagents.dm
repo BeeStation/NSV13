@@ -2203,7 +2203,7 @@ All effects don't start immediately, but rather get worse over time; the rate is
 
 /datum/reagent/consumable/ethanol/fourthwall/on_mob_metabolize(mob/living/carbon/M)
 	trauma_list = list()
-	to_chat(M, "<font size=5><b><span class='userdanger'>Your mind breaks, as you realize your reality is just some computer game.</span></b></font>")
+	to_chat(M, "<font size=5><b><span class='userdanger'>Your mind breaks, as you realize your reality is just some computer game.</span></b></font>") //NSV13 made it cooler
 	var/datum/brain_trauma/trauma = traumaweightpick(60,40,0)
 	trauma = new trauma()
 	trauma_list += trauma
@@ -2216,13 +2216,13 @@ All effects don't start immediately, but rather get worse over time; the rate is
 	if(prob(5) && current_cycle > 10)
 		switch(current_cycle) //The longer they're on this stuff, the higher the chance for worse brain trauma
 			if(10 to 50)
-				to_chat(M, "<font size=3><b><span class='userdanger'>Your mind cracks.</span></b></font>")
+				to_chat(M, "<font size=3><b><span class='userdanger'>Your mind cracks.</span></b></font>") //NSV13 made it cooler
 				OD_trauma = traumaweightpick(50,40,10)
 			if(50 to 100)
-				to_chat(M, "<font size=4><b><span class='userdanger'>Your mind splinters.</span></b></font>")
+				to_chat(M, "<font size=4><b><span class='userdanger'>Your mind splinters.</span></b></font>") //NSV13 made it cooler
 				OD_trauma = traumaweightpick(30,50,20)
 			if(100 to INFINITY)
-				to_chat(M, "<font size=5><b><span class='userdanger'>Your mind shatters.</span></b></font>")
+				to_chat(M, "<font size=5><b><span class='userdanger'>Your mind shatters.</span></b></font>") //NSV13 made it cooler
 				OD_trauma = traumaweightpick(20,50,30)
 		OD_trauma = new OD_trauma()
 		trauma_list += OD_trauma
