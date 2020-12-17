@@ -320,9 +320,10 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 		weapon_types[FIRE_MODE_PDC] = new /datum/ship_weapon/light_cannon(src)
 	//Gauss is the true PDC replacement...
 	else
-		weapon_types[FIRE_MODE_GAUSS] = new /datum/ship_weapon/gauss(src)
+		weapon_types[FIRE_MODE_50CAL] = new /datum/ship_weapon/fiftycal(src)
 	if(mass >= MASS_SMALL || occupying_levels?.len)
 		weapon_types[FIRE_MODE_AMS] = new /datum/ship_weapon/vls(src)
+		weapon_types[FIRE_MODE_GAUSS] = new /datum/ship_weapon/gauss(src)
 	if(flak_battery_amount > 0)
 		weapon_types[FIRE_MODE_FLAK] = new /datum/ship_weapon/flak(src)
 	if(mass > MASS_MEDIUM || occupying_levels.len)
@@ -373,13 +374,8 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 	if(target == src || istype(target, /obj/screen) || (target && (target in user.GetAllContents())) || params_list["alt"] || params_list["shift"])
 		return FALSE
 	if(locate(user) in gauss_gunners) //Special case for gauss gunners here. Takes priority over them being the regular gunner.
-		var/obj/machinery/ship_weapon/gauss_gun/user_gun = user.loc
-		if(!istype(user_gun))
-			return FALSE
-		if(user_gun.safety)
-			to_chat(user, "<span class='warning'>Gun safeties are engaged.</span>")
-			return FALSE
-		user_gun.onClick(target)
+		var/datum/component/overmap_gunning/user_gun = user.GetComponent(/datum/component/overmap_gunning)
+		user_gun.onMouseDown(target)
 		return TRUE
 	if(user != gunner)
 		if(user == pilot)

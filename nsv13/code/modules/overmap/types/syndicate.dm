@@ -76,6 +76,8 @@
 	ai_controlled = TRUE
 	ai_behaviour = AI_AGGRESSIVE
 	mass = MASS_SMALL
+	bound_height = 64
+	bound_width = 64
 	sprite_size = 48
 	damage_states = FALSE
 	obj_integrity = 500

@@ -4,20 +4,20 @@
 	crate_type = /obj/structure/closet/crate/secure/weapon
 
 /datum/supply_pack/munitions/railgun
-	name = "300mm railgun slugs (x10)"
-	desc = "A set of 10 tungsten railgun slugs, guaranteed to pierce through enemy hulls or your money back!"
-	cost = 2500
-	contains = list(/obj/item/ship_weapon/ammunition/railgun_ammo,
-					/obj/item/ship_weapon/ammunition/railgun_ammo,
-					/obj/item/ship_weapon/ammunition/railgun_ammo,
-					/obj/item/ship_weapon/ammunition/railgun_ammo,
-					/obj/item/ship_weapon/ammunition/railgun_ammo,
-					/obj/item/ship_weapon/ammunition/railgun_ammo,
-					/obj/item/ship_weapon/ammunition/railgun_ammo,
-					/obj/item/ship_weapon/ammunition/railgun_ammo,
-					/obj/item/ship_weapon/ammunition/railgun_ammo,
-					/obj/item/ship_weapon/ammunition/railgun_ammo)
-	crate_name = "Railgun ammunition"
+	name = "Naval Artillery Shells (x10)"
+	desc = "A set of naval artillery shells to be fired by the eponymous weapon. Must be armed before firing. WARNING: HIGHLY EXPLOSIVE."
+	cost = 3000
+	contains = list(/obj/item/ship_weapon/ammunition/naval_artillery,
+					/obj/item/ship_weapon/ammunition/naval_artillery,
+					/obj/item/ship_weapon/ammunition/naval_artillery,
+					/obj/item/ship_weapon/ammunition/naval_artillery,
+					/obj/item/ship_weapon/ammunition/naval_artillery,
+					/obj/item/ship_weapon/ammunition/naval_artillery,
+					/obj/item/ship_weapon/ammunition/naval_artillery,
+					/obj/item/ship_weapon/ammunition/naval_artillery,
+					/obj/item/ship_weapon/ammunition/naval_artillery,
+					/obj/item/ship_weapon/ammunition/naval_artillery)
+	crate_name = "Naval Artillery Shells"
 
 /datum/supply_pack/munitions/pdc
 	name = "PDC rounds (x5)"
@@ -51,7 +51,7 @@
 /datum/supply_pack/munitions/torpedo_construction
 	name = "Torpedo construction kit"
 	desc = "Due to the volatility of torpedoes, we are unable to offer pre-built munitions, however this kit contains common torpedo parts and some casings to put them in. Included: 2x standard warhead, 1x decoy warhead, 3x torpedo casings (trolley sold separately), 3x guidance system modules, 3x propulsion modules, 3x IFF cards."
-	cost = 9000
+	cost = 3000
 	contains = list(/obj/item/ship_weapon/ammunition/torpedo/torpedo_casing,
 					/obj/item/ship_weapon/ammunition/torpedo/torpedo_casing,
 					/obj/item/ship_weapon/ammunition/torpedo/torpedo_casing,
@@ -72,7 +72,7 @@
 /datum/supply_pack/munitions/torpedo_casings
 	name = "Torpedo casings"
 	desc = "A set of 5 torpedo casings, prebuilt but not pre-assembled. Ideal when used with our line of torpedo components."
-	cost = 1500
+	cost = 750
 	contains = list(/obj/item/ship_weapon/ammunition/torpedo/torpedo_casing,
 					/obj/item/ship_weapon/ammunition/torpedo/torpedo_casing,
 					/obj/item/ship_weapon/ammunition/torpedo/torpedo_casing,
@@ -98,7 +98,7 @@
 /datum/supply_pack/munitions/standard_warheads
 	name = "Torpedo warheads (standard)"
 	desc = "A pack of 5 standard torpedo warheads with a 40 isotonne yield, ideal for general usage."
-	cost = 3000
+	cost = 500
 	contains = list(/obj/item/ship_weapon/parts/torpedo/warhead,
 					/obj/item/ship_weapon/parts/torpedo/warhead,
 					/obj/item/ship_weapon/parts/torpedo/warhead,
@@ -109,7 +109,7 @@
 /datum/supply_pack/munitions/bb_warheads
 	name = "Torpedo warheads (armour piercing)"
 	desc = "A pack of 5 armour piercing torpedo warheads with a 80 isotonne combined yield, these warheads excel at dealing massive damage to a target."
-	cost = 9000
+	cost = 1000
 	contains = list(/obj/item/ship_weapon/parts/torpedo/warhead/bunker_buster,
 					/obj/item/ship_weapon/parts/torpedo/warhead/bunker_buster,
 					/obj/item/ship_weapon/parts/torpedo/warhead/bunker_buster,
@@ -119,9 +119,13 @@
 
 /datum/supply_pack/munitions/decoy_warheads
 	name = "Torpedo warheads (decoy)"
-	desc = "A pack of 5 electronic countermeasure warheads which excel at distracting enemy PDC emplacements."
-	cost = 1500
+	desc = "A pack of 10 electronic countermeasure warheads which excel at distracting the enemy's autonomous targeting system."
+	cost = 500
 	contains = list(/obj/item/ship_weapon/parts/torpedo/warhead/decoy,
+					/obj/item/ship_weapon/parts/torpedo/warhead/decoy,
+					/obj/item/ship_weapon/parts/torpedo/warhead/decoy,
+					/obj/item/ship_weapon/parts/torpedo/warhead/decoy,
+					/obj/item/ship_weapon/parts/torpedo/warhead/decoy,
 					/obj/item/ship_weapon/parts/torpedo/warhead/decoy,
 					/obj/item/ship_weapon/parts/torpedo/warhead/decoy,
 					/obj/item/ship_weapon/parts/torpedo/warhead/decoy,

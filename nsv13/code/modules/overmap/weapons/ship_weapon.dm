@@ -53,18 +53,18 @@
 	if(istype(holder, /obj/structure/overmap))
 		requires_physical_guns = (holder.linked_areas?.len && !holder.ai_controlled) //AIs don't have physical guns, but anything with linked areas is very likely to.
 
-/obj/structure/overmap/proc/fire_weapon(atom/target, mode=fire_mode, lateral=(mass > MASS_TINY), mob/user_override=null) //"Lateral" means that your ship doesnt have to face the target
+/obj/structure/overmap/proc/fire_weapon(atom/target, mode=fire_mode, lateral=(mass > MASS_TINY), mob/user_override=gunner) //"Lateral" means that your ship doesnt have to face the target
 	var/datum/ship_weapon/SW = weapon_types[mode]
 	if(weapon_safety)
 		return FALSE
 	if(SW?.fire(target))
 		return TRUE
 	else
-		if(gunner && SW) //Tell them we failed
+		if(user_override && SW) //Tell them we failed
 			if(world.time < next_firetime) //Silence, SPAM.
 				return FALSE
 			next_firetime = world.time + SW.fire_delay
-			to_chat(gunner, SW.failure_alert)
+			to_chat(user_override, SW.failure_alert)
 	return FALSE
 
 /datum/ship_weapon/proc/special_fire(atom/target)

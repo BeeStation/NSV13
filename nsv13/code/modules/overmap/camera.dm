@@ -31,8 +31,9 @@
 				to_chat(gunner, "<span class='warning'>[user] has kicked you off the ship controls!</span>")
 				stop_piloting(gunner)
 			gunner = user
-		if("gauss_gunner")
-			LAZYADD(gauss_gunners, user)
+		//.if("gauss_gunner")
+		//	user.AddComponent(/datum/component/overmap_gunning)
+			//LAZYADD(gauss_gunners, user)
 		if("all_positions")
 			pilot = user
 			gunner = user
@@ -60,7 +61,8 @@
 		gunner = null
 		target_lock = null
 	if(LAZYFIND(gauss_gunners, M))
-		LAZYREMOVE(gauss_gunners, M)
+		var/datum/component/overmap_gunning/C = M.GetComponent(/datum/component/overmap_gunning)
+		C.end_gunning()
 	if(M.client)
 		M.client.view_size.resetToDefault()
 		M.client.overmap_zoomout = 0

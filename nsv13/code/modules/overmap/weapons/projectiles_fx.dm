@@ -25,6 +25,12 @@ Misc projectile types, effects, think of this as the special FX file.
 	//movement_type = FLYING | UNSTOPPABLE //Railguns punch straight through your ship
 	impact_effect_type = /obj/effect/temp_visual/impact_effect/torpedo
 
+//Improvised ammunition, does terrible damage but is cheap to produce
+/obj/item/projectile/bullet/mac_round/cannonshot
+	name = "Cannonball"
+	damage = 100
+	icon_state = "cannonshot"
+
 /obj/item/projectile/bullet/railgun_slug
 	icon_state = "mac"
 	name = "tungsten slug"

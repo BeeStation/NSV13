@@ -75,8 +75,7 @@
 
 	if(usr.incapacitated())
 		return
-	gunner = usr //failsafe.
-	linked.start_piloting(usr, "gauss_gunner")
+	set_gunner(usr)
 	to_chat(gunner, "<span class='notice'>You reach for [src]'s gun camera controls.</span>")
 
 /obj/machinery/ship_weapon/gauss_gun/verb/exit()
@@ -161,7 +160,7 @@
 	user.forceMove(src)
 	gunner = user
 	ui_interact(user)
-	linked.start_piloting(user, "gauss_gunner")
+	user.AddComponent(/datum/component/overmap_gunning)
 
 /obj/machinery/ship_weapon/gauss_gun/proc/remove_gunner()
 	if(gunner_chair)

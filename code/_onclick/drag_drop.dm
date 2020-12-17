@@ -128,6 +128,9 @@
 /datum/proc/onMouseMove(object, location, control, params)
 	return
 
+/datum/proc/onMouseDrag(src_object, over_object, src_location, over_location, params, mob)
+	return
+
 /client/MouseDrag(src_object,atom/over_object,src_location,over_location,src_control,over_control,params)
 	var/list/L = params2list(params)
 	if (L["middle"])
@@ -146,16 +149,8 @@
 		selected_target[2] = params
 	if(active_mousedown_item)
 		//NSV13 type conversion before mouseup - formerly active_mousedown_item.onMouseDrag(src_object, over_object, src_location, over_location, params, mob)
-		if(istype(active_mousedown_item, /obj/item))
-			var/obj/item/I = active_mousedown_item
-			I.onMouseDrag(src_object, over_object, src_location, over_location, params, mob)
-		else if(istype(active_mousedown_item, /obj/structure/overmap))
-			var/obj/structure/overmap/OM = active_mousedown_item
-			OM.onMouseDrag(src_object, over_object, src_location, over_location, params, mob)
+		active_mousedown_item.onMouseDrag(src_object, over_object, src_location, over_location, params, mob)
 		//NSV13 end
-
-/obj/item/proc/onMouseDrag(src_object, over_object, src_location, over_location, params, mob)
-	return
 
 /client/MouseDrop(src_object, over_object, src_location, over_location, src_control, over_control, params)
 	if (middragatom == src_object)

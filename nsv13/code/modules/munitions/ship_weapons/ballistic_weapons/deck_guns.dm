@@ -1,6 +1,6 @@
 /obj/machinery/ship_weapon/deck_turret
 	name = "M4-15 'Hood' deck turret"
-	desc = "A huge naval gun which uses chemical accelerants to propel rounds. Inspired by the classics, this gun packs a major punch and is quite easy to reload."
+	desc = "A huge naval gun which uses chemical accelerants to propel rounds. Inspired by the classics, this gun packs a major punch and is quite easy to reload. Use a multitool on it to re-register loading aparatus."
 	icon = 'nsv13/icons/obj/munitions/deck_turret.dmi'
 	icon_state = "deck_turret"
 	fire_mode = FIRE_MODE_MAC
@@ -17,6 +17,20 @@
 	maintainable = TRUE
 	load_sound = 'nsv13/sound/effects/ship/freespace2/crane_short.ogg'
 	var/obj/machinery/deck_turret/core
+
+/obj/machinery/ship_weapon/deck_turret/multitool_act(mob/living/user, obj/item/I)
+	. = ..()
+	core = locate(/obj/machinery/deck_turret) in SSmapping.get_turf_below(src)
+	if(!core)
+		to_chat(user, "<span class='warning'>No gun core detected to link to. Ensure one is placed directly below the turret. </span>")
+		return
+	core.turret = src
+	to_chat(user, "<span class='notice'>Successfully linked to gun core below deck.</span>")
+	core.update_parts()
+
+//No cheating! You need to load it from below...
+/obj/machinery/ship_weapon/deck_turret/MouseDrop_T(obj/item/A, mob/user)
+	return FALSE
 
 /obj/machinery/ship_weapon/deck_turret/animate_projectile(atom/target, lateral=TRUE)
 	var/obj/item/ship_weapon/ammunition/naval_artillery/T = chambered
@@ -137,7 +151,7 @@
 
 /obj/machinery/deck_turret/powder_gate/attackby(obj/item/I, mob/living/user, params)
 	. = ..()
-	if(get_dist(A, src) > 1)
+	if(get_dist(I, src) > 1)
 		return FALSE
 	if(bag)
 		to_chat(user, "<span class='notice'>[src] is already loaded with [bag].</span>")
@@ -145,8 +159,8 @@
 	if(loading)
 		to_chat(user, "<span class='notice'>[src] is already being loaded...</span>")
 		return FALSE
-	if(ammo_type && istype(A, ammo_type))
-		load(A, user)
+	if(ammo_type && istype(I, ammo_type))
+		load(I, user)
 
 /obj/machinery/deck_turret/powder_gate/proc/unload()
 	if(!bag)
@@ -198,8 +212,18 @@
 	projectile_type = /obj/item/projectile/bullet/mac_round //What torpedo type we fire
 	obj_integrity = 300 //Beefy, relatively hard to use as a grief tool.
 	max_integrity = 300
+	var/explosive = TRUE
 	var/armed = FALSE //Do it do the big boom?
 	var/speed = 0.5 //Needs powder to increase speed.
+
+/obj/item/ship_weapon/ammunition/naval_artillery/cannonball
+	name = "Cannon ball"
+	desc = "The QM blew the cargo budget on corgis, the clown stole all our ammo, we've got half a tank of plasma and are halfway to Dolos. Hit it."
+	icon_state = "cannon"
+	projectile_type = /obj/item/projectile/bullet/mac_round/cannonshot
+	obj_integrity = 100
+	max_integrity = 100
+	explosive = FALSE //Cannonshot is just iron
 
 /obj/item/ship_weapon/ammunition/naval_artillery/multitool_act(mob/living/user, obj/item/I)
 	. = ..()
@@ -211,7 +235,7 @@
 
 /obj/item/ship_weapon/ammunition/naval_artillery/obj_destruction(damage_flag)
 	. = ..()
-	if(armed)
+	if(armed && explosive)
 		explosion(src.loc, 3, 10, 5, 2, 5)
 
 /obj/item/ship_weapon/ammunition/naval_artillery/examine(mob/user)
@@ -359,6 +383,26 @@
 		/obj/item/ship_weapon/parts/loading_tray=1,
 		/obj/item/stack/cable_coil = 10)
 	build_path = /obj/machinery/deck_turret/payload_gate
+
+//Upgrades
+/obj/item/circuitboard/machine/deck_gun/autoelevator
+	name = "Deck gun auto-elevator (circuitboard)"
+	req_components = list(
+		/obj/item/stack/sheet/mineral/titanium = 40,
+		/obj/item/stack/sheet/mineral/copper = 20,
+		/obj/item/stack/sheet/mineral/diamond = 5,
+		/obj/item/stack/cable_coil = 10)
+	build_path = /obj/machinery/deck_turret/autoelevator
+
+/obj/item/circuitboard/machine/deck_gun/autorepair
+	name = "Deck gun auto-repair module (circuitboard)"
+	req_components = list(
+		/obj/item/stack/sheet/mineral/titanium = 40,
+		/obj/item/stack/sheet/mineral/copper = 20,
+		/obj/item/stack/sheet/mineral/diamond = 2,
+		/obj/item/stack/sheet/mineral/uranium = 10,
+		/obj/item/stack/cable_coil = 10)
+	build_path = /obj/machinery/deck_turret/autorepair
 
 //The actual gun assembly.
 /obj/structure/ship_weapon/mac_assembly/artillery_frame

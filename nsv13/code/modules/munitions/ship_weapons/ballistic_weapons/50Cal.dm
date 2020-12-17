@@ -1,0 +1,145 @@
+//The .50 cal! A neat crew served weapon which replaces PDC.
+/obj/machinery/ship_weapon/fiftycal
+	name = ".50 cal deck turret"
+	desc = "A formidable weapon operated by a gunner below deck, extremely effective at point defense though they struggle to damage larger targets."
+	icon = 'nsv13/icons/obj/munitions/deck_gun.dmi'
+	icon_state = "deck_gun"
+	magazine_type = /obj/item/ammo_box/magazine/pdc/fiftycal
+	safety = FALSE
+	auto_load = TRUE
+	semi_auto = TRUE
+	maintainable = FALSE
+	fire_mode = FIRE_MODE_50CAL
+	max_ammo = 100
+	var/mob/living/gunner
+
+/obj/machinery/ship_weapon/fiftycal/proc/start_gunning(mob/user)
+	if(gunner)
+		remove_gunner()
+	gunner = user
+	user.AddComponent(/datum/component/overmap_gunning/fiftycal, src)
+
+/obj/machinery/ship_weapon/fiftycal/proc/remove_gunner()
+	get_overmap().stop_piloting(gunner)
+
+//Unifying component for gauss / 50 cal gunning
+/datum/component/overmap_gunning
+	var/fire_mode = FIRE_MODE_GAUSS
+	var/mob/living/holder = null
+	var/atom/movable/autofire_target
+	var/next_fire = 0
+	var/fire_delay = 2 SECONDS
+	var/atom/movable/fx_target = null //Pass in a ship gun here to make it change direction based on where you're shooting
+
+/datum/component/overmap_gunning/fiftycal
+	fire_mode = FIRE_MODE_50CAL
+	fire_delay = 0.7 SECONDS
+
+/datum/component/overmap_gunning/Initialize(atom/movable/fx_target)
+	. = ..()
+	if(!istype(parent, /mob/living)) //Needs at least this base prototype.
+		return COMPONENT_INCOMPATIBLE
+	src.fx_target = fx_target
+	holder = parent
+	start_gunning()
+
+/datum/component/overmap_gunning/proc/start_gunning()
+	var/obj/structure/overmap/OM = holder.get_overmap()
+	if(!OM)
+		RemoveComponent() //Uh...OK?
+		return
+	LAZYADD(OM.gauss_gunners, holder)
+	OM.start_piloting(holder, "gunner")
+	START_PROCESSING(SSfastprocess, src)
+
+/datum/component/overmap_gunning/proc/onClick(atom/movable/target)
+	if(world.time < next_fire || !autofire_target)
+		return FALSE
+	var/obj/structure/overmap/OM = holder.get_overmap()
+	next_fire = world.time + fire_delay
+	if(fx_target)
+		fx_target.setDir(get_dir(OM, target))  //Makes the gun turn and shoot the target, wow!
+	OM.fire_weapon(target, fire_mode)
+
+/datum/component/overmap_gunning/process()
+	if(!autofire_target)
+		return
+	onClick(autofire_target)
+
+/datum/component/overmap_gunning/proc/onMouseUp(object, location, params, mob)
+	autofire_target = null
+	return
+
+/datum/component/overmap_gunning/proc/onMouseDown(object, location, params)
+	autofire_target = object //When we start firing, we start firing at whatever you clicked on initially. When the user drags their mouse, this shall change.
+
+/datum/component/overmap_gunning/onMouseDrag(src_object, over_object, src_location, over_location, params, mob/M)
+	. = ..()
+	autofire_target = over_object
+
+/datum/component/overmap_gunning/proc/end_gunning()
+	var/obj/structure/overmap/OM = holder.get_overmap()
+	LAZYREMOVE(OM.gauss_gunners, holder)
+	STOP_PROCESSING(SSfastprocess, src)
+	var/obj/machinery/ship_weapon/gauss_gun/G = holder.loc
+	if(istype(G))
+		G.remove_gunner()
+	RemoveComponent()
+	return
+
+/obj/machinery/computer/fiftycal
+	name = ".50 cal turret console"
+	desc = "A computer that allows you to control a .50 cal deck gun, when paired with a turret above deck."
+	icon_screen = "50cal"
+	circuit = /obj/item/circuitboard/computer/fiftycal
+	var/obj/machinery/ship_weapon/fiftycal/turret
+
+/obj/machinery/computer/fiftycal/Initialize()
+	. = ..()
+	turret = locate(/obj/machinery/ship_weapon/fiftycal) in SSmapping.get_turf_above(src)
+
+/obj/machinery/computer/fiftycal/attack_hand(mob/user)
+	. = ..()
+	if(!turret)
+		to_chat(user, "<span class='warning'>This computer is not linked to a gun turret! You can link it with a multitool.</span>")
+		return
+	turret.start_gunning(user)
+
+/obj/item/circuitboard/machine/fiftycal
+	name = ".50 cal turret (circuitboard)"
+	req_components = list(
+		/obj/item/stack/sheet/mineral/titanium = 20,
+		/obj/item/stack/sheet/mineral/copper = 10,
+		/obj/item/stack/sheet/iron = 30,
+		/obj/item/stack/cable_coil = 5)
+	build_path = /obj/machinery/ship_weapon/fiftycal
+
+/obj/item/circuitboard/computer/fiftycal
+	name = ".50 cal turret console (circuit)"
+	build_path = /obj/machinery/computer/fiftycal
+
+/obj/item/ammo_box/magazine/pdc/fiftycal
+	name = "50 caliber rounds"
+	ammo_type = /obj/item/ammo_casing/fiftycal
+	caliber = "mm40"
+	max_ammo = 100
+
+/obj/item/ammo_box/magazine/pdc/fiftycal/update_icon()
+	if(ammo_count() > 10)
+		icon_state = initial(icon_state)
+	else
+		icon_state = "[initial(icon_state)]_empty"
+
+/obj/item/ammo_casing/fiftycal
+	name = "50mm round casing"
+	desc = "A 50mm bullet casing."
+	projectile_type = /obj/item/projectile/bullet/fiftycal
+	caliber = "50mm"
+
+/obj/item/projectile/bullet/fiftycal
+	icon_state = "50cal"
+	name = ".50 cal round"
+	damage = 15
+	flag = "overmap_heavy"
+	speed = 2
+
