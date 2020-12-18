@@ -14,7 +14,7 @@ export const Dradis = (props, context) => {
   let focus_y = data.focus_y;
   let width_mod = data.width_mod;
   let zoom_factor = data.zoom_factor;
-  let scale_factor = 4*zoom_factor;
+  let scale_factor = 5*zoom_factor;
   let multiplier = 562.5*zoom_factor;
   let rangeStyle = "left:"+focus_x*scale_factor+"px;bottom:"+focus_y*scale_factor+"px; width:"+width_mod*multiplier+"px; height:"+width_mod*multiplier+"px;margin-bottom:"+(-1)*((width_mod*multiplier)/2)+"px;margin-left:"+(-1)*((width_mod*multiplier)/2)+"px;";
   return (
@@ -108,7 +108,7 @@ export const Dradis = (props, context) => {
                   <Fragment key={key}>
                     {!!value.name && (
                       <StarButton unselectable="on" style={markerStyle} className={markerType}
-                        content="">
+                        content="" onClick={() => act('hail', { target: value.id })}>
                         <span class="star_label">
                           <p>{value.name}</p>
                         </span>

@@ -23,7 +23,7 @@
 	var/novariants = TRUE //Determines whether the item should update it's sprites based on amount.
 	//NOTE: When adding grind_results, the amounts should be for an INDIVIDUAL ITEM - these amounts will be multiplied by the stack size in on_grind()
 	var/obj/structure/table/tableVariant // we tables now (stores table variant to be built from this stack)
-	
+
 /obj/item/stack/on_grind()
 	for(var/i in 1 to grind_results.len) //This should only call if it's ground, so no need to check if grind_results exists
 		grind_results[grind_results[i]] *= get_amount() //Gets the key at position i, then the reagent amount of that key, then multiplies it by stack size
@@ -178,7 +178,7 @@
 			recipes_list = srl.recipes
 		var/datum/stack_recipe/R = recipes_list[text2num(href_list["make"])]
 		var/multiplier = text2num(href_list["multiplier"])
-		if (!multiplier ||(multiplier <= 0)) //href protection
+		if (!isnum_safe(multiplier) || (multiplier <= 0)) //href protection
 			return
 		if(!building_checks(R, multiplier))
 			return
@@ -203,6 +203,16 @@
 			O.setDir(usr.dir)
 		use(R.req_amount * multiplier)
 
+/* Here rests the souls of coders forced to add their own hacky checks. */
+
+// NSV Warcrimes Start.
+		var/force_floor = FALSE
+		if(istype(O, /obj/item/ship_weapon)) //Prevent constructed ship_weapon bits from being placed in the hand.
+			force_floor = TRUE             //If I was a less lazy dev, I'd refactor this shit into structures...
+
+
+// NSV Warcrimes End.
+
 		//START: oh fuck i'm so sorry
 		if(istype(O, /obj/structure/windoor_assembly))
 			var/obj/structure/windoor_assembly/W = O
@@ -220,7 +230,7 @@
 		if (QDELETED(O))
 			return //It's a stack and has already been merged
 
-		if (isitem(O))
+		if (isitem(O) && !force_floor) //Override flag.
 			usr.put_in_hands(O)
 		O.add_fingerprint(usr)
 
@@ -337,12 +347,12 @@
 	return transfer
 
 /obj/item/stack/Crossed(obj/o)
-	if(istype(o, merge_type) && !o.throwing)
+	if(merge_check(o) && !o.throwing)
 		merge(o)
 	. = ..()
 
 /obj/item/stack/hitby(atom/movable/AM, skipcatch, hitpush, blocked, datum/thrownthing/throwingdatum)
-	if(istype(AM, merge_type))
+	if(merge_check(AM))
 		merge(AM)
 	. = ..()
 
@@ -388,12 +398,22 @@
 	zero_amount()
 
 /obj/item/stack/attackby(obj/item/W, mob/user, params)
-	if(istype(W, merge_type))
+	if(merge_check(W))
 		var/obj/item/stack/S = W
 		if(merge(S))
 			to_chat(user, "<span class='notice'>Your [S.name] stack now contains [S.get_amount()] [S.singular_name]\s.</span>")
 	else
 		. = ..()
+
+/obj/item/stack/proc/merge_check(obj/o)
+	if(istype(o,merge_type))
+		if(!istype(o,/obj/item/stack)) //Not a stack, but can be stacked.
+			return TRUE
+		else
+			var/obj/item/stack/ostack = o
+			if(istype(src,ostack.merge_type)) //Merge types have to go in both directions, so inheritance != stackable together
+				return TRUE
+	return FALSE
 
 /obj/item/stack/proc/copy_evidences(obj/item/stack/from)
 	add_blood_DNA(from.return_blood_DNA())

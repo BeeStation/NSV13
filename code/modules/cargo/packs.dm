@@ -326,14 +326,14 @@
 					/obj/item/clothing/suit/armor/vest)
 	crate_name = "armor crate"
 
-/datum/supply_pack/security/disabler
+/* /datum/supply_pack/security/disabler NOT AVAILABLE - NSV
 	name = "Disabler Crate"
 	desc = "Three stamina-draining disabler weapons. Requires Security access to open."
 	cost = 1500
 	contains = list(/obj/item/gun/energy/disabler,
 					/obj/item/gun/energy/disabler,
 					/obj/item/gun/energy/disabler)
-	crate_name = "disabler crate"
+	crate_name = "disabler crate" */
 
 /datum/supply_pack/security/forensics
 	name = "Forensics Crate"
@@ -356,14 +356,14 @@
 					/obj/item/clothing/head/helmet/sec)
 	crate_name = "helmet crate"
 
-/datum/supply_pack/security/laser
+/* /datum/supply_pack/security/laser See nsv13/code/modules/cargo/packs.dm for new one
 	name = "Lasers Crate"
 	desc = "Contains three lethal, high-energy laser guns. Requires Security access to open."
 	cost = 2000
 	contains = list(/obj/item/gun/energy/laser,
 					/obj/item/gun/energy/laser,
 					/obj/item/gun/energy/laser)
-	crate_name = "laser crate"
+	crate_name = "laser crate" */
 
 /datum/supply_pack/security/securitybarriers
 	name = "Security Barrier Grenades"
@@ -539,13 +539,13 @@
 /datum/supply_pack/security/armory/dragnet
 	name = "DRAGnet Crate"
 	desc = "Contains three \"Dynamic Rapid-Apprehension of the Guilty\" netting devices, a recent breakthrough in law enforcement prisoner management technology. Requires armory access to open."
-	cost = 1500
+	cost = 2000 // NSV: 1500 -> 2000
 	contains = list(/obj/item/gun/energy/e_gun/dragnet,
 					/obj/item/gun/energy/e_gun/dragnet,
 					/obj/item/gun/energy/e_gun/dragnet)
 	crate_name = "\improper DRAGnet crate"
 
-/datum/supply_pack/security/armory/energy_single
+/* /datum/supply_pack/security/armory/energy_single NOT AVAILABLE - NSV
 	name = "Energy Guns Single-Pack"
 	desc = "Contains one Energy Gun, capable of firing both nonlethal and lethal blasts of light. Requires Armory access to open."
 	cost = 1500
@@ -559,7 +559,7 @@
 	contains = list(/obj/item/gun/energy/e_gun,
 					/obj/item/gun/energy/e_gun)
 	crate_name = "energy gun crate"
-	crate_type = /obj/structure/closet/crate/secure/plasma
+	crate_type = /obj/structure/closet/crate/secure/plasma */
 
 /datum/supply_pack/security/armory/exileimp
 	name = "Exile Implants Crate"
@@ -611,14 +611,14 @@
 					/obj/item/ammo_box/c38/trac)
 	crate_name = "tracking implant crate"
 
-/datum/supply_pack/security/armory/laserarmor
+/* /datum/supply_pack/security/armory/laserarmor NOT AVAILABLE - NSV
 	name = "Reflector Vest Crate"
 	desc = "Contains two vests of highly reflective material. Each armor piece diffuses a laser's energy by over half, as well as offering a good chance to reflect the laser entirely. Requires Armory access to open."
 	cost = 2000
 	contains = list(/obj/item/clothing/suit/armor/laserproof,
 					/obj/item/clothing/suit/armor/laserproof)
 	crate_name = "reflector vest crate"
-	crate_type = /obj/structure/closet/crate/secure/plasma
+	crate_type = /obj/structure/closet/crate/secure/plasma */
 
 /datum/supply_pack/security/armory/riotarmor
 	name = "Riot Armor Crate"
@@ -985,6 +985,7 @@
 	access = ACCESS_ENGINE_EQUIP //NSV13 - Do your hecking jobs
 	crate_type = /obj/structure/closet/crate/engineering
 
+/* NSV13 - Learn how to actually do some engineering
 /datum/supply_pack/engine/am_jar
 	name = "Antimatter Containment Jar Crate"
 	desc = "Two Antimatter containment jars stuffed into a single crate."
@@ -1015,6 +1016,7 @@
 					/obj/item/am_shielding_container,
 					/obj/item/am_shielding_container) //10 shields: 3x3 containment and a core
 	crate_name = "antimatter shielding crate"
+*/
 
 /datum/supply_pack/engine/emitter
 	name = "Emitter Crate"
@@ -1539,6 +1541,20 @@
 	crate_name = "robotics assembly crate"
 	crate_type = /obj/structure/closet/crate/secure/science
 
+/datum/supply_pack/science/recharging
+	name = "Recharging Station Crate"
+	desc = "If you are looking for an improvement that makes your station more suitable for silicons, this is the pack for you! Contains all the materials required to put together a recharging station. Tools not included."
+	cost = 2500
+	access = ACCESS_ROBOTICS
+	contains = list(/obj/item/stack/sheet/iron/five,
+					/obj/item/stack/cable_coil/random/five,
+					/obj/item/circuitboard/machine/cyborgrecharger,
+					/obj/item/stock_parts/capacitor,
+					/obj/item/stock_parts/cell,
+					/obj/item/stock_parts/manipulator)
+	crate_name = "recharging station crate"
+	crate_type = /obj/structure/closet/crate/secure/science
+
 /datum/supply_pack/science/rped
 	name = "RPED crate"
 	desc = "Need to rebuild the ORM but science got annihialted after a bomb test? Buy this for the most advanced parts NT can give you."
@@ -1700,6 +1716,8 @@
 					/obj/item/stack/tile/carpet/red/fifty,
 					/obj/item/stack/tile/carpet/royalblue/fifty,
 					/obj/item/stack/tile/carpet/royalblue/fifty,
+					/obj/item/stack/tile/eighties/fifty,
+					/obj/item/stack/tile/eighties/fifty,
 					/obj/item/stack/tile/carpet/royalblack/fifty,
 					/obj/item/stack/tile/carpet/royalblack/fifty)
 	crate_name = "exotic carpet crate"
@@ -2178,6 +2196,14 @@
 	contains = list(/mob/living/simple_animal/pet/dog/pug,
 					/obj/item/clothing/neck/petcollar)
 	crate_name = "pug crate"
+
+/datum/supply_pack/critter/bullterrier
+	name = "Bull Terrier Crate"
+	desc = "Like a normal dog, but with a head the shape of an egg. Comes with a nice collar!"
+	cost = 5000
+	contains = list(/mob/living/simple_animal/pet/dog/bullterrier,
+					/obj/item/clothing/neck/petcollar)
+	crate_name = "bull terrier crate"
 
 /datum/supply_pack/critter/snake
 	name = "Snake Crate"

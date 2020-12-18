@@ -20,6 +20,9 @@
 	var/mob/living/silicon/ai/mainframe = null
 	var/datum/action/innate/undeployment/undeployment_action = new
 
+	var/obj/item/clockwork/clockwork_slab/internal_clock_slab = null
+	var/ratvar = FALSE
+
 //Hud stuff
 
 	var/obj/screen/inv1 = null
@@ -102,6 +105,8 @@
 
 	wires = new /datum/wires/robot(src)
 	AddComponent(/datum/component/empprotection, EMP_PROTECT_WIRES)
+
+	RegisterSignal(src, COMSIG_PROCESS_BORGCHARGER_OCCUPANT, .proc/charge)
 
 	robot_modules_background = new()
 	robot_modules_background.icon_state = "block"
@@ -614,7 +619,7 @@
 		if(lamp_intensity > 2)
 			eye_lights.icon_state = "[module.special_light_key ? "[module.special_light_key]":"[module.cyborg_base_icon]"]_l"
 		else
-			eye_lights.icon_state = "[module.special_light_key ? "[module.special_light_key]":"[module.cyborg_base_icon]"]_e"
+			eye_lights.icon_state = "[module.special_light_key ? "[module.special_light_key]":"[module.cyborg_base_icon]"]_e[ratvar ? "_r" : ""]"
 		eye_lights.icon = icon
 		add_overlay(eye_lights)
 
@@ -687,6 +692,18 @@
 		throw_alert("hacked", /obj/screen/alert/hacked)
 	else
 		clear_alert("hacked")
+
+/mob/living/silicon/robot/proc/SetRatvar(new_state, rebuild=TRUE)
+	ratvar = new_state
+	if(rebuild)
+		module.rebuild_modules()
+	update_icons()
+	if(ratvar)
+		internal_clock_slab = new(src)
+		throw_alert("ratvar", /obj/screen/alert/ratvar)
+	else
+		qdel(internal_clock_slab)
+		clear_alert("ratvar")
 
 /mob/living/silicon/robot/verb/outputlaws()
 	set category = "Robot Commands"
@@ -1090,6 +1107,7 @@
 	if(radio && AI.radio) //AI keeps all channels, including Syndie if it is a Traitor
 		if(AI.radio.syndie)
 			radio.make_syndie()
+			radio.syndie = TRUE
 		radio.subspace_transmission = TRUE
 		radio.channels = AI.radio.channels
 		for(var/chan in radio.channels)
@@ -1198,3 +1216,11 @@
 			connected_ai.aicamera.stored[i] = TRUE
 		for(var/i in connected_ai.aicamera.stored)
 			aicamera.stored[i] = TRUE
+
+/mob/living/silicon/robot/proc/charge(datum/source, amount, repairs)
+	if(module)
+		module.respawn_consumable(src, amount * 0.005)
+	if(cell)
+		cell.charge = min(cell.charge + amount, cell.maxcharge)
+	if(repairs)
+		heal_bodypart_damage(repairs, repairs - 1)

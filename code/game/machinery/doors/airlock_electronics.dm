@@ -21,7 +21,7 @@
 /obj/item/electronics/airlock/ui_static_data(mob/user)
 	var/list/data = list()
 	var/list/regions = list()
-	for(var/i in 1 to 7)
+	for(var/i in 1 to 8) //nsv13: 7 -> 8 to add munitions
 		var/list/accesses = list()
 		for(var/access in get_region_accesses(i))
 			if (get_access_desc(access))

@@ -8,6 +8,8 @@ export const EnergyWeapons = (props, context) => {
   const maxHealthPriority = data.maxHealthPriority;
   const regenPriority = data.regenPriority;
   const progress = data.progress;
+  const chargeRate = data.chargeRate;
+  const maxChargeRate = data.maxChargeRate;
   const goal = data.goal;
   const powerAlloc = data.powerAlloc;
   const maxPower = data.maxPower;
@@ -20,6 +22,20 @@ export const EnergyWeapons = (props, context) => {
           icon="charging-station"
           color={data.active && "good"}
           onClick={() => act('activeToggle')} />}>
+          Power Draw:
+          <br />
+          <ProgressBar
+            value={(chargeRate / maxChargeRate * 100) * 0.01}
+            ranges={{
+              good: [-Infinity, 0.30],
+              average: [0.30, 0.50],
+              bad: [0.50, Infinity],
+            }}>
+            {(chargeRate / 1000) + ' kW'}
+          </ProgressBar>
+          <br />
+          Charge:
+          <br />
           <ProgressBar
             value={(progress / goal * 100) * 0.01}
             ranges={{
@@ -29,7 +45,7 @@ export const EnergyWeapons = (props, context) => {
             }} />
         </Section>
         <Section title="Settings:">
-          Overcharge settings:
+          Power Input Level:
           <Slider
             value={powerAlloc}
             minValue={0}

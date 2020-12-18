@@ -1,11 +1,13 @@
 //Metals
 
 GLOBAL_LIST_INIT(duranium_recipes, list (\
-	new/datum/stack_recipe("railgun rail", /obj/item/ship_weapon/parts/railgun_rail, 1, time = 20, one_per_turf = FALSE, on_floor = TRUE) \
+	new/datum/stack_recipe("railgun rail", /obj/item/ship_weapon/parts/railgun_rail, 1, time = 20, one_per_turf = FALSE, on_floor = TRUE), \
+	new/datum/stack_recipe("mac barrel", /obj/item/ship_weapon/parts/mac_barrel, 1, time = 20, one_per_turf = FALSE, on_floor = TRUE), \
 	))
 
 /obj/item/stack/sheet/duranium
-	name = "duranium sheet"
+	name = "duranium"
+	singular_name = "duranium sheet"
 	desc = "This sheet is an extra durable alloy of durasteel and plasteel."
 	icon = 'nsv13/icons/obj/custom_stack_objects.dmi'
 	icon_state = "sheet-duranium"
@@ -41,7 +43,8 @@ GLOBAL_LIST_INIT(durasteel_recipes, list ( \
 	))
 
 /obj/item/stack/sheet/durasteel
-	name = "durasteel sheet"
+	name = "durasteel"
+	singular_name = "durasteel sheet"
 	desc = "This sheet is a durable alloy of iron and silver."
 	icon = 'nsv13/icons/obj/custom_stack_objects.dmi'
 	icon_state = "sheet-durasteel"

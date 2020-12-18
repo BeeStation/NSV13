@@ -140,7 +140,7 @@
 			return
 
 		if(SSticker.queued_players.len || (relevant_cap && living_player_count() >= relevant_cap && !(ckey(key) in GLOB.admin_datums)))
-			if(GLOB.patrons.Find(src.ckey))
+			if(IS_PATRON(src.ckey))
 				LateChoices()
 				return
 			to_chat(usr, "<span class='danger'>[CONFIG_GET(string/hard_popcap_message)]</span>")
@@ -251,7 +251,7 @@
 		return JOB_UNAVAILABLE_GENERIC
 	if((job.current_positions >= job.total_positions) && job.total_positions != -1)
 		if(job.title == "Assistant")
-			if(isnum(client.player_age) && client.player_age <= 14) //Newbies can always be assistants
+			if(isnum_safe(client.player_age) && client.player_age <= 14) //Newbies can always be assistants
 				return JOB_AVAILABLE
 			for(var/datum/job/J in SSjob.occupations)
 				if(J && J.current_positions < J.total_positions && J.title != job.title)

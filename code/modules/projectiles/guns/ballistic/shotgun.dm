@@ -22,6 +22,7 @@
 	tac_reloads = FALSE
 	fire_rate = 1 //reee
 	block_upgrade_walk = 1
+	pb_knockback = 2
 
 /obj/item/gun/ballistic/shotgun/blow_up(mob/user)
 	. = 0
@@ -52,7 +53,7 @@
 
 // Automatic Shotguns//
 
-/obj/item/gun/ballistic/shotgun/automatic/shoot_live_shot(mob/living/user)
+/obj/item/gun/ballistic/shotgun/automatic/shoot_live_shot(mob/living/user, pointblank = 0, atom/pbtarget = null, message = 1)
 	..()
 	rack()
 
@@ -69,6 +70,20 @@
 	icon_state = "cshotgunc"
 	mag_type = /obj/item/ammo_box/magazine/internal/shot/com/compact
 	w_class = WEIGHT_CLASS_BULKY
+
+// Shotgun Pistol //
+
+/obj/item/gun/ballistic/shotgun/automatic/pistol
+	name = "\improper Solir 4 revolver hybrid"
+	desc = "A retro high-powered shotgun revolver typically used by high ranking officials. Uses shells."
+	icon_state = "shotgunpistol"
+	weapon_weight = WEIGHT_CLASS_NORMAL
+	rack_sound = 'sound/weapons/revolverdry.ogg'
+	bolt_type = BOLT_TYPE_NO_BOLT
+	semi_auto = TRUE
+	fire_rate = 1.5
+	mag_type = /obj/item/ammo_box/magazine/internal/shot/com
+	pin = /obj/item/firing_pin/implant/pindicate
 
 // Breaching Shotgun //
 
@@ -178,6 +193,7 @@
 	semi_auto = TRUE
 	bolt_type = BOLT_TYPE_NO_BOLT
 	fire_rate = 2 //being double barrelled, you don't rely on internal mechanisms.
+	pb_knockback = 3
 
 /obj/item/gun/ballistic/shotgun/doublebarrel/AltClick(mob/user)
 	. = ..()

@@ -39,6 +39,11 @@
 
 	if(M.client)
 		body += "<br><br><b>First Seen:</b> [M.client.player_join_date]<br><b>Byond account registered on:</b> [M.client.account_join_date]"
+		body += "<br><br><b>CentCom Galactic Ban DB: </b> "
+		if(CONFIG_GET(string/centcom_ban_db))
+			body += "<a href='?_src_=holder;[HrefToken()];centcomlookup=[M.client.ckey]'>Search</a>"
+		else
+			body += "<i>Disabled</i>"
 		body += "<br><br><b>Show related accounts by:</b> "
 		body += "<a href='?_src_=holder;[HrefToken()];showrelatedacc=cid;client=[REF(M.client)]'>CID</a> "
 		body += "<a href='?_src_=holder;[HrefToken()];showrelatedacc=ip;client=[REF(M.client)]'>IP</a>"
@@ -568,7 +573,7 @@
 	if(!check_rights(0))
 		return
 
-	var/message = input("Global message to send:", "Admin Announce", null, null)  as message
+	var/message = capped_multiline_input(usr, "Global message to send:", "Admin Announce")
 	if(message)
 		if(!check_rights(R_SERVER,0))
 			message = adminscrub(message,500)
@@ -584,7 +589,7 @@
 	if(!check_rights(0))
 		return
 
-	var/new_admin_notice = input(src,"Set a public notice for this round. Everyone who joins the server will see it.\n(Leaving it blank will delete the current notice):","Set Notice",GLOB.admin_notice) as message|null
+	var/new_admin_notice = capped_multiline_input(usr, "Set a public notice for this round. Everyone who joins the server will see it.\n(Leaving it blank will delete the current notice):","Set Notice",GLOB.admin_notice)
 	if(new_admin_notice == null)
 		return
 	if(new_admin_notice == GLOB.admin_notice)

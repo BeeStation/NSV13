@@ -1,4 +1,5 @@
 /obj/structure/overmap/proc/nuclear_impact()
+	set waitfor = FALSE
 	relay('nsv13/sound/effects/ship/nukehit.ogg', message="<span class='warning'>You hear a huge rumble as a blinding flash of light envelops you!</span>")
 	for(var/mob/living/karmics_victim in mobs_in_ship)
 		if(karmics_victim.stat == DEAD)	//They're dead!

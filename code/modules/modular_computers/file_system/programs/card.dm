@@ -4,6 +4,7 @@
 #define CARDCON_DEPARTMENT_SUPPLY "Supply"
 #define CARDCON_DEPARTMENT_SCIENCE "Science"
 #define CARDCON_DEPARTMENT_ENGINEERING "Engineering"
+#define CARDCON_DEPARTMENT_MUNITIONS "Munitions" //nsv13
 #define CARDCON_DEPARTMENT_COMMAND "Command"
 
 /datum/computer_file/program/card_mod
@@ -56,8 +57,13 @@
 			"department" = CARDCON_DEPARTMENT_ENGINEERING,
 			"region" = 5,
 			"head" = "Chief Engineer"
+		),
+		"[ACCESS_MAA]" = list(
+			"department" = CARDCON_DEPARTMENT_MUNITIONS,
+			"region" = 8,
+			"head" = "Master at Arms"
 		)
-	)
+	) //nsv13 - add maa
 
 /datum/computer_file/program/card_mod/proc/authenticate(mob/user, obj/item/card/id/id_card)
 	if(!id_card)
@@ -173,6 +179,7 @@
 			id_card.access -= get_all_centcom_access() + get_all_accesses()
 			id_card.assignment = "Unassigned"
 			id_card.update_label()
+			log_id("[key_name(usr)] unassigned and stripped all access from [id_card] using [user_id_card] via a portable ID console at [AREACOORD(usr)].")
 			playsound(computer, 'sound/machines/terminal_prompt_deny.ogg', 50, FALSE)
 			return TRUE
 		if("PRG_edit")
@@ -181,6 +188,7 @@
 			var/new_name = params["name"]
 			if(!new_name)
 				return
+			log_id("[key_name(usr)] changed [id_card] name to '[new_name]', using [user_id_card] via a portable ID console at [AREACOORD(usr)].")
 			id_card.registered_name = new_name
 			id_card.update_label()
 			playsound(computer, "terminal_type", 50, FALSE)
@@ -195,6 +203,7 @@
 			if(target == "Custom")
 				var/custom_name = params["custom_name"]
 				if(custom_name)
+					log_id("[key_name(usr)] assigned a custom assignment '[custom_name]' to [id_card] using [user_id_card] via a portable ID console at [AREACOORD(usr)].")
 					id_card.assignment = custom_name
 					id_card.update_label()
 			else
@@ -214,10 +223,12 @@
 						to_chat(user, "<span class='warning'>No class exists for this job: [target]</span>")
 						return
 					new_access = job.get_access()
+				log_id("[key_name(usr)] changed [id_card] assignment to '[target]', overriding all previous access using [user_id_card] via a portable ID console at [AREACOORD(usr)].")
 				id_card.access -= get_all_centcom_access() + get_all_accesses()
 				id_card.access |= new_access
 				id_card.assignment = target
 				id_card.update_label()
+
 			playsound(computer, 'sound/machines/terminal_prompt_confirm.ogg', 50, FALSE)
 			return TRUE
 		if("PRG_access")
@@ -227,20 +238,24 @@
 			if(access_type in (is_centcom ? get_all_centcom_access() : get_all_accesses()))
 				if(access_type in id_card.access)
 					id_card.access -= access_type
+					log_id("[key_name(usr)] removed [get_access_desc(access_type)] from [id_card] using [user_id_card] via a portable ID console at [AREACOORD(usr)].")
 				else
 					id_card.access |= access_type
+					log_id("[key_name(usr)] added [get_access_desc(access_type)] to [id_card] using [user_id_card] via a portable ID console at [AREACOORD(usr)].")
 				playsound(computer, "terminal_type", 50, FALSE)
 				return TRUE
 		if("PRG_grantall")
 			if(!computer || !authenticated || minor)
 				return
 			id_card.access |= (is_centcom ? get_all_centcom_access() : get_all_accesses())
+			log_id("[key_name(usr)] granted All Access to [id_card] using [user_id_card] via a portable ID console at [AREACOORD(usr)].")
 			playsound(computer, 'sound/machines/terminal_prompt_confirm.ogg', 50, FALSE)
 			return TRUE
 		if("PRG_denyall")
 			if(!computer || !authenticated || minor)
 				return
 			id_card.access.Cut()
+			log_id("[key_name(usr)] removed All Access from [id_card] using [user_id_card] via a portable ID console at [AREACOORD(usr)].")
 			playsound(computer, 'sound/machines/terminal_prompt_deny.ogg', 50, FALSE)
 			return TRUE
 		if("PRG_grantregion")
@@ -250,6 +265,7 @@
 			if(isnull(region))
 				return
 			id_card.access |= get_region_accesses(region)
+			log_id("[key_name(usr)] granted [get_region_accesses_name(region)] regional access to [id_card] using [user_id_card] via a portable ID console at [AREACOORD(usr)].")
 			playsound(computer, 'sound/machines/terminal_prompt_confirm.ogg', 50, FALSE)
 			return TRUE
 		if("PRG_denyregion")
@@ -259,6 +275,7 @@
 			if(isnull(region))
 				return
 			id_card.access -= get_region_accesses(region)
+			log_id("[key_name(usr)] removed [region] regional access from [id_card] using [user_id_card] via a portable ID console at [AREACOORD(usr)].")
 			playsound(computer, 'sound/machines/terminal_prompt_deny.ogg', 50, FALSE)
 			return TRUE
 
@@ -281,8 +298,9 @@
 			CARDCON_DEPARTMENT_SCIENCE = GLOB.science_positions,
 			CARDCON_DEPARTMENT_SECURITY = GLOB.security_positions,
 			CARDCON_DEPARTMENT_SUPPLY = GLOB.supply_positions,
-			CARDCON_DEPARTMENT_CIVILIAN = GLOB.civilian_positions
-		)
+			CARDCON_DEPARTMENT_CIVILIAN = GLOB.civilian_positions,
+			CARDCON_DEPARTMENT_MUNITIONS = GLOB.munitions_positions
+		) //nsv13 - add munitions
 	data["jobs"] = list()
 	for(var/department in departments)
 		var/list/job_list = departments[department]
@@ -298,7 +316,7 @@
 			data["jobs"][department] = department_jobs
 
 	var/list/regions = list()
-	for(var/i in 1 to 7)
+	for(var/i in 1 to 8) //nsv13 - 7 --> 8 //i swear to god if this is what fixes it //it was
 		if((minor || target_dept) && !(i in region_access))
 			continue
 
@@ -360,4 +378,5 @@
 #undef CARDCON_DEPARTMENT_SCIENCE
 #undef CARDCON_DEPARTMENT_SUPPLY
 #undef CARDCON_DEPARTMENT_ENGINEERING
+#undef CARDCON_DEPARTMENT_MUNITIONS //nsv13
 #undef CARDCON_DEPARTMENT_COMMAND

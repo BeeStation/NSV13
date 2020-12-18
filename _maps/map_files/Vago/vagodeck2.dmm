@@ -4204,7 +4204,9 @@
 /obj/effect/turf_decal/stripes/line{
 	dir = 9
 	},
-/obj/machinery/computer/ship/reactor_control_computer,
+/obj/machinery/computer/ship/reactor_control_computer{
+	reactor_id = 1
+	},
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer1{
 	dir = 1
 	},
@@ -4664,13 +4666,11 @@
 /turf/open/floor/engine,
 /area/engine/engine_room)
 "kP" = (
-/obj/machinery/power/stormdrive_reactor,
 /obj/structure/cable/yellow{
 	icon_state = "0-2"
 	},
-/obj/machinery/atmospherics/components/binary/pump/reactor_manifold{
-	icon_state = "pump_map-2";
-	dir = 8
+/obj/machinery/atmospherics/components/binary/stormdrive_reactor{
+	reactor_id = 1
 	},
 /turf/open/floor/engine,
 /area/engine/engine_room)

@@ -12,19 +12,60 @@
 	alpha = 0
 	layer = WALL_OBJ_LAYER
 
+/**
+
+ATTENTION ADMINS. This proc is important, EXTREMELY important. In fact, welcome to your new religion.
+
+This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATEVER. You should no longer have to use the ancient chimp technique to unfuck people, use this instead, way cleaner, AND no monkies to boot!
+
+*/
+#define VV_HK_UNFUCK_OVERMAP "unFuckOvermap"
+
+/mob/living/proc/unfuck_overmap()
+	if(overmap_ship)
+		overmap_ship.stop_piloting(src)
+	for(var/datum/action/innate/camera_off/overmap/fuckYOU in actions)
+		if(!istype(fuckYOU))
+			continue
+		qdel(fuckYOU) //Because this is a thing. Sure. Ok buddy.
+	sleep(1) //Ok, are they still scuffed? Time to manually fix them...
+	if(!overmap_ship)
+		return //OK cool we're done here.
+	remote_control = null
+	overmap_ship = null
+	cancel_camera()
+	focus = src
+	if(!client)
+		return //Early return instead of possibly making 4 worthless reads. Is this a dumb microopt? Yes.
+	client.pixel_x = 0
+	client.pixel_y = 0
+	client.overmap_zoomout = 0
+	client.view_size.resetToDefault()
+
+/mob/living/vv_get_dropdown()
+	. = ..()
+	VV_DROPDOWN_OPTION(VV_HK_UNFUCK_OVERMAP, "Unfuck Overmap")
+
+/mob/living/vv_do_topic(list/href_list)
+	. = ..()
+	if(href_list[VV_HK_UNFUCK_OVERMAP])
+		if(!check_rights(NONE))
+			return
+		unfuck_overmap()
+
 /obj/structure/overmap
 	var/last_process = 0
 	var/processing_failsafe = FALSE //Has the game lagged to shit and we need to handle our own processing until it clears up?
 	var/obj/vector_overlay/vector_overlay
 	var/pixel_collision_size_x = 0
 	var/pixel_collision_size_y = 0
-	var/datum/shape/collider2d = null //Our box collider. See the collision module for explanation
 	var/datum/vector2d/offset
 	var/datum/vector2d/last_offset
 	var/datum/vector2d/position
 	var/datum/vector2d/velocity
 	var/datum/vector2d/overlap // Will be subtracted from the ships offset as soon as possible, then set to 0
 	var/list/collision_positions = list() //See the collisions doc for how these work. Theyre a pain in the ass.
+	var/datum/component/physics2d/physics2d = null
 
 //Helper proc to get the actual center of the ship, if the ship's hitbox is placed in the bottom left corner like they usually are.
 
@@ -72,7 +113,8 @@
 	velocity = new /datum/vector2d(0, 0)
 	overlap = new /datum/vector2d(0, 0)
 	if(collision_positions.len)
-		collider2d = new /datum/shape(position, collision_positions, angle) // -TORADIANS(src.angle-90)
+		physics2d = AddComponent(/datum/component/physics2d)
+		physics2d.setup(collision_positions, angle)
 	else
 		message_admins("[src] does not have collision points set! It will float through everything.")
 
@@ -154,6 +196,12 @@ The while loop runs at a programatic level and is thus separated from any thrott
 		else
 			desired_angular_velocity = -2 * sqrt((angle - desired_angle) * max_angular_acceleration * 0.25)
 
+	//SS Crit Timer
+	if(structure_crit)
+		if(world.time > last_critprocess + 10)
+			last_critprocess = world.time
+			handle_critical_failure_part_1()
+
 	var/angular_velocity_adjustment = CLAMP(desired_angular_velocity - angular_velocity, -max_angular_acceleration*time, max_angular_acceleration*time)
 	if(angular_velocity_adjustment)
 		last_rotate = angular_velocity_adjustment / time
@@ -161,9 +209,6 @@ The while loop runs at a programatic level and is thus separated from any thrott
 	else
 		last_rotate = 0
 	angle += angular_velocity * time
-	if(collider2d)
-		collider2d.set_angle(angle) //Turn the box collider //-TORADIANS(angle-90)
-
 	// calculate drag and shit
 
 	var/velocity_mag = velocity.ln() // magnitude
@@ -249,14 +294,12 @@ The while loop runs at a programatic level and is thus separated from any thrott
 		velocity.x -= clamped_side_movement * sx
 		velocity.y -= clamped_side_movement * sy
 
-	offset.x += velocity.x * time
-	offset.y += velocity.y * time
+	offset._set(offset.x + velocity.x * time, offset.y +  velocity.y * time, sanity=TRUE)
 
 	position._set(x * 32 + offset.x * 32, y * 32 + offset.y * 32)
 
-	if(collider2d)
-		collider2d.position.copy(position)
-		handle_collisions()
+	if(physics2d)
+		physics2d.update(position.x, position.y, angle)
 
 	// alright so now we reconcile the offsets with the in-world position.
 	while((offset.x > 0 && velocity.x > 0) || (offset.y > 0 && velocity.y > 0) || (offset.x < 0 && velocity.x < 0) || (offset.y < 0 && velocity.y < 0))
@@ -378,17 +421,10 @@ The while loop runs at a programatic level and is thus separated from any thrott
 	user_thrust_dir = 0
 	update_icon()
 	if(autofire_target && !aiming)
+		if(!gunner) //Just...just no. If we don't have this, you can get shot to death by your own fighter after youve already left it :))
+			autofire_target = null
+			return
 		fire(autofire_target)
-
-/obj/structure/overmap/proc/handle_collisions()
-	for(var/obj/structure/overmap/OM in GLOB.overmap_objects)
-		if(src == OM || OM.z != src.z || !OM.collider2d)
-			continue // Wondered why objects were always colliding for an entire 9 hours
-
-		var/datum/collision_response/c_response = new /datum/collision_response()
-
-		if(src.collider2d.collides(OM.collider2d, c_response))
-			Bump(OM, c_response)
 
 /obj/structure/overmap/proc/collide(obj/structure/overmap/other, datum/collision_response/c_response, collision_velocity)
 	if(layer < other.layer || other.layer > layer)
@@ -402,8 +438,16 @@ The while loop runs at a programatic level and is thus separated from any thrott
 		if(F.docking_act(other))
 			return FALSE
 
-	var/datum/vector2d/point_of_collision = src.collider2d.get_collision_point(other.collider2d)
+	//Update the colliders before we do any kind of calc.
+	if(physics2d)
+		physics2d.update(position.x, position.y, angle)
+	if(other.physics2d)
+		other.physics2d.update(other.position.x, other.position.y, angle)
+	var/datum/vector2d/point_of_collision = physics2d?.collider2d.get_collision_point(other.physics2d?.collider2d)
+	check_quadrant(point_of_collision)
 
+	//So what this does is it'll calculate a vector (overlap_vector) that makes the two objects no longer colliding, then applies extra velocity to make the collision smooth to avoid teleporting. If you want to tone down collisions even more
+	//Be sure that you change the 0.25/32 bit as well, otherwise, if the cancelled out vector is too large compared to the speed jump, you just get teleportation and it looks really jank ~K
 	if (point_of_collision)
 		var/col_angle = c_response.overlap_normal.angle()
 		var/src_vel_mag = src.velocity.ln()
@@ -430,10 +474,9 @@ The while loop runs at a programatic level and is thus separated from any thrott
 			(2 * src.mass * src_vel_mag * cos(src.velocity.angle() - col_angle))						\
 		) / (other.mass + src.mass)) * (sin(col_angle) + (other_vel_mag * sin(other.velocity.angle() - col_angle) * sin(col_angle + 90)))
 
-		src.velocity._set(new_src_vel_x, new_src_vel_y)
-		other.velocity._set(new_other_vel_x, new_other_vel_y)
-
-	var/datum/vector2d/output = c_response.overlap_vector * (0.5 / 32)
+		src.velocity._set(new_src_vel_x*bounce_factor, new_src_vel_y*bounce_factor)
+		other.velocity._set(new_other_vel_x*other.bounce_factor, new_other_vel_y*other.bounce_factor)
+	var/datum/vector2d/output = c_response.overlap_vector * (0.25 / 32)
 	src.offset -= output
 	other.offset += output
 
@@ -471,6 +514,8 @@ The while loop runs at a programatic level and is thus separated from any thrott
 	if(istype(A, /obj/structure/overmap) && c_response)
 		collide(A, c_response, bump_velocity)
 		return FALSE
+	if(isprojectile(A)) //Clears up some weirdness with projectiles doing MEGA damage.
+		return ..()
 	handle_cloak(CLOAK_TEMPORARY_LOSS)
 	if(bump_velocity >= 3 && !impact_sound_cooldown && isobj(A)) //Throttled collision damage a bit
 		var/obj/O = A
@@ -534,8 +579,8 @@ The while loop runs at a programatic level and is thus separated from any thrott
 		proj.overmap_firer = src
 		proj.pixel_x = round(this_x)
 		proj.pixel_y = round(this_y)
-		proj.setup_collider()
 		proj.faction = faction
+		proj.setup_collider()
 		if(isovermap(target) && explosive) //If we're firing a torpedo, the enemy's PDCs need to worry about it.
 			var/obj/structure/overmap/OM = target
 			OM.torpedoes_to_target += proj //We're firing a torpedo, their PDCs will need to shoot it down, so notify them of its existence
@@ -585,8 +630,8 @@ The while loop runs at a programatic level and is thus separated from any thrott
 		proj.overmap_firer = src
 		proj.pixel_x = round(this_x)
 		proj.pixel_y = round(this_y)
-		proj.setup_collider()
 		proj.faction = faction
+		proj.setup_collider()
 		spawn()
 			proj.preparePixelProjectile(target, src, null, round((rand() - 0.5) * proj.spread))
 			proj.fire(angle)
@@ -603,8 +648,8 @@ The while loop runs at a programatic level and is thus separated from any thrott
 	proj.overmap_firer = src
 	proj.pixel_x = round(pixel_x)
 	proj.pixel_y = round(pixel_y)
-	proj.setup_collider()
 	proj.faction = faction
+	proj.setup_collider()
 	if(homing)
 		proj.set_homing_target(target)
 	if(gunner)

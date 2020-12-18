@@ -127,10 +127,10 @@
 			/datum/gas/nucleium		= new/datum/tlv/no_checks
 	)
 
-/obj/machinery/airalarm/kitchen_cold_room // Kitchen cold rooms start off at -80°C or 193.15°K. NSV13 - Added Constricted Plasma and Nucleium
+/obj/machinery/airalarm/kitchen_cold_room // Kitchen cold rooms start off at -20°C or 253.15°K. | NSV13 - Added Constricted Plasma and Nucleium
 	TLV = list(
 		"pressure"					= new/datum/tlv(ONE_ATMOSPHERE * 0.8, ONE_ATMOSPHERE*  0.9, ONE_ATMOSPHERE * 1.1, ONE_ATMOSPHERE * 1.2), // kPa
-		"temperature"				= new/datum/tlv(T0C-273.15, T0C-100, T0C-60, T0C),
+		"temperature"				= new/datum/tlv(T0C-273.15, T0C-80, T0C-10, T0C+10),
 		/datum/gas/oxygen			= new/datum/tlv(16, 19, 135, 140), // Partial pressure, kpa
 		/datum/gas/nitrogen			= new/datum/tlv(-1, -1, 1000, 1000),
 		/datum/gas/carbon_dioxide	= new/datum/tlv(-1, -1, 5, 10),
@@ -508,7 +508,7 @@
 			for(var/device_id in A.air_scrub_names)
 				send_signal(device_id, list(
 					"power" = 1,
-					"set_filters" = list(/datum/gas/carbon_dioxide),
+					"set_filters" = list(/datum/gas/carbon_dioxide, /datum/gas/bz),
 					"scrubbing" = 1,
 					"widenet" = 0
 				), signal_source)
@@ -561,7 +561,7 @@
 			for(var/device_id in A.air_scrub_names)
 				send_signal(device_id, list(
 					"power" = 1,
-					"set_filters" = list(/datum/gas/carbon_dioxide),
+					"set_filters" = list(/datum/gas/carbon_dioxide, /datum/gas/bz),
 					"scrubbing" = 1,
 					"widenet" = 0
 				), signal_source)

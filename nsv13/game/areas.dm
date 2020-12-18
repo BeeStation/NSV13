@@ -36,10 +36,30 @@
 	icon_state = "Sleep"
 	safe = TRUE
 
+/area/crew_quarters/dorms/nsv/state_room
+	name = "Corporate Stateroom"
+	icon_state = "Sleep"
+
 /area/medical/nsv/clinic
 	name = "Deck 2 Medical Clinic"
 	icon_state = "medbay"
 
+/area/medical/nsv/psychology
+	name = "Psychology Office"
+	icon_state = "medbay"
+
+/area/medical/nsv/plumbing
+	name = "Chemical Manufacturing"
+	icon_state = "chem"
+	
+/area/science/nsv/astronomy
+	name = "Astrometrics Lab"
+	icon_state = "toxmisc"
+
+/area/nsv/engine/corridor
+	name = "Engineering Corridor"
+	icon_state = "aux_base_construction"
+	
 /area/nsv/engine/engine_room/core
 	name = "Engine Core"
 	icon_state = "engine_foyer"
@@ -76,10 +96,30 @@
 	name = "Deck 1 Port Maintenance"
 	icon_state = "pmaint"
 
+/area/maintenance/nsv/deck1/central
+	name = "Deck 1 Central Maintenance"
+	icon_state = "maintcentral"
+
 /area/maintenance/nsv/deck1/starboard
 	name = "Deck 1 Starboard Maintenance"
 	icon_state = "smaint"
 
+/area/maintenance/nsv/deck1/starboard/aft
+	name = "Deck 1 Starboard Aft Maintenance"
+	icon_state = "smaint"
+
+/area/maintenance/nsv/deck1/aft
+	name = "Deck 1 Aft Maintenance"
+	icon_state = "amaint"
+	
+/area/maintenance/nsv/deck1/port/aft
+	name = "Deck 1 Port Aft Maintenance"
+	icon_state = "pmaint"	
+	
+/area/maintenance/nsv/deck1/port/fore
+	name = "Deck 1 Port Fore Maintenance"	
+	icon_state = "pmaint"	
+	
 /area/maintenance/nsv/deck2/port
 	name = "Deck 2 Port Maintenance"
 	icon_state = "pmaint"
@@ -184,12 +224,40 @@
 	name = "Fore Bridge Maintenance"
 	icon_state = "maint_bridge"
 
+/area/maintenance/nsv/deck2/starboard/fore
+	name = "Deck 2 Starboard Fore Maintenance"
+	icon_state = "smaint"
+
+/area/maintenance/nsv/deck2/starboard/aft
+	name = "Deck 2 Starboard Aft Maintenance"
+	icon_state = "amaint"
+
+/area/maintenance/nsv/deck2/port/fore
+	name = "Deck 2 Port Fore Maintenance"
+	icon_state = "pmaint"
+	
+/area/maintenance/nsv/deck2/port/aft
+	name = "Deck 2 Port Aft Maintenance"
+	icon_state = "amaint"
+
+/area/maintenance/nsv/weapons
+	name = "Weapons Bay Maintenance"
+	icon_state = "amaint"
+
+/area/maintenance/nsv/hangar
+	name = "Hangar Bay Maintenance"
+	icon_state = "amaint"
+
 /area/hallway/nsv/deck2/forward
 	name = "Deck 2 Forward Hallway"
 	icon_state = "hallF"
 
 /area/hallway/nsv/deck2/primary
 	name = "Deck 2 Primary Hallway"
+	icon_state = "hallP"
+
+/area/hallway/nsv/deck1/aft
+	name = "Deck 1 Aft Hallway"
 	icon_state = "hallP"
 
 /area/hallway/nsv/deck2/aft
@@ -199,7 +267,6 @@
 /area/maintenance/nsv/mining_ship
 	has_gravity = TRUE
 	looping_ambience = 'nsv13/sound/ambience/maintenance.ogg'
-	noteleport = TRUE
 
 /area/maintenance/nsv/mining_ship/central
 	name = "Rocinante maintenance"
@@ -329,6 +396,10 @@
 	name = "Deck 1 Frame 1 Central Hallway"
 	icon_state = "hallC"
 
+/area/hallway/nsv/deck1/frame1/starboard
+	name = "Deck 1 Frame 1 Starboard Hallway"
+	icon_state = "hallS"
+
 /area/hallway/nsv/deck1/frame2/port
 	name = "Deck 1 Frame 2 Port Hallway"
 	icon_state = "hallP"
@@ -369,9 +440,23 @@
 	name = "Launch Tubes 3 & 4"
 	icon_state = "hallS"
 
+/area/nsv/hanger/notkmcstupidhanger/launchtube/left/airlock
+	name = "Hangar Airlock 1"
+
+/area/nsv/hanger/notkmcstupidhanger/launchtube/right/airlock
+	name = "Hangar Airlock 2"
+
 /area/nsv/hanger/notkmcstupidhanger/hangar
 	name = "Hangar Bay"
 	icon_state = "hallC"
+
+/area/nsv/hanger/notkmcstupidhanger/pilot
+	name = "Pilot Lounge"
+	icon_state = "shuttlered"
+
+/area/nsv/hanger/notkmcstupidhanger/atc
+	name = "Air Traffic Control"
+	icon_state = "shuttlered"
 
 /area/nsv/hanger/deck2/port
 	name = "Deck 2 Port Hanger Bay"
@@ -385,6 +470,10 @@
 	name = "Weapons Bay"
 	icon_state = "hallC"
 
+/area/nsv/weapons/ordnance
+	name = "Ordnance Handling Bay"
+	icon_state = "hallC"
+	
 /area/nsv/weapons/gauss
 	name = "Gauss Bay"
 	icon_state = "hallC"
@@ -419,6 +508,10 @@
 
 /area/nsv/crew_quarters/heads/maa
 	name = "Master At Arms' Office"
+	icon_state = "shuttlegrn"
+
+/area/nsv/squad
+	name = "Squad Equipment Room"
 	icon_state = "shuttlegrn"
 
 /area/nsv/shuttle
@@ -505,7 +598,6 @@
 /area/nostromo
 	name = "DMC Rocinante"
 	ambientsounds = list('nsv13/sound/ambience/leit_motif.ogg','nsv13/sound/ambience/wind.ogg','nsv13/sound/ambience/wind2.ogg','nsv13/sound/ambience/wind3.ogg','nsv13/sound/ambience/wind4.ogg','nsv13/sound/ambience/wind5.ogg','nsv13/sound/ambience/wind6.ogg')
-	noteleport = TRUE
 	icon_state = "mining"
 	has_gravity = TRUE
 
@@ -674,3 +766,9 @@
 /area/Exited(atom/movable/M)
 	SEND_SIGNAL(src, COMSIG_AREA_EXITED, M)
 	SEND_SIGNAL(M, COMSIG_EXIT_AREA, src) //The atom that exits the area
+
+/area/engine/engineering/reactor_core
+	name = "Nuclear Reactor Core"
+
+/area/engine/engineering/reactor_control
+	name = "Reactor Control Room"

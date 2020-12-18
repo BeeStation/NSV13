@@ -17,7 +17,8 @@
 	access = list(ACCESS_MAINT_TUNNELS, ACCESS_MUNITIONS, ACCESS_MUNITIONS_STORAGE, ACCESS_FIGHTER) //temp
 	minimal_access = list(ACCESS_MUNITIONS) //temp
 	paycheck = PAYCHECK_MEDIUM
-	paycheck_department = ACCOUNT_CAR
+	paycheck_department = ACCOUNT_MUN
+	mind_traits = list(TRAIT_MUNITIONS_METABOLISM)
 
 	display_order = JOB_DISPLAY_ORDER_AIR_TRAFFIC_CONTROLLER
 	display_rank = "SGT" //nsv13 - Displays the player's actual rank alongside their name, such as GSGT Sergei Koralev
@@ -33,6 +34,10 @@
 	gloves = /obj/item/clothing/gloves/color/brown
 	shoes = /obj/item/clothing/shoes/jackboots
 	r_pocket = /obj/item/flashlight/atc_wavy_sticks
+
+	backpack = /obj/item/storage/backpack/munitions
+	satchel = /obj/item/storage/backpack/satchel/munitions
+	duffelbag = /obj/item/storage/backpack/duffelbag/munitions
 
 /obj/effect/landmark/start/air_traffic_controller
 	name = "Air Traffic Controller"

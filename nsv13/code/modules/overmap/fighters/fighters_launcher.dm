@@ -115,7 +115,7 @@
 	. = ..()
 	icon_state = "launcher"
 	linkup()
-	addtimer(CALLBACK(src, .proc/linkup), 15 SECONDS)//Just in case we're not done initializing
+	addtimer(CALLBACK(src, .proc/linkup), 45 SECONDS)//Just in case we're not done initializing
 
 /obj/structure/overmap/fighter/can_brake()
 	if(mag_lock)
@@ -230,8 +230,9 @@
 				linked.docking_points += get_turf(locate(10, y, z))
 
 /obj/structure/overmap/fighter/proc/ready_for_transfer()
-	if(docking_cooldown)
-		return
+	var/obj/item/fighter_component/docking_computer/DC = loadout.get_slot(HARDPOINT_SLOT_DOCKING)
+	if(!DC || DC.docking_cooldown)
+		return FALSE
 	if(SSmapping.level_trait(z, ZTRAIT_BOARDABLE)) //AKA, we're on the ship or mining level. Havent added away mission support yet.
 		if(y > 250)
 			return TRUE
@@ -263,17 +264,16 @@
 		if(last_overmap)
 			OM = last_overmap
 		else
-			for(var/obj/structure/overmap/O in GLOB.overmap_objects)
-				if(O.role == MAIN_OVERMAP)
-					OM = O
+			OM = get_overmap()
 		if(!OM)
 			return FALSE
 		var/saved_layer = layer
 		layer = LOW_OBJ_LAYER
 		addtimer(VARSET_CALLBACK(src, layer, saved_layer), 2 SECONDS) //Gives fighters a small window of immunity from collisions with other overmaps
 		forceMove(get_turf(OM))
-		docking_cooldown = TRUE
-		addtimer(VARSET_CALLBACK(src, docking_cooldown, FALSE), 5 SECONDS) //Prevents jank.
+		var/obj/item/fighter_component/docking_computer/DC = loadout.get_slot(HARDPOINT_SLOT_DOCKING)
+		DC.docking_cooldown = TRUE
+		addtimer(VARSET_CALLBACK(DC, docking_cooldown, FALSE), 5 SECONDS) //Prevents jank.
 		resize = 1 //Scale down!
 		pixel_w = -30
 		pixel_z = -32
@@ -281,7 +281,7 @@
 		bound_height = 32
 		if(pilot)
 			to_chat(pilot, "<span class='notice'>Docking mode disabled. Use the 'Ship' verbs tab to re-enable docking mode, then fly into an allied ship to complete docking proceedures.</span>")
-			docking_mode = FALSE
+			DC.docking_mode = FALSE
 		SEND_SIGNAL(src, COMSIG_FTL_STATE_CHANGE) //Let dradis comps update their status too
 		return TRUE
 
@@ -289,19 +289,20 @@
 	last_overmap = get_overmap()
 
 /obj/structure/overmap/fighter/proc/docking_act(obj/structure/overmap/OM)
-	if(mass < OM.mass && OM.docking_points.len && docking_mode) //If theyre smaller than us,and we have docking points, and they want to dock
+	if(mass < OM.mass) //If theyre smaller than us,and we have docking points, and they want to dock
 		return transfer_from_overmap(OM)
 	else
 		return FALSE
 
 /obj/structure/overmap/fighter/proc/transfer_from_overmap(obj/structure/overmap/OM)
-	if(docking_cooldown)
+	var/obj/item/fighter_component/docking_computer/DC = loadout.get_slot(HARDPOINT_SLOT_DOCKING)
+	if(!DC || DC.docking_cooldown ||!DC.docking_mode|| !OM.occupying_levels?.len)
 		return FALSE
-	if(OM.docking_points.len)
+	if(OM.docking_points?.len)
 		enemies = list() //Reset RWR warning.
 		last_overmap = OM
-		docking_cooldown = TRUE
-		addtimer(VARSET_CALLBACK(src, docking_cooldown, FALSE), 5 SECONDS) //Prevents jank.
+		DC.docking_cooldown = TRUE
+		addtimer(VARSET_CALLBACK(DC, docking_cooldown, FALSE), 5 SECONDS) //Prevents jank.
 		resize = 0 //Scale up!
 		pixel_w = initial(pixel_w)
 		pixel_z = initial(pixel_z)
@@ -309,10 +310,12 @@
 		forceMove(T)
 		bound_width = initial(bound_width)
 		bound_height = initial(bound_height)
-		docking_mode = FALSE
+		DC.docking_mode = FALSE
 		if(pilot && faction == OM.faction)
 			weapon_safety = TRUE
 			to_chat(pilot, "<span class='notice'>Docking complete. <b>Gun safeties have been engaged automatically.</b></span>")
 		SEND_SIGNAL(src, COMSIG_FTL_STATE_CHANGE)
 		return TRUE
+	else
+		to_chat(pilot, "<span class='notice'>Warning: Target ship has no docking points. </span>")
 	return FALSE

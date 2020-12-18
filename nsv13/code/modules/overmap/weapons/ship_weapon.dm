@@ -36,6 +36,7 @@
 	var/list/all_weapons = weapons["all"]
 	if(LAZYFIND(all_weapons, weapon)) //No just no
 		return
+	requires_physical_guns = TRUE //If we're adding a physical weapon, we want to shoot it.
 	all_weapons += weapon //Record-keeping
 	weapon.weapon_type = src
 	weapon.update() //Ok is this thing loaded or what.
@@ -54,6 +55,8 @@
 
 /obj/structure/overmap/proc/fire_weapon(atom/target, mode=fire_mode, lateral=(mass > MASS_TINY), mob/user_override=null) //"Lateral" means that your ship doesnt have to face the target
 	var/datum/ship_weapon/SW = weapon_types[mode]
+	if(weapon_safety)
+		return FALSE
 	if(SW?.fire(target))
 		return TRUE
 	else
@@ -96,6 +99,13 @@
 		if("special_proctype")
 			return FALSE
 	return ..()
+
+//Dumbed down proc used to allow fighters to fire their weapons in a sane way.
+/datum/ship_weapon/proc/fire_fx_only(atom/target)
+	if(overmap_firing_sounds)
+		var/sound/chosen = pick(overmap_firing_sounds)
+		holder.relay_to_nearby(chosen)
+	holder.fire_projectile(default_projectile_type, target)
 
 /datum/ship_weapon/proc/fire(atom/target)
 	if(special_fire(target) == FIRE_INTERCEPTED)

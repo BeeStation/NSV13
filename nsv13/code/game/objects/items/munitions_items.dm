@@ -5,7 +5,7 @@
 /obj/item/card/id/departmental_budget/mun
 	department_ID = ACCOUNT_MUN
 	department_name = ACCOUNT_MUN_NAME
-	icon_state = "warden" //placeholder
+	icon_state = "budget_mun"
 
 ///////DEPARTMENT DOOR REMOTE//////
 
@@ -80,3 +80,45 @@
 	desc = "Use :w to access the department frequency. Use :u to access the supply frequency."
 	icon_state = "mun_headset"
 	keyslot = new /obj/item/encryptionkey/munitions_tech
+
+////////BACKPACKS////////
+
+/obj/item/storage/backpack/duffelbag/munitions
+	name = "munitions duffel bag"
+	desc = "A large duffel bag for holding extra munitions supplies."
+	icon = 'nsv13/icons/obj/storage.dmi'
+	icon_state = "duffel-mun"
+	item_state = "duffel-mun"
+	lefthand_file = 'nsv13/icons/mob/inhands/backpack_lefthand.dmi'
+	righthand_file = 'nsv13/icons/mob/inhands/backpack_righthand.dmi'
+
+/obj/item/storage/backpack/munitions
+	name = "munitions backpack"
+	desc = "A hardy oil-resistant backpack designed for use in ordanance filled environment."
+	icon = 'nsv13/icons/obj/storage.dmi'
+	icon_state = "munitionspack"
+	item_state = "munitionspack"
+	lefthand_file = 'nsv13/icons/mob/inhands/backpack_lefthand.dmi'
+	righthand_file = 'nsv13/icons/mob/inhands/backpack_righthand.dmi'
+
+/obj/item/storage/backpack/satchel/munitions
+	name = "munitions satchel"
+	desc = "A tough satchel with extra pockets."
+	icon = 'nsv13/icons/obj/storage.dmi'
+	icon_state = "satchel-mun"
+	item_state = "satchel-mun"
+	lefthand_file = 'nsv13/icons/mob/inhands/backpack_lefthand.dmi'
+	righthand_file = 'nsv13/icons/mob/inhands/backpack_righthand.dmi'
+
+///////BOX////////
+
+/obj/item/storage/box/spare_munitions_keys
+	name = "Spare Munitions Radio Keys"
+
+/obj/item/storage/box/spare_munitions_keys/PopulateContents()
+	new /obj/item/radio/headset/munitions/pilot(src)
+	new /obj/item/radio/headset/munitions/munitions_tech(src)
+	new /obj/item/encryptionkey/atc(src)
+	new /obj/item/encryptionkey/pilot(src)
+	new /obj/item/encryptionkey/pilot(src)
+	new /obj/item/encryptionkey/munitions_tech(src)

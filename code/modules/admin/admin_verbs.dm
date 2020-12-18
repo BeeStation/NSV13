@@ -45,6 +45,7 @@ GLOBAL_PROTECT(admin_verbs_admin)
 	/client/proc/cmd_admin_headset_message,	/*send an message to somebody through their headset as CentCom*/
 	/client/proc/cmd_admin_delete,		/*delete an instance/object/mob/etc*/
 	/client/proc/cmd_admin_check_contents,	/*displays the contents of an instance*/
+	/client/proc/cmd_admin_boarding_override, /*NSV13 - disables/enables boarding procs*/
 	/client/proc/centcom_podlauncher,/*Open a window to launch a Supplypod and configure it or it's contents*/
 	/client/proc/check_antagonists,		/*shows all antags*/
 	/client/proc/check_teams,			/*shows all antag teams*/
@@ -80,7 +81,8 @@ GLOBAL_PROTECT(admin_verbs_admin)
 	/client/proc/stabilize_atmos,
 	/client/proc/openTicketManager,
 	/client/proc/changeranks, //NSV13 - verb to change rank structure
-	/client/proc/system_manager //Nsv13 - Fleet + starsystem management
+	/client/proc/system_manager, //Nsv13 - Fleet + starsystem management
+	/client/proc/instance_overmap_menu //Nsv13 - Midround ship creation.
 	)
 GLOBAL_LIST_INIT(admin_verbs_ban, list(/client/proc/unban_panel, /client/proc/ban_panel, /client/proc/stickybanpanel))
 GLOBAL_PROTECT(admin_verbs_ban)
@@ -484,7 +486,7 @@ GLOBAL_PROTECT(admin_verbs_hideable)
 				mob.name = initial(mob.name)
 				mob.mouse_opacity = initial(mob.mouse_opacity)
 		else
-			var/new_key = ckeyEx(stripped_input(usr, "Enter your desired display name.", "Fake Key", key, 26))
+			var/new_key = ckeyEx(stripped_input(usr, "Enter your desired display name.", "Fake Key", key, max_length=26))
 			if(!new_key)
 				return
 			holder.fakekey = new_key
@@ -643,7 +645,7 @@ GLOBAL_PROTECT(admin_verbs_hideable)
 	set category = "Adminbus"
 	set name = "OSay"
 	set desc = "Makes an object say something."
-	var/message = input(usr, "What do you want the message to be?", "Make Sound") as text | null
+	var/message = capped_input(usr, "What do you want the message to be?", "Make Sound")
 	if(!message)
 		return
 	O.say(message)

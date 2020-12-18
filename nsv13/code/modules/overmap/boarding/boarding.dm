@@ -31,10 +31,12 @@ GLOBAL_LIST_INIT(drop_trooper_teams, list("Noble", "Helljumper","Red", "Black", 
 
 /obj/structure/overmap/fighter/utility/prebuilt/carrier/syndicate/boarding
 
+//MASSIVE TODO: Rewrite all of this shit.
+
 /obj/structure/overmap/fighter/utility/prebuilt/carrier/syndicate/boarding/Initialize(mapload, operatives, teamName)
 	. = ..()
 	name = (teamName) ? "[teamName] squad boarding craft" : name
-	flight_state = 6
+	//flight_state = 6
 	toggle_canopy()
 	var/found_pilot = FALSE
 	for(var/mob/living/carbon/user in operatives)
@@ -65,6 +67,13 @@ GLOBAL_LIST_INIT(drop_trooper_teams, list("Noble", "Helljumper","Red", "Black", 
 	if(!target)
 		message_admins("Failed to spawn boarders for [name], does it have an interior?")
 		return FALSE //Cut off here to avoid polling people for a spawn that will never work.
+	if(SSstar_system.admin_boarding_override)
+		message_admins("Failed to spawn boarders for [name] due to admin boarding override.")
+		return FALSE //Allows the admins to disable boarders for event rounds
+	var/player_check = get_active_player_count(alive_check = TRUE, afk_check = TRUE, human_check = TRUE)
+	if(player_check < 20) // Remove the low pop boarder camping
+		message_admins("Failed to spawn boarders for [name] due to insufficient player count.")
+		return FALSE
 	var/list/candidates = pollCandidatesForMob("Do you want to play as a Syndicate drop trooper?", ROLE_OPERATIVE, null, ROLE_OPERATIVE, 10 SECONDS, src)
 	if(!LAZYLEN(candidates))
 		return FALSE
@@ -90,5 +99,5 @@ GLOBAL_LIST_INIT(drop_trooper_teams, list("Noble", "Helljumper","Red", "Black", 
 		to_chat(H, "<span class='danger'>You are a syndicate drop trooper! Cripple [station_name()] to the best of your ability, by any means you see fit. You have been given some objectives to guide you in the pursuit of this goal.")
 		operatives += H
 	new /obj/structure/overmap/fighter/utility/prebuilt/carrier/syndicate/boarding(target, operatives, team_name)
-	relay('nsv13/sound/effects/ship/boarding_pod.ogg', "<span class='userdanger'><You can hear several tethers attaching to the ship.</span>")
+	relay('nsv13/sound/effects/ship/boarding_pod.ogg', "<span class='userdanger'>You can hear several tethers attaching to the ship.</span>")
 	return TRUE

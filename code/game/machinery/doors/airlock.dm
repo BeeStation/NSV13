@@ -94,6 +94,7 @@
 
 	var/prying_so_hard = FALSE
 	var/protected_door = FALSE // Protects the door against any form of power outage, AI control, screwdrivers and welders.
+	var/door_animation_speed = 4 //nsv13 if you want a door that snaps open QUICKLY like on turbolifts
 
 	rad_flags = RAD_PROTECT_CONTENTS | RAD_NO_CONTAMINATE
 	rad_insulation = RAD_MEDIUM_INSULATION
@@ -285,11 +286,24 @@
 /obj/machinery/door/airlock/ratvar_act() //Airlocks become pinion airlocks that only allow servants
 	var/obj/machinery/door/airlock/clockwork/A
 	if(glass)
-		A = new/obj/machinery/door/airlock/clockwork/brass(get_turf(src))
+		A = new/obj/machinery/door/airlock/clockwork/glass(get_turf(src))
 	else
 		A = new/obj/machinery/door/airlock/clockwork(get_turf(src))
 	A.name = name
 	qdel(src)
+
+/obj/machinery/door/airlock/eminence_act(mob/living/simple_animal/eminence/eminence)
+	..()
+	to_chat(usr, "<span class='brass'>You begin manipulating [src]!</span>")
+	if(do_after(eminence, 20, target=get_turf(eminence)))
+		if(welded)
+			to_chat(eminence, text("The airlock has been welded shut!"))
+		else if(locked)
+			to_chat(eminence, text("The door bolts are down!"))
+		else if(!density)
+			close()
+		else
+			open()
 
 /obj/machinery/door/airlock/Destroy()
 	QDEL_NULL(wires)
@@ -1132,7 +1146,7 @@
 	sleep(1)
 	set_opacity(0)
 	update_freelook_sight()
-	sleep(4)
+	sleep(door_animation_speed) //Nsv13 - SPEEDY DOORS
 	density = FALSE
 	air_update_turf(1)
 	sleep(1)
@@ -1182,7 +1196,7 @@
 	if(!air_tight)
 		density = TRUE
 		air_update_turf(1)
-	sleep(4)
+	sleep(door_animation_speed) //Nsv13 - SPEEDY DOORS
 	if(!safe)
 		crush()
 	if(visible && !glass)

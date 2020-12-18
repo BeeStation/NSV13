@@ -34,6 +34,8 @@ GLOBAL_LIST_INIT(computer_beeps, list('nsv13/sound/effects/computer/beep.ogg','n
 /obj/machinery/computer/ship/proc/has_overmap()
 	var/obj/structure/overmap/OM = get_overmap()
 	linked = OM
+	if(OM)
+		set_position(OM)
 	return linked
 
 /obj/machinery/computer/ship/proc/set_position(obj/structure/overmap/OM)
@@ -52,17 +54,17 @@ GLOBAL_LIST_INIT(computer_beeps, list('nsv13/sound/effects/computer/beep.ogg','n
 		var/sound = pick('nsv13/sound/effects/computer/error.ogg','nsv13/sound/effects/computer/error2.ogg','nsv13/sound/effects/computer/error3.ogg')
 		playsound(src, sound, 100, 1)
 		to_chat(user, "<span class='warning'>Access denied</span>")
-		return
+		return FALSE
 	if(!isliving(user))
-		return
+		return FALSE
 	if(!has_overmap())
 		var/sound = pick('nsv13/sound/effects/computer/error.ogg','nsv13/sound/effects/computer/error2.ogg','nsv13/sound/effects/computer/error3.ogg')
 		playsound(src, sound, 100, 1)
 		to_chat(user, "<span class='warning'>A warning flashes across [src]'s screen: Unable to locate thrust parameters, no registered ship stored in microprocessor.</span>")
-		return
-	if(!position)
-		return
+		return FALSE
 	playsound(src, 'nsv13/sound/effects/computer/startup.ogg', 75, 1)
+	if(!position)
+		return TRUE
 	return linked.start_piloting(user, position)
 
 /datum/techweb_node/ship_circuits
@@ -107,7 +109,7 @@ GLOBAL_LIST_INIT(computer_beeps, list('nsv13/sound/effects/computer/beep.ogg','n
 	desc = "Allows for the construction of a tactical control console."
 	id = "tactical_comp_circuit"
 	materials = list(/datum/material/glass = 2000, /datum/material/copper = 200, /datum/material/gold = 1000)
-	build_path = /obj/item/circuitboard/computer/ship/munitions_computer
+	build_path = /obj/item/circuitboard/computer/ship/tactical_computer
 	category = list("Ship Components")
 	departmental_flags = DEPARTMENTAL_FLAG_SCIENCE
 
@@ -141,7 +143,10 @@ GLOBAL_LIST_INIT(computer_beeps, list('nsv13/sound/effects/computer/beep.ogg','n
 		ui.open()
 
 /obj/machinery/computer/ship/tactical/ui_act(action, params, datum/tgui/ui)
-	if(..() || !linked)
+	. = ..()
+	if(.)
+		return
+	if(!linked)
 		return
 	switch(action)
 		if("target_lock")
@@ -160,8 +165,14 @@ GLOBAL_LIST_INIT(computer_beeps, list('nsv13/sound/effects/computer/beep.ogg','n
 	data["flakrange"] = linked.get_flak_range(linked.last_target)
 	data["integrity"] = linked.obj_integrity
 	data["max_integrity"] = linked.max_integrity
-	data["hullplates"] = linked.armour_plates
-	data["max_hullplates"] = linked.max_armour_plates
+	data["quadrant_fs_armour_current"] = linked.armour_quadrants["forward_starboard"]["current_armour"]
+	data["quadrant_fs_armour_max"] = linked.armour_quadrants["forward_starboard"]["max_armour"]
+	data["quadrant_as_armour_current"] = linked.armour_quadrants["aft_starboard"]["current_armour"]
+	data["quadrant_as_armour_max"] = linked.armour_quadrants["aft_starboard"]["max_armour"]
+	data["quadrant_ap_armour_current"] = linked.armour_quadrants["aft_port"]["current_armour"]
+	data["quadrant_ap_armour_max"] = linked.armour_quadrants["aft_port"]["max_armour"]
+	data["quadrant_fp_armour_current"] = linked.armour_quadrants["forward_port"]["current_armour"]
+	data["quadrant_fp_armour_max"] = linked.armour_quadrants["forward_port"]["max_armour"]
 	data["weapons"] = list()
 	data["target_name"] = (linked.target_lock) ? linked.target_lock.name : "none"
 	var/scan_range = (linked?.dradis) ? linked.dradis.sensor_range : 45 //hide targets that are outside of sensor range to avoid cheese.
@@ -172,8 +183,8 @@ GLOBAL_LIST_INIT(computer_beeps, list('nsv13/sound/effects/computer/beep.ogg','n
 		for(var/obj/machinery/ship_weapon/SW in SW_type.weapons["all"])
 			if(!SW)
 				continue
-			max_ammo += SW.max_ammo
-			ammo += SW.ammo.len
+			max_ammo += SW.get_max_ammo()
+			ammo += SW.get_ammo()
 		data["weapons"] += list(list("name" = thename, "ammo" = ammo, "maxammo" = max_ammo))
 	data["ships"] = list()
 	for(var/obj/structure/overmap/OM in GLOB.overmap_objects)
@@ -185,11 +196,75 @@ GLOBAL_LIST_INIT(computer_beeps, list('nsv13/sound/effects/computer/beep.ogg','n
 	OM.tactical = src
 	return
 
+/obj/machinery/computer/ship/ordnance
+	name = "Seegson model ORD ordnance systems monitoring console"
+	desc = "This console provides a succinct overview of the ship-to-ship weapons."
+	icon_screen = "tactical"
+	req_access = list(ACCESS_MUNITIONS)
+	circuit = /obj/item/circuitboard/computer/ship/ordnance_computer
+
+/obj/item/circuitboard/computer/ship/ordnance_computer
+	name = "circuit board (ordnance computer)"
+	build_path = /obj/machinery/computer/ship/ordnance
+
+/datum/design/board/ord_circuit
+	name = "Computer Design (Ordnance Computer)"
+	desc = "Allows for the construction of a ordnance monitoring console."
+	id = "ordnance_comp_circuit"
+	materials = list(/datum/material/glass = 2000, /datum/material/copper = 200, /datum/material/gold = 1000)
+	build_path = /obj/item/circuitboard/computer/ship/ordnance_computer
+	category = list("Ship Components")
+	departmental_flags = DEPARTMENTAL_FLAG_SCIENCE
+
+/obj/machinery/computer/ship/ordnance/attack_hand(mob/user)
+	if(!allowed(user))
+		var/sound = pick('nsv13/sound/effects/computer/error.ogg','nsv13/sound/effects/computer/error2.ogg','nsv13/sound/effects/computer/error3.ogg')
+		playsound(src, sound, 100, 1)
+		to_chat(user, "<span class='warning'>Access denied</span>")
+		return
+	if(!has_overmap())
+		var/sound = pick('nsv13/sound/effects/computer/error.ogg','nsv13/sound/effects/computer/error2.ogg','nsv13/sound/effects/computer/error3.ogg')
+		playsound(src, sound, 100, 1)
+		to_chat(user, "<span class='warning'>A warning flashes across [src]'s screen: Unable to locate thrust parameters, no registered ship stored in microprocessor.</span>")
+		return
+	ui_interact(user)
+
+/obj/machinery/computer/ship/ordnance/ui_interact(mob/user, ui_key, datum/tgui/ui, force_open, datum/tgui/master_ui, datum/ui_state/state)
+	ui = SStgui.try_update_ui(user, src, ui_key, ui, force_open)
+	if(!ui)
+		ui = new(user, src, ui_key, "OrdnanceConsole", name, 560, 600, master_ui, state)
+		ui.open()
+
+/obj/machinery/computer/ship/ordnance/ui_data(mob/user)
+	. = ..()
+	var/list/data = list()
+	for(var/datum/ship_weapon/SW_type in linked.weapon_types)
+		var/ammo = 0
+		var/max_ammo = 0
+		var/thename = SW_type.name
+		for(var/obj/machinery/ship_weapon/SW in SW_type.weapons["all"])
+			if(!SW)
+				continue
+			max_ammo += SW.get_max_ammo()
+			ammo += SW.get_ammo()
+		data["weapons"] += list(list("name" = thename, "ammo" = ammo, "maxammo" = max_ammo))
+	return data
+
+/datum/techweb_node/maa_circuits
+	id = "maa_circuitry"
+	display_name = "Master-At-Arms computer circuitry"
+	description = "Allows you to rebuild the Master-At-Arms computer terminals after they suffer railgun ventilation."
+	prereq_ids = list("base")
+	design_ids = list("fighter_computer_circuit", "ordnance_comp_circuit")
+	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 2000)
+	export_price = 2000
+
 /obj/machinery/computer/ship/viewscreen
 	name = "Seegson model M viewscreen"
 	desc = "A large CRT monitor which shows an exterior view of the ship."
 	icon = 'nsv13/icons/obj/computers.dmi'
 	icon_state = "viewscreen"
+	idle_power_usage = 15
 	mouse_over_pointer = MOUSE_HAND_POINTER
 	pixel_y = 26
 	density = FALSE
@@ -316,7 +391,7 @@ GLOBAL_LIST_INIT(computer_beeps, list('nsv13/sound/effects/computer/beep.ogg','n
 			qdel(current_beam)
 			current_beam = null
 		radio.talk_into(src, "Salvage armatures retracted. Aborting salvage operations.", radio_channel)
-		salvage_target.explode() //Ship loses stability. It's literally just us that's holding it together.
+//		salvage_target.explode() //Ship loses stability. It's literally just us that's holding it together.
 		UnregisterSignal(linked, COMSIG_MOVABLE_MOVED, .proc/update_salvage_target)
 		salvage_target = null
 
@@ -474,7 +549,8 @@ Method to try locate an overmap object that we should attach to. Recursively cal
 	if(istype(src, /obj/structure/overmap/asteroid)) //Shouldn't be repairing over time
 		return
 	if(mass > MASS_TINY) //Prevents fighters regenerating
-		try_repair(get_repair_efficiency() / 25) //Scale the value. If you have 80% of your armour plates repaired, the ship takes about 7.5 minutes to fully repair. If you only have 25% of your plates operational, it will take half an hour to fully repair the ship.
+		if(!use_armour_quadrants) //Checking to see if we are using the armour quad system
+			try_repair(get_repair_efficiency() / 25) //Scale the value. If you have 80% of your armour plates repaired, the ship takes about 7.5 minutes to fully repair. If you only have 25% of your plates operational, it will take half an hour to fully repair the ship.
 
 /obj/structure/hull_plate/attackby(obj/item/W, mob/user)
 	if(W.tool_behaviour == TOOL_WELDER)

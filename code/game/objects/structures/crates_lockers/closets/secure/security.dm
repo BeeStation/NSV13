@@ -116,6 +116,7 @@
 	new /obj/item/shield/riot/tele(src)
 	new /obj/item/storage/belt/security/full(src)
 	new /obj/item/ammo_box/c9mm/rubber(src)
+	new /obj/item/gun/ballistic/automatic/pistol/glock/command/hos(src)
 	new /obj/item/flashlight/seclite(src)
 	new /obj/item/pinpointer/nuke(src)
 	new /obj/item/circuitboard/machine/techfab/department/security(src)
@@ -227,12 +228,16 @@
 	new /obj/item/holosign_creator/security(src)
 	new /obj/item/reagent_containers/spray/pepper(src)
 	new /obj/item/clothing/suit/armor/vest/det_suit(src)
-	new /obj/item/storage/belt/holster/full(src)
+	new /obj/item/clothing/accessory/holster/detective(src)
 	new /obj/item/pinpointer/crew(src)
 	new /obj/item/twohanded/binoculars(src)
 	new /obj/item/clothing/neck/tie/red(src)
 	new	/obj/item/clothing/neck/tie/black(src)
 	new /obj/item/clothing/neck/tie/detective(src)
+	new /obj/item/clothing/under/ship/kiryujumpsuit(src) //NSV13 - Alternative detective suit
+
+	new /obj/item/clothing/suit/ship/kiryujacket(src)
+	new /obj/item/clothing/shoes/ship/kiryushoes(src)
 
 /obj/structure/closet/secure_closet/deputy
 	name = "deputy's locker"
@@ -242,7 +247,7 @@
 	..()
 	for(var/i in 1 to 4)
 		new /obj/item/storage/backpack/duffelbag/sec/deputy(src)
-	
+
 /obj/structure/closet/secure_closet/injection
 	name = "lethal injections"
 	req_access = list(ACCESS_HOS)

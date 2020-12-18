@@ -521,7 +521,7 @@ GLOBAL_LIST_EMPTY(PDAs)
 			if("Clear")//Clears messages
 				tnote = null
 			if("Ringtone")
-				var/t = stripped_input(U, "Please enter new ringtone", name, ttone, 20)
+				var/t = stripped_input(U, "Please enter new ringtone", name, ttone, max_length=20)
 				if(in_range(src, U) && loc == U && t)
 					if(SEND_SIGNAL(src, COMSIG_PDA_CHANGE_RINGTONE, U, t) & COMPONENT_STOP_RINGTONE_CHANGE)
 						U << browse(null, "window=pda")
@@ -659,6 +659,10 @@ GLOBAL_LIST_EMPTY(PDAs)
 	if (!string_targets.len)
 		return
 
+	if(CHAT_FILTER_CHECK(message))
+		to_chat(user, "<span class='warning'>ERROR: Prohibited word(s) detected in message.</span>")
+		return
+
 	var/datum/signal/subspace/messaging/pda/signal = new(src, list(
 		"name" = "[owner]",
 		"job" = "[ownjob]",
@@ -673,9 +677,6 @@ GLOBAL_LIST_EMPTY(PDAs)
 	// If it didn't reach, note that fact
 	if (!signal.data["done"])
 		to_chat(user, "<span class='notice'>ERROR: Server isn't responding.</span>")
-		return
-	if(CHAT_FILTER_CHECK(message))
-		to_chat(user, "<span class='warning'>ERROR: Prohibited word(s) detected in message.</span>")
 		return
 
 	var/target_text = signal.format_target()

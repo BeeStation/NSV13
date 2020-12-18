@@ -32,6 +32,7 @@ require only minor tweaks.
 #define ZTRAIT_CENTCOM "CentCom"
 #define ZTRAIT_STATION "Station"
 #define ZTRAIT_MINING "Mining"
+#define ZTRAIT_REEBE "Reebe"
 #define ZTRAIT_RESERVED "Transit/Reserved"
 #define ZTRAIT_AWAY "Away Mission"
 #define ZTRAIT_SPACE_RUINS "Space Ruins"
@@ -76,6 +77,7 @@ require only minor tweaks.
 #define ZTRAITS_OVERMAP list(ZTRAIT_LINKAGE = SELFLOOPING, ZTRAIT_OVERMAP = TRUE, ZTRAIT_BOARDABLE = FALSE) //NSV13
 #define ZTRAITS_BOARDABLE_SHIP list(ZTRAIT_LINKAGE = SELFLOOPING, ZTRAIT_STATION = FALSE, ZTRAIT_BOARDABLE = TRUE) //NSV13
 
+#define ZTRAITS_REEBE list(ZTRAIT_REEBE = TRUE, ZTRAIT_BOMBCAP_MULTIPLIER = 0.5)
 
 #define DL_NAME "name"
 #define DL_TRAITS "traits"
@@ -90,6 +92,7 @@ require only minor tweaks.
 #define CAMERA_LOCK_STATION 1
 #define CAMERA_LOCK_MINING 2
 #define CAMERA_LOCK_CENTCOM 4
+#define CAMERA_LOCK_REEBE 8
 
 /// Reserved/Transit turf type
 #define RESERVED_TURF_TYPE /turf/open/space/basic			//What the turf is when not being used

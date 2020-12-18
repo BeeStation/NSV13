@@ -3,7 +3,7 @@
 	desc = "A coaxial laser system, capable of firing controlled laser bursts at a target."
 	icon ='nsv13/icons/obj/energy_weapons.dmi'
 	icon_state = "phase_cannon"
-	fire_mode = FIRE_MODE_RAILGUN //Shot by the pilot.
+	fire_mode = FIRE_MODE_RED_LASER //Shot by the pilot.
 	ammo_type = /obj/item/ship_weapon/ammunition/railgun_ammo
 	bound_width = 64
 	pixel_x = -32
@@ -58,6 +58,8 @@
 	var/list/data = list()
 	data["progress"] = charge
 	data["goal"] = max_charge
+	data["chargeRate"] = charge_rate
+	data["maxChargeRate"] = initial(charge_rate)*power_modifier_cap
 	data["powerAlloc"] = power_modifier
 	data["maxPower"] = power_modifier_cap //Hard cap for now. Allow them to increase this via stock parts when??
 	data["active"] = active
@@ -91,8 +93,14 @@
 	return FALSE
 
 /obj/machinery/ship_weapon/energy/set_position(obj/structure/overmap/OM) //Use this to tell your ship what weapon category this belongs in
-	if(!istype(OM.weapon_types[fire_mode], energy_weapon_type))
-		OM.weapon_types[fire_mode] = new energy_weapon_type(OM)
+	for(var/I = FIRE_MODE_PDC; I <= MAX_POSSIBLE_FIREMODE; I++) //We should ALWAYS default to PDCs.
+		var/datum/ship_weapon/SW = OM.weapon_types[I]
+		if(!SW)
+			continue
+		if(istype(SW, energy_weapon_type)) //Does this ship have a weapon type registered for us? Prevents phantom weapon groups.
+			OM.add_weapon(src)
+			return TRUE
+	OM.weapon_types[fire_mode] = new energy_weapon_type(OM)
 	OM.add_weapon(src)
 
 /obj/machinery/ship_weapon/energy/can_fire(shots = weapon_type.burst_size)
@@ -102,6 +110,12 @@
 		return FALSE
 	else
 		return TRUE
+
+/obj/machinery/ship_weapon/energy/get_max_ammo()
+	return max_charge
+
+/obj/machinery/ship_weapon/energy/get_ammo()
+	return charge
 
 /obj/machinery/ship_weapon/energy/animate_projectile(atom/target)
 	var/list/what_we_fired = linked.fire_projectiles(weapon_type.default_projectile_type, target)
@@ -124,9 +138,9 @@
 	name = "Phase Cannon"
 	desc = "An extremely powerful directed energy weapon which is capable of delivering a devastating beam attack."
 	icon_state = "ion_cannon"
-	fire_mode = FIRE_MODE_MAC
+	fire_mode = FIRE_MODE_BLUE_LASER
 	energy_weapon_type = /datum/ship_weapon/phaser
-	charge_rate = 50000 //How quickly do we charge?
+	charge_rate = 75000 //How quickly do we charge?
 	charge_per_shot = 500000 //How much power per shot do we have to use? By default, half a megawatt.
 	max_charge = 1000000 //1 MW as base. This puppy needs a lot of power to use, but does a crapload of damage
 	power_modifier_cap = 5 //Allows you to do insanely powerful oneshot lasers. Maximum theoretical damage of 500.
@@ -139,13 +153,19 @@
 	charge_rate = initial(charge_rate) * power_modifier
 	max_charge = initial(max_charge) * power_modifier
 	charge_per_shot = max(initial(charge_per_shot) * power_modifier, 10) //No getting infinite ammo by setting power mod to 0 :))
+	if(charge >= max_charge)
+		charge = max_charge //Time to fricking ignore thermodynamics gamers!
+		idle_power_usage = 0 //No power draw when fully charged
+		return
 	if(!active)
 		idle_power_usage = 0
 		return
-	if(charge > max_charge)
-		charge = max_charge //Time to fricking ignore thermodynamics gamers!
-	idle_power_usage = charge_rate
+	else
+		idle_power_usage = charge_rate
 	if(!powered() || idle_power_usage <= 0)
 		return
-	if(charge + charge_rate <= max_charge)
-		charge += charge_rate
+	charge += charge_rate
+
+	
+/obj/machinery/ship_weapon/energy/beam/admin //ez weapon for quickly testing. 
+	charge_per_shot = 0

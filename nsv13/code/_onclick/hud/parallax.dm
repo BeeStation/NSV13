@@ -24,7 +24,6 @@
  	speed = 1
 
 /obj/screen/parallax_layer/layer_3/update_status(mob/M)
- 	check_ftl_state()
  	. = ..()
  	update_o()
 
@@ -36,10 +35,11 @@
 	if(!current_mob)
 		return FALSE //Something has gone horribly wrong.
 	var/datum/space_level/SL = SSmapping.z_list[current_mob.z]
-	icon_state = SL.parallax_property
-	dir = (SL.parallax_movedir) ? SL.parallax_movedir : initial(dir)
-	tesselate = (findtext(SL.parallax_property, "planet")) ? FALSE : TRUE
-	return TRUE
+	if(SL.parallax_property != icon_state || SL.parallax_movedir != dir)
+		icon_state = SL.parallax_property
+		dir = (SL.parallax_movedir) ? SL.parallax_movedir : initial(dir)
+		tesselate = (findtext(SL.parallax_property, "planet")) ? FALSE : TRUE
+		return TRUE
 
 /obj/screen/parallax_layer/planet/update_o(view)
 	if(!current_mob)
