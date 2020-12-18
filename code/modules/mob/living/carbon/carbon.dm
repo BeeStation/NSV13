@@ -429,6 +429,9 @@
 	return ..()
 
 /mob/living/carbon/proc/vomit(lost_nutrition = 10, blood = FALSE, stun = TRUE, distance = 1, message = TRUE, toxic = FALSE)
+	if ( istype( dna.species, /datum/species/ipc ) )
+		return 1
+
 	if(HAS_TRAIT(src, TRAIT_NOHUNGER))
 		return 1
 
@@ -1014,7 +1017,7 @@
 		return FALSE
 	if(hallucinating())
 		return TRUE
-	
+
 	if(IsSleeping())
 		return TRUE
 	if(HAS_TRAIT(src, TRAIT_DUMB))
