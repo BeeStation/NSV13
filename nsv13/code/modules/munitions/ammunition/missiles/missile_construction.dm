@@ -190,6 +190,12 @@
 		return TRUE
 	. = ..()
 
+/obj/item/ship_weapon/ammunition/missile/missile_casing/proc/check_completion()
+	update_icon()
+	if(state >= 11)
+		new_missile(wh, gs, ps, iff)
+		return TRUE
+
 /obj/item/ship_weapon/ammunition/missile/missile_casing/welder_act(mob/user, obj/item/tool)
 	switch(state)
 		if(0)
@@ -204,8 +210,7 @@
 			to_chat(user, "<span class='notice'>You start sealing the casing on [src]...</span>")
 			if(tool.use_tool(src, user, 40, amount=1, volume=100))
 				to_chat(user, "<span class='notice'You seal the casing on [src].</span>")
-				new_missile(wh, gs, ps, iff)
-				qdel(src)
+				check_completion()
 			return TRUE
 	. = ..()
 
@@ -279,11 +284,8 @@
 			obj/item/ship_weapon/parts/missile/propulsion_system,
 			obj/item/ship_weapon/parts/missile/iff_card)
 
-	var/warhead_type = warhead.type
 	for(var/I in contents)
 		qdel(I) //Change this if we ever need to add more component factoring in to performance. This avoids infinite missile parts because the missile gets Qdel'd
 
-	if(istype(warhead, /obj/item/ship_weapon/parts/missile/warhead))
-		switch(warhead_type)
-			if(/obj/item/ship_weapon/parts/missile/warhead)
-				return new /obj/item/ship_weapon/ammunition/missile(get_turf(src))
+	new /obj/item/ship_weapon/ammunition/missile(get_turf(src))
+	qdel(src)

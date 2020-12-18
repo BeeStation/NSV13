@@ -1,9 +1,13 @@
+/obj/item/ship_weapon/parts/missile
+	var/target_state = 0
+
 /obj/item/ship_weapon/parts/missile/warhead
 	name = "missile warhead"
 	icon = 'nsv13/icons/obj/munitions.dmi'
 	icon_state = "warhead_highvelocity"
 	desc = "A lightweight warhead designed to be fitted to a missile. It's currently inert."
 	w_class = WEIGHT_CLASS_HUGE
+	target_state = 6
 	var/payload = null
 
 /obj/item/ship_weapon/parts/missile/guidance_system
@@ -12,6 +16,7 @@
 	icon_state = "guidance"
 	desc = "A guidance module for a missile which allows them to lock onto a target inside their operational range. The microcomputer inside it is capable of performing thousands of calculations a second."
 	w_class = WEIGHT_CLASS_NORMAL
+	target_state = 2
 	var/accuracy = null
 
 /obj/item/ship_weapon/parts/missile/propulsion_system
@@ -20,6 +25,7 @@
 	icon_state = "propulsion"
 	desc = "A gimballed thruster with an attachment nozzle, designed to be mounted in missile."
 	w_class = WEIGHT_CLASS_BULKY
+	target_state = 0
 	var/speed = 1
 
 /obj/item/ship_weapon/parts/missile/iff_card //This should be abuseable via emag
@@ -28,6 +34,7 @@
 	icon_state = "iff"
 	desc = "An IFF chip which allows a missile to distinguish friend from foe. The electronics contained herein are relatively simple, but they form a crucial part of any good missile."
 	w_class = WEIGHT_CLASS_SMALL
+	target_state = 4
 	var/calibrated = FALSE
 
 /obj/item/ship_weapon/parts/missile/iff_card/emag_act(mob/user)
