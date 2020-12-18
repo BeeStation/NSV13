@@ -1,14 +1,86 @@
 //Allows you to fully automate missile construction
 
+/datum/techweb_node/missile_automation
+	id = "missile_automation"
+	display_name = "Automated Missile Construction"
+	description = "Machines and tools to automate missile construction."
+	prereq_ids = list("explosive_weapons")
+	design_ids = list("missilebuilder", "slowconveyor", "missilewelder", "missilescrewer", "missilewirer", "missileassembler")
+	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 2500)
+	export_price = 5000
+
+/datum/design/missilebuilder
+	name = "Missile autowrencher"
+	desc = "A machine that can perform part of the missile construction process."
+	id = "missilebuilder"
+	build_type = PROTOLATHE
+	materials = list(/datum/material/iron = 10000, /datum/material/glass = 2500, /datum/material/copper = 2500, /datum/material/plasma = 10000)
+	build_path = /obj/item/circuitboard/missile_builder
+	category = list("Advanced Munitions")
+	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+
+/datum/design/missilewelder
+	name = "Missile autowelder"
+	desc = "A machine that can perform part of the missile construction process."
+	id = "missilewelder"
+	build_type = PROTOLATHE
+	materials = list(/datum/material/iron = 10000, /datum/material/glass = 2500, /datum/material/copper = 2500, /datum/material/plasma = 10000)
+	build_path = /obj/item/circuitboard/missile_builder/welder
+	category = list("Advanced Munitions")
+	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+
+/datum/design/missilescrewer
+	name = "Missile autoscrewer"
+	desc = "A machine that can perform part of the missile construction process."
+	id = "missilescrewer"
+	build_type = PROTOLATHE
+	materials = list(/datum/material/iron = 10000, /datum/material/glass = 2500, /datum/material/copper = 2500, /datum/material/plasma = 10000)
+	build_path = /obj/item/circuitboard/missile_builder/screwdriver
+	category = list("Advanced Munitions")
+	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+
+/datum/design/missilewirer
+	name = "Missile autowirer"
+	desc = "A machine that can perform part of the missile construction process."
+	id = "missilewirer"
+	build_type = PROTOLATHE
+	materials = list(/datum/material/iron = 10000, /datum/material/glass = 2500, /datum/material/copper = 2500, /datum/material/plasma = 10000)
+	build_path = /obj/item/circuitboard/missile_builder/wirer
+	category = list("Advanced Munitions")
+	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+
+/datum/design/missileassembler
+	name = "Missile assembler"
+	desc = "A specialist robotic arm that can fit missile casings with components held in storage."
+	id = "missileassembler"
+	build_type = PROTOLATHE
+	materials = list(/datum/material/iron = 10000, /datum/material/glass = 2500, /datum/material/copper = 2500, /datum/material/plasma = 10000)
+	build_path = /obj/item/circuitboard/missile_builder/assembler
+	category = list("Advanced Munitions")
+	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+
+/datum/design/slowconveyor
+	name = "Low Speed Conveyor"
+	desc = "A specialist 'fire and forget' conveyor tuned to run at the exact speed that missile construction machines operate at."
+	id = "slowconveyor"
+	build_type = PROTOLATHE
+	materials = list(/datum/material/iron = 1000)
+	build_path = /obj/item/stack/conveyor/slow
+	category = list("Advanced Munitions")
+	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+
 /obj/machinery/missile_builder
 	name = "Seegson model 'Ford' robotic autowrench"
-	desc = "An advanced robotic arm that can be arrayed with other such devices to form an assembly line for guided munition production. Click it with a multitool to change its construction step."
+	desc = "An advanced robotic arm that can be arrayed with other such devices to form an assembly line for guided munition production. Swipe it with your ID to access maintenance mode options (only on some models!)"
 	icon = 'nsv13/icons/obj/munitions/assembly.dmi'
 	icon_state = "assemblybase"
 	circuit = /obj/item/circuitboard/missile_builder
 	anchored = TRUE
+	can_be_unanchored = TRUE
 	density = TRUE
-	idle_power_usage = ACTIVE_POWER_USE
+	speed_process = TRUE
+	var/process_delay = 1 SECONDS
+	var/next_process = 0
 	var/arm_icon_state = "welder2"
 	var/tier = 1
 	var/list/held_components = list() //All the missile construction components that they've put into the arm.
@@ -16,6 +88,13 @@
 	var/obj/item/ship_weapon/ammunition/missile/missile_casing/target
 	var/munition_type = /obj/item/ship_weapon/ammunition/missile/missile_casing
 	var/list/target_states = list(1, 7, 9) //The target construction state of the missile
+
+/obj/item/stack/conveyor/slow
+	name = "Slow conveyor assembly"
+	conveyor_type = /obj/machinery/conveyor/slow
+/obj/machinery/conveyor/slow
+	name = "Slow conveyor"
+	speed_process = FALSE
 
 /obj/item/circuitboard/missile_builder
 	name = "Seegson model 'Ford' robotic autowrench (board)"
@@ -54,7 +133,6 @@
 
 /obj/machinery/missile_builder/Initialize()
 	. = ..()
-	START_PROCESSING(SSobj, src)
 	arm = new /obj/item(src)
 	arm.icon = icon
 	arm.icon_state = arm_icon_state
@@ -62,24 +140,26 @@
 	arm.mouse_opacity = FALSE
 
 /obj/machinery/missile_builder/Destroy()
-	STOP_PROCESSING(SSobj, src)
 	qdel(arm)
 	. = ..()
 
 /obj/machinery/missile_builder/process()
+	if(world.time < next_process)
+		return
+	next_process = world.time + process_delay
 	var/turf/input_turf = get_turf(get_step(src, src.dir))
-	if(target && get_dist(target, src) > 1)
+	if(target && target.loc != input_turf)
 		target = null
 		visible_message("[name] shakes its arm melancholically.")
 		arm.shake_animation()
 		playsound(src, 'sound/machines/buzz-sigh.ogg', 50, 0)
+
 	if(target)
 		arm.icon_state = arm_icon_state
 		target.state++ //Next step!
 		target.check_completion()
 		do_sparks(10, TRUE, target)
 		playsound(src, 'sound/items/welder.ogg', 100, 1)
-		playsound(src, 'sound/machines/ping.ogg', 50, 0)
 		target = null
 		return
 	target = locate(munition_type) in input_turf
@@ -126,8 +206,11 @@
 			held_components -= X
 
 /obj/machinery/missile_builder/assembler/process()
+	if(world.time < next_process)
+		return
+	next_process = world.time + process_delay
 	var/turf/input_turf = get_turf(get_step(src, src.dir))
-	if(target && get_dist(target, src) > 1)
+	if(target && target.loc != input_turf)
 		target = null
 		visible_message("[name] shakes its arm melancholically.")
 		arm.shake_animation()
@@ -135,6 +218,8 @@
 	if(target)
 		var/found = FALSE
 		for(var/obj/item/ship_weapon/parts/missile/M in held_components)
+			if(M.fits_type && !istype(target, M.fits_type))
+				continue
 			if(target.state == M.target_state)
 				M.forceMove(target)
 				held_components -= M
@@ -143,14 +228,13 @@
 				break
 		if(found)
 			target.check_completion()
-			playsound(src, 'sound/items/welder.ogg', 100, 1)
 			playsound(src, 'sound/machines/ping.ogg', 50, 0)
 			do_sparks(10, TRUE, target)
-			target = null
+		target = null
 		arm.icon_state = arm_icon_state
 		return
 	target = locate(munition_type) in input_turf
-	if(!target || !istype(target, munition_type))
+	if(!target || !istype(target, munition_type) || !held_components.len)
 		target = null
 		return
 	src.visible_message("<span class='notice'>[src] whirrs into life!</span>")

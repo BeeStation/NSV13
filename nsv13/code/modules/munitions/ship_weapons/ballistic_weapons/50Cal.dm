@@ -17,7 +17,7 @@
 	if(gunner)
 		remove_gunner()
 	gunner = user
-	user.AddComponent(/datum/component/overmap_gunning/fiftycal, src)
+	user.AddComponent(/datum/component/overmap_gunning/fiftycal, src, TRUE)
 
 /obj/machinery/ship_weapon/fiftycal/proc/remove_gunner()
 	get_overmap().stop_piloting(gunner)
@@ -29,24 +29,27 @@
 	var/atom/movable/autofire_target
 	var/next_fire = 0
 	var/fire_delay = 2 SECONDS
-	var/atom/movable/fx_target = null //Pass in a ship gun here to make it change direction based on where you're shooting
+	var/obj/machinery/ship_weapon/fx_target = null
+	var/special_fx = FALSE
 
 /datum/component/overmap_gunning/fiftycal
 	fire_mode = FIRE_MODE_50CAL
 	fire_delay = 0.7 SECONDS
 
-/datum/component/overmap_gunning/Initialize(atom/movable/fx_target)
+/datum/component/overmap_gunning/Initialize(obj/machinery/ship_weapon/fx_target, special_fx=FALSE)
 	. = ..()
 	if(!istype(parent, /mob/living)) //Needs at least this base prototype.
 		return COMPONENT_INCOMPATIBLE
+	src.special_fx = special_fx
 	src.fx_target = fx_target
 	holder = parent
 	start_gunning()
 
 /datum/component/overmap_gunning/proc/start_gunning()
-	var/obj/structure/overmap/OM = holder.get_overmap()
+	var/obj/structure/overmap/OM = holder.loc.get_overmap()
 	if(!OM)
 		RemoveComponent() //Uh...OK?
+		message_admins("Overmap gunning component created with no attached overmap.")
 		return
 	LAZYADD(OM.gauss_gunners, holder)
 	OM.start_piloting(holder, "gunner")
@@ -55,11 +58,11 @@
 /datum/component/overmap_gunning/proc/onClick(atom/movable/target)
 	if(world.time < next_fire || !autofire_target)
 		return FALSE
-	var/obj/structure/overmap/OM = holder.get_overmap()
+	var/obj/structure/overmap/OM = holder.loc.get_overmap()
 	next_fire = world.time + fire_delay
-	if(fx_target)
+	if(special_fx)
 		fx_target.setDir(get_dir(OM, target))  //Makes the gun turn and shoot the target, wow!
-	OM.fire_weapon(target, fire_mode)
+	fx_target.fire(target)//You can only fire your gun, not someone else's.   //.fire_weapon(target, fire_mode)
 
 /datum/component/overmap_gunning/process()
 	if(!autofire_target)
@@ -78,7 +81,7 @@
 	autofire_target = over_object
 
 /datum/component/overmap_gunning/proc/end_gunning()
-	var/obj/structure/overmap/OM = holder.get_overmap()
+	var/obj/structure/overmap/OM = holder.loc.get_overmap()
 	LAZYREMOVE(OM.gauss_gunners, holder)
 	STOP_PROCESSING(SSfastprocess, src)
 	var/obj/machinery/ship_weapon/gauss_gun/G = holder.loc
@@ -97,6 +100,14 @@
 /obj/machinery/computer/fiftycal/Initialize()
 	. = ..()
 	turret = locate(/obj/machinery/ship_weapon/fiftycal) in SSmapping.get_turf_above(src)
+
+/obj/machinery/computer/fiftycal/attack_robot(mob/user)
+	. = ..()
+	return attack_hand(user)
+
+/obj/machinery/computer/fiftycal/attack_ai(mob/user)
+	. = ..()
+	return attack_hand(user)
 
 /obj/machinery/computer/fiftycal/attack_hand(mob/user)
 	. = ..()
@@ -143,3 +154,20 @@
 	flag = "overmap_heavy"
 	speed = 2
 
+/datum/design/board/fiftycal
+	name = "Machine Design (.50 cal deck turret)"
+	desc = "Allows for the construction of a crew served, 50 cal deck turret."
+	id = "fiftycal"
+	materials = list(/datum/material/glass = 2000, /datum/material/copper = 2000, /datum/material/gold = 5000)
+	build_path = /obj/item/circuitboard/machine/fiftycal
+	category = list("Advanced Munitions")
+	departmental_flags = DEPARTMENTAL_FLAG_CARGO | DEPARTMENTAL_FLAG_SCIENCE
+
+/datum/design/board/fiftycalcomp
+	name = "Machine Design (.50 cal deck turret control console)"
+	desc = "Allows for the construction of a control console for .50 cal deck guns."
+	id = "fiftycalcomp"
+	materials = list(/datum/material/glass = 2000, /datum/material/copper = 2000, /datum/material/gold = 5000)
+	build_path = /obj/item/circuitboard/computer/fiftycal
+	category = list("Advanced Munitions")
+	departmental_flags = DEPARTMENTAL_FLAG_CARGO | DEPARTMENTAL_FLAG_SCIENCE

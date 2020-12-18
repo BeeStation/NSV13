@@ -1,14 +1,24 @@
 /obj/item/ship_weapon/parts/missile
 	var/target_state = 0
+	var/fits_type = null
 
 /obj/item/ship_weapon/parts/missile/warhead
-	name = "missile warhead"
+	name = "NTP-2 standard guided munition payload"
 	icon = 'nsv13/icons/obj/munitions.dmi'
-	icon_state = "warhead_highvelocity"
-	desc = "A lightweight warhead designed to be fitted to a missile. It's currently inert."
+	icon_state = "warhead"
+	desc = "A heavy warhead designed to be fitted to a torpedo. It's currently inert."
 	w_class = WEIGHT_CLASS_HUGE
 	target_state = 6
-	var/payload = null
+	var/build_path = /obj/item/ship_weapon/ammunition/missile
+	fits_type = /obj/item/ship_weapon/ammunition/missile/missile_casing //Used for warheads, missiles are different from torp.
+
+/obj/item/ship_weapon/parts/missile/warhead/decoy
+	name = "NTP-0x 'DCY' electronic countermeasure guided munition payload"
+	desc = "a decoy torpedo warhead"
+	icon_state = "warhead_decoy"
+	desc = "A simple electronic countermeasure wrapped in a metal casing. While these form inert missiles, they can be used to distract enemy anti-missile defenses to divert their flak away from other targets."
+	fits_type = /obj/item/ship_weapon/ammunition/missile/missile_casing
+	build_path = /obj/item/ship_weapon/ammunition/torpedo/decoy
 
 /obj/item/ship_weapon/parts/missile/guidance_system
 	name = "missile guidance system"
@@ -44,53 +54,3 @@
 	user.visible_message("<span class='warning'>[user] shorts out [src]!</span>",
 						"<span class='notice'>You short out the IFF protocols on [src].</span>",
 						"Bzzzt.")
-
-///// Techweb and Designs /////
-/datum/techweb_node/basic_torpedo_components
-	id = "basic_missile_components"
-	display_name = "Basic Missile Components"
-	description = "A how-to guide of fabricating missiles while out in the depths of space."
-	prereq_ids = list("explosive_weapons")
-	design_ids = list("missile_warhead","missile_guidance_system", "missile_propulsion_system", "missile_iff_card")
-	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 2500)
-	export_price = 5000
-
-/datum/design/missile_warhead
-	name = "Missile Warhead"
-	desc = "The stock standard warhead design for missiles"
-	id = "missile_warhead"
-	build_type = PROTOLATHE
-	materials = list(/datum/material/iron = 2000, /datum/material/glass = 500, /datum/material/copper = 500, /datum/material/plasma = 2000)
-	build_path = /obj/item/ship_weapon/parts/missile/warhead
-	category = list("Advanced Munitions")
-	departmental_flags = DEPARTMENTAL_FLAG_CARGO
-
-/datum/design/missile_guidance_system
-	name = "Missile Guidance System"
-	desc = "The stock standard guidance system design for missiles"
-	id = "missile_guidance_system"
-	build_type = PROTOLATHE
-	materials = list(/datum/material/iron = 1000, /datum/material/glass = 2500, /datum/material/copper = 2500)
-	build_path = /obj/item/ship_weapon/parts/missile/guidance_system
-	category = list("Advanced Munitions")
-	departmental_flags = DEPARTMENTAL_FLAG_CARGO
-
-/datum/design/missile_propulsion_system
-	name = "Missile Propulsion System"
-	desc = "The stock standard propulsion system design for missiles"
-	id = "missile_propulsion_system"
-	build_type = PROTOLATHE
-	materials = list(/datum/material/iron = 2000, /datum/material/glass = 1000, /datum/material/plasma = 500)
-	build_path = /obj/item/ship_weapon/parts/missile/propulsion_system
-	category = list("Advanced Munitions")
-	departmental_flags = DEPARTMENTAL_FLAG_CARGO
-
-/datum/design/iff_card
-	name = "Missile IFF Card"
-	desc = "The stock standard IFF card design for missiles"
-	id = "missile_iff_card"
-	build_type = IMPRINTER
-	materials = list(/datum/material/glass = 3000, /datum/material/copper = 1000)
-	build_path = /obj/item/ship_weapon/parts/missile/iff_card
-	category = list("Advanced Munitions")
-	departmental_flags = DEPARTMENTAL_FLAG_CARGO

@@ -116,18 +116,18 @@
 	armor = list("overmap_light" = 70, "overmap_heavy" = 30)
 
 /obj/structure/overmap/nanotrasen/battlecruiser
-	name = "Andromeda class battlecruiser"
-	desc = "A highly maneuverable yet powerful prototype cruiser using experimental thrust vectoring systems."
-	icon = 'nsv13/icons/overmap/nanotrasen/battlecruiser.dmi'
-	icon_state = "battlecruiser"
+	name = "corvid class tactical cruiser"
+	icon = 'nsv13/icons/overmap/new/nanotrasen/cruiser.dmi'
+	icon_state = "cruiser"
 	mass = MASS_LARGE
 	sprite_size = 48
-	damage_states = FALSE //I'm lazy
-	pixel_z = -170
-	pixel_w = -112
+	//damage_states = TRUE
+	//pixel_z = -32
+	//pixel_w = -32
 	max_integrity = 1500 //Max health
 	integrity_failure = 1500
-	collision_positions = list(new /datum/vector2d(-12,160), new /datum/vector2d(-27,139), new /datum/vector2d(-42,-21), new /datum/vector2d(-63,-59), new /datum/vector2d(-23,-173), new /datum/vector2d(-14,-184), new /datum/vector2d(8,-184), new /datum/vector2d(20,-173), new /datum/vector2d(60,-51), new /datum/vector2d(38,-16), new /datum/vector2d(24,141), new /datum/vector2d(11,160))
+	bound_height = 96
+	bound_width = 96
 	armor = list("overmap_light" = 70, "overmap_heavy" = 25)
 
 //Instanced Versions

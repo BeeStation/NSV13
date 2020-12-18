@@ -159,8 +159,8 @@
 /obj/machinery/ship_weapon/gauss_gun/proc/set_gunner(mob/user)
 	user.forceMove(src)
 	gunner = user
+	gunner.AddComponent(/datum/component/overmap_gunning, src)
 	ui_interact(user)
-	user.AddComponent(/datum/component/overmap_gunning)
 
 /obj/machinery/ship_weapon/gauss_gun/proc/remove_gunner()
 	if(gunner_chair)

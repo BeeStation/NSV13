@@ -1,3 +1,12 @@
+
+
+/obj/item/circuitboard/machine/deck_turret_main
+	name = "M4-15 'Hood' Deck Turret"
+	req_components = list(
+		/obj/item/stack/sheet/mineral/titanium = 20,
+		/obj/item/stack/cable_coil = 5)
+	build_path = /obj/machinery/deck_turret
+
 /obj/machinery/ship_weapon/deck_turret
 	name = "M4-15 'Hood' deck turret"
 	desc = "A huge naval gun which uses chemical accelerants to propel rounds. Inspired by the classics, this gun packs a major punch and is quite easy to reload. Use a multitool on it to re-register loading aparatus."
@@ -16,6 +25,7 @@
 	safety = FALSE
 	maintainable = TRUE
 	load_sound = 'nsv13/sound/effects/ship/freespace2/crane_short.ogg'
+	circuit = /obj/item/circuitboard/machine/deck_turret_main
 	var/obj/machinery/deck_turret/core
 
 /obj/machinery/ship_weapon/deck_turret/multitool_act(mob/living/user, obj/item/I)
@@ -116,6 +126,7 @@
 	icon_state = "core"
 	density = TRUE
 	anchored = TRUE
+	circuit = /obj/item/circuitboard/machine/deck_gun
 	var/obj/machinery/ship_weapon/deck_turret/turret = null
 	var/list/powder_gates = list()
 	var/obj/machinery/deck_turret/payload_gate/payload_gate
@@ -135,6 +146,7 @@
 	name = "Powder loading gate"
 	desc = "One of three gates which pack a shell with powder as they enter the gun core. Ensure that each one is secured before attempting to fire!"
 	icon_state = "powdergate"
+	circuit = /obj/item/circuitboard/machine/deck_gun/powder
 	var/obj/item/powder_bag/bag = null
 	var/ammo_type = /obj/item/powder_bag
 	var/loading = FALSE
@@ -207,7 +219,8 @@
 	icon = 'nsv13/icons/obj/munitions.dmi'
 	icon_state = "artillery"
 	desc = "A large shell designed to deliver a high-yield warhead upon high-speed impact with solid objects. You need to arm it with a multitool before firing."
-	anchored = TRUE
+	anchored = FALSE
+	move_resist = MOVE_FORCE_EXTREMELY_STRONG
 	density = TRUE
 	projectile_type = /obj/item/projectile/bullet/mac_round //What torpedo type we fire
 	obj_integrity = 300 //Beefy, relatively hard to use as a grief tool.
@@ -251,6 +264,7 @@
 	name = "Payload loading gate"
 	desc = "A chamber for loading a gun shell to be packed with gunpowder, ensure the payload is securely loaded before attempting to chamber!"
 	icon_state = "payloadgate"
+	circuit = /obj/item/circuitboard/machine/deck_gun/payload
 	var/loaded = FALSE
 	var/obj/item/ship_weapon/ammunition/naval_artillery/shell = null
 	var/ammo_type = /obj/item/ship_weapon/ammunition/naval_artillery
@@ -321,11 +335,13 @@
 	name = "Auto elevator module"
 	desc = "A module which greatly decreases load times on deck guns."
 	icon_state = "autoelevator"
+	circuit = /obj/item/circuitboard/machine/deck_gun/autoelevator
 
 /obj/machinery/deck_turret/autorepair
 	name = "Deck gun auto-repair module"
 	desc = "A module which periodically injects repair nanites into a linked deck turret above it, removing the need for maintenance entirely."
 	icon_state = "autorepair"
+	circuit = /obj/item/circuitboard/machine/deck_gun/autorepair
 
 /obj/machinery/ship_weapon/deck_turret/local_fire()
 	. = ..()
@@ -335,16 +351,19 @@
 			shake_camera(M, 1, 1)
 
 /obj/machinery/ship_weapon/deck_turret/north
+	dir = NORTH
 	pixel_x = -43
 	pixel_y = -32
 
 /obj/machinery/ship_weapon/deck_turret/east
+	dir = EAST
 	pixel_x = -30
 	pixel_y = -42
 	bound_width = 128
 	bound_height = 64
 
 /obj/machinery/ship_weapon/deck_turret/west
+	dir = WEST
 	pixel_x = -63
 	pixel_y = -42
 	bound_width = 128

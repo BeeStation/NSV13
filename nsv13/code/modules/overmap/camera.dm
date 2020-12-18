@@ -71,18 +71,20 @@
 	if(M.client) //Reset px, y
 		M.client.pixel_x = 0
 		M.client.pixel_y = 0
+
 	if(istype(M, /mob/living/silicon/ai))
 		var/mob/living/silicon/ai/hal = M
-		if((locate(eyeobj) in hal.all_eyes))
-			hal.all_eyes -= eyeobj
-		var/mob/camera/aiEye/cam = pick(hal.all_eyes)
-		hal.eyeobj = cam
-		if(hal.client)
-			hal.client.view_size.resetToDefault()
-			hal.client.overmap_zoomout = 0
-	QDEL_NULL(eyeobj)
-	QDEL_NULL(eyeobj?.off_action)
-	QDEL_NULL(M.remote_control)
+		hal.view_core()
+		hal.remote_control = null
+		qdel(eyeobj)
+		qdel(eyeobj?.off_action)
+		qdel(M.remote_control)
+		return
+
+	qdel(eyeobj)
+	qdel(eyeobj?.off_action)
+	qdel(M.remote_control)
+	M.remote_control = null
 	M.set_focus(M)
 	M.cancel_camera()
 	return TRUE
@@ -103,8 +105,18 @@
 	eyeobj.off_action.Grant(user)
 	eyeobj.setLoc(eyeobj.loc)
 	eyeobj.add_relay()
-	user.remote_control = eyeobj
 	user.reset_perspective(eyeobj)
+	/*
+	if(isAI(user)) //In the case of AIs, we have some more work to do.
+		var/mob/living/silicon/ai/hal = user
+		var/atom/stored = hal.eyeobj
+		hal.all_eyes.Remove(stored)
+		hal.all_eyes += eyeobj
+		hal.eyeobj = eyeobj
+		qdel(stored)
+		return
+	*/
+	user.remote_control = eyeobj
 
 //Now it's time to handle people observing the ship.
 /mob/camera/aiEye/remote/overmap_observer

@@ -73,7 +73,7 @@
 	if(world.time < next_pulse)
 		return FALSE
 	relay('nsv13/sound/effects/ship/sensor_pulse_send.ogg')
-	relay_to_nearby('nsv13/sound/effects/ship/sensor_pulse_hit.ogg', ignore_self=TRUE, sound_range=255)
+	relay_to_nearby('nsv13/sound/effects/ship/sensor_pulse_hit.ogg', ignore_self=TRUE, sound_range=255, faction_check=TRUE)
 	last_sonar_pulse = world.time
 	addtimer(VARSET_CALLBACK(src, max_tracking_range, max_tracking_range), SONAR_VISIBILITY_PENALTY)
 	max_tracking_range *= 2

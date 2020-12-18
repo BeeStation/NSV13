@@ -237,7 +237,7 @@ GLOBAL_LIST_EMPTY(conveyors_by_id)
 /obj/machinery/conveyor_switch
 	name = "conveyor switch"
 	desc = "A conveyor control switch."
-	icon = 'icons/obj/recycling.dmi'
+	icon = 'nsv13/icons/obj/recycling.dmi' //Credit to eris for this spriteset!
 	icon_state = "switch-off"
 	speed_process = TRUE
 
@@ -347,7 +347,7 @@ GLOBAL_LIST_EMPTY(conveyors_by_id)
 /obj/item/conveyor_switch_construct
 	name = "conveyor switch assembly"
 	desc = "A conveyor control switch assembly."
-	icon = 'icons/obj/recycling.dmi'
+	icon = 'nsv13/icons/obj/recycling.dmi' //Credit to eris for this spriteset!
 	icon_state = "switch-off"
 	w_class = WEIGHT_CLASS_BULKY
 	var/id = "" //inherited by the switch
@@ -380,11 +380,12 @@ GLOBAL_LIST_EMPTY(conveyors_by_id)
 /obj/item/stack/conveyor
 	name = "conveyor belt assembly"
 	desc = "A conveyor belt assembly."
-	icon = 'icons/obj/recycling.dmi'
+	icon = 'nsv13/icons/obj/recycling.dmi' //Credit to eris for this spriteset!
 	icon_state = "conveyor_construct"
 	max_amount = 30
 	singular_name = "conveyor belt"
 	w_class = WEIGHT_CLASS_BULKY
+	var/conveyor_type = /obj/machinery/conveyor
 	///id for linking
 	var/id = ""
 
@@ -400,7 +401,7 @@ GLOBAL_LIST_EMPTY(conveyors_by_id)
 	if(A == user.loc)
 		to_chat(user, "<span class='warning'>You cannot place a conveyor belt under yourself!</span>")
 		return
-	var/obj/machinery/conveyor/C = new/obj/machinery/conveyor(A, cdir, id)
+	var/obj/machinery/conveyor/C = new conveyor_type(A, cdir, id)
 	transfer_fingerprints_to(C)
 	use(1)
 
