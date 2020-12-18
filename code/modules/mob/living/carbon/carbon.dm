@@ -429,7 +429,7 @@
 	return ..()
 
 /mob/living/carbon/proc/vomit(lost_nutrition = 10, blood = FALSE, stun = TRUE, distance = 1, message = TRUE, toxic = FALSE)
-	if ( istype( dna.species, /datum/species/ipc ) )
+	if ( istype( dna.species, /datum/species/ipc ) ) // NSV13 IPCs do not have stomachs 
 		return 1
 
 	if(HAS_TRAIT(src, TRAIT_NOHUNGER))

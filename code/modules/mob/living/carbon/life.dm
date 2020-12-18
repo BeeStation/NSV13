@@ -352,7 +352,7 @@
 			D.stage_act()
 
 /mob/living/carbon/handle_mutations_and_radiation()
-	if ( istype( dna.species, /datum/species/ipc ) )
+	if ( istype( dna.species, /datum/species/ipc ) ) // NSV13 IPCs should not have human mutations 
 		radiation -= min( radiation, RAD_LOSS_PER_TICK )
 		if( radiation > RAD_MOB_SAFE )
 			adjustFireLoss( log( radiation - RAD_MOB_SAFE ) * RAD_TOX_COEFFICIENT )
