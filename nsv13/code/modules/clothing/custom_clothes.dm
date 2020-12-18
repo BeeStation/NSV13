@@ -209,11 +209,7 @@
 	item_state = "pilot_helmet"
 	item_color = "pilot_helmet"
 	desc = "A lightweight space-helmet designed to protect fighter pilots in combat situations."
-	armor = list("melee" = 20, "bullet" = 30, "laser" = 10, "energy" = 10, "bomb" = 70, "bio" = 100, "rad" = 50, "fire" = 100, "acid" = 100)
-	resistance_flags = FIRE_PROOF | ACID_PROOF
-	flags_inv = HIDEEARS|HIDEEYES|HIDEFACE|HIDEHAIR //we want to see the mask
-	heat_protection = HEAD
-	max_heat_protection_temperature = FIRE_IMMUNITY_MAX_TEMP_PROTECT
+	armor = list("melee" = 20, "bullet" = 12, "laser" = 10, "energy" = 10, "bomb" = 70, "bio" = 100, "rad" = 50, "fire" = 80, "acid" = 75)
 
 /obj/item/clothing/suit/space/hardsuit/pilot
 	name = "fighter pilot flightsuit"
@@ -224,10 +220,7 @@
 	item_state = "pilot"
 	item_color = "pilot"
 	helmettype = /obj/item/clothing/head/helmet/space/hardsuit/pilot
-	armor = list("melee" = 40, "bullet" = 50, "laser" = 50, "energy" = 25, "bomb" = 50, "bio" = 100, "rad" = 50, "fire" = 100, "acid" = 100)
-	resistance_flags = FIRE_PROOF | ACID_PROOF
-	heat_protection = CHEST|GROIN|LEGS|FEET|ARMS|HANDS
-	max_heat_protection_temperature = FIRE_IMMUNITY_MAX_TEMP_PROTECT //this needed to be added a long fucking time ago
+	armor = list("melee" = 20, "bullet" = 12, "laser" = 10, "energy" = 10, "bomb" = 60, "bio" = 100, "rad" = 50, "fire" = 90, "acid" = 75)
 
 /obj/item/clothing/under/ship/pilot
 	name = "Pilot's combat jumpsuit"
