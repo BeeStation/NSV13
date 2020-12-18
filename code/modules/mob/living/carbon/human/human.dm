@@ -615,7 +615,7 @@
 	//Agent cards lower threatlevel.
 	if(istype(idcard, /obj/item/card/id/syndicate))
 		threatcount -= 5
-	
+
 	//individuals wearing tinfoil hats are 30% more likely to be criminals
 	if(istype(get_item_by_slot(SLOT_HEAD), /obj/item/clothing/head/foilhat))
 		threatcount += 2
@@ -836,6 +836,9 @@
 	..()
 
 /mob/living/carbon/human/vomit(lost_nutrition = 10, blood = 0, stun = 1, distance = 0, message = 1, toxic = 0)
+	if ( istype( dna.species, /datum/species/ipc ) )
+		return 1
+
 	if(blood && (NOBLOOD in dna.species.species_traits))
 		if(message)
 			visible_message("<span class='warning'>[src] dry heaves!</span>", \
