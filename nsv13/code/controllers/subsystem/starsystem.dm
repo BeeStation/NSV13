@@ -935,7 +935,8 @@ To make things worse, this hellhole is entirely RNG, so good luck mapping it!
 		generated -= systems[closest]	//Remove it from the list.
 
 		for(var/datum/star_system/S in generated)	//Try relaxing all other systems still in the list via it.
-			var/alternative = distances[closest] + systems[closest].dist(S)
+			var/datum/star_system/close = systems[closest]
+			var/alternative = distances[closest] + close.dist(S)
 			var/adj = systems.Find(S)
 			if(alternative < distances[adj] * NONRELAXATION_PENALTY)	//Apply penalty to make the map more interconnected instead of all jump lines just going directly to the rubiconnector
 				distances[adj] = alternative

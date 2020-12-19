@@ -93,7 +93,7 @@ again.
 /obj/effect/spawner/structure/window/reinforced
 	name = "reinforced window spawner"
 	icon_state = "rwindow_spawner"
-	spawn_list = list(/obj/structure/grille, /obj/structure/window/reinforced/fulltile, /obj/machinery/door/firedoor/window) //NSV13, adds window firedoors to window spawners
+	spawn_list = list(/obj/structure/grille, /obj/structure/window/reinforced/fulltile) //NSV13, adds window firedoors to window spawners
 	FASTDMM_PROP(\
 		pipe_astar_cost = 2\
 	)

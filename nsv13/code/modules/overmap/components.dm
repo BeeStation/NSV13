@@ -133,6 +133,8 @@ GLOBAL_LIST_INIT(computer_beeps, list('nsv13/sound/effects/computer/beep.ogg','n
 		return
 	ui_interact(user)
 	playsound(src, 'nsv13/sound/effects/computer/startup.ogg', 75, 1)
+	if(linked.gunner && !linked.gunner.client)
+		linked.stop_piloting(linked.gunner)
 	if(!linked.gunner && isliving(user))
 		return linked.start_piloting(user, position)
 
