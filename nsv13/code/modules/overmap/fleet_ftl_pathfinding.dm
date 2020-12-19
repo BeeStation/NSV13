@@ -88,5 +88,5 @@
 	return route
 
 /datum/fleet/proc/navigate_to(datum/star_system/target)
-	plotted_course = find_route(target, current_system, navigation_spec_alignments, navigation_spec_alignment_type, navigation_uses_wormholes)
-	return TRUE
+	. = find_route(target, current_system, navigation_spec_alignments, navigation_spec_alignment_type, navigation_uses_wormholes)
+	plotted_course = .
