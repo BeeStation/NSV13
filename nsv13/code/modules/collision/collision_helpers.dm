@@ -5,7 +5,7 @@ Helper methods for collision detection, implementing things like the separating 
 Special thanks to qwertyquerty for explaining and dictating all this! (I've mostly translated his pseudocode into readable byond code)
 
 */
-
+/*
 /proc/is_separating_axis(datum/vector2d/a_pos, datum/vector2d/b_pos, list/datum/vector2d/a_points, list/datum/vector2d/b_points, datum/vector2d/axis, datum/collision_response/c_response)
 	var/datum/vector2d/offset_v = b_pos - a_pos
 
@@ -65,8 +65,9 @@ Special thanks to qwertyquerty for explaining and dictating all this! (I've most
 			maxpoint = dot
 
 	return new /datum/vector2d(minpoint, maxpoint)
-
-/proc/get_seg_intersection(datum/vector2d/p0, datum/vector2d/p1, datum/vector2d/p2, datum/vector2d/p3)
+*/
+/*
+/datum/shape/get_seg_intersection(datum/vector2d/p0, datum/vector2d/p1, datum/vector2d/p2, datum/vector2d/p3)
 	var/datum/vector2d/s10 = p1 - p0
 	var/datum/vector2d/s32 = p3 - p2
 
@@ -95,4 +96,4 @@ Special thanks to qwertyquerty for explaining and dictating all this! (I've most
 	var/t = t_numer / denom
 
 	return new /datum/vector2d(p0.x + (t * s10.x), p0.y + (t * s10.y))
-
+*/

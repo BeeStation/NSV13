@@ -2339,3 +2339,20 @@ All effects don't start immediately, but rather get worse over time; the rate is
 		M.adjustFireLoss(-1.5, 0)
 		M.adjustToxLoss(-1, 0)
 	. = ..()
+	
+/datum/reagent/consumable/ethanol/torp_juice
+	name = "Torpedo Juice"
+	color = "#F9E43D"
+	description = "Attention munitions: MAKE TORP."
+	taste_description = "an explosion in your mouth"
+	glass_icon_state = "torp_juice"
+	glass_name = "glass of torpedo juice"
+	glass_desc = "Attention munitions: MAKE TORP."
+	quality = DRINK_VERYGOOD
+	boozepwr = 70
+/datum/reagent/consumable/ethanol/torp_juice/on_mob_life(mob/living/carbon/M)
+    if(HAS_TRAIT(M.mind, TRAIT_MUNITIONS_METABOLISM))
+        M.heal_bodypart_damage(1, 1)
+        M.adjustBruteLoss(-2,0)
+        . = 1
+    return ..()

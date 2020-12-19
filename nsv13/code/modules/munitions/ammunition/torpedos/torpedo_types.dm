@@ -201,7 +201,7 @@
 /obj/item/projectile/guided_munition/torpedo/post/Destroy()
 	if(contents.len)
 		var/list/all_contents = GetAllContents() - src //Get all contents returns the torp itself. remove the torp from the list
-		QDEL_LIST(all_contents) //Delete all contents of the torp. 
+		QDEL_LIST(all_contents) //Delete all contents of the torp.
 	. = ..()
 
 //A probe that science builds to scan anomalies. This is a chad move.

@@ -858,8 +858,8 @@ due_to_damage: If the removal was caused voluntarily (FALSE), or if it was cause
 	icon_state = "armour"
 	slot = HARDPOINT_SLOT_ARMOUR
 	weight = 1
-	obj_integrity = 150
-	max_integrity = 150
+	obj_integrity = 250
+	max_integrity = 250
 	armor = list("melee" = 50, "bullet" = 40, "laser" = 80, "energy" = 50, "bomb" = 50, "bio" = 100, "rad" = 100, "fire" = 100, "acid" = 80) //Armour's pretty tough.
 
 //Sometimes you need to repair your physical armour plates.
@@ -879,16 +879,16 @@ due_to_damage: If the removal was caused voluntarily (FALSE), or if it was cause
 	desc = "An extremely thick and heavy set of armour plates. Guaranteed to weigh you down, but it'll keep you flying through brasil itself."
 	tier = 2
 	weight = 2
-	obj_integrity = 350
-	max_integrity = 350
+	obj_integrity = 450
+	max_integrity = 450
 
 /obj/item/fighter_component/armour_plating/tier3
 	name = "Nanocarbon Armour Plates"
 	desc = "A lightweight set of ablative armour which balances speed and protection at the cost of the average GDP of most third world countries."
 	tier = 3
 	weight = 1.25
-	obj_integrity = 250
-	max_integrity = 250
+	obj_integrity = 300
+	max_integrity = 300
 
 /obj/item/fighter_component/canopy
 	name = "Glass canopy"
