@@ -92,6 +92,9 @@
 /obj/structure/overmap/proc/CreateEye(mob/user)
 	if(!user.client)
 		return
+	if(isAI(user)) //view core nice and neatly resets their camera perspective, stops them tracking and so on.
+		var/mob/living/silicon/ai/hal = user
+		hal.view_core()
 	user.update_sight()
 	var/mob/camera/aiEye/remote/overmap_observer/eyeobj = new(get_turf(src))
 	eyeobj.origin = src
@@ -106,16 +109,6 @@
 	eyeobj.setLoc(eyeobj.loc)
 	eyeobj.add_relay()
 	user.reset_perspective(eyeobj)
-	/*
-	if(isAI(user)) //In the case of AIs, we have some more work to do.
-		var/mob/living/silicon/ai/hal = user
-		var/atom/stored = hal.eyeobj
-		hal.all_eyes.Remove(stored)
-		hal.all_eyes += eyeobj
-		hal.eyeobj = eyeobj
-		qdel(stored)
-		return
-	*/
 	user.remote_control = eyeobj
 
 //Now it's time to handle people observing the ship.

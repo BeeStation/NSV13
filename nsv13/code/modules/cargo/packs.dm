@@ -6,7 +6,7 @@
 /datum/supply_pack/munitions/railgun
 	name = "Naval Artillery Shells (x10)"
 	desc = "A set of naval artillery shells to be fired by the eponymous weapon. Must be armed before firing. WARNING: HIGHLY EXPLOSIVE."
-	cost = 3000
+	cost = 2000
 	contains = list(/obj/item/ship_weapon/ammunition/naval_artillery,
 					/obj/item/ship_weapon/ammunition/naval_artillery,
 					/obj/item/ship_weapon/ammunition/naval_artillery,
@@ -18,6 +18,23 @@
 					/obj/item/ship_weapon/ammunition/naval_artillery,
 					/obj/item/ship_weapon/ammunition/naval_artillery)
 	crate_name = "Naval Artillery Shells"
+
+/datum/supply_pack/munitions/cannonshot
+	name = "Cannonballs (x10)"
+	desc = "For munitions teams on a budget, cannonballs serve as a cheap but still somewhat effective ammunition for Naval Artillery. Made from the finest cutlery the NT fleet has to offer."
+	cost = 1000
+	contains = list(/obj/item/ship_weapon/ammunition/naval_artillery,
+					/obj/item/ship_weapon/ammunition/naval_artillery,
+					/obj/item/ship_weapon/ammunition/naval_artillery,
+					/obj/item/ship_weapon/ammunition/naval_artillery,
+					/obj/item/ship_weapon/ammunition/naval_artillery,
+					/obj/item/ship_weapon/ammunition/naval_artillery,
+					/obj/item/ship_weapon/ammunition/naval_artillery,
+					/obj/item/ship_weapon/ammunition/naval_artillery,
+					/obj/item/ship_weapon/ammunition/naval_artillery,
+					/obj/item/ship_weapon/ammunition/naval_artillery)
+	crate_type = /obj/structure/closet/crate/wooden
+	crate_name = "Captain Plasmasalt's finest cannonshot"
 
 /datum/supply_pack/munitions/fiftycal
 	name = ".50 cal deck gun rounds (x5)"

@@ -17,7 +17,7 @@
 	desc = "a decoy torpedo warhead"
 	icon_state = "warhead_decoy"
 	desc = "A simple electronic countermeasure wrapped in a metal casing. While these form inert missiles, they can be used to distract enemy anti-missile defenses to divert their flak away from other targets."
-	fits_type = /obj/item/ship_weapon/ammunition/missile/missile_casing
+	fits_type = /obj/item/ship_weapon/ammunition/torpedo/torpedo_casing
 	build_path = /obj/item/ship_weapon/ammunition/torpedo/decoy
 
 /obj/item/ship_weapon/parts/missile/guidance_system

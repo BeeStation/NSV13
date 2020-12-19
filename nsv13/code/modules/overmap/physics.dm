@@ -437,6 +437,18 @@ The while loop runs at a programatic level and is thus separated from any thrott
 		var/obj/structure/overmap/fighter/F = src
 		if(F.docking_act(other))
 			return FALSE
+	//No colliders? We get the simple version.
+	if(!c_response)
+		handle_cloak(CLOAK_TEMPORARY_LOSS)
+		if(other.dir & NORTH)
+			velocity.y += bump_impulse
+		if(other.dir & SOUTH)
+			velocity.y -= bump_impulse
+		if(other.dir & EAST)
+			velocity.x += bump_impulse
+		if(other.dir & WEST)
+			velocity.x -= bump_impulse
+		return TRUE
 
 	//Update the colliders before we do any kind of calc.
 	if(physics2d)
@@ -481,7 +493,7 @@ The while loop runs at a programatic level and is thus separated from any thrott
 	other.offset += output
 
 /obj/structure/overmap/Bumped(atom/movable/A)
-	if(brakes || ismob(A) || istype(A, /obj/structure/overmap)) //No :)
+	if(brakes || ismob(A) || isovermap(A)) //No :)
 		return FALSE
 	handle_cloak(CLOAK_TEMPORARY_LOSS)
 	if(A.dir & NORTH)
@@ -511,7 +523,7 @@ The while loop runs at a programatic level and is thus separated from any thrott
 	if(layer < A.layer) //Allows ships to "Layer under" things and not hit them. Especially useful for fighters.
 		return ..()
 	// if a bump is that fast then it's not a bump. It's a collision.
-	if(istype(A, /obj/structure/overmap) && c_response)
+	if(istype(A, /obj/structure/overmap))
 		collide(A, c_response, bump_velocity)
 		return FALSE
 	if(isprojectile(A)) //Clears up some weirdness with projectiles doing MEGA damage.

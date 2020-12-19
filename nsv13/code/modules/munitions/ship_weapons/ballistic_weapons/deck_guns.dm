@@ -1,12 +1,3 @@
-
-
-/obj/item/circuitboard/machine/deck_turret_main
-	name = "M4-15 'Hood' Deck Turret"
-	req_components = list(
-		/obj/item/stack/sheet/mineral/titanium = 20,
-		/obj/item/stack/cable_coil = 5)
-	build_path = /obj/machinery/deck_turret
-
 /obj/machinery/ship_weapon/deck_turret
 	name = "M4-15 'Hood' deck turret"
 	desc = "A huge naval gun which uses chemical accelerants to propel rounds. Inspired by the classics, this gun packs a major punch and is quite easy to reload. Use a multitool on it to re-register loading aparatus."
@@ -25,7 +16,6 @@
 	safety = FALSE
 	maintainable = TRUE
 	load_sound = 'nsv13/sound/effects/ship/freespace2/crane_short.ogg'
-	circuit = /obj/item/circuitboard/machine/deck_turret_main
 	var/obj/machinery/deck_turret/core
 
 /obj/machinery/ship_weapon/deck_turret/multitool_act(mob/living/user, obj/item/I)

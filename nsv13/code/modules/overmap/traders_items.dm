@@ -97,7 +97,7 @@
 /datum/trader_item/railgun
 	name = "Railgun Kit"
 	desc = "Everything you need to build a ship to ship railgun."
-	price = 7500
+	price = 6000
 	stock = 1
 	unlock_path = /obj/structure/closet/crate/secure/weapon/trader_arms/railgun
 
