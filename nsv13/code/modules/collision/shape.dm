@@ -9,11 +9,11 @@ COLLISIONS MAY OR MAY NOT END UP BACKWARDS. CHECK THIS LATER.
 Special thanks to qwertyquerty for explaining and dictating all this! (I've mostly translated his pseudocode into readable byond code)
 
 */
-GLOBAL_VAR(exmap_initialized) // this must be an uninitialized (null) one or init_monstermos will be called twice because reasons
+GLOBAL_VAR(exmap_initialized) // Exmap is windows only until I figure out how the hell to compile it for linux
 #define EXMAP_EXTOOLS_CHECK if(!GLOB.exmap_initialized){\
 	GLOB.exmap_initialized=TRUE;\
 	if(fexists(EXTOOLS)){\
-		var/result = call(EXTOOLS,"init_exmap")();\
+		var/result = (world.system_type == MS_WINDOWS) ? call(EXTOOLS,"init_exmap")() : "ok";\
 		if(result != "ok") {CRASH(result);}\
 	} else {\
 		CRASH("byond-extools.dll or libbyond-extools.so does not exist!");\
