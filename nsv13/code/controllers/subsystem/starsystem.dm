@@ -1,4 +1,5 @@
 GLOBAL_VAR_INIT(crew_transfer_risa, FALSE)
+GLOBAL_LIST_EMPTY(neutral_zone_systems)
 
 #define FACTION_VICTORY_TICKETS 1000
 
@@ -102,6 +103,10 @@ SUBSYSTEM_DEF(star_system)
 		factions += F
 	for(var/datum/faction/F in factions)
 		F.setup_relationships() //Set up faction relationships AFTER they're all initialised to avoid errors.
+	for(var/datum/star_system/S in systems)	//Setup the neutral zone for easier access - Bit of overhead but better than having to search for sector 2 systems everytime we want a new neutral zone occupier)
+		if(S.sector != 2)	//Magic numbers bad I know, but there is no sector defines.
+			continue
+		GLOB.neutral_zone_systems += S
 
 /**
 Returns a faction datum by its name (case insensitive!)

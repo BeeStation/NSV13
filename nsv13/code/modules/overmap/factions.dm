@@ -80,9 +80,11 @@ Set up relationships.
 	if(!possible_spawns.len && !override)
 		message_admins("Failed to spawn a [name] fleet because that faction doesn't own a single system :(")
 		return
-	var/datum/star_system/starsys = pick(possible_spawns)
+	var/datum/star_system/starsys
 	if(override)
 		starsys = override
+	else
+		starsys = pick(possible_spawns)
 	starsys.mission_sector = TRUE //set this sector to be the active mission
 	starsys.spawn_asteroids() //refresh asteroids in the system
 	var/fleet_type = pick(fleet_types)
@@ -93,7 +95,18 @@ Set up relationships.
 		F.size = custom_difficulty
 	F.assemble(starsys)
 	F.faction = src
-	message_admins("DEBUG: [src] spawned a [F] in [starsys]")
+	if(!force && id == FACTION_ID_SYNDICATE && !GLOB.neutral_zone_systems.Find(F.current_system))	//If it isn't forced, it got spawned by the midround processing. If we didn't already spawn in the neutral zone, we head to a random system there and occupy it.
+		var/list/possible_occupation_targets = list()
+		for(var/datum/star_system/S in GLOB.neutral_zone_systems)
+			if(S.alignment == "syndicate")
+				continue
+			if(S.hidden)
+				continue	//Shhh
+			possible_occupation_targets += S
+		if(possible_occupation_targets.len)
+			F.goal_system = pick(possible_occupation_targets)
+
+	message_admins("DEBUG: [src] spawned a [F] in [starsys][F.goal_system ? " heading towards [F.goal_system]" : ""].")
 	return
 
 //The beginning and the end.

@@ -2,14 +2,15 @@
 
 
 /*
-	A route finding alrorytm. This will always find the shortest path to a target system if one exists, but may need quite some cycles, due to it being O(V + E)
+	A route finding alrorytm. This will always find the shortest path to a target system if one exists, but may need quite some cycles, due to it being O(V + E) worst case.
 	Returns FALSE if no route is found, an empty list if already at the target, and a list with a route to the target in all other cases
 	Args:
 	target_system: The target system, obviously
-	allowed_alignments: The types of alignments this fleet is allowed to traverse. Defaults to an empty list, and allows any alignment if the list is empty.
+	alignments: The types of alignments this fleet is allowed / not allowed to pass (handled via alignment_list_type).Defaults to an empty list, and allows any alignment if the list is empty.
+	alignment_list_type: How the alignments list is handled. Use ALIGNMENT_BLACKLIST for blacklisting allegiances, and ALIGNMENT_WHITELIST for whitelisting them.
 	wormholes_allowed: If the pathfinding is allowed to use wormholes. Defaults to TRUE.
 */
-/proc/find_route(datum/star_system/target_system, datum/star_system/current_system, list/allowed_alignments = list(), wormholes_allowed = TRUE)
+/proc/find_route(datum/star_system/target_system, datum/star_system/current_system, list/alignments = list(), alignment_list_type = ALIGNMENT_BLACKLIST, wormholes_allowed = TRUE)
 	var/list/route = list()
 	if(!target_system || !current_system)
 		return FALSE	//This do be invalid
@@ -17,8 +18,10 @@
 	if(current_system == target_system)
 		return list()	//We are already here
 
+	if((!alignments || !alignments.len) && alignment_list_type == ALIGNMENT_WHITELIST)
+		return FALSE	//You called whitelisted mode with no system alignments allowed, what did you expect?
 
-	var/list/all_systems = SSstar_system.systems.Copy()
+	var/list/all_systems = SSstar_system.systems.Copy()	//Make a new list from these so we don't fuck up the all_systems list.
 
 	var/systems[all_systems.len]
 	var/distances[all_systems.len]
@@ -55,8 +58,16 @@
 
 			if(!all_systems.Find(adj_sys)) //Not a crossing edge
 				continue
-			if(allowed_alignments.len && !allowed_alignments.Find(adj_sys.alignment))
-				continue	//Ignore edge if target sys isn't allowed.
+			if(alignments && alignments.len)	//Empty lists get ignored. Yes, even for whitelisted mode, the case for that happening is at the start of this proc.
+				switch(alignment_list_type)
+					if(ALIGNMENT_BLACKLIST)
+						if(alignments.Find(adj_sys.alignment))
+							continue	//Ignore edge if alignment is forbidden.
+					if(ALIGNMENT_WHITELIST)
+						if(!alignments.Find(adj_sys.alignment))
+							continue	//Ignore edge if alignment is not allowed.
+					else
+						CRASH("Navigation attempted to run with invalid alignment_list_type parameter. Parameter was [alignment_list_type]. Allowed parameters are [ALIGNMENT_BLACKLIST] and [ALIGNMENT_WHITELIST].")
 			if(!wormholes_allowed && cur_sys.wormhole_connections.Find(adj))
 				continue	//No using wormholes if they're forbidden to you, bad!
 
@@ -77,5 +88,5 @@
 	return route
 
 /datum/fleet/proc/navigate_to(datum/star_system/target)
-	plotted_course = find_route(target, current_system)
+	plotted_course = find_route(target, current_system, navigation_spec_alignments, navigation_spec_alignment_type, navigation_uses_wormholes)
 	return TRUE

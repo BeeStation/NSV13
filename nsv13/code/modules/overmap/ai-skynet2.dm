@@ -44,7 +44,7 @@ Adding tasks is easy! Just define a datum for it.
 #define AI_TRAIT_ANTI_FIGHTER 4
 #define AI_TRAIT_BOARDER 5 //Ships that like to board you.
 
-//Fleet behaviour. Border patrol fleets will stick to patrolling their home space only. Invasion fleets ignore home space and fly around.
+//Fleet behaviour. Border patrol fleets will stick to patrolling their home space only. Invasion fleets ignore home space and fly around. If the fleet has a goal system or is a interdictor, this gets mostly ignored, but stays as fallback.
 #define FLEET_TRAIT_BORDER_PATROL 1
 #define FLEET_TRAIT_INVASION 2
 #define FLEET_TRAIT_NEUTRAL_ZONE 3
@@ -67,6 +67,9 @@ GLOBAL_LIST_EMPTY(ai_goals)
 	var/datum/star_system/current_system = null //Where are we?
 	var/datum/star_system/goal_system = null //Where are we looking to go?
 	var/list/plotted_course = FALSE
+	var/list/navigation_spec_alignments = list()	//If for some reason you have a fleet that is supposed to navigate smart, but also isn't allowed (or even only allowed) some alignment types, use this.
+	var/navigation_spec_alignment_type = ALIGNMENT_BLACKLIST	//ALIGNMENT_BLACKLIST: Do not use systems with these alignments | ALIGNMENT_WHITELIST: Only use systems with these alignments.
+	var/navigation_uses_wormholes = TRUE	//If for some reason you want a fleet type that can't use wormholes (in navigation!!, it'll still use them for random wandering), be my guest, and just set this to FALSE
 	var/hide_movements = FALSE
 	var/alignment = "syndicate"
 	var/list/taunts = list("Unidentified vessel, you have entered our airspace. Leave immediately or be destroyed", "Identify yourselves immediately or be destroyed", "Unidentified vessel, leave immediately. You are entering Syndicate territory.", "Hold it right there. Prepare to be boarded, Captain.", "Nanotrasen vessel, surrender immediately or face unnecessary casualties.", "All Nanotrasen crewmen, please prepare for immediate evisceration.", "Unidentified vessel, transmit your credentials now or- Wait a second, that’s the ship we’re looking for! Deploy fighters!", "Nanotrasen? You’ve just made my day, all crafts prepare to engage.", "Unknown vessel, failure to contact Syndicate control on frequency 0.4 is a suspected act of aggression. Prepare for engagement.")
