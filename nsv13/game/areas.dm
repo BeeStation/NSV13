@@ -51,7 +51,7 @@
 /area/medical/nsv/plumbing
 	name = "Chemical Manufacturing"
 	icon_state = "chem"
-	
+
 /area/science/nsv/astronomy
 	name = "Astrometrics Lab"
 	icon_state = "toxmisc"
@@ -59,7 +59,7 @@
 /area/nsv/engine/corridor
 	name = "Engineering Corridor"
 	icon_state = "aux_base_construction"
-	
+
 /area/nsv/engine/engine_room/core
 	name = "Engine Core"
 	icon_state = "engine_foyer"
@@ -111,15 +111,15 @@
 /area/maintenance/nsv/deck1/aft
 	name = "Deck 1 Aft Maintenance"
 	icon_state = "amaint"
-	
+
 /area/maintenance/nsv/deck1/port/aft
 	name = "Deck 1 Port Aft Maintenance"
-	icon_state = "pmaint"	
-	
+	icon_state = "pmaint"
+
 /area/maintenance/nsv/deck1/port/fore
-	name = "Deck 1 Port Fore Maintenance"	
-	icon_state = "pmaint"	
-	
+	name = "Deck 1 Port Fore Maintenance"
+	icon_state = "pmaint"
+
 /area/maintenance/nsv/deck2/port
 	name = "Deck 2 Port Maintenance"
 	icon_state = "pmaint"
@@ -235,7 +235,7 @@
 /area/maintenance/nsv/deck2/port/fore
 	name = "Deck 2 Port Fore Maintenance"
 	icon_state = "pmaint"
-	
+
 /area/maintenance/nsv/deck2/port/aft
 	name = "Deck 2 Port Aft Maintenance"
 	icon_state = "amaint"
@@ -352,6 +352,10 @@
 	name = "Deck 3 Frame 1 Central Hallway"
 	icon_state = "hallC"
 
+/area/hallway/nsv/deck3/frame2/central
+	name = "Deck 2 Frame 2 Central Hallway"
+	icon_state = "hallC"
+
 /area/hallway/nsv/deck3/frame2/port
 	name = "Deck 2 Frame 2 Port Hallway"
 	icon_state = "hallP"
@@ -370,6 +374,10 @@
 
 /area/hallway/nsv/deck3/frame3/central
 	name = "Deck 3 Frame 3 Central Hallway"
+	icon_state = "hallC"
+
+/area/hallway/nsv/deck3/frame4/central
+	name = "Deck 3 Frame 4 Central Hallway"
 	icon_state = "hallC"
 
 /area/hallway/nsv/deck3/frame4/port
@@ -473,7 +481,7 @@
 /area/nsv/weapons/ordnance
 	name = "Ordnance Handling Bay"
 	icon_state = "hallC"
-	
+
 /area/nsv/weapons/gauss
 	name = "Gauss Bay"
 	icon_state = "hallC"

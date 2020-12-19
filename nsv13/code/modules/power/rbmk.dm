@@ -554,6 +554,9 @@ The reactor CHEWS through moderator. It does not do this slowly. Be very careful
 /obj/machinery/computer/reactor
 	name = "Reactor control console"
 	desc = "Scream"
+	light_color = "#55BA55"
+	light_power = 1
+	light_range = 3
 	icon_state = "oldcomp"
 	icon_screen = "library"
 	icon_keyboard = null

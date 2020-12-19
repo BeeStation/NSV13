@@ -216,10 +216,13 @@
 
 /turf/open/floor/monotile/light
 	icon_state = "monotile_light"
-	floor_tile = /obj/item/stack/tile/mono/light 
+	floor_tile = /obj/item/stack/tile/mono/light
 
 /turf/open/floor/monofloor
 	icon_state = "steel_monofloor"
+
+/turf/open/floor/monofloor/airless
+	initial_gas_mix = AIRLESS_ATMOS
 
 /turf/open/floor/stone
 	icon_state = "stone"

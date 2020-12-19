@@ -617,9 +617,16 @@
 	name = "Snowdin Excavation Elevator"
 
  // Turbolifts
-/datum/map_template/shuttle/turbolift/debug/primary
+/datum/map_template/shuttle/turbolift
 	prefix = "_maps/shuttles/turbolifts/"
+	can_be_bought = FALSE
+
+/datum/map_template/shuttle/turbolift/debug/primary
 	port_id = "debug"
 	suffix = "primary"
 	name = "primary turbolift (multi-z debug)"
-	can_be_bought = FALSE
+
+/datum/map_template/shuttle/turbolift/semmes/aircraft
+	port_id = "aircraft"
+	suffix = "semmes"
+	name = "Aircraft elevator (NSV Semmes)"
