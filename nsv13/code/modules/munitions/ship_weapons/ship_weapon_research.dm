@@ -7,7 +7,7 @@
 	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 10000)
 	export_price = 20000
 
-/datum/design/board/powder_bag
+/datum/design/powder_bag
 	name = "Powder Bag"
 	desc = "A bag of explosives for use with deck guns."
 	id = "powder_bag"
@@ -16,7 +16,7 @@
 	category = list("Advanced Munitions")
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO | DEPARTMENTAL_FLAG_SCIENCE
 
-/datum/design/board/plasma_accelerant
+/datum/design/plasma_accelerant
 	name = "Plasma-Based Kinetic Accelerant"
 	desc = "A powerful powder charge for use in deck guns, which can propel a round to insane speeds."
 	id = "plasma_accelerant"
@@ -25,12 +25,12 @@
 	category = list("Advanced Munitions")
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO | DEPARTMENTAL_FLAG_SCIENCE
 
-/datum/design/board/naval_artillery
-	name = "Machine Design (Deck Gun)"
-	desc = "Allows for the construction of a naval artillery unit."
+/datum/design/naval_artillery
+	name = "Machine Design (Deck Gun Frame)"
+	desc = "Allows for the construction of a naval artillery gun frame."
 	id = "deck_gun"
-	materials = list(/datum/material/glass = 2000, /datum/material/copper = 200, /datum/material/gold = 500)
-	build_path = /obj/item/circuitboard/machine/deck_turret_main
+	materials = list(/datum/material/titanium = 12000,/datum/material/iron = 15000, /datum/material/glass = 5000, /datum/material/copper = 5000)
+	build_path = /obj/structure/ship_weapon/mac_assembly/artillery_frame
 	category = list("Advanced Munitions")
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO | DEPARTMENTAL_FLAG_SCIENCE
 

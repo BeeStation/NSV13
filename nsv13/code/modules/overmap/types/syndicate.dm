@@ -173,7 +173,7 @@
 	ai_can_launch_fighters = TRUE //AI variable. Allows your ai ships to spawn fighter craft
 	ai_fighter_type = list(/obj/structure/overmap/syndicate/ai/fighter)
 	sprite_size = 48
-	damage_states = TRUE
+	damage_states = FALSE
 	bound_height = 96
 	bound_width = 96
 	max_integrity = 1500 //Tanky so that it can survive to deploy multiple fighter waves.
