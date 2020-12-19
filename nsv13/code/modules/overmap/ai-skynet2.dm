@@ -484,6 +484,7 @@ GLOBAL_LIST_EMPTY(ai_goals)
 /datum/fleet/interdiction/light	//The syndicate can spawn these randomly (though rare). Be caareful! But, at least they aren't that scary.
 	name = "Syndicate Light Interdiction Fleet"
 	size = FLEET_DIFFICULTY_MEDIUM	//Don't let this fool you though, they are still somewhat dangerous and will hunt you down.
+	initial_move_delay = 12 MINUTES
 
 /datum/fleet/dolos
 	name = "Dolos Welcoming Party" //Don't do it czanek, don't fucking do it!

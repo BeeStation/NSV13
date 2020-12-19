@@ -100,9 +100,9 @@ Set up relationships.
 		F.size = custom_difficulty
 	F.assemble(starsys)
 	F.faction = src
-	if(!force && id == FACTION_ID_SYNDICATE && !GLOB.neutral_zone_systems.Find(F.current_system))	//If it isn't forced, it got spawned by the midround processing. If we didn't already spawn in the neutral zone, we head to a random system there and occupy it.
+	if(!force && id == FACTION_ID_SYNDICATE && !SSstar_system.neutral_zone_systems.Find(F.current_system))	//If it isn't forced, it got spawned by the midround processing. If we didn't already spawn in the neutral zone, we head to a random system there and occupy it.
 		var/list/possible_occupation_targets = list()
-		for(var/datum/star_system/S in GLOB.neutral_zone_systems)
+		for(var/datum/star_system/S in SSstar_system.neutral_zone_systems)
 			if(S.alignment == "syndicate")
 				continue
 			if(S.hidden)
@@ -144,7 +144,7 @@ Set up relationships.
 	preset_allies = list(FACTION_ID_PIRATES) //Yar HAR it's me, captain PLASMASALT
 	preset_enemies = list(FACTION_ID_NT)
 	fleet_types = list(/datum/fleet/neutral = 5, /datum/fleet/boarding = 5, /datum/fleet/wolfpack = 5, /datum/fleet/nuclear = 5)
-	randomspawn_only_fleet_types = list(/datum/fleet/interdiction/light = 2)
+	randomspawn_only_fleet_types = list(/datum/fleet/interdiction/light = 1)
 	fleet_spawn_rate = 30 MINUTES
 	id = FACTION_ID_SYNDICATE
 
