@@ -430,18 +430,6 @@ Class Procs:
 		return 1
 	return 0
 
-/obj/machinery/proc/default_change_wrench_action_wirecutter(mob/user, obj/item/I)
-	if(panel_open && I.tool_behaviour == TOOL_WIRECUTTER)
-		I.play_tool_sound(src,50)
-		if(!wrench_action_changed)
-			wrench_action_changed = TRUE
-			to_chat(user, "<span class='notice'>You change the action of the wrench upon [src].</span>")
-		else
-			wrench_action_changed = FALSE
-			to_chat(user, "<span class='notice'>You reset the action of the wrench upon [src].</span>")
-		return 1
-	return 0
-
 /obj/proc/can_be_unfasten_wrench(mob/user, silent) //if we can unwrench this object; returns SUCCESSFUL_UNFASTEN and FAILED_UNFASTEN, which are both TRUE, or CANT_UNFASTEN, which isn't.
 	if(!(isfloorturf(loc) || istype(loc, /turf/open/indestructible)) && !anchored)
 		to_chat(user, "<span class='warning'>[src] needs to be on the floor to be secured!</span>")
