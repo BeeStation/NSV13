@@ -110,6 +110,7 @@ Class Procs:
 	var/list/component_parts = null //list of all the parts used to build it, if made from certain kinds of frames.
 	var/panel_open = FALSE
 	var/state_open = FALSE
+	var/wrench_action_changed = FALSE //used for changing the action of a wrench upon a machine when panel_open = TRUE
 	var/critical_machine = FALSE //If this machine is critical to station operation and should have the area be excempted from power failures.
 	var/list/occupant_typecache //if set, turned into typecache in Initialize, other wise, defaults to mob/living typecache
 	var/atom/movable/occupant = null
@@ -426,6 +427,18 @@ Class Procs:
 		I.play_tool_sound(src, 50)
 		setDir(turn(dir,-90))
 		to_chat(user, "<span class='notice'>You rotate [src].</span>")
+		return 1
+	return 0
+
+/obj/machinery/proc/default_change_wrench_action_wirecutter(mob/user, obj/item/I)
+	if(panel_open && I.tool_behaviour == TOOL_WIRECUTTER)
+		I.play_tool_sound(src,50)
+		if(!wrench_action_changed)
+			wrench_action_changed = TRUE
+			to_chat(user, "<span class='notice'>You change the action of the wrench upon [src].</span>")
+		else
+			wrench_action_changed = FALSE
+			to_chat(user, "<span class='notice'>You reset the action of the wrench upon [src].</span>")
 		return 1
 	return 0
 

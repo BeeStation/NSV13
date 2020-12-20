@@ -95,6 +95,8 @@
 	if(!on)
 		if(default_deconstruction_screwdriver(user, icon_state_open, icon_state_off, I))
 			return
+	if(default_change_wrench_action_wirecutter(user,I))
+		return
 	if(default_change_direction_wrench(user, I))
 		return
 	if(default_deconstruction_crowbar(I))
@@ -102,22 +104,45 @@
 	return ..()
 
 /obj/machinery/atmospherics/components/unary/thermomachine/default_change_direction_wrench(mob/user, obj/item/I)
-	if(!..())
-		return FALSE
-	SetInitDirections()
-	var/obj/machinery/atmospherics/node = nodes[1]
-	if(node)
-		node.disconnect(src)
-		nodes[1] = null
-	nullifyPipenet(parents[1])
+	if(panel_open && I.tool_behaviour == TOOL_WRENCH)
+		I.play_tool_sound(src, 50)
+		if(!wrench_action_changed)
+			setDir(turn(dir,-90))
+			to_chat(user, "<span class='notice'>You rotate [src].</span>")
+			SetInitDirections()
+			var/obj/machinery/atmospherics/node = nodes[1]
+			if(node)
+				node.disconnect(src)
+				nodes[1] = null
+			nullifyPipenet(parents[1])
 
-	atmosinit()
-	node = nodes[1]
-	if(node)
-		node.atmosinit()
-		node.addMember(src)
-	build_network()
-	return TRUE
+			atmosinit()
+			node = nodes[1]
+			if(node)
+				node.atmosinit()
+				node.addMember(src)
+			build_network()
+			return TRUE
+		else
+			to_chat(user, "<span class='notice'>You change the pipe layer of [src].</span>")
+			if(piping_layer < PIPING_LAYER_MAX)
+				piping_layer++
+			else
+				piping_layer = PIPING_LAYER_MIN
+			var/obj/machinery/atmospherics/node = nodes[1]
+			if(node)
+				node.disconnect(src)
+				nodes[1] = null
+			nullifyPipenet(parents[1])
+
+			atmosinit()
+			node = nodes[1]
+			if(node)
+				node.atmosinit()
+				node.addMember(src)
+			build_network()
+			return TRUE
+	return FALSE
 
 /obj/machinery/atmospherics/components/unary/thermomachine/ui_status(mob/user)
 	if(interactive)
