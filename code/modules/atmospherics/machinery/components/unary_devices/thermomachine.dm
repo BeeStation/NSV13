@@ -18,7 +18,7 @@
 	var/icon_state_off = "freezer"
 	var/icon_state_on = "freezer_1"
 	var/icon_state_open = "freezer-o"
-
+	var/wrench_action_changed = FALSE //used for changing the action of a wrench upon the thermomachine when panel_open = TRUE
 	var/min_temperature = 0
 	var/max_temperature = 0
 	var/target_temperature = T20C

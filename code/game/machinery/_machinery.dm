@@ -110,7 +110,6 @@ Class Procs:
 	var/list/component_parts = null //list of all the parts used to build it, if made from certain kinds of frames.
 	var/panel_open = FALSE
 	var/state_open = FALSE
-	var/wrench_action_changed = FALSE //used for changing the action of a wrench upon a machine when panel_open = TRUE
 	var/critical_machine = FALSE //If this machine is critical to station operation and should have the area be excempted from power failures.
 	var/list/occupant_typecache //if set, turned into typecache in Initialize, other wise, defaults to mob/living typecache
 	var/atom/movable/occupant = null
