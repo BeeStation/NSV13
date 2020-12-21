@@ -95,7 +95,7 @@
 	if(!on)
 		if(default_deconstruction_screwdriver(user, icon_state_open, icon_state_off, I))
 			return
-	if(default_change_wrench_action_wirecutter(user,I))
+	if(multitool_act(user,I))
 		return
 	if(default_change_direction_wrench(user, I))
 		return
@@ -103,15 +103,15 @@
 		return
 	return ..()
 
-/obj/machinery/atmospherics/components/unary/thermomachine/proc/default_change_wrench_action_wirecutter(mob/user, obj/item/I)
-	if(panel_open && I.tool_behaviour == TOOL_WIRECUTTER)
+/obj/machinery/atmospherics/components/unary/thermomachine/multitool_act(mob/living/user, obj/item/I)
+	if(panel_open && I.tool_behaviour == TOOL_MULTITOOL)
 		I.play_tool_sound(src,50)
 		if(!wrench_action_changed)
 			wrench_action_changed = TRUE
-			to_chat(user, "<span class='notice'>The wrench will now change the pipe layer of [src].</span>")
+			to_chat(user, "<span class='notice'>Wrenching will now change the pipe layer of [src].</span>")
 		else
 			wrench_action_changed = FALSE
-			to_chat(user, "<span class='notice'>The wrench will now change the pipe direction of [src].</span>")
+			to_chat(user, "<span class='notice'>Wrenching will now change the pipe direction of [src].</span>")
 		return 1
 	return 0
 
