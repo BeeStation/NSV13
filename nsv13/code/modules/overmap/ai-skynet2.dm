@@ -32,11 +32,15 @@ Adding tasks is easy! Just define a datum for it.
 #define AI_PDC_RANGE 12
 
 #define FLEET_DIFFICULTY_EASY 2 //if things end up being too hard, this is a safe number for a fight you _should_ always win.
-#define FLEET_DIFFICULTY_MEDIUM 4
-#define FLEET_DIFFICULTY_HARD 8
-#define FLEET_DIFFICULTY_VERY_HARD 15
-#define FLEET_DIFFICULTY_INSANE 20 //If you try to take on the rubicon ;)
+#define FLEET_DIFFICULTY_MEDIUM 5
+#define FLEET_DIFFICULTY_HARD 6
+#define FLEET_DIFFICULTY_SPECIAL 10 //Special difficulties for some boss fleets. These will never scale down to be easier to fight.
+#define FLEET_DIFFICULTY_VERY_HARD 10
+#define FLEET_DIFFICULTY_INSANE 15 //If you try to take on the rubicon ;)
+#define FLEET_DIFFICULTY_WHAT_ARE_YOU_DOING 25
 #define FLEET_DIFFICULTY_DEATH 30 //Suicide run
+
+#define SCALE_FLEETS_WITH_POP TRUE //Change this to false if you want fleet size to be static. Fleets will be scaled down if the game detects underpopulation, however it can also scale them up to be more of a challenge.
 
 #define AI_TRAIT_SUPPLY 1
 #define AI_TRAIT_BATTLESHIP 2
@@ -56,9 +60,9 @@ GLOBAL_LIST_EMPTY(ai_goals)
 	var/name = "Syndicate Invasion Fleet"//Todo: randomize this name
 	//Ai fleet type enum. Add your new one here. Use a define, or text if youre lazy.
 	var/list/taskforces = list("fighters" = list(), "destroyers" = list(), "battleships" = list(), "supply" = list())
-	var/list/fighter_types = list(/obj/structure/overmap/syndicate/ai/fighter)
+	var/list/fighter_types = list(/obj/structure/overmap/syndicate/ai/fighter, /obj/structure/overmap/syndicate/ai/bomber)
 	var/list/destroyer_types = list(/obj/structure/overmap/syndicate/ai, /obj/structure/overmap/syndicate/ai/destroyer, /obj/structure/overmap/syndicate/ai/destroyer/flak, /obj/structure/overmap/syndicate/ai/cruiser, /obj/structure/overmap/syndicate/ai/mako_flak, /obj/structure/overmap/syndicate/ai/mako_carrier)
-	var/list/battleship_types = list(/obj/structure/overmap/syndicate/ai/patrol_cruiser) //TODO: Implement above list for more ship variety.
+	var/list/battleship_types = list(/obj/structure/overmap/syndicate/ai/cruiser) //TODO: Implement above list for more ship variety.
 	var/list/supply_types = list(/obj/structure/overmap/syndicate/ai/carrier)
 	var/list/all_ships = list()
 	var/size = FLEET_DIFFICULTY_MEDIUM //How big is this fleet anyway?
@@ -369,10 +373,16 @@ GLOBAL_LIST_EMPTY(ai_goals)
 	name = "Syndicate nuclear deterrent"
 	taunts = list("Enemy ship, surrender now. This vessel is armed with thermonuclear weapons and eager to test them.")
 	audio_cues = list("https://www.youtube.com/watch?v=0iXfWWrwrlQ", "https://www.youtube.com/watch?v=YW2bPkw0VyU")
-	destroyer_types = list(/obj/structure/overmap/syndicate/ai/nuclear)
+	destroyer_types = list(/obj/structure/overmap/syndicate/ai/nuclear, /obj/structure/overmap/syndicate/ai/nuclear/elite)
 	size = 2
 	fleet_trait = FLEET_TRAIT_NEUTRAL_ZONE
 
+/datum/fleet/elite
+	name = "Syndicate Elite Taskforce"
+	taunts = list("Enemy ship, surrender immediately or face destruction.", "Excellent, a worthwhile target. Arm all batteries.")
+	supply_types = list(/obj/structure/overmap/syndicate/ai/carrier/elite)
+	destroyer_types = list(/obj/structure/overmap/syndicate/ai/destroyer/elite)
+	battleship_types = list(/obj/structure/overmap/syndicate/ai/cruiser/elite)
 /datum/fleet/nanotrasen/border
 	name = "Concord Border Enforcement Unit"
 	taunts = list("You have violated the law. Stand down your weapons and prepare to be boarded.", "Hostile vessel. Stand down immediately or be destroyed.")
@@ -389,7 +399,7 @@ GLOBAL_LIST_EMPTY(ai_goals)
 
 /datum/fleet/rubicon //Crossing the rubicon, are we?
 	name = "Rubicon Crossing"
-	size = FLEET_DIFFICULTY_HARD
+	size = FLEET_DIFFICULTY_SPECIAL
 	audio_cues = list("https://www.youtube.com/watch?v=mhXuYp0n88g", "https://www.youtube.com/watch?v=l1J-2nIovYw", "https://www.youtube.com/watch?v=M_MdmLWmDHs")
 	taunts = list("Better crews have tried to cross the Rubicon, you will die like they did.", "Defense force, stand ready!", "Nanotrasen filth. Munitions, ready the guns. We’ll scrub the galaxy clean of you vermin.", "This shift just gets better and better. I’ll have your Captain’s head on my wall.")
 	fleet_trait = FLEET_TRAIT_DEFENSE
@@ -405,7 +415,7 @@ GLOBAL_LIST_EMPTY(ai_goals)
 /datum/fleet/nanotrasen/earth
 	name = "Earth Defense Force"
 	taunts = list("You're foolish to venture this deep into Solgov space! Main batteries stand ready.", "All hands, set condition 1 throughout the fleet, enemy vessel approaching.", "Defense force, stand ready!", "We shall protect our homeland!")
-	size = FLEET_DIFFICULTY_HARD
+	size = FLEET_DIFFICULTY_SPECIAL
 	audio_cues = list("https://www.youtube.com/watch?v=k8-HHivlj8k")
 	fleet_trait = FLEET_TRAIT_DEFENSE
 
@@ -418,10 +428,13 @@ GLOBAL_LIST_EMPTY(ai_goals)
 
 /datum/fleet/dolos
 	name = "Dolos Welcoming Party" //Don't do it czanek, don't fucking do it!
-	size = FLEET_DIFFICULTY_INSANE
+	size = FLEET_DIFFICULTY_WHAT_ARE_YOU_DOING
 	audio_cues = list("https://www.youtube.com/watch?v=UPHmazxB38g") //FTL13 ;(
-	taunts = list("You shouldn't have come here...", "Prepare to die.", "Nanotrasen? Here? Bold.")
+	taunts = list("Don't think we didn't learn from your last attempt.", "We shall not fail again", "Your outdated MAC weapons are no match for us. Prepare to be destroyed.")
 	fleet_trait = FLEET_TRAIT_DEFENSE
+	destroyer_types = list(/obj/structure/overmap/syndicate/ai, /obj/structure/overmap/syndicate/ai/destroyer/elite, /obj/structure/overmap/syndicate/ai/destroyer/flak, /obj/structure/overmap/syndicate/ai/cruiser/elite, /obj/structure/overmap/syndicate/ai/mako_flak, /obj/structure/overmap/syndicate/ai/mako_carrier)
+	battleship_types = list(/obj/structure/overmap/syndicate/ai/cruiser/elite, /obj/structure/overmap/syndicate/ai/nuclear/elite)
+	supply_types = list(/obj/structure/overmap/syndicate/ai/carrier/elite)
 
 /datum/fleet/abassi
 	name = "1st Syndicate Defense Force" //Don't do it czanek, don't fucking do it!
@@ -429,6 +442,9 @@ GLOBAL_LIST_EMPTY(ai_goals)
 	audio_cues = list("https://www.youtube.com/watch?v=3tAShpPu6K0")
 	taunts = list("Your existence has come to an end.", "You should be glad you made it this far, but you'll come no further.")
 	fleet_trait = FLEET_TRAIT_DEFENSE
+	destroyer_types = list(/obj/structure/overmap/syndicate/ai, /obj/structure/overmap/syndicate/ai/destroyer/elite, /obj/structure/overmap/syndicate/ai/destroyer/flak, /obj/structure/overmap/syndicate/ai/cruiser/elite, /obj/structure/overmap/syndicate/ai/mako_flak, /obj/structure/overmap/syndicate/ai/mako_carrier)
+	battleship_types = list(/obj/structure/overmap/syndicate/ai/cruiser/elite, /obj/structure/overmap/syndicate/ai/nuclear/elite)
+	supply_types = list(/obj/structure/overmap/syndicate/ai/carrier/elite)
 
 /datum/fleet/unknown_ship
 	name = "Unknown Ship Class"
@@ -443,8 +459,8 @@ GLOBAL_LIST_EMPTY(ai_goals)
 /datum/fleet/nanotrasen
 	name = "Nanotrasen heavy combat fleet"
 	fighter_types = list(/obj/structure/overmap/nanotrasen/ai/fighter)
-	destroyer_types = list(/obj/structure/overmap/nanotrasen/ai)
-	battleship_types = list(/obj/structure/overmap/nanotrasen/patrol_cruiser/ai, /obj/structure/overmap/nanotrasen/heavy_cruiser/ai, /obj/structure/overmap/nanotrasen/battleship/ai, /obj/structure/overmap/nanotrasen/battlecruiser/ai)
+	destroyer_types = list(/obj/structure/overmap/nanotrasen/ai, /obj/structure/overmap/nanotrasen/missile_cruiser/ai)
+	battleship_types = list(/obj/structure/overmap/nanotrasen/patrol_cruiser/ai, /obj/structure/overmap/nanotrasen/heavy_cruiser/ai, /obj/structure/overmap/nanotrasen/battlecruiser/ai)
 	supply_types = list(/obj/structure/overmap/nanotrasen/carrier/ai)
 	alignment = "nanotrasen"
 	hide_movements = TRUE //Friendly fleets just move around as you'd expect.
@@ -457,6 +473,13 @@ GLOBAL_LIST_EMPTY(ai_goals)
 
 /datum/fleet/New()
 	. = ..()
+	if(size < FLEET_DIFFICULTY_SPECIAL)
+		var/num_players = SSticker.mode.num_players()
+		if(num_players <= 15) //You get an easier time of it on lowpop
+			size = round(size * 0.8)
+		else
+			size = round(size + (num_players / 10) ) //Lightly scales things up.
+	size = CLAMP(size, FLEET_DIFFICULTY_EASY, INFINITY)
 	if(current_system)
 		assemble(current_system)
 	addtimer(CALLBACK(src, .proc/move), 10 MINUTES)

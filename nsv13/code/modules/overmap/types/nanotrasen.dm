@@ -19,32 +19,23 @@
 	faction = "nanotrasen"
 
 /obj/structure/overmap/nanotrasen/light_cruiser
-	name = "loki class light cruiser"
-	desc = "A small and agile vessel which is designed for escort missions and independant patrols. This ship class is the backbone of Nanotrasen's navy."
-	icon = 'nsv13/icons/overmap/nanotrasen/light_cruiser.dmi'
-	icon_state = "cruiser"
-	mass = MASS_MEDIUM
-	sprite_size = 96
-	damage_states = TRUE
-	pixel_w = -32
-	pixel_z = -32
-	collision_positions = list(new /datum/vector2d(-8,46), new /datum/vector2d(-17,33), new /datum/vector2d(-25,2), new /datum/vector2d(-14,-45), new /datum/vector2d(9,-46), new /datum/vector2d(22,4), new /datum/vector2d(14,36))
-	armor = list("overmap_light" = 60, "overmap_heavy" = 15)
+	name = "raptor class light frigate"
+	icon = 'nsv13/icons/overmap/new/nanotrasen/frigate.dmi'
+	icon_state = "kestrel"
+	mass = MASS_SMALL
+	sprite_size = 48
+	damage_states = FALSE
 
 /obj/structure/overmap/nanotrasen/patrol_cruiser
-	name = "ragnarok class heavy cruiser"
-	desc = "A medium sized ship with an advanced railgun, long range torpedo systems and multiple PDCs. This ship is still somewhat agile, but excels at bombarding targets from extreme range."
-	icon = 'nsv13/icons/overmap/nanotrasen/patrol_cruiser.dmi'
-	icon_state = "patrol_cruiser"
-	mass = MASS_MEDIUM
+	name = "lupine class patrol cruiser"
+	icon = 'nsv13/icons/overmap/new/nanotrasen/cruiser.dmi'
+	icon_state = "heavy_cruiser"
+	mass = MASS_LARGE
 	sprite_size = 48
-	damage_states = TRUE
-	pixel_z = -96
-	pixel_w = -96
 	max_integrity = 1500 //Max health
 	integrity_failure = 1500
-	collision_positions = list(new /datum/vector2d(-12,120), new /datum/vector2d(-28,34), new /datum/vector2d(-25,-60), new /datum/vector2d(-16,-119), new /datum/vector2d(9,-123), new /datum/vector2d(23,-21), new /datum/vector2d(24,36), new /datum/vector2d(10,101))
-	armor = list("overmap_light" = 70, "overmap_heavy" = 25)
+	bound_height = 96
+	bound_width = 96
 
 /obj/structure/overmap/nanotrasen/missile_cruiser //This has nothing to do with missiles
 	name = "caracal class missile frigate"
@@ -55,8 +46,8 @@
 	damage_states = FALSE
 	//pixel_z = -96
 	//pixel_w = -96
-	max_integrity = 1500 //Max health
-	integrity_failure = 1500
+	max_integrity = 1000 //Max health
+	integrity_failure = 1000
 	//collision_positions = list(new /datum/vector2d(-13,71), new /datum/vector2d(-25,52), new /datum/vector2d(-24,-25), new /datum/vector2d(-11,-66), new /datum/vector2d(4,-69), new /datum/vector2d(15,-28), new /datum/vector2d(15,38), new /datum/vector2d(6,61))
 	armor = list("overmap_light" = 50, "overmap_heavy" = 10)
 
@@ -103,16 +94,15 @@
 /obj/structure/overmap/nanotrasen/carrier
 	name = "enterprise class carrier"
 	desc = "A gigantic ship which is capable of staying deployed in space for extended periods while supporting an impressive complement of fighters."
-	icon = 'nsv13/icons/overmap/nanotrasen/enterprise.dmi'
-	icon_state = "enterprise"
+	icon = 'nsv13/icons/overmap/new/nanotrasen/cruiser.dmi'
+	icon_state = "cruiser"
+	bound_width = 96
+	bound_height = 96
 	mass = MASS_LARGE
 	sprite_size = 48
 	damage_states = FALSE //TODO
-	pixel_z = -170
-	pixel_w = -112
 	max_integrity = 2000 //Max health
 	integrity_failure = 2000
-	collision_positions = list(new /datum/vector2d(-27,220), new /datum/vector2d(-79,79), new /datum/vector2d(-77,-106), new /datum/vector2d(-70,-164), new /datum/vector2d(-28,-214), new /datum/vector2d(13,-211), new /datum/vector2d(45,-194), new /datum/vector2d(47,83), new /datum/vector2d(8,218))
 	armor = list("overmap_light" = 70, "overmap_heavy" = 30)
 
 /obj/structure/overmap/nanotrasen/battlecruiser
@@ -195,9 +185,12 @@
 //AI Versions
 
 /obj/structure/overmap/nanotrasen/ai //Generic good guy #10000.
-	name = "Tachi class light cruiser"
-	icon = 'nsv13/icons/overmap/nanotrasen/light_cruiser.dmi'
-	icon_state = "cruiser"
+	name = "raptor class light frigate"
+	icon = 'nsv13/icons/overmap/new/nanotrasen/frigate.dmi'
+	icon_state = "kestrel"
+	mass = MASS_SMALL
+	sprite_size = 48
+	damage_states = FALSE
 	ai_controlled = TRUE
 	ai_behaviour = AI_AGGRESSIVE
 	mass = MASS_MEDIUM
@@ -254,8 +247,8 @@
 	return FIRE_MODE_PDC
 
 /obj/structure/overmap/nanotrasen/ai/fighter
-	name = "Shortsword class strike craft"
-	icon = 'nsv13/icons/overmap/nanotrasen/ai_fighter.dmi'
+	name = "Viper class light fighter"
+	icon = 'nsv13/icons/overmap/new/nanotrasen/fighter_overmap.dmi'
 	icon_state = "fighter"
 	damage_states = FALSE
 	mass = MASS_TINY
@@ -265,3 +258,9 @@
 	faction = "nanotrasen"
 	armor = list("overmap_light" = 0, "overmap_heavy" = 0)
 	ai_trait = AI_TRAIT_ANTI_FIGHTER
+	bound_width = 32 //Change this on a per ship basis
+	bound_height = 32
+
+/obj/structure/overmap/nanotrasen/ai/fighter/apply_weapons()
+	weapon_types[FIRE_MODE_PDC] = new/datum/ship_weapon/light_cannon
+	weapon_types[FIRE_MODE_MISSILE] = new/datum/ship_weapon/missile_launcher

@@ -59,6 +59,11 @@
 	circuit = /obj/item/circuitboard/computer/deckgun
 	var/obj/machinery/deck_turret/core = null
 
+/obj/machinery/computer/deckgun/Initialize(mapload, obj/item/circuitboard/C)
+	. = ..()
+	if(!core)
+		core = locate(/obj/machinery/deck_turret) in orange(1, src)
+
 /obj/item/circuitboard/computer/deckgun
 	name = "Deck gun loading computer (circuit)"
 	build_path = /obj/machinery/computer/deckgun
@@ -121,6 +126,14 @@
 	var/list/powder_gates = list()
 	var/obj/machinery/deck_turret/payload_gate/payload_gate
 	var/obj/machinery/computer/deckgun/computer
+
+/obj/machinery/deck_turret/attackby(obj/item/I, mob/user, params)
+	if(default_unfasten_wrench(user, I))
+		return
+	if(default_deconstruction_screwdriver(user, icon_state, icon_state, I))
+		update_icon()
+		return
+	. = ..()
 
 /obj/machinery/deck_turret/proc/update_parts()
 	payload_gate = locate(/obj/machinery/deck_turret/payload_gate) in orange(1, src)

@@ -1897,9 +1897,9 @@
 /obj/structure/sign/warning/explosives/alt{
 	pixel_y = 26
 	},
-/obj/machinery/conveyor_switch{
+/obj/machinery/conveyor_switch/oneway{
 	id = "naval";
-	name = "Feed Into Guns"
+	name = "Feed Into Gun Room"
 	},
 /turf/open/floor/carpet/red,
 /area/nsv/weapons/fore)
@@ -12308,9 +12308,6 @@
 /area/security/execution/transfer)
 "aFv" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer1,
-/obj/structure/cable{
-	icon_state = "2-8"
-	},
 /obj/machinery/deck_turret/autoelevator,
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
@@ -14435,6 +14432,9 @@
 	dir = 6
 	},
 /obj/structure/lattice/catwalk/over/ship,
+/obj/structure/cable{
+	icon_state = "2-4"
+	},
 /turf/open/floor/monotile/dark,
 /area/nsv/weapons/fore)
 "aKl" = (
@@ -14614,11 +14614,11 @@
 	dir = 8
 	},
 /obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1,
-/obj/structure/cable{
-	icon_state = "1-2"
-	},
 /obj/structure/lattice/catwalk/over/ship,
 /obj/machinery/deck_turret/powder_gate,
+/obj/structure/cable{
+	icon_state = "2-8"
+	},
 /turf/open/floor/plating,
 /area/nsv/weapons/fore)
 "aKE" = (
@@ -15008,15 +15008,15 @@
 /turf/open/floor/wood,
 /area/library)
 "aLt" = (
-/obj/structure/cable{
-	icon_state = "1-8"
-	},
 /obj/structure/lattice/catwalk/over/ship,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 9
 	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	dir = 9
+	},
+/obj/structure/cable{
+	icon_state = "1-2"
 	},
 /turf/open/floor/monotile/dark,
 /area/nsv/weapons/fore)
@@ -44504,6 +44504,13 @@
 /obj/structure/lattice,
 /turf/open/space,
 /area/science/mixing/chamber)
+"fyJ" = (
+/obj/structure/lattice/catwalk/over/ship,
+/obj/structure/cable{
+	icon_state = "1-8"
+	},
+/turf/open/floor/monotile/dark,
+/area/nsv/weapons/fore)
 "fBs" = (
 /obj/machinery/atmospherics/components/trinary/filter/atmos/flipped/plasma{
 	dir = 1;
@@ -85890,7 +85897,7 @@ acU
 aBq
 aKk
 aLt
-abV
+fyJ
 abV
 abV
 bYn

@@ -836,7 +836,7 @@ To make things worse, this hellhole is entirely RNG, so good luck mapping it!
 /datum/star_system/sector3/proc/generate_badlands()
 
 	var/list/generated = list()
-	var/amount = rand(100, 200)
+	var/amount = rand(50, 70)
 	var/toocloseconflict = 0
 	message_admins("Generating Brazil with [amount] systems.")
 	var/start_timeofday = REALTIMEOFDAY
@@ -997,7 +997,7 @@ To make things worse, this hellhole is entirely RNG, so good luck mapping it!
 
 	var/time = (REALTIMEOFDAY - start_timeofday) / 10
 	//There we go.
-	message_admins("Brazil has been generated. T:[time]s CFS:[toocloseconflict]|[ir_rub]|[ir_othershit] Rubiconnector: [rubiconnector], Inroute system is [inroute]. Fun fact, jump lanes have been relaxed [relax] times by the algorytm and [random_jumpline_count] random connections have been created!")
+	message_admins("Brazil has been generated. T:[time]s CFS:[toocloseconflict]|[ir_rub]|[ir_othershit] Rubiconnector: [rubiconnector], Inroute system is [inroute]. Fun fact, jump lanes have been relaxed [relax] times by the algorithm and [random_jumpline_count] random connections have been created!")
 
 #undef NONRELAXATION_PENALTY
 #undef MAX_RANDOM_CONNECTION_LENGTH

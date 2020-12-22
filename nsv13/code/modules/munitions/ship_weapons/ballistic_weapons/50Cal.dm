@@ -34,7 +34,7 @@
 
 /datum/component/overmap_gunning/fiftycal
 	fire_mode = FIRE_MODE_50CAL
-	fire_delay = 0.7 SECONDS
+	fire_delay = 0.45 SECONDS
 
 /datum/component/overmap_gunning/Initialize(obj/machinery/ship_weapon/fx_target, special_fx=FALSE)
 	. = ..()
@@ -52,7 +52,7 @@
 		message_admins("Overmap gunning component created with no attached overmap.")
 		return
 	LAZYADD(OM.gauss_gunners, holder)
-	OM.start_piloting(holder, "gunner")
+	OM.start_piloting(holder, "secondary_gunner")
 	START_PROCESSING(SSfastprocess, src)
 
 /datum/component/overmap_gunning/proc/onClick(atom/movable/target)
