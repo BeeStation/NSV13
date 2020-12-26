@@ -898,7 +898,7 @@ Control Rods
 				reaction_rate += reaction_rate / rand(1,3)
 
 	if(reactor_stability < 15)
-		if(prob(0.00001))
+		if(prob(0.001))
 			if(prob(50))
 				new /obj/effect/anomaly/stormdrive/surge(src, rand(2000, 5000))
 			else
