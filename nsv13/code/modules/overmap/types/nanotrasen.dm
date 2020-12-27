@@ -64,16 +64,6 @@
 	integrity_failure = 1500
 	bound_height = 96
 	bound_width = 96
-	/*
-	collision_positions = list(new /datum/vector2d(31,150),\
-		new /datum/vector2d(-32,147),\
-		new /datum/vector2d(-43,133),\
-		new /datum/vector2d(-43,-93),\
-		new /datum/vector2d(-8,-164),\
-		new /datum/vector2d(11,-164),\
-		new /datum/vector2d(44,-59),\
-		new /datum/vector2d(68,120))
-	*/
 	armor = list("overmap_light" = 70, "overmap_heavy" = 30)
 
 /obj/structure/overmap/nanotrasen/battleship
@@ -84,11 +74,10 @@
 	mass = MASS_TITAN
 	sprite_size = 48
 	damage_states = FALSE
-	pixel_z = -225
-	pixel_w = -112
+	bound_width = 640
+	bound_height = 640
 	max_integrity = 3000 //Max health
 	integrity_failure = 3000
-	collision_positions = list(new /datum/vector2d(-21,223), new /datum/vector2d(-85,72), new /datum/vector2d(-92,46), new /datum/vector2d(-91,-107), new /datum/vector2d(-80,-135), new /datum/vector2d(-52,-220), new /datum/vector2d(-27,-227), new /datum/vector2d(27,-228), new /datum/vector2d(52,-220), new /datum/vector2d(81,-136), new /datum/vector2d(92,-106), new /datum/vector2d(92,44), new /datum/vector2d(84,73), new /datum/vector2d(20,222), new /datum/vector2d(0,225))
 	armor = list("overmap_light" = 80, "overmap_heavy" = 40)
 
 /obj/structure/overmap/nanotrasen/carrier
@@ -132,10 +121,9 @@
 	damage_states = FALSE //I'm lazy
 	max_integrity = 1800 //Max health
 	integrity_failure = 1200
-	collision_positions = list(new /datum/vector2d(-8,177), new /datum/vector2d(-55,52), new /datum/vector2d(-57,-32), new /datum/vector2d(-30,-173), new /datum/vector2d(2,-181), new /datum/vector2d(29,-172), new /datum/vector2d(55,-32), new /datum/vector2d(57,51), new /datum/vector2d(13,171))
 	armor = list("overmap_light" = 75, "overmap_heavy" = 35)
-	pixel_w = -44
-	pixel_z = -180
+	bound_height = 320
+	bound_width = 320
 	starting_system = "Argo"
 	role = INSTANCED_MIDROUND_SHIP
 
@@ -196,7 +184,6 @@
 	mass = MASS_MEDIUM
 	sprite_size = 48
 	damage_states = TRUE
-	collision_positions = list(new /datum/vector2d(-8,46), new /datum/vector2d(-17,33), new /datum/vector2d(-25,2), new /datum/vector2d(-14,-45), new /datum/vector2d(9,-46), new /datum/vector2d(22,4), new /datum/vector2d(14,36))
 	ai_trait = AI_TRAIT_DESTROYER
 
 /obj/structure/overmap/nanotrasen/patrol_cruiser/ai

@@ -123,7 +123,7 @@
 
 /obj/machinery/deck_turret
 	name = "Deck Turret Core"
-	desc = "The central mounting core for naval guns."
+	desc = "The central mounting core for naval guns. Use a multitool on it to rescan parts."
 	icon = 'nsv13/icons/obj/munitions/deck_gun.dmi'
 	icon_state = "core"
 	density = TRUE
@@ -133,6 +133,10 @@
 	var/list/powder_gates = list()
 	var/obj/machinery/deck_turret/payload_gate/payload_gate
 	var/obj/machinery/computer/deckgun/computer
+
+/obj/machinery/deck_turret/multitool_act(mob/living/user, obj/item/I)
+	. = ..()
+	update_parts()
 
 /obj/machinery/deck_turret/attackby(obj/item/I, mob/user, params)
 	if(default_unfasten_wrench(user, I))

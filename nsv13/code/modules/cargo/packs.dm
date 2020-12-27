@@ -36,6 +36,23 @@
 	crate_type = /obj/structure/closet/crate/wooden
 	crate_name = "Captain Plasmasalt's finest cannonshot"
 
+/datum/supply_pack/munitions/gunpowder
+	name = "Powder bags (x10)"
+	desc = "Naval Gunpowder bags for use in artillery weapons, WARNING: Volatile."
+	cost = 1000
+	contains = list(/obj/item/powder_bag,
+					/obj/item/powder_bag,
+					/obj/item/powder_bag,
+					/obj/item/powder_bag,
+					/obj/item/powder_bag,
+					/obj/item/powder_bag,
+					/obj/item/powder_bag,
+					/obj/item/powder_bag,
+					/obj/item/powder_bag,
+					/obj/item/powder_bag)
+	crate_type = /obj/structure/closet/crate/wooden
+	crate_name = "Captain Plasmasalt's finest cannonshot"
+
 /datum/supply_pack/munitions/fiftycal
 	name = ".50 cal deck gun rounds (x5)"
 	desc = "5 boxes of deck gun rounds, ideal for harassing small targets."

@@ -14,6 +14,7 @@
 	materials = list(/datum/material/iron = 10000, /datum/material/titanium=5000, /datum/material/copper=500)
 	build_path = /obj/item/ship_weapon/ammunition/naval_artillery
 	category = list("Advanced Munitions")
+	build_type = PROTOLATHE | AUTOLATHE
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO | DEPARTMENTAL_FLAG_SCIENCE
 
 /datum/design/naval_shell_ap
@@ -23,6 +24,7 @@
 	materials = list(/datum/material/iron = 10000, /datum/material/titanium=5000, /datum/material/diamond=2000)
 	build_path = /obj/item/ship_weapon/ammunition/naval_artillery/ap
 	category = list("Advanced Munitions")
+	build_type = PROTOLATHE | AUTOLATHE
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO | DEPARTMENTAL_FLAG_SCIENCE
 
 /datum/design/powder_bag
@@ -32,6 +34,7 @@
 	materials = list(/datum/material/iron = 1000)
 	build_path = /obj/item/powder_bag
 	category = list("Advanced Munitions")
+	build_type = PROTOLATHE | AUTOLATHE
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO | DEPARTMENTAL_FLAG_SCIENCE
 
 /datum/design/plasma_accelerant
@@ -41,6 +44,7 @@
 	materials = list(/datum/material/iron = 1000, /datum/material/plasma = 1500)
 	build_path = /obj/item/powder_bag/plasma
 	category = list("Advanced Munitions")
+	build_type = PROTOLATHE | AUTOLATHE
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO | DEPARTMENTAL_FLAG_SCIENCE
 
 /datum/design/naval_artillery
@@ -50,6 +54,7 @@
 	materials = list(/datum/material/titanium = 12000,/datum/material/iron = 15000, /datum/material/glass = 5000, /datum/material/copper = 5000)
 	build_path = /obj/structure/ship_weapon/mac_assembly/artillery_frame
 	category = list("Advanced Munitions")
+	build_type = PROTOLATHE | AUTOLATHE
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO | DEPARTMENTAL_FLAG_SCIENCE
 
 /datum/design/board/naval_artillery_comp

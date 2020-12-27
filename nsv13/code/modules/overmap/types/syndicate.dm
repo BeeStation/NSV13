@@ -43,7 +43,6 @@
 	pixel_w = -96
 	max_integrity = 750 //Max health
 	integrity_failure = 750
-	collision_positions = list(new /datum/vector2d(-7,124), new /datum/vector2d(-26,67), new /datum/vector2d(-46,-75), new /datum/vector2d(-45,-95), new /datum/vector2d(-30,-116), new /datum/vector2d(25,-119), new /datum/vector2d(36,-94), new /datum/vector2d(41,-76), new /datum/vector2d(19,71))
 	role = PVP_SHIP
 	armor = list("overmap_light" = 70, "overmap_heavy" = 30)
 
@@ -182,7 +181,6 @@
 	integrity_failure = 1500
 	bounty = 3000
 	torpedoes = 0
-	collision_positions = list(new /datum/vector2d(-2,96), new /datum/vector2d(-20,57), new /datum/vector2d(-25,-63), new /datum/vector2d(-11,-95), new /datum/vector2d(7,-95), new /datum/vector2d(23,-63), new /datum/vector2d(20,59))
 	armor = list("overmap_light" = 70, "overmap_heavy" = 20)
 	can_resupply = TRUE
 	ai_trait = AI_TRAIT_SUPPLY
