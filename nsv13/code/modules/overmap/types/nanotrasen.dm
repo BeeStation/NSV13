@@ -136,7 +136,7 @@
 	armor = list("overmap_light" = 75, "overmap_heavy" = 35)
 	pixel_w = -44
 	pixel_z = -180
-	starting_system = "Wolf 359"
+	starting_system = "Argo"
 	role = INSTANCED_MIDROUND_SHIP
 
 /obj/structure/overmap/nanotrasen/gunstar/apply_weapons()
@@ -150,37 +150,37 @@
 	role = MAIN_OVERMAP
 	max_integrity = 1000
 	integrity_failure = 1000
-	starting_system = "Wolf 359"
+	starting_system = "Argo"
 
 /obj/structure/overmap/nanotrasen/patrol_cruiser/starter //Currently assigned to Jolly Sausage
 	role = MAIN_OVERMAP
 	max_integrity = 1000
 	integrity_failure = 1000
-	starting_system = "Wolf 359"
+	starting_system = "Argo"
 
 /obj/structure/overmap/nanotrasen/heavy_cruiser/starter //Currently assigned to Hammerhead
 	role = MAIN_OVERMAP
 	max_integrity = 1500
 	integrity_failure = 1500
-	starting_system = "Wolf 359"
+	starting_system = "Argo"
 
 /obj/structure/overmap/nanotrasen/carrier/starter //NOT CURRENTLY ASSIGNED
 	role = MAIN_OVERMAP
 	max_integrity = 2000
 	integrity_failure = 2000
-	starting_system = "Wolf 359"
+	starting_system = "Argo"
 
 /obj/structure/overmap/nanotrasen/battlecruiser/starter //Currently assigned to Tycoon
 	role = MAIN_OVERMAP
 	max_integrity = 1500
 	integrity_failure = 1500
-	starting_system = "Wolf 359"
+	starting_system = "Argo"
 
 /obj/structure/overmap/nanotrasen/battleship/starter //Pegasus
 	role = MAIN_OVERMAP //Player controlled variant
 	max_integrity = 2250
 	integrity_failure = 2250
-	starting_system = "Wolf 359"
+	starting_system = "Argo"
 
 //AI Versions
 

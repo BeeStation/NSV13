@@ -11,6 +11,7 @@
 	maintainable = FALSE
 	fire_mode = FIRE_MODE_50CAL
 	max_ammo = 100
+	circuit = /obj/item/circuitboard/machine/fiftycal
 	var/mob/living/gunner
 
 /obj/machinery/ship_weapon/fiftycal/proc/start_gunning(mob/user)
@@ -71,10 +72,10 @@
 
 /datum/component/overmap_gunning/proc/onMouseUp(object, location, params, mob)
 	autofire_target = null
-	return
 
 /datum/component/overmap_gunning/proc/onMouseDown(object, location, params)
-	autofire_target = object //When we start firing, we start firing at whatever you clicked on initially. When the user drags their mouse, this shall change.
+	if(!autofire_target)
+		autofire_target = object //When we start firing, we start firing at whatever you clicked on initially. When the user drags their mouse, this shall change.
 
 /datum/component/overmap_gunning/onMouseDrag(src_object, over_object, src_location, over_location, params, mob/M)
 	. = ..()
@@ -109,6 +110,15 @@
 	. = ..()
 	return attack_hand(user)
 
+/obj/machinery/computer/fiftycal/multitool_act(mob/living/user, obj/item/multitool/I)
+	. = ..()
+	if(!istype(I))
+		return FALSE
+	if(I.buffer && istype(I.buffer, /obj/machinery/ship_weapon/fiftycal))
+		turret = I.buffer
+		to_chat(user, "<span class='warning'>Successfully linked [src] to [I.buffer].")
+		I.buffer = null
+
 /obj/machinery/computer/fiftycal/attack_hand(mob/user)
 	. = ..()
 	if(!turret)
@@ -132,7 +142,7 @@
 /obj/item/ammo_box/magazine/pdc/fiftycal
 	name = "50 caliber rounds"
 	ammo_type = /obj/item/ammo_casing/fiftycal
-	caliber = "mm40"
+	caliber = "mm50pdc"
 	max_ammo = 100
 
 /obj/item/ammo_box/magazine/pdc/fiftycal/update_icon()
@@ -145,7 +155,7 @@
 	name = "50mm round casing"
 	desc = "A 50mm bullet casing."
 	projectile_type = /obj/item/projectile/bullet/fiftycal
-	caliber = "50mm"
+	caliber = "mm50pdc"
 
 /obj/item/projectile/bullet/fiftycal
 	icon_state = "50cal"

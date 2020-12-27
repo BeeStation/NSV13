@@ -79,9 +79,16 @@
 	var/list/parts = list()
 	if(!core)
 		return data
+	if(get_dist(core.payload_gate, core) > 1)
+		core.update_parts()
 	data["loaded"] = core.payload_gate && core.payload_gate.loaded
 	data["id"] = (core.payload_gate) ? "\ref[core.payload_gate]" : null
+	if(!core.powder_gates?.len)
+		core.update_parts()
 	for(var/obj/machinery/deck_turret/powder_gate/MOREPOWDER in core.powder_gates)
+		if(get_dist(MOREPOWDER, core) < 1 || !MOREPOWDER || QDELETED(MOREPOWDER))
+			core.update_parts()
+			continue
 		var/list/part = list()
 		part["loaded"] = (MOREPOWDER.bag) ? TRUE : FALSE
 		part["id"] = "\ref[MOREPOWDER]"
@@ -134,6 +141,10 @@
 		update_icon()
 		return
 	. = ..()
+
+/obj/machinery/deck_turret/crowbar_act(mob/living/user, obj/item/I)
+	if(default_deconstruction_crowbar(I))
+		return TRUE
 
 /obj/machinery/deck_turret/proc/update_parts()
 	payload_gate = locate(/obj/machinery/deck_turret/payload_gate) in orange(1, src)
@@ -220,7 +231,7 @@
 /obj/item/ship_weapon/ammunition/naval_artillery //Huh gee this sure looks familiar don't it...
 	name = "FTL-13 Naval Artillery Round"
 	icon = 'nsv13/icons/obj/munitions.dmi'
-	icon_state = "artillery"
+	icon_state = "torpedo"
 	desc = "A large shell designed to deliver a high-yield warhead upon high-speed impact with solid objects. You need to arm it with a multitool before firing."
 	anchored = FALSE
 	move_resist = MOVE_FORCE_EXTREMELY_STRONG
@@ -232,6 +243,14 @@
 	var/armed = FALSE //Do it do the big boom?
 	var/speed = 0.5 //Needs powder to increase speed.
 
+/obj/item/ship_weapon/ammunition/naval_artillery/attack_hand(mob/user)
+	return FALSE
+
+/obj/item/ship_weapon/ammunition/torpedo/attack_hand(mob/user)
+	return FALSE
+
+/obj/item/ship_weapon/ammunition/missile/attack_hand(mob/user)
+	return FALSE
 /obj/item/ship_weapon/ammunition/naval_artillery/cannonball
 	name = "Cannon ball"
 	desc = "The QM blew the cargo budget on corgis, the clown stole all our ammo, we've got half a tank of plasma and are halfway to Dolos. Hit it."
@@ -241,6 +260,12 @@
 	max_integrity = 100
 	explosive = FALSE //Cannonshot is just iron
 
+/obj/item/ship_weapon/ammunition/naval_artillery/ap
+	name = "TX-101 Armour Penetrating Naval Artillery Round"
+	desc = "A massive diamond-tipped round which can slice through armour plating with ease to deliver a lethal impact. Best suited for targets with heavy armour."
+	icon_state = "torpedo_ap"
+	projectile_type = /obj/item/projectile/bullet/mac_round/ap
+
 /obj/item/ship_weapon/ammunition/naval_artillery/multitool_act(mob/living/user, obj/item/I)
 	. = ..()
 	if(!do_after(user, 2 SECONDS, target = src))
@@ -249,10 +274,11 @@
 	armed = !armed
 	icon_state = (armed) ? "[initial(icon_state)]_armed" : initial(icon_state)
 
-/obj/item/ship_weapon/ammunition/naval_artillery/obj_destruction(damage_flag)
+/obj/item/ship_weapon/ammunition/naval_artillery/take_damage(damage_amount, damage_type, damage_flag, sound_effect, attack_dir, armour_penetration)
+	if(obj_integrity <= damage_amount)
+		if(armed && explosive)
+			explosion(src.loc, 3, 7, 5, 2, 5)
 	. = ..()
-	if(armed && explosive)
-		explosion(src.loc, 3, 10, 5, 2, 5)
 
 /obj/item/ship_weapon/ammunition/naval_artillery/examine(mob/user)
 	. = ..()
@@ -261,7 +287,6 @@
 /obj/item/ship_weapon/ammunition/missile/CtrlClick(mob/user)
 	. = ..()
 	to_chat(user,"<span class='warning'>[src] is far too cumbersome to carry, and dragging it around might set it off! Load it onto a munitions trolley.</span>")
-
 
 /obj/machinery/deck_turret/payload_gate
 	name = "Payload loading gate"
@@ -272,7 +297,7 @@
 	var/obj/item/ship_weapon/ammunition/naval_artillery/shell = null
 	var/ammo_type = /obj/item/ship_weapon/ammunition/naval_artillery
 	var/loading = FALSE
-	var/load_delay = 20 SECONDS
+	var/load_delay = 15 SECONDS
 
 /obj/machinery/deck_turret/payload_gate/MouseDrop_T(obj/item/A, mob/user)
 	. = ..()

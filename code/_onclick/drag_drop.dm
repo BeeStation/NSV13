@@ -1,6 +1,5 @@
 /*
 	MouseDrop:
-
 	Called on the atom you're dragging.  In a lot of circumstances we want to use the
 	receiving object instead, so that's the default action.  This allows you to drag
 	almost anything into a trash can.
@@ -81,7 +80,7 @@
 	var/obj/item/H = get_active_held_item()
 	if(H)
 		. = H.canItemMouseDown(object, location, params)
-	else if(src.overmap_ship && (src.overmap_ship.gunner == src)) //NSV13 - let us mouse-down if we're a gunner
+	else if(src.overmap_ship && (src.overmap_ship.gunner == src) || (locate(src) in src.overmap_ship.gauss_gunners)) //NSV13 - let us mouse-down if we're a gunner
 		. = src.overmap_ship
 
 /obj/item/proc/CanItemAutoclick(object, location, params)

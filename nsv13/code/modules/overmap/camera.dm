@@ -44,6 +44,10 @@
 	user.overmap_ship = src
 	dradis?.attack_hand(user)
 	user.click_intercept = src
+	if(mass < MASS_MEDIUM)
+		return //Don't zoom out for small ships.
+	user.client.overmap_zoomout = (mass <= MASS_MEDIUM) ? 5 : 10 //Automatically zooms you out a fair bit so you can see what's even going on.
+	user.client.rescale_view(user.client.overmap_zoomout, 0, ((40*2)+1)-15)
 
 /obj/structure/overmap/proc/stop_piloting(mob/living/M)
 	LAZYREMOVE(operators,M)
@@ -96,7 +100,7 @@
 		var/mob/living/silicon/ai/hal = user
 		hal.view_core()
 	user.update_sight()
-	var/mob/camera/aiEye/remote/overmap_observer/eyeobj = new(get_turf(src))
+	var/mob/camera/aiEye/remote/overmap_observer/eyeobj = new(get_center())
 	eyeobj.origin = src
 	eyeobj.off_action = new
 	eyeobj.off_action.remote_eye = eyeobj
@@ -160,7 +164,7 @@
 	if(!target)
 		target = origin
 	last_target = target
-	forceMove(get_turf(target)) //This only happens for gunner cams
+	forceMove(target.get_center()) //This only happens for gunner cams
 	if(eye_user.client)
 		eye_user.client.pixel_x = origin.pixel_x
 		eye_user.client.pixel_y = origin.pixel_y

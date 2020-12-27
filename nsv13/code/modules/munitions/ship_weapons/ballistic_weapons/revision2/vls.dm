@@ -45,7 +45,32 @@
 	semi_auto = TRUE
 	max_ammo = 2
 	density = FALSE
+	circuit = /obj/item/circuitboard/machine/vls
 	var/obj/structure/fluff/vls_hatch/hatch = null
+
+/obj/item/circuitboard/machine/vls
+	name = "M14 VLS Tube (Circuitboard)"
+	build_path = /obj/machinery/ship_weapon/vls
+	req_components = list(
+		/obj/item/stack/sheet/mineral/titanium = 20,
+		/obj/item/stack/sheet/mineral/copper = 20,
+		/obj/item/stack/sheet/iron = 30,
+		/obj/item/stack/cable_coil = 10)
+
+/obj/machinery/ship_weapon/vls/Crossed(atom/movable/AM, oldloc)
+	. = ..()
+	if(istype(AM, ammo_type))
+		if(ammo?.len >= max_ammo)
+			return FALSE
+		if(loading)
+			return FALSE
+		if(state >= 2)
+			return FALSE
+		ammo += AM
+		AM.forceMove(src)
+		if(load_sound)
+			playsound(src, load_sound, 100, 1)
+		state = 2
 
 /obj/machinery/ship_weapon/vls/PostInitialize()
 	..()

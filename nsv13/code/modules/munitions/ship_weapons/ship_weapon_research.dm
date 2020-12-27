@@ -3,9 +3,27 @@
 	display_name = "Macro-Ballistics"
 	description = "Asking important questions, like what if we made even bigger guns?"
 	prereq_ids = list("ballistic_weapons", "basic_torpedo_components")
-	design_ids = list("powder_bag","plasma_accelerant", "fiftycal", "fiftycalcomp","deck_gun","naval_artillery_comp","artillery_loader","powder_loader","payload_gate","deck_gun_autorepair", "deck_gun_autoelevator", "munitions_computer_circuit", "ship_firing_electronics")
+	design_ids = list("vls_tube", "naval_shell", "naval_shell_ap", "ams_console","powder_bag","plasma_accelerant", "fiftycal", "fiftycalcomp","deck_gun","naval_artillery_comp","artillery_loader","powder_loader","payload_gate","deck_gun_autorepair", "deck_gun_autoelevator", "munitions_computer_circuit", "ship_firing_electronics")
 	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 10000)
 	export_price = 20000
+
+/datum/design/naval_shell
+	name = "Naval Artillery Round"
+	desc = "A high caliber round that can be fired out of a deck gun. (WARNING: Requires a trolley to move!)"
+	id = "naval_shell"
+	materials = list(/datum/material/iron = 10000, /datum/material/titanium=5000, /datum/material/copper=500)
+	build_path = /obj/item/ship_weapon/ammunition/naval_artillery
+	category = list("Advanced Munitions")
+	departmental_flags = DEPARTMENTAL_FLAG_CARGO | DEPARTMENTAL_FLAG_SCIENCE
+
+/datum/design/naval_shell_ap
+	name = "Naval Artillery Round (Armour Piercing)"
+	desc = "A diamond tipped AP round that can be fired out of a deck gun. (WARNING: Requires a trolley to move!)"
+	id = "naval_shell_ap"
+	materials = list(/datum/material/iron = 10000, /datum/material/titanium=5000, /datum/material/diamond=2000)
+	build_path = /obj/item/ship_weapon/ammunition/naval_artillery/ap
+	category = list("Advanced Munitions")
+	departmental_flags = DEPARTMENTAL_FLAG_CARGO | DEPARTMENTAL_FLAG_SCIENCE
 
 /datum/design/powder_bag
 	name = "Powder Bag"
@@ -58,6 +76,25 @@
 	id = "powder_loader"
 	materials = list(/datum/material/glass = 2000, /datum/material/copper = 200, /datum/material/gold = 500)
 	build_path = /obj/item/circuitboard/machine/deck_gun/powder
+	category = list("Advanced Munitions")
+	departmental_flags = DEPARTMENTAL_FLAG_CARGO | DEPARTMENTAL_FLAG_SCIENCE
+
+
+/datum/design/board/vls_tube
+	name = "Machine Design (VLS Tube)"
+	desc = "Allows for the construction of a VLS launch tube (control computer not included)."
+	id = "vls_tube"
+	materials = list(/datum/material/glass = 2000, /datum/material/copper = 200, /datum/material/gold = 500)
+	build_path = /obj/item/circuitboard/machine/vls
+	category = list("Advanced Munitions")
+	departmental_flags = DEPARTMENTAL_FLAG_CARGO | DEPARTMENTAL_FLAG_SCIENCE
+
+/datum/design/board/ams_console
+	name = "Machine Design (AMS Control Console)"
+	desc = "Allows for the construction of an AMS control console."
+	id = "ams_console"
+	materials = list(/datum/material/glass = 2000, /datum/material/copper = 200, /datum/material/gold = 500)
+	build_path = /obj/item/circuitboard/computer/ams
 	category = list("Advanced Munitions")
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO | DEPARTMENTAL_FLAG_SCIENCE
 

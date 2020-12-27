@@ -332,19 +332,27 @@ GLOBAL_LIST_EMPTY(ai_goals)
 		if(OM.alpha >= 150) //Sensor cloaks my boy, sensor cloaks
 			OM.hail(pick(taunts), name)
 			last_encounter_time = world.time
-		if(audio_cues?.len)
-			var/list/result = get_internet_sound(pick(audio_cues))
-			if(!result || !islist(result))
-				return
-			var/web_sound_url = result[1] //this is cringe but it works
-			var/music_extra_data = result[2]
-			if(web_sound_url)
-				for(var/mob/M in OM.mobs_in_ship)
-					if(M.client)
-						var/client/C = M.client
-						if(C.chatOutput && !C.chatOutput.broken && C.chatOutput.loaded)
-							C.chatOutput.stopMusic()
-							C.chatOutput.sendMusic(web_sound_url, music_extra_data)
+			if(audio_cues?.len)
+				OM.play_music(pick(audio_cues))
+
+
+///Pass in a youtube link, have it played ONLY on that overmap. This should be called by code or admins only.
+/obj/structure/overmap/proc/play_music(url)
+	set waitfor = FALSE //Don't hold up the jump
+	if(!istext(url))
+		return FALSE
+	var/list/result = get_internet_sound(url)
+	if(!result || !islist(result))
+		return
+	var/web_sound_url = result[1] //this is cringe but it works
+	var/music_extra_data = result[2]
+	if(web_sound_url)
+		for(var/mob/M in mobs_in_ship)
+			if(M.client)
+				var/client/C = M.client
+				if(C.chatOutput && !C.chatOutput.broken && C.chatOutput.loaded)
+					C.chatOutput.stopMusic()
+					C.chatOutput.sendMusic(web_sound_url, music_extra_data)
 
 /datum/fleet/neutral
 	name = "Syndicate Scout Fleet"
@@ -436,11 +444,11 @@ GLOBAL_LIST_EMPTY(ai_goals)
 	battleship_types = list(/obj/structure/overmap/syndicate/ai/cruiser/elite, /obj/structure/overmap/syndicate/ai/nuclear/elite)
 	supply_types = list(/obj/structure/overmap/syndicate/ai/carrier/elite)
 
-/datum/fleet/abassi
-	name = "1st Syndicate Defense Force" //Don't do it czanek, don't fucking do it!
-	size = FLEET_DIFFICULTY_DEATH
-	audio_cues = list("https://www.youtube.com/watch?v=3tAShpPu6K0")
-	taunts = list("Your existence has come to an end.", "You should be glad you made it this far, but you'll come no further.")
+/datum/fleet/remnant
+	name = "The Remnant"
+	size = FLEET_DIFFICULTY_WHAT_ARE_YOU_DOING
+	audio_cues = list("https://www.youtube.com/watch?v=ALn-7v9BxNg")
+	taunts = list("<pre>\[DECRYPTION FAILURE]</pre>")
 	fleet_trait = FLEET_TRAIT_DEFENSE
 	destroyer_types = list(/obj/structure/overmap/syndicate/ai, /obj/structure/overmap/syndicate/ai/destroyer/elite, /obj/structure/overmap/syndicate/ai/destroyer/flak, /obj/structure/overmap/syndicate/ai/cruiser/elite, /obj/structure/overmap/syndicate/ai/mako_flak, /obj/structure/overmap/syndicate/ai/mako_carrier)
 	battleship_types = list(/obj/structure/overmap/syndicate/ai/cruiser/elite, /obj/structure/overmap/syndicate/ai/nuclear/elite)

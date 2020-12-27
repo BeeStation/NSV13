@@ -71,6 +71,11 @@ This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATE
 
 /obj/structure/overmap/proc/get_center()
 	return get_turf(locate((src.x+(pixel_collision_size_x/32)/2), src.y+((pixel_collision_size_y/32)/2), z))
+	/*
+	if(bound_width <= 64)
+		return get_turf(src)
+	return locs[round(locs.len / 2)+1]
+	*/
 
 /obj/structure/overmap/proc/get_pixel_bounds()
 	for(var/turf/T in obounds(src, pixel_x + pixel_collision_size_x/4, pixel_y + pixel_collision_size_y/4, pixel_x  + -pixel_collision_size_x/4, pixel_y + -pixel_collision_size_x/4) )//Forms a zone of 4 quadrants around the desired overmap using some math fuckery.
@@ -115,8 +120,8 @@ This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATE
 	if(collision_positions.len)
 		physics2d = AddComponent(/datum/component/physics2d)
 		physics2d.setup(collision_positions, angle)
-	else
-		message_admins("[src] does not have collision points set! It will float through everything.")
+//	else //It pains me to comment this out...but we no longer use qwer2d, F.
+	//	message_admins("[src] does not have collision points set! It will float through everything.")
 
 /obj/structure/overmap/proc/can_move()
 	return TRUE //Placeholder for everything but fighters. We can later extend this if / when we want to code in ship engines.
@@ -648,8 +653,36 @@ The while loop runs at a programatic level and is thus separated from any thrott
 		what_we_fired += proj
 	return what_we_fired
 
+//Jank as hell. This needs to happen to properly set the visual offset :/
+/obj/item/projectile/proc/preparePixelProjectileOvermap(obj/structure/overmap/target, obj/structure/overmap/source, params, spread = 0)
+	var/turf/curloc = source.get_center()
+	var/turf/targloc = (istype(target, /obj/structure/overmap)) ? target.get_center() : get_turf(target)
+	trajectory_ignore_forcemove = TRUE
+	forceMove(curloc)
+	trajectory_ignore_forcemove = FALSE
+	starting = curloc
+	original = target
+	if(targloc || !params)
+		yo = targloc.y - curloc.y
+		xo = targloc.x - curloc.x
+		setAngle(Get_Angle(src, targloc) + spread)
+
+	if(isliving(source) && params)
+		var/list/calculated = calculate_projectile_angle_and_pixel_offsets(source, params)
+		p_x = calculated[2]
+		p_y = calculated[3]
+
+		setAngle(calculated[1] + spread)
+	else if(targloc)
+		yo = targloc.y - curloc.y
+		xo = targloc.x - curloc.x
+		setAngle(Get_Angle(src, targloc) + spread)
+	else
+		stack_trace("WARNING: Projectile [type] fired without either mouse parameters, or a target atom to aim at!")
+		qdel(src)
+
 /obj/structure/overmap/proc/fire_lateral_projectile(proj_type,target,speed=null, mob/living/user_override=null, homing=FALSE)
-	var/turf/T = get_turf(src)
+	var/turf/T = get_center()
 	var/obj/item/projectile/proj = new proj_type(T)
 	proj.starting = T
 	proj.firer = (!user_override && gunner) ? gunner : user_override
@@ -668,7 +701,7 @@ The while loop runs at a programatic level and is thus separated from any thrott
 	else
 		proj.firer = src
 	spawn()
-		proj.preparePixelProjectile(target, src, null, round((rand() - 0.5) * proj.spread))
+		proj.preparePixelProjectileOvermap(target, src, null, round((rand() - 0.5) * proj.spread))
 		proj.fire()
 		if(speed)
 			proj.set_pixel_speed(speed)

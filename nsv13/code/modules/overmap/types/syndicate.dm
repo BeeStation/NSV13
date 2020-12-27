@@ -207,20 +207,19 @@
 	weapon_types[FIRE_MODE_MISSILE] = new/datum/ship_weapon/missile_launcher(src)
 
 /obj/structure/overmap/syndicate/ai/battleship //Larger ship which is much harder to kill
-	name = "SSV Fist Of Sol"
+	name = "SSV Sol's Revenge"
 	desc = "Death incarnate."
 	icon = 'nsv13/icons/overmap/syndicate/battleship.dmi'
 	icon_state = "battleship"
 	mass = MASS_TITAN
 	sprite_size = 48
 	damage_states = TRUE
-	pixel_z = -350
-	pixel_w = -150
 	max_integrity = 15000 //Max health
 	integrity_failure = 15000
 	bounty = 20000
 	shots_left = 50 //A monster.
-	collision_positions = list(new /datum/vector2d(-5,381), new /datum/vector2d(-23,318), new /datum/vector2d(-49,25), new /datum/vector2d(-60,-168), new /datum/vector2d(-41,-357), new /datum/vector2d(-17,-369), new /datum/vector2d(8,-368), new /datum/vector2d(26,-360), new /datum/vector2d(51,-148), new /datum/vector2d(36,44), new /datum/vector2d(29,184), new /datum/vector2d(11,310))
+	bound_width = 640
+	bound_height = 640
 	armor = list("overmap_light" = 90, "overmap_heavy" = 50)
 	ai_trait = AI_TRAIT_DESTROYER
 
@@ -231,13 +230,10 @@
 	mass = MASS_LARGE
 	sprite_size = 48
 	damage_states = TRUE
-	pixel_z = -32
-	pixel_w = -32
 	max_integrity = 1200 //Max health
 	integrity_failure = 1200
 	missiles = 0
 	torpedoes = 0
-	collision_positions = list(new /datum/vector2d(-15,59), new /datum/vector2d(-19,22), new /datum/vector2d(-15,-39), new /datum/vector2d(-7,-62), new /datum/vector2d(6,-63), new /datum/vector2d(17,-35), new /datum/vector2d(22,22), new /datum/vector2d(9,49), new /datum/vector2d(-1,58))
 	armor = list("overmap_light" = 70, "overmap_heavy" = 30)
 	ai_trait = AI_TRAIT_DESTROYER
 	speed_limit = 3
@@ -260,8 +256,6 @@
 	speed_limit = 4 //So we have at least a chance of getting within boarding range.
 	bound_height = 64
 	bound_width = 64
-	pixel_z = -96
-	pixel_w = -128
 	damage_states = FALSE
 
 /obj/structure/overmap/syndicate/ai/assault_cruiser/boarding_frigate/apply_weapons()

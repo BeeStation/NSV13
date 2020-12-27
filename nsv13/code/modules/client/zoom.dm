@@ -7,9 +7,9 @@
 	var/list/modifier = params2list(params)
 	if(modifier["ctrl"])
 		if(delta_y > 0)
-			overmap_zoomout--
+			overmap_zoomout -= 5
 		else
-			overmap_zoomout++
+			overmap_zoomout += 5
 
 
 		overmap_zoomout = CLAMP(overmap_zoomout, 0, 15)

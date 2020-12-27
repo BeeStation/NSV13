@@ -65,6 +65,17 @@
 	if(world.time >= next_pulse)
 		return TRUE
 
+/obj/machinery/computer/ship/dradis/internal/can_sonar_pulse()
+	return FALSE
+
+/obj/machinery/computer/ship/dradis/internal/awacs/can_sonar_pulse()
+	var/obj/structure/overmap/OM = loc
+	if(!OM)
+		return
+	var/next_pulse = OM.last_sonar_pulse + sonar_delay
+	if(world.time >= next_pulse)
+		return TRUE
+
 /obj/machinery/computer/ship/dradis/minor/can_sonar_pulse()
 	return FALSE
 
