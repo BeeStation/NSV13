@@ -40,30 +40,61 @@ GLOBAL_LIST_INIT(drop_trooper_teams, list("Noble", "Helljumper","Red", "Black", 
 
 /datum/antagonist/pirate/boarder
 	name = "Space Pirate"
-	var/datum/team/pirate/boarder/crew
+	var/datum/team/pirate/boarder/boarding_crew
+
+/datum/team/pirate/boarder
+	name = "Space Pirate Boarding Crew"
 
 /datum/antagonist/pirate/boarder/greet()
 	to_chat(owner, "<span class='boldannounce'>You are a Space Pirate!</span>")
 	to_chat(owner, "<B>Debug message, replace with text later</B>")
 	owner.announce_objectives()
 
+
+/datum/antagonist/pirate/boarder/get_team()
+	return boarding_crew
+
+/datum/antagonist/pirate/boarder/on_gain()
+	if(boarding_crew)
+		objectives |= boarding_crew.objectives
+	. = ..()
+
 /datum/antagonist/pirate/boarder/create_team(datum/team/pirate/boarder/new_team)
 	if(!new_team)
 		for(var/datum/antagonist/pirate/boarder/P in GLOB.antagonists)
 			if(!P.owner)
 				continue
-			if(P.crew)
-				crew = P.crew
+			if(P.boarding_crew)
+				boarding_crew = P.boarding_crew
 				return
 		if(!new_team)
-			crew = new /datum/team/boarder/pirate
-			crew.forge_objectives()
+			boarding_crew = new /datum/team/pirate/boarder
+			boarding_crew.forge_objectives()
 			return
 	if(!istype(new_team))
 		stack_trace("Wrong team type passed to [type] initialization.")
-	crew = new_team
+	boarding_crew = new_team
 
-/datum/team/pirate/boarder/proc/forge_objectives()
+/datum/team/pirate/boarder/forge_objectives()
+	var/datum/objective/plunder/P = new()
+	P.team = src
+	for(var/obj/structure/overmap/fighter/utility/boarding/BU in GLOB.overmap_objects)
+		for(var/obj/item/fighter_component/primary/utility/hold/tier3/CH in BU)
+			P.cargo_hold = CH
+	objectives += P
+	for(var/datum/mind/M in members)
+		var/datum/antagonist/pirate/boarder/B = M.has_antag_datum(/datum/antagonist/pirate/boarder)
+		if(B)
+			B.objectives |= objectives
+
+/datum/objective/plunder
+	var/obj/item/fighter_component/primary/utility/hold/tier3/cargo_hold
+	explanation_text = "Loot the [station_name()] and store it in your Sabre's cargohold."
+	var/target_value = 50000
+
+
+
+/*
 	var/datum/objective/loot/getbooty = new()
 	getbooty.team = src
 	for(var/obj/machinery/computer/piratepad_control/P in GLOB.machines)
@@ -77,8 +108,52 @@ GLOBAL_LIST_INIT(drop_trooper_teams, list("Noble", "Helljumper","Red", "Black", 
 		var/datum/antagonist/pirate/P = M.has_antag_datum(/datum/antagonist/pirate)
 		if(P)
 			P.objectives |= objectives
+*/
+/*
+/datum/objective/loot
+	var/obj/machinery/computer/piratepad_control/cargo_hold
+	explanation_text = "Acquire valuable loot and store it in designated area."
+	var/target_value = 50000
+
+
+/datum/objective/loot/update_explanation_text()
+	if(cargo_hold)
+		var/area/storage_area = get_area(cargo_hold)
+		explanation_text = "Acquire loot and store [target_value] of credits worth in [storage_area.name] cargo hold."
+
+/datum/objective/loot/proc/loot_listing()
+	//Lists notable loot.
+	if(!cargo_hold || !cargo_hold.total_report)
+		return "Nothing"
+	cargo_hold.total_report.total_value = sortTim(cargo_hold.total_report.total_value, cmp = /proc/cmp_numeric_dsc, associative = TRUE)
+	var/count = 0
+	var/list/loot_texts = list()
+	for(var/datum/export/E in cargo_hold.total_report.total_value)
+		if(++count > 5)
+			break
+		loot_texts += E.total_printout(cargo_hold.total_report,notes = FALSE)
+	return loot_texts.Join(", ")
+
+/datum/objective/loot/proc/get_loot_value()
+	return cargo_hold ? cargo_hold.points : 0
+
+/datum/objective/loot/check_completion()
+	return ..() || get_loot_value() >= target_value
+*/
 
 /obj/structure/overmap/fighter/utility/boarding
+	components = list(/obj/item/fighter_component/fuel_tank/tier2,
+						/obj/item/fighter_component/avionics,
+						/obj/item/fighter_component/apu,
+						/obj/item/fighter_component/armour_plating,
+						/obj/item/fighter_component/targeting_sensor,
+						/obj/item/fighter_component/engine,
+						/obj/item/fighter_component/oxygenator,
+						/obj/item/fighter_component/canopy,
+						/obj/item/fighter_component/docking_computer,
+						/obj/item/fighter_component/battery,
+						/obj/item/fighter_component/primary/utility/hold/tier3,
+						/obj/item/fighter_component/countermeasure_dispenser)
 	req_one_access = ACCESS_SYNDICATE
 
 //MASSIVE TODO: Rewrite all of this shit.
@@ -87,7 +162,6 @@ GLOBAL_LIST_INIT(drop_trooper_teams, list("Noble", "Helljumper","Red", "Black", 
 	. = ..()
 	name = (teamName) ? "[teamName] squad boarding craft" : name
 	faction = factionSelection
-	//flight_state = 6
 	toggle_canopy()
 	var/found_pilot = FALSE
 	for(var/mob/living/carbon/user in operatives)
@@ -171,7 +245,7 @@ GLOBAL_LIST_INIT(drop_trooper_teams, list("Noble", "Helljumper","Red", "Black", 
 				else
 					callsign = num2text(callsign)
 					var/list/syndi_kits = list(/datum/outfit/syndicate/odst/smg, /datum/outfit/syndicate/odst/shotgun, /datum/outfit/syndicate/odst/medic)
-					kit = pick(syndi_kits)
+					var/kit = pick(syndi_kits)
 					H.equipOutfit(kit)
 				H.fully_replace_character_name(H.real_name, "[team_name]-[callsign]")
 				H.mind.add_antag_datum(/datum/antagonist/traitor/boarder)
@@ -201,9 +275,9 @@ GLOBAL_LIST_INIT(drop_trooper_teams, list("Noble", "Helljumper","Red", "Black", 
 				callsign = "First Mate"
 				H.equipOutfit(/datum/outfit/pirate/space/boarding/lead) //review these
 			else
-				callsign = "Gunner"
-				var/list/pirate_kits = list(/datum/outfit/pirate/space) //review these
-				kit = pick(pirate_kits)
+				callsign = "Crew"
+				var/list/pirate_kits = list(/datum/outfit/pirate/space/boarding/sapper, /datum/outfit/pirate/space/boarding/gunner) //review these
+				var/kit = pick(pirate_kits)
 				H.equipOutfit(kit)
 			var/beggings = strings(PIRATE_NAMES_FILE, "beginnings")
 			var/endings = strings(PIRATE_NAMES_FILE, "endings")
@@ -212,5 +286,6 @@ GLOBAL_LIST_INIT(drop_trooper_teams, list("Noble", "Helljumper","Red", "Black", 
 			log_game("[key_name(H)] became a space pirate boarder.")
 			message_admins("[ADMIN_LOOKUPFLW(H)] became a space pirate boarder.")
 			operatives += H
-		var/obj/structure/overmap/fighter/utility/boarding/B = new /obj/structure/overmap/fighter/utility/boarding(target, operatives, team_name, faction_selection) //No audio warning, watch that dradis
+		var/ship_name = strings(PIRATE_NAMES_FILE, "ship_names")
+		var/obj/structure/overmap/fighter/utility/boarding/B = new /obj/structure/overmap/fighter/utility/boarding(target, operatives, "[pick(ship_name)]", faction_selection) //No audio warning, watch that dradis
 	return TRUE

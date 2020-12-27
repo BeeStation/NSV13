@@ -391,7 +391,7 @@ GLOBAL_LIST_EMPTY(ai_goals)
 	name = "Space Pirate Fleet"
 	fighter_types = null
 	destroyer_types = list(/obj/structure/overmap/spacepirate/ai)
-	battleship_types = list(/obj/structure/overmap/spacepirate/ai/nt_missile, /obj/structure/overmap/spacepirate/ai/syndie_cruiser)
+	battleship_types = list(/obj/structure/overmap/spacepirate/ai/nt_missile, /obj/structure/overmap/spacepirate/ai/syndie_gunboat)
 	supply_types = null
 	alignment = "pirate"
 	faction_id = FACTION_ID_PIRATES

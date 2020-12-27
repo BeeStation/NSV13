@@ -34,7 +34,6 @@
 	id = /obj/item/card/id/syndicate
 	suit_store = /obj/item/tank/internals/oxygen
 	internals_slot = SLOT_S_STORE
-	l_pocket = /obj/item/tank/internals/emergency_oxygen/double
 	r_pocket = /obj/item/gun/ballistic/automatic/pistol/APS
 	tc = 0
 
@@ -57,6 +56,7 @@
 	suit = /obj/item/clothing/suit/space/pirate
 	head = /obj/item/clothing/head/helmet/space/pirate/bandana
 	mask = /obj/item/clothing/mask/breath
+	belt = /obj/item/storage/belt/utility/full
 	suit_store = /obj/item/tank/internals/oxygen
 	internals_slot = SLOT_S_STORE
 	ears = /obj/item/radio/headset/pirate
@@ -64,6 +64,19 @@
 
 /datum/outfit/pirate/space/boarding/lead
 	head = /obj/item/clothing/head/helmet/space/pirate
+	l_pocket = /obj/item/melee/transforming/energy/sword/pirate
+	r_pocket =/obj/item/gun/ballistic/automatic/pistol/glock/makarov
+	backpack_contents = list(/obj/item/ammo_box/magazine/pistolm9mm/glock=1, /obj/item/ammo_box/magazine/pistolm9mm/glock=1, /obj/item/storage/firstaid/regular=1)
+
+/datum/outfit/pirate/space/boarding/sapper
+	r_pocket = /obj/item/gun/ballistic/automatic/pistol/glock/makarov
+	l_pocket = /obj/item/kitchen/knife
+	backpack_contents = list(/obj/item/ammo_box/magazine/pistolm9mm/glock=1, /obj/item/ammo_box/magazine/pistolm9mm/glock=1, /obj/item/grenade/smokebomb=1, /obj/item/grenade/smokebomb=1, /obj/item/grenade/plastic/x4=1, /obj/item/grenade/plastic/x4=1)
+
+/datum/outfit/pirate/space/boarding/gunner
+	r_hand = /obj/item/gun/ballistic/rifle/boltaction
+	l_pocket = /obj/item/kitchen/knife/combat/survival
+	backpack_contents = list(/obj/item/ammo_box/magazine/internal/boltaction=1, /obj/item/ammo_box/magazine/internal/boltaction=1, /obj/item/ammo_box/magazine/internal/boltaction=1, /obj/item/ammo_box/magazine/internal/boltaction=1)
 
 /obj/item/storage/box/hug/clown_uniform
 	name = "Clown's formal attire"
