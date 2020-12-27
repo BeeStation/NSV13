@@ -240,7 +240,7 @@ GLOBAL_LIST_EMPTY(ai_goals)
 
 /datum/fleet/interdiction/New()
 	. = ..()
-	 hunted_ship = SSstar_system.find_main_overmap()
+	hunted_ship = SSstar_system.find_main_overmap()
 
 /datum/fleet/earthbuster/New()
 	. = ..()
