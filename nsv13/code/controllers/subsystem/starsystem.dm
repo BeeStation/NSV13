@@ -17,6 +17,7 @@ SUBSYSTEM_DEF(star_system)
 	var/tickets_to_win = FACTION_VICTORY_TICKETS
 	//Starmap 2
 	var/list/factions = list() //List of all factions in play on this starmap, instantiated on init.
+	var/list/neutral_zone_systems = list()
 	var/next_nag_time = 0
 	var/nag_interval = 30 MINUTES //Get off your asses and do some work idiots
 	var/nag_stacks = 0 //How many times have we told you to get a move on?
@@ -102,6 +103,10 @@ SUBSYSTEM_DEF(star_system)
 		factions += F
 	for(var/datum/faction/F in factions)
 		F.setup_relationships() //Set up faction relationships AFTER they're all initialised to avoid errors.
+	for(var/datum/star_system/S in systems)	//Setup the neutral zone for easier access - Bit of overhead but better than having to search for sector 2 systems everytime we want a new neutral zone occupier)
+		if(S.sector != 2)	//Magic numbers bad I know, but there is no sector defines.
+			continue
+		neutral_zone_systems += S
 
 /**
 Returns a faction datum by its name (case insensitive!)
