@@ -24,7 +24,6 @@
 	id = /obj/item/card/id/prisoner
 
 /datum/outfit/syndicate/odst
-	name = "Syndicate Boarder - Null Kit"
 	suit = /obj/item/clothing/suit/space/syndicate/odst
 	head = /obj/item/clothing/head/helmet/space/syndicate/odst
 	belt = /obj/item/storage/belt/utility/syndicate
@@ -56,6 +55,7 @@
 	suit = /obj/item/clothing/suit/space/pirate
 	head = /obj/item/clothing/head/helmet/space/pirate/bandana
 	mask = /obj/item/clothing/mask/breath
+	back = /obj/item/storage/backpack
 	belt = /obj/item/storage/belt/utility/full
 	suit_store = /obj/item/tank/internals/oxygen
 	internals_slot = SLOT_S_STORE
@@ -63,20 +63,21 @@
 	id = /obj/item/card/id
 
 /datum/outfit/pirate/space/boarding/lead
+	name = "Space Pirate Boarder - Lead Kit"
 	head = /obj/item/clothing/head/helmet/space/pirate
 	l_pocket = /obj/item/melee/transforming/energy/sword/pirate
-	r_pocket =/obj/item/gun/ballistic/automatic/pistol/glock/makarov
-	backpack_contents = list(/obj/item/ammo_box/magazine/pistolm9mm/glock=1, /obj/item/ammo_box/magazine/pistolm9mm/glock=1, /obj/item/storage/firstaid/regular=1)
+	backpack_contents = list(/obj/item/gun/ballistic/automatic/pistol/glock/makarov=1, /obj/item/ammo_box/magazine/pistolm9mm/glock=3, /obj/item/storage/firstaid/regular=1)
 
 /datum/outfit/pirate/space/boarding/sapper
-	r_pocket = /obj/item/gun/ballistic/automatic/pistol/glock/makarov
+	name = "Space Pirate Boarder - Sapper Kit"
 	l_pocket = /obj/item/kitchen/knife
-	backpack_contents = list(/obj/item/ammo_box/magazine/pistolm9mm/glock=1, /obj/item/ammo_box/magazine/pistolm9mm/glock=1, /obj/item/grenade/smokebomb=1, /obj/item/grenade/smokebomb=1, /obj/item/grenade/plastic/x4=1, /obj/item/grenade/plastic/x4=1)
+	backpack_contents = list(/obj/item/gun/ballistic/automatic/pistol/glock/makarov=1, /obj/item/ammo_box/magazine/pistolm9mm/glock=2, /obj/item/grenade/smokebomb=2, /obj/item/grenade/plastic/x4=2)
 
 /datum/outfit/pirate/space/boarding/gunner
+	name = "Space Pirate Boarder - Gunner Kit"
 	r_hand = /obj/item/gun/ballistic/rifle/boltaction
 	l_pocket = /obj/item/kitchen/knife/combat/survival
-	backpack_contents = list(/obj/item/ammo_box/magazine/internal/boltaction=1, /obj/item/ammo_box/magazine/internal/boltaction=1, /obj/item/ammo_box/magazine/internal/boltaction=1, /obj/item/ammo_box/magazine/internal/boltaction=1)
+	backpack_contents = list(/obj/item/ammo_box/magazine/internal/boltaction=4)
 
 /obj/item/storage/box/hug/clown_uniform
 	name = "Clown's formal attire"
@@ -188,3 +189,4 @@
 		/obj/item/construction/rcd/loaded=1,\
 		/obj/item/rcd_ammo/large=1,\
 		/obj/item/inducer=1)
+	r_hand = null

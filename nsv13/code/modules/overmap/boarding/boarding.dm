@@ -1,6 +1,6 @@
 GLOBAL_LIST_INIT(drop_trooper_teams, list("Noble", "Helljumper","Red", "Black", "Crimson", "Osiris", "Apex", "Apollo", "Thrace", "Galactica", "Valkyrie", "Recon", "Gamma", "Alpha", "Bravo", "Charlie", "Delta", "Indigo", "Sol's fist", "Abassi", "Cartesia", "Switchback", "Majestic", "Mountain", "Shadow", "Shrike", "Sterling", "FTL", "Belter", "Moya", "Crichton"))
 
-/datum/map_template/pvp_pod
+/datum/map_template/syndicate_boarding_pod
 	name = "Syndicate Boarding Pod"
 	mappath = "_maps/templates/boarding_pod.dmm"
 
@@ -9,7 +9,11 @@ GLOBAL_LIST_INIT(drop_trooper_teams, list("Noble", "Helljumper","Red", "Black", 
 	icon_state = "syndie-ship"
 	requires_power = FALSE
 
-/datum/antagonist/traitor/boarder
+/datum/map_template/spacepirate_boarding_pod
+	name = "Space Pirate Boarding Pod"
+	mappath = "_maps/templates/pirate_pod.dmm"
+
+/datum/antagonist/traitor/boarder //TODO: Refactor this to not a traitor extension
 	name = "Boarder" //Not the school kind :b1:
 	antagpanel_category = "Boarder"
 	roundend_category = "boarders"
@@ -50,7 +54,6 @@ GLOBAL_LIST_INIT(drop_trooper_teams, list("Noble", "Helljumper","Red", "Black", 
 	to_chat(owner, "<B>Debug message, replace with text later</B>")
 	owner.announce_objectives()
 
-
 /datum/antagonist/pirate/boarder/get_team()
 	return boarding_crew
 
@@ -76,23 +79,22 @@ GLOBAL_LIST_INIT(drop_trooper_teams, list("Noble", "Helljumper","Red", "Black", 
 	boarding_crew = new_team
 
 /datum/team/pirate/boarder/forge_objectives()
-	var/datum/objective/plunder/P = new()
+	var/datum/objective/loot/plunder/P = new()
 	P.team = src
-	for(var/obj/structure/overmap/fighter/utility/boarding/BU in GLOB.overmap_objects)
-		for(var/obj/item/fighter_component/primary/utility/hold/tier3/CH in BU)
-			P.cargo_hold = CH
+	for(var/obj/machinery/computer/piratepad_control/PPC in GLOB.machines)
+		var/area/A = get_area(PPC)
+		if(istype(A,/area/shuttle/pirate))
+			P.cargo_hold = PPC
+			break
 	objectives += P
 	for(var/datum/mind/M in members)
 		var/datum/antagonist/pirate/boarder/B = M.has_antag_datum(/datum/antagonist/pirate/boarder)
 		if(B)
 			B.objectives |= objectives
 
-/datum/objective/plunder
-	var/obj/item/fighter_component/primary/utility/hold/tier3/cargo_hold
-	explanation_text = "Loot the [station_name()] and store it in your Sabre's cargohold."
-	var/target_value = 50000
-
-
+/datum/objective/loot/plunder
+	explanation_text = "Loot and pillage the ship, transport 50000 credits worth of loot." //replace me
+	//target_value = 50000
 
 /*
 	var/datum/objective/loot/getbooty = new()
@@ -212,6 +214,10 @@ GLOBAL_LIST_INIT(drop_trooper_teams, list("Noble", "Helljumper","Red", "Black", 
 	for(var/datum/space_level/SL in occupying_levels)
 		zs += SL.z_value
 	var/startside = pick(GLOB.cardinals)
+	var/turf/target = boardingPodStartLoc(startside, pick(zs))
+	if(!target)
+		message_admins("Failed to spawn boarders for [name], does it have an interior?")
+		return FALSE //Cut off here to avoid polling people for a spawn that will never work.
 	if(SSstar_system.admin_boarding_override)
 		message_admins("Failed to spawn boarders for [name] due to admin boarding override.")
 		return FALSE //Allows the admins to disable boarders for event rounds
@@ -220,16 +226,12 @@ GLOBAL_LIST_INIT(drop_trooper_teams, list("Noble", "Helljumper","Red", "Black", 
 		message_admins("Failed to spawn boarders for [name] due to insufficient player count.")
 		return FALSE
 	if(faction_selection == "syndicate")
-		var/turf/target = boardingPodStartLoc(startside, pick(zs))
-		if(!target)
-			message_admins("Failed to spawn boarders for [name], does it have an interior?")
-			return FALSE //Cut off here to avoid polling people for a spawn that will never work.
 		var/list/candidates = pollCandidatesForMob("Do you want to play as a Syndicate drop trooper?", ROLE_OPERATIVE, null, ROLE_OPERATIVE, 10 SECONDS, src)
 		if(!LAZYLEN(candidates))
 			return FALSE
 		var/list/operatives = list()
 		var/team_name = pick_n_take(GLOB.drop_trooper_teams)
-		var/datum/map_template/pvp_pod/currentPod = new /datum/map_template/pvp_pod()
+		var/datum/map_template/syndicate_boarding_pod/currentPod = new /datum/map_template/syndicate_boarding_pod()
 		currentPod.load(target, TRUE)
 		for(var/I = 0, I < amount, I++)
 			if(!LAZYLEN(candidates))
@@ -256,14 +258,12 @@ GLOBAL_LIST_INIT(drop_trooper_teams, list("Noble", "Helljumper","Red", "Black", 
 		relay('nsv13/sound/effects/ship/boarding_pod.ogg', "<span class='userdanger'>You can hear several tethers attaching to the ship.</span>")
 
 	else if(faction_selection == "pirate")
-		var/turf/target = get_turf(pick(docking_points))
-		if(!target)
-			message_admins("Failed to spawn boarders for [name], does it have an interior?")
-			return FALSE //Cut off here to avoid polling people for a spawn that will never work
 		var/list/candidates = pollCandidatesForMob("Do you want to play as a Space Pirate boarding crewmember?", ROLE_OPERATIVE, null, ROLE_OPERATIVE, 10 SECONDS, src)
 		if(!LAZYLEN(candidates))
 			return FALSE
 		var/list/operatives = list()
+		var/datum/map_template/spacepirate_boarding_pod/currentPod = new /datum/map_template/spacepirate_boarding_pod()
+		currentPod.load(target, TRUE)
 		for(var/I = 0, I < amount, I++)
 			if(!LAZYLEN(candidates))
 				break
@@ -282,10 +282,9 @@ GLOBAL_LIST_INIT(drop_trooper_teams, list("Noble", "Helljumper","Red", "Black", 
 			var/beggings = strings(PIRATE_NAMES_FILE, "beginnings")
 			var/endings = strings(PIRATE_NAMES_FILE, "endings")
 			H.fully_replace_character_name(H.real_name, "[callsign] [pick(beggings)][pick(endings)]")
-			H.mind.add_antag_datum(/datum/antagonist/pirate/boarder)
+			H.mind.add_antag_datum(/datum/antagonist/pirate)
 			log_game("[key_name(H)] became a space pirate boarder.")
 			message_admins("[ADMIN_LOOKUPFLW(H)] became a space pirate boarder.")
 			operatives += H
-		var/ship_name = strings(PIRATE_NAMES_FILE, "ship_names")
-		var/obj/structure/overmap/fighter/utility/boarding/B = new /obj/structure/overmap/fighter/utility/boarding(target, operatives, "[pick(ship_name)]", faction_selection) //No audio warning, watch that dradis
+		 //No audio warning?
 	return TRUE
