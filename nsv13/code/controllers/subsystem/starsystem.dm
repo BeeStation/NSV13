@@ -529,8 +529,10 @@ Returns a faction datum by its name (case insensitive!)
 			event_chance = 70 //Highly unstable region of space.
 			create_wormhole()
 			return
+		/* Handled with boarders - replace me with something else
 		if("pirate")
 			possible_events = list(/datum/round_event_control/pirates) //Well what did you think was gonna happen when you jumped into a pirate system?
+		*/
 		if("radioactive")
 			parallax_property = "radiation_cloud" //All credit goes to https://www.filterforge.com/filters/11427.html
 			possible_events = list(/datum/round_event_control/radiation_storm/deadly)

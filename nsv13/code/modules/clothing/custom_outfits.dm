@@ -52,8 +52,8 @@
 	backpack_contents = list(/obj/item/storage/box/syndie=1,/obj/item/kitchen/knife/combat/survival=1, /obj/item/ammo_box/magazine/pistolm9mm=1)
 
 /datum/outfit/pirate/space/boarding
-	suit = /obj/item/clothing/suit/space/pirate
-	head = /obj/item/clothing/head/helmet/space/pirate/bandana
+	suit = /obj/item/clothing/suit/space/pirate/boarder
+	head = /obj/item/clothing/head/helmet/space/pirate/bandana/boarder
 	mask = /obj/item/clothing/mask/breath
 	back = /obj/item/storage/backpack
 	belt = /obj/item/storage/belt/utility/full
@@ -64,9 +64,10 @@
 
 /datum/outfit/pirate/space/boarding/lead
 	name = "Space Pirate Boarder - Lead Kit"
-	head = /obj/item/clothing/head/helmet/space/pirate
+	suit = /obj/item/clothing/suit/space/pirate/boarder/lead
+	head = /obj/item/clothing/head/helmet/space/pirate/boarder
 	l_pocket = /obj/item/melee/transforming/energy/sword/pirate
-	backpack_contents = list(/obj/item/gun/ballistic/automatic/pistol/glock/makarov=1, /obj/item/ammo_box/magazine/pistolm9mm/glock=3, /obj/item/storage/firstaid/regular=1)
+	backpack_contents = list(/obj/item/gun/ballistic/automatic/pistol/glock/makarov=1, /obj/item/ammo_box/magazine/pistolm9mm/glock=3, /obj/item/storage/firstaid/regular=1, /obj/item/loot_locator=1)
 
 /datum/outfit/pirate/space/boarding/sapper
 	name = "Space Pirate Boarder - Sapper Kit"
