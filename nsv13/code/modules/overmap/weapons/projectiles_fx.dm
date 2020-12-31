@@ -22,13 +22,17 @@ Misc projectile types, effects, think of this as the special FX file.
 	damage = 350
 	speed = 1.85
 	flag = "overmap_heavy"
-	//movement_type = FLYING | UNSTOPPABLE //Railguns punch straight through your ship
 	impact_effect_type = /obj/effect/temp_visual/impact_effect/torpedo
+/obj/item/projectile/bullet/mac_round/ap
+	damage = 200
+	armour_penetration = 50
+	movement_type = FLYING | UNSTOPPABLE //Railguns punch straight through your ship
+	icon_state = "railgun_ap"
 
 //Improvised ammunition, does terrible damage but is cheap to produce
 /obj/item/projectile/bullet/mac_round/cannonshot
 	name = "Cannonball"
-	damage = 100
+	damage = 75
 	icon_state = "cannonshot"
 
 /obj/item/projectile/bullet/railgun_slug

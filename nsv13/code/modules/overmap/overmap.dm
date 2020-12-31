@@ -403,6 +403,9 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 /obj/structure/overmap/proc/start_lockon(atom/target)
 	if(!istype(target, /obj/structure/overmap))
 		return FALSE
+	var/obj/structure/overmap/OM = target
+	if(OM.faction == faction)
+		return FALSE
 	if(LAZYFIND(target_painted, target))
 		target_painted.Remove(target)
 		if(gunner)

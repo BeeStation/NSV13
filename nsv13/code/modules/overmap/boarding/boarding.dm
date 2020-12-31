@@ -18,6 +18,7 @@ GLOBAL_LIST_INIT(drop_trooper_teams, list("Noble", "Helljumper","Red", "Black", 
 	antagpanel_category = "Boarder"
 	roundend_category = "boarders"
 	should_equip = FALSE
+	tips = 'html/antagtips/boarder.html'
 	show_to_ghosts = TRUE
 
 /datum/antagonist/traitor/boarder/forge_human_objectives()

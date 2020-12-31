@@ -16,7 +16,7 @@
 	var/list/overmap_firing_sounds
 	var/overmap_select_sound
 	var/list/weapons = list()
-	var/range = 100 //Todo, change this
+	var/range = 255 //Todo, change this
 	var/obj/structure/overmap/holder = null
 	var/requires_physical_guns = TRUE //Set this to false for any fighter weapons we may have
 	var/lateral = TRUE //Does this weapon need you to face the enemy? Mostly no.

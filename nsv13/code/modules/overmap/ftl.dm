@@ -26,7 +26,16 @@
 	after_enter(OM)
 
 /datum/star_system/proc/after_enter(obj/structure/overmap/OM)
-	return
+	if(desc)
+		OM.relay(null, "<span class='notice'><h2>Now entering [name]...</h2></span>")
+		OM.relay(null, "<span class='notice'>[desc]</span>")
+		//If we have an audio cue, ensure it doesn't overlap with a fleet's one...
+	if(!audio_cues?.len)
+		return FALSE
+	for(var/datum/fleet/F in fleets)
+		if(F.audio_cues?.len && F.alignment != OM.faction)
+			return TRUE
+	OM.play_music(pick(audio_cues))
 
 /datum/star_system/proc/try_spawn_event()
 	if(possible_events && prob(event_chance))
@@ -145,7 +154,7 @@
 		SSstar_system.ships[src]["to_time"] = world.time + speed MINUTES
 		SEND_SIGNAL(src, COMSIG_FTL_STATE_CHANGE)
 		if(role == MAIN_OVERMAP) //Scuffed please fix
-			priority_announce("Attention: All hands brace for FTL translation. Destination: [target_system]. Projected arrival time: [station_time_timestamp("hh:mm", world.time + speed MINUTES)] (Local time)","Automated announcement") //TEMP! Remove this shit when we move ruin spawns off-z
+			priority_announce("Attention: All hands brace for FTL translation. Destination: [target_system]. Projected arrival time: [station_time_timestamp("hh:mm", world.time + speed MINUTES)] (Local time)","Automated announcement")
 			if(structure_crit) //Tear the ship apart if theyre trying to limp away.
 				for(var/i = 0, i < rand(4,8), i++)
 					var/name = pick(GLOB.teleportlocs)
@@ -156,7 +165,7 @@
 		SSstar_system.ships[src]["from_time"] = world.time
 		SSstar_system.ships[src]["current_system"] = null
 		addtimer(CALLBACK(src, .proc/jump, target_system, FALSE), speed MINUTES)
-		
+
 
 	else
 		SSstar_system.ships[src]["target_system"] = null
@@ -224,7 +233,7 @@
 	req_access = list(ACCESS_ENGINE_EQUIP)
 	var/tier = 1
 	var/faction = "nanotrasen" //For ship tracking. The tracking feature of the FTL compy is entirely so that antagonists can hunt the NT ships down
-	var/jump_speed_factor = 2 //How quickly do we jump? Larger is faster.
+	var/jump_speed_factor = 3.5 //How quickly do we jump? Larger is faster.
 	var/ftl_state = FTL_STATE_IDLE //Mr Gaeta, spool up the FTLs.
 	var/obj/item/radio/radio //For engineering alerts.
 	var/radio_key = /obj/item/encryptionkey/headset_eng
@@ -256,6 +265,11 @@
 		else
 			to_chat(user, "<span class='notice'>[src] has already been upgraded to a higher tier than [FI] can offer.</span>")
 
+/obj/machinery/computer/ship/ftl_computer/vv_edit_var(var_name, var_value)
+	. = ..()
+	if(var_name == "tier")
+		upgrade()
+
 /obj/machinery/computer/ship/ftl_computer/proc/upgrade()
 	switch(tier)
 		if(1)
@@ -267,7 +281,7 @@
 			ftl_start = 'nsv13/sound/effects/ship/slipstream_start.ogg'
 			ftl_startup_time = 6 SECONDS
 			spoolup_time = 30 SECONDS
-			jump_speed_factor = 3
+			jump_speed_factor = 5
 
 		if(3) //Admin only so I can test things more easily, or maybe dropped from an EXTREMELY RARE, copyright free ruin.
 			name = "Warp drive computer"
@@ -278,7 +292,7 @@
 			ftl_startup_time = 5 SECONDS
 			spoolup_time = 10 SECONDS
 			auto_spool = TRUE
-			jump_speed_factor = 5
+			jump_speed_factor = 10
 
 	max_range = initial(max_range) * 2
 /*

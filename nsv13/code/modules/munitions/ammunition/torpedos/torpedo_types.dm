@@ -19,16 +19,17 @@
 
 //High damage torp. Use this when youve exhausted their flak.
 /obj/item/ship_weapon/ammunition/torpedo/hull_shredder
-	name = "NTP-4 'BNKR' 430mm torpedo"
+	name = "NTP-4 'BNKR' 430mm Armour Pentetrating Torpedo"
 	icon = 'nsv13/icons/obj/munition_types.dmi'
 	icon_state = "hull_shredder"
-	desc = "A heavy torpedo which is packed with a high energy plasma charge, allowing it to impact a target with massive force."
+	desc = "A heavy torpedo which is enriched with depleted uranium, allowing it to penetrate heavy armour plates."
 	projectile_type = /obj/item/projectile/guided_munition/torpedo/shredder
 
 /obj/item/projectile/guided_munition/torpedo/shredder
 	icon_state = "torpedo_shredder"
 	name = "plasma charge"
 	damage = 175
+	armour_penetration = 20
 
 //A dud missile designed to exhaust flak
 /obj/item/ship_weapon/ammunition/torpedo/decoy
@@ -41,6 +42,8 @@
 /obj/item/projectile/guided_munition/torpedo/decoy
 	icon_state = "torpedo"
 	damage = 0
+	obj_integrity = 200
+	max_integrity = 200
 
 //The alpha torpedo
 /obj/item/ship_weapon/ammunition/torpedo/nuke
@@ -53,7 +56,7 @@
 /obj/item/projectile/guided_munition/torpedo/nuclear
 	icon_state = "torpedo_nuke"
 	name = "thermonuclear cruise missile"
-	damage = 500
+	damage = 600
 	impact_effect_type = /obj/effect/temp_visual/nuke_impact
 	shotdown_effect_type = /obj/effect/temp_visual/nuke_impact
 
