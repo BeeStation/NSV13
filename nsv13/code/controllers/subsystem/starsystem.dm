@@ -786,7 +786,7 @@ Welcome to the neutral zone! Non corporate sanctioned traders with better gear a
 	system_type = "pirate" //Guranteed piratical action!
 	threat_level = THREAT_LEVEL_UNSAFE
 	adjacency_list = list("Astraeus", "The Badlands", "Astraeus", "Corvi", "Ross 251")
-	fleet_type = /datum/fleet/pirate
+	fleet_type = /datum/fleet/pirate/tortuga
 
 /*
 Sector 3: The badlands
@@ -809,7 +809,7 @@ To make things worse, this hellhole is entirely RNG, so good luck mapping it!
 	adjacency_list = list("Romulus")
 
 /datum/star_system/random
-	name = "Randy random"
+	name = "Unknown Sector"
 	x = 0
 	y = 0
 	hidden = TRUE
@@ -887,7 +887,7 @@ To make things worse, this hellhole is entirely RNG, so good luck mapping it!
 
 
 		else if(prob(10))
-			var/x = pick(/datum/fleet/wolfpack, /datum/fleet/neutral, /datum/fleet/pirate, /datum/fleet/boarding, /datum/fleet/nanotrasen/light)
+			var/x = pick(/datum/fleet/wolfpack, /datum/fleet/neutral, /datum/fleet/pirate/raiding, /datum/fleet/boarding, /datum/fleet/nanotrasen/light)
 			var/datum/fleet/randyfleet = new x
 			randyfleet.current_system = randy
 			randyfleet.hide_movements = TRUE //Prevent the shot of spam this caused to R1497.

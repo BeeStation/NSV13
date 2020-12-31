@@ -55,7 +55,7 @@
 	suit = /obj/item/clothing/suit/space/pirate/boarder
 	head = /obj/item/clothing/head/helmet/space/pirate/bandana/boarder
 	mask = /obj/item/clothing/mask/breath
-	back = /obj/item/storage/backpack
+	back = /obj/item/storage/backpack/satchel
 	belt = /obj/item/storage/belt/utility/full
 	suit_store = /obj/item/tank/internals/oxygen
 	internals_slot = SLOT_S_STORE

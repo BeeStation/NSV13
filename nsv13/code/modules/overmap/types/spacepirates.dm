@@ -85,7 +85,7 @@
 	ai_trait = AI_TRAIT_BOARDER
 
 /obj/structure/overmap/spacepirate/ai/nt_missile
-	name = "caracal class missile frigate"
+	name = "Space Pirate Missile Boat"
 	desc = "This vessel appears to have been commandeered by the space pirates"
 	icon_state = "mop"
 	mass = MASS_SMALL
@@ -103,9 +103,10 @@
 	weapon_types[FIRE_MODE_GAUSS] = null //removed the guass to load more torp
 
 /obj/structure/overmap/spacepirate/ai/syndie_gunboat
-	name = "Syndicate light cruiser"
+	name = "Space Pirate Gunboat"
 	desc = "This vessel appears to have been commandeered by the space pirates"
-	icon_state = "mop"
+	icon = 'nsv13/icons/overmap/new/nanotrasen/frigate.dmi'
+	icon_state = "pirate_frigate"
 	mass = MASS_MEDIUM
 	sprite_size = 48
 	damage_states = FALSE

@@ -51,7 +51,7 @@ GLOBAL_LIST_INIT(drop_trooper_teams, list("Noble", "Helljumper","Red", "Black", 
 
 /datum/antagonist/pirate/boarder/greet()
 	to_chat(owner, "<span class='boldannounce'>You are a Space Pirate!</span>")
-	to_chat(owner, "<B>Debug message, replace with text later</B>")
+	to_chat(owner, "<B>You've managed to dock within proximity of a Nanotrasen war vessel. You're outnumbered, outgunned, and under prepared in every conceivable way, but if you can manage to successfully pull off a heist on this vessel, it'd be enough to put your pirate crew on the map.</B>")
 	owner.announce_objectives()
 
 /datum/antagonist/pirate/boarder/get_team()
@@ -94,94 +94,6 @@ GLOBAL_LIST_INIT(drop_trooper_teams, list("Noble", "Helljumper","Red", "Black", 
 
 /datum/objective/loot/plunder
 	explanation_text = "Loot and pillage the ship, transport 50000 credits worth of loot." //replace me
-	//target_value = 50000
-
-/*
-	var/datum/objective/loot/getbooty = new()
-	getbooty.team = src
-	for(var/obj/machinery/computer/piratepad_control/P in GLOB.machines)
-		var/area/A = get_area(P)
-		if(istype(A,/area/shuttle/pirate))
-			getbooty.cargo_hold = P
-			break
-	getbooty.update_explanation_text()
-	objectives += getbooty
-	for(var/datum/mind/M in members)
-		var/datum/antagonist/pirate/P = M.has_antag_datum(/datum/antagonist/pirate)
-		if(P)
-			P.objectives |= objectives
-*/
-/*
-/datum/objective/loot
-	var/obj/machinery/computer/piratepad_control/cargo_hold
-	explanation_text = "Acquire valuable loot and store it in designated area."
-	var/target_value = 50000
-
-
-/datum/objective/loot/update_explanation_text()
-	if(cargo_hold)
-		var/area/storage_area = get_area(cargo_hold)
-		explanation_text = "Acquire loot and store [target_value] of credits worth in [storage_area.name] cargo hold."
-
-/datum/objective/loot/proc/loot_listing()
-	//Lists notable loot.
-	if(!cargo_hold || !cargo_hold.total_report)
-		return "Nothing"
-	cargo_hold.total_report.total_value = sortTim(cargo_hold.total_report.total_value, cmp = /proc/cmp_numeric_dsc, associative = TRUE)
-	var/count = 0
-	var/list/loot_texts = list()
-	for(var/datum/export/E in cargo_hold.total_report.total_value)
-		if(++count > 5)
-			break
-		loot_texts += E.total_printout(cargo_hold.total_report,notes = FALSE)
-	return loot_texts.Join(", ")
-
-/datum/objective/loot/proc/get_loot_value()
-	return cargo_hold ? cargo_hold.points : 0
-
-/datum/objective/loot/check_completion()
-	return ..() || get_loot_value() >= target_value
-*/
-
-/obj/structure/overmap/fighter/utility/boarding
-	components = list(/obj/item/fighter_component/fuel_tank/tier2,
-						/obj/item/fighter_component/avionics,
-						/obj/item/fighter_component/apu,
-						/obj/item/fighter_component/armour_plating,
-						/obj/item/fighter_component/targeting_sensor,
-						/obj/item/fighter_component/engine,
-						/obj/item/fighter_component/oxygenator,
-						/obj/item/fighter_component/canopy,
-						/obj/item/fighter_component/docking_computer,
-						/obj/item/fighter_component/battery,
-						/obj/item/fighter_component/primary/utility/hold/tier3,
-						/obj/item/fighter_component/countermeasure_dispenser)
-	req_one_access = ACCESS_SYNDICATE
-
-//MASSIVE TODO: Rewrite all of this shit.
-
-/obj/structure/overmap/fighter/utility/boarding/Initialize(mapload, operatives, teamName, factionSelection)
-	. = ..()
-	name = (teamName) ? "[teamName] squad boarding craft" : name
-	faction = factionSelection
-	toggle_canopy()
-	var/found_pilot = FALSE
-	for(var/mob/living/carbon/user in operatives)
-		user.forceMove(src)
-		if(user.client && !user.client.is_afk() && !pilot) //No AFK pilots for the love of GOD
-			start_piloting(user, "all_positions")
-			found_pilot = TRUE //This should't ever be false. If it is, all the operatives are AFK and we'll fix the situation ourselves.
-		else
-			start_piloting(user, "observer")
-		mobs_in_ship += user
-		if(user?.client?.prefs.toggles & SOUND_AMBIENCE) //Disable ambient sounds to shut up the noises.
-			SEND_SOUND(user, sound('nsv13/sound/effects/fighters/cockpit.ogg', repeat = TRUE, wait = 0, volume = 100, channel=CHANNEL_SHIP_ALERT))
-		return TRUE
-	if(!found_pilot)
-		message_admins("WARNING: Boarders spawned in a boarding ship, but were all AFK. One will be randomly assigned as pilot despite this.")
-		var/mob/living/victim = pick(operatives)
-		start_piloting(victim, "all_positions")
-	foo()
 
 ///Finds a "safe" place to dump a boarding pod, with a bit of distance from the transition edge to avoid visual hiccups.
 /proc/boardingPodStartLoc(startSide, Z)
@@ -251,6 +163,7 @@ GLOBAL_LIST_INIT(drop_trooper_teams, list("Noble", "Helljumper","Red", "Black", 
 					H.equipOutfit(kit)
 				H.fully_replace_character_name(H.real_name, "[team_name]-[callsign]")
 				H.mind.add_antag_datum(/datum/antagonist/traitor/boarder)
+				H.mind.assigned_role = "Syndicate Boarder"
 			log_game("[key_name(H)] became a syndicate drop trooper.")
 			message_admins("[ADMIN_LOOKUPFLW(H)] became a syndicate drop trooper.")
 			to_chat(H, "<span class='danger'>You are a syndicate drop trooper! Cripple [station_name()] to the best of your ability, by any means you see fit. You have been given some objectives to guide you in the pursuit of this goal.")
@@ -282,7 +195,8 @@ GLOBAL_LIST_INIT(drop_trooper_teams, list("Noble", "Helljumper","Red", "Black", 
 			var/beggings = strings(PIRATE_NAMES_FILE, "beginnings")
 			var/endings = strings(PIRATE_NAMES_FILE, "endings")
 			H.fully_replace_character_name(H.real_name, "[callsign] [pick(beggings)][pick(endings)]")
-			H.mind.add_antag_datum(/datum/antagonist/pirate)
+			H.mind.add_antag_datum(/datum/antagonist/pirate/boarder)
+			H.mind.assigned_role = "Pirate Boarder"
 			log_game("[key_name(H)] became a space pirate boarder.")
 			message_admins("[ADMIN_LOOKUPFLW(H)] became a space pirate boarder.")
 			operatives += H

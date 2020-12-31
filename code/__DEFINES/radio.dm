@@ -55,8 +55,8 @@
 #define RADIO_TOKEN_MUNITIONS ":w"
 
 #define RADIO_CHANNEL_PIRATE "Space Pirate" //NSV13 - Space Pirates
-#define RADIO_KEY_PIRATE "p"
-#define RADIO_TOKEN_PIRATE ":p"
+#define RADIO_KEY_PIRATE "z"
+#define RADIO_TOKEN_PIRATE ":z"
 
 #define RADIO_CHANNEL_CTF_RED "Red Team"
 #define RADIO_CHANNEL_CTF_BLUE "Blue Team"

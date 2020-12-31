@@ -144,5 +144,5 @@ Set up relationships.
 	desc = "The Tortuga raiders terrorise independent colonies and are widely recognised as 'free birds'."
 	preset_allies = list(FACTION_ID_SYNDICATE) //Yar HAR it's me, captain PLASMASALT
 	preset_enemies = list(FACTION_ID_NT)
-	fleet_types = list(/datum/fleet/pirate)
+	fleet_types = list(/datum/fleet/pirate/scout, /datum/fleet/pirate/raiding)
 	id = FACTION_ID_PIRATES

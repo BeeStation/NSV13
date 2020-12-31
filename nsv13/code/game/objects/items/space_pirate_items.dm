@@ -3,10 +3,10 @@
 /obj/item/radio/headset/pirate
 	name = "space pirate radio headset"
 	icon = 'nsv13/icons/obj/custom_radio.dmi'
-	desc = "replaceme"
+	desc = "Use :z to access the Space Pirate frequency"
 	icon_state = "pirate_headset"
 	keyslot = new /obj/item/encryptionkey/pirate
-	freqlock = TRUE
+	//freqlock = TRUE
 
 /obj/item/encryptionkey/pirate
 	name = "space pirate radio encryption key"
@@ -59,8 +59,11 @@
 	name = "space pirate vested spacesuit"
 	desc = "Yarr."
 	icon = 'nsv13/icons/obj/clothing/suits.dmi'
+	alternate_worn_icon = 'nsv13/icons/mob/suit.dmi'
 	icon_state = "spacepirate_vest"
 	item_state = "spacepirate_vest"
+	clothing_flags = STOPSPRESSUREDAMAGE | THICKMATERIAL
+	slowdown = 1
 
 /obj/item/clothing/suit/space/pirate/boarder/lead
 	name = "space pirate coated spacesuit"
@@ -72,11 +75,18 @@
 	name = "space pirate hatted space helmet"
 	desc = "Yarr."
 	icon = 'nsv13/icons/obj/clothing/hats.dmi'
+	alternate_worn_icon = 'nsv13/icons/mob/head.dmi'
 	icon_state = "spacepirate_hat"
 	item_state = "spacepirate_hat"
+	flags_inv = HIDEMASK|HIDEEARS|HIDEEYES|HIDEFACE|HIDEHAIR|HIDEFACIALHAIR
+	flags_cover = HEADCOVERSEYES | HEADCOVERSMOUTH | PEPPERPROOF
 
 /obj/item/clothing/head/helmet/space/pirate/bandana/boarder
 	name = "space pirate bandanaed space helmet"
 	desc = "Yarr."
+	icon = 'nsv13/icons/obj/clothing/hats.dmi'
+	alternate_worn_icon = 'nsv13/icons/mob/head.dmi'
 	icon_state = "spacepirate_bandana"
 	item_state = "spacepirate_bandana"
+	flags_inv = HIDEMASK|HIDEEARS|HIDEEYES|HIDEFACE|HIDEHAIR|HIDEFACIALHAIR
+	flags_cover = HEADCOVERSEYES | HEADCOVERSMOUTH | PEPPERPROOF
