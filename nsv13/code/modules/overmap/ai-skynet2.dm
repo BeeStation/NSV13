@@ -462,15 +462,15 @@ GLOBAL_LIST_EMPTY(ai_goals)
 /datum/fleet/pirate/raiding
 	name = "Space pirate raiding fleet"
 	destroyer_types = list(/obj/structure/overmap/spacepirate/ai, /obj/structure/overmap/spacepirate/ai/boarding)
-	audio_cues = list("https://www.youtube.com/watch?v=48b_TY8Jl2w", "https://www.youtube.com/watch?v=ntDt-502ftw")
-	taunts = list("Yar har! Fresh meat", "Unfurl the mainsails! We've got company", "Die landlubbers!")
+	audio_cues = list("https://www.youtube.com/watch?v=LjhF3yIeDSc", "https://www.youtube.com/watch?v=dsLHf9X8P8w")
+	taunts = list("Avast! A fine hold of loot sails our way", "Prepare the boarding crews, they've got enough loot for us all!")
 	size = FLEET_DIFFICULTY_MEDIUM
 
 /datum/fleet/pirate/tortuga
 	name = "Space pirate holding fleet"
 	supply_types = list(/obj/structure/overmap/spacepirate/ai/dreadnought)
-	audio_cues = list("", "")
-	taunts = list("Yar har! Fresh meat", "Unfurl the mainsails! We've got company", "Die landlubbers!")
+	audio_cues = list("https://www.youtube.com/watch?v=48b_TY8Jl2w", "https://www.youtube.com/watch?v=ntDt-502ftw")
+	taunts = list("These are our waters you are sailing, prepare to surrender!", "Bold of you to fly Nanotrasen colours in this system, your last mistake.")
 	size = FLEET_DIFFICULTY_VERY_HARD
 	fleet_trait = FLEET_TRAIT_DEFENSE
 

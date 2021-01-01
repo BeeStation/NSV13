@@ -15,7 +15,7 @@
 	armor = list("overmap_light" = 30, "overmap_heavy" = 10)
 	ai_controlled = TRUE
 	ai_behaviour = AI_AGGRESSIVE
-	ai_trait = AI_TRAIT_DESTROYER //might need a custom trait here
+	ai_trait = AI_TRAIT_ANTI_FIGHTER //You didn't expect identical tactics, did you?
 
 /obj/structure/overmap/spacepirate/ai/Initialize()
 	. = ..()
@@ -87,14 +87,15 @@
 /obj/structure/overmap/spacepirate/ai/nt_missile
 	name = "Space Pirate Missile Boat"
 	desc = "This vessel appears to have been commandeered by the space pirates"
-	icon_state = "mop"
+	icon = 'nsv13/icons/overmap/new/nanotrasen/frigate.dmi'
+	icon_state = "spacepirate_frigate"
 	mass = MASS_SMALL
 	sprite_size = 48
 	damage_states = FALSE
 	max_integrity = 1000
 	integrity_failure = 1000
-	armor = list("overmap_light" = 50, "overmap_heavy" = 10)
-	ai_trait = AI_TRAIT_BATTLESHIP
+	armor = list("overmap_light" = 60, "overmap_heavy" = 10)
+	ai_trait = AI_TRAIT_DESTROYER
 	torpedoes = 20
 	missiles = 20
 
@@ -105,44 +106,43 @@
 /obj/structure/overmap/spacepirate/ai/syndie_gunboat
 	name = "Space Pirate Gunboat"
 	desc = "This vessel appears to have been commandeered by the space pirates"
-	icon = 'nsv13/icons/overmap/new/nanotrasen/frigate.dmi'
-	icon_state = "pirate_frigate"
+	icon = 'nsv13/icons/overmap/syndicate/syn_light_cruiser.dmi'
+	icon_state = "spacepirate_cruiser"
 	mass = MASS_MEDIUM
-	sprite_size = 48
+	sprite_size = 96
 	damage_states = FALSE
-	bound_width = 128
-	bound_height = 128
-	max_integrity = 700
-	integrity_failure = 700
+	bound_height = 96
+	bound_width = 96
+	max_integrity = 750
+	integrity_failure = 750
 	shots_left = 20
-	armor = list("overmap_light" = 50, "overmap_heavy" = 15)
-	ai_trait = AI_TRAIT_DESTROYER
+	armor = list("overmap_light" = 50, "overmap_heavy" = 20)
+	ai_trait = AI_TRAIT_BATTLESHIP
 
-/obj/structure/overmap/spacepirate/ai/syndie_gunboat/apply_weapons()
+/obj/structure/overmap/spacepirate/ai/syndie_gunboat/apply_weapons() //Dakka+
 	weapon_types[FIRE_MODE_PDC] = new /datum/ship_weapon/pdc_mount/aa_guns(src)
 	weapon_types[FIRE_MODE_AMS] = null
 	weapon_types[FIRE_MODE_TORPEDO] = null
 	weapon_types[FIRE_MODE_RAILGUN] = null
-	weapon_types[FIRE_MODE_FLAK] = new/datum/ship_weapon/flak(src)
+	weapon_types[FIRE_MODE_FLAK] = null
 	weapon_types[FIRE_MODE_GAUSS] = new /datum/ship_weapon/gauss(src)
 	weapon_types[FIRE_MODE_MISSILE] = null
 	weapon_types[FIRE_MODE_50CAL] = new /datum/ship_weapon/fiftycal(src)
-	flak_battery_amount = 1
 
 /obj/structure/overmap/spacepirate/ai/dreadnought //And you thought the pirates only had small ships
 	name = "Space Pirate Dreadnought"
 	desc = "Hoist the colours high"
-	icon_state = "smmop"
-	mass = MASS_TITAN
-	sprite_size = 48
-	damage_states = TRUE
-	pixel_z = -350
-	pixel_w = -150
+	icon = 'nsv13/icons/overmap/syndicate/gunboat.dmi' //who knows which one should be which??? vOv
+	icon_state = "spacepirate_gunboat"
+	mass = MASS_LARGE
+	sprite_size = 128
+	damage_states = FALSE
+	bound_width = 128
+	bound_height = 128
 	max_integrity = 10000
 	integrity_failure = 10000
 	shots_left = 35
 	torpedoes = 35
-	collision_positions = ""
 	armor = list("overmap_light" = 90, "overmap_heavy" = 50)
 	can_resupply = TRUE
 	ai_trait = AI_TRAIT_SUPPLY
@@ -154,3 +154,5 @@
 	weapon_types[FIRE_MODE_RAILGUN] = new /datum/ship_weapon/railgun(src)
 	weapon_types[FIRE_MODE_FLAK] = new /datum/ship_weapon/flak(src)
 	weapon_types[FIRE_MODE_GAUSS] = new /datum/ship_weapon/gauss(src)
+	weapon_types[FIRE_MODE_50CAL] = new /datum/ship_weapon/fiftycal(src)
+	flak_battery_amount = 1
