@@ -79,7 +79,7 @@
 	can_be_unanchored = TRUE
 	density = TRUE
 	speed_process = TRUE
-	var/process_delay = 1 SECONDS
+	var/process_delay = 0.5 SECONDS
 	var/next_process = 0
 	var/arm_icon_state = "welder3"
 	var/tier = 1
@@ -88,6 +88,12 @@
 	var/obj/item/ship_weapon/ammunition/missile/missile_casing/target
 	var/munition_type = /obj/item/ship_weapon/ammunition/missile/missile_casing
 	var/list/target_states = list(1, 7, 9) //The target construction state of the missile
+
+/obj/machinery/missile_builder/examine(mob/user)
+	. = ..()
+	. += "<span class='notice'>It currently holds...</span>"
+	for(var/atom/movable/X in held_components)
+		. += "<span class='notice'>-[X]</span>"
 
 /obj/machinery/missile_builder/attackby(obj/item/I, mob/user, params)
 	if(default_unfasten_wrench(user, I))

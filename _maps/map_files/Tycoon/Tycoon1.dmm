@@ -3625,10 +3625,6 @@
 /obj/effect/turf_decal/ship/delivery,
 /turf/open/floor/monotile/dark/airless,
 /area/space/nearstation)
-"il" = (
-/obj/structure/grille,
-/turf/open/space/basic,
-/area/space/nearstation)
 "im" = (
 /obj/machinery/door/airlock/ship/external/glass{
 	name = "Flight deck access";
@@ -5432,10 +5428,7 @@
 /turf/open/floor/monotile/dark/airless,
 /area/space/nearstation)
 "lE" = (
-/obj/machinery/light/runway/delay2,
-/obj/effect/turf_decal/ship/delivery{
-	color = "#8B0000"
-	},
+/obj/structure/ladder,
 /turf/open/floor/monotile/dark/airless,
 /area/space/nearstation)
 "lF" = (
@@ -6333,17 +6326,14 @@
 /turf/open/floor/monotile/dark/airless,
 /area/space/nearstation)
 "nH" = (
-/obj/machinery/light/runway/delay3,
-/obj/effect/turf_decal/ship/delivery{
-	color = "#8B0000"
-	},
-/turf/open/floor/monotile/dark/airless,
+/obj/structure/fluff/vls_hatch,
+/turf/open/openspace,
 /area/space/nearstation)
 "nI" = (
-/obj/machinery/light/runway/delay4,
-/obj/effect/turf_decal/ship/delivery{
-	color = "#8B0000"
+/obj/structure/hull_plate/end{
+	dir = 1
 	},
+/obj/machinery/ship_weapon/fiftycal,
 /turf/open/floor/monotile/dark/airless,
 /area/space/nearstation)
 "nJ" = (
@@ -6441,8 +6431,8 @@
 	name = "Air traffic control pod"
 	})
 "pw" = (
-/obj/machinery/ship_weapon/fiftycal,
-/turf/open/floor/monotile/dark/airless,
+/obj/item/fighter_component/targeting_sensor,
+/turf/open/floor/engine/airless,
 /area/space/nearstation)
 "qg" = (
 /obj/vehicle/sealed/car/realistic/fighter_tug,
@@ -6673,6 +6663,10 @@
 /obj/structure/rack,
 /obj/item/fighter_component/countermeasure_dispenser,
 /obj/item/fighter_component/countermeasure_dispenser,
+/obj/item/fighter_component/secondary/ordnance_launcher,
+/obj/item/fighter_component/secondary/ordnance_launcher,
+/obj/item/fighter_component/secondary/ordnance_launcher/torpedo,
+/obj/item/fighter_component/secondary/ordnance_launcher/torpedo,
 /turf/open/floor/engine/airless,
 /area/space/nearstation)
 "Ba" = (
@@ -6701,10 +6695,6 @@
 	},
 /turf/open/floor/circuit,
 /area/ai_monitored/turret_protected/aisat)
-"CB" = (
-/obj/structure/fluff/vls_hatch,
-/turf/open/openspace,
-/area/space/nearstation)
 "CJ" = (
 /obj/item/encryptionkey/atc,
 /obj/item/clothing/suit/hazardvest,
@@ -6915,6 +6905,10 @@
 /obj/item/fighter_component/avionics,
 /obj/item/fighter_component/avionics,
 /obj/structure/rack,
+/obj/item/ammo_box/magazine/heavy_cannon,
+/obj/item/ammo_box/magazine/heavy_cannon,
+/obj/item/ammo_box/magazine/heavy_cannon,
+/obj/item/ammo_box/magazine/light_cannon,
 /turf/open/floor/engine/airless,
 /area/space/nearstation)
 "LI" = (
@@ -6952,10 +6946,6 @@
 /area/space/nearstation)
 "Ne" = (
 /obj/machinery/light/floor,
-/turf/open/floor/monotile/dark/airless,
-/area/space/nearstation)
-"Ns" = (
-/obj/structure/fluff/vls_hatch,
 /turf/open/floor/monotile/dark/airless,
 /area/space/nearstation)
 "Pf" = (
@@ -7055,6 +7045,7 @@
 /obj/structure/rack,
 /obj/item/fighter_component/armour_plating,
 /obj/item/fighter_component/armour_plating,
+/obj/item/airlock_painter,
 /turf/open/floor/engine/airless,
 /area/space/nearstation)
 "Tn" = (
@@ -7165,6 +7156,8 @@
 /obj/structure/rack,
 /obj/item/fighter_component/apu,
 /obj/item/fighter_component/apu,
+/obj/item/fighter_component/docking_computer,
+/obj/item/fighter_component/docking_computer,
 /turf/open/floor/engine/airless,
 /area/space/nearstation)
 "XK" = (
@@ -7201,11 +7194,6 @@
 	},
 /turf/open/floor/monotile/dark,
 /area/teleporter)
-"ZX" = (
-/obj/effect/turf_decal/delivery/red,
-/obj/machinery/ship_weapon/fiftycal,
-/turf/open/floor/monotile/dark/airless,
-/area/space/nearstation)
 
 (1,1,1) = {"
 aa
@@ -36622,7 +36610,7 @@ ax
 rQ
 ax
 ax
-nJ
+ax
 nJ
 ax
 iy
@@ -36878,7 +36866,7 @@ hZ
 ax
 nJ
 ax
-lE
+hZ
 ax
 nJ
 iy
@@ -37129,14 +37117,14 @@ Mt
 ax
 ax
 ax
-Mt
-ax
-ax
-ax
 nJ
 nJ
-ax
-ax
+nJ
+nJ
+nJ
+nJ
+nJ
+nJ
 nK
 iy
 iC
@@ -37386,14 +37374,14 @@ Mt
 ax
 ax
 ax
-Mt
+nH
 ax
+nH
 ax
+nH
 ax
-nJ
+nH
 ax
-ax
-nJ
 nJ
 iy
 iC
@@ -37643,16 +37631,16 @@ Mt
 ax
 ax
 ax
-Mt
-ax
-ax
-ax
 nJ
 ax
 nJ
 ax
 nJ
-iy
+ax
+nJ
+ax
+nJ
+nI
 iC
 aQ
 aV
@@ -37900,16 +37888,16 @@ Mt
 ax
 ax
 ax
-Mt
+nH
 ax
+nH
 ax
+nH
+ax
+nH
 ax
 nJ
-nJ
-ax
-ax
-nJ
-iy
+nI
 iC
 aQ
 aV
@@ -38157,16 +38145,16 @@ Mt
 ax
 ax
 ax
-Mt
-ax
-ax
+nJ
 ax
 nJ
 ax
+nJ
 ax
 nJ
+ax
 nJ
-iy
+nI
 iC
 aQ
 aW
@@ -38414,11 +38402,11 @@ Mt
 ax
 ia
 ax
-Mt
+nH
 ax
-ia
+nH
 ax
-nJ
+nH
 ax
 nH
 ax
@@ -38671,14 +38659,14 @@ Mt
 ax
 ax
 ax
-Mt
-ax
-ax
-ax
 nJ
 nJ
-ax
-ax
+nJ
+nJ
+nJ
+nJ
+nJ
+nJ
 nJ
 iy
 iC
@@ -38935,7 +38923,7 @@ ax
 nJ
 ax
 ax
-nJ
+ax
 nJ
 iy
 iC
@@ -39190,9 +39178,9 @@ ax
 ax
 ax
 nJ
-pw
-nJ
 ax
+lI
+lI
 nK
 iy
 iC
@@ -39447,9 +39435,9 @@ ax
 ax
 ax
 nJ
-ZX
 ax
-ax
+lE
+lI
 nJ
 iy
 iC
@@ -39704,9 +39692,9 @@ ax
 ax
 ax
 nJ
-pw
 ax
-nJ
+lI
+lI
 nJ
 iy
 iC
@@ -39962,7 +39950,7 @@ ib
 ax
 nJ
 ax
-nI
+ax
 ax
 nJ
 iz
@@ -40216,11 +40204,11 @@ ax
 Mt
 ax
 ax
+ax
 nJ
-nJ
-nJ
-nJ
-nJ
+ax
+ax
+ax
 nJ
 ax
 ax
@@ -40473,10 +40461,10 @@ ax
 Mt
 ax
 ax
+ax
 nJ
-ax
-ax
-ax
+nJ
+nJ
 nJ
 nJ
 nJ
@@ -40730,11 +40718,11 @@ ax
 Mt
 ax
 ax
-CB
+ax
 nJ
-CB
+hA
+ax
 nJ
-Ns
 nL
 nO
 nO
@@ -40987,9 +40975,9 @@ ax
 Mt
 ax
 ax
+ax
 nJ
-ax
-ax
+hA
 ax
 nJ
 nM
@@ -41244,11 +41232,11 @@ ax
 Mt
 ax
 ax
-CB
+ax
 nJ
-CB
+hA
+ax
 nJ
-Ns
 nM
 Ry
 Ry
@@ -41501,9 +41489,9 @@ ax
 Mt
 ax
 ax
+ax
 nJ
-ax
-ax
+hA
 ax
 nJ
 nM
@@ -41758,11 +41746,11 @@ ax
 Mt
 ax
 ax
-CB
+ax
 nJ
-CB
+hA
+ax
 nJ
-Ns
 nM
 qR
 nQ
@@ -42015,9 +42003,9 @@ ax
 Mt
 hA
 hA
+hA
 nJ
-ax
-ax
+hA
 ax
 nJ
 nN
@@ -43846,7 +43834,7 @@ no
 ax
 it
 ac
-ac
+lI
 ac
 af
 ax
@@ -44102,9 +44090,9 @@ no
 ax
 ax
 it
-ac
-ac
-ac
+lI
+lI
+lI
 af
 ax
 ax
@@ -44360,7 +44348,7 @@ ax
 ax
 it
 ac
-ac
+lI
 ac
 af
 ax
@@ -46654,7 +46642,7 @@ ac
 QF
 ac
 ac
-Mu
+pw
 hA
 iy
 dS
@@ -48441,7 +48429,7 @@ ia
 ax
 rQ
 zz
-il
+Xp
 Fz
 Mt
 ax
@@ -52286,7 +52274,7 @@ ac
 ac
 hA
 ac
-ac
+Ey
 hA
 ax
 ax
@@ -53057,7 +53045,7 @@ ac
 ac
 hA
 ac
-ac
+Ey
 hA
 ax
 ax
