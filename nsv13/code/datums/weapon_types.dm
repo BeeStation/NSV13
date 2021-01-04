@@ -77,7 +77,7 @@
 /datum/ship_weapon/pdc_mount
 	name = "Point defense batteries"
 	default_projectile_type = /obj/item/projectile/bullet/pdc_round/heavy
-	burst_size = 3
+	burst_size = 2
 	fire_delay = 0.25 SECONDS
 	range_modifier = 5
 	overmap_select_sound = 'nsv13/sound/effects/ship/pdc_start.ogg'
@@ -89,7 +89,7 @@
 /datum/ship_weapon/pdc_mount/aa_guns
 	name = "Anti air guns"
 	default_projectile_type = /obj/item/projectile/bullet/pdc_round
-	burst_size = 7
+	burst_size = 4
 	fire_delay = 10 SECONDS
 	range_modifier = 10
 	overmap_firing_sounds = list('nsv13/sound/weapons/pdc_single.ogg')
@@ -164,7 +164,7 @@
 /datum/ship_weapon/heavy_cannon
 	name = ".30 cal heavy cannon"
 	default_projectile_type = /obj/item/projectile/bullet/heavy_cannon_round
-	burst_size = 3
+	burst_size = 2
 	fire_delay = 0.5 SECONDS
 	range_modifier = 10
 	overmap_select_sound = 'nsv13/sound/effects/ship/pdc_start.ogg'

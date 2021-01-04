@@ -62,6 +62,8 @@ Repair
 	weapon_safety = TRUE //This happens wayy too much for my liking. Starts ON.
 	pixel_w = -16
 	pixel_z = -20
+	pixel_collision_size_x = 32
+	pixel_collision_size_y = 32 //Avoid center tile viewport jank
 	req_one_access = list(ACCESS_FIGHTER)
 	var/start_emagged = FALSE
 	var/max_passengers = 0 //Change this per fighter.

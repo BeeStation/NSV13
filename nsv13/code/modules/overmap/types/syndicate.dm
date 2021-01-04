@@ -327,7 +327,7 @@
 	icon_state = "fighter_syndicate"
 	damage_states = FALSE
 	brakes = FALSE
-	max_integrity = 150 //Super squishy!
+	max_integrity = 75 //Super squishy!
 	sprite_size = 32
 	faction = "syndicate"
 	mass = MASS_TINY
@@ -346,9 +346,9 @@
 /obj/structure/overmap/syndicate/ai/bomber //need custom AI behaviour to target capitals only
 	name = "Syndicate Bomber"
 	icon_state = "bomber_syndicate"
-	damage_states = TRUE
+	damage_states = FALSE
 	brakes = FALSE
-	max_integrity = 175
+	max_integrity = 100
 	sprite_size = 32
 	faction = "syndicate"
 	mass = MASS_TINY

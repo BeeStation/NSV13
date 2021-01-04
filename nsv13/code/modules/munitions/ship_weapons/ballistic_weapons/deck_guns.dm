@@ -258,7 +258,7 @@
 /obj/item/ship_weapon/ammunition/naval_artillery/cannonball
 	name = "Cannon ball"
 	desc = "The QM blew the cargo budget on corgis, the clown stole all our ammo, we've got half a tank of plasma and are halfway to Dolos. Hit it."
-	icon_state = "cannon"
+	icon_state = "torpedo_ball"
 	projectile_type = /obj/item/projectile/bullet/mac_round/cannonshot
 	obj_integrity = 100
 	max_integrity = 100
@@ -266,7 +266,7 @@
 
 /obj/item/ship_weapon/ammunition/naval_artillery/ap
 	name = "TX-101 Armour Penetrating Naval Artillery Round"
-	desc = "A massive diamond-tipped round which can slice through armour plating with ease to deliver a lethal impact. Best suited for targets with heavy armour."
+	desc = "A massive diamond-tipped round which can slice through armour plating with ease to deliver a lethal impact. Best suited for targets with heavy armour such as destroyers and up."
 	icon_state = "torpedo_ap"
 	projectile_type = /obj/item/projectile/bullet/mac_round/ap
 

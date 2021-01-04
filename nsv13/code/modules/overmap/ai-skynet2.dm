@@ -734,6 +734,7 @@ GLOBAL_LIST_EMPTY(ai_goals)
 		else
 			OM.move_toward(OM.last_target)
 	else
+		OM.send_sonar_pulse() //Send a pong when we're actively hunting.
 		OM.seek_new_target()
 		OM.move_toward(null) //Just fly around in a straight line, I guess.
 
@@ -941,7 +942,8 @@ GLOBAL_LIST_EMPTY(ai_goals)
 *
 */
 
-/obj/structure/overmap/proc/slowprocess() //For ai ships, this allows for target acquisition, tactics etc.
+/obj/structure/overmap/proc/ai_process() //For ai ships, this allows for target acquisition, tactics etc.
+	set waitfor = FALSE
 	handle_autonomous_targeting()
 	SSstar_system.update_pos(src)
 	if(!ai_controlled)
@@ -1105,8 +1107,6 @@ GLOBAL_LIST_EMPTY(ai_goals)
 
 //Method that will get you a new target, based on basic params.
 /obj/structure/overmap/proc/seek_new_target(max_weight_class=null, min_weight_class=null, interior_check=FALSE)
-	if(!last_target)
-		send_sonar_pulse()
 	for(var/obj/structure/overmap/ship in GLOB.overmap_objects)
 		if(warcrime_blacklist[ship.type])
 			continue

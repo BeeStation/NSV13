@@ -3,7 +3,7 @@
 	display_name = "Macro-Ballistics"
 	description = "Asking important questions, like what if we made even bigger guns?"
 	prereq_ids = list("ballistic_weapons", "basic_torpedo_components")
-	design_ids = list("vls_tube", "naval_shell", "naval_shell_ap", "ams_console","powder_bag","plasma_accelerant", "fiftycal", "fiftycalcomp","deck_gun","naval_artillery_comp","artillery_loader","powder_loader","payload_gate","deck_gun_autorepair", "deck_gun_autoelevator", "munitions_computer_circuit", "ship_firing_electronics")
+	design_ids = list("vls_tube", "naval_shell", "naval_shell_ap", "ams_console","powder_bag","plasma_accelerant", "fiftycal", "fiftycal_super", "fiftycalcomp","deck_gun","naval_artillery_comp","artillery_loader","powder_loader","payload_gate","deck_gun_autorepair", "deck_gun_autoelevator", "munitions_computer_circuit", "ship_firing_electronics")
 	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 10000)
 	export_price = 20000
 
