@@ -186,23 +186,27 @@
 			icon_state = "[initial(icon_state)]_loaded"
 			playsound(src.loc, 'nsv13/sound/effects/ship/mac_load.ogg', 100, 1)
 	loading = FALSE
+
 /obj/item/powder_bag
 	name = "Gunpowder Bag"
 	desc = "A highly flammable bag of gunpowder which is used in naval artillery systems."
 	icon = 'nsv13/icons/obj/munitions/deck_gun.dmi'
 	icon_state = "powder"
 	density = TRUE
+	var/volatility = 1 //Gunpowder is volatile...
 	var/power = 0.5
 
 /obj/item/powder_bag/Initialize()
 	. = ..()
 	AddComponent(/datum/component/twohanded/required)
+	AddComponent(/datum/component/volatile, volatility)
 
 /obj/item/powder_bag/plasma
 	name = "Plasma based projectile accelerant"
 	desc = "An extremely powerful 'bomb waiting to happen' which can propel naval artillery shells to extreme speeds with half the amount of regular powder!"
 	icon_state = "spicypowder"
 	power = 1
+	volatility = 3 //DANGEROUSLY VOLATILE. Can send the entire magazine up in smoke.
 
 /obj/item/ship_weapon/ammunition/naval_artillery //Huh gee this sure looks familiar don't it...
 	name = "FTL-13 Naval Artillery Round"
@@ -215,6 +219,7 @@
 	projectile_type = /obj/item/projectile/bullet/mac_round //What torpedo type we fire
 	obj_integrity = 300 //Beefy, relatively hard to use as a grief tool.
 	max_integrity = 300
+	volatility = 3 //Majorly explosive
 	var/explosive = TRUE
 	var/armed = FALSE //Do it do the big boom?
 	var/speed = 0.5 //Needs powder to increase speed.
@@ -234,12 +239,9 @@
 		return
 	playsound(src, 'sound/machines/click.ogg', 50, 1)
 	armed = !armed
+	var/datum/component/volatile/kaboom = GetComponent(/datum/component/volatile)
+	kaboom.set_volatile_when_hit(armed) //Shells only go up when they're armed.
 	icon_state = (armed) ? "[initial(icon_state)]_armed" : initial(icon_state)
-
-/obj/item/ship_weapon/ammunition/naval_artillery/obj_destruction(damage_flag)
-	. = ..()
-	if(armed && explosive)
-		explosion(src.loc, 3, 10, 5, 2, 5)
 
 /obj/item/ship_weapon/ammunition/naval_artillery/examine(mob/user)
 	. = ..()

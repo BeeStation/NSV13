@@ -7,6 +7,8 @@
 	move_resist = MOVE_FORCE_EXTREMELY_STRONG
 	projectile_type = /obj/item/projectile/guided_munition/missile //What torpedo type we fire
 	pixel_x = -17
+	volatility = 3 //Very volatile.
+	explode_when_hit = TRUE //Yeah, this can't ever end well for you.
 
 /obj/item/ship_weapon/ammunition/missile/CtrlClick(mob/user)
 	. = ..()

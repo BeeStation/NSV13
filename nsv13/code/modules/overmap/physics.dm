@@ -113,10 +113,10 @@ This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATE
 	velocity = new /datum/vector2d(0, 0)
 	overlap = new /datum/vector2d(0, 0)
 	if(collision_positions.len)
+		message_admins("WARNING: [src] is using the legacy QWER2d physics system! This will cause unnecessary strain on the server.")
 		physics2d = AddComponent(/datum/component/physics2d)
 		physics2d.setup(collision_positions, angle)
-	else
-		message_admins("[src] does not have collision points set! It will float through everything.")
+
 
 /obj/structure/overmap/proc/can_move()
 	return TRUE //Placeholder for everything but fighters. We can later extend this if / when we want to code in ship engines.
