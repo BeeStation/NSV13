@@ -79,15 +79,29 @@
 	can_be_unanchored = TRUE
 	density = TRUE
 	speed_process = TRUE
-	var/process_delay = 1 SECONDS
+	var/process_delay = 0.5 SECONDS
 	var/next_process = 0
-	var/arm_icon_state = "welder2"
+	var/arm_icon_state = "welder3"
 	var/tier = 1
 	var/list/held_components = list() //All the missile construction components that they've put into the arm.
 	var/obj/item/arm = null
 	var/obj/item/ship_weapon/ammunition/missile/missile_casing/target
 	var/munition_type = /obj/item/ship_weapon/ammunition/missile/missile_casing
 	var/list/target_states = list(1, 7, 9) //The target construction state of the missile
+
+/obj/machinery/missile_builder/examine(mob/user)
+	. = ..()
+	. += "<span class='notice'>It currently holds...</span>"
+	for(var/atom/movable/X in held_components)
+		. += "<span class='notice'>-[X]</span>"
+
+/obj/machinery/missile_builder/attackby(obj/item/I, mob/user, params)
+	if(default_unfasten_wrench(user, I))
+		return
+	if(default_deconstruction_screwdriver(user, icon_state, icon_state, I))
+		update_icon()
+		return
+	. = ..()
 
 /obj/item/stack/conveyor/slow
 	name = "Slow conveyor assembly"
@@ -186,6 +200,7 @@
 	build_path = /obj/machinery/missile_builder/assembler
 
 /obj/machinery/missile_builder/assembler
+	name = "Robotic Missile Part Applicator"
 	arm_icon_state = "assembler2"
 	desc = "An assembly arm which can slot a multitude of missile components into casings for you! Swipe it with an ID to release its stored components."
 	req_one_access = list(ACCESS_MUNITIONS)

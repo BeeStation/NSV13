@@ -59,6 +59,11 @@
 	circuit = /obj/item/circuitboard/computer/deckgun
 	var/obj/machinery/deck_turret/core = null
 
+/obj/machinery/computer/deckgun/Initialize(mapload, obj/item/circuitboard/C)
+	. = ..()
+	if(!core)
+		core = locate(/obj/machinery/deck_turret) in orange(1, src)
+
 /obj/item/circuitboard/computer/deckgun
 	name = "Deck gun loading computer (circuit)"
 	build_path = /obj/machinery/computer/deckgun
@@ -74,9 +79,16 @@
 	var/list/parts = list()
 	if(!core)
 		return data
+	if(get_dist(core.payload_gate, core) > 1)
+		core.update_parts()
 	data["loaded"] = core.payload_gate && core.payload_gate.loaded
 	data["id"] = (core.payload_gate) ? "\ref[core.payload_gate]" : null
+	if(!core.powder_gates?.len)
+		core.update_parts()
 	for(var/obj/machinery/deck_turret/powder_gate/MOREPOWDER in core.powder_gates)
+		if(get_dist(MOREPOWDER, core) < 1 || !MOREPOWDER || QDELETED(MOREPOWDER))
+			core.update_parts()
+			continue
 		var/list/part = list()
 		part["loaded"] = (MOREPOWDER.bag) ? TRUE : FALSE
 		part["id"] = "\ref[MOREPOWDER]"
@@ -111,7 +123,7 @@
 
 /obj/machinery/deck_turret
 	name = "Deck Turret Core"
-	desc = "The central mounting core for naval guns."
+	desc = "The central mounting core for naval guns. Use a multitool on it to rescan parts."
 	icon = 'nsv13/icons/obj/munitions/deck_gun.dmi'
 	icon_state = "core"
 	density = TRUE
@@ -121,6 +133,22 @@
 	var/list/powder_gates = list()
 	var/obj/machinery/deck_turret/payload_gate/payload_gate
 	var/obj/machinery/computer/deckgun/computer
+
+/obj/machinery/deck_turret/multitool_act(mob/living/user, obj/item/I)
+	. = ..()
+	update_parts()
+
+/obj/machinery/deck_turret/attackby(obj/item/I, mob/user, params)
+	if(default_unfasten_wrench(user, I))
+		return
+	if(default_deconstruction_screwdriver(user, icon_state, icon_state, I))
+		update_icon()
+		return
+	. = ..()
+
+/obj/machinery/deck_turret/crowbar_act(mob/living/user, obj/item/I)
+	if(default_deconstruction_crowbar(I))
+		return TRUE
 
 /obj/machinery/deck_turret/proc/update_parts()
 	payload_gate = locate(/obj/machinery/deck_turret/payload_gate) in orange(1, src)
@@ -211,7 +239,7 @@
 /obj/item/ship_weapon/ammunition/naval_artillery //Huh gee this sure looks familiar don't it...
 	name = "FTL-13 Naval Artillery Round"
 	icon = 'nsv13/icons/obj/munitions.dmi'
-	icon_state = "artillery"
+	icon_state = "torpedo"
 	desc = "A large shell designed to deliver a high-yield warhead upon high-speed impact with solid objects. You need to arm it with a multitool before firing."
 	anchored = FALSE
 	move_resist = MOVE_FORCE_EXTREMELY_STRONG
@@ -224,14 +252,30 @@
 	var/armed = FALSE //Do it do the big boom?
 	var/speed = 0.5 //Needs powder to increase speed.
 
+/obj/item/ship_weapon/ammunition/naval_artillery/attack_hand(mob/user)
+	return FALSE
+
+/obj/item/ship_weapon/ammunition/torpedo/attack_hand(mob/user)
+	return FALSE
+
+/obj/item/ship_weapon/ammunition/missile/attack_hand(mob/user)
+	return FALSE
 /obj/item/ship_weapon/ammunition/naval_artillery/cannonball
 	name = "Cannon ball"
 	desc = "The QM blew the cargo budget on corgis, the clown stole all our ammo, we've got half a tank of plasma and are halfway to Dolos. Hit it."
-	icon_state = "cannon"
+	icon_state = "torpedo_ball"
 	projectile_type = /obj/item/projectile/bullet/mac_round/cannonshot
 	obj_integrity = 100
 	max_integrity = 100
 	explosive = FALSE //Cannonshot is just iron
+	volatility = 0
+	explode_when_hit = FALSE //Literally just iron
+
+/obj/item/ship_weapon/ammunition/naval_artillery/ap
+	name = "TX-101 Armour Penetrating Naval Artillery Round"
+	desc = "A massive diamond-tipped round which can slice through armour plating with ease to deliver a lethal impact. Best suited for targets with heavy armour such as destroyers and up."
+	icon_state = "torpedo_ap"
+	projectile_type = /obj/item/projectile/bullet/mac_round/ap
 
 /obj/item/ship_weapon/ammunition/naval_artillery/multitool_act(mob/living/user, obj/item/I)
 	. = ..()
@@ -251,7 +295,6 @@
 	. = ..()
 	to_chat(user,"<span class='warning'>[src] is far too cumbersome to carry, and dragging it around might set it off! Load it onto a munitions trolley.</span>")
 
-
 /obj/machinery/deck_turret/payload_gate
 	name = "Payload loading gate"
 	desc = "A chamber for loading a gun shell to be packed with gunpowder, ensure the payload is securely loaded before attempting to chamber!"
@@ -261,7 +304,7 @@
 	var/obj/item/ship_weapon/ammunition/naval_artillery/shell = null
 	var/ammo_type = /obj/item/ship_weapon/ammunition/naval_artillery
 	var/loading = FALSE
-	var/load_delay = 20 SECONDS
+	var/load_delay = 15 SECONDS
 
 /obj/machinery/deck_turret/payload_gate/MouseDrop_T(obj/item/A, mob/user)
 	. = ..()

@@ -3,8 +3,8 @@
 
 /obj/structure/overmap/onMouseDrag(src_object, over_object, src_location, over_location, params, mob/M)
 	..()
-	if(locate(M) in gauss_gunners) //Special case for gauss gunners here. Takes priority over them being the regular gunner.
-		var/datum/component/overmap_gunning/user_gun = M.GetComponent(/datum/component/overmap_gunning)
+	var/datum/component/overmap_gunning/user_gun = M.GetComponent(/datum/component/overmap_gunning)
+	if(user_gun)
 		user_gun.onMouseDrag(src_object, over_object, src_location, over_location, params, M)
 		return TRUE
 	if(aiming)
@@ -18,9 +18,9 @@
 		return
 	if((object in M.contents) || (object == M))
 		return
-	if(locate(M) in gauss_gunners) //Special case for gauss gunners here. Takes priority over them being the regular gunner.
-		var/datum/component/overmap_gunning/user_gun = M.GetComponent(/datum/component/overmap_gunning)
-		user_gun.onMouseDown(object)
+	var/datum/component/overmap_gunning/user_gun = M.GetComponent(/datum/component/overmap_gunning)
+	if(user_gun)
+		user_gun?.onMouseDown(object)
 		return TRUE
 	if(fire_mode == FIRE_MODE_MAC || fire_mode == FIRE_MODE_BLUE_LASER)
 		start_aiming(params, M)
@@ -30,9 +30,9 @@
 /obj/structure/overmap/proc/onMouseUp(object, location, params, mob/M)
 	if(istype(object, /obj/screen) && !istype(object, /obj/screen/click_catcher))
 		return
-	if(locate(M) in gauss_gunners) //Special case for gauss gunners here. Takes priority over them being the regular gunner.
-		var/datum/component/overmap_gunning/user_gun = M.GetComponent(/datum/component/overmap_gunning)
-		user_gun.onMouseUp(object)
+	var/datum/component/overmap_gunning/user_gun = M.GetComponent(/datum/component/overmap_gunning)
+	if(user_gun)
+		user_gun?.onMouseUp(object)
 		return TRUE
 	autofire_target = null
 	lastangle = getMouseAngle(params, M)

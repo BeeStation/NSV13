@@ -16,7 +16,7 @@
 /obj/structure/overmap/Initialize()
 	. = ..()
 	if(mass <= MASS_TINY)
-		weapons[FIRE_MODE_PDC] = new /datum/ship_weapon/light_cannon
+		weapons[FIRE_MODE_PDC] = new /datum/ship_weapon/light_cannon(src)
 
 /**
 *

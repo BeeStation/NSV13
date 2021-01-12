@@ -14,6 +14,7 @@ GLOBAL_LIST_INIT(drop_trooper_teams, list("Noble", "Helljumper","Red", "Black", 
 	antagpanel_category = "Boarder"
 	roundend_category = "boarders"
 	should_equip = FALSE
+	tips = 'html/antagtips/boarder.html'
 
 /datum/antagonist/traitor/boarder/forge_human_objectives()
 	var/martyr_chance = prob(20)

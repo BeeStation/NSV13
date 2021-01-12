@@ -45,7 +45,32 @@
 	semi_auto = TRUE
 	max_ammo = 2
 	density = FALSE
+	circuit = /obj/item/circuitboard/machine/vls
 	var/obj/structure/fluff/vls_hatch/hatch = null
+
+/obj/item/circuitboard/machine/vls
+	name = "M14 VLS Tube (Circuitboard)"
+	build_path = /obj/machinery/ship_weapon/vls
+	req_components = list(
+		/obj/item/stack/sheet/mineral/titanium = 20,
+		/obj/item/stack/sheet/mineral/copper = 20,
+		/obj/item/stack/sheet/iron = 30,
+		/obj/item/stack/cable_coil = 10)
+
+/obj/machinery/ship_weapon/vls/Crossed(atom/movable/AM, oldloc)
+	. = ..()
+	if(istype(AM, ammo_type))
+		if(ammo?.len >= max_ammo)
+			return FALSE
+		if(loading)
+			return FALSE
+		if(state >= 2)
+			return FALSE
+		ammo += AM
+		AM.forceMove(src)
+		if(load_sound)
+			playsound(src, load_sound, 100, 1)
+		state = 2
 
 /obj/machinery/ship_weapon/vls/PostInitialize()
 	..()
@@ -253,10 +278,43 @@
 		targets += P
 	return targets
 
+
+/obj/structure/overmap/handle_flak()
+	if(fire_mode == FIRE_MODE_FLAK) //If theyre aiming the flak manually.
+		return
+	if(mass < MASS_SMALL) //Sub-capital ships don't get to use flak
+		return
+	var/datum/ship_weapon/SW = weapon_types[FIRE_MODE_FLAK]
+	var/flak_left = flak_battery_amount //Multi-flak batteries!
+	if(!ai_controlled)
+		if(!last_target || !istype(last_target, /obj/structure/overmap) || QDELETED(last_target) || !isovermap(last_target) || last_target == src || get_dist(last_target,src) >= SW.range_modifier) //Stop hitting yourself enterprise
+			last_target = null
+		else
+			fire_weapon(last_target, mode=FIRE_MODE_FLAK, lateral=TRUE)
+			flak_left --
+			if(flak_left <= 0)
+				return
+	for(var/obj/structure/overmap/ship in GLOB.overmap_objects)
+		if(!ship || !istype(ship))
+			continue
+		if(ship == src || ship == last_target || ship.faction == faction || wrecked || ship.wrecked || ship.z != z) //No friendly fire, don't blow up wrecks that the crew may wish to loot. For AIs, do not target our active target, and risk blowing up our precious torpedoes / missiles.
+			continue
+		var/target_range = get_dist(ship,src)
+		if(target_range > 30 || target_range <= 0) //Random pulled from the aether
+			continue
+		if(!QDELETED(ship) && isovermap(ship) && ship.is_sensor_visible(src) >= SENSOR_VISIBILITY_TARGETABLE)
+			last_target = ship
+			fire_weapon(ship, mode=FIRE_MODE_FLAK, lateral=TRUE)
+			flak_left --
+			if(flak_left <= 0)
+				break
+
 /**
  * Handles the AMS system
  */
 /obj/structure/overmap/proc/handle_autonomous_targeting()
+	if(flak_battery_amount >= 1)
+		handle_flak()
 	if(!weapon_types[FIRE_MODE_AMS])
 		return FALSE
 	var/datum/ship_weapon/AMS = weapon_types[FIRE_MODE_AMS]

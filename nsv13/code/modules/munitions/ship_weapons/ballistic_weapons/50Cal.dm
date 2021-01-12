@@ -11,13 +11,22 @@
 	maintainable = FALSE
 	fire_mode = FIRE_MODE_50CAL
 	max_ammo = 100
+	circuit = /obj/item/circuitboard/machine/fiftycal
+	var/gunning_component_type = /datum/component/overmap_gunning/fiftycal
 	var/mob/living/gunner
+
+/obj/machinery/ship_weapon/fiftycal/super
+	name = ".50 cal super pom pom turret"
+	desc = "For when you need more bullets spat out more quickly."
+	icon_state = "deck_gun_super"
+	circuit = /obj/item/circuitboard/machine/fiftycal/super
+	gunning_component_type = /datum/component/overmap_gunning/fiftycal/super
 
 /obj/machinery/ship_weapon/fiftycal/proc/start_gunning(mob/user)
 	if(gunner)
 		remove_gunner()
 	gunner = user
-	user.AddComponent(/datum/component/overmap_gunning/fiftycal, src, TRUE)
+	user.AddComponent(gunning_component_type, src, TRUE)
 
 /obj/machinery/ship_weapon/fiftycal/proc/remove_gunner()
 	get_overmap().stop_piloting(gunner)
@@ -34,7 +43,11 @@
 
 /datum/component/overmap_gunning/fiftycal
 	fire_mode = FIRE_MODE_50CAL
-	fire_delay = 0.7 SECONDS
+	fire_delay = 0.25 SECONDS
+
+/datum/component/overmap_gunning/fiftycal/super
+	fire_mode = FIRE_MODE_50CAL
+	fire_delay = 0.1 SECONDS
 
 /datum/component/overmap_gunning/Initialize(obj/machinery/ship_weapon/fx_target, special_fx=FALSE)
 	. = ..()
@@ -51,8 +64,8 @@
 		RemoveComponent() //Uh...OK?
 		message_admins("Overmap gunning component created with no attached overmap.")
 		return
-	LAZYADD(OM.gauss_gunners, holder)
-	OM.start_piloting(holder, "gunner")
+	OM.gauss_gunners.Add(holder)
+	OM.start_piloting(holder, "secondary_gunner")
 	START_PROCESSING(SSfastprocess, src)
 
 /datum/component/overmap_gunning/proc/onClick(atom/movable/target)
@@ -71,10 +84,10 @@
 
 /datum/component/overmap_gunning/proc/onMouseUp(object, location, params, mob)
 	autofire_target = null
-	return
 
 /datum/component/overmap_gunning/proc/onMouseDown(object, location, params)
-	autofire_target = object //When we start firing, we start firing at whatever you clicked on initially. When the user drags their mouse, this shall change.
+	if(!autofire_target)
+		autofire_target = object //When we start firing, we start firing at whatever you clicked on initially. When the user drags their mouse, this shall change.
 
 /datum/component/overmap_gunning/onMouseDrag(src_object, over_object, src_location, over_location, params, mob/M)
 	. = ..()
@@ -82,7 +95,7 @@
 
 /datum/component/overmap_gunning/proc/end_gunning()
 	var/obj/structure/overmap/OM = holder.loc.get_overmap()
-	LAZYREMOVE(OM.gauss_gunners, holder)
+	OM.gauss_gunners.Remove(holder)
 	STOP_PROCESSING(SSfastprocess, src)
 	var/obj/machinery/ship_weapon/gauss_gun/G = holder.loc
 	if(istype(G))
@@ -109,6 +122,15 @@
 	. = ..()
 	return attack_hand(user)
 
+/obj/machinery/computer/fiftycal/multitool_act(mob/living/user, obj/item/multitool/I)
+	. = ..()
+	if(!istype(I))
+		return FALSE
+	if(I.buffer && istype(I.buffer, /obj/machinery/ship_weapon/fiftycal))
+		turret = I.buffer
+		to_chat(user, "<span class='warning'>Successfully linked [src] to [I.buffer].")
+		I.buffer = null
+
 /obj/machinery/computer/fiftycal/attack_hand(mob/user)
 	. = ..()
 	if(!turret)
@@ -125,6 +147,16 @@
 		/obj/item/stack/cable_coil = 5)
 	build_path = /obj/machinery/ship_weapon/fiftycal
 
+/obj/item/circuitboard/machine/fiftycal/super
+	name = "super .50 cal turret (circuitboard)"
+	req_components = list(
+		/obj/item/stack/sheet/mineral/titanium = 40,
+		/obj/item/stack/sheet/mineral/copper = 40,
+		/obj/item/stack/sheet/mineral/diamond = 5,
+		/obj/item/stack/sheet/iron = 20,
+		/obj/item/stack/cable_coil = 5)
+	build_path = /obj/machinery/ship_weapon/fiftycal
+
 /obj/item/circuitboard/computer/fiftycal
 	name = ".50 cal turret console (circuit)"
 	build_path = /obj/machinery/computer/fiftycal
@@ -132,8 +164,8 @@
 /obj/item/ammo_box/magazine/pdc/fiftycal
 	name = "50 caliber rounds"
 	ammo_type = /obj/item/ammo_casing/fiftycal
-	caliber = "mm40"
-	max_ammo = 100
+	caliber = "mm50pdc"
+	max_ammo = 200
 
 /obj/item/ammo_box/magazine/pdc/fiftycal/update_icon()
 	if(ammo_count() > 10)
@@ -145,7 +177,7 @@
 	name = "50mm round casing"
 	desc = "A 50mm bullet casing."
 	projectile_type = /obj/item/projectile/bullet/fiftycal
-	caliber = "50mm"
+	caliber = "mm50pdc"
 
 /obj/item/projectile/bullet/fiftycal
 	icon_state = "50cal"
@@ -160,6 +192,15 @@
 	id = "fiftycal"
 	materials = list(/datum/material/glass = 2000, /datum/material/copper = 2000, /datum/material/gold = 5000)
 	build_path = /obj/item/circuitboard/machine/fiftycal
+	category = list("Advanced Munitions")
+	departmental_flags = DEPARTMENTAL_FLAG_CARGO | DEPARTMENTAL_FLAG_SCIENCE
+
+/datum/design/board/fiftycal/super
+	name = "Machine Design (.50 cal deck turret)"
+	desc = "Allows for the construction of a crew served, super 50 cal pompom turret."
+	id = "fiftycal_super"
+	materials = list(/datum/material/glass = 2000, /datum/material/copper = 2000, /datum/material/gold = 5000)
+	build_path = /obj/item/circuitboard/machine/fiftycal/super
 	category = list("Advanced Munitions")
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO | DEPARTMENTAL_FLAG_SCIENCE
 

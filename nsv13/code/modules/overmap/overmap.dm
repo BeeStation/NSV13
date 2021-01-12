@@ -105,7 +105,7 @@
 	// Ship weapons
 	var/list/weapon_types[MAX_POSSIBLE_FIREMODE]
 
-	var/fire_mode = FIRE_MODE_PDC //What gun do we want to fire? Defaults to railgun, with PDCs there for flak
+	var/fire_mode = FIRE_MODE_TORPEDO //What gun do we want to fire? Defaults to railgun, with PDCs there for flak
 	var/weapon_safety = FALSE //Like a gun safety. Entirely un-used except for fighters to stop brainlets from shooting people on the ship unintentionally :)
 	var/faction = null //Used for target acquisition by AIs
 
@@ -402,6 +402,9 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 
 /obj/structure/overmap/proc/start_lockon(atom/target)
 	if(!istype(target, /obj/structure/overmap))
+		return FALSE
+	var/obj/structure/overmap/OM = target
+	if(OM.faction == faction)
 		return FALSE
 	if(LAZYFIND(target_painted, target))
 		target_painted.Remove(target)

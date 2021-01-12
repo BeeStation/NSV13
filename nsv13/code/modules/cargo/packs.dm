@@ -23,16 +23,33 @@
 	name = "Cannonballs (x10)"
 	desc = "For munitions teams on a budget, cannonballs serve as a cheap but still somewhat effective ammunition for Naval Artillery. Made from the finest cutlery the NT fleet has to offer."
 	cost = 1000
-	contains = list(/obj/item/ship_weapon/ammunition/naval_artillery,
-					/obj/item/ship_weapon/ammunition/naval_artillery,
-					/obj/item/ship_weapon/ammunition/naval_artillery,
-					/obj/item/ship_weapon/ammunition/naval_artillery,
-					/obj/item/ship_weapon/ammunition/naval_artillery,
-					/obj/item/ship_weapon/ammunition/naval_artillery,
-					/obj/item/ship_weapon/ammunition/naval_artillery,
-					/obj/item/ship_weapon/ammunition/naval_artillery,
-					/obj/item/ship_weapon/ammunition/naval_artillery,
-					/obj/item/ship_weapon/ammunition/naval_artillery)
+	contains = list(/obj/item/ship_weapon/ammunition/naval_artillery/cannonball,
+					/obj/item/ship_weapon/ammunition/naval_artillery/cannonball,
+					/obj/item/ship_weapon/ammunition/naval_artillery/cannonball,
+					/obj/item/ship_weapon/ammunition/naval_artillery/cannonball,
+					/obj/item/ship_weapon/ammunition/naval_artillery/cannonball,
+					/obj/item/ship_weapon/ammunition/naval_artillery/cannonball,
+					/obj/item/ship_weapon/ammunition/naval_artillery/cannonball,
+					/obj/item/ship_weapon/ammunition/naval_artillery/cannonball,
+					/obj/item/ship_weapon/ammunition/naval_artillery/cannonball,
+					/obj/item/ship_weapon/ammunition/naval_artillery/cannonball)
+	crate_type = /obj/structure/closet/crate/wooden
+	crate_name = "Captain Plasmasalt's finest cannonshot"
+
+/datum/supply_pack/munitions/gunpowder
+	name = "Powder bags (x10)"
+	desc = "Naval Gunpowder bags for use in artillery weapons, WARNING: Volatile."
+	cost = 1000
+	contains = list(/obj/item/powder_bag,
+					/obj/item/powder_bag,
+					/obj/item/powder_bag,
+					/obj/item/powder_bag,
+					/obj/item/powder_bag,
+					/obj/item/powder_bag,
+					/obj/item/powder_bag,
+					/obj/item/powder_bag,
+					/obj/item/powder_bag,
+					/obj/item/powder_bag)
 	crate_type = /obj/structure/closet/crate/wooden
 	crate_name = "Captain Plasmasalt's finest cannonshot"
 
@@ -46,17 +63,6 @@
 					/obj/item/ammo_box/magazine/pdc/fiftycal,
 					/obj/item/ammo_box/magazine/pdc/fiftycal)
 	crate_name = "PDC ammunition crate"
-
-/datum/supply_pack/munitions/flak
-	name = "Flak rounds crate (x5)"
-	desc = "5 boxes of flak ammunition. Typically used to shoot down oncoming ordnance."
-	cost = 1000
-	contains = list(/obj/item/ammo_box/magazine/pdc/flak,
-					/obj/item/ammo_box/magazine/pdc/flak,
-					/obj/item/ammo_box/magazine/pdc/flak,
-					/obj/item/ammo_box/magazine/pdc/flak,
-					/obj/item/ammo_box/magazine/pdc/flak)
-	crate_name = "Flak ammunition crate"
 
 /datum/supply_pack/munitions/trolley
 	name = "Replacement munitions trolley (x1)"
