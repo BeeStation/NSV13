@@ -54,6 +54,7 @@
 	icon_state = "nuke"
 	desc = "The NTX-class IV nuclear torpedo carries a radiological payload which is capable of inflicting catastrophic damage against enemy ships, stations or dense population centers. These weapons are utterly without mercy and will annihilate indiscriminately, use with EXTREME caution."
 	projectile_type = /obj/item/projectile/guided_munition/torpedo/nuclear
+	volatility = 5
 
 /obj/item/projectile/guided_munition/torpedo/nuclear
 	icon_state = "torpedo_nuke"

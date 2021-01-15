@@ -138,11 +138,8 @@
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck1/central)
 "aed" = (
-/obj/machinery/deck_turret/payload_gate,
-/obj/effect/turf_decal/stripes/line{
-	dir = 8
-	},
-/turf/open/floor/plating,
+/obj/effect/turf_decal/ship/delivery/yellow,
+/turf/open/floor/monotile/dark,
 /area/nsv/weapons/starboard)
 "aej" = (
 /turf/closed/wall/r_wall/ship,
@@ -457,9 +454,14 @@
 /turf/closed/wall/ship,
 /area/science/test_area)
 "ana" = (
-/obj/structure/ladder,
-/turf/open/floor/monotile/dark/airless,
-/area/space)
+/obj/structure/lattice/catwalk/over/ship/dark,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
+/turf/open/floor/plating,
+/area/nsv/weapons/starboard)
 "anw" = (
 /obj/machinery/flasher/portable,
 /obj/effect/turf_decal/delivery/white,
@@ -872,7 +874,6 @@
 /turf/open/floor/monotile/dark,
 /area/medical/morgue)
 "axe" = (
-/obj/effect/turf_decal/delivery/red,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 8
 	},
@@ -918,8 +919,8 @@
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /obj/machinery/door/airlock/highsecurity/ship{
-	name = "Powder Room";
-	req_one_access_txt = "69"
+	name = "Munitions Projects";
+	req_one_access_txt = "3;69"
 	},
 /turf/open/floor/plating,
 /area/nsv/weapons/starboard)
@@ -1388,11 +1389,11 @@
 /turf/open/floor/carpet/blue,
 /area/bridge/meeting_room)
 "aMh" = (
-/obj/machinery/conveyor{
-	dir = 8;
-	id = "torpstage2"
+/obj/machinery/conveyor/slow{
+	dir = 4;
+	id = "torp"
 	},
-/turf/open/floor/monotile/dark,
+/turf/open/floor/plasteel/ridged/steel,
 /area/nsv/weapons/starboard)
 "aMQ" = (
 /obj/structure/rack,
@@ -1650,21 +1651,6 @@
 /area/maintenance/nsv/deck1/starboard/aft)
 "aUm" = (
 /obj/structure/closet/crate,
-/obj/item/ship_weapon/ammunition/railgun_ammo,
-/obj/item/ship_weapon/ammunition/railgun_ammo,
-/obj/item/ship_weapon/ammunition/railgun_ammo,
-/obj/item/ship_weapon/ammunition/railgun_ammo,
-/obj/item/ship_weapon/ammunition/railgun_ammo,
-/obj/item/ship_weapon/ammunition/railgun_ammo,
-/obj/item/ship_weapon/ammunition/railgun_ammo,
-/obj/item/ship_weapon/ammunition/railgun_ammo,
-/obj/item/ship_weapon/ammunition/railgun_ammo,
-/obj/item/ship_weapon/ammunition/railgun_ammo,
-/obj/item/ship_weapon/ammunition/railgun_ammo,
-/obj/item/ship_weapon/ammunition/railgun_ammo,
-/obj/item/ship_weapon/ammunition/railgun_ammo,
-/obj/item/ship_weapon/ammunition/railgun_ammo,
-/obj/item/ship_weapon/ammunition/railgun_ammo,
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
 	},
@@ -1698,10 +1684,6 @@
 	},
 /turf/open/floor/monotile,
 /area/hallway/nsv/deck1/frame1/starboard)
-"aUA" = (
-/obj/structure/grille,
-/turf/open/space/basic,
-/area/space/nearstation)
 "aUV" = (
 /obj/structure/chair/comfy/shuttle{
 	dir = 1;
@@ -2819,9 +2801,12 @@
 /turf/open/floor/monotile,
 /area/bridge)
 "bwy" = (
-/obj/effect/turf_decal/ship/delivery/yellow,
-/obj/structure/munitions_trolley,
-/turf/open/floor/monotile/dark/airless,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
+/obj/structure/disposalpipe/segment{
+	dir = 9
+	},
+/turf/open/floor/plasteel/ridged/steel,
 /area/nsv/weapons/starboard)
 "bwB" = (
 /obj/effect/turf_decal/tile/red{
@@ -3608,12 +3593,6 @@
 "bQO" = (
 /turf/closed/wall/r_wall/ship,
 /area/space/nearstation)
-"bQR" = (
-/obj/effect/turf_decal/stripes/line{
-	dir = 5
-	},
-/turf/open/floor/plating,
-/area/nsv/weapons/starboard)
 "bRc" = (
 /obj/structure/closet/radiation,
 /turf/open/floor/plating,
@@ -4874,7 +4853,7 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 8
 	},
-/turf/open/floor/monotile,
+/turf/open/floor/plasteel/ridged/steel,
 /area/nsv/weapons/starboard)
 "cuz" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
@@ -5356,7 +5335,7 @@
 /obj/machinery/light{
 	dir = 8
 	},
-/obj/item/ship_weapon/ammunition/torpedo/nuke,
+/obj/item/ship_weapon/ammunition/torpedo,
 /turf/open/floor/monotile,
 /area/nsv/weapons/starboard)
 "cFB" = (
@@ -5742,11 +5721,8 @@
 /turf/open/floor/monotile,
 /area/security/nuke_storage)
 "cQK" = (
-/obj/machinery/deck_turret/autoelevator,
-/obj/effect/turf_decal/stripes/line{
-	dir = 8
-	},
-/turf/open/floor/plating,
+/obj/structure/disposalpipe/segment,
+/turf/open/floor/plasteel/ridged/steel,
 /area/nsv/weapons/starboard)
 "cQM" = (
 /obj/machinery/door/firedoor/border_only,
@@ -5995,14 +5971,12 @@
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck1/starboard)
 "cYp" = (
-/obj/machinery/light{
-	dir = 4
-	},
-/obj/machinery/deck_turret/autoelevator,
-/obj/effect/turf_decal/stripes/line{
-	dir = 4
-	},
-/turf/open/floor/plating,
+/obj/effect/turf_decal/ship/delivery/yellow,
+/obj/item/ship_weapon/ammunition/missile/missile_casing,
+/obj/item/ship_weapon/ammunition/missile/missile_casing,
+/obj/item/ship_weapon/ammunition/missile/missile_casing,
+/obj/item/ship_weapon/ammunition/missile/missile_casing,
+/turf/open/floor/monotile/dark,
 /area/nsv/weapons/starboard)
 "cYV" = (
 /obj/effect/turf_decal/tile/ship/half/blue{
@@ -6374,11 +6348,10 @@
 /turf/open/floor/monotile/light,
 /area/science/mixing)
 "dgb" = (
-/obj/effect/turf_decal/delivery/red,
-/obj/machinery/light{
+/obj/effect/turf_decal/stripes/corner{
 	dir = 8
 	},
-/turf/open/floor/monotile,
+/turf/open/floor/plasteel/ridged/steel,
 /area/nsv/weapons/starboard)
 "dgm" = (
 /obj/effect/turf_decal/tile/neutral{
@@ -7572,8 +7545,8 @@
 /area/maintenance/nsv/deck1/port)
 "dMA" = (
 /obj/effect/decal/cleanable/oil,
-/obj/machinery/conveyor{
-	id = "naval"
+/obj/effect/turf_decal/stripes/line{
+	dir = 4
 	},
 /turf/open/floor/plating,
 /area/nsv/weapons/starboard)
@@ -7897,11 +7870,9 @@
 /area/nsv/weapons/ordnance)
 "dTR" = (
 /obj/effect/decal/cleanable/oil,
-/obj/machinery/deck_turret/payload_gate,
-/obj/effect/turf_decal/stripes/line{
-	dir = 4
-	},
-/turf/open/floor/plating,
+/obj/effect/turf_decal/ship/delivery/yellow,
+/obj/structure/munitions_trolley,
+/turf/open/floor/monotile/dark,
 /area/nsv/weapons/starboard)
 "dUA" = (
 /obj/machinery/computer/crew,
@@ -8481,11 +8452,12 @@
 /area/security/range)
 "ejW" = (
 /obj/machinery/light,
-/obj/machinery/conveyor{
-	dir = 8;
-	id = "torpstage2"
+/obj/machinery/conveyor/slow{
+	dir = 4;
+	id = "torp"
 	},
-/turf/open/floor/monotile/dark,
+/obj/item/ship_weapon/ammunition/missile/missile_casing,
+/turf/open/floor/plasteel/ridged/steel,
 /area/nsv/weapons/starboard)
 "ejZ" = (
 /turf/closed/wall/r_wall/ship,
@@ -8594,6 +8566,9 @@
 	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
+/obj/structure/disposalpipe/segment{
+	dir = 6
+	},
 /turf/open/floor/plasteel/ridged/steel,
 /area/nsv/weapons/starboard)
 "emw" = (
@@ -9626,11 +9601,10 @@
 /turf/open/floor/monotile,
 /area/security/prison)
 "eHF" = (
-/obj/machinery/conveyor{
-	id = "naval"
-	},
-/obj/structure/plasticflaps,
-/turf/open/floor/plating,
+/obj/effect/turf_decal/ship/delivery/yellow,
+/obj/machinery/missile_builder/assembler,
+/obj/item/ship_weapon/parts/missile/warhead,
+/turf/open/floor/monotile/dark,
 /area/nsv/weapons/starboard)
 "eHI" = (
 /obj/effect/turf_decal/tile/blue{
@@ -10487,9 +10461,11 @@
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck1/aft)
 "fcZ" = (
-/obj/structure/hull_plate,
-/obj/machinery/missile_builder/screwdriver,
-/turf/open/floor/monotile/dark/airless,
+/obj/machinery/conveyor/slow{
+	dir = 8;
+	id = "torp"
+	},
+/turf/open/floor/monotile,
 /area/nsv/weapons/starboard)
 "fdq" = (
 /obj/machinery/button/door{
@@ -10991,16 +10967,14 @@
 /turf/open/floor/monotile/dark,
 /area/science/xenobiology)
 "fpe" = (
-/obj/structure/closet/crate/engineering{
-	name = "flak ammo crate"
-	},
-/obj/item/ammo_box/magazine/pdc/flak,
-/obj/item/ammo_box/magazine/pdc/flak,
-/obj/item/ammo_box/magazine/pdc/flak,
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
 	},
 /obj/item/radio/intercom/directional/east,
+/obj/item/ammo_box/magazine/pdc/fiftycal,
+/obj/item/ammo_box/magazine/pdc/fiftycal,
+/obj/item/ammo_box/magazine/pdc/fiftycal,
+/obj/structure/rack,
 /turf/open/floor/plating,
 /area/nsv/weapons/starboard)
 "fpq" = (
@@ -12636,9 +12610,14 @@
 /turf/open/floor/monotile,
 /area/security/nuke_storage)
 "geU" = (
-/obj/structure/hull_plate,
-/obj/machinery/missile_builder/assembler,
-/turf/open/floor/monotile/dark/airless,
+/obj/machinery/camera/autoname{
+	dir = 8
+	},
+/obj/machinery/conveyor/inverted{
+	dir = 6;
+	id = "torp"
+	},
+/turf/open/floor/plasteel/ridged/steel,
 /area/nsv/weapons/starboard)
 "gfd" = (
 /obj/effect/turf_decal/stripes/line{
@@ -13085,11 +13064,12 @@
 /turf/open/floor/monotile/dark,
 /area/security/checkpoint/science/research)
 "gpZ" = (
-/obj/machinery/deck_turret/powder_gate,
-/obj/effect/turf_decal/stripes/line{
-	dir = 6
+/obj/effect/turf_decal/ship/borderfloor/gunmetal{
+	dir = 5
 	},
-/turf/open/floor/plating,
+/obj/machinery/ship_weapon/fiftycal,
+/obj/effect/turf_decal/ship/delivery/yellow,
+/turf/open/floor/monotile/dark/airless,
 /area/nsv/weapons/starboard)
 "gqd" = (
 /obj/structure/table,
@@ -13323,9 +13303,9 @@
 /area/medical/medbay/central)
 "gxV" = (
 /obj/effect/turf_decal/loading_area{
-	dir = 8
+	dir = 4
 	},
-/turf/open/floor/monotile/dark,
+/turf/open/floor/plasteel/ridged/steel,
 /area/nsv/weapons/starboard)
 "gxX" = (
 /obj/machinery/holopad,
@@ -13436,10 +13416,6 @@
 	},
 /turf/open/floor/monotile,
 /area/hallway/nsv/deck1/frame1/starboard)
-"gAt" = (
-/obj/effect/turf_decal/ship/delivery/yellow,
-/turf/open/floor/monotile,
-/area/nsv/weapons/starboard)
 "gBb" = (
 /obj/effect/turf_decal/delivery,
 /obj/structure/cable{
@@ -13686,8 +13662,14 @@
 /turf/open/floor/monotile,
 /area/bridge)
 "gGY" = (
-/obj/item/ship_weapon/ammunition/torpedo,
-/turf/open/floor/monotile,
+/obj/effect/turf_decal/loading_area{
+	dir = 4
+	},
+/obj/item/ship_weapon/ammunition/torpedo/torpedo_casing,
+/obj/item/ship_weapon/ammunition/torpedo/torpedo_casing,
+/obj/item/ship_weapon/ammunition/torpedo/torpedo_casing,
+/obj/item/ship_weapon/ammunition/torpedo/torpedo_casing,
+/turf/open/floor/monotile/dark,
 /area/nsv/weapons/starboard)
 "gHb" = (
 /obj/structure/lattice/catwalk/over/ship,
@@ -14356,8 +14338,8 @@
 	dir = 1
 	},
 /obj/machinery/door/airlock/highsecurity/ship{
-	name = "Powder Room";
-	req_one_access_txt = "69"
+	name = "Munitions Projects";
+	req_one_access_txt = "3;69"
 	},
 /turf/open/floor/plating,
 /area/nsv/weapons/starboard)
@@ -14943,7 +14925,7 @@
 /turf/open/floor/plating,
 /area/science/mixing)
 "hle" = (
-/obj/item/ship_weapon/ammunition/torpedo/nuke,
+/obj/item/ship_weapon/ammunition/torpedo,
 /turf/open/floor/monotile,
 /area/nsv/weapons/starboard)
 "hlp" = (
@@ -15724,12 +15706,18 @@
 /turf/open/floor/plasteel/ship,
 /area/maintenance/disposal/incinerator)
 "hCE" = (
-/obj/structure/plasticflaps,
-/obj/machinery/conveyor{
-	dir = 8;
-	id = "naval"
-	},
-/turf/open/floor/monotile,
+/obj/effect/turf_decal/ship/delivery/yellow,
+/obj/structure/table/reinforced,
+/obj/item/ship_weapon/parts/missile/propulsion_system,
+/obj/item/ship_weapon/parts/missile/propulsion_system,
+/obj/item/ship_weapon/parts/missile/propulsion_system,
+/obj/item/ship_weapon/parts/missile/guidance_system,
+/obj/item/ship_weapon/parts/missile/guidance_system,
+/obj/item/ship_weapon/parts/missile/guidance_system,
+/obj/item/ship_weapon/parts/missile/warhead/torpedo,
+/obj/item/ship_weapon/parts/missile/warhead/torpedo,
+/obj/item/ship_weapon/parts/missile/warhead/torpedo,
+/turf/open/floor/monotile/dark,
 /area/nsv/weapons/starboard)
 "hCT" = (
 /obj/structure/chair/comfy{
@@ -15944,10 +15932,9 @@
 /turf/open/floor/monotile/dark,
 /area/security/prison)
 "hIw" = (
-/obj/effect/turf_decal/stripes/line{
-	dir = 4
-	},
-/turf/open/floor/plating,
+/obj/effect/turf_decal/ship/delivery/yellow,
+/obj/structure/table/reinforced,
+/turf/open/floor/monotile/dark,
 /area/nsv/weapons/starboard)
 "hIQ" = (
 /obj/effect/spawner/structure/window/reinforced/tinted,
@@ -16502,10 +16489,6 @@
 /area/nsv/hanger/notkmcstupidhanger/atc)
 "hUQ" = (
 /obj/effect/turf_decal/bot_red/right,
-/obj/structure/ladder,
-/obj/structure/sign/ship/space{
-	pixel_y = 32
-	},
 /turf/open/floor/monotile,
 /area/nsv/weapons/starboard)
 "hUT" = (
@@ -17250,11 +17233,14 @@
 /turf/open/floor/monotile,
 /area/hallway/nsv/deck1/frame1/starboard)
 "ios" = (
-/obj/effect/turf_decal/stripes/line{
-	dir = 4
+/obj/effect/turf_decal/loading_area{
+	dir = 8
 	},
-/obj/item/ship_weapon/ammunition/torpedo,
-/turf/open/floor/monotile,
+/obj/item/ship_weapon/ammunition/torpedo/torpedo_casing,
+/obj/item/ship_weapon/ammunition/torpedo/torpedo_casing,
+/obj/item/ship_weapon/ammunition/torpedo/torpedo_casing,
+/obj/item/ship_weapon/ammunition/torpedo/torpedo_casing,
+/turf/open/floor/monotile/dark,
 /area/nsv/weapons/starboard)
 "iov" = (
 /obj/structure/lattice/catwalk/over/ship,
@@ -17456,7 +17442,11 @@
 /turf/open/floor/carpet/ship,
 /area/crew_quarters/dorms/nsv/state_room)
 "itg" = (
-/turf/open/floor/monotile/dark,
+/obj/effect/landmark/start/munitions_tech,
+/obj/effect/turf_decal/loading_area{
+	dir = 8
+	},
+/turf/open/floor/monotile,
 /area/nsv/weapons/starboard)
 "itC" = (
 /obj/machinery/door/airlock/ship/command{
@@ -17905,7 +17895,8 @@
 	dir = 1
 	},
 /obj/effect/turf_decal/ship/delivery/yellow,
-/turf/open/floor/monotile,
+/obj/structure/frame/machine,
+/turf/open/floor/monotile/dark,
 /area/nsv/weapons/starboard)
 "iEw" = (
 /obj/effect/turf_decal/stripes/line{
@@ -17927,7 +17918,7 @@
 /obj/effect/turf_decal/bot,
 /obj/machinery/computer/ship/viewscreen,
 /obj/structure/disposalpipe/trunk,
-/turf/open/floor/monotile,
+/turf/open/floor/plasteel/ridged/steel,
 /area/nsv/weapons/starboard)
 "iFv" = (
 /obj/effect/turf_decal/tile/ship/half/blue,
@@ -18030,19 +18021,6 @@
 	icon_state = "panelscorched"
 	},
 /area/maintenance/nsv/hangar)
-"iHN" = (
-/obj/structure/chair/comfy/shuttle{
-	color = "#696969";
-	name = "weapon officer"
-	},
-/obj/effect/turf_decal/stripes/line{
-	dir = 1
-	},
-/obj/machinery/light{
-	dir = 1
-	},
-/turf/open/floor/plating,
-/area/nsv/weapons/starboard)
 "iIv" = (
 /obj/structure/chair{
 	dir = 8
@@ -18134,10 +18112,8 @@
 /turf/open/floor/monotile,
 /area/security/brig)
 "iKq" = (
-/obj/structure/hull_plate,
-/obj/machinery/missile_builder/assembler{
-	dir = 8
-	},
+/obj/effect/turf_decal/ship/delivery/yellow,
+/obj/structure/ladder,
 /turf/open/floor/monotile/dark/airless,
 /area/nsv/weapons/starboard)
 "iKu" = (
@@ -19019,9 +18995,23 @@
 /turf/open/floor/plating,
 /area/maintenance/nsv/hangar)
 "jgq" = (
-/obj/structure/table,
-/obj/item/storage/toolbox/mechanical,
-/turf/open/floor/monotile,
+/obj/machinery/disposal/deliveryChute{
+	name = "VLS delivery"
+	},
+/obj/machinery/door/window{
+	name = "VLS Deliveries";
+	req_one_access_txt = "69"
+	},
+/obj/structure/window/reinforced{
+	dir = 8
+	},
+/obj/structure/window/reinforced{
+	dir = 4
+	},
+/obj/structure/disposalpipe/trunk{
+	dir = 4
+	},
+/turf/open/floor/plasteel/ridged/steel,
 /area/nsv/weapons/starboard)
 "jgs" = (
 /obj/machinery/photocopier,
@@ -19489,9 +19479,10 @@
 /turf/open/floor/monotile,
 /area/security/brig)
 "jrv" = (
-/obj/machinery/deck_turret/powder_gate,
-/obj/effect/turf_decal/stripes/line,
-/turf/open/floor/plating,
+/obj/structure/chair/office{
+	dir = 1
+	},
+/turf/open/floor/monotile,
 /area/nsv/weapons/starboard)
 "jrA" = (
 /obj/effect/turf_decal/caution/stand_clear/red,
@@ -19693,8 +19684,8 @@
 /turf/open/floor/monotile/light,
 /area/medical/chemistry)
 "jvL" = (
-/obj/machinery/conveyor{
-	id = "naval"
+/obj/effect/turf_decal/stripes/line{
+	dir = 4
 	},
 /turf/open/floor/plating,
 /area/nsv/weapons/starboard)
@@ -20739,7 +20730,7 @@
 /area/security/prison)
 "kam" = (
 /obj/effect/turf_decal/ship/delivery/yellow,
-/obj/machinery/computer/ship/munitions_computer/west,
+/obj/machinery/missile_builder/wirer,
 /turf/open/floor/monotile/dark,
 /area/nsv/weapons/starboard)
 "kaq" = (
@@ -21046,10 +21037,10 @@
 /turf/open/floor/monotile/light,
 /area/medical/nsv/plumbing)
 "kiF" = (
-/obj/effect/turf_decal/ship/borderfloor/gunmetal{
-	dir = 4
-	},
-/turf/open/floor/monotile/dark/airless,
+/obj/effect/turf_decal/ship/delivery/yellow,
+/obj/item/ship_weapon/parts/missile/propulsion_system,
+/obj/machinery/missile_builder/assembler,
+/turf/open/floor/monotile/dark,
 /area/nsv/weapons/starboard)
 "kiW" = (
 /obj/structure/cable{
@@ -21104,17 +21095,9 @@
 /turf/open/floor/wood,
 /area/crew_quarters/heads/captain/private)
 "kkl" = (
-/obj/structure/lattice/catwalk/over/ship/dark,
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
-	dir = 8
-	},
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
-	dir = 4
-	},
-/obj/machinery/conveyor{
-	id = "naval"
-	},
-/turf/open/floor/plating,
+/obj/effect/turf_decal/ship/delivery/yellow,
+/obj/machinery/missile_builder,
+/turf/open/floor/monotile/dark,
 /area/nsv/weapons/starboard)
 "kkv" = (
 /obj/effect/turf_decal/stripes/line{
@@ -21193,11 +21176,10 @@
 /turf/open/floor/monotile/light,
 /area/security/brig)
 "klF" = (
-/obj/effect/turf_decal/stripes/line{
-	dir = 6
-	},
-/obj/structure/ladder,
-/turf/open/floor/monotile/dark/airless,
+/obj/effect/turf_decal/ship/delivery/yellow,
+/obj/machinery/missile_builder/assembler,
+/obj/item/ship_weapon/parts/missile/guidance_system,
+/turf/open/floor/monotile/dark,
 /area/nsv/weapons/starboard)
 "klT" = (
 /obj/machinery/shower{
@@ -21338,12 +21320,9 @@
 /turf/open/floor/monotile,
 /area/security/prison)
 "koy" = (
-/obj/structure/plasticflaps,
-/obj/structure/fans/tiny,
-/obj/machinery/conveyor{
-	dir = 8;
-	id = "torpstage2"
-	},
+/obj/effect/turf_decal/ship/delivery/yellow,
+/obj/machinery/missile_builder/assembler,
+/obj/item/ship_weapon/parts/missile/iff_card,
 /turf/open/floor/monotile/dark,
 /area/nsv/weapons/starboard)
 "koD" = (
@@ -21459,10 +21438,9 @@
 /turf/open/floor/plasteel/tech/grid,
 /area/nsv/weapons/ordnance)
 "krO" = (
-/obj/effect/turf_decal/ship/borderfloor/gunmetal{
-	dir = 5
-	},
-/turf/open/floor/monotile/dark/airless,
+/obj/effect/turf_decal/ship/delivery/yellow,
+/obj/machinery/missile_builder/screwdriver,
+/turf/open/floor/monotile/dark,
 /area/nsv/weapons/starboard)
 "krP" = (
 /obj/effect/decal/cleanable/dirt,
@@ -21565,6 +21543,7 @@
 /obj/effect/turf_decal/ship/borderfloor/gunmetal{
 	dir = 1
 	},
+/obj/machinery/ship_weapon/deck_turret,
 /turf/open/floor/monotile/dark/airless,
 /area/nsv/weapons/starboard)
 "kuF" = (
@@ -22055,7 +22034,7 @@
 /area/nsv/hanger)
 "kIP" = (
 /obj/machinery/door/airlock/highsecurity/ship{
-	name = "Heavy Ballistics";
+	name = "Manufacturing Plant";
 	req_one_access_txt = "69"
 	},
 /obj/structure/sign/ship/armoury{
@@ -22453,10 +22432,10 @@
 /turf/open/floor/monotile/dark/airless,
 /area/space/nearstation)
 "kSh" = (
-/obj/effect/turf_decal/stripes/line{
-	dir = 9
+/obj/structure/disposalpipe/segment{
+	dir = 4
 	},
-/turf/open/floor/plating,
+/turf/open/floor/plasteel/ridged/steel,
 /area/nsv/weapons/starboard)
 "kSy" = (
 /obj/effect/turf_decal/delivery/white,
@@ -22621,11 +22600,12 @@
 /turf/open/floor/monotile/dark,
 /area/crew_quarters/dorms/nsv/state_room)
 "kWe" = (
-/obj/machinery/conveyor{
-	dir = 10;
-	id = "naval"
+/obj/machinery/firealarm/directional/south,
+/obj/machinery/conveyor_switch{
+	id = "torp";
+	name = "Primary Assembly Line"
 	},
-/turf/open/floor/monotile,
+/turf/open/floor/plasteel/ridged/steel,
 /area/nsv/weapons/starboard)
 "kWf" = (
 /obj/structure/chair,
@@ -23134,10 +23114,8 @@
 /turf/open/floor/circuit,
 /area/ai_monitored/turret_protected/ai)
 "liv" = (
-/obj/effect/turf_decal/ship/borderfloor/gunmetal{
-	dir = 6
-	},
-/turf/open/floor/monotile/dark/airless,
+/obj/structure/fluff/vls_hatch,
+/turf/open/openspace,
 /area/nsv/weapons/starboard)
 "liJ" = (
 /obj/structure/table,
@@ -24354,11 +24332,11 @@
 /turf/open/floor/plating,
 /area/security/brig)
 "lNG" = (
-/obj/effect/turf_decal/delivery/red,
-/obj/machinery/ship_weapon/gauss_gun{
-	pixel_y = -92
+/obj/machinery/conveyor/inverted{
+	dir = 10;
+	id = "torp"
 	},
-/turf/open/floor/monotile/dark/airless,
+/turf/open/floor/plasteel/ridged/steel,
 /area/nsv/weapons/starboard)
 "lNY" = (
 /obj/structure/disposalpipe/segment{
@@ -24875,9 +24853,8 @@
 /turf/open/floor/monotile,
 /area/hallway/nsv/deck1/frame1/central)
 "mcT" = (
-/obj/machinery/conveyor{
-	dir = 8;
-	id = "naval"
+/obj/machinery/light{
+	dir = 4
 	},
 /turf/open/floor/plasteel/ridged/steel,
 /area/nsv/weapons/starboard)
@@ -25391,8 +25368,8 @@
 /area/nsv/weapons/starboard)
 "mpX" = (
 /obj/structure/hull_plate,
-/obj/machinery/missile_builder{
-	dir = 8
+/obj/machinery/ship_weapon/gauss_gun{
+	pixel_y = -92
 	},
 /turf/open/floor/monotile/dark/airless,
 /area/nsv/weapons/starboard)
@@ -25512,12 +25489,9 @@
 /turf/open/floor/monotile,
 /area/nsv/briefingroom)
 "msr" = (
-/obj/machinery/deck_turret/powder_gate,
-/obj/effect/turf_decal/stripes/line{
-	dir = 10
-	},
-/turf/open/floor/plating,
-/area/nsv/weapons/starboard)
+/obj/structure/grille,
+/turf/open/space/basic,
+/area/space/nearstation)
 "msy" = (
 /obj/machinery/door/firedoor/border_only{
 	dir = 8
@@ -26372,14 +26346,8 @@
 /turf/open/floor/monotile,
 /area/hallway/nsv/deck1/aft)
 "mJO" = (
-/obj/machinery/conveyor_switch/oneway{
-	id = "shellOne";
-	name = "Shell Rack 1"
-	},
-/obj/effect/turf_decal/stripes/line{
-	dir = 4
-	},
-/turf/open/floor/plating,
+/obj/structure/grille,
+/turf/open/space/basic,
 /area/nsv/weapons/starboard)
 "mJW" = (
 /obj/effect/turf_decal/stripes/corner{
@@ -27501,6 +27469,7 @@
 /obj/effect/turf_decal/stripes/corner{
 	dir = 4
 	},
+/obj/item/ship_weapon/ammunition/missile/missile_casing,
 /turf/open/floor/monotile,
 /area/nsv/weapons/starboard)
 "nkU" = (
@@ -28693,11 +28662,6 @@
 /obj/item/radio/intercom/directional/north,
 /turf/open/floor/monotile/light,
 /area/medical/chemistry)
-"nTw" = (
-/obj/structure/munitions_trolley,
-/obj/effect/turf_decal/ship/delivery/yellow,
-/turf/open/floor/monotile/dark/airless,
-/area/nsv/weapons/starboard)
 "nTy" = (
 /obj/item/storage/box,
 /turf/open/floor/plating,
@@ -29127,9 +29091,7 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 10
 	},
-/obj/machinery/deck_turret/powder_gate,
-/obj/effect/turf_decal/stripes/line,
-/turf/open/floor/plating,
+/turf/open/floor/monotile,
 /area/nsv/weapons/starboard)
 "oes" = (
 /obj/effect/turf_decal/tile/purple{
@@ -30692,12 +30654,6 @@
 	},
 /turf/open/floor/plasteel/dark,
 /area/crew_quarters/heads/captain)
-"oQA" = (
-/obj/machinery/conveyor{
-	id = "naval"
-	},
-/turf/open/floor/monotile,
-/area/nsv/weapons/starboard)
 "oQE" = (
 /obj/structure/bed/roller,
 /obj/machinery/iv_drip,
@@ -30929,11 +30885,7 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 8
 	},
-/obj/machinery/deck_turret/powder_gate,
-/obj/effect/turf_decal/stripes/line{
-	dir = 10
-	},
-/turf/open/floor/plating,
+/turf/open/floor/monotile,
 /area/nsv/weapons/starboard)
 "oUh" = (
 /obj/structure/rack,
@@ -31048,14 +31000,6 @@
 /obj/machinery/newscaster/security_unit/south,
 /turf/open/floor/monotile,
 /area/hallway/nsv/deck1/frame1/central)
-"oVQ" = (
-/obj/structure/hull_plate,
-/obj/machinery/conveyor/slow{
-	dir = 6;
-	id = "torp"
-	},
-/turf/open/floor/monotile/dark/airless,
-/area/nsv/weapons/starboard)
 "oVS" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 9
@@ -31986,11 +31930,16 @@
 /turf/open/floor/monotile/dark,
 /area/ai_monitored/security/armory)
 "ppD" = (
-/obj/machinery/computer/deckgun,
-/obj/effect/turf_decal/stripes/line{
-	dir = 9
+/obj/structure/table,
+/obj/item/stack/conveyor/slow{
+	amount = 30
 	},
-/turf/open/floor/plating,
+/obj/item/conveyor_switch_construct,
+/obj/item/storage/toolbox/mechanical,
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
+/turf/open/floor/plasteel/ridged/steel,
 /area/nsv/weapons/starboard)
 "ppI" = (
 /obj/structure/peacekeeper_barricade/metal{
@@ -32529,16 +32478,6 @@
 /obj/effect/turf_decal/tile/blue,
 /turf/open/floor/monotile/light,
 /area/medical/medbay/central)
-"pEk" = (
-/obj/item/ship_weapon/ammunition/naval_artillery,
-/obj/item/ship_weapon/ammunition/naval_artillery,
-/obj/item/ship_weapon/ammunition/naval_artillery,
-/obj/machinery/conveyor{
-	dir = 8;
-	id = "shellOne"
-	},
-/turf/open/floor/plating,
-/area/nsv/weapons/starboard)
 "pEs" = (
 /obj/effect/turf_decal/tile/blue{
 	dir = 1
@@ -32557,9 +32496,6 @@
 /obj/structure/closet/firecloset,
 /turf/open/floor/plasteel/ship/techfloor/alt,
 /area/nsv/hanger)
-"pEC" = (
-/turf/open/floor/monotile/dark/airless,
-/area/nsv/weapons/starboard)
 "pEI" = (
 /obj/machinery/disposal/bin,
 /obj/effect/turf_decal/bot{
@@ -33492,16 +33428,6 @@
 /obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1,
 /turf/open/floor/plating,
 /area/nsv/weapons/starboard)
-"qfS" = (
-/obj/machinery/conveyor_switch/oneway{
-	id = "shellTwo";
-	name = "Shell Rack 2"
-	},
-/obj/effect/turf_decal/stripes/line{
-	dir = 4
-	},
-/turf/open/floor/plating,
-/area/nsv/weapons/starboard)
 "qgp" = (
 /obj/effect/turf_decal/stripes/corner{
 	dir = 4
@@ -33750,14 +33676,10 @@
 /obj/machinery/light{
 	dir = 1
 	},
-/obj/structure/chair/comfy/shuttle{
-	color = "#696969";
-	name = "weapon officer"
+/obj/structure/disposalpipe/segment{
+	dir = 4
 	},
-/obj/effect/turf_decal/stripes/line{
-	dir = 1
-	},
-/turf/open/floor/plating,
+/turf/open/floor/plasteel/ridged/steel,
 /area/nsv/weapons/starboard)
 "qoR" = (
 /obj/structure/cable{
@@ -34212,9 +34134,6 @@
 "qxZ" = (
 /obj/machinery/light{
 	dir = 8
-	},
-/obj/machinery/conveyor{
-	id = "naval"
 	},
 /turf/open/floor/monotile,
 /area/nsv/weapons/starboard)
@@ -35364,14 +35283,6 @@
 "qZX" = (
 /turf/closed/wall/ship,
 /area/hallway/nsv/deck1/frame1/central)
-"rah" = (
-/obj/structure/hull_plate,
-/obj/machinery/conveyor{
-	dir = 10;
-	id = "torpstage2"
-	},
-/turf/open/floor/monotile/dark/airless,
-/area/nsv/weapons/starboard)
 "raH" = (
 /obj/structure/lattice/catwalk/over/ship,
 /turf/open/floor/noslip/dark,
@@ -35572,9 +35483,6 @@
 "reJ" = (
 /turf/open/floor/monotile/light,
 /area/crew_quarters/heads/cmo)
-"rfa" = (
-/turf/closed/wall/r_wall,
-/area/space)
 "rfc" = (
 /obj/machinery/computer/ship/munitions_computer/east,
 /obj/structure/lattice/catwalk/over/ship,
@@ -36133,7 +36041,8 @@
 /turf/open/floor/plasteel/techmaint,
 /area/nsv/hanger/notkmcstupidhanger/launchtube/right/airlock)
 "rtW" = (
-/obj/machinery/ship_weapon/vls,
+/obj/machinery/missile_builder,
+/obj/effect/turf_decal/ship/delivery/yellow,
 /turf/open/floor/monotile/dark,
 /area/nsv/weapons/starboard)
 "rud" = (
@@ -36387,16 +36296,18 @@
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck1/port)
 "rBk" = (
-/obj/machinery/conveyor_switch/oneway{
-	id = "naval";
-	name = "Feed Into Gun Room"
-	},
 /obj/machinery/computer/ship/viewscreen,
-/turf/open/floor/monotile,
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
+/turf/open/floor/plasteel/ridged/steel,
 /area/nsv/weapons/starboard)
 "rBF" = (
 /obj/structure/cable{
 	icon_state = "1-4"
+	},
+/obj/structure/disposalpipe/trunk/multiz/down{
+	dir = 8
 	},
 /turf/open/floor/plating,
 /area/maintenance/nsv/weapons)
@@ -36735,8 +36646,10 @@
 /turf/open/floor/monotile,
 /area/security/main)
 "rMy" = (
-/obj/effect/turf_decal/delivery/red,
-/turf/open/floor/monotile,
+/obj/effect/turf_decal/stripes/line{
+	dir = 8
+	},
+/turf/open/floor/plasteel/ridged/steel,
 /area/nsv/weapons/starboard)
 "rMJ" = (
 /obj/structure/chair/office/light,
@@ -37267,13 +37180,8 @@
 /turf/open/floor/monotile/light,
 /area/medical/medbay/central)
 "sbU" = (
-/obj/item/ship_weapon/ammunition/naval_artillery,
-/obj/item/ship_weapon/ammunition/naval_artillery,
-/obj/item/ship_weapon/ammunition/naval_artillery,
-/obj/machinery/conveyor{
-	dir = 8;
-	id = "shellTwo"
-	},
+/obj/structure/rack,
+/obj/item/stack/sheet/iron/fifty,
 /turf/open/floor/plating,
 /area/nsv/weapons/starboard)
 "sbV" = (
@@ -37566,7 +37474,10 @@
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck1/starboard/aft)
 "slz" = (
-/obj/effect/turf_decal/ship/borderfloor/gunmetal,
+/obj/effect/turf_decal/ship/delivery/yellow,
+/obj/machinery/ship_weapon/gauss_gun{
+	pixel_y = -92
+	},
 /turf/open/floor/monotile/dark/airless,
 /area/nsv/weapons/starboard)
 "slJ" = (
@@ -37592,12 +37503,6 @@
 /obj/structure/lattice/catwalk,
 /turf/open/space/basic,
 /area/space/nearstation)
-"slR" = (
-/obj/effect/turf_decal/ship/borderfloor/gunmetal{
-	dir = 10
-	},
-/turf/open/floor/monotile/dark/airless,
-/area/nsv/weapons/starboard)
 "slU" = (
 /obj/effect/spawner/structure/window/reinforced/ship,
 /obj/structure/cable,
@@ -38181,11 +38086,11 @@
 /turf/open/floor/plating,
 /area/bridge)
 "szL" = (
-/obj/machinery/light{
-	dir = 4
+/obj/machinery/conveyor/slow{
+	dir = 1;
+	id = "torp"
 	},
-/obj/machinery/ship_weapon/vls,
-/turf/open/floor/monotile/dark,
+/turf/open/floor/plasteel/ridged/steel,
 /area/nsv/weapons/starboard)
 "sAa" = (
 /obj/structure/cable{
@@ -38783,6 +38688,9 @@
 	dir = 1;
 	pixel_y = -32
 	},
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
 /turf/open/floor/plasteel/ridged/steel,
 /area/nsv/weapons/starboard)
 "sLX" = (
@@ -38844,9 +38752,8 @@
 /area/nsv/hanger)
 "sMY" = (
 /obj/structure/hull_plate,
-/obj/machinery/conveyor/slow{
-	id = "torp"
-	},
+/obj/machinery/ship_weapon/fiftycal,
+/obj/effect/turf_decal/ship/delivery/yellow,
 /turf/open/floor/monotile/dark/airless,
 /area/nsv/weapons/starboard)
 "sMZ" = (
@@ -39265,11 +39172,6 @@
 	},
 /turf/open/floor/plasteel/ridged/steel,
 /area/hallway/nsv/deck1/frame1/starboard)
-"sVR" = (
-/obj/structure/hull_plate,
-/obj/machinery/missile_builder,
-/turf/open/floor/monotile/dark/airless,
-/area/nsv/weapons/starboard)
 "sVS" = (
 /obj/structure/cable{
 	icon_state = "2-8"
@@ -39547,13 +39449,6 @@
 /obj/effect/turf_decal/stripes/line,
 /turf/open/floor/monotile/dark,
 /area/nsv/hanger/notkmcstupidhanger/pilot)
-"tbD" = (
-/obj/effect/landmark/start/munitions_tech,
-/obj/effect/turf_decal/loading_area{
-	dir = 8
-	},
-/turf/open/floor/plasteel/ridged/steel,
-/area/nsv/weapons/starboard)
 "tbF" = (
 /obj/machinery/atmospherics/pipe/simple/general/visible{
 	dir = 9
@@ -40190,13 +40085,6 @@
 	},
 /turf/open/floor/monotile,
 /area/security/warden)
-"ttn" = (
-/obj/structure/hull_plate,
-/obj/machinery/conveyor{
-	id = "torpstage2"
-	},
-/turf/open/floor/monotile/dark/airless,
-/area/nsv/weapons/starboard)
 "ttt" = (
 /obj/effect/decal/cleanable/dirt,
 /turf/open/floor/plasteel/white,
@@ -40332,14 +40220,6 @@
 /obj/item/radio/intercom/directional/south,
 /turf/open/floor/monotile,
 /area/hallway/nsv/deck1/frame1/central)
-"tyy" = (
-/obj/structure/hull_plate,
-/obj/machinery/conveyor/slow{
-	dir = 4;
-	id = "torp"
-	},
-/turf/open/floor/monotile/dark/airless,
-/area/nsv/weapons/starboard)
 "tyC" = (
 /obj/effect/turf_decal/bot,
 /obj/structure/disposalpipe/segment{
@@ -41677,21 +41557,6 @@
 /area/nsv/weapons/starboard)
 "uiL" = (
 /obj/structure/closet/crate,
-/obj/item/ship_weapon/ammunition/railgun_ammo,
-/obj/item/ship_weapon/ammunition/railgun_ammo,
-/obj/item/ship_weapon/ammunition/railgun_ammo,
-/obj/item/ship_weapon/ammunition/railgun_ammo,
-/obj/item/ship_weapon/ammunition/railgun_ammo,
-/obj/item/ship_weapon/ammunition/railgun_ammo,
-/obj/item/ship_weapon/ammunition/railgun_ammo,
-/obj/item/ship_weapon/ammunition/railgun_ammo,
-/obj/item/ship_weapon/ammunition/railgun_ammo,
-/obj/item/ship_weapon/ammunition/railgun_ammo,
-/obj/item/ship_weapon/ammunition/railgun_ammo,
-/obj/item/ship_weapon/ammunition/railgun_ammo,
-/obj/item/ship_weapon/ammunition/railgun_ammo,
-/obj/item/ship_weapon/ammunition/railgun_ammo,
-/obj/item/ship_weapon/ammunition/railgun_ammo,
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
 	},
@@ -41790,15 +41655,6 @@
 /turf/open/floor/wood,
 /area/security/detectives_office)
 "ulE" = (
-/obj/item/powder_bag{
-	pixel_y = -10
-	},
-/obj/item/powder_bag{
-	pixel_y = -10
-	},
-/obj/item/powder_bag{
-	pixel_y = -10
-	},
 /obj/structure/rack,
 /turf/open/floor/plating,
 /area/nsv/weapons/starboard)
@@ -42688,16 +42544,6 @@
 	},
 /turf/open/floor/monotile,
 /area/crew_quarters/nsv/officerquarters)
-"uHC" = (
-/obj/machinery/conveyor_switch/oneway{
-	id = "naval";
-	name = "Feed Into Gun Room"
-	},
-/obj/effect/turf_decal/stripes/line{
-	dir = 4
-	},
-/turf/open/floor/plating,
-/area/nsv/weapons/starboard)
 "uHH" = (
 /obj/machinery/door/airlock/glass_large/ship{
 	bound_height = 64;
@@ -42900,14 +42746,6 @@
 /obj/structure/disposalpipe/segment,
 /turf/open/floor/monotile,
 /area/bridge)
-"uJC" = (
-/obj/effect/turf_decal/delivery/red,
-/obj/machinery/ship_weapon/gauss_gun{
-	pixel_x = -60;
-	pixel_y = -92
-	},
-/turf/open/floor/monotile/dark/airless,
-/area/nsv/weapons/starboard)
 "uJI" = (
 /obj/structure/cable{
 	icon_state = "2-8"
@@ -43718,13 +43556,6 @@
 /obj/machinery/atmospherics/components/binary/dp_vent_pump/layer1,
 /turf/open/floor/plating,
 /area/security/prison)
-"vcT" = (
-/obj/machinery/ship_weapon/vls,
-/obj/machinery/camera/autoname{
-	dir = 8
-	},
-/turf/open/floor/monotile/dark,
-/area/nsv/weapons/starboard)
 "vdj" = (
 /obj/effect/turf_decal/tile/blue{
 	dir = 1
@@ -43779,6 +43610,8 @@
 "vev" = (
 /obj/structure/lattice/catwalk/over/ship,
 /obj/structure/rack,
+/obj/item/circuitboard/computer/fiftycal,
+/obj/item/multitool,
 /turf/open/floor/plating,
 /area/nsv/weapons/starboard)
 "veA" = (
@@ -43998,11 +43831,14 @@
 /turf/open/floor/monotile/light,
 /area/security/brig)
 "vjF" = (
-/obj/machinery/conveyor_switch/oneway{
-	id = "torp";
-	name = "Missile Factory"
-	},
-/turf/open/floor/monotile,
+/obj/structure/rack,
+/obj/item/ship_weapon/parts/missile/iff_card,
+/obj/item/ship_weapon/parts/missile/iff_card,
+/obj/item/ship_weapon/parts/missile/iff_card,
+/obj/item/ship_weapon/parts/missile/iff_card,
+/obj/item/ship_weapon/parts/missile/iff_card,
+/obj/item/ship_weapon/parts/missile/iff_card,
+/turf/open/floor/plasteel/ridged/steel,
 /area/nsv/weapons/starboard)
 "vkb" = (
 /obj/structure/cable{
@@ -44625,6 +44461,13 @@
 /obj/structure/closet/emcloset/anchored,
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck1/port/fore)
+"vyp" = (
+/obj/effect/turf_decal/ship/delivery/yellow,
+/obj/machinery/computer/ams{
+	dir = 1
+	},
+/turf/open/floor/monotile,
+/area/nsv/weapons/starboard)
 "vyw" = (
 /obj/machinery/porta_turret/ai,
 /turf/open/floor/monotile/dark,
@@ -44751,17 +44594,16 @@
 /turf/open/floor/monotile,
 /area/bridge)
 "vBH" = (
-/obj/structure/closet/crate/engineering{
-	name = "pdc ammo crate"
-	},
-/obj/item/ammo_box/magazine/pdc,
-/obj/item/ammo_box/magazine/pdc,
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
 	},
 /obj/machinery/camera/autoname{
 	dir = 8
 	},
+/obj/item/ammo_box/magazine/pdc/fiftycal,
+/obj/item/ammo_box/magazine/pdc/fiftycal,
+/obj/item/ammo_box/magazine/pdc/fiftycal,
+/obj/structure/rack,
 /turf/open/floor/plating,
 /area/nsv/weapons/starboard)
 "vCb" = (
@@ -45491,13 +45333,6 @@
 "vVF" = (
 /turf/closed/wall/r_wall/ship,
 /area/nsv/hanger/notkmcstupidhanger/pilot)
-"vVU" = (
-/obj/structure/hull_plate,
-/obj/machinery/missile_builder/wirer{
-	dir = 8
-	},
-/turf/open/floor/monotile/dark/airless,
-/area/nsv/weapons/starboard)
 "vWk" = (
 /obj/machinery/door/airlock/ship/maintenance{
 	name = "Maintenance Access Security office";
@@ -45874,12 +45709,6 @@
 /obj/machinery/light/small,
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck1/port/aft)
-"weS" = (
-/obj/effect/turf_decal/ship/borderfloor/gunmetal{
-	dir = 9
-	},
-/turf/open/floor/monotile/dark/airless,
-/area/nsv/weapons/starboard)
 "weW" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 5
@@ -45889,13 +45718,6 @@
 	},
 /turf/open/floor/carpet/blue,
 /area/crew_quarters/dorms/nsv/state_room)
-"wfg" = (
-/obj/machinery/conveyor_switch/oneway{
-	id = "torpstage2";
-	name = "Missile Factory Feed"
-	},
-/turf/open/floor/monotile/dark,
-/area/nsv/weapons/starboard)
 "wfh" = (
 /obj/machinery/computer/cargo/request{
 	dir = 8;
@@ -46036,7 +45858,7 @@
 "wia" = (
 /obj/structure/lattice/catwalk,
 /turf/open/space/basic,
-/area/space)
+/area/nsv/weapons/starboard)
 "wib" = (
 /obj/structure/hull_plate,
 /obj/machinery/camera{
@@ -46945,16 +46767,6 @@
 	},
 /turf/open/floor/noslip/dark,
 /area/nsv/weapons/starboard)
-"wEM" = (
-/obj/effect/turf_decal/loading_area{
-	dir = 4
-	},
-/obj/effect/turf_decal/stripes/corner,
-/obj/effect/turf_decal/stripes/corner{
-	dir = 4
-	},
-/turf/open/floor/monotile/dark/airless,
-/area/nsv/weapons/starboard)
 "wES" = (
 /obj/effect/turf_decal/tile/neutral,
 /obj/effect/turf_decal/tile/neutral{
@@ -47346,7 +47158,7 @@
 /area/maintenance/department/security/brig)
 "wOx" = (
 /obj/machinery/airalarm/directional/west,
-/turf/open/floor/monotile,
+/turf/open/floor/plasteel/ridged/steel,
 /area/nsv/weapons/starboard)
 "wPu" = (
 /obj/effect/turf_decal/ship/delivery/yellow,
@@ -47404,38 +47216,6 @@
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /turf/open/floor/plating,
 /area/hallway/nsv/deck1/frame1/starboard)
-"wSk" = (
-/obj/item/ship_weapon/ammunition/missile/missile_casing,
-/obj/item/ship_weapon/ammunition/missile/missile_casing,
-/obj/item/ship_weapon/ammunition/missile/missile_casing,
-/obj/item/ship_weapon/ammunition/missile/missile_casing,
-/obj/item/ship_weapon/ammunition/missile/missile_casing,
-/obj/item/ship_weapon/ammunition/missile/missile_casing,
-/obj/item/ship_weapon/ammunition/missile/missile_casing,
-/obj/item/ship_weapon/ammunition/missile/missile_casing,
-/obj/item/ship_weapon/ammunition/missile/missile_casing,
-/obj/item/ship_weapon/ammunition/missile/missile_casing,
-/obj/item/ship_weapon/ammunition/missile/missile_casing,
-/obj/item/ship_weapon/ammunition/missile/missile_casing,
-/obj/item/ship_weapon/ammunition/missile/missile_casing,
-/obj/item/ship_weapon/ammunition/missile/missile_casing,
-/obj/item/ship_weapon/ammunition/missile/missile_casing,
-/obj/item/ship_weapon/ammunition/missile/missile_casing,
-/obj/structure/rack,
-/obj/item/ship_weapon/parts/missile/propulsion_system,
-/obj/item/ship_weapon/parts/missile/propulsion_system,
-/obj/item/ship_weapon/parts/missile/propulsion_system,
-/obj/item/ship_weapon/parts/missile/guidance_system,
-/obj/item/ship_weapon/parts/missile/guidance_system,
-/obj/item/ship_weapon/parts/missile/guidance_system,
-/obj/item/ship_weapon/parts/missile/warhead,
-/obj/item/ship_weapon/parts/missile/warhead,
-/obj/item/ship_weapon/parts/missile/warhead,
-/obj/effect/turf_decal/stripes/line{
-	dir = 4
-	},
-/turf/open/floor/monotile/dark/airless,
-/area/nsv/weapons/starboard)
 "wSn" = (
 /obj/item/twohanded/required/kirbyplants/random,
 /turf/open/floor/monotile/dark,
@@ -47473,13 +47253,6 @@
 	},
 /turf/open/floor/fakespace,
 /area/science/nsv/astronomy)
-"wTj" = (
-/obj/structure/hull_plate,
-/obj/machinery/missile_builder/welder{
-	dir = 8
-	},
-/turf/open/floor/monotile/dark/airless,
-/area/nsv/weapons/starboard)
 "wTt" = (
 /obj/structure/closet{
 	anchored = 1;
@@ -47706,12 +47479,11 @@
 /turf/open/floor/monotile,
 /area/science/nanite)
 "wXk" = (
-/obj/machinery/computer/deckgun,
-/obj/effect/turf_decal/stripes/line{
-	dir = 5
-	},
 /obj/item/radio/intercom/directional/north,
-/turf/open/floor/plating,
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
+/turf/open/floor/plasteel/ridged/steel,
 /area/nsv/weapons/starboard)
 "wXr" = (
 /obj/machinery/squad_vendor{
@@ -47723,9 +47495,20 @@
 /turf/open/floor/monotile,
 /area/nsv/squad)
 "wXy" = (
-/obj/effect/turf_decal/delivery/red,
-/obj/structure/extinguisher_cabinet/west,
-/turf/open/floor/monotile,
+/obj/structure/rack,
+/obj/item/ship_weapon/parts/missile/guidance_system,
+/obj/item/ship_weapon/parts/missile/guidance_system,
+/obj/item/ship_weapon/parts/missile/guidance_system,
+/obj/item/ship_weapon/parts/missile/guidance_system,
+/obj/item/ship_weapon/parts/missile/guidance_system,
+/obj/item/ship_weapon/parts/missile/guidance_system,
+/obj/item/ship_weapon/parts/missile/warhead,
+/obj/item/ship_weapon/parts/missile/warhead,
+/obj/item/ship_weapon/parts/missile/warhead,
+/obj/item/ship_weapon/parts/missile/warhead,
+/obj/item/ship_weapon/parts/missile/warhead,
+/obj/item/ship_weapon/parts/missile/warhead,
+/turf/open/floor/plasteel/ridged/steel,
 /area/nsv/weapons/starboard)
 "wXM" = (
 /obj/machinery/firealarm/directional/west,
@@ -48372,11 +48155,7 @@
 /turf/open/floor/monotile/light,
 /area/medical/storage)
 "xpc" = (
-/obj/effect/turf_decal/delivery/red,
-/obj/machinery/ship_weapon/gauss_gun{
-	pixel_x = -30;
-	pixel_y = -92
-	},
+/obj/effect/turf_decal/ship/delivery/yellow,
 /turf/open/floor/monotile/dark/airless,
 /area/nsv/weapons/starboard)
 "xph" = (
@@ -48531,9 +48310,6 @@
 /obj/machinery/airalarm/directional/west,
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer1{
 	dir = 4
-	},
-/obj/machinery/conveyor{
-	id = "naval"
 	},
 /turf/open/floor/monotile,
 /area/nsv/weapons/starboard)
@@ -48704,9 +48480,8 @@
 /turf/template_noop,
 /area/maintenance/nsv/deck1/starboard)
 "xxd" = (
-/obj/structure/grille,
-/turf/open/space/basic,
-/area/space)
+/turf/closed/wall/r_wall,
+/area/space/nearstation)
 "xxf" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 9
@@ -48754,8 +48529,8 @@
 /area/nsv/hanger)
 "xyh" = (
 /obj/structure/extinguisher_cabinet/west,
-/obj/machinery/conveyor{
-	id = "naval"
+/obj/structure/disposalpipe/segment{
+	dir = 4
 	},
 /turf/open/floor/monotile,
 /area/nsv/weapons/starboard)
@@ -48851,7 +48626,17 @@
 /obj/machinery/camera/autoname{
 	dir = 4
 	},
-/turf/open/floor/monotile,
+/obj/structure/rack,
+/obj/item/ship_weapon/parts/missile/propulsion_system,
+/obj/item/ship_weapon/parts/missile/propulsion_system,
+/obj/item/ship_weapon/parts/missile/propulsion_system,
+/obj/item/ship_weapon/parts/missile/propulsion_system,
+/obj/item/ship_weapon/parts/missile/propulsion_system,
+/obj/item/ship_weapon/parts/missile/propulsion_system,
+/obj/effect/turf_decal/stripes/corner{
+	dir = 1
+	},
+/turf/open/floor/plasteel/ridged/steel,
 /area/nsv/weapons/starboard)
 "xAS" = (
 /obj/machinery/power/apc/auto_name/west,
@@ -49154,8 +48939,8 @@
 /turf/open/floor/monotile/dark,
 /area/maintenance/department/bridge)
 "xIr" = (
-/obj/machinery/computer/ship/munitions_computer/west,
 /obj/effect/turf_decal/ship/delivery/yellow,
+/obj/machinery/missile_builder/welder,
 /turf/open/floor/monotile/dark,
 /area/nsv/weapons/starboard)
 "xIu" = (
@@ -49775,12 +49560,6 @@
 	},
 /turf/open/floor/monotile,
 /area/security/brig)
-"xWM" = (
-/obj/effect/turf_decal/ship/borderfloor/gunmetal{
-	dir = 8
-	},
-/turf/open/floor/monotile/dark/airless,
-/area/nsv/weapons/starboard)
 "xWS" = (
 /obj/structure/disposalpipe/segment{
 	dir = 4
@@ -49864,14 +49643,6 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck1/aft)
-"xZn" = (
-/obj/structure/hull_plate,
-/obj/machinery/conveyor{
-	dir = 8;
-	id = "torpstage2"
-	},
-/turf/open/floor/monotile/dark/airless,
-/area/nsv/weapons/starboard)
 "xZr" = (
 /obj/machinery/shieldwallgen,
 /obj/effect/turf_decal/delivery,
@@ -49991,8 +49762,9 @@
 /turf/open/floor/monotile,
 /area/security/main)
 "ycf" = (
-/obj/machinery/deck_turret,
-/turf/open/floor/plating,
+/obj/effect/turf_decal/ship/delivery/yellow,
+/obj/structure/frame/machine,
+/turf/open/floor/monotile/dark,
 /area/nsv/weapons/starboard)
 "ych" = (
 /turf/open/floor/monotile,
@@ -50006,7 +49778,7 @@
 /area/crew_quarters/heads/hor)
 "ycp" = (
 /obj/effect/turf_decal/ship/delivery/yellow,
-/obj/machinery/computer/fiftycal{
+/obj/structure/frame/computer{
 	dir = 1
 	},
 /turf/open/floor/monotile,
@@ -63619,7 +63391,7 @@ nrx
 aaa
 aaa
 nrx
-ana
+arn
 arn
 nrx
 aaa
@@ -82147,7 +81919,7 @@ kWr
 sqS
 xnw
 gIG
-ycp
+vyp
 nmT
 raH
 hle
@@ -82921,9 +82693,9 @@ fKI
 nmT
 nmT
 rfc
-ios
+dOB
 lIj
-ios
+dOB
 lIj
 iTT
 nmT
@@ -83180,7 +82952,7 @@ ybF
 ybF
 ybF
 ost
-gGY
+ybF
 ybF
 sfC
 nmT
@@ -84202,12 +83974,12 @@ opj
 puU
 nmT
 iFj
-xdD
+cQK
 cuy
 wOx
 dgb
-ybF
-ybF
+rMy
+rMy
 rMy
 xAH
 wXy
@@ -84462,13 +84234,13 @@ jgq
 ybF
 axe
 ufv
-rMy
+ybF
 eax
 ybF
-rMy
 ybF
-rMy
-cKv
+ybF
+ybF
+kWe
 nmT
 xRD
 mZL
@@ -84716,15 +84488,15 @@ uyY
 irX
 qCC
 ppD
-cQK
+ybF
 oUg
-gAt
-tbD
+ybF
+ybF
+ybF
 itg
-itg
-itg
-itg
-wfg
+ybF
+ybF
+ybF
 gxV
 nmT
 cgF
@@ -84976,12 +84748,12 @@ qos
 ycf
 oer
 iEj
-mcT
+ybF
 xIr
-itg
-xIr
-itg
-kam
+fcZ
+gGY
+ybF
+kiF
 ejW
 nmT
 wNv
@@ -85229,16 +85001,16 @@ kQi
 mpV
 scF
 nmT
-bQR
+kSh
 dTR
-gpZ
-gAt
-mcT
+ybF
+ycf
+ybF
 rtW
-itg
-rtW
-itg
-rtW
+fcZ
+hCE
+jrv
+kkl
 aMh
 nmT
 pdM
@@ -85487,15 +85259,15 @@ mpV
 ybF
 nmT
 rBk
+aed
 ybF
+cYp
 ybF
+kam
+fcZ
+hIw
 ybF
-mcT
-kam
-itg
-kam
-itg
-kam
+klF
 aMh
 nmT
 vlK
@@ -85745,14 +85517,14 @@ ybF
 nmT
 kSh
 aed
-msr
-gAt
-mcT
+ybF
+ycf
+ybF
 rtW
-itg
-rtW
-itg
-rtW
+fcZ
+hCE
+jrv
+koy
 aMh
 nmT
 fKx
@@ -86000,22 +85772,22 @@ axu
 nnR
 sfC
 nmT
-iHN
+qos
 ycf
-jrv
-gAt
-mcT
-xIr
-itg
-xIr
-itg
-xIr
+ybF
+cYp
+ybF
+eHF
+fcZ
+ios
+ybF
+krO
 aMh
 nmT
 fKx
 uCv
 gId
-rfa
+xxd
 aaa
 aaa
 aaa
@@ -86258,22 +86030,22 @@ mpV
 dFf
 nmT
 wXk
-cYp
-gpZ
-gAt
+lXF
+lXF
+lXF
 mcT
-vcT
-itg
+lXF
+geU
 szL
-itg
-rtW
-aMh
+szL
+szL
+lNG
 nmT
 gId
 gId
 gId
-rfa
-rfa
+xxd
+xxd
 aaa
 aaa
 aaa
@@ -86505,34 +86277,34 @@ msy
 roe
 wAO
 mdR
-mJO
-qfS
-hIw
-hIw
-uHC
+iAb
+iAb
+iAb
+iAb
+iAb
 qwt
 ajc
 jBX
 nmT
+tJh
 nmT
 nmT
 nmT
 nmT
-hCE
 dGa
 dGa
 dGa
 dGa
 dGa
-koy
+nmT
 dGa
 uOO
 oaa
 wia
+mJO
 xxd
-xxd
-xxd
-xxd
+msr
+msr
 aaa
 aaa
 aaa
@@ -86767,29 +86539,29 @@ jvL
 dMA
 jvL
 jvL
-eHF
-kkl
-oQA
-oQA
+qwt
+mOu
+ybF
+ybF
 xyh
 xtF
 qxZ
-oQA
-kWe
+ybF
 nmT
-weS
-xWM
-xWM
-slR
-xZn
+uOO
+uOO
+uOO
+uOO
+uOO
+uOO
 uOO
 uOO
 oaa
 wia
+mJO
 xxd
-rfa
-rfa
-rfa
+xxd
+xxd
 aaa
 aaa
 aaa
@@ -87019,7 +86791,7 @@ shE
 roe
 oVA
 nmT
-pEk
+sbU
 sbU
 ulE
 ulE
@@ -87028,24 +86800,24 @@ qwt
 egI
 ilW
 ilW
-ilW
+ana
 hSF
 dBU
 rlk
 nmT
-nmT
-kuw
-pEC
-pEC
-slz
-xZn
+uOO
+uOO
+uOO
+uOO
+uOO
+uOO
 uOO
 uOO
 oaa
 wia
+mJO
 xxd
-rfa
-arn
+wcI
 aaa
 aaa
 aaa
@@ -87285,24 +87057,24 @@ nmT
 hTP
 vpi
 lXF
-lXF
+kSh
 jyT
 hmC
 xjy
 nmT
 uOO
-kuw
-lNG
-pEC
-slz
-xZn
+uOO
+uOO
+uOO
+uOO
+uOO
 uOO
 uOO
 oaa
 wia
+mJO
 xxd
-rfa
-rfa
+xxd
 aaa
 aaa
 aaa
@@ -87542,24 +87314,24 @@ vIp
 mOu
 ybF
 lXF
-lXF
+kSh
 nVc
 jQn
 xjy
 nmT
 uOO
-kuw
-pEC
-pEC
-slz
-xZn
+uOO
+uOO
+uOO
+uOO
+uOO
 uOO
 uOO
 oaa
 wia
+mJO
 xxd
-rfa
-arn
+wcI
 aaa
 aaa
 aaa
@@ -87807,16 +87579,16 @@ nmT
 uOO
 kuw
 xpc
-pEC
-slz
-xZn
 uOO
+slz
+uOO
+mpX
 uOO
 oaa
 wia
+mJO
 xxd
-rfa
-rfa
+xxd
 aaa
 aaa
 aaa
@@ -88056,24 +87828,24 @@ rOJ
 fjD
 gVB
 emn
-bBk
+bwy
 pNS
 aou
 duJ
 nmT
 uOO
-kuw
-pEC
-pEC
-slz
-xZn
+uOO
+uOO
+uOO
+uOO
+uOO
 uOO
 uOO
 oaa
 wia
+mJO
 xxd
-rfa
-arn
+wcI
 aaa
 aaa
 aaa
@@ -88312,25 +88084,25 @@ nmT
 nmT
 nmT
 nmT
-nmT
+tJh
 nmT
 nmT
 hYU
 lXF
 nmT
 uOO
-kuw
-pEC
-pEC
-slz
-xZn
+uOO
+uOO
+uOO
+uOO
+uOO
 uOO
 uOO
 oaa
 wia
+mJO
 xxd
-rfa
-rfa
+xxd
 aaa
 aaa
 aaa
@@ -88576,18 +88348,18 @@ nmT
 eMR
 nmT
 uOO
-kuw
-pEC
-pEC
-slz
-xZn
+uOO
+uOO
+uOO
+uOO
+uOO
+uOO
 uOO
 oaa
-nrx
 wia
+mJO
 xxd
-rfa
-arn
+wcI
 aaa
 aaa
 aaa
@@ -88829,22 +88601,22 @@ ieO
 gmk
 rxf
 nmT
-wSk
-wEM
-klF
 uOO
-kuw
-pEC
-pEC
-slz
-xZn
+uOO
+uOO
+uOO
+uOO
+uOO
+uOO
+uOO
+uOO
+uOO
 uOO
 oaa
-nrx
 wia
+mJO
 xxd
-rfa
-rfa
+xxd
 aaa
 aaa
 aaa
@@ -89086,22 +88858,22 @@ ieO
 rml
 sfv
 nmT
-geU
-tyy
-nTw
+uOO
+uOO
+xpc
 uOO
 kuw
-uJC
-pEC
+xpc
+uOO
 slz
-xZn
+uOO
+mpX
 uOO
 oaa
-nrx
 wia
+mJO
 xxd
-rfa
-arn
+wcI
 aaa
 aaa
 aaa
@@ -89343,22 +89115,22 @@ ieO
 oVA
 gBk
 nmT
-sVR
-tyy
-bwy
 uOO
-kuw
-pEC
-pEC
-slz
-xZn
 uOO
-oaa
-nrx
-wia
+uOO
+uOO
+uOO
+uOO
+uOO
+uOO
+uOO
+uOO
+uOO
+uOO
+uOO
+uOO
 xxd
-rfa
-rfa
+xxd
 aaa
 aaa
 aaa
@@ -89600,22 +89372,22 @@ ieO
 wAO
 aZj
 nmT
-geU
-tyy
 uOO
 uOO
-kuw
-lNG
-pEC
-slz
-xZn
 uOO
-oaa
-nrx
-wia
+uOO
+uOO
+uOO
+uOO
+uOO
+uOO
+uOO
+uOO
+liv
+uOO
+liv
 xxd
-rfa
-arn
+wcI
 aaa
 aaa
 aaa
@@ -89857,22 +89629,22 @@ ieO
 ihB
 bPv
 nmT
-fcZ
-tyy
 uOO
 uOO
-kuw
-pEC
-pEC
-slz
-xZn
 uOO
-oaa
-nrx
-wia
+uOO
+uOO
+uOO
+uOO
+xpc
+uOO
+xpc
+uOO
+xpc
+uOO
+xpc
 xxd
-rfa
-rfa
+xxd
 aaa
 aaa
 aaa
@@ -90114,22 +89886,22 @@ ieO
 mbL
 xyz
 nmT
-geU
-tyy
 uOO
 uOO
-krO
-kiF
-kiF
+uOO
+uOO
+uOO
+uOO
+uOO
 liv
-xZn
 uOO
-oaa
-nrx
-wia
+liv
+uOO
+liv
+uOO
+liv
 xxd
-rfa
-arn
+wcI
 aaa
 aaa
 aaa
@@ -90371,22 +90143,22 @@ mtQ
 vIO
 lzm
 nmT
-fcZ
-oVQ
-sMY
-sMY
-sMY
-sMY
-ttn
-ttn
-rah
 uOO
-oaa
-nrx
-wia
+uOO
+sMY
+sMY
+gpZ
+iKq
+uOO
+xpc
+uOO
+xpc
+uOO
+xpc
+uOO
+xpc
 xxd
-rfa
-rfa
+xxd
 aaa
 aaa
 aaa
@@ -90629,22 +90401,22 @@ sYr
 vJA
 nmT
 uOO
-iKq
-mpX
-vVU
-mpX
-wTj
+uOO
+uOO
+uOO
+uOO
+uOO
 oim
+liv
 uOO
+liv
 uOO
+liv
 uOO
-oaa
-nrx
-wia
+liv
 xxd
-rfa
-rfa
-rfa
+wcI
+aaa
 aaa
 aaa
 aaa
@@ -90896,12 +90668,12 @@ nmT
 nmT
 nmT
 nmT
-nrx
-wia
+xpc
+uOO
+xpc
 xxd
 xxd
-xxd
-xxd
+aaa
 aaa
 aaa
 aaa
@@ -91153,11 +90925,11 @@ cXv
 qHN
 anw
 jVZ
-aUA
 xxd
 xxd
-rfa
-rfa
+xxd
+xxd
+aaa
 aaa
 aaa
 aaa
@@ -91410,10 +91182,10 @@ fXH
 qAa
 qfm
 jVZ
-nrx
+xxd
+msr
+xxd
 aaa
-aaa
-rfa
 aaa
 aaa
 aaa
@@ -100115,7 +99887,7 @@ nGY
 uph
 hDR
 uph
-ana
+arn
 arn
 arn
 arn

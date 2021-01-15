@@ -18,6 +18,7 @@ Add this component to an atom to mark it as volatile, if it takes fire damage, i
 		message_admins("Volatility component tried to explode with no attached parent. Contact a coder")
 		return FALSE
 	//Explosion! This can lead to a chain reaction if you're not careful... WATCH THOSE SHELLS MAA!
+	log_game("Volatile substance caused an explosion at [get_area(parent)].")
 	explosion(parent, round(volatility), round(volatility * 2), round(volatility * 2.5), round(volatility * 3), TRUE, FALSE, round(volatility), FALSE, FALSE)
 
 /datum/component/volatile/proc/burn_act()
