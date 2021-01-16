@@ -81,7 +81,7 @@
 	id = "missile_warhead"
 	build_type = PROTOLATHE
 	materials = list(/datum/material/iron = 5000, /datum/material/glass = 2500, /datum/material/copper = 2500)
-	build_path = /obj/item/ship_weapon/parts/missile/warhead/decoy
+	build_path = /obj/item/ship_weapon/parts/missile/warhead
 	category = list("Advanced Munitions")
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO
 
