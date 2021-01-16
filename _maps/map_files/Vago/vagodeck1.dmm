@@ -2109,25 +2109,6 @@
 /obj/machinery/door/firedoor,
 /turf/open/floor/plating,
 /area/nsv/weapons)
-"ff" = (
-/obj/machinery/firealarm{
-	pixel_y = 27
-	},
-/obj/machinery/camera/autoname{
-	dir = 8
-	},
-/turf/open/floor/plating,
-/area/nsv/weapons)
-"fg" = (
-/obj/machinery/ship_weapon/pdc_mount/flak,
-/turf/open/floor/plating,
-/area/nsv/weapons)
-"fh" = (
-/obj/machinery/light{
-	dir = 1
-	},
-/turf/open/floor/plating,
-/area/nsv/weapons)
 "fi" = (
 /turf/open/floor/plating{
 	icon_state = "platingdmg3"
@@ -2841,10 +2822,6 @@
 	},
 /turf/open/floor/plating,
 /area/nsv/weapons)
-"gP" = (
-/obj/machinery/atmospherics/components/unary/vent_pump/on/layer1,
-/turf/open/floor/plating,
-/area/nsv/weapons)
 "gQ" = (
 /obj/machinery/camera/autoname{
 	dir = 8
@@ -3160,21 +3137,6 @@
 /obj/item/ship_weapon/ammunition/torpedo,
 /obj/item/ship_weapon/ammunition/torpedo/hull_shredder{
 	pixel_y = 10
-	},
-/turf/open/floor/plating,
-/area/nsv/weapons)
-"hE" = (
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
-/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3,
-/obj/machinery/computer/ship/munitions_computer{
-	dir = 8
-	},
-/turf/open/floor/plating,
-/area/nsv/weapons)
-"hF" = (
-/obj/machinery/airalarm{
-	dir = 8;
-	pixel_x = 24
 	},
 /turf/open/floor/plating,
 /area/nsv/weapons)
@@ -11114,8 +11076,9 @@
 /turf/open/floor/plating/airless,
 /area/space/nearstation)
 "xI" = (
-/turf/closed/wall/r_wall/ship,
-/area/space/nearstation)
+/obj/structure/closet/crate/rcd,
+/turf/open/floor/plating,
+/area/ai_monitored/storage/eva)
 "xJ" = (
 /obj/structure/lattice/catwalk,
 /turf/open/space/basic,
@@ -11599,8 +11562,7 @@
 /turf/open/floor/plating,
 /area/hallway/nsv/deck1/frame3/central)
 "Bf" = (
-/obj/structure/closet/crate/rcd,
-/turf/open/floor/plating,
+/turf/open/floor/plating/airless,
 /area/ai_monitored/storage/eva)
 "Bk" = (
 /obj/structure/reagent_dispensers/foamtank,
@@ -11774,12 +11736,6 @@
 /obj/effect/landmark/start/flight_leader,
 /turf/open/floor/plating,
 /area/nsv/hanger/notkmcstupidhanger/hangar)
-"Ct" = (
-/obj/machinery/ship_weapon/mac{
-	dir = 4
-	},
-/turf/open/floor/plating,
-/area/nsv/weapons)
 "Cw" = (
 /obj/structure/girder,
 /turf/open/floor/plating,
@@ -12003,10 +11959,6 @@
 /turf/open/floor/plating{
 	icon_state = "platingdmg1"
 	},
-/area/nsv/weapons)
-"Eh" = (
-/obj/machinery/ship_weapon/railgun,
-/turf/open/floor/plating,
 /area/nsv/weapons)
 "Ej" = (
 /obj/machinery/suit_storage_unit/atmos,
@@ -12728,10 +12680,6 @@
 	},
 /turf/open/floor/plating,
 /area/nsv/hanger/notkmcstupidhanger/launchtube/right)
-"Kq" = (
-/obj/machinery/computer/ship/viewscreen,
-/turf/open/floor/plating,
-/area/nsv/weapons)
 "Kw" = (
 /obj/structure/sign/directions/security,
 /turf/closed/wall/r_wall/ship,
@@ -12909,6 +12857,10 @@
 /obj/item/ship_weapon/ammunition/torpedo/hull_shredder{
 	pixel_y = 10
 	},
+/turf/open/floor/plating,
+/area/nsv/weapons)
+"Mi" = (
+/obj/machinery/ship_weapon/pdc_mount/flak,
 /turf/open/floor/plating,
 /area/nsv/weapons)
 "Mm" = (
@@ -13112,12 +13064,7 @@
 /turf/closed/wall/r_wall/ship,
 /area/tcommsat/computer)
 "NV" = (
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
-/obj/machinery/computer/ship/munitions_computer{
-	dir = 8
-	},
-/turf/open/floor/plating,
+/turf/open/floor/plating/airless,
 /area/nsv/weapons)
 "NX" = (
 /obj/effect/landmark/nuclear_waste_spawner/strong,
@@ -13137,6 +13084,10 @@
 /obj/effect/landmark/start/fighter_pilot,
 /turf/open/floor/plating,
 /area/nsv/hanger/notkmcstupidhanger/hangar)
+"Oh" = (
+/obj/machinery/computer/ship/viewscreen,
+/turf/open/floor/plating,
+/area/nsv/weapons)
 "On" = (
 /turf/open/floor/plating{
 	icon_state = "panelscorched"
@@ -44167,15 +44118,15 @@ SE
 WE
 Jm
 bu
-fg
-ga
-ga
-ga
-ga
-ga
-ga
-ga
-ga
+ek
+ek
+ek
+ek
+ek
+ek
+ek
+ek
+Oh
 ls
 ga
 LE
@@ -44424,15 +44375,15 @@ Zn
 xR
 cp
 bu
-fg
-ga
-ga
-ga
-LE
-ga
-Jy
-Jy
-ga
+NV
+NV
+NV
+NV
+NV
+NV
+NV
+ek
+Mi
 VW
 ga
 ga
@@ -44681,15 +44632,15 @@ Pk
 BT
 Wf
 ek
-fg
-Jy
-ga
-ga
-ga
-ga
-ga
-ga
-ga
+NV
+NV
+NV
+NV
+NV
+NV
+NV
+ek
+Mi
 Qk
 YB
 YB
@@ -44938,15 +44889,15 @@ Pk
 Jb
 Xn
 ek
-fh
-fi
-gP
-hE
-ik
-ik
 NV
-ik
-ik
+NV
+NV
+NV
+NV
+NV
+NV
+ek
+Mi
 lw
 Yz
 Yz
@@ -45195,14 +45146,14 @@ Pk
 VF
 Sm
 ek
-Kq
-ga
-ga
-Ct
-fi
-ga
-Eh
-ga
+NV
+NV
+NV
+NV
+NV
+NV
+NV
+ek
 kI
 YB
 kI
@@ -45452,14 +45403,14 @@ Pk
 Ci
 DT
 ek
+NV
+NV
+NV
+NV
+NV
+NV
+NV
 ek
-ff
-ga
-ga
-ga
-ga
-ga
-ga
 kJ
 YB
 kJ
@@ -45707,16 +45658,16 @@ MK
 VZ
 Pk
 Pk
-Pk
-Pk
+xI
+Ws
+NV
+NV
+NV
+NV
+NV
+NV
+NV
 ek
-ek
-ga
-ga
-ga
-ga
-ga
-YB
 YB
 YB
 YB
@@ -45965,15 +45916,15 @@ VZ
 Pk
 zQ
 Pk
-Pk
+Ws
 Bf
+NV
+NV
+NV
+NV
+NV
+NV
 ek
-ga
-hF
-ga
-ga
-ga
-kc
 YB
 YB
 gQ
@@ -46223,13 +46174,13 @@ MK
 MK
 MK
 Ws
-Ws
-xI
-ek
-ek
-il
-il
-il
+Bf
+xF
+NV
+NV
+NV
+NV
+NV
 ek
 il
 il
