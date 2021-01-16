@@ -109,6 +109,7 @@
 /obj/machinery/conveyor/slow
 	name = "Slow conveyor"
 	speed_process = FALSE
+	stack_type = /obj/item/stack/conveyor/slow //What does this conveyor drop when decon'd?
 
 /obj/item/circuitboard/missile_builder
 	name = "Seegson model 'Ford' robotic autowrench (board)"
