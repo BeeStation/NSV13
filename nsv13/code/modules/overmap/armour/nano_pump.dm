@@ -59,6 +59,8 @@
 		. += "<span class='warning'>The system overload lights are flashing</span>"
 
 /obj/machinery/armour_plating_nanorepair_pump/process()
+	if(!OM)
+		OM = get_overmap()
 	if(online && is_operational() && !stress_shutdown)
 		idle_power_usage = 0 //reset power use
 		if(armour_allocation)
@@ -122,7 +124,8 @@
 		return
 	apnw?.apnp -= src
 	var/obj/item/multitool/M = tool
-	apnw = M.buffer
+	if(!isnull(M.buffer))
+		apnw = M.buffer
 	apnw.apnp += src
 	M.buffer = null
 	quadrant = input(user, "Direct nano-repair pump to which quadrant?", "[name]") as null|anything in list("forward_port", "forward_starboard", "aft_port", "aft_starboard")

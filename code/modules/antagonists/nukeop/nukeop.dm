@@ -38,7 +38,6 @@
 	var/mob/living/carbon/human/H = owner.current
 
 	H.set_species(/datum/species/human) //Plasamen burn up otherwise, and lizards are vulnerable to asimov AIs
-
 	H.equipOutfit(nukeop_outfit)
 	return TRUE
 

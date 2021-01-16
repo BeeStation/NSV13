@@ -555,10 +555,6 @@
 /datum/map_template/shuttle/arrival/omega
 	suffix = "omega"
 	name = "arrival shuttle (Omega)"
-	
-/datum/map_template/shuttle/arrival/aetherwhisp //NSV13 - Aetherwhisp Arrivals
-	suffix = "aetherwhisp"
-	name = "arrival shuttle (Aetherwhisp)"
 
 /datum/map_template/shuttle/aux_base/default
 	suffix = "default"
@@ -621,9 +617,16 @@
 	name = "Snowdin Excavation Elevator"
 
  // Turbolifts
-/datum/map_template/shuttle/turbolift/debug/primary
+/datum/map_template/shuttle/turbolift
 	prefix = "_maps/shuttles/turbolifts/"
+	can_be_bought = FALSE
+
+/datum/map_template/shuttle/turbolift/debug/primary
 	port_id = "debug"
 	suffix = "primary"
 	name = "primary turbolift (multi-z debug)"
-	can_be_bought = FALSE
+
+/datum/map_template/shuttle/turbolift/semmes/aircraft
+	port_id = "aircraft"
+	suffix = "semmes"
+	name = "Aircraft elevator (NSV Semmes)"

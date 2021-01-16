@@ -8,6 +8,8 @@
 	interaction_flags_item = 0 // -INTERACT_ITEM_ATTACK_HAND_PICKUP
 	projectile_type = /obj/item/projectile/guided_munition/torpedo //What torpedo type we fire
 	pixel_x = -17
+	volatility = 3 //Very volatile.
+	explode_when_hit = TRUE //Yeah, this can't ever end well for you.
 
 /obj/item/ship_weapon/ammunition/torpedo/can_be_pulled(mob/user)
 	to_chat(user,"<span class='warning'>[src] is far too cumbersome to carry, and dragging it around might set it off! Load it onto a munitions trolley.</span>")
@@ -19,16 +21,17 @@
 
 //High damage torp. Use this when youve exhausted their flak.
 /obj/item/ship_weapon/ammunition/torpedo/hull_shredder
-	name = "NTP-4 'BNKR' 430mm torpedo"
+	name = "NTP-4 'BNKR' 430mm Armour Pentetrating Torpedo"
 	icon = 'nsv13/icons/obj/munition_types.dmi'
 	icon_state = "hull_shredder"
-	desc = "A heavy torpedo which is packed with a high energy plasma charge, allowing it to impact a target with massive force."
+	desc = "A heavy torpedo which is enriched with depleted uranium, allowing it to penetrate heavy armour plates."
 	projectile_type = /obj/item/projectile/guided_munition/torpedo/shredder
 
 /obj/item/projectile/guided_munition/torpedo/shredder
 	icon_state = "torpedo_shredder"
 	name = "plasma charge"
 	damage = 175
+	armour_penetration = 20
 
 //A dud missile designed to exhaust flak
 /obj/item/ship_weapon/ammunition/torpedo/decoy
@@ -41,6 +44,8 @@
 /obj/item/projectile/guided_munition/torpedo/decoy
 	icon_state = "torpedo"
 	damage = 0
+	obj_integrity = 200
+	max_integrity = 200
 
 //The alpha torpedo
 /obj/item/ship_weapon/ammunition/torpedo/nuke
@@ -49,11 +54,12 @@
 	icon_state = "nuke"
 	desc = "The NTX-class IV nuclear torpedo carries a radiological payload which is capable of inflicting catastrophic damage against enemy ships, stations or dense population centers. These weapons are utterly without mercy and will annihilate indiscriminately, use with EXTREME caution."
 	projectile_type = /obj/item/projectile/guided_munition/torpedo/nuclear
+	volatility = 5
 
 /obj/item/projectile/guided_munition/torpedo/nuclear
 	icon_state = "torpedo_nuke"
 	name = "thermonuclear cruise missile"
-	damage = 500
+	damage = 600
 	impact_effect_type = /obj/effect/temp_visual/nuke_impact
 	shotdown_effect_type = /obj/effect/temp_visual/nuke_impact
 
@@ -201,7 +207,7 @@
 /obj/item/projectile/guided_munition/torpedo/post/Destroy()
 	if(contents.len)
 		var/list/all_contents = GetAllContents() - src //Get all contents returns the torp itself. remove the torp from the list
-		QDEL_LIST(all_contents) //Delete all contents of the torp. 
+		QDEL_LIST(all_contents) //Delete all contents of the torp.
 	. = ..()
 
 //A probe that science builds to scan anomalies. This is a chad move.

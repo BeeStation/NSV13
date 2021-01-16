@@ -34,15 +34,9 @@ Repair
 
 #define ENGINE_RPM_SPUN 8000
 
-//Yeet the fighter
-/obj/structure/overmap/fighter/proc/yeet()
-	//flight_state = 6
-	toggle_canopy()
-	forceMove(get_turf(locate(255, y, z)))
-
 /obj/structure/overmap/fighter/Destroy()
 	throw_pilot()
-	.=..()
+	. = ..()
 
 /obj/structure/overmap/fighter
 	name = "Space Fighter"
@@ -68,8 +62,9 @@ Repair
 	weapon_safety = TRUE //This happens wayy too much for my liking. Starts ON.
 	pixel_w = -16
 	pixel_z = -20
+	pixel_collision_size_x = 32
+	pixel_collision_size_y = 32 //Avoid center tile viewport jank
 	req_one_access = list(ACCESS_FIGHTER)
-	collision_positions = list(new /datum/vector2d(-2,-16), new /datum/vector2d(-13,-3), new /datum/vector2d(-13,10), new /datum/vector2d(-6,15), new /datum/vector2d(8,15), new /datum/vector2d(15,10), new /datum/vector2d(12,-9), new /datum/vector2d(4,-16), new /datum/vector2d(1,-16))
 	var/start_emagged = FALSE
 	var/max_passengers = 0 //Change this per fighter.
 	//Component to handle the fighter's loadout, weapons, parts, the works.
@@ -80,6 +75,7 @@ Repair
 	var/master_caution = FALSE //The big funny warning light on the dash.
 	var/list/components = list() //What does this fighter start off with? Use this to set what engine tiers and whatever it gets.
 	var/maintenance_mode = FALSE //Munitions level IDs can change this.
+	var/dradis_type =/obj/machinery/computer/ship/dradis/internal
 
 /obj/structure/overmap/fighter/verb/show_control_panel()
 	set name = "Show control panel"
@@ -290,7 +286,6 @@ Repair
 			relay('nsv13/sound/effects/fighters/switch.ogg')
 			return
 		if("target_lock")
-			relinquish_target_lock()
 			relay('nsv13/sound/effects/fighters/switch.ogg')
 			return
 		if("mag_release")
@@ -358,7 +353,7 @@ Repair
 	sprite_size = 32
 	damage_states = FALSE //temp
 	max_integrity = 250 //Tanky
-	max_passengers = 1
+	max_passengers = 6
 	pixel_w = -16
 	pixel_z = -20
 	req_one_access = list(ACCESS_MUNITIONS, ACCESS_ENGINE, ACCESS_FIGHTER)
@@ -370,6 +365,7 @@ Repair
 	speed_limit = 6
 //	ftl_goal = 45 SECONDS //Raptors can, by default, initiate relative FTL jumps to other ships.
 	loadout_type = LOADOUT_UTILITY_ONLY
+	dradis_type = /obj/machinery/computer/ship/dradis/internal/awacs //Sabres can send sonar pulses
 	components = list(/obj/item/fighter_component/fuel_tank/tier2,
 						/obj/item/fighter_component/avionics,
 						/obj/item/fighter_component/apu,
@@ -463,7 +459,7 @@ Repair
 	. = ..()
 	apply_weapons()
 	loadout = AddComponent(loadout_type)
-	dradis = new /obj/machinery/computer/ship/dradis/internal(src) //Fighters need a way to find their way home.
+	dradis = new dradis_type(src) //Fighters need a way to find their way home.
 	dradis.linked = src
 	obj_integrity = max_integrity
 	RegisterSignal(src, COMSIG_MOVABLE_MOVED, .proc/check_overmap_elegibility) //Used to smoothly transition from ship to overmap
@@ -554,28 +550,46 @@ Repair
 			ui_interact(user)
 			return TRUE
 
-/obj/structure/overmap/fighter/proc/force_eject()
+/obj/structure/overmap/fighter/proc/force_eject(force=FALSE)
+	RETURN_TYPE(/list)
+	var/list/victims = list()
 	brakes = TRUE
 	if(!canopy_open)
 		canopy_open = TRUE
 		playsound(src, 'nsv13/sound/effects/fighters/canopy.ogg', 100, 1)
 	for(var/mob/M in operators)
-		stop_piloting(M)
+		stop_piloting(M, force)
 		to_chat(M, "<span class='warning'>You have been remotely ejected from [src]!.</span>")
+		victims += M
+	return victims
 
-/obj/structure/overmap/proc/throw_pilot() //Used when yeeting a pilot out of an exploding ship
-	if(!SSmapping.level_trait(loc.z, ZTRAIT_BOARDABLE)) //Check if we're on the overmap
+//Iconic proc.
+/obj/structure/overmap/fighter/proc/foo()
+	set_fuel(1000)
+	var/obj/item/fighter_component/apu/APU = loadout.get_slot(HARDPOINT_SLOT_APU)
+	APU.fuel_line = TRUE
+	var/obj/item/fighter_component/battery/B = loadout.get_slot(HARDPOINT_SLOT_BATTERY)
+	B.active = TRUE
+	B.charge = B.maxcharge
+	var/obj/item/fighter_component/engine/E = loadout.get_slot(HARDPOINT_SLOT_ENGINE)
+	E.rpm = ENGINE_RPM_SPUN
+	E.try_start()
+	toggle_canopy()
+	forceMove(get_turf(locate(world.maxx, y, z)))
+
+/obj/structure/overmap/fighter/proc/throw_pilot() //Used when yeeting a pilot out of an exploding ship
+	if(SSmapping.level_trait(z, ZTRAIT_OVERMAP)) //Check if we're on the overmap
 		var/max = world.maxx-TRANSITIONEDGE
 		var/min = 1+TRANSITIONEDGE
 
 		var/list/possible_transitions = list()
 		for(var/A in SSmapping.z_list)
 			var/datum/space_level/D = A
-			if (D.linkage == CROSSLINKED)
+			if (D.linkage == CROSSLINKED && !SSmapping.level_trait(D.z_value, ZTRAIT_OVERMAP))
 				possible_transitions += D.z_value
 			if(!possible_transitions.len) //Just in case there is no space z level
 				for(var/z in SSmapping.levels_by_trait(ZTRAIT_STATION))
-				possible_transitions += z
+					possible_transitions += z
 
 		var/_z = pick(possible_transitions)
 		var/_x
@@ -596,20 +610,15 @@ Repair
 				_y = min
 
 		var/turf/T = locate(_x, _y, _z) //Where are we putting you
-		for(var/mob/living/M in contents)
-			mobs_in_ship -= M
-			M.stop_sound_channel(CHANNEL_SHIP_ALERT) //In space no one can hear your ship explode
+		var/list/victims = force_eject(TRUE)
+		for(var/mob/living/M in victims)
+			M.forceMove(T)
 			M.apply_damage(400) //No way you're surviving that
-			M.unfuck_overmap() //Remove camera because you're not looking at the deleted ship
-			M.forceMove(T) //Yeets the spessman
 
 	else //If we're anywhere that isn't the overmap
-		for(var/mob/living/M in contents)
-			mobs_in_ship -= M
-			M.stop_sound_channel(CHANNEL_SHIP_ALERT)
-			M.apply_damage(200) //Turns out exploding will kill you
-			M.unfuck_overmap() //Remove camera because you're not looking at the deleted ship
-			M.forceMove(get_turf(src)) //Just gonna plop you on the ground
+		var/list/victims = force_eject(TRUE)
+		for(var/mob/living/M in victims)
+			M.apply_damage(200)
 
 /obj/structure/overmap/fighter/attackby(obj/item/W, mob/user, params)   //fueling and changing equipment
 	add_fingerprint(user)
@@ -851,8 +860,8 @@ due_to_damage: If the removal was caused voluntarily (FALSE), or if it was cause
 	icon_state = "armour"
 	slot = HARDPOINT_SLOT_ARMOUR
 	weight = 1
-	obj_integrity = 150
-	max_integrity = 150
+	obj_integrity = 250
+	max_integrity = 250
 	armor = list("melee" = 50, "bullet" = 40, "laser" = 80, "energy" = 50, "bomb" = 50, "bio" = 100, "rad" = 100, "fire" = 100, "acid" = 80) //Armour's pretty tough.
 
 //Sometimes you need to repair your physical armour plates.
@@ -872,16 +881,16 @@ due_to_damage: If the removal was caused voluntarily (FALSE), or if it was cause
 	desc = "An extremely thick and heavy set of armour plates. Guaranteed to weigh you down, but it'll keep you flying through brasil itself."
 	tier = 2
 	weight = 2
-	obj_integrity = 350
-	max_integrity = 350
+	obj_integrity = 450
+	max_integrity = 450
 
 /obj/item/fighter_component/armour_plating/tier3
 	name = "Nanocarbon Armour Plates"
 	desc = "A lightweight set of ablative armour which balances speed and protection at the cost of the average GDP of most third world countries."
 	tier = 3
 	weight = 1.25
-	obj_integrity = 250
-	max_integrity = 250
+	obj_integrity = 300
+	max_integrity = 300
 
 /obj/item/fighter_component/canopy
 	name = "Glass canopy"

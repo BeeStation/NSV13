@@ -39,7 +39,7 @@ export const NtosStormdriveMonitor = (props, context) => {
             value={(data.rod_integrity/100 * 100)* 0.01}
             ranges={{
               good: [],
-              average: [0.15, 0.9],
+              average: [0.15, 0.5],
               bad: [-Infinity, 0.15],
             }} />
           Power Output:
@@ -47,8 +47,8 @@ export const NtosStormdriveMonitor = (props, context) => {
             value={(data.last_power_produced/data.theoretical_maximum_power)}
             ranges={{
               good: [],
-              average: [0.15, 0.9],
-              bad: [-Infinity, 0.15],
+              average: [0.08, 0.20],
+              bad: [-Infinity, 0.08],
             }}>
             {data.last_power_produced/1e+6 + ' MW'}
           </ProgressBar>
@@ -57,20 +57,20 @@ export const NtosStormdriveMonitor = (props, context) => {
             value={data.reaction_rate * 0.05}
             ranges={{
               good: [],
-              average: [0.1, 0.4],
+              average: [0.1, 0.2],
               bad: [-Infinity, 0.1],
             }}>
             {data.reaction_rate + ' mol/s'}
           </ProgressBar>
           Fuel:
           <ProgressBar
-            value={(data.fuel/100 * 100)* 0.01}
+            value={data.total_moles/data.mole_threshold_very_high}
             ranges={{
               good: [],
-              average: [0.15, 0.9],
-              bad: [-Infinity, 0.15],
+              average: [(data.mole_threshold_high/data.mole_threshold_very_high), Infinity],
+              bad: [-Infinity, data.reaction_rate/data.mole_threshold_very_high],
             }}>
-            {data.fuel + ' mol'}
+            {data.total_moles + ' mol'}
           </ProgressBar>
         </Section>
       </NtosWindow.Content>

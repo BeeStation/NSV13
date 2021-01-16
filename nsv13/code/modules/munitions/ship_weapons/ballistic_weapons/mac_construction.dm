@@ -34,6 +34,7 @@
 	var/num_sheets_casing = 2
 	var/num_sheets_insulation = 4
 	var/num_cables = 4
+	var/output_path = /obj/machinery/ship_weapon/mac
 
 /obj/structure/ship_weapon/mac_assembly/Initialize()
 	..()
@@ -126,7 +127,7 @@
 		state = BS_WIRED
 		return TRUE
 
-	else if((istype(W, /obj/item/ship_weapon/parts/firing_electronics)) && (state = BS_WIRES_SOLDERED))
+	else if((istype(W, /obj/item/ship_weapon/parts/firing_electronics)) && (state == BS_WIRES_SOLDERED))
 		if(!do_after(user, 2 SECONDS, target=src))
 			return
 		W.forceMove(src)
@@ -154,7 +155,7 @@
 			return
 		W.forceMove(src)
 		to_chat(user, "<span class='notice'>You slide the loading tray into place.</span>")
-		var/obj/machinery/ship_weapon/mac/built = new(loc)
+		var/obj/machinery/ship_weapon/built = new output_path(loc)
 		built.dir = dir
 		built.setAnchored(anchored)
 		built.on_construction()
@@ -232,13 +233,13 @@
 				to_chat(user, "<span class='notice'>You solder the barrel to the frame.</span>")
 				state = BS_BARREL_SOLDERED
 				return TRUE
-		
+
 		if(BS_BARREL_SOLDERED)
 			if(tool.use_tool(src, user, 2 SECONDS, amount=2, volume=100))
 				to_chat(user, "<span class='notice'>You cut the barrel free from the frame.</span>")
 				state = BS_BARREL_PLACED
 				return TRUE
-		
+
 		if(BS_WIRED)
 			if(tool.use_tool(src, user, 2 SECONDS, amount=2, volume=100))
 				to_chat(user, "<span class='notice'>You solder the wiring into place.</span>")

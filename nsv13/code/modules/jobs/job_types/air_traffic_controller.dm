@@ -17,7 +17,8 @@
 	access = list(ACCESS_MAINT_TUNNELS, ACCESS_MUNITIONS, ACCESS_MUNITIONS_STORAGE, ACCESS_FIGHTER) //temp
 	minimal_access = list(ACCESS_MUNITIONS) //temp
 	paycheck = PAYCHECK_MEDIUM
-	paycheck_department = ACCOUNT_CAR
+	paycheck_department = ACCOUNT_MUN
+	mind_traits = list(TRAIT_MUNITIONS_METABOLISM)
 
 	display_order = JOB_DISPLAY_ORDER_AIR_TRAFFIC_CONTROLLER
 	display_rank = "SGT" //nsv13 - Displays the player's actual rank alongside their name, such as GSGT Sergei Koralev

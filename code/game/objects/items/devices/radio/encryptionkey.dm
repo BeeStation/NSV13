@@ -6,6 +6,7 @@
 	w_class = WEIGHT_CLASS_TINY
 	var/translate_binary = FALSE
 	var/syndie = FALSE
+	var/hearall = FALSE
 	var/independent = FALSE
 	var/list/channels = list()
 
@@ -27,7 +28,14 @@
 	name = "syndicate encryption key"
 	icon_state = "syn_cypherkey"
 	channels = list(RADIO_CHANNEL_SYNDICATE = 1)
-	syndie = TRUE//Signifies that it de-crypts Syndicate transmissions
+	syndie = TRUE
+
+/obj/item/encryptionkey/hearall
+	name = "universal decryption key"
+	icon_state = "universal_cypherkey"
+	channels = list(RADIO_CHANNEL_SYNDICATE = 1)
+	hearall = TRUE
+	syndie = TRUE
 
 /obj/item/encryptionkey/binary
 	name = "binary translator key"
@@ -108,7 +116,7 @@
 /obj/item/encryptionkey/heads/xo //nsv13 - changed HoP to XO
 	name = "\proper the executive officer's encryption key"
 	icon_state = "xo_cypherkey"
-	channels = list(RADIO_CHANNEL_SUPPLY = 1, RADIO_CHANNEL_SERVICE = 1, RADIO_CHANNEL_COMMAND = 1)
+	channels = list(RADIO_CHANNEL_MUNITIONS=1, RADIO_CHANNEL_ENGINEERING=1, RADIO_CHANNEL_SUPPLY = 1, RADIO_CHANNEL_SERVICE = 1, RADIO_CHANNEL_COMMAND = 1)
 
 /obj/item/encryptionkey/headset_cargo
 	name = "supply radio encryption key"

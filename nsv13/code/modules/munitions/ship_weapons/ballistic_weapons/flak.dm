@@ -57,38 +57,7 @@
 
 /obj/machinery/ship_weapon/pdc_mount/flak/animate_projectile(atom/target)
 	linked.fire_flak(target)
-/**
- * Handles automatic firing of the PDCs to shoot down torpedoes
- */
-/obj/structure/overmap/proc/handle_pdcs()
-	if(fire_mode == FIRE_MODE_FLAK) //If theyre aiming the flak manually.
-		return
-	if(mass < MASS_SMALL) //Sub-capital ships don't get to use flak
-		return
-	var/datum/ship_weapon/SW = weapon_types[FIRE_MODE_FLAK]
-	var/flak_left = flak_battery_amount //Multi-flak batteries!
-	if(!ai_controlled)
-		if(!last_target || !istype(last_target, /obj/structure/overmap) || QDELETED(last_target) || !isovermap(last_target) || last_target == src || get_dist(last_target,src) >= SW.range_modifier) //Stop hitting yourself enterprise
-			last_target = null
-		else
-			fire_weapon(last_target, mode=FIRE_MODE_FLAK, lateral=TRUE)
-			flak_left --
-			if(flak_left <= 0)
-				return
-	for(var/obj/structure/overmap/ship in GLOB.overmap_objects)
-		if(!ship || !istype(ship))
-			continue
-		if(ship == src || ship == last_target || ship.faction == faction || wrecked || ship.wrecked || ship.z != z) //No friendly fire, don't blow up wrecks that the crew may wish to loot. For AIs, do not target our active target, and risk blowing up our precious torpedoes / missiles.
-			continue
-		var/target_range = get_dist(ship,src)
-		if(target_range > 30 || target_range <= 0) //Random pulled from the aether
-			continue
-		if(!QDELETED(ship) && isovermap(ship) && ship.is_sensor_visible(src) >= SENSOR_VISIBILITY_TARGETABLE)
-			last_target = ship
-			fire_weapon(ship, mode=FIRE_MODE_FLAK, lateral=TRUE)
-			flak_left --
-			if(flak_left <= 0)
-				break
+
 
 /obj/structure/overmap/proc/get_flak_range(atom/target)
 	if(!target)
@@ -169,12 +138,12 @@
 		if(istype(X, /obj/structure/overmap))
 			var/obj/structure/overmap/OM = X
 			if(OM.faction != faction)
-				X.take_damage(severity*10, BRUTE, "overmap_light")
+				X.take_damage(severity*5, BRUTE, "overmap_light")
 		else
 			if(istype(X, /obj/item/projectile))
 				var/obj/item/projectile/P = X
-				if(P.faction != faction)
-					P.ex_act(severity)
+				if(P.faction != faction && istype(P, /obj/item/projectile/guided_munition))
+					P.take_damage(severity*10)
 	. = ..()
 
 /obj/item/projectile/bullet/flak/on_hit(atom/target, blocked = 0)
@@ -188,18 +157,17 @@
 
 /obj/item/projectile/guided_munition/Crossed(atom/movable/AM) //Here, we check if the bullet that hit us is from a friendly ship. If it's from an enemy ship, we explode as we've been flak'd down.
 	. = ..()
-	if(istype(AM, /obj/item/projectile/))
-		var/obj/item/projectile/proj = AM
-		if(!ismob(firer) || !ismob(proj.firer)) //Unlikely to ever happen but if it does, ignore.
-			return
-		var/mob/checking = firer
-		var/mob/enemy = proj.firer
-		if(checking.overmap_ship && enemy.overmap_ship) //Firer is a mob, so check the faction of their ship
-			var/obj/structure/overmap/OM = checking.overmap_ship
-			var/obj/structure/overmap/our_ship = enemy.overmap_ship
-			if(OM.faction != our_ship.faction)
-				explode()
-				return FALSE
+	var/obj/item/projectile/P = AM //This is hacky, refactor check_faction to unify both of these. I'm bodging it for now.
+	if(P.damage <= 0)
+		return
+	if(isprojectile(AM) && P.faction != faction) //Because we could be in the same faction and collide with another bullet. Let's not blow ourselves up ok?
+		if(obj_integrity <= P.damage) //Tank the hit, take some damage
+			qdel(P)
+			explode()
+		else
+			qdel(P)
+			take_damage(P.damage)
+			new /obj/effect/temp_visual/impact_effect(get_turf(src), rand(0,20), rand(0,20))
 
 /obj/item/projectile/guided_munition/ex_act(severity)
 	explode()

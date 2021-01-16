@@ -39,15 +39,15 @@ Bullet reactions
 			addtimer(VARSET_CALLBACK(src, impact_sound_cooldown, FALSE), 0.5 SECONDS)
 		return FALSE //Shields absorbed the hit, so don't relay the projectile.
 	relay_damage(P?.type)
-	if(!use_armour_quadrants || !P.physics2d?.collider2d || !physics2d?.collider2d)
+	if(!use_armour_quadrants)
 		. = ..()
 		return
 	else
 		playsound(src, P.hitsound, 50, 1)
 		visible_message("<span class='danger'>[src] is hit by \a [P]!</span>", null, null, COMBAT_MESSAGE_RANGE)
 		if(!QDELETED(src)) //Bullet on_hit effect might have already destroyed this object
-			var/datum/vector2d/point_of_collision = src.physics2d?.collider2d.get_collision_point(P.physics2d?.collider2d)//Get the collision point, see if the armour quadrants need to absorb this hit.
-			take_quadrant_hit(run_obj_armor(P.damage, P.damage_type, P.flag, null, P.armour_penetration), check_quadrant(point_of_collision)) //This looks horrible, but trust me, it isn't! Probably!. Armour_quadrant.dm for more info
+			//var/datum/vector2d/point_of_collision = src.physics2d?.collider2d.get_collision_point(P.physics2d?.collider2d)//Get the collision point, see if the armour quadrants need to absorb this hit.
+			take_quadrant_hit(run_obj_armor(P.damage, P.damage_type, P.flag, null, P.armour_penetration), projectile_quadrant_impact(P)) //This looks horrible, but trust me, it isn't! Probably!. Armour_quadrant.dm for more info
 
 /obj/structure/overmap/proc/relay_damage(proj_type)
 	if(!occupying_levels.len)
@@ -82,7 +82,7 @@ Bullet reactions
 		addtimer(VARSET_CALLBACK(src, impact_sound_cooldown, FALSE), 1 SECONDS)
 	if(blocked)
 		return FALSE
-	SEND_SIGNAL(src, COMSIG_DAMAGE_TAKEN, damage_amount) //Trigger to update our list of armour plates without making the server cry.
+	SEND_SIGNAL(src, COMSIG_ATOM_DAMAGE_ACT, damage_amount) //Trigger to update our list of armour plates without making the server cry.
 	if(is_player_ship()) //Code for handling "superstructure crit" only applies to the player ship, nothing else.
 		if(obj_integrity <= damage_amount || structure_crit) //Superstructure crit! They would explode otherwise, unable to withstand the hit.
 			obj_integrity = 10 //Automatically set them to 10 HP, so that the hit isn't totally ignored. Say if we have a nuke dealing 1800 DMG (the ship's full health) this stops them from not taking damage from it, as it's more DMG than we can handle.
