@@ -352,12 +352,6 @@
 			D.stage_act()
 
 /mob/living/carbon/handle_mutations_and_radiation()
-	if ( istype( dna.species, /datum/species/ipc ) ) // NSV13 IPCs should not have human mutations 
-		radiation -= min( radiation, RAD_LOSS_PER_TICK )
-		if( radiation > RAD_MOB_SAFE )
-			adjustFireLoss( log( radiation - RAD_MOB_SAFE ) * RAD_TOX_COEFFICIENT )
-		return
-
 	if(dna && dna.temporary_mutations.len)
 		for(var/mut in dna.temporary_mutations)
 			if(dna.temporary_mutations[mut] < world.time)
@@ -386,7 +380,7 @@
 				dna.remove_mutation(HM.type)
 
 	radiation -= min(radiation, RAD_LOSS_PER_TICK)
-	if(radiation > RAD_MOB_SAFE)
+	if(!( TRAIT_TOXIMMUNE in dna.species.inherent_traits ) && radiation > RAD_MOB_SAFE) // NSV13 don't deal toxin damage if they're immune 
 		adjustToxLoss(log(radiation-RAD_MOB_SAFE)*RAD_TOX_COEFFICIENT)
 
 
