@@ -515,7 +515,7 @@ The while loop runs at a programatic level and is thus separated from any thrott
 		// If the target is an asteroid
 		if ( istype( A, /obj/structure/overmap/asteroid ) )
 			// If the attacker hits the rock hard enough
-			if ( bump_velocity >= 3 )
+			if ( bump_velocity >= 5 )
 				// If the attacker is a player ship, and not a mining ship
 				if ( istype( src, /obj/structure/overmap/nanotrasen ) )
 					var/obj/structure/overmap/nanotrasen/playerShip = src
@@ -538,12 +538,14 @@ The while loop runs at a programatic level and is thus separated from any thrott
 							var/datum/round_event_control/meteorType = null
 							var/announceChance = 100
 							if ( istype( A, /obj/structure/overmap/asteroid/large ) )
-								meteorType = new /datum/round_event_control/meteor_wave/threatening()
-							else if ( istype( A, /obj/structure/overmap/asteroid/medium ) )
+								// meteorType = new /datum/round_event_control/meteor_wave/threatening()
 								meteorType = new /datum/round_event_control/meteor_wave()
-							else
+							else if ( istype( A, /obj/structure/overmap/asteroid/medium ) )
 								meteorType = new /datum/round_event_control/meteor_wave/major_dust()
 								// This event subtype produces an illogical centcom report that doesn't match ramming asteroids. Plus space dust is mostly harmless
+								announceChance = 0
+							else
+								meteorType = new /datum/round_event_control/space_dust()
 								announceChance = 0
 
 							var/datum/round_event/meteorEvent = meteorType.runEvent()
