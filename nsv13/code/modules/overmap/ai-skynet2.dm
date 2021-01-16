@@ -579,7 +579,8 @@ GLOBAL_LIST_EMPTY(ai_goals)
 /datum/fleet/New()
 	. = ..()
 	if(size < FLEET_DIFFICULTY_SPECIAL)
-		var/num_players = SSticker.mode.num_players()
+		//Account for pre-round spawned fleets.
+		var/num_players = (SSticker?.mode) ? SSticker.mode.num_players() : 0
 		if(num_players <= 15) //You get an easier time of it on lowpop
 			size = round(size * 0.8)
 		else

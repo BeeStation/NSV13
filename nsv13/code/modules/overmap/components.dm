@@ -441,7 +441,7 @@ Method to try locate an overmap object that we should attach to. Recursively cal
 		return
 	parent.armour_plates ++
 	parent.max_armour_plates ++
-	RegisterSignal(parent, COMSIG_DAMAGE_TAKEN, .proc/relay_damage)
+	RegisterSignal(parent, COMSIG_ATOM_DAMAGE_ACT, .proc/relay_damage)
 
 /obj/structure/hull_plate/Destroy()
 	parent?.armour_plates --
