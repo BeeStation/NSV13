@@ -377,7 +377,7 @@
 			else
 				if(GLOB.crew_transfer_risa) //Nsv13 - added win condition for being competent.
 					parts += "<div class='panel greenborder'>"
-					parts += "<span class='greentext'>[M.real_name] docked at Risa Station for shore leave after completing a combat patrol.</span>"
+					parts += "<span class='greentext'>[M.real_name] docked at Outpost 45 for shore leave after completing a combat patrol.</span>"
 				else //Nsv13 - added win condition for being competent.
 					parts += "<div class='panel greenborder'>"
 					parts += "<span class='greentext'>You managed to survive the events on [station_name()] as [M.real_name].</span>"

@@ -39,7 +39,7 @@ Bullet reactions
 			addtimer(VARSET_CALLBACK(src, impact_sound_cooldown, FALSE), 0.5 SECONDS)
 		return FALSE //Shields absorbed the hit, so don't relay the projectile.
 	relay_damage(P?.type)
-	if(!use_armour_quadrants || !P.physics2d?.collider2d || !physics2d?.collider2d)
+	if(!use_armour_quadrants)
 		. = ..()
 		return
 	else
@@ -82,7 +82,7 @@ Bullet reactions
 		addtimer(VARSET_CALLBACK(src, impact_sound_cooldown, FALSE), 1 SECONDS)
 	if(blocked)
 		return FALSE
-	SEND_SIGNAL(src, COMSIG_DAMAGE_TAKEN, damage_amount) //Trigger to update our list of armour plates without making the server cry.
+	SEND_SIGNAL(src, COMSIG_ATOM_DAMAGE_ACT, damage_amount) //Trigger to update our list of armour plates without making the server cry.
 	if(is_player_ship()) //Code for handling "superstructure crit" only applies to the player ship, nothing else.
 		if(obj_integrity <= damage_amount || structure_crit) //Superstructure crit! They would explode otherwise, unable to withstand the hit.
 			obj_integrity = 10 //Automatically set them to 10 HP, so that the hit isn't totally ignored. Say if we have a nuke dealing 1800 DMG (the ship's full health) this stops them from not taking damage from it, as it's more DMG than we can handle.

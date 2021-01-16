@@ -1,11 +1,20 @@
 GLOBAL_LIST_INIT(drop_trooper_teams, list("Noble", "Helljumper","Red", "Black", "Crimson", "Osiris", "Apex", "Apollo", "Thrace", "Galactica", "Valkyrie", "Recon", "Gamma", "Alpha", "Bravo", "Charlie", "Delta", "Indigo", "Sol's fist", "Abassi", "Cartesia", "Switchback", "Majestic", "Mountain", "Shadow", "Shrike", "Sterling", "FTL", "Belter", "Moya", "Crichton"))
 
+/datum/map_template/pvp_pod
+	name = "Syndicate Boarding Pod"
+	mappath = "_maps/templates/boarding_pod.dmm"
+
+/area/nsv/boarding_pod
+	name = "Syndicate Boarding Pod"
+	icon_state = "syndie-ship"
+	requires_power = FALSE
 
 /datum/antagonist/traitor/boarder
 	name = "Boarder" //Not the school kind :b1:
 	antagpanel_category = "Boarder"
 	roundend_category = "boarders"
 	should_equip = FALSE
+	tips = 'html/antagtips/boarder.html'
 
 /datum/antagonist/traitor/boarder/forge_human_objectives()
 	var/martyr_chance = prob(20)
@@ -55,15 +64,38 @@ GLOBAL_LIST_INIT(drop_trooper_teams, list("Noble", "Helljumper","Red", "Black", 
 		var/mob/living/victim = pick(operatives)
 		start_piloting(victim, "all_positions")
 
+///Finds a "safe" place to dump a boarding pod, with a bit of distance from the transition edge to avoid visual hiccups.
+/proc/boardingPodStartLoc(startSide, Z)
+	var/starty
+	var/startx
+	switch(startSide)
+		if(NORTH)
+			starty = world.maxy-(TRANSITIONEDGE+10)
+			startx = rand((TRANSITIONEDGE+10), world.maxx-(TRANSITIONEDGE+10))
+		if(EAST)
+			starty = rand((TRANSITIONEDGE+10),world.maxy-(TRANSITIONEDGE+10))
+			startx = world.maxx-(TRANSITIONEDGE+10)
+		if(SOUTH)
+			starty = (TRANSITIONEDGE+10)
+			startx = rand((TRANSITIONEDGE+10), world.maxx-(TRANSITIONEDGE+10))
+		if(WEST)
+			starty = rand((TRANSITIONEDGE+10), world.maxy-(TRANSITIONEDGE+10))
+			startx = (TRANSITIONEDGE+10)
+	. = locate(startx, starty, Z)
+
 /obj/structure/overmap/proc/spawn_boarders(amount)
 	if(!linked_areas.len)
 		return FALSE
 	if(!amount)
 		amount = rand(2,4)
 	var/list/zs = list()
+	if(!occupying_levels.len)
+		message_admins("Failed to spawn boarders for [name], it doesn't seem to have any occupying z-levels. (Interior)")
+		return FALSE
 	for(var/datum/space_level/SL in occupying_levels)
 		zs += SL.z_value
-	var/turf/target = get_turf(pick(docking_points))
+	var/startside = pick(GLOB.cardinals)
+	var/turf/target = boardingPodStartLoc(startside, pick(zs))
 	if(!target)
 		message_admins("Failed to spawn boarders for [name], does it have an interior?")
 		return FALSE //Cut off here to avoid polling people for a spawn that will never work.
@@ -71,7 +103,7 @@ GLOBAL_LIST_INIT(drop_trooper_teams, list("Noble", "Helljumper","Red", "Black", 
 		message_admins("Failed to spawn boarders for [name] due to admin boarding override.")
 		return FALSE //Allows the admins to disable boarders for event rounds
 	var/player_check = get_active_player_count(alive_check = TRUE, afk_check = TRUE, human_check = TRUE)
-	if(player_check < 20) // Remove the low pop boarder camping
+	if(player_check < 0) // Remove the low pop boarder camping
 		message_admins("Failed to spawn boarders for [name] due to insufficient player count.")
 		return FALSE
 	var/list/candidates = pollCandidatesForMob("Do you want to play as a Syndicate drop trooper?", ROLE_OPERATIVE, null, ROLE_OPERATIVE, 10 SECONDS, src)
@@ -79,6 +111,8 @@ GLOBAL_LIST_INIT(drop_trooper_teams, list("Noble", "Helljumper","Red", "Black", 
 		return FALSE
 	var/list/operatives = list()
 	var/team_name = pick_n_take(GLOB.drop_trooper_teams)
+	var/datum/map_template/pvp_pod/currentPod = new /datum/map_template/pvp_pod()
+	currentPod.load(target, TRUE)
 	for(var/I = 0, I < amount, I++)
 		if(!LAZYLEN(candidates))
 			break
@@ -98,6 +132,5 @@ GLOBAL_LIST_INIT(drop_trooper_teams, list("Noble", "Helljumper","Red", "Black", 
 		message_admins("[ADMIN_LOOKUPFLW(H)] became a syndicate drop trooper.")
 		to_chat(H, "<span class='danger'>You are a syndicate drop trooper! Cripple [station_name()] to the best of your ability, by any means you see fit. You have been given some objectives to guide you in the pursuit of this goal.")
 		operatives += H
-	new /obj/structure/overmap/fighter/utility/prebuilt/carrier/syndicate/boarding(target, operatives, team_name)
 	relay('nsv13/sound/effects/ship/boarding_pod.ogg', "<span class='userdanger'>You can hear several tethers attaching to the ship.</span>")
 	return TRUE

@@ -127,7 +127,7 @@ Set up relationships.
 /datum/faction/nanotrasen/victory()
 	. = ..()
 	for(var/datum/star_system/SS in SSstar_system.systems)
-		if(SS.name == "Risa Station")
+		if(SS.name == "Outpost 45")
 			SS.hidden = FALSE
 	for(var/client/C in GLOB.clients)
 		if(!C.mob || !SSmapping.level_trait(C.mob.z, ZTRAIT_BOARDABLE))
@@ -152,7 +152,7 @@ Set up relationships.
 	. = ..()
 	priority_announce("Attention [station_name()]. Our presence in this sector has been severely diminished due to your incompetence. Return to base immediately for disciplinary action.", "Naval Command")
 	for(var/datum/star_system/SS in SSstar_system.systems) //This is trash but I don't wanna fix it right now.
-		if(SS.name == "Risa Station")
+		if(SS.name == "Outpost 45")
 			SS.hidden = FALSE
 	tickets = 0
 	SSstar_system.nag_stacks = 0

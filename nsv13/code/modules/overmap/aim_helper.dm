@@ -1,19 +1,27 @@
 /obj/structure/overmap
 	var/atom/autofire_target = null //Are we clicking and holding to shoot our guns?
 
-/obj/structure/overmap/proc/onMouseDrag(src_object, over_object, src_location, over_location, params, mob/M)
+/obj/structure/overmap/onMouseDrag(src_object, over_object, src_location, over_location, params, mob/M)
+	..()
+	var/datum/component/overmap_gunning/user_gun = M.GetComponent(/datum/component/overmap_gunning)
+	if(user_gun)
+		user_gun.onMouseDrag(src_object, over_object, src_location, over_location, params, M)
+		return TRUE
 	if(aiming)
 		lastangle = getMouseAngle(params, M)
 		draw_beam()
 	else
 		autofire_target = over_object
 
-
 /obj/structure/overmap/proc/onMouseDown(object, location, params, mob/M)
 	if(istype(object, /obj/screen) && !istype(object, /obj/screen/click_catcher))
 		return
 	if((object in M.contents) || (object == M))
 		return
+	var/datum/component/overmap_gunning/user_gun = M.GetComponent(/datum/component/overmap_gunning)
+	if(user_gun)
+		user_gun?.onMouseDown(object)
+		return TRUE
 	if(fire_mode == FIRE_MODE_MAC || fire_mode == FIRE_MODE_BLUE_LASER)
 		start_aiming(params, M)
 	else
@@ -22,6 +30,10 @@
 /obj/structure/overmap/proc/onMouseUp(object, location, params, mob/M)
 	if(istype(object, /obj/screen) && !istype(object, /obj/screen/click_catcher))
 		return
+	var/datum/component/overmap_gunning/user_gun = M.GetComponent(/datum/component/overmap_gunning)
+	if(user_gun)
+		user_gun?.onMouseUp(object)
+		return TRUE
 	autofire_target = null
 	lastangle = getMouseAngle(params, M)
 	stop_aiming()

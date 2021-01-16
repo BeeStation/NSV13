@@ -8,6 +8,7 @@
 		play_attack_sound(damage_amount, damage_type, damage_flag)
 	if(!(resistance_flags & INDESTRUCTIBLE) && obj_integrity > 0)
 		damage_amount = run_obj_armor(damage_amount, damage_type, damage_flag, attack_dir, armour_penetration)
+		SEND_SIGNAL(src, COMSIG_ATOM_DAMAGE_ACT, damage_amount) //We've taken damage, send a signal to show this.
 		if(damage_amount >= DAMAGE_PRECISION)
 			. = damage_amount
 			var/old_integ = obj_integrity
@@ -204,6 +205,7 @@ GLOBAL_DATUM_INIT(acid_overlay, /mutable_appearance, mutable_appearance('icons/e
 //// FIRE
 
 /obj/fire_act(exposed_temperature, exposed_volume)
+	. = ..() //Send the fire act signal first....
 	if(isturf(loc))
 		var/turf/T = loc
 		if(T.intact && level == 1) //fire can't damage things hidden below the floor.
