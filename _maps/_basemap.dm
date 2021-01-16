@@ -8,9 +8,6 @@
 		#include "map_files\Mining\Lavaland.dmm"
 		#include "map_files\debug\runtimestation.dmm"
 
-		//Hammerhead
-		#include "map_files\Hammerhead\Hammerhead.dmm"
-
 		//Aetherwhisp
 		#include "map_files\Aetherwhisp\Aetherwhisp2.dmm"
 		#include "map_files\Aetherwhisp\Aetherwhisp1.dmm"
@@ -27,13 +24,7 @@
 		#include "map_files\Jeppison\Jeppison1.dmm"
 		#include "map_files\Jeppison\Jeppison2.dmm"
 
-		//Vago
-		#include "map_files\Vago\vagodeck1.dmm"
-		#include "map_files\Vago\vagodeck2.dmm"
-
-		//Jolly Sausage
-		#include "map_files\jollysausage\todger.dmm"
-		#ifdef TRAVISBUILDING
+		#ifdef CIBUILDING
 			#include "templates.dm"
 		#endif
 	#endif

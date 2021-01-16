@@ -386,6 +386,9 @@ NOTE: there are two lists of areas in the end of this file: centcom and station 
 	name = "Restrooms"
 	icon_state = "toilet"
 
+/area/crew_quarters/toilet/head
+	name = "Barracks Head"
+
 /area/crew_quarters/locker
 	name = "Locker Room"
 	icon_state = "locker"

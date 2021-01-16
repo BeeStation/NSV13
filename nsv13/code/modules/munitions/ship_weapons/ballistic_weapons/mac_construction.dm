@@ -34,6 +34,7 @@
 	var/num_sheets_casing = 2
 	var/num_sheets_insulation = 4
 	var/num_cables = 4
+	var/output_path = /obj/machinery/ship_weapon/mac
 
 /obj/structure/ship_weapon/mac_assembly/Initialize()
 	..()
@@ -154,7 +155,7 @@
 			return
 		W.forceMove(src)
 		to_chat(user, "<span class='notice'>You slide the loading tray into place.</span>")
-		var/obj/machinery/ship_weapon/mac/built = new(loc)
+		var/obj/machinery/ship_weapon/built = new output_path(loc)
 		built.dir = dir
 		built.setAnchored(anchored)
 		built.on_construction()

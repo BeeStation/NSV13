@@ -19,6 +19,18 @@
 		if(270 to 360) //Then this represents the last quadrant of the circle, the northwest one
 			return ARMOUR_FORWARD_STARBOARD
 
+/obj/structure/overmap/proc/projectile_quadrant_impact(obj/item/projectile/P)
+	var/shield_angle_hit = SIMPLIFY_DEGREES(Get_Angle(P, src) - angle)
+	switch(shield_angle_hit)
+		if(0 to 89) //0 - 90 deg is the first right quarter of the circle, it's like dividing up a pizza!
+			return ARMOUR_FORWARD_PORT
+		if(90 to 179)
+			return ARMOUR_AFT_PORT
+		if(180 to 269)
+			return ARMOUR_AFT_STARBOARD
+		if(270 to 360) //Then this represents the last quadrant of the circle, the northwest one
+			return ARMOUR_FORWARD_STARBOARD
+
 /* UNUSED
 /obj/screen/alert/overmap_integrity
 	name = "Ship integrity"

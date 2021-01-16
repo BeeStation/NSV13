@@ -17,6 +17,7 @@ SUBSYSTEM_DEF(star_system)
 	var/tickets_to_win = FACTION_VICTORY_TICKETS
 	//Starmap 2
 	var/list/factions = list() //List of all factions in play on this starmap, instantiated on init.
+	var/list/neutral_zone_systems = list()
 	var/next_nag_time = 0
 	var/nag_interval = 30 MINUTES //Get off your asses and do some work idiots
 	var/nag_stacks = 0 //How many times have we told you to get a move on?
@@ -37,7 +38,7 @@ SUBSYSTEM_DEF(star_system)
 	if(SSmapping.config.patrol_type == "passive")
 		priority_announce("[station_name()], you have been assigned to reconnaissance and exploration this shift. Scans indicate that besides a decent number of straggling Syndicate vessels, there will be little threat to your operations. You are granted permission to proceed at your own pace.", "[capitalize(SSmapping.config.faction)] Naval Command")
 		for(var/datum/star_system/SS in systems)
-			if(SS.name == "Risa Station")
+			if(SS.name == "Outpost 45")
 				SS.hidden = FALSE
 		can_fire = FALSE //And leave it at that.
 		return FALSE //Don't karmic people if this roundtype is set to passive mode.
@@ -49,10 +50,10 @@ SUBSYSTEM_DEF(star_system)
 		next_nag_time = world.time + nag_interval
 		switch(nag_stacks)
 			if(1)
-				var/message = pick(	"This is Centcomm to all vessels assigned to patrol the Alpha Quadrant, please continue on your patrol route", \
-									"This is Centcomm to all vessels assigned to patrol the Alpha Quadrant, we are not paying you to idle in space during your assigned patrol schedule", \
-									"This is Centcomm to all vessels assigned to patrol the Alpha Quadrant, your inactivity has been noted and will not be tolerated.", \
-									"This is Centcomm to the patrol vessel currently assigned to the Alpha Quadrant, you are expected to fulfill your assigned mission")
+				var/message = pick(	"This is Centcomm to all vessels assigned to explore the Delphic Expanse, please continue on your patrol route", \
+									"This is Centcomm to all vessels assigned to explore the Delphic Expanse, we are not paying you to idle in space during your assigned patrol schedule", \
+									"This is Centcomm to all vessels assigned to explore the Delphic Expanse, your inactivity has been noted and will not be tolerated.", \
+									"This is Centcomm to the explore vessel currently assigned to the Delphic Expanse, you are expected to fulfill your assigned mission")
 				priority_announce("[message]", "Naval Command") //Warn players for idleing too long
 			if(2)
 				priority_announce("[station_name()] is no longer responding to commands. Enacting emergency defense conditions. All shipside squads must assist in getting the ship ready for combat by any means necessary.", "WhiteRapids Administration Corps")
@@ -102,6 +103,10 @@ SUBSYSTEM_DEF(star_system)
 		factions += F
 	for(var/datum/faction/F in factions)
 		F.setup_relationships() //Set up faction relationships AFTER they're all initialised to avoid errors.
+	for(var/datum/star_system/S in systems)	//Setup the neutral zone for easier access - Bit of overhead but better than having to search for sector 2 systems everytime we want a new neutral zone occupier)
+		if(S.sector != 2)	//Magic numbers bad I know, but there is no sector defines.
+			continue
+		neutral_zone_systems += S
 
 /**
 Returns a faction datum by its name (case insensitive!)
@@ -239,7 +244,7 @@ Returns a faction datum by its name (case insensitive!)
 				medal_type = MEDAL_CREW_COMPETENT
 			if(1)
 				priority_announce("Crew of [station_name()]. Your dedication to your mission is admirable, we commend you for your continued participation in combat.\
-				We remind you that you are still free to return to Risa Station for a crew transfer, and that your continued combat is not necessary.", "Naval Command")
+				We remind you that you are still free to return to Outpost 45 for a crew transfer, and that your continued combat is not necessary.", "Naval Command")
 				medal_type = MEDAL_CREW_VERYCOMPETENT
 			if(2) //Ok..this is kinda impressive
 				priority_announce("Attention [station_name()]. You have proven yourselves extremely competant in the battlefield, and you are all to be commended for this.\
@@ -256,7 +261,7 @@ Returns a faction datum by its name (case insensitive!)
 			SSmedals.UnlockMedal(medal_type,C)
 		last_combat_enter = world.time
 		for(var/datum/star_system/SS in systems)
-			if(SS.name == "Risa Station")
+			if(SS.name == "Outpost 45")
 				SS.hidden = FALSE
 			SS.difficulty_budget *= 2 //Double the difficulty if the crew choose to stay.
 		times_cleared ++
@@ -296,6 +301,7 @@ Returns a faction datum by its name (case insensitive!)
 
 /datum/star_system
 	var/name = null //Parent type, please ignore
+	var/desc = null
 	var/parallax_property = null //If you want things to appear in the background when you jump to this system, do this.
 	var/level_trait = null //The Ztrait of the zlevel that this system leads to
 	var/visitable = FALSE //Can you directly travel to this system? (You shouldnt be able to jump directly into hyperspace)
@@ -333,6 +339,7 @@ Returns a faction datum by its name (case insensitive!)
 	var/is_hypergate = FALSE //Used to clearly mark sector jump points on the map
 	var/preset_trader = null
 	var/datum/trader/trader = null
+	var/list/audio_cues = null //if you want music to queue on system entry. Format: list of youtube or media URLS.
 
 /datum/star_system/proc/dist(datum/star_system/other)
 	var/dx = other.x - x
@@ -562,11 +569,13 @@ Returns a faction datum by its name (case insensitive!)
 			parallax_property = "planet_earth"
 		if("ice_planet")
 			parallax_property = "ice_planet"
+		if("graveyard")
+			parallax_property = "graveyard"
 		if("blackhole")
 			anomaly_type = /obj/effect/overmap_anomaly/singularity
 			parallax_property = "pitchblack"
 		if("blacksite") //this a special one!
-			adjacency_list += "Risa Station" //you're going to risa, dammit.
+			adjacency_list += "Outpost 45" //you're going to risa, dammit.
 			SSstar_system.spawn_anomaly(/obj/effect/overmap_anomaly/wormhole, src, center=TRUE)
 	if(alignment == "syndicate")
 		spawn_enemies() //Syndicate systems are even more dangerous, and come pre-loaded with some guaranteed Syndiships.
@@ -612,23 +621,6 @@ Returns a faction datum by its name (case insensitive!)
 	return y + (t * (other.y - y))
 
 //////star_system LIST (order of appearance)///////
-
-/datum/star_system/risa
-	name = "Risa Station"
-	hidden = TRUE //Initially hidden, unlocked when the players complete their patrol.
-	mission_sector = TRUE
-	x = 10
-	y = 30
-	alignment = "nanotrasen"
-	adjacency_list = list("Sol")
-
-/datum/star_system/risa/after_enter(obj/structure/overmap/OM)
-	if(OM.role == MAIN_OVERMAP)
-		priority_announce("[station_name()] has successfully returned to [src] for resupply and crew transfer, excellent work crew.", "Naval Command")
-		GLOB.crew_transfer_risa = TRUE
-		SSticker.mode.check_finished()
-	return
-
 /datum/star_system/sol
 	name = "Sol"
 	is_capital = TRUE
@@ -637,7 +629,7 @@ Returns a faction datum by its name (case insensitive!)
 	fleet_type = /datum/fleet/nanotrasen/earth
 	alignment = "nanotrasen"
 	system_type = "planet_earth"
-	adjacency_list = list("Alpha Centauri", "Risa Station", "Ross 154")
+	adjacency_list = list("Alpha Centauri", "Outpost 45", "Ross 154")
 
 /datum/star_system/ross
 	name = "Ross 154" //Hi mate my name's ross how's it going
@@ -688,8 +680,24 @@ Returns a faction datum by its name (case insensitive!)
 	system_type = "demonstar"
 	alignment = "nanotrasen"
 	fleet_type = /datum/fleet/nanotrasen/border
-	adjacency_list = list("Wolf 359", "Astraeus")
+	adjacency_list = list("Wolf 359", "Feliciana", "Outpost 45")
 	is_hypergate = TRUE
+
+/datum/star_system/outpost
+	name = "Outpost 45"
+	hidden = TRUE //Initially hidden, unlocked when the players complete their patrol.
+	mission_sector = TRUE
+	x = 40
+	y = 80
+	alignment = "nanotrasen"
+	adjacency_list = list("Lalande 21185")
+
+/datum/star_system/outpost/after_enter(obj/structure/overmap/OM)
+	if(OM.role == MAIN_OVERMAP)
+		priority_announce("[station_name()] has successfully returned to [src] for resupply and crew transfer, excellent work crew.", "Naval Command")
+		GLOB.crew_transfer_risa = TRUE
+		SSticker.mode.check_finished()
+	return
 
 //Sector 2: Neutral Zone.
 /*
@@ -699,14 +707,13 @@ Welcome to the neutral zone! Non corporate sanctioned traders with better gear a
 */
 
 //It's BACK
-/datum/star_system/astraeus
-	name = "Astraeus"
-	x = 25
-	y = 80
+/datum/star_system/Feliciana
+	name = "Feliciana"
+	x = 10
+	y = 70
 	system_type = "demonstar"
 	alignment = "nanotrasen"
-	fleet_type = /datum/fleet/nanotrasen/border/defense //Chokepoint, so NT guards it quite heavily.
-	adjacency_list = list("Lalande 21185", "Corvi", "Tortuga")
+	adjacency_list = list("Lalande 21185", "Corvi")
 	sector = 2
 	is_hypergate = TRUE
 
@@ -717,86 +724,86 @@ Welcome to the neutral zone! Non corporate sanctioned traders with better gear a
 	y = 60
 	alignment = "unaligned"
 	sector = 2
-	adjacency_list = list("Astraeus", "Groombridge 34")
+	adjacency_list = list("Feliciana", "Argo")
 
-/datum/star_system/sector2/groombridge
-	name = "Groombridge 34"
-	x = 10
-	y = 50
-	alignment = "unaligned"
-	adjacency_list = list("Corvi", "Tau Ceti")
-
-/datum/star_system/sector2/tau_ceti
-	name = "Tau Ceti"
-	x = 20
-	y = 40
-	alignment = "unaligned"
-	adjacency_list = list("Groombridge 34", "Corvi", "Kruger 60")
-
-/datum/star_system/sector2/kreuger
-	name = "Kruger 60"
-	x = 30
-	y = 35
-	alignment = "unaligned"
-	adjacency_list = list("Groombridge 34", "Tau Ceti", "Astartes")
-
-/datum/star_system/sector2/astartes
-	name = "Astartes"
-	x = 32
-	y = 25
-	alignment = "unaligned"
-	adjacency_list = list("Kruger 60", "Tau Ceti", "Hyperion", "VY Canis Majoris", "Ragnar Arms Depot")
-
-/datum/star_system/sector2/hyperion
-	name = "Hyperion"
-	x = 40
-	y = 30
-	alignment = "unaligned"
-	adjacency_list = list("Kruger 60", "Astartes", "Ross 251")
-
-/datum/star_system/sector2/canis
-	name = "VY Canis Majoris"
-	x = 60
-	y = 30
-	alignment = "unaligned"
-	preset_trader = /datum/trader/czanekcorp
-	system_type = "supernova"
-	adjacency_list = list("Hyperion", "Astartes")
-
-/datum/star_system/sector2/ragnar
-	name = "Ragnar Arms Depot"
+/datum/star_system/sector2/argo
+	name = "Argo"
 	x = 15
-	y = 30
+	y = 55
 	alignment = "nanotrasen"
-	adjacency_list = list("Astartes")
-	preset_trader = /datum/trader/armsdealer
+	adjacency_list = list("Corvi", "Ariel", "Ida")
+	preset_trader = /datum/trader/czanekcorp
 
-/datum/star_system/sector2/ross251
-	name = "Ross 251"
-	x = 50
+/datum/star_system/sector2/ariel
+	name = "Ariel"
+	x = 8
+	y = 45
+	alignment = "nanotrasen"
+	adjacency_list = list("Corvi", "Argo", "Ida")
+
+/datum/star_system/sector2/ida
+	name = "Ida"
+	x = 20
 	y = 50
-	adjacency_list = list("Tortuga", "Hyperion")
+	alignment = "nanotrasen"
+	adjacency_list = list("Ariel", "Argo", "Foothold")
+
+/datum/star_system/sector2/foothold //The last bastion of civilisation.
+	name = "Foothold"
+	x = 30
+	y = 40
+	alignment = "nanotrasen"
+	fleet_type = /datum/fleet/nanotrasen/border/defense //The foothold in the darkness
+	adjacency_list = list("Ariel", "Argo", "The Badlands", "Ida", "Sion")
+	preset_trader = /datum/trader/armsdealer
+	audio_cues = list("https://www.youtube.com/watch?v=1pHbQ87NcCY", "https://www.youtube.com/watch?v=PSmUokZSbBs", "https://www.youtube.com/watch?v=bCxHzIQ9-Fs")
+	desc = "The last bastion of civilisation before the endless uncharted wastes beyond."
+
+/datum/star_system/sector2/sion
+	name = "Sion"
+	x = 27
+	y = 25
+	threat_level = THREAT_LEVEL_UNSAFE
+	alignment = "unaligned"
+	adjacency_list = list("Foothold", "Muir", "Beylix", "Sebacien")
+	desc = "The inroad to several independent colonies long abandoned by SolGov. The Sion cluster houses criminals and opportunists alike."
+
+/datum/star_system/sector2/muir
+	name = "Muir"
+	x = 25
+	y = 30
+	threat_level = THREAT_LEVEL_UNSAFE
+	alignment = "unaligned"
+	adjacency_list = list("Sion", "Sebacien")
+
+/datum/star_system/sector2/beylix
+	name = "Beylix"
+	x = 34
+	y = 22
+	threat_level = THREAT_LEVEL_UNSAFE
+	alignment = "unaligned"
+	adjacency_list = list("Sion", "Muir", "Sebacien")
+
+/datum/star_system/sector2/sebacien
+	name = "Sebacien"
+	x = 35
+	y = 28
+	threat_level = THREAT_LEVEL_UNSAFE
+	alignment = "unaligned"
+	adjacency_list = list("Sion", "Muir", "Beylix")
 
 /datum/star_system/sector2/tortuga
 	name = "Tortuga"
-	x = 40
-	y = 45
+	x = 10
+	y = 30
 	alignment = "unaligned"
 	system_type = "pirate" //Guranteed piratical action!
 	threat_level = THREAT_LEVEL_UNSAFE
-	adjacency_list = list("Astraeus", "The Badlands", "Astraeus", "Corvi", "Ross 251")
+	wormhole_connections = list("Feliciana")
+	adjacency_list = list()
 	fleet_type = /datum/fleet/pirate
 
-/*
-Sector 3: The badlands
-<Summary>
-Welcome to Brazil! The next stop on your journey to the Syndicate homeworld is the uncharted sector, a sector which is entirely mapped by either faction and
-proves to be a hazardous wasteland. You won't find much here, but it'll make your journey that much harder.
-To make things worse, this hellhole is entirely RNG, so good luck mapping it!
-</Summary>
-*/
-
-/datum/star_system/rubicon
+/datum/star_system/sector2/rubicon
 	name = "Rubicon"
 	x = 140
 	y = 60
@@ -804,8 +811,8 @@ To make things worse, this hellhole is entirely RNG, so good luck mapping it!
 	system_type = "demonstar"
 	is_hypergate = TRUE
 	threat_level = THREAT_LEVEL_UNSAFE
-	sector = 3
 	adjacency_list = list("Romulus")
+	desc = "Many have attempted to cross the Rubicon, many have failed. This system bridges many different sectors together, and is an inroad for the largely unknown Abassi ridge nebula."
 
 /datum/star_system/random
 	name = "Randy random"
@@ -815,25 +822,39 @@ To make things worse, this hellhole is entirely RNG, so good luck mapping it!
 	alignment = "uncharted"
 
 //The badlands generates a rat run of random systems around it, so keep it well clear of civilisation
-/datum/star_system/sector3
+/datum/star_system/brasil
 	name = "The Badlands"
 	alignment = "uncharted"
-	x = 100
+	x = 50
 	y = 30
-	sector = 3
-	adjacency_list = list("Tortuga")
+	sector = 2
+	adjacency_list = list("Foothold")
+	audio_cues = list("https://www.youtube.com/watch?v=HIdNZlBKrTA")
+	desc = "The beginning of a sector of uncharted space known as the Delphic expanse. Ships from many opposing factions all vye for control over this new territory."
 
-/datum/star_system/sector3/New()
+/datum/star_system/brasil/New()
 	. = ..()
 	addtimer(CALLBACK(src, .proc/generate_badlands), 10 SECONDS)
 
-/datum/star_system/sector3/proc/generate_badlands()
+#define NONRELAXATION_PENALTY 1.2 //Encourages the badlands generator to use jump line relaxation even if a + b >= c. Set this lower if you want Brazil's jumplines to be more direct, high values might be very wacky. 1.0 will give all of the systems a direct jumpline to rubiconnector. Values below 1 might be very wacky.
+#define MAX_RANDOM_CONNECTION_LENGTH 30 //How long the random jump lines generated by this can be. Use higher values if there is few systems, or the sector may be very desolate of jump lines.
+#define MIN_RANDOM_CONNECTION_LENGTH 0	//Same as above, but minimum instead. Default is 0, set it higher if you want more interconnectedness instead of it. Works well together with a high maximum.
+#define RNGSYSTEM_MAX_CONNECTIONS 4 //A system has to have less than this amount of connections to gain new random jumplines. Note that this does not affect the tree-phase of the algorytm.
+#define RANDOM_CONNECTION_BASE_CHANCE 40	//How high the probability for a system to gain a random jumpline is, provided it is valid and has valid partners. In percent.
+#define RANDOM_CONNECTION_REPEAT_PENALTY 20	//By how much this probability decreases per random jump line added to the system. In percent.
+
+/datum/star_system/brasil/proc/generate_badlands()
 
 	var/list/generated = list()
-	var/amount = rand(100, 200)
+	var/amount = rand(50, 70)
 	var/toocloseconflict = 0
 	message_admins("Generating Brazil with [amount] systems.")
 	var/start_timeofday = REALTIMEOFDAY
+	var/datum/star_system/rubicon = SSstar_system.system_by_id("Rubicon")
+	if(!rubicon)
+		message_admins("Error setting up Brazil - No Rubicon found!") //This should never happen unless admins do bad things.
+		return
+
 	for(var/I=0;I<amount,I++){
 		var/datum/star_system/random/randy = new /datum/star_system/random()
 		randy.system_type = pick("radioactive", 0.5;"blackhole", "quasar", 0.75;"accretiondisk", "nebula", "supernova", "debris")
@@ -845,7 +866,7 @@ To make things worse, this hellhole is entirely RNG, so good luck mapping it!
 			randy.x = (rand(1, 10)/10)+rand(1, 200)+20 // Buffer space for readability
 			randy.y = (rand(1, 10)/10)+rand(1, 100)+30 // Offset vertically for viewing 'pleasure'
 			var/syscheck_pass = TRUE
-			for(var/datum/star_system/S in generated)
+			for(var/datum/star_system/S in (generated + rubicon + src))
 				if(!syscheck_pass)
 					break
 				if(S.dist(randy) < 5)// Maybe this is enough?
@@ -884,40 +905,95 @@ To make things worse, this hellhole is entirely RNG, so good luck mapping it!
 
 
 		SSstar_system.systems += randy
-		if(I <= 0) //First system always needs to join to the entry point.
-			adjacency_list += randy.name
-			randy.adjacency_list += name
 	}
 	var/lowest_dist = 1000
 	//Finally, let's play this drunken game of connect the dots.
-	var/datum/star_system/rubicon = SSstar_system.system_by_id("Rubicon")
+
+	//First, we use the system closest to rubicon as a connector to it
 	var/datum/star_system/rubiconnector = null
 	for(var/datum/star_system/S in generated)
-		if(rubicon && S.dist(rubicon) < lowest_dist)
+		if(S.dist(rubicon) < lowest_dist)
 			lowest_dist = S.dist(rubicon)
 			rubiconnector = S
-		try_again:
-		var/datum/star_system/partner = pick(generated)
-		if(partner && partner == S)
-			goto try_again
-		partner.adjacency_list += S.name
-		S.adjacency_list += partner.name
-
-	//And here's your path to rubicon. Have fun with that :)
 	rubiconnector.adjacency_list += rubicon.name
 	rubicon.adjacency_list += rubiconnector.name
-	if(rubiconnector.adjacency_list.len <= 1) //There's no valid way to get to the rubiconnector.
-		var/datum/star_system/partner = pick(generated)
-		rubiconnector.adjacency_list += partner.name
-		partner.adjacency_list += rubiconnector
+
+	//We did it, we connected Rubicon. Now for the fun part: Connecting all of the systems, in a not-as-bad way. We'll use a tree for this, and then add some random connections to make it not as linear.
+	generated += src //We want to get to rubicon from here!
+	var/relax = 0	//Just a nice stat var
+	var/random_jumpline_count = 0 //Another nice stat var
+	var/systems[generated.len]
+	var/distances[generated.len]
+	var/parents[generated.len]	//This is what we will use later
+	for(var/i = 1; i <= generated.len; i++)
+		systems[i] = generated[i]
+		parents[i] = rubiconnector
+		if(generated[i] != rubiconnector)
+			distances[i] = INFINITY
+		else
+			distances[i] = 0
+
+	//Setup: Done. Dijkstra time.
+	while(generated.len > 0) //we have to go through this n times
+		var/closest = null
+		var/mindist = INFINITY
+		for(var/datum/star_system/S in generated)	//Find the system with the smallest value in distances[].
+			var/thisdist = distances[systems.Find(S)]
+			if(!closest || mindist > thisdist)
+				closest = systems.Find(S)
+				mindist = thisdist //This is always the source node (rubiconnector) in the first run
+		generated -= systems[closest]	//Remove it from the list.
+
+		for(var/datum/star_system/S in generated)	//Try relaxing all other systems still in the list via it.
+			var/datum/star_system/close = systems[closest]
+			var/alternative = distances[closest] + close.dist(S)
+			var/adj = systems.Find(S)
+			if(alternative < distances[adj] * NONRELAXATION_PENALTY)	//Apply penalty to make the map more interconnected instead of all jump lines just going directly to the rubiconnector
+				distances[adj] = alternative
+				parents[adj] = systems[closest]
+				relax++
+
+	//Dijkstra: Done. We got parents for everyone, time to actually stitch them together.
+	for(var/i = 1; i <= systems.len; i++)
+		var/datum/star_system/S = systems[i]
+		if(S == rubiconnector)
+			continue	//Rubiconnector is the home node and would fuck with us if we did stuff with it here.
+		var/datum/star_system/Connected = parents[i]
+		S.adjacency_list += Connected.name
+		Connected.adjacency_list += S.name
+
+	//We got a nice tree! But this is looking far too clean, time to Brazilify this.
+	for(var/datum/star_system/S in systems)
+		var/bonus = 0
+		var/list/valids = list()
+		for(var/datum/star_system/candidate in systems)
+			if(S == candidate)
+				continue
+			if(candidate.adjacency_list.Find(S.name) || S.adjacency_list.Find(candidate.name))
+				continue
+			if(S.dist(candidate) > MAX_RANDOM_CONNECTION_LENGTH || candidate.dist(S) < MIN_RANDOM_CONNECTION_LENGTH)
+				continue
+			if(candidate.adjacency_list.len >= RNGSYSTEM_MAX_CONNECTIONS)
+				continue
+			valids += candidate
+		while(!prob(100 - RANDOM_CONNECTION_BASE_CHANCE + (bonus * RANDOM_CONNECTION_REPEAT_PENALTY))) //Lets not flood the map with random jumplanes, buuut create a good chunk of them
+			if(!valids.len)
+				break
+			if(S.adjacency_list.len >= RNGSYSTEM_MAX_CONNECTIONS)
+				break
+			var/datum/star_system/newconnection = pick(valids)
+			newconnection.adjacency_list += S.name
+			S.adjacency_list += newconnection.name
+			valids -= newconnection
+			random_jumpline_count++
 
 	//Pick a random entrypoint system
 	var/datum/star_system/inroute
 	var/ir_rub = 0
 	var/ir_othershit = 0
 	while (!inroute)
-		var/datum/star_system/picked = pick(generated)
-		if(rubiconnector in picked.adjacency_list)
+		var/datum/star_system/picked = pick(systems)
+		if(rubiconnector.name in picked.adjacency_list)
 			ir_rub++
 			continue // Skip
 		if(picked.trader || picked.fleets.len)
@@ -930,7 +1006,16 @@ To make things worse, this hellhole is entirely RNG, so good luck mapping it!
 		inroute.is_hypergate = TRUE
 
 	var/time = (REALTIMEOFDAY - start_timeofday) / 10
-	message_admins("Brazil has been generated. T:[time]s CFS:[toocloseconflict]|[ir_rub]|[ir_othershit] Rubiconnector: [rubiconnector], Inroute system is [inroute]")
+	//There we go.
+	message_admins("Brazil has been generated. T:[time]s CFS:[toocloseconflict]|[ir_rub]|[ir_othershit] Rubiconnector: [rubiconnector], Inroute system is [inroute]. Fun fact, jump lanes have been relaxed [relax] times by the algorithm and [random_jumpline_count] random connections have been created!")
+
+#undef NONRELAXATION_PENALTY
+#undef MAX_RANDOM_CONNECTION_LENGTH
+#undef MIN_RANDOM_CONNECTION_LENGTH
+#undef RNGSYSTEM_MAX_CONNECTIONS
+#undef RANDOM_CONNECTION_BASE_CHANCE
+#undef RANDOM_CONNECTION_REPEAT_PENALTY
+
 /*
 <Summary>
 Welcome to the endgame. This sector is the hardest you'll encounter in game and holds the Syndicate capital.
@@ -942,7 +1027,7 @@ Welcome to the endgame. This sector is the hardest you'll encounter in game and 
 	threat_level = THREAT_LEVEL_UNSAFE
 	x = 100
 	y = 50
-	sector = 4
+	sector = 3
 
 /datum/star_system/sector4/aeterna
 	name = "Aeterna Victrix"
@@ -952,7 +1037,7 @@ Welcome to the endgame. This sector is the hardest you'll encounter in game and 
 
 /datum/star_system/sector4/demon
 	name = "Demon's Maw"
-	adjacency_list = list("Aeterna Victrix", "Phobos", "Deimos")
+	adjacency_list = list("Aeterna Victrix", "Phobos", "Deimos", "Mediolanum")
 	system_type = "accretiondisk"
 	alignment = "uncharted"
 	x = 100
@@ -962,52 +1047,61 @@ Welcome to the endgame. This sector is the hardest you'll encounter in game and 
 /datum/star_system/sector4/phobos
 	name = "Phobos"
 	system_type = "nebula"
-	adjacency_list = list("Demon's Maw", "Deimos", "Dolos")
+	adjacency_list = list("Demon's Maw", "Deimos", "Dolos Remnants")
 	fleet_type = /datum/fleet/border
 	x = 120
 	y = 70
 
 /datum/star_system/sector4/deimos
 	name = "Deimos"
-	adjacency_list = list("Demon's Maw", "Dolos")
+	adjacency_list = list("Demon's Maw", "Dolos Remnants")
 	x = 80
 	y = 67
 
 /datum/star_system/sector4/dolos
-	name = "Dolos"
+	name = "Dolos Remnants"
 	x = 75
 	y = 100
-	is_capital = TRUE
 	alignment = "syndicate"
-	system_type = "radioactive"
-	adjacency_list = list("Abassi", "Deimos", "Phobos") //No going back from here...
+	system_type = "graveyard"
+	adjacency_list = list("Oasis Fidei", "Deimos", "Phobos") //No going back from here...
 	threat_level = THREAT_LEVEL_DANGEROUS
-	hidden = TRUE
-	fleet_type = /datum/fleet/dolos //You're insane to attempt this.
+	hidden = FALSE
+	audio_cues = list("https://www.youtube.com/watch?v=n_aONGBjuLA")
+	desc = "A place where giants fell. You feel nothing save for an odd sense of unease and an eerie silence."
 
 /datum/star_system/sector4/abassi
 	name = "Abassi"
-	x = 75
+	x = 85
 	y = 120
 	is_capital = TRUE
 	alignment = "syndicate"
 	system_type = "demonstar"
-	adjacency_list = list("Dolos")
+	adjacency_list = list("Dolos Remnants")
 	threat_level = THREAT_LEVEL_DANGEROUS
 	hidden = TRUE
-	fleet_type = /datum/fleet/abassi
+
+/datum/star_system/sector4/laststand
+	name = "Oasis Fidei" //oasis of faith
+	x = 75
+	y = 120
+	alignment = "syndicate"
+	system_type = "radioactive"
+	adjacency_list = list("Abassi") //No going back from here...
+	threat_level = THREAT_LEVEL_DANGEROUS
+	hidden = TRUE //In time, not now.
+	fleet_type = /datum/fleet/remnant
 
 /datum/star_system/romulus
 	name = "Romulus"
-	sector = 4
+	sector = 3
 	x = 60
 	y = 50
 	alignment = "syndicate"
 	system_type = "demonstar"
 	is_hypergate = TRUE
 	threat_level = THREAT_LEVEL_UNSAFE
-	sector = 4
 	fleet_type = /datum/fleet/border
 	adjacency_list = list("Rubicon", "Aeterna Victrix")
 
-#define ALL_STARMAP_SECTORS 1,2,3,4 //KEEP THIS UPDATED.
+#define ALL_STARMAP_SECTORS 1,2,3 //KEEP THIS UPDATED.

@@ -1,7 +1,7 @@
-#define JOB_MODIFICATION_MAP_NAME "NSV Tycoon"
-
-/datum/job/pilot/New()
+/datum/job/fighter_pilot/New()
 	..()
 	MAP_JOB_CHECK
-	total_positions = 6
-	spawn_positions = 6
+	total_positions = 7
+	spawn_positions = 7
+
+#undef JOB_MODIFICATION_MAP_NAME

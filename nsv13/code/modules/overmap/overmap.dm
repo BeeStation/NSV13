@@ -63,7 +63,7 @@
 	var/desired_angle = null // set by pilot moving his mouse
 	var/angular_velocity = 0 // degrees per second
 	var/max_angular_acceleration = 180 // in degrees per second per second
-	var/speed_limit = 5 //Stops ships from going too damn fast. This can be overridden by things like fighters launching from tubes, so it's not a const.
+	var/speed_limit = 2.5 //Stops ships from going too damn fast. This can be overridden by things like fighters launching from tubes, so it's not a const.
 	var/last_thrust_forward = 0
 	var/last_thrust_right = 0
 	var/last_rotate = 0
@@ -105,7 +105,7 @@
 	// Ship weapons
 	var/list/weapon_types[MAX_POSSIBLE_FIREMODE]
 
-	var/fire_mode = FIRE_MODE_PDC //What gun do we want to fire? Defaults to railgun, with PDCs there for flak
+	var/fire_mode = FIRE_MODE_TORPEDO //What gun do we want to fire? Defaults to railgun, with PDCs there for flak
 	var/weapon_safety = FALSE //Like a gun safety. Entirely un-used except for fighters to stop brainlets from shooting people on the ship unintentionally :)
 	var/faction = null //Used for target acquisition by AIs
 
@@ -140,11 +140,13 @@
 	var/list/occupying_levels = list() //Refs to the z-levels we own for setting parallax and that, or for admins to debug things when EVERYTHING INEVITABLY BREAKS
 	var/torpedo_type = /obj/item/projectile/guided_munition/torpedo
 	var/next_maneuvre = 0 //When can we pull off a fancy trick like boost or kinetic turn?
-	var/flak_battery_amount = 1
+	var/flak_battery_amount = 0
 
 	var/role = NORMAL_OVERMAP
-	
+
 	var/list/missions = list()
+
+	var/last_sonar_pulse = 0
 
 /**
 Proc to spool up a new Z-level for a player ship and assign it a treadmill.
@@ -245,12 +247,21 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 	vis_contents += vector_overlay
 	update_icon()
 	find_area()
+	//If we're larger than a fighter and don't have our armour preset, set it now.
+	if(mass > MASS_TINY && !use_armour_quadrants)
+		use_armour_quadrants = TRUE
+		//AI ships get weaker armour to allow you to kill them more easily.
+		var/armour_efficiency = (role > NORMAL_OVERMAP) ? obj_integrity / 2 : obj_integrity / 4
+		armour_quadrants = list("forward_port" = list("name" = "Forward Port", "max_armour" = armour_efficiency, "current_armour" = armour_efficiency),\
+							"forward_starboard" = list("name" = "Forward Starboard", "max_armour" = armour_efficiency, "current_armour" = armour_efficiency),\
+							"aft_port" = list("name" = "Aft Port", "max_armour" = armour_efficiency, "current_armour" = armour_efficiency),\
+							"aft_starboard" = list("name" = "Aft Starboard", "max_armour" = armour_efficiency, "current_armour" = armour_efficiency))
 	switch(mass) //Scale speed with mass (tonnage)
 		if(MASS_TINY) //Tiny ships are manned by people, so they need air.
-			forward_maxthrust = 4
-			backward_maxthrust = 4
-			side_maxthrust = 3
-			max_angular_acceleration = 180
+			forward_maxthrust = 2
+			backward_maxthrust = 2
+			side_maxthrust = 2
+			max_angular_acceleration = 100
 			cabin_air = new
 			cabin_air.set_temperature(T20C)
 			cabin_air.set_volume(200)
@@ -260,38 +271,38 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 			inertial_dampeners = FALSE
 
 		if(MASS_SMALL)
-			forward_maxthrust = 3
-			backward_maxthrust = 3
-			side_maxthrust = 3
-			max_angular_acceleration = 110
-			bounce_factor = 0.65
-			lateral_bounce_factor = 0.95
+			forward_maxthrust = 0.5
+			backward_maxthrust = 0.5
+			side_maxthrust = 0.5
+			max_angular_acceleration = 7
+			bounce_factor = 0.4
+			lateral_bounce_factor = 0.4
 
 		if(MASS_MEDIUM)
-			forward_maxthrust = 2
-			backward_maxthrust = 2
-			side_maxthrust = 2
-			max_angular_acceleration = 15
+			forward_maxthrust = 0.35
+			backward_maxthrust = 0.35
+			side_maxthrust = 0.35
+			max_angular_acceleration = 5
 			bounce_factor = 0.5
 			lateral_bounce_factor = 0.8
 
 		if(MASS_LARGE)
-			forward_maxthrust = 1.85
-			backward_maxthrust = 1.85
-			side_maxthrust = 1.5
-			max_angular_acceleration = 10
+			forward_maxthrust = 0.1
+			backward_maxthrust = 0.1
+			side_maxthrust = 0.1
+			max_angular_acceleration = 2.5
 			bounce_factor = 0.45
 			lateral_bounce_factor = 0.8
-			flak_battery_amount = 2
+			flak_battery_amount = 0
 
 		if(MASS_TITAN)
-			forward_maxthrust = 0.5
-			backward_maxthrust = 0.5
-			side_maxthrust = 0.5
-			max_angular_acceleration = 2.5
+			forward_maxthrust = 0.05
+			backward_maxthrust = 0.05
+			side_maxthrust = 0.05
+			max_angular_acceleration = 0.75
 			bounce_factor = 0.35
 			lateral_bounce_factor = 0.6
-			flak_battery_amount = 3
+			flak_battery_amount = 0
 
 	if(role == MAIN_OVERMAP)
 		name = "[station_name()]"
@@ -303,16 +314,30 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 
 //Method to apply weapon types to a ship. Override to your liking, this just handles generic rules and behaviours
 /obj/structure/overmap/proc/apply_weapons()
-	weapon_types[FIRE_MODE_PDC] = (mass > MASS_TINY) ? new/datum/ship_weapon/pdc_mount(src) : new /datum/ship_weapon/light_cannon(src)
 	weapon_types[FIRE_MODE_TORPEDO] = new/datum/ship_weapon/torpedo_launcher(src)
+	//Prevent fighters from getting access to the AMS.
+	if(mass <= MASS_TINY)
+		weapon_types[FIRE_MODE_PDC] = new /datum/ship_weapon/light_cannon(src)
+	//Gauss is the true PDC replacement...
+	else
+		weapon_types[FIRE_MODE_50CAL] = new /datum/ship_weapon/fiftycal(src)
+	if(mass >= MASS_SMALL || occupying_levels?.len)
+		weapon_types[FIRE_MODE_AMS] = new /datum/ship_weapon/vls(src)
+		weapon_types[FIRE_MODE_GAUSS] = new /datum/ship_weapon/gauss(src)
+	if(flak_battery_amount > 0)
+		weapon_types[FIRE_MODE_FLAK] = new /datum/ship_weapon/flak(src)
+	if(mass > MASS_MEDIUM || occupying_levels.len)
+		weapon_types[FIRE_MODE_MAC] = new /datum/ship_weapon/mac(src)
+	if(ai_controlled)
+		weapon_types[FIRE_MODE_MISSILE] = new/datum/ship_weapon/missile_launcher(src)
+	/*
 	if(mass > MASS_TINY || occupying_levels.len)
 		weapon_types[FIRE_MODE_FLAK] = new/datum/ship_weapon/flak(src)
 		weapon_types[FIRE_MODE_RAILGUN] = new/datum/ship_weapon/railgun(src)
 	if(mass > MASS_MEDIUM || occupying_levels.len)
 		weapon_types[FIRE_MODE_GAUSS] = new /datum/ship_weapon/gauss(src) //AI ships want to be able to use gauss too. I say let them...
 		weapon_types[FIRE_MODE_MAC] = new /datum/ship_weapon/mac(src)
-	if(ai_controlled)
-		weapon_types[FIRE_MODE_MISSILE] = new/datum/ship_weapon/missile_launcher(src)
+	*/
 
 /obj/item/projectile/Destroy()
 	if(physics2d)
@@ -346,16 +371,11 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 		return FALSE
 	if(weapon_safety)
 		return FALSE
-	if(target == src || istype(target, /obj/screen) || (target && (target in user.GetAllContents())) || params_list["alt"] || params_list["ctrl"])
+	if(target == src || istype(target, /obj/screen) || (target && (target in user.GetAllContents())) || params_list["alt"] || params_list["shift"])
 		return FALSE
 	if(locate(user) in gauss_gunners) //Special case for gauss gunners here. Takes priority over them being the regular gunner.
-		var/obj/machinery/ship_weapon/gauss_gun/user_gun = user.loc
-		if(!istype(user_gun))
-			return FALSE
-		if(user_gun.safety)
-			to_chat(user, "<span class='warning'>Gun safeties are engaged.</span>")
-			return FALSE
-		user_gun.onClick(target)
+		var/datum/component/overmap_gunning/user_gun = user.GetComponent(/datum/component/overmap_gunning)
+		user_gun.onMouseDown(target)
 		return TRUE
 	if(user != gunner)
 		if(user == pilot)
@@ -371,7 +391,7 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 	if(tactical && prob(80))
 		var/sound = pick(GLOB.computer_beeps)
 		playsound(tactical, sound, 100, 1)
-	if(params_list["shift"]) //Shift click to lock on to people
+	if(params_list["ctrl"]) //Ctrl click to lock on to people
 		start_lockon(target)
 		return TRUE
 	if(target_lock && mass <= MASS_TINY)
@@ -383,39 +403,27 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 /obj/structure/overmap/proc/start_lockon(atom/target)
 	if(!istype(target, /obj/structure/overmap))
 		return FALSE
-	if(target == target_lock)
-		relinquish_target_lock()
-		return
-	if(!can_lock)
-		to_chat(gunner, "<span class='warning'>Target acquisition already in progress. Please wait.</span>")
-		return
-	if(target_lock)
-		target_lock = null
-		stop_relay(CHANNEL_IMPORTANT_SHIP_ALERT)
-		if(mass > MASS_TINY)
-			update_gunner_cam(src)
-	can_lock = FALSE
-	relay('nsv13/sound/effects/fighters/locking.ogg', message=null, loop=TRUE, channel=CHANNEL_IMPORTANT_SHIP_ALERT)
+	var/obj/structure/overmap/OM = target
+	if(OM.faction == faction)
+		return FALSE
+	if(LAZYFIND(target_painted, target))
+		target_painted.Remove(target)
+		if(gunner)
+			to_chat(gunner, "<span class='notice'>Target painting cancelled on [target].</span>")
+		return FALSE
+	relay('nsv13/sound/effects/fighters/being_locked.ogg', message=null, loop=FALSE, channel=CHANNEL_IMPORTANT_SHIP_ALERT)
 	addtimer(CALLBACK(src, .proc/finish_lockon, target), lockon_time)
-
-/obj/structure/overmap/proc/relinquish_target_lock()
-	if(!target_lock)
-		return
-	to_chat(gunner, "<span class='warning'>Target lock on [target_lock] cancelled. Returning manual fire control.</span>")
-	update_gunner_cam(src)
-	target_lock = null
-	return
 
 /obj/structure/overmap/proc/finish_lockon(atom/target)
 	if(!gunner)
 		return
-	can_lock = TRUE
-	target_lock = target
-	if(mass > MASS_TINY)
-		update_gunner_cam(target)
-	else
-		to_chat(gunner, "<span class='notice'>Target lock established. All weapons will now automatically lock on to your chosen target instead of where you specifically aim them. </span>")
-	stop_relay(CHANNEL_IMPORTANT_SHIP_ALERT)
+	target_painted.Add(target)
+	if(last_overmap && last_overmap.faction == faction)
+		last_overmap.target_painted.Add(target)
+		if(last_overmap.gunner)
+			to_chat(last_overmap.gunner, "<span class='notice'>[src] has painted [target] for AMS targeting.</span>")
+
+	to_chat(gunner, "<span class='notice'>Target painted</span>")
 	relay('nsv13/sound/effects/fighters/locked.ogg', message=null, loop=FALSE, channel=CHANNEL_IMPORTANT_SHIP_ALERT)
 
 /obj/structure/overmap/proc/update_gunner_cam(atom/target)
@@ -523,12 +531,15 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 			var/mob/mob = X
 			mob.stop_sound_channel(channel)
 
-/obj/structure/overmap/proc/relay_to_nearby(sound, message, ignore_self=FALSE) //Sends a sound + text message to nearby ships
+/obj/structure/overmap/proc/relay_to_nearby(sound, message, ignore_self=FALSE, sound_range=20, faction_check=FALSE) //Sends a sound + text message to nearby ships
 	for(var/obj/structure/overmap/ship in GLOB.overmap_objects)
 		if(ignore_self)
 			if(ship == src)
 				continue
-		if(get_dist(src, ship) <= 20) //Sound doesnt really travel in space, but space combat with no kaboom is LAME
+		if(get_dist(src, ship) <= sound_range) //Sound doesnt really travel in space, but space combat with no kaboom is LAME
+			if(faction_check)
+				if(src.faction == ship.faction)
+					continue
 			ship.relay(sound,message)
 
 /obj/structure/overmap/proc/verb_check(require_pilot = TRUE, mob/user = null)

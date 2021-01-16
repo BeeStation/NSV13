@@ -416,6 +416,10 @@
 /turf/open/floor/plasteel/grid/techfloor/grid/airless
 	initial_gas_mix = AIRLESS_ATMOS
 
+/obj/effect/turf_decal/tile/orange
+	name = "orange corner"
+	color = "#ff7f00"
+
 /obj/effect/turf_decal/tile/ship
 	name = "tile decal"
 	icon = 'nsv13/icons/turf/decals.dmi'
@@ -437,6 +441,10 @@
 /obj/effect/turf_decal/tile/ship/red
 	name = "red corner"
 	color = "#DE3A3A"
+
+/obj/effect/turf_decal/tile/ship/orange
+	name = "orange corner"
+	color = "#ff7f00"
 
 /obj/effect/turf_decal/tile/ship/bar
 	name = "bar corner"
@@ -476,6 +484,10 @@
 	name = "red corner"
 	color = "#DE3A3A"
 
+/obj/effect/turf_decal/tile/ship/half/orange
+	name = "orange corner"
+	color = "#ff7f00"
+
 /obj/effect/turf_decal/tile/ship/half/bar
 	name = "bar corner"
 	color = "#791500"
@@ -513,6 +525,10 @@
 /obj/effect/turf_decal/tile/ship/full/red
 	name = "red corner"
 	color = "#DE3A3A"
+
+/obj/effect/turf_decal/tile/ship/full/orange
+	name = "orange corner"
+	color = "#ff7f00"
 
 /obj/effect/turf_decal/tile/ship/full/bar
 	name = "bar corner"
