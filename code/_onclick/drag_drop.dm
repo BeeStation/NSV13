@@ -1,6 +1,5 @@
 /*
 	MouseDrop:
-
 	Called on the atom you're dragging.  In a lot of circumstances we want to use the
 	receiving object instead, so that's the default action.  This allows you to drag
 	almost anything into a trash can.
@@ -81,7 +80,7 @@
 	var/obj/item/H = get_active_held_item()
 	if(H)
 		. = H.canItemMouseDown(object, location, params)
-	else if(src.overmap_ship && (src.overmap_ship.gunner == src)) //NSV13 - let us mouse-down if we're a gunner
+	else if(src.overmap_ship && (src.overmap_ship.gunner == src) || (GetComponent(/datum/component/overmap_gunning))) //NSV13 - let us mouse-down if we're a gunner
 		. = src.overmap_ship
 
 /obj/item/proc/CanItemAutoclick(object, location, params)
@@ -128,6 +127,9 @@
 /datum/proc/onMouseMove(object, location, control, params)
 	return
 
+/datum/proc/onMouseDrag(src_object, over_object, src_location, over_location, params, mob)
+	return
+
 /client/MouseDrag(src_object,atom/over_object,src_location,over_location,src_control,over_control,params)
 	var/list/L = params2list(params)
 	if (L["middle"])
@@ -146,16 +148,8 @@
 		selected_target[2] = params
 	if(active_mousedown_item)
 		//NSV13 type conversion before mouseup - formerly active_mousedown_item.onMouseDrag(src_object, over_object, src_location, over_location, params, mob)
-		if(istype(active_mousedown_item, /obj/item))
-			var/obj/item/I = active_mousedown_item
-			I.onMouseDrag(src_object, over_object, src_location, over_location, params, mob)
-		else if(istype(active_mousedown_item, /obj/structure/overmap))
-			var/obj/structure/overmap/OM = active_mousedown_item
-			OM.onMouseDrag(src_object, over_object, src_location, over_location, params, mob)
+		active_mousedown_item.onMouseDrag(src_object, over_object, src_location, over_location, params, mob)
 		//NSV13 end
-
-/obj/item/proc/onMouseDrag(src_object, over_object, src_location, over_location, params, mob)
-	return
 
 /client/MouseDrop(src_object, over_object, src_location, over_location, src_control, over_control, params)
 	if (middragatom == src_object)

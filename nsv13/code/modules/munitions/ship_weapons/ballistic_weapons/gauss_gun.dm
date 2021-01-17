@@ -75,8 +75,7 @@
 
 	if(usr.incapacitated())
 		return
-	gunner = usr //failsafe.
-	linked.start_piloting(usr, "gauss_gunner")
+	set_gunner(usr)
 	to_chat(gunner, "<span class='notice'>You reach for [src]'s gun camera controls.</span>")
 
 /obj/machinery/ship_weapon/gauss_gun/verb/exit()
@@ -160,8 +159,8 @@
 /obj/machinery/ship_weapon/gauss_gun/proc/set_gunner(mob/user)
 	user.forceMove(src)
 	gunner = user
+	gunner.AddComponent(/datum/component/overmap_gunning, src)
 	ui_interact(user)
-	linked.start_piloting(user, "gauss_gunner")
 
 /obj/machinery/ship_weapon/gauss_gun/proc/remove_gunner()
 	if(gunner_chair)
@@ -437,7 +436,7 @@ Chair + rack handling
 	occupant = null
 
 /obj/structure/chair/comfy/gauss/user_buckle_mob(mob/living/M, mob/user, check_loc = TRUE)
-	if(!gun?.allowed(M) || !M.client)
+	if((gun && !gun.allowed(M)) || !M.client)
 		var/sound = pick('nsv13/sound/effects/computer/error.ogg','nsv13/sound/effects/computer/error2.ogg','nsv13/sound/effects/computer/error3.ogg')
 		playsound(src, sound, 100, 1)
 		to_chat(user, "<span class='warning'>Access denied</span>")

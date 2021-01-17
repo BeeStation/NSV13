@@ -5,10 +5,10 @@
 	icon_state = "case"
 	desc = "The outer casing of a 30mm torpedo."
 	var/state = 0
-	var/obj/item/ship_weapon/parts/torpedo/warhead/wh = null
-	var/obj/item/ship_weapon/parts/torpedo/guidance_system/gs = null
-	var/obj/item/ship_weapon/parts/torpedo/propulsion_system/ps = null
-	var/obj/item/ship_weapon/parts/torpedo/iff_card/iff = null
+	var/obj/item/ship_weapon/parts/missile/warhead/wh = null
+	var/obj/item/ship_weapon/parts/missile/guidance_system/gs = null
+	var/obj/item/ship_weapon/parts/missile/propulsion_system/ps = null
+	var/obj/item/ship_weapon/parts/missile/iff_card/iff = null
 	projectile_type = /obj/item/projectile/guided_munition/torpedo/dud //Forget to finish your torpedo? You get a dud torpedo that doesn't do anything
 
 /obj/item/ship_weapon/ammunition/torpedo/torpedo_casing/examine(mob/user) //No better guide than an in-game play-by-play guide
@@ -39,7 +39,11 @@
 
 /obj/item/ship_weapon/ammunition/torpedo/torpedo_casing/attackby(obj/item/W, mob/user, params)
 	add_fingerprint(user)
-	if(istype(W, /obj/item/ship_weapon/parts/torpedo/warhead))
+	if(istype(W, /obj/item/ship_weapon/parts/missile/warhead))
+		var/obj/item/ship_weapon/parts/missile/warhead/WW = W
+		if(WW.fits_type && !istype(src, WW.fits_type))
+			to_chat(user, "<span class='notice'>That warhead won't fit onto [src].</span>")
+			return FALSE
 		if(state == 6)
 			to_chat(user, "<span class='notice'>You start adding [W] to [src]...</span>")
 			if(!do_after(user, 2 SECONDS, target=src))
@@ -50,7 +54,7 @@
 			update_icon()
 			W.forceMove(src)
 		return TRUE
-	else if(istype(W, /obj/item/ship_weapon/parts/torpedo/guidance_system))
+	else if(istype(W, /obj/item/ship_weapon/parts/missile/guidance_system))
 		if(state == 2)
 			to_chat(user, "<span class='notice'>You start adding [W] to [src]...</span>")
 			if(!do_after(user, 2 SECONDS, target=src))
@@ -61,7 +65,7 @@
 			update_icon()
 			W.forceMove(src)
 		return TRUE
-	else if(istype(W, /obj/item/ship_weapon/parts/torpedo/propulsion_system))
+	else if(istype(W, /obj/item/ship_weapon/parts/missile/propulsion_system))
 		if(state == 0)
 			to_chat(user, "<span class='notice'>You start adding [W] to [src]...</span>")
 			if(!do_after(user, 2 SECONDS, target=src))
@@ -72,7 +76,7 @@
 			update_icon()
 			W.forceMove(src)
 		return TRUE
-	else if(istype(W, /obj/item/ship_weapon/parts/torpedo/iff_card))
+	else if(istype(W, /obj/item/ship_weapon/parts/missile/iff_card))
 		if(state == 4)
 			to_chat(user, "<span class='notice'>You start adding [W] to [src]...</span>")
 			if(!do_after(user, 2 SECONDS, target=src))
@@ -276,30 +280,14 @@
 			icon_state = "case_warhead_complete"
 
 /obj/item/ship_weapon/ammunition/torpedo/torpedo_casing/proc/new_torpedo(
-			obj/item/ship_weapon/parts/torpedo/warhead,
-			obj/item/ship_weapon/parts/torpedo/guidance_system,
-			obj/item/ship_weapon/parts/torpedo/propulsion_system,
-			obj/item/ship_weapon/parts/torpedo/iff_card)
+			obj/item/ship_weapon/parts/missile/warhead,
+			obj/item/ship_weapon/parts/missile/guidance_system,
+			obj/item/ship_weapon/parts/missile/propulsion_system,
+			obj/item/ship_weapon/parts/missile/iff_card)
 
-	var/warhead_type = warhead.type
+
+	wh = locate(/obj/item/ship_weapon/parts/missile/warhead) in src
+	new wh.build_path(get_turf(src))
 	for(var/I in contents)
 		qdel(I) //Change this if we ever need to add more component factoring in to performance. This avoids infinite torpedo parts because the torpedo gets Qdel'd
-
-	if(istype(warhead, /obj/item/ship_weapon/parts/torpedo/warhead))
-		switch(warhead_type)
-			if(/obj/item/ship_weapon/parts/torpedo/warhead)
-				return new /obj/item/ship_weapon/ammunition/torpedo(get_turf(src))
-
-			if(/obj/item/ship_weapon/parts/torpedo/warhead/bunker_buster)
-				return new /obj/item/ship_weapon/ammunition/torpedo/hull_shredder(get_turf(src))
-
-			if(/obj/item/ship_weapon/parts/torpedo/warhead/decoy)
-				return new /obj/item/ship_weapon/ammunition/torpedo/decoy(get_turf(src))
-
-			if(/obj/item/ship_weapon/parts/torpedo/warhead/nuclear)
-				return new /obj/item/ship_weapon/ammunition/torpedo/nuke(get_turf(src))
-
-			if(/obj/item/ship_weapon/parts/torpedo/warhead/probe)
-				return new /obj/item/ship_weapon/ammunition/torpedo/probe(get_turf(src))
-			if(/obj/item/ship_weapon/parts/torpedo/warhead/freight)
-				return new /obj/item/ship_weapon/ammunition/torpedo/freight(get_turf(src))
+	qdel(src)
