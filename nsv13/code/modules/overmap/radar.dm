@@ -24,6 +24,12 @@
 	category = list("Ship Components")
 	departmental_flags = DEPARTMENTAL_FLAG_SCIENCE
 
+#define MIN_SONAR_DELAY 5 SECONDS
+#define MAX_SONAR_DELAY 60 SECONDS
+#define SONAR_VISIBILITY_PENALTY 5 SECONDS
+#define SENSOR_MODE_PASSIVE 1
+#define SENSOR_MODE_SONAR 2
+
 /obj/machinery/computer/ship/dradis
 	name = "DRADIS computer"
 	desc = "The DRADIS system is a series of highly sensitive detection, identification, navigation and tracking systems used to determine the range and speed of objects. This forms the most central component of a spaceship's navigational systems, as it can project the whereabouts of enemies that are out of visual sensor range by tracking their engine signatures."
@@ -50,6 +56,47 @@
 	//For traders. Lets you link supply pod beacons to designate where traders land.
 	var/usingBeacon = FALSE //Var copied from express consoles so this doesn't break. I love abusing inheritance ;)
 	var/obj/item/supplypod_beacon/beacon
+	var/sensor_mode = SENSOR_MODE_PASSIVE
+	var/sonar_delay = MIN_SONAR_DELAY
+
+/obj/machinery/computer/ship/dradis/proc/can_sonar_pulse()
+	var/obj/structure/overmap/OM = get_overmap()
+	var/next_pulse = OM.last_sonar_pulse + sonar_delay
+	if(world.time >= next_pulse)
+		return TRUE
+
+/obj/machinery/computer/ship/dradis/internal/can_sonar_pulse()
+	return FALSE
+
+/obj/machinery/computer/ship/dradis/internal/awacs/can_sonar_pulse()
+	var/obj/structure/overmap/OM = loc
+	if(!OM)
+		return
+	var/next_pulse = OM.last_sonar_pulse + sonar_delay
+	if(world.time >= next_pulse)
+		return TRUE
+
+/obj/machinery/computer/ship/dradis/minor/can_sonar_pulse()
+	return FALSE
+
+/obj/structure/overmap/proc/send_sonar_pulse()
+	var/next_pulse = last_sonar_pulse + SONAR_VISIBILITY_PENALTY
+	if(world.time < next_pulse)
+		return FALSE
+	relay('nsv13/sound/effects/ship/sensor_pulse_send.ogg')
+	relay_to_nearby('nsv13/sound/effects/ship/sensor_pulse_hit.ogg', ignore_self=TRUE, sound_range=255, faction_check=TRUE)
+	last_sonar_pulse = world.time
+	addtimer(VARSET_CALLBACK(src, max_tracking_range, max_tracking_range), SONAR_VISIBILITY_PENALTY)
+	max_tracking_range *= 2
+
+/obj/machinery/computer/ship/dradis/proc/send_sonar_pulse()
+	var/obj/structure/overmap/OM = get_overmap()
+	if(!can_sonar_pulse())
+		return FALSE
+	OM?.send_sonar_pulse()
+	var/stored = sensor_range
+	addtimer(VARSET_CALLBACK(src, sensor_range, stored), SONAR_VISIBILITY_PENALTY)
+	sensor_range = world.maxx
 
 /obj/machinery/computer/ship/dradis/examine(mob/user)
 	. = ..()
@@ -186,6 +233,17 @@
 			next_hail = world.time + 10 SECONDS //I hate that I need to do this, but yeah.
 			if(get_dist(target, linked) <= hail_range)
 				target.try_hail(usr, linked)
+		if("sonar_pulse")
+			send_sonar_pulse()
+		if("sensor_mode")
+			sensor_mode = (sensor_mode == SENSOR_MODE_PASSIVE) ? SENSOR_MODE_SONAR : SENSOR_MODE_PASSIVE
+		if("sonar_delay")
+			var/newDelay = input(usr, "Set a new sonar delay (seconds)", "Sonar Delay", null) as num|null
+			if(!newDelay)
+				return
+			newDelay = newDelay SECONDS
+			newDelay = CLAMP(newDelay, MIN_SONAR_DELAY, MAX_SONAR_DELAY)
+			sonar_delay = newDelay
 
 /obj/machinery/computer/ship/dradis/attackby(obj/item/I, mob/user) //Allows you to upgrade dradis consoles to show asteroids, as well as revealing more valuable ones.
 	. = ..()
@@ -208,6 +266,9 @@
 	if(dist <= 0)
 		dist = 1
 	var/distance_factor = (1/dist) //Visibility inversely scales with distance. If you get too close to a target, even with a stealth ship, you'll ping their sensors.
+	//If we fired off a sonar, we're visible to _every ship_
+	if(last_sonar_pulse+SONAR_VISIBILITY_PENALTY > world.time)
+		return SENSOR_VISIBILITY_FULL
 	//Convert alpha to an opacity reading.
 	switch(alpha)
 		if(0 to 50) //Nigh on invisible. You cannot detect ships that are this cloaked by any means.
@@ -311,6 +372,11 @@
 	data["showAnomalies"] = showAnomalies
 	data["sensor_range"] = sensor_range
 	data["width_mod"] = sensor_range / SENSOR_RANGE_DEFAULT
+	data["can_sonar_pulse"] = can_sonar_pulse()
+	data["sensor_mode"] = (sensor_mode == SENSOR_MODE_PASSIVE) ? "Passive Scanning" : "Active Sonar"
+	data["pulse_delay"] = "[sonar_delay / 10]"
+	if(sensor_mode == SENSOR_MODE_SONAR)
+		send_sonar_pulse()
 	return data
 
 /datum/asset/simple/overmap_flight

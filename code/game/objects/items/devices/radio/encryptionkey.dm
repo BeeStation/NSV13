@@ -116,7 +116,7 @@
 /obj/item/encryptionkey/heads/xo //nsv13 - changed HoP to XO
 	name = "\proper the executive officer's encryption key"
 	icon_state = "xo_cypherkey"
-	channels = list(RADIO_CHANNEL_SUPPLY = 1, RADIO_CHANNEL_SERVICE = 1, RADIO_CHANNEL_COMMAND = 1)
+	channels = list(RADIO_CHANNEL_MUNITIONS=1, RADIO_CHANNEL_ENGINEERING=1, RADIO_CHANNEL_SUPPLY = 1, RADIO_CHANNEL_SERVICE = 1, RADIO_CHANNEL_COMMAND = 1)
 
 /obj/item/encryptionkey/headset_cargo
 	name = "supply radio encryption key"

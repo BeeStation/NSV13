@@ -62,8 +62,9 @@ Repair
 	weapon_safety = TRUE //This happens wayy too much for my liking. Starts ON.
 	pixel_w = -16
 	pixel_z = -20
+	pixel_collision_size_x = 32
+	pixel_collision_size_y = 32 //Avoid center tile viewport jank
 	req_one_access = list(ACCESS_FIGHTER)
-	collision_positions = list(new /datum/vector2d(-2,-16), new /datum/vector2d(-13,-3), new /datum/vector2d(-13,10), new /datum/vector2d(-6,15), new /datum/vector2d(8,15), new /datum/vector2d(15,10), new /datum/vector2d(12,-9), new /datum/vector2d(4,-16), new /datum/vector2d(1,-16))
 	var/start_emagged = FALSE
 	var/max_passengers = 0 //Change this per fighter.
 	//Component to handle the fighter's loadout, weapons, parts, the works.
@@ -74,6 +75,7 @@ Repair
 	var/master_caution = FALSE //The big funny warning light on the dash.
 	var/list/components = list() //What does this fighter start off with? Use this to set what engine tiers and whatever it gets.
 	var/maintenance_mode = FALSE //Munitions level IDs can change this.
+	var/dradis_type =/obj/machinery/computer/ship/dradis/internal
 
 /obj/structure/overmap/fighter/verb/show_control_panel()
 	set name = "Show control panel"
@@ -284,7 +286,6 @@ Repair
 			relay('nsv13/sound/effects/fighters/switch.ogg')
 			return
 		if("target_lock")
-			relinquish_target_lock()
 			relay('nsv13/sound/effects/fighters/switch.ogg')
 			return
 		if("mag_release")
@@ -364,6 +365,7 @@ Repair
 	speed_limit = 6
 //	ftl_goal = 45 SECONDS //Raptors can, by default, initiate relative FTL jumps to other ships.
 	loadout_type = LOADOUT_UTILITY_ONLY
+	dradis_type = /obj/machinery/computer/ship/dradis/internal/awacs //Sabres can send sonar pulses
 	components = list(/obj/item/fighter_component/fuel_tank/tier2,
 						/obj/item/fighter_component/avionics,
 						/obj/item/fighter_component/apu,
@@ -457,7 +459,7 @@ Repair
 	. = ..()
 	apply_weapons()
 	loadout = AddComponent(loadout_type)
-	dradis = new /obj/machinery/computer/ship/dradis/internal(src) //Fighters need a way to find their way home.
+	dradis = new dradis_type(src) //Fighters need a way to find their way home.
 	dradis.linked = src
 	obj_integrity = max_integrity
 	RegisterSignal(src, COMSIG_MOVABLE_MOVED, .proc/check_overmap_elegibility) //Used to smoothly transition from ship to overmap

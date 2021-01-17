@@ -14,14 +14,14 @@
 	return TRUE
 
 /datum/ship_weapon/mac
-	name = "Magnetic Accelerators"
+	name = "Naval Artillery"
 	default_projectile_type = /obj/item/projectile/bullet/mac_round
 	burst_size = 1
-	fire_delay = 0.35 SECONDS
+	fire_delay = 3.5 SECONDS
 	range_modifier = 50
-	select_alert = "<span class='notice'>Coaxial MAC ready...</span>"
-	failure_alert = "<span class='warning'>DANGER: Launch failure! MAC systems are not loaded.</span>"
-	overmap_firing_sounds = list('nsv13/sound/effects/ship/mac_fire.ogg')
+	select_alert = "<span class='notice'>Naval artillery primed.</span>"
+	failure_alert = "<span class='warning'>DANGER: Launch failure! Naval artillery systems are not loaded.</span>"
+	overmap_firing_sounds = list('nsv13/sound/effects/ship/battleship_gun.ogg')
 	overmap_select_sound = 'nsv13/sound/effects/ship/mac_ready.ogg'
 	screen_shake = 2
 
@@ -77,7 +77,7 @@
 /datum/ship_weapon/pdc_mount
 	name = "Point defense batteries"
 	default_projectile_type = /obj/item/projectile/bullet/pdc_round/heavy
-	burst_size = 3
+	burst_size = 2
 	fire_delay = 0.25 SECONDS
 	range_modifier = 5
 	overmap_select_sound = 'nsv13/sound/effects/ship/pdc_start.ogg'
@@ -89,7 +89,7 @@
 /datum/ship_weapon/pdc_mount/aa_guns
 	name = "Anti air guns"
 	default_projectile_type = /obj/item/projectile/bullet/pdc_round
-	burst_size = 7
+	burst_size = 4
 	fire_delay = 10 SECONDS
 	range_modifier = 10
 	overmap_firing_sounds = list('nsv13/sound/weapons/pdc_single.ogg')
@@ -164,7 +164,7 @@
 /datum/ship_weapon/heavy_cannon
 	name = ".30 cal heavy cannon"
 	default_projectile_type = /obj/item/projectile/bullet/heavy_cannon_round
-	burst_size = 3
+	burst_size = 2
 	fire_delay = 0.5 SECONDS
 	range_modifier = 10
 	overmap_select_sound = 'nsv13/sound/effects/ship/pdc_start.ogg'
@@ -210,11 +210,24 @@
 	name = "Gauss guns"
 	default_projectile_type = /obj/item/projectile/bullet/gauss_slug
 	burst_size = 2
-	fire_delay = 10
+	fire_delay = 3 SECONDS
 	range_modifier = 10
 	select_alert = "<span class='notice'>Activating gauss weapon systems...</span>"
 	failure_alert = "<span class='warning'>DANGER: Gauss gun systems not loaded.</span>"
 	overmap_firing_sounds = list('nsv13/sound/effects/ship/gauss.ogg')
+	overmap_select_sound = 'nsv13/sound/effects/ship/mac_hold.ogg'
+	selectable = FALSE
+	weapon_class = WEAPON_CLASS_LIGHT //AIs can fire light weaponry like this for free.
+
+/datum/ship_weapon/fiftycal
+	name = ".50 cals"
+	default_projectile_type = /obj/item/projectile/bullet/fiftycal
+	burst_size = 1
+	fire_delay = 0.35 SECONDS
+	range_modifier = 10
+	select_alert = "<span class='notice'>Activating .50 cals...</span>"
+	failure_alert = "<span class='warning'>DANGER: 50 cal gun systems not loaded.</span>"
+	overmap_firing_sounds = list('nsv13/sound/effects/ship/50cal.ogg')
 	overmap_select_sound = 'nsv13/sound/effects/ship/mac_hold.ogg'
 	selectable = FALSE
 	weapon_class = WEAPON_CLASS_LIGHT //AIs can fire light weaponry like this for free.

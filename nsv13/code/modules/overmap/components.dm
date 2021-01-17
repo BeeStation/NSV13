@@ -133,6 +133,8 @@ GLOBAL_LIST_INIT(computer_beeps, list('nsv13/sound/effects/computer/beep.ogg','n
 		return
 	ui_interact(user)
 	playsound(src, 'nsv13/sound/effects/computer/startup.ogg', 75, 1)
+	if(linked.gunner && !linked.gunner.client)
+		linked.stop_piloting(linked.gunner)
 	if(!linked.gunner && isliving(user))
 		return linked.start_piloting(user, position)
 
@@ -439,7 +441,7 @@ Method to try locate an overmap object that we should attach to. Recursively cal
 		return
 	parent.armour_plates ++
 	parent.max_armour_plates ++
-	RegisterSignal(parent, COMSIG_DAMAGE_TAKEN, .proc/relay_damage)
+	RegisterSignal(parent, COMSIG_ATOM_DAMAGE_ACT, .proc/relay_damage)
 
 /obj/structure/hull_plate/Destroy()
 	parent?.armour_plates --

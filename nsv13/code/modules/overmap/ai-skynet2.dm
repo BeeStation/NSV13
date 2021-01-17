@@ -32,11 +32,15 @@ Adding tasks is easy! Just define a datum for it.
 #define AI_PDC_RANGE 12
 
 #define FLEET_DIFFICULTY_EASY 2 //if things end up being too hard, this is a safe number for a fight you _should_ always win.
-#define FLEET_DIFFICULTY_MEDIUM 4
-#define FLEET_DIFFICULTY_HARD 8
-#define FLEET_DIFFICULTY_VERY_HARD 15
-#define FLEET_DIFFICULTY_INSANE 20 //If you try to take on the rubicon ;)
+#define FLEET_DIFFICULTY_MEDIUM 5
+#define FLEET_DIFFICULTY_HARD 6
+#define FLEET_DIFFICULTY_SPECIAL 10 //Special difficulties for some boss fleets. These will never scale down to be easier to fight.
+#define FLEET_DIFFICULTY_VERY_HARD 10
+#define FLEET_DIFFICULTY_INSANE 15 //If you try to take on the rubicon ;)
+#define FLEET_DIFFICULTY_WHAT_ARE_YOU_DOING 25
 #define FLEET_DIFFICULTY_DEATH 30 //Suicide run
+
+#define SCALE_FLEETS_WITH_POP TRUE //Change this to false if you want fleet size to be static. Fleets will be scaled down if the game detects underpopulation, however it can also scale them up to be more of a challenge.
 
 #define AI_TRAIT_SUPPLY 1
 #define AI_TRAIT_BATTLESHIP 2
@@ -44,7 +48,7 @@ Adding tasks is easy! Just define a datum for it.
 #define AI_TRAIT_ANTI_FIGHTER 4
 #define AI_TRAIT_BOARDER 5 //Ships that like to board you.
 
-//Fleet behaviour. Border patrol fleets will stick to patrolling their home space only. Invasion fleets ignore home space and fly around.
+//Fleet behaviour. Border patrol fleets will stick to patrolling their home space only. Invasion fleets ignore home space and fly around. If the fleet has a goal system or is a interdictor, this gets mostly ignored, but stays as fallback.
 #define FLEET_TRAIT_BORDER_PATROL 1
 #define FLEET_TRAIT_INVASION 2
 #define FLEET_TRAIT_NEUTRAL_ZONE 3
@@ -56,9 +60,9 @@ GLOBAL_LIST_EMPTY(ai_goals)
 	var/name = "Syndicate Invasion Fleet"//Todo: randomize this name
 	//Ai fleet type enum. Add your new one here. Use a define, or text if youre lazy.
 	var/list/taskforces = list("fighters" = list(), "destroyers" = list(), "battleships" = list(), "supply" = list())
-	var/list/fighter_types = list(/obj/structure/overmap/syndicate/ai/fighter)
-	var/list/destroyer_types = list(/obj/structure/overmap/syndicate/ai, /obj/structure/overmap/syndicate/ai/assault_cruiser, /obj/structure/overmap/syndicate/ai/gunboat, /obj/structure/overmap/syndicate/ai/submarine, /obj/structure/overmap/syndicate/ai/assault_cruiser/boarding_frigate)
-	var/list/battleship_types = list(/obj/structure/overmap/syndicate/ai/patrol_cruiser) //TODO: Implement above list for more ship variety.
+	var/list/fighter_types = list(/obj/structure/overmap/syndicate/ai/fighter, /obj/structure/overmap/syndicate/ai/bomber)
+	var/list/destroyer_types = list(/obj/structure/overmap/syndicate/ai, /obj/structure/overmap/syndicate/ai/destroyer, /obj/structure/overmap/syndicate/ai/destroyer/flak, /obj/structure/overmap/syndicate/ai/cruiser, /obj/structure/overmap/syndicate/ai/mako_flak, /obj/structure/overmap/syndicate/ai/mako_carrier)
+	var/list/battleship_types = list(/obj/structure/overmap/syndicate/ai/cruiser) //TODO: Implement above list for more ship variety.
 	var/list/supply_types = list(/obj/structure/overmap/syndicate/ai/carrier)
 	var/list/all_ships = list()
 	var/size = FLEET_DIFFICULTY_MEDIUM //How big is this fleet anyway?
@@ -66,6 +70,10 @@ GLOBAL_LIST_EMPTY(ai_goals)
 	var/instantiated = FALSE //If we're not instantiated, moving all the ships is a piece of cake, if we are however, we do some extra steps to FTL them all.
 	var/datum/star_system/current_system = null //Where are we?
 	var/datum/star_system/goal_system = null //Where are we looking to go?
+	var/list/plotted_course = FALSE
+	var/list/navigation_spec_alignments = list()	//If for some reason you have a fleet that is supposed to navigate smart, but also isn't allowed (or even only allowed) some alignment types, use this.
+	var/navigation_spec_alignment_type = ALIGNMENT_BLACKLIST	//ALIGNMENT_BLACKLIST: Do not use systems with these alignments | ALIGNMENT_WHITELIST: Only use systems with these alignments.
+	var/navigation_uses_wormholes = TRUE	//If for some reason you want a fleet type that can't use wormholes (in navigation!!, it'll still use them for random wandering), be my guest, and just set this to FALSE
 	var/hide_movements = FALSE
 	var/alignment = "syndicate"
 	var/list/taunts = list("Unidentified vessel, you have entered our airspace. Leave immediately or be destroyed", "Identify yourselves immediately or be destroyed", "Unidentified vessel, leave immediately. You are entering Syndicate territory.", "Hold it right there. Prepare to be boarded, Captain.", "Nanotrasen vessel, surrender immediately or face unnecessary casualties.", "All Nanotrasen crewmen, please prepare for immediate evisceration.", "Unidentified vessel, transmit your credentials now or- Wait a second, that’s the ship we’re looking for! Deploy fighters!", "Nanotrasen? You’ve just made my day, all crafts prepare to engage.", "Unknown vessel, failure to contact Syndicate control on frequency 0.4 is a suspected act of aggression. Prepare for engagement.")
@@ -76,6 +84,11 @@ GLOBAL_LIST_EMPTY(ai_goals)
 	var/datum/faction/faction = null
 	var/faction_id = FACTION_ID_SYNDICATE
 	var/reward = 100 //Reward for defeating this fleet, is credited to this faction's enemies.
+
+	var/initial_move_delay = 10 MINUTES
+	var/minimum_random_move_delay = 5 MINUTES
+	var/maximum_random_move_delay = 10 MINUTES
+	var/combat_move_delay = 10 MINUTES
 
 //BFS search algo. Entirely unused for now.
 /datum/fleet/proc/bfs(datum/star_system/target)
@@ -113,51 +126,69 @@ GLOBAL_LIST_EMPTY(ai_goals)
 	return target
 
 /datum/fleet/proc/move(datum/star_system/target, force=FALSE)
+	var/course_picked_target = FALSE
 	if(!target)
-		var/list/potential = list()
-		var/list/fallback = list()
-		//Pick a movement target based on our fleet trait.
-		for(var/_name in current_system.adjacency_list)
-			var/datum/star_system/sys = SSstar_system.system_by_id(_name)
-			if(sys.hidden)
-				continue
+		if(goal_system)
+			if(current_system == goal_system)
+				if(!force)
+					addtimer(CALLBACK(src, .proc/move), rand(minimum_random_move_delay, maximum_random_move_delay))
+				return //We already arrived at our goal, time to chill here unless it changes.
+			if(!plotted_course || !plotted_course.len)	//Route len should ONLY be empty if we already arrived.
+				navigate_to(goal_system)
+		if(!plotted_course || !plotted_course.len)	//When route is still FALSE after this. there is no way to our goal, so we just pick a random system instead. If it was just a empty list, we are AT our goal instead, though that should early return earlier.
+			var/list/potential = list()
+			var/list/fallback = list()
+			//Pick a movement target based on our fleet trait.
+			for(var/_name in current_system.adjacency_list)
+				var/datum/star_system/sys = SSstar_system.system_by_id(_name)
+				if(sys.hidden)
+					continue
+				switch(fleet_trait)
+					if(FLEET_TRAIT_DEFENSE)
+						return FALSE //These boss fleets do not move.
+					if(FLEET_TRAIT_NEUTRAL_ZONE) //These fleets live in the neutral zone
+						if(sys.alignment != "unaligned" && sys.alignment != "uncharted")
+							continue
+					if(FLEET_TRAIT_BORDER_PATROL)
+						if(sys.alignment != alignment)
+							continue
+					if(FLEET_TRAIT_INVASION)
+						if(sys.alignment == alignment)
+							continue
+						if(sys.alignment == "unaligned")
+							fallback += sys
+							continue
+				potential += sys
+			if(!potential.len)
+				potential = fallback //Nowhere else to go.
+			if(!potential.len)	//Welp, we are stuck here for now.
+				if(!force)
+					addtimer(CALLBACK(src, .proc/move), rand(minimum_random_move_delay, maximum_random_move_delay))
+				return FALSE
+			target = pick(potential)
+		else
+			target = plotted_course[1]	//This shouldn't be able to reach this point with an empty route, so it *should* be safe.
+			course_picked_target = TRUE
+	if(!force)
+		addtimer(CALLBACK(src, .proc/move), rand(minimum_random_move_delay, maximum_random_move_delay))
+		//Precondition: We're allowed to go to this system.
+		if(!course_picked_target)
 			switch(fleet_trait)
 				if(FLEET_TRAIT_DEFENSE)
 					return FALSE //These boss fleets do not move.
-				if(FLEET_TRAIT_NEUTRAL_ZONE) //These fleets live in the neutral zone
-					if(sys.alignment != "unaligned" && sys.alignment != "uncharted")
-						continue
 				if(FLEET_TRAIT_BORDER_PATROL)
-					if(sys.alignment != alignment)
-						continue
+					if(target.alignment != alignment)
+						return FALSE
 				if(FLEET_TRAIT_INVASION)
-					if(sys.alignment == alignment)
-						continue
-					if(sys.alignment == "unaligned")
-						fallback += sys
-						continue
-			potential += sys
-		if(!potential.len)
-			potential = fallback //Nowhere else to go.
-		target = pick(potential)
-	if(!force)
-		addtimer(CALLBACK(src, .proc/move), rand(5 MINUTES, 10 MINUTES))
-		//Precondition: We're allowed to go to this system.
-		switch(fleet_trait)
-			if(FLEET_TRAIT_DEFENSE)
-				return FALSE //These boss fleets do not move.
-			if(FLEET_TRAIT_BORDER_PATROL)
-				if(target.alignment != alignment)
-					return FALSE
-			if(FLEET_TRAIT_INVASION)
-				if(target.alignment == alignment)
-					return FALSE
-			if(FLEET_TRAIT_NEUTRAL_ZONE)
-				if(target.alignment == alignment)
-					return FALSE
+					if(target.alignment == alignment)
+						return FALSE
+				if(FLEET_TRAIT_NEUTRAL_ZONE)
+					if(target.alignment == alignment)
+						return FALSE
 
-		if(world.time < last_encounter_time + 10 MINUTES) //So that fleets don't leave mid combat.
+		if(world.time < last_encounter_time + combat_move_delay) //So that fleets don't leave mid combat.
 			return FALSE
+
 	current_system.fleets -= src
 	if(current_system.fleets && current_system.fleets.len)
 		var/datum/fleet/F = pick(current_system.fleets)
@@ -198,6 +229,27 @@ GLOBAL_LIST_EMPTY(ai_goals)
 		if(OM.mobs_in_ship?.len)
 			encounter(OM)
 	}
+	if(course_picked_target)
+		plotted_course -= target
+	else if(plotted_course && plotted_course.len)	//We jumped. but didn't follow our course! Recalculate!
+		navigate_to(goal_system)
+	return TRUE
+
+/datum/fleet/interdiction/move(datum/star_system/target, force=FALSE)
+	if(!target && hunted_ship)
+		goal_system = hunted_ship.current_system
+	. = ..()
+	if(.)
+		navigate_to(goal_system)	//Anytime we successfully move we recalculate the route, since players like moving around alot.
+
+/datum/fleet/interdiction/New()
+	. = ..()
+	hunted_ship = SSstar_system.find_main_overmap()
+
+/datum/fleet/earthbuster/New()
+	. = ..()
+	goal_system = SSstar_system.system_by_id("Sol")
+
 
 //Clear a ship from this fleet.
 /datum/fleet/proc/remove_ship(obj/structure/overmap/OM)
@@ -328,19 +380,27 @@ GLOBAL_LIST_EMPTY(ai_goals)
 		if(OM.alpha >= 150) //Sensor cloaks my boy, sensor cloaks
 			OM.hail(pick(taunts), name)
 			last_encounter_time = world.time
-		if(audio_cues?.len)
-			var/list/result = get_internet_sound(pick(audio_cues))
-			if(!result || !islist(result))
-				return
-			var/web_sound_url = result[1] //this is cringe but it works
-			var/music_extra_data = result[2]
-			if(web_sound_url)
-				for(var/mob/M in OM.mobs_in_ship)
-					if(M.client)
-						var/client/C = M.client
-						if(C.chatOutput && !C.chatOutput.broken && C.chatOutput.loaded)
-							C.chatOutput.stopMusic()
-							C.chatOutput.sendMusic(web_sound_url, music_extra_data)
+			if(audio_cues?.len)
+				OM.play_music(pick(audio_cues))
+
+
+///Pass in a youtube link, have it played ONLY on that overmap. This should be called by code or admins only.
+/obj/structure/overmap/proc/play_music(url)
+	set waitfor = FALSE //Don't hold up the jump
+	if(!istext(url))
+		return FALSE
+	var/list/result = get_internet_sound(url)
+	if(!result || !islist(result))
+		return
+	var/web_sound_url = result[1] //this is cringe but it works
+	var/music_extra_data = result[2]
+	if(web_sound_url)
+		for(var/mob/M in mobs_in_ship)
+			if(M.client)
+				var/client/C = M.client
+				if(C.chatOutput && !C.chatOutput.broken && C.chatOutput.loaded)
+					C.chatOutput.stopMusic()
+					C.chatOutput.sendMusic(web_sound_url, music_extra_data)
 
 /datum/fleet/neutral
 	name = "Syndicate Scout Fleet"
@@ -369,10 +429,16 @@ GLOBAL_LIST_EMPTY(ai_goals)
 	name = "Syndicate nuclear deterrent"
 	taunts = list("Enemy ship, surrender now. This vessel is armed with thermonuclear weapons and eager to test them.")
 	audio_cues = list("https://www.youtube.com/watch?v=0iXfWWrwrlQ", "https://www.youtube.com/watch?v=YW2bPkw0VyU")
-	destroyer_types = list(/obj/structure/overmap/syndicate/ai/nuclear)
+	destroyer_types = list(/obj/structure/overmap/syndicate/ai/nuclear, /obj/structure/overmap/syndicate/ai/nuclear/elite)
 	size = 2
 	fleet_trait = FLEET_TRAIT_NEUTRAL_ZONE
 
+/datum/fleet/elite
+	name = "Syndicate Elite Taskforce"
+	taunts = list("Enemy ship, surrender immediately or face destruction.", "Excellent, a worthwhile target. Arm all batteries.")
+	supply_types = list(/obj/structure/overmap/syndicate/ai/carrier/elite)
+	destroyer_types = list(/obj/structure/overmap/syndicate/ai/destroyer/elite)
+	battleship_types = list(/obj/structure/overmap/syndicate/ai/cruiser/elite)
 /datum/fleet/nanotrasen/border
 	name = "Concord Border Enforcement Unit"
 	taunts = list("You have violated the law. Stand down your weapons and prepare to be boarded.", "Hostile vessel. Stand down immediately or be destroyed.")
@@ -389,7 +455,7 @@ GLOBAL_LIST_EMPTY(ai_goals)
 
 /datum/fleet/rubicon //Crossing the rubicon, are we?
 	name = "Rubicon Crossing"
-	size = FLEET_DIFFICULTY_HARD
+	size = FLEET_DIFFICULTY_SPECIAL
 	audio_cues = list("https://www.youtube.com/watch?v=mhXuYp0n88g", "https://www.youtube.com/watch?v=l1J-2nIovYw", "https://www.youtube.com/watch?v=M_MdmLWmDHs")
 	taunts = list("Better crews have tried to cross the Rubicon, you will die like they did.", "Defense force, stand ready!", "Nanotrasen filth. Munitions, ready the guns. We’ll scrub the galaxy clean of you vermin.", "This shift just gets better and better. I’ll have your Captain’s head on my wall.")
 	fleet_trait = FLEET_TRAIT_DEFENSE
@@ -405,7 +471,7 @@ GLOBAL_LIST_EMPTY(ai_goals)
 /datum/fleet/nanotrasen/earth
 	name = "Earth Defense Force"
 	taunts = list("You're foolish to venture this deep into Solgov space! Main batteries stand ready.", "All hands, set condition 1 throughout the fleet, enemy vessel approaching.", "Defense force, stand ready!", "We shall protect our homeland!")
-	size = FLEET_DIFFICULTY_HARD
+	size = FLEET_DIFFICULTY_SPECIAL
 	audio_cues = list("https://www.youtube.com/watch?v=k8-HHivlj8k")
 	fleet_trait = FLEET_TRAIT_DEFENSE
 
@@ -416,19 +482,47 @@ GLOBAL_LIST_EMPTY(ai_goals)
 	taunts = list("We're coming for Sol, and you can't stop us. All batteries fire at will.", "Lay down your arms now, you're outnumbered.", "All hands, assume assault formation. Begin bombardment.")
 	audio_cues = list("https://www.youtube.com/watch?v=k8-HHivlj8k")
 
+/datum/fleet/interdiction	//Pretty strong fleet with unerring hunting senses, Adminspawn for now.
+	name = "Syndicate Interdiction Fleet"	//These fun guys can and will hunt the player ship down, no matter how far away they are.
+	destroyer_types = list(/obj/structure/overmap/syndicate/ai/nuclear, /obj/structure/overmap/syndicate/ai/assault_cruiser, /obj/structure/overmap/syndicate/ai/assault_cruiser/boarding_frigate)
+	size = FLEET_DIFFICULTY_HARD
+	taunts = list("We have come to end your meagre existance. Prepare to die.", "Hostile entering weapons range. Fire at will.", "You have been a thorn in our side for quite a while. Time to end this.", "That is a nice ship you have there. Nothing a few nuclear missiles cannot fix.")
+	audio_cues = list("https://www.youtube.com/watch?v=dTKakINXjl8")
+	var/obj/structure/overmap/hunted_ship
+	initial_move_delay = 5 MINUTES
+	minimum_random_move_delay = 2 MINUTES	//These are quite a bunch faster than your usual fleets. Good luck running. It won't save you.
+	maximum_random_move_delay = 4 MINUTES
+	combat_move_delay = 6 MINUTES
+
+/datum/fleet/interdiction/stealth	//More fun for badmins
+	name = "Unidentified Heavy Fleet"
+	hide_movements = TRUE
+	destroyer_types = list(/obj/structure/overmap/syndicate/ai/submarine, /obj/structure/overmap/syndicate/ai/nuclear, /obj/structure/overmap/syndicate/ai/assault_cruiser)
+
+/datum/fleet/interdiction/light	//The syndicate can spawn these randomly (though rare). Be caareful! But, at least they aren't that scary.
+	name = "Syndicate Light Interdiction Fleet"
+	size = FLEET_DIFFICULTY_MEDIUM	//Don't let this fool you though, they are still somewhat dangerous and will hunt you down.
+	initial_move_delay = 12 MINUTES
+
 /datum/fleet/dolos
 	name = "Dolos Welcoming Party" //Don't do it czanek, don't fucking do it!
-	size = FLEET_DIFFICULTY_INSANE
+	size = FLEET_DIFFICULTY_WHAT_ARE_YOU_DOING
 	audio_cues = list("https://www.youtube.com/watch?v=UPHmazxB38g") //FTL13 ;(
-	taunts = list("You shouldn't have come here...", "Prepare to die.", "Nanotrasen? Here? Bold.")
+	taunts = list("Don't think we didn't learn from your last attempt.", "We shall not fail again", "Your outdated MAC weapons are no match for us. Prepare to be destroyed.")
 	fleet_trait = FLEET_TRAIT_DEFENSE
+	destroyer_types = list(/obj/structure/overmap/syndicate/ai, /obj/structure/overmap/syndicate/ai/destroyer/elite, /obj/structure/overmap/syndicate/ai/destroyer/flak, /obj/structure/overmap/syndicate/ai/cruiser/elite, /obj/structure/overmap/syndicate/ai/mako_flak, /obj/structure/overmap/syndicate/ai/mako_carrier)
+	battleship_types = list(/obj/structure/overmap/syndicate/ai/cruiser/elite, /obj/structure/overmap/syndicate/ai/nuclear/elite)
+	supply_types = list(/obj/structure/overmap/syndicate/ai/carrier/elite)
 
-/datum/fleet/abassi
-	name = "1st Syndicate Defense Force" //Don't do it czanek, don't fucking do it!
-	size = FLEET_DIFFICULTY_DEATH
-	audio_cues = list("https://www.youtube.com/watch?v=3tAShpPu6K0")
-	taunts = list("Your existence has come to an end.", "You should be glad you made it this far, but you'll come no further.")
+/datum/fleet/remnant
+	name = "The Remnant"
+	size = FLEET_DIFFICULTY_WHAT_ARE_YOU_DOING
+	audio_cues = list("https://www.youtube.com/watch?v=ALn-7v9BxNg")
+	taunts = list("<pre>\[DECRYPTION FAILURE]</pre>")
 	fleet_trait = FLEET_TRAIT_DEFENSE
+	destroyer_types = list(/obj/structure/overmap/syndicate/ai, /obj/structure/overmap/syndicate/ai/destroyer/elite, /obj/structure/overmap/syndicate/ai/destroyer/flak, /obj/structure/overmap/syndicate/ai/cruiser/elite, /obj/structure/overmap/syndicate/ai/mako_flak, /obj/structure/overmap/syndicate/ai/mako_carrier)
+	battleship_types = list(/obj/structure/overmap/syndicate/ai/cruiser/elite, /obj/structure/overmap/syndicate/ai/nuclear/elite)
+	supply_types = list(/obj/structure/overmap/syndicate/ai/carrier/elite)
 
 /datum/fleet/unknown_ship
 	name = "Unknown Ship Class"
@@ -443,8 +537,8 @@ GLOBAL_LIST_EMPTY(ai_goals)
 /datum/fleet/nanotrasen
 	name = "Nanotrasen heavy combat fleet"
 	fighter_types = list(/obj/structure/overmap/nanotrasen/ai/fighter)
-	destroyer_types = list(/obj/structure/overmap/nanotrasen/ai)
-	battleship_types = list(/obj/structure/overmap/nanotrasen/patrol_cruiser/ai, /obj/structure/overmap/nanotrasen/heavy_cruiser/ai, /obj/structure/overmap/nanotrasen/battleship/ai, /obj/structure/overmap/nanotrasen/battlecruiser/ai)
+	destroyer_types = list(/obj/structure/overmap/nanotrasen/ai, /obj/structure/overmap/nanotrasen/missile_cruiser/ai)
+	battleship_types = list(/obj/structure/overmap/nanotrasen/patrol_cruiser/ai, /obj/structure/overmap/nanotrasen/heavy_cruiser/ai, /obj/structure/overmap/nanotrasen/battlecruiser/ai)
 	supply_types = list(/obj/structure/overmap/nanotrasen/carrier/ai)
 	alignment = "nanotrasen"
 	hide_movements = TRUE //Friendly fleets just move around as you'd expect.
@@ -457,9 +551,17 @@ GLOBAL_LIST_EMPTY(ai_goals)
 
 /datum/fleet/New()
 	. = ..()
+	if(size < FLEET_DIFFICULTY_SPECIAL)
+		//Account for pre-round spawned fleets.
+		var/num_players = (SSticker?.mode) ? SSticker.mode.num_players() : 0
+		if(num_players <= 15) //You get an easier time of it on lowpop
+			size = round(size * 0.8)
+		else
+			size = round(size + (num_players / 10) ) //Lightly scales things up.
+	size = CLAMP(size, FLEET_DIFFICULTY_EASY, INFINITY)
 	if(current_system)
 		assemble(current_system)
-	addtimer(CALLBACK(src, .proc/move), 10 MINUTES)
+	addtimer(CALLBACK(src, .proc/move), initial_move_delay)
 
 //A ship has entered a system with a fleet present. Assemble the fleet so that it lives in this system now.
 
@@ -606,6 +708,7 @@ GLOBAL_LIST_EMPTY(ai_goals)
 		else
 			OM.move_toward(OM.last_target)
 	else
+		OM.send_sonar_pulse() //Send a pong when we're actively hunting.
 		OM.seek_new_target()
 		OM.move_toward(null) //Just fly around in a straight line, I guess.
 
@@ -662,7 +765,7 @@ GLOBAL_LIST_EMPTY(ai_goals)
 		return score
 	if(OM.ai_trait == AI_TRAIT_BATTLESHIP)
 		var/list/L = OM.fleet.taskforces["supply"]
-		return (L.len ? AI_SCORE_CRITICAL : AI_SCORE_LOW_PRIORITY)
+		return (L.len ? AI_SCORE_CRITICAL : 0)
 	return score //If you've got nothing better to do, come group with the main fleet.
 
 //Goal used entirely for supply ships, signalling them to run away! Most ships use the "repair and re-arm" goal instead of this one.
@@ -732,8 +835,8 @@ GLOBAL_LIST_EMPTY(ai_goals)
 	var/ai_controlled = FALSE //Set this to true to let the computer fly your ship.
 	var/ai_behaviour = null // Determines if the AI ship shoots you first, or if you have to shoot them.
 	var/list/enemies = list() //Things that have attacked us
-	var/max_weapon_range = 30
-	var/max_tracking_range = 300//115 //Range that AI ships can hunt you down in. The amounts to almost half the Z-level.
+	var/max_weapon_range = 50
+	var/max_tracking_range = 50//115 //Range that AI ships can hunt you down in. The amounts to almost half the Z-level.
 	var/obj/structure/overmap/defense_target = null
 	var/ai_can_launch_fighters = FALSE //AI variable. Allows your ai ships to spawn fighter craft
 	var/list/ai_fighter_type = list()
@@ -756,7 +859,7 @@ GLOBAL_LIST_EMPTY(ai_goals)
 	var/datum/fleet/fleet = null
 	var/datum/ai_goal/current_goal = null
 	var/obj/structure/overmap/squad_lead = null
-	var/obj/structure/last_overmap = null
+	var/obj/structure/overmap/last_overmap = null
 	var/switchsound_cooldown = 0
 
 /obj/structure/overmap/proc/ai_fire(atom/target)
@@ -765,7 +868,7 @@ GLOBAL_LIST_EMPTY(ai_goals)
 	if(istype(target, /obj/structure/overmap))
 		add_enemy(target)
 		var/target_range = get_dist(src,target)
-		var/new_firemode = FIRE_MODE_PDC
+		var/new_firemode = FIRE_MODE_GAUSS
 		if(target_range > max_weapon_range) //Our max range is the maximum possible range we can engage in. This is to stop you getting hunted from outside of your view range.
 			last_target = null
 			return
@@ -791,14 +894,14 @@ GLOBAL_LIST_EMPTY(ai_goals)
 				new_firemode = I
 				best_distance = distance
 		if(!weapon_types[new_firemode]) //I have no physical idea how this even happened, but ok. Sure. If you must. If you REALLY must. We can do this, Sarah. We still gonna do this? It's been 5 years since the divorce, can't you just let go?
-			new_firemode = FIRE_MODE_PDC
-		if(new_firemode != FIRE_MODE_PDC) //If we're not on PDCs, let's fire off some PDC salvos while we're busy shooting people. This is still affected by weapon cooldowns so that they lay off on their target a bit.
+			new_firemode = FIRE_MODE_GAUSS
+		if(new_firemode != FIRE_MODE_GAUSS) //If we're not on PDCs, let's fire off some PDC salvos while we're busy shooting people. This is still affected by weapon cooldowns so that they lay off on their target a bit.
 			for(var/obj/structure/overmap/ship in GLOB.overmap_objects)
 				if(warcrime_blacklist[ship.type])
 					continue
 				if(!ship || QDELETED(ship) || ship == src || get_dist(src, ship) > max_weapon_range || ship.faction == src.faction || ship.z != z)
 					continue
-				fire_weapon(ship, FIRE_MODE_PDC)
+				fire_weapon(ship, FIRE_MODE_GAUSS)
 				break
 		fire_mode = new_firemode
 		if(will_use_shot) //Don't penalise them for weapons that are designed to be spammed.
@@ -813,8 +916,9 @@ GLOBAL_LIST_EMPTY(ai_goals)
 *
 */
 
-/obj/structure/overmap/proc/slowprocess() //For ai ships, this allows for target acquisition, tactics etc.
-	handle_pdcs()
+/obj/structure/overmap/proc/ai_process() //For ai ships, this allows for target acquisition, tactics etc.
+	set waitfor = FALSE
+	handle_autonomous_targeting()
 	SSstar_system.update_pos(src)
 	if(!ai_controlled)
 		return
