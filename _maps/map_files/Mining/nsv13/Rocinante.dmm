@@ -959,17 +959,6 @@
 "db" = (
 /turf/open/floor/plasteel/ridged/steel,
 /area/nostromo)
-"dc" = (
-/obj/machinery/door/airlock/ship/external/glass{
-	name = "External airlock";
-	req_one_access_txt = "31;48"
-	},
-/obj/effect/mapping_helpers/airlock/cyclelink_helper{
-	dir = 1;
-	icon_state = "airlock_cyclelink_helper"
-	},
-/turf/open/floor/plasteel/techmaint,
-/area/maintenance/nsv/mining_ship/aft)
 "dd" = (
 /obj/machinery/door/poddoor/shutters/ship/preopen{
 	dir = 2;
@@ -3320,20 +3309,6 @@
 	},
 /turf/open/floor/plasteel/grid/steel,
 /area/nostromo)
-"iA" = (
-/obj/effect/turf_decal/stripes/line,
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
-	dir = 4
-	},
-/obj/machinery/door/airlock/ship/external/glass{
-	name = "External airlock";
-	req_one_access_txt = "31;48"
-	},
-/obj/effect/mapping_helpers/airlock/cyclelink_helper,
-/obj/machinery/atmospherics/pipe/simple/supply/hidden,
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
-/turf/open/floor/plasteel/ridged/steel,
-/area/maintenance/nsv/mining_ship/aft)
 "iC" = (
 /obj/machinery/door/airlock/ship/public{
 	name = "Galley"
@@ -4607,6 +4582,16 @@
 	},
 /turf/open/floor/plating,
 /area/nostromo/engineering/atmospherics)
+"mn" = (
+/obj/machinery/door/airlock/ship/external/glass{
+	name = "External airlock";
+	req_one_access_txt = "31;48"
+	},
+/obj/effect/mapping_helpers/airlock/cyclelink_helper,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
+/turf/open/floor/plasteel/techmaint,
+/area/maintenance/nsv/mining_ship/aft)
 "mq" = (
 /obj/machinery/light/runway/delay3,
 /obj/structure/lattice/catwalk,
@@ -4852,18 +4837,6 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/nsv/mining_ship/forward)
-"vX" = (
-/obj/machinery/door/airlock/ship/hatch{
-	name = "maintenance hatch"
-	},
-/obj/machinery/door/firedoor/border_only{
-	dir = 8
-	},
-/obj/machinery/door/firedoor/border_only{
-	dir = 4
-	},
-/turf/open/floor/plating,
-/area/maintenance/nsv/mining_ship/aft)
 "wp" = (
 /obj/machinery/door/airlock/ship/public{
 	name = "Restroom"
@@ -4988,6 +4961,15 @@
 	},
 /turf/open/floor/plasteel/ridged/steel,
 /area/nostromo)
+"AO" = (
+/obj/effect/turf_decal/stripes/line,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
+/turf/open/floor/plasteel/ridged/steel,
+/area/maintenance/nsv/mining_ship/aft)
 "AZ" = (
 /obj/structure/lattice/catwalk,
 /obj/machinery/light/runway/delay2,
@@ -5169,6 +5151,18 @@
 	},
 /turf/open/floor/plasteel/techmaint,
 /area/maintenance/nsv/mining_ship/aft)
+"GI" = (
+/obj/machinery/door/airlock/ship/external/glass{
+	name = "External airlock";
+	req_one_access_txt = "31;48"
+	},
+/obj/effect/mapping_helpers/airlock/cyclelink_helper{
+	dir = 1;
+	icon_state = "airlock_cyclelink_helper"
+	},
+/obj/machinery/atmospherics/pipe/layer_manifold,
+/turf/open/floor/plasteel/techmaint,
+/area/maintenance/nsv/mining_ship/aft)
 "GP" = (
 /obj/structure/grille,
 /turf/open/floor/plating{
@@ -5240,6 +5234,21 @@
 /obj/machinery/firealarm/directional/south,
 /turf/open/floor/plasteel/techmaint,
 /area/nostromo/mining)
+"KO" = (
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
+	dir = 4
+	},
+/obj/machinery/door/firedoor/border_only{
+	dir = 4
+	},
+/obj/machinery/door/firedoor/border_only{
+	dir = 8
+	},
+/obj/machinery/door/airlock/ship/hatch{
+	name = "maintenance hatch"
+	},
+/turf/open/floor/plating,
+/area/maintenance/nsv/mining_ship/aft)
 "KP" = (
 /obj/machinery/light/runway/delay4,
 /obj/structure/lattice/catwalk,
@@ -5292,6 +5301,17 @@
 	initial_gas_mix = "TEMP=2.7"
 	},
 /area/nostromo/hangar/starboard)
+"Ni" = (
+/obj/machinery/light/small{
+	dir = 4
+	},
+/obj/machinery/atmospherics/components/binary/dp_vent_pump,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
+/obj/machinery/advanced_airlock_controller/directional/west{
+	pixel_y = 24
+	},
+/turf/open/floor/plasteel/techmaint,
+/area/maintenance/nsv/mining_ship/aft)
 "Or" = (
 /obj/structure/overmap/fighter/utility/mining,
 /turf/open/floor/plasteel/techmaint{
@@ -5552,14 +5572,6 @@
 	},
 /turf/open/floor/plasteel/ridged/steel,
 /area/nostromo)
-"WY" = (
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
-/obj/machinery/atmospherics/components/binary/dp_vent_pump,
-/obj/machinery/advanced_airlock_controller/directional/west{
-	pixel_y = 24
-	},
-/turf/open/floor/plasteel/techmaint,
-/area/maintenance/nsv/mining_ship/aft)
 "Xa" = (
 /obj/structure/table,
 /obj/item/stack/packageWrap,
@@ -22197,10 +22209,10 @@ iV
 Bg
 hw
 il
-iA
-WY
-cF
-dc
+AO
+mn
+Ni
+GI
 aG
 kY
 la
@@ -22453,8 +22465,8 @@ dS
 ja
 Ab
 ac
-vX
-ip
+ac
+KO
 ac
 ac
 ac
