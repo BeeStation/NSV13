@@ -267,6 +267,9 @@
 	projectile_type = /obj/item/projectile/bullet/mac_round/cannonshot
 	obj_integrity = 100
 	max_integrity = 100
+	climbable = TRUE //No ballin'
+	climb_time = 30
+	climb_stun = 0 
 	explosive = FALSE //Cannonshot is just iron
 	volatility = 0
 	explode_when_hit = FALSE //Literally just iron
