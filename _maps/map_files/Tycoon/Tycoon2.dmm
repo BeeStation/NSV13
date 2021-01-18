@@ -5168,6 +5168,12 @@
 /area/medical/medbay/lobby)
 "amf" = (
 /obj/machinery/smartfridge,
+/obj/machinery/door/firedoor/border_only{
+	dir = 4
+	},
+/obj/machinery/door/firedoor/border_only{
+	dir = 8
+	},
 /turf/open/floor/monotile,
 /area/hydroponics)
 "amg" = (
@@ -18253,14 +18259,6 @@
 "aSq" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 6
-	},
-/obj/structure/rack,
-/obj/item/powder_bag{
-	pixel_y = -10
-	},
-/obj/item/powder_bag,
-/obj/item/powder_bag{
-	pixel_y = 8
 	},
 /turf/open/floor/plating,
 /area/maintenance/starboard/secondary{
@@ -31768,6 +31766,11 @@
 	},
 /obj/structure/disposalpipe/segment{
 	dir = 4
+	},
+/obj/machinery/door/airlock/ship{
+	dir = 4;
+	name = "Hangar Bay";
+	req_access_txt = "69"
 	},
 /turf/open/floor/monotile,
 /area/maintenance/port)
@@ -49505,6 +49508,24 @@
 /obj/machinery/status_display/evac,
 /turf/closed/wall/ship,
 /area/medical/medbay/lobby)
+"ssX" = (
+/obj/machinery/door/window{
+	name = "Gunpowder Storage";
+	req_access_txt = "69"
+	},
+/obj/item/powder_bag{
+	pixel_y = -10
+	},
+/obj/item/powder_bag,
+/obj/item/powder_bag{
+	pixel_y = 8
+	},
+/obj/structure/rack,
+/obj/structure/window/reinforced/spawner/west,
+/turf/open/floor/monotile,
+/area/maintenance/starboard/secondary{
+	name = "Munitions Projects"
+	})
 "stk" = (
 /obj/machinery/atmospherics/pipe/simple/general/visible,
 /obj/machinery/meter,
@@ -51195,6 +51216,20 @@
 	},
 /turf/open/floor/monotile,
 /area/engine/engineering/reactor_core)
+"xlE" = (
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	dir = 8
+	},
+/obj/machinery/door/airlock/ship{
+	dir = 4;
+	name = "Hangar Bay";
+	req_access_txt = "69"
+	},
+/turf/open/floor/monotile,
+/area/maintenance/port)
 "xmt" = (
 /obj/machinery/newscaster{
 	pixel_x = -28
@@ -81234,8 +81269,8 @@ bKp
 akw
 bBn
 akw
-akw
-akc
+aal
+xlE
 bsT
 bHp
 bHp
@@ -82251,7 +82286,7 @@ aal
 aal
 aal
 aal
-aET
+aal
 aTD
 ahD
 ahD
@@ -82508,7 +82543,7 @@ adF
 adF
 adF
 adF
-aal
+aET
 aSq
 ahD
 ahD
@@ -82766,7 +82801,7 @@ aal
 aal
 adF
 aal
-ahD
+ssX
 ahD
 ahD
 bFQ
