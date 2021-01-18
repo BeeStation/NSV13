@@ -6265,17 +6265,18 @@
 /turf/open/floor/plasteel/ship/techfloor/alt,
 /area/hallway/primary/central)
 "nz" = (
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
-	dir = 8
-	},
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
-	dir = 4
-	},
 /obj/structure/cable{
 	icon_state = "4-8"
 	},
 /obj/machinery/light{
 	dir = 1
+	},
+/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer3{
+	dir = 1
+	},
+/obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1{
+	dir = 1;
+	icon_state = "manifold-1"
 	},
 /turf/open/floor/plasteel/ship/techfloor/alt,
 /area/hallway/secondary/entry)
@@ -7361,13 +7362,12 @@
 /turf/open/floor/carpet,
 /area/crew_quarters/bar)
 "pQ" = (
-/obj/machinery/door/airlock/ship/external/glass{
-	name = "Arrivals Airlock";
-	req_one_access_txt = "18"
+/obj/machinery/atmospherics/components/binary/dp_vent_pump{
+	dir = 1
 	},
-/obj/effect/mapping_helpers/airlock/unres,
-/obj/machinery/door/firedoor,
-/turf/open/floor/plasteel,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/obj/machinery/advanced_airlock_controller/directional/east,
+/turf/open/floor/plating,
 /area/hallway/secondary/entry)
 "pR" = (
 /obj/machinery/light,
@@ -7375,18 +7375,6 @@
 	dir = 8
 	},
 /turf/open/floor/plasteel/ship,
-/area/hallway/secondary/entry)
-"pS" = (
-/obj/docking_port/stationary{
-	dir = 4;
-	dwidth = 3;
-	height = 15;
-	id = "arrivals_stationary";
-	name = "arrivals";
-	roundstart_template = /datum/map_template/shuttle/arrival/box;
-	width = 7
-	},
-/turf/open/floor/plating,
 /area/hallway/secondary/entry)
 "pT" = (
 /obj/docking_port/stationary{
@@ -12484,6 +12472,10 @@
 	},
 /turf/open/floor/plasteel/dark,
 /area/chapel/main)
+"CH" = (
+/obj/machinery/ship_weapon/deck_turret/east,
+/turf/open/floor/engine/airless,
+/area/space/nearstation)
 "CM" = (
 /obj/machinery/computer/ship/viewscreen,
 /obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer3{
@@ -12531,6 +12523,18 @@
 	},
 /turf/open/floor/plating/airless,
 /area/space/nearstation)
+"Dt" = (
+/obj/docking_port/stationary{
+	dir = 4;
+	dwidth = 3;
+	height = 15;
+	id = "arrivals_stationary";
+	name = "arrivals";
+	roundstart_template = /datum/map_template/shuttle/arrival/box;
+	width = 7
+	},
+/turf/open/floor/plating,
+/area/space/nearstation)
 "Dy" = (
 /obj/structure/chair{
 	dir = 4
@@ -12538,6 +12542,10 @@
 /obj/effect/turf_decal/tile/green,
 /turf/open/floor/plasteel,
 /area/crew_quarters/cafeteria)
+"DF" = (
+/obj/machinery/atmospherics/pipe/layer_manifold,
+/turf/open/floor/plating,
+/area/hallway/secondary/entry)
 "DK" = (
 /obj/effect/landmark/carpspawn,
 /turf/open/space/basic,
@@ -12813,6 +12821,13 @@
 	},
 /turf/open/floor/monotile/dark,
 /area/nsv/hanger)
+"Gk" = (
+/obj/machinery/door/airlock/ship/external/glass{
+	name = "Arrivals Airlock";
+	req_one_access_txt = "18"
+	},
+/turf/open/floor/plating,
+/area/hallway/secondary/entry)
 "Gl" = (
 /obj/item/radio/intercom/directional/south,
 /obj/effect/turf_decal/stripes/line,
@@ -13343,6 +13358,15 @@
 	},
 /turf/open/floor/plasteel,
 /area/crew_quarters/cafeteria)
+"Nz" = (
+/obj/machinery/door/airlock/ship/external/glass{
+	name = "Arrivals Airlock";
+	req_one_access_txt = "18"
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
+/turf/open/floor/plasteel/ship,
+/area/hallway/secondary/entry)
 "ND" = (
 /obj/structure/extinguisher_cabinet/east,
 /turf/open/floor/plasteel/ship,
@@ -13966,6 +13990,11 @@
 /obj/machinery/firealarm/directional/west,
 /turf/open/floor/plasteel/ship/techfloor/alt,
 /area/hallway/primary/central)
+"VO" = (
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
+/turf/open/floor/plasteel/ship,
+/area/hallway/secondary/entry)
 "Wa" = (
 /turf/open/floor/engine/airless,
 /area/engine/gravity_generator)
@@ -14148,7 +14177,7 @@
 /area/hallway/primary/central)
 "Zg" = (
 /turf/open/floor/plating,
-/area/hallway/secondary/entry)
+/area/space/nearstation)
 "Zh" = (
 /obj/structure/chair{
 	dir = 8
@@ -49835,7 +49864,7 @@ Zg
 Zg
 Zg
 Zg
-pO
+Zg
 WW
 WW
 WW
@@ -50087,12 +50116,12 @@ Zg
 Zg
 Zg
 Zg
-pS
+Zg
+Zg
+Dt
 Zg
 Zg
 Zg
-Zg
-pO
 WW
 WW
 WW
@@ -50341,15 +50370,15 @@ nA
 Gv
 pO
 pO
-Zg
-Zg
-Zg
-Zg
-Zg
-Zg
-Zg
-Zg
 pO
+pO
+Zg
+Zg
+Zg
+Zg
+Zg
+Zg
+Zg
 WW
 WW
 WW
@@ -50595,9 +50624,11 @@ pf
 pz
 fr
 nz
-Gv
-Gv
+VO
+Nz
 pQ
+DF
+Gk
 Zg
 Zg
 Zg
@@ -50605,8 +50636,6 @@ Zg
 Zg
 Zg
 Zg
-Zg
-pO
 WW
 WW
 WW
@@ -50855,15 +50884,15 @@ NX
 Gv
 pO
 pO
-Zg
-Zg
-Zg
-Zg
-Zg
-Zg
-Zg
-Zg
 pO
+pO
+Zg
+Zg
+Zg
+Zg
+Zg
+Zg
+Zg
 WW
 WW
 WW
@@ -51120,7 +51149,7 @@ Zg
 Zg
 Zg
 Zg
-pO
+Zg
 WW
 WW
 WW
@@ -51377,7 +51406,7 @@ Zg
 Zg
 Zg
 Zg
-pO
+Zg
 WW
 WW
 WW
@@ -51634,7 +51663,7 @@ Zg
 Zg
 Zg
 Zg
-pO
+Zg
 WW
 WW
 WW
@@ -51891,7 +51920,7 @@ Zg
 Zg
 Zg
 Zg
-pO
+Zg
 WW
 WW
 WW
@@ -52140,15 +52169,15 @@ PG
 Gv
 pO
 pO
-Zg
-Zg
-Zg
-Zg
-Zg
-Zg
-Zg
-Zg
 pO
+pO
+Zg
+Zg
+Zg
+Zg
+Zg
+Zg
+Zg
 WW
 WW
 WW
@@ -52394,9 +52423,11 @@ mL
 mL
 mF
 nz
-Gv
-Gv
+VO
+Nz
 pQ
+DF
+Gk
 Zg
 Zg
 Zg
@@ -52404,8 +52435,6 @@ Zg
 Zg
 Zg
 Zg
-Zg
-pO
 WW
 WW
 IG
@@ -52654,15 +52683,15 @@ nA
 Gv
 pO
 pO
-Zg
-Zg
-Zg
-Zg
-Zg
-Zg
-Zg
-Zg
 pO
+pO
+Zg
+Zg
+Zg
+Zg
+Zg
+Zg
+Zg
 WW
 WW
 IG
@@ -52919,7 +52948,7 @@ Zg
 Zg
 Zg
 Zg
-pO
+Zg
 WW
 WW
 IG
@@ -53176,7 +53205,7 @@ Zg
 Zg
 Zg
 Zg
-pO
+Zg
 WW
 WW
 IG
@@ -53430,10 +53459,10 @@ Zg
 Zg
 Zg
 Zg
-Zg
-Zg
-Zg
-pO
+WW
+WW
+WW
+WW
 WW
 WW
 IG
@@ -53687,12 +53716,12 @@ Zg
 Zg
 Zg
 Zg
-Zg
-Zg
-Zg
-pO
+WW
+WW
+WW
+WW
 cS
-IG
+WW
 IG
 aa
 aa
@@ -53944,12 +53973,12 @@ Zg
 Zg
 Zg
 Zg
-Zg
-Zg
-Zg
-pO
-cS
-IG
+WW
+WW
+WW
+WW
+CH
+WW
 aa
 aa
 aa
@@ -54198,15 +54227,15 @@ pO
 pO
 pO
 pO
-pO
-pO
-pO
-pO
-pO
-pO
-pO
-cS
-IG
+rJ
+rJ
+rJ
+WW
+WW
+WW
+WW
+WW
+WW
 aa
 aa
 aa
