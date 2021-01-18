@@ -26,6 +26,16 @@
 	sprite_size = 48
 	damage_states = FALSE
 
+/obj/structure/overmap/nanotrasen/light_cruiser/starter
+	name = "raptor class light frigate"
+	icon = 'nsv13/icons/overmap/new/nanotrasen/frigate.dmi'
+	icon_state = "kestrel"
+	mass = MASS_SMALL
+	sprite_size = 48
+	damage_states = FALSE
+	max_integrity = 1500 //Max health
+	integrity_failure = 1500
+
 /obj/structure/overmap/nanotrasen/patrol_cruiser
 	name = "lupine class patrol cruiser"
 	icon = 'nsv13/icons/overmap/new/nanotrasen/cruiser.dmi'
