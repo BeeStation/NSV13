@@ -271,8 +271,8 @@
 	max_integrity = 100
 	w_class = WEIGHT_CLASS_GIGANTIC
 	climbable = TRUE //No ballin'
-	climb_time = 30
-	climb_stun = 0 
+	climb_time = 25
+	climb_stun = 3
 	explosive = FALSE //Cannonshot is just iron
 	volatility = 0
 	explode_when_hit = FALSE //Literally just iron
