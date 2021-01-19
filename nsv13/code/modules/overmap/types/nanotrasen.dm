@@ -25,6 +25,8 @@
 	mass = MASS_SMALL
 	sprite_size = 48
 	damage_states = FALSE
+	bound_height = 96
+	bound_width = 96
 
 /obj/structure/overmap/nanotrasen/light_cruiser/starter
 	name = "raptor class light frigate"
