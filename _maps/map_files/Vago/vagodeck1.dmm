@@ -3613,7 +3613,6 @@
 	dir = 8
 	},
 /obj/machinery/camera/autoname,
-/obj/machinery/ship_weapon/pdc_mount/west,
 /turf/open/floor/plating,
 /area/nsv/weapons)
 "iR" = (
@@ -5046,12 +5045,12 @@
 /turf/open/floor/plating,
 /area/nsv/weapons)
 "lw" = (
-/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer3{
-	dir = 4
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	dir = 10;
+	icon_state = "pipe11-1"
 	},
-/obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1{
-	dir = 4;
-	icon_state = "manifold-1"
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	dir = 10
 	},
 /turf/open/floor/plating{
 	icon_state = "panelscorched"
@@ -7471,14 +7470,6 @@
 /turf/open/floor/plating,
 /area/security/warden)
 "pI" = (
-/obj/item/ship_weapon/ammunition/railgun_ammo,
-/obj/item/ship_weapon/ammunition/railgun_ammo{
-	pixel_y = 8
-	},
-/obj/item/ship_weapon/ammunition/railgun_ammo{
-	pixel_y = -8
-	},
-/obj/structure/rack,
 /obj/machinery/button/door{
 	id = "SMBD";
 	name = "Starboard Magazine Blast Doors";
@@ -7501,12 +7492,6 @@
 /turf/open/floor/plating,
 /area/nsv/magazine/starboard)
 "pK" = (
-/obj/structure/closet/crate,
-/obj/item/ship_weapon/ammunition/railgun_ammo,
-/obj/item/ship_weapon/ammunition/railgun_ammo,
-/obj/item/ship_weapon/ammunition/railgun_ammo,
-/obj/item/ship_weapon/ammunition/railgun_ammo,
-/obj/item/ship_weapon/ammunition/railgun_ammo,
 /obj/structure/sign/warning/explosives/alt{
 	pixel_y = 26
 	},
@@ -7585,25 +7570,7 @@
 /obj/machinery/computer/ship/viewscreen,
 /turf/open/floor/plating,
 /area/nsv/magazine/starboard)
-"pR" = (
-/obj/structure/closet/crate,
-/obj/item/ship_weapon/ammunition/railgun_ammo,
-/obj/item/ship_weapon/ammunition/railgun_ammo,
-/obj/item/ship_weapon/ammunition/railgun_ammo,
-/obj/item/ship_weapon/ammunition/railgun_ammo,
-/obj/item/ship_weapon/ammunition/railgun_ammo,
-/obj/item/ship_weapon/ammunition/railgun_ammo,
-/turf/open/floor/plating,
-/area/nsv/magazine/starboard)
 "pS" = (
-/obj/item/ship_weapon/ammunition/railgun_ammo,
-/obj/item/ship_weapon/ammunition/railgun_ammo{
-	pixel_y = 8
-	},
-/obj/item/ship_weapon/ammunition/railgun_ammo{
-	pixel_y = -8
-	},
-/obj/structure/rack,
 /turf/open/floor/plating,
 /area/nsv/magazine/starboard)
 "pT" = (
@@ -7921,24 +7888,19 @@
 /turf/open/floor/plating,
 /area/maintenance/department/bridge)
 "qC" = (
-/obj/structure/closet/crate,
-/obj/item/ship_weapon/ammunition/railgun_ammo,
-/obj/item/ship_weapon/ammunition/railgun_ammo,
-/obj/item/ship_weapon/ammunition/railgun_ammo,
-/obj/item/ship_weapon/ammunition/railgun_ammo,
-/obj/item/ship_weapon/ammunition/railgun_ammo,
-/obj/item/ship_weapon/ammunition/railgun_ammo,
-/obj/item/ammo_box/magazine/pdc{
-	pixel_y = 8
+/obj/item/ship_weapon/ammunition/torpedo,
+/obj/item/ship_weapon/ammunition/torpedo/hull_shredder{
+	pixel_y = 10
 	},
-/obj/item/ammo_box/magazine/pdc{
-	pixel_y = 8
+/obj/item/ship_weapon/ammunition/torpedo,
+/obj/item/ship_weapon/ammunition/missile{
+	pixel_y = -7
 	},
-/obj/item/ammo_box/magazine/pdc{
-	pixel_y = 8
+/obj/item/ship_weapon/ammunition/missile{
+	pixel_y = -7
 	},
-/obj/item/ammo_box/magazine/pdc{
-	pixel_y = 8
+/obj/item/ship_weapon/ammunition/missile{
+	pixel_y = -7
 	},
 /turf/open/floor/plating,
 /area/nsv/magazine/starboard)
@@ -7948,42 +7910,23 @@
 	dir = 5;
 	icon_state = "pipe11-1"
 	},
-/obj/structure/closet/crate,
-/obj/item/ship_weapon/ammunition/railgun_ammo{
-	pixel_y = 8
-	},
-/obj/item/ship_weapon/ammunition/railgun_ammo{
-	pixel_y = 8
-	},
-/obj/item/ship_weapon/ammunition/railgun_ammo{
-	pixel_y = 8
-	},
-/obj/item/ship_weapon/ammunition/railgun_ammo{
-	pixel_y = -8
-	},
-/obj/item/ship_weapon/ammunition/railgun_ammo{
-	pixel_y = -8
-	},
-/obj/item/ship_weapon/ammunition/railgun_ammo{
-	pixel_y = -8
-	},
-/obj/item/ship_weapon/ammunition/railgun_ammo,
-/obj/item/ship_weapon/ammunition/railgun_ammo,
-/obj/item/ship_weapon/ammunition/railgun_ammo,
-/obj/item/ship_weapon/ammunition/torpedo,
-/obj/item/ship_weapon/ammunition/torpedo,
-/obj/item/ship_weapon/ammunition/torpedo,
 /obj/item/ship_weapon/ammunition/torpedo,
 /obj/item/ship_weapon/ammunition/torpedo/hull_shredder{
 	pixel_y = 10
 	},
+/obj/item/ship_weapon/ammunition/torpedo,
+/obj/item/ship_weapon/ammunition/missile{
+	pixel_y = -7
+	},
+/obj/item/ship_weapon/ammunition/missile{
+	pixel_y = -7
+	},
+/obj/item/ship_weapon/ammunition/missile{
+	pixel_y = -7
+	},
 /turf/open/floor/plating,
 /area/nsv/magazine/starboard)
 "qE" = (
-/obj/item/ammo_box/magazine/pdc{
-	pixel_y = 8
-	},
-/obj/item/ammo_box/magazine/pdc,
 /obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1,
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3{
 	dir = 1
@@ -7992,6 +7935,20 @@
 	dir = 1;
 	pixel_y = -22
 	},
+/obj/item/ship_weapon/ammunition/torpedo,
+/obj/item/ship_weapon/ammunition/torpedo/hull_shredder{
+	pixel_y = 10
+	},
+/obj/item/ship_weapon/ammunition/torpedo,
+/obj/item/ship_weapon/ammunition/missile{
+	pixel_y = -7
+	},
+/obj/item/ship_weapon/ammunition/missile{
+	pixel_y = -7
+	},
+/obj/item/ship_weapon/ammunition/missile{
+	pixel_y = -7
+	},
 /turf/open/floor/plating,
 /area/nsv/magazine/starboard)
 "qF" = (
@@ -7999,34 +7956,19 @@
 	dir = 4;
 	icon_state = "pipe11-1"
 	},
-/obj/structure/closet/crate,
-/obj/item/ship_weapon/ammunition/railgun_ammo{
-	pixel_y = 8
-	},
-/obj/item/ship_weapon/ammunition/railgun_ammo{
-	pixel_y = 8
-	},
-/obj/item/ship_weapon/ammunition/railgun_ammo{
-	pixel_y = 8
-	},
-/obj/item/ship_weapon/ammunition/railgun_ammo{
-	pixel_y = -8
-	},
-/obj/item/ship_weapon/ammunition/railgun_ammo{
-	pixel_y = -8
-	},
-/obj/item/ship_weapon/ammunition/railgun_ammo{
-	pixel_y = -8
-	},
-/obj/item/ship_weapon/ammunition/railgun_ammo,
-/obj/item/ship_weapon/ammunition/railgun_ammo,
-/obj/item/ship_weapon/ammunition/railgun_ammo,
-/obj/item/ship_weapon/ammunition/torpedo,
-/obj/item/ship_weapon/ammunition/torpedo,
-/obj/item/ship_weapon/ammunition/torpedo,
 /obj/item/ship_weapon/ammunition/torpedo,
 /obj/item/ship_weapon/ammunition/torpedo/hull_shredder{
 	pixel_y = 10
+	},
+/obj/item/ship_weapon/ammunition/torpedo,
+/obj/item/ship_weapon/ammunition/missile{
+	pixel_y = -7
+	},
+/obj/item/ship_weapon/ammunition/missile{
+	pixel_y = -7
+	},
+/obj/item/ship_weapon/ammunition/missile{
+	pixel_y = -7
 	},
 /turf/open/floor/plating,
 /area/nsv/magazine/starboard)
@@ -8034,24 +7976,38 @@
 /obj/machinery/camera/autoname{
 	dir = 1
 	},
-/obj/item/ammo_box/magazine/pdc{
-	pixel_y = 8
-	},
-/obj/item/ammo_box/magazine/pdc,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	dir = 4;
 	icon_state = "pipe11-1"
+	},
+/obj/item/ship_weapon/ammunition/torpedo,
+/obj/item/ship_weapon/ammunition/torpedo/hull_shredder{
+	pixel_y = 10
+	},
+/obj/item/ship_weapon/ammunition/torpedo,
+/obj/item/ship_weapon/ammunition/missile{
+	pixel_y = -7
+	},
+/obj/item/ship_weapon/ammunition/missile{
+	pixel_y = -7
 	},
 /turf/open/floor/plating,
 /area/nsv/magazine/starboard)
 "qH" = (
-/obj/item/ammo_box/magazine/pdc{
-	pixel_y = 8
-	},
-/obj/item/ammo_box/magazine/pdc,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	dir = 4;
 	icon_state = "pipe11-1"
+	},
+/obj/item/ship_weapon/ammunition/torpedo,
+/obj/item/ship_weapon/ammunition/torpedo/hull_shredder{
+	pixel_y = 10
+	},
+/obj/item/ship_weapon/ammunition/torpedo,
+/obj/item/ship_weapon/ammunition/missile{
+	pixel_y = -7
+	},
+/obj/item/ship_weapon/ammunition/missile{
+	pixel_y = -7
 	},
 /turf/open/floor/plating,
 /area/nsv/magazine/starboard)
@@ -8061,56 +8017,23 @@
 	dir = 4;
 	icon_state = "pipe11-1"
 	},
-/obj/structure/closet/crate,
-/obj/item/ship_weapon/ammunition/railgun_ammo{
-	pixel_y = 8
-	},
-/obj/item/ship_weapon/ammunition/railgun_ammo{
-	pixel_y = 8
-	},
-/obj/item/ship_weapon/ammunition/railgun_ammo{
-	pixel_y = 8
-	},
-/obj/item/ship_weapon/ammunition/railgun_ammo{
-	pixel_y = -8
-	},
-/obj/item/ship_weapon/ammunition/railgun_ammo{
-	pixel_y = -8
-	},
-/obj/item/ship_weapon/ammunition/railgun_ammo{
-	pixel_y = -8
-	},
-/obj/item/ship_weapon/ammunition/railgun_ammo,
-/obj/item/ship_weapon/ammunition/railgun_ammo,
-/obj/item/ship_weapon/ammunition/railgun_ammo,
-/obj/item/ship_weapon/ammunition/torpedo,
-/obj/item/ship_weapon/ammunition/torpedo,
-/obj/item/ship_weapon/ammunition/torpedo,
 /obj/item/ship_weapon/ammunition/torpedo,
 /obj/item/ship_weapon/ammunition/torpedo/hull_shredder{
 	pixel_y = 10
 	},
+/obj/item/ship_weapon/ammunition/torpedo,
+/obj/item/ship_weapon/ammunition/missile{
+	pixel_y = -7
+	},
+/obj/item/ship_weapon/ammunition/missile{
+	pixel_y = -7
+	},
+/obj/item/ship_weapon/ammunition/missile{
+	pixel_y = -7
+	},
 /turf/open/floor/plating,
 /area/nsv/magazine/starboard)
 "qJ" = (
-/obj/structure/closet/crate,
-/obj/item/ship_weapon/ammunition/railgun_ammo,
-/obj/item/ship_weapon/ammunition/railgun_ammo,
-/obj/item/ship_weapon/ammunition/railgun_ammo,
-/obj/item/ship_weapon/ammunition/railgun_ammo,
-/obj/item/ship_weapon/ammunition/railgun_ammo,
-/obj/item/ammo_box/magazine/pdc{
-	pixel_y = 8
-	},
-/obj/item/ammo_box/magazine/pdc{
-	pixel_y = 8
-	},
-/obj/item/ammo_box/magazine/pdc{
-	pixel_y = 8
-	},
-/obj/item/ammo_box/magazine/pdc{
-	pixel_y = 8
-	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	dir = 9;
 	icon_state = "pipe11-1"
@@ -8122,11 +8045,17 @@
 	dir = 1;
 	pixel_y = -22
 	},
-/obj/item/ammo_box/magazine/pdc/flak,
-/obj/item/ammo_box/magazine/pdc/flak,
-/obj/item/ammo_box/magazine/pdc/flak,
-/obj/item/ammo_box/magazine/pdc/flak,
-/obj/item/ammo_box/magazine/pdc/flak,
+/obj/item/ship_weapon/ammunition/torpedo,
+/obj/item/ship_weapon/ammunition/torpedo/hull_shredder{
+	pixel_y = 10
+	},
+/obj/item/ship_weapon/ammunition/torpedo,
+/obj/item/ship_weapon/ammunition/missile{
+	pixel_y = -7
+	},
+/obj/item/ship_weapon/ammunition/missile{
+	pixel_y = -7
+	},
 /turf/open/floor/plating,
 /area/nsv/magazine/starboard)
 "qK" = (
@@ -11547,8 +11476,9 @@
 /turf/open/floor/plating,
 /area/hallway/nsv/deck1/frame3/central)
 "Bf" = (
-/turf/open/floor/plating/airless,
-/area/ai_monitored/storage/eva)
+/obj/machinery/computer/ship/viewscreen,
+/turf/open/floor/plating,
+/area/nsv/weapons)
 "Bk" = (
 /obj/structure/reagent_dispensers/foamtank,
 /turf/open/floor/plating,
@@ -12845,8 +12775,7 @@
 /turf/open/floor/plating,
 /area/nsv/weapons)
 "Mi" = (
-/obj/machinery/ship_weapon/pdc_mount/flak,
-/turf/open/floor/plating,
+/turf/open/openspace,
 /area/nsv/weapons)
 "Mm" = (
 /obj/effect/turf_decal/stripes/line{
@@ -13069,10 +12998,6 @@
 /obj/effect/landmark/start/fighter_pilot,
 /turf/open/floor/plating,
 /area/nsv/hanger/notkmcstupidhanger/hangar)
-"Oh" = (
-/obj/machinery/computer/ship/viewscreen,
-/turf/open/floor/plating,
-/area/nsv/weapons)
 "On" = (
 /turf/open/floor/plating{
 	icon_state = "panelscorched"
@@ -13930,10 +13855,6 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck1/airlock/forward/starboard)
-"UX" = (
-/obj/machinery/ship_weapon/pdc_mount/west,
-/turf/open/floor/plating,
-/area/nsv/weapons)
 "UY" = (
 /obj/machinery/door/airlock/ship/external{
 	req_one_access_txt = "13"
@@ -42575,8 +42496,8 @@ gO
 hA
 fe
 iQ
-UX
-UX
+ga
+ga
 ga
 yQ
 Jx
@@ -44118,8 +44039,8 @@ ek
 ek
 ek
 ek
-ek
-Oh
+Bf
+ga
 ls
 ga
 LE
@@ -44374,9 +44295,9 @@ NV
 NV
 Se
 Se
-NV
 ek
-Mi
+ga
+ga
 VW
 ga
 ga
@@ -44631,9 +44552,9 @@ NV
 NV
 NV
 NV
-NV
 ek
-Mi
+ga
+ga
 Qk
 YB
 YB
@@ -44888,9 +44809,9 @@ NV
 NV
 Se
 Se
-NV
 ek
 Mi
+ga
 lw
 Yz
 Yz
@@ -44900,7 +44821,7 @@ YB
 oM
 pq
 pQ
-pS
+qC
 pq
 sa
 sM
@@ -45145,7 +45066,7 @@ NV
 NV
 NV
 NV
-NV
+ek
 ek
 kI
 YB
@@ -45156,8 +45077,8 @@ YB
 kI
 oK
 pq
-pR
 pS
+qC
 pq
 rU
 rU
@@ -45910,7 +45831,7 @@ Pk
 zQ
 Pk
 Ws
-Bf
+NV
 Yw
 NV
 NV
@@ -46167,8 +46088,8 @@ MK
 MK
 MK
 Ws
-Bf
-xF
+NV
+NV
 NV
 NV
 NV
