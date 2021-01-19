@@ -727,6 +727,76 @@
 	name = "Hammurabi exterior"
 	icon_state = "space_near"
 
+//Secondary ships
+
+/area/hallway/secondary_ship
+	name = "Deck 2 Central Primary Hallway (Secondary ship)"
+
+/area/hallway/secondary/secondary_ship
+	name = "Deck 1 Central Primary Hallway (Secondary ship)"
+/area/medical/secondary_ship
+	name = "Medical Bay (Secondary Ship)"
+
+/area/tcommsat/secondary_ship
+	name = "Tcomms (Secondary Ship)"
+
+/area/bridge/secondary_ship
+	name = "CIC (Secondary Ship)"
+
+/area/engine/secondary_ship
+	name = "Engineering (Secondary Ship)"
+
+/area/nsv/hanger/secondary_ship
+	name = "Hangar (Secondary Ship)"
+	icon_state = "engine"
+
+/area/nsv/weapons/secondary_ship
+	name = "Munitions Bay (Secondary Ship)"
+
+/area/maintenance/secondary_ship
+	name = "Maintenance (Secondary Ship)"
+	icon_state = "maintenance"
+
+/area/maintenance/secondary_ship/deckone
+	name = "Deck 1 Maintenance (Secondary Ship)"
+
+/area/brig/secondary_ship
+	name = "Brig (Secondary Ship)"
+	icon_state = "brig"
+
+/area/science/secondary_ship
+	name = "Research & Development (Secondary Ship)"
+
+/area/quartermaster/storage/secondary_ship
+	name = "Cargo Bay (Secondary Ship)"
+
+/area/crew_quarters/bar/secondary_ship
+	name = "Bar (Secondary Ship)"
+
+/area/crew_quarters/dorms/secondary_ship
+	name = "Dorms (Secondary Ship)"
+
+/area/hydroponics/secondary_ship
+	name = "Hydroponics (Secondary Ship)"
+
+/area/hallway/secondary/secondary_ship/gauss
+	name = "Gauss (Secondary Ship)"
+
+/area/shuttle/turbolift/secondary_ship
+	name = "Primary Turbolift (Secondary Ship)"
+
+/area/shuttle/turbolift/secondary_ship/two
+	name = "Secondary Turbolift (Secondary Ship)"
+
+/area/shuttle/turbolift/secondary_ship/three
+	name = "Tertiary Turbolift (Secondary Ship)"
+
+/area/shuttle/turbolift/secondary_ship/four
+	name = "Quanery Turbolift (Secondary Ship)"
+
+/area/shuttle/turbolift/secondary_ship/five
+	name = "Quintessential Turbolift (Secondary Ship)"
+
 /area/Entered(atom/movable/M)
 	// Ambience goes down here -- make sure to list each area separately for ease of adding things in later, thanks! Note: areas adjacent to each other should have the same sounds to prevent cutoff when possible.- LastyScratch
 	set waitfor = FALSE

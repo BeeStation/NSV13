@@ -140,6 +140,12 @@
 	integrity_failure = 1000
 	starting_system = "Argo"
 
+/obj/structure/overmap/nanotrasen/missile_cruiser/atlas //Currently assigned to NSV Atlas, the secondary ship.
+	role = PVP_SHIP
+	max_integrity = 1000 //Trust me on this one.
+	integrity_failure = 1000
+	starting_system = "Wolf 359" //"Guaranteed" safe spot for a midround spawn
+
 /obj/structure/overmap/nanotrasen/patrol_cruiser/starter //Currently assigned to Jolly Sausage
 	role = MAIN_OVERMAP
 	max_integrity = 1000
