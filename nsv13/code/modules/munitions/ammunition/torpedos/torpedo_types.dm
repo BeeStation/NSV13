@@ -7,6 +7,7 @@
 	climbable = TRUE //No shenanigans
 	climb_time = 40
 	climb_stun = 0 
+	w_class = WEIGHT_CLASS_GIGANTIC
 	move_resist = MOVE_FORCE_EXTREMELY_STRONG
 	interaction_flags_item = 0 // -INTERACT_ITEM_ATTACK_HAND_PICKUP
 	projectile_type = /obj/item/projectile/guided_munition/torpedo //What torpedo type we fire
