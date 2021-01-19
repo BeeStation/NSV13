@@ -634,7 +634,7 @@
 	icon_state = "trekjacket_formal"
 	item_color = "trekjacket_formal"
 	item_state = "trekjacket_formal"
-
+ 
 /datum/action/item_action/nsv13_jacket_swap
 	name = "Toggle jacket style"
 	desc = "Display or hide your departmental colours for your suit jacket by reversing its shoulder pads."
