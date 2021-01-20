@@ -4848,6 +4848,9 @@
 /obj/machinery/atmospherics/pipe/simple/cyan/visible/layer1{
 	dir = 4
 	},
+/obj/machinery/meter{
+	pixel_y = -5
+	},
 /turf/open/floor/monotile/dark,
 /area/engine/atmos)
 "dox" = (
@@ -6139,7 +6142,8 @@
 	dir = 4
 	},
 /obj/machinery/atmospherics/components/binary/pump/on/layer1{
-	name = "Airmix to Distribution"
+	name = "Airmix to Distribution";
+	pixel_x = -1
 	},
 /obj/machinery/atmospherics/pipe/simple/green/visible{
 	dir = 4
@@ -6389,6 +6393,7 @@
 "enS" = (
 /obj/machinery/atmospherics/components/trinary/mixer/on/layer1{
 	dir = 8;
+	name = "O2/N2 to Airmix";
 	node1_concentration = 0.21;
 	node2_concentration = 0.79
 	},
@@ -12150,6 +12155,9 @@
 	dir = 1
 	},
 /obj/machinery/atmospherics/pipe/simple/supply/visible/layer1,
+/obj/machinery/meter/atmos/distro_loop{
+	pixel_x = -5
+	},
 /turf/open/floor/monotile,
 /area/engine/atmos)
 "hup" = (
@@ -20479,7 +20487,6 @@
 /area/engine/engineering/reactor_core)
 "moM" = (
 /obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer3,
-/obj/machinery/meter,
 /turf/open/floor/plasteel/grid/steel,
 /area/engine/atmos)
 "moO" = (
@@ -23569,7 +23576,9 @@
 "odu" = (
 /obj/machinery/atmospherics/components/trinary/mixer{
 	dir = 8;
-	name = "Rx Mix/GenMix to Rx tank"
+	name = "Rx Mix/GenMix to Rx tank";
+	node1_concentration = 0.0;
+	node2_concentration = 1.0
 	},
 /turf/open/floor/plasteel/grid/lino,
 /area/engine/engineering/reactor_control)
@@ -24444,7 +24453,9 @@
 	icon_state = "2-4"
 	},
 /obj/structure/lattice/catwalk/over/ship,
-/obj/machinery/atmospherics/pipe/simple/purple/hidden,
+/obj/machinery/atmospherics/pipe/simple/purple/hidden{
+	dir = 4
+	},
 /turf/open/floor/plating,
 /area/engine/engineering/reactor_core)
 "oFJ" = (
@@ -24518,7 +24529,6 @@
 /turf/open/floor/monotile,
 /area/lawoffice)
 "oIG" = (
-/obj/machinery/meter,
 /obj/machinery/atmospherics/pipe/simple/supply/visible/layer1{
 	dir = 9
 	},
@@ -25071,7 +25081,8 @@
 /turf/open/floor/plasteel/techmaint,
 /area/quartermaster/warehouse)
 "pca" = (
-/obj/machinery/atmospherics/pipe/layer_manifold/visible,
+/obj/machinery/atmospherics/pipe/simple/green/visible,
+/obj/machinery/meter/atmos/atmos_waste_loop,
 /turf/open/floor/monotile,
 /area/engine/atmos)
 "pcg" = (
@@ -34148,7 +34159,8 @@
 "ujx" = (
 /obj/machinery/atmospherics/components/binary/magnetic_constrictor{
 	dir = 4;
-	layer = 2
+	layer = 2;
+	pixel_y = 5
 	},
 /turf/open/floor/plasteel/grid/steel,
 /area/engine/atmos)
@@ -34682,7 +34694,6 @@
 /obj/machinery/atmospherics/pipe/simple/cyan/visible/layer1{
 	dir = 5
 	},
-/obj/machinery/meter,
 /turf/open/floor/plasteel/grid/steel,
 /area/engine/atmos)
 "uzw" = (
@@ -65242,7 +65253,7 @@ drp
 jlg
 tol
 pca
-cMW
+rZj
 moM
 fFK
 fFK
