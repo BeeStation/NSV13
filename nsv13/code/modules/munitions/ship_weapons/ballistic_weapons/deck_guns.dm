@@ -221,6 +221,7 @@
 	icon = 'nsv13/icons/obj/munitions/deck_gun.dmi'
 	icon_state = "powder"
 	density = TRUE
+	w_class = WEIGHT_CLASS_HUGE // Bag is big
 	var/volatility = 1 //Gunpowder is volatile...
 	var/power = 0.5
 
@@ -242,7 +243,8 @@
 	icon_state = "torpedo"
 	desc = "A large shell designed to deliver a high-yield warhead upon high-speed impact with solid objects. You need to arm it with a multitool before firing."
 	anchored = FALSE
-	move_resist = MOVE_FORCE_EXTREMELY_STRONG
+	w_class = WEIGHT_CLASS_HUGE
+	move_resist = MOVE_FORCE_EXTREMELY_STRONG //Possible to pick up with two hands
 	density = TRUE
 	projectile_type = /obj/item/projectile/bullet/mac_round //What torpedo type we fire
 	obj_integrity = 300 //Beefy, relatively hard to use as a grief tool.
@@ -267,6 +269,10 @@
 	projectile_type = /obj/item/projectile/bullet/mac_round/cannonshot
 	obj_integrity = 100
 	max_integrity = 100
+	w_class = WEIGHT_CLASS_GIGANTIC
+	climbable = TRUE //No ballin'
+	climb_time = 25
+	climb_stun = 3
 	explosive = FALSE //Cannonshot is just iron
 	volatility = 0
 	explode_when_hit = FALSE //Literally just iron
