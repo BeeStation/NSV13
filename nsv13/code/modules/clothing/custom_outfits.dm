@@ -61,6 +61,7 @@
 	internals_slot = SLOT_S_STORE
 	ears = /obj/item/radio/headset/pirate
 	id = /obj/item/card/id
+	r_pocket = /obj/item/gps
 
 /datum/outfit/pirate/space/boarding/lead
 	name = "Space Pirate Boarder - Lead Kit"
@@ -78,7 +79,7 @@
 	name = "Space Pirate Boarder - Gunner Kit"
 	r_hand = /obj/item/gun/ballistic/rifle/boltaction
 	l_pocket = /obj/item/kitchen/knife/combat/survival
-	backpack_contents = list(/obj/item/ammo_box/magazine/internal/boltaction=4)
+	backpack_contents = list(/obj/item/ammo_box/a762=4)
 
 /obj/item/storage/box/hug/clown_uniform
 	name = "Clown's formal attire"
