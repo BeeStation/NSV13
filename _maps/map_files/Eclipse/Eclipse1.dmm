@@ -2337,11 +2337,9 @@
 /turf/closed/wall/r_wall,
 /area/crew_quarters/bar)
 "kk" = (
-/obj/machinery/computer/fiftycal{
-	dir = 8
-	},
-/turf/open/floor/monotile/dark,
-/area/nsv/weapons/fore)
+/obj/item/candle,
+/turf/open/floor/plating,
+/area/maintenance/fore/secondary)
 "km" = (
 /obj/structure/bed,
 /obj/item/bedsheet/dorms,
@@ -3068,10 +3066,31 @@
 /obj/structure/floodlight_frame,
 /turf/open/floor/monotile,
 /area/engine/gravity_generator)
-"mX" = (
-/obj/item/toy/plush/lizardplushie,
+"mV" = (
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
+/obj/structure/fluff/divine/nexus{
+	anchored = 0;
+	can_be_unanchored = 1;
+	color = "#990000";
+	desc = "A mysterious object covered in indecipherable runes. It whispers to you with honeyed words, seeking devotion.";
+	light_color = "#990000";
+	light_range = 1;
+	name = "The Artifact"
+	},
+/obj/effect/decal/cleanable/crayon,
 /turf/open/floor/plating,
 /area/maintenance/fore/secondary)
+"mX" = (
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/obj/machinery/computer/console_placholder/end{
+	dir = 5
+	},
+/turf/open/floor/monotile/dark,
+/area/nsv/weapons/fore)
 "mY" = (
 /obj/effect/turf_decal/tile/blue,
 /obj/effect/turf_decal/tile/blue{
@@ -3531,6 +3550,7 @@
 /obj/machinery/light{
 	dir = 1
 	},
+/obj/effect/turf_decal/loading_area,
 /turf/open/floor/monotile/dark,
 /area/nsv/weapons/fore)
 "ph" = (
@@ -4923,6 +4943,14 @@
 /obj/effect/landmark/blobstart,
 /turf/open/floor/plating,
 /area/maintenance/department/crew_quarters/bar)
+"vo" = (
+/obj/machinery/computer/fiftycal{
+	dir = 8;
+	icon = 'nsv13/goonstation/icons/obj/computer.dmi';
+	icon_screen = "generic"
+	},
+/turf/open/floor/monotile/dark,
+/area/nsv/weapons/fore)
 "vr" = (
 /obj/machinery/advanced_airlock_controller{
 	pixel_x = 26;
@@ -5771,6 +5799,7 @@
 /obj/structure/cable{
 	icon_state = "1-2"
 	},
+/obj/item/candle,
 /turf/open/floor/plating,
 /area/maintenance/fore/secondary)
 "zo" = (
@@ -6774,6 +6803,10 @@
 	dir = 8
 	},
 /area/hallway/primary/aft)
+"Dy" = (
+/obj/effect/turf_decal/loading_area,
+/turf/open/floor/monotile/dark,
+/area/nsv/weapons/fore)
 "DA" = (
 /obj/structure/cable{
 	icon_state = "2-4"
@@ -7850,6 +7883,7 @@
 	},
 /obj/structure/rack,
 /obj/effect/spawner/lootdrop/maintenance,
+/obj/item/computer_hardware/hard_drive/portable,
 /turf/open/floor/plasteel/dark,
 /area/hallway/secondary/construction)
 "HU" = (
@@ -8138,10 +8172,7 @@
 /obj/structure/cable{
 	icon_state = "4-8"
 	},
-/obj/machinery/door/airlock/ship/maintenance{
-	dir = 4
-	},
-/turf/open/floor/plating,
+/turf/closed/wall/r_wall,
 /area/maintenance/fore/secondary)
 "Jm" = (
 /obj/structure/table/wood,
@@ -8820,7 +8851,6 @@
 	},
 /area/construction)
 "My" = (
-/obj/effect/decal/cleanable/oil/slippery,
 /obj/structure/cable{
 	icon_state = "4-8"
 	},
@@ -10332,7 +10362,6 @@
 /turf/open/floor/plasteel/dark,
 /area/crew_quarters/bar)
 "SQ" = (
-/obj/item/toy/plush/lizardplushie,
 /obj/item/trash/raisins,
 /turf/open/floor/plating,
 /area/maintenance/fore/secondary)
@@ -11641,6 +11670,12 @@
 	dir = 4
 	},
 /area/hallway/primary/aft)
+"YA" = (
+/obj/machinery/computer/console_placholder/end{
+	dir = 5
+	},
+/turf/open/floor/monotile/dark,
+/area/nsv/weapons/fore)
 "YC" = (
 /obj/structure/table/reinforced,
 /obj/item/hand_labeler,
@@ -11894,6 +11929,7 @@
 /obj/structure/cable{
 	icon_state = "1-8"
 	},
+/obj/item/candle,
 /turf/open/floor/plating,
 /area/maintenance/fore/secondary)
 "ZB" = (
@@ -43961,7 +43997,7 @@ pg
 It
 Zb
 Fu
-Fu
+Dy
 It
 Zb
 My
@@ -44255,14 +44291,14 @@ fi
 yl
 hz
 rX
-kk
-Fu
-kk
-Fu
-kk
-Fu
-kk
-hf
+vo
+YA
+vo
+YA
+vo
+YA
+vo
+mX
 rX
 gY
 gX
@@ -44769,13 +44805,13 @@ nN
 SS
 hz
 sN
-mX
+xI
 xI
 sN
 xI
 sN
 xI
-xI
+kk
 cM
 sN
 gY
@@ -45032,7 +45068,7 @@ Vq
 Hh
 EA
 zh
-zh
+mV
 ZA
 sN
 gY
