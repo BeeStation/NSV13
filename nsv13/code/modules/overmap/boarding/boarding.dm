@@ -135,7 +135,7 @@ GLOBAL_LIST_INIT(drop_trooper_teams, list("Noble", "Helljumper","Red", "Black", 
 		message_admins("Failed to spawn boarders for [name] due to admin boarding override.")
 		return FALSE //Allows the admins to disable boarders for event rounds
 	var/player_check = get_active_player_count(alive_check = TRUE, afk_check = TRUE, human_check = TRUE)
-	if(player_check < 0) // Remove the low pop boarder camping
+	if(player_check < 20) // Remove the low pop boarder camping
 		message_admins("Failed to spawn boarders for [name] due to insufficient player count.")
 		return FALSE
 	if(faction_selection == "syndicate")
