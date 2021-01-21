@@ -176,6 +176,8 @@
 
 	else if(istype(AM, /obj/structure/closet))
 		return FALSE
+	else if(istype(AM, /obj/item/ship_weapon/ammunition/torpedo))
+		return FALSE
 	else if(isobj(AM))
 		if((!allow_dense && AM.density) || AM.anchored || AM.has_buckled_mobs())
 			return FALSE

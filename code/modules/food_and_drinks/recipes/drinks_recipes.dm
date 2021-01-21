@@ -840,3 +840,11 @@
 	id = /datum/reagent/consumable/ethanol/beesknees
 	results = list(/datum/reagent/consumable/ethanol/beesknees = 4)
 	required_reagents = list(/datum/reagent/consumable/ethanol/mead = 1, /datum/reagent/consumable/honey = 1, /datum/reagent/consumable/ethanol/whiskey = 1, /datum/reagent/consumable/lemonjuice = 1)
+
+/datum/chemical_reaction/torp_juice
+	name = "Torpedo Juice"
+	id = /datum/reagent/consumable/ethanol/torp_juice
+	results = list(/datum/reagent/consumable/ethanol/torp_juice = 5)
+	required_reagents = list(/datum/reagent/consumable/lemon_lime = 3,  /datum/reagent/consumable/ethanol = 2)
+	mix_message = "The mixture violently and loudly reacts, but settles down immediately. Almost makes you wish for a nuclear winter."
+	mix_sound = 'sound/effects/explosion1.ogg'

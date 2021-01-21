@@ -5,14 +5,13 @@
 	icon = 'nsv13/icons/overmap/neutralstation.dmi'
 	icon_state = "combust"
 	damage_states = FALSE //Not yet implemented
-	collision_positions = list(new /datum/vector2d(-7,73), new /datum/vector2d(-83,46), new /datum/vector2d(-106,14), new /datum/vector2d(-106,-11), new /datum/vector2d(-81,-41), new /datum/vector2d(-9,-67), new /datum/vector2d(10,-69), new /datum/vector2d(87,-35), new /datum/vector2d(107,-8), new /datum/vector2d(108,13), new /datum/vector2d(85,46), new /datum/vector2d(10,73))
 	faction = "nanotrasen"//Placeholder, set by trader.
 	mass = MASS_TITAN
 	brakes = TRUE
-	pixel_z = -96
-	pixel_w = -96
 	obj_integrity = 3000 //Really robust, but not invincible.
 	max_integrity = 3000
+	bound_width = 224
+	bound_height = 224
 	req_one_access = list(ACCESS_CARGO, ACCESS_SYNDICATE)
 	var/datum/trader/inhabited_trader = null
 
@@ -34,7 +33,6 @@
 /obj/structure/overmap/trader/shipyard
 	name = "Shipyard"
 	icon_state = "robust"
-	collision_positions = list(new /datum/vector2d(-6,87), new /datum/vector2d(-75,14), new /datum/vector2d(-76,-6), new /datum/vector2d(-8,-85), new /datum/vector2d(19,-72), new /datum/vector2d(85,-14), new /datum/vector2d(85,10), new /datum/vector2d(55,57), new /datum/vector2d(20,72))
 
 /obj/structure/overmap/trader/syndicate
 	name = "Arms Depot"
@@ -97,7 +95,7 @@
 /datum/trader_item/railgun
 	name = "Railgun Kit"
 	desc = "Everything you need to build a ship to ship railgun."
-	price = 7500
+	price = 6000
 	stock = 1
 	unlock_path = /obj/structure/closet/crate/secure/weapon/trader_arms/railgun
 

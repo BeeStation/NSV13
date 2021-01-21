@@ -23,3 +23,16 @@
 	new /obj/item/ammo_casing/shotgun/beanbag(src)
 	new /obj/item/ammo_casing/shotgun/beanbag(src)
 	new /obj/item/ammo_casing/shotgun/beanbag(src)
+
+/obj/item/storage/box/cookie
+	name = "box of cookies"
+	desc = "It contains a few cookies for good patients."
+
+/obj/item/storage/box/cookie/PopulateContents()
+	new /obj/item/reagent_containers/food/snacks/cookie( src )
+	new /obj/item/reagent_containers/food/snacks/cookie( src )
+	new /obj/item/reagent_containers/food/snacks/cookie( src )
+	new /obj/item/reagent_containers/food/snacks/oatmealcookie( src )
+	new /obj/item/reagent_containers/food/snacks/oatmealcookie( src )
+	new /obj/item/reagent_containers/food/snacks/sugarcookie/spookyskull( src )
+	new /obj/item/reagent_containers/food/snacks/sugarcookie/spookyskull( src )

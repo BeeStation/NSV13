@@ -345,6 +345,10 @@
 	icon_state = "wall"
 	var/inflatable_type = /obj/item/inflatable
 
+/obj/structure/inflatable/Initialize()
+	. = ..()
+	air_update_turf(TRUE)
+
 /obj/structure/inflatable/obj_destruction()
 	deflate(TRUE)
 	return ..()

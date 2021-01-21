@@ -17,7 +17,7 @@
 	var/datum/star_system/selected_system = null
 	var/screen = STARMAP
 	var/can_control_ship = TRUE
-	var/current_sector = 1
+	var/current_sector = 2
 
 /obj/machinery/computer/ship/navigation/public
 	can_control_ship = FALSE
@@ -123,8 +123,10 @@
 				label += " HYPERGATE"
 			if(system.is_capital && !label)
 				label = "CAPITAL"
-			if(system.trader)
+			if(system.trader && system.sector != 3) //Use shortnames in brazil for readability
 				label = " [system.trader.name]"
+			if(system.trader && system.sector == 3) //Use shortnames in brazil for readability
+				label = " [system.trader.shortname]"
 			if(system.mission_sector)
 				label += " OCCUPIED"
 			if(system.objective_sector)

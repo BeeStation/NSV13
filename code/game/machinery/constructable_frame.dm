@@ -262,6 +262,7 @@
 						to_chat(user, "<span class='notice'>You add [P] to [src].</span>")
 						components += P
 						req_components[I]--
+						P.forceMove(src) //For stuff like twohandeds.
 						return 1
 				to_chat(user, "<span class='warning'>You cannot add that to the machine!</span>")
 				return 0

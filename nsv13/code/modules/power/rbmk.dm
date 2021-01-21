@@ -458,6 +458,7 @@ The reactor CHEWS through moderator. It does not do this slowly. Be very careful
 	T.assume_air(coolant_output)
 	explosion(get_turf(src), 0, 5, 10, 20, TRUE, TRUE)
 	empulse(get_turf(src), 25, 15)
+	fail_meltdown_objective()
 
 //Failure condition 2: Blowout. Achieved by reactor going over-pressured. This is a round-ender because it requires more fuckery to achieve.
 /obj/machinery/atmospherics/components/trinary/nuclear_reactor/proc/blowout()
@@ -472,6 +473,15 @@ The reactor CHEWS through moderator. It does not do this slowly. Be very careful
 			var/obj/effect/landmark/nuclear_waste_spawner/WS = X
 			if(shares_overmap(src, WS)) //Begin the SLUDGING
 				WS.fire()
+
+/obj/machinery/atmospherics/components/trinary/nuclear_reactor/proc/fail_meltdown_objective()
+	for(var/client/C in GLOB.clients)
+		if(C)
+			if(CONFIG_GET(flag/allow_crew_objectives))
+				var/mob/M = C.mob
+				if(M?.mind?.current && LAZYLEN(M.mind.crew_objectives) && (M.job == "Station Engineer" || M.job == "Chief Engineer" || M.job == "Atmospheric Technician"))
+					for(var/datum/objective/crew/meltdown/MO in M.mind.crew_objectives)
+						MO.meltdown = TRUE
 
 /obj/machinery/atmospherics/components/trinary/nuclear_reactor/update_icon()
 	icon_state = "reactor_off"
@@ -544,6 +554,9 @@ The reactor CHEWS through moderator. It does not do this slowly. Be very careful
 /obj/machinery/computer/reactor
 	name = "Reactor control console"
 	desc = "Scream"
+	light_color = "#55BA55"
+	light_power = 1
+	light_range = 3
 	icon_state = "oldcomp"
 	icon_screen = "library"
 	icon_keyboard = null

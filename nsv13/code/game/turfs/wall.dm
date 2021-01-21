@@ -91,7 +91,7 @@
 /turf/closed/wall/mineral/wood
 	icon_state = "wood"
 	icon = 'nsv13/icons/turf/wall_masks.dmi'
-	color = "#C19A6B"
+	color = "#654D31"
 
 //Turfs that are still oblique. Fix these later.
 

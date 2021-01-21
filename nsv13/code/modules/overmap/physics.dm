@@ -70,7 +70,13 @@ This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATE
 //Helper proc to get the actual center of the ship, if the ship's hitbox is placed in the bottom left corner like they usually are.
 
 /obj/structure/overmap/proc/get_center()
-	return get_turf(locate((src.x+(pixel_collision_size_x/32)/2), src.y+((pixel_collision_size_y/32)/2), z))
+	RETURN_TYPE(/turf)
+	return (bound_height > 32 && bound_height > 32) ? get_turf(locate((src.x+(pixel_collision_size_x/32)/2), src.y+((pixel_collision_size_y/32)/2), z)) : get_turf(src)
+	/*
+	if(bound_width <= 64)
+		return get_turf(src)
+	return locs[round(locs.len / 2)+1]
+	*/
 
 /obj/structure/overmap/proc/get_pixel_bounds()
 	for(var/turf/T in obounds(src, pixel_x + pixel_collision_size_x/4, pixel_y + pixel_collision_size_y/4, pixel_x  + -pixel_collision_size_x/4, pixel_y + -pixel_collision_size_x/4) )//Forms a zone of 4 quadrants around the desired overmap using some math fuckery.
@@ -115,14 +121,21 @@ This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATE
 	if(collision_positions.len)
 		physics2d = AddComponent(/datum/component/physics2d)
 		physics2d.setup(collision_positions, angle)
-	else
-		message_admins("[src] does not have collision points set! It will float through everything.")
+//	else //It pains me to comment this out...but we no longer use qwer2d, F.
+	//	message_admins("[src] does not have collision points set! It will float through everything.")
 
 /obj/structure/overmap/proc/can_move()
 	return TRUE //Placeholder for everything but fighters. We can later extend this if / when we want to code in ship engines.
 
-/obj/structure/overmap/slowprocess()
-	. = ..()
+/obj/structure/overmap/proc/slowprocess()
+	set waitfor = FALSE
+	//SS Crit Timer
+	if(structure_crit)
+		if(world.time > last_critprocess + 1 SECONDS)
+			last_critprocess = world.time
+			handle_critical_failure_part_1()
+	ai_process()
+	//Atmos stuff, this updates once every tick
 	if(cabin_air && cabin_air.return_volume() > 0)
 		var/delta = cabin_air.return_temperature() - T20C
 		cabin_air.set_temperature(cabin_air.return_temperature() - max(-10, min(10, round(delta/4,0.1))))
@@ -138,7 +151,7 @@ This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATE
 				var/datum/gas_mixture/removed = tank_air.remove(transfer_moles)
 				cabin_air.merge(removed)
 		else if(pressure_delta < 0) //cabin pressure higher than release pressure
-			var/turf/T = get_turf(src)
+			var/turf/T = get_center()
 			var/datum/gas_mixture/t_air = T.return_air()
 			pressure_delta = cabin_pressure - release_pressure
 			if(t_air)
@@ -151,31 +164,12 @@ This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATE
 				else //just delete the cabin gas, we're in space or some shit
 					qdel(removed)
 
-/*
-
-This proc allows overmaps to survive even in the laggiest of server conditions. Overmaps MUST always process, and sometimes the game will throttle the subsystems during lag. We cannot, however, live without them. That's where this beauty comes into play.
-Basically, when we process, we store the last time we were able to be processed. If the last time we were processed was 1 or more seconds ago, then we take control of our own processing with a while() loop.
-The while loop runs at a programatic level and is thus separated from any throttling that the server may put in place. 5 minutes after starting the failsafe processing, we'll see if the game is ready to take back control or not.
-
-*/
-
-/obj/structure/overmap/proc/start_failsafe_processing()
-	set waitfor = FALSE //Don't hang the process call.
-	processing_failsafe = TRUE
-	addtimer(VARSET_CALLBACK(src, processing_failsafe, FALSE), 10 MINUTES) //At this point, the game is under immense strain. In a few minutes time we'll attempt to hand back control to processing, but for now, we're going to handle it ourselves.
-	while(processing_failsafe)
-		stoplag() //Lock up the thread for a bit, throttle the process down to whatever the server can handle right now.
-		if(last_process < world.time - 0.5 SECONDS)
-			process()
-
 /obj/structure/overmap/process()
 	set waitfor = FALSE
 	var/time = min(world.time - last_process, 10)
-	time /= 10 // fuck off deciseconds
-//	if(last_process > 0 && (last_process < world.time - 1 SECONDS) && !processing_failsafe) //Alright looks like the game's shat itself. Time to engage "failsafe mode". The logic of this is that if we've not been processed for over 1 second, then ship piloting starts to become unbearable and we need to step in and do our own processing, until the game's back on its feet again.
-//		start_failsafe_processing()
+	time /= 10 // fuck off deciseconds - I don't even know what you were thinking here Monster, but okay.
 	last_process = world.time
-	if(world.time > last_slowprocess + 7)
+	if(world.time > last_slowprocess + 0.7 SECONDS)
 		last_slowprocess = world.time
 		slowprocess()
 	last_offset.copy(offset)
@@ -196,12 +190,6 @@ The while loop runs at a programatic level and is thus separated from any thrott
 		else
 			desired_angular_velocity = -2 * sqrt((angle - desired_angle) * max_angular_acceleration * 0.25)
 
-	//SS Crit Timer
-	if(structure_crit)
-		if(world.time > last_critprocess + 10)
-			last_critprocess = world.time
-			handle_critical_failure_part_1()
-
 	var/angular_velocity_adjustment = CLAMP(desired_angular_velocity - angular_velocity, -max_angular_acceleration*time, max_angular_acceleration*time)
 	if(angular_velocity_adjustment)
 		last_rotate = angular_velocity_adjustment / time
@@ -212,20 +200,21 @@ The while loop runs at a programatic level and is thus separated from any thrott
 	// calculate drag and shit
 
 	var/velocity_mag = velocity.ln() // magnitude
-	if(velocity_mag)
+	if(velocity_mag  && velocity_mag > 0 && !SSmapping.level_trait(src.z, ZTRAIT_OVERMAP))
 		var/drag = 0
+		var/has_gravity = get_center().has_gravity()
 		for(var/turf/T in locs)
 			if(isspaceturf(T))
 				continue
 			drag += 0.001
 			var/floating = FALSE
-			if(T.has_gravity() && velocity_mag >= 4)
+			if(has_gravity && velocity_mag >= 4)
 				floating = TRUE // Count them as "flying" if theyre going fast enough indoors. If you slow down, you start to scrape due to no lift or something
 			var/datum/gas_mixture/env = T.return_air()
 			var/pressure = env.return_pressure()
 			drag += velocity_mag * pressure * 0.001 // 1 atmosphere should shave off 10% of velocity per tile
 			if(pressure >= 10) //Space doesn't have air resistance or much gravity, so we'll assume theyre floating if theyre in space.
-				if((!floating && T.has_gravity())) // brakes are a kind of magboots okay?
+				if((!floating && has_gravity)) // brakes are a kind of magboots okay?
 					drag += 0.5 // some serious drag. Damn.
 					if(velocity_mag <= 2 && istype(T, /turf/open/floor) && prob(30))
 						var/turf/open/floor/TF = T
@@ -289,13 +278,12 @@ The while loop runs at a programatic level and is thus separated from any thrott
 	velocity.y += thrust_y * time
 	if(inertial_dampeners) //An optional toggle to make capital ships more "fly by wire" and help you steer in only the direction you want to go.
 		var/side_movement = (sx*velocity.x) + (sy*velocity.y)
-		var/friction_impulse = side_maxthrust * time
+		var/friction_impulse = ((mass / 10) + side_maxthrust) * time //Weighty ships generate more space friction
 		var/clamped_side_movement = CLAMP(side_movement, -friction_impulse, friction_impulse)
 		velocity.x -= clamped_side_movement * sx
 		velocity.y -= clamped_side_movement * sy
 
-	offset.x += velocity.x * time
-	offset.y += velocity.y * time
+	offset._set(offset.x + velocity.x * time, offset.y +  velocity.y * time, sanity=TRUE)
 
 	position._set(x * 32 + offset.x * 32, y * 32 + offset.y * 32)
 
@@ -403,6 +391,7 @@ The while loop runs at a programatic level and is thus separated from any thrott
 	pixel_y = last_offset.y*32
 
 	animate(src, transform=mat_to, pixel_x = offset.x*32, pixel_y = offset.y*32, time = time*10, flags=ANIMATION_END_NOW)
+	/*
 	if(last_target)
 		var/target_angle = Get_Angle(src,last_target)
 		var/matrix/final = matrix()
@@ -411,6 +400,7 @@ The while loop runs at a programatic level and is thus separated from any thrott
 			last_fired.transform = final
 	else if(last_fired)
 		last_fired.transform = mat_to
+	*/ //We don't use these overlays for now, but we may wish to later.
 
 	for(var/mob/living/M in operators)
 		var/client/C = M.client
@@ -438,6 +428,18 @@ The while loop runs at a programatic level and is thus separated from any thrott
 		var/obj/structure/overmap/fighter/F = src
 		if(F.docking_act(other))
 			return FALSE
+	//No colliders? We get the simple version.
+	if(!c_response)
+		handle_cloak(CLOAK_TEMPORARY_LOSS)
+		if(other.dir & NORTH)
+			velocity.y += bump_impulse
+		if(other.dir & SOUTH)
+			velocity.y -= bump_impulse
+		if(other.dir & EAST)
+			velocity.x += bump_impulse
+		if(other.dir & WEST)
+			velocity.x -= bump_impulse
+		return TRUE
 
 	//Update the colliders before we do any kind of calc.
 	if(physics2d)
@@ -482,7 +484,7 @@ The while loop runs at a programatic level and is thus separated from any thrott
 	other.offset += output
 
 /obj/structure/overmap/Bumped(atom/movable/A)
-	if(brakes || ismob(A) || istype(A, /obj/structure/overmap)) //No :)
+	if(brakes || ismob(A) || isovermap(A)) //No :)
 		return FALSE
 	handle_cloak(CLOAK_TEMPORARY_LOSS)
 	if(A.dir & NORTH)
@@ -512,7 +514,7 @@ The while loop runs at a programatic level and is thus separated from any thrott
 	if(layer < A.layer) //Allows ships to "Layer under" things and not hit them. Especially useful for fighters.
 		return ..()
 	// if a bump is that fast then it's not a bump. It's a collision.
-	if(istype(A, /obj/structure/overmap) && c_response)
+	if(istype(A, /obj/structure/overmap))
 		collide(A, c_response, bump_velocity)
 		return FALSE
 	if(isprojectile(A)) //Clears up some weirdness with projectiles doing MEGA damage.
@@ -581,10 +583,8 @@ The while loop runs at a programatic level and is thus separated from any thrott
 		proj.pixel_x = round(this_x)
 		proj.pixel_y = round(this_y)
 		proj.faction = faction
-		proj.setup_collider()
-		if(isovermap(target) && explosive) //If we're firing a torpedo, the enemy's PDCs need to worry about it.
-			var/obj/structure/overmap/OM = target
-			OM.torpedoes_to_target += proj //We're firing a torpedo, their PDCs will need to shoot it down, so notify them of its existence
+		if(physics2d && physics2d.collider2d)
+			proj.setup_collider()
 		if(homing)
 			proj.set_homing_target(target)
 		spawn()
@@ -631,16 +631,44 @@ The while loop runs at a programatic level and is thus separated from any thrott
 		proj.overmap_firer = src
 		proj.pixel_x = round(this_x)
 		proj.pixel_y = round(this_y)
-		proj.faction = faction
-		proj.setup_collider()
+		if(physics2d && physics2d.collider2d)
+			proj.setup_collider()
 		spawn()
 			proj.preparePixelProjectile(target, src, null, round((rand() - 0.5) * proj.spread))
 			proj.fire(angle)
 		what_we_fired += proj
 	return what_we_fired
 
+//Jank as hell. This needs to happen to properly set the visual offset :/
+/obj/item/projectile/proc/preparePixelProjectileOvermap(obj/structure/overmap/target, obj/structure/overmap/source, params, spread = 0)
+	var/turf/curloc = source.get_center()
+	var/turf/targloc = (istype(target, /obj/structure/overmap)) ? target.get_center() : get_turf(target)
+	trajectory_ignore_forcemove = TRUE
+	forceMove(curloc)
+	trajectory_ignore_forcemove = FALSE
+	starting = curloc
+	original = target
+	if(targloc || !params)
+		yo = targloc.y - curloc.y
+		xo = targloc.x - curloc.x
+		setAngle(Get_Angle(src, targloc) + spread)
+
+	if(isliving(source) && params)
+		var/list/calculated = calculate_projectile_angle_and_pixel_offsets(source, params)
+		p_x = calculated[2]
+		p_y = calculated[3]
+
+		setAngle(calculated[1] + spread)
+	else if(targloc)
+		yo = targloc.y - curloc.y
+		xo = targloc.x - curloc.x
+		setAngle(Get_Angle(src, targloc) + spread)
+	else
+		stack_trace("WARNING: Projectile [type] fired without either mouse parameters, or a target atom to aim at!")
+		qdel(src)
+
 /obj/structure/overmap/proc/fire_lateral_projectile(proj_type,target,speed=null, mob/living/user_override=null, homing=FALSE)
-	var/turf/T = get_turf(src)
+	var/turf/T = get_center()
 	var/obj/item/projectile/proj = new proj_type(T)
 	proj.starting = T
 	proj.firer = (!user_override && gunner) ? gunner : user_override
@@ -650,7 +678,8 @@ The while loop runs at a programatic level and is thus separated from any thrott
 	proj.pixel_x = round(pixel_x)
 	proj.pixel_y = round(pixel_y)
 	proj.faction = faction
-	proj.setup_collider()
+	if(physics2d && physics2d.collider2d)
+		proj.setup_collider()
 	if(homing)
 		proj.set_homing_target(target)
 	if(gunner)
@@ -658,6 +687,8 @@ The while loop runs at a programatic level and is thus separated from any thrott
 	else
 		proj.firer = src
 	spawn()
-		proj.preparePixelProjectile(target, src, null, round((rand() - 0.5) * proj.spread))
+		proj.preparePixelProjectileOvermap(target, src, null, round((rand() - 0.5) * proj.spread))
 		proj.fire()
+		if(speed)
+			proj.set_pixel_speed(speed)
 	return proj
