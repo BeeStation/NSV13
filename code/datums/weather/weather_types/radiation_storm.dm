@@ -33,7 +33,7 @@
 	if(prob(40))
 		if(ishuman(L))
 			var/mob/living/carbon/human/H = L
-			if(H.dna && !(HAS_TRAIT(H, TRAIT_MUTATEIMMUNE) || HAS_TRAIT(H, TRAIT_MUTATEIMMUNE)))
+			if(H.dna && !(HAS_TRAIT(H, TRAIT_MUTATEIMMUNE) || HAS_TRAIT(H, TRAIT_MUTATEIMMUNE))) // NSV13 Don't add mutations for species that are trait immune, IPCs
 				if(prob(max(0,100-resist)))
 					H.randmuti()
 					if(prob(50))
@@ -63,6 +63,8 @@
 							"buzz2" = 34,
 						) )
 						H.emote( emote_type )
+			// NSV13 end code segment
+
 		L.rad_act(20)
 
 /datum/weather/rad_storm/end()
