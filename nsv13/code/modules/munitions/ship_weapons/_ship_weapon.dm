@@ -487,7 +487,10 @@
 /obj/machinery/ship_weapon/proc/local_fire()
 	if(firing_sound)
 		playsound(src, firing_sound, 100, 1)
-	if(bang && get_turf(src).return_air()?.return_pressure() >= ONE_ATMOSPHERE)
+	if(bang)
+		var/turf/T = get_turf(src)
+		if(T.return_air().return_pressure() < ONE_ATMOSPHERE)
+			return FALSE
 		for(var/mob/living/M in get_hearers_in_view(10, get_turf(src))) //Burst unprotected eardrums
 			if(M.get_ear_protection() < 1) //checks for protection - why was this not here before???
 				if(M.stat != DEAD && isliving(M)) //Don't make noise if they're dead
