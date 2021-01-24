@@ -136,7 +136,7 @@ Starting Materials
 	return FALSE
 
 /obj/machinery/armour_plating_nanorepair_well/proc/handle_repair_efficiency() //Sigmoidal Curve
-	repair_efficiency = ((1 / (0.01 + (NUM_E ** (-0.00001 * power_allocation)))) * material_modifier) / 100
+	repair_efficiency = ((1 / (0.01 + (NUM_E ** (-0.000003334 * power_allocation)))) * material_modifier) / 100
 	if(power_allocation > 3e6) //If overclocking
 		repair_efficiency += ((power_allocation - 3e6) / 3e7) / 2
 
