@@ -57,6 +57,7 @@
 							5;TRAUMA_RESILIENCE_MAGIC
 						)
 						H.gain_trauma_type( trauma_type, resistance )
+
 						var/emote_type = pickweight( list(
 							"beep" = 34,
 							"buzz" = 34,
