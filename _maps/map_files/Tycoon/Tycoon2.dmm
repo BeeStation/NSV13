@@ -10631,13 +10631,6 @@
 	},
 /turf/open/floor/monotile,
 /area/security/prison)
-"aEp" = (
-/obj/machinery/door/poddoor/shutters/ship{
-	id = "firingsquad";
-	name = "security shutters"
-	},
-/turf/open/floor/monotile/dark,
-/area/security/prison)
 "aEq" = (
 /obj/structure/cable{
 	icon_state = "2-4"
@@ -37642,16 +37635,6 @@
 /obj/item/storage/toolbox/mechanical,
 /turf/open/floor/monotile/dark,
 /area/security/brig)
-"bHR" = (
-/obj/machinery/airalarm{
-	dir = 8;
-	pixel_x = 24
-	},
-/obj/machinery/light{
-	dir = 4
-	},
-/turf/open/floor/plasteel/techmaint,
-/area/quartermaster/warehouse)
 "bHU" = (
 /obj/machinery/light{
 	dir = 1
@@ -47917,14 +47900,6 @@
 /obj/machinery/newscaster,
 /turf/closed/wall/ship,
 /area/medical/genetics)
-"pTD" = (
-/obj/machinery/door/airlock/ship/security/glass{
-	dir = 4;
-	name = "Security Equipment";
-	req_one_access_txt = "2"
-	},
-/turf/open/floor/monotile/dark,
-/area/security/brig)
 "pVi" = (
 /obj/machinery/airalarm{
 	pixel_y = 26
@@ -50338,6 +50313,26 @@
 /obj/machinery/portable_atmospherics/canister,
 /turf/open/floor/monotile/dark,
 /area/engine/atmospherics_engine)
+"uKa" = (
+/obj/machinery/airalarm{
+	dir = 8;
+	pixel_x = 24
+	},
+/obj/machinery/light{
+	dir = 4
+	},
+/obj/machinery/ore_silo,
+/obj/structure/window/reinforced/spawner,
+/obj/structure/window/reinforced/spawner/north,
+/obj/machinery/door/window/eastleft{
+	base_state = "right";
+	dir = 8;
+	icon_state = "right";
+	name = "Ore Silo";
+	req_access_txt = "41"
+	},
+/turf/open/floor/plasteel/techmaint,
+/area/quartermaster/warehouse)
 "uKm" = (
 /obj/machinery/door/airlock/ship/public/glass{
 	dir = 4;
@@ -51883,6 +51878,17 @@
 	pixel_x = -28
 	},
 /turf/open/floor/plasteel/ship,
+/area/security/prison)
+"xQu" = (
+/obj/machinery/door/poddoor/shutters/ship{
+	id = "firingsquad";
+	name = "security shutters"
+	},
+/obj/machinery/door/firedoor/border_only,
+/obj/machinery/door/firedoor/border_only{
+	dir = 1
+	},
+/turf/open/floor/monotile/dark,
 /area/security/prison)
 "xQF" = (
 /obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1{
@@ -63295,7 +63301,7 @@ aXR
 aXR
 aHW
 aHW
-aEp
+xQu
 aFo
 bnp
 aFA
@@ -63552,7 +63558,7 @@ aXR
 aHW
 aHW
 aHW
-aEp
+xQu
 aFo
 aFw
 aFB
@@ -63809,7 +63815,7 @@ aXS
 aHW
 aXX
 aHW
-aEp
+xQu
 aFo
 aFw
 aFA
@@ -72550,7 +72556,7 @@ aHv
 aHX
 aFP
 bdr
-pTD
+aFP
 bCU
 bKL
 bHQ
@@ -90811,8 +90817,8 @@ aaY
 bnv
 adr
 adx
+adr
 ajg
-adx
 ajm
 ajo
 ajs
@@ -91067,9 +91073,9 @@ ccW
 aaY
 adl
 adr
-adr
+ajg
 aWG
-adr
+aji
 adr
 ajp
 ajs
@@ -91325,8 +91331,8 @@ aaY
 adm
 adr
 adx
-aji
-ajg
+adr
+adx
 adr
 ajq
 ajw
@@ -91580,10 +91586,10 @@ aVU
 ccV
 aaY
 adn
-adr
 ady
-adr
-adr
+adp
+adp
+adp
 adr
 adp
 iuA
@@ -91839,7 +91845,7 @@ aaY
 adp
 ohw
 adp
-bHR
+uKa
 adp
 adp
 adp
