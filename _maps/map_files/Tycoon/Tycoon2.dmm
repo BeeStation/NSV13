@@ -112,10 +112,11 @@
 /turf/open/floor/carpet/ship,
 /area/nsv/crew_quarters/heads/maa)
 "aar" = (
-/obj/effect/turf_decal/stripes/line{
-	dir = 8
+/obj/effect/turf_decal/tile/orange{
+	dir = 4
 	},
-/turf/open/floor/monotile,
+/obj/effect/turf_decal/tile/orange,
+/turf/open/floor/monotile/dark,
 /area/nsv/hanger/deck2)
 "aas" = (
 /obj/machinery/suit_storage_unit/pilot,
@@ -492,10 +493,13 @@
 /turf/closed/wall/ship,
 /area/crew_quarters/heads/hor)
 "abC" = (
-/obj/effect/turf_decal/stripes/line{
-	dir = 5
+/obj/effect/turf_decal/tile/orange{
+	dir = 1
 	},
-/turf/open/floor/monotile,
+/obj/effect/turf_decal/tile/orange{
+	dir = 8
+	},
+/turf/open/floor/monotile/dark,
 /area/nsv/hanger/deck2)
 "abD" = (
 /obj/machinery/airalarm{
@@ -764,7 +768,6 @@
 /area/hallway/nsv/deck2/frame1/central)
 "aco" = (
 /obj/machinery/door/airlock/ship/security/glass{
-	dir = 4;
 	req_one_access_txt = "2"
 	},
 /obj/structure/disposalpipe/segment{
@@ -971,13 +974,13 @@
 /turf/open/floor/carpet/ship,
 /area/chapel/office)
 "acQ" = (
-/obj/effect/turf_decal/tile/neutral,
-/obj/effect/turf_decal/tile/neutral{
-	dir = 8
-	},
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3,
 /obj/structure/extinguisher_cabinet{
 	pixel_y = 26
+	},
+/obj/effect/turf_decal/tile/orange,
+/obj/effect/turf_decal/tile/orange{
+	dir = 8
 	},
 /turf/open/floor/monotile,
 /area/hallway/nsv/deck2/frame1/central)
@@ -1031,6 +1034,12 @@
 	},
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3{
 	dir = 1
+	},
+/obj/effect/turf_decal/tile/orange{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/orange{
+	dir = 8
 	},
 /turf/open/floor/monotile,
 /area/nsv/weapons/fore)
@@ -1316,7 +1325,6 @@
 /area/hallway/nsv/deck2/frame1/central)
 "adH" = (
 /obj/machinery/computer/lore_terminal,
-/obj/effect/turf_decal/stripes/line,
 /turf/open/floor/monotile/dark,
 /area/nsv/hanger/deck2)
 "adI" = (
@@ -1346,6 +1354,10 @@
 	})
 "adL" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
+/obj/effect/turf_decal/tile/orange{
+	dir = 4
+	},
+/obj/effect/turf_decal/tile/orange,
 /turf/open/floor/monotile/dark,
 /area/nsv/hanger/deck2)
 "adM" = (
@@ -1820,11 +1832,6 @@
 /turf/open/floor/monotile/dark,
 /area/nsv/weapons/fore)
 "aeQ" = (
-/obj/machinery/door/airlock/ship/public/glass{
-	dir = 4;
-	name = "Virology";
-	req_one_access_txt = "39"
-	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	dir = 4
 	},
@@ -1839,6 +1846,10 @@
 	},
 /obj/structure/cable{
 	icon_state = "4-8"
+	},
+/obj/machinery/door/airlock/ship/public/glass{
+	name = "Virology";
+	req_one_access_txt = "39"
 	},
 /turf/open/floor/monotile/light,
 /area/medical/virology)
@@ -2012,7 +2023,6 @@
 /area/hallway/secondary/exit/departure_lounge)
 "afk" = (
 /obj/machinery/door/airlock/ship/public/glass{
-	dir = 4;
 	name = "Engineering lobby"
 	},
 /obj/structure/disposalpipe/segment{
@@ -2398,6 +2408,12 @@
 /area/security/brig)
 "agg" = (
 /obj/machinery/vending/wardrobe/muni_wardrobe,
+/obj/effect/turf_decal/tile/orange{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/orange{
+	dir = 8
+	},
 /turf/open/floor/monotile/dark,
 /area/nsv/hanger/deck2)
 "agh" = (
@@ -2425,6 +2441,15 @@
 	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 8
+	},
+/obj/effect/turf_decal/stripes/line{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/orange{
+	dir = 8
+	},
+/obj/effect/turf_decal/tile/orange{
+	dir = 1
 	},
 /turf/open/floor/monotile/dark,
 /area/nsv/hanger/deck2)
@@ -2543,7 +2568,6 @@
 /area/medical/virology)
 "agA" = (
 /obj/machinery/door/airlock/ship/public{
-	dir = 4;
 	name = "Bunk 1-A"
 	},
 /obj/structure/cable{
@@ -2573,6 +2597,9 @@
 	dir = 5
 	},
 /obj/machinery/computer/deckgun,
+/obj/effect/turf_decal/tile/orange{
+	dir = 8
+	},
 /turf/open/floor/plating,
 /area/nsv/weapons/fore)
 "agD" = (
@@ -2789,7 +2816,6 @@
 /area/medical/genetics)
 "ahd" = (
 /obj/machinery/door/airlock/ship/maintenance{
-	dir = 4;
 	name = "Hangar rescue"
 	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
@@ -3054,7 +3080,6 @@
 /area/medical/medbay/central)
 "ahK" = (
 /obj/machinery/door/airlock/ship/public/glass{
-	dir = 4;
 	name = "Patient Room A"
 	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
@@ -3170,7 +3195,6 @@
 /area/chapel/main)
 "ahY" = (
 /obj/machinery/door/airlock/ship/maintenance{
-	dir = 4;
 	name = "Crematorium";
 	req_one_access_txt = "22;27"
 	},
@@ -3224,7 +3248,6 @@
 /area/medical/morgue)
 "aid" = (
 /obj/machinery/door/airlock/ship/public/glass{
-	dir = 4;
 	name = "Morgue"
 	},
 /obj/machinery/door/firedoor/border_only{
@@ -3360,6 +3383,12 @@
 	dir = 4
 	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/obj/effect/turf_decal/tile/orange{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/orange{
+	dir = 8
+	},
 /turf/open/floor/monotile,
 /area/nsv/weapons/fore)
 "aiv" = (
@@ -3410,7 +3439,6 @@
 	dir = 8
 	},
 /obj/machinery/door/airlock/ship/maintenance{
-	dir = 4;
 	name = "Incinerator";
 	req_access_txt = "24"
 	},
@@ -4311,7 +4339,6 @@
 	dir = 8
 	},
 /obj/machinery/door/airlock/ship/public/glass{
-	dir = 4;
 	name = "Cloning Lab";
 	req_access_txt = "5; 68"
 	},
@@ -4349,7 +4376,6 @@
 	dir = 4
 	},
 /obj/machinery/door/airlock/ship/public/glass{
-	dir = 4;
 	name = "Cryogenics Freezer";
 	req_one_access_txt = "5"
 	},
@@ -4582,7 +4608,6 @@
 /area/medical/medbay/central)
 "alr" = (
 /obj/machinery/door/airlock/ship/public/glass{
-	dir = 4;
 	name = "Medbay Lobby";
 	req_one_access_txt = "5"
 	},
@@ -4673,11 +4698,6 @@
 /turf/open/floor/monotile/light,
 /area/medical/virology)
 "alA" = (
-/obj/machinery/door/airlock/ship/public/glass{
-	dir = 4;
-	name = "Virology";
-	req_one_access_txt = "39"
-	},
 /obj/machinery/door/firedoor/border_only{
 	dir = 4
 	},
@@ -4686,6 +4706,10 @@
 	},
 /obj/structure/cable{
 	icon_state = "4-8"
+	},
+/obj/machinery/door/airlock/ship/public/glass{
+	name = "Virology";
+	req_one_access_txt = "39"
 	},
 /turf/open/floor/monotile/light,
 /area/medical/virology)
@@ -4756,12 +4780,12 @@
 /turf/open/floor/carpet/ship,
 /area/crew_quarters/heads/cmo)
 "alI" = (
-/obj/effect/turf_decal/tile/neutral,
-/obj/effect/turf_decal/tile/neutral{
-	dir = 8
-	},
 /obj/machinery/camera/autoname,
 /obj/machinery/computer/ship/viewscreen,
+/obj/effect/turf_decal/tile/orange{
+	dir = 8
+	},
+/obj/effect/turf_decal/tile/orange,
 /turf/open/floor/monotile,
 /area/hallway/nsv/deck2/frame1/central)
 "alJ" = (
@@ -4914,7 +4938,6 @@
 /area/science/nanite)
 "ama" = (
 /obj/machinery/door/airlock/ship/public/glass{
-	dir = 4;
 	name = "Medbay Lobby";
 	req_one_access_txt = "5"
 	},
@@ -5153,7 +5176,6 @@
 /area/medical/surgery)
 "amO" = (
 /obj/machinery/door/airlock/ship/public/glass{
-	dir = 4;
 	name = "Surgery";
 	req_one_access_txt = "5"
 	},
@@ -5566,7 +5588,6 @@
 /area/crew_quarters/heads/chief)
 "anV" = (
 /obj/machinery/door/airlock/ship/command{
-	dir = 4;
 	name = "Chief Engineer";
 	req_one_access_txt = "56"
 	},
@@ -6027,7 +6048,6 @@
 /area/maintenance/department/engine)
 "apa" = (
 /obj/machinery/door/airlock/ship/maintenance{
-	dir = 4;
 	name = "Virology maintenance"
 	},
 /obj/structure/cable{
@@ -7132,7 +7152,6 @@
 /area/engine/engineering)
 "asp" = (
 /obj/machinery/door/airlock/ship/engineering/glass{
-	dir = 4;
 	name = "Reactor control Room";
 	req_one_access_txt = "10; 24"
 	},
@@ -7724,7 +7743,6 @@
 	dir = 8
 	},
 /obj/machinery/door/airlock/ship/public/glass{
-	dir = 4;
 	name = "Library"
 	},
 /turf/open/floor/carpet/ship,
@@ -8054,7 +8072,6 @@
 /area/crew_quarters/dorms)
 "avg" = (
 /obj/machinery/door/airlock/ship/public/glass{
-	dir = 4;
 	name = "Crew Lounge"
 	},
 /obj/machinery/door/firedoor/border_only{
@@ -8150,7 +8167,6 @@
 	dir = 4
 	},
 /obj/machinery/door/airlock/highsecurity/ship{
-	dir = 4;
 	name = "Naval Artillery";
 	req_one_access_txt = "69"
 	},
@@ -8340,6 +8356,10 @@
 /obj/structure/disposalpipe/trunk{
 	dir = 1
 	},
+/obj/effect/turf_decal/tile/orange{
+	dir = 4
+	},
+/obj/effect/turf_decal/tile/orange,
 /turf/open/floor/monotile/dark,
 /area/nsv/hanger/deck2)
 "axi" = (
@@ -8468,12 +8488,9 @@
 	dir = 5
 	},
 /obj/structure/closet/crate/solarpanel_small,
-/obj/item/stack/sheet/durasteel/fifty,
-/obj/item/stack/sheet/duranium/fifty,
 /obj/machinery/airalarm{
 	pixel_y = 26
 	},
-/obj/item/stack/sheet/nanocarbon_glass/fifty,
 /obj/item/stack/cable_coil,
 /turf/open/floor/plasteel/ship,
 /area/engine/engineering)
@@ -8531,10 +8548,6 @@
 	pixel_y = -2
 	},
 /obj/machinery/camera/autoname,
-/obj/item/radio/intercom{
-	name = "intra ship intercom";
-	pixel_y = 26
-	},
 /turf/open/floor/plasteel/ship,
 /area/engine/engineering)
 "ayL" = (
@@ -8964,7 +8977,6 @@
 /area/maintenance/starboard/fore)
 "azY" = (
 /obj/machinery/door/airlock/ship/external/glass{
-	dir = 4;
 	req_one_access_txt = "24"
 	},
 /turf/open/floor/plating,
@@ -9118,9 +9130,7 @@
 /obj/structure/disposalpipe/segment{
 	dir = 4
 	},
-/obj/machinery/door/airlock/ship/maintenance/defaultaccess{
-	dir = 4
-	},
+/obj/machinery/door/airlock/ship/maintenance/defaultaccess,
 /obj/machinery/door/firedoor/border_only{
 	dir = 4
 	},
@@ -9263,16 +9273,15 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 8
 	},
-/obj/machinery/door/airlock/ship/public/glass{
-	dir = 4;
-	name = "Virology Decontamination";
-	req_one_access_txt = "39"
-	},
 /obj/machinery/door/firedoor/border_only{
 	dir = 4
 	},
 /obj/machinery/door/firedoor/border_only{
 	dir = 8
+	},
+/obj/machinery/door/airlock/ship/public/glass{
+	name = "Virology Decontamination";
+	req_one_access_txt = "39"
 	},
 /turf/open/floor/monotile/dark,
 /area/medical/virology)
@@ -9565,17 +9574,15 @@
 /turf/open/floor/monotile/dark,
 /area/engine/engineering)
 "aBv" = (
-/obj/structure/cable/yellow{
-	icon_state = "4-8"
-	},
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+/obj/machinery/deck_turret/powder_gate,
+/obj/effect/turf_decal/tile/orange{
 	dir = 4
 	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
-	dir = 8
+/obj/effect/turf_decal/tile/orange{
+	dir = 1
 	},
-/turf/open/floor/plasteel/ship,
-/area/engine/storage_shared)
+/turf/open/floor/plating,
+/area/nsv/weapons/fore)
 "aBw" = (
 /turf/open/floor/plasteel/ship,
 /area/engine/engineering)
@@ -9639,7 +9646,6 @@
 /area/tcommsat/server)
 "aBE" = (
 /obj/machinery/door/airlock/ship/engineering/glass{
-	dir = 4;
 	name = "Reactor core access";
 	req_one_access_txt = "10; 24"
 	},
@@ -9856,7 +9862,6 @@
 /area/medical/virology)
 "aCp" = (
 /obj/machinery/door/airlock/ship/hatch{
-	dir = 4;
 	name = "Network Administration";
 	req_one_access_txt = "61;65"
 	},
@@ -10455,7 +10460,6 @@
 /area/tcommsat/server)
 "aDX" = (
 /obj/machinery/door/airlock/ship/hatch{
-	dir = 4;
 	name = "Network Administration";
 	req_one_access_txt = "61;65"
 	},
@@ -10511,7 +10515,6 @@
 /area/tcommsat/computer)
 "aEb" = (
 /obj/machinery/door/airlock/ship/hatch{
-	dir = 4;
 	name = "Network Administration";
 	req_one_access_txt = "61;65"
 	},
@@ -10592,7 +10595,6 @@
 /area/ai_monitored/security/armory)
 "aEk" = (
 /obj/machinery/door/airlock/ship/security/glass{
-	dir = 4;
 	name = "Evidence lockup";
 	req_one_access_txt = "3"
 	},
@@ -11202,6 +11204,10 @@
 /obj/machinery/light{
 	dir = 8
 	},
+/obj/effect/turf_decal/tile/orange,
+/obj/effect/turf_decal/tile/orange{
+	dir = 4
+	},
 /turf/open/floor/plating,
 /area/nsv/weapons/fore)
 "aFw" = (
@@ -11632,7 +11638,6 @@
 /area/gateway)
 "aGv" = (
 /obj/machinery/door/airlock/ship{
-	dir = 4;
 	name = "Gateway";
 	req_one_access_txt = "62"
 	},
@@ -11824,6 +11829,12 @@
 /obj/effect/turf_decal/stripes/line{
 	dir = 4
 	},
+/obj/effect/turf_decal/tile/orange{
+	dir = 8
+	},
+/obj/effect/turf_decal/tile/orange{
+	dir = 1
+	},
 /turf/open/floor/plating,
 /area/nsv/weapons/fore)
 "aGR" = (
@@ -11840,7 +11851,6 @@
 /area/security/execution/transfer)
 "aGS" = (
 /obj/machinery/door/airlock/ship/external/glass{
-	dir = 4;
 	req_one_access_txt = "2"
 	},
 /obj/effect/mapping_helpers/airlock/cyclelink_helper{
@@ -11933,7 +11943,6 @@
 /area/security/detectives_office)
 "aHe" = (
 /obj/machinery/door/airlock/ship/security{
-	dir = 4;
 	name = "Head of Security";
 	req_one_access_txt = "58"
 	},
@@ -12803,7 +12812,6 @@
 	icon_state = "4-8"
 	},
 /obj/machinery/door/airlock/ship/public/glass{
-	dir = 4;
 	name = "Gateway Chamber";
 	req_one_access_txt = "62"
 	},
@@ -12899,7 +12907,6 @@
 /area/maintenance/department/engine)
 "aJs" = (
 /obj/machinery/door/airlock/ship/maintenance{
-	dir = 4;
 	name = "Engineering wing maintenance";
 	req_one_access_txt = "10"
 	},
@@ -13075,7 +13082,6 @@
 /area/science/test_area)
 "aJN" = (
 /obj/machinery/door/airlock/ship/public{
-	dir = 4;
 	name = "Quiet Room"
 	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
@@ -13162,7 +13168,6 @@
 /area/science/research)
 "aJW" = (
 /obj/machinery/door/airlock/ship{
-	dir = 4;
 	name = "Robotics Lab";
 	req_one_access_txt = "29"
 	},
@@ -13478,6 +13483,9 @@
 /obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1,
 /obj/structure/lattice/catwalk/over/ship,
 /obj/machinery/deck_turret/powder_gate,
+/obj/effect/turf_decal/tile/orange{
+	dir = 4
+	},
 /turf/open/floor/plating,
 /area/nsv/weapons/fore)
 "aKE" = (
@@ -14268,6 +14276,12 @@
 /turf/open/floor/carpet/ship,
 /area/crew_quarters/heads/hor)
 "aMn" = (
+/obj/effect/turf_decal/tile/orange{
+	dir = 8
+	},
+/obj/effect/turf_decal/tile/orange{
+	dir = 1
+	},
 /turf/open/floor/monotile/dark,
 /area/nsv/hanger/deck2)
 "aMo" = (
@@ -14331,10 +14345,10 @@
 /turf/open/floor/plating,
 /area/engine/engineering/reactor_core)
 "aMv" = (
-/obj/effect/turf_decal/tile/neutral{
+/obj/effect/turf_decal/tile/orange{
 	dir = 1
 	},
-/obj/effect/turf_decal/tile/neutral{
+/obj/effect/turf_decal/tile/orange{
 	dir = 4
 	},
 /turf/open/floor/monotile,
@@ -14650,7 +14664,6 @@
 	})
 "aNd" = (
 /obj/machinery/door/airlock/ship/public/glass{
-	dir = 4;
 	name = "Engineering lobby"
 	},
 /obj/structure/disposalpipe/segment{
@@ -15647,7 +15660,6 @@
 	dir = 8
 	},
 /obj/machinery/door/airlock/ship/public/glass{
-	dir = 4;
 	name = "Aft Primary Hallway"
 	},
 /obj/machinery/door/firedoor/border_only{
@@ -15719,7 +15731,6 @@
 /area/engine/break_room)
 "aPm" = (
 /obj/machinery/door/airlock/ship/command{
-	dir = 4;
 	name = "Decontamination Shower";
 	req_one_access_txt = "56"
 	},
@@ -16046,7 +16057,6 @@
 	dir = 8
 	},
 /obj/machinery/door/airlock/ship/external/glass{
-	dir = 4;
 	req_one_access_txt = "10"
 	},
 /obj/effect/mapping_helpers/airlock/cyclelink_helper{
@@ -16056,7 +16066,6 @@
 /area/engine/engineering/hangar)
 "aQo" = (
 /obj/machinery/door/airlock/ship/external/glass{
-	dir = 4;
 	req_one_access_txt = "10"
 	},
 /obj/effect/mapping_helpers/airlock/cyclelink_helper{
@@ -16089,7 +16098,6 @@
 /area/engine/engineering/hangar)
 "aQu" = (
 /obj/machinery/door/airlock/ship/engineering/glass{
-	dir = 4;
 	name = "Reactor control Room";
 	req_one_access_txt = "10; 24"
 	},
@@ -16189,7 +16197,6 @@
 /area/engine/engine_smes)
 "aQC" = (
 /obj/machinery/door/airlock/ship/public/glass{
-	dir = 4;
 	name = "Medical Storage";
 	req_one_access_txt = "5"
 	},
@@ -16215,7 +16222,6 @@
 /area/medical/medbay/central)
 "aQD" = (
 /obj/machinery/door/airlock/ship/command{
-	dir = 4;
 	name = "Gravity Generator";
 	req_one_access_txt = "56"
 	},
@@ -16238,7 +16244,6 @@
 /area/engine/gravity_generator)
 "aQE" = (
 /obj/machinery/door/airlock/ship/public/glass{
-	dir = 4;
 	name = "FTL navigation";
 	req_access_txt = "10"
 	},
@@ -16549,7 +16554,6 @@
 /area/crew_quarters/dorms/nsv/dorms_1)
 "aRn" = (
 /obj/machinery/door/airlock/ship/public{
-	dir = 4;
 	id_tag = "erp1";
 	name = "Showers"
 	},
@@ -16630,7 +16634,6 @@
 /area/crew_quarters/dorms/nsv/dorms_2)
 "aRA" = (
 /obj/machinery/door/airlock/ship/public{
-	dir = 4;
 	id_tag = "erp2";
 	name = "Showers"
 	},
@@ -17272,6 +17275,9 @@
 	dir = 10
 	},
 /obj/machinery/deck_turret/powder_gate,
+/obj/effect/turf_decal/tile/orange{
+	dir = 1
+	},
 /turf/open/floor/plating,
 /area/nsv/weapons/fore)
 "aTb" = (
@@ -17373,10 +17379,10 @@
 "aTm" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
-/obj/effect/turf_decal/tile/neutral,
-/obj/effect/turf_decal/tile/neutral{
+/obj/effect/turf_decal/tile/orange{
 	dir = 8
 	},
+/obj/effect/turf_decal/tile/orange,
 /turf/open/floor/monotile,
 /area/nsv/weapons/fore)
 "aTp" = (
@@ -17392,6 +17398,10 @@
 /obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer3{
 	dir = 8
 	},
+/obj/effect/turf_decal/tile/orange{
+	dir = 4
+	},
+/obj/effect/turf_decal/tile/orange,
 /turf/open/floor/monotile/dark,
 /area/nsv/hanger/deck2)
 "aTr" = (
@@ -17652,7 +17662,6 @@
 /area/medical/morgue)
 "aUg" = (
 /obj/machinery/door/airlock/ship/public/glass{
-	dir = 4;
 	name = "Paramedic Station";
 	req_one_access_txt = "5"
 	},
@@ -18129,7 +18138,6 @@
 	})
 "aVh" = (
 /obj/machinery/door/airlock/ship/public/glass{
-	dir = 4;
 	name = "Morale Office"
 	},
 /obj/machinery/door/firedoor/border_only{
@@ -18275,7 +18283,6 @@
 	})
 "aVx" = (
 /obj/machinery/door/airlock/ship/hatch{
-	dir = 4;
 	name = "Network Administration";
 	req_one_access_txt = "61;65"
 	},
@@ -19591,9 +19598,7 @@
 /obj/machinery/door/firedoor/border_only{
 	dir = 8
 	},
-/obj/machinery/door/airlock/ship/maintenance/defaultaccess{
-	dir = 4
-	},
+/obj/machinery/door/airlock/ship/maintenance/defaultaccess,
 /turf/open/floor/plating,
 /area/maintenance/department/medical)
 "aYq" = (
@@ -19809,7 +19814,6 @@
 	})
 "aYU" = (
 /obj/machinery/door/airlock/ship/maintenance{
-	dir = 4;
 	name = "Virology maintenance"
 	},
 /obj/structure/cable{
@@ -20015,7 +20019,6 @@
 	dir = 8
 	},
 /obj/machinery/door/airlock/ship/public/glass{
-	dir = 4;
 	name = "Library"
 	},
 /turf/open/floor/carpet/ship,
@@ -20250,11 +20253,11 @@
 	id = "shellThree";
 	name = "Shell Rack 3"
 	},
-/obj/effect/turf_decal/tile/neutral{
-	dir = 1
-	},
-/obj/effect/turf_decal/tile/neutral{
+/obj/effect/turf_decal/tile/orange{
 	dir = 8
+	},
+/obj/effect/turf_decal/tile/orange{
+	dir = 1
 	},
 /turf/open/floor/monotile,
 /area/nsv/weapons/fore)
@@ -20375,11 +20378,23 @@
 /turf/open/floor/plating,
 /area/nsv/weapons/fore)
 "bad" = (
-/obj/effect/turf_decal/stripes/line{
-	dir = 4
+/obj/structure/cable{
+	icon_state = "1-2"
 	},
-/turf/open/floor/monotile,
-/area/nsv/hanger/deck2)
+/obj/structure/disposalpipe/segment,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
+/obj/machinery/door/firedoor/border_only,
+/obj/machinery/door/firedoor/border_only{
+	dir = 1
+	},
+/obj/machinery/door/airlock/ship/engineering/glass{
+	req_one_access_txt = "10;24"
+	},
+/obj/effect/mapping_helpers/airlock/unres{
+	dir = 1
+	},
+/turf/open/floor/monotile/dark,
+/area/engine/engineering)
 "bae" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
@@ -20408,7 +20423,6 @@
 /area/nsv/weapons/fore)
 "bah" = (
 /obj/machinery/door/airlock/highsecurity/ship{
-	dir = 4;
 	name = "Missile Bay";
 	req_one_access_txt = "69"
 	},
@@ -20574,6 +20588,7 @@
 /obj/effect/turf_decal/stripes/line{
 	dir = 9
 	},
+/obj/effect/turf_decal/tile/orange,
 /turf/open/floor/plating,
 /area/nsv/weapons/fore)
 "baw" = (
@@ -20673,7 +20688,6 @@
 /area/maintenance/department/medical)
 "baF" = (
 /obj/machinery/door/airlock/ship/maintenance{
-	dir = 4;
 	name = "Medbay maintenance";
 	req_one_access_txt = "5"
 	},
@@ -20791,9 +20805,7 @@
 /obj/structure/cable{
 	icon_state = "4-8"
 	},
-/obj/machinery/door/airlock/ship/maintenance/defaultaccess{
-	dir = 4
-	},
+/obj/machinery/door/airlock/ship/maintenance/defaultaccess,
 /obj/machinery/door/firedoor/border_only{
 	dir = 4
 	},
@@ -20810,7 +20822,6 @@
 /area/medical/medbay/central)
 "baS" = (
 /obj/machinery/door/airlock/ship/public/glass{
-	dir = 4;
 	name = "Patient rooms"
 	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
@@ -20899,7 +20910,6 @@
 /area/medical/morgue)
 "bbb" = (
 /obj/machinery/door/airlock/ship/public/glass{
-	dir = 4;
 	name = "Morgue"
 	},
 /obj/structure/cable{
@@ -21431,14 +21441,14 @@
 /turf/open/floor/monotile/dark,
 /area/hallway/nsv/deck2/frame1/central)
 "bcb" = (
-/obj/effect/turf_decal/tile/neutral,
-/obj/effect/turf_decal/tile/neutral{
-	dir = 8
-	},
 /obj/structure/cable{
 	icon_state = "1-2"
 	},
 /obj/structure/disposalpipe/junction,
+/obj/effect/turf_decal/tile/orange{
+	dir = 8
+	},
+/obj/effect/turf_decal/tile/orange,
 /turf/open/floor/monotile,
 /area/hallway/nsv/deck2/frame1/central)
 "bcc" = (
@@ -21454,10 +21464,11 @@
 /area/hydroponics)
 "bcd" = (
 /obj/effect/turf_decal/tile/neutral,
-/obj/effect/turf_decal/tile/neutral{
+/obj/structure/disposalpipe/segment,
+/obj/effect/turf_decal/tile/orange{
 	dir = 8
 	},
-/obj/structure/disposalpipe/segment,
+/obj/effect/turf_decal/tile/orange,
 /turf/open/floor/monotile,
 /area/hallway/nsv/deck2/frame1/central)
 "bce" = (
@@ -21883,12 +21894,6 @@
 /turf/open/floor/monotile,
 /area/medical/medbay/lobby)
 "bcV" = (
-/obj/effect/turf_decal/tile/neutral{
-	dir = 1
-	},
-/obj/effect/turf_decal/tile/neutral{
-	dir = 4
-	},
 /obj/structure/cable{
 	icon_state = "1-4"
 	},
@@ -21896,6 +21901,12 @@
 	dir = 6
 	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/obj/effect/turf_decal/tile/orange{
+	dir = 4
+	},
+/obj/effect/turf_decal/tile/orange{
+	dir = 1
+	},
 /turf/open/floor/monotile,
 /area/hallway/nsv/deck2/frame1/central)
 "bcW" = (
@@ -21910,12 +21921,6 @@
 /turf/open/floor/plasteel/grid/steel,
 /area/quartermaster/storage)
 "bcX" = (
-/obj/effect/turf_decal/tile/neutral{
-	dir = 1
-	},
-/obj/effect/turf_decal/tile/neutral{
-	dir = 4
-	},
 /obj/structure/cable{
 	icon_state = "2-8"
 	},
@@ -21926,6 +21931,12 @@
 	dir = 9
 	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/obj/effect/turf_decal/tile/orange{
+	dir = 4
+	},
+/obj/effect/turf_decal/tile/orange{
+	dir = 1
+	},
 /turf/open/floor/monotile,
 /area/hallway/nsv/deck2/frame1/central)
 "bcY" = (
@@ -21990,14 +22001,14 @@
 /turf/open/floor/monotile,
 /area/hallway/secondary/exit)
 "bdc" = (
-/obj/effect/turf_decal/tile/neutral{
-	dir = 1
-	},
-/obj/effect/turf_decal/tile/neutral{
-	dir = 4
-	},
 /obj/structure/disposalpipe/segment{
 	dir = 9
+	},
+/obj/effect/turf_decal/tile/orange{
+	dir = 4
+	},
+/obj/effect/turf_decal/tile/orange{
+	dir = 1
 	},
 /turf/open/floor/monotile,
 /area/hallway/nsv/deck2/frame1/central)
@@ -22519,7 +22530,6 @@
 /area/science/robotics)
 "bdW" = (
 /obj/machinery/door/airlock/ship{
-	dir = 4;
 	name = "Robotics Lab";
 	req_one_access_txt = "29"
 	},
@@ -22628,7 +22638,6 @@
 /area/security/warden)
 "beg" = (
 /obj/machinery/door/airlock/ship/security/glass{
-	dir = 4;
 	name = "Forensics";
 	req_one_access_txt = "4"
 	},
@@ -23202,6 +23211,12 @@
 	},
 /obj/machinery/camera/autoname,
 /obj/structure/ladder,
+/obj/effect/turf_decal/tile/orange{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/orange{
+	dir = 8
+	},
 /turf/open/floor/monotile/dark,
 /area/nsv/hanger/deck2)
 "bfk" = (
@@ -23288,22 +23303,22 @@
 	id = "shellTwo";
 	name = "Shell Rack 2"
 	},
-/obj/effect/turf_decal/tile/neutral{
-	dir = 1
-	},
-/obj/effect/turf_decal/tile/neutral{
+/obj/effect/turf_decal/tile/orange{
 	dir = 8
+	},
+/obj/effect/turf_decal/tile/orange{
+	dir = 1
 	},
 /turf/open/floor/monotile,
 /area/nsv/weapons/fore)
 "bft" = (
-/obj/effect/turf_decal/tile/neutral,
-/obj/effect/turf_decal/tile/neutral{
-	dir = 8
-	},
 /obj/machinery/airalarm{
 	pixel_y = 26
 	},
+/obj/effect/turf_decal/tile/orange{
+	dir = 8
+	},
+/obj/effect/turf_decal/tile/orange,
 /turf/open/floor/monotile,
 /area/hallway/nsv/deck2/frame1/central)
 "bfu" = (
@@ -23409,7 +23424,6 @@
 	dir = 4
 	},
 /obj/machinery/door/airlock/ship/public/glass{
-	dir = 4;
 	name = "Morale Office"
 	},
 /obj/machinery/door/firedoor/border_only{
@@ -23641,7 +23655,6 @@
 /area/hallway/secondary/exit/departure_lounge)
 "bgc" = (
 /obj/machinery/door/airlock/ship/external{
-	dir = 4;
 	name = "Mining Shuttle Airlock";
 	req_one_access_txt = "31;48"
 	},
@@ -23743,15 +23756,14 @@
 	external_pressure_bound = 120;
 	name = "server vent"
 	},
-/obj/structure/sign/warning/securearea{
-	desc = "A warning sign which reads 'SERVER ROOM'.";
-	name = "SERVER ROOM";
-	pixel_z = 26
-	},
 /obj/structure/cable{
 	icon_state = "2-8"
 	},
 /obj/machinery/camera/autoname,
+/obj/structure/sign/warning/securearea{
+	name = "SERVER ROOM";
+	pixel_y = 26
+	},
 /turf/open/floor/circuit/telecomms/server,
 /area/science/server)
 "bgn" = (
@@ -23871,7 +23883,6 @@
 /area/hallway/nsv/deck2/frame1/port)
 "bgz" = (
 /obj/machinery/door/airlock/highsecurity/ship{
-	dir = 4;
 	name = "Missile Bay";
 	req_one_access_txt = "69"
 	},
@@ -24010,6 +24021,10 @@
 	dir = 8
 	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
+/obj/effect/turf_decal/tile/orange{
+	dir = 4
+	},
+/obj/effect/turf_decal/tile/orange,
 /turf/open/floor/monotile/dark,
 /area/nsv/hanger/deck2)
 "bgV" = (
@@ -24060,9 +24075,6 @@
 /obj/structure/disposalpipe/segment{
 	dir = 4
 	},
-/obj/machinery/door/airlock/ship/maintenance/defaultaccess{
-	dir = 4
-	},
 /obj/machinery/door/firedoor/border_only{
 	dir = 8
 	},
@@ -24075,6 +24087,7 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 8
 	},
+/obj/machinery/door/airlock/ship/maintenance/defaultaccess,
 /turf/open/floor/plating,
 /area/maintenance/department/cargo)
 "bhb" = (
@@ -24533,7 +24546,6 @@
 	dir = 8
 	},
 /obj/machinery/door/airlock/ship/security/glass{
-	dir = 4;
 	name = "Detective's Office";
 	req_one_access_txt = "4"
 	},
@@ -24887,15 +24899,15 @@
 	name = "CIC"
 	})
 "biK" = (
-/obj/effect/turf_decal/tile/neutral,
-/obj/effect/turf_decal/tile/neutral{
-	dir = 8
-	},
 /obj/machinery/button/door{
 	id = "gaussgang";
 	name = "public gauss access";
 	pixel_y = 26;
 	req_one_access_txt = "69"
+	},
+/obj/effect/turf_decal/tile/orange,
+/obj/effect/turf_decal/tile/orange{
+	dir = 8
 	},
 /turf/open/floor/monotile,
 /area/hallway/nsv/deck2/frame1/central)
@@ -24932,13 +24944,13 @@
 	name = "CIC"
 	})
 "biO" = (
-/obj/effect/turf_decal/tile/neutral,
-/obj/effect/turf_decal/tile/neutral{
-	dir = 8
-	},
 /obj/machinery/status_display/evac{
 	pixel_y = 26
 	},
+/obj/effect/turf_decal/tile/orange{
+	dir = 8
+	},
+/obj/effect/turf_decal/tile/orange,
 /turf/open/floor/monotile,
 /area/hallway/nsv/deck2/frame1/central)
 "biP" = (
@@ -25203,7 +25215,6 @@
 /area/crew_quarters/kitchen)
 "bjp" = (
 /obj/machinery/door/airlock/ship/public/glass{
-	dir = 4;
 	name = "Service Break Room";
 	req_one_access_txt = "28;35;25;46;26"
 	},
@@ -25252,10 +25263,6 @@
 /turf/open/floor/plasteel/techmaint,
 /area/medical/chemistry)
 "bjt" = (
-/obj/effect/turf_decal/tile/neutral,
-/obj/effect/turf_decal/tile/neutral{
-	dir = 8
-	},
 /obj/item/radio/intercom{
 	name = "intra ship intercom";
 	pixel_y = 26
@@ -25263,6 +25270,10 @@
 /obj/machinery/light{
 	dir = 1
 	},
+/obj/effect/turf_decal/tile/orange{
+	dir = 8
+	},
+/obj/effect/turf_decal/tile/orange,
 /turf/open/floor/monotile,
 /area/hallway/nsv/deck2/frame1/central)
 "bju" = (
@@ -26244,7 +26255,6 @@
 /area/maintenance/starboard/fore)
 "blr" = (
 /obj/machinery/door/airlock/ship/maintenance{
-	dir = 4;
 	name = "Atmospherics maintenance";
 	req_one_access_txt = "24"
 	},
@@ -26623,7 +26633,6 @@
 /area/hallway/nsv/deck2/frame1/port)
 "bmn" = (
 /obj/machinery/door/airlock/ship/security/glass{
-	dir = 4;
 	req_one_access_txt = "2"
 	},
 /obj/structure/disposalpipe/segment{
@@ -27559,6 +27568,12 @@
 	dir = 8;
 	icon_state = "camera"
 	},
+/obj/effect/turf_decal/tile/orange{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/orange{
+	dir = 8
+	},
 /turf/open/floor/monotile/dark,
 /area/nsv/hanger/deck2)
 "bok" = (
@@ -27722,7 +27737,6 @@
 /area/quartermaster/storage)
 "boD" = (
 /obj/machinery/door/airlock/ship/station/mining{
-	dir = 4;
 	name = "Warehouse";
 	req_one_access_txt = "31;48"
 	},
@@ -28049,7 +28063,6 @@
 /area/janitor)
 "bpl" = (
 /obj/machinery/door/airlock/ship/public{
-	dir = 4;
 	name = "Janitorial Storage";
 	req_one_access_txt = "26"
 	},
@@ -28176,6 +28189,7 @@
 /obj/structure/disposalpipe/segment{
 	dir = 6
 	},
+/obj/effect/decal/cleanable/dirt/dust,
 /turf/open/floor/plating,
 /area/maintenance/department/science)
 "bpy" = (
@@ -28390,7 +28404,6 @@
 /area/quartermaster/storage)
 "bpQ" = (
 /obj/machinery/door/airlock/ship/station/mining{
-	dir = 4;
 	name = "Quartermaster's Office";
 	req_one_access_txt = "41"
 	},
@@ -28412,19 +28425,9 @@
 /turf/open/floor/plasteel/ship,
 /area/quartermaster/qm)
 "bpR" = (
-/obj/effect/turf_decal/stripes/line{
-	dir = 1
-	},
-/obj/structure/rack,
-/obj/item/ship_weapon/ammunition/gauss{
-	pixel_y = -4
-	},
-/obj/item/ship_weapon/ammunition/gauss,
-/obj/item/ship_weapon/ammunition/gauss{
-	pixel_y = 6
-	},
-/obj/machinery/light,
-/turf/open/floor/monotile,
+/obj/effect/spawner/structure/window/reinforced,
+/obj/effect/landmark/zebra_interlock_point,
+/turf/open/floor/plating,
 /area/nsv/weapons/gauss)
 "bpS" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer1{
@@ -28626,7 +28629,6 @@
 /area/quartermaster/qm)
 "bqj" = (
 /obj/machinery/door/airlock/ship{
-	dir = 4;
 	name = "Experimental munitions";
 	req_one_access_txt = "8"
 	},
@@ -29137,6 +29139,7 @@
 	},
 /obj/structure/closet,
 /obj/effect/spawner/lootdrop/maintenance/three,
+/obj/effect/spawner/lootdrop/glowstick,
 /turf/open/floor/plating,
 /area/maintenance/disposal)
 "brj" = (
@@ -29159,7 +29162,6 @@
 /area/maintenance/disposal)
 "brl" = (
 /obj/machinery/door/airlock/ship/maintenance{
-	dir = 4;
 	name = "Disposals"
 	},
 /obj/structure/cable{
@@ -29394,7 +29396,6 @@
 /area/maintenance/starboard)
 "brK" = (
 /obj/machinery/door/airlock/ship/maintenance{
-	dir = 4;
 	name = "Crematorium";
 	req_one_access_txt = "22;27"
 	},
@@ -29664,7 +29665,6 @@
 	icon_state = "4-8"
 	},
 /obj/machinery/door/airlock/ship/maintenance{
-	dir = 4;
 	name = "Trash compactor"
 	},
 /obj/structure/disposalpipe/segment{
@@ -29723,7 +29723,6 @@
 	icon_state = "4-8"
 	},
 /obj/machinery/door/airlock/ship/maintenance{
-	dir = 4;
 	name = "Trash compactor"
 	},
 /obj/structure/disposalpipe/segment{
@@ -30152,6 +30151,7 @@
 /obj/structure/rack,
 /obj/item/stack/sheet/iron/fifty,
 /obj/item/stack/sheet/mineral/titanium/fifty,
+/obj/item/stack/sheet/duranium/twenty,
 /turf/open/floor/monotile,
 /area/engine/engineering)
 "btq" = (
@@ -30300,7 +30300,6 @@
 	dir = 1
 	},
 /obj/machinery/door/airlock/ship/public/glass{
-	dir = 4;
 	name = "Aft Primary Hallway"
 	},
 /obj/structure/disposalpipe/segment{
@@ -30528,7 +30527,6 @@
 /area/crew_quarters/dorms/nsv/dorms_2)
 "btW" = (
 /obj/machinery/door/airlock/ship/public/glass{
-	dir = 4;
 	name = "Crew Lounge"
 	},
 /obj/structure/disposalpipe/segment{
@@ -30962,7 +30960,6 @@
 /area/crew_quarters/kitchen/coldroom)
 "buI" = (
 /obj/machinery/door/airlock/ship/security/glass{
-	dir = 4;
 	name = "Long Term Confinement";
 	req_one_access_txt = "2"
 	},
@@ -31047,7 +31044,6 @@
 /area/security/brig)
 "buN" = (
 /obj/machinery/door/airlock/ship/security/glass{
-	dir = 4;
 	req_one_access_txt = "2"
 	},
 /obj/structure/cable{
@@ -31072,7 +31068,6 @@
 /area/security/brig)
 "buO" = (
 /obj/machinery/door/airlock/ship/public/glass{
-	dir = 4;
 	name = "Engineering section"
 	},
 /obj/effect/turf_decal/tile/neutral,
@@ -31169,7 +31164,6 @@
 /area/hallway/nsv/deck2/frame1/central)
 "buW" = (
 /obj/machinery/door/airlock/highsecurity/ship{
-	dir = 4;
 	name = "CIC";
 	req_one_access_txt = "19"
 	},
@@ -31232,7 +31226,6 @@
 /area/nsv/hanger/deck2)
 "bvc" = (
 /obj/machinery/door/airlock/highsecurity/ship{
-	dir = 4;
 	name = "CIC";
 	req_one_access_txt = "19"
 	},
@@ -31386,7 +31379,6 @@
 /area/medical/medbay/lobby)
 "bvq" = (
 /obj/machinery/door/airlock/ship/public/glass{
-	dir = 4;
 	name = "Medical Storage";
 	req_one_access_txt = "5"
 	},
@@ -31558,7 +31550,6 @@
 /area/medical/virology)
 "bvJ" = (
 /obj/machinery/door/airlock/ship/public/glass{
-	dir = 4;
 	name = "Surgery";
 	req_one_access_txt = "5"
 	},
@@ -32795,7 +32786,6 @@
 /area/chapel/main)
 "byj" = (
 /obj/machinery/door/airlock/ship/public/glass{
-	dir = 4;
 	name = "Engineering section"
 	},
 /obj/effect/turf_decal/tile/neutral{
@@ -33007,7 +32997,6 @@
 /area/security/brig)
 "byJ" = (
 /obj/machinery/door/airlock/ship/security/glass{
-	dir = 4;
 	name = "Security Equipment";
 	req_one_access_txt = "1;4"
 	},
@@ -33498,7 +33487,6 @@
 /area/crew_quarters/dorms)
 "bzE" = (
 /obj/machinery/door/airlock/ship/external/glass{
-	dir = 4;
 	req_one_access_txt = "10"
 	},
 /obj/effect/mapping_helpers/airlock/cyclelink_helper{
@@ -33585,7 +33573,6 @@
 	})
 "bzO" = (
 /obj/machinery/door/airlock/highsecurity/ship{
-	dir = 8;
 	name = "CIC";
 	req_one_access_txt = "19"
 	},
@@ -33607,7 +33594,6 @@
 	})
 "bzP" = (
 /obj/machinery/door/airlock/highsecurity/ship{
-	dir = 4;
 	name = "CIC";
 	req_one_access_txt = "19"
 	},
@@ -33782,7 +33768,6 @@
 /area/engine/engineering)
 "bAs" = (
 /obj/machinery/door/airlock/ship/public/glass{
-	dir = 4;
 	name = "Engineering Hangar Bay"
 	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
@@ -33984,7 +33969,6 @@
 /area/crew_quarters/dorms)
 "bAM" = (
 /obj/machinery/door/airlock/ship/public{
-	dir = 4;
 	name = "Bunk 1-B"
 	},
 /obj/structure/cable{
@@ -34124,9 +34108,6 @@
 /turf/open/floor/carpet/blue,
 /area/nsv/hanger/deck2)
 "bAY" = (
-/obj/effect/turf_decal/stripes/line{
-	dir = 4
-	},
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3,
 /turf/open/floor/monotile,
 /area/nsv/hanger/deck2)
@@ -34186,9 +34167,13 @@
 	dir = 8
 	},
 /obj/effect/turf_decal/stripes/line{
-	dir = 9
+	dir = 1
 	},
-/turf/open/floor/monotile,
+/obj/effect/turf_decal/tile/orange{
+	dir = 4
+	},
+/obj/effect/turf_decal/tile/orange,
+/turf/open/floor/monotile/dark,
 /area/nsv/hanger/deck2)
 "bBh" = (
 /obj/effect/turf_decal/stripes/line{
@@ -34264,12 +34249,17 @@
 	},
 /obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer3,
 /obj/machinery/deck_turret/powder_gate,
+/obj/effect/turf_decal/tile/orange{
+	dir = 4
+	},
+/obj/effect/turf_decal/tile/orange{
+	dir = 1
+	},
 /turf/open/floor/plating,
 /area/nsv/weapons/fore)
 "bBr" = (
 /obj/structure/lattice/catwalk/over/ship,
 /obj/machinery/door/airlock/highsecurity/ship{
-	dir = 4;
 	name = "Munitions Control Room";
 	req_one_access_txt = "69"
 	},
@@ -34334,9 +34324,6 @@
 /turf/open/floor/monotile,
 /area/nsv/hanger/deck2)
 "bBx" = (
-/obj/effect/turf_decal/stripes/line{
-	dir = 4
-	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	dir = 4
 	},
@@ -34356,11 +34343,16 @@
 /obj/structure/disposalpipe/segment{
 	dir = 4
 	},
+/obj/effect/turf_decal/tile/orange{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/orange{
+	dir = 8
+	},
 /turf/open/floor/monotile/dark,
 /area/nsv/hanger/deck2)
 "bBz" = (
 /obj/machinery/door/airlock/ship{
-	dir = 4;
 	name = "Munitions Briefing Room";
 	req_access_txt = "69"
 	},
@@ -34390,6 +34382,10 @@
 	dir = 10
 	},
 /obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer3,
+/obj/effect/turf_decal/tile/orange{
+	dir = 4
+	},
+/obj/effect/turf_decal/tile/orange,
 /turf/open/floor/monotile/dark,
 /area/nsv/hanger/deck2)
 "bBB" = (
@@ -34425,6 +34421,12 @@
 /area/shuttle/turbolift/secondary)
 "bBF" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer1{
+	dir = 8
+	},
+/obj/effect/turf_decal/tile/orange{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/orange{
 	dir = 8
 	},
 /turf/open/floor/monotile/dark,
@@ -34628,13 +34630,13 @@
 /turf/open/floor/monotile/dark,
 /area/nsv/weapons/fore)
 "bCb" = (
-/obj/effect/turf_decal/tile/neutral,
-/obj/effect/turf_decal/tile/neutral{
-	dir = 8
-	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /obj/structure/disposalpipe/segment,
+/obj/effect/turf_decal/tile/orange,
+/obj/effect/turf_decal/tile/orange{
+	dir = 8
+	},
 /turf/open/floor/monotile,
 /area/hallway/nsv/deck2/frame1/central)
 "bCc" = (
@@ -35276,7 +35278,6 @@
 	dir = 8
 	},
 /obj/machinery/door/airlock/ship/station/mining{
-	dir = 4;
 	name = "Warehouse";
 	req_one_access_txt = "31;48"
 	},
@@ -35520,6 +35521,12 @@
 /area/nsv/weapons/fore)
 "bDK" = (
 /obj/machinery/camera/autoname,
+/obj/effect/turf_decal/tile/orange{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/orange{
+	dir = 8
+	},
 /turf/open/floor/monotile/dark,
 /area/nsv/hanger/deck2)
 "bDN" = (
@@ -35578,6 +35585,12 @@
 "bDS" = (
 /obj/machinery/light{
 	dir = 4
+	},
+/obj/effect/turf_decal/tile/orange{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/orange{
+	dir = 8
 	},
 /turf/open/floor/monotile/dark,
 /area/nsv/hanger/deck2)
@@ -36327,7 +36340,6 @@
 	dir = 4
 	},
 /obj/machinery/door/airlock/ship/security/glass{
-	dir = 4;
 	req_one_access_txt = "2"
 	},
 /obj/effect/mapping_helpers/airlock/cyclelink_helper{
@@ -36471,7 +36483,6 @@
 	dir = 4
 	},
 /obj/machinery/door/airlock/ship/security/glass{
-	dir = 4;
 	req_one_access_txt = "2"
 	},
 /obj/effect/mapping_helpers/airlock/cyclelink_helper{
@@ -36724,6 +36735,7 @@
 	pixel_x = -22
 	},
 /obj/structure/reagent_dispensers/fueltank,
+/obj/effect/decal/cleanable/dirt/dust,
 /turf/open/floor/plating,
 /area/maintenance/department/science)
 "bFX" = (
@@ -37419,7 +37431,6 @@
 /area/hallway/nsv/deck2/frame1/central)
 "bHt" = (
 /obj/machinery/door/airlock/ship{
-	dir = 4;
 	name = "Deck 1 access"
 	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
@@ -37731,7 +37742,6 @@
 /area/medical/virology)
 "bIe" = (
 /obj/machinery/door/airlock/ship/external/glass{
-	dir = 4;
 	name = "Auxiliary Shuttle Dock"
 	},
 /obj/effect/mapping_helpers/airlock/cyclelink_helper{
@@ -37747,7 +37757,6 @@
 /area/hallway/secondary/exit)
 "bIf" = (
 /obj/machinery/door/airlock/ship/external/glass{
-	dir = 4;
 	name = "Auxiliary Shuttle Dock"
 	},
 /obj/effect/mapping_helpers/airlock/cyclelink_helper{
@@ -38684,6 +38693,12 @@
 /obj/structure/cable{
 	icon_state = "4-8"
 	},
+/obj/effect/turf_decal/tile/orange{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/orange{
+	dir = 4
+	},
 /turf/open/floor/monotile/dark,
 /area/nsv/hanger/storage{
 	name = "Munitions Control Room"
@@ -38692,11 +38707,23 @@
 /obj/structure/cable{
 	icon_state = "1-8"
 	},
+/obj/effect/turf_decal/tile/orange{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/orange{
+	dir = 4
+	},
 /turf/open/floor/monotile/dark,
 /area/nsv/hanger/storage{
 	name = "Munitions Control Room"
 	})
 "bKH" = (
+/obj/effect/turf_decal/tile/orange{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/orange{
+	dir = 4
+	},
 /turf/open/floor/monotile/dark,
 /area/nsv/hanger/storage{
 	name = "Munitions Control Room"
@@ -39191,28 +39218,24 @@
 	name = "CIC"
 	})
 "bLK" = (
-/obj/effect/turf_decal/tile/neutral{
+/obj/machinery/light,
+/obj/effect/turf_decal/tile/orange{
 	dir = 1
 	},
-/obj/effect/turf_decal/tile/neutral{
+/obj/effect/turf_decal/tile/orange{
 	dir = 4
 	},
-/obj/machinery/light,
 /turf/open/floor/monotile,
 /area/hallway/nsv/deck2/frame1/central)
 "bLL" = (
-/obj/effect/turf_decal/tile/neutral,
-/obj/effect/turf_decal/tile/neutral{
+/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3,
+/obj/effect/turf_decal/tile/orange{
 	dir = 8
 	},
-/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3,
+/obj/effect/turf_decal/tile/orange,
 /turf/open/floor/monotile,
 /area/hallway/nsv/deck2/frame1/central)
 "bLM" = (
-/obj/effect/turf_decal/tile/neutral,
-/obj/effect/turf_decal/tile/neutral{
-	dir = 8
-	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /obj/structure/extinguisher_cabinet{
@@ -39221,6 +39244,10 @@
 /obj/machinery/light{
 	dir = 1
 	},
+/obj/effect/turf_decal/tile/orange{
+	dir = 8
+	},
+/obj/effect/turf_decal/tile/orange,
 /turf/open/floor/monotile,
 /area/hallway/nsv/deck2/frame1/central)
 "bLN" = (
@@ -39436,6 +39463,12 @@
 /obj/effect/turf_decal/loading_area{
 	dir = 8
 	},
+/obj/effect/turf_decal/tile/orange{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/orange{
+	dir = 8
+	},
 /turf/open/floor/plating,
 /area/nsv/weapons/fore)
 "bPM" = (
@@ -39536,13 +39569,13 @@
 /turf/closed/wall/r_wall/ship,
 /area/nsv/weapons/gauss)
 "bXG" = (
-/obj/effect/turf_decal/tile/neutral,
-/obj/effect/turf_decal/tile/neutral{
-	dir = 8
-	},
 /obj/structure/sign/ship/plaque/light{
 	pixel_y = 26
 	},
+/obj/effect/turf_decal/tile/orange{
+	dir = 8
+	},
+/obj/effect/turf_decal/tile/orange,
 /turf/open/floor/monotile,
 /area/hallway/nsv/deck2/frame1/central)
 "bXH" = (
@@ -39710,10 +39743,10 @@
 /turf/open/floor/monotile,
 /area/nsv/weapons/gauss)
 "bYI" = (
-/obj/effect/turf_decal/tile/neutral,
-/obj/effect/turf_decal/tile/neutral{
+/obj/effect/turf_decal/tile/orange{
 	dir = 8
 	},
+/obj/effect/turf_decal/tile/orange,
 /turf/open/floor/monotile,
 /area/nsv/weapons/fore)
 "bYK" = (
@@ -39766,6 +39799,7 @@
 /obj/item/ship_weapon/ammunition/gauss{
 	pixel_y = 6
 	},
+/obj/machinery/light,
 /turf/open/floor/monotile,
 /area/nsv/weapons/gauss)
 "bYU" = (
@@ -39782,6 +39816,12 @@
 "bYW" = (
 /obj/machinery/computer/ship/munitions_computer/west,
 /obj/effect/turf_decal/stripes/line,
+/obj/effect/turf_decal/tile/orange{
+	dir = 4
+	},
+/obj/effect/turf_decal/tile/orange{
+	dir = 1
+	},
 /turf/open/floor/monotile,
 /area/nsv/weapons/fore)
 "bYZ" = (
@@ -40309,6 +40349,9 @@
 /obj/effect/turf_decal/stripes/line{
 	dir = 6
 	},
+/obj/effect/turf_decal/tile/orange{
+	dir = 1
+	},
 /turf/open/floor/monotile,
 /area/nsv/weapons/fore)
 "cfo" = (
@@ -40316,16 +40359,22 @@
 	dir = 4
 	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
+/obj/effect/turf_decal/tile/orange{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/orange{
+	dir = 8
+	},
 /turf/open/floor/monotile,
 /area/nsv/weapons/fore)
 "cfq" = (
-/obj/effect/turf_decal/tile/neutral,
-/obj/effect/turf_decal/tile/neutral{
-	dir = 8
-	},
 /obj/structure/sign/nanotrasen{
 	pixel_y = 26
 	},
+/obj/effect/turf_decal/tile/orange{
+	dir = 8
+	},
+/obj/effect/turf_decal/tile/orange,
 /turf/open/floor/monotile,
 /area/hallway/nsv/deck2/frame1/central)
 "cfx" = (
@@ -40390,13 +40439,12 @@
 	},
 /obj/machinery/door/firedoor/border_only,
 /obj/machinery/door/airlock/ship/maintenance{
-	name = "Arrivals maintenance"
+	name = "Virology maintenance"
 	},
 /turf/open/floor/plating,
 /area/maintenance/department/science)
 "cjB" = (
 /obj/machinery/door/airlock/ship/public/glass{
-	dir = 4;
 	name = "Arrivals"
 	},
 /obj/structure/cable{
@@ -40551,8 +40599,7 @@
 	dir = 4
 	},
 /obj/machinery/door/airlock/ship/maintenance{
-	dir = 4;
-	name = "Trash compactor"
+	name = "Virology maintenance"
 	},
 /turf/open/floor/plating,
 /area/maintenance/department/science)
@@ -40589,7 +40636,6 @@
 /area/engine/engineering/reactor_core)
 "csW" = (
 /obj/machinery/door/airlock/ship/public/glass{
-	dir = 4;
 	name = "Chapel"
 	},
 /obj/machinery/door/firedoor/border_only{
@@ -40617,13 +40663,13 @@
 /turf/open/floor/plating,
 /area/maintenance/port)
 "cve" = (
-/obj/effect/turf_decal/tile/neutral,
-/obj/effect/turf_decal/tile/neutral{
-	dir = 8
-	},
 /obj/structure/cable/yellow{
 	icon_state = "1-2"
 	},
+/obj/effect/turf_decal/tile/orange{
+	dir = 8
+	},
+/obj/effect/turf_decal/tile/orange,
 /turf/open/floor/monotile,
 /area/nsv/weapons/fore)
 "cwi" = (
@@ -40871,7 +40917,6 @@
 /area/maintenance/starboard)
 "cUM" = (
 /obj/machinery/door/airlock/ship/public/glass{
-	dir = 4;
 	name = "Chemistry";
 	req_one_access_txt = "33"
 	},
@@ -40905,7 +40950,6 @@
 	dir = 4
 	},
 /obj/machinery/door/airlock/ship/maintenance/defaultaccess{
-	dir = 4;
 	name = "Munitions Projects"
 	},
 /turf/open/floor/monotile/dark,
@@ -41002,7 +41046,7 @@
 	id = "shellOne";
 	name = "Shell Rack 1"
 	},
-/obj/effect/turf_decal/tile/neutral{
+/obj/effect/turf_decal/tile/orange{
 	dir = 8
 	},
 /turf/open/floor/monotile,
@@ -41132,6 +41176,10 @@
 	},
 /turf/closed/wall/r_wall/ship,
 /area/engine/atmospherics_engine)
+"dxN" = (
+/obj/effect/spawner/structure/window/reinforced/ship,
+/turf/open/floor/plating,
+/area/space)
 "dyj" = (
 /obj/structure/bookcase/manuals/medical,
 /obj/machinery/camera/autoname{
@@ -41268,7 +41316,6 @@
 /area/engine/engine_room)
 "dRf" = (
 /obj/machinery/door/airlock/highsecurity/ship{
-	dir = 4;
 	name = "Naval Artillery";
 	req_one_access_txt = "69"
 	},
@@ -41284,7 +41331,6 @@
 /area/nsv/weapons/fore)
 "dSD" = (
 /obj/machinery/door/airlock/ship/external/glass{
-	dir = 4;
 	req_one_access_txt = "2"
 	},
 /obj/effect/mapping_helpers/airlock/cyclelink_helper{
@@ -41297,7 +41343,6 @@
 /area/security/execution/transfer)
 "dTk" = (
 /obj/machinery/door/airlock/ship/public/glass{
-	dir = 4;
 	name = "Crew Lounge"
 	},
 /obj/machinery/door/firedoor/border_only{
@@ -41362,7 +41407,6 @@
 /area/engine/engineering)
 "dXv" = (
 /obj/machinery/door/airlock/ship/public/glass{
-	dir = 4;
 	name = "Patient Room B"
 	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
@@ -41391,6 +41435,14 @@
 /obj/structure/reagent_dispensers/watertank,
 /turf/open/floor/plating,
 /area/maintenance/starboard/fore)
+"eba" = (
+/obj/structure/disposalpipe/segment,
+/obj/effect/turf_decal/tile/orange,
+/obj/effect/turf_decal/tile/orange{
+	dir = 8
+	},
+/turf/open/floor/monotile,
+/area/hallway/nsv/deck2/frame1/central)
 "ecX" = (
 /obj/structure/cable{
 	icon_state = "4-8"
@@ -41460,11 +41512,11 @@
 /turf/open/floor/engine/airless,
 /area/space/nearstation)
 "efA" = (
-/obj/effect/turf_decal/tile/neutral{
-	dir = 1
-	},
-/obj/effect/turf_decal/tile/neutral{
+/obj/effect/turf_decal/tile/orange{
 	dir = 8
+	},
+/obj/effect/turf_decal/tile/orange{
+	dir = 1
 	},
 /turf/open/floor/monotile,
 /area/nsv/weapons/fore)
@@ -41480,7 +41532,6 @@
 	dir = 4
 	},
 /obj/machinery/door/airlock/ship/hatch{
-	dir = 4;
 	name = "Funeral Parlour"
 	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
@@ -41852,7 +41903,6 @@
 /area/crew_quarters/fitness/recreation)
 "eEA" = (
 /obj/machinery/door/airlock/ship/external/glass{
-	dir = 4;
 	req_one_access_txt = "13"
 	},
 /obj/effect/mapping_helpers/airlock/cyclelink_helper{
@@ -41866,6 +41916,10 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/department/cargo)
+"eEX" = (
+/obj/structure/sign/poster/official/wtf_is_co2,
+/turf/closed/wall/r_wall/ship,
+/area/engine/atmos)
 "eFj" = (
 /obj/structure/grille,
 /turf/open/floor/plating,
@@ -41985,7 +42039,6 @@
 /area/nsv/weapons/gauss)
 "eQZ" = (
 /obj/machinery/door/airlock/ship/public/glass{
-	dir = 4;
 	name = "Diplomatic Reception Area"
 	},
 /obj/machinery/door/firedoor/border_only{
@@ -42082,6 +42135,10 @@
 "fbx" = (
 /turf/closed/wall/r_wall/ship,
 /area/shuttle/turbolift/shaft)
+"fcD" = (
+/obj/structure/grille,
+/turf/open/floor/plating,
+/area/maintenance/department/science)
 "fcO" = (
 /obj/machinery/door/firedoor/border_only,
 /turf/open/floor/monotile/light,
@@ -42119,7 +42176,6 @@
 /area/maintenance/starboard)
 "fjB" = (
 /obj/machinery/door/airlock/ship{
-	dir = 4;
 	name = "Exothermic Chamber";
 	req_one_access_txt = "8"
 	},
@@ -42189,7 +42245,6 @@
 /area/engine/engineering/reactor_core)
 "fpL" = (
 /obj/machinery/door/airlock/ship/station/mining{
-	dir = 4;
 	name = "Cargo Bay";
 	req_one_access_txt = "31; 48"
 	},
@@ -42216,6 +42271,10 @@
 /obj/effect/turf_decal/stripes/line{
 	dir = 1
 	},
+/obj/effect/turf_decal/tile/orange{
+	dir = 8
+	},
+/obj/effect/turf_decal/tile/orange,
 /turf/open/floor/monotile,
 /area/nsv/weapons/fore)
 "ful" = (
@@ -42269,7 +42328,6 @@
 	dir = 8
 	},
 /obj/machinery/door/airlock/ship/engineering/glass{
-	dir = 4;
 	name = "Engineering Equipment";
 	req_one_access_txt = "11;24"
 	},
@@ -42377,6 +42435,16 @@
 	initial_gas_mix = "TEMP=2.7"
 	},
 /area/engine/atmos)
+"fPJ" = (
+/obj/structure/cable{
+	icon_state = "1-4"
+	},
+/obj/structure/disposalpipe/segment{
+	dir = 5
+	},
+/obj/effect/spawner/lootdrop/maintenance,
+/turf/open/floor/plating,
+/area/maintenance/department/science)
 "fPU" = (
 /obj/structure/shuttle/engine/huge{
 	dir = 8
@@ -42519,7 +42587,6 @@
 /area/nsv/weapons/fore)
 "giC" = (
 /obj/machinery/door/airlock/ship/public/glass{
-	dir = 4;
 	name = "Crew Lounge"
 	},
 /obj/structure/disposalpipe/segment{
@@ -42659,9 +42726,7 @@
 /obj/structure/cable{
 	icon_state = "4-8"
 	},
-/obj/machinery/door/airlock/ship/maintenance/defaultaccess{
-	dir = 4
-	},
+/obj/machinery/door/airlock/ship/maintenance/defaultaccess,
 /obj/machinery/door/firedoor/border_only{
 	dir = 8
 	},
@@ -42672,7 +42737,6 @@
 /area/maintenance/nsv/hangar)
 "guw" = (
 /obj/machinery/door/airlock/ship/external/glass{
-	dir = 4;
 	req_one_access_txt = "24"
 	},
 /turf/open/floor/plating/airless,
@@ -42845,7 +42909,6 @@
 /area/engine/engineering/hangar)
 "gJJ" = (
 /obj/machinery/door/airlock/ship/public/glass{
-	dir = 4;
 	name = "Examination Room"
 	},
 /obj/structure/cable{
@@ -42902,6 +42965,16 @@
 /obj/machinery/computer/ship/viewscreen,
 /turf/open/floor/wood,
 /area/library)
+"gNA" = (
+/obj/machinery/status_display/evac{
+	pixel_y = 26
+	},
+/obj/effect/turf_decal/tile/orange,
+/obj/effect/turf_decal/tile/orange{
+	dir = 8
+	},
+/turf/open/floor/monotile,
+/area/hallway/nsv/deck2/frame1/central)
 "gNY" = (
 /obj/machinery/vending/coffee,
 /obj/machinery/computer/ship/viewscreen,
@@ -43036,7 +43109,6 @@
 /area/security/brig)
 "gZZ" = (
 /obj/machinery/door/airlock/highsecurity/ship{
-	dir = 4;
 	name = "Ordnance Production";
 	req_one_access_txt = "69"
 	},
@@ -43349,6 +43421,10 @@
 /obj/effect/turf_decal/stripes/line{
 	dir = 1
 	},
+/obj/effect/turf_decal/tile/orange{
+	dir = 8
+	},
+/obj/effect/turf_decal/tile/orange,
 /turf/open/floor/monotile,
 /area/nsv/weapons/fore)
 "hzd" = (
@@ -43358,6 +43434,10 @@
 "hzO" = (
 /obj/machinery/deck_turret/payload_gate,
 /obj/effect/turf_decal/loading_area{
+	dir = 4
+	},
+/obj/effect/turf_decal/tile/orange,
+/obj/effect/turf_decal/tile/orange{
 	dir = 4
 	},
 /turf/open/floor/plating,
@@ -43616,7 +43696,6 @@
 	dir = 4
 	},
 /obj/machinery/door/airlock/ship/security/glass{
-	dir = 4;
 	name = "Security Equipment";
 	req_one_access_txt = "2"
 	},
@@ -43773,6 +43852,7 @@
 	dir = 9
 	},
 /obj/machinery/computer/deckgun,
+/obj/effect/turf_decal/tile/orange,
 /turf/open/floor/plating,
 /area/nsv/weapons/fore)
 "irj" = (
@@ -43783,7 +43863,6 @@
 	})
 "iry" = (
 /obj/machinery/door/airlock/ship/external/glass{
-	dir = 4;
 	req_one_access_txt = "10"
 	},
 /obj/effect/mapping_helpers/airlock/cyclelink_helper{
@@ -43881,7 +43960,6 @@
 /area/nsv/hanger/deck2)
 "iDf" = (
 /obj/machinery/door/airlock/highsecurity/ship{
-	dir = 4;
 	name = "Gauss rounds";
 	req_one_access_txt = "69"
 	},
@@ -43909,6 +43987,11 @@
 	},
 /turf/open/floor/monotile/light,
 /area/medical/medbay/lobby)
+"iFe" = (
+/obj/structure/mopbucket,
+/obj/item/mop,
+/turf/open/floor/plating,
+/area/maintenance/department/science)
 "iFf" = (
 /obj/structure/disposalpipe/segment{
 	dir = 4
@@ -43923,6 +44006,15 @@
 	},
 /turf/open/floor/monotile/dark,
 /area/nsv/weapons/fore)
+"iFi" = (
+/obj/effect/turf_decal/tile/brown{
+	dir = 4
+	},
+/obj/effect/turf_decal/tile/brown{
+	dir = 1
+	},
+/turf/open/floor/plasteel/techmaint,
+/area/quartermaster/warehouse)
 "iGz" = (
 /obj/effect/turf_decal/bot_red/left,
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer1{
@@ -43938,7 +44030,6 @@
 	dir = 8
 	},
 /obj/machinery/door/airlock/ship{
-	dir = 4;
 	name = "Hangar Bay";
 	req_access_txt = "69"
 	},
@@ -44049,7 +44140,6 @@
 	dir = 4
 	},
 /obj/machinery/door/airlock/ship/public{
-	dir = 4;
 	name = "Arrivals Emergency Storage"
 	},
 /obj/machinery/door/firedoor/border_only{
@@ -44185,9 +44275,7 @@
 /turf/open/floor/plasteel/techmaint,
 /area/engine/engine_room)
 "jbU" = (
-/obj/machinery/door/airlock/ship/maintenance/defaultaccess{
-	dir = 4
-	},
+/obj/machinery/door/airlock/ship/maintenance/defaultaccess,
 /obj/structure/cable{
 	icon_state = "4-8"
 	},
@@ -44306,7 +44394,6 @@
 	},
 /obj/effect/landmark/zebra_interlock_point,
 /obj/machinery/door/airlock/ship/public/glass{
-	dir = 4;
 	name = "Mess Hall"
 	},
 /turf/open/floor/monotile,
@@ -44502,7 +44589,6 @@
 /area/engine/engine_room)
 "jHU" = (
 /obj/machinery/door/airlock/ship/public/glass{
-	dir = 4;
 	name = "Chemistry Access"
 	},
 /obj/machinery/door/firedoor/border_only{
@@ -44583,6 +44669,13 @@
 /area/science/mixing{
 	name = "Prototype munitions bay"
 	})
+"jRa" = (
+/obj/effect/turf_decal/tile/orange{
+	dir = 8
+	},
+/obj/effect/turf_decal/tile/orange,
+/turf/open/floor/monotile,
+/area/hallway/nsv/deck2/frame1/central)
 "jSc" = (
 /turf/open/floor/carpet/green,
 /area/engine/engineering/reactor_control)
@@ -44655,13 +44748,13 @@
 	name = "CIC"
 	})
 "jZc" = (
-/obj/effect/turf_decal/tile/neutral,
-/obj/effect/turf_decal/tile/neutral{
-	dir = 8
-	},
 /obj/machinery/camera/autoname,
 /obj/structure/sign/nanotrasen{
 	pixel_y = 26
+	},
+/obj/effect/turf_decal/tile/orange,
+/obj/effect/turf_decal/tile/orange{
+	dir = 8
 	},
 /turf/open/floor/monotile,
 /area/hallway/nsv/deck2/frame1/central)
@@ -44669,6 +44762,9 @@
 /obj/machinery/deck_turret/powder_gate,
 /obj/structure/lattice/catwalk/over/ship,
 /obj/structure/disposalpipe/segment,
+/obj/effect/turf_decal/tile/orange{
+	dir = 1
+	},
 /turf/open/floor/plating,
 /area/nsv/weapons/fore)
 "jZR" = (
@@ -44729,7 +44825,6 @@
 	dir = 8
 	},
 /obj/machinery/door/airlock/ship/maintenance/defaultaccess{
-	dir = 4;
 	name = "Munitions Projects"
 	},
 /turf/open/floor/plating,
@@ -45106,7 +45201,6 @@
 	},
 /obj/effect/landmark/zebra_interlock_point,
 /obj/machinery/door/airlock/ship/public/glass{
-	dir = 4;
 	name = "Mess Hall"
 	},
 /turf/open/floor/monotile,
@@ -45164,12 +45258,12 @@
 	},
 /area/tcommsat/server)
 "kEU" = (
-/obj/effect/turf_decal/tile/neutral,
-/obj/effect/turf_decal/tile/neutral{
-	dir = 8
-	},
 /obj/machinery/newscaster{
 	pixel_y = 32
+	},
+/obj/effect/turf_decal/tile/orange,
+/obj/effect/turf_decal/tile/orange{
+	dir = 8
 	},
 /turf/open/floor/monotile,
 /area/hallway/nsv/deck2/frame1/central)
@@ -45384,6 +45478,15 @@
 	initial_gas_mix = "TEMP=2.7"
 	},
 /area/engine/atmos)
+"kYm" = (
+/obj/effect/turf_decal/tile/orange{
+	dir = 4
+	},
+/obj/effect/turf_decal/tile/orange{
+	dir = 1
+	},
+/turf/open/floor/monotile,
+/area/hallway/nsv/deck2/frame1/central)
 "kZu" = (
 /obj/machinery/portable_atmospherics/scrubber/huge,
 /obj/machinery/light{
@@ -45484,7 +45587,6 @@
 /area/maintenance/starboard)
 "lgi" = (
 /obj/machinery/door/airlock/ship/external/glass{
-	dir = 4;
 	req_one_access_txt = "10; 24"
 	},
 /obj/effect/mapping_helpers/airlock/cyclelink_helper{
@@ -45605,18 +45707,24 @@
 /turf/open/floor/plating,
 /area/engine/engineering/hangar)
 "lvt" = (
-/obj/machinery/door/airlock/ship/engineering/glass{
-	dir = 4;
-	name = "Atmospherics Storage";
-	req_one_access_txt = "10; 24"
+/obj/machinery/firealarm{
+	pixel_y = 24
 	},
-/turf/open/floor/plasteel/tech/grid{
-	initial_gas_mix = "TEMP=2.7"
+/obj/effect/turf_decal/tile/orange{
+	dir = 8
 	},
-/area/engine/atmos)
+/obj/effect/turf_decal/tile/orange,
+/turf/open/floor/monotile,
+/area/hallway/nsv/deck2/frame1/central)
 "lwA" = (
 /obj/machinery/ship_weapon/vls,
 /obj/effect/turf_decal/stripes/line,
+/obj/effect/turf_decal/tile/orange{
+	dir = 4
+	},
+/obj/effect/turf_decal/tile/orange{
+	dir = 1
+	},
 /turf/open/floor/monotile,
 /area/nsv/weapons/fore)
 "lwJ" = (
@@ -45887,6 +45995,9 @@
 /obj/machinery/door/airlock/ship/engineering/glass{
 	req_one_access_txt = "10;24"
 	},
+/obj/effect/mapping_helpers/airlock/unres{
+	dir = 1
+	},
 /turf/open/floor/monotile/dark,
 /area/engine/engineering)
 "lVx" = (
@@ -45981,6 +46092,12 @@
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	dir = 5
 	},
+/obj/effect/turf_decal/tile/orange{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/orange{
+	dir = 8
+	},
 /turf/open/floor/monotile,
 /area/nsv/weapons/fore)
 "meb" = (
@@ -46004,6 +46121,9 @@
 "meB" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 5
+	},
+/obj/effect/turf_decal/tile/orange{
+	dir = 8
 	},
 /turf/open/floor/plating,
 /area/nsv/weapons/fore)
@@ -46095,6 +46215,10 @@
 /obj/machinery/atmospherics/pipe/manifold/cyan/visible,
 /turf/open/floor/plasteel/ridged/steel,
 /area/engine/engineering/reactor_core)
+"mrB" = (
+/obj/structure/sign/poster/official/science,
+/turf/closed/wall/ship,
+/area/science/robotics)
 "mrY" = (
 /obj/machinery/door/airlock/ship/external/glass{
 	req_one_access_txt = "8;13"
@@ -46176,6 +46300,16 @@
 	initial_gas_mix = "TEMP=2.7"
 	},
 /area/engine/atmos)
+"mzE" = (
+/obj/machinery/firealarm{
+	pixel_y = 24
+	},
+/obj/effect/turf_decal/tile/orange,
+/obj/effect/turf_decal/tile/orange{
+	dir = 8
+	},
+/turf/open/floor/monotile,
+/area/hallway/nsv/deck2/frame1/central)
 "mzP" = (
 /obj/machinery/requests_console{
 	department = "Chapel";
@@ -46197,7 +46331,6 @@
 /area/crew_quarters/fitness/recreation)
 "mBj" = (
 /obj/machinery/door/airlock/ship/external/glass{
-	dir = 4;
 	req_one_access_txt = "10"
 	},
 /obj/effect/mapping_helpers/airlock/cyclelink_helper{
@@ -46393,6 +46526,7 @@
 /area/engine/engineering/reactor_core)
 "mPw" = (
 /obj/structure/reagent_dispensers/watertank,
+/obj/effect/decal/cleanable/dirt/dust,
 /turf/open/floor/plating,
 /area/maintenance/department/science)
 "mPU" = (
@@ -46534,9 +46668,7 @@
 /turf/open/floor/plating,
 /area/maintenance/department/cargo)
 "neD" = (
-/obj/machinery/door/airlock/ship/maintenance/defaultaccess{
-	dir = 4
-	},
+/obj/machinery/door/airlock/ship/maintenance/defaultaccess,
 /obj/machinery/door/firedoor/border_only{
 	dir = 8
 	},
@@ -46596,6 +46728,10 @@
 /obj/effect/turf_decal/stripes/line{
 	dir = 1
 	},
+/obj/effect/turf_decal/tile/orange{
+	dir = 8
+	},
+/obj/effect/turf_decal/tile/orange,
 /turf/open/floor/monotile,
 /area/nsv/weapons/fore)
 "npw" = (
@@ -46705,6 +46841,17 @@
 	icon_state = "platingdmg3"
 	},
 /area/maintenance/starboard)
+"nzE" = (
+/obj/effect/decal/cleanable/dirt,
+/turf/open/floor/plating,
+/area/maintenance/department/science)
+"nBM" = (
+/obj/structure/rack,
+/obj/item/clothing/mask/surgical,
+/obj/item/clothing/glasses/cold,
+/obj/item/clothing/suit/toggle/labcoat,
+/turf/open/floor/plating,
+/area/space)
 "nBS" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/visible{
 	dir = 4
@@ -47046,6 +47193,9 @@
 /obj/effect/turf_decal/stripes/line{
 	dir = 5
 	},
+/obj/effect/turf_decal/tile/orange{
+	dir = 8
+	},
 /turf/open/floor/monotile,
 /area/nsv/weapons/fore)
 "ohf" = (
@@ -47079,7 +47229,6 @@
 	dir = 4
 	},
 /obj/machinery/door/airlock/ship/engineering/glass{
-	dir = 4;
 	name = "Turbine Hall Access";
 	req_one_access_txt = "10; 24"
 	},
@@ -47256,7 +47405,7 @@
 	},
 /obj/structure/disposalpipe/segment,
 /obj/machinery/door/airlock/ship/maintenance{
-	name = "Arrivals maintenance"
+	name = "Virology maintenance"
 	},
 /turf/open/floor/plating,
 /area/maintenance/department/science)
@@ -47326,6 +47475,14 @@
 /area/bridge{
 	name = "CIC"
 	})
+"oJa" = (
+/obj/machinery/atmospherics/components/unary/vent_pump/on/layer1,
+/obj/effect/turf_decal/tile/orange{
+	dir = 8
+	},
+/obj/effect/turf_decal/tile/orange,
+/turf/open/floor/monotile,
+/area/hallway/nsv/deck2/frame1/central)
 "oMj" = (
 /obj/machinery/space_heater,
 /turf/open/floor/plating,
@@ -47481,10 +47638,20 @@
 /obj/effect/turf_decal/stripes/line{
 	dir = 9
 	},
-/obj/machinery/shower,
 /obj/machinery/light{
 	dir = 1
 	},
+/obj/item/stack/sheet/duranium/fifty,
+/obj/structure/table,
+/obj/effect/turf_decal/bot{
+	dir = 1
+	},
+/obj/item/radio/intercom{
+	name = "intra ship intercom";
+	pixel_y = 26
+	},
+/obj/item/stack/sheet/nanocarbon_glass/fifty,
+/obj/item/stack/sheet/durasteel/fifty,
 /turf/open/floor/plasteel/ship,
 /area/engine/engineering)
 "peN" = (
@@ -47777,6 +47944,11 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/starboard/fore)
+"pGe" = (
+/obj/effect/decal/cleanable/greenglow,
+/obj/machinery/iv_drip,
+/turf/open/floor/plating,
+/area/space)
 "pHv" = (
 /obj/structure/cable{
 	icon_state = "4-8"
@@ -47904,7 +48076,6 @@
 /obj/machinery/airalarm{
 	pixel_y = 26
 	},
-/obj/effect/turf_decal/stripes/line,
 /turf/open/floor/monotile/dark,
 /area/nsv/hanger/deck2)
 "pVN" = (
@@ -48016,7 +48187,6 @@
 /area/maintenance/starboard/fore)
 "qlU" = (
 /obj/machinery/door/airlock/ship/maintenance{
-	dir = 4;
 	name = "Kitchen maintenance";
 	req_access_txt = "12;28"
 	},
@@ -48152,7 +48322,6 @@
 	dir = 1
 	},
 /obj/machinery/door/airlock/ship/engineering/glass{
-	dir = 4;
 	name = "Turbine Hall Access";
 	req_one_access_txt = "10; 24"
 	},
@@ -48233,6 +48402,12 @@
 	dir = 4
 	},
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer1,
+/obj/effect/turf_decal/tile/orange{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/orange{
+	dir = 8
+	},
 /turf/open/floor/monotile,
 /area/nsv/weapons/fore)
 "qKe" = (
@@ -48354,28 +48529,38 @@
 /turf/open/floor/monotile/dark,
 /area/gateway)
 "qRr" = (
-/obj/effect/turf_decal/tile/neutral,
-/obj/effect/turf_decal/tile/neutral{
-	dir = 8
-	},
 /obj/item/radio/intercom{
 	name = "intra ship intercom";
 	pixel_y = 26
 	},
+/obj/effect/turf_decal/tile/orange,
+/obj/effect/turf_decal/tile/orange{
+	dir = 8
+	},
 /turf/open/floor/monotile,
 /area/hallway/nsv/deck2/frame1/central)
 "qVj" = (
-/obj/effect/turf_decal/tile/neutral,
-/obj/effect/turf_decal/tile/neutral{
+/obj/structure/munitions_trolley,
+/obj/effect/turf_decal/tile/orange{
 	dir = 8
 	},
-/obj/structure/munitions_trolley,
+/obj/effect/turf_decal/tile/orange,
 /turf/open/floor/monotile,
 /area/nsv/weapons/fore)
 "qWB" = (
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3,
 /turf/open/floor/plasteel/ship,
 /area/engine/storage_shared)
+"qXR" = (
+/obj/machinery/light,
+/obj/effect/turf_decal/tile/orange{
+	dir = 4
+	},
+/obj/effect/turf_decal/tile/orange{
+	dir = 1
+	},
+/turf/open/floor/monotile,
+/area/hallway/nsv/deck2/frame1/central)
 "qZd" = (
 /obj/structure/closet/emcloset,
 /turf/open/floor/plating,
@@ -48483,7 +48668,6 @@
 	dir = 8
 	},
 /obj/machinery/door/airlock/ship/maintenance{
-	dir = 4;
 	name = "Munitions Control";
 	req_one_access_txt = "69"
 	},
@@ -48534,7 +48718,6 @@
 /area/engine/engine_room)
 "rlJ" = (
 /obj/machinery/door/airlock/ship/external/glass{
-	dir = 4;
 	req_one_access_txt = "10; 24"
 	},
 /obj/effect/mapping_helpers/airlock/cyclelink_helper{
@@ -48562,6 +48745,14 @@
 /obj/machinery/airalarm/directional/south,
 /turf/open/floor/monotile,
 /area/security/brig)
+"rou" = (
+/obj/machinery/door/airlock/ship/maintenance/defaultaccess,
+/obj/machinery/door/firedoor/border_only,
+/obj/machinery/door/firedoor/border_only{
+	dir = 1
+	},
+/turf/open/floor/plating,
+/area/maintenance/department/cargo)
 "rpx" = (
 /turf/open/floor/plasteel/grid/lino,
 /area/engine/engineering/reactor_control)
@@ -48793,7 +48984,6 @@
 	dir = 8
 	},
 /obj/machinery/door/airlock/ship/engineering/glass{
-	dir = 4;
 	name = "Engineering Storage";
 	req_one_access_txt = "11;24"
 	},
@@ -48830,11 +49020,14 @@
 	name = "weapon officer"
 	},
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3,
+/obj/effect/turf_decal/tile/orange{
+	dir = 8
+	},
+/obj/effect/turf_decal/tile/orange,
 /turf/open/floor/plating,
 /area/nsv/weapons/fore)
 "rJv" = (
 /obj/machinery/door/airlock/ship/engineering/glass{
-	dir = 4;
 	name = "Reactor core access";
 	req_one_access_txt = "10; 24"
 	},
@@ -48906,6 +49099,13 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/nsv/hangar)
+"rSI" = (
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
+/obj/effect/decal/cleanable/plasma,
+/turf/open/floor/plating,
+/area/maintenance/department/science)
 "rST" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 1
@@ -48994,6 +49194,9 @@
 /obj/structure/lattice/catwalk,
 /turf/open/space/basic,
 /area/space/nearstation)
+"sdB" = (
+/turf/open/floor/plating,
+/area/space)
 "sdX" = (
 /obj/effect/turf_decal/tile/yellow,
 /obj/effect/turf_decal/tile/yellow{
@@ -49094,7 +49297,6 @@
 /area/engine/engineering/hangar)
 "snt" = (
 /obj/machinery/door/airlock/ship/maintenance{
-	dir = 4;
 	name = "Deck 1 access maintenance"
 	},
 /obj/machinery/door/firedoor/border_only{
@@ -49466,6 +49668,11 @@
 	initial_gas_mix = "TEMP=2.7"
 	},
 /area/engine/atmos)
+"teV" = (
+/obj/structure/table,
+/obj/item/clothing/gloves/color/latex/nitrile,
+/turf/open/floor/plating,
+/area/space)
 "tfj" = (
 /obj/machinery/power/apc/auto_name/south{
 	pixel_y = -24
@@ -49513,6 +49720,14 @@
 /obj/structure/disposalpipe/segment,
 /turf/open/floor/plating,
 /area/maintenance/starboard/fore)
+"tgV" = (
+/obj/machinery/atmospherics/components/unary/vent_pump/on/layer1,
+/obj/effect/turf_decal/tile/orange,
+/obj/effect/turf_decal/tile/orange{
+	dir = 8
+	},
+/turf/open/floor/monotile,
+/area/hallway/nsv/deck2/frame1/central)
 "thO" = (
 /obj/machinery/light,
 /obj/structure/reagent_dispensers/watertank,
@@ -49528,7 +49743,6 @@
 /area/medical/genetics)
 "tjC" = (
 /obj/machinery/door/airlock/ship/external/glass{
-	dir = 4;
 	req_one_access_txt = "13"
 	},
 /obj/effect/mapping_helpers/airlock/cyclelink_helper{
@@ -49571,7 +49785,6 @@
 /area/engine/break_room)
 "tnq" = (
 /obj/machinery/door/airlock/ship/public/glass{
-	dir = 4;
 	name = "Aft Primary Hallway"
 	},
 /obj/machinery/door/firedoor/border_only{
@@ -49588,7 +49801,6 @@
 	icon_state = "4-8"
 	},
 /obj/machinery/door/airlock/ship/public/glass{
-	dir = 4;
 	name = "Prison Sleepers"
 	},
 /obj/machinery/door/firedoor/border_only{
@@ -49782,6 +49994,9 @@
 /area/library)
 "tBR" = (
 /obj/machinery/deck_turret/powder_gate,
+/obj/effect/turf_decal/tile/orange{
+	dir = 4
+	},
 /turf/open/floor/plating,
 /area/nsv/weapons/fore)
 "tCu" = (
@@ -49795,7 +50010,6 @@
 	dir = 4
 	},
 /obj/machinery/door/airlock/ship{
-	dir = 4;
 	name = "Hangar Bay";
 	req_access_txt = "69"
 	},
@@ -49878,15 +50092,20 @@
 	initial_gas_mix = "TEMP=2.7"
 	},
 /area/engine/atmos)
+"tLt" = (
+/obj/effect/turf_decal/tile/brown,
+/obj/effect/turf_decal/tile/brown{
+	dir = 8
+	},
+/turf/open/floor/plasteel/techmaint,
+/area/quartermaster/warehouse)
 "tLT" = (
 /obj/structure/girder/reinforced,
 /obj/structure/grille,
 /turf/open/floor/plating,
 /area/maintenance/starboard/fore)
 "tMg" = (
-/obj/machinery/door/airlock/ship/maintenance/defaultaccess{
-	dir = 4
-	},
+/obj/machinery/door/airlock/ship/maintenance/defaultaccess,
 /obj/structure/cable{
 	icon_state = "4-8"
 	},
@@ -49900,7 +50119,6 @@
 /area/maintenance/nsv/hangar)
 "tNt" = (
 /obj/machinery/door/airlock/ship/station/mining{
-	dir = 4;
 	name = "Cargo Bay";
 	req_one_access_txt = "31; 48"
 	},
@@ -49967,7 +50185,6 @@
 "tRF" = (
 /obj/structure/barricade/wooden/crude,
 /obj/machinery/door/airlock/ship/engineering{
-	dir = 4;
 	name = "Abandoned Reactor Control Chamber";
 	req_one_access_txt = "10;24"
 	},
@@ -50045,6 +50262,10 @@
 	},
 /turf/open/space/basic,
 /area/engine/atmos)
+"ubq" = (
+/obj/effect/turf_decal/tile/brown,
+/turf/open/floor/plasteel/techmaint,
+/area/quartermaster/warehouse)
 "ucc" = (
 /obj/machinery/atmospherics/pipe/simple/purple/visible{
 	dir = 4
@@ -50116,7 +50337,6 @@
 	dir = 8
 	},
 /obj/machinery/door/airlock/ship/engineering/glass{
-	dir = 4;
 	name = "Engineering Equipment";
 	req_one_access_txt = "11;24"
 	},
@@ -50273,7 +50493,6 @@
 /area/maintenance/starboard/fore)
 "uDu" = (
 /obj/machinery/door/airlock/ship/external{
-	dir = 4;
 	name = "Mining Shuttle Airlock";
 	req_one_access_txt = "31;48"
 	},
@@ -50331,11 +50550,20 @@
 	name = "Ore Silo";
 	req_access_txt = "41"
 	},
+/obj/effect/turf_decal/tile/brown{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/brown{
+	dir = 4
+	},
+/obj/effect/turf_decal/tile/brown{
+	dir = 8
+	},
+/obj/effect/turf_decal/tile/brown,
 /turf/open/floor/plasteel/techmaint,
 /area/quartermaster/warehouse)
 "uKm" = (
 /obj/machinery/door/airlock/ship/public/glass{
-	dir = 4;
 	name = "Chapel"
 	},
 /obj/structure/cable{
@@ -50696,6 +50924,13 @@
 	},
 /turf/open/floor/monotile,
 /area/hallway/nsv/deck2/frame1/central)
+"vyU" = (
+/obj/effect/turf_decal/tile/orange,
+/obj/effect/turf_decal/tile/orange{
+	dir = 8
+	},
+/turf/open/floor/monotile,
+/area/hallway/nsv/deck2/frame1/central)
 "vzs" = (
 /obj/structure/cable{
 	icon_state = "1-8"
@@ -50838,15 +51073,15 @@
 /turf/open/floor/engine,
 /area/engine/engineering/reactor_core)
 "vOG" = (
-/obj/effect/turf_decal/tile/neutral,
-/obj/effect/turf_decal/tile/neutral{
-	dir = 8
-	},
 /obj/machinery/light{
 	dir = 1
 	},
 /obj/machinery/airalarm{
 	pixel_y = 26
+	},
+/obj/effect/turf_decal/tile/orange,
+/obj/effect/turf_decal/tile/orange{
+	dir = 8
 	},
 /turf/open/floor/monotile,
 /area/hallway/nsv/deck2/frame1/central)
@@ -50875,6 +51110,11 @@
 	initial_gas_mix = "TEMP=2.7"
 	},
 /area/engine/atmos)
+"vTY" = (
+/obj/structure/table/optable,
+/obj/effect/decal/cleanable/blood/splatter,
+/turf/open/floor/plating,
+/area/space)
 "vUD" = (
 /turf/open/floor/plating,
 /area/quartermaster/miningdock)
@@ -51116,15 +51356,13 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 8
 	},
-/obj/machinery/door/airlock/ship/maintenance/defaultaccess{
-	dir = 4
-	},
 /obj/machinery/door/firedoor/border_only{
 	dir = 4
 	},
 /obj/machinery/door/firedoor/border_only{
 	dir = 8
 	},
+/obj/machinery/door/airlock/ship/maintenance/defaultaccess,
 /turf/open/floor/plating,
 /area/maintenance/department/cargo)
 "wvu" = (
@@ -51185,6 +51423,12 @@
 	color = "#696969";
 	dir = 1;
 	name = "AMS coordinator"
+	},
+/obj/effect/turf_decal/tile/orange{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/orange{
+	dir = 4
 	},
 /turf/open/floor/monotile/dark,
 /area/nsv/hanger/storage{
@@ -51288,7 +51532,6 @@
 /area/hallway/secondary/exit)
 "wHH" = (
 /obj/machinery/door/airlock/ship/public/glass{
-	dir = 4;
 	name = "Aft Primary Hallway"
 	},
 /obj/structure/disposalpipe/segment{
@@ -51384,7 +51627,6 @@
 	dir = 8
 	},
 /obj/machinery/door/airlock/ship/engineering/glass{
-	dir = 4;
 	name = "Engineering Storage";
 	req_one_access_txt = "11;24"
 	},
@@ -51407,6 +51649,10 @@
 /obj/structure/lattice/catwalk/over/ship,
 /turf/open/floor/monotile,
 /area/nsv/weapons/fore)
+"wSx" = (
+/obj/machinery/space_heater,
+/turf/open/floor/plating,
+/area/maintenance/department/science)
 "wSK" = (
 /obj/structure/cable{
 	icon_state = "2-4"
@@ -51669,6 +51915,13 @@
 	},
 /turf/open/floor/monotile,
 /area/gateway)
+"xrq" = (
+/obj/effect/turf_decal/tile/brown{
+	dir = 4
+	},
+/obj/effect/turf_decal/tile/brown,
+/turf/open/floor/plasteel/techmaint,
+/area/quartermaster/warehouse)
 "xrD" = (
 /obj/machinery/door/airlock/ship/engineering{
 	name = "Abandoned Reactor Core";
@@ -51797,6 +52050,12 @@
 /obj/machinery/holopad,
 /turf/open/floor/carpet/ship,
 /area/crew_quarters/dorms)
+"xGc" = (
+/obj/effect/turf_decal/tile/brown{
+	dir = 4
+	},
+/turf/open/floor/plasteel/techmaint,
+/area/quartermaster/warehouse)
 "xGo" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 4
@@ -51958,6 +52217,10 @@
 	color = "#696969";
 	name = "weapon officer"
 	},
+/obj/effect/turf_decal/tile/orange,
+/obj/effect/turf_decal/tile/orange{
+	dir = 8
+	},
 /turf/open/floor/plating,
 /area/nsv/weapons/fore)
 "xWy" = (
@@ -51989,7 +52252,6 @@
 	dir = 4
 	},
 /obj/machinery/door/airlock/ship/security/glass{
-	dir = 4;
 	name = "Security Equipment";
 	req_one_access_txt = "2"
 	},
@@ -68710,9 +68972,9 @@ beJ
 aYr
 beK
 aDL
-aaa
-aaa
-aaa
+pGe
+vTY
+teV
 aCJ
 aaD
 aLC
@@ -68967,9 +69229,9 @@ aFT
 aFT
 aYs
 aDL
-aaa
-aaa
-aaa
+sdB
+sdB
+nBM
 aCJ
 bgm
 aJY
@@ -69225,7 +69487,7 @@ blx
 bme
 aDL
 aaw
-aaw
+mrB
 aaw
 aCJ
 aLB
@@ -74382,7 +74644,7 @@ bqw
 bwQ
 bqN
 brd
-bli
+fPJ
 aXi
 aJD
 aLG
@@ -75143,12 +75405,12 @@ aOO
 aaI
 abL
 afM
-bcO
+rSI
 bcO
 bcO
 bpw
 acs
-acs
+nzE
 bls
 bFW
 aah
@@ -75157,7 +75419,7 @@ brt
 bbv
 lTI
 aah
-acs
+iFe
 mPw
 aXi
 aMc
@@ -75401,8 +75663,8 @@ bLy
 afA
 acs
 acs
-acs
-acs
+wSx
+fcD
 bpx
 bgE
 bgE
@@ -81799,7 +82061,7 @@ bBu
 bBu
 rix
 bBu
-ahz
+lvt
 bbr
 bdc
 aad
@@ -82315,7 +82577,7 @@ bKG
 bBu
 biO
 bbF
-aMv
+kYm
 aaf
 abk
 acL
@@ -82829,7 +83091,7 @@ wxB
 bBu
 cfq
 bbF
-aMv
+kYm
 aaf
 abk
 adG
@@ -83084,9 +83346,9 @@ bBe
 bCe
 bKH
 bKI
-aeT
+jRa
 bbF
-aMv
+kYm
 aad
 abp
 adQ
@@ -83341,9 +83603,9 @@ sRt
 bHq
 bKH
 bKJ
-bwt
+oJa
 bca
-aMv
+kYm
 aad
 abq
 abq
@@ -83600,7 +83862,7 @@ bKH
 bLS
 bLL
 bce
-aMv
+kYm
 aaj
 abs
 adW
@@ -83855,7 +84117,7 @@ bBr
 pHv
 bLO
 bKK
-aeT
+jRa
 bcf
 bir
 biw
@@ -84114,7 +84376,7 @@ tNz
 bXF
 bXG
 bcq
-aMv
+kYm
 abG
 abG
 abG
@@ -84371,7 +84633,7 @@ bYS
 bXH
 bLM
 bct
-aMv
+kYm
 abG
 abG
 bfZ
@@ -84624,11 +84886,11 @@ dDv
 fHB
 aTg
 hfS
+bYN
 bpR
-bXF
-aeT
+jRa
 bcq
-aMv
+kYm
 abG
 kCd
 jYY
@@ -84882,10 +85144,10 @@ bYr
 aTg
 bYF
 bYN
-bXF
-aeT
+bpR
+jRa
 bcq
-aMv
+kYm
 abG
 biN
 bmC
@@ -85399,7 +85661,7 @@ eQi
 bXF
 biK
 bcw
-aMv
+kYm
 abG
 biQ
 bzN
@@ -85656,7 +85918,7 @@ aTt
 cbh
 bcd
 bcx
-aMv
+kYm
 abG
 biT
 bBU
@@ -85913,7 +86175,7 @@ aTi
 cbi
 bCb
 bcy
-bLK
+qXR
 abI
 biZ
 bBU
@@ -86168,9 +86430,9 @@ aTg
 bYL
 aWk
 cbh
-bcd
+eba
 bcD
-aMv
+kYm
 abG
 bji
 bBU
@@ -86425,9 +86687,9 @@ aTg
 uzi
 aWl
 cbj
-aeT
+vyU
 bcq
-aMv
+kYm
 abG
 bjQ
 bTR
@@ -86660,9 +86922,9 @@ wVw
 bip
 bip
 bDY
-abC
-bad
-bad
+abA
+abx
+abx
 bAY
 bBx
 ago
@@ -86684,7 +86946,7 @@ aXP
 cbk
 acQ
 bcL
-aMv
+kYm
 abH
 bmE
 bYe
@@ -86918,9 +87180,9 @@ fbx
 fbx
 seE
 bDK
-aMn
+abC
 bDS
-aMn
+abC
 bBy
 ago
 aMJ
@@ -86939,9 +87201,9 @@ bja
 aYL
 cbe
 bLT
-bwt
+tgV
 bcM
-aMv
+kYm
 abG
 bkq
 bmE
@@ -87198,7 +87460,7 @@ ago
 agm
 kEU
 bcq
-aMv
+kYm
 abG
 abG
 abG
@@ -87453,7 +87715,7 @@ aWm
 udK
 aST
 agm
-biO
+gNA
 bcN
 blZ
 bBK
@@ -87969,7 +88231,7 @@ xgv
 agm
 vOG
 bcq
-aMv
+kYm
 aad
 aad
 aad
@@ -88226,7 +88488,7 @@ dmS
 agm
 qRr
 bcq
-aMv
+kYm
 aad
 abJ
 azD
@@ -88481,9 +88743,9 @@ agy
 agy
 aZk
 bHr
-aeT
+vyU
 bcq
-aMv
+kYm
 aad
 acl
 acl
@@ -88727,7 +88989,7 @@ aeO
 bXL
 xWj
 bBb
-tBR
+aBv
 kgo
 abV
 ddD
@@ -88738,9 +89000,9 @@ efA
 efA
 efA
 hxW
-aeT
+vyU
 bcq
-aMv
+kYm
 pZe
 acm
 acl
@@ -88995,9 +89257,9 @@ aTr
 aTr
 aTr
 prp
-aeT
+vyU
 bcq
-aMv
+kYm
 pZe
 acl
 acl
@@ -89045,7 +89307,7 @@ aij
 aij
 aij
 aij
-aaa
+bKQ
 aaa
 aaa
 aaa
@@ -89252,9 +89514,9 @@ jvI
 jvI
 jvI
 agm
-ahz
+mzE
 bcq
-aMv
+kYm
 fHb
 acI
 aAk
@@ -89299,10 +89561,10 @@ aij
 bJH
 aim
 aij
-aaa
-aaa
-aaa
-aaa
+sdB
+sdB
+sdB
+dxN
 aaa
 aaa
 aaa
@@ -89555,11 +89817,11 @@ aaa
 aij
 bJH
 aim
-aij
-aaa
-aaa
-aaa
-aaa
+rou
+sdB
+sdB
+sdB
+dxN
 aaa
 aaa
 aaa
@@ -89813,10 +90075,10 @@ aij
 bJH
 bjF
 aij
-aaa
-aaa
-aaa
-aaa
+sdB
+sdB
+sdB
+dxN
 aaa
 aaa
 aaa
@@ -90070,10 +90332,10 @@ aij
 bJH
 aim
 aij
-aaa
-aaa
-aaa
-aaa
+bKQ
+bKQ
+bKQ
+bKQ
 aaa
 aaa
 aaa
@@ -91587,9 +91849,9 @@ ccV
 aaY
 adn
 ady
-adp
-adp
-adp
+ubq
+xrq
+xGc
 adr
 adp
 iuA
@@ -91844,9 +92106,9 @@ aVV
 aaY
 adp
 ohw
-adp
+tLt
 uKa
-adp
+iFi
 adp
 adp
 iuA
@@ -92101,9 +92363,9 @@ aaY
 iuA
 iuA
 iuA
-iuA
-iuA
-iuA
+oyi
+oyi
+oyi
 iuA
 iuA
 iuA
@@ -97756,7 +98018,7 @@ vfz
 aml
 kHI
 kHI
-lvt
+hbD
 kHI
 kHI
 aml
@@ -98516,7 +98778,7 @@ azr
 edN
 edN
 aQd
-aml
+eEX
 aml
 qHG
 vfz
@@ -98751,7 +99013,7 @@ aXb
 aXp
 aOl
 aNu
-hxF
+bad
 aOX
 aPq
 aPq
@@ -100547,7 +100809,7 @@ aQV
 amC
 bfN
 biS
-aBv
+aBB
 azl
 aOa
 amz
