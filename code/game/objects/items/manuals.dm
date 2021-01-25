@@ -433,6 +433,57 @@
 	title = "Toxins or: How I Learned to Stop Worrying and Love the Maxcap"
 	page_link = "Guide_to_toxins"
 
+//
+//Standard operating prosedure books. Inherited of wiki books.
+//To do: Get book specific sprites.
+//       Get book for munitions, once page is made / up to date.
+//
+
+/obj/item/book/manual/wiki/sop
+	icon_state = "bookDetective" //remove if there is department specific sprites, add this to subtypes
+	author = "Ta-Go Clown Resources"
+
+/obj/item/book/manual/wiki/sop/security
+	name = "Standard operating Prosedure: Security"
+	title = "Standard operating Prosedure: Security"
+	page_link = "Department_Standard_Operating_Procedure:_Security"
+
+/obj/item/book/manual/wiki/sop/science
+	name = "Standard operating Prosedure: Science"
+	title = "Standard operating Prosedure: Science"
+	page_link = "Department_Standard_Operating_Procedure:_Science"
+
+/obj/item/book/manual/wiki/sop/service
+	name = "Standard operating Prosedure: Service"
+	title = "Standard operating Prosedure: Service"
+	page_link = "Department_Standard_Operating_Procedure:_Service/Civilian"
+
+/obj/item/book/manual/wiki/sop/Command
+	name = "Standard operating Prosedure: Command"
+	title = "Standard operating Prosedure: Command"
+	page_link = "Department_Standard_Operating_Procedure:_Command"
+
+/obj/item/book/manual/wiki/sop/engineering
+	name = "Standard operating Prosedure: Engineering"
+	title = "Standard operating Prosedure: Engineering"
+	page_link = "Department_Standard_Operating_Procedure:_Engineering"
+
+/obj/item/book/manual/wiki/sop/supply
+	name = "Standard operating Prosedure: Supply"
+	title = "Standard operating Prosedure: Supply"
+	page_link = "Department_Standard_Operating_Procedure:_Supply"
+
+/obj/item/book/manual/wiki/sop/medical
+	name = "Standard operating Prosedure: Medical"
+	title = "Standard operating Prosedure: Medical"
+	page_link = "Department_Standard_Operating_Procedure:_Medical"
+
+/obj/item/book/manual/wiki/sop/Catalogue //Directs to standard SoP page. Able to check any department at will. For command / lawyer
+	name = "Standard operating Prosedure: Catalogue"
+	title = "Standard operating Prosedure: Catalogue"
+	page_link = "Standard_Operating_Procedure"
+
+
 /obj/item/book/manual/wiki/toxins/suicide_act(mob/user)
 	var/mob/living/carbon/human/H = user
 	user.visible_message("<span class='suicide'>[user] starts dancing to the Rhumba Beat! It looks like [user.p_theyre()] trying to commit suicide!</span>")
