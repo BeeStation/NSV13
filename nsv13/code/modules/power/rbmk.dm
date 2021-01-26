@@ -395,7 +395,7 @@ The reactor CHEWS through moderator. It does not do this slowly. Be very careful
 	if(temperature >= RBMK_TEMPERATURE_CRITICAL)
 		alert = TRUE
 		if(temperature >= RBMK_TEMPERATURE_MELTDOWN)
-			var/temp_damage = min(pressure/100, initial(vessel_integrity)/40)	//40 seconds to meltdown from full integrity, worst-case. Bit less than blowout since it's harder to spike heat that much.
+			var/temp_damage = min(temperature/100, initial(vessel_integrity)/40)	//40 seconds to meltdown from full integrity, worst-case. Bit less than blowout since it's harder to spike heat that much.
 			vessel_integrity -= temp_damage
 			if(vessel_integrity <= temp_damage) //It wouldn't be able to tank another hit.
 				meltdown() //Oops! All meltdown
