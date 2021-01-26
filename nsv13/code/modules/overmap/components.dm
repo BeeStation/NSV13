@@ -420,6 +420,18 @@ GLOBAL_LIST_INIT(computer_beeps, list('nsv13/sound/effects/computer/beep.ogg','n
 	. = ..()
 	return INITIALIZE_HINT_LATELOAD
 
+/obj/structure/hull_plate/rcd_vals(mob/user, obj/item/construction/rcd/the_rcd)
+	var/turf/T = get_turf(src)
+	if(!T)
+		return FALSE
+	return T.rcd_vals(user, the_rcd)
+
+/obj/structure/hull_plate/rcd_act(mob/user, obj/item/construction/rcd/the_rcd, passed_mode)
+	var/turf/T = get_turf(src)
+	if(!T)
+		return FALSE
+	return T.rcd_act(user, the_rcd, passed_mode)
+
 /obj/structure/hull_plate/LateInitialize()
 	try_find_parent()
 
