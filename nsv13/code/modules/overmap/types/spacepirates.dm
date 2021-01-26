@@ -6,8 +6,8 @@
 /obj/structure/overmap/spacepirate/ai
 	name = "Space Pirate"
 	desc = "A Space Pirate Vessel"
-	icon = 'icons/obj/janitor.dmi'
-	icon_state = "mop"
+	icon = 'nsv13/icons/overmap/new/nanotrasen/frigate.dmi'
+	icon_state = "spacepirate_hauler"
 	faction = "pirate"
 	mass = MASS_SMALL
 	max_integrity = 400
@@ -23,15 +23,15 @@
 	var/random_appearance = pick(1,2,3,4,5)
 	switch(random_appearance)
 		if(1)
-			icon_state = "mop"
+			icon_state = "spacepirate_hauler" //replace these if we actually get some sprites
 		if(2)
-			icon_state = "advmop"
+			icon_state = "spacepirate_hauler"
 		if(3)
-			icon_state = "smmop"
+			icon_state = "spacepirate_hauler"
 		if(4)
-			icon_state = "adv_smmop"
+			icon_state = "spacepirate_hauler"
 		if(5)
-			icon_state = "broom0"
+			icon_state = "spacepirate_hauler"
 
 /obj/structure/overmap/spacepirate/ai/apply_weapons()
 	var/random_weapons = pick(1, 2, 3, 4, 5)
