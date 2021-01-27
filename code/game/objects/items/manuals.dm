@@ -439,7 +439,7 @@
 
 /obj/item/book/manual/wiki/sop
 	author = "Ta-Go Clown Resources"
-	icon = 'icons/obj/nsv_bureaucracy.dmi' //created own dmi for the books
+	icon = 'nsv13/icons/obj/nsv_bureaucracy.dmi' //created own dmi for the books
 
 /obj/item/book/manual/wiki/sop/security
 	name = "Standard operating Prosedure: Security"
@@ -459,7 +459,7 @@
 	page_link = "Department_Standard_Operating_Procedure:_Service/Civilian"
 	icon_state = "sop_service"
 
-/obj/item/book/manual/wiki/sop/Command
+/obj/item/book/manual/wiki/sop/command
 	name = "Standard operating Prosedure: Command"
 	title = "Standard operating Prosedure: Command"
 	page_link = "Department_Standard_Operating_Procedure:_Command"
