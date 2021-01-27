@@ -7521,6 +7521,9 @@
 	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
 /turf/open/floor/monotile,
 /area/security/brig)
 "dLM" = (
@@ -9458,6 +9461,9 @@
 /obj/effect/turf_decal/tile/neutral,
 /obj/effect/turf_decal/tile/neutral{
 	dir = 8
+	},
+/obj/structure/cable{
+	icon_state = "4-8"
 	},
 /turf/open/floor/monotile/dark,
 /area/ai_monitored/security/armory)
@@ -23514,6 +23520,9 @@
 /obj/effect/turf_decal/tile/neutral{
 	dir = 8
 	},
+/obj/structure/cable{
+	icon_state = "2-8"
+	},
 /turf/open/floor/monotile/dark,
 /area/ai_monitored/security/armory)
 "lqD" = (
@@ -24904,6 +24913,7 @@
 	dir = 8
 	},
 /obj/machinery/power/apc/auto_name/east,
+/obj/structure/cable,
 /turf/open/floor/monotile/dark,
 /area/ai_monitored/security/armory)
 "mcB" = (
@@ -25081,6 +25091,9 @@
 /obj/machinery/door/firedoor/border_only,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
 /turf/open/floor/monotile,
 /area/ai_monitored/security/armory)
 "mfE" = (
@@ -32130,6 +32143,9 @@
 /obj/structure/cable/yellow{
 	icon_state = "4-8"
 	},
+/obj/structure/cable/yellow{
+	icon_state = "2-4"
+	},
 /turf/open/floor/plasteel/grid/lino,
 /area/ai_monitored/turret_protected/aisat_interior)
 "psu" = (
@@ -35152,6 +35168,7 @@
 /area/maintenance/nsv/hangar)
 "qUj" = (
 /obj/machinery/power/apc/auto_name/west,
+/obj/structure/cable/yellow,
 /turf/open/floor/plasteel/grid/lino,
 /area/ai_monitored/turret_protected/aisat_interior)
 "qUC" = (
@@ -36260,13 +36277,6 @@
 /obj/machinery/camera/autoname{
 	dir = 8
 	},
-/obj/machinery/turretid{
-	control_area = "/area/ai_monitored/turret_protected/aisat_interior";
-	icon_state = "control_stun";
-	name = "Antechamber Turret Control";
-	pixel_x = 30;
-	req_access_txt = "65"
-	},
 /turf/open/floor/plasteel/grid/lino,
 /area/ai_monitored/turret_protected/aisat_interior)
 "ryI" = (
@@ -36619,6 +36629,13 @@
 "rIh" = (
 /obj/effect/turf_decal/tile/blue{
 	dir = 1
+	},
+/obj/machinery/turretid{
+	control_area = "/area/ai_monitored/turret_protected/aisat_interior";
+	icon_state = "control_stun";
+	name = "Antechamber Turret Control";
+	pixel_x = -30;
+	req_access_txt = "65"
 	},
 /turf/open/floor/plasteel/tech/grid,
 /area/ai_monitored/turret_protected/aisat/foyer)
@@ -39540,6 +39557,12 @@
 /turf/open/floor/monotile/light,
 /area/medical/sleeper)
 "tbL" = (
+/obj/machinery/turretid{
+	control_area = "/area/ai_monitored/turret_protected/ai_upload";
+	icon_state = "control_stun";
+	name = "AI Upload turret control";
+	pixel_y = -28
+	},
 /turf/open/floor/plasteel/grid/lino,
 /area/ai_monitored/turret_protected/aisat_interior)
 "tbM" = (
@@ -44699,6 +44722,9 @@
 	dir = 9
 	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
+/obj/structure/cable{
+	icon_state = "1-4"
+	},
 /turf/open/floor/monotile/dark,
 /area/ai_monitored/security/armory)
 "vCo" = (
@@ -44817,12 +44843,6 @@
 	c_tag = "AI - Upload";
 	name = "motion-sensitive ai camera";
 	network = list("aiupload")
-	},
-/obj/machinery/turretid{
-	control_area = "/area/ai_monitored/turret_protected/ai_upload";
-	icon_state = "control_stun";
-	name = "AI Upload turret control";
-	pixel_y = 28
 	},
 /turf/open/floor/monotile/dark,
 /area/ai_monitored/turret_protected/ai_upload)
@@ -46346,6 +46366,7 @@
 /obj/effect/turf_decal/tile/red{
 	dir = 8
 	},
+/obj/machinery/iv_drip,
 /turf/open/floor/monotile/light,
 /area/security/brig)
 "wrP" = (
@@ -47766,6 +47787,7 @@
 	dir = 8
 	},
 /obj/machinery/light,
+/obj/item/reagent_containers/blood/OMinus,
 /turf/open/floor/monotile/light,
 /area/security/brig)
 "xdw" = (
@@ -48040,6 +48062,9 @@
 /obj/effect/turf_decal/tile/neutral,
 /obj/effect/turf_decal/tile/neutral{
 	dir = 8
+	},
+/obj/structure/cable{
+	icon_state = "4-8"
 	},
 /turf/open/floor/monotile/dark,
 /area/ai_monitored/security/armory)
