@@ -1,4 +1,4 @@
-/*********************MANUALS (BOOKS)***********************/
+/*********************MANUALS (BOOKS)***********************/S
 
 //Oh god what the fuck I am not good at computer
 /obj/item/book/manual
