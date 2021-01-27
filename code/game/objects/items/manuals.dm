@@ -462,7 +462,7 @@
 	name = "Standard operating Prosedure: Command"
 	title = "Standard operating Prosedure: Command"
 	page_link = "Department_Standard_Operating_Procedure:_Command"
-	icon_state = "" //We forgot command ree
+	icon_state = "sop_comdom"
 
 /obj/item/book/manual/wiki/sop/engineering
 	name = "Standard operating Prosedure: Engineering"
