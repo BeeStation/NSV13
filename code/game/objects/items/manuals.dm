@@ -435,53 +435,58 @@
 
 //NSV13 - Change
 //Standard operating prosedure books. Inherited of wiki books.
-//To do: Get book specific sprites.
-//       Get book for munitions, once page is made / up to date.
-//
+//To do: Get book for munitions, once page is made / up to date.
 
 /obj/item/book/manual/wiki/sop
-	icon_state = "bookDetective" //remove if there is department specific sprites, add this to subtypes
 	author = "Ta-Go Clown Resources"
 
 /obj/item/book/manual/wiki/sop/security
 	name = "Standard operating Prosedure: Security"
 	title = "Standard operating Prosedure: Security"
 	page_link = "Department_Standard_Operating_Procedure:_Security"
+	icon_state = "sop_sec"
 
 /obj/item/book/manual/wiki/sop/science
 	name = "Standard operating Prosedure: Science"
 	title = "Standard operating Prosedure: Science"
 	page_link = "Department_Standard_Operating_Procedure:_Science"
+	icon_state = "sop_sci"
 
 /obj/item/book/manual/wiki/sop/service
 	name = "Standard operating Prosedure: Service"
 	title = "Standard operating Prosedure: Service"
 	page_link = "Department_Standard_Operating_Procedure:_Service/Civilian"
+	icon_state = "sop_service"
 
 /obj/item/book/manual/wiki/sop/Command
 	name = "Standard operating Prosedure: Command"
 	title = "Standard operating Prosedure: Command"
 	page_link = "Department_Standard_Operating_Procedure:_Command"
+	icon_state = "" //We forgot command ree
 
 /obj/item/book/manual/wiki/sop/engineering
 	name = "Standard operating Prosedure: Engineering"
 	title = "Standard operating Prosedure: Engineering"
 	page_link = "Department_Standard_Operating_Procedure:_Engineering"
+	icon_state = "sop_engi"
 
 /obj/item/book/manual/wiki/sop/supply
 	name = "Standard operating Prosedure: Supply"
 	title = "Standard operating Prosedure: Supply"
 	page_link = "Department_Standard_Operating_Procedure:_Supply"
+	icon_state = "sop_cargo"
 
 /obj/item/book/manual/wiki/sop/medical
 	name = "Standard operating Prosedure: Medical"
 	title = "Standard operating Prosedure: Medical"
 	page_link = "Department_Standard_Operating_Procedure:_Medical"
+	icon_state = "sop_med"
 
-/obj/item/book/manual/wiki/sop/Catalogue //Directs to standard SoP page. Able to check any department at will. For command / lawyer
+/obj/item/book/manual/wiki/sop/catalogue //Directs to standard SoP page. Able to check any department at will. For command / lawyer
 	name = "Standard operating Prosedure: Catalogue"
 	title = "Standard operating Prosedure: Catalogue"
 	page_link = "Standard_Operating_Procedure"
+	icon_state = "sop_catalogue"
 
 
 /obj/item/book/manual/wiki/toxins/suicide_act(mob/user)
