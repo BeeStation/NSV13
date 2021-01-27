@@ -4,6 +4,10 @@
 	icon_state = "highvelocity"
 	desc = "A standard pattern Nanotrasen anti-fighter missile."
 	density = TRUE
+	climbable = TRUE //No shenanigans
+	climb_time = 20
+	climb_stun = 0 
+	w_class = WEIGHT_CLASS_GIGANTIC
 	move_resist = MOVE_FORCE_EXTREMELY_STRONG
 	projectile_type = /obj/item/projectile/guided_munition/missile //What torpedo type we fire
 	pixel_x = -17
