@@ -18,7 +18,7 @@
 	var/screen = STARMAP
 	var/can_control_ship = TRUE
 	var/current_sector = 2
-
+	circuit = /obj/item/circuitboard/computer/ship/navigation
 
 /obj/item/circuitboard/computer/ship/navigation
 	name = "circuit board (FTL Navigation console)"
