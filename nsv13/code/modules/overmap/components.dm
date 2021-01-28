@@ -71,8 +71,8 @@ GLOBAL_LIST_INIT(computer_beeps, list('nsv13/sound/effects/computer/beep.ogg','n
 	id = "ship_circuitry"
 	display_name = "Ship computer circuitry"
 	description = "Allows you to rebuild the CIC when it inevitably gets bombed."
-	prereq_ids = list("base")
-	design_ids = list("helm_circuit", "tactical_comp_circuit", "dradis_circuit", "mining_dradis_circuit")
+	prereq_ids = list("comptech")
+	design_ids = list("helm_circuit", "navigation_console_circuit", "tactical_comp_circuit", "dradis_circuit", "mining_dradis_circuit")
 	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 2000)
 	export_price = 2000
 
@@ -87,7 +87,7 @@ GLOBAL_LIST_INIT(computer_beeps, list('nsv13/sound/effects/computer/beep.ogg','n
 	materials = list(/datum/material/glass = 5000, /datum/material/copper = 500, /datum/material/gold = 1000)
 	build_path = /obj/item/circuitboard/computer/ship/helm
 	category = list("Ship Components")
-	departmental_flags = DEPARTMENTAL_FLAG_SCIENCE
+	departmental_flags = DEPARTMENTAL_FLAG_ENGINEERING
 
 /obj/machinery/computer/ship/helm
 	name = "Seegson model HLM flight control console"
@@ -111,7 +111,7 @@ GLOBAL_LIST_INIT(computer_beeps, list('nsv13/sound/effects/computer/beep.ogg','n
 	materials = list(/datum/material/glass = 2000, /datum/material/copper = 200, /datum/material/gold = 1000)
 	build_path = /obj/item/circuitboard/computer/ship/tactical_computer
 	category = list("Ship Components")
-	departmental_flags = DEPARTMENTAL_FLAG_SCIENCE
+	departmental_flags = DEPARTMENTAL_FLAG_ENGINEERING
 
 /obj/machinery/computer/ship/tactical
 	name = "Seegson model TAC tactical systems control console"
@@ -216,7 +216,7 @@ GLOBAL_LIST_INIT(computer_beeps, list('nsv13/sound/effects/computer/beep.ogg','n
 	materials = list(/datum/material/glass = 2000, /datum/material/copper = 200, /datum/material/gold = 1000)
 	build_path = /obj/item/circuitboard/computer/ship/ordnance_computer
 	category = list("Ship Components")
-	departmental_flags = DEPARTMENTAL_FLAG_SCIENCE
+	departmental_flags = DEPARTMENTAL_FLAG_ENGINEERING|DEPARTMENTAL_FLAG_MUNITIONS
 
 /obj/machinery/computer/ship/ordnance/attack_hand(mob/user)
 	if(!allowed(user))
@@ -254,10 +254,10 @@ GLOBAL_LIST_INIT(computer_beeps, list('nsv13/sound/effects/computer/beep.ogg','n
 
 /datum/techweb_node/maa_circuits
 	id = "maa_circuitry"
-	display_name = "Master-At-Arms computer circuitry"
-	description = "Allows you to rebuild the Master-At-Arms computer terminals after they suffer railgun ventilation."
-	prereq_ids = list("base")
-	design_ids = list("fighter_computer_circuit", "ordnance_comp_circuit")
+	display_name = "Munitions computer circuitry"
+	description = "Allows you to rebuild Munitions computers after they suffer from gunpowder overdose."
+	prereq_ids = list("comptech")
+	design_ids = list("fighter_computer_circuit", "ordnance_comp_circuit", "fighter_launcher_circuit")
 	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 2000)
 	export_price = 2000
 

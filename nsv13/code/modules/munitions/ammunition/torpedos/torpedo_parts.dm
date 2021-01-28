@@ -53,7 +53,7 @@
 	materials = list(/datum/material/iron = 10000, /datum/material/glass = 2500, /datum/material/copper = 2500, /datum/material/plasma = 10000)
 	build_path = /obj/item/ship_weapon/parts/missile/warhead
 	category = list("Advanced Munitions")
-	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS
 
 /datum/design/bb_warhead
 	name = "Bunker Buster Torpedo Warhead"
@@ -63,7 +63,7 @@
 	materials = list(/datum/material/iron = 10000, /datum/material/glass = 2500, /datum/material/copper = 2500, /datum/material/plasma = 20000, /datum/material/gold = 2500)
 	build_path = /obj/item/ship_weapon/parts/missile/warhead/bunker_buster
 	category = list("Advanced Munitions")
-	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS
 
 /datum/design/decoy_warhead
 	name = "Decoy Torpedo Warhead"
@@ -73,7 +73,7 @@
 	materials = list(/datum/material/iron = 5000, /datum/material/glass = 2500, /datum/material/copper = 2500)
 	build_path = /obj/item/ship_weapon/parts/missile/warhead/decoy
 	category = list("Advanced Munitions")
-	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS
 
 /datum/design/missile_warhead
 	name = "Standard Missile Warhead"
@@ -83,7 +83,7 @@
 	materials = list(/datum/material/iron = 5000, /datum/material/glass = 2500, /datum/material/copper = 2500)
 	build_path = /obj/item/ship_weapon/parts/missile/warhead
 	category = list("Advanced Munitions")
-	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS
 
 /datum/design/freight_warhead
 	name = "Freight Torpedo Warhead"
@@ -93,7 +93,7 @@
 	materials = list(/datum/material/iron = 5000, /datum/material/glass = 2500, /datum/material/copper = 2500)
 	build_path = /obj/item/ship_weapon/parts/missile/warhead/freight
 	category = list("Advanced Munitions")
-	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS
 
 /datum/design/nuclear_warhead
 	name = "Nuclear Torpedo Warhead"
@@ -103,7 +103,7 @@
 	materials = list(/datum/material/iron = 20000, /datum/material/glass = 5000, /datum/material/copper = 5000, /datum/material/plasma = 20000, /datum/material/gold = 5000, /datum/material/uranium = 10000)
 	build_path = /obj/item/ship_weapon/parts/missile/warhead/nuclear
 	category = list("Advanced Munitions")
-	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS
 
 /datum/design/probe_warhead
 	name = "Astrometrics probe warhead"
@@ -113,7 +113,7 @@
 	materials = list(/datum/material/iron = 20000, /datum/material/glass = 5000, /datum/material/titanium=10000, /datum/material/gold=1000)
 	build_path = /obj/item/ship_weapon/parts/missile/warhead/probe
 	category = list("Advanced Munitions")
-	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+	departmental_flags = DEPARTMENTAL_FLAG_SCIENCE
 
 /datum/design/guidance_system
 	name = "Torpedo Guidance System"
@@ -123,7 +123,7 @@
 	materials = list(/datum/material/iron = 1000, /datum/material/glass = 2500, /datum/material/gold = 3000, /datum/material/copper = 2500)
 	build_path = /obj/item/ship_weapon/parts/missile/guidance_system
 	category = list("Advanced Munitions")
-	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS
 
 /datum/design/propulsion_system
 	name = "Torpedo Propulsion System"
@@ -133,7 +133,7 @@
 	materials = list(/datum/material/iron = 10000, /datum/material/glass = 5000, /datum/material/titanium = 2500, /datum/material/plasma = 2500)
 	build_path = /obj/item/ship_weapon/parts/missile/propulsion_system
 	category = list("Advanced Munitions")
-	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS
 
 /datum/design/iff_card
 	name = "Torpedo IFF Card"
@@ -143,4 +143,4 @@
 	materials = list(/datum/material/glass = 20000, /datum/material/copper = 5000, /datum/material/gold = 5000)
 	build_path = /obj/item/ship_weapon/parts/missile/iff_card
 	category = list("Advanced Munitions")
-	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS
