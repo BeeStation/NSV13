@@ -193,7 +193,7 @@
 	materials = list(/datum/material/glass = 2000, /datum/material/copper = 2000, /datum/material/gold = 5000)
 	build_path = /obj/item/circuitboard/machine/fiftycal
 	category = list("Advanced Munitions")
-	departmental_flags = DEPARTMENTAL_FLAG_CARGO | DEPARTMENTAL_FLAG_SCIENCE
+	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS
 
 /datum/design/board/fiftycal/super
 	name = "Machine Design (.50 cal deck turret)"
@@ -202,7 +202,7 @@
 	materials = list(/datum/material/glass = 2000, /datum/material/copper = 2000, /datum/material/gold = 5000)
 	build_path = /obj/item/circuitboard/machine/fiftycal/super
 	category = list("Advanced Munitions")
-	departmental_flags = DEPARTMENTAL_FLAG_CARGO | DEPARTMENTAL_FLAG_SCIENCE
+	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS
 
 /datum/design/board/fiftycalcomp
 	name = "Machine Design (.50 cal deck turret control console)"
@@ -211,4 +211,4 @@
 	materials = list(/datum/material/glass = 2000, /datum/material/copper = 2000, /datum/material/gold = 5000)
 	build_path = /obj/item/circuitboard/computer/fiftycal
 	category = list("Advanced Munitions")
-	departmental_flags = DEPARTMENTAL_FLAG_CARGO | DEPARTMENTAL_FLAG_SCIENCE
+	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS

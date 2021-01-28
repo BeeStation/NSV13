@@ -166,6 +166,6 @@
 		return
 	charge += charge_rate
 
-	
-/obj/machinery/ship_weapon/energy/beam/admin //ez weapon for quickly testing. 
+
+/obj/machinery/ship_weapon/energy/beam/admin //ez weapon for quickly testing.
 	charge_per_shot = 0
