@@ -8,8 +8,8 @@
 	id = "dradis_circuit"
 	materials = list(/datum/material/glass = 2000, /datum/material/copper = 500)
 	build_path = /obj/item/circuitboard/computer/ship/dradis
-	category = list("Ship Components")
-	departmental_flags = DEPARTMENTAL_FLAG_SCIENCE
+	category = list("Computer Boards")
+	departmental_flags = DEPARTMENTAL_FLAG_ENGINEERING
 
 /obj/item/circuitboard/computer/ship/dradis/mining
 	name = "circuit board (minig dradis computer)"
@@ -21,8 +21,8 @@
 	id = "mining_dradis_circuit"
 	materials = list(/datum/material/glass = 5000, /datum/material/copper = 1000)
 	build_path = /obj/item/circuitboard/computer/ship/dradis/mining
-	category = list("Ship Components")
-	departmental_flags = DEPARTMENTAL_FLAG_SCIENCE
+	category = list("Computer Boards")
+	departmental_flags = DEPARTMENTAL_FLAG_CARGO
 
 #define MIN_SONAR_DELAY 5 SECONDS
 #define MAX_SONAR_DELAY 60 SECONDS
@@ -75,7 +75,7 @@
 	var/next_pulse = OM.last_sonar_pulse + sonar_delay
 	if(world.time >= next_pulse)
 		return TRUE
-
+f
 /obj/machinery/computer/ship/dradis/minor/can_sonar_pulse()
 	return FALSE
 

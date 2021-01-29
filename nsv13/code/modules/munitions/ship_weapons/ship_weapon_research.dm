@@ -15,7 +15,7 @@
 	build_path = /obj/item/ship_weapon/ammunition/naval_artillery
 	category = list("Advanced Munitions")
 	build_type = PROTOLATHE | AUTOLATHE
-	departmental_flags = DEPARTMENTAL_FLAG_CARGO | DEPARTMENTAL_FLAG_SCIENCE
+	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS
 
 /datum/design/naval_shell_ap
 	name = "Naval Artillery Round (Armour Piercing)"
@@ -25,7 +25,7 @@
 	build_path = /obj/item/ship_weapon/ammunition/naval_artillery/ap
 	category = list("Advanced Munitions")
 	build_type = PROTOLATHE | AUTOLATHE
-	departmental_flags = DEPARTMENTAL_FLAG_CARGO | DEPARTMENTAL_FLAG_SCIENCE
+	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS
 
 /datum/design/powder_bag
 	name = "Powder Bag"
@@ -35,7 +35,7 @@
 	build_path = /obj/item/powder_bag
 	category = list("Advanced Munitions")
 	build_type = PROTOLATHE | AUTOLATHE
-	departmental_flags = DEPARTMENTAL_FLAG_CARGO | DEPARTMENTAL_FLAG_SCIENCE
+	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS
 
 /datum/design/plasma_accelerant
 	name = "Plasma-Based Kinetic Accelerant"
@@ -45,7 +45,7 @@
 	build_path = /obj/item/powder_bag/plasma
 	category = list("Advanced Munitions")
 	build_type = PROTOLATHE | AUTOLATHE
-	departmental_flags = DEPARTMENTAL_FLAG_CARGO | DEPARTMENTAL_FLAG_SCIENCE
+	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS
 
 /datum/design/naval_artillery
 	name = "Machine Design (Deck Gun Frame)"
@@ -55,7 +55,7 @@
 	build_path = /obj/structure/ship_weapon/mac_assembly/artillery_frame
 	category = list("Advanced Munitions")
 	build_type = PROTOLATHE | AUTOLATHE
-	departmental_flags = DEPARTMENTAL_FLAG_CARGO | DEPARTMENTAL_FLAG_SCIENCE
+	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS
 
 /datum/design/board/naval_artillery_comp
 	name = "Machine Design (Deck Gun Computer)"
@@ -64,7 +64,7 @@
 	materials = list(/datum/material/glass = 2000, /datum/material/copper = 200, /datum/material/gold = 500, /datum/material/diamond=5000)
 	build_path = /obj/item/circuitboard/computer/deckgun
 	category = list("Advanced Munitions")
-	departmental_flags = DEPARTMENTAL_FLAG_CARGO | DEPARTMENTAL_FLAG_SCIENCE
+	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS
 
 /datum/design/board/artillery_loader
 	name = "Machine Design (Deck Gun Core)"
@@ -73,7 +73,7 @@
 	materials = list(/datum/material/glass = 2000, /datum/material/copper = 200, /datum/material/gold = 500, /datum/material/diamond=5000)
 	build_path = /obj/item/circuitboard/machine/deck_gun
 	category = list("Advanced Munitions")
-	departmental_flags = DEPARTMENTAL_FLAG_CARGO | DEPARTMENTAL_FLAG_SCIENCE
+	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS
 
 /datum/design/board/powder_loader
 	name = "Machine Design (Deck Gun Powder Gate)"
@@ -82,7 +82,7 @@
 	materials = list(/datum/material/glass = 2000, /datum/material/copper = 200, /datum/material/gold = 500)
 	build_path = /obj/item/circuitboard/machine/deck_gun/powder
 	category = list("Advanced Munitions")
-	departmental_flags = DEPARTMENTAL_FLAG_CARGO | DEPARTMENTAL_FLAG_SCIENCE
+	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS
 
 
 /datum/design/board/vls_tube
@@ -92,7 +92,7 @@
 	materials = list(/datum/material/glass = 2000, /datum/material/copper = 200, /datum/material/gold = 500)
 	build_path = /obj/item/circuitboard/machine/vls
 	category = list("Advanced Munitions")
-	departmental_flags = DEPARTMENTAL_FLAG_CARGO | DEPARTMENTAL_FLAG_SCIENCE
+	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS
 
 /datum/design/board/ams_console
 	name = "Machine Design (AMS Control Console)"
@@ -101,7 +101,7 @@
 	materials = list(/datum/material/glass = 2000, /datum/material/copper = 200, /datum/material/gold = 500)
 	build_path = /obj/item/circuitboard/computer/ams
 	category = list("Advanced Munitions")
-	departmental_flags = DEPARTMENTAL_FLAG_CARGO | DEPARTMENTAL_FLAG_SCIENCE
+	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS
 
 /datum/design/board/payload_gate
 	name = "Machine Design (Deck Gun Payload Gate)"
@@ -110,7 +110,7 @@
 	materials = list(/datum/material/glass = 2000, /datum/material/copper = 200, /datum/material/gold = 500)
 	build_path = /obj/item/circuitboard/machine/deck_gun/payload
 	category = list("Advanced Munitions")
-	departmental_flags = DEPARTMENTAL_FLAG_CARGO | DEPARTMENTAL_FLAG_SCIENCE
+	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS
 
 /datum/design/board/deck_gun_autorepair
 	name = "Machine Design (Deck Gun Autorepair upgrade)"
@@ -119,7 +119,7 @@
 	materials = list(/datum/material/glass = 2000, /datum/material/copper = 200, /datum/material/gold = 500)
 	build_path = /obj/item/circuitboard/machine/deck_gun/autorepair
 	category = list("Advanced Munitions")
-	departmental_flags = DEPARTMENTAL_FLAG_CARGO | DEPARTMENTAL_FLAG_SCIENCE
+	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS
 
 /datum/design/board/deck_gun_autoelevator
 	name = "Machine Design (Deck Gun Auto-elevator)"
@@ -128,7 +128,7 @@
 	materials = list(/datum/material/glass = 2000, /datum/material/copper = 5000, /datum/material/titanium = 15000, /datum/material/diamond = 5000)
 	build_path = /obj/item/circuitboard/machine/deck_gun/autoelevator
 	category = list("Advanced Munitions")
-	departmental_flags = DEPARTMENTAL_FLAG_CARGO | DEPARTMENTAL_FLAG_SCIENCE
+	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS
 
 /datum/design/board/munitions_computer_circuit
 	name = "Computer Design (Munitions Computer)"
@@ -137,7 +137,7 @@
 	materials = list(/datum/material/glass = 2000, /datum/material/copper = 200, /datum/material/gold = 1000)
 	build_path = /obj/item/circuitboard/computer/ship/munitions_computer
 	category = list("Advanced Munitions")
-	departmental_flags = DEPARTMENTAL_FLAG_CARGO | DEPARTMENTAL_FLAG_SCIENCE
+	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS
 
 /datum/design/ship_firing_electronics
 	name = "Firing Electronics"
@@ -148,7 +148,7 @@
 	construction_time=100
 	build_path = /obj/item/ship_weapon/parts/firing_electronics
 	category = list("Advanced Munitions")
-	departmental_flags = DEPARTMENTAL_FLAG_CARGO | DEPARTMENTAL_FLAG_SCIENCE
+	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS
 
 /datum/design/railgun_rail
 	name = "Railgun Rail"
@@ -159,7 +159,7 @@
 	construction_time=100
 	build_path = /obj/item/ship_weapon/parts/railgun_rail
 	category = list("Advanced Munitions")
-	departmental_flags = DEPARTMENTAL_FLAG_CARGO | DEPARTMENTAL_FLAG_SCIENCE
+	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS
 
 /datum/design/board/gauss_dispenser_circuit
 	name = "Machine Design (Gauss Dispenser)"
@@ -168,4 +168,4 @@
 	materials = list(/datum/material/glass = 2000, /datum/material/copper = 200, /datum/material/gold = 500)
 	build_path = /obj/item/circuitboard/machine/gauss_dispenser
 	category = list("Advanced Munitions")
-	departmental_flags = DEPARTMENTAL_FLAG_CARGO | DEPARTMENTAL_FLAG_SCIENCE
+	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS

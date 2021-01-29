@@ -4,6 +4,10 @@
 	icon_state = "standard"
 	desc = "A fairly standard torpedo which is designed to cause massive structural damage to a target. It is fitted with a basic homing mechanism to ensure it always hits the mark."
 	density = TRUE
+	climbable = TRUE //No shenanigans
+	climb_time = 40
+	climb_stun = 5
+	w_class = WEIGHT_CLASS_GIGANTIC
 	move_resist = MOVE_FORCE_EXTREMELY_STRONG
 	interaction_flags_item = 0 // -INTERACT_ITEM_ATTACK_HAND_PICKUP
 	projectile_type = /obj/item/projectile/guided_munition/torpedo //What torpedo type we fire

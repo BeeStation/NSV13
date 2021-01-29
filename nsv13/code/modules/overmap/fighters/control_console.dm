@@ -23,7 +23,7 @@
 	materials = list(/datum/material/glass = 2000, /datum/material/copper = 200, /datum/material/gold = 1000)
 	build_path = /obj/item/circuitboard/computer/ship/fighter_controller
 	category = list("Computer Boards")
-	departmental_flags = DEPARTMENTAL_FLAG_CARGO | DEPARTMENTAL_FLAG_SCIENCE
+	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS|DEPARTMENTAL_FLAG_ENGINEERING
 
 /obj/machinery/computer/ship/fighter_controller/emag_act(mob/user)
 	if(obj_flags & EMAGGED)

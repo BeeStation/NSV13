@@ -119,7 +119,7 @@
 	STOP_PROCESSING(SSfastprocess, src)
 	if(metal)
 		var/turf/T = get_turf(src)
-		if(isspaceturf(T)) //Block up any exposed space
+		if(isspaceturf(T) || istype(T, /turf/open/openspace)) //Block up any exposed space - NSV13 change: Also accounts for openspace.
 			T.PlaceOnTop(/turf/open/floor/plating/foam, flags = CHANGETURF_INHERIT_AIR)
 		for(var/direction in GLOB.cardinals)
 			var/turf/cardinal_turf = get_step(T, direction)
