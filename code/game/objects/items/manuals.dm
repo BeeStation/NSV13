@@ -487,6 +487,10 @@
 	title = "Standard operating Prosedure: Munitions"
 	page_link = "Department_Standard_Operating_Procedure:_Munitions"
 	icon_state = "sop_muni"
+	
+	//Should only be used as maint loot / easter eggs
+/obj/item/book/manual/wiki/sop/munitions/puce 
+	icon_state = "sop_muni_puce"
 
 /obj/item/book/manual/wiki/sop/catalogue //Directs to standard SoP page. Able to check any department at will. For command / lawyer
 	name = "Standard operating Prosedure: Catalogue"
