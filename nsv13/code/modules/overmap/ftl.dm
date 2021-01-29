@@ -216,7 +216,7 @@
 	id = "ftl_slipstream"
 	display_name = "Quantum slipstream technology"
 	description = "Cutting edge upgrades for the FTL drive computer, allowing for more efficient FTL travel."
-	prereq_ids = list("base")
+	prereq_ids = list("comptech")
 	design_ids = list("ftl_slipstream_chip")
 	research_costs = list(TECHWEB_POINT_TYPE_WORMHOLE = 5000) //You need to have fully probed a wormhole to unlock this.
 	export_price = 15000 //This is EXTREMELY valuable to NT because it'll let their ships go super fast.
