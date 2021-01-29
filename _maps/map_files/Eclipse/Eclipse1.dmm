@@ -137,6 +137,10 @@
 	pixel_y = 6
 	},
 /obj/item/gun/energy/kinetic_accelerator,
+/obj/machinery/requests_console{
+	department = "Mining";
+	pixel_y = 30
+	},
 /turf/open/floor/plasteel/dark/side,
 /area/hallway/primary/fore)
 "aB" = (
@@ -233,6 +237,12 @@
 	dir = 1
 	},
 /area/hallway/primary/fore)
+"bl" = (
+/obj/machinery/light/small{
+	dir = 4
+	},
+/turf/open/floor/plating,
+/area/maintenance/fore/secondary)
 "bp" = (
 /obj/structure/closet/crate/large,
 /obj/effect/spawner/lootdrop/maintenance/four,
@@ -349,6 +359,10 @@
 /area/crew_quarters/dorms)
 "bI" = (
 /obj/structure/tank_dispenser/oxygen,
+/obj/machinery/requests_console{
+	department = "Mining";
+	pixel_y = -30
+	},
 /turf/open/floor/plasteel/dark/side{
 	dir = 1
 	},
@@ -526,6 +540,7 @@
 "cJ" = (
 /obj/structure/reagent_dispensers/watertank,
 /obj/effect/decal/cleanable/dirt/dust,
+/obj/machinery/light/small,
 /turf/open/floor/plating,
 /area/maintenance/department/science/xenobiology)
 "cM" = (
@@ -733,6 +748,7 @@
 /area/medical/sleeper)
 "dL" = (
 /obj/structure/reagent_dispensers/watertank,
+/obj/machinery/airalarm/directional/north,
 /turf/open/floor/plating,
 /area/maintenance/disposal)
 "dM" = (
@@ -1207,6 +1223,13 @@
 /obj/structure/cable{
 	icon_state = "2-4"
 	},
+/obj/machinery/requests_console{
+	announcementConsole = 1;
+	department = "Executive Officer's Desk";
+	departmentType = 5;
+	name = "Executive Officer RC";
+	pixel_y = 26
+	},
 /turf/open/floor/carpet/ship/beige_carpet,
 /area/crew_quarters/dorms/nsv/dorms_2)
 "fH" = (
@@ -1219,6 +1242,14 @@
 	dir = 8
 	},
 /area/hallway/secondary/construction)
+"fJ" = (
+/obj/machinery/requests_console{
+	department = "Gravity Generator";
+	name = "Gravity Generator RC";
+	pixel_y = -30
+	},
+/turf/open/floor/monotile,
+/area/engine/gravity_generator)
 "fK" = (
 /turf/open/floor/plasteel/dark/side{
 	dir = 6
@@ -1464,11 +1495,15 @@
 /turf/open/floor/monotile/dark,
 /area/nsv/weapons/fore)
 "gO" = (
-/obj/structure/cable,
-/turf/open/floor/plasteel/dark/side{
-	dir = 1
+/obj/machinery/requests_console{
+	announcementConsole = 1;
+	department = "Master At Arms' Desk";
+	departmentType = 5;
+	name = "Master at Arms RC";
+	pixel_x = 32
 	},
-/area/hallway/primary/fore)
+/turf/open/floor/monotile/dark,
+/area/nsv/weapons/fore)
 "gP" = (
 /obj/machinery/door/firedoor/border_only/directional/east,
 /obj/machinery/door/firedoor/border_only/directional/west,
@@ -2121,9 +2156,6 @@
 /turf/open/floor/monotile/dark,
 /area/hallway/secondary/entry)
 "jq" = (
-/obj/structure/cable{
-	icon_state = "4-8"
-	},
 /turf/open/floor/carpet/ship/beige_carpet,
 /area/crew_quarters/heads/captain/private)
 "jr" = (
@@ -2725,6 +2757,16 @@
 	dir = 1
 	},
 /area/construction)
+"lH" = (
+/obj/structure/cable/yellow,
+/obj/machinery/power/port_gen/pacman{
+	anchored = 1
+	},
+/obj/machinery/airalarm/directional/south,
+/turf/open/floor/plasteel/dark/side{
+	dir = 1
+	},
+/area/engine/engine_room)
 "lI" = (
 /obj/effect/turf_decal/tile/blue,
 /obj/effect/turf_decal/tile/blue{
@@ -2742,9 +2784,6 @@
 	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 5
-	},
-/obj/structure/cable{
-	icon_state = "1-4"
 	},
 /obj/effect/landmark/start/captain,
 /turf/open/floor/carpet/ship/beige_carpet,
@@ -3195,6 +3234,16 @@
 /obj/structure/cable/yellow,
 /turf/open/floor/circuit,
 /area/engine/gravity_generator)
+"no" = (
+/obj/machinery/requests_console{
+	department = "Crew Quarters";
+	name = "Crew Quarters RC";
+	pixel_y = -30
+	},
+/turf/open/floor/plasteel/dark/side{
+	dir = 4
+	},
+/area/crew_quarters/dorms)
 "nq" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	dir = 4;
@@ -3266,6 +3315,10 @@
 /area/hallway/secondary/construction)
 "nI" = (
 /obj/machinery/telecomms/hub/preset,
+/obj/machinery/airalarm/kitchen_cold_room{
+	dir = 1;
+	pixel_y = -23
+	},
 /turf/open/floor/circuit/green/telecomms,
 /area/tcommsat/server)
 "nM" = (
@@ -3437,6 +3490,8 @@
 /obj/structure/cable{
 	icon_state = "4-8"
 	},
+/obj/machinery/airalarm/directional/north,
+/obj/machinery/light/small,
 /turf/open/floor/plating,
 /area/maintenance/department/medical)
 "op" = (
@@ -3472,10 +3527,25 @@
 /obj/structure/disposalpipe/segment,
 /turf/open/floor/monotile/dark,
 /area/quartermaster/warehouse)
+"ox" = (
+/obj/machinery/cryopod{
+	dir = 4
+	},
+/obj/machinery/requests_console{
+	department = "Long Term Cryogenic Storage";
+	departmentType = 7;
+	name = "Cryogenics RC";
+	pixel_x = -32
+	},
+/turf/open/floor/plasteel/dark/side{
+	dir = 8
+	},
+/area/crew_quarters/cryopods)
 "oz" = (
 /obj/structure/cable{
 	icon_state = "4-8"
 	},
+/obj/machinery/light/small,
 /turf/open/floor/plating,
 /area/maintenance/department/crew_quarters/bar)
 "oB" = (
@@ -3497,6 +3567,12 @@
 "oK" = (
 /obj/machinery/atmospherics/pipe/simple/cyan/visible{
 	dir = 5
+	},
+/obj/machinery/requests_console{
+	department = "Server Room";
+	departmentType = 3;
+	name = "Server Room RC";
+	pixel_x = -32
 	},
 /turf/open/floor/plasteel,
 /area/science/server)
@@ -3678,6 +3754,7 @@
 /obj/structure/cable{
 	icon_state = "2-8"
 	},
+/obj/machinery/airalarm/directional/north,
 /turf/open/floor/noslip/white,
 /area/crew_quarters/toilet/restrooms)
 "ps" = (
@@ -3803,11 +3880,11 @@
 /area/hallway/primary/fore)
 "pV" = (
 /obj/structure/cable{
-	icon_state = "1-2"
+	icon_state = "0-2"
 	},
-/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3,
+/obj/machinery/power/apc/auto_name/north,
 /turf/open/floor/plasteel/dark/side,
-/area/hallway/primary/fore)
+/area/hallway/secondary/entry)
 "pY" = (
 /obj/structure/chair/sofa,
 /obj/effect/landmark/start/assistant,
@@ -3838,9 +3915,7 @@
 "qe" = (
 /obj/item/soap/homemade,
 /obj/effect/turf_decal/ship/rust,
-/obj/structure/cable{
-	icon_state = "2-8"
-	},
+/obj/machinery/airalarm/directional/north,
 /turf/open/floor/noslip/white,
 /area/crew_quarters/toilet/restrooms)
 "qf" = (
@@ -4034,6 +4109,11 @@
 	dir = 1
 	},
 /obj/effect/turf_decal/ship/techfloor,
+/obj/machinery/requests_console{
+	department = "Bridge";
+	name = "Bridge RC";
+	pixel_y = -30
+	},
 /turf/open/floor/monotile,
 /area/bridge)
 "rj" = (
@@ -4041,6 +4121,7 @@
 	icon_state = "4-8"
 	},
 /obj/effect/decal/cleanable/dirt/dust,
+/obj/machinery/airalarm/directional/north,
 /turf/open/floor/plating,
 /area/maintenance/aft)
 "rk" = (
@@ -4106,6 +4187,7 @@
 /turf/open/floor/monotile/dark,
 /area/bridge)
 "rx" = (
+/obj/machinery/airalarm/directional/west,
 /turf/open/floor/plating,
 /area/maintenance/fore)
 "ry" = (
@@ -4811,6 +4893,13 @@
 /area/engine/atmos)
 "uH" = (
 /obj/structure/filingcabinet/documents,
+/obj/machinery/requests_console{
+	announcementConsole = 1;
+	department = "Captain's Desk";
+	departmentType = 5;
+	name = "Captain RC";
+	pixel_y = 26
+	},
 /turf/open/floor/carpet/ship/beige_carpet,
 /area/crew_quarters/heads/captain/private)
 "uJ" = (
@@ -4861,6 +4950,13 @@
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /turf/open/floor/monotile,
 /area/nsv/weapons/fore)
+"uP" = (
+/obj/machinery/power/apc/auto_name/west,
+/obj/structure/cable{
+	icon_state = "0-2"
+	},
+/turf/open/floor/plasteel/dark,
+/area/crew_quarters/bar)
 "uQ" = (
 /obj/machinery/vending/tool,
 /turf/open/floor/plasteel,
@@ -5101,6 +5197,11 @@
 	anchored = 1
 	},
 /obj/structure/cable/yellow,
+/obj/machinery/requests_console{
+	department = "Engine Room";
+	name = "Engine Room RC";
+	pixel_y = -30
+	},
 /turf/open/floor/plasteel/dark/side{
 	dir = 1
 	},
@@ -5298,6 +5399,9 @@
 	},
 /obj/structure/disposalpipe/junction/flip{
 	dir = 8
+	},
+/obj/structure/cable{
+	icon_state = "1-8"
 	},
 /turf/open/floor/monotile/dark,
 /area/crew_quarters/bar)
@@ -5512,11 +5616,22 @@
 	},
 /area/engine/engine_room)
 "xD" = (
-/obj/machinery/power/apc/auto_name/north,
-/obj/structure/cable{
-	icon_state = "0-2"
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	dir = 4
 	},
-/turf/open/floor/plasteel/dark/side,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	dir = 4
+	},
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
+/obj/structure/cable{
+	icon_state = "1-8"
+	},
+/turf/open/floor/monotile/dark,
 /area/hallway/secondary/entry)
 "xE" = (
 /obj/effect/turf_decal/tile/blue,
@@ -5731,9 +5846,6 @@
 "yQ" = (
 /obj/structure/cable{
 	icon_state = "4-8"
-	},
-/obj/structure/cable{
-	icon_state = "1-4"
 	},
 /obj/structure/disposalpipe/segment{
 	dir = 4
@@ -6356,24 +6468,15 @@
 	},
 /area/hallway/secondary/entry)
 "Bh" = (
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
-	dir = 4
+/obj/machinery/hydroponics/constructable,
+/obj/machinery/requests_console{
+	department = "Hydroponics";
+	departmentType = 2;
+	pixel_x = -31;
+	pixel_y = -2
 	},
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
-	dir = 4;
-	icon_state = "pipe11-1"
-	},
-/obj/structure/cable{
-	icon_state = "4-8"
-	},
-/obj/structure/cable{
-	icon_state = "2-8"
-	},
-/obj/structure/disposalpipe/segment{
-	dir = 4
-	},
-/turf/open/floor/monotile/dark,
-/area/hallway/primary/fore)
+/turf/open/floor/plasteel/checker,
+/area/hydroponics)
 "Bi" = (
 /obj/structure/window/plasma/reinforced{
 	dir = 4
@@ -6488,12 +6591,6 @@
 	},
 /turf/open/floor/plasteel/dark,
 /area/crew_quarters/bar)
-"BP" = (
-/obj/structure/cable{
-	icon_state = "4-8"
-	},
-/turf/open/floor/wood,
-/area/crew_quarters/heads/captain/private)
 "BU" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 4
@@ -6595,6 +6692,12 @@
 	},
 /turf/open/floor/plasteel/checker,
 /area/hydroponics)
+"Co" = (
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
+/turf/open/floor/plasteel/dark/side,
+/area/crew_quarters/bar)
 "Cp" = (
 /obj/machinery/light,
 /turf/open/floor/plasteel,
@@ -6827,23 +6930,21 @@
 /turf/open/floor/plasteel/dark,
 /area/crew_quarters/bar)
 "Du" = (
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
-	dir = 4
-	},
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
-	dir = 4
-	},
+/obj/machinery/power/smes/engineering,
 /obj/structure/cable{
-	icon_state = "4-8"
+	icon_state = "0-4"
 	},
-/obj/structure/cable{
-	icon_state = "1-8"
+/obj/machinery/requests_console{
+	announcementConsole = 1;
+	department = "Chief Engineer's Desk";
+	departmentType = 4;
+	name = "Chief Engineer RC";
+	pixel_x = -32
 	},
-/obj/structure/disposalpipe/segment{
+/turf/open/floor/plasteel/dark/side{
 	dir = 4
 	},
-/turf/open/floor/monotile/dark,
-/area/hallway/secondary/entry)
+/area/engine/engine_smes)
 "Dw" = (
 /obj/effect/turf_decal/tile/blue,
 /obj/effect/turf_decal/tile/blue{
@@ -7019,7 +7120,6 @@
 /turf/closed/wall/r_wall,
 /area/hallway/secondary/construction)
 "Em" = (
-/obj/machinery/power/apc/auto_name/east,
 /obj/structure/cable{
 	icon_state = "0-2"
 	},
@@ -7335,6 +7435,12 @@
 	pixel_y = 3
 	},
 /obj/item/reagent_containers/glass/beaker/cryoxadone,
+/obj/machinery/requests_console{
+	department = "Infirmary";
+	departmentType = 1;
+	name = "Infirmary RC";
+	pixel_y = 32
+	},
 /turf/open/floor/plasteel/tiled/light,
 /area/medical/sleeper)
 "Fz" = (
@@ -7446,6 +7552,16 @@
 	dir = 4
 	},
 /area/crew_quarters/cryopods)
+"Gb" = (
+/obj/machinery/requests_console{
+	department = "Central Primary Hallway";
+	name = "Central Primary Hall RC";
+	pixel_y = -30
+	},
+/turf/open/floor/plasteel/dark/side{
+	dir = 1
+	},
+/area/hallway/primary/central)
 "Gc" = (
 /obj/effect/turf_decal/tile/blue,
 /obj/effect/turf_decal/tile/blue{
@@ -7580,6 +7696,11 @@
 /obj/machinery/camera/autoname{
 	dir = 8
 	},
+/obj/machinery/requests_console{
+	department = "Atmospherics";
+	name = "Atmospherics RC";
+	pixel_y = -30
+	},
 /turf/open/floor/engine,
 /area/engine/atmos)
 "GB" = (
@@ -7713,20 +7834,17 @@
 	layer = 3.5
 	},
 /obj/effect/turf_decal/ship/rust,
-/obj/structure/cable{
-	icon_state = "2-4"
-	},
 /obj/effect/landmark/start/clown,
 /turf/open/floor/noslip/white,
 /area/crew_quarters/toilet/restrooms)
 "GY" = (
-/obj/machinery/power/apc/auto_name/north,
 /obj/structure/cable{
 	icon_state = "0-4"
 	},
 /obj/structure/cable{
 	icon_state = "4-8"
 	},
+/obj/machinery/light/small,
 /turf/open/floor/plating,
 /area/maintenance/aft)
 "Ha" = (
@@ -7845,6 +7963,17 @@
 /obj/effect/spawner/structure/window/reinforced,
 /turf/open/floor/plating/airless,
 /area/hallway/secondary/construction)
+"Hy" = (
+/obj/machinery/requests_console{
+	department = "Aft Primary Hallway";
+	departmentType = 3;
+	name = "Aft Primary Hallway RC";
+	pixel_x = -32
+	},
+/turf/open/floor/plasteel/dark/side{
+	dir = 4
+	},
+/area/hallway/primary/aft)
 "HB" = (
 /obj/machinery/door/firedoor/border_only/directional/east,
 /obj/machinery/door/firedoor/border_only/directional/west,
@@ -8125,6 +8254,7 @@
 	roundstart_template = /datum/map_template/shuttle/escape_pod/default;
 	width = 3
 	},
+/obj/structure/fans/tiny,
 /turf/open/floor/plating/airless,
 /area/space/nearstation)
 "IL" = (
@@ -8162,6 +8292,15 @@
 	},
 /turf/open/floor/monotile/dark,
 /area/quartermaster/warehouse)
+"IV" = (
+/obj/machinery/cryopod{
+	dir = 4
+	},
+/obj/machinery/airalarm/directional/west,
+/turf/open/floor/plasteel/dark/side{
+	dir = 8
+	},
+/area/crew_quarters/cryopods)
 "IW" = (
 /obj/structure/sign/poster/official/soft_cap_pop_art,
 /turf/closed/wall/r_wall,
@@ -8252,8 +8391,6 @@
 	},
 /area/crew_quarters/bar)
 "Jn" = (
-/obj/machinery/power/apc/auto_name/south,
-/obj/structure/cable,
 /turf/open/floor/wood,
 /area/crew_quarters/heads/captain/private)
 "Jo" = (
@@ -8267,7 +8404,6 @@
 /turf/open/floor/monotile,
 /area/nsv/weapons/fore)
 "Jp" = (
-/obj/structure/cable,
 /obj/machinery/light/small{
 	dir = 4
 	},
@@ -8560,9 +8696,6 @@
 /area/hallway/primary/aft)
 "KO" = (
 /obj/effect/turf_decal/ship/rust,
-/obj/structure/cable{
-	icon_state = "1-2"
-	},
 /obj/machinery/button/door{
 	id = "Shower";
 	name = "Door Bolt Control";
@@ -8871,6 +9004,7 @@
 	roundstart_template = /datum/map_template/shuttle/escape_pod/default;
 	width = 3
 	},
+/obj/structure/fans/tiny,
 /turf/open/floor/plating/airless,
 /area/space/nearstation)
 "Ms" = (
@@ -9061,9 +9195,6 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 9
 	},
-/obj/structure/cable{
-	icon_state = "4-8"
-	},
 /turf/open/floor/carpet/ship/beige_carpet,
 /area/crew_quarters/heads/captain/private)
 "Nc" = (
@@ -9096,6 +9227,7 @@
 /obj/structure/cable{
 	icon_state = "1-4"
 	},
+/obj/machinery/airalarm/directional/west,
 /turf/open/floor/plating,
 /area/maintenance/department/science/xenobiology)
 "Ng" = (
@@ -9119,9 +9251,6 @@
 "Nm" = (
 /obj/machinery/door/airlock/ship/hatch{
 	id_tag = "Shower"
-	},
-/obj/structure/cable{
-	icon_state = "1-2"
 	},
 /turf/open/floor/noslip/white,
 /area/crew_quarters/toilet/restrooms)
@@ -9199,6 +9328,11 @@
 /obj/effect/spawner/lootdrop/maintenance/three,
 /obj/item/stack/sheet/mineral/copper{
 	amount = 5
+	},
+/obj/machinery/requests_console{
+	department = "Cargo Bay";
+	departmentType = 2;
+	pixel_y = 30
 	},
 /turf/open/floor/plasteel/dark/side{
 	dir = 4
@@ -9692,6 +9826,11 @@
 /area/hallway/primary/aft)
 "Py" = (
 /obj/machinery/vending/cola/red,
+/obj/machinery/requests_console{
+	department = "Crew Quarters";
+	name = "Crew Quarters RC";
+	pixel_y = 30
+	},
 /turf/open/floor/plasteel/dark/side{
 	dir = 4
 	},
@@ -9779,6 +9918,10 @@
 /obj/machinery/camera/autoname,
 /turf/open/floor/plasteel/dark/side,
 /area/hallway/primary/aft)
+"PZ" = (
+/obj/machinery/airalarm/directional/north,
+/turf/open/floor/plasteel/dark/side,
+/area/hallway/primary/central)
 "Qa" = (
 /obj/machinery/light{
 	dir = 8
@@ -9968,6 +10111,13 @@
 	dir = 1
 	},
 /obj/machinery/iv_drip,
+/obj/machinery/requests_console{
+	announcementConsole = 1;
+	department = "Chief Medical Officer's Desk";
+	departmentType = 5;
+	name = "Chief Medical Officer RC";
+	pixel_x = 30
+	},
 /turf/open/floor/plasteel/tiled/light,
 /area/medical/surgery)
 "QS" = (
@@ -10068,10 +10218,11 @@
 /obj/machinery/atmospherics/pipe/simple/cyan/visible{
 	dir = 6
 	},
+/obj/machinery/airalarm/directional/west,
 /turf/open/floor/plasteel/dark/corner{
 	dir = 4
 	},
-/area/science/research)
+/area/science/server)
 "Rr" = (
 /obj/machinery/door/firedoor/border_only/directional/east,
 /obj/machinery/door/firedoor/border_only/directional/west,
@@ -10296,6 +10447,9 @@
 /obj/structure/cable{
 	icon_state = "1-8"
 	},
+/obj/machinery/light/small{
+	dir = 4
+	},
 /turf/open/floor/plating,
 /area/maintenance/fore)
 "Ss" = (
@@ -10437,10 +10591,17 @@
 /obj/machinery/camera/autoname,
 /obj/item/storage/bag/trash,
 /obj/item/reagent_containers/spray/cleaner,
+/obj/machinery/requests_console{
+	department = "Bar";
+	departmentType = 2;
+	pixel_y = 30;
+	receive_ore_updates = 1
+	},
 /turf/open/floor/plasteel/dark,
 /area/crew_quarters/bar)
 "SQ" = (
 /obj/item/trash/raisins,
+/obj/machinery/airalarm/directional/east,
 /turf/open/floor/plating,
 /area/maintenance/fore/secondary)
 "SS" = (
@@ -10473,9 +10634,6 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /obj/structure/cable{
 	icon_state = "1-8"
-	},
-/obj/structure/cable{
-	icon_state = "1-2"
 	},
 /obj/structure/disposalpipe/segment{
 	dir = 9
@@ -10726,6 +10884,14 @@
 /obj/structure/disposalpipe/segment{
 	dir = 10
 	},
+/obj/machinery/requests_console{
+	department = "Xenobiology";
+	departmentType = 2;
+	name = "Xenobiology RC";
+	pixel_x = -32;
+	pixel_y = -32;
+	receive_ore_updates = 1
+	},
 /turf/open/floor/plasteel,
 /area/science/xenobiology)
 "TX" = (
@@ -10832,9 +10998,6 @@
 /area/maintenance/aft)
 "Uu" = (
 /obj/machinery/holopad,
-/obj/structure/cable{
-	icon_state = "2-8"
-	},
 /turf/open/floor/wood,
 /area/crew_quarters/heads/captain/private)
 "Uv" = (
@@ -11021,6 +11184,15 @@
 /obj/machinery/light{
 	dir = 8
 	},
+/obj/machinery/requests_console{
+	announcementConsole = 1;
+	department = "Research Director's Desk";
+	departmentType = 5;
+	name = "Research Director RC";
+	pixel_x = -30;
+	pixel_y = 30;
+	receive_ore_updates = 1
+	},
 /turf/open/floor/plasteel/dark/side{
 	dir = 4
 	},
@@ -11054,6 +11226,10 @@
 /area/crew_quarters/bar)
 "Vj" = (
 /obj/effect/turf_decal/ship/techfloor/grid,
+/obj/machinery/light{
+	brightness = 5;
+	dir = 4
+	},
 /turf/open/floor/plasteel,
 /area/security/prison)
 "Vk" = (
@@ -11301,6 +11477,7 @@
 /turf/open/floor/plasteel/checker,
 /area/crew_quarters/kitchen)
 "Wo" = (
+/obj/structure/fans/tiny,
 /turf/open/floor/plating/airless,
 /area/space/nearstation)
 "Wq" = (
@@ -11336,9 +11513,6 @@
 "Wv" = (
 /obj/machinery/door/airlock/ship/hatch{
 	dir = 4
-	},
-/obj/structure/cable{
-	icon_state = "4-8"
 	},
 /turf/open/floor/wood,
 /area/crew_quarters/heads/captain/private)
@@ -11412,6 +11586,7 @@
 /area/engine/engine_smes)
 "WK" = (
 /obj/structure/reagent_dispensers/watertank,
+/obj/machinery/airalarm/directional/north,
 /turf/open/floor/plating,
 /area/maintenance/department/crew_quarters/bar)
 "WL" = (
@@ -11546,6 +11721,13 @@
 	dir = 1
 	},
 /obj/machinery/light,
+/obj/machinery/requests_console{
+	announcementConsole = 1;
+	department = "Telecomms Admin";
+	departmentType = 5;
+	name = "Telecomms RC";
+	pixel_y = -30
+	},
 /turf/open/floor/circuit/telecomms/server,
 /area/tcommsat/server)
 "Xu" = (
@@ -11767,6 +11949,11 @@
 /obj/item/book/manual/chef_recipes{
 	pixel_x = 2;
 	pixel_y = 6
+	},
+/obj/machinery/requests_console{
+	department = "Kitchen";
+	departmentType = 2;
+	pixel_x = 30
 	},
 /turf/open/floor/plasteel/checker,
 /area/crew_quarters/kitchen)
@@ -29700,7 +29887,7 @@ LR
 Xu
 LR
 LR
-Xu
+Og
 EV
 Og
 EV
@@ -30485,7 +30672,7 @@ fS
 ju
 dG
 Wm
-BP
+Jn
 Bd
 dG
 Fv
@@ -32018,7 +32205,7 @@ Xs
 fC
 fr
 hK
-hK
+Du
 hK
 nO
 OV
@@ -32542,7 +32729,7 @@ dM
 hN
 di
 aq
-xV
+lH
 hN
 zr
 Ml
@@ -35366,7 +35553,7 @@ us
 fK
 NF
 WX
-us
+Hy
 KM
 Iw
 us
@@ -36905,7 +37092,7 @@ WP
 WP
 WP
 zA
-ip
+PZ
 Hv
 rb
 uo
@@ -37164,7 +37351,7 @@ XV
 zA
 ip
 Hv
-rb
+Eu
 uo
 IR
 TR
@@ -39220,7 +39407,7 @@ TT
 RO
 RH
 UO
-rb
+Gb
 wl
 wl
 xc
@@ -39228,7 +39415,7 @@ Pr
 cD
 Sk
 GS
-Pr
+fJ
 xc
 rI
 rI
@@ -39732,7 +39919,7 @@ kb
 Oq
 ar
 zA
-ip
+PZ
 xo
 zf
 qq
@@ -40489,8 +40676,8 @@ gX
 gX
 gX
 VY
-Pi
-jp
+pV
+xD
 wj
 BD
 BD
@@ -40759,8 +40946,8 @@ dV
 dV
 dV
 kh
-Ww
-yE
+uP
+Co
 wD
 Ct
 Qg
@@ -41260,14 +41447,14 @@ gX
 gX
 gX
 VY
-xD
-Du
+Pi
+jp
 wj
 Nv
 rF
 OI
 iV
-gs
+Bh
 gs
 dV
 dV
@@ -41546,8 +41733,8 @@ ZD
 JO
 lo
 Fc
-Bh
-gO
+yl
+hz
 rX
 eG
 eG
@@ -43850,9 +44037,9 @@ hz
 RD
 xe
 of
-qj
+ox
 fY
-qj
+IV
 Al
 qj
 jh
@@ -44357,8 +44544,8 @@ RN
 GW
 KO
 Nm
-zH
-pV
+RD
+Az
 yQ
 Uw
 RD
@@ -44595,7 +44782,7 @@ rX
 GT
 CM
 Zb
-Fu
+gO
 CV
 CM
 Zb
@@ -45148,7 +45335,7 @@ Rr
 rI
 sN
 SQ
-xI
+bl
 Vq
 Hh
 EA
@@ -46684,7 +46871,7 @@ Dk
 bH
 qB
 dS
-Xm
+no
 qR
 pP
 oj
