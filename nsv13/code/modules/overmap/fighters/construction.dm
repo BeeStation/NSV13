@@ -580,7 +580,7 @@
 	materials = list(/datum/material/iron = 15000, /datum/material/titanium = 10000, /datum/material/copper = 7500)
 	build_path = /obj/structure/fighter_frame
 	category = list("Ship Components")
-	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS
 
 /datum/design/heavy_frame
 	name = "Heavy Fighter Chassis"
@@ -590,7 +590,7 @@
 	materials = list(/datum/material/iron = 35000, /datum/material/titanium = 20000, /datum/material/copper = 7500)
 	build_path = /obj/structure/fighter_frame/heavy
 	category = list("Ship Components")
-	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS
 
 /datum/design/utility_frame
 	name = "Utility Fighter Chassis"
@@ -600,7 +600,7 @@
 	materials = list(/datum/material/iron = 10000, /datum/material/titanium = 10000, /datum/material/copper = 5000)
 	build_path = /obj/structure/fighter_frame/utility
 	category = list("Ship Components")
-	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+	departmental_flags = DEPARTMENTAL_FLAG_CARGO|DEPARTMENTAL_FLAG_MUNITIONS|DEPARTMENTAL_FLAG_ENGINEERING
 
 /datum/techweb_node/fighter_tier1
 	id = "fighter_tier1"
@@ -619,7 +619,7 @@
 	materials = list(/datum/material/iron = 5000)
 	build_path = /obj/item/fighter_component/fuel_tank
 	category = list("Ship Components")
-	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+	departmental_flags = DEPARTMENTAL_FLAG_CARGO|DEPARTMENTAL_FLAG_MUNITIONS|DEPARTMENTAL_FLAG_ENGINEERING
 
 /datum/design/avionics
 	name = "Fighter Avionics"
@@ -629,7 +629,7 @@
 	materials = list(/datum/material/iron = 5000, /datum/material/copper = 5000)
 	build_path = /obj/item/fighter_component/avionics
 	category = list("Ship Components")
-	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+	departmental_flags = DEPARTMENTAL_FLAG_CARGO|DEPARTMENTAL_FLAG_MUNITIONS|DEPARTMENTAL_FLAG_ENGINEERING
 
 /datum/design/apu
 	name = "Fighter APU"
@@ -639,7 +639,7 @@
 	materials = list(/datum/material/iron = 10000, /datum/material/copper = 5000)
 	build_path = /obj/item/fighter_component/apu
 	category = list("Ship Components")
-	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+	departmental_flags = DEPARTMENTAL_FLAG_CARGO|DEPARTMENTAL_FLAG_MUNITIONS|DEPARTMENTAL_FLAG_ENGINEERING
 
 /datum/design/armour_plating
 	name = "Fighter Armour"
@@ -649,7 +649,7 @@
 	materials = list(/datum/material/iron = 10000)
 	build_path = /obj/item/fighter_component/armour_plating
 	category = list("Ship Components")
-	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+	departmental_flags = DEPARTMENTAL_FLAG_CARGO|DEPARTMENTAL_FLAG_MUNITIONS|DEPARTMENTAL_FLAG_ENGINEERING
 
 /datum/design/targeting_sensor
 	name = "Fighter Targeting Sensor"
@@ -659,7 +659,7 @@
 	materials = list(/datum/material/iron = 10000, /datum/material/copper = 10000)
 	build_path = /obj/item/fighter_component/targeting_sensor
 	category = list("Ship Components")
-	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+	departmental_flags = DEPARTMENTAL_FLAG_CARGO|DEPARTMENTAL_FLAG_MUNITIONS|DEPARTMENTAL_FLAG_ENGINEERING
 
 /datum/design/fighter_engine
 	name = "Fighter Engine"
@@ -669,7 +669,7 @@
 	materials = list(/datum/material/iron = 5000, /datum/material/copper = 2000)
 	build_path = /obj/item/fighter_component/engine
 	category = list("Ship Components")
-	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+	departmental_flags = DEPARTMENTAL_FLAG_CARGO|DEPARTMENTAL_FLAG_MUNITIONS|DEPARTMENTAL_FLAG_ENGINEERING
 
 /datum/design/countermeasure_dispenser
 	name = "Fighter Countermeasure Dispenser"
@@ -679,7 +679,7 @@
 	materials = list(/datum/material/iron = 2000, /datum/material/copper = 2000)
 	build_path = /obj/item/fighter_component/countermeasure_dispenser
 	category = list("Ship Components")
-	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+	departmental_flags = DEPARTMENTAL_FLAG_CARGO|DEPARTMENTAL_FLAG_MUNITIONS|DEPARTMENTAL_FLAG_ENGINEERING
 
 /datum/design/ordnance_launcher
 	name = "Fighter Torpedo Rack"
@@ -689,7 +689,7 @@
 	materials = list(/datum/material/iron = 15000, /datum/material/copper = 2000)
 	build_path = /obj/item/fighter_component/secondary/ordnance_launcher/torpedo
 	category = list("Ship Components")
-	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS
 
 /datum/design/fighter_missile_launcher
 	name = "Fighter Missile Rack"
@@ -699,7 +699,7 @@
 	materials = list(/datum/material/iron = 15000, /datum/material/copper = 2000)
 	build_path = /obj/item/fighter_component/secondary/ordnance_launcher
 	category = list("Ship Components")
-	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS
 
 
 /datum/design/oxygenator
@@ -710,7 +710,7 @@
 	materials = list(/datum/material/iron = 5000, /datum/material/copper = 5000)
 	build_path = /obj/item/fighter_component/oxygenator
 	category = list("Ship Components")
-	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+	departmental_flags = DEPARTMENTAL_FLAG_CARGO|DEPARTMENTAL_FLAG_MUNITIONS|DEPARTMENTAL_FLAG_ENGINEERING
 
 /datum/design/docking_computer
 	name = "Fighter Docking Computer"
@@ -720,7 +720,7 @@
 	materials = list(/datum/material/iron = 5000, /datum/material/copper = 5000)
 	build_path = /obj/item/fighter_component/docking_computer
 	category = list("Ship Components")
-	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+	departmental_flags = DEPARTMENTAL_FLAG_CARGO|DEPARTMENTAL_FLAG_MUNITIONS|DEPARTMENTAL_FLAG_ENGINEERING
 
 /datum/design/fighter_battery
 	name = "Fighter Battery"
@@ -730,7 +730,7 @@
 	materials = list(/datum/material/iron = 7000, /datum/material/copper = 5000, /datum/material/glass = 2000)
 	build_path = /obj/item/fighter_component/battery
 	category = list("Ship Components")
-	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+	departmental_flags = DEPARTMENTAL_FLAG_CARGO|DEPARTMENTAL_FLAG_MUNITIONS|DEPARTMENTAL_FLAG_ENGINEERING
 
 /datum/design/primary_cannon
 	name = "Fighter Primary Cannon (Light)"
@@ -740,7 +740,7 @@
 	materials = list(/datum/material/iron = 15000, /datum/material/copper = 7000, /datum/material/glass = 6000)
 	build_path = /obj/item/fighter_component/primary/cannon
 	category = list("Ship Components")
-	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS
 
 /datum/design/heavy_cannon
 	name = "Fighter Primary Cannon (Heavy)"
@@ -750,7 +750,7 @@
 	materials = list(/datum/material/iron = 15000, /datum/material/copper = 7000, /datum/material/glass = 6000)
 	build_path = /obj/item/fighter_component/primary/cannon/heavy
 	category = list("Ship Components")
-	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS
 
 /datum/design/refuel_kit
 	name = "Air to air refuel kit"
@@ -760,7 +760,7 @@
 	materials = list(/datum/material/iron = 5000, /datum/material/copper = 5000, /datum/material/glass = 5000)
 	build_path = /obj/item/fighter_component/secondary/utility/resupply
 	category = list("Ship Components")
-	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+	departmental_flags = DEPARTMENTAL_FLAG_CARGO|DEPARTMENTAL_FLAG_MUNITIONS|DEPARTMENTAL_FLAG_ENGINEERING
 
 /datum/design/cargo_hold
 	name = "Fighter Cargo Hold"
@@ -770,7 +770,7 @@
 	materials = list(/datum/material/iron = 15000, /datum/material/glass = 5000)
 	build_path = /obj/item/fighter_component/primary/utility/hold
 	category = list("Ship Components")
-	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+	departmental_flags = DEPARTMENTAL_FLAG_CARGO|DEPARTMENTAL_FLAG_MUNITIONS|DEPARTMENTAL_FLAG_ENGINEERING
 
 /datum/design/resupply
 	name = "Air to Air repair kit"
@@ -780,7 +780,7 @@
 	materials = list(/datum/material/iron = 15000, /datum/material/glass = 5000)
 	build_path = /obj/item/fighter_component/primary/utility/repairer
 	category = list("Ship Components")
-	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+	departmental_flags = DEPARTMENTAL_FLAG_CARGO|DEPARTMENTAL_FLAG_MUNITIONS|DEPARTMENTAL_FLAG_ENGINEERING
 
 //Alright. Onto tier 2s.
 /datum/techweb_node/fighter_tier2
@@ -800,7 +800,7 @@
 	materials = list(/datum/material/iron = 15000)
 	build_path = /obj/item/fighter_component/fuel_tank/tier2
 	category = list("Ship Components")
-	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+	departmental_flags = DEPARTMENTAL_FLAG_CARGO|DEPARTMENTAL_FLAG_MUNITIONS|DEPARTMENTAL_FLAG_ENGINEERING
 
 /datum/design/apu_tier2
 	name = "Upgraded Fighter APU"
@@ -810,7 +810,7 @@
 	materials = list(/datum/material/iron = 20000, /datum/material/copper = 15000)
 	build_path = /obj/item/fighter_component/apu/tier2
 	category = list("Ship Components")
-	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+	departmental_flags = DEPARTMENTAL_FLAG_CARGO|DEPARTMENTAL_FLAG_MUNITIONS|DEPARTMENTAL_FLAG_ENGINEERING
 
 /datum/design/armour_plating_tier2
 	name = "Upgraded Fighter Armour"
@@ -820,7 +820,7 @@
 	materials = list(/datum/material/iron = 20000, /datum/material/titanium = 20000)
 	build_path = /obj/item/fighter_component/armour_plating/tier2
 	category = list("Ship Components")
-	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+	departmental_flags = DEPARTMENTAL_FLAG_CARGO|DEPARTMENTAL_FLAG_MUNITIONS|DEPARTMENTAL_FLAG_ENGINEERING
 
 /datum/design/fighter_engine_tier2
 	name = "Upgraded Fighter Engine"
@@ -830,7 +830,7 @@
 	materials = list(/datum/material/iron = 15000, /datum/material/diamond = 5000, /datum/material/titanium = 20000)
 	build_path = /obj/item/fighter_component/engine/tier2
 	category = list("Ship Components")
-	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+	departmental_flags = DEPARTMENTAL_FLAG_CARGO|DEPARTMENTAL_FLAG_MUNITIONS|DEPARTMENTAL_FLAG_ENGINEERING
 
 /datum/design/ordnance_launcher_tier2
 	name = "Upgraded Fighter Torpedo Rack"
@@ -840,7 +840,7 @@
 	materials = list(/datum/material/iron = 25000, /datum/material/copper = 20000, /datum/material/titanium = 20000)
 	build_path = /obj/item/fighter_component/secondary/ordnance_launcher/torpedo/tier2
 	category = list("Ship Components")
-	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS
 
 /datum/design/fighter_missile_launcher_tier2
 	name = "Upgraded Fighter Missile Rack"
@@ -850,7 +850,7 @@
 	materials = list(/datum/material/iron = 15000, /datum/material/copper = 12000, /datum/material/titanium = 10000)
 	build_path = /obj/item/fighter_component/secondary/ordnance_launcher/tier2
 	category = list("Ship Components")
-	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS
 
 /datum/design/oxygenator_tier2
 	name = "Upgraded Fighter Atmospheric Regulator"
@@ -860,7 +860,7 @@
 	materials = list(/datum/material/iron = 10000, /datum/material/copper = 15000)
 	build_path = /obj/item/fighter_component/oxygenator/tier2
 	category = list("Ship Components")
-	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+	departmental_flags = DEPARTMENTAL_FLAG_CARGO|DEPARTMENTAL_FLAG_MUNITIONS|DEPARTMENTAL_FLAG_ENGINEERING
 
 /datum/design/fighter_battery_tier2
 	name = "Upgraded Fighter Battery"
@@ -870,7 +870,7 @@
 	materials = list(/datum/material/iron = 17000, /datum/material/copper = 15000, /datum/material/glass = 12000)
 	build_path = /obj/item/fighter_component/battery/tier2
 	category = list("Ship Components")
-	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+	departmental_flags = DEPARTMENTAL_FLAG_CARGO|DEPARTMENTAL_FLAG_MUNITIONS|DEPARTMENTAL_FLAG_ENGINEERING
 
 /datum/design/refuel_kit_tier2
 	name = "Upgraded Air to air refuel kit"
@@ -880,7 +880,7 @@
 	materials = list(/datum/material/iron = 15000, /datum/material/copper = 5000, /datum/material/glass = 5000)
 	build_path = /obj/item/fighter_component/secondary/utility/resupply/tier2
 	category = list("Ship Components")
-	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+	departmental_flags = DEPARTMENTAL_FLAG_CARGO|DEPARTMENTAL_FLAG_MUNITIONS|DEPARTMENTAL_FLAG_ENGINEERING
 
 /datum/design/cargo_hold_tier2
 	name = "Upgraded Fighter Cargo Hold"
@@ -890,7 +890,7 @@
 	materials = list(/datum/material/iron = 25000, /datum/material/glass = 15000)
 	build_path = /obj/item/fighter_component/primary/utility/hold/tier2
 	category = list("Ship Components")
-	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+	departmental_flags = DEPARTMENTAL_FLAG_CARGO|DEPARTMENTAL_FLAG_MUNITIONS|DEPARTMENTAL_FLAG_ENGINEERING
 
 /datum/design/resupply_tier2
 	name = "Upgraded Air to Air repair kit"
@@ -900,7 +900,7 @@
 	materials = list(/datum/material/iron = 15000, /datum/material/glass = 15000)
 	build_path = /obj/item/fighter_component/primary/utility/repairer/tier2
 	category = list("Ship Components")
-	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+	departmental_flags = DEPARTMENTAL_FLAG_CARGO|DEPARTMENTAL_FLAG_MUNITIONS|DEPARTMENTAL_FLAG_ENGINEERING
 
 //Top tier parts require top tier mats. Stonks.
 /datum/techweb_node/fighter_tier3
@@ -920,7 +920,7 @@
 	materials = list(/datum/material/iron = 25000, /datum/material/titanium = 25000, /datum/material/glass = 25000)
 	build_path = /obj/item/fighter_component/fuel_tank/tier3
 	category = list("Ship Components")
-	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+	departmental_flags = DEPARTMENTAL_FLAG_CARGO|DEPARTMENTAL_FLAG_MUNITIONS|DEPARTMENTAL_FLAG_ENGINEERING
 
 /datum/design/apu_tier3
 	name = "Experimental Fighter APU"
@@ -930,7 +930,7 @@
 	materials = list(/datum/material/iron = 20000, /datum/material/copper = 15000, /datum/material/titanium = 25000)
 	build_path = /obj/item/fighter_component/apu/tier3
 	category = list("Ship Components")
-	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+	departmental_flags = DEPARTMENTAL_FLAG_CARGO|DEPARTMENTAL_FLAG_MUNITIONS|DEPARTMENTAL_FLAG_ENGINEERING
 
 /datum/design/armour_plating_tier3
 	name = "Experimental Fighter Armour"
@@ -940,7 +940,7 @@
 	materials = list(/datum/material/iron = 20000, /datum/material/plasma = 20000, /datum/material/diamond = 25000)
 	build_path = /obj/item/fighter_component/armour_plating/tier3
 	category = list("Ship Components")
-	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+	departmental_flags = DEPARTMENTAL_FLAG_CARGO|DEPARTMENTAL_FLAG_MUNITIONS|DEPARTMENTAL_FLAG_ENGINEERING
 
 /datum/design/fighter_engine_tier3
 	name = "Experimental Fighter Engine"
@@ -950,7 +950,7 @@
 	materials = list(/datum/material/iron = 35000, /datum/material/uranium = 15000, /datum/material/diamond = 10000, /datum/material/titanium = 20000)
 	build_path = /obj/item/fighter_component/engine/tier3
 	category = list("Ship Components")
-	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+	departmental_flags = DEPARTMENTAL_FLAG_CARGO|DEPARTMENTAL_FLAG_MUNITIONS|DEPARTMENTAL_FLAG_ENGINEERING
 
 /datum/design/ordnance_launcher_tier3
 	name = "Experimental Fighter Torpedo Rack"
@@ -960,7 +960,7 @@
 	materials = list(/datum/material/plasma = 25000, /datum/material/copper = 20000, /datum/material/titanium = 20000)
 	build_path = /obj/item/fighter_component/secondary/ordnance_launcher/torpedo/tier3
 	category = list("Ship Components")
-	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS
 
 /datum/design/fighter_missile_launcher_tier3
 	name = "Experimental Fighter Missile Rack"
@@ -970,7 +970,7 @@
 	materials = list(/datum/material/plasma = 15000, /datum/material/copper = 12000, /datum/material/titanium = 10000)
 	build_path = /obj/item/fighter_component/secondary/ordnance_launcher/tier3
 	category = list("Ship Components")
-	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS
 
 /datum/design/oxygenator_tier3
 	name = "Experimental Fighter Atmospheric Regulator"
@@ -980,7 +980,7 @@
 	materials = list(/datum/material/iron = 10000, /datum/material/titanium = 15000)
 	build_path = /obj/item/fighter_component/oxygenator/tier3
 	category = list("Ship Components")
-	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+	departmental_flags = DEPARTMENTAL_FLAG_CARGO|DEPARTMENTAL_FLAG_MUNITIONS|DEPARTMENTAL_FLAG_ENGINEERING
 
 /datum/design/fighter_battery_tier3
 	name = "Experimental Fighter Battery"
@@ -990,7 +990,7 @@
 	materials = list(/datum/material/iron = 20000, /datum/material/titanium = 15000, /datum/material/diamond = 5000)
 	build_path = /obj/item/fighter_component/battery/tier3
 	category = list("Ship Components")
-	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+	departmental_flags = DEPARTMENTAL_FLAG_CARGO|DEPARTMENTAL_FLAG_MUNITIONS|DEPARTMENTAL_FLAG_ENGINEERING
 
 /datum/design/refuel_kit_tier3
 	name = "Experimental Air to air refuel kit"
@@ -1000,7 +1000,7 @@
 	materials = list(/datum/material/iron = 25000, /datum/material/copper = 7000, /datum/material/glass = 10000)
 	build_path = /obj/item/fighter_component/secondary/utility/resupply/tier3
 	category = list("Ship Components")
-	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+	departmental_flags = DEPARTMENTAL_FLAG_CARGO|DEPARTMENTAL_FLAG_MUNITIONS|DEPARTMENTAL_FLAG_ENGINEERING
 
 /datum/design/cargo_hold_tier3
 	name = "Experimental Fighter Cargo Hold"
@@ -1010,7 +1010,7 @@
 	materials = list(/datum/material/iron = 35000, /datum/material/titanium = 15000)
 	build_path = /obj/item/fighter_component/primary/utility/hold/tier3
 	category = list("Ship Components")
-	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+	departmental_flags = DEPARTMENTAL_FLAG_CARGO|DEPARTMENTAL_FLAG_MUNITIONS|DEPARTMENTAL_FLAG_ENGINEERING
 
 /datum/design/resupply_tier3
 	name = "Experimental Air to Air repair kit"
@@ -1020,4 +1020,4 @@
 	materials = list(/datum/material/iron = 25000, /datum/material/glass = 15000, /datum/material/titanium = 5000 )
 	build_path = /obj/item/fighter_component/primary/utility/repairer/tier3
 	category = list("Ship Components")
-	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+	departmental_flags = DEPARTMENTAL_FLAG_CARGO|DEPARTMENTAL_FLAG_MUNITIONS|DEPARTMENTAL_FLAG_ENGINEERING
