@@ -435,7 +435,6 @@
 
 //NSV13 - Change
 //Standard operating prosedure books. Inherited of wiki books.
-//To do: Get book for munitions, once page is made / up to date.
 
 /obj/item/book/manual/wiki/sop
 	author = "Ta-Go Clown Resources"
@@ -483,7 +482,7 @@
 	page_link = "Department_Standard_Operating_Procedure:_Medical"
 	icon_state = "sop_med"
 	
-	/obj/item/book/manual/wiki/sop/munitions
+/obj/item/book/manual/wiki/sop/munitions
 	name = "Standard operating Prosedure: Munitions"
 	title = "Standard operating Prosedure: Munitions"
 	page_link = "Department_Standard_Operating_Procedure:_Munitions"
