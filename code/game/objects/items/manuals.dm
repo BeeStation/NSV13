@@ -482,6 +482,12 @@
 	title = "Standard operating Prosedure: Medical"
 	page_link = "Department_Standard_Operating_Procedure:_Medical"
 	icon_state = "sop_med"
+	
+	/obj/item/book/manual/wiki/sop/munitions
+	name = "Standard operating Prosedure: Munitions"
+	title = "Standard operating Prosedure: Munitions"
+	page_link = "Department_Standard_Operating_Procedure:_Munitions"
+	icon_state = "sop_muni"
 
 /obj/item/book/manual/wiki/sop/catalogue //Directs to standard SoP page. Able to check any department at will. For command / lawyer
 	name = "Standard operating Prosedure: Catalogue"
