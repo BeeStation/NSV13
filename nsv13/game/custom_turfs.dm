@@ -93,6 +93,11 @@
 	floor_tile = /obj/item/stack/tile/carpet/ship
 	canSmoothWith = null
 
+/turf/open/floor/black/airless
+	name = "black floor"
+	icon_state = "black"
+	initial_gas_mix = AIRLESS_ATMOS
+
 /turf/open/floor/carpet/ship/Initialize()
 	. = ..()
 	canSmoothWith = typecacheof(/turf/open/floor/carpet/ship)
