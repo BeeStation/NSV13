@@ -334,10 +334,7 @@
 	owner.adjustBruteLoss(-1.5, FALSE)
 	owner.adjustFireLoss(-0.25, FALSE)
 	owner.adjustCloneLoss(-0.5)
-	if(isoozeling(owner))
-		owner.adjustToxLoss(2.5)
-	else
-		owner.adjustToxLoss(-2.5, FALSE)
+	owner.adjustToxLoss(-2.5, FALSE, TRUE)
 
 /obj/screen/alert/status_effect/fleshmend
 	name = "Fleshmend"
