@@ -18,6 +18,20 @@
 	var/screen = STARMAP
 	var/can_control_ship = TRUE
 	var/current_sector = 2
+	circuit = /obj/item/circuitboard/computer/ship/navigation
+
+/obj/item/circuitboard/computer/ship/navigation
+	name = "circuit board (FTL Navigation console)"
+	build_path = /obj/machinery/computer/ship/navigation
+
+/datum/design/board/navigation
+	name = "Computer Design (FTL Navigation console)"
+	desc = "Allows for the construction of a FTL Navigation console."
+	id = "navigation_console_circuit"
+	materials = list(/datum/material/glass = 2000, /datum/material/copper = 200, /datum/material/diamond = 1000)
+	build_path = /obj/item/circuitboard/computer/ship/navigation
+	category = list("Computer Boards")
+	departmental_flags = DEPARTMENTAL_FLAG_ENGINEERING
 
 /obj/machinery/computer/ship/navigation/public
 	can_control_ship = FALSE

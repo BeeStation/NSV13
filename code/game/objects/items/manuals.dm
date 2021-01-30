@@ -435,11 +435,10 @@
 
 //NSV13 - Change
 //Standard operating prosedure books. Inherited of wiki books.
-//To do: Get book for munitions, once page is made / up to date.
 
 /obj/item/book/manual/wiki/sop
 	author = "Ta-Go Clown Resources"
-	icon = 'icons/obj/nsv_bureaucracy.dmi' //created own dmi for the books
+	icon = 'nsv13/icons/obj/nsv_bureaucracy.dmi' //created own dmi for the books
 
 /obj/item/book/manual/wiki/sop/security
 	name = "Standard operating Prosedure: Security"
@@ -459,7 +458,7 @@
 	page_link = "Department_Standard_Operating_Procedure:_Service/Civilian"
 	icon_state = "sop_service"
 
-/obj/item/book/manual/wiki/sop/Command
+/obj/item/book/manual/wiki/sop/command
 	name = "Standard operating Prosedure: Command"
 	title = "Standard operating Prosedure: Command"
 	page_link = "Department_Standard_Operating_Procedure:_Command"
@@ -482,6 +481,16 @@
 	title = "Standard operating Prosedure: Medical"
 	page_link = "Department_Standard_Operating_Procedure:_Medical"
 	icon_state = "sop_med"
+	
+/obj/item/book/manual/wiki/sop/munitions
+	name = "Standard operating Prosedure: Munitions"
+	title = "Standard operating Prosedure: Munitions"
+	page_link = "Department_Standard_Operating_Procedure:_Munitions"
+	icon_state = "sop_muni"
+	
+	//Should only be used as maint loot / easter eggs
+/obj/item/book/manual/wiki/sop/munitions/puce 
+	icon_state = "sop_muni_puce"
 
 /obj/item/book/manual/wiki/sop/catalogue //Directs to standard SoP page. Able to check any department at will. For command / lawyer
 	name = "Standard operating Prosedure: Catalogue"

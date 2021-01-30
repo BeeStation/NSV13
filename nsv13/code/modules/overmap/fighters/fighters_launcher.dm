@@ -4,8 +4,22 @@
 	desc = "A computer which is capable of remotely activating fighter launch / arrestor systems."
 	req_access = list()
 	req_one_access_txt = "69"
+	circuit = /obj/item/circuitboard/computer/ship/fighter_launcher
 	var/next_message = 0 //Stops spam messaging
 	var/list/launchers = list()
+
+/obj/item/circuitboard/computer/ship/fighter_launcher
+	name = "circuit board (Mag-cat control console)"
+	build_path = /obj/machinery/computer/ship/fighter_launcher
+
+/datum/design/board/fighter_launcher
+	name = "Computer Design (Mag-cat control console)"
+	desc = "Allows for the construction of a Mag-cat control console."
+	id = "fighter_launcher_circuit"
+	materials = list(/datum/material/glass = 2000, /datum/material/copper = 200, /datum/material/gold = 1000)
+	build_path = /obj/item/circuitboard/computer/ship/fighter_launcher
+	category = list("Computer Boards")
+	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS|DEPARTMENTAL_FLAG_ENGINEERING
 
 /obj/machinery/computer/ship/fighter_launcher/proc/get_launchers()
 	launchers = list()
@@ -15,7 +29,6 @@
 	for(var/obj/vehicle/sealed/car/realistic/fighter_tug/FT in AR)
 		if(FT.can_launch_fighters())
 			launchers += FT
-
 
 /obj/machinery/computer/ship/fighter_launcher/ui_interact(mob/user, ui_key = "main", datum/tgui/ui = null, force_open = 0, datum/tgui/master_ui = null, datum/ui_state/state = GLOB.default_state) // Remember to use the appropriate state.
 	get_launchers()
