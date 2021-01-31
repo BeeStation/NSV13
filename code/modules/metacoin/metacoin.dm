@@ -24,7 +24,7 @@
 	inc_metabalance(METACOIN_TENMINUTELIVING_REWARD, FALSE)
 
 /client/proc/antag_metacoins() // NSV13  - Gives antags free metacoins
-	inc_metabalance(METACOIN_ANTAGONIST_REWARD, reason="Being a antagonist!")
+	inc_metabalance(METACOIN_ANTAGONIST_REWARD, reason="Being a antagonist!") // NSV13
 
 /client/proc/get_metabalance()
 	var/datum/DBQuery/query_get_metacoins = SSdbcore.NewQuery(
