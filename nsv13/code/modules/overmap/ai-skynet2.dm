@@ -402,6 +402,8 @@ GLOBAL_LIST_EMPTY(ai_goals)
 					C.chatOutput.stopMusic()
 					C.chatOutput.sendMusic(web_sound_url, music_extra_data)
 
+//Syndicate Fleets
+
 /datum/fleet/neutral
 	name = "Syndicate Scout Fleet"
 	fleet_trait = FLEET_TRAIT_NEUTRAL_ZONE
@@ -439,16 +441,37 @@ GLOBAL_LIST_EMPTY(ai_goals)
 	supply_types = list(/obj/structure/overmap/syndicate/ai/carrier/elite)
 	destroyer_types = list(/obj/structure/overmap/syndicate/ai/destroyer/elite)
 	battleship_types = list(/obj/structure/overmap/syndicate/ai/cruiser/elite)
-/datum/fleet/nanotrasen/border
-	name = "Concord Border Enforcement Unit"
-	taunts = list("You have violated the law. Stand down your weapons and prepare to be boarded.", "Hostile vessel. Stand down immediately or be destroyed.")
-	size = FLEET_DIFFICULTY_EASY
-	fleet_trait = FLEET_TRAIT_BORDER_PATROL
 
-/datum/fleet/nanotrasen/border/defense
-	name = "501st 'Crais' Fist' Expeditionary Force"
-	taunts = list("You have violated the law. Stand down your weapons and prepare to be boarded.", "Hostile vessel. Stand down immediately or be destroyed.")
-	size = FLEET_DIFFICULTY_EASY
+//Space Pirate Fleets
+/datum/fleet/pirate
+	name = "Space Pirate Fleet"
+	fighter_types = null
+	destroyer_types = list(/obj/structure/overmap/spacepirate/ai)
+	battleship_types = list(/obj/structure/overmap/spacepirate/ai/nt_missile, /obj/structure/overmap/spacepirate/ai/syndie_gunboat)
+	supply_types = null
+	alignment = "pirate"
+	faction_id = FACTION_ID_PIRATES
+
+/datum/fleet/pirate/scout
+	name = "Space pirate scout fleet"
+	audio_cues = list("https://www.youtube.com/watch?v=LjhF3yIeDSc", "https://www.youtube.com/watch?v=dsLHf9X8P8w")
+	taunts = list("Yar har! Fresh meat", "Unfurl the mainsails! We've got company", "Die landlubbers!")
+	size = FLEET_DIFFICULTY_MEDIUM
+	fleet_trait = FLEET_TRAIT_DEFENSE
+
+/datum/fleet/pirate/raiding
+	name = "Space pirate raiding fleet"
+	destroyer_types = list(/obj/structure/overmap/spacepirate/ai, /obj/structure/overmap/spacepirate/ai/boarding)
+	audio_cues = list("https://www.youtube.com/watch?v=LjhF3yIeDSc", "https://www.youtube.com/watch?v=dsLHf9X8P8w")
+	taunts = list("Avast! A fine hold of loot sails our way", "Prepare the boarding crews, they've got enough loot for us all!")
+	size = FLEET_DIFFICULTY_MEDIUM
+
+/datum/fleet/pirate/tortuga
+	name = "Space pirate holding fleet"
+	supply_types = list(/obj/structure/overmap/spacepirate/ai/dreadnought)
+	audio_cues = list("https://www.youtube.com/watch?v=48b_TY8Jl2w", "https://www.youtube.com/watch?v=ntDt-502ftw")
+	taunts = list("These are our waters you are sailing, prepare to surrender!", "Bold of you to fly Nanotrasen colours in this system, your last mistake.")
+	size = FLEET_DIFFICULTY_VERY_HARD
 	fleet_trait = FLEET_TRAIT_DEFENSE
 
 //Boss battles.
@@ -458,21 +481,6 @@ GLOBAL_LIST_EMPTY(ai_goals)
 	size = FLEET_DIFFICULTY_SPECIAL
 	audio_cues = list("https://www.youtube.com/watch?v=mhXuYp0n88g", "https://www.youtube.com/watch?v=l1J-2nIovYw", "https://www.youtube.com/watch?v=M_MdmLWmDHs")
 	taunts = list("Better crews have tried to cross the Rubicon, you will die like they did.", "Defense force, stand ready!", "Nanotrasen filth. Munitions, ready the guns. We’ll scrub the galaxy clean of you vermin.", "This shift just gets better and better. I’ll have your Captain’s head on my wall.")
-	fleet_trait = FLEET_TRAIT_DEFENSE
-
-/datum/fleet/pirate
-	name = "Pirate scout fleet"
-	audio_cues = list("https://www.youtube.com/watch?v=WMSoo4B2hFU", "https://www.youtube.com/watch?v=dsLHf9X8P8w")
-	taunts = list("Yar har! Fresh meat", "Unfurl the mainsails! We've got company", "Die landlubbers!")
-	size = FLEET_DIFFICULTY_MEDIUM
-	fleet_trait = FLEET_TRAIT_DEFENSE
-	faction_id = FACTION_ID_PIRATES
-
-/datum/fleet/nanotrasen/earth
-	name = "Earth Defense Force"
-	taunts = list("You're foolish to venture this deep into Solgov space! Main batteries stand ready.", "All hands, set condition 1 throughout the fleet, enemy vessel approaching.", "Defense force, stand ready!", "We shall protect our homeland!")
-	size = FLEET_DIFFICULTY_SPECIAL
-	audio_cues = list("https://www.youtube.com/watch?v=k8-HHivlj8k")
 	fleet_trait = FLEET_TRAIT_DEFENSE
 
 /datum/fleet/earthbuster
@@ -548,6 +556,25 @@ GLOBAL_LIST_EMPTY(ai_goals)
 /datum/fleet/nanotrasen/light
 	name = "Nanotrasen light fleet"
 	battleship_types = list(/obj/structure/overmap/nanotrasen/patrol_cruiser/ai)
+
+/datum/fleet/nanotrasen/border
+	name = "Concord Border Enforcement Unit"
+	taunts = list("You have violated the law. Stand down your weapons and prepare to be boarded.", "Hostile vessel. Stand down immediately or be destroyed.")
+	size = FLEET_DIFFICULTY_EASY
+	fleet_trait = FLEET_TRAIT_BORDER_PATROL
+
+/datum/fleet/nanotrasen/border/defense
+	name = "501st 'Crais' Fist' Expeditionary Force"
+	taunts = list("You have violated the law. Stand down your weapons and prepare to be boarded.", "Hostile vessel. Stand down immediately or be destroyed.")
+	size = FLEET_DIFFICULTY_EASY
+	fleet_trait = FLEET_TRAIT_DEFENSE
+
+/datum/fleet/nanotrasen/earth
+	name = "Earth Defense Force"
+	taunts = list("You're foolish to venture this deep into Solgov space! Main batteries stand ready.", "All hands, set condition 1 throughout the fleet, enemy vessel approaching.", "Defense force, stand ready!", "We shall protect our homeland!")
+	size = FLEET_DIFFICULTY_SPECIAL
+	audio_cues = list("https://www.youtube.com/watch?v=k8-HHivlj8k")
+	fleet_trait = FLEET_TRAIT_DEFENSE
 
 /datum/fleet/New()
 	. = ..()
@@ -990,7 +1017,7 @@ GLOBAL_LIST_EMPTY(ai_goals)
 	next_boarding_attempt = world.time + 5 MINUTES //We very rarely try to board.
 	if(SSphysics_processing.next_boarding_time <= world.time)
 		SSphysics_processing.next_boarding_time = world.time + 30 MINUTES
-		ship.spawn_boarders()
+		ship.spawn_boarders(null, src.faction)
 		return TRUE
 	return FALSE
 
