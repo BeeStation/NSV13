@@ -74,6 +74,7 @@ GLOBAL_LIST_EMPTY(ai_goals)
 	var/list/navigation_spec_alignments = list()	//If for some reason you have a fleet that is supposed to navigate smart, but also isn't allowed (or even only allowed) some alignment types, use this.
 	var/navigation_spec_alignment_type = ALIGNMENT_BLACKLIST	//ALIGNMENT_BLACKLIST: Do not use systems with these alignments | ALIGNMENT_WHITELIST: Only use systems with these alignments.
 	var/navigation_uses_wormholes = TRUE	//If for some reason you want a fleet type that can't use wormholes (in navigation!!, it'll still use them for random wandering), be my guest, and just set this to FALSE
+	var/allow_hidden_systems = FALSE	//Set this to true if you want to allow the fleet to plot courses using hidden systems.
 	var/hide_movements = FALSE
 	var/alignment = "syndicate"
 	var/list/taunts = list("Unidentified vessel, you have entered our airspace. Leave immediately or be destroyed", "Identify yourselves immediately or be destroyed", "Unidentified vessel, leave immediately. You are entering Syndicate territory.", "Hold it right there. Prepare to be boarded, Captain.", "Nanotrasen vessel, surrender immediately or face unnecessary casualties.", "All Nanotrasen crewmen, please prepare for immediate evisceration.", "Unidentified vessel, transmit your credentials now or- Wait a second, that’s the ship we’re looking for! Deploy fighters!", "Nanotrasen? You’ve just made my day, all crafts prepare to engage.", "Unknown vessel, failure to contact Syndicate control on frequency 0.4 is a suspected act of aggression. Prepare for engagement.")
