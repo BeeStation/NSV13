@@ -17,11 +17,14 @@
 			inc_metabalance(METACOIN_NOTSURVIVE_REWARD, reason="You tried.")
 
 /client/proc/process_greentext()
-	inc_metabalance(METACOIN_GREENTEXT_REWARD, reason="Greentext!")
+	// inc_metabalance(METACOIN_GREENTEXT_REWARD, reason="Greentext!") NSV13 - Disabled to let antags get the same amount of torps no matter if they greentext
 	SSmedals.UnlockMedal(MEDAL_COMPLETE_ALL_OBJECTIVES,src)
 
 /client/proc/process_ten_minute_living()
 	inc_metabalance(METACOIN_TENMINUTELIVING_REWARD, FALSE)
+
+/client/proc/antag_metacoins() // NSV13  - Gives antags free metacoins
+	inc_metabalance(METACOIN_ANTAGONIST_REWARD, reason="Being a antagonist!")
 
 /client/proc/get_metabalance()
 	var/datum/DBQuery/query_get_metacoins = SSdbcore.NewQuery(
@@ -39,7 +42,7 @@
 /client/proc/set_metacoin_count(mc_count, ann=TRUE)
 	var/datum/DBQuery/query_set_metacoins = SSdbcore.NewQuery(
 		"UPDATE [format_table_name("player")] SET metacoins = :mc_count WHERE ckey = :ckey",
-		list("mc_count" = mc_count, "ckey" = ckey)	
+		list("mc_count" = mc_count, "ckey" = ckey)
 	)
 	query_set_metacoins.warn_execute()
 	qdel(query_set_metacoins)
@@ -51,7 +54,7 @@
 		return
 	var/datum/DBQuery/query_inc_metacoins = SSdbcore.NewQuery(
 		"UPDATE [format_table_name("player")] SET metacoins = metacoins + :mc_count WHERE ckey = :ckey",
-		list("mc_count" = mc_count, "ckey" = ckey)	
+		list("mc_count" = mc_count, "ckey" = ckey)
 	)
 	query_inc_metacoins.warn_execute()
 	qdel(query_inc_metacoins)

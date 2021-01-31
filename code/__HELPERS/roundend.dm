@@ -90,6 +90,7 @@
 	var/list/team_ids = list()
 
 	var/list/greentexters = list()
+	var/list/antagonist_list = list() // NSV13 - List of antags for metacoins
 
 	for(var/datum/antagonist/A in GLOB.antagonists)
 		if(!A.owner)
@@ -123,17 +124,18 @@
 				antag_info["objectives"] += list(list("objective_type"=O.type,"text"=O.explanation_text,"result"=result))
 		SSblackbox.record_feedback("associative", "antagonists", 1, antag_info)
 
-		if (greentexted)
-			if (A.owner && A.owner.key)
-				if (A.type != /datum/antagonist/custom)
-					var/client/C = GLOB.directory[ckey(A.owner.key)]
-					if (C)
+		if (A.owner && A.owner.key)
+			if (A.type != /datum/antagonist/custom)
+				var/client/C = GLOB.directory[ckey(A.owner.key)]
+				if (C) // NSV13
+					if (greentexted)
 						greentexters |= C
-
+					antagonist_list |= C
 	for (var/client/C in greentexters)
 		C.process_greentext()
 
-
+	for (var/client/C in antagonist_list) // NSV13 - Awards all antags with metacoins
+		C.antag_metacoins()
 
 /datum/controller/subsystem/ticker/proc/record_nuke_disk_location()
 	var/obj/item/disk/nuclear/N = locate() in GLOB.poi_list
