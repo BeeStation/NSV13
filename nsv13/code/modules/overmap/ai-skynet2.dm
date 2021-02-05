@@ -791,11 +791,11 @@ GLOBAL_LIST_EMPTY(ai_goals)
 /datum/ai_goal/defend/check_score(obj/structure/overmap/OM)
 	if(!..() || !OM.fleet) //If it's not an overmap, or it's not linked to a fleet.
 		return score
+	if(!OM.fleet.taskforces["supply"]?.len)
+		return 0	//If there is nothing to defend, lets hunt the guys that destroyed our supply line instead.
 	if(OM.ai_trait == AI_TRAIT_BATTLESHIP)
 		var/list/L = OM.fleet.taskforces["supply"]
 		return (L.len ? AI_SCORE_CRITICAL : 0)
-	if(!OM.fleet.taskforces["supply"]?.len)
-		return 0	//If there is nothing to defend, lets hunt the guys that destroyed our supply line instead.
 	return score //If you've got nothing better to do, come group with the main fleet.
 
 //Goal used entirely for supply ships, signalling them to run away! Most ships use the "repair and re-arm" goal instead of this one.
