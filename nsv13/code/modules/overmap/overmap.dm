@@ -346,6 +346,15 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 	. = ..()
 
 /obj/structure/overmap/Destroy()
+	if(fleet)
+		for(var/V in fleet.taskforces)	//Very cursed but it works!
+			var/list/L = fleet.taskforces["[V]"]
+			if(!L)
+				continue
+			for(var/obj/structure/overmap/OM in L)
+				if(OM == src)
+					L.Remove(src)
+
 	STOP_PROCESSING(SSphysics_processing, src)
 	GLOB.overmap_objects -= src
 	relay('nsv13/sound/effects/ship/damage/ship_explode.ogg')
@@ -370,12 +379,7 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 	if(physics2d)
 		qdel(physics2d)
 		physics2d = null
-	if(fleet)
-		for(var/list/L in fleet.taskforces) //Clean out the null refs.
-			for(var/obj/structure/overmap/OM in L)
-				if(OM == src)
-					L -= src
-	. = ..()
+	return ..()
 
 /obj/structure/overmap/proc/find_area()
 	if(role == MAIN_OVERMAP) //We're the hero ship, link us to every ss13 area.

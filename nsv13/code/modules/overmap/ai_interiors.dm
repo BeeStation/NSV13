@@ -70,6 +70,8 @@
 	special()
 
 /proc/overmap_explode(list/areas)
+	if(!areas)
+		return
 	for(var/area/AR in areas)
 		var/turf/T = pick(get_area_turfs(AR))
 		explosion(T,30,30,30)

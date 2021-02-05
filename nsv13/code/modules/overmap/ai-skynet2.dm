@@ -717,28 +717,20 @@ GLOBAL_LIST_EMPTY(ai_goals)
 	score = AI_SCORE_DEFAULT
 
 /datum/ai_goal/seek/check_score(obj/structure/overmap/OM)
-	message_admins("Running checks for search & destroy, for object [OM]")
 	if(!OM.fleet) //If this is a rogue / lone AI. This should be their only objective.
-		message_admins("returning [AI_SCORE_MAXIMUM] / AI_SCORE_MAXIMUM")
 		return AI_SCORE_MAXIMUM
 	if(!..()) //If it's not an overmap, or it's not linked to a fleet.
-		message_admins("returning 0")
 		return 0
 	if(!OM.last_target || QDELETED(OM.last_target))
-		message_admins("Seeking target")
 		OM.seek_new_target()
 	if(OM.last_target) //If we can't find a target, then don't bother hunter-killering.
-		message_admins("Returning [score] / score")
 		return score
 	else
-		message_admins("returning [AI_SCORE_VERY_LOW_PRIORITY] / AI_SCORE_VERY_LOW_PRIORITY")
 		return AI_SCORE_VERY_LOW_PRIORITY //Just so that there's a "default" behaviour to avoid issues.
 
 /datum/ai_goal/seek/action(obj/structure/overmap/OM)
 	..()
-	message_admins("Executing search and destroy for [OM]")
 	if(OM.last_target)
-		message_admins("Engaging target [OM.last_target]")
 		if(get_dist(OM, OM.last_target) <= 10)
 			OM.move_away_from(OM.last_target)
 		else
@@ -746,7 +738,6 @@ GLOBAL_LIST_EMPTY(ai_goals)
 	else
 		OM.send_sonar_pulse() //Send a pong when we're actively hunting.
 		OM.seek_new_target()
-		message_admins("No target, pinging. Target after ping; [OM.last_target]")
 		OM.move_toward(null) //Just fly around in a straight line, I guess.
 
 //Boarding! Boarders love to board your ships.
@@ -786,7 +777,7 @@ GLOBAL_LIST_EMPTY(ai_goals)
 /datum/ai_goal/defend/action(obj/structure/overmap/OM)
 	..()
 	if(!OM.defense_target || QDELETED(OM.defense_target))
-		OM.defense_target = OM.fleet.taskforces["supply"] ? pick(OM.fleet.taskforces["supply"]) : OM
+		OM.defense_target = OM.fleet.taskforces["supply"]?.len ? pick(OM.fleet.taskforces["supply"]) : OM
 	OM.move_mode = NORTH
 	if(get_dist(OM, OM.defense_target) <= AI_PDC_RANGE)
 		OM.brakes = TRUE
@@ -803,6 +794,8 @@ GLOBAL_LIST_EMPTY(ai_goals)
 	if(OM.ai_trait == AI_TRAIT_BATTLESHIP)
 		var/list/L = OM.fleet.taskforces["supply"]
 		return (L.len ? AI_SCORE_CRITICAL : 0)
+	if(!OM.fleet.taskforces["supply"]?.len)
+		return 0	//If there is nothing to defend, lets hunt the guys that destroyed our supply line instead.
 	return score //If you've got nothing better to do, come group with the main fleet.
 
 //Goal used entirely for supply ships, signalling them to run away! Most ships use the "repair and re-arm" goal instead of this one.
