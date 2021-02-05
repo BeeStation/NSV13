@@ -717,20 +717,28 @@ GLOBAL_LIST_EMPTY(ai_goals)
 	score = AI_SCORE_DEFAULT
 
 /datum/ai_goal/seek/check_score(obj/structure/overmap/OM)
+	message_admins("Running checks for search & destroy, for object [OM]")
 	if(!OM.fleet) //If this is a rogue / lone AI. This should be their only objective.
+		message_admins("returning [AI_SCORE_MAXIMUM] / AI_SCORE_MAXIMUM")
 		return AI_SCORE_MAXIMUM
 	if(!..()) //If it's not an overmap, or it's not linked to a fleet.
+		message_admins("returning 0")
 		return 0
 	if(!OM.last_target || QDELETED(OM.last_target))
+		message_admins("Seeking target")
 		OM.seek_new_target()
 	if(OM.last_target) //If we can't find a target, then don't bother hunter-killering.
+		message_admins("Returning [score] / score")
 		return score
 	else
+		message_admins("returning [AI_SCORE_VERY_LOW_PRIORITY] / AI_SCORE_VERY_LOW_PRIORITY")
 		return AI_SCORE_VERY_LOW_PRIORITY //Just so that there's a "default" behaviour to avoid issues.
 
 /datum/ai_goal/seek/action(obj/structure/overmap/OM)
 	..()
+	message_admins("Executing search and destroy for [OM]")
 	if(OM.last_target)
+		message_admins("Engaging target [OM.last_target]")
 		if(get_dist(OM, OM.last_target) <= 10)
 			OM.move_away_from(OM.last_target)
 		else
@@ -738,6 +746,7 @@ GLOBAL_LIST_EMPTY(ai_goals)
 	else
 		OM.send_sonar_pulse() //Send a pong when we're actively hunting.
 		OM.seek_new_target()
+		message_admins("No target, pinging. Target after ping; [OM.last_target]")
 		OM.move_toward(null) //Just fly around in a straight line, I guess.
 
 //Boarding! Boarders love to board your ships.
@@ -981,14 +990,6 @@ GLOBAL_LIST_EMPTY(ai_goals)
 			addtimer(CALLBACK(src, .proc/resupply), 30 SECONDS)
 			break
 //Method to allow a supply ship to resupply other AIs.
-
-/obj/structure/overmap/Destroy()
-	if(fleet)
-		for(var/list/L in fleet.taskforces) //Clean out the null refs.
-			for(var/obj/structure/overmap/OM in L)
-				if(OM == src)
-					L -= src
-	. = ..()
 
 /obj/structure/overmap/proc/resupply()
 	if(!resupply_target || get_dist(src, resupply_target) > resupply_range)
