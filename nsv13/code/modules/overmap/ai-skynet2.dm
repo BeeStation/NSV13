@@ -777,7 +777,8 @@ GLOBAL_LIST_EMPTY(ai_goals)
 /datum/ai_goal/defend/action(obj/structure/overmap/OM)
 	..()
 	if(!OM.defense_target || QDELETED(OM.defense_target))
-		OM.defense_target = OM.fleet.taskforces["supply"]?.len ? pick(OM.fleet.taskforces["supply"]) : OM
+		var/list/supplyline = OM.fleet.taskforces["supply"]
+		OM.defense_target = supplyline?.len ? pick(OM.fleet.taskforces["supply"]) : OM
 	OM.move_mode = NORTH
 	if(get_dist(OM, OM.defense_target) <= AI_PDC_RANGE)
 		OM.brakes = TRUE
@@ -791,11 +792,11 @@ GLOBAL_LIST_EMPTY(ai_goals)
 /datum/ai_goal/defend/check_score(obj/structure/overmap/OM)
 	if(!..() || !OM.fleet) //If it's not an overmap, or it's not linked to a fleet.
 		return score
-	if(!OM.fleet.taskforces["supply"]?.len)
+	var/list/supplyline = OM.fleet.taskforces["supply"]
+	if(!supplyline || !supplyline.len)
 		return 0	//If there is nothing to defend, lets hunt the guys that destroyed our supply line instead.
 	if(OM.ai_trait == AI_TRAIT_BATTLESHIP)
-		var/list/L = OM.fleet.taskforces["supply"]
-		return (L.len ? AI_SCORE_CRITICAL : 0)
+		return AI_SCORE_CRITICAL
 	return score //If you've got nothing better to do, come group with the main fleet.
 
 //Goal used entirely for supply ships, signalling them to run away! Most ships use the "repair and re-arm" goal instead of this one.
