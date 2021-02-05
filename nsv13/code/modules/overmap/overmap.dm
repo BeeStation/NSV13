@@ -354,6 +354,7 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 	if(physics2d)
 		qdel(physics2d)
 		physics2d = null
+	START_PROCESSING(SSphysics_processing, src)
 	. = ..()
 
 /obj/structure/overmap/proc/find_area()
