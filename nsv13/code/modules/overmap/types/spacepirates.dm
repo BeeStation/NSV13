@@ -20,18 +20,6 @@
 /obj/structure/overmap/spacepirate/ai/Initialize()
 	. = ..()
 	name = "[name] ([rand(0,999)])" //pirate names go here
-	var/random_appearance = pick(1,2,3,4,5)
-	switch(random_appearance)
-		if(1)
-			icon_state = "spacepirate_hauler" //replace these if we actually get some sprites
-		if(2)
-			icon_state = "spacepirate_hauler"
-		if(3)
-			icon_state = "spacepirate_hauler"
-		if(4)
-			icon_state = "spacepirate_hauler"
-		if(5)
-			icon_state = "spacepirate_hauler"
 
 /obj/structure/overmap/spacepirate/ai/apply_weapons()
 	var/random_weapons = pick(1, 2, 3, 4, 5)
