@@ -248,7 +248,7 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 	update_icon()
 	find_area()
 	//If we're larger than a fighter and don't have our armour preset, set it now.
-	if(mass > MASS_TINY && !use_armour_quadrants)
+	if(mass > MASS_TINY && !use_armour_quadrants && role != MAIN_MINING_SHIP)
 		use_armour_quadrants = TRUE
 		//AI ships get weaker armour to allow you to kill them more easily.
 		var/armour_efficiency = (role > NORMAL_OVERMAP) ? obj_integrity / 2 : obj_integrity / 4
