@@ -944,7 +944,7 @@ Seek a ship thich we'll station ourselves around
 //Patrol goal in case there is no target.
 /datum/ai_goal/patrol
 	name = "Patrol system"
-	score = AI_SCORE_LOW_PRIORITY
+	score = AI_SCORE_DEFAULT
 
 /datum/ai_goal/patrol/check_score(obj/structure/overmap/OM)
 	if(!..())
@@ -962,7 +962,7 @@ Seek a ship thich we'll station ourselves around
 
 /datum/ai_goal/patrol/action(obj/structure/overmap/OM)
 	..()
-	if(OM.patrol_target && get_dist(OM, OM.patrol_target) < 10)
+	if(OM.patrol_target && get_dist(OM, OM.patrol_target) <= 8)
 		OM.patrol_target = null	//You have arrived at your destination.
 	if(!OM.patrol_target || OM.patrol_target.z != OM.z)
 		var/min_x = max(OM.x - 50, 15)
@@ -1142,7 +1142,7 @@ Seek a ship thich we'll station ourselves around
 			if(OM.obj_integrity >= OM.max_integrity && OM.shots_left >= initial(OM.shots_left)) //No need to resupply this ship at all.
 				continue
 			resupply_target = OM
-			addtimer(CALLBACK(src, .proc/resupply), (2 + (10 - (OM.obj_integrity / OM.max_integrity) * 10 )) SECONDS)	//Resupply comperatively fast, but not instant. Repairs take longer.
+			addtimer(CALLBACK(src, .proc/resupply), (3 + (10 - (OM.obj_integrity / OM.max_integrity) * 10 )) SECONDS)	//Resupply comperatively fast, but not instant. Repairs take longer.
 			resupplying++
 			break
 //Method to allow a supply ship to resupply other AIs.

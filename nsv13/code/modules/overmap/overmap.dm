@@ -224,8 +224,29 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 /obj/weapon_overlay/laser/do_animation()
 	flick("laser",src)
 
-/obj/structure/overmap/Initialize()
+/obj/structure/overmap/Initialize()	//If I see one more Destroy() or Initialize() split into multiple files I'm going to lose my mind.
 	. = ..()
+	var/icon/I = icon(icon,icon_state,SOUTH) //SOUTH because all overmaps only ever face right, no other dirs.
+	pixel_collision_size_x = I.Width()
+	pixel_collision_size_y = I.Height()
+	offset = new /datum/vector2d()
+	last_offset = new /datum/vector2d()
+	position = new /datum/vector2d(x*32,y*32)
+	velocity = new /datum/vector2d(0, 0)
+	overlap = new /datum/vector2d(0, 0)
+	if(collision_positions.len)
+		physics2d = AddComponent(/datum/component/physics2d)
+		physics2d.setup(collision_positions, angle)
+//	else //It pains me to comment this out...but we no longer use qwer2d, F.
+//		message_admins("[src] does not have collision points set! It will float through everything.")
+
+	for(var/atype in subtypesof(/datum/ams_mode))
+		ams_modes.Add(new atype)
+
+	if(obj_integrity != max_integrity)
+		message_admins("Failsafe triggered: [src] Initialized with integrity of [obj_integrity], but max integrity of [max_integrity]. Setting integrity to max integrity to prevent issues.")
+		obj_integrity = max_integrity	//Failsafe
+
 	return INITIALIZE_HINT_LATELOAD
 
 /obj/structure/overmap/LateInitialize()
