@@ -47,6 +47,7 @@ Adding tasks is easy! Just define a datum for it.
 #define AI_TRAIT_DESTROYER 3
 #define AI_TRAIT_ANTI_FIGHTER 4
 #define AI_TRAIT_BOARDER 5 //Ships that like to board you.
+#define AI_TRAIT_SWARMER 6 //Ships that love to act in swarms. Aka, Fighters.
 
 //Fleet behaviour. Border patrol fleets will stick to patrolling their home space only. Invasion fleets ignore home space and fly around. If the fleet has a goal system or is a interdictor, this gets mostly ignored, but stays as fallback.
 #define FLEET_TRAIT_BORDER_PATROL 1
@@ -65,6 +66,7 @@ GLOBAL_LIST_EMPTY(ai_goals)
 	var/list/battleship_types = list(/obj/structure/overmap/syndicate/ai/cruiser) //TODO: Implement above list for more ship variety.
 	var/list/supply_types = list(/obj/structure/overmap/syndicate/ai/carrier)
 	var/list/all_ships = list()
+	var/list/lances = list()
 	var/size = FLEET_DIFFICULTY_MEDIUM //How big is this fleet anyway?
 	var/list/audio_cues = list() //Does this fight come with a theme tune? Takes youtube / media links so that we don't have to store a bunch of copyrighted music on the box.
 	var/instantiated = FALSE //If we're not instantiated, moving all the ships is a piece of cake, if we are however, we do some extra steps to FTL them all.
@@ -717,7 +719,7 @@ GLOBAL_LIST_EMPTY(ai_goals)
 	score = AI_SCORE_DEFAULT
 
 /datum/ai_goal/seek/check_score(obj/structure/overmap/OM)
-	if(!OM.fleet) //If this is a rogue / lone AI. This should be their only objective.
+	if(!OM.fleet && !OM.current_lance) //If this is a rogue / lone AI. This should be their only objective.
 		return AI_SCORE_MAXIMUM
 	if(!..()) //If it's not an overmap, or it's not linked to a fleet.
 		return 0
@@ -739,6 +741,107 @@ GLOBAL_LIST_EMPTY(ai_goals)
 		OM.send_sonar_pulse() //Send a pong when we're actively hunting.
 		OM.seek_new_target()
 		OM.move_toward(null) //Just fly around in a straight line, I guess.
+
+/*
+Ships with this goal create a a lance, but are not exactly bound to it. They'll fly off on their own if they find a closeby target, but if they have none they'll try assisting with their lance target.
+*/
+/datum/ai_goal/swarm
+	name = "Join a lance and subsequently search & swarm targets."
+	score = AI_SCORE_DEFAULT
+	required_trait = AI_TRAIT_SWARMER
+
+/datum/ai_goal/swarm/check_score(obj/structure/overmap/OM)
+	if(!..())
+		return 0
+	if(!OM.fleet && !OM.current_lance)
+		return 0
+	if(OM.current_lance)
+		return AI_SCORE_PRIORITY
+	return score
+
+/datum/ai_goal/swarm/action(obj/structure/overmap/OM)
+	..()
+	if(!OM.current_lance)	//If we aren't in a lance already: Handle that.
+		if(!OM.fleet)
+			return
+		for(var/datum/lance/L in OM.fleet.lances)
+			if(L.member_count < L.maximum_members)
+				L.add_member(OM)
+				break
+		if(!OM.current_lance)	//we didn't find a lance to join, make our own
+			new /datum/lance(OM, OM.fleet)
+	if(!OM.current_lance)
+		return	//Something that shouldn't have happened happened.
+
+	var/datum/lance/L = OM.current_lance
+	if(!OM.last_target)
+		OM.send_sonar_pulse()
+		OM.seek_new_target()
+
+	if(!OM.last_target)	//We didn't find a target
+		if(L.lance_target)
+			if(L.last_finder == src)
+				L.lance_target = null
+				L.last_finder = null
+				regroup_swarm(OM, L)
+				return
+			else
+				OM.add_enemy(L.lance_target)
+				OM.last_target = L.lance_target
+		else	//No targets anywhere we could grab, regroup or float, depending on if you are the leader.
+			regroup_swarm(OM, L)
+			return
+	//If we get to hdere, we should have a target
+	if(!L.lance_target)	//Relay target
+		L.lance_target = OM.last_target
+		L.last_finder = OM
+
+	else if(L.last_finder == OM && OM.last_target != L.lance_target)	//We switched targets, relay this too.
+		L.lance_target = OM.last_target
+
+	if(get_dist(OM, OM.last_target) <= 10)	//Hunt them down.
+		OM.move_away_from(OM.last_target)
+	else
+		OM.move_toward(OM.last_target)
+
+/*
+If leader: Return to a bigger ship and wait around it.
+If not leader: Return to leader.
+Staging point priorities are supply ships > battleships > destroyers > just float
+*/
+/datum/ai_goal/swarm/proc/regroup_swarm(var/obj/structure/overmap/OM, var/datum/lance/L)
+	var/obj/structure/overmap/movement_target
+	if(OM == L.lance_leader)
+		find_staging_point(OM)
+	else
+		movement_target = L.lance_leader
+
+	if(!movement_target)
+		OM.move_toward(null)	//Just drift I guess?
+	else
+		if(get_dist(OM, movement_target) <= 8)
+			OM.brakes = TRUE
+			OM.move_mode = null
+			OM.desired_angle = movement_target.angle //Style points
+		else
+			OM.move_toward(movement_target)
+/*
+Seek a ship thich we'll station ourselves around
+*/
+/datum/ai_goal/swarm/proc/find_staging_point(var/obj/structure/overmap/OM)
+	var/list/L	//We need this
+	if(!OM.fleet)
+		return
+	if(OM.fleet.taskforces["supply"].len)
+		L = OM.fleet.taskforces["supply"]
+		return L[1]	//gives us a consistant target.
+	if(OM.fleet.taskforces["battleships"].len)
+		L = OM.fleet.taskforces["battleships"]
+		return L[1]
+	if(OM.fleet.taskforces["destroyers"].len)
+		L = OM.fleet.taskforces["destroyers"]
+		return L[1]
+
 
 //Boarding! Boarders love to board your ships.
 /datum/ai_goal/board
@@ -888,6 +991,7 @@ GLOBAL_LIST_EMPTY(ai_goals)
 	var/can_resupply = FALSE //Can this ship resupply other ships?
 	var/obj/structure/overmap/resupply_target = null
 	var/datum/fleet/fleet = null
+	var/datum/current_lance = null	//Some ships can assign themselves to a lance, which will act together.
 	var/datum/ai_goal/current_goal = null
 	var/obj/structure/overmap/squad_lead = null
 	var/obj/structure/overmap/last_overmap = null
@@ -981,7 +1085,7 @@ GLOBAL_LIST_EMPTY(ai_goals)
 			if(OM.obj_integrity >= OM.max_integrity && OM.shots_left >= initial(OM.shots_left)) //No need to resupply this ship at all.
 				continue
 			resupply_target = OM
-			addtimer(CALLBACK(src, .proc/resupply), 30 SECONDS)
+			addtimer(CALLBACK(src, .proc/resupply), 10 SECONDS)	//Resupply comperatively fast, but not instant
 			break
 //Method to allow a supply ship to resupply other AIs.
 

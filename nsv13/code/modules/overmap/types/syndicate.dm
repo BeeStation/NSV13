@@ -337,7 +337,7 @@
 	torpedoes = 0
 	bounty = 250
 	armor = list("overmap_light" = 5, "overmap_heavy" = 5)
-	ai_trait = AI_TRAIT_ANTI_FIGHTER
+	ai_trait = list(AI_TRAIT_ANTI_FIGHTER, AI_TRAIT_SWARMER)
 
 /obj/structure/overmap/syndicate/ai/fighter/apply_weapons()
 	weapon_types[FIRE_MODE_PDC] = new/datum/ship_weapon/light_cannon(src)
