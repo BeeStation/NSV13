@@ -719,7 +719,8 @@ Control Rods
 	target_heat = (-1)+2**(0.1*((100-control_rod_percent) * control_rod_modifier)) //Let there be math
 	if(heat > target_heat+((cooling_power * cooling_power_modifier)-heat_gain)) //If it's hotter than the desired temperature, + our cooling power, we need to cool it off.
 		if(can_cool())
-			heat -= cooling_power * cooling_power_modifier
+			if(control_rod_percent > 0)
+				heat -= cooling_power * cooling_power_modifier
 
 /obj/machinery/atmospherics/components/binary/stormdrive_reactor/proc/handle_reaction_rate()
 	target_reaction_rate = (0.5+(1e-03*((100-control_rod_percent) * control_rod_modifier)**2) * reaction_rate_modifier) + 1e-05*(heat**2)  //let the train derail!
@@ -898,7 +899,7 @@ Control Rods
 				reaction_rate += reaction_rate / rand(1,3)
 
 	if(reactor_stability < 15)
-		if(prob(0.00001))
+		if(prob(0.001))
 			if(prob(50))
 				new /obj/effect/anomaly/stormdrive/surge(src, rand(2000, 5000))
 			else

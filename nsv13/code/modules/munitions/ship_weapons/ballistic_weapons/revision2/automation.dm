@@ -17,7 +17,7 @@
 	materials = list(/datum/material/iron = 10000, /datum/material/glass = 2500, /datum/material/copper = 2500, /datum/material/plasma = 10000)
 	build_path = /obj/item/circuitboard/machine/missile_builder
 	category = list("Advanced Munitions")
-	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS
 
 /datum/design/missilewelder
 	name = "Missile autowelder"
@@ -27,7 +27,7 @@
 	materials = list(/datum/material/iron = 10000, /datum/material/glass = 2500, /datum/material/copper = 2500, /datum/material/plasma = 10000)
 	build_path = /obj/item/circuitboard/machine/missile_builder/welder
 	category = list("Advanced Munitions")
-	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS
 
 /datum/design/missilescrewer
 	name = "Missile autoscrewer"
@@ -37,7 +37,7 @@
 	materials = list(/datum/material/iron = 10000, /datum/material/glass = 2500, /datum/material/copper = 2500, /datum/material/plasma = 10000)
 	build_path = /obj/item/circuitboard/machine/missile_builder/screwdriver
 	category = list("Advanced Munitions")
-	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS
 
 /datum/design/missilewirer
 	name = "Missile autowirer"
@@ -47,7 +47,7 @@
 	materials = list(/datum/material/iron = 10000, /datum/material/glass = 2500, /datum/material/copper = 2500, /datum/material/plasma = 10000)
 	build_path = /obj/item/circuitboard/machine/missile_builder/wirer
 	category = list("Advanced Munitions")
-	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS
 
 /datum/design/missileassembler
 	name = "Missile assembler"
@@ -57,7 +57,7 @@
 	materials = list(/datum/material/iron = 10000, /datum/material/glass = 2500, /datum/material/copper = 2500, /datum/material/plasma = 10000)
 	build_path = /obj/item/circuitboard/machine/missile_builder/assembler
 	category = list("Advanced Munitions")
-	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS
 
 /datum/design/slowconveyor
 	name = "Low Speed Conveyor"
@@ -67,7 +67,7 @@
 	materials = list(/datum/material/iron = 1000)
 	build_path = /obj/item/stack/conveyor/slow
 	category = list("Advanced Munitions")
-	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+	departmental_flags = DEPARTMENTAL_FLAG_CARGO|DEPARTMENTAL_FLAG_MUNITIONS
 
 /obj/machinery/missile_builder
 	name = "Seegson model 'Ford' robotic autowrench"

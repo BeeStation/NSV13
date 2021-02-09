@@ -25,6 +25,9 @@
 	mass = MASS_SMALL
 	sprite_size = 48
 	damage_states = FALSE
+	bound_height = 32
+	bound_width = 32
+
 
 /obj/structure/overmap/nanotrasen/patrol_cruiser
 	name = "lupine class patrol cruiser"
@@ -133,6 +136,12 @@
 	weapon_types[FIRE_MODE_BLUE_LASER] = new /datum/ship_weapon/phaser(src)
 
 //Player Versions
+
+/obj/structure/overmap/nanotrasen/light_cruiser/starter //Currently assigned to Eclipse
+	role = MAIN_OVERMAP
+	max_integrity = 1500 //Max health
+	integrity_failure = 1500
+	starting_system = "Argo"
 
 /obj/structure/overmap/nanotrasen/missile_cruiser/starter //Currently assigned to Jeppison and Vago
 	role = MAIN_OVERMAP
