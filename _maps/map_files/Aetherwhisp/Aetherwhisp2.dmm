@@ -1083,6 +1083,7 @@
 /obj/structure/cable/yellow{
 	icon_state = "2-5"
 	},
+/obj/machinery/cell_charger,
 /turf/open/floor/carpet/ship/blue{
 	color = "#9999DD";
 	name = "nanoweave carpet (bluer)"
@@ -1966,8 +1967,12 @@
 	icon_state = "2-8"
 	},
 /obj/machinery/atmospherics/components/unary/portables_connector,
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer3{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	dir = 9
+	},
 /turf/open/floor/plating,
 /area/maintenance/department/science/xenobiology)
 "brk" = (
@@ -3184,13 +3189,8 @@
 /obj/structure/cable/yellow{
 	icon_state = "1-2"
 	},
-/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer3{
-	dir = 4
-	},
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
-	dir = 9
-	},
 /obj/machinery/atmospherics/pipe/simple/multiz,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /turf/open/floor/plating,
 /area/maintenance/department/science/xenobiology)
 "cmn" = (
@@ -3386,12 +3386,12 @@
 /area/nsv/weapons/port)
 "crr" = (
 /obj/structure/table,
-/obj/item/ship_weapon/parts/missile/warhead,
-/obj/item/ship_weapon/parts/missile/warhead,
-/obj/item/ship_weapon/parts/missile/warhead,
 /obj/structure/cable/pink{
 	icon_state = "1-2"
 	},
+/obj/item/ship_weapon/parts/missile/warhead/torpedo,
+/obj/item/ship_weapon/parts/missile/warhead/torpedo,
+/obj/item/ship_weapon/parts/missile/warhead/torpedo,
 /turf/open/floor/engine,
 /area/nsv/weapons/port)
 "crV" = (
@@ -3545,10 +3545,10 @@
 /obj/structure/disposalpipe/segment{
 	dir = 4
 	},
-/obj/item/ship_weapon/ammunition/torpedo/torpedo_casing,
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
 	},
+/obj/item/ship_weapon/ammunition/torpedo/torpedo_casing,
 /turf/open/floor/engine,
 /area/nsv/weapons/port)
 "cwA" = (
@@ -4958,6 +4958,7 @@
 /area/quartermaster/storage)
 "dCq" = (
 /obj/structure/disposalpipe/trunk/multiz/down,
+/obj/machinery/vending/snack/random,
 /turf/open/floor/carpet/ship,
 /area/hallway/nsv/deck2/primary)
 "dCz" = (
@@ -9026,10 +9027,34 @@
 /turf/open/floor/carpet/ship,
 /area/bridge/secondary)
 "gyZ" = (
-/obj/machinery/vending/snack/random,
 /obj/machinery/light,
 /obj/structure/cable,
 /obj/machinery/power/apc/auto_name/south,
+/obj/structure/rack,
+/obj/item/shovel{
+	pixel_x = -3;
+	pixel_y = 7
+	},
+/obj/item/shovel{
+	pixel_x = 3;
+	pixel_y = 7
+	},
+/obj/item/shovel{
+	pixel_x = 3;
+	pixel_y = 1
+	},
+/obj/item/pickaxe{
+	pixel_x = -3;
+	pixel_y = 3
+	},
+/obj/item/pickaxe{
+	pixel_x = 3;
+	pixel_y = 3
+	},
+/obj/item/pickaxe{
+	pixel_x = 3;
+	pixel_y = -3
+	},
 /turf/open/floor/carpet/ship,
 /area/quartermaster/lobby)
 "gzH" = (
@@ -9884,31 +9909,6 @@
 /turf/open/floor/wood,
 /area/crew_quarters/dorms)
 "hkI" = (
-/obj/structure/rack,
-/obj/item/shovel{
-	pixel_x = 3;
-	pixel_y = 1
-	},
-/obj/item/pickaxe{
-	pixel_x = 3;
-	pixel_y = -3
-	},
-/obj/item/pickaxe{
-	pixel_x = 3;
-	pixel_y = 3
-	},
-/obj/item/shovel{
-	pixel_x = -3;
-	pixel_y = 7
-	},
-/obj/item/shovel{
-	pixel_x = 3;
-	pixel_y = 7
-	},
-/obj/item/pickaxe{
-	pixel_x = -3;
-	pixel_y = 3
-	},
 /obj/machinery/camera/autoname{
 	dir = 1
 	},
@@ -12678,7 +12678,7 @@
 /area/ai_monitored/turret_protected/ai_upload)
 "jBr" = (
 /obj/machinery/lazylift_button,
-/turf/closed/wall/r_wall/ship,
+/turf/closed/wall/ship,
 /area/shuttle/turbolift/tertiary)
 "jBD" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
@@ -25431,8 +25431,8 @@
 /obj/machinery/door/firedoor/border_only/directional/south,
 /obj/machinery/door/firedoor/border_only/directional/north,
 /obj/structure/disposalpipe/segment,
-/obj/machinery/door/airlock/ship/command/glass{
-	name = "Meeting Room Storage";
+/obj/machinery/door/airlock/ship/command{
+	name = "Meeting Room";
 	req_access_txt = "19"
 	},
 /turf/open/floor/carpet/ship/blue{
@@ -27188,11 +27188,9 @@
 	},
 /obj/structure/cable/yellow,
 /obj/machinery/atmospherics/pipe/simple/purple/hidden,
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
-	dir = 6
-	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1{
-	dir = 1
+	dir = 4
 	},
 /turf/open/floor/plating,
 /area/maintenance/department/science/xenobiology)
@@ -29468,10 +29466,22 @@
 	icon_state = "2-4"
 	},
 /obj/machinery/atmospherics/pipe/simple/purple/hidden,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	dir = 6
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	dir = 6
+	},
 /obj/machinery/meter/atmos/distro_loop{
 	pixel_x = -6;
 	pixel_y = -6;
 	target_layer = 1
+	},
+/obj/machinery/meter/atmos/atmos_waste_loop{
+	layer = 3.1;
+	pixel_x = 5;
+	pixel_y = 5;
+	target_layer = 3
 	},
 /turf/open/floor/plating,
 /area/maintenance/department/science/xenobiology)
@@ -30136,7 +30146,7 @@
 	icon_state = "4-8"
 	},
 /turf/open/floor/carpet/ship,
-/area/ai_monitored/turret_protected/ai_upload_foyer)
+/area/ai_monitored/turret_protected/ai)
 "wXQ" = (
 /obj/structure/cable{
 	icon_state = "1-2"
@@ -30765,10 +30775,10 @@
 /area/nsv/weapons/port)
 "xxZ" = (
 /obj/machinery/atmospherics/pipe/simple/purple/hidden,
-/obj/item/ship_weapon/ammunition/torpedo/torpedo_casing,
 /obj/structure/disposalpipe/segment{
 	dir = 4
 	},
+/obj/item/ship_weapon/ammunition/torpedo/torpedo_casing,
 /turf/open/floor/engine,
 /area/nsv/weapons/port)
 "xyi" = (
@@ -31214,10 +31224,8 @@
 /obj/structure/disposalpipe/segment{
 	dir = 5
 	},
-/obj/machinery/meter/atmos{
-	layer = 2.65
-	},
 /obj/machinery/atmospherics/pipe/manifold/purple/hidden,
+/obj/machinery/meter,
 /turf/open/floor/plating,
 /area/maintenance/department/science/xenobiology)
 "xOR" = (
@@ -31800,13 +31808,14 @@
 /turf/open/floor/carpet/ship,
 /area/hallway/nsv/deck2/primary)
 "ylI" = (
-/obj/structure/table/glass,
 /obj/machinery/computer/ship/viewscreen{
 	pixel_x = -32;
 	pixel_y = -6
 	},
 /obj/machinery/airalarm/directional/north,
-/obj/machinery/cell_charger,
+/obj/machinery/computer/station_alert{
+	dir = 4
+	},
 /turf/open/floor/carpet/ship/blue{
 	color = "#9999DD";
 	name = "nanoweave carpet (bluer)"
@@ -62504,7 +62513,7 @@ epp
 fbq
 giz
 hkI
-rWL
+jBr
 wUp
 nfd
 rWL
@@ -63018,7 +63027,7 @@ erg
 bAd
 fZG
 cTj
-jBr
+qFS
 wUp
 svv
 rWL
