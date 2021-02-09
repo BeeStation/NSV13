@@ -480,66 +480,6 @@
 	icon_state = "maa_hat"
 	item_state = "maa_hat"
 
-/*
-/obj/item/clothing/head/bomb_hood
-	name = "bomb hood"
-	desc = "Use in case of bomb."
-	icon_state = "bombsuit"
-	clothing_flags = THICKMATERIAL | SNUG_FIT
-	armor = list("melee" = 20, "bullet" = 0, "laser" = 20,"energy" = 10, "bomb" = 100, "bio" = 0, "rad" = 0, "fire" = 80, "acid" = 50)
-	flags_inv = HIDEFACE|HIDEMASK|HIDEEARS|HIDEEYES|HIDEHAIR|HIDEFACIALHAIR
-	dynamic_hair_suffix = ""
-	dynamic_fhair_suffix = ""
-	cold_protection = HEAD
-	min_cold_protection_temperature = HELMET_MIN_TEMP_PROTECT
-	heat_protection = HEAD
-	max_heat_protection_temperature = HELMET_MAX_TEMP_PROTECT
-	strip_delay = 70
-	equip_delay_other = 70
-	flags_cover = HEADCOVERSEYES | HEADCOVERSMOUTH | PEPPERPROOF
-	resistance_flags = NONE
-
-
-/obj/item/clothing/suit/bomb_suit
-	name = "bomb suit"
-	desc = "A suit designed for safety when handling explosives."
-	icon_state = "bombsuit"
-	item_state = "bombsuit"
-	w_class = WEIGHT_CLASS_BULKY
-	gas_transfer_coefficient = 0.01
-	permeability_coefficient = 0.01
-	clothing_flags = THICKMATERIAL
-	body_parts_covered = CHEST|GROIN|LEGS|FEET|ARMS|HANDS
-	slowdown = 2
-	armor = list("melee" = 20, "bullet" = 0, "laser" = 20,"energy" = 10, "bomb" = 100, "bio" = 0, "rad" = 0, "fire" = 80, "acid" = 50)
-	flags_inv = HIDEJUMPSUIT
-	heat_protection = CHEST|GROIN|LEGS|FEET|ARMS|HANDS
-	max_heat_protection_temperature = ARMOR_MAX_TEMP_PROTECT
-	cold_protection = CHEST|GROIN|LEGS|FEET|ARMS|HANDS
-	min_cold_protection_temperature = ARMOR_MIN_TEMP_PROTECT
-	strip_delay = 70
-	equip_delay_other = 70
-	resistance_flags = NONE
-
-/obj/item/clothing/head/helmet/space/hardsuit/security
-	name = "security hardsuit helmet"
-	desc = "A special helmet designed for work in a hazardous, low pressure environment. Has an additional layer of armor."
-	icon_state = "hardsuit0-sec"
-	item_state = "sec_helm"
-	item_color = "sec"
-	armor = list("melee" = 35, "bullet" = 15, "laser" = 30,"energy" = 40, "bomb" = 10, "bio" = 100, "rad" = 50, "fire" = 75, "acid" = 75)
-
-
-/obj/item/clothing/suit/space/hardsuit/security
-	icon_state = "hardsuit-sec"
-	name = "security hardsuit"
-	desc = "A special suit that protects against hazardous, low pressure environments. Has an additional layer of armor."
-	item_state = "sec_hardsuit"
-	armor = list("melee" = 35, "bullet" = 15, "laser" = 30, "energy" = 40, "bomb" = 10, "bio" = 100, "rad" = 50, "fire" = 75, "acid" = 75)
-	helmettype = /obj/item/clothing/head/helmet/space/hardsuit/security
-
-*/
-
 /obj/item/clothing/head/helmet/space/hardsuit/master_at_arms
 	name = "Master-At-Arm's Bombsuit Helmet"
 	desc = "Use in case of bomb."
