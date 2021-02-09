@@ -708,6 +708,11 @@ GLOBAL_LIST_EMPTY(ai_goals)
 
 /datum/ai_goal/rearm/action(obj/structure/overmap/OM)
 	..()
+	if(OM.current_lance)
+		var/datum/lance/L = OM.current_lance
+		if(L.lance_target && L.last_finder == OM)
+			L.lance_target = null	//Clear our relayed target if we fly to resupply to make it a bit easier on the players.
+			L.last_finder = null
 	var/obj/structure/overmap/supplyPost = null
 	for(var/obj/structure/overmap/supply in OM.fleet.taskforces["supply"])
 		supplyPost = supply
@@ -784,7 +789,7 @@ Ships with this goal create a a lance, but are not exactly bound to it. They'll 
 
 	if(!OM.last_target)	//We didn't find a target
 		if(L.lance_target)
-			if(L.last_finder == src)
+			if(L.last_finder == OM)
 				L.lance_target = null
 				L.last_finder = null
 				regroup_swarm(OM, L)
@@ -950,27 +955,27 @@ Seek a ship thich we'll station ourselves around
 		OM.patrol_target = null	//Clear our destination, we're engaging and will get a new destination when we resume patrol.
 		return 0
 	if(OM.ai_trait == AI_TRAIT_SUPPLY)
+		if(OM.resupplying)
+			return 0
 		return AI_SCORE_HIGH_PRIORITY	//Supply ships like slowly patrolling the sector.
 	return score
 
 /datum/ai_goal/patrol/action(obj/structure/overmap/OM)
 	..()
-	if(OM.patrol_target && get_dist(OM, OM.patrol_target) < 5)
+	if(OM.patrol_target && get_dist(OM, OM.patrol_target) < 10)
 		OM.patrol_target = null	//You have arrived at your destination.
 	if(!OM.patrol_target || OM.patrol_target.z != OM.z)
-		var/min_x = max(OM.x - 50, 1)
-		var/max_x = min(OM.x + 50, 255)
-		var/min_y = max(OM.y - 50, 1)
-		var/max_y = min(OM.y + 50, 255)
+		var/min_x = max(OM.x - 50, 15)
+		var/max_x = min(OM.x + 50, 240)
+		var/min_y = max(OM.y - 50, 15)
+		var/max_y = min(OM.y + 50, 240)
 		var/x_target = rand(min_x, max_x)
 		var/y_target = rand(min_y, max_y)
 		OM.patrol_target = locate(x_target, y_target, OM.z)
 	if(!OM.patrol_target)
 		return	//Somehow, there still is no target. Well, return it is.
 
-	OM.move_mode = NORTH
-	OM.brakes = FALSE
-	OM.desired_angle = Get_Angle(OM, OM.patrol_target)
+	OM.move_toward(OM.patrol_target)
 
 
 
@@ -1038,6 +1043,7 @@ Seek a ship thich we'll station ourselves around
 	//Fleet organisation
 	var/shots_left = 15 //Number of arbitrary shots an AI can fire with its heavy weapons before it has to resupply with a supply ship.
 	var/resupply_range = 15
+	var/resupplying = 0	//Are we resupplying things right now? If yes, how many?
 	var/can_resupply = FALSE //Can this ship resupply other ships?
 	var/obj/structure/overmap/resupply_target = null
 	var/datum/fleet/fleet = null
@@ -1136,11 +1142,13 @@ Seek a ship thich we'll station ourselves around
 			if(OM.obj_integrity >= OM.max_integrity && OM.shots_left >= initial(OM.shots_left)) //No need to resupply this ship at all.
 				continue
 			resupply_target = OM
-			addtimer(CALLBACK(src, .proc/resupply), 10 SECONDS)	//Resupply comperatively fast, but not instant
+			addtimer(CALLBACK(src, .proc/resupply), (2 + (10 - (OM.obj_integrity / OM.max_integrity) * 10 )) SECONDS)	//Resupply comperatively fast, but not instant. Repairs take longer.
+			resupplying++
 			break
 //Method to allow a supply ship to resupply other AIs.
 
 /obj/structure/overmap/proc/resupply()
+	resupplying--
 	if(!resupply_target || get_dist(src, resupply_target) > resupply_range)
 		return
 	var/missileStock = initial(resupply_target.missiles)
