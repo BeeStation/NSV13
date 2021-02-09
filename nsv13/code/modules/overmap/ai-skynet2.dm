@@ -666,9 +666,13 @@ GLOBAL_LIST_EMPTY(ai_goals)
 		return 0 //0 Score, in other terms, the AI will ignore this task completely.
 	if(required_trait)
 		if(islist(OM.ai_trait))
+			var/found = FALSE
 			for(var/X in OM.ai_trait)
 				if(X == required_trait)
+					found = TRUE
 					break
+			if(!found)
+				return 0
 		else
 			if(OM.ai_trait != required_trait)
 				return 0
@@ -898,6 +902,8 @@ Seek a ship thich we'll station ourselves around
 	var/list/supplyline = OM.fleet.taskforces["supply"]
 	if(!supplyline || !supplyline.len)
 		return 0	//If there is nothing to defend, lets hunt the guys that destroyed our supply line instead.
+	if(OM.ai_trait == AI_TRAIT_SUPPLY)
+		return 0	//Can't defend ourselves
 	if(OM.ai_trait == AI_TRAIT_BATTLESHIP)
 		return AI_SCORE_CRITICAL
 	return score //If you've got nothing better to do, come group with the main fleet.
@@ -910,11 +916,15 @@ Seek a ship thich we'll station ourselves around
 /datum/ai_goal/retreat/check_score(obj/structure/overmap/OM)
 	if(!..() || !OM.fleet) //If it's not an overmap, or it's not linked to a fleet.
 		return 0
-	if(OM.ai_trait == AI_TRAIT_SUPPLY)
+	if(OM.ai_trait != AI_TRAIT_SUPPLY)
+		return 0
+	if(!OM.last_target)
+		OM.seek_new_target()
+	if(OM.last_target)
 		return AI_SCORE_CRITICAL
-	return 0
+	return AI_SCORE_VERY_LOW_PRIORITY
 
-//Supply ships are sheepish, and like to run away. Otherwise, they just act as a stationary FOB.
+//Supply ships are sheepish, and like to run away. Otherwise, they patrol the sector until they find enemies, in which case they run and let their escorts handle the rest.
 
 /datum/ai_goal/retreat/action(obj/structure/overmap/OM)
 	..()
@@ -925,6 +935,46 @@ Seek a ship thich we'll station ourselves around
 	OM.move_mode = NORTH
 	OM.brakes = FALSE
 	OM.desired_angle = -Get_Angle(OM, OM.last_target) //Turn the opposite direction and run.
+
+//Patrol goal in case there is no target.
+/datum/ai_goal/patrol
+	name = "Patrol system"
+	score = AI_SCORE_LOW_PRIORITY
+
+/datum/ai_goal/patrol/check_score(obj/structure/overmap/OM)
+	if(!..())
+		return 0
+	if(!OM.last_target)
+		OM.seek_new_target()
+	if(OM.last_target)
+		OM.patrol_target = null	//Clear our destination, we're engaging and will get a new destination when we resume patrol.
+		return 0
+	if(OM.ai_trait == AI_TRAIT_SUPPLY)
+		return AI_SCORE_HIGH_PRIORITY	//Supply ships like slowly patrolling the sector.
+	return score
+
+/datum/ai_goal/patrol/action(obj/structure/overmap/OM)
+	..()
+	if(OM.patrol_target && get_dist(OM, OM.patrol_target) < 5)
+		OM.patrol_target = null	//You have arrived at your destination.
+	if(!OM.patrol_target || OM.patrol_target.z != OM.z)
+		var/min_x = max(OM.x - 50, 1)
+		var/max_x = min(OM.x + 50, 255)
+		var/min_y = max(OM.y - 50, 1)
+		var/max_y = min(OM.y + 50, 255)
+		var/x_target = rand(min_x, max_x)
+		var/y_target = rand(min_y, max_y)
+		OM.patrol_target = locate(x_target, y_target, OM.z)
+	if(!OM.patrol_target)
+		return	//Somehow, there still is no target. Well, return it is.
+
+	OM.move_mode = NORTH
+	OM.brakes = FALSE
+	OM.desired_angle = Get_Angle(OM, OM.patrol_target)
+
+
+
+
 
 //Goal used for anti-fighter craft, encouraging them to attempt to lock on to smaller ships.
 /datum/ai_goal/seek/flyswatter
@@ -992,6 +1042,7 @@ Seek a ship thich we'll station ourselves around
 	var/obj/structure/overmap/resupply_target = null
 	var/datum/fleet/fleet = null
 	var/datum/current_lance = null	//Some ships can assign themselves to a lance, which will act together.
+	var/turf/patrol_target = null
 	var/datum/ai_goal/current_goal = null
 	var/obj/structure/overmap/squad_lead = null
 	var/obj/structure/overmap/last_overmap = null

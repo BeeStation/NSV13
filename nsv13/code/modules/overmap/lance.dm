@@ -7,7 +7,7 @@ Currently only used by Fighters, which assign themselves to a lance when in the 
 	var/list/members = list()
 	var/obj/structure/overmap/lance_leader
 	var/obj/structure/overmap/lance_target
-	var/obj/structure/overmap/last_finder	//who found the last target we're targetting? Used to see if we can still 'see' them.
+	var/obj/structure/overmap/last_finder	//Who found the last target we're targetting? Used to see if we can still 'see' them, provided they're on the correct AI goal.
 	var/datum/fleet/homefleet
 	var/maximum_members = 5
 	var/member_count = 0

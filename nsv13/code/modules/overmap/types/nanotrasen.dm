@@ -253,7 +253,7 @@
 	weapon_safety = FALSE
 	faction = "nanotrasen"
 	armor = list("overmap_light" = 0, "overmap_heavy" = 0)
-	ai_trait = list(AI_TRAIT_ANTI_FIGHTER, AI_TRAIT_SWARMER)
+	ai_trait = AI_TRAIT_SWARMER
 	bound_width = 32 //Change this on a per ship basis
 	bound_height = 32
 
