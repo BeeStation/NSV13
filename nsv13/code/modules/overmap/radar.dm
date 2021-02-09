@@ -79,6 +79,26 @@ f
 /obj/machinery/computer/ship/dradis/minor/can_sonar_pulse()
 	return FALSE
 
+
+/*
+Adds a penalty (or bonus, if negative) to from how far away you can be detected
+args:
+penalty: The amount of additional sensor profile
+remove_in: Optional arg, if > 0: Will remove the effect in that amount of ticks
+*/
+/obj/structure/overmap/proc/add_sensor_profile_penalty(var/penalty, var/remove_in = -1)
+	sensor_profile += penalty
+	if(!remove_in)
+		return
+	addtimer(CALLBACK(src, .proc/remove_sensor_profile_penalty, penalty), remove_in)
+
+/*
+Reduces sensor profile by the amount given as arg.
+Called by add_sensor_profile_penalty if remove_in is used.
+*/
+/obj/structure/overmap/proc/remove_sensor_profile_penalty(var/amount)
+	sensor_profile -= amount
+
 /obj/structure/overmap/proc/send_sonar_pulse()
 	var/next_pulse = last_sonar_pulse + SONAR_VISIBILITY_PENALTY
 	if(world.time < next_pulse)
@@ -88,6 +108,7 @@ f
 	last_sonar_pulse = world.time
 	addtimer(VARSET_CALLBACK(src, max_tracking_range, max_tracking_range), SONAR_VISIBILITY_PENALTY)
 	max_tracking_range *= 2
+	add_sensor_profile_penalty(max_tracking_range, SONAR_VISIBILITY_PENALTY)
 
 /obj/machinery/computer/ship/dradis/proc/send_sonar_pulse()
 	var/obj/structure/overmap/OM = get_overmap()
@@ -97,6 +118,7 @@ f
 	var/stored = sensor_range
 	addtimer(VARSET_CALLBACK(src, sensor_range, stored), SONAR_VISIBILITY_PENALTY)
 	sensor_range = world.maxx
+	OM?.add_sensor_profile_penalty(sensor_range, SONAR_VISIBILITY_PENALTY)
 
 /obj/machinery/computer/ship/dradis/examine(mob/user)
 	. = ..()
@@ -320,7 +342,7 @@ f
 	for(var/obj/structure/overmap/OM in GLOB.overmap_objects) //Iterate through overmaps in the world!
 		var/sensor_visible = (OM != linked || OM.faction != linked.faction) ? OM.is_sensor_visible(linked) : SENSOR_VISIBILITY_FULL //You can always see your own ship, or allied, cloaked ships.
 		if(OM.z == linked.z && sensor_visible >= SENSOR_VISIBILITY_FAINT)
-			var/inRange = get_dist(linked, OM) <= sensor_range
+			var/inRange = get_dist(linked, OM) <= sensor_range + OM.sensor_profile
 			var/thecolour = "#FFFFFF"
 			var/filterType = showEnemies
 			if(istype(OM, /obj/structure/overmap/asteroid))
