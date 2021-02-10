@@ -891,14 +891,12 @@ Seek a ship thich we'll station ourselves around
 	if(!OM.defense_target || QDELETED(OM.defense_target))
 		var/list/supplyline = OM.fleet.taskforces["supply"]
 		OM.defense_target = supplyline?.len ? pick(OM.fleet.taskforces["supply"]) : OM
-	OM.move_mode = NORTH
 	if(get_dist(OM, OM.defense_target) <= AI_PDC_RANGE)
 		OM.brakes = TRUE
 		OM.move_mode = null
 		OM.desired_angle = OM.defense_target.angle //Turn and face boys!
 	else
-		OM.brakes = FALSE
-		OM.desired_angle = Get_Angle(OM, OM.defense_target)
+		OM.move_toward(OM.defense_target)
 
 //Battleships love to stick to supply ships like glue. This becomes the default behaviour if the AIs cannot find any targets.
 /datum/ai_goal/defend/check_score(obj/structure/overmap/OM)
