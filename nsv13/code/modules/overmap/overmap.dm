@@ -431,7 +431,7 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 	if(user != gunner)
 		if(user == pilot)
 			var/datum/ship_weapon/SW = weapon_types[FIRE_MODE_RAILGUN] //For annoying ships like whisp
-			var/list/loaded = SW.weapons["loaded"]
+			var/list/loaded = SW?.weapons["loaded"]
 			if(SW && loaded?.len)
 				fire_weapon(target, FIRE_MODE_RAILGUN)
 			else
