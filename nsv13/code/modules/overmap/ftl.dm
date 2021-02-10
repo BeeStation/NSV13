@@ -16,14 +16,21 @@
 				F.encounter(OM)
 		restore_contents()
 	var/turf/destination
-	if(OM.faction == "nanotrasen" || OM.faction == "solgov")	//NT and ally fleets arrive on the left side of the system. Syndies on the right side.
-		destination = locate(rand(40, round(world.maxx/2) - 10), rand(40, world.maxy - 39), occupying_z)
+	if(istype(OM, /obj/structure/overmap))
+		var/obj/structure/overmap/OMS = OM
+		if(!OMS.faction)
+			destination = locate(rand(40, world.maxx - 39), rand(40, world.maxy - 39), occupying_z)
+		else if(OMS.faction == "nanotrasen" || OMS.faction == "solgov")	//NT and ally fleets arrive on the left side of the system. Syndies on the right side.
+			destination = locate(rand(40, round(world.maxx/2) - 10), rand(40, world.maxy - 39), occupying_z)
+		else
+			destination = locate(rand(round(world.maxx/2) + 10, world.maxx - 39), rand(40, world.maxy - 39), occupying_z)
 	else
-		destination = locate(rand(round(world.maxx/2) + 10, world.maxx - 39), rand(40, world.maxy - 39), occupying_z)
+		destination = locate(rand(40, world.maxx - 39), rand(40, world.maxy - 39), occupying_z)
+
 	if(!destination)
 		message_admins("WARNING: The [name] system has no exit point for ships! Something has caused this Z-level to despawn erroneously, please contact Kmc immediately!.")
 		return
-	var/turf/exit = get_turf(pick(orange(20, destination)))
+	var/turf/exit = get_turf(pick(orange(15, destination)))
 	OM.forceMove(exit)
 	if(istype(OM, /obj/structure/overmap))
 		OM.current_system = src //Debugging purposes only
