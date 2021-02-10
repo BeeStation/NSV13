@@ -15,7 +15,11 @@
 					F.current_system = src
 				F.encounter(OM)
 		restore_contents()
-	var/turf/destination = get_turf(locate(rand(50, world.maxx), rand(50, world.maxy), occupying_z)) //Spawn them somewhere in the system. I don't really care where.
+	var/turf/destination
+	if(OM.faction == "nanotrasen" || OM.faction == "solgov")	//NT and ally fleets arrive on the left side of the system. Syndies on the right side.
+		destination = locate(rand(40, round(world.maxx/2) - 10), rand(40, world.maxy - 39), occupying_z)
+	else
+		destination = locate(rand(round(world.maxx/2) + 10, world.maxx - 39), rand(40, world.maxy - 39), occupying_z)
 	if(!destination)
 		message_admins("WARNING: The [name] system has no exit point for ships! Something has caused this Z-level to despawn erroneously, please contact Kmc immediately!.")
 		return
