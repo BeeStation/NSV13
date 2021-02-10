@@ -732,6 +732,8 @@ GLOBAL_LIST_EMPTY(ai_goals)
 		return AI_SCORE_MAXIMUM
 	if(!..()) //If it's not an overmap, or it's not linked to a fleet.
 		return 0
+	if(OM.ai_trait == AI_TRAIT_SUPPLY)
+		return 0	//Carriers don't hunt you down, they just patrol. The dirty work is reserved for their escorts.
 	if(!OM.last_target || QDELETED(OM.last_target))
 		OM.seek_new_target()
 	if(OM.last_target) //If we can't find a target, then don't bother hunter-killering.
@@ -1026,7 +1028,7 @@ Seek a ship thich we'll station ourselves around
 	var/ai_behaviour = null // Determines if the AI ship shoots you first, or if you have to shoot them.
 	var/list/enemies = list() //Things that have attacked us
 	var/max_weapon_range = 50
-	var/max_tracking_range = 50//115 //Range that AI ships can hunt you down in. The amounts to almost half the Z-level.
+	var/max_tracking_range = 50//50, 100 when pinging - Range that AI ships can hunt you down in. The amounts to almost half the Z-level.
 	var/obj/structure/overmap/defense_target = null
 	var/ai_can_launch_fighters = FALSE //AI variable. Allows your ai ships to spawn fighter craft
 	var/list/ai_fighter_type = list()
