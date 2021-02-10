@@ -1087,10 +1087,13 @@ Seek a ship thich we'll station ourselves around
 				if(SW.weapon_class > WEAPON_CLASS_LIGHT)
 					if(shots_left <= 0)
 						continue //If we are out of shots. Continue.
-					will_use_shot = TRUE
 				var/arc = Get_Angle(src, target)
 				if(SW.firing_arc && arc > SW.firing_arc) //So AIs don't fire their railguns into nothing.
 					continue
+				if(SW.weapon_class > WEAPON_CLASS_LIGHT)
+					will_use_shot = TRUE
+				else
+					will_use_shot = FALSE
 				new_firemode = I
 				best_distance = distance
 		if(!weapon_types[new_firemode]) //I have no physical idea how this even happened, but ok. Sure. If you must. If you REALLY must. We can do this, Sarah. We still gonna do this? It's been 5 years since the divorce, can't you just let go?

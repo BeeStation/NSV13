@@ -376,6 +376,10 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 			for(var/obj/structure/overmap/OM in L)
 				if(OM == src)
 					L.Remove(src)
+	if(current_system)
+		current_system.system_contents.Remove(src)
+		if(faction != "nanotrasen" && faction != "solgov")
+			current_system.enemies_in_system.Remove(src)
 
 	STOP_PROCESSING(SSphysics_processing, src)
 	GLOB.overmap_objects -= src
