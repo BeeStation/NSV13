@@ -11,11 +11,12 @@ AIs like score, every few seconds, they'll run through all the subtypes of datum
 Example:
 Frame 1: Ai shoots ship, runs out of ammo
 Frame 2: Ai ship's "search and destroy" goal is now a lower priority than its resupply goal, as it recognises that it's fresh out of ammo. It'll now go find a supply ship and get re-armed there.
-Current task hierarchy (as of 28/06/2020)!
+Current task hierarchy (as of 10/02/2021)!
 1: Repair and re-arm. If a ship becomes critically damaged, or runs out of bullets, it will rush to a supply ship to resupply (if available), and heal up.
 2: (if you're a battleship): Defend the supply lines. Battleships stick close to the supply ships and keep them safe.
-3: Search and destroy: Attempt to find a target that's visible and within tracking range.
-4: (All ships) Defend the supply lines: If AIs cannot find a suitable target, they'll flock back to the main fleet and protect the tankers. More nimble attack squadrons will blade off in wings and attack the enemy if they get too close, with the battleships staying behind to protect their charges.
+3: (Non-supply ships) Search and destroy: Attempt to find a target that's visible and within tracking range. - This is replaced with Swarm for fighters and bombers, which will somewhat cooperate while hunting down targets.
+4: Patrol: Destroyers and Supply ships will slowly patrol the sector for hostile ships, with their escorts in tow. Supply ships run when they spot anything close, Destroyers engage.
+5: (All ships) Defend the supply lines: If AIs cannot find a suitable target, they'll flock back to the main fleet and protect the tankers. More nimble attack squadrons will blade off in wings and attack the enemy if they get too close, with the battleships staying behind to protect their charges.
 Adding tasks is easy! Just define a datum for it.
 */
 
@@ -823,7 +824,7 @@ Staging point priorities are supply ships > battleships > destroyers > just floa
 /datum/ai_goal/swarm/proc/regroup_swarm(var/obj/structure/overmap/OM, var/datum/lance/L)
 	var/obj/structure/overmap/movement_target
 	if(OM == L.lance_leader)
-		find_staging_point(OM)
+		movement_target = find_staging_point(OM)
 	else
 		movement_target = L.lance_leader
 
