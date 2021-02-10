@@ -843,14 +843,14 @@ Seek a ship thich we'll station ourselves around
 	var/list/L	//We need this
 	if(!OM.fleet)
 		return
-	if(OM.fleet.taskforces["supply"].len)
-		L = OM.fleet.taskforces["supply"]
+	L = OM.fleet.taskforces["supply"]
+	if(L.len)
 		return L[1]	//gives us a consistant target.
-	if(OM.fleet.taskforces["battleships"].len)
-		L = OM.fleet.taskforces["battleships"]
+	L = OM.fleet.taskforces["battleships"]
+	if(L.len)
 		return L[1]
-	if(OM.fleet.taskforces["destroyers"].len)
-		L = OM.fleet.taskforces["destroyers"]
+	L = OM.fleet.taskforces["destroyers"]
+	if(L.len)
 		return L[1]
 
 
