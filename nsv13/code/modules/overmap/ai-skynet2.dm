@@ -1265,7 +1265,9 @@ Seek a ship thich we'll station ourselves around
 
 //Method that will get you a new target, based on basic params.
 /obj/structure/overmap/proc/seek_new_target(max_weight_class=null, min_weight_class=null, interior_check=FALSE)
-	for(var/obj/structure/overmap/ship in GLOB.overmap_objects)
+	var/list/shiplist = GLOB.overmap_objects.Copy()	//We need to Copy() so shuffle doesn't make the global list messier
+	shuffle(shiplist)	//Because we go through this list from first to last, shuffling will make the way we select targets appear more random.
+	for(var/obj/structure/overmap/ship in shiplist)
 		if(warcrime_blacklist[ship.type])
 			continue
 		if(!ship || QDELETED(ship) || ship == src || get_dist(src, ship) > max_tracking_range + ship.sensor_profile || ship.faction == faction || ship.z != z || ship.is_sensor_visible(src) < SENSOR_VISIBILITY_TARGETABLE)
