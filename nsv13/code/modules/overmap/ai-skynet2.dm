@@ -890,6 +890,8 @@ Seek a ship thich we'll station ourselves around
 
 /datum/ai_goal/defend/action(obj/structure/overmap/OM)
 	..()
+	if(prob(5))	//Sometimes ping, but not that often.
+		OM.send_sonar_pulse()
 	if(!OM.defense_target || QDELETED(OM.defense_target))
 		var/list/supplyline = OM.fleet.taskforces["supply"]
 		OM.defense_target = supplyline?.len ? pick(OM.fleet.taskforces["supply"]) : OM
@@ -965,6 +967,8 @@ Seek a ship thich we'll station ourselves around
 
 /datum/ai_goal/patrol/action(obj/structure/overmap/OM)
 	..()
+	if(prob(8))	//Ping every now and then, so things can't sneak up on you.
+		OM.send_sonar_pulse()
 	if(OM.patrol_target && get_dist(OM, OM.patrol_target) <= 8)
 		OM.patrol_target = null	//You have arrived at your destination.
 	if(!OM.patrol_target || OM.patrol_target.z != OM.z)
