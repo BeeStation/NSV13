@@ -273,5 +273,5 @@
 	bound_height = 32
 
 /obj/structure/overmap/nanotrasen/ai/fighter/apply_weapons()
-	weapon_types[FIRE_MODE_PDC] = new/datum/ship_weapon/light_cannon
-	weapon_types[FIRE_MODE_MISSILE] = new/datum/ship_weapon/missile_launcher
+	weapon_types[FIRE_MODE_PDC] = new/datum/ship_weapon/light_cannon(src)
+	weapon_types[FIRE_MODE_MISSILE] = new/datum/ship_weapon/missile_launcher(src)
