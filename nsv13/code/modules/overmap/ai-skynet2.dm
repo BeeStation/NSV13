@@ -923,8 +923,8 @@ Seek a ship thich we'll station ourselves around
 		return 0
 	if(OM.ai_trait != AI_TRAIT_SUPPLY)
 		return 0
-	if(!OM.last_target)
-		OM.seek_new_target()
+	OM.last_target = null
+	OM.seek_new_target(max_distance = OM.max_tracking_range)	//Supply ships will only start running if an enemy actually comes close.
 	if(OM.last_target)
 		return AI_SCORE_CRITICAL
 	return AI_SCORE_VERY_LOW_PRIORITY
@@ -952,7 +952,8 @@ Seek a ship thich we'll station ourselves around
 	if(!OM.last_target)
 		OM.seek_new_target()
 	if(OM.last_target)
-		OM.patrol_target = null	//Clear our destination, we're engaging and will get a new destination when we resume patrol.
+		if(get_dist(OM, OM.last_target) < OM.max_tracking_range)
+			OM.patrol_target = null	//Clear our destination if we are getting close to the enemy. Otherwise we resume patrol to our old destination.
 		return 0
 	if(OM.ai_trait == AI_TRAIT_SUPPLY)
 		if(OM.resupplying)
@@ -1266,13 +1267,15 @@ Seek a ship thich we'll station ourselves around
 	desired_angle = -Get_Angle(src, target)
 
 //Method that will get you a new target, based on basic params.
-/obj/structure/overmap/proc/seek_new_target(max_weight_class=null, min_weight_class=null, interior_check=FALSE)
+/obj/structure/overmap/proc/seek_new_target(max_weight_class=null, min_weight_class=null, interior_check=FALSE, max_distance)
 	var/list/shiplist = GLOB.overmap_objects.Copy()	//We need to Copy() so shuffle doesn't make the global list messier
 	shuffle(shiplist)	//Because we go through this list from first to last, shuffling will make the way we select targets appear more random.
 	for(var/obj/structure/overmap/ship in shiplist)
 		if(warcrime_blacklist[ship.type])
 			continue
 		if(!ship || QDELETED(ship) || ship == src || get_dist(src, ship) > max_tracking_range + ship.sensor_profile || ship.faction == faction || ship.z != z || ship.is_sensor_visible(src) < SENSOR_VISIBILITY_TARGETABLE)
+			continue
+		if(max_distance && get_dist(src, ship) > max_distance)
 			continue
 		if(max_weight_class && ship.mass > max_weight_class)
 			continue
