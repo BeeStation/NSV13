@@ -891,6 +891,7 @@ Seek a ship thich we'll station ourselves around
 	if(!OM.defense_target || QDELETED(OM.defense_target))
 		var/list/supplyline = OM.fleet.taskforces["supply"]
 		OM.defense_target = supplyline?.len ? pick(OM.fleet.taskforces["supply"]) : OM
+
 	if(get_dist(OM, OM.defense_target) <= AI_PDC_RANGE)
 		OM.brakes = TRUE
 		OM.move_mode = null
@@ -907,6 +908,7 @@ Seek a ship thich we'll station ourselves around
 		return 0	//If there is nothing to defend, lets hunt the guys that destroyed our supply line instead.
 	if(OM.ai_trait == AI_TRAIT_SUPPLY)
 		return 0	//Can't defend ourselves
+		
 	if(OM.ai_trait == AI_TRAIT_BATTLESHIP)
 		return AI_SCORE_CRITICAL
 	return score //If you've got nothing better to do, come group with the main fleet.
