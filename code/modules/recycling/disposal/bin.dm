@@ -172,10 +172,7 @@
 
 // eject the contents of the disposal unit
 /obj/machinery/disposal/proc/eject()
-	var/turf/T = get_turf(src)
-	for(var/atom/movable/AM in src)
-		AM.forceMove(T)
-		AM.pipe_eject(0)
+	pipe_eject(src, FALSE, FALSE) //NSV13 
 	update_icon()
 
 // update the icon & overlays to reflect mode & status
@@ -217,21 +214,10 @@
 /obj/machinery/disposal/proc/expel(obj/structure/disposalholder/H)
 	H.active = FALSE
 
-	var/turf/T = get_turf(src)
-	var/turf/target
+	//NSV13 start of edit
 	playsound(src, 'sound/machines/hiss.ogg', 50, FALSE, FALSE)
 
-	for(var/A in H)
-		var/atom/movable/AM = A
-
-		target = get_offset_target_turf(loc, rand(5)-rand(5), rand(5)-rand(5))
-
-		AM.forceMove(T)
-		AM.pipe_eject(0)
-		AM.throw_at(target, 5, 1)
-
-	H.vent_gas(loc)
-	qdel(H)
+	pipe_eject(H)
 
 /obj/machinery/disposal/deconstruct(disassembled = TRUE)
 	var/turf/T = loc

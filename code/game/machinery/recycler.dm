@@ -105,6 +105,8 @@
 	var/items_recycled = 0
 
 	for(var/i in to_eat)
+		if(i.resistance_flags & INDESTRUCTIBLE) //NSV13 don't eat INDESTRUCTIBLE items
+			return
 		var/atom/movable/AM = i
 		var/obj/item/bodypart/head/as_head = AM
 		var/obj/item/mmi/as_mmi = AM
