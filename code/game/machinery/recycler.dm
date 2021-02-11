@@ -105,9 +105,6 @@
 	var/items_recycled = 0
 
 	for(var/i in to_eat)
-		var/obj/b = i //NSV13 Don't eat indestructible things
-		if(istype(b) && (resistance_flags & INDESTRUCTIBLE))
-			return //NSV13 end
 		var/atom/movable/AM = i
 		var/obj/item/bodypart/head/as_head = AM
 		var/obj/item/mmi/as_mmi = AM
@@ -130,7 +127,10 @@
 		playsound(src, item_recycle_sound, 50, 1)
 
 /obj/machinery/recycler/proc/recycle_item(obj/item/I)
-
+	if(resistance_flags & INDESTRUCTIBLE) //NSV13 start - indestructible item check
+		playsound(src, 'sound/machines/buzz-sigh.ogg', 50, 0)
+		I.forceMove(loc)
+		return //NSV13 end
 	I.forceMove(loc)
 	var/obj/item/grown/log/L = I
 	if(istype(L))
