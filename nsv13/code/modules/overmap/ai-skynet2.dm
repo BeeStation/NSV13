@@ -1169,7 +1169,7 @@ Seek a ship thich we'll station ourselves around
 	if(last_target) //Have we got a target?
 		var/obj/structure/overmap/OM = last_target
 		if(get_dist(last_target, src) > max(max_tracking_range, OM.sensor_profile) || istype(OM) && OM.is_sensor_visible(src) < SENSOR_VISIBILITY_TARGETABLE) //Out of range - Give up the chase
-			if(istype(OM) && has_ai_trait(AI_TRAIT_DESTROYER))
+			if(istype(OM) && has_ai_trait(AI_TRAIT_DESTROYER) && OM.z == z)
 				patrol_target = get_turf(last_target)	//Destroyers are wary and will actively investigate when their target exits their sensor range. You might be able to use this to your advantage though!
 			last_target = null
 		else //They're in our tracking range. Let's hunt them down.
