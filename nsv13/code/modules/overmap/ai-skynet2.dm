@@ -655,8 +655,9 @@ GLOBAL_LIST_EMPTY(ai_goals)
 	return TRUE
 
 /*
-A bloated proc for checking AI trait(s) of a overmap vs. required trait(s) gives as arg.
+A bloated proc for checking AI trait(s) of a overmap vs. required trait(s) given as arg.
 Accepts singular variables aswell as lists, on both sides.
+Has potential to return incorrect results if you give a list with at least one duplicated element as arg. So, don't.
 */
 /obj/structure/overmap/proc/has_ai_trait(var/V)
 	if(islist(V))
