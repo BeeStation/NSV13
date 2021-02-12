@@ -1134,13 +1134,15 @@ Seek a ship thich we'll station ourselves around
 		if(!weapon_types[new_firemode]) //I have no physical idea how this even happened, but ok. Sure. If you must. If you REALLY must. We can do this, Sarah. We still gonna do this? It's been 5 years since the divorce, can't you just let go?
 			new_firemode = FIRE_MODE_GAUSS
 		if(new_firemode != FIRE_MODE_GAUSS && current_system) //If we're not on PDCs, let's fire off some PDC salvos while we're busy shooting people. This is still affected by weapon cooldowns so that they lay off on their target a bit.
-			for(var/obj/structure/overmap/ship in current_system.system_contents)
-				if(warcrime_blacklist[ship.type])
-					continue
-				if(!ship || QDELETED(ship) || ship == src || get_dist(src, ship) > max_weapon_range || ship.faction == src.faction || ship.z != z)
-					continue
-				fire_weapon(ship, FIRE_MODE_GAUSS)
-				break
+			var/datum/ship_weapon/SW = weapon_types[FIRE_MODE_GAUSS]
+			if(SW)
+				for(var/obj/structure/overmap/ship in current_system.system_contents)
+					if(warcrime_blacklist[ship.type])
+						continue
+					if(!ship || QDELETED(ship) || ship == src || get_dist(src, ship) > max_weapon_range || ship.faction == src.faction || ship.z != z)
+						continue
+					fire_weapon(ship, FIRE_MODE_GAUSS)
+					break
 		fire_mode = new_firemode
 		if(will_use_shot) //Don't penalise them for weapons that are designed to be spammed.
 			shots_left --
