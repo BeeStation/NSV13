@@ -89,7 +89,7 @@ remove_in: Optional arg, if > 0: Will remove the effect in that amount of ticks
 */
 /obj/structure/overmap/proc/add_sensor_profile_penalty(var/penalty, var/remove_in = -1)
 	sensor_profile += penalty
-	if(!remove_in)
+	if(remove_in < 1)
 		return
 	addtimer(CALLBACK(src, .proc/remove_sensor_profile_penalty, penalty), remove_in)
 

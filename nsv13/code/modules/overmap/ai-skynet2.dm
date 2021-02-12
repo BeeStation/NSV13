@@ -259,11 +259,14 @@ GLOBAL_LIST_EMPTY(ai_goals)
 /datum/fleet/proc/remove_ship(obj/structure/overmap/OM)
 	all_ships -= OM
 	last_encounter_time = world.time
-	for(var/list/L in taskforces)
-		for(var/obj/structure/overmap/OOM in L)
-			if(OM == OOM) //I'm gonna OOM
-				L -= OOM
-				break
+	for(var/V in taskforces)	//Very cursed but it works!
+		var/list/L = taskforces["[V]"]
+		if(!L)
+			continue
+		for(var/obj/structure/overmap/OOM in L)	//I'm gonna OOM
+			if(OOM == OM)
+				L.Remove(OM)
+				break	//Ships should exist once in a each taskforce, unless something is very wrong in there.
 	if(!all_ships.len) //We've been defeated!
 		defeat()
 
@@ -1130,8 +1133,8 @@ Seek a ship thich we'll station ourselves around
 				best_distance = distance
 		if(!weapon_types[new_firemode]) //I have no physical idea how this even happened, but ok. Sure. If you must. If you REALLY must. We can do this, Sarah. We still gonna do this? It's been 5 years since the divorce, can't you just let go?
 			new_firemode = FIRE_MODE_GAUSS
-		if(new_firemode != FIRE_MODE_GAUSS) //If we're not on PDCs, let's fire off some PDC salvos while we're busy shooting people. This is still affected by weapon cooldowns so that they lay off on their target a bit.
-			for(var/obj/structure/overmap/ship in GLOB.overmap_objects)
+		if(new_firemode != FIRE_MODE_GAUSS && current_system) //If we're not on PDCs, let's fire off some PDC salvos while we're busy shooting people. This is still affected by weapon cooldowns so that they lay off on their target a bit.
+			for(var/obj/structure/overmap/ship in current_system.system_contents)
 				if(warcrime_blacklist[ship.type])
 					continue
 				if(!ship || QDELETED(ship) || ship == src || get_dist(src, ship) > max_weapon_range || ship.faction == src.faction || ship.z != z)
@@ -1178,23 +1181,24 @@ Seek a ship thich we'll station ourselves around
 	if(move_mode)
 		user_thrust_dir = move_mode
 	if(can_resupply)
-		if(resupply_target && get_dist(src, resupply_target) <= resupply_range)
+		if(resupply_target && !QDELETED(resupply_target) && get_dist(src, resupply_target) <= resupply_range)
 			new /obj/effect/temp_visual/heal(get_turf(resupply_target))
 			return
-		for(var/obj/structure/overmap/OM in GLOB.overmap_objects)
+		for(var/obj/structure/overmap/OM in current_system.system_contents)
 			if(OM.z != z || OM == src || OM.faction != faction || get_dist(src, OM) > resupply_range) //No self healing
 				continue
 			if(OM.obj_integrity >= OM.max_integrity && OM.shots_left >= initial(OM.shots_left)) //No need to resupply this ship at all.
 				continue
 			resupply_target = OM
-			addtimer(CALLBACK(src, .proc/resupply), (3 + (10 - (OM.obj_integrity / OM.max_integrity) * 10 )) SECONDS)	//Resupply comperatively fast, but not instant. Repairs take longer.
+			addtimer(CALLBACK(src, .proc/resupply), (30 + (100 - (OM.obj_integrity / OM.max_integrity) * 100 )))	//Resupply comperatively fast, but not instant. Repairs take longer.
 			resupplying++
 			break
 //Method to allow a supply ship to resupply other AIs.
 
 /obj/structure/overmap/proc/resupply()
 	resupplying--
-	if(!resupply_target || get_dist(src, resupply_target) > resupply_range)
+	if(!resupply_target || QDELETED(resupply_target) || get_dist(src, resupply_target) > resupply_range)
+		resupply_target = null
 		return
 	var/missileStock = initial(resupply_target.missiles)
 	if(missileStock > 0)
@@ -1239,7 +1243,9 @@ Seek a ship thich we'll station ourselves around
 				var/ai_fighter = pick(ai_fighter_type)
 				var/obj/structure/overmap/newFighter = new ai_fighter(get_turf(pick(orange(3, src))))
 				newFighter.last_target = last_target
-				current_system?.system_contents += newFighter
+				if(current_system)
+					current_system.system_contents += newFighter
+					newFighter.current_system = current_system
 				if(fleet)
 					newFighter.fleet = fleet
 					fleet.taskforces["fighters"] += newFighter //Lets our fighters come back to the mothership to fuel up every so often.
@@ -1285,7 +1291,7 @@ Seek a ship thich we'll station ourselves around
 			break
 		var/obj/structure/overmap/blocked = null
 		//This is...inefficient, but unavoidable without some equally expensive vector math.
-		for(var/obj/structure/overmap/OM in GLOB.overmap_objects)
+		for(var/obj/structure/overmap/OM in current_system.system_contents)
 			if(OM == src) //:sigh: this one tripped me up
 				continue
 			if(get_dist(get_turf(OM), T) <= 5 && OM.mass > MASS_TINY) //Who cares about fighters anyway!
@@ -1312,7 +1318,9 @@ Seek a ship thich we'll station ourselves around
 
 //Method that will get you a new target, based on basic params.
 /obj/structure/overmap/proc/seek_new_target(max_weight_class=null, min_weight_class=null, interior_check=FALSE, max_distance)
-	var/list/shiplist = GLOB.overmap_objects.Copy()	//We need to Copy() so shuffle doesn't make the global list messier
+	var/list/shiplist = current_system?.system_contents.Copy()	//We need to Copy() so shuffle doesn't make the global list messier
+	if(!shiplist || !shiplist.len)
+		return FALSE
 	shuffle(shiplist)	//Because we go through this list from first to last, shuffling will make the way we select targets appear more random.
 	for(var/obj/structure/overmap/ship in shiplist)
 		if(warcrime_blacklist[ship.type])

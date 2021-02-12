@@ -233,7 +233,7 @@
 	icon_state = "assault"
 	mass = MASS_LARGE
 	sprite_size = 48
-	damage_states = TRUE
+	damage_states = FALSE
 	obj_integrity = 1200
 	max_integrity = 1200 //Max health
 	integrity_failure = 1200
