@@ -328,7 +328,9 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 
 	if(role == MAIN_OVERMAP)
 		name = "[station_name()]"
-	current_system = SSstar_system.find_system(src)
+	var/datum/star_system/sys = SSstar_system.find_system(src)
+	if(sys)
+		current_system = sys
 	addtimer(CALLBACK(src, .proc/force_parallax_update), 20 SECONDS)
 	addtimer(CALLBACK(src, .proc/check_armour), 20 SECONDS)
 
