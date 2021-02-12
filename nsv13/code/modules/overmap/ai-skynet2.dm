@@ -654,6 +654,37 @@ GLOBAL_LIST_EMPTY(ai_goals)
 		}
 	return TRUE
 
+/*
+A bloated proc for checking AI trait(s) of a overmap vs. required trait(s) gives as arg.
+Accepts singular variables aswell as lists, on both sides.
+*/
+/obj/structure/overmap/proc/has_ai_trait(var/V)
+	if(islist(V))
+		var/list/CTS = V	//CheckTraitS
+		if(islist(ai_trait))
+			var/list/OTS = ai_trait	//OvermapTraitS
+			for(var/CT in CTS)
+				var/found = FALSE
+				for(var/OT in OTS)
+					if(OT == CT)
+						found = TRUE
+						break
+				if(!found)
+					return FALSE
+			return TRUE
+		else
+			return FALSE	//If there are multiple required traits, but only one existing trait, we can be sure they don't have all of them, provided there isn't doubleoccurances in the list.
+	else
+		if(islist(ai_trait))
+			var/list/OTS = ai_trait
+			for(var/OT in OTS)
+				if(OT == V)
+					return TRUE	//One required trait, multiple present ones = We can early return TRUE.
+			return FALSE
+		else
+			return V == ai_trait
+
+
 /datum/ai_goal
 	var/name = "Placeholder goal" //Please keep these human readable for debugging!
 	var/score = 0
@@ -733,7 +764,7 @@ GLOBAL_LIST_EMPTY(ai_goals)
 		return AI_SCORE_MAXIMUM
 	if(!..()) //If it's not an overmap, or it's not linked to a fleet.
 		return 0
-	if(OM.ai_trait == AI_TRAIT_SUPPLY)
+	if(OM.has_ai_trait(AI_TRAIT_SUPPLY))
 		return 0	//Carriers don't hunt you down, they just patrol. The dirty work is reserved for their escorts.
 	if(!OM.last_target || QDELETED(OM.last_target))
 		OM.seek_new_target()
@@ -911,10 +942,10 @@ Seek a ship thich we'll station ourselves around
 	var/list/supplyline = OM.fleet.taskforces["supply"]
 	if(!supplyline || !supplyline.len)
 		return 0	//If there is nothing to defend, lets hunt the guys that destroyed our supply line instead.
-	if(OM.ai_trait == AI_TRAIT_SUPPLY)
+	if(OM.has_ai_trait(AI_TRAIT_SUPPLY))
 		return 0	//Can't defend ourselves
 
-	if(OM.ai_trait == AI_TRAIT_BATTLESHIP)
+	if(OM.has_ai_trait(AI_TRAIT_BATTLESHIP))
 		return AI_SCORE_CRITICAL
 	return score //If you've got nothing better to do, come group with the main fleet.
 
@@ -926,7 +957,7 @@ Seek a ship thich we'll station ourselves around
 /datum/ai_goal/retreat/check_score(obj/structure/overmap/OM)
 	if(!..() || !OM.fleet) //If it's not an overmap, or it's not linked to a fleet.
 		return 0
-	if(OM.ai_trait != AI_TRAIT_SUPPLY)
+	if(!OM.has_ai_trait(AI_TRAIT_SUPPLY))
 		return 0
 	OM.last_target = null
 	OM.seek_new_target(max_distance = OM.max_tracking_range)	//Supply ships will only start running if an enemy actually comes close.
@@ -960,7 +991,7 @@ Seek a ship thich we'll station ourselves around
 		if(get_dist(OM, OM.last_target) < OM.max_tracking_range)
 			OM.patrol_target = null	//Clear our destination if we are getting close to the enemy. Otherwise we resume patrol to our old destination.
 		return 0
-	if(OM.ai_trait == AI_TRAIT_SUPPLY)
+	if(OM.has_ai_trait(AI_TRAIT_SUPPLY))
 		if(OM.resupplying)
 			return 0
 		return AI_SCORE_HIGH_PRIORITY	//Supply ships like slowly patrolling the sector.
@@ -1137,6 +1168,8 @@ Seek a ship thich we'll station ourselves around
 	if(last_target) //Have we got a target?
 		var/obj/structure/overmap/OM = last_target
 		if(get_dist(last_target, src) > max(max_tracking_range, OM.sensor_profile) || istype(OM) && OM.is_sensor_visible(src) < SENSOR_VISIBILITY_TARGETABLE) //Out of range - Give up the chase
+			if(istype(OM) && has_ai_trait(AI_TRAIT_DESTROYER))
+				patrol_target = get_turf(last_target)	//Destroyers are wary and will actively investigate when their target exits their sensor range. You might be able to use this to your advantage though!
 			last_target = null
 		else //They're in our tracking range. Let's hunt them down.
 			if(get_dist(last_target, src) <= max_weapon_range) //Theyre within weapon range.  Calculate a path to them and fire.
