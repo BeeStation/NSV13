@@ -30,7 +30,7 @@
 	var/max_missions = 5
 
 /datum/trader/New()
-	. = ,,()
+	. = ..()
 	SSstar_system.traders += src
 
 /datum/trader/Destroy()
