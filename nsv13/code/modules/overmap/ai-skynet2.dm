@@ -994,7 +994,9 @@ Seek a ship thich we'll station ourselves around
 	if(OM.last_target)
 		if(get_dist(OM, OM.last_target) < OM.max_tracking_range)
 			OM.patrol_target = null	//Clear our destination if we are getting close to the enemy. Otherwise we resume patrol to our old destination.
-		return 0
+			return 0
+		if(!OM.has_ai_trait(AI_TRAIT_SUPPLY))	//Supply ships only stop patrolling to run away (which when needed still has higher score
+			return 0
 	if(OM.has_ai_trait(AI_TRAIT_SUPPLY))
 		if(OM.resupplying)
 			return 0
