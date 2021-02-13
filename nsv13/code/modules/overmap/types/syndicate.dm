@@ -359,7 +359,9 @@
 	icon_state = "bomber_syndicate"
 	damage_states = FALSE
 	brakes = FALSE
+	obj_integrity = 100
 	max_integrity = 100
+	integrity_failure = 100
 	sprite_size = 32
 	faction = "syndicate"
 	mass = MASS_TINY
@@ -370,5 +372,5 @@
 	ai_trait = list(AI_TRAIT_DESTROYER, AI_TRAIT_SWARMER)
 
 /obj/structure/overmap/syndicate/ai/bomber/apply_weapons()
-	weapon_types[FIRE_MODE_PDC] = new/datum/ship_weapon/light_cannon
-	weapon_types[FIRE_MODE_TORPEDO] = new/datum/ship_weapon/torpedo_launcher
+	weapon_types[FIRE_MODE_PDC] = new/datum/ship_weapon/light_cannon(src)
+	weapon_types[FIRE_MODE_TORPEDO] = new/datum/ship_weapon/torpedo_launcher(src)
