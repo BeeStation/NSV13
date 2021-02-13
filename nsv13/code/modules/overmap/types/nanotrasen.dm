@@ -214,7 +214,7 @@
 	obj_integrity = 800
 	max_integrity = 800 //Max health
 	integrity_failure = 800
-	ai_trait = AI_TRAIT_BATTLESHIP
+	ai_trait = list(AI_TRAIT_BATTLESHIP, AI_TRAIT_DESTROYER)
 
 /obj/structure/overmap/nanotrasen/heavy_cruiser/ai
 	ai_controlled = TRUE
@@ -230,7 +230,7 @@
 
 /obj/structure/overmap/nanotrasen/missile_cruiser/ai
 	ai_controlled = TRUE
-	ai_trait = AI_TRAIT_BATTLESHIP
+	ai_trait = AI_TRAIT_DESTROYER
 	torpedoes = 10 //it's vago, alright?
 	missiles = 10
 
