@@ -1,0 +1,1 @@
+//The ship's long-range ship detection console

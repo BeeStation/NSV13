@@ -5,7 +5,6 @@
 	Starmap code largely copied from FT13's starmap, so credit to them! (And monster860...again)
 */
 
-
 /datum/asset/simple/starmap
 	assets = list(
 		"space.png" = 'nsv13/icons/assets/space.png')

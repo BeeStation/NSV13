@@ -1,6 +1,3 @@
-/obj/item/circuitboard/computer/ship/dradis
-	name = "circuit board (dradis computer)"
-	build_path = /obj/machinery/computer/ship/dradis
 
 /datum/design/board/dradis_circuit
 	name = "Computer Design (Dradis Computer)"
@@ -10,10 +7,6 @@
 	build_path = /obj/item/circuitboard/computer/ship/dradis
 	category = list("Computer Boards")
 	departmental_flags = DEPARTMENTAL_FLAG_ENGINEERING
-
-/obj/item/circuitboard/computer/ship/dradis/mining
-	name = "circuit board (minig dradis computer)"
-	build_path = /obj/machinery/computer/ship/dradis/mining
 
 /datum/design/board/mining_dradis_circuit
 	name = "Computer Design (Mining dradis Computer)"
