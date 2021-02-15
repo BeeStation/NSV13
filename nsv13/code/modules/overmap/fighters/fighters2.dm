@@ -296,7 +296,7 @@ Repair
 			set_master_caution(FALSE)
 			return
 		if("show_dradis")
-			dradis.attack_hand(usr)
+			dradis.ui_interact(usr)
 			return
 	relay('nsv13/sound/effects/fighters/switch.ogg')
 

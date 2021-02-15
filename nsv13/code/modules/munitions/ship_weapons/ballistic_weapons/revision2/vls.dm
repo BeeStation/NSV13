@@ -48,15 +48,6 @@
 	circuit = /obj/item/circuitboard/machine/vls
 	var/obj/structure/fluff/vls_hatch/hatch = null
 
-/obj/item/circuitboard/machine/vls
-	name = "M14 VLS Tube (Circuitboard)"
-	build_path = /obj/machinery/ship_weapon/vls
-	req_components = list(
-		/obj/item/stack/sheet/mineral/titanium = 20,
-		/obj/item/stack/sheet/mineral/copper = 20,
-		/obj/item/stack/sheet/iron = 30,
-		/obj/item/stack/cable_coil = 10)
-
 /obj/machinery/ship_weapon/vls/Crossed(atom/movable/AM, oldloc)
 	. = ..()
 	if(istype(AM, ammo_type))
@@ -253,10 +244,6 @@
 	if(!ui)
 		ui = new(user, src, ui_key, "AMS", "AMS Access", 500, 500, master_ui, state)
 		ui.open()
-
-/obj/item/circuitboard/computer/ams
-	name = "AMS control console (computer)"
-	build_path = /obj/machinery/computer/ams
 
 /datum/ams_mode/countermeasures/acquire_targets(obj/structure/overmap/OM)
 	var/list/targets = list()
