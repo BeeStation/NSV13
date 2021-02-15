@@ -1,6 +1,5 @@
-////CONSOLES////
+////CIC consoles////
 
-//CIC consoles
 /obj/item/circuitboard/computer/ship/helm
 	name = "circuit board (helm computer)"
 	build_path = /obj/machinery/computer/ship/helm
@@ -18,7 +17,17 @@
 	name = "circuit board (minig dradis computer)"
 	build_path = /obj/machinery/computer/ship/dradis/mining
 
-//Munitions consoles
+//FTL nav
+/obj/item/circuitboard/computer/ship/navigation
+	name = "circuit board (FTL Navigation console)"
+	build_path = /obj/machinery/computer/ship/navigation
+
+////Munitions consoles////
+
+/obj/item/circuitboard/computer/ship/munitions_computer
+	name = "circuit board (munitions control computer)"
+	build_path = /obj/machinery/computer/ship/munitions_computer
+
 /obj/item/circuitboard/computer/ship/ordnance_computer
 	name = "circuit board (ordnance computer)"
 	build_path = /obj/machinery/computer/ship/ordnance
@@ -60,7 +69,7 @@
 		/obj/item/stack/sheet/mineral/diamond = 5,
 		/obj/item/stack/sheet/iron = 20,
 		/obj/item/stack/cable_coil = 5)
-	build_path = /obj/machinery/ship_weapon/fiftycal
+	build_path = /obj/machinery/ship_weapon/fiftycal/super
 
 //PDC and flak boards, currently not used
 #define PATH_PDC /obj/machinery/ship_weapon/pdc_mount

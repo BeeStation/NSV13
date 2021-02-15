@@ -1,9 +1,38 @@
+//Ship tech
+/datum/techweb_node/ship_shield_tech
+	id = "ship_shield_tech"
+	display_name = "Experimental Shield Technology"
+	description = "Highly experimental shield technology to vastly increase survivability in ships. Although Nanotrasen researchers have had access to this technology for quite some time, the incredible amount of power required to maintain shields has proven to be the greatest challenge in implementing them."
+	prereq_ids = list("")
+	design_ids = list("shield_fan", "shield_capacitor", "shield_modulator", "shield_interface", "shield_frame")
+	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 1000)
+	export_price = 5000
+	hidden = TRUE
+
+/datum/techweb_node/ship_circuits
+	id = "ship_circuitry"
+	display_name = "Ship computer circuitry"
+	description = "Allows you to rebuild the CIC when it inevitably gets bombed."
+	prereq_ids = list("comptech")
+	design_ids = list("helm_circuit", "navigation_console_circuit", "tactical_comp_circuit", "dradis_circuit", "mining_dradis_circuit")
+	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 2000)
+	export_price = 1000
+
 //Munitions tech
+/datum/techweb_node/maa_circuits
+	id = "maa_circuitry"
+	display_name = "Munitions computer circuitry"
+	description = "Allows you to rebuild Munitions computers after they suffer from gunpowder overdose."
+	prereq_ids = list("comptech")
+	design_ids = list("fighter_computer_circuit", "ordnance_comp_circuit", "fighter_launcher_circuit")
+	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 2000)
+	export_price = 1000
+
 /datum/techweb_node/basic_torpedo_components
 	id = "basic_torpedo_components"
 	display_name = "Guided Munitions I"
 	description = "Parts to construct basic explosive, guided ordnance."
-	prereq_ids = list("explosive_weapons", "weaponry")
+	prereq_ids = list("explosive_weapons")
 	design_ids = list("warhead", "missile_warhead", "decoy_warhead", "probe_warhead", "freight_warhead", "guidance_system", "propulsion_system", "iff_card")
 	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 1000)
 	export_price = 2000

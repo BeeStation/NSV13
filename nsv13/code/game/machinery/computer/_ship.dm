@@ -1,4 +1,6 @@
 //Generic console base for consoles that interact with the overmap
+//If you are looking for the Dradis console look in nsv13/modules/overmap/radar.dm
+//If you're looking for the FTL navigation computer look in nsv13/modules/overmap/starmap.dm
 GLOBAL_LIST_INIT(computer_beeps, list('nsv13/sound/effects/computer/beep.ogg','nsv13/sound/effects/computer/beep2.ogg','nsv13/sound/effects/computer/beep3.ogg','nsv13/sound/effects/computer/beep4.ogg','nsv13/sound/effects/computer/beep5.ogg','nsv13/sound/effects/computer/beep6.ogg','nsv13/sound/effects/computer/beep7.ogg','nsv13/sound/effects/computer/beep8.ogg','nsv13/sound/effects/computer/beep9.ogg','nsv13/sound/effects/computer/beep10.ogg','nsv13/sound/effects/computer/beep11.ogg','nsv13/sound/effects/computer/beep12.ogg'))
 //Yes beeps are here because reasons
 
