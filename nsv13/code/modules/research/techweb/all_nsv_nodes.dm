@@ -33,18 +33,18 @@
 	display_name = "Guided Munitions I"
 	description = "Parts to construct basic explosive, guided ordnance."
 	prereq_ids = list("explosive_weapons")
-	design_ids = list("warhead", "missile_warhead", "decoy_warhead", "probe_warhead", "freight_warhead", "guidance_system", "propulsion_system", "iff_card")
-	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 1000)
+	design_ids = list("warhead", "missile_warhead", "decoy_warhead", "freight_warhead", "guidance_system", "propulsion_system", "iff_card")
+	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 1500)
 	export_price = 2000
 
 /datum/techweb_node/advanced_torpedo_components
 	id = "advanced_torpedo_components"
 	display_name = "Guided Munitions II"
 	description = "More advanced torpedo components"
-	prereq_ids = list("basic_torpedo_components")
-	design_ids = list("bb_warhead", "nuke_warhead")
-	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 3000)
-	export_price = 5000
+	prereq_ids = list("basic_torpedo_components", "exotic_ammo")
+	design_ids = list("bb_warhead", "nuke_warhead", "probe_warhead")
+	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 5000)
+	export_price = 7500
 
 /datum/techweb_node/advanced_ballistics
 	id = "adv_ballistics"
@@ -59,7 +59,7 @@
 	id = "macro_ballistics"
 	display_name = "Macro-Ballistics"
 	description = "Asking important questions, like what if we made even bigger guns?"
-	prereq_ids = list("adv_ballistics")
+	prereq_ids = list("adv_ballistics", "adv_plasma")
 	design_ids = list("naval_shell_ap", "plasma_accelerant", "fiftycal_super", "deck_gun_autorepair", "deck_gun_autoelevator")
 	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 7500)
 	export_price = 10000
