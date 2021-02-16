@@ -12,7 +12,6 @@
 		playsound(src, sound, 100, 1)
 		to_chat(user, "<span class='warning'>A warning flashes across [src]'s screen: Unable to locate armament parameters, no registered ship stored in microprocessor.</span>")
 		return
-	ui_interact(user)
 	playsound(src, 'nsv13/sound/effects/computer/startup.ogg', 75, 1)
 	if(linked.gunner && !linked.gunner.client)
 		linked.stop_piloting(linked.gunner)
