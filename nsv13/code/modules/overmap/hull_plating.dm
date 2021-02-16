@@ -197,5 +197,3 @@ Method to try locate an overmap object that we should attach to. Recursively cal
 	if(max_armour_plates <= 0)
 		return 10 //Very slow heal for AIs, considering they can stop off at a supply post to heal back up.
 	return (max_armour_plates > 0) ? 100*(armour_plates/max_armour_plates) : 100
-
-#undef MAX_FLAK_RANGE
