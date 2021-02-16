@@ -14,7 +14,7 @@
 	display_name = "Ship computer circuitry"
 	description = "Allows you to rebuild the CIC when it inevitably gets bombed."
 	prereq_ids = list("comptech")
-	design_ids = list("helm_circuit", "navigation_console_circuit", "tactical_comp_circuit", "dradis_circuit", "mining_dradis_circuit")
+	design_ids = list("helm_circuit", "navigation_console_circuit", "tactical_comp_circuit", "dradis_circuit", "mining_dradis_circuit", "astrometrics_console")
 	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 2000)
 	export_price = 1000
 

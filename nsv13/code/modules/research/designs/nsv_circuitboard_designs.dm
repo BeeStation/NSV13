@@ -57,3 +57,12 @@
 	build_path = /obj/item/circuitboard/computer/ship/tactical_computer
 	category = list("Ship Components")
 	departmental_flags = DEPARTMENTAL_FLAG_ENGINEERING
+
+//Astrometrics console
+/datum/design/board/astrometrics
+	name = "Computer Design (Astrometrics computer)"
+	desc = "Allows for the construction of circuit boards used to build a new astrometrics computer."
+	id = "astrometrics_console"
+	build_path = /obj/item/circuitboard/computer/astrometrics
+	category = list("Computer Boards")
+	departmental_flags = DEPARTMENTAL_FLAG_ENGINEERING | DEPARTMENTAL_FLAG_SCIENCE

@@ -22,6 +22,12 @@
 	name = "circuit board (FTL Navigation console)"
 	build_path = /obj/machinery/computer/ship/navigation
 
+////Science////
+
+/obj/item/circuitboard/computer/astrometrics
+	name = "Astrometrics Computer (Computer Board)"
+	build_path = /obj/machinery/computer/ship/navigation/astrometrics
+
 ////Munitions consoles////
 
 /obj/item/circuitboard/computer/ship/munitions_computer
