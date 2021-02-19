@@ -16,6 +16,10 @@
 	suffix = "gladius"
 	name = "\[NSV\] cargo ferry (Gladius)"
 
+/datum/map_template/shuttle/cargo/atlas
+	suffix = "atlas"
+	name = "\[NSV\] cargo elevator (Atlas)"
+
 //Arrivals
 
 /datum/map_template/shuttle/arrival/aetherwhisp
@@ -29,3 +33,9 @@
 /datum/map_template/shuttle/arrival/gladius
 	suffix = "gladius"
 	name = "arrival shuttle (Gladius)"
+
+/datum/map_template/shuttle/emergency/atlas
+	suffix = "atlas"
+	name = "Danube Class Yacht"
+	description = "A small, luxurious shuttle capable of ferrying small - medium crews in comfort and style."
+	credit_cost = 4000
