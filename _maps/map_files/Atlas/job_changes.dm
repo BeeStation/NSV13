@@ -33,8 +33,8 @@ MAP_REMOVE_JOB(virologist)
 MAP_REMOVE_JOB(curator)
 MAP_REMOVE_JOB(lawyer)
 //Most of security - Because these guys aren't too useful in a brig this SMALL
-MAP_REMOVE_JOB(detective)
 MAP_REMOVE_JOB(deputy)
+MAP_REMOVE_JOB(warden)
 MAP_REMOVE_JOB(brig_phys)
 //Munitions
 //MAP_REMOVE_JOB(deck_tech)
@@ -49,6 +49,12 @@ MAP_REMOVE_JOB(brig_phys)
     surplus = 0
 
 /datum/job/fighter_pilot/New()
+    ..()
+    MAP_JOB_CHECK
+    total_positions = 1
+    spawn_positions = 1
+
+/datum/job/detective/New()
     ..()
     MAP_JOB_CHECK
     total_positions = 1
