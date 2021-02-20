@@ -481,7 +481,7 @@ Repair
 		obj_flags ^= EMAGGED
 
 /obj/structure/overmap/fighter/attackby(obj/item/W, mob/user, params)
-	if(LAZYFIND(mobs_in_ship, user))
+	if(operators && LAZYFIND(operators, user))
 		to_chat(user, "<span class='warning'>You can't reach [src]'s exterior from in here..</span>")
 		return FALSE
 	for(var/slot in loadout.equippable_slots)
