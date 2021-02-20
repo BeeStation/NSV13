@@ -268,6 +268,9 @@
 	weapon_safety = FALSE
 	faction = "nanotrasen"
 	armor = list("overmap_light" = 0, "overmap_heavy" = 0)
+	obj_integrity = 75
+	max_integrity = 75 //Super squishy!
+	integrity_failure = 75
 	ai_trait = AI_TRAIT_SWARMER
 	bound_width = 32 //Change this on a per ship basis
 	bound_height = 32
