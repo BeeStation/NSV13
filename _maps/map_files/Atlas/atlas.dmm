@@ -1417,6 +1417,10 @@
 /obj/structure/chair/office/light,
 /turf/open/floor/carpet/ship/beige_carpet,
 /area/crew_quarters/heads/hor)
+"db" = (
+/obj/structure/closet/secure_closet/fighter_pilot,
+/turf/open/floor/monotile/airless,
+/area/nsv/hanger/notkmcstupidhanger)
 "dc" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3,
@@ -5337,15 +5341,15 @@
 /area/space/nearstation)
 "lP" = (
 /obj/structure/lattice/catwalk/over/ship,
-/obj/machinery/door/airlock/ship/hatch{
-	name = "Mission Critical Systems";
-	req_one_access_txt = "61;65"
-	},
 /obj/machinery/door/firedoor/border_only{
 	dir = 4
 	},
 /obj/machinery/door/firedoor/border_only{
 	dir = 8
+	},
+/obj/machinery/door/airlock/ship/hatch{
+	name = "Mission Critical Systems";
+	req_one_access_txt = "61;65;16"
 	},
 /turf/open/floor/engine,
 /area/ai_monitored/turret_protected/aisat)
@@ -16610,6 +16614,12 @@
 	},
 /turf/open/floor/plasteel/grid/techfloor,
 /area/ai_monitored/turret_protected/aisat)
+"Ke" = (
+/obj/structure/closet/secure_closet/fighter_pilot,
+/turf/open/floor/plasteel/techmaint{
+	initial_gas_mix = "TEMP=2.7"
+	},
+/area/nsv/hanger/notkmcstupidhanger)
 "Kf" = (
 /obj/structure/cable{
 	icon_state = "1-2"
@@ -17397,7 +17407,7 @@
 "LK" = (
 /obj/machinery/door/airlock/ship/hatch{
 	name = "Mission Critical Systems";
-	req_one_access_txt = "61;65"
+	req_one_access_txt = "61;65;16"
 	},
 /obj/effect/mapping_helpers/airlock/locked,
 /obj/structure/lattice/catwalk/over/ship,
@@ -67454,7 +67464,7 @@ Nh
 Nh
 jx
 jx
-Jc
+Ke
 Jc
 BN
 UB
@@ -67711,7 +67721,7 @@ Nh
 Nh
 jx
 jx
-BN
+db
 pb
 BN
 UB
