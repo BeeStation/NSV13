@@ -4313,6 +4313,9 @@
 /area/engine/engineering)
 "iH" = (
 /obj/structure/table,
+/obj/item/stack/sheet/mineral/copper{
+	amount = 10
+	},
 /obj/item/clothing/glasses/meson,
 /turf/open/floor/plasteel/ship/padded,
 /area/engine/engineering)
@@ -4725,7 +4728,10 @@
 /obj/effect/turf_decal/stripes/line{
 	dir = 10
 	},
-/obj/machinery/atmospherics/components/unary/thermomachine/freezer/on,
+/obj/machinery/atmospherics/components/unary/thermomachine/freezer/on{
+	dir = 8;
+	name = "euthanization chamber freezer"
+	},
 /turf/open/floor/plasteel,
 /area/science/xenobiology)
 "jE" = (
@@ -4939,9 +4945,8 @@
 /turf/open/floor/plasteel,
 /area/hallway/nsv/deck2/forward)
 "kp" = (
-/obj/structure/closet/l3closet/scientist,
-/obj/item/extinguisher,
-/turf/open/floor/monotile,
+/mob/living/simple_animal/slime,
+/turf/open/floor/plating,
 /area/science/xenobiology)
 "kq" = (
 /turf/closed/wall/ship,
@@ -5290,10 +5295,14 @@
 	dir = 10;
 	icon_state = "pipe11-1"
 	},
-/obj/structure/closet/l3closet/scientist,
-/obj/item/extinguisher,
 /turf/open/floor/monotile,
 /area/science/xenobiology)
+"lb" = (
+/obj/structure/closet/l3closet/scientist,
+/obj/structure/extinguisher_cabinet/west,
+/obj/structure/closet/l3closet/scientist,
+/turf/open/floor/plasteel/white,
+/area/science)
 "lc" = (
 /obj/structure/table/reinforced,
 /obj/machinery/button/door{
@@ -5635,6 +5644,9 @@
 /obj/effect/turf_decal/tile/purple{
 	dir = 1
 	},
+/obj/item/stack/sheet/mineral/copper{
+	amount = 10
+	},
 /turf/open/floor/plasteel/white,
 /area/science/lab)
 "lM" = (
@@ -5796,10 +5808,10 @@
 /turf/open/floor/plasteel/white,
 /area/science/mixing)
 "md" = (
-/obj/machinery/rnd/production/protolathe,
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3{
 	dir = 8
 	},
+/obj/machinery/rnd/production/techfab/department/science,
 /turf/open/floor/plasteel/white,
 /area/science/lab)
 "me" = (
@@ -5887,11 +5899,11 @@
 /area/science/xenobiology)
 "mo" = (
 /obj/structure/window/reinforced,
+/obj/machinery/airalarm/directional/west,
 /obj/machinery/atmospherics/components/unary/thermomachine/freezer/on/coldroom{
 	dir = 4;
 	target_temperature = 170
 	},
-/obj/machinery/airalarm/directional/west,
 /turf/open/floor/plasteel,
 /area/science/server)
 "mp" = (
@@ -8874,7 +8886,6 @@
 /turf/open/floor/plasteel/white,
 /area/medical/cryo)
 "sv" = (
-/obj/structure/window/reinforced,
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer1{
 	dir = 1
 	},
@@ -8905,12 +8916,16 @@
 /turf/open/floor/plasteel/dark/telecomms,
 /area/science/server)
 "sz" = (
-/obj/structure/window/reinforced{
-	dir = 1
-	},
 /obj/machinery/atmospherics/pipe/simple/general/visible{
 	dir = 4
 	},
+/obj/machinery/door/window/eastleft{
+	dir = 1;
+	name = "Server Cage Door";
+	req_one_access_txt = "30"
+	},
+/obj/machinery/door/firedoor/border_only/directional/north,
+/obj/effect/landmark/zebra_interlock_point,
 /turf/open/floor/plasteel/dark/telecomms,
 /area/science/server)
 "sA" = (
@@ -9285,7 +9300,6 @@
 	dir = 8
 	},
 /obj/effect/turf_decal/tile/purple,
-/obj/machinery/rnd/production/techfab/department/science,
 /turf/open/floor/plasteel/white,
 /area/science/lab)
 "tq" = (
@@ -15833,9 +15847,6 @@
 	desc = "Used to grind things up into raw materials and liquids.";
 	pixel_y = 5
 	},
-/obj/item/stack/sheet/mineral/plasma{
-	pixel_y = 4
-	},
 /obj/item/reagent_containers/glass/beaker{
 	pixel_x = 8;
 	pixel_y = 2
@@ -15845,7 +15856,10 @@
 	pixel_y = 3
 	},
 /obj/item/reagent_containers/dropper,
+/obj/item/reagent_containers/dropper,
 /obj/item/stack/sheet/mineral/plasma{
+	amount = 5;
+	pixel_x = -4;
 	pixel_y = 4
 	},
 /turf/open/floor/monotile,
@@ -18010,6 +18024,10 @@
 	},
 /turf/open/floor/monotile,
 /area/nsv/weapons/port)
+"NC" = (
+/mob/living/simple_animal/slime,
+/turf/open/floor/plating/airless,
+/area/science/xenobiology)
 "NE" = (
 /obj/machinery/light,
 /obj/structure/disposalpipe/segment{
@@ -20965,6 +20983,25 @@
 	},
 /turf/open/floor/plasteel,
 /area/science/robotics)
+"YB" = (
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	dir = 4;
+	icon_state = "pipe11-1"
+	},
+/obj/effect/turf_decal/tile/purple{
+	dir = 4
+	},
+/obj/machinery/light{
+	dir = 1
+	},
+/turf/open/floor/plasteel,
+/area/hallway/nsv/deck2/aft)
 "YD" = (
 /obj/structure/sign/warning/explosives/alt{
 	pixel_y = -32
@@ -45824,7 +45861,7 @@ aa
 jB
 IV
 IV
-IV
+NC
 qB
 jC
 Vz
@@ -47108,7 +47145,7 @@ aa
 aa
 jB
 zu
-Pp
+kp
 Pp
 qi
 du
@@ -48144,7 +48181,7 @@ kN
 fp
 qi
 Pp
-Pp
+kp
 SX
 jB
 aa
@@ -48662,7 +48699,7 @@ jB
 jB
 jB
 Tq
-Tq
+lb
 kc
 mS
 pP
@@ -49425,7 +49462,7 @@ jJ
 jJ
 jK
 jN
-kp
+Pr
 oc
 ju
 CZ
@@ -49962,7 +49999,7 @@ rd
 rd
 tc
 jz
-Qx
+YB
 Yh
 Zz
 Zj
