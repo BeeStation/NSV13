@@ -205,7 +205,6 @@
 	ai_behaviour = AI_AGGRESSIVE
 	mass = MASS_MEDIUM
 	sprite_size = 48
-	damage_states = TRUE
 	ai_trait = AI_TRAIT_DESTROYER
 
 /obj/structure/overmap/nanotrasen/patrol_cruiser/ai
