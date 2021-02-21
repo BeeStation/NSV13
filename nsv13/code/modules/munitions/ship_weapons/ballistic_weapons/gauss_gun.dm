@@ -78,6 +78,7 @@
 	set_gunner(usr)
 	to_chat(gunner, "<span class='notice'>You reach for [src]'s gun camera controls.</span>")
 
+/* TEMP DISABLE BECAUSE REASONS
 /obj/machinery/ship_weapon/gauss_gun/verb/exit()
 	set name = "Exit"
 	set category = "Gauss gun"
@@ -86,6 +87,7 @@
 	if(gunner.incapacitated() || !isliving(gunner))
 		return
 	remove_gunner()
+*/
 
 /obj/machinery/ship_weapon/gauss_gun/verb/swap_firemode()
 	set name = "Cycle firemode"

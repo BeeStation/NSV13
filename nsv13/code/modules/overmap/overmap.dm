@@ -248,7 +248,7 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 	update_icon()
 	find_area()
 	//If we're larger than a fighter and don't have our armour preset, set it now.
-	if(mass > MASS_TINY && !use_armour_quadrants)
+	if(mass > MASS_TINY && !use_armour_quadrants && role != MAIN_MINING_SHIP)
 		use_armour_quadrants = TRUE
 		//AI ships get weaker armour to allow you to kill them more easily.
 		var/armour_efficiency = (role > NORMAL_OVERMAP) ? obj_integrity / 2 : obj_integrity / 4
@@ -346,6 +346,31 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 	. = ..()
 
 /obj/structure/overmap/Destroy()
+	if(fleet)
+		for(var/V in fleet.taskforces)	//Very cursed but it works!
+			var/list/L = fleet.taskforces["[V]"]
+			if(!L)
+				continue
+			for(var/obj/structure/overmap/OM in L)
+				if(OM == src)
+					L.Remove(src)
+
+	STOP_PROCESSING(SSphysics_processing, src)
+	GLOB.overmap_objects -= src
+	relay('nsv13/sound/effects/ship/damage/ship_explode.ogg')
+	relay_to_nearby('nsv13/sound/effects/ship/damage/disable.ogg') //Kaboom.
+	new /obj/effect/temp_visual/fading_overmap(get_turf(src), name, icon, icon_state)
+	for(var/obj/structure/overmap/OM in enemies) //If target's in enemies, return
+		var/sound = pick('nsv13/sound/effects/computer/alarm.ogg','nsv13/sound/effects/computer/alarm_2.ogg')
+		var/message = "<span class='warning'>ATTENTION: [src]'s reactor is going supercritical. Destruction imminent.</span>"
+		OM?.tactical?.relay_sound(sound, message)
+		OM.enemies -= src //Stops AI from spamming ships that are already dead
+	overmap_explode(linked_areas)
+	if(role == MAIN_OVERMAP)
+		priority_announce("WARNING: ([rand(10,100)]) Attempts to establish DRADIS uplink with [station_name()] have failed. Unable to ascertain operational status. Presumed status: TERMINATED","Central Intelligence Unit", 'nsv13/sound/effects/ship/reactor/explode.ogg')
+		Cinematic(CINEMATIC_NSV_SHIP_KABOOM,world)
+		SSticker.mode.check_finished(TRUE)
+		SSticker.force_ending = 1
 	SEND_SIGNAL(src,COMSIG_SHIP_KILLED)
 	QDEL_LIST(current_tracers)
 	if(cabin_air)
@@ -354,7 +379,7 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 	if(physics2d)
 		qdel(physics2d)
 		physics2d = null
-	. = ..()
+	return ..()
 
 /obj/structure/overmap/proc/find_area()
 	if(role == MAIN_OVERMAP) //We're the hero ship, link us to every ss13 area.

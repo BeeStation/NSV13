@@ -1,6 +1,6 @@
 GLOBAL_LIST_INIT(drop_trooper_teams, list("Noble", "Helljumper","Red", "Black", "Crimson", "Osiris", "Apex", "Apollo", "Thrace", "Galactica", "Valkyrie", "Recon", "Gamma", "Alpha", "Bravo", "Charlie", "Delta", "Indigo", "Sol's fist", "Abassi", "Cartesia", "Switchback", "Majestic", "Mountain", "Shadow", "Shrike", "Sterling", "FTL", "Belter", "Moya", "Crichton"))
 
-/datum/map_template/pvp_pod
+/datum/map_template/syndicate_boarding_pod
 	name = "Syndicate Boarding Pod"
 	mappath = "_maps/templates/boarding_pod.dmm"
 
@@ -9,12 +9,17 @@ GLOBAL_LIST_INIT(drop_trooper_teams, list("Noble", "Helljumper","Red", "Black", 
 	icon_state = "syndie-ship"
 	requires_power = FALSE
 
-/datum/antagonist/traitor/boarder
+/datum/map_template/spacepirate_boarding_pod
+	name = "Space Pirate Boarding Pod"
+	mappath = "_maps/templates/pirate_pod.dmm"
+
+/datum/antagonist/traitor/boarder //TODO: Refactor this to not a traitor extension
 	name = "Boarder" //Not the school kind :b1:
 	antagpanel_category = "Boarder"
 	roundend_category = "boarders"
 	should_equip = FALSE
 	tips = 'html/antagtips/boarder.html'
+	show_to_ghosts = TRUE
 
 /datum/antagonist/traitor/boarder/forge_human_objectives()
 	var/martyr_chance = prob(20)
@@ -38,31 +43,58 @@ GLOBAL_LIST_INIT(drop_trooper_teams, list("Noble", "Helljumper","Red", "Black", 
 
 //God I love abusing OOP. This is disgusting.
 
-/obj/structure/overmap/fighter/utility/prebuilt/carrier/syndicate/boarding
+/datum/antagonist/pirate/boarder
+	name = "Space Pirate"
+	var/datum/team/pirate/boarder/boarding_crew
 
-//MASSIVE TODO: Rewrite all of this shit.
+/datum/team/pirate/boarder
+	name = "Space Pirate Boarding Crew"
 
-/obj/structure/overmap/fighter/utility/prebuilt/carrier/syndicate/boarding/Initialize(mapload, operatives, teamName)
+/datum/antagonist/pirate/boarder/greet()
+	to_chat(owner, "<span class='boldannounce'>You are a Space Pirate!</span>")
+	to_chat(owner, "<B>You've managed to dock within proximity of a Nanotrasen war vessel. You're outnumbered, outgunned, and under prepared in every conceivable way, but if you can manage to successfully pull off a heist on this vessel, it'd be enough to put your pirate crew on the map.</B>")
+	owner.announce_objectives()
+
+/datum/antagonist/pirate/boarder/get_team()
+	return boarding_crew
+
+/datum/antagonist/pirate/boarder/on_gain()
+	if(boarding_crew)
+		objectives |= boarding_crew.objectives
 	. = ..()
-	name = (teamName) ? "[teamName] squad boarding craft" : name
-	//flight_state = 6
-	toggle_canopy()
-	var/found_pilot = FALSE
-	for(var/mob/living/carbon/user in operatives)
-		user.forceMove(src)
-		if(user.client && !user.client.is_afk() && !pilot) //No AFK pilots for the love of GOD
-			start_piloting(user, "all_positions")
-			found_pilot = TRUE //This should't ever be false. If it is, all the operatives are AFK and we'll fix the situation ourselves.
-		else
-			start_piloting(user, "observer")
-		mobs_in_ship += user
-		if(user?.client?.prefs.toggles & SOUND_AMBIENCE) //Disable ambient sounds to shut up the noises.
-			SEND_SOUND(user, sound('nsv13/sound/effects/fighters/cockpit.ogg', repeat = TRUE, wait = 0, volume = 100, channel=CHANNEL_SHIP_ALERT))
-		return TRUE
-	if(!found_pilot)
-		message_admins("WARNING: Boarders spawned in a boarding ship, but were all AFK. One will be randomly assigned as pilot despite this.")
-		var/mob/living/victim = pick(operatives)
-		start_piloting(victim, "all_positions")
+
+/datum/antagonist/pirate/boarder/create_team(datum/team/pirate/boarder/new_team)
+	if(!new_team)
+		for(var/datum/antagonist/pirate/boarder/P in GLOB.antagonists)
+			if(!P.owner)
+				continue
+			if(P.boarding_crew)
+				boarding_crew = P.boarding_crew
+				return
+		if(!new_team)
+			boarding_crew = new /datum/team/pirate/boarder
+			boarding_crew.forge_objectives()
+			return
+	if(!istype(new_team))
+		stack_trace("Wrong team type passed to [type] initialization.")
+	boarding_crew = new_team
+
+/datum/team/pirate/boarder/forge_objectives()
+	var/datum/objective/loot/plunder/P = new()
+	P.team = src
+	for(var/obj/machinery/computer/piratepad_control/PPC in GLOB.machines)
+		var/area/A = get_area(PPC)
+		if(istype(A,/area/shuttle/pirate))
+			P.cargo_hold = PPC
+			break
+	objectives += P
+	for(var/datum/mind/M in members)
+		var/datum/antagonist/pirate/boarder/B = M.has_antag_datum(/datum/antagonist/pirate/boarder)
+		if(B)
+			B.objectives |= objectives
+
+/datum/objective/loot/plunder
+	explanation_text = "Loot and pillage the ship, transport 50000 credits worth of loot." //replace me
 
 ///Finds a "safe" place to dump a boarding pod, with a bit of distance from the transition edge to avoid visual hiccups.
 /proc/boardingPodStartLoc(startSide, Z)
@@ -83,7 +115,7 @@ GLOBAL_LIST_INIT(drop_trooper_teams, list("Noble", "Helljumper","Red", "Black", 
 			startx = (TRANSITIONEDGE+10)
 	. = locate(startx, starty, Z)
 
-/obj/structure/overmap/proc/spawn_boarders(amount)
+/obj/structure/overmap/proc/spawn_boarders(amount, faction_selection)
 	if(!linked_areas.len)
 		return FALSE
 	if(!amount)
@@ -103,34 +135,71 @@ GLOBAL_LIST_INIT(drop_trooper_teams, list("Noble", "Helljumper","Red", "Black", 
 		message_admins("Failed to spawn boarders for [name] due to admin boarding override.")
 		return FALSE //Allows the admins to disable boarders for event rounds
 	var/player_check = get_active_player_count(alive_check = TRUE, afk_check = TRUE, human_check = TRUE)
-	if(player_check < 0) // Remove the low pop boarder camping
+	if(player_check < 20) // Remove the low pop boarder camping
 		message_admins("Failed to spawn boarders for [name] due to insufficient player count.")
 		return FALSE
-	var/list/candidates = pollCandidatesForMob("Do you want to play as a Syndicate drop trooper?", ROLE_OPERATIVE, null, ROLE_OPERATIVE, 10 SECONDS, src)
-	if(!LAZYLEN(candidates))
-		return FALSE
-	var/list/operatives = list()
-	var/team_name = pick_n_take(GLOB.drop_trooper_teams)
-	var/datum/map_template/pvp_pod/currentPod = new /datum/map_template/pvp_pod()
-	currentPod.load(target, TRUE)
-	for(var/I = 0, I < amount, I++)
+	if(faction_selection == "syndicate")
+		var/list/candidates = pollCandidatesForMob("Do you want to play as a Syndicate drop trooper?", ROLE_OPERATIVE, null, ROLE_OPERATIVE, 10 SECONDS, src)
 		if(!LAZYLEN(candidates))
-			break
-		var/mob/dead/observer/C = pick_n_take(candidates)
-		var/mob/living/carbon/human/H = new(target)
-		H.equipOutfit(/datum/outfit/syndicate/odst)
-		H.key = C.key
-		if(team_name) //If there is an available "team name", give them a callsign instead of a placeholder name
+			return FALSE
+		var/list/operatives = list()
+		var/team_name = pick_n_take(GLOB.drop_trooper_teams)
+		var/datum/map_template/syndicate_boarding_pod/currentPod = new /datum/map_template/syndicate_boarding_pod()
+		currentPod.load(target, TRUE)
+		for(var/I = 0, I < amount, I++)
+			if(!LAZYLEN(candidates))
+				break
+			var/mob/dead/observer/C = pick_n_take(candidates)
+			var/mob/living/carbon/human/H = new(target)
+			H.key = C.key
+			if(team_name) //If there is an available "team name", give them a callsign instead of a placeholder name
+				var/callsign = I
+				if(callsign <= 0)
+					callsign = "Lead"
+					H.equipOutfit(/datum/outfit/syndicate/odst/smg)
+				else
+					callsign = num2text(callsign)
+					var/list/syndi_kits = list(/datum/outfit/syndicate/odst/smg, /datum/outfit/syndicate/odst/shotgun, /datum/outfit/syndicate/odst/medic)
+					var/kit = pick(syndi_kits)
+					H.equipOutfit(kit)
+				H.fully_replace_character_name(H.real_name, "[team_name]-[callsign]")
+				H.mind.add_antag_datum(/datum/antagonist/traitor/boarder)
+				H.mind.assigned_role = "Syndicate Boarder"
+			log_game("[key_name(H)] became a syndicate drop trooper.")
+			message_admins("[ADMIN_LOOKUPFLW(H)] became a syndicate drop trooper.")
+			to_chat(H, "<span class='danger'>You are a syndicate drop trooper! Cripple [station_name()] to the best of your ability, by any means you see fit. You have been given some objectives to guide you in the pursuit of this goal.")
+			operatives += H
+		relay('nsv13/sound/effects/ship/boarding_pod.ogg', "<span class='userdanger'>You can hear several tethers attaching to the ship.</span>")
+
+	else if(faction_selection == "pirate")
+		var/list/candidates = pollCandidatesForMob("Do you want to play as a Space Pirate boarding crewmember?", ROLE_OPERATIVE, null, ROLE_OPERATIVE, 10 SECONDS, src)
+		if(!LAZYLEN(candidates))
+			return FALSE
+		var/list/operatives = list()
+		var/datum/map_template/spacepirate_boarding_pod/currentPod = new /datum/map_template/spacepirate_boarding_pod()
+		currentPod.load(target, TRUE)
+		for(var/I = 0, I < amount, I++)
+			if(!LAZYLEN(candidates))
+				break
+			var/mob/dead/observer/C = pick_n_take(candidates)
+			var/mob/living/carbon/human/H = new(target)
+			H.key = C.key
 			var/callsign = I
 			if(callsign <= 0)
-				callsign = "Lead"
+				callsign = "First Mate"
+				H.equipOutfit(/datum/outfit/pirate/space/boarding/lead) //review these
 			else
-				callsign = num2text(callsign)
-			H.fully_replace_character_name(H.real_name, "[team_name]-[callsign]")
-			H.mind.add_antag_datum(/datum/antagonist/traitor/boarder)
-		log_game("[key_name(H)] became a syndicate drop trooper.")
-		message_admins("[ADMIN_LOOKUPFLW(H)] became a syndicate drop trooper.")
-		to_chat(H, "<span class='danger'>You are a syndicate drop trooper! Cripple [station_name()] to the best of your ability, by any means you see fit. You have been given some objectives to guide you in the pursuit of this goal.")
-		operatives += H
-	relay('nsv13/sound/effects/ship/boarding_pod.ogg', "<span class='userdanger'>You can hear several tethers attaching to the ship.</span>")
+				callsign = "Crew"
+				var/list/pirate_kits = list(/datum/outfit/pirate/space/boarding/sapper, /datum/outfit/pirate/space/boarding/gunner) //review these
+				var/kit = pick(pirate_kits)
+				H.equipOutfit(kit)
+			var/beggings = strings(PIRATE_NAMES_FILE, "beginnings")
+			var/endings = strings(PIRATE_NAMES_FILE, "endings")
+			H.fully_replace_character_name(H.real_name, "[callsign] [pick(beggings)][pick(endings)]")
+			H.mind.add_antag_datum(/datum/antagonist/pirate/boarder)
+			H.mind.assigned_role = "Pirate Boarder"
+			log_game("[key_name(H)] became a space pirate boarder.")
+			message_admins("[ADMIN_LOOKUPFLW(H)] became a space pirate boarder.")
+			operatives += H
+		 //No audio warning?
 	return TRUE
