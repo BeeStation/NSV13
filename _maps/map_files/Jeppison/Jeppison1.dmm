@@ -2836,10 +2836,7 @@
 /area/hallway/primary/central)
 "gR" = (
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3,
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
-	dir = 10;
-	icon_state = "pipe11-1"
-	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /turf/open/floor/plasteel/freezer,
 /area/crew_quarters/cryopods)
 "gS" = (
@@ -5568,9 +5565,10 @@
 /turf/open/floor/plasteel/ship/techfloor/alt,
 /area/hallway/secondary/entry)
 "nB" = (
-/obj/machinery/camera/autoname{
+/obj/structure/disposalpipe/trunk{
 	dir = 1
 	},
+/obj/machinery/disposal/bin,
 /turf/open/floor/plasteel/ship/techfloor/alt,
 /area/hallway/primary/central)
 "nC" = (
@@ -5656,7 +5654,7 @@
 "nI" = (
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3,
 /obj/machinery/light/small{
-	dir = 1
+	dir = 8
 	},
 /turf/open/floor/wood,
 /area/crew_quarters/cryopods)
@@ -6204,11 +6202,9 @@
 /turf/open/floor/circuit,
 /area/ai_monitored/turret_protected/ai_upload)
 "oR" = (
-/obj/structure/window{
+/obj/machinery/atmospherics/components/unary/vent_pump/on/layer1{
 	dir = 4
 	},
-/obj/structure/curtain/obscuring,
-/obj/machinery/shower,
 /turf/open/floor/plasteel/freezer,
 /area/crew_quarters/cryopods)
 "oS" = (
@@ -6413,12 +6409,9 @@
 /turf/open/floor/plating,
 /area/maintenance/department/chapel)
 "pl" = (
-/obj/machinery/washing_machine,
-/obj/structure/window{
-	dir = 8
-	},
-/obj/machinery/light/small{
-	dir = 1
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	dir = 10;
+	icon_state = "pipe11-1"
 	},
 /turf/open/floor/plasteel/freezer,
 /area/crew_quarters/cryopods)
@@ -7948,15 +7941,15 @@
 /turf/open/floor/plasteel/ship/techfloor/alt,
 /area/hallway/primary/port)
 "sM" = (
-/obj/machinery/vending/coffee,
-/obj/effect/turf_decal/bot_white,
-/obj/structure/extinguisher_cabinet/south,
+/obj/machinery/camera/autoname{
+	dir = 1
+	},
 /turf/open/floor/plasteel/ship/techfloor/alt,
 /area/hallway/primary/central)
 "sN" = (
-/obj/machinery/vending/clothing,
-/obj/machinery/light,
+/obj/machinery/vending/coffee,
 /obj/effect/turf_decal/bot_white,
+/obj/structure/extinguisher_cabinet/south,
 /turf/open/floor/plasteel/ship/techfloor/alt,
 /area/hallway/primary/central)
 "sO" = (
@@ -8690,9 +8683,7 @@
 /turf/open/floor/plasteel/ship,
 /area/hallway/primary/port)
 "tZ" = (
-/obj/machinery/atmospherics/components/unary/vent_pump/on/layer1{
-	dir = 4
-	},
+/obj/structure/bedsheetbin/empty,
 /turf/open/floor/plasteel/freezer,
 /area/crew_quarters/cryopods)
 "ua" = (
@@ -10478,7 +10469,8 @@
 /turf/open/floor/plasteel/ship/techfloor/alt,
 /area/hallway/primary/central)
 "yb" = (
-/obj/machinery/vending/snack/random,
+/obj/machinery/vending/clothing,
+/obj/machinery/light,
 /obj/effect/turf_decal/bot_white,
 /turf/open/floor/plasteel/ship/techfloor/alt,
 /area/hallway/primary/central)
@@ -11699,6 +11691,14 @@
 	},
 /turf/open/floor/monotile/dark,
 /area/nsv/hanger)
+"CX" = (
+/obj/structure/window{
+	dir = 4
+	},
+/obj/structure/curtain/obscuring,
+/obj/machinery/shower,
+/turf/open/floor/plasteel/freezer,
+/area/crew_quarters/cryopods)
 "Db" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 9
@@ -13073,6 +13073,13 @@
 /obj/item/book/manual/wiki/security_space_law,
 /turf/open/floor/carpet/ship,
 /area/security/detectives_office)
+"KO" = (
+/obj/structure/dresser,
+/obj/structure/mirror{
+	pixel_x = 32
+	},
+/turf/open/floor/wood,
+/area/crew_quarters/cryopods)
 "KP" = (
 /turf/closed/wall/r_wall/ship,
 /area/crew_quarters/cafeteria)
@@ -14675,6 +14682,16 @@
 	},
 /turf/open/floor/plating/airless,
 /area/space/nearstation)
+"UI" = (
+/obj/machinery/light/small{
+	dir = 1
+	},
+/obj/machinery/washing_machine,
+/obj/structure/window{
+	dir = 8
+	},
+/turf/open/floor/plasteel/freezer,
+/area/crew_quarters/cryopods)
 "UJ" = (
 /obj/machinery/computer/crew{
 	dir = 1
@@ -14777,10 +14794,8 @@
 /turf/open/floor/plating,
 /area/space/nearstation)
 "Vp" = (
-/obj/structure/disposalpipe/trunk{
-	dir = 1
-	},
-/obj/machinery/disposal/bin,
+/obj/machinery/vending/snack/random,
+/obj/effect/turf_decal/bot_white,
 /turf/open/floor/plasteel/ship/techfloor/alt,
 /area/hallway/primary/central)
 "Vt" = (
@@ -15247,6 +15262,10 @@
 /obj/machinery/atmospherics/pipe/simple/multiz,
 /turf/open/floor/carpet/black,
 /area/ai_monitored/turret_protected/aisat/foyer)
+"Yz" = (
+/obj/structure/bedsheetbin,
+/turf/open/floor/wood,
+/area/crew_quarters/cryopods)
 "YC" = (
 /obj/machinery/light/small{
 	dir = 1;
@@ -49286,9 +49305,9 @@ fp
 Fo
 Hw
 Hw
-Hw
-Vp
-gd
+nB
+rV
+CX
 oR
 tZ
 gd
@@ -49543,9 +49562,9 @@ Au
 vo
 Bk
 Bk
-fp
-nB
-gd
+sM
+rV
+UI
 pl
 gR
 Pm
@@ -49800,8 +49819,8 @@ fp
 vo
 Bk
 Bk
-fp
-sM
+sN
+rV
 gd
 gd
 gd
@@ -50057,9 +50076,9 @@ BJ
 vo
 Bk
 Bk
-fp
-sN
-gd
+yb
+rV
+Yz
 nI
 gf
 Xk
@@ -50314,10 +50333,10 @@ BK
 GN
 Bk
 fp
-fp
-yb
-gd
+Vp
+rV
 nT
+KO
 nT
 gd
 oV
