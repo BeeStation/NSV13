@@ -186,7 +186,14 @@
 		SSstar_system.ships[src]["to_time"] = 0
 		SEND_SIGNAL(src, COMSIG_FTL_STATE_CHANGE)
 		relay(ftl_drive.ftl_exit, "<span class='warning'>You feel the ship lurch to a halt</span>", loop=FALSE, channel = CHANNEL_SHIP_ALERT)
+		var/list/pulled = list()
+		for(var/obj/structure/overmap/SOM in GLOB.overmap_objects)
+			if(SOM.z != reserved_z)
+				continue
+			LAZYADD(pulled, SOM)
 		target_system.add_ship(src) //Get the system to transfer us to its location.
+		for(var/obj/structure/overmap/SOM in pulled)
+			target_system.add_ship(SOM)
 		SEND_SIGNAL(src, COMSIG_SHIP_ARRIVED) // Let missions know we have arrived in the system
 	for(var/mob/M in mobs_in_ship)
 		if(iscarbon(M))
