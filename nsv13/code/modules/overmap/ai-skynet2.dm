@@ -1188,7 +1188,9 @@ Seek a ship thich we'll station ourselves around
 		if(resupply_target && !QDELETED(resupply_target) && get_dist(src, resupply_target) <= resupply_range)
 			new /obj/effect/temp_visual/heal(get_turf(resupply_target))
 			return
-		for(var/obj/structure/overmap/OM in current_system.system_contents)
+		var/list/maybe_resupply = current_system.system_contents.Copy()
+		shuffle(maybe_resupply)	//Lets not have a fixed resupply list that can cause things to be wonky.
+		for(var/obj/structure/overmap/OM in maybe_resupply)
 			if(OM.z != z || OM == src || OM.faction != faction || get_dist(src, OM) > resupply_range) //No self healing
 				continue
 			if(OM.obj_integrity >= OM.max_integrity && OM.shots_left >= initial(OM.shots_left)) //No need to resupply this ship at all.
