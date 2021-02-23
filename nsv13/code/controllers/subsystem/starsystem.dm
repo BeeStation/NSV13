@@ -357,6 +357,7 @@ Returns a faction datum by its name (case insensitive!)
 		//We need to instantiate the trader's shop now and give it info, so unfortunately these'll always load in.
 		var/obj/structure/overmap/trader/station13 = SSstar_system.spawn_anomaly(trader.station_type, src, TRUE)
 		station13.starting_system = name
+		station13.current_system = src
 		station13.set_trader(trader)
 		trader.generate_missions()
 	addtimer(CALLBACK(src, .proc/spawn_asteroids), 15 SECONDS)
@@ -890,6 +891,7 @@ Welcome to the neutral zone! Non corporate sanctioned traders with better gear a
 			var/datum/trader/randytrader = new x
 			var/obj/structure/overmap/trader/randystation = SSstar_system.spawn_anomaly(randytrader.station_type, randy)
 			randystation.starting_system = randy.name
+			randystation.current_system = randy
 			randystation.set_trader(randytrader)
 			randy.trader = randytrader
 			randytrader.generate_missions()

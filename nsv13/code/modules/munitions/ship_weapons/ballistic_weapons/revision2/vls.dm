@@ -159,11 +159,6 @@
 	var/list/target_painted = list()
 	var/list/ams_modes = list()
 
-/obj/structure/overmap/Initialize()
-	. = ..()
-	for(var/atype in subtypesof(/datum/ams_mode))
-		ams_modes.Add(new atype)
-
 /datum/ams_mode
 	var/name = "Example"
 	var/desc = "Nothing"

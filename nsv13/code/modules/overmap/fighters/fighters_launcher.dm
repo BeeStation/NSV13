@@ -296,6 +296,9 @@
 			to_chat(pilot, "<span class='notice'>Docking mode disabled. Use the 'Ship' verbs tab to re-enable docking mode, then fly into an allied ship to complete docking proceedures.</span>")
 			DC.docking_mode = FALSE
 		SEND_SIGNAL(src, COMSIG_FTL_STATE_CHANGE) //Let dradis comps update their status too
+		current_system = OM.current_system
+		if(current_system)
+			LAZYADD(current_system.system_contents, src)
 		return TRUE
 
 /obj/structure/overmap/fighter/proc/update_overmap()
@@ -328,6 +331,9 @@
 			weapon_safety = TRUE
 			to_chat(pilot, "<span class='notice'>Docking complete. <b>Gun safeties have been engaged automatically.</b></span>")
 		SEND_SIGNAL(src, COMSIG_FTL_STATE_CHANGE)
+		if(current_system)
+			LAZYREMOVE(current_system.system_contents, src)
+			current_system = null
 		return TRUE
 	else
 		to_chat(pilot, "<span class='notice'>Warning: Target ship has no docking points. </span>")

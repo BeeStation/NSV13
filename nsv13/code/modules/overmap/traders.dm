@@ -30,7 +30,12 @@
 	var/max_missions = 5
 
 /datum/trader/New()
+	. = ..()
 	SSstar_system.traders += src
+
+/datum/trader/Destroy()
+	SSstar_system.traders.Remove(src)
+	. = ..()
 
 //Method to stock a trader with items. This happens every so often and you have little control over it.
 /datum/trader/proc/stock_items()
