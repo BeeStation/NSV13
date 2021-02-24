@@ -1062,7 +1062,8 @@
 "aMy" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/siphon/atmos/incinerator_output{
 	dir = 8;
-	id_tag = "sd_out"
+	id_tag = "sd_out";
+	name = "Rx Mix Tank Output"
 	},
 /turf/open/floor/engine/vacuum/light,
 /area/engine/engineering/reactor_core)
@@ -2476,7 +2477,10 @@
 /turf/open/floor/monotile,
 /area/hallway/nsv/deck2/frame1/starboard)
 "bMt" = (
-/obj/machinery/air_sensor/atmos/sm_core,
+/obj/machinery/air_sensor/atmos/sm_core{
+	id_tag = "sd_sense";
+	name = "StormDrive Fuel Tank Sensor"
+	},
 /turf/open/floor/engine/vacuum/light,
 /area/engine/engineering/reactor_core{
 	name = "Stormdrive Mix Sensor"
@@ -20519,7 +20523,7 @@
 	input_tag = "sd_in";
 	name = "Stormdrive Mix Monitor";
 	output_tag = "sd_out";
-	sensors = list("sm_sense" = "Rx Mix")
+	sensors = list("sd_sense" = "Rx Mix")
 	},
 /obj/machinery/camera/autoname{
 	dir = 8
@@ -26525,7 +26529,7 @@
 /obj/machinery/atmospherics/components/unary/outlet_injector/atmos/incinerator_input{
 	dir = 4;
 	id = "sd_in";
-	name = "Stormdrive Mix Injector"
+	name = "Rx Mix Tank Injector"
 	},
 /turf/open/floor/engine/vacuum/light,
 /area/engine/engineering/reactor_core)
