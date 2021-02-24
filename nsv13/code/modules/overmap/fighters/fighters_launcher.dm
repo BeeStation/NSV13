@@ -1,25 +1,9 @@
-
 /obj/machinery/computer/ship/fighter_launcher
 	name = "Mag-cat control console"
 	desc = "A computer which is capable of remotely activating fighter launch / arrestor systems."
-	req_access = list()
-	req_one_access_txt = "69"
 	circuit = /obj/item/circuitboard/computer/ship/fighter_launcher
 	var/next_message = 0 //Stops spam messaging
 	var/list/launchers = list()
-
-/obj/item/circuitboard/computer/ship/fighter_launcher
-	name = "circuit board (Mag-cat control console)"
-	build_path = /obj/machinery/computer/ship/fighter_launcher
-
-/datum/design/board/fighter_launcher
-	name = "Computer Design (Mag-cat control console)"
-	desc = "Allows for the construction of a Mag-cat control console."
-	id = "fighter_launcher_circuit"
-	materials = list(/datum/material/glass = 2000, /datum/material/copper = 200, /datum/material/gold = 1000)
-	build_path = /obj/item/circuitboard/computer/ship/fighter_launcher
-	category = list("Computer Boards")
-	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS|DEPARTMENTAL_FLAG_ENGINEERING
 
 /obj/machinery/computer/ship/fighter_launcher/proc/get_launchers()
 	launchers = list()
@@ -78,14 +62,6 @@
 			next_message = world.time + 5 SECONDS
 			what = "<span class='boldnotice'>Air Traffic Controller: [what]</span>"
 			to_chat(pilot, what)
-
-/obj/machinery/computer/ship/fighter_launcher/attack_hand(mob/user)
-	if(!allowed(user))
-		var/sound = pick('nsv13/sound/effects/computer/error.ogg','nsv13/sound/effects/computer/error2.ogg','nsv13/sound/effects/computer/error3.ogg')
-		playsound(src, sound, 100, 1)
-		to_chat(user, "<span class='warning'>Access denied</span>")
-		return
-	ui_interact(user)
 
 /obj/structure/fighter_launcher //Fighter launch track! This is both an arrestor and an assisted launch system for ease of use.
 	name = "electromagnetic catapult"
