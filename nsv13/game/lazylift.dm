@@ -263,7 +263,7 @@ That's it, ok bye!
 
 /obj/machinery/lazylift/master/proc/set_music(what)
 	if(!what)
-		what = pick('sound/effects/turbolift/elevatormusic.ogg','nsv13/sound/effects/lift/elevatormusic.ogg', 'nsv13/sound/effects/lift/GeorgeForse-rick.ogg', 'nsv13/sound/effects/lift/tchaikovsky.ogg')
+		what = pick('sound/effects/turbolift/elevatormusic.ogg','nsv13/sound/effects/lift/elevatormusic.ogg', 'nsv13/sound/effects/lift/GeorgeForse-rick.ogg', 'nsv13/sound/effects/lift/tchaikovsky.ogg', 'nsv13/sound/effects/lift/systemshockelevator.ogg', 'nsv13/sound/effects/lift/rottelevator.ogg')
 	var/area/ours = get_area(src)
 	for(var/area/affected in GLOB.sortedAreas)
 		if(istype(affected, ours.type))
