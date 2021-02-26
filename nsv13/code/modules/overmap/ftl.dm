@@ -109,6 +109,7 @@
 			var/obj/structure/overmap/ship = X
 			if(ship != OM && ship.occupying_levels.len) //If there's somehow a player ship in the system that is somehow not in other_player_ships, emergency return.
 				message_admins("Somehow [ship] got by the initial checks for system exits. This probably shouldn't happen, yell at a coder and / or check ftl.dm")
+				ftl_pull_small_craft(OM)
 				return
 	ftl_pull_small_craft(OM, FALSE)
 	for(var/atom/movable/X in system_contents)
