@@ -101,6 +101,8 @@
 	OM.forceMove(locate(OM.x, OM.y, OM.reserved_z)) //Annnd actually kick them out of the current system.
 	system_contents -= OM
 
+	if(!OM.occupying_levels.len)	//If this isn't actually a big ship with its own interior, do not pull ships, as only those get their own reserved z.
+		return
 	if(other_player_ships.len)	//There's still other ships here, only pull ships of our own faction.
 		ftl_pull_small_craft(OM)
 		return
