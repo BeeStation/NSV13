@@ -94,22 +94,20 @@
 		OM.reserved_z = temp
 		OM.forceMove(locate(OM.x, OM.y, OM.reserved_z)) //Annnd actually kick them out of the current system.
 		system_contents -= OM
+		ftl_pull_small_craft(OM)
 		return //Early return here. This means that another player ship is already holding the system, and we really don't need to double-check for this.
 	else
 		message_admins("Successfully removed [OM] from [src]")
 		OM.forceMove(locate(OM.x, OM.y, OM.reserved_z)) //Annnd actually kick them out of the current system.
 		system_contents -= OM
-	for(var/atom/movable/X in system_contents)
+	for(var/atom/movable/X in system_contents)	//Do a last check for safety so we don't stasis a player ship that slid by our others checks somehow.
 		if(istype(X, /obj/structure/overmap))
 			var/obj/structure/overmap/ship = X
 			if(ship != OM && ship.occupying_levels.len) //If there's a player ship left to hold the system, early return and keep this Z loaded.
+				message_admins("Somehow [ship] got by the initial checks for system exits. This probably shouldn't happen, yell at a coder and / or check ftl.dm")
 				return
-			if(ship.operators.len && !ship.ai_controlled) //Alright, now we handle the small ships. If there is no longer a large ship to hold the system, we just get caught up its wake and travel along with it.
-				ship.relay("<span class='warning'>You're caught in [OM]'s bluespace wake!</span>")
-				SEND_SIGNAL(ship, COMSIG_FTL_STATE_CHANGE)
-				ship.forceMove(locate(ship.x, ship.y, OM.reserved_z))
-				system_contents -= ship
-				continue
+	ftl_pull_small_craft(OM, FALSE)
+	for(var/atom/movable/X in system_contents)
 		contents_positions[X] = list("x" = X.x, "y" = X.y) //Cache the ship's position so we can regenerate it later.
 		X.moveToNullspace() //Anything that's an NPC should be stored safely in nullspace until we return.
 		if(istype(X, /obj/structure/overmap))
@@ -119,10 +117,29 @@
 				STOP_PROCESSING(SSphysics_processing, foo.physics2d) //Despawn this ship's collider, to avoid wasting time figuring out if it's colliding with things or not.
 	occupying_z = 0 //Alright, no ships are holding it anymore. Stop holding the Z-level
 
+/datum/star_system/proc/ftl_pull_small_craft(var/obj/structure/overmap/jumping, var/same_faction_only = TRUE)
+	if(!jumping)
+		return	//No.
+
+	for(var/atom/movable/AM in system_contents)
+		if(!istype(AM, /obj/structure/overmap))
+			continue
+		var/obj/structure/overmap/OM = AM
+		if(!OM.operators.len || OM.ai_controlled)	//AI ships / ships without a pilot just get put in stasis.
+			continue
+		if(same_faction_only && jumping.faction != OM.faction)	//We don't pull all small craft in the system unless we were the last ship here.
+			continue
+		OM.relay("<span class='warning'>You're caught in [jumping]'s bluespace wake!</span>")
+		SEND_SIGNAL(OM, COMSIG_FTL_STATE_CHANGE)
+		OM.forceMove(locate(OM.x, OM.y, jumping.reserved_z))
+		system_contents -= OM
+
+
 /obj/structure/overmap/proc/begin_jump(datum/star_system/target_system)
 	relay(ftl_drive.ftl_start, channel=CHANNEL_IMPORTANT_SHIP_ALERT)
 	desired_angle = 90 //90 degrees AKA face EAST to match the FTL parallax.
 	addtimer(CALLBACK(src, .proc/jump, target_system, TRUE), ftl_drive.ftl_startup_time)
+
 
 /obj/structure/overmap/proc/force_parallax_update(ftl_start)
 	if(reserved_z) //Actual overmap parallax behaviour
