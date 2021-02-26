@@ -96,14 +96,18 @@
 		system_contents -= OM
 		ftl_pull_small_craft(OM)
 		return //Early return here. This means that another player ship is already holding the system, and we really don't need to double-check for this.
-	else
-		message_admins("Successfully removed [OM] from [src]")
-		OM.forceMove(locate(OM.x, OM.y, OM.reserved_z)) //Annnd actually kick them out of the current system.
-		system_contents -= OM
-	for(var/atom/movable/X in system_contents)	//Do a last check for safety so we don't stasis a player ship that slid by our others checks somehow.
+
+	message_admins("Successfully removed [OM] from [src]")
+	OM.forceMove(locate(OM.x, OM.y, OM.reserved_z)) //Annnd actually kick them out of the current system.
+	system_contents -= OM
+
+	if(other_player_ships.len)	//There's still other ships here, only pull ships of our own faction.
+		ftl_pull_small_craft(OM)
+		return
+	for(var/atom/movable/X in system_contents)	//Do a last check for safety so we don't stasis a player ship that slid by our other checks somehow.
 		if(istype(X, /obj/structure/overmap))
 			var/obj/structure/overmap/ship = X
-			if(ship != OM && ship.occupying_levels.len) //If there's a player ship left to hold the system, early return and keep this Z loaded.
+			if(ship != OM && ship.occupying_levels.len) //If there's somehow a player ship in the system that is somehow not in other_player_ships, emergency return.
 				message_admins("Somehow [ship] got by the initial checks for system exits. This probably shouldn't happen, yell at a coder and / or check ftl.dm")
 				return
 	ftl_pull_small_craft(OM, FALSE)
