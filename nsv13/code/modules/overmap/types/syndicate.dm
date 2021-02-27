@@ -16,8 +16,6 @@
 	icon = 'nsv13/icons/overmap/syndicate/tuningfork.dmi'
 	icon_state = "tuningfork"
 	desc = "A highly modular cruiser setup which, despite its size, is capable of delivering devastating firepower."
-	bound_width = 96 //Change this on a per ship basis
-	bound_height = 96
 	mass = MASS_MEDIUM
 	sprite_size = 96
 	damage_states = FALSE
@@ -30,6 +28,15 @@
 	role = PVP_SHIP
 	starting_system = "The Badlands" //Relatively safe start, fleets won't hotdrop you here.
 	armor = list("overmap_light" = 70, "overmap_heavy" = 20)
+
+/obj/structure/overmap/syndicate/pvp/apply_weapons()
+	weapon_types[FIRE_MODE_TORPEDO] = new/datum/ship_weapon/torpedo_launcher(src)
+	weapon_types[FIRE_MODE_50CAL] = new /datum/ship_weapon/fiftycal(src)
+	weapon_types[FIRE_MODE_AMS] = new /datum/ship_weapon/vls(src)
+	weapon_types[FIRE_MODE_GAUSS] = new /datum/ship_weapon/gauss(src)
+	if(flak_battery_amount > 0)
+		weapon_types[FIRE_MODE_FLAK] = new /datum/ship_weapon/flak(src)
+	weapon_types[FIRE_MODE_MAC] = new /datum/ship_weapon/mac(src)
 
 /obj/structure/overmap/syndicate/pvp/hulk //Larger PVP ship for larger pops.
 	name = "SSV Hulk"
