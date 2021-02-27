@@ -1198,8 +1198,11 @@
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/port/fore)
 "ea" = (
-/obj/machinery/computer/fiftycal{
+/obj/machinery/computer/ams{
 	dir = 8
+	},
+/obj/machinery/light{
+	dir = 4
 	},
 /turf/open/floor/carpet/red,
 /area/nsv/weapons)
@@ -1408,6 +1411,9 @@
 	},
 /obj/effect/turf_decal/tile/orange,
 /obj/machinery/airalarm/directional/north,
+/obj/machinery/computer/fiftycal{
+	dir = 8
+	},
 /turf/open/floor/monotile,
 /area/nsv/weapons/gauss/battery/deck2/port)
 "eL" = (
@@ -1422,6 +1428,9 @@
 /obj/machinery/power/apc/auto_name/north,
 /obj/structure/cable{
 	icon_state = "0-2"
+	},
+/obj/machinery/computer/fiftycal{
+	dir = 4
 	},
 /turf/open/floor/monotile,
 /area/nsv/weapons/gauss/battery/deck2/port)
@@ -2096,6 +2105,9 @@
 /obj/machinery/camera/autoname{
 	dir = 1
 	},
+/obj/machinery/gauss_dispenser{
+	pixel_y = -26
+	},
 /turf/open/floor/monotile/dark,
 /area/nsv/weapons/gauss/battery/deck2/port)
 "gX" = (
@@ -2120,8 +2132,11 @@
 	dir = 8
 	},
 /obj/effect/turf_decal/tile/orange,
-/obj/machinery/computer/ship/viewscreen,
 /obj/machinery/firealarm/directional/west,
+/obj/structure/chair/office{
+	dir = 4
+	},
+/obj/effect/landmark/start/munitions_tech,
 /turf/open/floor/monotile,
 /area/nsv/weapons/gauss/battery/deck2/port)
 "hc" = (
@@ -2845,13 +2860,24 @@
 /obj/machinery/button/door{
 	id = "gaussgang_atlas";
 	name = "public gauss access";
-	pixel_y = 26;
+	pixel_x = 32;
 	req_one_access_txt = "69"
 	},
 /obj/effect/turf_decal/tile/orange{
 	dir = 8
 	},
 /obj/effect/turf_decal/tile/orange,
+/obj/structure/chair/office{
+	dir = 8
+	},
+/obj/structure/ladder{
+	pixel_y = 16
+	},
+/obj/structure/sign/ship/space{
+	name = "WARNING: SPACE LADDER";
+	pixel_y = 32
+	},
+/obj/effect/landmark/start/munitions_tech,
 /turf/open/floor/monotile,
 /area/nsv/weapons/gauss/battery/deck2/port)
 "jC" = (
@@ -3315,10 +3341,19 @@
 /turf/open/space/basic,
 /area/space/nearstation)
 "kX" = (
-/obj/structure/sign/ship/deck/two{
+/obj/machinery/door/poddoor/shutters/ship{
+	dir = 4;
+	id = "gaussgang_atlas";
+	name = "50cal Bay"
+	},
+/obj/machinery/door/firedoor/border_only{
+	dir = 8
+	},
+/obj/machinery/door/firedoor/border_only{
 	dir = 4
 	},
-/turf/closed/wall/r_wall,
+/obj/effect/landmark/zebra_interlock_point,
+/turf/open/floor/monotile,
 /area/hallway/nsv/deck2/primary)
 "kY" = (
 /obj/structure/chair{
@@ -3485,10 +3520,6 @@
 	icon_state = "0-2"
 	},
 /obj/structure/rack,
-/obj/item/ammo_box/magazine/pdc/fiftycal,
-/obj/item/ammo_box/magazine/pdc/fiftycal,
-/obj/item/ammo_box/magazine/pdc/fiftycal,
-/obj/item/ammo_box/magazine/pdc/fiftycal,
 /turf/open/floor/monotile/dark,
 /area/nsv/weapons)
 "lz" = (
@@ -5040,14 +5071,13 @@
 /turf/open/floor/carpet/red,
 /area/nsv/weapons)
 "qC" = (
-/obj/machinery/computer/fiftycal{
+/obj/effect/turf_decal/tile/orange{
 	dir = 8
 	},
-/obj/machinery/light{
-	dir = 4
-	},
-/turf/open/floor/carpet/red,
-/area/nsv/weapons)
+/obj/effect/turf_decal/tile/orange,
+/obj/machinery/computer/fiftycal,
+/turf/open/floor/monotile,
+/area/nsv/weapons/gauss/battery/deck2/port)
 "qG" = (
 /obj/structure/cable{
 	icon_state = "4-8"
@@ -5192,6 +5222,12 @@
 /obj/effect/spawner/structure/window/plasma/reinforced,
 /turf/open/floor/plating,
 /area/engine/engine_room)
+"rl" = (
+/obj/machinery/ship_weapon/torpedo_launcher/east{
+	pixel_x = -65
+	},
+/turf/open/floor/carpet/red,
+/area/nsv/weapons)
 "rn" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 6
@@ -5223,8 +5259,8 @@
 /obj/effect/turf_decal/ship/techfloor{
 	dir = 8
 	},
-/obj/machinery/suit_storage_unit/standard_unit,
 /obj/machinery/airalarm/directional/west,
+/obj/machinery/suit_storage_unit/captain,
 /turf/open/floor/monotile/dark,
 /area/hallway/nsv/deck2/primary)
 "ru" = (
@@ -5875,6 +5911,9 @@
 	icon_state = "4-8"
 	},
 /obj/effect/landmark/event_spawn,
+/obj/structure/chair/office{
+	dir = 1
+	},
 /turf/open/floor/monotile/dark,
 /area/nsv/weapons/gauss/battery/deck2/port)
 "tJ" = (
@@ -6200,13 +6239,12 @@
 /turf/open/space/basic,
 /area/space/nearstation)
 "uW" = (
-/obj/machinery/gauss_dispenser{
-	pixel_y = 26
-	},
 /obj/effect/turf_decal/tile/orange{
 	dir = 8
 	},
 /obj/effect/turf_decal/tile/orange,
+/obj/machinery/computer/fiftycal,
+/obj/machinery/computer/ship/viewscreen,
 /turf/open/floor/monotile,
 /area/nsv/weapons/gauss/battery/deck2/port)
 "uX" = (
@@ -6913,10 +6951,6 @@
 /turf/open/floor/carpet/ship,
 /area/nsv/weapons)
 "xE" = (
-/obj/machinery/door/airlock/highsecurity/ship{
-	name = "Munitions Squad Prep Room";
-	req_one_access_txt = "69"
-	},
 /obj/machinery/door/firedoor/border_only,
 /obj/machinery/door/firedoor/border_only{
 	dir = 1
@@ -6926,6 +6960,10 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /obj/structure/cable{
 	icon_state = "1-2"
+	},
+/obj/machinery/door/poddoor/shutters/ship{
+	id = "gaussgang_atlas";
+	name = "Public Gauss Access"
 	},
 /turf/open/floor/plating,
 /area/nsv/weapons/gauss/battery/deck2/starboard)
@@ -7020,7 +7058,15 @@
 /turf/open/floor/plating,
 /area/nsv/weapons)
 "xY" = (
-/obj/structure/chair/comfy/gauss/west,
+/obj/effect/turf_decal/stripes/line{
+	dir = 1
+	},
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/obj/structure/chair/office{
+	dir = 1
+	},
 /turf/open/floor/monotile/dark,
 /area/nsv/weapons/gauss/battery/deck2/port)
 "xZ" = (
@@ -10466,10 +10512,6 @@
 /obj/machinery/firealarm{
 	pixel_y = 24
 	},
-/obj/item/ammo_box/magazine/pdc/fiftycal,
-/obj/item/ammo_box/magazine/pdc/fiftycal,
-/obj/item/ammo_box/magazine/pdc/fiftycal,
-/obj/item/ammo_box/magazine/pdc/fiftycal,
 /obj/structure/rack,
 /turf/open/floor/monotile/dark,
 /area/nsv/weapons)
@@ -10854,7 +10896,11 @@
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/port)
 "Om" = (
-/obj/structure/chair/comfy/gauss/east,
+/obj/structure/rack,
+/obj/item/ammo_box/magazine/pdc/fiftycal,
+/obj/item/ammo_box/magazine/pdc/fiftycal,
+/obj/item/ammo_box/magazine/pdc/fiftycal,
+/obj/item/ammo_box/magazine/pdc/fiftycal,
 /turf/open/floor/monotile/dark,
 /area/nsv/weapons/gauss/battery/deck2/port)
 "Oo" = (
@@ -11782,10 +11828,6 @@
 	},
 /area/chapel)
 "RF" = (
-/obj/machinery/door/airlock/highsecurity/ship{
-	name = "Gun Battery 1";
-	req_one_access_txt = "69"
-	},
 /obj/structure/cable{
 	icon_state = "4-8"
 	},
@@ -11802,6 +11844,11 @@
 	dir = 8
 	},
 /obj/effect/landmark/zebra_interlock_point,
+/obj/machinery/door/poddoor/shutters/ship{
+	dir = 4;
+	id = "gaussgang_atlas";
+	name = "50cal Bay"
+	},
 /turf/open/floor/monotile,
 /area/hallway/nsv/deck2/primary)
 "RH" = (
@@ -12708,20 +12755,13 @@
 /turf/open/floor/plating,
 /area/maintenance/department/science)
 "UP" = (
-/obj/machinery/door/poddoor/shutters/ship{
-	dir = 4;
-	id = "gaussgang_atlas";
-	name = "Public Gauss Access"
-	},
-/obj/machinery/door/firedoor/border_only{
-	dir = 8
-	},
-/obj/machinery/door/firedoor/border_only{
-	dir = 4
-	},
-/obj/effect/landmark/zebra_interlock_point,
-/turf/open/floor/monotile,
-/area/hallway/nsv/deck2/primary)
+/obj/item/ammo_box/magazine/pdc/fiftycal,
+/obj/item/ammo_box/magazine/pdc/fiftycal,
+/obj/item/ammo_box/magazine/pdc/fiftycal,
+/obj/item/ammo_box/magazine/pdc/fiftycal,
+/obj/structure/rack,
+/turf/open/floor/monotile/dark,
+/area/nsv/weapons/gauss/battery/deck2/port)
 "UQ" = (
 /obj/machinery/computer/atmos_control/tank/toxin_tank{
 	dir = 1
@@ -13050,6 +13090,9 @@
 /area/maintenance/nsv/deck2/starboard)
 "VZ" = (
 /obj/machinery/light,
+/obj/machinery/gauss_dispenser{
+	pixel_y = -26
+	},
 /turf/open/floor/monotile/dark,
 /area/nsv/weapons/gauss/battery/deck2/port)
 "Wa" = (
@@ -13453,6 +13496,12 @@
 /obj/item/relic,
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/starboard)
+"XM" = (
+/obj/machinery/computer/ship/munitions_computer/west{
+	pixel_x = -8
+	},
+/turf/open/floor/carpet/red,
+/area/nsv/weapons)
 "XP" = (
 /obj/machinery/missile_builder{
 	dir = 1
@@ -13856,7 +13905,6 @@
 /area/hallway/nsv/deck2/primary)
 "Zn" = (
 /obj/machinery/camera/autoname,
-/obj/machinery/computer/ams,
 /turf/open/floor/monotile,
 /area/nsv/weapons)
 "Zp" = (
@@ -45518,7 +45566,7 @@ bh
 dC
 ha
 Rb
-pO
+UP
 hL
 MB
 jb
@@ -46031,7 +46079,7 @@ iC
 Hi
 dC
 uW
-Rb
+xY
 gW
 hL
 Oo
@@ -46287,7 +46335,7 @@ IG
 iH
 xm
 dC
-uW
+qC
 tG
 VZ
 hL
@@ -46546,7 +46594,7 @@ lZ
 dC
 eM
 fM
-xY
+pO
 hL
 ir
 ir
@@ -47058,7 +47106,7 @@ kH
 iC
 DM
 YQ
-UP
+YQ
 RF
 kX
 YQ
@@ -53241,8 +53289,8 @@ Dk
 iL
 Te
 fx
-fx
-fx
+gD
+XM
 Te
 iL
 ct
@@ -53498,8 +53546,8 @@ Dk
 Te
 vM
 ea
-qC
-ea
+gD
+rl
 JP
 Te
 ct

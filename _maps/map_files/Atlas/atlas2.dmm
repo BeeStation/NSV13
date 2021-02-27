@@ -3063,14 +3063,15 @@
 /area/crew_quarters/bar/mess_hall)
 "qk" = (
 /obj/effect/spawner/structure/window/reinforced,
-/obj/machinery/door/poddoor/ship/preopen{
-	id = "captainofficeshutters"
-	},
 /obj/structure/cable{
 	icon_state = "0-8"
 	},
 /obj/structure/cable{
 	icon_state = "4-8"
+	},
+/obj/machinery/door/poddoor/shutters/ship/preopen{
+	dir = 4;
+	id = "atlas_xo"
 	},
 /turf/open/floor/plating,
 /area/crew_quarters/heads/xo)
@@ -4461,6 +4462,9 @@
 	icon_state = "4-8"
 	},
 /obj/effect/landmark/zebra_interlock_point,
+/obj/machinery/door/firedoor/border_only{
+	dir = 8
+	},
 /turf/open/floor/monotile,
 /area/bridge/cic)
 "wX" = (
@@ -6400,9 +6404,7 @@
 /turf/closed/wall/steel,
 /area/crew_quarters/heads/cmo)
 "GN" = (
-/obj/machinery/computer/ship/viewscreen{
-	pixel_y = 0
-	},
+/obj/machinery/computer/ship/viewscreen,
 /turf/closed/wall/r_wall,
 /area/bridge/cic)
 "GT" = (
@@ -7616,14 +7618,15 @@
 /area/medical/medbay)
 "Mp" = (
 /obj/effect/spawner/structure/window/reinforced,
-/obj/machinery/door/poddoor/ship/preopen{
-	id = "captainofficeshutters"
-	},
 /obj/structure/cable{
 	icon_state = "0-8"
 	},
 /obj/structure/cable{
 	icon_state = "4-8"
+	},
+/obj/machinery/door/poddoor/shutters/ship/preopen{
+	dir = 4;
+	id = "atlas_cap"
 	},
 /turf/open/floor/plating,
 /area/crew_quarters/heads/captain)
@@ -9936,8 +9939,8 @@
 /area/hydroponics)
 "YR" = (
 /obj/structure/hull_plate,
-/obj/machinery/ship_weapon/gauss_gun/north{
-	layer = 3
+/obj/structure/ladder{
+	pixel_y = 16
 	},
 /turf/open/floor/engine/airless,
 /area/space/nearstation)
@@ -41854,9 +41857,9 @@ tz
 HI
 mK
 mK
+vW
 mK
 mK
-YR
 HG
 SX
 Ku
@@ -42111,7 +42114,7 @@ HX
 HI
 mK
 mK
-mK
+vW
 mK
 mK
 HG
@@ -42368,7 +42371,7 @@ MF
 HI
 mK
 mK
-mK
+vW
 mK
 mK
 HG
@@ -42625,9 +42628,9 @@ Bl
 HI
 dn
 HI
+vW
 mK
 mK
-YR
 HG
 ZR
 BJ
@@ -42882,7 +42885,7 @@ ot
 na
 ss
 BH
-mK
+YR
 mK
 mK
 HG
@@ -49578,9 +49581,9 @@ we
 mK
 we
 mK
-vW
-vW
-vW
+mK
+mK
+mK
 mK
 we
 mK
