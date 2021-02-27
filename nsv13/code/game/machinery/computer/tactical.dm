@@ -7,6 +7,8 @@
 	circuit = /obj/item/circuitboard/computer/ship/tactical_computer
 
 /obj/machinery/computer/ship/tactical/ui_interact(mob/user, ui_key = "main", datum/tgui/ui = null, force_open = 0, datum/tgui/master_ui = null, datum/ui_state/state = GLOB.default_state) // Remember to use the appropriate state.
+	if(isobserver(user))
+		return
 	if(!has_overmap())
 		var/sound = pick('nsv13/sound/effects/computer/error.ogg','nsv13/sound/effects/computer/error2.ogg','nsv13/sound/effects/computer/error3.ogg')
 		playsound(src, sound, 100, 1)
