@@ -37,6 +37,9 @@ GLOBAL_LIST(admin_antag_list)
 	popup.set_content(rustg_file_read(file))
 	popup.open(FALSE)
 
+/datum/antagonist/proc/get_asset_url_from(match)
+	return SSassets.transport.get_asset_url(match)
+
 /datum/antagonist/New()
 	GLOB.antagonists += src
 	typecache_datum_blacklist = typecacheof(typecache_datum_blacklist)
