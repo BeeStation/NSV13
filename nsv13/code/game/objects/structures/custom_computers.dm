@@ -1,4 +1,3 @@
-// "Console" variants of regular computers, look in nsv13/code/game/machinery/computer for NSV computer functionality.
 /obj/machinery/computer/ship/helm/console
 	icon = 'nsv13/goonstation/icons/obj/computer.dmi'
 	icon_keyboard = null

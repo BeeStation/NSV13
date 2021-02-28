@@ -54,4 +54,3 @@
 	user.visible_message("<span class='warning'>[user] shorts out [src]!</span>",
 						"<span class='notice'>You short out the IFF protocols on [src].</span>",
 						"Bzzzt.")
-	icon_state = "iff_hacked"

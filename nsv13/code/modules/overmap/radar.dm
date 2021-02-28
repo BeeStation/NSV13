@@ -1,3 +1,29 @@
+/obj/item/circuitboard/computer/ship/dradis
+	name = "circuit board (dradis computer)"
+	build_path = /obj/machinery/computer/ship/dradis
+
+/datum/design/board/dradis_circuit
+	name = "Computer Design (Dradis Computer)"
+	desc = "Allows for the construction of a dradis console."
+	id = "dradis_circuit"
+	materials = list(/datum/material/glass = 2000, /datum/material/copper = 500)
+	build_path = /obj/item/circuitboard/computer/ship/dradis
+	category = list("Computer Boards")
+	departmental_flags = DEPARTMENTAL_FLAG_ENGINEERING
+
+/obj/item/circuitboard/computer/ship/dradis/mining
+	name = "circuit board (minig dradis computer)"
+	build_path = /obj/machinery/computer/ship/dradis/mining
+
+/datum/design/board/mining_dradis_circuit
+	name = "Computer Design (Mining dradis Computer)"
+	desc = "Allows for the construction of a dradis console."
+	id = "mining_dradis_circuit"
+	materials = list(/datum/material/glass = 5000, /datum/material/copper = 1000)
+	build_path = /obj/item/circuitboard/computer/ship/dradis/mining
+	category = list("Computer Boards")
+	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+
 #define MIN_SONAR_DELAY 5 SECONDS
 #define MAX_SONAR_DELAY 60 SECONDS
 #define SONAR_VISIBILITY_PENALTY 5 SECONDS
