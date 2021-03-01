@@ -4,7 +4,7 @@
 #define FTL_STATE_JUMPING 4
 
 /datum/star_system/proc/add_ship(obj/structure/overmap/OM)
-	if(!LAZYFIND(system_contents, OM))
+	if(!system_contents.Find(OM))
 		system_contents += OM	//Lets be safe while I cast some black magic.
 	if(!occupying_z && OM.z) //Does this system have a physical existence? if not, we'll set this now so that any inbound ships jump to the same Z-level that we're on.
 		occupying_z = OM.z

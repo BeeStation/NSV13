@@ -211,6 +211,8 @@ GLOBAL_LIST_EMPTY(ai_goals)
 			target.system_contents += OM
 			if(!target.occupying_z)
 				STOP_PROCESSING(SSphysics_processing, OM)
+				if(OM.physics2d)
+					STOP_PROCESSING(SSphysics_processing, OM.physics2d)
 				var/backupx = OM.x
 				var/backupy = OM.y
 				OM.moveToNullspace()
@@ -219,9 +221,12 @@ GLOBAL_LIST_EMPTY(ai_goals)
 				else
 					target.contents_positions[OM] = list("x" = rand(15, 240), "y" = rand(15, 240))
 			else
+				if(!OM.z)
+					START_PROCESSING(SSphysics_processing, OM)
+					if(OM.physics2d)
+						START_PROCESSING(SSphysics_processing, OM.physics2d)
 				target.add_ship(OM)
 			current_system.system_contents -= OM
-			target.system_contents += OM
 			if(alignment != "nanotrasen" && alignment != "solgov") //NT, SGC or whatever don't count as enemies that NT hire you to kill.
 				current_system.enemies_in_system -= OM
 				target.enemies_in_system += OM
