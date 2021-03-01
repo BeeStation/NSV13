@@ -1,6 +1,6 @@
 /obj/item/twohanded/fireaxe/scramaxe
 	name = "SCRAM Axe"
-	desc = "A artifact from the old days. Where we werent dependent on expensive computers to help with our nuclear reactors. Where all that was between you and certain death was 1 man. With a trusty axe. To cut the control rod rope"
+	desc = "A artifact from the old days. Where we weren't dependent on expensive computers to help with our nuclear reactors. Where all that was between you and certain death was 1 man. With a trusty axe. To cut the control rod rope"
 
 /obj/item/twohanded/fireaxe/scramaxe/afterattack(atom/A, mob/user, proximity)
 	. = ..()
