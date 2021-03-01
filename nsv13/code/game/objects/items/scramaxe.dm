@@ -4,8 +4,9 @@
 
 /obj/item/twohanded/fireaxe/scramaxe/afterattack(atom/A, mob/user, proximity)
 	. = ..()
-	if(istype(A, /obj/machinery/atmospherics/components/binary/stormdrive_reactor))
-		var/obj/machinery/atmospherics/components/binary/stormdrive_reactor/W = A
-		W.control_rod_percent = 100
-		W.update_icon()
-		to_chat(user,"<span class='danger'>Your not sure why. But hitting the reactor with the axe caused the control rods to drop!</span>")
+	if(SEND_SIGNAL(src, COMSIG_ITEM_IS_WIELDED) & COMPONENT_WIELDED)
+		if(istype(A, /obj/machinery/atmospherics/components/binary/stormdrive_reactor))
+			var/obj/machinery/atmospherics/components/binary/stormdrive_reactor/W = A
+			W.control_rod_percent = 100
+			W.update_icon()
+			to_chat(user,"<span class='danger'>Your not sure why. But hitting the reactor with the axe caused the control rods to drop!</span>")
