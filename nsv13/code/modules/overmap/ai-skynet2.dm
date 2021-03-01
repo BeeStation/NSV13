@@ -211,8 +211,13 @@ GLOBAL_LIST_EMPTY(ai_goals)
 			target.system_contents += OM
 			if(!target.occupying_z)
 				STOP_PROCESSING(SSphysics_processing, OM)
+				var/backupx = OM.x
+				var/backupy = OM.y
 				OM.moveToNullspace()
-				target.contents_positions[OM] = list("x" = OM.x, "y" = OM.y) //Cache the ship's position so we can regenerate it later.
+				if(backupx && backupy)
+					target.contents_positions[OM] = list("x" = backupx, "y" = backupy) //Cache the ship's position so we can regenerate it later.
+				else
+					target.contents_positions[OM] = list("x" = rand(15, 240), "y" = rand(15, 240))
 			else
 				var/turf/target_turf = locate(OM.x, OM.y, target.occupying_z)
 				if(target_turf)
@@ -598,24 +603,26 @@ GLOBAL_LIST_EMPTY(ai_goals)
 	faction = SSstar_system.faction_by_id(faction_id)
 	reward *= size //Bigger fleet = larger reward
 	if(current_system)
+		current_system.alignment = alignment
+		if(current_system.alignment != initial(current_system.alignment))
+			current_system.mission_sector = TRUE
 		assemble(current_system)
 	addtimer(CALLBACK(src, .proc/move), initial_move_delay)
 
-//A ship has entered a system with a fleet present. Assemble the fleet so that it lives in this system now.
+//A ship has entered a system. Assemble the fleet so that it lives in this system now.
 
 /datum/fleet/proc/assemble(datum/star_system/SS, difficulty=size)
 	if(!SS)
 		return
-	SS.alignment = alignment
-	if(!SS.occupying_z) //Only loaded in levels are supported at this time. TODO: Fix this.
-		return FALSE
-	if(instantiated)
+	if(SS.occupying_z && instantiated)
 		for(var/obj/structure/overmap/unbox in all_ships)
 			if(SS.occupying_z != unbox.z)	//If we have ships 'stored' in nullspace or somewhere else, get them all into our system.
 				SS.add_ship(unbox)
 				START_PROCESSING(SSphysics_processing, unbox) //And let's restart its processing since it's likely stopped if they were in nullspace.
 				if(unbox.physics2d)
 					START_PROCESSING(SSphysics_processing, unbox.physics2d) //Respawn this ship's collider so it can start colliding once more
+		return
+	if(!SS.occupying_z && instantiated)
 		return
 	instantiated = TRUE
 	/*Fleet comp! Let's use medium as an example:
@@ -636,7 +643,11 @@ GLOBAL_LIST_EMPTY(ai_goals)
 				current_system.enemies_in_system += member
 			all_ships += member
 			RegisterSignal(member, COMSIG_PARENT_QDELETING , /datum/fleet/proc/remove_ship, member)
-			SS.add_ship(member)
+			if(SS.occupying_z)
+				SS.add_ship(member)
+			else
+				LAZYADD(SS.system_contents, member)
+				SS.contents_positions[member] = list("x" = rand(15, 240), "y" = rand(15, 240)) //If the system isn't loaded, just give them ranomized positions..
 		}
 	if(battleship_types?.len)
 		for(var/I=0; I<max(round(difficulty/4), 1);I++){
@@ -649,7 +660,11 @@ GLOBAL_LIST_EMPTY(ai_goals)
 				current_system.enemies_in_system += member
 			all_ships += member
 			RegisterSignal(member, COMSIG_PARENT_QDELETING , /datum/fleet/proc/remove_ship, member)
-			SS.add_ship(member)
+			if(SS.occupying_z)
+				SS.add_ship(member)
+			else
+				LAZYADD(SS.system_contents, member)
+				SS.contents_positions[member] = list("x" = rand(15, 240), "y" = rand(15, 240)) //If the system isn't loaded, just give them ranomized positions..
 		}
 	if(supply_types?.len)
 		for(var/I=0; I<max(round(difficulty/4), 1);I++){
@@ -662,7 +677,11 @@ GLOBAL_LIST_EMPTY(ai_goals)
 				current_system.enemies_in_system += member
 			all_ships += member
 			RegisterSignal(member, COMSIG_PARENT_QDELETING , /datum/fleet/proc/remove_ship, member)
-			SS.add_ship(member)
+			if(SS.occupying_z)
+				SS.add_ship(member)
+			else
+				LAZYADD(SS.system_contents, member)
+				SS.contents_positions[member] = list("x" = rand(15, 240), "y" = rand(15, 240)) //If the system isn't loaded, just give them ranomized positions..
 		}
 	return TRUE
 
@@ -1248,7 +1267,7 @@ Seek a ship thich we'll station ourselves around
 	if(!istype(target, /obj/structure/overmap)) //Don't know why it wouldn't be..but yeah
 		return
 	var/obj/structure/overmap/OM = target
-	if(OM.faction == src.faction)
+	if(OM.faction == faction)
 		return
 	last_target = target
 	if(ai_can_launch_fighters) //Found a new enemy? Release the hounds
@@ -1273,7 +1292,8 @@ Seek a ship thich we'll station ourselves around
 		return
 	enemies += target
 	if(OM.role == MAIN_OVERMAP)
-		set_security_level(SEC_LEVEL_RED) //Action stations when the ship is under attack, if it's the main overmap.
+		if(GLOB.security_level < SEC_LEVEL_RED)	//Lets not pull them out of Zebra / Delta
+			set_security_level(SEC_LEVEL_RED) //Action stations when the ship is under attack, if it's the main overmap.
 		SSstar_system.last_combat_enter = world.time //Tag the combat on the SS
 		SSstar_system.nag_stacks = 0 //Reset overmap spawn modifier
 		SSstar_system.nag_interval = initial(SSstar_system.nag_interval)
