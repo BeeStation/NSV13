@@ -647,7 +647,10 @@ GLOBAL_LIST_EMPTY(ai_goals)
 				SS.add_ship(member)
 			else
 				LAZYADD(SS.system_contents, member)
-				SS.contents_positions[member] = list("x" = rand(15, 240), "y" = rand(15, 240)) //If the system isn't loaded, just give them ranomized positions..
+				SS.contents_positions[member] = list("x" = rand(15, 240), "y" = rand(15, 240)) //If the system isn't loaded, just give them ranomized positions.
+				STOP_PROCESSING(SSphysics_processing, member)
+				if(member.physics2d)
+					STOP_PROCESSING(SSphysics_processing, member.physics2d)
 		}
 	if(battleship_types?.len)
 		for(var/I=0; I<max(round(difficulty/4), 1);I++){
@@ -665,6 +668,9 @@ GLOBAL_LIST_EMPTY(ai_goals)
 			else
 				LAZYADD(SS.system_contents, member)
 				SS.contents_positions[member] = list("x" = rand(15, 240), "y" = rand(15, 240)) //If the system isn't loaded, just give them ranomized positions..
+				STOP_PROCESSING(SSphysics_processing, member)
+				if(member.physics2d)
+					STOP_PROCESSING(SSphysics_processing, member.physics2d)
 		}
 	if(supply_types?.len)
 		for(var/I=0; I<max(round(difficulty/4), 1);I++){
@@ -682,6 +688,9 @@ GLOBAL_LIST_EMPTY(ai_goals)
 			else
 				LAZYADD(SS.system_contents, member)
 				SS.contents_positions[member] = list("x" = rand(15, 240), "y" = rand(15, 240)) //If the system isn't loaded, just give them ranomized positions..
+				STOP_PROCESSING(SSphysics_processing, member)
+				if(member.physics2d)
+					STOP_PROCESSING(SSphysics_processing, member.physics2d)
 		}
 	return TRUE
 
