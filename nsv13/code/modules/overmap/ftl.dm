@@ -72,8 +72,8 @@
 		var/list/info = contents_positions[ship]
 		ship.forceMove(get_turf(locate(info["x"], info["y"], occupying_z))) //Let's unbox that ship. Nice.
 		if(istype(ship, /obj/structure/overmap))
-			START_PROCESSING(SSphysics_processing, ship) //And let's stop it from processing too.
 			var/obj/structure/overmap/OM = ship
+			START_PROCESSING(SSphysics_processing, OM) //And let's restart its processing too..
 			if(OM.physics2d)
 				START_PROCESSING(SSphysics_processing, OM.physics2d) //Respawn this ship's collider so it can start colliding once more
 	}

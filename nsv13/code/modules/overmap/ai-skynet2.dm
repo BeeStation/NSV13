@@ -219,9 +219,7 @@ GLOBAL_LIST_EMPTY(ai_goals)
 				else
 					target.contents_positions[OM] = list("x" = rand(15, 240), "y" = rand(15, 240))
 			else
-				var/turf/target_turf = locate(OM.x, OM.y, target.occupying_z)
-				if(target_turf)
-					OM.forceMove(target_turf)
+				target.add_ship(OM)
 			current_system.system_contents -= OM
 			target.system_contents += OM
 			if(alignment != "nanotrasen" && alignment != "solgov") //NT, SGC or whatever don't count as enemies that NT hire you to kill.
