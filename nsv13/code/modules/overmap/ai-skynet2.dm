@@ -214,7 +214,9 @@ GLOBAL_LIST_EMPTY(ai_goals)
 				OM.moveToNullspace()
 				target.contents_positions[OM] = list("x" = OM.x, "y" = OM.y) //Cache the ship's position so we can regenerate it later.
 			else
-				OM.forceMove(get_turf(locate(OM.x, OM.y, target.occupying_z)))
+				var/turf/target_turf = locate(OM.x, OM.y, target.occupying_z)
+				if(target_turf)
+					OM.forceMove(target_turf)
 			current_system.system_contents -= OM
 			target.system_contents += OM
 			if(alignment != "nanotrasen" && alignment != "solgov") //NT, SGC or whatever don't count as enemies that NT hire you to kill.
@@ -593,6 +595,8 @@ GLOBAL_LIST_EMPTY(ai_goals)
 		else
 			size = round(size + (num_players / 10) ) //Lightly scales things up.
 	size = CLAMP(size, FLEET_DIFFICULTY_EASY, INFINITY)
+	faction = SSstar_system.faction_by_id(faction_id)
+	reward *= size //Bigger fleet = larger reward
 	if(current_system)
 		assemble(current_system)
 	addtimer(CALLBACK(src, .proc/move), initial_move_delay)
@@ -605,10 +609,15 @@ GLOBAL_LIST_EMPTY(ai_goals)
 	SS.alignment = alignment
 	if(!SS.occupying_z) //Only loaded in levels are supported at this time. TODO: Fix this.
 		return FALSE
-	faction = SSstar_system.faction_by_id(faction_id)
+	if(instantiated)
+		for(var/obj/structure/overmap/unbox in all_ships)
+			if(SS.occupying_z != unbox.z)	//If we have ships 'stored' in nullspace or somewhere else, get them all into our system.
+				SS.add_ship(unbox)
+				START_PROCESSING(SSphysics_processing, unbox) //And let's restart its processing since it's likely stopped if they were in nullspace.
+				if(unbox.physics2d)
+					START_PROCESSING(SSphysics_processing, unbox.physics2d) //Respawn this ship's collider so it can start colliding once more
+		return
 	instantiated = TRUE
-	current_system = SS
-	reward *= size //Bigger fleet = larger reward
 	/*Fleet comp! Let's use medium as an example:
 	6 total
 	3 destroyers (1/2 of the fleet size)
