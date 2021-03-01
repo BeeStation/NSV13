@@ -9,8 +9,10 @@
 			var/obj/machinery/atmospherics/components/binary/stormdrive_reactor/W = A
 			W.control_rod_percent = 100
 			W.update_icon()
+			message_admins("[ADMIN_LOOKUPFLW(user)] SCRAMMED [W] with [src] at [AREACOORD(user)]")
 			to_chat(user,"<span class='danger'>Your not sure why. But hitting [W.name] with [src] caused the control rods to drop!</span>")
 		if(istype(A,/obj/machinery/atmospherics/components/trinary/nuclear_reactor))
 			var/obj/machinery/atmospherics/components/trinary/nuclear_reactor/W = A
 			W.desired_k = 0
+			message_admins("[ADMIN_LOOKUPFLW(user)] SCRAMMED [W] with [src] at [AREACOORD(user)]")
 			to_chat(user,"<span class='danger'>Your not sure why. But hitting [W.name] with [src] caused the control rods to drop!</span>")
