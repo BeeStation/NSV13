@@ -232,6 +232,7 @@ GLOBAL_LIST_EMPTY(ai_goals)
 				target.enemies_in_system += OM
 			if(current_system.contents_positions[OM]) //If we were loaded, but the system was not.
 				current_system.contents_positions -= OM
+			OM.current_system = target
 	target.fleets += src
 	current_system = target
 	if(target.alignment != alignment)
