@@ -293,16 +293,19 @@ GLOBAL_LIST_EMPTY(ai_goals)
 	else
 		current_system.alignment = initial(current_system.alignment)
 		current_system.mission_sector = FALSE
-	faction = SSstar_system.faction_by_id(faction_id)
-	faction?.lose_influence(reward)
+	var/player_caused = FALSE
 	for(var/obj/structure/overmap/OOM in current_system.system_contents)
 		if(!OOM.mobs_in_ship.len)
 			continue
+		player_caused = TRUE
 		for(var/mob/M in OOM.mobs_in_ship)
 			if(M.client)
 				var/client/C = M.client
 				if(C.chatOutput && !C.chatOutput.broken && C.chatOutput.loaded)
 					C.chatOutput.stopMusic()
+	if(player_caused)	//Only modify influence if players caused this, otherwise someone else claimed the kill and it doesn't modify influence for the purpose of Patrol completion.
+		faction = SSstar_system.faction_by_id(faction_id)
+		faction?.lose_influence(reward)
 	QDEL_NULL(src)
 
 /datum/fleet/nanotrasen/earth/defeat()
@@ -612,7 +615,7 @@ GLOBAL_LIST_EMPTY(ai_goals)
 		assemble(current_system)
 	addtimer(CALLBACK(src, .proc/move), initial_move_delay)
 
-//A ship has entered a system. Assemble the fleet so that it lives in this system now.
+//A fleet has entered a system. Assemble the fleet so that it lives in this system now.
 
 /datum/fleet/proc/assemble(datum/star_system/SS, difficulty=size)
 	if(!SS)
@@ -625,8 +628,12 @@ GLOBAL_LIST_EMPTY(ai_goals)
 				if(unbox.physics2d)
 					START_PROCESSING(SSphysics_processing, unbox.physics2d) //Respawn this ship's collider so it can start colliding once more
 		return
-	if(!SS.occupying_z && instantiated)
+	if(instantiated)
 		return
+	SS.alignment = alignment
+	if(SS.alignment != initial(SS.alignment))
+		SS.mission_sector = TRUE
+	current_system = SS	//It should already have a system but lets be safe and move it.
 	instantiated = TRUE
 	/*Fleet comp! Let's use medium as an example:
 	6 total
