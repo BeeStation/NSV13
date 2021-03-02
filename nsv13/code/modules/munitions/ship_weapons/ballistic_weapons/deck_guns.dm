@@ -64,10 +64,6 @@
 	if(!core)
 		core = locate(/obj/machinery/deck_turret) in orange(1, src)
 
-/obj/item/circuitboard/computer/deckgun
-	name = "Deck gun loading computer (circuit)"
-	build_path = /obj/machinery/computer/deckgun
-
 /obj/machinery/computer/deckgun/ui_interact(mob/user, ui_key, datum/tgui/ui, force_open, datum/tgui/master_ui, datum/ui_state/state)
 	ui = SStgui.try_update_ui(user, src, ui_key, ui, force_open)
 	if(!ui)
@@ -221,6 +217,7 @@
 	icon = 'nsv13/icons/obj/munitions/deck_gun.dmi'
 	icon_state = "powder"
 	density = TRUE
+	w_class = WEIGHT_CLASS_HUGE // Bag is big
 	var/volatility = 1 //Gunpowder is volatile...
 	var/power = 0.5
 
@@ -242,7 +239,8 @@
 	icon_state = "torpedo"
 	desc = "A large shell designed to deliver a high-yield warhead upon high-speed impact with solid objects. You need to arm it with a multitool before firing."
 	anchored = FALSE
-	move_resist = MOVE_FORCE_EXTREMELY_STRONG
+	w_class = WEIGHT_CLASS_HUGE
+	move_resist = MOVE_FORCE_EXTREMELY_STRONG //Possible to pick up with two hands
 	density = TRUE
 	projectile_type = /obj/item/projectile/bullet/mac_round //What torpedo type we fire
 	obj_integrity = 300 //Beefy, relatively hard to use as a grief tool.
@@ -267,6 +265,10 @@
 	projectile_type = /obj/item/projectile/bullet/mac_round/cannonshot
 	obj_integrity = 100
 	max_integrity = 100
+	w_class = WEIGHT_CLASS_GIGANTIC
+	climbable = TRUE //No ballin'
+	climb_time = 25
+	climb_stun = 3
 	explosive = FALSE //Cannonshot is just iron
 	volatility = 0
 	explode_when_hit = FALSE //Literally just iron
@@ -412,51 +414,6 @@
 		message_admins("Deck turret has no gun core! [src.x], [src.y], [src.z])")
 		return
 	core.update_parts()
-
-/obj/item/circuitboard/machine/deck_gun
-	name = "Deck gun core (circuitboard)"
-	req_components = list(
-		/obj/item/stack/sheet/mineral/titanium = 20,
-		/obj/item/stack/cable_coil = 5)
-	build_path = /obj/machinery/deck_turret
-
-/obj/item/circuitboard/machine/deck_gun/powder
-	name = "Deck gun powder gate (circuitboard)"
-	req_components = list(
-		/obj/item/stack/sheet/mineral/titanium = 20,
-		/obj/item/stack/sheet/mineral/copper = 20,
-		/obj/item/stack/cable_coil = 5)
-	build_path = /obj/machinery/deck_turret/powder_gate
-
-/obj/item/circuitboard/machine/deck_gun/payload
-	name = "Deck gun payload gate (circuitboard)"
-	req_components = list(
-		/obj/item/stack/sheet/mineral/titanium = 40,
-		/obj/item/stack/sheet/mineral/copper = 10,
-		/obj/item/ship_weapon/parts/railgun_rail = 1,
-		/obj/item/ship_weapon/parts/loading_tray=1,
-		/obj/item/stack/cable_coil = 10)
-	build_path = /obj/machinery/deck_turret/payload_gate
-
-//Upgrades
-/obj/item/circuitboard/machine/deck_gun/autoelevator
-	name = "Deck gun auto-elevator (circuitboard)"
-	req_components = list(
-		/obj/item/stack/sheet/mineral/titanium = 40,
-		/obj/item/stack/sheet/mineral/copper = 20,
-		/obj/item/stack/sheet/mineral/diamond = 5,
-		/obj/item/stack/cable_coil = 10)
-	build_path = /obj/machinery/deck_turret/autoelevator
-
-/obj/item/circuitboard/machine/deck_gun/autorepair
-	name = "Deck gun auto-repair module (circuitboard)"
-	req_components = list(
-		/obj/item/stack/sheet/mineral/titanium = 40,
-		/obj/item/stack/sheet/mineral/copper = 20,
-		/obj/item/stack/sheet/mineral/diamond = 2,
-		/obj/item/stack/sheet/mineral/uranium = 10,
-		/obj/item/stack/cable_coil = 10)
-	build_path = /obj/machinery/deck_turret/autorepair
 
 //The actual gun assembly.
 /obj/structure/ship_weapon/mac_assembly/artillery_frame

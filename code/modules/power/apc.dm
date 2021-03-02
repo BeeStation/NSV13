@@ -788,17 +788,16 @@
 			if(stomach.crystal_charge >= ETHEREAL_CHARGE_FULL)
 				to_chat(H, "<span class='warning'>Your charge is full!</span>")
 				return
-			E.drain_time = world.time + APC_DRAIN_TIME
+
 			to_chat(H, "<span class='notice'>You start channeling some power through the APC into your body.</span>")
-			if(do_after(user, APC_DRAIN_TIME, target = src))
+			while(do_after(user, APC_DRAIN_TIME, target = src))
+				E.drain_time = world.time + APC_DRAIN_TIME
 				if(cell.charge <= (cell.maxcharge / 2) || (stomach.crystal_charge >= ETHEREAL_CHARGE_FULL))
 					to_chat(H, "<span class='warning'>You can't receive more charge from the APC.</span>")
 					return
 				to_chat(H, "<span class='notice'>You receive some charge from the APC.</span>")
 				stomach.adjust_charge(APC_POWER_GAIN)
 				cell.charge -= APC_POWER_GAIN
-			else
-				to_chat(H, "<span class='warning'>You fail to receive charge from the APC!</span>")
 			return
 		if((H.a_intent == INTENT_GRAB) && (E.drain_time < world.time))
 			if(cell.charge == cell.maxcharge)

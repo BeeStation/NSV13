@@ -1,80 +1,10 @@
 //Allows you to fully automate missile construction
-
-/datum/techweb_node/missile_automation
-	id = "missile_automation"
-	display_name = "Automated Missile Construction"
-	description = "Machines and tools to automate missile construction."
-	prereq_ids = list("explosive_weapons")
-	design_ids = list("missilebuilder", "slowconveyor", "missilewelder", "missilescrewer", "missilewirer", "missileassembler")
-	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 2500)
-	export_price = 5000
-
-/datum/design/missilebuilder
-	name = "Missile autowrencher"
-	desc = "A machine that can perform part of the missile construction process."
-	id = "missilebuilder"
-	build_type = PROTOLATHE
-	materials = list(/datum/material/iron = 10000, /datum/material/glass = 2500, /datum/material/copper = 2500, /datum/material/plasma = 10000)
-	build_path = /obj/item/circuitboard/missile_builder
-	category = list("Advanced Munitions")
-	departmental_flags = DEPARTMENTAL_FLAG_CARGO
-
-/datum/design/missilewelder
-	name = "Missile autowelder"
-	desc = "A machine that can perform part of the missile construction process."
-	id = "missilewelder"
-	build_type = PROTOLATHE
-	materials = list(/datum/material/iron = 10000, /datum/material/glass = 2500, /datum/material/copper = 2500, /datum/material/plasma = 10000)
-	build_path = /obj/item/circuitboard/missile_builder/welder
-	category = list("Advanced Munitions")
-	departmental_flags = DEPARTMENTAL_FLAG_CARGO
-
-/datum/design/missilescrewer
-	name = "Missile autoscrewer"
-	desc = "A machine that can perform part of the missile construction process."
-	id = "missilescrewer"
-	build_type = PROTOLATHE
-	materials = list(/datum/material/iron = 10000, /datum/material/glass = 2500, /datum/material/copper = 2500, /datum/material/plasma = 10000)
-	build_path = /obj/item/circuitboard/missile_builder/screwdriver
-	category = list("Advanced Munitions")
-	departmental_flags = DEPARTMENTAL_FLAG_CARGO
-
-/datum/design/missilewirer
-	name = "Missile autowirer"
-	desc = "A machine that can perform part of the missile construction process."
-	id = "missilewirer"
-	build_type = PROTOLATHE
-	materials = list(/datum/material/iron = 10000, /datum/material/glass = 2500, /datum/material/copper = 2500, /datum/material/plasma = 10000)
-	build_path = /obj/item/circuitboard/missile_builder/wirer
-	category = list("Advanced Munitions")
-	departmental_flags = DEPARTMENTAL_FLAG_CARGO
-
-/datum/design/missileassembler
-	name = "Missile assembler"
-	desc = "A specialist robotic arm that can fit missile casings with components held in storage."
-	id = "missileassembler"
-	build_type = PROTOLATHE
-	materials = list(/datum/material/iron = 10000, /datum/material/glass = 2500, /datum/material/copper = 2500, /datum/material/plasma = 10000)
-	build_path = /obj/item/circuitboard/missile_builder/assembler
-	category = list("Advanced Munitions")
-	departmental_flags = DEPARTMENTAL_FLAG_CARGO
-
-/datum/design/slowconveyor
-	name = "Low Speed Conveyor"
-	desc = "A specialist 'fire and forget' conveyor tuned to run at the exact speed that missile construction machines operate at."
-	id = "slowconveyor"
-	build_type = PROTOLATHE
-	materials = list(/datum/material/iron = 1000)
-	build_path = /obj/item/stack/conveyor/slow
-	category = list("Advanced Munitions")
-	departmental_flags = DEPARTMENTAL_FLAG_CARGO
-
 /obj/machinery/missile_builder
 	name = "Seegson model 'Ford' robotic autowrench"
 	desc = "An advanced robotic arm that can be arrayed with other such devices to form an assembly line for guided munition production. Swipe it with your ID to access maintenance mode options (only on some models!)"
 	icon = 'nsv13/icons/obj/munitions/assembly.dmi'
 	icon_state = "assemblybase"
-	circuit = /obj/item/circuitboard/missile_builder
+	circuit = /obj/item/circuitboard/machine/missile_builder
 	anchored = TRUE
 	can_be_unanchored = TRUE
 	density = TRUE
@@ -106,40 +36,26 @@
 /obj/item/stack/conveyor/slow
 	name = "Slow conveyor assembly"
 	conveyor_type = /obj/machinery/conveyor/slow
+
 /obj/machinery/conveyor/slow
 	name = "Slow conveyor"
 	speed_process = FALSE
-
-/obj/item/circuitboard/missile_builder
-	name = "Seegson model 'Ford' robotic autowrench (board)"
-	build_path = /obj/machinery/missile_builder
-
-/obj/item/circuitboard/missile_builder/wirer
-	name = "Seegson model 'Ford' robotic autowirer (board)"
-	build_path = /obj/machinery/missile_builder/wirer
+	stack_type = /obj/item/stack/conveyor/slow //What does this conveyor drop when decon'd?
 
 /obj/machinery/missile_builder/wirer
 	name = "Seegson model 'Ford' robotic autowirer"
 	target_states = list(8)
-	circuit = /obj/item/circuitboard/missile_builder/wirer
-
-/obj/item/circuitboard/missile_builder/welder
-	name = "Seegson model 'Ford' robotic autowelder (board)"
-	build_path = /obj/machinery/missile_builder/welder
+	circuit = /obj/item/circuitboard/machine/missile_builder/wirer
 
 /obj/machinery/missile_builder/welder
 	name = "Seegson model 'Ford' robotic autowelder"
 	target_states = list(10)
-	circuit = /obj/item/circuitboard/missile_builder/welder
-
-/obj/item/circuitboard/missile_builder/screwdriver
-	name = "Seegson model 'Ford' robotic bolt driver (board)"
-	build_path = /obj/machinery/missile_builder/screwdriver
+	circuit = /obj/item/circuitboard/machine/missile_builder/welder
 
 /obj/machinery/missile_builder/screwdriver
 	name = "Seegson model 'Ford' robotic bolt driver"
 	target_states = list(3,5)
-	circuit = /obj/item/circuitboard/missile_builder/screwdriver
+	circuit = /obj/item/circuitboard/machine/missile_builder/screwdriver
 
 /obj/machinery/missile_builder/AltClick(mob/user)
 	. = ..()
@@ -195,16 +111,12 @@
 	arm.icon_state = "[arm_icon_state]_anim"
 	playsound(src, 'sound/items/drill_use.ogg', 100, 1)
 
-/obj/item/circuitboard/missile_builder/assembler
-	name = "Seegson model 'Ford' robotic missile assembly arm (board)"
-	build_path = /obj/machinery/missile_builder/assembler
-
 /obj/machinery/missile_builder/assembler
 	name = "Robotic Missile Part Applicator"
 	arm_icon_state = "assembler2"
 	desc = "An assembly arm which can slot a multitude of missile components into casings for you! Swipe it with an ID to release its stored components."
 	req_one_access = list(ACCESS_MUNITIONS)
-	circuit = /obj/item/circuitboard/missile_builder/assembler
+	circuit = /obj/item/circuitboard/machine/missile_builder/assembler
 
 /obj/machinery/missile_builder/assembler/attackby(obj/item/I, mob/living/user, params)
 	. = ..()

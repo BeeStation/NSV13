@@ -4,6 +4,7 @@
 #define STATE_CHAMBERED 4
 #define STATE_FIRING 5
 
+//Standard munitions console
 /obj/machinery/computer/ship/munitions_computer
 	name = "munitions control computer"
 	icon = 'nsv13/icons/obj/munitions.dmi'
@@ -53,18 +54,6 @@
 	// Using a multitool lets you link stuff
 	attack_hand(user)
 	return TRUE
-
-/obj/machinery/computer/ship/munitions_computer/attack_ai(mob/user)
-	. = ..()
-	attack_hand(user)
-
-/obj/machinery/computer/ship/munitions_computer/attack_robot(mob/user)
-	. = ..()
-	attack_hand(user)
-
-/obj/machinery/computer/ship/munitions_computer/attack_hand(mob/user)
-	. = ..()
-	ui_interact(user)
 
 /obj/machinery/computer/ship/munitions_computer/ui_interact(mob/user, ui_key = "main", datum/tgui/ui = null, force_open = 0, datum/tgui/master_ui = null, datum/ui_state/state = GLOB.default_state) // Remember to use the appropriate state.
 	ui = SStgui.try_update_ui(user, src, ui_key, ui, force_open)
@@ -135,43 +124,38 @@
 			P = user.get_active_held_item()
 	return P
 
-//Gauss overrides
-//The gaussgun is its own computer here because it needs to be interactible by people who are inside it, and I'm done with arsing around getting that to work ~Kmc after 3 hours of debugging TGUI
+//Ordenance monitoring console
+/obj/machinery/computer/ship/ordnance
+	name = "Seegson model ORD ordnance systems monitoring console"
+	desc = "This console provides a succinct overview of the ship-to-ship weapons."
+	icon_screen = "tactical"
+	circuit = /obj/item/circuitboard/computer/ship/ordnance_computer
 
-/obj/machinery/ship_weapon/gauss_gun/ui_interact(mob/user, ui_key = "main", datum/tgui/ui = null, force_open = 0, datum/tgui/master_ui = null, datum/ui_state/state = GLOB.contained_state) // Remember to use the appropriate state.
+/obj/machinery/computer/ship/ordnance/ui_interact(mob/user, ui_key, datum/tgui/ui, force_open, datum/tgui/master_ui, datum/ui_state/state)
+	if(!has_overmap())
+		var/sound = pick('nsv13/sound/effects/computer/error.ogg','nsv13/sound/effects/computer/error2.ogg','nsv13/sound/effects/computer/error3.ogg')
+		playsound(src, sound, 100, 1)
+		to_chat(user, "<span class='warning'>A warning flashes across [src]'s screen: Unable to locate thrust parameters, no registered ship stored in microprocessor.</span>")
+		return
+	ui_interact(user)
 	ui = SStgui.try_update_ui(user, src, ui_key, ui, force_open)
 	if(!ui)
-		ui = new(user, src, ui_key, "MunitionsComputer", name, 560, 600, master_ui, state)
+		ui = new(user, src, ui_key, "OrdnanceConsole", name, 560, 600, master_ui, state)
 		ui.open()
 
-/obj/machinery/ship_weapon/gauss_gun/ui_act(action, params, datum/tgui/ui)
-	if(..())
-		return
-	playsound(src.loc,'nsv13/sound/effects/fighters/switch.ogg', 50, FALSE)
-	switch(action)
-		if("toggle_load")
-			if(state == STATE_LOADED)
-				feed()
-			else
-				unload()
-		if("chamber")
-			chamber()
-		if("toggle_safety")
-			safety = !safety
-		if("toggle_pdc_mode")
-			cycle_firemode()
-
-/obj/machinery/ship_weapon/gauss_gun/ui_data(mob/user)
+/obj/machinery/computer/ship/ordnance/ui_data(mob/user)
+	. = ..()
 	var/list/data = list()
-	data["isgaussgun"] = TRUE //So what if I'm a hack. Sue me.
-	data["loaded"] = (state > STATE_LOADED) ? TRUE : FALSE
-	data["chambered"] = (state > STATE_FED) ? TRUE : FALSE
-	data["safety"] = safety
-	data["ammo"] = ammo.len
-	data["max_ammo"] = max_ammo
-	data["maint_req"] = (maintainable) ? maint_req : 25
-	data["max_maint_req"] = 25
-	data["pdc_mode"] = pdc_mode
+	for(var/datum/ship_weapon/SW_type in linked.weapon_types)
+		var/ammo = 0
+		var/max_ammo = 0
+		var/thename = SW_type.name
+		for(var/obj/machinery/ship_weapon/SW in SW_type.weapons["all"])
+			if(!SW)
+				continue
+			max_ammo += SW.get_max_ammo()
+			ammo += SW.get_ammo()
+		data["weapons"] += list(list("name" = thename, "ammo" = ammo, "maxammo" = max_ammo))
 	return data
 
 #undef STATE_NOTLOADED

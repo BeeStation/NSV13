@@ -8,17 +8,6 @@
 #define STATE_FED 3
 #define STATE_CHAMBERED 4
 #define STATE_FIRING 5
-
-/obj/item/ship_weapon/ammunition
-	var/projectile_type = null //What does the projectile look like on the overmap?
-	var/volatility = 0 //Is this ammo likely to go up in flames when hit or burned?
-	var/explode_when_hit = FALSE //If the ammo's volatile, can it be detonated by damage? Or just burning it.
-
-/obj/item/ship_weapon/ammunition/Initialize()
-	. = ..()
-	if(volatility > 0)
-		AddComponent(/datum/component/volatile, volatility, explode_when_hit)
-
 /**
  * Ship-to-ship weapons
  * To add a weapon type:

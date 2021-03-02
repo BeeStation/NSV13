@@ -357,6 +357,7 @@ Returns a faction datum by its name (case insensitive!)
 		//We need to instantiate the trader's shop now and give it info, so unfortunately these'll always load in.
 		var/obj/structure/overmap/trader/station13 = SSstar_system.spawn_anomaly(trader.station_type, src, TRUE)
 		station13.starting_system = name
+		station13.current_system = src
 		station13.set_trader(trader)
 		trader.generate_missions()
 	addtimer(CALLBACK(src, .proc/spawn_asteroids), 15 SECONDS)
@@ -536,8 +537,10 @@ Returns a faction datum by its name (case insensitive!)
 			event_chance = 70 //Highly unstable region of space.
 			create_wormhole()
 			return
+		/* Handled with boarders - replace me with something else
 		if("pirate")
 			possible_events = list(/datum/round_event_control/pirates) //Well what did you think was gonna happen when you jumped into a pirate system?
+		*/
 		if("radioactive")
 			parallax_property = "radiation_cloud" //All credit goes to https://www.filterforge.com/filters/11427.html
 			possible_events = list(/datum/round_event_control/radiation_storm/deadly)
@@ -800,7 +803,7 @@ Welcome to the neutral zone! Non corporate sanctioned traders with better gear a
 	threat_level = THREAT_LEVEL_UNSAFE
 	wormhole_connections = list("Feliciana")
 	adjacency_list = list()
-	fleet_type = /datum/fleet/pirate
+	fleet_type = /datum/fleet/pirate/tortuga
 
 /datum/star_system/sector2/rubicon
 	name = "Rubicon"
@@ -814,7 +817,7 @@ Welcome to the neutral zone! Non corporate sanctioned traders with better gear a
 	desc = "Many have attempted to cross the Rubicon, many have failed. This system bridges many different sectors together, and is an inroad for the largely unknown Abassi ridge nebula."
 
 /datum/star_system/random
-	name = "Randy random"
+	name = "Unknown Sector"
 	x = 0
 	y = 0
 	hidden = TRUE
@@ -888,13 +891,14 @@ Welcome to the neutral zone! Non corporate sanctioned traders with better gear a
 			var/datum/trader/randytrader = new x
 			var/obj/structure/overmap/trader/randystation = SSstar_system.spawn_anomaly(randytrader.station_type, randy)
 			randystation.starting_system = randy.name
+			randystation.current_system = randy
 			randystation.set_trader(randytrader)
 			randy.trader = randytrader
 			randytrader.generate_missions()
 
 
 		else if(prob(10))
-			var/x = pick(/datum/fleet/wolfpack, /datum/fleet/neutral, /datum/fleet/pirate, /datum/fleet/boarding, /datum/fleet/nanotrasen/light)
+			var/x = pick(/datum/fleet/wolfpack, /datum/fleet/neutral, /datum/fleet/pirate/raiding, /datum/fleet/boarding, /datum/fleet/nanotrasen/light)
 			var/datum/fleet/randyfleet = new x
 			randyfleet.current_system = randy
 			randyfleet.hide_movements = TRUE //Prevent the shot of spam this caused to R1497.

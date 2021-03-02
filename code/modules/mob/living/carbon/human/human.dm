@@ -78,6 +78,15 @@
 				stat(null, "Hivemind Vessels: [hivemind.hive_size] (+[hivemind.size_mod])")
 				stat(null, "Psychic Link Duration: [(hivemind.track_bonus + TRACKER_DEFAULT_TIME)/10] seconds")
 
+		var/mob/living/carbon/human/H = usr
+
+		if(istype(H))
+			var/datum/species/ethereal/eth_species = H.dna?.species
+			if(istype(eth_species))
+				var/obj/item/organ/stomach/ethereal/stomach = H.getorganslot(ORGAN_SLOT_STOMACH)
+				if(istype(stomach))
+					stat(null, "Crystal Charge: [(round(stomach.crystal_charge, 0.1) / ETHEREAL_CHARGE_FULL)*100]%")
+
 	//NINJACODE
 	if(istype(wear_suit, /obj/item/clothing/suit/space/space_ninja)) //Only display if actually a ninja.
 		var/obj/item/clothing/suit/space/space_ninja/SN = wear_suit
