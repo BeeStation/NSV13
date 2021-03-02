@@ -421,6 +421,10 @@
 /turf/open/floor/plasteel/grid/techfloor/grid/airless
 	initial_gas_mix = AIRLESS_ATMOS
 
+/turf/open/floor/monofloor/corner
+	icon = 'nsv13/icons/turf/floors.dmi'
+	icon_state = "steel_monofloor_corner"
+
 /obj/effect/turf_decal/tile/orange
 	name = "orange corner"
 	color = "#ff7f00"
