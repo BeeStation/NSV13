@@ -2826,9 +2826,7 @@
 /obj/machinery/camera/autoname{
 	dir = 8
 	},
-/turf/open/floor/plating{
-	icon_state = "panelscorched"
-	},
+/turf/open/floor/plating,
 /area/nsv/weapons)
 "gR" = (
 /obj/machinery/airalarm{
@@ -3388,9 +3386,9 @@
 /turf/open/floor/plating,
 /area/nsv/weapons)
 "il" = (
-/obj/effect/spawner/structure/window/reinforced,
+/obj/structure/closet/crate/rcd,
 /turf/open/floor/plating,
-/area/nsv/weapons)
+/area/ai_monitored/storage/eva)
 "im" = (
 /obj/machinery/atmospherics/pipe/manifold/orange/visible{
 	dir = 8
@@ -4231,9 +4229,7 @@
 /obj/machinery/light{
 	dir = 4
 	},
-/turf/open/floor/plating{
-	icon_state = "panelscorched"
-	},
+/turf/open/floor/plating,
 /area/nsv/weapons)
 "kd" = (
 /obj/machinery/atmospherics/components/binary/valve/digital,
@@ -4607,15 +4603,11 @@
 /obj/machinery/computer/ship/munitions_computer{
 	dir = 8
 	},
-/turf/open/floor/plating{
-	icon_state = "panelscorched"
-	},
+/turf/open/floor/plating,
 /area/nsv/weapons)
 "kJ" = (
-/obj/machinery/ship_weapon/torpedo_launcher,
-/turf/open/floor/plating{
-	icon_state = "panelscorched"
-	},
+/obj/machinery/ship_weapon/deck_turret/east,
+/turf/open/floor/plating/airless,
 /area/nsv/weapons)
 "kK" = (
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3{
@@ -6940,9 +6932,7 @@
 "oI" = (
 /obj/effect/turf_decal/stripes/line,
 /obj/machinery/light,
-/turf/open/floor/plating{
-	icon_state = "panelscorched"
-	},
+/turf/open/floor/plating,
 /area/nsv/weapons)
 "oJ" = (
 /obj/effect/turf_decal/stripes/line,
@@ -6958,9 +6948,7 @@
 /area/nsv/weapons)
 "oK" = (
 /obj/effect/turf_decal/stripes/line,
-/turf/open/floor/plating{
-	icon_state = "panelscorched"
-	},
+/turf/open/floor/plating,
 /area/nsv/weapons)
 "oL" = (
 /obj/effect/turf_decal/stripes/line,
@@ -10990,9 +10978,9 @@
 /turf/open/floor/plating/airless,
 /area/space/nearstation)
 "xI" = (
-/obj/structure/closet/crate/rcd,
+/obj/structure/ladder,
 /turf/open/floor/plating,
-/area/ai_monitored/storage/eva)
+/area/nsv/weapons)
 "xJ" = (
 /obj/structure/lattice/catwalk,
 /turf/open/space/basic,
@@ -11847,7 +11835,9 @@
 /obj/item/storage/belt/utility/full,
 /obj/structure/cable,
 /obj/machinery/power/apc/auto_name/south,
-/turf/open/floor/plating,
+/turf/open/floor/plating{
+	icon_state = "panelscorched"
+	},
 /area/ai_monitored/storage/eva)
 "DW" = (
 /obj/machinery/light/small{
@@ -12775,8 +12765,8 @@
 /turf/open/floor/plating,
 /area/nsv/weapons)
 "Mi" = (
-/turf/open/openspace,
-/area/nsv/weapons)
+/turf/open/floor/plating/airless,
+/area/nsv/magazine/starboard)
 "Mm" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 4
@@ -13542,7 +13532,7 @@
 /area/engine/atmos)
 "Sm" = (
 /obj/structure/tank_dispenser/oxygen,
-/turf/open/floor/plating,
+/turf/closed/wall/r_wall/ship,
 /area/ai_monitored/storage/eva)
 "Ss" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer1{
@@ -14351,10 +14341,6 @@
 /obj/effect/landmark/nuclear_waste_spawner,
 /turf/open/floor/plating,
 /area/ai_monitored/nuke_storage)
-"Yw" = (
-/obj/machinery/ship_weapon/deck_turret/east,
-/turf/open/floor/plating/airless,
-/area/nsv/weapons)
 "Yx" = (
 /obj/effect/decal/cleanable/crayon,
 /turf/open/floor/plating,
@@ -44289,12 +44275,12 @@ Zn
 xR
 cp
 bu
-Se
-Se
 NV
 NV
-Se
-Se
+NV
+NV
+NV
+NV
 ek
 ga
 ga
@@ -44810,7 +44796,7 @@ NV
 Se
 Se
 ek
-Mi
+ga
 ga
 lw
 Yz
@@ -45067,13 +45053,13 @@ NV
 NV
 NV
 ek
-ek
+ga
 kI
-YB
+ga
 kI
-YB
+ga
 kI
-YB
+ga
 kI
 oK
 pq
@@ -45317,24 +45303,24 @@ Pk
 Ci
 DT
 ek
+Se
+Se
 NV
 NV
-NV
-NV
-NV
-NV
-NV
+Se
+Se
 ek
-kJ
-YB
-kJ
-YB
-kJ
-YB
+ga
+FH
+ga
+FH
+ga
+FH
+ga
 FH
 oK
 pq
-pS
+pq
 pq
 pq
 aa
@@ -45571,10 +45557,9 @@ aa
 MK
 VZ
 Pk
-Pk
-xI
+il
 Ws
-NV
+ek
 NV
 NV
 NV
@@ -45582,18 +45567,19 @@ NV
 NV
 NV
 ek
-YB
-YB
-YB
-YB
-YB
-YB
-YB
+ga
+ga
+ga
+ga
+ga
+ga
+ga
+ga
 oI
 pq
-pq
-pq
-aa
+Mi
+Mi
+xF
 aa
 aa
 aa
@@ -45829,28 +45815,28 @@ Ws
 VZ
 Pk
 zQ
-Pk
 Ws
 NV
-Yw
 NV
 NV
 NV
-Yw
+NV
+NV
 NV
 ek
-YB
-YB
+xI
+ga
+ga
 gQ
 kc
-YB
-YB
-YB
+ga
+ga
+ga
 oK
 pq
-pq
-aa
-aa
+Mi
+xF
+xF
 aa
 aa
 aa
@@ -46086,7 +46072,6 @@ Ws
 Ws
 MK
 MK
-MK
 Ws
 NV
 NV
@@ -46096,18 +46081,19 @@ NV
 NV
 NV
 ek
-il
-il
-il
 ek
-il
-il
-il
+ek
+ek
+ek
+ek
+ek
+ek
+ek
 ek
 pq
-aa
-aa
-aa
+xF
+xF
+xF
 aa
 aa
 aa
@@ -46343,28 +46329,28 @@ aa
 aa
 aa
 aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
+xF
+NV
+NV
+kJ
+NV
+NV
+NV
+kJ
+NV
+xF
+xF
+xF
+xF
+xF
+xF
+xF
+xF
+xF
+xF
+xF
+xF
+xF
 aa
 aa
 aa
@@ -46600,28 +46586,28 @@ aa
 aa
 aa
 Hs
-aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
+xF
+NV
+NV
+NV
+NV
+NV
+NV
+NV
+NV
+xF
+xF
+xF
+xF
+xF
+xF
+xF
+xF
+xF
+xF
+xF
+xF
+xF
 aa
 aa
 aa
@@ -46857,28 +46843,28 @@ aa
 aa
 aa
 aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
+xF
+NV
+NV
+NV
+NV
+NV
+NV
+NV
+NV
+xF
+xF
+xF
+xF
+xF
+xF
+xF
+xF
+xF
+xF
+xF
+xF
+xF
 aa
 aa
 aa
@@ -47115,27 +47101,27 @@ aa
 aa
 aa
 aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
+NV
+NV
+NV
+NV
+NV
+NV
+NV
+NV
+xF
+xF
+xF
+xF
+xF
+xF
+xF
+xF
+xF
+xF
+xF
+xF
+xF
 aa
 aa
 aa
@@ -47373,26 +47359,26 @@ aa
 aa
 aa
 aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
+xF
+xF
+xF
+xF
+xF
+xF
+xF
+xF
+xF
+xF
+xF
+xF
+xF
+xF
+xF
+xF
+xF
+xF
+xF
+xF
 aa
 aa
 aa
