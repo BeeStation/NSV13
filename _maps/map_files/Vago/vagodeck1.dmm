@@ -1080,6 +1080,7 @@
 /area/engine/atmos)
 "cs" = (
 /obj/machinery/air_sensor/atmos/toxin_tank,
+/obj/machinery/atmospherics/miner/toxins,
 /turf/open/floor/engine/plasma,
 /area/engine/atmos)
 "ct" = (
@@ -5347,8 +5348,6 @@
 /obj/structure/table/reinforced,
 /obj/item/stack/sheet/plastic/fifty,
 /obj/item/storage/toolbox/electrical,
-/obj/machinery/power/apc/auto_name/west,
-/obj/structure/cable,
 /obj/item/storage/belt/utility/full,
 /obj/item/storage/belt/utility/full,
 /turf/open/floor/plating,
@@ -8716,6 +8715,7 @@
 /area/engine/atmos)
 "sc" = (
 /obj/machinery/air_sensor/atmos/nitrogen_tank,
+/obj/machinery/atmospherics/miner/nitrogen,
 /turf/open/floor/engine/n2,
 /area/engine/atmos)
 "sd" = (
@@ -8723,6 +8723,7 @@
 /area/engine/atmos)
 "se" = (
 /obj/machinery/air_sensor/atmos/oxygen_tank,
+/obj/machinery/atmospherics/miner/oxygen,
 /turf/open/floor/engine/o2,
 /area/engine/atmos)
 "sf" = (
@@ -10931,14 +10932,11 @@
 	},
 /turf/open/space/basic,
 /area/space)
-"xA" = (
-/turf/open/floor/plating,
-/area/space/nearstation)
 "xC" = (
 /obj/structure/shuttle/engine/huge{
 	dir = 8
 	},
-/turf/open/floor/plating,
+/turf/open/floor/plating/airless,
 /area/space/nearstation)
 "xD" = (
 /obj/docking_port/stationary{
@@ -11200,9 +11198,6 @@
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	dir = 4;
 	icon_state = "pipe11-1"
-	},
-/obj/structure/cable{
-	icon_state = "2-8"
 	},
 /obj/structure/cable{
 	icon_state = "4-8"
@@ -12496,12 +12491,6 @@
 	},
 /turf/open/floor/plating,
 /area/hallway/nsv/deck1/frame4/central)
-"Jx" = (
-/obj/structure/cable{
-	icon_state = "1-2"
-	},
-/turf/open/floor/plating,
-/area/nsv/weapons)
 "Jy" = (
 /obj/effect/landmark/start/munitions_tech,
 /turf/open/floor/plating,
@@ -22420,8 +22409,8 @@ aa
 aM
 aM
 aM
-xA
-xA
+xF
+xF
 xC
 aa
 aa
@@ -22460,8 +22449,8 @@ aa
 aa
 aa
 aa
-xA
-xA
+xF
+xF
 xC
 aM
 aM
@@ -22677,9 +22666,9 @@ aM
 aM
 aM
 aM
-xA
-xA
-xA
+xF
+xF
+xF
 aa
 aa
 bb
@@ -22717,9 +22706,9 @@ aa
 aa
 aa
 aa
-xA
-xA
-xA
+xF
+xF
+xF
 aM
 aM
 aM
@@ -22934,9 +22923,9 @@ aM
 aM
 aM
 aM
-xA
-xA
-xA
+xF
+xF
+xF
 aa
 aa
 bb
@@ -22974,9 +22963,9 @@ aa
 aa
 aa
 aa
-xA
-xA
-xA
+xF
+xF
+xF
 aM
 aM
 aM
@@ -42486,7 +42475,7 @@ ga
 ga
 ga
 yQ
-Jx
+ga
 mc
 mV
 nu
