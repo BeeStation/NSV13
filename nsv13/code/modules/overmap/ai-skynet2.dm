@@ -472,6 +472,7 @@ GLOBAL_LIST_EMPTY(ai_goals)
 	supply_types = null
 	alignment = "pirate"
 	faction_id = FACTION_ID_PIRATES
+	reward = 35
 
 /datum/fleet/pirate/scout
 	name = "Space pirate scout fleet"
@@ -494,6 +495,7 @@ GLOBAL_LIST_EMPTY(ai_goals)
 	taunts = list("These are our waters you are sailing, prepare to surrender!", "Bold of you to fly Nanotrasen colours in this system, your last mistake.")
 	size = FLEET_DIFFICULTY_VERY_HARD
 	fleet_trait = FLEET_TRAIT_DEFENSE
+	reward = 100	//Difficult pirate fleet, so default reward.
 
 //Boss battles.
 
