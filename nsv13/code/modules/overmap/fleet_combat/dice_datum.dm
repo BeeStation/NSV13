@@ -55,6 +55,7 @@ Different ships have different combat dice, some have the same as eachother.
 
 	affinity = AI_TRAIT_BATTLESHIP	//Loves taking out capital ships.
 
+
 /datum/combat_dice/carrier
 	name = "Carrier combat dice"
 
@@ -68,6 +69,23 @@ Different ships have different combat dice, some have the same as eachother.
 
 	damage_dice = 2
 	damage_roll = 2		//Not very good at damaging things
+
+/datum/combat_dice/frigate
+	name = "Frigate combat dice"
+
+	evade_roll = 6
+	evade_bonus = 1
+
+	target_roll = 5
+	target_bonus = 1
+
+	armor_roll = 4
+
+	damage_dice = 2
+	damage_roll = 3
+	damage_bonus = 1
+
+	affinity = AI_TRAIT_SWARMER
 
 /datum/combat_dice/destroyer
 	name = "Destroyer combat dice"
