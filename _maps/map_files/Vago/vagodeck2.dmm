@@ -1061,14 +1061,12 @@
 /turf/open/floor/plating,
 /area/engine/break_room)
 "ct" = (
-/obj/machinery/rnd/production/protolathe/department/engineering,
 /obj/machinery/light{
 	dir = 1
 	},
 /turf/open/floor/plating,
 /area/engine/break_room)
 "cu" = (
-/obj/machinery/computer/rdconsole/production,
 /obj/machinery/camera/autoname,
 /turf/open/floor/plating,
 /area/engine/break_room)
@@ -1503,7 +1501,9 @@
 /turf/open/floor/plating,
 /area/science/robotics)
 "dD" = (
-/obj/machinery/droneDispenser,
+/obj/machinery/airalarm{
+	pixel_y = 23
+	},
 /turf/open/floor/plating,
 /area/science/robotics)
 "dE" = (
@@ -2065,7 +2065,6 @@
 /turf/open/floor/plating,
 /area/storage/tech)
 "eJ" = (
-/obj/machinery/recharge_station,
 /obj/machinery/airalarm{
 	dir = 4;
 	pixel_x = -23
@@ -4988,6 +4987,13 @@
 	},
 /turf/open/floor/plating,
 /area/hallway/nsv/deck2/frame3/central)
+"lA" = (
+/obj/machinery/armour_plating_nanorepair_pump/forward_starboard{
+	apnw_id = "pleaseSendHelp";
+	armour_allocation = 25
+	},
+/turf/open/floor/plating,
+/area/engine/storage)
 "lB" = (
 /obj/structure/cable{
 	icon_state = "1-2"
@@ -7063,7 +7069,6 @@
 /turf/open/floor/plating,
 /area/lawoffice)
 "pm" = (
-/obj/structure/table/wood,
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3{
 	dir = 1
 	},
@@ -7823,6 +7828,9 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /obj/machinery/power/apc/auto_name/east,
 /obj/structure/cable,
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
 /turf/open/floor/plating,
 /area/engine/storage)
 "qQ" = (
@@ -8851,6 +8859,9 @@
 /obj/structure/disposalpipe/segment,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
 /turf/open/floor/plating,
 /area/engine/storage)
 "sV" = (
@@ -9161,14 +9172,11 @@
 /area/medical/medbay)
 "tv" = (
 /obj/effect/turf_decal/tile/blue,
-/obj/structure/bed/roller,
 /obj/machinery/iv_drip,
 /turf/open/floor/plating,
 /area/medical/medbay)
 "tw" = (
 /obj/effect/turf_decal/tile/blue,
-/obj/structure/bed/roller,
-/obj/machinery/iv_drip,
 /obj/machinery/camera/autoname{
 	dir = 1
 	},
@@ -9177,6 +9185,7 @@
 	departmentType = 3;
 	pixel_y = -32
 	},
+/obj/machinery/stasis,
 /turf/open/floor/plating,
 /area/medical/medbay)
 "tx" = (
@@ -9455,18 +9464,9 @@
 /turf/open/floor/plating,
 /area/hallway/secondary/exit/departure_lounge)
 "uj" = (
-/obj/structure/chair/comfy{
-	dir = 1
-	},
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
-	dir = 4;
-	icon_state = "pipe11-1"
-	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
-	dir = 4
-	},
+/obj/effect/landmark/start/cyborg,
 /turf/open/floor/plating,
-/area/engine/storage)
+/area/storage/tech)
 "ul" = (
 /obj/structure/disposalpipe/segment,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
@@ -9476,6 +9476,7 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 9
 	},
+/obj/machinery/vending/cigarette,
 /turf/open/floor/plating,
 /area/engine/storage)
 "um" = (
@@ -9769,6 +9770,7 @@
 /obj/item/radio/intercom{
 	pixel_x = 27
 	},
+/obj/machinery/vending/wardrobe/engi_wardrobe,
 /turf/open/floor/plating,
 /area/engine/storage)
 "va" = (
@@ -9942,6 +9944,12 @@
 	icon_state = "panelscorched"
 	},
 /area/hallway/nsv/deck2/frame2/starboard)
+"vx" = (
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/turf/open/floor/plating,
+/area/engine/storage)
 "vC" = (
 /obj/effect/landmark/nuclear_waste_spawner,
 /turf/open/floor/plating,
@@ -9960,13 +9968,12 @@
 /obj/machinery/camera/autoname{
 	dir = 1
 	},
-/obj/machinery/vending/cigarette,
 /turf/open/floor/plating,
 /area/engine/storage)
 "vK" = (
-/obj/machinery/vending/wardrobe/engi_wardrobe,
+/obj/effect/landmark/start/cyborg,
 /turf/open/floor/plating,
-/area/engine/storage)
+/area/science/robotics)
 "vM" = (
 /obj/machinery/light,
 /turf/open/floor/plating,
@@ -10726,7 +10733,6 @@
 	},
 /area/janitor)
 "xv" = (
-/obj/vehicle/ridden/janicart,
 /obj/machinery/airalarm{
 	dir = 8;
 	pixel_x = 24
@@ -11614,6 +11620,11 @@
 /obj/effect/spawner/lootdrop/maintenance,
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/starboard)
+"Cz" = (
+/obj/effect/turf_decal/tile/blue,
+/obj/machinery/stasis,
+/turf/open/floor/plating,
+/area/medical/medbay)
 "CD" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 4
@@ -11672,6 +11683,13 @@
 	icon_state = "panelscorched"
 	},
 /area/engine/gravity_generator)
+"CU" = (
+/obj/machinery/armour_plating_nanorepair_pump/forward_port{
+	apnw_id = "pleaseSendHelp";
+	armour_allocation = 25
+	},
+/turf/open/floor/plating,
+/area/engine/storage)
 "CV" = (
 /obj/machinery/deck_turret/powder_gate,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
@@ -12060,6 +12078,15 @@
 /obj/structure/fans/tiny,
 /turf/open/floor/plating/airless,
 /area/engine/supermatter)
+"FX" = (
+/obj/structure/disposalpipe/segment,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
+/obj/structure/cable{
+	icon_state = "1-8"
+	},
+/turf/open/floor/plating,
+/area/engine/storage)
 "Ga" = (
 /obj/structure/disposalpipe/segment,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
@@ -12245,13 +12272,17 @@
 /turf/closed/wall/ship,
 /area/crew_quarters/dorms)
 "GS" = (
-/obj/machinery/light/small,
-/obj/structure/bodycontainer/morgue{
-	dir = 1;
-	icon_state = "morgue1"
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	dir = 4
+	},
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
+/obj/machinery/conveyor/slow{
+	id = "torp2"
 	},
 /turf/open/floor/plating,
-/area/maintenance/department/medical/morgue)
+/area/nsv/weapons)
 "GT" = (
 /obj/structure/cable{
 	icon_state = "2-4"
@@ -12406,6 +12437,15 @@
 /obj/item/bot_assembly/cleanbot,
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/starboard)
+"HO" = (
+/obj/machinery/armour_plating_nanorepair_well{
+	apnw_id = "pleaseSendHelp"
+	},
+/obj/structure/cable{
+	icon_state = "0-4"
+	},
+/turf/open/floor/plating,
+/area/engine/storage)
 "HT" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 4
@@ -12552,7 +12592,6 @@
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/starboard)
 "Iz" = (
-/obj/machinery/rnd/production/circuit_imprinter,
 /obj/machinery/computer/ship/viewscreen,
 /turf/open/floor/plating,
 /area/engine/break_room)
@@ -12657,6 +12696,14 @@
 /obj/machinery/door/firedoor,
 /turf/open/floor/plating,
 /area/hallway/nsv/deck2/frame2/central)
+"IT" = (
+/obj/structure/table,
+/obj/item/grenade/chem_grenade/cleaner,
+/obj/item/grenade/chem_grenade/cleaner,
+/obj/item/grenade/chem_grenade/cleaner,
+/obj/item/reagent_containers/spray/cleaner,
+/turf/open/floor/plating,
+/area/janitor)
 "IW" = (
 /obj/machinery/atmospherics/components/trinary/filter/flipped/critical{
 	dir = 4
@@ -12833,6 +12880,13 @@
 	},
 /turf/closed/wall/r_wall/ship,
 /area/maintenance/nsv/deck2/starboard)
+"JO" = (
+/obj/machinery/armour_plating_nanorepair_pump/aft_port{
+	apnw_id = "pleaseSendHelp";
+	armour_allocation = 25
+	},
+/turf/open/floor/plating,
+/area/engine/storage)
 "JP" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden{
 	dir = 6
@@ -12957,6 +13011,13 @@
 	},
 /turf/open/floor/plating,
 /area/hallway/nsv/deck2/frame2/central)
+"KG" = (
+/obj/machinery/armour_plating_nanorepair_pump/aft_starboard{
+	apnw_id = "pleaseSendHelp";
+	armour_allocation = 25
+	},
+/turf/open/floor/plating,
+/area/engine/storage)
 "KI" = (
 /obj/structure/cable/yellow{
 	icon_state = "4-8"
@@ -13173,6 +13234,18 @@
 /obj/structure/table,
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/starboard)
+"LV" = (
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	dir = 4
+	},
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
+/obj/machinery/conveyor/slow{
+	id = "torp"
+	},
+/turf/open/floor/plating,
+/area/nsv/weapons)
 "Md" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
@@ -13507,6 +13580,11 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/starboard)
+"NU" = (
+/turf/open/floor/plating{
+	icon_state = "platingdmg2"
+	},
+/area/janitor)
 "Od" = (
 /obj/machinery/vending/autodrobe,
 /turf/open/floor/plating,
@@ -13960,6 +14038,12 @@
 	},
 /turf/open/floor/plating/airless,
 /area/engine/engine_room/external)
+"Rz" = (
+/obj/machinery/computer/ams{
+	dir = 8
+	},
+/turf/open/floor/plating,
+/area/nsv/weapons)
 "RD" = (
 /obj/structure/sign/directions/medical{
 	dir = 8;
@@ -24807,11 +24891,11 @@ QS
 iv
 Gy
 ra
-ra
+JO
 sS
 ra
 ra
-ra
+KG
 vJ
 sR
 UF
@@ -25114,7 +25198,7 @@ ra
 ra
 ra
 vC
-vK
+ra
 qY
 aq
 UF
@@ -25413,7 +25497,7 @@ ya
 rO
 ra
 ra
-ra
+HO
 rO
 ra
 ra
@@ -25713,11 +25797,11 @@ Fx
 iv
 ra
 rP
+CU
 ra
-ra
-ra
+vx
 rP
-ra
+lA
 vM
 sR
 UF
@@ -26017,8 +26101,8 @@ ra
 rQ
 ra
 ra
-ra
-uj
+vx
+rQ
 ra
 ra
 ra
@@ -26301,7 +26385,7 @@ cm
 cm
 eJ
 eI
-eN
+uj
 QT
 hD
 iv
@@ -26319,7 +26403,7 @@ ra
 rQ
 ra
 ra
-ra
+vx
 rQ
 ra
 ra
@@ -26621,7 +26705,7 @@ ra
 pM
 qP
 sU
-sU
+FX
 ul
 uZ
 vO
@@ -35692,7 +35776,7 @@ HU
 SV
 wO
 wO
-xc
+wO
 wD
 Fr
 Dt
@@ -35994,7 +36078,7 @@ HU
 wO
 wO
 wO
-GS
+xj
 wD
 Fr
 Dt
@@ -36593,7 +36677,7 @@ tY
 tW
 HU
 CD
-xc
+wO
 HU
 wO
 wO
@@ -37504,7 +37588,7 @@ HU
 wO
 wO
 wO
-xc
+wO
 wD
 Fr
 Dt
@@ -37778,7 +37862,7 @@ dV
 dB
 dB
 gF
-hf
+vK
 hf
 iD
 xX
@@ -38075,7 +38159,7 @@ bd
 bA
 AE
 cL
-dD
+dB
 dW
 fb
 fS
@@ -38700,7 +38784,7 @@ ob
 pv
 sb
 sd
-tv
+Cz
 ua
 uH
 vr
@@ -39012,8 +39096,8 @@ HU
 wQ
 HU
 wO
-Qz
-Qz
+wO
+wO
 wO
 Go
 Fr
@@ -39282,7 +39366,7 @@ aK
 bd
 bA
 AE
-cH
+dD
 dB
 em
 dB
@@ -46558,7 +46642,7 @@ pu
 Gq
 pu
 CQ
-wY
+IT
 xn
 xs
 Dm
@@ -47468,7 +47552,7 @@ uv
 xp
 xv
 xw
-xA
+NU
 Sl
 aa
 aa
@@ -51072,7 +51156,7 @@ RS
 RS
 AC
 AC
-lZ
+GS
 tG
 nO
 pF
@@ -52280,7 +52364,7 @@ OY
 yX
 TG
 AC
-lZ
+LV
 Al
 nS
 oG
@@ -53490,7 +53574,7 @@ yp
 vN
 yp
 Cj
-AC
+Rz
 oH
 AC
 AC
