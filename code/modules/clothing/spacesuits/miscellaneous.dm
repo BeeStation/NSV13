@@ -426,6 +426,7 @@ Contains:
 	flash_protect = 0
 	bang_protect = 0
 	flags_cover = HEADCOVERSEYES | HEADCOVERSMOUTH    | PEPPERPROOF
+	clothing_flags = STOPSPRESSUREDAMAGE | SHOWEROKAY | SNUG_FIT
 	visor_flags_cover = HEADCOVERSEYES | HEADCOVERSMOUTH | PEPPERPROOF
 	max_heat_protection_temperature = 100
 
