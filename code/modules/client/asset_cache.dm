@@ -23,9 +23,11 @@ You can set verify to TRUE if you want send() to sleep until the client has the 
 /client
 	/// List of all assets sent to this client by the asset cache.
 	var/list/cache = list()
-
+	/// List of all completed asset jobs, awaiting acknowledgement.
+	var/list/completed_asset_jobs = list()
 	var/list/sending = list()
-
+	/// The last asset job done.
+	var/last_asset_job = 0
 
 //This proc sends the asset to the client, but only if it needs it.
 //This proc blocks(sleeps) unless verify is set to false
@@ -155,6 +157,12 @@ You can set verify to TRUE if you want send() to sleep until the client has the 
 
 //These datums are used to populate the asset cache, the proc "register()" does this.
 
+//all of our asset datums, used for referring to these later
+GLOBAL_LIST_EMPTY(asset_datums)
+
+//get an assetdatum or make a new one
+/proc/get_asset_datum(var/type)
+	return GLOB.asset_datums[type] || new type()
 
 /datum/asset
 	var/_abstract = /datum/asset
@@ -162,6 +170,13 @@ You can set verify to TRUE if you want send() to sleep until the client has the 
 /datum/asset/New()
 	GLOB.asset_datums[type] = src
 	register()
+
+/datum/asset/proc/register()
+	return
+
+/datum/asset/proc/send(client)
+	return
+
 
 //If you don't need anything complicated.
 /datum/asset/simple
@@ -203,6 +218,9 @@ You can set verify to TRUE if you want send() to sleep until the client has the 
 
 /datum/asset/spritesheet
 	_abstract = /datum/asset/spritesheet
+	var/name
+	var/list/sizes = list()    // "32x32" -> list(10, icon/normal, icon/stripped)
+	var/list/sprites = list()  // "foo_bar" -> list("32x32", 5)
 	var/verify = FALSE
 
 /datum/asset/spritesheet/register()
@@ -228,6 +246,94 @@ You can set verify to TRUE if you want send() to sleep until the client has the 
 	for(var/size_id in sizes)
 		all += "[name]_[size_id].png"
 	send_asset_list(C, all, verify)
+
+/datum/asset/spritesheet/proc/ensure_stripped(sizes_to_strip = sizes)
+	for(var/size_id in sizes_to_strip)
+		var/size = sizes[size_id]
+		if (size[SPRSZ_STRIPPED])
+			continue
+
+		// save flattened version
+		var/fname = "data/spritesheets/[name]_[size_id].png"
+		fcopy(size[SPRSZ_ICON], fname)
+		var/error = rustg_dmi_strip_metadata(fname)
+		if(length(error))
+			stack_trace("Failed to strip [name]_[size_id].png: [error]")
+		size[SPRSZ_STRIPPED] = icon(fname)
+		fdel(fname)
+
+/datum/asset/spritesheet/proc/generate_css()
+	var/list/out = list()
+
+	for (var/size_id in sizes)
+		var/size = sizes[size_id]
+		var/icon/tiny = size[SPRSZ_ICON]
+		out += ".[name][size_id]{display:inline-block;width:[tiny.Width()]px;height:[tiny.Height()]px;background:url('[name]_[size_id].png') no-repeat;}"
+
+	for (var/sprite_id in sprites)
+		var/sprite = sprites[sprite_id]
+		var/size_id = sprite[SPR_SIZE]
+		var/idx = sprite[SPR_IDX]
+		var/size = sizes[size_id]
+
+		var/icon/tiny = size[SPRSZ_ICON]
+		var/icon/big = size[SPRSZ_STRIPPED]
+		var/per_line = big.Width() / tiny.Width()
+		var/x = (idx % per_line) * tiny.Width()
+		var/y = round(idx / per_line) * tiny.Height()
+
+		out += ".[name][size_id].[sprite_id]{background-position:-[x]px -[y]px;}"
+
+	return out.Join("\n")
+
+/datum/asset/spritesheet/proc/Insert(sprite_name, icon/I, icon_state="", dir=SOUTH, frame=1, moving=FALSE)
+	I = icon(I, icon_state=icon_state, dir=dir, frame=frame, moving=moving)
+	if (!I || !length(icon_states(I)))  // that direction or state doesn't exist
+		return
+	var/size_id = "[I.Width()]x[I.Height()]"
+	var/size = sizes[size_id]
+
+	if (sprites[sprite_name])
+		CRASH("duplicate sprite \"[sprite_name]\" in sheet [name] ([type])")
+
+	if (size)
+		var/position = size[SPRSZ_COUNT]++
+		var/icon/sheet = size[SPRSZ_ICON]
+		size[SPRSZ_STRIPPED] = null
+		sheet.Insert(I, icon_state=sprite_name)
+		sprites[sprite_name] = list(size_id, position)
+	else
+		sizes[size_id] = size = list(1, I, null)
+		sprites[sprite_name] = list(size_id, 0)
+
+/datum/asset/spritesheet/proc/InsertAll(prefix, icon/I, list/directions)
+	if (length(prefix))
+		prefix = "[prefix]-"
+
+	if (!directions)
+		directions = list(SOUTH)
+
+	for (var/icon_state_name in icon_states(I))
+		for (var/direction in directions)
+			var/prefix2 = (directions.len > 1) ? "[dir2text(direction)]-" : ""
+			Insert("[prefix][prefix2][icon_state_name]", I, icon_state=icon_state_name, dir=direction)
+
+/datum/asset/spritesheet/proc/css_tag()
+	return {"<link rel="stylesheet" href="spritesheet_[name].css" />"}
+
+/datum/asset/spritesheet/proc/icon_tag(sprite_name)
+	var/sprite = sprites[sprite_name]
+	if (!sprite)
+		return null
+	var/size_id = sprite[SPR_SIZE]
+	return {"<span class="[name][size_id] [sprite_name]"></span>"}
+
+/datum/asset/spritesheet/proc/icon_class_name(sprite_name)
+	var/sprite = sprites[sprite_name]
+	if (!sprite)
+		return null
+	var/size_id = sprite[SPR_SIZE]
+	return {"[name][size_id] [sprite_name]"}
 
 #undef SPR_SIZE
 #undef SPR_IDX
