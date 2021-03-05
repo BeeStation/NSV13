@@ -660,7 +660,7 @@ GLOBAL_LIST_EMPTY(ai_goals)
 				SS.add_ship(member)
 			else
 				LAZYADD(SS.system_contents, member)
-				SS.contents_positions[member] = list("x" = rand(15, 240), "y" = rand(15, 240)) //If the system isn't loaded, just give them ranomized positions.
+				SS.contents_positions[member] = list("x" = rand(15, 240), "y" = rand(15, 240)) //If the system isn't loaded, just give them randomized positions.
 				STOP_PROCESSING(SSphysics_processing, member)
 				if(member.physics2d)
 					STOP_PROCESSING(SSphysics_processing, member.physics2d)
@@ -680,7 +680,7 @@ GLOBAL_LIST_EMPTY(ai_goals)
 				SS.add_ship(member)
 			else
 				LAZYADD(SS.system_contents, member)
-				SS.contents_positions[member] = list("x" = rand(15, 240), "y" = rand(15, 240)) //If the system isn't loaded, just give them ranomized positions..
+				SS.contents_positions[member] = list("x" = rand(15, 240), "y" = rand(15, 240)) //If the system isn't loaded, just give them randomized positions..
 				STOP_PROCESSING(SSphysics_processing, member)
 				if(member.physics2d)
 					STOP_PROCESSING(SSphysics_processing, member.physics2d)
@@ -700,7 +700,7 @@ GLOBAL_LIST_EMPTY(ai_goals)
 				SS.add_ship(member)
 			else
 				LAZYADD(SS.system_contents, member)
-				SS.contents_positions[member] = list("x" = rand(15, 240), "y" = rand(15, 240)) //If the system isn't loaded, just give them ranomized positions..
+				SS.contents_positions[member] = list("x" = rand(15, 240), "y" = rand(15, 240)) //If the system isn't loaded, just give them randomized positions..
 				STOP_PROCESSING(SSphysics_processing, member)
 				if(member.physics2d)
 					STOP_PROCESSING(SSphysics_processing, member.physics2d)
