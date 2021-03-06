@@ -68,6 +68,14 @@
 	name = "Engine Auxiliary Equipment"
 	icon_state = "engine_foyer"
 
+/area/engine/atmos/port_atmos
+	name = "Port Atmospherics"
+	icon_state = "atmos"
+
+/area/engine/atmos/starboard_atmos
+	name = "Starboard Atmospherics"
+	icon_state = "atmos"
+
 /area/maintenance/nsv/ftlroom
 	name = "FTL Control Room"
 	icon_state = "maint_bridge"
@@ -246,6 +254,18 @@
 
 /area/maintenance/nsv/hangar
 	name = "Hangar Bay Maintenance"
+	icon_state = "amaint"
+
+/area/maintenance/nsv/port_substation
+	name = "Port Substation"
+	icon_state = "amaint"
+
+/area/maintenance/nsv/central_substation
+	name = "Central Substation"
+	icon_state = "amaint"
+
+/area/maintenance/nsv/starboard_substation
+	name = "Starboard Substation"
 	icon_state = "amaint"
 
 /area/hallway/nsv/deck2/forward
@@ -498,6 +518,10 @@
 	name = "Fore Weapons Bay"
 	icon_state = "hallF"
 
+/area/nsv/weapons/access_corridor
+	name = "Munitions Access Corridor"
+	icon_state = "hallF"
+
 /area/nsv/magazine
 	name = "Ship's Magazine"
 	icon_state = "hallC"
@@ -521,6 +545,14 @@
 /area/nsv/squad
 	name = "Squad Equipment Room"
 	icon_state = "shuttlegrn"
+
+/area/ai_monitored/records
+	name = "Records Room"
+	icon_state = "nuke_storage"
+
+/area/security/locker_room
+	name = "Security Locker Room"
+	icon_state = "checkpoint1"
 
 /area/nsv/shuttle
 
