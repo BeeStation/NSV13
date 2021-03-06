@@ -39,6 +39,7 @@
 	max_integrity = 300 //Max internal integrity
 	integrity_failure = 0
 	var/armour_plates = 0 //You lose max integrity when you lose armour plates.
+	var/sensor_profile = 0	//A penalty (or, possibly even bonus) to from how far away one can be detected. Affected by things like sending out a active ping, which will make you glow like a christmas tree.
 	var/max_armour_plates = 0
 	var/list/dent_decals = list() //Ships get visibly damaged as they get shot
 	var/damage_states = FALSE //Did you sprite damage states for this ship? If yes, set this to true
@@ -224,8 +225,29 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 /obj/weapon_overlay/laser/do_animation()
 	flick("laser",src)
 
-/obj/structure/overmap/Initialize()
+/obj/structure/overmap/Initialize()	//If I see one more Destroy() or Initialize() split into multiple files I'm going to lose my mind.
 	. = ..()
+	var/icon/I = icon(icon,icon_state,SOUTH) //SOUTH because all overmaps only ever face right, no other dirs.
+	pixel_collision_size_x = I.Width()
+	pixel_collision_size_y = I.Height()
+	offset = new /datum/vector2d()
+	last_offset = new /datum/vector2d()
+	position = new /datum/vector2d(x*32,y*32)
+	velocity = new /datum/vector2d(0, 0)
+	overlap = new /datum/vector2d(0, 0)
+	if(collision_positions.len)
+		physics2d = AddComponent(/datum/component/physics2d)
+		physics2d.setup(collision_positions, angle)
+//	else //It pains me to comment this out...but we no longer use qwer2d, F.
+//		message_admins("[src] does not have collision points set! It will float through everything.")
+
+	for(var/atype in subtypesof(/datum/ams_mode))
+		ams_modes.Add(new atype)
+
+	if(obj_integrity != max_integrity)
+		message_admins("Failsafe triggered: [src] Initialized with integrity of [obj_integrity], but max integrity of [max_integrity]. Setting integrity to max integrity to prevent issues.")
+		obj_integrity = max_integrity	//Failsafe
+
 	return INITIALIZE_HINT_LATELOAD
 
 /obj/structure/overmap/LateInitialize()
@@ -248,7 +270,7 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 	update_icon()
 	find_area()
 	//If we're larger than a fighter and don't have our armour preset, set it now.
-	if(mass > MASS_TINY && !use_armour_quadrants)
+	if(mass > MASS_TINY && !use_armour_quadrants && role != MAIN_MINING_SHIP)
 		use_armour_quadrants = TRUE
 		//AI ships get weaker armour to allow you to kill them more easily.
 		var/armour_efficiency = (role > NORMAL_OVERMAP) ? obj_integrity / 2 : obj_integrity / 4
@@ -306,7 +328,9 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 
 	if(role == MAIN_OVERMAP)
 		name = "[station_name()]"
-	current_system = SSstar_system.find_system(src)
+	var/datum/star_system/sys = SSstar_system.find_system(src)
+	if(sys)
+		current_system = sys
 	addtimer(CALLBACK(src, .proc/force_parallax_update), 20 SECONDS)
 	addtimer(CALLBACK(src, .proc/check_armour), 20 SECONDS)
 
@@ -346,6 +370,27 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 	. = ..()
 
 /obj/structure/overmap/Destroy()
+	if(current_system)
+		current_system.system_contents.Remove(src)
+		if(faction != "nanotrasen" && faction != "solgov")
+			current_system.enemies_in_system.Remove(src)
+
+	STOP_PROCESSING(SSphysics_processing, src)
+	GLOB.overmap_objects -= src
+	relay('nsv13/sound/effects/ship/damage/ship_explode.ogg')
+	relay_to_nearby('nsv13/sound/effects/ship/damage/disable.ogg') //Kaboom.
+	new /obj/effect/temp_visual/fading_overmap(get_turf(src), name, icon, icon_state)
+	for(var/obj/structure/overmap/OM in enemies) //If target's in enemies, return
+		var/sound = pick('nsv13/sound/effects/computer/alarm.ogg','nsv13/sound/effects/computer/alarm_2.ogg')
+		var/message = "<span class='warning'>ATTENTION: [src]'s reactor is going supercritical. Destruction imminent.</span>"
+		OM?.tactical?.relay_sound(sound, message)
+		OM.enemies -= src //Stops AI from spamming ships that are already dead
+	overmap_explode(linked_areas)
+	if(role == MAIN_OVERMAP)
+		priority_announce("WARNING: ([rand(10,100)]) Attempts to establish DRADIS uplink with [station_name()] have failed. Unable to ascertain operational status. Presumed status: TERMINATED","Central Intelligence Unit", 'nsv13/sound/effects/ship/reactor/explode.ogg')
+		Cinematic(CINEMATIC_NSV_SHIP_KABOOM,world)
+		SSticker.mode.check_finished(TRUE)
+		SSticker.force_ending = 1
 	SEND_SIGNAL(src,COMSIG_SHIP_KILLED)
 	QDEL_LIST(current_tracers)
 	if(cabin_air)
@@ -354,7 +399,7 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 	if(physics2d)
 		qdel(physics2d)
 		physics2d = null
-	. = ..()
+	return ..()
 
 /obj/structure/overmap/proc/find_area()
 	if(role == MAIN_OVERMAP) //We're the hero ship, link us to every ss13 area.
@@ -380,7 +425,7 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 	if(user != gunner)
 		if(user == pilot)
 			var/datum/ship_weapon/SW = weapon_types[FIRE_MODE_RAILGUN] //For annoying ships like whisp
-			var/list/loaded = SW.weapons["loaded"]
+			var/list/loaded = SW?.weapons["loaded"]
 			if(SW && loaded?.len)
 				fire_weapon(target, FIRE_MODE_RAILGUN)
 			else

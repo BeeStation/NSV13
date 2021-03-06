@@ -296,7 +296,7 @@ Repair
 			set_master_caution(FALSE)
 			return
 		if("show_dradis")
-			dradis.attack_hand(usr)
+			dradis.ui_interact(usr)
 			return
 	relay('nsv13/sound/effects/fighters/switch.ogg')
 
@@ -481,6 +481,9 @@ Repair
 		obj_flags ^= EMAGGED
 
 /obj/structure/overmap/fighter/attackby(obj/item/W, mob/user, params)
+	if(operators && LAZYFIND(operators, user))
+		to_chat(user, "<span class='warning'>You can't reach [src]'s exterior from in here..</span>")
+		return FALSE
 	for(var/slot in loadout.equippable_slots)
 		var/obj/item/fighter_component/FC = loadout.get_slot(slot)
 		if(FC?.load(src, W))
