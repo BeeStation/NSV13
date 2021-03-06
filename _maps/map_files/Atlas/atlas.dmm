@@ -265,12 +265,10 @@
 /turf/open/floor/monotile/dark,
 /area/ai_monitored/security/armory)
 "aL" = (
-/obj/machinery/missile_builder/assembler{
-	dir = 8
+/obj/machinery/conveyor/slow{
+	dir = 1;
+	id = "atlas_torp"
 	},
-/obj/item/ship_weapon/parts/missile/guidance_system,
-/obj/item/ship_weapon/parts/missile/guidance_system,
-/obj/item/ship_weapon/parts/missile/guidance_system,
 /turf/open/floor/monotile/dark,
 /area/nsv/weapons)
 "aM" = (
@@ -578,7 +576,10 @@
 	name = "Missile Factory Output"
 	},
 /obj/structure/disposalpipe/trunk,
-/turf/open/floor/monotile/dark,
+/obj/effect/turf_decal/stripes/line{
+	dir = 5
+	},
+/turf/open/floor/engine,
 /area/nsv/weapons)
 "bO" = (
 /turf/open/floor/plating,
@@ -2197,18 +2198,16 @@
 /turf/open/floor/carpet/red,
 /area/nsv/weapons)
 "hk" = (
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
-	dir = 8
-	},
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+/obj/effect/turf_decal/stripes/line{
 	dir = 4
 	},
-/obj/machinery/conveyor_switch/oneway{
-	dir = 8;
-	id = "atlas_torp";
-	name = "Missile Factory"
+/obj/machinery/missile_builder/assembler{
+	dir = 4
 	},
-/turf/open/floor/monotile/dark,
+/obj/item/ship_weapon/parts/missile/guidance_system,
+/obj/item/ship_weapon/parts/missile/guidance_system,
+/obj/item/ship_weapon/parts/missile/guidance_system,
+/turf/open/floor/engine,
 /area/nsv/weapons)
 "hl" = (
 /obj/effect/turf_decal/tile/ship/half/red{
@@ -4152,8 +4151,19 @@
 /turf/open/floor/engine,
 /area/engine/engine_room)
 "nC" = (
-/turf/open/floor/monotile/dark/airless,
-/area/space/nearstation)
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	dir = 8
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	dir = 4
+	},
+/obj/machinery/conveyor_switch/oneway{
+	dir = 8;
+	id = "atlas_torp";
+	name = "Missile Factory"
+	},
+/turf/open/floor/monotile/dark,
+/area/nsv/weapons)
 "nD" = (
 /obj/item/stock_parts/scanning_module,
 /turf/open/floor/plating,
@@ -6248,10 +6258,14 @@
 /turf/open/floor/plating,
 /area/maintenance/department/science)
 "uD" = (
-/obj/machinery/missile_builder/screwdriver{
+/obj/effect/turf_decal/stripes/line,
+/obj/machinery/missile_builder/assembler{
 	dir = 1
 	},
-/turf/open/floor/monotile/dark,
+/obj/item/ship_weapon/parts/missile/warhead,
+/obj/item/ship_weapon/parts/missile/warhead,
+/obj/item/ship_weapon/parts/missile/warhead,
+/turf/open/floor/engine,
 /area/nsv/weapons)
 "uE" = (
 /obj/structure/cable{
@@ -7191,13 +7205,11 @@
 /area/nsv/weapons/gauss/battery/deck2/port)
 "xZ" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer1,
-/obj/machinery/missile_builder/assembler{
+/obj/effect/turf_decal/stripes/line,
+/obj/machinery/missile_builder/screwdriver{
 	dir = 1
 	},
-/obj/item/ship_weapon/parts/missile/iff_card,
-/obj/item/ship_weapon/parts/missile/iff_card,
-/obj/item/ship_weapon/parts/missile/iff_card,
-/turf/open/floor/monotile/dark,
+/turf/open/floor/engine,
 /area/nsv/weapons)
 "ye" = (
 /obj/structure/lattice/catwalk,
@@ -7599,7 +7611,13 @@
 /area/maintenance/department/engine/atmos)
 "zL" = (
 /obj/effect/turf_decal/ship/outline,
-/turf/open/floor/monotile/dark,
+/obj/machinery/missile_builder/assembler{
+	dir = 4
+	},
+/obj/item/ship_weapon/parts/missile/propulsion_system,
+/obj/item/ship_weapon/parts/missile/propulsion_system,
+/obj/item/ship_weapon/parts/missile/propulsion_system,
+/turf/open/floor/engine,
 /area/nsv/weapons)
 "zO" = (
 /obj/machinery/door/poddoor/shutters/ship{
@@ -8287,21 +8305,6 @@
 /obj/machinery/advanced_airlock_controller/directional/south,
 /turf/open/floor/plating,
 /area/maintenance/department/science)
-"CL" = (
-/obj/machinery/conveyor/slow{
-	dir = 1;
-	id = "atlas_torp"
-	},
-/obj/item/ship_weapon/ammunition/missile/missile_casing,
-/obj/item/ship_weapon/ammunition/missile/missile_casing,
-/obj/item/ship_weapon/ammunition/missile/missile_casing,
-/obj/item/ship_weapon/ammunition/missile/missile_casing,
-/obj/item/ship_weapon/ammunition/missile/missile_casing,
-/obj/item/ship_weapon/ammunition/missile/missile_casing,
-/obj/item/ship_weapon/ammunition/missile/missile_casing,
-/obj/item/ship_weapon/ammunition/missile/missile_casing,
-/turf/open/floor/monotile/dark,
-/area/nsv/weapons)
 "CO" = (
 /obj/machinery/conveyor/slow{
 	dir = 4;
@@ -8892,10 +8895,13 @@
 /turf/open/floor/monotile,
 /area/hallway/nsv/deck2/primary)
 "FO" = (
-/obj/machinery/missile_builder{
-	dir = 8
+/obj/effect/turf_decal/stripes/line{
+	dir = 4
 	},
-/turf/open/floor/monotile/dark,
+/obj/machinery/missile_builder/screwdriver{
+	dir = 4
+	},
+/turf/open/floor/engine,
 /area/nsv/weapons)
 "FQ" = (
 /obj/structure/lattice/catwalk,
@@ -9100,10 +9106,17 @@
 /turf/open/floor/plating,
 /area/engine/atmos)
 "GF" = (
-/obj/structure/lattice/catwalk/over/ship,
 /obj/machinery/light{
 	dir = 4
 	},
+/obj/machinery/conveyor/slow{
+	dir = 1;
+	id = "atlas_torp"
+	},
+/obj/item/ship_weapon/ammunition/missile/missile_casing,
+/obj/item/ship_weapon/ammunition/missile/missile_casing,
+/obj/item/ship_weapon/ammunition/missile/missile_casing,
+/obj/structure/closet/crate,
 /turf/open/floor/monotile/dark,
 /area/nsv/weapons)
 "GG" = (
@@ -9282,8 +9295,11 @@
 /turf/open/floor/monotile,
 /area/quartermaster/storage)
 "Hs" = (
-/obj/machinery/missile_builder/wirer,
-/turf/open/floor/monotile/dark,
+/obj/effect/turf_decal/stripes/line{
+	dir = 1
+	},
+/obj/machinery/missile_builder,
+/turf/open/floor/engine,
 /area/nsv/weapons)
 "Hu" = (
 /obj/structure/cable{
@@ -10157,13 +10173,11 @@
 /turf/open/floor/plasteel/grid/mono,
 /area/hallway/nsv/deck2/primary)
 "KT" = (
-/obj/machinery/missile_builder/assembler{
+/obj/effect/turf_decal/stripes/line,
+/obj/machinery/missile_builder{
 	dir = 1
 	},
-/obj/item/ship_weapon/parts/missile/warhead,
-/obj/item/ship_weapon/parts/missile/warhead,
-/obj/item/ship_weapon/parts/missile/warhead,
-/turf/open/floor/monotile/dark,
+/turf/open/floor/engine,
 /area/nsv/weapons)
 "KU" = (
 /obj/machinery/computer/mech_bay_power_console{
@@ -10599,10 +10613,16 @@
 	name = "Abandoned Bar"
 	})
 "Mo" = (
-/obj/machinery/missile_builder/screwdriver{
-	dir = 4
+/obj/effect/turf_decal/stripes/line{
+	dir = 6
 	},
-/turf/open/floor/monotile/dark,
+/obj/machinery/missile_builder/assembler{
+	dir = 1
+	},
+/obj/item/ship_weapon/parts/missile/iff_card,
+/obj/item/ship_weapon/parts/missile/iff_card,
+/obj/item/ship_weapon/parts/missile/iff_card,
+/turf/open/floor/engine,
 /area/nsv/weapons)
 "Ms" = (
 /obj/machinery/power/deck_relay,
@@ -10675,13 +10695,14 @@
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/port)
 "MC" = (
-/obj/machinery/missile_builder/assembler{
-	dir = 8
+/obj/effect/turf_decal/ship/outline,
+/obj/effect/turf_decal/stripes/line{
+	dir = 4
 	},
-/obj/item/ship_weapon/parts/missile/propulsion_system,
-/obj/item/ship_weapon/parts/missile/propulsion_system,
-/obj/item/ship_weapon/parts/missile/propulsion_system,
-/turf/open/floor/monotile/dark,
+/obj/machinery/missile_builder{
+	dir = 4
+	},
+/turf/open/floor/engine,
 /area/nsv/weapons)
 "MD" = (
 /obj/structure/cable{
@@ -11446,9 +11467,12 @@
 /turf/open/floor/monotile/dark,
 /area/science)
 "Px" = (
-/obj/structure/lattice/catwalk/over/ship,
 /obj/machinery/camera/autoname{
 	dir = 8
+	},
+/obj/machinery/conveyor/slow{
+	dir = 1;
+	id = "atlas_torp"
 	},
 /turf/open/floor/monotile/dark,
 /area/nsv/weapons)
@@ -12072,7 +12096,7 @@
 	icon_state = "4-8"
 	},
 /turf/open/floor/monotile/dark/airless,
-/area/space/nearstation)
+/area/nsv/hanger/notkmcstupidhanger)
 "RJ" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer1{
 	dir = 1
@@ -12419,13 +12443,6 @@
 /obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer3,
 /turf/open/floor/monotile,
 /area/hallway/nsv/deck2/primary)
-"SZ" = (
-/obj/machinery/conveyor/slow{
-	dir = 1;
-	id = "atlas_torp"
-	},
-/turf/open/floor/monotile/dark,
-/area/nsv/weapons)
 "Ta" = (
 /obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer3{
 	dir = 4
@@ -12455,8 +12472,11 @@
 /turf/open/floor/plating,
 /area/security/detectives_office)
 "Td" = (
-/obj/machinery/missile_builder,
-/turf/open/floor/monotile/dark,
+/obj/effect/turf_decal/stripes/line{
+	dir = 1
+	},
+/obj/machinery/missile_builder/wirer,
+/turf/open/floor/engine,
 /area/nsv/weapons)
 "Te" = (
 /obj/structure/lattice/catwalk/over/ship,
@@ -13334,8 +13354,11 @@
 "We" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3,
+/obj/effect/turf_decal/stripes/line{
+	dir = 1
+	},
 /obj/machinery/missile_builder/welder,
-/turf/open/floor/monotile/dark,
+/turf/open/floor/engine,
 /area/nsv/weapons)
 "Wf" = (
 /obj/effect/turf_decal/stripes/line{
@@ -51948,11 +51971,11 @@ iV
 eY
 eY
 Oj
-SZ
-SZ
-SZ
-CL
-hk
+dv
+dv
+dv
+dv
+wu
 AR
 aB
 eY
@@ -52204,12 +52227,12 @@ KH
 iV
 eY
 eY
-aL
+Oj
 FO
-dv
+hk
 MC
 zL
-wu
+nC
 Xz
 xL
 eY
@@ -52461,10 +52484,10 @@ sh
 iV
 eY
 eY
-dv
-dv
+Oj
+aL
 Px
-dv
+aL
 GF
 wu
 WQ
@@ -56077,7 +56100,7 @@ Jc
 Jc
 Vd
 Og
-nC
+Kl
 Kl
 BN
 TE
