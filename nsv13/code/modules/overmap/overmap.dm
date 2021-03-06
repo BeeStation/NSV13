@@ -286,6 +286,15 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 			bounce_factor = 0.5
 			lateral_bounce_factor = 0.8
 
+		if(MASS_MEDIUM_LARGE)
+			forward_maxthrust = 0.2
+			backward_maxthrust = 0.2
+			side_maxthrust = 0.2
+			max_angular_acceleration = 3.75
+			bounce_factor = 0.45
+			lateral_bounce_factor = 0.8
+			flak_battery_amount = 0
+
 		if(MASS_LARGE)
 			forward_maxthrust = 0.1
 			backward_maxthrust = 0.1
