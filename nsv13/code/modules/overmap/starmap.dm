@@ -5,7 +5,6 @@
 	Starmap code largely copied from FT13's starmap, so credit to them! (And monster860...again)
 */
 
-
 /datum/asset/simple/starmap
 	assets = list(
 		"space.png" = 'nsv13/icons/assets/space.png')
@@ -18,6 +17,7 @@
 	var/screen = STARMAP
 	var/can_control_ship = TRUE
 	var/current_sector = 2
+	circuit = /obj/item/circuitboard/computer/ship/navigation
 
 /obj/machinery/computer/ship/navigation/public
 	can_control_ship = FALSE
@@ -34,6 +34,7 @@
 		ui.open()
 
 /obj/machinery/computer/ship/navigation/ui_act(action, params, datum/tgui/ui)
+	.=..()
 	if(..())
 		return
 	if(!has_overmap())

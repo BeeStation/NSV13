@@ -15,11 +15,22 @@
 					F.current_system = src
 				F.encounter(OM)
 		restore_contents()
-	var/turf/destination = get_turf(locate(rand(50, world.maxx), rand(50, world.maxy), occupying_z)) //Spawn them somewhere in the system. I don't really care where.
+	var/turf/destination
+	if(istype(OM, /obj/structure/overmap))
+		var/obj/structure/overmap/OMS = OM
+		if(!OMS.faction)
+			destination = locate(rand(40, world.maxx - 39), rand(40, world.maxy - 39), occupying_z)
+		else if(OMS.faction == "nanotrasen" || OMS.faction == "solgov")	//NT and ally fleets arrive on the left side of the system. Syndies on the right side.
+			destination = locate(rand(40, round(world.maxx/2) - 10), rand(40, world.maxy - 39), occupying_z)
+		else
+			destination = locate(rand(round(world.maxx/2) + 10, world.maxx - 39), rand(40, world.maxy - 39), occupying_z)
+	else
+		destination = locate(rand(40, world.maxx - 39), rand(40, world.maxy - 39), occupying_z)
+
 	if(!destination)
 		message_admins("WARNING: The [name] system has no exit point for ships! Something has caused this Z-level to despawn erroneously, please contact Kmc immediately!.")
 		return
-	var/turf/exit = get_turf(pick(orange(20, destination)))
+	var/turf/exit = get_turf(pick(orange(15, destination)))
 	OM.forceMove(exit)
 	if(istype(OM, /obj/structure/overmap))
 		OM.current_system = src //Debugging purposes only
@@ -175,7 +186,16 @@
 		SSstar_system.ships[src]["to_time"] = 0
 		SEND_SIGNAL(src, COMSIG_FTL_STATE_CHANGE)
 		relay(ftl_drive.ftl_exit, "<span class='warning'>You feel the ship lurch to a halt</span>", loop=FALSE, channel = CHANNEL_SHIP_ALERT)
+		var/list/pulled = list()
+		for(var/obj/structure/overmap/SOM in GLOB.overmap_objects)
+			if(SOM.z != reserved_z)
+				continue
+			if(SOM == src)
+				continue
+			LAZYADD(pulled, SOM)
 		target_system.add_ship(src) //Get the system to transfer us to its location.
+		for(var/obj/structure/overmap/SOM in pulled)
+			target_system.add_ship(SOM)
 		SEND_SIGNAL(src, COMSIG_SHIP_ARRIVED) // Let missions know we have arrived in the system
 	for(var/mob/M in mobs_in_ship)
 		if(iscarbon(M))
@@ -216,7 +236,7 @@
 	id = "ftl_slipstream"
 	display_name = "Quantum slipstream technology"
 	description = "Cutting edge upgrades for the FTL drive computer, allowing for more efficient FTL travel."
-	prereq_ids = list("base")
+	prereq_ids = list("comptech")
 	design_ids = list("ftl_slipstream_chip")
 	research_costs = list(TECHWEB_POINT_TYPE_WORMHOLE = 5000) //You need to have fully probed a wormhole to unlock this.
 	export_price = 15000 //This is EXTREMELY valuable to NT because it'll let their ships go super fast.

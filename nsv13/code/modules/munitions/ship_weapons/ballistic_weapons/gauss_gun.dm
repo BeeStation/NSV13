@@ -1,3 +1,9 @@
+#define STATE_NOTLOADED 1
+#define STATE_LOADED 2
+#define STATE_FED 3
+#define STATE_CHAMBERED 4
+#define STATE_FIRING 5
+
 /obj/machinery/ship_weapon/gauss_gun
 	name = "NT-BSG Gauss Turret"
 	desc = "A large ship to ship weapon designed to provide a constant barrage of fire over a long distance. It has a small cockpit for a gunner to control it manually."
@@ -78,6 +84,7 @@
 	set_gunner(usr)
 	to_chat(gunner, "<span class='notice'>You reach for [src]'s gun camera controls.</span>")
 
+/* TEMP DISABLE BECAUSE REASONS
 /obj/machinery/ship_weapon/gauss_gun/verb/exit()
 	set name = "Exit"
 	set category = "Gauss gun"
@@ -86,6 +93,7 @@
 	if(gunner.incapacitated() || !isliving(gunner))
 		return
 	remove_gunner()
+*/
 
 /obj/machinery/ship_weapon/gauss_gun/verb/swap_firemode()
 	set name = "Cycle firemode"
@@ -568,3 +576,50 @@ Chair + rack handling
 		setDir(WEST)
 		sleep(0.1 SECONDS)
 		setDir(SOUTH)
+
+//Console handling
+
+//Gauss overrides
+//The gaussgun is its own computer here because it needs to be interactible by people who are inside it, and I'm done with arsing around getting that to work ~Kmc after 3 hours of debugging TGUI
+
+/obj/machinery/ship_weapon/gauss_gun/ui_interact(mob/user, ui_key = "main", datum/tgui/ui = null, force_open = 0, datum/tgui/master_ui = null, datum/ui_state/state = GLOB.contained_state) // Remember to use the appropriate state.
+	ui = SStgui.try_update_ui(user, src, ui_key, ui, force_open)
+	if(!ui)
+		ui = new(user, src, ui_key, "MunitionsComputer", name, 560, 600, master_ui, state)
+		ui.open()
+
+/obj/machinery/ship_weapon/gauss_gun/ui_act(action, params, datum/tgui/ui)
+	if(..())
+		return
+	playsound(src.loc,'nsv13/sound/effects/fighters/switch.ogg', 50, FALSE)
+	switch(action)
+		if("toggle_load")
+			if(state == STATE_LOADED)
+				feed()
+			else
+				unload()
+		if("chamber")
+			chamber()
+		if("toggle_safety")
+			safety = !safety
+		if("toggle_pdc_mode")
+			cycle_firemode()
+
+/obj/machinery/ship_weapon/gauss_gun/ui_data(mob/user)
+	var/list/data = list()
+	data["isgaussgun"] = TRUE //So what if I'm a hack. Sue me.
+	data["loaded"] = (state > STATE_LOADED) ? TRUE : FALSE
+	data["chambered"] = (state > STATE_FED) ? TRUE : FALSE
+	data["safety"] = safety
+	data["ammo"] = ammo.len
+	data["max_ammo"] = max_ammo
+	data["maint_req"] = (maintainable) ? maint_req : 25
+	data["max_maint_req"] = 25
+	data["pdc_mode"] = pdc_mode
+	return data
+
+#undef STATE_NOTLOADED
+#undef STATE_LOADED
+#undef STATE_FED
+#undef STATE_CHAMBERED
+#undef STATE_FIRING
