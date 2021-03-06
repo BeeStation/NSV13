@@ -22,8 +22,8 @@
 /area/quartermaster/lobby
 	name = "Cargo"
 
-/area/science/lobby
-	name = "Research"
+/area/science/computer_lab
+	name = "Computer Lab"
 
 /area/bridge/secondary
 	name = "Battle Bridge"
