@@ -1432,8 +1432,17 @@ Seek a ship thich we'll station ourselves around
 	var/ship_file = input(usr, "What ship would you like to load?","Ship Instancing", null) as null|anything in choices
 	if(!ship_file)
 		return
-	ship_file = file("_maps/map_files/Instanced/[ship_file]")
+	if(instance_ship_from_json(ship_file))
+		message_admins("[key_name(src)] has instanced a copy of [ship_file]!")
+	else
+		message_admins("Failed to instance a copy of [ship_file]!")
+
+/proc/instance_ship_from_json(ship_file)
+	if(!ship_file)
+		message_admins("Error loading ship, null file passed in.")
+		return
 	if(!isfile(ship_file))
+		message_admins("Error loading ship from JSON. Check that the file exists.")
 		return
 	var/list/json = json_decode(file2text(ship_file))
 	if(!json)
@@ -1454,5 +1463,5 @@ Seek a ship thich we'll station ourselves around
 				return
 	var/obj/structure/overmap/OM = instance_overmap(shipType, mapPath, mapFile, traits, ZTRAITS_BOARDABLE_SHIP, TRUE)
 	if(OM)
-		message_admins("[key_name(src)] has instanced a copy of [ship_file].")
 		OM.name = shipName
+	return OM

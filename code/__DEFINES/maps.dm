@@ -41,6 +41,7 @@ require only minor tweaks.
 
 #define ZTRAIT_OVERMAP "Overmap" //NSV13
 #define ZTRAIT_BOARDABLE "Boardable Ship" //NSV13 - System defines blah
+#define ZTRAIT_SYNDIE_SHIP "Syndicate Ship" //NSV13 - System defines blah
 #define ZTRAIT_MINING_SHIP "Mining ship" //NSV13 - System defines blah
 
 /// number - bombcap is multiplied by this before being applied to bombs
