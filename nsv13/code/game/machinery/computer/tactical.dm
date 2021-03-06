@@ -16,13 +16,13 @@
 		return
 	ui = SStgui.try_update_ui(user, src, ui_key, ui, force_open)
 	if(!ui)
+		if(linked.gunner && !linked.gunner.client)
+			linked.stop_piloting(linked.gunner)
+		if(!linked.gunner && isliving(user))
+			playsound(src, 'nsv13/sound/effects/computer/startup.ogg', 75, 1)
+			linked.start_piloting(user, position)
 		ui = new(user, src, ui_key, "TacticalConsole", name, 560, 600, master_ui, state)
 		ui.open()
-	if(linked.gunner && !linked.gunner.client)
-		linked.stop_piloting(linked.gunner)
-	if(!linked.gunner && isliving(user))
-		playsound(src, 'nsv13/sound/effects/computer/startup.ogg', 75, 1)
-		linked.start_piloting(user, position)
 
 /obj/machinery/computer/ship/tactical/ui_act(action, params, datum/tgui/ui)
 	. = ..()
