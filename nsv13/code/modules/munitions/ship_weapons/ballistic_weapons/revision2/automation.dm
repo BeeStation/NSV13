@@ -271,6 +271,11 @@
 	var/max_capacity = 12 //Max cap for holding.
 	var/loading = FALSE
 
+/obj/machinery/ammo_sorter/ex_act(severity, target)
+	for(var/obj/item/X in loaded)
+		X.ex_act(severity, target)
+	. = ..()
+
 /obj/machinery/ammo_sorter/Initialize()
 	. = ..()
 	for(var/obj/item/I in get_turf(src))
