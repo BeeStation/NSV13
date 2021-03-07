@@ -3753,6 +3753,7 @@
 	dir = 2
 	},
 /obj/effect/turf_decal/ship/delivery/yellow,
+/obj/machinery/computer/ship/viewscreen,
 /turf/open/floor/monotile/dark,
 /area/science)
 "mf" = (
@@ -4338,12 +4339,7 @@
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/port/fore)
 "ok" = (
-/obj/structure/reagent_dispensers/watertank,
-/obj/item/extinguisher{
-	pixel_x = 4;
-	pixel_y = 3
-	},
-/obj/item/extinguisher,
+/obj/machinery/monkey_recycler,
 /turf/open/floor/monotile,
 /area/science)
 "om" = (
@@ -7564,6 +7560,15 @@
 	pixel_y = 5
 	},
 /obj/machinery/reagentgrinder,
+/obj/item/extinguisher,
+/obj/item/extinguisher{
+	pixel_x = 4;
+	pixel_y = 3
+	},
+/obj/structure/sink{
+	dir = 4;
+	pixel_x = 11
+	},
 /turf/open/floor/monotile,
 /area/science)
 "zD" = (
@@ -7715,9 +7720,9 @@
 /obj/effect/turf_decal/stripes/line{
 	dir = 1
 	},
-/obj/machinery/computer/ship/viewscreen,
 /obj/item/storage/belt/utility/full,
 /obj/item/storage/belt/utility/full,
+/obj/item/radio/intercom/directional/north,
 /turf/open/floor/monotile/dark,
 /area/science)
 "Ae" = (
@@ -8964,6 +8969,9 @@
 "Gd" = (
 /obj/machinery/computer/camera_advanced/xenobio{
 	dir = 8
+	},
+/obj/structure/sink/kitchen{
+	pixel_y = 32
 	},
 /turf/open/floor/monotile,
 /area/science)
@@ -11284,6 +11292,17 @@
 /obj/machinery/power/apc/auto_name/south,
 /turf/open/floor/monotile/dark,
 /area/ai_monitored/security/armory)
+"OU" = (
+/obj/effect/decal/cleanable/dirt/dust,
+/obj/machinery/conveyor_switch/oneway{
+	dir = 8;
+	id = "cmbelt";
+	name = "disposal conveyor"
+	},
+/turf/open/floor/plating{
+	icon_state = "panelscorched"
+	},
+/area/maintenance/nsv/deck2/starboard)
 "OV" = (
 /obj/structure/disposalpipe/segment,
 /obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer3{
@@ -11914,7 +11933,9 @@
 	amount = 10
 	},
 /obj/item/stack/sheet/iron/fifty,
-/obj/item/radio/intercom/directional/north,
+/obj/machinery/computer/rdconsole/robotics{
+	pixel_y = 26
+	},
 /turf/open/floor/monotile/dark,
 /area/science)
 "Rk" = (
@@ -42981,7 +43002,7 @@ rJ
 qU
 qI
 tJ
-sP
+OU
 zq
 Qc
 mL
