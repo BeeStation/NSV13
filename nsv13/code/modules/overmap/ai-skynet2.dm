@@ -1297,7 +1297,14 @@ Seek a ship thich we'll station ourselves around
 		if(ai_fighter_type.len)
 			for(var/i = 0, i < rand(2,3), i++)
 				var/ai_fighter = pick(ai_fighter_type)
-				var/obj/structure/overmap/newFighter = new ai_fighter(get_turf(pick(orange(3, src))))
+				var/turf/launch_turf = get_turf(pick(orange(3, src)))
+				if(!launch_turf)
+					if(!i)
+						ai_can_launch_fighters = TRUE
+					else
+						addtimer(VARSET_CALLBACK(src, ai_can_launch_fighters, TRUE), (1 + i) MINUTES)
+					break
+				var/obj/structure/overmap/newFighter = new ai_fighter(launch_turf)
 				newFighter.last_target = last_target
 				if(current_system)
 					current_system.system_contents += newFighter
