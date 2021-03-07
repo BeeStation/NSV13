@@ -4,7 +4,8 @@
 #define FTL_STATE_JUMPING 4
 
 /datum/star_system/proc/add_ship(obj/structure/overmap/OM)
-	system_contents += OM
+	if(!system_contents.Find(OM))
+		system_contents += OM	//Lets be safe while I cast some black magic.
 	if(!occupying_z && OM.z) //Does this system have a physical existence? if not, we'll set this now so that any inbound ships jump to the same Z-level that we're on.
 		occupying_z = OM.z
 		if(OM.role == MAIN_OVERMAP) //As these events all happen to the main ship, let's check that it's not say, the nomi that's triggering this system load...
@@ -71,8 +72,8 @@
 		var/list/info = contents_positions[ship]
 		ship.forceMove(get_turf(locate(info["x"], info["y"], occupying_z))) //Let's unbox that ship. Nice.
 		if(istype(ship, /obj/structure/overmap))
-			START_PROCESSING(SSphysics_processing, ship) //And let's stop it from processing too.
 			var/obj/structure/overmap/OM = ship
+			START_PROCESSING(SSphysics_processing, OM) //And let's restart its processing too..
 			if(OM.physics2d)
 				START_PROCESSING(SSphysics_processing, OM.physics2d) //Respawn this ship's collider so it can start colliding once more
 	}
@@ -114,7 +115,7 @@
 		X.moveToNullspace() //Anything that's an NPC should be stored safely in nullspace until we return.
 		if(istype(X, /obj/structure/overmap))
 			var/obj/structure/overmap/foo = X
-			STOP_PROCESSING(SSphysics_processing, X) //And let's stop it from processing too.
+			STOP_PROCESSING(SSphysics_processing, foo) //And let's stop it from processing too.
 			if(foo.physics2d)
 				STOP_PROCESSING(SSphysics_processing, foo.physics2d) //Despawn this ship's collider, to avoid wasting time figuring out if it's colliding with things or not.
 	occupying_z = 0 //Alright, no ships are holding it anymore. Stop holding the Z-level

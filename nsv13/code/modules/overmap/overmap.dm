@@ -374,6 +374,8 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 		current_system.system_contents.Remove(src)
 		if(faction != "nanotrasen" && faction != "solgov")
 			current_system.enemies_in_system.Remove(src)
+		if(current_system.contents_positions[src])	//If we got destroyed while not loaded, chances are we should kill off this reference.
+			current_system.contents_positions.Remove(src)
 
 	STOP_PROCESSING(SSphysics_processing, src)
 	GLOB.overmap_objects -= src
