@@ -167,3 +167,42 @@
 	src.visible_message("<span class='notice'>[src] whirrs into life!</span>")
 	arm.icon_state = "[arm_icon_state]_anim"
 	playsound(src, 'sound/items/drill_use.ogg', 100, 1)
+
+/obj/item/circuitboard/computer/ammo_sorter
+	name = "Ammo sorter console (circuitboard)"
+	build_path = /obj/machinery/computer/ammo_sorter
+
+/obj/item/circuitboard/machine/ammo_sorter
+	name = "Ammo sorter (circuitboard)"
+	build_path = /obj/machinery/ammo_sorter
+
+/obj/machinery/computer/ammo_sorter
+	name = "Ammo Rack Control Console"
+	icon_screen = "ammorack"
+	circuit = /obj/item/circuitboard/computer/ammo_sorter
+	var/list/linked_sorters = list()
+
+/obj/machinery/computer/ammo_sorter/multitool_act(mob/living/user, obj/item/I)
+	. = ..()
+	var/obj/item/multitool/M = I
+	if(M.buffer && istype(M.buffer, /obj/machinery/ammo_sorter) && !LAZYFIND(M.buffer, linked_sorters))
+		linked_sorters += M
+		to_chat(user, "<span class='warning'>You've linked [M.buffer] to [src]...")
+
+/obj/machinery/computer/ammo_sorter/ui_interact(mob/user, ui_key = "main", datum/tgui/ui = null, force_open = 0, datum/tgui/master_ui = null, datum/ui_state/state = GLOB.default_state) // Remember to use the appropriate state.
+	ui = SStgui.try_update_ui(user, src, ui_key, ui, force_open)
+	if(!ui)
+		ui = new(user, src, ui_key, "AmmoSorter", name, 560, 600, master_ui, state)
+		ui.open()
+
+/obj/machinery/computer/ammo_sorter/ui_act(action, params, datum/tgui/ui)
+	if(..())
+		return
+
+
+/obj/machinery/ammo_sorter
+	name = "Ammo Rack"
+	desc = "A machine that allows you to compartmentalise your ship's ammo stores, controlled by a central console."
+	icon = 'nsv13/icons/obj/munitions.dmi'
+	icon_state = "ammorack"
+	circuit = /obj/item/circuitboard/machine/ammo_sorter

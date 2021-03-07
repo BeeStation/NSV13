@@ -51,7 +51,7 @@
 	display_name = "Advanced Ballistics"
 	description = "More guns means better guns... Right?"
 	prereq_ids = list("ballistic_weapons")
-	design_ids = list("munitions_computer_circuit", "ship_firing_electronics", "ams_console", "vls_tube", "naval_shell", "fiftycal", "fiftycalcomp","deck_gun","naval_artillery_comp","artillery_loader","powder_loader","payload_gate","powder_bag")
+	design_ids = list("munitions_computer_circuit", "ship_firing_electronics", "ams_console", "vls_tube", "naval_shell", "fiftycal", "fiftycalcomp","deck_gun","naval_artillery_comp","artillery_loader","powder_loader","payload_gate","powder_bag","gauss_rack_upgrade")
 	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 5000)
 	export_price = 5000
 
