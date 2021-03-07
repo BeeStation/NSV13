@@ -2904,12 +2904,19 @@
 /obj/item/storage/box/beanbag,
 /obj/item/gun/ballistic/shotgun/doublebarrel,
 /obj/item/clothing/glasses/sunglasses/advanced/reagent,
+/obj/item/book/manual/wiki/sop/service,
 /turf/open/floor/wood,
 /area/crew_quarters/bar)
 "bIM" = (
 /obj/machinery/atmospherics/pipe/heat_exchanging/simple,
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/tcommsat/server)
+"bIO" = (
+/obj/structure/sign/poster/random{
+	pixel_x = -32
+	},
+/turf/open/floor/wood,
+/area/crew_quarters/bar)
 "bJA" = (
 /obj/structure/closet/crate,
 /obj/effect/spawner/lootdrop/gambling,
@@ -6225,6 +6232,9 @@
 /obj/machinery/atmospherics/pipe/simple/purple/hidden{
 	dir = 5
 	},
+/obj/machinery/light/small{
+	dir = 8
+	},
 /turf/open/floor/plating,
 /area/maintenance/department/engine)
 "dZU" = (
@@ -7808,6 +7818,7 @@
 /obj/structure/cable/white{
 	icon_state = "6-9"
 	},
+/obj/item/book/manual/wiki/sop/engineering,
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/engine/break_room)
 "fhu" = (
@@ -8710,6 +8721,7 @@
 /obj/structure/bookcase/random,
 /obj/item/book/manual/wiki/detective,
 /obj/item/book/manual/wiki/security_space_law,
+/obj/item/book/manual/wiki/sop/security,
 /turf/open/floor/carpet/ship/red_carpet,
 /area/security/brig)
 "fQE" = (
@@ -19943,11 +19955,10 @@
 /turf/open/floor/carpet/ship,
 /area/security/prison)
 "nBT" = (
-/obj/structure/sign/poster/random{
-	pixel_x = -32
-	},
-/turf/open/floor/wood,
-/area/crew_quarters/bar)
+/obj/machinery/recharge_station,
+/obj/effect/landmark/start/cyborg,
+/turf/open/floor/plating,
+/area/maintenance/department/engine)
 "nCf" = (
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3,
 /turf/open/floor/wood,
@@ -20973,6 +20984,7 @@
 /area/crew_quarters/heads/cmo)
 "oqc" = (
 /obj/structure/table/wood,
+/obj/item/coin/iron,
 /obj/item/storage/box/matches,
 /obj/item/coin/iron,
 /turf/open/floor/wood,
@@ -22704,6 +22716,7 @@
 /obj/machinery/atmospherics/pipe/heat_exchanging/junction{
 	dir = 8
 	},
+/obj/item/book/manual/wiki/sop/service,
 /turf/open/floor/plasteel/freezer,
 /area/crew_quarters/kitchen/coldroom)
 "puI" = (
@@ -23731,6 +23744,7 @@
 	pixel_y = 4
 	},
 /obj/item/book/manual/wiki/infections,
+/obj/item/book/manual/wiki/sop/medical,
 /turf/open/floor/carpet/ship/blue,
 /area/medical/medbay/lobby)
 "qdi" = (
@@ -29813,6 +29827,7 @@
 /obj/structure/disposalpipe/trunk/multiz{
 	dir = 4
 	},
+/obj/item/book/manual/wiki/sop/service,
 /turf/open/floor/grass,
 /area/hydroponics)
 "uqr" = (
@@ -30987,6 +31002,11 @@
 	},
 /turf/open/floor/carpet,
 /area/hallway/secondary/entry/arrivals)
+"vml" = (
+/obj/structure/bookcase/random,
+/obj/item/book/manual/wiki/sop/service,
+/turf/open/floor/wood,
+/area/crew_quarters/bar)
 "vnm" = (
 /obj/structure/cable{
 	icon_state = "1-2"
@@ -60144,7 +60164,7 @@ fZX
 fZX
 fZX
 fZX
-yca
+nBT
 yca
 yca
 yca
@@ -60920,8 +60940,8 @@ dmx
 dmx
 dmx
 dmx
-yca
-yca
+dmx
+dmx
 yca
 dmx
 yca
@@ -61176,8 +61196,8 @@ uuc
 ouq
 bQq
 lsG
-dmx
-dmx
+bIO
+vml
 dmx
 yca
 dmx
@@ -61433,7 +61453,7 @@ hpH
 sAK
 sAK
 sAK
-nBT
+njS
 aJG
 dmx
 yca

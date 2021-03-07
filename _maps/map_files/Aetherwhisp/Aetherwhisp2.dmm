@@ -1058,6 +1058,7 @@
 	pixel_y = 32
 	},
 /obj/structure/bookcase/random,
+/obj/item/book/manual/wiki/sop/command,
 /turf/open/floor/carpet/ship/blue{
 	color = "#9999DD";
 	name = "nanoweave carpet (bluer)"
@@ -5807,7 +5808,15 @@
 /turf/open/floor/carpet/ship,
 /area/quartermaster/lobby)
 "enQ" = (
-/obj/structure/munitions_trolley,
+/obj/structure/closet/crate/secure/weapon,
+/obj/item/ship_weapon/parts/missile/warhead/torpedo,
+/obj/item/ship_weapon/parts/missile/warhead/torpedo,
+/obj/item/ship_weapon/parts/missile/warhead/probe,
+/obj/item/ship_weapon/parts/missile/warhead/bunker_buster,
+/obj/item/ship_weapon/parts/missile/warhead/bunker_buster,
+/obj/item/ship_weapon/parts/missile/warhead/bunker_buster,
+/obj/item/ship_weapon/parts/missile/warhead/torpedo,
+/obj/effect/spawner/lootdrop/maintenance/two,
 /turf/open/floor/carpet/ship/beige_carpet{
 	color = "#CC8899";
 	name = "nanoweave carpet (puce)"
@@ -11529,12 +11538,10 @@
 /turf/open/floor/plating,
 /area/maintenance/department/cargo)
 "iuG" = (
-/obj/structure/reagent_dispensers/watertank,
-/turf/open/floor/carpet/ship/beige_carpet{
-	color = "#CC8899";
-	name = "nanoweave carpet (puce)"
-	},
-/area/nsv/hanger/storage)
+/obj/item/book/manual/wiki/sop/supply,
+/obj/structure/bookcase/random,
+/turf/open/floor/plating,
+/area/quartermaster/warehouse)
 "iuV" = (
 /obj/structure/window/reinforced{
 	dir = 8
@@ -16449,8 +16456,9 @@
 /turf/open/floor/carpet/ship/purple_carpet,
 /area/science/xenobiology)
 "mmr" = (
-/obj/item/flashlight/lamp,
 /obj/structure/table/wood,
+/obj/item/book/manual/wiki/sop/catalogue,
+/obj/item/flashlight/lamp,
 /turf/open/floor/wood,
 /area/library)
 "mnf" = (
@@ -18060,6 +18068,15 @@
 	icon_state = "4-8"
 	},
 /obj/structure/bookcase/manuals/engineering,
+/obj/item/book/manual/wiki/sop/command,
+/obj/item/book/manual/wiki/security_space_law,
+/obj/item/book/manual/wiki/sop/engineering,
+/obj/item/book/manual/wiki/sop/medical,
+/obj/item/book/manual/wiki/sop/munitions,
+/obj/item/book/manual/wiki/sop/science,
+/obj/item/book/manual/wiki/sop/security,
+/obj/item/book/manual/wiki/sop/service,
+/obj/item/book/manual/wiki/sop/supply,
 /turf/open/floor/carpet,
 /area/crew_quarters/heads/captain/private)
 "nsQ" = (
@@ -18359,17 +18376,18 @@
 /turf/open/floor/carpet/ship,
 /area/bridge/secondary)
 "nCR" = (
-/obj/effect/spawner/lootdrop/maintenance,
 /obj/item/radio/headset/heads/captain/alt{
 	desc = "A special headset that protects ears from some loud noises.";
 	keyslot = null;
 	name = "noise cancelling headphones"
 	},
-/obj/item/clothing/head/soft/yellow,
 /obj/structure/closet/secure_closet/puce{
 	name = "random puce event";
 	req_access = null
 	},
+/obj/item/book/manual/wiki/sop/munitions/puce,
+/obj/effect/spawner/lootdrop/maintenance,
+/obj/item/clothing/head/soft/yellow,
 /turf/open/floor/plating,
 /area/maintenance/nsv/bridge)
 "nDg" = (
@@ -23777,8 +23795,11 @@
 "rms" = (
 /obj/structure/table/glass,
 /obj/item/radio/intercom/directional/west,
-/obj/item/book/random,
-/obj/item/book/random,
+/obj/item/book/random{
+	pixel_x = 4;
+	pixel_y = 3
+	},
+/obj/item/book/manual/wiki/sop/service,
 /turf/open/floor/carpet,
 /area/library)
 "rng" = (
@@ -24817,7 +24838,7 @@
 /turf/open/floor/holofloor/wood,
 /area/science/computer_lab)
 "rSH" = (
-/obj/structure/reagent_dispensers/fueltank,
+/obj/structure/munitions_trolley,
 /turf/open/floor/carpet/ship/beige_carpet{
 	color = "#CC8899";
 	name = "nanoweave carpet (puce)"
@@ -27136,6 +27157,7 @@
 /area/maintenance/department/science/central)
 "tKO" = (
 /obj/machinery/light,
+/obj/structure/reagent_dispensers/fueltank,
 /turf/open/floor/carpet/ship/beige_carpet{
 	color = "#CC8899";
 	name = "nanoweave carpet (puce)"
@@ -27229,15 +27251,7 @@
 /turf/open/floor/plasteel/freezer,
 /area/crew_quarters/toilet/locker)
 "tOT" = (
-/obj/structure/closet/crate/secure/weapon,
-/obj/item/ship_weapon/parts/missile/warhead/torpedo,
-/obj/item/ship_weapon/parts/missile/warhead/torpedo,
-/obj/item/ship_weapon/parts/missile/warhead/probe,
-/obj/item/ship_weapon/parts/missile/warhead/bunker_buster,
-/obj/item/ship_weapon/parts/missile/warhead/bunker_buster,
-/obj/item/ship_weapon/parts/missile/warhead/bunker_buster,
-/obj/item/ship_weapon/parts/missile/warhead/torpedo,
-/obj/effect/spawner/lootdrop/maintenance/two,
+/obj/structure/reagent_dispensers/watertank,
 /turf/open/floor/carpet/ship/beige_carpet{
 	color = "#CC8899";
 	name = "nanoweave carpet (puce)"
@@ -27298,6 +27312,7 @@
 /obj/item/book/manual/wiki/telescience,
 /obj/item/book/manual/wiki/research_and_development,
 /obj/machinery/computer/lore_terminal,
+/obj/item/book/manual/wiki/sop/science,
 /turf/open/floor/carpet/ship/purple_carpet,
 /area/science/research)
 "tRx" = (
@@ -32882,6 +32897,14 @@
 	},
 /turf/open/floor/carpet/ship,
 /area/bridge/secondary)
+"yha" = (
+/obj/structure/bookcase/random,
+/obj/item/book/manual/wiki/sop/munitions,
+/turf/open/floor/carpet/ship/beige_carpet{
+	color = "#CC8899";
+	name = "nanoweave carpet (puce)"
+	},
+/area/nsv/hanger/storage)
 "yhd" = (
 /obj/effect/turf_decal/pool,
 /obj/machinery/airalarm/directional/west,
@@ -57764,7 +57787,7 @@ hBY
 hrT
 bsV
 nkW
-bTt
+iuG
 pep
 bTt
 ugR
@@ -72165,8 +72188,8 @@ eGa
 fhi
 iSw
 sss
-vNI
-vNI
+rSH
+rSH
 tOT
 tKO
 wjT
@@ -72936,10 +72959,10 @@ dvJ
 uKL
 iUx
 dbI
-iuG
-rSH
+vNI
+vNI
 enQ
-enQ
+yha
 dvr
 bAT
 bUF
