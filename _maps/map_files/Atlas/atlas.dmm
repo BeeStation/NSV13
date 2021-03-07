@@ -3035,6 +3035,9 @@
 /area/hallway/nsv/deck2/primary)
 "kd" = (
 /obj/machinery/vending/wardrobe/muni_wardrobe,
+/obj/machinery/firealarm{
+	pixel_y = 24
+	},
 /turf/open/floor/carpet/red,
 /area/nsv/weapons)
 "kg" = (
@@ -4475,9 +4478,11 @@
 /turf/template_noop,
 /area/maintenance/nsv/deck2/port)
 "oE" = (
-/obj/machinery/rnd/production/protolathe/department/munitions,
-/obj/machinery/firealarm{
-	pixel_y = 24
+/obj/machinery/light{
+	dir = 1
+	},
+/obj/machinery/computer/ammo_sorter{
+	id = "atlas_missilebay"
 	},
 /turf/open/floor/carpet/red,
 /area/nsv/weapons)
@@ -9163,18 +9168,15 @@
 /turf/open/floor/plating,
 /area/engine/atmos)
 "GF" = (
-/obj/machinery/light{
-	dir = 4
-	},
-/obj/machinery/conveyor/slow{
-	dir = 1;
-	id = "atlas_torp"
+/obj/machinery/ammo_sorter{
+	dir = 8;
+	id = "atlas_missilebay";
+	name = "Missile Casings"
 	},
 /obj/item/ship_weapon/ammunition/missile/missile_casing,
 /obj/item/ship_weapon/ammunition/missile/missile_casing,
 /obj/item/ship_weapon/ammunition/missile/missile_casing,
-/obj/structure/closet/crate,
-/turf/open/floor/monotile/dark,
+/turf/open/floor/carpet/red,
 /area/nsv/weapons)
 "GG" = (
 /obj/structure/disposalpipe/segment,
@@ -9833,6 +9835,9 @@
 	},
 /obj/item/ship_weapon/ammunition/torpedo,
 /obj/item/ship_weapon/ammunition/torpedo,
+/obj/structure/window/reinforced{
+	dir = 4
+	},
 /turf/open/floor/monotile/dark,
 /area/nsv/weapons)
 "Jt" = (
@@ -10834,16 +10839,6 @@
 	icon_state = "platingdmg2"
 	},
 /area/maintenance/department/engine/atmos)
-"MS" = (
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
-	dir = 8
-	},
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
-	dir = 4
-	},
-/obj/machinery/light_switch/north,
-/turf/open/floor/carpet/red,
-/area/nsv/weapons)
 "MV" = (
 /obj/machinery/atmospherics/pipe/simple/multiz,
 /turf/open/floor/plating,
@@ -13253,6 +13248,7 @@
 "VE" = (
 /obj/structure/table/reinforced,
 /obj/item/cigbutt,
+/obj/item/circuitboard/machine/ammo_sorter,
 /turf/open/floor/carpet/red,
 /area/nsv/weapons)
 "VF" = (
@@ -14037,6 +14033,8 @@
 	dir = 1;
 	icon_state = "tube"
 	},
+/obj/machinery/light_switch/north,
+/obj/machinery/rnd/production/protolathe/department/munitions,
 /turf/open/floor/carpet/red,
 /area/nsv/weapons)
 "YM" = (
@@ -50745,7 +50743,7 @@ hK
 rK
 VI
 eY
-Oj
+qc
 qc
 FY
 qc
@@ -52548,7 +52546,7 @@ Oj
 aL
 Px
 aL
-GF
+aL
 wu
 WQ
 Ce
@@ -52805,8 +52803,8 @@ iV
 iV
 iV
 eY
-eY
-MS
+GF
+fj
 WQ
 rC
 eY

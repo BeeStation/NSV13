@@ -260,7 +260,7 @@
 
 /obj/machinery/ammo_sorter
 	name = "Ammo Rack"
-	desc = "A machine that allows you to compartmentalise your ship's ammo stores, controlled by a central console."
+	desc = "A machine that allows you to compartmentalise your ship's ammo stores, controlled by a central console. Drag and drop items onto it to load them."
 	icon = 'nsv13/icons/obj/munitions.dmi'
 	icon_state = "ammorack"
 	circuit = /obj/item/circuitboard/machine/ammo_sorter
@@ -298,7 +298,7 @@
 	. += "<span class='notice'>It's current holding:</span>"
 	if(loaded.len)
 		for(var/obj/item/C in loaded)
-			. += "<br/><span class='notice'>[icon2html(C, user)] \A [C].</span>"
+			. += "<br/><span class='notice'>[C].</span>"
 
 /obj/machinery/ammo_sorter/MouseDrop_T(atom/movable/A, mob/user)
 	. = ..()
