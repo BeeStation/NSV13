@@ -2167,8 +2167,19 @@
 /area/nsv/weapons/gauss/battery/deck2/port)
 "hc" = (
 /obj/machinery/conveyor{
+	dir = 1;
+	id = "atlas_powder"
+	},
+/obj/machinery/conveyor{
 	dir = 8;
 	id = "atlas_naval"
+	},
+/obj/item/powder_bag{
+	pixel_y = -10
+	},
+/obj/item/powder_bag,
+/obj/item/powder_bag{
+	pixel_y = 8
 	},
 /turf/open/floor/monotile/dark,
 /area/nsv/weapons)
@@ -3299,6 +3310,10 @@
 /area/ai_monitored/security/armory)
 "kN" = (
 /obj/effect/turf_decal/box/corners,
+/obj/machinery/conveyor_switch{
+	id = "atlas_naval";
+	name = "Naval Cannon Ammunition Line"
+	},
 /turf/open/floor/monotile/dark,
 /area/nsv/weapons)
 "kO" = (
@@ -3996,15 +4011,18 @@
 /turf/open/floor/plating,
 /area/engine/atmos)
 "nc" = (
-/obj/machinery/conveyor{
-	id = "shellTwo_atlas"
-	},
 /obj/effect/turf_decal/stripes/line,
 /obj/structure/window/reinforced{
 	dir = 8
 	},
-/obj/item/ship_weapon/ammunition/naval_artillery/ap,
-/obj/item/ship_weapon/ammunition/naval_artillery/ap,
+/obj/machinery/ammo_sorter{
+	id = "atlas1";
+	name = "Gunpowder #2"
+	},
+/obj/item/powder_bag,
+/obj/item/powder_bag,
+/obj/item/powder_bag,
+/obj/item/powder_bag,
 /turf/open/floor/monotile/dark,
 /area/nsv/weapons)
 "nh" = (
@@ -4023,9 +4041,9 @@
 /obj/effect/turf_decal/box/corners{
 	dir = 4
 	},
-/obj/machinery/conveyor_switch{
-	id = "atlas_naval";
-	name = "Naval Cannon Ammunition Line"
+/obj/machinery/conveyor_switch/oneway{
+	id = "atlas_powder";
+	name = "Feed Powder Racks"
 	},
 /turf/open/floor/monotile/dark,
 /area/nsv/weapons)
@@ -4895,16 +4913,18 @@
 /turf/open/floor/monotile/dark,
 /area/hallway/nsv/deck2/primary)
 "pU" = (
-/obj/machinery/conveyor{
-	dir = 4;
-	id = "shellOne_atlas"
-	},
 /obj/effect/turf_decal/stripes/line{
 	dir = 4
 	},
 /obj/structure/window/reinforced{
 	dir = 1
 	},
+/obj/machinery/ammo_sorter{
+	dir = 4;
+	id = "atlas1";
+	name = "Standard Shells #1"
+	},
+/obj/item/ship_weapon/ammunition/naval_artillery,
 /obj/item/ship_weapon/ammunition/naval_artillery,
 /obj/item/ship_weapon/ammunition/naval_artillery,
 /turf/open/floor/monotile/dark,
@@ -5267,13 +5287,15 @@
 /turf/open/floor/engine/o2,
 /area/engine/atmos)
 "ri" = (
-/obj/machinery/conveyor{
-	dir = 4;
-	id = "shellOne_atlas"
-	},
 /obj/effect/turf_decal/stripes/line{
 	dir = 4
 	},
+/obj/machinery/ammo_sorter{
+	dir = 4;
+	id = "atlas1";
+	name = "Standard Shells #2"
+	},
+/obj/item/ship_weapon/ammunition/naval_artillery,
 /obj/item/ship_weapon/ammunition/naval_artillery,
 /obj/item/ship_weapon/ammunition/naval_artillery,
 /turf/open/floor/monotile/dark,
@@ -6540,17 +6562,20 @@
 	name = "Abandoned Bar"
 	})
 "vF" = (
-/obj/machinery/conveyor{
-	id = "shellTwo_atlas"
-	},
 /obj/effect/turf_decal/stripes/line{
 	dir = 6
 	},
 /obj/structure/window/reinforced{
 	dir = 4
 	},
-/obj/item/ship_weapon/ammunition/naval_artillery/ap,
-/obj/item/ship_weapon/ammunition/naval_artillery/ap,
+/obj/machinery/ammo_sorter{
+	id = "atlas1";
+	name = "Gunpowder #1"
+	},
+/obj/item/powder_bag,
+/obj/item/powder_bag,
+/obj/item/powder_bag,
+/obj/item/powder_bag,
 /turf/open/floor/monotile/dark,
 /area/nsv/weapons)
 "vG" = (
@@ -6975,6 +7000,16 @@
 	},
 /turf/open/floor/engine,
 /area/science)
+"xk" = (
+/obj/machinery/conveyor{
+	dir = 8;
+	id = "atlas_specialshells"
+	},
+/obj/machinery/conveyor{
+	id = "atlas_naval"
+	},
+/turf/open/floor/monotile/dark,
+/area/nsv/weapons)
 "xm" = (
 /obj/structure/cable/yellow{
 	icon_state = "4-8"
@@ -7990,6 +8025,16 @@
 	},
 /turf/open/floor/monotile/dark,
 /area/science)
+"BI" = (
+/obj/machinery/conveyor{
+	dir = 8;
+	id = "atlas_standardshell"
+	},
+/obj/machinery/conveyor{
+	id = "atlas_naval"
+	},
+/turf/open/floor/monotile/dark,
+/area/nsv/weapons)
 "BJ" = (
 /obj/structure/particle_accelerator/particle_emitter/right{
 	dir = 8;
@@ -8390,16 +8435,21 @@
 /turf/open/floor/monotile,
 /area/quartermaster/storage)
 "Di" = (
-/obj/machinery/conveyor{
-	dir = 4;
-	id = "shellOne_atlas"
-	},
 /obj/effect/turf_decal/stripes/line{
 	dir = 4
 	},
 /obj/structure/window/reinforced,
-/obj/item/ship_weapon/ammunition/naval_artillery,
-/obj/item/ship_weapon/ammunition/naval_artillery,
+/obj/machinery/ammo_sorter{
+	dir = 4;
+	id = "atlas1";
+	name = "AP shells"
+	},
+/obj/item/ship_weapon/ammunition/naval_artillery/ap,
+/obj/item/ship_weapon/ammunition/naval_artillery/ap,
+/obj/item/ship_weapon/ammunition/naval_artillery/ap,
+/obj/item/ship_weapon/ammunition/naval_artillery/ap,
+/obj/item/ship_weapon/ammunition/naval_artillery/ap,
+/obj/item/ship_weapon/ammunition/naval_artillery/ap,
 /turf/open/floor/monotile/dark,
 /area/nsv/weapons)
 "Dk" = (
@@ -8522,6 +8572,13 @@
 /obj/structure/reagent_dispensers/watertank,
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/port)
+"DT" = (
+/obj/effect/turf_decal/loading_area{
+	dir = 4
+	},
+/obj/structure/munitions_trolley,
+/turf/open/floor/monotile/dark,
+/area/nsv/weapons)
 "DU" = (
 /obj/machinery/light,
 /obj/effect/turf_decal/tile/ship/half/orange{
@@ -9750,18 +9807,16 @@
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/port/fore)
 "Jr" = (
-/obj/machinery/conveyor{
-	dir = 1;
-	id = "shellThree_atlas"
-	},
 /obj/effect/turf_decal/stripes/line{
 	dir = 5
 	},
-/obj/structure/window/reinforced{
-	dir = 4
+/obj/machinery/ammo_sorter{
+	dir = 1;
+	id = "atlas1";
+	name = "Custom #2"
 	},
-/obj/item/ship_weapon/ammunition/naval_artillery,
-/obj/item/ship_weapon/ammunition/naval_artillery,
+/obj/item/ship_weapon/ammunition/torpedo,
+/obj/item/ship_weapon/ammunition/torpedo,
 /turf/open/floor/monotile/dark,
 /area/nsv/weapons)
 "Jt" = (
@@ -9987,6 +10042,13 @@
 /area/crew_quarters/abandoned_gambling_den{
 	name = "Abandoned Bar"
 	})
+"Kf" = (
+/obj/structure/chair/office/light{
+	dir = 8;
+	name = "Storage Coordinator"
+	},
+/turf/open/floor/monotile/dark,
+/area/nsv/weapons)
 "Kg" = (
 /obj/effect/decal/cleanable/glass,
 /obj/structure/grille/broken,
@@ -10526,8 +10588,8 @@
 	dir = 1
 	},
 /obj/machinery/conveyor_switch/oneway{
-	id = "shellTwo_atlas";
-	name = "Shell Rack 2"
+	id = "atlas_standardshell";
+	name = "Load Standard Shells"
 	},
 /turf/open/floor/monotile/dark,
 /area/nsv/weapons)
@@ -11844,6 +11906,7 @@
 /obj/structure/closet/crate{
 	icon_state = "crateopen"
 	},
+/obj/item/multitool,
 /turf/open/floor/monotile/dark,
 /area/nsv/weapons)
 "QV" = (
@@ -12463,9 +12526,9 @@
 /turf/open/floor/monotile,
 /area/nsv/weapons)
 "Tf" = (
-/obj/machinery/conveyor_switch/oneway{
-	id = "shellOne_atlas";
-	name = "Shell Rack 1"
+/obj/machinery/computer/ammo_sorter{
+	dir = 4;
+	id = "atlas1"
 	},
 /turf/open/floor/monotile/dark,
 /area/nsv/weapons)
@@ -13696,18 +13759,15 @@
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/starboard)
 "XP" = (
-/obj/machinery/conveyor{
-	dir = 1;
-	id = "shellThree_atlas"
-	},
 /obj/effect/turf_decal/stripes/line{
 	dir = 1
 	},
-/obj/structure/window/reinforced{
-	dir = 8
+/obj/machinery/ammo_sorter{
+	dir = 1;
+	id = "atlas1";
+	name = "Custom #1"
 	},
-/obj/item/ship_weapon/ammunition/naval_artillery,
-/obj/item/ship_weapon/ammunition/naval_artillery,
+/obj/item/ship_weapon/ammunition/torpedo/nuke,
 /turf/open/floor/monotile/dark,
 /area/nsv/weapons)
 "XU" = (
@@ -13727,8 +13787,8 @@
 	dir = 8
 	},
 /obj/machinery/conveyor_switch/oneway{
-	id = "shellThree_atlas";
-	name = "Shell Rack 3"
+	id = "atlas_specialshells";
+	name = "Load AP shells"
 	},
 /turf/open/floor/monotile/dark,
 /area/nsv/weapons)
@@ -49647,9 +49707,9 @@ eY
 eY
 eY
 nF
-nF
-nF
-nF
+BI
+BI
+xk
 WT
 eY
 eY
@@ -50162,7 +50222,7 @@ eY
 vF
 hc
 nj
-mP
+Kf
 kN
 WT
 Jr
@@ -50935,7 +50995,7 @@ mP
 mP
 Te
 mP
-WT
+DT
 mP
 fa
 uZ
