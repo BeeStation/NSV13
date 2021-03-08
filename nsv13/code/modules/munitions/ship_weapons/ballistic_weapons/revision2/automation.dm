@@ -271,6 +271,18 @@
 	var/max_capacity = 12 //Max cap for holding.
 	var/loading = FALSE
 
+/obj/machinery/ammo_sorter/attackby(obj/item/I, mob/user, params)
+	if(default_unfasten_wrench(user, I))
+		return
+	if(default_deconstruction_screwdriver(user, icon_state, icon_state, I))
+		update_icon()
+		return
+	. = ..()
+
+/obj/machinery/ammo_sorter/AltClick(mob/user)
+	. = ..()
+	setDir(turn(src.dir, -90))
+
 /obj/machinery/ammo_sorter/ex_act(severity, target)
 	for(var/obj/item/X in loaded)
 		X.ex_act(severity, target)
@@ -310,7 +322,7 @@
 	//You can store any kind of ammo here for now.
 	if(istype(A, /obj/item/ship_weapon/ammunition) || istype(A, /obj/item/powder_bag))
 		to_chat(user, "<span class='notice'>You start to load [src] with [A]</span>")
-		if(do_after(user, 4 SECONDS , target = src))
+		if(do_after(user, 2 SECONDS , target = src))
 			load(A, user)
 
 /obj/machinery/ammo_sorter/Bumped(atom/movable/AM)
@@ -330,14 +342,14 @@
 	AM.forceMove(get_turf(get_step(src, dir)))
 
 /obj/machinery/ammo_sorter/proc/load(atom/movable/A, mob/user)
-	playsound(src, 'nsv13/sound/effects/ship/mac_load.ogg', 100, 1)
-	flick("ammorack_dispense", src)
 	if(loaded.len >= max_capacity)
 		if(user)
 			to_chat(user, "<span class='warning'>[src] is full!</span>")
 		loading = FALSE
 		return FALSE
 	if(istype(A, /obj/item/ship_weapon/ammunition) || istype(A, /obj/item/powder_bag))
+		playsound(src, 'nsv13/sound/effects/ship/mac_load.ogg', 100, 1)
+		flick("ammorack_dispense", src)
 		A.forceMove(src)
 		loading = FALSE
 		loaded += A

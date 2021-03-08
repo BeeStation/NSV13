@@ -366,12 +366,12 @@
 			load(AM)
 
 /obj/structure/gauss_rack/proc/load(atom/movable/A, mob/user)
-	playsound(src, 'nsv13/sound/effects/ship/mac_load.ogg', 100, 1)
 	if(capacity >= max_capacity)
 		if(user)
 			to_chat(user, "<span class='warning'>[src] is full!</span>")
 		loading = FALSE
 		return FALSE
+	playsound(src, 'nsv13/sound/effects/ship/mac_load.ogg', 100, 1)
 	if(istype(A, gun.ammo_type))
 		A.forceMove(src)
 		A.pixel_y = 5+(capacity*5)
