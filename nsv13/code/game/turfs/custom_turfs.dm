@@ -400,7 +400,7 @@
 	desc = "A regular techfloor hull plating tile"
 	icon = 'nsv13/icons/turf/floors.dmi'
 	icon_state = "techfloor_tile"
-	turf_type = /turf/open/floor/plasteel/grid/lino
+	turf_type = /turf/open/floor/plasteel/grid/techfloor
 
 /turf/open/floor/plasteel/grid/techfloor/grid
 	name = "techfloor grid"
@@ -424,6 +424,13 @@
 /turf/open/floor/monofloor/corner
 	icon = 'nsv13/icons/turf/floors.dmi'
 	icon_state = "steel_monofloor_corner"
+
+/turf/open/floor/plating/rusty_techgrid
+	name = "rusted grid plating"
+	icon = 'nsv13/icons/turf/floors.dmi'
+	icon_state = "techfloor"
+	broken_states = list("techfloor_dam1", "techfloor_dam2")
+	burnt_states = list("techfloor_scorched1", "techfloor_scorched2")
 
 /obj/effect/turf_decal/tile/orange
 	name = "orange corner"
