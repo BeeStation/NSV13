@@ -11,11 +11,12 @@ AIs like score, every few seconds, they'll run through all the subtypes of datum
 Example:
 Frame 1: Ai shoots ship, runs out of ammo
 Frame 2: Ai ship's "search and destroy" goal is now a lower priority than its resupply goal, as it recognises that it's fresh out of ammo. It'll now go find a supply ship and get re-armed there.
-Current task hierarchy (as of 28/06/2020)!
+Current task hierarchy (as of 10/02/2021)!
 1: Repair and re-arm. If a ship becomes critically damaged, or runs out of bullets, it will rush to a supply ship to resupply (if available), and heal up.
 2: (if you're a battleship): Defend the supply lines. Battleships stick close to the supply ships and keep them safe.
-3: Search and destroy: Attempt to find a target that's visible and within tracking range.
-4: (All ships) Defend the supply lines: If AIs cannot find a suitable target, they'll flock back to the main fleet and protect the tankers. More nimble attack squadrons will blade off in wings and attack the enemy if they get too close, with the battleships staying behind to protect their charges.
+3: (Non-supply ships) Search and destroy: Attempt to find a target that's visible and within tracking range. - This is replaced with Swarm for fighters and bombers, which will somewhat cooperate while hunting down targets.
+4: Patrol: Destroyers and Supply ships will slowly patrol the sector for hostile ships, with their escorts in tow. Supply ships run when they spot anything close, Destroyers engage.
+5: (All ships) Defend the supply lines: If AIs cannot find a suitable target, they'll flock back to the main fleet and protect the tankers. More nimble attack squadrons will blade off in wings and attack the enemy if they get too close, with the battleships staying behind to protect their charges.
 Adding tasks is easy! Just define a datum for it.
 */
 
@@ -47,6 +48,7 @@ Adding tasks is easy! Just define a datum for it.
 #define AI_TRAIT_DESTROYER 3
 #define AI_TRAIT_ANTI_FIGHTER 4
 #define AI_TRAIT_BOARDER 5 //Ships that like to board you.
+#define AI_TRAIT_SWARMER 6 //Ships that love to act in swarms. Aka, Fighters.
 
 //Fleet behaviour. Border patrol fleets will stick to patrolling their home space only. Invasion fleets ignore home space and fly around. If the fleet has a goal system or is a interdictor, this gets mostly ignored, but stays as fallback.
 #define FLEET_TRAIT_BORDER_PATROL 1
@@ -65,6 +67,7 @@ GLOBAL_LIST_EMPTY(ai_goals)
 	var/list/battleship_types = list(/obj/structure/overmap/syndicate/ai/cruiser) //TODO: Implement above list for more ship variety.
 	var/list/supply_types = list(/obj/structure/overmap/syndicate/ai/carrier)
 	var/list/all_ships = list()
+	var/list/lances = list()
 	var/size = FLEET_DIFFICULTY_MEDIUM //How big is this fleet anyway?
 	var/list/audio_cues = list() //Does this fight come with a theme tune? Takes youtube / media links so that we don't have to store a bunch of copyrighted music on the box.
 	var/instantiated = FALSE //If we're not instantiated, moving all the ships is a piece of cake, if we are however, we do some extra steps to FTL them all.
@@ -208,17 +211,28 @@ GLOBAL_LIST_EMPTY(ai_goals)
 			target.system_contents += OM
 			if(!target.occupying_z)
 				STOP_PROCESSING(SSphysics_processing, OM)
+				if(OM.physics2d)
+					STOP_PROCESSING(SSphysics_processing, OM.physics2d)
+				var/backupx = OM.x
+				var/backupy = OM.y
 				OM.moveToNullspace()
-				target.contents_positions[OM] = list("x" = OM.x, "y" = OM.y) //Cache the ship's position so we can regenerate it later.
+				if(backupx && backupy)
+					target.contents_positions[OM] = list("x" = backupx, "y" = backupy) //Cache the ship's position so we can regenerate it later.
+				else
+					target.contents_positions[OM] = list("x" = rand(15, 240), "y" = rand(15, 240))
 			else
-				OM.forceMove(get_turf(locate(OM.x, OM.y, target.occupying_z)))
+				if(!OM.z)
+					START_PROCESSING(SSphysics_processing, OM)
+					if(OM.physics2d)
+						START_PROCESSING(SSphysics_processing, OM.physics2d)
+				target.add_ship(OM)
 			current_system.system_contents -= OM
-			target.system_contents += OM
 			if(alignment != "nanotrasen" && alignment != "solgov") //NT, SGC or whatever don't count as enemies that NT hire you to kill.
 				current_system.enemies_in_system -= OM
 				target.enemies_in_system += OM
 			if(current_system.contents_positions[OM]) //If we were loaded, but the system was not.
 				current_system.contents_positions -= OM
+			OM.current_system = target
 	target.fleets += src
 	current_system = target
 	if(target.alignment != alignment)
@@ -256,11 +270,14 @@ GLOBAL_LIST_EMPTY(ai_goals)
 /datum/fleet/proc/remove_ship(obj/structure/overmap/OM)
 	all_ships -= OM
 	last_encounter_time = world.time
-	for(var/list/L in taskforces)
-		for(var/obj/structure/overmap/OOM in L)
-			if(OM == OOM) //I'm gonna OOM
-				L -= OOM
-				break
+	for(var/V in taskforces)	//Very cursed but it works!
+		var/list/L = taskforces["[V]"]
+		if(!L)
+			continue
+		for(var/obj/structure/overmap/OOM in L)	//I'm gonna OOM
+			if(OOM == OM)
+				L.Remove(OM)
+				break	//Ships should exist once in a each taskforce, unless something is very wrong in there.
 	if(!all_ships.len) //We've been defeated!
 		defeat()
 
@@ -277,16 +294,19 @@ GLOBAL_LIST_EMPTY(ai_goals)
 	else
 		current_system.alignment = initial(current_system.alignment)
 		current_system.mission_sector = FALSE
-	faction = SSstar_system.faction_by_id(faction_id)
-	faction?.lose_influence(reward)
+	var/player_caused = FALSE
 	for(var/obj/structure/overmap/OOM in current_system.system_contents)
 		if(!OOM.mobs_in_ship.len)
 			continue
+		player_caused = TRUE
 		for(var/mob/M in OOM.mobs_in_ship)
 			if(M.client)
 				var/client/C = M.client
 				if(C.chatOutput && !C.chatOutput.broken && C.chatOutput.loaded)
 					C.chatOutput.stopMusic()
+	if(player_caused)	//Only modify influence if players caused this, otherwise someone else claimed the kill and it doesn't modify influence for the purpose of Patrol completion.
+		faction = SSstar_system.faction_by_id(faction_id)
+		faction?.lose_influence(reward)
 	QDEL_NULL(src)
 
 /datum/fleet/nanotrasen/earth/defeat()
@@ -452,6 +472,7 @@ GLOBAL_LIST_EMPTY(ai_goals)
 	supply_types = null
 	alignment = "pirate"
 	faction_id = FACTION_ID_PIRATES
+	reward = 35
 
 /datum/fleet/pirate/scout
 	name = "Space pirate scout fleet"
@@ -474,6 +495,7 @@ GLOBAL_LIST_EMPTY(ai_goals)
 	taunts = list("These are our waters you are sailing, prepare to surrender!", "Bold of you to fly Nanotrasen colours in this system, your last mistake.")
 	size = FLEET_DIFFICULTY_VERY_HARD
 	fleet_trait = FLEET_TRAIT_DEFENSE
+	reward = 100	//Difficult pirate fleet, so default reward.
 
 //Boss battles.
 
@@ -587,22 +609,35 @@ GLOBAL_LIST_EMPTY(ai_goals)
 		else
 			size = round(size + (num_players / 10) ) //Lightly scales things up.
 	size = CLAMP(size, FLEET_DIFFICULTY_EASY, INFINITY)
+	faction = SSstar_system.faction_by_id(faction_id)
+	reward *= size //Bigger fleet = larger reward
 	if(current_system)
+		current_system.alignment = alignment
+		if(current_system.alignment != initial(current_system.alignment))
+			current_system.mission_sector = TRUE
 		assemble(current_system)
 	addtimer(CALLBACK(src, .proc/move), initial_move_delay)
 
-//A ship has entered a system with a fleet present. Assemble the fleet so that it lives in this system now.
+//A fleet has entered a system. Assemble the fleet so that it lives in this system now.
 
 /datum/fleet/proc/assemble(datum/star_system/SS, difficulty=size)
 	if(!SS)
 		return
+	if(SS.occupying_z && instantiated)
+		for(var/obj/structure/overmap/unbox in all_ships)
+			if(SS.occupying_z != unbox.z)	//If we have ships 'stored' in nullspace or somewhere else, get them all into our system.
+				SS.add_ship(unbox)
+				START_PROCESSING(SSphysics_processing, unbox) //And let's restart its processing since it's likely stopped if they were in nullspace.
+				if(unbox.physics2d)
+					START_PROCESSING(SSphysics_processing, unbox.physics2d) //Respawn this ship's collider so it can start colliding once more
+		return
+	if(instantiated)
+		return
 	SS.alignment = alignment
-	if(!SS.occupying_z) //Only loaded in levels are supported at this time. TODO: Fix this.
-		return FALSE
-	faction = SSstar_system.faction_by_id(faction_id)
+	if(SS.alignment != initial(SS.alignment))
+		SS.mission_sector = TRUE
+	current_system = SS	//It should already have a system but lets be safe and move it.
 	instantiated = TRUE
-	current_system = SS
-	reward *= size //Bigger fleet = larger reward
 	/*Fleet comp! Let's use medium as an example:
 	6 total
 	3 destroyers (1/2 of the fleet size)
@@ -621,7 +656,14 @@ GLOBAL_LIST_EMPTY(ai_goals)
 				current_system.enemies_in_system += member
 			all_ships += member
 			RegisterSignal(member, COMSIG_PARENT_QDELETING , /datum/fleet/proc/remove_ship, member)
-			SS.add_ship(member)
+			if(SS.occupying_z)
+				SS.add_ship(member)
+			else
+				LAZYADD(SS.system_contents, member)
+				SS.contents_positions[member] = list("x" = rand(15, 240), "y" = rand(15, 240)) //If the system isn't loaded, just give them randomized positions.
+				STOP_PROCESSING(SSphysics_processing, member)
+				if(member.physics2d)
+					STOP_PROCESSING(SSphysics_processing, member.physics2d)
 		}
 	if(battleship_types?.len)
 		for(var/I=0; I<max(round(difficulty/4), 1);I++){
@@ -634,7 +676,14 @@ GLOBAL_LIST_EMPTY(ai_goals)
 				current_system.enemies_in_system += member
 			all_ships += member
 			RegisterSignal(member, COMSIG_PARENT_QDELETING , /datum/fleet/proc/remove_ship, member)
-			SS.add_ship(member)
+			if(SS.occupying_z)
+				SS.add_ship(member)
+			else
+				LAZYADD(SS.system_contents, member)
+				SS.contents_positions[member] = list("x" = rand(15, 240), "y" = rand(15, 240)) //If the system isn't loaded, just give them randomized positions..
+				STOP_PROCESSING(SSphysics_processing, member)
+				if(member.physics2d)
+					STOP_PROCESSING(SSphysics_processing, member.physics2d)
 		}
 	if(supply_types?.len)
 		for(var/I=0; I<max(round(difficulty/4), 1);I++){
@@ -647,9 +696,48 @@ GLOBAL_LIST_EMPTY(ai_goals)
 				current_system.enemies_in_system += member
 			all_ships += member
 			RegisterSignal(member, COMSIG_PARENT_QDELETING , /datum/fleet/proc/remove_ship, member)
-			SS.add_ship(member)
+			if(SS.occupying_z)
+				SS.add_ship(member)
+			else
+				LAZYADD(SS.system_contents, member)
+				SS.contents_positions[member] = list("x" = rand(15, 240), "y" = rand(15, 240)) //If the system isn't loaded, just give them randomized positions..
+				STOP_PROCESSING(SSphysics_processing, member)
+				if(member.physics2d)
+					STOP_PROCESSING(SSphysics_processing, member.physics2d)
 		}
 	return TRUE
+
+/*
+A bloated proc for checking AI trait(s) of a overmap vs. required trait(s) given as arg.
+Accepts singular variables aswell as lists, on both sides.
+Has potential to return incorrect results if you give a list with at least one duplicated element as arg. So, don't.
+*/
+/obj/structure/overmap/proc/has_ai_trait(var/V)
+	if(islist(V))
+		var/list/CTS = V	//CheckTraitS
+		if(islist(ai_trait))
+			var/list/OTS = ai_trait	//OvermapTraitS
+			for(var/CT in CTS)
+				var/found = FALSE
+				for(var/OT in OTS)
+					if(OT == CT)
+						found = TRUE
+						break
+				if(!found)
+					return FALSE
+			return TRUE
+		else
+			return FALSE	//If there are multiple required traits, but only one existing trait, we can be sure they don't have all of them, provided there isn't doubleoccurances in the list.
+	else
+		if(islist(ai_trait))
+			var/list/OTS = ai_trait
+			for(var/OT in OTS)
+				if(OT == V)
+					return TRUE	//One required trait, multiple present ones = We can early return TRUE.
+			return FALSE
+		else
+			return V == ai_trait
+
 
 /datum/ai_goal
 	var/name = "Placeholder goal" //Please keep these human readable for debugging!
@@ -664,9 +752,13 @@ GLOBAL_LIST_EMPTY(ai_goals)
 		return 0 //0 Score, in other terms, the AI will ignore this task completely.
 	if(required_trait)
 		if(islist(OM.ai_trait))
+			var/found = FALSE
 			for(var/X in OM.ai_trait)
 				if(X == required_trait)
+					found = TRUE
 					break
+			if(!found)
+				return 0
 		else
 			if(OM.ai_trait != required_trait)
 				return 0
@@ -702,6 +794,11 @@ GLOBAL_LIST_EMPTY(ai_goals)
 
 /datum/ai_goal/rearm/action(obj/structure/overmap/OM)
 	..()
+	if(OM.current_lance)
+		var/datum/lance/L = OM.current_lance
+		if(L.lance_target && L.last_finder == OM)
+			L.lance_target = null	//Clear our relayed target if we fly to resupply to make it a bit easier on the players.
+			L.last_finder = null
 	var/obj/structure/overmap/supplyPost = null
 	for(var/obj/structure/overmap/supply in OM.fleet.taskforces["supply"])
 		supplyPost = supply
@@ -717,10 +814,12 @@ GLOBAL_LIST_EMPTY(ai_goals)
 	score = AI_SCORE_DEFAULT
 
 /datum/ai_goal/seek/check_score(obj/structure/overmap/OM)
-	if(!OM.fleet) //If this is a rogue / lone AI. This should be their only objective.
+	if(!OM.fleet && !OM.current_lance) //If this is a rogue / lone AI. This should be their only objective.
 		return AI_SCORE_MAXIMUM
 	if(!..()) //If it's not an overmap, or it's not linked to a fleet.
 		return 0
+	if(OM.has_ai_trait(AI_TRAIT_SUPPLY))
+		return 0	//Carriers don't hunt you down, they just patrol. The dirty work is reserved for their escorts.
 	if(!OM.last_target || QDELETED(OM.last_target))
 		OM.seek_new_target()
 	if(OM.last_target) //If we can't find a target, then don't bother hunter-killering.
@@ -739,6 +838,107 @@ GLOBAL_LIST_EMPTY(ai_goals)
 		OM.send_sonar_pulse() //Send a pong when we're actively hunting.
 		OM.seek_new_target()
 		OM.move_toward(null) //Just fly around in a straight line, I guess.
+
+/*
+Ships with this goal create a a lance, but are not exactly bound to it. They'll fly off on their own if they find a closeby target, but if they have none they'll try assisting with their lance target.
+*/
+/datum/ai_goal/swarm
+	name = "Join a lance and subsequently search & swarm targets."
+	score = AI_SCORE_DEFAULT
+	required_trait = AI_TRAIT_SWARMER
+
+/datum/ai_goal/swarm/check_score(obj/structure/overmap/OM)
+	if(!..())
+		return 0
+	if(!OM.fleet && !OM.current_lance)
+		return 0
+	if(OM.current_lance)
+		return AI_SCORE_PRIORITY
+	return score
+
+/datum/ai_goal/swarm/action(obj/structure/overmap/OM)
+	..()
+	if(!OM.current_lance)	//If we aren't in a lance already: Handle that.
+		if(!OM.fleet)
+			return
+		for(var/datum/lance/L in OM.fleet.lances)
+			if(L.member_count < L.maximum_members)
+				L.add_member(OM)
+				break
+		if(!OM.current_lance)	//we didn't find a lance to join, make our own
+			new /datum/lance(OM, OM.fleet)
+	if(!OM.current_lance)
+		return	//Something that shouldn't have happened happened.
+
+	var/datum/lance/L = OM.current_lance
+	if(!OM.last_target)
+		OM.send_sonar_pulse()
+		OM.seek_new_target()
+
+	if(!OM.last_target)	//We didn't find a target
+		if(L.lance_target)
+			if(L.last_finder == OM)
+				L.lance_target = null
+				L.last_finder = null
+				regroup_swarm(OM, L)
+				return
+			else
+				OM.add_enemy(L.lance_target)
+				OM.last_target = L.lance_target
+		else	//No targets anywhere we could grab, regroup or float, depending on if you are the leader.
+			regroup_swarm(OM, L)
+			return
+	//If we get to hdere, we should have a target
+	if(!L.lance_target)	//Relay target
+		L.lance_target = OM.last_target
+		L.last_finder = OM
+
+	else if(L.last_finder == OM && OM.last_target != L.lance_target)	//We switched targets, relay this too.
+		L.lance_target = OM.last_target
+
+	if(get_dist(OM, OM.last_target) <= 4)	//Hunt them down.
+		OM.move_away_from(OM.last_target)
+	else
+		OM.move_toward(OM.last_target)
+
+/*
+If leader: Return to a bigger ship and wait around it.
+If not leader: Return to leader.
+Staging point priorities are supply ships > battleships > destroyers > just float
+*/
+/datum/ai_goal/swarm/proc/regroup_swarm(var/obj/structure/overmap/OM, var/datum/lance/L)
+	var/obj/structure/overmap/movement_target
+	if(OM == L.lance_leader)
+		movement_target = find_staging_point(OM)
+	else
+		movement_target = L.lance_leader
+
+	if(!movement_target)
+		OM.move_toward(null)	//Just drift I guess?
+	else
+		if(get_dist(OM, movement_target) <= 8)
+			OM.brakes = TRUE
+			OM.move_mode = null
+			OM.desired_angle = movement_target.angle //Style points
+		else
+			OM.move_toward(movement_target)
+/*
+Seek a ship thich we'll station ourselves around
+*/
+/datum/ai_goal/swarm/proc/find_staging_point(var/obj/structure/overmap/OM)
+	var/list/L	//We need this
+	if(!OM.fleet)
+		return
+	L = OM.fleet.taskforces["supply"]
+	if(L.len)
+		return L[1]	//gives us a consistant target.
+	L = OM.fleet.taskforces["battleships"]
+	if(L.len)
+		return L[1]
+	L = OM.fleet.taskforces["destroyers"]
+	if(L.len)
+		return L[1]
+
 
 //Boarding! Boarders love to board your ships.
 /datum/ai_goal/board
@@ -776,17 +976,18 @@ GLOBAL_LIST_EMPTY(ai_goals)
 
 /datum/ai_goal/defend/action(obj/structure/overmap/OM)
 	..()
+	if(prob(5))	//Sometimes ping, but not that often.
+		OM.send_sonar_pulse()
 	if(!OM.defense_target || QDELETED(OM.defense_target))
 		var/list/supplyline = OM.fleet.taskforces["supply"]
 		OM.defense_target = supplyline?.len ? pick(OM.fleet.taskforces["supply"]) : OM
-	OM.move_mode = NORTH
+
 	if(get_dist(OM, OM.defense_target) <= AI_PDC_RANGE)
 		OM.brakes = TRUE
 		OM.move_mode = null
 		OM.desired_angle = OM.defense_target.angle //Turn and face boys!
 	else
-		OM.brakes = FALSE
-		OM.desired_angle = Get_Angle(OM, OM.defense_target)
+		OM.move_toward(OM.defense_target)
 
 //Battleships love to stick to supply ships like glue. This becomes the default behaviour if the AIs cannot find any targets.
 /datum/ai_goal/defend/check_score(obj/structure/overmap/OM)
@@ -795,7 +996,10 @@ GLOBAL_LIST_EMPTY(ai_goals)
 	var/list/supplyline = OM.fleet.taskforces["supply"]
 	if(!supplyline || !supplyline.len)
 		return 0	//If there is nothing to defend, lets hunt the guys that destroyed our supply line instead.
-	if(OM.ai_trait == AI_TRAIT_BATTLESHIP)
+	if(OM.has_ai_trait(AI_TRAIT_SUPPLY))
+		return 0	//Can't defend ourselves
+
+	if(OM.has_ai_trait(AI_TRAIT_BATTLESHIP))
 		return AI_SCORE_CRITICAL
 	return score //If you've got nothing better to do, come group with the main fleet.
 
@@ -807,11 +1011,15 @@ GLOBAL_LIST_EMPTY(ai_goals)
 /datum/ai_goal/retreat/check_score(obj/structure/overmap/OM)
 	if(!..() || !OM.fleet) //If it's not an overmap, or it's not linked to a fleet.
 		return 0
-	if(OM.ai_trait == AI_TRAIT_SUPPLY)
+	if(!OM.has_ai_trait(AI_TRAIT_SUPPLY))
+		return 0
+	OM.last_target = null
+	OM.seek_new_target(max_distance = OM.max_tracking_range)	//Supply ships will only start running if an enemy actually comes close.
+	if(OM.last_target)
 		return AI_SCORE_CRITICAL
-	return 0
+	return AI_SCORE_VERY_LOW_PRIORITY
 
-//Supply ships are sheepish, and like to run away. Otherwise, they just act as a stationary FOB.
+//Supply ships are sheepish, and like to run away. Otherwise, they patrol the sector until they find enemies, in which case they run and let their escorts handle the rest.
 
 /datum/ai_goal/retreat/action(obj/structure/overmap/OM)
 	..()
@@ -822,6 +1030,51 @@ GLOBAL_LIST_EMPTY(ai_goals)
 	OM.move_mode = NORTH
 	OM.brakes = FALSE
 	OM.desired_angle = -Get_Angle(OM, OM.last_target) //Turn the opposite direction and run.
+
+//Patrol goal in case there is no target.
+/datum/ai_goal/patrol
+	name = "Patrol system"
+	score = AI_SCORE_DEFAULT
+
+/datum/ai_goal/patrol/check_score(obj/structure/overmap/OM)
+	if(!..())
+		return 0
+	if(!OM.last_target)
+		OM.seek_new_target()
+	if(OM.last_target)
+		if(get_dist(OM, OM.last_target) < OM.max_tracking_range)
+			OM.patrol_target = null	//Clear our destination if we are getting close to the enemy. Otherwise we resume patrol to our old destination.
+			return 0
+		if(!OM.has_ai_trait(AI_TRAIT_SUPPLY))	//Supply ships only stop patrolling to run away (which when needed still has higher score
+			return 0
+	if(OM.has_ai_trait(AI_TRAIT_SUPPLY))
+		if(OM.resupplying)
+			return 0
+		return AI_SCORE_HIGH_PRIORITY	//Supply ships like slowly patrolling the sector.
+	return score
+
+/datum/ai_goal/patrol/action(obj/structure/overmap/OM)
+	..()
+	if(prob(8))	//Ping every now and then, so things can't sneak up on you.
+		OM.send_sonar_pulse()
+	if(OM.patrol_target && get_dist(OM, OM.patrol_target) <= 8)
+		OM.patrol_target = null	//You have arrived at your destination.
+	if(!OM.patrol_target || OM.patrol_target.z != OM.z)
+		var/min_x = max(OM.x - 50, 15)
+		var/max_x = min(OM.x + 50, 240)
+		var/min_y = max(OM.y - 50, 15)
+		var/max_y = min(OM.y + 50, 240)
+		var/x_target = rand(min_x, max_x)
+		var/y_target = rand(min_y, max_y)
+		OM.patrol_target = locate(x_target, y_target, OM.z)
+	if(!OM.patrol_target)
+		return	//Somehow, there still is no target. Well, return it is.
+
+	OM.move_toward(OM.patrol_target)
+
+
+
+
 
 //Goal used for anti-fighter craft, encouraging them to attempt to lock on to smaller ships.
 /datum/ai_goal/seek/flyswatter
@@ -867,7 +1120,7 @@ GLOBAL_LIST_EMPTY(ai_goals)
 	var/ai_behaviour = null // Determines if the AI ship shoots you first, or if you have to shoot them.
 	var/list/enemies = list() //Things that have attacked us
 	var/max_weapon_range = 50
-	var/max_tracking_range = 50//115 //Range that AI ships can hunt you down in. The amounts to almost half the Z-level.
+	var/max_tracking_range = 50//50, 100 when pinging - Range that AI ships can hunt you down in. The amounts to almost half the Z-level.
 	var/obj/structure/overmap/defense_target = null
 	var/ai_can_launch_fighters = FALSE //AI variable. Allows your ai ships to spawn fighter craft
 	var/list/ai_fighter_type = list()
@@ -885,9 +1138,12 @@ GLOBAL_LIST_EMPTY(ai_goals)
 	//Fleet organisation
 	var/shots_left = 15 //Number of arbitrary shots an AI can fire with its heavy weapons before it has to resupply with a supply ship.
 	var/resupply_range = 15
+	var/resupplying = 0	//Are we resupplying things right now? If yes, how many?
 	var/can_resupply = FALSE //Can this ship resupply other ships?
 	var/obj/structure/overmap/resupply_target = null
 	var/datum/fleet/fleet = null
+	var/datum/current_lance = null	//Some ships can assign themselves to a lance, which will act together.
+	var/turf/patrol_target = null
 	var/datum/ai_goal/current_goal = null
 	var/obj/structure/overmap/squad_lead = null
 	var/obj/structure/overmap/last_overmap = null
@@ -918,22 +1174,27 @@ GLOBAL_LIST_EMPTY(ai_goals)
 				if(SW.weapon_class > WEAPON_CLASS_LIGHT)
 					if(shots_left <= 0)
 						continue //If we are out of shots. Continue.
-					will_use_shot = TRUE
 				var/arc = Get_Angle(src, target)
 				if(SW.firing_arc && arc > SW.firing_arc) //So AIs don't fire their railguns into nothing.
 					continue
+				if(SW.weapon_class > WEAPON_CLASS_LIGHT)
+					will_use_shot = TRUE
+				else
+					will_use_shot = FALSE
 				new_firemode = I
 				best_distance = distance
 		if(!weapon_types[new_firemode]) //I have no physical idea how this even happened, but ok. Sure. If you must. If you REALLY must. We can do this, Sarah. We still gonna do this? It's been 5 years since the divorce, can't you just let go?
 			new_firemode = FIRE_MODE_GAUSS
-		if(new_firemode != FIRE_MODE_GAUSS) //If we're not on PDCs, let's fire off some PDC salvos while we're busy shooting people. This is still affected by weapon cooldowns so that they lay off on their target a bit.
-			for(var/obj/structure/overmap/ship in GLOB.overmap_objects)
-				if(warcrime_blacklist[ship.type])
-					continue
-				if(!ship || QDELETED(ship) || ship == src || get_dist(src, ship) > max_weapon_range || ship.faction == src.faction || ship.z != z)
-					continue
-				fire_weapon(ship, FIRE_MODE_GAUSS)
-				break
+		if(new_firemode != FIRE_MODE_GAUSS && current_system) //If we're not on PDCs, let's fire off some PDC salvos while we're busy shooting people. This is still affected by weapon cooldowns so that they lay off on their target a bit.
+			var/datum/ship_weapon/SW = weapon_types[FIRE_MODE_GAUSS]
+			if(SW)
+				for(var/obj/structure/overmap/ship in current_system.system_contents)
+					if(warcrime_blacklist[ship.type])
+						continue
+					if(!ship || QDELETED(ship) || ship == src || get_dist(src, ship) > max_weapon_range || ship.faction == src.faction || ship.z != z)
+						continue
+					fire_weapon(ship, FIRE_MODE_GAUSS)
+					break
 		fire_mode = new_firemode
 		if(will_use_shot) //Don't penalise them for weapons that are designed to be spammed.
 			shots_left --
@@ -964,7 +1225,9 @@ GLOBAL_LIST_EMPTY(ai_goals)
 		gunner = pilot
 	if(last_target) //Have we got a target?
 		var/obj/structure/overmap/OM = last_target
-		if(get_dist(last_target, src) > max_tracking_range || istype(OM) && OM.is_sensor_visible(src) < SENSOR_VISIBILITY_TARGETABLE) //Out of range - Give up the chase
+		if(get_dist(last_target, src) > max(max_tracking_range, OM.sensor_profile) || istype(OM) && OM.is_sensor_visible(src) < SENSOR_VISIBILITY_TARGETABLE) //Out of range - Give up the chase
+			if(istype(OM) && has_ai_trait(AI_TRAIT_DESTROYER) && OM.z == z)
+				patrol_target = get_turf(last_target)	//Destroyers are wary and will actively investigate when their target exits their sensor range. You might be able to use this to your advantage though!
 			last_target = null
 		else //They're in our tracking range. Let's hunt them down.
 			if(get_dist(last_target, src) <= max_weapon_range) //Theyre within weapon range.  Calculate a path to them and fire.
@@ -972,21 +1235,26 @@ GLOBAL_LIST_EMPTY(ai_goals)
 	if(move_mode)
 		user_thrust_dir = move_mode
 	if(can_resupply)
-		if(resupply_target && get_dist(src, resupply_target) <= resupply_range)
+		if(resupply_target && !QDELETED(resupply_target) && get_dist(src, resupply_target) <= resupply_range)
 			new /obj/effect/temp_visual/heal(get_turf(resupply_target))
 			return
-		for(var/obj/structure/overmap/OM in GLOB.overmap_objects)
+		var/list/maybe_resupply = current_system.system_contents.Copy()
+		shuffle(maybe_resupply)	//Lets not have a fixed resupply list that can cause things to be wonky.
+		for(var/obj/structure/overmap/OM in maybe_resupply)
 			if(OM.z != z || OM == src || OM.faction != faction || get_dist(src, OM) > resupply_range) //No self healing
 				continue
 			if(OM.obj_integrity >= OM.max_integrity && OM.shots_left >= initial(OM.shots_left)) //No need to resupply this ship at all.
 				continue
 			resupply_target = OM
-			addtimer(CALLBACK(src, .proc/resupply), 30 SECONDS)
+			addtimer(CALLBACK(src, .proc/resupply), (30 + (100 - (OM.obj_integrity / OM.max_integrity) * 100 )))	//Resupply comperatively fast, but not instant. Repairs take longer.
+			resupplying++
 			break
 //Method to allow a supply ship to resupply other AIs.
 
 /obj/structure/overmap/proc/resupply()
-	if(!resupply_target || get_dist(src, resupply_target) > resupply_range)
+	resupplying--
+	if(!resupply_target || QDELETED(resupply_target) || get_dist(src, resupply_target) > resupply_range)
+		resupply_target = null
 		return
 	var/missileStock = initial(resupply_target.missiles)
 	if(missileStock > 0)
@@ -1021,7 +1289,7 @@ GLOBAL_LIST_EMPTY(ai_goals)
 	if(!istype(target, /obj/structure/overmap)) //Don't know why it wouldn't be..but yeah
 		return
 	var/obj/structure/overmap/OM = target
-	if(OM.faction == src.faction)
+	if(OM.faction == faction)
 		return
 	last_target = target
 	if(ai_can_launch_fighters) //Found a new enemy? Release the hounds
@@ -1029,9 +1297,18 @@ GLOBAL_LIST_EMPTY(ai_goals)
 		if(ai_fighter_type.len)
 			for(var/i = 0, i < rand(2,3), i++)
 				var/ai_fighter = pick(ai_fighter_type)
-				var/obj/structure/overmap/newFighter = new ai_fighter(get_turf(pick(orange(3, src))))
+				var/turf/launch_turf = get_turf(pick(orange(3, src)))
+				if(!launch_turf)
+					if(!i)
+						ai_can_launch_fighters = TRUE
+					else
+						addtimer(VARSET_CALLBACK(src, ai_can_launch_fighters, TRUE), (1 + i) MINUTES)
+					break
+				var/obj/structure/overmap/newFighter = new ai_fighter(launch_turf)
 				newFighter.last_target = last_target
-				current_system?.system_contents += newFighter
+				if(current_system)
+					current_system.system_contents += newFighter
+					newFighter.current_system = current_system
 				if(fleet)
 					newFighter.fleet = fleet
 					fleet.taskforces["fighters"] += newFighter //Lets our fighters come back to the mothership to fuel up every so often.
@@ -1044,7 +1321,8 @@ GLOBAL_LIST_EMPTY(ai_goals)
 		return
 	enemies += target
 	if(OM.role == MAIN_OVERMAP)
-		set_security_level(SEC_LEVEL_RED) //Action stations when the ship is under attack, if it's the main overmap.
+		if(GLOB.security_level < SEC_LEVEL_RED)	//Lets not pull them out of Zebra / Delta
+			set_security_level(SEC_LEVEL_RED) //Action stations when the ship is under attack, if it's the main overmap.
 		SSstar_system.last_combat_enter = world.time //Tag the combat on the SS
 		SSstar_system.nag_stacks = 0 //Reset overmap spawn modifier
 		SSstar_system.nag_interval = initial(SSstar_system.nag_interval)
@@ -1077,7 +1355,7 @@ GLOBAL_LIST_EMPTY(ai_goals)
 			break
 		var/obj/structure/overmap/blocked = null
 		//This is...inefficient, but unavoidable without some equally expensive vector math.
-		for(var/obj/structure/overmap/OM in GLOB.overmap_objects)
+		for(var/obj/structure/overmap/OM in current_system.system_contents)
 			if(OM == src) //:sigh: this one tripped me up
 				continue
 			if(get_dist(get_turf(OM), T) <= 5 && OM.mass > MASS_TINY) //Who cares about fighters anyway!
@@ -1103,11 +1381,17 @@ GLOBAL_LIST_EMPTY(ai_goals)
 	desired_angle = -Get_Angle(src, target)
 
 //Method that will get you a new target, based on basic params.
-/obj/structure/overmap/proc/seek_new_target(max_weight_class=null, min_weight_class=null, interior_check=FALSE)
-	for(var/obj/structure/overmap/ship in GLOB.overmap_objects)
+/obj/structure/overmap/proc/seek_new_target(max_weight_class=null, min_weight_class=null, interior_check=FALSE, max_distance)
+	var/list/shiplist = current_system?.system_contents.Copy()	//We need to Copy() so shuffle doesn't make the global list messier
+	if(!shiplist || !shiplist.len)
+		return FALSE
+	shuffle(shiplist)	//Because we go through this list from first to last, shuffling will make the way we select targets appear more random.
+	for(var/obj/structure/overmap/ship in shiplist)
 		if(warcrime_blacklist[ship.type])
 			continue
-		if(!ship || QDELETED(ship) || ship == src || get_dist(src, ship) > max_tracking_range || ship.faction == faction || ship.z != z || ship.is_sensor_visible(src) < SENSOR_VISIBILITY_TARGETABLE)
+		if(!ship || QDELETED(ship) || ship == src || get_dist(src, ship) > max(max_tracking_range, ship.sensor_profile) || ship.faction == faction || ship.z != z || ship.is_sensor_visible(src) < SENSOR_VISIBILITY_TARGETABLE)
+			continue
+		if(max_distance && get_dist(src, ship) > max_distance)
 			continue
 		if(max_weight_class && ship.mass > max_weight_class)
 			continue

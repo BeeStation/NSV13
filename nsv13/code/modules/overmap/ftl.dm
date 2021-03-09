@@ -4,7 +4,8 @@
 #define FTL_STATE_JUMPING 4
 
 /datum/star_system/proc/add_ship(obj/structure/overmap/OM)
-	system_contents += OM
+	if(!system_contents.Find(OM))
+		system_contents += OM	//Lets be safe while I cast some black magic.
 	if(!occupying_z && OM.z) //Does this system have a physical existence? if not, we'll set this now so that any inbound ships jump to the same Z-level that we're on.
 		occupying_z = OM.z
 		if(OM.role == MAIN_OVERMAP) //As these events all happen to the main ship, let's check that it's not say, the nomi that's triggering this system load...
@@ -15,11 +16,22 @@
 					F.current_system = src
 				F.encounter(OM)
 		restore_contents()
-	var/turf/destination = get_turf(locate(rand(50, world.maxx), rand(50, world.maxy), occupying_z)) //Spawn them somewhere in the system. I don't really care where.
+	var/turf/destination
+	if(istype(OM, /obj/structure/overmap))
+		var/obj/structure/overmap/OMS = OM
+		if(!OMS.faction)
+			destination = locate(rand(40, world.maxx - 39), rand(40, world.maxy - 39), occupying_z)
+		else if(OMS.faction == "nanotrasen" || OMS.faction == "solgov")	//NT and ally fleets arrive on the left side of the system. Syndies on the right side.
+			destination = locate(rand(40, round(world.maxx/2) - 10), rand(40, world.maxy - 39), occupying_z)
+		else
+			destination = locate(rand(round(world.maxx/2) + 10, world.maxx - 39), rand(40, world.maxy - 39), occupying_z)
+	else
+		destination = locate(rand(40, world.maxx - 39), rand(40, world.maxy - 39), occupying_z)
+
 	if(!destination)
 		message_admins("WARNING: The [name] system has no exit point for ships! Something has caused this Z-level to despawn erroneously, please contact Kmc immediately!.")
 		return
-	var/turf/exit = get_turf(pick(orange(20, destination)))
+	var/turf/exit = get_turf(pick(orange(15, destination)))
 	OM.forceMove(exit)
 	if(istype(OM, /obj/structure/overmap))
 		OM.current_system = src //Debugging purposes only
@@ -60,8 +72,8 @@
 		var/list/info = contents_positions[ship]
 		ship.forceMove(get_turf(locate(info["x"], info["y"], occupying_z))) //Let's unbox that ship. Nice.
 		if(istype(ship, /obj/structure/overmap))
-			START_PROCESSING(SSphysics_processing, ship) //And let's stop it from processing too.
 			var/obj/structure/overmap/OM = ship
+			START_PROCESSING(SSphysics_processing, OM) //And let's restart its processing too..
 			if(OM.physics2d)
 				START_PROCESSING(SSphysics_processing, OM.physics2d) //Respawn this ship's collider so it can start colliding once more
 	}
@@ -83,35 +95,59 @@
 		OM.reserved_z = temp
 		OM.forceMove(locate(OM.x, OM.y, OM.reserved_z)) //Annnd actually kick them out of the current system.
 		system_contents -= OM
+		ftl_pull_small_craft(OM)
 		return //Early return here. This means that another player ship is already holding the system, and we really don't need to double-check for this.
-	else
-		message_admins("Successfully removed [OM] from [src]")
-		OM.forceMove(locate(OM.x, OM.y, OM.reserved_z)) //Annnd actually kick them out of the current system.
-		system_contents -= OM
-	for(var/atom/movable/X in system_contents)
+
+	message_admins("Successfully removed [OM] from [src]")
+	OM.forceMove(locate(OM.x, OM.y, OM.reserved_z)) //Annnd actually kick them out of the current system.
+	system_contents -= OM
+
+	if(!OM.occupying_levels.len)	//If this isn't actually a big ship with its own interior, do not pull ships, as only those get their own reserved z.
+		return
+	if(other_player_ships.len)	//There's still other ships here, only pull ships of our own faction.
+		ftl_pull_small_craft(OM)
+		return
+	for(var/atom/movable/X in system_contents)	//Do a last check for safety so we don't stasis a player ship that slid by our other checks somehow.
 		if(istype(X, /obj/structure/overmap))
 			var/obj/structure/overmap/ship = X
-			if(ship != OM && ship.occupying_levels.len) //If there's a player ship left to hold the system, early return and keep this Z loaded.
+			if(ship != OM && ship.occupying_levels.len) //If there's somehow a player ship in the system that is somehow not in other_player_ships, emergency return.
+				message_admins("Somehow [ship] got by the initial checks for system exits. This probably shouldn't happen, yell at a coder and / or check ftl.dm")
+				ftl_pull_small_craft(OM)
 				return
-			if(ship.operators.len && !ship.ai_controlled) //Alright, now we handle the small ships. If there is no longer a large ship to hold the system, we just get caught up its wake and travel along with it.
-				ship.relay("<span class='warning'>You're caught in [OM]'s bluespace wake!</span>")
-				SEND_SIGNAL(ship, COMSIG_FTL_STATE_CHANGE)
-				ship.forceMove(locate(ship.x, ship.y, OM.reserved_z))
-				system_contents -= ship
-				continue
+	ftl_pull_small_craft(OM, FALSE)
+	for(var/atom/movable/X in system_contents)
 		contents_positions[X] = list("x" = X.x, "y" = X.y) //Cache the ship's position so we can regenerate it later.
 		X.moveToNullspace() //Anything that's an NPC should be stored safely in nullspace until we return.
 		if(istype(X, /obj/structure/overmap))
 			var/obj/structure/overmap/foo = X
-			STOP_PROCESSING(SSphysics_processing, X) //And let's stop it from processing too.
+			STOP_PROCESSING(SSphysics_processing, foo) //And let's stop it from processing too.
 			if(foo.physics2d)
 				STOP_PROCESSING(SSphysics_processing, foo.physics2d) //Despawn this ship's collider, to avoid wasting time figuring out if it's colliding with things or not.
 	occupying_z = 0 //Alright, no ships are holding it anymore. Stop holding the Z-level
+
+/datum/star_system/proc/ftl_pull_small_craft(var/obj/structure/overmap/jumping, var/same_faction_only = TRUE)
+	if(!jumping)
+		return	//No.
+
+	for(var/atom/movable/AM in system_contents)
+		if(!istype(AM, /obj/structure/overmap))
+			continue
+		var/obj/structure/overmap/OM = AM
+		if(!OM.operators.len || OM.ai_controlled)	//AI ships / ships without a pilot just get put in stasis.
+			continue
+		if(same_faction_only && jumping.faction != OM.faction)	//We don't pull all small craft in the system unless we were the last ship here.
+			continue
+		OM.relay("<span class='warning'>You're caught in [jumping]'s bluespace wake!</span>")
+		SEND_SIGNAL(OM, COMSIG_FTL_STATE_CHANGE)
+		OM.forceMove(locate(OM.x, OM.y, jumping.reserved_z))
+		system_contents -= OM
+
 
 /obj/structure/overmap/proc/begin_jump(datum/star_system/target_system)
 	relay(ftl_drive.ftl_start, channel=CHANNEL_IMPORTANT_SHIP_ALERT)
 	desired_angle = 90 //90 degrees AKA face EAST to match the FTL parallax.
 	addtimer(CALLBACK(src, .proc/jump, target_system, TRUE), ftl_drive.ftl_startup_time)
+
 
 /obj/structure/overmap/proc/force_parallax_update(ftl_start)
 	if(reserved_z) //Actual overmap parallax behaviour
@@ -175,7 +211,16 @@
 		SSstar_system.ships[src]["to_time"] = 0
 		SEND_SIGNAL(src, COMSIG_FTL_STATE_CHANGE)
 		relay(ftl_drive.ftl_exit, "<span class='warning'>You feel the ship lurch to a halt</span>", loop=FALSE, channel = CHANNEL_SHIP_ALERT)
+		var/list/pulled = list()
+		for(var/obj/structure/overmap/SOM in GLOB.overmap_objects)
+			if(SOM.z != reserved_z)
+				continue
+			if(SOM == src)
+				continue
+			LAZYADD(pulled, SOM)
 		target_system.add_ship(src) //Get the system to transfer us to its location.
+		for(var/obj/structure/overmap/SOM in pulled)
+			target_system.add_ship(SOM)
 		SEND_SIGNAL(src, COMSIG_SHIP_ARRIVED) // Let missions know we have arrived in the system
 	for(var/mob/M in mobs_in_ship)
 		if(iscarbon(M))

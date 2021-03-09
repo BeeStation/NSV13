@@ -1,4 +1,3 @@
-
 /**Volatile substances.
 
 Add this component to an atom to mark it as volatile, if it takes fire damage, is struck by something that's ignited, or optionally, when it's destroyed, it'll explode violently.

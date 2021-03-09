@@ -125,6 +125,7 @@
 //End Energy Weapons
 
 /datum/ship_weapon/missile_launcher
+	name = "Missile Launchers"
 	default_projectile_type = /obj/item/projectile/guided_munition/missile
 	burst_size = 1
 	fire_delay = 5

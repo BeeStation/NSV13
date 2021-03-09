@@ -8,6 +8,8 @@
 #define RBMK_TEMPERATURE_CRITICAL 800 //At this point the entire ship is alerted to a meltdown. This may need altering
 #define RBMK_TEMPERATURE_MELTDOWN 900
 
+#define RBMK_NO_COOLANT_TOLERANCE 5 //How many process()ing ticks the reactor can sustain without coolant before slowly taking damage
+
 #define RBMK_PRESSURE_OPERATING 1000 //PSI
 #define RBMK_PRESSURE_CRITICAL 1469.59 //PSI
 
@@ -135,6 +137,7 @@ The reactor CHEWS through moderator. It does not do this slowly. Be very careful
 	var/last_coolant_temperature = 0
 	var/last_output_temperature = 0
 	var/last_heat_delta = 0 //For administrative cheating only. Knowing the delta lets you know EXACTLY what to set K at.
+	var/no_coolant_ticks = 0	//How many times in succession did we not have enough coolant? Decays twice as fast as it accumulates.
 
 //Use this in your maps if you want everything to be preset.
 /obj/machinery/atmospherics/components/trinary/nuclear_reactor/preset
@@ -190,6 +193,9 @@ The reactor CHEWS through moderator. It does not do this slowly. Be very careful
 			to_chat(user, "<span class='notice'>[src]'s reactor vessel is cracked and worn, you need to repair the cracks with a welder before you can repair the seals.</span>")
 			return FALSE
 		if(do_after(user, 5 SECONDS, target=src))
+			if(vessel_integrity >= 350)	//They might've stacked doafters
+				to_chat(user, "<span class='notice'>[src]'s seals are already in-tact, repairing them further would require a new set of seals.</span>")
+				return FALSE
 			playsound(src, 'sound/effects/spray2.ogg', 50, 1, -6)
 			user.visible_message("<span class='warning'>[user] applies sealant to some of [src]'s worn out seals.</span>", "<span class='notice'>You apply sealant to some of [src]'s worn out seals.</span>")
 			vessel_integrity += 10
@@ -204,6 +210,9 @@ The reactor CHEWS through moderator. It does not do this slowly. Be very careful
 		to_chat(user, "<span class='notice'>[src] is free from cracks. Further repairs must be carried out with flexi-seal sealant.</span>")
 		return FALSE
 	if(I.use_tool(src, user, 0, volume=40))
+		if(vessel_integrity > 0.5 * initial(vessel_integrity))
+			to_chat(user, "<span class='notice'>[src] is free from cracks. Further repairs must be carried out with flexi-seal sealant.</span>")
+			return FALSE
 		vessel_integrity += 20
 		to_chat(user, "<span class='notice'>You weld together some of [src]'s cracks. This'll do for now.</span>")
 	return TRUE
@@ -260,12 +269,15 @@ The reactor CHEWS through moderator. It does not do this slowly. Be very careful
 		coolant_output.merge(coolant_input) //And now, shove the input into the output.
 		coolant_input.clear() //Clear out anything left in the input gate.
 		color = null
+		no_coolant_ticks = max(0, no_coolant_ticks-2)	//Needs half as much time to recover the ticks than to acquire them
 	else
 		if(has_fuel())
-			temperature += temperature / 500 //This isn't really harmful early game, but when your reactor is up to full power, this can get out of hand quite quickly.
-			vessel_integrity -= temperature / 200 //Think fast loser.
-			take_damage(10) //Just for the sound effect, to let you know you've fucked up.
-			color = "[COLOR_RED]"
+			no_coolant_ticks++
+			if(no_coolant_ticks > RBMK_NO_COOLANT_TOLERANCE)
+				temperature += temperature / 500 //This isn't really harmful early game, but when your reactor is up to full power, this can get out of hand quite quickly.
+				vessel_integrity -= temperature / 200 //Think fast loser.
+				take_damage(10) //Just for the sound effect, to let you know you've fucked up.
+				color = "[COLOR_RED]"
 	//Now, heat up the output and set our pressure.
 	coolant_output.set_temperature(CELSIUS_TO_KELVIN(temperature)) //Heat the coolant output gas that we just had pass through us.
 	last_output_temperature = KELVIN_TO_CELSIUS(coolant_output.return_temperature())
@@ -383,8 +395,9 @@ The reactor CHEWS through moderator. It does not do this slowly. Be very careful
 	if(temperature >= RBMK_TEMPERATURE_CRITICAL)
 		alert = TRUE
 		if(temperature >= RBMK_TEMPERATURE_MELTDOWN)
-			vessel_integrity -= (temperature / 100)
-			if(vessel_integrity <= temperature/100) //It wouldn't be able to tank another hit.
+			var/temp_damage = min(temperature/100, initial(vessel_integrity)/40)	//40 seconds to meltdown from full integrity, worst-case. Bit less than blowout since it's harder to spike heat that much.
+			vessel_integrity -= temp_damage
+			if(vessel_integrity <= temp_damage) //It wouldn't be able to tank another hit.
 				meltdown() //Oops! All meltdown
 				return
 	else
@@ -401,8 +414,9 @@ The reactor CHEWS through moderator. It does not do this slowly. Be very careful
 		playsound(loc, 'sound/machines/clockcult/steam_whoosh.ogg', 100, TRUE)
 		var/turf/T = get_turf(src)
 		T.atmos_spawn_air("water_vapor=[pressure/100];TEMP=[CELSIUS_TO_KELVIN(temperature)]")
-		vessel_integrity -= (pressure/100)
-		if(vessel_integrity <= pressure/100) //It wouldn't be able to tank another hit.
+		var/pressure_damage = min(pressure/100, initial(vessel_integrity)/45)	//You get 45 seconds (if you had full integrity), worst-case. But hey, at least it can't be instantly nuked with a pipe-fire.. though it's still very difficult to save.
+		vessel_integrity -= pressure_damage
+		if(vessel_integrity <= pressure_damage) //It wouldn't be able to tank another hit.
 			blowout()
 			return
 	var/obj/structure/overmap/OM = get_overmap()
