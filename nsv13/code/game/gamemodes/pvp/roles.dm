@@ -469,7 +469,7 @@ Singleton to handle conquest roles. This exists to populate the roles list and n
 //Ultra stripped down ID console for assigning secondary ship accesses.
 /obj/machinery/computer/secondary_ship_id_console
 	name = "Secondary Ship ID console"
-	circuit = /obj/item/circuitboard/computer/card/secondary_ship
+	circuit = /obj/item/circuitboard/computer/card/secondary_ship_id_console
 	icon_screen = "idhos"
 	light_color = LIGHT_COLOR_RED
 	req_one_access = null //If this
@@ -558,14 +558,9 @@ Singleton to handle conquest roles. This exists to populate the roles list and n
 	target_accesses = list("General Syndicate Access" = ACCESS_SYNDICATE, "Syndicate Engineering" = ACCESS_SYNDICATE_ENGINEERING, "Syndicate Captain" = ACCESS_SYNDICATE_LEADER, "Syndicate Armoury" = ACCESS_SYNDICATE_MARINE_ARMOURY, "Syndicate Requisitions" = ACCESS_SYNDICATE_REQUISITIONS)
 	req_one_access = list(ACCESS_SYNDICATE_LEADER) //Syndicate captain does the XO's job.
 	theme = "syndicate"
-/obj/item/circuitboard/computer/card/secondary_ship
-	build_path = /obj/machinery/computer/secondary_ship_id_console
+	circuit = /obj/item/circuitboard/computer/secondary_ship_id_console/syndicate
 
 /obj/machinery/computer/security/syndicate
 	name = "Syndicate Camera Console"
 	network = list("syndicate") //I hate all of you
 	circuit = /obj/item/circuitboard/computer/security/syndicate
-
-/obj/item/circuitboard/computer/security/syndicate
-	name = "Syndicate Camera Console (Circuit)"
-	build_path = /obj/machinery/computer/security/syndicate
