@@ -1,15 +1,15 @@
 //And you thought sausage was bad? -Francinum
 
 /*
- _______  _______  _       _________ _______  _______  _______ 
+ _______  _______  _       _________ _______  _______  _______
 (  ____ \(  ____ \( \      \__   __/(  ____ )(  ____ \(  ____ \
 | (    \/| (    \/| (         ) (   | (    )|| (    \/| (    \/
-| (__    | |      | |         | |   | (____)|| (_____ | (__    
-|  __)   | |      | |         | |   |  _____)(_____  )|  __)   
-| (      | |      | |         | |   | (            ) || (      
+| (__    | |      | |         | |   | (____)|| (_____ | (__
+|  __)   | |      | |         | |   |  _____)(_____  )|  __)
+| (      | |      | |         | |   | (            ) || (
 | (____/\| (____/\| (____/\___) (___| )      /\____) || (____/\
 (_______/(_______/(_______/\_______/|/       \_______)(_______/
-                                                               
+
 */
 //You suck even on big maps.
 MAP_REMOVE_JOB(atmos)
@@ -49,7 +49,7 @@ MAP_REMOVE_JOB(air_traffic_controller)
 
 /datum/uplink_item/explosives/syndicate_bomb/New()
     . = ..()
-    
+
     if(SSmapping?.config?.map_name != JOB_MODIFICATION_MAP_NAME)
         return
     limited_stock = 0 //This ship is way too small for this shit.
