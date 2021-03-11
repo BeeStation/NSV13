@@ -41,7 +41,7 @@
 
 	//Lay out the ability tiers here! Very simple, unlocks at unlockTier evo, locks at lockTier evo (if set). Code'll handle the rest. The abilities list is, you guessed it, all the abilities for that tier.
 	var/list/unlock_tiers = list(
-		list("unlockTier"=0, "lockAtTier"=2, "abilities"=list(/datum/action/bloodling/hide)),
+		list("unlockTier"=0, "lockAtTier"=4, "abilities"=list(/datum/action/bloodling/hide)),
 		list("unlockTier"=0, "lockAtTier"=0, "abilities"=list(/datum/action/bloodling/thermalvision))
 	)
 	//Generated list of abilities, created at init.

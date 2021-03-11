@@ -58,20 +58,26 @@
 	icon_state = "squadpager"
 	w_class = 1
 	slot_flags = ITEM_SLOT_BELT
-	var/datum/radio_frequency/radio_connection
+	var/datum/component/simple_teamchat/radio_dependent/squad/squad_channel = null
 	var/datum/squad/squad = null
 	var/global_access = FALSE
 
+
 /obj/item/squad_pager/all_channels
 	name = "Global Squad Pager"
-	desc = "A pager able of changing its frequency to talk to any squad. It will passively intercept all squad communications, but must be tuned to a specific broadcast frequency to relay a message. <i>Click it in-hand to switch its broadcasting frequency</i>"
+	desc = "A pager that's tuned to every single squad's comms simultaneously, allowing for overwatch to communicate with shipside fireteams more efficiently."
 	global_access = TRUE
 
-/obj/item/squad_pager/all_channels/attack_self(mob/user)
+/obj/item/squad_pager/all_channels/Initialize(mapload, datum/squad/squad)
 	. = ..()
-	var/datum/squad/newSquad = input(usr, "Switch broadcasting mode to which squad?", "Squad Setup") as null|anything in GLOB.squad_manager.squads
-	if(newSquad)
-		apply_squad(newSquad)
+	return INITIALIZE_HINT_LATELOAD
+
+/obj/item/squad_pager/all_channels/LateInitialize()
+	. = ..()
+	//Lets you choose any squad to message, at any time.
+	for(var/datum/squad/S in GLOB.squad_manager.squads)
+		squad_channel = src.AddComponent(S.squad_channel_type)
+		squad_channel.squad = squad
 
 /obj/item/squad_pager/Initialize(mapload, datum/squad/squad)
 	. = ..()
@@ -80,6 +86,8 @@
 	apply_squad(squad)
 
 /obj/item/squad_pager/proc/apply_squad(datum/squad/squad)
+	squad_channel?.RemoveComponent()
+	qdel(squad_channel)
 	cut_overlays()
 	src.squad = squad //Ahoy mr squadward! Ack ack ack.
 	name = "[squad] pager"
@@ -88,17 +96,9 @@
 	stripes.icon_state = "squadpager_stripes"
 	stripes.color = squad.colour
 	add_overlay(new /mutable_appearance(stripes))
-	if(!radio_connection)
-		radio_connection = SSradio.add_object(src, FREQ_SQUAD, RADIO_SQUAD)
-
-/obj/item/squad_pager/receive_signal(datum/signal/signal)
-	var/atom/ourLoc = (ismob(loc)) ? loc : loc.loc //You get two layers of recursion with this one. No more. (So you can have the pager in a backpack and still use it.
-	if(!signal.data["message"])
-		return
-	if(global_access || signal.data["squad"] == squad?.name && ismob(ourLoc))
-		var/msg = signal.data["message"]
-		to_chat(ourLoc, msg)
-		playsound(loc, signal.data["sound"], 100, FALSE)
+	if(squad)
+		squad_channel = src.AddComponent(squad.squad_channel_type)
+		squad_channel.squad = squad
 
 /obj/item/clothing/suit/ship/squad
 	name = "Armour"

@@ -46,7 +46,7 @@
 			var/orders = stripped_input(usr, message="Send a squad-wide message to [S].", max_length=MAX_BROADCAST_LEN)
 			if(!orders || length(orders) <= 0)
 				return
-			S.broadcast(orders, usr, null, pick('nsv13/sound/effects/radio1.ogg','nsv13/sound/effects/radio2.ogg'), TRUE)
+			S.broadcast(S,orders)
 		if("retask")
 			if(world.time < next_major_action)
 				to_chat(usr, "<span class='warning'>Comms circuits recharging.</span>")
