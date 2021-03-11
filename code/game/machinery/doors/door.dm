@@ -133,7 +133,7 @@
 /obj/machinery/door/CanPass(atom/movable/mover, turf/target)
 	if(istype(mover) && (mover.pass_flags & PASSGLASS))
 		return !opacity
-	return !density
+	return (mover.pass_flags & PASSDOOR) || !density
 
 /obj/machinery/door/proc/bumpopen(mob/user)
 	if(operating)

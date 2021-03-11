@@ -34,3 +34,5 @@
 GLOBAL_DATUM_INIT(conquest_role_handler, /datum/conquest_role_handler, new)
 
 #define COMSIG_ATOM_DAMAGE_ACT "comsig_atom_damage_act" //Used when an atom takes damage.
+
+#define PASSDOOR (1<<7) //Can you pass doors?
