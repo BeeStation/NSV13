@@ -17,10 +17,10 @@
 	access = list(ACCESS_MAINT_TUNNELS, ACCESS_MUNITIONS, ACCESS_MUNITIONS_STORAGE, ACCESS_FIGHTER) //temp
 	minimal_access = list(ACCESS_MAINT_TUNNELS, ACCESS_MUNITIONS, ACCESS_FIGHTER) //temp
 	paycheck = PAYCHECK_MEDIUM
-	paycheck_department = ACCOUNT_CAR
+	paycheck_department = ACCOUNT_MUN
+	mind_traits = list(TRAIT_MUNITIONS_METABOLISM)
 
 	display_order = JOB_DISPLAY_ORDER_FIGHTER_PILOT
-//add support for callsigns here
 
 /datum/outfit/job/fighter_pilot
 	name = "Fighter Pilot"
@@ -31,6 +31,10 @@
 	shoes = /obj/item/clothing/shoes/jackboots
 	gloves = /obj/item/clothing/gloves/color/black
 	head = /obj/item/clothing/head/beret/ship/pilot
+
+	backpack = /obj/item/storage/backpack/munitions
+	satchel = /obj/item/storage/backpack/satchel/munitions
+	duffelbag = /obj/item/storage/backpack/duffelbag/munitions
 
 /datum/outfit/job/fighter_pilot/flight_ready
 	name = "Fighter Pilot - Flight Ready"
@@ -62,7 +66,8 @@
 	access = list(ACCESS_MAINT_TUNNELS, ACCESS_MUNITIONS, ACCESS_MUNITIONS_STORAGE, ACCESS_FIGHTER, ACCESS_FL) //temp
 	minimal_access = list(ACCESS_MAINT_TUNNELS, ACCESS_MUNITIONS, ACCESS_FIGHTER, ACCESS_FL) //temp
 	paycheck = PAYCHECK_MEDIUM
-	paycheck_department = ACCOUNT_CAR
+	paycheck_department = ACCOUNT_MUN
+	mind_traits = list(TRAIT_MUNITIONS_METABOLISM)
 
 	display_order = JOB_DISPLAY_ORDER_FLIGHT_LEADER
 
@@ -77,6 +82,10 @@
 	head = /obj/item/clothing/head/beret/ship/flight_leader
 	glasses = /obj/item/clothing/glasses/sunglasses/advanced
 	suit = /obj/item/clothing/suit/jacket //Bomber jacket
+
+	backpack = /obj/item/storage/backpack/munitions
+	satchel = /obj/item/storage/backpack/satchel/munitions
+	duffelbag = /obj/item/storage/backpack/duffelbag/munitions
 
 /datum/outfit/job/fighter_pilot/flight_ready
 	name = "Fighter Pilot - Flight Ready"

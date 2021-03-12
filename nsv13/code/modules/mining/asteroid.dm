@@ -5,7 +5,7 @@ GLOBAL_LIST_EMPTY(asteroid_spawn_markers)		//handles mining asteroids, kind of s
 /datum/techweb_node/mineral_mining
 	id = "mineral_mining"
 	display_name = "Deep core asteroid mining"
-	description = "Upgrades for the NSV nostromo's asteroid arrestor, allowing it to lock on to more valuable asteroid cores.."
+	description = "Upgrades for the mining ship's asteroid arrestor, allowing it to lock on to more valuable asteroid cores.."
 	prereq_ids = list("base")
 	design_ids = list("deepcore1", "deepcore2")
 	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 10000)
@@ -13,7 +13,7 @@ GLOBAL_LIST_EMPTY(asteroid_spawn_markers)		//handles mining asteroids, kind of s
 
 /datum/design/deepcore1
 	name = "Polytrinic non magnetic asteroid arrestor upgrade"
-	desc = "An upgrade module for the Nostromo's asteroid arrestor, allowing it to lock on to asteroids containing valuable non ferrous metals such as gold, silver, copper and plasma"
+	desc = "An upgrade module for the mining ship's asteroid arrestor, allowing it to lock on to asteroids containing valuable non ferrous metals such as gold, silver, copper and plasma"
 	id = "deepcore1"
 	build_type = PROTOLATHE
 	materials = list(/datum/material/iron = 25000,/datum/material/titanium = 25000, /datum/material/silver = 5000)
@@ -23,7 +23,7 @@ GLOBAL_LIST_EMPTY(asteroid_spawn_markers)		//handles mining asteroids, kind of s
 
 /datum/design/deepcore2
 	name = "Phasic asteroid arrestor upgrade"
-	desc = "An upgrade module for the Nostromo's asteroid arrestor, allowing it to lock on to asteroids containing rare and valuable minerals such as diamond, uranium and the exceedingly rare bluespace crystals."
+	desc = "An upgrade module for the mining ship's asteroid arrestor, allowing it to lock on to asteroids containing rare and valuable minerals such as diamond, uranium and the exceedingly rare bluespace crystals."
 	id = "deepcore2"
 	build_type = PROTOLATHE
 	materials = list(/datum/material/copper = 25000,/datum/material/titanium = 25000, /datum/material/gold = 10000, /datum/material/silver = 10000, /datum/material/plasma = 10000, /datum/material/uranium = 5000, /datum/material/diamond = 5000)
@@ -68,7 +68,6 @@ GLOBAL_LIST_EMPTY(asteroid_spawn_markers)		//handles mining asteroids, kind of s
 	obj_integrity = 100
 	max_integrity = 100
 	wrecked = TRUE //Stops it from shooting at you. Disables spawning wreck maps too.
-	collision_positions = list(new /datum/vector2d(-2,-16), new /datum/vector2d(-13,-3), new /datum/vector2d(-13,10), new /datum/vector2d(-6,15), new /datum/vector2d(8,15), new /datum/vector2d(15,10), new /datum/vector2d(12,-9), new /datum/vector2d(4,-16), new /datum/vector2d(1,-16))
 	var/list/core_composition = list(/turf/closed/mineral/iron, /turf/closed/mineral/titanium)
 	var/required_tier = 1
 	armor = list("overmap_light" = 99, "overmap_heavy" = 25)
@@ -78,18 +77,16 @@ GLOBAL_LIST_EMPTY(asteroid_spawn_markers)		//handles mining asteroids, kind of s
 	icon = 'nsv13/icons/overmap/stellarbodies/asteroidfield/icefield/asteroid_ice_96x.dmi'
 	core_composition = list(/turf/closed/mineral/copper, /turf/closed/mineral/silver, /turf/closed/mineral/gold, /turf/closed/mineral/plasma)
 	required_tier = 2
-	pixel_z = -32
-	pixel_w = -32
-	collision_positions = list(new /datum/vector2d(-14,36), new /datum/vector2d(-38,20), new /datum/vector2d(-36,-11), new /datum/vector2d(-7,-38), new /datum/vector2d(37,-24), new /datum/vector2d(40,11), new /datum/vector2d(19,31))
+	bound_height = 96
+	bound_width = 96
 
 /obj/structure/overmap/asteroid/large
 	name = "Asteroid (Exotic Composition)"
 	icon = 'nsv13/icons/overmap/stellarbodies/asteroidfield/icefield/asteroid_ice_128x.dmi'
 	core_composition = list(/turf/closed/mineral/diamond, /turf/closed/mineral/uranium, /turf/closed/mineral/bscrystal)
 	required_tier = 3
-	pixel_z = -32
-	pixel_w = -32
-	collision_positions = list(new /datum/vector2d(-11,23), new /datum/vector2d(-22,15), new /datum/vector2d(-26,-20), new /datum/vector2d(-16,-56), new /datum/vector2d(1,-50), new /datum/vector2d(11,-19), new /datum/vector2d(11,-2), new /datum/vector2d(3,22))
+	bound_height = 128
+	bound_width = 128
 
 /obj/structure/overmap/asteroid/Initialize()
 	. = ..()
@@ -160,13 +157,26 @@ GLOBAL_LIST_EMPTY(asteroid_spawn_markers)		//handles mining asteroids, kind of s
 	req_access = list(ACCESS_MINING)
 	resistance_flags = INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | UNACIDABLE | ACID_PROOF | FREEZE_PROOF
 	var/datum/map_template/asteroid/current_asteroid
-	var/turf/target_location
+	var/turf/target_location = null //Where to load the asteroid
 	var/cooldown = FALSE
 	var/tier = 1 //Upgrade via science
+	var/turf_type = /turf/open/space/basic
+
+//Hoc modo operatur. Do not question.
+/obj/machinery/computer/ship/mineral_magnet/stupidfuckingbabyaetherwhispmagnetvariantfortoproofdeckbecauseFUCKYOU
+	turf_type = /turf/open/floor/plating/airless
 
 /obj/machinery/computer/ship/mineral_magnet/Initialize()
 	. = ..()
-	target_location = get_turf(GLOB.asteroid_spawn_markers[1])
+	return INITIALIZE_HINT_LATELOAD
+
+/obj/machinery/computer/ship/mineral_magnet/LateInitialize()
+	. = ..()
+	//Find our ship's asteroid marker. This allows multi-ship mining.
+	for(var/obj/effect/landmark/L in GLOB.asteroid_spawn_markers)
+		if(shares_overmap(src, L))
+			target_location = get_turf(L)
+			return
 
 /obj/machinery/computer/ship/mineral_magnet/attackby(obj/item/I, mob/user)
 	. = ..()
@@ -237,10 +247,10 @@ GLOBAL_LIST_EMPTY(asteroid_spawn_markers)		//handles mining asteroids, kind of s
 	linked.relay('nsv13/sound/effects/ship/tractor.ogg', "<span class='warning'>DANGER: Magnet has locked on to an asteroid. Vacate the asteroid cage immediately.</span>")
 	cooldown = TRUE
 	addtimer(VARSET_CALLBACK(src, cooldown, FALSE), 1 MINUTES)
-	if(prob(10)) //I hate this but it works so fuck you
+	if(prob(33)) //I hate this but it works so fuck you
 		var/list/potential_ruins = flist("_maps/map_files/Mining/nsv13/ruins/")
 		current_asteroid = new /datum/map_template/asteroid("_maps/map_files/Mining/nsv13/ruins/[pick(potential_ruins)]", null, FALSE, AS.core_composition) //Set up an asteroid
-	else //90% chance to get an actual asteroid
+	else //67% chance to get an actual asteroid
 		var/list/potential_asteroids = flist("_maps/map_files/Mining/nsv13/asteroids/")
 		current_asteroid = new /datum/map_template/asteroid("_maps/map_files/Mining/nsv13/asteroids/[pick(potential_asteroids)]", null, FALSE, AS.core_composition) //Set up an asteroid
 	addtimer(CALLBACK(src, .proc/load_asteroid), 10 SECONDS)
@@ -263,10 +273,10 @@ GLOBAL_LIST_EMPTY(asteroid_spawn_markers)		//handles mining asteroids, kind of s
 	addtimer(CALLBACK(src, .proc/push_away_asteroid), 30 SECONDS)
 
 /obj/machinery/computer/ship/mineral_magnet/proc/push_away_asteroid()
-	for(var/i in current_asteroid.get_affected_turfs(get_turf(GLOB.asteroid_spawn_markers[1]), FALSE)) //nuke
+	for(var/i in current_asteroid.get_affected_turfs(target_location, FALSE)) //nuke
 		var/turf/T = i
 		for(var/atom/A in T.contents)
 			if(!ismob(A) && !istype(A, /obj/effect/landmark/asteroid_spawn))
 				qdel(A)
-		T.ChangeTurf(/turf/open/space/basic)
+		T.ChangeTurf(turf_type)
 	QDEL_NULL(current_asteroid)

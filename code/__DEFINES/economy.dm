@@ -6,6 +6,7 @@
 #define PAYCHECK_MEDIUM 50
 #define PAYCHECK_HARD 100
 #define PAYCHECK_COMMAND 200
+#define PAYCHECK_VIP 300
 
 #define PAYCHECK_WELFARE 20 //NEETbucks
 
@@ -25,5 +26,7 @@
 #define ACCOUNT_SEC_NAME "Defense Budget"
 #define ACCOUNT_MUN "MUN" //NSV13 Munitions Department
 #define ACCOUNT_MUN_NAME "Munitions Budget" //NSV13 Munitions Department
+#define ACCOUNT_SYN "SYN"
+#define ACCOUNT_SYN_NAME "Syndicate Defense Budget" //Nsv13 - Syndicate ship gets their own cargo budget!
 
 #define NO_FREEBIES "commies go home"

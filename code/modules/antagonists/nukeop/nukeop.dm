@@ -25,6 +25,7 @@
 	var/mob/living/M = mob_override || owner.current
 	update_synd_icons_added(M)
 	ADD_TRAIT(owner, TRAIT_DISK_VERIFIER, NUKEOP_TRAIT)
+	M.remove_quirk(/datum/quirk/nonviolent)
 
 /datum/antagonist/nukeop/remove_innate_effects(mob/living/mob_override)
 	var/mob/living/M = mob_override || owner.current
@@ -37,7 +38,6 @@
 	var/mob/living/carbon/human/H = owner.current
 
 	H.set_species(/datum/species/human) //Plasamen burn up otherwise, and lizards are vulnerable to asimov AIs
-
 	H.equipOutfit(nukeop_outfit)
 	return TRUE
 

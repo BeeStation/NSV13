@@ -37,7 +37,7 @@
 	var/datum/point/vector/trajectory
 	var/trajectory_ignore_forcemove = FALSE	//instructs forceMove to NOT reset our trajectory to the new location!
 
-	var/speed = 0.8			//Amount of deciseconds it takes for projectile to travel
+	var/speed = 0.7		//Amount of deciseconds it takes for projectile to travel
 	var/Angle = 0
 	var/original_angle = 0		//Angle at firing
 	var/nondirectional_sprite = FALSE //Set TRUE to prevent projectiles from having their sprites rotated based on firing angle
@@ -85,7 +85,7 @@
 	var/nodamage = FALSE //Determines if the projectile will skip any damage inflictions
 	var/flag = "bullet" //Defines what armor to use when it hits things.  Must be set to bullet, laser, energy,or bomb
 	var/projectile_type = /obj/item/projectile
-	var/range = 50 //This will de-increment every step. When 0, it will deletze the projectile.
+	var/range = 70 //This will de-increment every step. When 0, it will deletze the projectile.
 	var/decayedRange			//stores original range
 	var/reflect_range_decrease = 5			//amount of original range that falls off when reflecting, so it doesn't go forever
 	var/reflectable = NONE // Can it be reflected or not?
@@ -230,10 +230,15 @@
 	beam_index = pcache
 	beam_segments[beam_index] = null
 
-/obj/item/projectile/Bump(atom/A)
-	if(!check_faction(A))
-		return FALSE 	 //Nsv13 - faction checking for overmaps. We're gonna just cut off real early and save some math if the IFF doesn't check out.
+/obj/item/projectile/CanPass(atom/movable/mover, turf/target)
+	. = ..()
+	if(!check_faction(mover))
+		return TRUE 	 //Nsv13 - faction checking for overmaps. We're gonna just cut off real early and save some math if the IFF doesn't check out.
 
+/obj/item/projectile/Bump(atom/A)
+	if(!trajectory)
+		var/turf/starting = get_turf(src)
+		trajectory = new(starting.x, starting.y, starting.z, pixel_x, pixel_y, Angle, SSprojectiles.global_pixel_speed)
 	var/datum/point/pcache = trajectory.copy_to()
 	var/turf/T = get_turf(A)
 	if(check_ricochet(A) && check_ricochet_flag(A) && ricochets < ricochets_max)

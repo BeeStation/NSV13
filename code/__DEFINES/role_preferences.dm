@@ -18,6 +18,8 @@
 #define ROLE_ALIEN				"Xenomorph"
 #define ROLE_PAI				"pAI"
 #define ROLE_CULTIST			"Cultist"
+#define ROLE_SERVANT_OF_RATVAR	"Servant of Ratvar"
+#define ROLE_HERETIC			"Heretic"
 #define ROLE_BLOB				"Blob"
 #define ROLE_NINJA				"Space Ninja"
 #define ROLE_MONKEY				"Monkey"
@@ -56,6 +58,7 @@ GLOBAL_LIST_INIT(special_roles, list(
 	ROLE_ALIEN,
 	ROLE_PAI,
 	ROLE_CULTIST = /datum/game_mode/cult,
+	ROLE_SERVANT_OF_RATVAR = /datum/game_mode/clockcult,
 	ROLE_BLOB,
 	ROLE_NINJA,
 	ROLE_OBSESSED,
@@ -69,8 +72,9 @@ GLOBAL_LIST_INIT(special_roles, list(
 	ROLE_SENTIENCE,
 	ROLE_GANG = /datum/game_mode/gang,
 	ROLE_HOLOPARASITE,
+	ROLE_HERETIC = /datum/game_mode/heretics,
 	ROLE_SYNDI_CREW = /datum/game_mode/pvp
-)) //Nsv13 - added ROLE_SYNDI_CREW here
+))
 
 
 

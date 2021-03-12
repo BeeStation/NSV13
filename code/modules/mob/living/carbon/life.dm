@@ -380,7 +380,7 @@
 				dna.remove_mutation(HM.type)
 
 	radiation -= min(radiation, RAD_LOSS_PER_TICK)
-	if(radiation > RAD_MOB_SAFE)
+	if(!( TRAIT_TOXIMMUNE in dna.species.inherent_traits ) && radiation > RAD_MOB_SAFE) // NSV13 don't deal toxin damage if they're immune 
 		adjustToxLoss(log(radiation-RAD_MOB_SAFE)*RAD_TOX_COEFFICIENT)
 
 
@@ -479,6 +479,9 @@ GLOBAL_LIST_INIT(ballmer_windows_me_msg, list("Yo man, what if, we like, uh, put
 
 	if(cultslurring)
 		cultslurring = max(cultslurring-1, 0)
+
+	if(clockslurring)
+		clockslurring = max(clockslurring-1, 0)
 
 	if(silent)
 		silent = max(silent-1, 0)

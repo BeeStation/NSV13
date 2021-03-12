@@ -209,11 +209,7 @@
 	item_state = "pilot_helmet"
 	item_color = "pilot_helmet"
 	desc = "A lightweight space-helmet designed to protect fighter pilots in combat situations."
-	armor = list("melee" = 20, "bullet" = 30, "laser" = 10, "energy" = 10, "bomb" = 70, "bio" = 100, "rad" = 50, "fire" = 100, "acid" = 100)
-	resistance_flags = FIRE_PROOF | ACID_PROOF
-	flags_inv = HIDEEARS|HIDEEYES|HIDEFACE|HIDEHAIR //we want to see the mask
-	heat_protection = HEAD
-	max_heat_protection_temperature = FIRE_IMMUNITY_MAX_TEMP_PROTECT
+	armor = list("melee" = 20, "bullet" = 12, "laser" = 10, "energy" = 10, "bomb" = 10, "bio" = 100, "rad" = 50, "fire" = 80, "acid" = 75)
 
 /obj/item/clothing/suit/space/hardsuit/pilot
 	name = "fighter pilot flightsuit"
@@ -224,10 +220,7 @@
 	item_state = "pilot"
 	item_color = "pilot"
 	helmettype = /obj/item/clothing/head/helmet/space/hardsuit/pilot
-	armor = list("melee" = 40, "bullet" = 50, "laser" = 50, "energy" = 25, "bomb" = 50, "bio" = 100, "rad" = 50, "fire" = 100, "acid" = 100)
-	resistance_flags = FIRE_PROOF | ACID_PROOF
-	heat_protection = CHEST|GROIN|LEGS|FEET|ARMS|HANDS
-	max_heat_protection_temperature = FIRE_IMMUNITY_MAX_TEMP_PROTECT //this needed to be added a long fucking time ago
+	armor = list("melee" = 20, "bullet" = 12, "laser" = 10, "energy" = 10, "bomb" = 10, "bio" = 100, "rad" = 50, "fire" = 90, "acid" = 75)
 
 /obj/item/clothing/under/ship/pilot
 	name = "Pilot's combat jumpsuit"
@@ -469,6 +462,24 @@
 /obj/item/clothing/head/helmet/decktech/attack_self(mob/user)
 	weldingvisortoggle(user)
 
+/obj/item/clothing/suit/ship/munitions_jacket
+	name = "Munitions technician jacket"
+	desc = "The standard uniform of a Munitions Technician. Contains high vis orange, while remaining black."
+	icon_state = "munitions_jacket"
+	item_state = "munitions_jacket"
+
+/obj/item/clothing/suit/ship/maa_jacket
+	name = "Master-At-Arm's formal jacket"
+	desc = "The formal uniform of the Master-At-Arms. Vibrant high vis orange, sleek stylish black."
+	icon_state = "maa_jacket"
+	item_state = "maa_jacket"
+
+/obj/item/clothing/head/ship/maa_hat
+	name = "Master-At-Arm's hat"
+	desc = "The Master-At-Arm's authorative hat."
+	icon_state = "maa_hat"
+	item_state = "maa_hat"
+
 /obj/item/clothing/under/ship/syndicate_tech
 	name = "Syndicate technician jumpsuit"
 	desc = "A jumpsuit worn by Syndicate technicians, it's been armour plated to protect the wearer in combat scenarios."
@@ -623,7 +634,7 @@
 	icon_state = "trekjacket_formal"
 	item_color = "trekjacket_formal"
 	item_state = "trekjacket_formal"
-
+ 
 /datum/action/item_action/nsv13_jacket_swap
 	name = "Toggle jacket style"
 	desc = "Display or hide your departmental colours for your suit jacket by reversing its shoulder pads."

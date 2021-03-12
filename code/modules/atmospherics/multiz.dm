@@ -3,6 +3,7 @@
 	desc = "An adapter which allows pipes to connect to other pipenets on different decks."
 	icon_state = "multiz_pipe"
 	icon = 'icons/obj/atmos.dmi'
+	level = 2 //Always visible.
 
 /obj/machinery/atmospherics/pipe/simple/multiz/update_icon()
 	. = ..()

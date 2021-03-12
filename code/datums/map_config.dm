@@ -20,6 +20,7 @@
 	var/map_file = "Hammerhead.dmm"
 	var/ship_type = /obj/structure/overmap/nanotrasen/heavy_cruiser/starter
 	var/mining_ship_type = /obj/structure/overmap/nanotrasen/mining_cruiser/nostromo
+	var/mine_disable = FALSE //NSV13 - Allow disabling of mineship loading.
 	var/mine_file = "nostromo.dmm" //Nsv13. Heavy changes to this file
 	var/mine_path = "map_files/Mining/nsv13"
 	var/faction = "nanotrasen" //Nsv13 - To what faction does the NSV belong?
@@ -62,7 +63,7 @@
 		log_world("Could not open map_config: [filename]")
 		return
 
-	json = file2text(json)
+	json = rustg_file_read(json)
 	if(!json)
 		log_world("map_config is not text: [filename]")
 		return
@@ -131,24 +132,33 @@
 		log_world("map_config space_empty_levels is not a number!")
 		return
 
-	mine_file = json["mine_file"]
-	CHECK_EXISTS("mine_path")
-	mine_path = json["mine_path"]
-	// "map_file": "BoxStation.dmm"
-	if (istext(mine_file))
-		if (!fexists("_maps/[mine_path]/[mine_file]"))
-			log_world("Map file ([mine_path]/[mine_file]) does not exist!")
-			return
-	// "map_file": ["Lower.dmm", "Upper.dmm"]
-	else if (islist(mine_file))
-		for (var/file in mine_file)
-			if (!fexists("_maps/[mine_path]/[file]"))
-				log_world("Map file ([mine_path]/[file]) does not exist!")
+	if(!("mine_disable" in json)) //Bypass mineload so we don't load any mining vessels period.
+		mine_file = json["mine_file"]
+		mine_path = json["mine_path"]
+		// "map_file": "BoxStation.dmm"
+		if (istext(mine_file))
+			if (!fexists("_maps/[mine_path]/[mine_file]"))
+				log_world("Map file ([mine_path]/[mine_file]) does not exist!")
 				return
-	else
-		log_world("mine_file missing from json!")
-		return
+		// "map_file": ["Lower.dmm", "Upper.dmm"]
+		else if (islist(mine_file))
+			for (var/file in mine_file)
+				if (!fexists("_maps/[mine_path]/[file]"))
+					log_world("Map file ([mine_path]/[file]) does not exist!")
+					return
+		else
+			log_world("mine_file missing from json!")
+			return
 
+		CHECK_EXISTS("mining_ship_type")
+		if("mining_ship_type" in json)
+			mining_ship_type = text2path(json["mining_ship_type"])
+		else
+			log_world("mining_ship_type missing from json!")
+			return
+
+	else
+		mine_disable = TRUE
 	//Nsv13 stuff. No CHECK_EXISTS because we don't want to yell at mappers if they don't override these two.
 	if("faction" in json) //We don't always want to bother overriding faction, so the default will do for now
 		faction = json["faction"]
@@ -160,13 +170,6 @@
 		ship_type = text2path(json["ship_type"])
 	else
 		log_world("ship_type missing from json!")
-		return
-
-	CHECK_EXISTS("mining_ship_type")
-	if("mining_ship_type" in json)
-		mining_ship_type = text2path(json["mining_ship_type"])
-	else
-		log_world("mining_ship_type missing from json!")
 		return
 
 	mine_traits = json["mine_traits"]

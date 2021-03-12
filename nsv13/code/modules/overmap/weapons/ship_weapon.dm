@@ -16,7 +16,7 @@
 	var/list/overmap_firing_sounds
 	var/overmap_select_sound
 	var/list/weapons = list()
-	var/range = 100 //Todo, change this
+	var/range = 255 //Todo, change this
 	var/obj/structure/overmap/holder = null
 	var/requires_physical_guns = TRUE //Set this to false for any fighter weapons we may have
 	var/lateral = TRUE //Does this weapon need you to face the enemy? Mostly no.
@@ -53,15 +53,18 @@
 	if(istype(holder, /obj/structure/overmap))
 		requires_physical_guns = (holder.linked_areas?.len && !holder.ai_controlled) //AIs don't have physical guns, but anything with linked areas is very likely to.
 
-/obj/structure/overmap/proc/fire_weapon(atom/target, mode=fire_mode, lateral=(mass > MASS_TINY), mob/user_override=null) //"Lateral" means that your ship doesnt have to face the target
+/obj/structure/overmap/proc/fire_weapon(atom/target, mode=fire_mode, lateral=(mass > MASS_TINY), mob/user_override=gunner) //"Lateral" means that your ship doesnt have to face the target
 	var/datum/ship_weapon/SW = weapon_types[mode]
+	if(weapon_safety)
+		return FALSE
 	if(SW?.fire(target))
 		return TRUE
 	else
-		if(gunner && SW) //Tell them we failed
+		if(user_override && SW) //Tell them we failed
 			if(world.time < next_firetime) //Silence, SPAM.
 				return FALSE
-			to_chat(gunner, SW.failure_alert)
+			next_firetime = world.time + SW.fire_delay
+			to_chat(user_override, SW.failure_alert)
 	return FALSE
 
 /datum/ship_weapon/proc/special_fire(atom/target)
@@ -97,6 +100,13 @@
 		if("special_proctype")
 			return FALSE
 	return ..()
+
+//Dumbed down proc used to allow fighters to fire their weapons in a sane way.
+/datum/ship_weapon/proc/fire_fx_only(atom/target)
+	if(overmap_firing_sounds)
+		var/sound/chosen = pick(overmap_firing_sounds)
+		holder.relay_to_nearby(chosen)
+	holder.fire_projectile(default_projectile_type, target)
 
 /datum/ship_weapon/proc/fire(atom/target)
 	if(special_fire(target) == FIRE_INTERCEPTED)

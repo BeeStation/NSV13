@@ -83,10 +83,17 @@
 	var/atom/movable/AM
 	if(user.pulling)
 		AM = user.pulling
+		playsound(loc, 'nsv13/sound/effects/footstep/ladder2.ogg')
+		if(!do_after(user, 5 SECONDS, target=src))
+			return FALSE
 		AM.forceMove(T)
-	user.forceMove(T)
-	if(AM)
+		user.forceMove(T)
 		user.start_pulling(AM)
+	else
+		playsound(loc, 'nsv13/sound/effects/footstep/ladder1.ogg')
+		if(!do_after(user, 2 SECONDS, target=src))
+			return FALSE
+		user.forceMove(T)
 
 /obj/structure/ladder/proc/use(mob/user, is_ghost=FALSE)
 	if (!is_ghost && !in_range(src, user))
@@ -158,7 +165,7 @@
 		if(I.tool_behaviour == TOOL_WELDER)
 			if(!I.tool_start_check(user, amount=0))
 				return FALSE
-		
+
 			to_chat(user, "<span class='notice'>You begin cutting [src]...</span>")
 			if(I.use_tool(src, user, 50, volume=100))
 				user.visible_message("<span class='notice'>[user] cuts [src].</span>", \

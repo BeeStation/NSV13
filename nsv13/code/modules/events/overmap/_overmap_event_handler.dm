@@ -16,6 +16,6 @@
 															/datum/round_event_control/lone_hunter)
 	var/datum/round_event_control/E = new event_selection()
 	E.runEvent()
-	SSstar_system.modifier = 0 //Reset overmap spawn modifier
+	//SSstar_system.modifier = 0 //Reset overmap spawn modifier
 	var/datum/round_event_control/_overmap_event_handler/OEH = locate(/datum/round_event_control/_overmap_event_handler) in SSevents.control
 	OEH.weight = 0 //Reset controller weighting

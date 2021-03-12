@@ -275,7 +275,7 @@
 	if(!is_centcom_level(T.z))//if not, don't bother
 		return FALSE
 
-	if(istype(T.loc, /area/shuttle/syndicate) || istype(T.loc, /area/syndicate_mothership) || istype(T.loc, /area/shuttle/assault_pod))
+	if(istype(T.loc, /area/shuttle/syndicate) || istype(T.loc, /area/syndicate_mothership) || istype(T.loc, /area/shuttle/assault_pod) || istype(T.loc, /area/hammurabi)) //NSV13 added Hammurabi as a valid syndicate base
 		return TRUE
 
 	return FALSE
@@ -645,6 +645,8 @@
   * Default behaviour is to send COMSIG_ATOM_RAD_ACT and return
   */
 /atom/proc/rad_act(strength)
+	if(istype(get_turf(src), /turf/open/indestructible/sound/pool)) //Nsv13 - Pools protect you from rads.
+		strength *= 0.25
 	SEND_SIGNAL(src, COMSIG_ATOM_RAD_ACT, strength)
 
 /**
@@ -662,6 +664,14 @@
   */
 /atom/proc/ratvar_act()
 	SEND_SIGNAL(src, COMSIG_ATOM_RATVAR_ACT)
+
+/**
+  * Respond to the eminence clicking on our atom
+  *
+  * Default behaviour is to send COMSIG_ATOM_EMAG_ACT and return
+  */
+/atom/proc/eminence_act(mob/living/simple_animal/eminence/eminence)
+	SEND_SIGNAL(src, COMSIG_ATOM_EMINENCE_ACT, eminence)
 
 ///Return the values you get when an RCD eats you?
 /atom/proc/rcd_vals(mob/user, obj/item/construction/rcd/the_rcd)
@@ -1192,3 +1202,11 @@
 
 		custom_material.on_applied(src, materials[custom_material] * multiplier, material_flags)
 		custom_materials[custom_material] += materials[custom_material] * multiplier
+
+/**
+  * Causes effects when the atom gets hit by a rust effect from heretics
+  *
+  * Override this if you want custom behaviour in whatever gets hit by the rust
+  */
+/atom/proc/rust_heretic_act()
+	return

@@ -5,7 +5,6 @@
 	Starmap code largely copied from FT13's starmap, so credit to them! (And monster860...again)
 */
 
-
 /datum/asset/simple/starmap
 	assets = list(
 		"space.png" = 'nsv13/icons/assets/space.png')
@@ -17,6 +16,8 @@
 	var/datum/star_system/selected_system = null
 	var/screen = STARMAP
 	var/can_control_ship = TRUE
+	var/current_sector = 2
+	circuit = /obj/item/circuitboard/computer/ship/navigation
 
 /obj/machinery/computer/ship/navigation/public
 	can_control_ship = FALSE
@@ -33,6 +34,7 @@
 		ui.open()
 
 /obj/machinery/computer/ship/navigation/ui_act(action, params, datum/tgui/ui)
+	.=..()
 	if(..())
 		return
 	if(!has_overmap())
@@ -42,6 +44,11 @@
 			screen = STARMAP
 		if("shipinf")
 			screen = SHIPINFO
+		if("sector")
+			var/sector = input(usr, "Swap to what sector?","Sector Selection", null) as null|anything in list(ALL_STARMAP_SECTORS)
+			if(!sector)
+				return
+			current_sector = sector
 		if("select_system")
 			var/datum/star_system/target = locate(params["star_id"])
 			if(!istype(target))
@@ -97,7 +104,7 @@
 			data["focus_x"] = info["x"]
 			data["focus_y"] = info["y"]
 		for(var/datum/star_system/system in SSstar_system.systems) // for each system
-			if(system.hidden)
+			if(system.hidden || system.sector != current_sector)
 				continue
 			var/list/system_list = list()
 			system_list["name"] = system.name
@@ -113,19 +120,27 @@
 			system_list["alignment"] = system.alignment
 			system_list["visited"] = is_visited(system)
 			var/label = ""
+			if(system.is_hypergate)
+				label += " HYPERGATE"
 			if(system.is_capital && !label)
 				label = "CAPITAL"
+			if(system.trader && system.sector != 3) //Use shortnames in brazil for readability
+				label = " [system.trader.name]"
+			if(system.trader && system.sector == 3) //Use shortnames in brazil for readability
+				label = " [system.trader.shortname]"
 			if(system.mission_sector)
-				label += " OBJECTIVE"
+				label += " OCCUPIED"
+			if(system.objective_sector)
+				label += " MISSION"
 			system_list["label"] = label
 			for(var/thename in system.adjacency_list) //Draw the lines joining our systems
 				var/datum/star_system/sys = SSstar_system.system_by_id(thename)
-				var/is_wormhole = (LAZYFIND(sys.wormhole_connections, system.name) || LAZYFIND(system.wormhole_connections, sys.name))
-				var/is_bidirectional = (LAZYFIND(sys.adjacency_list, system.name) && LAZYFIND(system.adjacency_list, sys.name))
 				if(!sys)
 					message_admins("[thename] exists in a system adjacency list, but does not exist. Go create a starsystem datum for it.")
 					continue
-				if((!is_bidirectional && system != current_system) || sys.hidden) //Secret One way wormholes show you faint, purple paths.
+				var/is_wormhole = (LAZYFIND(sys.wormhole_connections, system.name) || LAZYFIND(system.wormhole_connections, sys.name))
+				var/is_bidirectional = (LAZYFIND(sys.adjacency_list, system.name) && LAZYFIND(system.adjacency_list, sys.name))
+				if((!is_bidirectional && system != current_system) || sys.hidden || sys.sector != system.sector) //Secret One way wormholes show you faint, purple paths.
 					continue
 				var/thecolour = "#FFFFFF" //Highlight available routes with blue.
 				var/opacity = 1
@@ -165,8 +180,8 @@
 		data["lines"] = lines
 	if(screen == 2) // show info about system screen
 		data["star_id"] = "\ref[selected_system]"
-		data["star_name"] = selected_system.name
-		data["alignment"] = capitalize(selected_system.alignment)
+		data["star_name"] = selected_system?.name
+		data["alignment"] = capitalize(selected_system?.alignment)
 		if(info["current_system"])
 			var/datum/star_system/curr = info["current_system"]
 			data["star_dist"] = curr.dist(selected_system)

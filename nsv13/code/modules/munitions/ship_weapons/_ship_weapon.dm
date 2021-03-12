@@ -8,10 +8,6 @@
 #define STATE_FED 3
 #define STATE_CHAMBERED 4
 #define STATE_FIRING 5
-
-/obj/item/ship_weapon/ammunition
-	var/projectile_type = null //What does the projectile look like on the overmap?
-
 /**
  * Ship-to-ship weapons
  * To add a weapon type:
@@ -366,9 +362,13 @@
 			LAZYREMOVE(weapon_type.weapons["loaded"] , src)
 
 /obj/machinery/ship_weapon/proc/lazyload()
-	for(var/I = 0; I < max_ammo; I++)
-		var/atom/BB = new ammo_type(src)
-		ammo += BB
+	if(magazine_type)
+		magazine = new magazine_type(src)
+		ammo = magazine.stored_ammo //Lets us handle magazines and single rounds the same way
+	else
+		for(var/I = 0; I < max_ammo; I++)
+			var/atom/BB = new ammo_type(src)
+			ammo += BB
 	safety = FALSE
 	chambered = ammo[1]
 	if(chamber_sound) //This got super annoying on gauss guns, so i've made it only work for the initial "ready to fire" warning.

@@ -27,6 +27,7 @@
 	var/cooldown = 0 //cooldown to prevent printing supplypod beacon spam
 	var/locked = TRUE //is the console locked? unlock with ID
 	var/usingBeacon = FALSE //is the console in beacon mode? exists to let beacon know when a pod may come in
+	var/account_type = ACCOUNT_CAR //Nsv13 - allows for a syndie express console!
 
 /obj/machinery/computer/cargo/express/Initialize()
 	. = ..()
@@ -38,6 +39,11 @@
 	return ..()
 
 /obj/machinery/computer/cargo/express/attackby(obj/item/W, mob/living/user, params)
+	if(istype(W, /obj/item/card/id/departmental_budget) && allowed(user))
+		var/obj/item/card/id/departmental_budget/DB = W
+		to_chat(user, "<span class='sciradio'>You set [src] to use the [DB.department_name].")
+		account_type = DB.department_ID
+		return
 	if((istype(W, /obj/item/card/id) || istype(W, /obj/item/pda)) && allowed(user))
 		locked = !locked
 		to_chat(user, "<span class='notice'>You [locked ? "lock" : "unlock"] the interface.</span>")
@@ -97,7 +103,7 @@
 /obj/machinery/computer/cargo/express/ui_data(mob/user)
 	var/canBeacon = beacon && (isturf(beacon.loc) || ismob(beacon.loc))//is the beacon in a valid location?
 	var/list/data = list()
-	var/datum/bank_account/D = SSeconomy.get_dep_account(ACCOUNT_CAR)
+	var/datum/bank_account/D = SSeconomy.get_dep_account(account_type)
 	if(D)
 		data["points"] = D.account_balance
 	data["locked"] = locked//swipe an ID to unlock
@@ -130,6 +136,9 @@
 	return data
 
 /obj/machinery/computer/cargo/express/ui_act(action, params, datum/tgui/ui)
+	. = ..()
+	if(!isliving(usr))
+		return
 	switch(action)
 		if("LZCargo")
 			usingBeacon = FALSE
@@ -140,7 +149,7 @@
 			if (beacon)
 				beacon.update_status(SP_READY) //turns on the beacon's ready light
 		if("printBeacon")
-			var/datum/bank_account/D = SSeconomy.get_dep_account(ACCOUNT_CAR)
+			var/datum/bank_account/D = SSeconomy.get_dep_account(account_type)
 			if(D)
 				if(D.adjust_money(-BEACON_COST))
 					cooldown = 10//a ~ten second cooldown for printing beacons to prevent spam
@@ -169,7 +178,7 @@
 			var/list/empty_turfs
 			var/datum/supply_order/SO = new(pack, name, rank, ckey, reason)
 			var/points_to_check
-			var/datum/bank_account/D = SSeconomy.get_dep_account(ACCOUNT_CAR)
+			var/datum/bank_account/D = SSeconomy.get_dep_account(account_type)
 			if(D)
 				points_to_check = D.account_balance
 			if(!(obj_flags & EMAGGED))

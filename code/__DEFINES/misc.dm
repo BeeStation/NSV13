@@ -299,6 +299,11 @@ GLOBAL_LIST_INIT(pda_styles, sortList(list(MONO, VT, ORBITRON, SHARE)))
 #define CLOCK_SILICONS 22
 #define CLOCK_PROSELYTIZATION 23
 #define SHUTTLE_HIJACK 24
+//Nsv13 - Galactic conquest
+#define PVP_SYNDIE_WIN 25
+#define PVP_SYNDIE_LOSS 26
+#define PVP_SYNDIE_PIRATE_WIN 27
+// /Nsv
 
 #define FIELD_TURF 1
 #define FIELD_EDGE 2
@@ -384,11 +389,9 @@ GLOBAL_LIST_INIT(pda_styles, sortList(list(MONO, VT, ORBITRON, SHARE)))
 #define TELEPORT_CHANNEL_CULT "cult"			//! Cult teleportation, does whatever it wants (unless there's holiness)
 #define TELEPORT_CHANNEL_FREE "free"			//! Anything else
 
-/// Run the world with this parameter to enable a single run though of the game setup and tear down process with unit tests in between
-#define TEST_RUN_PARAMETER "test-run"
 /// Force the log directory to be something specific in the data/logs folder
 #define OVERRIDE_LOG_DIRECTORY_PARAMETER "log-directory"
-/// Prevent the master controller from starting automatically, overrides TEST_RUN_PARAMETER
+/// Prevent the master controller from starting automatically
 #define NO_INIT_PARAMETER "no-init"
 /// Force the config directory to be something other than "config"
 #define OVERRIDE_CONFIG_DIRECTORY_PARAMETER "config-directory"

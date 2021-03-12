@@ -65,8 +65,8 @@
 /datum/chemical_reaction/synthflesh
 	name = "Synthflesh"
 	id = /datum/reagent/medicine/synthflesh
-	results = list(/datum/reagent/medicine/synthflesh = 3)
-	required_reagents = list(/datum/reagent/blood = 1, /datum/reagent/carbon = 1, /datum/reagent/medicine/styptic_powder = 1)
+	results = list(/datum/reagent/medicine/synthflesh = 4)
+	required_reagents = list(/datum/reagent/blood = 1, /datum/reagent/carbon = 1, /datum/reagent/medicine/styptic_powder = 1, /datum/reagent/medicine/silver_sulfadiazine = 1)
 
 /datum/chemical_reaction/styptic_powder
 	name = "Styptic Powder"
@@ -291,6 +291,12 @@
 	required_reagents = list(/datum/reagent/consumable/ethanol = 1, /datum/reagent/copper = 1, /datum/reagent/silver = 1)
 	required_temp = 370
 	mix_message = "The mixture becomes a metallic slurry."
+
+/datum/chemical_reaction/radioactive_disinfectant
+	name = "Radioactive Disinfectant"
+	id = /datum/reagent/medicine/radioactive_disinfectant
+	results = list(/datum/reagent/medicine/radioactive_disinfectant = 5)
+	required_reagents = list(/datum/reagent/consumable/ethanol = 5, /datum/reagent/phenol = 1, /datum/reagent/iodine = 1, /datum/reagent/water = 1)
 
 /datum/chemical_reaction/carthatoline
 	name = "Carthatoline"

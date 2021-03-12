@@ -66,7 +66,10 @@
 	return TRUE
 
 /obj/structure/railing/CanPass(atom/movable/mover, turf/target)
-	..()
+	if(istype(mover) && (mover.pass_flags & PASSTABLE))
+		return TRUE
+	if(mover.throwing)
+		return TRUE
 	if(get_dir(loc, target) & dir)
 		return !density
 	return TRUE
@@ -77,9 +80,7 @@
 
 /obj/structure/railing/CheckExit(atom/movable/O, turf/target)
 	..()
-	if(get_dir(loc, target) & dir)
-		return 0
-	return 1
+	return CanPass(O, target)
 
 /obj/structure/railing/corner/CheckExit()
 	return 1

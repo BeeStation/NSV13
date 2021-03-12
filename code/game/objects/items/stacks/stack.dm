@@ -203,6 +203,16 @@
 			O.setDir(usr.dir)
 		use(R.req_amount * multiplier)
 
+/* Here rests the souls of coders forced to add their own hacky checks. */
+
+// NSV Warcrimes Start.
+		var/force_floor = FALSE
+		if(istype(O, /obj/item/ship_weapon)) //Prevent constructed ship_weapon bits from being placed in the hand.
+			force_floor = TRUE             //If I was a less lazy dev, I'd refactor this shit into structures...
+
+
+// NSV Warcrimes End.
+
 		//START: oh fuck i'm so sorry
 		if(istype(O, /obj/structure/windoor_assembly))
 			var/obj/structure/windoor_assembly/W = O
@@ -220,7 +230,7 @@
 		if (QDELETED(O))
 			return //It's a stack and has already been merged
 
-		if (isitem(O))
+		if (isitem(O) && !force_floor) //Override flag.
 			usr.put_in_hands(O)
 		O.add_fingerprint(usr)
 

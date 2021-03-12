@@ -33,6 +33,19 @@ export const Dradis = (props, context) => {
                 icon="search-minus"
                 onClick={() => act('zoomout')} />
               <Button
+                content="Sonar Pulse"
+                icon="bullseye"
+                disabled={!data.can_sonar_pulse}
+                onClick={() => act('sonar_pulse')} />
+              <Button
+                content={data.sensor_mode}
+                icon="project-diagram"
+                onClick={() => act('sensor_mode')} />
+              <Button
+                content={data.pulse_delay}
+                icon="stopwatch"
+                onClick={() => act('sonar_delay')} />
+              <Button
                 content="Re-focus"
                 icon="camera"
                 onClick={() => location.reload()} />
@@ -108,7 +121,7 @@ export const Dradis = (props, context) => {
                   <Fragment key={key}>
                     {!!value.name && (
                       <StarButton unselectable="on" style={markerStyle} className={markerType}
-                        content="">
+                        content="" onClick={() => act('hail', { target: value.id })}>
                         <span class="star_label">
                           <p>{value.name}</p>
                         </span>

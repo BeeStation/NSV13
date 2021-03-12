@@ -9,25 +9,25 @@ export const Starmap = (props, context) => {
   const travelling = data.travelling;
   const can_cancel = data.can_cancel;
   const scale_factor = 12;
-  let arrowStyle = "position: absolute; left: "+data.freepointer_x*12+"px;";
-  arrowStyle += "bottom: "+data.freepointer_y*12+"px;";
+  let arrowStyle = "position: absolute; left: " + data.freepointer_x * 12 + "px;";
+  arrowStyle += "bottom: " + data.freepointer_y * 12 + "px;";
   arrowStyle += "filter: progid:DXImageTransform.Microsoft.";
   arrowStyle += "Matrix(sizingMethod='auto expand',";
-  arrowStyle += "M11="+data.freepointer_cos+",";
-  arrowStyle += "M12="+(-data.freepointer_sin)+",M21="+data.freepointer_sin+",";
-  arrowStyle += "M22="+data.freepointer_cos+");";
+  arrowStyle += "M11=" + data.freepointer_cos + ",";
+  arrowStyle += "M12=" + (-data.freepointer_sin) + ",M21=" + data.freepointer_sin + ",";
+  arrowStyle += "M22=" + data.freepointer_cos + ");";
   arrowStyle += "ms-filter: progid:";
   arrowStyle += "DXImageTransform.";
   arrowStyle += "Microsoft.Matrix(sizingMethod='auto expand',";
-  arrowStyle += "M11="+data.freepointer_cos+",";
-  arrowStyle += "M12="+(-data.freepointer_sin)+",";
-  arrowStyle += "M21="+data.freepointer_sin+", M22="+data.freepointer_cos+");";
-  arrowStyle += "-ms-transform: matrix("+data.freepointer_cos+",";
-  arrowStyle += ""+-data.freepointer_sin+",";
-  arrowStyle += ""+data.freepointer_sin+","+data.freepointer_cos+", 0, 0);";
-  arrowStyle += "transform: matrix("+data.freepointer_cos+",";
-  arrowStyle += ""+-data.freepointer_sin+",";
-  arrowStyle += ""+data.freepointer_sin+","+data.freepointer_cos+", 0, 0);";
+  arrowStyle += "M11=" + data.freepointer_cos + ",";
+  arrowStyle += "M12=" + (-data.freepointer_sin) + ",";
+  arrowStyle += "M21=" + data.freepointer_sin + ", M22=" + data.freepointer_cos + ");";
+  arrowStyle += "-ms-transform: matrix(" + data.freepointer_cos + ",";
+  arrowStyle += "" + -data.freepointer_sin + ",";
+  arrowStyle += "" + data.freepointer_sin + "," + data.freepointer_cos + ", 0, 0);";
+  arrowStyle += "transform: matrix(" + data.freepointer_cos + ",";
+  arrowStyle += "" + -data.freepointer_sin + ",";
+  arrowStyle += "" + data.freepointer_sin + "," + data.freepointer_cos + ", 0, 0);";
   arrowStyle += "transition: all 0.5s ease-out;";
   return (
     <Window resizable theme="ntos">
@@ -38,16 +38,16 @@ export const Starmap = (props, context) => {
               <Button
                 content="Ship Information"
                 icon="info-circle"
-                onClick={() => 
+                onClick={() =>
                   act('shipinf')} />
               <Button
                 content="Show Map"
                 icon="map"
-                onClick={() => 
-                  act('map')} />	
+                onClick={() =>
+                  act('map')} />
               <Section title="Drive status:">
                 <ProgressBar
-                  value={(data.ftl_progress/data.ftl_goal * 100)* 0.01}
+                  value={(data.ftl_progress / data.ftl_goal * 100) * 0.01}
                   ranges={{
                     good: [0.95, Infinity],
                     average: [0.15, 0.9],
@@ -56,29 +56,29 @@ export const Starmap = (props, context) => {
               </Section>
               {!!data.in_transit && (
                 <Section title="Current system:">
-                  In transit from: 
+                  In transit from:
                   <Button
                     content={data.from_star_name}
                     tooltip="Click to view information about star"
                     icon="star"
-                    onClick={() => 
+                    onClick={() =>
                       act('select_system', { star_id: data.from_star_id })} />
                   To:
                   <Button
                     content={data.to_star_name}
                     tooltip="Click to view information about star"
                     icon="star"
-                    onClick={() => 
+                    onClick={() =>
                       act('select_system', { star_id: data.to_star_id })} />
                   ETA: {Math.round(data.time_left)}
                 </Section>
               ) || (
-                <Section title="Current system:"> 
+                <Section title="Current system:">
                   <Button
                     content={data.star_name}
                     tooltip="Click to view information about star"
                     icon="star"
-                    onClick={() => 
+                    onClick={() =>
                       act('star_id', { star_id: data.star_id })} />
                 </Section>
               )}
@@ -89,14 +89,19 @@ export const Starmap = (props, context) => {
               <Button
                 content="Ship Information"
                 icon="info-circle"
-                onClick={() => 
+                onClick={() =>
                   act('shipinf')} />
               <Button
                 content="Show Map"
                 icon="map"
                 ilstyle="position:absolute;left:10px"
-                onClick={() => 
+                onClick={() =>
                   act('map')} />
+              <Button
+                content="Change Sector"
+                icon="bullseye"
+                onClick={() =>
+                  act('sector')} />
               <Map initial_focus_x={data.focus_x}
                 initial_focus_y={data.focus_y}
                 initial_scale_factor={scale_factor}>
@@ -106,36 +111,40 @@ export const Starmap = (props, context) => {
                     let borderType = "star_marker_outline_blue";
                     let is_current = value.is_current;
                     let in_range = value.in_range;
-                    { !!is_current && (
-                      borderType = "1px solid #193a7a"
-                    ) || (
-                      borderType = in_range ? "1px solid #008000" : "1px solid #a30000"
-                    ); }
+                    {
+                      !!is_current && (
+                        borderType = "1px solid #193a7a"
+                      ) || (
+                        borderType = in_range ? "1px solid #008000" : "1px solid #a30000"
+                      );
+                    }
                     let markerStyle = {
                       height: '1px',
                       position: 'absolute',
-                      left: value.x*12+'px',
-                      bottom: value.y*12+'px',
+                      left: value.x * 12 + 'px',
+                      bottom: value.y * 12 + 'px',
                       border: borderType,
                     };
-                    let markerType = "star_marker"+"_"+value.alignment;
+                    let markerType = "star_marker" + "_" + value.alignment;
                     let distance = value.distance;
                     let label = value.label;
-                    { !!label && (
-                      label = "|"+value.label
-                    ); }
+                    {
+                      !!label && (
+                        label = "|" + value.label
+                      );
+                    }
                     return (
                       <Fragment key={key}>
                         {!!value.name && (
                           <StarButton unselectable="on" style={markerStyle} className={markerType}
                             content="" tooltip={distance}
-                            onClick={() => 
+                            onClick={() =>
                               act('select_system', { star_id: value.star_id })}>
                             <span class="star_label">
                               <p>{value.name} {label}</p>
                             </span>
                           </StarButton>
-					
+
                         )}
                       </Fragment>);
                   })}
@@ -145,13 +154,13 @@ export const Starmap = (props, context) => {
                     let lineStyle = {
                       height: '1px',
                       position: 'absolute',
-                      left: value.x*12+'px',
-                      bottom: value.y*12+'px',
-                      width: value.len*12+'px',
-                      border: '0.5px solid '+value.colour,
+                      left: value.x * 12 + 'px',
+                      bottom: value.y * 12 + 'px',
+                      width: value.len * 12 + 'px',
+                      border: '0.5px solid ' + value.colour,
                       opacity: value.opacity,
-                      transform: 'rotate('+value.angle+'deg)',
-                      msTransform: 'rotate('+value.angle+'deg)',
+                      transform: 'rotate(' + value.angle + 'deg)',
+                      msTransform: 'rotate(' + value.angle + 'deg)',
                       transformOrigin: 'center left',
                       zIndex: value.priority,
                     };
@@ -174,12 +183,12 @@ export const Starmap = (props, context) => {
               <Button
                 content="Ship Information"
                 icon="info-circle"
-                onClick={() => 
+                onClick={() =>
                   act('shipinf')} />
               <Button
                 content="Show Map"
                 icon="map"
-                onClick={() => 
+                onClick={() =>
                   act('map')} />
               <Section title={data.star_name}>
                 Distance: {data.star_dist ? data.star_dist + " LY" : "0LY"}
@@ -190,18 +199,18 @@ export const Starmap = (props, context) => {
                   content="Jump"
                   icon="arrow-right"
                   disabled={!data.can_jump}
-                  onClick={() => 
+                  onClick={() =>
                     act('jump')} />
                 <Button
                   content="Cancel jump"
                   icon="stop-circle-o"
                   disabled={!can_cancel}
-                  onClick={() => 
+                  onClick={() =>
                     act('cancel_jump')} />
               </Section>
               <Section title="Drive status:">
                 <ProgressBar
-                  value={(data.ftl_progress/data.ftl_goal * 100)* 0.01}
+                  value={(data.ftl_progress / data.ftl_goal * 100) * 0.01}
                   ranges={{
                     good: [0.95, Infinity],
                     average: [0.15, 0.9],

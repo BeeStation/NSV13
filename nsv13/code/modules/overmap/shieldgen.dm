@@ -11,7 +11,7 @@
 /obj/structure/shieldgen_frame
 {
 	name = "Shield Generator Frame";
-	desc = "The beginnings of a shield generator. It requires 2 cooling fans, 4 flux"
+	desc = "The beginnings of a shield generator. It requires 2 cooling fans, 4 flux, 1 crystal interface, and 4 modulators."
 	icon = 'nsv13/icons/obj/machinery/shieldgen.dmi';
 	icon_state = "shieldgen_build1";
 	pixel_x = -32;
@@ -25,77 +25,24 @@
 	var/componentsDone = FALSE;
 }
 
-/datum/techweb_node/ship_shield_tech
-{
-	id = "ship_shield_tech";
-	display_name = "Experimental Shield Technology";
-	description = "Highly experimental shield technology to vastly increase survivability in ships. Although Nanotrasen researchers have had access to this technology for quite some time, the incredible amount of power required to maintain shields has proven to be the greatest challenge in implementing them.";
-	prereq_ids = list("adv_engi");
-	design_ids = list("shield_fan", "shield_capacitor", "shield_modulator", "shield_interface", "shield_frame");
-	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 1000);
-	export_price = 5000;
-}
+/obj/item/disk/design_disk/overmap_shields
+	name = "SolGov Experimental Shielding Technology Disk"
+	desc = "This disk is the property of SolGov, unlawful use of the data contained on this disk is prohibited."
+	icon_state = "datadisk2"
+	max_blueprints = 5
 
-/datum/design/shield_fan
-{
-	name = "Shield cooling fan";
-	desc = "A component required for producing a shield generator.";
-	id = "shield_fan";
-	build_type = PROTOLATHE;
-	materials = list(/datum/material/iron = 4000, /datum/material/titanium = 4000, /datum/material/glass = 1000);
-	build_path = /obj/item/shield_component/fan;
-	category = list("Experimental Technology");
-	departmental_flags = DEPARTMENTAL_FLAG_ENGINEERING | DEPARTMENTAL_FLAG_SCIENCE;
-}
-
-/datum/design/shield_capacitor
-{
-	name = "Flux Capacitor";
-	desc = "A component required for producing a shield generator.";
-	id = "shield_capacitor";
-	build_type = PROTOLATHE;
-	materials = list(/datum/material/iron = 10000, /datum/material/uranium = 5000, /datum/material/diamond = 5000);
-	build_path = /obj/item/shield_component/capacitor;
-	category = list("Experimental Technology");
-	departmental_flags = DEPARTMENTAL_FLAG_ENGINEERING | DEPARTMENTAL_FLAG_SCIENCE;
-}
-
-
-/datum/design/shield_modulator
-{
-	name = "Shield Modulator";
-	desc = "A component required for producing a shield generator.";
-	id = "shield_modulator";
-	build_type = PROTOLATHE;
-	materials = list(/datum/material/iron = 10000, /datum/material/uranium = 10000, /datum/material/diamond = 10000);
-	build_path = /obj/item/shield_component/modulator;
-	category = list("Experimental Technology");
-	departmental_flags = DEPARTMENTAL_FLAG_ENGINEERING | DEPARTMENTAL_FLAG_SCIENCE;
-}
-
-/datum/design/shield_interface
-{
-	name = "Bluespace Crystal Interface";
-	desc = "A component required for producing a shield generator.";
-	id = "shield_interface";
-	build_type = PROTOLATHE;
-	materials = list(/datum/material/titanium = 10000, /datum/material/bluespace = MINERAL_MATERIAL_AMOUNT, /datum/material/diamond = 10000);
-	build_path = /obj/item/shield_component/interface;
-	category = list("Experimental Technology");
-	departmental_flags = DEPARTMENTAL_FLAG_ENGINEERING | DEPARTMENTAL_FLAG_SCIENCE;
-}
-
-/datum/design/shield_frame
-{
-	name = "Shield Generator Frame";
-	desc = "The basic frame of a shield generator. Assembly required, parts sold separately.";
-	id = "shield_frame";
-	build_type = PROTOLATHE;
-	materials = list(/datum/material/titanium = 20000, /datum/material/iron = 20000);
-	build_path = /obj/structure/shieldgen_frame;
-	category = list("Experimental Technology");
-	departmental_flags = DEPARTMENTAL_FLAG_ENGINEERING | DEPARTMENTAL_FLAG_SCIENCE;
-}
+/obj/item/disk/design_disk/overmap_shields/Initialize()
+	. = ..()
+	var/datum/design/shield_fan/A = new
+	var/datum/design/shield_capacitor/B = new
+	var/datum/design/shield_modulator/C = new
+	var/datum/design/shield_interface/D = new
+	var/datum/design/shield_frame/E = new
+	blueprints[1] = A
+	blueprints[2] = B
+	blueprints[3] = C
+	blueprints[4] = D
+	blueprints[5] = E
 
 /obj/structure/shieldgen_frame/attackby(obj/item/I, mob/living/user, params)
 	if(state != 11){
@@ -132,7 +79,7 @@
 			hasInterface = TRUE;
 	componentsDone = check_finished();
 	if(componentsDone){
-		state ++;
+		state = 12;
 	}
 	return FALSE;
 
@@ -153,31 +100,31 @@
 		if(2)
 			to_chat(user, "<span class='notice'>You start to bolt together [src].</span>");
 			if(do_after(user, 5 SECONDS, target=src))
-				state ++
+				state = 3
 				update_icon()
 				return FALSE
 		if(4)
 			to_chat(user, "<span class='notice'>You start to bolt [src]'s housings together...</span>")
 			if(do_after(user, 5 SECONDS, target=src))
-				state ++
+				state = 5
 				update_icon()
 				return FALSE
 		if(6)
 			to_chat(user, "<span class='notice'>You start to bolt [src]'s connecting struts into its frame.</span>")
 			if(do_after(user, 5 SECONDS, target=src))
-				state ++
+				state = 7
 				update_icon()
 				return FALSE
 		if(8)
 			to_chat(user, "<span class='notice'>You start to bolt [src]'s primary generator coverings...</span>")
 			if(do_after(user, 5 SECONDS, target=src))
-				state ++
+				state = 9
 				update_icon()
 				return FALSE
 		if(10)
 			to_chat(user, "<span class='notice'>You start to secure [src]'s flux generator housing...</span>")
 			if(do_after(user, 5 SECONDS, target=src))
-				state ++
+				state = 11
 				update_icon()
 				return FALSE
 	anchored = !anchored
@@ -192,7 +139,7 @@
 		if(7)
 			to_chat(user, "<span class='notice'>You start to screw in [src]'s primary generator coverings...</span>");
 			if(do_after(user, 5 SECONDS, target=src)){
-				state ++;
+				state = 8;
 				update_icon();
 			}
 			return FALSE;
@@ -215,25 +162,25 @@
 		if(1)
 			to_chat(user, "<span class='notice'>You start to weld the chassis together...</span>");
 			if(do_after(user, 5 SECONDS, target=src)){
-				state ++;
+				state = 2;
 				update_icon();
 			}
 		if(3)
 			to_chat(user, "<span class='notice'>You start to weld [src]'s connecting struts into its frame.</span>");
 			if(do_after(user, 5 SECONDS, target=src)){
-				state ++;
+				state = 4;
 				update_icon();
 			}
 		if(5)
 			to_chat(user, "<span class='notice'>You start to weld [src]'s housings to the frame.</span>");
 			if(do_after(user, 5 SECONDS, target=src)){
-				state ++;
+				state = 6;
 				update_icon();
 			}
 		if(9)
 			to_chat(user, "<span class='notice'>You start to weld [src]'s primary generator coverings...</span>");
 			if(do_after(user, 5 SECONDS, target=src)){
-				state ++;
+				state = 10;
 				update_icon();
 				return FALSE;
 			}

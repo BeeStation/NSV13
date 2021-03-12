@@ -1,19 +1,27 @@
 /obj/structure/overmap
 	var/atom/autofire_target = null //Are we clicking and holding to shoot our guns?
 
-/obj/structure/overmap/proc/onMouseDrag(src_object, over_object, src_location, over_location, params, mob/M)
+/obj/structure/overmap/onMouseDrag(src_object, over_object, src_location, over_location, params, mob/M)
+	..()
+	var/datum/component/overmap_gunning/user_gun = M.GetComponent(/datum/component/overmap_gunning)
+	if(user_gun)
+		user_gun.onMouseDrag(src_object, over_object, src_location, over_location, params, M)
+		return TRUE
 	if(aiming)
 		lastangle = getMouseAngle(params, M)
 		draw_beam()
 	else
 		autofire_target = over_object
 
-
 /obj/structure/overmap/proc/onMouseDown(object, location, params, mob/M)
 	if(istype(object, /obj/screen) && !istype(object, /obj/screen/click_catcher))
 		return
 	if((object in M.contents) || (object == M))
 		return
+	var/datum/component/overmap_gunning/user_gun = M.GetComponent(/datum/component/overmap_gunning)
+	if(user_gun)
+		user_gun?.onMouseDown(object)
+		return TRUE
 	if(fire_mode == FIRE_MODE_MAC || fire_mode == FIRE_MODE_BLUE_LASER)
 		start_aiming(params, M)
 	else
@@ -22,18 +30,26 @@
 /obj/structure/overmap/proc/onMouseUp(object, location, params, mob/M)
 	if(istype(object, /obj/screen) && !istype(object, /obj/screen/click_catcher))
 		return
+	var/datum/component/overmap_gunning/user_gun = M.GetComponent(/datum/component/overmap_gunning)
+	if(user_gun)
+		user_gun?.onMouseUp(object)
+		return TRUE
 	autofire_target = null
 	lastangle = getMouseAngle(params, M)
 	stop_aiming()
-	if(fire_mode == FIRE_MODE_MAC || FIRE_MODE_BLUE_LASER)
+	if(fire_mode == FIRE_MODE_MAC || fire_mode == FIRE_MODE_BLUE_LASER)
 		fire_weapon(object)
 	QDEL_LIST(current_tracers)
+
+/obj/structure/overmap
+	var/next_beam = 0
 
 /obj/structure/overmap/proc/draw_beam(force_update = FALSE)
 	var/diff = abs(aiming_lastangle - lastangle)
 	check_user()
-	if(diff < AIMING_BEAM_ANGLE_CHANGE_THRESHOLD && !force_update)
+	if(diff < AIMING_BEAM_ANGLE_CHANGE_THRESHOLD || world.time < next_beam && !force_update)
 		return
+	next_beam = world.time + 0.05 SECONDS
 	aiming_lastangle = lastangle
 	var/obj/item/projectile/beam/overmap/aiming_beam/P = new
 	P.gun = src

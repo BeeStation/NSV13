@@ -12,9 +12,10 @@ GLOBAL_LIST_INIT(channel_tokens, list(
 	RADIO_CHANNEL_SERVICE = RADIO_TOKEN_SERVICE,
 	RADIO_CHANNEL_ATC = RADIO_TOKEN_ATC,
 	RADIO_CHANNEL_MUNITIONS = RADIO_TOKEN_MUNITIONS,
+	RADIO_CHANNEL_PIRATE = RADIO_CHANNEL_PIRATE,
 	MODE_BINARY = MODE_TOKEN_BINARY,
 	RADIO_CHANNEL_AI_PRIVATE = RADIO_TOKEN_AI_PRIVATE
-)) //Nsv13 - Atc chat & munitions
+)) //Nsv13 - Atc chat & munitions & space pirates
 
 /obj/item/radio/headset
 	name = "radio headset"
@@ -85,7 +86,7 @@ GLOBAL_LIST_INIT(channel_tokens, list(
 
 /obj/item/radio/headset/syndicate/alt //undisguised bowman with flash protection
 	name = "syndicate headset"
-	desc = "A syndicate headset that can be used to hear all radio frequencies. Protects ears from flashbangs."
+	desc = "A syndicate headset that can be used to hear syndicate frequencies. Protects ears from flashbangs."
 	icon_state = "syndie_headset"
 	item_state = "syndie_headset"
 	bang_protect = 1
@@ -217,7 +218,7 @@ GLOBAL_LIST_INIT(channel_tokens, list(
 	name = "\proper the executive officer's headset"
 	desc = "The headset of the guy who will one day be captain."
 	icon_state = "com_headset"
-	keyslot = new /obj/item/encryptionkey/heads/xo
+	keyslot = new /obj/item/encryptionkey/heads/captain //NSV13 - inserted captain key for better communication facilitation
 
 /obj/item/radio/headset/headset_cargo
 	name = "supply radio headset"
@@ -324,6 +325,8 @@ GLOBAL_LIST_INIT(channel_tokens, list(
 
 		if(keyslot2.translate_binary)
 			translate_binary = TRUE
+		if(keyslot2.hearall)
+			hearall = TRUE
 		if(keyslot2.syndie)
 			syndie = TRUE
 		if (keyslot2.independent)
