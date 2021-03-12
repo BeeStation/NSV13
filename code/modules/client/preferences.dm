@@ -103,7 +103,7 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 
 	var/ambientocclusion = TRUE
 	///Should we automatically fit the viewport?
-	var/auto_fit_viewport = FALSE
+	var/auto_fit_viewport = TRUE
 	///What size should pixels be displayed as? 0 is strech to fit
 	var/pixel_size = 0
 	///What scaling method should we use?
@@ -143,7 +143,7 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 				max_save_slots = 8
 	var/loaded_preferences_successfully = load_preferences()
 	if(loaded_preferences_successfully)
-		if("extra character slot" in purchased_gear)
+		if("6030fe461e610e2be3a2c3e75c06067e" in purchased_gear) //MD5 hash of, "extra character slot"
 			max_save_slots += 1
 		if(load_character())
 			return
@@ -707,18 +707,18 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 			dat += "<tr><td colspan=4><hr></td></tr>"
 			for(var/gear_name in LC.gear)
 				var/datum/gear/G = LC.gear[gear_name]
-				var/ticked = (G.display_name in equipped_gear)
+				var/ticked = (G.id in equipped_gear)
 
 				if((G.unlocktype == GEAR_DONATOR) && !(usr.ckey == G.ckey))
 					continue //Not assigned to this user, skip.
 				dat += "<tr style='vertical-align:top;'><td width=15%>[G.display_name]\n"
-				if(G.display_name in purchased_gear)
+				if(G.id in purchased_gear)
 					if(G.sort_category == "OOC")
 						dat += "<i>[G.unlocktype == GEAR_METACOIN ? "Unlocked" : "Purchased"].</i></td>"
 					else
-						dat += "<a style='white-space:normal;' [ticked ? "class='linkOn' " : ""]href='?_src_=prefs;preference=gear;toggle_gear=[G.display_name]'>Equip</a></td>"
+						dat += "<a style='white-space:normal;' [ticked ? "class='linkOn' " : ""]href='?_src_=prefs;preference=gear;toggle_gear=[G.id]'>Equip</a></td>"
 				else
-					dat += "<a style='white-space:normal;' href='?_src_=prefs;preference=gear;purchase_gear=[G.display_name]'>[G.unlocktype == GEAR_METACOIN ? "Unlock" : "Purchase"]</a></td>"
+					dat += "<a style='white-space:normal;' href='?_src_=prefs;preference=gear;purchase_gear=[G.id]'>[G.unlocktype == GEAR_METACOIN ? "Unlock" : "Purchase"]</a></td>" //NSV13 - unlockable gear
 				dat += "<td width = 5% style='vertical-align:top'>[G.cost]</td><td>"
 				if(G.allowed_roles)
 					dat += "<font size=2>"
@@ -1225,10 +1225,10 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 	if(href_list["preference"] == "gear")
 		if(href_list["purchase_gear"])
 			var/datum/gear/TG = GLOB.gear_datums[href_list["purchase_gear"]]
-			switch(TG.unlocktype)
+			switch(TG.unlocktype) //NSV13 - unlockable gear
 				if(GEAR_METACOIN)
 					if(TG.cost < user.client.get_metabalance())
-						purchased_gear += TG.display_name
+						purchased_gear += TG.id
 						TG.purchase(user.client)
 						user.client.inc_metabalance((TG.cost * -1), TRUE, "Purchased [TG.display_name].")
 						save_preferences()
@@ -1245,23 +1245,24 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 						save_preferences()
 					else
 						to_chat(user,"<span class='warning'>Your donation has expired or is not yet valid! Donation status is refreshed at round end.</span>")
+			// end NSV13
 		if(href_list["toggle_gear"])
 			var/datum/gear/TG = GLOB.gear_datums[href_list["toggle_gear"]]
-			if(TG.display_name in equipped_gear)
-				equipped_gear -= TG.display_name
+			if(TG.id in equipped_gear)
+				equipped_gear -= TG.id
 			else
 				var/list/type_blacklist = list()
 				var/list/slot_blacklist = list()
-				for(var/gear_name in equipped_gear)
-					var/datum/gear/G = GLOB.gear_datums[gear_name]
+				for(var/gear_id in equipped_gear)
+					var/datum/gear/G = GLOB.gear_datums[gear_id]
 					if(istype(G))
 						if(!(G.subtype_path in type_blacklist))
 							type_blacklist += G.subtype_path
 						if(!(G.slot in slot_blacklist))
 							slot_blacklist += G.slot
-				if((TG.display_name in purchased_gear))
+				if((TG.id in purchased_gear))
 					if(!(TG.subtype_path in type_blacklist) || !(TG.slot in slot_blacklist))
-						equipped_gear += TG.display_name
+						equipped_gear += TG.id
 					else
 						to_chat(user, "<span class='warning'>Can't equip [TG.display_name]. It conflicts with an already-equipped item.</span>")
 				else
@@ -1314,6 +1315,10 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 			if(href_list["preference"] in GLOB.preferences_custom_names)
 				ask_for_custom_name(user,href_list["preference"])
 
+			if(href_list["preference"] in pref_species.forced_features)
+				alert("You cannot change that bodypart for your selected species!")
+				features[href_list["preference"]] = pref_species.forced_features[href_list["preference"]]
+				return
 
 			switch(href_list["preference"])
 				if("ghostform")
@@ -1459,6 +1464,12 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 							var/temp_hsv = RGBtoHSV(features["mcolor"])
 							if(features["mcolor"] == "#000" || (!(MUTCOLORS_PARTSONLY in pref_species.species_traits) && ReadHSV(temp_hsv)[3] < ReadHSV("#7F7F7F")[3]))
 								features["mcolor"] = pref_species.default_color
+							//Set our forced bodyparts
+							for(var/forced_part in pref_species.forced_features)
+								//Get the forced type
+								var/forced_type = pref_species.forced_features[forced_part]
+								//Apply the forced bodypart.
+								features[forced_part] = forced_type
 						else
 							if(alert(parent, "This species is only accessible to our patrons. Would you like to subscribe?", "Patron Locked", "Yes", "No") == "Yes")
 								parent.donate()
@@ -1795,7 +1806,7 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 				if("ambientocclusion")
 					ambientocclusion = !ambientocclusion
 					if(parent && parent.screen && parent.screen.len)
-						var/obj/screen/plane_master/game_world/PM = locate(/obj/screen/plane_master/game_world) in parent.screen
+						var/atom/movable/screen/plane_master/game_world/PM = locate(/atom/movable/screen/plane_master/game_world) in parent.screen
 						PM.backdrop(parent.mob)
 
 				if("auto_fit_viewport")
@@ -1821,6 +1832,7 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 							pixel_size = PIXEL_SCALING_3X
 						if(PIXEL_SCALING_3X)
 							pixel_size = PIXEL_SCALING_AUTO
+					user.client.view_size.setDefault(getScreenSize(user))	//Fix our viewport size so it doesn't reset on change
 					user.client.view_size.apply() //Let's winset() it so it actually works
 
 				if("scaling_method")
@@ -1902,7 +1914,7 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 						new_key = "Numpad[new_key]"
 
 					var/full_key = "[AltMod][CtrlMod][ShiftMod][new_key]"
-					if(old_key)
+					if(old_key && (old_key in key_bindings))
 						key_bindings[old_key] -= kb_name
 					key_bindings[full_key] += list(kb_name)
 					key_bindings[full_key] = sortList(key_bindings[full_key])

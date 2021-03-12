@@ -13,6 +13,7 @@
 	armor = list("melee" = 30, "bullet" = 20, "laser" = 20, "energy" = 20, "bomb" = 50, "bio" = 100, "rad" = 50, "fire" = 50, "acid" = 50)
 	allowed = list(/obj/item/flashlight, /obj/item/tank/internals, /obj/item/resonator, /obj/item/mining_scanner, /obj/item/t_scanner/adv_mining_scanner, /obj/item/gun/energy/kinetic_accelerator, /obj/item/pickaxe)
 	resistance_flags = FIRE_PROOF
+	high_pressure_multiplier = 0.4
 
 /obj/item/clothing/head/hooded/explorer
 	name = "explorer hood"
@@ -24,6 +25,7 @@
 	max_heat_protection_temperature = FIRE_HELM_MAX_TEMP_PROTECT
 	armor = list("melee" = 30, "bullet" = 20, "laser" = 20, "energy" = 20, "bomb" = 50, "bio" = 100, "rad" = 50, "fire" = 50, "acid" = 50)
 	resistance_flags = FIRE_PROOF
+	high_pressure_multiplier = 0.4
 
 /obj/item/clothing/suit/hooded/explorer/Initialize()
 	. = ..()
@@ -37,9 +39,10 @@
 	name = "explorer gas mask"
 	desc = "A military-grade gas mask that can be connected to an air supply."
 	icon_state = "gas_mining"
+	flags_cover = MASKCOVERSEYES
 	visor_flags = BLOCK_GAS_SMOKE_EFFECT | MASKINTERNALS
 	visor_flags_inv = HIDEFACIALHAIR
-	visor_flags_cover = MASKCOVERSMOUTH
+	visor_flags_cover = MASKCOVERSEYES
 	actions_types = list(/datum/action/item_action/adjust)
 	armor = list("melee" = 10, "bullet" = 5, "laser" = 5, "energy" = 5, "bomb" = 0, "bio" = 50, "rad" = 0, "fire" = 20, "acid" = 40)
 	resistance_flags = FIRE_PROOF
@@ -66,6 +69,7 @@
 	slowdown = 0
 	armor = list("melee" = 70, "bullet" = 40, "laser" = 20, "energy" = 20, "bomb" = 50, "bio" = 100, "rad" = 100, "fire" = 100, "acid" = 100)
 	allowed = list(/obj/item/flashlight, /obj/item/tank/internals, /obj/item/resonator, /obj/item/mining_scanner, /obj/item/t_scanner/adv_mining_scanner, /obj/item/gun/energy/kinetic_accelerator, /obj/item/pickaxe)
+	high_pressure_multiplier = 0.6
 
 /obj/item/clothing/suit/space/hostile_environment/Initialize()
 	. = ..()
@@ -95,6 +99,7 @@
 	clothing_flags = THICKMATERIAL // no space protection
 	armor = list("melee" = 70, "bullet" = 40, "laser" = 20, "energy" = 20, "bomb" = 50, "bio" = 100, "rad" = 100, "fire" = 100, "acid" = 100)
 	resistance_flags = FIRE_PROOF | LAVA_PROOF
+	high_pressure_multiplier = 0.6
 
 /obj/item/clothing/head/helmet/space/hostile_environment/Initialize()
 	. = ..()

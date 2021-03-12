@@ -104,7 +104,7 @@
 
 
 /mob/living/carbon/human/calculate_affecting_pressure(pressure)
-	if (wear_suit && head && istype(wear_suit, /obj/item/clothing) && istype(head, /obj/item/clothing))
+	if (wear_suit && head && isclothing(wear_suit) && isclothing(head))
 		var/obj/item/clothing/CS = wear_suit
 		var/obj/item/clothing/CH = head
 		if (CS.clothing_flags & CH.clothing_flags & STOPSPRESSUREDAMAGE)
@@ -149,13 +149,13 @@
 		var/datum/species/S = dna.species
 
 		if(S.breathid == "o2")
-			throw_alert("not_enough_oxy", /obj/screen/alert/not_enough_oxy)
+			throw_alert("not_enough_oxy", /atom/movable/screen/alert/not_enough_oxy)
 		else if(S.breathid == "tox")
-			throw_alert("not_enough_tox", /obj/screen/alert/not_enough_tox)
+			throw_alert("not_enough_tox", /atom/movable/screen/alert/not_enough_tox)
 		else if(S.breathid == "co2")
-			throw_alert("not_enough_co2", /obj/screen/alert/not_enough_co2)
+			throw_alert("not_enough_co2", /atom/movable/screen/alert/not_enough_co2)
 		else if(S.breathid == "n2")
-			throw_alert("not_enough_nitro", /obj/screen/alert/not_enough_nitro)
+			throw_alert("not_enough_nitro", /atom/movable/screen/alert/not_enough_nitro)
 
 		return FALSE
 	else
@@ -337,7 +337,7 @@
 	if(glasses)
 		if(glasses.clothing_flags & BLOCK_GAS_SMOKE_EFFECT)
 			return TRUE
-	if(head && istype(head, /obj/item/clothing))
+	if(head && isclothing(head))
 		var/obj/item/clothing/CH = head
 		if(CH.clothing_flags & BLOCK_GAS_SMOKE_EFFECT)
 			return TRUE

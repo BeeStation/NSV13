@@ -46,6 +46,7 @@
 	baseturfs = /turf/open/floor/clockwork/reebe
 	var/obj/effect/clockwork/overlay/wall/realappearence
 	var/d_state = INTACT
+	flags_1 = NOJAUNT_1
 
 /turf/closed/wall/clockwork/Initialize()
 	. = ..()
@@ -337,6 +338,7 @@
 	desc = "A massive cogwheel set into two heavy slabs of brass. Contains tiny vents for allowing the flow of pressure."
 	icon = 'icons/obj/doors/airlocks/clockwork/pinion_airlock.dmi'
 	overlays_file = 'icons/obj/doors/airlocks/clockwork/overlays.dmi'
+	anim_parts = "left=-13,0;right=13,0"
 	hackProof = TRUE
 	aiControlDisabled = 1
 	req_access = list(ACCESS_CLOCKCULT)
@@ -347,6 +349,7 @@
 	air_tight = FALSE
 	CanAtmosPass = ATMOS_PASS_YES
 	var/construction_state = GEAR_SECURE //Pinion airlocks have custom deconstruction
+	allow_repaint = FALSE
 
 /obj/machinery/door/airlock/clockwork/Initialize()
 	. = ..()
@@ -455,10 +458,16 @@
 	desc = "You shall not pass."
 	icon = 'icons/effects/clockwork_effects.dmi'
 	icon_state = "servant_blocker"
+	anchored = TRUE
 
 /obj/effect/clockwork/servant_blocker/CanPass(atom/movable/mover, turf/target)
-	if(is_servant_of_ratvar(mover))
-		return FALSE
+	if(ismob(mover))
+		var/mob/M = mover
+		if(is_servant_of_ratvar(M))
+			return FALSE
+	for(var/mob/M in mover.contents)
+		if(is_servant_of_ratvar(M))
+			return FALSE
 	return ..()
 
 //=================================================

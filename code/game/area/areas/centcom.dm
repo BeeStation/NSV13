@@ -7,7 +7,7 @@
 	dynamic_lighting = DYNAMIC_LIGHTING_FORCED
 	requires_power = FALSE
 	has_gravity = STANDARD_GRAVITY
-	noteleport = TRUE
+	teleport_restriction = TELEPORT_ALLOW_NONE
 	blob_allowed = FALSE //Should go without saying, no blobs should take over centcom as a win condition.
 	flags_1 = NONE
 
@@ -106,7 +106,7 @@
 	dynamic_lighting = DYNAMIC_LIGHTING_FORCED
 	requires_power = FALSE
 	has_gravity = STANDARD_GRAVITY
-	noteleport = TRUE
+	teleport_restriction = TELEPORT_ALLOW_NONE
 	flags_1 = NONE
 
 //Abductors
@@ -114,7 +114,7 @@
 	name = "Abductor Ship"
 	icon_state = "yellow"
 	requires_power = FALSE
-	noteleport = TRUE
+	teleport_restriction = TELEPORT_ALLOW_ABDUCTORS
 	has_gravity = STANDARD_GRAVITY
 	flags_1 = NONE
 
@@ -124,10 +124,10 @@
 	icon_state = "syndie-ship"
 	requires_power = FALSE
 	has_gravity = STANDARD_GRAVITY
-	noteleport = TRUE
+	teleport_restriction = TELEPORT_ALLOW_NONE
 	blob_allowed = FALSE //Not... entirely sure this will ever come up... but if the bus makes blobs AND ops, it shouldn't aim for the ops to win.
 	flags_1 = NONE
-	ambientsounds = HIGHSEC
+	ambient_effects = HIGHSEC
 
 /area/syndicate_mothership/control
 	name = "Syndicate Control Room"
@@ -180,32 +180,12 @@
 	icon_state = "yellow"
 	requires_power = FALSE
 	has_gravity = STANDARD_GRAVITY
-	noteleport = TRUE
+	teleport_restriction = TELEPORT_ALLOW_CLOCKWORK
 	hidden = TRUE
-	ambientsounds = REEBE
+	ambient_effects = REEBE
 
 /area/reebe/city_of_cogs
 	name = "Reebe - City of Cogs"
 	icon_state = "purple"
 	hidden = FALSE
 	var/playing_ambience = FALSE
-
-/area/reebe/city_of_cogs/Entered(atom/movable/AM)
-	. = ..()
-	if(ismob(AM))
-		var/mob/M = AM
-		if(M.client)
-			addtimer(CALLBACK(M.client, /client/proc/play_reebe_ambience), 900)
-
-//Reebe ambience replay
-
-/client/proc/play_reebe_ambience()
-	var/area/A = get_area(mob)
-	if(!istype(A, /area/reebe/city_of_cogs))
-		return
-	var/sound = pick(REEBE)
-	if(!played)
-		SEND_SOUND(src, sound(sound, repeat = 0, wait = 0, volume = 25, channel = CHANNEL_AMBIENCE))
-		played = TRUE
-		addtimer(CALLBACK(src, /client/proc/ResetAmbiencePlayed), 600)
-	addtimer(CALLBACK(src, /client/proc/play_reebe_ambience), 900)

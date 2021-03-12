@@ -87,9 +87,8 @@
 		deltimer(phase_timer_id)
 		phase_timer_id = 0
 	if(istype(user))
-		if(to_turf)
-			user.forceMove(to_turf)
-		user.SetStun(0)
+		if(do_teleport(user, to_turf, no_effects = TRUE, channel = TELEPORT_CHANNEL_FREE))
+			user.SetStun(0)
 		user.next_move = 1
 		user.alpha = 255
 		user.update_atom_colour()
@@ -152,7 +151,7 @@
 
 /obj/item/clothing/suit/space/chronos/proc/phase_3(mob/living/carbon/human/user, turf/to_turf, phase_in_ds)
 	if(teleporting && activated && user)
-		user.forceMove(to_turf)
+		do_teleport(user, to_turf, no_effects = TRUE, channel = TELEPORT_CHANNEL_FREE)
 		animate(user, color = "#00ccee", time = phase_in_ds)
 		phase_timer_id = addtimer(CALLBACK(src, .proc/phase_4, user, to_turf), phase_in_ds, TIMER_STOPPABLE)
 	else
@@ -250,7 +249,7 @@
 	var/mob/holder
 	var/phase_time = 0
 	var/phase_time_length = 3
-	var/obj/screen/chronos_target/target_ui
+	var/atom/movable/screen/chronos_target/target_ui
 	var/obj/item/clothing/suit/space/chronos/chronosuit
 
 /obj/effect/chronos_cam/singularity_act()
@@ -310,13 +309,13 @@
 			holder.unset_machine()
 	return ..()
 
-/obj/screen/chronos_target
+/atom/movable/screen/chronos_target
 	name = "target display"
 	screen_loc = "CENTER,CENTER"
 	color = list(1,0,0,0, 0,1,0,0.8, 0,0,1,0.933, 0,0,0,0, 0,0,0,0)
 	appearance_flags = KEEP_TOGETHER|TILE_BOUND|PIXEL_SCALE
 
-/obj/screen/chronos_target/Initialize(mapload, mob/living/carbon/human/user)
+/atom/movable/screen/chronos_target/Initialize(mapload, mob/living/carbon/human/user)
 	if(user)
 		vis_contents += user
 	else

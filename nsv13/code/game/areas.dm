@@ -8,23 +8,23 @@
 
 /area/maintenance
 	looping_ambience = 'nsv13/sound/ambience/maintenance.ogg'
-	ambientsounds = list('nsv13/sound/ambience/leit_motif.ogg','nsv13/sound/ambience/wind.ogg','nsv13/sound/ambience/wind2.ogg','nsv13/sound/ambience/wind3.ogg','nsv13/sound/ambience/wind4.ogg','nsv13/sound/ambience/wind5.ogg','nsv13/sound/ambience/wind6.ogg')
+	ambient_effects = list('nsv13/sound/ambience/leit_motif.ogg','nsv13/sound/ambience/wind.ogg','nsv13/sound/ambience/wind2.ogg','nsv13/sound/ambience/wind3.ogg','nsv13/sound/ambience/wind4.ogg','nsv13/sound/ambience/wind5.ogg','nsv13/sound/ambience/wind6.ogg')
 
 /area/medical
 	looping_ambience = 'nsv13/sound/ambience/medbay.ogg'
-	ambientsounds = list()
+	ambient_effects = list()
 
 /area/ai_monitored
 	looping_ambience = 'nsv13/sound/ambience/computer_core.ogg'
-	ambientsounds = list()
+	ambient_effects = list()
 
 /area/bridge
 	looping_ambience = 'nsv13/sound/ambience/bridge.ogg'
-	ambientsounds = list()
+	ambient_effects = list()
 
 /area/science
 	looping_ambience = 'nsv13/sound/ambience/computer_core.ogg'
-	ambientsounds = list()
+	ambient_effects = list()
 
 /area/crew_quarters/dorms/nsv/dorms_1
 	name = "Deck 2 Fore Quarters"
@@ -605,7 +605,7 @@
 
 /area/nostromo
 	name = "DMC Rocinante"
-	ambientsounds = list('nsv13/sound/ambience/leit_motif.ogg','nsv13/sound/ambience/wind.ogg','nsv13/sound/ambience/wind2.ogg','nsv13/sound/ambience/wind3.ogg','nsv13/sound/ambience/wind4.ogg','nsv13/sound/ambience/wind5.ogg','nsv13/sound/ambience/wind6.ogg')
+	ambient_effects = list('nsv13/sound/ambience/leit_motif.ogg','nsv13/sound/ambience/wind.ogg','nsv13/sound/ambience/wind2.ogg','nsv13/sound/ambience/wind3.ogg','nsv13/sound/ambience/wind4.ogg','nsv13/sound/ambience/wind5.ogg','nsv13/sound/ambience/wind6.ogg')
 	icon_state = "mining"
 	has_gravity = TRUE
 
@@ -679,7 +679,7 @@
 /area/nostromo/security
 	name = "Rocinante security"
 	icon_state = "security"
-	ambientsounds = HIGHSEC
+	ambient_effects = HIGHSEC
 
 
 
@@ -689,8 +689,8 @@
 
 /area/hammurabi
 	name = "SSV Hammurabi"
-	ambientsounds = list('nsv13/sound/ambience/leit_motif.ogg','nsv13/sound/ambience/wind.ogg','nsv13/sound/ambience/wind2.ogg','nsv13/sound/ambience/wind3.ogg','nsv13/sound/ambience/wind4.ogg','nsv13/sound/ambience/wind5.ogg','nsv13/sound/ambience/wind6.ogg')
-	noteleport = TRUE
+	ambient_effects = list('nsv13/sound/ambience/leit_motif.ogg','nsv13/sound/ambience/wind.ogg','nsv13/sound/ambience/wind2.ogg','nsv13/sound/ambience/wind3.ogg','nsv13/sound/ambience/wind4.ogg','nsv13/sound/ambience/wind5.ogg','nsv13/sound/ambience/wind6.ogg')
+	teleport_restriction = TELEPORT_ALLOW_NONE
 	icon_state = "syndie-ship"
 	has_gravity = TRUE
 
@@ -733,23 +733,9 @@
 	SEND_SIGNAL(src, COMSIG_AREA_ENTERED, M)
 	SEND_SIGNAL(M, COMSIG_ENTER_AREA, src) //The atom that enters the area
 
-	if(!isliving(M))
-		return
-
-	var/mob/living/L = M
-	if(!L.ckey)
-		return
-	if(!looping_ambience)
-		SEND_SOUND(L, sound(null, repeat = 0, wait = 0, volume = 100, channel = CHANNEL_BUZZ))
-		L.client.last_ambience = null
-		return
-	if(L.client && L.client.prefs.toggles & SOUND_SHIP_AMBIENCE && L.client?.last_ambience != looping_ambience)
-		L.client.ambience_playing = 1
-		SEND_SOUND(L, sound(looping_ambience, repeat = 1, wait = 0, volume = 100, channel = CHANNEL_BUZZ))
-		L.client.last_ambience = looping_ambience
 	var/atom/foo = pick(contents) //We need something with a z-level attached to it.
 	var/obj/structure/linked_overmap = foo.get_overmap()
-	if(linked_overmap && !L.client.played)
+	if(linked_overmap)
 		var/progress = linked_overmap.obj_integrity
 		var/goal = linked_overmap.max_integrity
 		progress = CLAMP(progress, 0, goal)
@@ -757,19 +743,8 @@
 		if(progress <= 50)
 			var/list/creaks = list('nsv13/sound/ambience/ship_damage/creak1.ogg','nsv13/sound/ambience/ship_damage/creak2.ogg','nsv13/sound/ambience/ship_damage/creak3.ogg','nsv13/sound/ambience/ship_damage/creak4.ogg','nsv13/sound/ambience/ship_damage/creak5.ogg','nsv13/sound/ambience/ship_damage/creak6.ogg','nsv13/sound/ambience/ship_damage/creak7.ogg')
 			var/creak = pick(creaks)
-			SEND_SOUND(L, sound(creak, repeat = 0, wait = 0, volume = 100, channel = CHANNEL_AMBIENCE))
-			L.client.played = TRUE
-			addtimer(CALLBACK(L.client, /client/proc/ResetAmbiencePlayed), 300)
+			SEND_SOUND(M, sound(creak, repeat = 0, wait = 0, volume = 100, channel = CHANNEL_AMBIENT_EFFECTS))
 			return
-	if(prob(35))
-		if(!ambientsounds.len)
-			return
-		var/sound = pick(ambientsounds)
-
-		if(!L.client.played)
-			SEND_SOUND(L, sound(sound, repeat = 0, wait = 0, volume = 25, channel = CHANNEL_AMBIENCE))
-			L.client.played = TRUE
-			addtimer(CALLBACK(L.client, /client/proc/ResetAmbiencePlayed), 600)
 
 /area/Exited(atom/movable/M)
 	SEND_SIGNAL(src, COMSIG_AREA_EXITED, M)

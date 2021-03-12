@@ -81,6 +81,7 @@
 	max_heat_protection_temperature = FIRE_IMMUNITY_MAX_TEMP_PROTECT
 	resistance_flags = FIRE_PROOF | ACID_PROOF
 	transparent_protection = HIDEGLOVES|HIDESUITSTORAGE|HIDEJUMPSUIT|HIDESHOES
+	high_pressure_multiplier = 0.4
 
 /obj/item/clothing/head/hooded/cloakhood/drake
 	name = "drake helm"
@@ -90,6 +91,7 @@
 	heat_protection = HEAD
 	max_heat_protection_temperature = FIRE_IMMUNITY_MAX_TEMP_PROTECT
 	resistance_flags = FIRE_PROOF | ACID_PROOF
+	high_pressure_multiplier = 0.4
 
 /obj/item/clothing/suit/hooded/cloak/bone
 	name = "Heavy bone armor"
@@ -114,14 +116,23 @@
 	flags_inv = HIDEMASK|HIDEEARS|HIDEEYES|HIDEFACE
 	flags_cover = HEADCOVERSEYES
 
-/obj/item/clothing/neck/cloak/syndcap
+/obj/item/clothing/neck/cloak/syndcap //NSV13 - syndicate captain
 	name = "syndicate captain's cloak"
 	desc = "A cloak that inspires fear among Nanotrasen employees, worn by the greatest Syndicate captains."
 	icon_state = "syndcapt"
 	armor = list("melee" = 10, "bullet" = 10, "laser" = 0, "energy" = 20, "bomb" = 0, "bio" = 0, "rad" = 0, "fire" = 70, "acid" = 70)
 
-/obj/item/clothing/neck/cloak/syndadmiral
+/obj/item/clothing/neck/cloak/syndadmiral //NSV13 - syndicate admiral
 	name = "syndicate admiral's cloak"
 	desc = "A deep red cloak, worn by only the greatest of the Syndicate. If you are looking at this, you probably won't be looking at it for much longer."
 	icon_state = "syndadmiral"
 	armor = list("melee" = 15, "bullet" = 20, "laser" = 0, "energy" = 40, "bomb" = 0, "bio" = 0, "rad" = 0, "fire" = 90, "acid" = 90)
+
+/obj/item/clothing/neck/cloak/chap/bishop
+	name = "bishop's cloak"
+	desc = "Become the space pope."
+	icon_state = "bishopcloak"
+
+/obj/item/clothing/neck/cloak/chap/bishop/black
+	name = "black bishop's cloak"
+	icon_state = "blackbishopcloak"

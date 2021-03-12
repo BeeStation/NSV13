@@ -11,7 +11,7 @@ GLOBAL_LIST_INIT(hallucination_list, list(
 	/datum/hallucination/weird_sounds = 8,
 	/datum/hallucination/stationmessage = 7,
 	/datum/hallucination/fake_flood = 7,
-	/datum/hallucination/stray_bullet = 7,
+	/datum/hallucination/stray_bullet = 3,
 	/datum/hallucination/bolts = 7,
 	/datum/hallucination/items_other = 7,
 	/datum/hallucination/husks = 7,
@@ -282,10 +282,7 @@ GLOBAL_LIST_INIT(hallucination_list, list(
 /datum/hallucination/oh_yeah/New(mob/living/carbon/C, forced = TRUE)
 	set waitfor = FALSE
 	. = ..()
-	var/turf/closed/wall/wall
-	for(var/turf/closed/wall/W in range(7,target))
-		wall = W
-		break
+	var/turf/closed/wall/wall = locate() in spiral_range_turfs(7, target)
 	if(!wall)
 		return INITIALIZE_HINT_QDEL
 	feedback_details += "Source: [wall.x],[wall.y],[wall.z]"
@@ -420,9 +417,8 @@ GLOBAL_LIST_INIT(hallucination_list, list(
 	var/image/A = null
 	var/list/mob_pool = list()
 
-	for(var/mob/living/carbon/human/M in view(7,target))
-		if(M != target)
-			mob_pool += M
+	for(var/mob/living/carbon/human/M in ohearers(7,target))
+		mob_pool += M
 	if(!mob_pool.len)
 		return
 
@@ -518,7 +514,7 @@ GLOBAL_LIST_INIT(hallucination_list, list(
 	feedback_details += "Type: [kind]"
 	var/list/nearby
 	if(skip_nearby)
-		nearby = get_hearers_in_view(7, target)
+		nearby = hearers(7, target)
 	for(var/mob/living/carbon/human/H in GLOB.alive_mob_list)
 		if(H == target)
 			continue
@@ -681,14 +677,11 @@ GLOBAL_LIST_INIT(hallucination_list, list(
 
 	var/mob/living/carbon/person = null
 	var/datum/language/understood_language = target.get_random_understood_language()
-	for(var/mob/living/carbon/H in view(target))
-		if(H == target)
-			continue
+	for(var/mob/living/carbon/H in ohearers(target))
 		if(!person)
 			person = H
-		else
-			if(get_dist(target,H)<get_dist(target,person))
-				person = H
+		else if(get_dist(target,H)<get_dist(target,person))
+			person = H
 	if(person && !force_radio) //Basic talk
 		var/chosen = specific_message
 		if(!chosen)
@@ -724,7 +717,7 @@ GLOBAL_LIST_INIT(hallucination_list, list(
 	var/list/mobpool = list()
 	var/mob/living/carbon/human/other
 	var/close_other = FALSE
-	for(var/mob/living/carbon/human/H in oview(target, 7))
+	for(var/mob/living/carbon/human/H in oview(7, target))
 		if(get_dist(H, target) <= 1)
 			other = H
 			close_other = TRUE
@@ -930,46 +923,46 @@ GLOBAL_LIST_INIT(hallucination_list, list(
 	feedback_details += "Type: [alert_type]"
 	switch(alert_type)
 		if("not_enough_oxy")
-			target.throw_alert(alert_type, /obj/screen/alert/not_enough_oxy, override = TRUE)
+			target.throw_alert(alert_type, /atom/movable/screen/alert/not_enough_oxy, override = TRUE)
 		if("not_enough_tox")
-			target.throw_alert(alert_type, /obj/screen/alert/not_enough_tox, override = TRUE)
+			target.throw_alert(alert_type, /atom/movable/screen/alert/not_enough_tox, override = TRUE)
 		if("not_enough_co2")
-			target.throw_alert(alert_type, /obj/screen/alert/not_enough_co2, override = TRUE)
+			target.throw_alert(alert_type, /atom/movable/screen/alert/not_enough_co2, override = TRUE)
 		if("too_much_oxy")
-			target.throw_alert(alert_type, /obj/screen/alert/too_much_oxy, override = TRUE)
+			target.throw_alert(alert_type, /atom/movable/screen/alert/too_much_oxy, override = TRUE)
 		if("too_much_co2")
-			target.throw_alert(alert_type, /obj/screen/alert/too_much_co2, override = TRUE)
+			target.throw_alert(alert_type, /atom/movable/screen/alert/too_much_co2, override = TRUE)
 		if("too_much_tox")
-			target.throw_alert(alert_type, /obj/screen/alert/too_much_tox, override = TRUE)
+			target.throw_alert(alert_type, /atom/movable/screen/alert/too_much_tox, override = TRUE)
 		if("nutrition")
 			if(prob(50))
-				target.throw_alert(alert_type, /obj/screen/alert/fat, override = TRUE)
+				target.throw_alert(alert_type, /atom/movable/screen/alert/fat, override = TRUE)
 			else
-				target.throw_alert(alert_type, /obj/screen/alert/starving, override = TRUE)
+				target.throw_alert(alert_type, /atom/movable/screen/alert/starving, override = TRUE)
 		if("gravity")
-			target.throw_alert(alert_type, /obj/screen/alert/weightless, override = TRUE)
+			target.throw_alert(alert_type, /atom/movable/screen/alert/weightless, override = TRUE)
 		if("fire")
-			target.throw_alert(alert_type, /obj/screen/alert/fire, override = TRUE)
+			target.throw_alert(alert_type, /atom/movable/screen/alert/fire, override = TRUE)
 		if("temphot")
 			alert_type = "temp"
-			target.throw_alert(alert_type, /obj/screen/alert/hot, 3, override = TRUE)
+			target.throw_alert(alert_type, /atom/movable/screen/alert/hot, 3, override = TRUE)
 		if("tempcold")
 			alert_type = "temp"
-			target.throw_alert(alert_type, /obj/screen/alert/cold, 3, override = TRUE)
+			target.throw_alert(alert_type, /atom/movable/screen/alert/cold, 3, override = TRUE)
 		if("pressure")
 			if(prob(50))
-				target.throw_alert(alert_type, /obj/screen/alert/highpressure, 2, override = TRUE)
+				target.throw_alert(alert_type, /atom/movable/screen/alert/highpressure, 2, override = TRUE)
 			else
-				target.throw_alert(alert_type, /obj/screen/alert/lowpressure, 2, override = TRUE)
+				target.throw_alert(alert_type, /atom/movable/screen/alert/lowpressure, 2, override = TRUE)
 		//BEEP BOOP I AM A ROBOT
 		if("newlaw")
-			target.throw_alert(alert_type, /obj/screen/alert/newlaw, override = TRUE)
+			target.throw_alert(alert_type, /atom/movable/screen/alert/newlaw, override = TRUE)
 		if("locked")
-			target.throw_alert(alert_type, /obj/screen/alert/locked, override = TRUE)
+			target.throw_alert(alert_type, /atom/movable/screen/alert/locked, override = TRUE)
 		if("hacked")
-			target.throw_alert(alert_type, /obj/screen/alert/hacked, override = TRUE)
+			target.throw_alert(alert_type, /atom/movable/screen/alert/hacked, override = TRUE)
 		if("charge")
-			target.throw_alert(alert_type, /obj/screen/alert/emptycell, override = TRUE)
+			target.throw_alert(alert_type, /atom/movable/screen/alert/emptycell, override = TRUE)
 	sleep(duration)
 	target.clear_alert(alert_type, clear_override = TRUE)
 	qdel(src)
@@ -1044,7 +1037,7 @@ GLOBAL_LIST_INIT(hallucination_list, list(
 	//Flashes of danger
 	if(!target.halimage)
 		var/list/possible_points = list()
-		for(var/turf/open/floor/F in view(target,world.view))
+		for(var/turf/open/floor/F in view(world.view, target))
 			possible_points += F
 		if(possible_points.len)
 			var/turf/open/floor/danger_point = pick(possible_points)
@@ -1174,7 +1167,7 @@ GLOBAL_LIST_INIT(hallucination_list, list(
 	if(target.client)
 		target.client.images += fire_overlay
 	to_chat(target, "<span class='userdanger'>You're set on fire!</span>")
-	target.throw_alert("fire", /obj/screen/alert/fire, override = TRUE)
+	target.throw_alert("fire", /atom/movable/screen/alert/fire, override = TRUE)
 	sleep(20)
 	for(var/i in 1 to 3)
 		if(target.fire_stacks <= 0)
@@ -1196,7 +1189,7 @@ GLOBAL_LIST_INIT(hallucination_list, list(
 		target.clear_alert("temp", clear_override = TRUE)
 	else
 		target.clear_alert("temp", clear_override = TRUE)
-		target.throw_alert("temp", /obj/screen/alert/hot, stage, override = TRUE)
+		target.throw_alert("temp", /atom/movable/screen/alert/hot, stage, override = TRUE)
 
 /datum/hallucination/fire/proc/clear_fire()
 	if(!active)
@@ -1253,7 +1246,7 @@ GLOBAL_LIST_INIT(hallucination_list, list(
 	..()
 	if(!target.halbody)
 		var/list/possible_points = list()
-		for(var/turf/open/floor/F in view(target,world.view))
+		for(var/turf/open/floor/F in view(world.view, target))
 			possible_points += F
 		if(possible_points.len)
 			var/turf/open/floor/husk_point = pick(possible_points)
@@ -1284,8 +1277,10 @@ GLOBAL_LIST_INIT(hallucination_list, list(
 	set waitfor = FALSE
 	..()
 	var/list/turf/startlocs = list()
-	for(var/turf/open/T in view(world.view+1,target)-view(world.view,target))
+	for(var/turf/open/T in view(getexpandedview(world.view, 1, 1),target))
 		startlocs += T
+	for(var/turf/open/T in view(world.view,target)) // God this is bad
+		startlocs -= T
 	if(!startlocs.len)
 		qdel(src)
 		return

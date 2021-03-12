@@ -23,10 +23,6 @@ GLOBAL_LIST_INIT(department_radio_keys, list(
 	RADIO_KEY_ATC = RADIO_CHANNEL_ATC,
 	RADIO_KEY_PIRATE = RADIO_CHANNEL_PIRATE,
 
-	// Admin
-	MODE_KEY_ADMIN = MODE_ADMIN,
-	MODE_KEY_DEADMIN = MODE_DEADMIN,
-
 	// Misc
 	RADIO_KEY_AI_PRIVATE = RADIO_CHANNEL_AI_PRIVATE, // AI Upload channel
 	MODE_KEY_VOCALCORDS = MODE_VOCALCORDS,		// vocal cords, used by Voice of God
@@ -52,10 +48,6 @@ GLOBAL_LIST_INIT(department_radio_keys, list(
 	// Faction
 	"å" = RADIO_CHANNEL_SYNDICATE,
 	"í" = RADIO_CHANNEL_CENTCOM,
-
-	// Admin
-	"ç" = MODE_ADMIN,
-	"â" = MODE_ADMIN,
 
 	// Misc
 	"ù" = RADIO_CHANNEL_AI_PRIVATE,
@@ -117,21 +109,11 @@ GLOBAL_LIST_INIT(department_radio_keys, list(
 		message = copytext_char(message, 3)
 	message = trim_left(message)
 
-	if(message_mode == MODE_ADMIN)
-		if(client)
-			client.cmd_admin_say(message)
-		return
-
-	if(message_mode == MODE_DEADMIN)
-		if(client)
-			client.dsay(message)
-		return
-
 	if(stat == DEAD)
 		say_dead(original_message)
 		return
 
-	if(check_emote(original_message, forced) || !can_speak_basic(original_message, ignore_spam))
+	if(check_emote(original_message, forced) || !can_speak_basic(original_message, ignore_spam, forced))
 		return
 
 	if(in_critical)
@@ -262,8 +244,7 @@ GLOBAL_LIST_INIT(department_radio_keys, list(
 		eavesdrop_range = EAVESDROP_EXTRA_RANGE
 	var/list/listening = get_hearers_in_view(message_range+eavesdrop_range, source)
 	var/list/the_dead = list()
-	for(var/_M in GLOB.player_list)
-		var/mob/M = _M
+	for(var/mob/M as() in GLOB.player_list)
 		if(!M)				//yogs
 			continue		//yogs | null in player_list for whatever reason :shrug:
 		if(M.stat != DEAD) //not dead, not important
@@ -285,8 +266,7 @@ GLOBAL_LIST_INIT(department_radio_keys, list(
 		eavesrendered = compose_message(src, message_language, eavesdropping, , spans, message_mode)
 
 	var/rendered = compose_message(src, message_language, message, , spans, message_mode)
-	for(var/_AM in listening)
-		var/atom/movable/AM = _AM
+	for(var/atom/movable/AM as() in listening)
 		if(eavesdrop_range && get_dist(source, AM) > message_range && !(the_dead[AM]))
 			AM.Hear(eavesrendered, src, message_language, eavesdropping, , spans, message_mode)
 		else
@@ -324,12 +304,12 @@ GLOBAL_LIST_INIT(department_radio_keys, list(
 	if(can_speak_basic(message) && can_speak_vocal(message))
 		return 1
 
-/mob/living/proc/can_speak_basic(message, ignore_spam = FALSE) //Check BEFORE handling of xeno and ling channels
+/mob/living/proc/can_speak_basic(message, ignore_spam = FALSE, forced = FALSE) //Check BEFORE handling of xeno and ling channels
 	if(client)
 		if(client.prefs.muted & MUTE_IC)
 			to_chat(src, "<span class='danger'>You cannot speak in IC (muted).</span>")
 			return 0
-		if(!ignore_spam && client.handle_spam_prevention(message,MUTE_IC))
+		if(!ignore_spam && !forced && client.handle_spam_prevention(message,MUTE_IC))
 			return 0
 
 	return 1
@@ -414,7 +394,7 @@ GLOBAL_LIST_INIT(department_radio_keys, list(
 				return ITALICS | REDUCE_RANGE
 
 		if(MODE_INTERCOM)
-			for (var/obj/item/radio/intercom/I in view(MODE_RANGE_INTERCOM, null))
+			for (var/obj/item/radio/intercom/I in view(MODE_RANGE_INTERCOM, src))
 				I.talk_into(src, message, , spans, language)
 			return ITALICS | REDUCE_RANGE
 

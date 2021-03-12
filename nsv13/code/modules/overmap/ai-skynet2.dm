@@ -302,8 +302,7 @@ GLOBAL_LIST_EMPTY(ai_goals)
 		for(var/mob/M in OOM.mobs_in_ship)
 			if(M.client)
 				var/client/C = M.client
-				if(C.chatOutput && !C.chatOutput.broken && C.chatOutput.loaded)
-					C.chatOutput.stopMusic()
+				C.tgui_panel?.stop_music()
 	if(player_caused)	//Only modify influence if players caused this, otherwise someone else claimed the kill and it doesn't modify influence for the purpose of Patrol completion.
 		faction = SSstar_system.faction_by_id(faction_id)
 		faction?.lose_influence(reward)
@@ -419,9 +418,8 @@ GLOBAL_LIST_EMPTY(ai_goals)
 		for(var/mob/M in mobs_in_ship)
 			if(M.client)
 				var/client/C = M.client
-				if(C.chatOutput && !C.chatOutput.broken && C.chatOutput.loaded)
-					C.chatOutput.stopMusic()
-					C.chatOutput.sendMusic(web_sound_url, music_extra_data)
+				C.tgui_panel?.stop_music()
+				C.tgui_panel?.play_music(web_sound_url, music_extra_data)
 
 //Syndicate Fleets
 

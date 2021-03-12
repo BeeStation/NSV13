@@ -97,7 +97,7 @@
 	..()
 
 /obj/item/bodypart/attackby(obj/item/W, mob/user, params)
-	if(W.sharpness)
+	if(W.is_sharp())
 		add_fingerprint(user)
 		if(!contents.len)
 			to_chat(user, "<span class='warning'>There is nothing left inside [src]!</span>")
@@ -250,8 +250,8 @@
 //Updates an organ's brute/burn states for use by update_damage_overlays()
 //Returns 1 if we need to update overlays. 0 otherwise.
 /obj/item/bodypart/proc/update_bodypart_damage_state()
-	var/tbrute	= round( (brute_dam/max_damage)*3, 1 )
-	var/tburn	= round( (burn_dam/max_damage)*3, 1 )
+	var/tbrute = round((min(brute_dam, max_damage) / max_damage) * 3, 1)
+	var/tburn = round((min(burn_dam, max_damage) / max_damage) * 3, 1)
 	if((tbrute != brutestate) || (tburn != burnstate))
 		brutestate = tbrute
 		burnstate = tburn
@@ -535,7 +535,7 @@
 			if(held_index)
 				owner.dropItemToGround(owner.get_item_for_held_index(held_index))
 	if(owner.hud_used)
-		var/obj/screen/inventory/hand/L = owner.hud_used.hand_slots["[held_index]"]
+		var/atom/movable/screen/inventory/hand/L = owner.hud_used.hand_slots["[held_index]"]
 		if(L)
 			L.update_icon()
 
@@ -603,7 +603,7 @@
 			if(held_index)
 				owner.dropItemToGround(owner.get_item_for_held_index(held_index))
 	if(owner.hud_used)
-		var/obj/screen/inventory/hand/R = owner.hud_used.hand_slots["[held_index]"]
+		var/atom/movable/screen/inventory/hand/R = owner.hud_used.hand_slots["[held_index]"]
 		if(R)
 			R.update_icon()
 
@@ -697,7 +697,7 @@
 	desc = "You put your right leg in, your right leg out. In, out, in, out, \
 		shake it all about. And apparently then it detaches.\n\
 		The hokey pokey has certainly changed a lot since space colonisation."
-	// alternative spellings of 'pokey' are availible
+	// alternative spellings of 'pokey' are available
 	icon_state = "default_human_r_leg"
 	attack_verb = list("kicked", "stomped")
 	max_damage = 50

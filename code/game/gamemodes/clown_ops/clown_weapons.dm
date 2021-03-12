@@ -43,6 +43,10 @@
 	bananium.insert_amount_mat(max_recharge, /datum/material/bananium)
 	START_PROCESSING(SSobj, src)
 
+/obj/item/clothing/shoes/clown_shoes/banana_shoes/combat/Destroy()
+	STOP_PROCESSING(SSobj, src)
+	return ..()
+
 /obj/item/clothing/shoes/clown_shoes/banana_shoes/combat/process()
 	var/datum/component/material_container/bananium = GetComponent(/datum/component/material_container)
 	var/bananium_amount = bananium.get_material_amount(/datum/material/bananium)
@@ -138,7 +142,7 @@
 	var/datum/component/slippery/slipper = GetComponent(/datum/component/slippery)
 	slipper.signal_enabled = active
 
-/obj/item/shield/energy/bananium/throw_at(atom/target, range, speed, mob/thrower, spin=1, diagonals_first = 0, datum/callback/callback, force)
+/obj/item/shield/energy/bananium/throw_at(atom/target, range, speed, mob/thrower, spin=1, diagonals_first = 0, datum/callback/callback, force, quickstart = TRUE)
 	if(active)
 		if(iscarbon(thrower))
 			var/mob/living/carbon/C = thrower
@@ -152,8 +156,7 @@
 			var/datum/component/slippery/slipper = GetComponent(/datum/component/slippery)
 			slipper.Slip(src, hit_atom)
 		if(thrownby && !caught)
-			sleep(1)
-			throw_at(thrownby, throw_range+2, throw_speed, null, TRUE)
+			addtimer(CALLBACK(src, /atom/movable.proc/throw_at, thrownby, throw_range+2, throw_speed, null, TRUE), 1)
 	else
 		return ..()
 
@@ -209,7 +212,7 @@
 /obj/item/grenade/chem_grenade/teargas/moustache/prime()
 	var/myloc = get_turf(src)
 	. = ..()
-	for(var/mob/living/carbon/M in view(6, myloc))
+	for(var/mob/living/carbon/M in hearers(6, myloc))
 		if(!istype(M.wear_mask, /obj/item/clothing/mask/gas/clown_hat) && !istype(M.wear_mask, /obj/item/clothing/mask/gas/mime) )
 			if(!M.wear_mask || M.dropItemToGround(M.wear_mask))
 				var/obj/item/clothing/mask/fakemoustache/sticky/the_stash = new /obj/item/clothing/mask/fakemoustache/sticky()

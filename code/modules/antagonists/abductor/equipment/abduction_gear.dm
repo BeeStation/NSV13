@@ -270,13 +270,12 @@
 	radio_off(target, user)
 
 /obj/item/abductor/silencer/proc/radio_off(atom/target, mob/living/user)
-	if( !(user in (viewers(7,target))) )
+	if(!(user in (viewers(7, target))))
 		return
 
 	var/turf/targloc = get_turf(target)
 
-	var/mob/living/carbon/human/M
-	for(M in view(2,targloc))
+	for(var/mob/living/carbon/human/M in hearers(2,targloc))
 		if(M == user)
 			continue
 		to_chat(user, "<span class='notice'>You silence [M]'s radio devices.</span>")
@@ -680,7 +679,7 @@ Congratulations! You are now trained for invasive xenobiology research!"}
 /obj/item/abductor_machine_beacon/chem_dispenser
 	name = "beacon - Reagent Synthesizer"
 	spawned_machine = /obj/machinery/chem_dispenser/abductor
-	
+
 /obj/item/scalpel/alien
 	name = "alien scalpel"
 	desc = "It's a gleaming sharp knife made out of silvery-green metal."
@@ -826,6 +825,7 @@ Congratulations! You are now trained for invasive xenobiology research!"}
 	icon_door = "abductor"
 	can_weld_shut = FALSE
 	material_drop = /obj/item/stack/sheet/mineral/abductor
+	door_anim_time = 0 // no animation
 
 /obj/structure/door_assembly/door_assembly_abductor
 	name = "alien airlock assembly"

@@ -33,7 +33,7 @@
 	var/oindex = active_hand_index
 	active_hand_index = held_index
 	if(hud_used)
-		var/obj/screen/inventory/hand/H
+		var/atom/movable/screen/inventory/hand/H
 		H = hud_used.hand_slots["[oindex]"]
 		if(H)
 			H.update_icon()
@@ -69,6 +69,8 @@
 /mob/living/carbon/throw_impact(atom/hit_atom, datum/thrownthing/throwingdatum)
 	. = ..()
 	var/hurt = TRUE
+	if(throwingdatum.force <= MOVE_FORCE_WEAK)
+		hurt = FALSE
 	if(istype(throwingdatum, /datum/thrownthing))
 		var/datum/thrownthing/D = throwingdatum
 		if(iscyborg(D.thrower))
@@ -116,15 +118,15 @@
 
 /mob/proc/throw_item(atom/target)
 	SEND_SIGNAL(src, COMSIG_MOB_THROW, target)
-	return
+	return TRUE
 
 /mob/living/carbon/throw_item(atom/target)
 	. = ..()
 	throw_mode_off()
 	if(!target || !isturf(loc))
-		return
-	if(istype(target, /obj/screen))
-		return
+		return FALSE
+	if(istype(target, /atom/movable/screen))
+		return FALSE
 
 	var/atom/movable/thrown_thing
 	var/obj/item/I = get_active_held_item()
@@ -148,7 +150,7 @@
 
 		if(HAS_TRAIT(src, TRAIT_PACIFISM) && I.throwforce)
 			to_chat(src, "<span class='notice'>You set [I] down gently on the ground.</span>")
-			return
+			return TRUE
 
 	if(thrown_thing)
 		visible_message("<span class='danger'>[src] throws [thrown_thing].</span>", \
@@ -156,6 +158,8 @@
 		log_message("has thrown [thrown_thing]", LOG_ATTACK)
 		newtonian_move(get_dir(target, src))
 		thrown_thing.safe_throw_at(target, thrown_thing.throw_range, thrown_thing.throw_speed, src, null, null, null, move_force)
+		return TRUE
+	return FALSE
 
 /mob/living/carbon/restrained(ignore_grab)
 	. = (handcuffed || (!ignore_grab && pulledby && pulledby.grab_state >= GRAB_NECK))
@@ -412,15 +416,17 @@
 			var/turf/target = get_turf(loc)
 			I.safe_throw_at(target,I.throw_range,I.throw_speed,src, force = move_force)
 
+/mob/living/carbon/get_stat_tab_status()
+	var/list/tab_data = ..()
+	var/obj/item/organ/alien/plasmavessel/vessel = getorgan(/obj/item/organ/alien/plasmavessel)
+	if(vessel)
+		tab_data["Plasma Stored"] = GENERATE_STAT_TEXT("[vessel.storedPlasma]/[vessel.max_plasma]")
+	if(locate(/obj/item/assembly/health) in src)
+		tab_data["Health"] = GENERATE_STAT_TEXT("[health]")
+	return tab_data
+
 /mob/living/carbon/Stat()
 	..()
-	if(statpanel("Status"))
-		var/obj/item/organ/alien/plasmavessel/vessel = getorgan(/obj/item/organ/alien/plasmavessel)
-		if(vessel)
-			stat(null, "Plasma Stored: [vessel.storedPlasma]/[vessel.max_plasma]")
-		if(locate(/obj/item/assembly/health) in src)
-			stat(null, "Health: [health]")
-
 	add_abilities_to_panel()
 
 /mob/living/carbon/attack_ui(slot)
@@ -440,7 +446,8 @@
 			visible_message("<span class='warning'>[src] dry heaves!</span>", \
 							"<span class='userdanger'>You try to throw up, but there's nothing in your stomach!</span>")
 		if(stun)
-			Paralyze(200)
+			Paralyze(30)
+			Knockdown(180)
 		return 1
 
 	if(is_mouth_covered()) //make this add a blood/vomit overlay later it'll be hilarious
@@ -456,7 +463,8 @@
 				SEND_SIGNAL(src, COMSIG_ADD_MOOD_EVENT, "vomit", /datum/mood_event/vomit)
 
 	if(stun)
-		Paralyze(80)
+		Paralyze(15)
+		Knockdown(90)
 
 	playsound(get_turf(src), 'sound/effects/splat.ogg', 50, 1)
 	var/turf/T = get_turf(src)
@@ -598,7 +606,7 @@
 		become_blind(EYES_COVERED)
 	else if(tinttotal >= TINT_DARKENED)
 		cure_blind(EYES_COVERED)
-		overlay_fullscreen("tint", /obj/screen/fullscreen/impaired, 2)
+		overlay_fullscreen("tint", /atom/movable/screen/fullscreen/impaired, 2)
 	else
 		cure_blind(EYES_COVERED)
 		clear_fullscreen("tint", 0)
@@ -662,10 +670,10 @@
 					visionseverity = 9
 				if(-INFINITY to -24)
 					visionseverity = 10
-			overlay_fullscreen("critvision", /obj/screen/fullscreen/crit/vision, visionseverity)
+			overlay_fullscreen("critvision", /atom/movable/screen/fullscreen/crit/vision, visionseverity)
 		else
 			clear_fullscreen("critvision")
-		overlay_fullscreen("crit", /obj/screen/fullscreen/crit, severity)
+		overlay_fullscreen("crit", /atom/movable/screen/fullscreen/crit, severity)
 	else
 		clear_fullscreen("crit")
 		clear_fullscreen("critvision")
@@ -688,7 +696,7 @@
 				severity = 6
 			if(45 to INFINITY)
 				severity = 7
-		overlay_fullscreen("oxy", /obj/screen/fullscreen/oxy, severity)
+		overlay_fullscreen("oxy", /atom/movable/screen/fullscreen/oxy, severity)
 	else
 		clear_fullscreen("oxy")
 
@@ -709,7 +717,7 @@
 				severity = 5
 			if(85 to INFINITY)
 				severity = 6
-		overlay_fullscreen("brute", /obj/screen/fullscreen/brute, severity)
+		overlay_fullscreen("brute", /atom/movable/screen/fullscreen/brute, severity)
 	else
 		clear_fullscreen("brute")
 
@@ -773,7 +781,7 @@
 	if(handcuffed)
 		drop_all_held_items()
 		stop_pulling()
-		throw_alert("handcuffed", /obj/screen/alert/restrained/handcuffed, new_master = src.handcuffed)
+		throw_alert("handcuffed", /atom/movable/screen/alert/restrained/handcuffed, new_master = src.handcuffed)
 		SEND_SIGNAL(src, COMSIG_ADD_MOOD_EVENT, "handcuffed", /datum/mood_event/handcuffed)
 	else
 		clear_alert("handcuffed")
@@ -1014,7 +1022,7 @@
 		return FALSE
 	if(hallucinating())
 		return TRUE
-	
+
 	if(IsSleeping())
 		return TRUE
 	if(HAS_TRAIT(src, TRAIT_DUMB))

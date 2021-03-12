@@ -87,8 +87,8 @@ The reactor CHEWS through moderator. It does not do this slowly. Be very careful
 			affecting += L
 	for(var/mob/L in affecting)
 		if(L.client && L.client.prefs.toggles & SOUND_SHIP_AMBIENCE && L.client?.last_ambience != looping_ambience)
-			L.client.ambience_playing = 1
-			SEND_SOUND(L, sound(looping_ambience, repeat = 1, wait = 0, volume = 100, channel = CHANNEL_BUZZ))
+			L.client.ambient_buzz_playing = looping_ambience
+			SEND_SOUND(L, sound(looping_ambience, repeat = 1, wait = 0, volume = 100, channel = CHANNEL_AMBIENT_BUZZ))
 			L.client.last_ambience = looping_ambience
 	return TRUE
 
@@ -806,8 +806,6 @@ The reactor CHEWS through moderator. It does not do this slowly. Be very careful
 	network_destination = "rbmk monitoring system"
 	size = 2
 	tgui_id = "NtosRbmkStats"
-	ui_x = 350
-	ui_y = 550
 	var/active = TRUE //Easy process throttle
 	var/next_stat_interval = 0
 	var/list/psiData = list()

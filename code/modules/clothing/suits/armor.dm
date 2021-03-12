@@ -10,6 +10,7 @@
 	max_integrity = 250
 	resistance_flags = NONE
 	armor = list("melee" = 30, "bullet" = 30, "laser" = 30, "energy" = 40, "bomb" = 25, "bio" = 0, "rad" = 0, "fire" = 50, "acid" = 50)
+	clothing_flags = THICKMATERIAL
 
 /obj/item/clothing/suit/armor/Initialize()
 	. = ..()
@@ -42,6 +43,14 @@
 	icon_state = "blueshift"
 	item_state = "blueshift"
 	custom_premium_price = 600
+
+/obj/item/clothing/suit/armor/vest/corporate
+	name = "corporate Jacket"
+	desc = "A Stylish Corporate Jacket which also provides Protection."
+	icon_state = "secjacket"
+	item_state = "secjacket"
+	body_parts_covered = CHEST|ARMS
+	armor = list("melee" = 25, "bullet" = 25, "laser" = 25, "energy" = 35, "bomb" = 20, "bio" = 0, "rad" = 0, "fire" = 45, "acid" = 45)
 
 /obj/item/clothing/suit/armor/hos
 	name = "armored greatcoat"
@@ -121,6 +130,14 @@
 	icon_state = "capformal"
 	item_state = "capspacesuit"
 
+/obj/item/clothing/suit/armor/vest/capcarapace/jacket
+	name = "captain's jacket"
+	desc = "An armored Jacket in the Captains colors"
+	icon_state = "capjacket"
+	item_state = "capspacesuit"
+	body_parts_covered = CHEST|ARMS
+	armor = list("melee" = 40, "bullet" = 30, "laser" = 40, "energy" = 50, "bomb" = 55, "bio" = 0, "rad" = 0, "fire" = 90, "acid" = 80)
+
 /obj/item/clothing/suit/armor/riot
 	name = "riot suit"
 	desc = "A suit of semi-flexible polycarbonate body armor with heavy padding to protect against melee attacks. Helps the wearer resist shoving in close quarters."
@@ -134,6 +151,7 @@
 	strip_delay = 80
 	equip_delay_other = 60
 	slowdown = 0.05
+	footstep = list('sound/effects/suitstep1.ogg', 'sound/effects/suitstep2.ogg')
 
 /obj/item/clothing/suit/armor/bone
 	name = "bone armor"
@@ -191,7 +209,6 @@
 	w_class = WEIGHT_CLASS_BULKY
 	body_parts_covered = CHEST|GROIN|LEGS|FEET|ARMS|HANDS
 	allowed = list(/obj/item/gun/energy, /obj/item/melee/baton, /obj/item/restraints/handcuffs, /obj/item/tank/internals/emergency_oxygen, /obj/item/tank/internals/plasmaman)
-	clothing_flags = THICKMATERIAL
 	flags_inv = HIDEGLOVES|HIDESHOES|HIDEJUMPSUIT
 	cold_protection = CHEST | GROIN | LEGS | FEET | ARMS | HANDS
 	min_cold_protection_temperature = SPACE_SUIT_MIN_TEMP_PROTECT
@@ -206,19 +223,19 @@
 	item_state = "swat_suit"
 	w_class = WEIGHT_CLASS_BULKY
 	gas_transfer_coefficient = 0.9
-	clothing_flags = THICKMATERIAL
 	body_parts_covered = CHEST|GROIN|LEGS|FEET|ARMS|HANDS
 	slowdown = 3
 	flags_inv = HIDEGLOVES|HIDESHOES|HIDEJUMPSUIT
 	armor = list("melee" = 80, "bullet" = 80, "laser" = 50, "energy" = 60, "bomb" = 100, "bio" = 100, "rad" = 100, "fire" = 90, "acid" = 90)
+	footstep = list('sound/effects/suitstep1.ogg', 'sound/effects/suitstep2.ogg')
 
 /obj/item/clothing/suit/armor/tdome
 	body_parts_covered = CHEST|GROIN|LEGS|FEET|ARMS|HANDS
 	flags_inv = HIDEGLOVES|HIDESHOES|HIDEJUMPSUIT
-	clothing_flags = THICKMATERIAL
 	cold_protection = CHEST|GROIN|LEGS|FEET|ARMS|HANDS
 	heat_protection = CHEST|GROIN|LEGS|FEET|ARMS|HANDS
 	armor = list("melee" = 80, "bullet" = 80, "laser" = 50, "energy" = 60, "bomb" = 100, "bio" = 100, "rad" = 100, "fire" = 90, "acid" = 90)
+	footstep = list('sound/effects/suitstep1.ogg', 'sound/effects/suitstep2.ogg')
 
 /obj/item/clothing/suit/armor/tdome/red
 	name = "thunderdome suit"
@@ -238,6 +255,7 @@
 	desc = "A classic suit of plate armour, highly effective at stopping melee attacks."
 	icon_state = "knight_green"
 	item_state = "knight_green"
+	footstep = list()
 
 /obj/item/clothing/suit/armor/riot/knight/yellow
 	icon_state = "knight_yellow"

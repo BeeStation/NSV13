@@ -220,7 +220,7 @@
 		var/obj/item/I = target
 		I.item_state = initial(picked_item.item_state)
 		I.item_color = initial(picked_item.item_color)
-		if(istype(I, /obj/item/clothing) && istype(initial(picked_item), /obj/item/clothing))
+		if(isclothing(I) && isclothing(initial(picked_item)))
 			var/obj/item/clothing/CL = I
 			var/obj/item/clothing/PCL = picked_item
 			CL.flags_cover = initial(PCL.flags_cover)
@@ -243,8 +243,7 @@
 
 /datum/action/item_action/chameleon/change/process()
 	if(world.time > emp_timer)
-		STOP_PROCESSING(SSprocessing, src)
-		return
+		return PROCESS_KILL
 	random_look(owner)
 
 /obj/item/clothing/under/chameleon
@@ -353,8 +352,15 @@
 	. = ..()
 	chameleon_action.emp_randomise(INFINITY)
 
+/obj/item/clothing/glasses/chameleon/flashproof
+	name = "welding goggles"
+	desc = "Protects the eyes from welders; approved by the mad scientist association."
+	icon_state = "welding-g"
+	item_state = "welding-g"
+	flash_protect = 3
+
 /obj/item/clothing/gloves/chameleon
-	desc = "These gloves will protect the wearer from electric shock."
+	desc = "These gloves provide protection against electric shock."
 	name = "insulated gloves"
 	icon_state = "yellow"
 	item_state = "ygloves"
@@ -381,6 +387,20 @@
 /obj/item/clothing/gloves/chameleon/broken/Initialize()
 	. = ..()
 	chameleon_action.emp_randomise(INFINITY)
+
+/obj/item/clothing/gloves/chameleon/combat
+	name = "combat gloves"
+	desc = "These tactical gloves are fireproof and shock resistant."
+	icon_state = "cgloves"
+	item_state = "combatgloves"
+	siemens_coefficient = 0
+	permeability_coefficient = 0.05
+	strip_delay = 80
+	cold_protection = HANDS
+	min_cold_protection_temperature = GLOVES_MIN_TEMP_PROTECT
+	heat_protection = HANDS
+	max_heat_protection_temperature = GLOVES_MAX_TEMP_PROTECT
+	armor = list("melee" = 10, "bullet" = 10, "laser" = 10, "energy" = 0, "bomb" = 0, "bio" = 0, "rad" = 0, "fire" = 50, "acid" = 50)
 
 /obj/item/clothing/head/chameleon
 	name = "grey cap"
@@ -425,9 +445,8 @@
 	min_cold_protection_temperature = SPACE_HELM_MIN_TEMP_PROTECT
 	heat_protection = HEAD
 	max_heat_protection_temperature = SPACE_HELM_MAX_TEMP_PROTECT
-	flash_protect = 2
 	bang_protect = 1
-	flags_cover = HEADCOVERSEYES | HEADCOVERSMOUTH | PEPPERPROOF
+	flags_cover = HEADCOVERSEYES | HEADCOVERSMOUTH
 
 /obj/item/clothing/head/chameleon/drone
 	// The camohat, I mean, holographic hat projection, is part of the
@@ -610,6 +629,12 @@
 /obj/item/radio/headset/chameleon/broken/Initialize()
 	. = ..()
 	chameleon_action.emp_randomise(INFINITY)
+
+/obj/item/radio/headset/chameleon/bowman
+	name = "bowman headset"
+	icon_state = "syndie_headset"
+	item_state = "syndie_headset"
+	bang_protect = 3
 
 /obj/item/pda/chameleon
 	name = "PDA"

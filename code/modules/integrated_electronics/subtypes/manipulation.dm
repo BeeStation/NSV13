@@ -10,6 +10,7 @@
 	lethal (TRUE) or stun (FALSE) modes. It uses the internal battery of the weapon itself, not the assembly. If you wish to fire the gun while the circuit is in \
 	hand, you will need to use an assembly that is a gun."
 	complexity = 20
+	max_allowed = 1
 	w_class = WEIGHT_CLASS_SMALL
 	size = 3
 	inputs = list(
@@ -130,8 +131,11 @@
 	installed_gun.cell.use(shot.e_cost)
 	//Shooting Code:
 	A.preparePixelProjectile(target, src)
+	A.ignore_source_check = TRUE //needed else writing into firer will mess with the projectile collision
+	A.firer = !usr ? "[assembly]/[REF(assembly)] circuit made by [assembly.creator]" : "[assembly]/[REF(assembly)] circuit activated by [usr.ckey]/[usr] and made by [assembly.creator]"
+	A.log_override = TRUE //Only resoves a runtime that would be caused on call.
 	A.fire()
-	log_attack("[assembly] [REF(assembly)] has fired [installed_gun].")
+	log_attack("[assembly] [REF(assembly)] made by [assembly.creator] has fired [installed_gun].")
 	return A
 
 /obj/item/integrated_circuit/manipulation/locomotion
@@ -143,6 +147,7 @@
 	being held, or anchored in some way. It should be noted that the ability to move is dependant on the type of assembly that this circuit inhabits; only drone assemblies can move."
 	w_class = WEIGHT_CLASS_SMALL
 	complexity = 10
+	max_allowed = 4
 	cooldown_per_use = 1 SECONDS
 	ext_cooldown = 1 SECONDS
 	inputs = list("direction" = IC_PINTYPE_DIR)
@@ -179,6 +184,7 @@
 					Beware: Once primed, there is no aborting the process!"
 	icon_state = "grenade"
 	complexity = 30
+	max_allowed = 1
 	cooldown_per_use = 10
 	inputs = list("detonation time" = IC_PINTYPE_NUMBER)
 	outputs = list("reference to grenade" = IC_PINTYPE_REF)
@@ -361,6 +367,7 @@
 	size = 3
 	cooldown_per_use = 5
 	complexity = 10
+	max_allowed = 1
 	inputs = list("target" = IC_PINTYPE_REF,"mode" = IC_PINTYPE_NUMBER)
 	outputs = list("first" = IC_PINTYPE_REF, "last" = IC_PINTYPE_REF, "amount" = IC_PINTYPE_NUMBER,"contents" = IC_PINTYPE_LIST)
 	activators = list("pulse in" = IC_PINTYPE_PULSE_IN,"pulse out" = IC_PINTYPE_PULSE_OUT)
@@ -435,6 +442,7 @@
 	w_class = WEIGHT_CLASS_SMALL
 	size = 3
 	cooldown_per_use = 5
+	max_allowed = 1
 	complexity = 10
 	inputs = list("target" = IC_PINTYPE_REF,"mode" = IC_PINTYPE_INDEX,"dir" = IC_PINTYPE_DIR)
 	outputs = list("is pulling" = IC_PINTYPE_BOOLEAN)

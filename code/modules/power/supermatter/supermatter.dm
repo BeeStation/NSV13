@@ -2,6 +2,8 @@
 //Please do not bother them with bugs from this port, however, as it has been modified quite a bit.
 //Modifications include removing the world-ending full supermatter variation, and leaving only the shard.
 
+#define SUPERMATTER_MAXIMUM_ENERGY 1e6
+
 #define PLASMA_HEAT_PENALTY 15     // Higher == Bigger heat and waste penalty from having the crystal surrounded by this gas. Negative numbers reduce penalty.
 #define OXYGEN_HEAT_PENALTY 1
 #define CO2_HEAT_PENALTY 0.1
@@ -73,6 +75,7 @@ GLOBAL_DATUM(main_supermatter_engine, /obj/machinery/power/supermatter_crystal)
 	desc = "A strangely translucent and iridescent crystal."
 	icon = 'icons/obj/supermatter.dmi'
 	icon_state = "darkmatter"
+	layer = ABOVE_MOB_LAYER
 	density = TRUE
 	anchored = TRUE
 	var/uid = 1
@@ -421,7 +424,7 @@ GLOBAL_DATUM(main_supermatter_engine, /obj/machinery/power/supermatter_crystal)
 			temp_factor = 30
 			icon_state = base_icon_state
 
-		power = max((removed.return_temperature() * temp_factor / T0C) * gasmix_power_ratio + power, 0) //Total laser power plus an overload
+		power = clamp((removed.return_temperature() * temp_factor / T0C) * gasmix_power_ratio + power, 0, SUPERMATTER_MAXIMUM_ENERGY) //Total laser power plus an overload
 
 		if(prob(50))
 			radiation_pulse(src, power * (1 + (tritiumcomp * TRITIUM_RADIOACTIVITY_MODIFIER) + ((pluoxiumcomp * PLUOXIUM_RADIOACTIVITY_MODIFIER) * pluoxiumbonus) * (power_transmission_bonus/(10-(bzcomp * BZ_RADIOACTIVITY_MODIFIER))))) // Rad Modifiers BZ(500%), Tritium(300%), and Pluoxium(-200%)
@@ -451,13 +454,13 @@ GLOBAL_DATUM(main_supermatter_engine, /obj/machinery/power/supermatter_crystal)
 			env.merge(removed)
 			air_update_turf()
 
-	for(var/mob/living/carbon/human/l in view(src, HALLUCINATION_RANGE(power))) // If they can see it without mesons on.  Bad on them.
+	for(var/mob/living/carbon/human/l in viewers(HALLUCINATION_RANGE(power), src)) // If they can see it without mesons on.  Bad on them.
 		if(!istype(l.glasses, /obj/item/clothing/glasses/meson))
 			var/D = sqrt(1 / max(1, get_dist(l, src)))
 			l.hallucination += power * config_hallucination_power * D
 			l.hallucination = CLAMP(0, 200, l.hallucination)
 
-	for(var/mob/living/l in range(src, round((power / 100) ** 0.25)))
+	for(var/mob/living/l in range(round((power / 100) ** 0.25), src))
 		var/rads = (power / 10) * sqrt( 1 / max(get_dist(l, src),1) )
 		l.rad_act(rads)
 
@@ -721,7 +724,7 @@ GLOBAL_DATUM(main_supermatter_engine, /obj/machinery/power/supermatter_crystal)
 	radiation_pulse(src, 3000, 2, TRUE)
 	for(var/mob/living/L in range(10))
 		investigate_log("has irradiated [key_name(L)] after consuming [AM].", INVESTIGATE_SUPERMATTER)
-		if(L in view())
+		if(L in viewers(get_turf(src)))
 			L.show_message("<span class='danger'>As \the [src] slowly stops resonating, you find your skin covered in new radiation burns.</span>", 1,\
 				"<span class='danger'>The unearthly ringing subsides and you notice you have new radiation burns.</span>", 2)
 		else
@@ -788,7 +791,7 @@ GLOBAL_DATUM(main_supermatter_engine, /obj/machinery/power/supermatter_crystal)
 			step_towards(P,center)
 
 /obj/machinery/power/supermatter_crystal/proc/supermatter_anomaly_gen(turf/anomalycenter, type = FLUX_ANOMALY, anomalyrange = 5)
-	var/turf/L = pick(orange(anomalyrange, anomalycenter))
+	var/turf/L = pick(RANGE_TURFS(anomalyrange, anomalycenter) - anomalycenter)
 	if(L)
 		switch(type)
 			if(FLUX_ANOMALY)
@@ -813,7 +816,7 @@ GLOBAL_DATUM(main_supermatter_engine, /obj/machinery/power/supermatter_crystal)
 	var/list/arctargetsstructure = list()
 
 	if(prob(20)) //let's not hit all the engineers with every beam and/or segment of the arc
-		for(var/mob/living/Z in oview(zapstart, range+2))
+		for(var/mob/living/Z in ohearers(range+2, zapstart))
 			arctargetsmob += Z
 	if(arctargetsmob.len)
 		var/mob/living/H = pick(arctargetsmob)
@@ -822,7 +825,7 @@ GLOBAL_DATUM(main_supermatter_engine, /obj/machinery/power/supermatter_crystal)
 		target_atom = A
 
 	else
-		for(var/obj/machinery/X in oview(zapstart, range+2))
+		for(var/obj/machinery/X in oview(range+2, zapstart))
 			arctargetsmachine += X
 		if(arctargetsmachine.len)
 			var/obj/machinery/M = pick(arctargetsmachine)
@@ -831,7 +834,7 @@ GLOBAL_DATUM(main_supermatter_engine, /obj/machinery/power/supermatter_crystal)
 			target_atom = A
 
 		else
-			for(var/obj/structure/Y in oview(zapstart, range+2))
+			for(var/obj/structure/Y in oview(range+2, zapstart))
 				arctargetsstructure += Y
 			if(arctargetsstructure.len)
 				var/obj/structure/O = pick(arctargetsstructure)

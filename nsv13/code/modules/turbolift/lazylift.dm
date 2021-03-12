@@ -38,7 +38,7 @@ That's it, ok bye!
 //Mappers, DON'T USE ME! Use the other one.
 
 /area/shuttle/turbolift
-	ambientsounds = list()
+	ambient_effects = list()
 	looping_ambience = 'nsv13/sound/effects/lift/elevatormusic.ogg' //Mandatory.
 
 /obj/machinery/lazylift_button
@@ -404,14 +404,14 @@ That's it, ok bye!
 						karmics_victim.adjust_disgust(10)
 		sleep(start_delay) //Sound time!
 		for(var/mob/M in get_area(src))
-			SEND_SOUND(M, sound(turbolift_loop_sound, repeat = TRUE, wait = 0, volume = 100, channel = CHANNEL_AMBIENCE))
+			SEND_SOUND(M, sound(turbolift_loop_sound, repeat = TRUE, wait = 0, volume = 100, channel = CHANNEL_AMBIENT_EFFECTS))
 		return
 	else
 		if(play_voice_lines)
 			playsound(platform_location, 'nsv13/sound/effects/lift/mindthegap.ogg', 100, FALSE)
 			platform_location.say("Please mind the gap.")
 		for(var/mob/M in get_area(src))
-			SEND_SOUND(M, sound(turbolift_end_sound, repeat = FALSE, wait = 0, volume = 100, channel = CHANNEL_AMBIENCE))
+			SEND_SOUND(M, sound(turbolift_end_sound, repeat = FALSE, wait = 0, volume = 100, channel = CHANNEL_AMBIENT_EFFECTS))
 		sleep(end_delay)
 		return
 

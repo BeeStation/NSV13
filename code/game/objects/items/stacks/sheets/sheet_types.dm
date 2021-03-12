@@ -82,6 +82,7 @@ GLOBAL_LIST_INIT(metal_recipes, list ( \
 	)), \
 	null, \
 	new/datum/stack_recipe("firelock frame", /obj/structure/firelock_frame, 3, time = 50, one_per_turf = TRUE, on_floor = TRUE), \
+	new/datum/stack_recipe("directional firelock frame", /obj/structure/firelock_frame/border, 3, time = 50, one_per_turf = FALSE, on_floor = TRUE), \
 	new/datum/stack_recipe("turret frame", /obj/machinery/porta_turret_construct, 5, time = 25, one_per_turf = TRUE, on_floor = TRUE), \
 	new/datum/stack_recipe("meatspike frame", /obj/structure/kitchenspike_frame, 5, time = 25, one_per_turf = TRUE, on_floor = TRUE), \
 	new/datum/stack_recipe("reflector frame", /obj/structure/reflector, 5, time = 25, one_per_turf = TRUE, on_floor = TRUE), \
@@ -416,6 +417,14 @@ GLOBAL_LIST_INIT(bamboo_recipes, list ( \
 	recipes = GLOB.bamboo_recipes
 	return ..()
 
+/obj/item/stack/sheet/mineral/bamboo/Topic(href, href_list)
+	. = ..()
+	if(href_list["make"])
+		var/list/recipes_list = recipes
+		var/datum/stack_recipe/R = recipes_list[text2num(href_list["make"])]
+		if(R.result_type == /obj/structure/punji_sticks)
+			var/turf/T = get_turf(src)
+			usr.investigate_log("has placed punji sticks trap at [AREACOORD(T)].", INVESTIGATE_BOTANY)
 
 /*
  * Cardboard
@@ -436,6 +445,11 @@ GLOBAL_LIST_INIT(cardboard_recipes, list (														\
 		new /datum/stack_recipe("donut box", /obj/item/storage/fancy/donut_box),				\
 		new /datum/stack_recipe("egg box", /obj/item/storage/fancy/egg_box),					\
 		new /datum/stack_recipe("donk-pockets box", /obj/item/storage/box/donkpockets),			\
+		new /datum/stack_recipe("donk-pockets spicy box", /obj/item/storage/box/donkpockets/donkpocketspicy),			\
+		new /datum/stack_recipe("donk-pockets teriyaki box", /obj/item/storage/box/donkpockets/donkpocketteriyaki),		\
+		new /datum/stack_recipe("donk-pockets pizza box", /obj/item/storage/box/donkpockets/donkpocketpizza),			\
+		new /datum/stack_recipe("donk-pockets berry box", /obj/item/storage/box/donkpockets/donkpocketberry),			\
+		new /datum/stack_recipe("donk-pockets honk box", /obj/item/storage/box/donkpockets/donkpockethonk),				\
 		new /datum/stack_recipe("monkey cube box", /obj/item/storage/box/monkeycubes),
 		new /datum/stack_recipe("nugget box", /obj/item/storage/fancy/nugget_box),			\
 		null,																					\

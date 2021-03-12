@@ -17,21 +17,18 @@
 	icon_state = "space_near"
 	dynamic_lighting = DYNAMIC_LIGHTING_IFSTARLIGHT
 
-/obj/screen/parallax_layer
-	var/tesselate = TRUE
-
-/obj/screen/parallax_layer/layer_3
+/atom/movable/screen/parallax_layer/layer_3
  	speed = 1
 
-/obj/screen/parallax_layer/layer_3/update_status(mob/M)
+/atom/movable/screen/parallax_layer/layer_3/update_status(mob/M)
  	. = ..()
  	update_o()
 
-/obj/screen/parallax_layer/layer_3/update_o(view)
+/atom/movable/screen/parallax_layer/layer_3/update_o(view)
 	check_ftl_state()
 	. = ..(view)
 
-/obj/screen/parallax_layer/layer_3/proc/check_ftl_state()
+/atom/movable/screen/parallax_layer/layer_3/proc/check_ftl_state()
 	if(!current_mob)
 		return FALSE //Something has gone horribly wrong.
 	var/datum/space_level/SL = SSmapping.z_list[current_mob.z]
@@ -41,7 +38,7 @@
 		tesselate = (findtext(SL.parallax_property, "planet")) ? FALSE : TRUE
 		return TRUE
 
-/obj/screen/parallax_layer/planet/update_o(view)
+/atom/movable/screen/parallax_layer/planet/update_o(view)
 	if(!current_mob)
 		return
 	update_status(current_mob)

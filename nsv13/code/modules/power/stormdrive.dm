@@ -1736,8 +1736,6 @@ Control Rods
 	network_destination = "storm drive monitoring system"
 	size = 2
 	tgui_id = "NtosStormdriveMonitor"
-	ui_x = 350
-	ui_y = 450
 	var/active = TRUE //Easy process throttle
 	var/obj/machinery/atmospherics/components/binary/stormdrive_reactor/reactor //Our reactor.
 

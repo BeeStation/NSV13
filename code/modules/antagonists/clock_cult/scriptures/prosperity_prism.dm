@@ -62,10 +62,12 @@
 	if(!powered)
 		powered = TRUE
 		update_icon_state()
-	for(var/mob/living/L in range(4))
+	for(var/mob/living/L in range(4, src))
 		if(!is_servant_of_ratvar(L))
 			continue
-		if(use_power(4))
+		if(!L.toxloss && !L.staminaloss && !L.bruteloss && !L.fireloss)
+			continue
+		if(use_power(2))
 			L.adjustToxLoss(-10)
 			L.adjustStaminaLoss(-10)
 			L.adjustBruteLoss(-2)

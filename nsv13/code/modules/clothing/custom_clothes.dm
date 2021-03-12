@@ -264,11 +264,10 @@
 	resistance_flags = FIRE_PROOF | ACID_PROOF
 	heat_protection = CHEST|GROIN|LEGS|FEET|ARMS|HANDS
 	max_heat_protection_temperature = FIRE_IMMUNITY_MAX_TEMP_PROTECT
-	var/mob/listeningTo
 	var/stomp_cooldown_time = 0.3 SECONDS
 	var/current_cooldown = 0
 
-/obj/item/clothing/suit/space/hardsuit/syndi/peacekeeper/proc/on_mob_move()
+/obj/item/clothing/suit/space/hardsuit/syndi/peacekeeper/on_mob_move()
 	var/mob/living/carbon/human/H = loc
 	if(!istype(H) || H.wear_suit != src)
 		return
@@ -634,7 +633,7 @@
 	icon_state = "trekjacket_formal"
 	item_color = "trekjacket_formal"
 	item_state = "trekjacket_formal"
- 
+
 /datum/action/item_action/nsv13_jacket_swap
 	name = "Toggle jacket style"
 	desc = "Display or hide your departmental colours for your suit jacket by reversing its shoulder pads."

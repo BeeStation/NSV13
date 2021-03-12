@@ -148,11 +148,14 @@
 	else
 		. = ..()
 
-/obj/item/tank/ui_interact(mob/user, ui_key = "main", datum/tgui/ui = null, force_open = FALSE, \
-									datum/tgui/master_ui = null, datum/ui_state/state = GLOB.hands_state)
-	ui = SStgui.try_update_ui(user, src, ui_key, ui, force_open)
+
+/obj/item/tank/ui_state(mob/user)
+	return GLOB.hands_state
+
+/obj/item/tank/ui_interact(mob/user, datum/tgui/ui)
+	ui = SStgui.try_update_ui(user, src, ui)
 	if(!ui)
-		ui = new(user, src, ui_key, "Tank", name, 400, 120, master_ui, state)
+		ui = new(user, src, "Tank")
 		ui.open()
 
 /obj/item/tank/ui_data(mob/user)
@@ -228,7 +231,7 @@
 
 /obj/item/tank/process()
 	//Allow for reactions
-	air_contents.react()
+	air_contents.react(src)
 	check_status()
 
 /obj/item/tank/proc/check_status()
@@ -242,7 +245,7 @@
 
 	if(pressure > TANK_FRAGMENT_PRESSURE)
 		if(!istype(src.loc, /obj/item/transfer_valve))
-			log_bomber(get_mob_by_key(fingerprintslast), "was last key to touch", src, "which ruptured explosively")
+			log_bomber(get_mob_by_ckey(fingerprintslast), "was last key to touch", src, "which ruptured explosively")
 		//Give the gas a chance to build up more pressure through reacting
 		air_contents.react(src)
 		air_contents.react(src)

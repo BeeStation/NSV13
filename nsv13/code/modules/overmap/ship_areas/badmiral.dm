@@ -1,6 +1,6 @@
 /area/awaymission/badmiral
 	name = "NSV Zorn"
-	noteleport = TRUE //piss of hand teleporter joe
+	teleport_restriction = TELEPORT_ALLOW_NONE //piss of hand teleporter joe
 
 /area/awaymission/badmiral/bridge
 	name = "NSV Zorn Bridge"
