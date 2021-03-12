@@ -5,28 +5,22 @@ import { Window } from '../layouts';
 
 export const SyndieCommunications = (props, context) => {
   const { act, data } = useBackend(context);
-  return (
+  const {
+    authenthicated,
+    auth_id,
+  } = data;
+  return(
     <Window resizable theme="syndicate">
       <Window.Content scrollable>
-        <Section title="Selected role:">
-          <p>{data.selected_role}</p>
-        </Section>
-        <Section title="Available Roles:">
-          {Object.keys(data.roles).map(key => {
-            let value = data.roles[key];
-            return (
-              <Section key={key} title={value.name} buttons={
-                <Button
-                  content="Select"
-                  icon="check-circle"
-                  onClick={() => act('select', { role_id: value.id })} />
-              }>
-                <p>{value.desc}</p>
-              </Section>
-            );
-          })}
-        </Section>
-      </Window.Content>
+        Currently logged in as {auth_id}
+        <Button
+          icon={authenthicated ? "sign-out-alt" : "sign-in-alt"}
+          content={authenthicated ? "Log Out" : "Log In"}
+          color={authenthicated ? "bad" : "good"}
+          OnClick={() => {
+           act(authenthicated ? 'logout' : 'login');
+          }}/>
+        </Window.Content>
     </Window>
   );
 };
