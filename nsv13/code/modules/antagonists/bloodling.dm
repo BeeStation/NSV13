@@ -55,7 +55,7 @@
 	. = ..()
 	if(hud_used) //NSV13: Bloodling biomass storage.
 		var/datum/component/bloodling/bloodling = GetComponent(/datum/component/bloodling)
-		if(bloodling)
+		if(bloodling && hud_used)
 			hud_used.lingchemdisplay.invisibility = FALSE
 			hud_used.lingchemdisplay.maptext = "<div align='center' valign='middle' style='position:relative; top:0px; left:6px'><font color='#dd66dd'>[round(bloodling.biomass)]</font></div>"
 
@@ -86,7 +86,7 @@
 	obj_damage = 5 * step //When youre big, you need to be able to move around.
 	if(step >= 4)
 		environment_smash = ENVIRONMENT_SMASH_WALLS
-	if(step >= 6)
+	if(step >= 8)
 		environment_smash = ENVIRONMENT_SMASH_RWALLS
 /datum/component/bloodling
 	var/biomass = 20 //How much biomass have we absorbed? We start off with a tiiiiny bit.
@@ -469,7 +469,7 @@ Infestation! If given a human, it makes them a changeling thrall. If given any o
 	. = ..()
 	var/list/mobs = list()
 	for(var/mob/living/M in view(user, 5))
-		if(M == user || !isliving(M) || M.invisibility > 0 || !M.alpha)
+		if(M == user || !isliving(M) || M.invisibility > 0 || !M.alpha || M.GetComponent(/datum/component/bloodling) || M.mind?.has_antag_datum(/datum/antagonist/changeling/bloodling_thrall))
 			continue
 		mobs += M
 	var/mob/living/M = input(user, "Who shall we absorb?", "[src]", null) as null|anything in mobs
@@ -564,7 +564,7 @@ Infestation! If given a human, it makes them a changeling thrall. If given any o
 /datum/action/bloodling/infest/action(mob/living/user)
 	. = ..()
 	var/list/mobs = list()
-	for(var/mob/living/M in view(user, 2))
+	for(var/atom/movable/M in view(user, 2))
 		if(ask_special_absorb(user, M))
 			return TRUE //Oh god, he's doing it.
 		if(M == user || !isliving(M) || M.invisibility > 0 || !M.alpha || M.GetComponent(/datum/component/bloodling) || M.mind?.has_antag_datum(/datum/antagonist/changeling/bloodling_thrall))

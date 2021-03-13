@@ -131,6 +131,10 @@ GLOBAL_LIST_EMPTY(simple_teamchats)
 		teamspeak.receive_message(user, text, receipt_sound_override)
 	if(!telepathic && isatom(user))
 		user.say(text)
+	if(isatom(user))
+		for(var/mob/M in GLOB.dead_mob_list)
+			to_chat(M, "[FOLLOW_LINK(M, user)] [style_message(user, text)]")
+
 
 /datum/component/simple_teamchat/proc/receive_message(atom/movable/sender, text, list/receipt_sound_override)
 	var/mob/user = get_user()
@@ -148,8 +152,6 @@ GLOBAL_LIST_EMPTY(simple_teamchats)
 		//You can hear the sound coming out the radio...
 		user.visible_message(text, \
 							text, null, 1)
-	for(var/mob/M in GLOB.dead_mob_list)
-		to_chat(M, "[FOLLOW_LINK(M, sender)] [style_message(sender, text)]")
 
 //Teamchat that behaves just like a radio would.
 
