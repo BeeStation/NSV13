@@ -1294,11 +1294,13 @@ Seek a ship thich we'll station ourselves around
 	last_target = target
 	if(ai_can_launch_fighters) //Found a new enemy? Release the hounds
 		ai_can_launch_fighters = FALSE
+		var/cancelled = FALSE
 		if(ai_fighter_type.len)
 			for(var/i = 0, i < rand(2,3), i++)
 				var/ai_fighter = pick(ai_fighter_type)
 				var/turf/launch_turf = get_turf(pick(orange(3, src)))
 				if(!launch_turf)
+					cancelled = TRUE
 					if(!i)
 						ai_can_launch_fighters = TRUE
 					else
@@ -1316,7 +1318,8 @@ Seek a ship thich we'll station ourselves around
 					fleet.RegisterSignal(newFighter, COMSIG_PARENT_QDELETING , /datum/fleet/proc/remove_ship, newFighter)
 
 				relay_to_nearby('nsv13/sound/effects/ship/fighter_launch_short.ogg')
-		addtimer(VARSET_CALLBACK(src, ai_can_launch_fighters, TRUE), 3 MINUTES)
+		if(!cancelled)
+			addtimer(VARSET_CALLBACK(src, ai_can_launch_fighters, TRUE), 3 MINUTES)
 	if(OM in enemies) //If target's in enemies, return
 		return
 	enemies += target
