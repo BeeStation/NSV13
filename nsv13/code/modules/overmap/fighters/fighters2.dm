@@ -113,10 +113,10 @@ Repair
 				playsound(helm, sound, 100, 1)
 			return TRUE
 
-/obj/structure/overmap/fighter/ui_interact(mob/user, ui_key, datum/tgui/ui, force_open, datum/tgui/master_ui, datum/ui_state/state=GLOB.contained_state)
-	ui = SStgui.try_update_ui(user, src, ui_key, ui, force_open)
+/obj/structure/overmap/fighter/ui_interact(mob/user, datum/tgui/ui)
+	ui = SStgui.try_update_ui(user, src, ui)
 	if(!ui)
-		ui = new(user, src, ui_key, "FighterControls", name, 497, 450, master_ui, state)
+		ui = new(user, src, "FighterControls")
 		ui.open()
 
 /obj/structure/overmap/fighter/ui_data(mob/user)

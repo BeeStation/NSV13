@@ -64,10 +64,10 @@
 	if(!core)
 		core = locate(/obj/machinery/deck_turret) in orange(1, src)
 
-/obj/machinery/computer/deckgun/ui_interact(mob/user, ui_key, datum/tgui/ui, force_open, datum/tgui/master_ui, datum/ui_state/state)
-	ui = SStgui.try_update_ui(user, src, ui_key, ui, force_open)
+/obj/machinery/computer/deckgun/ui_interact(mob/user, datum/tgui/ui)
+	ui = SStgui.try_update_ui(user, src, ui)
 	if(!ui)
-		ui = new(user, src, ui_key, "DeckGun", name, 300, 300, master_ui, state)
+		ui = new(user, src, "DeckGun")
 		ui.open()
 
 /obj/machinery/computer/deckgun/ui_data(mob/user)

@@ -364,10 +364,10 @@
 	. = ..()
 	ui_interact(user)
 
-/obj/structure/gauss_rack/ui_interact(mob/user, ui_key = "main", datum/tgui/ui = null, force_open = 0, datum/tgui/master_ui = null, datum/ui_state/state = GLOB.default_state) // Remember to use the appropriate state.
-	ui = SStgui.try_update_ui(user, src, ui_key, ui, force_open)
+/obj/structure/gauss_rack/ui_interact(mob/user, datum/tgui/ui)
+	ui = SStgui.try_update_ui(user, src, ui)
 	if(!ui)
-		ui = new(user, src, ui_key, "GaussRack", name, 560, 600, master_ui, state)
+		ui = new(user, src, "GaussRack")
 		ui.open()
 
 /obj/structure/gauss_rack/ui_act(action, params, datum/tgui/ui)
@@ -582,10 +582,10 @@ Chair + rack handling
 //Gauss overrides
 //The gaussgun is its own computer here because it needs to be interactible by people who are inside it, and I'm done with arsing around getting that to work ~Kmc after 3 hours of debugging TGUI
 
-/obj/machinery/ship_weapon/gauss_gun/ui_interact(mob/user, ui_key = "main", datum/tgui/ui = null, force_open = 0, datum/tgui/master_ui = null, datum/ui_state/state = GLOB.contained_state) // Remember to use the appropriate state.
-	ui = SStgui.try_update_ui(user, src, ui_key, ui, force_open)
+/obj/machinery/ship_weapon/gauss_gun/ui_interact(mob/user, datum/tgui/ui)
+	ui = SStgui.try_update_ui(user, src, ui)
 	if(!ui)
-		ui = new(user, src, ui_key, "MunitionsComputer", name, 560, 600, master_ui, state)
+		ui = new(user, src, "MunitionsComputer")
 		ui.open()
 
 /obj/machinery/ship_weapon/gauss_gun/ui_act(action, params, datum/tgui/ui)

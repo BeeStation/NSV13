@@ -1422,10 +1422,10 @@ Seek a ship thich we'll station ourselves around
 		holder = M.client //if its a mob, assign the mob's client to holder
 	. = ..()
 
-/datum/starsystem_manager/ui_interact(mob/user, ui_key = "main", datum/tgui/ui = null, force_open = FALSE, datum/tgui/master_ui = null, datum/ui_state/state = GLOB.admin_state)//ui_interact is called when the client verb is called.
-	ui = SStgui.try_update_ui(user, src, ui_key, ui, force_open)
+/datum/starsystem_manager/ui_interact(mob/user, datum/tgui/ui)
+	ui = SStgui.try_update_ui(user, src, ui)
 	if(!ui)
-		ui = new(user, src, ui_key, "SystemManager", "Starsystem Manager", 400, 400, master_ui, state)
+		ui = new(user, src, "SystemManager")
 		ui.open()
 
 /datum/starsystem_manager/ui_data(mob/user)

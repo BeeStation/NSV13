@@ -18,10 +18,10 @@
 	else
 		return FALSE
 
-/datum/syndicate_job_menu/ui_interact(mob/user, ui_key, datum/tgui/ui, force_open, datum/tgui/master_ui, datum/ui_state/state=GLOB.always_state)
-	ui = SStgui.try_update_ui(user, src, ui_key, ui, force_open)
+/datum/syndicate_job_menu/ui_interact(mob/user, datum/tgui/ui)
+	ui = SStgui.try_update_ui(user, src, ui)
 	if(!ui)
-		ui = new(user, src, ui_key, "SyndieJobSelect", "Syndicate Job Selection", 500, 500, master_ui, state)
+		ui = new(user, src, "SyndieJobSelect")
 		ui.open()
 
 /datum/syndicate_job_menu/ui_data(mob/user)
@@ -489,10 +489,10 @@ Singleton to handle conquest roles. This exists to populate the roles list and n
 		playsound(src, 'sound/machines/terminal_insert_disc.ogg', 50, 0)
 		return TRUE
 
-/obj/machinery/computer/secondary_ship_id_console/ui_interact(mob/user, ui_key = "main", datum/tgui/ui = null, force_open = FALSE, datum/tgui/master_ui = null, datum/ui_state/state = GLOB.default_state)
-	ui = SStgui.try_update_ui(user, src, ui_key, ui, force_open)
+/obj/machinery/computer/secondary_ship_id_console/ui_interact(mob/user, datum/tgui/ui)
+	ui = SStgui.try_update_ui(user, src, ui)
 	if(!ui)
-		ui = new(user, src, ui_key, "SecondaryID", "[name]", 580, 400, master_ui, state)
+		ui = new(user, src, "SecondaryID")
 		ui.open()
 
 /obj/machinery/computer/secondary_ship_id_console/ui_data(mob/user)
