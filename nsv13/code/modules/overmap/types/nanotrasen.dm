@@ -151,20 +151,20 @@
 	integrity_failure = 1500
 	starting_system = "Argo"
 
-/obj/structure/overmap/nanotrasen/missile_cruiser/starter //Currently assigned to Jeppison and Vago
+/obj/structure/overmap/nanotrasen/missile_cruiser/starter //Currently assigned to Jeppison and Atlas
 	role = MAIN_OVERMAP
 	obj_integrity = 1000
 	max_integrity = 1000
 	integrity_failure = 1000
 	starting_system = "Argo"
 
-/obj/structure/overmap/nanotrasen/patrol_cruiser/starter //Currently assigned to Jolly Sausage
+/obj/structure/overmap/nanotrasen/patrol_cruiser/starter //NOT IN CYCLE
 	role = MAIN_OVERMAP
 	max_integrity = 1000
 	integrity_failure = 1000
 	starting_system = "Argo"
 
-/obj/structure/overmap/nanotrasen/heavy_cruiser/starter //Currently assigned to Hammerhead
+/obj/structure/overmap/nanotrasen/heavy_cruiser/starter //NOT IN CYCLE
 	role = MAIN_OVERMAP
 	obj_integrity = 1500
 	max_integrity = 1500
@@ -178,14 +178,14 @@
 	integrity_failure = 2000
 	starting_system = "Argo"
 
-/obj/structure/overmap/nanotrasen/battlecruiser/starter //Currently assigned to Tycoon
+/obj/structure/overmap/nanotrasen/battlecruiser/starter //Currently assigned to Tycoon and Gladius
 	role = MAIN_OVERMAP
 	obj_integrity = 1500
 	max_integrity = 1500
 	integrity_failure = 1500
 	starting_system = "Argo"
 
-/obj/structure/overmap/nanotrasen/battleship/starter //Pegasus
+/obj/structure/overmap/nanotrasen/battleship/starter //NOT CURRENTLY ASSIGNED
 	role = MAIN_OVERMAP //Player controlled variant
 	obj_integrity = 2250
 	max_integrity = 2250
