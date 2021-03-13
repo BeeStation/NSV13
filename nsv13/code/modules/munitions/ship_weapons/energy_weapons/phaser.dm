@@ -118,7 +118,7 @@
 	return charge
 
 /obj/machinery/ship_weapon/energy/animate_projectile(atom/target)
-	var/list/what_we_fired = linked.fire_projectiles(weapon_type.default_projectile_type, target)
+	var/list/what_we_fired = linked.fire_lateral_projectile(weapon_type.default_projectile_type, target)
 	for(var/obj/item/projectile/P in what_we_fired)
 		P.damage *= power_modifier
 
