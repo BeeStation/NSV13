@@ -175,7 +175,33 @@
 	if(..())
 		return
 	var/value = text2num(params["input"])
+	var/obj/item/multitool/tool = get_multitool(ui.user)
+	playsound(src.loc,'nsv13/sound/effects/fighters/switch.ogg', 50, FALSE)
 	switch(action)
+		if("toggle_load")
+			if(SW.state == STATE_LOADED)
+				SW.feed()
+			else
+				SW.unload()
+		if("chamber")
+			SW.chamber()
+		if("toggle_safety")
+			SW.toggle_safety()
+		//Sudo mode.
+		if("fflush") //Flush multitool buffer. fflush that buffer
+			if(!tool)
+				return
+			tool.buffer = null
+		if("unlink")
+			SW = null
+		if("link")
+			if(!tool)
+				return
+			var/obj/machinery/ship_weapon/hybrid_rail/T = tool.buffer
+			if(T && istype(T))
+				SW = T
+		if("search")
+			get_linked_weapon()
 		if("switch_type")
 			if(switching)
 				to_chat(usr, "<span class='notice'>Error: Unable to comply, action already in process.</span>")
@@ -191,6 +217,7 @@
 /obj/machinery/computer/ship/munitions_computer/hybrid_rail/ui_data(mob/user)
 	. = ..()
 	var/list/data = list()
+	var/obj/item/multitool/tool = get_multitool(user)
 	data["capacitor_charge"] = capacitor_charge
 	data["capacitor_max_charge"] = capacitor_max_charge
 	data["capacitor_current_charge_rate"] = capacitor_current_charge_rate
@@ -198,4 +225,16 @@
 	data["available_power"] = available_power
 	data["slug_shell"] = slug_shell
 	data["max_ammo"] = max_ammo
+	data["sudo_mode"] = (tool != null || SW == null) ? TRUE : FALSE //Hold a multitool to enter sudo mode and modify linkages.
+	data["tool_buffer"] = (tool && tool.buffer != null) ? TRUE : FALSE
+	data["tool_buffer_name"] = (tool && tool.buffer) ? tool.buffer.name : "/dev/null"
+	data["has_linked_gun"] =  (SW) ? TRUE : FALSE
+	data["linked_gun"] =  (SW && SW.name) ? SW.name : "NO WEAPON LINKED"
+	data["loaded"] = (SW && SW.state > STATE_LOADED) ? TRUE : FALSE
+	data["chambered"] = (SW && SW.state > STATE_FED) ? TRUE : FALSE
+	data["safety"] = (SW) ? SW.safety : FALSE
+	data["ammo"] = (SW) ? SW.ammo.len : 0
+	data["max_ammo"] = (SW) ? SW.max_ammo : 0
+	data["maint_req"] = (SW && SW.maintainable) ? SW.maint_req : 25
+	data["max_maint_req"] = (SW) ? 25 : 0
 	return data
