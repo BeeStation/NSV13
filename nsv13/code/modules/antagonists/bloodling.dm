@@ -567,11 +567,11 @@ Infestation! If given a human, it makes them a changeling thrall. If given any o
 	for(var/atom/movable/M in view(user, 2))
 		if(ask_special_absorb(user, M))
 			return TRUE //Oh god, he's doing it.
-		if(M == user || !isliving(M) || M.invisibility > 0 || !M.alpha || M.GetComponent(/datum/component/bloodling) || M.mind?.has_antag_datum(/datum/antagonist/changeling/bloodling_thrall))
+		if(M == user || !isliving(M) || M.invisibility > 0 || !M.alpha || M.GetComponent(/datum/component/bloodling))
 			continue
 		mobs += M
 	var/mob/living/M = input(user, "Who shall we infest?", "[src]", null) as null|anything in mobs
-	if(!M || !M.mind)
+	if(!M || !M.mind || M.mind?.has_antag_datum(/datum/antagonist/changeling/bloodling_thrall))
 		to_chat(user, "<span class='warning'>That creature lacks intelligence, we should absorb it instead. </span>")
 		refund_biomass(user, biomass_cost)
 		return FALSE
