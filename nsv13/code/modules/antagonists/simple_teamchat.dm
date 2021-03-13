@@ -67,11 +67,9 @@ GLOBAL_LIST_EMPTY(simple_teamchats)
 		chatAction.name = "[key] Chat"
 		chatAction.holder = parent //This gets a bit weird, but the holder may be the item that's a "radio".
 		chatAction.teamspeak = src //The chat action holds a ref to the component, to allow you to have multiple teamchats at once (See: global squad pager.)
-	message_admins("Making Channel: [key]")
 	if(!GLOB.simple_teamchats[key])
 		GLOB.simple_teamchats[key] = list()
 	GLOB.simple_teamchats[key] += src //Register this chat by its key.
-	message_admins("Done With Channel: [key]")
 	if(isliving(parent))
 		chatAction.Grant(parent)
 		return
@@ -121,15 +119,14 @@ GLOBAL_LIST_EMPTY(simple_teamchats)
 	var/str = stripped_input(user,"Enter a message:", "[key]", "", MAX_MESSAGE_LEN)
 	if(!str)
 		return FALSE
+	log_say("[key]: [user] transmitted: [str]")
 	send_message(user, str)
 
 /datum/component/simple_teamchat/proc/send_message(atom/movable/user, text, list/receipt_sound_override)
 	if(!can_message())
-		message_admins("can't msg")
 		return FALSE
 	if(sound_on_send && isatom(user))
 		playsound(user.loc, pick(sound_on_send), 100, 1)
-	message_admins("[user] messaged [text]")
 	for(var/datum/component/simple_teamchat/teamspeak in GLOB.simple_teamchats[key])
 		teamspeak.receive_message(user, text, receipt_sound_override)
 	if(!telepathic && isatom(user))
@@ -139,7 +136,7 @@ GLOBAL_LIST_EMPTY(simple_teamchats)
 	var/mob/user = get_user()
 	if(!isliving(user))
 		return FALSE
-	message_admins("[sender] messaged [text] to [user]")
+
 	text = style_message(sender, text)
 	if(!receipt_sound_override)
 		receipt_sound_override = sound_on_receipt
@@ -149,7 +146,6 @@ GLOBAL_LIST_EMPTY(simple_teamchats)
 		to_chat(user, style_message(sender, text))
 	else
 		//You can hear the sound coming out the radio...
-		message_admins("Yup!")
 		user.visible_message(text, \
 							text, null, 1)
 	for(var/mob/M in GLOB.dead_mob_list)
