@@ -6,7 +6,11 @@ import { Window } from '../layouts';
 export const SecondaryID = (props, context) => {
   const { act, data } = useBackend(context);
   return (
-    <Window resizable theme={data.theme}>
+    <Window
+      resizable
+      theme={data.theme}
+      width={580}
+      height={400}>
       <Window.Content scrollable>
         <Section title="Accesses:" buttons={
           <Fragment>

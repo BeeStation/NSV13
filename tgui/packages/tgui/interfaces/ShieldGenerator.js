@@ -14,7 +14,11 @@ export const ShieldGenerator = (props, context) => {
   const maxPower = data.maxPower;
   const availablePower = data.available_power;
   return (
-    <Window resizable theme="ntos">
+    <Window
+      resizable
+      theme="ntos"
+      width={600}
+      height={660}>
       <Window.Content scrollable>
         <Section title="Shield Status:">
           Shield integrity: {progress}

@@ -15,7 +15,10 @@ const missionStatusToText = s => {
 export const NtosHailLogs = (props, context) => {
   const { act, data } = useBackend(context);
   return (
-    <NtosWindow resizable>
+    <NtosWindow
+      resizable
+      width={440}
+      height={650}>
       <NtosWindow.Content scrollable>
         <Section title="Ship status">
           <LabeledList>

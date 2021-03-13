@@ -14,7 +14,10 @@ export const NtosRbmkStats = (props, context) => {
   const tempInputData = data.tempInputData.map((value, i) => [i, value]);
   const tempOutputdata = data.tempOutputdata.map((value, i) => [i, value]);
   return (
-    <NtosWindow resizable>
+    <NtosWindow
+      resizable
+      width={440}
+      height={650}>
       <NtosWindow.Content>
 
         <Section title="Legend:" buttons={

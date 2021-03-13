@@ -6,7 +6,11 @@ import { Window } from '../layouts';
 export const FighterControls = (props, context) => {
   const { act, data } = useBackend(context);
   return (
-    <Window resizable theme="hackerman">
+    <Window
+      resizable
+      theme="hackerman"
+      width={497}
+      height={450}>
       <Window.Content scrollable>
         <Section
           title="Alerts:">

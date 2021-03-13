@@ -6,7 +6,10 @@ import { Window } from '../layouts';
 export const CarHardpoints = (props, context) => {
   const { act, data } = useBackend(context);
   return (
-    <Window resizable>
+    <Window
+      resizable
+      width={400}
+      height={400}>
       <Window.Content scrollable>
         <Section title="Hardpoints:">
           {Object.keys(data.hardpoints).map(key => {

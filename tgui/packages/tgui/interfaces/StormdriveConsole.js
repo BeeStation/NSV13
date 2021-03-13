@@ -22,7 +22,11 @@ export const StormdriveConsole = (props, context) => {
   const pluoxiumData = gas_records.pluoxium.map((value, i) => [i, value]);
   const nucleiumData = gas_records.nucleium.map((value, i) => [i, value]);
   return (
-    <Window resizable theme="ntos">
+    <Window
+      resizable
+      theme="ntos"
+      width={560}
+      height={600}>
       <Window.Content scrollable>
         <Section>
           <Section

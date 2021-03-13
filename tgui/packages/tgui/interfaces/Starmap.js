@@ -30,7 +30,11 @@ export const Starmap = (props, context) => {
   arrowStyle += "" + data.freepointer_sin + "," + data.freepointer_cos + ", 0, 0);";
   arrowStyle += "transition: all 0.5s ease-out;";
   return (
-    <Window resizable theme="ntos">
+    <Window
+      resizable
+      theme="ntos"
+      width={800}
+      height={660}>
       <Window.Content scrollable>
         <Section>
           {screen === 0 && (

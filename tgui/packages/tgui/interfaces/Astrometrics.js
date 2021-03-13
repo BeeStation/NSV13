@@ -3,7 +3,7 @@ import { useBackend, useLocalState } from '../backend';
 import { Box, Button, Section, ProgressBar, Knob, Map, StarButton } from '../components';
 import { Window } from '../layouts';
 
-// This entire fucking file is terrible. Turn back now. Don't look at this. 
+// This entire fucking file is terrible. Turn back now. Don't look at this.
 // There are so many issues with the conditional rendering here which I do not have the time to fix.
 
 export const Astrometrics = (props, context) => {
@@ -33,7 +33,11 @@ export const Astrometrics = (props, context) => {
   arrowStyle += ""+data.freepointer_sin+","+data.freepointer_cos+", 0, 0);";
   arrowStyle += "transition: all 0.5s ease-out;";
   return (
-    <Window resizable theme="ntos">
+    <Window
+      resizable
+      theme="ntos"
+      width={800}
+      height={660}>
       <Window.Content scrollable>
         <Section>
           {screen === 0 && (
@@ -41,20 +45,20 @@ export const Astrometrics = (props, context) => {
               <Button
                 content="Ship Information"
                 icon="info-circle"
-                onClick={() => 
+                onClick={() =>
                   act('shipinf')} />
               <Button
                 content="Show Map"
                 icon="map"
-                onClick={() => 
-                  act('map')} />	
+                onClick={() =>
+                  act('map')} />
               <Section title={`Current scan: ${data.scan_target}`}
                 buttons={(
                   <Button
                     content="Cancel Scan"
                     icon="stop-circle-o"
                     disabled={data.scan_target}
-                    onClick={() => 
+                    onClick={() =>
                       act('cancel_scan')} />
                 )}>
                 <ProgressBar
@@ -72,13 +76,13 @@ export const Astrometrics = (props, context) => {
               <Button
                 content="Ship Information"
                 icon="info-circle"
-                onClick={() => 
+                onClick={() =>
                   act('shipinf')} />
               <Button
                 content="Show Map"
                 icon="map"
                 ilstyle="position:absolute;left:10px"
-                onClick={() => 
+                onClick={() =>
                   act('map')} />
               <Map initial_focus_x={data.focus_x}
                 initial_focus_y={data.focus_y}
@@ -112,13 +116,13 @@ export const Astrometrics = (props, context) => {
                         {!!value.name && (
                           <StarButton unselectable="on" style={markerStyle} className={markerType}
                             content="" tooltip={distance}
-                            onClick={() => 
+                            onClick={() =>
                               act('select_system', { star_id: value.star_id })}>
                             <span class="star_label">
                               <p>{value.name} {label}</p>
                             </span>
                           </StarButton>
-					
+
                         )}
                       </Fragment>);
                   })}
@@ -157,12 +161,12 @@ export const Astrometrics = (props, context) => {
               <Button
                 content="Ship Information"
                 icon="info-circle"
-                onClick={() => 
+                onClick={() =>
                   act('shipinf')} />
               <Button
                 content="Show Map"
                 icon="map"
-                onClick={() => 
+                onClick={() =>
                   act('map')} />
               <br />
               <Section title={`Current scan: ${data.scan_target}`}
@@ -171,7 +175,7 @@ export const Astrometrics = (props, context) => {
                     content="Cancel Scan"
                     icon="stop-circle-o"
                     disabled={!data.can_cancel}
-                    onClick={() => 
+                    onClick={() =>
                       act('cancel_scan')} />
                 )}>
                 <ProgressBar
@@ -188,7 +192,7 @@ export const Astrometrics = (props, context) => {
                     content="Scan"
                     icon="arrow-right"
                     disabled={!!data.scanned}
-                    onClick={() => 
+                    onClick={() =>
                       act('scan')} />
                 )}>
                 Distance: {data.star_dist ? data.star_dist + " LY" : "0LY"}

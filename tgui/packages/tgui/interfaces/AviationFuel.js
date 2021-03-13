@@ -6,7 +6,10 @@ import { Window } from '../layouts';
 export const AviationFuel = (props, context) => {
   const { act, data } = useBackend(context);
   return (
-    <Window resizable>
+    <Window
+      resizable
+      width={400}
+      height={400}>
       <Window.Content scrollable>
         <Section>
           Fuel level:
@@ -31,14 +34,14 @@ export const AviationFuel = (props, context) => {
             content="Stop fuelling"
             icon="times"
             color="average"
-            onClick={() => 
+            onClick={() =>
               act('stopfuel')} />
           <Button
             content="Fuel inlet"
             icon={data.transfer_mode ? "power-off" : "square-o"}
             selected={data.transfer_mode}
-            onClick={() => 
-              act('transfer_mode')} />						  
+            onClick={() =>
+              act('transfer_mode')} />
         </Section>
       </Window.Content>
     </Window>

@@ -7,7 +7,11 @@ export const OrdnanceConsole = (props, context) => {
   const { act, data } = useBackend(context);
   const tabIndex = 1;
   return (
-    <Window resizable theme="retro">
+    <Window
+      resizable
+      theme="retro"
+      width={560}
+      height={600}>
       <Window.Content scrollable>
         <Section>
           <Section title="Armaments:">
