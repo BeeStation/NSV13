@@ -27,30 +27,30 @@ Different ships have different combat dice, some have the same as eachother.
 /datum/combat_dice/fighter
 	name = "Fighter combat dice"
 
-	evade_dice = 2		//Hella dodgy
+	evade_dice = 2
 	evade_roll = 5
 
 	armor_roll = 3
-	armor_bonus = -1	//Paper armor
+	armor_bonus = -1
 
-	damage_roll = 3		//Low damage
+	damage_roll = 3
 
 	affinity = AI_TRAIT_SWARMER	//Great at shooting other fighters.
 
 /datum/combat_dice/bomber
 	name = "Bomber combat dice"
 
-	evade_roll = 3		//Not too agile
+	evade_roll = 3
 
 	target_dice = 2
 	target_roll = 4
 	target_bonus = 2
 
 	armor_roll = 3
-	armor_bonus = -1	//Aand paper armor
+	armor_bonus = -1
 
 	damage_dice = 2
-	damage_roll = 5		//Great damage
+	damage_roll = 5
 	damage_bonus = 3
 
 	affinity = AI_TRAIT_BATTLESHIP	//Loves taking out capital ships.
@@ -59,7 +59,7 @@ Different ships have different combat dice, some have the same as eachother.
 /datum/combat_dice/carrier
 	name = "Carrier combat dice"
 
-	evade_roll = 2		//Good luck dodging fattie.
+	evade_roll = 2
 
 	target_roll = 4
 	target_bonus = 1
@@ -68,7 +68,7 @@ Different ships have different combat dice, some have the same as eachother.
 	armor_bonus = -2
 
 	damage_dice = 2
-	damage_roll = 2		//Not very good at damaging things
+	damage_roll = 2
 
 /datum/combat_dice/frigate
 	name = "Frigate combat dice"
@@ -120,7 +120,7 @@ Different ships have different combat dice, some have the same as eachother.
 
 	armor_bonus = 0
 
-	damage_dice = 4	//brutal damage
+	damage_dice = 4
 
 	affinity = AI_TRAIT_BATTLESHIP
 
