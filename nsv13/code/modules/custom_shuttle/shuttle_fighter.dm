@@ -71,7 +71,6 @@
 				_y = min
 
 		var/turf/T = locate(_x, _y, _z) //Where are we putting you
-		var/list/victims = force_eject(TRUE)
 		//Rip
 		for(var/atom/movable/AM in atoms)
 			AM.forceMove(T)
