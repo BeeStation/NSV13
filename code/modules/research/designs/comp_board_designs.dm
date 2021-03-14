@@ -327,4 +327,3 @@
 	build_path = /obj/item/circuitboard/computer/shuttle/docker
 	category = list("Computer Boards", "Shuttle Machinery")
 	departmental_flags = DEPARTMENTAL_FLAG_SCIENCE | DEPARTMENTAL_FLAG_ENGINEERING
-
