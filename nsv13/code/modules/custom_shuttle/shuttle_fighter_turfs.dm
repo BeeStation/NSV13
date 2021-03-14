@@ -25,7 +25,7 @@
 	. = ..()
 	//Teleport back to safety
 	if(linked_shuttle)
-		if(SSmapping.level_trait(linked_shuttle.z, ZTRAIT_OVERMAP))
+		if(SSmapping.level_trait(linked_shuttle.z, ZTRAIT_BOARDABLE))
 			//If we can leave here leave.
 			AM.forceMove(get_turf(linked_shuttle))
 		else

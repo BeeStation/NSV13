@@ -26,7 +26,7 @@
 
 /obj/item/shuttle_creator/shuttle_create_docking_port(atom/target, mob/user)
 
-	if(loggedTurfs.len == 0 || !recorded_shuttle_area)
+	if(loggedTurfs.len == 0)
 		to_chat(user, "<span class='warning'>Invalid shuttle (No recorded turfs / No recorded area), restarting bluespace systems...</span>")
 		return FALSE
 
