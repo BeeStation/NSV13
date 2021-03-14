@@ -68,7 +68,7 @@ Defending fleets have priority for shooting (A turn iterates through a system's 
 		affinity_target = TRUE
 
 	var/targetting_roll = 0
-	for(var/i = 1; i <= Fdice.target_dice)
+	for(var/i = 1; i <= Fdice.target_dice; i++)
 		targetting_roll += rand(1, Fdice.target_roll)
 	targetting_roll += Fdice.target_bonus
 
@@ -76,7 +76,7 @@ Defending fleets have priority for shooting (A turn iterates through a system's 
 		targetting_roll = CEILING(targetting_roll * 1.5, 1)
 
 	var/evading_roll = 0
-	for(var/i = 1; i <= Tdice.evade_dice)
+	for(var/i = 1; i <= Tdice.evade_dice; i++)
 		evading_roll += rand(1, Tdice.evade_roll)
 	evading_roll += Tdice.evade_bonus
 
@@ -87,7 +87,7 @@ Defending fleets have priority for shooting (A turn iterates through a system's 
 		targetting_roll -= evading_roll	//armor pen gets reduced by evade.
 
 	var/armoring_roll = 0
-	for(var/i = 1; i <= Tdice.armor_dice)
+	for(var/i = 1; i <= Tdice.armor_dice; i++)
 		armoring_roll += rand(1, Tdice.armor_roll)
 	armoring_roll += Tdice.armor_bonus
 
@@ -95,7 +95,7 @@ Defending fleets have priority for shooting (A turn iterates through a system's 
 		armoring_roll -= targetting_roll
 
 	var/damaging_roll = 0
-	for(var/i = 1; i <= Fdice.damage_dice)
+	for(var/i = 1; i <= Fdice.damage_dice; i++)
 		damaging_roll += rand(1, Fdice.damage_roll)
 	damaging_roll += Fdice.damage_bonus
 
