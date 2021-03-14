@@ -189,11 +189,3 @@
 		linked_fighter.enter(user)
 		linked_fighter.start_piloting(user, "all_positions")
 		linked_fighter.ui_interact(user)
-
-//Make the camera advanced not work
-/obj/machinery/computer/camera_advanced/shuttle_docker/custom/Initialize()
-	. = ..()
-	take_damage(5000)
-
-/obj/machinery/computer/camera_advanced/shuttle_docker/custom/linkShuttle(new_id)
-	return
