@@ -119,10 +119,60 @@
 	if(!(linked_fighter.entry_point in output_turfs))
 		linked_fighter.entry_point = pick(output_turfs)
 
+	//=======================
+	// Area setup
+	//=======================
+	//Create the new area
+	var/area/shuttle/custom/powered/newS
+	var/area/oldA = loggedOldArea
+	var/str = stripped_input(user, "Shuttle Name:", "Blueprint Editing", "", MAX_NAME_LEN)
+	if(!str || !length(str))
+		str = "NSV Nullspace"
+	if(length(str) > 50)
+		str = "NSV Longname"
+	if(OOC_FILTER_CHECK(str))
+		str = "NSV Bannedhammer"
+	newS = new /area/shuttle/custom/powered()
+	newS.setup(str)
+	newS.set_dynamic_lighting()
+	//Shuttles always have gravity
+	newS.has_gravity = TRUE
+	newS.requires_power = TRUE
+	//Record the area for use when creating the docking port
+	recorded_shuttle_area = newS
+
+	for(var/i in 1 to output_turfs.len)
+		var/turf/turf_holder = output_turfs[i]
+		var/area/old_area = turf_holder.loc
+		newS.contents += turf_holder
+		turf_holder.change_area(old_area, newS)
+
+	newS.reg_in_areas_in_z()
+
+	var/list/firedoors = oldA.firedoors
+	for(var/door in firedoors)
+		var/obj/machinery/door/firedoor/FD = door
+		FD.CalculateAffectingAreas()
+
+	//=======================
+
 	//bayyyysed
 	GLOB.custom_shuttle_count ++
 	message_admins("[ADMIN_LOOKUPFLW(user)] created a new custom fighter with a [src] at [ADMIN_VERBOSEJMP(user)] ([GLOB.custom_shuttle_count] custom shuttles, limit is [CUSTOM_SHUTTLE_LIMIT])")
 	log_game("[key_name(user)] created a new custom fighter with a [src] at [AREACOORD(user)] ([GLOB.custom_shuttle_count] custom shuttles, limit is [CUSTOM_SHUTTLE_LIMIT])")
+	return TRUE
+
+/obj/item/shuttle_creator/create_shuttle_area(mob/user)
+	//Check to see if the user can make a new area to prevent spamming
+	if(user)
+		if(user.create_area_cooldown >= world.time)
+			to_chat(user, "<span class='warning'>Smoke vents from the [src], maybe you should let it cooldown before using it again.</span>")
+			return FALSE
+		user.create_area_cooldown = world.time + 10
+	if(!loggedTurfs)
+		return FALSE
+	if(!check_area(loggedTurfs, FALSE))	//Makes sure nothing (Shuttles) has moved into the area during creation
+		return FALSE
 	return TRUE
 
 /obj/machinery/computer/custom_shuttle
