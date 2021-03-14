@@ -319,7 +319,7 @@
 	build_path = /obj/item/circuitboard/computer/shuttle/flight_control
 	category = list("Computer Boards", "Shuttle Machinery")
 	departmental_flags = DEPARTMENTAL_FLAG_SCIENCE | DEPARTMENTAL_FLAG_ENGINEERING
-
+/* NSV - Removes the shuttle docker
 /datum/design/board/shuttle/shuttle_docker
 	name = "Computer Design (Private Navigation Computer)"
 	desc = "Allows for the construction of circuit boards used to build a console that enables the targetting of custom flight locations"
@@ -327,3 +327,4 @@
 	build_path = /obj/item/circuitboard/computer/shuttle/docker
 	category = list("Computer Boards", "Shuttle Machinery")
 	departmental_flags = DEPARTMENTAL_FLAG_SCIENCE | DEPARTMENTAL_FLAG_ENGINEERING
+*/
