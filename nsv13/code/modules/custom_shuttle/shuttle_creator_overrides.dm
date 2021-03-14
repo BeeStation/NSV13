@@ -58,7 +58,7 @@
 	var/height = max_y - min_y
 
 	//Reserve an area
-	storageReservation = SSmapping.RequestBlockReservation(width + 4, height + 4)
+	var/datum/turf_reservation/storageReservation = SSmapping.RequestBlockReservation(width + 4, height + 4)
 	if(!storageReservation)
 		to_chat(user, "<span class='warning'>Failed to reserve turfs.</span>")
 		return FALSE
@@ -107,8 +107,11 @@
 		max_x_new = max(max_x_new, newT.x)
 		max_y_new = max(max_y_new, newT.y)
 
-	//Set the fighters sprite
+	//Set the fighters reserved area
+	linked_fighter.storageReservation = storageReservation
+	//Move the fighter somewhere decent
 	linked_fighter.forceMove(T)
+	//Set the fighters sprite
 	linked_fighter.link_to_turfs(min_x_new, min_y_new, max_x_new, max_y_new, output_turfs)
 	//Enter at the airlock.
 	linked_fighter.entry_point = get_turf(target)

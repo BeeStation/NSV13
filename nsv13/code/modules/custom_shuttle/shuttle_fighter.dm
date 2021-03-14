@@ -4,6 +4,8 @@
 	sprite_size = 32
 	//Invisible, sprite is handled when we make it
 	icon = 'icons/effects/effects.dmi'
+	//Our reserved area
+	var/datum/turf_reservation/storageReservation
 	//Default components
 	components = list(/obj/item/fighter_component/fuel_tank,
 						/obj/item/fighter_component/avionics,
@@ -22,6 +24,68 @@
 	damage_states = FALSE
 	var/turf/entry_point
 
+/obj/structure/overmap/fighter/custom_shuttle/Destroy()
+	//Throw all the contents inside
+	var/list/contents_inside = list()
+	var/turf/T1 = locate(storageReservation.bottom_left_coords[1], storageReservation.bottom_left_coords[2], storageReservation.bottom_left_coords[3])
+	var/turf/T2 = locate(storageReservation.top_right_coords[1], storageReservation.top_right_coords[2], storageReservation.top_right_coords[3])
+	for(var/turf/T in block(T1, T2))
+		for(var/atom/movable/AM in T)
+			contents_inside += AM
+	throw_atoms(contents_inside)
+	//Release the reservation
+	storageReservation.Release()
+	//Normal destroy
+	. = ..()
+
+/obj/structure/overmap/fighter/custom_shuttle/proc/throw_atoms(list/atoms)
+	if(SSmapping.level_trait(z, ZTRAIT_OVERMAP)) //Check if we're on the overmap
+		var/max = world.maxx-TRANSITIONEDGE
+		var/min = 1+TRANSITIONEDGE
+
+		var/list/possible_transitions = list()
+		for(var/A in SSmapping.z_list)
+			var/datum/space_level/D = A
+			if (D.linkage == CROSSLINKED && !SSmapping.level_trait(D.z_value, ZTRAIT_OVERMAP))
+				possible_transitions += D.z_value
+			if(!possible_transitions.len) //Just in case there is no space z level
+				for(var/z in SSmapping.levels_by_trait(ZTRAIT_STATION))
+					possible_transitions += z
+
+		var/_z = pick(possible_transitions)
+		var/_x
+		var/_y
+
+		switch(dir)
+			if(SOUTH)
+				_x = rand(min,max)
+				_y = max
+			if(WEST)
+				_x = max
+				_y = rand(min,max)
+			if(EAST)
+				_x = min
+				_y = rand(min,max)
+			else
+				_x = rand(min,max)
+				_y = min
+
+		var/turf/T = locate(_x, _y, _z) //Where are we putting you
+		var/list/victims = force_eject(TRUE)
+		//Rip
+		for(var/atom/movable/AM in atoms)
+			AM.forceMove(T)
+
+	else //If we're anywhere that isn't the overmap
+		for(var/atom/movable/AM in atoms)
+			AM.forceMove(get_turf(src))
+		//Boom
+		explosion(get_turf(src), 0, 0, 1)
+
+//=========
+// Entering the shuttle
+//=========
+
 /obj/structure/overmap/fighter/custom_shuttle/Bumped(atom/movable/A)
 	. = ..()
 	enter_shuttle(A)
@@ -38,6 +102,10 @@
 		return
 	//Teleport to the shuttle
 	A.forceMove(entry_point)
+
+//=========
+// Sprite setup / linking
+//=========
 
 /*
  * Pretty based proc.
