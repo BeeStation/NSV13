@@ -233,6 +233,9 @@ GLOBAL_LIST_EMPTY(ai_goals)
 		if(OM.mobs_in_ship?.len)
 			encounter(OM)
 	}
+	if(current_system.check_conflict_status())
+		if(!SSstar_system.contested_systems.Find(current_system))
+			SSstar_system.contested_systems.Add(current_system)
 	if(course_picked_target)
 		plotted_course -= target
 	else if(plotted_course && plotted_course.len)	//We jumped. but didn't follow our course! Recalculate!
@@ -655,6 +658,9 @@ GLOBAL_LIST_EMPTY(ai_goals)
 			RegisterSignal(member, COMSIG_PARENT_QDELETING , /datum/fleet/proc/remove_ship, member)
 			SS.add_ship(member)
 		}
+	if(SS.check_conflict_status())
+		if(!SSstar_system.contested_systems.Find(SS))
+			SSstar_system.contested_systems.Add(SS)
 	return TRUE
 
 /*

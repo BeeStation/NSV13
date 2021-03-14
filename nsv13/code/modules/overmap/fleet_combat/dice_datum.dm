@@ -4,7 +4,7 @@ Different ships have different combat dice, some have the same as eachother.
 */
 
 /datum/combat_dice
-	var/name = "Combat dice basetype"	//No ship should have these.
+	var/name = "Combat dice basetype"	//No actual ship should have these.
 
 	var/evade_dice = 1		//How many evade dice?
 	var/evade_roll = 4		//How many sides? Result 1 to X.
