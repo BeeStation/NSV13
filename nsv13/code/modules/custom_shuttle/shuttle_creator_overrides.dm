@@ -20,6 +20,7 @@
 			return
 		var/obj/machinery/computer/custom_shuttle/console = target
 		console.linked_fighter = linked_fighter
+		linked_fighter.linked_computers += console
 		to_chat(user, "<span class='notice'>Console linked successfully.</span>")
 		return
 	. = ..()
@@ -77,6 +78,7 @@
 	//Create the fighter
 	//Instantiate in nullspace and force move later
 	linked_fighter = new(null)
+	linked_fighter.linked_shuttle_creators += src
 	//Firstly set up our area, create the containment turfs and set the back turfs
 	for(var/turf/reserved_turf in block(locate(storageReservation.bottom_left_coords[1], storageReservation.bottom_left_coords[2], reservation_z), locate(storageReservation.top_right_coords[1], storageReservation.top_right_coords[2], reservation_z)))
 		//Its a border turf.

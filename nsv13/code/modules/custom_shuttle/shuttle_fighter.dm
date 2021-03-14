@@ -22,7 +22,11 @@
 						/obj/item/fighter_component/primary/cannon)
 	//We DO NOT want damage states
 	damage_states = FALSE
+	//The entry point of the shuttle
 	var/turf/entry_point
+	//Tracking for when we get destroyed
+	var/list/linked_computers = list()
+	var/list/linked_shuttle_creators = list()
 
 /obj/structure/overmap/fighter/custom_shuttle/Destroy()
 	//Throw all the contents inside
@@ -35,6 +39,11 @@
 	throw_atoms(contents_inside)
 	//Release the reservation
 	storageReservation.Release()
+	//Dereference outselves
+	for(var/obj/item/shuttle_creator/SC in linked_shuttle_creators)
+		SC.linked_fighter = null
+	for(var/obj/machinery/computer/custom_shuttle/CS in linked_computers)
+		CS.linked_fighter = null
 	//Normal destroy
 	. = ..()
 
