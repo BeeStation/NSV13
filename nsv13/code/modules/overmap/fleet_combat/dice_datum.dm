@@ -24,6 +24,17 @@ Different ships have different combat dice, some have the same as eachother.
 
 	var/affinity = 0		//Affinity: All dice end values are increased by 50% (rounded down) if the target AI type contains the affinity type.
 
+/datum/combat_dice/civilian
+	name = "Civilian combat dice"
+
+	evade_roll = 3
+
+	target_roll = 4
+
+	armor_roll = 2
+
+	damage_roll = 2
+
 /datum/combat_dice/fighter
 	name = "Fighter combat dice"
 
