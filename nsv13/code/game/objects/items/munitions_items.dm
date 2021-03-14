@@ -42,7 +42,6 @@
 	icon = 'nsv13/icons/obj/custom_radio.dmi'
 	icon_state = "mun_cypherkey"
 	channels = list(RADIO_CHANNEL_MUNITIONS = 1, RADIO_CHANNEL_SUPPLY = 1)
-	independent = TRUE
 
 ///////RADIO HEADSETS//////
 

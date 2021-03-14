@@ -364,6 +364,7 @@ Returns a faction datum by its name (case insensitive!)
 		var/datum/fleet/fleet = new fleet_type(src)
 		fleet.current_system = src
 		fleets += fleet
+		fleet.assemble(src)
 	if(preset_trader)
 		trader = new preset_trader
 		//We need to instantiate the trader's shop now and give it info, so unfortunately these'll always load in.
@@ -918,6 +919,7 @@ Welcome to the neutral zone! Non corporate sanctioned traders with better gear a
 			randyfleet.hide_movements = TRUE //Prevent the shot of spam this caused to R1497.
 			randy.fleets += randyfleet
 			randy.alignment = randyfleet.alignment
+			randyfleet.assemble(randy)
 
 
 

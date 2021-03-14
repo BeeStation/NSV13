@@ -1210,11 +1210,10 @@ Control Rods
 	ui_interact(user)
 
 /obj/machinery/computer/ship/reactor_control_computer/attack_ghost(mob/user)
-	. = ..()
 	if(!reactor)
 		to_chat(user, "<span class='warning'>Unable to detect linked reactor</span>")
 		return
-	ui_interact(user)
+	. = ..() //parent should call ui_interact
 
 /obj/machinery/computer/ship/reactor_control_computer/Initialize()
 	. = ..()

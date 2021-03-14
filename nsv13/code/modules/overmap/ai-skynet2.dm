@@ -211,17 +211,28 @@ GLOBAL_LIST_EMPTY(ai_goals)
 			target.system_contents += OM
 			if(!target.occupying_z)
 				STOP_PROCESSING(SSphysics_processing, OM)
+				if(OM.physics2d)
+					STOP_PROCESSING(SSphysics_processing, OM.physics2d)
+				var/backupx = OM.x
+				var/backupy = OM.y
 				OM.moveToNullspace()
-				target.contents_positions[OM] = list("x" = OM.x, "y" = OM.y) //Cache the ship's position so we can regenerate it later.
+				if(backupx && backupy)
+					target.contents_positions[OM] = list("x" = backupx, "y" = backupy) //Cache the ship's position so we can regenerate it later.
+				else
+					target.contents_positions[OM] = list("x" = rand(15, 240), "y" = rand(15, 240))
 			else
-				OM.forceMove(get_turf(locate(OM.x, OM.y, target.occupying_z)))
+				if(!OM.z)
+					START_PROCESSING(SSphysics_processing, OM)
+					if(OM.physics2d)
+						START_PROCESSING(SSphysics_processing, OM.physics2d)
+				target.add_ship(OM)
 			current_system.system_contents -= OM
-			target.system_contents += OM
 			if(alignment != "nanotrasen" && alignment != "solgov") //NT, SGC or whatever don't count as enemies that NT hire you to kill.
 				current_system.enemies_in_system -= OM
 				target.enemies_in_system += OM
 			if(current_system.contents_positions[OM]) //If we were loaded, but the system was not.
 				current_system.contents_positions -= OM
+			OM.current_system = target
 	target.fleets += src
 	current_system = target
 	if(target.alignment != alignment)
@@ -286,16 +297,19 @@ GLOBAL_LIST_EMPTY(ai_goals)
 	else
 		current_system.alignment = initial(current_system.alignment)
 		current_system.mission_sector = FALSE
-	faction = SSstar_system.faction_by_id(faction_id)
-	faction?.lose_influence(reward)
+	var/player_caused = FALSE
 	for(var/obj/structure/overmap/OOM in current_system.system_contents)
 		if(!OOM.mobs_in_ship.len)
 			continue
+		player_caused = TRUE
 		for(var/mob/M in OOM.mobs_in_ship)
 			if(M.client)
 				var/client/C = M.client
 				if(C.chatOutput && !C.chatOutput.broken && C.chatOutput.loaded)
 					C.chatOutput.stopMusic()
+	if(player_caused)	//Only modify influence if players caused this, otherwise someone else claimed the kill and it doesn't modify influence for the purpose of Patrol completion.
+		faction = SSstar_system.faction_by_id(faction_id)
+		faction?.lose_influence(reward)
 	QDEL_NULL(src)
 
 /datum/fleet/nanotrasen/earth/defeat()
@@ -461,6 +475,7 @@ GLOBAL_LIST_EMPTY(ai_goals)
 	supply_types = null
 	alignment = "pirate"
 	faction_id = FACTION_ID_PIRATES
+	reward = 35
 
 /datum/fleet/pirate/scout
 	name = "Space pirate scout fleet"
@@ -483,6 +498,7 @@ GLOBAL_LIST_EMPTY(ai_goals)
 	taunts = list("These are our waters you are sailing, prepare to surrender!", "Bold of you to fly Nanotrasen colours in this system, your last mistake.")
 	size = FLEET_DIFFICULTY_VERY_HARD
 	fleet_trait = FLEET_TRAIT_DEFENSE
+	reward = 100	//Difficult pirate fleet, so default reward.
 
 //Boss battles.
 
@@ -596,22 +612,35 @@ GLOBAL_LIST_EMPTY(ai_goals)
 		else
 			size = round(size + (num_players / 10) ) //Lightly scales things up.
 	size = CLAMP(size, FLEET_DIFFICULTY_EASY, INFINITY)
+	faction = SSstar_system.faction_by_id(faction_id)
+	reward *= size //Bigger fleet = larger reward
 	if(current_system)
+		current_system.alignment = alignment
+		if(current_system.alignment != initial(current_system.alignment))
+			current_system.mission_sector = TRUE
 		assemble(current_system)
 	addtimer(CALLBACK(src, .proc/move), initial_move_delay)
 
-//A ship has entered a system with a fleet present. Assemble the fleet so that it lives in this system now.
+//A fleet has entered a system. Assemble the fleet so that it lives in this system now.
 
 /datum/fleet/proc/assemble(datum/star_system/SS, difficulty=size)
 	if(!SS)
 		return
+	if(SS.occupying_z && instantiated)
+		for(var/obj/structure/overmap/unbox in all_ships)
+			if(SS.occupying_z != unbox.z)	//If we have ships 'stored' in nullspace or somewhere else, get them all into our system.
+				SS.add_ship(unbox)
+				START_PROCESSING(SSphysics_processing, unbox) //And let's restart its processing since it's likely stopped if they were in nullspace.
+				if(unbox.physics2d)
+					START_PROCESSING(SSphysics_processing, unbox.physics2d) //Respawn this ship's collider so it can start colliding once more
+		return
+	if(instantiated)
+		return
 	SS.alignment = alignment
-	if(!SS.occupying_z) //Only loaded in levels are supported at this time. TODO: Fix this.
-		return FALSE
-	faction = SSstar_system.faction_by_id(faction_id)
+	if(SS.alignment != initial(SS.alignment))
+		SS.mission_sector = TRUE
+	current_system = SS	//It should already have a system but lets be safe and move it.
 	instantiated = TRUE
-	current_system = SS
-	reward *= size //Bigger fleet = larger reward
 	/*Fleet comp! Let's use medium as an example:
 	6 total
 	3 destroyers (1/2 of the fleet size)
@@ -630,7 +659,14 @@ GLOBAL_LIST_EMPTY(ai_goals)
 				current_system.enemies_in_system += member
 			all_ships += member
 			RegisterSignal(member, COMSIG_PARENT_QDELETING , /datum/fleet/proc/remove_ship, member)
-			SS.add_ship(member)
+			if(SS.occupying_z)
+				SS.add_ship(member)
+			else
+				LAZYADD(SS.system_contents, member)
+				SS.contents_positions[member] = list("x" = rand(15, 240), "y" = rand(15, 240)) //If the system isn't loaded, just give them randomized positions.
+				STOP_PROCESSING(SSphysics_processing, member)
+				if(member.physics2d)
+					STOP_PROCESSING(SSphysics_processing, member.physics2d)
 		}
 	if(battleship_types?.len)
 		for(var/I=0; I<max(round(difficulty/4), 1);I++){
@@ -643,7 +679,14 @@ GLOBAL_LIST_EMPTY(ai_goals)
 				current_system.enemies_in_system += member
 			all_ships += member
 			RegisterSignal(member, COMSIG_PARENT_QDELETING , /datum/fleet/proc/remove_ship, member)
-			SS.add_ship(member)
+			if(SS.occupying_z)
+				SS.add_ship(member)
+			else
+				LAZYADD(SS.system_contents, member)
+				SS.contents_positions[member] = list("x" = rand(15, 240), "y" = rand(15, 240)) //If the system isn't loaded, just give them randomized positions..
+				STOP_PROCESSING(SSphysics_processing, member)
+				if(member.physics2d)
+					STOP_PROCESSING(SSphysics_processing, member.physics2d)
 		}
 	if(supply_types?.len)
 		for(var/I=0; I<max(round(difficulty/4), 1);I++){
@@ -656,7 +699,14 @@ GLOBAL_LIST_EMPTY(ai_goals)
 				current_system.enemies_in_system += member
 			all_ships += member
 			RegisterSignal(member, COMSIG_PARENT_QDELETING , /datum/fleet/proc/remove_ship, member)
-			SS.add_ship(member)
+			if(SS.occupying_z)
+				SS.add_ship(member)
+			else
+				LAZYADD(SS.system_contents, member)
+				SS.contents_positions[member] = list("x" = rand(15, 240), "y" = rand(15, 240)) //If the system isn't loaded, just give them randomized positions..
+				STOP_PROCESSING(SSphysics_processing, member)
+				if(member.physics2d)
+					STOP_PROCESSING(SSphysics_processing, member.physics2d)
 		}
 	if(SS.check_conflict_status())
 		if(!SSstar_system.contested_systems.Find(SS))
@@ -1170,6 +1220,11 @@ Seek a ship thich we'll station ourselves around
 	SSstar_system.update_pos(src)
 	if(!ai_controlled)
 		return
+	if(!z)	//Lets only fully stop processing on AI ships that get to nullspace with their processing still running, to not accidentally fuck up stuff.
+		STOP_PROCESSING(SSphysics_processing, src)
+		if(physics2d)
+			STOP_PROCESSING(SSphysics_processing, physics2d)
+		return
 	choose_goal()
 	if(!pilot) //AI ships need a pilot so that they aren't hit by their own bullets. Projectiles.dm's can_hit needs a mob to be the firer, so here we are.
 		pilot = new /mob/living(get_turf(src))
@@ -1245,15 +1300,24 @@ Seek a ship thich we'll station ourselves around
 	if(!istype(target, /obj/structure/overmap)) //Don't know why it wouldn't be..but yeah
 		return
 	var/obj/structure/overmap/OM = target
-	if(OM.faction == src.faction)
+	if(OM.faction == faction)
 		return
 	last_target = target
 	if(ai_can_launch_fighters) //Found a new enemy? Release the hounds
 		ai_can_launch_fighters = FALSE
+		var/cancelled = FALSE
 		if(ai_fighter_type.len)
 			for(var/i = 0, i < rand(2,3), i++)
 				var/ai_fighter = pick(ai_fighter_type)
-				var/obj/structure/overmap/newFighter = new ai_fighter(get_turf(pick(orange(3, src))))
+				var/turf/launch_turf = get_turf(pick(orange(3, src)))
+				if(!launch_turf)
+					cancelled = TRUE
+					if(!i)
+						ai_can_launch_fighters = TRUE
+					else
+						addtimer(VARSET_CALLBACK(src, ai_can_launch_fighters, TRUE), (1 + i) MINUTES)
+					break
+				var/obj/structure/overmap/newFighter = new ai_fighter(launch_turf)
 				newFighter.last_target = last_target
 				if(current_system)
 					current_system.system_contents += newFighter
@@ -1265,12 +1329,14 @@ Seek a ship thich we'll station ourselves around
 					fleet.RegisterSignal(newFighter, COMSIG_PARENT_QDELETING , /datum/fleet/proc/remove_ship, newFighter)
 
 				relay_to_nearby('nsv13/sound/effects/ship/fighter_launch_short.ogg')
-		addtimer(VARSET_CALLBACK(src, ai_can_launch_fighters, TRUE), 3 MINUTES)
+		if(!cancelled)
+			addtimer(VARSET_CALLBACK(src, ai_can_launch_fighters, TRUE), 3 MINUTES)
 	if(OM in enemies) //If target's in enemies, return
 		return
 	enemies += target
 	if(OM.role == MAIN_OVERMAP)
-		set_security_level(SEC_LEVEL_RED) //Action stations when the ship is under attack, if it's the main overmap.
+		if(GLOB.security_level < SEC_LEVEL_RED)	//Lets not pull them out of Zebra / Delta
+			set_security_level(SEC_LEVEL_RED) //Action stations when the ship is under attack, if it's the main overmap.
 		SSstar_system.last_combat_enter = world.time //Tag the combat on the SS
 		SSstar_system.nag_stacks = 0 //Reset overmap spawn modifier
 		SSstar_system.nag_interval = initial(SSstar_system.nag_interval)
@@ -1438,8 +1504,17 @@ Seek a ship thich we'll station ourselves around
 	var/ship_file = input(usr, "What ship would you like to load?","Ship Instancing", null) as null|anything in choices
 	if(!ship_file)
 		return
-	ship_file = file("_maps/map_files/Instanced/[ship_file]")
+	if(instance_ship_from_json(ship_file))
+		message_admins("[key_name(src)] has instanced a copy of [ship_file]!")
+	else
+		message_admins("Failed to instance a copy of [ship_file]!")
+
+/proc/instance_ship_from_json(ship_file)
+	if(!ship_file)
+		message_admins("Error loading ship, null file passed in.")
+		return
 	if(!isfile(ship_file))
+		message_admins("Error loading ship from JSON. Check that the file exists.")
 		return
 	var/list/json = json_decode(file2text(ship_file))
 	if(!json)
@@ -1460,5 +1535,5 @@ Seek a ship thich we'll station ourselves around
 				return
 	var/obj/structure/overmap/OM = instance_overmap(shipType, mapPath, mapFile, traits, ZTRAITS_BOARDABLE_SHIP, TRUE)
 	if(OM)
-		message_admins("[key_name(src)] has instanced a copy of [ship_file].")
 		OM.name = shipName
+	return OM
