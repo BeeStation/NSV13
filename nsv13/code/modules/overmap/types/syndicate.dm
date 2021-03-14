@@ -76,18 +76,21 @@
 	var/bounty = 1000
 	armor = list("overmap_light" = 50, "overmap_heavy" = 15)
 	ai_trait = AI_TRAIT_DESTROYER
+	combat_dice_type = /datum/combat_dice/frigate
 
 /obj/structure/overmap/syndicate/ai/mako_carrier
 	name = "Sturgeon class escort carrier"
 	icon_state = "mako_carrier"
 	ai_can_launch_fighters = TRUE //AI variable. Allows your ai ships to spawn fighter craft
 	ai_fighter_type = list(/obj/structure/overmap/syndicate/ai/fighter)
+	combat_dice_type = /datum/combat_dice/carrier
 
 /obj/structure/overmap/syndicate/ai/mako_flak
 	name = "Mauler class flak frigate"
 	icon_state = "mako_flak"
 	flak_battery_amount = 1
 	mass = MASS_MEDIUM
+	combat_dice_type = /datum/combat_dice/frigate
 
 /obj/structure/overmap/syndicate/ai/nuclear
 	name = "Thermonuclear destroyer"
@@ -102,6 +105,7 @@
 	shots_left = 7 //Reload yer nukes
 	torpedoes = 5
 	missiles = 10
+	combat_dice_type = /datum/combat_dice/destroyer/nuclear
 
 /obj/structure/overmap/syndicate/ai/nuclear/elite
 	name = "Nightmare class thermonuclear deterrent"
@@ -113,6 +117,8 @@
 	max_integrity = 2000 //Max health
 	integrity_failure = 2000
 	bounty = 15000
+	combat_dice_type = /datum/combat_dice/destroyer/nuclear
+
 /obj/structure/overmap/syndicate/ai/destroyer
 	name = "Hammerhead class missile destroyer"
 	icon = 'nsv13/icons/overmap/new/syndicate/destroyer.dmi'
@@ -126,6 +132,7 @@
 	armor = list("overmap_light" = 70, "overmap_heavy" = 20)
 	missiles = 6
 	bounty = 1000
+	combat_dice_type = /datum/combat_dice/destroyer
 
 /obj/structure/overmap/syndicate/ai/destroyer/elite
 	name = "Special Ops Torpedo Destroyer"
@@ -137,6 +144,7 @@
 	missiles = 8
 	torpedoes = 4
 	bounty = 1500
+	combat_dice_type = /datum/combat_dice/destroyer
 
 /obj/structure/overmap/syndicate/ai/destroyer/flak
 	name = "Hammerhead class flak destroyer"
@@ -145,6 +153,7 @@
 	flak_battery_amount = 1
 	missiles = 0
 	torpedoes = 0
+	combat_dice_type = /datum/combat_dice/destroyer/flycatcher
 
 /obj/structure/overmap/syndicate/ai/cruiser
 	name = "Barracuda class tactical cruiser"
@@ -159,6 +168,7 @@
 	integrity_failure = 1250
 	bounty = 3000
 	ai_trait = AI_TRAIT_BATTLESHIP
+	combat_dice_type = /datum/combat_dice/cruiser
 
 /obj/structure/overmap/syndicate/ai/cruiser/elite
 	name = "Special ops tactical cruiser"
@@ -189,6 +199,7 @@
 	armor = list("overmap_light" = 70, "overmap_heavy" = 20)
 	can_resupply = TRUE
 	ai_trait = AI_TRAIT_SUPPLY
+	combat_dice_type = /datum/combat_dice/carrier
 
 /obj/structure/overmap/syndicate/ai/carrier/elite
 	name = "Special ops escort carrier"
@@ -200,6 +211,7 @@
 	//This scary one can launch bombers, which absolutely wreak havoc
 	ai_fighter_type = list(/obj/structure/overmap/syndicate/ai/fighter,
 							/obj/structure/overmap/syndicate/ai/bomber)
+	combat_dice_type = /datum/combat_dice/carrier
 
 /obj/structure/overmap/syndicate/ai/carrier/apply_weapons()
 	weapon_types[FIRE_MODE_PDC] = new /datum/ship_weapon/pdc_mount/aa_guns(src)
@@ -226,6 +238,7 @@
 	bound_height = 640
 	armor = list("overmap_light" = 90, "overmap_heavy" = 50)
 	ai_trait = AI_TRAIT_DESTROYER
+	combat_dice_type = /datum/combat_dice/battleship
 
 /obj/structure/overmap/syndicate/ai/assault_cruiser //A big box of tank which is hard to take down, and lethal up close.
 	name = "Inquisitior class assault cruiser"
@@ -242,6 +255,7 @@
 	armor = list("overmap_light" = 70, "overmap_heavy" = 30)
 	ai_trait = AI_TRAIT_DESTROYER
 	speed_limit = 3
+	combat_dice_type = /datum/combat_dice/cruiser
 
 /obj/structure/overmap/syndicate/ai/assault_cruiser/apply_weapons()
 	weapon_types[FIRE_MODE_PDC] = new /datum/ship_weapon/pdc_mount(src)
@@ -262,6 +276,7 @@
 	bound_height = 64
 	bound_width = 64
 	damage_states = FALSE
+	combat_dice_type = /datum/combat_dice/destroyer/flycatcher	//Cruiser subtype, called frigate? Guess it gets the combat dice inbetween both.
 
 /obj/structure/overmap/syndicate/ai/assault_cruiser/boarding_frigate/apply_weapons()
 	weapon_types[FIRE_MODE_PDC] = new /datum/ship_weapon/pdc_mount/aa_guns(src)
@@ -290,6 +305,7 @@
 	armor = list("overmap_light" = 50, "overmap_heavy" = 15)
 	ai_trait = AI_TRAIT_ANTI_FIGHTER
 	damage_states = FALSE
+	combat_dice_type = /datum/combat_dice/destroyer/flycatcher
 
 /obj/structure/overmap/syndicate/ai/gunboat/apply_weapons()
 	weapon_types[FIRE_MODE_PDC] = new /datum/ship_weapon/pdc_mount/aa_guns(src)
@@ -317,6 +333,7 @@
 	armor = list("overmap_light" = 50, "overmap_heavy" = 15)
 	ai_trait = AI_TRAIT_DESTROYER
 	cloak_factor = 100 //Not a perfect cloak, mind you.
+	combat_dice_type = /datum/combat_dice/destroyer
 
 /obj/structure/overmap/syndicate/ai/submarine/Initialize()
 	. = ..()
@@ -349,6 +366,7 @@
 	bounty = 250
 	armor = list("overmap_light" = 5, "overmap_heavy" = 5)
 	ai_trait = AI_TRAIT_SWARMER
+	combat_dice_type = /datum/combat_dice/fighter
 
 /obj/structure/overmap/syndicate/ai/fighter/apply_weapons()
 	weapon_types[FIRE_MODE_PDC] = new/datum/ship_weapon/light_cannon(src)
@@ -370,6 +388,7 @@
 	bounty = 250
 	armor = list("overmap_light" = 15, "overmap_heavy" = 0)
 	ai_trait = list(AI_TRAIT_DESTROYER, AI_TRAIT_SWARMER)
+	combat_dice_type = /datum/combat_dice/bomber
 
 /obj/structure/overmap/syndicate/ai/bomber/apply_weapons()
 	weapon_types[FIRE_MODE_PDC] = new/datum/ship_weapon/light_cannon(src)

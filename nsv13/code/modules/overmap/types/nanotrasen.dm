@@ -206,6 +206,7 @@
 	mass = MASS_MEDIUM
 	sprite_size = 48
 	ai_trait = AI_TRAIT_DESTROYER
+	combat_dice_type = /datum/combat_dice/frigate
 
 /obj/structure/overmap/nanotrasen/patrol_cruiser/ai
 	ai_controlled = TRUE
@@ -214,6 +215,7 @@
 	max_integrity = 800 //Max health
 	integrity_failure = 800
 	ai_trait = list(AI_TRAIT_BATTLESHIP, AI_TRAIT_DESTROYER)
+	combat_dice_type = /datum/combat_dice/destroyer
 
 /obj/structure/overmap/nanotrasen/heavy_cruiser/ai
 	ai_controlled = TRUE
@@ -222,20 +224,24 @@
 	max_integrity = 1000 //Max health
 	integrity_failure = 1000
 	ai_trait = AI_TRAIT_BATTLESHIP
+	combat_dice_type = /datum/combat_dice/cruiser
 
 /obj/structure/overmap/nanotrasen/battleship/ai
 	ai_controlled = TRUE
 	ai_trait = AI_TRAIT_BATTLESHIP
+	combat_dice_type = /datum/combat_dice/battleship
 
 /obj/structure/overmap/nanotrasen/missile_cruiser/ai
 	ai_controlled = TRUE
 	ai_trait = AI_TRAIT_DESTROYER
 	torpedoes = 10 //it's vago, alright?
 	missiles = 10
+	combat_dice_type = /datum/combat_dice/cruiser
 
 /obj/structure/overmap/nanotrasen/battlecruiser/ai
 	ai_controlled = TRUE
 	ai_trait = AI_TRAIT_BATTLESHIP
+	combat_dice_type = /datum/combat_dice/cruiser
 
 /obj/structure/overmap/nanotrasen/carrier/ai
 	ai_controlled = TRUE
@@ -244,6 +250,7 @@
 	torpedoes = 0
 	can_resupply = TRUE
 	ai_trait = AI_TRAIT_SUPPLY
+	combat_dice_type = /datum/combat_dice/carrier
 
 /obj/structure/overmap/nanotrasen/carrier/ai/apply_weapons()
 	weapon_types[FIRE_MODE_PDC] = new /datum/ship_weapon/pdc_mount/aa_guns(src)
@@ -273,6 +280,7 @@
 	ai_trait = AI_TRAIT_SWARMER
 	bound_width = 32 //Change this on a per ship basis
 	bound_height = 32
+	combat_dice_type = /datum/combat_dice/fighter
 
 /obj/structure/overmap/nanotrasen/ai/fighter/apply_weapons()
 	weapon_types[FIRE_MODE_PDC] = new/datum/ship_weapon/light_cannon(src)
