@@ -16,6 +16,10 @@
 	health = 200
 	maxHealth = 200
 	speed = 0 //Rapid
+	verb_say = "hisses"
+	bubble_icon = "alien"
+	deathsound = 'sound/voice/hiss6.ogg'
+	deathmessage = "lets out a terrible screech as its life fades away..."
 	attacktext = "glomps"
 	attack_sound = 'sound/effects/blobattack.ogg'
 	wander = FALSE
@@ -49,6 +53,13 @@
 				hud_used.healths.icon_state = "health6"
 		else
 			hud_used.healths.icon_state = "health7"
+
+/mob/living/simple_animal/bloodling/UnarmedAttack(atom/A)
+	if(istype(A, /obj/structure/ladder))
+		return A.attack_paw(src)
+	if(istype(A, /obj/machinery/door) && mob_size > MOB_SIZE_TINY)
+		return A.attack_alien(src)
+	. = ..()
 
 //Handle status updates.
 /mob/living/Life(seconds, times_fired)
@@ -106,6 +117,7 @@
 		list("unlockTier"=0, "lockAtTier"=0, "abilities"=list(/datum/action/bloodling/absorb)),
 		list("unlockTier"=0, "lockAtTier"=0, "abilities"=list(/datum/action/bloodling/call_remnant)),
 		list("unlockTier"=2, "lockAtTier"=0, "abilities"=list(/datum/action/bloodling/infest)),
+		list("unlockTier"=2, "lockAtTier"=0, "abilities"=list(/datum/action/bloodling/build)),
 		list("unlockTier"=3, "lockAtTier"=0, "abilities"=list(/datum/action/bloodling/transfer_biomass)),
 		list("unlockTier"=3, "lockAtTier"=0, "abilities"=list(/datum/action/bloodling/ground_pound)),
 		list("unlockTier"=4, "lockAtTier"=0, "abilities"=list(/datum/action/bloodling/give_life)),
@@ -116,7 +128,7 @@
 
 /datum/component/bloodling/Initialize()
 	. = ..()
-	if(!istype(parent, /mob/living))
+	if(!istype(parent, /mob))
 		return COMPONENT_INCOMPATIBLE
 	ling = parent
 	for(var/list/tier in unlock_tiers)
@@ -219,6 +231,8 @@ Infestation! If given a human, it makes them a changeling thrall. If given any o
 		serve.owner = B.mind
 		B.mind.objectives += serve
 		B.mind.announce_objectives()
+	if(isAI(user))
+		ling.get_overmap().relay_to_nearby('nsv13/sound/effects/bloodling_awaken.ogg', "<span class='userdanger'>Hideous images creep into your mind!</span>", FALSE)
 	if(!isliving(user) || !user.mind)
 		return FALSE
 	if(ishuman(user))
@@ -372,28 +386,32 @@ Infestation! If given a human, it makes them a changeling thrall. If given any o
 	. = ..()
 
 /datum/action/bloodling/thermalvision
-	name = "Thermal Vision"
+	name = "Enhanced Vision"
 	desc = "We can alter our vision to see heat signatures."
 	button_icon_state = "augmented_eyesight"
 
 /datum/action/bloodling/thermalvision/action(mob/living/user)
-	if(!..())
+	if(!..() || isAi(user)) //Okay no this was TOO BASED to let AIs use
 		return FALSE
 
 	if(!active)
+		user.lighting_alpha = LIGHTING_PLANE_ALPHA_MOSTLY_INVISIBLE
+		user.update_sight()
 		user.sight |= SEE_MOBS | SEE_OBJS | SEE_TURFS //Add sight flags to the user's eyes
-		user.see_in_dark = 8
-		to_chat(user, "We adjust our eyes to sense prey through walls.")
+		to_chat(user, "We adjust our eyes to see beyond the darkness.")
 		active = TRUE
 		return
+	user.lighting_alpha = LIGHTING_PLANE_ALPHA_VISIBLE
+	user.update_sight()
 	user.sight ^= SEE_MOBS | SEE_OBJS | SEE_TURFS //Remove sight flags from the user's eyes
-	user.see_in_dark = 2
 	active = FALSE
 	to_chat(user, "We adjust our eyes to see as our prey do.")
 
 /datum/action/bloodling/thermalvision/Remove(mob/M)
 	M.sight ^= SEE_MOBS | SEE_OBJS | SEE_TURFS //Remove sight flags from the user's eyes
 	active = FALSE
+	M.lighting_alpha = LIGHTING_PLANE_ALPHA_VISIBLE
+	M.update_sight()
 	. = ..()
 
 //Remnant
@@ -469,14 +487,14 @@ Infestation! If given a human, it makes them a changeling thrall. If given any o
 	. = ..()
 	var/list/mobs = list()
 	for(var/mob/living/M in view(user, 5))
-		if(M == user || !isliving(M) || M.invisibility > 0 || !M.alpha || M.GetComponent(/datum/component/bloodling) || M.mind?.has_antag_datum(/datum/antagonist/changeling/bloodling_thrall))
+		if(M == user || issilicon(M) || !isliving(M) || M.invisibility > 0 || !M.alpha || M.GetComponent(/datum/component/bloodling) || M.mind?.has_antag_datum(/datum/antagonist/changeling/bloodling_thrall))
 			continue
 		mobs += M
 	var/mob/living/M = input(user, "Who shall we absorb?", "[src]", null) as null|anything in mobs
 	if(!M)
 		return FALSE
 	var/datum/component/bloodling/B = user.GetComponent(/datum/component/bloodling)
-	var/absorb_cooldown = 20 SECONDS - B.last_evolution SECONDS //Bigger boys absorb better
+	var/absorb_cooldown = 40 SECONDS - B.last_evolution SECONDS //Bigger boys absorb better
 	add_cooldown(absorb_cooldown)
 	soundloop.start(user)
 	var/datum/beam/current_beam = new(user,M,time=absorb_time,beam_icon_state="tentacle",btype=/obj/effect/ebeam/blood)
@@ -484,16 +502,19 @@ Infestation! If given a human, it makes them a changeling thrall. If given any o
 	M.visible_message("<span class='warning'>[user] plunges a tendril deep into [M]'s carotid artery!</span>", "<span class='userdanger'>You feel a stabbing pain in your carotid artery!</span>")
 	M.take_overall_damage(0, 0, 50) //OUCH!
 	M.emote("scream")
+	playsound(M, 'nsv13/sound/effects/bloodling_squelch.ogg', 70, FALSE)
 	if(do_after(user, absorb_time, target=M))
 		M.visible_message("<span class='warning'>[user] retracts their tendril!</span>", "<span class='userdanger'>YOU FEEL SLIGHTLY UNWELL.</span>")
 		var/gains = M.mob_size*50
 		gains = CLAMP(gains, 1, gains)
 		new /obj/effect/temp_visual/bloodling_remnant(get_turf(M), gains)
 		M.gib() //Sorry man :(
+		soundloop.stop(user)
+		return TRUE
 	else
 		M.visible_message("<span class='warning'>[user] quickly retracts their tendril!</span>", "<span class='userdanger'>You feel something slip out of your neck!</span>")
 		qdel(current_beam)
-	soundloop.stop(user)
+		soundloop.stop(user)
 
 /datum/action/bloodling/infest
 	name = "Infest Creature"
@@ -510,7 +531,8 @@ Infestation! If given a human, it makes them a changeling thrall. If given any o
 		list("unlockTier"=0, "lockAtTier"=0, "abilities"=list(/datum/action/bloodling/absorb)),
 		list("unlockTier"=0, "lockAtTier"=0, "abilities"=list(/datum/action/bloodling/call_remnant)),
 		list("unlockTier"=0, "lockAtTier"=0, "abilities"=list(/datum/action/bloodling/transfer_biomass)),
-		list("unlockTier"=0, "lockAtTier"=0, "abilities"=list(/datum/action/bloodling/whiplash))
+		list("unlockTier"=0, "lockAtTier"=0, "abilities"=list(/datum/action/bloodling/whiplash)),
+		list("unlockTier"=0, "lockAtTier"=0, "abilities"=list(/datum/action/bloodling/ground_pound)),
 	)
 	final_form_biomass = 200 //An inferior lifeform, but still able to gather biomass.
 
@@ -523,15 +545,46 @@ Infestation! If given a human, it makes them a changeling thrall. If given any o
 	soundloop?.stop(M)
 	. = ..()
 
-//Handler to allow the bloodling to absorb other antags. Just blob for now.
+//Handler to allow the bloodling to absorb other antags.
+//This code could likely be improved, though I'm going to leave it for now.
 /datum/action/bloodling/infest/proc/ask_special_absorb(mob/living/user, atom/movable/special_target)
+	//WARNING: EXTREMELY BASED
+	if(isAI(special_target))
+		var/mob/living/silicon/ai/ai = special_target
+		var/datum/component/bloodling/B = user.GetComponent(/datum/component/bloodling)
+		if(!ai.mind)
+			return FALSE
+		if(B.last_evolution < 4) //You have to be STRONG to do this.
+			to_chat(user, "<span class='warning'>We can sense the essence of a powerful entity inhabiting [special_target], but we are not yet strong enough to infest it.</span>")
+			return FALSE
+		to_chat(user, "<span class='userdanger'>WE HAVE DETECTED A POWERFUL ENTITY'S PRESENCE HERE...</span>")
+		if(alert(user, "Absorb the powerful entity?",name,"Yes","No") == "Yes")
+			to_chat(ai, "<span class='userdanger'>A strange consciousness starts to intertwine with yours...</span>")
+			var/absorb_cooldown = 1 MINUTES - B.last_evolution SECONDS //It'll take everything you have to pull this off...
+			soundloop.start(user)
+			var/datum/beam/current_beam = new(user,ai,time=absorb_time,beam_icon_state="tentacle",btype=/obj/effect/ebeam/blood)
+			INVOKE_ASYNC(current_beam, /datum/beam.proc/Start)
+			add_cooldown(absorb_cooldown*2)
+			user.emote("scream")
+			if(do_after(user, absorb_time, target=ai))
+				user.visible_message("<span class='warning'>[user] retracts their tendril!</span>", "<span class='userdanger'>That consciousness was strong, but not strong enough.</span>")
+				to_chat(user, "<span class='aliennotice'>We have infested the creature. If they do not do our bidding, we may absorb them for biomass.</span>")
+				to_chat(ai, "<span class='userdanger'>Your mind has been overtaken by [user]! You must serve them at all costs...</span>")
+				B.infest(ai)
+			else
+				user.visible_message("<span class='warning'>[user] quickly retracts their tendril!</span>", "<span class='userdanger'>Our domination of the entity was interrupted!</span>")
+				qdel(current_beam)
+				refund_biomass(user, biomass_cost/1.5) //You get most of your biomass back if interrupted, but not _all_
+			soundloop.stop(user)
+			return TRUE
+
 	if(istype(special_target, /obj/structure/blob)) //I'm probably gonna fucking regret this.
 		var/obj/structure/blob/blob = special_target
 		var/datum/component/bloodling/B = user.GetComponent(/datum/component/bloodling)
 		if(!blob.overmind)
 			return FALSE
 		if(B.last_evolution < 4) //You have to be STRONG to do this.
-			to_chat(user, "<span class='warning'>We can sense the essence of a powerful entity inhabiting [special_target], but we are not yet strong enough to absorb it.</span>")
+			to_chat(user, "<span class='warning'>We can sense the essence of a powerful entity inhabiting [special_target], but we are not yet strong enough to infest it.</span>")
 			return FALSE
 		to_chat(user, "<span class='userdanger'>WE HAVE DETECTED A POWERFUL ENTITY'S PRESENCE IN THIS STRUCTURE...</span>")
 		if(alert(user, "Absorb the powerful entity?",name,"Yes","No") == "Yes")
@@ -545,10 +598,9 @@ Infestation! If given a human, it makes them a changeling thrall. If given any o
 			if(do_after(user, absorb_time, target=blob))
 				user.visible_message("<span class='warning'>[user] retracts their tendril!</span>", "<span class='userdanger'>That consciousness was strong, but not strong enough.</span>")
 				to_chat(user, "<span class='aliennotice'>We have infested the creature. If they do not do our bidding, we may absorb them for biomass.</span>")
-				to_chat(blob.overmind, "<span class='userdanger'>Your mind has been overtaken by [user]!</span>")
+				to_chat(blob.overmind, "<span class='userdanger'>Your mind has been overtaken by [user]! You must obey them at all costs.</span>")
 				B.infest(blob.overmind)
 				B.can_blob_talk = TRUE
-				return TRUE
 			else
 				user.visible_message("<span class='warning'>[user] quickly retracts their tendril!</span>", "<span class='userdanger'>Our domination of the entity was interrupted!</span>")
 				qdel(current_beam)
@@ -583,6 +635,7 @@ Infestation! If given a human, it makes them a changeling thrall. If given any o
 	M.visible_message("<span class='warning'>[user] plunges a tendril deep into [M]'s carotid artery!</span>", "<span class='userdanger'>You feel a stabbing pain in your carotid artery!</span>")
 	add_cooldown(absorb_cooldown)
 	M.emote("scream")
+	playsound(M, 'nsv13/sound/effects/bloodling_squelch.ogg', 70, FALSE)
 	if(do_after(user, absorb_time, target=M))
 		M.visible_message("<span class='warning'>[user] retracts their tendril!</span>", "<span class='userdanger'>YOU FEEL SLIGHTLY UNWELL.</span>")
 		to_chat(user, "<span class='aliennotice'>We have infested the creature. If they do not do our bidding, we may absorb them for biomass.</span>")
@@ -616,7 +669,7 @@ Depending on what creature the entity gives life to, this can be EXTREMELY stron
 		refund_biomass(user, biomass_cost)
 		return FALSE
 
-	var/list/candidates = pollCandidatesForMob("Do you want to play as [user.name]?", ROLE_SENTIENCE, null, ROLE_SENTIENCE, 50, M, POLL_IGNORE_SENTIENCE_POTION) // see poll_ignore.dm
+	var/list/candidates = pollCandidatesForMob("Do you want to play as a bloodling minion?", ROLE_SENTIENCE, null, ROLE_SENTIENCE, 50, M, POLL_IGNORE_SENTIENCE_POTION) // see poll_ignore.dm
 	if(LAZYLEN(candidates))
 		var/mob/dead/observer/C = pick(candidates)
 		var/datum/component/bloodling/B = user.GetComponent(/datum/component/bloodling)
@@ -708,7 +761,7 @@ Depending on what creature the entity gives life to, this can be EXTREMELY stron
 	name = "Tentacle Whip"
 	desc = "We lash out our tentacles to stun nearby enemies."
 	button_icon_state = "tailsweep"
-	biomass_cost = 20
+	biomass_cost = 25
 	var/base_stun_time = 5 SECONDS
 
 /datum/action/bloodling/whiplash/action(mob/living/user)
@@ -721,12 +774,140 @@ Depending on what creature the entity gives life to, this can be EXTREMELY stron
 	for(var/mob/living/M in view(user, 5))
 		if(M == user)
 			continue
-		var/datum/beam/current_beam = new(user,M,time=0.5 SECONDS,beam_icon_state="tentacle",btype=/obj/effect/ebeam/blood)
-		INVOKE_ASYNC(current_beam, /datum/beam.proc/Start)
-		var/turf/throwtarget = get_edge_target_turf(user, get_dir(user, get_step_away(M, user)))
-		var/distfromcaster = get_dist(user, M)
-		M.Paralyze(stun_time)
-		M.adjustBruteLoss(5)
-		to_chat(M, "<span class='userdanger'>You're slammed into the floor by [user]!</span>")
-		M.safe_throw_at(throwtarget, ((CLAMP((5 - (CLAMP(distfromcaster - 2, 0, distfromcaster))), 3, 5))), 1,user, force = MOVE_FORCE_EXTREMELY_STRONG)//So stuff gets tossed around at the same time.
+		spawn(0) //Async time!
+			var/datum/beam/current_beam = new(user,M,time=0.75 SECONDS,beam_icon_state="tentacle",btype=/obj/effect/ebeam/blood)
+			INVOKE_ASYNC(current_beam, /datum/beam.proc/Start)
+			animate(M, pixel_y = 70, 0.25 SECONDS)
+			playsound(M, 'nsv13/sound/effects/bloodling_squelch.ogg', 70, FALSE)
+			M.visible_message("<span class='warning'>A tentacle grabs hold of [M]!</span>", "<span class='userdanger'>A tentacle sweeps you high into the air!</span>")
+			sleep(0.25 SECONDS)
+			animate(M, pixel_y = 0, 0.5 SECONDS)
+			M.visible_message("<span class='warning'>[M] is slammed down into the floor!</span>", "<span class='userdanger'>[user] slams you into the floor!</span>")
+			playsound(user, 'sound/effects/gravhit.ogg', 100, TRUE)
+			var/turf/throwtarget = get_edge_target_turf(user, get_dir(user, get_step_away(M, user)))
+			var/distfromcaster = get_dist(user, M)
+			M.Paralyze(stun_time)
+			M.adjustBruteLoss(stun_time / 10)
+			M.safe_throw_at(throwtarget, ((CLAMP((5 - (CLAMP(distfromcaster - 2, 0, distfromcaster))), 3, 5))), 1,user, force = MOVE_FORCE_EXTREMELY_STRONG)//So stuff gets tossed around at the same time.
 	add_cooldown(45 SECONDS)
+
+/mob/living/simple_animal/bloodling_minion
+	name = "necrotic harvester"
+	desc = "A fleshy creature with jagged arms."
+	icon = 'nsv13/icons/mob/bloodling.dmi'
+	icon_living = "harvester"
+	icon_dead = "harvester_dead"
+	icon_state = "harvester"
+	pass_flags = PASSTABLE | PASSMOB
+	mob_size = MOB_SIZE_HUMAN
+	density = FALSE
+	hud_type = /datum/hud/bloodling
+	health = 100
+	maxHealth = 100
+	speed = 0 //Rapid
+	attacktext = "glomps"
+	attack_sound = 'sound/effects/blobattack.ogg'
+	wander = FALSE
+	verb_say = "hisses"
+	bubble_icon = "alien"
+	deathsound = 'sound/voice/hiss6.ogg'
+	deathmessage = "lets out a terrible screech as its life fades away..."
+	attacktext = "glomps"
+	//IT CAME...from outer space!
+	atmos_requirements = list("min_oxy" = 0, "max_oxy" = 0, "min_tox" = 0, "max_tox" = 0, "min_co2" = 0, "max_co2" = 0, "min_n2" = 0, "max_n2" = 0)
+	minbodytemp = 0
+	maxbodytemp = 1500
+	ventcrawler = TRUE
+
+/mob/living/simple_animal/bloodling_minion/UnarmedAttack(atom/A)
+	if(istype(A, /obj/structure/ladder))
+		return A.attack_paw(src)
+	if(istype(A, /obj/machinery/door) && mob_size > MOB_SIZE_TINY)
+		return A.attack_alien(src)
+	. = ..()
+
+/mob/living/simple_animal/bloodling_minion/tank
+	name = "wall of flesh"
+	desc = "A massive hulk of flesh."
+	icon = 'nsv13/icons/mob/bloodling.dmi'
+	icon_living = "tank"
+	icon_dead = "tank_dead"
+	icon_state = "tank"
+	pass_flags = null
+	mob_size = MOB_SIZE_LARGE
+	density = TRUE
+	health = 200
+	maxHealth = 200
+	speed = 2 //bloody 'ell what an absolute unit mate
+	ventcrawler = FALSE
+
+/mob/living/simple_animal/bloodling_minion/Life(seconds, times_fired)
+	. = ..()
+	var/datum/component/bloodling/biomass = GetComponent(/datum/component/bloodling)
+	health = biomass.biomass
+	maxHealth = biomass.final_form_biomass
+
+/obj/structure/ratwarren
+	name = "Rat Warren"
+	desc = "A festering rat's nest, crawling with life."
+	icon = 'nsv13/icons/mob/bloodling.dmi'
+	icon_state = "ratwarren"
+	obj_integrity = 100
+	max_integrity = 100
+	density = FALSE
+	anchored = TRUE
+	layer = CATWALK_LAYER
+	var/rat_spawn_delay = 2 MINUTES
+	var/next_rat_spawn = 0
+
+/obj/structure/ratwarren/Initialize()
+	. = ..()
+	next_rat_spawn = world.time + rat_spawn_delay/2 //First one's quicker.
+	START_PROCESSING(SSobj, src)
+
+/obj/structure/ratwarren/Destroy()
+	STOP_PROCESSING(SSobj,src)
+	. = ..()
+
+/obj/structure/ratwarren/process()
+	if(world.time >= next_rat_spawn)
+		next_rat_spawn = world.time + rat_spawn_delay
+		new /mob/living/simple_animal/mouse(get_turf(src))
+/datum/action/bloodling/build
+	name = "Build"
+	desc = "We use some of our essence to construct other entities."
+	button_icon_state = "build"
+	biomass_cost = 0
+
+/datum/action/bloodling/build/action(mob/living/user)
+	. = ..()
+	var/list/options = list()
+	for(var/option in list("ratwarren", "harvester", "tank"))
+		options[option] = image(icon = 'nsv13/icons/mob/bloodling.dmi', icon_state = option)
+	var/choice = show_radial_menu(user, user, options)
+	var/cost = 0
+	var/buildPath = null
+	switch(choice)
+		if("ratwarren")
+			cost = 40
+			buildPath = /obj/structure/ratwarren
+		if("harvester")
+			cost = 20
+			buildPath = /mob/living/simple_animal/bloodling_minion
+		if("tank")
+			cost = 30
+			buildPath = /mob/living/simple_animal/bloodling_minion/tank
+
+	var/datum/component/bloodling/B = user.GetComponent(/datum/component/bloodling)
+	if(!B || !buildPath)
+		return
+	if(alert(user, "Build [choice]? This will cost [cost] biomass.",name,"Yes","No") == "Yes")
+		if(B.biomass <= cost)
+			to_chat(user, "<span class='warning'>We need [cost - B.biomass] more biomass to build [choice]!</span>")
+			return
+		add_cooldown(10 SECONDS)
+		user.shake_animation()
+		B.remove_biomass(cost)
+		to_chat(user, "<span class='warning'>We have created a new shell... It will need life.</span>")
+		new buildPath(get_turf(user))
+
