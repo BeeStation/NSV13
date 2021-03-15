@@ -25,7 +25,7 @@ Note: This expects the EDF to be in Sol, and not somewhere in Brazil due to admi
 		else if(solar_siege_cycles_left < solar_siege_cycles_needed - 1)
 			priority_announce("Relaying Sol situation update: Hostile fleet is still present in the system and currently sieging planetary defenses. Total failure of defensive measures expected in about [solar_siege_cycles_left * COMBAT_CYCLE_INTERVAL / 600] minutes", "White Rapids Fleetwide Announcement")
 		else
-			priority_announce("Calling all mobile White Rapids fleet assets. A invasion fleet with considerable bombardement capability and approximately [siege_fleet.all_ships.len] ships has been detected in Sol. All combat capable vessels are ordered to return and assist in system defense.", "White Rapids Fleetwide Announcement")
+			priority_announce("Calling all mobile White Rapids fleet assets. An invasion fleet with considerable bombardement capability and approximately [siege_fleet.all_ships.len] ships has been detected entering the Sol system. All combat capable vessels are ordered to return and assist in system defense.", "White Rapids Fleetwide Announcement")
 
 	else if(solar_siege_cycles_left < solar_siege_cycles_needed)
 		solar_siege_cycles_left = solar_siege_cycles_needed

@@ -6,7 +6,7 @@ Defending fleets have priority for shooting (A turn iterates through a system's 
 
 */
 
-#define DICE_DAMAGE_MULTIPLIER 10	//A pretty important define for how 'fast' combat is resolved. The final damage value of an attack gets multiplied by this before it gets applied as actual obj_damage.
+#define DICE_DAMAGE_MULTIPLIER 20	//A pretty important define for how 'fast' combat is resolved. The final damage value of an attack gets multiplied by this before it gets applied as actual obj_damage.
 
 #define COMBAT_ACTIVE 1
 #define COMBAT_SKIPPED 2
@@ -102,12 +102,10 @@ Defending fleets have priority for shooting (A turn iterates through a system's 
 	if(affinity_target)
 		damaging_roll = CEILING(damaging_roll * 1.5, 1)
 
-	damaging_roll -= armoring_roll
+	if(armoring_roll)
+		damaging_roll -= armoring_roll
 
 	if(damaging_roll)
 		target.take_damage(damaging_roll * DICE_DAMAGE_MULTIPLIER, BRUTE, "overmap_heavy", FALSE)	//All npc combat deals overmap_heavy damage.
-
-
-
 
 #undef DICE_DAMAGE_MULTIPLIER
