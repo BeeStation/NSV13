@@ -151,6 +151,12 @@
 	integrity_failure = 1500
 	starting_system = "Argo"
 
+/obj/structure/overmap/nanotrasen/light_cruiser/starter/temp //TEMP FOR WEAPON TESTING
+/obj/structure/overmap/nanotrasen/light_cruiser/starter/temp/apply_weapons()
+	weapon_types[FIRE_MODE_GAUSS] = new /datum/ship_weapon/gauss(src)
+	weapon_types[FIRE_MODE_AMS] = new /datum/ship_weapon/vls(src)
+	weapon_types[FIRE_MODE_HYBRID_RAIL] = new /datum/ship_weapon/hybrid_railgun(src)
+
 /obj/structure/overmap/nanotrasen/missile_cruiser/starter //Currently assigned to Jeppison and Atlas
 	role = MAIN_OVERMAP
 	obj_integrity = 1000

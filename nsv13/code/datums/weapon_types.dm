@@ -49,6 +49,17 @@
 	lateral = FALSE
 	firing_arc = 45 //Broad side of a barn...
 
+/datum/ship_weapon/hybrid_railgun //Railgun+
+	name = "Coaxial Railguns"
+	default_projectile_type = /obj/item/projectile/bullet/ //This is ultra dodgy
+	burst_size = 1
+	fire_delay = 1 SECONDS
+	range_modifier = 50
+	select_alert = "<span class='notice'>Charging railgun hardpoints...</span>"
+	failure_alert = "<span class='warning'>DANGER: Launch failure! Railgun systems are not loaded or charged.</span>"
+	overmap_firing_sounds = list('nsv13/sound/effects/ship/mac_fire.ogg')
+	overmap_select_sound = 'nsv13/sound/effects/ship/mac_charge.ogg'
+
 /datum/ship_weapon/torpedo_launcher
 	name = "Torpedo tubes"
 	default_projectile_type = /obj/item/projectile/guided_munition/torpedo

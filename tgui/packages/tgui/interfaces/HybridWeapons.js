@@ -37,14 +37,14 @@ export const HybridWeapons = (props, context) => {
             fluid
             icon={data.slug_shell ? "power-off" : "times"}
             color={data.slug_shell ? "green" : "red"}
-            content="I4 - Cycle Ordanance"
+            content="I4 - Cycle Ordnance"
             onClick={() => act('switch_type')}
           />
           <br />
           <Section title="Capacitor:">
             <Section title="Current Charge:">
               <ProgressBar
-                value={data.capacitor_charge}
+                value={data.capacitor_charge / data.capacitor_max_charge}
                 ranges={{
                   good: [0.99, Infinity],
                   average: [0.5, 0.99],
@@ -58,14 +58,14 @@ export const HybridWeapons = (props, context) => {
                 maxValue={data.capacitor_max_charge_rate}
                 step={1}
                 stepPixelSize={0.0031}
-                onDrag={(e, value) => act('capacitor_charge_rate', {
+                onDrag={(e, value) => act('capacitor_current_charge_rate', {
                   adjust: value,
                 })} />
               <Section title="Available Power (Watts):">
                 <ProgressBar
                   value={data.available_power}
                   minValue={0}
-                  maxValue={1e+6}
+                  maxValue={2e+5}
                   color="yellow">
                   {toFixed(data.available_power)}
                 </ProgressBar>
