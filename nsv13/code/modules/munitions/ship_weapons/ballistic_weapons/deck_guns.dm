@@ -10,11 +10,11 @@
 	bound_width = 64
 	bound_height = 128
 	semi_auto = FALSE
-	max_ammo = 1
+	max_ammo = 2
 	obj_integrity = 500
 	max_integrity = 500
 	safety = FALSE
-	maintainable = TRUE
+	maintainable = FALSE //This just makes them brick.
 	load_sound = 'nsv13/sound/effects/ship/freespace2/crane_short.ogg'
 	var/obj/machinery/deck_turret/core
 
