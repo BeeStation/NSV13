@@ -150,16 +150,20 @@
 			return
 	..()
 
-/*
-/datum/surgery_step/heal/initiate(mob/user, mob/living/carbon/target, target_zone, obj/item/tool, datum/surgery/surgery, try_to_fail = FALSE)
-	if(..())
-		while((brutehealing && target.getBruteLoss()) || (burnhealing && target.getFireLoss()))
-			if(!..())
+/obj/machinery/ship_weapon/hybrid_rail/multitool_act(mob/living/user, obj/item/I)
+	if(mstate < 2)
+		to_chat(user, "<span class='notice'>You must first open the maintenance panel befiore realigning the magnetic coils.</span>")
+	else
+		to_chat(user, "<span class='notice'>You being realigning the magnetic coils.</span>")
+		while(alignment < 100)
+			if(!do_after(user, 5, target = src))
+				return
+			alignment += rand(1,2)
+			if(alignment >= 100)
+				alignment = 100
 				break
-*/
 
 /obj/machinery/ship_weapon/hybrid_rail/hybrid_rail/attack_hand(mob/living/carbon/user)
-	.=..()
 	ui_interact()
 
 /obj/machinery/ship_weapon/hybrid_rail/hybrid_rail/attack_ai(mob/user)
@@ -173,9 +177,6 @@
 /obj/machinery/ship_weapon/hybrid_rail/hybrid_rail/attack_ghost(mob/user)
 	.=..()
 	ui_interact()
-
-
-
 
 /obj/machinery/ship_weapon/hybrid_rail/ui_interact(mob/user, ui_key = "main", datum/tgui/ui = null, force_open = FALSE, \
 										datum/tgui/master_ui = null, datum/ui_state/state = GLOB.default_state)

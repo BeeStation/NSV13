@@ -457,3 +457,61 @@
 	cost = 750
 	contains = list(/obj/item/vending_refill/wardrobe/muni_wardrobe)
 	crate_name = "munidrobe supply crate"
+
+datum/supply_pack/medical/chemical_supply
+	name = "Chemical Supply Crate"
+	desc = "This crate contains 10 bottles of chemical elements"
+	cost = 3000
+	contains = list()
+	crate_name = "Chemical Supply Crate"
+
+datum/supply_pack/medical/chemical_supply/fill(obj/structure/closet/crate/C)
+	var/s_pool = list(/obj/item/reagent_containers/glass/bottle/aluminium,
+					/obj/item/reagent_containers/glass/bottle/bromine,
+					/obj/item/reagent_containers/glass/bottle/carbon,
+					/obj/item/reagent_containers/glass/bottle/chlorine,
+					/obj/item/reagent_containers/glass/bottle/copper,
+					/obj/item/reagent_containers/glass/bottle/ethanol,
+					/obj/item/reagent_containers/glass/bottle/fluorine,
+					/obj/item/reagent_containers/glass/bottle/hydrogen,
+					/obj/item/reagent_containers/glass/bottle/iodine,
+					/obj/item/reagent_containers/glass/bottle/iron,
+					/obj/item/reagent_containers/glass/bottle/lithium,
+					/obj/item/reagent_containers/glass/bottle/mercury,
+					/obj/item/reagent_containers/glass/bottle/nitrogen,
+					/obj/item/reagent_containers/glass/bottle/oxygen,
+					/obj/item/reagent_containers/glass/bottle/phosphorus,
+					/obj/item/reagent_containers/glass/bottle/potassium,
+					/obj/item/reagent_containers/glass/bottle/radium,
+					/obj/item/reagent_containers/glass/bottle/silicon,
+					/obj/item/reagent_containers/glass/bottle/silver,
+					/obj/item/reagent_containers/glass/bottle/sodium,
+					/obj/item/reagent_containers/glass/bottle/plasma,
+					/obj/item/reagent_containers/glass/bottle/sugar,
+					/obj/item/reagent_containers/glass/bottle/sulfur,
+					/obj/item/reagent_containers/glass/bottle/sacid,
+					/obj/item/reagent_containers/glass/bottle/welding_fuel)
+	for(var/i = 0, i < 10, i++)
+		var/item = pick(s_pool)
+		new item(C)
+
+/*
+/datum/supply_pack/costumes_toys/randomised/toys
+	name = "Toy Crate"
+	desc = "Who cares about pride and accomplishment? Skip the gaming and get straight to the sweet rewards with this product! Contains five random toys. Warranty void if used to prank research directors."
+	cost = 5000 // or play the arcade machines ya lazy bum
+	num_contained = 5
+	contains = list()
+	crate_name = "toy crate"
+	crate_type = /obj/structure/closet/crate/wooden
+
+/datum/supply_pack/costumes_toys/randomised/toys/generate()
+	. = ..()
+	var/the_toy
+	for(var/i in 1 to num_contained)
+		if(prob(50))
+			the_toy = pickweight(GLOB.arcade_prize_pool)
+		else
+			the_toy = pick(subtypesof(/obj/item/toy/plush))
+		new the_toy(.)
+*/
