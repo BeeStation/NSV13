@@ -65,6 +65,7 @@
 #define ANTAG_HUD_SURVIVALIST   28
 #define ANTAG_HUD_INCURSION 29
 #define ANTAG_HUD_HERETIC	30
+#define ANTAG_HUD_BLOODLING	31 //Nsv13
 
 // Notification action types
 #define NOTIFY_JUMP "jump"

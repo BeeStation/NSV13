@@ -87,7 +87,9 @@
 /mob/living/simple_animal/bloodling/Initialize()
 	. = ..()
 	AddComponent(/datum/component/waddling)
-	biomass = AddComponent(/datum/component/bloodling)
+	biomass = GetComponent(/datum/component/bloodling)
+	if(!biomass)
+		biomass = AddComponent(/datum/component/bloodling)
 
 /mob/living/simple_animal/bloodling/proc/on_evolve(step)
 	icon_living = "evo[step]"
@@ -137,8 +139,6 @@
 			abilities += new aType
 		ability_tiers[++ability_tiers.len] =list("unlockTier"=tier["unlockTier"], "abilities"=abilities, "lockAtTier"=tier["lockAtTier"])
 	RegisterSignal(parent, COMSIG_MOB_APPLY_DAMGE, .proc/damage_react)
-	parent.AddComponent(/datum/component/simple_teamchat/bloodling) //Give them the teamchat ability...
-	SEND_SOUND(ling, 'sound/ambience/antag/ling_aler.ogg')
 	update_mob()
 
 /datum/component/bloodling/proc/damage_react(datum/source, amount)
@@ -151,9 +151,6 @@
 		ling.emote("scream")
 
 /datum/component/bloodling/Destroy(force, silent)
-	//Remove their access to the bloodling hivemind.
-	var/datum/component/C = parent.GetComponent(/datum/component/simple_teamchat/bloodling)
-	C.RemoveComponent()
 	. = ..()
 
 
@@ -195,6 +192,7 @@ To be called whenever biomass is gained or lost.
 	speed = CLAMP(speed, 0.5, max_evolution)
 	ling.remove_movespeed_modifier(MOVESPEED_ID_BLOODLING_BIOMASS, TRUE)
 	ling.add_movespeed_modifier(MOVESPEED_ID_BLOODLING_BIOMASS, TRUE, 100, multiplicative_slowdown = speed, override = TRUE)
+	SSticker.mode.check_win()
 	if(istype(ling, /mob/living/simple_animal/bloodling))
 		var/mob/living/simple_animal/bloodling/B = ling
 		B.on_evolve(evolution_step) //Update baby's icon.
@@ -223,33 +221,112 @@ Infestation! If given a human, it makes them a changeling thrall. If given any o
 */
 /datum/component/bloodling/proc/infest(mob/living/user)
 	user.mind.enslave_mind_to_creator(ling)
-	user.AddComponent(/datum/component/simple_teamchat/bloodling)
-	if(isovermind(user))
+	if(isovermind(user) || isAI(user))
 		ling.get_overmap().relay_to_nearby('nsv13/sound/effects/bloodling_awaken.ogg', "<span class='userdanger'>Hideous images creep into your mind!</span>", FALSE)
-		var/mob/camera/blob/B = user
-		var/datum/objective/bloodling_serve/serve = new
-		serve.owner = B.mind
-		B.mind.objectives += serve
-		B.mind.announce_objectives()
-	if(isAI(user))
-		ling.get_overmap().relay_to_nearby('nsv13/sound/effects/bloodling_awaken.ogg', "<span class='userdanger'>Hideous images creep into your mind!</span>", FALSE)
-	if(!isliving(user) || !user.mind)
-		return FALSE
 	if(ishuman(user))
 		user.mind.add_antag_datum(/datum/antagonist/changeling/bloodling_thrall) //Alright! you caught a human, THRALL TIME
 	else
-		user.AddComponent(/datum/component/bloodling/lesser) //Otherwise, turn them into a critter slave!
+		user.mind.add_antag_datum(/datum/antagonist/bloodling/minion)
 
 //Bloodling's very own mindslave!
 /datum/antagonist/changeling/bloodling_thrall
 	name = "Enthralled Changeling"
-	roundend_category  = "changelings"
+	roundend_category  = "Bloodling Thralls"
 	antagpanel_category = "Bloodling Thralls"
+	tips = 'html/antagtips/bloodling_thrall.html'
+	var/antag_hud_type = ANTAG_HUD_BLOODLING
+	var/antag_hud_name = "bloodling_thrall"
+
+/datum/antagonist/bloodling
+	name = "The Master"
+	roundend_category  = "Bloodling Thralls"
+	antagpanel_category = "Bloodling Thralls"
+	give_objectives = TRUE
+	tips = 'html/antagtips/bloodling.html'
+	var/antag_hud_type = ANTAG_HUD_BLOODLING
+	var/antag_hud_name = "bloodling_thrall"
+	var/component_type = /datum/component/bloodling
+
+/datum/antagonist/bloodling/greet()
+	to_chat(owner.current, "<span class='boldannounce'>We are the master!</span>")
+	to_chat(owner.current, "<span class='boldannounce'>We latched onto this vessel as it was travelling through space, it can sustain us.</span>")
+	to_chat(owner.current, "<span class='boldannounce'>Give the gift of life to this ship, and consume its available biomass by any means necessary...</span>")
+	to_chat(owner.current, "<b>Your objectives are:</b>")
+	owner.current.playsound_local(get_turf(owner.current), 'sound/ambience/antag/ling_aler.ogg', 100, FALSE, pressure_affected = FALSE)
+	owner.announce_objectives()
+
+/datum/antagonist/bloodling/proc/forge_objectives()
+	var/datum/objective/bloodling_ascend/ascend = new
+	ascend.owner = owner
+	objectives += ascend
+	log_objective(owner, ascend.explanation_text)
+
+/datum/antagonist/bloodling/minion
+	name = "Bloodling Minion"
+	component_type = /datum/component/bloodling/lesser
+	tips = 'html/antagtips/bloodling_thrall.html'
+
+/datum/antagonist/bloodling/minion/forge_objectives()
+	var/datum/objective/bloodling_serve/serve = new
+	serve.owner = owner
+	objectives += serve
+	log_objective(owner, serve.explanation_text)
+
+/datum/antagonist/bloodling/minion/greet()
+	to_chat(owner.current, "<span class='boldannounce'>You are a bloodling minion!</span>")
+	to_chat(owner.current, "<span class='boldannounce'>Although you exist at a lower level of evolution than the other thralls, you still serve the master faithfully.</span>")
+	to_chat(owner.current, "<span class='boldannounce'>Help the master ascend to its highest plane of existence by bringing it loyal subjects.</span>")
+	to_chat(owner.current, "<b>Your objectives are:</b>")
+	owner.current.playsound_local(get_turf(owner.current), 'sound/ambience/antag/ling_aler.ogg', 100, FALSE, pressure_affected = FALSE)
+	owner.announce_objectives()
+
+/datum/antagonist/bloodling/on_gain()
+	if(give_objectives)
+		forge_objectives()
+	owner.current.grant_all_languages(FALSE, FALSE, TRUE)	//Allows the bloodlings to communicate with _anything_ they may want to absorb ;)
+	. = ..()
+
+/datum/antagonist/bloodling/apply_innate_effects(mob/living/mob_override)
+	. = ..()
+	if(!owner.current.GetComponent(component_type))
+		owner.current.AddComponent(component_type)
+	owner.current.AddComponent(/datum/component/simple_teamchat/bloodling) //Give them the teamchat ability...
+	add_antag_hud(antag_hud_type, antag_hud_name, owner.current)
+
+/datum/antagonist/bloodling/remove_innate_effects(mob/living/mob_override)
+	. = ..()
+	var/datum/component/C = owner.current.GetComponent(component_type)
+	if(C)
+		C.RemoveComponent()
+	var/datum/component/simple_teamchat/bloodling/B = owner.current.GetComponent(/datum/component/simple_teamchat/bloodling)
+	if(B)
+		B.RemoveComponent()
+	remove_antag_hud(antag_hud_type, owner.current)
+
+/datum/antagonist/changeling/bloodling_thrall/update_changeling_icons_added()
+	var/datum/atom_hud/antag/hud = GLOB.huds[antag_hud_type]
+	hud.join_hud(owner.current)
+	set_antag_hud(owner.current, antag_hud_name)
+
+/datum/antagonist/changeling/bloodling_thrall/update_changeling_icons_removed()
+	var/datum/atom_hud/antag/hud = GLOB.huds[antag_hud_type]
+	hud.leave_hud(owner.current)
+	set_antag_hud(owner.current, null)
 
 /datum/objective/bloodling_serve
 	name = "Serve the entity"
 	explanation_text = "Serve the entity at all costs. This objective overrides any others."
 	completed = TRUE //This is hard to track.
+
+/datum/objective/bloodling_ascend
+	name = "Ascend"
+	explanation_text = "Ascend to your final form."
+
+/datum/objective/bloodling_ascend/check_completion()
+	. = ..()
+	if(owner)
+		var/datum/component/bloodling/B = owner.current.GetComponent(/datum/component/bloodling)
+		return B?.biomass >= B?.final_form_biomass
 
 /datum/antagonist/changeling/bloodling_thrall/forge_objectives()
 	var/datum/objective/bloodling_serve/serve = new
@@ -391,7 +468,7 @@ Infestation! If given a human, it makes them a changeling thrall. If given any o
 	button_icon_state = "augmented_eyesight"
 
 /datum/action/bloodling/thermalvision/action(mob/living/user)
-	if(!..() || isAi(user)) //Okay no this was TOO BASED to let AIs use
+	if(!..() || istype(user, /mob/living/silicon)) //Okay no this was TOO BASED to let AIs use
 		return FALSE
 
 	if(!active)
@@ -476,6 +553,7 @@ Infestation! If given a human, it makes them a changeling thrall. If given any o
 
 /datum/action/bloodling/absorb/Grant(mob/M)
 	. = ..()
+	soundloop?.stop(M)
 	soundloop = new(list(M), FALSE)
 	soundloop.stop(M)
 
@@ -486,8 +564,8 @@ Infestation! If given a human, it makes them a changeling thrall. If given any o
 /datum/action/bloodling/absorb/action(mob/living/user)
 	. = ..()
 	var/list/mobs = list()
-	for(var/mob/living/M in view(user, 5))
-		if(M == user || issilicon(M) || !isliving(M) || M.invisibility > 0 || !M.alpha || M.GetComponent(/datum/component/bloodling) || M.mind?.has_antag_datum(/datum/antagonist/changeling/bloodling_thrall))
+	for(var/mob/living/M in view(user, 1))
+		if(M == user || issilicon(M) || !isliving(M) || M.invisibility > 0 || !M.alpha || is_bloodling(M))
 			continue
 		mobs += M
 	var/mob/living/M = input(user, "Who shall we absorb?", "[src]", null) as null|anything in mobs
@@ -549,69 +627,54 @@ Infestation! If given a human, it makes them a changeling thrall. If given any o
 //This code could likely be improved, though I'm going to leave it for now.
 /datum/action/bloodling/infest/proc/ask_special_absorb(mob/living/user, atom/movable/special_target)
 	//WARNING: EXTREMELY BASED
+	var/atom/physical_target = null
+	var/mob/absorb_mob = null
+	var/datum/component/bloodling/B = user.GetComponent(/datum/component/bloodling)
+	if(!B)
+		return FALSE
+	//Handle your pre-req checks here, then set the targets accordingly.
 	if(isAI(special_target))
 		var/mob/living/silicon/ai/ai = special_target
-		var/datum/component/bloodling/B = user.GetComponent(/datum/component/bloodling)
 		if(!ai.mind)
 			return FALSE
 		if(B.last_evolution < 4) //You have to be STRONG to do this.
 			to_chat(user, "<span class='warning'>We can sense the essence of a powerful entity inhabiting [special_target], but we are not yet strong enough to infest it.</span>")
 			return FALSE
-		to_chat(user, "<span class='userdanger'>WE HAVE DETECTED A POWERFUL ENTITY'S PRESENCE HERE...</span>")
-		if(alert(user, "Absorb the powerful entity?",name,"Yes","No") == "Yes")
-			to_chat(ai, "<span class='userdanger'>A strange consciousness starts to intertwine with yours...</span>")
-			var/absorb_cooldown = 1 MINUTES - B.last_evolution SECONDS //It'll take everything you have to pull this off...
-			soundloop.start(user)
-			var/datum/beam/current_beam = new(user,ai,time=absorb_time,beam_icon_state="tentacle",btype=/obj/effect/ebeam/blood)
-			INVOKE_ASYNC(current_beam, /datum/beam.proc/Start)
-			add_cooldown(absorb_cooldown*2)
-			user.emote("scream")
-			if(do_after(user, absorb_time, target=ai))
-				user.visible_message("<span class='warning'>[user] retracts their tendril!</span>", "<span class='userdanger'>That consciousness was strong, but not strong enough.</span>")
-				to_chat(user, "<span class='aliennotice'>We have infested the creature. If they do not do our bidding, we may absorb them for biomass.</span>")
-				to_chat(ai, "<span class='userdanger'>Your mind has been overtaken by [user]! You must serve them at all costs...</span>")
-				B.infest(ai)
-			else
-				user.visible_message("<span class='warning'>[user] quickly retracts their tendril!</span>", "<span class='userdanger'>Our domination of the entity was interrupted!</span>")
-				qdel(current_beam)
-				refund_biomass(user, biomass_cost/1.5) //You get most of your biomass back if interrupted, but not _all_
-			soundloop.stop(user)
-			return TRUE
+		absorb_mob = ai
+		physical_target = ai
 
 	if(istype(special_target, /obj/structure/blob)) //I'm probably gonna fucking regret this.
 		var/obj/structure/blob/blob = special_target
-		var/datum/component/bloodling/B = user.GetComponent(/datum/component/bloodling)
 		if(!blob.overmind)
 			return FALSE
 		if(B.last_evolution < 4) //You have to be STRONG to do this.
 			to_chat(user, "<span class='warning'>We can sense the essence of a powerful entity inhabiting [special_target], but we are not yet strong enough to infest it.</span>")
 			return FALSE
-		to_chat(user, "<span class='userdanger'>WE HAVE DETECTED A POWERFUL ENTITY'S PRESENCE IN THIS STRUCTURE...</span>")
+		absorb_mob = blob.overmind
+		physical_target = blob
+
+	if(absorb_mob && physical_target)
+		to_chat(user, "<span class='userdanger'>WE HAVE DETECTED A POWERFUL ENTITY'S PRESENCE HERE...</span>")
 		if(alert(user, "Absorb the powerful entity?",name,"Yes","No") == "Yes")
-			to_chat(blob.overmind, "<span class='userdanger'>A strange consciousness starts to intertwine with yours...</span>")
+			to_chat(absorb_mob, "<span class='userdanger'>A strange consciousness starts to intertwine with yours...</span>")
 			var/absorb_cooldown = 1 MINUTES - B.last_evolution SECONDS //It'll take everything you have to pull this off...
 			soundloop.start(user)
-			var/datum/beam/current_beam = new(user,blob,time=absorb_time,beam_icon_state="tentacle",btype=/obj/effect/ebeam/blood)
+			var/datum/beam/current_beam = new(user,physical_target,time=absorb_time,beam_icon_state="tentacle",btype=/obj/effect/ebeam/blood)
 			INVOKE_ASYNC(current_beam, /datum/beam.proc/Start)
 			add_cooldown(absorb_cooldown*2)
 			user.emote("scream")
-			if(do_after(user, absorb_time, target=blob))
+			if(do_after(user, absorb_time, target=physical_target))
 				user.visible_message("<span class='warning'>[user] retracts their tendril!</span>", "<span class='userdanger'>That consciousness was strong, but not strong enough.</span>")
 				to_chat(user, "<span class='aliennotice'>We have infested the creature. If they do not do our bidding, we may absorb them for biomass.</span>")
-				to_chat(blob.overmind, "<span class='userdanger'>Your mind has been overtaken by [user]! You must obey them at all costs.</span>")
-				B.infest(blob.overmind)
-				B.can_blob_talk = TRUE
+				to_chat(absorb_mob, "<span class='userdanger'>Your mind has been overtaken by [user]! You must serve them at all costs...</span>")
+				B.infest(absorb_mob)
 			else
 				user.visible_message("<span class='warning'>[user] quickly retracts their tendril!</span>", "<span class='userdanger'>Our domination of the entity was interrupted!</span>")
 				qdel(current_beam)
 				refund_biomass(user, biomass_cost/1.5) //You get most of your biomass back if interrupted, but not _all_
 			soundloop.stop(user)
 			return TRUE
-
-		else
-			return FALSE
-	else
-		return FALSE
+	return FALSE
 
 /datum/action/bloodling/infest/action(mob/living/user)
 	. = ..()
@@ -619,11 +682,11 @@ Infestation! If given a human, it makes them a changeling thrall. If given any o
 	for(var/atom/movable/M in view(user, 2))
 		if(ask_special_absorb(user, M))
 			return TRUE //Oh god, he's doing it.
-		if(M == user || !isliving(M) || M.invisibility > 0 || !M.alpha || M.GetComponent(/datum/component/bloodling))
+		if(M == user || !isliving(M) || M.invisibility > 0 || !M.alpha || is_bloodling(M))
 			continue
 		mobs += M
 	var/mob/living/M = input(user, "Who shall we infest?", "[src]", null) as null|anything in mobs
-	if(!M || !M.mind || M.mind?.has_antag_datum(/datum/antagonist/changeling/bloodling_thrall))
+	if(!M || !M.mind || is_bloodling(M))
 		to_chat(user, "<span class='warning'>That creature lacks intelligence, we should absorb it instead. </span>")
 		refund_biomass(user, biomass_cost)
 		return FALSE
@@ -698,7 +761,7 @@ Depending on what creature the entity gives life to, this can be EXTREMELY stron
 	. = ..()
 	var/list/mobs = list()
 	for(var/atom/movable/M in view(user, 2))
-		if(M == user || !isliving(M) || M.invisibility > 0 || !M.alpha | !M.GetComponent(/datum/component/bloodling))
+		if(M == user || !isliving(M) || M.invisibility > 0 || !M.alpha | !is_bloodling(M))
 			continue
 		mobs += M
 	var/mob/living/M = input(user, "To whom shall we transfer biomass?", "[src]", null) as null|anything in mobs

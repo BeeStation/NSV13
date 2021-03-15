@@ -42,6 +42,7 @@
 #define ROLE_HOLOPARASITE		"Holoparasite"
 
 #define ROLE_SYNDI_CREW			"Syndicate crew" //Nsv13 - added pvp role
+#define ROLE_BLOODLING			"Bloodling" //Nsv13 - Bloodling
 
 //Missing assignment means it's not a gamemode specific role, IT'S NOT A BUG OR ERROR.
 //The gamemode specific ones are just so the gamemodes can query whether a player is old enough
@@ -73,9 +74,10 @@ GLOBAL_LIST_INIT(special_roles, list(
 	ROLE_GANG = /datum/game_mode/gang,
 	ROLE_HOLOPARASITE,
 	ROLE_HERETIC = /datum/game_mode/heretics,
-	ROLE_SYNDI_CREW = /datum/game_mode/pvp
+	ROLE_SYNDI_CREW = /datum/game_mode/pvp,
+	ROLE_BLOODLING = /datum/game_mode/bloodling
 ))
-
+//nsv13 - pvp + bloodling modes added here
 
 
 //Job defines for what happens when you fail to qualify for any job during job selection
