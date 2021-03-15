@@ -254,7 +254,8 @@
 	var/list/data = list()
 	var/list/racks_info = list()
 	for(var/obj/machinery/ammo_sorter/AS in linked_sorters)
-		racks_info[++racks_info.len] = list("name"=AS.name, "has_loaded"=AS.loaded?.len > 0, "id"="\ref[AS]", "top"=(AS.loaded.len ? AS.loaded[AS.loaded.len].name : "Nothing"))
+		var/atom/what = AS.loaded[AS.loaded.len]
+		racks_info[++racks_info.len] = list("name"=AS.name, "has_loaded"=AS.loaded?.len > 0, "id"="\ref[AS]", "top"=(AS.loaded.len ? what.name : "Nothing"))
 	data["racks_info"] = racks_info
 	return data
 
