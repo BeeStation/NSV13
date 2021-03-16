@@ -1414,8 +1414,8 @@
 /obj/structure/cable/pink{
 	icon_state = "2-4"
 	},
-/obj/machinery/computer/ship/dradis,
 /obj/machinery/computer/ship/viewscreen,
+/obj/machinery/computer/ship/dradis/minor,
 /turf/open/floor/carpet/ship/beige_carpet{
 	color = "#CC8899";
 	name = "nanoweave carpet (puce)"
@@ -3187,7 +3187,9 @@
 /obj/structure/window/reinforced{
 	dir = 1
 	},
-/obj/machinery/computer/ship/dradis,
+/obj/machinery/computer/ship/dradis/minor{
+	name = "Anomly Sensor Suite"
+	},
 /turf/open/floor/plating,
 /area/science/nsv/astronomy)
 "cjX" = (
@@ -6382,7 +6384,7 @@
 /turf/open/floor/carpet/ship/purple_carpet,
 /area/crew_quarters/heads/hor)
 "eET" = (
-/obj/machinery/computer/ship/dradis{
+/obj/machinery/computer/ship/dradis/minor{
 	dir = 8
 	},
 /turf/open/floor/carpet,
@@ -11654,7 +11656,7 @@
 	pixel_x = -32;
 	pixel_y = -6
 	},
-/obj/machinery/computer/ship/dradis{
+/obj/machinery/computer/ship/dradis/minor{
 	dir = 4
 	},
 /turf/open/floor/carpet/ship,
@@ -18471,7 +18473,7 @@
 /area/ai_monitored/turret_protected/aisat/hallway)
 "nCM" = (
 /obj/machinery/firealarm/directional/north,
-/obj/machinery/computer/ship/dradis/minor{
+/obj/machinery/computer/ship/dradis{
 	dir = 4
 	},
 /turf/open/floor/carpet/ship,
@@ -24318,12 +24320,10 @@
 /obj/machinery/computer/security/telescreen/rd{
 	pixel_y = 28
 	},
-/obj/machinery/computer/ship/dradis{
-	name = "anomaly sensor suite"
-	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	dir = 10
 	},
+/obj/machinery/computer/ship/dradis/minor,
 /turf/open/floor/carpet/ship/purple_carpet,
 /area/crew_quarters/heads/hor)
 "rCf" = (
@@ -26473,7 +26473,7 @@
 /turf/open/floor/carpet/ship/purple_carpet,
 /area/science/robotics/lab)
 "sUQ" = (
-/obj/machinery/computer/ship/dradis{
+/obj/machinery/computer/ship/dradis/minor{
 	dir = 8
 	},
 /turf/open/floor/plating,
@@ -29457,10 +29457,10 @@
 /turf/open/floor/wood,
 /area/crew_quarters/dorms)
 "vDm" = (
-/obj/machinery/computer/ship/dradis{
+/obj/machinery/airalarm/directional/west,
+/obj/machinery/computer/ship/dradis/minor{
 	dir = 4
 	},
-/obj/machinery/airalarm/directional/west,
 /turf/open/floor/carpet/ship/beige_carpet{
 	color = "#CC8899";
 	name = "nanoweave carpet (puce)"
@@ -31270,9 +31270,6 @@
 	},
 /area/crew_quarters/heads/xo)
 "wVN" = (
-/obj/machinery/computer/ship/dradis{
-	dir = 4
-	},
 /obj/structure/window/reinforced{
 	dir = 8
 	},
@@ -31281,6 +31278,9 @@
 	},
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
+	},
+/obj/machinery/computer/ship/dradis/minor{
+	dir = 4
 	},
 /turf/open/floor/engine,
 /area/quartermaster/storage)
