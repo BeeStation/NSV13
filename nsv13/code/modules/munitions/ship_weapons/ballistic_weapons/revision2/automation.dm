@@ -167,3 +167,194 @@
 	src.visible_message("<span class='notice'>[src] whirrs into life!</span>")
 	arm.icon_state = "[arm_icon_state]_anim"
 	playsound(src, 'sound/items/drill_use.ogg', 100, 1)
+
+/datum/design/board/ammo_sorter_computer
+	name = "Ammo sorter console (circuitboard)"
+	desc = "The central control console for ammo sorters.."
+	id = "ammo_sorter_computer"
+	materials = list(/datum/material/glass = 2000, /datum/material/copper = 1000, /datum/material/gold = 500)
+	build_path = /obj/item/circuitboard/computer/ammo_sorter
+	category = list("Advanced Munitions")
+	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS
+
+/datum/design/board/ammo_sorter
+	name = "Ammo sorter console (circuitboard)"
+	desc = "A helpful storage unit that allows for mass storage of ammunition, with the ability to retrieve it all from a central console."
+	id = "ammo_sorter"
+	materials = list(/datum/material/glass = 2000, /datum/material/copper = 1000, /datum/material/gold = 500)
+	build_path = /obj/item/circuitboard/machine/ammo_sorter
+	category = list("Advanced Munitions")
+	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS
+
+/obj/item/circuitboard/computer/ammo_sorter
+	name = "Ammo sorter console (circuitboard)"
+	build_path = /obj/machinery/computer/ammo_sorter
+
+/obj/item/circuitboard/machine/ammo_sorter
+	name = "Ammo sorter (circuitboard)"
+	build_path = /obj/machinery/ammo_sorter
+
+/obj/machinery/computer/ammo_sorter
+	name = "Ammo Rack Control Console"
+	icon_screen = "ammorack"
+	circuit = /obj/item/circuitboard/computer/ammo_sorter
+	var/id = null
+	var/list/linked_sorters = list()
+
+/obj/machinery/computer/ammo_sorter/Initialize(mapload, obj/item/circuitboard/C)
+	. = ..()
+	return INITIALIZE_HINT_LATELOAD
+
+/obj/machinery/computer/ammo_sorter/LateInitialize()
+	. = ..()
+	for(var/obj/machinery/ammo_sorter/W in GLOB.machines)
+		if(istype(W) && W.id == id)
+			linked_sorters += W
+	sortList(linked_sorters) //Alphabetise the list initially...
+
+/obj/machinery/computer/ammo_sorter/ui_interact(mob/user, ui_key = "main", datum/tgui/ui = null, force_open = 0, datum/tgui/master_ui = null, datum/ui_state/state = GLOB.default_state) // Remember to use the appropriate state.
+	ui = SStgui.try_update_ui(user, src, ui_key, ui, force_open)
+	if(!ui)
+		ui = new(user, src, ui_key, "AmmoSorter", name, 560, 600, master_ui, state)
+		ui.open()
+
+/obj/machinery/computer/ammo_sorter/ui_act(action, params, datum/tgui/ui)
+	if(..())
+		return
+	var/obj/machinery/ammo_sorter/AS = locate(params["id"])
+	switch(action)
+		if("unload_all")
+			unload_all()
+		if("unload")
+			if(!AS)
+				return
+			AS.pop()
+		if("unlink")
+			if(!AS)
+				return
+			linked_sorters -= AS
+		if("rename")
+			if(!AS)
+				return
+			var/new_name = stripped_input(usr, message="Enter a new name for [AS]", max_length=MAX_CHARTER_LEN)
+
+			if(!new_name)
+				return
+
+			AS.name = new_name
+			message_admins("[key_name(usr)] renamed an ammo rack to [new_name].")
+			log_game("[key_name(usr)] renamed an ammo rack to [new_name].")
+
+/obj/machinery/computer/ammo_sorter/proc/unload_all()
+	for(var/obj/machinery/ammo_sorter/AS in linked_sorters)
+		AS.unload()
+
+/obj/machinery/computer/ammo_sorter/ui_data(mob/user)
+	. = ..()
+	var/list/data = list()
+	var/list/racks_info = list()
+	for(var/obj/machinery/ammo_sorter/AS in linked_sorters)
+		var/atom/what = AS.loaded[AS.loaded.len]
+		racks_info[++racks_info.len] = list("name"=AS.name, "has_loaded"=AS.loaded?.len > 0, "id"="\ref[AS]", "top"=(AS.loaded.len ? what.name : "Nothing"))
+	data["racks_info"] = racks_info
+	return data
+
+/obj/machinery/ammo_sorter
+	name = "Ammo Rack"
+	desc = "A machine that allows you to compartmentalise your ship's ammo stores, controlled by a central console. Drag and drop items onto it to load them."
+	icon = 'nsv13/icons/obj/munitions.dmi'
+	icon_state = "ammorack"
+	circuit = /obj/item/circuitboard/machine/ammo_sorter
+	density = TRUE
+	anchored = TRUE
+	var/id = null
+	var/list/loaded = list() //What's loaded in?
+	var/max_capacity = 12 //Max cap for holding.
+	var/loading = FALSE
+
+/obj/machinery/ammo_sorter/attackby(obj/item/I, mob/user, params)
+	if(default_unfasten_wrench(user, I))
+		return
+	if(default_deconstruction_screwdriver(user, icon_state, icon_state, I))
+		update_icon()
+		return
+	. = ..()
+
+/obj/machinery/ammo_sorter/AltClick(mob/user)
+	. = ..()
+	setDir(turn(src.dir, -90))
+
+/obj/machinery/ammo_sorter/ex_act(severity, target)
+	for(var/obj/item/X in loaded)
+		X.ex_act(severity, target)
+	. = ..()
+
+/obj/machinery/ammo_sorter/Initialize()
+	. = ..()
+	for(var/obj/item/I in get_turf(src))
+		if(istype(I, /obj/item/ship_weapon/ammunition) || istype(I, /obj/item/powder_bag))
+			load(I)
+
+/obj/machinery/ammo_sorter/multitool_act(mob/living/user, obj/item/I)
+	if(!multitool_check_buffer(user, I))
+		return
+	var/obj/item/multitool/M = I
+	M.buffer = src
+	to_chat(user, "<span class='notice'>You add [src] to multitool buffer.</span>")
+
+/obj/machinery/computer/ammo_sorter/multitool_act(mob/living/user, obj/item/I)
+	var/obj/item/multitool/M = I
+	if(M.buffer && istype(M.buffer, /obj/machinery/ammo_sorter))
+		if(LAZYFIND(linked_sorters, M.buffer))
+			to_chat(user, "<span class='warning'>That sorter is already linked to [src]...")
+			return FALSE
+		linked_sorters += M.buffer
+		to_chat(user, "<span class='warning'>You've linked [M.buffer] to [src]...")
+
+/obj/machinery/ammo_sorter/examine(mob/user)
+	. = ..()
+	. += "<span class='notice'>It's current holding:</span>"
+	if(loaded.len)
+		for(var/obj/item/C in loaded)
+			. += "<br/><span class='notice'>[C].</span>"
+
+/obj/machinery/ammo_sorter/MouseDrop_T(atom/movable/A, mob/user)
+	. = ..()
+	//You can store any kind of ammo here for now.
+	if(istype(A, /obj/item/ship_weapon/ammunition) || istype(A, /obj/item/powder_bag))
+		to_chat(user, "<span class='notice'>You start to load [src] with [A]</span>")
+		if(do_after(user, 2 SECONDS , target = src))
+			load(A, user)
+
+/obj/machinery/ammo_sorter/Bumped(atom/movable/AM)
+	. = ..()
+	load(AM) //Try load
+
+/obj/machinery/ammo_sorter/proc/pop()
+	unload(loaded[loaded.len])
+
+/obj/machinery/ammo_sorter/proc/unload(atom/movable/AM)
+	if(!loaded.len)
+		return FALSE
+	playsound(src, 'nsv13/sound/effects/ship/mac_load.ogg', 100, 1)
+	flick("ammorack_dispense", src)
+	loaded -= AM
+	//Load it out the back.
+	AM.forceMove(get_turf(get_step(src, dir)))
+
+/obj/machinery/ammo_sorter/proc/load(atom/movable/A, mob/user)
+	if(loaded.len >= max_capacity)
+		if(user)
+			to_chat(user, "<span class='warning'>[src] is full!</span>")
+		loading = FALSE
+		return FALSE
+	if(istype(A, /obj/item/ship_weapon/ammunition) || istype(A, /obj/item/powder_bag))
+		playsound(src, 'nsv13/sound/effects/ship/mac_load.ogg', 100, 1)
+		flick("ammorack_dispense", src)
+		A.forceMove(src)
+		loading = FALSE
+		loaded += A
+		return TRUE
+	else
+		loading = FALSE
+		return FALSE
