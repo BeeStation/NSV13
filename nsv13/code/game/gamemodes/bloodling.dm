@@ -6,8 +6,8 @@
 	false_report_weight = 10
 	restricted_jobs = list("AI", "Cyborg")
 	protected_jobs = list("Security Officer", "Warden", "Detective", "Head of Security", "Captain", "Brig Physician")
-	required_players = 0//15
-	required_enemies = 1//2
+	required_players = 15
+	required_enemies = 2
 	recommended_enemies = 2
 	reroll_friendly = 1
 
