@@ -94,7 +94,7 @@ GLOBAL_DATUM_INIT(squad_manager, /datum/squad_manager, new)
 /datum/squad/proc/generate_channel()
 	var/stripped = replacetext(name, " Squad", "")
 	squad_channel_type = text2path("/datum/component/simple_teamchat/radio_dependent/squad/[stripped]") //This is OOP sin.
-	squad_channel = AddComponent(squad_channel_type, name)
+	squad_channel = AddComponent(squad_channel_type)
 	squad_channel.squad = src
 
 /datum/squad/proc/get_squad_channel()

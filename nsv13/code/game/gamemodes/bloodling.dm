@@ -73,7 +73,7 @@
 
 /datum/game_mode/bloodling/check_win()
 	. = ..()
-	var/datum/component/bloodling/B = master.GetComponent(/datum/component/bloodling)
+	var/datum/component/bloodling/B = master?.GetComponent(/datum/component/bloodling)
 	return (master && master.health > 0) && B?.biomass >= B?.final_form_biomass
 
 /**

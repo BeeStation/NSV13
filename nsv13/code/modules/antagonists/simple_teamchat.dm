@@ -67,9 +67,9 @@ GLOBAL_LIST_EMPTY(simple_teamchats)
 		chatAction.name = "[key] Chat"
 		chatAction.holder = parent //This gets a bit weird, but the holder may be the item that's a "radio".
 		chatAction.teamspeak = src //The chat action holds a ref to the component, to allow you to have multiple teamchats at once (See: global squad pager.)
-	if(!GLOB.simple_teamchats[key])
-		GLOB.simple_teamchats[key] = list()
-	GLOB.simple_teamchats[key] += src //Register this chat by its key.
+
+	addtimer(CALLBACK(src, .proc/finalise_chat), 1 SECONDS)
+	//GLOB.simple_teamchats[key] += src //Register this chat by its key.
 	if(isliving(parent))
 		chatAction.Grant(parent)
 		return
@@ -82,6 +82,9 @@ GLOBAL_LIST_EMPTY(simple_teamchats)
 		return
 	//For datums using the component, we don't want them to have actions!
 	qdel(chatAction)
+
+/datum/component/simple_teamchat/proc/finalise_chat()
+	LAZYADD(GLOB.simple_teamchats[key], src)
 
 //For "radios". You keep
 /datum/component/simple_teamchat/proc/on_equip(datum/source, mob/equipper, slot)
