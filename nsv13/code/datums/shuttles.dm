@@ -38,3 +38,13 @@
 /datum/map_template/shuttle/arrival/gladius
 	suffix = "gladius"
 	name = "arrival shuttle (Gladius)"
+
+/datum/map_template/shuttle/arrival/ez049st
+	suffix = "ez-049st"
+	name = "arrival shuttle (EZ-049ST)"
+
+//Mining
+
+/datum/map_template/shuttle/mining/ez049st
+	suffix = "ez_049st"
+	name = "mining shuttle (EZ-049ST)"

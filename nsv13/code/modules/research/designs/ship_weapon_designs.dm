@@ -196,7 +196,7 @@
 /datum/design/slug_cold_iron
 	name = "M4 NTRS 400mm teflon coated tungsten round"
 	desc = "A standard railgun slug."
-	id = ""
+	id = "slug_cold_iron"
 	build_type = PROTOLATHE | AUTOLATHE
 	materials = list(/datum/material/iron = 2000, /datum/material/plasma = 750)
 	construction_time=10
@@ -207,7 +207,7 @@
 /datum/design/slug_uranium
 	name = "U4 NTRK 400mm teflon coated uranium round"
 	desc = "A heavy railgun slug."
-	id = ""
+	id = "slug_uranium"
 	build_type = PROTOLATHE | AUTOLATHE
 	materials = list(/datum/material/iron = 1500, /datum/material/plasma = 750, /datum/material/uranium = 500)
 	construction_time=10
