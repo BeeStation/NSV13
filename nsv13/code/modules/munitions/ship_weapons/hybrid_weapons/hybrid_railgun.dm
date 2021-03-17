@@ -3,10 +3,11 @@
 //Fires both Railgun Slugs and NAC Shells
 
 /obj/machinery/ship_weapon/hybrid_rail
-	name = "Hybrid Railgun"
-	desc = "^"
+	name = "NT-ST049 'Sturm' coaxial railgun"
+	desc = "Due to insufficient firepower, attempts were made at upgrading the NT-STC4 model railgun, providing an increased muzzle velocity, wider coverage arc and the ability to fire larger munitions. However the design proved ineffective long term due to extensive maintance costs and reliability issues compared with new advances in kinetically propelled munitions."
 	icon = 'nsv13/icons/obj/railgun.dmi'
 	icon_state = "OBC"
+	max_integrity = 400 //Want these to last as you can't replace them
 	bound_width = 128
 	bound_height = 64
 	pixel_y = -64
@@ -31,6 +32,13 @@
 	var/capacitor_max_charge_rate = 200000 //Maximum rate of charge ie max power draw - 200kW
 
 	var/projectile_velo = 5 //For our projectile - preset to slug
+
+/obj/machinery/ship_weapon/hybrid_rail/examine(mob/user)
+	.=..()
+	if(slug_shell == 0)
+		. += "<span class='notice'>Selected Munition: Slug type</span>"
+	if(slug_shell == 1)
+		. += "<span class='notice'>Selected Munition: Shell type</span>"
 
 /obj/machinery/ship_weapon/hybrid_rail/process()
 	if(capacitor_charge == capacitor_max_charge)
@@ -119,15 +127,18 @@
 		return FALSE
 	if(capacitor_charge < capacitor_max_charge) //Is the capacitor charged?
 		return FALSE
+	if(alignment < 25)
+		if(prob(25))
+			misfire()
+			return FALSE
 	else
 		return TRUE
 
 /obj/machinery/ship_weapon/hybrid_rail/animate_projectile(atom/target)
 	var/obj/item/ship_weapon/ammunition/T = chambered
 	if(T)
-//		var/obj/item/projectile/P = T.projectile_type
-//		P.spread = (100 - alignment) / 20 //Gotta keep them coils aligned
-		linked.fire_lateral_projectile(T.projectile_type, target, projectile_velo)
+		var/final_velo = projectile_velo - ((100 - alignment) / 100) //Misalignment slows projectiles
+		linked.fire_lateral_projectile(T.projectile_type, target, final_velo)
 
 /obj/machinery/ship_weapon/hybrid_rail/after_fire()
 	if(maint_state != 0) //MSTATE_CLOSED
@@ -136,6 +147,10 @@
 			C.flash_act()
 		for(var/mob/living/carbon/C in orange(12, src))
 			to_chat(C, "<span class='danger'>Electricity arcs from the exposed firing mechanism.</span>")
+
+	if(alignment <= 75)
+		if(prob(50))
+			do_sparks(4, FALSE, src)
 
 	if(slug_shell)
 		alignment -= rand(0, 8)
@@ -149,6 +164,27 @@
 			say("Autoloader has depleted all ammunition sources. Reload required.")
 			return
 	..()
+
+/obj/machinery/ship_weapon/hybrid_rail/proc/misfire()
+	maint_req -= 5
+	if(maint_req < 0)
+		maint_req = 0
+
+	capacitor_charge = 0
+	capacitor_current_charge_rate = 0
+	say("Error in coil charging, dumping capacitor")
+	for(var/mob/living/M in orange(1, src))
+		if(iscarbon(M))
+			if(ishuman(M))
+				M.electrocute_act(20, "[name]", safety=1)
+				return
+			M.electrocute_act(20, "[name]")
+			return
+		else
+			M.adjustFireLoss(20)
+			M.visible_message("<span class='danger'>[M] was shocked by \the [name]!</span>", \
+		"<span class='userdanger'>You feel a powerful shock coursing through your body!</span>", \
+		"<span class='italics'>You hear a heavy electrical crack.</span>")
 
 /obj/machinery/ship_weapon/hybrid_rail/multitool_act(mob/living/user, obj/item/I)
 	if(maint_state < 2)
@@ -237,3 +273,17 @@
 		if(C.powernet)
 			data["available_power"] = C.powernet.avail-C.powernet.load
 	return data
+
+//Unsecured tech Disk
+/obj/item/disk/design_disk/hybrid_rail_slugs
+	name = "Defunct Railgun Techology Munitions Technology Disk"
+	desc = "This disk is marked: Filed for relocation to nearest sigularity engine."
+	icon_state = "datadisk2"
+	max_blueprints = 2
+
+/obj/item/disk/design_disk/hybrid_rail_slugs/Initialize()
+	. = ..()
+	var/datum/design/slug_cold_iron/A = new
+	var/datum/design/slug_uranium/B = new
+	blueprints[1] = A
+	blueprints[2] = B
