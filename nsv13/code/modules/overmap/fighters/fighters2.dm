@@ -76,6 +76,7 @@ Repair
 	var/list/components = list() //What does this fighter start off with? Use this to set what engine tiers and whatever it gets.
 	var/maintenance_mode = FALSE //Munitions level IDs can change this.
 	var/dradis_type =/obj/machinery/computer/ship/dradis/internal
+	var/list/fighter_verbs = list(.verb/show_control_panel, .verb/change_name)
 
 /obj/structure/overmap/fighter/verb/show_control_panel()
 	set name = "Show control panel"
@@ -101,6 +102,10 @@ Repair
 	message_admins("[key_name_admin(usr)] renamed a fighter to [new_name] [ADMIN_LOOKUPFLW(src)].")
 	name = new_name
 
+/obj/structure/overmap/fighter/start_piloting(mob/living/carbon/user, position)
+	user.add_verb(fighter_verbs)
+	..()
+
 /obj/structure/overmap/fighter/key_down(key, client/user)
 	. = ..()
 	var/mob/themob = user.mob
@@ -112,6 +117,9 @@ Repair
 				var/sound = pick(GLOB.computer_beeps)
 				playsound(helm, sound, 100, 1)
 			return TRUE
+
+/obj/structure/overmap/fighter/ui_state(mob/user)
+	return GLOB.contained_state
 
 /obj/structure/overmap/fighter/ui_interact(mob/user, datum/tgui/ui)
 	ui = SStgui.try_update_ui(user, src, ui)
