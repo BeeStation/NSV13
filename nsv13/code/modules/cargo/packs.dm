@@ -494,24 +494,3 @@ datum/supply_pack/medical/chemical_supply/fill(obj/structure/closet/crate/C)
 	for(var/i = 0, i < 10, i++)
 		var/item = pick(s_pool)
 		new item(C)
-
-/*
-/datum/supply_pack/costumes_toys/randomised/toys
-	name = "Toy Crate"
-	desc = "Who cares about pride and accomplishment? Skip the gaming and get straight to the sweet rewards with this product! Contains five random toys. Warranty void if used to prank research directors."
-	cost = 5000 // or play the arcade machines ya lazy bum
-	num_contained = 5
-	contains = list()
-	crate_name = "toy crate"
-	crate_type = /obj/structure/closet/crate/wooden
-
-/datum/supply_pack/costumes_toys/randomised/toys/generate()
-	. = ..()
-	var/the_toy
-	for(var/i in 1 to num_contained)
-		if(prob(50))
-			the_toy = pickweight(GLOB.arcade_prize_pool)
-		else
-			the_toy = pick(subtypesof(/obj/item/toy/plush))
-		new the_toy(.)
-*/
