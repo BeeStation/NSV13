@@ -1212,6 +1212,11 @@ Seek a ship thich we'll station ourselves around
 	SSstar_system.update_pos(src)
 	if(!ai_controlled)
 		return
+	if(!z)	//Lets only fully stop processing on AI ships that get to nullspace with their processing still running, to not accidentally fuck up stuff.
+		STOP_PROCESSING(SSphysics_processing, src)
+		if(physics2d)
+			STOP_PROCESSING(SSphysics_processing, physics2d)
+		return
 	choose_goal()
 	if(!pilot) //AI ships need a pilot so that they aren't hit by their own bullets. Projectiles.dm's can_hit needs a mob to be the firer, so here we are.
 		pilot = new /mob/living(get_turf(src))
@@ -1292,11 +1297,13 @@ Seek a ship thich we'll station ourselves around
 	last_target = target
 	if(ai_can_launch_fighters) //Found a new enemy? Release the hounds
 		ai_can_launch_fighters = FALSE
+		var/cancelled = FALSE
 		if(ai_fighter_type.len)
 			for(var/i = 0, i < rand(2,3), i++)
 				var/ai_fighter = pick(ai_fighter_type)
 				var/turf/launch_turf = get_turf(pick(orange(3, src)))
 				if(!launch_turf)
+					cancelled = TRUE
 					if(!i)
 						ai_can_launch_fighters = TRUE
 					else
@@ -1314,7 +1321,8 @@ Seek a ship thich we'll station ourselves around
 					fleet.RegisterSignal(newFighter, COMSIG_PARENT_QDELETING , /datum/fleet/proc/remove_ship, newFighter)
 
 				relay_to_nearby('nsv13/sound/effects/ship/fighter_launch_short.ogg')
-		addtimer(VARSET_CALLBACK(src, ai_can_launch_fighters, TRUE), 3 MINUTES)
+		if(!cancelled)
+			addtimer(VARSET_CALLBACK(src, ai_can_launch_fighters, TRUE), 3 MINUTES)
 	if(OM in enemies) //If target's in enemies, return
 		return
 	enemies += target
