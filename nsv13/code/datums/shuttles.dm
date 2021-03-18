@@ -46,5 +46,5 @@
 //Mining
 
 /datum/map_template/shuttle/mining/ez049st
-	suffix = "ez_049st"
+	suffix = "ez-049st"
 	name = "mining shuttle (EZ-049ST)"
