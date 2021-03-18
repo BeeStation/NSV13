@@ -6,6 +6,12 @@
 	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/quartermaster/miningoffice)
+"ad" = (
+/obj/machinery/light{
+	dir = 4
+	},
+/turf/open/floor/plasteel/techmaint,
+/area/quartermaster/miningdock)
 "ag" = (
 /obj/structure/closet/secure_closet/engineering_welding,
 /obj/structure/window/reinforced/spawner/west,
@@ -136,6 +142,7 @@
 	icon_state = "crateopen"
 	},
 /obj/effect/turf_decal/delivery,
+/obj/effect/spawner/lootdrop/maintenance/three,
 /turf/open/floor/plating,
 /area/maintenance/disposal)
 "aM" = (
@@ -1913,6 +1920,10 @@
 /obj/effect/turf_decal/stripes/line{
 	dir = 4
 	},
+/obj/machinery/light/runway/delay3,
+/obj/machinery/camera/autoname{
+	dir = 1
+	},
 /turf/open/floor/monotile/dark/airless,
 /area/space/nearstation)
 "jf" = (
@@ -2472,6 +2483,7 @@
 	pixel_y = -1
 	},
 /obj/item/paper{
+	info = "<p>REQUISITION NOTE: Additional chemicals can be ordered from cargo once supplies have been depleted.</p>";
 	pixel_x = -5
 	},
 /obj/machinery/camera/autoname{
@@ -3055,7 +3067,8 @@
 /area/storage/tools)
 "ox" = (
 /obj/machinery/mineral/processing_unit{
-	dir = 1
+	dir = 1;
+	link_id = "99"
 	},
 /turf/open/floor/plasteel/techmaint,
 /area/quartermaster/miningdock)
@@ -6274,7 +6287,9 @@
 /turf/open/floor/carpet/black,
 /area/crew_quarters/dorms)
 "Ei" = (
-/obj/machinery/mineral/stacking_machine,
+/obj/machinery/mineral/stacking_machine{
+	link_id = "98"
+	},
 /turf/open/floor/plating,
 /area/maintenance/disposal)
 "Em" = (
@@ -6655,11 +6670,17 @@
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
 	},
+/obj/machinery/light/runway/delay3,
 /turf/open/floor/monotile/dark/airless,
 /area/space/nearstation)
 "FJ" = (
 /obj/effect/turf_decal/bot,
 /obj/machinery/camera/autoname,
+/obj/machinery/mineral/processing_unit_console{
+	density = 0;
+	link_id = "99";
+	pixel_y = 24
+	},
 /turf/open/floor/plasteel/techmaint,
 /area/quartermaster/miningdock)
 "FM" = (
@@ -9367,7 +9388,7 @@
 	id = "disposals_ejector";
 	pixel_x = 26
 	},
-/obj/effect/spawner/lootdrop/maintenance/three,
+/obj/effect/spawner/lootdrop/maintenance,
 /turf/open/floor/plasteel/ship,
 /area/maintenance/disposal)
 "Ro" = (
@@ -9713,6 +9734,10 @@
 /obj/effect/turf_decal/ship/rust,
 /turf/open/floor/plating/rusty_techgrid,
 /area/maintenance/nsv/deck1/port)
+"SJ" = (
+/obj/effect/spawner/structure/window/reinforced/ship,
+/turf/open/floor/plasteel/techmaint,
+/area/quartermaster/miningdock)
 "SL" = (
 /obj/machinery/vending/security,
 /turf/open/floor/plasteel/dark,
@@ -11025,6 +11050,10 @@
 /obj/structure/window/reinforced/spawner/north,
 /obj/machinery/light/small{
 	dir = 4
+	},
+/obj/machinery/mineral/stacking_unit_console{
+	link_id = "98";
+	pixel_x = 30
 	},
 /turf/open/floor/plasteel/ship,
 /area/maintenance/disposal)
@@ -47382,7 +47411,7 @@ IH
 IH
 kb
 cR
-dw
+ad
 dw
 WI
 oj
@@ -47900,7 +47929,7 @@ ir
 xY
 uP
 UX
-yN
+SJ
 yN
 Kl
 uP

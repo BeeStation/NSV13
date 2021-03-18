@@ -20,14 +20,25 @@
 	var/obj/machinery/mineral/processing_unit/machine = null
 	var/machinedir = EAST
 	speed_process = TRUE
+	var/link_id = null //NSV13
 
 /obj/machinery/mineral/processing_unit_console/Initialize()
 	. = ..()
-	machine = locate(/obj/machinery/mineral/processing_unit, get_step(src, machinedir))
-	if (machine)
-		machine.CONSOLE = src
+	if(link_id) //NSV13
+		return INITIALIZE_HINT_LATELOAD
 	else
-		return INITIALIZE_HINT_QDEL
+		machine = locate(/obj/machinery/mineral/processing_unit, get_step(src, machinedir))
+		if (machine)
+			machine.CONSOLE = src
+		else
+			return INITIALIZE_HINT_QDEL
+
+/obj/machinery/mineral/processing_unit_console/LateInitialize() //NSV13
+	if(link_id) //If mappers set an ID)
+		for(var/obj/machinery/mineral/processing_unit/PU in GLOB.machines)
+			if(PU.link_id == link_id)
+				machine = PU
+				machine.CONSOLE = src
 
 /obj/machinery/mineral/processing_unit_console/ui_interact(mob/user)
 	. = ..()
@@ -80,6 +91,7 @@
 	var/datum/material/selected_material = null
 	var/selected_alloy = null
 	var/datum/techweb/stored_research
+	var/link_id = null //NSV13
 
 /obj/machinery/mineral/processing_unit/Initialize()
 	. = ..()

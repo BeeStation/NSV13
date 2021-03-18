@@ -21,5 +21,5 @@
 #define JOB_MODIFICATION_MAP_NAME "NSV Atlas"
 #include "..\..\..\..\_maps\map_files\Atlas\job_changes.dm"
 
-#define JOB_MODIFICATION_MAP_NAME "NSV EZ-049ST"
-#include "..\..\..\..\_maps\map_files\EZ-049ST\job_changes.dm"
+#define JOB_MODIFICATION_MAP_NAME "NSV Shrike"
+#include "..\..\..\..\_maps\map_files\Shrike\job_changes.dm"

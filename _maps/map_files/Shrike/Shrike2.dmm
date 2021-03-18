@@ -6466,11 +6466,13 @@
 	lighting_colour_tube = "#FF3232"
 	})
 "vW" = (
-/obj/structure/cable/green{
-	icon_state = "0-2"
-	},
-/obj/machinery/power/apc/auto_name/north,
 /obj/effect/turf_decal/ship/rust,
+/obj/machinery/computer/cryopod{
+	pixel_y = 32
+	},
+/obj/structure/cable/green{
+	icon_state = "2-8"
+	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/crew_quarters/cryopods)
 "vY" = (
@@ -10928,10 +10930,12 @@
 /area/medical/surgery/aux)
 "Lk" = (
 /obj/machinery/cryopod,
-/obj/machinery/computer/cryopod{
-	pixel_y = 32
+/obj/effect/turf_decal/ship/rust,
+/obj/machinery/power/apc/auto_name/north,
+/obj/structure/cable/green{
+	icon_state = "0-4"
 	},
-/turf/open/floor/plasteel/ship,
+/turf/open/floor/plating/rusty_techgrid,
 /area/crew_quarters/cryopods)
 "Ll" = (
 /turf/closed/wall/ship,
@@ -12364,6 +12368,9 @@
 /obj/machinery/light{
 	dir = 4;
 	icon_state = "tube"
+	},
+/obj/item/paper{
+	info = "<p>Start Directions: Enable Scrubbers. Open black valve. Connect moderator canister to coolant port.</p>"
 	},
 /turf/open/floor/monofloor/corner,
 /area/engine/supermatter)

@@ -151,8 +151,9 @@
 	integrity_failure = 1500
 	starting_system = "Argo"
 
-/obj/structure/overmap/nanotrasen/light_cruiser/starter/temp //TEMP FOR WEAPON TESTING
-/obj/structure/overmap/nanotrasen/light_cruiser/starter/temp/apply_weapons()
+/obj/structure/overmap/nanotrasen/missile_cruiser/starter/shrike //TEMP UNTIL WE DIVERSIFY TYPES MORE
+	icon_state = "kestrel" //Stealing that icon
+/obj/structure/overmap/nanotrasen/missile_cruiser/starter/shrike/apply_weapons()
 	weapon_types[FIRE_MODE_GAUSS] = new /datum/ship_weapon/gauss(src)
 	weapon_types[FIRE_MODE_AMS] = new /datum/ship_weapon/vls(src)
 	weapon_types[FIRE_MODE_HYBRID_RAIL] = new /datum/ship_weapon/hybrid_railgun(src)
