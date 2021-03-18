@@ -54,6 +54,7 @@
 	name = "rusted wall"
 	desc = "A rusted metal wall."
 	icon = 'icons/turf/walls/rusty_wall.dmi'
+	icon_state = "wall" //NSV13 this was broken
 	hardness = 45
 
 /turf/closed/wall/rust/rust_heretic_act()
@@ -65,6 +66,7 @@
 	name = "rusted reinforced wall"
 	desc = "A huge chunk of rusted reinforced metal."
 	icon = 'icons/turf/walls/rusty_reinforced_wall.dmi'
+	icon_state = "r_wall" //NSV13 this was broken
 	hardness = 15
 
 /turf/closed/wall/r_wall/rust/rust_heretic_act()
