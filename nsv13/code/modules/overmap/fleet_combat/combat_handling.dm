@@ -31,7 +31,7 @@ Defending fleets have priority for shooting (A turn iterates through a system's 
 		for(var/datum/fleet/EF in shuffle(fleets - F))
 			if(!EF || QDELETED(EF))
 				continue
-			if(EF.faction != F.faction)
+			if(EF.faction_id != F.faction_id)
 				fleet_fire(F, EF)
 				break
 
@@ -42,7 +42,7 @@ Defending fleets have priority for shooting (A turn iterates through a system's 
 		var/datum/fleet/F = fleets[i]
 		for(var/j = i + 1; j <= fleets.len; j++)
 			var/datum/fleet/FF = fleets[j]
-			if(F.faction != FF.faction)
+			if(F.faction_id != FF.faction_id)
 				return TRUE
 
 	return FALSE
