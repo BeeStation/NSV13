@@ -5,7 +5,7 @@
 
 /datum/map_config //NSV EDITED START
 	// Metadata
-	var/config_filename = "_maps/hammerhead.json"
+	var/config_filename = "_maps/atlas.json"
 	var/defaulted = TRUE  // set to FALSE by LoadConfig() succeeding
 	// Config from maps.txt
 	var/config_max_users = 0
@@ -14,10 +14,10 @@
 	var/votable = FALSE
 
 	// Config actually from the JSON - should default to Hammerhead //NSV EDITS
-	var/map_name = "NSV Hammerhead - DEFAULTED"
+	var/map_name = "NSV Atlas - DEFAULTED"
 	var/map_link = null //This is intentionally wrong, this will make it not link to webmap.
-	var/map_path = "map_files/Hammerhead"
-	var/map_file = "Hammerhead.dmm"
+	var/map_path = "map_files/Atlas"
+	var/map_file = list("atlas.dmm", "atlas2.dmm")
 	var/ship_type = /obj/structure/overmap/nanotrasen/heavy_cruiser/starter
 	var/mining_ship_type = /obj/structure/overmap/nanotrasen/mining_cruiser/nostromo
 	var/mine_disable = FALSE //NSV13 - Allow disabling of mineship loading.
