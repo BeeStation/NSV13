@@ -603,7 +603,12 @@ Chair + rack handling
 	if(!ammo_rack)
 		return
 	ammo_rack.loading = FALSE
-	var/turf/below = get_turf(get_step(SSmapping.get_turf_below(src), gunner_chair.feed_direction))
+	var/turf/below
+	if(gunner_chair)
+		below = get_turf(get_step(SSmapping.get_turf_below(src), gunner_chair.feed_direction))
+	else
+		// Default is south
+		below = get_turf(get_step(SSmapping.get_turf_below(src), SOUTH))
 	playsound(below, 'nsv13/sound/effects/ship/freespace2/crane_2.wav', 100, FALSE)
 	ammo_rack.forceMove(below)
 	ammo_rack.pixel_y = 60
