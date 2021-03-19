@@ -546,6 +546,7 @@ Repair
 	. = ..()
 	M.stop_sound_channel(CHANNEL_SHIP_ALERT)
 	M.forceMove(get_turf(src))
+	M.remove_verb(fighter_verbs)
 	return TRUE
 
 /obj/structure/overmap/fighter/attack_hand(mob/user)

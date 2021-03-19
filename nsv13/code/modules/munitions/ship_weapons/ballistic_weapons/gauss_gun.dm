@@ -33,6 +33,7 @@
 	var/pdc_mode = FALSE
 	var/last_pdc_fire = 0 //Pdc cooldown
 	var/BeingLoaded //Used for gunner load
+	var/list/gauss_verbs = list(.verb/show_computer, .verb/show_view, .verb/swap_firemode)
 
 #define VV_HK_REMOVE_GAUSS_GUNNER "getOutOfMyGunIdiot"
 
@@ -172,6 +173,7 @@
 	user.forceMove(src)
 	gunner = user
 	gunner.AddComponent(/datum/component/overmap_gunning, src)
+	gunner.add_verb(gauss_verbs)
 	ui_interact(user)
 
 /obj/machinery/ship_weapon/gauss_gun/proc/remove_gunner()
@@ -180,6 +182,7 @@
 		lower_chair()
 	else
 		gunner.forceMove(get_turf(src))
+	gunner.remove_verb(gauss_verbs)
 	gunner = null
 
 //Directional subtypes
@@ -632,6 +635,9 @@ Chair + rack handling
 	if(!ui)
 		ui = new(user, src, "MunitionsComputer")
 		ui.open()
+
+/obj/machinery/ship_weapon/gauss_gun/ui_state(mob/user)
+	return GLOB.contained_state
 
 /obj/machinery/ship_weapon/gauss_gun/ui_act(action, params, datum/tgui/ui)
 	if(..())
