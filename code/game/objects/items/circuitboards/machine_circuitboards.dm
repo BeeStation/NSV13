@@ -91,15 +91,6 @@
 		/obj/item/stack/cable_coil = 2,
 		/obj/item/stock_parts/subspace/filter = 2)
 
-/obj/item/circuitboard/machine/telecomms/message_server
-	name = "Messaging Server (Machine Board)"
-	icon_state = "engineering"
-	build_path = /obj/machinery/telecomms/message_server
-	req_components = list(
-		/obj/item/stock_parts/manipulator = 2,
-		/obj/item/stack/cable_coil = 1,
-		/obj/item/stock_parts/subspace/filter = 3)
-
 /obj/item/circuitboard/machine/telecomms/processor
 	name = "processor unit (Machine Board)"
 	icon_state = "engineering"
@@ -340,8 +331,10 @@
 	icon_state = "engineering"
 	build_path = /obj/machinery/power/smes
 	req_components = list(
-		/obj/item/stock_parts/micro_laser = 1,
-		/obj/item/stack/sheet/glass = 1)
+		/obj/item/stack/cable_coil = 5,
+		/obj/item/stock_parts/cell = 5,
+		/obj/item/stock_parts/capacitor = 1)
+	def_components = list(/obj/item/stock_parts/cell = /obj/item/stock_parts/cell/high/empty)
 
 /obj/item/circuitboard/machine/techfab/department/engineering
 	name = "departmental techfab - engineering (Machine Board)"
@@ -605,14 +598,20 @@
 	icon_state = "medical"
 	build_path = /obj/machinery/chem_dispenser
 	req_components = list(
-		/obj/item/stock_parts/matter_bin = 1,
-		/obj/item/stack/cable_coil = 1,
-		/obj/item/stack/sheet/glass = 4)
+		/obj/item/stock_parts/matter_bin = 2,
+		/obj/item/stock_parts/capacitor = 1,
+		/obj/item/stock_parts/manipulator = 1,
+		/obj/item/stack/sheet/glass = 1,
+		/obj/item/stock_parts/cell = 1)
+	def_components = list(/obj/item/stock_parts/cell = /obj/item/stock_parts/cell/high)
+	needs_anchored = FALSE
 
 /obj/item/circuitboard/machine/chem_dispenser/botany				//probably should be generic but who cares
 	name = "minor botanical chem dispenser (Machine Board)"
 	build_path = /obj/machinery/chem_dispenser/mutagensaltpetersmall
 	req_components = list(
+		/obj/item/stock_parts/matter_bin = 2,
+		/obj/item/stock_parts/capacitor = 1,
 		/obj/item/stock_parts/manipulator = 1,
 		/obj/item/stack/sheet/glass = 1,
 		/obj/item/stock_parts/cell = 1)
@@ -633,28 +632,25 @@
 	build_path = /obj/machinery/chem_master
 	desc = "You can turn the \"mode selection\" dial using a screwdriver."
 	req_components = list(
-		/obj/item/stock_parts/matter_bin = 2,
-		/obj/item/stock_parts/capacitor = 1,
+		/obj/item/reagent_containers/glass/beaker = 2,
 		/obj/item/stock_parts/manipulator = 1,
-		/obj/item/stack/sheet/glass = 1,
-		/obj/item/stock_parts/cell = 1)
+		/obj/item/stack/sheet/glass = 1)
 	needs_anchored = FALSE
 
-/obj/item/circuitboard/machine/stasis
-	name = "Lifeform Stasis Unit (Machine Board)"
-	icon_state = "medical"
-	build_path = /obj/machinery/stasis
-	req_components = list(
-		/obj/item/stack/cable_coil = 3,
-		/obj/item/stock_parts/manipulator = 1,
-		/obj/item/stock_parts/capacitor = 1)
+/obj/item/circuitboard/machine/chem_master/attackby(obj/item/I, mob/user, params)
+	if(I.tool_behaviour == TOOL_SCREWDRIVER)
+		var/new_name = "ChemMaster"
+		var/new_path = /obj/machinery/chem_master
 
-/obj/item/circuitboard/machine/techfab/department/medical
-	name = "\improper Departmental Techfab (Machine Board) - Medical"
-	icon_state = "medical"
-	build_path = /obj/machinery/rnd/production/techfab/department/medical
+		if(build_path == /obj/machinery/chem_master)
+			new_name = "CondiMaster"
+			new_path = /obj/machinery/chem_master/condimaster
 
-//Science
+		build_path = new_path
+		name = "[new_name] 3000 (Machine Board)"
+		to_chat(user, "<span class='notice'>You change the circuit board setting to \"[new_name]\".</span>")
+	else
+		return ..()
 
 /obj/item/circuitboard/machine/clonepod
 	name = "clone pod (Machine Board)"
@@ -923,20 +919,6 @@
 
 /obj/item/circuitboard/machine/recharger
 	name = "weapon recharger (Machine Board)"
-	icon_state = "security"
-	build_path = /obj/machinery/recharger
-	req_components = list(/obj/item/stock_parts/capacitor = 1)
-	needs_anchored = FALSE
-
-//Security
-
-/obj/item/circuitboard/machine/protolathe/department/security
-	name = "Departmental Protolathe (Machine Board) - Security"
-	icon_state = "security"
-	build_path = /obj/machinery/rnd/production/protolathe/department/security
-
-/obj/item/circuitboard/machine/recharger
-	name = "Weapon Recharger (Machine Board)"
 	icon_state = "security"
 	build_path = /obj/machinery/recharger
 	req_components = list(/obj/item/stock_parts/capacitor = 1)

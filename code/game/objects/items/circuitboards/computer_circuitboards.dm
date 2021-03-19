@@ -41,9 +41,8 @@
 		return ..()
 
 /obj/item/circuitboard/computer/card/minor/examine(user)
-	..()
-	to_chat(user, "Currently set to \"[dept_list[target_dept]]\".")
-
+	. = ..()
+	. += "Currently set to \"[dept_list[target_dept]]\"."
 
 /obj/item/circuitboard/computer/communications
 	name = "communications console (Computer Board)"
@@ -67,7 +66,6 @@
 
 //obj/item/circuitboard/computer/shield
 //	name = "Shield Control (Computer Board)"
-//	icon_state = "command"
 //	build_path = /obj/machinery/computer/stationshield
 
 
