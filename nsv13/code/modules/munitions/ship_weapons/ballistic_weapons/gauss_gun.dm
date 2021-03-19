@@ -120,6 +120,10 @@
 	internal_tank = new /obj/machinery/portable_atmospherics/canister/air(src)
 	ammo_rack = new /obj/structure/gauss_rack(src)
 	ammo_rack.gun = src
+	return INITIALIZE_HINT_LATELOAD
+
+/obj/machinery/ship_weapon/gauss_gun/LateInitialize()
+	// Required components should actually exist
 	START_PROCESSING(SSobj, src)
 	lower_rack()
 

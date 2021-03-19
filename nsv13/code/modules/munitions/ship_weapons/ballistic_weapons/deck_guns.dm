@@ -409,10 +409,10 @@
 /obj/machinery/ship_weapon/deck_turret/Initialize()
 	. = ..()
 	core = locate(/obj/machinery/deck_turret) in SSmapping.get_turf_below(src)
-	core.turret = src
 	if(!core)
 		message_admins("Deck turret has no gun core! [src.x], [src.y], [src.z])")
 		return
+	core.turret = src
 	core.update_parts()
 
 //The actual gun assembly.
