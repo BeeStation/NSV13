@@ -201,11 +201,11 @@
 	if(empty_turfs?.len)
 		LZ = pick(empty_turfs)
 	var/obj/structure/closet/supplypod/freight_pod/toLaunch = new /obj/structure/closet/supplypod/freight_pod
-	var/shippingLane = GLOB.areas_by_type[/area/centcom/supplypod/flyMeToTheMoon]
+	var/shippingLane = GLOB.areas_by_type[/area/centcom/supplypod/supplypod_temp_holding]
 	toLaunch.forceMove(shippingLane)
 	for (var/atom/movable/O in contents)
 		O.forceMove(toLaunch) //forceMove any atom/moveable into the supplypod
-		new /obj/effect/DPtarget(LZ, toLaunch)
+		new /obj/effect/pod_landingzone(LZ, toLaunch)
 	qdel(src)
 
 /obj/item/projectile/guided_munition/torpedo/post/Destroy()

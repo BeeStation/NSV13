@@ -94,11 +94,11 @@
 	if(!LZ)
 		LZ = pick(landingzone.contents) //If we couldn't find an open floor, just throw it somewhere
 	var/obj/structure/closet/supplypod/centcompod/toLaunch = new /obj/structure/closet/supplypod/centcompod
-	var/shippingLane = GLOB.areas_by_type[/area/centcom/supplypod/flyMeToTheMoon]
+	var/shippingLane = GLOB.areas_by_type[/area/centcom/supplypod/supplypod_temp_holding]
 	toLaunch.forceMove(shippingLane)
 	var/atom/movable/theItem = new unlock_path
 	theItem.forceMove(toLaunch)
-	new /obj/effect/DPtarget(LZ, toLaunch)
+	new /obj/effect/pod_landingzone(LZ, toLaunch)
 	return theItem
 
 /datum/trader/proc/generate_missions()

@@ -118,7 +118,7 @@
 		target.desired_angle = 0
 		target.angle = 0
 		for(var/mob/living/M in target.operators)
-			var/mob/camera/aiEye/remote/overmap_observer/eyeobj = M.remote_control
+			var/mob/camera/ai_eye/remote/overmap_observer/eyeobj = M.remote_control
 			eyeobj.forceMove(get_turf(src))
 			if(M.client)
 				M.client.pixel_x = pixel_x

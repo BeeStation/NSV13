@@ -22,7 +22,8 @@ GLOBAL_LIST_INIT(medical_positions, list(
 	"Geneticist",
 	"Virologist",
 	"Paramedic",
-	"Chemist"))
+	"Chemist",
+	"Brig Physician"))
 
 
 GLOBAL_LIST_INIT(science_positions, list(
@@ -64,7 +65,6 @@ GLOBAL_LIST_INIT(security_positions, list(
 	"Warden",
 	"Detective",
 	"Security Officer",
-	"Brig Physician",
 	"Deputy"))
 
 
