@@ -14,13 +14,13 @@
 	var/votable = FALSE
 
 	// Config actually from the JSON - should default to Hammerhead //NSV EDITS
-	var/map_name = "NSV Gladius - DEFAULTED"
+	var/map_name = "NSV Testship - DEFAULTED"
 	var/map_link = null //This is intentionally wrong, this will make it not link to webmap.
-	var/map_path = "map_files/Gladius"
-	var/map_file = list("Gladius2.dmm", "Gladius1.dmm")
-	var/ship_type = /obj/structure/overmap/nanotrasen/battlecruiser/starter
+	var/map_path = "map_files/testship"
+	var/map_file = list("testship.dmm", "testship2.dmm")
+	var/ship_type = /obj/structure/overmap/nanotrasen/missile_cruiser/starter
 	var/mining_ship_type = /obj/structure/overmap/nanotrasen/mining_cruiser/rocinante
-	var/mine_disable = FALSE //NSV13 - Allow disabling of mineship loading.
+	var/mine_disable = TRUE //NSV13 - Allow disabling of mineship loading.
 	var/mine_file = "Rocinante.dmm" //Nsv13. Heavy changes to this file
 	var/mine_path = "map_files/Mining/nsv13"
 	var/faction = "nanotrasen" //Nsv13 - To what faction does the NSV belong?
@@ -30,12 +30,12 @@
 	var/traits = list(
 		list(
 			"Up" = 1,
-			"Linkage" = "Cross",
+			"Linkage" = "Self",
 			"Station" = 1,
 			"Boardable Ship" = 1),
 		list(
 			"Down" = -1,
-			"Linkage" = "Cross",
+			"Linkage" = "Self",
 			"Station" = 1,
 			"Boardable Ship" = 1)
 		)
@@ -44,8 +44,8 @@
 
 	var/allow_custom_shuttles = TRUE
 	var/shuttles = list(
-		"cargo" = "cargo_gladius",
-		"ferry" = "ferry_kilo",
+		"cargo" = "cargo_hammerhead",
+		"ferry" = "ferry_fancy",
 		"emergency" = "emergency_donut")
 
 //NSV EDITED END
