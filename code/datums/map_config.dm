@@ -47,6 +47,7 @@
 	if (!config.LoadConfig(filename, error_if_missing))
 		qdel(config)
 		config = new /datum/map_config  // Fall back to Box
+		config.LoadConfig(config.config_filename)
 	if (delete_after)
 		fdel(filename)
 	return config
