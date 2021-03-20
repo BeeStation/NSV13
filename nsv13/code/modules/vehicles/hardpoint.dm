@@ -179,6 +179,8 @@
 			add_overlay(HP.overlay_state()) //Make sure to include overlays in your vehicle file for any hardpoints you want to attach!
 
 //Hardpoint UI.
+/obj/vehicle/sealed/car/realistic/ui_state(mob/user)
+	return GLOB.contained_state
 
 /obj/vehicle/sealed/car/realistic/ui_interact(mob/user, datum/tgui/ui)
   ui = SStgui.try_update_ui(user, src, ui)

@@ -1430,6 +1430,9 @@ Seek a ship thich we'll station ourselves around
 		holder = M.client //if its a mob, assign the mob's client to holder
 	. = ..()
 
+/datum/starsystem_manager/ui_state(mob/user)
+        return GLOB.admin_state
+
 /datum/starsystem_manager/ui_interact(mob/user, datum/tgui/ui)
 	ui = SStgui.try_update_ui(user, src, ui)
 	if(!ui)

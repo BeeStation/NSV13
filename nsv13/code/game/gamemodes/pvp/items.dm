@@ -249,6 +249,9 @@
 		return
 	ui_interact(user)
 
+/obj/item/ship_loadout_selector/ui_state(mob/user)
+	return GLOB.always_state
+
 /obj/item/ship_loadout_selector/ui_interact(mob/user, datum/tgui/ui)
 	ui = SStgui.try_update_ui(user, src, ui)
 	if(!ui)

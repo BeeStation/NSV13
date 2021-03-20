@@ -18,6 +18,9 @@
 	else
 		return FALSE
 
+/datum/syndicate_job_menu/ui_state(mob/user)
+	GLOB.always_state
+
 /datum/syndicate_job_menu/ui_interact(mob/user, datum/tgui/ui)
 	ui = SStgui.try_update_ui(user, src, ui)
 	if(!ui)
