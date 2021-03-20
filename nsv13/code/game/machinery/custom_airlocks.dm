@@ -207,7 +207,8 @@ odir = EAST / WEST. We need it to face forwards so you can get through
 /obj/machinery/door/airlock/glass_large/ship
 	icon = 'nsv13/icons/obj/machinery/doors/double.dmi'
 	overlays_file = 'nsv13/icons/obj/machinery/doors/overlays_large.dmi'
-	anim_parts = "up=0,12;down=0,-24;left=-12,0;right=12,0"
+	//anim_parts = "up=0,12;down=0,-24;left=-12,0;right=12,0"
+	LEGACY_OVERLAYS = TRUE
 
 /obj/machinery/door/airlock/ship/medical
 	name = "Infirmary"
