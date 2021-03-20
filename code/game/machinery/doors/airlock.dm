@@ -1617,7 +1617,6 @@
 
 //NSV13 start
 /obj/machinery/door/airlock/proc/legacy_set_airlock_overlays(state)
-	message_admins("legacy animating state [state]")
 	var/mutable_appearance/frame_overlay
 	var/mutable_appearance/filling_overlay
 	var/mutable_appearance/lights_overlay
@@ -1756,8 +1755,6 @@
 	add_overlay(damag_overlay)
 	add_overlay(note_overlay)
 	check_unres()
-
-	message_admins("frame=[frame_overlay] fill=[filling_overlay] light=[lights_overlay] panel=[panel_overlay] note=[note_overlay]")
 //NSV13 end
 
 #undef AIRLOCK_CLOSED
