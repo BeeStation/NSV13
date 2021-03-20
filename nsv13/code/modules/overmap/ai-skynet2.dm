@@ -34,8 +34,7 @@ Adding tasks is easy! Just define a datum for it.
 
 #define FLEET_DIFFICULTY_EASY 2 //if things end up being too hard, this is a safe number for a fight you _should_ always win.
 #define FLEET_DIFFICULTY_MEDIUM 5
-#define FLEET_DIFFICULTY_HARD 6
-#define FLEET_DIFFICULTY_SPECIAL 10 //Special difficulties for some boss fleets. These will never scale down to be easier to fight.
+#define FLEET_DIFFICULTY_HARD 8
 #define FLEET_DIFFICULTY_VERY_HARD 10
 #define FLEET_DIFFICULTY_INSANE 15 //If you try to take on the rubicon ;)
 #define FLEET_DIFFICULTY_WHAT_ARE_YOU_DOING 25
@@ -69,6 +68,7 @@ GLOBAL_LIST_EMPTY(ai_goals)
 	var/list/all_ships = list()
 	var/list/lances = list()
 	var/size = FLEET_DIFFICULTY_MEDIUM //How big is this fleet anyway?
+	var/allow_difficulty_scaling = TRUE	//Set this to false if the fleet is supposed to have a constant difficulty as opposed to scaling with pop.
 	var/list/audio_cues = list() //Does this fight come with a theme tune? Takes youtube / media links so that we don't have to store a bunch of copyrighted music on the box.
 	var/instantiated = FALSE //If we're not instantiated, moving all the ships is a piece of cake, if we are however, we do some extra steps to FTL them all.
 	var/datum/star_system/current_system = null //Where are we?
@@ -501,7 +501,8 @@ GLOBAL_LIST_EMPTY(ai_goals)
 
 /datum/fleet/rubicon //Crossing the rubicon, are we?
 	name = "Rubicon Crossing"
-	size = FLEET_DIFFICULTY_SPECIAL
+	size = FLEET_DIFFICULTY_VERY_HARD
+	allow_difficulty_scaling = FALSE
 	audio_cues = list("https://www.youtube.com/watch?v=mhXuYp0n88g", "https://www.youtube.com/watch?v=l1J-2nIovYw", "https://www.youtube.com/watch?v=M_MdmLWmDHs")
 	taunts = list("Better crews have tried to cross the Rubicon, you will die like they did.", "Defense force, stand ready!", "Nanotrasen filth. Munitions, ready the guns. We’ll scrub the galaxy clean of you vermin.", "This shift just gets better and better. I’ll have your Captain’s head on my wall.")
 	fleet_trait = FLEET_TRAIT_DEFENSE
@@ -510,6 +511,7 @@ GLOBAL_LIST_EMPTY(ai_goals)
 	name = "Syndicate Armada" //Fleet spawned if the players are too inactive. Set course...FOR EARTH.
 	destroyer_types = list(/obj/structure/overmap/syndicate/ai, /obj/structure/overmap/syndicate/ai/nuclear, /obj/structure/overmap/syndicate/ai/assault_cruiser, /obj/structure/overmap/syndicate/ai/gunboat, /obj/structure/overmap/syndicate/ai/submarine, /obj/structure/overmap/syndicate/ai/assault_cruiser/boarding_frigate)
 	size = FLEET_DIFFICULTY_VERY_HARD
+	allow_difficulty_scaling = FALSE
 	taunts = list("We're coming for Sol, and you can't stop us. All batteries fire at will.", "Lay down your arms now, you're outnumbered.", "All hands, assume assault formation. Begin bombardment.")
 	audio_cues = list("https://www.youtube.com/watch?v=k8-HHivlj8k")
 
@@ -538,6 +540,7 @@ GLOBAL_LIST_EMPTY(ai_goals)
 /datum/fleet/dolos
 	name = "Dolos Welcoming Party" //Don't do it czanek, don't fucking do it!
 	size = FLEET_DIFFICULTY_WHAT_ARE_YOU_DOING
+	allow_difficulty_scaling = FALSE
 	audio_cues = list("https://www.youtube.com/watch?v=UPHmazxB38g") //FTL13 ;(
 	taunts = list("Don't think we didn't learn from your last attempt.", "We shall not fail again", "Your outdated MAC weapons are no match for us. Prepare to be destroyed.")
 	fleet_trait = FLEET_TRAIT_DEFENSE
@@ -548,6 +551,7 @@ GLOBAL_LIST_EMPTY(ai_goals)
 /datum/fleet/remnant
 	name = "The Remnant"
 	size = FLEET_DIFFICULTY_WHAT_ARE_YOU_DOING
+	allow_difficulty_scaling = FALSE
 	audio_cues = list("https://www.youtube.com/watch?v=ALn-7v9BxNg")
 	taunts = list("<pre>\[DECRYPTION FAILURE]</pre>")
 	fleet_trait = FLEET_TRAIT_DEFENSE
@@ -595,13 +599,14 @@ GLOBAL_LIST_EMPTY(ai_goals)
 /datum/fleet/nanotrasen/earth
 	name = "Earth Defense Force"
 	taunts = list("You're foolish to venture this deep into Solgov space! Main batteries stand ready.", "All hands, set condition 1 throughout the fleet, enemy vessel approaching.", "Defense force, stand ready!", "We shall protect our homeland!")
-	size = FLEET_DIFFICULTY_SPECIAL
+	size = FLEET_DIFFICULTY_HARD
+	allow_difficulty_scaling = FALSE
 	audio_cues = list("https://www.youtube.com/watch?v=k8-HHivlj8k")
 	fleet_trait = FLEET_TRAIT_DEFENSE
 
 /datum/fleet/New()
 	. = ..()
-	if(size < FLEET_DIFFICULTY_SPECIAL)
+	if(allow_difficulty_scaling)
 		//Account for pre-round spawned fleets.
 		var/num_players = (SSticker?.mode) ? SSticker.mode.num_players() : 0
 		if(num_players <= 15) //You get an easier time of it on lowpop
