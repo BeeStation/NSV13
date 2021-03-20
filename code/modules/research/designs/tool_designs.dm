@@ -67,7 +67,7 @@
 	id = "rcl_loaded"
 	build_type = PROTOLATHE
 	materials = list(/datum/material/iron = 10000, /datum/material/glass = 5000)
-	build_path = /obj/item/twohanded/rcl/pre_loaded
+	build_path = /obj/item/rcl/pre_loaded
 	category = list("Tool Designs")
 	departmental_flags =  DEPARTMENTAL_FLAG_ENGINEERING
 
