@@ -814,6 +814,7 @@ Welcome to the neutral zone! Non corporate sanctioned traders with better gear a
 	system_type = "demonstar"
 	is_hypergate = TRUE
 	threat_level = THREAT_LEVEL_UNSAFE
+	fleet_type = /datum/fleet/rubicon
 	adjacency_list = list("Romulus")
 	desc = "Many have attempted to cross the Rubicon, many have failed. This system bridges many different sectors together, and is an inroad for the largely unknown Abassi ridge nebula."
 
