@@ -288,7 +288,7 @@
 		qdel(item)
 
 /datum/trader/ui_state(mob/user)
-	GLOB.not_incapacitated_state
+	return GLOB.not_incapacitated_state
 
 /datum/trader/ui_interact(mob/user, datum/tgui/ui)
 	ui = SStgui.try_update_ui(user, src, ui)

@@ -180,6 +180,10 @@ Called by add_sensor_profile_penalty if remove_in is used.
 		return FALSE
 	return TRUE
 
+/obj/machinery/computer/ship/dradis/ui_state(mob/user)
+	return  GLOB.always_state
+
+
 /obj/machinery/computer/ship/dradis/ui_interact(mob/user, datum/tgui/ui)
 	if(!has_overmap())
 		return
