@@ -76,7 +76,8 @@ Repair
 	var/list/components = list() //What does this fighter start off with? Use this to set what engine tiers and whatever it gets.
 	var/maintenance_mode = FALSE //Munitions level IDs can change this.
 	var/dradis_type =/obj/machinery/computer/ship/dradis/internal
-	var/list/fighter_verbs = list(.verb/show_control_panel, .verb/change_name)
+	var/list/fighter_verbs = list(.verb/toggle_brakes, .verb/toggle_inertia, .verb/toggle_safety, .verb/show_dradis, .verb/overmap_help, .verb/toggle_move_mode, .verb/cycle_firemode, \
+								.verb/show_control_panel, .verb/change_name)
 
 /obj/structure/overmap/fighter/verb/show_control_panel()
 	set name = "Show control panel"

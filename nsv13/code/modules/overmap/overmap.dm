@@ -149,8 +149,6 @@
 
 	var/last_sonar_pulse = 0
 
-	var/overmap_verbs = list(/client/verb/toggle_brakes, /client/verb/toggle_interia, /client/verb/toggle_safety, /client/verb/show_dradis, /client/verb/overmap_help, /client/verb/toggle_move_mode)
-
 /**
 Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 @return OM, a newly spawned overmap sitting on its treadmill as it ought to be.
@@ -592,14 +590,11 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 			ship.relay(sound,message)
 
 /obj/structure/overmap/proc/verb_check(mob/user, require_pilot = TRUE)
-	message_admins("Checking verbs")
 	if(!user)
 		user = usr
 	if(user != pilot)
 		to_chat(user, "<span class='notice'>You can't reach the controls from here</span>")
-		message_admins("Not piloting")
 		return FALSE
-	message_admins("User is not incapacitated: [!user.incapacitated()] and living: [isliving(user)]")
 	return !user.incapacitated() && isliving(user)
 
 /obj/structure/overmap/key_down(key, client/user)
@@ -736,78 +731,58 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 			M.throw_at(throw_target, 4, 3)
 			M.Knockdown(2 SECONDS)
 
-/client/verb/toggle_brakes()
+/obj/structure/overmap/verb/toggle_brakes()
 	set name = "Toggle Handbrake"
 	set category = "Ship"
+	set src = usr.loc
 
-	if(!mob)
+	if(!verb_check() || !can_brake())
 		return
-	var/obj/structure/overmap/OM = mob.overmap_ship
-	if(!OM || !OM.verb_check(mob))
-		return
-	OM.toggle_brakes(mob)
+	brakes = !brakes
+	to_chat(usr, "<span class='notice'>You toggle the brakes [brakes ? "on" : "off"].</span>")
 
-/obj/structure/overmap/proc/toggle_brakes(mob/user)
-	if(can_brake())
-		brakes = !brakes
-		to_chat(usr, "<span class='notice'>You toggle the brakes [brakes ? "on" : "off"].</span>")
-
-/client/verb/toggle_interia()
+/obj/structure/overmap/verb/toggle_inertia()
 	set name = "Toggle IAS"
 	set category = "Ship"
+	set src = usr.loc
 
-	if(!mob)
+	if(!verb_check() || !can_brake())
 		return
-	var/obj/structure/overmap/OM = mob.overmap_ship
-	if(!OM || !OM.verb_check(mob))
-		return
-	OM.toggle_inertia(mob)
-
-/obj/structure/overmap/proc/toggle_inertia(mob/user)
-	if(can_brake())
-		inertial_dampeners = !inertial_dampeners
-		to_chat(usr, "<span class='notice'>Inertial assistance system [inertial_dampeners ? "ONLINE" : "OFFLINE"].</span>")
+	inertial_dampeners = !inertial_dampeners
+	to_chat(usr, "<span class='notice'>Inertial assistance system [inertial_dampeners ? "ONLINE" : "OFFLINE"].</span>")
 
 /obj/structure/overmap/proc/can_change_safeties()
 	return (obj_flags & EMAGGED || !is_station_level(loc.z))
 
-/client/verb/toggle_safety()
+/obj/structure/overmap/verb/toggle_safety()
 	set name = "Toggle Gun Safeties"
 	set category = "Ship"
+	set src = usr.loc
 
-	if(!mob)
+	if(!verb_check() || !can_change_safeties())
 		return
-	var/obj/structure/overmap/OM = mob.overmap_ship
-	if(!OM || !OM.verb_check(mob))
-		return
-	OM.toggle_safety(mob)
+	weapon_safety = !weapon_safety
+	to_chat(usr, "<span class='notice'>You toggle [src]'s weapon safeties [weapon_safety ? "on" : "off"].</span>")
 
-/obj/structure/overmap/proc/toggle_safety(mob/user)
-	if(can_change_safeties())
-		weapon_safety = !weapon_safety
-		to_chat(usr, "<span class='notice'>You toggle [src]'s weapon safeties [weapon_safety ? "on" : "off"].</span>")
-
-/client/verb/show_dradis()
+/obj/structure/overmap/verb/show_dradis()
 	set name = "Show DRADIS"
 	set category = "Ship"
+	set src = usr.loc
 
-	if(!mob)
+	if(!verb_check() || !dradis)
 		return
-	var/obj/structure/overmap/OM = mob.overmap_ship
-	if(!OM || !OM.verb_check(mob))
-		return
-	OM.show_dradis(mob)
-
-/obj/structure/overmap/proc/show_dradis(mob/user)
-	dradis?.attack_hand(usr)
+	dradis.attack_hand(usr)
 
 /obj/structure/overmap/proc/can_brake()
 	return TRUE //See fighters.dm
 
-/client/verb/overmap_help()
+/obj/structure/overmap/verb/overmap_help()
 	set name = "Help"
 	set category = "Ship"
+	set src = usr.loc
 
+	if(!verb_check())
+		return
 	to_chat(usr, "<span class='warning'>=Hotkeys=</span>")
 	to_chat(usr, "<span class='notice'>Use the <b>scroll wheel</b> to zoom in / out.</span>")
 	to_chat(usr, "<span class='notice'>Use tab to activate hotkey mode, then:</span>")
@@ -815,17 +790,12 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 	to_chat(usr, "<span class='notice'>Press <b>Alt<b> to engage handbrake</span>")
 	to_chat(usr, "<span class='notice'>Press <b>Ctrl<b> to cycle fire modes</span>")
 
-/client/verb/toggle_move_mode()
+/obj/structure/overmap/verb/toggle_move_mode()
 	set name = "Change movement mode"
 	set category = "Ship"
+	set src = usr.loc
 
-	if(!mob)
+	if(!verb_check())
 		return
-	var/obj/structure/overmap/OM = mob.overmap_ship
-	if(!OM || !OM.verb_check(mob))
-		return
-	OM.toggle_move_mode(mob)
-
-/obj/structure/overmap/proc/toggle_move_mode(mob/user)
 	move_by_mouse = !move_by_mouse
-	to_chat(user, "<span class='notice'>You [move_by_mouse ? "activate" : "deactivate"] [src]'s laser guided movement system.</span>")
+	to_chat(usr, "<span class='notice'>You [move_by_mouse ? "activate" : "deactivate"] [src]'s laser guided movement system.</span>")

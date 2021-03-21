@@ -38,7 +38,6 @@
 			pilot = user
 			gunner = user
 			LAZYOR(user.mousemove_intercept_objects, src)
-	user.add_verb(overmap_verbs)
 	user.set_focus(src)
 	LAZYADD(operators,user)
 	CreateEye(user) //Your body stays there but your mind stays with me - 6 (Battlestar galactica)
@@ -73,7 +72,6 @@
 		M.client.overmap_zoomout = 0
 	var/mob/camera/ai_eye/remote/overmap_observer/eyeobj = M.remote_control
 	M.cancel_camera()
-	M.remove_verb(overmap_verbs)
 	if(M.client) //Reset px, y
 		M.client.pixel_x = 0
 		M.client.pixel_y = 0
