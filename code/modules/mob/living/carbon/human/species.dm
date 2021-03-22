@@ -1191,13 +1191,13 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 			to_chat( H, "<span class='danger'>Your system produces an error!</span>" )
 			var/trauma_type = pickweight( list(
 				BRAIN_TRAUMA_MILD = 65,
-				BRAIN_TRAUMA_SEVERE = 35
-				// BRAIN_TRAUMA_SPECIAL = 5
+				BRAIN_TRAUMA_SEVERE = 30,
+				BRAIN_TRAUMA_SPECIAL = 5
 			) )
 			var/resistance = pick(
-				50;TRAUMA_RESILIENCE_BASIC,
-				30;TRAUMA_RESILIENCE_SURGERY,
-				15;TRAUMA_RESILIENCE_LOBOTOMY,
+				95;TRAUMA_RESILIENCE_BASIC,
+				// 30;TRAUMA_RESILIENCE_SURGERY,
+				// 15;TRAUMA_RESILIENCE_LOBOTOMY,
 				5;TRAUMA_RESILIENCE_MAGIC
 			)
 			H.gain_trauma_type( trauma_type, resistance )
