@@ -47,8 +47,8 @@
 					if(prob(50))
 						var/trauma_type = pickweight( list(
 							BRAIN_TRAUMA_MILD = 65,
-							BRAIN_TRAUMA_SEVERE = 30,
-							BRAIN_TRAUMA_SPECIAL = 5
+							BRAIN_TRAUMA_SEVERE = 35
+							// BRAIN_TRAUMA_SPECIAL = 5
 						) )
 						var/resistance = pick(
 							50;TRAUMA_RESILIENCE_BASIC,
