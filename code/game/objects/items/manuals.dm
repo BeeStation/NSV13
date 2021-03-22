@@ -481,20 +481,20 @@
 	title = "Standard operating Prosedure: Medical"
 	page_link = "Department_Standard_Operating_Procedure:_Medical"
 	icon_state = "sop_med"
-	
+
 /obj/item/book/manual/wiki/sop/munitions
 	name = "Standard operating Prosedure: Munitions"
 	title = "Standard operating Prosedure: Munitions"
 	page_link = "Department_Standard_Operating_Procedure:_Munitions"
 	icon_state = "sop_muni"
-	
+
 	//Should only be used as maint loot / easter eggs
-/obj/item/book/manual/wiki/sop/munitions/puce 
+/obj/item/book/manual/wiki/sop/munitions/puce
 	icon_state = "sop_muni_puce"
 
 /obj/item/book/manual/wiki/sop/catalogue //Directs to standard SoP page. Able to check any department at will. For command / lawyer
-	name = "Standard operating Prosedure: Catalogue"
-	title = "Standard operating Prosedure: Catalogue"
+	name = "Standard operating Procedure: Catalogue"
+	title = "Standard operating Procedure: Catalogue"
 	page_link = "Standard_Operating_Procedure"
 	icon_state = "sop_catalogue"
 
