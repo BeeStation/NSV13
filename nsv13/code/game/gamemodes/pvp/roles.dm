@@ -558,7 +558,7 @@ Singleton to handle conquest roles. This exists to populate the roles list and n
 	target_accesses = list("General Syndicate Access" = ACCESS_SYNDICATE, "Syndicate Engineering" = ACCESS_SYNDICATE_ENGINEERING, "Syndicate Captain" = ACCESS_SYNDICATE_LEADER, "Syndicate Armoury" = ACCESS_SYNDICATE_MARINE_ARMOURY, "Syndicate Requisitions" = ACCESS_SYNDICATE_REQUISITIONS)
 	req_one_access = list(ACCESS_SYNDICATE_LEADER) //Syndicate captain does the XO's job.
 	theme = "syndicate"
-	circuit = /obj/item/circuitboard/computer/secondary_ship_id_console/syndicate
+	circuit = /obj/item/circuitboard/computer/card/secondary_ship_id_console/syndicate
 
 /obj/machinery/computer/security/syndicate
 	name = "Syndicate Camera Console"

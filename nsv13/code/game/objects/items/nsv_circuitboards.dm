@@ -29,9 +29,11 @@
 
 //Secondary ID console
 /obj/item/circuitboard/computer/card/secondary_ship_id_console
+	name = "circuit board (secondary ID console)"
 	build_path = /obj/machinery/computer/secondary_ship_id_console
 
 /obj/item/circuitboard/computer/card/secondary_ship_id_console/syndicate
+	name = "circiut board (Syndicate ID console)"
 	build_path = /obj/machinery/computer/secondary_ship_id_console/syndicate
 
 ////Security////
