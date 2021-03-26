@@ -53,7 +53,7 @@
 	else //something wrong
 		name = "[initial(name)]"
 	update_icon()
-	if(user.get_item_by_slot(SLOT_BACK) == src)
+	if(user.get_item_by_slot(ITEM_SLOT_BACK) == src)
 		user.update_inv_back()
 	else
 		user.update_inv_hands()

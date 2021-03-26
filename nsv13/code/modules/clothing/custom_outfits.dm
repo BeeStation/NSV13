@@ -32,7 +32,7 @@
 	ears = /obj/item/radio/headset/syndicate/alt
 	id = /obj/item/card/id/syndicate
 	suit_store = /obj/item/tank/internals/oxygen
-	internals_slot = SLOT_S_STORE
+	internals_slot = ITEM_SLOT_SUITSTORE
 	r_pocket = /obj/item/gun/ballistic/automatic/pistol/APS
 	tc = 0
 
@@ -58,7 +58,7 @@
 	back = /obj/item/storage/backpack/satchel
 	belt = /obj/item/storage/belt/utility/full
 	suit_store = /obj/item/tank/internals/oxygen
-	internals_slot = SLOT_S_STORE
+	internals_slot = ITEM_SLOT_SUITSTORE
 	ears = /obj/item/radio/headset/pirate
 	id = /obj/item/card/id
 	r_pocket = /obj/item/gps
@@ -182,7 +182,7 @@
 	belt = /obj/item/storage/belt/utility/full
 	mask = /obj/item/clothing/mask/gas
 	suit_store = /obj/item/tank/internals/oxygen
-	internals_slot = SLOT_S_STORE
+	internals_slot = ITEM_SLOT_SUITSTORE
 	l_pocket = /obj/item/modular_computer/tablet/preset/advanced
 	r_pocket = /obj/item/geiger_counter
 	backpack_contents = list(/obj/item/storage/box/engineer=1,\

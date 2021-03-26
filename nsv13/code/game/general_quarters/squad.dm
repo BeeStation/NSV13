@@ -176,7 +176,7 @@ GLOBAL_DATUM_INIT(squad_manager, /datum/squad_manager, new)
 	var/datum/squad/oldSquad = H.squad
 	H.squad = src
 	if(!oldSquad)
-		var/obj/item/storage/backpack/bag = H.get_item_by_slot(SLOT_BACK)
+		var/obj/item/storage/backpack/bag = H.get_item_by_slot(ITEM_SLOT_BACK)
 		new /obj/item/squad_pager(bag, src)
 		new /obj/item/clothing/neck/squad(bag, src)
 

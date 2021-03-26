@@ -387,7 +387,7 @@ Contains:
 
 /obj/item/clothing/head/helmet/space/hardsuit/carp/equipped(mob/living/carbon/human/user, slot)
 	..()
-	if (slot == SLOT_HEAD)
+	if (slot == ITEM_SLOT_HEAD)
 		user.faction |= "carp"
 
 /obj/item/clothing/head/helmet/space/hardsuit/carp/dropped(mob/living/carbon/human/user)
@@ -541,7 +541,7 @@ Contains:
 	var/rolled_up = TRUE
 
 /obj/item/clothing/suit/space/skinsuit/mob_can_equip(mob/M, mob/living/equipper, slot)
-	if(rolled_up && slot == SLOT_WEAR_SUIT)
+	if(rolled_up && slot == ITEM_SLOT_OCLOTHING)
 		if(equipper)
 			to_chat(equipper, "<span class='warning'>You need to unroll \the [src], silly.</span>")
 		else

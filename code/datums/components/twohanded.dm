@@ -46,7 +46,7 @@
 	//User interaction
 	if(!user)
 		return
-	if(user.get_item_by_slot(SLOT_BACK) == parent)
+	if(user.get_item_by_slot(ITEM_SLOT_BACK) == parent)
 		user.update_inv_back()
 	else
 		user.update_inv_hands()
@@ -166,14 +166,13 @@
 	return
 
 /datum/component/twohanded/required/equipped(obj/item/I, mob/user, slot)
-	var/slotbit = slotdefine2slotbit(slot)
-	if(master.slot_flags & slotbit)
+	if(master.slot_flags & slot)
 		var/datum/O = user.is_holding_item_of_type(/obj/item/offhand)
 		if(!O || QDELETED(O))
 			return
 		qdel(O)
 		return
-	if(slot == SLOT_HANDS)
+	if(slot == ITEM_SLOT_HANDS)
 		SEND_SIGNAL(I, COMSIG_ITEM_WIELD, user)
 	else
 		SEND_SIGNAL(I, COMSIG_ITEM_UNWIELD, user, FALSE)

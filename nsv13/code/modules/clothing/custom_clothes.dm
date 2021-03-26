@@ -278,7 +278,7 @@
 
 /obj/item/clothing/suit/space/hardsuit/syndi/peacekeeper/equipped(mob/user, slot)
 	. = ..()
-	if(slot != SLOT_WEAR_SUIT)
+	if(slot != ITEM_SLOT_OCLOTHING)
 		if(listeningTo)
 			UnregisterSignal(listeningTo, COMSIG_MOVABLE_MOVED)
 		return

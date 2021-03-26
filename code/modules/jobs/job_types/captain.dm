@@ -54,7 +54,7 @@
 	satchel = /obj/item/storage/backpack/satchel/cap
 	duffelbag = /obj/item/storage/backpack/duffelbag/captain
 
-	pda_slot = SLOT_L_STORE
+	pda_slot = ITEM_SLOT_LPOCKET
 
 	implants = list(/obj/item/implant/mindshield)
 	accessory = /obj/item/clothing/accessory/medal/gold/captain
