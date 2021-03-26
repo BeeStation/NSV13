@@ -276,7 +276,7 @@
 /datum/reagent/medicine/oxandrolone/on_mob_life(mob/living/carbon/M)
 	M.adjustFireLoss(-3*REM, 0)
 	if(M.getFireLoss() != 0)
-	M.adjustStaminaLoss(3*REM, FALSE)
+		M.adjustStaminaLoss(3*REM, FALSE)
 	..()
 	. = 1
 
