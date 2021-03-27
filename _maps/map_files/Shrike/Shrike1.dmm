@@ -48,8 +48,15 @@
 /obj/structure/chair/office{
 	dir = 1
 	},
-/obj/machinery/airalarm/directional/south,
 /obj/effect/landmark/start/captain,
+/obj/machinery/requests_console{
+	announcementConsole = 1;
+	department = "Captain's Desk";
+	departmentType = 5;
+	desc = "A console intended to send requests to different departments on the station. This one is equipped with prototype holographic keyboard software, because you deserve it.";
+	name = "Captain RC";
+	pixel_y = -32
+	},
 /turf/open/floor/carpet/black,
 /area/crew_quarters/heads/captain/private)
 "am" = (
@@ -305,17 +312,26 @@
 /turf/open/floor/plasteel/dark,
 /area/security/locker_room)
 "bz" = (
-/obj/structure/hull_plate/end{
-	dir = 9
-	},
-/turf/open/floor/mineral/bananium,
-/area/space/nearstation)
+/obj/machinery/firealarm/directional/west,
+/turf/open/floor/carpet/black,
+/area/crew_quarters/dorms)
 "bC" = (
-/obj/structure/hull_plate/end{
-	dir = 1
+/obj/structure/lattice/catwalk,
+/obj/structure/cable{
+	icon_state = "4-8"
 	},
-/turf/open/floor/mineral/bananium,
-/area/space/nearstation)
+/obj/machinery/atmospherics/pipe/simple/supply/visible/layer1{
+	dir = 8
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	dir = 4
+	},
+/obj/machinery/power/apc/auto_name/south,
+/obj/structure/cable{
+	icon_state = "0-4"
+	},
+/turf/open/openspace,
+/area/maintenance/department/cargo)
 "bF" = (
 /obj/machinery/atmospherics/components/binary/pump/layer1{
 	dir = 1
@@ -333,11 +349,15 @@
 /turf/open/floor/monotile/dark/airless,
 /area/space/nearstation)
 "bH" = (
-/obj/structure/hull_plate/end{
-	dir = 5
+/obj/machinery/requests_console{
+	announcementConsole = 1;
+	department = "Telecomms Admin";
+	departmentType = 5;
+	name = "Telecomms RC";
+	pixel_y = 28
 	},
-/turf/open/floor/mineral/bananium,
-/area/space/nearstation)
+/turf/open/floor/plating,
+/area/tcommsat/computer)
 "bM" = (
 /obj/structure/table/reinforced,
 /obj/structure/window/reinforced/spawner/west,
@@ -1120,6 +1140,7 @@
 /area/maintenance/nsv/deck1/starboard)
 "fd" = (
 /obj/machinery/computer/shuttle/mining,
+/obj/machinery/firealarm/directional/north,
 /turf/open/floor/plasteel/techmaint,
 /area/quartermaster/miningdock)
 "fe" = (
@@ -3468,6 +3489,20 @@
 	lighting_colour_night = "#c1e1ff";
 	lighting_colour_tube = "#c1e1ff"
 	})
+"rz" = (
+/obj/structure/cable/green{
+	icon_state = "1-2"
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/visible/layer1,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
+/obj/structure/disposalpipe/segment,
+/obj/effect/turf_decal/ship/rust,
+/obj/structure/cable/green{
+	icon_state = "0-2"
+	},
+/obj/machinery/power/apc/auto_name/west,
+/turf/open/floor/plating/rusty_techgrid,
+/area/maintenance/nsv/deck1/starboard)
 "rC" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 8
@@ -3517,6 +3552,7 @@
 	dir = 8;
 	pixel_x = 34
 	},
+/obj/machinery/firealarm/directional/south,
 /turf/open/floor/plasteel/ship,
 /area/crew_quarters/dorms)
 "rP" = (
@@ -4191,6 +4227,7 @@
 	icon_state = "4-8"
 	},
 /obj/effect/turf_decal/ship/rust,
+/obj/machinery/firealarm/directional/south,
 /turf/open/floor/plating/rusty_techgrid,
 /area/maintenance/disposal)
 "uE" = (
@@ -5463,6 +5500,7 @@
 	pixel_x = 7;
 	pixel_y = 6
 	},
+/obj/machinery/firealarm/directional/north,
 /turf/open/floor/plasteel/ship/techfloor/alt,
 /area/medical/chemistry)
 "zV" = (
@@ -5928,6 +5966,7 @@
 /obj/machinery/nuclearbomb/selfdestruct{
 	name = "ship self destruct terminal"
 	},
+/obj/machinery/firealarm/directional/east,
 /turf/open/floor/circuit/red/anim,
 /area/ai_monitored/turret_protected/ai)
 "CA" = (
@@ -6918,6 +6957,7 @@
 	dir = 1
 	},
 /obj/effect/turf_decal/ship/rust,
+/obj/machinery/firealarm/directional/west,
 /turf/open/floor/plating/rusty_techgrid,
 /area/ai_monitored/turret_protected/ai_upload)
 "HA" = (
@@ -7983,6 +8023,7 @@
 	name = "AEGIS II"
 	},
 /obj/structure/extinguisher_cabinet/west,
+/obj/machinery/airalarm/directional/south,
 /turf/open/floor/carpet/black,
 /area/crew_quarters/heads/captain/private)
 "Mw" = (
@@ -8643,7 +8684,8 @@
 /area/tcommsat/server)
 "Pn" = (
 /obj/machinery/computer/telecomms/server{
-	dir = 4
+	dir = 4;
+	network = "tcommsat"
 	},
 /turf/open/floor/plasteel/ship,
 /area/tcommsat/computer)
@@ -9309,6 +9351,9 @@
 "RN" = (
 /obj/machinery/computer/communications/console{
 	dir = 10
+	},
+/obj/item/radio/intercom{
+	pixel_x = 27
 	},
 /turf/open/floor/plasteel/ridged/steel,
 /area/bridge{
@@ -10260,10 +10305,14 @@
 /area/engine/stormdrive/monitor)
 "VP" = (
 /obj/machinery/computer/telecomms/monitor{
-	dir = 4
+	dir = 4;
+	network = "tcommsat"
 	},
 /obj/machinery/light{
 	dir = 8
+	},
+/obj/item/radio/intercom{
+	pixel_x = -27
 	},
 /turf/open/floor/plasteel/ship,
 /area/tcommsat/computer)
@@ -39752,7 +39801,7 @@ BU
 BU
 BU
 Wn
-ep
+bH
 Xr
 TD
 ep
@@ -42559,7 +42608,7 @@ Um
 Um
 Um
 VQ
-HJ
+bC
 Rx
 vu
 wf
@@ -43890,7 +43939,7 @@ AA
 jf
 cv
 Ub
-Ub
+rz
 KW
 Ub
 sx
@@ -45894,7 +45943,7 @@ fn
 jl
 jl
 jl
-jl
+bz
 oF
 qP
 sW
@@ -49480,7 +49529,7 @@ IH
 IH
 IH
 IH
-bz
+cF
 Wm
 Wm
 Wm
@@ -49737,7 +49786,7 @@ IH
 IH
 IH
 IH
-bC
+oY
 Wm
 Wm
 Wm
@@ -49994,7 +50043,7 @@ IH
 IH
 IH
 IH
-bC
+oY
 Wm
 Wm
 Wm
@@ -50251,7 +50300,7 @@ IH
 IH
 IH
 IH
-bC
+oY
 Wm
 Wm
 Wm
@@ -50508,7 +50557,7 @@ IH
 IH
 IH
 IH
-bC
+oY
 Wm
 Wm
 Wm
@@ -50765,7 +50814,7 @@ IH
 IH
 IH
 IH
-bH
+dw
 LY
 Wm
 XS
