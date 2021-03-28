@@ -788,7 +788,8 @@ The reactor CHEWS through moderator. It does not do this slowly. Be very careful
 
 /turf/open/indestructible/sound/pool/spentfuel
 	name = "Spent fuel pool"
-	desc = "A dumping ground for spent nuclear fuel, can you touch the bottom?."
+	desc = "A dumping ground for spent nuclear fuel, can you touch the bottom?"
+	icon = 'nsv13/icons/obj/pool.dmi'
 	icon_state = "spentfuelpool"
 
 /turf/open/indestructible/sound/pool/spentfuel/wall
