@@ -215,15 +215,14 @@
 	dir = 4
 	},
 /obj/effect/turf_decal/ship/rust,
-/obj/structure/grille/wall,
 /obj/structure/cable/white{
 	icon_state = "0-4"
 	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	dir = 4
 	},
-/obj/machinery/door/firedoor/window,
 /obj/effect/landmark/zebra_interlock_point,
+/obj/effect/spawner/structure/window/reinforced/ship,
 /turf/open/floor/plating/rusty_techgrid,
 /area/bridge{
 	lighting_colour_bulb = "#c1e1ff";
@@ -714,10 +713,6 @@
 	color = "#c1e1ff";
 	dir = 4
 	},
-/obj/structure/railing{
-	dir = 4;
-	pixel_x = 10
-	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/hallway/nsv/deck1/frame1/central{
 	lighting_colour_bulb = "#c1e1ff";
@@ -955,8 +950,8 @@
 /obj/effect/turf_decal/ship/techfloor{
 	dir = 1
 	},
-/obj/machinery/ship_weapon/gauss_gun{
-	pixel_y = -96
+/obj/machinery/ship_weapon/gauss_gun/north{
+	pixel_y = -60
 	},
 /turf/open/floor/engine/airless,
 /area/space/nearstation)
@@ -1877,6 +1872,9 @@
 	color = "#c1e1ff";
 	dir = 8
 	},
+/obj/structure/sign/directions/evac{
+	pixel_x = -30
+	},
 /turf/open/floor/monofloor{
 	dir = 8
 	},
@@ -2570,8 +2568,7 @@
 /obj/structure/cable/white{
 	icon_state = "0-8"
 	},
-/obj/structure/lattice/catwalk,
-/turf/open/floor/plating,
+/turf/open/floor/plasteel/ship,
 /area/engine/stormdrive/monitor)
 "mt" = (
 /obj/structure/lattice/catwalk,
@@ -3045,7 +3042,6 @@
 	},
 /obj/machinery/power/apc/auto_name/north,
 /obj/effect/turf_decal/ship/rust,
-/obj/structure/lattice/catwalk/over/ship,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	dir = 10
 	},
@@ -5417,6 +5413,7 @@
 /area/maintenance/nsv/deck1/starboard)
 "zI" = (
 /obj/machinery/washing_machine,
+/obj/machinery/computer/ship/viewscreen,
 /turf/open/floor/plasteel/ship,
 /area/crew_quarters/dorms)
 "zJ" = (
@@ -5868,6 +5865,9 @@
 /turf/open/floor/plating/rusty_techgrid,
 /area/engine/armour_pump)
 "Cd" = (
+/obj/structure/sign/departments/minsky/supply/mining{
+	pixel_x = -30
+	},
 /turf/open/openspace,
 /area/quartermaster/miningoffice)
 "Cf" = (
@@ -6007,6 +6007,7 @@
 	})
 "CO" = (
 /obj/machinery/modular_computer/console/preset/command,
+/obj/machinery/computer/ship/viewscreen,
 /turf/open/floor/plasteel/ridged/steel,
 /area/bridge{
 	lighting_colour_bulb = "#c1e1ff";
@@ -6358,6 +6359,7 @@
 /obj/machinery/light{
 	dir = 1
 	},
+/obj/machinery/computer/ship/viewscreen,
 /turf/open/floor/engine,
 /area/ai_monitored/turret_protected/ai_upload)
 "EK" = (
@@ -6873,6 +6875,17 @@
 	},
 /turf/open/floor/plasteel/ship/techfloor/alt,
 /area/medical/chemistry)
+"Hi" = (
+/obj/docking_port/stationary{
+	dir = 2;
+	dwidth = 9;
+	height = 25;
+	id = "emergency_home";
+	name = "Deck 1 Departures Port";
+	width = 29
+	},
+/turf/open/space/basic,
+/area/space)
 "Hk" = (
 /obj/structure/cable/white{
 	icon_state = "2-8"
@@ -7182,7 +7195,6 @@
 	icon_state = "0-8"
 	},
 /obj/machinery/power/apc/auto_name/east,
-/obj/structure/lattice/catwalk/over/ship,
 /obj/machinery/light{
 	color = "#c1e1ff";
 	dir = 4
@@ -7348,6 +7360,9 @@
 /obj/machinery/computer/message_monitor{
 	dir = 4
 	},
+/obj/structure/sign/departments/minsky/engineering/telecommmunications{
+	pixel_x = -30
+	},
 /turf/open/floor/plasteel/ship,
 /area/tcommsat/computer)
 "Ji" = (
@@ -7365,7 +7380,6 @@
 	},
 /obj/machinery/power/apc/auto_name/north,
 /obj/effect/turf_decal/ship/rust,
-/obj/structure/lattice/catwalk/over/ship,
 /turf/open/floor/plating/rusty_techgrid,
 /area/crew_quarters/nsv/observation{
 	lighting_colour_bulb = "#c1e1ff";
@@ -7967,16 +7981,18 @@
 /turf/open/floor/plasteel/ship,
 /area/engine/storage)
 "Mh" = (
-/obj/docking_port/stationary{
-	dir = 2;
-	dwidth = 9;
-	height = 25;
-	id = "emergency_home";
-	name = "Deck 1 Departures Port";
-	width = 29
+/obj/structure/sign/directions/evac{
+	dir = 8;
+	pixel_x = -30
 	},
-/turf/open/space/basic,
-/area/space)
+/turf/open/floor/monofloor{
+	dir = 8
+	},
+/area/hallway/nsv/deck1/frame1/central{
+	lighting_colour_bulb = "#c1e1ff";
+	lighting_colour_night = "#c1e1ff";
+	lighting_colour_tube = "#c1e1ff"
+	})
 "Mk" = (
 /obj/effect/turf_decal/ship/techfloor{
 	dir = 1
@@ -8692,6 +8708,9 @@
 	dir = 4;
 	network = "tcommsat"
 	},
+/obj/structure/sign/departments/minsky/engineering/telecommmunications{
+	pixel_x = -30
+	},
 /turf/open/floor/plasteel/ship,
 /area/tcommsat/computer)
 "Po" = (
@@ -8791,8 +8810,7 @@
 "PA" = (
 /obj/machinery/airalarm/directional/south,
 /obj/machinery/firealarm/directional/east,
-/obj/structure/lattice/catwalk,
-/turf/open/floor/plating,
+/turf/open/floor/plasteel/ship,
 /area/engine/stormdrive/monitor)
 "PC" = (
 /obj/machinery/airalarm/directional/south,
@@ -8916,6 +8934,8 @@
 /obj/item/circuitboard/machine/vls,
 /obj/item/circuitboard/computer/ship/munitions_computer,
 /obj/item/circuitboard/computer/ship/munitions_computer,
+/obj/item/circuitboard/gauss_rack_upgrade,
+/obj/item/circuitboard/gauss_rack_upgrade,
 /turf/open/floor/plasteel/ship,
 /area/storage/tech)
 "PQ" = (
@@ -8983,10 +9003,6 @@
 /obj/structure/lattice/catwalk/over/ship,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	dir = 4
-	},
-/obj/structure/railing{
-	dir = 8;
-	pixel_x = -10
 	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/bridge{
@@ -9133,6 +9149,7 @@
 /obj/machinery/camera/autoname{
 	dir = 8
 	},
+/obj/machinery/computer/ship/viewscreen,
 /turf/open/floor/plating/rusty_techgrid,
 /area/medical/storage)
 "QP" = (
@@ -9772,6 +9789,9 @@
 	lighting_colour_tube = "#c1e1ff"
 	})
 "TT" = (
+/obj/structure/sign/departments/minsky/engineering/engineering{
+	pixel_y = 30
+	},
 /turf/open/floor/plasteel/ship,
 /area/hallway/nsv/deck1/frame1/central)
 "TW" = (
@@ -10426,6 +10446,11 @@
 	dir = 4;
 	pixel_x = 32;
 	pixel_y = -32
+	},
+/obj/structure/sign/directions/engineering{
+	dir = 8;
+	pixel_x = 32;
+	pixel_y = -38
 	},
 /turf/open/floor/monofloor/corner{
 	dir = 6
@@ -11218,6 +11243,9 @@
 	dir = 1
 	},
 /obj/effect/turf_decal/trimline/yellow/arrow_cw,
+/obj/structure/sign/departments/minsky/engineering/atmospherics{
+	pixel_y = -30
+	},
 /turf/open/floor/plasteel/ship,
 /area/hallway/nsv/deck1/frame1/central)
 "Zt" = (
@@ -14369,7 +14397,7 @@ IH
 IH
 IH
 IH
-Mh
+IH
 IH
 IH
 IH
@@ -16168,7 +16196,7 @@ IH
 IH
 IH
 IH
-IH
+Hi
 IH
 IH
 IH
@@ -16939,7 +16967,7 @@ IH
 IH
 IH
 IH
-ad
+IH
 IH
 IH
 IH
@@ -19766,7 +19794,7 @@ IH
 IH
 IH
 IH
-IH
+ad
 IH
 IH
 IH
@@ -44691,7 +44719,7 @@ Sz
 vn
 Uu
 Qz
-Uu
+Mh
 Nu
 OR
 Uu
