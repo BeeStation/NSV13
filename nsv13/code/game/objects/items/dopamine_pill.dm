@@ -11,11 +11,16 @@
 	color = "#DCDCFF"
 
 /datum/reagent/medicine/dopamine/on_mob_life(mob/living/carbon/C)
-	message_admins( "on_mob_life" )
-	message_admins( "[src]" )
 	if ( !GLOB.crew_transfer_risa ) {
 		priority_announce("[station_name()] has successfully returned to Outpost 45 for resupply and crew transfer, excellent work crew.", "Naval Command")
 		GLOB.crew_transfer_risa = TRUE
 		SSticker.mode.check_finished()
 	}
 	..()
+
+/datum/chemical_reaction/dopamine
+	name = "dopamine"
+	id = /datum/reagent/medicine/dopamine
+	results = list(/datum/reagent/medicine/dopamine = 3)
+	required_reagents = list(/datum/reagent/consumable/sugar = 1, /datum/reagent/silicon = 1, /datum/reagent/water = 1)
+	mix_message = "The solution slightly bubbles, becoming thicker."
