@@ -7,7 +7,7 @@
 	total_positions = 4
 	spawn_positions = 4
 	supervisors = "the Flight Leader"
-	selection_color = "#d692a3"
+	selection_color = "#ff9e3e"
 	exp_requirements = 60
 	exp_type = EXP_TYPE_CREW
 	exp_type_department = EXP_TYPE_MUNITIONS
@@ -56,7 +56,7 @@
 	total_positions = 1
 	spawn_positions = 1
 	supervisors = "the Master At Arms"
-	selection_color = "#d692a3"
+	selection_color = "#ffd1a2"
 	exp_requirements = 120
 	exp_type = EXP_TYPE_CREW
 	exp_type_department = EXP_TYPE_MUNITIONS

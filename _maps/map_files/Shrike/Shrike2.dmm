@@ -421,28 +421,29 @@
 	})
 "bp" = (
 /obj/item/ship_weapon/ammunition/railgun_ammo,
+/obj/item/ship_weapon/ammunition/railgun_ammo,
+/obj/item/ship_weapon/ammunition/railgun_ammo,
+/obj/item/ship_weapon/ammunition/railgun_ammo,
+/obj/item/ship_weapon/ammunition/railgun_ammo,
+/obj/item/ship_weapon/ammunition/railgun_ammo,
+/obj/item/ship_weapon/ammunition/railgun_ammo,
+/obj/item/ship_weapon/ammunition/railgun_ammo,
+/obj/item/ship_weapon/ammunition/railgun_ammo,
+/obj/item/ship_weapon/ammunition/railgun_ammo,
+/obj/item/ship_weapon/ammunition/railgun_ammo,
+/obj/item/ship_weapon/ammunition/railgun_ammo,
+/obj/item/ship_weapon/ammunition/railgun_ammo,
+/obj/item/ship_weapon/ammunition/railgun_ammo,
+/obj/item/ship_weapon/ammunition/railgun_ammo,
+/obj/item/ship_weapon/ammunition/railgun_ammo,
+/obj/item/ship_weapon/ammunition/railgun_ammo,
+/obj/item/ship_weapon/ammunition/railgun_ammo,
+/obj/item/ship_weapon/ammunition/railgun_ammo,
+/obj/item/ship_weapon/ammunition/railgun_ammo,
 /obj/machinery/ammo_sorter{
+	max_capacity = 20;
 	name = "Railgun Slug Rack"
 	},
-/obj/item/ship_weapon/ammunition/railgun_ammo,
-/obj/item/ship_weapon/ammunition/railgun_ammo,
-/obj/item/ship_weapon/ammunition/railgun_ammo,
-/obj/item/ship_weapon/ammunition/railgun_ammo,
-/obj/item/ship_weapon/ammunition/railgun_ammo,
-/obj/item/ship_weapon/ammunition/railgun_ammo,
-/obj/item/ship_weapon/ammunition/railgun_ammo,
-/obj/item/ship_weapon/ammunition/railgun_ammo,
-/obj/item/ship_weapon/ammunition/railgun_ammo,
-/obj/item/ship_weapon/ammunition/railgun_ammo,
-/obj/item/ship_weapon/ammunition/railgun_ammo,
-/obj/item/ship_weapon/ammunition/railgun_ammo,
-/obj/item/ship_weapon/ammunition/railgun_ammo,
-/obj/item/ship_weapon/ammunition/railgun_ammo,
-/obj/item/ship_weapon/ammunition/railgun_ammo,
-/obj/item/ship_weapon/ammunition/railgun_ammo,
-/obj/item/ship_weapon/ammunition/railgun_ammo,
-/obj/item/ship_weapon/ammunition/railgun_ammo,
-/obj/item/ship_weapon/ammunition/railgun_ammo,
 /turf/open/floor/plasteel/dark/side{
 	dir = 8
 	},
@@ -1366,6 +1367,18 @@
 "ex" = (
 /turf/closed/wall/ship,
 /area/security/main)
+"ey" = (
+/obj/machinery/computer/ship/navigation/public{
+	density = 0;
+	dir = 1;
+	pixel_y = -12
+	},
+/turf/open/floor/plasteel/ship,
+/area/hallway/nsv/deck2/frame1/starboard{
+	lighting_colour_bulb = "#c1e1ff";
+	lighting_colour_night = "#c1e1ff";
+	lighting_colour_tube = "#c1e1ff"
+	})
 "eC" = (
 /obj/effect/turf_decal/ship/techfloor{
 	dir = 5
@@ -1682,18 +1695,6 @@
 	lighting_colour_bulb = "#FF3232";
 	lighting_colour_night = "#FF3232";
 	lighting_colour_tube = "#FF3232"
-	})
-"fC" = (
-/obj/machinery/computer/ship/navigation/public{
-	density = 0;
-	dir = 1;
-	pixel_y = -12
-	},
-/turf/open/floor/plasteel/ship,
-/area/hallway/nsv/deck2/frame1/starboard{
-	lighting_colour_bulb = "#c1e1ff";
-	lighting_colour_night = "#c1e1ff";
-	lighting_colour_tube = "#c1e1ff"
 	})
 "fD" = (
 /obj/structure/window/reinforced/spawner/west,
@@ -2136,6 +2137,10 @@
 /obj/item/reagent_containers/glass/bucket,
 /turf/open/floor/plating,
 /area/maintenance/department/crew_quarters/bar)
+"hO" = (
+/obj/machinery/lazylift_button,
+/turf/closed/wall/r_wall/ship,
+/area/shuttle/turbolift/tertiary)
 "hQ" = (
 /obj/effect/turf_decal/trimline/blue/line,
 /obj/effect/turf_decal/trimline/red/line{
@@ -3645,12 +3650,6 @@
 /obj/structure/plasticflaps,
 /turf/open/floor/plating/rusty_techgrid,
 /area/quartermaster/sorting)
-"ns" = (
-/obj/structure/extinguisher_cabinet/south,
-/turf/open/floor/plasteel/white/side{
-	dir = 8
-	},
-/area/medical/nsv)
 "nt" = (
 /obj/machinery/disposal/deliveryChute,
 /obj/structure/disposalpipe/trunk{
@@ -3678,12 +3677,20 @@
 /obj/effect/turf_decal/ship/rust,
 /turf/open/floor/plating/rusty_techgrid,
 /area/engine/atmos/starboard_atmos)
-"nE" = (
-/obj/machinery/lazylift_button{
+"nG" = (
+/obj/effect/turf_decal/trimline/blue/line{
 	dir = 8
 	},
-/turf/closed/wall/r_wall/ship,
-/area/shuttle/turbolift/secondary{
+/obj/effect/turf_decal/trimline/red/line{
+	dir = 4
+	},
+/obj/machinery/camera/autoname{
+	dir = 8
+	},
+/turf/open/floor/monofloor{
+	dir = 4
+	},
+/area/hallway/nsv/deck2/frame1/starboard{
 	lighting_colour_bulb = "#c1e1ff";
 	lighting_colour_night = "#c1e1ff";
 	lighting_colour_tube = "#c1e1ff"
@@ -5364,16 +5371,6 @@
 /obj/structure/lattice/catwalk/over/ship,
 /turf/open/floor/plating/rusty_techgrid,
 /area/hallway/nsv/deck2/frame1/port{
-	lighting_colour_bulb = "#c1e1ff";
-	lighting_colour_night = "#c1e1ff";
-	lighting_colour_tube = "#c1e1ff"
-	})
-"tm" = (
-/obj/machinery/lazylift_button{
-	dir = 8
-	},
-/turf/closed/wall/r_wall/ship,
-/area/shuttle/turbolift/primary{
 	lighting_colour_bulb = "#c1e1ff";
 	lighting_colour_night = "#c1e1ff";
 	lighting_colour_tube = "#c1e1ff"
@@ -7895,6 +7892,16 @@
 	lighting_colour_night = "#FF3232";
 	lighting_colour_tube = "#FF3232"
 	})
+"Bs" = (
+/obj/machinery/lazylift_button{
+	dir = 8
+	},
+/turf/closed/wall/r_wall/ship,
+/area/shuttle/turbolift/primary{
+	lighting_colour_bulb = "#c1e1ff";
+	lighting_colour_night = "#c1e1ff";
+	lighting_colour_tube = "#c1e1ff"
+	})
 "Bt" = (
 /obj/effect/turf_decal/ship/rust,
 /obj/machinery/advanced_airlock_controller/directional/south,
@@ -7974,10 +7981,6 @@
 	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/engine/atmos/starboard_atmos)
-"BJ" = (
-/obj/machinery/camera/autoname,
-/turf/open/space/basic,
-/area/space)
 "BK" = (
 /obj/effect/turf_decal/ship/rust,
 /obj/machinery/light{
@@ -8159,6 +8162,16 @@
 /obj/effect/landmark/zebra_interlock_point,
 /turf/open/floor/plating/rusty_techgrid,
 /area/maintenance/nsv/deck2/port)
+"Cs" = (
+/obj/machinery/lazylift_button{
+	dir = 8
+	},
+/turf/closed/wall/r_wall/ship,
+/area/shuttle/turbolift/secondary{
+	lighting_colour_bulb = "#c1e1ff";
+	lighting_colour_night = "#c1e1ff";
+	lighting_colour_tube = "#c1e1ff"
+	})
 "Cw" = (
 /obj/machinery/atmospherics/pipe/manifold/supply/visible/layer1{
 	dir = 8
@@ -9586,7 +9599,8 @@
 /obj/effect/turf_decal/tile/orange{
 	dir = 4
 	},
-/obj/structure/munitions_trolley,
+/obj/structure/closet/crate/large,
+/obj/item/ship_weapon/ammunition/naval_artillery/ap,
 /turf/open/floor/plasteel/dark/side,
 /area/nsv/weapons/fore)
 "Hq" = (
@@ -10173,6 +10187,7 @@
 /obj/effect/turf_decal/tile/orange{
 	dir = 4
 	},
+/obj/structure/munitions_trolley,
 /turf/open/floor/plasteel/dark/side,
 /area/nsv/weapons/fore)
 "Jo" = (
@@ -10989,6 +11004,7 @@
 /area/nsv/weapons/fore)
 "LJ" = (
 /obj/machinery/ammo_sorter{
+	max_capacity = 20;
 	name = "Railgun Slug Rack"
 	},
 /obj/item/ship_weapon/ammunition/railgun_ammo,
@@ -11015,28 +11031,29 @@
 /area/nsv/weapons/fore)
 "LL" = (
 /obj/item/ship_weapon/ammunition/railgun_ammo,
+/obj/item/ship_weapon/ammunition/railgun_ammo,
+/obj/item/ship_weapon/ammunition/railgun_ammo,
+/obj/item/ship_weapon/ammunition/railgun_ammo,
+/obj/item/ship_weapon/ammunition/railgun_ammo,
+/obj/item/ship_weapon/ammunition/railgun_ammo,
+/obj/item/ship_weapon/ammunition/railgun_ammo,
+/obj/item/ship_weapon/ammunition/railgun_ammo,
+/obj/item/ship_weapon/ammunition/railgun_ammo,
+/obj/item/ship_weapon/ammunition/railgun_ammo,
+/obj/item/ship_weapon/ammunition/railgun_ammo,
+/obj/item/ship_weapon/ammunition/railgun_ammo,
+/obj/item/ship_weapon/ammunition/railgun_ammo,
+/obj/item/ship_weapon/ammunition/railgun_ammo,
+/obj/item/ship_weapon/ammunition/railgun_ammo,
+/obj/item/ship_weapon/ammunition/railgun_ammo,
+/obj/item/ship_weapon/ammunition/railgun_ammo,
+/obj/item/ship_weapon/ammunition/railgun_ammo,
+/obj/item/ship_weapon/ammunition/railgun_ammo,
+/obj/item/ship_weapon/ammunition/railgun_ammo,
 /obj/machinery/ammo_sorter{
+	max_capacity = 20;
 	name = "Railgun Slug Rack"
 	},
-/obj/item/ship_weapon/ammunition/railgun_ammo,
-/obj/item/ship_weapon/ammunition/railgun_ammo,
-/obj/item/ship_weapon/ammunition/railgun_ammo,
-/obj/item/ship_weapon/ammunition/railgun_ammo,
-/obj/item/ship_weapon/ammunition/railgun_ammo,
-/obj/item/ship_weapon/ammunition/railgun_ammo,
-/obj/item/ship_weapon/ammunition/railgun_ammo,
-/obj/item/ship_weapon/ammunition/railgun_ammo,
-/obj/item/ship_weapon/ammunition/railgun_ammo,
-/obj/item/ship_weapon/ammunition/railgun_ammo,
-/obj/item/ship_weapon/ammunition/railgun_ammo,
-/obj/item/ship_weapon/ammunition/railgun_ammo,
-/obj/item/ship_weapon/ammunition/railgun_ammo,
-/obj/item/ship_weapon/ammunition/railgun_ammo,
-/obj/item/ship_weapon/ammunition/railgun_ammo,
-/obj/item/ship_weapon/ammunition/railgun_ammo,
-/obj/item/ship_weapon/ammunition/railgun_ammo,
-/obj/item/ship_weapon/ammunition/railgun_ammo,
-/obj/item/ship_weapon/ammunition/railgun_ammo,
 /turf/open/floor/plasteel/dark,
 /area/nsv/weapons/fore)
 "LM" = (
@@ -11053,10 +11070,6 @@
 	lighting_colour_night = "#c1e1ff";
 	lighting_colour_tube = "#c1e1ff"
 	})
-"LN" = (
-/obj/machinery/lazylift_button,
-/turf/closed/wall/r_wall/ship,
-/area/shuttle/turbolift/tertiary)
 "LO" = (
 /obj/structure/lattice/catwalk,
 /obj/machinery/atmospherics/pipe/heat_exchanging/simple/layer1,
@@ -11311,6 +11324,12 @@
 /obj/effect/turf_decal/ship/rust,
 /turf/open/floor/plating/rusty_techgrid,
 /area/engine/stormdrive)
+"MO" = (
+/obj/structure/extinguisher_cabinet/south,
+/turf/open/floor/plasteel/white/side{
+	dir = 8
+	},
+/area/medical/nsv)
 "MP" = (
 /turf/closed/wall/ship,
 /area/medical/surgery/aux)
@@ -11792,24 +11811,6 @@
 	},
 /turf/open/floor/monofloor,
 /area/crew_quarters/bar/mess_hall)
-"Ob" = (
-/obj/effect/turf_decal/trimline/blue/line{
-	dir = 8
-	},
-/obj/effect/turf_decal/trimline/red/line{
-	dir = 4
-	},
-/obj/machinery/camera/autoname{
-	dir = 8
-	},
-/turf/open/floor/monofloor{
-	dir = 4
-	},
-/area/hallway/nsv/deck2/frame1/starboard{
-	lighting_colour_bulb = "#c1e1ff";
-	lighting_colour_night = "#c1e1ff";
-	lighting_colour_tube = "#c1e1ff"
-	})
 "Oc" = (
 /obj/structure/cable/white{
 	icon_state = "1-8"
@@ -14411,6 +14412,10 @@
 /obj/machinery/airalarm/directional/north,
 /turf/open/floor/plating,
 /area/medical/surgery/aux)
+"Wy" = (
+/obj/machinery/camera/autoname,
+/turf/open/space/basic,
+/area/space)
 "WB" = (
 /obj/structure/grille/wall,
 /turf/open/space/basic,
@@ -48573,7 +48578,7 @@ AH
 zL
 wX
 cT
-Ob
+nG
 nM
 cT
 cT
@@ -48829,7 +48834,7 @@ lH
 nc
 HI
 Bv
-fC
+ey
 Mv
 Mv
 Mv
@@ -49058,7 +49063,7 @@ gi
 gi
 gi
 fR
-tm
+Bs
 sG
 IL
 IL
@@ -49086,7 +49091,7 @@ RC
 zu
 Au
 yM
-nE
+Cs
 Mv
 gi
 gi
@@ -49615,7 +49620,7 @@ QF
 Xn
 Xn
 Xn
-LN
+hO
 XD
 zA
 GA
@@ -50905,13 +50910,13 @@ wF
 rv
 Si
 dq
-ns
+MO
 RH
 eP
 eP
 eP
 eP
-BJ
+Wy
 gi
 gi
 gi
