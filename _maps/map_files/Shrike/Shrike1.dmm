@@ -1233,7 +1233,6 @@
 	},
 /obj/item/gun/energy/laser/captain{
 	ammo_type = list();
-	cell_type = null;
 	desc = "This is a futuristic laser gun. All craftsmanship is of the highest quality. It is decorated with assistant leather and chrome. The object menaces with spikes of energy. On the item is an image of Space Station 13. The station is exploding.";
 	name = "futuristic laser gun model";
 	pin = null;
@@ -3304,6 +3303,9 @@
 /obj/machinery/lazylift_button{
 	dir = 4
 	},
+/obj/structure/sign/ship/deck{
+	pixel_y = 32
+	},
 /turf/open/floor/plating,
 /area/space)
 "qB" = (
@@ -3709,11 +3711,6 @@
 /turf/open/floor/plating/rusty_techgrid,
 /area/storage/tech)
 "sI" = (
-/obj/machinery/lazylift_button{
-	dir = 4;
-	pixel_x = -32;
-	pixel_y = -7
-	},
 /obj/machinery/door/airlock/ship/public/glass/turbolift,
 /turf/open/floor/plasteel/white/side{
 	dir = 8
@@ -6257,12 +6254,9 @@
 /turf/open/floor/plating/rusty_techgrid,
 /area/engine/stormdrive/monitor)
 "Ek" = (
-/obj/structure/window/spawner{
-	dir = 8
-	},
 /obj/machinery/camera/autoname,
-/obj/structure/sign/ship/deck{
-	pixel_y = 32
+/obj/structure/railing{
+	dir = 8
 	},
 /turf/open/openspace,
 /area/medical/medbay/zone2)
@@ -6915,6 +6909,10 @@
 	lighting_colour_night = "#c1e1ff";
 	lighting_colour_tube = "#c1e1ff"
 	})
+"Hn" = (
+/obj/machinery/lazylift_button,
+/turf/closed/wall/r_wall/ship,
+/area/shuttle/turbolift/tertiary)
 "Ho" = (
 /obj/structure/cable/white{
 	icon_state = "1-8"
@@ -7752,7 +7750,7 @@
 /turf/open/floor/plating/rusty_techgrid,
 /area/ai_monitored/turret_protected/ai_upload_foyer)
 "KZ" = (
-/obj/structure/window/spawner,
+/obj/structure/railing,
 /turf/open/openspace,
 /area/medical/medbay/zone2)
 "La" = (
@@ -8385,9 +8383,8 @@
 /turf/open/floor/plating/rusty_techgrid,
 /area/maintenance/nsv/deck1/starboard)
 "NY" = (
-/obj/structure/window/spawner,
-/obj/structure/window/spawner{
-	dir = 4
+/obj/structure/railing{
+	dir = 6
 	},
 /turf/open/openspace,
 /area/medical/medbay/zone2)
@@ -8781,10 +8778,10 @@
 	lighting_colour_tube = "#c1e1ff"
 	})
 "Px" = (
-/obj/structure/window/spawner{
+/obj/machinery/camera/autoname,
+/obj/structure/railing{
 	dir = 4
 	},
-/obj/machinery/camera/autoname,
 /turf/open/openspace,
 /area/medical/medbay/zone2)
 "Pz" = (
@@ -9365,9 +9362,8 @@
 /turf/open/floor/plating,
 /area/maintenance/nsv/bridge)
 "RM" = (
-/obj/structure/window/spawner,
-/obj/structure/window/spawner{
-	dir = 8
+/obj/structure/railing{
+	dir = 10
 	},
 /turf/open/openspace,
 /area/medical/medbay/zone2)
@@ -9777,7 +9773,6 @@
 	},
 /obj/machinery/power/apc/auto_name/north,
 /obj/effect/turf_decal/ship/rust,
-/obj/structure/lattice/catwalk/over/ship,
 /obj/structure/table/reinforced,
 /obj/item/book/manual/wiki/sop/command,
 /obj/structure/cable/white{
@@ -44998,7 +44993,7 @@ wN
 wN
 wN
 wN
-IH
+bw
 IH
 IH
 IH
@@ -45526,7 +45521,7 @@ Ey
 Pb
 Pb
 Pb
-Pb
+Hn
 Ek
 RM
 ZA

@@ -461,7 +461,7 @@
 datum/supply_pack/medical/chemical_supply
 	name = "Chemical Supply Crate"
 	desc = "This crate contains 10 bottles of chemical elements"
-	cost = 3000
+	cost = 2000
 	contains = list()
 	crate_name = "Chemical Supply Crate"
 

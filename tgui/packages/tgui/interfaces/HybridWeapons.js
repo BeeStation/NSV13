@@ -35,9 +35,9 @@ export const HybridWeapons = (props, context) => {
           />
           <Button
             fluid
-            icon={data.slug_shell ? "power-off" : "times"}
-            color={data.slug_shell ? "green" : "red"}
-            content="I4 - Cycle Ordnance"
+            icon="cog"
+            color={data.slug_shell ? "yellow" : "orange"}
+            content={data.slug_shell ? "I4 - Configuration: Slug Type" : "I4 - Configuration: Shell Type"}
             onClick={() => act('switch_type')}
           />
           <br />

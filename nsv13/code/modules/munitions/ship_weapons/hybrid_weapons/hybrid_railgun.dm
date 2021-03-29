@@ -84,7 +84,7 @@
 		max_ammo = 1
 		projectile_velo = 2 //Not so great at handling shells
 		capacitor_max_charge = 1000000 //1MW
-		say("Cycling complete: Configuration - ???mm Shell Selected")
+		say("Cycling complete: Configuration - 800mm Shell Selected")
 
 	else if(slug_shell == 1)	//change to using Slugs
 		slug_shell = 0
@@ -199,20 +199,20 @@
 				alignment = 100
 				break
 
-/obj/machinery/ship_weapon/hybrid_rail/hybrid_rail/attack_hand(mob/living/carbon/user)
-	ui_interact()
+/obj/machinery/ship_weapon/hybrid_rail/attack_hand(mob/living/carbon/user)
+	ui_interact(user)
 
-/obj/machinery/ship_weapon/hybrid_rail/hybrid_rail/attack_ai(mob/user)
+/obj/machinery/ship_weapon/hybrid_rail/attack_ai(mob/user)
 	.=..()
-	ui_interact()
+	ui_interact(user)
 
-/obj/machinery/ship_weapon/hybrid_rail/hybrid_rail/attack_robot(mob/user)
+/obj/machinery/ship_weapon/hybrid_rail/attack_robot(mob/user)
 	.=..()
-	ui_interact()
+	ui_interact(user)
 
-/obj/machinery/ship_weapon/hybrid_rail/hybrid_rail/attack_ghost(mob/user)
+/obj/machinery/ship_weapon/hybrid_rail/attack_ghost(mob/user)
 	.=..()
-	ui_interact()
+	ui_interact(user)
 
 /obj/machinery/ship_weapon/hybrid_rail/ui_interact(mob/user, ui_key = "main", datum/tgui/ui = null, force_open = FALSE, \
 										datum/tgui/master_ui = null, datum/ui_state/state = GLOB.default_state)
