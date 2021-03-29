@@ -91,6 +91,9 @@
 		parts[++parts.len] = part
 	data["parts"] = parts
 	data["can_pack"] = core.payload_gate && core.payload_gate.loaded
+	data["strength"] = (core.payload_gate.shell) ? "Packed strength: [core.payload_gate.shell.speed] dT." : null
+	data["shell"] = (core.payload_gate.shell) ? "[core.payload_gate.shell.name]" : null
+
 	return data
 
 /obj/machinery/computer/deckgun/ui_act(action, params)
@@ -307,6 +310,11 @@
 	var/ammo_type = /obj/item/ship_weapon/ammunition/naval_artillery
 	var/loading = FALSE
 	var/load_delay = 15 SECONDS
+
+/obj/machinery/deck_turret/payload_gate/examine()
+	. = ..()
+	. += (shell) ? "<span class='notice'>Packed strength: [shell.speed]dT.</span>" : "<span class='notice'>Shell not loaded.</span>"
+	. += (shell) ? "<span class='notice'>[shell.name]</span>" : null
 
 /obj/machinery/deck_turret/payload_gate/MouseDrop_T(obj/item/A, mob/user)
 	. = ..()

@@ -295,7 +295,7 @@
 	desc = "An upgrade which allows you to load gauss racks using conveyors."
 	id = "gauss_rack_upgrade"
 	materials = list(/datum/material/glass = 2000, /datum/material/copper = 2000, /datum/material/gold = 5000)
-	build_path = /obj/item/circuitboard/computer/ams
+	build_path = /obj/item/circuitboard/gauss_rack_upgrade
 	category = list("Advanced Munitions")
 	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS
 

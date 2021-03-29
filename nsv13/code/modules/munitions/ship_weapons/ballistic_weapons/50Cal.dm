@@ -10,10 +10,15 @@
 	semi_auto = TRUE
 	maintainable = FALSE
 	fire_mode = FIRE_MODE_50CAL
-	max_ammo = 100
+	max_ammo = 200
 	circuit = /obj/item/circuitboard/machine/fiftycal
 	var/gunning_component_type = /datum/component/overmap_gunning/fiftycal
 	var/mob/living/gunner
+
+/obj/machinery/ship_weapon/fiftycal/examine(mob/user)
+	. = ..()
+	. += "<span class ='notice'>It has [get_ammo()]/[get_max_ammo()] rounds loaded.</span>"
+
 
 /obj/machinery/ship_weapon/fiftycal/super
 	name = ".50 cal super pom pom turret"
@@ -94,6 +99,7 @@
 	autofire_target = over_object
 
 /datum/component/overmap_gunning/proc/end_gunning()
+	autofire_target = null
 	var/obj/structure/overmap/OM = holder.loc.get_overmap()
 	OM.gauss_gunners.Remove(holder)
 	STOP_PROCESSING(SSfastprocess, src)
@@ -109,6 +115,10 @@
 	icon_screen = "50cal"
 	circuit = /obj/item/circuitboard/computer/fiftycal
 	var/obj/machinery/ship_weapon/fiftycal/turret
+
+/obj/machinery/computer/fiftycal/examine(mob/user)
+	. = ..()
+	. += "<span class ='notice'>Its ammo counter reads [turret.get_ammo()]/[turret.get_max_ammo()]. </span>"
 
 /obj/machinery/computer/fiftycal/Initialize()
 	. = ..()
@@ -143,6 +153,10 @@
 	ammo_type = /obj/item/ammo_casing/fiftycal
 	caliber = "mm50pdc"
 	max_ammo = 200
+
+/obj/item/ammo_box/magazine/pdc/fiftycal/examine(mob/user)
+	. = ..()
+	. += "<span class ='notice'>It has [ammo_count()] bullets left.</span>"
 
 /obj/item/ammo_box/magazine/pdc/fiftycal/update_icon()
 	if(ammo_count() > 10)
