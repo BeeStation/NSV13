@@ -10,10 +10,18 @@ Note: This expects the EDF to be in Sol, and not somewhere in Brazil due to admi
 		return
 
 	var/datum/fleet/siege_fleet
+	var/datum/fleet/defense_fleet
+
 	for(var/datum/fleet/F in fleets)
 		if(istype(F, /datum/fleet/earthbuster))
 			siege_fleet = F
 			break
+	for(var/datum/fleet/F in fleets)
+		if(istype(F, /datum/fleet/nanotrasen/earth) && !QDELETED(F))
+			defense_fleet = F
+			break
+	if(!defense_fleet)	//Assumption: The EDF is always either in Sol or dead aka gameended.
+		return
 
 	if(siege_fleet)
 		solar_siege_cycles_left--
