@@ -509,12 +509,20 @@
 	lighting_colour_tube = "#c1e1ff"
 	})
 "cq" = (
-/obj/effect/turf_decal/stripes/line,
-/obj/effect/turf_decal/stripes/line{
-	dir = 1
-	},
 /obj/machinery/light/small{
 	dir = 8
+	},
+/obj/machinery/button/door{
+	id = "cargo_starboard_shutters";
+	name = "cargo shuttle shutters";
+	pixel_x = 5;
+	pixel_y = 30
+	},
+/obj/machinery/button/door{
+	id = "cargo_lift_shutters";
+	name = "cargo lift shutters";
+	pixel_x = -5;
+	pixel_y = 30
 	},
 /turf/open/floor/monotile,
 /area/maintenance/department/cargo)
@@ -543,21 +551,9 @@
 /turf/open/floor/plating/rusty_techgrid,
 /area/maintenance/nsv/deck1/starboard)
 "cw" = (
-/obj/machinery/button/door{
-	id = "cargo_lift_shutters";
-	name = "cargo lift shutters";
-	pixel_x = 22;
-	pixel_y = -5
-	},
 /obj/effect/turf_decal/stripes/line,
 /obj/effect/turf_decal/stripes/line{
 	dir = 1
-	},
-/obj/machinery/button/door{
-	id = "cargo_starboard_shutters";
-	name = "cargo shuttle shutters";
-	pixel_x = 22;
-	pixel_y = 5
 	},
 /obj/machinery/camera/autoname{
 	dir = 8
@@ -786,13 +782,10 @@
 /turf/closed/wall/r_wall/ship,
 /area/shuttle/turbolift/shaft)
 "dz" = (
-/obj/machinery/door/airlock/turbolift/ship,
 /obj/machinery/lazylift_button{
-	dir = 4;
-	pixel_x = -32;
-	pixel_y = -7
+	dir = 1
 	},
-/turf/open/floor/monotile/dark,
+/turf/closed/wall/r_wall/ship,
 /area/shuttle/turbolift/shaft)
 "dA" = (
 /obj/structure/closet/crate/wooden/toy,
@@ -41339,9 +41332,9 @@ IH
 IH
 IH
 IH
-li
-li
-li
+Rz
+Rz
+Rz
 li
 li
 Rx
@@ -41597,8 +41590,8 @@ IH
 IH
 IH
 Rz
-Rz
-dx
+cq
+dz
 dx
 dx
 dx
@@ -41854,8 +41847,8 @@ IH
 IH
 ba
 bZ
-cq
-dz
+cu
+dF
 ex
 eF
 eF
