@@ -108,6 +108,7 @@
 	var/faction = null //NSV13 - bullets need factions for collision checks
 	var/next_homing_process = 0 //Nsv13 - performance enhancements
 	var/homing_delay = 0.7 SECONDS //Nsv13 - performance enhancements. 1 second delay is noticeably slow
+	var/martial_arts_no_deflect = FALSE
 
 	var/temporary_unstoppable_movement = FALSE
 
