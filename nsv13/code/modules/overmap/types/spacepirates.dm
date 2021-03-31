@@ -16,6 +16,7 @@
 	ai_controlled = TRUE
 	ai_behaviour = AI_AGGRESSIVE
 	ai_trait = AI_TRAIT_ANTI_FIGHTER //You didn't expect identical tactics, did you?
+	combat_dice_type = /datum/combat_dice/frigate
 
 /obj/structure/overmap/spacepirate/ai/Initialize()
 	. = ..()
@@ -106,6 +107,7 @@
 	shots_left = 20
 	armor = list("overmap_light" = 50, "overmap_heavy" = 20)
 	ai_trait = AI_TRAIT_BATTLESHIP
+	combat_dice_type = /datum/combat_dice/destroyer
 
 /obj/structure/overmap/spacepirate/ai/syndie_gunboat/apply_weapons() //Dakka+
 	weapon_types[FIRE_MODE_PDC] = new /datum/ship_weapon/pdc_mount/aa_guns(src)
@@ -134,6 +136,7 @@
 	armor = list("overmap_light" = 90, "overmap_heavy" = 50)
 	can_resupply = TRUE
 	ai_trait = AI_TRAIT_SUPPLY
+	combat_dice_type = /datum/combat_dice/flagship
 
 /obj/structure/overmap/spacepirate/ai/dreadnought/apply_weapons()
 	weapon_types[FIRE_MODE_PDC] = new /datum/ship_weapon/pdc_mount/aa_guns(src)

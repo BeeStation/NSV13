@@ -44,3 +44,4 @@
 /obj/structure/overmap/nanotrasen/solgov/ai
 	ai_controlled = TRUE
 	ai_trait = AI_TRAIT_DESTROYER
+	combat_dice_type = /datum/combat_dice/destroyer

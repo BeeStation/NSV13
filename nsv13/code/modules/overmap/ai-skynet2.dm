@@ -244,6 +244,9 @@ GLOBAL_LIST_EMPTY(ai_goals)
 		if(OM.mobs_in_ship?.len)
 			encounter(OM)
 	}
+	if(current_system.check_conflict_status())
+		if(!SSstar_system.contested_systems.Find(current_system))
+			SSstar_system.contested_systems.Add(current_system)
 	if(course_picked_target)
 		plotted_course -= target
 	else if(plotted_course && plotted_course.len)	//We jumped. but didn't follow our course! Recalculate!
@@ -282,7 +285,7 @@ GLOBAL_LIST_EMPTY(ai_goals)
 		defeat()
 
 /datum/fleet/proc/defeat()
-	minor_announce("[name] has been defeated in battle", "White Rapids Fleet Command")
+	minor_announce("[name] has been defeated [(current_system && !current_system.hidden) ? "during combat in the [current_system.name] system" : "in battle"].", "White Rapids Fleet Command")
 	current_system.fleets -= src
 	if(current_system.fleets && current_system.fleets.len)
 		var/datum/fleet/F = pick(current_system.fleets)
@@ -703,6 +706,9 @@ GLOBAL_LIST_EMPTY(ai_goals)
 				if(member.physics2d)
 					STOP_PROCESSING(SSphysics_processing, member.physics2d)
 		}
+	if(SS.check_conflict_status())
+		if(!SSstar_system.contested_systems.Find(SS))
+			SSstar_system.contested_systems.Add(SS)
 	return TRUE
 
 /*
