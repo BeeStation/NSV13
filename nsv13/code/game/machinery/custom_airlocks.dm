@@ -135,7 +135,7 @@ odir = EAST / WEST. We need it to face forwards so you can get through
 /obj/machinery/door/airlock/ship/command
 	name = "Command"
 	icon = 'nsv13/goonstation/icons/command.dmi'
-	anim_parts = "bg=0,0left=-12,0;right=12,0"
+	anim_parts = "bg=0,0;left=-12,0;right=12,0"
 
 /obj/machinery/door/airlock/ship/command/glass
 	icon = 'nsv13/goonstation/icons/command_glass.dmi'
