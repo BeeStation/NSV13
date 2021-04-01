@@ -479,6 +479,33 @@
 	icon_state = "maa_hat"
 	item_state = "maa_hat"
 
+/obj/item/clothing/head/helmet/space/hardsuit/master_at_arms
+	name = "Master-At-Arm's Bombsuit Helmet"
+	desc = "Use in case of bomb."
+	icon = 'nsv13/icons/obj/clothing/hats.dmi' //Placeholder subtype for our own iconsets
+	alternate_worn_icon = 'nsv13/icons/mob/head.dmi'
+	icon_state = "hardsuit0_maa_bombsuit"
+	item_state = "maa_bombsuit"
+	item_color = "maa_bombsuit"
+	armor = list("melee" = 25, "bullet" = 15, "laser" = 20,"energy" = 10, "bomb" = 100, "bio" = 100, "rad" = 50, "fire" = 85, "acid" = 50)
+	min_cold_protection_temperature = EMERGENCY_HELM_MIN_TEMP_PROTECT
+
+/obj/item/clothing/suit/space/hardsuit/master_at_arms
+	name = "Master-At-Arm's Bombsuit"
+	desc = "An advanced suit designed for safety when handling explosives."
+	icon = 'nsv13/icons/obj/clothing/suits.dmi'
+	alternate_worn_icon = 'nsv13/icons/mob/suit.dmi'
+	icon_state = "maa_bombsuit"
+	item_state = "maa_bombsuit"
+	armor = list("melee" = 25, "bullet" = 15, "laser" = 20,"energy" = 10, "bomb" = 100, "bio" = 100, "rad" = 50, "fire" = 85, "acid" = 50)
+	min_cold_protection_temperature = EMERGENCY_SUIT_MIN_TEMP_PROTECT
+	slowdown = 2
+	permeability_coefficient = 0.01
+	helmettype = /obj/item/clothing/head/helmet/space/hardsuit/master_at_arms
+
+
+
+
 /obj/item/clothing/under/ship/syndicate_tech
 	name = "Syndicate technician jumpsuit"
 	desc = "A jumpsuit worn by Syndicate technicians, it's been armour plated to protect the wearer in combat scenarios."
