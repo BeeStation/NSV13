@@ -1,6 +1,7 @@
 GLOBAL_VAR_INIT(crew_transfer_risa, FALSE)
 
 #define FACTION_VICTORY_TICKETS 1000
+#define COMBAT_CYCLE_INTERVAL 180 SECONDS	//Time between each 'combat cycle' of starsystems. Every combat cycle, every system that has opposing fleets in it gets iterated through, with the fleets firing at eachother.
 
 //Subsystem to control overmap events and the greater gameworld
 SUBSYSTEM_DEF(star_system)
@@ -25,6 +26,10 @@ SUBSYSTEM_DEF(star_system)
 	var/admin_boarding_override = FALSE //Used by admins to force disable boarders
 	var/time_limit = FALSE //Do we want to end the round after a specific time? Mostly used for galconquest.
 
+	var/enable_npc_combat = TRUE	//If you are running an event and don't want fleets to shoot eachother, set this to false.
+	var/next_combat_cycle = 0
+	var/list/contested_systems = list()	//A maintained list containing all systems that have fleets of opposing factions in them. Fleets add a system to it if they arrive in a system with a hostile fleet, handle_combat removes a system if there is no more conflict.
+
 /datum/controller/subsystem/star_system/fire() //Overmap combat events control system, adds weight to combat events over time spent out of combat
 	if(time_limit && world.time >= time_limit)
 		var/datum/faction/winner = get_winner()
@@ -35,6 +40,13 @@ SUBSYSTEM_DEF(star_system)
 		else
 			SSticker.force_ending = 1
 		return
+
+	if(enable_npc_combat)
+		if(world.time >= next_combat_cycle)
+			for(var/datum/star_system/SS in contested_systems)
+				SS.handle_combat()
+			next_combat_cycle = world.time + COMBAT_CYCLE_INTERVAL
+
 	if(SSmapping.config.patrol_type == "passive")
 		priority_announce("[station_name()], you have been assigned to reconnaissance and exploration this shift. Scans indicate that besides a decent number of straggling Syndicate vessels, there will be little threat to your operations. You are granted permission to proceed at your own pace.", "[capitalize(SSmapping.config.faction)] Naval Command")
 		for(var/datum/star_system/SS in systems)
@@ -633,6 +645,8 @@ Returns a faction datum by its name (case insensitive!)
 	alignment = "nanotrasen"
 	system_type = "planet_earth"
 	adjacency_list = list("Alpha Centauri", "Outpost 45", "Ross 154")
+	var/solar_siege_cycles_needed = 10	//See the starsystem controller for how many minutes is one cycle. Currently 3 minutes.
+	var/solar_siege_cycles_left = 10
 
 /datum/star_system/ross
 	name = "Ross 154" //Hi mate my name's ross how's it going
