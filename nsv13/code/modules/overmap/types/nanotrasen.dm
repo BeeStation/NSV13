@@ -151,6 +151,10 @@
 	integrity_failure = 1500
 	starting_system = "Argo"
 
+/obj/structure/overmap/nanotrasen/light_cruiser/starter/secondary
+	role = MAIN_MINING_SHIP
+	name = "NSV Eclipse"
+
 /obj/structure/overmap/nanotrasen/missile_cruiser/starter //Currently assigned to Jeppison and Vago
 	role = MAIN_OVERMAP
 	obj_integrity = 1000
