@@ -91,8 +91,6 @@
 		parts[++parts.len] = part
 	data["parts"] = parts
 	data["can_pack"] = core.payload_gate && core.payload_gate.loaded
-	data["strength"] = (core.payload_gate.shell) ? "Packed strength: [core.payload_gate.shell.speed] dT." : null
-	data["shell"] = (core.payload_gate.shell) ? "[core.payload_gate.shell.name]" : null
 
 	return data
 
