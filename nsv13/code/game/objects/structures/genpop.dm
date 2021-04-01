@@ -5,7 +5,7 @@
 	var/default_name = "prisoner closet"
 	req_access = list(ACCESS_BRIG)
 	var/obj/item/card/id/prisoner/registered_id = null
-	icon = "NSV13/icons/obj/custom_closets.dmi"
+	icon = 'nsv13/icons/obj/custom_closets.dmi'
 	icon_state = "prisoner"
 	locked = FALSE
 	anchored = TRUE
@@ -90,7 +90,7 @@
 	return ..()
 
 /obj/structure/closet/secure_closet/genpop/attack_hand(mob/user)
-	if(user.lying && get_dist(src, user) > 0)
+	if(user.incapacitated() && get_dist(src, user) > 0)
 		return
 
 	if(!broken && registered_id in user.held_items)

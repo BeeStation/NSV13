@@ -3,7 +3,7 @@
 	desc = "A mechanical door that permits one-way access and prevents tailgating."
 	icon = 'NSV13/icons/obj/turnstile.dmi'
 	icon_state = "turnstile_map"
-	power_channel = ENVIRON
+	power_channel = AREA_USAGE_ENVIRON
 	density = FALSE
 	armor = list(melee = 50, bullet = 50, laser = 50, energy = 50, bomb = 10, bio = 100, rad = 100, fire = 90, acid = 70)
 	anchored = TRUE

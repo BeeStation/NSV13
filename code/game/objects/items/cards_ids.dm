@@ -578,8 +578,8 @@ update_label("John Doe", "Clowny")
 		update_label(registered_name, assignment)
 		playsound(loc, 'sound/machines/ping.ogg', 50, 1)
 		if(isliving(loc))
-		to_chat(loc, "<span class='boldnotice'>\the [src] buzzes: You have served your sentence! You may now exit prison through the turnstiles and collect your belongings.</span>")
-		STOP_PROCESSING(SSprocessing, src)
+			to_chat(loc, "<span class='boldnotice'>\the [src] buzzes: You have served your sentence! You may now exit prison through the turnstiles and collect your belongings.</span>")
+			STOP_PROCESSING(SSprocessing, src)
 	else
 		served += 1
 
