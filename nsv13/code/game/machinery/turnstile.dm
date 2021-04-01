@@ -1,7 +1,7 @@
 /obj/machinery/turnstile
 	name = "turnstile"
 	desc = "A mechanical door that permits one-way access and prevents tailgating."
-	icon = 'icons/obj/turnstile.dmi'
+	icon = 'NSV13/icons/obj/turnstile.dmi'
 	icon_state = "turnstile_map"
 	power_channel = ENVIRON
 	density = FALSE

@@ -5,6 +5,7 @@
 	var/default_name = "prisoner closet"
 	req_access = list(ACCESS_BRIG)
 	var/obj/item/card/id/prisoner/registered_id = null
+	icon = "NSV13/icons/obj/custom_closets.dmi"
 	icon_state = "prisoner"
 	locked = FALSE
 	anchored = TRUE
